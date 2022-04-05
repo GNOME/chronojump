@@ -2372,7 +2372,7 @@ It starts before and arrives there with some speed.</property>
                                               </packing>
                                             </child>
                                             <child>
-                                              <widget class="GtkRadioButton" id="radio_encoder_criteria_gravitatory_ecc-con">
+                                              <widget class="GtkRadioButton" id="radio_encoder_rep_criteria_gravitatory_ecc_con">
                                                 <property name="label" translatable="yes">Average of both phases</property>
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">True</property>
@@ -2386,14 +2386,14 @@ It starts before and arrives there with some speed.</property>
                                               </packing>
                                             </child>
                                             <child>
-                                              <widget class="GtkRadioButton" id="radio_encoder_criteria_gravitatory_ecc">
+                                              <widget class="GtkRadioButton" id="radio_encoder_rep_criteria_gravitatory_ecc">
                                                 <property name="label" translatable="yes">Eccentric</property>
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">True</property>
                                                 <property name="receives_default">False</property>
                                                 <property name="active">True</property>
                                                 <property name="draw_indicator">True</property>
-                                                <property name="group">radio_encoder_criteria_gravitatory_ecc-con</property>
+                                                <property name="group">radio_encoder_rep_criteria_gravitatory_ecc_con</property>
                                               </widget>
                                               <packing>
                                                 <property name="top_attach">2</property>
@@ -2406,13 +2406,13 @@ It starts before and arrives there with some speed.</property>
                                                 <property name="can_focus">False</property>
                                                 <property name="spacing">6</property>
                                                 <child>
-                                                  <widget class="GtkRadioButton" id="radio_encoder_criteria_gravitatory_con">
+                                                  <widget class="GtkRadioButton" id="radio_encoder_rep_criteria_gravitatory_con">
                                                     <property name="label" translatable="yes">Concentric</property>
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">True</property>
                                                     <property name="receives_default">False</property>
                                                     <property name="draw_indicator">True</property>
-                                                    <property name="group">radio_encoder_criteria_gravitatory_ecc-con</property>
+                                                    <property name="group">radio_encoder_rep_criteria_gravitatory_ecc_con</property>
                                                   </widget>
                                                   <packing>
                                                     <property name="expand">False</property>
@@ -2475,7 +2475,7 @@ It starts before and arrives there with some speed.</property>
                                               </packing>
                                             </child>
                                             <child>
-                                              <widget class="GtkRadioButton" id="radio_encoder_criteria_inertial_ecc-con">
+                                              <widget class="GtkRadioButton" id="radio_encoder_rep_criteria_inertial_ecc_con">
                                                 <property name="label" translatable="yes">Average of both phases</property>
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">True</property>
@@ -2491,13 +2491,13 @@ It starts before and arrives there with some speed.</property>
                                               </packing>
                                             </child>
                                             <child>
-                                              <widget class="GtkRadioButton" id="radio_encoder_criteria_inertial_ecc">
+                                              <widget class="GtkRadioButton" id="radio_encoder_rep_criteria_inertial_ecc">
                                                 <property name="label" translatable="yes">Eccentric</property>
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">True</property>
                                                 <property name="receives_default">False</property>
                                                 <property name="draw_indicator">True</property>
-                                                <property name="group">radio_encoder_criteria_inertial_ecc-con</property>
+                                                <property name="group">radio_encoder_rep_criteria_inertial_ecc_con</property>
                                               </widget>
                                               <packing>
                                                 <property name="left_attach">1</property>
@@ -2512,13 +2512,13 @@ It starts before and arrives there with some speed.</property>
                                                 <property name="can_focus">False</property>
                                                 <property name="spacing">6</property>
                                                 <child>
-                                                  <widget class="GtkRadioButton" id="radio_encoder_criteria_inertial_con">
+                                                  <widget class="GtkRadioButton" id="radio_encoder_rep_criteria_inertial_con">
                                                     <property name="label" translatable="yes">Concentric</property>
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">True</property>
                                                     <property name="receives_default">False</property>
                                                     <property name="draw_indicator">True</property>
-                                                    <property name="group">radio_encoder_criteria_inertial_ecc-con</property>
+                                                    <property name="group">radio_encoder_rep_criteria_inertial_ecc_con</property>
                                                   </widget>
                                                   <packing>
                                                     <property name="expand">False</property>

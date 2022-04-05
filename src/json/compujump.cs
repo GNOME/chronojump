@@ -387,7 +387,7 @@ public class JsonCompujump : Json
 				newExPercentBodyMassDisplaced = jsonSE ["measurable_info"]["percent_body_mass_displaced"];
 
 			double newExSpeedAt1RM = 0;
-			if(jsonSE ["measurable_info"]["speed_at_one_rm"] != null)
+			if(type == "G" && jsonSE ["measurable_info"]["speed_at_one_rm"] != null)
 				newExSpeedAt1RM = Convert.ToDouble(Util.ChangeDecimalSeparator(
 							jsonSE ["measurable_info"]["speed_at_one_rm"].ToString() )); //ToString is mandatory
 

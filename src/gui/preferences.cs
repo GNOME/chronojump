@@ -136,7 +136,9 @@ public class PreferencesWindow
 	[Widget] Gtk.CheckButton check_encoder_capture_inactivity_end_time;
 	[Widget] Gtk.HBox hbox_encoder_capture_inactivity_time;
 	[Widget] Gtk.SpinButton spin_encoder_capture_inactivity_end_time;
+	[Widget] Gtk.Image image_encoder_gravitatory;
 	[Widget] Gtk.Image image_encoder_inertial;
+	[Widget] Gtk.Image image_encoder_inertial2;
 	[Widget] Gtk.Image image_encoder_triggers;
 	[Widget] Gtk.CheckButton checkbutton_encoder_capture_inertial_discard_first_n;
 	[Widget] Gtk.HBox hbox_encoder_capture_inertial_discard_first_n;
@@ -625,8 +627,11 @@ public class PreferencesWindow
 		}
 
 
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_weight.png");
+		PreferencesWindowBox.image_encoder_gravitatory.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_inertia.png");
 		PreferencesWindowBox.image_encoder_inertial.Pixbuf = pixbuf;
+		PreferencesWindowBox.image_encoder_inertial2.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_encoder_triggers_no.png");
 		PreferencesWindowBox.image_encoder_triggers.Pixbuf = pixbuf;
 

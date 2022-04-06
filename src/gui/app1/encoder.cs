@@ -3042,9 +3042,25 @@ public partial class ChronoJumpWindow
 				//duration is duration of ecc + duration of iso + duration of concentric
 				duration += (isometricDuration + curveConDuration);
 			
-				meanPowerStr = curveNext.MeanPower; //concentric phase
-				meanSpeedStr = curveNext.MeanSpeed; //concentric phase
-				meanForceStr = curveNext.MeanForce; //concentric phase
+				Preferences.EncoderRepetitionCriteria repCriteria =
+					preferences.GetEncoderRepetitionCriteria (current_mode);
+
+				if(repCriteria == Preferences.EncoderRepetitionCriteria.ECC_CON)
+				{
+					meanPowerStr = UtilAll.DivideSafe(curve.MeanPowerD + curveNext.MeanPowerD, 2).ToString();
+					meanSpeedStr = UtilAll.DivideSafe(curve.MeanSpeedD + curveNext.MeanSpeedD, 2).ToString();
+					meanForceStr = UtilAll.DivideSafe(curve.MeanForceD + curveNext.MeanForceD, 2).ToString();
+				} else if(repCriteria == Preferences.EncoderRepetitionCriteria.ECC)
+				{
+					meanPowerStr = curve.MeanPower;
+					meanSpeedStr = curve.MeanSpeed;
+					meanForceStr = curve.MeanForce;
+				} else //if(repCriteria == Preferences.EncoderRepetitionCriteria.CON)
+				{
+					meanPowerStr = curveNext.MeanPower;
+					meanSpeedStr = curveNext.MeanSpeed;
+					meanForceStr = curveNext.MeanForce;
+				}
 			}
 			
 			/*
@@ -3054,6 +3070,7 @@ public partial class ChronoJumpWindow
 			 * (depending on the rotating sign of inertial machine at that curve)
 			 * if it's concentric, and it's full of -1,-2, … we have to change sign
 			 * if it's eccentric-concentric, and in the eccentric phase is positive, then we should change sign of both phases
+			 * This is done on UtilEncoder.EncoderSaveCurve()
 			 */
 			int inertialCheckStart = 0;
 			int inertialCheckDuration = 0;

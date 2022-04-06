@@ -235,8 +235,8 @@ void loop(void)
     radio.stopListening();
 //    delay(100);
 //    Serial.print("Command received: ");
-    Serial.print("termNum received: ");
-    Serial.println(instruction.termNum);
+//    Serial.print("termNum received: ");
+//    Serial.println(instruction.termNum);
 //    radio.flush_rx();
 
     //Some times the terminal receives instructions of other terminals
@@ -321,7 +321,6 @@ void debounce() {
 
 void executeCommand(uint16_t command)
 {
-  Serial.println(instruction.command);
   if (command == deactivate) {
     //    Serial.println("deactivating leds and sensor");
     deactivateAll();

@@ -427,9 +427,8 @@ public partial class ChronoJumpWindow
 							bestN);
 			} else {
 				//decide if best is by ecc_con average, ecc or con
-				Preferences.EncoderRepetitionCriteria repCriteria = preferences.encoderRepetitionCriteriaGravitatory;
-				if( current_mode == Constants.Modes.POWERINERTIAL)
-					repCriteria = preferences.encoderRepetitionCriteriaInertial;
+				Preferences.EncoderRepetitionCriteria repCriteria =
+					preferences.GetEncoderRepetitionCriteria (current_mode);
 
 				EncoderSignal encoderSignal = new EncoderSignal(treeviewEncoderCaptureCurvesGetCurves(AllEccCon.ALL));
 				if(saveOption == Constants.EncoderAutoSaveCurve.BEST)

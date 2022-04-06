@@ -576,7 +576,7 @@ class SqliteEncoder : Sqlite
 			Sqlite.Open();
 
 		dbcmd.CommandText =
-			"SELECT person77.uniqueID, person77.name, person77.sex, encoder.encoderConfiguration, encoderExercise.name, encoder.extraWeight, encoder.future1 " + //TODO: future2, future3
+			"SELECT person77.uniqueID, person77.name, person77.sex, encoder.encoderConfiguration, encoderExercise.name, encoder.extraWeight, encoder.future1, encoder.future2, encoder.future3 " +
 			"FROM person77, encoderExercise, encoder " +
 			"WHERE sessionID = " + sessionID.ToString() +
 		        " AND signalOrCurve = \"curve\" " +
@@ -613,8 +613,9 @@ class SqliteEncoder : Sqlite
 					econf.ToStringPretty(), //encoder configuration
 					reader[4].ToString(), 	//encoder exercise name
 					Util.ChangeDecimalSeparator(reader[5].ToString()),	//extra mass
-					reader[6].ToString()	//power
-						//TODO: speed, force
+					reader[6].ToString(),	//power
+					reader[7].ToString(),	//speed
+					reader[8].ToString()	//force
 				};
 				array.Add (s);
 			} else {
@@ -624,8 +625,9 @@ class SqliteEncoder : Sqlite
 					reader[2].ToString(), 	//person sex
 					econf.ToStringPretty(), //encoder configuration
 					reader[4].ToString(), 	//encoder exercise name
-					reader[6].ToString()	//power
-						//TODO: speed, force
+					reader[6].ToString(),	//power
+					reader[7].ToString(),	//speed
+					reader[8].ToString()	//force
 				};
 				array.Add (s);
 			}

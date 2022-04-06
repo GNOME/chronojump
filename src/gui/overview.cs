@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Copyright (C) 2016-2020   Xavier de Blas <xaviblas@gmail.com>
+ *  Copyright (C) 2016-2022   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -257,9 +257,9 @@ public class EncoderOverviewWindow : OverviewWindow
 	protected override ArrayList selectData(treeviewType type)
 	{
 		if(type == treeviewType.SETS)
-			return SqliteEncoder.SelectSessionOverviewSets(false, encoderGI, sessionID);
+			return SqliteEncoder.SelectSessionOverviewSets (false, encoderGI, sessionID);
 		else
-			return SqliteEncoder.SelectSessionOverviewReps(false, encoderGI, sessionID);
+			return SqliteEncoder.SelectSessionOverviewReps (false, encoderGI, sessionID);
 	}
 
 	protected override void createTreeView(Gtk.TreeView tv, treeviewType type)
@@ -291,6 +291,8 @@ public class EncoderOverviewWindow : OverviewWindow
 				tv.AppendColumn (Catalog.GetString ("Extra mass"), new CellRendererText(), "text", count++);
 
 			tv.AppendColumn (Catalog.GetString ("Power"), new CellRendererText(), "text", count++);
+			tv.AppendColumn (Catalog.GetString ("Speed"), new CellRendererText(), "text", count++);
+			tv.AppendColumn (Catalog.GetString ("Force"), new CellRendererText(), "text", count++);
 		}
 	}
 
@@ -300,14 +302,14 @@ public class EncoderOverviewWindow : OverviewWindow
 		if(type == treeviewType.SETS)
 		{
 			if(encoderGI == Constants.EncoderGI.GRAVITATORY)
-				s = new TreeStore(typeof (string), typeof (string), typeof (string), typeof (string), typeof (string), typeof (string), typeof(string)); //personID (hidden), person name, sex, encoderConfiguration, exercise, displaced mass, sets
+				s = new TreeStore(typeof (string), typeof (string), typeof (string), typeof (string), typeof (string), typeof (string), typeof (string)); //personID (hidden), person name, sex, encoderConfiguration, exercise, displaced mass, sets
 			else
 				s = new TreeStore(typeof (string), typeof (string), typeof (string), typeof (string), typeof (string), typeof (string)); //personID (hidden), person name, sex, encoderConfiguration, exercise, sets
 		} else {
 			if(encoderGI == Constants.EncoderGI.GRAVITATORY)
-				s = new TreeStore(typeof (string), typeof (string), typeof (string), typeof (string), typeof (string), typeof (string), typeof(string)); //personID (hidden), person name, sex, encoderConfiguration, exercise, extra mass, power
+				s = new TreeStore(typeof (string), typeof (string), typeof (string), typeof (string), typeof (string), typeof (string), typeof (string), typeof (string), typeof (string)); //personID (hidden), person name, sex, encoderConfiguration, exercise, extra mass, power, speed, force
 			else
-				s = new TreeStore(typeof (string), typeof (string), typeof (string), typeof (string), typeof (string), typeof (string)); //personID (hidden), person name, sex, encoderConfiguration, exercise, power
+				s = new TreeStore(typeof (string), typeof (string), typeof (string), typeof (string), typeof (string), typeof (string), typeof (string), typeof (string)); //personID (hidden), person name, sex, encoderConfiguration, exercise, power, speed, force
 		}
 
 		return s;

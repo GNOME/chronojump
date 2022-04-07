@@ -290,6 +290,7 @@ public class EncoderOverviewWindow : OverviewWindow
 			if(encoderGI == Constants.EncoderGI.GRAVITATORY)
 				tv.AppendColumn (Catalog.GetString ("Extra mass"), new CellRendererText(), "text", count++);
 
+			tv.AppendColumn (Catalog.GetString ("Contraction"), new CellRendererText(), "text", count++);
 			tv.AppendColumn (Catalog.GetString ("Power"), new CellRendererText(), "text", count++);
 			tv.AppendColumn (Catalog.GetString ("Speed"), new CellRendererText(), "text", count++);
 			tv.AppendColumn (Catalog.GetString ("Force"), new CellRendererText(), "text", count++);
@@ -302,14 +303,18 @@ public class EncoderOverviewWindow : OverviewWindow
 		if(type == treeviewType.SETS)
 		{
 			if(encoderGI == Constants.EncoderGI.GRAVITATORY)
-				s = new TreeStore(typeof (string), typeof (string), typeof (string), typeof (string), typeof (string), typeof (string), typeof (string)); //personID (hidden), person name, sex, encoderConfiguration, exercise, displaced mass, sets
+				s = new TreeStore(typeof (string), typeof (string), typeof (string), typeof (string), typeof (string), typeof (string), typeof (string));
+				//personID (hidden), person name, sex, encoderConfiguration, exercise, displaced mass, sets
 			else
-				s = new TreeStore(typeof (string), typeof (string), typeof (string), typeof (string), typeof (string), typeof (string)); //personID (hidden), person name, sex, encoderConfiguration, exercise, sets
+				s = new TreeStore(typeof (string), typeof (string), typeof (string), typeof (string), typeof (string), typeof (string));
+				//personID (hidden), person name, sex, encoderConfiguration, exercise, sets
 		} else {
 			if(encoderGI == Constants.EncoderGI.GRAVITATORY)
-				s = new TreeStore(typeof (string), typeof (string), typeof (string), typeof (string), typeof (string), typeof (string), typeof (string), typeof (string), typeof (string)); //personID (hidden), person name, sex, encoderConfiguration, exercise, extra mass, power, speed, force
+				s = new TreeStore(typeof (string), typeof (string), typeof (string), typeof (string), typeof (string), typeof (string), typeof (string), typeof (string), typeof (string), typeof (string));
+				//personID (hidden), person name, sex, encoderConfiguration, exercise, extra mass, contraction, power, speed, force
 			else
-				s = new TreeStore(typeof (string), typeof (string), typeof (string), typeof (string), typeof (string), typeof (string), typeof (string), typeof (string)); //personID (hidden), person name, sex, encoderConfiguration, exercise, power, speed, force
+				s = new TreeStore(typeof (string), typeof (string), typeof (string), typeof (string), typeof (string), typeof (string), typeof (string), typeof (string), typeof (string));
+				//personID (hidden), person name, sex, encoderConfiguration, exercise, contraction, power, speed, force
 		}
 
 		return s;

@@ -1001,12 +1001,19 @@ public class EncoderSQL
 		this.future3 = future3; //on curves: meanForce
 		this.exerciseName = exerciseName;
 
-		if(eccon == "c")
-			ecconLong = Catalog.GetString("Concentric");
-		else if(eccon == "ec" || eccon == "ecS")
-			ecconLong = Catalog.GetString("Eccentric-concentric");
+		ecconLong = EcconLong(eccon);
+	}
+
+	public static string EcconLong (string ecconChars)
+	{
+		if(ecconChars == "c")
+			return Catalog.GetString("Concentric");
+		else if(ecconChars == "ec" || ecconChars == "ecS")
+			return Catalog.GetString("Eccentric-concentric");
+		else if(ecconChars == "ce" || ecconChars == "ceS")
+			return Catalog.GetString("Concentric-eccentric");
 		else
-			ecconLong = Catalog.GetString("Concentric-eccentric");
+			return "";
 	}
 
 	//used on encoder table

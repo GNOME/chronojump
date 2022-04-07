@@ -267,6 +267,36 @@ class Database:
 
                 results = self._cursor.fetchall()
 
+                """ If we don't find results on a name (typical avoids_duplicate_column field),
+                then try also on name + " (%)" with like statement,
+                maybe we can check also if % matched content is a number.
+                Better description here:
+                https://gitlab.gnome.org/GNOME/chronojump/-/issues/691
+                Following code fixes it
+                """
+                if avoids_duplicate_column is not None and len(results) == 0:
+                    where = ""
+                    where_values = []
+                    for column in matches_columns:
+                        if where != "":
+                            where += " AND "
+                        if column == avoids_duplicate_column:
+                            where += "{} like ?".format(column)
+                            where_values.append(row.get(column) + " (%)")
+                        else:
+                            where += "{} = ?".format(column)
+                            where_values.append(row.get(column))
+
+                    format_data = {'table_name': table.name,
+                                   'where_clause': " WHERE {}".format(where)
+                                   }
+
+                    sql = "SELECT uniqueID FROM {table_name} {where_clause}".format(**format_data)
+                    self._execute_query_and_log(sql, where_values)
+
+                    results = self._cursor.fetchall()
+                    # TODO: need to delete the results: name + (notanumber)
+
             if matches_columns is None or len(results) == 0:
                 # Needs to insert it
                 self._avoid_duplicate_value(table_name=table.name, column_name=avoids_duplicate_column, data_row=row)

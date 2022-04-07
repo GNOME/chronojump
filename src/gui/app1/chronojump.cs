@@ -909,12 +909,10 @@ public partial class ChronoJumpWindow
 			pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_folders.png");
 			if(Config.ColorBackgroundIsDark)
 				pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_folders_yellow.png");
-			image_menu_folders.Pixbuf = pixbuf;
 
 			pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_person.png");
 			if(Config.ColorBackgroundIsDark)
 				pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_person_yellow.png");
-			image_person2.Pixbuf = pixbuf;
 
 			pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_no_photo.png");
 			if(Config.ColorBackgroundIsDark)
@@ -2943,7 +2941,8 @@ public partial class ChronoJumpWindow
 
 		if(sessionName != "") {
 			title += " - " + sessionName;
-			label_current_session.Text = sessionName;
+			label_current_session.Text = "<b>" + sessionName + "</b>";
+			label_current_session.UseMarkup = true;
 			label_current_session.TooltipText = sessionName;
 		} else {
 			label_current_session.Text = "----";

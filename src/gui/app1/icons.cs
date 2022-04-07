@@ -41,7 +41,6 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_current_person_zoom_h;
 	[Widget] Gtk.Image image_person;
 	[Widget] Gtk.Image image_person1;
-	[Widget] Gtk.Image image_person2;
 	[Widget] Gtk.Image image_edit_current_person_h;
 	//[Widget] Gtk.Image image_persons_up;
 	//[Widget] Gtk.Image image_persons_down;
@@ -298,8 +297,8 @@ public partial class ChronoJumpWindow
 		image_contacts_exercise_settings.Pixbuf = pixbuf;
 		image_encoder_exercise_settings.Pixbuf = pixbuf;
 
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "persons_manage.png");
-		image_persons_manage.Pixbuf = pixbuf;
+		//pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "persons_manage.png");
+		//image_persons_manage.Pixbuf = pixbuf;
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_store_blue.png");
 		image_menu_news.Pixbuf = pixbuf;
@@ -319,13 +318,11 @@ public partial class ChronoJumpWindow
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_folders.png");
 		if(Config.ColorBackgroundIsDark)
 			pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_folders_yellow.png");
-		image_menu_folders.Pixbuf = pixbuf;
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "folders_manage_blue.png");
-		image_menu_folders2.Pixbuf = pixbuf;
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_folders.png");
 		image_menu_folders1.Pixbuf = pixbuf;
 		image_session_export1.Pixbuf = pixbuf;
+		image_menu_folders2.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_db_backup.png");
 		image_db_backup.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_more_horiz.png");
@@ -423,15 +420,14 @@ public partial class ChronoJumpWindow
 		image_app1s_button_back.Pixbuf = pixbuf;
 
 		//pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_person_pin.png");
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_person.png");
 		if(Config.ColorBackgroundIsDark)
 			pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_person_yellow.png");
-		image_person2.Pixbuf = pixbuf;
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_person.png");
 		image_person.Pixbuf = pixbuf;
 		image_person1.Pixbuf = pixbuf;
 		app1s_image_show_data_persons.Pixbuf = pixbuf;
+		image_persons_manage.Pixbuf = pixbuf;
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_info.png");
 		image_info1.Pixbuf = pixbuf;

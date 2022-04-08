@@ -342,9 +342,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.TreeView treeview_encoder_analyze_curves;
 
 	[Widget] Gtk.DrawingArea encoder_capture_signal_drawingarea_cairo;
-	[Widget] Gtk.DrawingArea encoder_capture_curves_bars_drawingarea;
 	[Widget] Gtk.DrawingArea encoder_capture_curves_bars_drawingarea_cairo;
-	Gdk.Pixmap encoder_capture_curves_bars_pixmap = null;
 
 	ArrayList encoderCaptureCurves;
         Gtk.ListStore encoderCaptureListStore;
@@ -530,8 +528,6 @@ public partial class ChronoJumpWindow
 		LogB.Information("after play 5");
 		showEncoderAnalyzeTriggerTab(false);
 		LogB.Information("after play 6");
-
-		encoderGraphDoPlot = null; 	//initialize
 
 		vbox_encoder_signal_comment.SetSizeRequest (button_encoder_signal_save_comment.SizeRequest().Width, -1);
 		notebook_encoder_signal_comment_rhythm_and_triggers.SetSizeRequest
@@ -2829,7 +2825,8 @@ public partial class ChronoJumpWindow
 		image_encoder_capture.Sensitive = false;
 		treeviewEncoderCaptureRemoveColumns();
 		updateEncoderAnalyzeExercisesPre();
-		UtilGtk.ErasePaint(encoder_capture_curves_bars_drawingarea, encoder_capture_curves_bars_pixmap);
+		//UtilGtk.ErasePaint(encoder_capture_curves_bars_drawingarea, encoder_capture_curves_bars_pixmap);
+		//TODO: do it for cairo
 		
 		encoderButtonsSensitive(encoderSensEnum.DONENOSIGNAL);
 		
@@ -5683,8 +5680,6 @@ public partial class ChronoJumpWindow
 
 		//initialize new captureCurvesBarsData to not having the barplot updated on CONFIGURE or EXPOSE after being painted white
 		captureCurvesBarsData = new ArrayList();
-		if(encoder_capture_curves_bars_pixmap != null)
-			UtilGtk.ErasePaint(encoder_capture_curves_bars_drawingarea, encoder_capture_curves_bars_pixmap);
 
 		//erase cairo barplot
 		cairoPaintBarsPre = new CairoPaintBarplotPreEncoder (
@@ -5905,21 +5900,6 @@ public partial class ChronoJumpWindow
 			double mainVariableHigher = feedbackWin.GetMainVariableHigher(mainVariable);
 			double mainVariableLower = feedbackWin.GetMainVariableLower(mainVariable);
 
-			if(encoderGraphDoPlot != null)
-				encoderGraphDoPlot.Start(
-						mainVariable, mainVariableHigher, mainVariableLower,
-						secondaryVariable, preferences.encoderCaptureShowLoss,
-						false, //not capturing
-						findEccon(true),
-						feedbackWin,
-						encoderConfigurationCurrent.has_inertia,
-						configChronojump.PlaySoundsFromFile,
-						captureCurvesBarsData,
-						encoderCaptureListStore,
-						preferences.encoderCaptureMainVariableThisSetOrHistorical,
-						sendMaxPowerSpeedForceIntersession(preferences.encoderCaptureMainVariable),
-						sendMaxPowerSpeedForceIntersessionDate(preferences.encoderCaptureMainVariable));
-
 			//Cairo
 			prepareEventGraphBarplotEncoder = new PrepareEventGraphBarplotEncoder (
 					mainVariable, mainVariableHigher, mainVariableLower,
@@ -5942,89 +5922,6 @@ public partial class ChronoJumpWindow
 		}
 	}
 
-	int encoder_capture_curves_allocationXOld;
-	int encoder_capture_curves_allocationYOld;
-	bool encoder_capture_curves_sizeChanged;
-	/*
-	 * unused
-	public void on_encoder_capture_curves_bars_drawingarea_configure_event(object o, ExposeEventArgs args)
-	{
-	}
-	*/
-	public void on_encoder_capture_curves_bars_drawingarea_expose_event(object o, ExposeEventArgs args)
-	{
-		/* in some mono installations, configure_event is not called, but expose_event yes. 
-		 * Do here the initialization
-		 */
-		LogB.Debug("EXPOSE");
-		bool encoderGraphDoPlotJustCreated = false;
-
-		//needed to have mouse clicks button_press_event ()
-//		encoder_capture_curves_bars_drawingarea.AddEvents((int) (Gdk.EventMask.ButtonPressMask | Gdk.EventMask.ButtonReleaseMask));
-		encoder_capture_curves_bars_drawingarea.AddEvents((int) Gdk.EventMask.ButtonPressMask);
-		encoder_capture_curves_bars_drawingarea_cairo.AddEvents((int) Gdk.EventMask.ButtonPressMask);
-
-		Gdk.Rectangle allocation = encoder_capture_curves_bars_drawingarea.Allocation;
-		if(encoder_capture_curves_bars_pixmap == null || encoder_capture_curves_sizeChanged || 
-				allocation.Width != encoder_capture_curves_allocationXOld ||
-				allocation.Height != encoder_capture_curves_allocationYOld) 
-		{
-			encoder_capture_curves_bars_pixmap = new Gdk.Pixmap (encoder_capture_curves_bars_drawingarea.GdkWindow, allocation.Width, allocation.Height, -1);
-			if(encoder_capture_curves_bars_pixmap == null || ! preferences.encoderCaptureInfinite || firstSetOfCont ||
-				encoderGraphDoPlot == null || ! encoderGraphDoPlot.GraphPrepared)
-			{
-				if(encoderGraphDoPlot == null || ! encoderGraphDoPlot.GraphPrepared)
-				{
-					encoderGraphDoPlot = new EncoderGraphDoPlot(preferences, encoder_capture_curves_bars_drawingarea, encoder_capture_curves_bars_pixmap);
-					encoderGraphDoPlotJustCreated = true;
-				}
-			}
-
-			if(! encoderGraphDoPlotJustCreated)
-			{
-				encoderGraphDoPlot.NewPreferences(preferences);
-				encoderGraphDoPlot.NewGraphicObjects(encoder_capture_curves_bars_drawingarea, encoder_capture_curves_bars_pixmap); //sense això no xuta
-			}
-
-			encoderGraphDoPlot.Erase();
-			callPlotCurvesGraphDoPlot();
-			encoder_capture_curves_sizeChanged = false;
-		}
-
-		Gdk.Rectangle area = args.Event.Area;
-
-		//sometimes this is called when paint is finished
-		//don't let this erase win
-		if(encoder_capture_curves_bars_pixmap != null) {
-			args.Event.Window.DrawDrawable(encoder_capture_curves_bars_drawingarea.Style.WhiteGC, 
-					encoder_capture_curves_bars_pixmap,
-				area.X, area.Y,
-				area.X, area.Y,
-				area.Width, area.Height);
-		}
-		
-		encoder_capture_curves_allocationXOld = allocation.Width;
-		encoder_capture_curves_allocationYOld = allocation.Height;
-	}
-
-	public void on_encoder_capture_curves_bars_drawingarea_button_press_event (object o, ButtonPressEventArgs args)
-	{
-		//LogB.Information(string.Format("Mouse X: {0}; Mouse Y: {1}", args.Event.X, args.Event.Y));
-
-		//if list exists, select the repetition
-		if(encoderGraphDoPlot != null)
-		{
-			int repetition = encoderGraphDoPlot.FindBarInPixel(args.Event.X);
-			//LogB.Information("Repetition: " + repetition.ToString());
-			if(repetition >= 0)
-			{
-				//this will be managed by: EncoderCaptureItemToggled()
-				encoderCaptureItemToggledArgsPath = repetition.ToString();
-				EncoderCaptureItemToggled(new object (), new ToggledArgs());
-				encoderCaptureItemToggledArgsPath = "";
-			}
-		}
-	}
 	public void on_encoder_capture_curves_bars_drawingarea_cairo_button_press_event (object o, ButtonPressEventArgs args)
 	{
 		LogB.Information("on_encoder_capture_curves_bars_drawingarea_cairo_button_press_event 0");
@@ -6047,6 +5944,8 @@ public partial class ChronoJumpWindow
 	public void on_encoder_capture_curves_bars_drawingarea_cairo_expose_event (object o, ExposeEventArgs args)
 	{
 		LogB.Information("on_encoder_capture_curves_bars_drawingarea_cairo_expose_event A");
+		encoder_capture_curves_bars_drawingarea_cairo.AddEvents((int) Gdk.EventMask.ButtonPressMask);
+
 		//if object not defined or not defined fo this mode, return
 //TODO: is fist check really needed?
 //		if(cairoPaintBarsPre == null || ! cairoPaintBarsPre.ModeMatches (current_mode))
@@ -6121,7 +6020,6 @@ public partial class ChronoJumpWindow
 	
 	
 	/* thread stuff */
-	private static EncoderGraphDoPlot encoderGraphDoPlot;
 
 	private void encoderThreadStart(encoderActions action)
 	{
@@ -6206,15 +6104,9 @@ public partial class ChronoJumpWindow
 				if( ! preferences.encoderCaptureInfinite || firstSetOfCont )
 					treeviewEncoderCaptureRemoveColumns();
 
-				if(encoder_capture_curves_bars_pixmap != null)
-					UtilGtk.ErasePaint(encoder_capture_curves_bars_drawingarea, encoder_capture_curves_bars_pixmap);
-
 				cairoPaintBarsPre = new CairoPaintBarplotPreEncoder (
 						encoder_capture_curves_bars_drawingarea_cairo,
 						preferences.fontType.ToString());//, "--capturing--");
-
-				if(encoderGraphDoPlot != null)
-					encoderGraphDoPlot.ShowMessage(Catalog.GetString("Capturing") + " …", false, true);
 
 				cairoPaintBarsPre.ShowMessage (
 						encoder_capture_curves_bars_drawingarea_cairo,
@@ -6813,24 +6705,6 @@ public partial class ChronoJumpWindow
 				//captureCurvesBarsData.Add(new EncoderBarsData(meanSpeed, maxSpeed, meanPower, peakPower));
 				//captureCurvesBarsData.Add(new EncoderBarsData(20, 39, 10, 40));
 
-				if(encoderGraphDoPlot != null)
-				{
-					encoderGraphDoPlot.NewPreferences(preferences);
-					encoderGraphDoPlot.Start(
-							mainVariable, mainVariableHigher, mainVariableLower,
-							secondaryVariable, preferences.encoderCaptureShowLoss,
-							true, //capturing
-							findEccon(true),
-							feedbackWin,
-							encoderConfigurationCurrent.has_inertia,
-							configChronojump.PlaySoundsFromFile,
-							captureCurvesBarsData,
-							encoderCaptureListStore,
-							preferences.encoderCaptureMainVariableThisSetOrHistorical,
-							sendMaxPowerSpeedForceIntersession(preferences.encoderCaptureMainVariable),
-							sendMaxPowerSpeedForceIntersessionDate(preferences.encoderCaptureMainVariable));
-				}
-
 				//Cairo
 				prepareEventGraphBarplotEncoder = new PrepareEventGraphBarplotEncoder (
 						mainVariable, mainVariableHigher, mainVariableLower,
@@ -7413,24 +7287,6 @@ public partial class ChronoJumpWindow
 
 
 				findMaxPowerSpeedForceIntersession();
-
-				if(encoderGraphDoPlot != null)
-				{
-					encoderGraphDoPlot.NewPreferences(preferences);
-					encoderGraphDoPlot.Start(
-							mainVariable, mainVariableHigher, mainVariableLower,
-							secondaryVariable, preferences.encoderCaptureShowLoss,
-							false, //not capturing
-							findEccon(true),
-							feedbackWin,
-							encoderConfigurationCurrent.has_inertia,
-							configChronojump.PlaySoundsFromFile,
-							captureCurvesBarsData,
-							encoderCaptureListStore,
-							preferences.encoderCaptureMainVariableThisSetOrHistorical,
-							sendMaxPowerSpeedForceIntersession(preferences.encoderCaptureMainVariable),
-							sendMaxPowerSpeedForceIntersessionDate(preferences.encoderCaptureMainVariable));
-				}
 
 				//Cairo
 				prepareEventGraphBarplotEncoder = new PrepareEventGraphBarplotEncoder (

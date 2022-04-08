@@ -81,7 +81,7 @@ class SqliteEncoder : Sqlite
 		dbcmd.CommandText = "INSERT INTO " + Constants.EncoderTable +  
 			" (uniqueID, personID, sessionID, exerciseID, eccon, laterality, extraWeight, " + 
 			"signalOrCurve, filename, url, time, minHeight, description, status, " +
-			"videoURL, encoderConfiguration, future1, future2, future3)" +
+			"videoURL, encoderConfiguration, future1, future2, future3, repCriteria)" +
 			" VALUES (" + es.uniqueID + ", " +
 			es.personID + ", " + es.sessionID + ", " +
 			es.exerciseID + ", \"" + es.eccon + "\", \"" +
@@ -92,7 +92,8 @@ class SqliteEncoder : Sqlite
 			"\", \"" + es.status + "\", \"" + 
 			Util.MakeURLrelative(es.videoURL) + "\", \"" +
 			es.encoderConfiguration.ToStringOutput(EncoderConfiguration.Outputs.SQL) + "\", \"" +
-			Util.ConvertToPoint(es.future1) + "\", \"" + Util.ConvertToPoint(es.future2) + "\", \"" + Util.ConvertToPoint(es.future3) + "\")";
+			Util.ConvertToPoint(es.future1) + "\", \"" + Util.ConvertToPoint(es.future2) + "\", \"" + Util.ConvertToPoint(es.future3) + "\", \"" +
+			es.repCriteria.ToString() + "\")";
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
@@ -145,6 +146,7 @@ class SqliteEncoder : Sqlite
 				"\", future1 = \"" + Util.ConvertToPoint(es.future1) +
 				"\", future2 = \"" + Util.ConvertToPoint(es.future2) +
 				"\", future3 = \"" + Util.ConvertToPoint(es.future3) +
+				"\", repCriteria = \"" + es.repCriteria.ToString() +
 				"\" WHERE uniqueID == " + es.uniqueID ;
 
 		LogB.SQL(mycmd.CommandText.ToString());
@@ -355,7 +357,9 @@ class SqliteEncoder : Sqlite
 					Util.ChangeDecimalSeparator(reader[16].ToString()),	//future1 (meanPower on curves)
 					Util.ChangeDecimalSeparator(reader[17].ToString()),	//future2 (meanSpeed on curves)
 					Util.ChangeDecimalSeparator(reader[18].ToString()),	//future3 (meanForce on curves)
-					reader[19].ToString()			//EncoderExercise.name
+					(Preferences.EncoderRepetitionCriteria) Enum.Parse(
+						typeof (Preferences.EncoderRepetitionCriteria), reader[19].ToString()),
+					reader[20].ToString()			//EncoderExercise.name
 					);
 			array.Add (eSQL);
 		}

@@ -1491,6 +1491,7 @@ public partial class ChronoJumpWindow
 				"", videoURL,		//status, videoURL
 				encoderConfigurationCurrent,
 				"","","",	//future1, 2, 3
+				preferences.GetEncoderRepetitionCriteria (current_mode),
 				encoderComboExerciseCaptureStoredEnglishName
 				);
 	}

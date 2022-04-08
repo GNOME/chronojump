@@ -131,7 +131,7 @@ class Sqlite
 	/*
 	 * Important, change this if there's any update to database
 	 */
-	static string lastChronojumpDatabaseVersion = "2.36";
+	static string lastChronojumpDatabaseVersion = "2.37";
 
 	public Sqlite()
 	{
@@ -3224,6 +3224,21 @@ class Sqlite
 
 				currentVersion = updateVersion("2.36");
 			}
+			if(currentVersion == "2.36")
+			{
+				LogB.SQL("Doing ALTER TABLE encoder add repCriteria.");
+
+				try {
+					executeSQL("ALTER TABLE " + Constants.EncoderTable +
+							" ADD COLUMN repCriteria TEXT NOT NULL DEFAULT " + //TODO: try to do the migration and see if overview works ok
+							Preferences.EncoderRepetitionCriteria.CON.ToString() + ";");
+							//note this will make the encoder sets (signals) have CON on this columns, but this will not be used on signals, only on curves
+				} catch {
+					LogB.SQL("Catched at Doing ALTER TABLE encoder add repCriteria.");
+				}
+
+				currentVersion = updateVersion("2.37");
+			}
 
 			/*
 			if(currentVersion == "1.79")
@@ -3445,6 +3460,7 @@ class Sqlite
 		//changes [from - to - desc]
 //just testing: 1.79 - 1.80 Converted DB to 1.80 Created table ForceSensorElasticBandGlue and moved stiffnessString records there
 
+		//2.36 - 2.37 Converted DB to 2.37 Doing ALTER TABLE encoder add repCriteria.
 		//2.35 - 2.36 Converted DB to 2.36 Inserted into preferences: encoderRepetitionCriteriaGravitatory, encoderRepetitionCriteriaInertial
 		//2.34 - 2.35 Converted DB to 2.35 Ensure maxForceRAW is converted to maxForceRaw
 		//2.33 - 2.34 Converted DB to 2.34 Fixed duplicated names of exercises on encoder, forceSensor, raceAnalyzer caused by import bug

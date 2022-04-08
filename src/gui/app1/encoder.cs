@@ -726,54 +726,39 @@ public partial class ChronoJumpWindow
 		maxSpeedIntersessionDate = "";
 		maxForceIntersessionDate = "";
 
+		double extraWeight = 0; //used on gravitatory
+		//TODO: do a regression to find maxPower with a value of extraWeight unused
 		if(encGI == Constants.EncoderGI.GRAVITATORY)
+			extraWeight = Convert.ToDouble(spin_encoder_extra_weight.Value);
+
+		foreach(EncoderSQL es in arrayTemp)
 		{
-			//TODO: do a regression to find maxPower with a value of extraWeight unused
-			double extraWeight = Convert.ToDouble(spin_encoder_extra_weight.Value);
-			foreach(EncoderSQL es in arrayTemp)
-			{
-				if(Util.SimilarDouble(Convert.ToDouble(Util.ChangeDecimalSeparator(es.extraWeight)), extraWeight))
+			if(
+					(encGI == Constants.EncoderGI.GRAVITATORY &&
+					Util.SimilarDouble(Convert.ToDouble(Util.ChangeDecimalSeparator(es.extraWeight)), extraWeight)) ||
+					(encGI == Constants.EncoderGI.INERTIAL &&
+					 encoderConfigurationCurrent.Equals(es.encoderConfiguration))
+			  ) {
+				if(Convert.ToDouble(es.future1) > maxPowerIntersession)
 				{
-					if(Convert.ToDouble(es.future1) > maxPowerIntersession)
-					{
-						maxPowerIntersession = Convert.ToDouble(es.future1);
-						maxPowerIntersessionDate = es.GetDateStr();
-					}
-					if(Convert.ToDouble(es.future2) > maxSpeedIntersession)
-					{
-						maxSpeedIntersession = Convert.ToDouble(es.future2);
-						maxSpeedIntersessionDate = es.GetDateStr();
-					}
-					if(Convert.ToDouble(es.future3) > maxForceIntersession)
-					{
-						maxForceIntersession = Convert.ToDouble(es.future3);
-						maxForceIntersessionDate = es.GetDateStr();
-					}
+					maxPowerIntersession = Convert.ToDouble(es.future1);
+					maxPowerIntersessionDate = es.GetDateStr();
+				}
+				if(Convert.ToDouble(es.future2) > maxSpeedIntersession)
+				{
+					maxSpeedIntersession = Convert.ToDouble(es.future2);
+					maxSpeedIntersessionDate = es.GetDateStr();
+				}
+				if(Convert.ToDouble(es.future3) > maxForceIntersession)
+				{
+					maxForceIntersession = Convert.ToDouble(es.future3);
+					maxForceIntersessionDate = es.GetDateStr();
 				}
 			}
 		}
-		else if(encGI == Constants.EncoderGI.INERTIAL)
-		{
-			foreach(EncoderSQL es in arrayTemp)
-			{
-				if(encoderConfigurationCurrent.Equals(es.encoderConfiguration))
-				{
-					if(Convert.ToDouble(es.future1) > maxPowerIntersession)
-					{
-						maxPowerIntersession = Convert.ToDouble(es.future1);
-						maxPowerIntersessionDate = es.GetDateStr();
-					} if(Convert.ToDouble(es.future2) > maxSpeedIntersession)
-					{
-						maxSpeedIntersession = Convert.ToDouble(es.future2);
-						maxSpeedIntersessionDate = es.GetDateStr();
-					} if(Convert.ToDouble(es.future3) > maxForceIntersession)
-					{
-						maxForceIntersession = Convert.ToDouble(es.future3);
-						maxForceIntersessionDate = es.GetDateStr();
-					}
-				}
-			}
-		}
+
+		//LogB.Information(string.Format("maxPowerIntersession: {0}, date: {1}",
+		//			maxPowerIntersession, maxPowerIntersessionDate));
 	}
 
 	bool canCaptureEncoder()

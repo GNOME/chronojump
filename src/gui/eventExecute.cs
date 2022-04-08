@@ -3948,7 +3948,7 @@ public class CairoPaintBarplotPreEncoder : CairoPaintBarsPre
 		if(lineData_l.Count > 0)
 			cb.LineData_l = lineData_l; //range
 
-		if(eccOverload_l.Count > 0)
+		if(eccOverload_l != null && eccOverload_l.Count > 0)
 		{
 			cb.EccOverload_l = eccOverload_l;
 			if (preferences.encoderCaptureInertialEccOverloadMode ==

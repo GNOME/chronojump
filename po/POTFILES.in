@@ -90,7 +90,6 @@ src/gui/confirm.cs
 src/gui/convertWeight.cs
 src/gui/dialogThreshold.cs
 src/gui/encoderConfiguration.cs
-src/gui/encoderGraphObjects.cs
 src/gui/encoderSelectRepetitions.cs
 src/gui/encoderTreeviews.cs
 src/gui/evaluator.cs

@@ -294,6 +294,7 @@ public class EncoderOverviewWindow : OverviewWindow
 			tv.AppendColumn (Catalog.GetString ("Power"), new CellRendererText(), "text", count++);
 			tv.AppendColumn (Catalog.GetString ("Speed"), new CellRendererText(), "text", count++);
 			tv.AppendColumn (Catalog.GetString ("Force"), new CellRendererText(), "text", count++);
+			tv.AppendColumn (Catalog.GetString ("Save criteria on eccentric-concentric"), new CellRendererText(), "text", count++);
 		}
 	}
 
@@ -310,11 +311,11 @@ public class EncoderOverviewWindow : OverviewWindow
 				//personID (hidden), person name, sex, encoderConfiguration, exercise, sets
 		} else {
 			if(encoderGI == Constants.EncoderGI.GRAVITATORY)
-				s = new TreeStore(typeof (string), typeof (string), typeof (string), typeof (string), typeof (string), typeof (string), typeof (string), typeof (string), typeof (string), typeof (string));
-				//personID (hidden), person name, sex, encoderConfiguration, exercise, extra mass, contraction, power, speed, force
+				s = new TreeStore(typeof (string), typeof (string), typeof (string), typeof (string), typeof (string), typeof (string), typeof (string), typeof (string), typeof (string), typeof (string), typeof (string));
+				//personID (hidden), person name, sex, encoderConfiguration, exercise, extra mass, contraction, power, speed, force, repCriteria
 			else
-				s = new TreeStore(typeof (string), typeof (string), typeof (string), typeof (string), typeof (string), typeof (string), typeof (string), typeof (string), typeof (string));
-				//personID (hidden), person name, sex, encoderConfiguration, exercise, contraction, power, speed, force
+				s = new TreeStore(typeof (string), typeof (string), typeof (string), typeof (string), typeof (string), typeof (string), typeof (string), typeof (string), typeof (string), typeof (string));
+				//personID (hidden), person name, sex, encoderConfiguration, exercise, contraction, power, speed, force, repCriteria
 		}
 
 		return s;

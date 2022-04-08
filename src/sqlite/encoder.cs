@@ -582,7 +582,7 @@ class SqliteEncoder : Sqlite
 
 		dbcmd.CommandText =
 			"SELECT person77.uniqueID, person77.name, person77.sex, encoder.encoderConfiguration, encoderExercise.name, " + 
-			"encoder.extraWeight, encoder.eccon, encoder.future1, encoder.future2, encoder.future3 " +
+			"encoder.extraWeight, encoder.eccon, encoder.future1, encoder.future2, encoder.future3, encoder.repCriteria " +
 			"FROM person77, encoderExercise, encoder " +
 			"WHERE sessionID = " + sessionID.ToString() +
 		        " AND signalOrCurve = \"curve\" " +
@@ -610,6 +610,17 @@ class SqliteEncoder : Sqlite
 			else if(encoderGI == Constants.EncoderGI.INERTIAL && ! econf.has_inertia)
 				continue;
 
+			string repCriteria = "";
+			if(reader[6].ToString() != "c")
+			{
+				if(reader[10].ToString() == Preferences.EncoderRepetitionCriteria.ECC_CON.ToString())
+					repCriteria = Catalog.GetString("Eccentric-concentric");
+				else if(reader[10].ToString() == Preferences.EncoderRepetitionCriteria.ECC.ToString())
+					repCriteria = Catalog.GetString("Eccentric");
+				else if(reader[10].ToString() == Preferences.EncoderRepetitionCriteria.CON.ToString())
+					repCriteria = Catalog.GetString("Concentric");
+			}
+
 			if(encoderGI == Constants.EncoderGI.GRAVITATORY)
 			{
 				string [] s = {
@@ -622,8 +633,8 @@ class SqliteEncoder : Sqlite
 					EncoderSQL.EcconLong(reader[6].ToString()),
 					reader[7].ToString(),	//power
 					reader[8].ToString(),	//speed
-					reader[9].ToString()	//force
-						//TODO repCriteria
+					reader[9].ToString(),	//force
+					repCriteria
 				};
 				array.Add (s);
 			} else {
@@ -636,8 +647,8 @@ class SqliteEncoder : Sqlite
 					EncoderSQL.EcconLong(reader[6].ToString()),
 					reader[7].ToString(),	//power
 					reader[8].ToString(),	//speed
-					reader[9].ToString()	//force
-						//TODO repCriteria
+					reader[9].ToString(),	//force
+					repCriteria
 				};
 				array.Add (s);
 			}

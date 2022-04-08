@@ -61,7 +61,8 @@ class SqliteEncoder : Sqlite
 		       	"future1 TEXT, " +	//Since 1.4.4 (DB 1.06) this stores last meanPower detected on a curve 
 						//(as string with '.' because future1 was created as TEXT)
 			"future2 TEXT, " + 	//same as future1
-			"future3 TEXT )"; 	//same as future1
+			"future3 TEXT, " + 	//same as future1
+			"repCriteria TEXT )"; 	//criteria of meanPower, meanSpeed, meanForce: ecc_con, ecc, con
 		dbcmd.ExecuteNonQuery();
 	}
 	

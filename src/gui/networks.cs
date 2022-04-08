@@ -745,7 +745,8 @@ public partial class ChronoJumpWindow
 
 		//select person by RFID
 		Person pLocal = SqlitePerson.SelectByRFID(capturedRFID);
-		Person pServer = json.GetPersonByRFID(capturedRFID);
+		//Person pServer = json.GetPersonByRFID(capturedRFID);
+		Person pServer = json.GetPersonByRFID("198,99,164,42,43"); //TODO: change this again
 
 		if(pLocal.UniqueID == -1)
 		{

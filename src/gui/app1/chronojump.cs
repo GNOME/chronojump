@@ -7796,24 +7796,6 @@ LogB.Debug("mc finished 5");
 					double mainVariableLower = feedbackWin.GetMainVariableLower(mainVariableStr);
 					//plotCurvesGraphDoPlot(mainVariableStr, mainVariableHigher, mainVariableLower,
 
-					if(encoderGraphDoPlot != null)
-					{
-						encoderGraphDoPlot.NewPreferences(preferences);
-						encoderGraphDoPlot.Start(
-								mainVariableStr, mainVariableHigher, mainVariableLower,
-								secondaryVariableStr, preferences.encoderCaptureShowLoss,
-								false,
-								findEccon(true),
-								feedbackWin,
-								encoderConfigurationCurrent.has_inertia,
-								configChronojump.PlaySoundsFromFile,
-								captureCurvesBarsData,
-								encoderCaptureListStore,
-								preferences.encoderCaptureMainVariableThisSetOrHistorical,
-								sendMaxPowerSpeedForceIntersession(mainVariable),
-								sendMaxPowerSpeedForceIntersessionDate(mainVariable));
-					}
-
 					//Cairo
 					prepareEventGraphBarplotEncoder = new PrepareEventGraphBarplotEncoder (
 							mainVariableStr, mainVariableHigher, mainVariableLower,
@@ -7833,8 +7815,10 @@ LogB.Debug("mc finished 5");
 							preferences.volumeOn,
 							preferences.gstreamer);
 					prepareEncoderBarplotCairo (true);
-				} else
-					UtilGtk.ErasePaint(encoder_capture_curves_bars_drawingarea, encoder_capture_curves_bars_pixmap);
+				} else {
+					//UtilGtk.ErasePaint(encoder_capture_curves_bars_drawingarea, encoder_capture_curves_bars_pixmap);
+					//TODO: do it on Cairo
+				}
 			}
 
 			//rhythm

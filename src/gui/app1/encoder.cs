@@ -734,10 +734,12 @@ public partial class ChronoJumpWindow
 		foreach(EncoderSQL es in arrayTemp)
 		{
 			if(
-					(encGI == Constants.EncoderGI.GRAVITATORY &&
-					Util.SimilarDouble(Convert.ToDouble(Util.ChangeDecimalSeparator(es.extraWeight)), extraWeight)) ||
-					(encGI == Constants.EncoderGI.INERTIAL &&
-					 encoderConfigurationCurrent.Equals(es.encoderConfiguration))
+					( encGI == Constants.EncoderGI.GRAVITATORY &&
+					 es.repCriteria == preferences.encoderRepetitionCriteriaGravitatory &&
+					 Util.SimilarDouble(Convert.ToDouble(Util.ChangeDecimalSeparator(es.extraWeight)), extraWeight) ) ||
+					( encGI == Constants.EncoderGI.INERTIAL &&
+					 es.repCriteria == preferences.encoderRepetitionCriteriaInertial &&
+					 encoderConfigurationCurrent.Equals(es.encoderConfiguration) )
 			  ) {
 				if(Convert.ToDouble(es.future1) > maxPowerIntersession)
 				{

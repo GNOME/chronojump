@@ -962,6 +962,7 @@ public class EncoderSQL
 	public string future1;
 	public string future2;
 	public string future3;
+	public Preferences.EncoderRepetitionCriteria repCriteria;
 
 	public string exerciseName;
 	
@@ -977,6 +978,7 @@ public class EncoderSQL
 			string description, string status, string videoURL, 
 			EncoderConfiguration encoderConfiguration,
 			string future1, string future2, string future3, 
+			Preferences.EncoderRepetitionCriteria repCriteria,
 			string exerciseName
 			)
 	{
@@ -999,6 +1001,7 @@ public class EncoderSQL
 		this.future1 = future1;	//on curves: meanPower
 		this.future2 = future2; //on curves: meanSpeed
 		this.future3 = future3; //on curves: meanForce
+		this.repCriteria = repCriteria;
 		this.exerciseName = exerciseName;
 
 		ecconLong = EcconLong(eccon);

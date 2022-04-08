@@ -53,7 +53,6 @@ SOURCES = \
 	gui/chronopicRegister.cs\
 	gui/confirm.cs\
 	gui/cjCombo.cs\
-	gui/encoderGraphObjects.cs\
 	gui/encoderTreeviews.cs\
 	gui/encoderConfiguration.cs\
 	gui/encoderSelectRepetitions.cs\

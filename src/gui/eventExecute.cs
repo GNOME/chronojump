@@ -3448,8 +3448,8 @@ public class CairoPaintBarplotPreEncoder : CairoPaintBarsPre
 		initialize (darea, fontStr, mode, personName, testName, pDN);
 
 		//calcule all graph stuff
-		fillDataVariables1 ();
-		fillDataVariables2 ();
+		fillArraysDiscardingReps ();
+		fillVariableListsForGraph ();
 		prepareTitle ();
 		prepareLossArrow ();
 	}
@@ -3487,7 +3487,7 @@ public class CairoPaintBarplotPreEncoder : CairoPaintBarsPre
 		pegbe.showNRepetitions = preferences.encoderCaptureShowNRepetitions;
 	}
 
-	private void fillDataVariables1 () //copied from gui/encoderGraphObjects fillDataVariables()
+	private void fillArraysDiscardingReps () //copied from gui/encoderGraphObjects fillDataVariables()
 	{
 		data = new ArrayList (pegbe.data9Variables.Count); //data is related to mainVariable (barplot)
 		lineData_l = new List<double>(); //lineData_l is related to secondary variable (by default range)
@@ -3556,7 +3556,7 @@ public class CairoPaintBarplotPreEncoder : CairoPaintBarsPre
 		}
 	}
 
-	private void fillDataVariables2 ()
+	private void fillVariableListsForGraph ()
 	{
 		barA_l = new List<PointF>(); //data is related to mainVariable (barplot)
 		barB_l = new List<PointF>(); //data is related to mainVariable (barplot)
@@ -3854,7 +3854,7 @@ public class CairoPaintBarplotPreEncoder : CairoPaintBarsPre
 
 	private void prepareTitle ()
 	{
-		string units = "";
+		units = "";
 		int decimals;
 		if(pegbe.mainVariable == Constants.MeanSpeed || pegbe.mainVariable == Constants.MaxSpeed) {
 			units = "m/s";
@@ -3933,19 +3933,13 @@ public class CairoPaintBarplotPreEncoder : CairoPaintBarsPre
 		//cb.GraphInit(fontStr, true, false); //usePersonGuides, useGroupGuides
 		cb.GraphInit(fontStr, false, false); //usePersonGuides, useGroupGuides
 
-		string units = "";
 		int decs;
-		if(pegbe.mainVariable == Constants.MeanSpeed || pegbe.mainVariable == Constants.MaxSpeed) {
-			units = "m/s";
+		if(pegbe.mainVariable == Constants.MeanSpeed || pegbe.mainVariable == Constants.MaxSpeed)
 			decs = 2;
-		} else if(pegbe.mainVariable == Constants.MeanForce || pegbe.mainVariable == Constants.MaxForce) {
-			units = "N";
+		else if(pegbe.mainVariable == Constants.MeanForce || pegbe.mainVariable == Constants.MaxForce)
 			decs = 0;
-		}
-		else { //powers
-			units =  "W";
+		else //powers
 			decs = 0;
-		}
 		cb.Decs = decs;
 
 		if(cairoBarsArrow != null)

@@ -858,15 +858,13 @@ public abstract class CairoBars : CairoGeneric
 	protected void writeTitleAtTop()
 	{
 		if(encoderTitle)
-		{
 			writeTitleAtTopEncoder ();
-			return;
-		}
-
-		printText(graphWidth/2 + leftMargin, textHeight/2, 0, textHeight+2,
-				titleStr, g, alignTypes.CENTER);
+		else
+			printText(graphWidth/2 + leftMargin, textHeight/2, 0, textHeight+2,
+					titleStr, g, alignTypes.CENTER);
 	}
 
+	int titleTextHeight;
 	protected void writeTitleAtTopEncoder()
 	{
 		g.Save();
@@ -875,7 +873,7 @@ public abstract class CairoBars : CairoGeneric
 		string titleFull = titleStr + lossStr + workStr + impulseStr;
 
 		// 1) get the titleTextHeight for titleFull
-		int titleTextHeight = textHeight +2;
+		titleTextHeight = textHeight +2;
 		g.SetFontSize(titleTextHeight);
 		g.SelectFontFace(font, Cairo.FontSlant.Normal, Cairo.FontWeight.Bold);
 		Cairo.TextExtents te = g.TextExtents(titleFull);

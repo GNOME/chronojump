@@ -3419,6 +3419,11 @@ public class CairoPaintBarplotPreEncoder : CairoPaintBarsPre
 	private List<int> saved_l; //saved repetitions
 	private List<CairoBarsArrow> eccOverload_l;
 
+	//used on encoder when !relativeToSet
+	private double maxAbsoluteForCalc;
+	private double maxThisSetForCalc;
+
+	private string units;
 	private string titleStr;
 	private string lossStr;
 	private string workStr;
@@ -3571,7 +3576,7 @@ public class CairoPaintBarplotPreEncoder : CairoPaintBarsPre
 
 		//Get max min avg values of this set
 		double maxThisSetForGraph = -100000;
-		double maxThisSetForCalc = -100000;
+		maxThisSetForCalc = -100000;
 		double minThisSet = 100000;
 		/*
 		 * if ! Preferences.EncoderPhasesEnum.BOTH, eg: ECC, we can graph max CON (that maybe is the highest value) , but for calculations we want only the max ECC value, so:
@@ -3660,7 +3665,7 @@ public class CairoPaintBarplotPreEncoder : CairoPaintBarsPre
 			return;
 		}
 
-		double maxAbsoluteForCalc = maxThisSetForCalc;
+		maxAbsoluteForCalc = maxThisSetForCalc;
 		//can be on meanPower, meanSpeed, meanForce
 		if(! pegbe.relativeToSet)
 		{
@@ -3959,6 +3964,14 @@ public class CairoPaintBarplotPreEncoder : CairoPaintBarsPre
 
 		if(saved_l.Count > 0)
 			cb.Saved_l = saved_l;
+
+		if(! pegbe.relativeToSet)
+		{
+			cb.MaxIntersession = pegbe.maxPowerSpeedForceIntersession;
+			cb.MaxIntersessionEcconCriteria = preferences.GetEncoderRepetitionCriteria (pegbe.hasInertia);
+			cb.MaxIntersessionValueStr = Util.TrimDecimals(pegbe.maxPowerSpeedForceIntersession, decs) + " " + units;
+			cb.MaxIntersessionDate = pegbe.maxPowerSpeedForceIntersessionDate;
+		}
 
 		//this should be passed before PassData1Serie && PassData2Series
 		cb.SetEncoderTitle (titleStr, lossStr, workStr, impulseStr);

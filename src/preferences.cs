@@ -114,6 +114,13 @@ public class Preferences
 		else
 			return encoderRepetitionCriteriaGravitatory;
 	}
+	public EncoderRepetitionCriteria GetEncoderRepetitionCriteria (bool inertial)
+	{
+		if (inertial)
+			return encoderRepetitionCriteriaInertial;
+		else
+			return encoderRepetitionCriteriaGravitatory;
+	}
 	
 	//encoder other
 	public bool encoderPropulsive;

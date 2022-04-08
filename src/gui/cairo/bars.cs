@@ -84,6 +84,10 @@ public abstract class CairoBars : CairoGeneric
 	protected List<CairoBarsArrow> eccOverload_l;
 	protected bool eccOverloadWriteValue;
 	protected List<int> saved_l;
+	protected double maxIntersession;
+	protected Preferences.EncoderRepetitionCriteria maxIntersessionEcconCriteria;
+	protected string maxIntersessionValueStr; //with correct decimals and units
+	protected string maxIntersessionDate;
 
 	// ---- values can be passed from outside via accessors ---->
 	protected string xVariable = "";
@@ -357,6 +361,9 @@ public abstract class CairoBars : CairoGeneric
 		eccOverload_l = new List<CairoBarsArrow>();
 		eccOverloadWriteValue = false;
 		saved_l = new List<int>();
+		maxIntersession = 0;
+		maxIntersessionValueStr = "";
+		maxIntersessionDate = "";
 	}
 
 	private void leftRightMarginsSet ()
@@ -920,6 +927,33 @@ public abstract class CairoBars : CairoGeneric
 		g.Restore();
 	}
 
+	//encoder !relativeToSet
+	protected void writePersonsBest ()
+	{
+		double y = calculatePaintY(maxIntersession);
+
+		// 1) line
+		g.Save();
+		g.LineWidth = 2;
+		g.SetDash(new double[]{2, 2}, 0);
+
+		g.MoveTo(0, y);
+		g.LineTo(graphWidth, y);
+		g.Stroke ();
+
+		g.Restore();
+
+		// 2) texts
+		printText(0, y -titleTextHeight, 0, titleTextHeight,
+				"Person's historical best:" + maxIntersessionEcconCriteria.ToString(),
+				g, alignTypes.LEFT);
+
+		if(maxIntersessionValueStr != "")
+			printText(graphWidth, y -titleTextHeight, 0, titleTextHeight,
+					maxIntersessionValueStr + " (" + maxIntersessionDate + ")",
+					g, alignTypes.RIGHT);
+	}
+
 	protected void writeMessageAtCenter(string message)
 	{
 		Cairo.TextExtents te;
@@ -1028,6 +1062,19 @@ public abstract class CairoBars : CairoGeneric
 		set { saved_l = value; }
 	}
 
+	public double MaxIntersession {
+		set { maxIntersession = value; }
+	}
+	public Preferences.EncoderRepetitionCriteria MaxIntersessionEcconCriteria {
+		set { maxIntersessionEcconCriteria = value; }
+	}
+	public string MaxIntersessionValueStr {
+		set { maxIntersessionValueStr = value; }
+	}
+	public string MaxIntersessionDate {
+		set { maxIntersessionDate = value; }
+	}
+
 	public int Decs {
 		set { decs = value; }
 	}
@@ -1083,6 +1130,9 @@ public class CairoBars1Series : CairoBars
 
 		if(cairoBarsGuideManage != null  && cairoBarsGuideManage.GetMax() > maxY)
 			maxY = cairoBarsGuideManage.GetMax();
+
+		if(maxIntersession >= maxY)
+			maxY = maxIntersession;
 
 		//points X start at 1
 		minX = 0;
@@ -1206,6 +1256,9 @@ public class CairoBars1Series : CairoBars
 		plotResultsOnBar();
 
 		writeTitleAtTop ();
+
+		if(maxIntersession > 0)
+			writePersonsBest (); //encoder !relativeToSet
 
 		if(clickable)
 		{
@@ -1397,6 +1450,9 @@ public class CairoBarsNHSeries : CairoBars
 
 		if(cairoBarsGuideManage != null  && cairoBarsGuideManage.GetMax() > maxY)
 			maxY = cairoBarsGuideManage.GetMax();
+
+		if(maxIntersession >= maxY)
+			maxY = maxIntersession;
 
 		//points X start at 1
 		minX = 0;
@@ -1659,6 +1715,9 @@ public class CairoBarsNHSeries : CairoBars
 		plotResultsOnBar();
 
 		writeTitleAtTop ();
+
+		if(maxIntersession > 0)
+			writePersonsBest (); //encoder !relativeToSet
 
 		if(showLegend)
 			writeLegend ();

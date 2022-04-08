@@ -76,7 +76,6 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Box hbox_encoder_configuration;
 	[Widget] Gtk.Frame frame_encoder_capture_options;
 	[Widget] Gtk.HBox hbox_encoder_capture_actions;
-	[Widget] Gtk.HPaned hpaned_encoder;
 	[Widget] Gtk.VBox vbox_inertial_instructions;
 	
 	[Widget] Gtk.Box hbox_encoder_capture_wait;
@@ -120,7 +119,7 @@ public partial class ChronoJumpWindow
 //	[Widget] Gtk.Button button_menu_encoder_export_set;
 	[Widget] Gtk.Button button_encoder_delete_signal;
 	
-	[Widget] Gtk.VPaned vpaned_encoder_capture_video_and_set_graph;
+	[Widget] Gtk.Alignment alignment_encoder_capture_signal;
 	[Widget] Gtk.Button button_activate_chronopics_encoder;
 	//[Widget] Gtk.Button button_activate_chronopics_encoder_networks_problems;
 
@@ -504,10 +503,6 @@ public partial class ChronoJumpWindow
 		
 		captureCurvesBarsData = new ArrayList(0);
 
-
-		if(UtilAll.GetOSEnum() != UtilAll.OperatingSystems.LINUX)
-			playVideoEncoderInitialSetup();
-
 		LogB.Information("after play 0");
 		capturingCsharp = encoderCaptureProcess.STOPPED;
 		LogB.Information("after play 1");
@@ -835,13 +830,13 @@ public partial class ChronoJumpWindow
 		label_wait.Text = " ";
 		label_calibrate_output_message.Text = "";
 
-		hpaned_encoder.Visible = false;
+		vbox_encoder_bars_table_and_save_reps.Visible = false;
 		vbox_inertial_instructions.Visible = true;
 	}
 
 	private void on_button_encoder_inertial_calibrate_close_clicked (object o, EventArgs args)
 	{
-		hpaned_encoder.Visible = true;
+		vbox_encoder_bars_table_and_save_reps.Visible = true;
 		vbox_inertial_instructions.Visible = false;
 
 		sensitiveGuiEventDone();
@@ -1366,7 +1361,7 @@ public partial class ChronoJumpWindow
 
 		alignment_encoder_capture_curves_bars_drawingarea.Visible = check_encoder_capture_bars.Active;
 		alignment_treeview_encoder_capture_curves.Visible = check_encoder_capture_table.Active;
-		vpaned_encoder_capture_video_and_set_graph.Visible = check_encoder_capture_signal.Active;
+		alignment_encoder_capture_signal.Visible = check_encoder_capture_signal.Active;
 
 		hbox_encoder_capture_save_repetitions.Visible =
 			(check_encoder_capture_bars.Active || check_encoder_capture_table.Active);
@@ -5273,7 +5268,7 @@ public partial class ChronoJumpWindow
 		frame_persons.Sensitive = ! show;
 		hbox_encoder_configuration.Sensitive = ! show;
 		hbox_encoder_capture_top.Sensitive = ! show;
-		vpaned_encoder_capture_video_and_set_graph.Sensitive = ! show;
+		alignment_encoder_capture_signal.Sensitive = ! show;
 		button_encoder_inertial_recalibrate.Sensitive = ! show;
 		hbox_top_person.Sensitive = ! show;
 		hbox_top_person_encoder.Sensitive = ! show;
@@ -5853,7 +5848,7 @@ public partial class ChronoJumpWindow
 		frame_encoder_capture_options.Sensitive = s;
 		hbox_encoder_capture_actions.Sensitive = s;
 		hbox_video_encoder.Sensitive = s;
-		hpaned_encoder.Sensitive = s;
+		vbox_encoder_bars_table_and_save_reps.Sensitive = s;
 	}
 
 	/* end of sensitivity stuff */	
@@ -6626,9 +6621,9 @@ public partial class ChronoJumpWindow
 
 		//TODO: test this if this is needed:
 		//if on inertia and already showing instructions, hide them
-		if(hpaned_encoder.Visible == false)
+		if(vbox_encoder_bars_table_and_save_reps.Visible == false)
 		{
-			hpaned_encoder.Visible = true;
+			vbox_encoder_bars_table_and_save_reps.Visible = true;
 			vbox_inertial_instructions.Visible = false;
 		}
 
@@ -7403,8 +7398,6 @@ public partial class ChronoJumpWindow
 					Sqlite.Close();
 
 				}
-				
-				playVideoEncoderPrepare(false); //do not play
 			}
 
 			if(action == encoderActions.CAPTURE_IM && ! encoderProcessCancel && ! encoderProcessProblems) 
@@ -7790,105 +7783,6 @@ public partial class ChronoJumpWindow
 
 	
 	/* end of thread stuff */
-	
-	/* video stuff */
-
-	private void encoderStartVideoRecord() {
-		/*
-		 * TODO: reimplement this with ffmpeg
-		 *
-		LogB.Information("Starting video if selected on preferences");
-		checkbutton_video_encoder.Sensitive = false;
-		if(preferences.videoOn) {
-			capturer.ClickRec();
-			label_video_feedback_encoder.Text = "Rec.";
-		}
-		//viewport_video_capture_encoder.Sensitive = false;
-		//*/
-	}
-
-	private void encoderStopVideoRecord() {
-		/*
-		 * TODO: reimplement this with ffmpeg
-		 *
-		LogB.Information("Stopping video");
-		checkbutton_video_encoder.Sensitive = true;
-		if(preferences.videoOn) {
-			label_video_feedback_encoder.Text = "";
-			capturer.ClickStop();
-			videoCapturePrepare(false); //if error, show message
-		}
-		*/
-	}
-
-	//static PlayerBin playerEncoder;
-	private void playVideoEncoderInitialSetup() //this does not work on raspberry
-	{
-		/*
-		 * TODO: reimplement this with ffmpeg
-		 *
-		//TODO: use a try specific … study this further
-		LogB.Information("Prepare video encoder 0");
-
-		try {
-			playerEncoder = new PlayerBin();
-			LogB.Information("Prepare video encoder 1");
-			viewport_video_play_encoder.Add(playerEncoder);
-			LogB.Information("Prepare video encoder 2");
-			playerEncoder.SeeControlsBox(true);
-			LogB.Information("Prepare video encoder 3");
-		} catch {
-			LogB.Information("Catched on playVideoEncoderInitialSetup");
-			//it crashes on Raspberry, Banana, (and since 2018 on Linux (Debian))
-		}
-		LogB.Information("Prepare video encoder 4");
-		*/
-	}
-
-	void playVideoEncoderPrepare(bool play) 
-	{
-		/*
-		 * TODO: reimplement this with ffmpeg
-		 *
-		LogB.Information("playVideoEncoderDo", play.ToString());
-		string file = Util.GetVideoFileName(currentSession.UniqueID, 
-				Constants.TestTypes.ENCODER, Convert.ToInt32(encoderSignalUniqueID));
-
-		if(playerEncoder == null) //useful for raspberry because this is not initialized
-			return;
-
-		if(file == null || file == "" || ! File.Exists(file)) {
-			playerEncoder.Hide();
-			return;
-		}
-		
-		try {
-			playerEncoder.Show();
-			playerEncoder.Open(file);
-			if(play)
-				playerEncoder.Play();
-		} catch {
-			new DialogMessage(Constants.MessageTypes.WARNING, 
-					Catalog.GetString("Sorry, file not found"));
-		}
-		*/
-	}	
-
-	public void on_button_video_encoder_open_folder_clicked (object obj, EventArgs args) {
-		/*
-		string dir = textview_video_encoder_folder.Buffer.Text;
-		try {
-			System.Diagnostics.Process.Start(dir); //also use Util.OpenFolder
-		}
-		catch {
-			new DialogMessage(Constants.MessageTypes.WARNING, 
-					Constants.DirectoryCannotOpen + "\n\n" + dir);
-		}
-		*/
-	}
-
-	/* end of video stuff */
-
 }	
 
 public class EncoderCaptureDisplay : BooleansInt

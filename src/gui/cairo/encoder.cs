@@ -41,6 +41,11 @@ public class CairoGraphEncoderSignal : CairoXY
 		//doing = false;
 		points_list_painted = 0;
 		points_list_inertial_painted = 0;
+
+		//need to be small because graphHeight could be 100,
+		//if margins are big then calculatePaintY could give us reverse results
+		outerMargin = 10;
+		innerMargin = 0;
 	}
 
 	//separated in two methods to ensure endGraphDisposing on any return of the other method

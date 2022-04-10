@@ -665,6 +665,15 @@ public abstract class CairoXY : CairoGeneric
 	{
                 //return graphHeight - totalMargins - ((realY - minY) * (graphHeight - totalMargins - totalMargins) / (absoluteMaxY - minY));
 		//to avoid /0 problems (eg raceAnalyzer change person: absoluteMaxY-minY = 0
+
+		/* debug:
+		LogB.Information(string.Format("graphHeight: {0}, totalMargins: {1}, restOfFormula: {2}",
+					graphHeight, totalMargins,
+					(realY - minY) * UtilAll.DivideSafe (
+				graphHeight - totalMargins - totalMargins,
+				absoluteMaxY - minY) ));
+		*/
+
                 return graphHeight - totalMargins - ((realY - minY) * UtilAll.DivideSafe (
 				graphHeight - totalMargins - totalMargins,
 				absoluteMaxY - minY));

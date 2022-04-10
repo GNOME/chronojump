@@ -81,12 +81,14 @@ public class CairoGraphEncoderSignal : CairoXY
 				minY = -100;
 		}
 
+		bool graphInited = false;
 		if( maxValuesChanged || forceRedraw ||
 				(points_list != null && points_list.Count != points_list_painted) ||
 				(points_list_inertial != null && points_list_inertial.Count != points_list_inertial_painted)
 				)
 		{
 			initGraph( font, 1, (maxValuesChanged || forceRedraw) );
+			graphInited = true;
 			points_list_painted = 0;
 			points_list_inertial_painted = 0;
 		}
@@ -97,7 +99,7 @@ public class CairoGraphEncoderSignal : CairoXY
 
 		if( points_list == null || points_list.Count == 0 ||
 				(isInertial && (points_list_inertial == null || points_list_inertial.Count == 0)) )
-			return true;
+			return graphInited;
 
 		//fix an eventual crash on g.LineWidth below
 		if(g == null)

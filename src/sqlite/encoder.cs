@@ -372,15 +372,21 @@ class SqliteEncoder : Sqlite
 	}
 	
 
+	//used on EncoderSelectRepetitionsIndividualAllSessions
 	//exerciseID can be -1 to get all exercises
-	public static ArrayList SelectCompareIntersession (bool dbconOpened, Constants.EncoderGI encoderGI, int exerciseID, int personID)
+	public static ArrayList SelectCompareIntersession (bool dbconOpened, Constants.EncoderGI encoderGI,
+			int exerciseID, string lateralityCode, int personID)
 	{
 		if(! dbconOpened)
 			Sqlite.Open();
-		
+
 		string exerciseIDStr = "";
 		if(exerciseID != -1)
 			exerciseIDStr = "encoder.exerciseID = " + exerciseID + " AND ";
+
+		string lateralityCodeStr = "";
+		if(lateralityCode != "")
+			lateralityCodeStr = "laterality = \"" + lateralityCode + "\" AND ";
 
 		//returns a row for each session where there are active or inactive
 		dbcmd.CommandText = 
@@ -390,7 +396,7 @@ class SqliteEncoder : Sqlite
 			" encoder.encoderConfiguration " +
 			" FROM encoder, session, person77 " +
 			" WHERE " +
-			exerciseIDStr + 	
+			exerciseIDStr + lateralityCodeStr +
 			" encoder.personID = " + personID + " AND signalOrCurve = \"curve\" AND " +
 			" encoder.personID = person77.uniqueID AND encoder.sessionID = session.uniqueID " +
 			" GROUP BY encoder.sessionID, encoder.extraWeight ORDER BY encoder.sessionID, encoder.extraWeight, encoder.status";

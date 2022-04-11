@@ -178,6 +178,8 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Notebook notebook_analyze_results;
 	[Widget] Gtk.Box hbox_combo_encoder_exercise_analyze;
 	[Widget] Gtk.ComboBox combo_encoder_exercise_analyze;
+	[Widget] Gtk.HBox hbox_combo_encoder_laterality_analyze;
+	[Widget] Gtk.ComboBox combo_encoder_laterality_analyze;
 
 	[Widget] Gtk.Box hbox_combo_encoder_analyze_cross_sup; //includes "Profile" label and the hbox
 	[Widget] Gtk.Box hbox_combo_encoder_analyze_cross;
@@ -1567,6 +1569,12 @@ public partial class ChronoJumpWindow
 	}
 	
 
+	private void on_combo_encoder_laterality_analyze_changed (object o, EventArgs args)
+	{
+		if(currentPerson != null)
+			prepareAnalyzeRepetitions();
+	}
+
 	private EncoderSelectRepetitions encSelReps;
 
 	void on_button_encoder_analyze_data_select_curves_clicked (object o, EventArgs args) {
@@ -1613,15 +1621,40 @@ public partial class ChronoJumpWindow
 		else
 			return; //error
 
+		//laterality
 		encSelReps.PassVariables(currentPerson, currentSession, currentEncoderGI,
 				button_encoder_analyze, getExerciseIDFromEncoderCombo(exerciseCombos.ANALYZE),
-				preferences.askDeletion);
+				getLateralityOnAnalyze(), preferences.askDeletion);
 
 		encSelReps.Do();
 
 		updateUserCurvesLabelsAndCombo(false);
 	}
-			
+
+	private EncoderSelectRepetitions.Lateralities getLateralityOnAnalyze ()
+	{
+		string lateralityActive = UtilGtk.ComboGetActive (combo_encoder_laterality_analyze);
+		if(lateralityActive == Catalog.GetString("Any laterality"))
+			return EncoderSelectRepetitions.Lateralities.ANY;
+		if(lateralityActive == Catalog.GetString("Both"))
+			return EncoderSelectRepetitions.Lateralities.RL;
+		if(lateralityActive == Catalog.GetString("Left"))
+			return EncoderSelectRepetitions.Lateralities.L;
+		if(lateralityActive == Catalog.GetString("Right"))
+			return EncoderSelectRepetitions.Lateralities.R;
+
+		return EncoderSelectRepetitions.Lateralities.ANY;
+	}
+	//if Any then return "" to not select by laterality on SqliteEncoder.Select
+	private string getLateralityOnAnalyzeToSQL ()
+	{
+		EncoderSelectRepetitions.Lateralities laterality = getLateralityOnAnalyze ();
+		if(laterality == EncoderSelectRepetitions.Lateralities.ANY)
+			return "";
+		else
+			return laterality.ToString();
+	}
+
 	void on_delete_encoder_curve (object o, EventArgs args)
 	{
 		LogB.Information("at on_delete_encoder_curve");
@@ -3536,7 +3569,7 @@ public partial class ChronoJumpWindow
 				data = SqliteEncoder.Select(
 						false, -1, currentPerson.UniqueID, currentSession.UniqueID, getEncoderGI(),
 						getExerciseIDFromEncoderCombo(exerciseCombos.ANALYZE),
-						"curve", ecconSelect, "",
+						"curve", ecconSelect, getLateralityOnAnalyzeToSQL(),
 						false, true, true);
 			}
 			else if(radio_encoder_analyze_groupal_current_session.Active) 
@@ -3548,7 +3581,7 @@ public partial class ChronoJumpWindow
 							currentSession.UniqueID,
 							getEncoderGI(),
 							getExerciseIDFromEncoderCombo(exerciseCombos.ANALYZE),
-							"curve", EncoderSQL.Eccons.ALL, "",
+							"curve", EncoderSQL.Eccons.ALL, getLateralityOnAnalyzeToSQL(),
 							false, //onlyActive=false. Means: all saved repetitions
 							true, true);
 					foreach(EncoderSQL eSQL in dataPre) {
@@ -3568,7 +3601,7 @@ public partial class ChronoJumpWindow
 							Util.FetchID(encSelReps.EncoderCompareInter[i].ToString()),
 							getEncoderGI(),
 							getExerciseIDFromEncoderCombo(exerciseCombos.ANALYZE),
-							"curve", EncoderSQL.Eccons.ALL, "",
+							"curve", EncoderSQL.Eccons.ALL, getLateralityOnAnalyzeToSQL(),
 							false, //onlyActive=false. Means: all saved repetitions
 							true, true);
 					foreach(EncoderSQL eSQL in dataPre) {
@@ -3855,10 +3888,11 @@ public partial class ChronoJumpWindow
 
 	private void on_radio_encoder_analyze_individual_current_set (object o, EventArgs args)
 	{
+		hbox_combo_encoder_laterality_analyze.Visible = false;
+
 		//not called here
 		//prepareAnalyzeRepetitions();
 		
-	
 		createComboAnalyzeCross(false, false); //first creation: false, dateOnX: false
 		createComboEncoderAnalyzeWeights(false); //first creation: false
 
@@ -3896,6 +3930,7 @@ public partial class ChronoJumpWindow
 	private void on_radio_encoder_analyze_individual_current_session (object o, EventArgs args)
 	{
 		updateEncoderAnalyzeExercisesPre();
+		hbox_combo_encoder_laterality_analyze.Visible = true;
 		prepareAnalyzeRepetitions();
 
 		/*
@@ -3948,6 +3983,7 @@ public partial class ChronoJumpWindow
 	private void on_radio_encoder_analyze_individual_all_sessions (object o, EventArgs args)
 	{
 		updateEncoderAnalyzeExercisesPre();
+		hbox_combo_encoder_laterality_analyze.Visible = true;
 		prepareAnalyzeRepetitions();
 	
 		hbox_encoder_analyze_current_signal.Visible = false;
@@ -3982,6 +4018,7 @@ public partial class ChronoJumpWindow
 	private void on_radio_encoder_analyze_groupal_current_session (object o, EventArgs args)
 	{
 		updateEncoderAnalyzeExercisesPre();
+		hbox_combo_encoder_laterality_analyze.Visible = true;
 		prepareAnalyzeRepetitions();
 
 		hbox_encoder_analyze_current_signal.Visible = false;
@@ -4608,6 +4645,25 @@ public partial class ChronoJumpWindow
 
 		label_encoder_top_weights.Text = Catalog.GetString("Weights") + ": " + entry_encoder_im_weights_n.Text;
 		label_encoder_top_im.Text = Catalog.GetString("Inertia M.") + ": " + label_encoder_im_total.Text;
+
+
+		//combo_encoder_laterality_analyze
+		string [] comboEncoderLateralityAnalyzeOptions = { "Any laterality", "Both", "Left", "Right" };
+		string [] comboEncoderLateralityAnalyzeTranslated = {
+			Catalog.GetString("Any laterality"), Catalog.GetString("Both"),
+			Catalog.GetString("Left"), Catalog.GetString("Right")
+		};
+
+		combo_encoder_laterality_analyze = ComboBox.NewText ();
+		UtilGtk.ComboUpdate(combo_encoder_laterality_analyze, comboEncoderLateralityAnalyzeTranslated, "");
+		combo_encoder_laterality_analyze.Active = 0;
+		combo_encoder_laterality_analyze.Visible = false; //because we start on current set radio
+		combo_encoder_laterality_analyze.Changed += new EventHandler (on_combo_encoder_laterality_analyze_changed);
+
+		hbox_combo_encoder_laterality_analyze.PackStart(combo_encoder_laterality_analyze, true, true, 0);
+		hbox_combo_encoder_laterality_analyze.ShowAll();
+		combo_encoder_laterality_analyze.Sensitive = true;
+		hbox_combo_encoder_laterality_analyze.Visible = false; //do not show hbox at start
 	}
 
 	private void on_button_encoder_exercise_capture_left_clicked(object o, EventArgs args)

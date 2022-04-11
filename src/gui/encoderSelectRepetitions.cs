@@ -331,50 +331,6 @@ public class EncoderSelectRepetitionsIndividualCurrentSession : EncoderSelectRep
 		FakeButtonDone.Click();		
 	}
 
-
-	// --------------- edit curves start ---------------
-
-	/*
-	 * now cannot change the person who has done some repetitions. better like this.
-	 *
-	protected void on_show_repetitions_row_edit (object o, EventArgs args) {
-		LogB.Information(genericWinESR.TreeviewSelectedUniqueID.ToString());
-		genericWinESR.ShowEditRow(true);
-	}
-
-	protected void on_show_repetitions_row_edit_apply (object o, EventArgs args) {
-
-		int curveID = genericWinESR.TreeviewSelectedUniqueID;
-		EncoderSQL eSQL = (EncoderSQL) SqliteEncoder.Select(
-				false, curveID, 0, 0, encoderGI,
-				-1, "", EncoderSQL.Eccons.ALL, 
-				false, true)[0];
-
-		//if changed comment, update SQL, and update treeview
-		//first remove conflictive characters
-		string comment = Util.RemoveTildeAndColonAndDot(genericWinESR.EntryEditRow);
-		if(comment != eSQL.description) {
-			eSQL.description = comment;
-			SqliteEncoder.Update(false, eSQL);
-
-			//update treeview
-			genericWinESR.on_edit_selected_done_update_treeview();
-		}
-
-		//if changed person, proceed
-		LogB.Information("new person: " + genericWinESR.GetComboSelected);
-		int newPersonID = Util.FetchID(genericWinESR.GetComboSelected);
-		if(newPersonID != currentPerson.UniqueID) {
-			EncoderSQL eSQLChangedPerson = eSQL.ChangePerson(genericWinESR.GetComboSelected);
-			SqliteEncoder.Update(false, eSQLChangedPerson);
-
-			genericWinESR.RemoveSelectedRow();
-		}
-
-		genericWinESR.ShowEditRow(false);
-	}
-	
-	*/
 	// --------------- edit curves end ---------------
 	
 	

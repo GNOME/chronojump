@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2020   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2004-2022   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -62,7 +62,10 @@ public class EncoderSelectRepetitions
 	public int DeleteCurveID;
 	public enum Types { UNDEFINED, INDIVIDUAL_CURRENT_SESSION, INDIVIDUAL_ALL_SESSIONS, GROUPAL_CURRENT_SESSION }
 	public Types Type;
-	
+
+	public enum Lateralities { ANY, RL, L, R }; //RL, L, R are the same codes used on SqliteEncoder.Select
+	protected string lateralityCode; //if ANY it is "" (to not use it on SqliteEncoder.Select
+
 	//could be Interperson or Intersession
 	//personID:personName
 	//sessionID:sessionDate
@@ -77,7 +80,7 @@ public class EncoderSelectRepetitions
 	}
 
 	public void PassVariables(Person currentP, Session currentS, Constants.EncoderGI eGI,
-			Gtk.Button button_e_a, int exID, bool askDel) 
+			Gtk.Button button_e_a, int exID, Lateralities laterality, bool askDel)
 	{
 		RepsActive = 0;
 		RepsAll = 0;
@@ -90,6 +93,10 @@ public class EncoderSelectRepetitions
 		button_encoder_analyze = button_e_a;
 		exerciseID = exID; //can be -1 (all)
 		askDeletion = askDel;
+
+		lateralityCode = "";
+		if(laterality != Lateralities.ANY)
+			lateralityCode = laterality.ToString();
 	}
 	
 	public void Do() {
@@ -189,7 +196,7 @@ public class EncoderSelectRepetitionsIndividualCurrentSession : EncoderSelectRep
 	{
 		data = SqliteEncoder.Select(
 				false, -1, currentPerson.UniqueID, currentSession.UniqueID, encoderGI,
-				exerciseID, "curve", EncoderSQL.Eccons.ALL, "",
+				exerciseID, "curve", EncoderSQL.Eccons.ALL, lateralityCode,
 				false, true, true);
 	}
 
@@ -320,7 +327,7 @@ public class EncoderSelectRepetitionsIndividualCurrentSession : EncoderSelectRep
 
 		ArrayList data = SqliteEncoder.Select(
 				false, -1, currentPerson.UniqueID, currentSession.UniqueID, encoderGI,
-				exerciseID, "curve", EncoderSQL.Eccons.ALL, "",
+				exerciseID, "curve", EncoderSQL.Eccons.ALL, lateralityCode,
 				false, true, true);
 
 		//update on database the curves that have been selected/deselected
@@ -392,7 +399,7 @@ public class EncoderSelectRepetitionsIndividualAllSessions : EncoderSelectRepeti
 
 	protected override void getData() 
 	{
-		data = SqliteEncoder.SelectCompareIntersession(false, encoderGI, exerciseID, currentPerson.UniqueID); 
+		data = SqliteEncoder.SelectCompareIntersession(false, encoderGI, exerciseID, lateralityCode, currentPerson.UniqueID);
 	}
 	
 	protected override void createBigArray() 
@@ -548,7 +555,7 @@ public class EncoderSelectRepetitionsGroupalCurrentSession : EncoderSelectRepeti
 		foreach(Person p in dataPre) {
 			ArrayList eSQLarray = SqliteEncoder.Select(
 					false, -1, p.UniqueID, currentSession.UniqueID, encoderGI,
-					exerciseID, "curve", EncoderSQL.Eccons.ALL, "",
+					exerciseID, "curve", EncoderSQL.Eccons.ALL, lateralityCode,
 					false, true, true);
 
 			int allCurves = eSQLarray.Count;

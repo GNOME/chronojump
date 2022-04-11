@@ -3396,10 +3396,10 @@ It starts before and arrives there with some speed.</property>
                                         <property name="can_focus">False</property>
                                         <property name="left_padding">12</property>
                                         <child>
-                                          <widget class="GtkHBox" id="hbox2">
+                                          <widget class="GtkVBox" id="vbox52">
                                             <property name="visible">True</property>
                                             <property name="can_focus">False</property>
-                                            <property name="spacing">16</property>
+                                            <property name="spacing">8</property>
                                             <child>
                                               <widget class="GtkHBox" id="hbox78">
                                                 <property name="visible">True</property>
@@ -3469,8 +3469,8 @@ It starts before and arrives there with some speed.</property>
                                                 </child>
                                               </widget>
                                               <packing>
-                                                <property name="expand">False</property>
-                                                <property name="fill">False</property>
+                                                <property name="expand">True</property>
+                                                <property name="fill">True</property>
                                                 <property name="position">0</property>
                                               </packing>
                                             </child>

@@ -2285,7 +2285,11 @@ paintCrossVariables <- function (paf, varX, varY, option,
                 
                 #difficult to create a title in series graphs
                 title(paste(varXut,"/",varYut), cex.main=1, font.main=2)
-                
+
+		#on equivalent mass, series are numbers, round it and add Kg
+		if(inertialGraphX == "EQUIVALENT_MASS" && is.numeric(seriesName))
+			seriesName = paste(round(seriesName,2), "Kg")
+
                 #plot legend on top exactly out
                 #http://stackoverflow.com/a/7322792
                 rng=par("usr")

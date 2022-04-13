@@ -127,7 +127,8 @@ public partial class ChronoJumpWindow
 	//run
 	[Widget] Gtk.Image image_run_simple_show_time;
 	[Widget] Gtk.Image image_run_execute_running;
-	[Widget] Gtk.Image image_run_execute_photocell;
+	[Widget] Gtk.Image image_run_execute_photocell_icon;
+	[Widget] Gtk.Label label_run_execute_photocell_code;
 	[Widget] Gtk.Image image_sprint_analyze_save;
 	[Widget] Gtk.Image image_sprint_analyze_table_save;
 	[Widget] Gtk.Image image_sprint_analyze_table_save_1;
@@ -664,7 +665,7 @@ public partial class ChronoJumpWindow
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "run_2x.png");
 		image_run_execute_running.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "run_photocell.png");
-		image_run_execute_photocell.Pixbuf = pixbuf;
+		image_run_execute_photocell_icon.Pixbuf = pixbuf;
 		
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNamePulse);
 		image_mode_pulses_small.Pixbuf = pixbuf;

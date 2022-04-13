@@ -6788,7 +6788,6 @@ EncoderInertialCapture</property>
                                                             <widget class="GtkLabel" id="label_run_execute_photocell_code">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="label" translatable="yes">label</property>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">False</property>

@@ -74,7 +74,8 @@ public class RunExecute : EventExecute
 	protected RunExecuteInspector.Types runEIType;
 
 	protected Gtk.Image image_run_execute_running;
-	protected Gtk.Image image_run_execute_photocell;
+	protected Gtk.Image image_run_execute_photocell_icon;
+	protected Gtk.Label label_run_execute_photocell_code;
 
 	protected PhotocellWirelessCapture photocellWirelessCapture;
 
@@ -93,7 +94,9 @@ public class RunExecute : EventExecute
 			double progressbarLimit, ExecutingGraphData egd,
 			Constants.DoubleContact checkDoubleContactMode, int checkDoubleContactTime, 
 			bool speedStartArrival, bool measureReactionTime,
-			Gtk.Image image_run_execute_running, Gtk.Image image_run_execute_photocell,
+			Gtk.Image image_run_execute_running,
+			Gtk.Image image_run_execute_photocell_icon,
+			Gtk.Label label_run_execute_photocell_code,
 			int graphLimit, bool graphAllTypes, bool graphAllPersons
 			)
 	{
@@ -120,7 +123,8 @@ public class RunExecute : EventExecute
 		this.speedStartArrival = speedStartArrival;	
 		this.measureReactionTime = measureReactionTime;
 		this.image_run_execute_running = image_run_execute_running;
-		this.image_run_execute_photocell = image_run_execute_photocell;
+		this.image_run_execute_photocell_icon = image_run_execute_photocell_icon;
+		this.label_run_execute_photocell_code = label_run_execute_photocell_code;
 		this.graphLimit = graphLimit;
 		this.graphAllTypes = graphAllTypes;
 		this.graphAllPersons = graphAllPersons;
@@ -379,6 +383,8 @@ LogB.Information("going to call photocellWirelessCapture.CaptureStart ()");
 					LogB.Information("has arrived");
 					loggedState = States.ON;
 					runChangeImage.Current = RunChangeImage.Types.PHOTOCELL;
+					if(wireless)
+						runChangeImage.Photocell = photocell;
 
 					onlyInterval_NeedShowCountDownFalse();
 
@@ -581,23 +587,31 @@ LogB.Information("going to call photocellWirelessCapture.CaptureStart ()");
 		if(runChangeImage.Current == RunChangeImage.Types.RUNNING)
 		{
 			image_run_execute_running.Visible = true;
-			image_run_execute_photocell.Visible = false;
+			image_run_execute_photocell_icon.Visible = false;
+			label_run_execute_photocell_code.Visible = false;
 		}
 		else if(runChangeImage.Current == RunChangeImage.Types.PHOTOCELL)
 		{
 			image_run_execute_running.Visible = false;
-			image_run_execute_photocell.Visible = true;
+			image_run_execute_photocell_icon.Visible = true;
+			if(runChangeImage.Photocell >= 0)
+			{
+				label_run_execute_photocell_code.Text = runChangeImage.Photocell.ToString();
+				label_run_execute_photocell_code.Visible = true;
+			}
 		} else
 		{
 			image_run_execute_running.Visible = false;
-			image_run_execute_photocell.Visible = false;
+			image_run_execute_photocell_icon.Visible = false;
+			label_run_execute_photocell_code.Visible = false;
 		}
 	}
 
 	protected override void runChangeImageForceHide()
 	{
 		image_run_execute_running.Visible = false;
-		image_run_execute_photocell.Visible = false;
+		image_run_execute_photocell_icon.Visible = false;
+		label_run_execute_photocell_code.Visible = false;
 	}
 
 	protected override void updateRunPhaseInfoManage()
@@ -917,7 +931,9 @@ public class RunIntervalExecute : RunExecute
 			double progressbarLimit, ExecutingGraphData egd ,
 			Constants.DoubleContact checkDoubleContactMode, int checkDoubleContactTime, 
 			bool speedStartArrival, bool measureReactionTime,
-			Gtk.Image image_run_execute_running, Gtk.Image image_run_execute_photocell
+			Gtk.Image image_run_execute_running,
+			Gtk.Image image_run_execute_photocell_icon,
+			Gtk.Label label_run_execute_photocell_code
 			)
 	{
 		this.personID = personID;
@@ -964,7 +980,8 @@ public class RunIntervalExecute : RunExecute
 		this.speedStartArrival = speedStartArrival;	
 		this.measureReactionTime = measureReactionTime;
 		this.image_run_execute_running = image_run_execute_running;
-		this.image_run_execute_photocell = image_run_execute_photocell;
+		this.image_run_execute_photocell_icon = image_run_execute_photocell_icon;
+		this.label_run_execute_photocell_code = label_run_execute_photocell_code;
 
 		reactionTimeMS = 0;
 		reactionTimeIncludedStr = Catalog.GetString("Included on race time of first track");

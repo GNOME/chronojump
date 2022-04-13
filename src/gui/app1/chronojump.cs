@@ -5401,7 +5401,8 @@ public partial class ChronoJumpWindow
 				preferences.runSpeedStartArrival,
 				check_run_simple_with_reaction_time.Active,
 				image_run_execute_running,
-				image_run_execute_photocell,
+				image_run_execute_photocell_icon,
+				label_run_execute_photocell_code,
 				Convert.ToInt32(spin_contacts_graph_last_limit.Value),
 				radio_contacts_graph_allTests.Active, radio_contacts_graph_allPersons.Active
 				);
@@ -5546,7 +5547,8 @@ public partial class ChronoJumpWindow
 				preferences.runSpeedStartArrival,
 				check_run_interval_with_reaction_time.Active,
 				image_run_execute_running,
-				image_run_execute_photocell
+				image_run_execute_photocell_icon,
+				label_run_execute_photocell_code
 				);
 
 		//suitable for limited by tracks and time

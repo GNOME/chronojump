@@ -831,18 +831,26 @@ public class RunExecuteInspector
 	}
 }
 
-//TODO: clarify what this class does
+/*
+   This is written by capture thread and readed by GTK thread.
+   Manages the icon shown on running.
+   Image will be a person RUNNING or a PHOTOCELL being shown (when cross it).
+   Also on wireless, show the number of the photocell
+   */
+
 public class RunChangeImage
 {
 	public enum Types { NONE, RUNNING, PHOTOCELL }
 	private Types last;
 	private Types current;
+	private int photocell; //0 is a valid value
 
 	//constructor, don't show any image
 	public RunChangeImage()
 	{
 		last = Types.NONE;
 		current = Types.NONE;
+		photocell = -1;
 	}
 
 	public bool ShouldBeChanged()
@@ -858,6 +866,11 @@ public class RunChangeImage
 	public Types Current {
 		get { return current; }
 		set { current = value; }
+	}
+
+	public int Photocell {
+		get { return photocell; }
+		set { photocell = value; }
 	}
 
 }

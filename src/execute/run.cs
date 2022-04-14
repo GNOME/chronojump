@@ -354,10 +354,11 @@ LogB.Information("going to call photocellWirelessCapture.CaptureStart ()");
 
 					photocell = pwe.photocell;
 
+					/*
 					//to debug photocell assignement on Wichro.
 					Random randDelete = new Random();
 					photocell = randDelete.Next(0,10);
-
+					*/
 
 					timestamp = pwe.timeMs - timestampAccumulated; //photocell does not send splittime, sends absolute time
 					timestampAccumulated += timestamp;

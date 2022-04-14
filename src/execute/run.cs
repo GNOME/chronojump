@@ -427,7 +427,7 @@ LogB.Information("going to call photocellWirelessCapture.CaptureStart ()");
 						//prevent double contact stuff
 						if(runDC.UseDoubleContacts())
 						{
-							runDC.DoneTF (timestamp);
+							runDC.DoneTF (timestamp, photocell);
 							timerLastTf = DateTime.Now;
 							needCheckIfTrackEnded = true;
 						} else
@@ -475,7 +475,7 @@ LogB.Information("going to call photocellWirelessCapture.CaptureStart ()");
 						 * other double contacts that will come just after
 						 * depending on biggest tc
 						 */
-						runDC.DoneTC(timestamp, false);
+						runDC.DoneTC(timestamp, false, photocell);
 						runPTL.AddTC(photocell, timestamp);
 
 						feedbackMessage = "";
@@ -491,7 +491,7 @@ LogB.Information("going to call photocellWirelessCapture.CaptureStart ()");
 							lastTc = timestamp / 1000.0;
 							runEI.ChangePhase(photocell, RunExecuteInspector.Phases.OUT,
 								string.Format("SpeedStartArrival, tc = {0}", Math.Round(lastTc, 3)));
-							runDC.DoneTC(timestamp, true);
+							runDC.DoneTC(timestamp, true, photocell);
 							runPTL.AddTC(photocell, timestamp);
 						}
 
@@ -502,7 +502,7 @@ LogB.Information("going to call photocellWirelessCapture.CaptureStart ()");
 								string.Format("SpeedStartArrival, timestamp = {0}", timestamp));
 
 						if(runDC.UseDoubleContacts())
-							runDC.DoneTC(timestamp, true);
+							runDC.DoneTC(timestamp, true, photocell);
 						else
 							lastTc = timestamp / 1000.0;
 
@@ -691,6 +691,7 @@ LogB.Information("going to call photocellWirelessCapture.CaptureStart ()");
 			}
 
 			trackTime = runDC.GetTrackTimeInSecondsAndUpdateStartPos(); //will come in seconds
+			LogB.Information("WWWWW photocell is: " + runDC.GetPhotocellAtStartPos());
 			runDC.FirstTrackDone = true;
 		}
 		else {

@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2018  Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2022  Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -30,12 +30,14 @@ public class RunPhaseInfo
 	public Types type;
 	public double startMSInSequence; //unused right now
 	public double duration;
+	public int photocell; //for Wichro (non Wichro will be -1)
 
-	public RunPhaseInfo (Types type, double startMSInSequence, double duration)
+	public RunPhaseInfo (Types type, double startMSInSequence, double duration, int photocell)
 	{
 		this.type = type;
 		this.startMSInSequence = startMSInSequence;
 		this.duration = duration;
+		this.photocell = photocell;
 	}
 
 	public bool IsContact()
@@ -49,8 +51,8 @@ public class RunPhaseInfo
 
 	public override string ToString()
 	{
-		return string.Format("type: {0}, startMSInSequence: {1}, duration: {2}",
-				type, startMSInSequence, duration);
+		return string.Format("photocell: {0}, type: {1}, startMSInSequence: {2}, duration: {3}",
+				photocell, type, startMSInSequence, duration);
 	}
 
 }
@@ -64,6 +66,7 @@ public class RunPhaseInfoManage
 	//TCs and TFs before startPos have been added as tracks
 	//do not count again in track operations
 	private int startPos;
+//	private int startPosPhotocell; //photocell at startPos
 
 	public RunPhaseInfoManage (int checkTime)
 	{
@@ -71,6 +74,7 @@ public class RunPhaseInfoManage
 
 		list = new List<RunPhaseInfo>();
 		startPos = 0;
+//		startPosPhotocell = -1;
 		TrackDoneHasToBeCalledAgain = false;
 	}
 
@@ -306,6 +310,14 @@ public class RunPhaseInfoManage
 		startPos = bigTCPosition;
 	}
 
+	public int GetPhotocellAtStartPos ()
+	{
+		if(startPos >= list.Count)
+			return -1;
+
+		return ((RunPhaseInfo) list[startPos]).photocell;
+	}
+
 	public string PrintList()
 	{
 		string str = "\n";
@@ -406,25 +418,25 @@ public class RunDoubleContact
 		return (mode != Constants.DoubleContact.NONE);
 	}
 
-	public void DoneTC (double timestamp, bool timeStarted)
+	public void DoneTC (double timestamp, bool timeStarted, int photocell)
 	{
 		LogB.Information("DONETC timestamp: " + timestamp + timestamp.ToString());
 		lastTc = timestamp;
-		listCaptureThread.Add(new RunPhaseInfo(RunPhaseInfo.Types.CONTACT, timeAcumulated, timestamp));
+		listCaptureThread.Add(new RunPhaseInfo(RunPhaseInfo.Types.CONTACT, timeAcumulated, timestamp, photocell));
 		if(timeStarted)
 			timeAcumulated += timestamp;
 
 		LogB.Information(string.Format("DoneTC -> lastTc: {0}", lastTc));
 	}
 
-	public void DoneTF (double timestamp)
+	public void DoneTF (double timestamp, int photocell)
 	{
 		LogB.Information("DONETF timestamp: " + timestamp + timestamp.ToString());
 		LogB.Information(string.Format(
 					"lastTc + timestamp <= checkTime ?, lastTc: {0}; timestamp: {1}; checkTime: {2}",
 					lastTc, timestamp, checkTime));
 
-		listCaptureThread.Add(new RunPhaseInfo(RunPhaseInfo.Types.FLIGHT, timeAcumulated, timestamp));
+		listCaptureThread.Add(new RunPhaseInfo(RunPhaseInfo.Types.FLIGHT, timeAcumulated, timestamp, photocell));
 		timeAcumulated += timestamp;
 	}
 
@@ -484,6 +496,11 @@ public class RunDoubleContact
 		rpim.UpdateStartPos(newPos);
 	}
 
+	public int GetPhotocellAtStartPos () //TODO; or maybe before
+	{
+		return rpim.GetPhotocellAtStartPos();
+	}
+
 	/*
 	 * <---------------------- end of called by GTK thread --------------
 	 */
@@ -494,7 +511,7 @@ public class RunDoubleContact
 	{
 		int bigTCPosition = GetPosOfBiggestTC(true);
 		double sum = rpim.SumUntilPos(bigTCPosition, FirstTrackDone, SpeedStart, speedStartArrival);
-		LogB.Information(string.Format("trackDoing getDBBiggestTC bigTCPosition: {0}, Sum: {1}", bigTCPosition, sum));
+		LogB.Information(string.Format("trackDoing getDCBiggestTC bigTCPosition: {0}, Sum: {1}", bigTCPosition, sum));
 
 		//fix problem of a tc + tf lower than checkTime
 		if(sum < checkTime)

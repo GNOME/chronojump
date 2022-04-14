@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2017   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2004-2022   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -52,11 +52,12 @@ class SqliteRunInterval : SqliteRun
 			"limited TEXT, " +
 			"simulated INT, " +
 			"initialSpeed INT, " +
-			"datetime TEXT )";
+			"datetime TEXT, " +
+			"photocellStr TEXT )";
 		dbcmd.ExecuteNonQuery();
 	}
 
-	public static int Insert(bool dbconOpened, string tableName, string uniqueID, int personID, int sessionID, string type, double distanceTotal, double timeTotal, double distanceInterval, string intervalTimesString, double tracks, string description, string limited, int simulated, bool initialSpeed, string datetime)
+	public static int Insert(bool dbconOpened, string tableName, string uniqueID, int personID, int sessionID, string type, double distanceTotal, double timeTotal, double distanceInterval, string intervalTimesString, double tracks, string description, string limited, int simulated, bool initialSpeed, string datetime, List<int> photocell_l)
 	{
 		if(! dbconOpened)
 			Sqlite.Open();
@@ -65,7 +66,7 @@ class SqliteRunInterval : SqliteRun
 			uniqueID = "NULL";
 
 		dbcmd.CommandText = "INSERT INTO "+ tableName + 
-				" (uniqueID, personID, sessionID, type, distanceTotal, timeTotal, distanceInterval, intervalTimesString, tracks, description, limited, simulated, initialSpeed, datetime)" +
+				" (uniqueID, personID, sessionID, type, distanceTotal, timeTotal, distanceInterval, intervalTimesString, tracks, description, limited, simulated, initialSpeed, datetime, photocellStr)" +
 				"VALUES (" + uniqueID + ", " +
 				personID + ", " + sessionID + ", \"" + type + "\", " +
 				Util.ConvertToPoint(distanceTotal) + ", " + 
@@ -75,7 +76,8 @@ class SqliteRunInterval : SqliteRun
 				Util.ConvertToPoint(tracks) + ", \"" + 
 				description + "\", \"" + limited + "\", " + simulated + ", " +
 				Util.BoolToInt(initialSpeed) + ", \"" +
-				datetime + "\")";
+				datetime + "\", \"" +
+				Util.ListIntToSQLString (photocell_l, ";") + "\")";
 				
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
@@ -130,7 +132,8 @@ class SqliteRunInterval : SqliteRun
 					reader[11].ToString(), 	//limited
 					Convert.ToInt32(reader[12].ToString()),	//simulated
 					Util.IntToBool(Convert.ToInt32(reader[13])), //initialSpeed
-					reader[14].ToString() 		//datetime
+					reader[14].ToString(), 		//datetime
+					Util.SQLStringToListInt(reader[15].ToString(), ";")
 					);
 
 			//runs previous to DB 2.13 have no datetime on run
@@ -204,7 +207,8 @@ class SqliteRunInterval : SqliteRun
 					reader[11].ToString() + ":" +  	//limited
 					reader[12].ToString() + ":" +	//simulated
 					Util.IntToBool(Convert.ToInt32(reader[13])) + ":" + //initialSpeed
-					reader[14].ToString() 		//datetime
+					reader[14].ToString() + ":" + 		//datetime
+					Util.SQLStringToListInt(reader[15].ToString(), ";")
 					);
 			count ++;
 		}
@@ -246,9 +250,9 @@ class SqliteRunInterval : SqliteRun
 		reader = dbcmd.ExecuteReader();
 		reader.Read();
 
-		RunInterval myRun = new RunInterval(DataReaderToStringArray(reader, 14));
+		RunInterval myRun = new RunInterval(DataReaderToStringArray(reader, 15));
 		if(personNameInComment)
-			myRun.Description = reader[14].ToString(); //person.Name
+			myRun.Description = reader[15].ToString(); //person.Name
 
 		reader.Close();
 		if(!dbconOpened)

@@ -527,8 +527,7 @@ public partial class ChronoJumpWindow
 						selectedRunInterval.DistanceTotal, //TODO: take care, maybe is not this distance (maybe use selectedRunIntervalType)
 						selectedRunInterval.TimeLast, selectedRunInterval.IntervalTimesString,
 						selectedRunInterval.DistanceTotal, selectedRunIntervalType.DistancesString,
-						new List<int>(), //photocell_l (only at realtime graph)
-						//new List<int> {2,2,3,4}, //photocell_l (only at realtime graph)
+						selectedRunInterval.Photocell_l,
 						selectedRunInterval.Type, selectedRunInterval.Description); //Description is person.Name
 		}
 	}

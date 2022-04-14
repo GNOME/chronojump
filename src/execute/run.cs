@@ -1350,7 +1350,8 @@ public class RunIntervalExecute : RunExecute
 					limitString,
 					Util.BoolToNegativeInt(simulated),
 					!startIn,	//initialSpeed true if not startIn
-					datetime
+					datetime,
+					photocell_l
 					);
 		else {
 			uniqueID = SqliteRunInterval.Insert(false, Constants.RunIntervalTable, "NULL", personID, sessionID, type, 
@@ -1360,12 +1361,13 @@ public class RunIntervalExecute : RunExecute
 					limitString,
 					Util.BoolToNegativeInt(simulated),
 					!startIn,
-					datetime
+					datetime,
+					photocell_l
 					);
 
 			//define the created object
 			eventDone = new RunInterval(uniqueID, personID, sessionID, type, distanceTotal, timeTotal, distanceInterval, intervalTimesString,
-					tracksHere, description, limitString, Util.BoolToNegativeInt(simulated), !startIn, datetime); 
+					tracksHere, description, limitString, Util.BoolToNegativeInt(simulated), !startIn, datetime, photocell_l);
 
 			/*
 			string tempValuesString;

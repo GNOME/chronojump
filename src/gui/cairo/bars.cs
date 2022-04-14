@@ -1203,7 +1203,7 @@ public class CairoBars1Series : CairoBars
 			resultOnBars_l.Add(new Point3F(x + barWidth/2, y, p.Y));
 			mouseLimits.AddInPos (i, x, x+barWidth);
 
-			if (inBarNums_l.Count > 0 && inBarNums_l.Count > i)
+			if (inBarNums_l.Count > 0 && inBarNums_l.Count > i && inBarNums_l[i] >= 0) //not show the non-Wichro -1s
 				printTextInBar(x +barWidth/2, graphHeight -bottomMargin -10,
 						0, textHeight+2, inBarNums_l[i].ToString(), g, true);
 

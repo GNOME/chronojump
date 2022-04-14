@@ -131,7 +131,7 @@ class Sqlite
 	/*
 	 * Important, change this if there's any update to database
 	 */
-	static string lastChronojumpDatabaseVersion = "2.37";
+	static string lastChronojumpDatabaseVersion = "2.38";
 
 	public Sqlite()
 	{
@@ -3239,6 +3239,21 @@ class Sqlite
 
 				currentVersion = updateVersion("2.37");
 			}
+			if(currentVersion == "2.37")
+			{
+				LogB.SQL("Doing alter table runInterval, tempRunInterval add photocellStr");
+				try {
+					//sqlite does not have drop column
+					executeSQL("ALTER TABLE " + Constants.RunIntervalTable + " ADD COLUMN photocellStr TEXT;");
+					executeSQL("ALTER TABLE " + Constants.TempRunIntervalTable + " ADD COLUMN photocellStr TEXT;");
+				} catch {
+					LogB.SQL("Catched at Doing alter table runInterval, tempRunInterval add photocellStr.");
+
+				}
+				LogB.SQL("Done!");
+
+				currentVersion = updateVersion("2.38");
+			}
 
 			/*
 			if(currentVersion == "1.79")
@@ -3460,6 +3475,7 @@ class Sqlite
 		//changes [from - to - desc]
 //just testing: 1.79 - 1.80 Converted DB to 1.80 Created table ForceSensorElasticBandGlue and moved stiffnessString records there
 
+		//2.37 - 2.38 Converted DB to 2.38 Doing alter table runInterval, tempRunInterval add photocellStr
 		//2.36 - 2.37 Converted DB to 2.37 Doing ALTER TABLE encoder add repCriteria.
 		//2.35 - 2.36 Converted DB to 2.36 Inserted into preferences: encoderRepetitionCriteriaGravitatory, encoderRepetitionCriteriaInertial
 		//2.34 - 2.35 Converted DB to 2.35 Ensure maxForceRAW is converted to maxForceRaw

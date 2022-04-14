@@ -72,6 +72,7 @@ public class RunExecute : EventExecute
 	protected static RunChangeImage runChangeImage;
 	protected static bool success;
 	protected RunExecuteInspector.Types runEIType;
+	protected static List<int> photocell_l; //for Wichro
 
 	protected Gtk.Image image_run_execute_running;
 	protected Gtk.Image image_run_execute_photocell_icon;
@@ -141,6 +142,7 @@ public class RunExecute : EventExecute
 		needCallTrackDone = false;
 		needCheckIfTrackEnded = false;
 		runEIType = RunExecuteInspector.Types.RUN_SIMPLE;
+		photocell_l = new List<int>();
 		
 		//initialize eventDone as a Run	
 		eventDone = new Run();
@@ -349,7 +351,14 @@ LogB.Information("going to call photocellWirelessCapture.CaptureStart ()");
 					LogB.Information("waitEvent 3");
 					PhotocellWirelessEvent pwe = photocellWirelessCapture.PhotocellWirelessCaptureReadNext();
 					LogB.Information("wait_event pwe: " + pwe.ToString());
+
 					photocell = pwe.photocell;
+
+					//to debug photocell assignement on Wichro.
+					Random randDelete = new Random();
+					photocell = randDelete.Next(0,10);
+
+
 					timestamp = pwe.timeMs - timestampAccumulated; //photocell does not send splittime, sends absolute time
 					timestampAccumulated += timestamp;
 
@@ -691,7 +700,9 @@ LogB.Information("going to call photocellWirelessCapture.CaptureStart ()");
 			}
 
 			trackTime = runDC.GetTrackTimeInSecondsAndUpdateStartPos(); //will come in seconds
-			LogB.Information("WWWWW photocell is: " + runDC.GetPhotocellAtStartPos());
+			LogB.Information("Wichro photocell is: " + runDC.GetPhotocellAtStartPos());
+			photocell_l.Add(runDC.GetPhotocellAtStartPos());
+
 			runDC.FirstTrackDone = true;
 		}
 		else {
@@ -843,7 +854,7 @@ LogB.Information("going to call photocellWirelessCapture.CaptureStart ()");
 				!startIn,	//initialSpeed true if not startIn
 				datetime
 				); 
-		
+
 		//define the created object
 		eventDone = new Run(uniqueID, personID, sessionID, type, distance, trackTime, description,
 				Util.BoolToNegativeInt(simulated), !startIn, datetime);
@@ -1009,6 +1020,8 @@ public class RunIntervalExecute : RunExecute
 		//countForSavingTempTable = 0;
 		finishByTimeReturnedTrueAtThisCapture = false;
 
+		photocell_l = new List<int>();
+
 		//initialize eventDone as a RunInterval
 		eventDone = new RunInterval();
 	}
@@ -1133,7 +1146,7 @@ public class RunIntervalExecute : RunExecute
 		//update graph
 		PrepareEventGraphRunIntervalRealtimeCaptureObject = new PrepareEventGraphRunIntervalRealtimeCapture (
 				type, distanceIntervalFixed, trackTime, intervalTimesString,
-				distanceTotal, distancesString, startIn, success);
+				distanceTotal, distancesString, photocell_l, startIn, success);
 
 		needUpdateGraphType = eventType.RUNINTERVAL;
 		needUpdateGraph = true;
@@ -1376,7 +1389,7 @@ public class RunIntervalExecute : RunExecute
 
 			PrepareEventGraphRunIntervalRealtimeCaptureObject = new PrepareEventGraphRunIntervalRealtimeCapture (
 					type, distanceIntervalFixed, trackTime, intervalTimesString,
-					distanceTotal, distancesString, startIn, true);
+					distanceTotal, distancesString, photocell_l, startIn, true);
 
 			needUpdateGraphType = eventType.RUNINTERVAL;
 			needUpdateGraph = true;

@@ -94,6 +94,7 @@ public abstract class CairoBars : CairoGeneric
 	protected string yVariable = "Height";
 	protected string xUnits = "";
 	protected string yUnits = "cm";
+	protected List<int> inBarNums_l; //used on Wichro to identify photocells
 
 	//used when there are two series (for legend)
 	protected string variableSerieA = "";
@@ -111,6 +112,7 @@ public abstract class CairoBars : CairoGeneric
 		initGraph(font, 1); //.8 if writeTextAtRight
 		barsXCenter_l = new List<double>();
 		resultOnBars_l = new List<Point3F>();
+		inBarNums_l = new List<int>();
 		encoderTitle = false;
 	}
 
@@ -1036,6 +1038,10 @@ public abstract class CairoBars : CairoGeneric
 		set { yUnits = value; }
 	}
 
+	public List<int> InBarNums_l {
+		set { inBarNums_l = value; }
+	}
+
 	//for CairoBarsNHSeries (legend)
 	public string VariableSerieA {
 		set { variableSerieA = value; }
@@ -1173,6 +1179,11 @@ public class CairoBars1Series : CairoBars
 		resultFontHeight = getBarsResultFontHeight (barWidth*1.20); //*1.2 because there is space at left and right
 		LogB.Information("resultFontHeight: " + resultFontHeight.ToString());
 
+		//debug
+		LogB.Information("inBarNums_l:");
+		for(int j=0; j < inBarNums_l.Count; j ++)
+			LogB.Information(inBarNums_l[j].ToString());
+
 		for(int i = 0; i < barMain_l.Count; i ++)
 		{
 			PointF p = barMain_l[i];
@@ -1191,6 +1202,10 @@ public class CairoBars1Series : CairoBars
 			drawRoundedRectangle (true, x, y, barWidth, graphHeight -y -bottomMargin, 4, g, barColor);
 			resultOnBars_l.Add(new Point3F(x + barWidth/2, y, p.Y));
 			mouseLimits.AddInPos (i, x, x+barWidth);
+
+			if (inBarNums_l.Count > 0 && inBarNums_l.Count > i)
+				printTextInBar(x +barWidth/2, graphHeight -bottomMargin -10,
+						0, textHeight+2, inBarNums_l[i].ToString(), g, true);
 
 			//print the type at bottom
 			//printTextMultiline (x + barWidth/2, graphHeight -bottomMargin + fontHeightForBottomNames/2, 0, fontHeightForBottomNames,

@@ -1897,11 +1897,11 @@ public partial class ChronoJumpWindow
 		}
 
 		blankRunIntervalRealtimeCaptureGraph ();
-		//PrepareRunIntervalRealtimeCaptureGraph (double distance, double lastTime, string timesString, double distanceTotal, string distancesString, string type)
 		PrepareRunIntervalRealtimeCaptureGraph (
 				selectedRunInterval.DistanceTotal, //TODO: take care, maybe is not this distance (maybe use selectedRunIntervalType)
 				selectedRunInterval.TimeLast, selectedRunInterval.IntervalTimesString,
 				selectedRunInterval.DistanceTotal, selectedRunIntervalType.DistancesString,
+				new List<int>(), //photocell_l (only at realtime graph)
 				selectedRunInterval.Type, selectedRunInterval.Description); //Description is personName
 	}
 

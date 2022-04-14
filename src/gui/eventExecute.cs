@@ -518,6 +518,7 @@ public partial class ChronoJumpWindow
 							currentEventExecute.PrepareEventGraphRunIntervalRealtimeCaptureObject.timesString,
 							currentEventExecute.PrepareEventGraphRunIntervalRealtimeCaptureObject.distanceTotal,
 							currentEventExecute.PrepareEventGraphRunIntervalRealtimeCaptureObject.distancesString,
+							currentEventExecute.PrepareEventGraphRunIntervalRealtimeCaptureObject.photocell_l,
 							currentEventExecute.PrepareEventGraphRunIntervalRealtimeCaptureObject.type,
 							currentPerson.Name);
 			}
@@ -526,6 +527,8 @@ public partial class ChronoJumpWindow
 						selectedRunInterval.DistanceTotal, //TODO: take care, maybe is not this distance (maybe use selectedRunIntervalType)
 						selectedRunInterval.TimeLast, selectedRunInterval.IntervalTimesString,
 						selectedRunInterval.DistanceTotal, selectedRunIntervalType.DistancesString,
+						new List<int>(), //photocell_l (only at realtime graph)
+						//new List<int> {2,2,3,4}, //photocell_l (only at realtime graph)
 						selectedRunInterval.Type, selectedRunInterval.Description); //Description is person.Name
 		}
 	}
@@ -799,7 +802,7 @@ public partial class ChronoJumpWindow
 	}
 
 	public void PrepareRunIntervalRealtimeCaptureGraph (double lastDistance, double lastTime, string timesString, double distanceTotal,
-			string distancesString, string type, string personName)
+			string distancesString, List<int> photocell_l, string type, string personName)
 	{
 		if(currentPerson == null)
 			return;
@@ -816,7 +819,7 @@ public partial class ChronoJumpWindow
 				personName, type, preferences.digitsNumber,// preferences.heightPreferred,
 				check_runI_realtime_rel_abs.Active, lastDistance,
 				//lastTime,
-				timesString, distancesString, isLastCaptured);
+				timesString, distancesString, photocell_l, isLastCaptured);
 
 		// B) Paint cairo graph
 		//cairoPaintBarsPreRealTime.UseHeights = useHeights;
@@ -1870,7 +1873,7 @@ public partial class ChronoJumpWindow
 				break;
 			case EventType.Types.RUN:
 				if(thisRunIsSimple)
-					PrepareRunSimpleGraph(currentEventExecute.PrepareEventGraphRunSimpleObject, animate);
+					PrepareRunSimpleGraph(currentEventExecute.PrepareEventGraphRunSimpleObject, animate); //add here the photocells string on wichro (-1 strings on ! wichro)
 				else {
 					/*
 					bool volumeOnHere = preferences.volumeOn;
@@ -1885,6 +1888,7 @@ public partial class ChronoJumpWindow
 							currentEventExecute.PrepareEventGraphRunIntervalRealtimeCaptureObject.timesString,
 							currentEventExecute.PrepareEventGraphRunIntervalRealtimeCaptureObject.distanceTotal,
 							currentEventExecute.PrepareEventGraphRunIntervalRealtimeCaptureObject.distancesString,
+							currentEventExecute.PrepareEventGraphRunIntervalRealtimeCaptureObject.photocell_l,
 							currentEventExecute.PrepareEventGraphRunIntervalRealtimeCaptureObject.type,
 							currentPerson.Name);
 				}
@@ -3151,6 +3155,7 @@ public class CairoPaintBarsPreRunIntervalRealtimeCapture : CairoPaintBarsPre
 	private List<double> distance_l;
 	private List<double> time_l;
 	private List<double> speed_l;
+	private List<int> photocell_l;
 
 	//just blank the screen
 	public CairoPaintBarsPreRunIntervalRealtimeCapture (DrawingArea darea, string fontStr)
@@ -3162,7 +3167,8 @@ public class CairoPaintBarsPreRunIntervalRealtimeCapture : CairoPaintBarsPre
 			Constants.Modes mode, string personName, string testName, int pDN,// bool heightPreferred,
 			bool isRelative,
 			double lastDistance,
-			string timesString, string distancesString, bool isLastCaptured)
+			string timesString, string distancesString,
+			List<int> photocell_l, bool isLastCaptured)
 	{
 		initialize (darea, fontStr, mode, personName, testName, pDN);
 		if(isLastCaptured)
@@ -3175,6 +3181,7 @@ public class CairoPaintBarsPreRunIntervalRealtimeCapture : CairoPaintBarsPre
 		distance_l = new List<double>();
 		time_l = new List<double>();
 		speed_l = new List<double>();
+		this.photocell_l = photocell_l;
 
 		string [] timeFull = timesString.Split(new char[] {'='});
 		int count = 0;
@@ -3305,6 +3312,8 @@ public class CairoPaintBarsPreRunIntervalRealtimeCapture : CairoPaintBarsPre
 					max,
 					sum / speed_l.Count,
 					min));
+		if(photocell_l.Count > 0)
+			cb.InBarNums_l = photocell_l;
 
 		cb.PassData1Serie (point_l,
 				new List<Cairo.Color>(), names_l,

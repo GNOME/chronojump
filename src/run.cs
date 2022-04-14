@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Copyright (C) 2004-2021   Xavier de Blas <xaviblas@gmail.com>
+ *  Copyright (C) 2004-2022   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -155,13 +155,14 @@ public class RunInterval : Run
 	string intervalTimesString;
 	double tracks; //double because if we limit by time (runType tracksLimited false), we do n.nn tracks
 	string limited; //the teorically values, eleven runs: "11=R" (time recorded in "time"), 10 seconds: "10=T" (tracks recorded in tracks)
+	private List<int> photocell_l;
 	
 
 	public RunInterval() {
 	}
 	
 	//after inserting database (SQL)
-	public RunInterval(int uniqueID, int personID, int sessionID, string type, double distanceTotal, double timeTotal, double distanceInterval, string intervalTimesString, double tracks, string description, string limited, int simulated, bool initialSpeed, string datetime)
+	public RunInterval(int uniqueID, int personID, int sessionID, string type, double distanceTotal, double timeTotal, double distanceInterval, string intervalTimesString, double tracks, string description, string limited, int simulated, bool initialSpeed, string datetime, List<int> photocell_l)
 	{
 		this.uniqueID = uniqueID;
 		this.personID = personID;
@@ -177,6 +178,7 @@ public class RunInterval : Run
 		this.simulated = simulated;
 		this.initialSpeed = initialSpeed;
 		this.datetime = datetime;
+		this.photocell_l = photocell_l;
 	}
 
 	//used to select a run at SqliteRun.SelectIntervalRunData and at Sqlite.convertTables
@@ -196,6 +198,7 @@ public class RunInterval : Run
 		this.simulated = Convert.ToInt32(eventString[11]);
 		this.initialSpeed = Util.IntToBool(Convert.ToInt32(eventString[12]));
 		this.datetime = eventString[13];
+		this.photocell_l = Util.SQLStringToListInt(eventString[14], ";");
 	}
 
 	public static List<Event> RunIntervalListToEventList(List<RunInterval> runsI)
@@ -215,7 +218,7 @@ public class RunInterval : Run
 				type, distanceTotal, timeTotal, 
 				distanceInterval, intervalTimesString,
 				tracks, description, 
-				limited, simulated, initialSpeed, datetime);
+				limited, simulated, initialSpeed, datetime, photocell_l);
 	}
 
 	//this discards RSA
@@ -343,8 +346,17 @@ public class RunInterval : Run
 			*/
 		}
 	}
-	
-		
+
+	public List<int> Photocell_l
+	{
+		get { return photocell_l; }
+	}
+	/*
+	public string Photocell_l_str
+	{
+		get { return Util.ListIntToSQLString (photocell_l, ";"); }
+	}
+	*/
 		
 	~RunInterval() {}
 }

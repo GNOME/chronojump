@@ -6,8 +6,8 @@
 msgid ""
 msgstr "Project-Id-Version: chronojump master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/chronojump/issues\n"
-"POT-Creation-Date: 2022-03-17 12:06+0000\n"
-"PO-Revision-Date: 2022-03-26 10:00+0100\n"
+"POT-Creation-Date: 2022-04-04 10:19+0000\n"
+"PO-Revision-Date: 2022-04-18 10:00+0100\n"
 "Last-Translator: Asier Sarasua Garmendia <asiersarasua@ni.eus>\n"
 "Language-Team: Basque <librezale@librezale.eus>\n"
 "Language: eu\n"
@@ -24,7 +24,7 @@ msgid "Chronojump"
 msgstr "Chronojump"
 
 #: ../glade/app1.glade.h:2 ../glade/report_window.glade.h:9
-#: ../src/exportSession.cs:209 ../src/gui/app1/encoder.cs:5602
+#: ../src/exportSession.cs:209 ../src/gui/app1/encoder.cs:5610
 #: ../src/gui/app1/forceSensor.cs:3513 ../src/gui/app1/runEncoder.cs:2168
 #: ../src/gui/app1/session/backup.cs:146 ../src/report.cs:141
 msgid "Session"
@@ -60,7 +60,7 @@ msgid "New"
 msgstr "Berria"
 
 #: ../glade/app1.glade.h:10 ../glade/person_recuperate.glade.h:7
-#: ../src/gui/app1/encoder.cs:1756 ../src/gui/app1/forceSensor.cs:2197
+#: ../src/gui/app1/encoder.cs:1762 ../src/gui/app1/forceSensor.cs:2197
 #: ../src/gui/app1/forceSensor.cs:2227 ../src/gui/app1/runEncoder.cs:953
 #: ../src/gui/app1/runEncoder.cs:983 ../src/gui/person/addMultiple.cs:248
 msgid "Load"
@@ -143,7 +143,7 @@ msgstr "Gelditu"
 
 #: ../glade/app1.glade.h:28 ../glade/dialog_threshold.glade.h:3
 #: ../glade/preferences_win.glade.h:39 ../glade/report_window.glade.h:10
-#: ../src/exportSession.cs:434 ../src/gui/app1/chronojump.cs:5233
+#: ../src/exportSession.cs:434 ../src/gui/app1/chronojump.cs:5235
 #: ../src/gui/jump.cs:1283 ../src/gui/jump.cs:1338 ../src/gui/jump.cs:1388
 #: ../src/sqlite/speciallity.cs:174 ../src/stats/rjAVGSD.cs:36
 #: ../src/stats/rjPotencyBosco.cs:35
@@ -156,7 +156,7 @@ msgid "Races"
 msgstr "Lasterketak"
 
 #: ../glade/app1.glade.h:30 ../glade/preferences_win.glade.h:114
-#: ../src/chronopicRegister.cs:79 ../src/gui/app1/chronojump.cs:2969
+#: ../src/chronopicRegister.cs:79 ../src/gui/app1/chronojump.cs:2971
 #: ../src/gui/app1/session/loadAndImport.cs:305
 #: ../src/gui/person/showAllEvents.cs:173
 msgid "Force sensor"
@@ -167,20 +167,19 @@ msgstr "Indarraren sentsorea"
 msgid "Encoder"
 msgstr "Kodetzailea"
 
-#: ../glade/app1.glade.h:32 ../src/gui/app1/chronojump.cs:2971
+#: ../glade/app1.glade.h:32 ../src/gui/app1/chronojump.cs:2973
 #: ../src/gui/app1/reactionTime.cs:56
 msgid "Reaction time"
 msgstr "Erreakzio-denbora"
 
 #: ../glade/app1.glade.h:33 ../glade/event_graph_configure.glade.h:10
 #: ../glade/force_sensor_exercise.glade.h:26 ../glade/report_window.glade.h:14
-#: ../src/constants.cs:308 ../src/gui/app1/chronojump.cs:2973
+#: ../src/constants.cs:308 ../src/gui/app1/chronojump.cs:2975
 msgid "Other"
 msgstr "Bestelakoa"
 
 #: ../glade/app1.glade.h:34 ../glade/execute_auto.glade.h:4
-#: ../glade/preferences_win.glade.h:173
-#: ../glade/repetitive_conditions.glade.h:50
+#: ../glade/feedback.glade.h:50 ../glade/preferences_win.glade.h:173
 msgid "page 1"
 msgstr "1. orrialdea"
 
@@ -249,8 +248,7 @@ msgid "Back"
 msgstr "Atzera"
 
 #: ../glade/app1.glade.h:50 ../glade/execute_auto.glade.h:15
-#: ../glade/preferences_win.glade.h:176
-#: ../glade/repetitive_conditions.glade.h:51
+#: ../glade/feedback.glade.h:51 ../glade/preferences_win.glade.h:176
 msgid "page 2"
 msgstr "2. orrialdea"
 
@@ -266,7 +264,7 @@ msgid "Analyze"
 msgstr "Analizatu"
 
 #: ../glade/app1.glade.h:53 ../glade/report_window.glade.h:16
-#: ../src/exportSession.cs:227 ../src/gui/app1/chronojump.cs:5912
+#: ../src/exportSession.cs:227 ../src/gui/app1/chronojump.cs:5914
 #: ../src/gui/person/showAllEvents.cs:169 ../src/report.cs:184
 msgid "Pulses"
 msgstr "Pultsuak"
@@ -278,7 +276,7 @@ msgstr ""
 
 #. column where the uniqueID of event will be (and will be hidden)
 #: ../glade/app1.glade.h:55 ../glade/edit_event.glade.h:6
-#: ../src/gui/app1/encoder.cs:1188 ../src/gui/app1/encoder.cs:5601
+#: ../src/gui/app1/encoder.cs:1194 ../src/gui/app1/encoder.cs:5609
 #: ../src/gui/app1/forceSensor.cs:3512 ../src/gui/app1/runEncoder.cs:2167
 #: ../src/gui/executeAuto.cs:505 ../src/gui/overview.cs:98
 #: ../src/gui/overview.cs:277 ../src/gui/overview.cs:286
@@ -295,8 +293,8 @@ msgstr "Itxaron!"
 msgid "Configure exercise"
 msgstr "Konfiguratu ariketa"
 
-#: ../glade/app1.glade.h:58 ../src/gui/app1/encoder.cs:1189
-#: ../src/gui/app1/encoder.cs:1708 ../src/gui/app1/encoder.cs:5581
+#: ../glade/app1.glade.h:58 ../src/gui/app1/encoder.cs:1195
+#: ../src/gui/app1/encoder.cs:1714 ../src/gui/app1/encoder.cs:5589
 #: ../src/gui/app1/forceSensor.cs:2176 ../src/gui/app1/forceSensor.cs:3437
 #: ../src/gui/app1/forceSensor.cs:3447 ../src/gui/app1/runEncoder.cs:935
 #: ../src/gui/app1/runEncoder.cs:2147
@@ -306,7 +304,7 @@ msgstr "Konfiguratu ariketa"
 msgid "Exercise"
 msgstr "Ariketa"
 
-#: ../glade/app1.glade.h:59 ../src/gui/app1/chronojump.cs:4377
+#: ../glade/app1.glade.h:59 ../src/gui/app1/chronojump.cs:4379
 msgid "Connect"
 msgstr "Konektatu"
 
@@ -314,7 +312,7 @@ msgstr "Konektatu"
 msgid "Overview of this session"
 msgstr "Saio honen ikuspeki orokorra"
 
-#: ../glade/app1.glade.h:61 ../glade/repetitive_conditions.glade.h:14
+#: ../glade/app1.glade.h:61 ../glade/feedback.glade.h:14
 msgid "Feedback"
 msgstr ""
 
@@ -322,8 +320,8 @@ msgstr ""
 msgid "Delete last test."
 msgstr "Ezabatu azken proba."
 
-#: ../glade/app1.glade.h:63 ../src/gui/app1/chronojump.cs:4734
-#: ../src/gui/app1/encoder.cs:1348 ../src/gui/app1/encoder.cs:7382
+#: ../glade/app1.glade.h:63 ../src/gui/app1/chronojump.cs:4736
+#: ../src/gui/app1/encoder.cs:1354 ../src/gui/app1/encoder.cs:7442
 msgid "Save comment"
 msgstr "Gorde iruzkina"
 
@@ -378,7 +376,7 @@ msgstr "Utzi proba"
 #: ../glade/force_sensor_exercise.glade.h:31 ../glade/generic_window.glade.h:7
 #: ../glade/person_select_window.glade.h:11
 #: ../glade/preferences_win.glade.h:179 ../src/exportSession.cs:75
-#: ../src/gui/app1/encoder.cs:2344 ../src/gui/app1/encoder.cs:2623
+#: ../src/gui/app1/encoder.cs:2352 ../src/gui/app1/encoder.cs:2631
 #: ../src/gui/app1/session/backup.cs:67 ../src/gui/app1/session/backup.cs:207
 #: ../src/gui/app1/session/backup.cs:397 ../src/gui/app1/session/export.cs:64
 #: ../src/gui/encoderConfiguration.cs:689
@@ -387,8 +385,8 @@ msgstr "Utzi proba"
 msgid "Cancel"
 msgstr "Utzi"
 
-#: ../glade/app1.glade.h:76 ../src/gui/app1/chronojump.cs:4942
-#: ../src/gui/app1/chronojump.cs:5375 ../src/gui/app1/chronojump.cs:5736
+#: ../glade/app1.glade.h:76 ../src/gui/app1/chronojump.cs:4944
+#: ../src/gui/app1/chronojump.cs:5377 ../src/gui/app1/chronojump.cs:5738
 #: ../src/gui/app1/jump.cs:327 ../src/gui/app1/jump.cs:373
 #: ../src/gui/app1/reactionTime.cs:101 ../src/gui/app1/run.cs:190
 #: ../src/gui/app1/run.cs:244
@@ -400,8 +398,8 @@ msgstr "Faseak"
 #: ../src/exportSession.cs:600 ../src/exportSession.cs:756
 #: ../src/exportSession.cs:817 ../src/exportSession.cs:902
 #: ../src/forceSensor.cs:2643 ../src/gui/cairo/xy.cs:96
-#: ../src/gui/eventExecute.cs:2550 ../src/gui/eventExecute.cs:2674
-#: ../src/gui/eventExecute.cs:3055 ../src/gui/old/queryServer.cs:116
+#: ../src/gui/eventExecute.cs:2570 ../src/gui/eventExecute.cs:2699
+#: ../src/gui/eventExecute.cs:3085 ../src/gui/old/queryServer.cs:116
 #: ../src/gui/old/queryServer.cs:784 ../src/gui/pulse.cs:222
 #: ../src/stats/rjPotencyBosco.cs:36 ../src/stats/runSimple.cs:53
 #: ../src/treeview/multiChronopic.cs:55 ../src/treeview/multiChronopic.cs:63
@@ -507,7 +505,7 @@ msgstr "Uneko pertsona"
 msgid "All persons"
 msgstr "Pertsona guztiak"
 
-#: ../glade/app1.glade.h:101 ../src/gui/app1/encoder.cs:2185
+#: ../glade/app1.glade.h:101 ../src/gui/app1/encoder.cs:2193
 msgid "Save image"
 msgstr "Gorde irudia"
 
@@ -541,8 +539,8 @@ msgstr "Azken pultsua"
 #. don't plot AVG row on multisession
 #: ../glade/app1.glade.h:108 ../src/exportSession.cs:537
 #: ../src/exportSession.cs:704 ../src/exportSession.cs:822
-#: ../src/exportSession.cs:924 ../src/gui/eventExecute.cs:2676
-#: ../src/gui/eventExecute.cs:2677 ../src/stats/graphs/djIndex.cs:111
+#: ../src/exportSession.cs:924 ../src/gui/eventExecute.cs:2701
+#: ../src/gui/eventExecute.cs:2702 ../src/stats/graphs/djIndex.cs:111
 #: ../src/stats/graphs/djPower.cs:116 ../src/stats/graphs/djQ.cs:111
 #: ../src/stats/graphs/fv.cs:109 ../src/stats/graphs/fv.cs:149
 #: ../src/stats/graphs/global.cs:108 ../src/stats/graphs/global.cs:165
@@ -572,10 +570,10 @@ msgstr "Aldatu zooma (z)"
 msgid "Edit selected (e)"
 msgstr "Editatu hautatua (e)"
 
-#: ../glade/app1.glade.h:111 ../src/gui/app1/chronojump.cs:1595
-#: ../src/gui/app1/chronojump.cs:1713 ../src/gui/app1/chronojump.cs:1811
-#: ../src/gui/app1/chronojump.cs:1935 ../src/gui/app1/chronojump.cs:2026
-#: ../src/gui/app1/chronojump.cs:2125 ../src/gui/app1/chronojump.cs:2237
+#: ../glade/app1.glade.h:111 ../src/gui/app1/chronojump.cs:1597
+#: ../src/gui/app1/chronojump.cs:1715 ../src/gui/app1/chronojump.cs:1813
+#: ../src/gui/app1/chronojump.cs:1937 ../src/gui/app1/chronojump.cs:2028
+#: ../src/gui/app1/chronojump.cs:2127 ../src/gui/app1/chronojump.cs:2239
 #: ../src/gui/executeAuto.cs:238
 msgid "Delete selected"
 msgstr "Ezabatu hautapena"
@@ -683,7 +681,7 @@ msgstr "Editatu ariketa mota"
 #: ../glade/encoder_configuration.glade.h:31
 #: ../glade/force_sensor_elastic_bands.glade.h:11
 #: ../glade/generic_window.glade.h:9 ../glade/person_select_window.glade.h:16
-#: ../src/gui/app1/chronojump.cs:1442
+#: ../src/gui/app1/chronojump.cs:1444
 msgid "Edit"
 msgstr "Editatu"
 
@@ -765,7 +763,7 @@ msgid "Start outside"
 msgstr "Hasi kanpoan"
 
 #: ../glade/app1.glade.h:156 ../glade/edit_event.glade.h:3
-#: ../src/gui/eventExecute.cs:2546
+#: ../src/gui/eventExecute.cs:2566
 msgid "Falling height"
 msgstr ""
 
@@ -832,7 +830,7 @@ msgstr "Biak"
 #: ../glade/app1.glade.h:168 ../glade/edit_event.glade.h:8
 #: ../src/gui/jump.cs:1246 ../src/gui/run.cs:1141
 msgid "Limited by"
-msgstr ""
+msgstr "Muga:"
 
 #: ../glade/app1.glade.h:169
 msgid "Allow finish after time"
@@ -874,31 +872,30 @@ msgstr "Elastikoa"
 msgid "Lights"
 msgstr "Argiak"
 
-#: ../glade/app1.glade.h:177 ../src/gui/app1/chronojump.cs:5751
+#: ../glade/app1.glade.h:177 ../src/gui/app1/chronojump.cs:5753
 msgid "red"
 msgstr "gorria"
 
-#: ../glade/app1.glade.h:178 ../src/gui/app1/chronojump.cs:5755
+#: ../glade/app1.glade.h:178 ../src/gui/app1/chronojump.cs:5757
 msgid "yellow"
 msgstr "horia"
 
-#: ../glade/app1.glade.h:179 ../src/gui/app1/chronojump.cs:5759
+#: ../glade/app1.glade.h:179 ../src/gui/app1/chronojump.cs:5761
 msgid "green"
 msgstr "berdea"
 
-#: ../glade/app1.glade.h:180 ../src/gui/app1/chronojump.cs:5763
+#: ../glade/app1.glade.h:180 ../src/gui/app1/chronojump.cs:5765
 msgid "buzzer"
 msgstr ""
 
 #: ../glade/app1.glade.h:181 ../glade/event_graph_configure.glade.h:3
-#: ../glade/repetitive_conditions.glade.h:66
-#: ../src/gui/repetitiveConditions.cs:1021
+#: ../glade/feedback.glade.h:66 ../src/gui/feedback.cs:1021
 msgid "Minimum"
 msgstr "Gutxienekoa"
 
 #: ../glade/app1.glade.h:182 ../glade/event_graph_configure.glade.h:2
-#: ../glade/repetitive_conditions.glade.h:67 ../src/encoder.cs:2450
-#: ../src/forceSensor.cs:2709 ../src/gui/repetitiveConditions.cs:1021
+#: ../glade/feedback.glade.h:67 ../src/encoder.cs:2450
+#: ../src/forceSensor.cs:2709 ../src/gui/feedback.cs:1021
 msgid "Maximum"
 msgstr "Gehienekoa"
 
@@ -908,7 +905,7 @@ msgstr ""
 
 #. update the totaltime label
 #: ../glade/app1.glade.h:184 ../glade/edit_event.glade.h:18
-#: ../glade/repetitive_conditions.glade.h:45 ../src/gui/app1/jump.cs:411
+#: ../glade/feedback.glade.h:45 ../src/gui/app1/jump.cs:411
 #: ../src/gui/app1/run.cs:292 ../src/gui/jump.cs:631 ../src/gui/jump.cs:734
 #: ../src/gui/jump.cs:758 ../src/gui/jump.cs:892
 #: ../src/gui/old/queryServer.cs:785 ../src/gui/pulse.cs:175
@@ -1041,8 +1038,8 @@ msgstr "Gorde"
 #: ../glade/dialog_shortcuts.glade.h:27
 #: ../glade/force_sensor_elastic_bands.glade.h:13
 #: ../glade/person_select_window.glade.h:21
-#: ../glade/preferences_win.glade.h:175 ../src/gui/app1/encoder.cs:1234
-#: ../src/gui/app1/encoder.cs:1757 ../src/gui/app1/encoder.cs:5588
+#: ../glade/preferences_win.glade.h:175 ../src/gui/app1/encoder.cs:1240
+#: ../src/gui/app1/encoder.cs:1763 ../src/gui/app1/encoder.cs:5596
 #: ../src/gui/app1/forceSensor.cs:2228 ../src/gui/app1/forceSensor.cs:3499
 #: ../src/gui/app1/runEncoder.cs:984 ../src/gui/app1/runEncoder.cs:2154
 #: ../src/gui/app1/session/backup.cs:168 ../src/gui/app1/session/backup.cs:362
@@ -1142,7 +1139,7 @@ msgstr ""
 msgid "Current"
 msgstr "Unekoa"
 
-#: ../glade/app1.glade.h:229 ../src/gui/cairo/xy.cs:647
+#: ../glade/app1.glade.h:229 ../src/gui/cairo/xy.cs:649
 #: ../src/gui/genericWindow.cs:502 ../src/gui/genericWindow.cs:532
 #: ../src/gui/genericWindow.cs:538 ../src/gui/genericWindow.cs:882
 #: ../src/gui/person/recuperate.cs:317 ../src/gui/person/recuperate.cs:441
@@ -1236,10 +1233,10 @@ msgstr "Ikusi txostenen leihoa"
 msgid "Width"
 msgstr "Zabalera"
 
-#: ../glade/app1.glade.h:251 ../glade/preferences_win.glade.h:128
-#: ../glade/repetitive_conditions.glade.h:10 ../src/exportSession.cs:264
+#: ../glade/app1.glade.h:251 ../glade/feedback.glade.h:10
+#: ../glade/preferences_win.glade.h:128 ../src/exportSession.cs:264
 #: ../src/exportSession.cs:325 ../src/exportSession.cs:527
-#: ../src/gui/cairo/xy.cs:90 ../src/gui/eventExecute.cs:2542
+#: ../src/gui/cairo/xy.cs:90 ../src/gui/eventExecute.cs:2562
 #: ../src/stats/djIndex.cs:33 ../src/stats/djPower.cs:33 ../src/stats/djQ.cs:33
 #: ../src/stats/potency.cs:63 ../src/stats/sjCmjAbk.cs:53
 #: ../src/stats/sjCmjAbkPlus.cs:63 ../src/treeview/jump.cs:33
@@ -1251,7 +1248,7 @@ msgstr "Altuera"
 msgid "Width of the line"
 msgstr "Lerro-zabalera"
 
-#: ../glade/app1.glade.h:253 ../glade/repetitive_conditions.glade.h:68
+#: ../glade/app1.glade.h:253 ../glade/feedback.glade.h:68
 msgid "Line width"
 msgstr "Lerro-zabalera"
 
@@ -1291,7 +1288,8 @@ msgstr "estatistikak"
 msgid ""
 "Sorry, no statistics for this test type\n"
 "on current Chronojump version."
-msgstr ""
+msgstr "Ez dago estatistikarik proba mota honetarako\n"
+"uneko Chronojump bertsioan."
 
 #: ../glade/app1.glade.h:264
 msgid "error"
@@ -1307,7 +1305,7 @@ msgstr "<b>Gehieneko indarra</b>"
 
 #: ../glade/app1.glade.h:267
 msgid "<b>Explosive Force</b>"
-msgstr ""
+msgstr "<b>Indar txundigarria</b>"
 
 #: ../glade/app1.glade.h:268
 msgid "<b>Elastic</b>"
@@ -1315,7 +1313,7 @@ msgstr "<b>Elastikoa</b>"
 
 #: ../glade/app1.glade.h:269
 msgid "<b>Arms using</b>"
-msgstr ""
+msgstr "<b>Besoak erabiltzen</b>"
 
 #: ../glade/app1.glade.h:270
 msgid "<b>Reactive-reflex</b>"
@@ -1324,7 +1322,7 @@ msgstr ""
 #: ../glade/app1.glade.h:271
 msgid ""
 "Related to the part of the absolute force that can be activated voluntarily."
-msgstr ""
+msgstr "Borondatez aktibatu daitekeen indar absolutuaren zatiari lotua."
 
 #: ../glade/app1.glade.h:272
 msgid "Ability to mobilise a submaximal load at a maximum speed."
@@ -1334,21 +1332,21 @@ msgstr ""
 msgid ""
 "Increasing of strength due to the elastic energy accumulated during the "
 "stretch-shortening cycle."
-msgstr ""
+msgstr "Luzatze-laburtze zikloan metatutako energia elastikoaren ondorioz lortutako indar-metaketa."
 
 #: ../glade/app1.glade.h:274
 msgid "Increasing of strength due to arm movement."
-msgstr ""
+msgstr "Besoen mugimenduaren ondorioz lortutako indar-metaketa."
 
 #: ../glade/app1.glade.h:275
 msgid ""
 "Increasing of strength by previous falling from height (reflex mechanisms "
 "activation)."
-msgstr ""
+msgstr "Lehenago altuera batetik erortzearen ondorioz lortutako indar-metaketa (mekanismo erreflexuen aktibazioa)."
 
 #: ../glade/app1.glade.h:276
 msgid "All the definitions are related to jumps."
-msgstr ""
+msgstr "Definizio guztiak jauziei lotuta daude."
 
 #: ../glade/app1.glade.h:277
 msgid "Drop jump goal in this profile is maximum height."
@@ -1356,7 +1354,7 @@ msgstr ""
 
 #: ../glade/app1.glade.h:278
 msgid "Help on indexes"
-msgstr ""
+msgstr "Indizei buruzko laguntza"
 
 #: ../glade/app1.glade.h:279
 msgid "<b>Type of training</b>"
@@ -1364,78 +1362,84 @@ msgstr "<b>Entrenamendu mota</b>"
 
 #: ../glade/app1.glade.h:280
 msgid "<b>Contraction</b>"
-msgstr ""
+msgstr "<b>Uzkurdura</b>"
 
 #: ../glade/app1.glade.h:282
 #, no-c-format
 msgid "<b>% max load</b>"
-msgstr ""
+msgstr "<b>% gehieneko karga</b>"
 
 #: ../glade/app1.glade.h:284
 #, no-c-format
 msgid "<b>% max power</b>"
-msgstr ""
+msgstr "<b>% gehieneko potentzia</b>"
 
 #: ../glade/app1.glade.h:285
 msgid "<b>Repetitions</b>"
-msgstr ""
+msgstr "<b>Errepikapenak</b>"
 
 #: ../glade/app1.glade.h:286
 msgid "<b>Series</b>"
-msgstr ""
+msgstr "<b>Serieak</b>"
 
 #: ../glade/app1.glade.h:287
 msgid "<b>Recuperation (min)</b>"
-msgstr ""
+msgstr "<b>Indarberritzea (min)</b>"
 
 #: ../glade/app1.glade.h:288
 msgid "<b>Maximum force</b>"
-msgstr ""
+msgstr "<b>Gehieneko indarra</b>"
 
 #: ../glade/app1.glade.h:289
 msgid ""
 "Weight lifting,\n"
 "gym machines"
-msgstr ""
+msgstr "Pisu-jasotzea,\n"
+"gimnasioko makinak"
 
 #: ../glade/app1.glade.h:291
 msgid ""
 "Jumps,\n"
 "inertial machines"
-msgstr ""
+msgstr "Jauziak,\n"
+"Makina inertzialak"
 
 #: ../glade/app1.glade.h:293
 msgid ""
 "Jumps,\n"
 "elastic bands"
-msgstr ""
+msgstr "Jauziak,\n"
+"banda elastikoak"
 
 #: ../glade/app1.glade.h:295
 msgid ""
 "Concentric,\n"
 "isometric"
-msgstr ""
+msgstr "Kontzentrikoa,\n"
+"isometrikoa"
 
 #: ../glade/app1.glade.h:297 ../glade/force_sensor_exercise.glade.h:17
 #: ../glade/preferences_win.glade.h:106 ../src/encoder.cs:967
 msgid "Concentric"
-msgstr ""
+msgstr "Kontzentrikoa"
 
 #: ../glade/app1.glade.h:298
 msgid ""
 "Eccentric-\n"
 "Concentric"
-msgstr ""
+msgstr "Eszentrikoa-\n"
+"Kontzentrikoa"
 
 #: ../glade/app1.glade.h:300
 msgid ""
 "Body weight,\n"
 "low resistance"
-msgstr ""
+msgstr "Gorputz-pisua,\n"
+"erresistentzia txikia"
 
 #: ../glade/app1.glade.h:302
 msgid "General recommendations on improving indexes"
-msgstr ""
+msgstr "Indizeak hobetzeko gomendio orokorrak"
 
 #: ../glade/app1.glade.h:303
 msgid "Jump type"
@@ -1462,14 +1466,14 @@ msgid "Show"
 msgstr "Erakutsi"
 
 #: ../glade/app1.glade.h:309 ../glade/edit_event.glade.h:2
-#: ../src/gui/eventExecute.cs:2555 ../src/gui/eventExecute.cs:2677
-#: ../src/gui/eventExecute.cs:3059
+#: ../src/gui/eventExecute.cs:2575 ../src/gui/eventExecute.cs:2702
+#: ../src/gui/eventExecute.cs:3089
 msgid "Flight time"
-msgstr ""
+msgstr "Hegaldi-denbora"
 
 #. cols: 4, 6, 8, ...
 #. cols: 3, 5, 7, ...
-#: ../glade/app1.glade.h:310 ../glade/repetitive_conditions.glade.h:8
+#: ../glade/app1.glade.h:310 ../glade/feedback.glade.h:8
 #: ../src/exportSession.cs:322 ../src/exportSession.cs:526
 #: ../src/gui/cairo/xy.cs:98 ../src/gui/convertWeight.cs:114
 #: ../src/gui/jump.cs:708 ../src/stats/djIndex.cs:34 ../src/stats/djPower.cs:34
@@ -1479,15 +1483,15 @@ msgstr ""
 #: ../src/stats/sjCmjAbk.cs:53 ../src/stats/sjCmjAbkPlus.cs:64
 #: ../src/treeview/jump.cs:73 ../src/treeview/jump.cs:282
 msgid "TF"
-msgstr ""
+msgstr "TF"
 
 #: ../glade/app1.glade.h:311 ../glade/edit_event.glade.h:9
-#: ../src/gui/eventExecute.cs:2554 ../src/gui/eventExecute.cs:2676
-#: ../src/gui/eventExecute.cs:3058
+#: ../src/gui/eventExecute.cs:2574 ../src/gui/eventExecute.cs:2701
+#: ../src/gui/eventExecute.cs:3088
 msgid "Contact time"
-msgstr ""
+msgstr "Kontaktu-denbora"
 
-#: ../glade/app1.glade.h:312 ../glade/repetitive_conditions.glade.h:9
+#: ../glade/app1.glade.h:312 ../glade/feedback.glade.h:9
 #: ../src/exportSession.cs:321 ../src/exportSession.cs:525
 #: ../src/gui/cairo/xy.cs:99 ../src/gui/convertWeight.cs:122
 #: ../src/gui/jump.cs:699 ../src/stats/djIndex.cs:35 ../src/stats/djPower.cs:35
@@ -1496,11 +1500,11 @@ msgstr ""
 #: ../src/stats/rjIndex.cs:34 ../src/stats/rjPotencyBosco.cs:34
 #: ../src/treeview/jump.cs:72 ../src/treeview/jump.cs:281
 msgid "TC"
-msgstr ""
+msgstr "TC"
 
 #: ../glade/app1.glade.h:313
 msgid "Divide into"
-msgstr ""
+msgstr "Zatitu hauetan:"
 
 #: ../glade/app1.glade.h:314
 msgid "Run type"
@@ -1532,7 +1536,7 @@ msgstr "Banakakoa"
 
 #: ../glade/app1.glade.h:321
 msgid "Groupwise"
-msgstr ""
+msgstr "Taldekakoa"
 
 #: ../glade/app1.glade.h:322
 msgid "Export to CSV"
@@ -1567,7 +1571,7 @@ msgstr "RFD aukerak"
 msgid "RFD Model"
 msgstr "RFD eredua"
 
-#: ../glade/app1.glade.h:330 ../glade/repetitive_conditions.glade.h:35
+#: ../glade/app1.glade.h:330 ../glade/feedback.glade.h:35
 #: ../src/constants.cs:1410 ../src/encoder.cs:2420 ../src/forceSensor.cs:2644
 #: ../src/gui/cairo/xy.cs:94
 msgid "Force"
@@ -1583,14 +1587,14 @@ msgid "Difference"
 msgstr "Diferentzia"
 
 #: ../glade/app1.glade.h:333 ../glade/edit_event.glade.h:12
-#: ../glade/repetitive_conditions.glade.h:32 ../src/constants.cs:1408
-#: ../src/encoder.cs:2418 ../src/exportSession.cs:601
-#: ../src/forceSensor.cs:2649 ../src/gui/app1/runEncoder.cs:2278
-#: ../src/gui/cairo/xy.cs:93 ../src/gui/eventExecute.cs:2803
-#: ../src/gui/eventExecute.cs:2902 ../src/gui/eventExecute.cs:3220
-#: ../src/stats/runIntervallic.cs:65 ../src/stats/runIntervallic.cs:70
-#: ../src/stats/runIntervallic.cs:74 ../src/stats/runSimple.cs:52
-#: ../src/treeview/run.cs:51 ../src/treeview/run.cs:130
+#: ../glade/feedback.glade.h:32 ../src/constants.cs:1408 ../src/encoder.cs:2418
+#: ../src/exportSession.cs:601 ../src/forceSensor.cs:2649
+#: ../src/gui/app1/runEncoder.cs:2278 ../src/gui/cairo/xy.cs:93
+#: ../src/gui/eventExecute.cs:2829 ../src/gui/eventExecute.cs:2930
+#: ../src/gui/eventExecute.cs:3252 ../src/stats/runIntervallic.cs:65
+#: ../src/stats/runIntervallic.cs:70 ../src/stats/runIntervallic.cs:74
+#: ../src/stats/runSimple.cs:52 ../src/treeview/run.cs:51
+#: ../src/treeview/run.cs:130
 msgid "Speed"
 msgstr "Abiadura"
 
@@ -1598,8 +1602,8 @@ msgstr "Abiadura"
 msgid "Acceleration"
 msgstr "Azelerazioa"
 
-#: ../glade/app1.glade.h:335 ../glade/preferences_win.glade.h:26
-#: ../glade/repetitive_conditions.glade.h:38 ../src/constants.cs:1411
+#: ../glade/app1.glade.h:335 ../glade/feedback.glade.h:38
+#: ../glade/preferences_win.glade.h:26 ../src/constants.cs:1411
 #: ../src/encoder.cs:2421 ../src/exportSession.cs:326
 #: ../src/exportSession.cs:529 ../src/forceSensor.cs:2651
 #: ../src/gui/overview.cs:293 ../src/gui/preferences.cs:959
@@ -1610,7 +1614,7 @@ msgstr "Energia"
 #. impulse
 #: ../glade/app1.glade.h:336 ../src/constants.cs:1443
 #: ../src/gui/encoderGraphObjects.cs:976 ../src/gui/encoderTreeviews.cs:90
-#: ../src/gui/encoderTreeviews.cs:639
+#: ../src/gui/encoderTreeviews.cs:639 ../src/gui/eventExecute.cs:3913
 msgid "Impulse"
 msgstr "Bulkada"
 
@@ -1620,15 +1624,15 @@ msgstr "Aldakortasuna"
 
 #: ../glade/app1.glade.h:338
 msgid "Export data from A to B"
-msgstr ""
+msgstr "Esportatu datuak Atik Bra"
 
 #: ../glade/app1.glade.h:339
 msgid "Search best start/end inside AB range"
-msgstr ""
+msgstr "Bilatu hasiera/amaiera onena AB barrutian"
 
 #: ../glade/app1.glade.h:340
 msgid "Strictly use A for start and B for end"
-msgstr ""
+msgstr "Erabili zorrotz A hasierarako eta B amaierarako"
 
 #: ../glade/app1.glade.h:341
 msgid "Length of analysis:"
@@ -1652,20 +1656,20 @@ msgstr "Hasiera eta iraupena"
 
 #: ../glade/app1.glade.h:346 ../src/forceSensor.cs:2645
 msgid "RFD"
-msgstr ""
+msgstr "RFD"
 
 #: ../glade/app1.glade.h:347
 msgid "At"
-msgstr ""
+msgstr "Hemen:"
 
 #: ../glade/app1.glade.h:349
 #, no-c-format
 msgid "% maximum force"
-msgstr ""
+msgstr "% gehieneko indarra"
 
 #: ../glade/app1.glade.h:350
 msgid "From"
-msgstr "Nondik"
+msgstr "Nondik:"
 
 #: ../glade/app1.glade.h:351
 msgid "to"
@@ -1673,9 +1677,9 @@ msgstr "-"
 
 #: ../glade/app1.glade.h:352
 msgid "Until"
-msgstr ""
+msgstr "Noiz arte:"
 
-#: ../glade/app1.glade.h:353 ../glade/repetitive_conditions.glade.h:58
+#: ../glade/app1.glade.h:353 ../glade/feedback.glade.h:58
 msgid "Back to default values"
 msgstr "Itzuli balio lehenetsietara"
 
@@ -1691,7 +1695,7 @@ msgstr "Itxi eta analizatu"
 msgid "Load another set"
 msgstr "Kargatu beste multzo bat"
 
-#: ../glade/app1.glade.h:357 ../src/gui/app1/encoder.cs:2201
+#: ../glade/app1.glade.h:357 ../src/gui/app1/encoder.cs:2209
 msgid "Save table"
 msgstr "Gorde taula"
 
@@ -1709,7 +1713,7 @@ msgstr "Erakutsi abiarazleak"
 
 #: ../glade/app1.glade.h:361
 msgid "Include instantaneous data"
-msgstr ""
+msgstr "Sartu bat-bateko datuak"
 
 #: ../glade/app1.glade.h:362 ../glade/preferences_win.glade.h:38
 msgid "Calculations"
@@ -1717,7 +1721,7 @@ msgstr "Kalkuluak"
 
 #: ../glade/app1.glade.h:363
 msgid "Contacts (platform or photocell)"
-msgstr ""
+msgstr "Kontaktuak (plataforma edo fotozelula)"
 
 #. do not exists, create it
 #: ../glade/app1.glade.h:364 ../src/gui/networks.cs:380
@@ -1733,7 +1737,7 @@ msgstr "Itxaron!"
 msgid "Extra mass"
 msgstr "Masa gehigarria"
 
-#: ../glade/app1.glade.h:367 ../src/gui/app1/encoder.cs:4597
+#: ../glade/app1.glade.h:367 ../src/gui/app1/encoder.cs:4605
 msgid "Weights"
 msgstr "Pisuak"
 
@@ -1742,7 +1746,7 @@ msgid "Upload"
 msgstr "Kargatu"
 
 #: ../glade/app1.glade.h:369 ../glade/dialog_shortcuts.glade.h:8
-#: ../src/gui/app1/chronojump.cs:4382
+#: ../src/gui/app1/chronojump.cs:4384
 msgid "Execute test"
 msgstr "Exekutatu proba"
 
@@ -1751,7 +1755,7 @@ msgid "Delete set"
 msgstr "Ezabatu multzoa"
 
 #: ../glade/app1.glade.h:371 ../glade/dialog_shortcuts.glade.h:14
-#: ../src/gui/app1/encoder.cs:1728
+#: ../src/gui/app1/encoder.cs:1734
 msgid "Load set"
 msgstr "Kargatu multzoa"
 
@@ -1769,16 +1773,16 @@ msgstr "Amaitu modu jarraitua"
 
 #: ../glade/app1.glade.h:375
 msgid "Adaptive rhythm"
-msgstr ""
+msgstr "Erritmo moldakorra"
 
-#: ../glade/app1.glade.h:376 ../src/gui/app1/encoder.cs:6228
-#: ../src/gui/repetitiveConditions.cs:241
+#: ../glade/app1.glade.h:376 ../src/gui/app1/encoder.cs:6282
+#: ../src/gui/feedback.cs:241
 msgid "Rhythm"
 msgstr "Erritmoa"
 
 #: ../glade/app1.glade.h:377
 msgid "Capturing with triggers"
-msgstr ""
+msgstr "Harrapatzen abiarazleekin"
 
 #: ../glade/app1.glade.h:378 ../src/constants.cs:739
 msgid "Detecting …"
@@ -1802,7 +1806,7 @@ msgstr ""
 
 #: ../glade/app1.glade.h:383
 msgid "Select them to save"
-msgstr ""
+msgstr "Hautatu gordeko direnak"
 
 #.
 #. * Disabled because combo exercise is selected before (not on genericWinESR)
@@ -1821,7 +1825,7 @@ msgstr ""
 msgid "Repetitions"
 msgstr "Errepikapenak"
 
-#: ../glade/app1.glade.h:385 ../src/gui/app1/encoder.cs:4871
+#: ../glade/app1.glade.h:385 ../src/gui/app1/encoder.cs:4879
 msgid "Save repetitions"
 msgstr "Gorde errepikapenak"
 
@@ -1834,7 +1838,7 @@ msgid "Play"
 msgstr "Erreproduzitu"
 
 #: ../glade/app1.glade.h:388 ../glade/preferences_win.glade.h:144
-#: ../src/gui/app1/encoder.cs:1714 ../src/gui/app1/forceSensor.cs:2183
+#: ../src/gui/app1/encoder.cs:1720 ../src/gui/app1/forceSensor.cs:2183
 #: ../src/gui/app1/runEncoder.cs:939
 msgid "Video"
 msgstr "Bideoa"
@@ -1855,7 +1859,7 @@ msgstr "Karpeta"
 msgid "Open Folder"
 msgstr "Ireki karpeta"
 
-#: ../glade/app1.glade.h:393 ../src/gui/app1/encoder.cs:1707
+#: ../glade/app1.glade.h:393 ../src/gui/app1/encoder.cs:1713
 #: ../src/gui/app1/forceSensor.cs:2175 ../src/gui/app1/runEncoder.cs:934
 msgid "Set"
 msgstr "Ezarri"
@@ -1868,7 +1872,8 @@ msgstr "kapturatu"
 msgid ""
 "Start with the rope completely unwrapped,\n"
 "then click this button."
-msgstr ""
+msgstr "Hasi soka guztiz zabalduta dagoela,\n"
+"ondoren egin klik botoi honetan."
 
 #: ../glade/app1.glade.h:397
 msgid "Calibrate again"
@@ -1876,13 +1881,13 @@ msgstr "Kalibratu berriro"
 
 #. notebook_encoder_capture_extra_mass.CurrentPage = 0;
 #. TODO: show also info on the top
-#: ../glade/app1.glade.h:398 ../src/gui/app1/chronojump.cs:3759
+#: ../glade/app1.glade.h:398 ../src/gui/app1/chronojump.cs:3761
 msgid "Configure gravitatory encoder"
-msgstr ""
+msgstr "Konfiguratu grabitare-kodetzailea"
 
 #: ../glade/app1.glade.h:399
 msgid "Show/edit description of this exercise."
-msgstr ""
+msgstr "Erakutsi/editatu ariketa honen deskribapena."
 
 #: ../glade/app1.glade.h:400
 msgid "Add new exercise"
@@ -1890,17 +1895,17 @@ msgstr "Gehitu ariketa berria"
 
 #: ../glade/app1.glade.h:401
 msgid "Eccentric-Concentric"
-msgstr ""
+msgstr "Eszentrikoa-konzentrikoa"
 
 #: ../glade/app1.glade.h:402
 msgid "Phase"
 msgstr "Fasea"
 
 #: ../glade/app1.glade.h:403 ../src/constants.cs:1437
-#: ../src/gui/app1/encoder.cs:1709 ../src/gui/app1/forceSensor.cs:2179
+#: ../src/gui/app1/encoder.cs:1715 ../src/gui/app1/forceSensor.cs:2179
 #: ../src/gui/encoderTreeviews.cs:612
 msgid "Laterality"
-msgstr ""
+msgstr "Albokotasuna"
 
 #: ../glade/app1.glade.h:404 ../src/constants.cs:988 ../src/constants.cs:1420
 msgid "Mass"
@@ -1908,8 +1913,8 @@ msgstr "Masa"
 
 #: ../glade/app1.glade.h:405 ../glade/encoder_configuration.glade.h:12
 #: ../src/constants.cs:1438 ../src/gui/app1/encoder.cs:602
-#: ../src/gui/app1/encoder.cs:656 ../src/gui/app1/encoder.cs:1543
-#: ../src/gui/app1/encoder.cs:2016 ../src/gui/app1/encoder.cs:4598
+#: ../src/gui/app1/encoder.cs:656 ../src/gui/app1/encoder.cs:1549
+#: ../src/gui/app1/encoder.cs:2024 ../src/gui/app1/encoder.cs:4606
 #: ../src/gui/encoderTreeviews.cs:618
 msgid "Inertia M."
 msgstr ""
@@ -1958,7 +1963,7 @@ msgstr "Errepikapena"
 #: ../glade/app1.glade.h:414 ../glade/force_sensor_exercise.glade.h:15
 #: ../glade/preferences_win.glade.h:103
 msgid "Minimal range of movement"
-msgstr ""
+msgstr "Gutxieneko mugimendu-barrutia"
 
 #: ../glade/app1.glade.h:415 ../glade/force_sensor_exercise.glade.h:19
 #: ../glade/preferences_win.glade.h:58
@@ -1975,7 +1980,7 @@ msgstr "Mota:"
 
 #: ../glade/app1.glade.h:418
 msgid "Displaced body weight"
-msgstr ""
+msgstr "Lekuz aldatutako gorputz-pisua"
 
 #: ../glade/app1.glade.h:419
 msgid "Speed at 1RM"
@@ -2021,19 +2026,19 @@ msgstr "Modua:"
 
 #: ../glade/app1.glade.h:429
 msgid "Powerbars"
-msgstr ""
+msgstr "Potentzia-barrak"
 
 #: ../glade/app1.glade.h:430
 msgid "Cross variables"
-msgstr ""
+msgstr "Aldagai gurutzatuak"
 
 #: ../glade/app1.glade.h:431
 msgid "Instantaneous analysis"
-msgstr ""
+msgstr "Bat-bateko analisia"
 
-#: ../glade/app1.glade.h:432 ../src/gui/app1/encoder.cs:4374
+#: ../glade/app1.glade.h:432 ../src/gui/app1/encoder.cs:4382
 msgid "Neuromuscular profile"
-msgstr ""
+msgstr "Profil neuromuskularra"
 
 #: ../glade/app1.glade.h:433
 msgid "Change current session"
@@ -2045,11 +2050,11 @@ msgstr "Aukerak:"
 
 #: ../glade/app1.glade.h:435
 msgid "Eccentric-concentric together"
-msgstr ""
+msgstr "Eszentrikoa-kontzentrikoa elkarrekin"
 
 #: ../glade/app1.glade.h:436
 msgid "Eccentric-concentric separated"
-msgstr ""
+msgstr "Eszentrikoa-kontzentrikoa bereizita"
 
 #: ../glade/app1.glade.h:437
 msgid "Analyze mean values"
@@ -2077,17 +2082,17 @@ msgstr "Profila:"
 
 #: ../glade/app1.glade.h:443
 msgid "By days"
-msgstr ""
+msgstr "Egunen arabera"
 
 #: ../glade/app1.glade.h:444
 msgid "Separate session by days"
-msgstr ""
+msgstr "Bereizi saioak egunen arabera"
 
 #: ../glade/app1.glade.h:445
 msgid "Show impulse"
 msgstr "Erakutsi bulkada"
 
-#: ../glade/app1.glade.h:446 ../glade/repetitive_conditions.glade.h:64
+#: ../glade/app1.glade.h:446 ../glade/feedback.glade.h:64
 #: ../src/constants.cs:1417
 msgid "Range"
 msgstr "Barrutia"
@@ -2096,7 +2101,7 @@ msgstr "Barrutia"
 msgid "Time to Peak Power"
 msgstr ""
 
-#: ../glade/app1.glade.h:448 ../src/gui/app1/encoder.cs:4272
+#: ../glade/app1.glade.h:448 ../src/gui/app1/encoder.cs:4280
 msgid "Single repetition"
 msgstr "Errepikapen bakarra"
 
@@ -2118,7 +2123,7 @@ msgstr "Erakutsi indarra"
 
 #: ../glade/app1.glade.h:453
 msgid "Show power"
-msgstr ""
+msgstr "Erakutsi potentzia"
 
 #: ../glade/app1.glade.h:454
 msgid "Repetition number"
@@ -2126,11 +2131,11 @@ msgstr "Errepikapen-zenbakia"
 
 #: ../glade/app1.glade.h:455
 msgid "Side compare allows a maximum of 12 graphs."
-msgstr ""
+msgstr "Alboz alboko konparazioak 12 grafiko gehienez onartzen ditu."
 
 #: ../glade/app1.glade.h:456
 msgid "Max. 12 graphs"
-msgstr ""
+msgstr "Gehienez 12 grafiko"
 
 #: ../glade/app1.glade.h:457
 msgid "Cancel process"
@@ -2140,21 +2145,21 @@ msgstr "Utzi prozesua"
 msgid "Option:"
 msgstr "Aukera:"
 
-#: ../glade/app1.glade.h:459 ../src/gui/app1/encoder.cs:4287
+#: ../glade/app1.glade.h:459 ../src/gui/app1/encoder.cs:4295
 msgid "Side compare"
-msgstr ""
+msgstr "Alboz alboko konparazioa"
 
-#: ../glade/app1.glade.h:460 ../src/gui/app1/encoder.cs:4299
+#: ../glade/app1.glade.h:460 ../src/gui/app1/encoder.cs:4307
 msgid "Superpose"
-msgstr ""
+msgstr "Gainjarri"
 
-#: ../glade/app1.glade.h:461 ../src/gui/app1/encoder.cs:4309
+#: ../glade/app1.glade.h:461 ../src/gui/app1/encoder.cs:4317
 msgid "All set"
-msgstr ""
+msgstr "Dena ezarrita"
 
 #: ../glade/app1.glade.h:462
 msgid "Same X scale"
-msgstr ""
+msgstr "X eskala bera"
 
 #: ../glade/app1.glade.h:463 ../src/encoder.cs:2417
 msgid "Displacement"
@@ -2166,11 +2171,11 @@ msgstr "Bidali posta elektroniko bidez"
 
 #: ../glade/app1.glade.h:465
 msgid "Save 1RM value"
-msgstr ""
+msgstr "Gorde 1RM balioa"
 
 #: ../glade/app1.glade.h:466
 msgid "Export repetition from A to B"
-msgstr ""
+msgstr "Esportatu errepikapena Atik Bra"
 
 #: ../glade/app1.glade.h:467
 msgid "Edit session"
@@ -2189,7 +2194,7 @@ msgstr "Ezabatu"
 
 #: ../glade/app1.glade.h:470
 msgid "Jumps and races with photocells"
-msgstr ""
+msgstr "Jauziak eta lasterketak fotozelulekin"
 
 #: ../glade/app1.glade.h:471
 msgid "Export session"
@@ -2294,8 +2299,8 @@ msgid "Will be imported into the current session."
 msgstr "Uneko saiora inportatuko da."
 
 #: ../glade/app1.glade.h:496 ../glade/generic_window.glade.h:11
-#: ../glade/preferences_win.glade.h:180 ../src/gui/app1/encoder.cs:2345
-#: ../src/gui/app1/encoder.cs:2624 ../src/gui/encoderConfiguration.cs:690
+#: ../glade/preferences_win.glade.h:180 ../src/gui/app1/encoder.cs:2353
+#: ../src/gui/app1/encoder.cs:2632 ../src/gui/encoderConfiguration.cs:690
 #: ../src/gui/encoderConfiguration.cs:747 ../src/gui/executeAuto.cs:545
 #: ../src/gui/person/addModify.cs:356
 msgid "Accept"
@@ -2343,7 +2348,7 @@ msgstr "Kokapena"
 
 #. tv.AppendColumn ( Catalog.GetString ("Date"), new CellRendererText(), "text", count++);
 #: ../glade/app1.glade.h:506 ../src/exportSession.cs:248
-#: ../src/gui/app1/encoder.cs:1713 ../src/gui/app1/encoder.cs:5602
+#: ../src/gui/app1/encoder.cs:1719 ../src/gui/app1/encoder.cs:5610
 #: ../src/gui/app1/forceSensor.cs:2182 ../src/gui/app1/forceSensor.cs:3513
 #: ../src/gui/app1/runEncoder.cs:938 ../src/gui/app1/runEncoder.cs:2168
 #: ../src/gui/app1/session/loadAndImport.cs:270 ../src/gui/cairo/xy.cs:95
@@ -2431,7 +2436,7 @@ msgstr "Pertsonaren datuak"
 msgid ""
 "Backing up your data regularly will keep your important files safe and "
 "secure from data loss."
-msgstr ""
+msgstr "Datuen babeskopia erregularrak eginda, fitxategi garrantzitsuak seguru gordeko dira."
 
 #: ../glade/app1.glade.h:520
 msgid "Select destination"
@@ -2455,7 +2460,7 @@ msgstr "Ezabatu osatu gabeko babeskopia zaharrak"
 
 #: ../glade/app1.glade.h:525
 msgid "Do you want to do a full Chronojump data backup?"
-msgstr ""
+msgstr "Chronojump-en datuen babeskopia osoa egin nahi al duzu?"
 
 #: ../glade/app1.glade.h:526
 msgid "Make the backup now!"
@@ -2586,7 +2591,7 @@ msgstr "Ziur zaude Chronojump aplikaziotik irten nahi duzula?"
 
 #: ../glade/app1.glade.h:558
 msgid "Please, help us to provide videos on the most suitable platforms."
-msgstr ""
+msgstr "Lagundu gaitzazu bideoak egiten plataforma egokienetan."
 
 #: ../glade/app1.glade.h:559
 msgid "What social network do you use to watch videos?"
@@ -2617,11 +2622,11 @@ msgstr ""
 
 #: ../glade/convert_weight.glade.h:4
 msgid "Old jumper weight"
-msgstr ""
+msgstr "Jauzilari-pisu zaharra"
 
 #: ../glade/convert_weight.glade.h:5
 msgid "New jumper weight"
-msgstr ""
+msgstr "Jauzilari-pisu berria"
 
 #: ../glade/dialog_about.glade.h:3
 msgid "<b>Software</b>"
@@ -2689,7 +2694,7 @@ msgstr "Zereginak esleituta dituzten beste geltoki batzuk"
 
 #: ../glade/dialog_server_stats.glade.h:1
 msgid "Server stats"
-msgstr ""
+msgstr "Zerbitzari-estatistikak"
 
 #: ../glade/dialog_shortcuts.glade.h:6
 msgid "Close any window"
@@ -2719,10 +2724,10 @@ msgstr "Erreproduzitu bideoa"
 #. kEnter = "Command";
 #. }
 #.
-#: ../glade/dialog_shortcuts.glade.h:12 ../src/gui/app1/chronojump.cs:4371
+#: ../glade/dialog_shortcuts.glade.h:12 ../src/gui/app1/chronojump.cs:4373
 #: ../src/gui/app1/shortcuts.cs:48
 msgid "Space"
-msgstr ""
+msgstr "Zuriunea"
 
 #: ../glade/dialog_shortcuts.glade.h:13 ../glade/overview.glade.h:1
 msgid "Overview"
@@ -2777,7 +2782,7 @@ msgid "Other tests"
 msgstr "Beste proba batzuk"
 
 #: ../glade/edit_event.glade.h:4 ../glade/jump_type_add.glade.h:5
-#: ../src/gui/app1/encoder.cs:1710 ../src/gui/cairo/xy.cs:91
+#: ../src/gui/app1/encoder.cs:1716 ../src/gui/cairo/xy.cs:91
 #: ../src/gui/encoderSelectRepetitions.cs:217
 #: ../src/gui/encoderTreeviews.cs:613 ../src/gui/jump.cs:1031
 #: ../src/gui/jump.cs:1249 ../src/stats/sjCmjAbkPlus.cs:57
@@ -2849,7 +2854,7 @@ msgstr ""
 
 #: ../glade/edit_event.glade.h:30
 msgid "Needs or asks for help."
-msgstr ""
+msgstr "Laguntza behar du edo eskatzen du."
 
 #: ../glade/edit_event.glade.h:31
 msgid "2"
@@ -2873,44 +2878,44 @@ msgstr ""
 
 #: ../glade/edit_event.glade.h:37
 msgid "Kick ball"
-msgstr ""
+msgstr "Jo ostikoa baloiari"
 
 #: ../glade/edit_event.glade.h:38
 msgid "Able to kick ball without losing balance."
-msgstr ""
+msgstr "Baloiari ostikoa jotzen dio oreka galdu gabe."
 
 #: ../glade/edit_event.glade.h:39
 msgid "Able to kick ball but needs to take a step to get back on balance."
-msgstr ""
+msgstr "Baloiari ostikoa jotzen dio baina urrats bat egin behar du oreka berreskuratzeko."
 
 #: ../glade/edit_event.glade.h:40
 msgid "Able to kick ball with difficulty finding balance."
-msgstr ""
+msgstr "Baloiari ostikoa jotzen du oreka berreskuratzeko zailtasunekin."
 
 #: ../glade/edit_event.glade.h:41
 msgid "Walk whilst counting backwards from 15 to 0"
-msgstr ""
+msgstr "Ibili 15etik 0ra atzera zenbatu bitartean"
 
 #: ../glade/edit_event.glade.h:42
 msgid "Able to coordinate walking with counting without making a mistake."
-msgstr ""
+msgstr "Ibiltzea eta zenbatzea koordinatzeko gai akatsik egin gabe."
 
 #: ../glade/edit_event.glade.h:43
 msgid "Able to coordinate walking with counting with one mistake."
-msgstr ""
+msgstr "Ibiltzea eta zenbatzea koordinatzeko gai akats bat eginda."
 
 #: ../glade/edit_event.glade.h:44
 msgid ""
 "Poor coordination between walking and counting with more than one mistake."
-msgstr ""
+msgstr "Ibiltzea eta zenbatzea gaizki koordinatuta, akats bat baino gehiagorekin."
 
 #: ../glade/edit_event.glade.h:45
 msgid "Needs help or cannot perform the counting task."
-msgstr ""
+msgstr "Laguntza behar du edo ezin du zenbatzea gauzatu."
 
 #: ../glade/edit_event.glade.h:46
 msgid "Go around back of cone"
-msgstr ""
+msgstr "Igaro konoaren atzetik"
 
 #: ../glade/edit_event.glade.h:47
 msgid ""
@@ -2930,7 +2935,7 @@ msgstr ""
 
 #: ../glade/edit_event.glade.h:50
 msgid "Step into circles"
-msgstr ""
+msgstr "Ibili zirkuluetan"
 
 #: ../glade/edit_event.glade.h:51
 msgid ""
@@ -2952,23 +2957,23 @@ msgstr ""
 
 #: ../glade/edit_event.glade.h:54
 msgid "Sit back down"
-msgstr ""
+msgstr "Eseri"
 
 #: ../glade/edit_event.glade.h:55
 msgid "Able to sit down smoothly without using hands."
-msgstr ""
+msgstr "Leunki esertzeko gai, eskuak erabili gabe."
 
 #: ../glade/edit_event.glade.h:56
 msgid "Able to sit down sharply without using hands."
-msgstr ""
+msgstr "Tupustean ezartzeko gai, eskuak erabili gabe."
 
 #: ../glade/edit_event.glade.h:57
 msgid "Able to sit down using hands."
-msgstr ""
+msgstr "Eskuak erabilita esertzeko gai."
 
 #: ../glade/edit_event.glade.h:69
 msgid "slCMJ"
-msgstr ""
+msgstr "slCMJ"
 
 #: ../glade/encoder_configuration.glade.h:1
 msgid "Linear"
@@ -2976,47 +2981,47 @@ msgstr "Lineala"
 
 #: ../glade/encoder_configuration.glade.h:2
 msgid "Rotary friction"
-msgstr ""
+msgstr "Birakari marruskaduraduna"
 
 #: ../glade/encoder_configuration.glade.h:3
 msgid "Connected to axis"
-msgstr "Ardatzari konektatuta"
+msgstr "Ardatzari konektatua"
 
 #: ../glade/encoder_configuration.glade.h:4
 msgid "Rotary axis"
-msgstr ""
+msgstr "Birakari ardatzekoa"
 
 #: ../glade/encoder_configuration.glade.h:6 ../glade/generic_window.glade.h:8
 #: ../glade/person_select_window.glade.h:14 ../src/gui/chronopicRegister.cs:284
-#: ../src/gui/eventExecute.cs:3009 ../src/gui/eventExecute.cs:3139
+#: ../src/gui/eventExecute.cs:3039 ../src/gui/eventExecute.cs:3171
 msgid "Selected:"
 msgstr "Hautatuta:"
 
 #: ../glade/encoder_configuration.glade.h:7
 msgid "Number of anchorages"
-msgstr "AInguratze kopurua"
+msgstr "Ainguratze kopurua"
 
 #: ../glade/encoder_configuration.glade.h:8
 msgid ""
 "Average diameter (cm) of the cone or axis where the rope is wrapped on each "
 "anchorage."
-msgstr ""
+msgstr "Soka aingura bakoitzean bilduta dagoen kono edo ardatzaren batez besteko diametroa (cm)."
 
 #: ../glade/encoder_configuration.glade.h:9
 msgid "Push angle"
-msgstr ""
+msgstr "Bultzada-angelua"
 
 #: ../glade/encoder_configuration.glade.h:10
 msgid "Weight angle"
-msgstr ""
+msgstr "Pisu-angelua"
 
 #: ../glade/encoder_configuration.glade.h:11
 msgid "Inertia momentum without extra weight"
-msgstr ""
+msgstr "Inertzia-momentua pisu gehigarrik gabe"
 
 #: ../glade/encoder_configuration.glade.h:13
 msgid "Mass of each extra load"
-msgstr ""
+msgstr "Karga gehigarri bakoitzaren masa"
 
 #: ../glade/encoder_configuration.glade.h:14
 msgid ""
@@ -3036,19 +3041,19 @@ msgstr ""
 
 #: ../glade/encoder_configuration.glade.h:19
 msgid "Force multiplier"
-msgstr ""
+msgstr "Indar-biderkatzailea"
 
 #: ../glade/encoder_configuration.glade.h:20
 msgid "Accuracy"
-msgstr ""
+msgstr "Doitasuna"
 
 #: ../glade/encoder_configuration.glade.h:21
 msgid "Calculate inertial momentum"
-msgstr ""
+msgstr "Kalkulatu inertzia-momentua"
 
 #: ../glade/encoder_configuration.glade.h:22
 msgid "Calculate IM"
-msgstr ""
+msgstr "Kalkulatu IM"
 
 #: ../glade/encoder_configuration.glade.h:25
 #: ../src/gui/app1/session/backup.cs:208
@@ -3071,23 +3076,23 @@ msgstr "Angelua"
 
 #: ../glade/encoder_configuration.glade.h:35
 msgid "Oscillations"
-msgstr ""
+msgstr "Oszilazioak"
 
 #: ../glade/encoder_configuration.glade.h:36
 msgid "Number of weights"
-msgstr ""
+msgstr "Pisu kopurua"
 
 #: ../glade/evaluator_window.glade.h:1
 msgid "Evaluator server data"
-msgstr ""
+msgstr "Ebaluatzaile-zerbitzariaren datuak"
 
 #: ../glade/evaluator_window.glade.h:2
 msgid "Please fill these values."
-msgstr ""
+msgstr "Bete balio hauek."
 
 #: ../glade/evaluator_window.glade.h:3
 msgid "E-mail will never be shown in public."
-msgstr ""
+msgstr "Posta-helbidea ez da inoiz publikoki erakutsiko."
 
 #: ../glade/evaluator_window.glade.h:5
 msgid "E-mail"
@@ -3104,7 +3109,7 @@ msgstr "Herrialdea"
 
 #: ../glade/evaluator_window.glade.h:8
 msgid "Accredited"
-msgstr ""
+msgstr "Akreditatua"
 
 #: ../glade/evaluator_window.glade.h:9
 msgid "more info"
@@ -3116,7 +3121,7 @@ msgstr "Jaiotze-data"
 
 #: ../glade/evaluator_window.glade.h:12
 msgid "Evaluator data"
-msgstr ""
+msgstr "Ebaluatzaile-datuak"
 
 #: ../glade/evaluator_window.glade.h:13
 msgid "Select your Chronometer"
@@ -3130,19 +3135,19 @@ msgstr "Definitu gabea"
 
 #: ../glade/evaluator_window.glade.h:15
 msgid "Chronopic 1"
-msgstr ""
+msgstr "Chronopic 1"
 
 #: ../glade/evaluator_window.glade.h:16
 msgid "Chronopic 2"
-msgstr ""
+msgstr "Chronopic 2"
 
 #: ../glade/evaluator_window.glade.h:17
 msgid "Chronopic 3"
-msgstr ""
+msgstr "Chronopic 3"
 
 #: ../glade/evaluator_window.glade.h:18
 msgid "Other. Specify:"
-msgstr ""
+msgstr "Beste bat. Zehaztu:"
 
 #: ../glade/evaluator_window.glade.h:19
 msgid "Expand image and show description"
@@ -3150,7 +3155,7 @@ msgstr "Hedatu irudia eta erakutsi deskribapena"
 
 #: ../glade/evaluator_window.glade.h:20
 msgid "To buy or build Chronopic see website:"
-msgstr ""
+msgstr "Chronopic eraiki edo erosteko, ikusi:"
 
 #: ../glade/evaluator_window.glade.h:21
 msgid "Chronometer"
@@ -3158,19 +3163,21 @@ msgstr "Kronometroa"
 
 #: ../glade/evaluator_window.glade.h:22
 msgid "Select the device you currently use"
-msgstr ""
+msgstr "Hautatu erabiltzen ari zaren gailua"
 
 #: ../glade/evaluator_window.glade.h:23
 msgid ""
 "Contact platform\n"
 "(tempered steel)"
-msgstr ""
+msgstr "Kontaktu-plataforma\n"
+"(altzairu gozatua)"
 
 #: ../glade/evaluator_window.glade.h:25
 msgid ""
 "Contact platform\n"
 "(circuit board)"
-msgstr ""
+msgstr "Kontaktu-plataforma\n"
+"(zirkuitu integratua)"
 
 #: ../glade/evaluator_window.glade.h:27
 msgid "Infrared"
@@ -3178,7 +3185,7 @@ msgstr "Ingragorria"
 
 #: ../glade/evaluator_window.glade.h:28
 msgid "To buy or build these devices see website:"
-msgstr ""
+msgstr "Gailu horiek eraiki edo erosteko, ikusi:"
 
 #: ../glade/event_graph_configure.glade.h:1
 msgid "Configure graph"
@@ -3232,36 +3239,40 @@ msgstr "Multzoen arabera"
 msgid ""
 "First person perform all the tests,\n"
 "second person perform all the tests …"
-msgstr ""
+msgstr "Lehen pertsonak proba guztiak osatzen ditu,\n"
+"bigarren pertsonak proba guztiak osatzen ditu…"
 
 #: ../glade/execute_auto.glade.h:10
 msgid ""
 "All the persons perform first test,\n"
 "all the persons perform second test …"
-msgstr ""
+msgstr "Pertsona guztiek lehen proba osatzen dute,\n"
+"pertsonak guztiek bigarren proba osatzen dute…"
 
 #: ../glade/execute_auto.glade.h:12
 msgid ""
 "All the persons perform first set,\n"
 "all the persons perform second set …\n"
 "One set can contain several tests."
-msgstr ""
+msgstr "Pertsona guztiek lehen proba osatzen dute,\n"
+"pertsonak guztiek bigarren proba osatzen dute…\n"
+"Multzo batek proba anitz eduki ditzake."
 
 #: ../glade/execute_auto.glade.h:16
 msgid "Set 1"
-msgstr ""
+msgstr "1. multzoa"
 
 #: ../glade/execute_auto.glade.h:17
 msgid "Set 2"
-msgstr ""
+msgstr "2. multzoa"
 
 #: ../glade/execute_auto.glade.h:18
 msgid "Set 3"
-msgstr ""
+msgstr "3. multzoa"
 
 #: ../glade/execute_auto.glade.h:19
 msgid "Save this sequence to be used in the future"
-msgstr ""
+msgstr "Gorde sekuentzia hau etorkizunean erabiltzeko"
 
 #: ../glade/execute_auto.glade.h:21
 msgid "Description (optional)"
@@ -3279,19 +3290,244 @@ msgstr "3. orria"
 msgid "Next"
 msgstr "Hurrengoa"
 
+#: ../glade/feedback.glade.h:1
+msgid "Configure feedback"
+msgstr "Konfiguratu berrelikadura"
+
+#: ../glade/feedback.glade.h:2
+msgid "show best TF / TC"
+msgstr "erakutsi TF / TC onena"
+
+#: ../glade/feedback.glade.h:3
+msgid "show worst TF / TC"
+msgstr "erakutsi TF / TC txarrena"
+
+#: ../glade/feedback.glade.h:4
+msgid "show best time"
+msgstr "erakutsi denborarik onena"
+
+#: ../glade/feedback.glade.h:5
+msgid "show worst time"
+msgstr "erakutsi denborarik txarrena"
+
+#: ../glade/feedback.glade.h:6
+msgid "Best and worst values"
+msgstr "Baliorik onenak eta txarrenak"
+
+#: ../glade/feedback.glade.h:7
+msgid "Bell good"
+msgstr ""
+
+#: ../glade/feedback.glade.h:11
+msgid "Bell bad"
+msgstr ""
+
+#: ../glade/feedback.glade.h:12
+msgid "<b>Time</b> (s)"
+msgstr "<b>Denbora</b> (s)"
+
+#: ../glade/feedback.glade.h:13
+msgid "Conditions"
+msgstr "Baldintzak"
+
+#: ../glade/feedback.glade.h:15
+msgid "Main variable"
+msgstr "Aldagai nagusia"
+
+#: ../glade/feedback.glade.h:16
+msgid "Feedback relative to the maximum repetition of …"
+msgstr ""
+
+#: ../glade/feedback.glade.h:17
+msgid "this set"
+msgstr "multzo hau"
+
+#: ../glade/feedback.glade.h:18
+msgid "historical of this person on same exercise and encoder configuration"
+msgstr ""
+
+#: ../glade/feedback.glade.h:19
+msgid "On eccentric-concentric have feedback …"
+msgstr ""
+
+#: ../glade/feedback.glade.h:20
+msgid "on both phases"
+msgstr "bi faseetan"
+
+#: ../glade/feedback.glade.h:21
+msgid "on eccentric"
+msgstr "eszentrikoan"
+
+#: ../glade/feedback.glade.h:22
+msgid "on concentric"
+msgstr "kontzentrikoan"
+
+#: ../glade/feedback.glade.h:23
+msgid "Show eccentric overload on inertial"
+msgstr ""
+
+#: ../glade/feedback.glade.h:24
+msgid "Show also percentage"
+msgstr "Erakutsi ehunekoa ere bat"
+
+#. Loss means:&#10;while capturing, person will experiment fatigue and the repetitions will start being worse in terms of speed or power or whatever is configured as Main variable. So if repetitions are getting worse in speed, is shown as "loss" of speed.
+#: ../glade/feedback.glade.h:26
+msgid "Show loss"
+msgstr "Erakutsi galera"
+
+#: ../glade/feedback.glade.h:27
+msgid "Show secondary variable"
+msgstr "Erakutsi bigarren mailako aldagaia"
+
+#: ../glade/feedback.glade.h:28
+msgid "Feedback - Automatic"
+msgstr "Berrelikadura - Automatikoa"
+
+#: ../glade/feedback.glade.h:29
+msgid "<b>Height</b> (cm)"
+msgstr "<b>Altuera</b> (cm)"
+
+#: ../glade/feedback.glade.h:30
+msgid "<b>Mean speed</b> (m/s)"
+msgstr "<b>Batez besteko abiadura</b> (m/s)"
+
+#: ../glade/feedback.glade.h:31
+msgid "<b>Max speed</b> (m/s)"
+msgstr "<b>Gehieneko abiadura</b> (m/s)"
+
+#: ../glade/feedback.glade.h:33
+msgid "<b>Mean force</b> (N)"
+msgstr "<b>Batez besteko indarra</b> (N)"
+
+#: ../glade/feedback.glade.h:34
+msgid "<b>Max force</b> (N)"
+msgstr "<b>Gehieneko indarra</b> (N)"
+
+#: ../glade/feedback.glade.h:36
+msgid "<b>Mean power</b> (W)"
+msgstr "<b>Batez besteko potentzia</b> (W)"
+
+#: ../glade/feedback.glade.h:37
+msgid "<b>Peak power</b> (W)"
+msgstr "<b>Potentziarik handiena</b> (W)"
+
+#: ../glade/feedback.glade.h:39
+msgid "Feedback - Manual"
+msgstr "Berrelikadura - Eskuzkoa"
+
+#: ../glade/feedback.glade.h:40
+msgid "Show rhythm while capturing"
+msgstr "Erakutsi erritmoa kapturan zehar"
+
+#: ../glade/feedback.glade.h:41 ../src/gui/feedback.cs:895
+msgid "Use clusters"
+msgstr "Erabili lukuak"
+
+#: ../glade/feedback.glade.h:42
+msgid "Duration of eccentric phase"
+msgstr "Fase eszentrikoaren iraupena"
+
+#: ../glade/feedback.glade.h:43
+msgid "Duration of concentric phase"
+msgstr "Fase kontzentrikoaren iraupena"
+
+#: ../glade/feedback.glade.h:44
+msgid "Total duration"
+msgstr "Iraupen osoa"
+
+#: ../glade/feedback.glade.h:46
+msgid "Rest between repetitions"
+msgstr "Errepikapenen arteko atsedena"
+
+#: ../glade/feedback.glade.h:47
+msgid "Rhythm of the repetition"
+msgstr "Errepikapenaren erritmoa"
+
+#: ../glade/feedback.glade.h:48
+msgid "Rhythm by phases"
+msgstr "Erritmoa faseen arabera"
+
+#: ../glade/feedback.glade.h:49
+msgid "Duration of repetition"
+msgstr "Errepikapenaren iraupena"
+
+#: ../glade/feedback.glade.h:52
+msgid "Configure rhythm"
+msgstr "Konfiguratu erritmoa"
+
+#: ../glade/feedback.glade.h:53
+msgid "Repetitions in cluster"
+msgstr "Errepikapenak lukuan"
+
+#: ../glade/feedback.glade.h:54
+msgid "Rest between clusters"
+msgstr "Lukuen arteko atsedena"
+
+#: ../glade/feedback.glade.h:55
+msgid "On encoder (gravitatory mode) rest starts …"
+msgstr ""
+
+#: ../glade/feedback.glade.h:56
+msgid "after eccentric"
+msgstr ""
+
+#: ../glade/feedback.glade.h:57
+msgid "after concentric"
+msgstr ""
+
+#: ../glade/feedback.glade.h:59
+msgid "Do not show feedback"
+msgstr "Ez erakutsi berrelikadura"
+
+#: ../glade/feedback.glade.h:60
+msgid "Show rectangle"
+msgstr "Erakutsi laukizuzena"
+
+#: ../glade/feedback.glade.h:61
+msgid "Show path"
+msgstr "Erakutsi bidea"
+
+#: ../glade/feedback.glade.h:62
+msgid "at"
+msgstr "hemen:"
+
+#: ../glade/feedback.glade.h:63
+msgid "range"
+msgstr "barrutia"
+
+#: ../glade/feedback.glade.h:65
+msgid "Vertices"
+msgstr "Erpinak"
+
+#: ../glade/feedback.glade.h:69 ../glade/preferences_win.glade.h:87
+msgid "Recommended:"
+msgstr "Gomendatua:"
+
+#: ../glade/feedback.glade.h:70 ../glade/preferences_win.glade.h:121
+msgid "Test \"Good\" bell"
+msgstr ""
+
+#: ../glade/feedback.glade.h:71
+msgid "Test \"Bad\" bell"
+msgstr ""
+
+#: ../glade/feedback.glade.h:72
+msgid "Test bells"
+msgstr ""
+
 #: ../glade/force_sensor_elastic_bands.glade.h:2
 msgid "Total stiffness:"
-msgstr ""
+msgstr "Zurruntasun osoa:"
 
 #: ../glade/force_sensor_elastic_bands.glade.h:3
 msgid "N/m"
-msgstr ""
+msgstr "N/m"
 
 #. empty all
 #: ../glade/force_sensor_elastic_bands.glade.h:4
 #: ../src/gui/forceSensorElasticBands.cs:313
 msgid "Add new elastic band/tube"
-msgstr ""
+msgstr "Gehitu banda/hodi elastikoa"
 
 #: ../glade/force_sensor_elastic_bands.glade.h:5
 msgid "Add new"
@@ -3302,30 +3538,30 @@ msgstr "Gehitu berria"
 #: ../src/exportSession.cs:530 ../src/gui/forceSensorElasticBands.cs:210
 #: ../src/gui/preferences.cs:962 ../src/treeview/jump.cs:35
 msgid "Stiffness"
-msgstr ""
+msgstr "Zurruntasuna"
 
 #: ../glade/force_sensor_elastic_bands.glade.h:7
 msgid "(of each one)"
-msgstr ""
+msgstr "(bakoitzarena)"
 
 #. Not referred as an email attachment,&#10;referred as rubber elastic bands attached together
 #: ../glade/force_sensor_elastic_bands.glade.h:9
 #: ../src/gui/forceSensorElasticBands.cs:209
 msgid "Attached units"
-msgstr ""
+msgstr "Lotutako unitateak"
 
 #: ../glade/force_sensor_elastic_bands.glade.h:10
 msgid "In use"
-msgstr ""
+msgstr "Erabilia"
 
 #: ../glade/force_sensor_elastic_bands.glade.h:14
 #: ../src/gui/forceSensorElasticBands.cs:211
 msgid "Brand"
-msgstr ""
+msgstr "Marka"
 
 #: ../glade/force_sensor_elastic_bands.glade.h:17
 msgid "This elastic band has been used on sessions:"
-msgstr ""
+msgstr "Banda elastiko hau honako saioetan erabili da:"
 
 #: ../glade/force_sensor_elastic_bands.glade.h:18
 msgid ""
@@ -3350,11 +3586,11 @@ msgstr "Datu gordinak"
 #: ../glade/force_sensor_exercise.glade.h:4
 #: ../src/gui/forceSensorExercise.cs:470 ../src/gui/forceSensorExercise.cs:711
 msgid "Projection of exerted force"
-msgstr ""
+msgstr "Aplikatutako indarraren proiekzioa"
 
 #: ../glade/force_sensor_exercise.glade.h:5
 msgid "Fixation"
-msgstr ""
+msgstr "Finkapena"
 
 #: ../glade/force_sensor_exercise.glade.h:7
 #: ../glade/preferences_win.glade.h:102 ../src/gui/app1/forceSensor.cs:3348
@@ -3364,23 +3600,23 @@ msgstr "Ez elastikoa"
 
 #: ../glade/force_sensor_exercise.glade.h:8
 msgid "Total mass management"
-msgstr ""
+msgstr "Masa osoaren kudeaketa"
 
 #: ../glade/force_sensor_exercise.glade.h:9
 msgid "Add the effect of mass to raw data"
-msgstr ""
+msgstr "Gehitu masaren efektua datu gordinei"
 
 #: ../glade/force_sensor_exercise.glade.h:10
 msgid "Body mass to be added"
-msgstr ""
+msgstr "Gehituko den gorputz-masa"
 
 #: ../glade/force_sensor_exercise.glade.h:11
 msgid "Subtract the effect of mass from raw data"
-msgstr ""
+msgstr "Kendu masaren efektua datu gordenetatik"
 
 #: ../glade/force_sensor_exercise.glade.h:12
 msgid "The effect of mass is included in the raw data"
-msgstr ""
+msgstr "Masaren efektua datu gordinetan sartu da"
 
 #: ../glade/force_sensor_exercise.glade.h:13
 #: ../glade/preferences_win.glade.h:100
@@ -3394,7 +3630,7 @@ msgstr ""
 #: ../glade/force_sensor_exercise.glade.h:16
 #: ../glade/preferences_win.glade.h:105
 msgid "Eccentric"
-msgstr ""
+msgstr "Eszentrikoa"
 
 #: ../glade/force_sensor_exercise.glade.h:18
 msgid "Use custom value"
@@ -3412,11 +3648,11 @@ msgstr "Erakutsi errepikapenak"
 
 #: ../glade/force_sensor_exercise.glade.h:22
 msgid "Show only concentric phase"
-msgstr ""
+msgstr "Erakutsi fase kontzentrikoa soilik"
 
 #: ../glade/force_sensor_exercise.glade.h:23
 msgid "Show both phases"
-msgstr ""
+msgstr "Erakutsi bi faseak"
 
 #: ../glade/force_sensor_exercise.glade.h:24
 msgid "Together"
@@ -3446,7 +3682,7 @@ msgstr "Hazbeteak"
 msgid "button"
 msgstr "botoia"
 
-#: ../glade/generic_window.glade.h:6 ../src/gui/app1/encoder.cs:1715
+#: ../glade/generic_window.glade.h:6 ../src/gui/app1/encoder.cs:1721
 #: ../src/gui/app1/forceSensor.cs:2184 ../src/gui/app1/runEncoder.cs:940
 #: ../src/gui/encoderSelectRepetitions.cs:224 ../src/gui/report.cs:156
 msgid "Comment"
@@ -3458,11 +3694,11 @@ msgstr "Ezabatu mota"
 
 #: ../glade/jump_type_add.glade.h:1
 msgid "Create new Jump Type"
-msgstr ""
+msgstr "Sortu jauzi mota berria"
 
 #: ../glade/jump_type_add.glade.h:2
 msgid "Create a new jump type in the database"
-msgstr ""
+msgstr "Sortu jauzi mota berria datu-basean"
 
 #: ../glade/jump_type_add.glade.h:6
 msgid "yes"
@@ -3476,20 +3712,21 @@ msgstr "ez"
 msgid ""
 "Main\n"
 "options"
-msgstr ""
+msgstr "Aukera\n"
+"nagusiak"
 
 #: ../glade/jump_type_add.glade.h:11
 msgid "Limited by "
-msgstr ""
+msgstr "Muga: "
 
 #: ../glade/jump_type_add.glade.h:12 ../glade/run_type_add.glade.h:9
 msgid "value"
-msgstr ""
+msgstr "balioa"
 
 #: ../glade/jump_type_add.glade.h:13 ../src/gui/app1/contactsExercise.cs:218
 #: ../src/gui/app1/jump.cs:410 ../src/gui/old/queryServer.cs:777
 msgid "jumps"
-msgstr ""
+msgstr "jauziak"
 
 #: ../glade/jump_type_add.glade.h:14 ../src/constants.cs:1416
 msgid "time"
@@ -3497,133 +3734,135 @@ msgstr "denbora"
 
 #: ../glade/jump_type_add.glade.h:16 ../glade/run_type_add.glade.h:13
 msgid "simple"
-msgstr ""
+msgstr "sinplea"
 
 #: ../glade/jump_type_add.glade.h:17
 msgid "repetitive"
-msgstr ""
+msgstr "errepikakorra"
 
 #: ../glade/jump_type_add.glade.h:18 ../glade/run_type_add.glade.h:15
 msgid "fixed: "
-msgstr ""
+msgstr "finkoa: "
 
 #. A rebound jump means: when a person fall from some height to the floor and just after this person performs the jump.
 #: ../glade/jump_type_add.glade.h:21
 msgid "Rebound"
-msgstr ""
+msgstr "Erorketaren ondoko jauzia"
 
 #. A rebound jump means: when a person fall from some height to the floor and just after this person performs the jump.
 #: ../glade/jump_type_add.glade.h:23
 msgid "Rebound can also start inside platform."
-msgstr ""
+msgstr "Erorketaren ondoko jauzia ere plataformaren barruan hasi daiteke."
 
 #: ../glade/old/dialog_help_ports.glade.h:1
 msgid "Chronopic port help"
-msgstr ""
+msgstr "Chronopic atakaren laguntza"
 
 #: ../glade/old/dialog_help_ports.glade.h:2 ../src/gui/old/helpPorts.cs:98
 msgid "Check Chronopic port"
-msgstr ""
+msgstr "Egiaztatu Chronopic ataka"
 
 #: ../glade/old/dialog_help_ports.glade.h:3 ../src/gui/old/helpPorts.cs:114
 msgid "Force Chronopic port to COM1 - COM4"
-msgstr ""
+msgstr "Behartu Chronopic ataka COM1 - COM4 izan dadin"
 
 #. not shown, unused
-#: ../glade/overview.glade.h:2 ../src/gui/app1/encoder.cs:5601
+#: ../glade/overview.glade.h:2 ../src/gui/app1/encoder.cs:5609
 #: ../src/gui/app1/forceSensor.cs:3512 ../src/gui/app1/runEncoder.cs:2167
 #: ../src/gui/app1/session/loadAndImport.cs:309
 #: ../src/gui/app1/session/loadAndImport.cs:312 ../src/gui/overview.cs:101
 #: ../src/gui/overview.cs:284
 msgid "Sets"
-msgstr ""
+msgstr "Multzoak"
 
 #. Catalog.GetString("Selected\nrepetitions"),
 #. Catalog.GetString("All\nrepetitions")
 #: ../glade/overview.glade.h:3 ../src/gui/encoderSelectRepetitions.cs:481
 #: ../src/gui/encoderSelectRepetitions.cs:653
 msgid "Saved repetitions"
-msgstr ""
+msgstr "Gordetako errepikapenak"
 
 #: ../glade/overview.glade.h:5
 msgid "Select this person"
-msgstr ""
+msgstr "Hautatu pertsona hau"
 
 #: ../glade/person_multiple_infinite.glade.h:1
 msgid "Add multiple persons"
-msgstr ""
+msgstr "Gehitu pertsona anitz"
 
 #: ../glade/person_multiple_infinite.glade.h:2
 msgid "Add entries manually"
-msgstr ""
+msgstr "Gehitu sarrerak eskuz"
 
 #: ../glade/person_multiple_infinite.glade.h:3
 msgid "Add entries from CSV (spreadsheet)"
-msgstr ""
+msgstr "Gehitu sarrerak CSV (kalkulu-orri) batetik"
 
 #: ../glade/person_multiple_infinite.glade.h:5
 msgid "Create table"
-msgstr ""
+msgstr "Sortu taula"
 
 #: ../glade/person_multiple_infinite.glade.h:6
 msgid "Mark if CSV file has header row or not."
-msgstr ""
+msgstr "Markatu CSVak goiburu-errenkadarik duen ala ez."
 
 #: ../glade/person_multiple_infinite.glade.h:7
 msgid "Full name in one column or in two (name/surname)."
-msgstr ""
+msgstr "Izen osoa zutabe batean edo bi zutabetan (izena/abizena)."
 
 #: ../glade/person_multiple_infinite.glade.h:8
 msgid "Spreadsheet structure need to have this structure:"
-msgstr ""
+msgstr "Kalkulu-orriak honako egitura izan behar du:"
 
 #: ../glade/person_multiple_infinite.glade.h:9
 msgid "<b>Full name</b>"
-msgstr ""
+msgstr "<b>Izen osoa</b>"
 
 #: ../glade/person_multiple_infinite.glade.h:10
 msgid "<b>Genre</b>"
-msgstr ""
+msgstr "<b>Generoa</b>"
 
 #: ../glade/person_multiple_infinite.glade.h:11
 msgid "<b>Weight</b>"
-msgstr ""
+msgstr "<b>Pisua</b>"
 
 #: ../glade/person_multiple_infinite.glade.h:12
 msgid "75"
-msgstr ""
+msgstr "75"
 
 #: ../glade/person_multiple_infinite.glade.h:13
 msgid "<b>Name</b>"
-msgstr ""
+msgstr "<b>Izena</b>"
 
 #: ../glade/person_multiple_infinite.glade.h:15
 msgid ""
 "To differentiate between male and female,\n"
 "use the values 1/0, or m/f, or M/F on the genre column."
-msgstr ""
+msgstr "Gizonaren eta emakumearen artean bereizteko,\n"
+"erabili 1/0 edo m/f edo M/F balioak generoaren zutabean."
 
 #: ../glade/person_multiple_infinite.glade.h:17
 msgid "Save the spreadsheet as CSV (Comma Separated Values)."
-msgstr ""
+msgstr "Gorde kalkulu-orria CSV (Comma Separated Values) gisa."
 
 #: ../glade/person_multiple_infinite.glade.h:18
 msgid "Open CSV file"
-msgstr ""
+msgstr "Ireki CSV fitxategia"
 
 #: ../glade/person_recuperate.glade.h:1
 msgid "Load persons"
-msgstr ""
+msgstr "Kargatu pertsonak"
 
 #: ../glade/person_recuperate.glade.h:2
 msgid ""
 "Select persons you want to load.\n"
 "(Persons in current session are not listed)"
-msgstr ""
+msgstr "Hautatu kargatuko diren pertsonak.\n"
+"(Uneko saioko pertsonak ez dira zerrendatuko)"
 
 #: ../glade/person_recuperate.glade.h:4
 msgid "From session"
-msgstr ""
+msgstr "Saiotik"
 
 #: ../glade/person_recuperate.glade.h:5
 msgid "Check"
@@ -3631,7 +3870,7 @@ msgstr "Egiaztatu"
 
 #: ../glade/person_select_window.glade.h:1
 msgid "Select person"
-msgstr ""
+msgstr "Hautatu pertsona"
 
 #: ../glade/person_select_window.glade.h:2
 msgid "Create new"
@@ -3647,23 +3886,23 @@ msgstr "Ziur zaude?"
 
 #: ../glade/person_select_window.glade.h:13
 msgid "Delete person from this session"
-msgstr ""
+msgstr "Ezabatu pertsona saio honetatik"
 
 #: ../glade/person_select_window.glade.h:20
 msgid "Show images"
-msgstr ""
+msgstr "Erakutsi irudiak"
 
 #: ../glade/person_show_all_events.glade.h:1
 msgid "Show all tests of a person"
-msgstr ""
+msgstr "Erakutsi pertsona baten proba guztiak"
 
 #: ../glade/person_show_all_events.glade.h:2
 msgid "show only persons in current session"
-msgstr ""
+msgstr "Erakutsi uneko pertsonak soilik"
 
 #: ../glade/person_show_all_events.glade.h:3
 msgid "Person:"
-msgstr ""
+msgstr "Pertsona:"
 
 #: ../glade/person_win.glade.h:2 ../src/gui/person/addMultiple.cs:367
 msgid "Full name"
@@ -3686,12 +3925,12 @@ msgstr "emakumea"
 
 #: ../glade/person_win.glade.h:6
 msgid "pounds\t"
-msgstr ""
+msgstr "libera\t"
 
 #. A club can have many players on Chronojump database&#10;- "Club ID" means the ID of the player on the club&#10;- It does not mean a ID of a club (compared with others club)&#10;&#10;So if unsure, translate this: "Person
 #: ../glade/person_win.glade.h:8
 msgid "Club ID"
-msgstr ""
+msgstr "Klubaren IDa"
 
 #. decimals
 #: ../glade/person_win.glade.h:9 ../src/constants.cs:1419
@@ -3703,7 +3942,7 @@ msgstr "Pisua"
 
 #: ../glade/person_win.glade.h:10
 msgid "Load from file"
-msgstr ""
+msgstr "Kargatu fitxategitik"
 
 #: ../glade/person_win.glade.h:11
 msgid "Add photo from file"
@@ -3719,7 +3958,7 @@ msgstr ""
 
 #: ../glade/person_win.glade.h:14
 msgid "Delete photo"
-msgstr ""
+msgstr "Ezabatu argazkia"
 
 #: ../glade/person_win.glade.h:15
 msgid "Photo"
@@ -3727,7 +3966,7 @@ msgstr "Argazkia"
 
 #: ../glade/person_win.glade.h:17
 msgid "Person's height"
-msgstr ""
+msgstr "Pertsonaren altuera"
 
 #: ../glade/person_win.glade.h:20
 msgid "Used on sprint analysis"
@@ -3735,7 +3974,7 @@ msgstr ""
 
 #: ../glade/person_win.glade.h:21
 msgid "Leg length"
-msgstr ""
+msgstr "Hanka-luzera"
 
 #: ../glade/person_win.glade.h:22
 msgid "Measured from trochanter to toe with foot extended"
@@ -3768,7 +4007,7 @@ msgstr "Aldatu data"
 
 #: ../glade/person_win.glade.h:29 ../glade/query_server_window.glade.h:12
 msgid "Continent"
-msgstr ""
+msgstr "Kontinentea"
 
 #: ../glade/person_win.glade.h:32
 msgid "Data of person"
@@ -3780,71 +4019,71 @@ msgstr "Pertsonaren datuak saio honetan"
 
 #: ../glade/person_win.glade.h:39
 msgid "Other data"
-msgstr ""
+msgstr "Beste datu batzuk"
 
 #: ../glade/person_win.glade.h:40
 msgid "Units:"
-msgstr ""
+msgstr "Unitateak:"
 
 #: ../glade/person_win.glade.h:41
 msgid "metric"
-msgstr ""
+msgstr "metrikoa"
 
 #: ../glade/person_win.glade.h:42
 msgid "imperial"
-msgstr ""
+msgstr "inperiala"
 
 #: ../glade/person_win.glade.h:43
 msgid "(pound, feet, inch)"
-msgstr ""
+msgstr "(libera, oina, hazbetea)"
 
 #: ../glade/preferences_win.glade.h:1
 msgid "Background color:"
-msgstr ""
+msgstr "Atzeko planoaren kolorea:"
 
 #: ../glade/preferences_win.glade.h:2
 msgid "System color"
-msgstr ""
+msgstr "Sistemaren kolorea"
 
 #: ../glade/preferences_win.glade.h:5
 msgid "Choose"
-msgstr ""
+msgstr "Aukeratu"
 
 #: ../glade/preferences_win.glade.h:6
 msgid "(needs restart)"
-msgstr ""
+msgstr "(berrabiarazi behar da)"
 
 #: ../glade/preferences_win.glade.h:7
 msgid "Load last session at start"
-msgstr ""
+msgstr "Kargatu azken saioa abioan"
 
 #: ../glade/preferences_win.glade.h:8
 msgid "Load last mode at start"
-msgstr ""
+msgstr "Kargatu azken modua abioan"
 
 #: ../glade/preferences_win.glade.h:9
 msgid "Show animated logo"
-msgstr ""
+msgstr "Erakutsi logo animatua"
 
 #: ../glade/preferences_win.glade.h:10
 msgid "Highlight rest time"
-msgstr ""
+msgstr "Nabarmendu atseden-denbora"
 
 #: ../glade/preferences_win.glade.h:11
 msgid "Highlight longer resting times than this value"
-msgstr ""
+msgstr "Nabarmendu balio hau baino luzeagoak diren atseden-denborak"
 
 #: ../glade/preferences_win.glade.h:12
 msgid "Import configuration"
-msgstr ""
+msgstr "Inportatu konfigurazioa"
 
 #: ../glade/preferences_win.glade.h:13
 msgid "Main"
-msgstr ""
+msgstr "Nagusia"
 
 #: ../glade/preferences_win.glade.h:14
 msgid "Recommended options for small or tactile screens"
-msgstr ""
+msgstr "Pantaila txiki edo ukigarrietarako gomendatutako aukerak"
 
 #: ../glade/preferences_win.glade.h:15
 msgid "Show persons photo"
@@ -3852,7 +4091,7 @@ msgstr "Erakutsi personen argazkiak"
 
 #: ../glade/preferences_win.glade.h:16
 msgid "Persons on top  (manage them by clicking a button)"
-msgstr ""
+msgstr "Pertsonak gainean (kudeatu haiek botoi batean klik eginez)"
 
 #. aka == -1.0
 #: ../glade/preferences_win.glade.h:18 ../src/constants.cs:932
@@ -3864,7 +4103,7 @@ msgstr "Ez"
 
 #: ../glade/preferences_win.glade.h:19
 msgid "Start Chronojump maximized"
-msgstr ""
+msgstr "Abiarazi Chronojump maximizatuta"
 
 #: ../glade/preferences_win.glade.h:20
 msgid "Undecorated (remove title bar and resize controls)"
@@ -3876,39 +4115,39 @@ msgstr "Gomendatua"
 
 #: ../glade/preferences_win.glade.h:22
 msgid "Screen"
-msgstr ""
+msgstr "Pantaila"
 
 #: ../glade/preferences_win.glade.h:23
 msgid "Indexes between TF and TC"
-msgstr ""
+msgstr "TF eta TC arteko indizeak"
 
 #: ../glade/preferences_win.glade.h:24
 msgid "QIndex"
-msgstr ""
+msgstr "QIndex"
 
 #: ../glade/preferences_win.glade.h:25
 msgid "DjIndex"
-msgstr ""
+msgstr "DjIndex"
 
 #: ../glade/preferences_win.glade.h:27
 msgid "Initial speed"
-msgstr ""
+msgstr "Hasierako abiadura"
 
 #: ../glade/preferences_win.glade.h:29 ../src/gui/preferences.cs:965
 msgid "Variables to show at reactive jumps:"
-msgstr ""
+msgstr "Jauzi erreaktiboetan erakutsiko diren aldagaiak:"
 
 #: ../glade/preferences_win.glade.h:30
 msgid "Heights: fall height, jump height"
-msgstr ""
+msgstr "Altuerak: erorketa-altuera, jauzi-altuera"
 
 #: ../glade/preferences_win.glade.h:31
 msgid "Times: contact time, flight time"
-msgstr ""
+msgstr "Denborak: kontaktu-denbora, hegaldi-denbora"
 
 #: ../glade/preferences_win.glade.h:32
 msgid "Weight units:"
-msgstr ""
+msgstr "Pisu-unitateak:"
 
 #: ../glade/preferences_win.glade.h:34
 msgid "Arms Use Index"
@@ -3916,7 +4155,7 @@ msgstr ""
 
 #: ../glade/preferences_win.glade.h:35
 msgid "Use height"
-msgstr ""
+msgstr "Erabili altuera"
 
 #: ../glade/preferences_win.glade.h:36
 msgid "default"
@@ -3924,11 +4163,11 @@ msgstr "lehenetsia"
 
 #: ../glade/preferences_win.glade.h:37
 msgid "Use flight time"
-msgstr ""
+msgstr "Erabili hegaldi-denbora"
 
 #: ../glade/preferences_win.glade.h:40
 msgid "Speed units:"
-msgstr ""
+msgstr "Abiadura-unitateak:"
 
 #: ../glade/preferences_win.glade.h:41 ../src/gui/preferences.cs:1547
 msgid ""
@@ -3999,15 +4238,15 @@ msgstr ""
 
 #: ../glade/preferences_win.glade.h:61
 msgid "Show all repetitions"
-msgstr ""
+msgstr "Erakutsi errepikapen guztiak"
 
 #: ../glade/preferences_win.glade.h:62
 msgid "Show only last repetitions"
-msgstr ""
+msgstr "Erakutsi azken errepikapenak soilik"
 
 #: ../glade/preferences_win.glade.h:63
 msgid "Font size at capture"
-msgstr ""
+msgstr "Letra-tamaina kapturan"
 
 #: ../glade/preferences_win.glade.h:64
 msgid "Appearance"
@@ -4015,23 +4254,23 @@ msgstr "Itxura"
 
 #: ../glade/preferences_win.glade.h:65
 msgid "Show start and duration of each repetition"
-msgstr ""
+msgstr "Erakutsi errepikapen bakoitzaren hasiera eta iraupena"
 
 #: ../glade/preferences_win.glade.h:66
 msgid "Do not use triggers"
-msgstr ""
+msgstr "Ez erabili abiarazleak"
 
 #: ../glade/preferences_win.glade.h:67
 msgid "Cut sets into repetitions using triggers"
-msgstr ""
+msgstr "Moztu multzoak errepikapenetan abiarazleen bidez"
 
 #: ../glade/preferences_win.glade.h:68
 msgid "First repetition starts when \"capture\" button is pressed"
-msgstr ""
+msgstr "Lehen errepikapena hasten da \"kapturatu\" botoia sakatzen denean"
 
 #: ../glade/preferences_win.glade.h:69
 msgid "First repetition starts when trigger button is pressed"
-msgstr ""
+msgstr "Lehen errepikapena hasten da abiarazle-botoia sakatzen denean"
 
 #: ../glade/preferences_win.glade.h:70
 msgid "Capture sets continuously"
@@ -4039,7 +4278,7 @@ msgstr ""
 
 #: ../glade/preferences_win.glade.h:71
 msgid "Not recommended"
-msgstr ""
+msgstr "Ez da gomendatzen"
 
 #: ../glade/preferences_win.glade.h:75 ../src/constants.cs:1441
 msgid "Propulsive"
@@ -4057,8 +4296,9 @@ msgstr ""
 #. work
 #: ../glade/preferences_win.glade.h:78 ../src/gui/encoderGraphObjects.cs:969
 #: ../src/gui/encoderTreeviews.cs:67 ../src/gui/encoderTreeviews.cs:602
+#: ../src/gui/eventExecute.cs:3906
 msgid "Work"
-msgstr ""
+msgstr "Lana"
 
 #: ../glade/preferences_win.glade.h:79
 msgid "Joules"
@@ -4066,7 +4306,7 @@ msgstr ""
 
 #: ../glade/preferences_win.glade.h:80
 msgid "Units"
-msgstr ""
+msgstr "Unitateak"
 
 #: ../glade/preferences_win.glade.h:81
 msgid "X variable to show on inertial analyze graphs"
@@ -4076,20 +4316,15 @@ msgstr ""
 #: ../glade/preferences_win.glade.h:82 ../src/gui/encoderTreeviews.cs:620
 #: ../src/gui/preferences.cs:1695
 msgid "Equivalent mass"
-msgstr ""
+msgstr "Masa baliokidea"
 
 #: ../glade/preferences_win.glade.h:83
 msgid "(Recommended)"
-msgstr ""
+msgstr "(Gomendatua)"
 
 #: ../glade/preferences_win.glade.h:86
 msgid "Smoothing"
 msgstr "Leuntzea"
-
-#: ../glade/preferences_win.glade.h:87
-#: ../glade/repetitive_conditions.glade.h:69
-msgid "Recommended:"
-msgstr "Gomendatua:"
 
 #: ../glade/preferences_win.glade.h:88
 msgid "Non weighted"
@@ -4149,7 +4384,7 @@ msgstr ""
 
 #: ../glade/preferences_win.glade.h:110
 msgid "Default:"
-msgstr ""
+msgstr "Lehenetsia:"
 
 #: ../glade/preferences_win.glade.h:111
 msgid "Max average force in"
@@ -4161,13 +4396,13 @@ msgstr ""
 
 #: ../glade/preferences_win.glade.h:115
 msgid "Minimum acceleration"
-msgstr ""
+msgstr "Gutxieneko azelerazioa"
 
 #: ../glade/preferences_win.glade.h:116
 msgid "Detection"
-msgstr ""
+msgstr "Detekzioa"
 
-#: ../glade/preferences_win.glade.h:117 ../src/gui/app1/chronojump.cs:2963
+#: ../glade/preferences_win.glade.h:117 ../src/gui/app1/chronojump.cs:2965
 #: ../src/gui/app1/session/loadAndImport.cs:302
 #: ../src/gui/person/showAllEvents.cs:174
 msgid "Race analyzer"
@@ -4183,16 +4418,11 @@ msgstr ""
 
 #: ../glade/preferences_win.glade.h:120
 msgid "System sounds"
-msgstr ""
-
-#: ../glade/preferences_win.glade.h:121
-#: ../glade/repetitive_conditions.glade.h:70
-msgid "Test \"Good\" bell"
-msgstr ""
+msgstr "Sistemaren soinuak"
 
 #: ../glade/preferences_win.glade.h:122
 msgid "Test sound"
-msgstr ""
+msgstr "Proba-soinua"
 
 #: ../glade/preferences_win.glade.h:123
 msgid "Sounds"
@@ -4212,7 +4442,7 @@ msgstr "Fotograma-emaria"
 
 #: ../glade/preferences_win.glade.h:130
 msgid "Pixel format"
-msgstr ""
+msgstr "Pixelen formatua"
 
 #. Substantive
 #: ../glade/preferences_win.glade.h:132
@@ -4225,7 +4455,7 @@ msgstr "Konfiguratu"
 
 #: ../glade/preferences_win.glade.h:136
 msgid "On Windows at least Windows 7 is required."
-msgstr ""
+msgstr "Windows sistemetan, gutxienez Windows 7 behar da."
 
 #: ../glade/preferences_win.glade.h:137
 msgid "Show advanced controls"
@@ -4249,7 +4479,7 @@ msgstr ""
 
 #: ../glade/preferences_win.glade.h:143
 msgid "<b>Advanced</b>"
-msgstr ""
+msgstr "<b>Aurreratua</b>"
 
 #: ../glade/preferences_win.glade.h:145
 msgid "Multimedia"
@@ -4261,23 +4491,23 @@ msgstr "Hizkuntza"
 
 #: ../glade/preferences_win.glade.h:147
 msgid "Use detected language"
-msgstr ""
+msgstr "Erabili detektatutako hizkuntza"
 
 #: ../glade/preferences_win.glade.h:148
 msgid "recommended"
-msgstr ""
+msgstr "gomendatua"
 
 #: ../glade/preferences_win.glade.h:149
 msgid "Force language"
-msgstr ""
+msgstr "Behartu hizkuntza"
 
 #: ../glade/preferences_win.glade.h:150
 msgid "This change needs restarting Chronojump"
-msgstr ""
+msgstr "Aldaketa honetarako, Chronojump berrabiarazi behar da"
 
 #: ../glade/preferences_win.glade.h:151
 msgid "Spreadsheet import and export format"
-msgstr ""
+msgstr "Kalkulu-orriak inportatu eta esportatzeko formatua"
 
 #: ../glade/preferences_win.glade.h:152
 msgid "Latin"
@@ -4285,7 +4515,7 @@ msgstr "Latina"
 
 #: ../glade/preferences_win.glade.h:153
 msgid "Non-Latin"
-msgstr ""
+msgstr "Ez latina"
 
 #: ../glade/preferences_win.glade.h:154
 msgid "Translate statistics graphs"
@@ -4313,19 +4543,19 @@ msgstr ""
 
 #: ../glade/preferences_win.glade.h:160
 msgid "Decimal places"
-msgstr ""
+msgstr "Dezimalak"
 
 #: ../glade/preferences_win.glade.h:161
 msgid "Open logs folder"
-msgstr ""
+msgstr "Ireki erregistroen karpeta"
 
 #: ../glade/preferences_win.glade.h:162
 msgid "Open temp folder"
-msgstr ""
+msgstr "Ireki aldi baterako karpeta"
 
 #: ../glade/preferences_win.glade.h:163
 msgid "Enter debug mode"
-msgstr ""
+msgstr "Sartu arazketa moduan"
 
 #: ../glade/preferences_win.glade.h:164
 msgid "SQL short test"
@@ -4341,11 +4571,11 @@ msgstr "Python bertsioa"
 
 #: ../glade/preferences_win.glade.h:167
 msgid "Fonts used on graphs:"
-msgstr ""
+msgstr "Grafikoetan erabilitako letra-tipoak:"
 
 #: ../glade/preferences_win.glade.h:168
 msgid "Do not write debug messages"
-msgstr ""
+msgstr "Ez idatzi arazketa-mezuak"
 
 #: ../glade/preferences_win.glade.h:169
 msgid "Mute logs"
@@ -4353,7 +4583,7 @@ msgstr "Mututu erregistroak"
 
 #: ../glade/preferences_win.glade.h:170
 msgid "default: False"
-msgstr ""
+msgstr "lehenetsia: Faltsua"
 
 #: ../glade/preferences_win.glade.h:171
 msgid "Developer options"
@@ -4369,11 +4599,11 @@ msgstr "Ikusi fitxa gehiago"
 
 #: ../glade/query_server_window.glade.h:1
 msgid "Query to server"
-msgstr ""
+msgstr "Kontsulta zerbitzariari"
 
 #: ../glade/query_server_window.glade.h:2
 msgid "Perform a query to the server."
-msgstr ""
+msgstr "Kontsultatu zerbitzariari."
 
 #: ../glade/query_server_window.glade.h:3
 msgid "Type of test"
@@ -4433,225 +4663,7 @@ msgstr "Notes"
 
 #: ../glade/repair_sub_event.glade.h:4
 msgid "Totaltime"
-msgstr ""
-
-#: ../glade/repetitive_conditions.glade.h:1
-msgid "Configure feedback"
-msgstr ""
-
-#: ../glade/repetitive_conditions.glade.h:2
-msgid "show best TF / TC"
-msgstr ""
-
-#: ../glade/repetitive_conditions.glade.h:3
-msgid "show worst TF / TC"
-msgstr ""
-
-#: ../glade/repetitive_conditions.glade.h:4
-msgid "show best time"
-msgstr ""
-
-#: ../glade/repetitive_conditions.glade.h:5
-msgid "show worst time"
-msgstr ""
-
-#: ../glade/repetitive_conditions.glade.h:6
-msgid "Best and worst values"
-msgstr ""
-
-#: ../glade/repetitive_conditions.glade.h:7
-msgid "Bell good"
-msgstr ""
-
-#: ../glade/repetitive_conditions.glade.h:11
-msgid "Bell bad"
-msgstr ""
-
-#: ../glade/repetitive_conditions.glade.h:12
-msgid "<b>Time</b> (s)"
-msgstr ""
-
-#: ../glade/repetitive_conditions.glade.h:13
-msgid "Conditions"
-msgstr ""
-
-#: ../glade/repetitive_conditions.glade.h:15
-msgid "Main variable"
-msgstr ""
-
-#: ../glade/repetitive_conditions.glade.h:16
-msgid "Feedback relative to the maximum repetition of …"
-msgstr ""
-
-#: ../glade/repetitive_conditions.glade.h:17
-msgid "this set"
-msgstr ""
-
-#: ../glade/repetitive_conditions.glade.h:18
-msgid "historical of this person on same exercise and encoder configuration"
-msgstr ""
-
-#: ../glade/repetitive_conditions.glade.h:19
-msgid "On eccentric-concentric have feedback …"
-msgstr ""
-
-#: ../glade/repetitive_conditions.glade.h:20
-msgid "on both phases"
-msgstr ""
-
-#: ../glade/repetitive_conditions.glade.h:21
-msgid "on eccentric"
-msgstr ""
-
-#: ../glade/repetitive_conditions.glade.h:22
-msgid "on concentric"
-msgstr ""
-
-#: ../glade/repetitive_conditions.glade.h:23
-msgid "Show eccentric overload on inertial"
-msgstr ""
-
-#: ../glade/repetitive_conditions.glade.h:24
-msgid "Show also percentage"
-msgstr ""
-
-#. Loss means:&#10;while capturing, person will experiment fatigue and the repetitions will start being worse in terms of speed or power or whatever is configured as Main variable. So if repetitions are getting worse in speed, is shown as "loss" of speed.
-#: ../glade/repetitive_conditions.glade.h:26
-msgid "Show loss"
-msgstr ""
-
-#: ../glade/repetitive_conditions.glade.h:27
-msgid "Show secondary variable"
-msgstr ""
-
-#: ../glade/repetitive_conditions.glade.h:28
-msgid "Feedback - Automatic"
-msgstr ""
-
-#: ../glade/repetitive_conditions.glade.h:29
-msgid "<b>Height</b> (cm)"
-msgstr ""
-
-#: ../glade/repetitive_conditions.glade.h:30
-msgid "<b>Mean speed</b> (m/s)"
-msgstr ""
-
-#: ../glade/repetitive_conditions.glade.h:31
-msgid "<b>Max speed</b> (m/s)"
-msgstr ""
-
-#: ../glade/repetitive_conditions.glade.h:33
-msgid "<b>Mean force</b> (N)"
-msgstr ""
-
-#: ../glade/repetitive_conditions.glade.h:34
-msgid "<b>Max force</b> (N)"
-msgstr ""
-
-#: ../glade/repetitive_conditions.glade.h:36
-msgid "<b>Mean power</b> (W)"
-msgstr ""
-
-#: ../glade/repetitive_conditions.glade.h:37
-msgid "<b>Peak power</b> (W)"
-msgstr ""
-
-#: ../glade/repetitive_conditions.glade.h:39
-msgid "Feedback - Manual"
-msgstr ""
-
-#: ../glade/repetitive_conditions.glade.h:40
-msgid "Show rhythm while capturing"
-msgstr ""
-
-#: ../glade/repetitive_conditions.glade.h:41
-#: ../src/gui/repetitiveConditions.cs:895
-msgid "Use clusters"
-msgstr ""
-
-#: ../glade/repetitive_conditions.glade.h:42
-msgid "Duration of eccentric phase"
-msgstr ""
-
-#: ../glade/repetitive_conditions.glade.h:43
-msgid "Duration of concentric phase"
-msgstr ""
-
-#: ../glade/repetitive_conditions.glade.h:44
-msgid "Total duration"
-msgstr ""
-
-#: ../glade/repetitive_conditions.glade.h:46
-msgid "Rest between repetitions"
-msgstr ""
-
-#: ../glade/repetitive_conditions.glade.h:47
-msgid "Rhythm of the repetition"
-msgstr ""
-
-#: ../glade/repetitive_conditions.glade.h:48
-msgid "Rhythm by phases"
-msgstr ""
-
-#: ../glade/repetitive_conditions.glade.h:49
-msgid "Duration of repetition"
-msgstr ""
-
-#: ../glade/repetitive_conditions.glade.h:52
-msgid "Configure rhythm"
-msgstr ""
-
-#: ../glade/repetitive_conditions.glade.h:53
-msgid "Repetitions in cluster"
-msgstr ""
-
-#: ../glade/repetitive_conditions.glade.h:54
-msgid "Rest between clusters"
-msgstr ""
-
-#: ../glade/repetitive_conditions.glade.h:55
-msgid "On encoder (gravitatory mode) rest starts …"
-msgstr ""
-
-#: ../glade/repetitive_conditions.glade.h:56
-msgid "after eccentric"
-msgstr ""
-
-#: ../glade/repetitive_conditions.glade.h:57
-msgid "after concentric"
-msgstr ""
-
-#: ../glade/repetitive_conditions.glade.h:59
-msgid "Do not show feedback"
-msgstr ""
-
-#: ../glade/repetitive_conditions.glade.h:60
-msgid "Show rectangle"
-msgstr ""
-
-#: ../glade/repetitive_conditions.glade.h:61
-msgid "Show path"
-msgstr ""
-
-#: ../glade/repetitive_conditions.glade.h:62
-msgid "at"
-msgstr ""
-
-#: ../glade/repetitive_conditions.glade.h:63
-msgid "range"
-msgstr ""
-
-#: ../glade/repetitive_conditions.glade.h:65
-msgid "Vertices"
-msgstr ""
-
-#: ../glade/repetitive_conditions.glade.h:71
-msgid "Test \"Bad\" bell"
-msgstr ""
-
-#: ../glade/repetitive_conditions.glade.h:72
-msgid "Test bells"
-msgstr ""
+msgstr "Denbora osoa"
 
 #: ../glade/report_window.glade.h:1
 msgid "Chronojump Report window"
@@ -4659,11 +4671,11 @@ msgstr ""
 
 #: ../glade/report_window.glade.h:2
 msgid "Select data for HTML report"
-msgstr ""
+msgstr "Hautatu HTML txostenerako datuak"
 
 #: ../glade/report_window.glade.h:3
 msgid "show …"
-msgstr ""
+msgstr "erakutsi …"
 
 #: ../glade/report_window.glade.h:5 ../src/gui/convertWeight.cs:62
 #: ../src/gui/convertWeight.cs:110
@@ -4672,11 +4684,11 @@ msgstr "Erreaktiboa"
 
 #: ../glade/report_window.glade.h:7
 msgid "Include laps"
-msgstr ""
+msgstr "Sartu itzuliak"
 
 #: ../glade/report_window.glade.h:8
 msgid "Include individual"
-msgstr ""
+msgstr "Sartu banakakoak"
 
 #: ../glade/report_window.glade.h:12
 msgid "Data"
@@ -4685,11 +4697,11 @@ msgstr "Datuak"
 #: ../glade/report_window.glade.h:15 ../src/exportSession.cs:225
 #: ../src/report.cs:181
 msgid "Reaction times"
-msgstr ""
+msgstr "Erreakzio-denborak"
 
 #: ../glade/report_window.glade.h:17
 msgid "general data"
-msgstr ""
+msgstr "Datu orokorrak"
 
 #: ../glade/report_window.glade.h:18 ../src/gui/app1/shortcuts.cs:49
 msgid "Up"
@@ -4701,11 +4713,11 @@ msgstr "Behera"
 
 #: ../glade/report_window.glade.h:21
 msgid "See graph"
-msgstr ""
+msgstr "Ikusi grafikoa"
 
 #: ../glade/report_window.glade.h:22 ../src/gui/report.cs:366
 msgid "Add comment"
-msgstr ""
+msgstr "Gehitu iruzkina"
 
 #: ../glade/report_window.glade.h:23
 msgid "Remove"
@@ -4713,15 +4725,15 @@ msgstr "Kendu"
 
 #: ../glade/report_window.glade.h:24
 msgid "statistics data"
-msgstr ""
+msgstr "Datu estatistikoak"
 
 #: ../glade/report_window.glade.h:25
 msgid "Make report"
-msgstr ""
+msgstr "Sortu txostena"
 
 #: ../glade/run_type_add.glade.h:1
 msgid "Create new race type"
-msgstr ""
+msgstr "Sortu lasterketa mota berria"
 
 #: ../glade/run_type_add.glade.h:2
 msgid "Create a new race type in the database"
@@ -4734,11 +4746,11 @@ msgstr ""
 #: ../glade/run_type_add.glade.h:10 ../src/gui/app1/contactsExercise.cs:266
 #: ../src/gui/app1/run.cs:291
 msgid "laps"
-msgstr ""
+msgstr "itzuli"
 
 #: ../glade/run_type_add.glade.h:11
 msgid "time (s)"
-msgstr ""
+msgstr "denbora (s)"
 
 #: ../glade/run_type_add.glade.h:14
 msgid "intervallic"
@@ -4754,7 +4766,7 @@ msgstr ""
 
 #: ../glade/run_type_add.glade.h:19
 msgid "(m)"
-msgstr ""
+msgstr "(m)"
 
 #: ../glade/run_type_add.glade.h:20
 msgid ""
@@ -4764,7 +4776,7 @@ msgstr ""
 
 #: ../glade/run_type_add.glade.h:22
 msgid "Number of different laps"
-msgstr ""
+msgstr "Itzuli desberdinen kopurua"
 
 #: ../glade/run_type_add.glade.h:23
 msgid "Help RSA"
@@ -4772,15 +4784,15 @@ msgstr ""
 
 #: ../glade/run_type_add.glade.h:24
 msgid "Distance of each lap"
-msgstr ""
+msgstr "Itzuli bakoitzaren distantzia"
 
 #: ../glade/session_upload.glade.h:1
 msgid "Upload session to server"
-msgstr ""
+msgstr "Kargatu saioa zerbitzarian"
 
 #: ../glade/stats_select_sessions.glade.h:1
 msgid "Select sessions for statistics"
-msgstr ""
+msgstr "Hautatu estatistiketarako saioak"
 
 #: ../glade/stats_select_sessions.glade.h:2
 msgid "unselected"
@@ -4792,13 +4804,13 @@ msgstr "hautatuta"
 
 #: ../glade/stats_select_sessions.glade.h:4
 msgid "select ->"
-msgstr ""
+msgstr "hautatu ->"
 
 #: ../glade/stats_select_sessions.glade.h:5
 msgid "<- unselect"
-msgstr ""
+msgstr "<- desautatu"
 
-#: ../glade/stats_select_sessions.glade.h:6 ../src/gui/app1/encoder.cs:2281
+#: ../glade/stats_select_sessions.glade.h:6 ../src/gui/app1/encoder.cs:2289
 msgid "all"
 msgstr "denak"
 
@@ -4808,16 +4820,16 @@ msgstr "bat ere ez"
 
 #: ../src/chronojump.cs:293
 msgid "Chronojump is already running"
-msgstr ""
+msgstr "Chronojump jadanik abian dago"
 
 #: ../src/chronojump.cs:294 ../src/chronojump.cs:545 ../src/chronojump.cs:922
 #: ../src/chronojump.cs:930
 msgid "Chronojump will exit now."
-msgstr ""
+msgstr "Chronojump amaitu egingo da orain."
 
 #: ../src/chronojump.cs:350
 msgid "no tables, creating …"
-msgstr ""
+msgstr "taularik ez, sortzen …"
 
 #. check (spanish)
 #. http://mail.gnome.org/archives/chronojump-devel-list/2008-March/msg00011.html
@@ -4854,11 +4866,11 @@ msgstr ""
 
 #: ../src/chronojump.cs:417 ../src/chronojumpImporter.cs:202
 msgid "Please update Chronojump"
-msgstr ""
+msgstr "Eguneratu Chronojump"
 
 #: ../src/chronojump.cs:425
 msgid "tables already created"
-msgstr ""
+msgstr "taulak sortu dira jadanik"
 
 #: ../src/chronojump.cs:488
 #, csharp-format
@@ -4866,23 +4878,25 @@ msgid ""
 "\n"
 "New Chronojump version available on website.\n"
 "Your Chronojump version is: {1}"
-msgstr ""
+msgstr "\n"
+"Chronojump bertsio berria dago webgunean.\n"
+"Zure Chronojump bertsioa: {1}"
 
 #: ../src/chronojump.cs:490
 msgid "Please, update to new version."
-msgstr ""
+msgstr "Eguneratu bertsio berrira"
 
 #: ../src/chronojump.cs:498
 msgid "Chronojump crashed before."
-msgstr ""
+msgstr "Chronojump kraskatu da lehenago ere."
 
 #: ../src/chronojump.cs:499 ../src/gui/old/chronojumpServerOld.cs:71
 msgid "Please, update to new version: "
-msgstr ""
+msgstr "Eguneratu bertsio berrira: "
 
 #: ../src/chronojump.cs:610
 msgid "Need permissions to read from device."
-msgstr ""
+msgstr "Baimenak behar dira gailutik irakurtzeko."
 
 #: ../src/chronojump.cs:611
 msgid "Check software page on Chronojump website"
@@ -4891,7 +4905,7 @@ msgstr ""
 #: ../src/chronojump.cs:758
 #, csharp-format
 msgid "Chronojump {0} crashed before."
-msgstr ""
+msgstr "Chronojump {0} kraskatu da lehenago ere."
 
 #: ../src/chronojump.cs:759
 #, csharp-format
@@ -4916,11 +4930,11 @@ msgstr ""
 #: ../src/chronojump.cs:920
 #, csharp-format
 msgid "Cannot create directory {0}"
-msgstr ""
+msgstr "Ezin da {0} direktorioa sortu"
 
 #: ../src/chronojump.cs:921 ../src/chronojump.cs:929
 msgid "Please, do it manually."
-msgstr ""
+msgstr "Egin eskuz"
 
 #: ../src/chronojump.cs:928
 #, csharp-format
@@ -4939,7 +4953,7 @@ msgstr "Egin ezkuz"
 #: ../src/chronojump.cs:943
 #, csharp-format
 msgid "Database is now here: {0}"
-msgstr ""
+msgstr "Datu-basea orain hemen dago: {0}"
 
 #: ../src/chronojumpImporter.cs:203
 msgid ""
@@ -4958,15 +4972,15 @@ msgstr "Serie-zenbakia"
 #. return Catalog.GetString("Not configured");
 #: ../src/chronopicRegister.cs:71
 msgid "Click on right arrow!"
-msgstr ""
+msgstr "Egin klik eskuineko gezian."
 
 #: ../src/chronopicRegister.cs:73
 msgid "Jumps/Races"
-msgstr ""
+msgstr "Jauziak/lasterketak"
 
 #: ../src/constants.cs:38
 msgid "Main developer."
-msgstr ""
+msgstr "Garatzaile nagusia."
 
 #: ../src/constants.cs:40
 msgid "Installation support: Autotools, packaging, bundle."
@@ -4974,19 +4988,19 @@ msgstr ""
 
 #: ../src/constants.cs:42
 msgid "R scripts."
-msgstr ""
+msgstr "R scriptak."
 
 #: ../src/constants.cs:44
 msgid "Backend developer."
-msgstr ""
+msgstr "Motorraren garatzailea"
 
 #: ../src/constants.cs:44
 msgid "Import sessions."
-msgstr ""
+msgstr "Inportatu saioak."
 
 #: ../src/constants.cs:49
 msgid "Full Stack developer."
-msgstr ""
+msgstr "Pila osoaren garatzailea."
 
 #: ../src/constants.cs:51
 msgid "Django developer."
@@ -4998,7 +5012,7 @@ msgstr "Django migrazioa."
 
 #: ../src/constants.cs:55
 msgid "Client-Server integration."
-msgstr ""
+msgstr "Bezero-zerbitzari integrazioa."
 
 #: ../src/constants.cs:55
 msgid "First Flask iteration."
@@ -5010,23 +5024,23 @@ msgstr ""
 
 #: ../src/constants.cs:62
 msgid "Sports sciences"
-msgstr ""
+msgstr "Kirolen zientziak"
 
 #: ../src/constants.cs:62 ../src/constants.cs:64
 msgid "Engineering"
-msgstr ""
+msgstr "Ingeniaritza"
 
 #: ../src/constants.cs:66
 msgid "Electronics"
-msgstr ""
+msgstr "Elektronika"
 
 #: ../src/constants.cs:68 ../src/constants.cs:70
 msgid "Maths and statistics"
-msgstr ""
+msgstr "Matematika eta estatistikak"
 
 #: ../src/constants.cs:84
 msgid "Chronojump Manual English translation."
-msgstr ""
+msgstr "Chronojump eskuliburuaren ingelesezko itzulpena."
 
 #: ../src/constants.cs:89
 msgid "Translation of Firmware to C."
@@ -5369,9 +5383,9 @@ msgstr ""
 #: ../src/exportSession.cs:440 ../src/exportSession.cs:604
 #: ../src/exportSession.cs:662 ../src/exportSession.cs:758
 #: ../src/exportSession.cs:800 ../src/exportSession.cs:860
-#: ../src/gui/eventExecute.cs:183 ../src/gui/eventExecute.cs:2474
-#: ../src/gui/eventExecute.cs:2578 ../src/gui/eventExecute.cs:2699
-#: ../src/gui/eventExecute.cs:2825 ../src/gui/eventExecute.cs:2924
+#: ../src/gui/eventExecute.cs:183 ../src/gui/eventExecute.cs:2487
+#: ../src/gui/eventExecute.cs:2598 ../src/gui/eventExecute.cs:2724
+#: ../src/gui/eventExecute.cs:2851 ../src/gui/eventExecute.cs:2952
 msgid "Simulated"
 msgstr "Simulatua"
 
@@ -5564,8 +5578,8 @@ msgstr ""
 msgid "jump height"
 msgstr ""
 
-#: ../src/constants.cs:1427 ../src/gui/app1/encoder.cs:5110
-#: ../src/gui/app1/encoder.cs:5128
+#: ../src/constants.cs:1427 ../src/gui/app1/encoder.cs:5118
+#: ../src/gui/app1/encoder.cs:5136
 msgid "Not enough data."
 msgstr ""
 
@@ -5597,7 +5611,7 @@ msgstr ""
 msgid "Mean speed in concentric propulsive phase"
 msgstr ""
 
-#: ../src/constants.cs:1435 ../src/gui/app1/encoder.cs:1414
+#: ../src/constants.cs:1435 ../src/gui/app1/encoder.cs:1420
 msgid "Sorry, no repetitions matched your criteria."
 msgstr ""
 
@@ -5606,12 +5620,12 @@ msgid "Need at least three jumps"
 msgstr ""
 
 #. laterality is stored on English but translated on encoder sqlite select
-#: ../src/constants.cs:1437 ../src/gui/app1/encoder.cs:1798
+#: ../src/constants.cs:1437 ../src/gui/app1/encoder.cs:1804
 #: ../src/sqlite/main.cs:1913 ../src/sqlite/main.cs:1914
 msgid "RL"
 msgstr ""
 
-#: ../src/constants.cs:1437 ../src/gui/app1/encoder.cs:1800
+#: ../src/constants.cs:1437 ../src/gui/app1/encoder.cs:1806
 #: ../src/sqlite/main.cs:1916 ../src/sqlite/main.cs:1917
 msgid "R"
 msgstr "R"
@@ -5933,11 +5947,11 @@ msgstr[1] ""
 msgid "Cancelled."
 msgstr "Bertan behera utzita."
 
-#: ../src/exportFiles/exportFiles.cs:172 ../src/gui/app1/encoder.cs:1301
+#: ../src/exportFiles/exportFiles.cs:172 ../src/gui/app1/encoder.cs:1307
 msgid "Missing data."
 msgstr ""
 
-#: ../src/exportFiles/exportFiles.cs:174 ../src/gui/app1/encoder.cs:5120
+#: ../src/exportFiles/exportFiles.cs:174 ../src/gui/app1/encoder.cs:5128
 msgid "Error doing operation."
 msgstr ""
 
@@ -5986,15 +6000,15 @@ msgid "Cannot export to file {0} "
 msgstr ""
 
 #. 3) show message
-#: ../src/exportSession.cs:162 ../src/gui/app1/encoder.cs:2551
-#: ../src/gui/app1/encoder.cs:2721 ../src/gui/app1/encoder.cs:2729
-#: ../src/gui/app1/encoder.cs:2736 ../src/gui/app1/encoder.cs:2743
-#: ../src/gui/app1/encoder.cs:2751 ../src/gui/app1/encoder.cs:2758
+#: ../src/exportSession.cs:162 ../src/gui/app1/encoder.cs:2559
+#: ../src/gui/app1/encoder.cs:2729 ../src/gui/app1/encoder.cs:2737
+#: ../src/gui/app1/encoder.cs:2744 ../src/gui/app1/encoder.cs:2751
+#: ../src/gui/app1/encoder.cs:2759 ../src/gui/app1/encoder.cs:2766
 #: ../src/gui/app1/forceSensor.cs:3097 ../src/gui/app1/forceSensor.cs:3109
 #: ../src/gui/app1/forceSensor.cs:3132 ../src/gui/app1/jump.cs:734
 #: ../src/gui/app1/jumpsDjOptimalFall.cs:155
-#: ../src/gui/app1/jumpsRunsEvolution.cs:179
-#: ../src/gui/app1/jumpsRunsEvolution.cs:399
+#: ../src/gui/app1/jumpsRunsEvolution.cs:180
+#: ../src/gui/app1/jumpsRunsEvolution.cs:401
 #: ../src/gui/app1/jumpsProfile.cs:117 ../src/gui/app1/jumpsRjFatigue.cs:260
 #: ../src/gui/app1/jumpsWeightFVProfile.cs:218 ../src/gui/app1/run.cs:523
 #: ../src/gui/app1/runEncoderAnalyze.cs:254
@@ -6033,7 +6047,7 @@ msgstr ""
 msgid "SessionID"
 msgstr ""
 
-#: ../src/exportSession.cs:261 ../src/gui/app1/encoder.cs:1706
+#: ../src/exportSession.cs:261 ../src/gui/app1/encoder.cs:1712
 #: ../src/gui/app1/forceSensor.cs:2174 ../src/gui/app1/runEncoder.cs:933
 #: ../src/gui/convertWeight.cs:106 ../src/gui/encoderSelectRepetitions.cs:212
 #: ../src/gui/encoderSelectRepetitions.cs:475
@@ -6156,7 +6170,7 @@ msgstr ""
 msgid "Distance interval"
 msgstr ""
 
-#: ../src/exportSession.cs:658 ../src/gui/app1/chronojump.cs:5520
+#: ../src/exportSession.cs:658 ../src/gui/app1/chronojump.cs:5522
 #: ../src/gui/run.cs:1174 ../src/gui/run.cs:1242 ../src/gui/run.cs:1294
 msgid "Laps"
 msgstr ""
@@ -6214,25 +6228,25 @@ msgstr "Estatistikak"
 msgid "Sample"
 msgstr "Lagina"
 
-#: ../src/gui/app1/chronojump.cs:1070
+#: ../src/gui/app1/chronojump.cs:1072
 #, csharp-format
 msgid "Chronojump database version file: {0}"
 msgstr ""
 
-#: ../src/gui/app1/chronojump.cs:1125
+#: ../src/gui/app1/chronojump.cs:1127
 msgid "Preferences loaded"
 msgstr "Hobespenak kargatu dira"
 
-#: ../src/gui/app1/chronojump.cs:1414
+#: ../src/gui/app1/chronojump.cs:1416
 #, csharp-format
 msgid "Sprints of {0}"
 msgstr ""
 
-#: ../src/gui/app1/chronojump.cs:1446
+#: ../src/gui/app1/chronojump.cs:1448
 msgid "Show all tests of"
 msgstr ""
 
-#: ../src/gui/app1/chronojump.cs:1453
+#: ../src/gui/app1/chronojump.cs:1455
 #, csharp-format
 msgid "Delete {0} from this session"
 msgstr ""
@@ -6314,117 +6328,117 @@ msgstr ""
 #. myItem.Sensitive = false;
 #. myMenu.Attach( myItem, 0, 1, 0, 1 );
 #.
-#: ../src/gui/app1/chronojump.cs:1588 ../src/gui/app1/chronojump.cs:1702
-#: ../src/gui/app1/chronojump.cs:1804 ../src/gui/app1/chronojump.cs:1924
-#: ../src/gui/app1/chronojump.cs:2019 ../src/gui/app1/chronojump.cs:2114
-#: ../src/gui/app1/chronojump.cs:2224 ../src/gui/forceSensorElasticBands.cs:278
+#: ../src/gui/app1/chronojump.cs:1590 ../src/gui/app1/chronojump.cs:1704
+#: ../src/gui/app1/chronojump.cs:1806 ../src/gui/app1/chronojump.cs:1926
+#: ../src/gui/app1/chronojump.cs:2021 ../src/gui/app1/chronojump.cs:2116
+#: ../src/gui/app1/chronojump.cs:2226 ../src/gui/forceSensorElasticBands.cs:278
 msgid "Edit selected"
 msgstr "Editatu hautatu"
 
-#: ../src/gui/app1/chronojump.cs:1706 ../src/gui/app1/chronojump.cs:1928
-#: ../src/gui/app1/chronojump.cs:2118
+#: ../src/gui/app1/chronojump.cs:1708 ../src/gui/app1/chronojump.cs:1930
+#: ../src/gui/app1/chronojump.cs:2120
 msgid "Repair selected"
 msgstr "Konpondu hautatua"
 
-#: ../src/gui/app1/chronojump.cs:2852
+#: ../src/gui/app1/chronojump.cs:2854
 #, csharp-format
 msgid ""
 "Could not delete file:\n"
 "{0}"
 msgstr ""
 
-#: ../src/gui/app1/chronojump.cs:2955 ../src/gui/app1/encoder.cs:2271
+#: ../src/gui/app1/chronojump.cs:2957 ../src/gui/app1/encoder.cs:2279
 #: ../src/gui/app1/session/loadAndImport.cs:296
 msgid "Jumps simple"
 msgstr ""
 
-#: ../src/gui/app1/chronojump.cs:2957 ../src/gui/app1/encoder.cs:2273
+#: ../src/gui/app1/chronojump.cs:2959 ../src/gui/app1/encoder.cs:2281
 msgid "Jumps multiple"
 msgstr ""
 
-#: ../src/gui/app1/chronojump.cs:2959 ../src/gui/app1/encoder.cs:2275
+#: ../src/gui/app1/chronojump.cs:2961 ../src/gui/app1/encoder.cs:2283
 #: ../src/gui/app1/session/loadAndImport.cs:300
 msgid "Races simple"
 msgstr ""
 
-#: ../src/gui/app1/chronojump.cs:2961 ../src/gui/app1/encoder.cs:2277
+#: ../src/gui/app1/chronojump.cs:2963 ../src/gui/app1/encoder.cs:2285
 msgid "Races intervallic"
 msgstr ""
 
-#: ../src/gui/app1/chronojump.cs:2965
+#: ../src/gui/app1/chronojump.cs:2967
 msgid "Encoder (gravitatory)"
 msgstr ""
 
-#: ../src/gui/app1/chronojump.cs:2967
+#: ../src/gui/app1/chronojump.cs:2969
 msgid "Encoder (inertial)"
 msgstr ""
 
 #. reportWin is still not created, not need to Fill again
 #. feedback (more in 1st session created)
-#: ../src/gui/app1/chronojump.cs:3028
+#: ../src/gui/app1/chronojump.cs:3030
 msgid "Session created, now add or load persons."
 msgstr ""
 
 #. notebook_encoder_capture_extra_mass.CurrentPage = 1;
 #. TODO: show also info on the top
-#: ../src/gui/app1/chronojump.cs:3800
+#: ../src/gui/app1/chronojump.cs:3802
 msgid "Configure inertial encoder"
 msgstr ""
 
-#: ../src/gui/app1/chronojump.cs:4040
+#: ../src/gui/app1/chronojump.cs:4042
 msgid "Sorry, R software is not installed."
 msgstr ""
 
-#: ../src/gui/app1/chronojump.cs:4041 ../src/gui/app1/encoder.cs:7285
+#: ../src/gui/app1/chronojump.cs:4043 ../src/gui/app1/encoder.cs:7342
 #: ../src/stats/main.cs:1517
 msgid "Please, install it from here:"
 msgstr ""
 
-#: ../src/gui/app1/chronojump.cs:4671
+#: ../src/gui/app1/chronojump.cs:4673
 msgid "Sorry, RSA tests cannot be simulated."
 msgstr ""
 
-#: ../src/gui/app1/chronojump.cs:4750 ../src/gui/app1/encoder.cs:1361
+#: ../src/gui/app1/chronojump.cs:4752 ../src/gui/app1/encoder.cs:1367
 msgid "Saved comment."
 msgstr ""
 
-#: ../src/gui/app1/chronojump.cs:6198
+#: ../src/gui/app1/chronojump.cs:6200
 msgid "Changes"
 msgstr "Aldaketak"
 
-#: ../src/gui/app1/chronojump.cs:6655 ../src/gui/app1/chronojump.cs:6671
+#: ../src/gui/app1/chronojump.cs:6657 ../src/gui/app1/chronojump.cs:6673
 msgid "Do you want to delete this jump?"
 msgstr "Jauzi hau ezabatu nahi duzu?"
 
-#: ../src/gui/app1/chronojump.cs:6753 ../src/gui/app1/chronojump.cs:6771
+#: ../src/gui/app1/chronojump.cs:6755 ../src/gui/app1/chronojump.cs:6773
 msgid "Do you want to delete this race?"
 msgstr "Lasterketa hau ezabatu nahi duzu?"
 
-#: ../src/gui/app1/chronojump.cs:6919
+#: ../src/gui/app1/chronojump.cs:6921
 msgid "Do you want to delete this test?"
 msgstr "Proba hau ezabatu nahi duzu?"
 
-#: ../src/gui/app1/chronojump.cs:6982
+#: ../src/gui/app1/chronojump.cs:6984
 msgid "Added simple jump type."
 msgstr ""
 
-#: ../src/gui/app1/chronojump.cs:6992
+#: ../src/gui/app1/chronojump.cs:6994
 msgid "Added reactive jump type."
 msgstr ""
 
-#: ../src/gui/app1/chronojump.cs:7023
+#: ../src/gui/app1/chronojump.cs:7025
 msgid "Added simple race type."
 msgstr ""
 
-#: ../src/gui/app1/chronojump.cs:7032
+#: ../src/gui/app1/chronojump.cs:7034
 msgid "Added intervallic race type."
 msgstr ""
 
-#: ../src/gui/app1/chronojump.cs:7658
+#: ../src/gui/app1/chronojump.cs:7660
 msgid "translator-credits"
 msgstr "Asier Sarasua Garmendia <asier.sarasua@gmail.com>"
 
-#: ../src/gui/app1/chronojump.cs:8515
+#: ../src/gui/app1/chronojump.cs:8528
 msgid "Done for testing purposes. Chronojump will exit badly"
 msgstr ""
 
@@ -6455,81 +6469,81 @@ msgstr ""
 msgid "Calibrated"
 msgstr ""
 
-#: ../src/gui/app1/encoder.cs:970 ../src/gui/app1/encoder.cs:5314
-#: ../src/gui/app1/encoder.cs:5570 ../src/gui/app1/forceSensor.cs:442
+#: ../src/gui/app1/encoder.cs:976 ../src/gui/app1/encoder.cs:5322
+#: ../src/gui/app1/encoder.cs:5578 ../src/gui/app1/forceSensor.cs:442
 #: ../src/gui/app1/forceSensor.cs:3428 ../src/gui/app1/forceSensor.cs:3480
 #: ../src/gui/app1/runEncoder.cs:345 ../src/gui/app1/runEncoder.cs:1907
 #: ../src/gui/app1/runEncoder.cs:2133
 msgid "Need to create/select an exercise."
 msgstr ""
 
-#: ../src/gui/app1/encoder.cs:1190
+#: ../src/gui/app1/encoder.cs:1196
 msgid "Load 1RM"
 msgstr ""
 
-#: ../src/gui/app1/encoder.cs:1191 ../src/gui/encoderSelectRepetitions.cs:478
+#: ../src/gui/app1/encoder.cs:1197 ../src/gui/encoderSelectRepetitions.cs:478
 msgid "Session date"
 msgstr ""
 
 #. don't show now
-#: ../src/gui/app1/encoder.cs:1210
+#: ../src/gui/app1/encoder.cs:1216
 #, csharp-format
 msgid "Saved 1RM values of athlete {0} in {1} exercise."
 msgstr ""
 
-#: ../src/gui/app1/encoder.cs:1212 ../src/gui/encoderSelectRepetitions.cs:259
+#: ../src/gui/app1/encoder.cs:1218 ../src/gui/encoderSelectRepetitions.cs:259
 msgid "If you want to delete a row, right click on it."
 msgstr ""
 
-#: ../src/gui/app1/encoder.cs:1213
+#: ../src/gui/app1/encoder.cs:1219
 msgid "If there is more than one value, top one will be used."
 msgstr ""
 
-#: ../src/gui/app1/encoder.cs:1217
+#: ../src/gui/app1/encoder.cs:1223
 msgid "Manually add"
 msgstr ""
 
-#: ../src/gui/app1/encoder.cs:1220
+#: ../src/gui/app1/encoder.cs:1226
 msgid "Add 1RM value"
 msgstr ""
 
-#: ../src/gui/app1/encoder.cs:1332
+#: ../src/gui/app1/encoder.cs:1338
 msgid "Recalculate this set will remove existing triggers."
 msgstr ""
 
-#: ../src/gui/app1/encoder.cs:1333
+#: ../src/gui/app1/encoder.cs:1339
 msgid "Are you sure!"
 msgstr ""
 
-#: ../src/gui/app1/encoder.cs:1711 ../src/gui/overview.cs:279
+#: ../src/gui/app1/encoder.cs:1717 ../src/gui/overview.cs:279
 #: ../src/gui/overview.cs:288
 msgid "Encoder configuration"
 msgstr ""
 
-#: ../src/gui/app1/encoder.cs:1712 ../src/gui/encoderSelectRepetitions.cs:222
+#: ../src/gui/app1/encoder.cs:1718 ../src/gui/encoderSelectRepetitions.cs:222
 msgid "Contraction"
 msgstr ""
 
 #. don't show now
-#: ../src/gui/app1/encoder.cs:1729 ../src/gui/app1/forceSensor.cs:2198
+#: ../src/gui/app1/encoder.cs:1735 ../src/gui/app1/forceSensor.cs:2198
 #: ../src/gui/app1/runEncoder.cs:954
 #, csharp-format
 msgid "Select set of athlete {0} on this session."
 msgstr ""
 
-#: ../src/gui/app1/encoder.cs:1731 ../src/gui/app1/forceSensor.cs:2201
+#: ../src/gui/app1/encoder.cs:1737 ../src/gui/app1/forceSensor.cs:2201
 #: ../src/gui/app1/runEncoder.cs:957
 msgid "If you want to edit or delete a row, right click on it."
 msgstr ""
 
 #. genericWin.SetComboLabel(Catalog.GetString("Change the owner of selected set") +
 #. " (" + Catalog.GetString("code") + ":" + Catalog.GetString("name") + ")");
-#: ../src/gui/app1/encoder.cs:1746 ../src/gui/app1/forceSensor.cs:2217
+#: ../src/gui/app1/encoder.cs:1752 ../src/gui/app1/forceSensor.cs:2217
 #: ../src/gui/app1/runEncoder.cs:973
 msgid "Change person"
 msgstr "Aldatu pertsona"
 
-#: ../src/gui/app1/encoder.cs:1836
+#: ../src/gui/app1/encoder.cs:1842
 msgid "Unnamed"
 msgstr "Izengabea"
 
@@ -6541,39 +6555,39 @@ msgstr "Izengabea"
 #. to be entered as null and not repeat the uniqueID
 #. add a suffix
 #. add more suffixes until name is unique
-#: ../src/gui/app1/encoder.cs:1836 ../src/gui/encoderConfiguration.cs:719
+#: ../src/gui/app1/encoder.cs:1842 ../src/gui/encoderConfiguration.cs:719
 #: ../src/gui/encoderConfiguration.cs:836
 #: ../src/gui/encoderConfiguration.cs:873
 #: ../src/gui/encoderConfiguration.cs:875
 msgid "copy"
 msgstr "kopiatu"
 
-#: ../src/gui/app1/encoder.cs:1961 ../src/gui/app1/encoder.cs:2803
+#: ../src/gui/app1/encoder.cs:1967 ../src/gui/app1/encoder.cs:2811
 #: ../src/gui/app1/forceSensor.cs:2456 ../src/gui/app1/forceSensor.cs:2492
 #: ../src/gui/app1/runEncoder.cs:1219 ../src/gui/app1/runEncoder.cs:1256
 msgid "Are you sure you want to delete this set?"
 msgstr "Ziur zaude multzo hau ezabatu nahi duzula?"
 
-#: ../src/gui/app1/encoder.cs:1961 ../src/gui/app1/encoder.cs:2803
+#: ../src/gui/app1/encoder.cs:1967 ../src/gui/app1/encoder.cs:2811
 msgid "Saved repetitions related to this set will also be deleted."
 msgstr ""
 
-#: ../src/gui/app1/encoder.cs:2165
+#: ../src/gui/app1/encoder.cs:2173
 msgid "Export set in CSV format"
 msgstr "Esportatu multzoa CSV formatuan"
 
-#: ../src/gui/app1/encoder.cs:2197
+#: ../src/gui/app1/encoder.cs:2205
 msgid "Export repetition in CSV format"
 msgstr ""
 
-#: ../src/gui/app1/encoder.cs:2387 ../src/gui/app1/encoder.cs:2648
+#: ../src/gui/app1/encoder.cs:2395 ../src/gui/app1/encoder.cs:2656
 #: ../src/gui/app1/session/backup.cs:255 ../src/gui/app1/session/export.cs:96
 msgid "Are you sure you want to overwrite: "
 msgstr "Ziur zaude honakoa gainidatzi nahi duzula: "
 
-#: ../src/gui/app1/encoder.cs:2562 ../src/gui/app1/encoder.cs:2699
-#: ../src/gui/app1/encoder.cs:4982 ../src/gui/app1/encoder.cs:5006
-#: ../src/gui/app1/encoder.cs:5094 ../src/gui/app1/runEncoderAnalyze.cs:245
+#: ../src/gui/app1/encoder.cs:2570 ../src/gui/app1/encoder.cs:2707
+#: ../src/gui/app1/encoder.cs:4990 ../src/gui/app1/encoder.cs:5014
+#: ../src/gui/app1/encoder.cs:5102 ../src/gui/app1/runEncoderAnalyze.cs:245
 #: ../src/gui/app1/runEncoderAnalyze.cs:294 ../src/gui/app1/runEncoder.cs:2324
 #: ../src/gui/encoderConfiguration.cs:779 ../src/gui/person/addModify.cs:386
 #: ../src/gui/sprint.cs:287
@@ -6582,307 +6596,308 @@ msgid "Cannot save file {0} "
 msgstr ""
 
 #. 1) create exportString: message to the user
-#: ../src/gui/app1/encoder.cs:2585
+#: ../src/gui/app1/encoder.cs:2593
 msgid "Export data and graphs"
 msgstr "Esportatu datuak eta grafikoak"
 
-#: ../src/gui/app1/encoder.cs:2820
+#: ../src/gui/app1/encoder.cs:2828
 msgid "Set deleted"
 msgstr "Multzoa ezabatu da"
 
-#: ../src/gui/app1/encoder.cs:2989 ../src/gui/encoderTreeviews.cs:194
+#: ../src/gui/app1/encoder.cs:2997 ../src/gui/encoderTreeviews.cs:194
 #: ../src/gui/executeAuto.cs:453
 msgid "Saved"
 msgstr "Gordeta"
 
-#: ../src/gui/app1/encoder.cs:3123
+#: ../src/gui/app1/encoder.cs:3131
 msgid "Set saved"
 msgstr "Multzoa gorde da"
 
-#: ../src/gui/app1/encoder.cs:3141
+#: ../src/gui/app1/encoder.cs:3149
 msgid "Sorry, video cannot be stored."
 msgstr ""
 
-#: ../src/gui/app1/encoder.cs:3153
+#: ../src/gui/app1/encoder.cs:3161
 msgid "Set updated"
 msgstr "Multzoa eguneratu da"
 
-#: ../src/gui/app1/encoder.cs:3173
+#: ../src/gui/app1/encoder.cs:3181
 msgid "Sorry, no repetitions selected."
 msgstr ""
 
 #. cannot do 1RM Any exercise without the "speed at 1RM" exercise parameter
-#: ../src/gui/app1/encoder.cs:3186 ../src/gui/app1/encoder.cs:3214
-#: ../src/gui/app1/encoder.cs:3239 ../src/gui/app1/encoder.cs:3282
-#: ../src/gui/app1/encoder.cs:4520
+#: ../src/gui/app1/encoder.cs:3194 ../src/gui/app1/encoder.cs:3222
+#: ../src/gui/app1/encoder.cs:3247 ../src/gui/app1/encoder.cs:3290
+#: ../src/gui/app1/encoder.cs:4528
 msgid "1RM Any exercise"
 msgstr ""
 
-#: ../src/gui/app1/encoder.cs:3188 ../src/gui/app1/encoder.cs:3284
-#: ../src/gui/app1/encoder.cs:4520
+#: ../src/gui/app1/encoder.cs:3196 ../src/gui/app1/encoder.cs:3292
+#: ../src/gui/app1/encoder.cs:4528
 msgid "1RM Bench Press"
 msgstr ""
 
-#: ../src/gui/app1/encoder.cs:3190 ../src/gui/app1/encoder.cs:3286
-#: ../src/gui/app1/encoder.cs:4521
+#: ../src/gui/app1/encoder.cs:3198 ../src/gui/app1/encoder.cs:3294
+#: ../src/gui/app1/encoder.cs:4529
 msgid "1RM Squat"
 msgstr ""
 
-#: ../src/gui/app1/encoder.cs:3207
+#: ../src/gui/app1/encoder.cs:3215
 msgid "Sorry, cannot calculate 1RM of different exercises."
 msgstr ""
 
-#: ../src/gui/app1/encoder.cs:3208
+#: ../src/gui/app1/encoder.cs:3216
 msgid "Please select repetitions of only one exercise type."
 msgstr ""
 
-#: ../src/gui/app1/encoder.cs:3223
+#: ../src/gui/app1/encoder.cs:3231
 #, csharp-format
 msgid ""
 "Sorry, parameter: 'speed at 1RM' on exercise: '{0}' cannot be 0 for this "
 "analysis."
 msgstr ""
 
-#: ../src/gui/app1/encoder.cs:3225
+#: ../src/gui/app1/encoder.cs:3233
 msgid "Please edit exercise parameters on capture tab."
 msgstr ""
 
-#: ../src/gui/app1/encoder.cs:3242
+#: ../src/gui/app1/encoder.cs:3250
 msgid "Sorry, cannot calculate this 1RM test on one set."
 msgstr ""
 
 #. will not be translated
-#: ../src/gui/app1/encoder.cs:3260 ../src/gui/app1/encoder.cs:4702
+#: ../src/gui/app1/encoder.cs:3268 ../src/gui/app1/encoder.cs:4710
 msgid "Speed,Power / Load"
 msgstr ""
 
-#: ../src/gui/app1/encoder.cs:3263 ../src/gui/app1/encoder.cs:3290
-#: ../src/gui/app1/encoder.cs:3311
+#: ../src/gui/app1/encoder.cs:3271 ../src/gui/app1/encoder.cs:3298
+#: ../src/gui/app1/encoder.cs:3319
 msgid "Sorry, this graph is not supported yet."
 msgstr ""
 
-#: ../src/gui/app1/encoder.cs:3565 ../src/gui/encoderSelectRepetitions.cs:170
+#: ../src/gui/app1/encoder.cs:3573 ../src/gui/encoderSelectRepetitions.cs:170
 msgid "All weights"
 msgstr "Pisu guztiak"
 
-#: ../src/gui/app1/encoder.cs:4355
+#: ../src/gui/app1/encoder.cs:4363
 msgid "About Neuromuscular Profile"
 msgstr ""
 
-#: ../src/gui/app1/encoder.cs:4356
+#: ../src/gui/app1/encoder.cs:4364
 msgid "Load = Average eccentric RFD (Ratio of Force Development)"
 msgstr ""
 
-#: ../src/gui/app1/encoder.cs:4357
+#: ../src/gui/app1/encoder.cs:4365
 msgid "Explode = Average relative concentric RFD"
 msgstr ""
 
-#: ../src/gui/app1/encoder.cs:4358
+#: ../src/gui/app1/encoder.cs:4366
 msgid "Drive = Average relative concentric Impulse"
 msgstr ""
 
-#: ../src/gui/app1/encoder.cs:4359
+#: ../src/gui/app1/encoder.cs:4367
 msgid ""
 "General trends to try to develop an 'equilibrated' neuromuscular profile "
 "(always add individual considerations as previous or actual injuries, sport "
 "specificity, muscular chains, etc.)."
 msgstr ""
 
-#: ../src/gui/app1/encoder.cs:4360
+#: ../src/gui/app1/encoder.cs:4368
 msgid ""
 "If one of the metrics is under developed (weak) compared with the other two, "
 "prescribe exercises that emphasize its development."
 msgstr ""
 
-#: ../src/gui/app1/encoder.cs:4361
+#: ../src/gui/app1/encoder.cs:4369
 msgid ""
 "If one of the metrics is over developed (extreme) compared with the other "
 "two, prescribe exercises to emphasize those, but paying attention to "
 "flexibility and relaxation of over working muscles."
 msgstr ""
 
-#: ../src/gui/app1/encoder.cs:4363
+#: ../src/gui/app1/encoder.cs:4371
 msgid "General guidelines to improve the neuromuscular profile:"
 msgstr ""
 
-#: ../src/gui/app1/encoder.cs:4365
+#: ../src/gui/app1/encoder.cs:4373
 msgid ""
 "Load: Perform exercises that develop maximum force (eccentric, isometric or "
 "concentric)."
 msgstr ""
 
-#: ../src/gui/app1/encoder.cs:4366
+#: ../src/gui/app1/encoder.cs:4374
 msgid "Then switch to exercises that develop eccentric force in short time."
 msgstr ""
 
-#: ../src/gui/app1/encoder.cs:4368
+#: ../src/gui/app1/encoder.cs:4376
 msgid ""
 "Explode: Perform exercises that develop force in short time, and maximum "
 "force."
 msgstr ""
 
-#: ../src/gui/app1/encoder.cs:4369
+#: ../src/gui/app1/encoder.cs:4377
 msgid "Drive: Perform exercises where force is developed during more time."
 msgstr ""
 
-#: ../src/gui/app1/encoder.cs:4371
+#: ../src/gui/app1/encoder.cs:4379
 msgid "Analysis uses the best three jumps using 'jump height' criterion."
 msgstr ""
 
-#: ../src/gui/app1/encoder.cs:4372
+#: ../src/gui/app1/encoder.cs:4380
 msgid "Lapuente and De Blas. Adapted from Wagner:"
 msgstr ""
 
-#: ../src/gui/app1/encoder.cs:4521
+#: ../src/gui/app1/encoder.cs:4529
 msgid "1RM Indirect"
-msgstr ""
+msgstr "1RM zeharkakoa"
 
-#: ../src/gui/app1/encoder.cs:4674 ../src/gui/app1/encoder.cs:4677
+#: ../src/gui/app1/encoder.cs:4682 ../src/gui/app1/encoder.cs:4685
 msgid "All exercises"
-msgstr ""
+msgstr "Ariketa guztiak"
 
-#: ../src/gui/app1/encoder.cs:4699
+#: ../src/gui/app1/encoder.cs:4707
 msgid "Power / Load"
-msgstr ""
+msgstr "Potentzia / karga"
 
-#: ../src/gui/app1/encoder.cs:4699
+#: ../src/gui/app1/encoder.cs:4707
 msgid "Speed / Load"
-msgstr ""
+msgstr "Abiadura / karga"
 
-#: ../src/gui/app1/encoder.cs:4700
+#: ../src/gui/app1/encoder.cs:4708
 msgid "Force / Load"
-msgstr ""
+msgstr "Indarra / karga"
 
-#: ../src/gui/app1/encoder.cs:4703
+#: ../src/gui/app1/encoder.cs:4711
 msgid "Force,Power / Speed"
-msgstr ""
+msgstr "Indarra, potentzia / abiadura"
 
-#: ../src/gui/app1/encoder.cs:4703
+#: ../src/gui/app1/encoder.cs:4711
 msgid "Power / Speed"
-msgstr ""
+msgstr "Potentzia / abiadura"
 
-#: ../src/gui/app1/encoder.cs:4713
+#: ../src/gui/app1/encoder.cs:4721
 msgid "Power / Date"
-msgstr ""
+msgstr "Potentzia / data"
 
-#: ../src/gui/app1/encoder.cs:4714
+#: ../src/gui/app1/encoder.cs:4722
 msgid "Speed / Date"
-msgstr ""
+msgstr "Abiadura / data"
 
-#: ../src/gui/app1/encoder.cs:4715
+#: ../src/gui/app1/encoder.cs:4723
 msgid "Force / Date"
-msgstr ""
+msgstr "Indarra / data"
 
-#: ../src/gui/app1/encoder.cs:4868
+#: ../src/gui/app1/encoder.cs:4876
 msgid "Done"
-msgstr ""
+msgstr "Egina"
 
-#: ../src/gui/app1/encoder.cs:5121
+#: ../src/gui/app1/encoder.cs:5129
 msgid "Operation cancelled."
-msgstr ""
+msgstr "Eragiketa bertan behera utzi da."
 
-#: ../src/gui/app1/encoder.cs:5175
+#: ../src/gui/app1/encoder.cs:5183
 #, csharp-format
 msgid "Saved 1RM: {0} Kg."
 msgstr ""
 
-#: ../src/gui/app1/encoder.cs:5354
+#: ../src/gui/app1/encoder.cs:5362
 msgid "This exercise has been used on gravitatory and inertial sets."
 msgstr ""
 
-#: ../src/gui/app1/encoder.cs:5366
+#: ../src/gui/app1/encoder.cs:5374
 msgid "This exercise has been used on inertial sets."
 msgstr ""
 
-#: ../src/gui/app1/encoder.cs:5378
+#: ../src/gui/app1/encoder.cs:5386
 msgid "This exercise has been used on gravitatory sets."
 msgstr ""
 
-#: ../src/gui/app1/encoder.cs:5482 ../src/gui/app1/runEncoder.cs:2068
+#: ../src/gui/app1/encoder.cs:5490 ../src/gui/app1/runEncoder.cs:2068
 #: ../src/gui/forceSensorExercise.cs:741
 msgid "Error: Missing name of exercise."
 msgstr ""
 
 #. if we add, check that this name does not exists
-#: ../src/gui/app1/encoder.cs:5488 ../src/gui/app1/encoder.cs:5503
+#: ../src/gui/app1/encoder.cs:5496 ../src/gui/app1/encoder.cs:5511
 #: ../src/gui/app1/runEncoder.cs:2074 ../src/gui/app1/runEncoder.cs:2084
 #: ../src/gui/forceSensorExercise.cs:748 ../src/gui/forceSensorExercise.cs:758
 #, csharp-format
 msgid "Error: An exercise named '{0}' already exists."
 msgstr ""
 
-#: ../src/gui/app1/encoder.cs:5582 ../src/gui/app1/forceSensor.cs:3493
+#: ../src/gui/app1/encoder.cs:5590 ../src/gui/app1/forceSensor.cs:3493
 #: ../src/gui/app1/runEncoder.cs:2148
 msgid "Exercise name:"
 msgstr "Ariketaren izena:"
 
-#: ../src/gui/app1/encoder.cs:5592 ../src/gui/app1/forceSensor.cs:3503
+#: ../src/gui/app1/encoder.cs:5600 ../src/gui/app1/forceSensor.cs:3503
 #: ../src/gui/app1/runEncoder.cs:2158
 msgid "Sorry, this exercise cannot be deleted until these tests are deleted:"
 msgstr ""
 
-#: ../src/gui/app1/encoder.cs:5618 ../src/gui/app1/forceSensor.cs:3525
+#: ../src/gui/app1/encoder.cs:5626 ../src/gui/app1/forceSensor.cs:3525
 #: ../src/gui/app1/runEncoder.cs:2180
 msgid "Exercise deleted."
 msgstr "Ariketa ezabatu da."
 
-#: ../src/gui/app1/encoder.cs:6155 ../src/gui/encoderConfiguration.cs:946
+#: ../src/gui/app1/encoder.cs:6204 ../src/gui/app1/encoder.cs:6209
+#: ../src/gui/encoderConfiguration.cs:946
 msgid "Capturing"
 msgstr "Kapturatzen"
 
-#: ../src/gui/app1/encoder.cs:6209 ../src/gui/app1/encoder.cs:6278
+#: ../src/gui/app1/encoder.cs:6263 ../src/gui/app1/encoder.cs:6332
 msgid "Sorry, cannot start capture."
 msgstr "Barkatu ezin da kaptura hasi."
 
-#: ../src/gui/app1/encoder.cs:6232
+#: ../src/gui/app1/encoder.cs:6286
 msgid "Clusters"
-msgstr ""
+msgstr "Lukuak"
 
 #. to allow hslides and table
-#: ../src/gui/app1/encoder.cs:6382 ../src/gui/app1/encoder.cs:6946
+#: ../src/gui/app1/encoder.cs:6436 ../src/gui/app1/encoder.cs:7003
 #: ../src/gui/app1/session/backup.cs:350
 msgid "Please, wait."
 msgstr "Itxaron."
 
-#: ../src/gui/app1/encoder.cs:6965
+#: ../src/gui/app1/encoder.cs:7022
 msgid "R tasks done"
 msgstr ""
 
-#: ../src/gui/app1/encoder.cs:6977
+#: ../src/gui/app1/encoder.cs:7034
 msgid "Repetitions processed"
 msgstr ""
 
-#: ../src/gui/app1/encoder.cs:6984
+#: ../src/gui/app1/encoder.cs:7041
 msgid "Starting process"
-msgstr ""
+msgstr "Prozesua abiarazten"
 
-#: ../src/gui/app1/encoder.cs:6988
+#: ../src/gui/app1/encoder.cs:7045
 msgid "Loading libraries"
-msgstr ""
+msgstr "Liburutegiak kargatzen"
 
-#: ../src/gui/app1/encoder.cs:6992
+#: ../src/gui/app1/encoder.cs:7049
 msgid "Starting R"
-msgstr ""
+msgstr "R kargatzen"
 
-#: ../src/gui/app1/encoder.cs:7283 ../src/stats/main.cs:1515
+#: ../src/gui/app1/encoder.cs:7340 ../src/stats/main.cs:1515
 msgid "Sorry. Error doing graph."
 msgstr ""
 
-#: ../src/gui/app1/encoder.cs:7284 ../src/stats/main.cs:1516
+#: ../src/gui/app1/encoder.cs:7341 ../src/stats/main.cs:1516
 msgid "Maybe R is not installed."
-msgstr ""
+msgstr "Agian R ez dago instalatuta."
 
 #. signal is raised and managed in gui/encoder.cs
-#: ../src/gui/app1/encoder.cs:7292 ../src/gui/app1/encoder.cs:7550
+#: ../src/gui/app1/encoder.cs:7349 ../src/gui/app1/encoder.cs:7610
 #: ../src/gui/encoderConfiguration.cs:1004
 msgid "Cancelled"
 msgstr "Bertan behera utzita"
 
-#: ../src/gui/app1/encoder.cs:7297 ../src/gui/app1/encoder.cs:7492
+#: ../src/gui/app1/encoder.cs:7354 ../src/gui/app1/encoder.cs:7552
 msgid "Finished"
 msgstr "Amaitua"
 
-#: ../src/gui/app1/encoder.cs:7540
+#: ../src/gui/app1/encoder.cs:7600
 msgid "Set corrected. string was not fully extended at the beginning."
 msgstr ""
 
@@ -6969,7 +6984,7 @@ msgstr "Ezabatu ariketa"
 
 #: ../src/gui/app1/forceSensor.cs:3554
 msgid "Stiffness configuration"
-msgstr ""
+msgstr "Zurruntasun-konfigurazioa"
 
 #: ../src/gui/app1/forceSensor.cs:3554
 msgid "Configure attached elastic bands/tubes"
@@ -6981,7 +6996,7 @@ msgstr ""
 
 #: ../src/gui/app1/forceSensor.cs:3569
 msgid "Stiffness:"
-msgstr ""
+msgstr "Zurruntasuna:"
 
 #: ../src/gui/app1/run.cs:405 ../src/gui/app1/run.cs:420
 msgid "Lap distance (between barriers)"
@@ -6989,7 +7004,7 @@ msgstr ""
 
 #: ../src/gui/app1/run.cs:406 ../src/gui/app1/run.cs:421
 msgid "Distance in meters"
-msgstr ""
+msgstr "Distantzia metrotan"
 
 #: ../src/gui/app1/run.cs:410
 msgid "Vertical distance between stairs third and nine."
@@ -6997,7 +7012,7 @@ msgstr ""
 
 #: ../src/gui/app1/run.cs:411
 msgid "Distance in millimeters"
-msgstr ""
+msgstr "Distantzia milimetrotan"
 
 #: ../src/gui/app1/run.cs:431
 msgid "Track distance"
@@ -7019,15 +7034,15 @@ msgstr ""
 
 #: ../src/gui/app1/session/addEdit.cs:605 ../src/gui/person/addModify.cs:832
 msgid "Select session date"
-msgstr ""
+msgstr "Hautatu saioaren data"
 
 #: ../src/gui/app1/session/addEdit.cs:618 ../src/gui/person/addModify.cs:978
 msgid "Add sport"
-msgstr ""
+msgstr "Gehitu kirola"
 
 #: ../src/gui/app1/session/addEdit.cs:619 ../src/gui/person/addModify.cs:979
 msgid "Add new sport to database"
-msgstr ""
+msgstr "Gehitu beste kirol bat datu-basean"
 
 #: ../src/gui/app1/session/addEdit.cs:634 ../src/gui/person/addModify.cs:994
 #, csharp-format
@@ -7084,11 +7099,11 @@ msgstr ""
 
 #: ../src/gui/app1/session/export.cs:213
 msgid "Copying files"
-msgstr ""
+msgstr "Fitxategiak kopiatzen"
 
 #: ../src/gui/app1/session/loadAndImport.cs:107
 msgid "Import session"
-msgstr ""
+msgstr "Inportatu saioa"
 
 #: ../src/gui/app1/session/loadAndImport.cs:263
 #: ../src/gui/session/selectStats.cs:77
@@ -7172,11 +7187,11 @@ msgstr ""
 msgid "V0 is not > 0."
 msgstr ""
 
-#: ../src/gui/cairo/jumpsWeightFVProfile.cs:197
+#: ../src/gui/cairo/jumpsWeightFVProfile.cs:198
 msgid "Need to develop force"
 msgstr ""
 
-#: ../src/gui/cairo/jumpsWeightFVProfile.cs:199
+#: ../src/gui/cairo/jumpsWeightFVProfile.cs:200
 msgid "Need to develop speed"
 msgstr ""
 
@@ -7203,22 +7218,22 @@ msgstr ""
 msgid "Race type:"
 msgstr ""
 
-#: ../src/gui/cairo/xy.cs:539 ../src/gui/cairo/xy.cs:545
+#: ../src/gui/cairo/xy.cs:541 ../src/gui/cairo/xy.cs:547
 #: ../src/gui/preferences.cs:1616 ../src/gui/preferences.cs:1623
 #: ../src/gui/preferences.cs:1638 ../src/gui/preferences.cs:1669
 #: ../src/gui/sprint.cs:219
 msgid "Error"
 msgstr "Errorea"
 
-#: ../src/gui/cairo/xy.cs:540
+#: ../src/gui/cairo/xy.cs:542
 msgid "Parabole is concave"
 msgstr ""
 
-#: ../src/gui/cairo/xy.cs:546
+#: ../src/gui/cairo/xy.cs:548
 msgid "Need at least 3 points"
 msgstr ""
 
-#: ../src/gui/cairo/xy.cs:547
+#: ../src/gui/cairo/xy.cs:549
 msgid "with different falling heights"
 msgstr ""
 
@@ -7451,7 +7466,7 @@ msgstr "Aldagai nagusia:"
 msgid "Bars are not shown because the displaced mass is 0."
 msgstr ""
 
-#: ../src/gui/encoderGraphObjects.cs:945
+#: ../src/gui/encoderGraphObjects.cs:945 ../src/gui/eventExecute.cs:3882
 msgid "saved"
 msgstr "gordeta"
 
@@ -7558,30 +7573,30 @@ msgstr ""
 msgid "Platforms"
 msgstr "Plataformak"
 
-#: ../src/gui/eventExecute.cs:2226
+#: ../src/gui/eventExecute.cs:2239
 #, csharp-format
 msgid "{0} has not made any {1} test in this session."
 msgstr ""
 
-#: ../src/gui/eventExecute.cs:2229
+#: ../src/gui/eventExecute.cs:2242
 #, csharp-format
 msgid "{0} has not made any test in this session."
 msgstr ""
 
-#: ../src/gui/eventExecute.cs:2233
+#: ../src/gui/eventExecute.cs:2246
 #, csharp-format
 msgid "There are no {0} tests in this session."
 msgstr ""
 
-#: ../src/gui/eventExecute.cs:2236
+#: ../src/gui/eventExecute.cs:2249
 msgid "No tests in this session."
 msgstr ""
 
-#: ../src/gui/eventExecute.cs:2547
+#: ../src/gui/eventExecute.cs:2567
 msgid "Jump height"
 msgstr ""
 
-#: ../src/gui/eventExecute.cs:3007 ../src/gui/eventExecute.cs:3137
+#: ../src/gui/eventExecute.cs:3037 ../src/gui/eventExecute.cs:3169
 msgid "Last test:"
 msgstr "Azken proba:"
 
@@ -7597,6 +7612,35 @@ msgstr ""
 #: ../src/gui/executeAuto.cs:502
 msgid "Serie"
 msgstr "Seriea"
+
+#: ../src/gui/feedback.cs:241 ../src/runType.cs:162
+msgid "Protocol"
+msgstr "Protokoloa"
+
+#: ../src/gui/feedback.cs:565 ../src/gui/preferences.cs:1291
+msgid "Sound working"
+msgstr "Soinuak funtzionatzen du"
+
+#: ../src/gui/feedback.cs:567 ../src/gui/preferences.cs:1293
+msgid "Sound not working"
+msgstr "Soinuak ez du funtzionatzen"
+
+#: ../src/gui/feedback.cs:572
+msgid "You need to activate sounds in preferences / multimedia."
+msgstr "Soinuak hobespenetan / multimedian aktibatu behar dira."
+
+#: ../src/gui/feedback.cs:897
+msgid ""
+"Use clusters in order to group repetitions inside a set separated by rest "
+"time."
+msgstr ""
+
+#: ../src/gui/feedback.cs:899
+msgid ""
+"Set will end when user press Finish or Cancel or when there's no change in "
+"the encoder during this time:\n"
+"1.5 * Rest between clusters"
+msgstr ""
 
 #: ../src/gui/forceSensorElasticBands.cs:212
 msgid "Color"
@@ -7792,7 +7836,7 @@ msgstr ""
 
 #: ../src/gui/forceSensorExercise.cs:474
 msgid "Not Elastic"
-msgstr ""
+msgstr "Ez elastikoa"
 
 #: ../src/gui/forceSensorExercise.cs:476
 msgid "Add mass"
@@ -7804,15 +7848,15 @@ msgstr "Kendu masa"
 
 #: ../src/gui/forceSensorExercise.cs:480
 msgid "Mass is included"
-msgstr ""
+msgstr "Masa sartuta dago"
 
 #: ../src/gui/forceSensorExercise.cs:482
 msgid "Repetitions according to preferences"
-msgstr ""
+msgstr "Hobespenen araberako errepikapenak"
 
 #: ../src/gui/forceSensorExercise.cs:484
 msgid "Repetitions using custom values"
-msgstr ""
+msgstr "Errepikapenak balio pertsonalizatuak erabiliz"
 
 #. if(o == Options.OTHER)
 #: ../src/gui/forceSensorExercise.cs:488
@@ -8056,34 +8100,34 @@ msgstr ""
 #: ../src/gui/old/queryServer.cs:109 ../src/gui/old/queryServer.cs:682
 #: ../src/gui/stats.cs:179 ../src/statType.cs:344
 msgid "Average Index"
-msgstr ""
+msgstr "Batez besteko indizea"
 
 #. static string equalThan = Constants.EqualThanCode + " " + Catalog.GetString("Equal than");
 #: ../src/gui/old/queryServer.cs:128
 msgid "Lower than"
-msgstr ""
+msgstr "Hau baino baxuagoa:"
 
 #. static string higherThan = Constants.HigherThanCode + " " + Catalog.GetString("Higher than");
 #. static string lowerOrEqualThan = Constants.LowerOrEqualThanCode + " " + Catalog.GetString("Lower or equal than");
 #: ../src/gui/old/queryServer.cs:131
 msgid "Higher or equal than"
-msgstr ""
+msgstr "Hau baino altuagoa edo berdina."
 
 #: ../src/gui/old/queryServer.cs:779
 msgid "races"
-msgstr ""
+msgstr "lasterketa"
 
 #: ../src/gui/old/queryServer.cs:787
 msgid "watts"
-msgstr ""
+msgstr "watt"
 
 #: ../src/gui/overview.cs:244 ../src/gui/overview.cs:246
 msgid "Encoder Overview"
-msgstr ""
+msgstr "Kodetzailearen ikuspegia"
 
 #: ../src/gui/overview.cs:282
 msgid "Displaced mass"
-msgstr ""
+msgstr "Desplazatutako masa"
 
 #: ../src/gui/overview.cs:373
 msgid "Force sensor overview"
@@ -8103,11 +8147,11 @@ msgstr "Hautatu fitxategia"
 
 #: ../src/gui/person/addModify.cs:1031
 msgid "Please, write the name of the person."
-msgstr ""
+msgstr "Idatzi pertsonaren izena."
 
 #: ../src/gui/person/addModify.cs:1034 ../src/gui/person/addModify.cs:1036
 msgid "Please, complete the weight of the person."
-msgstr ""
+msgstr "Osatu pertsonaren pisua."
 
 #: ../src/gui/person/addModify.cs:1066
 #, csharp-format
@@ -8124,7 +8168,7 @@ msgstr ""
 
 #: ../src/gui/person/addMultiple.cs:164 ../src/gui/person/addMultiple.cs:220
 msgid "Full name in one column"
-msgstr ""
+msgstr "Izen osoa zutabe batean"
 
 #: ../src/gui/person/addMultiple.cs:167
 #, csharp-format
@@ -8141,11 +8185,11 @@ msgstr ""
 
 #: ../src/gui/person/addMultiple.cs:224
 msgid "Full name in two columns"
-msgstr ""
+msgstr "Izen osoa bi zutabetan"
 
 #: ../src/gui/person/addMultiple.cs:244
 msgid "Select CSV file"
-msgstr ""
+msgstr "Hautatu CSV fitxategia"
 
 #: ../src/gui/person/addMultiple.cs:266
 msgid ""
@@ -8178,8 +8222,8 @@ msgstr "Kargatuta"
 #, csharp-format
 msgid "Successfully added one person."
 msgid_plural "Successfully added {0} persons."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Pertsona bat ongi gehitu da."
+msgstr[1] "{0} pertsona ongi gehitu dira."
 
 #: ../src/gui/person/recuperate.cs:693
 msgid "Include / Discard athletes"
@@ -8302,14 +8346,6 @@ msgstr ""
 msgid "{0} pps allows to record up to {1} m/s."
 msgstr ""
 
-#: ../src/gui/preferences.cs:1291 ../src/gui/repetitiveConditions.cs:565
-msgid "Sound working"
-msgstr ""
-
-#: ../src/gui/preferences.cs:1293 ../src/gui/repetitiveConditions.cs:567
-msgid "Sound not working"
-msgstr ""
-
 #: ../src/gui/preferences.cs:1422 ../src/gui/preferences.cs:1423
 #: ../src/gui/preferences.cs:1453 ../src/gui/preferences.cs:1464
 msgid "Not running"
@@ -8408,27 +8444,6 @@ msgstr ""
 
 #: ../src/gui/reactionTime.cs:45
 msgid "reaction time"
-msgstr ""
-
-#: ../src/gui/repetitiveConditions.cs:241 ../src/runType.cs:162
-msgid "Protocol"
-msgstr "Protokoloa"
-
-#: ../src/gui/repetitiveConditions.cs:572
-msgid "You need to activate sounds in preferences / multimedia."
-msgstr ""
-
-#: ../src/gui/repetitiveConditions.cs:897
-msgid ""
-"Use clusters in order to group repetitions inside a set separated by rest "
-"time."
-msgstr ""
-
-#: ../src/gui/repetitiveConditions.cs:899
-msgid ""
-"Set will end when user press Finish or Cancel or when there's no change in "
-"the encoder during this time:\n"
-"1.5 * Rest between clusters"
 msgstr ""
 
 #: ../src/gui/report.cs:151
@@ -8552,11 +8567,11 @@ msgstr "Saiatu berriro"
 
 #: ../src/gui/server.cs:200
 msgid "Uploaded test type"
-msgstr ""
+msgstr "Kargatutako proba mota"
 
 #: ../src/gui/server.cs:205
 msgid "Uploaded sport"
-msgstr ""
+msgstr "Kargatutako kirola"
 
 #: ../src/gui/sprint.cs:76
 msgid "Distances"
@@ -8568,11 +8583,11 @@ msgstr ""
 
 #: ../src/gui/sprint.cs:78
 msgid "Total time"
-msgstr ""
+msgstr "Denbora osoa"
 
 #: ../src/gui/sprint.cs:239
 msgid "Error, height of the person cannot be 0"
-msgstr ""
+msgstr "Errorea, pertsonaren altuerak ezin du 0 izan,."
 
 #: ../src/gui/sprint.cs:246 ../src/gui/sprint.cs:262
 msgid "This data does not seem a sprint."
@@ -8591,7 +8606,7 @@ msgstr "Eboluzioa"
 #: ../src/gui/stats.cs:187 ../src/gui/stats.cs:674 ../src/gui/stats.cs:1123
 #: ../src/statType.cs:225
 msgid "No indexes"
-msgstr ""
+msgstr "Indizerik ez"
 
 #. if selected 'male' or 'female', showSex and redo the treeview if needed
 #: ../src/gui/stats.cs:215 ../src/gui/stats.cs:525 ../src/stats/main.cs:262
@@ -8612,19 +8627,19 @@ msgstr ""
 
 #: ../src/gui/webcam.cs:135 ../src/gui/webcam.cs:145
 msgid "Preparing camera"
-msgstr ""
+msgstr "Kamera prestatzen"
 
 #: ../src/gui/webcam.cs:191
 msgid "Initializing camera."
-msgstr ""
+msgstr "Kamera hasieratzen."
 
 #: ../src/gui/webcam.cs:200
 msgid "Problems starting camera."
-msgstr ""
+msgstr "Arazoak kamera hastean."
 
 #: ../src/gui/webcam.cs:204
 msgid "Recording …"
-msgstr ""
+msgstr "Grabatzen …"
 
 #: ../src/gui/webcam.cs:363
 msgid "Ending video"

@@ -480,14 +480,20 @@ public abstract class CairoBars : CairoGeneric
 	}
 
 	protected void printTextInBar (double x, double y, double heightUnused, int textH,
-			string text, Cairo.Context g, bool bold)
+			string text, Cairo.Context g, bool bold, bool inRectangle)
 	{
 		g.Save();
-		g.SetSourceColor(white);
 		g.SetFontSize(textHeight+4);
 		if(bold)
 			g.SelectFontFace(font, Cairo.FontSlant.Normal, Cairo.FontWeight.Bold);
 
+		if(inRectangle)
+		{
+			g.SetSourceColor(black);
+			drawRectangleAroundText (x, y, textH, text, g, colorSerieA);
+		}
+
+		g.SetSourceColor(white);
 		printText (x, y, heightUnused, textH, text, g, alignTypes.CENTER);
 		g.Restore();
 	}
@@ -521,7 +527,7 @@ public abstract class CairoBars : CairoGeneric
 
 		//draw rectangle first as it will be in the back
 		if(inRectangle)
-			drawRectangleAroundText (x, y, textH, text, g);
+			drawRectangleAroundText (x, y, textH, text, g, yellow);
 
 		string [] strFull = text.Split(new char[] {'\n'});
 
@@ -533,7 +539,7 @@ public abstract class CairoBars : CairoGeneric
 		}
 	}
 
-	private void drawRectangleAroundText (double x, double y, int textH, string text, Cairo.Context g)
+	private void drawRectangleAroundText (double x, double y, int textH, string text, Cairo.Context g, Cairo.Color colorRectangle)
 	{
 		//for inRectangle (now only working on centered text (encoder))
 		double rectLeft = 100000;
@@ -565,10 +571,9 @@ public abstract class CairoBars : CairoGeneric
 
 		if (rectLeft < 100000 && rectTop < 100000)
 		{
-			g.SetSourceColor(yellow);
+			g.SetSourceColor(colorRectangle);
 			g.Rectangle(rectLeft -1, rectTop -1, rectRight-rectLeft +2, rectBottom-rectTop +2);
 			g.Fill();
-			g.SetSourceColor(black);
 		}
 	}
 
@@ -1615,7 +1620,7 @@ public class CairoBarsNHSeries : CairoBars
 						}
 						else
 							printTextInBar(x +adjustX +barWidth/2, graphHeight -bottomMargin -10,
-									0, textHeight+2, "e", g, true);
+									0, textHeight+2, "e", g, true, false);
 					}
 
 					secondaryHasData = true;
@@ -1659,7 +1664,7 @@ public class CairoBarsNHSeries : CairoBars
 					}
 					else
 						printTextInBar(x +adjustX +barWidth/2, graphHeight -bottomMargin -10,
-								0, textHeight+2, "c", g, true);
+								0, textHeight+2, "c", g, true, false);
 				}
 			}
 

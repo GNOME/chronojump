@@ -3311,8 +3311,12 @@ public class CairoPaintBarsPreRunIntervalRealtimeCapture : CairoPaintBarsPre
 					max,
 					sum / speed_l.Count,
 					min));
-		if(photocell_l.Count > 0)
+		/*
+		   if(photocell_l.Count > 0)
 			cb.InBarNums_l = photocell_l;
+		 */
+		if(photocell_l.Count > 0)
+			cb.EdgeBarNums_l = photocell_l;
 
 		cb.SpaceBetweenBars = false;
 

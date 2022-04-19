@@ -94,7 +94,8 @@ public abstract class CairoBars : CairoGeneric
 	protected string yVariable = "Height";
 	protected string xUnits = "";
 	protected string yUnits = "cm";
-	protected List<int> inBarNums_l; //used on Wichro to identify photocells
+	//protected List<int> inBarNums_l; //currently unused
+	protected List<int> edgeBarNums_l; //used on Wichro to identify photocells
 	protected bool spaceBetweenBars;
 
 	//used when there are two series (for legend)
@@ -113,7 +114,8 @@ public abstract class CairoBars : CairoGeneric
 		initGraph(font, 1); //.8 if writeTextAtRight
 		barsXCenter_l = new List<double>();
 		resultOnBars_l = new List<Point3F>();
-		inBarNums_l = new List<int>();
+		//inBarNums_l = new List<int>();
+		edgeBarNums_l = new List<int>();
 		encoderTitle = false;
 	}
 
@@ -631,6 +633,16 @@ public abstract class CairoBars : CairoGeneric
 		g.SetSourceColor (black);
 	}
 
+	protected void plotEdgeBarNums ()
+	{
+		for(int i = 0; i < barsXCenter_l.Count; i ++)
+			if (edgeBarNums_l.Count > 0 && edgeBarNums_l.Count > i && edgeBarNums_l[i] >= 0) //not show the non-Wichro -1s
+			{
+				printTextInBar(barsXCenter_l[i] +barWidth/2, graphHeight -bottomMargin -10,
+						0, textHeight+2, edgeBarNums_l[i].ToString(), g, true, true);
+			}
+	}
+
 	protected void plotAlternativeLine (List<double> lineData_l)
 	{
 		//be safe
@@ -1044,8 +1056,13 @@ public abstract class CairoBars : CairoGeneric
 		set { yUnits = value; }
 	}
 
+	/*
 	public List<int> InBarNums_l {
 		set { inBarNums_l = value; }
+	}
+	*/
+	public List<int> EdgeBarNums_l {
+		set { edgeBarNums_l = value; }
 	}
 
 	public bool SpaceBetweenBars {
@@ -1194,9 +1211,14 @@ public class CairoBars1Series : CairoBars
 		LogB.Information("resultFontHeight: " + resultFontHeight.ToString());
 
 		//debug
+		/*
 		LogB.Information("inBarNums_l:");
 		for(int j=0; j < inBarNums_l.Count; j ++)
 			LogB.Information(inBarNums_l[j].ToString());
+			*/
+		LogB.Information("edgeBarNums_l:");
+		for(int j=0; j < edgeBarNums_l.Count; j ++)
+			LogB.Information(edgeBarNums_l[j].ToString());
 
 		for(int i = 0; i < barMain_l.Count; i ++)
 		{
@@ -1217,9 +1239,12 @@ public class CairoBars1Series : CairoBars
 			resultOnBars_l.Add(new Point3F(x + barWidth/2, y, p.Y));
 			mouseLimits.AddInPos (i, x, x+barWidth);
 
+			/*
 			if (inBarNums_l.Count > 0 && inBarNums_l.Count > i && inBarNums_l[i] >= 0) //not show the non-Wichro -1s
 				printTextInBar(x +barWidth/2, graphHeight -bottomMargin -10,
 						0, textHeight+2, inBarNums_l[i].ToString(), g, true);
+			 */
+			//edgeBar is drawn at end to not be overlapped by next bar
 
 			//print the type at bottom
 			//printTextMultiline (x + barWidth/2, graphHeight -bottomMargin + fontHeightForBottomNames/2, 0, fontHeightForBottomNames,
@@ -1279,6 +1304,9 @@ public class CairoBars1Series : CairoBars
 
 		if(lineData_l.Count > 0)
 			plotAlternativeLine(lineData_l);
+
+		if (edgeBarNums_l.Count > 0)
+			plotEdgeBarNums ();
 
 		plotResultsOnBar();
 

@@ -95,6 +95,7 @@ public abstract class CairoBars : CairoGeneric
 	protected string xUnits = "";
 	protected string yUnits = "cm";
 	protected List<int> inBarNums_l; //used on Wichro to identify photocells
+	protected bool spaceBetweenBars;
 
 	//used when there are two series (for legend)
 	protected string variableSerieA = "";
@@ -1042,6 +1043,10 @@ public abstract class CairoBars : CairoGeneric
 		set { inBarNums_l = value; }
 	}
 
+	public bool SpaceBetweenBars {
+		set { spaceBetweenBars = value; }
+	}
+
 	//for CairoBarsNHSeries (legend)
 	public string VariableSerieA {
 		set { variableSerieA = value; }
@@ -1116,6 +1121,7 @@ public class CairoBars1Series : CairoBars
 		this.paintGrid = paintGrid;
 
 		this.colorSerieA = colorFromGdk(Config.ColorBackground); //but note if we are using system colors, this will not match
+		spaceBetweenBars = true;
 	}
 
 	protected override void topMarginSet ()
@@ -1168,6 +1174,9 @@ public class CairoBars1Series : CairoBars
 			sideWidthRatio = 0.25;
 
 		double spaceBetweenBarsRatio = .7;
+		if(! spaceBetweenBars) //on runInterval realtime, as the bars are together continuous on time
+			spaceBetweenBarsRatio = 0;
+
 		/*
 		   divide graphWidhtUsable by total objects (bars, leftrightspace, spacesbetweenbars)
 		   for 3 bars on ratios 1, .5, .5, this will be 5

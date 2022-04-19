@@ -3314,6 +3314,8 @@ public class CairoPaintBarsPreRunIntervalRealtimeCapture : CairoPaintBarsPre
 		if(photocell_l.Count > 0)
 			cb.InBarNums_l = photocell_l;
 
+		cb.SpaceBetweenBars = false;
+
 		cb.PassData1Serie (point_l,
 				new List<Cairo.Color>(), names_l,
 				-1, 14, 22, title); //22 because there are two rows

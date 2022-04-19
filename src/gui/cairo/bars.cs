@@ -1186,7 +1186,7 @@ public class CairoBars1Series : CairoBars
 		   divide graphWidhtUsable by total objects (bars, leftrightspace, spacesbetweenbars)
 		   for 3 bars on ratios 1, .5, .5, this will be 5
 		   */
-		double barWidth = UtilAll.DivideSafe(graphWidthUsable,
+		barWidth = UtilAll.DivideSafe(graphWidthUsable,
 			barMain_l.Count * barWidthRatio + 2*sideWidthRatio + (barMain_l.Count-1) * spaceBetweenBarsRatio);
 		double distanceBetweenCols = barWidth * spaceBetweenBarsRatio;
 
@@ -1528,7 +1528,7 @@ public class CairoBarsNHSeries : CairoBars
 		   for 3 (double) bars on ratios 1, .5, .5, this will be 8
 		   */
 		int series = 2;
-		double barWidth = UtilAll.DivideSafe(graphWidthUsable,
+		barWidth = UtilAll.DivideSafe(graphWidthUsable,
 			series * barMain_l.Count * barWidthRatio +
 			2*sideWidthRatio + (barMain_l.Count-1) * spaceBetweenBarsRatio);
 		double distanceBetweenCols = barWidth * spaceBetweenBarsRatio;

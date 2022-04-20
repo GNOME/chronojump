@@ -638,13 +638,26 @@ public abstract class CairoBars : CairoGeneric
 
 	protected void plotEdgeBarNums ()
 	{
-		for(int i = 0; i < barsXCenter_l.Count; i ++)
-			if (edgeBarNums_l.Count > 0 && edgeBarNums_l.Count > i && edgeBarNums_l[i] >= 0) //not show the non-Wichro -1s
-			{
-				printTextInBar(barsXCenter_l[i] +barWidth/2, graphHeight -bottomMargin -10,
-						0, textHeight+2, edgeBarNums_l[i].ToString(), g, true, true);
-			}
+		if (edgeBarNums_l.Count == 0)
+			return;
+
+		int eCount = 0; //edgeBarNums_l
+
+		//1st edgeBarNums is the beginning (at left of first photocell)
+		if(edgeBarNums_l.Count == barsXCenter_l.Count +1)
+		{
+			if (edgeBarNums_l[0] >= 0) //not show the non-Wichro -1s
+				printTextInBar(barsXCenter_l[0] -barWidth/2, graphHeight -bottomMargin -10,
+						0, textHeight+2, edgeBarNums_l[0].ToString(), g, true, true);
+			eCount = 1;
+		}
+
+		for(int bCount = 0; bCount < barsXCenter_l.Count && eCount < edgeBarNums_l.Count; bCount ++, eCount ++)
+			if (edgeBarNums_l[eCount] >= 0) //not show the non-Wichro -1s
+				printTextInBar(barsXCenter_l[bCount] +barWidth/2, graphHeight -bottomMargin -10,
+						0, textHeight+2, edgeBarNums_l[eCount].ToString(), g, true, true);
 	}
+
 
 	protected void plotAlternativeLine (List<double> lineData_l)
 	{

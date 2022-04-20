@@ -3102,7 +3102,7 @@ public class CairoPaintBarsPreJumpReactiveRealtimeCapture : CairoPaintBarsPre
 		double sum = 0; //for tv_l avg
 		double min = 1000;
 
-		for(int i = tv_l.Count -1; i >= 0; i --)
+		for(int i = 0; i < tv_l.Count; i ++)
 		{
 			double tc = Convert.ToDouble(tc_l[i]);
 			double tv = Convert.ToDouble(tv_l[i]);

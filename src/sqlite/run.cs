@@ -110,7 +110,9 @@ class SqliteRun : Sqlite
 			filterTypeString = " AND " + t + ".type = \"" + filterType + "\" " ;
 
 		string orderByString = string.Format(" ORDER BY upper({0}.name), {1}.uniqueID ", tp, t);
-		if(order == Orders_by.ID_DESC)
+		if(order == Orders_by.ID_ASC)
+			orderByString = string.Format(" ORDER BY {0}.uniqueID ", t);
+		else if(order == Orders_by.ID_DESC)
 			orderByString = string.Format(" ORDER BY {0}.uniqueID DESC ", t);
 		if(onlyBestInSession)
 			orderByString = string.Format(" ORDER BY {0}.sessionID, {0}.distance/{0}.time DESC ", t);

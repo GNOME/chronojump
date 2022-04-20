@@ -263,7 +263,7 @@ public class PrepareEventGraphRunSimple {
 
 		//obtain data
 		runsAtSQL = SqliteRun.SelectRuns (true, sessionID, personIDTemp, type,
-				Sqlite.Orders_by.ID_DESC, limit,
+				Sqlite.Orders_by.ID_ASC, limit,
 				allPersons, false); //show names on comments only if "all persons"
 
 		

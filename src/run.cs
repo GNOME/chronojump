@@ -221,6 +221,22 @@ public class RunInterval : Run
 				limited, simulated, initialSpeed, datetime, photocell_l);
 	}
 
+	//to debug
+	public override string ToString()
+	{
+		return string.Format("uniqueID: {0}, personID: {1}, sessionID: {2}, " +
+				"type: {3}, distanceTotal: {4}, timeTotal: {5}, " +
+				"distanceInterval: {6}, intervalTimesString: {7}, " +
+				"tracks: {8}, description: {9}, " +
+				"limited: {10}, simulated: {11}, initialSpeed: {12}, " +
+				"datetime: {13}, photocell_l: {14}",
+				uniqueID, personID, sessionID,
+				type, distanceTotal, timeTotal,
+				distanceInterval, intervalTimesString,
+				tracks, description,
+				limited, simulated, initialSpeed, datetime, photocell_l);
+	}
+
 	//this discards RSA
 	public static string GetSprintPositions(double distanceInterval, string intervalTimesString, string distancesString)
 	{

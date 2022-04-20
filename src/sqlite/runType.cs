@@ -618,8 +618,8 @@ class SqliteRunIntervalType : SqliteRunType
 			Sqlite.Open();
 		dbcmd.CommandText = "SELECT * " +
 			" FROM " + Constants.RunIntervalTypeTable +
-			" WHERE name  = \"" + typeName +
-			"\" ORDER BY uniqueID";
+			" WHERE name  = \'" + typeName +
+			"\' ORDER BY uniqueID";
 		
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();

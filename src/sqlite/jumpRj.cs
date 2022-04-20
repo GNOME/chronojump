@@ -134,7 +134,7 @@ class SqliteJumpRj : SqliteJump
 				sep = " AND ";
 		}
 
-		string orderByString = " ORDER BY jumpRj.uniqueID ";
+		string orderByString = " ORDER BY jumpRj.uniqueID "; //ID_ASC
 		if(order == Orders_by.ID_DESC)
 			orderByString = " ORDER BY jumpRj.uniqueID DESC ";
 

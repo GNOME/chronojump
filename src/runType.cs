@@ -536,6 +536,17 @@ public class RunType : EventType
 			return SqliteRunType.Insert(this, tableName, dbconOpened);
 	}
 
+	public override string ToString() {
+		if(hasIntervals)
+			return string.Format("RunType: Interval, uniqueID: {0}, name: {1}, distance: {2}, " +
+					"tracksLimited: {3}, fixedValue: {4}, unlimited: {5}, description: {6}",
+					uniqueID, name, distance,
+					tracksLimited, fixedValue, unlimited, description);
+		else
+			return string.Format("RunType: Simple, uniqueID: {0}, name: {1}, " +
+					"distance: {2}, description: {3}",
+					uniqueID, name, distance, description);
+	}
 
 	public double Distance
 	{

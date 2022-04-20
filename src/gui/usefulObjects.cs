@@ -94,7 +94,7 @@ public class PrepareEventGraphJumpSimple
 			personIDTemp = -1;
 
 		jumpsAtSQL = SqliteJump.SelectJumps (sessionID, personIDTemp, type,
-				Sqlite.Orders_by.ID_DESC, limit,
+				Sqlite.Orders_by.ID_ASC, limit,
 				allPersons, 	//show names on comments only if "all persons"
 				false); 	//! onlyBestInSession
 

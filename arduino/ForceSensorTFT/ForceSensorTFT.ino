@@ -1085,8 +1085,28 @@ void showMenu(void)
 
 void capture(void)
 {
+  //Graph(tft, xGraph, measured, 30, 240, 320, 240, -20, 320, 100, measuredMin, measuredMax, 100, "", "", "", WHITE, WHITE, BLUE, WHITE, BLACK, display1);
+  
+  //Position graph's lower left corner.
+  double graphX = 30;
+  double graphY = 240;
+
+  //Size of the graph
+  double graphW = 320;
+  double graphH = 240;
+
+  //Minimum and maximum values to show
+  double xMin = -20;
+  double xMax = 280;
+
+  //Size an num of divisions
+  double yDivSize = 100;
+  double yDivN = 10;
+  double xDivSize = 100;
+  double xDivN = 3;
+  
   MsTimer2::stop();
-  int xGraph = 0;
+  double xGraph = 0;
   if (capturing)
   {
     while (xGraph !=300) {
@@ -1174,9 +1194,11 @@ void capture(void)
       }
       if (measured > measuredMax) {
         measuredMax = measured;
+        yDivSize = (measuredMax - measuredMin) / yDivN;
       }
       if (measured < measuredMin) {
         measuredMin = measured;
+        yDivSize = (measuredMax - measuredMin) / yDivN;
       }
 
       Serial.print(totalTime); Serial.print(";");
@@ -1184,7 +1206,8 @@ void capture(void)
 
       //printOnLcd();
       //Graph(tft, x, v, 30, 240, 320, 240, 0, 320, 100, 0, v_max, 100, "", "", "", WHITE, WHITE, BLUE, WHITE, BLACK, display1);
-      Graph(tft, xGraph, measured, 30, 240, 320, 240, -20, 320, 100, measuredMin, measuredMax, 100, "", "", "", WHITE, WHITE, BLUE, WHITE, BLACK, display1);
+      //Graph(tft, xGraph, measured, graphX, graphY, graphW, graphH, xMin, xMax, xDiv, measuredMin, yDiv, "", "", "", WHITE, WHITE, BLUE, WHITE, BLACK, display1);
+      Graph(tft, xGraph, measured, graphX, graphY, graphW, graphH, xMin, xMax, xDivSize, measuredMin, measuredMax, yDivSize, "", "", "", WHITE, WHITE, BLUE, WHITE, BLACK, display1);
       xGraph++;
     }
 
@@ -1892,7 +1915,7 @@ void Graph(Adafruit_ILI9341 &d, double x, double y, double gx, double gy, double
       d.setTextSize(1);
       d.setTextColor(tcolor, bcolor);
       //d.setCursor(gx - 40, temp);
-      d.setCursor(gx - 30, temp);
+      d.setCursor(gx - 20, temp);
       // precision is default Arduino--this could really use some format control
       d.println((int)round(i));
     }

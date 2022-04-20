@@ -3279,7 +3279,7 @@ public class CairoPaintBarsPreRunIntervalRealtimeCapture : CairoPaintBarsPre
 		double distanceAccumulated = distanceTotal;
 		double timeAccumulated = timeTotal;
 
-		for(int i = time_l.Count -1; i >= 0; i --)
+		for(int i = 0; i < time_l.Count; i ++)
 		{
 			double time = Convert.ToDouble(time_l[i]);
 			double speed = Convert.ToDouble(speed_l[i]);

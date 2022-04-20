@@ -128,7 +128,9 @@ class SqliteJump : Sqlite
 			filterTypeString = " AND jump.type == \"" + filterType + "\" ";
 
 		string orderByString = " ORDER BY upper(" + tp + ".name), jump.uniqueID ";
-		if(order == Orders_by.ID_DESC)
+		if(order == Orders_by.ID_ASC)
+			orderByString = " ORDER BY jump.uniqueID ";
+		else if(order == Orders_by.ID_DESC)
 			orderByString = " ORDER BY jump.uniqueID DESC ";
 		
 		string limitString = "";
@@ -240,7 +242,7 @@ class SqliteJump : Sqlite
 	  if(sessionString != "" || personString != "" || jumpTypeString != "")
 		  whereString = " WHERE ";
 
-	  string orderByString = " ORDER BY jump.uniqueID ";
+	  string orderByString = " ORDER BY jump.uniqueID "; //ID_ASC
 	  if(order == Orders_by.ID_DESC)
 		  orderByString = " ORDER BY jump.uniqueID DESC ";
 	  if(onlyBestInSession)

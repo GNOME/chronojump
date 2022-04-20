@@ -332,7 +332,7 @@ public class PrepareEventGraphRunInterval
 			personIDTemp = -1;
 
 		runsAtSQL = SqliteRunInterval.SelectRuns (true, sessionID, personIDTemp, type,
-				Sqlite.Orders_by.ID_DESC, limit, allPersons); 	//show names on comments only if "all persons"
+				Sqlite.Orders_by.ID_ASC, limit, allPersons); 	//show names on comments only if "all persons"
 
 		string sqlSelect = "distanceTotal/timeTotal";
 		string table = Constants.RunIntervalTable;

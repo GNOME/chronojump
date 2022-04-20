@@ -697,12 +697,24 @@ LogB.Information("going to call photocellWirelessCapture.CaptureStart ()");
 						runDC.UpdateStartPos(1);
 					}
 				}
-
 			}
 
+			//store because runDC.GetTrackTimeInSecondsAndUpdateStartPos() will change it
+			int photocellAtStartPos = runDC.GetPhotocellAtStartPos();
+
 			trackTime = runDC.GetTrackTimeInSecondsAndUpdateStartPos(); //will come in seconds
-			LogB.Information("Wichro photocell is: " + runDC.GetPhotocellAtStartPos());
-			photocell_l.Add(runDC.GetPhotocellAtStartPos());
+
+			//add photocell to photocell_l
+			if(trackTime != 0)
+			{
+				if(photocell_l.Count == 0)
+				{
+					photocell_l.Add(photocellAtStartPos);
+					LogB.Information("photocell_l.Add at start photocell_l: " + photocellAtStartPos.ToString());
+				}
+				photocell_l.Add(runDC.GetPhotocellAtStartPos());
+				LogB.Information("photocell_l.Add photocell_l: " + runDC.GetPhotocellAtStartPos().ToString());
+			}
 
 			runDC.FirstTrackDone = true;
 		}

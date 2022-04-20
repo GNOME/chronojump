@@ -529,7 +529,10 @@ public abstract class CairoBars : CairoGeneric
 
 		//draw rectangle first as it will be in the back
 		if(inRectangle)
+		{
 			drawRectangleAroundText (x, y, textH, text, g, yellow);
+			g.SetSourceColor (black);
+		}
 
 		string [] strFull = text.Split(new char[] {'\n'});
 

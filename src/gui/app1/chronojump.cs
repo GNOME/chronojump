@@ -1369,6 +1369,10 @@ public partial class ChronoJumpWindow
 		myTreeViewRuns.SelectPerson(currentPerson.Name);
 		myTreeViewRunsInterval.SelectPerson(currentPerson.Name);
 
+		//remove the selected jumpRj, runI
+		selectedJumpRj = null;
+		selectedRunInterval = null;
+
 		//1) change on jumps, runs, pulse capture graph
 		if(current_mode == Constants.Modes.JUMPSSIMPLE)
 		{

@@ -927,12 +927,6 @@ void setup() {
   //Activate interruptions activated by any RCA state change
   attachInterrupt(digitalPinToInterrupt(rcaPin), changingRCA, CHANGE);
 
-  lcd.setCursor(2, 0);
-  lcd.print("CHRONOJUMP");
-  lcd.setCursor(2, 1);
-  lcd.print("Boscosystem");
-  delay(1000);
-
   EEPROM.get(tareAddress, tareValue);
   //If the arduino has not been tared the default value in the EEPROM is -151.
   //TODO: Check that it is stil true in the current models
@@ -959,14 +953,10 @@ void setup() {
   MsTimer2::start();
 
 
-  //showMenu();
-
   //Start TFT
   tft.begin();
   tft.setRotation(1);
   tft.fillScreen(CJCOLOR);
-  //  tft.fillRect(0, 0, 160, 120, BLACK);
-  //  tft.fillRect(160, 0, 160, 120, WHITE);
 
   drawMenuBackground();
   showMenu();
@@ -1029,47 +1019,6 @@ void loop()
   //With Teensy serialEvent is not called automatically after loop
   if (Serial.available()) serialEvent();
 }
-
-/*
-  void showMenu(void)
-  {
-  lcd.clear();
-  showBatteryLevel();
-  //Showing the menu option
-  lcd.setCursor(0, 0);
-  lcd.print(menuList[menu]);
-  //Showing the next menu number in the upper right corner
-  lcd.setCursor(14, 0);
-  lcd.print((menu + 1) % 4 + 1);
-  //The up arrow is associated to the blue button
-  lcd.createChar(6, upArrow);
-  lcd.setCursor(15, 0);
-  lcd.write(byte (6));
-  //the down arrow is associated to the red button
-  lcd.createChar(7, downArrow);
-  lcd.setCursor(15, 1);
-  lcd.write(byte (7));
-
-  if (menu == 0)
-  {
-    lcd.setCursor(10, 1);
-    lcd.print("Start");
-  } else if (menu == 1)
-  {
-    lcd.setCursor(5, 1);
-    lcd.print("Tare&Start");
-  } else if (menu == 2)
-  {
-    lcd.setCursor(10, 1);
-    lcd.print("Start");
-  } else if (menu == 3)
-  {
-    lcd.setCursor(11, 1);
-    lcd.print("Enter");
-  }
-  delay(100);
-  }
-*/
 
 void showMenu(void)
 {
@@ -1208,9 +1157,6 @@ void capture(void)
         Serial.print(totalTime); Serial.print(";");
         Serial.println(measured, 2); //scale.get_units() returns a float
 
-        //printOnLcd();
-        //Graph(tft, x, v, 30, 240, 320, 240, 0, 320, 100, 0, v_max, 100, "", "", "", WHITE, WHITE, BLUE, WHITE, BLACK, display1);
-        //Graph(tft, xGraph, measured, graphX, graphY, graphW, graphH, xMin, xMax, xDiv, measuredMin, yDiv, "", "", "", WHITE, WHITE, BLUE, WHITE, BLACK, display1);
         Graph(tft, xGraph, measured, graphX, graphY, graphW, graphH, xMin, xMax, xDivSize, measuredMin, measuredMax, yDivSize, "", "", "", WHITE, WHITE, BLUE, WHITE, BLACK, display1);
         xGraph++;
       }
@@ -1237,32 +1183,6 @@ void capture(void)
     }
   }
   MsTimer2::start();
-}
-
-//TODO: manage the delay in LCD write with a timer
-void printOnLcd() {
-  lcdCount = lcdCount + 1;
-  if (lcdCount >= lcdDelay)
-  {
-    lcd.clear();
-
-    if (capturingSteadiness) {
-      lcd.createChar(7, recordChar);
-      lcd.setCursor(0, 0);
-      lcd.write(byte (7));
-    }
-    //Upper left
-    printLcdFormat (measuredLcdDelayMax, 4, 0, 1);
-    //Lower left
-    printLcdFormat (maxMeanForce1s, 4, 1, 1);
-    //Upper right
-    printLcdFormat (totalTime / 1e6, 15, 0, 0); //Showing total capture time in seconds
-    //Lower right
-    printLcdFormat (impulse, 13, 1, 1);
-
-    measuredLcdDelayMax = 0;
-    lcdCount = 0;
-  }
 }
 
 void printLcdFormat (float val, int xStart, int y, int decimal) {
@@ -1687,7 +1607,6 @@ void showResults() {
   tft.setCursor(100,0);
   tft.print("Results");
 
-  //Showing menu 0
   tft.drawLine(0,20,320,20, GREY);
   tft.drawLine(160,240,160,20, GREY);
   tft.setTextSize(2);
@@ -1723,6 +1642,7 @@ void showResults() {
   tft.setCursor(170, 160);
   tft.print("cvRMSSD");
   printTftFormat(RMSSD, 280, 160, 1);
+  
   //Red button exits results
   while (!redButtonState) {
     blueButtonState = !digitalRead(blueButtonPin);
@@ -1735,9 +1655,9 @@ void showResults() {
   }
   Serial.println("Red pressed");
   redButtonState = false;
-  delay(200);
+  //delay(200);
+  tft.fillRect(0, 20, 320, 240, BLACK);
   drawMenuBackground();
-  tft.fillRect(0, 0, 320, 240, BLACK);
 }
 
 void showSystem()
@@ -1909,7 +1829,7 @@ void Graph(Adafruit_ILI9341 &d, double x, double y, double gx, double gy, double
       d.setTextSize(1);
       d.setTextColor(tcolor, bcolor);
       //d.setCursor(gx - 40, temp);
-      d.setCursor(gx - 20, temp);
+      d.setCursor(gx - 20, temp - 3);
       // precision is default Arduino--this could really use some format control
       d.println((int)round(i));
     }

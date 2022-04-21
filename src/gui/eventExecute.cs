@@ -3039,7 +3039,7 @@ public class CairoPaintBarsPreJumpReactiveRealtimeCapture : CairoPaintBarsPre
 		if(isLastCaptured)
 			this.title = Catalog.GetString("Last test:") + " " + generateTitle();
 		else
-			this.title = Catalog.GetString("Selected:") + " " + generateTitle();
+			this.title = Catalog.GetString("Viewing:") + " " + generateTitle();
 
 		//this.lastTv = lastTv;
 		//this.lastTc = lastTc;
@@ -3174,7 +3174,7 @@ public class CairoPaintBarsPreRunIntervalRealtimeCapture : CairoPaintBarsPre
 		if(isLastCaptured)
 			this.title = Catalog.GetString("Last test:") + " " + generateTitle();
 		else
-			this.title = Catalog.GetString("Selected:") + " " + generateTitle();
+			this.title = Catalog.GetString("Viewing:") + " " + generateTitle();
 
 		this.isRelative = isRelative;
 

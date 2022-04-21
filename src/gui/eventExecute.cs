@@ -3186,15 +3186,14 @@ public class CairoPaintBarsPreRunIntervalRealtimeCapture : CairoPaintBarsPre
 		int count = 0;
 		foreach(string t in timeFull)
 		{
-			double distance = lastDistance;
-			if(distancesString != "") //if distances are variable
+			if(distancesString != null && distancesString != "") //if distances are variable
 			{
 				//this will return a 0 on Rest period on RSA
-				distance = Util.GetRunIVariableDistancesStringRow(distancesString, count);
+				distanceInterval = Util.GetRunIVariableDistancesStringRow(distancesString, count);
 			}
 
 			//ifRSAstartRest = true;
-			if(distance > 0  //is not RSA rest period
+			if(distanceInterval > 0  //is not RSA rest period
 					&&
 				Util.IsNumber(t, true))
 			{
@@ -3206,8 +3205,8 @@ public class CairoPaintBarsPreRunIntervalRealtimeCapture : CairoPaintBarsPre
 					time = tDouble;
 
 				time_l.Add(time);
-				distance_l.Add(distance);
-				speed_l.Add(distance / time);
+				distance_l.Add(distanceInterval);
+				speed_l.Add(distanceInterval / time);
 				//ifRSAstartRest = false;
 			}
 			count ++;

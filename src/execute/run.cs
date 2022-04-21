@@ -1158,8 +1158,8 @@ public class RunIntervalExecute : RunExecute
 
 		//update graph
 		PrepareEventGraphRunIntervalRealtimeCaptureObject = new PrepareEventGraphRunIntervalRealtimeCapture (
-				type, distanceIntervalFixed, trackTime, intervalTimesString,
-				distanceTotal, distancesString, photocell_l, startIn, success);
+				type, intervalTimesString, distanceInterval, distancesString,
+				photocell_l, startIn, success);
 
 		needUpdateGraphType = eventType.RUNINTERVAL;
 		needUpdateGraph = true;
@@ -1403,8 +1403,8 @@ public class RunIntervalExecute : RunExecute
 			needShowFeedbackMessage = true; 
 
 			PrepareEventGraphRunIntervalRealtimeCaptureObject = new PrepareEventGraphRunIntervalRealtimeCapture (
-					type, distanceIntervalFixed, trackTime, intervalTimesString,
-					distanceTotal, distancesString, photocell_l, startIn, true);
+					type, intervalTimesString, distanceInterval, distancesString,
+					photocell_l, startIn, success);
 
 			needUpdateGraphType = eventType.RUNINTERVAL;
 			needUpdateGraph = true;

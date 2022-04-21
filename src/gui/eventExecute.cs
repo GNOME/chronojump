@@ -513,22 +513,23 @@ public partial class ChronoJumpWindow
 			{
 				if(currentEventExecute.PrepareEventGraphRunIntervalRealtimeCaptureObject != null)
 					PrepareRunIntervalRealtimeCaptureGraph(
-							currentEventExecute.PrepareEventGraphRunIntervalRealtimeCaptureObject.distance,
-							currentEventExecute.PrepareEventGraphRunIntervalRealtimeCaptureObject.lastTime,
 							currentEventExecute.PrepareEventGraphRunIntervalRealtimeCaptureObject.timesString,
-							currentEventExecute.PrepareEventGraphRunIntervalRealtimeCaptureObject.distanceTotal,
+							currentEventExecute.PrepareEventGraphRunIntervalRealtimeCaptureObject.distanceInterval,
 							currentEventExecute.PrepareEventGraphRunIntervalRealtimeCaptureObject.distancesString,
 							currentEventExecute.PrepareEventGraphRunIntervalRealtimeCaptureObject.photocell_l,
 							currentEventExecute.PrepareEventGraphRunIntervalRealtimeCaptureObject.type,
 							currentPerson.Name);
 			}
 			else if(selectedRunInterval != null)
+			{
+				LogB.Information("selectedRunInterval: " + selectedRunInterval.ToString());
 				PrepareRunIntervalRealtimeCaptureGraph(
-						selectedRunInterval.DistanceTotal, //TODO: take care, maybe is not this distance (maybe use selectedRunIntervalType)
-						selectedRunInterval.TimeLast, selectedRunInterval.IntervalTimesString,
-						selectedRunInterval.DistanceTotal, selectedRunIntervalType.DistancesString,
+						selectedRunInterval.IntervalTimesString,
+						selectedRunInterval.DistanceInterval,
+						selectedRunIntervalType.DistancesString,
 						selectedRunInterval.Photocell_l,
 						selectedRunInterval.Type, selectedRunInterval.Description); //Description is person.Name
+			}
 		}
 	}
 
@@ -800,8 +801,9 @@ public partial class ChronoJumpWindow
 				event_execute_drawingarea_realtime_capture_cairo, preferences.fontType.ToString());
 	}
 
-	public void PrepareRunIntervalRealtimeCaptureGraph (double lastDistance, double lastTime, string timesString, double distanceTotal,
-			string distancesString, List<int> photocell_l, string type, string personName)
+	public void PrepareRunIntervalRealtimeCaptureGraph (string timesString,
+			double distanceInterval, string distancesString,
+			List<int> photocell_l, string type, string personName)
 	{
 		if(currentPerson == null)
 			return;
@@ -816,9 +818,9 @@ public partial class ChronoJumpWindow
 		cairoPaintBarsPreRealTime = new CairoPaintBarsPreRunIntervalRealtimeCapture(
 				event_execute_drawingarea_realtime_capture_cairo, preferences.fontType.ToString(), current_mode,
 				personName, type, preferences.digitsNumber,// preferences.heightPreferred,
-				check_runI_realtime_rel_abs.Active, lastDistance,
-				//lastTime,
-				timesString, distancesString, photocell_l, isLastCaptured);
+				check_runI_realtime_rel_abs.Active,
+				timesString, distanceInterval, distancesString,
+				photocell_l, isLastCaptured);
 
 		// B) Paint cairo graph
 		//cairoPaintBarsPreRealTime.UseHeights = useHeights;
@@ -1882,10 +1884,8 @@ public partial class ChronoJumpWindow
 						*/
 
 					PrepareRunIntervalRealtimeCaptureGraph(
-							currentEventExecute.PrepareEventGraphRunIntervalRealtimeCaptureObject.distance,
-							currentEventExecute.PrepareEventGraphRunIntervalRealtimeCaptureObject.lastTime,
 							currentEventExecute.PrepareEventGraphRunIntervalRealtimeCaptureObject.timesString,
-							currentEventExecute.PrepareEventGraphRunIntervalRealtimeCaptureObject.distanceTotal,
+							currentEventExecute.PrepareEventGraphRunIntervalRealtimeCaptureObject.distanceInterval,
 							currentEventExecute.PrepareEventGraphRunIntervalRealtimeCaptureObject.distancesString,
 							currentEventExecute.PrepareEventGraphRunIntervalRealtimeCaptureObject.photocell_l,
 							currentEventExecute.PrepareEventGraphRunIntervalRealtimeCaptureObject.type,
@@ -3165,8 +3165,9 @@ public class CairoPaintBarsPreRunIntervalRealtimeCapture : CairoPaintBarsPre
 	public CairoPaintBarsPreRunIntervalRealtimeCapture (DrawingArea darea, string fontStr,
 			Constants.Modes mode, string personName, string testName, int pDN,// bool heightPreferred,
 			bool isRelative,
-			double lastDistance,
-			string timesString, string distancesString,
+			string timesString,
+			double distanceInterval, //know each track distance according to this or distancesString
+			string distancesString,
 			List<int> photocell_l, bool isLastCaptured)
 	{
 		initialize (darea, fontStr, mode, personName, testName, pDN);

@@ -385,8 +385,6 @@ LogB.Information("going to call photocellWirelessCapture.CaptureStart ()");
 					firstFromChronopicReceived = true;
 				}
 
-				onlyInterval_CalculateDistanceIntervalFixed();
-
 				//LogB.Information("timestamp:" + timestamp);
 				if (has_arrived()) // timestamp is tf
 				{
@@ -555,9 +553,6 @@ LogB.Information("going to call photocellWirelessCapture.CaptureStart ()");
 	
 	/* only run interval functions */
 
-	protected virtual void onlyInterval_CalculateDistanceIntervalFixed()
-	{
-	}
 	protected virtual void onlyInterval_NeedShowCountDownFalse()
 	{
 	}
@@ -930,7 +925,6 @@ public class RunIntervalExecute : RunExecute
 	bool tracksLimited;
 
 	string distancesString; //if distances are variable (distanceInterval == -1), this is used
-	double distanceIntervalFixed; //if distanceInterval == -1, then Fixed is the corresponding base on distancesString
 
 	//static because they are used on both threads at the same time
 	static double tracks; //double because if we limit by time (runType tracksLimited false), we do n.nn tracks
@@ -1028,7 +1022,6 @@ public class RunIntervalExecute : RunExecute
 		//initialize variables
 		equal = "";
 		intervalTimesString = "";
-		distanceIntervalFixed = distanceInterval;
 		tracks = 0;
 		//countForSavingTempTable = 0;
 		finishByTimeReturnedTrueAtThisCapture = false;
@@ -1042,12 +1035,6 @@ public class RunIntervalExecute : RunExecute
 
 	/* only run interval functions */
 
-	protected override void onlyInterval_CalculateDistanceIntervalFixed()
-	{
-		if(distanceInterval == -1)
-			distanceIntervalFixed = Util.GetRunIVariableDistancesStringRow(distancesString, (int) tracks);
-	}
-					
 	protected override void onlyInterval_NeedShowCountDownFalse()
 	{
 		//show RSA count down only on air
@@ -1381,21 +1368,6 @@ public class RunIntervalExecute : RunExecute
 			eventDone = new RunInterval(uniqueID, personID, sessionID, type, distanceTotal, timeTotal, distanceInterval, intervalTimesString,
 					tracksHere, description, limitString, Util.BoolToNegativeInt(simulated), !startIn, datetime, photocell_l);
 
-			/*
-			string tempValuesString;
-			if(tracksLimited) 
-				tempValuesString = " (" + distanceIntervalFixed + "x" + tracksHere + "R), " + Catalog.GetString("Time") + ": " + Util.TrimDecimals( timeTotal.ToString(), pDN);
-			else
-				tempValuesString = " (" + distanceIntervalFixed + "x" + Util.TrimDecimals( timeTotal.ToString(), pDN) + "T), " + Catalog.GetString("Tracks") + ": " + tracksHere;
-
-
-			string myStringPush =   Catalog.GetString("Last run") + ": " + RunnerName + ", " + 
-				type + tempValuesString + ", " +
-				Catalog.GetString("AVG Speed") + ": " + Util.TrimDecimals( 
-						Util.GetSpeed(distanceTotal.ToString(),
-							timeTotal.ToString(), metersSecondsPreferred )
-						, pDN ) ;
-			*/
 			if(simulated)
 				feedbackMessage = Catalog.GetString(Constants.SimulatedMessage());
 			else

@@ -358,10 +358,8 @@ public class PrepareEventGraphRunInterval
 public class PrepareEventGraphRunIntervalRealtimeCapture
 {
 	public string type;
-	public double distance;
-	public double lastTime;
 	public string timesString;
-	public double distanceTotal; //we pass this because it's dificult to calculate in runs with variable distances
+	public double distanceInterval; //we pass this because it's dificult to calculate in runs with variable distances
 	public string distancesString; //we pass this because it's dificult to calculate in runs with variable distances
 	public List<int> photocell_l; //for Wichro
 	public bool startIn;
@@ -370,15 +368,15 @@ public class PrepareEventGraphRunIntervalRealtimeCapture
 	public PrepareEventGraphRunIntervalRealtimeCapture() {
 	}
 
-	public PrepareEventGraphRunIntervalRealtimeCapture (string type, double distance, double lastTime, string timesString,
-			double distanceTotal, string distancesString, List<int> photocell_l,
+	public PrepareEventGraphRunIntervalRealtimeCapture (string type,
+			string timesString,
+			double distanceInterval, string distancesString,
+			List<int> photocell_l,
 			bool startIn, bool finished)
 	{
 		this.type = type;
-		this.distance = distance;
-		this.lastTime = lastTime;
 		this.timesString = timesString;
-		this.distanceTotal = distanceTotal;
+		this.distanceInterval = distanceInterval;
 		this.distancesString = distancesString;
 		this.photocell_l = photocell_l;
 		this.startIn = startIn;

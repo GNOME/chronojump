@@ -1894,13 +1894,18 @@ public partial class ChronoJumpWindow
 		{
 			selectedRunInterval = SqliteRunInterval.SelectRunData (Constants.RunIntervalTable, myTreeViewRunsInterval.EventSelectedID, true, false);
 			selectedRunIntervalType = SqliteRunIntervalType.SelectAndReturnRunIntervalType(selectedRunInterval.Type, false);
+
+			/*
+			LogB.Information("selectedRunInterval: " + selectedRunInterval.ToString());
+			LogB.Information("selectedRunIntervalType: " + selectedRunIntervalType.ToString());
+			*/
 		}
 
 		blankRunIntervalRealtimeCaptureGraph ();
 		PrepareRunIntervalRealtimeCaptureGraph (
-				selectedRunInterval.DistanceTotal, //TODO: take care, maybe is not this distance (maybe use selectedRunIntervalType)
-				selectedRunInterval.TimeLast, selectedRunInterval.IntervalTimesString,
-				selectedRunInterval.DistanceTotal, selectedRunIntervalType.DistancesString,
+				selectedRunInterval.IntervalTimesString,
+				selectedRunInterval.DistanceInterval,
+				selectedRunIntervalType.DistancesString,
 				selectedRunInterval.Photocell_l,
 				selectedRunInterval.Type, selectedRunInterval.Description); //Description is personName
 	}

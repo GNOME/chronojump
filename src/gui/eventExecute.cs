@@ -3276,8 +3276,8 @@ public class CairoPaintBarsPreRunIntervalRealtimeCapture : CairoPaintBarsPre
 			distanceTotal += distance_l[i];
 			timeTotal += time_l[i];
 		}
-		double distanceAccumulated = distanceTotal;
-		double timeAccumulated = timeTotal;
+		double distanceAccumulated = 0;
+		double timeAccumulated = 0;
 
 		for(int i = 0; i < time_l.Count; i ++)
 		{
@@ -3290,10 +3290,10 @@ public class CairoPaintBarsPreRunIntervalRealtimeCapture : CairoPaintBarsPre
 				names_l.Add(string.Format("{0} m\n{1} s",
 							distance_l[i], Util.TrimDecimals(time,2)));
 			else {
+				distanceAccumulated += distance_l[i];
+				timeAccumulated += time_l[i];
 				names_l.Add(string.Format("{0} m\n{1} s",
 							distanceAccumulated, Util.TrimDecimals(timeAccumulated,2)));
-				distanceAccumulated -= distance_l[i];
-				timeAccumulated -= time_l[i];
 			}
 
 			if(speed > max) 	//get max

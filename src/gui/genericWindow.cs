@@ -201,6 +201,9 @@ public class GenericWindow
 
 		GenericWindowBox.hideWidgets();
 
+		GenericWindowBox.image_button_cancel.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_cancel.png");
+		GenericWindowBox.image_button_accept.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_done_blue.png");
+
 		GenericWindowBox.showWidget(stuff, sensitive);
 		GenericWindowBox.generic_window.Show ();
 		

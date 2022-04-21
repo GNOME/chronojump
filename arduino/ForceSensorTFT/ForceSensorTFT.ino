@@ -1076,7 +1076,7 @@ void showMenu(void)
   Serial.println("In showMenu");
   tft.fillRect(30, 0, 260, 50, BLACK);
   tft.setCursor(60, 20);
-  tft.println(menuList[menu]);
+  tft.print(menuList[menu]);
 }
 
 void capture(void)
@@ -1273,20 +1273,51 @@ void printLcdFormat (float val, int xStart, int y, int decimal) {
      12.34  -> 1 characters
      123.45 -> 2 characters
   */
+  int fontSize = 2;
+  int charWidth[3] = {10, 15, 20};
 
   int valLength = floor(log10(abs(val)));
 
   // Adding the extra characters to the left
   if (valLength > 0) {
-    xStart -= valLength;
+    xStart = valLength*charWidth[fontSize];
   }
 
   // In negatives numbers the units are in the same position and the minus one position to the left
   if (val < 0) {
-    xStart--;
+    xStart - charWidth[fontSize];
   }
-  lcd.setCursor(xStart  , y);
-  lcd.print(val, decimal);
+  tft.setCursor(xStart*charWidth[fontSize]  , y);
+  tft.print(val, decimal);
+}
+
+void printTftFormat (float val, int xStart, int y, int decimal) {
+
+  /*How many characters are to the left of the units number.
+     Examples:
+     1.23   -> 0 charachters
+     12.34  -> 1 characters
+     123.45 -> 2 characters
+  */
+
+  //Font sizes: 5x8, 10x16, 15x24, or 20x32
+  //Theres a pixel between characters
+  int fontSize = 2;
+  int charWidth = 5 * fontSize + 1;
+  int valLength = floor(log10(abs(val)));
+
+  // Adding the extra characters to the left
+  if (valLength > 0) {
+    xStart = xStart - valLength*charWidth;
+  }
+
+  // In negatives numbers the units are in the same position and the minus one position to the left
+  if (val < 0) {
+    xStart = xStart - charWidth;
+  }
+
+  tft.setCursor(xStart , y);
+  tft.print(val, decimal);
 }
 
 void serialEvent() {
@@ -1652,19 +1683,46 @@ void showResults() {
   int submenu = 4;
   redButtonState = false;
   tft.fillScreen(BLACK);
-  tft.setTextSize(2);
+  tft.setTextSize(3);
+  tft.setCursor(100,0);
+  tft.print("Results");
 
   //Showing menu 0
-  lcd.setCursor(0, 0);
-  lcd.print("Fmax ");
+  tft.drawLine(0,20,320,20, GREY);
+  tft.drawLine(160,240,160,20, GREY);
+  tft.setTextSize(2);
+  
+  tft.setCursor(0, 40);
+  tft.print("Fmax");
+  printTftFormat(measuredMax, 100, 40, 1);
 
-  tft.setCursor(10, 10);
-  tft.print("Fmax ");
-
-  printLcdFormat(measuredMax, 11, 0, 1);
-  lcd.setCursor(0, 1);
-  lcd.print("Fmax1s ");
-  printLcdFormat(maxMeanForce1s, 11, 1, 1);
+  tft.setCursor(170, 40);
+  tft.print("Fmax1s");
+  printTftFormat(maxMeanForce1s, 280, 40, 1);
+  
+  tft.setCursor(0, 80);
+  tft.print("Ftrig");
+  printTftFormat(forceTrigger, 100, 80, 1);
+    
+  tft.setCursor(170, 80);
+  tft.print("Imp");
+  printTftFormat(impulse, 280, 80, 1);
+    
+  tft.setCursor(0, 120);
+  tft.print("RFD100");
+  printTftFormat(maxRFD100, 124, 120, 0);
+    
+  tft.setCursor(170, 120);
+  tft.print("RFD200");
+  printTftFormat(maxRFD200, 304, 120, 0);
+    
+  tft.setCursor(0, 160);
+  tft.print("RMSSD");
+  printTftFormat(RMSSD, 100, 160, 1);
+    
+  tft.setCursor(170, 160);
+  tft.print("cvRMSSD");
+  printTftFormat(RMSSD, 280, 160, 1);
   //Red button exits results
   while (!redButtonState) {
     blueButtonState = !digitalRead(blueButtonPin);
@@ -1673,48 +1731,13 @@ void showResults() {
     if (blueButtonState) {
       Serial.println("Blue pressed");
       blueButtonState = false;
-      submenu = (submenu + 1) % 4;
-      lcd.clear();
-      if (submenu == 0) {
-        lcd.setCursor(0, 0);
-        lcd.print("Fmax ");
-        printLcdFormat(measuredMax, 11, 0, 1);
-        lcd.setCursor(0, 1);
-        lcd.print("Fmax1s ");
-        printLcdFormat(maxMeanForce1s, 11, 1, 1);
-      } else if (submenu == 1) {
-        lcd.setCursor(0, 0);
-        lcd.print("Ftrg ");
-        printLcdFormat(forceTrigger, 11, 0, 1);
-        lcd.setCursor(0, 1);
-        lcd.print("Impulse ");
-        printLcdFormat(impulse, 11, 1, 1);
-      } else if (submenu == 2) {
-        lcd.setCursor(0, 0);
-        lcd.print("RFD100 ");
-        printLcdFormat(maxRFD100, 11, 0, 1);
-        lcd.setCursor(0, 1);
-        lcd.print("RFD200  ");
-        printLcdFormat(maxRFD200, 11, 1, 1);
-      } else if (submenu >= 3) {
-        lcd.setCursor(0, 0);
-        lcd.print("RMSSD ");
-        printLcdFormat(RMSSD, 11, 0, 1);
-        lcd.setCursor(0, 1);
-        lcd.print("cvRMSSD  ");
-        printLcdFormat(cvRMSSD, 11, 1, 1);
-      }
-      delay(200);
-      lcd.setCursor(15, 0);
-      lcd.print(">");
-      lcd.setCursor(15, 1);
-      lcd.write(byte (7));
     }
   }
   Serial.println("Red pressed");
   redButtonState = false;
   delay(200);
   drawMenuBackground();
+  tft.fillRect(0, 0, 320, 240, BLACK);
 }
 
 void showSystem()

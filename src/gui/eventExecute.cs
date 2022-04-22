@@ -2961,7 +2961,8 @@ public class CairoPaintBarsPreRunInterval : CairoPaintBarsPre
 
 		//manage bottom text font/spacing of rows
 		string longestWord = findLongestWordCairo (events,
-				eventGraphRunsIntervalStored.type == "",
+				//eventGraphRunsIntervalStored.type == "",
+				true,
 				" - 99", //thinking on 99 tracks
 				"(" + Catalog.GetString("Simulated") + ")"); // condition for "all runs"
 		int fontHeightForBottomNames = cb.GetFontForBottomNames (events, longestWord);

@@ -38,14 +38,14 @@ public class ConvertWeightWindow
 	TreeStore store;
 	double oldPersonWeight;
 	double newPersonWeight;
-	string [] jumpsNormal;
+	string [] jumpsSimple;
 	string [] jumpsReactive;
 	int columnBool1 = 6;
 	int columnBool2 = 8;
 	string simpleString;
 	string reactiveString;
 	
-	ConvertWeightWindow (double oldPersonWeight, double newPersonWeight, string [] jumpsNormal, string [] jumpsReactive) {
+	ConvertWeightWindow (double oldPersonWeight, double newPersonWeight, string [] jumpsSimple, string [] jumpsReactive) {
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "convert_weight.glade", "convert_weight", null);
 		gladeXML.Autoconnect(this);
@@ -55,7 +55,7 @@ public class ConvertWeightWindow
 
 		this.oldPersonWeight = oldPersonWeight;
 		this.newPersonWeight = newPersonWeight;
-		this.jumpsNormal = jumpsNormal;
+		this.jumpsSimple = jumpsSimple;
 		this.jumpsReactive = jumpsReactive;
 					
 		simpleString = Catalog.GetString("Simple");
@@ -85,11 +85,11 @@ public class ConvertWeightWindow
 	}
 
 	static public ConvertWeightWindow Show (
-			double oldPersonWeight, double newPersonWeight, string [] jumpsNormal, string [] jumpsReactive)
+			double oldPersonWeight, double newPersonWeight, string [] jumpsSimple, string [] jumpsReactive)
 	{
 		if (ConvertWeightWindowBox == null) {
 			ConvertWeightWindowBox = 
-				new ConvertWeightWindow (oldPersonWeight, newPersonWeight, jumpsNormal, jumpsReactive);
+				new ConvertWeightWindow (oldPersonWeight, newPersonWeight, jumpsSimple, jumpsReactive);
 		}
 	
 		ConvertWeightWindowBox.label_old_weight_value.Text = oldPersonWeight.ToString() + " Kg";
@@ -206,7 +206,7 @@ public class ConvertWeightWindow
 		//add a string for first row (for checking or unchecking all)
 		store.AppendValues ( "", "", "", "", "", "", true, "", false, "");
 		
-		foreach (string jump in jumpsNormal) {
+		foreach (string jump in jumpsSimple) {
 			string [] myStringFull = jump.Split(new char[] {':'});
 			store.AppendValues (
 					myStringFull[1], //uniqueID

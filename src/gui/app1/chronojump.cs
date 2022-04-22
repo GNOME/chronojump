@@ -1363,19 +1363,10 @@ public partial class ChronoJumpWindow
 
 		label_current_person.Text = currentPerson.Name;
 
-		//update 4 results treeviews
-		myTreeViewJumps.SelectPerson(currentPerson.Name);
-		myTreeViewJumpsRj.SelectPerson(currentPerson.Name);
-		myTreeViewRuns.SelectPerson(currentPerson.Name);
-		myTreeViewRunsInterval.SelectPerson(currentPerson.Name);
-
-		//remove the selected jumpRj, runI
-		selectedJumpRj = null;
-		selectedRunInterval = null;
-
-		//1) change on jumps, runs, pulse capture graph
 		if(current_mode == Constants.Modes.JUMPSSIMPLE)
 		{
+			myTreeViewJumps.SelectPerson(currentPerson.Name);
+
 			if(! configChronojump.Exhibition)
 				updateGraphJumpsSimple();
 
@@ -1393,6 +1384,9 @@ public partial class ChronoJumpWindow
 		}
 		else if(current_mode == Constants.Modes.JUMPSREACTIVE)
 		{
+			myTreeViewJumpsRj.SelectPerson(currentPerson.Name);
+			selectedJumpRj = null;
+
 			blankJumpReactiveRealtimeCaptureGraph ();
 			updateGraphJumpsReactive();
 
@@ -1404,6 +1398,8 @@ public partial class ChronoJumpWindow
 		}
 		else if(current_mode == Constants.Modes.RUNSSIMPLE)
 		{
+			myTreeViewRuns.SelectPerson(currentPerson.Name);
+
 			updateGraphRunsSimple();
 
 			if(notebook_analyze.CurrentPage == Convert.ToInt32(notebook_analyze_pages.RUNSEVOLUTION))
@@ -1411,6 +1407,9 @@ public partial class ChronoJumpWindow
 		}
 		else if(current_mode == Constants.Modes.RUNSINTERVALLIC)
 		{
+			myTreeViewRunsInterval.SelectPerson(currentPerson.Name);
+			selectedRunInterval = null;
+
 			blankRunIntervalRealtimeCaptureGraph ();
 			updateGraphRunsInterval();
 
@@ -1427,16 +1426,16 @@ public partial class ChronoJumpWindow
 			label_sprint_export_result.Text = "";
 			button_sprint_export_result_open.Visible = false;
 		}
-		//else if(current_mode == Constants.Modes.RUNSENCODER)
-		//{
-		//}
 		else if(current_mode == Constants.Modes.RT)
 			updateGraphReactionTimes();
 
-		//2) changes on encoder and forceSensor
-		encoderPersonChanged();
-		forceSensorPersonChanged();
-		runEncoderPersonChanged();
+		else if(current_mode == Constants.Modes.POWERGRAVITATORY ||
+				current_mode == Constants.Modes.POWERINERTIAL)
+			encoderPersonChanged();
+		else if(current_mode == Constants.Modes.FORCESENSOR)
+			forceSensorPersonChanged();
+		else if(current_mode == Constants.Modes.RUNSENCODER)
+			runEncoderPersonChanged();
 	}
 
 	private void treeviewPersonsContextMenu(Person myPerson) {

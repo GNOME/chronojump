@@ -439,7 +439,7 @@ class SqlitePersonSession : Sqlite
 
 		//3.- Delete tests without files
 				
-		//delete normal jumps
+		//delete simple jumps
 		dbcmd.CommandText = "Delete FROM jump WHERE sessionID == " + sessionID +
 			" AND personID == " + personID;
 			
@@ -450,7 +450,7 @@ class SqlitePersonSession : Sqlite
 			" AND personID == " + personID;
 		dbcmd.ExecuteNonQuery();
 		
-		//delete normal runs
+		//delete simple runs
 		dbcmd.CommandText = "Delete FROM run WHERE sessionID == " + sessionID +
 			" AND personID == " + personID;
 		

@@ -397,11 +397,11 @@ public partial class ChronoJumpWindow
 
 	//persons
 	private TreeViewPersons myTreeViewPersons;
-	//normal jumps
+	//simple jumps
 	private TreeViewJumps myTreeViewJumps;
 	//rj jumps
 	private TreeViewJumpsRj myTreeViewJumpsRj;
-	//normal runs
+	//simple runs
 	private TreeViewRuns myTreeViewRuns;
 	//runs interval
 	private TreeViewRunsInterval myTreeViewRunsInterval;
@@ -4668,7 +4668,7 @@ public partial class ChronoJumpWindow
 
 		if(current_mode == Constants.Modes.JUMPSSIMPLE)
 		{
-			on_normal_jump_activate(canCaptureC);
+			on_simple_jump_activate(canCaptureC);
 		}
 		else if(current_mode == Constants.Modes.JUMPSREACTIVE)
 		{
@@ -4678,7 +4678,7 @@ public partial class ChronoJumpWindow
 		{
 			extra_window_runs_distance = Convert.ToDouble(label_runs_simple_track_distance_value.Text);
 
-			on_normal_run_activate(canCaptureC, wireless);
+			on_simple_run_activate(canCaptureC, wireless);
 		}
 		else if(current_mode == Constants.Modes.RUNSINTERVALLIC)
 		{
@@ -4883,7 +4883,7 @@ public partial class ChronoJumpWindow
 	 */
 
 	//suitable for all jumps not repetitive
-	private void on_normal_jump_activate (bool canCaptureC)
+	private void on_simple_jump_activate (bool canCaptureC)
 	{
 		if(execute_auto_doing)
 			sensitiveGuiAutoExecuteOrWait (true);
@@ -4946,7 +4946,7 @@ public partial class ChronoJumpWindow
 		else if( currentJumpType.StartIn || 
 				currentJumpType.Name == Constants.TakeOffName || 
 				currentJumpType.Name == Constants.TakeOffWeightName)
-			progressbarLimit = 2; //2 for normal jump (or take off)
+			progressbarLimit = 2; //2 for simple jump (or take off)
 			
 		//don't let update until test finishes
 		if(createdStatsWin)
@@ -5351,9 +5351,9 @@ public partial class ChronoJumpWindow
 	 */
 
 	//suitable for all runs not repetitive
-	private void on_normal_run_activate (bool canCaptureC, bool wireless)
+	private void on_simple_run_activate (bool canCaptureC, bool wireless)
 	{
-		LogB.Information("on_normal_run_activate");
+		LogB.Information("on_simple_run_activate");
 		//if distance can be always different in this run,
 		//show values selected in runExtraWin
 		double myDistance = 0;		
@@ -6323,7 +6323,7 @@ LogB.Debug("mc finished 5");
 
 	private void on_edit_selected_jump_clicked (object o, EventArgs args) {
 		//notebooks_change(0); see "notebooks_change sqlite problem"
-		LogB.Information("Edit selected jump (normal)");
+		LogB.Information("Edit selected jump (simple)");
 		//1.- check that there's a line selected
 		//2.- check that this line is a jump and not a person (check also if it's not a individual RJ, the pass the parent RJ)
 		if (myTreeViewJumps.EventSelectedID > 0) {
@@ -6401,7 +6401,7 @@ LogB.Debug("mc finished 5");
 	
 	private void on_edit_selected_run_clicked (object o, EventArgs args) {
 		//notebooks_change(2); see "notebooks_change sqlite problem"
-		LogB.Information("Edit selected run (normal)");
+		LogB.Information("Edit selected run (simple)");
 		//1.- check that there's a line selected
 		//2.- check that this line is a jump and not a person (check also if it's not a individual RJ, the pass the parent RJ)
 		if (myTreeViewRuns.EventSelectedID > 0) {
@@ -6666,7 +6666,7 @@ LogB.Debug("mc finished 5");
 	
 	private void on_delete_selected_jump_clicked (object o, EventArgs args) {
 		//notebooks_change(0); see "notebooks_change sqlite problem"
-		LogB.Information("delete this jump (normal)");
+		LogB.Information("delete this jump (simple)");
 		//1.- check that there's a line selected
 		//2.- check that this line is a jump and not a person
 		LogB.Information(myTreeViewJumps.EventSelectedID.ToString());
@@ -6764,7 +6764,7 @@ LogB.Debug("mc finished 5");
 	
 	private void on_delete_selected_run_clicked (object o, EventArgs args) {
 		//notebooks_change(2); see "notebooks_change sqlite problem"
-		LogB.Information("delete this race (normal)");
+		LogB.Information("delete this race (simple)");
 		
 		//1.- check that there's a line selected
 		//2.- check that this line is a jump and not a person

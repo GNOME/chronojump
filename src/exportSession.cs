@@ -293,7 +293,7 @@ public class ExportSession
 		if(tf > 0) {	
 			if(tc > 0) 		//dj
 				return Util.TrimDecimals(Util.GetDjPower(tc, tf, (personWeight + extraWeightInKg), fall).ToString(), dec);
-			else 			//it's a normal jump without tc
+			else 			//it's a simple jump without tc
 				return Util.TrimDecimals(Util.GetPower(tf, personWeight, extraWeightInKg).ToString(), dec);
 		}
 		return "-";

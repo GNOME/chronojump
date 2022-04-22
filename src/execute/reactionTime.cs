@@ -241,7 +241,7 @@ public class ReactionTimeExecute : EventExecute
 					updateProgressBar = new UpdateProgressBar (
 							true, //isEvent
 							true, //percentageMode
-							1 //normal jump, phase 1/2
+							1 //simple jump, phase 1/2
 							);
 					needUpdateEventProgressBar = true;
 

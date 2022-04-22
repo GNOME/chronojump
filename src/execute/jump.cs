@@ -412,7 +412,7 @@ public class JumpExecute : EventExecute
 								);
 						needUpdateEventProgressBar = true;
 					} else {
-						//**** graphD (if normal jump) **** 
+						//**** graphD (if simple jump) ****
 						//**** graphB (if hasFall and fall == -1) **** 
 
 						initializeTimer();

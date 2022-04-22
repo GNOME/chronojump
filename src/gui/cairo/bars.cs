@@ -80,6 +80,7 @@ public abstract class CairoBars : CairoGeneric
 	protected Cairo.Color yellow;
 
 	protected RepetitionMouseLimits mouseLimits;
+	protected List<int> id_l; //to pass the uniqueID of some test, eg: RunInterval executions and then find it using mouseLimits
 	protected List<double> lineData_l; //related to secondary variable (by default range)
 	protected List<CairoBarsArrow> eccOverload_l;
 	protected bool eccOverloadWriteValue;
@@ -362,6 +363,7 @@ public abstract class CairoBars : CairoGeneric
 		topMarginSet ();
 
 		mouseLimits = new RepetitionMouseLimits();
+		id_l = new List<int>();
 		lineData_l = new List<double>();
 		eccOverload_l = new List<CairoBarsArrow>();
 		eccOverloadWriteValue = false;
@@ -1041,6 +1043,7 @@ public abstract class CairoBars : CairoGeneric
 			paintGridInt (g, minX, maxX, minY, maxY, 1, gridType, textHeight -2);
 	}
 
+	//return the bar num from 0 (left bar) to the last bar
 	public int FindBarInPixel (double pixel)
 	{
 		LogB.Information("cairo bars FindBarInPixel 0");
@@ -1049,6 +1052,22 @@ public abstract class CairoBars : CairoGeneric
 
 		LogB.Information("cairo bars FindBarInPixel 1");
 		return mouseLimits.FindBarInPixel(pixel);
+	}
+
+	//return the id (uniqueID)
+	public int FindBarIdInPixel (double pixel)
+	{
+		LogB.Information("cairo bars FindBarIdInPixel 0");
+
+		int bar = FindBarInPixel (pixel);
+		if(bar == -1)
+			return -1;
+
+		if(id_l == null || bar >= id_l.Count)
+			return -1;
+
+		LogB.Information("cairo bars FindBarIdInPixel 1");
+		return id_l[bar];
 	}
 
 	/*
@@ -1091,6 +1110,10 @@ public abstract class CairoBars : CairoGeneric
 	}
 	public string VariableSerieB {
 		set { variableSerieB = value; }
+	}
+
+	public List<int> Id_l {
+		set { id_l = value; }
 	}
 
 	//related to secondary variable (by default range)

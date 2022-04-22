@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Copyright (C) 2004-2020   Xavier de Blas <xaviblas@gmail.com> 
+ *  Copyright (C) 2004-2022   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -235,6 +235,23 @@ public class TreeViewEvent
 		}
 	}
 
+	//if only shown persons, zoom to tests
+	public void ZoomToTestsIfNeeded ()
+	{
+		if(expandState == ExpandStates.MINIMIZED)
+		{
+			if(treeviewHasTwoLevels)
+			{
+				expandState = ExpandStates.OPTIMAL;
+				ExpandOptimal();
+			} else
+			{
+				expandState = ExpandStates.MAXIMIZED;
+				treeview.ExpandAll();
+			}
+		}
+	}
+
 	public void Add (string personName, System.Object newEvent)
 	{
 		
@@ -367,7 +384,8 @@ public class TreeViewEvent
 		Unselect(); //if not found: unselect all
 	}
 
-	public void SelectEvent(int uniqueID) {
+	public void SelectEvent (int uniqueID, bool scrollToEvent)
+	{
 		TreeIter iter = new TreeIter();
 		treeview.Model.GetIterFirst ( out iter ) ;
 		
@@ -388,6 +406,13 @@ public class TreeViewEvent
 					if(iterEventID == uniqueID) {
 						LogB.Information("We select:" + iterEventID);
 						treeview.Selection.SelectIter (iter);
+
+						if(scrollToEvent) {
+							TreePath path = store.GetPath (iter);
+							LogB.Debug(path.ToString());
+							treeview.ScrollToCell (path, null, true, 0, 0);
+						}
+
 						found = true;
 					}
 					iterValid = iter;

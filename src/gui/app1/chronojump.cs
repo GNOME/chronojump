@@ -1777,6 +1777,7 @@ public partial class ChronoJumpWindow
 	private void on_treeview_runs_cursor_changed (object o, EventArgs args)
 	{
 		sensitiveLastTestButtons(false);
+		button_inspect_last_test_run_simple.Sensitive = false;
 
 		// don't select if it's a person, 
 		// is for not confusing with the person treeviews that controls who runs
@@ -1890,6 +1891,7 @@ public partial class ChronoJumpWindow
 			myTreeViewRunsInterval.SelectHeaderLine();
 
 		showHideActionEventButtons(true, "RunInterval");
+		button_inspect_last_test_run_intervallic.Sensitive = false;
 
 		//graph the run on realtime cairo graph. Using selectedRunInterval to avoid SQL select continuously
 		if(selectedRunInterval == null || selectedRunIntervalType == null ||
@@ -3685,7 +3687,10 @@ public partial class ChronoJumpWindow
 				//align_check_vbox_contacts_graph_legend.Visible = true;
 				//vbox_contacts_graph_legend.Visible = false;
 
+				//show icon but have it unsensitive until there's a run
 				button_inspect_last_test_run_simple.Visible = true;
+				button_inspect_last_test_run_simple.Sensitive = false;
+
 				pixbufModeCurrent = new Pixbuf (null, Util.GetImagePath(false) + "image_run_simple.png");
 			}
 			else
@@ -3694,7 +3699,10 @@ public partial class ChronoJumpWindow
 				button_contacts_bells.Sensitive = true;
 				on_extra_window_runs_interval_test_changed(new object(), new EventArgs());
 				event_execute_drawingarea_realtime_capture_cairo.Visible = true;
+
+				//show icon but have it unsensitive until there's a run
 				button_inspect_last_test_run_intervallic.Visible = true;
+				button_inspect_last_test_run_intervallic.Sensitive = false;
 
 				event_graph_label_graph_test.Visible = false;
 				vbox_contacts_simple_graph_controls.Visible = true;
@@ -5361,6 +5369,7 @@ public partial class ChronoJumpWindow
 			
 		//hide jumping (running) buttons
 		sensitiveGuiEventDoing(false);
+		button_inspect_last_test_run_simple.Sensitive = false;
 
 		//show the event doing window
 		
@@ -5431,6 +5440,7 @@ public partial class ChronoJumpWindow
 	{
 		//test can be deleted if not cancelled
 		sensitiveLastTestButtons(! currentEventExecute.Cancel);
+		button_inspect_last_test_run_simple.Sensitive = ! currentEventExecute.Cancel;
 
 		if ( ! currentEventExecute.Cancel ) {
 			currentRun = (Run) currentEventExecute.EventDone;
@@ -6798,6 +6808,7 @@ LogB.Debug("mc finished 5");
 		selectedRunInterval = null;
 		selectedRunIntervalType = null;
 		showHideActionEventButtons(false, "Run");
+		button_inspect_last_test_run_simple.Sensitive = false;
 		
 		if(createdStatsWin) {
 			stats_win_fillTreeView_stats(false, false);
@@ -6824,6 +6835,7 @@ LogB.Debug("mc finished 5");
 		myTreeViewRunsInterval.DelEvent(id);
 		selectedRunInterval = null;
 		showHideActionEventButtons(false, "RunInterval");
+		button_inspect_last_test_run_intervallic.Sensitive = false;
 
 		if(createdStatsWin) {
 			stats_win_fillTreeView_stats(false, false);

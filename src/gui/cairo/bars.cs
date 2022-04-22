@@ -1063,6 +1063,9 @@ public abstract class CairoBars : CairoGeneric
 		if(bar == -1)
 			return -1;
 
+		//LogB.Information(string.Format("mouseLimits.Count: {0}, id_l.Count: {1}, bar: {2}",
+		//			mouseLimits.Count(), id_l.Count, bar));
+
 		if(id_l == null || bar >= id_l.Count)
 			return -1;
 

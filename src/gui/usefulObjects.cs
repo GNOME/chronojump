@@ -739,4 +739,10 @@ public class RepetitionMouseLimits
 	{
 		return ((PointStartEnd) list[rep]).End;
 	}
+
+	//to debug
+	public int Count ()
+	{
+		return list.Count;
+	}
 }

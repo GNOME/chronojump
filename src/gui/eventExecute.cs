@@ -579,7 +579,7 @@ public partial class ChronoJumpWindow
 	private void on_event_execute_drawingarea_cairo_button_press_event (object o, ButtonPressEventArgs args)
 	{
 		LogB.Information("on_event_execute_drawingarea_cairo_button_press_event");
-		if (current_mode != Constants.Modes.RUNSINTERVALLIC)
+		if (current_mode != Constants.Modes.JUMPSREACTIVE && current_mode != Constants.Modes.RUNSINTERVALLIC)
 			return;
 
 		if(cairoPaintBarsPre == null)
@@ -589,7 +589,17 @@ public partial class ChronoJumpWindow
 		//LogB.Information("Bar: " + bar.ToString());
 		int id = cairoPaintBarsPre.FindBarIdInPixel(args.Event.X);
 		LogB.Information("id: " + id.ToString());
-		if(id >= 0 && myTreeViewRunsInterval != null)
+
+		if(id < 0)
+			return;
+
+		if (current_mode == Constants.Modes.JUMPSREACTIVE && myTreeViewJumpsRj != null)
+		{
+			myTreeViewJumpsRj.ZoomToTestsIfNeeded ();
+			myTreeViewJumpsRj.SelectEvent (id, true); //scroll
+			on_treeview_jumps_rj_cursor_changed (new object (), new EventArgs ()); //in order to update top graph
+		}
+		else if (current_mode == Constants.Modes.RUNSINTERVALLIC && myTreeViewRunsInterval != null)
 		{
 			myTreeViewRunsInterval.ZoomToTestsIfNeeded ();
 			myTreeViewRunsInterval.SelectEvent (id, true); //scroll
@@ -2740,7 +2750,7 @@ public class CairoPaintBarsPreJumpReactive : CairoPaintBarsPre
 
 	protected override void paintSpecific()
 	{
-		cb = new CairoBarsNHSeries (darea, CairoBars.Type.NORMAL, true, false, true, true);
+		cb = new CairoBarsNHSeries (darea, CairoBars.Type.NORMAL, true, true, true, true);
 
 		cb.YVariable = Catalog.GetString("Time");
 		cb.YUnits = "s";
@@ -2786,6 +2796,7 @@ public class CairoPaintBarsPreJumpReactive : CairoPaintBarsPre
 
 		List<PointF> pointB_l = new List<PointF>();
 		List<string> names_l = new List<string>();
+		List<int> id_l = new List<int>(); //the uniqueIDs for knowing them on bar selection
 
 		int countToDraw = eventGraphJumpsRjStored.jumpsAtSQL.Count;
 		foreach(JumpRj jump in eventGraphJumpsRjStored.jumpsAtSQL)
@@ -2821,7 +2832,13 @@ public class CairoPaintBarsPreJumpReactive : CairoPaintBarsPre
 						jump.Description,
 						thereIsASimulated, (jump.Simulated == -1),
 						longestWord.Length, maxRowsForText));
+
+			//add uniqueID two times, one for the each serie
+			id_l.Add(jump.UniqueID);
+			id_l.Add(jump.UniqueID);
 		}
+
+		cb.Id_l = id_l;
 
 		cb.PassGuidesData (new CairoBarsGuideManage(
 					! ShowPersonNames, true, //usePersonGuides, useGroupGuides
@@ -2870,7 +2887,7 @@ public class CairoPaintBarsPreRunSimple : CairoPaintBarsPre
 
 	protected override void paintSpecific()
 	{
-		CairoBars1Series cb = new CairoBars1Series (darea, CairoBars.Type.NORMAL, false, true, true);
+		cb = new CairoBars1Series (darea, CairoBars.Type.NORMAL, false, true, true);
 
 		cb.YVariable = Catalog.GetString("Speed");
 		cb.YUnits = "m/s";

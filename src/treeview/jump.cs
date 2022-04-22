@@ -220,7 +220,7 @@ public class TreeViewJumps : TreeViewEvent
 				if(newJump.Tc > 0) 	//if it's Dj (has tf, and tc)
 					myData[count++] = Util.TrimDecimals(
 							Util.GetDjPower(newJump.Tc, newJump.Tv, (personWeight + weightInKg), newJump.Fall).ToString(), 1);
-				else {			//it's a normal jump without tc
+				else {			//it's a simple jump without tc
 					myData[count++] = Util.TrimDecimals(
 							Util.GetPower(newJump.Tv, personWeight, weightInKg).ToString(), 1);
 				}

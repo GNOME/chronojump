@@ -975,7 +975,7 @@ class SqliteSession : Sqlite
 		
 		// 3) delete tests without files
 
-		//delete normal jumps
+		//delete simple jumps
 		dbcmd.CommandText = "Delete FROM " + Constants.JumpTable + " WHERE sessionID == " + sessionID;
 		dbcmd.ExecuteNonQuery();
 		
@@ -983,7 +983,7 @@ class SqliteSession : Sqlite
 		dbcmd.CommandText = "Delete FROM " + Constants.JumpRjTable + " WHERE sessionID == " + sessionID;
 		dbcmd.ExecuteNonQuery();
 		
-		//delete normal runs
+		//delete simple runs
 		dbcmd.CommandText = "Delete FROM " + Constants.RunTable + " WHERE sessionID == " + sessionID;
 		dbcmd.ExecuteNonQuery();
 		

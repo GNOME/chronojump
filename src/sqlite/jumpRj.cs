@@ -46,7 +46,7 @@ class SqliteJumpRj : SqliteJump
 			"tcMax FLOAT, " +
 			"fall FLOAT, " +  
 			"weight TEXT, " + //string because can contain "33%" or "50Kg"
-			"description TEXT, " +		//this and the above values are equal than normal jump
+			"description TEXT, " +		//this and the above values are equal than simple jump
 			"tvAvg FLOAT, " +		//this and next values are Rj specific
 			"tcAvg FLOAT, " +
 			"tvString TEXT, " +

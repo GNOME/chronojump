@@ -106,7 +106,7 @@ public partial class ChronoJumpWindow
 	
 	
 	//creates and if is not predefined, checks database to gather all the data
-	//simple == true  for normal jumps, and false for reactive
+	//simple == true  for simple jumps, and false for reactive
 	private JumpType createJumpType(string name, bool simple) {
 		JumpType t = new JumpType(name);
 		

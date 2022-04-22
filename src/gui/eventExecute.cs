@@ -536,6 +536,8 @@ public partial class ChronoJumpWindow
 	//barplot of tests in session
 	public void on_event_execute_drawingarea_cairo_expose_event(object o, ExposeEventArgs args)
 	{
+		event_execute_drawingarea_cairo.AddEvents((int) Gdk.EventMask.ButtonPressMask);
+
 		//right now only for jumps/runs simple
 		if(current_mode != Constants.Modes.JUMPSSIMPLE &&
 				current_mode != Constants.Modes.JUMPSREACTIVE &&
@@ -572,6 +574,27 @@ public partial class ChronoJumpWindow
 			PrepareRunDoubleContactsGraph (true);
 		else if (current_mode == Constants.Modes.RUNSINTERVALLIC)
 			PrepareRunDoubleContactsGraph (false);
+	}
+
+	private void on_event_execute_drawingarea_cairo_button_press_event (object o, ButtonPressEventArgs args)
+	{
+		LogB.Information("on_event_execute_drawingarea_cairo_button_press_event");
+		if (current_mode != Constants.Modes.RUNSINTERVALLIC)
+			return;
+
+		if(cairoPaintBarsPre == null)
+			return;
+
+		//int bar = cairoPaintBarsPre.FindBarInPixel(args.Event.X);
+		//LogB.Information("Bar: " + bar.ToString());
+		int id = cairoPaintBarsPre.FindBarIdInPixel(args.Event.X);
+		LogB.Information("id: " + id.ToString());
+		if(id >= 0 && myTreeViewRunsInterval != null)
+		{
+			myTreeViewRunsInterval.ZoomToTestsIfNeeded ();
+			myTreeViewRunsInterval.SelectEvent (id, true); //scroll
+			on_treeview_runs_interval_cursor_changed (new object (), new EventArgs ()); //in order to update top graph
+		}
 	}
 
 	// simple and DJ jump	
@@ -2512,10 +2535,19 @@ public abstract class CairoPaintBarsPre
 
 	public int FindBarInPixel (double pixel)
 	{
+		LogB.Information(string.Format("FindBarInPixel cb == null: {0}, pixel: {1}", (cb == null), pixel));
 		if(cb == null)
 			return -1;
 
 		return cb.FindBarInPixel(pixel);
+	}
+	public int FindBarIdInPixel (double pixel)
+	{
+		LogB.Information(string.Format("FindBarIdInPixel cb == null: {0}, pixel: {1}", (cb == null), pixel));
+		if(cb == null)
+			return -1;
+
+		return cb.FindBarIdInPixel(pixel);
 	}
 }
 
@@ -2939,7 +2971,7 @@ public class CairoPaintBarsPreRunInterval : CairoPaintBarsPre
 
 	protected override void paintSpecific()
 	{
-		CairoBars1Series cb = new CairoBars1Series (darea, CairoBars.Type.NORMAL, false, true, true);
+		cb = new CairoBars1Series (darea, CairoBars.Type.NORMAL, true, true, true);
 
 		cb.YVariable = Catalog.GetString("Speed");
 		cb.YUnits = "m/s";
@@ -2981,6 +3013,7 @@ public class CairoPaintBarsPreRunInterval : CairoPaintBarsPre
 
 		List<PointF> point_l = new List<PointF>();
 		List<string> names_l = new List<string>();
+		List<int> id_l = new List<int>(); //the uniqueIDs for knowing them on bar selection
 
 		int countToDraw = eventGraphRunsIntervalStored.runsAtSQL.Count;
 		foreach(RunInterval runI in eventGraphRunsIntervalStored.runsAtSQL)
@@ -3007,7 +3040,11 @@ public class CairoPaintBarsPreRunInterval : CairoPaintBarsPre
 						runI.Description,
 						thereIsASimulated, (runI.Simulated == -1),
 						longestWord.Length, maxRowsForText));
+
+			id_l.Add(runI.UniqueID);
 		}
+
+		cb.Id_l = id_l;
 
 		cb.PassGuidesData (new CairoBarsGuideManage(
 					! ShowPersonNames, true, //usePersonGuides, useGroupGuides

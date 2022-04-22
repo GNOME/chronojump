@@ -6593,38 +6593,38 @@ LogB.Debug("mc finished 5");
 					//we should ensure we are deleting last jump and not the selected jump
 					//force selection of last jump
 					if(currentJump.UniqueID != myTreeViewJumps.EventSelectedID)
-						myTreeViewJumps.SelectEvent(currentJump.UniqueID);
+						myTreeViewJumps.SelectEvent(currentJump.UniqueID, false);
 					on_delete_selected_jump_clicked(o, args);
 				} else {
 					if(currentJumpRj.UniqueID != myTreeViewJumpsRj.EventSelectedID)
-						myTreeViewJumpsRj.SelectEvent(currentJumpRj.UniqueID);
+						myTreeViewJumpsRj.SelectEvent(currentJumpRj.UniqueID, false);
 					on_delete_selected_jump_rj_clicked(o, args);
 				}
 				break;
 			case EventType.Types.RUN:
 				if(lastRunIsSimple) {
 					if(currentRun.UniqueID != myTreeViewRuns.EventSelectedID)
-						myTreeViewRuns.SelectEvent(currentRun.UniqueID);
+						myTreeViewRuns.SelectEvent(currentRun.UniqueID, false);
 					on_delete_selected_run_clicked(o, args);
 				} else {
 					if(currentRunInterval.UniqueID != myTreeViewRunsInterval.EventSelectedID)
-						myTreeViewRunsInterval.SelectEvent(currentRunInterval.UniqueID);
+						myTreeViewRunsInterval.SelectEvent(currentRunInterval.UniqueID, false);
 					on_delete_selected_run_interval_clicked(o, args);
 				}
 				break;
 			case EventType.Types.PULSE:
 				if(currentPulse.UniqueID != myTreeViewPulses.EventSelectedID)
-					myTreeViewPulses.SelectEvent(currentPulse.UniqueID);
+					myTreeViewPulses.SelectEvent(currentPulse.UniqueID, false);
 				on_delete_selected_pulse_clicked(o, args);
 				break;
 			case EventType.Types.REACTIONTIME:
 				if(currentReactionTime.UniqueID != myTreeViewReactionTimes.EventSelectedID)
-					myTreeViewReactionTimes.SelectEvent(currentReactionTime.UniqueID);
+					myTreeViewReactionTimes.SelectEvent(currentReactionTime.UniqueID, false);
 				on_delete_selected_reaction_time_clicked(o, args);
 				break;
 			case EventType.Types.MULTICHRONOPIC:
 				if(currentMultiChronopic.UniqueID != myTreeViewMultiChronopic.EventSelectedID)
-					myTreeViewMultiChronopic.SelectEvent(currentMultiChronopic.UniqueID);
+					myTreeViewMultiChronopic.SelectEvent(currentMultiChronopic.UniqueID, false);
 				on_delete_selected_multi_chronopic_clicked(o, args);
 				break;
 		}

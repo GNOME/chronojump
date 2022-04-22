@@ -1075,20 +1075,20 @@ public class PersonAddModifyWindow
 						(! radio_metric.Active && Util.ConvertPoundsToKg(spinbutton_weight_imperial.Value) != weightIniMetric)
 				      ) ) {
 				//see if this person has done jumps with weight
-				string [] myJumpsNormal = SqliteJump.SelectJumpsSA (false, currentSession.UniqueID, currentPerson.UniqueID, "withWeight", "",
+				string [] myJumpsSimple = SqliteJump.SelectJumpsSA (false, currentSession.UniqueID, currentPerson.UniqueID, "withWeight", "",
 						Sqlite.Orders_by.DEFAULT, -1);
 				string [] myJumpsReactive = SqliteJumpRj.SelectJumpsSA (false, currentSession.UniqueID, currentPerson.UniqueID, "withWeight", "");
 
-				if(myJumpsNormal.Length > 0 || myJumpsReactive.Length > 0) {
+				if(myJumpsSimple.Length > 0 || myJumpsReactive.Length > 0) {
 					//create the convertWeight Window
 					if(radio_metric.Active)
 						convertWeightWin = ConvertWeightWindow.Show(
 								weightIniMetric, (double) spinbutton_weight_metric.Value,
-								myJumpsNormal, myJumpsReactive);
+								myJumpsSimple, myJumpsReactive);
 					else
 						convertWeightWin = ConvertWeightWindow.Show(
 								weightIniMetric, Util.ConvertPoundsToKg(spinbutton_weight_imperial.Value),
-								myJumpsNormal, myJumpsReactive);
+								myJumpsSimple, myJumpsReactive);
 					convertWeightWin.Button_accept.Clicked += new EventHandler(on_convertWeightWin_accepted);
 					convertWeightWin.Button_cancel.Clicked += new EventHandler(on_convertWeightWin_cancelled);
 				} else 

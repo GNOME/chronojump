@@ -63,7 +63,7 @@ public partial class ChronoJumpWindow
 
 
 	//creates and if is not predefined, checks database to gather all the data
-	//simple == true  for normal runs, and false for intervallic
+	//simple == true  for simple runs, and false for intervallic
 	private RunType createRunType(string name, bool simple) {
 		RunType t = new RunType(name);
 		

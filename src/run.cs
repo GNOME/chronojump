@@ -67,7 +67,7 @@ public class Run : Event
 		this.datetime = datetime;
 	}
 
-	//used to select a run at SqliteRun.SelectNormalRunData and at Sqlite.convertTables
+	//used to select a run at SqliteRun.SelectRunData and at Sqlite.convertTables
 	public Run(string [] eventString)
 	{
 		this.uniqueID = Convert.ToInt32(eventString[0]);

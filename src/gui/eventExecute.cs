@@ -2161,8 +2161,19 @@ public abstract class CairoPaintBarsPre
 		this.pDN = pDN;
 	}
 
+	// to debug
+	public override string ToString ()
+	{
+		return string.Format(
+				"mode: {0}, personName: {1}, testName: {2}, pDN: {3}",
+				mode, personName, testName, pDN);
+	}
+
 	public bool ModeMatches (Constants.Modes mode)
 	{
+		LogB.Information(string.Format("ModeMatches. This mode: {0}, checking against: {1}, are equal: {2}",
+					this.mode, mode, (this.mode == mode)));
+
 		return (this.mode == mode);
 	}
 

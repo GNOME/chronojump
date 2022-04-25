@@ -3357,7 +3357,6 @@ public class CairoPaintBarsPreRunIntervalRealtimeCapture : CairoPaintBarsPre
 
 		//statistics for speed
 		double max = 0;
-		double sum = 0; //for speed_l avg
 		double min = 1000;
 
 		//for absolute data. Absolute is from the beginning.
@@ -3391,8 +3390,6 @@ public class CairoPaintBarsPreRunIntervalRealtimeCapture : CairoPaintBarsPre
 			if(speed > max) 	//get max
 				max = speed;
 
-			sum += speed;		//get avg
-
 			if(speed < min)		//get min
 				min = speed;
 		}
@@ -3401,7 +3398,7 @@ public class CairoPaintBarsPreRunIntervalRealtimeCapture : CairoPaintBarsPre
 					true, false, //usePersonGuides, useGroupGuides
 					0, 0, 0, 0,
 					max,
-					sum / speed_l.Count,
+					UtilAll.DivideSafe(distanceTotal, timeTotal),
 					min));
 		/*
 		   if(photocell_l.Count > 0)

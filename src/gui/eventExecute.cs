@@ -579,7 +579,9 @@ public partial class ChronoJumpWindow
 	private void on_event_execute_drawingarea_cairo_button_press_event (object o, ButtonPressEventArgs args)
 	{
 		LogB.Information("on_event_execute_drawingarea_cairo_button_press_event");
-		if (current_mode != Constants.Modes.JUMPSREACTIVE &&
+		if (
+				current_mode != Constants.Modes.JUMPSSIMPLE &&
+				current_mode != Constants.Modes.JUMPSREACTIVE &&
 				current_mode != Constants.Modes.RUNSSIMPLE &&
 				current_mode != Constants.Modes.RUNSINTERVALLIC)
 			return;
@@ -595,7 +597,12 @@ public partial class ChronoJumpWindow
 		if(id < 0)
 			return;
 
-		if (current_mode == Constants.Modes.JUMPSREACTIVE && myTreeViewJumpsRj != null)
+		if (current_mode == Constants.Modes.JUMPSSIMPLE && myTreeViewJumps != null)
+		{
+			myTreeViewJumps.ZoomToTestsIfNeeded ();
+			myTreeViewJumps.SelectEvent (id, true); //scroll
+		}
+		else if (current_mode == Constants.Modes.JUMPSREACTIVE && myTreeViewJumpsRj != null)
 		{
 			myTreeViewJumpsRj.ZoomToTestsIfNeeded ();
 			myTreeViewJumpsRj.SelectEvent (id, true); //scroll
@@ -605,7 +612,6 @@ public partial class ChronoJumpWindow
 		{
 			myTreeViewRuns.ZoomToTestsIfNeeded ();
 			myTreeViewRuns.SelectEvent (id, true); //scroll
-			on_treeview_runs_cursor_changed (new object (), new EventArgs ()); //in order to update top graph
 		}
 		else if (current_mode == Constants.Modes.RUNSINTERVALLIC && myTreeViewRunsInterval != null)
 		{
@@ -2616,11 +2622,11 @@ public class CairoPaintBarsPreJumpSimple : CairoPaintBarsPre
 			UseHeights = false;
 
 		if(showBarA && showBarB) //Dja, Djna
-			cb = new CairoBarsNHSeries (darea, CairoBars.Type.NORMAL, true, false, true, true);
+			cb = new CairoBarsNHSeries (darea, CairoBars.Type.NORMAL, true, true, true, true);
 		else if (showBarA) //takeOff, takeOffWeight
-			cb = new CairoBars1Series (darea, CairoBars.Type.NORMAL, false, true, true);
+			cb = new CairoBars1Series (darea, CairoBars.Type.NORMAL, true, true, true);
 		else //rest of the jumps: sj, cmj, ..
-			cb = new CairoBars1Series (darea, CairoBars.Type.NORMAL, false, true, true);
+			cb = new CairoBars1Series (darea, CairoBars.Type.NORMAL, true, true, true);
 
 		if(UseHeights) {
 			cb.YVariable = Catalog.GetString("Height");
@@ -2670,6 +2676,7 @@ public class CairoPaintBarsPreJumpSimple : CairoPaintBarsPre
 		List<PointF> pointA_l = new List<PointF>();
 		List<PointF> pointB_l = new List<PointF>();
 		List<string> names_l = new List<string>();
+		List<int> id_l = new List<int>(); //the uniqueIDs for knowing them on bar selection
 
 		int countToDraw = eventGraphJumpsStored.jumpsAtSQL.Count;
 		foreach(Jump jump in eventGraphJumpsStored.jumpsAtSQL)
@@ -2699,7 +2706,13 @@ public class CairoPaintBarsPreJumpSimple : CairoPaintBarsPre
 						jump.Description,
 						thereIsASimulated, (jump.Simulated == -1),
 						longestWord.Length, maxRowsForText));
+
+			id_l.Add(jump.UniqueID);
+			if(showBarA && showBarB) //there are jumps like Dja, Djna
+				id_l.Add(jump.UniqueID);
 		}
+
+		cb.Id_l = id_l;
 
 		cb.PassGuidesData (new CairoBarsGuideManage(
 					! ShowPersonNames, true, //usePersonGuides, useGroupGuides

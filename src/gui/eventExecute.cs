@@ -579,7 +579,9 @@ public partial class ChronoJumpWindow
 	private void on_event_execute_drawingarea_cairo_button_press_event (object o, ButtonPressEventArgs args)
 	{
 		LogB.Information("on_event_execute_drawingarea_cairo_button_press_event");
-		if (current_mode != Constants.Modes.JUMPSREACTIVE && current_mode != Constants.Modes.RUNSINTERVALLIC)
+		if (current_mode != Constants.Modes.JUMPSREACTIVE &&
+				current_mode != Constants.Modes.RUNSSIMPLE &&
+				current_mode != Constants.Modes.RUNSINTERVALLIC)
 			return;
 
 		if(cairoPaintBarsPre == null)
@@ -598,6 +600,12 @@ public partial class ChronoJumpWindow
 			myTreeViewJumpsRj.ZoomToTestsIfNeeded ();
 			myTreeViewJumpsRj.SelectEvent (id, true); //scroll
 			on_treeview_jumps_rj_cursor_changed (new object (), new EventArgs ()); //in order to update top graph
+		}
+		else if (current_mode == Constants.Modes.RUNSSIMPLE && myTreeViewRuns != null)
+		{
+			myTreeViewRuns.ZoomToTestsIfNeeded ();
+			myTreeViewRuns.SelectEvent (id, true); //scroll
+			on_treeview_runs_cursor_changed (new object (), new EventArgs ()); //in order to update top graph
 		}
 		else if (current_mode == Constants.Modes.RUNSINTERVALLIC && myTreeViewRunsInterval != null)
 		{
@@ -2887,7 +2895,7 @@ public class CairoPaintBarsPreRunSimple : CairoPaintBarsPre
 
 	protected override void paintSpecific()
 	{
-		cb = new CairoBars1Series (darea, CairoBars.Type.NORMAL, false, true, true);
+		cb = new CairoBars1Series (darea, CairoBars.Type.NORMAL, true, true, true);
 
 		cb.YVariable = Catalog.GetString("Speed");
 		cb.YUnits = "m/s";
@@ -2922,6 +2930,7 @@ public class CairoPaintBarsPreRunSimple : CairoPaintBarsPre
 
 		List<PointF> point_l = new List<PointF>();
 		List<string> names_l = new List<string>();
+		List<int> id_l = new List<int>(); //the uniqueIDs for knowing them on bar selection
 
 		int countToDraw = eventGraphRunsStored.runsAtSQL.Count;
 		foreach(Run run in eventGraphRunsStored.runsAtSQL)
@@ -2944,7 +2953,11 @@ public class CairoPaintBarsPreRunSimple : CairoPaintBarsPre
 						run.Description,
 						thereIsASimulated, (run.Simulated == -1),
 						longestWord.Length, maxRowsForText));
+
+			id_l.Add(run.UniqueID);
 		}
+
+		cb.Id_l = id_l;
 
 		cb.PassGuidesData (new CairoBarsGuideManage(
 					! ShowPersonNames, true, //usePersonGuides, useGroupGuides

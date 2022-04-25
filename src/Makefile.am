@@ -544,6 +544,7 @@ RESOURCES = \
 	../images/md/ic_build_blue_16dp_1x.png,image_build_16.png \
 	../images/md/ic_edit_blue_1x.png,image_edit.png \
 	../images/md/ic_add_blue_1x.png,image_add.png \
+	../images/md/content_copy_blue.png,image_duplicate.png \
 	../images/md/ic_info_outline_blue_1x.png,image_info.png \
 	../images/md/ic_fitness_center_blue_1x.png,image_exercise.png \
 	../images/md/ic_keyboard_arrow_up_blue_1x.png,image_up.png \

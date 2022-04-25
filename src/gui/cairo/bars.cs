@@ -1654,6 +1654,7 @@ public class CairoBarsNHSeries : CairoBars
 			double x = leftMargin + sideWidthRatio*barWidth + i*2*barWidth + spacesBetweenBarGroups;
 			double adjustX = 0; //this is used on second bar (at right), can be used on first if mainAtLeft
 
+			//secondary bar: eg tc on jumps
 			for(int j = 0; j < barSecondary_ll.Count; j ++)
 			{
 				PointF pS = barSecondary_ll[j][i];
@@ -1699,11 +1700,12 @@ public class CairoBarsNHSeries : CairoBars
 				adjustX += barWidth;
 			}
 
+			//main bar: eg tv on jumps
 			if(pB.Y > 0)
 			{
 				//if there is no data on previous variables, just put pB in the middle
-				if(!secondaryHasData)
-					adjustX = -barWidth/2;
+				if(! secondaryHasData)
+					adjustX = barWidth/2;
 
 				double y = calculatePaintY(pB.Y);
 
@@ -1736,6 +1738,10 @@ public class CairoBarsNHSeries : CairoBars
 						printTextInBar(x +adjustX +barWidth/2, graphHeight -bottomMargin -10,
 								0, textHeight+2, "c", g, true, false);
 				}
+
+				//to show text centered at bottom correctly
+				if(! secondaryHasData)
+					adjustX = barWidth;
 			}
 
 			//sort result on bars correctly (this could be useful if mainAtLeft changes)

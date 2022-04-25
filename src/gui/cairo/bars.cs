@@ -1670,10 +1670,6 @@ public class CairoBarsNHSeries : CairoBars
 
 					drawRoundedRectangle (true, x + adjustX, y, barWidth, graphHeight -y -bottomMargin, 4, g, barColor);
 					resultOnBarsThisIteration_l.Add(new Point3F(x + adjustX + barWidth/2, y-4, pS.Y));
-					//add for the secondary and for the main bar, no problem both will work
-					mouseLimits.AddInPos (mouseLimitsPos1stBar, x+adjustX, x+adjustX+barWidth);
-					mouseLimitsPos1stBar += 2;
-
 					//to print line variable if needed
 					//barsXCenter_l.Add(x + adjustX + barWidth/2);
 
@@ -1696,6 +1692,15 @@ public class CairoBarsNHSeries : CairoBars
 
 					secondaryHasData = true;
 				}
+
+				//mouse limits stuff
+				if(pS.Y > 0)
+					mouseLimits.AddInPos (mouseLimitsPos1stBar, x+adjustX, x+adjustX+barWidth);
+				else {
+					//add it 0 width, to respect order when DJs are mixed with CMJs, but not be able to be selected
+					mouseLimits.AddInPos (mouseLimitsPos1stBar, x+adjustX, x+adjustX);
+				}
+				mouseLimitsPos1stBar += 2;
 
 				adjustX += barWidth;
 			}

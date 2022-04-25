@@ -2218,7 +2218,8 @@ LogB.Information(" fs R ");
 		genericWin.ShowEditRow(false);
 
 		//select row corresponding to current signal
-		genericWin.SelectRowWithID(0, currentForceSensor.UniqueID); //colNum, id
+		if(currentForceSensor != null)
+			genericWin.SelectRowWithID(0, currentForceSensor.UniqueID); //colNum, id
 
 		genericWin.VideoColumn = 7;
 		genericWin.CommentColumn = 8;

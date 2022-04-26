@@ -276,7 +276,7 @@ public partial class ChronoJumpWindow
 				LogB.Information("catched! checking version");
 				return "";
 			}
-			LogB.Information("init string: " + str);
+			LogB.Information(string.Format("init string: |{0}|", str));
 		}
 		while(! str.Contains("Race_Analyzer-"));
 
@@ -290,8 +290,8 @@ public partial class ChronoJumpWindow
 		 * init string: ^@;Race_analyzer-0.3
 		 */
 		Match match = Regex.Match(str, @"Race_Analyzer-(\d+\.\d+)");
-		if(match.Groups.Count == 1)
-			return str = match.Value;
+		if(match.Groups.Count == 2)
+			return str = match.Groups[1].ToString();
 		else
 			return "0.3"; //if there is a problem default to 0.3. 0.2 was the first that will be distributed and will be on binary. 0.3 has the byte of encoderOrRCA
 	}

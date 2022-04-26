@@ -563,7 +563,7 @@ public abstract class CairoXY : CairoGeneric
 	protected void writeCoordinatesOfMouseClick(double graphX, double graphY, double realX, double realY)
 	{
 		// 1) need to do this because context has been disposed
-		LogB.Information(string.Format("g == null: {0}", (g = null)));
+		LogB.Information(string.Format("g == null: {0}", (g == null)));
 		if(g == null)
 			g = Gdk.CairoHelper.Create (area.GdkWindow); //area->surface does not work
 

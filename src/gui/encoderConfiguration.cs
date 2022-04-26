@@ -97,14 +97,29 @@ public class EncoderConfigurationWindow
 	[Widget] Gtk.Frame frame_notebook_side;
 	[Widget] Gtk.Notebook notebook_side;
 	[Widget] Gtk.TreeView treeview_select;
+	[Widget] Gtk.Button button_import;
+	[Widget] Gtk.Button button_export;
+	[Widget] Gtk.Button button_edit;
+	[Widget] Gtk.Button button_add;
+	[Widget] Gtk.Button button_duplicate;
+	[Widget] Gtk.Button button_delete;
 	[Widget] Gtk.Image image_import;
 	[Widget] Gtk.Image image_export;
-	[Widget] Gtk.Image image_delete;
+	[Widget] Gtk.Image image_capture_cancel;
 	[Widget] Gtk.Image image_cancel;
+	[Widget] Gtk.Image image_accept;
+	[Widget] Gtk.Image image_edit;
+	[Widget] Gtk.Image image_add;
+	[Widget] Gtk.Image image_duplicate;
+	[Widget] Gtk.Image image_delete;
+	[Widget] Gtk.Label label_side_action;
+	[Widget] Gtk.Label label_side_selected;
 
+	[Widget] Gtk.Notebook notebook_actions;
 	[Widget] Gtk.Entry entry_save_name;
 	[Widget] Gtk.Entry entry_save_description;
-	[Widget] Gtk.Button button_apply;
+	//[Widget] Gtk.Button button_cancel;
+	[Widget] Gtk.Button button_accept;
 
 	[Widget] Gtk.SpinButton spin_im_weight_calcule;
 	[Widget] Gtk.SpinButton spin_im_length_calcule;
@@ -129,6 +144,8 @@ public class EncoderConfigurationWindow
 	Pixbuf pixbuf;
 
 	Constants.EncoderGI encoderGI;
+
+	private enum notebookPages { BUTTONS, EDIT_ADD_DUPLICATE, DELETE  };
 
 	/*
 	 * this params are used on inertial
@@ -158,7 +175,21 @@ public class EncoderConfigurationWindow
 		image_encoder_calcule_im.Pixbuf = pixbuf;
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_cancel.png");
+		image_capture_cancel.Pixbuf = pixbuf;
 		image_cancel.Pixbuf = pixbuf;
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_done_blue.png");
+		image_accept.Pixbuf = pixbuf;
+
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_edit.png");
+		image_edit.Pixbuf = pixbuf;
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_add.png");
+		image_add.Pixbuf = pixbuf;
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_duplicate.png");
+		image_duplicate.Pixbuf = pixbuf;
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "stock_delete.png");
+		image_delete.Pixbuf = pixbuf;
+
+		label_side_action.Text = "";
 
 		//put an icon to window
 		UtilGtk.IconWindow(encoder_configuration);
@@ -212,6 +243,7 @@ public class EncoderConfigurationWindow
 
 		//C) side is shown now, after showing the window in order to be displayed correctly (see A)
 		EncoderConfigurationWindowBox.frame_notebook_side.Visible = (EncoderConfigurationWindowBox.sideMode != sideModes.HIDDEN);
+		EncoderConfigurationWindowBox.notebook_actions.Page = Convert.ToInt32(notebookPages.BUTTONS);
 
 		return EncoderConfigurationWindowBox;
 	}
@@ -615,8 +647,6 @@ public class EncoderConfigurationWindow
 		image_import.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameExport);
 		image_export.Pixbuf = pixbuf;
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "stock_delete.png");
-		image_delete.Pixbuf = pixbuf;
 	}
 
 	private void fillTreeView(List<EncoderConfigurationSQLObject> list, EncoderConfigurationSQLObject currentSO)
@@ -632,7 +662,7 @@ public class EncoderConfigurationWindow
 		return new TreeStore(typeof (string), typeof (string));
 	}
 
-	private string getSelectedName()
+	private string getSelectedName ()
 	{
 		TreeModel model;
 		TreeIter iter;
@@ -643,11 +673,25 @@ public class EncoderConfigurationWindow
 		return "";
 	}
 
+	private string getSelectedDescription ()
+	{
+		TreeModel model;
+		TreeIter iter;
+
+		if (treeview_select.Selection.GetSelected(out model, out iter))
+			return (string) model.GetValue (iter, colDescription);
+
+		return "";
+	}
+
 	private void onTVSelectionChanged (object o, EventArgs args)
 	{
 		string selectedName = getSelectedName();
 		if(selectedName == "")
 			return;
+
+		label_side_selected.Text = "<b>" + selectedName + "</b>";
+		label_side_selected.UseMarkup = true;
 
 		List<EncoderConfigurationSQLObject> list = SqliteEncoderConfiguration.Select(false, encoderGI, selectedName);
 		if(list != null && list.Count == 1)
@@ -670,7 +714,7 @@ public class EncoderConfigurationWindow
 	{
 		entry_save_name.Text = Util.MakeValidSQL(entry_save_name.Text);
 
-		button_apply.Sensitive = (entry_save_name.Text.ToString().Length > 0);
+		button_accept.Sensitive = (entry_save_name.Text.ToString().Length > 0);
 
 		//TODO: button delete sensitivity depends on being on the treeview
 	}
@@ -813,13 +857,13 @@ public class EncoderConfigurationWindow
 		((IDisposable)writer).Dispose();
 	}
 
-	//TODO: button_apply sensitive only when name != "" && != of the others
-	void on_button_apply_clicked (object o, EventArgs args)
+	//TODO: button_accept sensitive only when name != "" && != of the others
+	void on_button_accept_clicked (object o, EventArgs args)
 	{
-		apply(true);
+		apply (true);
 	}
 
-	private void apply(bool updateGUI)
+	private void apply (bool updateGUI)
 	{
 		//useful fo update SQL
 		string selectedOldName = getSelectedName();
@@ -855,14 +899,66 @@ public class EncoderConfigurationWindow
 			store.SetValue (iter, colName, newName);
 			store.SetValue (iter, colDescription, entry_save_description.Text);
 		}
+
+		notebook_actions.Page = Convert.ToInt32(notebookPages.BUTTONS);
+		sideActionGuiUnsensitive (false);
 	}
 
-	void on_button_new_clicked (object o, EventArgs args)
+	private void sideActionGuiUnsensitive (bool unsensitivize)
+	{
+		button_import.Sensitive = ! unsensitivize;
+		button_export.Sensitive = ! unsensitivize;
+		treeview_select.Sensitive = ! unsensitivize;
+	}
+
+	/* right actions */
+
+	private void on_button_side_action_clicked (object o, EventArgs args)
+	{
+		sideActionGuiUnsensitive (true);
+
+		if(o == (object) button_edit)
+			on_button_edit_clicked (o, args);
+		else if(o == (object) button_add)
+			on_button_add_clicked (o, args);
+		else if(o == (object) button_duplicate)
+			on_button_duplicate_clicked (o, args);
+		else if(o == (object) button_delete)
+			on_button_delete_clicked (o, args);
+	}
+
+	private void on_button_edit_clicked (object o, EventArgs args)
+	{
+		notebook_actions.Page = Convert.ToInt32(notebookPages.EDIT_ADD_DUPLICATE);
+		label_side_action.Text = Catalog.GetString("Edit selected");
+
+		entry_save_name.Text = getSelectedName ();
+		entry_save_description.Text = getSelectedDescription ();
+	}
+
+	private void on_button_add_clicked (object o, EventArgs args)
+	{
+		/*
+		TODO: implement on the future
+		need to put default config for linear or inertial,
+		and change the gui, but if person cancels, then gui has to change again to new object
+
+		notebook_actions.Page = Convert.ToInt32(notebookPages.EDIT_ADD_DUPLICATE);
+		label_side_action.Text = Catalog.GetString("Add new");
+
+		entry_save_name.Text = "";
+		entry_save_description.Text = "";
+		*/
+	}
+
+	private void on_button_duplicate_clicked (object o, EventArgs args)
 	{
 		string selectedName = getSelectedName();
 		if(selectedName == "")
 			return;
 
+		notebook_actions.Page = Convert.ToInt32(notebookPages.EDIT_ADD_DUPLICATE);
+		label_side_action.Text = Catalog.GetString("Duplicate");
 		List<EncoderConfigurationSQLObject> list = SqliteEncoderConfiguration.Select(false, encoderGI, selectedName);
 		if(list != null && list.Count == 1)
 		{
@@ -885,10 +981,14 @@ public class EncoderConfigurationWindow
 
 	void on_button_delete_clicked (object o, EventArgs args)
 	{
+		sideActionGuiUnsensitive (false);
+
 		string selectedName = getSelectedName();
 		if(selectedName == "")
 			return;
 
+		//notebook_actions.Page = Convert.ToInt32(notebookPages.DELETE);
+		//label_side_action.Text = Catalog.GetString("Delete");
 		if(UtilGtk.CountRows(store) <= 1) {
 			new DialogMessage(Constants.MessageTypes.WARNING,
 					Catalog.GetString("Sorry, cannot delete all rows.") + "\n");
@@ -901,6 +1001,12 @@ public class EncoderConfigurationWindow
 
 		//SQL
 		Sqlite.DeleteFromName(false, Constants.EncoderConfigurationTable, "name", selectedName);
+	}
+
+	private void on_button_cancel_clicked (object o, EventArgs args)
+	{
+		notebook_actions.Page = Convert.ToInt32(notebookPages.BUTTONS);
+		sideActionGuiUnsensitive (false);
 	}
 
 	/*

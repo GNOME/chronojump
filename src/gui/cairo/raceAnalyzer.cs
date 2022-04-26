@@ -87,15 +87,20 @@ public class CairoGraphRaceAnalyzer : CairoXY
 		if(points_list != null)
 			maxValuesChanged = findPointMaximums(false, points_list);
 
+		bool graphInited = false;
 		if(maxValuesChanged || forceRedraw || points_list.Count != points_list_painted)
 		{
 			initGraph( font, 1, (maxValuesChanged || forceRedraw) );
+			graphInited = true;
 			points_list_painted = 0;
 		}
 		if(points_list == null || points_list.Count == 0)
 		{
+			if(! graphInited)
+				initGraph( font, 1, (maxValuesChanged || forceRedraw) );
+
 			paintAxis();
-			return true;
+			return graphInited;
 		}
 
 		if(maxValuesChanged || forceRedraw)
@@ -205,7 +210,7 @@ public class CairoGraphRaceAnalyzer : CairoXY
 				paintVerticalTriggerLine(g, trigger, textHeight -3);
 
 		//doing = false;
-		return true;
+		return graphInited;
 	}
 
 	protected override void printYAxisText()

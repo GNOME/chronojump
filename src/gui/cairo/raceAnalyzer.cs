@@ -97,7 +97,10 @@ public class CairoGraphRaceAnalyzer : CairoXY
 		if(points_list == null || points_list.Count == 0)
 		{
 			if(! graphInited)
-				initGraph( font, 1, (maxValuesChanged || forceRedraw) );
+			{
+				initGraph(font, 1, true);
+				graphInited = true;
+			}
 
 			paintAxis();
 			return graphInited;

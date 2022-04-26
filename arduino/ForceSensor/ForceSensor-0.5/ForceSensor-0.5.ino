@@ -62,7 +62,8 @@ bool rcaState = digitalRead(rcaPin);
 bool lastRcaState = rcaState;
 
 void setup() {
-  Serial.begin(115200);
+  Serial.begin(9600);
+  Serial.println("Initiated at 9600");
 
   long tare = 0;
   EEPROM.get(tareAddress, tare);
@@ -147,6 +148,8 @@ void processSerial()
     set_tare(inputString);
   } else if (commandString == "tare") {
     tare();
+  } else if (commandString == "set_bps") {
+    set_bps(inputString);
   } else if (commandString == "get_transmission_format") {
     get_transmission_format();
   } else {
@@ -250,4 +253,18 @@ void get_transmission_format()
   {
     Serial.println("text");
   }
+}
+
+void set_bps(String inputString){
+  String speedString = get_command_argument(inputString);
+  unsigned long speed = speedString.toInt();
+  
+  Serial.print("setting to: ");
+  Serial.print(speed);
+  Serial.println(" bps");
+  Serial.flush();
+  Serial.begin(speed);
+  Serial.print("Speed set to: ");
+  Serial.print(speed);
+  Serial.println(" bps");
 }

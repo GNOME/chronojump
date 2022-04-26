@@ -974,7 +974,8 @@ public partial class ChronoJumpWindow
 		genericWin.ShowEditRow(false);
 
 		//select row corresponding to current signal
-		genericWin.SelectRowWithID(0, currentRunEncoder.UniqueID); //colNum, id
+		if(currentRunEncoder != null)
+			genericWin.SelectRowWithID(0, currentRunEncoder.UniqueID); //colNum, id
 
 		genericWin.VideoColumn = 6;
 		genericWin.CommentColumn = 7;

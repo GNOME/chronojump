@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2017   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2004-2022   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -999,8 +999,9 @@ public class EncoderConfigurationWindow
 		UtilGtk.RemoveRow(treeview_select, store); 			//1 delete row
 		UtilGtk.TreeviewSelectFirstRow(treeview_select, store, true); 	//2 selects another row (use first)
 
-		//SQL
-		Sqlite.DeleteFromName(false, Constants.EncoderConfigurationTable, "name", selectedName);
+		//SQL.
+		//note deleting by name should be only on one encoderGI
+		SqliteEncoderConfiguration.Delete (false, encoderGI, selectedName);
 	}
 
 	private void on_button_cancel_clicked (object o, EventArgs args)

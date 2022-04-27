@@ -950,9 +950,13 @@ void setup() {
     scale.set_scale(calibration_factor);
   }
 
+  /*
+   * ¡¡¡¡ Atention !!!!
+   * starting MsTimer2 causes instability in teensy or TFT
   //Every second the battery level is updated via interrupts
-  MsTimer2::set(1000, showBatteryLevel);
-  MsTimer2::start();
+  //MsTimer2::set(1000, updateTime);
+  ////MsTimer2::start();
+  */
 
 
   //Start TFT
@@ -1037,11 +1041,11 @@ void capture(void)
 
   //Position graph's lower left corner.
   double graphX = 30;
-  double graphY = 240;
+  double graphY = 200;
 
   //Size of the graph
   double graphW = 290;
-  double graphH = 240;
+  double graphH = 200;
 
   //Minimum and maximum values to show
   double xMin = 0;
@@ -1059,11 +1063,18 @@ void capture(void)
 
   bool resized = true;
 
-  MsTimer2::stop();
+  long lastUpdateTime = 0;
+  //MsTimer2::stop();
 
   tft.fillScreen(BLACK);
 
   double xGraph = 1;
+
+  //Print summary results
+  tft.setTextSize(2);
+  tft.setCursor(10, 215);
+  tft.print("Fmax: ");
+  printTftFormat(measuredMax, 100, 215, 2, 2);
 
   while (capturing)
   {
@@ -1086,6 +1097,7 @@ void capture(void)
     }
     redrawAxes(tft, graphX, graphY, graphW, graphH, xMin, xMax, graphMin, graphMax, yDivSize, "", "", "", WHITE, WHITE, WHITE, WHITE, BLACK, resized);
     resized = false;
+
     if (xGraph >= xMax) xGraph = 0;
     while (xGraph < xMax && !resized) {
       for (int n = 0; n < plotPeriod; n++)
@@ -1218,8 +1230,18 @@ void capture(void)
       yBuffer[(int)xGraph] = yBuffer[(int)xGraph] / plotPeriod;
       Graph(tft, xGraph, yBuffer[(int)xGraph], graphX, graphY, graphW, graphH, xMin, xMax, xDivSize, graphMin, graphMax, yDivSize, "", "", "", WHITE, WHITE, BLUE, WHITE, BLACK, startOver);
       xGraph++;
+
+      if (measured > measuredMax)
+      {
+        measuredMax = measured;
+        printTftFormat(measuredMax, 100, 215, 2, 2);
+      }
+
+      if ((lastUpdateTime - totalTime) > 1000000){
+        lastUpdateTime = totalTime;
+        updateTime();
+      }
     }
-    MsTimer2::start();
   }
 }
 
@@ -1272,7 +1294,7 @@ void printTftFormat (float val, int xStart, int y, int fontSize, int decimal) {
   if (val < 0) {
     xStart = xStart - charWidth;
   }
-
+  tft.setTextSize(fontSize);
   tft.setCursor(xStart , y);
   tft.print(val, decimal);
 }
@@ -1320,7 +1342,7 @@ void serialEvent() {
 void start_capture()
 {
   //Disabling the battery level indicator
-  MsTimer2::stop();
+  //MsTimer2::start();
   Serial.println("Starting capture...");
   totalTime = 0;
   lastTime = micros();
@@ -1351,6 +1373,7 @@ void end_capture()
 {
   capturing = false;
   Serial.println("Capture ended:");
+  MsTimer2::stop();
   delay(500);
 
   //If the device is controlled by the PC the results menu is not showed
@@ -1367,7 +1390,6 @@ void end_capture()
   }
 
   //Activating the Battery level indicator
-  MsTimer2::start();
   showMenu();
 }
 
@@ -1571,7 +1593,7 @@ void calibrateLCD(void) {
     Serial.println(redButtonState);
   }
   delay(1000);
-  MsTimer2::start();
+  //MsTimer2::start();
   showMenu();
 }
 
@@ -1594,6 +1616,11 @@ void showBatteryLevel() {
   lcd.write(byte (0));
 }
 
+void updateTime() {
+  tft.setTextSize(2);
+  tft.setCursor(272, 215);
+  tft.print((int)(totalTime / 1000000));
+}
 //TODO: Add more information or eliminate
 void showSystemInfo() {
   MsTimer2::stop();
@@ -1632,7 +1659,7 @@ void showSystemInfo() {
     }
     redButtonState = !digitalRead(redButtonPin);
   }
-  MsTimer2::start();
+  //MsTimer2::start();
 }
 
 void showResults() {
@@ -1826,7 +1853,7 @@ void showSteadinessResults()
     blueButtonState = !digitalRead(blueButtonPin);
   }
   delay(200);
-  MsTimer2::start();
+  //MsTimer2::start();
   showMenu();
 }
 

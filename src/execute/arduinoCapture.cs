@@ -13,7 +13,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  *
- * Copyright (C) 2021  Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2022  Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -24,16 +24,128 @@ using System.Threading;
 
 //inspired on RFID.cs (unique class that reads arduino separated of gui
 
-public abstract class ArduinoCapture
+//ArduinoCommunications
+public abstract class ArduinoComms
 {
 	public static SerialPort ArduinoPort; //on Windows we cannot pass the SerialPort to another class, so use this.
 	public static bool PortOpened;
-
 
 	protected string portName;
 	protected int bauds;
 //	protected SerialPort port;
 //	protected bool portOpened;
+
+	protected string response; //the response on waitResponse () if is what expected
+
+	protected bool portConnect ()
+	{
+		//port = new SerialPort(portName, bauds);
+		ArduinoPort = new SerialPort(portName, bauds);
+
+		try {
+			ArduinoPort.Open();
+		}
+		catch (System.IO.IOException)
+		{
+			LogB.Information("Error: could not open port");
+			return false;
+		}
+
+		LogB.Information("port successfully opened");
+
+		//TODO: Val, caldria que quedés clar a la interficie que estem esperant aquest temps, a veure com ho fa el sensor de força, ...
+		//just print on gui something like "please, wait, ..."
+		//
+		Thread.Sleep(3000); //sleep to let arduino start reading serial event
+
+		return true;
+	}
+
+	protected bool getVersion (string getVersionStr, List<string> responseExpected_l)
+	{
+		if(! sendCommand(getVersionStr, "error getting version")) //note this is for Wichro
+			return false;
+
+		return waitResponse(responseExpected_l);
+	}
+
+	protected bool sendCommand (string command, string errorMessage)
+	{
+		try {
+			LogB.Information("arduinocapture sendCommand: |" + command + "|");
+			ArduinoPort.WriteLine(command);
+		}
+		catch (Exception ex)
+		{
+			if(ex is System.IO.IOException || ex is System.TimeoutException)
+			{
+				LogB.Information("error: " + errorMessage);
+				ArduinoPort.Close();
+				//portOpened = false;
+				PortOpened = false;
+				return false;
+			}
+			//throw;
+		}
+		return true;
+	}
+
+	protected bool waitResponse (List<string> responseExpected_l)
+	{
+		string str = "";
+		bool success = false;
+		int waitLimitMs = 2000; //wait 2s //don't wait 1s because response will not come
+		Stopwatch sw = new Stopwatch();
+		sw.Start();
+		LogB.Information("starting waitResponse");
+		do {
+			Thread.Sleep(25);
+			if (ArduinoPort.BytesToRead > 0)
+			{
+				try {
+					//str = ArduinoPort.ReadLine();
+					//use this because if 9600 call an old Wichro that has no comm at this speed, will answer things and maybe never a line
+					str += ArduinoPort.ReadExisting(); //The += is because maybe it receives part of the string
+				} catch {
+					if(responseExpected_l.Count == 1)
+						LogB.Information(string.Format("Catched waiting: |{0}|", responseExpected_l[0]));
+					else if(responseExpected_l.Count > 1)
+					{
+						LogB.Information("Catched waiting any of:");
+						foreach(string expected in responseExpected_l)
+							LogB.Information("- " + expected);
+
+					}
+					return false;
+				}
+				LogB.Information(string.Format("received: |{0}|", str));
+			}
+
+			foreach(string expected in responseExpected_l)
+				if(str.Contains(expected))
+				{
+					success = true;
+					response = str;
+				}
+		}
+		while(! (success || sw.Elapsed.TotalMilliseconds > waitLimitMs) );
+		LogB.Information("ended waitResponse");
+
+		return (success);
+	}
+
+	protected void flush ()
+	{
+		string str = "";
+		if (ArduinoPort.BytesToRead > 0)
+			str = ArduinoPort.ReadExisting();
+
+		LogB.Information(string.Format("flushed: |{0}|", str));
+	}
+}
+
+public abstract class ArduinoCapture : ArduinoComms
+{
 	protected int readedPos; //position already readed from list
 
 	// public stuff ---->
@@ -59,77 +171,11 @@ public abstract class ArduinoCapture
 		this.portName = portName;
 		this.bauds = bauds;
 		readedPos = 0;
+		response = "";
 
 		emptyList();
 	}
 
-	protected bool portConnect()
-	{
-		//port = new SerialPort(portName, bauds);
-		ArduinoPort = new SerialPort(portName, bauds);
-
-		try {
-			ArduinoPort.Open();
-		}
-		catch (System.IO.IOException)
-		{
-			LogB.Information("Error: could not open port");
-			return false;
-		}
-
-		LogB.Information("port successfully opened");
-
-		//TODO: Val, caldria que quedés clar a la interficie que estem esperant aquest temps, a veure com ho fa el sensor de força, ...
-		//just print on gui somthing like "please, wait, ..."
-		//
-		Thread.Sleep(3000); //sleep to let arduino start reading serial event
-
-		if(! sendCommand("local:get_version;", "error getting version"))
-			return false;
-		waitResponse("Wifi-Controller");
-
-		return true;
-	}
-
-	protected bool sendCommand (string command, string errorMessage)
-	{
-		try {
-			LogB.Information("arduinocapture sendCommand: |" + command + "|");
-			ArduinoPort.WriteLine(command);
-		}
-		catch (Exception ex)
-		{
-			if(ex is System.IO.IOException || ex is System.TimeoutException)
-			{
-				LogB.Information("error: " + errorMessage);
-				ArduinoPort.Close();
-				//portOpened = false;
-				PortOpened = false;
-				return false;
-			}
-			//throw;
-		}
-		return true;
-	}
-
-	protected void waitResponse (string expected)
-	{
-		string str = "";
-		do {
-			Thread.Sleep(25);
-			if (ArduinoPort.BytesToRead > 0)
-			{
-				try {
-					str = ArduinoPort.ReadLine();
-				} catch {
-					LogB.Information(string.Format("Catched waiting: |{0}|", expected));
-				}
-				//LogB.Information(string.Format("waiting \"{0}\", received: {1}", expected, str));
-			}
-		}
-		while(! str.Contains(expected));
-		LogB.Information("waitResponse success: " + str);
-	}
 
 	protected bool readLine (out string str)
 	{
@@ -187,8 +233,15 @@ public class PhotocellWirelessCapture: ArduinoCapture
 		LogB.Information("portOpened: " + ArduinoCapture.PortOpened.ToString());
 		// 0 connect if needed
 		if(! ArduinoCapture.PortOpened)
-			if(! portConnect())
+		{
+			List<string> responseExpected_l = new List<string>();
+			responseExpected_l.Add("Wifi-Controller");
+
+			if(! portConnect ())
 				return false;
+			if(! getVersion ("local:get_version;", responseExpected_l))
+				return false;
+		}
 
 		ArduinoCapture.PortOpened = true;
 
@@ -223,15 +276,6 @@ public class PhotocellWirelessCapture: ArduinoCapture
 		list.Add(pwe);
 		LogB.Information("bucle capture list added: " + pwe.ToString());
 		return true;
-	}
-
-	private void flush ()
-	{
-		string str = "";
-		if (ArduinoPort.BytesToRead > 0)
-			str = ArduinoPort.ReadExisting();
-
-		LogB.Information(string.Format("flushed: |{0}|", str));
 	}
 
 	public override bool Stop()
@@ -349,5 +393,73 @@ public class PhotocellWirelessEvent
 	public override string ToString()
 	{
 		return (string.Format("{0};{1};{2}", photocell, timeMs, status));
+	}
+}
+
+//New firmwares enable communication at 9600 (event devices working at higher speeds) to get the version (contains the product)
+public class ArduinoDiscover : ArduinoComms
+{
+	protected ChronopicRegisterPort.Types discovered;
+
+	public ArduinoDiscover (string portName)
+	{
+		this.portName = portName;
+		discovered = ChronopicRegisterPort.Types.UNKNOWN;
+	}
+
+	public ChronopicRegisterPort.Types Discover ()
+	{
+		if(! connect ())
+			return discovered;
+
+		discoverDo ();
+		if(discovered == ChronopicRegisterPort.Types.UNKNOWN)
+			discoverOldWichros ();
+
+		ArduinoPort.Close();
+		return discovered;
+	}
+
+	private bool connect ()
+	{
+		this.bauds = 9600;
+		return portConnect();
+	}
+
+	// check with common get_version (any device except the first Wichros)
+	private void discoverDo ()
+	{
+		string forceSensorStr = "Force_Sensor-";
+		string raceAnalyzerStr = "Race_Analyzer-";
+		string wichroStr = "Wichro";
+
+		List<string> responseExpected_l = new List<string>();
+		responseExpected_l.Add(forceSensorStr);
+		responseExpected_l.Add(raceAnalyzerStr);
+		responseExpected_l.Add(wichroStr);
+
+		if(getVersion ("get_version:", responseExpected_l))
+		{
+			LogB.Information("Discover found this device: " + response);
+			if(response.Contains(forceSensorStr))
+				discovered = ChronopicRegisterPort.Types.ARDUINO_FORCE;
+			else if(response.Contains(raceAnalyzerStr))
+				discovered = ChronopicRegisterPort.Types.ARDUINO_RUN_ENCODER;
+			else if(response.Contains(wichroStr))
+				discovered = ChronopicRegisterPort.Types.RUN_WIRELESS;
+		}
+		flush(); //empty the port for future use
+	}
+
+	// check if it is an old Wichro (has different get_version command)
+	private void discoverOldWichros ()
+	{
+		List<string> responseExpected_l = new List<string>();
+		responseExpected_l.Add("Wichro");
+
+		if(getVersion ("local:get_version;", responseExpected_l))
+			discovered = ChronopicRegisterPort.Types.RUN_WIRELESS;
+
+		flush(); //empty the port for future use
 	}
 }

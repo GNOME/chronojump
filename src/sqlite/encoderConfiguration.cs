@@ -345,7 +345,7 @@ class SqliteEncoderConfiguration : Sqlite
 					);
 		}
 		reader.Close();
-		Sqlite.Close();
+		closeIfNeeded(dbconOpened);
 
 		return econfSO;
 	}

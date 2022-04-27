@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Copyright (C) 2016-2020   Xavier de Blas <xaviblas@gmail.com> 
+ *  Copyright (C) 2016-2022   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -216,6 +216,10 @@ public class ChronopicRegisterWindow
 	private List<Gtk.Button> list_buttons_left;
 	private List<Gtk.Button> list_buttons_right;
 
+	private List<Gtk.Button> list_discover_buttons;
+	private List<Gtk.Label> list_discover_labels;
+	private List<string> list_discover_ports;
+
 	private void createTable ()
 	{
 		int rows = listConnected.Count;
@@ -242,6 +246,10 @@ public class ChronopicRegisterWindow
 		list_labels_type = new List<Gtk.Label>();
 		list_buttons_right = new List<Gtk.Button>();
 
+		list_discover_buttons = new List<Gtk.Button>();
+		list_discover_labels = new List<Gtk.Label>();
+		list_discover_ports = new List<string>();
+
 		for (int count=1; count <= rows; count ++)
 		{
 			string deviceStr = listConnected[count -1].SerialNumber + "\n\n" + listConnected[count -1].Port;
@@ -266,8 +274,21 @@ public class ChronopicRegisterWindow
 			hbox_type.PackStart(image, false, false, 1);
 
 			UtilGtk.ArrowEnum arrowEnum = UtilGtk.ArrowEnum.FORWARD;
+			Gtk.Button button_discover = null;
+			Gtk.Label label_discovered = null;
 			if(ChronopicRegisterPort.TypePrint(listConnected[count-1].Type) == ChronopicRegisterPort.TypePrint(ChronopicRegisterPort.Types.UNKNOWN))
+			{
 				arrowEnum = UtilGtk.ArrowEnum.FORWARD_EMPHASIS;
+
+				button_discover = new Gtk.Button("Discover"); //TODO: translate Discover.
+				button_discover.Clicked += new EventHandler(on_button_discover_clicked);
+				label_discovered = new Gtk.Label("");
+
+				list_discover_buttons.Add(button_discover);
+				list_discover_labels.Add(label_discovered);
+				list_discover_ports.Add(listConnected[count -1].Port);
+			}
+
 			Button button_right = UtilGtk.CreateArrowButton(ArrowType.Right, ShadowType.In, 50, -1, arrowEnum);
 
 			button_right.CanFocus = false;
@@ -275,6 +296,12 @@ public class ChronopicRegisterWindow
 			button_right.Clicked += on_button_right_clicked;
 			button_right.Sensitive = (listConnected[count-1].Type != TypePixList.l[TypePixList.l.Count -1].Type);
 			hbox_type.PackStart(button_right, true, false, 1);
+
+			if(button_discover != null)
+			{
+				hbox_type.PackStart(button_discover, true, false, 1);
+				hbox_type.PackStart(label_discovered, true, false, 1);
+			}
 
 			Gtk.VBox vbox = new Gtk.VBox(false, 2);
 			vbox.Add(hbox_type);
@@ -462,6 +489,29 @@ public class ChronopicRegisterWindow
 
 				buttons_sensitivity(list_buttons_left[count], button, tp.Type);
 				updateSQL(listConnected[count].SerialNumber, tp.Type);
+			}
+			count ++;
+		}
+	}
+
+	private void on_button_discover_clicked (object o, EventArgs args)
+	{
+		Button buttonClicked = o as Button;
+		if (o == null)
+			return;
+
+		int count = 0;
+		foreach(Gtk.Button button in list_discover_buttons)
+		{
+			if(button == buttonClicked)
+			{
+				LogB.Information("Calling discover at port: " + list_discover_ports[count]);
+
+				ArduinoDiscover ad = new ArduinoDiscover (list_discover_ports[count]);
+				ChronopicRegisterPort.Types crptype = ad.Discover ();
+
+				button.Visible = false;
+				(list_discover_labels[count]).Text = crptype.ToString();
 			}
 			count ++;
 		}

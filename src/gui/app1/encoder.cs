@@ -1858,6 +1858,11 @@ public partial class ChronoJumpWindow
 				//if user has deleted this econfSO, create it again
 				if(econfSO.uniqueID == -1)
 				{
+					/*
+					   old (before Chronojump 2.2.2): create a Unnamed and if exists, a Unnamed_copy, _copy2, ...
+					   problem is when we import a lot of sessions, each time we load a set with a config that we don't have in the database,
+					   it creates a new config, all named Unnamed_copy* and it's a mess
+
 					string name = SqliteEncoderConfiguration.IfNameExistsAddSuffix(Catalog.GetString("Unnamed"), "_" + Catalog.GetString("copy"));
 
 					econfSO = new EncoderConfigurationSQLObject(
@@ -1869,8 +1874,33 @@ public partial class ChronoJumpWindow
 							""				//description
 							);
 					SqliteEncoderConfiguration.Insert(false, econfSO);
+					*/
+					/*
+					   new (at Chronojump 2.2.2):
+					   Only one Unnamed.
+					   - If it exists, delete it. Then create with new configuration (could update but delete and insert seems safer because there are more params)
+					   - If it does not exist the Unnamed, create it
+					   If user renames it, then an Unnamed will be created next time that a set with new different config is loaded
+					   See: https://gitlab.gnome.org/GNOME/chronojump/-/issues/96
+					   */
+					string unnamedTrans = Catalog.GetString("Unnamed");
+					EncoderConfigurationSQLObject econfSOUnnamed =
+						SqliteEncoderConfiguration.SelectByEncoderGIAndName(false, currentEncoderGI, unnamedTrans);
+
+					if(econfSOUnnamed.uniqueID >= 0) // if exists, delete it
+						SqliteEncoderConfiguration.Delete (false, currentEncoderGI, unnamedTrans);
+
+					econfSO = new EncoderConfigurationSQLObject(
+							-1,				//uniqueID
+							currentEncoderGI,		//encoderGI
+							true,				//active
+							unnamedTrans,			//name
+							eSQL.encoderConfiguration,	//encoderConfiguration
+							""				//description
+							);
+					SqliteEncoderConfiguration.Insert(false, econfSO);
 				} else {
-					//if exists on datbase mark and update sql row as active
+					//if exists on database mark and update sql row as active
 					econfSO.active = true;
 					SqliteEncoderConfiguration.Update(false, currentEncoderGI, econfSO.name, econfSO);
 				}

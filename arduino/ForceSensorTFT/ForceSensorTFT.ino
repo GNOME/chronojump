@@ -27,10 +27,8 @@
 #include <LiquidCrystal.h>
 #include <MsTimer2.h>
 #include "SPI.h"
-//#include "ILI9341_t3.h"
 #include "Adafruit_ILI9341.h"
 #include "Adafruit_GFX.h"
-//#include "font_Arial.h"
 #include "HX711.h"
 #include <Bounce.h>
 #include <Encoder.h>
@@ -311,7 +309,7 @@ Adafruit_ILI9341 tft = Adafruit_ILI9341(TFT_CS, TFT_DC, TFT_MOSI, TFT_SCLK, TFT_
 #define BLACK     0x0000
 #define CJCOLOR   0X1109
 
-boolean display1 = true;
+boolean startOver = true;
 double ox , oy ;
 double x, y;
 
@@ -1035,7 +1033,7 @@ void showMenu(void)
 void capture(void)
 {
   Serial.println("In capture");
-  //Graph(tft, xGraph, measured, 30, 240, 320, 240, -20, 320, 100, measuredMin, measuredMax, 100, "", "", "", WHITE, WHITE, BLUE, WHITE, BLACK, display1);
+  //Graph(tft, xGraph, measured, 30, 240, 320, 240, -20, 320, 100, measuredMin, measuredMax, 100, "", "", "", WHITE, WHITE, BLUE, WHITE, BLACK, startOver);
 
   //Position graph's lower left corner.
   double graphX = 30;
@@ -1056,15 +1054,10 @@ void capture(void)
   double xDivN = 3;
   double yBuffer[320];
 
-  int plotPeriod = 4;
+  int plotPeriod = 1;
   double plotBuffer[plotPeriod];
 
   bool resized = true;
-
-  for (int i = xMin; i < xMax; i++)
-  {
-    yBuffer[i] = 0;
-  }
 
   MsTimer2::stop();
 
@@ -1072,32 +1065,29 @@ void capture(void)
 
   double xGraph = 1;
 
-  tft.fillScreen(BLACK);
   while (capturing)
   {
-//    Serial.println();
-//    Serial.print("Deleting: ");
-    xGraph = 0;
     //Deleting the previous plotted points
-    for (int i = xMin; i < xMax; i++)
+    for (int i = xMin; i < xGraph; i++)
     {
-//      Serial.print(i);
-//      Serial.print(",");
-//      Serial.print(yBuffer[i]);
-//      Serial.print("\t");
-      Graph(tft, i, yBuffer[i], graphX, graphY, graphW, graphH, xMin, xMax, xDivSize, graphMin, graphMax, yDivSize, "", "", "", WHITE, WHITE, BLACK, WHITE, BLACK, display1);
+      Graph(tft, i, yBuffer[i], graphX, graphY, graphW, graphH, xMin, xMax, xDivSize, graphMin, graphMax, yDivSize, "", "", "", WHITE, WHITE, BLACK, WHITE, BLACK, startOver);
     }
-    display1 = true;
-
+    startOver = true;
     redrawAxes(tft, graphX, graphY, graphW, graphH, xMin, xMax, graphMin, graphMax, yDivSize, "", "", "", WHITE, BLACK, BLACK, BLACK, BLACK, resized);
     graphMax = newGraphMax;
     graphMin = newGraphMin;
     yDivSize = (graphMax - graphMin) / yDivN;
-    redrawAxes(tft, graphX, graphY, graphW, graphH, xMin, xMax, graphMin, graphMax, yDivSize, "", "", "", WHITE, WHITE, BLACK, WHITE, BLACK, resized);
+    if (resized) {
+      Graph(tft, xMin, yBuffer[(int)xMin], graphX, graphY, graphW, graphH, xMin, xMax, xDivSize, graphMin, graphMax, yDivSize, "", "", "", WHITE, WHITE, BLACK, WHITE, BLACK, startOver);
+      for (int i = xMin; i < xGraph; i++)
+      {
+        Graph(tft, i, yBuffer[i], graphX, graphY, graphW, graphH, xMin, xMax, xDivSize, graphMin, graphMax, yDivSize, "", "", "", WHITE, WHITE, BLUE, WHITE, BLACK, startOver);
+      }
+    }
+    redrawAxes(tft, graphX, graphY, graphW, graphH, xMin, xMax, graphMin, graphMax, yDivSize, "", "", "", WHITE, WHITE, WHITE, WHITE, BLACK, resized);
     resized = false;
-//    Serial.println();
-//    Serial.print("Drawing: ");
-    while (xGraph < xMax) {
+    if (xGraph >= xMax) xGraph = 0;
+    while (xGraph < xMax && !resized) {
       for (int n = 0; n < plotPeriod; n++)
       {
         //Checking the RCA state
@@ -1184,11 +1174,11 @@ void capture(void)
             measuredLcdDelayMax = measured;
           }
           if (measured > newGraphMax) {
-            newGraphMax = measured;
+            newGraphMax = measured + (graphMax - graphMin) * 0.5;
             resized = true;
           }
           if (measured < newGraphMin) {
-            newGraphMin = measured;
+            newGraphMin = measured - (graphMax - graphMin) * 0.5;
             resized = true;
           }
 
@@ -1221,751 +1211,745 @@ void capture(void)
       yBuffer[(int)xGraph] = 0;
       for (int i = 0; i < plotPeriod; i++)
       {
-//        Serial.print(plotBuffer[i]);
-//        Serial.print("\t");
+        //        Serial.print(plotBuffer[i]);
+        //        Serial.print("\t");
         yBuffer[(int)xGraph] = yBuffer[(int)xGraph] + plotBuffer[i];
       }
       yBuffer[(int)xGraph] = yBuffer[(int)xGraph] / plotPeriod;
-//    Serial.print((int)xGraph);
-//    Serial.print(",");
-//    Serial.println(yBuffer[(int)xGraph]);
-//    Serial.print("\t");
-      //                        Serial.print(measured);
-      //                        Serial.print("\t");
-      //                Serial.println(yBuffer[(int)xGraph]);
-      Graph(tft, xGraph, yBuffer[(int)xGraph], graphX, graphY, graphW, graphH, xMin, xMax, xDivSize, graphMin, graphMax, yDivSize, "", "", "", WHITE, WHITE, BLUE, WHITE, BLACK, display1);
+      Graph(tft, xGraph, yBuffer[(int)xGraph], graphX, graphY, graphW, graphH, xMin, xMax, xDivSize, graphMin, graphMax, yDivSize, "", "", "", WHITE, WHITE, BLUE, WHITE, BLACK, startOver);
       xGraph++;
     }
     MsTimer2::start();
   }
 }
 
-  void printLcdFormat (float val, int xStart, int y, int decimal) {
+void printLcdFormat (float val, int xStart, int y, int decimal) {
 
-    /*How many characters are to the left of the units number.
-       Examples:
-       1.23   -> 0 charachters
-       12.34  -> 1 characters
-       123.45 -> 2 characters
-    */
-    int fontSize = 2;
-    int charWidth[3] = {10, 15, 20};
+  /*How many characters are to the left of the units number.
+     Examples:
+     1.23   -> 0 charachters
+     12.34  -> 1 characters
+     123.45 -> 2 characters
+  */
+  int fontSize = 2;
+  int charWidth[3] = {10, 15, 20};
 
-    int valLength = floor(log10(abs(val)));
+  int valLength = floor(log10(abs(val)));
 
-    // Adding the extra characters to the left
-    if (valLength > 0) {
-      xStart = valLength * charWidth[fontSize];
-    }
-
-    // In negatives numbers the units are in the same position and the minus one position to the left
-    if (val < 0) {
-      xStart - charWidth[fontSize];
-    }
-    tft.setCursor(xStart * charWidth[fontSize]  , y);
-    tft.print(val, decimal);
+  // Adding the extra characters to the left
+  if (valLength > 0) {
+    xStart = valLength * charWidth[fontSize];
   }
 
-  void printTftFormat (float val, int xStart, int y, int fontSize, int decimal) {
-
-    /*How many characters are to the left of the units number.
-       Examples:
-       1.23   -> 0 charachters
-       12.34  -> 1 characters
-       123.45 -> 2 characters
-    */
-
-    //Font sizes: 5x8, 10x16, 15x24, or 20x32
-    //Theres a pixel between characters
-    int charWidth = 5 * fontSize + 1;
-    int valLength = floor(log10(abs(val)));
-
-    // Adding the extra characters to the left
-    if (valLength > 0) {
-      xStart = xStart - valLength * charWidth;
-    }
-
-    // In negatives numbers the units are in the same position and the minus one position to the left
-    if (val < 0) {
-      xStart = xStart - charWidth;
-    }
-
-    tft.setCursor(xStart , y);
-    tft.print(val, decimal);
+  // In negatives numbers the units are in the same position and the minus one position to the left
+  if (val < 0) {
+    xStart - charWidth[fontSize];
   }
-
-  void serialEvent() {
-    String inputString = Serial.readString();
-    String commandString = inputString.substring(0, inputString.lastIndexOf(":"));
-
-
-    if (commandString == "start_capture") {
-      PCControlled = true;
-      start_capture();
-      //capture();
-    } else if (commandString == "end_capture") {
-      end_capture();
-    } else if (commandString == "get_version") {
-      get_version();
-    } else if (commandString == "get_calibration_factor") {
-      get_calibration_factor();
-    } else if (commandString == "set_calibration_factor") {
-      set_calibration_factor(inputString);
-    } else if (commandString == "calibrate") {
-      calibrate(inputString);
-    } else if (commandString == "get_tare") {
-      get_tare();
-    } else if (commandString == "set_tare") {
-      set_tare(inputString);
-    } else if (commandString == "tare") {
-      tare();
-    } else if (commandString == "get_transmission_format") {
-      get_transmission_format();
-      /* Commented due to memory optimization
-        //  } else if (commandString == "send_sync_signal") {
-        //    sendSyncSignal();
-        //  } else if (commandString == "listen_sync_signal") {
-        //    listenSyncSignal();
-      */
-    } else {
-      Serial.println("Not a valid command");
-    }
-    inputString = "";
-
-  }
-
-  void start_capture()
-  {
-    //Disabling the battery level indicator
-    MsTimer2::stop();
-    Serial.println("Starting capture...");
-    totalTime = 0;
-    lastTime = micros();
-    measuredMax = scale.get_units();
-    impulse = 0;
-
-    //filling the array of forces ant times with initial force
-    lastMeasure = scale.get_units();
-    for (unsigned short i = 0; i < freq; i++) {
-      forces1s[i] = lastMeasure;
-    }
-
-    for (short i = 0; i < samples200ms; i++) {
-      totalTimes1s[i] = 0;
-    }
-
-    maxMeanForce1s = lastMeasure;
-
-    //Initializing variability variables
-    sumSSD = 0.0;
-    sumMeasures = lastMeasure;
-    samplesSSD = 0;
-    lcd.clear();
-    capturing = true;
-  }
-
-  void end_capture()
-  {
-    capturing = false;
-    Serial.println("Capture ended:");
-    delay(500);
-
-    //If the device is controlled by the PC the results menu is not showed
-    //because during the menu navigation the Serial is not listened.
-    if (!PCControlled) {
-      //Restoring tare value in the EEPROM. Necessary after Tare&Capture
-      EEPROM.get(tareAddress, tareValue);
-      scale.set_offset(tareValue);
-      Serial.println(scale.get_offset());
-      lcd.clear();
-      lcd.setCursor(4, 0);
-      lcd.print("Results:");
-      showResults();
-    }
-
-    //Activating the Battery level indicator
-    MsTimer2::start();
-    showMenu();
-  }
-
-  void get_version()
-  {
-    //Device string not in a variable due to memory optimization
-    Serial.print("Force_Sensor-");
-    Serial.println(version);
-  }
-
-  void get_calibration_factor()
-  {
-    Serial.println(scale.get_scale());
-  }
-
-  void set_calibration_factor(String inputString)
-  {
-    //Reading the argument of the command. Located within the ":" and the ";"
-    String calibration_factor = get_command_argument(inputString);
-    //Serial.println(calibration_factor.toFloat());
-    scale.set_scale(calibration_factor.toFloat());
-    float stored_calibration = 0.0f;
-    EEPROM.get(calibrationAddress, stored_calibration);
-    if (stored_calibration != calibration_factor.toFloat()) {
-      EEPROM.put(calibrationAddress, calibration_factor.toFloat());
-    }
-    Serial.println("Calibration factor set");
-  }
-
-  void calibrate(String inputString)
-  {
-    //Reading the argument of the command. Located within the ":" and the ";"
-    String weightString = get_command_argument(inputString);
-    float weight = weightString.toFloat();
-    //mean of 255 values comming from the cell after resting the offset.
-    double offsetted_data = scale.get_value(50);
-
-    //offsetted_data / calibration_factor
-    float calibration_factor = offsetted_data / weight / 9.81; //We want to return Newtons.
-    scale.set_scale(calibration_factor);
-    EEPROM.put(calibrationAddress, calibration_factor);
-    Serial.print("Calibrating OK:");
-    Serial.println(calibration_factor);
-  }
-
-  void tare()
-  {
-    lcd.clear();
-    lcd.setCursor(3, 0);
-    lcd.print("Taring...");
-    scale.tare(50); //Reset the scale to 0 using the mean of 255 raw values
-    EEPROM.put(tareAddress, scale.get_offset());
-    Serial.print("Taring OK:");
-    Serial.println(scale.get_offset());
-
-
-    lcd.setCursor(3, 0);
-    lcd.print("  Tared  ");
-    delay(300);
-  }
-
-  void tareTemp()
-  {
-    lcd.clear();
-    lcd.setCursor(3, 0);
-    lcd.print("Taring...");
-    scale.tare(50); //Reset the scale to 0 using the mean of 255 raw values
-    lcd.setCursor(3, 0);
-    lcd.print("  Tared  ");
-    delay(300);
-  }
-
-  void get_tare()
-  {
-    Serial.println(scale.get_offset());
-  }
-
-  void set_tare(String inputString)
-  {
-    String tare = get_command_argument(inputString);
-    long value = tare.toInt();
-    scale.set_offset(value);
-    long stored_tare = 0;
-    EEPROM.get(tareAddress, stored_tare);
-    if (stored_tare != value) {
-      EEPROM.put(tareAddress, value);
-      Serial.println("updated");
-    }
-    Serial.println("Tare set");
-  }
-
-  String get_command_argument(String inputString)
-  {
-    return (inputString.substring(inputString.lastIndexOf(":") + 1, inputString.lastIndexOf(";")));
-  }
-
-  void get_transmission_format()
-  {
-    if (binaryFormat)
-    {
-      Serial.println("binary");
-    } else
-    {
-      Serial.println("text");
-    }
-  }
-
-  void changingRCA() {
-    //TODO: Check the overflow of the lastTriggerTime
-    detachInterrupt(digitalPinToInterrupt(rcaPin));
-    rcaTime = totalTime;
-
-    rcaState = digitalRead(rcaPin);
-
-    attachInterrupt(digitalPinToInterrupt(rcaPin), changingRCA, CHANGE);
-  }
-
-  void calibrateLCD(void) {
-    MsTimer2::stop();
-    short increment = 1;
-    lcd.clear();
-    lcd.setCursor(0, 0);
-    lcd.print((menu + 1) % 4 + 1);
-    lcd.print("-Calibrate    >");
-    int weight = 1;
-    submenu = 0;
-    bool exitFlag = false;
-    String calibrateCommand = calibrateCommand + String(weight, DEC) + ";";
-    //  showCalibrateLoad(String(weight, DEC));
-    lcd.setCursor(15, 0);
-    lcd.print(">");
-    lcd.setCursor(2, 1);
-    lcd.print(" Current:" );
-    lcd.print(weight);
-    lcd.setCursor(14, 1);
-    lcd.print("+");
-    lcd.print(increment);
-    delay(200);
-    redButtonState = false;
-    while (!exitFlag) {
-      if (submenu == 0) {
-
-        if (redButtonState) {
-          weight += increment;
-          if (weight == 101) {
-            weight = 1;
-            lcd.setCursor(12, 1);
-            lcd.print("  ");
-          }
-
-          lcd.setCursor(11, 1);
-          lcd.print(weight);
-
-          if (weight == 5) {
-            increment = 5;
-            lcd.setCursor(14, 1);
-            lcd.print("+");
-            lcd.print(increment);
-          } else if (weight == 100) {
-            increment = 1;
-            lcd.setCursor(14, 1);
-            lcd.print("+");
-            lcd.print(increment);
-          }
-
-          calibrateCommand = calibrateCommand + String(weight, DEC) + ";";
-          delay(200);
-        }
-        if (blueButtonState) {
-          //Change to Calibrate execution
-          lcd.clear();
-          lcd.setCursor(10, 0);
-          lcd.print("Cancel");
-          lcd.setCursor(0, 1);
-          lcd.print("StartCalibration");
-          submenu = 1;
-          blueButtonState = false;
-          delay(200);
-        }
-      }
-
-      if (submenu == 1) {
-        if (redButtonState) {
-          lcd.clear();
-          lcd.setCursor(1, 0);
-          lcd.print("Calibrating...");
-          calibrate(calibrateCommand);
-          lcd.clear();
-          lcd.setCursor(2, 0);
-          lcd.print("Calibrated");
-          exitFlag = true;
-          delay(200);
-        }
-        if (blueButtonState) {
-          exitFlag = true;
-        }
-      }
-
-      redButtonState = !digitalRead(redButtonPin);
-      blueButtonState = !digitalRead(blueButtonPin);
-      Serial.println(redButtonState);
-    }
-    delay(1000);
-    MsTimer2::start();
-    showMenu();
-  }
-
-  void showBatteryLevel() {
-    float sensorValue = analogRead(A0);
-    if (sensorValue >= 788) {
-      lcd.createChar(0, battery5);
-    } else if (sensorValue < 788 && sensorValue >= 759) {
-      lcd.createChar(0, battery4);
-    } else if (sensorValue < 759 && sensorValue >= 730) {
-      lcd.createChar(0, battery3);
-    } else if (sensorValue < 730 && sensorValue >= 701) {
-      lcd.createChar(0, battery2);
-    } else if (sensorValue < 701 && sensorValue >= 672) {
-      lcd.createChar(0, battery1);
-    } else if (sensorValue <= 701) {
-      lcd.createChar(0, battery0);
-    }
-    lcd.setCursor(0, 1);
-    lcd.write(byte (0));
-  }
-
-  //TODO: Add more information or eliminate
-  void showSystemInfo() {
-    MsTimer2::stop();
-    lcd.clear();
-    lcd.setCursor(2, 0);
-    lcd.print("Ver: ");
-    lcd.print(version);
-    lcd.setCursor(2, 1);
-    lcd.print("submenu: ");
-    lcd.print(submenu);
-    delay(1000);
-    redButtonState = !digitalRead(redButtonPin);
-    submenu = 0;
-    while (!redButtonState) {
-      blueButtonState = !digitalRead(blueButtonPin);
-      if (blueButtonState) {
-        delay(200);
-        submenu++;
-        submenu = submenu % 3;
-        if (submenu == 0) {
-          lcd.setCursor(2, 0);
-          lcd.print("Ver: ");
-          lcd.print(version);
-          lcd.setCursor(2, 1);
-          lcd.print("submenu: ");
-          lcd.print(submenu);
-        } else if (submenu == 1) {
-          lcd.setCursor(2, 1);
-          lcd.print("submenu: ");
-          lcd.print(submenu);
-        } else if (submenu == 2) {
-          lcd.setCursor(2, 1);
-          lcd.print("submenu: ");
-          lcd.print(submenu);
-        }
-      }
-      redButtonState = !digitalRead(redButtonPin);
-    }
-    MsTimer2::start();
-  }
-
-  void showResults() {
-    int textSize = 2;
-    Serial.println("In showResults");
-    int submenu = 4;
-    redButtonState = false;
-    tft.fillScreen(BLACK);
-    tft.setTextSize(3);
-    tft.setCursor(100, 0);
-    tft.print("Results");
-
-    tft.drawLine(0, 20, 320, 20, GREY);
-    tft.drawLine(160, 240, 160, 20, GREY);
-    tft.setTextSize(textSize);
-
-    tft.setCursor(0, 40);
-    tft.print("Fmax");
-    printTftFormat(measuredMax, 100, 40, textSize, 1);
-
-    tft.setCursor(170, 40);
-    tft.print("Fmax1s");
-    printTftFormat(maxMeanForce1s, 280, 40, textSize, 1);
-
-    tft.setCursor(0, 80);
-    tft.print("Ftrig");
-    printTftFormat(forceTrigger, 100, 80, textSize, 1);
-
-    tft.setCursor(170, 80);
-    tft.print("Imp");
-    printTftFormat(impulse, 280, 80, textSize, 1);
-
-    tft.setCursor(0, 120);
-    tft.print("RFD100");
-    printTftFormat(maxRFD100, 124, 120, textSize, 0);
-
-    tft.setCursor(170, 120);
-    tft.print("RFD200");
-    printTftFormat(maxRFD200, 304, 120, textSize, 0);
-
-    tft.setCursor(0, 160);
-    tft.print("RMSSD");
-    printTftFormat(RMSSD, 100, 160, textSize, 1);
-
-    tft.setCursor(170, 160);
-    tft.print("cvRMSSD");
-    printTftFormat(RMSSD, 280, 160, textSize, 1);
-
-    //Red button exits results
-    while (!redButtonState) {
-      blueButtonState = !digitalRead(blueButtonPin);
-      redButtonState = !digitalRead(redButtonPin);
-      //Blue button changes menu option
-      if (blueButtonState) {
-        Serial.println("Blue pressed");
-        blueButtonState = false;
-      }
-    }
-    Serial.println("Red pressed");
-    redButtonState = false;
-    //delay(200);
-    tft.fillRect(0, 20, 320, 240, BLACK);
-    drawMenuBackground();
-  }
-
-  void showSystem()
-  {
-    bool exitFlag = false;
-
-    showSystemMenu();
-
-    blueButtonState = false;
-    redButtonState = false;
-
-    while (!exitFlag) {
-      while (!blueButtonState && !redButtonState)
-      {
-        redButtonState = !digitalRead(redButtonPin);
-        blueButtonState = !digitalRead(blueButtonPin);
-      }
-
-      //Blue button pressed. Change submenu option
-      if (blueButtonState) {
-        blueButtonState = false;
-        submenu = (submenu + 1) % 3;
-        showSystemMenu();
-
-      }
-      //Red button pressed. Execute the menu option
-      if (redButtonState) {
-        redButtonState = false;
-        exitFlag = true;
-        if (submenu == 0) {
-          tare();
-          menu = 0;
-          showMenu();
-        } else if (submenu == 1)
-        {
-          calibrateLCD();
-          menu = 0;
-          showMenu();
-        } else if (submenu == 2) {
-          showSystemInfo();
-          menu = 0;
-          showMenu();
-        }
-      }
-    }
-    delay(200);
-  }
-
-  void showSystemMenu() {
-    Serial.println(submenu);
-    String configOptions[] = {
-      "1-Tare",
-      "2-Calibrate",
-      "3-Info",
-    };
-
-
-    Serial.println(configOptions[submenu]);
-
-    lcd.clear();
-    lcd.setCursor(0, 0);
-    lcd.print(configOptions[submenu]);
-
-    lcd.setCursor(14, 0);
-    lcd.print((submenu + 1) % 3 + 1);
-
-    //The up arrow is associated to the blue button
-    lcd.createChar(6, upArrow);
-    lcd.setCursor(15, 0);
-    lcd.write(byte (6));
-    //the down arrow is associated to the red button
-    lcd.createChar(7, downArrow);
-    lcd.setCursor(15, 1);
-    lcd.write(byte (7));
-
-    if (submenu == 0) {         //Tare option
-      lcd.setCursor(11, 1);
-      lcd.print("Start");
-    } else if (submenu == 1) {  //Calibrate option
-      lcd.setCursor(11, 1);
-      lcd.print("Start");
-    } else if (submenu == 2) {  //Info option
-      lcd.setCursor(12, 1);
-      lcd.print("Show");
-    }
-
-    delay(200);
-  }
-
-  void start_steadiness()
-  {
-    totalTime = 0;
-    lastTime = micros();
-
-    lcd.clear();
-    capturing = true;
-    capturingPreSteadiness = true;
-    delay(200);
-  }
-
-  void end_steadiness()
-  {
-    capturing = false;
-    capturingSteadiness = false;
-    showSteadinessResults();
-  }
-
-  void showSteadinessResults()
-  {
-    lcd.clear();
-    lcd.setCursor(0, 0);
-    lcd.print("RMSSD ");
-    printLcdFormat(RMSSD, 11, 0, 1);
-    lcd.setCursor(0, 1);
-    lcd.print("cvRMSSD  ");
-    printLcdFormat(cvRMSSD, 11, 1, 1);
-    lcd.createChar(7, exitChar);
-    lcd.setCursor(15, 1);
-    lcd.write(byte (7));
-    delay(1000);
-    redButtonState = false;
-    blueButtonState = false;
-    //Checking buttons state every 50 ms
-    while (!redButtonState && !blueButtonState)
-    {
-      delay(50);
-      redButtonState = !digitalRead(redButtonPin);
-      blueButtonState = !digitalRead(blueButtonPin);
-    }
-    delay(200);
-    MsTimer2::start();
-    showMenu();
-  }
-
-  /*
-    function to draw a cartesian coordinate system and plot whatever data you want
-    just pass x and y and the graph will be drawn
-    huge arguement list
-    &d name of your display object
-    x = x data point
-    y = y datapont
-    gx = x graph location (lower left)
-    gy = y graph location (lower left)
-    w = width of graph
-    h = height of graph
-    xlo = lower bound of x axis
-    xhi = upper bound of x asis
-    xinc = division of x axis (distance not count)
-    ylo = lower bound of y axis
-    yhi = upper bound of y asis
-    yinc = division of y axis (distance not count)
-    title = title of graph
-    xlabel = x axis label
-    ylabel = y axis label
-    gcolor = graph line colors
-    acolor = axis line colors
-    pcolor = color of your plotted data
-    tcolor = text color
-    bcolor = background color
-    &redraw = flag to redraw graph on fist call only
+  tft.setCursor(xStart * charWidth[fontSize]  , y);
+  tft.print(val, decimal);
+}
+
+void printTftFormat (float val, int xStart, int y, int fontSize, int decimal) {
+
+  /*How many characters are to the left of the units number.
+     Examples:
+     1.23   -> 0 charachters
+     12.34  -> 1 characters
+     123.45 -> 2 characters
   */
 
-  void Graph(Adafruit_ILI9341 & d, double x, double y, double gx, double gy, double w, double h, double xlo, double xhi, double xinc, double ylo, double yhi, double yinc, String title, String xlabel, String ylabel, unsigned int gcolor, unsigned int acolor, unsigned int pcolor, unsigned int tcolor, unsigned int bcolor, boolean & redraw)
-  {
-    double ydiv, xdiv;
-    // initialize old x and old y in order to draw the first point of the graph
-    // but save the transformed value
-    // note my transform funcition is the same as the map function, except the map uses long and we need doubles
-    //static double ox = (x - xlo) * ( w) / (xhi - xlo) + gx;
-    //static double oy = (y - ylo) * (gy - h - gy) / (yhi - ylo) + gy;
-    double i;
-    double temp;
-    int rot, newrot;
+  //Font sizes: 5x8, 10x16, 15x24, or 20x32
+  //Theres a pixel between characters
+  int charWidth = 5 * fontSize + 1;
+  int valLength = floor(log10(abs(val)));
 
-    //Mapping values to coordinates
-    x =  (x - xlo) * ( w) / (xhi - xlo) + gx;
-    y =  (y - ylo) * (gy - h - gy) / (yhi - ylo) + gy;
-
-    if (redraw == true)
-    {
-
-      redraw = false;
-      //In redraw, a point is plotted at the most left point
-      ox = x;
-      oy = y;
-    }
-
-    //graph drawn now plot the data
-    // the entire plotting code are these few lines...
-    // recall that ox and oy are initialized as static above
-    //Drawing 3 lines slows the drawing and erasing
-    d.drawLine(ox, oy, x, y, pcolor);
-    //  d.drawLine(ox, oy + 1, x, y + 1, pcolor);
-    //  d.drawLine(ox, oy - 1, x, y - 1, pcolor);
-    ox = x;
-    oy = y;
-
+  // Adding the extra characters to the left
+  if (valLength > 0) {
+    xStart = xStart - valLength * charWidth;
   }
 
-  void redrawAxes(Adafruit_ILI9341 & d, double gx, double gy, double w, double h, double xlo, double xhi, double ylo, double yhi, double yinc, String title, String xlabel, String ylabel, unsigned int gcolor, unsigned int acolor, unsigned int pcolor, unsigned int tcolor, unsigned int bcolor, boolean & resize)
+  // In negatives numbers the units are in the same position and the minus one position to the left
+  if (val < 0) {
+    xStart = xStart - charWidth;
+  }
+
+  tft.setCursor(xStart , y);
+  tft.print(val, decimal);
+}
+
+void serialEvent() {
+  String inputString = Serial.readString();
+  String commandString = inputString.substring(0, inputString.lastIndexOf(":"));
+
+
+  if (commandString == "start_capture") {
+    PCControlled = true;
+    start_capture();
+    //capture();
+  } else if (commandString == "end_capture") {
+    end_capture();
+  } else if (commandString == "get_version") {
+    get_version();
+  } else if (commandString == "get_calibration_factor") {
+    get_calibration_factor();
+  } else if (commandString == "set_calibration_factor") {
+    set_calibration_factor(inputString);
+  } else if (commandString == "calibrate") {
+    calibrate(inputString);
+  } else if (commandString == "get_tare") {
+    get_tare();
+  } else if (commandString == "set_tare") {
+    set_tare(inputString);
+  } else if (commandString == "tare") {
+    tare();
+  } else if (commandString == "get_transmission_format") {
+    get_transmission_format();
+    /* Commented due to memory optimization
+      //  } else if (commandString == "send_sync_signal") {
+      //    sendSyncSignal();
+      //  } else if (commandString == "listen_sync_signal") {
+      //    listenSyncSignal();
+    */
+  } else {
+    Serial.println("Not a valid command");
+  }
+  inputString = "";
+
+}
+
+void start_capture()
+{
+  //Disabling the battery level indicator
+  MsTimer2::stop();
+  Serial.println("Starting capture...");
+  totalTime = 0;
+  lastTime = micros();
+  measuredMax = scale.get_units();
+  impulse = 0;
+
+  //filling the array of forces ant times with initial force
+  lastMeasure = scale.get_units();
+  for (unsigned short i = 0; i < freq; i++) {
+    forces1s[i] = lastMeasure;
+  }
+
+  for (short i = 0; i < samples200ms; i++) {
+    totalTimes1s[i] = 0;
+  }
+
+  maxMeanForce1s = lastMeasure;
+
+  //Initializing variability variables
+  sumSSD = 0.0;
+  sumMeasures = lastMeasure;
+  samplesSSD = 0;
+  lcd.clear();
+  capturing = true;
+}
+
+void end_capture()
+{
+  capturing = false;
+  Serial.println("Capture ended:");
+  delay(500);
+
+  //If the device is controlled by the PC the results menu is not showed
+  //because during the menu navigation the Serial is not listened.
+  if (!PCControlled) {
+    //Restoring tare value in the EEPROM. Necessary after Tare&Capture
+    EEPROM.get(tareAddress, tareValue);
+    scale.set_offset(tareValue);
+    Serial.println(scale.get_offset());
+    lcd.clear();
+    lcd.setCursor(4, 0);
+    lcd.print("Results:");
+    showResults();
+  }
+
+  //Activating the Battery level indicator
+  MsTimer2::start();
+  showMenu();
+}
+
+void get_version()
+{
+  //Device string not in a variable due to memory optimization
+  Serial.print("Force_Sensor-");
+  Serial.println(version);
+}
+
+void get_calibration_factor()
+{
+  Serial.println(scale.get_scale());
+}
+
+void set_calibration_factor(String inputString)
+{
+  //Reading the argument of the command. Located within the ":" and the ";"
+  String calibration_factor = get_command_argument(inputString);
+  //Serial.println(calibration_factor.toFloat());
+  scale.set_scale(calibration_factor.toFloat());
+  float stored_calibration = 0.0f;
+  EEPROM.get(calibrationAddress, stored_calibration);
+  if (stored_calibration != calibration_factor.toFloat()) {
+    EEPROM.put(calibrationAddress, calibration_factor.toFloat());
+  }
+  Serial.println("Calibration factor set");
+}
+
+void calibrate(String inputString)
+{
+  //Reading the argument of the command. Located within the ":" and the ";"
+  String weightString = get_command_argument(inputString);
+  float weight = weightString.toFloat();
+  //mean of 255 values comming from the cell after resting the offset.
+  double offsetted_data = scale.get_value(50);
+
+  //offsetted_data / calibration_factor
+  float calibration_factor = offsetted_data / weight / 9.81; //We want to return Newtons.
+  scale.set_scale(calibration_factor);
+  EEPROM.put(calibrationAddress, calibration_factor);
+  Serial.print("Calibrating OK:");
+  Serial.println(calibration_factor);
+}
+
+void tare()
+{
+  lcd.clear();
+  lcd.setCursor(3, 0);
+  lcd.print("Taring...");
+  scale.tare(50); //Reset the scale to 0 using the mean of 255 raw values
+  EEPROM.put(tareAddress, scale.get_offset());
+  Serial.print("Taring OK:");
+  Serial.println(scale.get_offset());
+
+
+  lcd.setCursor(3, 0);
+  lcd.print("  Tared  ");
+  delay(300);
+}
+
+void tareTemp()
+{
+  lcd.clear();
+  lcd.setCursor(3, 0);
+  lcd.print("Taring...");
+  scale.tare(50); //Reset the scale to 0 using the mean of 255 raw values
+  lcd.setCursor(3, 0);
+  lcd.print("  Tared  ");
+  delay(300);
+}
+
+void get_tare()
+{
+  Serial.println(scale.get_offset());
+}
+
+void set_tare(String inputString)
+{
+  String tare = get_command_argument(inputString);
+  long value = tare.toInt();
+  scale.set_offset(value);
+  long stored_tare = 0;
+  EEPROM.get(tareAddress, stored_tare);
+  if (stored_tare != value) {
+    EEPROM.put(tareAddress, value);
+    Serial.println("updated");
+  }
+  Serial.println("Tare set");
+}
+
+String get_command_argument(String inputString)
+{
+  return (inputString.substring(inputString.lastIndexOf(":") + 1, inputString.lastIndexOf(";")));
+}
+
+void get_transmission_format()
+{
+  if (binaryFormat)
   {
-    double ydiv, xdiv;
-    // initialize old x and old y in order to draw the first point of the graph
-    // but save the transformed value
-    // note my transform funcition is the same as the map function, except the map uses long and we need doubles
-    //static double ox = (x - xlo) * ( w) / (xhi - xlo) + gx;
-    //static double oy = (y - ylo) * (- h) / (yhi - ylo) + gy;
-    double i;
-    double yAxis;
-    double xAxis;
+    Serial.println("binary");
+  } else
+  {
+    Serial.println("text");
+  }
+}
 
-    //Vertical line
-    d.drawLine(gx, gy, gx, gy - h, acolor);
+void changingRCA() {
+  //TODO: Check the overflow of the lastTriggerTime
+  detachInterrupt(digitalPinToInterrupt(rcaPin));
+  rcaTime = totalTime;
 
-    // draw y scale
-    for ( i = ylo; i <= yhi; i += yinc)
-    {
-      // compute the transform
-      yAxis =  (i - ylo) * (-h) / (yhi - ylo) + gy;
+  rcaState = digitalRead(rcaPin);
 
-      d.drawLine(gx, yAxis, gx + w, yAxis, acolor);
-      if (resize)
-      {
-        d.setTextSize(1);
-        d.setTextColor(tcolor, bcolor);
-        printTftFormat(i, gx - 6, yAxis - 3, 1, 0);
+  attachInterrupt(digitalPinToInterrupt(rcaPin), changingRCA, CHANGE);
+}
+
+void calibrateLCD(void) {
+  MsTimer2::stop();
+  short increment = 1;
+  lcd.clear();
+  lcd.setCursor(0, 0);
+  lcd.print((menu + 1) % 4 + 1);
+  lcd.print("-Calibrate    >");
+  int weight = 1;
+  submenu = 0;
+  bool exitFlag = false;
+  String calibrateCommand = calibrateCommand + String(weight, DEC) + ";";
+  //  showCalibrateLoad(String(weight, DEC));
+  lcd.setCursor(15, 0);
+  lcd.print(">");
+  lcd.setCursor(2, 1);
+  lcd.print(" Current:" );
+  lcd.print(weight);
+  lcd.setCursor(14, 1);
+  lcd.print("+");
+  lcd.print(increment);
+  delay(200);
+  redButtonState = false;
+  while (!exitFlag) {
+    if (submenu == 0) {
+
+      if (redButtonState) {
+        weight += increment;
+        if (weight == 101) {
+          weight = 1;
+          lcd.setCursor(12, 1);
+          lcd.print("  ");
+        }
+
+        lcd.setCursor(11, 1);
+        lcd.print(weight);
+
+        if (weight == 5) {
+          increment = 5;
+          lcd.setCursor(14, 1);
+          lcd.print("+");
+          lcd.print(increment);
+        } else if (weight == 100) {
+          increment = 1;
+          lcd.setCursor(14, 1);
+          lcd.print("+");
+          lcd.print(increment);
+        }
+
+        calibrateCommand = calibrateCommand + String(weight, DEC) + ";";
+        delay(200);
+      }
+      if (blueButtonState) {
+        //Change to Calibrate execution
+        lcd.clear();
+        lcd.setCursor(10, 0);
+        lcd.print("Cancel");
+        lcd.setCursor(0, 1);
+        lcd.print("StartCalibration");
+        submenu = 1;
+        blueButtonState = false;
+        delay(200);
       }
     }
 
-    //  xAxis =  (-xlo) * ( w) / (xhi - xlo) + gx;
-    //  d.drawLine(gx, gy, gx, gy - h, acolor);
+    if (submenu == 1) {
+      if (redButtonState) {
+        lcd.clear();
+        lcd.setCursor(1, 0);
+        lcd.print("Calibrating...");
+        calibrate(calibrateCommand);
+        lcd.clear();
+        lcd.setCursor(2, 0);
+        lcd.print("Calibrated");
+        exitFlag = true;
+        delay(200);
+      }
+      if (blueButtonState) {
+        exitFlag = true;
+      }
+    }
 
-    //now draw the labels
-    d.setTextSize(2);
-    d.setTextColor(tcolor, bcolor);
-    d.setCursor(gx , gy - h - 30);
-    d.println(title);
+    redButtonState = !digitalRead(redButtonPin);
+    blueButtonState = !digitalRead(blueButtonPin);
+    Serial.println(redButtonState);
+  }
+  delay(1000);
+  MsTimer2::start();
+  showMenu();
+}
 
-    d.setTextSize(1);
-    d.setTextColor(acolor, bcolor);
-    d.setCursor(gx , gy + 20);
-    d.println(xlabel);
+void showBatteryLevel() {
+  float sensorValue = analogRead(A0);
+  if (sensorValue >= 788) {
+    lcd.createChar(0, battery5);
+  } else if (sensorValue < 788 && sensorValue >= 759) {
+    lcd.createChar(0, battery4);
+  } else if (sensorValue < 759 && sensorValue >= 730) {
+    lcd.createChar(0, battery3);
+  } else if (sensorValue < 730 && sensorValue >= 701) {
+    lcd.createChar(0, battery2);
+  } else if (sensorValue < 701 && sensorValue >= 672) {
+    lcd.createChar(0, battery1);
+  } else if (sensorValue <= 701) {
+    lcd.createChar(0, battery0);
+  }
+  lcd.setCursor(0, 1);
+  lcd.write(byte (0));
+}
 
-    d.setTextSize(1);
-    d.setTextColor(acolor, bcolor);
-    d.setCursor(gx - 30, gy - h - 10);
-    d.println(ylabel);
+//TODO: Add more information or eliminate
+void showSystemInfo() {
+  MsTimer2::stop();
+  lcd.clear();
+  lcd.setCursor(2, 0);
+  lcd.print("Ver: ");
+  lcd.print(version);
+  lcd.setCursor(2, 1);
+  lcd.print("submenu: ");
+  lcd.print(submenu);
+  delay(1000);
+  redButtonState = !digitalRead(redButtonPin);
+  submenu = 0;
+  while (!redButtonState) {
+    blueButtonState = !digitalRead(blueButtonPin);
+    if (blueButtonState) {
+      delay(200);
+      submenu++;
+      submenu = submenu % 3;
+      if (submenu == 0) {
+        lcd.setCursor(2, 0);
+        lcd.print("Ver: ");
+        lcd.print(version);
+        lcd.setCursor(2, 1);
+        lcd.print("submenu: ");
+        lcd.print(submenu);
+      } else if (submenu == 1) {
+        lcd.setCursor(2, 1);
+        lcd.print("submenu: ");
+        lcd.print(submenu);
+      } else if (submenu == 2) {
+        lcd.setCursor(2, 1);
+        lcd.print("submenu: ");
+        lcd.print(submenu);
+      }
+    }
+    redButtonState = !digitalRead(redButtonPin);
+  }
+  MsTimer2::start();
+}
+
+void showResults() {
+  int textSize = 2;
+  Serial.println("In showResults");
+  int submenu = 4;
+  redButtonState = false;
+  tft.fillScreen(BLACK);
+  tft.setTextSize(3);
+  tft.setCursor(100, 0);
+  tft.print("Results");
+
+  tft.drawLine(0, 20, 320, 20, GREY);
+  tft.drawLine(160, 240, 160, 20, GREY);
+  tft.setTextSize(textSize);
+
+  tft.setCursor(0, 40);
+  tft.print("Fmax");
+  printTftFormat(measuredMax, 100, 40, textSize, 1);
+
+  tft.setCursor(170, 40);
+  tft.print("Fmax1s");
+  printTftFormat(maxMeanForce1s, 280, 40, textSize, 1);
+
+  tft.setCursor(0, 80);
+  tft.print("Ftrig");
+  printTftFormat(forceTrigger, 100, 80, textSize, 1);
+
+  tft.setCursor(170, 80);
+  tft.print("Imp");
+  printTftFormat(impulse, 280, 80, textSize, 1);
+
+  tft.setCursor(0, 120);
+  tft.print("RFD100");
+  printTftFormat(maxRFD100, 124, 120, textSize, 0);
+
+  tft.setCursor(170, 120);
+  tft.print("RFD200");
+  printTftFormat(maxRFD200, 304, 120, textSize, 0);
+
+  tft.setCursor(0, 160);
+  tft.print("RMSSD");
+  printTftFormat(RMSSD, 100, 160, textSize, 1);
+
+  tft.setCursor(170, 160);
+  tft.print("cvRMSSD");
+  printTftFormat(RMSSD, 280, 160, textSize, 1);
+
+  //Red button exits results
+  while (!redButtonState) {
+    blueButtonState = !digitalRead(blueButtonPin);
+    redButtonState = !digitalRead(redButtonPin);
+    //Blue button changes menu option
+    if (blueButtonState) {
+      Serial.println("Blue pressed");
+      blueButtonState = false;
+    }
+  }
+  Serial.println("Red pressed");
+  redButtonState = false;
+  //delay(200);
+  tft.fillRect(0, 20, 320, 240, BLACK);
+  drawMenuBackground();
+}
+
+void showSystem()
+{
+  bool exitFlag = false;
+
+  showSystemMenu();
+
+  blueButtonState = false;
+  redButtonState = false;
+
+  while (!exitFlag) {
+    while (!blueButtonState && !redButtonState)
+    {
+      redButtonState = !digitalRead(redButtonPin);
+      blueButtonState = !digitalRead(blueButtonPin);
+    }
+
+    //Blue button pressed. Change submenu option
+    if (blueButtonState) {
+      blueButtonState = false;
+      submenu = (submenu + 1) % 3;
+      showSystemMenu();
+
+    }
+    //Red button pressed. Execute the menu option
+    if (redButtonState) {
+      redButtonState = false;
+      exitFlag = true;
+      if (submenu == 0) {
+        tare();
+        menu = 0;
+        showMenu();
+      } else if (submenu == 1)
+      {
+        calibrateLCD();
+        menu = 0;
+        showMenu();
+      } else if (submenu == 2) {
+        showSystemInfo();
+        menu = 0;
+        showMenu();
+      }
+    }
+  }
+  delay(200);
+}
+
+void showSystemMenu() {
+  Serial.println(submenu);
+  String configOptions[] = {
+    "1-Tare",
+    "2-Calibrate",
+    "3-Info",
+  };
+
+
+  Serial.println(configOptions[submenu]);
+
+  lcd.clear();
+  lcd.setCursor(0, 0);
+  lcd.print(configOptions[submenu]);
+
+  lcd.setCursor(14, 0);
+  lcd.print((submenu + 1) % 3 + 1);
+
+  //The up arrow is associated to the blue button
+  lcd.createChar(6, upArrow);
+  lcd.setCursor(15, 0);
+  lcd.write(byte (6));
+  //the down arrow is associated to the red button
+  lcd.createChar(7, downArrow);
+  lcd.setCursor(15, 1);
+  lcd.write(byte (7));
+
+  if (submenu == 0) {         //Tare option
+    lcd.setCursor(11, 1);
+    lcd.print("Start");
+  } else if (submenu == 1) {  //Calibrate option
+    lcd.setCursor(11, 1);
+    lcd.print("Start");
+  } else if (submenu == 2) {  //Info option
+    lcd.setCursor(12, 1);
+    lcd.print("Show");
   }
 
-  void drawMenuBackground() {
-    tft.fillRect(0, 0, 320, 50, BLACK);
-    tft.fillRoundRect(0, 0, 30, 50, 10, WHITE);
-    tft.fillRoundRect(290, 0, 30, 50, 10, WHITE);
-    tft.setTextSize(3);
-    tft.setCursor(30, 20);
+  delay(200);
+}
+
+void start_steadiness()
+{
+  totalTime = 0;
+  lastTime = micros();
+
+  lcd.clear();
+  capturing = true;
+  capturingPreSteadiness = true;
+  delay(200);
+}
+
+void end_steadiness()
+{
+  capturing = false;
+  capturingSteadiness = false;
+  showSteadinessResults();
+}
+
+void showSteadinessResults()
+{
+  lcd.clear();
+  lcd.setCursor(0, 0);
+  lcd.print("RMSSD ");
+  printLcdFormat(RMSSD, 11, 0, 1);
+  lcd.setCursor(0, 1);
+  lcd.print("cvRMSSD  ");
+  printLcdFormat(cvRMSSD, 11, 1, 1);
+  lcd.createChar(7, exitChar);
+  lcd.setCursor(15, 1);
+  lcd.write(byte (7));
+  delay(1000);
+  redButtonState = false;
+  blueButtonState = false;
+  //Checking buttons state every 50 ms
+  while (!redButtonState && !blueButtonState)
+  {
+    delay(50);
+    redButtonState = !digitalRead(redButtonPin);
+    blueButtonState = !digitalRead(blueButtonPin);
   }
+  delay(200);
+  MsTimer2::start();
+  showMenu();
+}
+
+/*
+  function to draw a cartesian coordinate system and plot whatever data you want
+  just pass x and y and the graph will be drawn
+  huge arguement list
+  &d name of your display object
+  x = x data point
+  y = y datapont
+  gx = x graph location (lower left)
+  gy = y graph location (lower left)
+  w = width of graph
+  h = height of graph
+  xlo = lower bound of x axis
+  xhi = upper bound of x asis
+  xinc = division of x axis (distance not count)
+  ylo = lower bound of y axis
+  yhi = upper bound of y asis
+  yinc = division of y axis (distance not count)
+  title = title of graph
+  xlabel = x axis label
+  ylabel = y axis label
+  gcolor = graph line colors
+  acolor = axis line colors
+  pcolor = color of your plotted data
+  tcolor = text color
+  bcolor = background color
+  &redraw = flag to redraw graph on fist call only
+*/
+
+void Graph(Adafruit_ILI9341 & d, double x, double y, double gx, double gy, double w, double h, double xlo, double xhi, double xinc, double ylo, double yhi, double yinc, String title, String xlabel, String ylabel, unsigned int gcolor, unsigned int acolor, unsigned int pcolor, unsigned int tcolor, unsigned int bcolor, boolean & startOver)
+{
+  double ydiv, xdiv;
+  // initialize old x and old y in order to draw the first point of the graph
+  // but save the transformed value
+  // note my transform funcition is the same as the map function, except the map uses long and we need doubles
+  //static double ox = (x - xlo) * ( w) / (xhi - xlo) + gx;
+  //static double oy = (y - ylo) * (gy - h - gy) / (yhi - ylo) + gy;
+  double i;
+  double temp;
+  int rot, newrot;
+
+  //Mapping values to coordinates
+  x =  (x - xlo) * ( w) / (xhi - xlo) + gx;
+  y =  (y - ylo) * (gy - h - gy) / (yhi - ylo) + gy;
+
+  if (startOver == true)
+  {
+
+    startOver = false;
+    //In startOver, a point is plotted at the most left point
+    ox = x;
+    oy = y;
+  }
+
+  //graph drawn now plot the data
+  // the entire plotting code are these few lines...
+  // recall that ox and oy are initialized as static above
+  //Drawing 3 lines slows the drawing and erasing
+  d.drawLine(ox, oy, x, y, pcolor);
+  //  d.drawLine(ox, oy + 1, x, y + 1, pcolor);
+  //  d.drawLine(ox, oy - 1, x, y - 1, pcolor);
+  ox = x;
+  oy = y;
+
+}
+
+void redrawAxes(Adafruit_ILI9341 & d, double gx, double gy, double w, double h, double xlo, double xhi, double ylo, double yhi, double yinc, String title, String xlabel, String ylabel, unsigned int gcolor, unsigned int acolor, unsigned int pcolor, unsigned int tcolor, unsigned int bcolor, boolean resize)
+{
+  double ydiv, xdiv;
+  // initialize old x and old y in order to draw the first point of the graph
+  // but save the transformed value
+  // note my transform funcition is the same as the map function, except the map uses long and we need doubles
+  //static double ox = (x - xlo) * ( w) / (xhi - xlo) + gx;
+  //static double oy = (y - ylo) * (- h) / (yhi - ylo) + gy;
+  double i;
+  double yAxis;
+  double xAxis;
+
+  //Vertical line
+  d.drawLine(gx, gy, gx, gy - h, acolor);
+
+  // draw y scale
+  for ( i = ylo; i <= yhi; i += yinc)
+  {
+    // compute the transform
+    yAxis =  (i - ylo) * (-h) / (yhi - ylo) + gy;
+
+    d.drawLine(gx, yAxis, gx + w, yAxis, acolor);
+    //If the scale has changed the numbers must be redrawn
+    if (resize)
+    {
+      d.setTextSize(1);
+      d.setTextColor(tcolor, bcolor);
+      printTftFormat(i, gx - 6, yAxis - 3, 1, 0);
+    }
+  }
+
+  //  xAxis =  (-xlo) * ( w) / (xhi - xlo) + gx;
+  //  d.drawLine(gx, gy, gx, gy - h, acolor);
+
+  //now draw the labels
+  d.setTextSize(2);
+  d.setTextColor(tcolor, bcolor);
+  d.setCursor(gx , gy - h - 30);
+  d.println(title);
+
+  d.setTextSize(1);
+  d.setTextColor(acolor, bcolor);
+  d.setCursor(gx , gy + 20);
+  d.println(xlabel);
+
+  d.setTextSize(1);
+  d.setTextColor(acolor, bcolor);
+  d.setCursor(gx - 30, gy - h - 10);
+  d.println(ylabel);
+}
+
+void drawMenuBackground() {
+  tft.fillRect(0, 0, 320, 50, BLACK);
+  tft.fillRoundRect(0, 0, 30, 50, 10, WHITE);
+  tft.fillRoundRect(290, 0, 30, 50, 10, WHITE);
+  tft.setTextSize(3);
+  tft.setCursor(30, 20);
+}

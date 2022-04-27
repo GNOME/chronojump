@@ -1369,7 +1369,8 @@ public partial class ChronoJumpWindow
 			(check_encoder_capture_bars.Active || check_encoder_capture_table.Active);
 
 		vbox_encoder_bars_table_and_save_reps.Visible =
-			(check_encoder_capture_bars.Active || check_encoder_capture_table.Active);
+			(check_encoder_capture_bars.Active || check_encoder_capture_table.Active ||
+			 check_encoder_capture_signal.Active);
 
 		hbox_encoder_capture_show_need_one.Visible =
 			! (check_encoder_capture_bars.Active || check_encoder_capture_table.Active || check_encoder_capture_signal.Active);

@@ -133,6 +133,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.VBox vbox_encoder_bars_table_and_save_reps;
 	[Widget] Gtk.HBox hbox_encoder_capture_save_repetitions;
 	[Widget] Gtk.HBox hbox_encoder_capture_show_need_one;
+	[Widget] Gtk.VPaned vpaned_encoder_main;
 	[Widget] Gtk.Alignment alignment_encoder_capture_curves_bars_drawingarea;
 
 	[Widget] Gtk.Box hbox_combo_encoder_exercise_capture;
@@ -1375,6 +1376,10 @@ public partial class ChronoJumpWindow
 		hbox_encoder_capture_show_need_one.Visible =
 			! (check_encoder_capture_bars.Active || check_encoder_capture_table.Active || check_encoder_capture_signal.Active);
 
+		if(check_encoder_capture_bars.Active && ! check_encoder_capture_table.Active &&
+				! check_encoder_capture_signal.Active)
+			GLib.Timeout.Add(50, new GLib.TimeoutHandler(encoderBarsHeight));
+
 		/*
 		   update the preferences variable
 		   note as can be changed while capturing, it will be saved to SQL on exit
@@ -1384,6 +1389,11 @@ public partial class ChronoJumpWindow
 				check_encoder_capture_signal.Active,
 				check_encoder_capture_table.Active,
 				check_encoder_capture_bars.Active);
+	}
+	private bool encoderBarsHeight () //done later in order to have table and/or signal hidden
+	{
+		vpaned_encoder_main.Position = vpaned_encoder_main.MaxPosition;
+		return false;
 	}
 
 	private void encoderUpdateTreeViewCapture(List<string> contents)

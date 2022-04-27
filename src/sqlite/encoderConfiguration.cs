@@ -15,8 +15,8 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2017   Xavier de Blas <xaviblas@gmail.com> 
- */
+ * Copyright (C) 2017-2022   Xavier de Blas <xaviblas@gmail.com>
+*/
 
 using System;
 using System.Data;
@@ -194,6 +194,22 @@ class SqliteEncoderConfiguration : Sqlite
 
 		closeIfNeeded(dbconOpened);
 	}
+
+	//note deleting by name should be only on one encoderGI, because same name could have 2 encoderGIs
+	public static void Delete (bool dbconOpened, Constants.EncoderGI encoderGI, string name)
+	{
+		openIfNeeded(dbconOpened);
+
+		dbcmd.CommandText = "DELETE FROM " + Constants.EncoderConfigurationTable +
+			" WHERE encoderGI = \'" + encoderGI.ToString() + "\' " +
+			" AND name = \'" + name + "\'";
+
+		LogB.SQL(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+
+		closeIfNeeded(dbconOpened);
+	}
+
 
 	public static void MarkAllAsUnactive(bool dbconOpened, Constants.EncoderGI encoderGI)
 	{

@@ -349,4 +349,44 @@ class SqliteEncoderConfiguration : Sqlite
 
 		return econfSO;
 	}
+
+	public static EncoderConfigurationSQLObject SelectByEncoderGIAndName (bool dbconOpened, Constants.EncoderGI encoderGI, string name)
+	{
+		openIfNeeded(dbconOpened);
+
+		LogB.Information("SelectByEncoderGIAndName");
+		dbcmd.CommandText = "SELECT * FROM " + Constants.EncoderConfigurationTable +
+			" WHERE encoderGI = \"" + encoderGI.ToString() + "\"" +
+		        " AND name = \'" + name + "\'";
+		LogB.SQL(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+
+		SqliteDataReader reader;
+		reader = dbcmd.ExecuteReader();
+
+		EncoderConfigurationSQLObject econfSO = new EncoderConfigurationSQLObject();
+
+		if(reader.Read())
+		{
+			string [] strFull = reader[4].ToString().Split(new char[] {':'});
+			EncoderConfiguration econf = new EncoderConfiguration(
+					(Constants.EncoderConfigurationNames)
+					Enum.Parse(typeof(Constants.EncoderConfigurationNames), strFull[0]) );
+			econf.ReadParamsFromSQL(strFull);
+
+			econfSO = new EncoderConfigurationSQLObject(
+					Convert.ToInt32(reader[0].ToString()),	//uniqueID
+					encoderGI,				//encoderGI
+					true,					//active
+					reader[3].ToString(),			//name
+					econf,					//encoderConfiguration
+					reader[5].ToString()			//description
+					);
+			LogB.Information("found: " + econfSO.ToString());
+		}
+		reader.Close();
+		closeIfNeeded(dbconOpened);
+
+		return econfSO;
+	}
 }

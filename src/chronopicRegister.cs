@@ -34,6 +34,8 @@ public class ChronopicRegisterPort
 	public string Port;
 	public bool FTDI;
 	public string SerialNumber;
+
+	//Note: if this changes, change also on execute/arduinoCapture.cs
 	public enum Types { UNKNOWN, CONTACTS, ENCODER, ARDUINO_RFID, ARDUINO_FORCE, ARDUINO_RUN_ENCODER, ACCELEROMETER, RUN_WIRELESS }
 	public Types Type;
 

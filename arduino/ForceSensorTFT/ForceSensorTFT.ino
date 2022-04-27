@@ -99,13 +99,13 @@ bool blueButtonState;
 unsigned short lcdDelay = 25; //to be able to see the screen. Seconds are also printed in delay but 25 values are less than one second
 unsigned short lcdCount = 0;
 float measuredLcdDelayMax = 0; //The max in the lcdDelay periodca
-float measuredMax = 100.0; // The max since starting capture
-float measuredMin = -20.0;
+float measuredMax = 300.0; // The max since starting capture
+float measuredMin = -100.0;
 float measured = 0;
 double newGraphMax = measuredMax;
 double newGraphMin = measuredMin;
-double graphMin = -20;
-double graphMax = 100;
+double graphMin = measuredMin;
+double graphMax = measuredMax;
 
 /***** Atention!!! *****
     lcd.createChar() function makes a mess with the cursor position and it must be specified
@@ -1056,7 +1056,8 @@ void capture(void)
   double xDivN = 3;
   double yBuffer[320];
 
-  int plotPeriod = 2;
+  int plotPeriod = 4;
+  double plotBuffer[plotPeriod];
 
   bool resized = true;
 
@@ -1074,8 +1075,8 @@ void capture(void)
   tft.fillScreen(BLACK);
   while (capturing)
   {
-    Serial.println();
-    Serial.print("Deleting: ");
+//    Serial.println();
+//    Serial.print("Deleting: ");
     xGraph = 0;
     //Deleting the previous plotted points
     for (int i = xMin; i < xMax; i++)
@@ -1116,6 +1117,7 @@ void capture(void)
         } else {
           //rcaTime = totalTime;
           measured = scale.get_units();
+          plotBuffer[n] = measured;
 
           //When current Force Slot is equal to size of the buffer it starts over to 0
           currentFSlot = (currentFSlot + 1) % freq;
@@ -1215,15 +1217,23 @@ void capture(void)
           }
         }
       }
-//      Serial.print(xGraph);
-//      Serial.print(", ");
-//      Serial.print(measured);
-//      Serial.print("\t");
-      yBuffer[(int)xGraph] = measured;
+
+      yBuffer[(int)xGraph] = 0;
+      for (int i = 0; i < plotPeriod; i++)
+      {
+//        Serial.print(plotBuffer[i]);
+//        Serial.print("\t");
+        yBuffer[(int)xGraph] = yBuffer[(int)xGraph] + plotBuffer[i];
+      }
+      yBuffer[(int)xGraph] = yBuffer[(int)xGraph] / plotPeriod;
+//    Serial.print((int)xGraph);
+//    Serial.print(",");
+//    Serial.println(yBuffer[(int)xGraph]);
+//    Serial.print("\t");
       //                        Serial.print(measured);
       //                        Serial.print("\t");
       //                Serial.println(yBuffer[(int)xGraph]);
-      Graph(tft, xGraph, measured, graphX, graphY, graphW, graphH, xMin, xMax, xDivSize, graphMin, graphMax, yDivSize, "", "", "", WHITE, WHITE, BLUE, WHITE, BLACK, display1);
+      Graph(tft, xGraph, yBuffer[(int)xGraph], graphX, graphY, graphW, graphH, xMin, xMax, xDivSize, graphMin, graphMax, yDivSize, "", "", "", WHITE, WHITE, BLUE, WHITE, BLACK, display1);
       xGraph++;
     }
     MsTimer2::start();

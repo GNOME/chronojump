@@ -27,9 +27,9 @@ using System.Threading;
 //ArduinoCommunications
 public abstract class ArduinoComms
 {
-	public static SerialPort ArduinoPort; //on Windows we cannot pass the SerialPort to another class, so use this.
 	public static bool PortOpened;
 
+	protected static SerialPort ArduinoPort; //on Windows we cannot pass the SerialPort to another class, so use this.
 	protected string portName;
 	protected int bauds;
 //	protected SerialPort port;

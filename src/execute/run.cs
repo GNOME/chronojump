@@ -331,7 +331,7 @@ LogB.Information("going to call photocellWirelessCapture.CaptureStart ()");
 			needShowFeedbackMessage = true;
 			runPhase = runPhases.START_WIRELESS_UNKNOWN;
 			//photocellWirelessCapture = new PhotocellWirelessCapture(wirelessPort);
-			photocellWirelessCapture.Reset(wirelessPort);
+			photocellWirelessCapture.Reset ();
 			photocellWirelessCapture.CaptureStart ();
 
 			manageIniWireless();

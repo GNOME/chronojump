@@ -2154,7 +2154,15 @@ public class Util
 		}
 		return uniqueString;
 	}
+
+	public static List<string> StringArrayToListString (string [] arrayString)
+	{
+		List<string> str_l = new List<string> ();
+		foreach (string myStr in arrayString)
+			str_l.Add (myStr);
 	
+		return str_l;
+	}
 	
 	//to create an string [] of one member
 	public static string [] StringToStringArray (string str) {

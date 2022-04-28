@@ -24,26 +24,111 @@ using System.Threading;
 
 //inspired on RFID.cs (unique class that reads arduino separated of gui
 
+/*
+   this class is used on the following classes,
+   and ArduinoDiscover uses a List of this class to detect all elements without loose time for each one (connect and get_version)
+   */
+public class Arduino
+{
+	private SerialPort port; //static?
+
+	private string portName;
+	private int bauds;
+
+	private string response;
+	private bool opened;
+	private ChronopicRegisterPort.Types discovered;
+
+	/*
+	TODO:
+	//to control if enough time passed since Connect, get_version
+	private DateTime connectStarted;
+	private DateTime getVersionStarted;
+	*/
+
+	//constructor
+	public Arduino (string portName, int bauds)
+	{
+		this.portName = portName;
+		this.bauds = bauds;
+
+		response = "";
+		opened = false;
+		discovered = ChronopicRegisterPort.Types.UNKNOWN;
+		/*
+		connectStarted = new DateTime(1900,1,1);
+		getVersionStarted = new DateTime(1900,1,1);
+		*/
+	}
+
+	public void CreateSerialPort ()
+	{
+		port = new SerialPort (portName, bauds);
+	}
+
+	public void OpenPort ()
+	{
+		port.Open ();
+	}
+
+	public void ClosePort ()
+	{
+		port.Close ();
+		opened = false;
+	}
+
+	public bool BytesToRead ()
+	{
+		return (port.BytesToRead > 0);
+	}
+
+	public string ReadLine ()
+	{
+		return (port.ReadLine ());
+	}
+
+	public string ReadExisting ()
+	{
+		return (port.ReadExisting ());
+	}
+
+	public void WriteLine (string command)
+	{
+		port.WriteLine (command);
+	}
+
+	public string PortName {
+		get { return portName; }
+	}
+
+	public bool Opened {
+		set { opened = value; }
+		get { return opened; }
+	}
+
+	public string Response {
+		set { response = value; }
+		get { return response; }
+	}
+
+	public ChronopicRegisterPort.Types Discovered {
+		set { discovered = value; }
+		get { return discovered; }
+	}
+}
+
 //ArduinoCommunications
 public abstract class ArduinoComms
 {
-	public static bool PortOpened;
-
-	protected static SerialPort ArduinoPort; //on Windows we cannot pass the SerialPort to another class, so use this.
-	protected string portName;
-	protected int bauds;
-//	protected SerialPort port;
-//	protected bool portOpened;
-
-	protected string response; //the response on waitResponse () if is what expected
+	protected Arduino arduino;
 
 	protected bool portConnect ()
 	{
-		//port = new SerialPort(portName, bauds);
-		ArduinoPort = new SerialPort(portName, bauds);
+		arduino.CreateSerialPort ();
 
 		try {
-			ArduinoPort.Open();
+			arduino.OpenPort ();
+			arduino.Opened = true;
 		}
 		catch (System.IO.IOException)
 		{
@@ -56,7 +141,8 @@ public abstract class ArduinoComms
 		//TODO: Val, caldria que quedés clar a la interficie que estem esperant aquest temps, a veure com ho fa el sensor de força, ...
 		//just print on gui something like "please, wait, ..."
 		//
-		Thread.Sleep(3000); //sleep to let arduino start reading serial event
+		Thread.Sleep(2000); //sleep to let arduino start reading serial event
+		//TODO: instead of sleep, it will be an StopWatch to not send the get_version until stopwatch ended
 
 		return true;
 	}
@@ -73,16 +159,14 @@ public abstract class ArduinoComms
 	{
 		try {
 			LogB.Information("arduinocapture sendCommand: |" + command + "|");
-			ArduinoPort.WriteLine(command);
+			arduino.WriteLine (command);
 		}
 		catch (Exception ex)
 		{
 			if(ex is System.IO.IOException || ex is System.TimeoutException)
 			{
 				LogB.Information("error: " + errorMessage);
-				ArduinoPort.Close();
-				//portOpened = false;
-				PortOpened = false;
+				arduino.ClosePort();
 				return false;
 			}
 			//throw;
@@ -100,12 +184,11 @@ public abstract class ArduinoComms
 		LogB.Information("starting waitResponse");
 		do {
 			Thread.Sleep(25);
-			if (ArduinoPort.BytesToRead > 0)
+			if (arduino.BytesToRead ())
 			{
 				try {
-					//str = ArduinoPort.ReadLine();
 					//use this because if 9600 call an old Wichro that has no comm at this speed, will answer things and maybe never a line
-					str += ArduinoPort.ReadExisting(); //The += is because maybe it receives part of the string
+					str += arduino.ReadExisting(); //The += is because maybe it receives part of the string
 				} catch {
 					if(responseExpected_l.Count == 1)
 						LogB.Information(string.Format("Catched waiting: |{0}|", responseExpected_l[0]));
@@ -125,7 +208,7 @@ public abstract class ArduinoComms
 				if(str.Contains(expected))
 				{
 					success = true;
-					response = str;
+					arduino.Response = str;
 				}
 		}
 		while(! (success || sw.Elapsed.TotalMilliseconds > waitLimitMs) );
@@ -137,8 +220,8 @@ public abstract class ArduinoComms
 	protected void flush ()
 	{
 		string str = "";
-		if (ArduinoPort.BytesToRead > 0)
-			str = ArduinoPort.ReadExisting();
+		if (arduino.BytesToRead ())
+			str = arduino.ReadExisting ();
 
 		LogB.Information(string.Format("flushed: |{0}|", str));
 	}
@@ -166,24 +249,21 @@ public abstract class ArduinoCapture : ArduinoComms
 
 	// protected stuff ---->
 
-	protected void initialize (string portName, int bauds)
+	protected void initialize ()
 	{
-		this.portName = portName;
-		this.bauds = bauds;
 		readedPos = 0;
-		response = "";
+		arduino.Response = "";
 
 		emptyList();
 	}
-
 
 	protected bool readLine (out string str)
 	{
 		str = "";
 		try {
-			if (ArduinoPort.BytesToRead > 0)
+			if (arduino.BytesToRead ())
 			{
-				str = ArduinoPort.ReadLine();
+				str = arduino.ReadLine();
 				LogB.Information(string.Format("at readLine BytesToRead>0, readed:|{0}|", str));
 			}
 		} catch (System.IO.IOException)
@@ -198,17 +278,13 @@ public abstract class ArduinoCapture : ArduinoComms
 
 	public void Disconnect()
 	{
-		ArduinoPort.Close();
-		//portOpened = false;
-		PortOpened = false;
+		arduino.ClosePort ();
 	}
 
-	/*
 	public bool PortOpened
 	{
-		get { return portOpened; }
+		get { return arduino.Opened; }
 	}
-	*/
 }
 
 public class PhotocellWirelessCapture: ArduinoCapture
@@ -218,21 +294,21 @@ public class PhotocellWirelessCapture: ArduinoCapture
 	//constructor
 	public PhotocellWirelessCapture (string portName)
 	{
-		Reset(portName);
+		arduino = new Arduino (portName, 115200);
+		Reset ();
 	}
 
 	//after a first capture, put variales to zero
-	public void Reset (string portName)
+	public void Reset ()
 	{
-		this.bauds = 115200;
-		initialize(portName, bauds);
+		initialize ();
 	}
 
 	public override bool CaptureStart()
 	{
-		LogB.Information("portOpened: " + ArduinoCapture.PortOpened.ToString());
+		LogB.Information("portOpened: " + arduino.Opened);
 		// 0 connect if needed
-		if(! ArduinoCapture.PortOpened)
+		if(! arduino.Opened)
 		{
 			List<string> responseExpected_l = new List<string>();
 			responseExpected_l.Add("Wifi-Controller");
@@ -243,9 +319,9 @@ public class PhotocellWirelessCapture: ArduinoCapture
 				return false;
 		}
 
-		ArduinoCapture.PortOpened = true;
+		arduino.Opened = true;
 
-		LogB.Information(string.Format("arduinoCapture portName: {0}, bauds: {1}", portName, bauds));
+		//LogB.Information(string.Format("arduinoCapture portName: {0}, bauds: {1}", portName, bauds));
 
 		//empty the port before new capture
 		flush();
@@ -399,40 +475,55 @@ public class PhotocellWirelessEvent
 //New firmwares enable communication at 9600 (event devices working at higher speeds) to get the version (contains the product)
 public class ArduinoDiscover : ArduinoComms
 {
-	protected ChronopicRegisterPort.Types discovered;
+	private List<Arduino> arduino_l;
 
-	public ArduinoDiscover (string portName)
+	private string forceSensorStr = "Force_Sensor-";
+	private string raceAnalyzerStr = "Race_Analyzer-";
+	private string wichroStr = "Wifi-Controller-"; //Will be used for Wichro and Quick, then user will decide. "local:get_channel;" to know the channel
+
+	//1st trying a list of just one port
+	public ArduinoDiscover (List<string> portName_l)
 	{
-		this.portName = portName;
-		discovered = ChronopicRegisterPort.Types.UNKNOWN;
+		arduino_l = new List<Arduino> ();
+
+		foreach (string portName in portName_l)
+			arduino_l.Add(new Arduino (portName, 115200));
 	}
 
-	public ChronopicRegisterPort.Types Discover ()
+	//public List<ChronopicRegisterPort.Types> Discover ()
+	public List<string> Discover () // TODO: return as an object
 	{
-		if(! connect ())
-			return discovered;
+		List<string> discovered_l = new List<string> ();
+		foreach (Arduino ard in arduino_l)
+		{
+			arduino = ard; //arduino is the protected variable
 
-		discoverDo ();
-		if(discovered == ChronopicRegisterPort.Types.UNKNOWN)
-			discoverOldWichros ();
+			LogB.Information("Discover loop, port: " + arduino.PortName);
+			if(connect ())
+			{
+				flush();
+				discoverDo ();
+				if(arduino.Discovered == ChronopicRegisterPort.Types.UNKNOWN)
+					discoverOldWichros ();
+			} else
+				arduino.Discovered = ChronopicRegisterPort.Types.UNKNOWN;
 
-		ArduinoPort.Close();
-		return discovered;
+			arduino.ClosePort (); //close even connect failed?
+
+			discovered_l.Add(string.Format("{0} {1}", arduino.PortName, arduino.Discovered));
+		}
+
+		return discovered_l;
 	}
 
 	private bool connect ()
 	{
-		this.bauds = 9600;
 		return portConnect();
 	}
 
 	// check with common get_version (any device except the first Wichros)
 	private void discoverDo ()
 	{
-		string forceSensorStr = "Force_Sensor-";
-		string raceAnalyzerStr = "Race_Analyzer-";
-		string wichroStr = "Wichro";
-
 		List<string> responseExpected_l = new List<string>();
 		responseExpected_l.Add(forceSensorStr);
 		responseExpected_l.Add(raceAnalyzerStr);
@@ -440,13 +531,13 @@ public class ArduinoDiscover : ArduinoComms
 
 		if(getVersion ("get_version:", responseExpected_l))
 		{
-			LogB.Information("Discover found this device: " + response);
-			if(response.Contains(forceSensorStr))
-				discovered = ChronopicRegisterPort.Types.ARDUINO_FORCE;
-			else if(response.Contains(raceAnalyzerStr))
-				discovered = ChronopicRegisterPort.Types.ARDUINO_RUN_ENCODER;
-			else if(response.Contains(wichroStr))
-				discovered = ChronopicRegisterPort.Types.RUN_WIRELESS;
+			LogB.Information("Discover found this device: " + arduino.Response);
+			if(arduino.Response.Contains(forceSensorStr))
+				arduino.Discovered = ChronopicRegisterPort.Types.ARDUINO_FORCE;
+			else if(arduino.Response.Contains(raceAnalyzerStr))
+				arduino.Discovered = ChronopicRegisterPort.Types.ARDUINO_RUN_ENCODER;
+			else if(arduino.Response.Contains(wichroStr))
+				arduino.Discovered = ChronopicRegisterPort.Types.RUN_WIRELESS;
 		}
 		flush(); //empty the port for future use
 	}
@@ -455,10 +546,10 @@ public class ArduinoDiscover : ArduinoComms
 	private void discoverOldWichros ()
 	{
 		List<string> responseExpected_l = new List<string>();
-		responseExpected_l.Add("Wichro");
+		responseExpected_l.Add(wichroStr);
 
 		if(getVersion ("local:get_version;", responseExpected_l))
-			discovered = ChronopicRegisterPort.Types.RUN_WIRELESS;
+			arduino.Discovered = ChronopicRegisterPort.Types.RUN_WIRELESS;
 
 		flush(); //empty the port for future use
 	}

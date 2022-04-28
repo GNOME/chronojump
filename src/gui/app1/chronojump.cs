@@ -2888,7 +2888,7 @@ public partial class ChronoJumpWindow
 			forceOtherThread.Abort();
 		if(portFSOpened)
 			portFS.Close();
-		if(photocellWirelessCapture != null && ArduinoCapture.PortOpened)
+		if(photocellWirelessCapture != null && photocellWirelessCapture.PortOpened)
 			photocellWirelessCapture.Disconnect();
 
 		//cancel runEncoder capture process
@@ -3490,7 +3490,7 @@ public partial class ChronoJumpWindow
 		if(portREOpened)
 			runEncoderDisconnect();
 
-		if(photocellWirelessCapture != null && ArduinoCapture.PortOpened)
+		if(photocellWirelessCapture != null && photocellWirelessCapture.PortOpened)
 			photocellWirelessCapture.Disconnect();
 
 		//run simple will be the only one with its drawing are
@@ -6066,7 +6066,7 @@ public partial class ChronoJumpWindow
 		*/
 
 		// 2) close ports. Close Arduino capture before calling to device
-		if(photocellWirelessCapture != null && ArduinoCapture.PortOpened)
+		if(photocellWirelessCapture != null && photocellWirelessCapture.PortOpened)
 			photocellWirelessCapture.Disconnect();
 
 		// 3) show window
@@ -6082,7 +6082,7 @@ public partial class ChronoJumpWindow
 		*/
 
 		// 2) close ports. Close Arduino capture before calling to device
-		if(photocellWirelessCapture != null && ArduinoCapture.PortOpened)
+		if(photocellWirelessCapture != null && photocellWirelessCapture.PortOpened)
 			photocellWirelessCapture.Disconnect();
 
 		// 3) show window

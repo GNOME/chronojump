@@ -1770,6 +1770,19 @@ public class PreferencesWindow
 
 	// <---- end SQL stress tests ----
 
+	private void on_button_discover_devices_clicked (object o, EventArgs args)
+	{
+		List<string> list_discover_ports = Util.StringArrayToListString (ChronopicPorts.GetPorts ());
+		ArduinoDiscover ad = new ArduinoDiscover (list_discover_ports); //all ports
+		List<string> discovered_l = ad.Discover ();
+
+		string discoveredStr = "Discovered: ";
+		foreach (string str in discovered_l)
+			discoveredStr += "\n- " + str;
+
+		new DialogMessage(Constants.MessageTypes.INFO, discoveredStr);
+	}
+
 	private void on_debug_mode_clicked (object o, EventArgs args) {
 		//will be managed from gui/chronojump.cs
 		FakeButtonDebugModeStart.Click();

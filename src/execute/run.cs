@@ -570,13 +570,23 @@ LogB.Information("going to call photocellWirelessCapture.CaptureStart ()");
 		if(runDC.UseDoubleContacts())
 		{
 			LogB.Information(string.Format("success: {0}, cancel: {1}, finish: {2}", success, cancel, finish));
-			while(needCheckIfTrackEnded)
+
+			//to avoid get hung waiting needCheckIfTrackEnded
+			DateTime started = DateTime.Now;
+			TimeSpan span = DateTime.Now - started;
+
+			while(needCheckIfTrackEnded && span.TotalMilliseconds < checkDoubleContactTime * 1.5)
 			{
 				LogB.Information("WAITING 100 MS TO EXIT BUCLE");
 				//TODO: checks what happens with cancel... in the pulse thread, will change this boolean? needCheckIfTrackEnded
 				//TODO: also think on what happens if needCheckIfTrackEnded never gets negative
 				Thread.Sleep(100);
+				span = DateTime.Now - started;
 			}
+			if(! needCheckIfTrackEnded)
+				LogB.Information("Exited 100 MS BUCLE because needCheckIfTrackEnded is false");
+			else
+				LogB.Information("Exited 100 MS BUCLE because time exceded");
 
 			return true;
 		}

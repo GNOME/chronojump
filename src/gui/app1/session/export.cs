@@ -153,8 +153,8 @@ public partial class ChronoJumpWindow
 				Catalog.GetString("Cancelled.");
 		else
 			app1s_label_export_progress.Text =
-				string.Format(Catalog.GetString("Exported in {0} ms"),
-						app1s_exportElapsedMs);
+				string.Format(Catalog.GetString("Exported in {0} s"),
+						Math.Round(UtilAll.DivideSafe(app1s_exportElapsedMs, 1000.0), 1));
 
 		app1s_export_doing_sensitive_start_end(false);
 	}

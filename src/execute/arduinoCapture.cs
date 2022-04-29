@@ -71,6 +71,12 @@ public class Micro
 		return (port.BytesToRead > 0);
 	}
 
+	//used on Chronopic
+	public int ReadByte ()
+	{
+		return (port.ReadByte ());
+	}
+
 	public string ReadLine ()
 	{
 		return (port.ReadLine ());
@@ -79,6 +85,12 @@ public class Micro
 	public string ReadExisting ()
 	{
 		return (port.ReadExisting ());
+	}
+
+	//used on Chronopic
+	public void Write (string command)
+	{
+		port.Write (command);
 	}
 
 	public void WriteLine (string command)
@@ -133,6 +145,7 @@ public abstract class MicroComms
 
 		if(doSleep)
 			Thread.Sleep(2000); //sleep to let arduino start reading serial event
+		//TODO: instead of sleeping, check also SerialPort.IsOpen
 
 		return true;
 	}
@@ -468,10 +481,15 @@ public class MicroDiscover : MicroComms
 	private List<Micro> micro_l;
 	private List<MicroDiscoverManage> microDiscoverManage_l;
 
+	//115200
 	private string forceSensorStr = "Force_Sensor-";
 	private string raceAnalyzerStr = "Race_Analyzer-";
 	private string wichroStr = "Wifi-Controller-"; //Will be used for Wichro and Quick, then user will decide. "local:get_channel;" to know the channel
+	//Chronopic encoder will send a J (115200)
+
+	//9600
 	private string rfidStr = "YES Chronojump RFID";
+	//Chronopic multitest will send a J (9600)
 
 	//1st trying a list of just one port
 	public MicroDiscover (List<string> portName_l)
@@ -633,8 +651,11 @@ public class MicroDiscover : MicroComms
 	}
 
 	//for RFID and Chronopic multitest
-	private void discoverDo9600 ()
+	private bool discoverDo9600 ()
 	{
+		bool success = false;
+
+		// 1) try if it is an RFID
 		List<string> responseExpected_l = new List<string>();
 		responseExpected_l.Add(rfidStr);
 
@@ -642,9 +663,30 @@ public class MicroDiscover : MicroComms
 		{
 			LogB.Information("Discover found this device: " + micro.Response);
 			if(micro.Response.Contains(rfidStr))
+			{
 				micro.Discovered = ChronopicRegisterPort.Types.ARDUINO_RFID;
+				success = true;
+			}
+
 		}
 		flush(); //empty the port for future use
+		if(success)
+			return true;
+
+		// 2) try if it is a Chronopic multitest. Not working, also tried to do this first without success.
+		//TODO:Try with moserial if can show response
+		LogB.Information("Going to write a J");
+		micro.Write("J");
+		LogB.Information("Going to read a J");
+		if ( (char) micro.ReadByte() == 'J')
+		{
+			micro.Discovered = ChronopicRegisterPort.Types.CONTACTS;
+			success = true;
+		}
+		LogB.Information("done");
+
+		flush(); //empty the port for future use
+		return success;
 	}
 }
 

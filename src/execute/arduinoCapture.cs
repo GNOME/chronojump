@@ -499,7 +499,6 @@ public class MicroDiscover : MicroComms
 			{
 				flush(); //after connect
 				if (! discoverDo115200 ())
-				{
 					if (! discoverOldWichros ())
 					{
 						//try at 9600
@@ -511,7 +510,6 @@ public class MicroDiscover : MicroComms
 							discoverDo9600 ();
 						}
 					}
-				}
 			} else
 				micro.Discovered = ChronopicRegisterPort.Types.UNKNOWN;
 
@@ -540,23 +538,35 @@ public class MicroDiscover : MicroComms
 		for (int i = 0; i < micro_l.Count; i ++)
 		{
 			if(! microDiscoverManage_l[i].ConnectOk)
-				microDiscoverManage_l[i].Discovered = ChronopicRegisterPort.Types.UNKNOWN;
-			else
 			{
-				//wait the ms since connect
-				while (! microDiscoverManage_l[i].PassedMsSinceConnect (2000))
-					;
-
-				//TODO: right now have to wait at each getVersion, improve it
-				micro = micro_l[i]; //micro is the protected variable
-				flush();
-				if (! discoverDo115200 ())
-					discoverOldWichros ();
-
-				microDiscoverManage_l[i].Discovered = micro.Discovered;
+				microDiscoverManage_l[i].Discovered = ChronopicRegisterPort.Types.UNKNOWN;
+				micro.ClosePort (); //close even connect failed?
+				continue;
 			}
 
-			micro.ClosePort (); //close even connect failed?
+			//wait the ms since connect
+			while (! microDiscoverManage_l[i].PassedMsSinceConnect (2000))
+				;
+
+			//TODO: right now have to wait at each getVersion, improve it
+			micro = micro_l[i]; //micro is the protected variable
+			flush();
+			if (! discoverDo115200 ())
+				if (! discoverOldWichros ())
+				{
+					//try at 9600
+					micro.ClosePort ();
+					micro.Bauds = 9600;
+					if(connectAndSleep ())
+					{
+						flush(); //after connect
+						discoverDo9600 ();
+					}
+				}
+
+			microDiscoverManage_l[i].Discovered = micro.Discovered;
+
+			micro.ClosePort ();
 			discovered_l.Add(microDiscoverManage_l[i].ResultStr ());
 		}
 

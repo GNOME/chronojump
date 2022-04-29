@@ -39,13 +39,6 @@ public class Micro
 	private bool opened;
 	private ChronopicRegisterPort.Types discovered;
 
-	/*
-	TODO:
-	//to control if enough time passed since Connect, get_version
-	private DateTime connectStarted;
-	private DateTime getVersionStarted;
-	*/
-
 	//constructor
 	public Micro (string portName, int bauds)
 	{
@@ -55,10 +48,6 @@ public class Micro
 		response = "";
 		opened = false;
 		discovered = ChronopicRegisterPort.Types.UNKNOWN;
-		/*
-		connectStarted = new DateTime(1900,1,1);
-		getVersionStarted = new DateTime(1900,1,1);
-		*/
 	}
 
 	public void CreateSerialPort ()
@@ -122,7 +111,7 @@ public abstract class MicroComms
 {
 	protected Micro micro;
 
-	protected bool portConnect ()
+	protected bool portConnect (bool doSleep)
 	{
 		micro.CreateSerialPort ();
 
@@ -138,11 +127,8 @@ public abstract class MicroComms
 
 		LogB.Information("port successfully opened");
 
-		//TODO: Val, caldria que quedés clar a la interficie que estem esperant aquest temps, a veure com ho fa el sensor de força, ...
-		//just print on gui something like "please, wait, ..."
-		//
-		Thread.Sleep(2000); //sleep to let arduino start reading serial event
-		//TODO: instead of sleep, it will be an StopWatch to not send the get_version until stopwatch ended
+		if(doSleep)
+			Thread.Sleep(2000); //sleep to let arduino start reading serial event
 
 		return true;
 	}
@@ -313,7 +299,7 @@ public class PhotocellWirelessCapture: ArduinoCapture
 			List<string> responseExpected_l = new List<string>();
 			responseExpected_l.Add("Wifi-Controller");
 
-			if(! portConnect ())
+			if(! portConnect (true))
 				return false;
 			if(! getVersion ("local:get_version;", responseExpected_l))
 				return false;
@@ -476,6 +462,7 @@ public class PhotocellWirelessEvent
 public class MicroDiscover : MicroComms
 {
 	private List<Micro> micro_l;
+	private List<MicroDiscoverManage> microDiscoverManage_l;
 
 	private string forceSensorStr = "Force_Sensor-";
 	private string raceAnalyzerStr = "Race_Analyzer-";
@@ -485,9 +472,13 @@ public class MicroDiscover : MicroComms
 	public MicroDiscover (List<string> portName_l)
 	{
 		micro_l = new List<Micro> ();
+		microDiscoverManage_l = new List<MicroDiscoverManage> ();
 
 		foreach (string portName in portName_l)
+		{
 			micro_l.Add(new Micro (portName, 115200));
+			microDiscoverManage_l.Add(new MicroDiscoverManage (portName));
+		}
 	}
 
 	//public List<ChronopicRegisterPort.Types> Discover ()
@@ -499,7 +490,7 @@ public class MicroDiscover : MicroComms
 			micro = ard; //micro is the protected variable
 
 			LogB.Information("Discover loop, port: " + micro.PortName);
-			if(connect ())
+			if(connectAndSleep ())
 			{
 				flush();
 				discoverDo ();
@@ -516,10 +507,56 @@ public class MicroDiscover : MicroComms
 		return discovered_l;
 	}
 
-	private bool connect ()
+	//Calls first all the connects, then the get_version
+	//has stopwatch to know time passed and is not waiting after each connect
+	public List<string> DiscoverNotSequential ()
 	{
-		return portConnect();
+		List<string> discovered_l = new List<string> ();
+
+		//connect
+		for (int i = 0; i < micro_l.Count; i ++)
+		{
+			micro = micro_l[i]; //micro is the protected variable
+			microDiscoverManage_l[i].ConnectCalled (connectNotSleep ());
+		}
+
+		//get Version when connect time passed
+		for (int i = 0; i < micro_l.Count; i ++)
+		{
+			if(! microDiscoverManage_l[i].ConnectOk)
+				microDiscoverManage_l[i].Discovered = ChronopicRegisterPort.Types.UNKNOWN;
+			else
+			{
+				//wait the ms since connect
+				while (! microDiscoverManage_l[i].PassedMsSinceConnect (2000))
+					;
+
+				//TODO: right now have to wait at each getVersion, improve it
+				micro = micro_l[i]; //micro is the protected variable
+				flush();
+				discoverDo ();
+				if(micro.Discovered == ChronopicRegisterPort.Types.UNKNOWN)
+					discoverOldWichros ();
+
+				microDiscoverManage_l[i].Discovered = micro.Discovered;
+			}
+
+			micro.ClosePort (); //close even connect failed?
+			discovered_l.Add(microDiscoverManage_l[i].ResultStr ());
+		}
+
+		return discovered_l;
 	}
+
+	private bool connectAndSleep ()
+	{
+		return portConnect(true);
+	}
+	private bool connectNotSleep () // not sequential
+	{
+		return portConnect(false);
+	}
+
 
 	// check with common get_version (any device except the first Wichros)
 	private void discoverDo ()
@@ -553,4 +590,57 @@ public class MicroDiscover : MicroComms
 
 		flush(); //empty the port for future use
 	}
+}
+
+/*
+   class to store the connection success on not sequential
+   this could be all on Micro class, but maybe better have it separated as this is used only for Discover
+   */
+public class MicroDiscoverManage
+{
+	private string portName;
+	private DateTime connectStarted;
+	//private DateTime getVersionStarted;
+	private ChronopicRegisterPort.Types discovered;
+	private bool connectOk;
+
+	public MicroDiscoverManage (string portName)
+	{
+		this.portName = portName;
+
+		connectStarted = new DateTime(1900,1,1);
+		//getVersionStarted = new DateTime(1900,1,1);
+		connectOk = false;
+	}
+
+	public void ConnectCalled (bool ok)
+	{
+		connectOk = ok;
+		connectStarted = DateTime.Now;
+	}
+
+	public bool PassedMsSinceConnect (int ms)
+	{
+		TimeSpan span = DateTime.Now - connectStarted;
+		return (span.TotalMilliseconds >= ms);
+	}
+
+	public string ResultStr ()
+	{
+		return (string.Format("{0} {1}", portName, discovered));
+	}
+
+	public bool ConnectOk {
+		get { return connectOk; }
+	}
+
+	public string PortName {
+		get { return portName; }
+	}
+
+	public ChronopicRegisterPort.Types Discovered {
+		set { discovered = value; }
+		get { return discovered; }
+	}
+
 }

@@ -247,6 +247,12 @@ const String menuDescription [] = {
   "Performs calibration or\ntare and shows some system\ninformation."
 };
 
+const String systemOptions[] = {
+  "Tare",
+  "Calibrate",
+  "Info",
+};
+
 //Mean force in 1s
 //Circular buffer where all measures in 1s are stored
 //ADC has 84.75 ~ 85 samples/second. If we need the diference in 1 second we need 1 more sample
@@ -1157,7 +1163,7 @@ void capture(void)
         redButtonState = false;
         blueButtonState = false;
         //Not in any steadiness phase
-        if (! (capturingPreSteadiness || capturingSteadiness)) 
+        if (! (capturingPreSteadiness || capturingSteadiness))
         {
           end_capture();
           xGraph = xMax;
@@ -1287,7 +1293,7 @@ void printLcdFormat (float val, int xStart, int y, int decimal) {
 
   // In negatives numbers the units are in the same position and the minus one position to the left
   if (val < 0) {
-//    xStart = xStart - charWidth[fontSize];
+    //    xStart = xStart - charWidth[fontSize];
   }
   tft.setCursor(xStart * charWidth[fontSize]  , y);
   tft.print(val, decimal);
@@ -1660,6 +1666,10 @@ void showSystemInfo() {
   lcd.setCursor(2, 1);
   lcd.print("submenu: ");
   lcd.print(submenu);
+  tft.setTextSize(2);
+  tft.setCursor(12, 100);
+  tft.setTextColor(BLACK);
+  tft.print(menuDescription[3]);
   delay(1000);
   redButtonState = !digitalRead(redButtonPin);
   submenu = 0;
@@ -1688,7 +1698,6 @@ void showSystemInfo() {
     }
     redButtonState = !digitalRead(redButtonPin);
   }
-  //MsTimer2::start();
 }
 
 void showResults() {
@@ -1785,6 +1794,11 @@ void showSystem()
 {
   bool exitFlag = false;
 
+  tft.setTextSize(2);
+  tft.setCursor(12, 100);
+  tft.setTextColor(BLACK);
+  tft.print(menuDescription[3]);
+
   showSystemMenu();
 
   blueButtonState = false;
@@ -1810,60 +1824,32 @@ void showSystem()
       exitFlag = true;
       if (submenu == 0) {
         tare();
-        menu = 0;
-        showMenu();
       } else if (submenu == 1)
       {
         calibrateLCD();
-        menu = 0;
-        showMenu();
       } else if (submenu == 2) {
         showSystemInfo();
-        menu = 0;
-        showMenu();
       }
+      tft.setTextColor(BLACK);
+      tft.setCursor(50, 60);
+      tft.print(systemOptions[submenu]);
+      menu = 0;
+      showMenu();
     }
   }
-  delay(200);
+  delay(1000);
+
 }
 
 void showSystemMenu() {
   Serial.println(submenu);
-  String configOptions[] = {
-    "1-Tare",
-    "2-Calibrate",
-    "3-Info",
-  };
 
-
-  Serial.println(configOptions[submenu]);
-
-  lcd.clear();
-  lcd.setCursor(0, 0);
-  lcd.print(configOptions[submenu]);
-
-  lcd.setCursor(14, 0);
-  lcd.print((submenu + 1) % 3 + 1);
-
-  //The up arrow is associated to the blue button
-  lcd.createChar(6, upArrow);
-  lcd.setCursor(15, 0);
-  lcd.write(byte (6));
-  //the down arrow is associated to the red button
-  lcd.createChar(7, downArrow);
-  lcd.setCursor(15, 1);
-  lcd.write(byte (7));
-
-  if (submenu == 0) {         //Tare option
-    lcd.setCursor(11, 1);
-    lcd.print("Start");
-  } else if (submenu == 1) {  //Calibrate option
-    lcd.setCursor(11, 1);
-    lcd.print("Start");
-  } else if (submenu == 2) {  //Info option
-    lcd.setCursor(12, 1);
-    lcd.print("Show");
-  }
+  tft.setTextColor(BLACK);
+  tft.setCursor(50, 60);
+  tft.print(systemOptions[(submenu + 2) % 3]);
+  tft.setTextColor(WHITE);
+  tft.setCursor(50, 60);
+  tft.print(systemOptions[submenu]);
 
   delay(200);
 }

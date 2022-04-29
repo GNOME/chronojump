@@ -969,7 +969,7 @@ void setup() {
   //Start TFT
   tft.begin();
   tft.setRotation(1);
-  tft.fillRect(0,50,320,240, BLACK);
+  tft.fillRect(0, 50, 320, 240, BLACK);
   drawMenuBackground();
   showMenu();
 
@@ -999,6 +999,7 @@ void loop()
     redButtonState = !digitalRead(redButtonPin);
     if (redButtonState)
     {
+      Serial.println("In menu: Red");
       redButtonState = false;
       if (menu == 0)
       {
@@ -1015,6 +1016,7 @@ void loop()
       } else if (menu == 2)
       {
         start_steadiness();
+        start_capture();
 
       } else if (menu == 3)
       {
@@ -1025,6 +1027,7 @@ void loop()
     }
   } else
   {
+    Serial.println("In loop going to capture()");
     capture();
   }
 
@@ -1070,7 +1073,6 @@ void capture(void)
   double yDivSize = 100;
   double yDivN = 10;
   double xDivSize = 100;
-  double xDivN = 3;
   double yBuffer[320];
 
   int plotPeriod = 1;
@@ -1160,24 +1162,30 @@ void capture(void)
         blueButtonState = false;
         if (! (capturingPreSteadiness || capturingSteadiness)) //Not in any steadiness phase
         {
+          Serial.println("Button && ! (capturingPreSteadiness || capturingSteadiness)");
           end_capture();
           xGraph = xMax;
         } else if (capturingPreSteadiness)  //In Pre steadiness. Showing force until button pressed
         {
-          //        Serial.println("BeginSteadiness");
+          Serial.println("BeginSteadiness");
           capturingPreSteadiness = false;
           capturingSteadiness = true;
+          Serial.println("BeginSteadiness");
           start_capture();
         }
-      //Buttons not pressed. Continue capture
-      } else if(capturing){
+      }
+
+      if (capturing)
+      {
         yBuffer[(int)xGraph] = 0;
+
         for (int i = 0; i < plotPeriod; i++)
         {
           //        Serial.print(plotBuffer[i]);
           //        Serial.print("\t");
           yBuffer[(int)xGraph] = yBuffer[(int)xGraph] + plotBuffer[i];
         }
+
         yBuffer[(int)xGraph] = yBuffer[(int)xGraph] / plotPeriod;
         Graph(tft, xGraph, yBuffer[(int)xGraph], graphX, graphY, graphW, graphH, xMin, xMax, xDivSize, graphMin, graphMax, yDivSize, "", "", "", WHITE, WHITE, BLUE, WHITE, BLACK, startOver);
         xGraph++;
@@ -1236,6 +1244,7 @@ void getResults(void)
     if (samplesSSD >= 5 * (freq - 1))
     {
       end_steadiness();
+      end_capture();
     }
   }
 
@@ -1284,7 +1293,7 @@ void printLcdFormat (float val, int xStart, int y, int decimal) {
 
   // In negatives numbers the units are in the same position and the minus one position to the left
   if (val < 0) {
-    xStart - charWidth[fontSize];
+//    xStart = xStart - charWidth[fontSize];
   }
   tft.setCursor(xStart * charWidth[fontSize]  , y);
   tft.print(val, decimal);
@@ -1471,14 +1480,18 @@ void tare()
 
 void tareTemp()
 {
-  lcd.clear();
-  lcd.setCursor(3, 0);
-  lcd.print("Taring...");
+  tft.setTextSize(2);
+  tft.setCursor(12, 100);
+  tft.setTextColor(BLACK);
+  tft.print(menuDescription[1]);
+  tft.setTextColor(WHITE);
   tft.setCursor(100, 100);
   tft.print("Taring...");
   scale.tare(50); //Reset the scale to 0 using the mean of 255 raw values
-  lcd.setCursor(3, 0);
-  lcd.print("  Tared  ");
+  tft.setTextColor(BLACK);
+  tft.setCursor(100, 100);
+  tft.print("Taring...");
+  tft.setTextColor(WHITE);
   tft.setCursor(100, 100);
   tft.print("  Tared  ");
   delay(300);
@@ -1687,7 +1700,6 @@ void showSystemInfo() {
 void showResults() {
   int textSize = 2;
   Serial.println("In showResults");
-  int submenu = 4;
   redButtonState = false;
   tft.fillScreen(BLACK);
   tft.setTextSize(3);
@@ -1755,7 +1767,7 @@ void showResults() {
     tft.setTextSize(1);
     tft.setCursor(194, 168);
     tft.print("RMSSD");
-    printTftFormat(RMSSD, 280, 160, textSize, 1);
+    printTftFormat(cvRMSSD, 280, 160, textSize, 1);
   }
 
   //Red button exits results
@@ -1865,12 +1877,14 @@ void showSystemMenu() {
 
 void start_steadiness()
 {
+  Serial.println("In start_steadiness");
   totalTime = 0;
   lastTime = micros();
 
   lcd.clear();
   capturing = true;
   capturingPreSteadiness = true;
+  capturingSteadiness = false;
   delay(200);
 }
 
@@ -1878,34 +1892,7 @@ void end_steadiness()
 {
   capturing = false;
   capturingSteadiness = false;
-  showSteadinessResults();
-}
-
-void showSteadinessResults()
-{
-  lcd.clear();
-  lcd.setCursor(0, 0);
-  lcd.print("RMSSD ");
-  printLcdFormat(RMSSD, 11, 0, 1);
-  lcd.setCursor(0, 1);
-  lcd.print("cvRMSSD  ");
-  printLcdFormat(cvRMSSD, 11, 1, 1);
-  lcd.createChar(7, exitChar);
-  lcd.setCursor(15, 1);
-  lcd.write(byte (7));
-  delay(1000);
-  redButtonState = false;
-  blueButtonState = false;
-  //Checking buttons state every 50 ms
-  while (!redButtonState && !blueButtonState)
-  {
-    delay(50);
-    redButtonState = !digitalRead(redButtonPin);
-    blueButtonState = !digitalRead(blueButtonPin);
-  }
-  delay(200);
-  //MsTimer2::start();
-  showMenu();
+  //showSteadinessResults();
 }
 
 /*
@@ -1938,15 +1925,14 @@ void showSteadinessResults()
 
 void Graph(Adafruit_ILI9341 & d, double x, double y, double gx, double gy, double w, double h, double xlo, double xhi, double xinc, double ylo, double yhi, double yinc, String title, String xlabel, String ylabel, unsigned int gcolor, unsigned int acolor, unsigned int pcolor, unsigned int tcolor, unsigned int bcolor, boolean & startOver)
 {
-  double ydiv, xdiv;
+  //double ydiv, xdiv;
   // initialize old x and old y in order to draw the first point of the graph
   // but save the transformed value
   // note my transform funcition is the same as the map function, except the map uses long and we need doubles
   //static double ox = (x - xlo) * ( w) / (xhi - xlo) + gx;
   //static double oy = (y - ylo) * (gy - h - gy) / (yhi - ylo) + gy;
-  double i;
-  double temp;
-  int rot, newrot;
+  //double temp;
+  //int rot, newrot;
 
   //Mapping values to coordinates
   x =  (x - xlo) * ( w) / (xhi - xlo) + gx;
@@ -1975,21 +1961,20 @@ void Graph(Adafruit_ILI9341 & d, double x, double y, double gx, double gy, doubl
 
 void redrawAxes(Adafruit_ILI9341 & d, double gx, double gy, double w, double h, double xlo, double xhi, double ylo, double yhi, double yinc, String title, String xlabel, String ylabel, unsigned int gcolor, unsigned int acolor, unsigned int pcolor, unsigned int tcolor, unsigned int bcolor, boolean resize)
 {
-  double ydiv, xdiv;
+  //double ydiv, xdiv;
   // initialize old x and old y in order to draw the first point of the graph
   // but save the transformed value
   // note my transform funcition is the same as the map function, except the map uses long and we need doubles
   //static double ox = (x - xlo) * ( w) / (xhi - xlo) + gx;
   //static double oy = (y - ylo) * (- h) / (yhi - ylo) + gy;
-  double i;
   double yAxis;
-  double xAxis;
+  //double xAxis;
 
   //Vertical line
   d.drawLine(gx, gy, gx, gy - h, acolor);
 
   // draw y scale
-  for ( i = ylo; i <= yhi; i += yinc)
+  for (double i = ylo; i <= yhi; i += yinc)
   {
     // compute the transform
     yAxis =  (i - ylo) * (-h) / (yhi - ylo) + gy;

@@ -192,6 +192,8 @@ void serialEvent()
     } else {
       Serial.println("Wrong local command");
     }
+  } else if(terminalString == "get_version") {
+    Serial.println(version);
   } else {  // if terminalString is a single remote terminal, Command to a single terminal
     instruction.command = commandString.toInt();
     //    Serial.print("Command: ");

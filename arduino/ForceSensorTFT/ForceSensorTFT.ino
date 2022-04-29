@@ -1003,9 +1003,6 @@ void loop()
       redButtonState = false;
       if (menu == 0)
       {
-        lcd.clear();
-        lcd.setCursor(0, 0);
-        lcd.print("Starting capture");
         PCControlled = false;
         delay(200);
         start_capture();
@@ -1016,6 +1013,7 @@ void loop()
       } else if (menu == 2)
       {
         start_steadiness();
+        delay(200);
         start_capture();
 
       } else if (menu == 3)
@@ -1027,7 +1025,6 @@ void loop()
     }
   } else
   {
-    Serial.println("In loop going to capture()");
     capture();
   }
 
@@ -1116,7 +1113,7 @@ void capture(void)
     resized = false;
 
     if (xGraph >= xMax) xGraph = 0;
-    while (xGraph < xMax && !resized) {
+    while ((xGraph < xMax && !resized) && capturing) {
       for (int n = 0; n < plotPeriod; n++)
       {
         //Checking the RCA state
@@ -1157,20 +1154,17 @@ void capture(void)
       blueButtonState = !digitalRead(blueButtonPin);
       //Pressing blue or red button ends the capture
       if (redButtonState || blueButtonState) {
-        //Serial.println("Button pressed");
         redButtonState = false;
         blueButtonState = false;
-        if (! (capturingPreSteadiness || capturingSteadiness)) //Not in any steadiness phase
+        //Not in any steadiness phase
+        if (! (capturingPreSteadiness || capturingSteadiness)) 
         {
-          Serial.println("Button && ! (capturingPreSteadiness || capturingSteadiness)");
           end_capture();
           xGraph = xMax;
         } else if (capturingPreSteadiness)  //In Pre steadiness. Showing force until button pressed
         {
-          Serial.println("BeginSteadiness");
           capturingPreSteadiness = false;
           capturingSteadiness = true;
-          Serial.println("BeginSteadiness");
           start_capture();
         }
       }
@@ -1781,7 +1775,6 @@ void showResults() {
       blueButtonState = false;
     }
   }
-  Serial.println("Red pressed");
   redButtonState = false;
   //delay(200);
   tft.fillRect(0, 20, 320, 240, BLACK);
@@ -1877,7 +1870,6 @@ void showSystemMenu() {
 
 void start_steadiness()
 {
-  Serial.println("In start_steadiness");
   totalTime = 0;
   lastTime = micros();
 
@@ -1892,7 +1884,6 @@ void end_steadiness()
 {
   capturing = false;
   capturingSteadiness = false;
-  //showSteadinessResults();
 }
 
 /*

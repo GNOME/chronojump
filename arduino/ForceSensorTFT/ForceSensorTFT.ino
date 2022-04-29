@@ -951,11 +951,11 @@ void setup() {
   }
 
   /*
-   * ¡¡¡¡ Atention !!!!
-   * starting MsTimer2 causes instability in teensy or TFT
-  //Every second the battery level is updated via interrupts
-  //MsTimer2::set(1000, updateTime);
-  ////MsTimer2::start();
+     ¡¡¡¡ Atention !!!!
+     starting MsTimer2 causes instability in teensy or TFT
+    //Every second the battery level is updated via interrupts
+    //MsTimer2::set(1000, updateTime);
+    ////MsTimer2::start();
   */
 
 
@@ -1194,10 +1194,6 @@ void capture(void)
             resized = true;
           }
 
-
-          Serial.print(totalTime); Serial.print(";");
-          Serial.println(measured, 2); //scale.get_units() returns a float
-
           //Pressing blue or red button ends the capture
           redButtonState = !digitalRead(redButtonPin);
           blueButtonState = !digitalRead(blueButtonPin);
@@ -1218,6 +1214,8 @@ void capture(void)
             }
           }
         }
+        Serial.print(totalTime); Serial.print(";");
+        Serial.println(measured, 2); //scale.get_units() returns a float
       }
 
       yBuffer[(int)xGraph] = 0;
@@ -1237,7 +1235,7 @@ void capture(void)
         printTftFormat(measuredMax, 100, 215, 2, 2);
       }
 
-      if ((lastUpdateTime - totalTime) > 1000000){
+      if ((lastUpdateTime - totalTime) > 1000000) {
         lastUpdateTime = totalTime;
         updateTime();
       }
@@ -1677,35 +1675,65 @@ void showResults() {
   tft.setTextSize(textSize);
 
   tft.setCursor(0, 40);
-  tft.print("Fmax");
+  tft.print("F");
+  tft.setCursor(12, 48);
+  tft.setTextSize(1);
+  tft.print("max");
   printTftFormat(measuredMax, 100, 40, textSize, 1);
 
+  tft.setTextSize(2);
   tft.setCursor(170, 40);
-  tft.print("Fmax1s");
+  tft.print("F");
+  tft.setTextSize(1);
+  tft.setCursor(182, 48);
+  tft.print("max1s");
   printTftFormat(maxMeanForce1s, 280, 40, textSize, 1);
 
+  tft.setTextSize(2);
   tft.setCursor(0, 80);
-  tft.print("Ftrig");
+  tft.print("F");
+  tft.setTextSize(1);
+  tft.setCursor(12, 88);
+  tft.print("trig");
   printTftFormat(forceTrigger, 100, 80, textSize, 1);
 
+
+  tft.setTextSize(2);
   tft.setCursor(170, 80);
   tft.print("Imp");
   printTftFormat(impulse, 280, 80, textSize, 1);
 
   tft.setCursor(0, 120);
-  tft.print("RFD100");
-  printTftFormat(maxRFD100, 124, 120, textSize, 0);
+  tft.print("RFD");
+  tft.setTextSize(1);
+  tft.setCursor(36, 128);
+  tft.print("100");
+  printTftFormat(maxRFD100, 118, 120, textSize, 0);
+  Serial.print("maxRFD100: ");
+  Serial.println(maxRFD100);
 
+
+  tft.setTextSize(2);
   tft.setCursor(170, 120);
-  tft.print("RFD200");
-  printTftFormat(maxRFD200, 304, 120, textSize, 0);
+  tft.print("RFD");
+  tft.setTextSize(1);
+  tft.setCursor(206, 128);
+  tft.print("200");
+  printTftFormat(maxRFD200, 298, 120, textSize, 0);
+  Serial.print("maxRFD200: ");
+  Serial.println(maxRFD200);
 
   tft.setCursor(0, 160);
   tft.print("RMSSD");
   printTftFormat(RMSSD, 100, 160, textSize, 1);
 
+
+  tft.setTextSize(2);
   tft.setCursor(170, 160);
-  tft.print("cvRMSSD");
+  tft.print("CV");
+  tft.setTextSize(1);
+  tft.setCursor(194, 168);
+  tft.print("RMSSD");
   printTftFormat(RMSSD, 280, 160, textSize, 1);
 
   //Red button exits results

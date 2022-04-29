@@ -1117,74 +1117,8 @@ void capture(void)
 
           //If no RCA event, read the force as usual
         } else {
-          //rcaTime = totalTime;
-          measured = scale.get_units();
-          plotBuffer[n] = measured;
-
-          //When current Force Slot is equal to size of the buffer it starts over to 0
-          currentFSlot = (currentFSlot + 1) % freq;
-          //wHEN current Time Slot is equal to the size of the buffer it starts over to 0
-          currentTSlot = (currentTSlot + 1) % samples200ms;
-
-          if (currentTSlot > 0) elapsed1Sample = true;    //There's a previous sample
-          if (currentTSlot >= (samples200ms - 1)) elapsed200 = true;
-          if (currentTSlot >= (samples100ms - 1)) elapsed100 = true;
-
-          forces1s[currentFSlot] = measured;
-          totalTimes1s[currentTSlot] = totalTime;
-
-          //Calculating the average during 1s
-          float sumForces = 0;
-          for (unsigned short i = 0; i < freq; i++) {
-            sumForces += forces1s[i];
-          }
-
-          //Mean forces = sum of the forces divided by the number of samples in 1 second
-          meanForce1s = sumForces / freq;
-
-          if (abs(meanForce1s) > abs(maxMeanForce1s)) maxMeanForce1s = meanForce1s;
-
-          //In the final phase of steadiness measure. Actual calculation
-          if (capturingSteadiness)
-          {
-            sumSSD += (sq(measured - lastMeasure));
-            sumMeasures += measured;
-            samplesSSD++;
-            lastMeasure = measured;
-            RMSSD = sqrt(sumSSD / (samplesSSD - 1));
-            cvRMSSD = 100 * RMSSD / ( sumMeasures / samplesSSD);
-            if (samplesSSD >= 5 * (freq - 1))
-            {
-              end_steadiness();
-            }
-          }
-
-
-          //RFD stuff start ------>
-
-          //To go backwards N slots use [currentSlot + TotalPositions - N]
-          if (elapsed1Sample) {
-            impulse += (((measured + forces1s[(currentFSlot + freq - 1) % freq])  / 2) *      //Mean force between 2 samples
-                        (totalTime - totalTimes1s[(currentTSlot + samples200ms - 1) % samples200ms]) / 1e6);  //Elapsed time between 2 samples
-          }
-
-          if (elapsed200) {
-            RFD200 = (measured - forces1s[(currentFSlot + freq - samples200ms) % freq]) /     //Increment of the force in 200ms
-                     ((totalTime - totalTimes1s[(currentTSlot + 1) % samples200ms]) / 1e6);          //Increment of time
-            if (abs(maxRFD200) < abs(RFD200)) maxRFD200 = RFD200;
-          }
-
-          if (elapsed100) {
-            RFD100 = (measured - forces1s[(currentFSlot + freq - samples100ms) % freq]) /     //Increment of the force in 200ms
-                     ((totalTime - totalTimes1s[(currentTSlot + samples200ms - samples100ms) % samples200ms]) / 1e6); //Increment of time
-            if (abs(maxRFD100) < abs(RFD100)) maxRFD100 = RFD100;
-          }
-          //<------- RFD stuff end
-
-          //Negative numbers treated as positives to calculate the max
-          if (abs(measured) > abs(measuredLcdDelayMax)) {
-            measuredLcdDelayMax = measured;
-          }
+          //Calculation of the variables shown in the results
+          getResults();
           if (measured > newGraphMax) {
             newGraphMax = measured + (graphMax - graphMin) * 0.5;
             resized = true;
@@ -1214,10 +1148,10 @@ void capture(void)
             }
           }
         }
-        Serial.print(totalTime); Serial.print(";");
-        Serial.println(measured, 2); //scale.get_units() returns a float
+//        Serial.print(totalTime); Serial.print(";");
+//        Serial.println(measured, 2); //scale.get_units() returns a float
+        plotBuffer[n] = measured;
       }
-
       yBuffer[(int)xGraph] = 0;
       for (int i = 0; i < plotPeriod; i++)
       {
@@ -1240,6 +1174,73 @@ void capture(void)
         updateTime();
       }
     }
+  }
+}
+
+void getResults(void)
+{
+  measured = scale.get_units();
+
+  //When current Force Slot is equal to size of the buffer it starts over to 0
+  currentFSlot = (currentFSlot + 1) % freq;
+  //wHEN current Time Slot is equal to the size of the buffer it starts over to 0
+  currentTSlot = (currentTSlot + 1) % samples200ms;
+
+  if (currentTSlot > 0) elapsed1Sample = true;    //There's a previous sample
+  if (currentTSlot >= (samples200ms - 1)) elapsed200 = true;
+  if (currentTSlot >= (samples100ms - 1)) elapsed100 = true;
+
+  forces1s[currentFSlot] = measured;
+  totalTimes1s[currentTSlot] = totalTime;
+
+  //Calculating the average during 1s
+  float sumForces = 0;
+  for (unsigned short i = 0; i < freq; i++) {
+    sumForces += forces1s[i];
+  }
+
+  //Mean forces = sum of the forces divided by the number of samples in 1 second
+  meanForce1s = sumForces / freq;
+
+  if (abs(meanForce1s) > abs(maxMeanForce1s)) maxMeanForce1s = meanForce1s;
+
+  //In the final phase of steadiness measure. Actual calculation
+  if (capturingSteadiness)
+  {
+    sumSSD += (sq(measured - lastMeasure));
+    sumMeasures += measured;
+    samplesSSD++;
+    lastMeasure = measured;
+    RMSSD = sqrt(sumSSD / (samplesSSD - 1));
+    cvRMSSD = 100 * RMSSD / ( sumMeasures / samplesSSD);
+    if (samplesSSD >= 5 * (freq - 1))
+    {
+      end_steadiness();
+    }
+  }
+
+
+  //RFD stuff start ------>
+
+  //To go backwards N slots use [currentSlot + TotalPositions - N]
+  if (elapsed1Sample) {
+    impulse += (((measured + forces1s[(currentFSlot + freq - 1) % freq])  / 2) *      //Mean force between 2 samples
+                (totalTime - totalTimes1s[(currentTSlot + samples200ms - 1) % samples200ms]) / 1e6);  //Elapsed time between 2 samples
+  }
+
+  if (elapsed200) {
+    RFD200 = (measured - forces1s[(currentFSlot + freq - samples200ms) % freq]) /     //Increment of the force in 200ms
+             ((totalTime - totalTimes1s[(currentTSlot + 1) % samples200ms]) / 1e6);          //Increment of time
+    if (RFD200 > maxRFD200) maxRFD200 = RFD200;
+  }
+
+  if (elapsed100) {
+    RFD100 = (measured - forces1s[(currentFSlot + freq - samples100ms) % freq]) /     //Increment of the force in 200ms
+             ((totalTime - totalTimes1s[(currentTSlot + samples200ms - samples100ms) % samples200ms]) / 1e6); //Increment of time
+    if (RFD100 > maxRFD100) maxRFD100 = RFD100;
+  }
+  if (abs(measured) > abs(measuredLcdDelayMax)) {
+    measuredLcdDelayMax = measured;
   }
 }
 
@@ -1346,6 +1347,8 @@ void start_capture()
   lastTime = micros();
   measuredMax = scale.get_units();
   impulse = 0;
+  maxRFD100 = 0;
+  maxRFD200 = 0;
 
   //filling the array of forces ant times with initial force
   lastMeasure = scale.get_units();

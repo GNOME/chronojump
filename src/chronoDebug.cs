@@ -41,6 +41,10 @@ public class ChronoDebugAction
 	{
 		return string.Format("action: {0}, ms: {1}", action, elapsedMs);
 	}
+
+	public int ElapsedMs {
+		get { return elapsedMs; }
+	}
 }
 
 public class ChronoDebug
@@ -88,6 +92,17 @@ public class ChronoDebug
 		LogB.Information("ChronoDebug for " + name);
 		foreach(ChronoDebugAction action in list)
 			LogB.Information(action.ToString());
+	}
+
+	//Note this only works properly if there are just these two moments
+	public int StartToEndInMs ()
+	{
+		if(list.Count == 0)
+			return 0;
+
+		//Start is ms 1
+		ChronoDebugAction actionStop = list[list.Count -1];
+		return actionStop.ElapsedMs;
 	}
 }
 

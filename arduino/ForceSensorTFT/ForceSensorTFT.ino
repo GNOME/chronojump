@@ -240,6 +240,13 @@ const String menuList [] = {
   "  System"
 };
 
+const String menuDescription [] = {
+  "Show standard graph of\nthe force and the summary of the set.\n(Maximum Force, RFD and\nImpulse)" ,
+  "Offset the force before\nmeasuring it.\nUseful to substract body\nweight.",
+  "Measure the steadyness\nof the force signal.\nRoot Mean Squares of\nSuccesive Differences and its Coefficient of\nVariation.",
+  "Performs calibration or\ntare and shows some system\ninformation."
+};
+
 //Mean force in 1s
 //Circular buffer where all measures in 1s are stored
 //ADC has 84.75 ~ 85 samples/second. If we need the diference in 1 second we need 1 more sample
@@ -962,8 +969,7 @@ void setup() {
   //Start TFT
   tft.begin();
   tft.setRotation(1);
-  tft.fillScreen(CJCOLOR);
-
+  tft.fillRect(0,50,320,240, BLACK);
   drawMenuBackground();
   showMenu();
 
@@ -1031,7 +1037,16 @@ void showMenu(void)
   Serial.println("In showMenu");
   tft.fillRect(30, 0, 260, 50, BLACK);
   tft.setCursor(60, 20);
+  tft.setTextSize(3);
   tft.print(menuList[menu]);
+
+  tft.setTextSize(2);
+  tft.setCursor(12, 100);
+  tft.setTextColor(BLACK);
+  tft.print(menuDescription[(menu + 3) % 4]);
+  tft.setTextColor(WHITE);
+  tft.setCursor(12, 100);
+  tft.print(menuDescription[menu]);
 }
 
 void capture(void)
@@ -1459,9 +1474,13 @@ void tareTemp()
   lcd.clear();
   lcd.setCursor(3, 0);
   lcd.print("Taring...");
+  tft.setCursor(100, 100);
+  tft.print("Taring...");
   scale.tare(50); //Reset the scale to 0 using the mean of 255 raw values
   lcd.setCursor(3, 0);
   lcd.print("  Tared  ");
+  tft.setCursor(100, 100);
+  tft.print("  Tared  ");
   delay(300);
 }
 

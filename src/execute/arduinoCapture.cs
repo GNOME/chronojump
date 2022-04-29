@@ -90,6 +90,10 @@ public class Micro
 		get { return portName; }
 	}
 
+	public int Bauds {
+		set { bauds = value; }
+	}
+
 	public bool Opened {
 		set { opened = value; }
 		get { return opened; }
@@ -144,7 +148,7 @@ public abstract class MicroComms
 	protected bool sendCommand (string command, string errorMessage)
 	{
 		try {
-			LogB.Information("arduinocapture sendCommand: |" + command + "|");
+			LogB.Information("micro sendCommand: |" + command + "|");
 			micro.WriteLine (command);
 		}
 		catch (Exception ex)
@@ -467,6 +471,7 @@ public class MicroDiscover : MicroComms
 	private string forceSensorStr = "Force_Sensor-";
 	private string raceAnalyzerStr = "Race_Analyzer-";
 	private string wichroStr = "Wifi-Controller-"; //Will be used for Wichro and Quick, then user will decide. "local:get_channel;" to know the channel
+	private string rfidStr = "YES Chronojump RFID";
 
 	//1st trying a list of just one port
 	public MicroDiscover (List<string> portName_l)
@@ -492,10 +497,21 @@ public class MicroDiscover : MicroComms
 			LogB.Information("Discover loop, port: " + micro.PortName);
 			if(connectAndSleep ())
 			{
-				flush();
-				discoverDo ();
-				if(micro.Discovered == ChronopicRegisterPort.Types.UNKNOWN)
-					discoverOldWichros ();
+				flush(); //after connect
+				if (! discoverDo115200 ())
+				{
+					if (! discoverOldWichros ())
+					{
+						//try at 9600
+						micro.ClosePort ();
+						micro.Bauds = 9600;
+						if(connectAndSleep ())
+						{
+							flush(); //after connect
+							discoverDo9600 ();
+						}
+					}
+				}
 			} else
 				micro.Discovered = ChronopicRegisterPort.Types.UNKNOWN;
 
@@ -534,8 +550,7 @@ public class MicroDiscover : MicroComms
 				//TODO: right now have to wait at each getVersion, improve it
 				micro = micro_l[i]; //micro is the protected variable
 				flush();
-				discoverDo ();
-				if(micro.Discovered == ChronopicRegisterPort.Types.UNKNOWN)
+				if (! discoverDo115200 ())
 					discoverOldWichros ();
 
 				microDiscoverManage_l[i].Discovered = micro.Discovered;
@@ -559,8 +574,9 @@ public class MicroDiscover : MicroComms
 
 
 	// check with common get_version (any device except the first Wichros)
-	private void discoverDo ()
+	private bool discoverDo115200 ()
 	{
+		bool success = false;
 		List<string> responseExpected_l = new List<string>();
 		responseExpected_l.Add(forceSensorStr);
 		responseExpected_l.Add(raceAnalyzerStr);
@@ -570,24 +586,54 @@ public class MicroDiscover : MicroComms
 		{
 			LogB.Information("Discover found this device: " + micro.Response);
 			if(micro.Response.Contains(forceSensorStr))
+			{
 				micro.Discovered = ChronopicRegisterPort.Types.ARDUINO_FORCE;
+				success = true;
+			}
 			else if(micro.Response.Contains(raceAnalyzerStr))
+			{
 				micro.Discovered = ChronopicRegisterPort.Types.ARDUINO_RUN_ENCODER;
+				success = true;
+			}
 			else if(micro.Response.Contains(wichroStr))
+			{
 				micro.Discovered = ChronopicRegisterPort.Types.RUN_WIRELESS;
+				success = true;
+			}
 		}
 		flush(); //empty the port for future use
+		return success;
 	}
 
 	// check if it is an old Wichro (has different get_version command)
-	private void discoverOldWichros ()
+	private bool discoverOldWichros ()
 	{
+		bool success = false;
 		List<string> responseExpected_l = new List<string>();
 		responseExpected_l.Add(wichroStr);
 
 		if(getVersion ("local:get_version;", responseExpected_l))
+		{
 			micro.Discovered = ChronopicRegisterPort.Types.RUN_WIRELESS;
+			success = true;
+		}
 
+		flush(); //empty the port for future use
+		return success;
+	}
+
+	//for RFID and Chronopic multitest
+	private void discoverDo9600 ()
+	{
+		List<string> responseExpected_l = new List<string>();
+		responseExpected_l.Add(rfidStr);
+
+		if(getVersion ("Chronojump RFID", responseExpected_l))
+		{
+			LogB.Information("Discover found this device: " + micro.Response);
+			if(micro.Response.Contains(rfidStr))
+				micro.Discovered = ChronopicRegisterPort.Types.ARDUINO_RFID;
+		}
 		flush(); //empty the port for future use
 	}
 }

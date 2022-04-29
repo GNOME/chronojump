@@ -26,9 +26,9 @@ using System.Threading;
 
 /*
    this class is used on the following classes,
-   and ArduinoDiscover uses a List of this class to detect all elements without loose time for each one (connect and get_version)
+   and MicroDiscover uses a List of this class to detect all elements without loose time for each one (connect and get_version)
    */
-public class Arduino
+public class Micro
 {
 	private SerialPort port; //static?
 
@@ -47,7 +47,7 @@ public class Arduino
 	*/
 
 	//constructor
-	public Arduino (string portName, int bauds)
+	public Micro (string portName, int bauds)
 	{
 		this.portName = portName;
 		this.bauds = bauds;
@@ -118,17 +118,17 @@ public class Arduino
 }
 
 //ArduinoCommunications
-public abstract class ArduinoComms
+public abstract class MicroComms
 {
-	protected Arduino arduino;
+	protected Micro micro;
 
 	protected bool portConnect ()
 	{
-		arduino.CreateSerialPort ();
+		micro.CreateSerialPort ();
 
 		try {
-			arduino.OpenPort ();
-			arduino.Opened = true;
+			micro.OpenPort ();
+			micro.Opened = true;
 		}
 		catch (System.IO.IOException)
 		{
@@ -159,14 +159,14 @@ public abstract class ArduinoComms
 	{
 		try {
 			LogB.Information("arduinocapture sendCommand: |" + command + "|");
-			arduino.WriteLine (command);
+			micro.WriteLine (command);
 		}
 		catch (Exception ex)
 		{
 			if(ex is System.IO.IOException || ex is System.TimeoutException)
 			{
 				LogB.Information("error: " + errorMessage);
-				arduino.ClosePort();
+				micro.ClosePort();
 				return false;
 			}
 			//throw;
@@ -184,11 +184,11 @@ public abstract class ArduinoComms
 		LogB.Information("starting waitResponse");
 		do {
 			Thread.Sleep(25);
-			if (arduino.BytesToRead ())
+			if (micro.BytesToRead ())
 			{
 				try {
 					//use this because if 9600 call an old Wichro that has no comm at this speed, will answer things and maybe never a line
-					str += arduino.ReadExisting(); //The += is because maybe it receives part of the string
+					str += micro.ReadExisting(); //The += is because maybe it receives part of the string
 				} catch {
 					if(responseExpected_l.Count == 1)
 						LogB.Information(string.Format("Catched waiting: |{0}|", responseExpected_l[0]));
@@ -208,7 +208,7 @@ public abstract class ArduinoComms
 				if(str.Contains(expected))
 				{
 					success = true;
-					arduino.Response = str;
+					micro.Response = str;
 				}
 		}
 		while(! (success || sw.Elapsed.TotalMilliseconds > waitLimitMs) );
@@ -220,14 +220,14 @@ public abstract class ArduinoComms
 	protected void flush ()
 	{
 		string str = "";
-		if (arduino.BytesToRead ())
-			str = arduino.ReadExisting ();
+		if (micro.BytesToRead ())
+			str = micro.ReadExisting ();
 
 		LogB.Information(string.Format("flushed: |{0}|", str));
 	}
 }
 
-public abstract class ArduinoCapture : ArduinoComms
+public abstract class ArduinoCapture : MicroComms
 {
 	protected int readedPos; //position already readed from list
 
@@ -252,7 +252,7 @@ public abstract class ArduinoCapture : ArduinoComms
 	protected void initialize ()
 	{
 		readedPos = 0;
-		arduino.Response = "";
+		micro.Response = "";
 
 		emptyList();
 	}
@@ -261,9 +261,9 @@ public abstract class ArduinoCapture : ArduinoComms
 	{
 		str = "";
 		try {
-			if (arduino.BytesToRead ())
+			if (micro.BytesToRead ())
 			{
-				str = arduino.ReadLine();
+				str = micro.ReadLine();
 				LogB.Information(string.Format("at readLine BytesToRead>0, readed:|{0}|", str));
 			}
 		} catch (System.IO.IOException)
@@ -278,12 +278,12 @@ public abstract class ArduinoCapture : ArduinoComms
 
 	public void Disconnect()
 	{
-		arduino.ClosePort ();
+		micro.ClosePort ();
 	}
 
 	public bool PortOpened
 	{
-		get { return arduino.Opened; }
+		get { return micro.Opened; }
 	}
 }
 
@@ -294,7 +294,7 @@ public class PhotocellWirelessCapture: ArduinoCapture
 	//constructor
 	public PhotocellWirelessCapture (string portName)
 	{
-		arduino = new Arduino (portName, 115200);
+		micro = new Micro (portName, 115200);
 		Reset ();
 	}
 
@@ -306,9 +306,9 @@ public class PhotocellWirelessCapture: ArduinoCapture
 
 	public override bool CaptureStart()
 	{
-		LogB.Information("portOpened: " + arduino.Opened);
+		LogB.Information("portOpened: " + micro.Opened);
 		// 0 connect if needed
-		if(! arduino.Opened)
+		if(! micro.Opened)
 		{
 			List<string> responseExpected_l = new List<string>();
 			responseExpected_l.Add("Wifi-Controller");
@@ -319,7 +319,7 @@ public class PhotocellWirelessCapture: ArduinoCapture
 				return false;
 		}
 
-		arduino.Opened = true;
+		micro.Opened = true;
 
 		//LogB.Information(string.Format("arduinoCapture portName: {0}, bauds: {1}", portName, bauds));
 
@@ -473,44 +473,44 @@ public class PhotocellWirelessEvent
 }
 
 //New firmwares enable communication at 9600 (event devices working at higher speeds) to get the version (contains the product)
-public class ArduinoDiscover : ArduinoComms
+public class MicroDiscover : MicroComms
 {
-	private List<Arduino> arduino_l;
+	private List<Micro> micro_l;
 
 	private string forceSensorStr = "Force_Sensor-";
 	private string raceAnalyzerStr = "Race_Analyzer-";
 	private string wichroStr = "Wifi-Controller-"; //Will be used for Wichro and Quick, then user will decide. "local:get_channel;" to know the channel
 
 	//1st trying a list of just one port
-	public ArduinoDiscover (List<string> portName_l)
+	public MicroDiscover (List<string> portName_l)
 	{
-		arduino_l = new List<Arduino> ();
+		micro_l = new List<Micro> ();
 
 		foreach (string portName in portName_l)
-			arduino_l.Add(new Arduino (portName, 115200));
+			micro_l.Add(new Micro (portName, 115200));
 	}
 
 	//public List<ChronopicRegisterPort.Types> Discover ()
 	public List<string> Discover () // TODO: return as an object
 	{
 		List<string> discovered_l = new List<string> ();
-		foreach (Arduino ard in arduino_l)
+		foreach (Micro ard in micro_l)
 		{
-			arduino = ard; //arduino is the protected variable
+			micro = ard; //micro is the protected variable
 
-			LogB.Information("Discover loop, port: " + arduino.PortName);
+			LogB.Information("Discover loop, port: " + micro.PortName);
 			if(connect ())
 			{
 				flush();
 				discoverDo ();
-				if(arduino.Discovered == ChronopicRegisterPort.Types.UNKNOWN)
+				if(micro.Discovered == ChronopicRegisterPort.Types.UNKNOWN)
 					discoverOldWichros ();
 			} else
-				arduino.Discovered = ChronopicRegisterPort.Types.UNKNOWN;
+				micro.Discovered = ChronopicRegisterPort.Types.UNKNOWN;
 
-			arduino.ClosePort (); //close even connect failed?
+			micro.ClosePort (); //close even connect failed?
 
-			discovered_l.Add(string.Format("{0} {1}", arduino.PortName, arduino.Discovered));
+			discovered_l.Add(string.Format("{0} {1}", micro.PortName, micro.Discovered));
 		}
 
 		return discovered_l;
@@ -531,13 +531,13 @@ public class ArduinoDiscover : ArduinoComms
 
 		if(getVersion ("get_version:", responseExpected_l))
 		{
-			LogB.Information("Discover found this device: " + arduino.Response);
-			if(arduino.Response.Contains(forceSensorStr))
-				arduino.Discovered = ChronopicRegisterPort.Types.ARDUINO_FORCE;
-			else if(arduino.Response.Contains(raceAnalyzerStr))
-				arduino.Discovered = ChronopicRegisterPort.Types.ARDUINO_RUN_ENCODER;
-			else if(arduino.Response.Contains(wichroStr))
-				arduino.Discovered = ChronopicRegisterPort.Types.RUN_WIRELESS;
+			LogB.Information("Discover found this device: " + micro.Response);
+			if(micro.Response.Contains(forceSensorStr))
+				micro.Discovered = ChronopicRegisterPort.Types.ARDUINO_FORCE;
+			else if(micro.Response.Contains(raceAnalyzerStr))
+				micro.Discovered = ChronopicRegisterPort.Types.ARDUINO_RUN_ENCODER;
+			else if(micro.Response.Contains(wichroStr))
+				micro.Discovered = ChronopicRegisterPort.Types.RUN_WIRELESS;
 		}
 		flush(); //empty the port for future use
 	}
@@ -549,7 +549,7 @@ public class ArduinoDiscover : ArduinoComms
 		responseExpected_l.Add(wichroStr);
 
 		if(getVersion ("local:get_version;", responseExpected_l))
-			arduino.Discovered = ChronopicRegisterPort.Types.RUN_WIRELESS;
+			micro.Discovered = ChronopicRegisterPort.Types.RUN_WIRELESS;
 
 		flush(); //empty the port for future use
 	}

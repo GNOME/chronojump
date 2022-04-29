@@ -1773,8 +1773,8 @@ public class PreferencesWindow
 	private void on_button_discover_devices_clicked (object o, EventArgs args)
 	{
 		List<string> list_discover_ports = Util.StringArrayToListString (ChronopicPorts.GetPorts ());
-		ArduinoDiscover ad = new ArduinoDiscover (list_discover_ports); //all ports
-		List<string> discovered_l = ad.Discover ();
+		MicroDiscover md = new MicroDiscover (list_discover_ports); //all ports
+		List<string> discovered_l = md.Discover ();
 
 		string discoveredStr = "Discovered: ";
 		foreach (string str in discovered_l)

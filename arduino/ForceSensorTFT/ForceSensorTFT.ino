@@ -1119,6 +1119,8 @@ void capture(void)
         } else {
           //Calculation of the variables shown in the results
           getResults();
+
+          //Force exceeds the plotting area
           if (measured > newGraphMax) {
             newGraphMax = measured + (graphMax - graphMin) * 0.5;
             resized = true;
@@ -1127,51 +1129,54 @@ void capture(void)
             newGraphMin = measured - (graphMax - graphMin) * 0.5;
             resized = true;
           }
-
-          //Pressing blue or red button ends the capture
-          redButtonState = !digitalRead(redButtonPin);
-          blueButtonState = !digitalRead(blueButtonPin);
-          if (redButtonState || blueButtonState) {
-            Serial.println("Button pressed");
-            redButtonState = false;
-            blueButtonState = false;
-            if (! (capturingPreSteadiness || capturingSteadiness)) //Not in any steadiness phase
-            {
-              end_capture();
-              xGraph = 300;
-            } else if (capturingPreSteadiness)  //In Pre steadiness. Showing force until button pressed
-            {
-              //        Serial.println("BeginSteadiness");
-              capturingPreSteadiness = false;
-              capturingSteadiness = true;
-              start_capture();
-            }
-          }
         }
         //        Serial.print(totalTime); Serial.print(";");
         //        Serial.println(measured, 2); //scale.get_units() returns a float
         plotBuffer[n] = measured;
       }
-      yBuffer[(int)xGraph] = 0;
-      for (int i = 0; i < plotPeriod; i++)
-      {
-        //        Serial.print(plotBuffer[i]);
-        //        Serial.print("\t");
-        yBuffer[(int)xGraph] = yBuffer[(int)xGraph] + plotBuffer[i];
-      }
-      yBuffer[(int)xGraph] = yBuffer[(int)xGraph] / plotPeriod;
-      Graph(tft, xGraph, yBuffer[(int)xGraph], graphX, graphY, graphW, graphH, xMin, xMax, xDivSize, graphMin, graphMax, yDivSize, "", "", "", WHITE, WHITE, BLUE, WHITE, BLACK, startOver);
-      xGraph++;
 
-      if (measured > measuredMax)
-      {
-        measuredMax = measured;
-        printTftFormat(measuredMax, 100, 215, 2, 2);
-      }
+      //Check the buttons state
+      redButtonState = !digitalRead(redButtonPin);
+      blueButtonState = !digitalRead(blueButtonPin);
+      //Pressing blue or red button ends the capture
+      if (redButtonState || blueButtonState) {
+        //Serial.println("Button pressed");
+        redButtonState = false;
+        blueButtonState = false;
+        if (! (capturingPreSteadiness || capturingSteadiness)) //Not in any steadiness phase
+        {
+          end_capture();
+          xGraph = xMax;
+        } else if (capturingPreSteadiness)  //In Pre steadiness. Showing force until button pressed
+        {
+          //        Serial.println("BeginSteadiness");
+          capturingPreSteadiness = false;
+          capturingSteadiness = true;
+          start_capture();
+        }
+      //Buttons not pressed. Continue capture
+      } else if(capturing){
+        yBuffer[(int)xGraph] = 0;
+        for (int i = 0; i < plotPeriod; i++)
+        {
+          //        Serial.print(plotBuffer[i]);
+          //        Serial.print("\t");
+          yBuffer[(int)xGraph] = yBuffer[(int)xGraph] + plotBuffer[i];
+        }
+        yBuffer[(int)xGraph] = yBuffer[(int)xGraph] / plotPeriod;
+        Graph(tft, xGraph, yBuffer[(int)xGraph], graphX, graphY, graphW, graphH, xMin, xMax, xDivSize, graphMin, graphMax, yDivSize, "", "", "", WHITE, WHITE, BLUE, WHITE, BLACK, startOver);
+        xGraph++;
 
-      if ((lastUpdateTime - totalTime) > 1000000) {
-        lastUpdateTime = totalTime;
-        updateTime();
+        if (measured > measuredMax)
+        {
+          measuredMax = measured;
+          printTftFormat(measuredMax, 100, 215, 2, 2);
+        }
+
+        if ((lastUpdateTime - totalTime) > 1000000) {
+          lastUpdateTime = totalTime;
+          updateTime();
+        }
       }
     }
   }
@@ -1383,10 +1388,7 @@ void end_capture()
     //Restoring tare value in the EEPROM. Necessary after Tare&Capture
     EEPROM.get(tareAddress, tareValue);
     scale.set_offset(tareValue);
-    Serial.println(scale.get_offset());
-    lcd.clear();
-    lcd.setCursor(4, 0);
-    lcd.print("Results:");
+    //Serial.println(scale.get_offset());
     showResults();
   }
 
@@ -1744,6 +1746,7 @@ void showResults() {
     //Blue button changes menu option
     if (blueButtonState) {
       Serial.println("Blue pressed");
+      delay(200);
       blueButtonState = false;
     }
   }

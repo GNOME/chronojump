@@ -1148,8 +1148,8 @@ void capture(void)
             }
           }
         }
-//        Serial.print(totalTime); Serial.print(";");
-//        Serial.println(measured, 2); //scale.get_units() returns a float
+        //        Serial.print(totalTime); Serial.print(";");
+        //        Serial.println(measured, 2); //scale.get_units() returns a float
         plotBuffer[n] = measured;
       }
       yBuffer[(int)xGraph] = 0;
@@ -1712,9 +1712,6 @@ void showResults() {
   tft.setCursor(36, 128);
   tft.print("100");
   printTftFormat(maxRFD100, 118, 120, textSize, 0);
-  Serial.print("maxRFD100: ");
-  Serial.println(maxRFD100);
-
 
   tft.setTextSize(2);
   tft.setCursor(170, 120);
@@ -1723,21 +1720,22 @@ void showResults() {
   tft.setCursor(206, 128);
   tft.print("200");
   printTftFormat(maxRFD200, 298, 120, textSize, 0);
-  Serial.print("maxRFD200: ");
-  Serial.println(maxRFD200);
 
-  tft.setCursor(0, 160);
-  tft.print("RMSSD");
-  printTftFormat(RMSSD, 100, 160, textSize, 1);
+  if (RMSSD != 0)
+  {
+    tft.setCursor(0, 160);
+    tft.print("RMSSD");
+    printTftFormat(RMSSD, 100, 160, textSize, 1);
 
 
-  tft.setTextSize(2);
-  tft.setCursor(170, 160);
-  tft.print("CV");
-  tft.setTextSize(1);
-  tft.setCursor(194, 168);
-  tft.print("RMSSD");
-  printTftFormat(RMSSD, 280, 160, textSize, 1);
+    tft.setTextSize(2);
+    tft.setCursor(170, 160);
+    tft.print("CV");
+    tft.setTextSize(1);
+    tft.setCursor(194, 168);
+    tft.print("RMSSD");
+    printTftFormat(RMSSD, 280, 160, textSize, 1);
+  }
 
   //Red button exits results
   while (!redButtonState) {

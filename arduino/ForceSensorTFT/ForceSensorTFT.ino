@@ -106,124 +106,6 @@ double newGraphMin = measuredMin;
 double graphMin = measuredMin;
 double graphMax = measuredMax;
 
-/***** Atention!!! *****
-    lcd.createChar() function makes a mess with the cursor position and it must be specified
-    again the cursos with lcd.setCursor()
-*/
-//-> Start of non starndard charachters
-//byte downArrow[] = {
-//  B00000,
-//  B00000,
-//  B00000,
-//  B10000,
-//  B01001,
-//  B00101,
-//  B00011,
-//  B01111
-//};
-//
-//byte upArrow[] = {
-//  B01111,
-//  B00011,
-//  B00101,
-//  B01001,
-//  B10000,
-//  B00000,
-//  B00000,
-//  B00000
-//};
-//
-//byte exitChar[] = {
-//  B11111,
-//  B10001,
-//  B10101,
-//  B10101,
-//  B00100,
-//  B10101,
-//  B01110,
-//  B00100
-//};
-//
-//byte recordChar[] = {
-//  B00000,
-//  B01110,
-//  B11111,
-//  B11111,
-//  B11111,
-//  B11111,
-//  B01110,
-//  B00000
-//};
-//
-//byte battery0[] = {
-//  B01110,
-//  B11111,
-//  B10001,
-//  B10001,
-//  B10001,
-//  B10001,
-//  B10001,
-//  B11111
-//};
-//
-//byte battery1[] = {
-//  B01110,
-//  B11111,
-//  B10001,
-//  B10001,
-//  B10001,
-//  B10001,
-//  B11111,
-//  B11111
-//};
-//
-//byte battery2[] = {
-//  B01110,
-//  B11111,
-//  B10001,
-//  B10001,
-//  B10001,
-//  B11111,
-//  B11111,
-//  B11111
-//};
-//
-//byte battery3[] = {
-//  B01110,
-//  B11111,
-//  B10001,
-//  B10001,
-//  B11111,
-//  B11111,
-//  B11111,
-//  B11111
-//};
-//
-//byte battery4[] = {
-//  B01110,
-//  B11111,
-//  B10001,
-//  B11111,
-//  B11111,
-//  B11111,
-//  B11111,
-//  B11111
-//};
-//
-//byte battery5[] = {
-//  B01110,
-//  B11111,
-//  B11111,
-//  B11111,
-//  B11111,
-//  B11111,
-//  B11111,
-//  B11111
-//};
-//End of non standard characters <---
-
-//Physical configuration of the LCD
-//LiquidCrystal lcd(12, 11, 10, 9, 8, 7);
 
 const unsigned short rcaPin = 3;
 
@@ -252,6 +134,12 @@ const String systemOptions[] = {
   "Tare",
   "Calibrate",
   "Info",
+};
+
+const String systemDescriptions[] = {
+  "Set the offset of the\nsensor",
+  "Set the equivalence\nbetween the sensor values\nand the force measured",
+  "Hardware information"
 };
 
 //Mean force in 1s
@@ -1274,32 +1162,6 @@ void getResults(void)
   }
 }
 
-void printLcdFormat (float val, int xStart, int y, int decimal) {
-
-  /*How many characters are to the left of the units number.
-     Examples:
-     1.23   -> 0 charachters
-     12.34  -> 1 characters
-     123.45 -> 2 characters
-  */
-  int fontSize = 2;
-  int charWidth[3] = {10, 15, 20};
-
-  int valLength = floor(log10(abs(val)));
-
-  // Adding the extra characters to the left
-  if (valLength > 0) {
-    xStart = valLength * charWidth[fontSize];
-  }
-
-  // In negatives numbers the units are in the same position and the minus one position to the left
-  if (val < 0) {
-    //    xStart = xStart - charWidth[fontSize];
-  }
-  tft.setCursor(xStart * charWidth[fontSize]  , y);
-  tft.print(val, decimal);
-}
-
 void printTftFormat (float val, int xStart, int y, int fontSize, int decimal) {
 
   /*How many characters are to the left of the units number.
@@ -1468,8 +1330,18 @@ void tare()
 //  lcd.clear();
 //  lcd.setCursor(3, 0);
 //  lcd.print("Taring...");
+  tft.setCursor(120, 100);
+  tft.print("Taring...");
   scale.tare(50); //Reset the scale to 0 using the mean of 255 raw values
   EEPROM.put(tareAddress, scale.get_offset());
+  tft.setTextColor(BLACK);
+  tft.setCursor(120, 100);
+  tft.print("Taring...");
+  tft.setTextColor(WHITE);
+  tft.setCursor(120, 100);
+  tft.print("Tared");
+  
+  
   Serial.print("Taring OK:");
   Serial.println(scale.get_offset());
 
@@ -1477,6 +1349,9 @@ void tare()
 //  lcd.setCursor(3, 0);
 //  lcd.print("  Tared  ");
   delay(300);
+  tft.setTextColor(BLACK);
+  tft.setCursor(120, 100);
+  tft.print("Tared");
 }
 
 void tareTemp()
@@ -1799,6 +1674,8 @@ void showSystem()
   tft.setCursor(12, 100);
   tft.setTextColor(BLACK);
   tft.print(menuDescription[3]);
+  tft.setCursor(12, 100);
+  tft.print(" Set the offset of the sensor.");
 
   showSystemMenu();
 
@@ -1851,6 +1728,13 @@ void showSystemMenu() {
   tft.setTextColor(WHITE);
   tft.setCursor(50, 60);
   tft.print(systemOptions[submenu]);
+
+  tft.setCursor(24, 100);
+  tft.setTextColor(BLACK);
+  tft.print(systemDescriptions[(submenu + 2) % 3]);
+  tft.setCursor(24,100);
+  tft.setTextColor(WHITE);
+  tft.print(systemDescriptions[submenu]);
 
   delay(200);
 }

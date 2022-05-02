@@ -22,17 +22,18 @@
 
 */
 
-#include <HX711.h>
+//#include <HX711.h>
 #include <EEPROM.h>
-#include <LiquidCrystal.h>
+//#include <LiquidCrystal.h>
 #include <MsTimer2.h>
 #include "SPI.h"
 #include "Adafruit_ILI9341.h"
 #include "Adafruit_GFX.h"
 #include "HX711.h"
-#include <Bounce.h>
+#include <Bounce2.h>
 #include <Encoder.h>
 #include <SD.h>
+#include <elapsedMillis.h>
 
 #define DOUT  2
 #define CLK  3
@@ -110,119 +111,119 @@ double graphMax = measuredMax;
     again the cursos with lcd.setCursor()
 */
 //-> Start of non starndard charachters
-byte downArrow[] = {
-  B00000,
-  B00000,
-  B00000,
-  B10000,
-  B01001,
-  B00101,
-  B00011,
-  B01111
-};
-
-byte upArrow[] = {
-  B01111,
-  B00011,
-  B00101,
-  B01001,
-  B10000,
-  B00000,
-  B00000,
-  B00000
-};
-
-byte exitChar[] = {
-  B11111,
-  B10001,
-  B10101,
-  B10101,
-  B00100,
-  B10101,
-  B01110,
-  B00100
-};
-
-byte recordChar[] = {
-  B00000,
-  B01110,
-  B11111,
-  B11111,
-  B11111,
-  B11111,
-  B01110,
-  B00000
-};
-
-byte battery0[] = {
-  B01110,
-  B11111,
-  B10001,
-  B10001,
-  B10001,
-  B10001,
-  B10001,
-  B11111
-};
-
-byte battery1[] = {
-  B01110,
-  B11111,
-  B10001,
-  B10001,
-  B10001,
-  B10001,
-  B11111,
-  B11111
-};
-
-byte battery2[] = {
-  B01110,
-  B11111,
-  B10001,
-  B10001,
-  B10001,
-  B11111,
-  B11111,
-  B11111
-};
-
-byte battery3[] = {
-  B01110,
-  B11111,
-  B10001,
-  B10001,
-  B11111,
-  B11111,
-  B11111,
-  B11111
-};
-
-byte battery4[] = {
-  B01110,
-  B11111,
-  B10001,
-  B11111,
-  B11111,
-  B11111,
-  B11111,
-  B11111
-};
-
-byte battery5[] = {
-  B01110,
-  B11111,
-  B11111,
-  B11111,
-  B11111,
-  B11111,
-  B11111,
-  B11111
-};
+//byte downArrow[] = {
+//  B00000,
+//  B00000,
+//  B00000,
+//  B10000,
+//  B01001,
+//  B00101,
+//  B00011,
+//  B01111
+//};
+//
+//byte upArrow[] = {
+//  B01111,
+//  B00011,
+//  B00101,
+//  B01001,
+//  B10000,
+//  B00000,
+//  B00000,
+//  B00000
+//};
+//
+//byte exitChar[] = {
+//  B11111,
+//  B10001,
+//  B10101,
+//  B10101,
+//  B00100,
+//  B10101,
+//  B01110,
+//  B00100
+//};
+//
+//byte recordChar[] = {
+//  B00000,
+//  B01110,
+//  B11111,
+//  B11111,
+//  B11111,
+//  B11111,
+//  B01110,
+//  B00000
+//};
+//
+//byte battery0[] = {
+//  B01110,
+//  B11111,
+//  B10001,
+//  B10001,
+//  B10001,
+//  B10001,
+//  B10001,
+//  B11111
+//};
+//
+//byte battery1[] = {
+//  B01110,
+//  B11111,
+//  B10001,
+//  B10001,
+//  B10001,
+//  B10001,
+//  B11111,
+//  B11111
+//};
+//
+//byte battery2[] = {
+//  B01110,
+//  B11111,
+//  B10001,
+//  B10001,
+//  B10001,
+//  B11111,
+//  B11111,
+//  B11111
+//};
+//
+//byte battery3[] = {
+//  B01110,
+//  B11111,
+//  B10001,
+//  B10001,
+//  B11111,
+//  B11111,
+//  B11111,
+//  B11111
+//};
+//
+//byte battery4[] = {
+//  B01110,
+//  B11111,
+//  B10001,
+//  B11111,
+//  B11111,
+//  B11111,
+//  B11111,
+//  B11111
+//};
+//
+//byte battery5[] = {
+//  B01110,
+//  B11111,
+//  B11111,
+//  B11111,
+//  B11111,
+//  B11111,
+//  B11111,
+//  B11111
+//};
 //End of non standard characters <---
 
 //Physical configuration of the LCD
-LiquidCrystal lcd(12, 11, 10, 9, 8, 7);
+//LiquidCrystal lcd(12, 11, 10, 9, 8, 7);
 
 const unsigned short rcaPin = 3;
 
@@ -935,7 +936,7 @@ const unsigned char logo [] PROGMEM = {
 void setup() {
   pinMode(redButtonPin, INPUT_PULLUP);
   pinMode(blueButtonPin, INPUT_PULLUP);
-  lcd.begin(16, 2);
+//  lcd.begin(16, 2);
 
   Serial.begin(256000);
 
@@ -1395,7 +1396,7 @@ void start_capture()
   sumSSD = 0.0;
   sumMeasures = lastMeasure;
   samplesSSD = 0;
-  lcd.clear();
+  //lcd.clear();
   capturing = true;
 }
 
@@ -1464,17 +1465,17 @@ void calibrate(String inputString)
 
 void tare()
 {
-  lcd.clear();
-  lcd.setCursor(3, 0);
-  lcd.print("Taring...");
+//  lcd.clear();
+//  lcd.setCursor(3, 0);
+//  lcd.print("Taring...");
   scale.tare(50); //Reset the scale to 0 using the mean of 255 raw values
   EEPROM.put(tareAddress, scale.get_offset());
   Serial.print("Taring OK:");
   Serial.println(scale.get_offset());
 
 
-  lcd.setCursor(3, 0);
-  lcd.print("  Tared  ");
+//  lcd.setCursor(3, 0);
+//  lcd.print("  Tared  ");
   delay(300);
 }
 
@@ -1545,23 +1546,23 @@ void changingRCA() {
 void calibrateLCD(void) {
   MsTimer2::stop();
   short increment = 1;
-  lcd.clear();
-  lcd.setCursor(0, 0);
-  lcd.print((menu + 1) % 4 + 1);
-  lcd.print("-Calibrate    >");
+//  lcd.clear();
+//  lcd.setCursor(0, 0);
+//  lcd.print((menu + 1) % 4 + 1);
+//  lcd.print("-Calibrate    >");
   int weight = 1;
   submenu = 0;
   bool exitFlag = false;
   String calibrateCommand = calibrateCommand + String(weight, DEC) + ";";
   //  showCalibrateLoad(String(weight, DEC));
-  lcd.setCursor(15, 0);
-  lcd.print(">");
-  lcd.setCursor(2, 1);
-  lcd.print(" Current:" );
-  lcd.print(weight);
-  lcd.setCursor(14, 1);
-  lcd.print("+");
-  lcd.print(increment);
+//  lcd.setCursor(15, 0);
+//  lcd.print(">");
+//  lcd.setCursor(2, 1);
+//  lcd.print(" Current:" );
+//  lcd.print(weight);
+//  lcd.setCursor(14, 1);
+//  lcd.print("+");
+//  lcd.print(increment);
   delay(200);
   redButtonState = false;
   while (!exitFlag) {
@@ -1571,23 +1572,23 @@ void calibrateLCD(void) {
         weight += increment;
         if (weight == 101) {
           weight = 1;
-          lcd.setCursor(12, 1);
-          lcd.print("  ");
+//          lcd.setCursor(12, 1);
+//          lcd.print("  ");
         }
 
-        lcd.setCursor(11, 1);
-        lcd.print(weight);
+//        lcd.setCursor(11, 1);
+//        lcd.print(weight);
 
         if (weight == 5) {
           increment = 5;
-          lcd.setCursor(14, 1);
-          lcd.print("+");
-          lcd.print(increment);
+//          lcd.setCursor(14, 1);
+//          lcd.print("+");
+//          lcd.print(increment);
         } else if (weight == 100) {
           increment = 1;
-          lcd.setCursor(14, 1);
-          lcd.print("+");
-          lcd.print(increment);
+//          lcd.setCursor(14, 1);
+//          lcd.print("+");
+//          lcd.print(increment);
         }
 
         calibrateCommand = calibrateCommand + String(weight, DEC) + ";";
@@ -1595,11 +1596,11 @@ void calibrateLCD(void) {
       }
       if (blueButtonState) {
         //Change to Calibrate execution
-        lcd.clear();
-        lcd.setCursor(10, 0);
-        lcd.print("Cancel");
-        lcd.setCursor(0, 1);
-        lcd.print("StartCalibration");
+//        lcd.clear();
+//        lcd.setCursor(10, 0);
+//        lcd.print("Cancel");
+//        lcd.setCursor(0, 1);
+//        lcd.print("StartCalibration");
         submenu = 1;
         blueButtonState = false;
         delay(200);
@@ -1608,13 +1609,13 @@ void calibrateLCD(void) {
 
     if (submenu == 1) {
       if (redButtonState) {
-        lcd.clear();
-        lcd.setCursor(1, 0);
-        lcd.print("Calibrating...");
+//        lcd.clear();
+//        lcd.setCursor(1, 0);
+//        lcd.print("Calibrating...");
         calibrate(calibrateCommand);
-        lcd.clear();
-        lcd.setCursor(2, 0);
-        lcd.print("Calibrated");
+//        lcd.clear();
+//        lcd.setCursor(2, 0);
+//        lcd.print("Calibrated");
         exitFlag = true;
         delay(200);
       }
@@ -1635,20 +1636,20 @@ void calibrateLCD(void) {
 void showBatteryLevel() {
   float sensorValue = analogRead(A0);
   if (sensorValue >= 788) {
-    lcd.createChar(0, battery5);
+//    lcd.createChar(0, battery5);
   } else if (sensorValue < 788 && sensorValue >= 759) {
-    lcd.createChar(0, battery4);
+//    lcd.createChar(0, battery4);
   } else if (sensorValue < 759 && sensorValue >= 730) {
-    lcd.createChar(0, battery3);
+//    lcd.createChar(0, battery3);
   } else if (sensorValue < 730 && sensorValue >= 701) {
-    lcd.createChar(0, battery2);
+//    lcd.createChar(0, battery2);
   } else if (sensorValue < 701 && sensorValue >= 672) {
-    lcd.createChar(0, battery1);
+//    lcd.createChar(0, battery1);
   } else if (sensorValue <= 701) {
-    lcd.createChar(0, battery0);
+//    lcd.createChar(0, battery0);
   }
-  lcd.setCursor(0, 1);
-  lcd.write(byte (0));
+//  lcd.setCursor(0, 1);
+//  lcd.write(byte (0));
 }
 
 void updateTime() {
@@ -1659,13 +1660,13 @@ void updateTime() {
 //TODO: Add more information or eliminate
 void showSystemInfo() {
   MsTimer2::stop();
-  lcd.clear();
-  lcd.setCursor(2, 0);
-  lcd.print("Ver: ");
-  lcd.print(version);
-  lcd.setCursor(2, 1);
-  lcd.print("submenu: ");
-  lcd.print(submenu);
+//  lcd.clear();
+//  lcd.setCursor(2, 0);
+//  lcd.print("Ver: ");
+//  lcd.print(version);
+//  lcd.setCursor(2, 1);
+//  lcd.print("submenu: ");
+//  lcd.print(submenu);
   tft.setTextSize(2);
   tft.setCursor(12, 100);
   tft.setTextColor(BLACK);
@@ -1680,20 +1681,20 @@ void showSystemInfo() {
       submenu++;
       submenu = submenu % 3;
       if (submenu == 0) {
-        lcd.setCursor(2, 0);
-        lcd.print("Ver: ");
-        lcd.print(version);
-        lcd.setCursor(2, 1);
-        lcd.print("submenu: ");
-        lcd.print(submenu);
+//        lcd.setCursor(2, 0);
+//        lcd.print("Ver: ");
+//        lcd.print(version);
+//        lcd.setCursor(2, 1);
+//        lcd.print("submenu: ");
+//        lcd.print(submenu);
       } else if (submenu == 1) {
-        lcd.setCursor(2, 1);
-        lcd.print("submenu: ");
-        lcd.print(submenu);
+//        lcd.setCursor(2, 1);
+//        lcd.print("submenu: ");
+//        lcd.print(submenu);
       } else if (submenu == 2) {
-        lcd.setCursor(2, 1);
-        lcd.print("submenu: ");
-        lcd.print(submenu);
+//        lcd.setCursor(2, 1);
+//        lcd.print("submenu: ");
+//        lcd.print(submenu);
       }
     }
     redButtonState = !digitalRead(redButtonPin);
@@ -1859,7 +1860,7 @@ void start_steadiness()
   totalTime = 0;
   lastTime = micros();
 
-  lcd.clear();
+//  lcd.clear();
   capturing = true;
   capturingPreSteadiness = true;
   capturingSteadiness = false;

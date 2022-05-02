@@ -449,13 +449,14 @@ public class Util
 		return myStringBuilder.ToString();
 	}
 
-	public static string RemoveNewLine(string myString, bool changeBySpace) 
+	public static string RemoveNewLine(string myString, bool changeBySpace)
 	{
 		StringBuilder myStringBuilder = new StringBuilder(myString);
 		if(changeBySpace)
 			myStringBuilder.Replace("\n", " ");
 		else
 			myStringBuilder.Replace("\n", "");
+
 		return myStringBuilder.ToString();
 	}
 
@@ -478,11 +479,20 @@ public class Util
 		return s;
 	}
 
-	//use this!!!	
-	public static string RemoveChar(string s, char c) 
+	//use on of this two methods
+	//this is the default, used by almost all methods: change to an space
+	public static string RemoveChar(string s, char c)
+	{
+		return RemoveChar(s, c, true);
+	}
+	public static string RemoveChar(string s, char c, bool changeBySpace)
 	{
 		StringBuilder myStringBuilder = new StringBuilder(s);
-		myStringBuilder.Replace(c,' ');
+		if(changeBySpace)
+			myStringBuilder.Replace(c,' ');
+		else
+			myStringBuilder.Replace(c.ToString(), "");
+
 		return myStringBuilder.ToString();
 	}
 

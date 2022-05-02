@@ -150,12 +150,13 @@ public abstract class MicroComms
 		return true;
 	}
 
-	protected bool getVersion (string getVersionStr, List<string> responseExpected_l)
+	//false could mean a error on sending command or not received the expected response
+	protected bool getVersion (string getVersionStr, List<string> responseExpected_l, bool cleanAllZeros)
 	{
-		if(! sendCommand(getVersionStr, "error getting version")) //note this is for Wichro
+		if(! sendCommand (getVersionStr, "error getting version")) //note this is for Wichro
 			return false;
 
-		return waitResponse(responseExpected_l);
+		return waitResponse (responseExpected_l, cleanAllZeros);
 	}
 
 	protected bool sendCommand (string command, string errorMessage)
@@ -177,7 +178,8 @@ public abstract class MicroComms
 		return true;
 	}
 
-	protected bool waitResponse (List<string> responseExpected_l)
+	//cleanAllZeros is used for encoder
+	protected bool waitResponse (List<string> responseExpected_l, bool cleanAllZeros)
 	{
 		string str = "";
 		bool success = false;
@@ -191,7 +193,11 @@ public abstract class MicroComms
 			{
 				try {
 					//use this because if 9600 call an old Wichro that has no comm at this speed, will answer things and maybe never a line
-					str += micro.ReadExisting(); //The += is because maybe it receives part of the string
+					string received = micro.ReadExisting();
+					if (cleanAllZeros)
+						received = Util.RemoveChar (received, '0', false);
+
+					str += received; //The += is because maybe it receives part of the string
 				} catch {
 					if(responseExpected_l.Count == 1)
 						LogB.Information(string.Format("Catched waiting: |{0}|", responseExpected_l[0]));
@@ -318,7 +324,7 @@ public class PhotocellWirelessCapture: ArduinoCapture
 
 			if(! portConnect (true))
 				return false;
-			if(! getVersion ("local:get_version;", responseExpected_l))
+			if(! getVersion ("local:get_version;", responseExpected_l, false))
 				return false;
 		}
 
@@ -610,7 +616,7 @@ public class MicroDiscover : MicroComms
 		responseExpected_l.Add(raceAnalyzerStr);
 		responseExpected_l.Add(wichroStr);
 
-		if(getVersion ("get_version:", responseExpected_l))
+		if(getVersion ("get_version:", responseExpected_l, false))
 		{
 			LogB.Information("Discover found this device: " + micro.Response);
 			if(micro.Response.Contains(forceSensorStr))
@@ -640,7 +646,7 @@ public class MicroDiscover : MicroComms
 		List<string> responseExpected_l = new List<string>();
 		responseExpected_l.Add(wichroStr);
 
-		if(getVersion ("local:get_version;", responseExpected_l))
+		if(getVersion ("local:get_version;", responseExpected_l, false))
 		{
 			micro.Discovered = ChronopicRegisterPort.Types.RUN_WIRELESS;
 			success = true;
@@ -659,7 +665,7 @@ public class MicroDiscover : MicroComms
 		List<string> responseExpected_l = new List<string>();
 		responseExpected_l.Add(rfidStr);
 
-		if(getVersion ("Chronojump RFID", responseExpected_l))
+		if(getVersion ("Chronojump RFID", responseExpected_l, false))
 		{
 			LogB.Information("Discover found this device: " + micro.Response);
 			if(micro.Response.Contains(rfidStr))

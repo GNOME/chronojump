@@ -491,7 +491,7 @@ public class MicroDiscover : MicroComms
 	private string forceSensorStr = "Force_Sensor-";
 	private string raceAnalyzerStr = "Race_Analyzer-";
 	private string wichroStr = "Wifi-Controller-"; //Will be used for Wichro and Quick, then user will decide. "local:get_channel;" to know the channel
-	//Chronopic encoder will send a J (115200)
+	private string encoderStr = "J"; //for encoder send a J and receive a J
 
 	//9600
 	private string rfidStr = "YES Chronojump RFID";
@@ -635,6 +635,18 @@ public class MicroDiscover : MicroComms
 				success = true;
 			}
 		}
+
+		if(! success)  //try encoder (send J, receive J)
+		{
+			responseExpected_l = new List<string>();
+			responseExpected_l.Add(encoderStr);
+			if(getVersion ("J", responseExpected_l, true))
+			{
+				micro.Discovered = ChronopicRegisterPort.Types.ENCODER;
+				success = true;
+			}
+		}
+
 		flush(); //empty the port for future use
 		return success;
 	}

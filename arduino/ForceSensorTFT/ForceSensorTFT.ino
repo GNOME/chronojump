@@ -824,7 +824,7 @@ const unsigned char logo [] PROGMEM = {
 void setup() {
   pinMode(redButtonPin, INPUT_PULLUP);
   pinMode(blueButtonPin, INPUT_PULLUP);
-//  lcd.begin(16, 2);
+  //  lcd.begin(16, 2);
 
   Serial.begin(256000);
 
@@ -894,7 +894,6 @@ void loop()
     redButtonState = !digitalRead(redButtonPin);
     if (redButtonState)
     {
-      Serial.println("In menu: Red");
       redButtonState = false;
       if (menu == 0)
       {
@@ -929,7 +928,6 @@ void loop()
 
 void showMenu(void)
 {
-  Serial.println("In showMenu");
   tft.fillRect(30, 0, 260, 50, BLACK);
   tft.setCursor(60, 20);
   tft.setTextSize(3);
@@ -946,9 +944,6 @@ void showMenu(void)
 
 void capture(void)
 {
-  Serial.println("In capture");
-  //Graph(tft, xGraph, measured, 30, 240, 320, 240, -20, 320, 100, measuredMin, measuredMax, 100, "", "", "", WHITE, WHITE, BLUE, WHITE, BLACK, startOver);
-
   //Position graph's lower left corner.
   double graphX = 30;
   double graphY = 200;
@@ -1039,8 +1034,8 @@ void capture(void)
             resized = true;
           }
         }
-        //        Serial.print(totalTime); Serial.print(";");
-        //        Serial.println(measured, 2); //scale.get_units() returns a float
+                Serial.print(totalTime); Serial.print(";");
+                Serial.println(measured, 2); //scale.get_units() returns a float
         plotBuffer[n] = measured;
       }
 
@@ -1327,9 +1322,9 @@ void calibrate(String inputString)
 
 void tare()
 {
-//  lcd.clear();
-//  lcd.setCursor(3, 0);
-//  lcd.print("Taring...");
+  //  lcd.clear();
+  //  lcd.setCursor(3, 0);
+  //  lcd.print("Taring...");
   tft.setCursor(120, 100);
   tft.print("Taring...");
   scale.tare(50); //Reset the scale to 0 using the mean of 255 raw values
@@ -1340,14 +1335,14 @@ void tare()
   tft.setTextColor(WHITE);
   tft.setCursor(120, 100);
   tft.print("Tared");
-  
-  
+
+
   Serial.print("Taring OK:");
   Serial.println(scale.get_offset());
 
 
-//  lcd.setCursor(3, 0);
-//  lcd.print("  Tared  ");
+  //  lcd.setCursor(3, 0);
+  //  lcd.print("  Tared  ");
   delay(300);
   tft.setTextColor(BLACK);
   tft.setCursor(120, 100);
@@ -1421,78 +1416,153 @@ void changingRCA() {
 void calibrateLCD(void) {
   MsTimer2::stop();
   short increment = 1;
-//  lcd.clear();
-//  lcd.setCursor(0, 0);
-//  lcd.print((menu + 1) % 4 + 1);
-//  lcd.print("-Calibrate    >");
   int weight = 1;
   submenu = 0;
   bool exitFlag = false;
-  String calibrateCommand = calibrateCommand + String(weight, DEC) + ";";
-  //  showCalibrateLoad(String(weight, DEC));
-//  lcd.setCursor(15, 0);
-//  lcd.print(">");
-//  lcd.setCursor(2, 1);
-//  lcd.print(" Current:" );
-//  lcd.print(weight);
-//  lcd.setCursor(14, 1);
-//  lcd.print("+");
-//  lcd.print(increment);
+  String calibrateCommand = "calibrate:" + String(weight, DEC) + ";";
+  //showCalibrateLoad(String(weight, DEC));
+  //Delete description
+  tft.setCursor(24, 100);
+  tft.setTextColor(BLACK);
+  tft.print(systemDescriptions[1]);
+
+  //Explanation of the process
+  tft.setTextColor(WHITE);
+  tft.setCursor(50, 100);
+  tft.print("Select the weight to use");
+
+  //Blue button
+  tft.setCursor(12, 218);
+  tft.setTextColor(WHITE, BLUE);
+  tft.print("+");
+  tft.print(increment);
+
+  //Red button
+  tft.setCursor(248, 218);
+  tft.setTextColor(WHITE, RED);
+  tft.print("Accept");
+
+  //Current weight
+  tft.setCursor(120, 150);
+  tft.setTextColor(WHITE, BLACK);
+  tft.print("Current:");
+  tft.setCursor(216, 150);
+  tft.print(weight);
   delay(200);
   redButtonState = false;
   while (!exitFlag) {
+
+    //Selecting the weight
     if (submenu == 0) {
 
-      if (redButtonState) {
+      if (blueButtonState) {
+        tft.setTextColor(BLACK);
+        tft.setCursor(216, 150);
+        tft.print(weight);
         weight += increment;
         if (weight == 101) {
           weight = 1;
-//          lcd.setCursor(12, 1);
-//          lcd.print("  ");
         }
-
-//        lcd.setCursor(11, 1);
-//        lcd.print(weight);
+        tft.setTextColor(WHITE);
+        tft.setCursor(216, 150);
+        tft.print(weight);
 
         if (weight == 5) {
           increment = 5;
-//          lcd.setCursor(14, 1);
-//          lcd.print("+");
-//          lcd.print(increment);
+          //Blue button
+          tft.setCursor(24, 218);
+          tft.setTextColor(WHITE, BLUE);
+          tft.print(increment);
+
         } else if (weight == 100) {
           increment = 1;
-//          lcd.setCursor(14, 1);
-//          lcd.print("+");
-//          lcd.print(increment);
+          //Blue button
+          tft.setCursor(24, 218);
+          tft.setTextColor(WHITE, BLUE);
+          tft.print(increment);
         }
-
-        calibrateCommand = calibrateCommand + String(weight, DEC) + ";";
-        delay(200);
-      }
-      if (blueButtonState) {
-        //Change to Calibrate execution
-//        lcd.clear();
-//        lcd.setCursor(10, 0);
-//        lcd.print("Cancel");
-//        lcd.setCursor(0, 1);
-//        lcd.print("StartCalibration");
-        submenu = 1;
+        calibrateCommand = "calibrate:" + String(weight, DEC) + ";";
         blueButtonState = false;
         delay(200);
       }
-    }
+      
+      //Change to Calibrate execution
+      if (redButtonState) {
 
+        //Deleting explanation
+        tft.setTextColor(BLACK);
+        tft.setCursor(50, 100);
+        tft.print("Select the weight to use");
+        tft.setCursor(120, 150);
+        tft.print("Current:");
+        tft.setCursor(216, 150);
+        tft.print(weight);
+
+        //Delete Blue button
+        tft.fillRect(12, 218, 72, 16, BLACK);
+
+//        //Delete Red button
+        tft.fillRect(248, 218, 72, 16, BLACK);
+
+        tft.setTextColor(WHITE);
+        tft.setCursor(100, 100);
+        tft.print("Press Red to start Calibration");
+
+        //Blue button
+        tft.setCursor(12, 218);
+        tft.setTextColor(WHITE, BLUE);
+        tft.print("Cancel");
+
+        //Red button
+        tft.setCursor(248, 218);
+        tft.setTextColor(WHITE, RED);
+        tft.print("Start");
+
+        submenu = 1;
+        redButtonState = false;
+        delay(200);
+      }
+    }
+    //Waiting the red button push to start calibration process
     if (submenu == 1) {
       if (redButtonState) {
-//        lcd.clear();
-//        lcd.setCursor(1, 0);
-//        lcd.print("Calibrating...");
+
+        tft.setTextColor(BLACK);
+        tft.setCursor(100, 100);
+        tft.print("Press Red to start Calibration");
+        tft.setCursor(150, 200);
+        tft.print("Current:");
+        tft.setCursor(246, 200);
+        tft.print(weight);
+
+        tft.setTextColor(WHITE);
+        tft.setCursor(120, 150);
+        tft.print("Calibrating...");
+
+
         calibrate(calibrateCommand);
-//        lcd.clear();
-//        lcd.setCursor(2, 0);
-//        lcd.print("Calibrated");
+
+        tft.setTextColor(BLACK);
+        tft.setCursor(120, 150);
+        tft.print("Calibrating...");
+
+        tft.setTextColor(WHITE);
+        tft.setCursor(120, 150);
+        tft.print("Calibrated");
+
         exitFlag = true;
         delay(200);
+
+        tft.setTextColor(BLACK);
+        tft.setCursor(120, 150);
+        tft.print("Calibrated");
+
+        //Delete Blue button
+        tft.fillRect(12, 218, 72, 16, BLACK);
+
+        //Delete Red button
+        tft.fillRect(248, 218, 60, 16, BLACK);
+
       }
       if (blueButtonState) {
         exitFlag = true;
@@ -1501,7 +1571,6 @@ void calibrateLCD(void) {
 
     redButtonState = !digitalRead(redButtonPin);
     blueButtonState = !digitalRead(blueButtonPin);
-    Serial.println(redButtonState);
   }
   delay(1000);
   //MsTimer2::start();
@@ -1511,20 +1580,20 @@ void calibrateLCD(void) {
 void showBatteryLevel() {
   float sensorValue = analogRead(A0);
   if (sensorValue >= 788) {
-//    lcd.createChar(0, battery5);
+    //    lcd.createChar(0, battery5);
   } else if (sensorValue < 788 && sensorValue >= 759) {
-//    lcd.createChar(0, battery4);
+    //    lcd.createChar(0, battery4);
   } else if (sensorValue < 759 && sensorValue >= 730) {
-//    lcd.createChar(0, battery3);
+    //    lcd.createChar(0, battery3);
   } else if (sensorValue < 730 && sensorValue >= 701) {
-//    lcd.createChar(0, battery2);
+    //    lcd.createChar(0, battery2);
   } else if (sensorValue < 701 && sensorValue >= 672) {
-//    lcd.createChar(0, battery1);
+    //    lcd.createChar(0, battery1);
   } else if (sensorValue <= 701) {
-//    lcd.createChar(0, battery0);
+    //    lcd.createChar(0, battery0);
   }
-//  lcd.setCursor(0, 1);
-//  lcd.write(byte (0));
+  //  lcd.setCursor(0, 1);
+  //  lcd.write(byte (0));
 }
 
 void updateTime() {
@@ -1535,13 +1604,13 @@ void updateTime() {
 //TODO: Add more information or eliminate
 void showSystemInfo() {
   MsTimer2::stop();
-//  lcd.clear();
-//  lcd.setCursor(2, 0);
-//  lcd.print("Ver: ");
-//  lcd.print(version);
-//  lcd.setCursor(2, 1);
-//  lcd.print("submenu: ");
-//  lcd.print(submenu);
+  //  lcd.clear();
+  //  lcd.setCursor(2, 0);
+  //  lcd.print("Ver: ");
+  //  lcd.print(version);
+  //  lcd.setCursor(2, 1);
+  //  lcd.print("submenu: ");
+  //  lcd.print(submenu);
   tft.setTextSize(2);
   tft.setCursor(12, 100);
   tft.setTextColor(BLACK);
@@ -1556,20 +1625,20 @@ void showSystemInfo() {
       submenu++;
       submenu = submenu % 3;
       if (submenu == 0) {
-//        lcd.setCursor(2, 0);
-//        lcd.print("Ver: ");
-//        lcd.print(version);
-//        lcd.setCursor(2, 1);
-//        lcd.print("submenu: ");
-//        lcd.print(submenu);
+        //        lcd.setCursor(2, 0);
+        //        lcd.print("Ver: ");
+        //        lcd.print(version);
+        //        lcd.setCursor(2, 1);
+        //        lcd.print("submenu: ");
+        //        lcd.print(submenu);
       } else if (submenu == 1) {
-//        lcd.setCursor(2, 1);
-//        lcd.print("submenu: ");
-//        lcd.print(submenu);
+        //        lcd.setCursor(2, 1);
+        //        lcd.print("submenu: ");
+        //        lcd.print(submenu);
       } else if (submenu == 2) {
-//        lcd.setCursor(2, 1);
-//        lcd.print("submenu: ");
-//        lcd.print(submenu);
+        //        lcd.setCursor(2, 1);
+        //        lcd.print("submenu: ");
+        //        lcd.print(submenu);
       }
     }
     redButtonState = !digitalRead(redButtonPin);
@@ -1578,7 +1647,6 @@ void showSystemInfo() {
 
 void showResults() {
   int textSize = 2;
-  Serial.println("In showResults");
   redButtonState = false;
   tft.fillScreen(BLACK);
   tft.setTextSize(3);
@@ -1655,7 +1723,6 @@ void showResults() {
     redButtonState = !digitalRead(redButtonPin);
     //Blue button changes menu option
     if (blueButtonState) {
-      Serial.println("Blue pressed");
       delay(200);
       blueButtonState = false;
     }
@@ -1720,7 +1787,6 @@ void showSystem()
 }
 
 void showSystemMenu() {
-  Serial.println(submenu);
 
   tft.setTextColor(BLACK);
   tft.setCursor(50, 60);
@@ -1732,7 +1798,7 @@ void showSystemMenu() {
   tft.setCursor(24, 100);
   tft.setTextColor(BLACK);
   tft.print(systemDescriptions[(submenu + 2) % 3]);
-  tft.setCursor(24,100);
+  tft.setCursor(24, 100);
   tft.setTextColor(WHITE);
   tft.print(systemDescriptions[submenu]);
 
@@ -1744,7 +1810,7 @@ void start_steadiness()
   totalTime = 0;
   lastTime = micros();
 
-//  lcd.clear();
+  //  lcd.clear();
   capturing = true;
   capturingPreSteadiness = true;
   capturingSteadiness = false;

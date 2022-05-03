@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: chronojump master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/chronojump/issues\n"
-"POT-Creation-Date: 2022-04-28 15:49+0000\n"
-"PO-Revision-Date: 2022-04-30 08:28+0300\n"
+"POT-Creation-Date: 2022-05-03 13:25+0000\n"
+"PO-Revision-Date: 2022-05-03 20:42+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -4925,7 +4925,7 @@ msgid "Sorry, this Chronojump version ({0}) is too old for your database."
 msgstr ""
 "Вибачте, ця версія Chronojump ({0}) є надто старою для вашої бази даних."
 
-#: ../src/chronojump.cs:417 ../src/chronojumpImporter.cs:202
+#: ../src/chronojump.cs:417 ../src/chronojumpImporter.cs:220
 msgid "Please update Chronojump"
 msgstr "Будь ласка, оновіть Chronojump"
 
@@ -5019,7 +5019,27 @@ msgstr "Будь ласка, зробіть це вручну"
 msgid "Database is now here: {0}"
 msgstr "Тепер база даних зберігається тут: {0}"
 
-#: ../src/chronojumpImporter.cs:203
+#: ../src/chronojumpImporter.cs:169
+#, csharp-format
+#| msgid "Cannot copy {0} files from {1} to {2}"
+msgid "Cannot copy files from {0} to {1}."
+msgstr "Не вдалося скопіювати файли з {0} до {1}."
+
+#: ../src/chronojumpImporter.cs:172 ../src/chronojumpImporter.cs:186
+msgid ""
+"The disk may be full or the files may be copying from a cloud service but "
+"have not been downloaded."
+msgstr ""
+"Можливо, диск переповнено або файли могло бути скопійовано з хмарної служби,"
+" але не було отримано."
+
+#: ../src/chronojumpImporter.cs:183
+#, csharp-format
+#| msgid "Cannot copy {0} files from {1} to {2}"
+msgid "Cannot copy files from {0} to {1}"
+msgstr "Не вдалося скопіювати файли з {0} до {1}"
+
+#: ../src/chronojumpImporter.cs:221
 msgid ""
 "Trying to import a newer database version than this Chronojump\n"
 "Please, update the running Chronojump."
@@ -7253,7 +7273,6 @@ msgstr "Експортувати сеанс до:"
 
 #: ../src/gui/app1/session/export.cs:156
 #, csharp-format
-#| msgid "Exported in {0} ms"
 msgid "Exported in {0} s"
 msgstr "Експортовано за {0} с"
 

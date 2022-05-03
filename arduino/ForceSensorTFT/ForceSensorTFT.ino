@@ -196,7 +196,7 @@ const int chipSelect = 6;
 //ILI9341_t3 tft = ILI9341_t3(TFT_CS, TFT_DC, TFT_RST, TFT_MOSI, TFT_SCLK, TFT_MISO);
 Adafruit_ILI9341 tft = Adafruit_ILI9341(TFT_CS, TFT_DC, TFT_MOSI, TFT_SCLK, TFT_RST, TFT_MISO);
 // Display 16-bit color values:
-#define BLUE      0x001F
+#define BLUE      0x025D
 #define TEAL      0x0438
 #define GREEN     0x07E0
 #define CYAN      0x07FF
@@ -206,7 +206,7 @@ Adafruit_ILI9341 tft = Adafruit_ILI9341(TFT_CS, TFT_DC, TFT_MOSI, TFT_SCLK, TFT_
 #define ORANGE    0xFC00
 #define PINK      0xF81F
 #define PURPLE    0x8010
-#define GREY      0xC618
+#define GREY      0x4A49
 #define WHITE     0xFFFF
 #define BLACK     0x0000
 #define CJCOLOR   0X1109
@@ -979,6 +979,10 @@ void capture(void)
   tft.setCursor(10, 215);
   tft.print("Fmax: ");
   printTftFormat(measuredMax, 100, 215, 2, 2);
+  tft.setCursor(148,215);
+  tft.print(" N");
+  tft.setCursor(308, 215);
+  tft.print("s");
 
   while (capturing)
   {
@@ -999,7 +1003,7 @@ void capture(void)
         Graph(tft, i, yBuffer[i], graphX, graphY, graphW, graphH, xMin, xMax, xDivSize, graphMin, graphMax, yDivSize, "", "", "", WHITE, WHITE, BLUE, WHITE, BLACK, startOver);
       }
     }
-    redrawAxes(tft, graphX, graphY, graphW, graphH, xMin, xMax, graphMin, graphMax, yDivSize, "", "", "", WHITE, WHITE, WHITE, WHITE, BLACK, resized);
+    redrawAxes(tft, graphX, graphY, graphW, graphH, xMin, xMax, graphMin, graphMax, yDivSize, "", "", "", WHITE, GREY, WHITE, WHITE, BLACK, resized);
     resized = false;
 
     if (xGraph >= xMax) xGraph = 0;
@@ -1065,15 +1069,12 @@ void capture(void)
 
         for (int i = 0; i < plotPeriod; i++)
         {
-          //        Serial.print(plotBuffer[i]);
-          //        Serial.print("\t");
           yBuffer[(int)xGraph] = yBuffer[(int)xGraph] + plotBuffer[i];
         }
 
         yBuffer[(int)xGraph] = yBuffer[(int)xGraph] / plotPeriod;
         Graph(tft, xGraph, yBuffer[(int)xGraph], graphX, graphY, graphW, graphH, xMin, xMax, xDivSize, graphMin, graphMax, yDivSize, "", "", "", WHITE, WHITE, BLUE, WHITE, BLACK, startOver);
         xGraph++;
-
         if (measured > measuredMax)
         {
           measuredMax = measured;
@@ -1597,9 +1598,10 @@ void showBatteryLevel() {
 }
 
 void updateTime() {
-  tft.setTextSize(2);
-  tft.setCursor(272, 215);
-  tft.print((int)(totalTime / 1000000));
+//  tft.setTextSize(2);
+//  tft.setCursor(272, 215);
+//  tft.print((int)(totalTime / 1000000));
+  printTftFormat(totalTime/1000000, 284, 215, 2, 0);
 }
 //TODO: Add more information or eliminate
 void showSystemInfo() {
@@ -1898,6 +1900,9 @@ void redrawAxes(Adafruit_ILI9341 & d, double gx, double gy, double w, double h, 
   double yAxis;
   //double xAxis;
 
+  d.setTextSize(1);
+  d.setTextColor(tcolor, bcolor);
+
   //Vertical line
   d.drawLine(gx, gy, gx, gy - h, acolor);
 
@@ -1911,8 +1916,6 @@ void redrawAxes(Adafruit_ILI9341 & d, double gx, double gy, double w, double h, 
     //If the scale has changed the numbers must be redrawn
     if (resize)
     {
-      d.setTextSize(1);
-      d.setTextColor(tcolor, bcolor);
       printTftFormat(i, gx - 6, yAxis - 3, 1, 0);
     }
   }
@@ -1921,10 +1924,6 @@ void redrawAxes(Adafruit_ILI9341 & d, double gx, double gy, double w, double h, 
   //  d.drawLine(gx, gy, gx, gy - h, acolor);
 
   //now draw the labels
-  d.setTextSize(2);
-  d.setTextColor(tcolor, bcolor);
-  d.setCursor(gx , gy - h - 30);
-  d.println(title);
 
   d.setTextSize(1);
   d.setTextColor(acolor, bcolor);
@@ -1935,6 +1934,11 @@ void redrawAxes(Adafruit_ILI9341 & d, double gx, double gy, double w, double h, 
   d.setTextColor(acolor, bcolor);
   d.setCursor(gx - 30, gy - h - 10);
   d.println(ylabel);
+  
+  d.setTextSize(2);
+  d.setTextColor(tcolor, bcolor);
+  d.setCursor(gx , gy - h - 30);
+  d.println(title);
 }
 
 void drawMenuBackground() {

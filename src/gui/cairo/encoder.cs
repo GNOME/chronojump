@@ -107,10 +107,16 @@ public class CairoGraphEncoderSignal : CairoXY
 			return graphInited;
 
 		//fix an eventual crash on g.LineWidth below
-		if(g == null)
+		if(g == null || ! graphInited)
 			return false;
 
-		g.LineWidth = 1;
+		//this try/catch is an extra precaution
+		try {
+			g.LineWidth = 1;
+		} catch {
+			LogB.Information("Catched on CairoGraphEncoderSignal soSendingList() g.LineWidth");
+			return graphInited;
+		}
 		pointsRadius = 1;
 
 		//display this milliseconds on screen, when is higher, scroll

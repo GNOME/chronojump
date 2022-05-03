@@ -157,17 +157,35 @@ LogB.Information("import D ");
 		Directory.CreateDirectory(Path.Combine(tempImportDir, forceSensorName, sourceSession.ToString()));
 LogB.Information("import E ");
 		Directory.CreateDirectory(Path.Combine(tempImportDir, raceAnalyzerName, sourceSession.ToString()));
-LogB.Information("import F ");
 
+LogB.Information("import F ");
 		string sourceDir = Path.GetDirectoryName(sourceFile);
-		if(Directory.Exists(Path.Combine(sourceDir, "..", forceSensorName, sourceSession.ToString())))
-			foreach (FileInfo file in new DirectoryInfo(Path.Combine(sourceDir, "..", forceSensorName, sourceSession.ToString())).GetFiles())
-				file.CopyTo(Path.Combine(tempImportDir, forceSensorName, sourceSession.ToString(), file.Name));
+		try {
+			if(Directory.Exists(Path.Combine(sourceDir, "..", forceSensorName, sourceSession.ToString())))
+				foreach (FileInfo file in new DirectoryInfo(Path.Combine(sourceDir, "..", forceSensorName, sourceSession.ToString())).GetFiles())
+					file.CopyTo(Path.Combine(tempImportDir, forceSensorName, sourceSession.ToString(), file.Name));
+		} catch {
+			LogB.Information ("Catched on copying files, disk full or files not fully downloaded (One drive or other cloud problems)");
+			return new Result (false, "", string.Format(Catalog.GetString ("Cannot copy files from {0} to {1}."),
+				Path.Combine(sourceDir, "..", forceSensorName, sourceSession.ToString()),
+				Path.Combine(tempImportDir, forceSensorName, sourceSession.ToString()) + "\n" +
+				Catalog.GetString ("The disk may be full or the files may be copying from a cloud service but have not been downloaded.")
+				));
+		}
 
 LogB.Information("import G ");
-		if(Directory.Exists(Path.Combine(sourceDir, "..", raceAnalyzerName, sourceSession.ToString())))
-			foreach (FileInfo file in new DirectoryInfo(Path.Combine(sourceDir, "..", raceAnalyzerName, sourceSession.ToString())).GetFiles())
-				file.CopyTo(Path.Combine(tempImportDir, raceAnalyzerName, sourceSession.ToString(), file.Name));
+		try {
+			if(Directory.Exists(Path.Combine(sourceDir, "..", raceAnalyzerName, sourceSession.ToString())))
+				foreach (FileInfo file in new DirectoryInfo(Path.Combine(sourceDir, "..", raceAnalyzerName, sourceSession.ToString())).GetFiles())
+					file.CopyTo(Path.Combine(tempImportDir, raceAnalyzerName, sourceSession.ToString(), file.Name));
+		} catch {
+			LogB.Information ("Catched on copying files, disk full or files not fully downloaded (One drive or other cloud problems)");
+			return new Result (false, "", string.Format(Catalog.GetString ("Cannot copy files from {0} to {1}"),
+				Path.Combine(sourceDir, "..", raceAnalyzerName, sourceSession.ToString()),
+				Path.Combine(tempImportDir, raceAnalyzerName, sourceSession.ToString()) + "\n" +
+				Catalog.GetString ("The disk may be full or the files may be copying from a cloud service but have not been downloaded.")
+				));
+		}
 
 LogB.Information("import H ");
 

@@ -98,6 +98,11 @@ public class Micro
 		port.WriteLine (command);
 	}
 
+	public bool IsOpen ()
+	{
+		return port.IsOpen;
+	}
+
 	public string PortName {
 		get { return portName; }
 	}
@@ -143,20 +148,57 @@ public abstract class MicroComms
 
 		LogB.Information("port successfully opened");
 
+		//forceSensor need this, cannot send the get_version before this seconds
 		if(doSleep)
 			Thread.Sleep(2000); //sleep to let arduino start reading serial event
-		//TODO: instead of sleeping, check also SerialPort.IsOpen
+		/*
+		   This does not work, because it says IsOpen in 100-200 ms, but it is not ready to receive the get_version
+		   maybe a solution will be to send the get_version each 100 ms
+		   */
+		LogB.Information("waiting to be opened");
+		do {
+			Thread.Sleep(100);
+			LogB.Information("waiting to be opened");
+		} while ( ! micro.IsOpen () );
+
+		LogB.Information("truly opened!, but maybe too early to get_version");
 
 		return true;
 	}
 
 	//false could mean a error on sending command or not received the expected response
-	protected bool getVersion (string getVersionStr, List<string> responseExpected_l, bool cleanAllZeros)
+	protected bool getVersion (string getVersionStr, List<string> responseExpected_l,
+			bool cleanAllZeros, int waitResponseTime)
 	{
 		if(! sendCommand (getVersionStr, "error getting version")) //note this is for Wichro
 			return false;
 
-		return waitResponse (responseExpected_l, cleanAllZeros);
+		return waitResponse (responseExpected_l, cleanAllZeros, waitResponseTime);
+	}
+
+	/*
+	   repeat the command n times
+	   this allows to call it many times while the port is being really opened after connect
+	   */
+	protected bool getVersionNTimes (string getVersionStr, List<string> responseExpected_l,
+			bool cleanAllZeros, int times, int waitLimitMs)
+	{
+		bool success = false;
+		int count = 0;
+
+		do {
+			if(! sendCommand (getVersionStr, "error getting version")) //note this is for Wichro
+				return false;
+
+			success = waitResponse (responseExpected_l, cleanAllZeros, waitLimitMs);
+			count ++;
+
+			if(! success)
+				Thread.Sleep(100);
+
+		} while(! (success || count >= times) );
+
+		return success;
 	}
 
 	protected bool sendCommand (string command, string errorMessage)
@@ -179,11 +221,10 @@ public abstract class MicroComms
 	}
 
 	//cleanAllZeros is used for encoder
-	protected bool waitResponse (List<string> responseExpected_l, bool cleanAllZeros)
+	protected bool waitResponse (List<string> responseExpected_l, bool cleanAllZeros, int waitResponseMs)
 	{
 		string str = "";
 		bool success = false;
-		int waitLimitMs = 2000; //wait 2s //don't wait 1s because response will not come
 		Stopwatch sw = new Stopwatch();
 		sw.Start();
 		LogB.Information("starting waitResponse");
@@ -220,7 +261,7 @@ public abstract class MicroComms
 					micro.Response = str;
 				}
 		}
-		while(! (success || sw.Elapsed.TotalMilliseconds > waitLimitMs) );
+		while(! (success || sw.Elapsed.TotalMilliseconds > waitResponseMs) );
 		LogB.Information("ended waitResponse");
 
 		return (success);
@@ -324,7 +365,7 @@ public class PhotocellWirelessCapture: ArduinoCapture
 
 			if(! portConnect (true))
 				return false;
-			if(! getVersion ("local:get_version;", responseExpected_l, false))
+			if(! getVersion ("local:get_version;", responseExpected_l, false, 2000))
 				return false;
 		}
 
@@ -482,6 +523,13 @@ public class PhotocellWirelessEvent
 }
 
 //New firmwares enable communication at 9600 (event devices working at higher speeds) to get the version (contains the product)
+/*
+   Right now not using the MicroDiscover as a way to discover all the devices at Chronojump start,
+   what we will do is discover the needed device of for each mode before capture.
+   So device button will replace capture button. User will click on discover and then capture will be done
+   For Chronopic multitest and encoder will be different because FTDI works properly (with different IDs).
+   For Races with photocells user can choose between wichro and chronopic multitest
+   */
 public class MicroDiscover : MicroComms
 {
 	private List<Micro> micro_l;
@@ -491,10 +539,10 @@ public class MicroDiscover : MicroComms
 	private string forceSensorStr = "Force_Sensor-";
 	private string raceAnalyzerStr = "Race_Analyzer-";
 	private string wichroStr = "Wifi-Controller-"; //Will be used for Wichro and Quick, then user will decide. "local:get_channel;" to know the channel
-	private string encoderStr = "J"; //for encoder send a J and receive a J
+	//private string encoderStr = "J"; //for encoder send a J and receive a J
 
 	//9600
-	private string rfidStr = "YES Chronojump RFID";
+	//private string rfidStr = "YES Chronojump RFID";
 	//Chronopic multitest will send a J (9600)
 
 	//1st trying a list of just one port
@@ -509,6 +557,38 @@ public class MicroDiscover : MicroComms
 			microDiscoverManage_l.Add(new MicroDiscoverManage (portName));
 		}
 	}
+
+	//mode is forceSensor, runsEncoder, ...
+	public List<string> DiscoverOneMode (Constants.Modes mode)
+	{
+		List<string> discovered_l = new List<string> ();
+		foreach (Micro ard in micro_l)
+		{
+			micro = ard; //micro is the protected variable
+
+			LogB.Information("Discover loop, port: " + micro.PortName);
+			if(connectAndSleep ())
+			{
+				flush(); //after connect
+				if(mode == Constants.Modes.RUNSSIMPLE || mode == Constants.Modes.RUNSINTERVALLIC)
+					discoverWichro ();
+				if(mode == Constants.Modes.FORCESENSOR)
+					discoverForceSensor ();
+				else if(mode == Constants.Modes.RUNSENCODER)
+					discoverRaceAnalyzer ();
+			} else
+				micro.Discovered = ChronopicRegisterPort.Types.UNKNOWN;
+
+			micro.ClosePort (); //close even connect failed?
+			discovered_l.Add(string.Format("{0} {1}", micro.PortName, micro.Discovered));
+		}
+
+		return discovered_l;
+	}
+
+	/*
+	   these methods Discover all the devices,
+	   just use method above to discover devices of each mode
 
 	//public List<ChronopicRegisterPort.Types> Discover ()
 	public List<string> Discover () // TODO: return as an object
@@ -596,6 +676,7 @@ public class MicroDiscover : MicroComms
 
 		return discovered_l;
 	}
+	*/
 
 	private bool connectAndSleep ()
 	{
@@ -606,6 +687,75 @@ public class MicroDiscover : MicroComms
 		return portConnect(false);
 	}
 
+	private bool discoverForceSensor ()
+	{
+		bool success = false;
+		List<string> responseExpected_l = new List<string>();
+		responseExpected_l.Add(forceSensorStr);
+
+		//if(getVersionDuringNTime ("get_version:", responseExpected_l, false, 4000))
+		Thread.Sleep(1500); //force sensor wait 1500 ms after open to be able to receive commands
+		if(getVersion ("get_version:", responseExpected_l, false, 2000))
+		{
+			LogB.Information("Discover found this device: " + micro.Response);
+			if(micro.Response.Contains(forceSensorStr))
+			{
+				micro.Discovered = ChronopicRegisterPort.Types.ARDUINO_FORCE;
+				success = true;
+			}
+		}
+
+		flush(); //empty the port for future use
+		return success;
+	}
+
+	private bool discoverRaceAnalyzer ()
+	{
+		bool success = false;
+		List<string> responseExpected_l = new List<string>();
+		responseExpected_l.Add(raceAnalyzerStr);
+
+		if(getVersionNTimes ("get_version:", responseExpected_l, false, 2, 500))
+		{
+			LogB.Information("Discover found this device: " + micro.Response);
+			if(micro.Response.Contains(raceAnalyzerStr))
+			{
+				micro.Discovered = ChronopicRegisterPort.Types.ARDUINO_RUN_ENCODER;
+				success = true;
+			}
+		}
+
+		flush(); //empty the port for future use
+		return success;
+	}
+
+	private bool discoverWichro ()
+	{
+		bool success = false;
+		List<string> responseExpected_l = new List<string>();
+		responseExpected_l.Add(wichroStr);
+
+		List<string> commands_l = new List<string> { "get_version:", "local:get_version;" };
+		foreach (string command in commands_l)
+		{
+			if(getVersionNTimes (command, responseExpected_l, false, 2, 200))
+			{
+				LogB.Information("Discover found this device: " + micro.Response);
+				if(micro.Response.Contains(wichroStr))
+				{
+					micro.Discovered = ChronopicRegisterPort.Types.ARDUINO_RUN_ENCODER;
+					success = true;
+					break;
+				}
+			}
+		}
+
+		flush(); //empty the port for future use
+		return success;
+	}
+	/*
+	   these methods Discover all the devices,
+	   just use methods above to discover devices of each mode
 
 	// check with common get_version (any device except the first Wichros)
 	private bool discoverDo115200 ()
@@ -616,7 +766,7 @@ public class MicroDiscover : MicroComms
 		responseExpected_l.Add(raceAnalyzerStr);
 		responseExpected_l.Add(wichroStr);
 
-		if(getVersion ("get_version:", responseExpected_l, false))
+		if(getVersionDuringNTime ("get_version:", responseExpected_l, false, 2000))
 		{
 			LogB.Information("Discover found this device: " + micro.Response);
 			if(micro.Response.Contains(forceSensorStr))
@@ -636,11 +786,12 @@ public class MicroDiscover : MicroComms
 			}
 		}
 
-		if(! success)  //try encoder (send J, receive J)
+		if(! success)  //try encoder (send J, receive J).
 		{
 			responseExpected_l = new List<string>();
 			responseExpected_l.Add(encoderStr);
-			if(getVersion ("J", responseExpected_l, true))
+			//TODO: cleanAllZeros must clean all digits, and then read if the only char (maybe repeated) is a J, becuase like its now could detect other device that sends any error message with J (and other chars). Take care because encoder seems to return also version (eg 1.1)
+			if(getVersionDuringNTime ("J", responseExpected_l, true, 2000))
 			{
 				micro.Discovered = ChronopicRegisterPort.Types.ENCODER;
 				success = true;
@@ -658,7 +809,7 @@ public class MicroDiscover : MicroComms
 		List<string> responseExpected_l = new List<string>();
 		responseExpected_l.Add(wichroStr);
 
-		if(getVersion ("local:get_version;", responseExpected_l, false))
+		if(getVersionDuringNTime ("local:get_version;", responseExpected_l, false, 2000))
 		{
 			micro.Discovered = ChronopicRegisterPort.Types.RUN_WIRELESS;
 			success = true;
@@ -677,7 +828,7 @@ public class MicroDiscover : MicroComms
 		List<string> responseExpected_l = new List<string>();
 		responseExpected_l.Add(rfidStr);
 
-		if(getVersion ("Chronojump RFID", responseExpected_l, false))
+		if(getVersionDuringNTime ("Chronojump RFID", responseExpected_l, false, 2000))
 		{
 			LogB.Information("Discover found this device: " + micro.Response);
 			if(micro.Response.Contains(rfidStr))
@@ -692,7 +843,6 @@ public class MicroDiscover : MicroComms
 			return true;
 
 		// 2) try if it is a Chronopic multitest. Not working, also tried to do this first without success.
-		//TODO:Try with moserial if can show response
 		LogB.Information("Going to write a J");
 		micro.Write("J");
 		LogB.Information("Going to read a J");
@@ -706,6 +856,7 @@ public class MicroDiscover : MicroComms
 		flush(); //empty the port for future use
 		return success;
 	}
+	*/
 }
 
 /*

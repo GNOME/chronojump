@@ -2962,32 +2962,9 @@ public partial class ChronoJumpWindow
 
 		if(mode != Constants.Modes.UNDEFINED)
 		{
-			string modePrint = "";
-			if(mode == Constants.Modes.JUMPSSIMPLE)
-				modePrint = Catalog.GetString("Jumps simple");
-			else if(mode == Constants.Modes.JUMPSREACTIVE)
-				modePrint = Catalog.GetString("Jumps multiple");
-			else if(mode == Constants.Modes.RUNSSIMPLE)
-				modePrint = Catalog.GetString("Races simple");
-			else if(mode == Constants.Modes.RUNSINTERVALLIC)
-				modePrint = Catalog.GetString("Races intervallic");
-			else if(mode == Constants.Modes.RUNSENCODER)
-				modePrint = Catalog.GetString("Race analyzer");
-			else if(mode == Constants.Modes.POWERGRAVITATORY)
-				modePrint = Catalog.GetString("Encoder (gravitatory)");
-			else if(mode == Constants.Modes.POWERINERTIAL)
-				modePrint = Catalog.GetString("Encoder (inertial)");
-			else if(mode == Constants.Modes.FORCESENSOR)
-				modePrint = Catalog.GetString("Force sensor");
-			else if(mode == Constants.Modes.RT)
-				modePrint = Catalog.GetString("Reaction time");
-			else if(mode == Constants.Modes.OTHER)
-				modePrint = Catalog.GetString("Other");
-			else
-				modePrint = ""; //should never happen
-
-			if(modePrint != "")
-				title += " - " + modePrint;
+			string modeStr = modePrint (mode);
+			if(modeStr != "")
+				title += " - " + modeStr;
 		}
 
 		if(preferences.debugMode)
@@ -2995,7 +2972,33 @@ public partial class ChronoJumpWindow
 
 		app1.Title = title;
 	}
-	
+
+	private string modePrint (Constants.Modes mode)
+	{
+		if(mode == Constants.Modes.JUMPSSIMPLE)
+			return Catalog.GetString("Jumps simple");
+		else if(mode == Constants.Modes.JUMPSREACTIVE)
+			return Catalog.GetString("Jumps multiple");
+		else if(mode == Constants.Modes.RUNSSIMPLE)
+			return Catalog.GetString("Races simple");
+		else if(mode == Constants.Modes.RUNSINTERVALLIC)
+			return Catalog.GetString("Races intervallic");
+		else if(mode == Constants.Modes.RUNSENCODER)
+			return Catalog.GetString("Race analyzer");
+		else if(mode == Constants.Modes.POWERGRAVITATORY)
+			return Catalog.GetString("Encoder (gravitatory)");
+		else if(mode == Constants.Modes.POWERINERTIAL)
+			return Catalog.GetString("Encoder (inertial)");
+		else if(mode == Constants.Modes.FORCESENSOR)
+			return Catalog.GetString("Force sensor");
+		else if(mode == Constants.Modes.RT)
+			return Catalog.GetString("Reaction time");
+		else if(mode == Constants.Modes.OTHER)
+			return Catalog.GetString("Other");
+		else
+			return ""; //should never happen
+	}
+
 	private void on_new_session_accepted ()
 	{
 		//serverUniqueID is undefined until session is updated

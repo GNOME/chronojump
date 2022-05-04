@@ -1780,6 +1780,7 @@ public class PreferencesWindow
 	}
 	private void discoverDevices (bool fast)
 	{
+		/*
 		ChronoDebug cDebug = new ChronoDebug("Discover fast? " + fast.ToString());
 		cDebug.Start();
 
@@ -1799,6 +1800,7 @@ public class PreferencesWindow
 
 		new DialogMessage( Constants.MessageTypes.INFO, discoveredStr +
 				string.Format("\n{0} ms", cDebug.StartToEndInMs()) );
+				*/
 	}
 
 	private void on_debug_mode_clicked (object o, EventArgs args) {

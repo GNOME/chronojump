@@ -1049,6 +1049,20 @@ public class Constants
 		POWERGRAVITATORY, POWERINERTIAL,
 		FORCESENSOR, RT, OTHER } //OTHER can be: Multichronopic, Pulse
 
+	public static string ModeFolder (Constants.Modes mode)
+	{
+		if(mode == Constants.Modes.RUNSENCODER)
+			return "raceAnalyzer";
+		else if(mode == Constants.Modes.POWERGRAVITATORY)
+			return "encoder";
+		else if(mode == Constants.Modes.POWERINERTIAL)
+			return "encoder";
+		else if(mode == Constants.Modes.FORCESENSOR)
+			return "forceSensor";
+		else
+			return ""; //should never happen
+	}
+
 	public static string All = "All";
 	public static string None = "None";
 	public static string Invert = "Invert";

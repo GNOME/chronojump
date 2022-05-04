@@ -187,6 +187,15 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_app1s_button_export_close;
 	[Widget] Gtk.ProgressBar app1s_pulsebarExportActivity;
 
+	//notebook tab 9 (view_data_folder)
+	[Widget] Gtk.Label app1s_label_view_data_folder_mode_name;
+	[Widget] Gtk.Label app1s_label_view_data_folder_session;
+	[Widget] Gtk.Button button_view_data_folder_specific;
+	[Widget] Gtk.Label app1s_label_view_data_folder_specific_no_data;
+	[Widget] Gtk.EventBox app1s_eventbox_button_view_data_folder_close;
+	[Widget] Gtk.Image image_app1s_button_view_data_folder_close;
+
+
 	const int app1s_PAGE_MODES = 0;
 	const int app1s_PAGE_IMPORT_START = 1;
 	const int app1s_PAGE_SELECT_SESSION = 2; //for load session and for import
@@ -196,6 +205,7 @@ public partial class ChronoJumpWindow
 	const int app1s_PAGE_ADD_EDIT = 6;
 	const int app1s_PAGE_BACKUP = 7;
 	const int app1s_PAGE_EXPORT = 8;
+	const int app1s_PAGE_VIEW_DATA_FOLDER = 9;
 
 	private int app1s_notebook_sup_entered_from; //to store from which page we entered (to return at it)
 
@@ -233,6 +243,7 @@ public partial class ChronoJumpWindow
 		UtilGtk.EventBoxColorBackgroundActive (app1s_eventbox_button_backup_cancel_close, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
 		UtilGtk.EventBoxColorBackgroundActive (app1s_eventbox_button_export_cancel, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
 		UtilGtk.EventBoxColorBackgroundActive (app1s_eventbox_button_export_close, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
+		UtilGtk.EventBoxColorBackgroundActive (app1s_eventbox_button_view_data_folder_close, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
 	}
 
 	private void app1s_label_session_set_name()
@@ -243,7 +254,60 @@ public partial class ChronoJumpWindow
 			label_session_more_session_name.Text = currentSession.Name;
 	}
 
-	void on_button_data_folder_open_clicked (object o, EventArgs args)
+	private void on_button_view_data_folder_clicked (object o, EventArgs args)
+	{
+		if (
+				( current_mode != Constants.Modes.RUNSENCODER && //this 4 modes are the only one who have a separate dir
+				current_mode != Constants.Modes.POWERGRAVITATORY &&
+				current_mode != Constants.Modes.POWERINERTIAL &&
+				current_mode != Constants.Modes.FORCESENSOR ) ||
+				currentSession == null || currentSession.UniqueID < 0)
+		{
+			string dir = app1s_getDataFolderGeneric ();
+			if(! Util.OpenURL (dir))
+				new DialogMessage(Constants.MessageTypes.WARNING,
+						Catalog.GetString("Error. Cannot open directory.") + "\n\n" + dir);
+		}
+		else {
+			app1s_label_view_data_folder_mode_name.Text = "<b>" + modePrint (current_mode) + "</b>";
+			app1s_label_view_data_folder_mode_name.UseMarkup = true;
+
+			app1s_label_view_data_folder_session.Text = string.Format("({0}) <b>{1}</b>",
+					currentSession.UniqueID, currentSession.Name);
+			app1s_label_view_data_folder_session.UseMarkup = true;
+
+			string dir = app1s_getDataFolderSpecific ();
+			LogB.Information("dir: " + dir);
+			if (dir == "" || ! Util.DirectoryExists (dir)) {
+				button_view_data_folder_specific.Sensitive = false;
+				app1s_label_view_data_folder_specific_no_data.Text = "<b>" + Catalog.GetString("No data. Please, perform tests.") + "</b>";
+				app1s_label_view_data_folder_specific_no_data.UseMarkup = true;
+			} else {
+				button_view_data_folder_specific.Sensitive = true;
+				app1s_label_view_data_folder_specific_no_data.Text = "";
+			}
+
+			app1s_notebook.CurrentPage = app1s_PAGE_VIEW_DATA_FOLDER;
+		}
+	}
+
+	private void on_button_view_data_folder_generic_clicked (object o, EventArgs args)
+	{
+		string dir = app1s_getDataFolderGeneric ();
+		if(! Util.OpenURL (dir))
+			new DialogMessage(Constants.MessageTypes.WARNING,
+					Catalog.GetString("Error. Cannot open directory.") + "\n\n" + dir);
+	}
+
+	private void on_button_view_data_folder_specific_clicked (object o, EventArgs args)
+	{
+		string dir = app1s_getDataFolderSpecific ();
+		if(! Util.OpenURL (dir))
+			new DialogMessage(Constants.MessageTypes.WARNING,
+					Catalog.GetString("Error. Cannot open directory.") + "\n\n" + dir);
+	}
+
+	private string app1s_getDataFolderGeneric ()
 	{
 		string databaseURL = Util.GetDatabaseDir() + System.IO.Path.DirectorySeparatorChar  + "chronojump.db";
 		string databaseTempURL = Util.GetDatabaseTempDir() + System.IO.Path.DirectorySeparatorChar  + "chronojump.db";
@@ -260,9 +324,25 @@ public partial class ChronoJumpWindow
 		else if(file2.Exists)
 			dir = Util.GetDatabaseTempDir();
 
-		if(! Util.OpenURL (dir))
-			new DialogMessage(Constants.MessageTypes.WARNING,
-					Catalog.GetString("Error. Cannot open directory.") + "\n\n" + dir);
+		return dir;
+	}
+
+	private string app1s_getDataFolderSpecific ()
+	{
+		//extra checks
+		string modeFolder = Constants.ModeFolder (current_mode);
+		if (modeFolder == "")
+			return "";
+
+		if (currentSession == null || currentSession.UniqueID < 0)
+			return "";
+
+		return Path.Combine(app1s_getDataFolderGeneric (), modeFolder, currentSession.UniqueID.ToString()); 
+	}
+
+	private void on_app1s_button_view_data_folder_close_clicked (object o, EventArgs args)
+	{
+		app1s_notebook.CurrentPage = app1s_PAGE_MODES;
 	}
 
 }

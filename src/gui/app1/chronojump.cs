@@ -293,6 +293,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Button button_repair_selected_pulse;
 
 	[Widget] Gtk.Box vbox_execute_test;
+	[Widget] Gtk.Button button_contacts_detect;
 	[Widget] Gtk.Button button_execute_test;
 	[Widget] Gtk.Viewport viewport_chronopics;
 	[Widget] Gtk.Viewport viewport_chronopic_encoder;
@@ -3561,6 +3562,9 @@ public partial class ChronoJumpWindow
 		hbox_drawingarea_realtime_capture_cairo.Visible = false;
 		vbox_event_execute_drawingarea_run_interval_realtime_capture_cairo.Visible = false;
 
+		button_contacts_detect.Visible = false;
+		button_execute_test.Visible = true;
+
 		//blank exercise options: useful for changing from jumps or runs to forceSensor, runEncoder, reaction time, other
 		label_contacts_exercise_selected_name.Visible = true; //will not be visible when all the contacts_top combo is implemented
 		label_contacts_exercise_selected_options.Text = "";
@@ -3663,6 +3667,9 @@ public partial class ChronoJumpWindow
 				button_execute_test_show_connect_or_execute(false);
 			else
 				button_execute_test_show_connect_or_execute(! cp2016.SuccededConnectContactsRealThread);
+
+			button_contacts_detect.Visible = true;
+			button_execute_test.Visible = false;
 
 			notebook_sup.CurrentPage = Convert.ToInt32(notebook_sup_pages.CONTACTS);
 			//notebook_capture_analyze.ShowTabs = true;
@@ -3849,6 +3856,8 @@ public partial class ChronoJumpWindow
 		else if(m == Constants.Modes.FORCESENSOR)
 		{
 			button_execute_test_show_connect_or_execute(false);
+			button_contacts_detect.Visible = true;
+			button_execute_test.Visible = false;
 
 			notebook_sup.CurrentPage = Convert.ToInt32(notebook_sup_pages.CONTACTS);
 			notebooks_change(m);
@@ -3897,6 +3906,8 @@ public partial class ChronoJumpWindow
 		else if(m == Constants.Modes.RUNSENCODER)
 		{
 			button_execute_test_show_connect_or_execute(false);
+			button_contacts_detect.Visible = true;
+			button_execute_test.Visible = false;
 
 			notebook_sup.CurrentPage = Convert.ToInt32(notebook_sup_pages.CONTACTS);
 			notebooks_change(m);
@@ -4518,6 +4529,48 @@ public partial class ChronoJumpWindow
 			threshold.GetLabel() + " ms";
 
 		dialogThreshold.DestroyDialog();
+	}
+
+	//right now implemented only contacts
+	void on_button_contacts_detect_clicked (object o, EventArgs args)
+	{
+		if(
+				current_mode != Constants.Modes.RUNSSIMPLE &&
+				current_mode != Constants.Modes.RUNSINTERVALLIC &&
+				current_mode != Constants.Modes.FORCESENSOR &&
+				current_mode != Constants.Modes.RUNSENCODER)
+			return;
+
+		ChronoDebug cDebug = new ChronoDebug("Discover " + current_mode.ToString());
+		cDebug.Start();
+
+		List<string> list_discover_ports = Util.StringArrayToListString (ChronopicPorts.GetPorts ());
+		if(list_discover_ports == null || list_discover_ports.Count == 0)
+		{
+			new DialogMessage( Constants.MessageTypes.INFO,
+					string.Format(Catalog.GetPluralString(
+						"Found 1 device.",
+						"Found {0} devices.",
+						0),
+					0) );
+			return;
+		}
+
+		MicroDiscover md = new MicroDiscover (list_discover_ports); //all ports
+		List<string> discovered_l = md.DiscoverOneMode (current_mode);
+
+		cDebug.StopAndPrint();
+
+		string discoveredStr = "Discovered: ";
+		foreach (string str in discovered_l)
+			discoveredStr += "\n- " + str;
+
+		new DialogMessage( Constants.MessageTypes.INFO, discoveredStr +
+				string.Format("\n{0} ms", cDebug.StartToEndInMs()) );
+
+
+		button_contacts_detect.Visible = false;
+		button_execute_test.Visible = true;
 	}
 
 	void on_button_execute_test_clicked (object o, EventArgs args) 

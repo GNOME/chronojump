@@ -6952,6 +6952,7 @@ version:</property>
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">False</property>
                                                 <property name="spacing">8</property>
+                                                <property name="layout_style">spread</property>
                                                 <child>
                                                   <widget class="GtkButton" id="button1">
                                                     <property name="label" translatable="yes">SQL short test</property>
@@ -6983,7 +6984,6 @@ version:</property>
                                                 <child>
                                                   <widget class="GtkButton" id="button_discover_devices">
                                                     <property name="label">Discover devices</property>
-                                                    <property name="visible">True</property>
                                                     <property name="can_focus">True</property>
                                                     <property name="receives_default">True</property>
                                                     <signal name="clicked" handler="on_button_discover_devices_clicked" swapped="no"/>
@@ -6997,7 +6997,6 @@ version:</property>
                                                 <child>
                                                   <widget class="GtkButton" id="button_discover_devices_fast">
                                                     <property name="label">Discover devices (fast)</property>
-                                                    <property name="visible">True</property>
                                                     <property name="can_focus">True</property>
                                                     <property name="receives_default">True</property>
                                                     <signal name="clicked" handler="on_button_discover_devices_fast_clicked" swapped="no"/>

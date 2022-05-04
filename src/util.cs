@@ -1521,6 +1521,10 @@ public class Util
 		return false;
 	}
 	
+	public static bool DirectoryExists(string dirName){
+		return Directory.Exists(dirName);
+	}
+
 	public static bool FileExists(string fileName){
 		return File.Exists(fileName);
 	}

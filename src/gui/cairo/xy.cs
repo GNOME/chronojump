@@ -83,7 +83,7 @@ public abstract class CairoXY : CairoGeneric
 
 	//translated strings
 	//done to use Catalog just only on gui/cairo/xy.cs
-	//but jumpsWeightFVProfile has many messages, so done also there
+	//but jumpsWeightFVProfile has many messages, so done also there, and also on radial
 	protected string needToExecuteJumpsStr = Catalog.GetString("Need to execute jumps:");
 	protected string needToExecuteRunsStr = Catalog.GetString("Need to execute races:");
 	protected string optimalFallHeightStr = Catalog.GetString("Optimal fall height");

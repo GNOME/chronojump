@@ -83,6 +83,7 @@ src/gui/app1/session/main.cs
 src/gui/app1/session/tagSessionSelect.cs
 src/gui/app1/shortcuts.cs
 src/gui/cairo/jumpsWeightFVProfile.cs
+src/gui/cairo/radial.cs
 src/gui/cairo/xy.cs
 src/gui/chronopic.cs
 src/gui/chronopicRegister.cs

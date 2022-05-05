@@ -144,13 +144,13 @@ public class CairoRadial : CairoGeneric
 				Convert.ToInt32(margin + graphWidth/2),
 				Convert.ToInt32(offsetV + margin + (.66 * graphHeight)),
 				0, textHeight,
-				"Speed: " + Util.TrimDecimals(speed, 1) + " m/s",
+				Catalog.GetString("Speed") + ": " + Util.TrimDecimals(speed, 1) + " m/s",
 				g, alignTypes.CENTER);
 		printText(
 				Convert.ToInt32(margin + graphWidth/2),
 				Convert.ToInt32(offsetV + margin + (.66 * graphHeight)) + 20,
 				0, textHeight,
-				"Distance: " + Util.TrimDecimals(distance, 3) + " m",
+				Catalog.GetString("Distance") + ": " + Util.TrimDecimals(distance, 3) + " m",
 				g, alignTypes.CENTER);
 
 		if(speedMax > speed)
@@ -171,13 +171,13 @@ public class CairoRadial : CairoGeneric
 				Convert.ToInt32(margin + graphWidth/2),
 				Convert.ToInt32(offsetV + margin + (.66 * graphHeight)),
 				0, textHeight,
-				"Max Speed: " + Util.TrimDecimals(speedMax, 1) + " m/s",
+				Catalog.GetString("Max Speed") + ": " + Util.TrimDecimals(speedMax, 1) + " m/s",
 				g, alignTypes.CENTER);
 		printText(
 				Convert.ToInt32(margin + graphWidth/2),
 				Convert.ToInt32(offsetV + margin + (.66 * graphHeight)) + 20,
 				0, textHeight,
-				"Distance: " + Util.TrimDecimals(distance, 3) + " m",
+				Catalog.GetString("Distance") + ": " + Util.TrimDecimals(distance, 3) + " m",
 				g, alignTypes.CENTER);
 
 		graphLineFromCenter(speedMax, gray);

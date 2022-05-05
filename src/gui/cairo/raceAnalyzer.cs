@@ -74,14 +74,14 @@ public class CairoGraphRaceAnalyzer : CairoXY
 	}
 
 	//separated in two methods to ensure endGraphDisposing on any return of the other method
-	public override void DoSendingList (string font, List<PointF> points_list, TriggerList triggerList, bool forceRedraw, PlotTypes plotType)
+	public void DoSendingList (string font, List<PointF> points_list, TriggerList triggerList, bool forceRedraw, PlotTypes plotType, int smoothLineWindow)
 	{
-		if(doSendingList (font, points_list, triggerList, forceRedraw, plotType))
+		if(doSendingList (font, points_list, triggerList, forceRedraw, plotType, smoothLineWindow))
 			endGraphDisposing(g, surface, area.GdkWindow);
 	}
 
 	//return true if graph is inited (to dispose it)
-	private bool doSendingList (string font, List<PointF> points_list, TriggerList triggerList, bool forceRedraw, PlotTypes plotType)
+	private bool doSendingList (string font, List<PointF> points_list, TriggerList triggerList, bool forceRedraw, PlotTypes plotType, int smoothLineWindow)
 	{
 		bool maxValuesChanged = false;
 		if(points_list != null)
@@ -171,6 +171,16 @@ public class CairoGraphRaceAnalyzer : CairoXY
 		{
 			plotRealPoints(plotType, points_list, points_list_painted, false); //not fast. TODO: maybe use fast if is really faster
 			points_list_painted = points_list.Count;
+
+			if(smoothLineWindow > 0 && points_list.Count > 5)
+			{
+				MovingAverage mAverageSmoothLine = new MovingAverage (points_list, smoothLineWindow);
+				mAverageSmoothLine.Calculate ();
+				g.SetSourceColor (bluePlots);
+				plotRealPoints(plotType, mAverageSmoothLine.MovingAverage_l, 0, false); //not fast. TODO: maybe use fast if is really faster
+				g.SetSourceRGB (0,0,0);
+			}
+
 
 			if(plotMaxMark && points_list.Count > 1)
 			{

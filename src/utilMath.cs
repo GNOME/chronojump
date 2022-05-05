@@ -523,6 +523,11 @@ public class MovingAverage
 
 		//tested with LibreOffice Calc, works as expected
 	}
+
+	//the smoothed list
+	public List<PointF> MovingAverage_l {
+		get { return movingAverage_l; }
+	}
 }
 
 public static class MathCJ

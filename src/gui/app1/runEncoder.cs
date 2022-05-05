@@ -62,6 +62,8 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.DrawingArea drawingarea_race_analyzer_capture_speed_time;
 	[Widget] Gtk.DrawingArea drawingarea_race_analyzer_capture_accel_time;
 	[Widget] Gtk.VBox vbox_race_analyzer_capture_graphs;
+	[Widget] Gtk.HScale hscale_race_analyzer_capture_smooth_graphs;
+	[Widget] Gtk.Label label_race_analyzer_capture_smooth_graphs;
 
 	[Widget] Gtk.Frame frame_run_encoder_exercise;
 	[Widget] Gtk.Entry entry_run_encoder_exercise_name;
@@ -166,6 +168,7 @@ public partial class ChronoJumpWindow
 		followSignals = true;
 
 		manageRunEncoderCaptureViews();
+		label_race_analyzer_capture_smooth_graphs.Text = Catalog.GetString ("No smooth");
 
 		createRunEncoderExerciseCombo();
 		createRunEncoderAnalyzeCombos();
@@ -2260,7 +2263,8 @@ public partial class ChronoJumpWindow
 
 		cairoGraphRaceAnalyzer_dt.DoSendingList (preferences.fontType.ToString(),
 				cairoGraphRaceAnalyzerPoints_dt_l, triggerListRunEncoder,
-				forceRedraw, CairoXY.PlotTypes.LINES);
+				forceRedraw, CairoXY.PlotTypes.LINES,
+				getSmoothFrom_hscale_race_analyzer_capture_smooth_graphs ());
 	}
 	private void updateRaceAnalyzerCaptureSpeedTime(bool forceRedraw)
 	{
@@ -2282,7 +2286,8 @@ public partial class ChronoJumpWindow
 
 		cairoGraphRaceAnalyzer_st.DoSendingList (preferences.fontType.ToString(),
 				cairoGraphRaceAnalyzerPoints_st_l, triggerListRunEncoder,
-				forceRedraw, CairoXY.PlotTypes.LINES);
+				forceRedraw, CairoXY.PlotTypes.LINES,
+				getSmoothFrom_hscale_race_analyzer_capture_smooth_graphs ());
 	}
 	private void updateRaceAnalyzerCaptureAccelTime(bool forceRedraw)
 	{
@@ -2307,7 +2312,29 @@ public partial class ChronoJumpWindow
 
 		cairoGraphRaceAnalyzer_at.DoSendingList (preferences.fontType.ToString(),
 				cairoGraphRaceAnalyzerPoints_at_l, triggerListRunEncoder,
-				forceRedraw, CairoXY.PlotTypes.LINES);
+				forceRedraw, CairoXY.PlotTypes.LINES,
+				getSmoothFrom_hscale_race_analyzer_capture_smooth_graphs ());
+	}
+
+	private int getSmoothFrom_hscale_race_analyzer_capture_smooth_graphs ()
+	{
+		if(hscale_race_analyzer_capture_smooth_graphs.Value == 0)
+			return 0;
+
+		//if 1,2,3,4,5,6,7  return 3,5,7,9,11,13,15
+		return Convert.ToInt32(hscale_race_analyzer_capture_smooth_graphs.Value)*2 +1;
+	}
+	private void on_hscale_race_analyzer_capture_smooth_graphs_value_changed (object o, EventArgs args)
+	{
+		int smooth = getSmoothFrom_hscale_race_analyzer_capture_smooth_graphs ();
+		if(smooth == 0)
+			label_race_analyzer_capture_smooth_graphs.Text = Catalog.GetString ("No smooth");
+		else
+			label_race_analyzer_capture_smooth_graphs.Text = smooth.ToString();
+
+		updateRaceAnalyzerCapturePositionTime(true);
+		updateRaceAnalyzerCaptureSpeedTime(true);
+		updateRaceAnalyzerCaptureAccelTime(true);
 	}
 
 	private void on_button_race_analyzer_capture_save_image_clicked (object o, EventArgs args)

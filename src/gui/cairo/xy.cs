@@ -119,9 +119,9 @@ public abstract class CairoXY : CairoGeneric
 	}
 
 	//raceAnalyzer XY graphs (triggers)
-	public virtual void DoSendingList(string font, List<PointF> points_list, TriggerList triggerList, bool forceRedraw, PlotTypes plotType)
-	{
-	}
+//	public virtual void DoSendingList(string font, List<PointF> points_list, TriggerList triggerList, bool forceRedraw, PlotTypes plotType)
+//	{
+//	}
 
 	protected void initGraph(string font, double widthPercent1)
 	{

@@ -55,7 +55,7 @@ class SqliteRunEncoder : Sqlite
 			"datetime TEXT, " + 	//2019-07-11_15-01-44
 			"comments TEXT, " +
 			"videoURL TEXT, " +	//URL of video of signals. stored as relative
-			"angle INT)";		//capture can be or not at angleDefault
+			"angle INT)";		//capture can be at angleDefault (or not), nice if you have a run inclinated exercise and you want to change the angle depending on the place you perform
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 	}
@@ -365,7 +365,7 @@ class SqliteRunEncoderExercise : Sqlite
 			"segmentMeters INT, " + 	//changed to cm in DB 2.33
 			"segmentVariableCm TEXT, " + 	//separator is ;
 			"isSprint INT NOT NULL DEFAULT 1, " + //bool
-			"angleDefault INT NOT NULL DEFAULT 0)"; //0 horiz, -90 vert go down, 90 vert go up. Technically can be from -180 to 180
+			"angleDefault INT NOT NULL DEFAULT 0)"; //0 horiz, -90 vert go down, 90 vert go up. Maybe in the future this could be -180 180 to measure force when person is (down the wall)
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 	}

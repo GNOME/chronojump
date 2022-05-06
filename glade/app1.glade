@@ -15416,7 +15416,7 @@ Resisted race analyzer</property>
                                                             <property name="secondary_icon_activatable">False</property>
                                                             <property name="primary_icon_sensitive">True</property>
                                                             <property name="secondary_icon_sensitive">True</property>
-                                                            <property name="adjustment">0 -180 180 1 10 0</property>
+                                                            <property name="adjustment">0 -90 90 1 10 0</property>
                                                             <property name="climb_rate">1</property>
                                                             <property name="numeric">True</property>
                                                             </widget>
@@ -15716,7 +15716,7 @@ Resisted race analyzer</property>
                                                             <property name="secondary_icon_activatable">False</property>
                                                             <property name="primary_icon_sensitive">True</property>
                                                             <property name="secondary_icon_sensitive">True</property>
-                                                            <property name="adjustment">0 -180 180 1 10 0</property>
+                                                            <property name="adjustment">0 -90 90 1 10 0</property>
                                                             <property name="climb_rate">1</property>
                                                             </widget>
                                                             <packing>

@@ -44,6 +44,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.HBox hbox_combo_run_encoder_exercise;
 	[Widget] Gtk.ComboBox combo_run_encoder_exercise;
 	[Widget] Gtk.SpinButton race_analyzer_spinbutton_distance;
+	[Widget] Gtk.SpinButton race_analyzer_spinbutton_angle;
 	[Widget] Gtk.SpinButton race_analyzer_spinbutton_temperature;
 	[Widget] Gtk.ComboBox combo_race_analyzer_device;
 	[Widget] Gtk.Image image_run_encoder_graph;
@@ -70,6 +71,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Entry entry_run_encoder_exercise_name;
 	[Widget] Gtk.Entry entry_run_encoder_exercise_description;
 	[Widget] Gtk.CheckButton check_run_encoder_exercise_is_sprint;
+	[Widget] Gtk.SpinButton spin_run_encoder_exercise_angle_default;
 	[Widget] Gtk.CheckButton check_run_encoder_exercise_fixed_size;
 	[Widget] Gtk.HBox hbox_run_encoder_exercise_fixed_segments_size;
 	[Widget] Gtk.HBox hbox_run_encoder_exercise_notfixed_segment_num;
@@ -118,6 +120,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.SpinButton spin_race_encoder_exercise_v_segment_size_cm_39;
 
 	int race_analyzer_distance;
+	//int race_analyzer_angle;
 	int race_analyzer_temperature;
 	RunEncoder.Devices race_analyzer_device;
 
@@ -486,6 +489,7 @@ public partial class ChronoJumpWindow
 	private void raceEncoderReadWidgets()
 	{
 		race_analyzer_distance = Convert.ToInt32(race_analyzer_spinbutton_distance.Value);
+		//race_analyzer_angle = Convert.ToInt32(race_analyzer_spinbutton_angle.Value);
 		race_analyzer_temperature = Convert.ToInt32(race_analyzer_spinbutton_temperature.Value);
 
 		if(UtilGtk.ComboGetActive(combo_race_analyzer_device) == RunEncoder.DevicesStringMANUAL)
@@ -525,9 +529,10 @@ public partial class ChronoJumpWindow
 		image_test.Pixbuf = pixbuf;
 	}
 
-	private void raceEncoderSetDistanceAndTemp(int distance, int temp)
+	private void raceEncoderSetDistanceAngleAndTemp (int distance, int angle, int temp)
 	{
 		race_analyzer_spinbutton_distance.Value = distance;
+		race_analyzer_spinbutton_angle.Value = angle;
 		race_analyzer_spinbutton_temperature.Value = temp;
 	}
 
@@ -1047,7 +1052,7 @@ public partial class ChronoJumpWindow
 		assignCurrentRunEncoderExercise();
 
 		raceEncoderSetDevice(re.Device);
-		raceEncoderSetDistanceAndTemp(re.Distance, re.Temperature);
+		raceEncoderSetDistanceAngleAndTemp(re.Distance, re.Angle, re.Temperature);
 ///		textview_race_analyzer_comment.Buffer.Text = re.Comments;
 		textview_contacts_signal_comment.Buffer.Text = re.Comments;
 
@@ -1312,6 +1317,7 @@ public partial class ChronoJumpWindow
 		currentRunEncoder.ExerciseName = currentRunEncoderExercise.Name; //just in case
 		currentRunEncoder.Device = raceEncoderGetDevice();
 		currentRunEncoder.Distance = Convert.ToInt32(race_analyzer_spinbutton_distance.Value);
+		currentRunEncoder.Angle = Convert.ToInt32(race_analyzer_spinbutton_angle.Value);
 		currentRunEncoder.Temperature = Convert.ToInt32(race_analyzer_spinbutton_temperature.Value);
 		//currentRunEncoder.Comments = UtilGtk.TextViewGetCommentValidSQL(textview_race_analyzer_comment);
 		currentRunEncoder.Comments = UtilGtk.TextViewGetCommentValidSQL(textview_contacts_signal_comment);
@@ -1371,6 +1377,7 @@ public partial class ChronoJumpWindow
 		//create graph
 		RunEncoderGraph reg = new RunEncoderGraph(
 				race_analyzer_distance,
+				//race_analyzer_angle, 		//TODO: unused
 				currentPersonSession.Weight,  	//TODO: can be more if extra weight
 				currentPersonSession.Height,
 				race_analyzer_temperature,
@@ -1570,6 +1577,7 @@ public partial class ChronoJumpWindow
 							UtilDate.ToFile(runEncoderTimeStartCapture),
 							"", //on capture cannot store comment (comment has to be written after),
 							"", //videoURL
+							currentRunEncoder.Angle,
 							currentRunEncoderExercise.Name);
 
 					currentRunEncoder.UniqueID = currentRunEncoder.InsertSQL(false);
@@ -1862,6 +1870,10 @@ public partial class ChronoJumpWindow
 
 		setLabelContactsExerciseSelected(Constants.Modes.RUNSENCODER);
 
+		RunEncoderExercise exTemp = SqliteRunEncoderExercise.Select (
+                                false, getExerciseIDFromAnyCombo(combo_run_encoder_exercise, runEncoderComboExercisesString, false))[0];
+		race_analyzer_spinbutton_angle.Value = exTemp.AngleDefault;
+
 		//sensitivity of left/right buttons
 		button_combo_run_encoder_exercise_capture_left.Sensitive = (combo_run_encoder_exercise.Active > 0);
 		button_combo_run_encoder_exercise_capture_right.Sensitive = ! UtilGtk.ComboSelectedIsLast(combo_run_encoder_exercise);
@@ -1924,6 +1936,7 @@ public partial class ChronoJumpWindow
 		entry_run_encoder_exercise_name.Text = ex.Name;
 		entry_run_encoder_exercise_description.Text = ex.Description;
 		check_run_encoder_exercise_is_sprint.Active = ex.IsSprint;
+		spin_run_encoder_exercise_angle_default.Value = ex.AngleDefault;
 
 		if(v_segments_size_cm_l == null)
 			spin_race_encoder_exercise_v_segment_size_cm_create_list ();
@@ -1954,6 +1967,7 @@ public partial class ChronoJumpWindow
 		entry_run_encoder_exercise_name.Text = "";
 		entry_run_encoder_exercise_description.Text = "";
 		check_run_encoder_exercise_is_sprint.Active = true;
+		spin_run_encoder_exercise_angle_default.Value = 0;
 		spin_race_encoder_exercise_f_segment_size_cm.Value = RunEncoderExercise.SegmentCmDefault;
 		spin_race_encoder_exercise_v_segments_num.Value = 2;
 
@@ -1974,6 +1988,15 @@ public partial class ChronoJumpWindow
 		return;
 	}
 
+	private void on_button_run_encoder_exercise_angle_default_help_clicked (object o, EventArgs args)
+	{
+		new DialogMessage(Constants.MessageTypes.INFO,
+				Catalog.GetString("Default angle of this exercise.") + "\n" +
+				Catalog.GetString("90 means go vertically up.") + "\n" +
+				Catalog.GetString("-90 means go vertically down.") + "\n" +
+				string.Format(Catalog.GetString("Possible range goes from {0} to {1}."), -180, 180));
+		return;
+	}
 	private void on_check_run_encoder_exercise_fixed_size_toggled (object o, EventArgs args)
 	{
 		if(check_run_encoder_exercise_fixed_size.Active)
@@ -2114,14 +2137,16 @@ public partial class ChronoJumpWindow
 		{
 			RunEncoderExercise ex = new RunEncoderExercise (
 					-1, name, entry_run_encoder_exercise_description.Text,
-					segmentCm, segmentVariableCm, check_run_encoder_exercise_is_sprint.Active);
+					segmentCm, segmentVariableCm, check_run_encoder_exercise_is_sprint.Active,
+					Convert.ToInt32(spin_run_encoder_exercise_angle_default.Value));
 			ex.InsertSQL (false);
 			currentRunEncoderExercise = ex;
 		} else {
 			RunEncoderExercise ex = new RunEncoderExercise(
 					getExerciseIDFromAnyCombo(combo_run_encoder_exercise, runEncoderComboExercisesString, false),
 					name, entry_run_encoder_exercise_description.Text,
-					segmentCm, segmentVariableCm, check_run_encoder_exercise_is_sprint.Active);
+					segmentCm, segmentVariableCm, check_run_encoder_exercise_is_sprint.Active,
+					Convert.ToInt32(spin_run_encoder_exercise_angle_default.Value));
 
 			SqliteRunEncoderExercise.Update(false, ex);
 			currentRunEncoderExercise = ex;
@@ -2344,8 +2369,6 @@ public partial class ChronoJumpWindow
 
 	private int getSmoothFrom_gui_at_race_analyzer_capture_smooth_graphs ()
 	{
-		LogB.Information("hscale value: " + hscale_race_analyzer_capture_smooth_graphs.Value.ToString());
-
 		if(! check_race_analyzer_capture_smooth_graphs.Active)
 			return 0;
 
@@ -2355,7 +2378,6 @@ public partial class ChronoJumpWindow
 	private void on_hscale_race_analyzer_capture_smooth_graphs_value_changed (object o, EventArgs args)
 	{
 		int smooth = getSmoothFrom_gui_at_race_analyzer_capture_smooth_graphs ();
-		LogB.Information("smooth: " + smooth.ToString());
 		if(smooth == 0)
 			label_race_analyzer_capture_smooth_graphs.Text = "";
 		else

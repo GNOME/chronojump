@@ -131,7 +131,7 @@ class Sqlite
 	/*
 	 * Important, change this if there's any update to database
 	 */
-	static string lastChronojumpDatabaseVersion = "2.38";
+	static string lastChronojumpDatabaseVersion = "2.39";
 
 	public Sqlite()
 	{
@@ -3254,6 +3254,23 @@ class Sqlite
 
 				currentVersion = updateVersion("2.38");
 			}
+			if(currentVersion == "2.38")
+			{
+				LogB.SQL("RunEncoderExercise ALTER TABLE added angleDefault. RunEncoder ALTER TABLE added angle.");
+				try {
+					executeSQL("ALTER TABLE " + Constants.RunEncoderExerciseTable + " ADD COLUMN angleDefault INT NOT NULL DEFAULT 0;");
+				} catch {
+					LogB.SQL("Catched at Doing ALTER TABLE RunEncoderExercise added angleDefault.");
+				}
+
+				try {
+					executeSQL("ALTER TABLE " + Constants.RunEncoderTable + " ADD COLUMN angle INT NOT NULL DEFAULT 0;");
+				} catch {
+					LogB.SQL("Catched at Doing ALTER TABLE RunEncoder added angle.");
+				}
+
+				currentVersion = updateVersion("2.39");
+			}
 
 			/*
 			if(currentVersion == "1.79")
@@ -3475,6 +3492,7 @@ class Sqlite
 		//changes [from - to - desc]
 //just testing: 1.79 - 1.80 Converted DB to 1.80 Created table ForceSensorElasticBandGlue and moved stiffnessString records there
 
+		//2.38 - 2.39 Converted DB to 2.39 RunEncoderExercise ALTER TABLE added angleDefault. RunEncoder ALTER TABLE added angle
 		//2.37 - 2.38 Converted DB to 2.38 Doing alter table runInterval, tempRunInterval add photocellStr
 		//2.36 - 2.37 Converted DB to 2.37 Doing ALTER TABLE encoder add repCriteria.
 		//2.35 - 2.36 Converted DB to 2.36 Inserted into preferences: encoderRepetitionCriteriaGravitatory, encoderRepetitionCriteriaInertial

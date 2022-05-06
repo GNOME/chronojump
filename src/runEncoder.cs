@@ -44,6 +44,7 @@ public class RunEncoder
 	private string dateTime;
 	private string comments;
 	private string videoURL;
+	private int angle;
 
 	private string exerciseName;
 
@@ -58,7 +59,7 @@ public class RunEncoder
 	//constructor
 	public RunEncoder(int uniqueID, int personID, int sessionID, int exerciseID, Devices device,
 			int distance, int temperature, string filename, string url,
-			string dateTime, string comments, string videoURL, string exerciseName)
+			string dateTime, string comments, string videoURL, int angle, string exerciseName)
 	{
 		this.uniqueID = uniqueID;
 		this.personID = personID;
@@ -72,6 +73,7 @@ public class RunEncoder
 		this.dateTime = dateTime;
 		this.comments = comments;
 		this.videoURL = videoURL;
+		this.angle = angle;
 
 		this.exerciseName = exerciseName;
 	}
@@ -91,7 +93,7 @@ public class RunEncoder
 		return
 			"(" + uniqueIDStr + ", " + personID + ", " + sessionID + ", " + exerciseID + ", \"" + device.ToString() + "\", " +
 			distance + ", " + temperature + ", \"" + filename + "\", \"" + url + "\", \"" + dateTime + "\", \"" +
-			comments + "\", \"" + videoURL + "\")";
+			comments + "\", \"" + videoURL + "\", " + angle + ")";
 	}
 
 	public void UpdateSQL(bool dbconOpened)
@@ -113,7 +115,8 @@ public class RunEncoder
 			"\", dateTime = \"" + dateTime +
 			"\", comments = \"" + comments +
 			"\", videoURL = \"" + Util.MakeURLrelative(videoURL) +
-			"\" WHERE uniqueID = " + uniqueID;
+			"\", angle = " + angle +
+			" WHERE uniqueID = " + uniqueID;
 	}
 
 	public void UpdateSQLJustComments(bool dbconOpened)
@@ -259,6 +262,11 @@ public class RunEncoder
 		get { return videoURL; }
 		set { videoURL = value; }
 	}
+	public int Angle
+	{
+		get { return angle; }
+		set { angle = value; }
+	}
 	public string ExerciseName
 	{
 		get { return exerciseName; }
@@ -401,6 +409,7 @@ public class RunEncoderExercise
 	public static int SegmentCmDefault = 500;
 	private List<int> segmentVariableCm; //if segmentCm == -1 then this is used
 	private bool isSprint;
+	private int angleDefault;
 
 	public RunEncoderExercise()
 	{
@@ -411,7 +420,8 @@ public class RunEncoderExercise
 		this.name = name;
 	}
 
-	public RunEncoderExercise(int uniqueID, string name, string description, int segmentCm, List<int> segmentVariableCm, bool isSprint)
+	public RunEncoderExercise(int uniqueID, string name, string description,
+			int segmentCm, List<int> segmentVariableCm, bool isSprint, int angleDefault)
 	{
 		this.uniqueID = uniqueID;
 		this.name = name;
@@ -419,13 +429,15 @@ public class RunEncoderExercise
 		this.segmentCm = segmentCm;
 		this.segmentVariableCm = segmentVariableCm;
 		this.isSprint = isSprint;
+		this.angleDefault = angleDefault;
 	}
 
 	public override string ToString()
 	{
-		return string.Format("{0}:{1}:{2}:{3}:{4}:{5}",
+		return string.Format("{0}:{1}:{2}:{3}:{4}:{5}:{6}",
 				uniqueID, name, description, segmentCm,
-				Util.ListIntToSQLString (segmentVariableCm, ";"), isSprint);
+				Util.ListIntToSQLString (segmentVariableCm, ";"),
+				isSprint, angleDefault);
 	}
 
 	public void InsertSQL (bool dbconOpened)
@@ -441,7 +453,8 @@ public class RunEncoderExercise
 
 		return
 			"(" + uniqueIDStr + ", \"" + name + "\", \"" + description + "\", " +
-			segmentCm + ", \"" + SegmentVariableCmToSQL + "\", " + Util.BoolToInt(isSprint) + ")";
+			segmentCm + ", \"" + SegmentVariableCmToSQL + "\", " +
+			Util.BoolToInt(isSprint) + ", " + angleDefault + ")";
 	}
 
 	public int UniqueID
@@ -480,6 +493,10 @@ public class RunEncoderExercise
 	public bool IsSprint
 	{
 		get { return isSprint; }
+	}
+	public int AngleDefault
+	{
+		get { return angleDefault; }
 	}
 }
 

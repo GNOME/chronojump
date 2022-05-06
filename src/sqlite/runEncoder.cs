@@ -54,7 +54,8 @@ class SqliteRunEncoder : Sqlite
 			"url TEXT, " +		//URL of data files. stored as relative
 			"datetime TEXT, " + 	//2019-07-11_15-01-44
 			"comments TEXT, " +
-			"videoURL TEXT)";	//URL of video of signals. stored as relative
+			"videoURL TEXT, " +	//URL of video of signals. stored as relative
+			"angle INT)";		//capture can be or not at angleDefault
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 	}
@@ -64,7 +65,7 @@ class SqliteRunEncoder : Sqlite
 		openIfNeeded(dbconOpened);
 
 		dbcmd.CommandText = "INSERT INTO " + table +
-				" (uniqueID, personID, sessionID, exerciseID, device, distance, temperature, filename, url, dateTime, comments, videoURL)" +
+				" (uniqueID, personID, sessionID, exerciseID, device, distance, temperature, filename, url, dateTime, comments, videoURL, angle)" +
 				" VALUES " + insertString;
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
@@ -173,7 +174,8 @@ class SqliteRunEncoder : Sqlite
 					reader[9].ToString(),			//datetime
 					reader[10].ToString(),			//comments
 					reader[11].ToString(),			//videoURL
-					reader[12].ToString()			//exerciseName
+					Convert.ToInt32(reader[12].ToString()),	//angle
+					reader[13].ToString()			//exerciseName
 					);
 			list.Add(re);
 		}
@@ -320,7 +322,7 @@ class SqliteRunEncoder : Sqlite
 						myFilename,
 						Util.MakeURLrelative(Util.GetRunEncoderSessionDir(Convert.ToInt32(session.Name))),
 						parsedDate, relt.Comment,
-						"", ""); //import without video and without name on comment
+						"", 0, ""); //import without video and without name on comment
 
 				runEncoder.InsertSQL(true);
 				importedSomething = true;
@@ -330,7 +332,7 @@ class SqliteRunEncoder : Sqlite
 		//need to create an exercise to assign to the imported files
 		if(importedSomething)
 		{
-			RunEncoderExercise ex = new RunEncoderExercise(0, "Sprint", "", RunEncoderExercise.SegmentCmDefault, new List<int>(), true);
+			RunEncoderExercise ex = new RunEncoderExercise(0, "Sprint", "", RunEncoderExercise.SegmentCmDefault, new List<int>(), true, 0);
 			ex.InsertSQL(true);
 		}
 
@@ -362,7 +364,8 @@ class SqliteRunEncoderExercise : Sqlite
 			"description TEXT, " +
 			"segmentMeters INT, " + 	//changed to cm in DB 2.33
 			"segmentVariableCm TEXT, " + 	//separator is ;
-			"isSprint INT NOT NULL DEFAULT 1)"; //bool
+			"isSprint INT NOT NULL DEFAULT 1, " + //bool
+			"angleDefault INT NOT NULL DEFAULT 0)"; //0 horiz, -90 vert go down, 90 vert go up. Technically can be from -180 to 180
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 	}
@@ -375,7 +378,7 @@ class SqliteRunEncoderExercise : Sqlite
 			Sqlite.Open();
 
 		dbcmd.CommandText = "INSERT INTO " + table +
-				" (uniqueID, name, description, segmentMeters, segmentVariableCm, isSprint)" +
+				" (uniqueID, name, description, segmentMeters, segmentVariableCm, isSprint, angleDefault)" +
 				" VALUES " + insertString;
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
@@ -393,7 +396,7 @@ class SqliteRunEncoderExercise : Sqlite
 	//Default exercise for users without exercises (empty database creation or never used raceAnalyzer)
 	protected internal static void insertDefault ()
 	{
-		RunEncoderExercise re = new RunEncoderExercise (-1, "Sprint", "", RunEncoderExercise.SegmentCmDefault, new List<int>(), true);
+		RunEncoderExercise re = new RunEncoderExercise (-1, "Sprint", "", RunEncoderExercise.SegmentCmDefault, new List<int>(), true, 0);
 		re.InsertSQL(true);
 	}
 
@@ -414,6 +417,7 @@ class SqliteRunEncoderExercise : Sqlite
 			"\", segmentMeters = " + ex.SegmentCm + 	//cm since DB 2.33
 			", segmentVariableCm = \"" + ex.SegmentVariableCmToSQL +
 			"\", isSprint = " + Util.BoolToInt(ex.IsSprint) +
+			", angleDefault = " + ex.AngleDefault +
 			" WHERE uniqueID = " + ex.UniqueID;
 
 		LogB.SQL(dbcmd.CommandText.ToString());
@@ -463,7 +467,8 @@ class SqliteRunEncoderExercise : Sqlite
 					reader[2].ToString(),			//description
 					Convert.ToInt32(reader[3].ToString()),	//segmentCm (cm since DB 2.33)
 					Util.SQLStringToListInt(reader[4].ToString(), ";"),	//segmentVariableCm
-					Util.IntToBool(Convert.ToInt32(reader[5].ToString()))
+					Util.IntToBool(Convert.ToInt32(reader[5].ToString())),
+					Convert.ToInt32(reader[6].ToString()) 	//angleDefault
 					);
 			list.Add(ex);
 		}

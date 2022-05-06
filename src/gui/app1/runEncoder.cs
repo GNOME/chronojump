@@ -1994,7 +1994,7 @@ public partial class ChronoJumpWindow
 				Catalog.GetString("Default angle of this exercise.") + "\n" +
 				Catalog.GetString("90 means go vertically up.") + "\n" +
 				Catalog.GetString("-90 means go vertically down.") + "\n" +
-				string.Format(Catalog.GetString("Possible range goes from {0} to {1}."), -180, 180));
+				string.Format(Catalog.GetString("Possible range goes from {0} to {1}."), -90, 90));
 		return;
 	}
 	private void on_check_run_encoder_exercise_fixed_size_toggled (object o, EventArgs args)

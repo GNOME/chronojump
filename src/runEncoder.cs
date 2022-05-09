@@ -355,7 +355,7 @@ public class RunEncoderCaptureGetSpeedAndDisplacement
 	private void updateSegmentDistTimeFixed () //m
 	{
 		if(runEncoderCaptureDistance >= (segmentCm/100.0) * (segmentCalcs.Count +1))
-			segmentCalcs.Add((segmentCm/100.0) * (segmentCalcs.Count +1), time);
+			segmentCalcs.Add((segmentCm/100.0) * (segmentCalcs.Count +1), time, runEncoderCaptureSpeed);
 		//note this is not very precise because time can be a bit later than the selected dist
 	}
 	private void updateSegmentDistTimeVariable () //cm
@@ -368,7 +368,7 @@ public class RunEncoderCaptureGetSpeedAndDisplacement
 		if(runEncoderCaptureDistance >= distToBeat)
 		{
 			segmentVariableCmDistAccumulated += segmentVariableCm[segmentCalcs.Count];
-			segmentCalcs.Add (distToBeat, time);
+			segmentCalcs.Add (distToBeat, time, runEncoderCaptureSpeed);
 		}
 	}
 
@@ -408,19 +408,50 @@ public class RunEncoderSegmentCalcs
 {
 	private List<double> dist_l;
 	private List<double> time_l;
+	private List<double> speedCont_l;
+	private List<double> accel_l;
+
+	/*
 	//TODO: a, F, P
+	accel = (V2 - V1)/(T2 - T1)
+	F = m * (a + g*sin(alpha))
+	P = 0.5 * m * (V2^2 - V1^2) + m*g*(h2 - h1)
+	h = pos * sin(alpha)
+	*/
 
 	public RunEncoderSegmentCalcs ()
 	{
 		dist_l = new List<double> ();
 		time_l = new List<double> ();
+		speedCont_l = new List<double> ();
+		accel_l = new List<double> ();
 		//TODO: a, F, P
 	}
 
-	public void Add (double dist, double time)
+	//speedCont is continuous (at this instant) (no avg: dist/time of the segment)
+	public void Add (double dist, double time, double speedCont)
 	{
+		//store this variable before adding the dist
+		bool isFirstOne = (dist_l.Count == 0);
+
 		dist_l.Add (dist);
 		time_l.Add (time);
+		speedCont_l.Add(speedCont);
+
+		if(isFirstOne)
+			accel_l.Add(UtilAll.DivideSafe(speedCont, time/1000000.0));
+		else
+		{
+			/*
+			debug:
+			LogB.Information(string.Format("speed now: {0}, speed pre: {1}, time now: {2}, time pre: {3}, result: {4}",
+						speedCont, speedCont_l[Count -2], time/1000000.0, time_l[Count -2]/1000000.0,
+						UtilAll.DivideSafe( (speedCont - speedCont_l[Count -2]), (time/1000000.0 - time_l[Count -2]/1000000.0) ) ));
+						*/
+
+			accel_l.Add(UtilAll.DivideSafe(
+						(speedCont - speedCont_l[Count -2]), (time/1000000.0 - time_l[Count -2]/1000000.0) ));
+		}
 	}
 
 	public int Count
@@ -433,6 +464,9 @@ public class RunEncoderSegmentCalcs
 	}
 	public List<double> Time_l {
 		get { return time_l; }
+	}
+	public List<double> Accel_l {
+		get { return accel_l; }
 	}
 }
 

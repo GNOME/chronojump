@@ -679,6 +679,12 @@ public abstract class CairoXY : CairoGeneric
 				absoluteMaxY - minY));
         }
 
+	//when you want to plot another value, so minY, maxY is different
+	protected double calculatePaintYProportion (double YProp) //from 0 to 1
+	{
+                return graphHeight - totalMargins - (YProp * (graphHeight - 2*totalMargins));
+	}
+
 	// Fast calculatePaintX/Y, sadly for 10000 points the difference between fast and slow is very low
 
 	/*

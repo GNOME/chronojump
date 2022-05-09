@@ -624,6 +624,15 @@ public static class MathUtil
 		return min;
 	}
 
+	public static double GetProportion (double d, List<double> d_l)
+	{
+		double max = GetMax (d_l);
+		double min = GetMin (d_l);
+
+		d -= min; //move d to 0
+		return UtilAll.DivideSafe(d, max - min);
+	}
+
 }
 
 public class InterpolateSignal

@@ -177,7 +177,7 @@ public class CairoGraphRaceAnalyzer : CairoXY
 						g.LineTo (calculatePaintX (points_list[points_list.Count -1].X), calculatePaintYProportion (powerPropAt0));
 						g.Stroke ();
 						printText(calculatePaintX (points_list[points_list.Count -1].X), calculatePaintYProportion (powerPropAt0),
-								0, textHeight-3, " 0 " + powerstr, g, alignTypes.LEFT);
+								0, textHeight-3, " 0 " + powerStr, g, alignTypes.LEFT);
 
 						for(int i = 0 ; i < segmentCalcs.Count ; i ++)
 						{

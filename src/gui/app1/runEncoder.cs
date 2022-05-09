@@ -2294,7 +2294,7 @@ public partial class ChronoJumpWindow
 					drawingarea_race_analyzer_capture_position_time, "title",
 					Catalog.GetString("Distance"), "m",
 					isSprint, false,
-					segmentCalcs, true);
+					segmentCalcs, false, true);
 
 		cairoGraphRaceAnalyzer_dt.DoSendingList (preferences.fontType.ToString(),
 				cairoGraphRaceAnalyzerPoints_dt_l, triggerListRunEncoder,
@@ -2317,7 +2317,7 @@ public partial class ChronoJumpWindow
 					drawingarea_race_analyzer_capture_speed_time, "title",
 					Catalog.GetString("Speed"), "m/s",
 					isSprint, true,
-					segmentCalcs, false);
+					segmentCalcs, true, false);
 
 		cairoGraphRaceAnalyzer_st.DoSendingList (preferences.fontType.ToString(),
 				cairoGraphRaceAnalyzerPoints_st_l, triggerListRunEncoder,
@@ -2343,7 +2343,7 @@ public partial class ChronoJumpWindow
 					drawingarea_race_analyzer_capture_accel_time, "title",
 					Catalog.GetString("Accel"), "m/s^2",
 					isSprint, false,
-					segmentCalcs, false);
+					segmentCalcs, false, false);
 
 		cairoGraphRaceAnalyzer_at.DoSendingList (preferences.fontType.ToString(),
 				cairoGraphRaceAnalyzerPoints_at_l, triggerListRunEncoder,

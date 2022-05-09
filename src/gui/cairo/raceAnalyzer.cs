@@ -136,6 +136,7 @@ public class CairoGraphRaceAnalyzer : CairoXY
 				//vertical
 				if(segmentCalcs.Count > 0)
 				{
+					LogB.Information("accels: ");
 					g.Save();
 					g.SetDash(new double[]{1, 2}, 0);
 					for(int i = 0 ; i < segmentCalcs.Count ; i ++)
@@ -145,6 +146,7 @@ public class CairoGraphRaceAnalyzer : CairoXY
 						//seconds
 						string xTextBottom = Util.TrimDecimals(segmentCalcs.Time_l[i]/1000000.0, 1).ToString();
 						double xGraph = calculatePaintX(segmentCalcs.Time_l[i]/1000000.0);
+						LogB.Information(segmentCalcs.Accel_l[i].ToString());
 
 						if(useListOfDoublesOnY)
 							paintVerticalGridLine(g, Convert.ToInt32(xGraph), xTextBottom, textHeight-3);

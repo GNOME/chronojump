@@ -391,7 +391,9 @@ public partial class ChronoJumpWindow
 		//to not show old vertical segments info on a capture that maybe cannot be done by lack of device
 		if(currentRunEncoderExercise != null)
 			reCGSD = new RunEncoderCaptureGetSpeedAndDisplacement(
-					currentRunEncoderExercise.SegmentCm, currentRunEncoderExercise.SegmentVariableCm);
+					currentRunEncoderExercise.SegmentCm, currentRunEncoderExercise.SegmentVariableCm,
+					currentPersonSession.Weight, //but note if person changes (but graph will be hopefully erased), this will change also take care on exports
+					currentRunEncoder.Angle);
 
 		updateRaceAnalyzerCapturePositionTime(true);
 		updateRaceAnalyzerCaptureSpeedTime(true);
@@ -592,7 +594,9 @@ public partial class ChronoJumpWindow
 
 		//RunEncoderCaptureGetSpeedAndDisplacement reCGSD = new RunEncoderCaptureGetSpeedAndDisplacement();
 		reCGSD = new RunEncoderCaptureGetSpeedAndDisplacement(
-				currentRunEncoderExercise.SegmentCm, currentRunEncoderExercise.SegmentVariableCm);
+				currentRunEncoderExercise.SegmentCm, currentRunEncoderExercise.SegmentVariableCm,
+				currentPersonSession.Weight, //but note if person changes (but graph will be hopefully erased), this will change also take care on exports
+				currentRunEncoder.Angle);
 		runEncoderShouldShowCaptureGraphsWithData = true;
 
 		runEncoderCaptureThread = new Thread(new ThreadStart(runEncoderCaptureDo));
@@ -1070,7 +1074,9 @@ public partial class ChronoJumpWindow
 
 		int count = 0;
 		reCGSD = new RunEncoderCaptureGetSpeedAndDisplacement(
-				currentRunEncoderExercise.SegmentCm, currentRunEncoderExercise.SegmentVariableCm);
+				currentRunEncoderExercise.SegmentCm, currentRunEncoderExercise.SegmentVariableCm,
+				currentPersonSession.Weight, //but note if person changes (but graph will be hopefully erased), this will change also take care on exports
+				currentRunEncoder.Angle);
 		runEncoderShouldShowCaptureGraphsWithData = true;
 
 		cairoGraphRaceAnalyzer_dt = null;

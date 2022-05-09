@@ -295,13 +295,13 @@ public class RunEncoderCaptureGetSpeedAndDisplacement
 	private double runEncoderCaptureSpeedMax;
 	private double runEncoderCaptureDistance; //m
 
-	public RunEncoderCaptureGetSpeedAndDisplacement(int segmentCm, List<int> segmentVariableCm)
+	public RunEncoderCaptureGetSpeedAndDisplacement(int segmentCm, List<int> segmentVariableCm, double massKg, int angle)
 	{
 		this.segmentCm = segmentCm;
 		this.segmentVariableCm = segmentVariableCm;
 		segmentVariableCmDistAccumulated = 0;
 
-		segmentCalcs = new RunEncoderSegmentCalcs ();
+		segmentCalcs = new RunEncoderSegmentCalcs (massKg, angle);
 		timePre = 0;
 	}
 
@@ -406,6 +406,13 @@ public class RunEncoderCaptureGetSpeedAndDisplacement
    */
 public class RunEncoderSegmentCalcs
 {
+	private const double g = 9.81;
+
+	//passed variables
+	private double massKg;
+	private int angle;
+
+	//calculated list of vars
 	private List<double> dist_l;
 	private List<double> time_l;
 	private List<double> speedCont_l;
@@ -421,6 +428,13 @@ public class RunEncoderSegmentCalcs
 
 	public RunEncoderSegmentCalcs ()
 	{
+	}
+
+	public RunEncoderSegmentCalcs (double massKg, int angle)
+	{
+		this.massKg = massKg;
+		this.angle = angle;
+
 		dist_l = new List<double> ();
 		time_l = new List<double> ();
 		speedCont_l = new List<double> ();

@@ -491,6 +491,10 @@ public class RunEncoderSegmentCalcs
 	public List<double> Time_l {
 		get { return time_l; }
 	}
+	//to debug
+	public List<double> SpeedCont_l {
+		get { return speedCont_l; }
+	}
 	public List<double> Accel_l {
 		get { return accel_l; }
 	}

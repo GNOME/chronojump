@@ -2278,17 +2278,17 @@ public partial class ChronoJumpWindow
 		if(currentRunEncoderExercise != null && currentRunEncoderExercise.IsSprint)
 			isSprint = true;
 
-		TwoListsOfDoubles verticalLinesUs_2l = new TwoListsOfDoubles();
+		RunEncoderSegmentCalcs segmentCalcs = new RunEncoderSegmentCalcs ();
 		if(currentRunEncoderExercise != null && //currentRunEncoderExercise.SegmentCm > 0 &&
-				reCGSD != null && reCGSD.SegmentDistTime_2l != null)
-			verticalLinesUs_2l = reCGSD.SegmentDistTime_2l;
+				reCGSD != null && reCGSD.SegmentCalcs != null)
+			segmentCalcs = reCGSD.SegmentCalcs;
 
 		if(cairoGraphRaceAnalyzer_dt == null)
 			cairoGraphRaceAnalyzer_dt = new CairoGraphRaceAnalyzer(
 					drawingarea_race_analyzer_capture_position_time, "title",
 					Catalog.GetString("Distance"), "m",
 					isSprint, false,
-					verticalLinesUs_2l, true);
+					segmentCalcs, true);
 
 		cairoGraphRaceAnalyzer_dt.DoSendingList (preferences.fontType.ToString(),
 				cairoGraphRaceAnalyzerPoints_dt_l, triggerListRunEncoder,
@@ -2301,17 +2301,17 @@ public partial class ChronoJumpWindow
 		if(currentRunEncoderExercise != null && currentRunEncoderExercise.IsSprint)
 			isSprint = true;
 
-		TwoListsOfDoubles verticalLinesUs_2l = new TwoListsOfDoubles();
+		RunEncoderSegmentCalcs segmentCalcs = new RunEncoderSegmentCalcs ();
 		if(currentRunEncoderExercise != null && //currentRunEncoderExercise.SegmentCm > 0 &&
-				reCGSD != null && reCGSD.SegmentDistTime_2l != null)
-			verticalLinesUs_2l = reCGSD.SegmentDistTime_2l;
+				reCGSD != null && reCGSD.SegmentCalcs != null)
+			segmentCalcs = reCGSD.SegmentCalcs;
 
 		if(cairoGraphRaceAnalyzer_st == null)
 			cairoGraphRaceAnalyzer_st = new CairoGraphRaceAnalyzer(
 					drawingarea_race_analyzer_capture_speed_time, "title",
 					Catalog.GetString("Speed"), "m/s",
 					isSprint, true,
-					verticalLinesUs_2l, false);
+					segmentCalcs, false);
 
 		cairoGraphRaceAnalyzer_st.DoSendingList (preferences.fontType.ToString(),
 				cairoGraphRaceAnalyzerPoints_st_l, triggerListRunEncoder,
@@ -2327,17 +2327,17 @@ public partial class ChronoJumpWindow
 		if(currentRunEncoderExercise != null && currentRunEncoderExercise.IsSprint)
 			isSprint = true;
 
-		TwoListsOfDoubles verticalLinesUs_2l = new TwoListsOfDoubles();
+		RunEncoderSegmentCalcs segmentCalcs = new RunEncoderSegmentCalcs ();
 		if(currentRunEncoderExercise != null && //currentRunEncoderExercise.SegmentCm > 0 &&
-				reCGSD != null && reCGSD.SegmentDistTime_2l != null)
-			verticalLinesUs_2l = reCGSD.SegmentDistTime_2l;
+				reCGSD != null && reCGSD.SegmentCalcs != null)
+			segmentCalcs = reCGSD.SegmentCalcs;
 
 		if(cairoGraphRaceAnalyzer_at == null)
 			cairoGraphRaceAnalyzer_at = new CairoGraphRaceAnalyzer(
 					drawingarea_race_analyzer_capture_accel_time, "title",
 					Catalog.GetString("Accel"), "m/s^2",
 					isSprint, false,
-					verticalLinesUs_2l, false);
+					segmentCalcs, false);
 
 		cairoGraphRaceAnalyzer_at.DoSendingList (preferences.fontType.ToString(),
 				cairoGraphRaceAnalyzerPoints_at_l, triggerListRunEncoder,

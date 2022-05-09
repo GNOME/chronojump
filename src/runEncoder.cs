@@ -282,7 +282,7 @@ public class RunEncoderCaptureGetSpeedAndDisplacement
 	private int segmentCm;
 	private List<int> segmentVariableCm; //if segmentCm == -1 then this is used
 	private int segmentVariableCmDistAccumulated;
-	private TwoListsOfDoubles segmentDistTime_2l;
+	private RunEncoderSegmentCalcs segmentCalcs;
 
 	private int encoderDisplacement;
 	private int time;
@@ -301,7 +301,7 @@ public class RunEncoderCaptureGetSpeedAndDisplacement
 		this.segmentVariableCm = segmentVariableCm;
 		segmentVariableCmDistAccumulated = 0;
 
-		segmentDistTime_2l = new TwoListsOfDoubles();
+		segmentCalcs = new RunEncoderSegmentCalcs ();
 		timePre = 0;
 	}
 
@@ -354,21 +354,21 @@ public class RunEncoderCaptureGetSpeedAndDisplacement
 	}
 	private void updateSegmentDistTimeFixed () //m
 	{
-		if(runEncoderCaptureDistance >= (segmentCm/100.0) * (segmentDistTime_2l.Count() +1))
-			segmentDistTime_2l.Add((segmentCm/100.0) * (segmentDistTime_2l.Count() +1), time);
+		if(runEncoderCaptureDistance >= (segmentCm/100.0) * (segmentCalcs.Count +1))
+			segmentCalcs.Add((segmentCm/100.0) * (segmentCalcs.Count +1), time);
 		//note this is not very precise because time can be a bit later than the selected dist
 	}
 	private void updateSegmentDistTimeVariable () //cm
 	{
 		//care of overflow
-		if(segmentDistTime_2l.Count() >= segmentVariableCm.Count)
+		if(segmentCalcs.Count >= segmentVariableCm.Count)
 			return;
 
-		double distToBeat = (segmentVariableCm[segmentDistTime_2l.Count()] + segmentVariableCmDistAccumulated) / 100.0; //cm -> m
+		double distToBeat = (segmentVariableCm[segmentCalcs.Count] + segmentVariableCmDistAccumulated) / 100.0; //cm -> m
 		if(runEncoderCaptureDistance >= distToBeat)
 		{
-			segmentVariableCmDistAccumulated += segmentVariableCm[segmentDistTime_2l.Count()];
-			segmentDistTime_2l.Add(distToBeat, time);
+			segmentVariableCmDistAccumulated += segmentVariableCm[segmentCalcs.Count];
+			segmentCalcs.Add (distToBeat, time);
 		}
 	}
 
@@ -395,8 +395,44 @@ public class RunEncoderCaptureGetSpeedAndDisplacement
 	public double RunEncoderCaptureDistance {
 		get { return runEncoderCaptureDistance; }
 	}
-	public TwoListsOfDoubles SegmentDistTime_2l {
-		get { return segmentDistTime_2l; }
+	public RunEncoderSegmentCalcs SegmentCalcs {
+		get { return segmentCalcs; }
+	}
+}
+
+/*
+   first we had TwoListsOfDoubles SegmentDistTime_2l
+   but as we want to implement (accel, F, P) avg on each track, we use this new class
+   */
+public class RunEncoderSegmentCalcs
+{
+	private List<double> dist_l;
+	private List<double> time_l;
+	//TODO: a, F, P
+
+	public RunEncoderSegmentCalcs ()
+	{
+		dist_l = new List<double> ();
+		time_l = new List<double> ();
+		//TODO: a, F, P
+	}
+
+	public void Add (double dist, double time)
+	{
+		dist_l.Add (dist);
+		time_l.Add (time);
+	}
+
+	public int Count
+	{
+		get { return dist_l.Count; }
+	}
+
+	public List<double> Dist_l {
+		get { return dist_l; }
+	}
+	public List<double> Time_l {
+		get { return time_l; }
 	}
 }
 

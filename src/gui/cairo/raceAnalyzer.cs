@@ -30,7 +30,7 @@ public class CairoGraphRaceAnalyzer : CairoXY
 	int points_list_painted;
 	private bool isSprint;
 	private bool plotMaxMark;
-	private TwoListsOfDoubles verticalLinesUs_2l;
+	private RunEncoderSegmentCalcs segmentCalcs;
 	private bool useListOfDoublesOnY;
 
 	//to avoid to have new data on PassData while the for is working on plotRealPoints
@@ -40,7 +40,7 @@ public class CairoGraphRaceAnalyzer : CairoXY
 			DrawingArea area, string title,
 			string yVariable, string yUnits,
 			bool isSprint, bool plotMaxMark,
-			TwoListsOfDoubles verticalLinesUs_2l,
+			RunEncoderSegmentCalcs segmentCalcs,
 			bool useListOfDoublesOnY) //for pos/time graph
 	{
 		this.area = area;
@@ -53,7 +53,7 @@ public class CairoGraphRaceAnalyzer : CairoXY
 		this.yUnits = yUnits;
 		this.isSprint = isSprint;
 		this.plotMaxMark = plotMaxMark;
-		this.verticalLinesUs_2l = verticalLinesUs_2l;
+		this.segmentCalcs = segmentCalcs;
 		this.useListOfDoublesOnY = useListOfDoublesOnY;
 		
 //		doing = false;
@@ -83,6 +83,8 @@ public class CairoGraphRaceAnalyzer : CairoXY
 	//return true if graph is inited (to dispose it)
 	private bool doSendingList (string font, List<PointF> points_list, TriggerList triggerList, bool forceRedraw, PlotTypes plotType, int smoothLineWindow)
 	{
+		// 1) init graph
+
 		bool maxValuesChanged = false;
 		if(points_list != null)
 			maxValuesChanged = findPointMaximums(false, points_list);
@@ -106,23 +108,24 @@ public class CairoGraphRaceAnalyzer : CairoXY
 			return graphInited;
 		}
 
+		// 2) paint grid and write vaules on grid lines
 		if(maxValuesChanged || forceRedraw)
 		{
-			if(verticalLinesUs_2l.Count() == 0)
+			if(segmentCalcs.Count == 0)
 			{
 				// do not show vertical grid lines if we do not pass any distance mark. Show only horizontal.
 				paintGrid(gridTypes.HORIZONTALLINES, true);
 			}
 			else {
 				//horizontal
-				if(verticalLinesUs_2l.Count() > 0 && useListOfDoublesOnY)
+				if(segmentCalcs.Count > 0 && useListOfDoublesOnY)
 				{
 					g.LineWidth = 1;
 					g.Save();
 					g.SetDash(new double[]{1, 2}, 0);
-					for(int i = 0 ; i < verticalLinesUs_2l.Count() ; i ++)
+					for(int i = 0 ; i < segmentCalcs.Count ; i ++)
 					{
-						double yValue = verticalLinesUs_2l.GetFromFirst(i);
+						double yValue = segmentCalcs.Dist_l[i];
 						paintHorizontalGridLine(g, Convert.ToInt32(calculatePaintY(yValue)), yValue.ToString(), textHeight -3);
 					}
 					g.Stroke ();
@@ -131,17 +134,17 @@ public class CairoGraphRaceAnalyzer : CairoXY
 					paintGrid(gridTypes.HORIZONTALLINES, true);
 
 				//vertical
-				if(verticalLinesUs_2l.Count() > 0)
+				if(segmentCalcs.Count > 0)
 				{
 					g.Save();
 					g.SetDash(new double[]{1, 2}, 0);
-					for(int i = 0 ; i < verticalLinesUs_2l.Count() ; i ++)
+					for(int i = 0 ; i < segmentCalcs.Count ; i ++)
 					{
-						string xTextTop = verticalLinesUs_2l.GetFromFirst(i).ToString();
+						string xTextTop = segmentCalcs.Dist_l[i].ToString();
 
 						//seconds
-						string xTextBottom = Util.TrimDecimals(verticalLinesUs_2l.GetFromSecond(i)/1000000.0, 1).ToString();
-						double xGraph = calculatePaintX(verticalLinesUs_2l.GetFromSecond(i)/1000000.0);
+						string xTextBottom = Util.TrimDecimals(segmentCalcs.Time_l[i]/1000000.0, 1).ToString();
+						double xGraph = calculatePaintX(segmentCalcs.Time_l[i]/1000000.0);
 
 						if(useListOfDoublesOnY)
 							paintVerticalGridLine(g, Convert.ToInt32(xGraph), xTextBottom, textHeight-3);
@@ -165,13 +168,16 @@ public class CairoGraphRaceAnalyzer : CairoXY
 			paintAxis();
 		}
 
+		// 3) paint points, paint smooth line, paint maximum mark
 		pointsRadius = 1;
 		if( points_list != null &&
 				(maxValuesChanged || forceRedraw || points_list.Count != points_list_painted) )
 		{
+			// 3.a) paint points
 			plotRealPoints(plotType, points_list, points_list_painted, false); //not fast. TODO: maybe use fast if is really faster
 			points_list_painted = points_list.Count;
 
+			// 3.b) paint smooth line
 			if(smoothLineWindow > 0 && points_list.Count > 5)
 			{
 				MovingAverage mAverageSmoothLine = new MovingAverage (points_list, smoothLineWindow);
@@ -181,7 +187,7 @@ public class CairoGraphRaceAnalyzer : CairoXY
 				g.SetSourceRGB (0,0,0);
 			}
 
-
+			// 3.c) paint maximum mark
 			if(plotMaxMark && points_list.Count > 1)
 			{
 				if(isSprint) //on sprint plot an arrow from top speed (with moving average) to the right
@@ -218,6 +224,7 @@ public class CairoGraphRaceAnalyzer : CairoXY
 			}
 		}
 
+		// 4) paint triggers
 		if(triggerList != null && triggerList.Count() > 0)
 			foreach(Trigger trigger in triggerList.GetList())
 				paintVerticalTriggerLine(g, trigger, textHeight -3);

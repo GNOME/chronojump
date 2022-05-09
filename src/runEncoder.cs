@@ -418,8 +418,8 @@ public class RunEncoderSegmentCalcs
 	private List<double> speedCont_l;
 	private List<double> accel_l;
 	private List<double> force_l;
+	private List<double> power_l;
 	/*
-	//TODO: a, F, P
 	accel = (V2 - V1)/(T2 - T1)
 	F = m * (a + g*sin(alpha))
 	P = 0.5 * m * (V2^2 - V1^2) + m*g*(h2 - h1)
@@ -440,7 +440,7 @@ public class RunEncoderSegmentCalcs
 		speedCont_l = new List<double> ();
 		accel_l = new List<double> ();
 		force_l = new List<double> ();
-		//TODO: a, F, P
+		power_l = new List<double> ();
 	}
 
 	//speedCont is continuous (at this instant) (no avg: dist/time of the segment)
@@ -458,11 +458,12 @@ public class RunEncoderSegmentCalcs
 			double accel = UtilAll.DivideSafe(speedCont, time/1000000.0);
 			accel_l.Add (accel);
 			force_l.Add ( massKg * (accel + g * Math.Sin(angle)) );
+			power_l.Add ( 0.5 * massKg * Math.Pow(speedCont, 2) + massKg * g * (dist * Math.Sin(angle)) );
 		}
 		else
 		{
 			/*
-			debug:
+			debug accel:
 			LogB.Information(string.Format("speed now: {0}, speed pre: {1}, time now: {2}, time pre: {3}, result: {4}",
 						speedCont, speedCont_l[Count -2], time/1000000.0, time_l[Count -2]/1000000.0,
 						UtilAll.DivideSafe( (speedCont - speedCont_l[Count -2]), (time/1000000.0 - time_l[Count -2]/1000000.0) ) ));
@@ -472,6 +473,10 @@ public class RunEncoderSegmentCalcs
 					(speedCont - speedCont_l[Count -2]), (time/1000000.0 - time_l[Count -2]/1000000.0) );
 			accel_l.Add (accel);
 			force_l.Add ( massKg * (accel + g * Math.Sin(angle)) );
+			power_l.Add ( 0.5 * massKg *
+					(Math.Pow(speedCont, 2) - Math.Pow(speedCont_l[Count -2], 2)) +
+					 massKg * g * (dist * Math.Sin(angle) - dist_l[Count -2] * Math.Sin(angle))
+				    );
 		}
 	}
 
@@ -491,6 +496,9 @@ public class RunEncoderSegmentCalcs
 	}
 	public List<double> Force_l {
 		get { return force_l; }
+	}
+	public List<double> Power_l {
+		get { return power_l; }
 	}
 }
 

@@ -417,7 +417,7 @@ public class RunEncoderSegmentCalcs
 	private List<double> time_l;
 	private List<double> speedCont_l;
 	private List<double> accel_l;
-
+	private List<double> force_l;
 	/*
 	//TODO: a, F, P
 	accel = (V2 - V1)/(T2 - T1)
@@ -439,6 +439,7 @@ public class RunEncoderSegmentCalcs
 		time_l = new List<double> ();
 		speedCont_l = new List<double> ();
 		accel_l = new List<double> ();
+		force_l = new List<double> ();
 		//TODO: a, F, P
 	}
 
@@ -453,7 +454,11 @@ public class RunEncoderSegmentCalcs
 		speedCont_l.Add(speedCont);
 
 		if(isFirstOne)
-			accel_l.Add(UtilAll.DivideSafe(speedCont, time/1000000.0));
+		{
+			double accel = UtilAll.DivideSafe(speedCont, time/1000000.0);
+			accel_l.Add (accel);
+			force_l.Add ( massKg * (accel + g * Math.Sin(angle)) );
+		}
 		else
 		{
 			/*
@@ -463,8 +468,10 @@ public class RunEncoderSegmentCalcs
 						UtilAll.DivideSafe( (speedCont - speedCont_l[Count -2]), (time/1000000.0 - time_l[Count -2]/1000000.0) ) ));
 						*/
 
-			accel_l.Add(UtilAll.DivideSafe(
-						(speedCont - speedCont_l[Count -2]), (time/1000000.0 - time_l[Count -2]/1000000.0) ));
+			double accel = UtilAll.DivideSafe(
+					(speedCont - speedCont_l[Count -2]), (time/1000000.0 - time_l[Count -2]/1000000.0) );
+			accel_l.Add (accel);
+			force_l.Add ( massKg * (accel + g * Math.Sin(angle)) );
 		}
 	}
 
@@ -481,6 +488,9 @@ public class RunEncoderSegmentCalcs
 	}
 	public List<double> Accel_l {
 		get { return accel_l; }
+	}
+	public List<double> Force_l {
+		get { return force_l; }
 	}
 }
 

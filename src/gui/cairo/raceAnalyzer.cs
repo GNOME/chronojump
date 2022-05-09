@@ -31,6 +31,7 @@ public class CairoGraphRaceAnalyzer : CairoXY
 	private bool isSprint;
 	private bool plotMaxMark;
 	private RunEncoderSegmentCalcs segmentCalcs;
+	private bool plotPowerBars;
 	private bool useListOfDoublesOnY;
 
 	//to avoid to have new data on PassData while the for is working on plotRealPoints
@@ -41,6 +42,7 @@ public class CairoGraphRaceAnalyzer : CairoXY
 			string yVariable, string yUnits,
 			bool isSprint, bool plotMaxMark,
 			RunEncoderSegmentCalcs segmentCalcs,
+			bool plotPowerBars,
 			bool useListOfDoublesOnY) //for pos/time graph
 	{
 		this.area = area;
@@ -54,6 +56,7 @@ public class CairoGraphRaceAnalyzer : CairoXY
 		this.isSprint = isSprint;
 		this.plotMaxMark = plotMaxMark;
 		this.segmentCalcs = segmentCalcs;
+		this.plotPowerBars = plotPowerBars;
 		this.useListOfDoublesOnY = useListOfDoublesOnY;
 		
 //		doing = false;
@@ -136,7 +139,6 @@ public class CairoGraphRaceAnalyzer : CairoXY
 				//vertical
 				if(segmentCalcs.Count > 0)
 				{
-					LogB.Information("dist ; time(s) ; speedCont ; accels ; forces ; powers");
 					g.Save();
 					g.SetDash(new double[]{1, 2}, 0);
 					for(int i = 0 ; i < segmentCalcs.Count ; i ++)
@@ -146,13 +148,6 @@ public class CairoGraphRaceAnalyzer : CairoXY
 						//seconds
 						string xTextBottom = Util.TrimDecimals(segmentCalcs.Time_l[i]/1000000.0, 1).ToString();
 						double xGraph = calculatePaintX(segmentCalcs.Time_l[i]/1000000.0);
-						LogB.Information(string.Format("{0} ; {1} ; {2} ; {3} : {4} ; {5}",
-									segmentCalcs.Dist_l[i],
-									segmentCalcs.Time_l[i]/1000000.0,
-									segmentCalcs.SpeedCont_l[i],
-									segmentCalcs.Accel_l[i],
-									segmentCalcs.Force_l[i],
-									segmentCalcs.Power_l[i] ));
 
 						if(useListOfDoublesOnY)
 							paintVerticalGridLine(g, Convert.ToInt32(xGraph), xTextBottom, textHeight-3);
@@ -165,8 +160,53 @@ public class CairoGraphRaceAnalyzer : CairoXY
 					{
 						g.MoveTo(graphWidth - outerMargin, outerMargin);
 						g.LineTo(outerMargin, outerMargin);
+						g.Stroke();
 						printXAxisTopText();
 					}
+
+					//graph the segmentCalcs
+					LogB.Information("dist ; time(s) ; speedCont ; accels ; forces ; powers");
+
+					if(plotPowerBars)
+					{
+						g.SetSourceColor (colorFromRGB (66,66,66));
+						double powerPropAt0 = MathUtil.GetProportion (0, segmentCalcs.Power_l);
+
+						//draw Y0 line
+						g.MoveTo (outerMargin, calculatePaintYProportion (powerPropAt0));
+						g.LineTo (calculatePaintX (points_list[points_list.Count -1].X), calculatePaintYProportion (powerPropAt0));
+						g.Stroke ();
+						printText(calculatePaintX (points_list[points_list.Count -1].X), calculatePaintYProportion (powerPropAt0),
+								0, textHeight-3, " 0 " + powerstr, g, alignTypes.LEFT);
+
+						for(int i = 0 ; i < segmentCalcs.Count ; i ++)
+						{
+							/* debug
+							   LogB.Information(string.Format("{0} ; {1} ; {2} ; {3} : {4} ; {5}", segmentCalcs.Dist_l[i], segmentCalcs.Time_l[i]/1000000.0,
+							   segmentCalcs.SpeedCont_l[i], segmentCalcs.Accel_l[i], segmentCalcs.Force_l[i], segmentCalcs.Power_l[i] ));
+							 */
+
+							double powerProp = MathUtil.GetProportion (segmentCalcs.Power_l[i], segmentCalcs.Power_l);
+							double xStart = calculatePaintX (points_list[0].X);
+							if(i > 0)
+								xStart = calculatePaintX (segmentCalcs.Time_l[i-1]/1000000.0);
+							double xEnd = calculatePaintX (segmentCalcs.Time_l[i]/1000000.0);
+
+							g.Rectangle (xStart, //x
+									calculatePaintYProportion (powerPropAt0), //y
+									xEnd - xStart, //width
+									calculatePaintYProportion (powerProp) - calculatePaintYProportion (powerPropAt0) );
+							g.Fill();
+
+							int textPadding = 1;
+							if(segmentCalcs.Power_l[i] < 0)
+								textPadding = -1;
+							printText((xStart + xEnd) / 2, calculatePaintYProportion (powerProp) - (textHeight) * textPadding,
+									0, textHeight-3, Math.Round(segmentCalcs.Power_l[i],1).ToString() + " W", g, alignTypes.CENTER);
+						}
+					}
+					g.Stroke ();
+					g.SetSourceColor (black);
 				}
 				//else //maybe we have not arrived to any segment
 				//	paintGridNiceAutoValues (g, minX, absoluteMaxX, minY, absoluteMaxY, 5, gridTypes.VERTICALLINES, textHeight-3);

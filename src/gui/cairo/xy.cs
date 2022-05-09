@@ -92,6 +92,7 @@ public abstract class CairoXY : CairoGeneric
 	protected string fallStr = Catalog.GetString("Fall");
 	protected string speedStr = Catalog.GetString("Speed");
 	protected string forceStr = Catalog.GetString("Force");
+	protected string powerStr = Catalog.GetString("Power");
 	protected string dateStr = Catalog.GetString("Date");
 	protected string timeStr = Catalog.GetString("Time");
 	protected string distanceStr = Catalog.GetString("Distance");

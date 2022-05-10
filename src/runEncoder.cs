@@ -422,7 +422,7 @@ public class RunEncoderSegmentCalcs
 	/*
 	accel = (V2 - V1)/(T2 - T1)
 	F = m * (a + g*sin(alpha))
-	P = 0.5 * m * (V2^2 - V1^2) + m*g*(h2 - h1)
+	P = 0.5 * m * ((V2^2 - V1^2) + m*g*(h2 - h1)) / (T2 - T1)
 	h = pos * sin(alpha)
 	*/
 
@@ -458,7 +458,7 @@ public class RunEncoderSegmentCalcs
 			double accel = UtilAll.DivideSafe(speedCont, time/1000000.0);
 			accel_l.Add (accel);
 			force_l.Add ( massKg * (accel + g * Math.Sin(angle)) );
-			power_l.Add ( 0.5 * massKg * Math.Pow(speedCont, 2) + massKg * g * (dist * Math.Sin(angle)) );
+			power_l.Add (UtilAll.DivideSafe(( 0.5 * massKg * Math.Pow(speedCont, 2) + massKg * g * (dist * Math.Sin(angle)) ) , time/1000000.0));
 		}
 		else
 		{
@@ -473,10 +473,11 @@ public class RunEncoderSegmentCalcs
 					(speedCont - speedCont_l[Count -2]), (time/1000000.0 - time_l[Count -2]/1000000.0) );
 			accel_l.Add (accel);
 			force_l.Add ( massKg * (accel + g * Math.Sin(angle)) );
-			power_l.Add ( 0.5 * massKg *
-					(Math.Pow(speedCont, 2) - Math.Pow(speedCont_l[Count -2], 2)) +
-					 massKg * g * (dist * Math.Sin(angle) - dist_l[Count -2] * Math.Sin(angle))
-				    );
+			power_l.Add ( UtilAll.DivideSafe (
+						0.5 * massKg * (Math.Pow(speedCont, 2) - Math.Pow(speedCont_l[Count -2], 2)) + //Kinetic Energy +
+						massKg * g * (dist * Math.Sin(angle) - dist_l[Count -2] * Math.Sin(angle)), //Potential Energy
+						(time - time_l[Count -2]) / 1000000.0 //Time
+						) );
 		}
 	}
 

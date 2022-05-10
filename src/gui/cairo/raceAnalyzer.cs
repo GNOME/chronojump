@@ -77,14 +77,14 @@ public class CairoGraphRaceAnalyzer : CairoXY
 	}
 
 	//separated in two methods to ensure endGraphDisposing on any return of the other method
-	public void DoSendingList (string font, List<PointF> points_list, TriggerList triggerList, bool forceRedraw, PlotTypes plotType, int smoothLineWindow)
+	public void DoSendingList (string font, List<PointF> points_list, TriggerList triggerList, bool forceRedraw, PlotTypes plotType, bool blackLine, int smoothLineWindow)
 	{
-		if(doSendingList (font, points_list, triggerList, forceRedraw, plotType, smoothLineWindow))
+		if(doSendingList (font, points_list, triggerList, forceRedraw, plotType, blackLine, smoothLineWindow))
 			endGraphDisposing(g, surface, area.GdkWindow);
 	}
 
 	//return true if graph is inited (to dispose it)
-	private bool doSendingList (string font, List<PointF> points_list, TriggerList triggerList, bool forceRedraw, PlotTypes plotType, int smoothLineWindow)
+	private bool doSendingList (string font, List<PointF> points_list, TriggerList triggerList, bool forceRedraw, PlotTypes plotType, bool blackLine, int smoothLineWindow)
 	{
 		// 1) init graph
 
@@ -229,7 +229,14 @@ public class CairoGraphRaceAnalyzer : CairoXY
 				(maxValuesChanged || forceRedraw || points_list.Count != points_list_painted) )
 		{
 			// 3.a) paint points
+			if(! blackLine)
+				g.SetSourceColor (gray99);
+
 			plotRealPoints(plotType, points_list, points_list_painted, false); //not fast. TODO: maybe use fast if is really faster
+
+			if(! blackLine)
+				g.SetSourceRGB (0,0,0);
+
 			points_list_painted = points_list.Count;
 
 			// 3.b) paint smooth line

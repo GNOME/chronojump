@@ -2312,12 +2312,14 @@ public partial class ChronoJumpWindow
 				reCGSD != null && reCGSD.SegmentCalcs != null)
 			segmentCalcs = reCGSD.SegmentCalcs;
 
-		if(cairoGraphRaceAnalyzer_dt == null)
+		if(cairoGraphRaceAnalyzer_dt == null || forceRedraw)
 			cairoGraphRaceAnalyzer_dt = new CairoGraphRaceAnalyzer(
 					drawingarea_race_analyzer_capture_position_time, "title",
 					Catalog.GetString("Distance"), "m",
 					isSprint, false,
-					segmentCalcs, false, true);
+					segmentCalcs,
+					false, feedbackWin.GetRunsEncoderMainVariable (),
+					true);
 
 		cairoGraphRaceAnalyzer_dt.DoSendingList (preferences.fontType.ToString(),
 				cairoGraphRaceAnalyzerPoints_dt_l, triggerListRunEncoder,
@@ -2335,12 +2337,14 @@ public partial class ChronoJumpWindow
 				reCGSD != null && reCGSD.SegmentCalcs != null)
 			segmentCalcs = reCGSD.SegmentCalcs;
 
-		if(cairoGraphRaceAnalyzer_st == null)
+		if(cairoGraphRaceAnalyzer_st == null || forceRedraw)
 			cairoGraphRaceAnalyzer_st = new CairoGraphRaceAnalyzer(
 					drawingarea_race_analyzer_capture_speed_time, "title",
 					Catalog.GetString("Speed"), "m/s",
 					isSprint, true,
-					segmentCalcs, true, false);
+					segmentCalcs,
+					true, feedbackWin.GetRunsEncoderMainVariable (),
+					false);
 
 		cairoGraphRaceAnalyzer_st.DoSendingList (preferences.fontType.ToString(),
 				cairoGraphRaceAnalyzerPoints_st_l, triggerListRunEncoder,
@@ -2361,12 +2365,14 @@ public partial class ChronoJumpWindow
 				reCGSD != null && reCGSD.SegmentCalcs != null)
 			segmentCalcs = reCGSD.SegmentCalcs;
 
-		if(cairoGraphRaceAnalyzer_at == null)
+		if(cairoGraphRaceAnalyzer_at == null || forceRedraw)
 			cairoGraphRaceAnalyzer_at = new CairoGraphRaceAnalyzer(
 					drawingarea_race_analyzer_capture_accel_time, "title",
 					Catalog.GetString("Accel"), "m/s^2",
 					isSprint, false,
-					segmentCalcs, false, false);
+					segmentCalcs,
+					false, feedbackWin.GetRunsEncoderMainVariable (),
+					false);
 
 		cairoGraphRaceAnalyzer_at.DoSendingList (preferences.fontType.ToString(),
 				cairoGraphRaceAnalyzerPoints_at_l, triggerListRunEncoder,

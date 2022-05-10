@@ -195,12 +195,19 @@ public class FeedbackWindow
 	[Widget] Gtk.SpinButton spin_force_sensor_capture_feedback_path_line_width; //N
 	[Widget] Gtk.Label label_force_sensor_path_recommended;
 
+	//runsEncoder
+	[Widget] Gtk.RadioButton radio_run_encoder_power;
+	[Widget] Gtk.RadioButton radio_run_encoder_force;
+	//[Widget] Gtk.RadioButton radio_run_encoder_accel;
+
+
 	const int JUMPSRUNSPAGE = 0;
 	const int ENCODERAUTOPAGE = 1;
 	const int ENCODERMANUALPAGE = 2;
 	const int ENCODERRHYTHMPAGE = 3;
 	const int FORCESENSORPAGE = 4;
 	const int TESTBELLSPAGE = 5;
+	const int RUNSENCODERPAGE = 6;
 
 	public Gtk.Button FakeButtonClose;
 
@@ -330,6 +337,7 @@ public class FeedbackWindow
 		notebook_main.GetNthPage(ENCODERRHYTHMPAGE).Hide();
 		notebook_main.GetNthPage(FORCESENSORPAGE).Hide();
 		notebook_main.GetNthPage(TESTBELLSPAGE).Hide();
+		notebook_main.GetNthPage(RUNSENCODERPAGE).Hide();
 		notebook_main.ShowTabs = false;
 
 		if(bellMode == Constants.BellModes.JUMPS || bellMode == Constants.BellModes.RUNS)
@@ -450,6 +458,10 @@ public class FeedbackWindow
 			setForceSensorPathRecommendedLabel();
 
 			notebook_main.GetNthPage(FORCESENSORPAGE).Show();
+		}
+		else if(bellMode == Constants.BellModes.RUNSENCODER)
+		{
+			notebook_main.GetNthPage(RUNSENCODERPAGE).Show();
 		}
 
 		label_test_sound_result.Text = "";
@@ -620,6 +632,17 @@ public class FeedbackWindow
 			return ! radio_force_sensor_capture_feedback_no.Active;
 
 		return false;
+	}
+
+	public enum RunsEncoderMainVariableTypes { POWER, FORCE, ACCELERATION };
+	public RunsEncoderMainVariableTypes GetRunsEncoderMainVariable ()
+	{
+		if(radio_run_encoder_power.Active)
+			return RunsEncoderMainVariableTypes.POWER;
+		else if(radio_run_encoder_force.Active)
+			return RunsEncoderMainVariableTypes.FORCE;
+		else // if(radio_run_encoder_accel.Active)
+			return RunsEncoderMainVariableTypes.ACCELERATION;
 	}
 
 	public bool VolumeOn {

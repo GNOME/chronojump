@@ -689,6 +689,7 @@ public partial class ChronoJumpWindow
 		//to have objects ok to be able to be readed before viewing the feedbackWin
 		feedbackWin.View(Constants.BellModes.ENCODERGRAVITATORY, preferences, encoderRhythm, false); //not viewWindow
 		feedbackWin.View(Constants.BellModes.FORCESENSOR, preferences, encoderRhythm, false); //not viewWindow
+		feedbackWin.View(Constants.BellModes.RUNSENCODER, preferences, encoderRhythm, false); //not viewWindow
 		feedbackWin.FakeButtonClose.Clicked += new EventHandler(on_feedback_closed);
 
 		on_extra_window_multichronopic_test_changed(new object(), new EventArgs());
@@ -3925,6 +3926,8 @@ public partial class ChronoJumpWindow
 			button_contacts_capture_load.Sensitive = myTreeViewPersons.IsThereAnyRecord();
 			button_contacts_capture_session_overview.Sensitive = myTreeViewPersons.IsThereAnyRecord();
 
+			button_contacts_bells.Sensitive = true;
+
 			//notebook_capture_analyze.ShowTabs = false; //only capture tab is shown (only valid for "OTHER" tests)
 			hbox_contacts_sup_capture_analyze_two_buttons.Visible = true;
 			alignment_button_threshold.Visible = false;
@@ -4836,6 +4839,8 @@ public partial class ChronoJumpWindow
 			return Constants.BellModes.ENCODERINERTIAL;
 		else if(m == Constants.Modes.FORCESENSOR)
 			return Constants.BellModes.FORCESENSOR;
+		else if(m == Constants.Modes.RUNSENCODER)
+			return Constants.BellModes.RUNSENCODER;
 
 		//default to JUMPSREACTIVE
 		return Constants.BellModes.JUMPS;
@@ -4846,7 +4851,8 @@ public partial class ChronoJumpWindow
 		Constants.Modes m = current_mode;
 		if(m != Constants.Modes.JUMPSREACTIVE &&
 				m != Constants.Modes.RUNSINTERVALLIC &&
-				m != Constants.Modes.FORCESENSOR)
+				m != Constants.Modes.FORCESENSOR &&
+				m != Constants.Modes.RUNSENCODER)
 			return;
 
 		feedbackWin.View(getBellMode(m), preferences, encoderRhythm, true);
@@ -7977,6 +7983,12 @@ LogB.Debug("mc finished 5");
 					preferences.forceSensorFeedbackPathLineWidth = feedbackPathLineWidth;
 				}
 			}
+		}
+		else if(m == Constants.Modes.RUNSENCODER)
+		{
+			updateRaceAnalyzerCapturePositionTime(true);
+			updateRaceAnalyzerCaptureSpeedTime(true);
+			updateRaceAnalyzerCaptureAccelTime(true);
 		}
 	}
 

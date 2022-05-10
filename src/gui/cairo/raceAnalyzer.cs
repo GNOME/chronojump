@@ -119,7 +119,7 @@ public class CairoGraphRaceAnalyzer : CairoXY
 		// 2) paint grid and write vaules on grid lines
 		if(maxValuesChanged || forceRedraw)
 		{
-			if(segmentCalcs.Count == 0)
+			if(segmentCalcs == null || segmentCalcs.Count == 0)
 			{
 				// do not show vertical grid lines if we do not pass any distance mark. Show only horizontal.
 				paintGrid(gridTypes.HORIZONTALLINES, true);
@@ -255,7 +255,7 @@ public class CairoGraphRaceAnalyzer : CairoXY
 
 		// 3) paint points, paint smooth line, paint maximum mark
 		pointsRadius = 1;
-		if( points_list != null &&
+		if( graphInited && points_list != null &&
 				(maxValuesChanged || forceRedraw || points_list.Count != points_list_painted) )
 		{
 			// 3.a) paint points
@@ -317,7 +317,7 @@ public class CairoGraphRaceAnalyzer : CairoXY
 		}
 
 		// 4) paint triggers
-		if(triggerList != null && triggerList.Count() > 0)
+		if(graphInited && triggerList != null && triggerList.Count() > 0)
 			foreach(Trigger trigger in triggerList.GetList())
 				paintVerticalTriggerLine(g, trigger, textHeight -3);
 

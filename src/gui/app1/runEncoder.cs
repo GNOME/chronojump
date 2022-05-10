@@ -1094,13 +1094,11 @@ public partial class ChronoJumpWindow
 		double timePre = -1;
 		double accel = -1;
 		bool enoughAccel = false; //accel has been > preferences.runEncoderMinAccel (default 10ms^2)
-
 		string rowPre = "";
 
 		//store data on cairoGraphRaceAnalyzerPoints_dt_l, ...st_l, ...at_l
 		foreach(string row in contents)
 		{
-			//LogB.Information("row: " + row);
 			if(count < 3)
 			{
 				count ++;
@@ -1128,6 +1126,9 @@ public partial class ChronoJumpWindow
 							currentRunEncoderExercise.SegmentCm, currentRunEncoderExercise.SegmentVariableCm,
 							currentPersonSession.Weight, //but note if person changes (but graph will be hopefully erased), this will change also take care on exports
 							currentRunEncoder.Angle);
+
+					//to shift times to the left
+					reCGSD.SetTimeAtEnoughAccel (rowPre);
 
 					//pass previous row and this one
 					if(reCGSD.PassLoadedRow (rowPre))

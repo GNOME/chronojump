@@ -1092,7 +1092,12 @@ public partial class ChronoJumpWindow
 		double timePre2 = -1;
 		double speedPre = -1;
 		double timePre = -1;
+		double accel = -1;
+		bool enoughAccel = false; //accel has been > preferences.runEncoderMinAccel (default 10ms^2)
 
+		string rowPre = "";
+
+		//store data on cairoGraphRaceAnalyzerPoints_dt_l, ...st_l, ...at_l
 		foreach(string row in contents)
 		{
 			//LogB.Information("row: " + row);
@@ -1105,15 +1110,7 @@ public partial class ChronoJumpWindow
 			if(reCGSD.PassLoadedRow (row))
 				reCGSD.Calcule();
 
-			//distance/time
-			cairoGraphRaceAnalyzerPoints_dt_l.Add(new PointF(
-						UtilAll.DivideSafe(reCGSD.Time, 1000000),
-						reCGSD.RunEncoderCaptureDistance));
-			//speed/time
-			cairoGraphRaceAnalyzerPoints_st_l.Add(new PointF(
-						UtilAll.DivideSafe(reCGSD.Time, 1000000),
-						reCGSD.RunEncoderCaptureSpeed));
-
+			rowPre = row;
 			speedPre2 = speedPre;
 			timePre2 = timePre;
 			speedPre = reCGSD.RunEncoderCaptureSpeed;
@@ -1121,18 +1118,43 @@ public partial class ChronoJumpWindow
 
 			if(timePre2 > 0)
 			{
-				//LogB.Information(string.Format("accel at load is: {0} m/s",
-				//			UtilAll.DivideSafe(reCGSD.RunEncoderCaptureSpeed - speedPre2,
-				//				UtilAll.DivideSafe(reCGSD.Time, 1000000) - timePre2)));
+				accel = UtilAll.DivideSafe(reCGSD.RunEncoderCaptureSpeed - speedPre2,
+								UtilAll.DivideSafe(reCGSD.Time, 1000000) - timePre2);
 
-				//accel/time
-				cairoGraphRaceAnalyzerPoints_at_l.Add(new PointF(
-							UtilAll.DivideSafe(reCGSD.Time, 1000000),
-							UtilAll.DivideSafe(reCGSD.RunEncoderCaptureSpeed - speedPre2,
-								UtilAll.DivideSafe(reCGSD.Time, 1000000) - timePre2)));
+				if (accel > preferences.runEncoderMinAccel && ! enoughAccel)
+				{
+					//recreate rcCGSD object since now
+					reCGSD = new RunEncoderCaptureGetSpeedAndDisplacement(
+							currentRunEncoderExercise.SegmentCm, currentRunEncoderExercise.SegmentVariableCm,
+							currentPersonSession.Weight, //but note if person changes (but graph will be hopefully erased), this will change also take care on exports
+							currentRunEncoder.Angle);
+
+					//pass previous row and this one
+					if(reCGSD.PassLoadedRow (rowPre))
+						reCGSD.Calcule();
+					if(reCGSD.PassLoadedRow (row))
+						reCGSD.Calcule();
+
+					enoughAccel = true;
+				}
 			}
 
+			if(enoughAccel)
+			{
+				cairoGraphRaceAnalyzerPoints_dt_l.Add(new PointF(
+							UtilAll.DivideSafe(reCGSD.Time, 1000000),
+							reCGSD.RunEncoderCaptureDistance));
+
+				cairoGraphRaceAnalyzerPoints_st_l.Add(new PointF(
+							UtilAll.DivideSafe(reCGSD.Time, 1000000),
+							reCGSD.RunEncoderCaptureSpeed));
+
+				cairoGraphRaceAnalyzerPoints_at_l.Add(new PointF(
+							UtilAll.DivideSafe(reCGSD.Time, 1000000),
+							accel));
+			}
 		}
+
 		if(reCGSD.RunEncoderCaptureSpeedMax > 0)
 		{
 			if(cairoRadial == null)

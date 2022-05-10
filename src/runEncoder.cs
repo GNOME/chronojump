@@ -503,7 +503,12 @@ public class RunEncoderSegmentCalcs
 
 	public int Count
 	{
-		get { return dist_l.Count; }
+		get {
+			if(dist_l == null)
+				return 0;
+			else
+				return dist_l.Count;
+		}
 	}
 
 	public List<double> Dist_l {

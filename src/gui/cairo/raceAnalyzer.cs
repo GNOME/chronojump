@@ -31,7 +31,11 @@ public class CairoGraphRaceAnalyzer : CairoXY
 	private bool isSprint;
 	private bool plotMaxMark;
 	private RunEncoderSegmentCalcs segmentCalcs;
-	private bool plotPowerBars;
+
+	//plotSegmentBars will plot power, force or accel according to mainVariable
+	private bool plotSegmentBars;
+	private FeedbackWindow.RunsEncoderMainVariableTypes mainVariable;
+
 	private bool useListOfDoublesOnY;
 
 	//to avoid to have new data on PassData while the for is working on plotRealPoints
@@ -42,7 +46,7 @@ public class CairoGraphRaceAnalyzer : CairoXY
 			string yVariable, string yUnits,
 			bool isSprint, bool plotMaxMark,
 			RunEncoderSegmentCalcs segmentCalcs,
-			bool plotPowerBars,
+			bool plotSegmentBars, FeedbackWindow.RunsEncoderMainVariableTypes mainVariable,
 			bool useListOfDoublesOnY) //for pos/time graph
 	{
 		this.area = area;
@@ -56,7 +60,8 @@ public class CairoGraphRaceAnalyzer : CairoXY
 		this.isSprint = isSprint;
 		this.plotMaxMark = plotMaxMark;
 		this.segmentCalcs = segmentCalcs;
-		this.plotPowerBars = plotPowerBars;
+		this.plotSegmentBars = plotSegmentBars;
+		this.mainVariable = mainVariable;
 		this.useListOfDoublesOnY = useListOfDoublesOnY;
 		
 //		doing = false;
@@ -167,18 +172,42 @@ public class CairoGraphRaceAnalyzer : CairoXY
 					//graph the segmentCalcs
 					LogB.Information("dist ; time(s) ; speedCont ; accels ; forces ; powers");
 
-					if(plotPowerBars)
+					if(plotSegmentBars)
 					{
+						List<double> data_l = new List<double> ();
+						string mainVariableStr;
+						string unitsStr;
+						if(mainVariable == FeedbackWindow.RunsEncoderMainVariableTypes.POWER)
+						{
+							data_l = segmentCalcs.Power_l;
+							mainVariableStr = powerStr;
+							unitsStr = "W";
+						}
+						else if(mainVariable == FeedbackWindow.RunsEncoderMainVariableTypes.FORCE)
+						{
+							data_l = segmentCalcs.Force_l;
+							mainVariableStr = forceStr;
+							unitsStr = "N";
+						} else //if(mainVariable == FeedbackWindow.RunsEncoderMainVariableTypes.ACCELERATION)
+						{
+							data_l = segmentCalcs.Accel_l;
+							mainVariableStr = accelStr;
+							unitsStr = "m/s^2";
+						}
+
 						g.SetSourceColor (colorFromRGB (190,190,190));
-						double powerPropAt0 = MathUtil.GetProportion (0, segmentCalcs.Power_l);
+						double powerPropAt0 = MathUtil.GetProportion (0, data_l);
 
 						//draw Y0 line
+						g.SetSourceColor (colorFromRGB (66,66,66));
 						g.MoveTo (outerMargin, calculatePaintYProportion (powerPropAt0));
 						g.LineTo (calculatePaintX (points_list[points_list.Count -1].X), calculatePaintYProportion (powerPropAt0));
 						g.Stroke ();
 						g.SetSourceColor (black);
-						printText(calculatePaintX (points_list[points_list.Count -1].X), calculatePaintYProportion (powerPropAt0),
-								0, textHeight-3, " 0 " + powerStr, g, alignTypes.LEFT);
+						printText(calculatePaintX (points_list[points_list.Count -1].X), calculatePaintYProportion (powerPropAt0) - .66*textHeight,
+								0, textHeight-3, mainVariableStr, g, alignTypes.LEFT);
+						printText(calculatePaintX (points_list[points_list.Count -1].X), calculatePaintYProportion (powerPropAt0) + .66*textHeight,
+								0, textHeight-3, "0 " + unitsStr, g, alignTypes.LEFT);
 
 						for(int i = 0 ; i < segmentCalcs.Count ; i ++)
 						{
@@ -187,7 +216,7 @@ public class CairoGraphRaceAnalyzer : CairoXY
 							   segmentCalcs.SpeedCont_l[i], segmentCalcs.Accel_l[i], segmentCalcs.Force_l[i], segmentCalcs.Power_l[i] ));
 							 */
 
-							double powerProp = MathUtil.GetProportion (segmentCalcs.Power_l[i], segmentCalcs.Power_l);
+							double powerProp = MathUtil.GetProportion (data_l[i], data_l);
 							double xStart = calculatePaintX (points_list[0].X);
 							if(i > 0)
 								xStart = calculatePaintX (segmentCalcs.Time_l[i-1]/1000000.0);
@@ -204,12 +233,13 @@ public class CairoGraphRaceAnalyzer : CairoXY
 							g.Stroke(); //rectangle border
 
 							int textPadding = 1;
-							if(segmentCalcs.Power_l[i] < 0)
+							if(data_l[i] < 0)
 								textPadding = -1;
 
 							g.SetSourceColor (black);
 							printText((xStart + xEnd) / 2, calculatePaintYProportion (powerProp) - (textHeight) * textPadding,
-									0, textHeight-3, Math.Round(segmentCalcs.Power_l[i],1).ToString() + " W", g, alignTypes.CENTER);
+									0, textHeight-3, Math.Round(data_l[i],1).ToString()// + " " + unitsStr
+									, g, alignTypes.CENTER);
 						}
 					}
 					g.Stroke ();

@@ -290,6 +290,7 @@ public class RunEncoderCaptureGetSpeedAndDisplacement
 	private int encoderOrRCA;
 
 	private int timePre;
+	private int timeAtEnoughAccel;
 
 	private double runEncoderCaptureSpeed;
 	private double runEncoderCaptureSpeedMax;
@@ -303,6 +304,7 @@ public class RunEncoderCaptureGetSpeedAndDisplacement
 
 		segmentCalcs = new RunEncoderSegmentCalcs (massKg, angle);
 		timePre = 0;
+		timeAtEnoughAccel = 0;
 	}
 
 	public void PassCapturedRow (List<int> binaryReaded)
@@ -323,8 +325,26 @@ public class RunEncoderCaptureGetSpeedAndDisplacement
 			return false;
 
 		this.encoderDisplacement = Convert.ToInt32(cells[0]);
+
 		this.time = Convert.ToInt32(cells[1]);
+		//after enoughAccel, time has to be shifted to left
+		if(timeAtEnoughAccel > 0)
+			time -= timeAtEnoughAccel;
+
 		return true;
+	}
+
+	//to sync time
+	public void SetTimeAtEnoughAccel (string row)
+	{
+		string [] cells = row.Split(new char[] {';'});
+		if(cells.Length != 3)
+			return;
+
+		if(! Util.IsNumber(cells[0], false) || ! Util.IsNumber(cells[1], false))
+			return;
+
+		timeAtEnoughAccel = Convert.ToInt32(cells[1]);
 	}
 
 	public bool Calcule ()

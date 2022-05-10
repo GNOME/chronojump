@@ -596,7 +596,7 @@ public partial class ChronoJumpWindow
 		reCGSD = new RunEncoderCaptureGetSpeedAndDisplacement(
 				currentRunEncoderExercise.SegmentCm, currentRunEncoderExercise.SegmentVariableCm,
 				currentPersonSession.Weight, //but note if person changes (but graph will be hopefully erased), this will change also take care on exports
-				currentRunEncoder.Angle);
+				Convert.ToInt32(race_analyzer_spinbutton_angle.Value));
 		runEncoderShouldShowCaptureGraphsWithData = true;
 
 		runEncoderCaptureThread = new Thread(new ThreadStart(runEncoderCaptureDo));
@@ -1606,7 +1606,7 @@ public partial class ChronoJumpWindow
 							UtilDate.ToFile(runEncoderTimeStartCapture),
 							"", //on capture cannot store comment (comment has to be written after),
 							"", //videoURL
-							currentRunEncoder.Angle,
+							Convert.ToInt32(race_analyzer_spinbutton_angle.Value),
 							currentRunEncoderExercise.Name);
 
 					currentRunEncoder.UniqueID = currentRunEncoder.InsertSQL(false);

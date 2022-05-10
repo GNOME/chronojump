@@ -368,7 +368,7 @@ plotSprintFromEncoder <- function(sprintRawDynamics, sprintFittedDynamics,
                 barplot(height = sprintRawDynamics$meanSpeed, width = diff(c(0,sprintRawDynamics$splitTime)), space = 0,
                         ylim = ylimits, xlim = xlimits,
                         xlab = "Time (s)", ylab = "Speed (m/s)",
-                        yaxs = "i", xaxs = "i")
+                        yaxs = "i", xaxs = "i", col="#bebebe")
                 mtext(title, line = 2.5, cex = 1.5)
                 mtext(subtitle, line = 1)
                 lines(sprintRawDynamics$time[sprintRawDynamics$startSample:sprintRawDynamics$endSample],

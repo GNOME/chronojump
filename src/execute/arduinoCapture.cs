@@ -715,7 +715,8 @@ public class MicroDiscover : MicroComms
 		List<string> responseExpected_l = new List<string>();
 		responseExpected_l.Add(raceAnalyzerStr);
 
-		if(getVersionNTimes ("get_version:", responseExpected_l, false, 2, 500))
+		Thread.Sleep(1500); //raceAnalyzer wait 1500 ms after open to be able to receive commands
+		if(getVersion ("get_version:", responseExpected_l, false, 2000))
 		{
 			LogB.Information("Discover found this device: " + micro.Response);
 			if(micro.Response.Contains(raceAnalyzerStr))

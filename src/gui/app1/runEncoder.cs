@@ -1119,7 +1119,7 @@ public partial class ChronoJumpWindow
 				accel = UtilAll.DivideSafe(reCGSD.RunEncoderCaptureSpeed - speedPre2,
 								UtilAll.DivideSafe(reCGSD.Time, 1000000) - timePre2);
 
-				if (accel > preferences.runEncoderMinAccel && ! enoughAccel)
+				if (accel >= preferences.runEncoderMinAccel && ! enoughAccel)
 				{
 					//recreate rcCGSD object since now
 					reCGSD = new RunEncoderCaptureGetSpeedAndDisplacement(
@@ -1128,7 +1128,7 @@ public partial class ChronoJumpWindow
 							currentRunEncoder.Angle);
 
 					//to shift times to the left
-					reCGSD.SetTimeAtEnoughAccel (rowPre);
+					reCGSD.SetTimeAtEnoughAccel (row);
 
 					//pass previous row and this one
 					if(reCGSD.PassLoadedRow (rowPre))

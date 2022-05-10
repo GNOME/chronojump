@@ -169,13 +169,14 @@ public class CairoGraphRaceAnalyzer : CairoXY
 
 					if(plotPowerBars)
 					{
-						g.SetSourceColor (colorFromRGB (66,66,66));
+						g.SetSourceColor (colorFromRGB (190,190,190));
 						double powerPropAt0 = MathUtil.GetProportion (0, segmentCalcs.Power_l);
 
 						//draw Y0 line
 						g.MoveTo (outerMargin, calculatePaintYProportion (powerPropAt0));
 						g.LineTo (calculatePaintX (points_list[points_list.Count -1].X), calculatePaintYProportion (powerPropAt0));
 						g.Stroke ();
+						g.SetSourceColor (black);
 						printText(calculatePaintX (points_list[points_list.Count -1].X), calculatePaintYProportion (powerPropAt0),
 								0, textHeight-3, " 0 " + powerStr, g, alignTypes.LEFT);
 
@@ -192,15 +193,21 @@ public class CairoGraphRaceAnalyzer : CairoXY
 								xStart = calculatePaintX (segmentCalcs.Time_l[i-1]/1000000.0);
 							double xEnd = calculatePaintX (segmentCalcs.Time_l[i]/1000000.0);
 
+							g.SetSourceColor (colorFromRGB (190,190,190));
 							g.Rectangle (xStart, //x
 									calculatePaintYProportion (powerPropAt0), //y
 									xEnd - xStart, //width
 									calculatePaintYProportion (powerProp) - calculatePaintYProportion (powerPropAt0) );
-							g.Fill();
+
+							g.FillPreserve(); //fill preparing for border later
+							g.SetSourceColor (colorFromRGB (66,66,66));
+							g.Stroke(); //rectangle border
 
 							int textPadding = 1;
 							if(segmentCalcs.Power_l[i] < 0)
 								textPadding = -1;
+
+							g.SetSourceColor (black);
 							printText((xStart + xEnd) / 2, calculatePaintYProportion (powerProp) - (textHeight) * textPadding,
 									0, textHeight-3, Math.Round(segmentCalcs.Power_l[i],1).ToString() + " W", g, alignTypes.CENTER);
 						}

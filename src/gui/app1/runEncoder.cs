@@ -2298,7 +2298,7 @@ public partial class ChronoJumpWindow
 
 		cairoGraphRaceAnalyzer_dt.DoSendingList (preferences.fontType.ToString(),
 				cairoGraphRaceAnalyzerPoints_dt_l, triggerListRunEncoder,
-				forceRedraw, CairoXY.PlotTypes.LINES,
+				forceRedraw, CairoXY.PlotTypes.LINES, true,
 				getSmoothFrom_gui_at_race_analyzer_capture_smooth_graphs ());
 	}
 	private void updateRaceAnalyzerCaptureSpeedTime(bool forceRedraw)
@@ -2321,7 +2321,7 @@ public partial class ChronoJumpWindow
 
 		cairoGraphRaceAnalyzer_st.DoSendingList (preferences.fontType.ToString(),
 				cairoGraphRaceAnalyzerPoints_st_l, triggerListRunEncoder,
-				forceRedraw, CairoXY.PlotTypes.LINES,
+				forceRedraw, CairoXY.PlotTypes.LINES, true,
 				getSmoothFrom_gui_at_race_analyzer_capture_smooth_graphs ());
 	}
 	private void updateRaceAnalyzerCaptureAccelTime(bool forceRedraw)
@@ -2347,7 +2347,7 @@ public partial class ChronoJumpWindow
 
 		cairoGraphRaceAnalyzer_at.DoSendingList (preferences.fontType.ToString(),
 				cairoGraphRaceAnalyzerPoints_at_l, triggerListRunEncoder,
-				forceRedraw, CairoXY.PlotTypes.LINES,
+				forceRedraw, CairoXY.PlotTypes.LINES, false,
 				getSmoothFrom_gui_at_race_analyzer_capture_smooth_graphs ());
 	}
 

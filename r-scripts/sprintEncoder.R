@@ -251,13 +251,15 @@ getSprintFromEncoder <- function(filename, testLength, Mass, Temperature = 25, H
         T0 = summary(regression$model)$coeff[3,1]
         P0 = summary(regression$model)$coeff[4,1]
         print(paste("T0:", T0))
-        time = time + T0
+        #time = time + T0
         print(paste("P0:", P0))
 
         print("startTime:")
-        print(totalTime[trimmingSamples$start] + T0)
+        #print(totalTime[trimmingSamples$start] + T0)
+        print(totalTime[trimmingSamples$start])
         
         #Getting values of the splits
+        #splits = getSplits(time, position + P0
         splits = getSplits(time, position + P0
                            , totalForce, power
                            , trimmingSamples$start, trimmingSamples$end
@@ -360,7 +362,7 @@ plotSprintFromEncoder <- function(sprintRawDynamics, sprintFittedDynamics,
 
         #Plotting rawSpeed
         ylimits = c(0, sprintRawDynamics$rawVmax*1.05)
-        xlimits =c(0, sprintRawDynamics$time[sprintRawDynamics$endSample])
+        xlimits =c(-sprintFittedDynamics$T0, sprintRawDynamics$time[sprintRawDynamics$endSample])
 
         
         if(plotRawMeanSpeed)
@@ -397,10 +399,13 @@ plotSprintFromEncoder <- function(sprintRawDynamics, sprintFittedDynamics,
         
         abline(v = sprintRawDynamics$splitTime, lty = 3)
         mtext(side = 3, at = sprintRawDynamics$splitTime, text = paste(sprintRawDynamics$splitPosition, " m", sep=""))
+        mtext(side = 1, at = 0, text = paste(0, " s", sep=""))
+        mtext(side = 1, at = -sprintFittedDynamics$T0, text = paste(round(-sprintFittedDynamics$T0, 3), " s", sep=""))
         mtext(side = 1, at = sprintRawDynamics$splitTime, text = paste(round(sprintRawDynamics$splitTime, digits = 3), " s", sep=""))
         
         if (plotFittedSpeed)
         {
+                sprintFittedDynamics$t.fitted = sprintFittedDynamics$t.fitted - sprintFittedDynamics$T0
                 #Plotting fitted speed
                 lines(sprintFittedDynamics$t.fitted, sprintFittedDynamics$v.fitted
                       , lty = 2, lwd = 2
@@ -543,6 +548,8 @@ plotSprintFromEncoder <- function(sprintRawDynamics, sprintFittedDynamics,
                 
                 if (plotFittedPower)
                 {
+                  
+                        sprintFittedDynamics$tpmax.fitted = sprintFittedDynamics$tpmax.fitted - sprintFittedDynamics$T0
                         #Plotting fittedPower
                         par(new = TRUE)
                         plot(x = sprintFittedDynamics$t.fitted, y = sprintFittedDynamics$p.fitted
@@ -557,7 +564,7 @@ plotSprintFromEncoder <- function(sprintRawDynamics, sprintFittedDynamics,
                         lines(c(sprintFittedDynamics$tpmax.fitted, sprintFittedDynamics$tpmax.fitted), c(sprintFittedDynamics$pmax.fitted, 0)
                               , lty = 2, col = "red")
                         mtext(paste(round(sprintFittedDynamics$tpmax.fitted, digits = 3), "s")
-                              , at = sprintFittedDynamics$tpmax.fitted, side = 1
+                              , at = sprintFittedDynamics$tpmax.fitted, side = 1, line = 1
                               , col = "red")
 
 			legendText = c(legendText, paste("P max (fitted) =", round(sprintFittedDynamics$pmax.fitted, digits = 2), "W"))
@@ -681,10 +688,13 @@ getSplits <- function(time, rawPosition, rawForce, rawPower, startSample, endSam
 {
         splitPosition = NULL
 	if(splitLength > 0) #use splitLength
-	        splitPosition = min(testLength, splitLength)
+	      splitPosition = min(testLength, splitLength)
 	else
 		splitPosition = min(testLength, splitVariableCm[1]/100)
-
+        print("Going to interpolate:")
+        print(time[startSample:endSample])
+        print(rawPosition[startSample:endSample])
+        print(splitPosition)
         splitTime = interpolateXAtY(time[startSample:endSample],
                                     rawPosition[startSample:endSample],
                                     splitPosition)

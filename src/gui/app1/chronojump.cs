@@ -303,7 +303,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Label label_micro_discover_ports;
 	[Widget] Gtk.ProgressBar progressbar_micro_discover_ports;
 	[Widget] Gtk.ProgressBar progressbar_micro_discover_status;
-	[Widget] Gtk.EventBox eventbox_button_micro_discover_close;
+	[Widget] Gtk.EventBox eventbox_button_micro_discover_cancel_close;
 	[Widget] Gtk.Image image_button_micro_discover_cancel_close;
 	[Widget] Gtk.Label label_button_micro_discover_cancel_close;
 
@@ -671,7 +671,7 @@ public partial class ChronoJumpWindow
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_open_chronojump, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_help_close, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_news_close, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
-		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_micro_discover_close, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
+		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_micro_discover_cancel_close, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_exit_cancel, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_exit_confirm, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
 		app1s_eventboxes_paint();
@@ -4610,9 +4610,17 @@ public partial class ChronoJumpWindow
 	private bool pulseDiscoverGTK ()
 	{
 		progressbar_micro_discover_ports.Fraction = microDiscover.ProgressBarCurrentMicroValue;
-		progressbar_micro_discover_ports.Text = microDiscover.ProgressBarCurrentMicroText;
+
+		if(microDiscover != null && microDiscover.Cancel)
+			progressbar_micro_discover_ports.Text = Catalog.GetString("Cancelling");
+		else
+			progressbar_micro_discover_ports.Text = microDiscover.ProgressBarCurrentMicroText;
+
 		//progressbar_micro_discover_status.Fraction = microDiscover.ProgressBarStatusValue;
-		progressbar_micro_discover_status.Text = microDiscover.ProgressBarStatusText;
+		if(microDiscover != null && microDiscover.Cancel)
+			progressbar_micro_discover_status.Text = Catalog.GetString("Cancelling");
+		else
+			progressbar_micro_discover_status.Text = microDiscover.ProgressBarStatusText;
 
 		if(! discoverThread.IsAlive)
 		{
@@ -4621,6 +4629,12 @@ public partial class ChronoJumpWindow
 			LogB.ThreadEnded();
 
 			progressbar_micro_discover_status.Fraction = 1;
+
+			if(microDiscover != null && microDiscover.Cancel)
+			{
+				progressbar_micro_discover_ports.Text = Catalog.GetString("Cancelled");
+				progressbar_micro_discover_status.Text = Catalog.GetString("Cancelled");
+			}
 
 			image_button_micro_discover_cancel_close.Pixbuf =
 				new Pixbuf (null, Util.GetImagePath(false) + "image_close.png");
@@ -4634,10 +4648,16 @@ public partial class ChronoJumpWindow
 		return true;
 	}
 
-	private void on_button_micro_discover_close_clicked (object o, EventArgs args)
+	private void on_button_micro_discover_cancel_close_clicked (object o, EventArgs args)
 	{
-		notebook_sup.CurrentPage = app1s_notebook_sup_entered_from; //CONTACTS or ENCODER
-		menus_and_mode_sensitive (true);
+		if (discoverThread != null && discoverThread.IsAlive && microDiscover != null)
+		{
+			//label_micro_discover_ports.Text = Catalog.GetString("Cancelling");
+			microDiscover.Cancel = true;
+		} else {
+			notebook_sup.CurrentPage = app1s_notebook_sup_entered_from; //CONTACTS or ENCODER
+			menus_and_mode_sensitive (true);
+		}
 	}
 
 

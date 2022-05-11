@@ -24,8 +24,6 @@
 
 //#include <HX711.h>
 #include <EEPROM.h>
-//#include <LiquidCrystal.h>
-#include <MsTimer2.h>
 #include "SPI.h"
 #include "Adafruit_ILI9341.h"
 #include "Adafruit_GFX.h"
@@ -95,9 +93,9 @@ const unsigned short blueButtonPin = 5;
 Bounce blueButton = Bounce(blueButtonPin, 50);
 
 //TODO. Manage it with timer interruptions
-unsigned short lcdDelay = 25; //to be able to see the screen. Seconds are also printed in delay but 25 values are less than one second
-unsigned short lcdCount = 0;
-float measuredLcdDelayMax = 0; //The max in the lcdDelay periodca
+//unsigned short lcdDelay = 25; //to be able to see the screen. Seconds are also printed in delay but 25 values are less than one second
+//unsigned short lcdCount = 0;
+//float measuredLcdDelayMax = 0; //The max in the lcdDelay periodca
 float measuredMax = 300.0; // The max since starting capture
 float measuredMin = -100.0;
 float measured = 0;
@@ -252,19 +250,11 @@ void setup() {
     scale.set_scale(calibration_factor);
   }
 
-  /*
-     ¡¡¡¡ Atention !!!!
-     starting MsTimer2 causes instability in teensy or TFT
-    //Every second the battery level is updated via interrupts
-    //MsTimer2::set(1000, updateTime);
-    ////MsTimer2::start();
-  */
-
-
   //Start TFT
   tft.begin();
   tft.setRotation(1);
-  tft.fillRect(0, 50, 320, 240, BLACK);
+  //tft.fillRect(0, 50, 320, 240, BLACK);
+  tft.fillScreen(BLACK);
   drawMenuBackground();
   showMenu();
 }
@@ -366,7 +356,6 @@ void capture(void)
   bool resized = true;
 
   long lastUpdateTime = 0;
-  //MsTimer2::stop();
 
   tft.fillScreen(BLACK);
 
@@ -549,9 +538,9 @@ void getResults(void)
              ((totalTime - totalTimes1s[(currentTSlot + samples200ms - samples100ms) % samples200ms]) / 1e6); //Increment of time
     if (RFD100 > maxRFD100) maxRFD100 = RFD100;
   }
-  if (abs(measured) > abs(measuredLcdDelayMax)) {
-    measuredLcdDelayMax = measured;
-  }
+//  if (abs(measured) > abs(measuredLcdDelayMax)) {
+//    measuredLcdDelayMax = measured;
+//  }
 }
 
 void printTftFormat (float val, int xStart, int y, int fontSize, int decimal) {
@@ -624,8 +613,6 @@ void serialEvent() {
 
 void start_capture()
 {
-  //Disabling the battery level indicator
-  //MsTimer2::start();
   Serial.println("Starting capture...");
   totalTime = 0;
   lastTime = micros();
@@ -658,7 +645,6 @@ void end_capture()
 {
   capturing = false;
   Serial.println("Capture ended:");
-  MsTimer2::stop();
 
   //If the device is controlled by the PC the results menu is not showed
   //because during the menu navigation the Serial is not listened.
@@ -670,7 +656,6 @@ void end_capture()
     showResults();
   }
 
-  //Activating the Battery level indicator
   showMenu();
 }
 
@@ -804,7 +789,6 @@ void changingRCA() {
 }
 
 void calibrateTFT(void) {
-  MsTimer2::stop();
   short increment = 1;
   int weight = 1;
   submenu = 0;
@@ -955,10 +939,14 @@ void calibrateTFT(void) {
     redButton.update();
     blueButton.update();
   }
-  //MsTimer2::start();
   showMenu();
 }
 
+/*
+   ¡¡¡¡ Atention !!!!
+   Starting MsTimer2 causes instability in teensy or TFT.
+   Don't update battery state using the MsTimer2
+*/
 void showBatteryLevel() {
   float sensorValue = analogRead(A0);
   if (sensorValue >= 788) {
@@ -981,7 +969,6 @@ void updateTime() {
 }
 //TODO: Add more information or eliminate
 void showSystemInfo() {
-  MsTimer2::stop();
 
   //Erases the description of the upper menu entry
   tft.setTextSize(2);

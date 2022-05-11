@@ -293,10 +293,17 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Button button_repair_selected_pulse;
 
 	[Widget] Gtk.Box vbox_execute_test;
-	[Widget] Gtk.Button button_contacts_detect;
 	[Widget] Gtk.Button button_execute_test;
 	[Widget] Gtk.Viewport viewport_chronopics;
 	[Widget] Gtk.Viewport viewport_chronopic_encoder;
+
+	//detect devices
+	[Widget] Gtk.VBox vbox_micro_discover;
+	[Widget] Gtk.Button button_contacts_detect;
+	[Widget] Gtk.Label label_micro_discover_ports;
+	[Widget] Gtk.ProgressBar progressbar_micro_discover_ports;
+	[Widget] Gtk.ProgressBar progressbar_micro_discover_status;
+	[Widget] Gtk.EventBox eventbox_button_micro_discover_close;
 
 	[Widget] Gtk.Label label_threshold;
 
@@ -495,6 +502,8 @@ public partial class ChronoJumpWindow
 	ExecuteAutoWindow executeAutoWin;
 
 	static Thread pingThread;
+	static Thread discoverThread;
+	static MicroDiscover microDiscover;
 
 	private bool createdStatsWin;
 	
@@ -502,7 +511,7 @@ public partial class ChronoJumpWindow
 	private string progVersion;
 	private string progName;
 	private enum notebook_start_pages { PROGRAM, SENDLOG, EXITCONFIRM, SOCIALNETWORKPOLL }
-	private enum notebook_sup_pages { START, CONTACTS, ENCODER, SESSION, NETWORKSPROBLEMS, HELP, NEWS }
+	private enum notebook_sup_pages { START, CONTACTS, ENCODER, SESSION, NETWORKSPROBLEMS, HELP, NEWS, MICRODISCOVER }
 	private enum notebook_contacts_execute_or_pages { EXECUTE, INSTRUCTIONS, FORCESENSORADJUST, RACEINSPECTOR }
 	private enum notebook_analyze_pages { STATISTICS, JUMPSPROFILE, JUMPSDJOPTIMALFALL, JUMPSWEIGHTFVPROFILE, JUMPSEVOLUTION, JUMPSRJFATIGUE,
 		RUNSEVOLUTION, SPRINT, FORCESENSOR, RACEENCODER }
@@ -660,6 +669,7 @@ public partial class ChronoJumpWindow
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_open_chronojump, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_help_close, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_news_close, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
+		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_micro_discover_close, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_exit_cancel, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_exit_confirm, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
 		app1s_eventboxes_paint();
@@ -926,6 +936,7 @@ public partial class ChronoJumpWindow
 		{
 			UtilGtk.ContrastLabelsNotebook (Config.ColorBackgroundIsDark, app1s_notebook);
 			UtilGtk.ContrastLabelsVBox (Config.ColorBackgroundIsDark, vbox_help);
+			UtilGtk.ContrastLabelsVBox (Config.ColorBackgroundIsDark, vbox_micro_discover);
 		}
 
 		LogB.Information(string.Format("UseSystemColor: {0}, ColorBackgroundIsDark: {1}", Config.UseSystemColor, Config.ColorBackgroundIsDark));
@@ -4537,8 +4548,12 @@ public partial class ChronoJumpWindow
 		dialogThreshold.DestroyDialog();
 	}
 
+	/*
+	   ----------------- discover / detect devices --------->
+	   */
+
 	//right now implemented only contacts
-	void on_button_contacts_detect_clicked (object o, EventArgs args)
+	private void on_button_contacts_detect_clicked (object o, EventArgs args)
 	{
 		if(
 				current_mode != Constants.Modes.RUNSSIMPLE &&
@@ -4547,39 +4562,81 @@ public partial class ChronoJumpWindow
 				current_mode != Constants.Modes.RUNSENCODER)
 			return;
 
-		ChronoDebug cDebug = new ChronoDebug("Discover " + current_mode.ToString());
-		cDebug.Start();
+		// 1) set up gui
+		progressbar_micro_discover_ports.Fraction = 0;
+		progressbar_micro_discover_status.Fraction = 0;
+
+		//ChronoDebug cDebug = new ChronoDebug("Discover " + current_mode.ToString());
+		//cDebug.Start();
 
 		List<string> list_discover_ports = Util.StringArrayToListString (ChronopicPorts.GetPorts ());
-		if(list_discover_ports == null || list_discover_ports.Count == 0)
+		label_micro_discover_ports.Text = string.Format(Catalog.GetPluralString(
+					"Found 1 device.",
+					"Found {0} devices.",
+					list_discover_ports.Count), list_discover_ports.Count);
+
+		app1s_notebook_sup_entered_from = notebook_sup.CurrentPage; //CONTACTS or ENCODER
+		notebook_sup.CurrentPage = Convert.ToInt32(notebook_sup_pages.MICRODISCOVER);
+		menus_and_mode_sensitive (false);
+
+		if(list_discover_ports != null && list_discover_ports.Count > 0)
 		{
-			new DialogMessage( Constants.MessageTypes.INFO,
-					string.Format(Catalog.GetPluralString(
-						"Found 1 device.",
-						"Found {0} devices.",
-						0),
-					0) );
-			return;
+			microDiscover = new MicroDiscover (list_discover_ports); //all ports
+			discoverThread = new Thread (new ThreadStart (discoverDo));
+			GLib.Idle.Add (new GLib.IdleHandler (pulseDiscoverGTK));
+			discoverThread.Start();
 		}
 
-		MicroDiscover md = new MicroDiscover (list_discover_ports); //all ports
-		List<string> discovered_l = md.DiscoverOneMode (current_mode);
+		//cDebug.StopAndPrint();
+	}
 
-		cDebug.StopAndPrint();
+	private void discoverDo ()
+	{
+		List<string> discovered_l = microDiscover.DiscoverOneMode (current_mode);
 
 		string discoveredStr = "Discovered: ";
 		foreach (string str in discovered_l)
 			discoveredStr += "\n- " + str;
 
-		new DialogMessage( Constants.MessageTypes.INFO, discoveredStr +
-				string.Format("\n{0} ms", cDebug.StartToEndInMs()) );
+		//new DialogMessage( Constants.MessageTypes.INFO, discoveredStr +
+		//		string.Format("\n{0} ms", cDebug.StartToEndInMs()) );
+	}
+	private bool pulseDiscoverGTK ()
+	{
+		progressbar_micro_discover_ports.Fraction = microDiscover.ProgressBarCurrentMicroValue;
+		progressbar_micro_discover_ports.Text = microDiscover.ProgressBarCurrentMicroText;
+		//progressbar_micro_discover_status.Fraction = microDiscover.ProgressBarStatusValue;
+		progressbar_micro_discover_status.Text = microDiscover.ProgressBarStatusText;
 
+		if(! discoverThread.IsAlive)
+		{
+			// 3) end this pulse
+			LogB.Information("pulseDiscoverGTK ending here");
+			LogB.ThreadEnded();
 
-		button_contacts_detect.Visible = false;
-		button_execute_test.Visible = true;
+			progressbar_micro_discover_status.Fraction = 1;
+			return false;
+		}
+
+		progressbar_micro_discover_status.Pulse ();
+		Thread.Sleep (200);
+		return true;
 	}
 
-	void on_button_execute_test_clicked (object o, EventArgs args) 
+	private void on_button_micro_discover_close_clicked (object o, EventArgs args)
+	{
+		notebook_sup.CurrentPage = app1s_notebook_sup_entered_from; //CONTACTS or ENCODER
+		menus_and_mode_sensitive (true);
+	}
+
+
+	/*
+	   <---------------- end of discover / detect devices --------
+	   */
+
+
+
+	private void on_button_execute_test_clicked (object o, EventArgs args)
 	{
 		if(current_mode == Constants.Modes.FORCESENSOR)
 		{

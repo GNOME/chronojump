@@ -131,6 +131,7 @@ public class Micro
 public abstract class MicroComms
 {
 	protected Micro micro;
+	protected static bool cancel;
 
 	protected bool portConnect (bool doSleep)
 	{
@@ -261,7 +262,7 @@ public abstract class MicroComms
 					micro.Response = str;
 				}
 		}
-		while(! (success || sw.Elapsed.TotalMilliseconds > waitResponseMs) );
+		while(! (success || cancel || sw.Elapsed.TotalMilliseconds > waitResponseMs) );
 		LogB.Information("ended waitResponse");
 
 		return (success);
@@ -274,6 +275,11 @@ public abstract class MicroComms
 			str = micro.ReadExisting ();
 
 		LogB.Information(string.Format("flushed: |{0}|", str));
+	}
+
+	public bool Cancel {
+		get { return cancel; }
+		set { cancel = value; }
 	}
 }
 
@@ -344,6 +350,7 @@ public class PhotocellWirelessCapture: ArduinoCapture
 	//constructor
 	public PhotocellWirelessCapture (string portName)
 	{
+		cancel = false;
 		micro = new Micro (portName, 115200);
 		Reset ();
 	}
@@ -556,6 +563,7 @@ public class MicroDiscover : MicroComms
 	{
 		micro_l = new List<Micro> ();
 		microDiscoverManage_l = new List<MicroDiscoverManage> ();
+		cancel = false;
 
 		foreach (string portName in portName_l)
 		{
@@ -599,6 +607,9 @@ public class MicroDiscover : MicroComms
 
 			progressBarStatusValue = 1;
 			progressBarStatus = Status.DONE;
+
+			if(cancel)
+				break;
 		}
 		progressBarCurrentMicroValue = 1;
 		progressBarCurrentMicroText = "DONE";
@@ -715,6 +726,9 @@ public class MicroDiscover : MicroComms
 
 		//if(getVersionDuringNTime ("get_version:", responseExpected_l, false, 4000))
 		Thread.Sleep(1500); //force sensor wait 1500 ms after open to be able to receive commands
+		if(cancel)
+			return false;
+
 		if(getVersion ("get_version:", responseExpected_l, false, 2000))
 		{
 			LogB.Information("Discover found this device: " + micro.Response);
@@ -736,6 +750,9 @@ public class MicroDiscover : MicroComms
 		responseExpected_l.Add(raceAnalyzerStr);
 
 		Thread.Sleep(1500); //raceAnalyzer wait 1500 ms after open to be able to receive commands
+		if(cancel)
+			return false;
+
 		if(getVersion ("get_version:", responseExpected_l, false, 2000))
 		{
 			LogB.Information("Discover found this device: " + micro.Response);

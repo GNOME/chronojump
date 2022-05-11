@@ -541,6 +541,12 @@ public class MicroDiscover : MicroComms
 	private string wichroStr = "Wifi-Controller-"; //Will be used for Wichro and Quick, then user will decide. "local:get_channel;" to know the channel
 	//private string encoderStr = "J"; //for encoder send a J and receive a J
 
+	public enum Status { CONNECTING, DETECTING, DONE };
+	private double progressBarCurrentMicroValue;
+	private string progressBarCurrentMicroText;
+	private double progressBarStatusValue;
+	private Status progressBarStatus;
+
 	//9600
 	//private string rfidStr = "YES Chronojump RFID";
 	//Chronopic multitest will send a J (9600)
@@ -562,13 +568,22 @@ public class MicroDiscover : MicroComms
 	public List<string> DiscoverOneMode (Constants.Modes mode)
 	{
 		List<string> discovered_l = new List<string> ();
-		foreach (Micro ard in micro_l)
+		for (int i = 0; i < micro_l.Count ; i ++)
 		{
-			micro = ard; //micro is the protected variable
+			micro = micro_l[i]; //micro is the protected variable
+
+			progressBarCurrentMicroValue = UtilAll.DivideSafe (i, micro_l.Count);
+			progressBarCurrentMicroText = string.Format("{0}: {1}",
+					i + 1, micro.PortName);
+			progressBarStatusValue = 0;
+			progressBarStatus = Status.CONNECTING;
 
 			LogB.Information("Discover loop, port: " + micro.PortName);
 			if(connectAndSleep ())
 			{
+				progressBarStatusValue = 0.5;
+				progressBarStatus = Status.DETECTING;
+
 				flush(); //after connect
 				if(mode == Constants.Modes.RUNSSIMPLE || mode == Constants.Modes.RUNSINTERVALLIC)
 					discoverWichro ();
@@ -581,7 +596,12 @@ public class MicroDiscover : MicroComms
 
 			micro.ClosePort (); //close even connect failed?
 			discovered_l.Add(string.Format("{0} {1}", micro.PortName, micro.Discovered));
+
+			progressBarStatusValue = 1;
+			progressBarStatus = Status.DONE;
 		}
+		progressBarCurrentMicroValue = 1;
+		progressBarCurrentMicroText = "DONE";
 
 		return discovered_l;
 	}
@@ -754,6 +774,7 @@ public class MicroDiscover : MicroComms
 		flush(); //empty the port for future use
 		return success;
 	}
+
 	/*
 	   these methods Discover all the devices,
 	   just use methods above to discover devices of each mode
@@ -858,6 +879,21 @@ public class MicroDiscover : MicroComms
 		return success;
 	}
 	*/
+
+	public double ProgressBarCurrentMicroValue {
+		get { return progressBarCurrentMicroValue; }
+	}
+	public string ProgressBarCurrentMicroText {
+		get { return progressBarCurrentMicroText; }
+	}
+
+	public double ProgressBarStatusValue {
+		get { return progressBarStatusValue; }
+	}
+	public string ProgressBarStatusText {
+		get { return progressBarStatus.ToString(); }
+	}
+
 }
 
 /*

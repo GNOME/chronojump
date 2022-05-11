@@ -304,6 +304,8 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.ProgressBar progressbar_micro_discover_ports;
 	[Widget] Gtk.ProgressBar progressbar_micro_discover_status;
 	[Widget] Gtk.EventBox eventbox_button_micro_discover_close;
+	[Widget] Gtk.Image image_button_micro_discover_cancel_close;
+	[Widget] Gtk.Label label_button_micro_discover_cancel_close;
 
 	[Widget] Gtk.Label label_threshold;
 
@@ -4579,6 +4581,10 @@ public partial class ChronoJumpWindow
 		notebook_sup.CurrentPage = Convert.ToInt32(notebook_sup_pages.MICRODISCOVER);
 		menus_and_mode_sensitive (false);
 
+		image_button_micro_discover_cancel_close.Pixbuf =
+				new Pixbuf (null, Util.GetImagePath(false) + "image_cancel.png");
+		label_button_micro_discover_cancel_close.Text = Catalog.GetString("Cancel");
+
 		if(list_discover_ports != null && list_discover_ports.Count > 0)
 		{
 			microDiscover = new MicroDiscover (list_discover_ports); //all ports
@@ -4615,6 +4621,11 @@ public partial class ChronoJumpWindow
 			LogB.ThreadEnded();
 
 			progressbar_micro_discover_status.Fraction = 1;
+
+			image_button_micro_discover_cancel_close.Pixbuf =
+				new Pixbuf (null, Util.GetImagePath(false) + "image_close.png");
+			label_button_micro_discover_cancel_close.Text = Catalog.GetString("Close");
+
 			return false;
 		}
 

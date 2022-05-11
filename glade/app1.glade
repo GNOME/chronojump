@@ -50334,15 +50334,15 @@ Since Chronojump 2.1.3, backups contain the complete data.</property>
                                                         <property name="visible">True</property>
                                                         <property name="can_focus">False</property>
                                                         <child>
-                                                          <widget class="GtkButton" id="button_micro_discover_close">
+                                                          <widget class="GtkButton" id="button_micro_discover_cancel_close">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="can_default">True</property>
                                                             <property name="receives_default">False</property>
-                                                            <signal name="clicked" handler="on_button_micro_discover_close_clicked" swapped="no"/>
+                                                            <signal name="clicked" handler="on_button_micro_discover_cancel_close_clicked" swapped="no"/>
                                                             <accelerator key="Escape" signal="clicked"/>
                                                             <child>
-                                                            <widget class="GtkEventBox" id="eventbox_button_micro_discover_close">
+                                                            <widget class="GtkEventBox" id="eventbox_button_micro_discover_cancel_close">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <child>

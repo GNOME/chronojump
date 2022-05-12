@@ -299,9 +299,9 @@ public partial class ChronoJumpWindow
 
 	//detect devices
 	[Widget] Gtk.VBox vbox_micro_discover;
+	[Widget] Gtk.Table table_micro_discover;
 	[Widget] Gtk.Button button_contacts_detect;
 	[Widget] Gtk.Label label_micro_discover_ports;
-	[Widget] Gtk.VBox vbox_progressbar_micro_discover_l;
 	[Widget] Gtk.EventBox eventbox_button_micro_discover_cancel_close;
 	[Widget] Gtk.Image image_button_micro_discover_cancel_close;
 	[Widget] Gtk.Label label_button_micro_discover_cancel_close;
@@ -4554,23 +4554,34 @@ public partial class ChronoJumpWindow
 	   */
 
 	List<Gtk.ProgressBar> progressbar_micro_discover_l;
-	private void setup_progressbar_micro_discover_l ()
+	private void setup_progressbar_micro_discover_l (List<string> discoverPorts_l)
 	{
 		// 1) delete old progressbars
+		/*
 		if(progressbar_micro_discover_l != null)
 			foreach (Gtk.ProgressBar pb in progressbar_micro_discover_l)
 				vbox_progressbar_micro_discover_l.Remove (pb); //or RemoveAt
+		//TODO: implement this on the table
+				*/
+
+		//table_micro_discover = new Gtk.Table((uint) microDiscover.ProgressBar_l.Count +1, 3, false); //not homogeneous
+		table_micro_discover.Resize((uint) discoverPorts_l.Count +1, 3);
+		table_micro_discover.ColumnSpacing = 20;
+		table_micro_discover.RowSpacing = 12;
 
 		// 2) add new progressbars on the list
 		progressbar_micro_discover_l = new List<Gtk.ProgressBar> ();
-		for (int i = 0; i < microDiscover.ProgressBar_l.Count; i ++)
+		for (int i = 0; i < discoverPorts_l.Count; i ++)
 		{
+			Gtk.Label l = new Gtk.Label(discoverPorts_l[i]);
+			table_micro_discover.Attach (l, (uint) 0, (uint) 1, (uint) i, (uint) i+1); //left, right, top, bottom
+
 			Gtk.ProgressBar pb = new Gtk.ProgressBar();
 			pb.Text = "----"; //to have height
-			vbox_progressbar_micro_discover_l.Add (pb);
+			table_micro_discover.Attach (pb, (uint) 1, (uint) 2, (uint) i, (uint) i+1);
 			progressbar_micro_discover_l.Add (pb);
 		}
-		vbox_progressbar_micro_discover_l.ShowAll();
+		table_micro_discover.ShowAll();
 	}
 
 	//right now implemented only contacts
@@ -4588,11 +4599,11 @@ public partial class ChronoJumpWindow
 		//ChronoDebug cDebug = new ChronoDebug("Discover " + current_mode.ToString());
 		//cDebug.Start();
 
-		List<string> list_discover_ports = Util.StringArrayToListString (ChronopicPorts.GetPorts ());
+		List<string> discoverPorts_l = Util.StringArrayToListString (ChronopicPorts.GetPorts ());
 		label_micro_discover_ports.Text = string.Format(Catalog.GetPluralString(
 					"Found 1 device.",
 					"Found {0} devices.",
-					list_discover_ports.Count), list_discover_ports.Count);
+					discoverPorts_l.Count), discoverPorts_l.Count);
 
 		app1s_notebook_sup_entered_from = notebook_sup.CurrentPage; //CONTACTS or ENCODER
 		notebook_sup.CurrentPage = Convert.ToInt32(notebook_sup_pages.MICRODISCOVER);
@@ -4602,10 +4613,10 @@ public partial class ChronoJumpWindow
 				new Pixbuf (null, Util.GetImagePath(false) + "image_cancel.png");
 		label_button_micro_discover_cancel_close.Text = Catalog.GetString("Cancel");
 
-		if(list_discover_ports != null && list_discover_ports.Count > 0)
+		if(discoverPorts_l != null && discoverPorts_l.Count > 0)
 		{
-			microDiscover = new MicroDiscover (list_discover_ports); //all ports
-			setup_progressbar_micro_discover_l ();
+			microDiscover = new MicroDiscover (discoverPorts_l); //all ports
+			setup_progressbar_micro_discover_l (discoverPorts_l);
 			discoverThread = new Thread (new ThreadStart (discoverDo));
 			GLib.Idle.Add (new GLib.IdleHandler (pulseDiscoverGTK));
 			discoverThread.Start();

@@ -19,6 +19,13 @@
   #   Copyright (C) 2017     Xavier Padullés <x.padulles@gmail.com>
   #   Copyright (C) 2017     Xavier de Blas <xaviblas@gmail.com>
 
+V0.4
+--------------
+Force sensor communicating with Chronojump
+
+V0.5
+--------------
+Added RCA trigger input
 
 */
 

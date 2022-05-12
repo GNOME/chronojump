@@ -301,8 +301,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.VBox vbox_micro_discover;
 	[Widget] Gtk.Button button_contacts_detect;
 	[Widget] Gtk.Label label_micro_discover_ports;
-	[Widget] Gtk.ProgressBar progressbar_micro_discover_ports;
-	[Widget] Gtk.ProgressBar progressbar_micro_discover_status;
+	[Widget] Gtk.VBox vbox_progressbar_micro_discover_l;
 	[Widget] Gtk.EventBox eventbox_button_micro_discover_cancel_close;
 	[Widget] Gtk.Image image_button_micro_discover_cancel_close;
 	[Widget] Gtk.Label label_button_micro_discover_cancel_close;
@@ -4554,6 +4553,26 @@ public partial class ChronoJumpWindow
 	   ----------------- discover / detect devices --------->
 	   */
 
+	List<Gtk.ProgressBar> progressbar_micro_discover_l;
+	private void setup_progressbar_micro_discover_l ()
+	{
+		// 1) delete old progressbars
+		if(progressbar_micro_discover_l != null)
+			foreach (Gtk.ProgressBar pb in progressbar_micro_discover_l)
+				vbox_progressbar_micro_discover_l.Remove (pb); //or RemoveAt
+
+		// 2) add new progressbars on the list
+		progressbar_micro_discover_l = new List<Gtk.ProgressBar> ();
+		for (int i = 0; i < microDiscover.ProgressBar_l.Count; i ++)
+		{
+			Gtk.ProgressBar pb = new Gtk.ProgressBar();
+			pb.Text = "----"; //to have height
+			vbox_progressbar_micro_discover_l.Add (pb);
+			progressbar_micro_discover_l.Add (pb);
+		}
+		vbox_progressbar_micro_discover_l.ShowAll();
+	}
+
 	//right now implemented only contacts
 	private void on_button_contacts_detect_clicked (object o, EventArgs args)
 	{
@@ -4565,8 +4584,6 @@ public partial class ChronoJumpWindow
 			return;
 
 		// 1) set up gui
-		progressbar_micro_discover_ports.Fraction = 0;
-		progressbar_micro_discover_status.Fraction = 0;
 
 		//ChronoDebug cDebug = new ChronoDebug("Discover " + current_mode.ToString());
 		//cDebug.Start();
@@ -4588,6 +4605,7 @@ public partial class ChronoJumpWindow
 		if(list_discover_ports != null && list_discover_ports.Count > 0)
 		{
 			microDiscover = new MicroDiscover (list_discover_ports); //all ports
+			setup_progressbar_micro_discover_l ();
 			discoverThread = new Thread (new ThreadStart (discoverDo));
 			GLib.Idle.Add (new GLib.IdleHandler (pulseDiscoverGTK));
 			discoverThread.Start();
@@ -4609,18 +4627,32 @@ public partial class ChronoJumpWindow
 	}
 	private bool pulseDiscoverGTK ()
 	{
-		progressbar_micro_discover_ports.Fraction = microDiscover.ProgressBarCurrentMicroValue;
+		if(microDiscover == null)
+		{
+			Thread.Sleep (200);
+			return true;
+		}
 
-		if(microDiscover != null && microDiscover.Cancel)
-			progressbar_micro_discover_ports.Text = Catalog.GetString("Cancelling");
-		else
-			progressbar_micro_discover_ports.Text = microDiscover.ProgressBarCurrentMicroText;
-
-		//progressbar_micro_discover_status.Fraction = microDiscover.ProgressBarStatusValue;
-		if(microDiscover != null && microDiscover.Cancel)
-			progressbar_micro_discover_status.Text = Catalog.GetString("Cancelling");
-		else
-			progressbar_micro_discover_status.Text = microDiscover.ProgressBarStatusText;
+		//update progressbar message
+		for (int i = 0; i < progressbar_micro_discover_l.Count; i ++)
+		{
+			Gtk.ProgressBar pb = progressbar_micro_discover_l[i];
+			if (microDiscover.ProgressBar_l[i] == MicroDiscover.Status.NOTSTARTED)
+			{
+				pb.Text = "----"; //to have height
+				pb.Fraction = 0;
+			} else if (microDiscover.ProgressBar_l[i] == MicroDiscover.Status.DONE)
+			{
+				pb.Text = microDiscover.ProgressBar_l[i].ToString();
+				pb.Fraction = 1;
+			} else {
+				if (microDiscover.Cancel)
+					pb.Text = Catalog.GetString("Cancelling");
+				else
+					pb.Text = microDiscover.ProgressBar_l[i].ToString();
+				pb.Pulse ();
+			}
+		}
 
 		if(! discoverThread.IsAlive)
 		{
@@ -4628,12 +4660,13 @@ public partial class ChronoJumpWindow
 			LogB.Information("pulseDiscoverGTK ending here");
 			LogB.ThreadEnded();
 
-			progressbar_micro_discover_status.Fraction = 1;
-
-			if(microDiscover != null && microDiscover.Cancel)
+			for (int i = 0; i < progressbar_micro_discover_l.Count; i ++)
 			{
-				progressbar_micro_discover_ports.Text = Catalog.GetString("Cancelled");
-				progressbar_micro_discover_status.Text = Catalog.GetString("Cancelled");
+				if (microDiscover.Cancel &&
+						 microDiscover.ProgressBar_l[i] != MicroDiscover.Status.DONE)
+					(progressbar_micro_discover_l[i]).Text = Catalog.GetString("Cancelled");
+
+				(progressbar_micro_discover_l[i]).Fraction = 1;
 			}
 
 			image_button_micro_discover_cancel_close.Pixbuf =
@@ -4643,7 +4676,6 @@ public partial class ChronoJumpWindow
 			return false;
 		}
 
-		progressbar_micro_discover_status.Pulse ();
 		Thread.Sleep (200);
 		return true;
 	}

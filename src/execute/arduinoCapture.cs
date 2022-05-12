@@ -548,11 +548,8 @@ public class MicroDiscover : MicroComms
 	private string wichroStr = "Wifi-Controller-"; //Will be used for Wichro and Quick, then user will decide. "local:get_channel;" to know the channel
 	//private string encoderStr = "J"; //for encoder send a J and receive a J
 
-	public enum Status { CONNECTING, DETECTING, DONE };
-	private double progressBarCurrentMicroValue;
-	private string progressBarCurrentMicroText;
-	private double progressBarStatusValue;
-	private Status progressBarStatus;
+	public enum Status { NOTSTARTED, CONNECTING, DETECTING, DONE };
+	private List<Status> progressBar_l; //progressBars status
 
 	//9600
 	//private string rfidStr = "YES Chronojump RFID";
@@ -563,12 +560,15 @@ public class MicroDiscover : MicroComms
 	{
 		micro_l = new List<Micro> ();
 		microDiscoverManage_l = new List<MicroDiscoverManage> ();
+		progressBar_l = new List<Status> ();
+
 		cancel = false;
 
 		foreach (string portName in portName_l)
 		{
 			micro_l.Add(new Micro (portName, 115200));
 			microDiscoverManage_l.Add(new MicroDiscoverManage (portName));
+			progressBar_l.Add(Status.NOTSTARTED);
 		}
 	}
 
@@ -580,17 +580,12 @@ public class MicroDiscover : MicroComms
 		{
 			micro = micro_l[i]; //micro is the protected variable
 
-			progressBarCurrentMicroValue = UtilAll.DivideSafe (i, micro_l.Count);
-			progressBarCurrentMicroText = string.Format("{0}: {1}",
-					i + 1, micro.PortName);
-			progressBarStatusValue = 0;
-			progressBarStatus = Status.CONNECTING;
+			progressBar_l[i] = Status.CONNECTING;
 
 			LogB.Information("Discover loop, port: " + micro.PortName);
 			if(connectAndSleep ())
 			{
-				progressBarStatusValue = 0.5;
-				progressBarStatus = Status.DETECTING;
+				progressBar_l[i] = Status.DETECTING;
 
 				flush(); //after connect
 				if(mode == Constants.Modes.RUNSSIMPLE || mode == Constants.Modes.RUNSINTERVALLIC)
@@ -604,15 +599,11 @@ public class MicroDiscover : MicroComms
 
 			micro.ClosePort (); //close even connect failed?
 			discovered_l.Add(string.Format("{0} {1}", micro.PortName, micro.Discovered));
-
-			progressBarStatusValue = 1;
-			progressBarStatus = Status.DONE;
+			progressBar_l[i] = Status.DONE;
 
 			if(cancel)
 				break;
 		}
-		progressBarCurrentMicroValue = 1;
-		progressBarCurrentMicroText = "DONE";
 
 		return discovered_l;
 	}
@@ -897,20 +888,9 @@ public class MicroDiscover : MicroComms
 	}
 	*/
 
-	public double ProgressBarCurrentMicroValue {
-		get { return progressBarCurrentMicroValue; }
+	public List<Status> ProgressBar_l {
+		get { return progressBar_l; }
 	}
-	public string ProgressBarCurrentMicroText {
-		get { return progressBarCurrentMicroText; }
-	}
-
-	public double ProgressBarStatusValue {
-		get { return progressBarStatusValue; }
-	}
-	public string ProgressBarStatusText {
-		get { return progressBarStatus.ToString(); }
-	}
-
 }
 
 /*

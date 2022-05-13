@@ -4554,6 +4554,7 @@ public partial class ChronoJumpWindow
 	   ----------------- discover / detect devices --------->
 	   */
 
+	List<Gtk.Label> label_micro_discover_l;
 	List<Gtk.ProgressBar> progressbar_micro_discover_l;
 	List<Gtk.Button> button_micro_discover_l;
 
@@ -4568,20 +4569,22 @@ public partial class ChronoJumpWindow
 		table_micro_discover.RowSpacing = 12;
 
 		// 2) create the lists of widgets to be able to access later
+		label_micro_discover_l = new List<Gtk.Label> ();
 		progressbar_micro_discover_l = new List<Gtk.ProgressBar> ();
 		button_micro_discover_l = new List<Gtk.Button> ();
 
-		// 3) create and show the table
+		// 3) create widgets, lists, attach to table and show all
 		for (int i = 0; i < discoverPorts_l.Count; i ++)
 		{
 			Gtk.Label l = new Gtk.Label(discoverPorts_l[i]);
+			label_micro_discover_l.Add (l);
 			table_micro_discover.Attach (l, (uint) 0, (uint) 1, (uint) i, (uint) i+1); //left, right, top, bottom
 
 			Gtk.ProgressBar pb = new Gtk.ProgressBar();
 			pb.Text = "----"; //to have height
 			pb.SetSizeRequest(125, -1);
-			table_micro_discover.Attach (pb, (uint) 1, (uint) 2, (uint) i, (uint) i+1);
 			progressbar_micro_discover_l.Add (pb);
+			table_micro_discover.Attach (pb, (uint) 1, (uint) 2, (uint) i, (uint) i+1);
 
 			Gtk.Button b = new Gtk.Button("Use this");
 			b.Sensitive = false;
@@ -4692,6 +4695,7 @@ public partial class ChronoJumpWindow
 					LogB.Information("found in " + i);
 					(progressbar_micro_discover_l[i]).Text = ChronopicRegisterPort.TypePrint(microDiscover.Discovered_l[i]);
 					button_micro_discover_l[i].Sensitive = true;
+					button_micro_discover_l[i].Clicked += new EventHandler(on_discover_button_clicked);
 				}
 			}
 
@@ -4713,6 +4717,21 @@ public partial class ChronoJumpWindow
 			return true;
 
 		return false;
+	}
+
+	private void on_discover_button_clicked (object o, EventArgs args)
+	{
+		Button bPress = (Button) o;
+
+		//loop the list to know which button was
+		for (int i = 0 ; i < button_micro_discover_l.Count; i ++)
+			if(button_micro_discover_l[i] == bPress)
+			{
+				new DialogMessage(Constants.MessageTypes.INFO,
+						"selected port: " + label_micro_discover_l[i].Text);
+				on_button_micro_discover_cancel_close_clicked (new object (), new EventArgs ());
+				return;
+			}
 	}
 
 	private void on_button_micro_discover_cancel_close_clicked (object o, EventArgs args)

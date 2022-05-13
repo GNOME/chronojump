@@ -548,7 +548,7 @@ public class MicroDiscover : MicroComms
 	private string wichroStr = "Wifi-Controller-"; //Will be used for Wichro and Quick, then user will decide. "local:get_channel;" to know the channel
 	//private string encoderStr = "J"; //for encoder send a J and receive a J
 
-	public enum Status { NOTSTARTED, CONNECTING, DETECTING, DONE };
+	public enum Status { NotStarted, Connecting, Detecting, Done };
 	private List<Status> progressBar_l; //progressBars status
 
 	//devices discovered compatible with current mode
@@ -571,7 +571,7 @@ public class MicroDiscover : MicroComms
 		{
 			micro_l.Add(new Micro (portName, 115200));
 			microDiscoverManage_l.Add(new MicroDiscoverManage (portName));
-			progressBar_l.Add(Status.NOTSTARTED);
+			progressBar_l.Add(Status.NotStarted);
 		}
 	}
 
@@ -584,13 +584,13 @@ public class MicroDiscover : MicroComms
 		{
 			micro = micro_l[i]; //micro is the protected variable
 
-			progressBar_l[i] = Status.CONNECTING;
+			progressBar_l[i] = Status.Connecting;
 			success = false;
 
 			LogB.Information("Discover loop, port: " + micro.PortName);
 			if(connectAndSleep ())
 			{
-				progressBar_l[i] = Status.DETECTING;
+				progressBar_l[i] = Status.Detecting;
 
 				flush(); //after connect
 				if(mode == Constants.Modes.RUNSSIMPLE || mode == Constants.Modes.RUNSINTERVALLIC)
@@ -608,7 +608,7 @@ public class MicroDiscover : MicroComms
 			if(success)
 				discovered_l.Add(micro.Discovered);
 
-			progressBar_l[i] = Status.DONE;
+			progressBar_l[i] = Status.Done;
 
 			if(cancel)
 				break;

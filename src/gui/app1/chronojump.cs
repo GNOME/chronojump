@@ -4556,15 +4556,12 @@ public partial class ChronoJumpWindow
 
 	List<Gtk.ProgressBar> progressbar_micro_discover_l;
 	List<Gtk.Button> button_micro_discover_l;
+
 	private void setup_progressbar_micro_discover_l (List<string> discoverPorts_l)
 	{
-		// 1) delete old progressbars
-		/*
-		if(progressbar_micro_discover_l != null)
-			foreach (Gtk.ProgressBar pb in progressbar_micro_discover_l)
-				vbox_progressbar_micro_discover_l.Remove (pb); //or RemoveAt
-		//TODO: implement this on the table
-				*/
+		// 1) delete widgets of previous calls
+		foreach(Gtk.Widget w in table_micro_discover.Children)
+			table_micro_discover.Remove(w);
 
 		//table_micro_discover = new Gtk.Table((uint) microDiscover.ProgressBar_l.Count +1, 3, false); //not homogeneous
 		table_micro_discover.Resize((uint) discoverPorts_l.Count, 3);

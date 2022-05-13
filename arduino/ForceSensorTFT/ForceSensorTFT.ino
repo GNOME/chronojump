@@ -43,7 +43,7 @@ String version = "0.7";
 
 
 //Encoder variables
-Encoder encoder(8,9);  
+Encoder encoder(8, 9);
 int position = 0;
 int lastPosition = 0;
 
@@ -327,7 +327,7 @@ void showMenu(void)
   tft.setTextSize(2);
   tft.setCursor(12, 100);
   tft.setTextColor(BLACK);
-  tft.print(menuDescription[(menu + numMenuItems -1) % numMenuItems]);
+  tft.print(menuDescription[(menu + numMenuItems - 1) % numMenuItems]);
   tft.setTextColor(WHITE);
   tft.setCursor(12, 100);
   tft.print(menuDescription[menu]);
@@ -369,7 +369,7 @@ void capture(void)
   tft.setCursor(10, 215);
   tft.print("Fmax: ");
   printTftFormat(measuredMax, 100, 215, 2, 2);
-  tft.setCursor(148,215);
+  tft.setCursor(148, 215);
   tft.print(" N");
   tft.setCursor(308, 215);
   tft.print("s");
@@ -428,8 +428,8 @@ void capture(void)
             resized = true;
           }
         }
-                Serial.print(totalTime); Serial.print(";");
-                Serial.println(measured, 2); //scale.get_units() returns a float
+        Serial.print(totalTime); Serial.print(";");
+        Serial.println(measured, 2); //scale.get_units() returns a float
         plotBuffer[n] = measured;
       }
 
@@ -541,9 +541,9 @@ void getForceResults(void)
              ((totalTime - totalTimes1s[(currentTSlot + samples200ms - samples100ms) % samples200ms]) / 1e6); //Increment of time
     if (RFD100 > maxRFD100) maxRFD100 = RFD100;
   }
-//  if (abs(measured) > abs(measuredLcdDelayMax)) {
-//    measuredLcdDelayMax = measured;
-//  }
+  //  if (abs(measured) > abs(measuredLcdDelayMax)) {
+  //    measuredLcdDelayMax = measured;
+  //  }
 }
 
 void printTftFormat (float val, int xStart, int y, int fontSize, int decimal) {
@@ -858,7 +858,7 @@ void calibrateTFT(void) {
         }
         calibrateCommand = "calibrate:" + String(weight, DEC) + ";";
       }
-      
+
       //Change to Calibrate execution
       if (redButton.fallingEdge()) {
 
@@ -874,7 +874,7 @@ void calibrateTFT(void) {
         //Delete Blue button
         tft.fillRect(12, 218, 72, 16, BLACK);
 
-//        //Delete Red button
+        //        //Delete Red button
         tft.fillRect(248, 218, 72, 16, BLACK);
 
         tft.setTextColor(WHITE);
@@ -968,7 +968,7 @@ void showBatteryLevel() {
 }
 
 void updateTime() {
-  printTftFormat(totalTime/1000000, 284, 215, 2, 0);
+  printTftFormat(totalTime / 1000000, 284, 215, 2, 0);
 }
 //TODO: Add more information or eliminate
 void showSystemInfo() {
@@ -1076,13 +1076,13 @@ void systemMenu()
   tft.setCursor(12, 100);
   tft.setTextColor(BLACK);
   tft.print(menuDescription[5]);
-  
+
   tft.setCursor(12, 100);
   tft.print(" Set the offset of the\nsensor.");
 
   showsystemMenu();
 
-  
+
   redButton.update();
   blueButton.update();
   while (!exitFlag) {
@@ -1265,7 +1265,7 @@ void redrawAxes(Adafruit_ILI9341 & d, double gx, double gy, double w, double h, 
   d.setTextColor(acolor, bcolor);
   d.setCursor(gx - 30, gy - h - 10);
   d.println(ylabel);
-  
+
   d.setTextSize(2);
   d.setTextColor(tcolor, bcolor);
   d.setCursor(gx , gy - h - 30);
@@ -1281,7 +1281,7 @@ void drawMenuBackground() {
 }
 
 void encoderCapture()
-{  //Position graph's lower left corner.
+{ //Position graph's lower left corner.
   double graphX = 30;
   double graphY = 200;
 
@@ -1315,7 +1315,7 @@ void encoderCapture()
   tft.setCursor(10, 215);
   tft.print("Fmax: ");
   printTftFormat(measuredMax, 100, 215, 2, 2);
-  tft.setCursor(148,215);
+  tft.setCursor(148, 215);
   tft.print(" N");
   tft.setCursor(308, 215);
   tft.print("s");
@@ -1374,16 +1374,16 @@ void encoderCapture()
             resized = true;
           }
         }
-//                Serial.print(totalTime); Serial.print(";");
-//                Serial.println(measured, 2); //scale.get_units() returns a float
+        //                Serial.print(totalTime); Serial.print(";");
+        //                Serial.println(measured, 2); //scale.get_units() returns a float
         plotBuffer[n] = measured;
       }
-//      Serial.println("Ended plotPeriod");
+      //      Serial.println("Ended plotPeriod");
 
       //Check the buttons state
+      //delay(10);
       redButton.update();
       blueButton.update();
-        Serial.println("Button update");
       //Pressing blue or red button ends the capture
       if (redButton.fallingEdge() || blueButton.fallingEdge()) {
         Serial.println("Button pressed");
@@ -1420,12 +1420,14 @@ void encoderCapture()
 
 void getEncoderResults()
 {
-    position = encoder.read();
-    measured = (float)(position - lastPosition) * 1000000 / (totalTime - lastEncoderTime);
+  int sampleDuration = totalTime - lastEncoderTime;
+  if (sampleDuration >= 10000)
+  {
     lastEncoderTime = totalTime;
+    position = encoder.read();
+    measured = (float)(position - lastPosition) * 1000000 / (sampleDuration);
     lastPosition = position;
-    delay(10);
-    redButton.update();
+  }
 }
 
 void startEncoderCapture()
@@ -1435,6 +1437,28 @@ void startEncoderCapture()
 }
 
 void endEncoderCapture()
- {
+{
   capturing = false;
- }
+  //If the device is controlled by the PC the results menu is not showed
+  //because during the menu navigation the Serial is not listened.
+  if (!PCControlled) {
+    showEncoderResults();
+  }
+  showMenu();
+}
+
+void showEncoderResults()
+{
+  tft.fillRect(0, 0, 320, 240, BLACK);
+
+  //Red button exits results
+  tft.setCursor(100, 100);
+  tft.print("Encoder results");
+
+  redButton.update();
+  while (!redButton.fallingEdge()) {
+    redButton.update();
+  }
+  tft.fillRect(0, 20, 320, 240, BLACK);
+  drawMenuBackground();
+}

@@ -4560,8 +4560,7 @@ public partial class ChronoJumpWindow
 	private void setup_progressbar_micro_discover_l (List<string> discoverPorts_l)
 	{
 		// 1) delete widgets of previous calls
-		foreach(Gtk.Widget w in table_micro_discover.Children)
-			table_micro_discover.Remove(w);
+		UtilGtk.RemoveChildren(table_micro_discover);
 
 		//table_micro_discover = new Gtk.Table((uint) microDiscover.ProgressBar_l.Count +1, 3, false); //not homogeneous
 		table_micro_discover.Resize((uint) discoverPorts_l.Count, 3);
@@ -4612,7 +4611,6 @@ public partial class ChronoJumpWindow
 					"Found 1 device.",
 					"Found {0} devices.",
 					discoverPorts_l.Count), discoverPorts_l.Count);
-		label_micro_discover_ports_detecting.Visible = true;
 
 		app1s_notebook_sup_entered_from = notebook_sup.CurrentPage; //CONTACTS or ENCODER
 		notebook_sup.CurrentPage = Convert.ToInt32(notebook_sup_pages.MICRODISCOVER);
@@ -4624,11 +4622,19 @@ public partial class ChronoJumpWindow
 
 		if(discoverPorts_l != null && discoverPorts_l.Count > 0)
 		{
+			label_micro_discover_ports_detecting.Visible = true;
 			microDiscover = new MicroDiscover (discoverPorts_l); //all ports
 			setup_progressbar_micro_discover_l (discoverPorts_l);
 			discoverThread = new Thread (new ThreadStart (discoverDo));
 			GLib.Idle.Add (new GLib.IdleHandler (pulseDiscoverGTK));
 			discoverThread.Start();
+		} else {
+			label_micro_discover_ports_detecting.Visible = false;
+			UtilGtk.RemoveChildren(table_micro_discover);
+
+			image_button_micro_discover_cancel_close.Pixbuf =
+				new Pixbuf (null, Util.GetImagePath(false) + "image_close.png");
+			label_button_micro_discover_cancel_close.Text = Catalog.GetString("Close");
 		}
 
 		//cDebug.StopAndPrint();

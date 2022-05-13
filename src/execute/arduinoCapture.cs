@@ -551,6 +551,9 @@ public class MicroDiscover : MicroComms
 	public enum Status { NOTSTARTED, CONNECTING, DETECTING, DONE };
 	private List<Status> progressBar_l; //progressBars status
 
+	//devices discovered compatible with current mode
+	private static List<ChronopicRegisterPort.Types> discovered_l;
+
 	//9600
 	//private string rfidStr = "YES Chronojump RFID";
 	//Chronopic multitest will send a J (9600)
@@ -573,14 +576,16 @@ public class MicroDiscover : MicroComms
 	}
 
 	//mode is forceSensor, runsEncoder, ...
-	public List<string> DiscoverOneMode (Constants.Modes mode)
+	public void DiscoverOneMode (Constants.Modes mode)
 	{
-		List<string> discovered_l = new List<string> ();
+		discovered_l = new List<ChronopicRegisterPort.Types> ();
+		bool success;
 		for (int i = 0; i < micro_l.Count ; i ++)
 		{
 			micro = micro_l[i]; //micro is the protected variable
 
 			progressBar_l[i] = Status.CONNECTING;
+			success = false;
 
 			LogB.Information("Discover loop, port: " + micro.PortName);
 			if(connectAndSleep ())
@@ -589,23 +594,25 @@ public class MicroDiscover : MicroComms
 
 				flush(); //after connect
 				if(mode == Constants.Modes.RUNSSIMPLE || mode == Constants.Modes.RUNSINTERVALLIC)
-					discoverWichro ();
+					success = discoverWichro ();
 				if(mode == Constants.Modes.FORCESENSOR)
-					discoverForceSensor ();
+					success = discoverForceSensor ();
 				else if(mode == Constants.Modes.RUNSENCODER)
-					discoverRaceAnalyzer ();
+					success = discoverRaceAnalyzer ();
 			} else
 				micro.Discovered = ChronopicRegisterPort.Types.UNKNOWN;
 
 			micro.ClosePort (); //close even connect failed?
-			discovered_l.Add(string.Format("{0} {1}", micro.PortName, micro.Discovered));
+
+			//add to list only the relevant, eg in races will be Wichro (and maybe Chronopic multitest)
+			if(success)
+				discovered_l.Add(micro.Discovered);
+
 			progressBar_l[i] = Status.DONE;
 
 			if(cancel)
 				break;
 		}
-
-		return discovered_l;
 	}
 
 	/*
@@ -890,6 +897,9 @@ public class MicroDiscover : MicroComms
 
 	public List<Status> ProgressBar_l {
 		get { return progressBar_l; }
+	}
+	public List<ChronopicRegisterPort.Types> Discovered_l {
+		get { return discovered_l; }
 	}
 }
 

@@ -491,6 +491,19 @@ public class UtilGtk
 
 	/*
 	 *
+	 * CONTAINER
+	 *
+	 */
+
+	public static void  RemoveChildren (Gtk.Container c)
+	{
+		foreach(Gtk.Widget w in c.Children)
+			c.Remove(w);
+	}
+
+
+	/*
+	 *
 	 * COLORS
 	 *
 	 */

@@ -4656,11 +4656,11 @@ public partial class ChronoJumpWindow
 		for (int i = 0; i < progressbar_micro_discover_l.Count; i ++)
 		{
 			Gtk.ProgressBar pb = progressbar_micro_discover_l[i];
-			if (microDiscover.ProgressBar_l[i] == MicroDiscover.Status.NOTSTARTED)
+			if (microDiscover.ProgressBar_l[i] == MicroDiscover.Status.NotStarted)
 			{
 				pb.Text = "----"; //to have height
 				pb.Fraction = 0;
-			} else if (microDiscover.ProgressBar_l[i] == MicroDiscover.Status.DONE)
+			} else if (microDiscover.ProgressBar_l[i] == MicroDiscover.Status.Done)
 			{
 				pb.Text = microDiscover.ProgressBar_l[i].ToString();
 				pb.Fraction = 1;
@@ -4682,7 +4682,7 @@ public partial class ChronoJumpWindow
 			for (int i = 0; i < progressbar_micro_discover_l.Count; i ++)
 			{
 				if (microDiscover.Cancel &&
-						 microDiscover.ProgressBar_l[i] != MicroDiscover.Status.DONE)
+						 microDiscover.ProgressBar_l[i] != MicroDiscover.Status.Done)
 					(progressbar_micro_discover_l[i]).Text = Catalog.GetString("Cancelled");
 
 				(progressbar_micro_discover_l[i]).Fraction = 1;

@@ -302,6 +302,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Table table_micro_discover;
 	[Widget] Gtk.Button button_contacts_detect;
 	[Widget] Gtk.Label label_micro_discover_ports;
+	[Widget] Gtk.Label label_micro_discover_ports_detecting;
 	[Widget] Gtk.EventBox eventbox_button_micro_discover_cancel_close;
 	[Widget] Gtk.Image image_button_micro_discover_cancel_close;
 	[Widget] Gtk.Label label_button_micro_discover_cancel_close;
@@ -4554,6 +4555,7 @@ public partial class ChronoJumpWindow
 	   */
 
 	List<Gtk.ProgressBar> progressbar_micro_discover_l;
+	List<Gtk.Button> button_micro_discover_l;
 	private void setup_progressbar_micro_discover_l (List<string> discoverPorts_l)
 	{
 		// 1) delete old progressbars
@@ -4565,12 +4567,15 @@ public partial class ChronoJumpWindow
 				*/
 
 		//table_micro_discover = new Gtk.Table((uint) microDiscover.ProgressBar_l.Count +1, 3, false); //not homogeneous
-		table_micro_discover.Resize((uint) discoverPorts_l.Count +1, 3);
+		table_micro_discover.Resize((uint) discoverPorts_l.Count, 3);
 		table_micro_discover.ColumnSpacing = 20;
 		table_micro_discover.RowSpacing = 12;
 
-		// 2) add new progressbars on the list
+		// 2) create the lists of widgets to be able to access later
 		progressbar_micro_discover_l = new List<Gtk.ProgressBar> ();
+		button_micro_discover_l = new List<Gtk.Button> ();
+
+		// 3) create and show the table
 		for (int i = 0; i < discoverPorts_l.Count; i ++)
 		{
 			Gtk.Label l = new Gtk.Label(discoverPorts_l[i]);
@@ -4578,8 +4583,14 @@ public partial class ChronoJumpWindow
 
 			Gtk.ProgressBar pb = new Gtk.ProgressBar();
 			pb.Text = "----"; //to have height
+			pb.SetSizeRequest(125, -1);
 			table_micro_discover.Attach (pb, (uint) 1, (uint) 2, (uint) i, (uint) i+1);
 			progressbar_micro_discover_l.Add (pb);
+
+			Gtk.Button b = new Gtk.Button("Use this");
+			b.Sensitive = false;
+			button_micro_discover_l.Add (b);
+			table_micro_discover.Attach (b, (uint) 2, (uint) 3, (uint) i, (uint) i+1);
 		}
 		table_micro_discover.ShowAll();
 	}
@@ -4604,6 +4615,7 @@ public partial class ChronoJumpWindow
 					"Found 1 device.",
 					"Found {0} devices.",
 					discoverPorts_l.Count), discoverPorts_l.Count);
+		label_micro_discover_ports_detecting.Visible = true;
 
 		app1s_notebook_sup_entered_from = notebook_sup.CurrentPage; //CONTACTS or ENCODER
 		notebook_sup.CurrentPage = Convert.ToInt32(notebook_sup_pages.MICRODISCOVER);
@@ -4627,14 +4639,7 @@ public partial class ChronoJumpWindow
 
 	private void discoverDo ()
 	{
-		List<string> discovered_l = microDiscover.DiscoverOneMode (current_mode);
-
-		string discoveredStr = "Discovered: ";
-		foreach (string str in discovered_l)
-			discoveredStr += "\n- " + str;
-
-		//new DialogMessage( Constants.MessageTypes.INFO, discoveredStr +
-		//		string.Format("\n{0} ms", cDebug.StartToEndInMs()) );
+		microDiscover.DiscoverOneMode (current_mode);
 	}
 	private bool pulseDiscoverGTK ()
 	{
@@ -4678,8 +4683,16 @@ public partial class ChronoJumpWindow
 					(progressbar_micro_discover_l[i]).Text = Catalog.GetString("Cancelled");
 
 				(progressbar_micro_discover_l[i]).Fraction = 1;
+
+				if (i < microDiscover.Discovered_l.Count && discoverMatchCurrentMode (microDiscover.Discovered_l[i]))
+				{
+					LogB.Information("found in " + i);
+					(progressbar_micro_discover_l[i]).Text = ChronopicRegisterPort.TypePrint(microDiscover.Discovered_l[i]);
+					button_micro_discover_l[i].Sensitive = true;
+				}
 			}
 
+			label_micro_discover_ports_detecting.Visible = false;
 			image_button_micro_discover_cancel_close.Pixbuf =
 				new Pixbuf (null, Util.GetImagePath(false) + "image_close.png");
 			label_button_micro_discover_cancel_close.Text = Catalog.GetString("Close");
@@ -4689,6 +4702,14 @@ public partial class ChronoJumpWindow
 
 		Thread.Sleep (200);
 		return true;
+	}
+
+	private bool discoverMatchCurrentMode (ChronopicRegisterPort.Types crpt)
+	{
+		if (current_mode == Constants.Modes.FORCESENSOR && crpt == ChronopicRegisterPort.Types.ARDUINO_FORCE)
+			return true;
+
+		return false;
 	}
 
 	private void on_button_micro_discover_cancel_close_clicked (object o, EventArgs args)

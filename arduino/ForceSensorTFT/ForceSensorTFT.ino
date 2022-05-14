@@ -110,8 +110,8 @@ Bounce blueButton = Bounce(blueButtonPin, 50);
 //unsigned short lcdDelay = 25; //to be able to see the screen. Seconds are also printed in delay but 25 values are less than one second
 //unsigned short lcdCount = 0;
 //float measuredLcdDelayMax = 0; //The max in the lcdDelay periodca
-float measuredMax = 300.0; // The max since starting capture
-float measuredMin = -100.0;
+float measuredMax = 0; // The max since starting capture
+float measuredMin = 0;
 float measured = 0;
 double newGraphMax = measuredMax;
 double newGraphMin = measuredMin;
@@ -197,7 +197,15 @@ bool elapsed1Sample = false;    //Wether there's a previous sample. Needed to ca
 //Force in trigger
 float forceTrigger = 0.0;       //Measured force at the moment the RCA is triggered
 
-//If device is controled by computer don't show results on LCD
+//Encoder variables
+short encoderPhase = 1;    // 1 means concentric, -1 means eccentric
+long startPhasePosition = 0;
+long startPhaseTime = 0;
+float avgVelocity = 0;
+float maxAvgVelocity = 0;
+int numRepetitions = 0;
+
+//If device is controled by computer don't show results on TFT
 bool PCControlled = false;
 
 long tareValue = 0;
@@ -503,6 +511,8 @@ void startLoadCellCapture()
   sensor = loadCell;
   maxString = "Fmax:        N";
   plotPeriod = 5;
+  graphMin = -100;
+  graphMax = 300;
 }
 
 void endLoadCellCapture()
@@ -518,7 +528,7 @@ void endLoadCellCapture()
     EEPROM.get(tareAddress, tareValue);
     scale.set_offset(tareValue);
     //Serial.println(scale.get_offset());
-    showResults();
+    showLoadCellResults();
   }
 
   showMenu();
@@ -833,7 +843,7 @@ void showSystemInfo() {
   tft.print(systemOptions[submenu]);
 }
 
-void showResults() {
+void showLoadCellResults() {
   int textSize = 2;
   tft.fillScreen(BLACK);
   tft.setTextSize(3);
@@ -1162,6 +1172,9 @@ void capture()
   tft.setCursor(308, 215);
   tft.print("s");
 
+  Serial.println(graphMin);
+  Serial.println(graphMax);
+
   while (capturing)
   {
     //Deleting the previous plotted points
@@ -1222,8 +1235,8 @@ void capture()
             resized = true;
           }
         }
-        Serial.print(totalTime); Serial.print(";");
-        Serial.println(measured, 2); //scale.get_units() returns a float
+//        Serial.print(totalTime); Serial.print(";");
+//        Serial.println(measured, 2); //scale.get_units() returns a float
         plotBuffer[n] = measured;
         
         //Pressing blue or red button ends the capture
@@ -1274,12 +1287,23 @@ void capture()
 void geEncoderDynamics()
 {
   int sampleDuration = totalTime - lastEncoderTime;
-  if (sampleDuration >= 1000)
+  if (sampleDuration >= 10000)
   {
     lastEncoderTime = totalTime;
     position = encoder.read();
-    measured = (float)(position - lastPosition) * 1000000 / (sampleDuration);
+    measured = (float)(position - lastPosition) * 1000 / (sampleDuration);
+    if (encoderPhase * (position - lastPosition) < 0)
+    {
+      encoderPhase *= -1;
+      numRepetitions++;
+      avgVelocity = (float)(position - startPhasePosition)*1000 / (lastEncoderTime - startPhaseTime);
+      Serial.println(avgVelocity);
+      if (avgVelocity > maxAvgVelocity) maxAvgVelocity = avgVelocity;
+      startPhasePosition = position;
+      startPhaseTime = lastEncoderTime;
+    }
     lastPosition = position;
+    
   }
 }
 
@@ -1287,8 +1311,11 @@ void startEncoderCapture()
 {
   capturing = true;
   sensor = incEncoder;
+  Serial.println(sensor);
   maxString = "Vmax:        m/s";
   plotPeriod = 500;
+  newGraphMin = -10;
+  newGraphMax = 10;
   measuredMax = 0;
   totalTime = 0;
   capture();
@@ -1308,12 +1335,36 @@ void endEncoderCapture()
 
 void showEncoderResults()
 {
-  tft.fillRect(0, 0, 320, 240, BLACK);
+  int textSize = 2;
+  tft.fillScreen(BLACK);
+  tft.setTextSize(3);
+  tft.setCursor(100, 0);
+  tft.print("Results");
 
-  //Red button exits results
-  tft.setCursor(100, 100);
-  tft.print("Encoder results");
+  tft.drawLine(0, 20, 320, 20, GREY);
+  tft.drawLine(160, 240, 160, 20, GREY);
+  tft.setTextSize(textSize);
 
+  tft.setCursor(0, 40);
+  tft.print("v");
+  tft.setCursor(12, 48);
+  tft.setTextSize(1);
+  tft.print("peak");
+  printTftFormat(measuredMax, 100, 40, textSize, 1);
+  
+  tft.setTextSize(2);
+  tft.setCursor(170, 40);
+  tft.print("Vrep");
+  tft.setTextSize(1);
+  tft.setCursor(218, 48);
+  tft.print("max");
+  printTftFormat(maxAvgVelocity, 268, 40, textSize, 2);
+
+  tft.setTextSize(2);
+  tft.setCursor(0, 80);
+  tft.print("nRep");
+  printTftFormat(numRepetitions, 100, 80, textSize, 0);
+  
   redButton.update();
   while (!redButton.fallingEdge()) {
     redButton.update();

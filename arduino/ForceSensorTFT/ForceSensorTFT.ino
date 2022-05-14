@@ -22,11 +22,9 @@
 
 */
 
-//#include <HX711.h>
 #include <EEPROM.h>
 #include "SPI.h"
-#include "Adafruit_ILI9341.h"
-#include "Adafruit_GFX.h"
+#include "ILI9341_t3.h"
 #include "HX711.h"
 #include <Bounce2.h>
 #include <Encoder.h>
@@ -204,8 +202,8 @@ const int chipSelect = 6;
 #define TFT_SCLK    14
 #define TFT_MISO    12
 
-//ILI9341_t3 tft = ILI9341_t3(TFT_CS, TFT_DC, TFT_RST, TFT_MOSI, TFT_SCLK, TFT_MISO);
-Adafruit_ILI9341 tft = Adafruit_ILI9341(TFT_CS, TFT_DC, TFT_MOSI, TFT_SCLK, TFT_RST, TFT_MISO);
+ILI9341_t3 tft = ILI9341_t3(TFT_CS, TFT_DC, TFT_RST, TFT_MOSI, TFT_SCLK, TFT_MISO);
+//Adafruit_ILI9341 tft = Adafruit_ILI9341(TFT_CS, TFT_DC, TFT_MOSI, TFT_SCLK, TFT_RST, TFT_MISO);
 // Display 16-bit color values:
 #define BLUE      0x025D
 #define TEAL      0x0438
@@ -1184,7 +1182,7 @@ void end_steadiness()
   &redraw = flag to redraw graph on fist call only
 */
 
-void Graph(Adafruit_ILI9341 & d, double x, double y, double gx, double gy, double w, double h, double xlo, double xhi, double xinc, double ylo, double yhi, double yinc, String title, String xlabel, String ylabel, unsigned int gcolor, unsigned int acolor, unsigned int pcolor, unsigned int tcolor, unsigned int bcolor, boolean & startOver)
+void Graph(ILI9341_t3 & d, double x, double y, double gx, double gy, double w, double h, double xlo, double xhi, double xinc, double ylo, double yhi, double yinc, String title, String xlabel, String ylabel, unsigned int gcolor, unsigned int acolor, unsigned int pcolor, unsigned int tcolor, unsigned int bcolor, boolean & startOver)
 {
   //double ydiv, xdiv;
   // initialize old x and old y in order to draw the first point of the graph
@@ -1220,7 +1218,7 @@ void Graph(Adafruit_ILI9341 & d, double x, double y, double gx, double gy, doubl
 
 }
 
-void redrawAxes(Adafruit_ILI9341 & d, double gx, double gy, double w, double h, double xlo, double xhi, double ylo, double yhi, double yinc, String title, String xlabel, String ylabel, unsigned int gcolor, unsigned int acolor, unsigned int pcolor, unsigned int tcolor, unsigned int bcolor, boolean resize)
+void redrawAxes(ILI9341_t3 & d, double gx, double gy, double w, double h, double xlo, double xhi, double ylo, double yhi, double yinc, String title, String xlabel, String ylabel, unsigned int gcolor, unsigned int acolor, unsigned int pcolor, unsigned int tcolor, unsigned int bcolor, boolean resize)
 {
   //double ydiv, xdiv;
   // initialize old x and old y in order to draw the first point of the graph
@@ -1299,7 +1297,7 @@ void encoderCapture()
   double xDivSize = 100;
   double yBuffer[320];
 
-  int plotPeriod = 1;
+  int plotPeriod = 1000;
   double plotBuffer[plotPeriod];
 
   bool resized = true;
@@ -1421,7 +1419,7 @@ void encoderCapture()
 void getEncoderResults()
 {
   int sampleDuration = totalTime - lastEncoderTime;
-  if (sampleDuration >= 10000)
+  if (sampleDuration >= 1000)
   {
     lastEncoderTime = totalTime;
     position = encoder.read();

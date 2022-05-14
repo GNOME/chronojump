@@ -73,14 +73,13 @@ enum sensorType {
 };
 
 sensorType sensor = none;
+String maxString = "";
 
 ////Wether the sync time must be sent or not
 //bool sendSyncTime = false;
 
 //wether the tranmission is in binary format or not
 boolean binaryFormat = false;
-
-unsigned long lastTime = 0;
 
 //RFD variables
 float RFD200 = 0.0;   //average RFD during 200 ms
@@ -479,7 +478,6 @@ void startLoadCellCapture()
 {
   Serial.println("Starting capture...");
   totalTime = 0;
-  lastTime = micros();
   measuredMax = scale.get_units();
   impulse = 0;
   maxRFD100 = 0;
@@ -503,6 +501,7 @@ void startLoadCellCapture()
   samplesSSD = 0;
   capturing = true;
   sensor = loadCell;
+  maxString = "Fmax:        N";
   plotPeriod = 5;
 }
 
@@ -989,7 +988,6 @@ void showsystemMenu() {
 void start_steadiness()
 {
   totalTime = 0;
-  lastTime = micros();
 
   capturing = true;
   capturingPreSteadiness = true;
@@ -1159,10 +1157,8 @@ void capture()
   //Print summary results
   tft.setTextSize(2);
   tft.setCursor(10, 215);
-  tft.print("Fmax: ");
+  tft.print(maxString);
   printTftFormat(measuredMax, 100, 215, 2, 2);
-  tft.setCursor(148, 215);
-  tft.print(" N");
   tft.setCursor(308, 215);
   tft.print("s");
 
@@ -1291,7 +1287,10 @@ void startEncoderCapture()
 {
   capturing = true;
   sensor = incEncoder;
+  maxString = "Vmax:        m/s";
   plotPeriod = 500;
+  measuredMax = 0;
+  totalTime = 0;
   capture();
 }
 

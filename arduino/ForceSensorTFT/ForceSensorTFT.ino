@@ -296,25 +296,24 @@ void loop()
     redButton.update();
     if (redButton.fallingEdge())
     {
+      PCControlled = false;
       if (menu == 0)
       {
-        PCControlled = false;
         startLoadCellCapture();
       } else if (menu == 1)
       {
-        Serial.println("Velocity");
         startEncoderCapture();
       } else if (menu == 2)
       {
         startPowerCapture();
       } else if (menu == 3)
       {
-        start_steadiness();
+        tareTemp();
         startLoadCellCapture();
 
       } else if (menu == 4)
       {
-        tareTemp();
+        start_steadiness();
         startLoadCellCapture();
       } else if (menu == 5)
       {
@@ -511,7 +510,7 @@ void startLoadCellCapture()
   maxString = "Fmax:        N";
   plotPeriod = 5;
   newGraphMin = -100;
-  newGraphMax = 300;
+  newGraphMax = max(300,measuredMax*1.5);
 }
 
 void endLoadCellCapture()
@@ -603,7 +602,7 @@ void tareTemp()
   tft.setTextSize(2);
   tft.setCursor(12, 100);
   tft.setTextColor(BLACK);
-  tft.print(menuDescription[1]);
+  tft.print(menuDescription[3]);
   tft.setTextColor(WHITE);
   tft.setCursor(100, 100);
   tft.print("Taring...");
@@ -996,8 +995,8 @@ void showsystemMenu() {
 
 void start_steadiness()
 {
+  sensor = loadCell;
   totalTime = 0;
-
   capturing = true;
   capturingPreSteadiness = true;
   capturingSteadiness = false;
@@ -1238,12 +1237,34 @@ void capture()
         //Check the buttons state
         redButton.update();
         blueButton.update();
-        if (redButton.fallingEdge() || blueButton.fallingEdge()) {
-          Serial.println("Button pressed");
-          if (sensor == incEncoder) endEncoderCapture();
-          else if (sensor == loadCell) endLoadCellCapture();
-          else if (sensor == loadCellIncEncoder) endPowerCapture();
-          xGraph = xMax;
+        if (redButton.fallingEdge() || blueButton.fallingEdge())
+        {
+          if (sensor == incEncoder)
+          {
+            endEncoderCapture();
+          } else if (sensor == loadCell)
+          {
+            if (! (capturingPreSteadiness || capturingSteadiness))
+            {
+              endLoadCellCapture();
+              //xGraph = xMax;
+            } else if (capturingPreSteadiness)  //In Pre steadiness. Showing force until button pressed
+            {
+              capturingPreSteadiness = false;
+              capturingSteadiness = true;
+              tft.setTextColor(BLACK);
+              printTftFormat(totalTime / 1000000, 284, 215, 2, 0);
+              startLoadCellCapture();
+              tft.setCursor(80, 10);
+              tft.setTextColor(WHITE, RED);
+              tft.print("Hold force  5s");
+              tft.setTextColor(WHITE);
+            }
+
+          } else if (sensor == loadCellIncEncoder) {
+            endPowerCapture();
+          }
+          //xGraph = xMax;
         }
       }
       //      Serial.println("Ended plotPeriod");
@@ -1372,7 +1393,6 @@ void getPowerDynamics()
   lastSampleTime = totalTime;
   lastPosition = position;
   measured = force * velocity;
-  Serial.println(measured);
   if (measured > maxPower) maxPower = measured;
 }
 
@@ -1412,14 +1432,14 @@ void showPowerResults()
   tft.drawLine(0, 20, 320, 20, GREY);
   tft.drawLine(160, 240, 160, 20, GREY);
   tft.setTextSize(textSize);
-  
+
   tft.setCursor(0, 40);
   tft.print("P");
   tft.setCursor(12, 48);
   tft.setTextSize(1);
   tft.print("peak");
   printTftFormat(measuredMax, 100, 40, textSize, 1);
-  
+
   redButton.update();
   while (!redButton.fallingEdge()) {
     redButton.update();

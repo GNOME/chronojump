@@ -42,10 +42,13 @@ String version = "0.7";
 
 //Encoder variables
 Encoder encoder(8, 9);
-int position = 0;
 int lastPosition = 0;
-
-long lastEncoderTime = 0;
+short encoderPhase = 1;    // 1 means concentric, -1 means eccentric
+long startPhasePosition = 0;
+long startPhaseTime = 0;
+float avgVelocity = 0;
+float maxAvgVelocity = 0;
+int numRepetitions = 0;
 
 int tareAddress = 0;
 int calibrationAddress = 4;
@@ -91,8 +94,8 @@ bool elapsed100 = false;  //Wether it has passed 100 ms since the start
 
 
 unsigned long rcaTime = 0;  //Time at which RCA changed
-unsigned long elapsedTime = 0;  //Elapsed time between 2 consecutives measures. No overflow manage
 elapsedMicros totalTime = 0;
+unsigned long lastSampleTime;
 
 /* Not used in order to optimize memory
   //Used to sync 2 evices
@@ -131,9 +134,9 @@ unsigned short submenu = 0;           //submenus state
 const String menuList [] = {
   "Raw Force",
   "Raw Velocity",
+  "RawPower",
   "Tared Force",
   "F. Steadiness",
-  "Force+Velocity",
   "System"
 };
 
@@ -142,9 +145,9 @@ int numMenuItems = 6;
 const String menuDescription [] = {
   "Shows standard graph of\nthe force and the summary of the set.\n(Maximum Force, RFD and\nImpulse)" ,
   "Show a standard graph of linear velocity",
+  "Measure Force and Speed\nat the same time.\nOnly power is shown in thegraph",
   "Offset the force before\nmeasuring it.\nUseful to substract body\nweight.",
   "RMSSD and cvRMSSD.\nMeasure the steadyness\nof the force signal.\nAfter achieving the\ndesired steady force press\nRedButton to get the\nsteadiness of the next 5s.",
-  "Measure Force and Speed\nat the same time.\nOnly force is shown in the\ngraph",
   "Performs calibration or\ntare and shows some system\ninformation."
 };
 
@@ -197,13 +200,9 @@ bool elapsed1Sample = false;    //Wether there's a previous sample. Needed to ca
 //Force in trigger
 float forceTrigger = 0.0;       //Measured force at the moment the RCA is triggered
 
-//Encoder variables
-short encoderPhase = 1;    // 1 means concentric, -1 means eccentric
-long startPhasePosition = 0;
-long startPhaseTime = 0;
-float avgVelocity = 0;
-float maxAvgVelocity = 0;
-int numRepetitions = 0;
+//Power variables
+float power = 0;
+float maxPower = 0;
 
 //If device is controled by computer don't show results on TFT
 bool PCControlled = false;
@@ -307,8 +306,7 @@ void loop()
         startEncoderCapture();
       } else if (menu == 2)
       {
-        tareTemp();
-        startLoadCellCapture();
+        startPowerCapture();
       } else if (menu == 3)
       {
         start_steadiness();
@@ -316,7 +314,8 @@ void loop()
 
       } else if (menu == 4)
       {
-        //captureForceVelocity();
+        tareTemp();
+        startLoadCellCapture();
       } else if (menu == 5)
       {
         systemMenu();
@@ -511,8 +510,8 @@ void startLoadCellCapture()
   sensor = loadCell;
   maxString = "Fmax:        N";
   plotPeriod = 5;
-  graphMin = -100;
-  graphMax = 300;
+  newGraphMin = -100;
+  newGraphMax = 300;
 }
 
 void endLoadCellCapture()
@@ -819,7 +818,7 @@ void calibrateTFT(void) {
 
 //function to read battery level. Not implemented in SportAnalyzer hardware version 1.0
 void showBatteryLevel() {
-  float sensorValue = analogRead(A0);
+  //float sensorValue = analogRead(A0);
 
 }
 
@@ -1217,13 +1216,9 @@ void capture()
           //If no RCA event, read the sensor as usual
         } else {
           //Calculation of the variables shown in the results
-          if (sensor == incEncoder)
-          {
-            geEncoderDynamics();
-          } else if (sensor == loadCell)
-          {
-            getLoadCellDynamics();
-          }
+          if (sensor == incEncoder) geEncoderDynamics();
+          else if (sensor == loadCell) getLoadCellDynamics();
+          else if (sensor == loadCellIncEncoder) getPowerDynamics();
 
           //Value exceeds the plotting area
           if (measured > newGraphMax) {
@@ -1235,23 +1230,19 @@ void capture()
             resized = true;
           }
         }
-//        Serial.print(totalTime); Serial.print(";");
-//        Serial.println(measured, 2); //scale.get_units() returns a float
+        //        Serial.print(totalTime); Serial.print(";");
+        //        Serial.println(measured, 2); //scale.get_units() returns a float
         plotBuffer[n] = measured;
-        
+
         //Pressing blue or red button ends the capture
         //Check the buttons state
         redButton.update();
         blueButton.update();
         if (redButton.fallingEdge() || blueButton.fallingEdge()) {
           Serial.println("Button pressed");
-            if (sensor == incEncoder)
-            {
-              endEncoderCapture();
-            } else if (sensor == loadCell)
-            {
-              endLoadCellCapture();
-            }
+          if (sensor == incEncoder) endEncoderCapture();
+          else if (sensor == loadCell) endLoadCellCapture();
+          else if (sensor == loadCellIncEncoder) endPowerCapture();
           xGraph = xMax;
         }
       }
@@ -1286,24 +1277,24 @@ void capture()
 
 void geEncoderDynamics()
 {
-  int sampleDuration = totalTime - lastEncoderTime;
+  int sampleDuration = totalTime - lastSampleTime;
   if (sampleDuration >= 10000)
   {
-    lastEncoderTime = totalTime;
-    position = encoder.read();
+    lastSampleTime = totalTime;
+    long position = encoder.read();
     measured = (float)(position - lastPosition) * 1000 / (sampleDuration);
     if (encoderPhase * (position - lastPosition) < 0)
     {
       encoderPhase *= -1;
       numRepetitions++;
-      avgVelocity = (float)(position - startPhasePosition)*1000 / (lastEncoderTime - startPhaseTime);
+      avgVelocity = (float)(position - startPhasePosition) * 1000 / (lastSampleTime - startPhaseTime);
       Serial.println(avgVelocity);
       if (avgVelocity > maxAvgVelocity) maxAvgVelocity = avgVelocity;
       startPhasePosition = position;
-      startPhaseTime = lastEncoderTime;
+      startPhaseTime = lastSampleTime;
     }
     lastPosition = position;
-    
+
   }
 }
 
@@ -1351,7 +1342,7 @@ void showEncoderResults()
   tft.setTextSize(1);
   tft.print("peak");
   printTftFormat(measuredMax, 100, 40, textSize, 1);
-  
+
   tft.setTextSize(2);
   tft.setCursor(170, 40);
   tft.print("Vrep");
@@ -1364,6 +1355,70 @@ void showEncoderResults()
   tft.setCursor(0, 80);
   tft.print("nRep");
   printTftFormat(numRepetitions, 100, 80, textSize, 0);
+
+  redButton.update();
+  while (!redButton.fallingEdge()) {
+    redButton.update();
+  }
+  tft.fillRect(0, 20, 320, 240, BLACK);
+  drawMenuBackground();
+}
+
+void getPowerDynamics()
+{
+  float force = scale.get_units();
+  long position = encoder.read();
+  float velocity = (float)(position - lastPosition) * 1000 / (totalTime - lastSampleTime);
+  lastSampleTime = totalTime;
+  lastPosition = position;
+  measured = force * velocity;
+  Serial.println(measured);
+  if (measured > maxPower) maxPower = measured;
+}
+
+void startPowerCapture()
+{
+  capturing = true;
+  sensor = loadCellIncEncoder;
+  maxString = "Pmax:        W";
+  plotPeriod = 5;
+  newGraphMin = -200;
+  newGraphMax = 500;
+  measuredMax = 0;
+  totalTime = 0;
+  capture();
+}
+
+void endPowerCapture()
+{
+  capturing = false;
+  sensor = none;
+  //If the device is controlled by the PC the results menu is not showed
+  //because during the menu navigation the Serial is not listened.
+  if (!PCControlled) {
+    showPowerResults();
+  }
+  showMenu();
+}
+
+void showPowerResults()
+{
+  int textSize = 2;
+  tft.fillScreen(BLACK);
+  tft.setTextSize(3);
+  tft.setCursor(100, 0);
+  tft.print("Results");
+
+  tft.drawLine(0, 20, 320, 20, GREY);
+  tft.drawLine(160, 240, 160, 20, GREY);
+  tft.setTextSize(textSize);
+  
+  tft.setCursor(0, 40);
+  tft.print("P");
+  tft.setCursor(12, 48);
+  tft.setTextSize(1);
+  tft.print("peak");
+  printTftFormat(measuredMax, 100, 40, textSize, 1);
   
   redButton.update();
   while (!redButton.fallingEdge()) {

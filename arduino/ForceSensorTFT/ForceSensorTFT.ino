@@ -52,6 +52,7 @@ int numRepetitions = 0;
 
 int tareAddress = 0;
 int calibrationAddress = 4;
+int forceGoalAddress = 8;
 
 HX711 scale(DOUT, CLK);
 
@@ -154,13 +155,15 @@ const String menuDescription [] = {
 const String systemOptions[] = {
   "Tare",
   "Calibrate",
-  "Info",
+  "Force Goal",
+  "Info"
 };
 
 const String systemDescriptions[] = {
-  "Set the offset of the\nsensor",
-  "Set the equivalence\nbetween the sensor values\nand the force measured",
-  "Hardware information"
+  "Set the offset of the\nsensor.",
+  "Set the equivalence\nbetween the sensor values\nand the force measured.",
+  "Set the goal force for\nsteadiness measurements.",
+  "Hardware information."
 };
 
 //Mean force in 1s
@@ -192,6 +195,7 @@ float cvRMSSD = 0.0;
 float lastMeasure = 0;
 bool capturingPreSteadiness = false;
 bool capturingSteadiness = false;
+float forceGoal = 300;
 
 //Impulse. Impulse = Sumatory of the force*time
 float impulse = 0;
@@ -272,10 +276,29 @@ void setup() {
     scale.set_scale(calibration_factor);
   }
 
+  EEPROM.get(forceGoalAddress, forceGoal);
+  if (isnan(forceGoal)) {
+    EEPROM.put(forceGoal, 300);
+  }
+
   //Start TFT
   tft.begin();
   tft.setRotation(1);
-  tft.fillRect(0, 50, 320, 240, BLACK);
+  
+  // See if the card is present and can be initialized:
+//  if (!SD.begin(chipSelect)) 
+//  {
+//    Serial.println("Card failed, or not present");
+//    tft.println("Card failed, or not present");
+//    // don't do anything more:
+//    return;
+//  }
+//  tft.setCursor(110, 120);
+//  tft.println("Card initialized");
+//  Serial.println("card initialized");
+//  delay(1000);
+  
+  tft.fillScreen(BLACK);
   drawMenuBackground();
   showMenu();
 }
@@ -509,8 +532,16 @@ void startLoadCellCapture()
   sensor = loadCell;
   maxString = "Fmax:        N";
   plotPeriod = 5;
-  newGraphMin = -100;
-  newGraphMax = max(300,measuredMax*1.5);
+  if(capturingSteadiness) {
+    newGraphMin = -10;
+    newGraphMax = forceGoal*1.5;
+  } else if (capturingSteadiness)  {
+    newGraphMin = forceGoal*0.5;
+    newGraphMax = forceGoal*1.5;
+  } else {
+    newGraphMin = -100;
+    newGraphMax = max(300,measuredMax*1.5);
+  }
 }
 
 void endLoadCellCapture()
@@ -528,7 +559,6 @@ void endLoadCellCapture()
     //Serial.println(scale.get_offset());
     showLoadCellResults();
   }
-
   showMenu();
 }
 
@@ -934,7 +964,7 @@ void systemMenu()
   tft.setCursor(12, 100);
   tft.print(" Set the offset of the\nsensor.");
 
-  showsystemMenu();
+  showSystemMenu();
 
 
   redButton.update();
@@ -950,7 +980,7 @@ void systemMenu()
     if (blueButton.fallingEdge()) {
       blueButton.update();
       submenu = (submenu + 1) % 3;
-      showsystemMenu();
+      showSystemMenu();
 
     }
     //Red button pressed. Execute the menu option
@@ -965,6 +995,8 @@ void systemMenu()
       {
         calibrateTFT();
       } else if (submenu == 2) {
+        setForceGoal();
+      } else if (submenu == 3) {
         showSystemInfo();
       }
       tft.setTextColor(BLACK);
@@ -976,7 +1008,7 @@ void systemMenu()
   }
 }
 
-void showsystemMenu() {
+void showSystemMenu() {
 
   tft.setTextColor(BLACK);
   tft.setCursor(50, 60);
@@ -1072,7 +1104,7 @@ void Graph(ILI9341_t3 & d, double x, double y, double gx, double gy, double w, d
 
 }
 
-void redrawAxes(ILI9341_t3 & d, double gx, double gy, double w, double h, double xlo, double xhi, double ylo, double yhi, double yinc, String title, String xlabel, String ylabel, unsigned int gcolor, unsigned int acolor, unsigned int pcolor, unsigned int tcolor, unsigned int bcolor, boolean resize)
+void redrawAxes(ILI9341_t3 & d, double gx, double gy, double w, double h, double xlo, double xhi, double ylo, double yhi, double yinc, String title, String xlabel, String ylabel, unsigned int gcolor, unsigned int acolor, unsigned int pcolor, unsigned int tcolor, unsigned int bcolor,unsigned int goalColor, boolean resize)
 {
   //double ydiv, xdiv;
   // initialize old x and old y in order to draw the first point of the graph
@@ -1083,6 +1115,15 @@ void redrawAxes(ILI9341_t3 & d, double gx, double gy, double w, double h, double
   double yAxis;
   //double xAxis;
 
+  //Deleting goalForce line
+  if(capturingPreSteadiness || capturingSteadiness)
+  {
+    yAxis =  (forceGoal - ylo) * (-h) / (yhi - ylo) + gy;
+    d.drawLine(gx, yAxis, gx + w, yAxis, BLACK);
+  }
+
+  if (resize) tft.drawRect(0,0, gx, gy, BLACK);
+  
   d.setTextSize(1);
   d.setTextColor(tcolor, bcolor);
 
@@ -1122,6 +1163,12 @@ void redrawAxes(ILI9341_t3 & d, double gx, double gy, double w, double h, double
   d.setTextColor(tcolor, bcolor);
   d.setCursor(gx , gy - h - 30);
   d.println(title);
+
+  if(capturingPreSteadiness || capturingSteadiness)
+  {
+    yAxis =  (forceGoal - ylo) * (-h) / (yhi - ylo) + gy;
+    d.drawLine(gx, yAxis, gx + w, yAxis, goalColor);
+  }
 }
 
 void drawMenuBackground() {
@@ -1181,9 +1228,13 @@ void capture()
       Graph(tft, i, yBuffer[i], graphX, graphY, graphW, graphH, xMin, xMax, xDivSize, graphMin, graphMax, yDivSize, "", "", "", WHITE, WHITE, BLACK, WHITE, BLACK, startOver);
     }
     startOver = true;
-    redrawAxes(tft, graphX, graphY, graphW, graphH, xMin, xMax, graphMin, graphMax, yDivSize, "", "", "", WHITE, BLACK, BLACK, BLACK, BLACK, resized);
+    redrawAxes(tft, graphX, graphY, graphW, graphH, xMin, xMax, graphMin, graphMax, yDivSize, "", "", "", WHITE, BLACK, BLACK, BLACK, BLACK, BLACK, resized);
     graphMax = newGraphMax;
     graphMin = newGraphMin;
+    Serial.println("Y scale changed. Y limits:");
+    Serial.print(graphMin);
+    Serial.print(",\t");
+    Serial.println(graphMax);
     yDivSize = (graphMax - graphMin) / yDivN;
     if (resized) {
       Graph(tft, xMin, yBuffer[(int)xMin], graphX, graphY, graphW, graphH, xMin, xMax, xDivSize, graphMin, graphMax, yDivSize, "", "", "", WHITE, WHITE, BLACK, WHITE, BLACK, startOver);
@@ -1192,7 +1243,7 @@ void capture()
         Graph(tft, i, yBuffer[i], graphX, graphY, graphW, graphH, xMin, xMax, xDivSize, graphMin, graphMax, yDivSize, "", "", "", WHITE, WHITE, BLUE, WHITE, BLACK, startOver);
       }
     }
-    redrawAxes(tft, graphX, graphY, graphW, graphH, xMin, xMax, graphMin, graphMax, yDivSize, "", "", "", WHITE, GREY, WHITE, WHITE, BLACK, resized);
+    redrawAxes(tft, graphX, graphY, graphW, graphH, xMin, xMax, graphMin, graphMax, yDivSize, "", "", "", WHITE, GREY, WHITE, WHITE, BLACK, RED, resized);
     resized = false;
 
     if (xGraph >= xMax) xGraph = 0;
@@ -1254,7 +1305,19 @@ void capture()
               capturingSteadiness = true;
               tft.setTextColor(BLACK);
               printTftFormat(totalTime / 1000000, 284, 215, 2, 0);
+              //delay(5000);
+              redrawAxes(tft, graphX, graphY, graphW, graphH, xMin, xMax, graphMin, graphMax, yDivSize, "", "", "", WHITE, BLACK, BLACK, BLACK, BLACK, BLACK, resized);
+              //delay(5000);
               startLoadCellCapture();
+              newGraphMax = forceGoal*1.5;
+              newGraphMin = forceGoal*0.5;
+              resized = true;
+              Serial.println("going to change. Future Y limits:");
+              Serial.print(newGraphMin);
+              Serial.print(",\t");
+              Serial.println(newGraphMax);
+              redrawAxes(tft, graphX, graphY, graphW, graphH, xMin, xMax, graphMin, graphMax, yDivSize, "", "", "", WHITE, GREY, WHITE, WHITE, BLACK, RED, resized);
+              //delay(5000);
               tft.setCursor(80, 10);
               tft.setTextColor(WHITE, RED);
               tft.print("Hold force  5s");
@@ -1446,4 +1509,92 @@ void showPowerResults()
   }
   tft.fillRect(0, 20, 320, 240, BLACK);
   drawMenuBackground();
+}
+
+void setForceGoal()
+{
+  forceGoal = 0; 
+  short increment = 10;
+  submenu = 0;
+  bool exitFlag = false;
+  //Delete description
+  tft.setCursor(24, 100);
+  tft.setTextColor(BLACK);
+  tft.print(systemDescriptions[2]);
+
+  //Explanation of the process
+  tft.setTextColor(WHITE);
+  tft.setCursor(10, 100);
+  tft.print("Select the force goal in Newtons.\nAn horizontal red line will be drawn");
+
+  //Blue button
+  tft.setCursor(12, 218);
+  tft.setTextColor(WHITE, BLUE);
+  tft.print("+");
+  tft.print(increment);
+
+  //Red button
+  tft.setCursor(248, 218);
+  tft.setTextColor(WHITE, RED);
+  tft.print("Accept");
+
+  //Current goal
+  tft.setCursor(100, 174);
+  tft.setTextColor(WHITE, BLACK);
+  tft.print("Current:");
+  tft.setCursor(220, 174);
+  printTftFormat(forceGoal, 236, 174, 2, 0);
+  redButton.update();
+  blueButton.update();
+  while (!exitFlag) {
+
+    //Selecting the force goal
+      //TODO: Allow coninuous increasing by keeping pressed the button
+      if (blueButton.fallingEdge()) {
+        tft.setTextColor(BLACK);
+        printTftFormat(forceGoal, 236, 174, 2, 0);
+        forceGoal += increment;
+        if (forceGoal >  10000) {
+          forceGoal = 1;
+        }
+        tft.setTextColor(WHITE);
+        tft.setCursor(216, 150);
+        printTftFormat(forceGoal, 236, 174, 2, 0);
+
+        if (forceGoal == 100)
+        {
+          increment = 50;
+          tft.setCursor(24, 218);
+          tft.setTextColor(WHITE, BLUE);
+          tft.print(increment);
+
+        } else if (forceGoal == 1000) {
+          increment = 500;
+          tft.setCursor(24, 218);
+          tft.setTextColor(WHITE, BLUE);
+          tft.print(increment);
+        } else if (forceGoal == 10000) {
+          increment = 10;
+          tft.fillRect(24, 218, 72, 16, BLACK);
+          tft.setCursor(24, 218);
+          tft.setTextColor(WHITE, BLUE);
+          tft.print(increment);
+        }
+      }
+
+      //Change to Calibrate execution
+      if (redButton.fallingEdge()) {
+
+        //Deleting explanation
+        tft.fillRect(0, 60, 320, 240, BLACK);
+
+        submenu = 1;
+        exitFlag = true;
+        EEPROM.put(forceGoalAddress, forceGoal);
+      }
+    //Waiting the red button push to start calibration process
+    redButton.update();
+    blueButton.update();
+  }
+  showMenu();
 }

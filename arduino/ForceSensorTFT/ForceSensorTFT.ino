@@ -286,17 +286,17 @@ void setup() {
   tft.setRotation(1);
   
   // See if the card is present and can be initialized:
-//  if (!SD.begin(chipSelect)) 
-//  {
-//    Serial.println("Card failed, or not present");
-//    tft.println("Card failed, or not present");
-//    // don't do anything more:
-//    return;
-//  }
-//  tft.setCursor(110, 120);
-//  tft.println("Card initialized");
-//  Serial.println("card initialized");
-//  delay(1000);
+  if (!SD.begin(chipSelect)) 
+  {
+    Serial.println("Card failed, or not present");
+    tft.println("Card failed, or not present");
+    // don't do anything more:
+    return;
+  }
+  tft.setCursor(110, 120);
+  tft.println("Card initialized");
+  Serial.println("card initialized");
+  delay(1000);
   
   tft.fillScreen(BLACK);
   drawMenuBackground();

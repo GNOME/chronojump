@@ -299,6 +299,7 @@ public partial class ChronoJumpWindow
 
 	//detect devices
 	[Widget] Gtk.VBox vbox_micro_discover;
+	[Widget] Gtk.Label label_micro_discover_title;
 	[Widget] Gtk.Table table_micro_discover;
 	[Widget] Gtk.Button button_contacts_detect;
 	[Widget] Gtk.Label label_micro_discover_ports;
@@ -4609,12 +4610,9 @@ public partial class ChronoJumpWindow
 		//ChronoDebug cDebug = new ChronoDebug("Discover " + current_mode.ToString());
 		//cDebug.Start();
 
-		List<string> discoverPorts_l = Util.StringArrayToListString (ChronopicPorts.GetPorts ());
-		label_micro_discover_ports.Text = string.Format(Catalog.GetPluralString(
-					"Found 1 device.",
-					"Found {0} devices.",
-					discoverPorts_l.Count), discoverPorts_l.Count);
-
+		label_micro_discover_title.Text = string.Format(Catalog.GetString(
+					"Detect device for mode: <b>{0}</b>"), modePrint(current_mode));
+		label_micro_discover_title.UseMarkup = true;
 		app1s_notebook_sup_entered_from = notebook_sup.CurrentPage; //CONTACTS or ENCODER
 		notebook_sup.CurrentPage = Convert.ToInt32(notebook_sup_pages.MICRODISCOVER);
 		menus_and_mode_sensitive (false);

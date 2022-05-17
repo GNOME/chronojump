@@ -44,6 +44,9 @@ public abstract class EvolutionGraph : CairoXY
 		writeTitle();
 		addClickableMark(g);
 
+		if(mouseX >= 0 && mouseY >= 0)
+			calculateAndWriteRealXY ();
+
 		endGraphDisposing(g, surface, area.GdkWindow);
 	}
 
@@ -156,6 +159,10 @@ public class JumpsEvolutionGraph : EvolutionGraph
 		yVariable = heightStr;
 		xUnits = "";
 		yUnits = "cm";
+
+		area.AddEvents((int) Gdk.EventMask.ButtonPressMask); //to have mouse clicks
+		mouseX = -1;
+		mouseY = -1;
 	}
 
 	protected override void writeTitle()
@@ -214,6 +221,10 @@ public class RunsEvolutionGraph : EvolutionGraph
 			else
 				yUnits = "km/h";
 		}
+
+		area.AddEvents((int) Gdk.EventMask.ButtonPressMask); //to have mouse clicks
+		mouseX = -1;
+		mouseY = -1;
 	}
 
 	protected override void writeTitle()

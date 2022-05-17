@@ -226,7 +226,7 @@ public partial class ChronoJumpWindow
 
 		//redo the graph to delete previous rectangles of previous mouse clicks
 		jumpsRjFatigueGraph.PassMouseXY (args.Event.X, args.Event.Y);
-		jumpsRjFatigueGraph.Do(preferences.fontType.ToString());
+		jumpsRjFatigueGraph.Do (preferences.fontType.ToString());
 	}
 
 	private void on_button_jumps_rj_fatigue_save_image_clicked (object o, EventArgs args)

@@ -211,13 +211,8 @@ public partial class ChronoJumpWindow
 
 	private void on_drawingarea_jumps_rj_fatigue_expose_event (object o, ExposeEventArgs args)
 	{
-		//needed to have mouse clicks at: on_drawingarea_jumps_rj_fatigue_button_press_event ()
-//		drawingarea_jumps_rj_fatigue.AddEvents((int) (Gdk.EventMask.ButtonPressMask | Gdk.EventMask.ButtonReleaseMask));
-		drawingarea_jumps_rj_fatigue.AddEvents((int) Gdk.EventMask.ButtonPressMask);
-
 		//createComboSelectJumpsRjFatigueNum (false);
 		jumpsRjFatigueDo(false);
-
 		//data is calculated on switch page (at notebook_capture_analyze) or on change person
 	}
 
@@ -230,9 +225,8 @@ public partial class ChronoJumpWindow
 		LogB.Information("Button press done!");
 
 		//redo the graph to delete previous rectangles of previous mouse clicks
+		jumpsRjFatigueGraph.PassMouseXY (args.Event.X, args.Event.Y);
 		jumpsRjFatigueGraph.Do(preferences.fontType.ToString());
-		LogB.Information(string.Format("Mouse X: {0}; Mouse Y: {1}", args.Event.X, args.Event.Y));
-		jumpsRjFatigueGraph.CalculateAndWriteRealXY(args.Event.X, args.Event.Y);
 	}
 
 	private void on_button_jumps_rj_fatigue_save_image_clicked (object o, EventArgs args)

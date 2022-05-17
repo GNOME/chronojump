@@ -4555,30 +4555,30 @@ public partial class ChronoJumpWindow
 	   ----------------- discover / detect devices --------->
 	   */
 
-	List<Gtk.Label> label_micro_discover_l;
 	List<Gtk.ProgressBar> progressbar_micro_discover_l;
 	List<Gtk.Button> button_micro_discover_l;
 
-	private void setup_progressbar_micro_discover_l (List<string> discoverPorts_l)
+	//private void setup_progressbar_micro_discover_l (List<string> discoverPorts_l)
+	private void setup_progressbar_micro_discover_l (List<ChronopicRegisterPort> connected_l)
 	{
 		// 1) delete widgets of previous calls
 		UtilGtk.RemoveChildren(table_micro_discover);
 
 		//table_micro_discover = new Gtk.Table((uint) microDiscover.ProgressBar_l.Count +1, 3, false); //not homogeneous
-		table_micro_discover.Resize((uint) discoverPorts_l.Count, 3);
+		table_micro_discover.Resize((uint) connected_l.Count, 3);
 		table_micro_discover.ColumnSpacing = 20;
 		table_micro_discover.RowSpacing = 12;
 
+
 		// 2) create the lists of widgets to be able to access later
-		label_micro_discover_l = new List<Gtk.Label> ();
 		progressbar_micro_discover_l = new List<Gtk.ProgressBar> ();
 		button_micro_discover_l = new List<Gtk.Button> ();
 
 		// 3) create widgets, lists, attach to table and show all
-		for (int i = 0; i < discoverPorts_l.Count; i ++)
+		for (int i = 0; i < connected_l.Count; i ++)
 		{
-			Gtk.Label l = new Gtk.Label(discoverPorts_l[i]);
-			label_micro_discover_l.Add (l);
+			//Gtk.Label l = new Gtk.Label(connected_l[i].ToStringSepBy("\n"));
+			Gtk.Label l = new Gtk.Label(string.Format("{0}\n{1}", connected_l[i].Port, connected_l[i].SerialNumber));
 			table_micro_discover.Attach (l, (uint) 0, (uint) 1, (uint) i, (uint) i+1); //left, right, top, bottom
 
 			Gtk.ProgressBar pb = new Gtk.ProgressBar();
@@ -4613,6 +4613,24 @@ public partial class ChronoJumpWindow
 		label_micro_discover_title.Text = string.Format(Catalog.GetString(
 					"Detect device for mode: <b>{0}</b>"), modePrint(current_mode));
 		label_micro_discover_title.UseMarkup = true;
+
+		// 2) get the serial numbers (and also the portName and type if saved on SQL)
+		chronopicRegisterUpdate (false);
+
+		List<ChronopicRegisterPort> connected_l = new List<ChronopicRegisterPort> ();
+		List<string> portName_l = new List<string> ();
+		foreach(ChronopicRegisterPort crp in chronopicRegister.Crpl.L)
+                        if(crp.Port != "")
+			{
+                                connected_l.Add(crp);
+                                portName_l.Add(crp.Port);
+			}
+
+		label_micro_discover_ports.Text = string.Format(Catalog.GetPluralString(
+					"Found 1 device.",
+					"Found {0} devices.",
+					connected_l.Count), connected_l.Count);
+
 		app1s_notebook_sup_entered_from = notebook_sup.CurrentPage; //CONTACTS or ENCODER
 		notebook_sup.CurrentPage = Convert.ToInt32(notebook_sup_pages.MICRODISCOVER);
 		menus_and_mode_sensitive (false);
@@ -4621,11 +4639,15 @@ public partial class ChronoJumpWindow
 				new Pixbuf (null, Util.GetImagePath(false) + "image_cancel.png");
 		label_button_micro_discover_cancel_close.Text = Catalog.GetString("Cancel");
 
-		if(discoverPorts_l != null && discoverPorts_l.Count > 0)
+		if(connected_l != null && connected_l.Count > 0)
 		{
 			label_micro_discover_ports_detecting.Visible = true;
-			microDiscover = new MicroDiscover (discoverPorts_l); //all ports
-			setup_progressbar_micro_discover_l (discoverPorts_l);
+
+			microDiscover = new MicroDiscover (portName_l);
+
+			//setup_progressbar_micro_discover_l (discoverPorts_l);
+			setup_progressbar_micro_discover_l (connected_l);
+
 			discoverThread = new Thread (new ThreadStart (discoverDo));
 			GLib.Idle.Add (new GLib.IdleHandler (pulseDiscoverGTK));
 			discoverThread.Start();
@@ -4653,9 +4675,10 @@ public partial class ChronoJumpWindow
 			return true;
 		}
 
-		//update progressbar message
+		//gui updates while thread is alive
 		for (int i = 0; i < progressbar_micro_discover_l.Count; i ++)
 		{
+			//progressbars
 			Gtk.ProgressBar pb = progressbar_micro_discover_l[i];
 			if (microDiscover.ProgressBar_l[i] == MicroDiscover.Status.NotStarted)
 			{
@@ -4671,6 +4694,13 @@ public partial class ChronoJumpWindow
 				else
 					pb.Text = microDiscover.ProgressBar_l[i].ToString();
 				pb.Pulse ();
+			}
+
+			if (i < microDiscover.Discovered_l.Count && discoverMatchCurrentMode (microDiscover.Discovered_l[i]))
+			{
+				(progressbar_micro_discover_l[i]).Text = ChronopicRegisterPort.TypePrint(microDiscover.Discovered_l[i]);
+				button_micro_discover_l[i].Sensitive = true;
+				button_micro_discover_l[i].Clicked += new EventHandler(on_discover_button_clicked);
 			}
 		}
 
@@ -4688,13 +4718,9 @@ public partial class ChronoJumpWindow
 
 				(progressbar_micro_discover_l[i]).Fraction = 1;
 
-				if (i < microDiscover.Discovered_l.Count && discoverMatchCurrentMode (microDiscover.Discovered_l[i]))
-				{
-					LogB.Information("found in " + i);
-					(progressbar_micro_discover_l[i]).Text = ChronopicRegisterPort.TypePrint(microDiscover.Discovered_l[i]);
-					button_micro_discover_l[i].Sensitive = true;
-					button_micro_discover_l[i].Clicked += new EventHandler(on_discover_button_clicked);
-				}
+				if ( ! (i < microDiscover.Discovered_l.Count &&
+							discoverMatchCurrentMode (microDiscover.Discovered_l[i])) )
+					(progressbar_micro_discover_l[i]).Text = "----";
 			}
 
 			label_micro_discover_ports_detecting.Visible = false;
@@ -4713,6 +4739,8 @@ public partial class ChronoJumpWindow
 	{
 		if (current_mode == Constants.Modes.FORCESENSOR && crpt == ChronopicRegisterPort.Types.ARDUINO_FORCE)
 			return true;
+
+		//TODO: add for other modes
 
 		return false;
 	}

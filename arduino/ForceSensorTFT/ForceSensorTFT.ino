@@ -246,6 +246,10 @@ boolean startOver = true;
 double ox , oy ;
 double x, y;
 
+//SD stuff
+unsigned int personNumber;
+unsigned int setNumber;
+
 void setup() {
   pinMode(redButtonPin, INPUT_PULLUP);
   pinMode(blueButtonPin, INPUT_PULLUP);
@@ -284,7 +288,8 @@ void setup() {
   //Start TFT
   tft.begin();
   tft.setRotation(1);
-  
+
+  delay(100);
   // See if the card is present and can be initialized:
   if (!SD.begin(chipSelect)) 
   {
@@ -530,7 +535,7 @@ void startLoadCellCapture()
   samplesSSD = 0;
   capturing = true;
   sensor = loadCell;
-  maxString = "Fmax:        N";
+  maxString = "F";
   plotPeriod = 5;
   if(capturingSteadiness) {
     newGraphMin = -10;
@@ -852,7 +857,7 @@ void showBatteryLevel() {
 }
 
 void updateTime() {
-  printTftFormat(totalTime / 1000000, 284, 215, 2, 0);
+  printTftFormat(totalTime / 1000000, 302, 215, 2, 0);
 }
 //TODO: Add more information or eliminate
 void showSystemInfo() {
@@ -1181,6 +1186,9 @@ void drawMenuBackground() {
 
 void capture()
 {
+  personNumber = 0;
+  String fileName = "P"+String(personNumber)+"-S"+String(setNumber);
+  
   //Position graph's lower left corner.
   double graphX = 30;
   double graphY = 200;
@@ -1213,12 +1221,17 @@ void capture()
   tft.setTextSize(2);
   tft.setCursor(10, 215);
   tft.print(maxString);
-  printTftFormat(measuredMax, 100, 215, 2, 2);
-  tft.setCursor(308, 215);
-  tft.print("s");
-
-  Serial.println(graphMin);
-  Serial.println(graphMax);
+  tft.setTextSize(1);
+  tft.setCursor(22, 223);
+  tft.print("max");
+  tft.setTextSize(2);
+  tft.setCursor(40, 215);
+  tft.print(":");
+  printTftFormat(measuredMax, 82, 215, 2, 2);
+  tft.setCursor(160,215);
+  tft.print(fileName);
+//  tft.setCursor(308, 215);
+//  tft.print("s");
 
   while (capturing)
   {
@@ -1282,13 +1295,14 @@ void capture()
         }
         //        Serial.print(totalTime); Serial.print(";");
         //        Serial.println(measured, 2); //scale.get_units() returns a float
+        saveSD(fileName);
         plotBuffer[n] = measured;
 
         //Pressing blue or red button ends the capture
         //Check the buttons state
         redButton.update();
         blueButton.update();
-        if (redButton.fallingEdge() || blueButton.fallingEdge())
+        if (redButton.fallingEdge())
         {
           if (sensor == incEncoder)
           {
@@ -1329,6 +1343,17 @@ void capture()
           }
           //xGraph = xMax;
         }
+        if (blueButton.fallingEdge())
+        {
+          tft.setTextColor(BLACK);
+          tft.setCursor(160,215);
+          tft.print(fileName);
+          personNumber++;
+          fileName = "P"+String(personNumber)+"-S"+String(setNumber);
+          tft.setTextColor(WHITE);
+          tft.setCursor(160,215);
+          tft.print(fileName);
+        }
       }
       //      Serial.println("Ended plotPeriod");
 
@@ -1347,7 +1372,7 @@ void capture()
         if (measured > measuredMax)
         {
           measuredMax = measured;
-          printTftFormat(measuredMax, 100, 215, 2, 2);
+          printTftFormat(measuredMax, 82, 215, 2, 2);
         }
 
         if ((lastUpdateTime - totalTime) > 1000000) {
@@ -1357,6 +1382,7 @@ void capture()
       }
     }
   }
+  if(!capturingPreSteadiness) setNumber++;
 }
 
 void geEncoderDynamics()
@@ -1387,7 +1413,7 @@ void startEncoderCapture()
   capturing = true;
   sensor = incEncoder;
   Serial.println(sensor);
-  maxString = "Vmax:        m/s";
+  maxString = "V";
   plotPeriod = 500;
   newGraphMin = -10;
   newGraphMax = 10;
@@ -1463,7 +1489,7 @@ void startPowerCapture()
 {
   capturing = true;
   sensor = loadCellIncEncoder;
-  maxString = "Pmax:        W";
+  maxString = "P";
   plotPeriod = 5;
   newGraphMin = -200;
   newGraphMax = 500;
@@ -1597,4 +1623,14 @@ void setForceGoal()
     blueButton.update();
   }
   showMenu();
+}
+
+void saveSD(String fileName)
+{
+  File dataFile = SD.open(fileName, FILE_WRITE);
+  Serial.println(fileName+".txt");
+  String row = "";
+  row = String(lastSampleTime)+";"+String(measured);
+  dataFile.println(row);
+  dataFile.close();
 }

@@ -551,6 +551,8 @@ public class MicroDiscover : MicroComms
 	public enum Status { NotStarted, Connecting, Detecting, Done };
 	private List<Status> progressBar_l; //progressBars status
 
+	private List<string> portName_l;
+
 	//devices discovered compatible with current mode
 	private static List<ChronopicRegisterPort.Types> discovered_l;
 
@@ -561,6 +563,8 @@ public class MicroDiscover : MicroComms
 	//1st trying a list of just one port
 	public MicroDiscover (List<string> portName_l)
 	{
+		this.portName_l = portName_l;
+
 		micro_l = new List<Micro> ();
 		microDiscoverManage_l = new List<MicroDiscoverManage> ();
 		progressBar_l = new List<Status> ();
@@ -607,6 +611,8 @@ public class MicroDiscover : MicroComms
 			//add to list only the relevant, eg in races will be Wichro (and maybe Chronopic multitest)
 			if(success)
 				discovered_l.Add(micro.Discovered);
+			else
+				discovered_l.Add(ChronopicRegisterPort.Types.UNKNOWN);
 
 			progressBar_l[i] = Status.Done;
 
@@ -895,6 +901,9 @@ public class MicroDiscover : MicroComms
 	}
 	*/
 
+	public List<string> PortName_l {
+		get { return portName_l; }
+	}
 	public List<Status> ProgressBar_l {
 		get { return progressBar_l; }
 	}

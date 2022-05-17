@@ -125,9 +125,8 @@ public partial class ChronoJumpWindow
 		LogB.Information("Button press done!");
 
 		//redo the graph to delete previous rectangles of previous mouse clicks
+		jumpsDjOptimalFallGraph.PassMouseXY (args.Event.X, args.Event.Y);
 		jumpsDjOptimalFallGraph.Do(preferences.fontType.ToString());
-		LogB.Information(string.Format("Mouse X: {0}; Mouse Y: {1}", args.Event.X, args.Event.Y));
-		jumpsDjOptimalFallGraph.CalculateAndWriteRealXY(args.Event.X, args.Event.Y);
 	}
 
 	private void on_button_jumps_dj_optimal_fall_save_image_clicked (object o, EventArgs args)

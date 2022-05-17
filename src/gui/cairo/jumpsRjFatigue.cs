@@ -73,6 +73,10 @@ public class JumpsRjFatigueGraph : CairoXY
 			yVariable = heightStr + "/" + tcStr;
 			yUnits = "m/s";
 		}
+
+		area.AddEvents((int) Gdk.EventMask.ButtonPressMask); //to have mouse clicks
+		mouseX = -1;
+		mouseY = -1;
 	}
 
 	public override void Do(string font)
@@ -99,6 +103,9 @@ public class JumpsRjFatigueGraph : CairoXY
 
 		writeTitle();
 		addClickableMark(g);
+
+		if(mouseX >= 0 && mouseY >= 0)
+			calculateAndWriteRealXY ();
 
 		endGraphDisposing(g, surface, area.GdkWindow);
 	}

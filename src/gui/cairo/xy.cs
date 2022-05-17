@@ -70,6 +70,8 @@ public abstract class CairoXY : CairoGeneric
 	double yAtMMaxY;
 	protected double absoluteMaxX;
 	protected double absoluteMaxY;
+	protected double mouseX;
+	protected double mouseY;
 
 	protected Cairo.Color black;
 	protected Cairo.Color gray99;
@@ -109,12 +111,18 @@ public abstract class CairoXY : CairoGeneric
 		return false;
 	}
 
-	public virtual void Do(string font)
+	public void PassMouseXY (double mouseX, double mouseY)
+	{
+		this.mouseX = mouseX;
+		this.mouseY = mouseY;
+	}
+
+	public virtual void Do (string font)
 	{
 	}
 
 	//encoderSignal (with inertial stuff & ! triggers at the moment)
-	public virtual void DoSendingList(string font, bool isInertial,
+	public virtual void DoSendingList (string font, bool isInertial,
 			List<PointF> points_list, List<PointF> points_list_inertial,
 			bool forceRedraw, PlotTypes plotType)
 	{
@@ -562,26 +570,11 @@ public abstract class CairoXY : CairoGeneric
 			g.SelectFontFace(font, Cairo.FontSlant.Normal, Cairo.FontWeight.Normal);
 	}
 
-	protected void writeCoordinatesOfMouseClick(double graphX, double graphY, double realX, double realY)
+	protected void writeCoordinatesOfMouseClick (double graphX, double graphY, double realX, double realY)
 	{
-		// 1) need to do this because context has been disposed
-		LogB.Information(string.Format("g == null: {0}", (g == null)));
-		if(g == null)
-			g = Gdk.CairoHelper.Create (area.GdkWindow); //area->surface does not work
-
 		int line = 4;
-		/*
-		 * This is not needed because graph is re-done at each mouse click
-		 *
-		//rectangle to erase previous values
-		g.SetSourceColor(white);
-		g.Rectangle(graphWidth + 1, Convert.ToInt32(graphHeight/2) + textHeight*2*line - textHeight,
-				area.Allocation.Width -1, textHeight*8);
-		g.Fill();
-		g.SetSourceColor(black);
-		*/
 
-		// 2) exit if out of graph area
+		// 1) exit if out of graph area
 		LogB.Information(string.Format("graphX: {0}; graphY: {1}", graphX, graphY));
 		if(
 				graphX < outerMargin || graphX > graphWidth - outerMargin ||
@@ -595,26 +588,20 @@ public abstract class CairoXY : CairoGeneric
 		*/
 
 		LogB.Information("calling findClosestGraphPoint ...");
-		// 3) find closest point (including predicted point if any)
+		// 2) find closest point (including predicted point if any)
 		PointF pClosest = findClosestGraphPoint(graphX, graphY);
 
 		LogB.Information("writeSelectedValues ...");
-		// 4) write text at right
+		// 3) write text at right
 		writeSelectedValues(line, pClosest);
 
 		LogB.Information("painting rectangle ...");
-		// 4) write text at right
-		// 5) paint rectangle around that point
+		// 4) paint rectangle around that point
 		g.SetSourceColor(bluePlots);
 		g.Rectangle(calculatePaintX(pClosest.X) - 2*pointsRadius, calculatePaintY(pClosest.Y) -2*pointsRadius,
 				4*pointsRadius, 4*pointsRadius);
 		g.Stroke();
 		g.SetSourceColor(black);
-		LogB.Information("writeCoordinatesOfMouseClick done! disposing");
-
-		endGraphDisposing(g);
-
-		LogB.Information("writeCoordinatesOfMouseClick disposed!");
 	}
 
 	/*
@@ -748,11 +735,17 @@ public abstract class CairoXY : CairoGeneric
 	{
 		return minY - (graphY - graphHeight + totalMargins) * (absoluteMaxY - minY) / (graphHeight - totalMargins - totalMargins);
         }
+
+	//TODO: delete this method (see gui/cairo/jumpsDjOptimalFall.cs), use only the protected below
 	public void CalculateAndWriteRealXY (double graphX, double graphY)
 	{
 		writeCoordinatesOfMouseClick(graphX, graphY, calculateRealX(graphX), calculateRealY(graphY));
 	}
-
+	protected void calculateAndWriteRealXY ()
+	{
+		writeCoordinatesOfMouseClick (mouseX, mouseY,
+				calculateRealX(mouseX), calculateRealY(mouseY));
+	}
 	/*
 	private void getMinMaxXDrawable(int ancho, double maxValue, double minValue, int rightMargin, int leftMargin)
 	{

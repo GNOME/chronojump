@@ -70,9 +70,11 @@ public class JumpsDjOptimalFallGraph : CairoXY
 		//needed to have mouse clicks at: on_drawingarea_jumps_weight_fv_profile_button_press_event ()
 //		area.AddEvents((int) (Gdk.EventMask.ButtonPressMask | Gdk.EventMask.ButtonReleaseMask));
 		area.AddEvents((int) Gdk.EventMask.ButtonPressMask);
+		mouseX = -1;
+		mouseY = -1;
 	}
 
-	public override void Do(string font)
+	public override void Do (string font)
 	{
 		LogB.Information("at JumpsDjOptimalFallGraph.Do");
 		initGraph(font, .8);
@@ -103,6 +105,9 @@ public class JumpsDjOptimalFallGraph : CairoXY
 		}
 		writeTitle();
 		addClickableMark(g);
+
+		if(mouseX >= 0 && mouseY >= 0)
+			calculateAndWriteRealXY ();
 
 		endGraphDisposing(g, surface, area.GdkWindow);
 	}

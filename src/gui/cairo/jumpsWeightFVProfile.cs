@@ -106,6 +106,10 @@ public class JumpsWeightFVProfileGraph : CairoXY
 		LogB.Information(string.Format("sfvOpt: {0}", jwp.SfvOpt));
 		LogB.Information(string.Format("f0Opt: {0}, v0Opt: {1}", f0Opt, v0Opt));
 		LogB.Information(string.Format("Imbalance: {0}", imbalance));
+
+		area.AddEvents((int) Gdk.EventMask.ButtonPressMask); //to have mouse clicks
+		mouseX = -1;
+		mouseY = -1;
 	}
 
 	private void plotError()
@@ -169,6 +173,9 @@ public class JumpsWeightFVProfileGraph : CairoXY
 
 		writeTitle();
 		addClickableMark(g);
+
+		if(mouseX >= 0 && mouseY >= 0)
+			calculateAndWriteRealXY ();
 
 		if(errorMessage != ErrorAtStart.ALLOK)
 			plotError();

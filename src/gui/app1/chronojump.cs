@@ -4579,18 +4579,21 @@ public partial class ChronoJumpWindow
 		{
 			//Gtk.Label l = new Gtk.Label(connected_l[i].ToStringSepBy("\n"));
 			Gtk.Label l = new Gtk.Label(string.Format("{0}\n{1}", connected_l[i].Port, connected_l[i].SerialNumber));
-			table_micro_discover.Attach (l, (uint) 0, (uint) 1, (uint) i, (uint) i+1); //left, right, top, bottom
+			table_micro_discover.Attach (l, (uint) 0, (uint) 1, (uint) i, (uint) i+1, //left, right, top, bottom
+					AttachOptions.Shrink, AttachOptions.Shrink, 0, 0);
 
 			Gtk.ProgressBar pb = new Gtk.ProgressBar();
 			pb.Text = "----"; //to have height
 			pb.SetSizeRequest(125, -1);
 			progressbar_micro_discover_l.Add (pb);
-			table_micro_discover.Attach (pb, (uint) 1, (uint) 2, (uint) i, (uint) i+1);
+			table_micro_discover.Attach (pb, (uint) 1, (uint) 2, (uint) i, (uint) i+1,
+					AttachOptions.Shrink, AttachOptions.Shrink, 0, 0);
 
 			Gtk.Button b = new Gtk.Button("Use this");
 			b.Sensitive = false;
 			button_micro_discover_l.Add (b);
-			table_micro_discover.Attach (b, (uint) 2, (uint) 3, (uint) i, (uint) i+1);
+			table_micro_discover.Attach (b, (uint) 2, (uint) 3, (uint) i, (uint) i+1,
+					AttachOptions.Shrink, AttachOptions.Shrink, 0, 0);
 		}
 		table_micro_discover.ShowAll();
 	}

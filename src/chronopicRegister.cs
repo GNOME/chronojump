@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016-2017  Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2016-2022  Xavier de Blas <xaviblas@gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -274,6 +274,13 @@ public abstract class ChronopicRegister
 				count ++;
 
 		return count;
+	}
+
+	public void SetType (string serialNumber, ChronopicRegisterPort.Types type)
+	{
+		for (int i = 0; i < crpl.L.Count; i ++)
+			if (crpl.L[i].SerialNumber == serialNumber)
+				crpl.L[i].Type = type;
 	}
 
 	//returns first found (should be only one if called NumConnectedOfType and returned value was 1

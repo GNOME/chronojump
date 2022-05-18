@@ -551,7 +551,7 @@ public class MicroDiscover : MicroComms
 	public enum Status { NotStarted, Connecting, Detecting, Done };
 	private List<Status> progressBar_l; //progressBars status
 
-	private List<string> portName_l;
+	private List<ChronopicRegisterPort> toDiscover_l;
 
 	//devices discovered compatible with current mode
 	private static List<ChronopicRegisterPort.Types> discovered_l;
@@ -561,9 +561,9 @@ public class MicroDiscover : MicroComms
 	//Chronopic multitest will send a J (9600)
 
 	//1st trying a list of just one port
-	public MicroDiscover (List<string> portName_l)
+	public MicroDiscover (List<ChronopicRegisterPort> toDiscover_l)
 	{
-		this.portName_l = portName_l;
+		this.toDiscover_l = toDiscover_l;
 
 		micro_l = new List<Micro> ();
 		microDiscoverManage_l = new List<MicroDiscoverManage> ();
@@ -571,11 +571,11 @@ public class MicroDiscover : MicroComms
 
 		cancel = false;
 
-		foreach (string portName in portName_l)
+		foreach (ChronopicRegisterPort crp in toDiscover_l)
 		{
-			micro_l.Add(new Micro (portName, 115200));
-			microDiscoverManage_l.Add(new MicroDiscoverManage (portName));
-			progressBar_l.Add(Status.NotStarted);
+			micro_l.Add (new Micro (crp.Port, 115200));
+			microDiscoverManage_l.Add (new MicroDiscoverManage (crp.Port));
+			progressBar_l.Add (Status.NotStarted);
 		}
 	}
 
@@ -901,12 +901,14 @@ public class MicroDiscover : MicroComms
 	}
 	*/
 
-	public List<string> PortName_l {
-		get { return portName_l; }
-	}
 	public List<Status> ProgressBar_l {
 		get { return progressBar_l; }
 	}
+
+	public List<ChronopicRegisterPort> ToDiscover_l {
+		get { return toDiscover_l; }
+	}
+
 	public List<ChronopicRegisterPort.Types> Discovered_l {
 		get { return discovered_l; }
 	}

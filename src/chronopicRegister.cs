@@ -196,6 +196,7 @@ public class ChronopicRegisterSelectOS
 public abstract class ChronopicRegister
 {
 	protected ChronopicRegisterPortList crpl;
+	public static string SerialNumberNotUnique = "A50285BI"; //A FTDI sadly not unique
 
 	protected void process(bool compujump, bool showRunWireless)
 	{
@@ -247,7 +248,7 @@ public abstract class ChronopicRegister
 			return;
 
 		//special case for the massively repeated A50285BI
-		if (crp.SerialNumber == "A50285BI")
+		if (crp.SerialNumber == SerialNumberNotUnique)
 		{
 			crpl.Add (crp, false); //only add to the current list
 			return;

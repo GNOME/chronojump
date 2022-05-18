@@ -573,7 +573,7 @@ public class MicroDiscover : MicroComms
 
 		foreach (ChronopicRegisterPort crp in toDiscover_l)
 		{
-			micro_l.Add (new Micro (crp.Port, 115200));
+			micro_l.Add (new Micro (crp.Port, 115200)); //for multitest will be changed below
 			microDiscoverManage_l.Add (new MicroDiscoverManage (crp.Port));
 			progressBar_l.Add (Status.NotStarted);
 		}
@@ -597,9 +597,45 @@ public class MicroDiscover : MicroComms
 				progressBar_l[i] = Status.Detecting;
 
 				flush(); //after connect
-				if(mode == Constants.Modes.RUNSSIMPLE || mode == Constants.Modes.RUNSINTERVALLIC)
-					success = discoverWichro ();
-				if(mode == Constants.Modes.FORCESENSOR)
+				if(mode == Constants.Modes.JUMPSSIMPLE || mode == Constants.Modes.JUMPSREACTIVE)
+				{
+					micro.Bauds = 9600;
+					if(connectAndSleep ())
+					{
+						flush(); //after connect
+						LogB.Information("calling discoverMultitest");
+						success = discoverMultitest ();
+						LogB.Information("ended discoverMultitest");
+					}
+				}
+				else if(mode == Constants.Modes.RUNSSIMPLE || mode == Constants.Modes.RUNSINTERVALLIC)
+				{
+					//if we need to test low speed and high speed, better try first low
+					//a 9600 device can get saturated if 115200 connection is done, will need to remove usb
+					micro.Bauds = 9600;
+					if(connectAndSleep ())
+					{
+						flush(); //after connect
+						LogB.Information("calling discoverMultitest");
+						success = discoverMultitest ();
+						LogB.Information("ended discoverMultitest");
+					}
+					if (! success)
+					{
+						LogB.Information("closing port");
+						micro.ClosePort ();
+						micro.Bauds = 115200;
+						LogB.Information("connectAndSleep again");
+						if(connectAndSleep ())
+						{
+							LogB.Information("calling discoverWichro");
+							success = discoverWichro ();
+							LogB.Information("ended discoverWichro");
+						}
+					}
+					LogB.Information("success: " + success.ToString());
+				}
+				else if(mode == Constants.Modes.FORCESENSOR)
 					success = discoverForceSensor ();
 				else if(mode == Constants.Modes.RUNSENCODER)
 					success = discoverRaceAnalyzer ();
@@ -785,12 +821,38 @@ public class MicroDiscover : MicroComms
 				LogB.Information("Discover found this device: " + micro.Response);
 				if(micro.Response.Contains(wichroStr))
 				{
-					micro.Discovered = ChronopicRegisterPort.Types.ARDUINO_RUN_ENCODER;
+					micro.Discovered = ChronopicRegisterPort.Types.RUN_WIRELESS;
 					success = true;
 					break;
 				}
 			}
 		}
+
+		flush(); //empty the port for future use
+		return success;
+	}
+
+	private bool discoverMultitest ()
+	{
+		bool success = false;
+
+		LogB.Information("Going to write a J");
+		micro.Write("J");
+		LogB.Information("Going to read a J");
+
+		Stopwatch sw = new Stopwatch();
+		sw.Start();
+		do {
+			Thread.Sleep(25);
+			if (micro.BytesToRead () && (char) micro.ReadByte() == 'J')
+			{
+				micro.Discovered = ChronopicRegisterPort.Types.CONTACTS;
+				success = true;
+			}
+		}
+		while(! (success || cancel || sw.Elapsed.TotalMilliseconds > 1000) );
+
+		LogB.Information("done");
 
 		flush(); //empty the port for future use
 		return success;

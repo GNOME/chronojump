@@ -84,7 +84,7 @@ public class ChronopicRegisterPort
 		else if(typeStatic == Types.ACCELEROMETER)
 			return "Accelerometer";
 		else if(typeStatic == Types.RUN_WIRELESS)
-			return "Races (wireless)";
+			return "WICHRO";
 
 		return Catalog.GetString("Unknown");
 	}

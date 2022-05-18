@@ -4621,6 +4621,8 @@ public partial class ChronoJumpWindow
 	private void on_button_contacts_detect_clicked (object o, EventArgs args)
 	{
 		if(
+				current_mode != Constants.Modes.JUMPSSIMPLE &&
+				current_mode != Constants.Modes.JUMPSREACTIVE &&
 				current_mode != Constants.Modes.RUNSSIMPLE &&
 				current_mode != Constants.Modes.RUNSINTERVALLIC &&
 				current_mode != Constants.Modes.FORCESENSOR &&
@@ -4762,10 +4764,22 @@ public partial class ChronoJumpWindow
 
 	private bool discoverMatchCurrentMode (ChronopicRegisterPort.Types crpt)
 	{
-		if (current_mode == Constants.Modes.FORCESENSOR && crpt == ChronopicRegisterPort.Types.ARDUINO_FORCE)
-			return true;
+		LogB.Information(string.Format(
+					"at discoverMatchCurrentMode current_mode: {0}, crpt: {1}",
+					current_mode, crpt));
 
-		//TODO: add for other modes
+		if (
+				(current_mode == Constants.Modes.JUMPSSIMPLE || current_mode == Constants.Modes.JUMPSREACTIVE) &&
+				crpt == ChronopicRegisterPort.Types.CONTACTS )
+			return true;
+		else if (
+				(current_mode == Constants.Modes.RUNSSIMPLE || current_mode == Constants.Modes.RUNSINTERVALLIC) &&
+				(crpt == ChronopicRegisterPort.Types.CONTACTS || crpt == ChronopicRegisterPort.Types.RUN_WIRELESS) )
+			return true;
+		else if (current_mode == Constants.Modes.FORCESENSOR && crpt == ChronopicRegisterPort.Types.ARDUINO_FORCE)
+			return true;
+		else if (current_mode == Constants.Modes.RUNSENCODER && crpt == ChronopicRegisterPort.Types.ARDUINO_RUN_ENCODER)
+			return true;
 
 		return false;
 	}
@@ -4781,8 +4795,8 @@ public partial class ChronoJumpWindow
 				forceSensorPortName = microDiscover.ToDiscover_l[i].Port;
 				LogB.Information(forceSensorPortName);
 
-				//SqliteChronopicRegister.Update(false,
-				//		microDiscover.NotDiscovered_l[i], microDiscover.Discovered_l[i]);
+				SqliteChronopicRegister.Update(false,
+						microDiscover.ToDiscover_l[i], microDiscover.Discovered_l[i]);
 				chronopicRegister.SetType (microDiscover.ToDiscover_l[i].SerialNumber,
 						microDiscover.Discovered_l[i]);
 

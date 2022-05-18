@@ -209,7 +209,7 @@ float power = 0;
 float maxPower = 0;
 
 //If device is controled by computer don't show results on TFT
-bool PCControlled = false;
+bool PcControlled = false;
 
 long tareValue = 0;
 
@@ -248,7 +248,10 @@ double x, y;
 
 //SD stuff
 unsigned int personNumber;
-unsigned int setNumber;
+unsigned int setNumber = 1;
+unsigned int dirNumber;
+String dirName = "";
+String fileName = "";
 
 void setup() {
   pinMode(redButtonPin, INPUT_PULLUP);
@@ -289,20 +292,23 @@ void setup() {
   tft.begin();
   tft.setRotation(1);
 
-  delay(100);
+  delay(1000);
   // See if the card is present and can be initialized:
-  if (!SD.begin(chipSelect)) 
+  //TODO. Open a dialog with advertising of this situation
+  if (!SD.begin(chipSelect))
   {
     Serial.println("Card failed, or not present");
     tft.println("Card failed, or not present");
     // don't do anything more:
-    return;
+    //return;
+  } else
+  {
+    tft.println("Card initialized");
+    Serial.println("card initialized");
+    dirName = createNewDir();
   }
-  tft.setCursor(110, 120);
-  tft.println("Card initialized");
-  Serial.println("card initialized");
   delay(1000);
-  
+
   tft.fillScreen(BLACK);
   drawMenuBackground();
   showMenu();
@@ -324,7 +330,7 @@ void loop()
     redButton.update();
     if (redButton.fallingEdge())
     {
-      PCControlled = false;
+      PcControlled = false;
       if (menu == 0)
       {
         startLoadCellCapture();
@@ -474,7 +480,7 @@ void serialEvent() {
 
 
   if (commandString == "start_capture") {
-    PCControlled = true;
+    PcControlled = true;
     startLoadCellCapture();
     //capture();
   } else if (commandString == "end_capture") {
@@ -537,15 +543,15 @@ void startLoadCellCapture()
   sensor = loadCell;
   maxString = "F";
   plotPeriod = 5;
-  if(capturingSteadiness) {
+  if (capturingSteadiness) {
     newGraphMin = -10;
-    newGraphMax = forceGoal*1.5;
+    newGraphMax = forceGoal * 1.5;
   } else if (capturingSteadiness)  {
-    newGraphMin = forceGoal*0.5;
-    newGraphMax = forceGoal*1.5;
+    newGraphMin = forceGoal * 0.5;
+    newGraphMax = forceGoal * 1.5;
   } else {
     newGraphMin = -100;
-    newGraphMax = max(300,measuredMax*1.5);
+    newGraphMax = max(300, measuredMax * 1.5);
   }
 }
 
@@ -557,7 +563,7 @@ void endLoadCellCapture()
 
   //If the device is controlled by the PC the results menu is not showed
   //because during the menu navigation the Serial is not listened.
-  if (!PCControlled) {
+  if (!PcControlled) {
     //Restoring tare value in the EEPROM. Necessary after Tare&Capture
     EEPROM.get(tareAddress, tareValue);
     scale.set_offset(tareValue);
@@ -1109,7 +1115,7 @@ void Graph(ILI9341_t3 & d, double x, double y, double gx, double gy, double w, d
 
 }
 
-void redrawAxes(ILI9341_t3 & d, double gx, double gy, double w, double h, double xlo, double xhi, double ylo, double yhi, double yinc, String title, String xlabel, String ylabel, unsigned int gcolor, unsigned int acolor, unsigned int pcolor, unsigned int tcolor, unsigned int bcolor,unsigned int goalColor, boolean resize)
+void redrawAxes(ILI9341_t3 & d, double gx, double gy, double w, double h, double xlo, double xhi, double ylo, double yhi, double yinc, String title, String xlabel, String ylabel, unsigned int gcolor, unsigned int acolor, unsigned int pcolor, unsigned int tcolor, unsigned int bcolor, unsigned int goalColor, boolean resize)
 {
   //double ydiv, xdiv;
   // initialize old x and old y in order to draw the first point of the graph
@@ -1121,14 +1127,14 @@ void redrawAxes(ILI9341_t3 & d, double gx, double gy, double w, double h, double
   //double xAxis;
 
   //Deleting goalForce line
-  if(capturingPreSteadiness || capturingSteadiness)
+  if (capturingPreSteadiness || capturingSteadiness)
   {
     yAxis =  (forceGoal - ylo) * (-h) / (yhi - ylo) + gy;
     d.drawLine(gx, yAxis, gx + w, yAxis, BLACK);
   }
 
-  if (resize) tft.drawRect(0,0, gx, gy, BLACK);
-  
+  if (resize) tft.drawRect(0, 0, gx, gy, BLACK);
+
   d.setTextSize(1);
   d.setTextColor(tcolor, bcolor);
 
@@ -1169,7 +1175,7 @@ void redrawAxes(ILI9341_t3 & d, double gx, double gy, double w, double h, double
   d.setCursor(gx , gy - h - 30);
   d.println(title);
 
-  if(capturingPreSteadiness || capturingSteadiness)
+  if (capturingPreSteadiness || capturingSteadiness)
   {
     yAxis =  (forceGoal - ylo) * (-h) / (yhi - ylo) + gy;
     d.drawLine(gx, yAxis, gx + w, yAxis, goalColor);
@@ -1187,8 +1193,8 @@ void drawMenuBackground() {
 void capture()
 {
   personNumber = 0;
-  String fileName = "P"+String(personNumber)+"-S"+String(setNumber);
-  
+  fileName = "P" + String(personNumber) + "-S" + String(setNumber);
+
   //Position graph's lower left corner.
   double graphX = 30;
   double graphY = 200;
@@ -1228,10 +1234,12 @@ void capture()
   tft.setCursor(40, 215);
   tft.print(":");
   printTftFormat(measuredMax, 82, 215, 2, 2);
-  tft.setCursor(160,215);
-  tft.print(fileName);
-//  tft.setCursor(308, 215);
-//  tft.print("s");
+  if (! PcControlled)
+  {
+    updateFileName();
+  }
+  //  tft.setCursor(308, 215);
+  //  tft.print("s");
 
   while (capturing)
   {
@@ -1244,10 +1252,10 @@ void capture()
     redrawAxes(tft, graphX, graphY, graphW, graphH, xMin, xMax, graphMin, graphMax, yDivSize, "", "", "", WHITE, BLACK, BLACK, BLACK, BLACK, BLACK, resized);
     graphMax = newGraphMax;
     graphMin = newGraphMin;
-    Serial.println("Y scale changed. Y limits:");
-    Serial.print(graphMin);
-    Serial.print(",\t");
-    Serial.println(graphMax);
+//    Serial.println("Y scale changed. Y limits:");
+//    Serial.print(graphMin);
+//    Serial.print(",\t");
+//    Serial.println(graphMax);
     yDivSize = (graphMax - graphMin) / yDivN;
     if (resized) {
       Graph(tft, xMin, yBuffer[(int)xMin], graphX, graphY, graphW, graphH, xMin, xMax, xDivSize, graphMin, graphMax, yDivSize, "", "", "", WHITE, WHITE, BLACK, WHITE, BLACK, startOver);
@@ -1293,9 +1301,9 @@ void capture()
             resized = true;
           }
         }
-        //        Serial.print(totalTime); Serial.print(";");
-        //        Serial.println(measured, 2); //scale.get_units() returns a float
-        saveSD(fileName);
+                Serial.print(totalTime); Serial.print(";");
+                Serial.println(measured, 2); //scale.get_units() returns a float
+        if (!PcControlled) saveSD(fileName);
         plotBuffer[n] = measured;
 
         //Pressing blue or red button ends the capture
@@ -1304,6 +1312,7 @@ void capture()
         blueButton.update();
         if (redButton.fallingEdge())
         {
+          n = plotPeriod;
           if (sensor == incEncoder)
           {
             endEncoderCapture();
@@ -1323,13 +1332,13 @@ void capture()
               redrawAxes(tft, graphX, graphY, graphW, graphH, xMin, xMax, graphMin, graphMax, yDivSize, "", "", "", WHITE, BLACK, BLACK, BLACK, BLACK, BLACK, resized);
               //delay(5000);
               startLoadCellCapture();
-              newGraphMax = forceGoal*1.5;
-              newGraphMin = forceGoal*0.5;
+              newGraphMax = forceGoal * 1.5;
+              newGraphMin = forceGoal * 0.5;
               resized = true;
-              Serial.println("going to change. Future Y limits:");
-              Serial.print(newGraphMin);
-              Serial.print(",\t");
-              Serial.println(newGraphMax);
+//              Serial.println("going to change. Future Y limits:");
+//              Serial.print(newGraphMin);
+//              Serial.print(",\t");
+//              Serial.println(newGraphMax);
               redrawAxes(tft, graphX, graphY, graphW, graphH, xMin, xMax, graphMin, graphMax, yDivSize, "", "", "", WHITE, GREY, WHITE, WHITE, BLACK, RED, resized);
               //delay(5000);
               tft.setCursor(80, 10);
@@ -1343,16 +1352,9 @@ void capture()
           }
           //xGraph = xMax;
         }
-        if (blueButton.fallingEdge())
+        if (blueButton.fallingEdge() && !PcControlled)
         {
-          tft.setTextColor(BLACK);
-          tft.setCursor(160,215);
-          tft.print(fileName);
-          personNumber++;
-          fileName = "P"+String(personNumber)+"-S"+String(setNumber);
-          tft.setTextColor(WHITE);
-          tft.setCursor(160,215);
-          tft.print(fileName);
+          updateFileName();
         }
       }
       //      Serial.println("Ended plotPeriod");
@@ -1382,7 +1384,7 @@ void capture()
       }
     }
   }
-  if(!capturingPreSteadiness) setNumber++;
+  if (!capturingPreSteadiness) setNumber++;
 }
 
 void geEncoderDynamics()
@@ -1398,7 +1400,7 @@ void geEncoderDynamics()
       encoderPhase *= -1;
       numRepetitions++;
       avgVelocity = (float)(position - startPhasePosition) * 1000 / (lastSampleTime - startPhaseTime);
-      Serial.println(avgVelocity);
+      //Serial.println(avgVelocity);
       if (avgVelocity > maxAvgVelocity) maxAvgVelocity = avgVelocity;
       startPhasePosition = position;
       startPhaseTime = lastSampleTime;
@@ -1412,7 +1414,7 @@ void startEncoderCapture()
 {
   capturing = true;
   sensor = incEncoder;
-  Serial.println(sensor);
+  //Serial.println(sensor);
   maxString = "V";
   plotPeriod = 500;
   newGraphMin = -10;
@@ -1428,7 +1430,7 @@ void endEncoderCapture()
   sensor = none;
   //If the device is controlled by the PC the results menu is not showed
   //because during the menu navigation the Serial is not listened.
-  if (!PCControlled) {
+  if (!PcControlled) {
     showEncoderResults();
   }
   showMenu();
@@ -1504,7 +1506,7 @@ void endPowerCapture()
   sensor = none;
   //If the device is controlled by the PC the results menu is not showed
   //because during the menu navigation the Serial is not listened.
-  if (!PCControlled) {
+  if (!PcControlled) {
     showPowerResults();
   }
   showMenu();
@@ -1539,7 +1541,7 @@ void showPowerResults()
 
 void setForceGoal()
 {
-  forceGoal = 0; 
+  forceGoal = 0;
   short increment = 10;
   submenu = 0;
   bool exitFlag = false;
@@ -1575,49 +1577,49 @@ void setForceGoal()
   while (!exitFlag) {
 
     //Selecting the force goal
-      //TODO: Allow coninuous increasing by keeping pressed the button
-      if (blueButton.fallingEdge()) {
-        tft.setTextColor(BLACK);
-        printTftFormat(forceGoal, 236, 174, 2, 0);
-        forceGoal += increment;
-        if (forceGoal >  10000) {
-          forceGoal = 1;
-        }
-        tft.setTextColor(WHITE);
-        tft.setCursor(216, 150);
-        printTftFormat(forceGoal, 236, 174, 2, 0);
-
-        if (forceGoal == 100)
-        {
-          increment = 50;
-          tft.setCursor(24, 218);
-          tft.setTextColor(WHITE, BLUE);
-          tft.print(increment);
-
-        } else if (forceGoal == 1000) {
-          increment = 500;
-          tft.setCursor(24, 218);
-          tft.setTextColor(WHITE, BLUE);
-          tft.print(increment);
-        } else if (forceGoal == 10000) {
-          increment = 10;
-          tft.fillRect(24, 218, 72, 16, BLACK);
-          tft.setCursor(24, 218);
-          tft.setTextColor(WHITE, BLUE);
-          tft.print(increment);
-        }
+    //TODO: Allow coninuous increasing by keeping pressed the button
+    if (blueButton.fallingEdge()) {
+      tft.setTextColor(BLACK);
+      printTftFormat(forceGoal, 236, 174, 2, 0);
+      forceGoal += increment;
+      if (forceGoal >  10000) {
+        forceGoal = 1;
       }
+      tft.setTextColor(WHITE);
+      tft.setCursor(216, 150);
+      printTftFormat(forceGoal, 236, 174, 2, 0);
 
-      //Change to Calibrate execution
-      if (redButton.fallingEdge()) {
+      if (forceGoal == 100)
+      {
+        increment = 50;
+        tft.setCursor(24, 218);
+        tft.setTextColor(WHITE, BLUE);
+        tft.print(increment);
 
-        //Deleting explanation
-        tft.fillRect(0, 60, 320, 240, BLACK);
-
-        submenu = 1;
-        exitFlag = true;
-        EEPROM.put(forceGoalAddress, forceGoal);
+      } else if (forceGoal == 1000) {
+        increment = 500;
+        tft.setCursor(24, 218);
+        tft.setTextColor(WHITE, BLUE);
+        tft.print(increment);
+      } else if (forceGoal == 10000) {
+        increment = 10;
+        tft.fillRect(24, 218, 72, 16, BLACK);
+        tft.setCursor(24, 218);
+        tft.setTextColor(WHITE, BLUE);
+        tft.print(increment);
       }
+    }
+
+    //Change to Calibrate execution
+    if (redButton.fallingEdge()) {
+
+      //Deleting explanation
+      tft.fillRect(0, 60, 320, 240, BLACK);
+
+      submenu = 1;
+      exitFlag = true;
+      EEPROM.put(forceGoalAddress, forceGoal);
+    }
     //Waiting the red button push to start calibration process
     redButton.update();
     blueButton.update();
@@ -1627,10 +1629,73 @@ void setForceGoal()
 
 void saveSD(String fileName)
 {
-  File dataFile = SD.open(fileName, FILE_WRITE);
-  Serial.println(fileName+".txt");
-  String row = "";
-  row = String(lastSampleTime)+";"+String(measured);
-  dataFile.println(row);
+  String sensorString = "";
+  if(sensor == incEncoder) sensorString = "-V";
+  else if(sensor == loadCell) sensorString = "-F";
+  else if(sensor == loadCellIncEncoder) sensorString = "-P";
+  else
+  {
+    Serial.println("no sensor type");
+    return;
+  }
+  String fullFileName = "/" + dirName + "/" + fileName + sensorString + ".txt";
+  File dataFile = SD.open(fullFileName, FILE_WRITE);
+  dataFile.println(String(lastSampleTime) + ";" + String(measured));
   dataFile.close();
+}
+
+int countDirs()
+{
+  int numDirs = 0;
+  File dir = SD.open("/");
+  File file = dir.openNextFile();
+
+  while (file) {
+    if (dir.isDirectory())
+    {
+      String dirName = file.name();
+      if (dirName.substring(0, 2) == "SA" && dirName.substring(2, 5).toInt() < 1000)
+      {
+        numDirs++;
+      }
+    }
+    file.close();
+    file = dir.openNextFile();
+  }
+  dir.close();
+  return (numDirs);
+}
+
+
+//Create a new folder with an incremental number
+String createNewDir()
+{
+  dirNumber = countDirs() + 1;
+  dirName = "SA";
+  dirName = dirName + addLeadingZeros(dirNumber, 5);;
+  SD.mkdir(dirName);
+  return (dirName);
+}
+
+void updateFileName()
+{
+  tft.setTextColor(BLACK);
+  tft.setCursor(160, 215);
+  tft.print(fileName);
+  personNumber++;
+  fileName = "P" + addLeadingZeros(personNumber, 2) + "S" + addLeadingZeros(setNumber, 2);
+  tft.setTextColor(WHITE);
+  tft.setCursor(160, 215);
+  tft.print(fileName);
+}
+
+String addLeadingZeros(int number, int totalDigits)
+{
+  int leadingZeros = (totalDigits - (floor(log10(number)) + 1));
+  String fixLenNumber = String(number);
+  for (int i = 1; i <= leadingZeros; i++)
+  {
+    fixLenNumber = "0" + fixLenNumber;
+  }
+  return(fixLenNumber);
 }

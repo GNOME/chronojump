@@ -4641,19 +4641,14 @@ public partial class ChronoJumpWindow
 
 		List<ChronopicRegisterPort> alreadyDiscovered_l = new List<ChronopicRegisterPort> ();
 		List<ChronopicRegisterPort> notDiscovered_l = new List<ChronopicRegisterPort> ();
-		List<string> portName_l = new List<string> ();
-		bool found = false;
 		foreach (ChronopicRegisterPort crp in chronopicRegister.Crpl.L)
                         if (crp.Port != "")
 			{
 				if (crp.Type != ChronopicRegisterPort.Types.UNKNOWN &&
 						crp.SerialNumber != ChronopicRegister.SerialNumberNotUnique)
 					alreadyDiscovered_l.Add (crp);
-				else {
+				else
 					notDiscovered_l.Add (crp);
-					portName_l.Add (crp.Port);
-				}
-				found = true;
 			}
 
 		label_micro_discover_ports.Text = string.Format(Catalog.GetPluralString(
@@ -4670,11 +4665,11 @@ public partial class ChronoJumpWindow
 				new Pixbuf (null, Util.GetImagePath(false) + "image_cancel.png");
 		label_button_micro_discover_cancel_close.Text = Catalog.GetString("Cancel");
 
-		if (found)
+		if (alreadyDiscovered_l.Count > 0 || notDiscovered_l.Count > 0)
 		{
 			label_micro_discover_ports_detecting.Visible = true;
 
-			microDiscover = new MicroDiscover (portName_l); //not discovered
+			microDiscover = new MicroDiscover (notDiscovered_l);
 
 			setup_table_micro_discover_l (alreadyDiscovered_l, notDiscovered_l);
 
@@ -4783,8 +4778,13 @@ public partial class ChronoJumpWindow
 		for (int i = 0 ; i < button_microNotDiscovered_l.Count; i ++)
 			if(button_microNotDiscovered_l[i] == bPress)
 			{
-				forceSensorPortName = microDiscover.PortName_l[i];
+				forceSensorPortName = microDiscover.ToDiscover_l[i].Port;
 				LogB.Information(forceSensorPortName);
+
+				//SqliteChronopicRegister.Update(false,
+				//		microDiscover.NotDiscovered_l[i], microDiscover.Discovered_l[i]);
+				chronopicRegister.SetType (microDiscover.ToDiscover_l[i].SerialNumber,
+						microDiscover.Discovered_l[i]);
 
 				button_contacts_detect.Visible = false;
 				vbox_contacts_detect_and_execute.Visible = true;

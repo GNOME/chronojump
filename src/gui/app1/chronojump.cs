@@ -301,6 +301,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.VBox vbox_micro_discover;
 	[Widget] Gtk.Label label_micro_discover_title;
 	[Widget] Gtk.Table table_micro_discover;
+	[Widget] Gtk.VBox vbox_contacts_detect_and_execute;
 	[Widget] Gtk.Button button_contacts_detect;
 	[Widget] Gtk.Label label_micro_discover_ports;
 	[Widget] Gtk.Label label_micro_discover_ports_detecting;
@@ -3581,7 +3582,7 @@ public partial class ChronoJumpWindow
 		vbox_event_execute_drawingarea_run_interval_realtime_capture_cairo.Visible = false;
 
 		button_contacts_detect.Visible = false;
-		button_execute_test.Visible = true;
+		vbox_contacts_detect_and_execute.Visible = true;
 
 		//blank exercise options: useful for changing from jumps or runs to forceSensor, runEncoder, reaction time, other
 		label_contacts_exercise_selected_name.Visible = true; //will not be visible when all the contacts_top combo is implemented
@@ -3687,7 +3688,7 @@ public partial class ChronoJumpWindow
 				button_execute_test_show_connect_or_execute(! cp2016.SuccededConnectContactsRealThread);
 
 			button_contacts_detect.Visible = true;
-			button_execute_test.Visible = false;
+			vbox_contacts_detect_and_execute.Visible = false;
 
 			notebook_sup.CurrentPage = Convert.ToInt32(notebook_sup_pages.CONTACTS);
 			//notebook_capture_analyze.ShowTabs = true;
@@ -3875,7 +3876,7 @@ public partial class ChronoJumpWindow
 		{
 			button_execute_test_show_connect_or_execute(false);
 			button_contacts_detect.Visible = true;
-			button_execute_test.Visible = false;
+			vbox_contacts_detect_and_execute.Visible = false;
 
 			notebook_sup.CurrentPage = Convert.ToInt32(notebook_sup_pages.CONTACTS);
 			notebooks_change(m);
@@ -3925,7 +3926,7 @@ public partial class ChronoJumpWindow
 		{
 			button_execute_test_show_connect_or_execute(false);
 			button_contacts_detect.Visible = true;
-			button_execute_test.Visible = false;
+			vbox_contacts_detect_and_execute.Visible = false;
 
 			notebook_sup.CurrentPage = Convert.ToInt32(notebook_sup_pages.CONTACTS);
 			notebooks_change(m);
@@ -4782,9 +4783,13 @@ public partial class ChronoJumpWindow
 		for (int i = 0 ; i < button_microNotDiscovered_l.Count; i ++)
 			if(button_microNotDiscovered_l[i] == bPress)
 			{
-				new DialogMessage(Constants.MessageTypes.INFO,
-						"selected port: " + label_micro_discover_l[i].Text);
+				forceSensorPortName = microDiscover.PortName_l[i];
+				LogB.Information(forceSensorPortName);
+
+				button_contacts_detect.Visible = false;
+				vbox_contacts_detect_and_execute.Visible = true;
 				on_button_micro_discover_cancel_close_clicked (new object (), new EventArgs ());
+
 				return;
 			}
 	}

@@ -4567,7 +4567,7 @@ public partial class ChronoJumpWindow
 		//table_micro_discover = new Gtk.Table((uint) microDiscover.ProgressBar_l.Count +1, 3, false); //not homogeneous
 		table_micro_discover.Resize((uint) connected_l.Count, 3);
 		table_micro_discover.ColumnSpacing = 20;
-		table_micro_discover.RowSpacing = 12;
+		table_micro_discover.RowSpacing = 14;
 
 
 		// 2) create the lists of widgets to be able to access later
@@ -4577,8 +4577,11 @@ public partial class ChronoJumpWindow
 		// 3) create widgets, lists, attach to table and show all
 		for (int i = 0; i < connected_l.Count; i ++)
 		{
-			//Gtk.Label l = new Gtk.Label(connected_l[i].ToStringSepBy("\n"));
-			Gtk.Label l = new Gtk.Label(string.Format("{0}\n{1}", connected_l[i].Port, connected_l[i].SerialNumber));
+			string portNameShort = connected_l[i].Port;
+			if (portNameShort.StartsWith ("/dev/"))
+				portNameShort = portNameShort.Replace ("/dev/", "");
+
+			Gtk.Label l = new Gtk.Label(string.Format("{0}\n{1}", portNameShort, connected_l[i].SerialNumber));
 			table_micro_discover.Attach (l, (uint) 0, (uint) 1, (uint) i, (uint) i+1, //left, right, top, bottom
 					AttachOptions.Shrink, AttachOptions.Shrink, 0, 0);
 

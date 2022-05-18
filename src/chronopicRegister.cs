@@ -118,10 +118,11 @@ public class ChronopicRegisterPortList
 		return false;
 	}
 
-	public void Add (ChronopicRegisterPort crp)
+	public void Add (ChronopicRegisterPort crp, bool insertSQL)
 	{
 		//Add to SQL
-		SqliteChronopicRegister.Insert(false, crp);
+		if (insertSQL)
+			SqliteChronopicRegister.Insert(false, crp);
 
 		//Add to list
 		L.Add(crp);
@@ -245,10 +246,17 @@ public abstract class ChronopicRegister
 		if(! crp.FTDI)
 			return;
 
-		if (! crpl.Exists(crp))
-			crpl.Add(crp);
-		else if(crpl.PortChanged(crp))
-			crpl.UpdatePort(crp, crp.Port);
+		//special case for the massively repeated A50285BI
+		if (crp.SerialNumber == "A50285BI")
+		{
+			crpl.Add (crp, false); //only add to the current list
+			return;
+		}
+
+		if (! crpl.Exists (crp))
+			crpl.Add (crp, true);
+		else if(crpl.PortChanged (crp))
+			crpl.UpdatePort (crp, crp.Port);
 	}
 
 	//unused

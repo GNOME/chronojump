@@ -4562,6 +4562,7 @@ public partial class ChronoJumpWindow
 
 	List<string> portAlreadyDiscovered_l;
 	List<Gtk.Button> button_microAlreadyDiscovered_l;
+	static bool discoverCloseAfterCancel; //is true when select useThis while reading other devices
 
 	private void setup_table_micro_discover_l (
 			List<ChronopicRegisterPort> alreadyDiscovered_l,
@@ -4687,6 +4688,7 @@ public partial class ChronoJumpWindow
 			microDiscover = new MicroDiscover (notDiscovered_l);
 
 			setup_table_micro_discover_l (alreadyDiscovered_l, notDiscovered_l);
+			discoverCloseAfterCancel = false;
 
 			discoverThread = new Thread (new ThreadStart (discoverDo));
 			GLib.Idle.Add (new GLib.IdleHandler (pulseDiscoverGTK));
@@ -4768,6 +4770,9 @@ public partial class ChronoJumpWindow
 				new Pixbuf (null, Util.GetImagePath(false) + "image_close.png");
 			label_button_micro_discover_cancel_close.Text = Catalog.GetString("Close");
 
+			if (discoverCloseAfterCancel)
+				on_button_micro_discover_cancel_close_clicked (new object (), new EventArgs ());
+
 			return false;
 		}
 
@@ -4800,6 +4805,7 @@ public partial class ChronoJumpWindow
 	private void on_discover_button_clicked (object o, EventArgs args)
 	{
 		Button bPress = (Button) o;
+		bool success = false;
 
 		// 1) test the discovered by MicroDiscover
 		//loop the list to know which button was
@@ -4812,11 +4818,21 @@ public partial class ChronoJumpWindow
 						microDiscover.Discovered_l[i]);
 				portSelectedForceSensor = microDiscover.ToDiscover_l[i].Port;
 
-				button_contacts_detect.Visible = false;
-				hbox_contacts_detect_and_execute.Visible = true;
-				on_button_micro_discover_cancel_close_clicked (new object (), new EventArgs ());
+				/* instead of connect, just do changes on gui in order to be used
+				if(! portFSOpened)
+				{
+					*/ /*
+					discoverThread = new Thread (new ThreadStart (forceSensorConnectDo));
+					GLib.Idle.Add (new GLib.IdleHandler (pulseDiscoverGTK));
+					discoverThread.Start();
+					if(! forceSensorConnectDo ())
+						LogB.Information("could'n connect");
+						*/ /*
+				} else
+					on_button_micro_discover_cancel_close_clicked (new object (), new EventArgs ());
+				*/
 
-				return;
+				success = true;
 			}
 
 		// 2) test the already discovered
@@ -4825,16 +4841,20 @@ public partial class ChronoJumpWindow
 			{
 				portSelectedForceSensor = portAlreadyDiscovered_l[i];
 
-				button_contacts_detect.Visible = false;
-				hbox_contacts_detect_and_execute.Visible = true;
-				on_button_micro_discover_cancel_close_clicked (new object (), new EventArgs ());
-
-				return;
+				success = true;
 			}
 
-		//TODO: note the on_button_micro_discover_cancel_close_clicked will emit a cancel if the thread is active
-		//so when thread ends, it should close the window
-		//so manage that on pulse
+		if (success)
+		{
+			button_contacts_detect.Visible = false;
+			hbox_contacts_detect_and_execute.Visible = true;
+
+			//if we are discovering, on_button_micro_discover_cancel_close_clicked will cancel
+			//make discoverCloseAfterCancel = true to also close the window on pulse
+			discoverCloseAfterCancel = discoverThread.IsAlive;
+
+			on_button_micro_discover_cancel_close_clicked (new object (), new EventArgs ());
+		}
 	}
 
 	private bool pulseDiscoverConnectGTK ()

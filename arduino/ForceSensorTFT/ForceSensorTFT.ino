@@ -446,7 +446,7 @@ void getLoadCellDynamics(void)
   }
 }
 
-void printTftFormat (float val, int xStart, int y, int fontSize, int decimal) {
+void printTftFormat (float val, int x, int y, int fontSize, int decimal) {
 
   /*How many characters are to the left of the units number.
      Examples:
@@ -462,15 +462,15 @@ void printTftFormat (float val, int xStart, int y, int fontSize, int decimal) {
 
   // Adding the extra characters to the left
   if (valLength > 0) {
-    xStart = xStart - valLength * charWidth;
+    x = x - valLength * charWidth;
   }
 
   // In negatives numbers the units are in the same position and the minus one position to the left
   if (val < 0) {
-    xStart = xStart - charWidth;
+    x = x - 1 * charWidth;
   }
   tft.setTextSize(fontSize);
-  tft.setCursor(xStart , y);
+  tft.setCursor(x , y);
   tft.print(val, decimal);
 }
 
@@ -863,6 +863,12 @@ void showBatteryLevel() {
 }
 
 void updateTime() {
+  if(totalTime > 1000000)
+  {
+    tft.setTextColor(BLACK);
+    printTftFormat(totalTime / 1000000 - 1, 302, 215, 2, 0);
+  }
+  tft.setTextColor(WHITE);
   printTftFormat(totalTime / 1000000, 302, 215, 2, 0);
 }
 //TODO: Add more information or eliminate
@@ -1249,16 +1255,15 @@ void capture()
       Graph(tft, i, yBuffer[i], graphX, graphY, graphW, graphH, xMin, xMax, xDivSize, graphMin, graphMax, yDivSize, "", "", "", WHITE, WHITE, BLACK, WHITE, BLACK, startOver);
     }
     startOver = true;
-    redrawAxes(tft, graphX, graphY, graphW, graphH, xMin, xMax, graphMin, graphMax, yDivSize, "", "", "", WHITE, BLACK, BLACK, BLACK, BLACK, BLACK, resized);
+    //redrawAxes(tft, graphX, graphY, graphW, graphH, xMin, xMax, graphMin, graphMax, yDivSize, "", "", "", WHITE, BLACK, BLACK, BLACK, BLACK, BLACK, resized);
     graphMax = newGraphMax;
     graphMin = newGraphMin;
-//    Serial.println("Y scale changed. Y limits:");
-//    Serial.print(graphMin);
-//    Serial.print(",\t");
-//    Serial.println(graphMax);
+    //    Serial.println("Y scale changed. Y limits:");
+    //    Serial.print(graphMin);
+    //    Serial.print(",\t");
+    //    Serial.println(graphMax);
     yDivSize = (graphMax - graphMin) / yDivN;
     if (resized) {
-      Graph(tft, xMin, yBuffer[(int)xMin], graphX, graphY, graphW, graphH, xMin, xMax, xDivSize, graphMin, graphMax, yDivSize, "", "", "", WHITE, WHITE, BLACK, WHITE, BLACK, startOver);
       for (int i = xMin; i < xGraph; i++)
       {
         Graph(tft, i, yBuffer[i], graphX, graphY, graphW, graphH, xMin, xMax, xDivSize, graphMin, graphMax, yDivSize, "", "", "", WHITE, WHITE, BLUE, WHITE, BLACK, startOver);
@@ -1301,8 +1306,8 @@ void capture()
             resized = true;
           }
         }
-                Serial.print(totalTime); Serial.print(";");
-                Serial.println(measured, 2); //scale.get_units() returns a float
+//        Serial.print(totalTime); Serial.print(";");
+//        Serial.println(measured, 2); //scale.get_units() returns a float
         if (!PcControlled) saveSD(fileName);
         plotBuffer[n] = measured;
 
@@ -1328,19 +1333,16 @@ void capture()
               capturingSteadiness = true;
               tft.setTextColor(BLACK);
               printTftFormat(totalTime / 1000000, 284, 215, 2, 0);
-              //delay(5000);
               redrawAxes(tft, graphX, graphY, graphW, graphH, xMin, xMax, graphMin, graphMax, yDivSize, "", "", "", WHITE, BLACK, BLACK, BLACK, BLACK, BLACK, resized);
-              //delay(5000);
               startLoadCellCapture();
               newGraphMax = forceGoal * 1.5;
               newGraphMin = forceGoal * 0.5;
               resized = true;
-//              Serial.println("going to change. Future Y limits:");
-//              Serial.print(newGraphMin);
-//              Serial.print(",\t");
-//              Serial.println(newGraphMax);
+              //              Serial.println("going to change. Future Y limits:");
+              //              Serial.print(newGraphMin);
+              //              Serial.print(",\t");
+              //              Serial.println(newGraphMax);
               redrawAxes(tft, graphX, graphY, graphW, graphH, xMin, xMax, graphMin, graphMax, yDivSize, "", "", "", WHITE, GREY, WHITE, WHITE, BLACK, RED, resized);
-              //delay(5000);
               tft.setCursor(80, 10);
               tft.setTextColor(WHITE, RED);
               tft.print("Hold force  5s");
@@ -1373,11 +1375,14 @@ void capture()
         xGraph++;
         if (measured > measuredMax)
         {
+          tft.setTextColor(BLACK);
+          printTftFormat(measuredMax, 82, 215, 2, 2);
           measuredMax = measured;
+          tft.setTextColor(WHITE);
           printTftFormat(measuredMax, 82, 215, 2, 2);
         }
 
-        if ((lastUpdateTime - totalTime) > 1000000) {
+        if ((lastUpdateTime - totalTime) >= 1000000) {
           lastUpdateTime = totalTime;
           updateTime();
         }
@@ -1630,9 +1635,9 @@ void setForceGoal()
 void saveSD(String fileName)
 {
   String sensorString = "";
-  if(sensor == incEncoder) sensorString = "-V";
-  else if(sensor == loadCell) sensorString = "-F";
-  else if(sensor == loadCellIncEncoder) sensorString = "-P";
+  if (sensor == incEncoder) sensorString = "-V";
+  else if (sensor == loadCell) sensorString = "-F";
+  else if (sensor == loadCellIncEncoder) sensorString = "-P";
   else
   {
     Serial.println("no sensor type");
@@ -1697,5 +1702,5 @@ String addLeadingZeros(int number, int totalDigits)
   {
     fixLenNumber = "0" + fixLenNumber;
   }
-  return(fixLenNumber);
+  return (fixLenNumber);
 }

@@ -247,11 +247,20 @@ double ox , oy ;
 double x, y;
 
 //SD stuff
-unsigned int personNumber;
-unsigned int setNumber = 1;
+unsigned int currentPerson;
+unsigned int setNumber = 0;
 unsigned int dirNumber;
 String dirName = "";
 String fileName = "";
+
+struct personType {
+  unsigned int index;
+  String name;
+  float weight;
+  float heigh;
+};
+unsigned int totalPersons = 0;
+personType persons[100];
 
 void setup() {
   pinMode(redButtonPin, INPUT_PULLUP);
@@ -292,22 +301,22 @@ void setup() {
   tft.begin();
   tft.setRotation(1);
 
-  delay(1000);
   // See if the card is present and can be initialized:
   //TODO. Open a dialog with advertising of this situation
   if (!SD.begin(chipSelect))
   {
     Serial.println("Card failed, or not present");
     tft.println("Card failed, or not present");
-    // don't do anything more:
-    //return;
+    Serial.println("Retrying");
+    delay(100);
   } else
   {
     tft.println("Card initialized");
     Serial.println("card initialized");
-    dirName = createNewDir();
   }
-  delay(1000);
+  dirName = createNewDir();
+  totalPersons = gettotalPersons();
+  getPersonsList(persons);
 
   tft.fillScreen(BLACK);
   drawMenuBackground();
@@ -863,7 +872,7 @@ void showBatteryLevel() {
 }
 
 void updateTime() {
-  if(totalTime > 1000000)
+  if (totalTime > 1000000)
   {
     tft.setTextColor(BLACK);
     printTftFormat(totalTime / 1000000 - 1, 302, 215, 2, 0);
@@ -1198,8 +1207,8 @@ void drawMenuBackground() {
 
 void capture()
 {
-  personNumber = 0;
-  fileName = "P" + String(personNumber) + "-S" + String(setNumber);
+  currentPerson = totalPersons - 1;
+  fileName = "P" + String(currentPerson) + "-S" + String(setNumber);
 
   //Position graph's lower left corner.
   double graphX = 30;
@@ -1239,10 +1248,10 @@ void capture()
   tft.setTextSize(2);
   tft.setCursor(40, 215);
   tft.print(":");
-  printTftFormat(measuredMax, 82, 215, 2, 2);
+  printTftFormat(measuredMax, 94, 215, 2, 1);
   if (! PcControlled)
   {
-    updateFileName();
+    updatePersonSet();
   }
   //  tft.setCursor(308, 215);
   //  tft.print("s");
@@ -1306,8 +1315,8 @@ void capture()
             resized = true;
           }
         }
-//        Serial.print(totalTime); Serial.print(";");
-//        Serial.println(measured, 2); //scale.get_units() returns a float
+        //        Serial.print(totalTime); Serial.print(";");
+        //        Serial.println(measured, 2); //scale.get_units() returns a float
         if (!PcControlled) saveSD(fileName);
         plotBuffer[n] = measured;
 
@@ -1356,7 +1365,7 @@ void capture()
         }
         if (blueButton.fallingEdge() && !PcControlled)
         {
-          updateFileName();
+          updatePersonSet();
         }
       }
       //      Serial.println("Ended plotPeriod");
@@ -1376,10 +1385,10 @@ void capture()
         if (measured > measuredMax)
         {
           tft.setTextColor(BLACK);
-          printTftFormat(measuredMax, 82, 215, 2, 2);
+          printTftFormat(measuredMax, 94, 215, 2, 1);
           measuredMax = measured;
           tft.setTextColor(WHITE);
-          printTftFormat(measuredMax, 82, 215, 2, 2);
+          printTftFormat(measuredMax, 94, 215, 2, 1);
         }
 
         if ((lastUpdateTime - totalTime) >= 1000000) {
@@ -1682,25 +1691,115 @@ String createNewDir()
   return (dirName);
 }
 
-void updateFileName()
+void updatePersonSet()
 {
+  String personSet = "Person: " + addLeadingZeros(currentPerson, 2) + "   Set: " + addLeadingZeros(setNumber, 2);
+  tft.setTextSize(1);
   tft.setTextColor(BLACK);
-  tft.setCursor(160, 215);
-  tft.print(fileName);
-  personNumber++;
-  fileName = "P" + addLeadingZeros(personNumber, 2) + "S" + addLeadingZeros(setNumber, 2);
+  tft.setCursor(148, 207);
+  tft.print(personSet);
+  tft.setCursor(148, 223);
+  tft.print(persons[currentPerson].name);
+  currentPerson = (currentPerson + 1) % totalPersons;
+
+  personSet = "Person: " + addLeadingZeros(currentPerson, 2) + "   Set: " + addLeadingZeros(setNumber, 2);
+  fileName = "P" + addLeadingZeros(currentPerson, 2) + "S" + addLeadingZeros(setNumber, 2);
   tft.setTextColor(WHITE);
-  tft.setCursor(160, 215);
-  tft.print(fileName);
+  tft.setCursor(148, 207);
+  tft.print(personSet);
+  tft.setCursor(148, 223);
+  tft.print(persons[currentPerson].name);
+  tft.setTextSize(2);
 }
 
 String addLeadingZeros(int number, int totalDigits)
 {
-  int leadingZeros = (totalDigits - (floor(log10(number)) + 1));
+  int leadingZeros = totalDigits - 1;
+  if (number != 0) leadingZeros = (totalDigits - (floor(log10(number)) + 1));
   String fixLenNumber = String(number);
   for (int i = 1; i <= leadingZeros; i++)
   {
     fixLenNumber = "0" + fixLenNumber;
   }
   return (fixLenNumber);
+}
+
+unsigned int gettotalPersons()
+{
+  char readChar;
+  String readString = "";
+  File  personsFile = SD.open("persons.txt");
+  if (personsFile)
+  {
+    //Start reading from the last byte
+    unsigned long pos = personsFile.size() - 4;
+
+    //Reading the person number of the last row
+    while (readChar != '\n' && readChar != '\r')
+    {
+      personsFile.seek(pos);
+      readChar = personsFile.peek();
+      pos--;
+    }
+    pos++;
+    personsFile.seek(pos);
+    readChar = personsFile.read();
+    while (readChar != ',')
+    {
+      readChar = personsFile.read();
+      readString = readString + readChar;
+    }
+  }
+
+  totalPersons = readString.toInt() + 1;
+  return (totalPersons);
+}
+
+void getPersonsList(struct personType * persons)
+{
+  String row = "";
+  char readChar;
+  File  personsFile = SD.open("persons.txt");
+  if (personsFile)
+  {
+
+    currentPerson = 0;
+    personsFile.seek(0);
+
+    // read from the file until there's nothing else in it:
+    while (currentPerson < totalPersons)
+    {
+      readChar = personsFile.read();
+      if (readChar != '\n' && readChar != '\r')
+      {
+        row = row + readChar;
+      } else if (readChar == '\n' || readChar == '\r')
+      {
+        int prevComaIndex = 0;
+        int nextComaIndex = row.indexOf(",");
+        persons[currentPerson].index = row.substring(prevComaIndex, nextComaIndex).toInt();
+
+        prevComaIndex = nextComaIndex;
+        nextComaIndex = row.indexOf(",", prevComaIndex + 1 );
+        persons[currentPerson].name = row.substring(prevComaIndex + 1 , nextComaIndex);
+
+        prevComaIndex = nextComaIndex;
+        nextComaIndex = row.indexOf(",", prevComaIndex + 1 );
+        persons[currentPerson].weight = row.substring(prevComaIndex + 1 , nextComaIndex).toFloat();
+
+        prevComaIndex = nextComaIndex;
+        nextComaIndex = row.indexOf(",", prevComaIndex + 1 );
+        persons[currentPerson].heigh = row.substring(prevComaIndex + 1 , nextComaIndex).toFloat();
+
+        //Serial.println(row);
+        row = "";
+        currentPerson++;
+      }
+    }
+    // close the file:
+    personsFile.close();
+  } else {
+    // if the file didn't open, print an error:
+    Serial.println("error opening persons.txt");
+  }
 }

@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2017   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2004-2022   Xavier de Blas <xaviblas@gmail.com>
  */
 
 
@@ -126,13 +126,6 @@ public partial class ChronoJumpWindow
 			message = Catalog.GetString("Please, cut photocell barrier or click Chronopic TEST button.");
 
 		cp2016.ConnectContactsReal(app1, crp, numCP, message);
-
-		//manage show threshold stuff
-		threshold.ChronopicFirmwareReconnected(numCP); 	//t_stored_on_chronopic will be 50, and later firmware will be changed
-		label_threshold.Text = //Catalog.GetString("Threshold") + " " +
-			threshold.GetLabel() + " ms";
-		if(threshold.GetT == 50)
-			label_threshold.Text += " (" + Catalog.GetString("Applied") + ")";
 	}
 
 	private void on_connection_contacts_real_done (object o, EventArgs args)
@@ -144,17 +137,19 @@ public partial class ChronoJumpWindow
 		{
 			LogB.Information("Success at Connecting real! (main GUI)");
 
-			//new on 2.0.3 do not continue with sequence, exit, and execute test will be another press button
-			/*
-			connectingSequence = connectingSequenceEnum.FIRMWAREIFNEEDED;
-			chronopicConnectionSequenceDo();
-			*/
-
-			//change appearance of execute test button
-			button_execute_test_show_connect_or_execute(false);
+			//manage show threshold stuff
+			threshold.ChronopicFirmwareReconnected(1); 	//t_stored_on_chronopic will be 50, and later firmware will be changed. TODO: may this work for Chronopic 2
+			label_threshold.Text = //Catalog.GetString("Threshold") + " " +
+				threshold.GetLabel() + " ms";
+			if(threshold.GetT == 50)
+				label_threshold.Text += " (" + Catalog.GetString("Applied") + ")";
 
 			UtilGtk.PrintLabelWithTooltip(event_execute_label_message,
 					Catalog.GetString("Connected to Chronopic"));
+
+			//2.2.2 At end of connection change firmware (because connection, change firmware, execute is on the same first button_press)
+			connectingSequence = connectingSequenceEnum.FIRMWAREIFNEEDED;
+			chronopicConnectionSequenceDo();
 		} else
 			LogB.Warning("Failure at Connecting real! (main GUI)");
 	}
@@ -172,7 +167,6 @@ public partial class ChronoJumpWindow
 			} else
 				label_threshold.Text += " (" + Catalog.GetString("Failed") + ")";
 		}
-
 
 		connectingSequence = connectingSequenceEnum.END;
 		chronopicConnectionSequenceDo();

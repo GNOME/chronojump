@@ -4556,8 +4556,12 @@ public partial class ChronoJumpWindow
 	   ----------------- discover / detect devices --------->
 	   */
 
+	//TODO instead of 4 lists, have List<microDiscoveGui>
 	List<Gtk.ProgressBar> progressbar_microNotDiscovered_l;
 	List<Gtk.Button> button_microNotDiscovered_l;
+
+	List<string> portAlreadyDiscovered_l;
+	List<Gtk.Button> button_microAlreadyDiscovered_l;
 
 	private void setup_table_micro_discover_l (
 			List<ChronopicRegisterPort> alreadyDiscovered_l,
@@ -4573,6 +4577,8 @@ public partial class ChronoJumpWindow
 		// 2) create the lists of widgets to be able to access later
 		progressbar_microNotDiscovered_l = new List<Gtk.ProgressBar> ();
 		button_microNotDiscovered_l = new List<Gtk.Button> ();
+		portAlreadyDiscovered_l = new List<string>();
+		button_microAlreadyDiscovered_l = new List<Gtk.Button> ();
 
 		// 3) create widgets, lists, attach to table and show all
 		for (int i = 0; i < alreadyDiscovered_l.Count; i ++)
@@ -4609,9 +4615,16 @@ public partial class ChronoJumpWindow
 
 
 		Gtk.Button b = new Gtk.Button("Use this");
-		b.Sensitive = false;
-		if (! alreadyDiscovered)
+		if (alreadyDiscovered)
+		{
+			b.Sensitive = discoverMatchCurrentMode (crp.Type);
+			button_microAlreadyDiscovered_l.Add (b);
+			portAlreadyDiscovered_l.Add (crp.Port);
+			b.Clicked += new EventHandler(on_discover_button_clicked);
+		} else {
+			b.Sensitive = false;
 			button_microNotDiscovered_l.Add (b);
+		}
 
 		table_micro_discover.Attach (b, (uint) 2, (uint) 3, (uint) i, (uint) i+1,
 				AttachOptions.Shrink, AttachOptions.Shrink, 0, 0);
@@ -4788,24 +4801,55 @@ public partial class ChronoJumpWindow
 	{
 		Button bPress = (Button) o;
 
+		// 1) test the discovered by MicroDiscover
 		//loop the list to know which button was
 		for (int i = 0 ; i < button_microNotDiscovered_l.Count; i ++)
 			if(button_microNotDiscovered_l[i] == bPress)
 			{
-				forceSensorPortName = microDiscover.ToDiscover_l[i].Port;
-				LogB.Information(forceSensorPortName);
-
 				SqliteChronopicRegister.Update(false,
 						microDiscover.ToDiscover_l[i], microDiscover.Discovered_l[i]);
 				chronopicRegister.SetType (microDiscover.ToDiscover_l[i].SerialNumber,
 						microDiscover.Discovered_l[i]);
+				portSelectedForceSensor = microDiscover.ToDiscover_l[i].Port;
 
 				button_contacts_detect.Visible = false;
-				vbox_contacts_detect_and_execute.Visible = true;
+				hbox_contacts_detect_and_execute.Visible = true;
 				on_button_micro_discover_cancel_close_clicked (new object (), new EventArgs ());
 
 				return;
 			}
+
+		// 2) test the already discovered
+		for (int i = 0 ; i < button_microAlreadyDiscovered_l.Count; i ++)
+			if(button_microAlreadyDiscovered_l[i] == bPress)
+			{
+				portSelectedForceSensor = portAlreadyDiscovered_l[i];
+
+				button_contacts_detect.Visible = false;
+				hbox_contacts_detect_and_execute.Visible = true;
+				on_button_micro_discover_cancel_close_clicked (new object (), new EventArgs ());
+
+				return;
+			}
+
+		//TODO: note the on_button_micro_discover_cancel_close_clicked will emit a cancel if the thread is active
+		//so when thread ends, it should close the window
+		//so manage that on pulse
+	}
+
+	private bool pulseDiscoverConnectGTK ()
+	{
+		if(! discoverThread.IsAlive)
+		{
+			// 3) end this pulse
+			LogB.Information("pulseDiscoverConnectGTK ending here");
+			LogB.ThreadEnded();
+
+			return false;
+		}
+
+		Thread.Sleep (200);
+		return true;
 	}
 
 	private void on_button_micro_discover_cancel_close_clicked (object o, EventArgs args)

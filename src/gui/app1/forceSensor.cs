@@ -113,7 +113,6 @@ public partial class ChronoJumpWindow
 	static bool forceCaptureStartMark; 	//Just needed to display Capturing message (with seconds)
 	static ForceSensorValues forceSensorValues;
 
-	string forceSensorPortName;
 	SerialPort portFS; //Attention!! Don't reopen port because arduino makes reset and tare, calibration... is lost
 	bool portFSOpened;
 	bool forceSensorBinaryCapture;
@@ -249,30 +248,28 @@ public partial class ChronoJumpWindow
 		layout_force_text.FontDescription = Pango.FontDescription.FromString (preferences.GetFontTypeWithSize(10));
 	}
 
+	private string portSelectedForceSensor; //in future can be another port to detect two
 
 	//Attention: no GTK here!!
 	private bool forceSensorConnect()
 	{
 		LogB.Information(" FS connect 0 ");
-		if(chronopicRegister.ConnectedOfType(ChronopicRegisterPort.Types.ARDUINO_FORCE) == null)
+		if(portSelectedForceSensor == "")
 		{
 			forceSensorOtherMessage = forceSensorNotConnectedString;
 			return false;
 		}
 
-		LogB.Information(" FS connect 1 ");
-		forceSensorPortName = chronopicRegister.ConnectedOfType(ChronopicRegisterPort.Types.ARDUINO_FORCE).Port;
-		LogB.Information(" FS connect 2 ");
-		if(forceSensorPortName == null || forceSensorPortName == "")
-		{
-			forceSensorOtherMessage = "Please, select port!";
-			return false;
-		}
 		LogB.Information(" FS connect 3 ");
+
+		return forceSensorConnectDo ();
+	}
+
+	private bool forceSensorConnectDo()
+	{
 		forceSensorOtherMessage = "Connecting ...";
 
-		portFS = new SerialPort(forceSensorPortName, 115200); //forceSensor
-		//portFS = new SerialPort(forceSensorPortName, 1000000); //forceSensor
+		portFS = new SerialPort(portSelectedForceSensor, 115200); //forceSensor
 		LogB.Information(" FS connect 4: opening port...");
 
 		try {
@@ -456,7 +453,7 @@ public partial class ChronoJumpWindow
 			}
 		}
 
-		if(chronopicRegister.NumConnectedOfType(ChronopicRegisterPort.Types.ARDUINO_FORCE) == 0)
+		if(portSelectedForceSensor == "")
 		{
 			event_execute_label_message.Text = forceSensorNotConnectedString;
 			return;

@@ -3607,7 +3607,8 @@ public partial class ChronoJumpWindow
 
 		if(m == Constants.Modes.JUMPSSIMPLE || m == Constants.Modes.JUMPSREACTIVE)
 		{
-			button_execute_test_show_connect_or_execute(! cp2016.SuccededConnectContactsRealThread);
+			button_contacts_detect.Visible = true;
+			hbox_contacts_detect_and_execute.Visible = false;
 
 			notebook_sup.CurrentPage = Convert.ToInt32(notebook_sup_pages.CONTACTS);
 			//notebook_capture_analyze.ShowTabs = true;
@@ -3680,12 +3681,6 @@ public partial class ChronoJumpWindow
 
 			LogB.Information(string.Format("wireless conditions B: {0}, {1}",
 				cp2016.StoredWireless, chronopicRegister != null));
-
-			if(cp2016.StoredWireless ||
-					(chronopicRegister != null && chronopicRegister.NumConnectedOfType(ChronopicRegisterPort.Types.RUN_WIRELESS) == 1) )
-				button_execute_test_show_connect_or_execute(false);
-			else
-				button_execute_test_show_connect_or_execute(! cp2016.SuccededConnectContactsRealThread);
 
 			button_contacts_detect.Visible = true;
 			hbox_contacts_detect_and_execute.Visible = false;
@@ -3874,7 +3869,6 @@ public partial class ChronoJumpWindow
 		} 
 		else if(m == Constants.Modes.FORCESENSOR)
 		{
-			button_execute_test_show_connect_or_execute(false);
 			button_contacts_detect.Visible = true;
 			hbox_contacts_detect_and_execute.Visible = false;
 
@@ -3924,7 +3918,6 @@ public partial class ChronoJumpWindow
 		}
 		else if(m == Constants.Modes.RUNSENCODER)
 		{
-			button_execute_test_show_connect_or_execute(false);
 			button_contacts_detect.Visible = true;
 			hbox_contacts_detect_and_execute.Visible = false;
 
@@ -3971,7 +3964,6 @@ public partial class ChronoJumpWindow
 		else if(m == Constants.Modes.RT)
 		{
 			event_execute_drawingarea.Visible = true;
-			button_execute_test_show_connect_or_execute(! cp2016.SuccededConnectContactsRealThread);
 
 			notebook_sup.CurrentPage = Convert.ToInt32(notebook_sup_pages.CONTACTS);
 			notebooks_change(m);
@@ -3991,7 +3983,6 @@ public partial class ChronoJumpWindow
 		}
 		else {	//m == Constants.Modes.OTHER (contacts / other)
 			event_execute_drawingarea.Visible = true;
-			button_execute_test_show_connect_or_execute(! cp2016.SuccededConnectContactsRealThread);
 
 			notebook_sup.CurrentPage = Convert.ToInt32(notebook_sup_pages.CONTACTS);
 			hbox_other.Visible = true;
@@ -4411,25 +4402,6 @@ public partial class ChronoJumpWindow
 			checkFile(Constants.CheckFileOp.RUNS_SIMPLE_CAPTURE_SAVE_IMAGE);
 		else if(current_mode == Constants.Modes.RUNSINTERVALLIC)
 			checkFile(Constants.CheckFileOp.RUNS_INTERVALLIC_CAPTURE_SAVE_IMAGE);
-	}
-
-	[Widget] Gtk.Label label_button_execute_connect;
-
-	private void button_execute_test_show_connect_or_execute (bool connect_or_execute)
-	{
-		string space = Catalog.GetString("Space");
-
-		if(connect_or_execute)
-		{
-			label_button_execute_connect.Visible = true;
-			image_button_execute.Visible = false;
-			button_execute_test.TooltipText = Catalog.GetString("Connect") + string.Format(" ({0}+{1})", kCtrl, space);
-		} else
-		{
-			label_button_execute_connect.Visible = false;
-			image_button_execute.Visible = true;
-			button_execute_test.TooltipText = Catalog.GetString("Execute test") + string.Format(" ({0}+{1})", kCtrl, space);
-		}
 	}
 
 	/*
@@ -4930,7 +4902,6 @@ public partial class ChronoJumpWindow
 		{
 			//cp2016.StoredCanCaptureContacts = true;
 			cp2016.StoredWireless = true;
-			button_execute_test_show_connect_or_execute(false); //to not show "connect"
 
 			on_button_execute_test_acceptedPre_start_camera(WebcamStartedTestStart.CHRONOPIC);
 			return;

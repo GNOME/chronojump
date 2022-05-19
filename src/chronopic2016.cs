@@ -59,50 +59,12 @@ public class Chronopic2016
 
 	// -----ConnectContactsReal START ----->
 
-	Gtk.Window chronopic_contacts_real_win;
-	Gtk.ProgressBar progressbar;
-
-	private Thread connectContactsRealThread;
 	//used to pass crp to connectContactsRealThread
 	private ChronopicRegisterPort crpConnectContactsRealThread;
 	private ChronopicInit chronopicInit;
 
 	public bool SuccededConnectContactsRealThread;
 	public Gtk.Button FakeButtonContactsRealDone;
-
-	private void createGui(Gtk.Window app1, ChronopicRegisterPort crp, string labelStr)
-	{
-		chronopic_contacts_real_win = new Window ("Chronopic connection");
-		chronopic_contacts_real_win.AllowGrow = false;
-		chronopic_contacts_real_win.Modal = true;
-		chronopic_contacts_real_win.TransientFor = app1;
-		chronopic_contacts_real_win.BorderWidth= 20;
-
-		chronopic_contacts_real_win.DeleteEvent += on_delete_event;
-
-		Gtk.VBox vbox_main = new Gtk.VBox(false, 20);
-		chronopic_contacts_real_win.Add(vbox_main);
-
-		LogB.Information("Connecting real (starting connection)");
-		LogB.Information("Press test button on Chronopic");
-
-		Gtk.Label labelMessage = new Gtk.Label();
-		labelMessage.Text = labelStr + "\n" +
-			"\n" + Catalog.GetString("Port") + ": " + crp.Port +
-			"\n" + Catalog.GetString("Serial Number") + ": " + crp.SerialNumber;
-		vbox_main.Add(labelMessage);
-
-		progressbar = new Gtk.ProgressBar();
-		vbox_main.Add(progressbar);
-
-		Gtk.Button button_cancel = new Gtk.Button("Cancel");
-		button_cancel.Clicked += new EventHandler(on_button_cancel_clicked);
-		Gtk.HButtonBox hbox = new Gtk.HButtonBox ();
-		hbox.Add(button_cancel);
-		vbox_main.Add(hbox);
-
-		chronopic_contacts_real_win.ShowAll();
-	}
 
 	private void on_button_cancel_clicked(object o, EventArgs args)
 	{
@@ -126,17 +88,11 @@ public class Chronopic2016
 	public void ConnectContactsReal(Gtk.Window app1, ChronopicRegisterPort crp,
 			int cpCount, string labelStr) //cpCount 2 is for 2nd chronopic on multichronopic
 	{
-		createGui(app1, crp, labelStr);
-
 		crpConnectContactsRealThread = crp;
 
 		cpDoing = cpCount;
 
-		connectContactsRealThread = new Thread (new ThreadStart (connectContactsRealDo));
-		GLib.Idle.Add (new GLib.IdleHandler (pulseConnectContactsReal));
-
-		LogB.ThreadStart();
-		connectContactsRealThread.Start();
+		connectContactsRealDo();
 	}
 
 	private void connectContactsRealDo()
@@ -169,23 +125,7 @@ public class Chronopic2016
 			assignLastConnectedVariables(crp);
 
 		SuccededConnectContactsRealThread = connected;
-	}
-
-	bool pulseConnectContactsReal()
-	{
-		if(! connectContactsRealThread.IsAlive)
-		{
-			progressbar.Fraction = 1.0;
-			LogB.ThreadEnding();
-			connectContactsRealEnd();
-			LogB.ThreadEnded();
-
-			return false;
-		}
-
-		progressbar.Pulse();
-		Thread.Sleep (50);
-		return true;
+		connectContactsRealEnd();
 	}
 
 	private void connectContactsRealEnd()
@@ -195,16 +135,8 @@ public class Chronopic2016
 		else
 			LogB.Warning("Failure at Connecting real!");
 
-		hideAndNull();
-
 		FakeButtonContactsRealDone.Click();
 	}
-	private void hideAndNull()
-	{
-		chronopic_contacts_real_win.Hide();
-		chronopic_contacts_real_win = null;
-	}
-
 
 	public bool IsLastConnectedReal(ChronopicRegisterPort crp, int cpCount)
 	{

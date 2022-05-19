@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2005  Juan Gonzalez Gomez
- * Copyright (C) 2014-2017  Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2014-2022  Xavier de Blas <xaviblas@gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -506,8 +506,9 @@ public class ChronopicInit
 			//-- Create chronopic object, for accessing chronopic
 			myCp = new Chronopic(mySp);
 			
-			LogB.Information("chronopicInit-2.1");		
-			myCp.Flush();
+			LogB.Information("chronopicInit-2.1");
+			if(mySp.BytesToRead > 0)
+				myCp.Flush();
 			
 			//if myCp has been cancelled
 			if(myCp.AbortFlush) {
@@ -522,6 +523,10 @@ public class ChronopicInit
 
 				//-- Obtener el estado inicial de la plataforma
 
+				/*
+				   since 2.2.2 do not make connect having user to press platform.
+				   Just directly do the jump or race
+
 				bool ok=false;
 				LogB.Information("chronopicInit-4");		
 				do {
@@ -535,6 +540,8 @@ public class ChronopicInit
 					LogB.Error(string.Format("Error: {0}", myCp.Error));
 					success = false;
 				}
+				*/
+				success = true;
 			}
 		} catch {
 			LogB.Error("chronopicInit-2.a catched");

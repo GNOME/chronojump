@@ -23,6 +23,7 @@ using System.Collections.Generic; //List<T>
 using Gdk;
 using Gtk;
 using Mono.Unix;
+using System.Threading;
 
 
 public class TypePix
@@ -116,6 +117,362 @@ public static class TypePixList
 	}
 }
 
+public class DiscoverWindow
+{
+	//TODO instead of 4 lists, have List<microDiscoveGui>
+	List<Gtk.ProgressBar> progressbar_microNotDiscovered_l;
+	List<Gtk.Button> button_microNotDiscovered_l;
+
+	List<string> portAlreadyDiscovered_l;
+	List<Gtk.Button> button_microAlreadyDiscovered_l;
+
+	static bool discoverCloseAfterCancel; //is true when select useThis while reading other devices
+	static Thread discoverThread;
+	static MicroDiscover microDiscover;
+	public Gtk.Button FakeButtonClose;
+
+	private Constants.Modes current_mode;
+	private ChronopicRegister chronopicRegister;
+	private Gtk.Label label_micro_discover_ports_detecting;
+	private Gtk.Table table_micro_discover;
+	private Gtk.Image image_button_micro_discover_cancel_close;
+	private Gtk.Label label_button_micro_discover_cancel_close;
+
+	private string portSelected;
+
+	public DiscoverWindow (Constants.Modes current_mode, ChronopicRegister chronopicRegister,
+			Gtk.Label label_micro_discover_ports,
+			Gtk.Label label_micro_discover_ports_detecting,
+			Gtk.Table table_micro_discover,
+			Gtk.Image image_button_micro_discover_cancel_close,
+			Gtk.Label label_button_micro_discover_cancel_close)
+	{
+		this.current_mode = current_mode;
+		this.chronopicRegister = chronopicRegister;
+		this.label_micro_discover_ports_detecting = label_micro_discover_ports_detecting;
+		this.table_micro_discover = table_micro_discover;
+		this.image_button_micro_discover_cancel_close = image_button_micro_discover_cancel_close;
+		this.label_button_micro_discover_cancel_close = label_button_micro_discover_cancel_close;
+
+		// 1) set up gui
+
+		FakeButtonClose = new Gtk.Button();
+		portSelected = "";
+
+		//ChronoDebug cDebug = new ChronoDebug("Discover " + current_mode.ToString());
+		//cDebug.Start();
+
+		// 2) get the serial numbers (and also the portName and type if saved on SQL)
+		//chronopicRegisterUpdate (false);
+
+		List<ChronopicRegisterPort> alreadyDiscovered_l = new List<ChronopicRegisterPort> ();
+		List<ChronopicRegisterPort> notDiscovered_l = new List<ChronopicRegisterPort> ();
+		foreach (ChronopicRegisterPort crp in chronopicRegister.Crpl.L)
+		//foreach (ChronopicRegisterPort crp in crpl.L)
+                        if (crp.Port != "")
+			{
+				if (crp.Type != ChronopicRegisterPort.Types.UNKNOWN &&
+						crp.SerialNumber != ChronopicRegister.SerialNumberNotUnique)
+					alreadyDiscovered_l.Add (crp);
+				else
+					notDiscovered_l.Add (crp);
+			}
+
+		label_micro_discover_ports.Text = string.Format (Catalog.GetPluralString (
+					"Found 1 device.",
+					"Found {0} devices.",
+					alreadyDiscovered_l.Count + notDiscovered_l.Count),
+				alreadyDiscovered_l.Count + notDiscovered_l.Count);
+
+		image_button_micro_discover_cancel_close.Pixbuf =
+				new Pixbuf (null, Util.GetImagePath(false) + "image_cancel.png");
+		label_button_micro_discover_cancel_close.Text = Catalog.GetString("Cancel");
+
+		if (alreadyDiscovered_l.Count > 0 || notDiscovered_l.Count > 0)
+		{
+			label_micro_discover_ports_detecting.Visible = true;
+
+			microDiscover = new MicroDiscover (notDiscovered_l);
+
+			setup_table_micro_discover_l (alreadyDiscovered_l, notDiscovered_l);
+			discoverCloseAfterCancel = false;
+
+			discoverThread = new Thread (new ThreadStart (discoverDo));
+			GLib.Idle.Add (new GLib.IdleHandler (pulseDiscoverGTK));
+			discoverThread.Start();
+		} else {
+			label_micro_discover_ports_detecting.Visible = false;
+			UtilGtk.RemoveChildren (table_micro_discover);
+
+			image_button_micro_discover_cancel_close.Pixbuf =
+				new Pixbuf (null, Util.GetImagePath (false) + "image_close.png");
+			label_button_micro_discover_cancel_close.Text = Catalog.GetString("Close");
+		}
+
+		//cDebug.StopAndPrint();
+	}
+
+
+
+	private void setup_table_micro_discover_l (
+			List<ChronopicRegisterPort> alreadyDiscovered_l,
+			List<ChronopicRegisterPort> notDiscovered_l)
+	{
+		// 1) delete widgets of previous calls
+		UtilGtk.RemoveChildren (table_micro_discover);
+
+		table_micro_discover.Resize ((uint) (alreadyDiscovered_l.Count + notDiscovered_l.Count), 3);
+		table_micro_discover.ColumnSpacing = 20;
+		table_micro_discover.RowSpacing = 14;
+
+		// 2) create the lists of widgets to be able to access later
+		progressbar_microNotDiscovered_l = new List<Gtk.ProgressBar> ();
+		button_microNotDiscovered_l = new List<Gtk.Button> ();
+		portAlreadyDiscovered_l = new List<string> ();
+		button_microAlreadyDiscovered_l = new List<Gtk.Button> ();
+
+		// 3) create widgets, lists, attach to table and show all
+		for (int i = 0; i < alreadyDiscovered_l.Count; i ++)
+			setup_row_micro_discover_l (alreadyDiscovered_l [i], i, true);
+		for (int i = 0; i < notDiscovered_l.Count; i ++)
+			setup_row_micro_discover_l (notDiscovered_l [i], i + alreadyDiscovered_l.Count, false);
+
+		table_micro_discover.ShowAll();
+	}
+
+	private void setup_row_micro_discover_l (ChronopicRegisterPort crp, int i, bool alreadyDiscovered)
+	{
+		string portNameShort = crp.Port;
+		if (portNameShort.StartsWith ("/dev/"))
+			portNameShort = portNameShort.Replace ("/dev/", "");
+
+		Gtk.Label l = new Gtk.Label (string.Format("{0}\n{1}", portNameShort, crp.SerialNumber));
+		table_micro_discover.Attach (l, (uint) 0, (uint) 1, (uint) i, (uint) i+1, //left, right, top, bottom
+				AttachOptions.Shrink, AttachOptions.Shrink, 0, 0);
+
+		if (alreadyDiscovered)
+		{
+			Gtk.Label l2 = new Gtk.Label (ChronopicRegisterPort.TypePrint (crp.Type));
+			table_micro_discover.Attach (l2, (uint) 1, (uint) 2, (uint) i, (uint) i+1,
+					AttachOptions.Shrink, AttachOptions.Shrink, 0, 0);
+		} else {
+			Gtk.ProgressBar pb = new Gtk.ProgressBar ();
+			pb.Text = "----"; //to have height
+			pb.SetSizeRequest (125, -1);
+			progressbar_microNotDiscovered_l.Add (pb);
+			table_micro_discover.Attach (pb, (uint) 1, (uint) 2, (uint) i, (uint) i+1,
+					AttachOptions.Shrink, AttachOptions.Shrink, 0, 0);
+		}
+
+
+		Gtk.Button b = new Gtk.Button("Use this");
+		if (alreadyDiscovered)
+		{
+			b.Sensitive = discoverMatchCurrentMode (crp.Type);
+			button_microAlreadyDiscovered_l.Add (b);
+			portAlreadyDiscovered_l.Add (crp.Port);
+			b.Clicked += new EventHandler (on_discover_button_clicked);
+		} else {
+			b.Sensitive = false;
+			button_microNotDiscovered_l.Add (b);
+		}
+
+		table_micro_discover.Attach (b, (uint) 2, (uint) 3, (uint) i, (uint) i+1,
+				AttachOptions.Shrink, AttachOptions.Shrink, 0, 0);
+	}
+
+	private void discoverDo ()
+	{
+		microDiscover.DiscoverOneMode (current_mode);
+	}
+	private bool pulseDiscoverGTK ()
+	{
+		if(microDiscover == null)
+		{
+			Thread.Sleep (200);
+			return true;
+		}
+
+		//gui updates while thread is alive
+		for (int i = 0; i < progressbar_microNotDiscovered_l.Count; i ++)
+		{
+			//progressbars
+			Gtk.ProgressBar pb = progressbar_microNotDiscovered_l[i];
+			if (microDiscover.ProgressBar_l[i] == MicroDiscover.Status.NotStarted)
+			{
+				pb.Text = "----"; //to have height
+				pb.Fraction = 0;
+			} else if (microDiscover.ProgressBar_l[i] == MicroDiscover.Status.Done)
+			{
+				pb.Text = microDiscover.ProgressBar_l[i].ToString();
+				pb.Fraction = 1;
+			} else {
+				if (microDiscover.Cancel)
+					pb.Text = Catalog.GetString("Cancelling");
+				else
+					pb.Text = microDiscover.ProgressBar_l[i].ToString();
+				pb.Pulse ();
+			}
+
+			if (i < microDiscover.Discovered_l.Count && discoverMatchCurrentMode (microDiscover.Discovered_l[i]))
+			{
+				(progressbar_microNotDiscovered_l[i]).Text = ChronopicRegisterPort.TypePrint(microDiscover.Discovered_l[i]);
+				button_microNotDiscovered_l[i].Sensitive = true;
+				button_microNotDiscovered_l[i].Clicked += new EventHandler(on_discover_button_clicked);
+			}
+		}
+
+		if(! discoverThread.IsAlive)
+		{
+			// 3) end this pulse
+			LogB.Information("pulseDiscoverGTK ending here");
+			LogB.ThreadEnded();
+
+			for (int i = 0; i < progressbar_microNotDiscovered_l.Count; i ++)
+			{
+				if (microDiscover.Cancel &&
+						 microDiscover.ProgressBar_l[i] != MicroDiscover.Status.Done)
+					(progressbar_microNotDiscovered_l[i]).Text = Catalog.GetString("Cancelled");
+
+				(progressbar_microNotDiscovered_l[i]).Fraction = 1;
+
+				if ( ! (i < microDiscover.Discovered_l.Count &&
+							discoverMatchCurrentMode (microDiscover.Discovered_l[i])) )
+					(progressbar_microNotDiscovered_l[i]).Text = "----";
+			}
+
+			label_micro_discover_ports_detecting.Visible = false;
+			image_button_micro_discover_cancel_close.Pixbuf =
+				new Pixbuf (null, Util.GetImagePath(false) + "image_close.png");
+			label_button_micro_discover_cancel_close.Text = Catalog.GetString("Close");
+
+			if (discoverCloseAfterCancel)
+			{
+				//on_button_micro_discover_cancel_close_clicked (new object (), new EventArgs ());
+				CancelCloseFromUser ();
+			}
+
+			return false;
+		}
+
+		Thread.Sleep (200);
+		return true;
+	}
+
+	private bool discoverMatchCurrentMode (ChronopicRegisterPort.Types crpt)
+	{
+		LogB.Information(string.Format(
+					"at discoverMatchCurrentMode current_mode: {0}, crpt: {1}",
+					current_mode, crpt));
+
+		if (
+				(current_mode == Constants.Modes.JUMPSSIMPLE || current_mode == Constants.Modes.JUMPSREACTIVE) &&
+				crpt == ChronopicRegisterPort.Types.CONTACTS )
+			return true;
+		else if (
+				(current_mode == Constants.Modes.RUNSSIMPLE || current_mode == Constants.Modes.RUNSINTERVALLIC) &&
+				(crpt == ChronopicRegisterPort.Types.CONTACTS || crpt == ChronopicRegisterPort.Types.RUN_WIRELESS) )
+			return true;
+		else if (current_mode == Constants.Modes.FORCESENSOR && crpt == ChronopicRegisterPort.Types.ARDUINO_FORCE)
+			return true;
+		else if (current_mode == Constants.Modes.RUNSENCODER && crpt == ChronopicRegisterPort.Types.ARDUINO_RUN_ENCODER)
+			return true;
+
+		return false;
+	}
+
+	private void on_discover_button_clicked (object o, EventArgs args)
+	{
+		Button bPress = (Button) o;
+		bool success = false;
+
+		// 1) test the discovered by MicroDiscover
+		//loop the list to know which button was
+		for (int i = 0 ; i < button_microNotDiscovered_l.Count; i ++)
+			if (button_microNotDiscovered_l[i] == bPress)
+			{
+				SqliteChronopicRegister.Update(false,
+						microDiscover.ToDiscover_l[i], microDiscover.Discovered_l[i]);
+				chronopicRegister.SetType (microDiscover.ToDiscover_l[i].SerialNumber,
+						microDiscover.Discovered_l[i]);
+				//portSelectedForceSensor = microDiscover.ToDiscover_l[i].Port;
+				portSelected = microDiscover.ToDiscover_l[i].Port;
+
+				/* instead of connect, just do changes on gui in order to be used
+				if(! portFSOpened)
+				{
+					*/ /*
+					discoverThread = new Thread (new ThreadStart (forceSensorConnectDo));
+					GLib.Idle.Add (new GLib.IdleHandler (pulseDiscoverGTK));
+					discoverThread.Start();
+					if(! forceSensorConnectDo ())
+						LogB.Information("could'n connect");
+						*/ /*
+				} else
+					on_button_micro_discover_cancel_close_clicked (new object (), new EventArgs ());
+				*/
+
+				success = true;
+			}
+
+		// 2) test the already discovered
+		for (int i = 0 ; i < button_microAlreadyDiscovered_l.Count; i ++)
+			if (button_microAlreadyDiscovered_l[i] == bPress)
+			{
+				portSelected = portAlreadyDiscovered_l[i];
+
+				success = true;
+			}
+
+		if (success)
+		{
+			//if we are discovering, on_button_micro_discover_cancel_close_clicked will cancel
+			//make discoverCloseAfterCancel = true to also close the window on pulse
+			discoverCloseAfterCancel = discoverThread.IsAlive;
+
+			//on_button_micro_discover_cancel_close_clicked (new object (), new EventArgs ());
+			CancelCloseFromUser ();
+		}
+	}
+
+	/*
+	private bool pulseDiscoverConnectGTK ()
+	{
+		if(! discoverThread.IsAlive)
+		{
+			// 3) end this pulse
+			LogB.Information("pulseDiscoverConnectGTK ending here");
+			LogB.ThreadEnded();
+
+			return false;
+		}
+
+		Thread.Sleep (200);
+		return true;
+	}
+	*/
+
+	//private void on_button_micro_discover_cancel_close_clicked (object o, EventArgs args)
+	public void CancelCloseFromUser ()
+	{
+		if (discoverThread != null && discoverThread.IsAlive && microDiscover != null)
+		{
+			//label_micro_discover_ports.Text = Catalog.GetString("Cancelling");
+			microDiscover.Cancel = true;
+		} else {
+			FakeButtonClose.Click ();
+		}
+	}
+
+	public ChronopicRegister ChronopicRegisterGet {
+		get { return chronopicRegister; }
+	}
+
+	//the port that user clicked on "Use this!"
+	public string PortSelected {
+		get { return portSelected; }
+	}
+}
 
 public class ChronopicRegisterWindow
 {

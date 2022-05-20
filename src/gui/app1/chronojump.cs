@@ -303,8 +303,6 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Table table_micro_discover;
 	[Widget] Gtk.HBox hbox_contacts_detect_and_execute;
 	[Widget] Gtk.Button button_contacts_detect;
-	[Widget] Gtk.Label label_micro_discover_ports;
-	[Widget] Gtk.Label label_micro_discover_ports_detecting;
 	[Widget] Gtk.EventBox eventbox_button_micro_discover_cancel_close;
 	[Widget] Gtk.Image image_button_micro_discover_cancel_close;
 	[Widget] Gtk.Label label_button_micro_discover_cancel_close;
@@ -4551,8 +4549,6 @@ public partial class ChronoJumpWindow
 		label_micro_discover_title.UseMarkup = true;
 
 		discoverWin = new DiscoverWindow (current_mode, chronopicRegister,
-			label_micro_discover_ports,
-			label_micro_discover_ports_detecting,
 			table_micro_discover,
 			image_button_micro_discover_cancel_close,
 			label_button_micro_discover_cancel_close);

@@ -133,7 +133,6 @@ public class DiscoverWindow
 
 	private Constants.Modes current_mode;
 	private ChronopicRegister chronopicRegister;
-	private Gtk.Label label_micro_discover_ports_detecting;
 	private Gtk.Table table_micro_discover;
 	private Gtk.Image image_button_micro_discover_cancel_close;
 	private Gtk.Label label_button_micro_discover_cancel_close;
@@ -141,15 +140,12 @@ public class DiscoverWindow
 	private string portSelected;
 
 	public DiscoverWindow (Constants.Modes current_mode, ChronopicRegister chronopicRegister,
-			Gtk.Label label_micro_discover_ports,
-			Gtk.Label label_micro_discover_ports_detecting,
 			Gtk.Table table_micro_discover,
 			Gtk.Image image_button_micro_discover_cancel_close,
 			Gtk.Label label_button_micro_discover_cancel_close)
 	{
 		this.current_mode = current_mode;
 		this.chronopicRegister = chronopicRegister;
-		this.label_micro_discover_ports_detecting = label_micro_discover_ports_detecting;
 		this.table_micro_discover = table_micro_discover;
 		this.image_button_micro_discover_cancel_close = image_button_micro_discover_cancel_close;
 		this.label_button_micro_discover_cancel_close = label_button_micro_discover_cancel_close;
@@ -178,20 +174,12 @@ public class DiscoverWindow
 					notDiscovered_l.Add (crp);
 			}
 
-		label_micro_discover_ports.Text = string.Format (Catalog.GetPluralString (
-					"Found 1 device.",
-					"Found {0} devices.",
-					alreadyDiscovered_l.Count + notDiscovered_l.Count),
-				alreadyDiscovered_l.Count + notDiscovered_l.Count);
-
 		image_button_micro_discover_cancel_close.Pixbuf =
 				new Pixbuf (null, Util.GetImagePath(false) + "image_cancel.png");
 		label_button_micro_discover_cancel_close.Text = Catalog.GetString("Cancel");
 
 		if (alreadyDiscovered_l.Count > 0 || notDiscovered_l.Count > 0)
 		{
-			label_micro_discover_ports_detecting.Visible = true;
-
 			microDiscover = new MicroDiscover (notDiscovered_l);
 
 			setup_table_micro_discover_l (alreadyDiscovered_l, notDiscovered_l);
@@ -201,7 +189,6 @@ public class DiscoverWindow
 			GLib.Idle.Add (new GLib.IdleHandler (pulseDiscoverGTK));
 			discoverThread.Start();
 		} else {
-			label_micro_discover_ports_detecting.Visible = false;
 			UtilGtk.RemoveChildren (table_micro_discover);
 
 			image_button_micro_discover_cancel_close.Pixbuf =
@@ -232,10 +219,22 @@ public class DiscoverWindow
 		button_microAlreadyDiscovered_l = new List<Gtk.Button> ();
 
 		// 3) create widgets, lists, attach to table and show all
+
+		// 3a) create table header row
+		Gtk.Label l0 = new Gtk.Label ("<b>Device</b>");
+		Gtk.Label l1 = new Gtk.Label ("<b>Type</b>");
+		l0.UseMarkup = true;
+		l1.UseMarkup = true;
+		table_micro_discover.Attach (l0, (uint) 0, (uint) 1, (uint) 0, (uint) 1,
+				AttachOptions.Shrink, AttachOptions.Shrink, 0, 0);
+		table_micro_discover.Attach (l1, (uint) 1, (uint) 2, (uint) 0, (uint) 1,
+				AttachOptions.Shrink, AttachOptions.Shrink, 0, 0);
+
+		// 3b) create a row for each device
 		for (int i = 0; i < alreadyDiscovered_l.Count; i ++)
-			setup_row_micro_discover_l (alreadyDiscovered_l [i], i, true);
+			setup_row_micro_discover_l (alreadyDiscovered_l [i], i + 1, true);
 		for (int i = 0; i < notDiscovered_l.Count; i ++)
-			setup_row_micro_discover_l (notDiscovered_l [i], i + alreadyDiscovered_l.Count, false);
+			setup_row_micro_discover_l (notDiscovered_l [i], i + 1 + alreadyDiscovered_l.Count, false);
 
 		table_micro_discover.ShowAll();
 	}
@@ -265,7 +264,13 @@ public class DiscoverWindow
 		}
 
 
-		Gtk.Button b = new Gtk.Button("Use this");
+		Gtk.HBox hbox = new Gtk.HBox (false, 6);
+		Gtk.Image image = new Gtk.Image (new Pixbuf (null, Util.GetImagePath(false) + "image_done_blue.png"));
+		Gtk.Label label = new Gtk.Label ("Use this!");
+		hbox.PackStart (image);
+		hbox.PackStart (label);
+		Gtk.Button b = new Gtk.Button (hbox);
+
 		if (alreadyDiscovered)
 		{
 			b.Sensitive = discoverMatchCurrentMode (crp.Type);
@@ -341,7 +346,6 @@ public class DiscoverWindow
 					(progressbar_microNotDiscovered_l[i]).Text = "----";
 			}
 
-			label_micro_discover_ports_detecting.Visible = false;
 			image_button_micro_discover_cancel_close.Pixbuf =
 				new Pixbuf (null, Util.GetImagePath(false) + "image_close.png");
 			label_button_micro_discover_cancel_close.Text = Catalog.GetString("Close");
@@ -456,12 +460,9 @@ public class DiscoverWindow
 	public void CancelCloseFromUser ()
 	{
 		if (discoverThread != null && discoverThread.IsAlive && microDiscover != null)
-		{
-			//label_micro_discover_ports.Text = Catalog.GetString("Cancelling");
 			microDiscover.Cancel = true;
-		} else {
+		else
 			FakeButtonClose.Click ();
-		}
 	}
 
 	public ChronopicRegister ChronopicRegisterGet {

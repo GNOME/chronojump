@@ -42,8 +42,14 @@ String version = "0.7";
 
 //Encoder variables
 Encoder encoder(8, 9);
-int lastPosition = 0;
-short encoderPhase = 1;    // 1 means concentric, -1 means eccentric
+IntervalTimer encoderTimer;
+long position = 0;
+long lastEncoderPosition;
+long lastSamplePosition = 0;
+int encoderBuffer[20];
+byte encoderBufferIndex = 0;
+String encoderString = "";
+int encoderPhase = 1;    // 1 means concentric, -1 means eccentric
 long startPhasePosition = 0;
 long startPhaseTime = 0;
 float avgVelocity = 0;
@@ -104,10 +110,10 @@ unsigned long lastSampleTime;
   unsigned int samples = 0;
 */
 
-const unsigned short redButtonPin = 4;
+const unsigned int redButtonPin = 4;
 Bounce redButton = Bounce(redButtonPin, 50);
 
-const unsigned short blueButtonPin = 5;
+const unsigned int blueButtonPin = 5;
 Bounce blueButton = Bounce(blueButtonPin, 50);
 
 //TODO. Manage it with timer interruptions
@@ -123,14 +129,14 @@ double graphMin = measuredMin;
 double graphMax = measuredMax;
 
 
-const unsigned short rcaPin = 3;
+const unsigned int rcaPin = 3;
 
 unsigned long triggerTime = 0;        //The instant in which the trigger signal is activated
 bool rcaState = digitalRead(rcaPin);  //Wether the RCA is shorted or not
 bool lastRcaState = rcaState;         //The previous state of the RCA
 
-unsigned short menu = 0;              //Main menu state
-unsigned short submenu = 0;           //submenus state
+unsigned int menu = 0;              //Main menu state
+unsigned int submenu = 0;           //submenus state
 
 const String menuList [] = {
   "Raw Force",
@@ -174,13 +180,13 @@ unsigned int freq = 86;
 //Cirtular buffer of force measures
 float forces1s[86];
 //200 ms -> 16.95 ~ 17 samples. To know the elapsed time in 200 ms we need 1 more sample
-unsigned short samples200ms = 18;
-unsigned short samples100ms = 9;
+unsigned int samples200ms = 18;
+unsigned int samples100ms = 9;
 //Circular buffer of times
 unsigned long totalTimes1s[18];
 //The current slot in the array
-unsigned short currentFSlot = 0;
-unsigned short currentTSlot = 0;
+unsigned int currentFSlot = 0;
+unsigned int currentTSlot = 0;
 //Mean force during the last second
 float meanForce1s;
 //Maximum mean force exerted during 1 second. It could be at any moment durint the capture
@@ -307,7 +313,6 @@ void setup() {
   {
     Serial.println("Card failed, or not present");
     tft.println("Card failed, or not present");
-    Serial.println("Retrying");
     delay(100);
   } else
   {
@@ -408,7 +413,7 @@ void getLoadCellDynamics(void)
 
   //Calculating the average during 1s
   float sumForces = 0;
-  for (unsigned short i = 0; i < freq; i++) {
+  for (unsigned int i = 0; i < freq; i++) {
     sumForces += forces1s[i];
   }
 
@@ -534,11 +539,11 @@ void startLoadCellCapture()
 
   //filling the array of forces ant times with initial force
   lastMeasure = scale.get_units();
-  for (unsigned short i = 0; i < freq; i++) {
+  for (unsigned int i = 0; i < freq; i++) {
     forces1s[i] = lastMeasure;
   }
 
-  for (short i = 0; i < samples200ms; i++) {
+  for (unsigned int i = 0; i < samples200ms; i++) {
     totalTimes1s[i] = 0;
   }
 
@@ -712,7 +717,7 @@ void changingRCA() {
 }
 
 void calibrateTFT(void) {
-  short increment = 1;
+  int increment = 1;
   int weight = 1;
   submenu = 0;
   bool exitFlag = false;
@@ -1315,8 +1320,8 @@ void capture()
             resized = true;
           }
         }
-        //        Serial.print(totalTime); Serial.print(";");
-        //        Serial.println(measured, 2); //scale.get_units() returns a float
+        Serial.print(totalTime); Serial.print(";");
+        Serial.println(measured, 2); //scale.get_units() returns a float
         if (!PcControlled) saveSD(fileName);
         plotBuffer[n] = measured;
 
@@ -1408,8 +1413,9 @@ void geEncoderDynamics()
   {
     lastSampleTime = totalTime;
     long position = encoder.read();
-    measured = (float)(position - lastPosition) * 1000 / (sampleDuration);
-    if (encoderPhase * (position - lastPosition) < 0)
+    measured = (float)(position - lastSamplePosition) * 1000 / (sampleDuration);
+    Serial.println(measured);
+    if (encoderPhase * (position - lastSamplePosition) < 0)
     {
       encoderPhase *= -1;
       numRepetitions++;
@@ -1419,7 +1425,7 @@ void geEncoderDynamics()
       startPhasePosition = position;
       startPhaseTime = lastSampleTime;
     }
-    lastPosition = position;
+    lastSamplePosition = position;
 
   }
 }
@@ -1430,7 +1436,7 @@ void startEncoderCapture()
   sensor = incEncoder;
   //Serial.println(sensor);
   maxString = "V";
-  plotPeriod = 500;
+  plotPeriod = 5;
   newGraphMin = -10;
   newGraphMax = 10;
   measuredMax = 0;
@@ -1442,6 +1448,7 @@ void endEncoderCapture()
 {
   capturing = false;
   sensor = none;
+  Serial.println("Capture ended:");
   //If the device is controlled by the PC the results menu is not showed
   //because during the menu navigation the Serial is not listened.
   if (!PcControlled) {
@@ -1493,10 +1500,17 @@ void showEncoderResults()
 void getPowerDynamics()
 {
   float force = scale.get_units();
-  long position = encoder.read();
-  float velocity = (float)(position - lastPosition) * 1000 / (totalTime - lastSampleTime);
+  //position = encoder.read();
+  float velocity = (float)(position - lastSamplePosition) * 1000 / (totalTime - lastSampleTime);
   lastSampleTime = totalTime;
-  lastPosition = position;
+  lastSamplePosition = position;
+  for (int i = 0; i < encoderBufferIndex; i++)
+  {
+    Serial.print(encoderBuffer[i]);
+    Serial.print(",");
+  }
+  encoderString = "";
+  encoderBufferIndex = 0;
   measured = force * velocity;
   if (measured > maxPower) maxPower = measured;
 }
@@ -1511,13 +1525,29 @@ void startPowerCapture()
   newGraphMax = 500;
   measuredMax = 0;
   totalTime = 0;
+
+  //Depending on the speed of the clock it can be adjusted
+  //96 Mhz and 1000 us captures but the screen refreshing becomes unstable
+  //72 Mhz and 2000 us captures but the screen refreshing becomes unstable
+  encoderTimer.begin(readEncoder, 2000); 
   capture();
+}
+
+void readEncoder()
+{
+  position = encoder.read();
+//  encoderString = encoderString + String(position - lastEncoderPosition) + ",";
+  encoderBuffer[encoderBufferIndex] = position - lastEncoderPosition;
+  lastEncoderPosition = position;
+  encoderBufferIndex++;
 }
 
 void endPowerCapture()
 {
   capturing = false;
+  encoderTimer.end();
   sensor = none;
+  Serial.println("Capture ended:");
   //If the device is controlled by the PC the results menu is not showed
   //because during the menu navigation the Serial is not listened.
   if (!PcControlled) {
@@ -1556,7 +1586,7 @@ void showPowerResults()
 void setForceGoal()
 {
   forceGoal = 0;
-  short increment = 10;
+  int increment = 10;
   submenu = 0;
   bool exitFlag = false;
   //Delete description
@@ -1757,6 +1787,12 @@ unsigned int gettotalPersons()
 
 void getPersonsList(struct personType * persons)
 {
+  /*
+   * Ecample of persons.txt format
+   *0,Blancaneus,160, 65,
+   *1,Pulgarcito,16, 6,
+   *3,Tres porquets,50, 20,
+   */
   String row = "";
   char readChar;
   File  personsFile = SD.open("persons.txt");
@@ -1791,7 +1827,6 @@ void getPersonsList(struct personType * persons)
         nextComaIndex = row.indexOf(",", prevComaIndex + 1 );
         persons[currentPerson].heigh = row.substring(prevComaIndex + 1 , nextComaIndex).toFloat();
 
-        //Serial.println(row);
         row = "";
         currentPerson++;
       }

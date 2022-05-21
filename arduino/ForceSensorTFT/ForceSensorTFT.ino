@@ -45,6 +45,7 @@ String version = "0.7";
 Encoder encoder(8, 9);
 IntervalTimer encoderTimer;
 long position = 0;
+bool inertialMode = false;
 long lastEncoderPosition;
 long lastSamplePosition = 0;
 int encoderBuffer[20];
@@ -1417,7 +1418,9 @@ void getEncoderDynamics()
   if (sampleDuration >= 1000)
   {
     lastSampleTime = totalTime;
+    
     long position = encoder.read();
+    if (inertialMode) position = - abs(position);
     measured = (float)(position - lastSamplePosition) * 1000 / (sampleDuration);
     //measured = position;
     //if (measured != 0) Serial.println(measured);
@@ -1427,12 +1430,12 @@ void getEncoderDynamics()
       if (position >= minRom) {
         encoderPhase = 1;
         localMax = position;
-        //Serial.println("CONcentric");
+        Serial.println("Start in CONcentric");
       }
       else if (position <= -minRom) {
         encoderPhase = 1;
         localMax = position;
-        //Serial.println("ECCentric");
+        Serial.println("Start in ECCentric");
       }
     }
 
@@ -1474,7 +1477,7 @@ void startEncoderCapture()
   encoderPhase = 0;
   localMax = 0;
   position = 0;
-  lastSamplePosition;
+  lastSamplePosition = 0;
   lastSampleTime = 0;
   startPhasePosition = 0;
   startPhaseTime = 0;

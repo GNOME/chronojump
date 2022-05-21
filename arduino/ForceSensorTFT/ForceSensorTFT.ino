@@ -18,6 +18,7 @@
   #
   #   Copyright (C) 2017     Xavier Padullés <x.padulles@gmail.com>
   #   Copyright (C) 2017     Xavier de Blas <xaviblas@gmail.com>
+  #   Copyright (C) 2022     Xavier Cano <xaviercanoferrer@gmail.com>
 
 
 */
@@ -49,9 +50,11 @@ long lastSamplePosition = 0;
 int encoderBuffer[20];
 byte encoderBufferIndex = 0;
 String encoderString = "";
-int encoderPhase = 1;    // 1 means concentric, -1 means eccentric
+int encoderPhase = 0;    // 1 means concentric, -1 means eccentric, 0 unknown (prior detecting first repetition)
 long startPhasePosition = 0;
 long startPhaseTime = 0;
+int minRom = 100;      //Minimum range of movement to consider the start of a new repetition
+long localMax = 0;    //Local maximum in the position. It must be checked if it is a point of phase change
 float avgVelocity = 0;
 float maxAvgVelocity = 0;
 int numRepetitions = 0;
@@ -1306,7 +1309,7 @@ void capture()
           //If no RCA event, read the sensor as usual
         } else {
           //Calculation of the variables shown in the results
-          if (sensor == incEncoder) geEncoderDynamics();
+          if (sensor == incEncoder) getEncoderDynamics();
           else if (sensor == loadCell) getLoadCellDynamics();
           else if (sensor == loadCellIncEncoder) getPowerDynamics();
 
@@ -1320,8 +1323,10 @@ void capture()
             resized = true;
           }
         }
-        Serial.print(totalTime); Serial.print(";");
-        Serial.println(measured, 2); //scale.get_units() returns a float
+        
+//        Serial.print(totalTime); Serial.print(";");
+//        Serial.println(measured, 2); //scale.get_units() returns a float
+        
         if (!PcControlled) saveSD(fileName);
         plotBuffer[n] = measured;
 
@@ -1406,25 +1411,52 @@ void capture()
   if (!capturingPreSteadiness) setNumber++;
 }
 
-void geEncoderDynamics()
+void getEncoderDynamics()
 {
   int sampleDuration = totalTime - lastSampleTime;
   if (sampleDuration >= 10000)
   {
     lastSampleTime = totalTime;
     long position = encoder.read();
-    measured = (float)(position - lastSamplePosition) * 1000 / (sampleDuration);
-    Serial.println(measured);
-    if (encoderPhase * (position - lastSamplePosition) < 0)
+    //measured = (float)(position - lastSamplePosition) * 1000 / (sampleDuration);
+    measured = position;
+    //Before detecting the first repetition we don't know the direction of movement
+    if (encoderPhase == 0)
     {
-      encoderPhase *= -1;
-      numRepetitions++;
-      avgVelocity = (float)(position - startPhasePosition) * 1000 / (lastSampleTime - startPhaseTime);
-      //Serial.println(avgVelocity);
-      if (avgVelocity > maxAvgVelocity) maxAvgVelocity = avgVelocity;
-      startPhasePosition = position;
-      startPhaseTime = lastSampleTime;
+      if (position >= minRom) {
+        encoderPhase = 1;
+        localMax = position;
+        Serial.println("CONcentric");
+      }
+      else if (position <= -minRom) {
+        encoderPhase = 1;
+        localMax = position;
+        Serial.println("ECCentric");
+      }
     }
+    
+    if (measured != 0){
+      //Serial.println(String(position) + " - " + String(localMax) + " = " + String(position - localMax));     
+    }
+    //Detecting the phanse change
+    //TODO. Detect propulsive phase
+    if (encoderPhase * (position - localMax) > 0)  //Local maximum detected
+    {
+      //Serial.println("New localMax : " + String(position) + "\t" + String(localEncoderPhase));
+      localMax = position;
+      
+      //Checking if this local maximum is actually the start of the new phase
+    } else if (encoderPhase * (position - localMax) < - minRom)
+      {
+        encoderPhase *= -1;
+        numRepetitions++;
+        avgVelocity = (float)(position - startPhasePosition) * 1000 / (lastSampleTime - startPhaseTime);
+        //Serial.println(avgVelocity);
+        if (avgVelocity > maxAvgVelocity) maxAvgVelocity = avgVelocity;
+        //Serial.println(String(position) + " - " + String(startPhasePosition) + " = " + String(position - localMax) + "\t" + String(encoderPhase));
+        startPhasePosition = position;
+        startPhaseTime = lastSampleTime;
+      }
     lastSamplePosition = position;
 
   }
@@ -1441,6 +1473,9 @@ void startEncoderCapture()
   newGraphMax = 10;
   measuredMax = 0;
   totalTime = 0;
+  encoderPhase = 0;
+  localMax = 0;
+  position = 0;
   capture();
 }
 

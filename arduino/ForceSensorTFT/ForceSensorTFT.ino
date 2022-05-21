@@ -1414,30 +1414,28 @@ void capture()
 void getEncoderDynamics()
 {
   int sampleDuration = totalTime - lastSampleTime;
-  if (sampleDuration >= 10000)
+  if (sampleDuration >= 1000)
   {
     lastSampleTime = totalTime;
     long position = encoder.read();
-    //measured = (float)(position - lastSamplePosition) * 1000 / (sampleDuration);
-    measured = position;
+    measured = (float)(position - lastSamplePosition) * 1000 / (sampleDuration);
+    //measured = position;
+    //if (measured != 0) Serial.println(measured);
     //Before detecting the first repetition we don't know the direction of movement
     if (encoderPhase == 0)
     {
       if (position >= minRom) {
         encoderPhase = 1;
         localMax = position;
-        Serial.println("CONcentric");
+        //Serial.println("CONcentric");
       }
       else if (position <= -minRom) {
         encoderPhase = 1;
         localMax = position;
-        Serial.println("ECCentric");
+        //Serial.println("ECCentric");
       }
     }
-    
-    if (measured != 0){
-      //Serial.println(String(position) + " - " + String(localMax) + " = " + String(position - localMax));     
-    }
+
     //Detecting the phanse change
     //TODO. Detect propulsive phase
     if (encoderPhase * (position - localMax) > 0)  //Local maximum detected
@@ -1458,7 +1456,6 @@ void getEncoderDynamics()
         startPhaseTime = lastSampleTime;
       }
     lastSamplePosition = position;
-
   }
 }
 
@@ -1472,16 +1469,24 @@ void startEncoderCapture()
   newGraphMin = -10;
   newGraphMax = 10;
   measuredMax = 0;
+  measured = 0;
   totalTime = 0;
   encoderPhase = 0;
   localMax = 0;
   position = 0;
+  lastSamplePosition;
+  lastSampleTime = 0;
+  startPhasePosition = 0;
+  startPhaseTime = 0;
+  avgVelocity = 0;
+  maxAvgVelocity = 0;
   capture();
 }
 
 void endEncoderCapture()
 {
   capturing = false;
+  numRepetitions = ceil((float)(numRepetitions / 2));
   sensor = none;
   Serial.println("Capture ended:");
   //If the device is controlled by the PC the results menu is not showed

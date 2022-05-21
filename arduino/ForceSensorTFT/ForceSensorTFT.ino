@@ -56,8 +56,11 @@ long startPhasePosition = 0;
 long startPhaseTime = 0;
 int minRom = 100;      //Minimum range of movement to consider the start of a new repetition
 long localMax = 0;    //Local maximum in the position. It must be checked if it is a point of phase change
+float lastVelocity = 0;
 float avgVelocity = 0;
 float maxAvgVelocity = 0;
+bool propulsive = true;
+
 int numRepetitions = 0;
 
 int tareAddress = 0;
@@ -1422,6 +1425,11 @@ void getEncoderDynamics()
     long position = encoder.read();
     if (inertialMode) position = - abs(position);
     measured = (float)(position - lastSamplePosition) * 1000 / (sampleDuration);
+    float accel = (measured - lastVelocity) * 1000000 / sampleDuration;
+    if(propulsive && accel <= -9.81){
+      //Serial.println(String(accel) + " End propulsive at time: " + String(lastSampleTime));
+      propulsive = false;
+    }
     //measured = position;
     //if (measured != 0) Serial.println(measured);
     //Before detecting the first repetition we don't know the direction of movement
@@ -1450,15 +1458,18 @@ void getEncoderDynamics()
     } else if (encoderPhase * (position - localMax) < - minRom)
       {
         encoderPhase *= -1;
+        propulsive = true;
         numRepetitions++;
-        avgVelocity = (float)(position - startPhasePosition) * 1000 / (lastSampleTime - startPhaseTime);
-        //Serial.println(avgVelocity);
+        //avgVelocity = (float)(position - startPhasePosition) * 1000 / (lastSampleTime - startPhaseTime);
         if (avgVelocity > maxAvgVelocity) maxAvgVelocity = avgVelocity;
         //Serial.println(String(position) + " - " + String(startPhasePosition) + " = " + String(position - localMax) + "\t" + String(encoderPhase));
+        //Serial.println("Change of phase at: " + String(lastSampleTime));
         startPhasePosition = position;
         startPhaseTime = lastSampleTime;
       }
     lastSamplePosition = position;
+    lastVelocity = measured;  
+    //Serial.println(String(measured) + "\t" + String(accel));
   }
 }
 
@@ -1483,6 +1494,7 @@ void startEncoderCapture()
   startPhaseTime = 0;
   avgVelocity = 0;
   maxAvgVelocity = 0;
+  lastVelocity = 0;
   capture();
 }
 

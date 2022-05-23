@@ -37,7 +37,7 @@
 #define CLK  3
 
 //Used to calculate the nunmber of entries in a menu
-//#define NUMITEMS(arg) ((unsigned int) (sizeof (arg) / sizeof (arg [0])))
+//#define menuItemsNum(arg) ((unsigned int) (sizeof (arg) / sizeof (arg [0])))
 //template< typename T, size_t N > size_t ArraySize (T (&) [N]){ return N; }
 
 //Version number //it always need to start with: "Force_Sensor-"
@@ -147,19 +147,39 @@ unsigned long triggerTime = 0;        //The instant in which the trigger signal 
 bool rcaState = digitalRead(rcaPin);  //Wether the RCA is shorted or not
 bool lastRcaState = rcaState;         //The previous state of the RCA
 
-unsigned int currentMenuItem = 0;              //Main menu state
+unsigned int currentMenuIndex = 0;              //Main menu state
 unsigned int submenu = 0;           //submenus state
 
-functionPointer FArray[3] = {&function2, &function2, &function2};
+//!!Atention I don't understant why but eliminating this line returns error in menuEntry initialitzation
+functionPointer FArray[3] = {&fakeFunction, &fakeFunction, &fakeFunction};
 
-menuEntry mainMenu[6] = {
+menuEntry mainMenu[10] = {
   { "Raw Force", "Shows standard graph of\nthe force and the summary of the set.\n(Maximum Force, RFD and\nImpulse)", &startLoadCellCapture},
   { "Raw Velocity", "Show a standard graph of linear velocity", &startEncoderCapture },
   { "RawPower", "Measure Force and Speed\nat the same time.\nOnly power is shown in thegraph", &startPowerCapture},
   { "Tared Force", "Offset the force before\nmeasuring it.\nUseful to substract body\nweight.", &startTareCapture},
   { "F. Steadiness", "RMSSD and cvRMSSD.\nMeasure the steadyness\nof the force signal.\nAfter achieving the\ndesired steady force press\nRedButton to get the\nsteadiness of the next 5s.", &startSteadiness},
-  { "System", "Performs calibration or\ntare and shows some system\ninformation.", &systemMenu}
+  { "System", "Performs calibration or\ntare and shows some system\ninformation.", &showSystemMenu},
+  { "", "", &backMenu},
+  { "", "", &backMenu},
+  { "", "", &backMenu},
+  { "", "", &backMenu}
 };
+
+menuEntry systemMenu[10] {
+  { "Tare", "Set the offset of the\nsensor.", &tare },
+  { "Calibrate", "Set the equivalence\nbetween the sensor values\nand the force measured.", &calibrateTFT },
+  { "Force Goal", "Set the goal force for\nsteadiness measurements.", &setForceGoal },
+  { "Info", "Hardware, firmware and config information.", &showSystemInfo },
+  { "Exit", "Goes back to main menu", &backMenu },
+  { "", "", &backMenu},
+  { "", "", &backMenu},
+  { "", "", &backMenu},
+  { "", "", &backMenu},
+  { "", "", &backMenu}
+};
+
+menuEntry currentMenu[10];
 
 const String menuList [] = {
   "Raw Force",
@@ -180,6 +200,8 @@ const String menuDescription [] = {
   "RMSSD and cvRMSSD.\nMeasure the steadyness\nof the force signal.\nAfter achieving the\ndesired steady force press\nRedButton to get the\nsteadiness of the next 5s.",
   "Performs calibration or\ntare and shows some system\ninformation."
 };
+
+int menuItemsNum = 6;
 
 const String systemOptions[] = {
   "Tare",
@@ -291,14 +313,12 @@ struct personType {
 unsigned int totalPersons = 0;
 personType persons[100];
 
-void (*function2Pointer)() = &function2;
-
 void setup() {
   pinMode(redButtonPin, INPUT_PULLUP);
   pinMode(blueButtonPin, INPUT_PULLUP);
 
   Serial.begin(256000);
-  //function2();
+  
   attachInterrupt(digitalPinToInterrupt(rcaPin), changingRCA, CHANGE);
 
   EEPROM.get(tareAddress, tareValue);
@@ -344,19 +364,25 @@ void setup() {
     Serial.println("card initialized");
   }
   dirName = createNewDir();
-  totalPersons = gettotalPersons();
+  totalPersons = getTotalPerson();
   getPersonsList(persons);
 
+  for (int i = 0; i< 10; i++){
+    currentMenu[i].title = mainMenu[i].title;
+    currentMenu[i].description = mainMenu[i].description;
+    currentMenu[i].function = mainMenu[i].function;
+  }
+  
   tft.fillScreen(BLACK);
   drawMenuBackground();
-  showMenuEntry(currentMenuItem, 6);
+  showMenuEntry(currentMenuIndex);
 }
 
 void loop()
 {
   if (!capturing)
   {
-    showMenu(6);
+    showMenu();
   } else
   {
     capture();
@@ -366,20 +392,20 @@ void loop()
   if (Serial.available()) serialEvent();
 }
 
-void showMenuEntry(unsigned int currentMenuItem, unsigned int numItems)
+void showMenuEntry(unsigned int currentMenuIndex)
 {
   tft.fillRect(30, 0, 260, 50, BLACK);
   tft.setCursor(40, 20);
   tft.setTextSize(3);
-  tft.print(mainMenu[currentMenuItem].title);
+  tft.print(currentMenu[currentMenuIndex].title);
 
   tft.setTextSize(2);
   tft.setCursor(12, 100);
   tft.setTextColor(BLACK);
-  tft.print(mainMenu[(currentMenuItem + numItems - 1) % numItems].description);
+  tft.print(currentMenu[(currentMenuIndex + menuItemsNum - 1) % menuItemsNum].description);
   tft.setTextColor(WHITE);
   tft.setCursor(12, 100);
-  tft.print(mainMenu[currentMenuItem].description);
+  tft.print(currentMenu[currentMenuIndex].description);
 }
 
 void getLoadCellDynamics(void)
@@ -571,7 +597,7 @@ void endLoadCellCapture()
     //Serial.println(scale.get_offset());
     showLoadCellResults();
   }
-  showMenuEntry(currentMenuItem, 6);
+  showMenuEntry(currentMenuIndex);
 }
 
 void get_version()
@@ -855,7 +881,7 @@ void calibrateTFT(void) {
     redButton.update();
     blueButton.update();
   }
-  showMenuEntry(currentMenuItem, 6);
+  showMenuEntry(currentMenuIndex);
 }
 
 //function to read battery level. Not implemented in SportAnalyzer hardware version 1.0
@@ -970,80 +996,18 @@ void showLoadCellResults() {
   drawMenuBackground();
 }
 
-void systemMenu()
+void showSystemMenu(void)
 {
-  bool exitFlag = false;
-
-  //Deletes the descripiton of system menu entry
-  tft.setTextSize(2);
-  tft.setCursor(12, 100);
-  tft.setTextColor(BLACK);
-  tft.print(menuDescription[5]);
-
-  tft.setCursor(12, 100);
-  tft.print(" Set the offset of the\nsensor.");
-
-  showSystemMenu();
-
-
-  redButton.update();
-  blueButton.update();
-  while (!exitFlag) {
-    while (!blueButton.fallingEdge() && !redButton.fallingEdge())
-    {
-      redButton.update();
-      blueButton.update();
-    }
-
-    //Blue button pressed. Change submenu option
-    if (blueButton.fallingEdge()) {
-      blueButton.update();
-      submenu = (submenu + 1) % 3;
-      showSystemMenu();
-
-    }
-    //Red button pressed. Execute the menu option
-    if (redButton.fallingEdge()) {
-      exitFlag = true;
-      if (submenu == 0) {
-        tft.setTextColor(BLACK);
-        tft.setCursor(12, 100);
-        tft.print(" Set the offset of the\nsensor.");
-        tare();
-      } else if (submenu == 1)
-      {
-        calibrateTFT();
-      } else if (submenu == 2) {
-        setForceGoal();
-      } else if (submenu == 3) {
-        showSystemInfo();
-      }
-      tft.setTextColor(BLACK);
-      tft.setCursor(50, 60);
-      tft.print(systemOptions[submenu]);
-      currentMenuItem = 0;
-      showMenuEntry(currentMenuItem, 6);
-    }
+  drawMenuBackground();
+  currentMenuIndex = 0;
+  for (int i = 0; i< 10; i++){
+    currentMenu[i].title = systemMenu[i].title;
+    currentMenu[i].description = systemMenu[i].description;
+    currentMenu[i].function = systemMenu[i].function;
   }
-  currentMenuItem = 0;
-  showMenuEntry(currentMenuItem, 6);
-}
-
-void showSystemMenu(void) {
-
-  tft.setTextColor(BLACK);
-  tft.setCursor(50, 60);
-  tft.print(systemOptions[(submenu + 2) % 3]);
-  tft.setTextColor(WHITE);
-  tft.setCursor(50, 60);
-  tft.print(systemOptions[submenu]);
-
-  tft.setCursor(24, 100);
-  tft.setTextColor(BLACK);
-  tft.print(systemDescriptions[(submenu + 2) % 3]);
-  tft.setCursor(24, 100);
-  tft.setTextColor(WHITE);
-  tft.print(systemDescriptions[submenu]);
+  menuItemsNum = 5;
+  showMenuEntry(currentMenuIndex);
+  //showMenu();
 }
 
 void startSteadiness(void)
@@ -1194,7 +1158,7 @@ void redrawAxes(ILI9341_t3 & d, double gx, double gy, double w, double h, double
 }
 
 void drawMenuBackground() {
-  tft.fillRect(0, 0, 320, 50, BLACK);
+  tft.fillScreen(BLACK);
   tft.fillRoundRect(0, 0, 30, 50, 10, WHITE);
   tft.fillRoundRect(290, 0, 30, 50, 10, WHITE);
   tft.setTextSize(3);
@@ -1493,7 +1457,7 @@ void endEncoderCapture()
   if (!PcControlled) {
     showEncoderResults();
   }
-  showMenuEntry(currentMenuItem, 6);
+  showMenuEntry(currentMenuIndex);
 }
 
 void showEncoderResults()
@@ -1592,7 +1556,7 @@ void endPowerCapture()
   if (!PcControlled) {
     showPowerResults();
   }
-  showMenuEntry(currentMenuItem, 6);
+  showMenuEntry(currentMenuIndex);
 }
 
 void showPowerResults()
@@ -1707,7 +1671,7 @@ void setForceGoal()
     redButton.update();
     blueButton.update();
   }
-  //showMenuEntry(currentMenuItem, 6);
+  //showMenuEntry(currentMenuIndex, 6);
 }
 
 void saveSD(String fileName)
@@ -1793,7 +1757,7 @@ String addLeadingZeros(int number, int totalDigits)
   return (fixLenNumber);
 }
 
-unsigned int gettotalPersons()
+unsigned int getTotalPerson()
 {
   char readChar;
   String readString = "";
@@ -1878,19 +1842,14 @@ void getPersonsList(struct personType * persons)
   }
 }
 
-void showMenu(unsigned int numItems)
+void showMenu()
 {
-  //Serial.println(NUMITEMS(menu));
-//  Serial.println(ArraySize(menu));
-//  for (unsigned int i = 0; i < numItems; i++){
-//    Serial.println(menu[i].title + "\t" + menu[i].description);
-//  }
       //The blue button navigates through the Menu options
     blueButton.update();
     if (blueButton.fallingEdge()) {
-      currentMenuItem++;
-      currentMenuItem = currentMenuItem % numItems;
-      showMenuEntry(currentMenuItem, 6);
+      currentMenuIndex++;
+      currentMenuIndex = currentMenuIndex % menuItemsNum;
+      showMenuEntry(currentMenuIndex);
     }
 
     //The red button activates the menu option
@@ -1898,14 +1857,24 @@ void showMenu(unsigned int numItems)
     if (redButton.fallingEdge())
     {
       PcControlled = false;
-      mainMenu[currentMenuItem].function(true);
+      currentMenu[currentMenuIndex].function(true);
     }
 }
 
-void function1(void (*function)()){
-     (*function)();
+void backMenu(void)
+{
+  currentMenuIndex = 0;
+  drawMenuBackground();
+  currentMenuIndex = 0;
+  for (int i = 0; i< 10; i++){
+    currentMenu[i].title = mainMenu[i].title;
+    currentMenu[i].description = mainMenu[i].description;
+    currentMenu[i].function = mainMenu[i].function;
+  }
+  menuItemsNum = 6;
+  showMenuEntry(currentMenuIndex);
+  showMenu();
 }
 
-void function2() {
-    Serial.println("Works!");
+void fakeFunction(){  
 }

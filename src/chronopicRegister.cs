@@ -297,6 +297,54 @@ public abstract class ChronopicRegister
 		return null;
 	}
 
+	/* ---- selectedForMode ---->
+
+	   This helps to solve if there is more than one for a mode.
+	   In the future will handle also n forceSensors
+	   */
+
+	private List <selectedForMode> selectedForMode_l;
+	public struct selectedForMode
+	{
+		public string portName;
+		public Constants.Modes mode;
+
+		public selectedForMode (string portName, Constants.Modes mode)
+		{
+			this.portName = portName;
+			this.mode = mode;
+		}
+	}
+
+	public void SetSelectedForMode (string portName, Constants.Modes mode)
+	{
+		if (selectedForMode_l == null)
+			selectedForMode_l = new List<selectedForMode> ();
+
+		for (int i = 0; i < selectedForMode_l.Count ; i ++)
+			if (selectedForMode_l[i].mode == mode)
+			{
+				//note structs cannot be changed, so change by a new one
+				selectedForMode_l[i] = new selectedForMode (portName, mode);
+				return;
+			}
+
+		//not found, add it
+		selectedForMode_l.Add (new selectedForMode (portName, mode));
+	}
+
+	public string GetSelectedForMode (Constants.Modes mode)
+	{
+		foreach (selectedForMode sfm in selectedForMode_l)
+			if (sfm.mode == mode)
+				return sfm.portName;
+
+		return "";
+	}
+
+	// <---- end of selectedForMode ----
+
+
 	//multichronopic
 	public List<ChronopicRegisterPort> GetTwoContactsConnected()
 	{

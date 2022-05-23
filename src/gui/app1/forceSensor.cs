@@ -248,13 +248,11 @@ public partial class ChronoJumpWindow
 		layout_force_text.FontDescription = Pango.FontDescription.FromString (preferences.GetFontTypeWithSize(10));
 	}
 
-	private string portSelectedForceSensor; //in future can be another port to detect two
-
 	//Attention: no GTK here!!
 	private bool forceSensorConnect()
 	{
 		LogB.Information(" FS connect 0 ");
-		if(portSelectedForceSensor == "")
+		if (chronopicRegister.GetSelectedForMode (current_mode) == "")
 		{
 			forceSensorOtherMessage = forceSensorNotConnectedString;
 			return false;
@@ -269,7 +267,7 @@ public partial class ChronoJumpWindow
 	{
 		forceSensorOtherMessage = "Connecting ...";
 
-		portFS = new SerialPort(portSelectedForceSensor, 115200); //forceSensor
+		portFS = new SerialPort (chronopicRegister.GetSelectedForMode (current_mode), 115200); //forceSensor
 		LogB.Information(" FS connect 4: opening port...");
 
 		try {
@@ -453,7 +451,7 @@ public partial class ChronoJumpWindow
 			}
 		}
 
-		if(portSelectedForceSensor == "")
+		if (chronopicRegister.GetSelectedForMode (current_mode) == "")
 		{
 			event_execute_label_message.Text = forceSensorNotConnectedString;
 			return;

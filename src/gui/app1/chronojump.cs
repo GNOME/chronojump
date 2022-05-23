@@ -4583,7 +4583,7 @@ public partial class ChronoJumpWindow
 
 		if(discoverWin.PortSelected != "")
 		{
-			portSelectedForceSensor = discoverWin.PortSelected; //TODO: get port for other modes
+			chronopicRegister.SetSelectedForMode (discoverWin.PortSelected, current_mode);
 			button_contacts_detect.Visible = false;
 			hbox_contacts_detect_and_execute.Visible = true;
 		}

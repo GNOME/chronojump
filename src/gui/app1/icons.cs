@@ -97,6 +97,13 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_selector_start_other;
 	[Widget] Gtk.Image image_selector_start_back;
 
+	[Widget] Gtk.Image image_selector_start_jumps1;
+	[Widget] Gtk.Image image_selector_start_runs1;
+	[Widget] Gtk.Image image_selector_start_isometric;
+	[Widget] Gtk.Image image_selector_start_elastic;
+	[Widget] Gtk.Image image_selector_start_displ_weights;
+	[Widget] Gtk.Image image_selector_start_inertial;
+
 	[Widget] Gtk.Image image_mode_jumps_small;
 	[Widget] Gtk.Image image_mode_jumps_reactive_small;
 	[Widget] Gtk.Image image_mode_runs_small;
@@ -648,6 +655,18 @@ public partial class ChronoJumpWindow
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "selector-multichronopic.png");
 		image_selector_start_other.Pixbuf = pixbuf;
 
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_jump_2x.png");
+		image_selector_start_jumps1.Pixbuf = pixbuf;
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "run_mov_2x.png");
+		image_selector_start_runs1.Pixbuf = pixbuf;
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "isometric.png");
+		image_selector_start_isometric.Pixbuf = pixbuf;
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "elastic.png");
+		image_selector_start_elastic.Pixbuf = pixbuf;
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_weight_mov_2x.png");
+		image_selector_start_displ_weights.Pixbuf = pixbuf;
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_inertia_2x_2col.png");
+		image_selector_start_inertial.Pixbuf = pixbuf;
 		/*
 		 * gui for small screens
 		 */

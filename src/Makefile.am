@@ -483,7 +483,10 @@ RESOURCES = \
 	../images/md/ic_power_settings_new_red_1x.png,image_quit.png \
 	../images/md/weight.png,image_weight.png \
 	../images/md/weight_yellow.png,image_weight_yellow.png \
+	../images/md/weight_mov_2x.png,image_weight_mov_2x.png \
 	../images/md/ic_settings_backup_restore_blue_1x.png,image_inertia.png \
+	../images/md/ic_settings_backup_restore_blue_2x.png,image_inertia_2x.png \
+	../images/md/ic_settings_backup_restore_blue_2x_2col.png,image_inertia_2x_2col.png \
 	../images/md/ic_settings_backup_restore_yellow_1x.png,image_inertia_yellow.png \
 	../images/md/ic_timer_blue_1x.png,image_capture.png \
 	../images/md/ic_timer_blue_2x.png,image_capture_big.png \
@@ -530,9 +533,11 @@ RESOURCES = \
 	../images/md/ic_add_circle_blue_1x.png,image_add_test.png \
 	../images/md/ic_all_inclusive_blue_1x.png,cont.png \
 	../images/md/ic_jump_blue_1x.png,image_jump.png \
+	../images/md/ic_jump_blue_2x.png,image_jump_2x.png \
 	../images/md/ic_jump_simple_blue_1x.png,image_jump_simple.png \
 	../images/md/ic_jump_reactive_blue_1x.png,image_jump_reactive.png \
 	../images/md/run_blue_2x.png,run_2x.png \
+	../images/md/run_mov_blue_2x.png,run_mov_2x.png \
 	../images/md/run_blue_1x.png,image_run.png \
 	../images/md/run_simple_blue_1x.png,image_run_simple.png \
 	../images/md/run_simple_yellow_1x.png,image_run_simple_yellow.png \
@@ -610,6 +615,8 @@ RESOURCES = \
 	../images/force_sensor_menu.png,force_sensor_menu.png \
 	../images/force_sensor_icon.png,force_sensor_icon.png \
 	../images/force_sensor_icon_yellow.png,force_sensor_icon_yellow.png \
+	../images/md/isometric.png,isometric.png \
+	../images/md/elastic.png,elastic.png \
 	../images/reaction_time_icon.png,reaction_time_icon.png \
 	../images/other_icon.png,other_icon.png \
 	../images/other_icon_yellow.png,other_icon_yellow.png \

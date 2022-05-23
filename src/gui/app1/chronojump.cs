@@ -4392,6 +4392,15 @@ public partial class ChronoJumpWindow
 			notebook_mode_selector.CurrentPage = 0; //main
 	}
 
+	private void on_button_menu_2_2_2_clicked (object o, EventArgs args)
+	{
+		notebook_mode_selector.CurrentPage = 2;
+	}
+	private void on_button_menu_2_2_1_clicked (object o, EventArgs args)
+	{
+		notebook_mode_selector.CurrentPage = 0;
+	}
+
 	private void on_button_contacts_capture_save_image_clicked (object o, EventArgs args)
 	{
 		if(current_mode == Constants.Modes.JUMPSSIMPLE)

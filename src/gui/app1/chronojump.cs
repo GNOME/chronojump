@@ -2865,6 +2865,10 @@ public partial class ChronoJumpWindow
 			jsPing.PingAbort();
 		}
 
+		//close discoverThread
+		if (discoverWin != null)
+			discoverWin.CancelCloseFromUser ();
+
 		//printing remaining logs in the non-gtk thread
 		LogB.Information("Printing non-GTK thread remaining log");
 		LogB.Information(LogSync.ReadAndEmpty());

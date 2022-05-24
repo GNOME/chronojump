@@ -431,7 +431,8 @@ public class ChronopicRegisterLinux : ChronopicRegister
 		{
 			if (lineOut.Contains("ID_VENDOR=")) {
 				string [] strFull = lineOut.Split(new char[] {'='});
-				crp.FTDI = (strFull[1] == "FTDI");
+				//crp.FTDI = (strFull[1] == "FTDI");
+				crp.FTDI = true;
 			} else if (lineOut.Contains("ID_SERIAL_SHORT=")) {
 				string [] strFull = lineOut.Split(new char[] {'='});
 				crp.SerialNumber = strFull[1];

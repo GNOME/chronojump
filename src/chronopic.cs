@@ -473,7 +473,9 @@ public static class ChronopicPorts
 {
 	public static string [] GetPorts() {
 		if(UtilAll.GetOSEnum() == UtilAll.OperatingSystems.LINUX)
-			return Directory.GetFiles("/dev/", "ttyUSB*");
+			//return Directory.GetFiles("/dev/", "ttyUSB*");
+			return Directory.GetFiles("/dev/", "ttyACM*");
+			
 		else if(UtilAll.GetOSEnum() == UtilAll.OperatingSystems.MACOSX)
 			return Directory.GetFiles("/dev/", "tty.usbserial*");
 		else // WINDOWS

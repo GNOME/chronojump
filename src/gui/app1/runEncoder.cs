@@ -704,6 +704,7 @@ public partial class ChronoJumpWindow
 		double timePre2 = -1;
 		double speedPre = -1;
 		double timePre = -1;
+		bool enoughAccel = false; //accel has been > preferences.runEncoderMinAccel (default 10ms^2)
 
 		int rowsCount = 0;
 		while(! runEncoderProcessFinish && ! runEncoderProcessCancel && ! runEncoderProcessError)
@@ -755,15 +756,22 @@ public partial class ChronoJumpWindow
 
 				if(timePre2 > 0)
 				{
-					LogB.Information(string.Format("accel at capture is: {0} m/s",
-								UtilAll.DivideSafe(reCGSD.RunEncoderCaptureSpeed - speedPre2,
-									UtilAll.DivideSafe(reCGSD.Time, 1000000) - timePre2)));
+					double accel = UtilAll.DivideSafe(reCGSD.RunEncoderCaptureSpeed - speedPre2,
+								UtilAll.DivideSafe(reCGSD.Time, 1000000) - timePre2);
+
+					if (accel >= preferences.runEncoderMinAccel && ! enoughAccel)
+					{
+						enoughAccel = true;
+
+						//at load to shift times to the left
+						//at capture to draw a vertical line
+						reCGSD.SetTimeAtEnoughAccelMark (binaryReaded);
+					}
 
 					//accel/time
 					cairoGraphRaceAnalyzerPoints_at_l.Add(new PointF(
 								UtilAll.DivideSafe(reCGSD.Time, 1000000),
-								UtilAll.DivideSafe(reCGSD.RunEncoderCaptureSpeed - speedPre2,
-									UtilAll.DivideSafe(reCGSD.Time, 1000000) - timePre2)));
+								accel));
 				}
 
 				sw.Restart();
@@ -2312,6 +2320,10 @@ public partial class ChronoJumpWindow
 				reCGSD != null && reCGSD.SegmentCalcs != null)
 			segmentCalcs = reCGSD.SegmentCalcs;
 
+		int timeAtEnoughAccelMark = 0;
+		if (reCGSD != null)
+			timeAtEnoughAccelMark = reCGSD.TimeAtEnoughAccelMark;
+
 		if(cairoGraphRaceAnalyzer_dt == null || forceRedraw)
 			cairoGraphRaceAnalyzer_dt = new CairoGraphRaceAnalyzer(
 					drawingarea_race_analyzer_capture_position_time, "title",
@@ -2324,7 +2336,8 @@ public partial class ChronoJumpWindow
 		cairoGraphRaceAnalyzer_dt.DoSendingList (preferences.fontType.ToString(),
 				cairoGraphRaceAnalyzerPoints_dt_l, triggerListRunEncoder,
 				forceRedraw, CairoXY.PlotTypes.LINES, true,
-				getSmoothFrom_gui_at_race_analyzer_capture_smooth_graphs ());
+				getSmoothFrom_gui_at_race_analyzer_capture_smooth_graphs (),
+				timeAtEnoughAccelMark, preferences.runEncoderMinAccel);
 	}
 	private void updateRaceAnalyzerCaptureSpeedTime(bool forceRedraw)
 	{
@@ -2336,6 +2349,10 @@ public partial class ChronoJumpWindow
 		if(currentRunEncoderExercise != null && //currentRunEncoderExercise.SegmentCm > 0 &&
 				reCGSD != null && reCGSD.SegmentCalcs != null)
 			segmentCalcs = reCGSD.SegmentCalcs;
+
+		int timeAtEnoughAccelMark = 0;
+		if (reCGSD != null)
+			timeAtEnoughAccelMark = reCGSD.TimeAtEnoughAccelMark;
 
 		if(cairoGraphRaceAnalyzer_st == null || forceRedraw)
 			cairoGraphRaceAnalyzer_st = new CairoGraphRaceAnalyzer(
@@ -2349,7 +2366,8 @@ public partial class ChronoJumpWindow
 		cairoGraphRaceAnalyzer_st.DoSendingList (preferences.fontType.ToString(),
 				cairoGraphRaceAnalyzerPoints_st_l, triggerListRunEncoder,
 				forceRedraw, CairoXY.PlotTypes.LINES, true,
-				getSmoothFrom_gui_at_race_analyzer_capture_smooth_graphs ());
+				getSmoothFrom_gui_at_race_analyzer_capture_smooth_graphs (),
+				timeAtEnoughAccelMark, preferences.runEncoderMinAccel);
 	}
 	private void updateRaceAnalyzerCaptureAccelTime(bool forceRedraw)
 	{
@@ -2365,6 +2383,10 @@ public partial class ChronoJumpWindow
 				reCGSD != null && reCGSD.SegmentCalcs != null)
 			segmentCalcs = reCGSD.SegmentCalcs;
 
+		int timeAtEnoughAccelMark = 0;
+		if (reCGSD != null)
+			timeAtEnoughAccelMark = reCGSD.TimeAtEnoughAccelMark;
+
 		if(cairoGraphRaceAnalyzer_at == null || forceRedraw)
 			cairoGraphRaceAnalyzer_at = new CairoGraphRaceAnalyzer(
 					drawingarea_race_analyzer_capture_accel_time, "title",
@@ -2377,7 +2399,8 @@ public partial class ChronoJumpWindow
 		cairoGraphRaceAnalyzer_at.DoSendingList (preferences.fontType.ToString(),
 				cairoGraphRaceAnalyzerPoints_at_l, triggerListRunEncoder,
 				forceRedraw, CairoXY.PlotTypes.LINES, false,
-				getSmoothFrom_gui_at_race_analyzer_capture_smooth_graphs ());
+				getSmoothFrom_gui_at_race_analyzer_capture_smooth_graphs (),
+				timeAtEnoughAccelMark, preferences.runEncoderMinAccel);
 	}
 
 	private void on_check_race_analyzer_capture_smooth_graphs_clicked (object o, EventArgs args)

@@ -290,7 +290,8 @@ public class RunEncoderCaptureGetSpeedAndDisplacement
 	private int encoderOrRCA;
 
 	private int timePre;
-	private int timeAtEnoughAccel;
+	private int timeAtEnoughAccel; //load (discard previous and shift time)
+	private int timeAtEnoughAccelMark; //capture (just draw a vertical line, to not erase previous points while capture)
 
 	private double runEncoderCaptureSpeed;
 	private double runEncoderCaptureSpeedMax;
@@ -305,6 +306,7 @@ public class RunEncoderCaptureGetSpeedAndDisplacement
 		segmentCalcs = new RunEncoderSegmentCalcs (massKg, angle);
 		timePre = 0;
 		timeAtEnoughAccel = 0;
+		timeAtEnoughAccelMark = 0;
 	}
 
 	public void PassCapturedRow (List<int> binaryReaded)
@@ -334,7 +336,13 @@ public class RunEncoderCaptureGetSpeedAndDisplacement
 		return true;
 	}
 
-	//to sync time
+	//to show a vertical line at capture capture (meaning: passed the min accel)
+	public void SetTimeAtEnoughAccelMark (List<int> binaryReaded)
+	{
+		timeAtEnoughAccelMark = binaryReaded[1];
+	}
+
+	//to sync time at load
 	public void SetTimeAtEnoughAccel (string row)
 	{
 		string [] cells = row.Split(new char[] {';'});
@@ -417,6 +425,10 @@ public class RunEncoderCaptureGetSpeedAndDisplacement
 	}
 	public RunEncoderSegmentCalcs SegmentCalcs {
 		get { return segmentCalcs; }
+	}
+
+	public int TimeAtEnoughAccelMark {
+		get { return timeAtEnoughAccelMark; }
 	}
 }
 

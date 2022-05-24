@@ -156,11 +156,11 @@ functionPointer FArray[3] = {&fakeFunction, &fakeFunction, &fakeFunction};
 menuEntry mainMenu[10] = {
   { "Raw Force", "Shows standard graph of\nthe force and the summary of the set.\n(Maximum Force, RFD and\nImpulse)", &startLoadCellCapture},
   { "Raw Velocity", "Show a standard graph of linear velocity", &startEncoderCapture },
+  { "Raw Inertial V.", "Show a standard graph of the velocity of the person", &startInertialEncoderCapture },
   { "RawPower", "Measure Force and Speed\nat the same time.\nOnly power is shown in thegraph", &startPowerCapture},
   { "Tared Force", "Offset the force before\nmeasuring it.\nUseful to substract body\nweight.", &startTareCapture},
   { "F. Steadiness", "RMSSD and cvRMSSD.\nMeasure the steadyness\nof the force signal.\nAfter achieving the\ndesired steady force press\nRedButton to get the\nsteadiness of the next 5s.", &startSteadiness},
   { "System", "Performs calibration or\ntare and shows some system\ninformation.", &showSystemMenu},
-  { "", "", &backMenu},
   { "", "", &backMenu},
   { "", "", &backMenu},
   { "", "", &backMenu}
@@ -1374,6 +1374,8 @@ void getEncoderDynamics()
     lastSampleTime = totalTime;
     
     long position = encoder.read();
+
+    //TODO: Calculate positoion depending on the parameters of the encoder/machine
     if (inertialMode) position = - abs(position);
     measured = (float)(position - lastSamplePosition) * 1000 / (sampleDuration);
     float accel = (measured - lastVelocity) * 1000000 / sampleDuration;
@@ -1389,12 +1391,12 @@ void getEncoderDynamics()
       if (position >= minRom) {
         encoderPhase = 1;
         localMax = position;
-        Serial.println("Start in CONcentric");
+        //Serial.println("Start in CONcentric");
       }
       else if (position <= -minRom) {
         encoderPhase = 1;
         localMax = position;
-        Serial.println("Start in ECCentric");
+        //Serial.println("Start in ECCentric");
       }
     }
 
@@ -1430,7 +1432,7 @@ void startEncoderCapture(void)
   sensor = incEncoder;
   //Serial.println(sensor);
   maxString = "V";
-  plotPeriod = 5;
+  plotPeriod = 1;
   newGraphMin = -10;
   newGraphMax = 10;
   measuredMax = 0;
@@ -1877,6 +1879,12 @@ void backMenu(void)
   menuItemsNum = 6;
   showMenuEntry(currentMenuIndex);
   showMenu();
+}
+
+void startInertialEncoderCapture()
+{
+  inertialMode = true;
+  startEncoderCapture();
 }
 
 void fakeFunction(){  

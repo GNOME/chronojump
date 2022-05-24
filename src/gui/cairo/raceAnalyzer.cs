@@ -82,14 +82,18 @@ public class CairoGraphRaceAnalyzer : CairoXY
 	}
 
 	//separated in two methods to ensure endGraphDisposing on any return of the other method
-	public void DoSendingList (string font, List<PointF> points_list, TriggerList triggerList, bool forceRedraw, PlotTypes plotType, bool blackLine, int smoothLineWindow)
+	public void DoSendingList (string font, List<PointF> points_list, TriggerList triggerList, bool forceRedraw,
+			PlotTypes plotType, bool blackLine, int smoothLineWindow,
+			int timeAtEnoughAccelMark, double minAccel)
 	{
-		if(doSendingList (font, points_list, triggerList, forceRedraw, plotType, blackLine, smoothLineWindow))
+		if(doSendingList (font, points_list, triggerList, forceRedraw, plotType, blackLine, smoothLineWindow, timeAtEnoughAccelMark, minAccel))
 			endGraphDisposing(g, surface, area.GdkWindow);
 	}
 
 	//return true if graph is inited (to dispose it)
-	private bool doSendingList (string font, List<PointF> points_list, TriggerList triggerList, bool forceRedraw, PlotTypes plotType, bool blackLine, int smoothLineWindow)
+	private bool doSendingList (string font, List<PointF> points_list, TriggerList triggerList, bool forceRedraw,
+			PlotTypes plotType, bool blackLine, int smoothLineWindow,
+			int timeAtEnoughAccelMark, double minAccel) //timeAtEnoughAccelMark: only for capture (just to display mark), minAccel is the value at preferences
 	{
 		// 1) init graph
 
@@ -253,7 +257,7 @@ public class CairoGraphRaceAnalyzer : CairoXY
 			paintAxis();
 		}
 
-		// 3) paint points, paint smooth line, paint maximum mark
+		// 3) paint points, paint smooth line, paint maximum mark, paint timeAtEnoughAccelMark on capture
 		pointsRadius = 1;
 		if( graphInited && points_list != null &&
 				(maxValuesChanged || forceRedraw || points_list.Count != points_list_painted) )
@@ -314,9 +318,20 @@ public class CairoGraphRaceAnalyzer : CairoXY
 					g.Stroke();
 				}
 			}
+
+			if (timeAtEnoughAccelMark > 0)
+			{
+				double xTimeAtEnoughAccelMark = calculatePaintX (timeAtEnoughAccelMark/1000000.0);
+				g.SetSourceColor(red);
+				g.MoveTo (xTimeAtEnoughAccelMark, topMargin);
+				g.LineTo (xTimeAtEnoughAccelMark, graphHeight - bottomMargin);
+				g.Stroke ();
+				printText(xTimeAtEnoughAccelMark, graphHeight -bottomMargin*3/4,
+						0, textHeight-3, string.Format("a >= {0} m/s^2", minAccel), g, alignTypes.LEFT);
+			}
 		}
 
-		// 4) paint triggers
+		// 5) paint triggers
 		if(graphInited && triggerList != null && triggerList.Count() > 0)
 			foreach(Trigger trigger in triggerList.GetList())
 				paintVerticalTriggerLine(g, trigger, textHeight -3);

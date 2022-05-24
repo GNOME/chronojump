@@ -317,7 +317,8 @@ void setup() {
   pinMode(redButtonPin, INPUT_PULLUP);
   pinMode(blueButtonPin, INPUT_PULLUP);
 
-  Serial.begin(256000);
+//  Serial.begin(256000);
+  Serial.begin(115200);
   
   attachInterrupt(digitalPinToInterrupt(rcaPin), changingRCA, CHANGE);
 
@@ -1276,8 +1277,8 @@ void capture()
           }
         }
         
-//        Serial.print(totalTime); Serial.print(";");
-//        Serial.println(measured, 2); //scale.get_units() returns a float
+        Serial.print(totalTime); Serial.print(";");
+        Serial.println(measured, 2); //scale.get_units() returns a float
         
         if (!PcControlled) saveSD(fileName);
         plotBuffer[n] = measured;

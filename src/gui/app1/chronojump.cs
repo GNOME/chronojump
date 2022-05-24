@@ -300,6 +300,7 @@ public partial class ChronoJumpWindow
 	//detect devices
 	[Widget] Gtk.VBox vbox_micro_discover;
 	[Widget] Gtk.Label label_micro_discover_title;
+	[Widget] Gtk.Label label_micro_discover_not_found;
 	[Widget] Gtk.Table table_micro_discover;
 	[Widget] Gtk.HBox hbox_contacts_detect_and_execute;
 	[Widget] Gtk.Button button_contacts_detect;
@@ -4562,6 +4563,7 @@ public partial class ChronoJumpWindow
 		label_micro_discover_title.UseMarkup = true;
 
 		discoverWin = new DiscoverWindow (current_mode, chronopicRegister,
+			label_micro_discover_not_found,
 			table_micro_discover,
 			image_button_micro_discover_cancel_close,
 			label_button_micro_discover_cancel_close);

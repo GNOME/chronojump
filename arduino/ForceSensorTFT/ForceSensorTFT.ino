@@ -596,8 +596,9 @@ void endLoadCellCapture()
     EEPROM.get(tareAddress, tareValue);
     scale.set_offset(tareValue);
     //Serial.println(scale.get_offset());
-    showLoadCellResults();
+  showLoadCellResults();
   }
+  drawMenuBackground();
   showMenuEntry(currentMenuIndex);
 }
 
@@ -1359,6 +1360,7 @@ void capture()
           updateTime();
         }
       }
+      if (Serial.available()) serialEvent();
     }
   }
   if (!capturingPreSteadiness) setNumber++;

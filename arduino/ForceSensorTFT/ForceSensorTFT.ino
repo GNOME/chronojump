@@ -1857,7 +1857,7 @@ void showMenu()
     if (redButton.fallingEdge())
     {
       PcControlled = false;
-      currentMenu[currentMenuIndex].function(true);
+      currentMenu[currentMenuIndex].function();
     }
 }
 

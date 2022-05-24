@@ -31,7 +31,7 @@
 #include <Encoder.h>
 #include <SD.h>
 #include <elapsedMillis.h>
-#include </home/xpadulles/chronojump/arduino/ForceSensorTFT/ForceSensorTFT.h>
+#include </home/xpadulles/chronojump/arduino/michrolab/michrolab.h>
 
 #define DOUT  2
 #define CLK  3

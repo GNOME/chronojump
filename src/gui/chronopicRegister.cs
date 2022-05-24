@@ -140,6 +140,7 @@ public class DiscoverWindow
 	private string portSelected;
 
 	public DiscoverWindow (Constants.Modes current_mode, ChronopicRegister chronopicRegister,
+			Gtk.Label label_micro_discover_not_found,
 			Gtk.Table table_micro_discover,
 			Gtk.Image image_button_micro_discover_cancel_close,
 			Gtk.Label label_button_micro_discover_cancel_close)
@@ -182,6 +183,7 @@ public class DiscoverWindow
 		{
 			microDiscover = new MicroDiscover (notDiscovered_l);
 
+			label_micro_discover_not_found.Visible = false;
 			setup_table_micro_discover_l (alreadyDiscovered_l, notDiscovered_l);
 			discoverCloseAfterCancel = false;
 
@@ -190,6 +192,9 @@ public class DiscoverWindow
 			discoverThread.Start();
 		} else {
 			UtilGtk.RemoveChildren (table_micro_discover);
+
+			label_micro_discover_not_found.Text = Catalog.GetString ("Device not found.");
+			label_micro_discover_not_found.Visible = true;
 
 			image_button_micro_discover_cancel_close.Pixbuf =
 				new Pixbuf (null, Util.GetImagePath (false) + "image_close.png");

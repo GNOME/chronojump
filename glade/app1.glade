@@ -3118,7 +3118,7 @@
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="receives_default">True</property>
-                                                            <signal name="clicked" handler="on_button_menu_2_2_2_clicked" swapped="no"/>
+                                                            <signal name="clicked" handler="on_button_view_menu_2_2_2_clicked" swapped="no"/>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -4784,22 +4784,46 @@
                                                             <property name="can_focus">False</property>
                                                             <property name="layout_style">spread</property>
                                                             <child>
-                                                            <widget class="GtkButton" id="button12">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">True</property>
-                                                            <property name="receives_default">True</property>
-                                                            <child>
                                                             <widget class="GtkVBox" id="vbox276">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="border_width">2</property>
                                                             <property name="spacing">2</property>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label662">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="label" translatable="yes">Jumps</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkRadioButton" id="radio_menu_2_2_2_jumps">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">True</property>
+                                                            <property name="receives_default">False</property>
+                                                            <property name="active">True</property>
+                                                            <property name="draw_indicator">False</property>
+                                                            <signal name="toggled" handler="on_button_menu_2_2_2_clicked" swapped="no"/>
+                                                            <child>
+                                                            <widget class="GtkVBox" id="vbox280">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="spacing">2</property>
+                                                            <child>
+                                                            <widget class="GtkEventBox" id="eventbox_radio_menu_2_2_2_jumps">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
                                                             <child>
                                                             <widget class="GtkImage" id="image_selector_start_jumps1">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="yalign">1</property>
                                                             <property name="stock">gtk-missing-image</property>
+                                                            </widget>
+                                                            </child>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">True</property>
@@ -4814,12 +4838,19 @@
                                                             <property name="label" translatable="yes">Jumps</property>
                                                             </widget>
                                                             <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
                                                             <property name="position">1</property>
                                                             </packing>
                                                             </child>
                                                             </widget>
+                                                            </child>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
                                                             </child>
                                                             </widget>
                                                             <packing>
@@ -4829,10 +4860,14 @@
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <widget class="GtkButton" id="button13">
+                                                            <widget class="GtkRadioButton" id="radio_menu_2_2_2_races">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
-                                                            <property name="receives_default">True</property>
+                                                            <property name="receives_default">False</property>
+                                                            <property name="active">True</property>
+                                                            <property name="draw_indicator">False</property>
+                                                            <property name="group">radio_menu_2_2_2_jumps</property>
+                                                            <signal name="toggled" handler="on_button_menu_2_2_2_clicked" swapped="no"/>
                                                             <child>
                                                             <widget class="GtkVBox" id="vbox279">
                                                             <property name="visible">True</property>
@@ -4840,10 +4875,16 @@
                                                             <property name="border_width">2</property>
                                                             <property name="spacing">2</property>
                                                             <child>
+                                                            <widget class="GtkEventBox" id="eventbox_radio_menu_2_2_2_races">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <child>
                                                             <widget class="GtkImage" id="image_selector_start_runs1">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="stock">gtk-missing-image</property>
+                                                            </widget>
+                                                            </child>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">True</property>
@@ -4873,20 +4914,32 @@
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <widget class="GtkButton" id="button14">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">True</property>
-                                                            <property name="receives_default">True</property>
-                                                            <child>
                                                             <widget class="GtkVBox" id="vbox278">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="spacing">2</property>
                                                             <child>
+                                                            <widget class="GtkRadioButton" id="radio_menu_2_2_2_isometric">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">True</property>
+                                                            <property name="receives_default">False</property>
+                                                            <property name="active">True</property>
+                                                            <property name="draw_indicator">False</property>
+                                                            <property name="group">radio_menu_2_2_2_jumps</property>
+                                                            <signal name="toggled" handler="on_button_menu_2_2_2_clicked" swapped="no"/>
+                                                            <child>
+                                                            <widget class="GtkEventBox" id="eventbox_radio_menu_2_2_2_isometric">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <child>
                                                             <widget class="GtkImage" id="image_selector_start_isometric">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="stock">gtk-missing-image</property>
+                                                            </widget>
+                                                            </child>
+                                                            </widget>
+                                                            </child>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">True</property>
@@ -4907,8 +4960,6 @@
                                                             </packing>
                                                             </child>
                                                             </widget>
-                                                            </child>
-                                                            </widget>
                                                             <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">False</property>
@@ -4916,10 +4967,11 @@
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <widget class="GtkButton" id="button15">
+                                                            <widget class="GtkButton" id="button_menu_2_2_2_elastic">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="receives_default">True</property>
+                                                            <signal name="clicked" handler="on_button_menu_2_2_2_clicked" swapped="no"/>
                                                             <child>
                                                             <widget class="GtkVBox" id="vbox275">
                                                             <property name="visible">True</property>
@@ -4959,10 +5011,11 @@
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <widget class="GtkButton" id="button16">
+                                                            <widget class="GtkButton" id="button_menu_2_2_2_weights">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="receives_default">True</property>
+                                                            <signal name="clicked" handler="on_button_menu_2_2_2_clicked" swapped="no"/>
                                                             <child>
                                                             <widget class="GtkVBox" id="vbox273">
                                                             <property name="visible">True</property>
@@ -5002,10 +5055,11 @@
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <widget class="GtkButton" id="button17">
+                                                            <widget class="GtkButton" id="button_menu_2_2_2_inertial">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="receives_default">True</property>
+                                                            <signal name="clicked" handler="on_button_menu_2_2_2_clicked" swapped="no"/>
                                                             <child>
                                                             <widget class="GtkVBox" id="vbox274">
                                                             <property name="visible">True</property>
@@ -5057,13 +5111,47 @@
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <child>
+                                                            <widget class="GtkVBox" id="vbox277">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="spacing">6</property>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label_selector_menu_2_2_2">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkHBox" id="hbox227">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <child>
                                                             <widget class="GtkButton" id="button18">
-                                                            <property name="label" translatable="yes">button</property>
-                                                            <property name="width_request">250</property>
-                                                            <property name="height_request">250</property>
+                                                            <property name="label">Go!</property>
+                                                            <property name="width_request">150</property>
+                                                            <property name="height_request">100</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="receives_default">True</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">True</property>
@@ -5088,7 +5176,7 @@
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="receives_default">True</property>
-                                                            <signal name="clicked" handler="on_button_menu_2_2_1_clicked" swapped="no"/>
+                                                            <signal name="clicked" handler="on_button_view_menu_2_2_1_clicked" swapped="no"/>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -27002,6 +27090,9 @@ Concentric</property>
                                                             <child>
                                                             <placeholder/>
                                                             </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -33410,18 +33501,6 @@ Concentric</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="spacing">6</property>
                                                             <child>
-                                                            <widget class="GtkLabel" id="label_video_encoder_tests_will_be_filmed">
-                                                            <property name="can_focus">False</property>
-                                                            <property name="label" translatable="yes">Tests will be filmed</property>
-                                                            </widget>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="pack_type">end</property>
-                                                            <property name="position">0</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
                                                             <widget class="GtkHBox" id="hbox_video_encoder_capturing">
                                                             <property name="can_focus">False</property>
                                                             <property name="spacing">4</property>
@@ -33449,6 +33528,18 @@ Concentric</property>
                                                             <property name="position">1</property>
                                                             </packing>
                                                             </child>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="pack_type">end</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label_video_encoder_tests_will_be_filmed">
+                                                            <property name="can_focus">False</property>
+                                                            <property name="label" translatable="yes">Tests will be filmed</property>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -39917,6 +40008,9 @@ then click this button.</property>
                                                             <property name="x_options"/>
                                                             <property name="y_options"/>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>
@@ -50782,6 +50876,9 @@ Since Chronojump 2.1.3, backups contain the complete data.</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="column_spacing">10</property>
                                                             <property name="row_spacing">10</property>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
                                                             <child>
                                                             <placeholder/>
                                                             </child>

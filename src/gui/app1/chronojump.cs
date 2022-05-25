@@ -673,6 +673,9 @@ public partial class ChronoJumpWindow
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_micro_discover_cancel_close, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_exit_cancel, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_exit_confirm, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
+		UtilGtk.EventBoxColorBackgroundActive (eventbox_radio_menu_2_2_2_jumps, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
+		UtilGtk.EventBoxColorBackgroundActive (eventbox_radio_menu_2_2_2_races, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
+		UtilGtk.EventBoxColorBackgroundActive (eventbox_radio_menu_2_2_2_isometric, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
 		app1s_eventboxes_paint();
 
 		createComboSelectJumps(true);
@@ -4393,13 +4396,44 @@ public partial class ChronoJumpWindow
 			notebook_mode_selector.CurrentPage = 0; //main
 	}
 
-	private void on_button_menu_2_2_2_clicked (object o, EventArgs args)
+	private void on_button_view_menu_2_2_2_clicked (object o, EventArgs args)
 	{
 		notebook_mode_selector.CurrentPage = 2;
 	}
-	private void on_button_menu_2_2_1_clicked (object o, EventArgs args)
+	private void on_button_view_menu_2_2_1_clicked (object o, EventArgs args)
 	{
 		notebook_mode_selector.CurrentPage = 0;
+	}
+
+	[Widget] Gtk.RadioButton radio_menu_2_2_2_jumps;
+	[Widget] Gtk.RadioButton radio_menu_2_2_2_races;
+	[Widget] Gtk.RadioButton radio_menu_2_2_2_isometric;
+	[Widget] Gtk.Button button_menu_2_2_2_elastic;
+	[Widget] Gtk.Button button_menu_2_2_2_weights;
+	[Widget] Gtk.Button button_menu_2_2_2_inertial;
+	[Widget] Gtk.EventBox eventbox_radio_menu_2_2_2_jumps;
+	[Widget] Gtk.EventBox eventbox_radio_menu_2_2_2_races;
+	[Widget] Gtk.EventBox eventbox_radio_menu_2_2_2_isometric;
+	[Widget] Gtk.Label label_selector_menu_2_2_2;
+
+	private void on_button_menu_2_2_2_clicked (object o, EventArgs args)
+	{
+		string str = "";
+		if(o == (object) radio_menu_2_2_2_jumps)
+			str = "Jumps with contact platform";
+		if(o == (object) radio_menu_2_2_2_races)
+			str = "Races with photocells (Wichro or wired), or RaceAnalyzer";
+		if(o == (object) radio_menu_2_2_2_isometric)
+			str = "Isometric force exercises measured by a force sensor";
+		if(o == (object) button_menu_2_2_2_elastic)
+			str = "Elastic force exercises measured by a force sensor";
+		if(o == (object) button_menu_2_2_2_weights)
+			str = "Speed/power exercises displacing weights measured by an encoder";
+		if(o == (object) button_menu_2_2_2_inertial)
+			str = "Speed/power exercises rotating an inertial machine and measured by an encoder";
+
+		if (str != "")
+			label_selector_menu_2_2_2.Text = str;
 	}
 
 	private void on_button_contacts_capture_save_image_clicked (object o, EventArgs args)

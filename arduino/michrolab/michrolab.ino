@@ -39,7 +39,7 @@
 //Version number //it always need to start with: "Force_Sensor-"
 //Device commented for memory optimization
 //String device = "Force_Sensor";
-String version = "0.7";
+String version = "0.1";
 
 
 //Encoder variables
@@ -550,7 +550,7 @@ void endLoadCellCapture()
 void get_version()
 {
   //Device string not in a variable due to memory optimization
-  Serial.print("Force_Sensor-");
+  Serial.print("MiChroLab-");
   Serial.println(version);
 }
 

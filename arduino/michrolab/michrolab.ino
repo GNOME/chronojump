@@ -150,7 +150,7 @@ menuEntry mainMenu[10] = {
   { "Raw Inertial V.", "Show a standard graph of the velocity of the person", &startInertialEncoderCapture },
   { "RawPower", "Measure Force and Speed\nat the same time.\nOnly power is shown in thegraph", &startPowerCapture},
   { "Tared Force", "Offset the force before\nmeasuring it.\nUseful to substract body\nweight.", &startTareCapture},
-  { "F. Steadiness", "RMSSD and cvRMSSD.\nMeasure the steadyness\nof the force signal.\nAfter achieving the\ndesired steady force press\nRedButton to get the\nsteadiness of the next 5s.", &startSteadiness},
+  { "F. Steadiness", "RMSSD and cvRMSSD.\nSteadynessof the force.\nWhen ready, press the Red Button to get the\nsteadiness of the next 5s.", &startSteadiness},
   { "System", "Performs calibration or\ntare and shows some system\ninformation.", &showSystemMenu},
   { "", "", &backMenu},
   { "", "", &backMenu},
@@ -591,6 +591,10 @@ void calibrate(String inputString)
 
 void tare()
 {
+  tft.setCursor(12,100);
+  tft.setTextColor(BLACK);
+  tft.print(currentMenu[currentMenuIndex].description);
+  tft.setTextColor(WHITE);
   tft.setCursor(120, 100);
   tft.print("Taring...");
   scale.tare(50); //Reset the scale to 0 using the mean of 255 raw values
@@ -610,6 +614,8 @@ void tare()
   tft.setTextColor(BLACK);
   tft.setCursor(120, 100);
   tft.print("Tared");
+  tft.setTextColor(WHITE);
+  showMenuEntry(currentMenuIndex);
 }
 
 void startTareCapture(void)
@@ -668,12 +674,9 @@ void get_transmission_format()
 }
 
 void changingRCA() {
-  //TODO: Check the overflow of the lastTriggerTime
   detachInterrupt(digitalPinToInterrupt(rcaPin));
   rcaTime = totalTime;
-
   rcaState = digitalRead(rcaPin);
-
   attachInterrupt(digitalPinToInterrupt(rcaPin), changingRCA, CHANGE);
 }
 
@@ -683,7 +686,6 @@ void calibrateTFT(void) {
   submenu = 0;
   bool exitFlag = false;
   String calibrateCommand = "calibrate:" + String(weight, DEC) + ";";
-  //showCalibrateLoad(String(weight, DEC));
   //Delete description
   tft.setCursor(12, 100);
   tft.setTextColor(BLACK);
@@ -693,17 +695,8 @@ void calibrateTFT(void) {
   tft.setTextColor(WHITE);
   tft.setCursor(24, 100);
   tft.print("Select the weight to use");
-
-  //Blue button
-  tft.setCursor(12, 218);
-  tft.setTextColor(WHITE, BLUE);
-  tft.print("+");
-  tft.print(increment);
-
-  //Red button
-  tft.setCursor(248, 218);
-  tft.setTextColor(WHITE, RED);
-  tft.print("Accept");
+  
+  drawLeftButton("+" + String(increment), WHITE, BLUE);
 
   //Current weight
   tft.setCursor(120, 150);
@@ -732,15 +725,11 @@ void calibrateTFT(void) {
 
         if (weight == 5) {
           increment = 5;
-          tft.setCursor(24, 218);
-          tft.setTextColor(WHITE, BLUE);
-          tft.print(increment);
+          drawLeftButton("+" + String(increment), WHITE, BLUE);
 
         } else if (weight == 100) {
           increment = 1;
-          tft.setCursor(24, 218);
-          tft.setTextColor(WHITE, BLUE);
-          tft.print(increment);
+          drawLeftButton("+" + String(increment), WHITE, BLUE);
         }
         calibrateCommand = "calibrate:" + String(weight, DEC) + ";";
       }
@@ -757,25 +746,12 @@ void calibrateTFT(void) {
         tft.setCursor(216, 150);
         tft.print(weight);
 
-        //Delete Blue button
-        tft.fillRect(12, 218, 72, 16, BLACK);
-
-        //        //Delete Red button
-        tft.fillRect(248, 218, 72, 16, BLACK);
-
         tft.setTextColor(WHITE);
         tft.setCursor(100, 100);
         tft.print("Press Red to start Calibration");
-
-        //Blue button
-        tft.setCursor(12, 218);
-        tft.setTextColor(WHITE, BLUE);
-        tft.print("Cancel");
-
-        //Red button
-        tft.setCursor(248, 218);
-        tft.setTextColor(WHITE, RED);
-        tft.print("Start");
+        
+        drawLeftButton("Cancel", WHITE, BLUE);
+        drawRightButton("Start", WHITE, RED);
 
         submenu = 1;
       }
@@ -828,7 +804,9 @@ void calibrateTFT(void) {
     redButton.update();
     blueButton.update();
   }
+  
   tft.setTextColor(WHITE);
+  drawMenuBackground();
   showMenuEntry(currentMenuIndex);
 }
 
@@ -1523,12 +1501,12 @@ void showPowerResults()
 
 void setForceGoal()
 {
-  forceGoal = 0;
+  forceGoal = 10;
   int increment = 10;
   submenu = 0;
   bool exitFlag = false;
   //Delete description
-  tft.setCursor(24, 100);
+  tft.setCursor(12, 100);
   tft.setTextColor(BLACK);
   tft.print(currentMenu[currentMenuIndex].description);
 
@@ -1538,15 +1516,10 @@ void setForceGoal()
   tft.print("Select the force goal in Newtons.\nAn horizontal red line will be drawn");
 
   //Blue button
-  tft.setCursor(12, 218);
-  tft.setTextColor(WHITE, BLUE);
-  tft.print("+");
-  tft.print(increment);
+  drawLeftButton("+" + String(increment), WHITE, BLUE);
 
   //Red button
-  tft.setCursor(248, 218);
-  tft.setTextColor(WHITE, RED);
-  tft.print("Accept");
+  drawRightButton("Accept", WHITE, RED);
 
   //Current goal
   tft.setCursor(100, 174);
@@ -1565,7 +1538,9 @@ void setForceGoal()
       printTftFormat(forceGoal, 236, 174, 2, 0);
       forceGoal += increment;
       if (forceGoal >  10000) {
-        forceGoal = 1;
+        tft.setTextColor(BLACK);
+        printTftFormat(forceGoal, 236, 174, 2, 0);
+        forceGoal = 10;
       }
       tft.setTextColor(WHITE);
       tft.setCursor(216, 150);
@@ -1574,21 +1549,13 @@ void setForceGoal()
       if (forceGoal == 100)
       {
         increment = 50;
-        tft.setCursor(24, 218);
-        tft.setTextColor(WHITE, BLUE);
-        tft.print(increment);
-
+        drawLeftButton("+" + String(increment), WHITE, BLUE);
       } else if (forceGoal == 1000) {
         increment = 500;
-        tft.setCursor(24, 218);
-        tft.setTextColor(WHITE, BLUE);
-        tft.print(increment);
+        drawLeftButton("+" + String(increment), WHITE, BLUE);
       } else if (forceGoal == 10000) {
         increment = 10;
-        tft.fillRect(24, 218, 72, 16, BLACK);
-        tft.setCursor(24, 218);
-        tft.setTextColor(WHITE, BLUE);
-        tft.print(increment);
+        drawLeftButton("+" + String(increment), WHITE, BLUE);
       }
     }
 
@@ -1606,7 +1573,7 @@ void setForceGoal()
     redButton.update();
     blueButton.update();
   }
-  //showMenuEntry(currentMenuIndex, 6);
+  showMenuEntry(currentMenuIndex);
 }
 
 void saveSD(String fileName)

@@ -41,6 +41,8 @@ void drawMenuBackground() {
   tft.fillRoundRect(0, 0, 30, 50, 10, WHITE);
   tft.fillRoundRect(290, 0, 30, 50, 10, WHITE);
   tft.setCursor(30, 20);
+  drawLeftButton("Next", WHITE, BLUE);
+  drawRightButton("Accept", WHITE, RED);
 }
 
 //Set the currentMenu to systemMenu and shows it
@@ -73,4 +75,27 @@ void showMenuEntry(unsigned int currentMenuIndex)
   tft.setTextColor(WHITE);
   tft.setCursor(12, 100);
   tft.print(currentMenu[currentMenuIndex].description);
+}
+
+void drawRightButton(String label, uint16_t tColor, uint16_t bColor)
+{
+  //Red button
+  tft.setTextSize(2);
+  tft.fillRect(242, 210, 78, 32, bColor);
+  //Half of the width of the label: label.length * 6 * textSize / 2
+  //Middle of the button = 142 + width/2 = 281
+  tft.setCursor(281 - label.length()*6 , 218);
+  tft.setTextColor(tColor);
+  tft.print(label);
+}
+
+
+void drawLeftButton(String label, uint16_t tColor, uint16_t bColor)
+{
+  //Red button
+  tft.setTextSize(2);
+  tft.fillRect(0, 210, 78, 32, bColor);
+  tft.setCursor(39 - label.length()*12/2 , 218);
+  tft.setTextColor(tColor);
+  tft.print(label);
 }

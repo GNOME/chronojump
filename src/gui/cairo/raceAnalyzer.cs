@@ -322,19 +322,36 @@ public class CairoGraphRaceAnalyzer : CairoXY
 			if (timeAtEnoughAccelMark > 0)
 			{
 				double xTimeAtEnoughAccelMark = calculatePaintX (timeAtEnoughAccelMark/1000000.0);
+				g.LineWidth = 1;
+
+				/*
+				//line top/bottom and text at bottom, but they are confused with triggers
 				g.SetSourceColor(red);
 				g.MoveTo (xTimeAtEnoughAccelMark, topMargin);
 				g.LineTo (xTimeAtEnoughAccelMark, graphHeight - bottomMargin);
 				g.Stroke ();
 				printText(xTimeAtEnoughAccelMark, graphHeight -bottomMargin*3/4,
 						0, textHeight-3, string.Format("a >= {0} m/s^2", minAccel), g, alignTypes.LEFT);
+				 */
+				//above the graph with short top line
+				g.SetSourceColor(black);
+				g.MoveTo (xTimeAtEnoughAccelMark, topMargin * 2/3);
+				g.LineTo (xTimeAtEnoughAccelMark, topMargin);
+				g.Stroke ();
+				printText(xTimeAtEnoughAccelMark+2, topMargin * 3/4,
+						0, textHeight-3, string.Format("a >= {0} m/s^2", minAccel), g, alignTypes.LEFT);
 			}
 		}
 
 		// 5) paint triggers
 		if(graphInited && triggerList != null && triggerList.Count() > 0)
+		{
+			g.LineWidth = 1;
 			foreach(Trigger trigger in triggerList.GetList())
+			{
 				paintVerticalTriggerLine(g, trigger, textHeight -3);
+			}
+		}
 
 		//doing = false;
 		return graphInited;

@@ -61,6 +61,7 @@ float lastVelocity = 0;
 float avgVelocity = 0;
 float maxAvgVelocity = 0;
 bool propulsive = true;
+bool calibratedInertial = false;
 
 int numRepetitions = 0;
 
@@ -162,16 +163,16 @@ menuEntry systemMenu[10] {
   { "Tare", "Set the offset of the\nsensor.", &tare },
   { "Calibrate", "Set the equivalence\nbetween the sensor values\nand the force measured.", &calibrateTFT },
   { "Force Goal", "Set the goal force for\nsteadiness measurements.", &setForceGoal },
+  { "Inert. Calib.", "Set the Exact point in which the concentric phase ends", &calibrateInertial},
   { "Info", "Hardware, firmware and config information.", &showSystemInfo },
   { "Exit", "Goes back to main menu", &backMenu },
-  { "", "", &backMenu},
   { "", "", &backMenu},
   { "", "", &backMenu},
   { "", "", &backMenu},
   { "", "", &backMenu}
 };
 
-int systemMenuItems = 5;
+int systemMenuItems = 6;
 
 menuEntry currentMenu[10];
 
@@ -1370,7 +1371,6 @@ void startEncoderCapture(void)
   totalTime = 0;
   encoderPhase = 0;
   localMax = 0;
-  position = 0;
   lastSamplePosition = 0;
   lastSampleTime = 0;
   startPhasePosition = 0;
@@ -1780,8 +1780,69 @@ void getPersonsList(struct personType * persons)
 void startInertialEncoderCapture()
 {
   inertialMode = true;
+  if (!calibratedInertial) calibrateInertial();
+  
   startEncoderCapture();
 }
 
+void calibrateInertial()
+{
+  tft.setTextColor(BLACK);
+  tft.setCursor(12,100);
+  tft.print(currentMenu[currentMenuIndex].description);
+  tft.setTextColor(WHITE);
+  tft.setCursor(12,100);
+  tft.println("Extend the rope or belt.\nOnce extended press RedButton");
+
+  tft.setCursor(12,200);
+  tft.print("Position: ");
+  tft.setTextColor(WHITE);
+  tft.setCursor(124, 200);
+  position = encoder.read();
+  tft.print(position);
+  redButton.update();
+  while(!redButton.fallingEdge())
+  {
+    position = encoder.read();
+    if (position != lastEncoderPosition){
+      tft.setCursor(124, 200);
+      tft.setTextColor(BLACK);
+      tft.print(lastEncoderPosition);
+      tft.setCursor(124, 200);
+      tft.setTextColor(WHITE);
+      tft.print(position);
+      lastEncoderPosition = position;
+    }
+    redButton.update();
+  }
+    
+  //Deleting text
+  tft.setTextColor(BLACK);
+  tft.setCursor(12,100);
+  tft.println("Extend the rope or belt.\nOnce extended press RedButton");
+  tft.setCursor(12,200);
+  tft.print("Position: ");
+  tft.setCursor(124, 200);
+  tft.print(lastEncoderPosition);
+  tft.setTextColor(WHITE);
+
+  tft.setCursor(100, 150);
+  tft.setTextSize(3);
+  tft.print("Calibrated");
+  delay(500);
+  tft.setTextColor(BLACK);
+  tft.setCursor(100, 150);
+  tft.print("Calibrated");
+
+  tft.setTextSize(2);
+  tft.setTextColor(WHITE);
+  tft.setCursor(12, 100);
+  tft.print(currentMenu[currentMenuIndex].description);
+
+  encoder.write(0);
+  Serial.print(encoder.read());
+  lastEncoderPosition = 0;
+  calibratedInertial = true;
+}
 void fakeFunction(){  
 }

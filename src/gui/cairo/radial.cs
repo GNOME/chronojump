@@ -85,7 +85,7 @@ public class CairoRadial : CairoGeneric
 			minSide = graphHeight;
 
 		double tickLength = .1;
-		for(int i = 0; i <= 20; i ++)
+		for(int i = 0; i <= maxPossibleValue; i ++)
 		{
 			double iArc = (2*Math.PI / (maxPossibleValue +7)) * (i+17); //+7 for have the maxvalue at bottom right, +17 to have 0 on the bottom left
 
@@ -148,7 +148,7 @@ public class CairoRadial : CairoGeneric
 				g, alignTypes.CENTER);
 		printText(
 				Convert.ToInt32(margin + graphWidth/2),
-				Convert.ToInt32(offsetV + margin + (.66 * graphHeight)) + 20,
+				Convert.ToInt32(offsetV + margin + (.66 * graphHeight)) + maxPossibleValue,
 				0, textHeight,
 				Catalog.GetString("Distance") + ": " + Util.TrimDecimals(distance, 3) + " m",
 				g, alignTypes.CENTER);
@@ -175,7 +175,7 @@ public class CairoRadial : CairoGeneric
 				g, alignTypes.CENTER);
 		printText(
 				Convert.ToInt32(margin + graphWidth/2),
-				Convert.ToInt32(offsetV + margin + (.66 * graphHeight)) + 20,
+				Convert.ToInt32(offsetV + margin + (.66 * graphHeight)) + maxPossibleValue,
 				0, textHeight,
 				Catalog.GetString("Distance") + ": " + Util.TrimDecimals(distance, 3) + " m",
 				g, alignTypes.CENTER);

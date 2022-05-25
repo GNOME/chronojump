@@ -1,4 +1,4 @@
-/*
+ /*
   #
   #  This file is part of ChronoJump
   #
@@ -27,11 +27,11 @@
 #include "SPI.h"
 #include "ILI9341_t3.h"
 #include "HX711.h"
-#include <Bounce2.h>
-#include <Encoder.h>
-#include <SD.h>
-#include <elapsedMillis.h>
-#include </home/xpadulles/chronojump/arduino/michrolab/michrolab.h>
+#include "Bounce2.h"
+#include "Encoder.h"
+#include "SD.h"
+#include "elapsedMillis.h"
+#include "michrolab.h"
 
 #define DOUT  2
 #define CLK  3
@@ -1864,21 +1864,6 @@ void showMenu()
       PcControlled = false;
       currentMenu[currentMenuIndex].function();
     }
-}
-
-void backMenu(void)
-{
-  currentMenuIndex = 0;
-  drawMenuBackground();
-  currentMenuIndex = 0;
-  for (int i = 0; i< 10; i++){
-    currentMenu[i].title = mainMenu[i].title;
-    currentMenu[i].description = mainMenu[i].description;
-    currentMenu[i].function = mainMenu[i].function;
-  }
-  menuItemsNum = 6;
-  showMenuEntry(currentMenuIndex);
-  showMenu();
 }
 
 void startInertialEncoderCapture()

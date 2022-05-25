@@ -60,8 +60,19 @@ unsigned long currentTime = 0;
 unsigned long elapsedTime = 0;
 unsigned long totalTime = 0;
 
+
+int led = 13;
+
 void setup() {
   Serial.begin(115200);
+  Serial.println("Inici");
+  pinMode(led, OUTPUT);
+  while(true){
+    digitalWrite(led, HIGH);
+    delay(500);
+    digitalWrite(led, LOW);
+    delay(500);
+  }
 
   long tare = 0;
   EEPROM.get(tareAddress, tare);
@@ -82,6 +93,7 @@ void setup() {
   } else {
     scale.set_scale(calibration_factor);
   }
+
 }
 
 void loop() {

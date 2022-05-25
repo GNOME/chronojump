@@ -353,13 +353,45 @@ public class RunEncoderCaptureGetSpeedAndDisplacement
 		timeAtEnoughAccelOrTrigger0 = time;
 	}
 
+	// when at load signal is shifted, calcule the speed of previous sample and the sample that will be 0
+	public void CalculeSpeedAt0Shifted (string rowPre, string row)
+	{
+		string [] cells = rowPre.Split(new char[] {';'});
+		if(cells.Length != 3)
+			return;
+
+		if(! Util.IsNumber(cells[0], false) || ! Util.IsNumber(cells[1], false))
+			return;
+
+		//int encDisplacement = Convert.ToInt32(cells[0]);
+		int tPre = Convert.ToInt32(cells[1]);
+
+		cells = row.Split(new char[] {';'});
+		if(cells.Length != 3)
+			return;
+
+		if(! Util.IsNumber(cells[0], false) || ! Util.IsNumber(cells[1], false))
+			return;
+
+		int encDisplacement = Convert.ToInt32(cells[0]);
+		int t = Convert.ToInt32(cells[1]);
+
+		double runEncoderCaptureDistanceAtThisSample = Math.Abs(encDisplacement) * 0.0030321; //hardcoded: same as sprintEncoder.R
+		runEncoderCaptureSpeed = UtilAll.DivideSafe(runEncoderCaptureDistanceAtThisSample, (t - tPre)) * 1000000;
+		//LogB.Information(string.Format("speed: {0}, runEncoderCaptureDistanceAtThisSample: {1}, tPre: {2}, t: {3}",
+		//			runEncoderCaptureSpeed, runEncoderCaptureDistanceAtThisSample, tPre, t));
+
+		if(runEncoderCaptureSpeed > runEncoderCaptureSpeedMax)
+			runEncoderCaptureSpeedMax = runEncoderCaptureSpeed;
+	}
+
 	public bool Calcule ()
 	{
 		bool hasCalculed = false;
 		if(time > timePre)
 		{
-			if(timePre > 0)
-			{
+//			if(timePre > 0)
+//			{
 				double runEncoderCaptureDistanceAtThisSample = Math.Abs(encoderDisplacement) * 0.0030321; //hardcoded: same as sprintEncoder.R
 				runEncoderCaptureSpeed = UtilAll.DivideSafe(runEncoderCaptureDistanceAtThisSample, (time - timePre)) * 1000000;
 				if(runEncoderCaptureSpeed > runEncoderCaptureSpeedMax)
@@ -373,7 +405,7 @@ public class RunEncoderCaptureGetSpeedAndDisplacement
 					updateSegmentDistTimeVariable ();
 
 				hasCalculed = true;
-			}
+//			}
 			timePre = time;
 		}
 		return hasCalculed;

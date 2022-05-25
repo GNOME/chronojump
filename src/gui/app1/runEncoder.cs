@@ -1117,7 +1117,6 @@ public partial class ChronoJumpWindow
 			if(reCGSD.PassLoadedRow (row))
 				reCGSD.Calcule();
 
-			rowPre = row;
 			speedPre2 = speedPre;
 			timePre2 = timePre;
 			speedPre = reCGSD.RunEncoderCaptureSpeed;
@@ -1172,11 +1171,9 @@ public partial class ChronoJumpWindow
 
 						reCGSD.SetTimeAtEnoughAccelOrTrigger0 (shiftTo);
 
-						//pass previous row and this one
-						if(reCGSD.PassLoadedRow (rowPre))
-							reCGSD.Calcule();
-						if(reCGSD.PassLoadedRow (row))
-							reCGSD.Calcule();
+						if (reCGSD.PassLoadedRow (row))
+							reCGSD.CalculeSpeedAt0Shifted (rowPre, row);
+						//LogB.Information(string.Format("after row runEncoderCaptureSpeed: {0}", reCGSD.RunEncoderCaptureSpeed));
 
 						signalShifted = true;
 					}
@@ -1207,6 +1204,8 @@ public partial class ChronoJumpWindow
 							UtilAll.DivideSafe(reCGSD.Time, 1000000),
 							accel));
 			}
+
+			rowPre = row;
 		}
 
 		if(reCGSD.RunEncoderCaptureSpeedMax > 0)

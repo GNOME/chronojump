@@ -1102,6 +1102,7 @@ public partial class ChronoJumpWindow
 		double timePre = -1;
 		double accel = -1;
 		bool enoughAccel = false; //accel has been > preferences.runEncoderMinAccel (default 10ms^2)
+		bool signalShifted = false; //shifted on trigger0 or accel >= minAccel, whatever is first
 		string rowPre = "";
 
 		//store data on cairoGraphRaceAnalyzerPoints_dt_l, ...st_l, ...at_l
@@ -1127,28 +1128,72 @@ public partial class ChronoJumpWindow
 				accel = UtilAll.DivideSafe(reCGSD.RunEncoderCaptureSpeed - speedPre2,
 								UtilAll.DivideSafe(reCGSD.Time, 1000000) - timePre2);
 
-				if (accel >= preferences.runEncoderMinAccel && ! enoughAccel)
+				int timeNow = 0;
+				string [] cells = row.Split(new char[] {';'});
+				timeNow = Convert.ToInt32(cells[1]);
+
+				if (! signalShifted)
 				{
-					//recreate rcCGSD object since now
-					reCGSD = new RunEncoderCaptureGetSpeedAndDisplacement(
-							currentRunEncoderExercise.SegmentCm, currentRunEncoderExercise.SegmentVariableCm,
-							currentPersonSession.Weight, //but note if person changes (but graph will be hopefully erased), this will change also take care on exports
-							currentRunEncoder.Angle);
+					/*
+					   pass when the first trigger is done,
+					   because first time will be on first trigger or when accel >= minAccel
+					   whatever is first.
+					   We need timeAtTrigger0 and timeAtEnoughAccel,
+					   because if timeAtTrigger0 is first, display also timeAtEnougAccel
+					 */
+					bool shiftNow = false;
+					int shiftTo = 0;
 
-					//to shift times to the left
-					reCGSD.SetTimeAtEnoughAccel (row);
+					if (triggerListRunEncoder != null && triggerListRunEncoder.Count() > 0 &&
+							triggerListRunEncoder.GetList()[0].Us < timeNow)
+					{
+						//reCGSD.SetTimeAtTrigger0 (triggerListRunEncoder.GetList()[0].Us);
+						shiftTo = triggerListRunEncoder.GetList()[0].Us;
+						shiftNow = true;
+					}
 
-					//pass previous row and this one
-					if(reCGSD.PassLoadedRow (rowPre))
-						reCGSD.Calcule();
-					if(reCGSD.PassLoadedRow (row))
-						reCGSD.Calcule();
+					if (accel >= preferences.runEncoderMinAccel && ! enoughAccel)
+					{
+						if (cells.Length == 3 && Util.IsNumber(cells[0], false) && Util.IsNumber(cells[1], false))
+						{
+							shiftTo = timeNow;
+							shiftNow = true;
+							enoughAccel = true;
+						}
+					}
 
-					enoughAccel = true;
+					if (shiftNow)
+					{
+						//recreate rcCGSD object since now
+						reCGSD = new RunEncoderCaptureGetSpeedAndDisplacement(
+								currentRunEncoderExercise.SegmentCm, currentRunEncoderExercise.SegmentVariableCm,
+								currentPersonSession.Weight, //but note if person changes (but graph will be hopefully erased), this will change also take care on exports
+								currentRunEncoder.Angle);
+
+						reCGSD.SetTimeAtEnoughAccelOrTrigger0 (shiftTo);
+
+						//pass previous row and this one
+						if(reCGSD.PassLoadedRow (rowPre))
+							reCGSD.Calcule();
+						if(reCGSD.PassLoadedRow (row))
+							reCGSD.Calcule();
+
+						signalShifted = true;
+					}
+				} else {
+					/*
+					   if first was trigger then accel >= minAccel,
+					   we need to use the reCGSD.SetTimeAtEnoughAccelMark () to show a line
+					   */
+					if (accel >= preferences.runEncoderMinAccel && ! enoughAccel)
+					{
+						reCGSD.SetTimeAtEnoughAccelMark (timeNow);
+						enoughAccel = true;
+					}
 				}
 			}
 
-			if(enoughAccel)
+			if(signalShifted)
 			{
 				cairoGraphRaceAnalyzerPoints_dt_l.Add(new PointF(
 							UtilAll.DivideSafe(reCGSD.Time, 1000000),
@@ -2320,9 +2365,13 @@ public partial class ChronoJumpWindow
 				reCGSD != null && reCGSD.SegmentCalcs != null)
 			segmentCalcs = reCGSD.SegmentCalcs;
 
+		int timeAtEnoughAccel = 0;
 		int timeAtEnoughAccelMark = 0;
 		if (reCGSD != null)
-			timeAtEnoughAccelMark = reCGSD.TimeAtEnoughAccelMark;
+		{
+			timeAtEnoughAccel = reCGSD.TimeAtEnoughAccelOrTrigger0; //to shift time at load, sent here to sync/delete triggers
+			timeAtEnoughAccelMark = reCGSD.TimeAtEnoughAccelMark; //to show mark at capture
+		}
 
 		if(cairoGraphRaceAnalyzer_dt == null || forceRedraw)
 			cairoGraphRaceAnalyzer_dt = new CairoGraphRaceAnalyzer(
@@ -2334,9 +2383,10 @@ public partial class ChronoJumpWindow
 					true);
 
 		cairoGraphRaceAnalyzer_dt.DoSendingList (preferences.fontType.ToString(),
-				cairoGraphRaceAnalyzerPoints_dt_l, triggerListRunEncoder,
+				cairoGraphRaceAnalyzerPoints_dt_l,
 				forceRedraw, CairoXY.PlotTypes.LINES, true,
 				getSmoothFrom_gui_at_race_analyzer_capture_smooth_graphs (),
+				triggerListRunEncoder, timeAtEnoughAccel,
 				timeAtEnoughAccelMark, preferences.runEncoderMinAccel);
 	}
 	private void updateRaceAnalyzerCaptureSpeedTime(bool forceRedraw)
@@ -2350,9 +2400,13 @@ public partial class ChronoJumpWindow
 				reCGSD != null && reCGSD.SegmentCalcs != null)
 			segmentCalcs = reCGSD.SegmentCalcs;
 
+		int timeAtEnoughAccel = 0;
 		int timeAtEnoughAccelMark = 0;
 		if (reCGSD != null)
-			timeAtEnoughAccelMark = reCGSD.TimeAtEnoughAccelMark;
+		{
+			timeAtEnoughAccel = reCGSD.TimeAtEnoughAccelOrTrigger0; //to shift time at load, sent here to sync/delete triggers
+			timeAtEnoughAccelMark = reCGSD.TimeAtEnoughAccelMark; //to show mark at capture
+		}
 
 		if(cairoGraphRaceAnalyzer_st == null || forceRedraw)
 			cairoGraphRaceAnalyzer_st = new CairoGraphRaceAnalyzer(
@@ -2364,9 +2418,10 @@ public partial class ChronoJumpWindow
 					false);
 
 		cairoGraphRaceAnalyzer_st.DoSendingList (preferences.fontType.ToString(),
-				cairoGraphRaceAnalyzerPoints_st_l, triggerListRunEncoder,
+				cairoGraphRaceAnalyzerPoints_st_l,
 				forceRedraw, CairoXY.PlotTypes.LINES, true,
 				getSmoothFrom_gui_at_race_analyzer_capture_smooth_graphs (),
+				triggerListRunEncoder, timeAtEnoughAccel,
 				timeAtEnoughAccelMark, preferences.runEncoderMinAccel);
 	}
 	private void updateRaceAnalyzerCaptureAccelTime(bool forceRedraw)
@@ -2383,9 +2438,13 @@ public partial class ChronoJumpWindow
 				reCGSD != null && reCGSD.SegmentCalcs != null)
 			segmentCalcs = reCGSD.SegmentCalcs;
 
+		int timeAtEnoughAccel = 0;
 		int timeAtEnoughAccelMark = 0;
 		if (reCGSD != null)
-			timeAtEnoughAccelMark = reCGSD.TimeAtEnoughAccelMark;
+		{
+			timeAtEnoughAccel = reCGSD.TimeAtEnoughAccelOrTrigger0; //to shift time at load, sent here to sync/delete triggers
+			timeAtEnoughAccelMark = reCGSD.TimeAtEnoughAccelMark; //to show mark at capture
+		}
 
 		if(cairoGraphRaceAnalyzer_at == null || forceRedraw)
 			cairoGraphRaceAnalyzer_at = new CairoGraphRaceAnalyzer(
@@ -2397,9 +2456,10 @@ public partial class ChronoJumpWindow
 					false);
 
 		cairoGraphRaceAnalyzer_at.DoSendingList (preferences.fontType.ToString(),
-				cairoGraphRaceAnalyzerPoints_at_l, triggerListRunEncoder,
+				cairoGraphRaceAnalyzerPoints_at_l,
 				forceRedraw, CairoXY.PlotTypes.LINES, false,
 				getSmoothFrom_gui_at_race_analyzer_capture_smooth_graphs (),
+				triggerListRunEncoder, timeAtEnoughAccel,
 				timeAtEnoughAccelMark, preferences.runEncoderMinAccel);
 	}
 

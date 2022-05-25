@@ -290,7 +290,7 @@ public class RunEncoderCaptureGetSpeedAndDisplacement
 	private int encoderOrRCA;
 
 	private int timePre;
-	private int timeAtEnoughAccel; //load (discard previous and shift time)
+	private int timeAtEnoughAccelOrTrigger0; //load (discard previous and shift time)
 	private int timeAtEnoughAccelMark; //capture (just draw a vertical line, to not erase previous points while capture)
 
 	private double runEncoderCaptureSpeed;
@@ -305,7 +305,7 @@ public class RunEncoderCaptureGetSpeedAndDisplacement
 
 		segmentCalcs = new RunEncoderSegmentCalcs (massKg, angle);
 		timePre = 0;
-		timeAtEnoughAccel = 0;
+		timeAtEnoughAccelOrTrigger0 = 0;
 		timeAtEnoughAccelMark = 0;
 	}
 
@@ -330,29 +330,27 @@ public class RunEncoderCaptureGetSpeedAndDisplacement
 
 		this.time = Convert.ToInt32(cells[1]);
 		//after enoughAccel, time has to be shifted to left
-		if(timeAtEnoughAccel > 0)
-			time -= timeAtEnoughAccel;
+		if(timeAtEnoughAccelOrTrigger0 > 0)
+			time -= timeAtEnoughAccelOrTrigger0;
 
 		return true;
 	}
 
-	//to show a vertical line at capture capture (meaning: passed the min accel)
+	//to show a vertical line at capture (meaning: passed the min accel)
 	public void SetTimeAtEnoughAccelMark (List<int> binaryReaded)
 	{
 		timeAtEnoughAccelMark = binaryReaded[1];
 	}
-
-	//to sync time at load
-	public void SetTimeAtEnoughAccel (string row)
+	//to show a vertical line at load (if a trigger marks previously the beginning of the set) (meaning: passed the min accel)
+	public void SetTimeAtEnoughAccelMark (int t)
 	{
-		string [] cells = row.Split(new char[] {';'});
-		if(cells.Length != 3)
-			return;
+		timeAtEnoughAccelMark = t;
+	}
 
-		if(! Util.IsNumber(cells[0], false) || ! Util.IsNumber(cells[1], false))
-			return;
-
-		timeAtEnoughAccel = Convert.ToInt32(cells[1]);
+	//to sync time at load, also used to sync triggers at load
+	public void SetTimeAtEnoughAccelOrTrigger0 (int time)
+	{
+		timeAtEnoughAccelOrTrigger0 = time;
 	}
 
 	public bool Calcule ()
@@ -427,6 +425,9 @@ public class RunEncoderCaptureGetSpeedAndDisplacement
 		get { return segmentCalcs; }
 	}
 
+	public int TimeAtEnoughAccelOrTrigger0 {
+		get { return timeAtEnoughAccelOrTrigger0; }
+	}
 	public int TimeAtEnoughAccelMark {
 		get { return timeAtEnoughAccelMark; }
 	}

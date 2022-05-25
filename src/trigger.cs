@@ -95,6 +95,7 @@ public class Trigger
 
 	public int Us {
 		get { return us; }
+		set { us = value; }
 	}
 	public double Ms {
 		get {
@@ -111,6 +112,10 @@ public class Trigger
 
 	public bool InOut {
 		get { return inOut; }
+	}
+
+	public Modes Mode {
+		get { return mode; }
 	}
 
 	public int ModeID {

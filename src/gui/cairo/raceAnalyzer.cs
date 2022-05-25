@@ -346,7 +346,9 @@ public class CairoGraphRaceAnalyzer : CairoXY
 				g.LineTo (xTimeAtEnoughAccelMark, topMargin);
 				g.Stroke ();
 				printText(xTimeAtEnoughAccelMark+2, topMargin * 3/4,
-						0, textHeight-3, string.Format("a >= {0} m/s^2", minAccel), g, alignTypes.LEFT);
+						0, textHeight-3, string.Format("a >= {0} m/s^2 at {1} s",
+							minAccel, Math.Round(timeAtEnoughAccelMark/1000000.0, 3)),
+						g, alignTypes.LEFT);
 			}
 		}
 

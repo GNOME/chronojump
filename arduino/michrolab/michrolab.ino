@@ -23,7 +23,7 @@
 
 */
 
-#include <EEPROM.h>
+#include "EEPROM.h"
 #include "SPI.h"
 #include "ILI9341_t3.h"
 #include "HX711.h"
@@ -391,22 +391,6 @@ void loop()
 
   //With Teensy serialEvent is not called automatically after loop
   if (Serial.available()) serialEvent();
-}
-
-void showMenuEntry(unsigned int currentMenuIndex)
-{
-  tft.fillRect(30, 0, 260, 50, BLACK);
-  tft.setCursor(40, 20);
-  tft.setTextSize(3);
-  tft.print(currentMenu[currentMenuIndex].title);
-
-  tft.setTextSize(2);
-  tft.setCursor(12, 100);
-  tft.setTextColor(BLACK);
-  tft.print(currentMenu[(currentMenuIndex + menuItemsNum - 1) % menuItemsNum].description);
-  tft.setTextColor(WHITE);
-  tft.setCursor(12, 100);
-  tft.print(currentMenu[currentMenuIndex].description);
 }
 
 void getLoadCellDynamics(void)
@@ -998,20 +982,6 @@ void showLoadCellResults() {
   drawMenuBackground();
 }
 
-void showSystemMenu(void)
-{
-  drawMenuBackground();
-  currentMenuIndex = 0;
-  for (int i = 0; i< 10; i++){
-    currentMenu[i].title = systemMenu[i].title;
-    currentMenu[i].description = systemMenu[i].description;
-    currentMenu[i].function = systemMenu[i].function;
-  }
-  menuItemsNum = 5;
-  showMenuEntry(currentMenuIndex);
-  //showMenu();
-}
-
 void startSteadiness(void)
 {
   sensor = loadCell;
@@ -1157,14 +1127,6 @@ void redrawAxes(ILI9341_t3 & d, double gx, double gy, double w, double h, double
     yAxis =  (forceGoal - ylo) * (-h) / (yhi - ylo) + gy;
     d.drawLine(gx, yAxis, gx + w, yAxis, goalColor);
   }
-}
-
-void drawMenuBackground() {
-  tft.fillScreen(BLACK);
-  tft.fillRoundRect(0, 0, 30, 50, 10, WHITE);
-  tft.fillRoundRect(290, 0, 30, 50, 10, WHITE);
-  tft.setTextSize(3);
-  tft.setCursor(30, 20);
 }
 
 void capture()
@@ -1845,25 +1807,6 @@ void getPersonsList(struct personType * persons)
     // if the file didn't open, print an error:
     Serial.println("error opening persons.txt");
   }
-}
-
-void showMenu()
-{
-      //The blue button navigates through the Menu options
-    blueButton.update();
-    if (blueButton.fallingEdge()) {
-      currentMenuIndex++;
-      currentMenuIndex = currentMenuIndex % menuItemsNum;
-      showMenuEntry(currentMenuIndex);
-    }
-
-    //The red button activates the menu option
-    redButton.update();
-    if (redButton.fallingEdge())
-    {
-      PcControlled = false;
-      currentMenu[currentMenuIndex].function();
-    }
 }
 
 void startInertialEncoderCapture()

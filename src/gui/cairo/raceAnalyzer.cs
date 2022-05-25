@@ -82,17 +82,20 @@ public class CairoGraphRaceAnalyzer : CairoXY
 	}
 
 	//separated in two methods to ensure endGraphDisposing on any return of the other method
-	public void DoSendingList (string font, List<PointF> points_list, TriggerList triggerList, bool forceRedraw,
+	public void DoSendingList (string font, List<PointF> points_list, bool forceRedraw,
 			PlotTypes plotType, bool blackLine, int smoothLineWindow,
+			TriggerList triggerList, int timeAtEnoughAccelOrTrigger0,
 			int timeAtEnoughAccelMark, double minAccel)
 	{
-		if(doSendingList (font, points_list, triggerList, forceRedraw, plotType, blackLine, smoothLineWindow, timeAtEnoughAccelMark, minAccel))
+		if(doSendingList (font, points_list, forceRedraw, plotType, blackLine, smoothLineWindow,
+					triggerList, timeAtEnoughAccelOrTrigger0, timeAtEnoughAccelMark, minAccel))
 			endGraphDisposing(g, surface, area.GdkWindow);
 	}
 
 	//return true if graph is inited (to dispose it)
-	private bool doSendingList (string font, List<PointF> points_list, TriggerList triggerList, bool forceRedraw,
+	private bool doSendingList (string font, List<PointF> points_list, bool forceRedraw,
 			PlotTypes plotType, bool blackLine, int smoothLineWindow,
+			TriggerList triggerList, int timeAtEnoughAccelOrTrigger0,
 			int timeAtEnoughAccelMark, double minAccel) //timeAtEnoughAccelMark: only for capture (just to display mark), minAccel is the value at preferences
 	{
 		// 1) init graph
@@ -321,6 +324,10 @@ public class CairoGraphRaceAnalyzer : CairoXY
 
 			if (timeAtEnoughAccelMark > 0)
 			{
+				//on load we have to shift if trigger0 has been first
+				if (timeAtEnoughAccelOrTrigger0 > 0)
+					timeAtEnoughAccelMark -= timeAtEnoughAccelOrTrigger0;
+
 				double xTimeAtEnoughAccelMark = calculatePaintX (timeAtEnoughAccelMark/1000000.0);
 				g.LineWidth = 1;
 
@@ -349,7 +356,18 @@ public class CairoGraphRaceAnalyzer : CairoXY
 			g.LineWidth = 1;
 			foreach(Trigger trigger in triggerList.GetList())
 			{
-				paintVerticalTriggerLine(g, trigger, textHeight -3);
+				//create a new trigger to not modify the original list that will be used for pos/time, speed/time, accel/time
+				Trigger triggerModified = new Trigger (trigger.Mode, trigger.Us, trigger.InOut);
+
+				LogB.Information("trigger.Us: " + trigger.Us.ToString());
+				LogB.Information("timeAtEnoughAccelOrTrigger0: " + timeAtEnoughAccelOrTrigger0.ToString());
+
+				if (timeAtEnoughAccelOrTrigger0 > 0)
+					triggerModified.Us -= timeAtEnoughAccelOrTrigger0;
+
+				LogB.Information("triggerModified.Us fixed: " + triggerModified.Us.ToString());
+
+				paintVerticalTriggerLine(g, triggerModified, textHeight -3);
 			}
 		}
 

@@ -36,10 +36,6 @@
 #define DOUT  2
 #define CLK  3
 
-//Used to calculate the nunmber of entries in a menu
-//#define menuItemsNum(arg) ((unsigned int) (sizeof (arg) / sizeof (arg [0])))
-//template< typename T, size_t N > size_t ArraySize (T (&) [N]){ return N; }
-
 //Version number //it always need to start with: "Force_Sensor-"
 //Device commented for memory optimization
 //String device = "Force_Sensor";
@@ -116,12 +112,6 @@ unsigned long rcaTime = 0;  //Time at which RCA changed
 elapsedMicros totalTime = 0;
 unsigned long lastSampleTime;
 
-/* Not used in order to optimize memory
-  //Used to sync 2 evices
-  unsigned long syncTime = 0;
-  unsigned int samples = 0;
-*/
-
 const unsigned int redButtonPin = 4;
 Bounce redButton = Bounce(redButtonPin, 50);
 
@@ -166,6 +156,8 @@ menuEntry mainMenu[10] = {
   { "", "", &backMenu}
 };
 
+int mainMenuItems = 7;
+
 menuEntry systemMenu[10] {
   { "Tare", "Set the offset of the\nsensor.", &tare },
   { "Calibrate", "Set the equivalence\nbetween the sensor values\nand the force measured.", &calibrateTFT },
@@ -179,43 +171,11 @@ menuEntry systemMenu[10] {
   { "", "", &backMenu}
 };
 
+int systemMenuItems = 5;
+
 menuEntry currentMenu[10];
 
-const String menuList [] = {
-  "Raw Force",
-  "Raw Velocity",
-  "RawPower",
-  "Tared Force",
-  "F. Steadiness",
-  "System"
-};
-
-int mainMenuItems = 6;
-
-const String menuDescription [] = {
-  "Shows standard graph of\nthe force and the summary of the set.\n(Maximum Force, RFD and\nImpulse)" ,
-  "Show a standard graph of linear velocity",
-  "Measure Force and Speed\nat the same time.\nOnly power is shown in thegraph",
-  "Offset the force before\nmeasuring it.\nUseful to substract body\nweight.",
-  "RMSSD and cvRMSSD.\nMeasure the steadyness\nof the force signal.\nAfter achieving the\ndesired steady force press\nRedButton to get the\nsteadiness of the next 5s.",
-  "Performs calibration or\ntare and shows some system\ninformation."
-};
-
-int menuItemsNum = 6;
-
-const String systemOptions[] = {
-  "Tare",
-  "Calibrate",
-  "Force Goal",
-  "Info"
-};
-
-const String systemDescriptions[] = {
-  "Set the offset of the\nsensor.",
-  "Set the equivalence\nbetween the sensor values\nand the force measured.",
-  "Set the goal force for\nsteadiness measurements.",
-  "Hardware information."
-};
+int menuItemsNum = 7;
 
 //Mean force in 1s
 //Circular buffer where all measures in 1s are stored
@@ -656,7 +616,7 @@ void startTareCapture(void)
   tft.setTextSize(2);
   tft.setCursor(12, 100);
   tft.setTextColor(BLACK);
-  tft.print(menuDescription[3]);
+  tft.print(currentMenu[currentMenuIndex].description);
   tft.setTextColor(WHITE);
   tft.setCursor(100, 100);
   tft.print("Taring...");
@@ -724,13 +684,13 @@ void calibrateTFT(void) {
   String calibrateCommand = "calibrate:" + String(weight, DEC) + ";";
   //showCalibrateLoad(String(weight, DEC));
   //Delete description
-  tft.setCursor(24, 100);
+  tft.setCursor(12, 100);
   tft.setTextColor(BLACK);
-  tft.print(systemDescriptions[1]);
+  tft.print(currentMenu[currentMenuIndex].description);
 
   //Explanation of the process
   tft.setTextColor(WHITE);
-  tft.setCursor(50, 100);
+  tft.setCursor(24, 100);
   tft.print("Select the weight to use");
 
   //Blue button
@@ -789,7 +749,7 @@ void calibrateTFT(void) {
 
         //Deleting explanation
         tft.setTextColor(BLACK);
-        tft.setCursor(50, 100);
+        tft.setCursor(24, 100);
         tft.print("Select the weight to use");
         tft.setCursor(120, 150);
         tft.print("Current:");
@@ -867,6 +827,7 @@ void calibrateTFT(void) {
     redButton.update();
     blueButton.update();
   }
+  tft.setTextColor(WHITE);
   showMenuEntry(currentMenuIndex);
 }
 
@@ -890,16 +851,23 @@ void showSystemInfo(void) {
 
   //Erases the description of the upper menu entry
   tft.setTextSize(2);
-  tft.setCursor(24, 100);
+  tft.setCursor(12, 100);
   tft.setTextColor(BLACK);
-  tft.print(systemDescriptions[2]);
+  tft.print(currentMenu[currentMenuIndex].description);
+
+
+  tft.setTextColor(WHITE);
+  tft.setCursor(100, 100);
+  tft.print("System Info");
   redButton.update();
   while (!redButton.fallingEdge()) {
     redButton.update();
   }
   tft.setTextColor(BLACK);
-  tft.setCursor(50, 60);
-  tft.print(systemOptions[submenu]);
+  tft.setCursor(100, 100);
+  tft.print("System Info");
+  tft.setTextColor(WHITE);
+  showMenuEntry(currentMenuIndex);
 }
 
 void showLoadCellResults() {
@@ -1562,7 +1530,7 @@ void setForceGoal()
   //Delete description
   tft.setCursor(24, 100);
   tft.setTextColor(BLACK);
-  tft.print(systemDescriptions[2]);
+  tft.print(currentMenu[currentMenuIndex].description);
 
   //Explanation of the process
   tft.setTextColor(WHITE);

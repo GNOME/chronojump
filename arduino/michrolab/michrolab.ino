@@ -268,6 +268,7 @@ String fileName = "";
 struct personType {
   unsigned int index;
   String name;
+  String surname;
   float weight;
   float heigh;
 };
@@ -1634,7 +1635,7 @@ void updatePersonSet()
   tft.setCursor(148, 207);
   tft.print(personSet);
   tft.setCursor(148, 223);
-  tft.print(persons[currentPerson].name);
+  tft.print(persons[currentPerson].name + " " + persons[currentPerson].surname);
   currentPerson = (currentPerson + 1) % totalPersons;
 
   personSet = "Person: " + addLeadingZeros(currentPerson, 2) + "   Set: " + addLeadingZeros(setNumber, 2);
@@ -1643,7 +1644,7 @@ void updatePersonSet()
   tft.setCursor(148, 207);
   tft.print(personSet);
   tft.setCursor(148, 223);
-  tft.print(persons[currentPerson].name);
+  tft.print(persons[currentPerson].name + " " + persons[currentPerson].surname);
   tft.setTextSize(2);
 }
 
@@ -1723,6 +1724,10 @@ void getPersonsList(struct personType * persons)
         prevComaIndex = nextComaIndex;
         nextComaIndex = row.indexOf(",", prevComaIndex + 1 );
         persons[currentPerson].name = row.substring(prevComaIndex + 1 , nextComaIndex);
+        
+        prevComaIndex = nextComaIndex;
+        nextComaIndex = row.indexOf(",", prevComaIndex + 1 );
+        persons[currentPerson].surname = row.substring(prevComaIndex + 1 , nextComaIndex);
 
         prevComaIndex = nextComaIndex;
         nextComaIndex = row.indexOf(",", prevComaIndex + 1 );

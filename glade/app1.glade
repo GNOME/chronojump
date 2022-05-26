@@ -5188,7 +5188,7 @@
                                                             <property name="can_focus">False</property>
                                                             <property name="n_rows">2</property>
                                                             <property name="n_columns">2</property>
-                                                            <property name="column_spacing">16</property>
+                                                            <property name="column_spacing">12</property>
                                                             <property name="row_spacing">16</property>
                                                             <child>
                                                             <widget class="GtkButton" id="button12">
@@ -5366,7 +5366,7 @@
                                                             <property name="can_focus">False</property>
                                                             <property name="n_rows">2</property>
                                                             <property name="n_columns">2</property>
-                                                            <property name="column_spacing">16</property>
+                                                            <property name="column_spacing">12</property>
                                                             <property name="row_spacing">16</property>
                                                             <child>
                                                             <widget class="GtkButton" id="button14">

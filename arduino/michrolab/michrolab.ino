@@ -87,7 +87,8 @@ boolean capturing = false;
 enum sensorType {
   loadCell,
   incEncoder,
-  loadCellIncEncoder,
+  incRotEncoder,
+  loadCellincEncoder,
   none
 };
 
@@ -1175,7 +1176,7 @@ void capture()
           //Calculation of the variables shown in the results
           if (sensor == incEncoder) getEncoderDynamics();
           else if (sensor == loadCell) getLoadCellDynamics();
-          else if (sensor == loadCellIncEncoder) getPowerDynamics();
+          else if (sensor == loadCellincEncoder) getPowerDynamics();
 
           //Value exceeds the plotting area
           if (measured > newGraphMax) {
@@ -1188,8 +1189,8 @@ void capture()
           }
         }
         
-        Serial.print(totalTime); Serial.print(";");
-        Serial.println(measured, 2); //scale.get_units() returns a float
+//        Serial.print(totalTime); Serial.print(";");
+//        Serial.println(measured, 2); //scale.get_units() returns a float
         
         if (!PcControlled) saveSD(fileName);
         plotBuffer[n] = measured;
@@ -1232,7 +1233,7 @@ void capture()
               tft.setTextColor(WHITE);
             }
 
-          } else if (sensor == loadCellIncEncoder) {
+          } else if (sensor == loadCellincEncoder) {
             endPowerCapture();
           }
           //xGraph = xMax;
@@ -1287,10 +1288,13 @@ void getEncoderDynamics()
 
     //TODO: Calculate positoion depending on the parameters of the encoder/machine
     if (inertialMode) position = - abs(position);
-    measured = (float)(position - lastSamplePosition) * 1000 / (sampleDuration);
+    //measured = (float)(position - lastSamplePosition) * 1000 / (sampleDuration);
+    measured = position;
+//    if(position != lastSamplePosition) Serial.println(String(localMax) + "\t" + String(lastSamplePosition) +
+//      "\t" + String(position) + "\t" + String(encoderPhase * (position - localMax)));
     float accel = (measured - lastVelocity) * 1000000 / sampleDuration;
     if(propulsive && accel <= -9.81){
-      //Serial.println(String(accel) + " End propulsive at time: " + String(lastSampleTime));
+      Serial.println(String(accel) + " End propulsive at time: " + String(lastSampleTime));
       propulsive = false;
     }
     //measured = position;
@@ -1301,32 +1305,34 @@ void getEncoderDynamics()
       if (position >= minRom) {
         encoderPhase = 1;
         localMax = position;
-        //Serial.println("Start in CONcentric");
+        Serial.println("Start in CONcentric");
       }
       else if (position <= -minRom) {
         encoderPhase = 1;
         localMax = position;
-        //Serial.println("Start in ECCentric");
+        Serial.println("Start in ECCentric");
       }
     }
 
     //Detecting the phanse change
     //TODO. Detect propulsive phase
-    if (encoderPhase * (position - localMax) > 0)  //Local maximum detected
+    if (encoderPhase * (position - localMax) >= 0)  //Local maximum detected
     {
       //Serial.println("New localMax : " + String(position) + "\t" + String(localEncoderPhase));
       localMax = position;
       
       //Checking if this local maximum is actually the start of the new phase
-    } else if (encoderPhase * (position - localMax) < - minRom)
+    }
+    
+    if (encoderPhase * (localMax - position) > minRom)
       {
         encoderPhase *= -1;
         propulsive = true;
         numRepetitions++;
         //avgVelocity = (float)(position - startPhasePosition) * 1000 / (lastSampleTime - startPhaseTime);
         if (avgVelocity > maxAvgVelocity) maxAvgVelocity = avgVelocity;
-        //Serial.println(String(position) + " - " + String(startPhasePosition) + " = " + String(position - localMax) + "\t" + String(encoderPhase));
-        //Serial.println("Change of phase at: " + String(lastSampleTime));
+        Serial.println(String(position) + " - " + String(startPhasePosition) + " = " + String(position - localMax) + "\t" + String(encoderPhase));
+        Serial.println("Change of phase at: " + String(lastSampleTime));
         startPhasePosition = position;
         startPhaseTime = lastSampleTime;
       }
@@ -1350,6 +1356,7 @@ void startEncoderCapture(void)
   totalTime = 0;
   encoderPhase = 0;
   localMax = 0;
+  encoder.write(0);
   lastSamplePosition = 0;
   lastSampleTime = 0;
   startPhasePosition = 0;
@@ -1435,7 +1442,7 @@ void getPowerDynamics()
 void startPowerCapture(void)
 {
   capturing = true;
-  sensor = loadCellIncEncoder;
+  sensor = loadCellincEncoder;
   maxString = "P";
   plotPeriod = 5;
   newGraphMin = -200;
@@ -1582,7 +1589,7 @@ void saveSD(String fileName)
   String sensorString = "";
   if (sensor == incEncoder) sensorString = "-V";
   else if (sensor == loadCell) sensorString = "-F";
-  else if (sensor == loadCellIncEncoder) sensorString = "-P";
+  else if (sensor == loadCellincEncoder) sensorString = "-P";
   else
   {
     Serial.println("no sensor type");

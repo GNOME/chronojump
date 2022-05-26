@@ -4405,7 +4405,8 @@ public partial class ChronoJumpWindow
 
 		//TODO: depending on mode, force click on button_menu_2_2_2_clicked to ensure all widgets are updated
 		//if no current mode, then jumps
-
+		radio_menu_2_2_2_jumps.Active = true;
+		on_button_menu_2_2_2_clicked (radio_menu_2_2_2_jumps, args);
 	}
 	private void on_button_view_menu_2_2_1_clicked (object o, EventArgs args)
 	{
@@ -4424,6 +4425,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.EventBox eventbox_radio_menu_2_2_2_elastic;
 	[Widget] Gtk.EventBox eventbox_radio_menu_2_2_2_weights;
 	[Widget] Gtk.EventBox eventbox_radio_menu_2_2_2_inertial;
+	[Widget] Gtk.EventBox eventbox_label_menu_2_2_2_title;
 	[Widget] Gtk.Notebook notebook_menu_2_2_2; //0 jumps, 1 races, 2 isometric/elastic/weights/inertial
 	[Widget] Gtk.Label label_selector_menu_2_2_2_title;
 	[Widget] Gtk.Label label_selector_menu_2_2_2_desc;
@@ -4435,13 +4437,14 @@ public partial class ChronoJumpWindow
 		if (o == (object) radio_menu_2_2_2_jumps)
 		{
 			title = "Jumps";
-			desc = "Jumps with contact platform";
+			desc = "Measured by a contact platform";
 			notebook_menu_2_2_2.CurrentPage = 0;
 		}
 		else if (o == (object) radio_menu_2_2_2_races)
 		{
 			title = "Races";
-			desc = "Races with photocells (Wichro or wired), or RaceAnalyzer";
+			//desc = "Races with photocells (Wichro or wired), or RaceAnalyzer";
+			desc = "Measured by …";
 			notebook_menu_2_2_2.CurrentPage = 1;
 		}
 		else if (o == (object) radio_menu_2_2_2_isometric)

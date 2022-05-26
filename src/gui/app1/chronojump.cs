@@ -4402,6 +4402,10 @@ public partial class ChronoJumpWindow
 	private void on_button_view_menu_2_2_2_clicked (object o, EventArgs args)
 	{
 		notebook_mode_selector.CurrentPage = 2;
+
+		//TODO: depending on mode, force click on button_menu_2_2_2_clicked to ensure all widgets are updated
+		//if no current mode, then jumps
+
 	}
 	private void on_button_view_menu_2_2_1_clicked (object o, EventArgs args)
 	{
@@ -4420,33 +4424,64 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.EventBox eventbox_radio_menu_2_2_2_elastic;
 	[Widget] Gtk.EventBox eventbox_radio_menu_2_2_2_weights;
 	[Widget] Gtk.EventBox eventbox_radio_menu_2_2_2_inertial;
-	[Widget] Gtk.Label label_selector_menu_2_2_2;
+	[Widget] Gtk.Notebook notebook_menu_2_2_2; //0 jumps, 1 races, 2 isometric/elastic/weights/inertial
+	[Widget] Gtk.Label label_selector_menu_2_2_2_title;
+	[Widget] Gtk.Label label_selector_menu_2_2_2_desc;
 
 	private void on_button_menu_2_2_2_clicked (object o, EventArgs args)
 	{
-		string str = "";
+		string title = "";
+		string desc = "";
 		if (o == (object) radio_menu_2_2_2_jumps)
-			str = "Jumps with contact platform";
+		{
+			title = "Jumps";
+			desc = "Jumps with contact platform";
+			notebook_menu_2_2_2.CurrentPage = 0;
+		}
 		else if (o == (object) radio_menu_2_2_2_races)
-			str = "Races with photocells (Wichro or wired), or RaceAnalyzer";
+		{
+			title = "Races";
+			desc = "Races with photocells (Wichro or wired), or RaceAnalyzer";
+			notebook_menu_2_2_2.CurrentPage = 1;
+		}
 		else if (o == (object) radio_menu_2_2_2_isometric)
-			str = "Isometric force exercises measured by a force sensor";
+		{
+			title = "Isometric";
+			desc = "Isometric force exercises measured by a force sensor";
+			notebook_menu_2_2_2.CurrentPage = 2;
+		}
 		else if (o == (object) radio_menu_2_2_2_elastic)
-			str = "Elastic force exercises measured by a force sensor";
+		{
+			title = "Elastic";
+			desc = "Elastic force exercises measured by a force sensor";
+			notebook_menu_2_2_2.CurrentPage = 2;
+		}
 		else if (o == (object) radio_menu_2_2_2_weights)
-			str = "Speed/power exercises displacing weights measured by an encoder";
+		{
+			title = "Weights";
+			desc = "Speed/power exercises displacing weights measured by an encoder";
+			notebook_menu_2_2_2.CurrentPage = 2;
+		}
 		else if (o == (object) radio_menu_2_2_2_inertial)
-			str = "Speed/power exercises rotating an inertial machine and measured by an encoder";
+		{
+			title = "Inertial";
+			desc = "Speed/power exercises rotating an inertial machine and measured by an encoder";
+			notebook_menu_2_2_2.CurrentPage = 2;
+		}
 
-		if (str != "")
-			label_selector_menu_2_2_2.Text = str;
+		if (title != "")
+		{
+			label_selector_menu_2_2_2_title.Text = "<b>" + title + "</b>";
+			label_selector_menu_2_2_2_title.UseMarkup = true;
+		}
+		if (desc != "")
+			label_selector_menu_2_2_2_desc.Text = desc;
 	}
 
 	private void on_button_menu_2_2_2_go_clicked (object o, EventArgs args)
 	{
-/*		if (radio_menu_2_2_2_jumps.Active)
-		else if (radio_menu_2_2_2_races.Active)
-		else */if (radio_menu_2_2_2_isometric.Active)
+		//jumps, races modes have their own buttons
+		if (radio_menu_2_2_2_isometric.Active)
 			on_button_selector_start_force_sensor_clicked (new object (), new EventArgs ());
 		else if (radio_menu_2_2_2_elastic.Active)
 			on_button_selector_start_force_sensor_clicked (new object (), new EventArgs ());

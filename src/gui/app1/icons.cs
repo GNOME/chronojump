@@ -104,6 +104,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_selector_start_displ_weights;
 	[Widget] Gtk.Image image_selector_start_inertial;
 
+	//[Widget] Gtk.Image image_down_menu_2_2_2;
 	[Widget] Gtk.Image image_start;
 	[Widget] Gtk.Image image_mode_jumps_small;
 	[Widget] Gtk.Image image_mode_jumps_small1;
@@ -111,9 +112,12 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_mode_jumps_reactive_small1;
 	[Widget] Gtk.Image image_mode_runs_small;
 	[Widget] Gtk.Image image_mode_runs_small1;
+	[Widget] Gtk.Image image_mode_runs_small2;
 	[Widget] Gtk.Image image_mode_runs_intervallic_small;
 	[Widget] Gtk.Image image_mode_runs_intervallic_small1;
+	[Widget] Gtk.Image image_mode_runs_intervallic_small2;
 	[Widget] Gtk.Image image_mode_race_encoder_small;
+	[Widget] Gtk.Image image_mode_race_encoder_small1;
 	[Widget] Gtk.Image image_mode_pulses_small;
 	[Widget] Gtk.Image image_mode_multi_chronopic_small;
 	[Widget] Gtk.Image image_mode_encoder_gravitatory;
@@ -574,6 +578,8 @@ public partial class ChronoJumpWindow
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_down.png");
 		image_persons_down.Pixbuf = pixbuf;
 		*/
+		//pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_down.png");
+		//image_down_menu_2_2_2.Pixbuf = pixbuf;
 		
 		//persons buttons
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_person_add.png");
@@ -689,14 +695,17 @@ public partial class ChronoJumpWindow
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_run_simple.png");
 		image_mode_runs_small.Pixbuf = pixbuf;
 		image_mode_runs_small1.Pixbuf = pixbuf;
+		image_mode_runs_small2.Pixbuf = pixbuf;
 		image_change_modes_contacts_runs_simple.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_run_multiple.png");
 		image_mode_runs_intervallic_small.Pixbuf = pixbuf;
 		image_mode_runs_intervallic_small1.Pixbuf = pixbuf;
+		image_mode_runs_intervallic_small2.Pixbuf = pixbuf;
 		image_change_modes_contacts_runs_intervallic.Pixbuf = pixbuf;
 		image_change_modes_contacts_force_sensor.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "force_sensor_icon.png");
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "race_encoder_icon.png");
 		image_mode_race_encoder_small.Pixbuf = pixbuf;
+		image_mode_race_encoder_small1.Pixbuf = pixbuf;
 		image_change_modes_contacts_runs_encoder.Pixbuf = pixbuf;
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "run_2x.png");

@@ -676,6 +676,9 @@ public partial class ChronoJumpWindow
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_radio_menu_2_2_2_jumps, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_radio_menu_2_2_2_races, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_radio_menu_2_2_2_isometric, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
+		UtilGtk.EventBoxColorBackgroundActive (eventbox_radio_menu_2_2_2_elastic, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
+		UtilGtk.EventBoxColorBackgroundActive (eventbox_radio_menu_2_2_2_weights, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
+		UtilGtk.EventBoxColorBackgroundActive (eventbox_radio_menu_2_2_2_inertial, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
 		app1s_eventboxes_paint();
 
 		createComboSelectJumps(true);
@@ -4408,12 +4411,15 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.RadioButton radio_menu_2_2_2_jumps;
 	[Widget] Gtk.RadioButton radio_menu_2_2_2_races;
 	[Widget] Gtk.RadioButton radio_menu_2_2_2_isometric;
-	[Widget] Gtk.Button button_menu_2_2_2_elastic;
-	[Widget] Gtk.Button button_menu_2_2_2_weights;
-	[Widget] Gtk.Button button_menu_2_2_2_inertial;
+	[Widget] Gtk.RadioButton radio_menu_2_2_2_elastic;
+	[Widget] Gtk.RadioButton radio_menu_2_2_2_weights;
+	[Widget] Gtk.RadioButton radio_menu_2_2_2_inertial;
 	[Widget] Gtk.EventBox eventbox_radio_menu_2_2_2_jumps;
 	[Widget] Gtk.EventBox eventbox_radio_menu_2_2_2_races;
 	[Widget] Gtk.EventBox eventbox_radio_menu_2_2_2_isometric;
+	[Widget] Gtk.EventBox eventbox_radio_menu_2_2_2_elastic;
+	[Widget] Gtk.EventBox eventbox_radio_menu_2_2_2_weights;
+	[Widget] Gtk.EventBox eventbox_radio_menu_2_2_2_inertial;
 	[Widget] Gtk.Label label_selector_menu_2_2_2;
 
 	private void on_button_menu_2_2_2_clicked (object o, EventArgs args)
@@ -4425,11 +4431,11 @@ public partial class ChronoJumpWindow
 			str = "Races with photocells (Wichro or wired), or RaceAnalyzer";
 		if(o == (object) radio_menu_2_2_2_isometric)
 			str = "Isometric force exercises measured by a force sensor";
-		if(o == (object) button_menu_2_2_2_elastic)
+		if(o == (object) radio_menu_2_2_2_elastic)
 			str = "Elastic force exercises measured by a force sensor";
-		if(o == (object) button_menu_2_2_2_weights)
+		if(o == (object) radio_menu_2_2_2_weights)
 			str = "Speed/power exercises displacing weights measured by an encoder";
-		if(o == (object) button_menu_2_2_2_inertial)
+		if(o == (object) radio_menu_2_2_2_inertial)
 			str = "Speed/power exercises rotating an inertial machine and measured by an encoder";
 
 		if (str != "")

@@ -329,7 +329,7 @@ void setup() {
   }
   dirName = createNewDir();
   totalPersons = getTotalPerson();
-  getPersonsList(persons);
+  readPersonsFile();
 
   for (int i = 0; i< 10; i++){
     currentMenu[i].title = mainMenu[i].title;
@@ -482,6 +482,13 @@ void serialEvent() {
       //  } else if (commandString == "listen_sync_signal") {
       //    listenSyncSignal();
     */
+  } else if (commandString == "addPerson") {
+    addPerson(inputString.substring(commandString.indexOf(":") +1));
+  } else if (commandString == "getPersonsList") {
+    printPersonsList();
+  } else if (commandString == "savePersonsList"){
+    Serial.println("Going to savePersons...");
+    savePersonsList();
   } else {
     Serial.println("Not a valid command");
   }
@@ -1698,7 +1705,8 @@ unsigned int getTotalPerson()
   return (totalPersons);
 }
 
-void getPersonsList(struct personType * persons)
+//void readPersonsFile(struct personType * persons)
+void readPersonsFile()
 {
   /*
    * Ecample of persons.txt format
@@ -1724,26 +1732,7 @@ void getPersonsList(struct personType * persons)
         row = row + readChar;
       } else if (readChar == '\n' || readChar == '\r')
       {
-        int prevComaIndex = 0;
-        int nextComaIndex = row.indexOf(",");
-        persons[currentPerson].index = row.substring(prevComaIndex, nextComaIndex).toInt();
-
-        prevComaIndex = nextComaIndex;
-        nextComaIndex = row.indexOf(",", prevComaIndex + 1 );
-        persons[currentPerson].name = row.substring(prevComaIndex + 1 , nextComaIndex);
-        
-        prevComaIndex = nextComaIndex;
-        nextComaIndex = row.indexOf(",", prevComaIndex + 1 );
-        persons[currentPerson].surname = row.substring(prevComaIndex + 1 , nextComaIndex);
-
-        prevComaIndex = nextComaIndex;
-        nextComaIndex = row.indexOf(",", prevComaIndex + 1 );
-        persons[currentPerson].weight = row.substring(prevComaIndex + 1 , nextComaIndex).toFloat();
-
-        prevComaIndex = nextComaIndex;
-        nextComaIndex = row.indexOf(",", prevComaIndex + 1 );
-        persons[currentPerson].heigh = row.substring(prevComaIndex + 1 , nextComaIndex).toFloat();
-
+        addPerson(row);
         row = "";
         currentPerson++;
       }
@@ -1754,6 +1743,59 @@ void getPersonsList(struct personType * persons)
     // if the file didn't open, print an error:
     Serial.println("error opening persons.txt");
   }
+}
+
+void addPerson(String row)
+{
+  int prevComaIndex = row.indexOf(":");
+  int nextComaIndex = row.indexOf(",");
+  currentPerson = row.substring(prevComaIndex + 1, nextComaIndex).toInt();
+  persons[currentPerson].index = currentPerson;
+
+  if (currentPerson >= totalPersons) totalPersons = currentPerson;
+
+  prevComaIndex = nextComaIndex;
+  nextComaIndex = row.indexOf(",", prevComaIndex + 1 );
+  persons[currentPerson].name = row.substring(prevComaIndex + 1 , nextComaIndex);
+  
+  prevComaIndex = nextComaIndex;
+  nextComaIndex = row.indexOf(",", prevComaIndex + 1 );
+  persons[currentPerson].surname = row.substring(prevComaIndex + 1 , nextComaIndex);
+
+  prevComaIndex = nextComaIndex;
+  nextComaIndex = row.indexOf(",", prevComaIndex + 1 );
+  persons[currentPerson].weight = row.substring(prevComaIndex + 1 , nextComaIndex).toFloat();
+
+  prevComaIndex = nextComaIndex;
+  nextComaIndex = row.indexOf(",", prevComaIndex + 1 );
+  persons[currentPerson].heigh = row.substring(prevComaIndex + 1 , nextComaIndex).toFloat();
+}
+
+void printPersonsList()
+{
+  for (unsigned int i = 0; i < totalPersons; i++)
+  {
+    Serial.print(persons[i].index);
+    Serial.print("," + persons[i].name + "," + persons[i].surname + ",");
+    Serial.print(persons[i].weight);
+    Serial.print(",");
+    Serial.println(persons[i].heigh);
+  }
+}
+
+void savePersonsList()
+{
+  SD.remove("persons.txt");
+  File personsFile = SD.open("persons.txt");
+  for (unsigned int i = 0; i < totalPersons; i++)
+  {
+    personsFile.print(persons[i].index);
+    personsFile.print("," + persons[i].name + "," + persons[i].surname + ",");
+    personsFile.print(persons[i].weight);
+    personsFile.print(",");
+    personsFile.println(persons[i].heigh);
+  }
+  personsFile.close();
 }
 
 void startInertialEncoderCapture()
@@ -1823,5 +1865,7 @@ void calibrateInertial()
   lastEncoderPosition = 0;
   calibratedInertial = true;
 }
-void fakeFunction(){  
+
+void fakeFunction()
+{  
 }

@@ -4425,21 +4425,35 @@ public partial class ChronoJumpWindow
 	private void on_button_menu_2_2_2_clicked (object o, EventArgs args)
 	{
 		string str = "";
-		if(o == (object) radio_menu_2_2_2_jumps)
+		if (o == (object) radio_menu_2_2_2_jumps)
 			str = "Jumps with contact platform";
-		if(o == (object) radio_menu_2_2_2_races)
+		else if (o == (object) radio_menu_2_2_2_races)
 			str = "Races with photocells (Wichro or wired), or RaceAnalyzer";
-		if(o == (object) radio_menu_2_2_2_isometric)
+		else if (o == (object) radio_menu_2_2_2_isometric)
 			str = "Isometric force exercises measured by a force sensor";
-		if(o == (object) radio_menu_2_2_2_elastic)
+		else if (o == (object) radio_menu_2_2_2_elastic)
 			str = "Elastic force exercises measured by a force sensor";
-		if(o == (object) radio_menu_2_2_2_weights)
+		else if (o == (object) radio_menu_2_2_2_weights)
 			str = "Speed/power exercises displacing weights measured by an encoder";
-		if(o == (object) radio_menu_2_2_2_inertial)
+		else if (o == (object) radio_menu_2_2_2_inertial)
 			str = "Speed/power exercises rotating an inertial machine and measured by an encoder";
 
 		if (str != "")
 			label_selector_menu_2_2_2.Text = str;
+	}
+
+	private void on_button_menu_2_2_2_go_clicked (object o, EventArgs args)
+	{
+/*		if (radio_menu_2_2_2_jumps.Active)
+		else if (radio_menu_2_2_2_races.Active)
+		else */if (radio_menu_2_2_2_isometric.Active)
+			on_button_selector_start_force_sensor_clicked (new object (), new EventArgs ());
+		else if (radio_menu_2_2_2_elastic.Active)
+			on_button_selector_start_force_sensor_clicked (new object (), new EventArgs ());
+		else if (radio_menu_2_2_2_weights.Active)
+			on_button_selector_start_encoder_gravitatory_clicked (new object (), new EventArgs ());
+		else if (radio_menu_2_2_2_inertial.Active)
+			on_button_selector_start_encoder_inertial_clicked (new object (), new EventArgs ());
 	}
 
 	private void on_button_contacts_capture_save_image_clicked (object o, EventArgs args)

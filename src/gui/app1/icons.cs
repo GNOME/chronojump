@@ -104,8 +104,11 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_selector_start_displ_weights;
 	[Widget] Gtk.Image image_selector_start_inertial;
 
+	[Widget] Gtk.Image image_start;
 	[Widget] Gtk.Image image_mode_jumps_small;
+	[Widget] Gtk.Image image_mode_jumps_small1;
 	[Widget] Gtk.Image image_mode_jumps_reactive_small;
+	[Widget] Gtk.Image image_mode_jumps_reactive_small1;
 	[Widget] Gtk.Image image_mode_runs_small;
 	[Widget] Gtk.Image image_mode_runs_small1;
 	[Widget] Gtk.Image image_mode_runs_intervallic_small;
@@ -671,11 +674,16 @@ public partial class ChronoJumpWindow
 		 * gui for small screens
 		 */
 
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "start.png");
+		image_start.Pixbuf = pixbuf;
+
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_jump_simple.png");
 		image_mode_jumps_small.Pixbuf = pixbuf;
+		image_mode_jumps_small1.Pixbuf = pixbuf;
 		image_change_modes_contacts_jumps_simple.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_jump_reactive.png");
 		image_mode_jumps_reactive_small.Pixbuf = pixbuf;
+		image_mode_jumps_reactive_small1.Pixbuf = pixbuf;
 		image_change_modes_contacts_jumps_reactive.Pixbuf = pixbuf;
 		image_tests_analyze_jump_rj.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_run_simple.png");

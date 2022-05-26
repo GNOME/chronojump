@@ -711,7 +711,7 @@ void calibrateTFT(void) {
     //Selecting the weight
     if (submenu == 0) {
       //TODO: Allow coninuous increasing by keeping pressed the button
-      if (blueButton.fallingEdge()) {
+      if (blueButton.fell()) {
         tft.setTextColor(BLACK);
         tft.setCursor(216, 150);
         tft.print(weight);
@@ -735,7 +735,7 @@ void calibrateTFT(void) {
       }
 
       //Change to Calibrate execution
-      if (redButton.fallingEdge()) {
+      if (redButton.fell()) {
 
         //Deleting explanation
         tft.setTextColor(BLACK);
@@ -758,7 +758,7 @@ void calibrateTFT(void) {
     }
     //Waiting the red button push to start calibration process
     if (submenu == 1) {
-      if (redButton.fallingEdge()) {
+      if (redButton.fell()) {
 
         tft.setTextColor(BLACK);
         tft.setCursor(100, 100);
@@ -797,7 +797,7 @@ void calibrateTFT(void) {
         tft.fillRect(248, 218, 60, 16, BLACK);
 
       }
-      if (blueButton.fallingEdge()) {
+      if (blueButton.fell()) {
         exitFlag = true;
       }
     }
@@ -839,7 +839,7 @@ void showSystemInfo(void) {
   tft.setCursor(100, 100);
   tft.print("System Info");
   redButton.update();
-  while (!redButton.fallingEdge()) {
+  while (!redButton.fell()) {
     redButton.update();
   }
   tft.setTextColor(BLACK);
@@ -922,7 +922,7 @@ void showLoadCellResults() {
 
   //Red button exits results
   redButton.update();
-  while (!redButton.fallingEdge()) {
+  while (!redButton.fell()) {
     redButton.update();
   }
   tft.fillRect(0, 20, 320, 240, BLACK);
@@ -1197,7 +1197,7 @@ void capture()
         //Check the buttons state
         redButton.update();
         blueButton.update();
-        if (redButton.fallingEdge())
+        if (redButton.fell())
         {
           n = plotPeriod;
           if (sensor == incEncoder)
@@ -1236,7 +1236,7 @@ void capture()
           }
           //xGraph = xMax;
         }
-        if (blueButton.fallingEdge() && !PcControlled)
+        if (blueButton.fell() && !PcControlled)
         {
           updatePersonSet();
         }
@@ -1406,7 +1406,7 @@ void showEncoderResults()
   printTftFormat(numRepetitions, 100, 80, textSize, 0);
 
   redButton.update();
-  while (!redButton.fallingEdge()) {
+  while (!redButton.fell()) {
     redButton.update();
   }
   tft.fillRect(0, 20, 320, 240, BLACK);
@@ -1492,7 +1492,7 @@ void showPowerResults()
   printTftFormat(measuredMax, 100, 40, textSize, 1);
 
   redButton.update();
-  while (!redButton.fallingEdge()) {
+  while (!redButton.fell()) {
     redButton.update();
   }
   tft.fillRect(0, 20, 320, 240, BLACK);
@@ -1533,7 +1533,7 @@ void setForceGoal()
 
     //Selecting the force goal
     //TODO: Allow coninuous increasing by keeping pressed the button
-    if (blueButton.fallingEdge()) {
+    if (blueButton.fell()) {
       tft.setTextColor(BLACK);
       printTftFormat(forceGoal, 236, 174, 2, 0);
       forceGoal += increment;
@@ -1560,7 +1560,7 @@ void setForceGoal()
     }
 
     //Change to Calibrate execution
-    if (redButton.fallingEdge()) {
+    if (redButton.fell()) {
 
       //Deleting explanation
       tft.fillRect(0, 60, 320, 240, BLACK);
@@ -1768,7 +1768,7 @@ void calibrateInertial()
   position = encoder.read();
   tft.print(position);
   redButton.update();
-  while(!redButton.fallingEdge())
+  while(!redButton.fell())
   {
     position = encoder.read();
     if (position != lastEncoderPosition){

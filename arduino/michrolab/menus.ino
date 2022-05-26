@@ -4,7 +4,7 @@ void showMenu()
 {
     //The blue button navigates through the Menu options
     blueButton.update();
-    if (blueButton.fallingEdge()) {
+    if (blueButton.fell()) {
       currentMenuIndex++;
       currentMenuIndex = currentMenuIndex % menuItemsNum;
       showMenuEntry(currentMenuIndex);
@@ -12,7 +12,7 @@ void showMenu()
 
     //The red button activates the menu option
     redButton.update();
-    if (redButton.fallingEdge())
+    if (redButton.fell())
     {
       PcControlled = false;
       currentMenu[currentMenuIndex].function();

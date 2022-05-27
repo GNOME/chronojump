@@ -903,8 +903,14 @@ class SqlitePreferences : Sqlite
 			else if(reader[0].ToString() == LoadLastModeAtStart)
 				preferences.loadLastModeAtStart = reader[1].ToString() == "True";
 			else if(reader[0].ToString() == LastMode)
-				preferences.lastMode = (Constants.Modes)
-					Enum.Parse(typeof(Constants.Modes), reader[1].ToString());
+			{
+				//fix previous to Chronojump 2.2.2 when mode was FORCESENSOR
+				if (reader[1].ToString () == "FORCESENSOR")
+					preferences.lastMode = Constants.Modes.FORCESENSORISOMETRIC;
+				else
+					preferences.lastMode = (Constants.Modes)
+						Enum.Parse(typeof(Constants.Modes), reader[1].ToString());
+			}
 			else if(reader[0].ToString() == SessionLoadDisplay)
 				preferences.sessionLoadDisplay = new SessionLoadDisplay(Convert.ToInt32(reader[1].ToString()));
 

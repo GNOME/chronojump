@@ -1047,7 +1047,14 @@ public class Constants
 		JUMPSSIMPLE, JUMPSREACTIVE,
 		RUNSSIMPLE, RUNSINTERVALLIC, RUNSENCODER,
 		POWERGRAVITATORY, POWERINERTIAL,
-		FORCESENSOR, RT, OTHER } //OTHER can be: Multichronopic, Pulse
+		FORCESENSORISOMETRIC, FORCESENSORELASTIC,
+		RT, OTHER } //OTHER can be: Multichronopic, Pulse
+
+	//to shorten code on the rest of the software
+	public static bool ModeIsFORCESENSOR (Modes mode)
+	{
+		return (mode == Modes.FORCESENSORISOMETRIC || mode == Modes.FORCESENSORELASTIC);
+	}
 
 	public static string ModeFolder (Constants.Modes mode)
 	{
@@ -1057,7 +1064,7 @@ public class Constants
 			return "encoder";
 		else if(mode == Constants.Modes.POWERINERTIAL)
 			return "encoder";
-		else if(mode == Constants.Modes.FORCESENSOR)
+		else if(ModeIsFORCESENSOR (mode))
 			return "forceSensor";
 		else
 			return ""; //should never happen

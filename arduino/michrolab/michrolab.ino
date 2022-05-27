@@ -1752,12 +1752,10 @@ void addPerson(String row)
   currentPerson = row.substring(prevComaIndex + 1, nextComaIndex).toInt();
   persons[currentPerson].index = currentPerson;
 
-  if (currentPerson >= totalPersons) totalPersons = currentPerson;
-
+  if (currentPerson >= totalPersons) totalPersons = currentPerson+1;
   prevComaIndex = nextComaIndex;
   nextComaIndex = row.indexOf(",", prevComaIndex + 1 );
   persons[currentPerson].name = row.substring(prevComaIndex + 1 , nextComaIndex);
-  
   prevComaIndex = nextComaIndex;
   nextComaIndex = row.indexOf(",", prevComaIndex + 1 );
   persons[currentPerson].surname = row.substring(prevComaIndex + 1 , nextComaIndex);

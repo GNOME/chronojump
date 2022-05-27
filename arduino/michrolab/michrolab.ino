@@ -825,11 +825,12 @@ void showBatteryLevel() {
 }
 
 void updateTime() {
-  if (totalTime > 1000000)
-  {
-    tft.setTextColor(BLACK);
-    printTftFormat(totalTime / 1000000 - 1, 302, 215, 2, 0);
-  }
+  tft.fillRect(268, 215, 48, 16, BLACK);
+//  if (totalTime > 1000000)
+//  {
+//    tft.setTextColor(BLACK);
+//    printTftFormat(totalTime / 1000000 - 1, 302, 215, 2, 0);
+//  }
   tft.setTextColor(WHITE);
   printTftFormat(totalTime / 1000000, 302, 215, 2, 0);
 }
@@ -1341,7 +1342,7 @@ void getEncoderDynamics()
 //        Serial.println("Change of phase at: " + String(lastSampleTime));
 //        Serial.print(String(1000 * (float)(position - startPhasePosition) / (lastSampleTime - startPhaseTime)) + " m/s\t" );
 //        Serial.println(String(1000*(persons[currentPerson].weight * 9.81 * (position - startPhasePosition)) / 
-        (lastSampleTime - startPhaseTime))+" W");
+//        (lastSampleTime - startPhaseTime))+" W");
         startPhasePosition = position;
         startPhaseTime = lastSampleTime;
       }
@@ -1645,17 +1646,16 @@ String createNewDir()
 
 void updatePersonSet()
 {
-  String personSet = "Person: " + addLeadingZeros(currentPerson, 2) + "   Set: " + addLeadingZeros(setNumber, 2);
+  String personSet = "Set: " + addLeadingZeros(setNumber, 2) + "   Person: " + addLeadingZeros(currentPerson, 2);
   tft.setTextSize(1);
+  tft.fillRect(148, 207, 120, 8, BLACK);
   tft.setTextColor(BLACK);
-  tft.setCursor(148, 207);
-  tft.print(personSet);
   tft.setCursor(148, 223);
   tft.print(persons[currentPerson].name + " " + persons[currentPerson].surname);
   currentPerson = (currentPerson + 1) % totalPersons;
 
-  personSet = "Person: " + addLeadingZeros(currentPerson, 2) + "   Set: " + addLeadingZeros(setNumber, 2);
-  fileName = "P" + addLeadingZeros(currentPerson, 2) + "S" + addLeadingZeros(setNumber, 2);
+  personSet = "Set: " + addLeadingZeros(setNumber, 2) + "   Person: " + addLeadingZeros(currentPerson, 2);
+  fileName = "S" + addLeadingZeros(setNumber, 2) + "P" + addLeadingZeros(currentPerson, 2);
   tft.setTextColor(WHITE);
   tft.setCursor(148, 207);
   tft.print(personSet);
@@ -1868,11 +1868,14 @@ void calibrateInertial()
 
 void selectPerson()
 {
+  setNumber++;
   updatePersonSet();
   while(!redButton.fell())
   {
     blueButton.update();
-    if(blueButton.fell()) updatePersonSet();
+    if(blueButton.fell()) {
+      updatePersonSet();
+    }
     redButton.update();
   }
 }

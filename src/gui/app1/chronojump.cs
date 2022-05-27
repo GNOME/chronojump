@@ -127,9 +127,6 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.HBox hbox_radio_mode_contacts_analyze_buttons;
 	[Widget] Gtk.HBox hbox_radio_mode_contacts_analyze_jump_simple_buttons;
 
-	[Widget] Gtk.Image image_button_show_modes_contacts_grid;
-	[Widget] Gtk.Image image_button_show_modes_encoder_grid;
-
 	//radio group
 	[Widget] Gtk.RadioButton radio_mode_contacts_capture;
 	[Widget] Gtk.RadioButton radio_mode_contacts_analyze;
@@ -3643,10 +3640,6 @@ public partial class ChronoJumpWindow
 			return;
 		}
 
-
-		Pixbuf pixbufModeGrid = new Pixbuf (null, Util.GetImagePath(false) + "image_modes.png");
-		Pixbuf pixbufModeCurrent;
-
 		if(m == Constants.Modes.JUMPSSIMPLE || m == Constants.Modes.JUMPSREACTIVE)
 		{
 			button_contacts_detect.Visible = true;
@@ -3675,7 +3668,6 @@ public partial class ChronoJumpWindow
 				//vbox_contacts_graph_legend.Visible = false;
 
 				frame_jumps_automatic.Visible = true;
-				pixbufModeCurrent = new Pixbuf (null, Util.GetImagePath(false) + "image_jump_simple.png");
 
 				if(radio_mode_contacts_analyze.Active)
 					radio_mode_contacts_analyze_buttons_visible (m);
@@ -3690,8 +3682,6 @@ public partial class ChronoJumpWindow
 
 				//align_check_vbox_contacts_graph_legend.Visible = false;
 				//vbox_contacts_graph_legend.Visible = false;
-
-				pixbufModeCurrent = new Pixbuf (null, Util.GetImagePath(false) + "image_jump_reactive.png");
 			}
 
 			createComboSelectContactsTop ();
@@ -3706,8 +3696,6 @@ public partial class ChronoJumpWindow
 
 			if(radio_mode_contacts_analyze.Active)
 				radio_mode_contacts_analyze_buttons_visible (m);
-
-			pixbufModeGrid = new Pixbuf (null, Util.GetImagePath(false) + "image_modes_jump.png");
 		}
 		else if(m == Constants.Modes.RUNSSIMPLE || m == Constants.Modes.RUNSINTERVALLIC)
 		{
@@ -3753,8 +3741,6 @@ public partial class ChronoJumpWindow
 				//show icon but have it unsensitive until there's a run
 				button_inspect_last_test_run_simple.Visible = true;
 				button_inspect_last_test_run_simple.Sensitive = false;
-
-				pixbufModeCurrent = new Pixbuf (null, Util.GetImagePath(false) + "image_run_simple.png");
 			}
 			else
 			{
@@ -3777,7 +3763,6 @@ public partial class ChronoJumpWindow
 				//vbox_contacts_graph_legend.Visible = false;
 
 				createTreeView_runs_interval_sprint (treeview_runs_interval_sprint);
-				pixbufModeCurrent = new Pixbuf (null, Util.GetImagePath(false) + "image_run_multiple.png");
 
 				if(radio_mode_contacts_analyze.Active)
 					radio_mode_contacts_analyze_buttons_visible (m);
@@ -3786,9 +3771,6 @@ public partial class ChronoJumpWindow
 			createComboSelectContactsTop ();
 			label_contacts_exercise_selected_name.Visible = false;
 			hbox_combo_select_contacts_top_with_arrows.Visible = true; //this will be unneded
-
-
-			pixbufModeGrid = new Pixbuf (null, Util.GetImagePath(false) + "image_modes_run.png");
 		}
 		else if(m == Constants.Modes.POWERGRAVITATORY || m == Constants.Modes.POWERINERTIAL) 
 		{
@@ -3843,7 +3825,6 @@ public partial class ChronoJumpWindow
 				hbox_encoder_exercise_inertia.Visible = false;
 				hbox_encoder_exercise_gravitatory_min_mov.Visible = true;
 				hbox_encoder_exercise_inertial_min_mov.Visible = false;
-				pixbufModeCurrent = new Pixbuf (null, Util.GetImagePath(false) + "image_weight.png");
 
 				if(radio_encoder_analyze_individual_current_set.Active || radio_encoder_analyze_individual_current_session.Active)
 				{
@@ -3857,6 +3838,7 @@ public partial class ChronoJumpWindow
 				label_gravitatory_vpf_propulsive.Visible = preferences.encoderPropulsive;
 
 				notebook_encoder_top.Page = 0;
+				image_encoder_exercise.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_weight.png");
 			}
 			else //(m == Constants.Modes.POWERINERTIAL)
 			{
@@ -3893,7 +3875,7 @@ public partial class ChronoJumpWindow
 				label_gravitatory_vpf_propulsive.Visible = false;
 
 				notebook_encoder_top.Page = 1;
-				pixbufModeCurrent = new Pixbuf (null, Util.GetImagePath(false) + "image_inertia.png");
+				image_encoder_exercise.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_inertia.png");
 			}
 			encoderConfigurationGUIUpdate();
 			encoderGuiChangesAfterEncoderConfigurationWin(true);
@@ -3906,8 +3888,6 @@ public partial class ChronoJumpWindow
 				setEncoderExerciseOptionsFromPreferences();
 				encoderPreferencesSet = true;
 			}
-
-			pixbufModeGrid = new Pixbuf (null, Util.GetImagePath(false) + "image_modes_encoder.png");
 		} 
 		else if(Constants.ModeIsFORCESENSOR (m))
 		{
@@ -3954,9 +3934,6 @@ public partial class ChronoJumpWindow
 			createComboSelectContactsTop ();
 			label_contacts_exercise_selected_name.Visible = false;
 			hbox_combo_select_contacts_top_with_arrows.Visible = true; //this will be unneded
-
-			pixbufModeCurrent = new Pixbuf (null, Util.GetImagePath(false) + "force_sensor_icon.png");
-			pixbufModeGrid = new Pixbuf (null, Util.GetImagePath(false) + "image_modes_force.png");
 		}
 		else if(m == Constants.Modes.RUNSENCODER)
 		{
@@ -3999,9 +3976,6 @@ public partial class ChronoJumpWindow
 			createComboSelectContactsTop ();
 			label_contacts_exercise_selected_name.Visible = false;
 			hbox_combo_select_contacts_top_with_arrows.Visible = true; //this will be unneded
-
-			pixbufModeCurrent = new Pixbuf (null, Util.GetImagePath(false) + "race_encoder_icon.png");
-			pixbufModeGrid = new Pixbuf (null, Util.GetImagePath(false) + "image_modes_run.png");
 		}
 		else if(m == Constants.Modes.RT)
 		{
@@ -4019,9 +3993,6 @@ public partial class ChronoJumpWindow
 
 			label_contacts_exercise_selected_options.Visible = true;
 			image_top_laterality_contacts.Visible = false;
-
-			pixbufModeCurrent = new Pixbuf (null, Util.GetImagePath(false) + "reaction_time_icon.png");
-			pixbufModeGrid = new Pixbuf (null, Util.GetImagePath(false) + "image_modes_rt.png");
 		}
 		else {	//m == Constants.Modes.OTHER (contacts / other)
 			event_execute_drawingarea.Visible = true;
@@ -4042,16 +4013,7 @@ public partial class ChronoJumpWindow
 
 			label_contacts_exercise_selected_options.Visible = true;
 			image_top_laterality_contacts.Visible = false;
-
-			pixbufModeCurrent = new Pixbuf (null, Util.GetImagePath(false) + "other_icon.png");
-			pixbufModeGrid = new Pixbuf (null, Util.GetImagePath(false) + "image_modes_other.png");
 		}
-
-		image_button_show_modes_contacts_grid.Pixbuf = pixbufModeGrid;
-		image_button_show_modes_encoder_grid.Pixbuf = pixbufModeGrid;
-
-		if(m == Constants.Modes.POWERGRAVITATORY || m == Constants.Modes.POWERINERTIAL)
-			image_encoder_exercise.Pixbuf = pixbufModeCurrent;
 
 		//show feedback icon
 		Pixbuf pixbufBellActive = new Pixbuf (null, Util.GetImagePath(false) + "stock_bell_active.png");

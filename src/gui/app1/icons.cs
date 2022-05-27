@@ -90,13 +90,6 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_logo_encoder;
 	[Widget] Gtk.Image image_logo_encoder_transp;
 
-	[Widget] Gtk.Image image_selector_start_jumps;
-	[Widget] Gtk.Image image_selector_start_runs;
-	[Widget] Gtk.Image image_selector_start_encoder;
-	[Widget] Gtk.Image image_selector_start_rt;
-	[Widget] Gtk.Image image_selector_start_other;
-	[Widget] Gtk.Image image_selector_start_back;
-
 	[Widget] Gtk.Image image_selector_start_jumps1;
 	[Widget] Gtk.Image image_selector_start_runs1;
 	[Widget] Gtk.Image image_selector_start_isometric;
@@ -106,27 +99,11 @@ public partial class ChronoJumpWindow
 
 	//[Widget] Gtk.Image image_down_menu_2_2_2;
 	[Widget] Gtk.Image image_start;
-	[Widget] Gtk.Image image_mode_jumps_small;
 	[Widget] Gtk.Image image_mode_jumps_small1;
-	[Widget] Gtk.Image image_mode_jumps_reactive_small;
 	[Widget] Gtk.Image image_mode_jumps_reactive_small1;
-	[Widget] Gtk.Image image_mode_runs_small;
-	[Widget] Gtk.Image image_mode_runs_small1;
 	[Widget] Gtk.Image image_mode_runs_small2;
-	[Widget] Gtk.Image image_mode_runs_intervallic_small;
-	[Widget] Gtk.Image image_mode_runs_intervallic_small1;
 	[Widget] Gtk.Image image_mode_runs_intervallic_small2;
-	[Widget] Gtk.Image image_mode_race_encoder_small;
 	[Widget] Gtk.Image image_mode_race_encoder_small1;
-	[Widget] Gtk.Image image_mode_pulses_small;
-	[Widget] Gtk.Image image_mode_multi_chronopic_small;
-	[Widget] Gtk.Image image_mode_encoder_gravitatory;
-	[Widget] Gtk.Image image_mode_encoder_inertial;
-
-	[Widget] Gtk.Label label_start_selector_jumps;
-	[Widget] Gtk.Label label_start_selector_races1;
-	[Widget] Gtk.Label label_start_selector_races;
-	[Widget] Gtk.Label label_start_selector_encoder;
 
 	[Widget] Gtk.Image image_button_help_close;
 
@@ -405,11 +382,9 @@ public partial class ChronoJumpWindow
 		image_current_person.Pixbuf = pixbuf;
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_weight.png");
-		image_mode_encoder_gravitatory.Pixbuf = pixbuf;
 		image_change_modes_encoder_gravitatory.Pixbuf = pixbuf;
 		app1s_image_show_data_encoder_grav.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_inertia.png");
-		image_mode_encoder_inertial.Pixbuf = pixbuf;
 		image_change_modes_encoder_inertial.Pixbuf = pixbuf;
 		app1s_image_show_data_encoder_inertial.Pixbuf = pixbuf;
 
@@ -434,7 +409,6 @@ public partial class ChronoJumpWindow
 		image_tests_sprint.Pixbuf = pixbuf;
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "arrow_back.png");
-		image_selector_start_back.Pixbuf = pixbuf;
 		image_button_force_sensor_analyze_back_to_signal.Pixbuf = pixbuf;
 		image_app1s_button_back.Pixbuf = pixbuf;
 
@@ -651,19 +625,6 @@ public partial class ChronoJumpWindow
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameIconTransp);
 		image_logo_icon_transp.Pixbuf = pixbuf;
 
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "selector-jumps.png");
-		image_selector_start_jumps.Pixbuf = pixbuf;
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "selector-runs.png");
-		image_selector_start_runs.Pixbuf = pixbuf;
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "selector-encoder.png");
-		image_selector_start_encoder.Pixbuf = pixbuf;
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "selector-force.png");
-		image_selector_start_force_sensor.Pixbuf = pixbuf;
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "selector-rt.png");
-		image_selector_start_rt.Pixbuf = pixbuf;
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "selector-multichronopic.png");
-		image_selector_start_other.Pixbuf = pixbuf;
-
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_jump_2x.png");
 		image_selector_start_jumps1.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "run_mov_2x.png");
@@ -684,27 +645,20 @@ public partial class ChronoJumpWindow
 		image_start.Pixbuf = pixbuf;
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_jump_simple.png");
-		image_mode_jumps_small.Pixbuf = pixbuf;
 		image_mode_jumps_small1.Pixbuf = pixbuf;
 		image_change_modes_contacts_jumps_simple.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_jump_reactive.png");
-		image_mode_jumps_reactive_small.Pixbuf = pixbuf;
 		image_mode_jumps_reactive_small1.Pixbuf = pixbuf;
 		image_change_modes_contacts_jumps_reactive.Pixbuf = pixbuf;
 		image_tests_analyze_jump_rj.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_run_simple.png");
-		image_mode_runs_small.Pixbuf = pixbuf;
-		image_mode_runs_small1.Pixbuf = pixbuf;
 		image_mode_runs_small2.Pixbuf = pixbuf;
 		image_change_modes_contacts_runs_simple.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_run_multiple.png");
-		image_mode_runs_intervallic_small.Pixbuf = pixbuf;
-		image_mode_runs_intervallic_small1.Pixbuf = pixbuf;
 		image_mode_runs_intervallic_small2.Pixbuf = pixbuf;
 		image_change_modes_contacts_runs_intervallic.Pixbuf = pixbuf;
 		image_change_modes_contacts_force_sensor.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "force_sensor_icon.png");
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "race_encoder_icon.png");
-		image_mode_race_encoder_small.Pixbuf = pixbuf;
 		image_mode_race_encoder_small1.Pixbuf = pixbuf;
 		image_change_modes_contacts_runs_encoder.Pixbuf = pixbuf;
 
@@ -713,20 +667,6 @@ public partial class ChronoJumpWindow
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "run_photocell.png");
 		image_run_execute_photocell_icon.Pixbuf = pixbuf;
 		
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNamePulse);
-		image_mode_pulses_small.Pixbuf = pixbuf;
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameMultiChronopic);
-		image_mode_multi_chronopic_small.Pixbuf = pixbuf;
-		
-		label_start_selector_jumps.Text = "<b>" + label_start_selector_jumps.Text + "</b>";
-		label_start_selector_races1.Text = "<b>" + label_start_selector_races1.Text + "</b>";
-		label_start_selector_races.Text = "<b>" + label_start_selector_races.Text + "</b>";
-		label_start_selector_encoder.Text = "<b>" + label_start_selector_encoder.Text + "</b>";
-		label_start_selector_jumps.UseMarkup = true;
-		label_start_selector_races1.UseMarkup = true;
-		label_start_selector_races.UseMarkup = true;
-		label_start_selector_encoder.UseMarkup = true;
-
 		image_check_runI_realtime_rel_abs.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "bar_relative.png");
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameJumpsFallCalculate);

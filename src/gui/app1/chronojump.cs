@@ -57,11 +57,6 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.DrawingArea drawingarea_chronojump_logo;
 
 	[Widget] Gtk.Notebook notebook_start; 		//start window or program
-	[Widget] Gtk.Notebook notebook_mode_selector; 	//use to display the mode images to select different modes
-	[Widget] Gtk.Notebook notebook_mode_selector2; //for selection of jumps, runs, runs photocell, encoder
-	[Widget] Gtk.Table table_start_selector_rt_other;
-	[Widget] Gtk.Button button_start_selector_show_more;
-	[Widget] Gtk.Button button_start_selector_show_less;
 	[Widget] Gtk.Notebook notebook_sup;
 	[Widget] Gtk.HBox hbox_other;
 	[Widget] Gtk.HBox hbox_contacts_capture_top;
@@ -3406,7 +3401,6 @@ public partial class ChronoJumpWindow
 
 	private void show_start_page()
 	{
-		notebook_mode_selector.CurrentPage = 0;
 		notebook_sup.CurrentPage = Convert.ToInt32(notebook_sup_pages.START);
 
 		//show title
@@ -3416,21 +3410,6 @@ public partial class ChronoJumpWindow
 
 		setApp1Title(tempSessionName, Constants.Modes.UNDEFINED);
 		new ChronojumpLogo (notebook_chronojump_logo, drawingarea_chronojump_logo, preferences.logoAnimatedShow);
-	}
-
-	private void on_button_start_selector_show_more_clicked (object o, EventArgs args)
-	{
-		button_start_selector_show_more.Visible = false;
-		button_start_selector_show_less.Visible = true;
-
-		table_start_selector_rt_other.Visible = true;
-	}
-	private void on_button_start_selector_show_less_clicked (object o, EventArgs args)
-	{
-		button_start_selector_show_more.Visible = true;
-		button_start_selector_show_less.Visible = false;
-
-		table_start_selector_rt_other.Visible = false;
 	}
 
 	private void on_button_show_modes_clicked (object o, EventArgs args)
@@ -4288,12 +4267,6 @@ public partial class ChronoJumpWindow
 		
 
 
-	private void on_button_selector_start_jumps_clicked(object o, EventArgs args) 
-	{
-		notebook_mode_selector2.CurrentPage = 0; //jumps
-		notebook_mode_selector.CurrentPage = 1; //2nd selector
-	}
-
 	private void on_button_selector_start_jumps_simple_clicked(object o, EventArgs args) 
 	{
 		changeModeCheckRadios (Constants.Modes.JUMPSSIMPLE);
@@ -4312,17 +4285,7 @@ public partial class ChronoJumpWindow
 		if(radio_change_modes_contacts_jumps_reactive.Active)
 			changeMode (Constants.Modes.JUMPSREACTIVE);
 	}
-	
-	private void on_button_selector_start_runs_clicked(object o, EventArgs args) 
-	{
-		notebook_mode_selector2.CurrentPage = 1; //runs
-		notebook_mode_selector.CurrentPage = 1; //2nd selector
-	}
-	private void on_button_selector_start_runs_photocell_clicked(object o, EventArgs args)
-	{
-		notebook_mode_selector2.CurrentPage = 2; //runs photocell
-		notebook_mode_selector.CurrentPage = 1; //2nd selector
-	}
+
 	private void on_button_selector_start_runs_simple_clicked(object o, EventArgs args)
 	{
 		changeModeCheckRadios (Constants.Modes.RUNSSIMPLE);
@@ -4350,12 +4313,6 @@ public partial class ChronoJumpWindow
 		if(radio_change_modes_contacts_runs_encoder.Active)
 			changeMode (Constants.Modes.RUNSENCODER);
 	}
-	
-	private void on_button_selector_start_encoder_clicked(object o, EventArgs args) 
-	{
-		notebook_mode_selector2.CurrentPage = 3; //encoder
-		notebook_mode_selector.CurrentPage = 1; //2nd selector
-	}
 
 	private void on_button_selector_start_encoder_gravitatory_clicked(object o, EventArgs args) 
 	{
@@ -4381,6 +4338,7 @@ public partial class ChronoJumpWindow
 		changeMode (Constants.Modes.FORCESENSOR);
 	}
 
+	/*
 	private void on_button_selector_start_rt_clicked(object o, EventArgs args)
 	{
 		changeMode (Constants.Modes.RT);
@@ -4390,28 +4348,17 @@ public partial class ChronoJumpWindow
 	{
 		changeMode (Constants.Modes.OTHER);
 	}
+	*/
 
-	private void on_button_start_back_clicked(object o, EventArgs args)
-	{
-		if(notebook_mode_selector2.CurrentPage == 2) //runs photocell
-			notebook_mode_selector2.CurrentPage = 1; //runs
-		else
-			notebook_mode_selector.CurrentPage = 0; //main
-	}
-
+	/*
 	private void on_button_view_menu_2_2_2_clicked (object o, EventArgs args)
 	{
-		notebook_mode_selector.CurrentPage = 2;
-
 		//TODO: depending on mode, force click on button_menu_2_2_2_clicked to ensure all widgets are updated
 		//if no current mode, then jumps
 		radio_menu_2_2_2_jumps.Active = true;
 		on_button_menu_2_2_2_clicked (radio_menu_2_2_2_jumps, args);
 	}
-	private void on_button_view_menu_2_2_1_clicked (object o, EventArgs args)
-	{
-		notebook_mode_selector.CurrentPage = 0;
-	}
+	*/
 
 	[Widget] Gtk.RadioButton radio_menu_2_2_2_jumps;
 	[Widget] Gtk.RadioButton radio_menu_2_2_2_races;
@@ -4425,7 +4372,6 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.EventBox eventbox_radio_menu_2_2_2_elastic;
 	[Widget] Gtk.EventBox eventbox_radio_menu_2_2_2_weights;
 	[Widget] Gtk.EventBox eventbox_radio_menu_2_2_2_inertial;
-	[Widget] Gtk.EventBox eventbox_label_menu_2_2_2_title;
 	[Widget] Gtk.Notebook notebook_menu_2_2_2; //0 jumps, 1 races, 2 isometric/elastic/weights/inertial
 	[Widget] Gtk.Label label_selector_menu_2_2_2_title;
 	[Widget] Gtk.Label label_selector_menu_2_2_2_desc;

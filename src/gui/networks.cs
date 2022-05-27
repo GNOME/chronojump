@@ -268,22 +268,7 @@ public partial class ChronoJumpWindow
 
 		if(configChronojump.LowHeight)
 		{
-			Pixbuf pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "selector-jumps-small.png");
-			image_selector_start_jumps.Pixbuf = pixbuf;
-			pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "selector-runs-small.png");
-			image_selector_start_runs.Pixbuf = pixbuf;
-			pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "selector-encoder-small.png");
-			image_selector_start_encoder.Pixbuf = pixbuf;
-			pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "selector-force-small.png");
-			image_selector_start_force_sensor.Pixbuf = pixbuf;
-			pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "selector-rt-small.png");
-			image_selector_start_rt.Pixbuf = pixbuf;
-			pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "selector-multichronopic-small.png");
-			image_selector_start_other.Pixbuf = pixbuf;
-
-
 			vbox_menu_tiny_menu.Spacing = 14; //spacing 10 or 14 is the same. 20 makes window higher
-
 			image_encoder_inertial_instructions.Visible = false;
 		}
 

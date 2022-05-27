@@ -360,7 +360,7 @@ public class PreferencesWindow
 			PreferencesWindowBox.notebook.GetNthPage(ENCODEROTHERPAGE).Hide();
 			PreferencesWindowBox.check_view_encoder.Active = false;
 		}
-		if(menu_mode !=	Constants.Modes.FORCESENSOR) {
+		if(! Constants.ModeIsFORCESENSOR (menu_mode)) {
 			PreferencesWindowBox.notebook.GetNthPage(FORCESENSORPAGE).Hide();
 			PreferencesWindowBox.check_view_force_sensor.Active = false;
 		} if(menu_mode != Constants.Modes.RUNSENCODER) {

@@ -658,6 +658,7 @@ public partial class ChronoJumpWindow
 		image_mode_runs_intervallic_small2.Pixbuf = pixbuf;
 		image_change_modes_contacts_runs_intervallic.Pixbuf = pixbuf;
 		image_change_modes_contacts_force_sensor.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "force_sensor_icon.png");
+		image_change_modes_contacts_force_sensor1.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "force_sensor_icon.png");
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "race_encoder_icon.png");
 		image_mode_race_encoder_small1.Pixbuf = pixbuf;
 		image_change_modes_contacts_runs_encoder.Pixbuf = pixbuf;

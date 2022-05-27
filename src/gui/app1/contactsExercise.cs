@@ -140,7 +140,7 @@ public partial class ChronoJumpWindow
 			name = UtilGtk.ComboGetActive(combo_select_runs);
 		else if(m == Constants.Modes.RUNSINTERVALLIC)
 			name = UtilGtk.ComboGetActive(combo_select_runs_interval);
-		else if(m == Constants.Modes.FORCESENSOR)
+		else if (Constants.ModeIsFORCESENSOR (m))
 			name = UtilGtk.ComboGetActive(combo_force_sensor_exercise);
 		else if(m == Constants.Modes.RUNSENCODER)
 			name = UtilGtk.ComboGetActive(combo_run_encoder_exercise);
@@ -293,7 +293,7 @@ public partial class ChronoJumpWindow
 			contacts_exercise_left_button (combo_run_encoder_exercise,
 					button_combo_run_encoder_exercise_capture_left,
 					button_combo_run_encoder_exercise_capture_right);
-		else if(current_mode == Constants.Modes.FORCESENSOR)
+		else if (Constants.ModeIsFORCESENSOR (current_mode))
 			contacts_exercise_left_button (combo_force_sensor_exercise,
 					button_combo_force_sensor_exercise_capture_left,
 					button_combo_force_sensor_exercise_capture_right);
@@ -320,7 +320,7 @@ public partial class ChronoJumpWindow
 			contacts_exercise_right_button (combo_run_encoder_exercise,
 					button_combo_run_encoder_exercise_capture_left,
 					button_combo_run_encoder_exercise_capture_right);
-		else if(current_mode == Constants.Modes.FORCESENSOR)
+		else if (Constants.ModeIsFORCESENSOR (current_mode))
 			contacts_exercise_right_button (combo_force_sensor_exercise,
 					button_combo_force_sensor_exercise_capture_left,
 					button_combo_force_sensor_exercise_capture_right);

@@ -291,8 +291,7 @@ public partial class ChronoJumpWindow
 			// 3) put preference to true again
 			SqlitePreferences.Update(SqlitePreferences.LoadLastModeAtStart, true, false);
 		} else {
-			notebook_sup.CurrentPage = Convert.ToInt32(notebook_sup_pages.START);
-			new ChronojumpLogo (notebook_chronojump_logo, drawingarea_chronojump_logo, preferences.logoAnimatedShow);
+			show_start_page ();
 		}
 	}
 }

@@ -3086,7 +3086,7 @@ class Sqlite
 			{
 				LogB.SQL("Inserted default exercises of forceSensor and raceAnalyzer if empty");
 
-				ArrayList exercises = SqliteForceSensorExercise.Select(true, -1, true);
+				ArrayList exercises = SqliteForceSensorExercise.Select(true, -1, -1, true);
 				if(exercises == null || exercises.Count == 0)
 					SqliteForceSensorExercise.insertDefault();
 

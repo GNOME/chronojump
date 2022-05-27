@@ -382,7 +382,7 @@ public class DiscoverWindow
 				(current_mode == Constants.Modes.RUNSSIMPLE || current_mode == Constants.Modes.RUNSINTERVALLIC) &&
 				(crpt == ChronopicRegisterPort.Types.CONTACTS || crpt == ChronopicRegisterPort.Types.RUN_WIRELESS) )
 			return true;
-		else if (current_mode == Constants.Modes.FORCESENSOR && crpt == ChronopicRegisterPort.Types.ARDUINO_FORCE)
+		else if (Constants.ModeIsFORCESENSOR (current_mode) && crpt == ChronopicRegisterPort.Types.ARDUINO_FORCE)
 			return true;
 		else if (current_mode == Constants.Modes.RUNSENCODER && crpt == ChronopicRegisterPort.Types.ARDUINO_RUN_ENCODER)
 			return true;

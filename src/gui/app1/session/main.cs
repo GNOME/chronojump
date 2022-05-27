@@ -256,7 +256,7 @@ public partial class ChronoJumpWindow
 				( current_mode != Constants.Modes.RUNSENCODER && //this 4 modes are the only one who have a separate dir
 				current_mode != Constants.Modes.POWERGRAVITATORY &&
 				current_mode != Constants.Modes.POWERINERTIAL &&
-				current_mode != Constants.Modes.FORCESENSOR ) ||
+				! Constants.ModeIsFORCESENSOR (current_mode)) ||
 				currentSession == null || currentSession.UniqueID < 0)
 		{
 			string dir = app1s_getDataFolderGeneric ();

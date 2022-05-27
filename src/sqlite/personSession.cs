@@ -515,7 +515,7 @@ class SqlitePersonSession : Sqlite
 		}
 
 		// 5) delete forceSensor and related triggers
-		List<ForceSensor> fs_l = SqliteForceSensor.Select (true, -1, Convert.ToInt32(personID), Convert.ToInt32(sessionID));
+		List<ForceSensor> fs_l = SqliteForceSensor.Select (true, -1, Convert.ToInt32(personID), Convert.ToInt32(sessionID), -1);
 		foreach(ForceSensor fs in fs_l)
 		{
 			SqliteForceSensor.DeleteSQLAndFiles (true, fs); //deletes also the .csv

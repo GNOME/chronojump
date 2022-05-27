@@ -353,6 +353,17 @@ public class ForceSensor
 		}
 	}
 
+	//used to do selects on the software
+	public static int GetElasticIntFromMode (Constants.Modes mode)
+	{
+		int elastic = -1;
+		if (mode == Constants.Modes.FORCESENSORISOMETRIC)
+			elastic = 0;
+		else if (mode == Constants.Modes.FORCESENSORELASTIC)
+			elastic = 1;
+
+		return elastic;
+	}
 
 
 	public string Filename

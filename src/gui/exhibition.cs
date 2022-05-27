@@ -39,7 +39,7 @@ public partial class ChronoJumpWindow
 			on_button_selector_start_encoder_inertial_clicked (new object (), new EventArgs());
 		else if(exhibitionStationType == ExhibitionTest.testTypes.FORCE_ROPE ||
 				exhibitionStationType == ExhibitionTest.testTypes.FORCE_SHOT)
-			on_button_selector_start_force_sensor_clicked (new object (), new EventArgs());
+			on_button_selector_start_force_sensor_isometric_clicked (new object (), new EventArgs());
 
 		frame_exhibition.Visible = true;
 		frame_persons.Sensitive = true;

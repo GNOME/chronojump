@@ -1203,7 +1203,7 @@ public partial class ChronoJumpWindow
 	private void assignCurrentForceSensorExercise()
 	{
 		currentForceSensorExercise = (ForceSensorExercise) SqliteForceSensorExercise.Select (
-                                false, getExerciseIDFromAnyCombo(combo_force_sensor_exercise, forceSensorComboExercisesString, false), false)[0];
+                                false, getExerciseIDFromAnyCombo(combo_force_sensor_exercise, forceSensorComboExercisesString, false), -1, false)[0];
 	}
 
 	private void forceSensorCaptureDo()
@@ -2158,7 +2158,8 @@ LogB.Information(" fs R ");
 	//very based on: on_encoder_load_signal_clicked () future have some inheritance
 	private void force_sensor_load ()
 	{
-		List<ForceSensor> data = SqliteForceSensor.Select(false, -1, currentPerson.UniqueID, currentSession.UniqueID);
+		int elastic = ForceSensor.GetElasticIntFromMode (current_mode);
+		List<ForceSensor> data = SqliteForceSensor.Select(false, -1, currentPerson.UniqueID, currentSession.UniqueID, elastic);
 
 		ArrayList dataPrint = new ArrayList();
 		int count = 1;
@@ -2241,7 +2242,8 @@ LogB.Information(" fs R ");
 
 		genericWin.HideAndNull();
 
-		ForceSensor fs = (ForceSensor) SqliteForceSensor.Select(false, uniqueID, currentPerson.UniqueID, currentSession.UniqueID)[0];
+		int elastic = ForceSensor.GetElasticIntFromMode (current_mode);
+		ForceSensor fs = (ForceSensor) SqliteForceSensor.Select(false, uniqueID, currentPerson.UniqueID, currentSession.UniqueID, elastic)[0];
 		if(fs == null)
 		{
 			new DialogMessage(Constants.MessageTypes.WARNING, Constants.FileNotFoundStr());
@@ -2368,7 +2370,8 @@ LogB.Information(" fs R ");
 
 		//1) select set
 		int setID = genericWin.TreeviewSelectedUniqueID;
-		ForceSensor fs = (ForceSensor) SqliteForceSensor.Select(true, setID, -1, -1)[0];
+		int elastic = ForceSensor.GetElasticIntFromMode (current_mode);
+		ForceSensor fs = (ForceSensor) SqliteForceSensor.Select(true, setID, -1, -1, elastic)[0];
 
 		//2) if changed comment, update SQL, and update treeview
 		//first remove conflictive characters
@@ -2465,7 +2468,8 @@ LogB.Information(" fs R ");
 		if(currentForceSensor != null && setID == Convert.ToInt32(currentForceSensor.UniqueID))
 			force_sensor_delete_current_test_accepted(o, args);
 		else {
-			ForceSensor fs = (ForceSensor) SqliteForceSensor.Select(false, setID, -1, -1)[0];
+			int elastic = ForceSensor.GetElasticIntFromMode (current_mode);
+			ForceSensor fs = (ForceSensor) SqliteForceSensor.Select(false, setID, -1, -1, elastic)[0];
 			forceSensorDeleteTestDo(fs);
 
 			//genericWin selected row is deleted, unsensitive the "load" button
@@ -3311,7 +3315,7 @@ LogB.Information(" fs R ");
 
 		ArrayList array = SqliteForceSensorExercise.Select (
                                 false, getExerciseIDFromAnyCombo(
-					combo_force_sensor_exercise, forceSensorComboExercisesString, false), false );
+					combo_force_sensor_exercise, forceSensorComboExercisesString, false), -1, false );
 
 		if(array.Count == 0)
 		{
@@ -3321,7 +3325,7 @@ LogB.Information(" fs R ");
 			frame_force_sensor_elastic.Visible = false;
 			changeTestImage("", "", "FORCESENSOR_NOT_ELASTIC");
 
-			setLabelContactsExerciseSelected(Constants.Modes.FORCESENSOR);
+			setLabelContactsExerciseSelected(current_mode);
 			combo_force_sensor_button_sensitive_exercise(false);
 			return;
 		}
@@ -3372,9 +3376,11 @@ LogB.Information(" fs R ");
 		}
 	}
 
-	private void fillForceSensorExerciseCombo(string name)
+	private void fillForceSensorExerciseCombo (string name)
 	{
-		ArrayList forceSensorExercises = SqliteForceSensorExercise.Select (false, -1, false);
+		int elastic = ForceSensor.GetElasticIntFromMode (current_mode);
+
+		ArrayList forceSensorExercises = SqliteForceSensorExercise.Select (false, -1, elastic, false);
 		if(forceSensorExercises.Count == 0)
 		{
 			forceSensorComboExercisesString = new String [0];
@@ -3401,7 +3407,7 @@ LogB.Information(" fs R ");
 
 		//update also combo_select_contacts_top (but check do not crash on start)
 		//we need the 2nd check because without is, on import if we are on other mode, top combo could have been updated with this mode exercises
-		if(combo_select_contacts_top != null && current_mode == Constants.Modes.FORCESENSOR)
+		if(combo_select_contacts_top != null && Constants.ModeIsFORCESENSOR (current_mode))
 		{
 			comboSelectContactsTopNoFollow = true;
 			UtilGtk.ComboUpdate(combo_select_contacts_top,
@@ -3426,7 +3432,7 @@ LogB.Information(" fs R ");
 		}
 
 		ForceSensorExercise ex = (ForceSensorExercise) SqliteForceSensorExercise.Select (
-                                false, getExerciseIDFromAnyCombo(combo_force_sensor_exercise, forceSensorComboExercisesString, false), false)[0];
+                                false, getExerciseIDFromAnyCombo(combo_force_sensor_exercise, forceSensorComboExercisesString, false), -1, false)[0];
 
 		LogB.Information("selected exercise: " + ex.ToString());
 
@@ -3478,7 +3484,7 @@ LogB.Information(" fs R ");
 		}
 
 		ForceSensorExercise ex = (ForceSensorExercise) SqliteForceSensorExercise.Select (
-                                false, getExerciseIDFromAnyCombo(combo_force_sensor_exercise, forceSensorComboExercisesString, false), false)[0];
+                                false, getExerciseIDFromAnyCombo(combo_force_sensor_exercise, forceSensorComboExercisesString, false), -1, false)[0];
 
 		//1st find if there are sets with this exercise
 		ArrayList array = SqliteForceSensor.SelectRowsOfAnExercise(false, ex.UniqueID);

@@ -73,12 +73,14 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.HBox hbox_change_modes_encoder;
 	[Widget] Gtk.HBox hbox_change_modes_jumps;
 	[Widget] Gtk.HBox hbox_change_modes_runs;
+	[Widget] Gtk.HBox hbox_change_modes_force_sensor;
 	[Widget] Gtk.RadioButton radio_change_modes_contacts_jumps_simple;
 	[Widget] Gtk.RadioButton radio_change_modes_contacts_jumps_reactive;
 	[Widget] Gtk.RadioButton radio_change_modes_contacts_runs_simple;
 	[Widget] Gtk.RadioButton radio_change_modes_contacts_runs_intervallic;
 	[Widget] Gtk.RadioButton radio_change_modes_contacts_runs_encoder;
-	[Widget] Gtk.RadioButton radio_change_modes_contacts_force_sensor;
+	[Widget] Gtk.RadioButton radio_change_modes_contacts_isometric;
+	[Widget] Gtk.RadioButton radio_change_modes_contacts_elastic;
 	[Widget] Gtk.RadioButton radio_change_modes_encoder_gravitatory;
 	[Widget] Gtk.RadioButton radio_change_modes_encoder_inertial;
 	[Widget] Gtk.Image image_change_modes_contacts_jumps_simple;
@@ -87,6 +89,7 @@ public partial class ChronoJumpWindow
 	//[Widget] Gtk.Image image_change_modes_contacts_runs_reactive;
 	[Widget] Gtk.Image image_change_modes_contacts_runs_intervallic;
 	[Widget] Gtk.Image image_change_modes_contacts_force_sensor;
+	[Widget] Gtk.Image image_change_modes_contacts_force_sensor1;
 	[Widget] Gtk.Image image_change_modes_contacts_runs_encoder;
 	[Widget] Gtk.Image image_change_modes_encoder_gravitatory;
 	[Widget] Gtk.Image image_change_modes_encoder_inertial;
@@ -103,7 +106,8 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.EventBox eventbox_change_modes_contacts_runs_simple;
 	[Widget] Gtk.EventBox eventbox_change_modes_contacts_runs_intervallic;
 	[Widget] Gtk.EventBox eventbox_change_modes_contacts_runs_encoder;
-	[Widget] Gtk.EventBox eventbox_change_modes_contacts_force_sensor;
+	[Widget] Gtk.EventBox eventbox_change_modes_contacts_isometric;
+	[Widget] Gtk.EventBox eventbox_change_modes_contacts_elastic;
 	[Widget] Gtk.EventBox eventbox_change_modes_encoder_gravitatory;
 	[Widget] Gtk.EventBox eventbox_change_modes_encoder_inertial;
 	[Widget] Gtk.EventBox eventbox_button_show_modes_encoder;
@@ -651,7 +655,8 @@ public partial class ChronoJumpWindow
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_change_modes_contacts_jumps_reactive, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_change_modes_contacts_runs_simple, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_change_modes_contacts_runs_intervallic, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
-		UtilGtk.EventBoxColorBackgroundActive (eventbox_change_modes_contacts_force_sensor, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
+		UtilGtk.EventBoxColorBackgroundActive (eventbox_change_modes_contacts_isometric, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
+		UtilGtk.EventBoxColorBackgroundActive (eventbox_change_modes_contacts_elastic, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_change_modes_contacts_runs_encoder, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_change_modes_encoder_gravitatory, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_change_modes_encoder_inertial, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
@@ -824,11 +829,13 @@ public partial class ChronoJumpWindow
 			SqlitePreferences.Update(SqlitePreferences.LoadLastModeAtStart, false, false);
 
 			// 2) change mode
-			changeModeCheckRadios (preferences.lastMode);
+			changeModeCheckRadios (preferences.lastMode); //this will update current_mode
 
 			// 3) put preference to true again
 			SqlitePreferences.Update(SqlitePreferences.LoadLastModeAtStart, true, false);
 		}
+		else if (preferences.lastMode != Constants.Modes.UNDEFINED)
+			current_mode = preferences.lastMode; //needed for show_start_page () below
 
 		createComboSelectContactsTop (); //need to at least have it not null (to not crash on a import session)
 
@@ -857,7 +864,7 @@ public partial class ChronoJumpWindow
 			if (shouldAskBackupScheduled ())
 				backupScheduledAsk ();
 			else if(notebook_sup.CurrentPage == Convert.ToInt32(notebook_sup_pages.START))
-				new ChronojumpLogo (notebook_chronojump_logo, drawingarea_chronojump_logo, preferences.logoAnimatedShow);
+				show_start_page ();
 		}
 
 		//done at the end to ensure main window is shown
@@ -1447,7 +1454,7 @@ public partial class ChronoJumpWindow
 		else if(current_mode == Constants.Modes.POWERGRAVITATORY ||
 				current_mode == Constants.Modes.POWERINERTIAL)
 			encoderPersonChanged();
-		else if(current_mode == Constants.Modes.FORCESENSOR)
+		else if(Constants.ModeIsFORCESENSOR (current_mode))
 			forceSensorPersonChanged();
 		else if(current_mode == Constants.Modes.RUNSENCODER)
 			runEncoderPersonChanged();
@@ -2317,7 +2324,7 @@ public partial class ChronoJumpWindow
 			combo_select_contacts_top.Active = combo_select_runs_interval.Active;
 			combo_select_contacts_top.Sensitive = true;
 		}
-		else if(current_mode == Constants.Modes.RUNSENCODER || current_mode == Constants.Modes.FORCESENSOR)
+		else if(current_mode == Constants.Modes.RUNSENCODER || Constants.ModeIsFORCESENSOR (current_mode))
 		{
 			if(combo_select_contacts_top == null)
 				combo_select_contacts_top = ComboBox.NewText ();
@@ -2419,7 +2426,7 @@ public partial class ChronoJumpWindow
 
 		if(current_mode == Constants.Modes.JUMPSSIMPLE || current_mode == Constants.Modes.JUMPSREACTIVE ||
 				current_mode == Constants.Modes.RUNSSIMPLE || current_mode == Constants.Modes.RUNSINTERVALLIC ||
-				current_mode == Constants.Modes.RUNSENCODER || current_mode == Constants.Modes.FORCESENSOR)
+				current_mode == Constants.Modes.RUNSENCODER || Constants.ModeIsFORCESENSOR (current_mode))
 		{
 			button_combo_select_contacts_top_left.Sensitive = (combo.Active > 0);
 			button_combo_select_contacts_top_right.Sensitive = true;
@@ -2435,7 +2442,7 @@ public partial class ChronoJumpWindow
 
 		if(current_mode == Constants.Modes.JUMPSSIMPLE || current_mode == Constants.Modes.JUMPSREACTIVE ||
 				current_mode == Constants.Modes.RUNSSIMPLE || current_mode == Constants.Modes.RUNSINTERVALLIC ||
-				current_mode == Constants.Modes.RUNSENCODER || current_mode == Constants.Modes.FORCESENSOR)
+				current_mode == Constants.Modes.RUNSENCODER || Constants.ModeIsFORCESENSOR (current_mode))
 		{
 			button_combo_select_contacts_top_left.Sensitive = true;
 			button_combo_select_contacts_top_right.Sensitive = ! isLast;
@@ -2495,7 +2502,7 @@ public partial class ChronoJumpWindow
 			on_combo_select_runs_interval_changed(o, args);
 		else if(current_mode == Constants.Modes.RUNSENCODER)
 			on_combo_run_encoder_exercise_changed(o, args);
-		else if(current_mode == Constants.Modes.FORCESENSOR)
+		else if(Constants.ModeIsFORCESENSOR (current_mode))
 			on_combo_force_sensor_exercise_changed(o, args);
 	}
 
@@ -3007,8 +3014,10 @@ public partial class ChronoJumpWindow
 			return Catalog.GetString("Encoder (gravitatory)");
 		else if(mode == Constants.Modes.POWERINERTIAL)
 			return Catalog.GetString("Encoder (inertial)");
-		else if(mode == Constants.Modes.FORCESENSOR)
-			return Catalog.GetString("Force sensor");
+		else if(mode == Constants.Modes.FORCESENSORISOMETRIC)
+			return Catalog.GetString("Isometric");
+		else if(mode == Constants.Modes.FORCESENSORELASTIC)
+			return Catalog.GetString("Elastic");
 		else if(mode == Constants.Modes.RT)
 			return Catalog.GetString("Reaction time");
 		else if(mode == Constants.Modes.OTHER)
@@ -3215,10 +3224,8 @@ public partial class ChronoJumpWindow
 		Constants.Modes m = current_mode;
 
 		if(m == Constants.Modes.POWERGRAVITATORY || m == Constants.Modes.POWERINERTIAL)
-		{
 			overviewWin = EncoderOverviewWindow.Show (app1, currentEncoderGI, currentSession.UniqueID, currentPerson.UniqueID);
-		}
-		else if(m == Constants.Modes.FORCESENSOR)
+		else if(Constants.ModeIsFORCESENSOR (m))
 			overviewWin = ForceSensorOverviewWindow.Show (app1, currentSession.UniqueID, currentPerson.UniqueID);
 		else if(m == Constants.Modes.RUNSENCODER)
 			overviewWin = RunEncoderOverviewWindow.Show (app1, currentSession.UniqueID, currentPerson.UniqueID);
@@ -3388,7 +3395,7 @@ public partial class ChronoJumpWindow
 		setForceSensorAnalyzeMaxAVGInWindow();
 
 		// update force_capture_drawingarea
-		if(current_mode == Constants.Modes.FORCESENSOR)// && radiobutton_force_sensor_analyze_manual.Active)
+		if (Constants.ModeIsFORCESENSOR (current_mode))// && radiobutton_force_sensor_analyze_manual.Active)
 			forceSensorDoGraphAI(false);
 
 		// <---------- end of force sensor changes --------------
@@ -3417,10 +3424,15 @@ public partial class ChronoJumpWindow
 			radio_menu_2_2_2_races.Active = true;
 			on_button_menu_2_2_2_clicked (radio_menu_2_2_2_races, new EventArgs ());
 		}
-		else if (current_mode == Constants.Modes.FORCESENSOR) //TODO ISOMETRIC, INERTIAL|
+		else if (current_mode == Constants.Modes.FORCESENSORISOMETRIC)
 		{
 			radio_menu_2_2_2_isometric.Active = true;
 			on_button_menu_2_2_2_clicked (radio_menu_2_2_2_isometric, new EventArgs ());
+		}
+		else if (current_mode == Constants.Modes.FORCESENSORELASTIC)
+		{
+			radio_menu_2_2_2_elastic.Active = true;
+			on_button_menu_2_2_2_clicked (radio_menu_2_2_2_elastic, new EventArgs ());
 		}
 		else if (current_mode == Constants.Modes.POWERGRAVITATORY)
 		{
@@ -3500,7 +3512,21 @@ public partial class ChronoJumpWindow
 			else
 				radio_change_modes_encoder_inertial.Active = true;
 		}
-		else //for modes that do not have radios like forceSensor, RT, other
+		else if (m == Constants.Modes.FORCESENSORISOMETRIC)
+		{
+			if(radio_change_modes_contacts_isometric.Active)
+				changeMode (Constants.Modes.FORCESENSORISOMETRIC);
+			else
+				radio_change_modes_contacts_isometric.Active = true;
+		}
+		else if (m == Constants.Modes.FORCESENSORELASTIC)
+		{
+			if(radio_change_modes_contacts_elastic.Active)
+				changeMode (Constants.Modes.FORCESENSORELASTIC);
+			else
+				radio_change_modes_contacts_elastic.Active = true;
+		}
+		else //for modes that do not have radios like RT, other
 			changeMode (m);
 	}
 
@@ -3538,7 +3564,7 @@ public partial class ChronoJumpWindow
 		//show capture graph and/or table
 		if(m != Constants.Modes.POWERGRAVITATORY && m != Constants.Modes.POWERINERTIAL)
 		{
-			if(m == Constants.Modes.FORCESENSOR || m == Constants.Modes.RUNSENCODER)
+			if(Constants.ModeIsFORCESENSOR (m) || m == Constants.Modes.RUNSENCODER)
 			{
 				alignment_contacts_show_graph_table.Visible = false;
 				//force sensor & race analyzer do not show graph. graphs are on right notebook: notebook_results
@@ -3565,7 +3591,7 @@ public partial class ChronoJumpWindow
 
 		hbox_change_modes_jumps.Visible = false;
 		hbox_change_modes_runs.Visible = false;
-		radio_change_modes_contacts_force_sensor.Visible = false;
+		hbox_change_modes_force_sensor.Visible = false;
 
 		button_contacts_bells.Sensitive = false;
 
@@ -3608,7 +3634,7 @@ public partial class ChronoJumpWindow
 		if(
 				( m == Constants.Modes.POWERGRAVITATORY ||
 				  m == Constants.Modes.POWERINERTIAL ||
-				  m == Constants.Modes.FORCESENSOR ) &&
+				  Constants.ModeIsFORCESENSOR (m) ) &&
 				operatingSystem == UtilAll.OperatingSystems.MACOSX &&
 				! Util.FileExists(Constants.ROSX) )
 		{
@@ -3883,7 +3909,7 @@ public partial class ChronoJumpWindow
 
 			pixbufModeGrid = new Pixbuf (null, Util.GetImagePath(false) + "image_modes_encoder.png");
 		} 
-		else if(m == Constants.Modes.FORCESENSOR)
+		else if(Constants.ModeIsFORCESENSOR (m))
 		{
 			button_contacts_detect.Visible = true;
 			hbox_contacts_detect_and_execute.Visible = false;
@@ -3912,7 +3938,7 @@ public partial class ChronoJumpWindow
 			event_graph_label_graph_test.Visible = true;
 			vbox_contacts_simple_graph_controls.Visible = false;
 
-			radio_change_modes_contacts_force_sensor.Visible = true;
+			hbox_change_modes_force_sensor.Visible = true;
 			//align_check_vbox_contacts_graph_legend.Visible = false;
 			//vbox_contacts_graph_legend.Visible = false;
 
@@ -4035,7 +4061,7 @@ public partial class ChronoJumpWindow
 				  feedbackWin.FeedbackActive(Constants.BellModes.JUMPS)) ||
 				( (m == Constants.Modes.RUNSSIMPLE || m == Constants.Modes.RUNSINTERVALLIC) &&
 				  feedbackWin.FeedbackActive(Constants.BellModes.RUNS)) ||
-				( m == Constants.Modes.FORCESENSOR &&
+				( Constants.ModeIsFORCESENSOR (m) &&
 				  feedbackWin.FeedbackActive(Constants.BellModes.FORCESENSOR)) )
 			image_contacts_bell.Pixbuf = pixbufBellActive;
 		else
@@ -4170,7 +4196,7 @@ public partial class ChronoJumpWindow
 
 	private void showHideCaptureSpecificControls(Constants.Modes m)
 	{
-		hbox_capture_phases_time.Visible = (m != Constants.Modes.FORCESENSOR && m != Constants.Modes.RUNSENCODER);
+		hbox_capture_phases_time.Visible = ( ! Constants.ModeIsFORCESENSOR (m) && m != Constants.Modes.RUNSENCODER);
 
 		if(! configChronojump.Compujump)
 			showWebcamCaptureContactsControls(true);
@@ -4297,6 +4323,7 @@ public partial class ChronoJumpWindow
 		
 
 
+	//jumps
 	private void on_button_selector_start_jumps_simple_clicked(object o, EventArgs args) 
 	{
 		changeModeCheckRadios (Constants.Modes.JUMPSSIMPLE);
@@ -4316,6 +4343,7 @@ public partial class ChronoJumpWindow
 			changeMode (Constants.Modes.JUMPSREACTIVE);
 	}
 
+	//runs
 	private void on_button_selector_start_runs_simple_clicked(object o, EventArgs args)
 	{
 		changeModeCheckRadios (Constants.Modes.RUNSSIMPLE);
@@ -4344,6 +4372,27 @@ public partial class ChronoJumpWindow
 			changeMode (Constants.Modes.RUNSENCODER);
 	}
 
+	//forceSensor (isometric, elastic)
+	private void on_button_selector_start_force_sensor_isometric_clicked(object o, EventArgs args)
+	{
+		changeModeCheckRadios (Constants.Modes.FORCESENSORISOMETRIC);
+	}
+	private void on_button_selector_start_force_sensor_elastic_clicked(object o, EventArgs args)
+	{
+		changeModeCheckRadios (Constants.Modes.FORCESENSORELASTIC);
+	}
+	private void on_radio_change_modes_contacts_isometric_toggled (object o, EventArgs args)
+	{
+		if (radio_change_modes_contacts_isometric.Active)
+			changeMode (Constants.Modes.FORCESENSORISOMETRIC);
+	}
+	private void on_radio_change_modes_contacts_elastic_toggled (object o, EventArgs args)
+	{
+		if (radio_change_modes_contacts_elastic.Active)
+			changeMode (Constants.Modes.FORCESENSORELASTIC);
+	}
+
+	//encoder
 	private void on_button_selector_start_encoder_gravitatory_clicked(object o, EventArgs args) 
 	{
 		changeModeCheckRadios (Constants.Modes.POWERGRAVITATORY);
@@ -4363,11 +4412,6 @@ public partial class ChronoJumpWindow
 			changeMode (Constants.Modes.POWERINERTIAL);
 	}
 
-	private void on_button_selector_start_force_sensor_clicked(object o, EventArgs args)
-	{
-		changeMode (Constants.Modes.FORCESENSOR);
-	}
-
 	/*
 	private void on_button_selector_start_rt_clicked(object o, EventArgs args)
 	{
@@ -4377,16 +4421,6 @@ public partial class ChronoJumpWindow
 	private void on_button_selector_start_other_clicked(object o, EventArgs args)
 	{
 		changeMode (Constants.Modes.OTHER);
-	}
-	*/
-
-	/*
-	private void on_button_view_menu_2_2_2_clicked (object o, EventArgs args)
-	{
-		//TODO: depending on mode, force click on button_menu_2_2_2_clicked to ensure all widgets are updated
-		//if no current mode, then jumps
-		radio_menu_2_2_2_jumps.Active = true;
-		on_button_menu_2_2_2_clicked (radio_menu_2_2_2_jumps, args);
 	}
 	*/
 
@@ -4461,9 +4495,9 @@ public partial class ChronoJumpWindow
 	{
 		//jumps, races modes have their own buttons
 		if (radio_menu_2_2_2_isometric.Active)
-			on_button_selector_start_force_sensor_clicked (new object (), new EventArgs ());
+			on_button_selector_start_force_sensor_isometric_clicked (new object (), new EventArgs ());
 		else if (radio_menu_2_2_2_elastic.Active)
-			on_button_selector_start_force_sensor_clicked (new object (), new EventArgs ());
+			on_button_selector_start_force_sensor_elastic_clicked (new object (), new EventArgs ());
 		else if (radio_menu_2_2_2_weights.Active)
 			on_button_selector_start_encoder_gravitatory_clicked (new object (), new EventArgs ());
 		else if (radio_menu_2_2_2_inertial.Active)
@@ -4616,7 +4650,7 @@ public partial class ChronoJumpWindow
 				current_mode != Constants.Modes.JUMPSREACTIVE &&
 				current_mode != Constants.Modes.RUNSSIMPLE &&
 				current_mode != Constants.Modes.RUNSINTERVALLIC &&
-				current_mode != Constants.Modes.FORCESENSOR &&
+				! Constants.ModeIsFORCESENSOR (current_mode) &&
 				current_mode != Constants.Modes.RUNSENCODER)
 			return;
 
@@ -4671,7 +4705,7 @@ public partial class ChronoJumpWindow
 
 	private void on_button_execute_test_clicked (object o, EventArgs args)
 	{
-		if(current_mode == Constants.Modes.FORCESENSOR)
+		if (Constants.ModeIsFORCESENSOR (current_mode))
 		{
 			//LogB.Debug("radio_mode_force_sensor");
 			/*
@@ -4880,7 +4914,7 @@ public partial class ChronoJumpWindow
 		if(currentPerson == null || currentSession == null)
 			return;
 
-		if(current_mode == Constants.Modes.FORCESENSOR)
+		if (Constants.ModeIsFORCESENSOR (current_mode))
 			force_sensor_load();
 		else if(current_mode == Constants.Modes.RUNSENCODER)
 			run_encoder_load();
@@ -4888,7 +4922,7 @@ public partial class ChronoJumpWindow
 
 	private void on_button_contacts_recalculate_clicked (object o, EventArgs args)
 	{
-		if(current_mode == Constants.Modes.FORCESENSOR)
+		if (Constants.ModeIsFORCESENSOR (current_mode))
 			force_sensor_recalculate();
 		else if(current_mode == Constants.Modes.RUNSENCODER)
 			run_encoder_recalculate();
@@ -4901,7 +4935,7 @@ public partial class ChronoJumpWindow
 	}
 	void on_button_contacts_signal_save_comment_clicked (object o, EventArgs args)
 	{
-		if(current_mode == Constants.Modes.FORCESENSOR)
+		if (Constants.ModeIsFORCESENSOR (current_mode))
 		{
 			currentForceSensor.Comments = UtilGtk.TextViewGetCommentValidSQL(textview_contacts_signal_comment);
 			currentForceSensor.UpdateSQLJustComments(false);
@@ -4926,7 +4960,7 @@ public partial class ChronoJumpWindow
 			return Constants.BellModes.ENCODERGRAVITATORY;
 		else if(m == Constants.Modes.POWERINERTIAL)
 			return Constants.BellModes.ENCODERINERTIAL;
-		else if(m == Constants.Modes.FORCESENSOR)
+		else if (Constants.ModeIsFORCESENSOR (m))
 			return Constants.BellModes.FORCESENSOR;
 		else if(m == Constants.Modes.RUNSENCODER)
 			return Constants.BellModes.RUNSENCODER;
@@ -4940,7 +4974,7 @@ public partial class ChronoJumpWindow
 		Constants.Modes m = current_mode;
 		if(m != Constants.Modes.JUMPSREACTIVE &&
 				m != Constants.Modes.RUNSINTERVALLIC &&
-				m != Constants.Modes.FORCESENSOR &&
+				! Constants.ModeIsFORCESENSOR (m) &&
 				m != Constants.Modes.RUNSENCODER)
 			return;
 
@@ -6717,7 +6751,7 @@ LogB.Debug("mc finished 5");
 	
 	private void on_delete_last_test_clicked (object o, EventArgs args)
 	{
-		if(current_mode == Constants.Modes.FORCESENSOR)
+		if (Constants.ModeIsFORCESENSOR (current_mode))
 		{
 			force_sensor_delete_current_test_pre_question();
 			return;
@@ -7507,7 +7541,7 @@ LogB.Debug("mc finished 5");
 			notebook_results.CurrentPage = 8;
 			changeTestImage("", "", "RUNSENCODER");
 			event_execute_button_finish.Sensitive = false;
-		} else if(mode == Constants.Modes.FORCESENSOR)
+		} else if (Constants.ModeIsFORCESENSOR (mode))
 		{
 			notebook_execute.CurrentPage = 4;
 			notebook_options_top.CurrentPage = 4; //but at FORCESENSOR this notebook is not shown until adjust button is clicked
@@ -7999,7 +8033,7 @@ LogB.Debug("mc finished 5");
 			//updates preferences object and Sqlite preferences
 			preferences.UpdateEncoderRhythm(encoderRhythm);
 		}
-		else if(m == Constants.Modes.FORCESENSOR)
+		else if (Constants.ModeIsFORCESENSOR (m))
 		{
 			// 1) Update bell
 			if(feedbackWin.FeedbackActive(bellMode))
@@ -8150,7 +8184,7 @@ LogB.Debug("mc finished 5");
 				}
 			}
 		}
-		else if(current_mode == Constants.Modes.FORCESENSOR)
+		else if (Constants.ModeIsFORCESENSOR (current_mode))
 			notebook_analyze.CurrentPage = Convert.ToInt32(notebook_analyze_pages.FORCESENSOR);
 		else if(current_mode == Constants.Modes.RUNSENCODER)
 			notebook_analyze.CurrentPage = Convert.ToInt32(notebook_analyze_pages.RACEENCODER);
@@ -8490,7 +8524,7 @@ LogB.Debug("mc finished 5");
 		frame_contacts_exercise.Sensitive = true;
 
 		//forceSensor and runEncoder does not use currentEventExecute
-		if(current_mode == Constants.Modes.FORCESENSOR)
+		if (Constants.ModeIsFORCESENSOR (current_mode))
 		{
 			sensitiveLastTestButtons(! forceProcessCancel && ! forceProcessError);
 			LogB.Information(" sensitiveGuiEventDone end (forceSensor)");

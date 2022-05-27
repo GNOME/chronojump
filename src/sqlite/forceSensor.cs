@@ -136,8 +136,8 @@ class SqliteForceSensor : Sqlite
 			Util.FileDelete(fs.FullVideoURL);
 	}
 
-	//SELECT forceSensor.*, forceSensorExercise.Name FROM forceSensor, forceSensorExercise WHERE forceSensor.exerciseID = forceSensorExercise.UniqueID ORDER BY forceSensor.uniqueID;
-	public static List<ForceSensor> Select (bool dbconOpened, int uniqueID, int personID, int sessionID)
+	//elastic (-1: both; 0: not elastic; 1: elastic)
+	public static List<ForceSensor> Select (bool dbconOpened, int uniqueID, int personID, int sessionID, int elastic)
 	{
 		openIfNeeded(dbconOpened);
 
@@ -156,7 +156,12 @@ class SqliteForceSensor : Sqlite
 		if(sessionID != -1)
 			sessionIDStr = " AND " + table + ".sessionID = " + sessionID;
 
-		dbcmd.CommandText = selectStr + whereStr + uniqueIDStr + personIDStr + sessionIDStr + " Order BY " + table + ".uniqueID";
+		string elasticStr = "";
+		if(elastic != -1)
+			elasticStr = " AND " + table + ".stiffness >= " + 0;
+
+		dbcmd.CommandText = selectStr + whereStr + uniqueIDStr + personIDStr + sessionIDStr + elasticStr +
+			" Order BY " + table + ".uniqueID";
 
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
@@ -583,19 +588,32 @@ class SqliteForceSensorExercise : Sqlite
 	}
 
 
-	public static ArrayList Select (bool dbconOpened, int uniqueID, bool onlyNames)
+	//elastic (-1: both; 0: not elastic; 1: elastic)
+	public static ArrayList Select (bool dbconOpened, int uniqueID, int elastic, bool onlyNames)
 	{
 		if(! dbconOpened)
 			Sqlite.Open();
 
+		string whereOrAndStr = " WHERE ";
+
 		string uniqueIDStr = "";
 		if(uniqueID != -1)
-			uniqueIDStr = " WHERE " + table + ".uniqueID = " + uniqueID;
+		{
+			uniqueIDStr = whereOrAndStr + table + ".uniqueID = " + uniqueID;
+			whereOrAndStr = " AND ";
+		}
+
+		string elasticStr = "";
+		if(elastic != -1)
+		{
+			elasticStr = whereOrAndStr + table + ".elastic = " + elastic;
+			whereOrAndStr = " AND ";
+		}
 
 		if(onlyNames)
-			dbcmd.CommandText = "SELECT name FROM " + table + uniqueIDStr;
+			dbcmd.CommandText = "SELECT name FROM " + table + uniqueIDStr + elasticStr;
 		else
-			dbcmd.CommandText = "SELECT * FROM " + table + uniqueIDStr;
+			dbcmd.CommandText = "SELECT * FROM " + table + uniqueIDStr + elasticStr;
 
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
@@ -700,7 +718,7 @@ class SqliteForceSensorExerciseImport : SqliteForceSensorExercise
 	//database is opened
 	protected internal static void import_partially_from_1_73_to_1_74_unify_resistance_and_description()
 	{
-		ArrayList exercises = Select(true, -1, false);
+		ArrayList exercises = Select(true, -1, -1, false);
 		foreach (ForceSensorExercise ex in exercises)
 		{
 			LogB.Information(ex.ToString());

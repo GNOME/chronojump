@@ -797,6 +797,7 @@ public partial class ChronoJumpWindow
 
 
 		forceSensorExport = new ForceSensorExport (
+				current_mode,
 				notebook_force_sensor_export,
 				progressbar_force_sensor_export,
 				label_force_sensor_export_result,

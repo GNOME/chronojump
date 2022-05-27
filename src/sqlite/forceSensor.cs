@@ -606,7 +606,12 @@ class SqliteForceSensorExercise : Sqlite
 		string elasticStr = "";
 		if(elastic != -1)
 		{
-			elasticStr = whereOrAndStr + table + ".elastic = " + elastic;
+			//note for elastic need: elastic = 1 && forceResultant = 1 (like ForceSensor.ComputeAsElastic does)
+			if (elastic == 1)
+				elasticStr = whereOrAndStr + table + ".elastic = 1 AND " + table + ".forceResultant = 1";
+			else //elastic == 0
+				elasticStr = whereOrAndStr + table + ".elastic = 0";
+
 			whereOrAndStr = " AND ";
 		}
 

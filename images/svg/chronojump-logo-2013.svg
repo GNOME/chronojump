@@ -2,22 +2,22 @@
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
 
 <svg
-   xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://creativecommons.org/ns#"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    id="svg2"
    version="1.1"
-   inkscape:version="0.92.4 (5da689c313, 2019-01-14)"
+   inkscape:version="1.1.1 (3bf5ae0d25, 2021-09-20, custom)"
    width="14.692999cm"
    height="3.9433639cm"
    sodipodi:docname="chronojump-logo-2013.svg"
    inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/chronojump/images/chronojump-1-black.png"
    inkscape:export-xdpi="300.15997"
-   inkscape:export-ydpi="300.15997">
+   inkscape:export-ydpi="300.15997"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
   <title
      id="title3738">RooSign</title>
   <defs
@@ -57,16 +57,16 @@
      guidetolerance="10"
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:window-width="1920"
-     inkscape:window-height="1017"
+     inkscape:window-width="948"
+     inkscape:window-height="885"
      id="namedview4"
      showgrid="false"
-     inkscape:zoom="0.62955684"
-     inkscape:cx="925.9942"
-     inkscape:cy="2472.0668"
-     inkscape:window-x="1366"
-     inkscape:window-y="26"
-     inkscape:window-maximized="1"
+     inkscape:zoom="1.998323"
+     inkscape:cx="1689.1664"
+     inkscape:cy="21.768253"
+     inkscape:window-x="576"
+     inkscape:window-y="164"
+     inkscape:window-maximized="0"
      inkscape:current-layer="svg2"
      showguides="false"
      inkscape:guide-bbox="true"
@@ -75,7 +75,9 @@
      fit-margin-right="0"
      fit-margin-bottom="0"
      inkscape:snap-global="false"
-     units="cm">
+     units="cm"
+     inkscape:pagecheckerboard="0"
+     inkscape:document-units="cm">
     <sodipodi:guide
        orientation="1,0"
        position="204.97947,2105.018"
@@ -177,9 +179,9 @@
        id="text2985-7-8-9-1-2-1-92-7-0-8-1-7-0-8-7-6-6-2-9-6-4-5-4-8-68-8-2-4-1-0-6-90-3-0-6-8-6-5-9-0-9-4-8-0-7-9-0-1-1-5"
        y="81.469994"
        x="702.89178"
-       style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffcc01;fill-opacity:1;stroke:none;stroke-width:1.87946129"
+       style="font-style:normal;font-weight:normal;font-size:12.8px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffcc01;fill-opacity:1;stroke:none;stroke-width:1.87946"
        xml:space="preserve"><tspan
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:34.47635651px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:Ubuntu;fill:#ffcc01;fill-opacity:1;stroke-width:1.87946129"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:34.4764px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:Ubuntu;fill:#ffcc01;fill-opacity:1;stroke-width:1.87946"
          y="81.469994"
          x="702.89178"
          id="tspan2987-7-9-5-5-7-6-2-9-7-0-8-3-2-6-4-4-5-6-6-4-8-3-1-1-40-3-3-4-4-6-6-8-3-3-9-4-8-2-6-6-1-60-3-9-6-1-2-4-1-4"
@@ -248,9 +250,9 @@
        id="text2985-7-8-9-6-2-8-5-7-4-5-8-4-9-3-2-5-2-6-0-3-4-3-6-6-4-3-9-1-8-0-3-2-9-1-3-1-1-0-5-7-9-3-6-6-9-6-9-7-4"
        y="43.811459"
        x="664.961"
-       style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.87946129"
+       style="font-style:normal;font-weight:normal;font-size:12.8px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.87946"
        xml:space="preserve"><tspan
-         style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.58449554px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#000000;fill-opacity:1;stroke-width:1.87946129"
+         style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.5845px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#000000;fill-opacity:1;stroke-width:1.87946"
          y="43.811459"
          x="664.961"
          id="tspan2987-7-9-5-8-4-6-0-9-8-0-3-8-7-6-7-8-5-0-4-5-7-6-3-13-9-2-0-3-1-2-2-9-3-7-6-5-7-5-4-3-7-5-4-9-8-6-1-8-5"
@@ -262,9 +264,9 @@
        id="text2985-7-8-9-6-2-8-5-7-4-5-8-4-9-3-2-5-2-6-0-3-4-3-6-6-4-3-9-1-8-0-3-2-8-4-5-8-4-3-1-68-9-4-3-0-5-8-5-5"
        y="41.677864"
        x="662.82715"
-       style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.87946129"
+       style="font-style:normal;font-weight:normal;font-size:12.8px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.87946"
        xml:space="preserve"><tspan
-         style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.58449554px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#ffffff;fill-opacity:1;stroke-width:1.87946129"
+         style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.5845px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#ffffff;fill-opacity:1;stroke-width:1.87946"
          y="41.677864"
          x="662.82715"
          id="tspan2987-7-9-5-8-4-6-0-9-8-0-3-8-7-6-7-8-5-0-4-5-7-6-3-13-9-2-0-3-1-2-2-9-4-4-4-5-6-5-6-0-5-8-8-1-9-1-3-6"
@@ -283,7 +285,7 @@
        id="g7029">
       <text
          xml:space="preserve"
-         style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.06666672"
+         style="font-style:normal;font-weight:normal;font-size:12.8px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.06667"
          x="30.349287"
          y="93.483177"
          id="text2985-7-8-9-6-2-8-5-7-4-5-8-4-9-3-2-5-2-6-0-3-4-3-6-6-4-3-9-1-8-0-3-2-9"><tspan
@@ -291,10 +293,10 @@
            id="tspan2987-7-9-5-8-4-6-0-9-8-0-3-8-7-6-7-8-5-0-4-5-7-6-3-13-9-2-0-3-1-2-2-9-3"
            x="30.349287"
            y="93.483177"
-           style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.58449554px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#000000;fill-opacity:1;stroke-width:1.06666672">CHRONOJUMP</tspan></text>
+           style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.5845px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#000000;fill-opacity:1;stroke-width:1.06667">CHRONOJUMP</tspan></text>
       <text
          xml:space="preserve"
-         style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.06666672"
+         style="font-style:normal;font-weight:normal;font-size:12.8px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.06667"
          x="28.215694"
          y="91.349396"
          id="text2985-7-8-9-6-2-8-5-7-4-5-8-4-9-3-2-5-2-6-0-3-4-3-6-6-4-3-9-1-8-0-3-2"><tspan
@@ -302,16 +304,16 @@
            id="tspan2987-7-9-5-8-4-6-0-9-8-0-3-8-7-6-7-8-5-0-4-5-7-6-3-13-9-2-0-3-1-2-2-9"
            x="28.215694"
            y="91.349396"
-           style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.58449554px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#ffffff;fill-opacity:1;stroke-width:1.06666672">CHRONOJUMP</tspan></text>
+           style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.5845px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#ffffff;fill-opacity:1;stroke-width:1.06667">CHRONOJUMP</tspan></text>
     </g>
     <text
        transform="scale(1.0008553,0.99914544)"
        id="text2985-7-8-9-1-2-1-92-7-0-8-1-7-0-8-7-6-6-2-9-6-4-5-4-8-68-8-2-4-1-0-6-90-3-0"
        y="127.34013"
        x="81.193138"
-       style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#e7bd19;fill-opacity:1;stroke:none;stroke-width:1.06666672"
+       style="font-style:normal;font-weight:normal;font-size:12.8px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#e7bd19;fill-opacity:1;stroke:none;stroke-width:1.06667"
        xml:space="preserve"><tspan
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:34.47635651px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:Ubuntu;fill:#e7bd19;fill-opacity:1;stroke-width:1.06666672"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:34.4764px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:Ubuntu;fill:#e7bd19;fill-opacity:1;stroke-width:1.06667"
          y="127.34013"
          x="81.193138"
          id="tspan2987-7-9-5-5-7-6-2-9-7-0-8-3-2-6-4-4-5-6-6-4-8-3-1-1-40-3-3-4-4-6-6-8-3-3"
@@ -485,7 +487,7 @@
          sodipodi:nodetypes="cccccccccccccccc" />
       <text
          xml:space="preserve"
-         style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#afe9dd;fill-opacity:1;stroke:none;stroke-width:1.06666672"
+         style="font-style:normal;font-weight:normal;font-size:12.8px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#afe9dd;fill-opacity:1;stroke:none;stroke-width:1.06667"
          x="-755.47919"
          y="90.483955"
          id="text2985-7-8-9-6-2-8-5-7-4-5-8-4-9-3-2-5-2-6-0-3-4-3-6-6-4-3-9-1-8-0-3"><tspan
@@ -493,10 +495,10 @@
            id="tspan2987-7-9-5-8-4-6-0-9-8-0-3-8-7-6-7-8-5-0-4-5-7-6-3-13-9-2-0-3-1-2-2"
            x="-755.47919"
            y="90.483955"
-           style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.58449554px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#afe9dd;fill-opacity:1;stroke-width:1.06666672">CHRONOJUMP</tspan></text>
+           style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.5845px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#afe9dd;fill-opacity:1;stroke-width:1.06667">CHRONOJUMP</tspan></text>
       <text
          xml:space="preserve"
-         style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#afe9dd;fill-opacity:1;stroke:none;stroke-width:1.06666672"
+         style="font-style:normal;font-weight:normal;font-size:12.8px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#afe9dd;fill-opacity:1;stroke:none;stroke-width:1.06667"
          x="-482.26492"
          y="123.66489"
          id="text2985-7-8-9-1-2-1-92-7-0-8-1-7-0-8-7-6-6-2-9-6-4-5-4-8-68-8-2-4-1-0-6-90"
@@ -505,19 +507,19 @@
            id="tspan2987-7-9-5-5-7-6-2-9-7-0-8-3-2-6-4-4-5-6-6-4-8-3-1-1-40-3-3-4-4-6-6-8"
            x="-482.26492"
            y="123.66489"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:22.24275208px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:Ubuntu;fill:#afe9dd;fill-opacity:1;stroke-width:1.06666672">Boscosystem®</tspan></text>
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:22.2428px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:Ubuntu;fill:#afe9dd;fill-opacity:1;stroke-width:1.06667">Boscosystem®</tspan></text>
     </g>
     <text
        id="text3251"
        y="-84.119843"
        x="-719.95099"
-       style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#1a1a1a;fill-opacity:1;stroke:none;stroke-width:1.06666672"
+       style="font-style:normal;font-weight:normal;font-size:12.8px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#1a1a1a;fill-opacity:1;stroke:none;stroke-width:1.06667"
        xml:space="preserve"><tspan
          y="-84.119843"
          x="-719.95099"
          id="tspan3253"
          sodipodi:role="line"
-         style="font-size:42.66666794px;line-height:1.25;font-family:sans-serif;stroke-width:1.06666672">Bold</tspan></text>
+         style="font-size:42.6667px;line-height:1.25;font-family:sans-serif;stroke-width:1.06667">Bold</tspan></text>
   </g>
   <g
      id="g4429"
@@ -540,7 +542,7 @@
          sodipodi:nodetypes="cccccccccccccccc" />
       <text
          xml:space="preserve"
-         style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#afe9dd;fill-opacity:1;stroke:none;stroke-width:1.06666672"
+         style="font-style:normal;font-weight:normal;font-size:12.8px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#afe9dd;fill-opacity:1;stroke:none;stroke-width:1.06667"
          x="-743.57068"
          y="352.599"
          id="text2985-7-8-9-6-2-8-5-7-4-5-8-4-9-3-2-5-2-6-0-3-4-3-6-6-4-3-9-1-8-0-3-11"><tspan
@@ -548,12 +550,12 @@
            id="tspan2987-7-9-5-8-4-6-0-9-8-0-3-8-7-6-7-8-5-0-4-5-7-6-3-13-9-2-0-3-1-2-2-6"
            x="-743.57068"
            y="352.599"
-           style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.58449554px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#afe9dd;fill-opacity:1;stroke-width:1.06666672"><tspan
-             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Ubuntu;-inkscape-font-specification:Ubuntu;stroke-width:1.06666672"
+           style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.5845px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#afe9dd;fill-opacity:1;stroke-width:1.06667"><tspan
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Ubuntu;-inkscape-font-specification:Ubuntu;stroke-width:1.06667"
              id="tspan6888">CHRONOJUMP</tspan></tspan></text>
       <text
          xml:space="preserve"
-         style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#afe9dd;fill-opacity:1;stroke:none;stroke-width:1.06666672"
+         style="font-style:normal;font-weight:normal;font-size:12.8px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#afe9dd;fill-opacity:1;stroke:none;stroke-width:1.06667"
          x="-470.36658"
          y="386.00409"
          id="text2985-7-8-9-1-2-1-92-7-0-8-1-7-0-8-7-6-6-2-9-6-4-5-4-8-68-8-2-4-1-0-6-90-2"
@@ -562,23 +564,23 @@
            id="tspan2987-7-9-5-5-7-6-2-9-7-0-8-3-2-6-4-4-5-6-6-4-8-3-1-1-40-3-3-4-4-6-6-8-1"
            x="-470.36658"
            y="386.00409"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:22.24275208px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:Ubuntu;fill:#afe9dd;fill-opacity:1;stroke-width:1.06666672">Boscosystem®</tspan></text>
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:22.2428px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:Ubuntu;fill:#afe9dd;fill-opacity:1;stroke-width:1.06667">Boscosystem®</tspan></text>
     </g>
     <text
        id="text3251-7"
        y="309.42368"
        x="-764.11761"
-       style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#1a1a1a;fill-opacity:1;stroke:none;stroke-width:1.06666672"
+       style="font-style:normal;font-weight:normal;font-size:12.8px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#1a1a1a;fill-opacity:1;stroke:none;stroke-width:1.06667"
        xml:space="preserve"><tspan
          y="309.42368"
          x="-764.11761"
          id="tspan3253-8"
          sodipodi:role="line"
-         style="font-size:42.66666794px;line-height:1.25;font-family:sans-serif;stroke-width:1.06666672">Not Bold</tspan></text>
+         style="font-size:42.6667px;line-height:1.25;font-family:sans-serif;stroke-width:1.06667">Not Bold</tspan></text>
   </g>
   <text
      xml:space="preserve"
-     style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#1a1a1a;fill-opacity:1;stroke:none;stroke-width:1.06666672"
+     style="font-style:normal;font-weight:normal;font-size:12.8px;line-height:0%;font-family:sans-serif;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#1a1a1a;fill-opacity:1;stroke:none;stroke-width:1.06667"
      x="385.01306"
      y="-3522.8118"
      id="text3276"><tspan
@@ -586,22 +588,22 @@
        id="tspan3278"
        x="385.01306"
        y="-3522.8118"
-       style="font-size:42.66666794px;line-height:1.25;font-family:sans-serif;stroke-width:1.06666672">Bold, transparent, yellowish,</tspan><tspan
+       style="font-size:42.6667px;line-height:1.25;font-family:sans-serif;stroke-width:1.06667">Bold, transparent, yellowish,</tspan><tspan
        sodipodi:role="line"
        x="385.01306"
        y="-3469.4785"
        id="tspan3280"
-       style="font-size:42.66666794px;line-height:1.25;font-family:sans-serif;stroke-width:1.06666672">chronojump with black background letters,</tspan><tspan
+       style="font-size:42.6667px;line-height:1.25;font-family:sans-serif;stroke-width:1.06667">chronojump with black background letters,</tspan><tspan
        id="tspan3369"
        sodipodi:role="line"
        x="385.01306"
        y="-3416.145"
-       style="font-size:42.66666794px;line-height:1.25;font-family:sans-serif;stroke-width:1.06666672">Boscosystem with spaces between letters</tspan><tspan
+       style="font-size:42.6667px;line-height:1.25;font-family:sans-serif;stroke-width:1.06667">Boscosystem with spaces between letters</tspan><tspan
        sodipodi:role="line"
        x="385.01306"
        y="-3362.8118"
        id="tspan4625"
-       style="font-size:42.66666794px;line-height:1.25;font-family:sans-serif;stroke-width:1.06666672">width:295px</tspan></text>
+       style="font-size:42.6667px;line-height:1.25;font-family:sans-serif;stroke-width:1.06667">width:295px</tspan></text>
   <g
      id="g3687"
      inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/chronojump/images/chronojump-logo-2013_320.png"
@@ -620,7 +622,7 @@
        id="g3810-7">
       <text
          xml:space="preserve"
-         style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffcc01;fill-opacity:1;stroke:none;stroke-width:1.06666672"
+         style="font-style:normal;font-weight:normal;font-size:12.8px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffcc01;fill-opacity:1;stroke:none;stroke-width:1.06667"
          x="702.89178"
          y="81.469994"
          id="text2985-7-8-9-1-2-1-92-7-0-8-1-7-0-8-7-6-6-2-9-6-4-5-4-8-68-8-2-4-1-0-6-90-3-0-6-8-6-5-9-0-9-4-8-0-7-9-0-1-1-5-7"
@@ -632,7 +634,7 @@
            id="tspan2987-7-9-5-5-7-6-2-9-7-0-8-3-2-6-4-4-5-6-6-4-8-3-1-1-40-3-3-4-4-6-6-8-3-3-9-4-8-2-6-6-1-60-3-9-6-1-2-4-1-4-6"
            x="702.89178"
            y="81.469994"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:34.47635651px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:Ubuntu;fill:#ffcc01;fill-opacity:1;stroke-width:1.06666672">B o s c o s y s t e m ®</tspan></text>
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:34.4764px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:Ubuntu;fill:#ffcc01;fill-opacity:1;stroke-width:1.06667">B o s c o s y s t e m ®</tspan></text>
       <g
          transform="translate(-3243.6484,-1764.9722)"
          id="g8117-6-8-3-5-1"
@@ -691,7 +693,7 @@
          inkscape:export-ydpi="155.58435" />
       <text
          xml:space="preserve"
-         style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.06666672"
+         style="font-style:normal;font-weight:normal;font-size:12.8px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.06667"
          x="664.961"
          y="43.811459"
          id="text2985-7-8-9-6-2-8-5-7-4-5-8-4-9-3-2-5-2-6-0-3-4-3-6-6-4-3-9-1-8-0-3-2-9-1-3-1-1-0-5-7-9-3-6-6-9-6-9-7-4-0"
@@ -702,10 +704,10 @@
            id="tspan2987-7-9-5-8-4-6-0-9-8-0-3-8-7-6-7-8-5-0-4-5-7-6-3-13-9-2-0-3-1-2-2-9-3-7-6-5-7-5-4-3-7-5-4-9-8-6-1-8-5-9"
            x="664.961"
            y="43.811459"
-           style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.58449554px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#000000;fill-opacity:1;stroke-width:1.06666672">CHRONOJUMP</tspan></text>
+           style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.5845px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#000000;fill-opacity:1;stroke-width:1.06667">CHRONOJUMP</tspan></text>
       <text
          xml:space="preserve"
-         style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.06666672"
+         style="font-style:normal;font-weight:normal;font-size:12.8px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.06667"
          x="662.82715"
          y="41.677864"
          id="text2985-7-8-9-6-2-8-5-7-4-5-8-4-9-3-2-5-2-6-0-3-4-3-6-6-4-3-9-1-8-0-3-2-8-4-5-8-4-3-1-68-9-4-3-0-5-8-5-5-4"
@@ -716,12 +718,12 @@
            id="tspan2987-7-9-5-8-4-6-0-9-8-0-3-8-7-6-7-8-5-0-4-5-7-6-3-13-9-2-0-3-1-2-2-9-4-4-4-5-6-5-6-0-5-8-8-1-9-1-3-6-2"
            x="662.82715"
            y="41.677864"
-           style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.58449554px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#ffffff;fill-opacity:1;stroke-width:1.06666672">CHRONOJUMP</tspan></text>
+           style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.5845px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#ffffff;fill-opacity:1;stroke-width:1.06667">CHRONOJUMP</tspan></text>
     </g>
   </g>
   <text
      xml:space="preserve"
-     style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#1a1a1a;fill-opacity:1;stroke:none;stroke-width:1.06666672"
+     style="font-style:normal;font-weight:normal;font-size:12.8px;line-height:0%;font-family:sans-serif;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#1a1a1a;fill-opacity:1;stroke:none;stroke-width:1.06667"
      x="384.55472"
      y="-2584.0986"
      id="text3251-7-3"><tspan
@@ -729,10 +731,10 @@
        id="tspan3253-8-8"
        x="384.55472"
        y="-2584.0986"
-       style="font-size:42.66666794px;line-height:1.25;font-family:sans-serif;stroke-width:1.06666672">Same as above but with blue background</tspan></text>
+       style="font-size:42.6667px;line-height:1.25;font-family:sans-serif;stroke-width:1.06667">Same as above but with blue background</tspan></text>
   <text
      xml:space="preserve"
-     style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#1a1a1a;fill-opacity:1;stroke:none;stroke-width:1.06666672"
+     style="font-style:normal;font-weight:normal;font-size:12.8px;line-height:0%;font-family:sans-serif;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#1a1a1a;fill-opacity:1;stroke:none;stroke-width:1.06667"
      x="398.75177"
      y="-2270.7773"
      id="text3251-7-3-8"><tspan
@@ -740,20 +742,20 @@
        id="tspan3253-8-8-8"
        x="398.75177"
        y="-2270.7773"
-       style="font-size:42.66666794px;line-height:1.25;font-family:sans-serif;stroke-width:1.06666672">width 165: chronojump-logo-2013.png</tspan><tspan
+       style="font-size:42.6667px;line-height:1.25;font-family:sans-serif;stroke-width:1.06667">width 165: chronojump-logo-2013.png</tspan><tspan
        sodipodi:role="line"
        x="398.75177"
        y="-2217.4441"
        id="tspan3077"
-       style="font-size:42.66666794px;line-height:1.25;font-family:sans-serif;stroke-width:1.06666672">width 320: chronojump-logo-2013_320.png</tspan><tspan
+       style="font-size:42.6667px;line-height:1.25;font-family:sans-serif;stroke-width:1.06667">width 320: chronojump-logo-2013_320.png</tspan><tspan
        sodipodi:role="line"
        x="405.54343"
        y="-2164.1106"
        id="tspan3075"
-       style="font-size:42.66666794px;line-height:1.25;font-family:sans-serif;stroke-width:1.06666672"> </tspan></text>
+       style="font-size:42.6667px;line-height:1.25;font-family:sans-serif;stroke-width:1.06667"> </tspan></text>
   <text
      xml:space="preserve"
-     style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.06666672"
+     style="font-style:normal;font-weight:normal;font-size:12.8px;line-height:0%;font-family:sans-serif;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.06667"
      x="381.15994"
      y="-935.81201"
      id="text3146"><tspan
@@ -761,12 +763,12 @@
        x="381.15994"
        y="-935.81201"
        id="tspan3150"
-       style="font-size:44.99191666px;line-height:1.25;font-family:sans-serif;stroke-width:1.06666672">chronojump_icon_google_appd.png  143x59</tspan><tspan
+       style="font-size:44.9919px;line-height:1.25;font-family:sans-serif;stroke-width:1.06667">chronojump_icon_google_appd.png  143x59</tspan><tspan
        sodipodi:role="line"
        x="388.32175"
        y="-879.57214"
        id="tspan3240"
-       style="font-size:44.99191666px;line-height:1.25;font-family:sans-serif;stroke-width:1.06666672"> </tspan></text>
+       style="font-size:44.9919px;line-height:1.25;font-family:sans-serif;stroke-width:1.06667"> </tspan></text>
   <g
      id="g3188"
      transform="translate(-33.778792,-2893.5223)"
@@ -794,31 +796,31 @@
        id="g3182">
       <text
          xml:space="preserve"
-         style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.06666672"
+         style="font-style:normal;font-weight:normal;font-size:12.8px;line-height:0%;font-family:sans-serif;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.06667"
          x="411.8515"
          y="876.13654"
          id="text2985-7-8-9-6-2-8-5-7-4-5-8-4-9-3-2-5-2-6-0-3-4-3-6-6-4-3-9-1-8-0-3-2-8-1"><tspan
            sodipodi:role="line"
            x="411.8515"
            y="876.13654"
-           style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:46.34468079px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';text-align:center;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke-width:1.06666672"
+           style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:46.3447px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';text-align:center;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke-width:1.06667"
            id="tspan3157">CHRONO</tspan></text>
       <text
          xml:space="preserve"
-         style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.06666672"
+         style="font-style:normal;font-weight:normal;font-size:12.8px;line-height:0%;font-family:sans-serif;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.06667"
          x="411.8515"
          y="923.98462"
          id="text2985-7-8-9-6-2-8-5-7-4-5-8-4-9-3-2-5-2-6-0-3-4-3-6-6-4-3-9-1-8-0-3-2-8-1-4"><tspan
            sodipodi:role="line"
            x="411.8515"
            y="923.98462"
-           style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:46.34468079px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';text-align:center;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke-width:1.06666672"
+           style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:46.3447px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';text-align:center;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke-width:1.06667"
            id="tspan3157-9">JUMP</tspan></text>
     </g>
   </g>
   <text
      xml:space="preserve"
-     style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.06666672"
+     style="font-style:normal;font-weight:normal;font-size:12.8px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.06667"
      x="-385.54858"
      y="-1948.2583"
      id="text3244"><tspan
@@ -826,10 +828,10 @@
        id="tspan3246"
        x="-385.54858"
        y="-1948.2583"
-       style="font-size:42.66666794px;line-height:1.25;font-family:sans-serif;stroke-width:1.06666672">4</tspan></text>
+       style="font-size:42.6667px;line-height:1.25;font-family:sans-serif;stroke-width:1.06667">4</tspan></text>
   <text
      xml:space="preserve"
-     style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.06666672"
+     style="font-style:normal;font-weight:normal;font-size:12.8px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.06667"
      x="1449.9603"
      y="-2783.2854"
      id="text3248"><tspan
@@ -837,7 +839,7 @@
        id="tspan3250"
        x="1449.9603"
        y="-2783.2854"
-       style="font-size:42.66666794px;line-height:1.25;font-family:sans-serif;stroke-width:1.06666672"> </tspan></text>
+       style="font-size:42.6667px;line-height:1.25;font-family:sans-serif;stroke-width:1.06667"> </tspan></text>
   <path
      inkscape:connector-curvature="0"
      style="fill:#e7be19;fill-opacity:1;stroke:none;stroke-width:1.06666672"
@@ -846,7 +848,7 @@
      sodipodi:nodetypes="cccccccccccccccc" />
   <text
      xml:space="preserve"
-     style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.06666672"
+     style="font-style:normal;font-weight:normal;font-size:12.8px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.06667"
      x="1383.8538"
      y="-2392.5251"
      id="text2985-7-8-9-6-2-8-5-7-4-5-8-4-9-3-2-5-2-6-0-3-4-3-6-6-4-3-9-1-8-0-3-2-9-1-3"><tspan
@@ -854,10 +856,10 @@
        id="tspan2987-7-9-5-8-4-6-0-9-8-0-3-8-7-6-7-8-5-0-4-5-7-6-3-13-9-2-0-3-1-2-2-9-3-7-6"
        x="1383.8538"
        y="-2392.5251"
-       style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.58449554px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#000000;fill-opacity:1;stroke-width:1.06666672">CHRONOJUMP</tspan></text>
+       style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.5845px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#000000;fill-opacity:1;stroke-width:1.06667">CHRONOJUMP</tspan></text>
   <text
      xml:space="preserve"
-     style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.06666672"
+     style="font-style:normal;font-weight:normal;font-size:12.8px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.06667"
      x="1381.7201"
      y="-2394.6589"
      id="text2985-7-8-9-6-2-8-5-7-4-5-8-4-9-3-2-5-2-6-0-3-4-3-6-6-4-3-9-1-8-0-3-2-8-4"><tspan
@@ -865,10 +867,10 @@
        id="tspan2987-7-9-5-8-4-6-0-9-8-0-3-8-7-6-7-8-5-0-4-5-7-6-3-13-9-2-0-3-1-2-2-9-4-4"
        x="1381.7201"
        y="-2394.6589"
-       style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.58449554px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#ffffff;fill-opacity:1;stroke-width:1.06666672">CHRONOJUMP</tspan></text>
+       style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.5845px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#ffffff;fill-opacity:1;stroke-width:1.06667">CHRONOJUMP</tspan></text>
   <text
      xml:space="preserve"
-     style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#e7bd19;fill-opacity:1;stroke:none;stroke-width:1.06666672"
+     style="font-style:normal;font-weight:normal;font-size:12.8px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#e7bd19;fill-opacity:1;stroke:none;stroke-width:1.06667"
      x="1433.5409"
      y="-2360.7944"
      id="text2985-7-8-9-1-2-1-92-7-0-8-1-7-0-8-7-6-6-2-9-6-4-5-4-8-68-8-2-4-1-0-6-90-3-0-6-8"
@@ -877,7 +879,7 @@
        id="tspan2987-7-9-5-5-7-6-2-9-7-0-8-3-2-6-4-4-5-6-6-4-8-3-1-1-40-3-3-4-4-6-6-8-3-3-9-4"
        x="1433.5409"
        y="-2360.7944"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:34.47635651px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:Ubuntu;fill:#e7bd19;fill-opacity:1;stroke-width:1.06666672">B o s c o s y s t e m ®</tspan></text>
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:34.4764px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:Ubuntu;fill:#e7bd19;fill-opacity:1;stroke-width:1.06667">B o s c o s y s t e m ®</tspan></text>
   <rect
      style="fill:#0e1e46;fill-opacity:1;stroke:none;stroke-width:1.06666672"
      id="rect3495-5-3-4"
@@ -928,7 +930,7 @@
      sodipodi:nodetypes="cccccccccccccccc" />
   <text
      xml:space="preserve"
-     style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.06666672"
+     style="font-style:normal;font-weight:normal;font-size:12.8px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.06667"
      x="2013.3494"
      y="-2393.3391"
      id="text2985-7-8-9-6-2-8-5-7-4-5-8-4-9-3-2-5-2-6-0-3-4-3-6-6-4-3-9-1-8-0-3-2-9-1-3-1"><tspan
@@ -936,10 +938,10 @@
        id="tspan2987-7-9-5-8-4-6-0-9-8-0-3-8-7-6-7-8-5-0-4-5-7-6-3-13-9-2-0-3-1-2-2-9-3-7-6-5"
        x="2013.3494"
        y="-2393.3391"
-       style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.58449554px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#000000;fill-opacity:1;stroke-width:1.06666672">CHRONOJUMP</tspan></text>
+       style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.5845px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#000000;fill-opacity:1;stroke-width:1.06667">CHRONOJUMP</tspan></text>
   <text
      xml:space="preserve"
-     style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.06666672"
+     style="font-style:normal;font-weight:normal;font-size:12.8px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.06667"
      x="2011.2158"
      y="-2395.4729"
      id="text2985-7-8-9-6-2-8-5-7-4-5-8-4-9-3-2-5-2-6-0-3-4-3-6-6-4-3-9-1-8-0-3-2-8-4-5"><tspan
@@ -947,10 +949,10 @@
        id="tspan2987-7-9-5-8-4-6-0-9-8-0-3-8-7-6-7-8-5-0-4-5-7-6-3-13-9-2-0-3-1-2-2-9-4-4-4"
        x="2011.2158"
        y="-2395.4729"
-       style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.58449554px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#ffffff;fill-opacity:1;stroke-width:1.06666672">CHRONOJUMP</tspan></text>
+       style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.5845px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#ffffff;fill-opacity:1;stroke-width:1.06667">CHRONOJUMP</tspan></text>
   <text
      xml:space="preserve"
-     style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#e7bd19;fill-opacity:1;stroke:none;stroke-width:1.06666672"
+     style="font-style:normal;font-weight:normal;font-size:12.8px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#e7bd19;fill-opacity:1;stroke:none;stroke-width:1.06667"
      x="2062.4985"
      y="-2361.6091"
      id="text2985-7-8-9-1-2-1-92-7-0-8-1-7-0-8-7-6-6-2-9-6-4-5-4-8-68-8-2-4-1-0-6-90-3-0-6-8-6"
@@ -959,7 +961,7 @@
        id="tspan2987-7-9-5-5-7-6-2-9-7-0-8-3-2-6-4-4-5-6-6-4-8-3-1-1-40-3-3-4-4-6-6-8-3-3-9-4-8"
        x="2062.4985"
        y="-2361.6091"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:34.47635651px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:Ubuntu;fill:#e7bd19;fill-opacity:1;stroke-width:1.06666672">B o s c o s y s t e m ®</tspan></text>
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:34.4764px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:Ubuntu;fill:#e7bd19;fill-opacity:1;stroke-width:1.06667">B o s c o s y s t e m ®</tspan></text>
   <rect
      style="fill:#0e1e46;fill-opacity:1;stroke:none;stroke-width:1.06666672"
      id="rect3495-5-3-4-3"
@@ -975,7 +977,7 @@
      sodipodi:nodetypes="cccccccccccccccc" />
   <text
      xml:space="preserve"
-     style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.06666672"
+     style="font-style:normal;font-weight:normal;font-size:12.8px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.06667"
      x="3218.3911"
      y="-2396.2505"
      id="text2985-7-8-9-6-2-8-5-7-4-5-8-4-9-3-2-5-2-6-0-3-4-3-6-6-4-3-9-1-8-0-3-2-9-1-3-1-1"><tspan
@@ -983,10 +985,10 @@
        id="tspan2987-7-9-5-8-4-6-0-9-8-0-3-8-7-6-7-8-5-0-4-5-7-6-3-13-9-2-0-3-1-2-2-9-3-7-6-5-7"
        x="3218.3911"
        y="-2396.2505"
-       style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.58449554px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#000000;fill-opacity:1;stroke-width:1.06666672">CHRONOJUMP</tspan></text>
+       style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.5845px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#000000;fill-opacity:1;stroke-width:1.06667">CHRONOJUMP</tspan></text>
   <text
      xml:space="preserve"
-     style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.06666672"
+     style="font-style:normal;font-weight:normal;font-size:12.8px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.06667"
      x="3216.2576"
      y="-2398.3843"
      id="text2985-7-8-9-6-2-8-5-7-4-5-8-4-9-3-2-5-2-6-0-3-4-3-6-6-4-3-9-1-8-0-3-2-8-4-5-8"><tspan
@@ -994,10 +996,10 @@
        id="tspan2987-7-9-5-8-4-6-0-9-8-0-3-8-7-6-7-8-5-0-4-5-7-6-3-13-9-2-0-3-1-2-2-9-4-4-4-5"
        x="3216.2576"
        y="-2398.3843"
-       style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.58449554px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#ffffff;fill-opacity:1;stroke-width:1.06666672">CHRONOJUMP</tspan></text>
+       style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.5845px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#ffffff;fill-opacity:1;stroke-width:1.06667">CHRONOJUMP</tspan></text>
   <text
      xml:space="preserve"
-     style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#e7bd19;fill-opacity:1;stroke:none;stroke-width:1.06666672"
+     style="font-style:normal;font-weight:normal;font-size:12.8px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#e7bd19;fill-opacity:1;stroke:none;stroke-width:1.06667"
      x="3266.511"
      y="-2364.5232"
      id="text2985-7-8-9-1-2-1-92-7-0-8-1-7-0-8-7-6-6-2-9-6-4-5-4-8-68-8-2-4-1-0-6-90-3-0-6-8-6-5"
@@ -1006,7 +1008,7 @@
        id="tspan2987-7-9-5-5-7-6-2-9-7-0-8-3-2-6-4-4-5-6-6-4-8-3-1-1-40-3-3-4-4-6-6-8-3-3-9-4-8-2"
        x="3266.511"
        y="-2364.5232"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:34.47635651px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:Ubuntu;fill:#e7bd19;fill-opacity:1;stroke-width:1.06666672">B o s c o s y s t e m ®</tspan></text>
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:34.4764px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:Ubuntu;fill:#e7bd19;fill-opacity:1;stroke-width:1.06667">B o s c o s y s t e m ®</tspan></text>
   <rect
      style="fill:#e7be19;fill-opacity:1;stroke:none;stroke-width:1.06666672"
      id="rect3129-5-0-3-2"
@@ -1070,7 +1072,7 @@
      sodipodi:nodetypes="cccccccccccccccc" />
   <text
      xml:space="preserve"
-     style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.06666672"
+     style="font-style:normal;font-weight:normal;font-size:12.8px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.06667"
      x="1399.8929"
      y="-2156.3455"
      id="text2985-7-8-9-6-2-8-5-7-4-5-8-4-9-3-2-5-2-6-0-3-4-3-6-6-4-3-9-1-8-0-3-2-9-1-3-6"><tspan
@@ -1078,10 +1080,10 @@
        id="tspan2987-7-9-5-8-4-6-0-9-8-0-3-8-7-6-7-8-5-0-4-5-7-6-3-13-9-2-0-3-1-2-2-9-3-7-6-6"
        x="1399.8929"
        y="-2156.3455"
-       style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.58449554px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#000000;fill-opacity:1;stroke-width:1.06666672">CHRONOJUMP</tspan></text>
+       style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.5845px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#000000;fill-opacity:1;stroke-width:1.06667">CHRONOJUMP</tspan></text>
   <text
      xml:space="preserve"
-     style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.06666672"
+     style="font-style:normal;font-weight:normal;font-size:12.8px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.06667"
      x="1397.7593"
      y="-2158.4792"
      id="text2985-7-8-9-6-2-8-5-7-4-5-8-4-9-3-2-5-2-6-0-3-4-3-6-6-4-3-9-1-8-0-3-2-8-4-6"><tspan
@@ -1089,10 +1091,10 @@
        id="tspan2987-7-9-5-8-4-6-0-9-8-0-3-8-7-6-7-8-5-0-4-5-7-6-3-13-9-2-0-3-1-2-2-9-4-4-3"
        x="1397.7593"
        y="-2158.4792"
-       style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.58449554px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#ffffff;fill-opacity:1;stroke-width:1.06666672">CHRONOJUMP</tspan></text>
+       style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.5845px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#ffffff;fill-opacity:1;stroke-width:1.06667">CHRONOJUMP</tspan></text>
   <text
      xml:space="preserve"
-     style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#e7bd19;fill-opacity:1;stroke:none;stroke-width:1.06666672"
+     style="font-style:normal;font-weight:normal;font-size:12.8px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#e7bd19;fill-opacity:1;stroke:none;stroke-width:1.06667"
      x="1449.5665"
      y="-2124.4126"
      id="text2985-7-8-9-1-2-1-92-7-0-8-1-7-0-8-7-6-6-2-9-6-4-5-4-8-68-8-2-4-1-0-6-90-3-0-6-8-5"
@@ -1101,7 +1103,7 @@
        id="tspan2987-7-9-5-5-7-6-2-9-7-0-8-3-2-6-4-4-5-6-6-4-8-3-1-1-40-3-3-4-4-6-6-8-3-3-9-4-2"
        x="1449.5665"
        y="-2124.4126"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:34.47635651px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:Ubuntu;fill:#e7bd19;fill-opacity:1;stroke-width:1.06666672">B o s c o s y s t e m ®</tspan></text>
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:34.4764px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:Ubuntu;fill:#e7bd19;fill-opacity:1;stroke-width:1.06667">B o s c o s y s t e m ®</tspan></text>
   <g
      id="g5723"
      transform="translate(189.52539,-3275.0075)">
@@ -1159,7 +1161,7 @@
      sodipodi:nodetypes="cccccccccccccccc" />
   <text
      xml:space="preserve"
-     style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.06666672"
+     style="font-style:normal;font-weight:normal;font-size:12.8px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.06667"
      x="2613.7397"
      y="-2396.0461"
      id="text2985-7-8-9-6-2-8-5-7-4-5-8-4-9-3-2-5-2-6-0-3-4-3-6-6-4-3-9-1-8-0-3-2-9-1-3-1-6"><tspan
@@ -1167,10 +1169,10 @@
        id="tspan2987-7-9-5-8-4-6-0-9-8-0-3-8-7-6-7-8-5-0-4-5-7-6-3-13-9-2-0-3-1-2-2-9-3-7-6-5-3"
        x="2613.7397"
        y="-2396.0461"
-       style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.58449554px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#000000;fill-opacity:1;stroke-width:1.06666672">CHRONOJUMP</tspan></text>
+       style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.5845px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#000000;fill-opacity:1;stroke-width:1.06667">CHRONOJUMP</tspan></text>
   <text
      xml:space="preserve"
-     style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.06666672"
+     style="font-style:normal;font-weight:normal;font-size:12.8px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.06667"
      x="2611.6062"
      y="-2398.1799"
      id="text2985-7-8-9-6-2-8-5-7-4-5-8-4-9-3-2-5-2-6-0-3-4-3-6-6-4-3-9-1-8-0-3-2-8-4-5-4"><tspan
@@ -1178,10 +1180,10 @@
        id="tspan2987-7-9-5-8-4-6-0-9-8-0-3-8-7-6-7-8-5-0-4-5-7-6-3-13-9-2-0-3-1-2-2-9-4-4-4-7"
        x="2611.6062"
        y="-2398.1799"
-       style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.58449554px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#ffffff;fill-opacity:1;stroke-width:1.06666672">CHRONOJUMP</tspan></text>
+       style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.5845px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#ffffff;fill-opacity:1;stroke-width:1.06667">CHRONOJUMP</tspan></text>
   <text
      xml:space="preserve"
-     style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#e7bd19;fill-opacity:1;stroke:none;stroke-width:1.06666672"
+     style="font-style:normal;font-weight:normal;font-size:12.8px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#e7bd19;fill-opacity:1;stroke:none;stroke-width:1.06667"
      x="2662.3762"
      y="-2364.3184"
      id="text2985-7-8-9-1-2-1-92-7-0-8-1-7-0-8-7-6-6-2-9-6-4-5-4-8-68-8-2-4-1-0-6-90-3-0-6-8-6-4"
@@ -1190,7 +1192,7 @@
        id="tspan2987-7-9-5-5-7-6-2-9-7-0-8-3-2-6-4-4-5-6-6-4-8-3-1-1-40-3-3-4-4-6-6-8-3-3-9-4-8-7"
        x="2662.3762"
        y="-2364.3184"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:34.47635651px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:Ubuntu;fill:#e7bd19;fill-opacity:1;stroke-width:1.06666672">B o s c o s y s t e m ®</tspan></text>
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:34.4764px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:Ubuntu;fill:#e7bd19;fill-opacity:1;stroke-width:1.06667">B o s c o s y s t e m ®</tspan></text>
   <rect
      style="fill:#0e1e46;fill-opacity:1;stroke:none;stroke-width:1.06666672"
      id="rect3495-5-3-3-2"
@@ -1212,7 +1214,7 @@
      sodipodi:nodetypes="cccccccccccccccc" />
   <text
      xml:space="preserve"
-     style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.06666672"
+     style="font-style:normal;font-weight:normal;font-size:12.8px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.06667"
      x="2034.9866"
      y="-2160.623"
      id="text2985-7-8-9-6-2-8-5-7-4-5-8-4-9-3-2-5-2-6-0-3-4-3-6-6-4-3-9-1-8-0-3-2-9-1-3-6-7"><tspan
@@ -1220,10 +1222,10 @@
        id="tspan2987-7-9-5-8-4-6-0-9-8-0-3-8-7-6-7-8-5-0-4-5-7-6-3-13-9-2-0-3-1-2-2-9-3-7-6-6-5"
        x="2034.9866"
        y="-2160.623"
-       style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.58449554px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#000000;fill-opacity:1;stroke-width:1.06666672">CHRONOJUMP</tspan></text>
+       style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.5845px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#000000;fill-opacity:1;stroke-width:1.06667">CHRONOJUMP</tspan></text>
   <text
      xml:space="preserve"
-     style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.06666672"
+     style="font-style:normal;font-weight:normal;font-size:12.8px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.06667"
      x="2032.8529"
      y="-2162.7571"
      id="text2985-7-8-9-6-2-8-5-7-4-5-8-4-9-3-2-5-2-6-0-3-4-3-6-6-4-3-9-1-8-0-3-2-8-4-6-3"><tspan
@@ -1231,10 +1233,10 @@
        id="tspan2987-7-9-5-8-4-6-0-9-8-0-3-8-7-6-7-8-5-0-4-5-7-6-3-13-9-2-0-3-1-2-2-9-4-4-3-2"
        x="2032.8529"
        y="-2162.7571"
-       style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.58449554px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#ffffff;fill-opacity:1;stroke-width:1.06666672">CHRONOJUMP</tspan></text>
+       style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.5845px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#ffffff;fill-opacity:1;stroke-width:1.06667">CHRONOJUMP</tspan></text>
   <text
      xml:space="preserve"
-     style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#e7bd19;fill-opacity:1;stroke:none;stroke-width:1.06666672"
+     style="font-style:normal;font-weight:normal;font-size:12.8px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#e7bd19;fill-opacity:1;stroke:none;stroke-width:1.06667"
      x="2084.1174"
      y="-2128.6943"
      id="text2985-7-8-9-1-2-1-92-7-0-8-1-7-0-8-7-6-6-2-9-6-4-5-4-8-68-8-2-4-1-0-6-90-3-0-6-8-5-1"
@@ -1243,7 +1245,7 @@
        id="tspan2987-7-9-5-5-7-6-2-9-7-0-8-3-2-6-4-4-5-6-6-4-8-3-1-1-40-3-3-4-4-6-6-8-3-3-9-4-2-5"
        x="2084.1174"
        y="-2128.6943"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:34.47635651px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:Ubuntu;fill:#e7bd19;fill-opacity:1;stroke-width:1.06666672">B o s c o s y s t e m ®</tspan></text>
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:34.4764px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:Ubuntu;fill:#e7bd19;fill-opacity:1;stroke-width:1.06667">B o s c o s y s t e m ®</tspan></text>
   <path
      style="fill:none;stroke:#ffffff;stroke-width:6.97082233;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
      d="m 2557.4985,-2179.7153 51.468,-51.4681"
@@ -1264,7 +1266,7 @@
      sodipodi:nodetypes="cccccccccccccccc" />
   <text
      xml:space="preserve"
-     style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.06666672"
+     style="font-style:normal;font-weight:normal;font-size:12.8px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.06667"
      x="1431.3195"
      y="-1926.8274"
      id="text2985-7-8-9-6-2-8-5-7-4-5-8-4-9-3-2-5-2-6-0-3-4-3-6-6-4-3-9-1-8-0-3-2-9-1-3-6-1"><tspan
@@ -1272,10 +1274,10 @@
        id="tspan2987-7-9-5-8-4-6-0-9-8-0-3-8-7-6-7-8-5-0-4-5-7-6-3-13-9-2-0-3-1-2-2-9-3-7-6-6-7"
        x="1431.3195"
        y="-1926.8274"
-       style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.58449554px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#000000;fill-opacity:1;stroke-width:1.06666672">CHRONOJUMP</tspan></text>
+       style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.5845px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#000000;fill-opacity:1;stroke-width:1.06667">CHRONOJUMP</tspan></text>
   <text
      xml:space="preserve"
-     style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.06666672"
+     style="font-style:normal;font-weight:normal;font-size:12.8px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.06667"
      x="1429.1859"
      y="-1928.9613"
      id="text2985-7-8-9-6-2-8-5-7-4-5-8-4-9-3-2-5-2-6-0-3-4-3-6-6-4-3-9-1-8-0-3-2-8-4-6-8"><tspan
@@ -1283,10 +1285,10 @@
        id="tspan2987-7-9-5-8-4-6-0-9-8-0-3-8-7-6-7-8-5-0-4-5-7-6-3-13-9-2-0-3-1-2-2-9-4-4-3-7"
        x="1429.1859"
        y="-1928.9613"
-       style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.58449554px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#ffffff;fill-opacity:1;stroke-width:1.06666672">CHRONOJUMP</tspan></text>
+       style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.5845px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#ffffff;fill-opacity:1;stroke-width:1.06667">CHRONOJUMP</tspan></text>
   <text
      xml:space="preserve"
-     style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#e7bd19;fill-opacity:1;stroke:none;stroke-width:1.06666672"
+     style="font-style:normal;font-weight:normal;font-size:12.8px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#e7bd19;fill-opacity:1;stroke:none;stroke-width:1.06667"
      x="1480.9661"
      y="-1894.6982"
      id="text2985-7-8-9-1-2-1-92-7-0-8-1-7-0-8-7-6-6-2-9-6-4-5-4-8-68-8-2-4-1-0-6-90-3-0-6-8-5-9"
@@ -1295,7 +1297,7 @@
        id="tspan2987-7-9-5-5-7-6-2-9-7-0-8-3-2-6-4-4-5-6-6-4-8-3-1-1-40-3-3-4-4-6-6-8-3-3-9-4-2-6"
        x="1480.9661"
        y="-1894.6982"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:34.47635651px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:Ubuntu;fill:#e7bd19;fill-opacity:1;stroke-width:1.06666672">B o s c o s y s t e m ®</tspan></text>
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:34.4764px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:Ubuntu;fill:#e7bd19;fill-opacity:1;stroke-width:1.06667">B o s c o s y s t e m ®</tspan></text>
   <g
      id="g5917"
      transform="translate(-1297.2437,-3141.4271)">
@@ -1326,7 +1328,7 @@
      sodipodi:nodetypes="cccccccccccccccc" />
   <text
      xml:space="preserve"
-     style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.06666672"
+     style="font-style:normal;font-weight:normal;font-size:12.8px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.06667"
      x="1430.5869"
      y="-1744.1074"
      id="text2985-7-8-9-6-2-8-5-7-4-5-8-4-9-3-2-5-2-6-0-3-4-3-6-6-4-3-9-1-8-0-3-2-9-1-3-6-1-7"><tspan
@@ -1334,10 +1336,10 @@
        id="tspan2987-7-9-5-8-4-6-0-9-8-0-3-8-7-6-7-8-5-0-4-5-7-6-3-13-9-2-0-3-1-2-2-9-3-7-6-6-7-8"
        x="1430.5869"
        y="-1744.1074"
-       style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.58449554px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#000000;fill-opacity:1;stroke-width:1.06666672">CHRONOJUMP</tspan></text>
+       style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.5845px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#000000;fill-opacity:1;stroke-width:1.06667">CHRONOJUMP</tspan></text>
   <text
      xml:space="preserve"
-     style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.06666672"
+     style="font-style:normal;font-weight:normal;font-size:12.8px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.06667"
      x="1428.4534"
      y="-1746.2412"
      id="text2985-7-8-9-6-2-8-5-7-4-5-8-4-9-3-2-5-2-6-0-3-4-3-6-6-4-3-9-1-8-0-3-2-8-4-6-8-1"><tspan
@@ -1345,10 +1347,10 @@
        id="tspan2987-7-9-5-8-4-6-0-9-8-0-3-8-7-6-7-8-5-0-4-5-7-6-3-13-9-2-0-3-1-2-2-9-4-4-3-7-1"
        x="1428.4534"
        y="-1746.2412"
-       style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.58449554px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#ffffff;fill-opacity:1;stroke-width:1.06666672">CHRONOJUMP</tspan></text>
+       style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.5845px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#ffffff;fill-opacity:1;stroke-width:1.06667">CHRONOJUMP</tspan></text>
   <text
      xml:space="preserve"
-     style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#e7bd19;fill-opacity:1;stroke:none;stroke-width:1.06666672"
+     style="font-style:normal;font-weight:normal;font-size:12.8px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#e7bd19;fill-opacity:1;stroke:none;stroke-width:1.06667"
      x="1480.2344"
      y="-1711.8219"
      id="text2985-7-8-9-1-2-1-92-7-0-8-1-7-0-8-7-6-6-2-9-6-4-5-4-8-68-8-2-4-1-0-6-90-3-0-6-8-5-9-7"
@@ -1357,7 +1359,7 @@
        id="tspan2987-7-9-5-5-7-6-2-9-7-0-8-3-2-6-4-4-5-6-6-4-8-3-1-1-40-3-3-4-4-6-6-8-3-3-9-4-2-6-3"
        x="1480.2344"
        y="-1711.8219"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:34.47635651px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:Ubuntu;fill:#e7bd19;fill-opacity:1;stroke-width:1.06666672">B o s c o s y s t e m ®</tspan></text>
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:34.4764px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:Ubuntu;fill:#e7bd19;fill-opacity:1;stroke-width:1.06667">B o s c o s y s t e m ®</tspan></text>
   <circle
      style="fill:none;stroke:#ffffff;stroke-width:2.13333344;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
      id="path5715-5-7"
@@ -1384,7 +1386,7 @@
      sodipodi:nodetypes="cccccccccccccccc" />
   <text
      xml:space="preserve"
-     style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.06666672"
+     style="font-style:normal;font-weight:normal;font-size:12.8px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.06667"
      x="2020.3424"
      y="-1924.4014"
      id="text2985-7-8-9-6-2-8-5-7-4-5-8-4-9-3-2-5-2-6-0-3-4-3-6-6-4-3-9-1-8-0-3-2-9-1-3-6-1-4"><tspan
@@ -1392,10 +1394,10 @@
        id="tspan2987-7-9-5-8-4-6-0-9-8-0-3-8-7-6-7-8-5-0-4-5-7-6-3-13-9-2-0-3-1-2-2-9-3-7-6-6-7-2"
        x="2020.3424"
        y="-1924.4014"
-       style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.58449554px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#000000;fill-opacity:1;stroke-width:1.06666672">CHRONOJUMP</tspan></text>
+       style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.5845px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#000000;fill-opacity:1;stroke-width:1.06667">CHRONOJUMP</tspan></text>
   <text
      xml:space="preserve"
-     style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.06666672"
+     style="font-style:normal;font-weight:normal;font-size:12.8px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.06667"
      x="2018.2087"
      y="-1926.5352"
      id="text2985-7-8-9-6-2-8-5-7-4-5-8-4-9-3-2-5-2-6-0-3-4-3-6-6-4-3-9-1-8-0-3-2-8-4-6-8-9"><tspan
@@ -1403,10 +1405,10 @@
        id="tspan2987-7-9-5-8-4-6-0-9-8-0-3-8-7-6-7-8-5-0-4-5-7-6-3-13-9-2-0-3-1-2-2-9-4-4-3-7-3"
        x="2018.2087"
        y="-1926.5352"
-       style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.58449554px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#ffffff;fill-opacity:1;stroke-width:1.06666672">CHRONOJUMP</tspan></text>
+       style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.5845px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#ffffff;fill-opacity:1;stroke-width:1.06667">CHRONOJUMP</tspan></text>
   <text
      xml:space="preserve"
-     style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#e7bd19;fill-opacity:1;stroke:none;stroke-width:1.06666672"
+     style="font-style:normal;font-weight:normal;font-size:12.8px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#e7bd19;fill-opacity:1;stroke:none;stroke-width:1.06667"
      x="2069.4856"
      y="-1892.27"
      id="text2985-7-8-9-1-2-1-92-7-0-8-1-7-0-8-7-6-6-2-9-6-4-5-4-8-68-8-2-4-1-0-6-90-3-0-6-8-5-9-3"
@@ -1415,7 +1417,7 @@
        id="tspan2987-7-9-5-5-7-6-2-9-7-0-8-3-2-6-4-4-5-6-6-4-8-3-1-1-40-3-3-4-4-6-6-8-3-3-9-4-2-6-2"
        x="2069.4856"
        y="-1892.27"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:34.47635651px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:Ubuntu;fill:#e7bd19;fill-opacity:1;stroke-width:1.06666672">B o s c o s y s t e m ®</tspan></text>
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:34.4764px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:Ubuntu;fill:#e7bd19;fill-opacity:1;stroke-width:1.06667">B o s c o s y s t e m ®</tspan></text>
   <g
      id="g5917-7"
      transform="matrix(1.1117378,0,0,1.1117378,-1053.4051,-3270.6172)">
@@ -1454,7 +1456,7 @@
      sodipodi:nodetypes="cccccccccccccccc" />
   <text
      xml:space="preserve"
-     style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.06666672"
+     style="font-style:normal;font-weight:normal;font-size:12.8px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.06667"
      x="2022.2583"
      y="-1743.6964"
      id="text2985-7-8-9-6-2-8-5-7-4-5-8-4-9-3-2-5-2-6-0-3-4-3-6-6-4-3-9-1-8-0-3-2-9-1-3-6-1-7-0"><tspan
@@ -1462,10 +1464,10 @@
        id="tspan2987-7-9-5-8-4-6-0-9-8-0-3-8-7-6-7-8-5-0-4-5-7-6-3-13-9-2-0-3-1-2-2-9-3-7-6-6-7-8-5"
        x="2022.2583"
        y="-1743.6964"
-       style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.58449554px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#000000;fill-opacity:1;stroke-width:1.06666672">CHRONOJUMP</tspan></text>
+       style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.5845px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#000000;fill-opacity:1;stroke-width:1.06667">CHRONOJUMP</tspan></text>
   <text
      xml:space="preserve"
-     style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.06666672"
+     style="font-style:normal;font-weight:normal;font-size:12.8px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.06667"
      x="2020.1246"
      y="-1745.8303"
      id="text2985-7-8-9-6-2-8-5-7-4-5-8-4-9-3-2-5-2-6-0-3-4-3-6-6-4-3-9-1-8-0-3-2-8-4-6-8-1-6"><tspan
@@ -1473,10 +1475,10 @@
        id="tspan2987-7-9-5-8-4-6-0-9-8-0-3-8-7-6-7-8-5-0-4-5-7-6-3-13-9-2-0-3-1-2-2-9-4-4-3-7-1-0"
        x="2020.1246"
        y="-1745.8303"
-       style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.58449554px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#ffffff;fill-opacity:1;stroke-width:1.06666672">CHRONOJUMP</tspan></text>
+       style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.5845px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#ffffff;fill-opacity:1;stroke-width:1.06667">CHRONOJUMP</tspan></text>
   <text
      xml:space="preserve"
-     style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#e7bd19;fill-opacity:1;stroke:none;stroke-width:1.06666672"
+     style="font-style:normal;font-weight:normal;font-size:12.8px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#e7bd19;fill-opacity:1;stroke:none;stroke-width:1.06667"
      x="2071.4004"
      y="-1711.4106"
      id="text2985-7-8-9-1-2-1-92-7-0-8-1-7-0-8-7-6-6-2-9-6-4-5-4-8-68-8-2-4-1-0-6-90-3-0-6-8-5-9-7-1"
@@ -1485,7 +1487,7 @@
        id="tspan2987-7-9-5-5-7-6-2-9-7-0-8-3-2-6-4-4-5-6-6-4-8-3-1-1-40-3-3-4-4-6-6-8-3-3-9-4-2-6-3-3"
        x="2071.4004"
        y="-1711.4106"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:34.47635651px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:Ubuntu;fill:#e7bd19;fill-opacity:1;stroke-width:1.06666672">B o s c o s y s t e m ®</tspan></text>
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:34.4764px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:Ubuntu;fill:#e7bd19;fill-opacity:1;stroke-width:1.06667">B o s c o s y s t e m ®</tspan></text>
   <circle
      style="fill:#0e1e46;fill-opacity:1;stroke:#ffffff;stroke-width:2.13333344;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
      id="path5715-5-7-4"
@@ -1512,7 +1514,7 @@
      sodipodi:nodetypes="cccccccccccccccc" />
   <text
      xml:space="preserve"
-     style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.06666672"
+     style="font-style:normal;font-weight:normal;font-size:12.8px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.06667"
      x="2594.0486"
      y="-1923.0476"
      id="text2985-7-8-9-6-2-8-5-7-4-5-8-4-9-3-2-5-2-6-0-3-4-3-6-6-4-3-9-1-8-0-3-2-9-1-3-6-1-4-4"><tspan
@@ -1520,10 +1522,10 @@
        id="tspan2987-7-9-5-8-4-6-0-9-8-0-3-8-7-6-7-8-5-0-4-5-7-6-3-13-9-2-0-3-1-2-2-9-3-7-6-6-7-2-9"
        x="2594.0486"
        y="-1923.0476"
-       style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.58449554px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#000000;fill-opacity:1;stroke-width:1.06666672">CHRONOJUMP</tspan></text>
+       style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.5845px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#000000;fill-opacity:1;stroke-width:1.06667">CHRONOJUMP</tspan></text>
   <text
      xml:space="preserve"
-     style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.06666672"
+     style="font-style:normal;font-weight:normal;font-size:12.8px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.06667"
      x="2591.915"
      y="-1925.1814"
      id="text2985-7-8-9-6-2-8-5-7-4-5-8-4-9-3-2-5-2-6-0-3-4-3-6-6-4-3-9-1-8-0-3-2-8-4-6-8-9-6"><tspan
@@ -1531,10 +1533,10 @@
        id="tspan2987-7-9-5-8-4-6-0-9-8-0-3-8-7-6-7-8-5-0-4-5-7-6-3-13-9-2-0-3-1-2-2-9-4-4-3-7-3-4"
        x="2591.915"
        y="-1925.1814"
-       style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.58449554px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#ffffff;fill-opacity:1;stroke-width:1.06666672">CHRONOJUMP</tspan></text>
+       style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.5845px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#ffffff;fill-opacity:1;stroke-width:1.06667">CHRONOJUMP</tspan></text>
   <text
      xml:space="preserve"
-     style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#e7bd19;fill-opacity:1;stroke:none;stroke-width:1.06666672"
+     style="font-style:normal;font-weight:normal;font-size:12.8px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#e7bd19;fill-opacity:1;stroke:none;stroke-width:1.06667"
      x="2642.7021"
      y="-1890.9152"
      id="text2985-7-8-9-1-2-1-92-7-0-8-1-7-0-8-7-6-6-2-9-6-4-5-4-8-68-8-2-4-1-0-6-90-3-0-6-8-5-9-3-4"
@@ -1543,7 +1545,7 @@
        id="tspan2987-7-9-5-5-7-6-2-9-7-0-8-3-2-6-4-4-5-6-6-4-8-3-1-1-40-3-3-4-4-6-6-8-3-3-9-4-2-6-2-8"
        x="2642.7021"
        y="-1890.9152"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:34.47635651px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:Ubuntu;fill:#e7bd19;fill-opacity:1;stroke-width:1.06666672">B o s c o s y s t e m ®</tspan></text>
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:34.4764px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:Ubuntu;fill:#e7bd19;fill-opacity:1;stroke-width:1.06667">B o s c o s y s t e m ®</tspan></text>
   <rect
      style="fill:#0e1e46;fill-opacity:1;stroke:none;stroke-width:1.06666672"
      id="rect3495-5-3-3-4-3-4-9"
@@ -1559,7 +1561,7 @@
      sodipodi:nodetypes="cccccccccccccccc" />
   <text
      xml:space="preserve"
-     style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.06666672"
+     style="font-style:normal;font-weight:normal;font-size:12.8px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.06667"
      x="2023.7059"
      y="-1565.0953"
      id="text2985-7-8-9-6-2-8-5-7-4-5-8-4-9-3-2-5-2-6-0-3-4-3-6-6-4-3-9-1-8-0-3-2-9-1-3-6-1-7-0-9"><tspan
@@ -1567,10 +1569,10 @@
        id="tspan2987-7-9-5-8-4-6-0-9-8-0-3-8-7-6-7-8-5-0-4-5-7-6-3-13-9-2-0-3-1-2-2-9-3-7-6-6-7-8-5-4"
        x="2023.7059"
        y="-1565.0953"
-       style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.58449554px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#000000;fill-opacity:1;stroke-width:1.06666672">CHRONOJUMP</tspan></text>
+       style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.5845px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#000000;fill-opacity:1;stroke-width:1.06667">CHRONOJUMP</tspan></text>
   <text
      xml:space="preserve"
-     style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.06666672"
+     style="font-style:normal;font-weight:normal;font-size:12.8px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.06667"
      x="2021.5724"
      y="-1567.2292"
      id="text2985-7-8-9-6-2-8-5-7-4-5-8-4-9-3-2-5-2-6-0-3-4-3-6-6-4-3-9-1-8-0-3-2-8-4-6-8-1-6-3"><tspan
@@ -1578,10 +1580,10 @@
        id="tspan2987-7-9-5-8-4-6-0-9-8-0-3-8-7-6-7-8-5-0-4-5-7-6-3-13-9-2-0-3-1-2-2-9-4-4-3-7-1-0-3"
        x="2021.5724"
        y="-1567.2292"
-       style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.58449554px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#ffffff;fill-opacity:1;stroke-width:1.06666672">CHRONOJUMP</tspan></text>
+       style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.5845px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#ffffff;fill-opacity:1;stroke-width:1.06667">CHRONOJUMP</tspan></text>
   <text
      xml:space="preserve"
-     style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#e7bd19;fill-opacity:1;stroke:none;stroke-width:1.06666672"
+     style="font-style:normal;font-weight:normal;font-size:12.8px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#e7bd19;fill-opacity:1;stroke:none;stroke-width:1.06667"
      x="2072.8467"
      y="-1532.6567"
      id="text2985-7-8-9-1-2-1-92-7-0-8-1-7-0-8-7-6-6-2-9-6-4-5-4-8-68-8-2-4-1-0-6-90-3-0-6-8-5-9-7-1-1"
@@ -1590,7 +1592,7 @@
        id="tspan2987-7-9-5-5-7-6-2-9-7-0-8-3-2-6-4-4-5-6-6-4-8-3-1-1-40-3-3-4-4-6-6-8-3-3-9-4-2-6-3-3-4"
        x="2072.8467"
        y="-1532.6567"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:34.47635651px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:Ubuntu;fill:#e7bd19;fill-opacity:1;stroke-width:1.06666672">B o s c o s y s t e m ®</tspan></text>
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:34.4764px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:Ubuntu;fill:#e7bd19;fill-opacity:1;stroke-width:1.06667">B o s c o s y s t e m ®</tspan></text>
   <g
      id="g6168"
      transform="translate(-1297.6948,-3139.034)">
@@ -1638,7 +1640,7 @@
      sodipodi:nodetypes="cccccccccccccccc" />
   <text
      xml:space="preserve"
-     style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.06666672"
+     style="font-style:normal;font-weight:normal;font-size:12.8px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.06667"
      x="2596.4631"
      y="-1743.4932"
      id="text2985-7-8-9-6-2-8-5-7-4-5-8-4-9-3-2-5-2-6-0-3-4-3-6-6-4-3-9-1-8-0-3-2-9-1-3-6-1-4-4-8"><tspan
@@ -1646,10 +1648,10 @@
        id="tspan2987-7-9-5-8-4-6-0-9-8-0-3-8-7-6-7-8-5-0-4-5-7-6-3-13-9-2-0-3-1-2-2-9-3-7-6-6-7-2-9-7"
        x="2596.4631"
        y="-1743.4932"
-       style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.58449554px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#000000;fill-opacity:1;stroke-width:1.06666672">CHRONOJUMP</tspan></text>
+       style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.5845px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#000000;fill-opacity:1;stroke-width:1.06667">CHRONOJUMP</tspan></text>
   <text
      xml:space="preserve"
-     style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.06666672"
+     style="font-style:normal;font-weight:normal;font-size:12.8px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.06667"
      x="2594.3296"
      y="-1745.6271"
      id="text2985-7-8-9-6-2-8-5-7-4-5-8-4-9-3-2-5-2-6-0-3-4-3-6-6-4-3-9-1-8-0-3-2-8-4-6-8-9-6-1"><tspan
@@ -1657,10 +1659,10 @@
        id="tspan2987-7-9-5-8-4-6-0-9-8-0-3-8-7-6-7-8-5-0-4-5-7-6-3-13-9-2-0-3-1-2-2-9-4-4-3-7-3-4-5"
        x="2594.3296"
        y="-1745.6271"
-       style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.58449554px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#ffffff;fill-opacity:1;stroke-width:1.06666672">CHRONOJUMP</tspan></text>
+       style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.5845px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#ffffff;fill-opacity:1;stroke-width:1.06667">CHRONOJUMP</tspan></text>
   <text
      xml:space="preserve"
-     style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#e7bd19;fill-opacity:1;stroke:none;stroke-width:1.06666672"
+     style="font-style:normal;font-weight:normal;font-size:12.8px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#e7bd19;fill-opacity:1;stroke:none;stroke-width:1.06667"
      x="2645.1145"
      y="-1711.2074"
      id="text2985-7-8-9-1-2-1-92-7-0-8-1-7-0-8-7-6-6-2-9-6-4-5-4-8-68-8-2-4-1-0-6-90-3-0-6-8-5-9-3-4-1"
@@ -1669,7 +1671,7 @@
        id="tspan2987-7-9-5-5-7-6-2-9-7-0-8-3-2-6-4-4-5-6-6-4-8-3-1-1-40-3-3-4-4-6-6-8-3-3-9-4-2-6-2-8-7"
        x="2645.1145"
        y="-1711.2074"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:34.47635651px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:Ubuntu;fill:#e7bd19;fill-opacity:1;stroke-width:1.06666672">B o s c o s y s t e m ®</tspan></text>
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:34.4764px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:Ubuntu;fill:#e7bd19;fill-opacity:1;stroke-width:1.06667">B o s c o s y s t e m ®</tspan></text>
   <path
      style="fill:#ffffff;stroke:#ffffff;stroke-width:1.06666672px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
      d="m 3034.7985,-1742.4043 -3.634,-3.9456 3.7333,-6.4664 5.234,1.1744 z"
@@ -1702,7 +1704,7 @@
      sodipodi:nodetypes="cccccccccccccccc" />
   <text
      xml:space="preserve"
-     style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.06666672"
+     style="font-style:normal;font-weight:normal;font-size:12.8px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.06667"
      x="2597.0017"
      y="-1557.0016"
      id="text2985-7-8-9-6-2-8-5-7-4-5-8-4-9-3-2-5-2-6-0-3-4-3-6-6-4-3-9-1-8-0-3-2-9-1-3-6-1-4-4-8-4"><tspan
@@ -1710,10 +1712,10 @@
        id="tspan2987-7-9-5-8-4-6-0-9-8-0-3-8-7-6-7-8-5-0-4-5-7-6-3-13-9-2-0-3-1-2-2-9-3-7-6-6-7-2-9-7-6"
        x="2597.0017"
        y="-1557.0016"
-       style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.58449554px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#000000;fill-opacity:1;stroke-width:1.06666672">CHRONOJUMP</tspan></text>
+       style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.5845px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#000000;fill-opacity:1;stroke-width:1.06667">CHRONOJUMP</tspan></text>
   <text
      xml:space="preserve"
-     style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.06666672"
+     style="font-style:normal;font-weight:normal;font-size:12.8px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.06667"
      x="2594.8682"
      y="-1559.1355"
      id="text2985-7-8-9-6-2-8-5-7-4-5-8-4-9-3-2-5-2-6-0-3-4-3-6-6-4-3-9-1-8-0-3-2-8-4-6-8-9-6-1-3"><tspan
@@ -1721,10 +1723,10 @@
        id="tspan2987-7-9-5-8-4-6-0-9-8-0-3-8-7-6-7-8-5-0-4-5-7-6-3-13-9-2-0-3-1-2-2-9-4-4-3-7-3-4-5-4"
        x="2594.8682"
        y="-1559.1355"
-       style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.58449554px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#ffffff;fill-opacity:1;stroke-width:1.06666672">CHRONOJUMP</tspan></text>
+       style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.5845px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#ffffff;fill-opacity:1;stroke-width:1.06667">CHRONOJUMP</tspan></text>
   <text
      xml:space="preserve"
-     style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#e7bd19;fill-opacity:1;stroke:none;stroke-width:1.06666672"
+     style="font-style:normal;font-weight:normal;font-size:12.8px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#e7bd19;fill-opacity:1;stroke:none;stroke-width:1.06667"
      x="2645.6531"
      y="-1524.5562"
      id="text2985-7-8-9-1-2-1-92-7-0-8-1-7-0-8-7-6-6-2-9-6-4-5-4-8-68-8-2-4-1-0-6-90-3-0-6-8-5-9-3-4-1-8"
@@ -1733,7 +1735,7 @@
        id="tspan2987-7-9-5-5-7-6-2-9-7-0-8-3-2-6-4-4-5-6-6-4-8-3-1-1-40-3-3-4-4-6-6-8-3-3-9-4-2-6-2-8-7-1"
        x="2645.6531"
        y="-1524.5562"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:34.47635651px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:Ubuntu;fill:#e7bd19;fill-opacity:1;stroke-width:1.06666672">B o s c o s y s t e m ®</tspan></text>
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:34.4764px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:Ubuntu;fill:#e7bd19;fill-opacity:1;stroke-width:1.06667">B o s c o s y s t e m ®</tspan></text>
   <g
      id="g6420"
      transform="rotate(-60,816.28145,1227.4825)">
@@ -1781,7 +1783,7 @@
      sodipodi:nodetypes="cccccccccccccccc" />
   <text
      xml:space="preserve"
-     style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.06666672"
+     style="font-style:normal;font-weight:normal;font-size:12.8px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.06667"
      x="2608.6633"
      y="-1381.6194"
      id="text2985-7-8-9-6-2-8-5-7-4-5-8-4-9-3-2-5-2-6-0-3-4-3-6-6-4-3-9-1-8-0-3-2-9-1-3-6-1-4-4-8-4-5"><tspan
@@ -1789,10 +1791,10 @@
        id="tspan2987-7-9-5-8-4-6-0-9-8-0-3-8-7-6-7-8-5-0-4-5-7-6-3-13-9-2-0-3-1-2-2-9-3-7-6-6-7-2-9-7-6-0"
        x="2608.6633"
        y="-1381.6194"
-       style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.58449554px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#000000;fill-opacity:1;stroke-width:1.06666672">CHRONOJUMP</tspan></text>
+       style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.5845px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#000000;fill-opacity:1;stroke-width:1.06667">CHRONOJUMP</tspan></text>
   <text
      xml:space="preserve"
-     style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.06666672"
+     style="font-style:normal;font-weight:normal;font-size:12.8px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.06667"
      x="2606.5298"
      y="-1383.7532"
      id="text2985-7-8-9-6-2-8-5-7-4-5-8-4-9-3-2-5-2-6-0-3-4-3-6-6-4-3-9-1-8-0-3-2-8-4-6-8-9-6-1-3-0"><tspan
@@ -1800,10 +1802,10 @@
        id="tspan2987-7-9-5-8-4-6-0-9-8-0-3-8-7-6-7-8-5-0-4-5-7-6-3-13-9-2-0-3-1-2-2-9-4-4-3-7-3-4-5-4-2"
        x="2606.5298"
        y="-1383.7532"
-       style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.58449554px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#ffffff;fill-opacity:1;stroke-width:1.06666672">CHRONOJUMP</tspan></text>
+       style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.5845px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#ffffff;fill-opacity:1;stroke-width:1.06667">CHRONOJUMP</tspan></text>
   <text
      xml:space="preserve"
-     style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#e7bd19;fill-opacity:1;stroke:none;stroke-width:1.06666672"
+     style="font-style:normal;font-weight:normal;font-size:12.8px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#e7bd19;fill-opacity:1;stroke:none;stroke-width:1.06667"
      x="2657.3047"
      y="-1349.0239"
      id="text2985-7-8-9-1-2-1-92-7-0-8-1-7-0-8-7-6-6-2-9-6-4-5-4-8-68-8-2-4-1-0-6-90-3-0-6-8-5-9-3-4-1-8-8"
@@ -1812,7 +1814,7 @@
        id="tspan2987-7-9-5-5-7-6-2-9-7-0-8-3-2-6-4-4-5-6-6-4-8-3-1-1-40-3-3-4-4-6-6-8-3-3-9-4-2-6-2-8-7-1-7"
        x="2657.3047"
        y="-1349.0239"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:34.47635651px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:Ubuntu;fill:#e7bd19;fill-opacity:1;stroke-width:1.06666672">B o s c o s y s t e m ®</tspan></text>
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:34.4764px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:Ubuntu;fill:#e7bd19;fill-opacity:1;stroke-width:1.06667">B o s c o s y s t e m ®</tspan></text>
   <path
      style="fill:#e7be19;fill-opacity:1;stroke:#ffffff;stroke-width:1.06666672px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
      d="m 3047.0158,-1380.25 -3.6339,-3.9454 3.7333,-6.4664 5.2339,1.1744 z"
@@ -1863,9 +1865,9 @@
        id="text2985-7-8-9-6-2-8-5-7-4-5-8-4-9-3-2-5-2-6-0-3-4-3-6-6-4-3-9-1-8-0-3-2-9-1-3-6-1-4-4-8-4-0"
        y="1332.2278"
        x="3235.7354"
-       style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.06666672"
+       style="font-style:normal;font-weight:normal;font-size:12.8px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.06667"
        xml:space="preserve"><tspan
-         style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.58449554px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#000000;fill-opacity:1;stroke-width:1.06666672"
+         style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.5845px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#000000;fill-opacity:1;stroke-width:1.06667"
          y="1332.2278"
          x="3235.7354"
          id="tspan2987-7-9-5-8-4-6-0-9-8-0-3-8-7-6-7-8-5-0-4-5-7-6-3-13-9-2-0-3-1-2-2-9-3-7-6-6-7-2-9-7-6-6"
@@ -1874,9 +1876,9 @@
        id="text2985-7-8-9-6-2-8-5-7-4-5-8-4-9-3-2-5-2-6-0-3-4-3-6-6-4-3-9-1-8-0-3-2-8-4-6-8-9-6-1-3-2"
        y="1330.0939"
        x="3233.6018"
-       style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.06666672"
+       style="font-style:normal;font-weight:normal;font-size:12.8px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.06667"
        xml:space="preserve"><tspan
-         style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.58449554px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#ffffff;fill-opacity:1;stroke-width:1.06666672"
+         style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.5845px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#ffffff;fill-opacity:1;stroke-width:1.06667"
          y="1330.0939"
          x="3233.6018"
          id="tspan2987-7-9-5-8-4-6-0-9-8-0-3-8-7-6-7-8-5-0-4-5-7-6-3-13-9-2-0-3-1-2-2-9-4-4-3-7-3-4-5-4-5"
@@ -1886,9 +1888,9 @@
        id="text2985-7-8-9-1-2-1-92-7-0-8-1-7-0-8-7-6-6-2-9-6-4-5-4-8-68-8-2-4-1-0-6-90-3-0-6-8-5-9-3-4-1-8-6"
        y="1367.1443"
        x="3283.8406"
-       style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#e7bd19;fill-opacity:1;stroke:none;stroke-width:1.06666672"
+       style="font-style:normal;font-weight:normal;font-size:12.8px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#e7bd19;fill-opacity:1;stroke:none;stroke-width:1.06667"
        xml:space="preserve"><tspan
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:34.47635651px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:Ubuntu;fill:#e7bd19;fill-opacity:1;stroke-width:1.06666672"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:34.4764px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:Ubuntu;fill:#e7bd19;fill-opacity:1;stroke-width:1.06667"
          y="1367.1443"
          x="3283.8406"
          id="tspan2987-7-9-5-5-7-6-2-9-7-0-8-3-2-6-4-4-5-6-6-4-8-3-1-1-40-3-3-4-4-6-6-8-3-3-9-4-2-6-2-8-7-1-2"
@@ -1952,9 +1954,9 @@
        id="text2985-7-8-9-6-2-8-5-7-4-5-8-4-9-3-2-5-2-6-0-3-4-3-6-6-4-3-9-1-8-0-3-2-9-1-3-1-1-0"
        y="1319.74"
        x="3879.363"
-       style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.06666672"
+       style="font-style:normal;font-weight:normal;font-size:12.8px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.06667"
        xml:space="preserve"><tspan
-         style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.58449554px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#000000;fill-opacity:1;stroke-width:1.06666672"
+         style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.5845px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#000000;fill-opacity:1;stroke-width:1.06667"
          y="1319.74"
          x="3879.363"
          id="tspan2987-7-9-5-8-4-6-0-9-8-0-3-8-7-6-7-8-5-0-4-5-7-6-3-13-9-2-0-3-1-2-2-9-3-7-6-5-7-5"
@@ -1963,9 +1965,9 @@
        id="text2985-7-8-9-6-2-8-5-7-4-5-8-4-9-3-2-5-2-6-0-3-4-3-6-6-4-3-9-1-8-0-3-2-8-4-5-8-4"
        y="1317.6062"
        x="3877.2295"
-       style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.06666672"
+       style="font-style:normal;font-weight:normal;font-size:12.8px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.06667"
        xml:space="preserve"><tspan
-         style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.58449554px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#ffffff;fill-opacity:1;stroke-width:1.06666672"
+         style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.5845px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#ffffff;fill-opacity:1;stroke-width:1.06667"
          y="1317.6062"
          x="3877.2295"
          id="tspan2987-7-9-5-8-4-6-0-9-8-0-3-8-7-6-7-8-5-0-4-5-7-6-3-13-9-2-0-3-1-2-2-9-4-4-4-5-6"
@@ -1975,9 +1977,9 @@
        id="text2985-7-8-9-1-2-1-92-7-0-8-1-7-0-8-7-6-6-2-9-6-4-5-4-8-68-8-2-4-1-0-6-90-3-0-6-8-6-5-9"
        y="1354.6456"
        x="3926.9177"
-       style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#e7bd19;fill-opacity:1;stroke:none;stroke-width:1.06666672"
+       style="font-style:normal;font-weight:normal;font-size:12.8px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#e7bd19;fill-opacity:1;stroke:none;stroke-width:1.06667"
        xml:space="preserve"><tspan
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:34.47635651px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:Ubuntu;fill:#e7bd19;fill-opacity:1;stroke-width:1.06666672"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:34.4764px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:Ubuntu;fill:#e7bd19;fill-opacity:1;stroke-width:1.06667"
          y="1354.6456"
          x="3926.9177"
          id="tspan2987-7-9-5-5-7-6-2-9-7-0-8-3-2-6-4-4-5-6-6-4-8-3-1-1-40-3-3-4-4-6-6-8-3-3-9-4-8-2-6"
@@ -2023,7 +2025,7 @@
      inkscape:export-ydpi="68" />
   <text
      xml:space="preserve"
-     style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.06666672"
+     style="font-style:normal;font-weight:normal;font-size:12.8px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.06667"
      x="3336.2087"
      y="-1341.2349"
      id="text2985-7-8-9-6-2-8-5-7-4-5-8-4-9-3-2-5-2-6-0-3-4-3-6-6-4-3-9-1-8-0-3-2-9-1-3-1-1-0-5-7"
@@ -2034,10 +2036,10 @@
        id="tspan2987-7-9-5-8-4-6-0-9-8-0-3-8-7-6-7-8-5-0-4-5-7-6-3-13-9-2-0-3-1-2-2-9-3-7-6-5-7-5-4-3"
        x="3336.2087"
        y="-1341.2349"
-       style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.58449554px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#000000;fill-opacity:1;stroke-width:1.06666672">CHRONOJUMP</tspan></text>
+       style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.5845px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#000000;fill-opacity:1;stroke-width:1.06667">CHRONOJUMP</tspan></text>
   <text
      xml:space="preserve"
-     style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.06666672"
+     style="font-style:normal;font-weight:normal;font-size:12.8px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.06667"
      x="3334.0752"
      y="-1343.3685"
      id="text2985-7-8-9-6-2-8-5-7-4-5-8-4-9-3-2-5-2-6-0-3-4-3-6-6-4-3-9-1-8-0-3-2-8-4-5-8-4-3-1"
@@ -2048,10 +2050,10 @@
        id="tspan2987-7-9-5-8-4-6-0-9-8-0-3-8-7-6-7-8-5-0-4-5-7-6-3-13-9-2-0-3-1-2-2-9-4-4-4-5-6-5-6"
        x="3334.0752"
        y="-1343.3685"
-       style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.58449554px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#ffffff;fill-opacity:1;stroke-width:1.06666672">CHRONOJUMP</tspan></text>
+       style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.5845px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#ffffff;fill-opacity:1;stroke-width:1.06667">CHRONOJUMP</tspan></text>
   <text
      xml:space="preserve"
-     style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffcc00;fill-opacity:1;stroke:none;stroke-width:1.06666672"
+     style="font-style:normal;font-weight:normal;font-size:12.8px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffcc00;fill-opacity:1;stroke:none;stroke-width:1.06667"
      x="3384.2278"
      y="-1304.0139"
      id="text2985-7-8-9-1-2-1-92-7-0-8-1-7-0-8-7-6-6-2-9-6-4-5-4-8-68-8-2-4-1-0-6-90-3-0-6-8-6-5-9-0-9"
@@ -2063,7 +2065,7 @@
        id="tspan2987-7-9-5-5-7-6-2-9-7-0-8-3-2-6-4-4-5-6-6-4-8-3-1-1-40-3-3-4-4-6-6-8-3-3-9-4-8-2-6-6-1"
        x="3384.2278"
        y="-1304.0139"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:34.47635651px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:Ubuntu;fill:#ffcc00;fill-opacity:1;stroke-width:1.06666672">B o s c o s y s t e m ®</tspan></text>
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:34.4764px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:Ubuntu;fill:#ffcc00;fill-opacity:1;stroke-width:1.06667">B o s c o s y s t e m ®</tspan></text>
   <g
      id="g7897"
      transform="translate(-1265.3413,-2197.9163)">
@@ -2099,7 +2101,7 @@
          sodipodi:nodetypes="cccccccccccccccc" />
       <text
          xml:space="preserve"
-         style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.06666672"
+         style="font-style:normal;font-weight:normal;font-size:12.8px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.06667"
          x="3879.363"
          y="1548.3373"
          id="text2985-7-8-9-6-2-8-5-7-4-5-8-4-9-3-2-5-2-6-0-3-4-3-6-6-4-3-9-1-8-0-3-2-9-1-3-1-1-0-5-7-2"><tspan
@@ -2107,10 +2109,10 @@
            id="tspan2987-7-9-5-8-4-6-0-9-8-0-3-8-7-6-7-8-5-0-4-5-7-6-3-13-9-2-0-3-1-2-2-9-3-7-6-5-7-5-4-3-1"
            x="3879.363"
            y="1548.3373"
-           style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.58449554px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#000000;fill-opacity:1;stroke-width:1.06666672">CHRONOJUMP</tspan></text>
+           style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.5845px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#000000;fill-opacity:1;stroke-width:1.06667">CHRONOJUMP</tspan></text>
       <text
          xml:space="preserve"
-         style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.06666672"
+         style="font-style:normal;font-weight:normal;font-size:12.8px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.06667"
          x="3877.2295"
          y="1546.2035"
          id="text2985-7-8-9-6-2-8-5-7-4-5-8-4-9-3-2-5-2-6-0-3-4-3-6-6-4-3-9-1-8-0-3-2-8-4-5-8-4-3-1-0"><tspan
@@ -2118,10 +2120,10 @@
            id="tspan2987-7-9-5-8-4-6-0-9-8-0-3-8-7-6-7-8-5-0-4-5-7-6-3-13-9-2-0-3-1-2-2-9-4-4-4-5-6-5-6-3"
            x="3877.2295"
            y="1546.2035"
-           style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.58449554px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#ffffff;fill-opacity:1;stroke-width:1.06666672">CHRONOJUMP</tspan></text>
+           style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.5845px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#ffffff;fill-opacity:1;stroke-width:1.06667">CHRONOJUMP</tspan></text>
       <text
          xml:space="preserve"
-         style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#e7bd19;fill-opacity:1;stroke:none;stroke-width:1.06666672"
+         style="font-style:normal;font-weight:normal;font-size:12.8px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#e7bd19;fill-opacity:1;stroke:none;stroke-width:1.06667"
          x="3926.9177"
          y="1587.3892"
          id="text2985-7-8-9-1-2-1-92-7-0-8-1-7-0-8-7-6-6-2-9-6-4-5-4-8-68-8-2-4-1-0-6-90-3-0-6-8-6-5-9-0-9-7"
@@ -2130,7 +2132,7 @@
            id="tspan2987-7-9-5-5-7-6-2-9-7-0-8-3-2-6-4-4-5-6-6-4-8-3-1-1-40-3-3-4-4-6-6-8-3-3-9-4-8-2-6-6-1-4"
            x="3926.9177"
            y="1587.3892"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:34.47635651px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:Ubuntu;fill:#e7bd19;fill-opacity:1;stroke-width:1.06666672">B o s c o s y s t e m ®</tspan></text>
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:34.4764px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:Ubuntu;fill:#e7bd19;fill-opacity:1;stroke-width:1.06667">B o s c o s y s t e m ®</tspan></text>
     </g>
   </g>
   <rect
@@ -2159,7 +2161,7 @@
        id="g7029-0-2">
       <text
          xml:space="preserve"
-         style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.06666672"
+         style="font-style:normal;font-weight:normal;font-size:12.8px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.06667"
          x="30.349287"
          y="93.483177"
          id="text2985-7-8-9-6-2-8-5-7-4-5-8-4-9-3-2-5-2-6-0-3-4-3-6-6-4-3-9-1-8-0-3-2-9-1-33"><tspan
@@ -2167,10 +2169,10 @@
            id="tspan2987-7-9-5-8-4-6-0-9-8-0-3-8-7-6-7-8-5-0-4-5-7-6-3-13-9-2-0-3-1-2-2-9-3-7-9"
            x="30.349287"
            y="93.483177"
-           style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.58449554px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#000000;fill-opacity:1;stroke-width:1.06666672">CHRONOJUMP</tspan></text>
+           style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.5845px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#000000;fill-opacity:1;stroke-width:1.06667">CHRONOJUMP</tspan></text>
       <text
          xml:space="preserve"
-         style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.06666672"
+         style="font-style:normal;font-weight:normal;font-size:12.8px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.06667"
          x="28.215694"
          y="91.349396"
          id="text2985-7-8-9-6-2-8-5-7-4-5-8-4-9-3-2-5-2-6-0-3-4-3-6-6-4-3-9-1-8-0-3-2-8-3"><tspan
@@ -2178,16 +2180,16 @@
            id="tspan2987-7-9-5-8-4-6-0-9-8-0-3-8-7-6-7-8-5-0-4-5-7-6-3-13-9-2-0-3-1-2-2-9-4-1"
            x="28.215694"
            y="91.349396"
-           style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.58449554px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#ffffff;fill-opacity:1;stroke-width:1.06666672">CHRONOJUMP</tspan></text>
+           style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.5845px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#ffffff;fill-opacity:1;stroke-width:1.06667">CHRONOJUMP</tspan></text>
     </g>
     <text
        transform="scale(1.0008553,0.99914544)"
        id="text2985-7-8-9-1-2-1-92-7-0-8-1-7-0-8-7-6-6-2-9-6-4-5-4-8-68-8-2-4-1-0-6-90-3-0-6-4"
        y="127.34013"
        x="81.193138"
-       style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#e7bd19;fill-opacity:1;stroke:none;stroke-width:1.06666672"
+       style="font-style:normal;font-weight:normal;font-size:12.8px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#e7bd19;fill-opacity:1;stroke:none;stroke-width:1.06667"
        xml:space="preserve"><tspan
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:34.47635651px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:Ubuntu;fill:#e7bd19;fill-opacity:1;stroke-width:1.06666672"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:34.4764px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:Ubuntu;fill:#e7bd19;fill-opacity:1;stroke-width:1.06667"
          y="127.34013"
          x="81.193138"
          id="tspan2987-7-9-5-5-7-6-2-9-7-0-8-3-2-6-4-4-5-6-6-4-8-3-1-1-40-3-3-4-4-6-6-8-3-3-9-1"
@@ -2195,7 +2197,7 @@
   </g>
   <text
      xml:space="preserve"
-     style="font-style:normal;font-weight:bold;font-size:12.80000019px;line-height:0%;font-family:sans-serif;-inkscape-font-specification:'Sans Bold';letter-spacing:0px;word-spacing:0px;fill:#e7be19;fill-opacity:1;stroke:none;stroke-width:1.06666672"
+     style="font-style:normal;font-weight:bold;font-size:12.8px;line-height:0%;font-family:sans-serif;-inkscape-font-specification:'Sans Bold';letter-spacing:0px;word-spacing:0px;fill:#e7be19;fill-opacity:1;stroke:none;stroke-width:1.06667"
      x="3508.8977"
      y="-1888.3875"
      id="text6931"
@@ -2206,7 +2208,7 @@
        id="tspan6933"
        x="3508.8977"
        y="-1888.3875"
-       style="font-size:42.66666794px;line-height:1.25;font-family:sans-serif;stroke-width:1.06666672">Actual</tspan></text>
+       style="font-size:42.6667px;line-height:1.25;font-family:sans-serif;stroke-width:1.06667">Actual</tspan></text>
   <g
      id="g7873"
      transform="translate(-1270.2948,-2654.1206)">
@@ -2247,9 +2249,9 @@
        id="text2985-7-8-9-6-2-8-5-7-4-5-8-4-9-3-2-5-2-6-0-3-4-3-6-6-4-3-9-1-8-0-3-2-9-1-3-1-1-0-5-7-29"
        y="1550.5369"
        x="3879.4062"
-       style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.06666672"
+       style="font-style:normal;font-weight:normal;font-size:12.8px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.06667"
        xml:space="preserve"><tspan
-         style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.58449554px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#000000;fill-opacity:1;stroke-width:1.06666672"
+         style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.5845px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#000000;fill-opacity:1;stroke-width:1.06667"
          y="1550.5369"
          x="3879.4062"
          id="tspan2987-7-9-5-8-4-6-0-9-8-0-3-8-7-6-7-8-5-0-4-5-7-6-3-13-9-2-0-3-1-2-2-9-3-7-6-5-7-5-4-3-4"
@@ -2261,9 +2263,9 @@
        id="text2985-7-8-9-6-2-8-5-7-4-5-8-4-9-3-2-5-2-6-0-3-4-3-6-6-4-3-9-1-8-0-3-2-8-4-5-8-4-3-1-6"
        y="1548.4031"
        x="3877.2727"
-       style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.06666672"
+       style="font-style:normal;font-weight:normal;font-size:12.8px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.06667"
        xml:space="preserve"><tspan
-         style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.58449554px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#ffffff;fill-opacity:1;stroke-width:1.06666672"
+         style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.5845px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#ffffff;fill-opacity:1;stroke-width:1.06667"
          y="1548.4031"
          x="3877.2727"
          id="tspan2987-7-9-5-8-4-6-0-9-8-0-3-8-7-6-7-8-5-0-4-5-7-6-3-13-9-2-0-3-1-2-2-9-4-4-4-5-6-5-6-4"
@@ -2276,9 +2278,9 @@
        id="text2985-7-8-9-1-2-1-92-7-0-8-1-7-0-8-7-6-6-2-9-6-4-5-4-8-68-8-2-4-1-0-6-90-3-0-6-8-6-5-9-0-9-8"
        y="1590.2312"
        x="3926.9607"
-       style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffcc00;fill-opacity:1;stroke:none;stroke-width:1.06666672"
+       style="font-style:normal;font-weight:normal;font-size:12.8px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffcc00;fill-opacity:1;stroke:none;stroke-width:1.06667"
        xml:space="preserve"><tspan
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:34.47635651px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:Ubuntu;fill:#ffcc00;fill-opacity:1;stroke-width:1.06666672"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:34.4764px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:Ubuntu;fill:#ffcc00;fill-opacity:1;stroke-width:1.06667"
          y="1590.2312"
          x="3926.9607"
          id="tspan2987-7-9-5-5-7-6-2-9-7-0-8-3-2-6-4-4-5-6-6-4-8-3-1-1-40-3-3-4-4-6-6-8-3-3-9-4-8-2-6-6-1-6"
@@ -2334,9 +2336,9 @@
        id="text2985-7-8-9-6-2-8-5-7-4-5-8-4-9-3-2-5-2-6-0-3-4-3-6-6-4-3-9-1-8-0-3-2-9-1-3-1-1-0-5-7-9"
        y="1827.5978"
        x="3272.4028"
-       style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.06666672"
+       style="font-style:normal;font-weight:normal;font-size:12.8px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.06667"
        xml:space="preserve"><tspan
-         style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.58449554px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#000000;fill-opacity:1;stroke-width:1.06666672"
+         style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.5845px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#000000;fill-opacity:1;stroke-width:1.06667"
          y="1827.5978"
          x="3272.4028"
          id="tspan2987-7-9-5-8-4-6-0-9-8-0-3-8-7-6-7-8-5-0-4-5-7-6-3-13-9-2-0-3-1-2-2-9-3-7-6-5-7-5-4-3-7"
@@ -2348,9 +2350,9 @@
        id="text2985-7-8-9-6-2-8-5-7-4-5-8-4-9-3-2-5-2-6-0-3-4-3-6-6-4-3-9-1-8-0-3-2-8-4-5-8-4-3-1-68"
        y="1825.4641"
        x="3270.2693"
-       style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.06666672"
+       style="font-style:normal;font-weight:normal;font-size:12.8px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.06667"
        xml:space="preserve"><tspan
-         style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.58449554px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#ffffff;fill-opacity:1;stroke-width:1.06666672"
+         style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.5845px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#ffffff;fill-opacity:1;stroke-width:1.06667"
          y="1825.4641"
          x="3270.2693"
          id="tspan2987-7-9-5-8-4-6-0-9-8-0-3-8-7-6-7-8-5-0-4-5-7-6-3-13-9-2-0-3-1-2-2-9-4-4-4-5-6-5-6-0"
@@ -2363,9 +2365,9 @@
        id="text2985-7-8-9-1-2-1-92-7-0-8-1-7-0-8-7-6-6-2-9-6-4-5-4-8-68-8-2-4-1-0-6-90-3-0-6-8-6-5-9-0-9-4"
        y="1868.063"
        x="3320.4763"
-       style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffcc01;fill-opacity:1;stroke:none;stroke-width:1.06666672"
+       style="font-style:normal;font-weight:normal;font-size:12.8px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffcc01;fill-opacity:1;stroke:none;stroke-width:1.06667"
        xml:space="preserve"><tspan
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:34.47635651px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:Ubuntu;fill:#ffcc01;fill-opacity:1;stroke-width:1.06666672"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:34.4764px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:Ubuntu;fill:#ffcc01;fill-opacity:1;stroke-width:1.06667"
          y="1868.063"
          x="3320.4763"
          id="tspan2987-7-9-5-5-7-6-2-9-7-0-8-3-2-6-4-4-5-6-6-4-8-3-1-1-40-3-3-4-4-6-6-8-3-3-9-4-8-2-6-6-1-60"
@@ -2400,7 +2402,7 @@
      inkscape:export-ydpi="155.58435" />
   <text
      xml:space="preserve"
-     style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.06666672"
+     style="font-style:normal;font-weight:normal;font-size:12.8px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.06667"
      x="4011.5874"
      y="-1353.0464"
      id="text2985-7-8-9-6-2-8-5-7-4-5-8-4-9-3-2-5-2-6-0-3-4-3-6-6-4-3-9-1-8-0-3-2-9-1-3-1-1-0-5-7-9-3"
@@ -2411,10 +2413,10 @@
        id="tspan2987-7-9-5-8-4-6-0-9-8-0-3-8-7-6-7-8-5-0-4-5-7-6-3-13-9-2-0-3-1-2-2-9-3-7-6-5-7-5-4-3-7-5"
        x="4011.5874"
        y="-1353.0464"
-       style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.58449554px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#000000;fill-opacity:1;stroke-width:1.06666672">CHRONOJUMP</tspan></text>
+       style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.5845px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#000000;fill-opacity:1;stroke-width:1.06667">CHRONOJUMP</tspan></text>
   <text
      xml:space="preserve"
-     style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.06666672"
+     style="font-style:normal;font-weight:normal;font-size:12.8px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.06667"
      x="4009.4539"
      y="-1355.1802"
      id="text2985-7-8-9-6-2-8-5-7-4-5-8-4-9-3-2-5-2-6-0-3-4-3-6-6-4-3-9-1-8-0-3-2-8-4-5-8-4-3-1-68-9"
@@ -2425,10 +2427,10 @@
        id="tspan2987-7-9-5-8-4-6-0-9-8-0-3-8-7-6-7-8-5-0-4-5-7-6-3-13-9-2-0-3-1-2-2-9-4-4-4-5-6-5-6-0-5"
        x="4009.4539"
        y="-1355.1802"
-       style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.58449554px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#ffffff;fill-opacity:1;stroke-width:1.06666672">CHRONOJUMP</tspan></text>
+       style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.5845px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#ffffff;fill-opacity:1;stroke-width:1.06667">CHRONOJUMP</tspan></text>
   <text
      xml:space="preserve"
-     style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffcc01;fill-opacity:1;stroke:none;stroke-width:1.06666672"
+     style="font-style:normal;font-weight:normal;font-size:12.8px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffcc01;fill-opacity:1;stroke:none;stroke-width:1.06667"
      x="4059.0293"
      y="-1312.526"
      id="text2985-7-8-9-1-2-1-92-7-0-8-1-7-0-8-7-6-6-2-9-6-4-5-4-8-68-8-2-4-1-0-6-90-3-0-6-8-6-5-9-0-9-4-8"
@@ -2440,7 +2442,7 @@
        id="tspan2987-7-9-5-5-7-6-2-9-7-0-8-3-2-6-4-4-5-6-6-4-8-3-1-1-40-3-3-4-4-6-6-8-3-3-9-4-8-2-6-6-1-60-3"
        x="4059.0293"
        y="-1312.526"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:34.47635651px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:Ubuntu;fill:#ffcc01;fill-opacity:1;stroke-width:1.06666672">B o s c o s y s t e m ®</tspan></text>
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:34.4764px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:Ubuntu;fill:#ffcc01;fill-opacity:1;stroke-width:1.06667">B o s c o s y s t e m ®</tspan></text>
   <path
      style="fill:none;stroke:#ffffff;stroke-width:2.29333353;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
      d="m 4416.5546,-1312.3621 h 87.945"
@@ -2451,7 +2453,7 @@
      inkscape:export-ydpi="155.58435" />
   <text
      xml:space="preserve"
-     style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffcc01;fill-opacity:1;stroke:none;stroke-width:1.06666672"
+     style="font-style:normal;font-weight:normal;font-size:12.8px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffcc01;fill-opacity:1;stroke:none;stroke-width:1.06667"
      x="2739.2236"
      y="-531.29681"
      id="text2985-7-8-9-1-2-1-92-7-0-8-1-7-0-8-7-6-6-2-9-6-4-5-4-8-68-8-2-4-1-0-6-90-3-0-6-8-6-5-9-0-9-4-8-0"
@@ -2463,7 +2465,7 @@
        id="tspan2987-7-9-5-5-7-6-2-9-7-0-8-3-2-6-4-4-5-6-6-4-8-3-1-1-40-3-3-4-4-6-6-8-3-3-9-4-8-2-6-6-1-60-3-9"
        x="2739.2236"
        y="-531.29681"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:34.47635651px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:Ubuntu;fill:#ffcc01;fill-opacity:1;stroke-width:1.06666672">B o s c o s y s t e m ®</tspan></text>
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:34.4764px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:Ubuntu;fill:#ffcc01;fill-opacity:1;stroke-width:1.06667">B o s c o s y s t e m ®</tspan></text>
   <rect
      style="fill:#0e1e46;fill-opacity:0;stroke:none;stroke-width:1.06666672"
      id="rect3495-5-3-3-4-5-7-1-9-9-2-7-3-1-1"
@@ -2532,7 +2534,7 @@
      inkscape:export-ydpi="155.58435" />
   <text
      xml:space="preserve"
-     style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.06666672"
+     style="font-style:normal;font-weight:normal;font-size:12.8px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.06667"
      x="2690.6531"
      y="-568.43164"
      id="text2985-7-8-9-6-2-8-5-7-4-5-8-4-9-3-2-5-2-6-0-3-4-3-6-6-4-3-9-1-8-0-3-2-9-1-3-1-1-0-5-7-9-3-6"
@@ -2543,10 +2545,10 @@
        id="tspan2987-7-9-5-8-4-6-0-9-8-0-3-8-7-6-7-8-5-0-4-5-7-6-3-13-9-2-0-3-1-2-2-9-3-7-6-5-7-5-4-3-7-5-4"
        x="2690.6531"
        y="-568.43164"
-       style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.58449554px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#000000;fill-opacity:1;stroke-width:1.06666672">CHRONOJUMP</tspan></text>
+       style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.5845px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#000000;fill-opacity:1;stroke-width:1.06667">CHRONOJUMP</tspan></text>
   <text
      xml:space="preserve"
-     style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.06666672"
+     style="font-style:normal;font-weight:normal;font-size:12.8px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.06667"
      x="2688.5195"
      y="-570.56519"
      id="text2985-7-8-9-6-2-8-5-7-4-5-8-4-9-3-2-5-2-6-0-3-4-3-6-6-4-3-9-1-8-0-3-2-8-4-5-8-4-3-1-68-9-4"
@@ -2557,10 +2559,10 @@
        id="tspan2987-7-9-5-8-4-6-0-9-8-0-3-8-7-6-7-8-5-0-4-5-7-6-3-13-9-2-0-3-1-2-2-9-4-4-4-5-6-5-6-0-5-8"
        x="2688.5195"
        y="-570.56519"
-       style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.58449554px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#ffffff;fill-opacity:1;stroke-width:1.06666672">CHRONOJUMP</tspan></text>
+       style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.5845px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#ffffff;fill-opacity:1;stroke-width:1.06667">CHRONOJUMP</tspan></text>
   <text
      xml:space="preserve"
-     style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffcc01;fill-opacity:1;stroke:none;stroke-width:1.06666672"
+     style="font-style:normal;font-weight:normal;font-size:12.8px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffcc01;fill-opacity:1;stroke:none;stroke-width:1.06667"
      x="2726.5454"
      y="-157.72383"
      id="text2985-7-8-9-1-2-1-92-7-0-8-1-7-0-8-7-6-6-2-9-6-4-5-4-8-68-8-2-4-1-0-6-90-3-0-6-8-6-5-9-0-9-4-8-0-7-9"
@@ -2572,7 +2574,7 @@
        id="tspan2987-7-9-5-5-7-6-2-9-7-0-8-3-2-6-4-4-5-6-6-4-8-3-1-1-40-3-3-4-4-6-6-8-3-3-9-4-8-2-6-6-1-60-3-9-6-1"
        x="2726.5454"
        y="-157.72383"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:34.47635651px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:Ubuntu;fill:#ffcc01;fill-opacity:1;stroke-width:1.06666672">B o s c o s y s t e m ®</tspan></text>
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:34.4764px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:Ubuntu;fill:#ffcc01;fill-opacity:1;stroke-width:1.06667">B o s c o s y s t e m ®</tspan></text>
   <rect
      style="fill:#0e1e46;fill-opacity:0;stroke:none;stroke-width:1.06666672"
      id="rect3495-5-3-3-4-5-7-1-9-9-2-7-3-1-1-8-3"
@@ -2634,7 +2636,7 @@
      inkscape:export-ydpi="155.58435" />
   <text
      xml:space="preserve"
-     style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.06666672"
+     style="font-style:normal;font-weight:normal;font-size:12.8px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.06667"
      x="2730.5254"
      y="-195.17798"
      id="text2985-7-8-9-6-2-8-5-7-4-5-8-4-9-3-2-5-2-6-0-3-4-3-6-6-4-3-9-1-8-0-3-2-9-1-3-1-1-0-5-7-9-3-6-6-9"
@@ -2645,10 +2647,10 @@
        id="tspan2987-7-9-5-8-4-6-0-9-8-0-3-8-7-6-7-8-5-0-4-5-7-6-3-13-9-2-0-3-1-2-2-9-3-7-6-5-7-5-4-3-7-5-4-9-8"
        x="2730.5254"
        y="-195.17798"
-       style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.58449554px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#000000;fill-opacity:1;stroke-width:1.06666672">CHRONOJUMP</tspan></text>
+       style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.5845px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#000000;fill-opacity:1;stroke-width:1.06667">CHRONOJUMP</tspan></text>
   <text
      xml:space="preserve"
-     style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.06666672"
+     style="font-style:normal;font-weight:normal;font-size:12.8px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.06667"
      x="2728.3916"
      y="-197.31177"
      id="text2985-7-8-9-6-2-8-5-7-4-5-8-4-9-3-2-5-2-6-0-3-4-3-6-6-4-3-9-1-8-0-3-2-8-4-5-8-4-3-1-68-9-4-3-0"
@@ -2659,10 +2661,10 @@
        id="tspan2987-7-9-5-8-4-6-0-9-8-0-3-8-7-6-7-8-5-0-4-5-7-6-3-13-9-2-0-3-1-2-2-9-4-4-4-5-6-5-6-0-5-8-8-1"
        x="2728.3916"
        y="-197.31177"
-       style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.58449554px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#ffffff;fill-opacity:1;stroke-width:1.06666672">CHRONOJUMP</tspan></text>
+       style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.5845px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#ffffff;fill-opacity:1;stroke-width:1.06667">CHRONOJUMP</tspan></text>
   <text
      xml:space="preserve"
-     style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffcc01;fill-opacity:1;stroke:none;stroke-width:1.06666672"
+     style="font-style:normal;font-weight:normal;font-size:12.8px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffcc01;fill-opacity:1;stroke:none;stroke-width:1.06667"
      x="4006.1709"
      y="-1082.9205"
      id="text2985-7-8-9-1-2-1-92-7-0-8-1-7-0-8-7-6-6-2-9-6-4-5-4-8-68-8-2-4-1-0-6-90-3-0-6-8-6-5-9-0-9-4-8-0-7-9-0"
@@ -2674,7 +2676,7 @@
        id="tspan2987-7-9-5-5-7-6-2-9-7-0-8-3-2-6-4-4-5-6-6-4-8-3-1-1-40-3-3-4-4-6-6-8-3-3-9-4-8-2-6-6-1-60-3-9-6-1-2"
        x="4006.1709"
        y="-1082.9205"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:34.47635651px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:Ubuntu;fill:#ffcc01;fill-opacity:1;stroke-width:1.06666672">B o s c o s y s t e m ®</tspan></text>
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:34.4764px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:Ubuntu;fill:#ffcc01;fill-opacity:1;stroke-width:1.06667">B o s c o s y s t e m ®</tspan></text>
   <rect
      style="fill:#0e1e46;fill-opacity:0;stroke:none;stroke-width:1.06666672"
      id="rect3495-5-3-3-4-5-7-1-9-9-2-7-3-1-1-8-3-7"
@@ -2743,7 +2745,7 @@
      inkscape:export-ydpi="155.58435" />
   <text
      xml:space="preserve"
-     style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.06666672"
+     style="font-style:normal;font-weight:normal;font-size:12.8px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.06667"
      x="4011.2451"
      y="-1119.584"
      id="text2985-7-8-9-6-2-8-5-7-4-5-8-4-9-3-2-5-2-6-0-3-4-3-6-6-4-3-9-1-8-0-3-2-9-1-3-1-1-0-5-7-9-3-6-6-9-6"
@@ -2754,10 +2756,10 @@
        id="tspan2987-7-9-5-8-4-6-0-9-8-0-3-8-7-6-7-8-5-0-4-5-7-6-3-13-9-2-0-3-1-2-2-9-3-7-6-5-7-5-4-3-7-5-4-9-8-6"
        x="4011.2451"
        y="-1119.584"
-       style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.58449554px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#000000;fill-opacity:1;stroke-width:1.06666672">CHRONOJUMP</tspan></text>
+       style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.5845px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#000000;fill-opacity:1;stroke-width:1.06667">CHRONOJUMP</tspan></text>
   <text
      xml:space="preserve"
-     style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.06666672"
+     style="font-style:normal;font-weight:normal;font-size:12.8px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.06667"
      x="4009.1111"
      y="-1121.7175"
      id="text2985-7-8-9-6-2-8-5-7-4-5-8-4-9-3-2-5-2-6-0-3-4-3-6-6-4-3-9-1-8-0-3-2-8-4-5-8-4-3-1-68-9-4-3-0-5"
@@ -2768,10 +2770,10 @@
        id="tspan2987-7-9-5-8-4-6-0-9-8-0-3-8-7-6-7-8-5-0-4-5-7-6-3-13-9-2-0-3-1-2-2-9-4-4-4-5-6-5-6-0-5-8-8-1-9"
        x="4009.1111"
        y="-1121.7175"
-       style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.58449554px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#ffffff;fill-opacity:1;stroke-width:1.06666672">CHRONOJUMP</tspan></text>
+       style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.5845px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#ffffff;fill-opacity:1;stroke-width:1.06667">CHRONOJUMP</tspan></text>
   <text
      xml:space="preserve"
-     style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffcc01;fill-opacity:1;stroke:none;stroke-width:1.06666672"
+     style="font-style:normal;font-weight:normal;font-size:12.8px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffcc01;fill-opacity:1;stroke:none;stroke-width:1.06667"
      x="4039.7856"
      y="-870.33759"
      id="text2985-7-8-9-1-2-1-92-7-0-8-1-7-0-8-7-6-6-2-9-6-4-5-4-8-68-8-2-4-1-0-6-90-3-0-6-8-6-5-9-0-9-4-8-0-7-9-0-1"
@@ -2783,7 +2785,7 @@
        id="tspan2987-7-9-5-5-7-6-2-9-7-0-8-3-2-6-4-4-5-6-6-4-8-3-1-1-40-3-3-4-4-6-6-8-3-3-9-4-8-2-6-6-1-60-3-9-6-1-2-4"
        x="4039.7856"
        y="-870.33759"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:34.47635651px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:Ubuntu;fill:#ffcc01;fill-opacity:1;stroke-width:1.06666672">B o s c o s y s t e m ®</tspan></text>
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:34.4764px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:Ubuntu;fill:#ffcc01;fill-opacity:1;stroke-width:1.06667">B o s c o s y s t e m ®</tspan></text>
   <rect
      style="fill:#0e1e46;fill-opacity:0;stroke:none;stroke-width:1.06666672"
      id="rect3495-5-3-3-4-5-7-1-9-9-2-7-3-1-1-8-3-7-5"
@@ -2852,7 +2854,7 @@
      inkscape:export-ydpi="155.58435" />
   <text
      xml:space="preserve"
-     style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.06666672"
+     style="font-style:normal;font-weight:normal;font-size:12.8px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.06667"
      x="4001.0618"
      y="-907.18274"
      id="text2985-7-8-9-6-2-8-5-7-4-5-8-4-9-3-2-5-2-6-0-3-4-3-6-6-4-3-9-1-8-0-3-2-9-1-3-1-1-0-5-7-9-3-6-6-9-6-9"
@@ -2863,10 +2865,10 @@
        id="tspan2987-7-9-5-8-4-6-0-9-8-0-3-8-7-6-7-8-5-0-4-5-7-6-3-13-9-2-0-3-1-2-2-9-3-7-6-5-7-5-4-3-7-5-4-9-8-6-1"
        x="4001.0618"
        y="-907.18274"
-       style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.58449554px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#000000;fill-opacity:1;stroke-width:1.06666672">CHRONOJUMP</tspan></text>
+       style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.5845px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#000000;fill-opacity:1;stroke-width:1.06667">CHRONOJUMP</tspan></text>
   <text
      xml:space="preserve"
-     style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.06666672"
+     style="font-style:normal;font-weight:normal;font-size:12.8px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.06667"
      x="3998.9277"
      y="-909.31641"
      id="text2985-7-8-9-6-2-8-5-7-4-5-8-4-9-3-2-5-2-6-0-3-4-3-6-6-4-3-9-1-8-0-3-2-8-4-5-8-4-3-1-68-9-4-3-0-5-8"
@@ -2877,7 +2879,7 @@
        id="tspan2987-7-9-5-8-4-6-0-9-8-0-3-8-7-6-7-8-5-0-4-5-7-6-3-13-9-2-0-3-1-2-2-9-4-4-4-5-6-5-6-0-5-8-8-1-9-1"
        x="3998.9277"
        y="-909.31641"
-       style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.58449554px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#ffffff;fill-opacity:1;stroke-width:1.06666672">CHRONOJUMP</tspan></text>
+       style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.5845px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#ffffff;fill-opacity:1;stroke-width:1.06667">CHRONOJUMP</tspan></text>
   <g
      id="g3725"
      transform="translate(100.47349,-2893.5223)">
@@ -2889,9 +2891,9 @@
        id="text2985-7-8-9-1-2-1-92-7-0-8-1-7-0-8-7-6-6-2-9-6-4-5-4-8-68-8-2-4-1-0-6-90-3-0-6-8-6-5-9-0-9-4-8-0-7-9-0-1-1"
        y="2200.9856"
        x="3939.5703"
-       style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffcc01;fill-opacity:1;stroke:none;stroke-width:1.06666672"
+       style="font-style:normal;font-weight:normal;font-size:12.8px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffcc01;fill-opacity:1;stroke:none;stroke-width:1.06667"
        xml:space="preserve"><tspan
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:34.47635651px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:Ubuntu;fill:#ffcc01;fill-opacity:1;stroke-width:1.06666672"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:34.4764px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:Ubuntu;fill:#ffcc01;fill-opacity:1;stroke-width:1.06667"
          y="2200.9856"
          x="3939.5703"
          id="tspan2987-7-9-5-5-7-6-2-9-7-0-8-3-2-6-4-4-5-6-6-4-8-3-1-1-40-3-3-4-4-6-6-8-3-3-9-4-8-2-6-6-1-60-3-9-6-1-2-4-1"
@@ -2969,9 +2971,9 @@
        id="text2985-7-8-9-6-2-8-5-7-4-5-8-4-9-3-2-5-2-6-0-3-4-3-6-6-4-3-9-1-8-0-3-2-9-1-3-1-1-0-5-7-9-3-6-6-9-6-9-7"
        y="2161.5159"
        x="3904.4077"
-       style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.06666672"
+       style="font-style:normal;font-weight:normal;font-size:12.8px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.06667"
        xml:space="preserve"><tspan
-         style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.58449554px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#000000;fill-opacity:1;stroke-width:1.06666672"
+         style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.5845px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#000000;fill-opacity:1;stroke-width:1.06667"
          y="2161.5159"
          x="3904.4077"
          id="tspan2987-7-9-5-8-4-6-0-9-8-0-3-8-7-6-7-8-5-0-4-5-7-6-3-13-9-2-0-3-1-2-2-9-3-7-6-5-7-5-4-3-7-5-4-9-8-6-1-8"
@@ -2983,9 +2985,9 @@
        id="text2985-7-8-9-6-2-8-5-7-4-5-8-4-9-3-2-5-2-6-0-3-4-3-6-6-4-3-9-1-8-0-3-2-8-4-5-8-4-3-1-68-9-4-3-0-5-8-5"
        y="2159.3823"
        x="3902.2739"
-       style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.06666672"
+       style="font-style:normal;font-weight:normal;font-size:12.8px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.06667"
        xml:space="preserve"><tspan
-         style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.58449554px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#ffffff;fill-opacity:1;stroke-width:1.06666672"
+         style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.5845px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#ffffff;fill-opacity:1;stroke-width:1.06667"
          y="2159.3823"
          x="3902.2739"
          id="tspan2987-7-9-5-8-4-6-0-9-8-0-3-8-7-6-7-8-5-0-4-5-7-6-3-13-9-2-0-3-1-2-2-9-4-4-4-5-6-5-6-0-5-8-8-1-9-1-3"
@@ -2993,7 +2995,7 @@
   </g>
   <text
      xml:space="preserve"
-     style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#1a1a1a;fill-opacity:1;stroke:none;stroke-width:1.06666672"
+     style="font-style:normal;font-weight:normal;font-size:12.8px;line-height:0%;font-family:sans-serif;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#1a1a1a;fill-opacity:1;stroke:none;stroke-width:1.06667"
      x="391.88977"
      y="-2958.9802"
      id="text3251-7-3-6"><tspan
@@ -3001,7 +3003,7 @@
        id="tspan3253-8-8-6"
        x="391.88977"
        y="-2958.9802"
-       style="font-size:42.66666794px;line-height:1.25;font-family:sans-serif;stroke-width:1.06666672">Same as above but with the points (platform)</tspan></text>
+       style="font-size:42.6667px;line-height:1.25;font-family:sans-serif;stroke-width:1.06667">Same as above but with the points (platform)</tspan></text>
   <g
      id="g3473"
      transform="translate(-48.786872,-2388.6498)"
@@ -3029,31 +3031,398 @@
        id="g3182-5">
       <text
          xml:space="preserve"
-         style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.06666672"
+         style="font-style:normal;font-weight:normal;font-size:12.8px;line-height:0%;font-family:sans-serif;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.06667"
          x="411.8515"
          y="876.13654"
          id="text2985-7-8-9-6-2-8-5-7-4-5-8-4-9-3-2-5-2-6-0-3-4-3-6-6-4-3-9-1-8-0-3-2-8-1-5"><tspan
            sodipodi:role="line"
            x="411.8515"
            y="876.13654"
-           style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:46.34468079px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';text-align:center;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke-width:1.06666672"
+           style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:46.3447px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';text-align:center;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke-width:1.06667"
            id="tspan3157-5">CHRONO</tspan></text>
       <text
          xml:space="preserve"
-         style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.06666672"
+         style="font-style:normal;font-weight:normal;font-size:12.8px;line-height:0%;font-family:sans-serif;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.06667"
          x="411.8515"
          y="923.98462"
          id="text2985-7-8-9-6-2-8-5-7-4-5-8-4-9-3-2-5-2-6-0-3-4-3-6-6-4-3-9-1-8-0-3-2-8-1-4-1"><tspan
            sodipodi:role="line"
            x="411.8515"
            y="923.98462"
-           style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:46.34468079px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';text-align:center;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke-width:1.06666672"
+           style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:46.3447px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';text-align:center;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke-width:1.06667"
            id="tspan3157-9-0">JUMP</tspan></text>
     </g>
   </g>
+  <path
+     sodipodi:nodetypes="cccccccccccccccc"
+     id="path3623-5-9-4-0-0-7"
+     d="m 1487.8422,-137.39815 c 7.5805,13.07453 22.2762,-10.52194 23.625,-10.98915 1.2413,-1.5604 6.5474,-3.4634 13.0345,6.59348 1.0869,1.38629 4.2519,2.43895 5.8656,-0.78493 -0.2556,0.2997 -2.4936,-1.94756 -3.9104,-3.13976 1.6871,0.69692 3.1354,0.24394 5.2138,2.8258 1.4955,0.056 3.3389,0.31175 5.7026,2.04082 1.7779,2.02486 -3.4661,1.34339 -5.5397,1.88386 -3.9103,2.24002 -3.4316,6.46171 -6.3543,5.49456 -1.9071,5.85959 -3.5085,5.99712 -4.5621,4.86662 4.4572,-3.71158 2.0873,-5.48066 0,-5.49456 -2.9198,0.77004 -2.4928,5.05794 -0.6517,10.83212 5.3224,-0.0339 9.0155,1.8874 12.8715,2.04082 -3.0136,2.14552 -4.9658,-0.73257 -13.8491,-0.15698 -2.2085,-8.35549 -7.1804,-15.71247 -14.3379,-15.07079 -13.3919,10.08524 -15.221,4.98495 -17.1078,-0.94191 z"
+     style="fill:#e7be19;fill-opacity:1;stroke:none;stroke-width:0.169893"
+     inkscape:connector-curvature="0" />
+  <path
+     sodipodi:nodetypes="cccccccccccccccc"
+     id="path3623-5-9-4-0-0-7-9"
+     d="m 1564.0518,-136.53273 c 8.438,14.55346 24.7959,-11.71212 26.2973,-12.23219 1.3818,-1.7369 7.288,-3.85516 14.509,7.33931 1.2098,1.5431 4.7328,2.71483 6.5291,-0.87373 -0.2846,0.33361 -2.7757,-2.16785 -4.3527,-3.4949 1.8778,0.77574 3.49,0.27153 5.8035,3.14544 1.6646,0.0623 3.7165,0.34701 6.3476,2.27167 1.9791,2.2539 -3.8581,1.49534 -6.1663,2.09695 -4.3527,2.4934 -3.8198,7.19262 -7.0731,6.11607 -2.1228,6.52241 -3.9053,6.67549 -5.0781,5.41711 4.9613,-4.13141 2.3234,-6.10061 0,-6.11607 -3.2501,0.85714 -2.7747,5.63006 -0.7254,12.05739 5.9244,-0.0377 10.0352,2.1009 14.3274,2.27167 -3.3545,2.38822 -5.5275,-0.81544 -15.4157,-0.17474 -2.4582,-9.30062 -7.9926,-17.48978 -15.9597,-16.77552 -14.9067,11.22603 -16.9427,5.54883 -19.0429,-1.04846 z"
+     style="fill:#e7be19;fill-opacity:1;stroke:none;stroke-width:0.18911"
+     inkscape:connector-curvature="0" />
+  <path
+     sodipodi:nodetypes="cccccccccccccccc"
+     id="path3623-5-9-4-0-0-7-9-1"
+     d="m 1640.0363,-139.24743 c 8.438,14.55346 24.7959,-11.71212 26.2973,-12.23219 1.3818,-1.7369 7.288,-3.85516 14.509,7.33931 1.2098,1.5431 4.7328,2.71483 6.5291,-0.87373 -0.2846,0.33361 -2.7757,-2.16785 -4.3527,-3.4949 1.8778,0.77574 3.49,0.27153 5.8035,3.14544 1.6646,0.0623 3.7165,0.34701 6.3476,2.27167 1.9791,2.2539 -3.8581,1.49534 -6.1663,2.09695 -4.3527,2.4934 -3.8198,7.19262 -7.0731,6.11607 -2.1228,6.52241 -3.9053,6.67549 -5.0781,5.41711 4.9613,-4.13141 2.3234,-6.10061 0,-6.11607 -3.2501,0.85714 -2.7747,5.63006 -0.7254,12.05739 5.9244,-0.0377 10.0352,2.1009 14.3274,2.27167 -3.3545,2.38822 -5.5275,-0.81544 -15.4157,-0.17474 -2.4582,-9.30062 -7.9926,-17.48978 -15.9597,-16.77552 -14.9067,11.22603 -16.9427,5.54883 -19.0429,-1.04846 z"
+     style="fill:#e7be19;fill-opacity:1;stroke:none;stroke-width:0.18911"
+     inkscape:connector-curvature="0" />
+  <path
+     sodipodi:nodetypes="cccccccccccccccc"
+     id="path3623-5-9-4-0-0-7-9-1-0"
+     d="m 1480.8995,-39.021882 c 8.438,14.55346 24.7959,-11.71212 26.2973,-12.23219 1.3818,-1.7369 7.288,-3.85516 14.509,7.33931 1.2098,1.5431 4.7328,2.71483 6.5291,-0.87373 -0.2846,0.33361 -2.7757,-2.16785 -4.3527,-3.4949 1.8778,0.77574 3.49,0.27153 5.8035,3.14544 1.6646,0.0623 3.7165,0.34701 6.3476,2.27167 1.9791,2.2539 -3.8581,1.49534 -6.1663,2.09695 -4.3527,2.4934 -3.8198,7.19262 -7.0731,6.11607 -2.1228,6.52241 -3.9053,6.67549 -5.0781,5.41711 4.9613,-4.13141 2.3234,-6.10061 0,-6.11607 -3.2501,0.85714 -2.7747,5.63006 -0.7254,12.05739 5.9244,-0.0377 10.0352,2.1009 14.3274,2.27167 -3.3545,2.38822 -5.5275,-0.81544 -15.4157,-0.17474 -2.4582,-9.30062 -7.9926,-17.48978 -15.9597,-16.77552 -14.9067,11.22603 -16.9427,5.54883 -19.0429,-1.04846 z"
+     style="fill:#e7be19;fill-opacity:1;stroke:none;stroke-width:0.18911"
+     inkscape:connector-curvature="0" />
+  <path
+     sodipodi:nodetypes="cccccccccccccccc"
+     id="path3623-5-9-4-0-0-7-9-1-0-2"
+     d="m 1562.0064,-36.169646 c 8.438,14.55346 24.7959,-11.71212 26.2973,-12.23219 1.3818,-1.7369 7.288,-3.85516 14.509,7.33931 1.2098,1.5431 4.7328,2.71483 6.5291,-0.87373 -0.2846,0.33361 -2.7757,-2.16785 -4.3527,-3.4949 1.8778,0.77574 3.49,0.27153 5.8035,3.14544 1.6646,0.0623 3.7165,0.34701 6.3476,2.27167 1.9791,2.2539 -3.8581,1.49534 -6.1663,2.09695 -4.3527,2.4934 -3.8198,7.19262 -7.0731,6.11607 -2.1228,6.52241 -3.9053,6.67549 -5.0781,5.41711 4.9613,-4.13141 2.3234,-6.10061 0,-6.11607 -3.2501,0.85714 -2.7747,5.63006 -0.7254,12.05739 5.9244,-0.0377 10.0352,2.1009 14.3274,2.27167 -3.3545,2.38822 -5.5275,-0.81544 -15.4157,-0.17474 -2.4582,-9.30062 -7.9926,-17.48978 -15.9597,-16.77552 -14.9067,11.22603 -16.9427,5.54883 -19.0429,-1.04846 z"
+     style="fill:#e7be19;fill-opacity:1;stroke:none;stroke-width:0.18911"
+     inkscape:connector-curvature="0" />
+  <path
+     sodipodi:nodetypes="cccccccccccccccc"
+     id="path3623-5-9-4-0-0-7-9-1-0-2-0"
+     d="m 1643.1094,-35.883056 c 9.0425,15.595992 26.5721,-12.551114 28.1811,-13.108439 1.4808,-1.861322 7.8101,-4.131323 15.5483,7.865059 1.2965,1.65364 5.0719,2.909306 6.9969,-0.936319 -0.305,0.357508 -2.9746,-2.323143 -4.6645,-3.745256 2.0123,0.83131 3.74,0.290981 6.2192,3.370762 1.7838,0.06676 3.9827,0.371868 6.8023,2.434401 2.1209,2.415357 -4.1345,1.602458 -6.608,2.247164 -4.6645,2.672014 -4.0935,7.707861 -7.5798,6.554193 -2.2749,6.98964 -4.1851,7.153686 -5.4419,5.805162 5.3167,-4.427362 2.4899,-6.537625 0,-6.554192 -3.4829,0.918541 -2.9734,6.033367 -0.7773,12.921117 6.3488,-0.0404 10.754,2.251397 15.3537,2.4344 -3.5948,2.559299 -5.9235,-0.873854 -16.52,-0.187257 -2.6343,-9.966867 -8.5651,-18.742655 -17.103,-17.977229 -15.9745,12.030203 -18.1564,5.946319 -20.407,-1.123566 z"
+     style="fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.202657"
+     inkscape:connector-curvature="0" />
+  <g
+     transform="matrix(0.97698976,0,0,0.97698976,1104.3923,-937.99003)"
+     id="g3182-5-5">
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:12.8px;line-height:0%;font-family:sans-serif;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.06667"
+       x="411.8515"
+       y="876.13654"
+       id="text2985-7-8-9-6-2-8-5-7-4-5-8-4-9-3-2-5-2-6-0-3-4-3-6-6-4-3-9-1-8-0-3-2-8-1-5-3"><tspan
+         sodipodi:role="line"
+         x="411.8515"
+         y="876.13654"
+         style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:46.3447px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';text-align:center;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke-width:1.06667"
+         id="tspan3157-5-5">CJ</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:12.8px;line-height:0%;font-family:sans-serif;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.06667"
+       x="411.8515"
+       y="923.98462"
+       id="text2985-7-8-9-6-2-8-5-7-4-5-8-4-9-3-2-5-2-6-0-3-4-3-6-6-4-3-9-1-8-0-3-2-8-1-4-1-6"><tspan
+         sodipodi:role="line"
+         x="411.8515"
+         y="923.98462"
+         style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:46.3447px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';text-align:center;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke-width:1.06667"
+         id="tspan3157-9-0-2" /></text>
+  </g>
+  <g
+     transform="matrix(0.97698976,0,0,0.97698976,1182.9731,-939.87701)"
+     id="g3182-5-5-9">
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:12.8px;line-height:0%;font-family:Cantarell;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.06667;-inkscape-font-specification:Cantarell;font-stretch:normal;font-variant:normal"
+       x="411.8515"
+       y="876.13654"
+       id="text2985-7-8-9-6-2-8-5-7-4-5-8-4-9-3-2-5-2-6-0-3-4-3-6-6-4-3-9-1-8-0-3-2-8-1-5-3-1"><tspan
+         sodipodi:role="line"
+         x="411.8515"
+         y="876.13654"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:46.3447px;line-height:1.25;font-family:Cantarell;-inkscape-font-specification:Cantarell;text-align:center;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke-width:1.06667"
+         id="tspan3157-5-5-2">CJ</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:12.8px;line-height:0%;font-family:sans-serif;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.06667"
+       x="411.8515"
+       y="923.98462"
+       id="text2985-7-8-9-6-2-8-5-7-4-5-8-4-9-3-2-5-2-6-0-3-4-3-6-6-4-3-9-1-8-0-3-2-8-1-4-1-6-7"><tspan
+         sodipodi:role="line"
+         x="411.8515"
+         y="923.98462"
+         style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:46.3447px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';text-align:center;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke-width:1.06667"
+         id="tspan3157-9-0-2-0" /></text>
+  </g>
+  <g
+     transform="matrix(0.97698976,0,0,0.97698976,1264.1968,-940.29907)"
+     id="g3182-5-5-9-3">
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12.7999px;line-height:0%;font-family:Cantarell;-inkscape-font-specification:Cantarell;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.06666"
+       x="411.85385"
+       y="876.13104"
+       id="text2985-7-8-9-6-2-8-5-7-4-5-8-4-9-3-2-5-2-6-0-3-4-3-6-6-4-3-9-1-8-0-3-2-8-1-5-3-1-6"><tspan
+         sodipodi:role="line"
+         x="411.85385"
+         y="876.13104"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:46.3444px;line-height:1.25;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans';text-align:center;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke-width:1.06666"
+         id="tspan3157-5-5-2-1">CJ</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:12.8px;line-height:0%;font-family:sans-serif;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.06667"
+       x="411.8515"
+       y="923.98462"
+       id="text2985-7-8-9-6-2-8-5-7-4-5-8-4-9-3-2-5-2-6-0-3-4-3-6-6-4-3-9-1-8-0-3-2-8-1-4-1-6-7-2"><tspan
+         sodipodi:role="line"
+         x="411.8515"
+         y="923.98462"
+         style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:46.3447px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';text-align:center;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke-width:1.06667"
+         id="tspan3157-9-0-2-0-9" /></text>
+  </g>
+  <g
+     transform="matrix(0.97698976,0,0,0.97698976,1104.0761,-840.00846)"
+     id="g3182-5-5-9-3-4">
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12.7999px;line-height:0%;font-family:Cantarell;-inkscape-font-specification:Cantarell;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.06666"
+       x="411.85385"
+       y="876.13104"
+       id="text2985-7-8-9-6-2-8-5-7-4-5-8-4-9-3-2-5-2-6-0-3-4-3-6-6-4-3-9-1-8-0-3-2-8-1-5-3-1-6-7"><tspan
+         sodipodi:role="line"
+         x="411.85385"
+         y="876.13104"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:46.3444px;line-height:1.25;font-family:'Liberation Sans';-inkscape-font-specification:'Liberation Sans';text-align:center;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke-width:1.06666"
+         id="tspan3157-5-5-2-1-8">CJ</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:12.8px;line-height:0%;font-family:sans-serif;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.06667"
+       x="411.8515"
+       y="923.98462"
+       id="text2985-7-8-9-6-2-8-5-7-4-5-8-4-9-3-2-5-2-6-0-3-4-3-6-6-4-3-9-1-8-0-3-2-8-1-4-1-6-7-2-4"><tspan
+         sodipodi:role="line"
+         x="411.8515"
+         y="923.98462"
+         style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:46.3447px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';text-align:center;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke-width:1.06667"
+         id="tspan3157-9-0-2-0-9-5" /></text>
+  </g>
+  <g
+     transform="matrix(0.97698976,0,0,0.97698976,1187.6694,-838.50603)"
+     id="g3182-5-5-9-3-4-3">
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12.7999px;line-height:0%;font-family:Cantarell;-inkscape-font-specification:Cantarell;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.06666"
+       x="411.85385"
+       y="876.13104"
+       id="text2985-7-8-9-6-2-8-5-7-4-5-8-4-9-3-2-5-2-6-0-3-4-3-6-6-4-3-9-1-8-0-3-2-8-1-5-3-1-6-7-6"><tspan
+         sodipodi:role="line"
+         x="411.85385"
+         y="876.13104"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:46.3444px;line-height:1.25;font-family:'Noto Mono';-inkscape-font-specification:'Noto Mono';text-align:center;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke-width:1.06666"
+         id="tspan3157-5-5-2-1-8-1">CJ</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:12.8px;line-height:0%;font-family:sans-serif;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.06667"
+       x="411.8515"
+       y="923.98462"
+       id="text2985-7-8-9-6-2-8-5-7-4-5-8-4-9-3-2-5-2-6-0-3-4-3-6-6-4-3-9-1-8-0-3-2-8-1-4-1-6-7-2-4-0"><tspan
+         sodipodi:role="line"
+         x="411.8515"
+         y="923.98462"
+         style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:46.3447px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';text-align:center;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke-width:1.06667"
+         id="tspan3157-9-0-2-0-9-5-6" /></text>
+  </g>
+  <path
+     sodipodi:nodetypes="cccccccccccccccc"
+     id="path3623-5-9-4-0-0-7-9-1-0-2-9"
+     d="m 1728.958,39.647855 c 8.729,15.055386 25.6511,-12.116053 27.2043,-12.654059 1.4294,-1.796803 7.5393,-3.988119 15.0094,7.59243 1.2515,1.596319 4.8959,2.808461 6.7542,-0.903862 -0.2944,0.345115 -2.8714,-2.242616 -4.5027,-3.615435 1.9425,0.802494 3.6103,0.280895 6.0036,3.253922 1.722,0.06444 3.8446,0.358978 6.5665,2.350016 2.0474,2.331633 -3.9912,1.546913 -6.379,2.16927 -4.5028,2.579394 -3.9515,7.440683 -7.317,6.327004 -2.1961,6.747358 -4.04,6.905718 -5.2532,5.603938 5.1323,-4.273896 2.4035,-6.31101 0,-6.327004 -3.3622,0.886701 -2.8705,5.824232 -0.7505,12.473231 6.1288,-0.039 10.3814,2.173356 14.8216,2.350016 -3.4702,2.470589 -5.7182,-0.843564 -15.9474,-0.180767 -2.5429,-9.621384 -8.2683,-18.092975 -16.5101,-17.354081 -15.4208,11.613199 -17.527,5.740201 -19.6997,-1.084619 z"
+     style="fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.195633"
+     inkscape:connector-curvature="0" />
+  <g
+     transform="matrix(0.97698976,0,0,0.97698976,1265.1288,-835.99954)"
+     id="g3182-5-5-9-3-4-3-7"
+     style="fill:#ffffff">
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12.7999px;line-height:0%;font-family:Cantarell;-inkscape-font-specification:Cantarell;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.06666"
+       x="411.85385"
+       y="876.13104"
+       id="text2985-7-8-9-6-2-8-5-7-4-5-8-4-9-3-2-5-2-6-0-3-4-3-6-6-4-3-9-1-8-0-3-2-8-1-5-3-1-6-7-6-5"><tspan
+         sodipodi:role="line"
+         x="411.85385"
+         y="876.13104"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:46.3444px;line-height:1.25;font-family:'Noto Mono';-inkscape-font-specification:'Noto Mono';text-align:center;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke-width:1.06666"
+         id="tspan3157-5-5-2-1-8-1-3">CJ</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:12.8px;line-height:0%;font-family:sans-serif;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.06667"
+       x="411.8515"
+       y="923.98462"
+       id="text2985-7-8-9-6-2-8-5-7-4-5-8-4-9-3-2-5-2-6-0-3-4-3-6-6-4-3-9-1-8-0-3-2-8-1-4-1-6-7-2-4-0-88"><tspan
+         sodipodi:role="line"
+         x="411.8515"
+         y="923.98462"
+         style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:46.3447px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';text-align:center;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke-width:1.06667"
+         id="tspan3157-9-0-2-0-9-5-6-3" /></text>
+  </g>
+  <g
+     id="g33091">
+    <path
+       sodipodi:nodetypes="cccccccccccccccc"
+       id="path3623-5-9-4-0-0-7-9-1-0-2-0-4"
+       d="m 1736.2768,-70.035287 c 9.5241,16.426669 27.9874,-13.219613 29.6821,-13.806622 1.5596,-1.960461 8.2261,-4.351366 16.3764,8.283969 1.3656,1.741716 5.3421,3.064262 7.3696,-0.98619 -0.3212,0.37655 -3.1331,-2.446878 -4.913,-3.944736 2.1195,0.875587 3.9393,0.30648 6.5505,3.550296 1.8788,0.07031 4.1948,0.391674 7.1646,2.564062 2.2339,2.544005 -4.3547,1.687808 -6.9599,2.366853 -4.913,2.814331 -4.3116,8.118398 -7.9836,6.903283 -2.396,7.361923 -4.4079,7.534707 -5.7317,6.114358 5.5999,-4.663173 2.6225,-6.885833 0,-6.903283 -3.6684,0.967465 -3.1318,6.354718 -0.8187,13.609324 6.6869,-0.04255 11.3268,2.371311 16.1714,2.564061 -3.7862,2.695613 -6.239,-0.920397 -17.3999,-0.197231 -2.7745,-10.497723 -9.0212,-19.740928 -18.0139,-18.934734 -16.8253,12.670957 -19.1235,6.263032 -21.4939,-1.18341 z"
+       style="fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.213451"
+       inkscape:connector-curvature="0" />
+    <g
+       transform="matrix(0.97698976,0,0,0.97698976,1361.051,-876.14688)"
+       id="g3182-5-5-9-3-4-3-7-8"
+       style="fill:#ffffff">
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12.7999px;line-height:0%;font-family:Cantarell;-inkscape-font-specification:Cantarell;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.06666"
+         x="401.47125"
+         y="874.50879"
+         id="text2985-7-8-9-6-2-8-5-7-4-5-8-4-9-3-2-5-2-6-0-3-4-3-6-6-4-3-9-1-8-0-3-2-8-1-5-3-1-6-7-6-5-88"><tspan
+           sodipodi:role="line"
+           x="401.47125"
+           y="874.50879"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:46.3444px;line-height:1.25;font-family:'Noto Mono';-inkscape-font-specification:'Noto Mono';text-align:center;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke-width:1.06666"
+           id="tspan3157-5-5-2-1-8-1-3-97">C</tspan></text>
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-weight:normal;font-size:12.8px;line-height:0%;font-family:sans-serif;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.06667"
+         x="411.8515"
+         y="923.98462"
+         id="text2985-7-8-9-6-2-8-5-7-4-5-8-4-9-3-2-5-2-6-0-3-4-3-6-6-4-3-9-1-8-0-3-2-8-1-4-1-6-7-2-4-0-88-7"><tspan
+           sodipodi:role="line"
+           x="411.8515"
+           y="923.98462"
+           style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:46.3447px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';text-align:center;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke-width:1.06667"
+           id="tspan3157-9-0-2-0-9-5-6-3-6" /></text>
+    </g>
+    <g
+       transform="matrix(0.97698976,0,0,0.97698976,1376.1695,-865.20453)"
+       id="g3182-5-5-9-3-4-3-7-8-4"
+       style="fill:#ffffff">
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12.7999px;line-height:0%;font-family:Cantarell;-inkscape-font-specification:Cantarell;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.06666"
+         x="411.85385"
+         y="876.13104"
+         id="text2985-7-8-9-6-2-8-5-7-4-5-8-4-9-3-2-5-2-6-0-3-4-3-6-6-4-3-9-1-8-0-3-2-8-1-5-3-1-6-7-6-5-88-3"><tspan
+           sodipodi:role="line"
+           x="411.85385"
+           y="876.13104"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:46.3444px;line-height:1.25;font-family:'Noto Mono';-inkscape-font-specification:'Noto Mono';text-align:center;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke-width:1.06666"
+           id="tspan3157-5-5-2-1-8-1-3-97-0">J</tspan></text>
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-weight:normal;font-size:12.8px;line-height:0%;font-family:sans-serif;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.06667"
+         x="411.8515"
+         y="923.98462"
+         id="text2985-7-8-9-6-2-8-5-7-4-5-8-4-9-3-2-5-2-6-0-3-4-3-6-6-4-3-9-1-8-0-3-2-8-1-4-1-6-7-2-4-0-88-7-3"><tspan
+           sodipodi:role="line"
+           x="411.8515"
+           y="923.98462"
+           style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:46.3447px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';text-align:center;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke-width:1.06667"
+           id="tspan3157-9-0-2-0-9-5-6-3-6-0" /></text>
+    </g>
+  </g>
+  <g
+     transform="matrix(0.97698976,0,0,0.97698976,1315.049,-797.38971)"
+     id="g3182-5-5-9-3-4-3-7-1"
+     style="fill:#ffffff">
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12.7999px;line-height:0%;font-family:Cantarell;-inkscape-font-specification:Cantarell;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.06666"
+       x="411.85385"
+       y="876.13104"
+       id="text2985-7-8-9-6-2-8-5-7-4-5-8-4-9-3-2-5-2-6-0-3-4-3-6-6-4-3-9-1-8-0-3-2-8-1-5-3-1-6-7-6-5-8"><tspan
+         sodipodi:role="line"
+         x="425.75943"
+         y="876.13104"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:46.3444px;line-height:1.25;font-family:'Noto Mono';-inkscape-font-specification:'Noto Mono';text-align:center;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke-width:1.06666"
+         id="tspan3157-5-5-2-1-8-1-3-9">C </tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:12.8px;line-height:0%;font-family:sans-serif;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.06667"
+       x="411.8515"
+       y="923.98462"
+       id="text2985-7-8-9-6-2-8-5-7-4-5-8-4-9-3-2-5-2-6-0-3-4-3-6-6-4-3-9-1-8-0-3-2-8-1-4-1-6-7-2-4-0-88-6"><tspan
+         sodipodi:role="line"
+         x="411.8515"
+         y="923.98462"
+         style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:46.3447px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';text-align:center;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke-width:1.06667"
+         id="tspan3157-9-0-2-0-9-5-6-3-4" /></text>
+  </g>
+  <g
+     transform="matrix(0.97698976,0,0,0.97698976,1363.5322,-781.92777)"
+     id="g3182-5-5-9-3-4-3-7-1-3"
+     style="fill:#ffffff">
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12.7999px;line-height:0%;font-family:Cantarell;-inkscape-font-specification:Cantarell;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.06666"
+       x="443.99811"
+       y="860.39001"
+       id="text2985-7-8-9-6-2-8-5-7-4-5-8-4-9-3-2-5-2-6-0-3-4-3-6-6-4-3-9-1-8-0-3-2-8-1-5-3-1-6-7-6-5-8-3"><tspan
+         sodipodi:role="line"
+         x="457.90369"
+         y="860.39001"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:46.3444px;line-height:1.25;font-family:'Noto Mono';-inkscape-font-specification:'Noto Mono';text-align:center;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke-width:1.06666"
+         id="tspan3157-5-5-2-1-8-1-3-9-3">J </tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:12.8px;line-height:0%;font-family:sans-serif;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.06667"
+       x="411.8515"
+       y="923.98462"
+       id="text2985-7-8-9-6-2-8-5-7-4-5-8-4-9-3-2-5-2-6-0-3-4-3-6-6-4-3-9-1-8-0-3-2-8-1-4-1-6-7-2-4-0-88-6-8"><tspan
+         sodipodi:role="line"
+         x="411.8515"
+         y="923.98462"
+         style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:46.3447px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';text-align:center;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke-width:1.06667"
+         id="tspan3157-9-0-2-0-9-5-6-3-4-6" /></text>
+  </g>
+  <g
+     id="g25758"
+     transform="translate(0.19246808,-18.856287)">
+    <path
+       sodipodi:nodetypes="cccccccccccccccc"
+       id="path3623-5-9-4-0-0-7-9-1-0-2-8"
+       d="m 1612.0993,84.335388 c 8.438,14.55346 24.7959,-11.71212 26.2973,-12.23219 1.3818,-1.7369 7.288,-3.85516 14.509,7.33931 1.2098,1.5431 4.7328,2.71483 6.5291,-0.87373 -0.2846,0.33361 -2.7757,-2.16785 -4.3527,-3.4949 1.8778,0.77574 3.49,0.27153 5.8035,3.14544 1.6646,0.0623 3.7165,0.34701 6.3476,2.27167 1.9791,2.2539 -3.8581,1.49534 -6.1663,2.09695 -4.3527,2.4934 -3.8198,7.19262 -7.0731,6.11607 -2.1228,6.52241 -3.9053,6.67549 -5.0781,5.41711 4.9613,-4.13141 2.3234,-6.10061 0,-6.11607 -3.2501,0.85714 -2.7747,5.63006 -0.7254,12.057392 5.9244,-0.0377 10.0352,2.1009 14.3274,2.27167 -3.3545,2.38822 -5.5275,-0.81544 -15.4157,-0.17474 -2.4582,-9.300622 -7.9926,-17.489782 -15.9597,-16.775522 -14.9067,11.22603 -16.9427,5.54883 -19.0429,-1.04846 z"
+       style="fill:#e7be19;fill-opacity:1;stroke:none;stroke-width:0.18911"
+       inkscape:connector-curvature="0" />
+    <g
+       transform="matrix(0.97698976,0,0,0.97698976,1184.7541,-754.03275)"
+       id="g3182-5-5-9-3-4-3-57">
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12.7999px;line-height:0%;font-family:Cantarell;-inkscape-font-specification:Cantarell;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.06666"
+         x="411.85385"
+         y="876.13104"
+         id="text2985-7-8-9-6-2-8-5-7-4-5-8-4-9-3-2-5-2-6-0-3-4-3-6-6-4-3-9-1-8-0-3-2-8-1-5-3-1-6-7-6-4"><tspan
+           sodipodi:role="line"
+           x="411.85385"
+           y="876.13104"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:46.3444px;line-height:1.25;font-family:'Noto Mono';-inkscape-font-specification:'Noto Mono';text-align:center;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke-width:1.06666"
+           id="tspan3157-5-5-2-1-8-1-1">CJ</tspan></text>
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-weight:normal;font-size:12.8px;line-height:0%;font-family:sans-serif;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.06667"
+         x="411.8515"
+         y="923.98462"
+         id="text2985-7-8-9-6-2-8-5-7-4-5-8-4-9-3-2-5-2-6-0-3-4-3-6-6-4-3-9-1-8-0-3-2-8-1-4-1-6-7-2-4-0-8"><tspan
+           sodipodi:role="line"
+           x="411.8515"
+           y="923.98462"
+           style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:46.3447px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';text-align:center;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke-width:1.06667"
+           id="tspan3157-9-0-2-0-9-5-6-5" /></text>
+    </g>
+  </g>
+  <g
+     transform="matrix(0.97698976,0,0,0.97698976,1259.8732,-837.84619)"
+     id="g3182-5-5-9-3-4-3-5">
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:12.8px;line-height:0%;font-family:sans-serif;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.06667"
+       x="411.8515"
+       y="923.98462"
+       id="text2985-7-8-9-6-2-8-5-7-4-5-8-4-9-3-2-5-2-6-0-3-4-3-6-6-4-3-9-1-8-0-3-2-8-1-4-1-6-7-2-4-0-4"><tspan
+         sodipodi:role="line"
+         x="411.8515"
+         y="923.98462"
+         style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:46.3447px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';text-align:center;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke-width:1.06667"
+         id="tspan3157-9-0-2-0-9-5-6-4" /></text>
+  </g>
   <text
      xml:space="preserve"
-     style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.06666672"
+     style="font-style:normal;font-weight:normal;font-size:12.8px;line-height:0%;font-family:sans-serif;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.06667"
      x="353.98709"
      y="-1811.2523"
      id="text3146-2"><tspan
@@ -3061,32 +3430,32 @@
        x="353.98709"
        y="-1811.2523"
        id="tspan3150-0"
-       style="font-size:44.99191666px;line-height:1.25;font-family:sans-serif;stroke-width:1.06666672">chronojump_icon.png  48x48</tspan><tspan
+       style="font-size:44.9919px;line-height:1.25;font-family:sans-serif;stroke-width:1.06667">chronojump_icon.png  48x48</tspan><tspan
        sodipodi:role="line"
        x="353.98709"
        y="-1755.0125"
        id="tspan3240-3"
-       style="font-size:44.99191666px;line-height:1.25;font-family:sans-serif;stroke-width:1.06666672">then on Gimp save as .ico</tspan><tspan
+       style="font-size:44.9919px;line-height:1.25;font-family:sans-serif;stroke-width:1.06667">then on Gimp save as .ico</tspan><tspan
        sodipodi:role="line"
        x="361.14886"
        y="-1698.7726"
        id="tspan3501"
-       style="font-size:44.99191666px;line-height:1.25;font-family:sans-serif;stroke-width:1.06666672"> </tspan><tspan
+       style="font-size:44.9919px;line-height:1.25;font-family:sans-serif;stroke-width:1.06667"> </tspan><tspan
        sodipodi:role="line"
        x="361.1489"
        y="-1642.5326"
        id="tspan3497"
-       style="font-size:44.99191666px;line-height:1.25;font-family:sans-serif;stroke-width:1.06666672">for macosx, save as chronojump_icon_512.png 512x512 </tspan><tspan
+       style="font-size:44.9919px;line-height:1.25;font-family:sans-serif;stroke-width:1.06667">for macosx, save as chronojump_icon_512.png 512x512 </tspan><tspan
        sodipodi:role="line"
        x="353.98709"
        y="-1586.2927"
        id="tspan3499"
-       style="font-size:44.99191666px;line-height:1.25;font-family:sans-serif;stroke-width:1.06666672">and then do (from Linux with icnsutils installed)</tspan><tspan
+       style="font-size:44.9919px;line-height:1.25;font-family:sans-serif;stroke-width:1.06667">and then do (from Linux with icnsutils installed)</tspan><tspan
        sodipodi:role="line"
        x="353.98709"
        y="-1530.0529"
        id="tspan3503"
-       style="font-size:44.99191666px;line-height:1.25;font-family:sans-serif;stroke-width:1.06666672">png2icns icon.icns chronojump_icon_512.png</tspan></text>
+       style="font-size:44.9919px;line-height:1.25;font-family:sans-serif;stroke-width:1.06667">png2icns icon.icns chronojump_icon_512.png</tspan></text>
   <g
      id="g3520"
      inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/chronojump/images/chronojump_flickr_header.png"
@@ -3105,7 +3474,7 @@
        id="g3810-7-1">
       <text
          xml:space="preserve"
-         style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffcc01;fill-opacity:1;stroke:none;stroke-width:1.06666672"
+         style="font-style:normal;font-weight:normal;font-size:12.8px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffcc01;fill-opacity:1;stroke:none;stroke-width:1.06667"
          x="702.89178"
          y="81.469994"
          id="text2985-7-8-9-1-2-1-92-7-0-8-1-7-0-8-7-6-6-2-9-6-4-5-4-8-68-8-2-4-1-0-6-90-3-0-6-8-6-5-9-0-9-4-8-0-7-9-0-1-1-5-7-7"
@@ -3117,7 +3486,7 @@
            id="tspan2987-7-9-5-5-7-6-2-9-7-0-8-3-2-6-4-4-5-6-6-4-8-3-1-1-40-3-3-4-4-6-6-8-3-3-9-4-8-2-6-6-1-60-3-9-6-1-2-4-1-4-6-1"
            x="702.89178"
            y="81.469994"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:34.47635651px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:Ubuntu;fill:#ffcc01;fill-opacity:1;stroke-width:1.06666672">B o s c o s y s t e m ®</tspan></text>
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:34.4764px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:Ubuntu;fill:#ffcc01;fill-opacity:1;stroke-width:1.06667">B o s c o s y s t e m ®</tspan></text>
       <g
          transform="translate(-3243.6484,-1764.9722)"
          id="g8117-6-8-3-5-1-9"
@@ -3176,7 +3545,7 @@
          inkscape:export-ydpi="155.58435" />
       <text
          xml:space="preserve"
-         style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.06666672"
+         style="font-style:normal;font-weight:normal;font-size:12.8px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.06667"
          x="664.961"
          y="43.811459"
          id="text2985-7-8-9-6-2-8-5-7-4-5-8-4-9-3-2-5-2-6-0-3-4-3-6-6-4-3-9-1-8-0-3-2-9-1-3-1-1-0-5-7-9-3-6-6-9-6-9-7-4-0-6"
@@ -3187,10 +3556,10 @@
            id="tspan2987-7-9-5-8-4-6-0-9-8-0-3-8-7-6-7-8-5-0-4-5-7-6-3-13-9-2-0-3-1-2-2-9-3-7-6-5-7-5-4-3-7-5-4-9-8-6-1-8-5-9-8"
            x="664.961"
            y="43.811459"
-           style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.58449554px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#000000;fill-opacity:1;stroke-width:1.06666672">CHRONOJUMP</tspan></text>
+           style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.5845px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#000000;fill-opacity:1;stroke-width:1.06667">CHRONOJUMP</tspan></text>
       <text
          xml:space="preserve"
-         style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.06666672"
+         style="font-style:normal;font-weight:normal;font-size:12.8px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.06667"
          x="662.82715"
          y="41.677864"
          id="text2985-7-8-9-6-2-8-5-7-4-5-8-4-9-3-2-5-2-6-0-3-4-3-6-6-4-3-9-1-8-0-3-2-8-4-5-8-4-3-1-68-9-4-3-0-5-8-5-5-4-4"
@@ -3201,12 +3570,12 @@
            id="tspan2987-7-9-5-8-4-6-0-9-8-0-3-8-7-6-7-8-5-0-4-5-7-6-3-13-9-2-0-3-1-2-2-9-4-4-4-5-6-5-6-0-5-8-8-1-9-1-3-6-2-7"
            x="662.82715"
            y="41.677864"
-           style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.58449554px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#ffffff;fill-opacity:1;stroke-width:1.06666672">CHRONOJUMP</tspan></text>
+           style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.5845px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#ffffff;fill-opacity:1;stroke-width:1.06667">CHRONOJUMP</tspan></text>
     </g>
   </g>
   <text
      xml:space="preserve"
-     style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.06666672"
+     style="font-style:normal;font-weight:normal;font-size:12.8px;line-height:0%;font-family:sans-serif;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.06667"
      x="433.69913"
      y="-341.01001"
      id="text3146-2-3"><tspan
@@ -3214,7 +3583,7 @@
        x="433.69913"
        y="-341.01001"
        id="tspan3240-3-4"
-       style="font-size:44.99191666px;line-height:1.25;font-family:sans-serif;stroke-width:1.06666672">chronojump_flickr_header.png  1024px width</tspan></text>
+       style="font-size:44.9919px;line-height:1.25;font-family:sans-serif;stroke-width:1.06667">chronojump_flickr_header.png  1024px width</tspan></text>
   <rect
      style="fill:#0e1e46;fill-opacity:1;stroke:none;stroke-width:1.06666672"
      id="rect3495-5-9-4"
@@ -3227,7 +3596,7 @@
      inkscape:export-ydpi="177.02" />
   <text
      xml:space="preserve"
-     style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.06666672"
+     style="font-style:normal;font-weight:normal;font-size:12.8px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.06667"
      x="56.084404"
      y="-273.51514"
      id="text3622"><tspan
@@ -3235,7 +3604,7 @@
        id="tspan3624"
        x="56.084404"
        y="-273.51514"
-       style="font-size:42.66666794px;line-height:1.25;font-family:sans-serif;stroke-width:1.06666672">better, this , only blue</tspan></text>
+       style="font-size:42.6667px;line-height:1.25;font-family:sans-serif;stroke-width:1.06667">better, this , only blue</tspan></text>
   <g
      id="g3810-3"
      transform="translate(106.72108,-2846.316)">
@@ -3247,9 +3616,9 @@
        id="text2985-7-8-9-1-2-1-92-7-0-8-1-7-0-8-7-6-6-2-9-6-4-5-4-8-68-8-2-4-1-0-6-90-3-0-6-8-6-5-9-0-9-4-8-0-7-9-0-1-1-5-6"
        y="81.469994"
        x="702.89178"
-       style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffcc01;fill-opacity:1;stroke:none;stroke-width:1.06666672"
+       style="font-style:normal;font-weight:normal;font-size:12.8px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffcc01;fill-opacity:1;stroke:none;stroke-width:1.06667"
        xml:space="preserve"><tspan
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:34.47635651px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:Ubuntu;fill:#ffcc01;fill-opacity:1;stroke-width:1.06666672"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:34.4764px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:Ubuntu;fill:#ffcc01;fill-opacity:1;stroke-width:1.06667"
          y="81.469994"
          x="702.89178"
          id="tspan2987-7-9-5-5-7-6-2-9-7-0-8-3-2-6-4-4-5-6-6-4-8-3-1-1-40-3-3-4-4-6-6-8-3-3-9-4-8-2-6-6-1-60-3-9-6-1-2-4-1-4-7"
@@ -3317,9 +3686,9 @@
        id="text2985-7-8-9-6-2-8-5-7-4-5-8-4-9-3-2-5-2-6-0-3-4-3-6-6-4-3-9-1-8-0-3-2-9-1-3-1-1-0-5-7-9-3-6-6-9-6-9-7-4-1"
        y="43.811459"
        x="664.961"
-       style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.06666672"
+       style="font-style:normal;font-weight:normal;font-size:12.8px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.06667"
        xml:space="preserve"><tspan
-         style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.58449554px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#000000;fill-opacity:1;stroke-width:1.06666672"
+         style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.5845px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#000000;fill-opacity:1;stroke-width:1.06667"
          y="43.811459"
          x="664.961"
          id="tspan2987-7-9-5-8-4-6-0-9-8-0-3-8-7-6-7-8-5-0-4-5-7-6-3-13-9-2-0-3-1-2-2-9-3-7-6-5-7-5-4-3-7-5-4-9-8-6-1-8-5-2"
@@ -3331,9 +3700,9 @@
        id="text2985-7-8-9-6-2-8-5-7-4-5-8-4-9-3-2-5-2-6-0-3-4-3-6-6-4-3-9-1-8-0-3-2-8-4-5-8-4-3-1-68-9-4-3-0-5-8-5-5-7"
        y="41.677864"
        x="662.82715"
-       style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.06666672"
+       style="font-style:normal;font-weight:normal;font-size:12.8px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.06667"
        xml:space="preserve"><tspan
-         style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.58449554px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#ffffff;fill-opacity:1;stroke-width:1.06666672"
+         style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.5845px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#ffffff;fill-opacity:1;stroke-width:1.06667"
          y="41.677864"
          x="662.82715"
          id="tspan2987-7-9-5-8-4-6-0-9-8-0-3-8-7-6-7-8-5-0-4-5-7-6-3-13-9-2-0-3-1-2-2-9-4-4-4-5-6-5-6-0-5-8-8-1-9-1-3-6-0"
@@ -3351,9 +3720,9 @@
        id="text2985-7-8-9-1-2-1-92-7-0-8-1-7-0-8-7-6-6-2-9-6-4-5-4-8-68-8-2-4-1-0-6-90-3-0-6-8-6-5-9-0-9-4-8-0-7-9-0-1-1-5-7-3"
        y="2955.5669"
        x="-32.801289"
-       style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.06666672"
+       style="font-style:normal;font-weight:normal;font-size:12.8px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.06667"
        xml:space="preserve"><tspan
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:34.47635651px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:Ubuntu;fill:#000000;fill-opacity:1;stroke-width:1.06666672"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:34.4764px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:Ubuntu;fill:#000000;fill-opacity:1;stroke-width:1.06667"
          y="2955.5669"
          x="-32.801289"
          id="tspan2987-7-9-5-5-7-6-2-9-7-0-8-3-2-6-4-4-5-6-6-4-8-3-1-1-40-3-3-4-4-6-6-8-3-3-9-4-8-2-6-6-1-60-3-9-6-1-2-4-1-4-6-5"
@@ -3410,9 +3779,9 @@
        id="text2985-7-8-9-6-2-8-5-7-4-5-8-4-9-3-2-5-2-6-0-3-4-3-6-6-4-3-9-1-8-0-3-2-8-4-5-8-4-3-1-68-9-4-3-0-5-8-5-5-4-6"
        y="2913.3188"
        x="-73.495163"
-       style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.06666672"
+       style="font-style:normal;font-weight:normal;font-size:12.8px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.06667"
        xml:space="preserve"><tspan
-         style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.58449554px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#000000;fill-opacity:1;stroke-width:1.06666672"
+         style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.5845px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#000000;fill-opacity:1;stroke-width:1.06667"
          y="2913.3188"
          x="-73.495163"
          id="tspan2987-7-9-5-8-4-6-0-9-8-0-3-8-7-6-7-8-5-0-4-5-7-6-3-13-9-2-0-3-1-2-2-9-4-4-4-5-6-5-6-0-5-8-8-1-9-1-3-6-2-0"

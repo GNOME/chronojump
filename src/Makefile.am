@@ -578,13 +578,6 @@ RESOURCES = \
 	../images/md/save_blue.png,save.png \
 	../images/md/new_releases_blue.png,new.png \
 	../images/md/menu_blue.png,image_menu.png \
-	../images/md/apps_6_sep_blue.png,image_modes.png \
-	../images/md/apps_6_sep_jump_blue.png,image_modes_jump.png \
-	../images/md/apps_6_sep_run_blue.png,image_modes_run.png \
-	../images/md/apps_6_sep_force_blue.png,image_modes_force.png \
-	../images/md/apps_6_sep_encoder_blue.png,image_modes_encoder.png \
-	../images/md/apps_6_sep_rt_blue.png,image_modes_rt.png \
-	../images/md/apps_6_sep_other_blue.png,image_modes_other.png \
 	../images/md/menu_book_blue.png,image_book.png \
 	../images/md/keyboard_blue.png,image_keyboard.png \
 	../images/md/more_horiz_blue.png,image_more_horiz.png \

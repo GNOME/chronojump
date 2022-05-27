@@ -475,9 +475,6 @@ public partial class ChronoJumpWindow
 
 		//assign here to have gui ok and not having chronojump logo at top right outside the screen
 		//all these will change when mode is selected
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_modes.png");
-		image_button_show_modes_contacts_grid.Pixbuf = pixbuf;
-		image_button_show_modes_encoder_grid.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_weight.png");
 		image_encoder_exercise.Pixbuf = pixbuf;
 

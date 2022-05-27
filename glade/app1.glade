@@ -4029,7 +4029,6 @@ EncoderInertialCapture</property>
                                                 <property name="spacing">6</property>
                                                 <child>
                                                   <widget class="GtkButton" id="button_show_modes_contacts">
-                                                    <property name="width_request">40</property>
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">True</property>
                                                     <property name="receives_default">True</property>
@@ -4039,11 +4038,10 @@ EncoderInertialCapture</property>
                                                         <property name="visible">True</property>
                                                         <property name="can_focus">False</property>
                                                         <child>
-                                                          <widget class="GtkImage" id="image_button_show_modes_contacts_grid">
-                                                            <property name="width_request">24</property>
+                                                          <widget class="GtkLabel" id="label52">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="stock">gtk-missing-image</property>
+                                                            <property name="label" translatable="yes">Mode</property>
                                                           </widget>
                                                         </child>
                                                       </widget>
@@ -30389,7 +30387,6 @@ Concentric</property>
                                                         <property name="spacing">6</property>
                                                         <child>
                                                           <widget class="GtkButton" id="button_show_modes_encoder">
-                                                            <property name="width_request">40</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="receives_default">True</property>
@@ -30399,11 +30396,10 @@ Concentric</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <child>
-                                                            <widget class="GtkImage" id="image_button_show_modes_encoder_grid">
-                                                            <property name="width_request">24</property>
+                                                            <widget class="GtkLabel" id="label71">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="stock">gtk-missing-image</property>
+                                                            <property name="label" translatable="yes">Mode</property>
                                                             </widget>
                                                             </child>
                                                             </widget>

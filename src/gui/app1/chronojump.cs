@@ -3403,6 +3403,36 @@ public partial class ChronoJumpWindow
 	{
 		notebook_sup.CurrentPage = Convert.ToInt32(notebook_sup_pages.START);
 
+		if (current_mode == Constants.Modes.UNDEFINED ||
+				current_mode == Constants.Modes.JUMPSSIMPLE ||
+				current_mode == Constants.Modes.JUMPSREACTIVE)
+		{
+			radio_menu_2_2_2_jumps.Active = true;
+			on_button_menu_2_2_2_clicked (radio_menu_2_2_2_jumps, new EventArgs ());
+		}
+		else if (current_mode == Constants.Modes.RUNSSIMPLE ||
+				current_mode == Constants.Modes.RUNSINTERVALLIC ||
+				current_mode == Constants.Modes.RUNSENCODER)
+		{
+			radio_menu_2_2_2_races.Active = true;
+			on_button_menu_2_2_2_clicked (radio_menu_2_2_2_races, new EventArgs ());
+		}
+		else if (current_mode == Constants.Modes.FORCESENSOR) //TODO ISOMETRIC, INERTIAL|
+		{
+			radio_menu_2_2_2_isometric.Active = true;
+			on_button_menu_2_2_2_clicked (radio_menu_2_2_2_isometric, new EventArgs ());
+		}
+		else if (current_mode == Constants.Modes.POWERGRAVITATORY)
+		{
+			radio_menu_2_2_2_weights.Active = true;
+			on_button_menu_2_2_2_clicked (radio_menu_2_2_2_weights, new EventArgs ());
+		}
+		else if (current_mode == Constants.Modes.POWERINERTIAL)
+		{
+			radio_menu_2_2_2_inertial.Active = true;
+			on_button_menu_2_2_2_clicked (radio_menu_2_2_2_inertial, new EventArgs ());
+		}
+
 		//show title
 		string tempSessionName = "";
 		if(currentSession != null)

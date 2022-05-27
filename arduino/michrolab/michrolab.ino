@@ -1247,7 +1247,7 @@ void capture()
         }
         if (blueButton.fell() && !PcControlled)
         {
-          updatePersonSet();
+          selectPerson();
         }
       }
       //      Serial.println("Ended plotPeriod");
@@ -1864,6 +1864,17 @@ void calibrateInertial()
   Serial.print(encoder.read());
   lastEncoderPosition = 0;
   calibratedInertial = true;
+}
+
+void selectPerson()
+{
+  updatePersonSet();
+  while(!redButton.fell())
+  {
+    blueButton.update();
+    if(blueButton.fell()) updatePersonSet();
+    redButton.update();
+  }
 }
 
 void fakeFunction()

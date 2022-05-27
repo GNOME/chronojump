@@ -205,7 +205,7 @@ public partial class ChronoJumpWindow
 				notebook_video_contacts.CurrentPage = 1;
 			}
 
-			if(current_mode == Constants.Modes.FORCESENSOR)
+			if(Constants.ModeIsFORCESENSOR (current_mode))
 				forceSensorCapturePre3_GTK_cameraCalled();
 			else if(current_mode == Constants.Modes.RUNSENCODER)
 				runEncoderCapturePre3_GTK_cameraCalled();
@@ -747,7 +747,7 @@ public partial class ChronoJumpWindow
 
 	private void on_button_video_play_this_test_contacts_clicked (object o, EventArgs args)
 	{
-		if(current_mode == Constants.Modes.FORCESENSOR)
+		if(Constants.ModeIsFORCESENSOR (current_mode))
 		{
 			if(currentForceSensor == null || currentForceSensor.UniqueID == -1)
 				new DialogMessage(Constants.MessageTypes.WARNING, "Sorry, file not found");

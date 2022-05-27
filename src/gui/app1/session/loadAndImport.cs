@@ -129,7 +129,7 @@ public partial class ChronoJumpWindow
 		app1s_checkbutton_show_data_runs.Active = (current_mode == Constants.Modes.RUNSSIMPLE ||
 				current_mode == Constants.Modes.RUNSINTERVALLIC ||
 				current_mode == Constants.Modes.RUNSENCODER);
-		app1s_checkbutton_show_data_force_sensor.Active = (current_mode == Constants.Modes.FORCESENSOR);
+		app1s_checkbutton_show_data_force_sensor.Active = (Constants.ModeIsFORCESENSOR (current_mode));
 		app1s_checkbutton_show_data_encoder.Active = (current_mode == Constants.Modes.POWERGRAVITATORY ||
 				current_mode == Constants.Modes.POWERINERTIAL);
 

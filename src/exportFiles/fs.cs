@@ -27,6 +27,7 @@ using Mono.Unix;
 
 public class ForceSensorExport : ExportFiles
 {
+	private Constants.Modes mode;
 	private List<ForceSensorRFD> rfdList;
 	private ForceSensorImpulse impulse;
 	private double duration;
@@ -43,6 +44,7 @@ public class ForceSensorExport : ExportFiles
 	private static int totalRepsToExport;
 
 	public ForceSensorExport (
+			Constants.Modes mode,
 			Gtk.Notebook notebook,
 			Gtk.ProgressBar progressbar,
 			Gtk.Label labelResult,
@@ -65,6 +67,7 @@ public class ForceSensorExport : ExportFiles
 		assignParams(notebook, progressbar, new Gtk.Label(), labelResult, includeImages,
 				imageWidth, imageHeight, isWindows, personID, sessionID, exportDecimalSeparator);
 
+		this.mode = mode;
 		this.rfdList = rfdList;
 		this.impulse = impulse;
 		this.duration = duration;
@@ -101,9 +104,11 @@ public class ForceSensorExport : ExportFiles
 
 	protected override bool getData ()
 	{
-		fs_l = SqliteForceSensor.Select(false, -1, personID, sessionID);
+		int elastic = ForceSensor.GetElasticIntFromMode (mode);
+
+		fs_l = SqliteForceSensor.Select(false, -1, personID, sessionID, elastic);
 		personSession_l = SqlitePersonSession.SelectCurrentSessionPersons(sessionID, true);
-		fsEx_l = SqliteForceSensorExercise.Select (false, -1, false);
+		fsEx_l = SqliteForceSensorExercise.Select (false, -1, elastic, false);
 		totalRepsToExport = 0;
 
 		return fs_l.Count > 0;

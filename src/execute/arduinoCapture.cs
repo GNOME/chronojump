@@ -635,7 +635,7 @@ public class MicroDiscover : MicroComms
 					}
 					LogB.Information("success: " + success.ToString());
 				}
-				else if(mode == Constants.Modes.FORCESENSOR)
+				else if(Constants.ModeIsFORCESENSOR (mode))
 					success = discoverForceSensor ();
 				else if(mode == Constants.Modes.RUNSENCODER)
 					success = discoverRaceAnalyzer ();

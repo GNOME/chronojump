@@ -36,9 +36,8 @@
 #define DOUT  2
 #define CLK  3
 
-//Version number //it always need to start with: "Force_Sensor-"
+//Version number //it always need to start with: "MiChroLab-"
 //Device commented for memory optimization
-//String device = "Force_Sensor";
 String version = "0.1";
 
 
@@ -1295,13 +1294,13 @@ void getEncoderDynamics()
 
     //TODO: Calculate positoion depending on the parameters of the encoder/machine
     if (inertialMode) position = - abs(position);
-    //measured = (float)(position - lastSamplePosition) * 1000 / (sampleDuration);
-    measured = position;
+    measured = (float)(position - lastSamplePosition) * 1000 / (sampleDuration);
+    //measured = position;
 //    if(position != lastSamplePosition) Serial.println(String(localMax) + "\t" + String(lastSamplePosition) +
 //      "\t" + String(position) + "\t" + String(encoderPhase * (position - localMax)));
     float accel = (measured - lastVelocity) * 1000000 / sampleDuration;
     if(propulsive && accel <= -9.81){
-      Serial.println(String(accel) + " End propulsive at time: " + String(lastSampleTime));
+      //Serial.println("End propulsive at time: " + String(lastSampleTime));
       propulsive = false;
     }
     //measured = position;
@@ -1338,8 +1337,11 @@ void getEncoderDynamics()
         numRepetitions++;
         //avgVelocity = (float)(position - startPhasePosition) * 1000 / (lastSampleTime - startPhaseTime);
         if (avgVelocity > maxAvgVelocity) maxAvgVelocity = avgVelocity;
-        Serial.println(String(position) + " - " + String(startPhasePosition) + " = " + String(position - localMax) + "\t" + String(encoderPhase));
-        Serial.println("Change of phase at: " + String(lastSampleTime));
+//        Serial.println(String(position) + " - " + String(startPhasePosition) + " = " + String(position - localMax) + "\t" + String(encoderPhase));
+//        Serial.println("Change of phase at: " + String(lastSampleTime));
+//        Serial.print(String(1000 * (float)(position - startPhasePosition) / (lastSampleTime - startPhaseTime)) + " m/s\t" );
+//        Serial.println(String(1000*(persons[currentPerson].weight * 9.81 * (position - startPhasePosition)) / 
+        (lastSampleTime - startPhaseTime))+" W");
         startPhasePosition = position;
         startPhaseTime = lastSampleTime;
       }

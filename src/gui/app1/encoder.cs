@@ -462,7 +462,7 @@ public partial class ChronoJumpWindow
 	//TODO: on cross, spline and force speed and power speed should have a spar value higher, like 0.7. On the other hand, the other cross graphs, haveload(mass) in the X lot more discrete, there is good to put 0.5
 	
 
-	private void encoderInitializeStuff()
+	private void initEncoder ()
 	{
 		encoder_pulsebar_capture.Fraction = 1;
 		encoder_pulsebar_capture.Text = "";
@@ -4561,6 +4561,7 @@ public partial class ChronoJumpWindow
 	Button button_combo_encoder_exercise_capture_left;
 	Button button_combo_encoder_exercise_capture_right;
 
+	// called by initEncoder (just one time)
 	protected void createEncoderCombos() 
 	{
 		//create combo exercises
@@ -4736,7 +4737,9 @@ public partial class ChronoJumpWindow
 	//and on change mode POWERGRAVITORY <-> POWERINERTIAL, because encoderExercises can have different type (encoderGI)
 	private void createEncoderComboExerciseAndAnalyze()
 	{
+		// 1) selecte encoderExercises on SQL
 		ArrayList encoderExercises = SqliteEncoder.SelectEncoderExercises(false, -1, false, getEncoderGIByMenuitemMode());
+		// 2) if ! encoderExcises, delete both combos and return
 		if(encoderExercises.Count == 0)
 		{
 			encoderExercisesTranslationAndBodyPWeight = new String [0];
@@ -4748,6 +4751,7 @@ public partial class ChronoJumpWindow
 			return;
 		}
 
+		// 3) define: encoderExercisesTranslationAndBodyPWeight and exerciseNamesToCombo
 		button_encoder_exercise_edit.Sensitive = true;
 		button_encoder_exercise_delete.Sensitive = true;
 
@@ -4762,7 +4766,7 @@ public partial class ChronoJumpWindow
 			i++;
 		}
 
-		//get previous combo_encoder_exercise_capture value
+		// 4) update combo_encoder_exercise_capture and set active
 		string previousExerciseCapture = UtilGtk.ComboGetActive(combo_encoder_exercise_capture);
 
 		UtilGtk.ComboUpdate(combo_encoder_exercise_capture, exerciseNamesToCombo, "");
@@ -4773,6 +4777,7 @@ public partial class ChronoJumpWindow
 			combo_encoder_exercise_capture.Active = UtilGtk.ComboMakeActive(combo_encoder_exercise_capture,
 					previousExerciseCapture);
 
+		// 5) update combo_encoder_exercise_analyze and set active
 		exerciseNamesToCombo = addAllExercisesToComboExerciseAnalyze(exerciseNamesToCombo);
 		
 		UtilGtk.ComboUpdate(combo_encoder_exercise_analyze, exerciseNamesToCombo, "");

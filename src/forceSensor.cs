@@ -155,15 +155,21 @@ public class ForceSensor
 	}
 
 	//for load window
-	public string [] ToStringArray (int count)
+	public string [] ToStringArray (int count, Constants.Modes mode)
 	{
-		int all = 11;
+		int all = 10;
+		if (mode == Constants.Modes.FORCESENSORELASTIC)
+			all = 11; 	//only show stiffness on elastic
+
 		string [] str = new String [all];
 		int i=0;
 		str[i++] = uniqueID.ToString();
 		str[i++] = count.ToString();
 		str[i++] = exerciseName;
-		str[i++] = exerciseElasticStiffnessString();
+
+		if (mode == Constants.Modes.FORCESENSORELASTIC)
+			str[i++] = exerciseElasticStiffnessString();
+
 		str[i++] = Catalog.GetString(GetCaptureOptionsString(captureOption));
 		str[i++] = Catalog.GetString(laterality);
 		if(maxForceRaw == -1)

@@ -2163,22 +2163,39 @@ LogB.Information(" fs R ");
 
 		ArrayList dataPrint = new ArrayList();
 		int count = 1;
-		foreach(ForceSensor fs in data)
-			dataPrint.Add(fs.ToStringArray(count++));
+		foreach (ForceSensor fs in data)
+			dataPrint.Add (fs.ToStringArray (count++, current_mode));
 
-		string [] columnsString = {
-			Catalog.GetString("ID"),
-			Catalog.GetString("Set"),
-			Catalog.GetString("Exercise"),
-			Catalog.GetString("Elastic") + " (N/m)",
-			Catalog.GetString("Capture option"),
-			Catalog.GetString("Laterality"),
-			Catalog.GetString("Max force") + " (" + Catalog.GetString("Raw data") + ") (N)",
-			string.Format(Catalog.GetString("Max AVG Force in {0} s"), 1) + " (N)",
-			Catalog.GetString("Date"),
-			Catalog.GetString("Video"),
-			Catalog.GetString("Comment")
-		};
+		string [] columnsString;
+		if (current_mode == Constants.Modes.FORCESENSORISOMETRIC)
+			columnsString = new String [] {
+				Catalog.GetString("ID"),
+					Catalog.GetString("Set"),
+					Catalog.GetString("Exercise"),
+					Catalog.GetString("Capture option"),
+					Catalog.GetString("Laterality"),
+					Catalog.GetString("Max force") + " (" + Catalog.GetString("Raw data") + ") (N)",
+					string.Format(Catalog.GetString("Max AVG Force in {0} s"), 1) + " (N)",
+					Catalog.GetString("Date"),
+					Catalog.GetString("Video"),
+					Catalog.GetString("Comment")
+			};
+		else //if (current_mode == Constants.Modes.FORCESENSORELASTIC)
+		{
+			columnsString = new String [] {
+				Catalog.GetString("ID"),
+					Catalog.GetString("Set"),
+					Catalog.GetString("Exercise"),
+					Catalog.GetString("Elastic") + " (N/m)",
+					Catalog.GetString("Capture option"),
+					Catalog.GetString("Laterality"),
+					Catalog.GetString("Max force") + " (" + Catalog.GetString("Raw data") + ") (N)",
+					string.Format(Catalog.GetString("Max AVG Force in {0} s"), 1) + " (N)",
+					Catalog.GetString("Date"),
+					Catalog.GetString("Video"),
+					Catalog.GetString("Comment")
+			};
+		}
 
 		ArrayList bigArray = new ArrayList();
 		ArrayList a1 = new ArrayList();

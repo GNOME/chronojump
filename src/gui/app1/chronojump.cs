@@ -3789,6 +3789,8 @@ public partial class ChronoJumpWindow
 				encoderButtonsSensitive(encoderSensEnum.YESPERSON);
 			
 			blankEncoderInterface();
+			radio_change_modes_encoder_gravitatory.Visible = (m == Constants.Modes.POWERGRAVITATORY);
+			radio_change_modes_encoder_inertial.Visible = (m == Constants.Modes.POWERINERTIAL);
 
 			//combos should show encoder exercises of current type (encoderGI)
 			createEncoderComboExerciseAndAnalyze();

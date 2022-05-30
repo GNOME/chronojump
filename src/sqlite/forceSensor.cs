@@ -157,8 +157,10 @@ class SqliteForceSensor : Sqlite
 			sessionIDStr = " AND " + table + ".sessionID = " + sessionID;
 
 		string elasticStr = "";
-		if(elastic != -1)
-			elasticStr = " AND " + table + ".stiffness >= " + 0;
+		if (elastic == 0)
+			elasticStr = " AND " + table + ".stiffness < 0"; //isometric has stiffness -1.0
+		else if (elastic == 1)
+			elasticStr = " AND " + table + ".stiffness > 0"; //elastic has stiffness > 0
 
 		dbcmd.CommandText = selectStr + whereStr + uniqueIDStr + personIDStr + sessionIDStr + elasticStr +
 			" Order BY " + table + ".uniqueID";

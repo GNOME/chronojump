@@ -3923,6 +3923,9 @@ public partial class ChronoJumpWindow
 			vbox_contacts_simple_graph_controls.Visible = false;
 
 			hbox_change_modes_force_sensor.Visible = true;
+			radio_change_modes_contacts_isometric.Visible = (m == Constants.Modes.FORCESENSORISOMETRIC);
+			radio_change_modes_contacts_elastic.Visible = (m == Constants.Modes.FORCESENSORELASTIC);
+
 			//align_check_vbox_contacts_graph_legend.Visible = false;
 			//vbox_contacts_graph_legend.Visible = false;
 

@@ -337,6 +337,7 @@ public class EncoderOverviewWindow : OverviewWindow
 public class ForceSensorOverviewWindow : OverviewWindow
 {
 	static ForceSensorOverviewWindow ForceSensorOverviewWindowBox;
+	private Constants.Modes chronojumpMode;
 
 	public ForceSensorOverviewWindow(Gtk.Window parent)
 	{
@@ -355,13 +356,14 @@ public class ForceSensorOverviewWindow : OverviewWindow
 	}
 
 	//if personIDAtStart == -1, there is not currentPerson
-	static public ForceSensorOverviewWindow Show (Gtk.Window parent, int sessionID, int personIDAtStart)
+	static public ForceSensorOverviewWindow Show (Gtk.Window parent, int sessionID, int personIDAtStart, Constants.Modes chronojumpMode)
 	{
 		if (ForceSensorOverviewWindowBox == null)
 			ForceSensorOverviewWindowBox = new ForceSensorOverviewWindow (parent);
 
 		ForceSensorOverviewWindowBox.sessionID = sessionID;
 		ForceSensorOverviewWindowBox.personIDAtStart = personIDAtStart;
+		ForceSensorOverviewWindowBox.chronojumpMode = chronojumpMode;
 
 		ForceSensorOverviewWindowBox.initialize();
 
@@ -383,7 +385,7 @@ public class ForceSensorOverviewWindow : OverviewWindow
 
 	protected override ArrayList selectData(treeviewType type)
 	{
-		return SqliteForceSensor.SelectSessionOverviewSets(false, sessionID);
+		return SqliteForceSensor.SelectSessionOverviewSets(false, sessionID, chronojumpMode);
 	}
 
 	protected override void on_button_close_clicked (object o, EventArgs args)

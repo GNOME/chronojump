@@ -644,8 +644,8 @@ public partial class ChronoJumpWindow
 		
 		rfdList = SqliteForceSensorRFD.SelectAll(false);
 		impulse = SqliteForceSensorRFD.SelectImpulse(false);
-		initForceSensor();
-		initRunEncoder();
+		initForceSensor ();
+		initRunEncoder ();
 
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_show_modes_contacts, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_change_modes_contacts_jumps_simple, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
@@ -758,8 +758,8 @@ public partial class ChronoJumpWindow
 		//done here because in Glade we cannot use the TextBuffer.Changed
 		textview_contacts_signal_comment.Buffer.Changed += new EventHandler(on_textview_contacts_signal_comment_key_press_event);
 
-		contactsInitialize();
-		encoderInitializeStuff();	
+		initContacts ();
+		initEncoder ();
 
 		//done before configInitRead because that will change some Tooltips
 		addShortcutsToTooltips(operatingSystem == UtilAll.OperatingSystems.MACOSX);
@@ -877,7 +877,7 @@ public partial class ChronoJumpWindow
 		LogB.Information("Chronojump window started");
 	}
 
-	private void contactsInitialize()
+	private void initContacts ()
 	{
 		followSignals = false;
 		check_contacts_capture_graph.Active = preferences.contactsCaptureDisplay.ShowGraph;

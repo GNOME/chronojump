@@ -3264,6 +3264,7 @@ LogB.Information(" fs R ");
 
 	string [] forceSensorComboExercisesString; //id:name (no translations, use user language)
 
+	//called on init
 	private void createForceExerciseCombo ()
 	{
 		//force_sensor_exercise

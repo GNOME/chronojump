@@ -3407,39 +3407,41 @@ public partial class ChronoJumpWindow
 	{
 		notebook_sup.CurrentPage = Convert.ToInt32(notebook_sup_pages.START);
 
+		//a double click cannot be managed now because start window is clicked from the "Mode" button at any mode
+
 		if (current_mode == Constants.Modes.UNDEFINED ||
 				current_mode == Constants.Modes.JUMPSSIMPLE ||
 				current_mode == Constants.Modes.JUMPSREACTIVE)
 		{
 			radio_menu_2_2_2_jumps.Active = true;
-			on_button_menu_2_2_2_clicked (radio_menu_2_2_2_jumps, new EventArgs ());
+			button_menu_2_2_2_manage (radio_menu_2_2_2_jumps, false); //cannot be a double click
 		}
 		else if (current_mode == Constants.Modes.RUNSSIMPLE ||
 				current_mode == Constants.Modes.RUNSINTERVALLIC ||
 				current_mode == Constants.Modes.RUNSENCODER)
 		{
 			radio_menu_2_2_2_races.Active = true;
-			on_button_menu_2_2_2_clicked (radio_menu_2_2_2_races, new EventArgs ());
+			button_menu_2_2_2_manage (radio_menu_2_2_2_races, false);
 		}
 		else if (current_mode == Constants.Modes.FORCESENSORISOMETRIC)
 		{
 			radio_menu_2_2_2_isometric.Active = true;
-			on_button_menu_2_2_2_clicked (radio_menu_2_2_2_isometric, new EventArgs ());
+			button_menu_2_2_2_manage (radio_menu_2_2_2_isometric, false);
 		}
 		else if (current_mode == Constants.Modes.FORCESENSORELASTIC)
 		{
 			radio_menu_2_2_2_elastic.Active = true;
-			on_button_menu_2_2_2_clicked (radio_menu_2_2_2_elastic, new EventArgs ());
+			button_menu_2_2_2_manage (radio_menu_2_2_2_elastic, false);
 		}
 		else if (current_mode == Constants.Modes.POWERGRAVITATORY)
 		{
 			radio_menu_2_2_2_weights.Active = true;
-			on_button_menu_2_2_2_clicked (radio_menu_2_2_2_weights, new EventArgs ());
+			button_menu_2_2_2_manage (radio_menu_2_2_2_weights, false);
 		}
 		else if (current_mode == Constants.Modes.POWERINERTIAL)
 		{
 			radio_menu_2_2_2_inertial.Active = true;
-			on_button_menu_2_2_2_clicked (radio_menu_2_2_2_inertial, new EventArgs ());
+			button_menu_2_2_2_manage (radio_menu_2_2_2_inertial, false);
 		}
 
 		//show title
@@ -4402,20 +4404,35 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Label label_selector_menu_2_2_2_title;
 	[Widget] Gtk.Label label_selector_menu_2_2_2_desc;
 
+	//clicked from start_window
 	private void on_button_menu_2_2_2_clicked (object o, EventArgs args)
+	{
+		//manage only Active events
+		if (! ((Gtk.RadioButton) o).Active)
+			return;
+
+		//note on glade the event is button_clicked to receive a click when the radio is already active
+
+		button_menu_2_2_2_manage (o, true); //can have double click if that notebook_menu_2_2_2 is already that value
+	}
+
+	private void button_menu_2_2_2_manage (object o, bool canBeDoubleClick)
 	{
 		string title = "";
 		string desc = "";
 		if (o == (object) radio_menu_2_2_2_jumps)
 		{
+			canBeDoubleClick = false;
+
 			title = "Jumps";
 			desc = "Measured by a contact platform";
 			notebook_menu_2_2_2.CurrentPage = 0;
 		}
 		else if (o == (object) radio_menu_2_2_2_races)
 		{
+			canBeDoubleClick = false;
+
 			title = "Races";
-			//desc = "Races with photocells (Wichro or wired), or RaceAnalyzer";
 			desc = "Measured by …";
 			notebook_menu_2_2_2.CurrentPage = 1;
 		}
@@ -4444,13 +4461,18 @@ public partial class ChronoJumpWindow
 			notebook_menu_2_2_2.CurrentPage = 2;
 		}
 
-		if (title != "")
-		{
-			label_selector_menu_2_2_2_title.Text = "<b>" + title + "</b>";
-			label_selector_menu_2_2_2_title.UseMarkup = true;
+		// if we already have clicked before, execute go!
+		if (canBeDoubleClick && label_selector_menu_2_2_2_title.Text == title) //note the "<b></b>" are not on .Text
+			on_button_menu_2_2_2_go_clicked (new object (), new EventArgs ());
+		else {
+			if (title != "")
+			{
+				label_selector_menu_2_2_2_title.Text = "<b>" + title + "</b>";
+				label_selector_menu_2_2_2_title.UseMarkup = true;
+			}
+			if (desc != "")
+				label_selector_menu_2_2_2_desc.Text = desc;
 		}
-		if (desc != "")
-			label_selector_menu_2_2_2_desc.Text = desc;
 	}
 
 	private void on_button_menu_2_2_2_go_clicked (object o, EventArgs args)

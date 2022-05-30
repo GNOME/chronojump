@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2019-2020   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2019-2022   Xavier de Blas <xaviblas@gmail.com>
  * Copyright (C) 2019  	Xavier Padullés <x.padulles@gmail.com>
  */
 
@@ -163,9 +163,10 @@ public class ForceSensorExerciseWindow
 		//DestroyOnAccept = false;
 	}
 
-	static public ForceSensorExerciseWindow ShowEdit (string title, string textHeader, ForceSensorExercise exercise,
-				double prefsForceSensorElasticEccMinDispl, double prefsForceSensorElasticConMinDispl,
-				int prefsForceSensorNotElasticEccMinForce, int prefsForceSensorNotElasticConMinForce)
+	static public ForceSensorExerciseWindow ShowEdit (Constants.Modes chronojumpMode,
+			string title, string textHeader, ForceSensorExercise exercise,
+			double prefsForceSensorElasticEccMinDispl, double prefsForceSensorElasticConMinDispl,
+			int prefsForceSensorNotElasticEccMinForce, int prefsForceSensorNotElasticConMinForce)
 	{
 		if (ForceSensorExerciseWindowBox == null) {
 			ForceSensorExerciseWindowBox = new ForceSensorExerciseWindow(title, textHeader);
@@ -231,9 +232,10 @@ public class ForceSensorExerciseWindow
 		return ForceSensorExerciseWindowBox;
 	}
 
-	static public ForceSensorExerciseWindow ShowAdd (string title, string textHeader,
-				double prefsForceSensorElasticEccMinDispl, double prefsForceSensorElasticConMinDispl,
-				int prefsForceSensorNotElasticEccMinForce, int prefsForceSensorNotElasticConMinForce)
+	static public ForceSensorExerciseWindow ShowAdd (Constants.Modes chronojumpMode,
+			string title, string textHeader,
+			double prefsForceSensorElasticEccMinDispl, double prefsForceSensorElasticConMinDispl,
+			int prefsForceSensorNotElasticEccMinForce, int prefsForceSensorNotElasticConMinForce)
 	{
 		if (ForceSensorExerciseWindowBox == null) {
 			ForceSensorExerciseWindowBox = new ForceSensorExerciseWindow(title, textHeader);
@@ -241,6 +243,11 @@ public class ForceSensorExerciseWindow
 			ForceSensorExerciseWindowBox.setTitle(title);
 			ForceSensorExerciseWindowBox.label_header.Text = textHeader;
 		}
+
+		if(chronojumpMode == Constants.Modes.FORCESENSORISOMETRIC)
+			ForceSensorExerciseWindowBox.radio_fixation_not_elastic.Active = true;
+		else //if(chronojumpMode == Constants.Modes.FORCESENSORELASTIC)
+			ForceSensorExerciseWindowBox.radio_fixation_elastic.Active = true;
 
 		ForceSensorExerciseWindowBox.Success = false;
 		ForceSensorExerciseWindowBox.modeEnum = modesEnum.ADD;
@@ -651,7 +658,8 @@ public class ForceSensorExerciseWindow
 
 	private void on_button_next_clicked (object o, EventArgs args)
 	{
-		if(notebook_main.CurrentPage == Convert.ToInt32(Pages.FORCE) && radio_force_sensor_raw.Active)
+		if(notebook_main.CurrentPage == Convert.ToInt32(Pages.FORCE))
+			//&& radio_force_sensor_raw.Active) do not ask about elastic. Since 2.2.2 depends on mode
 			notebook_main.CurrentPage = Convert.ToInt32(Pages.REPSDETECT);
 		else if(notebook_main.CurrentPage < Convert.ToInt32(Pages.OTHER))
 			notebook_main.CurrentPage ++;
@@ -662,7 +670,8 @@ public class ForceSensorExerciseWindow
 	}
 	private void on_button_back_clicked (object o, EventArgs args)
 	{
-		if(notebook_main.CurrentPage == Convert.ToInt32(Pages.REPSDETECT) && radio_force_sensor_raw.Active)
+		if(notebook_main.CurrentPage == Convert.ToInt32(Pages.REPSDETECT))
+			//&& radio_force_sensor_raw.Active) do not ask about elastic. Since 2.2.2 depends on mode
 			notebook_main.CurrentPage = Convert.ToInt32(Pages.FORCE);
 		else if(notebook_main.CurrentPage > Convert.ToInt32(Pages.FORCE))
 			notebook_main.CurrentPage --;

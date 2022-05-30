@@ -245,15 +245,21 @@ class SqliteForceSensor : Sqlite
 		return array;
 	}
 
-	public static ArrayList SelectSessionOverviewSets (bool dbconOpened, int sessionID)
+	public static ArrayList SelectSessionOverviewSets (bool dbconOpened, int sessionID, Constants.Modes chronojumpMode)
 	{
 		if(! dbconOpened)
 			Sqlite.Open();
 
+		string elasticStr = "";
+		if (chronojumpMode == Constants.Modes.FORCESENSORISOMETRIC)
+			elasticStr = " AND " + table + ".stiffness < 0"; //isometric has stiffness -1.0
+		else if (chronojumpMode == Constants.Modes.FORCESENSORELASTIC)
+			elasticStr = " AND " + table + ".stiffness > 0"; //elastic has stiffness > 0
+
 		dbcmd.CommandText =
 			"SELECT person77.uniqueID, person77.name, person77.sex, forceSensorExercise.name, COUNT(*)" +
 			" FROM person77, personSession77, forceSensorExercise, forceSensor" +
-			" WHERE person77.uniqueID == forceSensor.personID AND personSession77.personID == forceSensor.personID AND personSession77.sessionID == forceSensor.sessionID AND forceSensorExercise.uniqueID==forceSensor.exerciseID AND forceSensor.sessionID == " + sessionID +
+			" WHERE person77.uniqueID == forceSensor.personID AND personSession77.personID == forceSensor.personID AND personSession77.sessionID == forceSensor.sessionID AND forceSensorExercise.uniqueID==forceSensor.exerciseID AND forceSensor.sessionID == " + sessionID + elasticStr +
 			" GROUP BY forceSensor.personID, exerciseID" +
 			" ORDER BY person77.name";
 

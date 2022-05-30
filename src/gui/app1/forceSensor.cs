@@ -3437,7 +3437,8 @@ LogB.Information(" fs R ");
 
 		LogB.Information("selected exercise: " + ex.ToString());
 
-		forceSensorExerciseWin = ForceSensorExerciseWindow.ShowEdit (Catalog.GetString("Exercise"),
+		forceSensorExerciseWin = ForceSensorExerciseWindow.ShowEdit (current_mode,
+				Catalog.GetString("Exercise"),
 				Catalog.GetString("Force sensor exercise:"), ex,
 				preferences.forceSensorElasticEccMinDispl, preferences.forceSensorElasticConMinDispl,
 				preferences.forceSensorNotElasticEccMinForce, preferences.forceSensorNotElasticConMinForce);
@@ -3447,7 +3448,8 @@ LogB.Information(" fs R ");
 
 	void on_button_force_sensor_exercise_add_clicked (object o, EventArgs args)
 	{
-		forceSensorExerciseWin = ForceSensorExerciseWindow.ShowAdd (Catalog.GetString("Exercise"),
+		forceSensorExerciseWin = ForceSensorExerciseWindow.ShowAdd (current_mode,
+				Catalog.GetString("Exercise"),
 				Catalog.GetString("Force sensor exercise:"),
 				preferences.forceSensorElasticEccMinDispl, preferences.forceSensorElasticConMinDispl,
 				preferences.forceSensorNotElasticEccMinForce, preferences.forceSensorNotElasticConMinForce);

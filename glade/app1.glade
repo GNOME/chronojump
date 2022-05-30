@@ -4041,7 +4041,7 @@ EncoderInertialCapture</property>
                                                           <widget class="GtkLabel" id="label52">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="label" translatable="yes">Mode</property>
+                                                            <property name="label" translatable="yes">Modes</property>
                                                           </widget>
                                                         </child>
                                                       </widget>
@@ -30402,7 +30402,7 @@ Concentric</property>
                                                             <widget class="GtkLabel" id="label71">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="label" translatable="yes">Mode</property>
+                                                            <property name="label" translatable="yes">Modes</property>
                                                             </widget>
                                                             </child>
                                                             </widget>

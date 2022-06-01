@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2020   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2004-2022   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -130,39 +130,42 @@ public partial class ChronoJumpWindow
 				current_mode == Constants.Modes.RUNSINTERVALLIC ||
 				current_mode == Constants.Modes.RUNSENCODER);
 		app1s_checkbutton_show_data_force_sensor.Active = (Constants.ModeIsFORCESENSOR (current_mode));
-		app1s_checkbutton_show_data_encoder.Active = (current_mode == Constants.Modes.POWERGRAVITATORY ||
-				current_mode == Constants.Modes.POWERINERTIAL);
+		app1s_checkbutton_show_data_weights.Active = (current_mode == Constants.Modes.POWERGRAVITATORY);
+		app1s_checkbutton_show_data_inertial.Active = (current_mode == Constants.Modes.POWERINERTIAL);
 
 		sessionLoadWinSignals = true;
 
-		app1s_createTreeView(app1s_treeview_session_load, app1s_type == app1s_windowType.LOAD_SESSION,
+		app1s_createTreeView (app1s_treeview_session_load, app1s_type == app1s_windowType.LOAD_SESSION,
 				app1s_checkbutton_show_data_persons.Active,
 				app1s_checkbutton_show_data_jumps.Active,
 				app1s_checkbutton_show_data_runs.Active,
 				app1s_checkbutton_show_data_force_sensor.Active,
-				app1s_checkbutton_show_data_encoder.Active);/*,
+				app1s_checkbutton_show_data_weights.Active,
+				app1s_checkbutton_show_data_inertial.Active);/*,
 				app1s_checkbutton_show_data_rt.Active,
 				app1s_checkbutton_show_data_other.Active
 				);*/
 
-		app1s_store = app1s_getStore(true,
+		app1s_store = app1s_getStore (true,
 				app1s_checkbutton_show_data_persons.Active,
 				app1s_checkbutton_show_data_jumps.Active,
 				app1s_checkbutton_show_data_runs.Active,
 				app1s_checkbutton_show_data_force_sensor.Active,
-				app1s_checkbutton_show_data_encoder.Active);/*,
+				app1s_checkbutton_show_data_weights.Active,
+				app1s_checkbutton_show_data_inertial.Active);/*,
 				app1s_checkbutton_show_data_rt.Active,
 				app1s_checkbutton_show_data_other.Active
 				);*/
 
 		app1s_treeview_session_load.Model = app1s_store;
 
-		app1s_fillTreeView(app1s_treeview_session_load, app1s_store,
+		app1s_fillTreeView (app1s_treeview_session_load, app1s_store,
 				app1s_checkbutton_show_data_persons.Active,
 				app1s_checkbutton_show_data_jumps.Active,
 				app1s_checkbutton_show_data_runs.Active,
 				app1s_checkbutton_show_data_force_sensor.Active,
-				app1s_checkbutton_show_data_encoder.Active);/*,
+				app1s_checkbutton_show_data_weights.Active,
+				app1s_checkbutton_show_data_inertial.Active);/*,
 				app1s_checkbutton_show_data_rt.Active,
 				app1s_checkbutton_show_data_other.Active
 				);*/
@@ -192,8 +195,9 @@ public partial class ChronoJumpWindow
 		*/
 	}
 
-	private TreeStore app1s_getStore(bool loadOrImport, bool showPersons,
-			bool showJumps, bool showRuns, bool showForceSensor, bool showEncoder)//, bool showRT, bool showOther)
+	private TreeStore app1s_getStore (bool loadOrImport, bool showPersons,
+			bool showJumps, bool showRuns, bool showForceSensor,
+			bool showWeights, bool showInertial)//, bool showRT, bool showOther)
 	{
 		int columns = 6;
 		if(loadOrImport)
@@ -207,8 +211,10 @@ public partial class ChronoJumpWindow
 			columns += 3; //includes race analyzer
 		if(showForceSensor)
 			columns ++;
-		if(showEncoder)
-			columns += 2;
+		if(showWeights)
+			columns ++;
+		if(showInertial)
+			columns ++;
 		/*
 		if(showRT)
 			columns ++;
@@ -255,7 +261,8 @@ public partial class ChronoJumpWindow
 	}
 
 	private void app1s_createTreeView (Gtk.TreeView tv, bool loadOrImport, bool showPersons,
-			bool showJumps, bool showRuns, bool showForceSensor, bool showEncoder)//, bool showRT, bool showOther)
+			bool showJumps, bool showRuns, bool showForceSensor,
+			bool showWeights, bool showInertial)//, bool showRT, bool showOther)
 	{
 		tv.HeadersVisible=true;
 		int count = 0;
@@ -285,33 +292,32 @@ public partial class ChronoJumpWindow
 			tv.AppendColumn (colTags);
 		}
 
-		tv.AppendColumn ( Catalog.GetString ("Place"), new CellRendererText(), "text", count++);
-		tv.AppendColumn ( Catalog.GetString ("Persons"), new CellRendererText(), "text", count++);
-		if(showPersons) {
-			tv.AppendColumn ( Catalog.GetString ("Sport"), new CellRendererText(), "text", count++);
-			tv.AppendColumn ( Catalog.GetString ("Specialty"), new CellRendererText(), "text", count++);
-			tv.AppendColumn ( Catalog.GetString ("Level"), new CellRendererText(), "text", count++);
+		tv.AppendColumn (Catalog.GetString ("Place"), new CellRendererText(), "text", count++);
+		tv.AppendColumn (Catalog.GetString ("Persons"), new CellRendererText(), "text", count++);
+		if (showPersons) {
+			tv.AppendColumn (Catalog.GetString ("Sport"), new CellRendererText(), "text", count++);
+			tv.AppendColumn (Catalog.GetString ("Specialty"), new CellRendererText(), "text", count++);
+			tv.AppendColumn (Catalog.GetString ("Level"), new CellRendererText(), "text", count++);
 		}
-		if(showJumps) {
-			tv.AppendColumn ( Catalog.GetString ("Jumps simple"), new CellRendererText(), "text", count++);
-			tv.AppendColumn ( Catalog.GetString ("Jumps reactive"), new CellRendererText(), "text", count++);
+		if (showJumps) {
+			tv.AppendColumn (Catalog.GetString ("Jumps simple"), new CellRendererText(), "text", count++);
+			tv.AppendColumn (Catalog.GetString ("Jumps reactive"), new CellRendererText(), "text", count++);
 		}
-		if(showRuns) {
-			tv.AppendColumn ( Catalog.GetString ("Races simple"), new CellRendererText(), "text", count++);
-			tv.AppendColumn ( Catalog.GetString ("Races interval"), new CellRendererText(), "text", count++);
-			tv.AppendColumn ( Catalog.GetString ("Race analyzer"), new CellRendererText(), "text", count++);
+		if (showRuns) {
+			tv.AppendColumn (Catalog.GetString ("Races simple"), new CellRendererText(), "text", count++);
+			tv.AppendColumn (Catalog.GetString ("Races interval"), new CellRendererText(), "text", count++);
+			tv.AppendColumn (Catalog.GetString ("Race analyzer"), new CellRendererText(), "text", count++);
 		}
-		if(showForceSensor) {
-			tv.AppendColumn ( Catalog.GetString ("Force sensor"), new CellRendererText(), "text", count++);
-		}
-		if(showEncoder) {
-			tv.AppendColumn ( Catalog.GetString ("Gravitatory encoder") + "\n" +
+		if (showForceSensor)
+			tv.AppendColumn (Catalog.GetString ("Force sensor"), new CellRendererText(), "text", count++);
+		if (showWeights)
+			tv.AppendColumn (Catalog.GetString ("Weights") + "\n" +
 					Catalog.GetString("Sets") + " ; " + Catalog.GetString("Repetitions"),
 					new CellRendererText(), "text", count++);
-			tv.AppendColumn ( Catalog.GetString ("Inertial encoder") + "\n" +
+		if (showInertial)
+			tv.AppendColumn (Catalog.GetString ("Inertial") + "\n" +
 					Catalog.GetString("Sets") + " ; " + Catalog.GetString("Repetitions"),
 					new CellRendererText(), "text", count++);
-		}
 		/*
 		if(showRT) {
 			tv.AppendColumn ( Catalog.GetString ("Reaction time"), new CellRendererText(), "text", count++);
@@ -408,33 +414,36 @@ public partial class ChronoJumpWindow
 
 		UtilGtk.RemoveColumns(app1s_treeview_session_load);
 		
-		app1s_createTreeView(app1s_treeview_session_load,
+		app1s_createTreeView (app1s_treeview_session_load,
 				app1s_type == app1s_windowType.LOAD_SESSION,
 				app1s_checkbutton_show_data_persons.Active,
 				app1s_checkbutton_show_data_jumps.Active,
 				app1s_checkbutton_show_data_runs.Active,
 				app1s_checkbutton_show_data_force_sensor.Active,
-				app1s_checkbutton_show_data_encoder.Active);/*,
+				app1s_checkbutton_show_data_weights.Active,
+				app1s_checkbutton_show_data_inertial.Active);/*,
 				app1s_checkbutton_show_data_rt.Active,
 				app1s_checkbutton_show_data_other.Active
 				);*/
-		app1s_store = app1s_getStore(
+		app1s_store = app1s_getStore (
 				true,
 				app1s_checkbutton_show_data_persons.Active,
 				app1s_checkbutton_show_data_jumps.Active,
 				app1s_checkbutton_show_data_runs.Active,
 				app1s_checkbutton_show_data_force_sensor.Active,
-				app1s_checkbutton_show_data_encoder.Active);/*,
+				app1s_checkbutton_show_data_weights.Active,
+				app1s_checkbutton_show_data_inertial.Active);/*,
 				app1s_checkbutton_show_data_rt.Active,
 				app1s_checkbutton_show_data_other.Active
 				);*/
 		app1s_treeview_session_load.Model = app1s_store;
-		app1s_fillTreeView(app1s_treeview_session_load, app1s_store,
+		app1s_fillTreeView (app1s_treeview_session_load, app1s_store,
 				app1s_checkbutton_show_data_persons.Active,
 				app1s_checkbutton_show_data_jumps.Active,
 				app1s_checkbutton_show_data_runs.Active,
 				app1s_checkbutton_show_data_force_sensor.Active,
-				app1s_checkbutton_show_data_encoder.Active);/*,
+				app1s_checkbutton_show_data_weights.Active,
+				app1s_checkbutton_show_data_inertial.Active);/*,
 				app1s_checkbutton_show_data_rt.Active,
 				app1s_checkbutton_show_data_other.Active
 				);*/
@@ -457,7 +466,8 @@ public partial class ChronoJumpWindow
 	}
 
 	private void app1s_fillTreeView (Gtk.TreeView tv, TreeStore store, bool showPersons,
-			bool showJumps, bool showRuns, bool showForceSensor, bool showEncoder)//, bool showRT, bool showOther)
+			bool showJumps, bool showRuns, bool showForceSensor,
+			bool showWeights, bool showInertial)//, bool showRT, bool showOther)
 	{
 		string filterName = "";
 		if(app1s_entry_search_filter.Text.ToString().Length > 0)
@@ -483,8 +493,10 @@ public partial class ChronoJumpWindow
 			columns += 3; //includes race analyzer
 		if(showForceSensor)
 			columns ++;
-		if(showEncoder)
-			columns += 2;
+		if(showWeights)
+			columns ++;
+		if(showInertial)
+			columns ++;
 		/*
 		if(showRT)
 			columns ++;
@@ -564,13 +576,12 @@ public partial class ChronoJumpWindow
 				strings[i ++] = myStringFull[12]; 	//number of runsInterval x session
 				strings[i ++] = myStringFull[19]; 	//number of runEncoder
 			}
-			if(showForceSensor) {
+			if (showForceSensor)
 				strings[i ++] = myStringFull[18]; 	//number of forceSensor
-			}
-			if(showEncoder) {
+			if (showWeights)
 				strings[i ++] = myStringFull[16]; 	//number of encoder signal x session
+			if (showInertial)
 				strings[i ++] = myStringFull[17]; 	//number of encoder curve x session
-			}
 			/*
 			if(showRT) {
 				strings[i ++] = myStringFull[13]; 	//number of reaction times x session

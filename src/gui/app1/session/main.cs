@@ -63,7 +63,8 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.CheckButton app1s_checkbutton_show_data_jumps;
 	[Widget] Gtk.CheckButton app1s_checkbutton_show_data_runs;
 	[Widget] Gtk.CheckButton app1s_checkbutton_show_data_force_sensor;
-	[Widget] Gtk.CheckButton app1s_checkbutton_show_data_encoder;
+	[Widget] Gtk.CheckButton app1s_checkbutton_show_data_weights;
+	[Widget] Gtk.CheckButton app1s_checkbutton_show_data_inertial;
 	//[Widget] Gtk.CheckButton app1s_checkbutton_show_data_rt;
 	//[Widget] Gtk.CheckButton app1s_checkbutton_show_data_other;
 	[Widget] Gtk.Image app1s_image_show_data_persons;

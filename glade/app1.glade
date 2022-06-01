@@ -43601,34 +43601,10 @@ then click this button.</property>
                                                             <property name="draw_indicator">False</property>
                                                             <signal name="toggled" handler="app1s_on_checkbutton_show_data_toggled" swapped="no"/>
                                                             <child>
-                                                            <widget class="GtkHBox" id="hbox405">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            <property name="spacing">2</property>
-                                                            <child>
                                                             <widget class="GtkImage" id="app1s_image_show_data_runs">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="stock">gtk-missing-image</property>
-                                                            </widget>
-                                                            <packing>
-                                                            <property name="expand">True</property>
-                                                            <property name="fill">True</property>
-                                                            <property name="position">0</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
-                                                            <widget class="GtkImage" id="app1s_image_show_data_run_encoder">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            <property name="stock">gtk-missing-image</property>
-                                                            </widget>
-                                                            <packing>
-                                                            <property name="expand">True</property>
-                                                            <property name="fill">True</property>
-                                                            <property name="position">1</property>
-                                                            </packing>
-                                                            </child>
                                                             </widget>
                                                             </child>
                                                             </widget>

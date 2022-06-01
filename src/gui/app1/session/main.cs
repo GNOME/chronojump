@@ -69,7 +69,6 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image app1s_image_show_data_persons;
 	[Widget] Gtk.Image app1s_image_show_data_jumps;
 	[Widget] Gtk.Image app1s_image_show_data_runs;
-	[Widget] Gtk.Image app1s_image_show_data_run_encoder;
 	[Widget] Gtk.Image app1s_image_show_data_force_sensor;
 	[Widget] Gtk.Image app1s_image_show_data_encoder_grav;
 	[Widget] Gtk.Image app1s_image_show_data_encoder_inertial;

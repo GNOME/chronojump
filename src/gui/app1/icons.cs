@@ -393,7 +393,6 @@ public partial class ChronoJumpWindow
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_run.png");
 		app1s_image_show_data_runs.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "race_encoder_icon.png");
-		app1s_image_show_data_run_encoder.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "force_sensor_icon.png");
 		app1s_image_show_data_force_sensor.Pixbuf = pixbuf;
 

@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Copyright (C) 2004-2017   Xavier de Blas <xaviblas@gmail.com> 
+ *  Copyright (C) 2004-2022   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -289,3 +289,56 @@ public class ServerSession : Session
 
 }
 
+/*
+   SqliteSessionSwitcher and SqliteSession SelectAllSessions, returns a list of this
+   instead of old string []
+   */
+public class SessionTestsCount
+{
+	public SessionParams sessionParams;
+
+	public int Persons;
+	public int JumpsSimple;
+	public int JumpsReactive;
+	public int RunsSimple;
+	public int RunsInterval;
+	public int RunsEncoder;
+	public int ForceSensor;
+	public int WeightsSets;
+	public int WeightsReps;
+	public int InertialSets;
+	public int InertialReps;
+
+	public int ReactionTimeOld;
+	public int Pulses;
+	public int MultiChronopic;
+
+	public SessionTestsCount ()
+	{
+	}
+}
+public class SessionParams
+{
+	public int ID;
+	public string Name;
+	public string Place;
+	public string Date;
+	public string SportName;
+	public string SpeciallityName;
+	public string LevelName;
+	public string Description;
+
+	public SessionParams (int ID, string Name, string Place, string Date,
+			string SportName, string SpeciallityName,
+			string LevelName, string Description)
+	{
+		this.ID = ID;
+		this.Name = Name;
+		this.Place = Place;
+		this.Date = Date;
+		this.SportName = SportName;
+		this.SpeciallityName = SpeciallityName;
+		this.LevelName = LevelName;
+		this.Description = Description;
+	}
+}

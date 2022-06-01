@@ -57,8 +57,7 @@ public class SqliteSessionSwitcher
 		this.databasePath = databasePath;
 	}
 
-	public string[] SelectAllSessionsTestsCount (string filterName)
-	//public List<SessionTestsCount> SelectAllSessions (string filterName)
+	public List<SessionTestsCount> SelectAllSessionsTestsCount (string filterName)
 	{
 		if (type == DatabaseType.DEFAULT)
 		{
@@ -67,26 +66,24 @@ public class SqliteSessionSwitcher
 		else
 		{
 			SqliteGeneral sqliteGeneral = new SqliteGeneral(databasePath);
-			if (! sqliteGeneral.IsOpened) {
-				List<string> emptyResult = new List<string> ();
-				return emptyResult.ToArray ();
-				//return new List<SessionTestsCount> ();
-			}
+			if (! sqliteGeneral.IsOpened)
+				return new List<SessionTestsCount> ();
+
 			SqliteConnection dbcon = sqliteGeneral.connection;
 
-			string[] allSessions = SqliteSession.SelectAllSessionsTestsCount (filterName, dbcon);
+			List<SessionTestsCount> allSessions_l = SqliteSession.SelectAllSessionsTestsCount (filterName, dbcon);
 
 			// on IMPORT, filtered sessions will contain all sessions but not the "SIMULATED"
-			List<string> filteredSessions = new List<string> ();
-			foreach(string session in allSessions)
+			List<SessionTestsCount> stc_l = new List<SessionTestsCount> ();
+			foreach(SessionTestsCount stc in allSessions_l)
 			{
-				if (type == DatabaseType.IMPORT && session.Split (':') [1] == "SIMULATED")
+				if (type == DatabaseType.IMPORT && stc.sessionParams.Name == "SIMULATED")
 					continue;
 
-				filteredSessions.Add (session);
+				stc_l.Add (stc);
 			}
 
-			return filteredSessions.ToArray();
+			return stc_l;
 		}
 	}
 
@@ -380,27 +377,26 @@ class SqliteSession : Sqlite
 	}
 
 	// It's used by chronojump-importer and receives a specific database
-	public static string[] SelectAllSessionsTestsCount (string filterName, SqliteConnection dbcon)
+	public static List<SessionTestsCount> SelectAllSessionsTestsCount (string filterName, SqliteConnection dbcon)
 	{
-		string [] mySessions = selectAllSessionsTestsCountDo (filterName, dbcon);
-		return mySessions;
+		return selectAllSessionsTestsCountDo (filterName, dbcon);
 	}
 
 	// This is the usual chronojump's call (default database)
-	public static string[] SelectAllSessionsTestsCount (string filterName)
+	public static List<SessionTestsCount> SelectAllSessionsTestsCount (string filterName)
 	{
 		Sqlite.Open();
 
-		// SelectAllSessionsTestCount is used here and by the Chronojump importer to allow to pass an arbitrary
-		// dbcon.
-		string [] mySessions = selectAllSessionsTestsCountDo (filterName, dbcon);
+		// SelectAllSessionsTestCount is used here and by the Chronojump importer to allow to pass an arbitrary dbcon.
+		List<SessionTestsCount> stc_l = selectAllSessionsTestsCountDo (filterName, dbcon);
 
 		//close database connection
 		Sqlite.Close();
 
-		return mySessions;
+		return stc_l;
 	}
-	private static string[] selectAllSessionsTestsCountDo (string filterName, SqliteConnection dbcon)
+
+	private static List<SessionTestsCount> selectAllSessionsTestsCountDo (string filterName, SqliteConnection dbcon)
 	{
 		// This method should NOT use Sqlite.open() / Sqlite.close(): it should only use dbcon
 		// to connect to the database. This method is used by the importer after opening an arbitrary
@@ -424,10 +420,7 @@ class SqliteSession : Sqlite
 
 		SqliteDataReader reader;
 		reader = dbcmd.ExecuteReader();
-		ArrayList myArray = new ArrayList(2);
-
-		int count = new int();
-		count = 0;
+		List<SessionParams> sessionParams_l = new List<SessionParams> ();
 
 		while(reader.Read()) {
 			string sportName = Catalog.GetString(reader[9].ToString());
@@ -435,11 +428,17 @@ class SqliteSession : Sqlite
 			if(reader[10].ToString() != "")
 				speciallityName = Catalog.GetString(reader[10].ToString());
 			string levelName = Catalog.GetString(Util.FindLevelName(Convert.ToInt32(reader[6])));
-			myArray.Add (reader[0].ToString() + ":" + reader[1].ToString() + ":" +
-			             reader[2].ToString() + ":" + UtilDate.FromSql(reader[3].ToString()).ToShortDateString() + ":" +
-			             sportName + ":" + speciallityName + ":" +
-			             levelName + ":" + reader[7].ToString() ); //desc
-			count ++;
+
+			sessionParams_l.Add (new SessionParams (
+						Convert.ToInt32 (reader[0].ToString()),
+						reader[1].ToString(),
+						reader[2].ToString(),
+						UtilDate.FromSql(reader[3].ToString()).ToShortDateString(),
+						sportName,
+						speciallityName,
+						levelName,
+						reader[7].ToString() //desc
+						));
 		}
 
 		reader.Close();
@@ -672,170 +671,50 @@ class SqliteSession : Sqlite
 			reader_re.Close();
 		}
 
-		//mix ten arrayLists
-		string [] mySessions = new string[count];
-		count =0;
-		bool found;
-		string result_enc_s;	//sets
-		string result_enc_r;	//repetitions
-		foreach (string line in myArray) {
-			string lineNotReadOnly = line;
+		//mix all arrayLists
+		List<SessionTestsCount> stc_l = new List<SessionTestsCount> ();
+		foreach (SessionParams sessionParam in sessionParams_l)
+		{
+			SessionTestsCount stc = new SessionTestsCount ();
 
 			//if some sessions are deleted, do not use count=0 to mix arrays, use sessionID of line
-			string [] mixingSessionFull = line.Split(new char[] {':'});
-			string mixingSessionID = mixingSessionFull[0];
+			//string [] mixingSessionFull = line.Split(new char[] {':'});
+			//string mixingSessionID = mixingSessionFull[0];
 
-			//add persons for each session	
-			found = false;
-			foreach (string line_persons in myArray_persons) {
-				string [] myStringFull = line_persons.Split(new char[] {':'});
-				if(myStringFull[0] == mixingSessionID) {
-					lineNotReadOnly  = lineNotReadOnly + ":" + myStringFull[1];
-					found = true;
-				}
-			}
-			if (!found) { lineNotReadOnly  = lineNotReadOnly + ":0"; }
+			stc.sessionParams = sessionParam;
+			int sID = stc.sessionParams.ID;
 
-			//add jumps for each session
-			found = false;
-			foreach (string line_jumps in myArray_jumps) {
-				string [] myStringFull = line_jumps.Split(new char[] {':'});
-				if(myStringFull[0] == mixingSessionID) {
-					lineNotReadOnly  = lineNotReadOnly + ":" + myStringFull[1];
-					found = true;
-				}
-			}
-			if (!found) { lineNotReadOnly  = lineNotReadOnly + ":0"; }
+			stc.Persons = getTestsInTable (myArray_persons, sID);
+			stc.JumpsSimple = getTestsInTable (myArray_jumps, sID);
+			stc.JumpsReactive = getTestsInTable (myArray_jumpsRj, sID);
+			stc.RunsSimple = getTestsInTable (myArray_runs, sID);
+			stc.RunsInterval = getTestsInTable (myArray_runs_interval, sID);
+			stc.RunsEncoder = getTestsInTable (myArray_re, sID);
+			stc.ForceSensor = getTestsInTable (myArray_fs, sID);
+			stc.WeightsSets = getTestsInTable (myArray_enc_g_s, sID);
+			stc.WeightsReps = getTestsInTable (myArray_enc_g_r, sID);
+			stc.InertialSets = getTestsInTable (myArray_enc_i_s, sID);
+			stc.InertialReps = getTestsInTable (myArray_enc_i_r, sID);
+			stc.ReactionTimeOld = getTestsInTable (myArray_rt, sID);
+			stc.Pulses = getTestsInTable (myArray_pulses, sID);
+			stc.MultiChronopic = getTestsInTable (myArray_mcs, sID);
 
-			//add jumpsRj for each session
-			found = false;
-			foreach (string line_jumpsRj in myArray_jumpsRj) {
-				string [] myStringFull = line_jumpsRj.Split(new char[] {':'});
-				if(myStringFull[0] == mixingSessionID) {
-					lineNotReadOnly  = lineNotReadOnly + ":" + myStringFull[1];
-					found = true;
-				}
-			}
-			if (!found) { lineNotReadOnly  = lineNotReadOnly + ":0"; }
-
-			//add runs for each session
-			found = false;
-			foreach (string line_runs in myArray_runs) {
-				string [] myStringFull = line_runs.Split(new char[] {':'});
-				if(myStringFull[0] == mixingSessionID) {
-					lineNotReadOnly  = lineNotReadOnly + ":" + myStringFull[1];
-					found = true;
-				}
-			}
-			if (!found) { lineNotReadOnly  = lineNotReadOnly + ":0"; }
-
-			//add runsInterval for each session
-			found = false;
-			foreach (string line_runs_interval in myArray_runs_interval) {
-				string [] myStringFull = line_runs_interval.Split(new char[] {':'});
-				if(myStringFull[0] == mixingSessionID) {
-					lineNotReadOnly  = lineNotReadOnly + ":" + myStringFull[1];
-					found = true;
-				}
-			}
-			if (!found) { lineNotReadOnly  = lineNotReadOnly + ":0"; }
-
-			//add reaction time for each session
-			found = false;
-			foreach (string line_rt in myArray_rt) {
-				string [] myStringFull = line_rt.Split(new char[] {':'});
-				if(myStringFull[0] == mixingSessionID) {
-					lineNotReadOnly  = lineNotReadOnly + ":" + myStringFull[1];
-					found = true;
-				}
-			}
-			if (!found) { lineNotReadOnly  = lineNotReadOnly + ":0"; }
-
-			//add pulses for each session
-			found = false;
-			foreach (string line_pulses in myArray_pulses) {
-				string [] myStringFull = line_pulses.Split(new char[] {':'});
-				if(myStringFull[0] == mixingSessionID) {
-					lineNotReadOnly  = lineNotReadOnly + ":" + myStringFull[1];
-					found = true;
-				}
-			}
-			if (!found) { lineNotReadOnly  = lineNotReadOnly + ":0"; }
-
-			//add multiChronopic for each session
-			found = false;
-			foreach (string line_mcs in myArray_mcs) {
-				string [] myStringFull = line_mcs.Split(new char[] {':'});
-				if(myStringFull[0] == mixingSessionID) {
-					lineNotReadOnly  = lineNotReadOnly + ":" + myStringFull[1];
-					found = true;
-				}
-			}
-			if (!found) { lineNotReadOnly  = lineNotReadOnly + ":0"; }
-
-			//add encoder gravitatory for each session (sets ; repetitions)
-			result_enc_s = "0";
-			result_enc_r = "0";
-			foreach (string line_enc_g_s in myArray_enc_g_s) {
-				string [] myStringFull = line_enc_g_s.Split(new char[] {':'});
-				if(myStringFull[0] == mixingSessionID)
-					result_enc_s = myStringFull[1];
-			}
-			foreach (string line_enc_g_r in myArray_enc_g_r) {
-				string [] myStringFull = line_enc_g_r.Split(new char[] {':'});
-				if(myStringFull[0] == mixingSessionID)
-					result_enc_r = myStringFull[1];
-			}
-			lineNotReadOnly  = lineNotReadOnly + ":" + result_enc_s + " ; " + result_enc_r;
-
-			//add encoder inertial for each session (sets ; repetitions)
-			result_enc_s = "0";
-			result_enc_r = "0";
-			foreach (string line_enc_i_s in myArray_enc_i_s) {
-				string [] myStringFull = line_enc_i_s.Split(new char[] {':'});
-				if(myStringFull[0] == mixingSessionID)
-					result_enc_s = myStringFull[1];
-			}
-			foreach (string line_enc_i_r in myArray_enc_i_r) {
-				string [] myStringFull = line_enc_i_r.Split(new char[] {':'});
-				if(myStringFull[0] == mixingSessionID)
-					result_enc_r = myStringFull[1];
-			}
-			lineNotReadOnly  = lineNotReadOnly + ":" + result_enc_s + " ; " + result_enc_r;
-
-			//add force sensor for each session
-			found = false;
-			foreach (string line_fs in myArray_fs) {
-				string [] myStringFull = line_fs.Split(new char[] {':'});
-				if(myStringFull[0] == mixingSessionID) {
-					lineNotReadOnly  = lineNotReadOnly + ":" + myStringFull[1];
-					found = true;
-				}
-			}
-			if (!found) { lineNotReadOnly  = lineNotReadOnly + ":0"; }
-
-			//add run encoder for each session
-			found = false;
-			foreach (string line_re in myArray_re) {
-				string [] myStringFull = line_re.Split(new char[] {':'});
-				if(myStringFull[0] == mixingSessionID) {
-					lineNotReadOnly  = lineNotReadOnly + ":" + myStringFull[1];
-					found = true;
-				}
-			}
-			if (!found) { lineNotReadOnly  = lineNotReadOnly + ":0"; }
-
-			mySessions [count++] = lineNotReadOnly;
+			//mySessions [count++] = lineNotReadOnly;
+			stc_l.Add (stc);
 		}
 
-		if (mySessions.Length > 0) {
-			LogB.SQL (mySessions [0]);
-		} else {
-			LogB.Debug ("SelectAllSessionsTestsCount with filter: " + filterName + " is empty");
-		}
-		return mySessions;
+		return stc_l;
 	}
-
+	private static int getTestsInTable (ArrayList array, int sessionID)
+	{
+		foreach (string str in array)
+		{
+			string [] stringFull = str.Split (new char[] {':'});
+			if (Convert.ToInt32 (stringFull[0]) == sessionID)
+				return Convert.ToInt32 (stringFull [1]);
+		}
+		return 0;
+	}
 
 
 	//called from gui/event.cs for doing the graph

@@ -62,7 +62,8 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.CheckButton app1s_checkbutton_show_data_persons;
 	[Widget] Gtk.CheckButton app1s_checkbutton_show_data_jumps;
 	[Widget] Gtk.CheckButton app1s_checkbutton_show_data_runs;
-	[Widget] Gtk.CheckButton app1s_checkbutton_show_data_force_sensor;
+	[Widget] Gtk.CheckButton app1s_checkbutton_show_data_isometric;
+	[Widget] Gtk.CheckButton app1s_checkbutton_show_data_elastic;
 	[Widget] Gtk.CheckButton app1s_checkbutton_show_data_weights;
 	[Widget] Gtk.CheckButton app1s_checkbutton_show_data_inertial;
 	//[Widget] Gtk.CheckButton app1s_checkbutton_show_data_rt;
@@ -70,7 +71,8 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image app1s_image_show_data_persons;
 	[Widget] Gtk.Image app1s_image_show_data_jumps;
 	[Widget] Gtk.Image app1s_image_show_data_runs;
-	[Widget] Gtk.Image app1s_image_show_data_force_sensor;
+	[Widget] Gtk.Image app1s_image_show_data_isometric;
+	[Widget] Gtk.Image app1s_image_show_data_elastic;
 	[Widget] Gtk.Image app1s_image_show_data_encoder_grav;
 	[Widget] Gtk.Image app1s_image_show_data_encoder_inertial;
 

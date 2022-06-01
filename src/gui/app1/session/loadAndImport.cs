@@ -129,7 +129,8 @@ public partial class ChronoJumpWindow
 		app1s_checkbutton_show_data_runs.Active = (current_mode == Constants.Modes.RUNSSIMPLE ||
 				current_mode == Constants.Modes.RUNSINTERVALLIC ||
 				current_mode == Constants.Modes.RUNSENCODER);
-		app1s_checkbutton_show_data_force_sensor.Active = (Constants.ModeIsFORCESENSOR (current_mode));
+		app1s_checkbutton_show_data_isometric.Active = (current_mode == Constants.Modes.FORCESENSORISOMETRIC);
+		app1s_checkbutton_show_data_elastic.Active = (current_mode == Constants.Modes.FORCESENSORELASTIC);
 		app1s_checkbutton_show_data_weights.Active = (current_mode == Constants.Modes.POWERGRAVITATORY);
 		app1s_checkbutton_show_data_inertial.Active = (current_mode == Constants.Modes.POWERINERTIAL);
 
@@ -139,7 +140,8 @@ public partial class ChronoJumpWindow
 				app1s_checkbutton_show_data_persons.Active,
 				app1s_checkbutton_show_data_jumps.Active,
 				app1s_checkbutton_show_data_runs.Active,
-				app1s_checkbutton_show_data_force_sensor.Active,
+				app1s_checkbutton_show_data_isometric.Active,
+				app1s_checkbutton_show_data_elastic.Active,
 				app1s_checkbutton_show_data_weights.Active,
 				app1s_checkbutton_show_data_inertial.Active);/*,
 				app1s_checkbutton_show_data_rt.Active,
@@ -150,7 +152,8 @@ public partial class ChronoJumpWindow
 				app1s_checkbutton_show_data_persons.Active,
 				app1s_checkbutton_show_data_jumps.Active,
 				app1s_checkbutton_show_data_runs.Active,
-				app1s_checkbutton_show_data_force_sensor.Active,
+				app1s_checkbutton_show_data_isometric.Active,
+				app1s_checkbutton_show_data_elastic.Active,
 				app1s_checkbutton_show_data_weights.Active,
 				app1s_checkbutton_show_data_inertial.Active);/*,
 				app1s_checkbutton_show_data_rt.Active,
@@ -163,7 +166,8 @@ public partial class ChronoJumpWindow
 				app1s_checkbutton_show_data_persons.Active,
 				app1s_checkbutton_show_data_jumps.Active,
 				app1s_checkbutton_show_data_runs.Active,
-				app1s_checkbutton_show_data_force_sensor.Active,
+				app1s_checkbutton_show_data_isometric.Active,
+				app1s_checkbutton_show_data_elastic.Active,
 				app1s_checkbutton_show_data_weights.Active,
 				app1s_checkbutton_show_data_inertial.Active);/*,
 				app1s_checkbutton_show_data_rt.Active,
@@ -196,7 +200,7 @@ public partial class ChronoJumpWindow
 	}
 
 	private TreeStore app1s_getStore (bool loadOrImport, bool showPersons,
-			bool showJumps, bool showRuns, bool showForceSensor,
+			bool showJumps, bool showRuns, bool showIsometric, bool showElastic,
 			bool showWeights, bool showInertial)//, bool showRT, bool showOther)
 	{
 		int columns = 6;
@@ -209,7 +213,9 @@ public partial class ChronoJumpWindow
 			columns += 2;
 		if(showRuns)
 			columns += 3; //includes race analyzer
-		if(showForceSensor)
+		if(showIsometric)
+			columns ++;
+		if(showElastic)
 			columns ++;
 		if(showWeights)
 			columns ++;
@@ -261,7 +267,7 @@ public partial class ChronoJumpWindow
 	}
 
 	private void app1s_createTreeView (Gtk.TreeView tv, bool loadOrImport, bool showPersons,
-			bool showJumps, bool showRuns, bool showForceSensor,
+			bool showJumps, bool showRuns, bool showIsometric, bool showElastic,
 			bool showWeights, bool showInertial)//, bool showRT, bool showOther)
 	{
 		tv.HeadersVisible=true;
@@ -308,8 +314,10 @@ public partial class ChronoJumpWindow
 			tv.AppendColumn (Catalog.GetString ("Races interval"), new CellRendererText(), "text", count++);
 			tv.AppendColumn (Catalog.GetString ("Race analyzer"), new CellRendererText(), "text", count++);
 		}
-		if (showForceSensor)
-			tv.AppendColumn (Catalog.GetString ("Force sensor"), new CellRendererText(), "text", count++);
+		if (showIsometric)
+			tv.AppendColumn (Catalog.GetString ("Isometric"), new CellRendererText(), "text", count++);
+		if (showElastic)
+			tv.AppendColumn (Catalog.GetString ("Elastic"), new CellRendererText(), "text", count++);
 		if (showWeights)
 			tv.AppendColumn (Catalog.GetString ("Weights") + "\n" +
 					Catalog.GetString("Sets") + " ; " + Catalog.GetString("Repetitions"),
@@ -419,7 +427,8 @@ public partial class ChronoJumpWindow
 				app1s_checkbutton_show_data_persons.Active,
 				app1s_checkbutton_show_data_jumps.Active,
 				app1s_checkbutton_show_data_runs.Active,
-				app1s_checkbutton_show_data_force_sensor.Active,
+				app1s_checkbutton_show_data_isometric.Active,
+				app1s_checkbutton_show_data_elastic.Active,
 				app1s_checkbutton_show_data_weights.Active,
 				app1s_checkbutton_show_data_inertial.Active);/*,
 				app1s_checkbutton_show_data_rt.Active,
@@ -430,7 +439,8 @@ public partial class ChronoJumpWindow
 				app1s_checkbutton_show_data_persons.Active,
 				app1s_checkbutton_show_data_jumps.Active,
 				app1s_checkbutton_show_data_runs.Active,
-				app1s_checkbutton_show_data_force_sensor.Active,
+				app1s_checkbutton_show_data_isometric.Active,
+				app1s_checkbutton_show_data_elastic.Active,
 				app1s_checkbutton_show_data_weights.Active,
 				app1s_checkbutton_show_data_inertial.Active);/*,
 				app1s_checkbutton_show_data_rt.Active,
@@ -441,7 +451,8 @@ public partial class ChronoJumpWindow
 				app1s_checkbutton_show_data_persons.Active,
 				app1s_checkbutton_show_data_jumps.Active,
 				app1s_checkbutton_show_data_runs.Active,
-				app1s_checkbutton_show_data_force_sensor.Active,
+				app1s_checkbutton_show_data_isometric.Active,
+				app1s_checkbutton_show_data_elastic.Active,
 				app1s_checkbutton_show_data_weights.Active,
 				app1s_checkbutton_show_data_inertial.Active);/*,
 				app1s_checkbutton_show_data_rt.Active,
@@ -466,7 +477,7 @@ public partial class ChronoJumpWindow
 	}
 
 	private void app1s_fillTreeView (Gtk.TreeView tv, TreeStore store, bool showPersons,
-			bool showJumps, bool showRuns, bool showForceSensor,
+			bool showJumps, bool showRuns, bool showIsometric, bool showElastic,
 			bool showWeights, bool showInertial)//, bool showRT, bool showOther)
 	{
 		string filterName = "";
@@ -491,7 +502,9 @@ public partial class ChronoJumpWindow
 			columns += 2;
 		if(showRuns)
 			columns += 3; //includes race analyzer
-		if(showForceSensor)
+		if(showIsometric)
+			columns ++;
+		if(showElastic)
 			columns ++;
 		if(showWeights)
 			columns ++;
@@ -573,8 +586,10 @@ public partial class ChronoJumpWindow
 				strings[i ++] = stc.RunsInterval.ToString ();
 				strings[i ++] = stc.RunsEncoder.ToString ();
 			}
-			if (showForceSensor)
-				strings[i ++] = stc.ForceSensor.ToString ();
+			if (showIsometric)
+				strings[i ++] = stc.Isometric.ToString ();
+			if (showElastic)
+				strings[i ++] = stc.Elastic.ToString ();
 			if (showWeights)
 				strings[i ++] = string.Format ("{0} ; {1}",
 						stc.WeightsSets, stc.WeightsReps); //number of encoder grav signal,reps x session

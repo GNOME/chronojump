@@ -631,24 +631,46 @@ class SqliteSession : Sqlite
 
 		reader_enc.Close();
 
-		//select force sensor of each session
-		ArrayList myArray_fs = new ArrayList(2);
+		//select force sensor isometric of each session
+		ArrayList myArray_fs_isometric = new ArrayList(2);
 
 		//if we are importing from a session who was not the forceSensor table (db version < 1.68)
 		if(tableExists(true, Constants.ForceSensorTable))
 		{
 			dbcmd.CommandText = "SELECT sessionID, count(*) FROM " + Constants.ForceSensorTable +
+				" WHERE " + Constants.ForceSensorTable + ".stiffness < 0" + //isometric has stiffness -1.0
 				" GROUP BY sessionID ORDER BY sessionID";
 			LogB.SQL(dbcmd.CommandText.ToString());
 			dbcmd.ExecuteNonQuery();
 
-			SqliteDataReader reader_fs;
-			reader_fs = dbcmd.ExecuteReader();
+			SqliteDataReader reader_fs_isometric;
+			reader_fs_isometric = dbcmd.ExecuteReader();
 
-			while(reader_fs.Read()) {
-				myArray_fs.Add (reader_fs[0].ToString() + ":" + reader_fs[1].ToString() + ":" );
+			while(reader_fs_isometric.Read()) {
+				myArray_fs_isometric.Add (reader_fs_isometric[0].ToString() + ":" + reader_fs_isometric[1].ToString() + ":" );
 			}
-			reader_fs.Close();
+			reader_fs_isometric.Close();
+		}
+
+		//select force sensor elastic of each session
+		ArrayList myArray_fs_elastic = new ArrayList(2);
+
+		//if we are importing from a session who was not the forceSensor table (db version < 1.68)
+		if(tableExists(true, Constants.ForceSensorTable))
+		{
+			dbcmd.CommandText = "SELECT sessionID, count(*) FROM " + Constants.ForceSensorTable +
+				" WHERE " + Constants.ForceSensorTable + ".stiffness > 0" + //elastic has stiffness > 0
+				" GROUP BY sessionID ORDER BY sessionID";
+			LogB.SQL(dbcmd.CommandText.ToString());
+			dbcmd.ExecuteNonQuery();
+
+			SqliteDataReader reader_fs_elastic;
+			reader_fs_elastic = dbcmd.ExecuteReader();
+
+			while(reader_fs_elastic.Read()) {
+				myArray_fs_elastic.Add (reader_fs_elastic[0].ToString() + ":" + reader_fs_elastic[1].ToString() + ":" );
+			}
+			reader_fs_elastic.Close();
 		}
 
 		//select run encoder of each session
@@ -690,7 +712,8 @@ class SqliteSession : Sqlite
 			stc.RunsSimple = getTestsInTable (myArray_runs, sID);
 			stc.RunsInterval = getTestsInTable (myArray_runs_interval, sID);
 			stc.RunsEncoder = getTestsInTable (myArray_re, sID);
-			stc.ForceSensor = getTestsInTable (myArray_fs, sID);
+			stc.Isometric = getTestsInTable (myArray_fs_isometric, sID);
+			stc.Elastic = getTestsInTable (myArray_fs_elastic, sID);
 			stc.WeightsSets = getTestsInTable (myArray_enc_g_s, sID);
 			stc.WeightsReps = getTestsInTable (myArray_enc_g_r, sID);
 			stc.InertialSets = getTestsInTable (myArray_enc_i_s, sID);

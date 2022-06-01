@@ -303,7 +303,8 @@ public class SessionTestsCount
 	public int RunsSimple;
 	public int RunsInterval;
 	public int RunsEncoder;
-	public int ForceSensor;
+	public int Isometric;
+	public int Elastic;
 	public int WeightsSets;
 	public int WeightsReps;
 	public int InertialSets;

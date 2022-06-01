@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2020   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2022   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -228,33 +228,22 @@ public partial class ChronoJumpWindow
 		SqliteSessionSwitcher sessionSwitcher = new SqliteSessionSwitcher
 			(SqliteSessionSwitcher.DatabaseType.EXPORT, exportedDB);
 
-		/*
-		 * TODO (optional): use this to have objects intead of strings []
-		List<Session> session_l = SqliteSession.SelectAll();
-		foreach(Session session in session_l)
-			if(session.UniqueID != currentSession.UniqueID)
-				SqliteSession.DeleteAllStuff(session.UniqueID.ToString());
-				*/
-
-		string [] mySessions = sessionSwitcher.SelectAllSessionsTestsCount (""); //returns a string of values separated by ':'
+		List<SessionTestsCount> stc_l = sessionSwitcher.SelectAllSessionsTestsCount (""); //returns a string of values separated by ':'
 
 		int count = 1;
-		foreach (string session in mySessions)
+		foreach (SessionTestsCount stc in stc_l)
 		{
 			//cancelExport breaks here instead doing it on pulse to avoid leaving some Sqlite DataReader opened
 			if(cancelExport)
 				break;
 
-			app1s_exportText = string.Format("Adjusting new database {0}/{1}", count, mySessions.Length);
-			LogB.Information(string.Format("session: {0}", session));
-			string [] myStringFull = session.Split(new char[] {':'});
-			string sessionID = myStringFull[0];
-			if(sessionID != currentSession.UniqueID.ToString())
+			app1s_exportText = string.Format("Adjusting new database {0}/{1}", count, stc_l.Count);
+			if(stc.sessionParams.ID != currentSession.UniqueID)
 			{
-				LogB.Information(string.Format("session: {0}, will be deleted", sessionID));
-				sessionSwitcher.DeleteAllStuff(sessionID);
+				LogB.Information(string.Format("session: {0}, will be deleted", stc.sessionParams.ID));
+				sessionSwitcher.DeleteAllStuff(stc.sessionParams.ID.ToString ());
 			}
-			LogB.Information(string.Format("export session {0}/{1} done!", count, mySessions.Length ));
+			LogB.Information(string.Format("export session {0}/{1} done!", count, stc_l.Count ));
 			count ++;
 		}
 

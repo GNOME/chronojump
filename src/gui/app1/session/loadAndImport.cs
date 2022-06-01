@@ -481,7 +481,7 @@ public partial class ChronoJumpWindow
 		}
 		SqliteSessionSwitcher sessionSwitcher = new SqliteSessionSwitcher (databaseType, app1s_import_file_path);
 		
-		string [] mySessions = sessionSwitcher.SelectAllSessions(filterName); //returns a string of values separated by ':'
+		string [] mySessions = sessionSwitcher.SelectAllSessionsTestsCount (filterName); //returns a string of values separated by ':'
 
 		//new 2.0 code
 		int columns = 6;

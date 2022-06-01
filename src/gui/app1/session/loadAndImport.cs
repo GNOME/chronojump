@@ -481,7 +481,7 @@ public partial class ChronoJumpWindow
 		}
 		SqliteSessionSwitcher sessionSwitcher = new SqliteSessionSwitcher (databaseType, app1s_import_file_path);
 		
-		string [] mySessions = sessionSwitcher.SelectAllSessionsTestsCount (filterName); //returns a string of values separated by ':'
+		List<SessionTestsCount> stc_l = sessionSwitcher.SelectAllSessionsTestsCount (filterName); //returns a string of values separated by ':'
 
 		//new 2.0 code
 		int columns = 6;
@@ -512,38 +512,35 @@ public partial class ChronoJumpWindow
 			columns ++;
 		}
 
-		foreach (string session in mySessions)
+		foreach (SessionTestsCount stc in stc_l)
 		{
-			string [] myStringFull = session.Split(new char[] {':'});
-		
 			//don't show any text at sport, speciallity and level if it's undefined	
 			string mySport = "";
-			if (myStringFull[4] != Catalog.GetString(Constants.SportUndefined)) 
-				mySport = Catalog.GetString(myStringFull[4]);
+			if (stc.sessionParams.SportName != Catalog.GetString(Constants.SportUndefined))
+				mySport = stc.sessionParams.SportName;
 
 			string mySpeciallity = ""; //done also because Undefined has "" as name and crashes with gettext
-			if (myStringFull[5] != "") 
-				mySpeciallity = Catalog.GetString(myStringFull[5]);
+			if (stc.sessionParams.SpeciallityName != "")
+				mySpeciallity = stc.sessionParams.SpeciallityName;
 			
 			string myLevel = "";
-			if (myStringFull[6] != Catalog.GetString(Constants.LevelUndefined)) 
-				myLevel = Catalog.GetString(myStringFull[6]);
+			if (stc.sessionParams.LevelName != Catalog.GetString(Constants.LevelUndefined))
+				myLevel = stc.sessionParams.LevelName;
 
 			string [] strings = new string [columns];
 			//for (int i=0; i < columns; i++) {
 			//	types[i] = typeof (string);
 			//}
 			int i = 0;
-			strings[i ++] = myStringFull[0]; 	//session num
-			strings[i ++] = myStringFull[3];	//session date
-			strings[i ++] = myStringFull[1]; 	//session name
+			strings[i ++] = stc.sessionParams.ID.ToString();
+			strings[i ++] = stc.sessionParams.Date;
+			strings[i ++] = stc.sessionParams.Name;
 
 			//to show tag column
 			if (app1s_type == app1s_windowType.LOAD_SESSION)
 			{
 				List<TagSession> tagSession_list = SessionTagSession.FindTagSessionsOfSession(
-						Convert.ToInt32(myStringFull[0]),
-						tagsOfAllSessions);
+						stc.sessionParams.ID, tagsOfAllSessions);
 				strings[i ++] = SessionTagSession.PrintTagNamesOfSession(tagSession_list);
 
 				//do not show this session depending on tags
@@ -559,8 +556,8 @@ public partial class ChronoJumpWindow
 				}
 			}
 
-			strings[i ++] = myStringFull[2]; 	//session place
-			strings[i ++] = myStringFull[8];	//number of jumpers x session
+			strings[i ++] = stc.sessionParams.Place;
+			strings[i ++] = stc.Persons.ToString (); // persons x session
 
 			if(showPersons) {
 				strings[i ++] = mySport;		//personsSport
@@ -568,20 +565,22 @@ public partial class ChronoJumpWindow
 				strings[i ++] = myLevel;		//personsLevel
 			}
 			if(showJumps) {
-				strings[i ++] = myStringFull[9];	//number of jumps x session
-				strings[i ++] = myStringFull[10];	//number of jumpsRj x session
+				strings[i ++] = stc.JumpsSimple.ToString ();
+				strings[i ++] = stc.JumpsReactive.ToString ();
 			}
 			if(showRuns) {
-				strings[i ++] = myStringFull[11]; 	//number of runs x session
-				strings[i ++] = myStringFull[12]; 	//number of runsInterval x session
-				strings[i ++] = myStringFull[19]; 	//number of runEncoder
+				strings[i ++] = stc.RunsSimple.ToString ();
+				strings[i ++] = stc.RunsInterval.ToString ();
+				strings[i ++] = stc.RunsEncoder.ToString ();
 			}
 			if (showForceSensor)
-				strings[i ++] = myStringFull[18]; 	//number of forceSensor
+				strings[i ++] = stc.ForceSensor.ToString ();
 			if (showWeights)
-				strings[i ++] = myStringFull[16]; 	//number of encoder signal x session
+				strings[i ++] = string.Format ("{0} ; {1}",
+						stc.WeightsSets, stc.WeightsReps); //number of encoder grav signal,reps x session
 			if (showInertial)
-				strings[i ++] = myStringFull[17]; 	//number of encoder curve x session
+				strings[i ++] = string.Format ("{0} ; {1}",
+						stc.InertialSets, stc.InertialReps); //number of encoder inertial signal,reps x session
 			/*
 			if(showRT) {
 				strings[i ++] = myStringFull[13]; 	//number of reaction times x session
@@ -591,7 +590,7 @@ public partial class ChronoJumpWindow
 				strings[i ++] = myStringFull[15]; 	//number of multiChronopics x session
 			}
 			*/
-			strings[i ++] = myStringFull[7];		//description of session (comments)
+			strings[i ++] = stc.sessionParams.Description;
 
 			app1s_store.AppendValues (strings);
 		}	

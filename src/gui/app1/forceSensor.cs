@@ -2166,36 +2166,24 @@ LogB.Information(" fs R ");
 		foreach (ForceSensor fs in data)
 			dataPrint.Add (fs.ToStringArray (count++, current_mode));
 
-		string [] columnsString;
-		if (current_mode == Constants.Modes.FORCESENSORISOMETRIC)
-			columnsString = new String [] {
-				Catalog.GetString("ID"),
-					Catalog.GetString("Set"),
-					Catalog.GetString("Exercise"),
-					Catalog.GetString("Capture option"),
-					Catalog.GetString("Laterality"),
-					Catalog.GetString("Max force") + " (" + Catalog.GetString("Raw data") + ") (N)",
-					string.Format(Catalog.GetString("Max AVG Force in {0} s"), 1) + " (N)",
-					Catalog.GetString("Date"),
-					Catalog.GetString("Video"),
-					Catalog.GetString("Comment")
-			};
-		else //if (current_mode == Constants.Modes.FORCESENSORELASTIC)
-		{
-			columnsString = new String [] {
-				Catalog.GetString("ID"),
-					Catalog.GetString("Set"),
-					Catalog.GetString("Exercise"),
-					Catalog.GetString("Elastic") + " (N/m)",
-					Catalog.GetString("Capture option"),
-					Catalog.GetString("Laterality"),
-					Catalog.GetString("Max force") + " (" + Catalog.GetString("Raw data") + ") (N)",
-					string.Format(Catalog.GetString("Max AVG Force in {0} s"), 1) + " (N)",
-					Catalog.GetString("Date"),
-					Catalog.GetString("Video"),
-					Catalog.GetString("Comment")
-			};
-		}
+		int all = 10;
+		if (current_mode == Constants.Modes.FORCESENSORELASTIC)
+			all = 11;
+
+		string [] colStr = new String [all];
+		int i = 0;
+		colStr [i++] = Catalog.GetString("ID");
+		colStr [i++] = Catalog.GetString("Set");
+		colStr [i++] = Catalog.GetString("Exercise");
+		if (current_mode == Constants.Modes.FORCESENSORELASTIC)
+			colStr [i++] = Catalog.GetString("Elastic") + " (N/m)";
+		colStr [i++] = Catalog.GetString("Capture option");
+		colStr [i++] = Catalog.GetString("Laterality");
+		colStr [i++] = Catalog.GetString("Max force") + " (" + Catalog.GetString("Raw data") + ") (N)";
+		colStr [i++] = string.Format(Catalog.GetString("Max AVG Force in {0} s"), 1) + " (N)";
+		colStr [i++] = Catalog.GetString("Date");
+		colStr [i++] = Catalog.GetString("Video");
+		colStr [i++] = Catalog.GetString("Comment");
 
 		ArrayList bigArray = new ArrayList();
 		ArrayList a1 = new ArrayList();
@@ -2214,7 +2202,7 @@ LogB.Information(" fs R ");
 				Catalog.GetString("If you want to edit or delete a row, right click on it.")
 				, bigArray);
 
-		genericWin.SetTreeview(columnsString, false, dataPrint, new ArrayList(), GenericWindow.EditActions.EDITPLAYDELETE, true);
+		genericWin.SetTreeview(colStr, false, dataPrint, new ArrayList(), GenericWindow.EditActions.EDITPLAYDELETE, true);
 
 		//find all persons in current session
 		ArrayList personsPre = SqlitePersonSession.SelectCurrentSessionPersons(currentSession.UniqueID,

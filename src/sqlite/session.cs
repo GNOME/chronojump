@@ -29,7 +29,7 @@ using System.Collections.Generic;
 
 public class SqliteSessionSwitcher
 {
-	/** SqliteSessionSwitcher implements two methods that SqliteSesion class had (SelectAllSessions and Select).
+	/** SqliteSessionSwitcher implements two methods that SqliteSesion class had (SelectAllSessionsTesstCount and Select).
  	* These methods are used by SessionLoadWindow and depending on the parameters passed to the
 	* SqliteSessionSwitcher constructor:
 	* -it might use the static methods of SqliteSession (so it will access the main chronojump.db file)
@@ -57,11 +57,12 @@ public class SqliteSessionSwitcher
 		this.databasePath = databasePath;
 	}
 
-	public string[] SelectAllSessions(string filterName)
+	public string[] SelectAllSessionsTestsCount (string filterName)
+	//public List<SessionTestsCount> SelectAllSessions (string filterName)
 	{
 		if (type == DatabaseType.DEFAULT)
 		{
-			return SqliteSession.SelectAllSessions (filterName);
+			return SqliteSession.SelectAllSessionsTestsCount (filterName);
 		}
 		else
 		{
@@ -69,10 +70,11 @@ public class SqliteSessionSwitcher
 			if (! sqliteGeneral.IsOpened) {
 				List<string> emptyResult = new List<string> ();
 				return emptyResult.ToArray ();
+				//return new List<SessionTestsCount> ();
 			}
 			SqliteConnection dbcon = sqliteGeneral.connection;
 
-			string[] allSessions = SqliteSession.SelectAllSessions (filterName, dbcon);
+			string[] allSessions = SqliteSession.SelectAllSessionsTestsCount (filterName, dbcon);
 
 			// on IMPORT, filtered sessions will contain all sessions but not the "SIMULATED"
 			List<string> filteredSessions = new List<string> ();
@@ -132,7 +134,7 @@ public class SqliteSessionSwitcher
 	}
 
 	//for export session
-	//TODO; at the moment use the above string[] SelectAllSessions(string filterName)
+	//TODO; at the moment use the above string[] SelectAllSessionsTestsCount (string filterName)
 	/*
 	public List<Session> SelectAll()
 	{
@@ -378,27 +380,27 @@ class SqliteSession : Sqlite
 	}
 
 	// It's used by chronojump-importer and receives a specific database
-	public static string[] SelectAllSessions(string filterName, SqliteConnection dbcon) 
+	public static string[] SelectAllSessionsTestsCount (string filterName, SqliteConnection dbcon)
 	{
-		string [] mySessions = selectAllSessionsDo(filterName, dbcon);
+		string [] mySessions = selectAllSessionsTestsCountDo (filterName, dbcon);
 		return mySessions;
 	}
 
 	// This is the usual chronojump's call (default database)
-	public static string[] SelectAllSessions(string filterName) 
+	public static string[] SelectAllSessionsTestsCount (string filterName)
 	{
 		Sqlite.Open();
 
-		// SelectAllSessions is used here and by the Chronojump importer to allow to pass an arbitrary
+		// SelectAllSessionsTestCount is used here and by the Chronojump importer to allow to pass an arbitrary
 		// dbcon.
-		string [] mySessions = selectAllSessionsDo(filterName, dbcon);
+		string [] mySessions = selectAllSessionsTestsCountDo (filterName, dbcon);
 
 		//close database connection
 		Sqlite.Close();
 
 		return mySessions;
 	}
-	private static string[] selectAllSessionsDo(string filterName, SqliteConnection dbcon)
+	private static string[] selectAllSessionsTestsCountDo (string filterName, SqliteConnection dbcon)
 	{
 		// This method should NOT use Sqlite.open() / Sqlite.close(): it should only use dbcon
 		// to connect to the database. This method is used by the importer after opening an arbitrary
@@ -829,7 +831,7 @@ class SqliteSession : Sqlite
 		if (mySessions.Length > 0) {
 			LogB.SQL (mySessions [0]);
 		} else {
-			LogB.Debug ("SelectAllSessions with filter: " + filterName + " is empty");
+			LogB.Debug ("SelectAllSessionsTestsCount with filter: " + filterName + " is empty");
 		}
 		return mySessions;
 	}

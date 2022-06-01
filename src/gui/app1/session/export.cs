@@ -236,7 +236,7 @@ public partial class ChronoJumpWindow
 				SqliteSession.DeleteAllStuff(session.UniqueID.ToString());
 				*/
 
-		string [] mySessions = sessionSwitcher.SelectAllSessions(""); //returns a string of values separated by ':'
+		string [] mySessions = sessionSwitcher.SelectAllSessionsTestsCount (""); //returns a string of values separated by ':'
 
 		int count = 1;
 		foreach (string session in mySessions)

@@ -4467,16 +4467,16 @@ public partial class ChronoJumpWindow
 		}
 
 		// if we already have clicked before, execute go!
-		if (canBeDoubleClick && label_selector_menu_2_2_2_title.Text == title) //note the "<b></b>" are not on .Text
+		if (canBeDoubleClick && label_selector_menu_2_2_2_title.Text == Catalog.GetString(title)) //note the "<b></b>" are not on .Text
 			on_button_menu_2_2_2_go_clicked (new object (), new EventArgs ());
 		else {
 			if (title != "")
 			{
-				label_selector_menu_2_2_2_title.Text = "<b>" + title + "</b>";
+				label_selector_menu_2_2_2_title.Text = "<b>" + Catalog.GetString(title) + "</b>";
 				label_selector_menu_2_2_2_title.UseMarkup = true;
 			}
 			if (desc != "")
-				label_selector_menu_2_2_2_desc.Text = desc;
+				label_selector_menu_2_2_2_desc.Text = Catalog.GetString(desc);
 		}
 	}
 

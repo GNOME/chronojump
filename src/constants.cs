@@ -993,7 +993,15 @@ public class Constants
 			"A simple method for field measurements of leg stiffness in hopping. " +
 			"Int J Sports Med 25: 170–176";
 	}
-	
+
+	public static string GetRepairWindowMessage ()
+	{
+		System.Globalization.NumberFormatInfo localeInfo = new System.Globalization.NumberFormatInfo();
+		localeInfo = System.Globalization.NumberFormatInfo.CurrentInfo;
+		return string.Format(Catalog.GetString("Use this window to repair this test.\nDouble clic any cell to edit it (decimal separator: '{0}')"), localeInfo.NumberDecimalSeparator) +
+			"\n" + Catalog.GetString ("Press enter or tab after editing a cell.");
+	}
+
 	public const string PrefVersionAvailable = "versionAvailable";
 	
 	/*

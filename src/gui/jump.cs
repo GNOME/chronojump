@@ -604,14 +604,10 @@ public class RepairJumpRjWindow
 		this.jumpRj = myJump;
 
 		//this.pDN = pDN;
-	
+
 		repair_sub_event.Title = Catalog.GetString("Repair reactive jump");
-		
-		System.Globalization.NumberFormatInfo localeInfo = new System.Globalization.NumberFormatInfo();
-		localeInfo = System.Globalization.NumberFormatInfo.CurrentInfo;
-		label_header.Text = string.Format(Catalog.GetString("Use this window to repair this test.\nDouble clic any cell to edit it (decimal separator: '{0}')"), localeInfo.NumberDecimalSeparator);
-	
-		
+		label_header.Text = Constants.GetRepairWindowMessage ();
+
 		jumpType = SqliteJumpType.SelectAndReturnJumpRjType(myJump.Type, false);
 		
 		TextBuffer tb = new TextBuffer (new TextTagTable());

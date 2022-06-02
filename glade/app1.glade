@@ -3301,7 +3301,7 @@
                                                             <widget class="GtkHBox" id="hbox272">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="spacing">10</property>
+                                                            <property name="spacing">6</property>
                                                             <child>
                                                             <widget class="GtkImage" id="image_mode_jumps_small1">
                                                             <property name="visible">True</property>
@@ -3346,7 +3346,7 @@
                                                             <widget class="GtkHBox" id="hbox558">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="spacing">10</property>
+                                                            <property name="spacing">6</property>
                                                             <child>
                                                             <widget class="GtkImage" id="image_mode_jumps_reactive_small1">
                                                             <property name="visible">True</property>
@@ -3479,7 +3479,7 @@
                                                             <widget class="GtkHBox" id="hbox502">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="spacing">10</property>
+                                                            <property name="spacing">6</property>
                                                             <child>
                                                             <widget class="GtkImage" id="image_mode_runs_small2">
                                                             <property name="visible">True</property>
@@ -3525,7 +3525,7 @@
                                                             <widget class="GtkHBox" id="hbox556">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="spacing">10</property>
+                                                            <property name="spacing">6</property>
                                                             <child>
                                                             <widget class="GtkImage" id="image_mode_runs_intervallic_small2">
                                                             <property name="visible">True</property>
@@ -3641,7 +3641,7 @@
                                                             <widget class="GtkHBox" id="hbox560">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="spacing">10</property>
+                                                            <property name="spacing">6</property>
                                                             <child>
                                                             <widget class="GtkImage" id="image_mode_race_encoder_small1">
                                                             <property name="visible">True</property>

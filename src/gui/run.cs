@@ -593,10 +593,7 @@ public class RepairRunIntervalWindow
 		this.runInterval = myRun;
 	
 		repair_sub_event.Title = Catalog.GetString("Repair intervallic race");
-		
-		System.Globalization.NumberFormatInfo localeInfo = new System.Globalization.NumberFormatInfo();
-		localeInfo = System.Globalization.NumberFormatInfo.CurrentInfo;
-		label_header.Text = string.Format(Catalog.GetString("Use this window to repair this test.\nDouble clic any cell to edit it (decimal separator: '{0}')"), localeInfo.NumberDecimalSeparator);
+		label_header.Text = Constants.GetRepairWindowMessage ();
 	
 		
 		type = SqliteRunIntervalType.SelectAndReturnRunIntervalType(myRun.Type, false);

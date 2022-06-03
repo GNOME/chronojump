@@ -37,13 +37,12 @@
 #include "elapsedMillis.h"
 #include "michrolab.h"
 
-#define DOUT  2
-#define CLK  3
-
 //Version number //it always need to start with: "MiChroLab-"
 //Device commented for memory optimization
 String version = "0.1";
 
+//#define teensy_3_2
+#define teensy_4_0
 
 //Encoder variables
 Encoder encoder(8, 9);
@@ -71,6 +70,10 @@ int numRepetitions = 0;
 int tareAddress = 0;
 int calibrationAddress = 4;
 int forceGoalAddress = 8;
+
+
+#define DOUT  2
+#define CLK  3
 
 HX711 scale(DOUT, CLK);
 
@@ -231,12 +234,25 @@ long tareValue = 0;
 
 // Display variables
 const int chipSelect = 6;
-#define TFT_DC      20
-#define TFT_CS      21
-#define TFT_RST    255  // 255 = unused, connect to 3.3V
-#define TFT_MOSI     7
-#define TFT_SCLK    14
-#define TFT_MISO    12
+
+
+#ifdef teensy_4_0
+  #define TFT_DC      20
+  #define TFT_CS      10
+  #define TFT_RST    255  // 255 = unused, connect to 3.3V
+  #define TFT_MOSI    11
+  #define TFT_MISO    12
+  #define TFT_SCLK    13
+#endif
+
+#ifdef teensy_3_2
+  #define TFT_DC      20
+  #define TFT_CS      21
+  #define TFT_RST    255  // 255 = unused, connect to 3.3V
+  #define TFT_MISO    12
+  #define TFT_MOSI     7
+  #define TFT_SCLK    14
+#endif
 
 ILI9341_t3 tft = ILI9341_t3(TFT_CS, TFT_DC, TFT_RST, TFT_MOSI, TFT_SCLK, TFT_MISO);
 //Adafruit_ILI9341 tft = Adafruit_ILI9341(TFT_CS, TFT_DC, TFT_MOSI, TFT_SCLK, TFT_RST, TFT_MISO);

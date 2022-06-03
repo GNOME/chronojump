@@ -618,7 +618,7 @@ class SqliteForceSensorExercise : Sqlite
 			if (elastic == 1)
 				elasticStr = whereOrAndStr + table + ".elastic = 1 AND " + table + ".forceResultant = 1";
 			else //elastic == 0
-				elasticStr = whereOrAndStr + table + ".elastic = 0";
+				elasticStr = whereOrAndStr + " (" + table + ".elastic = 0 OR " + table + ".forceResultant = 0)";
 
 			whereOrAndStr = " AND ";
 		}

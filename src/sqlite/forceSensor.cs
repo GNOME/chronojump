@@ -1150,16 +1150,29 @@ class SqliteForceSensorRFD : Sqlite
 
 		List<ForceSensorRFD> l = new List<ForceSensorRFD>();
 		while(reader.Read()) {
-			ForceSensorRFD rfd = new ForceSensorRFD(
-					reader[0].ToString(), 				//code
-					Util.IntToBool(Convert.ToInt32(reader[1])), 	//active
-					(ForceSensorRFD.Functions) Enum.Parse(
-						typeof(ForceSensorRFD.Functions), reader[2].ToString()), 	//function
-					(ForceSensorRFD.Types) Enum.Parse(
-						typeof(ForceSensorRFD.Types), reader[3].ToString()), 	//type
-					Convert.ToInt32(reader[4]), 			//num1
-					Convert.ToInt32(reader[5]) 			//num2
-					);
+			//try/catch here because BEST_AVG_RFD_IN_X_MS is new and a user can have a db of another more updated
+			ForceSensorRFD rfd;
+			try {
+				rfd = new ForceSensorRFD(
+						reader[0].ToString(), 				//code
+						Util.IntToBool(Convert.ToInt32(reader[1])), 	//active
+						(ForceSensorRFD.Functions) Enum.Parse(
+							typeof(ForceSensorRFD.Functions), reader[2].ToString()), 	//function
+						(ForceSensorRFD.Types) Enum.Parse(
+							typeof(ForceSensorRFD.Types), reader[3].ToString()), 	//type
+						Convert.ToInt32(reader[4]), 			//num1
+						Convert.ToInt32(reader[5]) 			//num2
+						);
+			} catch  {
+				LogB.Information (string.Format (
+							"Catched on SqliteForceSensorRFD.SelectAll creating a ForceSensorRFD of function: {0} and type: {1}",
+							reader[2].ToString(), reader[3].ToString() ));
+
+				//create a default rfd for that code and make it inactive
+				rfd = new ForceSensorRFD (reader[0].ToString(), false,
+					ForceSensorRFD.Functions.FITTED, ForceSensorRFD.Types.INSTANTANEOUS, 0, -1);
+			}
+
 			l.Add(rfd);
 		}
 

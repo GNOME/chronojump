@@ -2,21 +2,21 @@
 //Manages the current menu
 void showMenu()
 {
-    //The blue button navigates through the Menu options
-    blueButton.update();
-    if (blueButton.fell()) {
-      currentMenuIndex++;
-      currentMenuIndex = currentMenuIndex % menuItemsNum;
-      showMenuEntry(currentMenuIndex);
-    }
+  //The blue button navigates through the Menu options
+  blueButton.update();
+  if (blueButton.fell()) {
+    currentMenuIndex++;
+    currentMenuIndex = currentMenuIndex % menuItemsNum;
+    showMenuEntry(currentMenuIndex);
+  }
 
-    //The red button activates the menu option
-    redButton.update();
-    if (redButton.fell())
-    {
-      PcControlled = false;
-      currentMenu[currentMenuIndex].function();
-    }
+  //The red button activates the menu option
+  redButton.update();
+  if (redButton.fell())
+  {
+    PcControlled = false;
+    currentMenu[currentMenuIndex].function();
+  }
 }
 
 //Exits the currentMenu and sets the currentMenu to mainMenu
@@ -25,7 +25,7 @@ void backMenu(void)
   currentMenuIndex = 0;
   drawMenuBackground();
   currentMenuIndex = 0;
-  for (int i = 0; i< 10; i++){
+  for (int i = 0; i < 10; i++) {
     currentMenu[i].title = mainMenu[i].title;
     currentMenu[i].description = mainMenu[i].description;
     currentMenu[i].function = mainMenu[i].function;
@@ -50,7 +50,7 @@ void showSystemMenu(void)
 {
   drawMenuBackground();
   currentMenuIndex = 0;
-  for (int i = 0; i< 10; i++){
+  for (int i = 0; i < 10; i++) {
     currentMenu[i].title = systemMenu[i].title;
     currentMenu[i].description = systemMenu[i].description;
     currentMenu[i].function = systemMenu[i].function;
@@ -84,7 +84,7 @@ void drawRightButton(String label, uint16_t tColor, uint16_t bColor)
   tft.fillRect(242, 210, 78, 32, bColor);
   //Half of the width of the label: label.length * 6 * textSize / 2
   //Middle of the button = 142 + width/2 = 281
-  tft.setCursor(281 - label.length()*6 , 218);
+  tft.setCursor(281 - label.length() * 6 , 218);
   tft.setTextColor(tColor);
   tft.print(label);
 }
@@ -95,7 +95,121 @@ void drawLeftButton(String label, uint16_t tColor, uint16_t bColor)
   //Red button
   tft.setTextSize(2);
   tft.fillRect(0, 210, 78, 32, bColor);
-  tft.setCursor(39 - label.length()*12/2 , 218);
+  tft.setCursor(39 - label.length() * 12 / 2 , 218);
   tft.setTextColor(tColor);
   tft.print(label);
+}
+
+//Dialog for selecting float value
+float selectValueDialog(String title, String description, String rangesString, String incString, unsigned int decimals)
+{
+  //ranges are of the format "1,10,500"
+  //increments are in the format of  "2,10"
+  //From 1..10 increment by 2
+  //From 10..500 increment by 10
+  //increments must have the number of ranges elements -1
+  int prevColon = 0;
+  int nextColon = rangesString.indexOf(",");
+  unsigned int rangesNum = 0;
+
+  //Counting ranges
+  do
+  {
+    rangesNum++;
+    prevColon = nextColon + 1;
+    nextColon = rangesString.indexOf(",", prevColon);
+  } while (nextColon != -1);
+  float rangesValues[10];
+  float incValues[10];
+
+  //Assigning key values of the ranges
+  prevColon = 0;
+  nextColon = rangesString.indexOf(",");
+  for (unsigned int i = 0; i <= rangesNum; i++)
+  {
+    rangesValues[i] = rangesString.substring(prevColon, nextColon).toFloat();
+    prevColon = nextColon + 1;
+    nextColon = rangesString.indexOf(",", prevColon);
+  }
+
+  //Assigning increment values
+  prevColon = 0;
+  nextColon = incString.indexOf(",");
+  for (unsigned int i = 0; i < rangesNum; i++)
+  {
+    incValues[i] = incString.substring(prevColon, nextColon).toFloat();
+    prevColon = nextColon + 1;
+    nextColon = incString.indexOf(",", prevColon);
+  }
+
+  float value = rangesValues[0];
+  submenu = 0;
+  int currentSegment = 1;
+  bool exitFlag = false;
+  //Delete description
+  tft.fillRect(0, 50, 320, 190, BLACK);
+
+  tft.setCursor(30, 80);
+  tft.print(title);
+
+  //Explanation of the process
+  tft.setTextColor(WHITE);
+  tft.setCursor(10, 112);
+  tft.print(description);
+
+  //Blue button
+  drawLeftButton("+" + String(incValues[0], decimals), WHITE, BLUE);
+
+  //Red button
+  drawRightButton("Accept", WHITE, RED);
+
+  //Current value
+  tft.setCursor(100, 174);
+  tft.setTextColor(WHITE, BLACK);
+  tft.print("Current:");
+  tft.setCursor(220, 174);
+  printTftFormat(value, 236, 174, 2, 0);
+  redButton.update();
+  blueButton.update();
+  
+  while (!exitFlag) {
+
+    //Selecting the force goal
+    //TODO: Allow coninuous increasing by keeping pressed the button
+    if (blueButton.fell()) {
+      tft.setTextColor(BLACK);
+      printTftFormat(value, 236, 174, 2, decimals);
+      
+      value += incValues[currentSegment - 1];
+      if (abs(value -  rangesValues[rangesNum]) < 0.0001) {
+        tft.setTextColor(BLACK);
+        printTftFormat(value, 236, 174, 2, decimals);
+        value = rangesValues[0];
+        currentSegment = 1;
+        drawLeftButton("+" + String(incValues[currentSegment - 1], decimals), WHITE, BLUE);
+      }
+      if (abs(value - rangesValues[currentSegment]) < 0.0001)
+      {
+        currentSegment++;
+        drawLeftButton("+" + String(incValues[currentSegment - 1], decimals), WHITE, BLUE);
+      }
+      tft.setTextColor(WHITE);
+      tft.setCursor(216, 150);
+      printTftFormat(value, 236, 174, 2, decimals);
+    }
+
+    //Change to Calibrate execution
+    if (redButton.fell()) {
+
+      //Deleting explanation
+      tft.fillRect(0, 60, 320, 240, BLACK);
+
+      submenu = 1;
+      exitFlag = true;
+    }
+    //Waiting the red button push to start calibration process
+    redButton.update();
+    blueButton.update();
+  }
+  return (value);
 }

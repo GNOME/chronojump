@@ -17,6 +17,7 @@ MiChroLab 0.1
  -Measurements saved as P[PersonID]S[SetID]-[TypeOfMeasure].txt
  -Persons ID, Name, Weight andb Height can be read from persons.txt file. csv separated by ","
  -Force sensor communication with Chronojump
+ -Ready for using in Teensy4.0
  
  SportAnalizer 1.0
  ---------------------

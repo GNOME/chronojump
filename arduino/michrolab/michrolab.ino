@@ -346,6 +346,7 @@ void setup() {
     tft.println("Card initialized");
     Serial.println("card initialized");
   }
+
   dirName = createNewDir();
   totalPersons = getTotalPerson();
   readPersonsFile();
@@ -1394,6 +1395,7 @@ void startEncoderCapture(void)
   avgVelocity = 0;
   maxAvgVelocity = 0;
   lastVelocity = 0;
+  selectValueDialog("Load", "Select the load you are\ngoing to move", "0,5,20,200", "0.5,1,5", 1);
   capture();
 }
 

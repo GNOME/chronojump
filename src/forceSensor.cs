@@ -1560,11 +1560,12 @@ public class ForceSensorRFD
 	protected static string function_FITTED_name = "Fitted";
 
 	//if these names change, change TypePrint() below
-	public enum Types { INSTANTANEOUS, AVERAGE, PERCENT_F_MAX, RFD_MAX, IMP_UNTIL_PERCENT_F_MAX, IMP_RANGE } //on SQL is inserted like this
+	public enum Types { INSTANTANEOUS, AVERAGE, PERCENT_F_MAX, RFD_MAX, BEST_AVG_RFD_IN_X_MS, IMP_UNTIL_PERCENT_F_MAX, IMP_RANGE } //on SQL is inserted like this
 	private static string type_INSTANTANEOUS_name = "Instantaneous";
 	private static string type_AVERAGE_name = "Average";
 	private static string type_PERCENT_F_MAX_name = "% Force max";
 	private static string type_RFD_MAX_name = "RFD max";
+	private static string type_BEST_AVG_RFD_IN_X_MS_name = "Best average RFD";
 
 	public string code; //RFD1...4 //I: on impulse
 	public bool active;
@@ -1611,11 +1612,14 @@ public class ForceSensorRFD
 		if(translated)
 			return new string [] {
 				Catalog.GetString(type_INSTANTANEOUS_name), Catalog.GetString(type_AVERAGE_name),
-				Catalog.GetString(type_PERCENT_F_MAX_name), Catalog.GetString(type_RFD_MAX_name)
+					Catalog.GetString(type_PERCENT_F_MAX_name), Catalog.GetString(type_RFD_MAX_name),
+					Catalog.GetString(type_BEST_AVG_RFD_IN_X_MS_name)
 			};
 		else
 			return new string [] {
-				type_INSTANTANEOUS_name, type_AVERAGE_name, type_PERCENT_F_MAX_name, type_RFD_MAX_name
+				type_INSTANTANEOUS_name, type_AVERAGE_name,
+					type_PERCENT_F_MAX_name, type_RFD_MAX_name,
+					type_BEST_AVG_RFD_IN_X_MS_name
 			};
 	}
 
@@ -1636,29 +1640,35 @@ public class ForceSensorRFD
 
 	public virtual string TypePrint(bool translated)
 	{
-		if(type == Types.INSTANTANEOUS) {
-			if(translated)
-				return Catalog.GetString(type_INSTANTANEOUS_name);
+		if (type == Types.INSTANTANEOUS) {
+			if (translated)
+				return Catalog.GetString (type_INSTANTANEOUS_name);
 			else
 				return type_INSTANTANEOUS_name;
 		}
-		else if(type == Types.AVERAGE) {
-			if(translated)
-				return Catalog.GetString(type_AVERAGE_name);
+		else if (type == Types.AVERAGE) {
+			if (translated)
+				return Catalog.GetString (type_AVERAGE_name);
 			else
 				return type_AVERAGE_name;
 		}
-		else if(type == Types.PERCENT_F_MAX) {
-			if(translated)
-				return Catalog.GetString(type_PERCENT_F_MAX_name);
+		else if (type == Types.PERCENT_F_MAX) {
+			if (translated)
+				return Catalog.GetString (type_PERCENT_F_MAX_name);
 			else
 				return type_PERCENT_F_MAX_name;
 		}
-		else { //if(type == Types.RFD_MAX)
-			if(translated)
-				return Catalog.GetString(type_RFD_MAX_name);
+		else if (type == Types.RFD_MAX) {
+			if (translated)
+				return Catalog.GetString (type_RFD_MAX_name);
 			else
 				return type_RFD_MAX_name;
+		}
+		else { //if (type == Types.BEST_AVG_RFD_IN_X_MS)
+			if (translated)
+				return Catalog.GetString (type_BEST_AVG_RFD_IN_X_MS_name);
+			else
+				return type_BEST_AVG_RFD_IN_X_MS_name;
 		}
 	}
 
@@ -1715,6 +1725,10 @@ public class ForceSensorRFD
 	public static string Type_RFD_MAX_name
 	{
 		get { return type_RFD_MAX_name; }
+	}
+	public static string Type_BEST_AVG_RFD_IN_X_MS_name
+	{
+		get { return type_BEST_AVG_RFD_IN_X_MS_name; }
 	}
 }
 

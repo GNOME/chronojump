@@ -25,6 +25,10 @@
 
 #include "EEPROM.h"
 #include "SPI.h"
+// ¡¡¡Atention, if you are using Teensy, the ILI9341_t3 library must be the teensy specific located at:
+// arduino/hardware/teensy/avr/libraries/ILI9341_t3
+// If you have this library in your Arduino/libraries delete it
+// To check the library used go to preferences -> Detailed output for compilation
 #include "ILI9341_t3.h"
 #include "HX711.h"
 #include "Bounce2.h"

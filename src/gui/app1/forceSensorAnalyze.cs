@@ -106,11 +106,15 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.HBox hbox_force_2_from_to;
 	[Widget] Gtk.HBox hbox_force_3_from_to;
 	[Widget] Gtk.HBox hbox_force_4_from_to;
-	[Widget] Gtk.HBox hbox_force_impulse_from_to;
+	[Widget] Gtk.HBox hbox_force_1_in_x_ms;
+	[Widget] Gtk.HBox hbox_force_2_in_x_ms;
+	[Widget] Gtk.HBox hbox_force_3_in_x_ms;
+	[Widget] Gtk.HBox hbox_force_4_in_x_ms;
 	[Widget] Gtk.SpinButton spinbutton_force_1_at_ms;
 	[Widget] Gtk.SpinButton spinbutton_force_2_at_ms;
 	[Widget] Gtk.SpinButton spinbutton_force_3_at_ms;
 	[Widget] Gtk.SpinButton spinbutton_force_4_at_ms;
+	[Widget] Gtk.HBox hbox_force_impulse_from_to;
 	[Widget] Gtk.SpinButton spinbutton_force_1_at_percent;
 	[Widget] Gtk.SpinButton spinbutton_force_2_at_percent;
 	[Widget] Gtk.SpinButton spinbutton_force_3_at_percent;
@@ -126,6 +130,10 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.SpinButton spinbutton_force_3_to;
 	[Widget] Gtk.SpinButton spinbutton_force_4_to;
 	[Widget] Gtk.SpinButton spinbutton_force_impulse_to;
+	[Widget] Gtk.SpinButton spinbutton_force_1_in_x_ms;
+	[Widget] Gtk.SpinButton spinbutton_force_2_in_x_ms;
+	[Widget] Gtk.SpinButton spinbutton_force_3_in_x_ms;
+	[Widget] Gtk.SpinButton spinbutton_force_4_in_x_ms;
 
 	[Widget] Gtk.Button button_hscale_force_sensor_ai_a_first;
 	[Widget] Gtk.Button button_hscale_force_sensor_ai_a_pre;
@@ -348,25 +356,29 @@ public partial class ChronoJumpWindow
 					UtilGtk.ComboGetActive(combo_force_1_type),
 					hbox_force_1_at_ms,
 					hbox_force_1_at_percent,
-					hbox_force_1_from_to);
+					hbox_force_1_from_to,
+					hbox_force_1_in_x_ms);
 		else if(combo == combo_force_2_type)
 			combo_force_visibility(
 					UtilGtk.ComboGetActive(combo_force_2_type),
 					hbox_force_2_at_ms,
 					hbox_force_2_at_percent,
-					hbox_force_2_from_to);
+					hbox_force_2_from_to,
+					hbox_force_2_in_x_ms);
 		else if(combo == combo_force_3_type)
 			combo_force_visibility(
 					UtilGtk.ComboGetActive(combo_force_3_type),
 					hbox_force_3_at_ms,
 					hbox_force_3_at_percent,
-					hbox_force_3_from_to);
+					hbox_force_3_from_to,
+					hbox_force_3_in_x_ms);
 		else if(combo == combo_force_4_type)
 			combo_force_visibility(
 					UtilGtk.ComboGetActive(combo_force_4_type),
 					hbox_force_4_at_ms,
 					hbox_force_4_at_percent,
-					hbox_force_4_from_to);
+					hbox_force_4_from_to,
+					hbox_force_4_in_x_ms);
 		else if(combo == combo_force_impulse_type)
 			combo_force_impulse_visibility(
 					UtilGtk.ComboGetActive(combo_force_impulse_type),
@@ -374,25 +386,22 @@ public partial class ChronoJumpWindow
 					hbox_force_impulse_from_to);
 	}
 
-	private void combo_force_visibility (string selected, Gtk.HBox at_ms, Gtk.HBox at_percent, Gtk.HBox from_to)
+	private void combo_force_visibility (string selected, Gtk.HBox at_ms, Gtk.HBox at_percent, Gtk.HBox from_to, Gtk.HBox in_x_ms)
 	{
 		//valid for active == "" and active == "RFD max"
 		at_ms.Visible = false;
 		from_to.Visible = false;
 		at_percent.Visible = false;
+		in_x_ms.Visible = false;
 
 		if(selected == Catalog.GetString(ForceSensorRFD.Type_INSTANTANEOUS_name))
-		{
 			at_ms.Visible = true;
-		}
 		else if(selected == Catalog.GetString(ForceSensorRFD.Type_AVERAGE_name))
-		{
 			from_to.Visible = true;
-		}
 		else if(selected == Catalog.GetString(ForceSensorRFD.Type_PERCENT_F_MAX_name))
-		{
 			at_percent.Visible = true;
-		}
+		else if(selected == Catalog.GetString(ForceSensorRFD.Type_BEST_AVG_RFD_IN_X_MS_name))
+			in_x_ms.Visible = true;
 	}
 	private void combo_force_impulse_visibility (string selected, Gtk.HBox until_percent, Gtk.HBox from_to)
 	{
@@ -400,13 +409,9 @@ public partial class ChronoJumpWindow
 		from_to.Visible = false;
 
 		if(selected == Catalog.GetString(ForceSensorImpulse.Type_IMP_UNTIL_PERCENT_F_MAX_name))
-		{
 			until_percent.Visible = true;
-		}
 		else if(selected == Catalog.GetString(ForceSensorImpulse.Type_IMP_RANGE_name))
-		{
 			from_to.Visible = true;
-		}
 	}
 
 	private void setForceDurationRadios()
@@ -434,31 +439,36 @@ public partial class ChronoJumpWindow
 
 	private void setRFDValues ()
 	{
-		setRFDValue(rfdList[0], check_force_1, combo_force_1_function, combo_force_1_type,
+		setRFDValue (rfdList[0], check_force_1, combo_force_1_function, combo_force_1_type,
 				hbox_force_1_at_ms, spinbutton_force_1_at_ms,
 				hbox_force_1_at_percent, spinbutton_force_1_at_percent,
-				hbox_force_1_from_to, spinbutton_force_1_from, spinbutton_force_1_to);
+				hbox_force_1_from_to, spinbutton_force_1_from, spinbutton_force_1_to,
+				hbox_force_1_in_x_ms, spinbutton_force_1_in_x_ms);
 
-		setRFDValue(rfdList[1], check_force_2, combo_force_2_function, combo_force_2_type,
+		setRFDValue (rfdList[1], check_force_2, combo_force_2_function, combo_force_2_type,
 				hbox_force_2_at_ms, spinbutton_force_2_at_ms,
 				hbox_force_2_at_percent, spinbutton_force_2_at_percent,
-				hbox_force_2_from_to, spinbutton_force_2_from, spinbutton_force_2_to);
+				hbox_force_2_from_to, spinbutton_force_2_from, spinbutton_force_2_to,
+				hbox_force_2_in_x_ms, spinbutton_force_2_in_x_ms);
 
-		setRFDValue(rfdList[2], check_force_3, combo_force_3_function, combo_force_3_type,
+		setRFDValue (rfdList[2], check_force_3, combo_force_3_function, combo_force_3_type,
 				hbox_force_3_at_ms, spinbutton_force_3_at_ms,
 				hbox_force_3_at_percent, spinbutton_force_3_at_percent,
-				hbox_force_3_from_to, spinbutton_force_3_from, spinbutton_force_3_to);
+				hbox_force_3_from_to, spinbutton_force_3_from, spinbutton_force_3_to,
+				hbox_force_3_in_x_ms, spinbutton_force_3_in_x_ms);
 
-		setRFDValue(rfdList[3], check_force_4, combo_force_4_function, combo_force_4_type,
+		setRFDValue (rfdList[3], check_force_4, combo_force_4_function, combo_force_4_type,
 				hbox_force_4_at_ms, spinbutton_force_4_at_ms,
 				hbox_force_4_at_percent, spinbutton_force_4_at_percent,
-				hbox_force_4_from_to, spinbutton_force_4_from, spinbutton_force_4_to);
+				hbox_force_4_from_to, spinbutton_force_4_from, spinbutton_force_4_to,
+				hbox_force_4_in_x_ms, spinbutton_force_4_in_x_ms);
 	}
 
-	private void setRFDValue(ForceSensorRFD rfd, Gtk.CheckButton check, Gtk.ComboBox combo_force_function, Gtk.ComboBox combo_force_type,
+	private void setRFDValue (ForceSensorRFD rfd, Gtk.CheckButton check, Gtk.ComboBox combo_force_function, Gtk.ComboBox combo_force_type,
 			Gtk.HBox hbox_force_at_ms, Gtk.SpinButton spinbutton_force_at_ms,
 			Gtk.HBox hbox_force_at_percent, Gtk.SpinButton spinbutton_force_at_percent,
-			Gtk.HBox hbox_force_from_to, Gtk.SpinButton spinbutton_force_from, Gtk.SpinButton spinbutton_force_to)
+			Gtk.HBox hbox_force_from_to, Gtk.SpinButton spinbutton_force_from, Gtk.SpinButton spinbutton_force_to,
+			Gtk.HBox hbox_force_in_x_ms, Gtk.SpinButton spinbutton_force_in_x_ms)
 	{
 		check.Active = rfd.active;
 
@@ -468,6 +478,7 @@ public partial class ChronoJumpWindow
 		hbox_force_at_ms.Visible = false;
 		hbox_force_at_percent.Visible = false;
 		hbox_force_from_to.Visible = false;
+		hbox_force_in_x_ms.Visible = false;
 
 		if(rfd.type == ForceSensorRFD.Types.INSTANTANEOUS)
 		{
@@ -485,28 +496,39 @@ public partial class ChronoJumpWindow
 			hbox_force_at_percent.Visible = true;
 			spinbutton_force_at_percent.Value = rfd.num1;
 		}
+		else if(rfd.type == ForceSensorRFD.Types.BEST_AVG_RFD_IN_X_MS)
+		{
+			hbox_force_in_x_ms.Visible = true;
+			spinbutton_force_in_x_ms.Value = rfd.num1;
+		}
 	}
 
-	private List<ForceSensorRFD> getRFDValues()
+	private List<ForceSensorRFD> getRFDValues ()
 	{
 		List<ForceSensorRFD> l = new List<ForceSensorRFD>();
 		l.Add(getRFDValue("RFD1", check_force_1, combo_force_1_function, combo_force_1_type,
 					spinbutton_force_1_at_ms, spinbutton_force_1_at_percent,
-					spinbutton_force_1_from, spinbutton_force_1_to));
+					spinbutton_force_1_from, spinbutton_force_1_to,
+					spinbutton_force_1_in_x_ms));
 		l.Add(getRFDValue("RFD2", check_force_2, combo_force_2_function, combo_force_2_type,
 					spinbutton_force_2_at_ms, spinbutton_force_2_at_percent,
-					spinbutton_force_2_from, spinbutton_force_2_to));
+					spinbutton_force_2_from, spinbutton_force_2_to,
+					spinbutton_force_2_in_x_ms));
 		l.Add(getRFDValue("RFD3", check_force_3, combo_force_3_function, combo_force_3_type,
 					spinbutton_force_3_at_ms, spinbutton_force_3_at_percent,
-					spinbutton_force_3_from, spinbutton_force_3_to));
+					spinbutton_force_3_from, spinbutton_force_3_to,
+					spinbutton_force_3_in_x_ms));
 		l.Add(getRFDValue("RFD4", check_force_4, combo_force_4_function, combo_force_4_type,
 					spinbutton_force_4_at_ms, spinbutton_force_4_at_percent,
-					spinbutton_force_4_from, spinbutton_force_4_to));
+					spinbutton_force_4_from, spinbutton_force_4_to,
+					spinbutton_force_4_in_x_ms));
 		return l;
 	}
-	private ForceSensorRFD getRFDValue(string code, Gtk.CheckButton check, Gtk.ComboBox combo_force_function, Gtk.ComboBox combo_force_type,
+	private ForceSensorRFD getRFDValue (string code, Gtk.CheckButton check, Gtk.ComboBox combo_force_function, Gtk.ComboBox combo_force_type,
 			Gtk.SpinButton spinbutton_force_at_ms, Gtk.SpinButton spinbutton_force_at_percent,
-			Gtk.SpinButton spinbutton_force_from, Gtk.SpinButton spinbutton_force_to)
+			Gtk.SpinButton spinbutton_force_from, Gtk.SpinButton spinbutton_force_to,
+			Gtk.SpinButton spinbutton_force_in_x_ms)
+
 	{
 		bool active = check.Active;
 		int num1 = -1;
@@ -520,26 +542,31 @@ public partial class ChronoJumpWindow
 
 		ForceSensorRFD.Types type;
 		string typeStr = UtilGtk.ComboGetActive(combo_force_type);
-		if(typeStr == Catalog.GetString(ForceSensorRFD.Type_INSTANTANEOUS_name))
+		if (typeStr == Catalog.GetString (ForceSensorRFD.Type_INSTANTANEOUS_name))
 		{
-			num1 = Convert.ToInt32(spinbutton_force_at_ms.Value);
+			num1 = Convert.ToInt32 (spinbutton_force_at_ms.Value);
 			type = ForceSensorRFD.Types.INSTANTANEOUS;
 		}
-		else if(typeStr == Catalog.GetString(ForceSensorRFD.Type_AVERAGE_name))
+		else if (typeStr == Catalog.GetString (ForceSensorRFD.Type_AVERAGE_name))
 		{
-			num1 = Convert.ToInt32(spinbutton_force_from.Value);
-			num2 = Convert.ToInt32(spinbutton_force_to.Value);
+			num1 = Convert.ToInt32 (spinbutton_force_from.Value);
+			num2 = Convert.ToInt32 (spinbutton_force_to.Value);
 			type = ForceSensorRFD.Types.AVERAGE;
 		}
-		else if(typeStr == Catalog.GetString(ForceSensorRFD.Type_PERCENT_F_MAX_name))
+		else if (typeStr == Catalog.GetString (ForceSensorRFD.Type_PERCENT_F_MAX_name))
 		{
-			num1 = Convert.ToInt32(spinbutton_force_at_percent.Value);
+			num1 = Convert.ToInt32 (spinbutton_force_at_percent.Value);
 			type = ForceSensorRFD.Types.PERCENT_F_MAX;
 		}
-		else // (typeStr == Catalog.GetString(ForceSensorRFD.Type_RFD_MAX_name))
+		else if (typeStr == Catalog.GetString (ForceSensorRFD.Type_RFD_MAX_name))
 			type = ForceSensorRFD.Types.RFD_MAX;
+		else //if (typeStr == Catalog.GetString (ForceSensorRFD.Type_BEST_AVG_RFD_IN_X_MS_name))
+		{
+			num1 = Convert.ToInt32 (spinbutton_force_in_x_ms.Value);
+			type = ForceSensorRFD.Types.BEST_AVG_RFD_IN_X_MS;
+		}
 
-		return new ForceSensorRFD(code, active, function, type, num1, num2);
+		return new ForceSensorRFD (code, active, function, type, num1, num2);
 	}
 
 	private void setImpulseValue ()

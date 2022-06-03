@@ -587,7 +587,6 @@ drawDynamicsFromLoadCell <- function(title, exercise, datetime,
                 }
             } else if(RFDoptions$type == "RFD_MAX")
             {
-                
                 if (RFDoptions$rfdFunction == "FITTED")
                 {
                     #max is always in the initial point.
@@ -625,8 +624,39 @@ drawDynamicsFromLoadCell <- function(title, exercise, datetime,
                     
                 }
                 
-            }
-            
+            } else if(RFDoptions$type == "BEST_AVG_RFD_IN_X_MS")
+            {
+		RFD = 0
+		window = RFDoptions$start / 1000 # RFDoptions$start from ms to s
+
+		#if window does not fit in graph, discard it
+		if (dynamics$time[dynamics$startSample] + window > dynamics$time[dynamics$endSample])
+		    next
+
+		if (RFDoptions$rfdFunction == "FITTED")
+		{
+		} else if(RFDoptions$rfdFunction == "RAW")
+		{
+			for (i in dynamics$startSample:dynamics$endSample)
+			{
+				forceTemp1 = dynamics$f.raw[i]
+				forceTemp2 = interpolateXAtY(dynamics$f.raw, dynamics$time, dynamics$time[i] + window)
+				RFDtemp = (forceTemp2 - forceTemp1) / window
+
+				if (RFDtemp > RFD)
+				{
+					force1 = forceTemp1
+					force2 = forceTemp2
+					RFD = RFDtemp
+					time1 = dynamics$time[i]
+					time2 = interpolateXAtY(dynamics$time, dynamics$time, dynamics$time[i] + window)
+				}
+			}
+			legendText = c(legendText, paste("RFD max avg in", RFDoptions$start, "ms = ", round(RFD, digits = 1), " N/s", sep = ""))
+			legendColor = c(legendColor, "black")
+		}
+	    }
+
             #The Y coordinate of the line when it crosses the Y axis
             intercept = force1 - RFD * time1
             
@@ -1048,9 +1078,9 @@ readRFDOptions <- function(optionsStr)
         
         return(list(
             rfdFunction     = options[1],            # raw or fitted
-            type            = options[2],            # instantaeous, average, %fmax, rfdmax
+            type            = options[2],            # instantaneous, average, %fmax, rfdmax, BEST_AVG_RFD_IN_X_MS
             #start and end can be in milliseconds (instant and average RFD), percentage (%fmax) or -1 if not needed
-            start           = as.numeric(options[3]),            # instant at which the analysis starts
+            start           = as.numeric(options[3]),            # instant at which the analysis starts (or time window in BEST_AVG_RFD)
             end             = as.numeric(options[4])             # instant at which the analysis ends
         ))
     } 

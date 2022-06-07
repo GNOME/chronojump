@@ -679,7 +679,7 @@ public partial class ChronoJumpWindow
 	/*
 	private bool encoderCheckPort()	
 	{
-		if(File.Exists(UtilAll.GetECapSimSignalFileName())) //simulatedEncoder
+		if(File.Exists(Util.GetECapSimSignalFileName())) //simulatedEncoder
 			return true;
 
 		string port = chronopicWin.GetEncoderPort();

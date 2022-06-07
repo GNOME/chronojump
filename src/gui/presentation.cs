@@ -118,7 +118,8 @@ public partial class ChronoJumpWindow
 
 	void openPresentation() {
 		//presentationOpenStatic("file:///home/...html#" + presentation_slide_current.ToString());
-		string file = Path.Combine(UtilAll.GetApplicationDataDir() +  Path.DirectorySeparatorChar + "Chronojump-Boscosystem.html");
+		string file = Path.Combine (Util.GetLocalDataDir (false) +
+				Path.DirectorySeparatorChar + "Chronojump-Boscosystem.html");
 		if(File.Exists(file))
 			presentationOpenStatic("file://" + file + "#" + presentation_slide_current.ToString());
 	}

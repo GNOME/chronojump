@@ -318,7 +318,7 @@ public partial class ChronoJumpWindow
 
 		string dir = "";
 		if(file1.Exists)
-			dir = Util.GetParentDir(false);
+			dir = Util.GetLocalDataDir (false);
 		else if(file2.Exists)
 			dir = Util.GetDatabaseTempDir();
 

@@ -430,7 +430,7 @@ public partial class ChronoJumpWindow
 		sw.Start();
 
 		app1s_copyRecursiveSuccess = app1s_uc.CopyFilesRecursively(
-				new DirectoryInfo(Util.GetParentDir(false)), new DirectoryInfo(app1s_fileCopy), 0);
+				new DirectoryInfo(Util.GetLocalDataDir(false)), new DirectoryInfo(app1s_fileCopy), 0);
 		sw.Stop();
 
 		app1s_copyRecursiveElapsedMs = sw.ElapsedMilliseconds;
@@ -454,7 +454,7 @@ public partial class ChronoJumpWindow
 						//	tarArchive.WriteEntry (tarEntry, true);
 						//}
 						//AddDirectoryFilesToTar (tarArchive, Path.Combine (Config.DBDir, storageName + " attachments"), true);
-						AddDirectoryFilesToTar (tarArchive, Util.GetParentDir(false), true);
+						AddDirectoryFilesToTar (tarArchive, Util.GetLocalDataDir(false), true);
 					}
 				}
 			}

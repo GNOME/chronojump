@@ -506,9 +506,10 @@ public class EncoderRProcAnalyze : EncoderRProc
 	}
 	
 	
-	private string getEncoderScriptCallGraph() {
+	private string getEncoderScriptCallGraph()
+	{
 		return System.IO.Path.Combine(
-				Util.GetDataDir(), "encoder", Constants.EncoderScriptCallGraph);
+				Util.GetChronojumpDir (), "encoder", Constants.EncoderScriptCallGraph);
 	}
 	
 	protected override void writeOptionsFile()

@@ -643,10 +643,10 @@ public abstract class EncoderCapture
 	 * removed at 1.7.0
 	private bool initSimulated()
 	{
-		if(! File.Exists(UtilAll.GetECapSimSignalFileName()))
+		if(! File.Exists(Util.GetECapSimSignalFileName()))
 			return false;
 
-		string filename = Util.ReadFile(UtilAll.GetECapSimSignalFileName(), true);
+		string filename = Util.ReadFile(Util.GetECapSimSignalFileName(), true);
 		simulatedInts = Util.ReadFileAsInts(filename);
 		return true;
 	}

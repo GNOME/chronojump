@@ -140,8 +140,7 @@ public class News
 	public static string GetNewsDir()
 	{
 		return Path.Combine(
-				Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
-				"Chronojump" + Path.DirectorySeparatorChar + "news");
+				Util.GetLocalDataDir (false) + Path.DirectorySeparatorChar + "news");
 	}
 	public static void CreateNewsDirIfNeeded ()
 	{

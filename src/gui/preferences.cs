@@ -1681,7 +1681,7 @@ public class PreferencesWindow
 		if (fc.Run() == (int)ResponseType.Accept) 
 		{
 			try {
-				File.Copy(fc.Filename, UtilAll.GetConfigFileName(), true);
+				File.Copy(fc.Filename, Util.GetConfigFileName(), true);
 				LogB.Information("Imported configuration");
 
 				//will launch configInit() from gui/chronojump.cs

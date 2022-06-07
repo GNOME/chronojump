@@ -42,8 +42,7 @@ public class UtilEncoder
 		
 	public static string GetEncoderDir() {
 		return Path.Combine(
-				Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
-				"Chronojump" + Path.DirectorySeparatorChar + "encoder");
+				Util.GetLocalDataDir (false) + Path.DirectorySeparatorChar + "encoder");
 	}
 
 	//to store encoder data and graphs

@@ -965,18 +965,24 @@ public class Util
 	/********** start of LocalApplicationData path ************/
 
 	//parent of database, multimedia and encoder
-	//if withFinalSeparator, then return a '\' or '/' at the end
-	public static string GetLocalDataDir (bool withFinalSeparator) {
-		string path = Path.Combine(
-				Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
-				"Chronojump");
-
-		if(withFinalSeparator)
-			path += Path.DirectorySeparatorChar;
-
-		return path;
+	//Since 2.2.2 on Compujump admin LocaApplicationData can change
+	//this will check if any config path is present
+	public static string GetLocalDataDir (bool withFinalSeparator)
+	{
+		//if (defaultPath)
+			return UtilAll.GetDefaultLocalDataDir (withFinalSeparator); //this can be checked by Mini
+		//else
+		//	return ""; //TODO
 	}
-	
+
+	public static string GetConfigFileName() {
+		return Path.Combine (GetLocalDataDir (false) +  Path.DirectorySeparatorChar + Constants.FileNameConfig);
+	}
+	public static string GetECapSimSignalFileName() {
+		return Path.Combine (GetLocalDataDir (false) +  Path.DirectorySeparatorChar + "eCapSimSignal.txt");
+	}
+
+
 	//url and videoURL stored path is relative to be able to move data between computers
 	//then SELECT: makes it abolute (addURLpath)
 	//INSERT and UPDATE: makes it relative (removeURLpath)
@@ -997,6 +1003,7 @@ public class Util
 
 	/********** end of LocalApplicationData path ************/
 	
+
 	/********** start of database paths ************/
 
 	public static string GetReallyOldDatabaseDir() {
@@ -1015,9 +1022,8 @@ public class Util
 	public static string GetDatabaseDir() {
 		//fixing:
 		//http://lists.ximian.com/pipermail/mono-list/2008-November/040480.html
-		return Path.Combine(
-				Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
-				"Chronojump" + Path.DirectorySeparatorChar + "database");
+		return Path.Combine (
+				GetLocalDataDir (false) + Path.DirectorySeparatorChar + "database");
 	}
 	
 	//if database dir has illegal characters, use this temp dir and remember to copy db at end, or to restore if chrashed
@@ -1044,8 +1050,7 @@ public class Util
 
 	public static string GetMultimediaDir() {
 		return Path.Combine(
-				Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
-				"Chronojump" + Path.DirectorySeparatorChar + "multimedia");
+				GetLocalDataDir (false) + Path.DirectorySeparatorChar + "multimedia");
 	}
 	
 	public static string GetPhotosDir(bool small) {
@@ -1054,15 +1059,15 @@ public class Util
 			smallDir = Path.DirectorySeparatorChar + Constants.SmallPhotoDir; 
 
 		return Path.Combine(
-				Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
-				"Chronojump" + Path.DirectorySeparatorChar + "multimedia" +
+				GetLocalDataDir (false) +
+				Path.DirectorySeparatorChar + "multimedia" +
 				Path.DirectorySeparatorChar + "photos") + smallDir;
 	}
 	
 	public static string GetVideosDir() {
 		return Path.Combine(
-				Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
-				"Chronojump" + Path.DirectorySeparatorChar + "multimedia" +
+				GetLocalDataDir (false) +
+				Path.DirectorySeparatorChar + "multimedia" +
 				Path.DirectorySeparatorChar + "videos");
 	}
 	
@@ -1086,8 +1091,8 @@ public class Util
 	public static string GetForceSensorDir()
 	{
 		return Path.Combine(
-				Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
-				"Chronojump" + Path.DirectorySeparatorChar + "forceSensor");
+				GetLocalDataDir (false) +
+				Path.DirectorySeparatorChar + "forceSensor");
 	}
 	public static void CreateForceSensorDirIfNeeded ()
 	{
@@ -1124,8 +1129,8 @@ public class Util
 	public static string GetRunEncoderDir()
 	{
 		return Path.Combine(
-				Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
-				"Chronojump" + Path.DirectorySeparatorChar + "raceAnalyzer");
+				GetLocalDataDir (false) +
+				Path.DirectorySeparatorChar + "raceAnalyzer");
 	}
 	public static void CreateRunEncoderDirIfNeeded ()
 	{
@@ -1836,7 +1841,7 @@ public class Util
 	static int soundListPos;
 
 	public static string getSoundsFileName() {
-		return Path.Combine(UtilAll.GetApplicationDataDir() +  Path.DirectorySeparatorChar + "sounds.txt");
+		return Path.Combine(Util.GetLocalDataDir (false) +  Path.DirectorySeparatorChar + "sounds.txt");
 	}
 
 	public static void CreateSoundList()

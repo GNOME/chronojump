@@ -87,7 +87,7 @@ public class Config
 
 	public void Read()
 	{
-		string contents = Util.ReadFile(UtilAll.GetConfigFileName(), false);
+		string contents = Util.ReadFile(Util.GetConfigFileName(), false);
 		if (contents != null && contents != "") 
 		{
 			string line;
@@ -168,7 +168,7 @@ public class Config
 	/*
 	public void Read()
 	{
-		string contents = Util.ReadFile(UtilAll.GetConfigFileName(), false);
+		string contents = Util.ReadFile(Util.GetConfigFileName(), false);
 		if (contents != null && contents != "") 
 		{
 			string line;
@@ -225,20 +225,20 @@ public class Config
 
 		LogB.Information("UpdateField, field: " + field + ", text: " + text);
 		
-		if(! File.Exists(UtilAll.GetConfigFileName())) {
+		if(! File.Exists(Util.GetConfigFileName())) {
 			try {
 				using (var writer = new StreamWriter(tempfile))
 				{
 					writer.WriteLine(field + "=" + text);
 				}
-				File.Copy(tempfile, UtilAll.GetConfigFileName(), true);
+				File.Copy(tempfile, Util.GetConfigFileName(), true);
 			} catch {
 				LogB.Warning("Cannot write at Config.UpdateField");
 			}
 		} else {
 			try {
 				using (var writer = new StreamWriter(tempfile))
-					using (var reader = new StreamReader(UtilAll.GetConfigFileName()))
+					using (var reader = new StreamReader(Util.GetConfigFileName()))
 					{
 						while (! reader.EndOfStream) {
 							string line = reader.ReadLine();
@@ -252,7 +252,7 @@ public class Config
 							writer.WriteLine(line);
 						}
 					}
-				File.Copy(tempfile, UtilAll.GetConfigFileName(), true);
+				File.Copy(tempfile, Util.GetConfigFileName(), true);
 			} catch {
 				LogB.Warning("Cannot write at Config.UpdateField");
 			}

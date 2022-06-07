@@ -362,7 +362,7 @@ class Sqlite
 	{
 		LogB.SQL(connectionString);
 
-		string applicationDataDir = UtilAll.GetApplicationDataDir();
+		string applicationDataDir = Util.GetLocalDataDir (false);
 
 		if(!Directory.Exists(applicationDataDir)) {
 			LogB.SQL("creating dir 1...");

@@ -294,8 +294,14 @@ class ChronoJumpMini {
 		return fileName;
 	}
 
-	static string getOutputDir() {
-		return UtilAll.GetApplicationDataDir();
+	static string getOutputDir()
+	{
+		// Chronojump (networks at admin) will be able to change the LocalDataDir, so do not use this
+		//return UtilAll.GetApplicationDataDir();
+		//use this, it is referred to the original unchanged dir (ok for Mini)
+		return Path.Combine (
+				Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+				"Chronojump");
 	}
 
 	static string getFileName() {

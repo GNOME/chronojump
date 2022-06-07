@@ -100,20 +100,49 @@ public class UtilAll
 		}
 	}
 	
-	
+
+	/*
 	public static string GetApplicationDataDir() {
 		return Path.Combine(
 				Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
 				"Chronojump");
 	}
-	
-	public static string GetConfigFileName() {
-		return Path.Combine(GetApplicationDataDir() +  Path.DirectorySeparatorChar + Constants.FileNameConfig);
+	*/
+	//if withFinalSeparator, then return a '\' or '/' at the end
+	public static string GetDefaultLocalDataDir (bool withFinalSeparator)
+	{
+		string path = Path.Combine(
+				Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+				"Chronojump");
+
+		if(withFinalSeparator)
+			path += Path.DirectorySeparatorChar;
+
+		return path;
 	}
-	public static string GetECapSimSignalFileName() {
-		return Path.Combine(GetApplicationDataDir() +  Path.DirectorySeparatorChar + "eCapSimSignal.txt");
-	}
+
+	// ----------- logs -----------------------
 	
+	public static string GetLogsDir() {
+		return Path.Combine(
+				GetDefaultLocalDataDir (false) + Path.DirectorySeparatorChar + "logs");
+	}
+	public static string GetLogFileCurrent() {
+		return Path.Combine(GetLogsDir() +  Path.DirectorySeparatorChar + Constants.FileNameLog);
+	}
+	public static string GetLogFileOld() {
+		return Path.Combine(GetLogsDir() +  Path.DirectorySeparatorChar + Constants.FileNameLogOld);
+	}
+
+	public static string GetLogsCrashedDir() {
+		return Path.Combine(
+				GetDefaultLocalDataDir (false) + Path.DirectorySeparatorChar + "logs" +
+				Path.DirectorySeparatorChar + "crashed");
+	}
+	public static string GetLogCrashedFileTimeStamp() {
+		return Path.Combine(GetLogsCrashedDir() +  Path.DirectorySeparatorChar +
+				"crashed_log_" + UtilDate.ToFile(DateTime.Now) + ".txt");
+	}
 	
 	
 	public static string DetectPortsLinux(bool formatting) {
@@ -154,31 +183,6 @@ public class UtilAll
 		while(str.Length < digits)
 			str = "0" + str;
 		return str;
-	}
-
-	// ----------- logs -----------------------
-	
-	public static string GetLogsDir() {
-		return Path.Combine(
-				Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
-				"Chronojump" + Path.DirectorySeparatorChar + "logs");
-	}
-	public static string GetLogFileCurrent() {
-		return Path.Combine(GetLogsDir() +  Path.DirectorySeparatorChar + Constants.FileNameLog);
-	}
-	public static string GetLogFileOld() {
-		return Path.Combine(GetLogsDir() +  Path.DirectorySeparatorChar + Constants.FileNameLogOld);
-	}
-
-	public static string GetLogsCrashedDir() {
-		return Path.Combine(
-				Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
-				"Chronojump" + Path.DirectorySeparatorChar + "logs" +
-				Path.DirectorySeparatorChar + "crashed");
-	}
-	public static string GetLogCrashedFileTimeStamp() {
-		return Path.Combine(GetLogsCrashedDir() +  Path.DirectorySeparatorChar +
-				"crashed_log_" + UtilDate.ToFile(DateTime.Now) + ".txt");
 	}
 
 

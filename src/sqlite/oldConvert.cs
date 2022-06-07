@@ -78,7 +78,7 @@ class SqliteOldConvert : Sqlite
 	public static void ConvertAbsolutePathsToRelative () 
 	{
 		//get parentDir with the final '/' or '\'
-		string parentDir = Util.GetParentDir(true);
+		string parentDir = Util.GetLocalDataDir (true);
 
 		ConvertAbsolutePathsToRelativeDo(parentDir, "encoder", "videoURL");
 		ConvertAbsolutePathsToRelativeDo(parentDir, "encoder", "url");

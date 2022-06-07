@@ -213,7 +213,7 @@ public partial class ChronoJumpWindow
 		app1s_exportText = Catalog.GetString("Copying files");
 
 		//TODO: copy only needed multimedia (photos), videos are discarded by sessions
-		app1s_uc.CopyFilesRecursively(new DirectoryInfo(Util.GetParentDir(false)), new DirectoryInfo(app1s_fileCopy), 0);
+		app1s_uc.CopyFilesRecursively (new DirectoryInfo(Util.GetLocalDataDir (false)), new DirectoryInfo (app1s_fileCopy), 0);
 
 		//TODO: check that db exists and manage sessionSwitcher to go back
 		string exportedDB = app1s_fileCopy + System.IO.Path.DirectorySeparatorChar  +

@@ -41,8 +41,8 @@
 //Device commented for memory optimization
 String version = "0.1";
 
-//#define teensy_3_2
-#define teensy_4_0
+#define teensy_3_2
+//#define teensy_4_0
 
 //Encoder variables
 Encoder encoder(8, 9);
@@ -184,7 +184,6 @@ int systemMenuItems = 6;
 menuEntry currentMenu[10];
 
 int menuItemsNum = 7;
-
 //Mean force in 1s
 //Circular buffer where all measures in 1s are stored
 //ADC has 84.75 ~ 85 samples/second. If we need the diference in 1 second we need 1 more sample
@@ -710,130 +709,16 @@ void changingRCA() {
 }
 
 void calibrateTFT(void) {
-  int increment = 1;
-  int weight = 1;
-  submenu = 0;
-  bool exitFlag = false;
+  float weight = selectValueDialog("", "Select the weight to use", "1,5,100", "1,5", 0);
   String calibrateCommand = "calibrate:" + String(weight, DEC) + ";";
-  //Delete description
-  tft.setCursor(12, 100);
-  tft.setTextColor(BLACK);
-  tft.print(currentMenu[currentMenuIndex].description);
-
-  //Explanation of the process
+  calibrate(calibrateCommand);
   tft.setTextColor(WHITE);
-  tft.setCursor(24, 100);
-  tft.print("Select the weight to use");
-  
-  drawLeftButton("+" + String(increment), WHITE, BLUE);
-
-  //Current weight
   tft.setCursor(120, 150);
-  tft.setTextColor(WHITE, BLACK);
-  tft.print("Current:");
-  tft.setCursor(216, 150);
-  tft.print(weight);
-  redButton.update();
-  blueButton.update();
-  while (!exitFlag) {
-
-    //Selecting the weight
-    if (submenu == 0) {
-      //TODO: Allow coninuous increasing by keeping pressed the button
-      if (blueButton.fell()) {
-        tft.setTextColor(BLACK);
-        tft.setCursor(216, 150);
-        tft.print(weight);
-        weight += increment;
-        if (weight == 101) {
-          weight = 1;
-        }
-        tft.setTextColor(WHITE);
-        tft.setCursor(216, 150);
-        tft.print(weight);
-
-        if (weight == 5) {
-          increment = 5;
-          drawLeftButton("+" + String(increment), WHITE, BLUE);
-
-        } else if (weight == 100) {
-          increment = 1;
-          drawLeftButton("+" + String(increment), WHITE, BLUE);
-        }
-        calibrateCommand = "calibrate:" + String(weight, DEC) + ";";
-      }
-
-      //Change to Calibrate execution
-      if (redButton.fell()) {
-
-        //Deleting explanation
-        tft.setTextColor(BLACK);
-        tft.setCursor(24, 100);
-        tft.print("Select the weight to use");
-        tft.setCursor(120, 150);
-        tft.print("Current:");
-        tft.setCursor(216, 150);
-        tft.print(weight);
-
-        tft.setTextColor(WHITE);
-        tft.setCursor(100, 100);
-        tft.print("Press Red to start Calibration");
-        
-        drawLeftButton("Cancel", WHITE, BLUE);
-        drawRightButton("Start", WHITE, RED);
-
-        submenu = 1;
-      }
-    }
-    //Waiting the red button push to start calibration process
-    if (submenu == 1) {
-      if (redButton.fell()) {
-
-        tft.setTextColor(BLACK);
-        tft.setCursor(100, 100);
-        tft.print("Press Red to start Calibration");
-        tft.setCursor(150, 200);
-        tft.print("Current:");
-        tft.setCursor(246, 200);
-        tft.print(weight);
-
-        tft.setTextColor(WHITE);
-        tft.setCursor(120, 150);
-        tft.print("Calibrating...");
-
-
-        calibrate(calibrateCommand);
-
-        tft.setTextColor(BLACK);
-        tft.setCursor(120, 150);
-        tft.print("Calibrating...");
-
-        tft.setTextColor(WHITE);
-        tft.setCursor(120, 150);
-        tft.print("Calibrated");
-
-        exitFlag = true;
-        delay(200);
-
-        tft.setTextColor(BLACK);
-        tft.setCursor(120, 150);
-        tft.print("Calibrated");
-
-        //Delete Blue button
-        tft.fillRect(12, 218, 72, 16, BLACK);
-
-        //Delete Red button
-        tft.fillRect(248, 218, 60, 16, BLACK);
-
-      }
-      if (blueButton.fell()) {
-        exitFlag = true;
-      }
-    }
-    redButton.update();
-    blueButton.update();
-  }
-  
+  tft.print("Calibrated");
+  delay(300);
+  tft.setTextColor(BLACK);
+  tft.setCursor(120, 150);
+  tft.print("Calibrated");
   tft.setTextColor(WHITE);
   drawMenuBackground();
   showMenuEntry(currentMenuIndex);
@@ -1541,78 +1426,9 @@ void showPowerResults()
 
 void setForceGoal()
 {
-  forceGoal = 10;
-  int increment = 10;
-  submenu = 0;
-  bool exitFlag = false;
-  //Delete description
-  tft.setCursor(12, 100);
-  tft.setTextColor(BLACK);
-  tft.print(currentMenu[currentMenuIndex].description);
-
-  //Explanation of the process
-  tft.setTextColor(WHITE);
-  tft.setCursor(10, 100);
-  tft.print("Select the force goal in Newtons.\nAn horizontal red line will be drawn");
-
-  //Blue button
-  drawLeftButton("+" + String(increment), WHITE, BLUE);
-
-  //Red button
-  drawRightButton("Accept", WHITE, RED);
-
-  //Current goal
-  tft.setCursor(100, 174);
-  tft.setTextColor(WHITE, BLACK);
-  tft.print("Current:");
-  tft.setCursor(220, 174);
-  printTftFormat(forceGoal, 236, 174, 2, 0);
-  redButton.update();
-  blueButton.update();
-  while (!exitFlag) {
-
-    //Selecting the force goal
-    //TODO: Allow coninuous increasing by keeping pressed the button
-    if (blueButton.fell()) {
-      tft.setTextColor(BLACK);
-      printTftFormat(forceGoal, 236, 174, 2, 0);
-      forceGoal += increment;
-      if (forceGoal >  10000) {
-        tft.setTextColor(BLACK);
-        printTftFormat(forceGoal, 236, 174, 2, 0);
-        forceGoal = 10;
-      }
-      tft.setTextColor(WHITE);
-      tft.setCursor(216, 150);
-      printTftFormat(forceGoal, 236, 174, 2, 0);
-
-      if (forceGoal == 100)
-      {
-        increment = 50;
-        drawLeftButton("+" + String(increment), WHITE, BLUE);
-      } else if (forceGoal == 1000) {
-        increment = 500;
-        drawLeftButton("+" + String(increment), WHITE, BLUE);
-      } else if (forceGoal == 10000) {
-        increment = 10;
-        drawLeftButton("+" + String(increment), WHITE, BLUE);
-      }
-    }
-
-    //Change to Calibrate execution
-    if (redButton.fell()) {
-
-      //Deleting explanation
-      tft.fillRect(0, 60, 320, 240, BLACK);
-
-      submenu = 1;
-      exitFlag = true;
-      EEPROM.put(forceGoalAddress, forceGoal);
-    }
-    //Waiting the red button push to start calibration process
-    redButton.update();
-    blueButton.update();
-  }
+  forceGoal = selectValueDialog("", "Select the force goal in Newtons.\nAn horizontal red line will be drawn", "10,50,1000,10000", "10,100,500", 0);
+  Serial.println(forceGoal);
+  menuItemsNum = systemMenuItems;
   showMenuEntry(currentMenuIndex);
 }
 

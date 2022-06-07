@@ -30,7 +30,7 @@ void backMenu(void)
     currentMenu[i].description = mainMenu[i].description;
     currentMenu[i].function = mainMenu[i].function;
   }
-  menuItemsNum = 6;
+  menuItemsNum = mainMenuItems;
   showMenuEntry(currentMenuIndex);
   showMenu();
 }

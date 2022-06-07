@@ -963,10 +963,10 @@ public class Util
 	}
 	
 	/********** start of LocalApplicationData path ************/
-	
+
 	//parent of database, multimedia and encoder
 	//if withFinalSeparator, then return a '\' or '/' at the end
-	public static string GetParentDir(bool withFinalSeparator) {
+	public static string GetLocalDataDir (bool withFinalSeparator) {
 		string path = Path.Combine(
 				Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
 				"Chronojump");
@@ -981,14 +981,14 @@ public class Util
 	//then SELECT: makes it abolute (addURLpath)
 	//INSERT and UPDATE: makes it relative (removeURLpath)
 	public static string MakeURLabsolute(string url) {
-		string parentDir = Util.GetParentDir(true); //add final '/' or '\'
+		string parentDir = Util.GetLocalDataDir(true); //add final '/' or '\'
 		if( ! url.StartsWith(parentDir) )
 			url = parentDir + url;
 
 		return url;
 	}
 	public static string MakeURLrelative(string url) {
-		string parentDir = Util.GetParentDir(true); //add final '/' or '\'
+		string parentDir = Util.GetLocalDataDir(true); //add final '/' or '\'
 		if( url.StartsWith(parentDir) )
 			url = url.Replace(parentDir, "");
 
@@ -1316,7 +1316,7 @@ public class Util
 	/********** end of multimedia paths ************/
 	
 	public static string GetThemeDir() {
-		return Path.Combine(GetDataDir(), "theme");
+		return Path.Combine(GetChronojumpDir (), "theme");
 	}
 	public static string GetThemeFile() {
 		return Path.Combine(GetThemeDir(), "gtk-2.0" + Path.DirectorySeparatorChar + "gtkrc");
@@ -1379,17 +1379,19 @@ public class Util
 		return baseDirectory;
 	}
 
-	public static string GetDataDir(){
+	public static string GetChronojumpDir ()
+	{
 		return System.IO.Path.Combine(GetPrefixDir(),
 			"share" + Path.DirectorySeparatorChar + "chronojump");
 	}
 
-	public static string GetImagesDir(){
-		return System.IO.Path.Combine(GetDataDir(),"images");
+	public static string GetImagesDir ()
+	{
+		return System.IO.Path.Combine (GetChronojumpDir (),"images");
 	}
 
 	public static string GetCssDir(){
-		return GetDataDir();
+		return GetChronojumpDir( );
 	}
 
 	//currently sounds are inside images folder	
@@ -1453,7 +1455,7 @@ public class Util
 	//TODO: maybe this will need a thread
 	public static int GetFullDataSize (bool includingOldBackupsDir)
 	{
-		long fullDataSize = DirSizeWithSubdirs (new DirectoryInfo(GetParentDir(false)));
+		long fullDataSize = DirSizeWithSubdirs (new DirectoryInfo( GetLocalDataDir(false)));
 		int sizeInKB = (int) UtilAll.DivideSafe(fullDataSize, 1024);
 
 		if(! includingOldBackupsDir)

@@ -185,42 +185,42 @@ public class UtilEncoder
 				"bin" + Path.DirectorySeparatorChar + "encoder", Constants.EncoderScriptCapturePythonWindows);
 		else
 			return System.IO.Path.Combine(
-					Util.GetDataDir(), "encoder", Constants.EncoderScriptCapturePythonLinux);
+					Util.GetChronojumpDir(), "encoder", Constants.EncoderScriptCapturePythonLinux);
 	}
 	*/
 	public static string GetEncoderScriptCallCaptureNoRdotNet() {
 		return System.IO.Path.Combine(
-				Util.GetDataDir(), "encoder", Constants.EncoderScriptCallCaptureNoRDotNet);
+				Util.GetChronojumpDir(), "encoder", Constants.EncoderScriptCallCaptureNoRDotNet);
 	}
 	
 	public static string GetEncoderScriptCaptureNoRdotNet() {
 		return System.IO.Path.Combine(
-				Util.GetDataDir(), "encoder", Constants.EncoderScriptCaptureNoRDotNet);
+				Util.GetChronojumpDir(), "encoder", Constants.EncoderScriptCaptureNoRDotNet);
 	}
 	
 
 	public static string GetEncoderScriptGraph() {
 		return System.IO.Path.Combine(
-				Util.GetDataDir(), "encoder", Constants.EncoderScriptGraph);
+				Util.GetChronojumpDir(), "encoder", Constants.EncoderScriptGraph);
 	}
 	
 	private static string getEncoderScriptInertiaMomentum() {
 		return System.IO.Path.Combine(
-				Util.GetDataDir(), "encoder", Constants.EncoderScriptInertiaMomentum);
+				Util.GetChronojumpDir(), "encoder", Constants.EncoderScriptInertiaMomentum);
 	}
 	
 	public static string GetEncoderScriptNeuromuscularProfile() {
 		return System.IO.Path.Combine(
-				Util.GetDataDir(), "encoder", Constants.EncoderScriptNeuromuscularProfile);
+				Util.GetChronojumpDir(), "encoder", Constants.EncoderScriptNeuromuscularProfile);
 	}
 	
 	public static string GetEncoderScriptUtilR() {
 		return System.IO.Path.Combine(
-				Util.GetDataDir(), "encoder", Constants.EncoderScriptUtilR);
+				Util.GetChronojumpDir(), "encoder", Constants.EncoderScriptUtilR);
 	}
 	
 	public static string GetEncoderScriptsPathWithoutLastSep() {
-		string s = System.IO.Path.Combine(Util.GetDataDir(), "encoder");
+		string s = System.IO.Path.Combine(Util.GetChronojumpDir(), "encoder");
 
 		//but send it without the final '\' or '/' (if found)
 		if(s.EndsWith("/") || s.EndsWith("\\"))
@@ -237,7 +237,7 @@ public class UtilEncoder
 	/********** start of r-scripts paths ************/
 
 	public static string GetSprintPath() {
-		return System.IO.Path.Combine(Util.GetDataDir(), "r-scripts");
+		return System.IO.Path.Combine(Util.GetChronojumpDir(), "r-scripts");
 	}
 	public static string GetSprintPhotocellsScript() {
 		return System.IO.Path.Combine(GetSprintPath(), "sprintPhotocells.R");
@@ -254,7 +254,7 @@ public class UtilEncoder
 	}
 
 	public static string GetScriptsPath() {
-		return System.IO.Path.Combine(Util.GetDataDir(), "r-scripts");
+		return System.IO.Path.Combine(Util.GetChronojumpDir(), "r-scripts");
 	}
 
 	public static string GetmifScript() {

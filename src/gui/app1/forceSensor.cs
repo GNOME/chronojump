@@ -267,7 +267,7 @@ public partial class ChronoJumpWindow
 	{
 		forceSensorOtherMessage = "Connecting ...";
 
-		portFS = new SerialPort (chronopicRegister.GetSelectedForMode (current_mode), 115200); //forceSensor
+		portFS = new SerialPort (chronopicRegister.GetSelectedForMode (current_mode), 115200);
 		LogB.Information(" FS connect 4: opening port...");
 
 		try {

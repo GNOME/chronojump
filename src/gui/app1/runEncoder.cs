@@ -220,24 +220,16 @@ public partial class ChronoJumpWindow
 	private bool runEncoderConnect()
 	{
 		LogB.Information(" RE connect 0 ");
-		if(chronopicRegister.ConnectedOfType(ChronopicRegisterPort.Types.ARDUINO_RUN_ENCODER) == null)
+		if (chronopicRegister.GetSelectedForMode (current_mode) == "")
 		{
 			runEncoderPulseMessage = runEncoderNotConnectedString;
 			return false;
 		}
 
 		LogB.Information(" RE connect 1 ");
-		runEncoderPortName = chronopicRegister.ConnectedOfType(ChronopicRegisterPort.Types.ARDUINO_RUN_ENCODER).Port;
-		LogB.Information(" RE connect 2 ");
-		if(runEncoderPortName == null || runEncoderPortName == "")
-		{
-			runEncoderPulseMessage = "Please, select port!";
-			return false;
-		}
-		LogB.Information(" RE connect 3 ");
 		runEncoderPulseMessage = "Connecting ...";
 
-		portRE = new SerialPort(runEncoderPortName, 115200); //runEncoder
+		portRE = new SerialPort (chronopicRegister.GetSelectedForMode (current_mode), 115200);
 		LogB.Information(" RE connect 4: opening port...");
 
 		try {
@@ -401,8 +393,7 @@ public partial class ChronoJumpWindow
 		//if graphs are not updated with the line, use this that will fire ExposeEvent:
 		//drawingarea_race_analyzer_capture_position_time.QueueDraw(); and the others
 
-
-		if(chronopicRegister.NumConnectedOfType(ChronopicRegisterPort.Types.ARDUINO_RUN_ENCODER) == 0)
+		if (chronopicRegister.GetSelectedForMode (current_mode) == "")
 		{
 			event_execute_label_message.Text = runEncoderNotConnectedString;
 			runEncoderButtonsSensitive(true);

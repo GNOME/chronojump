@@ -29,6 +29,7 @@ public class Config
 	public static bool UseSystemColor; //do nothing at all
 	public static Gdk.Color ColorBackground;
 	public static bool ColorBackgroundIsDark;
+	public static string DataDirStatic = "";
 
 	public enum SessionModeEnum { STANDARD, UNIQUE, MONTHLY }
 
@@ -60,6 +61,8 @@ public class Config
 	public bool LowHeight; //devices with less than 500 px vertical, like Odroid Go Super
 	public bool LowCPU; //workaround to not show realtime graph on force sensor capture (until its optimized)
 	public bool GuiTest;
+	public string DataDir = ""; //on chronojump-networks admin to replace GetLocalDataDir (), think if Import has to be disabled
+
 	/*
 	 * unused because the default serverURL chronojump.org is ok:
 	 * public string ExhibitionServerURL = "";
@@ -145,6 +148,15 @@ public class Config
 						LowCPU = true;
 					else if(parts[0] == "GuiTest" && Util.StringToBool(parts[1]))
 						GuiTest = true;
+					else if(parts[0] == "DataDir" && parts[1] != "")
+					{
+						DataDir = parts[1];
+						/*
+						   DataDirStatic is assigned later to not be active on chronojump.cs,
+						   start when gui is started, to not mess with runningFileName and others
+						DataDirStatic = parts[1]; //called from Util.GetLocalDataDir
+						 */
+					}
 				} while(true);
 			}
 		}

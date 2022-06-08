@@ -284,6 +284,17 @@ public partial class ChronoJumpWindow
 			SqliteJson.UploadExhibitionTestsPending();
 		}
 
+		if (configChronojump.DataDir != "")
+		{
+			Sqlite.DisConnect ();
+
+			//called from Util.GetLocalDataDir
+			Config.DataDirStatic = configChronojump.DataDir;
+			Sqlite.SetHome ();
+
+			Sqlite.Connect ();
+		}
+
 		configDo();
 	}
 	private void RFIDStart()

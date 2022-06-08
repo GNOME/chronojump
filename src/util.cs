@@ -969,10 +969,14 @@ public class Util
 	//this will check if any config path is present
 	public static string GetLocalDataDir (bool withFinalSeparator)
 	{
-		//if (defaultPath)
+		if (Config.DataDirStatic == "")
 			return UtilAll.GetDefaultLocalDataDir (withFinalSeparator); //this can be checked by Mini
-		//else
-		//	return ""; //TODO
+		else {
+			if (withFinalSeparator)
+				 return Config.DataDirStatic + Path.DirectorySeparatorChar;
+			else
+				 return Config.DataDirStatic;
+		}
 	}
 
 	public static string GetConfigFileName() {

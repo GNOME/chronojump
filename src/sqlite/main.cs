@@ -313,6 +313,19 @@ class Sqlite
 		set { currentVersion = value; }
 	}
 
+	//used on Chronojump-Networks admin (if Config.DataDir is != "")
+	//Config.DataDirStatic has been changed before
+	public static void SetHome ()
+	{
+		home = Util.GetDatabaseDir ();
+
+		//DB will be updated in gui/networks
+		sqlFile = home + Path.DirectorySeparatorChar + "chronojump.db";
+
+		connectionString = "version = 3; Data source = " + sqlFile;
+	}
+
+	//used on import
 	public static void setSqlFilePath(string filePath)
 	{
 		sqlFile = filePath;

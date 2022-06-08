@@ -29,7 +29,7 @@ public class Config
 	public static bool UseSystemColor; //do nothing at all
 	public static Gdk.Color ColorBackground;
 	public static bool ColorBackgroundIsDark;
-	public static string DataDirStatic = "";
+	public static string DataDirStatic = ""; //works even with spaces in name
 
 	public enum SessionModeEnum { STANDARD, UNIQUE, MONTHLY }
 
@@ -150,7 +150,7 @@ public class Config
 						GuiTest = true;
 					else if(parts[0] == "DataDir" && parts[1] != "")
 					{
-						DataDir = parts[1];
+						DataDir = parts[1]; //works even with spaces on name
 						/*
 						   DataDirStatic is assigned later to not be active on chronojump.cs,
 						   start when gui is started, to not mess with runningFileName and others

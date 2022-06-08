@@ -284,18 +284,13 @@ public partial class ChronoJumpWindow
 			SqliteJson.UploadExhibitionTestsPending();
 		}
 
-		if (configChronojump.DataDir != "")
+		if (configChronojump.CanOpenExternalDataDir)
 		{
-			Sqlite.DisConnect ();
+			frame_database.Visible = true;
+			button_menu_database.Visible = true;
 
-			//called from Util.GetLocalDataDir
-			Config.DataDirStatic = configChronojump.DataDir;
-			Sqlite.SetHome ();
-
-			Sqlite.Connect ();
-
-			//this updated if needed:
-			Sqlite.ConvertToLastChronojumpDBVersion ();
+			if (configChronojump.DataDir != "")
+				databaseChange ();
 		}
 
 		configDo();
@@ -363,6 +358,53 @@ public partial class ChronoJumpWindow
 	{
 		shouldShowRFIDDisconnected = true;
 		rfidProcessCancel = true;
+	}
+
+	private void databaseChange ()
+	{
+		Sqlite.DisConnect ();
+
+		//called from Util.GetLocalDataDir
+		Config.DataDirStatic = configChronojump.DataDir;
+		Sqlite.SetHome ();
+
+		Sqlite.Connect ();
+
+		//this updated if needed:
+		Sqlite.ConvertToLastChronojumpDBVersion ();
+
+		label_current_database.Text = "<b>" + Util.GetLastPartOfPath (configChronojump.DataDir) + "</b>";
+		label_current_database.UseMarkup = true;
+		label_current_database.TooltipText = configChronojump.DataDir;
+	}
+
+	Gtk.FileChooserDialog database_fc;
+	private void on_button_database_change_clicked (object o, EventArgs args)
+	{
+		database_fc = new Gtk.FileChooserDialog("Use database:",
+				app1,
+				FileChooserAction.SelectFolder,
+				Catalog.GetString("Cancel"),ResponseType.Cancel,
+				Catalog.GetString("Select"),ResponseType.Accept
+				);
+		//database_fc.SetCurrentFolder(whatever);
+
+		if (database_fc.Run() == (int)ResponseType.Accept)
+		{
+			// 1) update to config file (to be opened again on next boot)
+
+			// 2) reassing configChronojump.DataDir
+			configChronojump.DataDir = database_fc.Filename;
+
+			// 2) open database
+			//TODO: think where to put a try/catch, eg if there is no database file, or search database/chronojump.db before
+			databaseChange ();
+		}
+
+		database_fc.Hide ();
+
+		//Don't forget to call Destroy() or the FileChooserDialog window won't get closed.
+		database_fc.Destroy();
 	}
 
 	private void on_button_networks_encoder_guest_clicked (object sender, EventArgs e)

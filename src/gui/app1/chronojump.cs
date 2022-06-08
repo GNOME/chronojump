@@ -915,6 +915,8 @@ public partial class ChronoJumpWindow
 		} else {
 			if(! Config.UseSystemColor)
 			{
+				UtilGtk.ContrastLabelsLabel (Config.ColorBackgroundIsDark, label_database_at_frame_database);
+				UtilGtk.ContrastLabelsLabel (Config.ColorBackgroundIsDark, label_current_database);
 				UtilGtk.ContrastLabelsLabel (Config.ColorBackgroundIsDark, label_session_at_frame_session);
 				UtilGtk.ContrastLabelsLabel (Config.ColorBackgroundIsDark, label_current_session);
 				UtilGtk.ContrastLabelsLabel (Config.ColorBackgroundIsDark, label_persons_at_frame_persons);

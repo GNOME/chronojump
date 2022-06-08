@@ -138,7 +138,7 @@ double newGraphMin = measuredMin;
 double graphMin = measuredMin;
 double graphMax = measuredMax;
 
-float bars[10] = {10.0, 20.0, 30.0, 40.0, 50.0, 60.0, 70.0, 80.0, 90.0, 100.0};
+float bars[10] = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
 
 
 const unsigned int rcaPin = 3;
@@ -154,6 +154,7 @@ unsigned int submenu = 0;           //submenus state
 functionPointer FArray[3] = {&fakeFunction, &fakeFunction, &fakeFunction};
 
 menuEntry mainMenu[10] = {
+  { "Jumps", "Shows the height of jumps", &startJumpsCapture},
   { "Raw Force", "Shows standard graph of\nthe force and the summary of the set.\n(Maximum Force, RFD and\nImpulse)", &startLoadCellCapture},
   { "Raw Velocity", "Show a standard graph of linear velocity", &startEncoderCapture },
   { "Raw Inertial V.", "Show a standard graph of the velocity of the person", &startInertialEncoderCapture },
@@ -162,11 +163,10 @@ menuEntry mainMenu[10] = {
   { "F. Steadiness", "RMSSD and cvRMSSD.\nSteadynessof the force.\nWhen ready, press the Red Button to get the\nsteadiness of the next 5s.", &startSteadiness},
   { "System", "Performs calibration or\ntare and shows some system\ninformation.", &showSystemMenu},
   { "", "", &backMenu},
-  { "", "", &backMenu},
   { "", "", &backMenu}
 };
 
-int mainMenuItems = 7;
+int mainMenuItems = 8;
 
 menuEntry systemMenu[10] {
   { "Tare", "Set the offset of the\nsensor.", &tare },
@@ -185,7 +185,7 @@ int systemMenuItems = 6;
 
 menuEntry currentMenu[10];
 
-int menuItemsNum = 7;
+int menuItemsNum = mainMenuItems;
 //Mean force in 1s
 //Circular buffer where all measures in 1s are stored
 //ADC has 84.75 ~ 85 samples/second. If we need the diference in 1 second we need 1 more sample
@@ -360,17 +360,6 @@ void setup() {
   }
 
   tft.fillScreen(BLACK);
-  
-//Testing barPlot
-//  redrawAxes(tft, 30, 200, 290, 200, 290, 200, 0, 200, 20, "", "", "", WHITE, GREY, WHITE, WHITE, BLACK, RED, true);
-//  for (int i = 0; i< 100; i++)
-//  {
-//    barPlot(30, 200, 290, 200, 200, 5, i, 0.5, RED);
-//    delay(100);
-//    barPlot(30, 200, 290, 200, 200, 5, i, 0.5, BLACK);
-//    redrawAxes(tft, 30, 200, 290, 200, 290, 200, 0, 200, 20, "", "", "", WHITE, GREY, WHITE, WHITE, BLACK, RED, false);
-//  }
-  
   drawMenuBackground();
   showMenuEntry(currentMenuIndex);
 }
@@ -1305,6 +1294,23 @@ void showPowerResults()
   }
   tft.fillRect(0, 20, 320, 240, BLACK);
   drawMenuBackground();
+}
+
+void startJumpsCapture()
+{
+  tft.fillScreen(BLACK);
+//Testing barPlot
+  redrawAxes(tft, 30, 200, 290, 200, 290, 200, 0, 100, 10, "", "", "", WHITE, GREY, WHITE, WHITE, BLACK, RED, true);
+  for (int i = 0; i< 100; i++)
+  {
+    bars[i % 10] = random(10,60);
+    barPlot(30, 200, 290, 200, 100, 5, i % 10, 0.5, RED);
+    delay(500);
+    barPlot(30, 200, 290, 200, 100, 5, i % 10, 0.5, BLACK);
+    redrawAxes(tft, 30, 200, 290, 200, 290, 200, 0, 100, 10, "", "", "", WHITE, GREY, WHITE, WHITE, BLACK, RED, false);
+  }
+  drawMenuBackground();
+  showMenuEntry(currentMenuIndex);
 }
 
 void setForceGoal()

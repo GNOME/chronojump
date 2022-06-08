@@ -293,6 +293,9 @@ public partial class ChronoJumpWindow
 			Sqlite.SetHome ();
 
 			Sqlite.Connect ();
+
+			//this updated if needed:
+			Sqlite.ConvertToLastChronojumpDBVersion ();
 		}
 
 		configDo();

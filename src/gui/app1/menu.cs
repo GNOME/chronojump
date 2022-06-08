@@ -54,8 +54,13 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.EventBox eventbox_edit_current_person_h;
 	[Widget] Gtk.EventBox eventbox_show_all_person_events_h;
 	[Widget] Gtk.EventBox eventbox_delete_current_person_h;
+	[Widget] Gtk.Label label_current_database;
 	[Widget] Gtk.Label label_current_session;
 	[Widget] Gtk.Label label_current_person;
+
+	[Widget] Gtk.Frame frame_database;
+	[Widget] Gtk.Label label_database_at_frame_database;
+	[Widget] Gtk.Button button_menu_database;
 
 	[Widget] Gtk.CheckButton check_menu_session;
 	[Widget] Gtk.CheckButton check_manage_persons;

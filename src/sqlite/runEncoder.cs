@@ -411,13 +411,19 @@ class SqliteRunEncoderExercise : Sqlite
 			   uniqueIDStr = ex.UniqueID.ToString();
 		   */
 
+		//This fixes crash on converting from 2.32 to 2.33
+		//because angleDefault is still not set (it comes on 2.38)
+		string angleDefaultStr = "";
+		if (Sqlite.CurrentVersionAsDouble >= 2.39)
+			angleDefaultStr = ", angleDefault = " + ex.AngleDefault;
+
 		dbcmd.CommandText = "UPDATE " + table + " SET " +
 			" name = \"" + ex.Name +
 			"\", description = \"" + ex.Description +
 			"\", segmentMeters = " + ex.SegmentCm + 	//cm since DB 2.33
 			", segmentVariableCm = \"" + ex.SegmentVariableCmToSQL +
 			"\", isSprint = " + Util.BoolToInt(ex.IsSprint) +
-			", angleDefault = " + ex.AngleDefault +
+			angleDefaultStr +
 			" WHERE uniqueID = " + ex.UniqueID;
 
 		LogB.SQL(dbcmd.CommandText.ToString());
@@ -458,8 +464,13 @@ class SqliteRunEncoderExercise : Sqlite
 		reader = dbcmd.ExecuteReader();
 
 		List<RunEncoderExercise> list = new List<RunEncoderExercise>();
-		while(reader.Read()) {
-			//int angleDefault = 0;
+		while(reader.Read())
+		{
+			//This fixes crash on converting from 2.32 to 2.33
+			//because angleDefault is still not set (it comes on 2.38)
+			int angleDefault = 0;
+			if (Sqlite.CurrentVersionAsDouble >= 2.39)
+				angleDefault = Convert.ToInt32(reader[6].ToString());
 
 			RunEncoderExercise ex = new RunEncoderExercise (
 					Convert.ToInt32(reader[0].ToString()),	//uniqueID
@@ -468,7 +479,7 @@ class SqliteRunEncoderExercise : Sqlite
 					Convert.ToInt32(reader[3].ToString()),	//segmentCm (cm since DB 2.33)
 					Util.SQLStringToListInt(reader[4].ToString(), ";"),	//segmentVariableCm
 					Util.IntToBool(Convert.ToInt32(reader[5].ToString())),
-					Convert.ToInt32(reader[6].ToString()) 	//angleDefault
+					angleDefault
 					);
 			list.Add(ex);
 		}

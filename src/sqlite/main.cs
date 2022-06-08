@@ -313,6 +313,12 @@ class Sqlite
 		set { currentVersion = value; }
 	}
 
+	public static double CurrentVersionAsDouble
+	{
+		get { return Convert.ToDouble (Util.ChangeDecimalSeparator (currentVersion)); }
+	}
+
+
 	//used on Chronojump-Networks admin (if Config.DataDir is != "")
 	//Config.DataDirStatic has been changed before
 	public static void SetHome ()

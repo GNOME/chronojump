@@ -121,12 +121,6 @@ unsigned long rcaTime = 0;  //Time at which RCA changed
 elapsedMicros totalTime = 0;
 unsigned long lastSampleTime;
 
-const unsigned int redButtonPin = 4;
-Bounce redButton = Bounce(redButtonPin, 50);
-
-const unsigned int blueButtonPin = 5;
-Bounce blueButton = Bounce(blueButtonPin, 50);
-
 //TODO. Manage it with timer interruptions
 //unsigned short lcdDelay = 25; //to be able to see the screen. Seconds are also printed in delay but 25 values are less than one second
 //unsigned short lcdCount = 0;
@@ -239,22 +233,31 @@ const int chipSelect = 6;
 
 
 #ifdef teensy_4_0
-#define TFT_DC      20
-#define TFT_CS      10
-#define TFT_RST    255  // 255 = unused, connect to 3.3V
-#define TFT_MOSI    11
-#define TFT_MISO    12
-#define TFT_SCLK    13
+  #define TFT_DC      20
+  #define TFT_CS      10
+  #define TFT_RST    255  // 255 = unused, connect to 3.3V
+  #define TFT_MOSI    11
+  #define TFT_MISO    12
+  #define TFT_SCLK    13
+  
+  const unsigned int redButtonPin = 5;
+  const unsigned int blueButtonPin = 4;
 #endif
 
 #ifdef teensy_3_2
-#define TFT_DC      20
-#define TFT_CS      21
-#define TFT_RST    255  // 255 = unused, connect to 3.3V
-#define TFT_MISO    12
-#define TFT_MOSI     7
-#define TFT_SCLK    14
+  #define TFT_DC      20
+  #define TFT_CS      21
+  #define TFT_RST    255  // 255 = unused, connect to 3.3V
+  #define TFT_MISO    12
+  #define TFT_MOSI     7
+  #define TFT_SCLK    14
+
+  const unsigned int redButtonPin = 4;
+  const unsigned int blueButtonPin = 5;
 #endif
+
+  Bounce redButton = Bounce(redButtonPin, 50);
+  Bounce blueButton = Bounce(blueButtonPin, 50);
 
 ILI9341_t3 tft = ILI9341_t3(TFT_CS, TFT_DC, TFT_RST, TFT_MOSI, TFT_SCLK, TFT_MISO);
 //Adafruit_ILI9341 tft = Adafruit_ILI9341(TFT_CS, TFT_DC, TFT_MOSI, TFT_SCLK, TFT_RST, TFT_MISO);
@@ -343,7 +346,13 @@ void setup() {
 
   //Start TFT
   tft.begin();
-  tft.setRotation(1);
+  #ifdef teensy_3_2
+    tft.setRotation(1);
+  #endif
+
+  #ifdef teensy_4_0
+    tft.setRotation(3);
+  #endif
 
   // See if the card is present and can be initialized:
   //TODO. Open a dialog with advertising of this situation

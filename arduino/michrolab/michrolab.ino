@@ -1,4 +1,4 @@
- /*
+/*
   #
   #  This file is part of ChronoJump
   #
@@ -138,6 +138,8 @@ double newGraphMin = measuredMin;
 double graphMin = measuredMin;
 double graphMax = measuredMax;
 
+float bars[10] = {10.0, 20.0, 30.0, 40.0, 50.0, 60.0, 70.0, 80.0, 90.0, 100.0};
+
 
 const unsigned int rcaPin = 3;
 
@@ -236,21 +238,21 @@ const int chipSelect = 6;
 
 
 #ifdef teensy_4_0
-  #define TFT_DC      20
-  #define TFT_CS      10
-  #define TFT_RST    255  // 255 = unused, connect to 3.3V
-  #define TFT_MOSI    11
-  #define TFT_MISO    12
-  #define TFT_SCLK    13
+#define TFT_DC      20
+#define TFT_CS      10
+#define TFT_RST    255  // 255 = unused, connect to 3.3V
+#define TFT_MOSI    11
+#define TFT_MISO    12
+#define TFT_SCLK    13
 #endif
 
 #ifdef teensy_3_2
-  #define TFT_DC      20
-  #define TFT_CS      21
-  #define TFT_RST    255  // 255 = unused, connect to 3.3V
-  #define TFT_MISO    12
-  #define TFT_MOSI     7
-  #define TFT_SCLK    14
+#define TFT_DC      20
+#define TFT_CS      21
+#define TFT_RST    255  // 255 = unused, connect to 3.3V
+#define TFT_MISO    12
+#define TFT_MOSI     7
+#define TFT_SCLK    14
 #endif
 
 ILI9341_t3 tft = ILI9341_t3(TFT_CS, TFT_DC, TFT_RST, TFT_MOSI, TFT_SCLK, TFT_MISO);
@@ -298,9 +300,9 @@ void setup() {
   pinMode(redButtonPin, INPUT_PULLUP);
   pinMode(blueButtonPin, INPUT_PULLUP);
 
-//  Serial.begin(256000);
+  //  Serial.begin(256000);
   Serial.begin(115200);
-  
+
   attachInterrupt(digitalPinToInterrupt(rcaPin), changingRCA, CHANGE);
 
   EEPROM.get(tareAddress, tareValue);
@@ -350,12 +352,12 @@ void setup() {
   totalPersons = getTotalPerson();
   readPersonsFile();
 
-  for (int i = 0; i< 10; i++){
+  for (int i = 0; i < 10; i++) {
     currentMenu[i].title = mainMenu[i].title;
     currentMenu[i].description = mainMenu[i].description;
     currentMenu[i].function = mainMenu[i].function;
   }
-  
+
   tft.fillScreen(BLACK);
   drawMenuBackground();
   showMenuEntry(currentMenuIndex);
@@ -502,10 +504,10 @@ void serialEvent() {
       //    listenSyncSignal();
     */
   } else if (commandString == "addPerson") {
-    addPerson(inputString.substring(commandString.indexOf(":") +1));
+    addPerson(inputString.substring(commandString.indexOf(":") + 1));
   } else if (commandString == "getPersonsList") {
     printPersonsList();
-  } else if (commandString == "savePersonsList"){
+  } else if (commandString == "savePersonsList") {
     Serial.println("Going to savePersons...");
     savePersonsList();
   } else {
@@ -569,7 +571,7 @@ void endLoadCellCapture()
     EEPROM.get(tareAddress, tareValue);
     scale.set_offset(tareValue);
     //Serial.println(scale.get_offset());
-  showLoadCellResults();
+    showLoadCellResults();
   }
   drawMenuBackground();
   showMenuEntry(currentMenuIndex);
@@ -619,7 +621,7 @@ void calibrate(String inputString)
 
 void tare()
 {
-  tft.setCursor(12,100);
+  tft.setCursor(12, 100);
   tft.setTextColor(BLACK);
   tft.print(currentMenu[currentMenuIndex].description);
   tft.setTextColor(WHITE);
@@ -732,11 +734,11 @@ void showBatteryLevel() {
 
 void updateTime() {
   tft.fillRect(268, 215, 48, 16, BLACK);
-//  if (totalTime > 1000000)
-//  {
-//    tft.setTextColor(BLACK);
-//    printTftFormat(totalTime / 1000000 - 1, 302, 215, 2, 0);
-//  }
+  //  if (totalTime > 1000000)
+  //  {
+  //    tft.setTextColor(BLACK);
+  //    printTftFormat(totalTime / 1000000 - 1, 302, 215, 2, 0);
+  //  }
   tft.setTextColor(WHITE);
   printTftFormat(totalTime / 1000000, 302, 215, 2, 0);
 }
@@ -860,137 +862,6 @@ void end_steadiness()
   capturingSteadiness = false;
 }
 
-/*
-  function to draw a cartesian coordinate system and plot whatever data you want
-  just pass x and y and the graph will be drawn
-  huge arguement list
-  &d name of your display object
-  x = x data point
-  y = y datapont
-  gx = x graph location (lower left)
-  gy = y graph location (lower left)
-  w = width of graph
-  h = height of graph
-  xlo = lower bound of x axis
-  xhi = upper bound of x asis
-  xinc = division of x axis (distance not count)
-  ylo = lower bound of y axis
-  yhi = upper bound of y asis
-  yinc = division of y axis (distance not count)
-  title = title of graph
-  xlabel = x axis label
-  ylabel = y axis label
-  gcolor = graph line colors
-  acolor = axis line colors
-  pcolor = color of your plotted data
-  tcolor = text color
-  bcolor = background color
-  &redraw = flag to redraw graph on fist call only
-*/
-
-void Graph(ILI9341_t3 & d, double x, double y, double gx, double gy, double w, double h, double xlo, double xhi, double xinc, double ylo, double yhi, double yinc, String title, String xlabel, String ylabel, unsigned int gcolor, unsigned int acolor, unsigned int pcolor, unsigned int tcolor, unsigned int bcolor, boolean & startOver)
-{
-  //double ydiv, xdiv;
-  // initialize old x and old y in order to draw the first point of the graph
-  // but save the transformed value
-  // note my transform funcition is the same as the map function, except the map uses long and we need doubles
-  //static double ox = (x - xlo) * ( w) / (xhi - xlo) + gx;
-  //static double oy = (y - ylo) * (gy - h - gy) / (yhi - ylo) + gy;
-  //double temp;
-  //int rot, newrot;
-
-  //Mapping values to coordinates
-  x =  (x - xlo) * ( w) / (xhi - xlo) + gx;
-  y =  (y - ylo) * (gy - h - gy) / (yhi - ylo) + gy;
-
-  if (startOver == true)
-  {
-
-    startOver = false;
-    //In startOver, a point is plotted at the most left point
-    ox = x;
-    oy = y;
-  }
-
-  //graph drawn now plot the data
-  // the entire plotting code are these few lines...
-  // recall that ox and oy are initialized as static above
-  //Drawing 3 lines slows the drawing and erasing
-  d.drawLine(ox, oy, x, y, pcolor);
-  //  d.drawLine(ox, oy + 1, x, y + 1, pcolor);
-  //  d.drawLine(ox, oy - 1, x, y - 1, pcolor);
-  ox = x;
-  oy = y;
-
-}
-
-void redrawAxes(ILI9341_t3 & d, double gx, double gy, double w, double h, double xlo, double xhi, double ylo, double yhi, double yinc, String title, String xlabel, String ylabel, unsigned int gcolor, unsigned int acolor, unsigned int pcolor, unsigned int tcolor, unsigned int bcolor, unsigned int goalColor, boolean resize)
-{
-  //double ydiv, xdiv;
-  // initialize old x and old y in order to draw the first point of the graph
-  // but save the transformed value
-  // note my transform funcition is the same as the map function, except the map uses long and we need doubles
-  //static double ox = (x - xlo) * ( w) / (xhi - xlo) + gx;
-  //static double oy = (y - ylo) * (- h) / (yhi - ylo) + gy;
-  double yAxis;
-  //double xAxis;
-
-  //Deleting goalForce line
-  if (capturingPreSteadiness || capturingSteadiness)
-  {
-    yAxis =  (forceGoal - ylo) * (-h) / (yhi - ylo) + gy;
-    d.drawLine(gx, yAxis, gx + w, yAxis, BLACK);
-  }
-
-  if (resize) tft.drawRect(0, 0, gx, gy, BLACK);
-
-  d.setTextSize(1);
-  d.setTextColor(tcolor, bcolor);
-
-  //Vertical line
-  d.drawLine(gx, gy, gx, gy - h, acolor);
-
-  // draw y scale
-  for (double i = ylo; i <= yhi; i += yinc)
-  {
-    // compute the transform
-    yAxis =  (i - ylo) * (-h) / (yhi - ylo) + gy;
-
-    d.drawLine(gx, yAxis, gx + w, yAxis, acolor);
-    //If the scale has changed the numbers must be redrawn
-    if (resize)
-    {
-      printTftFormat(i, gx - 6, yAxis - 3, 1, 0);
-    }
-  }
-
-  //  xAxis =  (-xlo) * ( w) / (xhi - xlo) + gx;
-  //  d.drawLine(gx, gy, gx, gy - h, acolor);
-
-  //now draw the labels
-
-  d.setTextSize(1);
-  d.setTextColor(acolor, bcolor);
-  d.setCursor(gx , gy + 20);
-  d.println(xlabel);
-
-  d.setTextSize(1);
-  d.setTextColor(acolor, bcolor);
-  d.setCursor(gx - 30, gy - h - 10);
-  d.println(ylabel);
-
-  d.setTextSize(2);
-  d.setTextColor(tcolor, bcolor);
-  d.setCursor(gx , gy - h - 30);
-  d.println(title);
-
-  if (capturingPreSteadiness || capturingSteadiness)
-  {
-    yAxis =  (forceGoal - ylo) * (-h) / (yhi - ylo) + gy;
-    d.drawLine(gx, yAxis, gx + w, yAxis, goalColor);
-  }
-}
-
 void capture()
 {
   currentPerson = totalPersons - 1;
@@ -1101,10 +972,10 @@ void capture()
             resized = true;
           }
         }
-        
-//        Serial.print(totalTime); Serial.print(";");
-//        Serial.println(measured, 2); //scale.get_units() returns a float
-        
+
+        //        Serial.print(totalTime); Serial.print(";");
+        //        Serial.println(measured, 2); //scale.get_units() returns a float
+
         if (!PcControlled) saveSD(fileName);
         plotBuffer[n] = measured;
 
@@ -1196,17 +1067,17 @@ void getEncoderDynamics()
   if (sampleDuration >= 1000)
   {
     lastSampleTime = totalTime;
-    
+
     long position = encoder.read();
 
     //TODO: Calculate positoion depending on the parameters of the encoder/machine
     if (inertialMode) position = - abs(position);
     measured = (float)(position - lastSamplePosition) * 1000 / (sampleDuration);
     //measured = position;
-//    if(position != lastSamplePosition) Serial.println(String(localMax) + "\t" + String(lastSamplePosition) +
-//      "\t" + String(position) + "\t" + String(encoderPhase * (position - localMax)));
+    //    if(position != lastSamplePosition) Serial.println(String(localMax) + "\t" + String(lastSamplePosition) +
+    //      "\t" + String(position) + "\t" + String(encoderPhase * (position - localMax)));
     float accel = (measured - lastVelocity) * 1000000 / sampleDuration;
-    if(propulsive && accel <= -9.81){
+    if (propulsive && accel <= -9.81) {
       //Serial.println("End propulsive at time: " + String(lastSampleTime));
       propulsive = false;
     }
@@ -1233,27 +1104,27 @@ void getEncoderDynamics()
     {
       //Serial.println("New localMax : " + String(position) + "\t" + String(localEncoderPhase));
       localMax = position;
-      
+
       //Checking if this local maximum is actually the start of the new phase
     }
-    
+
     if (encoderPhase * (localMax - position) > minRom)
-      {
-        encoderPhase *= -1;
-        propulsive = true;
-        numRepetitions++;
-        //avgVelocity = (float)(position - startPhasePosition) * 1000 / (lastSampleTime - startPhaseTime);
-        if (avgVelocity > maxAvgVelocity) maxAvgVelocity = avgVelocity;
-//        Serial.println(String(position) + " - " + String(startPhasePosition) + " = " + String(position - localMax) + "\t" + String(encoderPhase));
-//        Serial.println("Change of phase at: " + String(lastSampleTime));
-//        Serial.print(String(1000 * (float)(position - startPhasePosition) / (lastSampleTime - startPhaseTime)) + " m/s\t" );
-//        Serial.println(String(1000*(persons[currentPerson].weight * 9.81 * (position - startPhasePosition)) / 
-//        (lastSampleTime - startPhaseTime))+" W");
-        startPhasePosition = position;
-        startPhaseTime = lastSampleTime;
-      }
+    {
+      encoderPhase *= -1;
+      propulsive = true;
+      numRepetitions++;
+      //avgVelocity = (float)(position - startPhasePosition) * 1000 / (lastSampleTime - startPhaseTime);
+      if (avgVelocity > maxAvgVelocity) maxAvgVelocity = avgVelocity;
+      //        Serial.println(String(position) + " - " + String(startPhasePosition) + " = " + String(position - localMax) + "\t" + String(encoderPhase));
+      //        Serial.println("Change of phase at: " + String(lastSampleTime));
+      //        Serial.print(String(1000 * (float)(position - startPhasePosition) / (lastSampleTime - startPhaseTime)) + " m/s\t" );
+      //        Serial.println(String(1000*(persons[currentPerson].weight * 9.81 * (position - startPhasePosition)) /
+      //        (lastSampleTime - startPhaseTime))+" W");
+      startPhasePosition = position;
+      startPhaseTime = lastSampleTime;
+    }
     lastSamplePosition = position;
-    lastVelocity = measured;  
+    lastVelocity = measured;
     //Serial.println(String(measured) + "\t" + String(accel));
   }
 }
@@ -1370,14 +1241,14 @@ void startPowerCapture(void)
   //Depending on the speed of the clock it can be adjusted
   //96 Mhz and 1000 us captures but the screen refreshing becomes unstable
   //72 Mhz and 2000 us captures but the screen refreshing becomes unstable
-  encoderTimer.begin(readEncoder, 2000); 
+  encoderTimer.begin(readEncoder, 2000);
   capture();
 }
 
 void readEncoder()
 {
   position = encoder.read();
-//  encoderString = encoderString + String(position - lastEncoderPosition) + ",";
+  //  encoderString = encoderString + String(position - lastEncoderPosition) + ",";
   encoderBuffer[encoderBufferIndex] = position - lastEncoderPosition;
   lastEncoderPosition = position;
   encoderBufferIndex++;
@@ -1549,11 +1420,11 @@ unsigned int getTotalPerson()
 void readPersonsFile()
 {
   /*
-   * Ecample of persons.txt format
-   *0,Blancaneus,160, 65,
-   *1,Pulgarcito,16, 6,
-   *3,Tres porquets,50, 20,
-   */
+     Ecample of persons.txt format
+    0,Blancaneus,160, 65,
+    1,Pulgarcito,16, 6,
+    3,Tres porquets,50, 20,
+  */
   String row = "";
   char readChar;
   File  personsFile = SD.open("persons.txt");
@@ -1592,7 +1463,7 @@ void addPerson(String row)
   currentPerson = row.substring(prevComaIndex + 1, nextComaIndex).toInt();
   persons[currentPerson].index = currentPerson;
 
-  if (currentPerson >= totalPersons) totalPersons = currentPerson+1;
+  if (currentPerson >= totalPersons) totalPersons = currentPerson + 1;
   prevComaIndex = nextComaIndex;
   nextComaIndex = row.indexOf(",", prevComaIndex + 1 );
   persons[currentPerson].name = row.substring(prevComaIndex + 1 , nextComaIndex);
@@ -1640,30 +1511,30 @@ void startInertialEncoderCapture()
 {
   inertialMode = true;
   if (!calibratedInertial) calibrateInertial();
-  
+
   startEncoderCapture();
 }
 
 void calibrateInertial()
 {
   tft.setTextColor(BLACK);
-  tft.setCursor(12,100);
+  tft.setCursor(12, 100);
   tft.print(currentMenu[currentMenuIndex].description);
   tft.setTextColor(WHITE);
-  tft.setCursor(12,100);
+  tft.setCursor(12, 100);
   tft.println("Extend the rope or belt.\nOnce extended press RedButton");
 
-  tft.setCursor(12,200);
+  tft.setCursor(12, 200);
   tft.print("Position: ");
   tft.setTextColor(WHITE);
   tft.setCursor(124, 200);
   position = encoder.read();
   tft.print(position);
   redButton.update();
-  while(!redButton.fell())
+  while (!redButton.fell())
   {
     position = encoder.read();
-    if (position != lastEncoderPosition){
+    if (position != lastEncoderPosition) {
       tft.setCursor(124, 200);
       tft.setTextColor(BLACK);
       tft.print(lastEncoderPosition);
@@ -1674,12 +1545,12 @@ void calibrateInertial()
     }
     redButton.update();
   }
-    
+
   //Deleting text
   tft.setTextColor(BLACK);
-  tft.setCursor(12,100);
+  tft.setCursor(12, 100);
   tft.println("Extend the rope or belt.\nOnce extended press RedButton");
-  tft.setCursor(12,200);
+  tft.setCursor(12, 200);
   tft.print("Position: ");
   tft.setCursor(124, 200);
   tft.print(lastEncoderPosition);
@@ -1708,10 +1579,10 @@ void selectPerson()
 {
   setNumber++;
   updatePersonSet();
-  while(!redButton.fell())
+  while (!redButton.fell())
   {
     blueButton.update();
-    if(blueButton.fell()) {
+    if (blueButton.fell()) {
       updatePersonSet();
     }
     redButton.update();
@@ -1719,5 +1590,5 @@ void selectPerson()
 }
 
 void fakeFunction()
-{  
+{
 }

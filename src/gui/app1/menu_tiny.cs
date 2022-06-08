@@ -32,6 +32,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Arrow arrow_menu_show_session_down1;
 	[Widget] Gtk.VBox vbox_menu_tiny;
 	[Widget] Gtk.VBox vbox_menu_tiny_menu; //really the menu (without the logos at the bottom)
+	[Widget] Gtk.EventBox eventbox_button_menu_database;
 	[Widget] Gtk.EventBox eventbox_check_menu_session1;
 	[Widget] Gtk.EventBox eventbox_button_menu_session_more1;
 	[Widget] Gtk.EventBox eventbox_button_menu_session_new1;
@@ -141,6 +142,7 @@ public partial class ChronoJumpWindow
 
 		UtilGtk.ViewportColor(viewport_image_logo_icon, UtilGtk.BLUE_CHRONOJUMP);
 
+		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_menu_database, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_check_menu_session1, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_menu_preferences1, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_menu_help1, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);

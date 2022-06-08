@@ -61,6 +61,7 @@ public class Config
 	public bool LowHeight; //devices with less than 500 px vertical, like Odroid Go Super
 	public bool LowCPU; //workaround to not show realtime graph on force sensor capture (until its optimized)
 	public bool GuiTest;
+	public bool CanOpenExternalDataDir;
 	public string DataDir = ""; //on chronojump-networks admin to replace GetLocalDataDir (), think if Import has to be disabled
 
 	/*
@@ -148,6 +149,8 @@ public class Config
 						LowCPU = true;
 					else if(parts[0] == "GuiTest" && Util.StringToBool(parts[1]))
 						GuiTest = true;
+					else if(parts[0] == "CanOpenExternalDataDir" && Util.StringToBool(parts[1]))
+						CanOpenExternalDataDir = true;
 					else if(parts[0] == "DataDir" && parts[1] != "")
 					{
 						DataDir = parts[1]; //works even with spaces on name

@@ -585,7 +585,12 @@ kinematicsF <- function(displacement, repOp, smoothingOneEC, smoothingOneC, g, i
 			concentric = phases$concentric
 	
 			#temporary fix problem of found MinSpeedEnd at right
-			if(eccentric == 0 && isometric == 0 && concentric == 0)
+
+			#if(eccentric == 0 && isometric == 0 && concentric == 0)
+			#condition "if (eccentric == 0)" fails when is a vector on recent R versions, so check first the length
+			if(length(eccentric) == 1 && eccentric == 0 &&
+					length(isometric) == 1 && isometric == 0 &&
+					length(concentric) == 1 && concentric == 0)
 				propulsiveEnd = length(displacement)
 			else {
 				maxSpeedT <- min(which(speed$y == max(speed$y)))
@@ -619,7 +624,7 @@ kinematicsF <- function(displacement, repOp, smoothingOneEC, smoothingOneC, g, i
 	if(eccModesStartOnGround && ! isInertial(repOp$econfName) && 
 	   (repOp$eccon == "e" || repOp$eccon == "ec")) {
 		#if eccentric is undefined, find it
-		if(eccentric == 0) {
+		if(length(eccentric == 1) && eccentric == 0) {
 			if(repOp$eccon == "e")
 				eccentric = 1:length(displacement)
 			else {  #(repOp$eccon=="ec")

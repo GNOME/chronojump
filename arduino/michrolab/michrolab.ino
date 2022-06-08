@@ -352,6 +352,7 @@ void setup() {
   totalPersons = getTotalPerson();
   readPersonsFile();
 
+
   for (int i = 0; i < 10; i++) {
     currentMenu[i].title = mainMenu[i].title;
     currentMenu[i].description = mainMenu[i].description;
@@ -359,6 +360,17 @@ void setup() {
   }
 
   tft.fillScreen(BLACK);
+  
+//Testing barPlot
+//  redrawAxes(tft, 30, 200, 290, 200, 290, 200, 0, 200, 20, "", "", "", WHITE, GREY, WHITE, WHITE, BLACK, RED, true);
+//  for (int i = 0; i< 100; i++)
+//  {
+//    barPlot(30, 200, 290, 200, 200, 5, i, 0.5, RED);
+//    delay(100);
+//    barPlot(30, 200, 290, 200, 200, 5, i, 0.5, BLACK);
+//    redrawAxes(tft, 30, 200, 290, 200, 290, 200, 0, 200, 20, "", "", "", WHITE, GREY, WHITE, WHITE, BLACK, RED, false);
+//  }
+  
   drawMenuBackground();
   showMenuEntry(currentMenuIndex);
 }

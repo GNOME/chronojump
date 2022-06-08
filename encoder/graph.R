@@ -3117,15 +3117,15 @@ doProcess <- function(options)
 				#SmoothingsEC[i] = 0
 		#}
 		#else {
-			#singleCurveNum <- -1
-			#if(op$Analysis == "single" && op$Jump > 0)
-				#singleCurveNum <- op$Jump
-			#SmoothingsEC <- findSmoothingsEC(
-				#singleFile, displacement, curves, singleCurveNum, op$Eccon, op$SmoothingOneC,
-				#op$EncoderConfigurationName, op$diameter, op$inertiaMomentum, op$gearedDown
-			#) #second row is needed for singleFile (signal)
+			singleCurveNum <- -1
+			if(op$Analysis == "single" && op$Jump > 0)
+				singleCurveNum <- op$Jump
+			SmoothingsEC <- findSmoothingsEC(
+				singleFile, displacement, curves, singleCurveNum, op$Eccon, op$SmoothingOneC,
+				op$EncoderConfigurationName, op$diameter, op$inertiaMomentum, op$gearedDown
+			) #second row is needed for singleFile (signal)
 		#}
-		#print(c("SmoothingsEC:",SmoothingsEC))
+		print(c("SmoothingsEC:",SmoothingsEC))
 
                 if(curvesPlot) {
                         #/10 mm -> cm
@@ -3262,7 +3262,7 @@ doProcess <- function(options)
                                           FALSE		#show all the repetition, not only ground phase on ecc
                         ) 
                         
-                        #smoothing for displamenet
+                        #smoothing for displacement
                         smoothingTemp = 0
                         if(repOp$eccon == "c" || repOp$eccon == "e")
                                 smoothingTemp = op$SmoothingOneC

@@ -70,6 +70,7 @@ int numRepetitions = 0;
 int tareAddress = 0;
 int calibrationAddress = 4;
 int forceGoalAddress = 8;
+int groupAddress = 12;
 
 
 #define DOUT  2
@@ -169,6 +170,7 @@ menuEntry mainMenu[10] = {
 int mainMenuItems = 8;
 
 menuEntry systemMenu[10] {
+  { "Group", "Select the group you are going to use.\nUp to 9 groups can be\nselected", &selectGroup},
   { "Tare", "Set the offset of the\nsensor.", &tare },
   { "Calibrate", "Set the equivalence\nbetween the sensor values\nand the force measured.", &calibrateTFT },
   { "Force Goal", "Set the goal force for\nsteadiness measurements.", &setForceGoal },
@@ -177,11 +179,10 @@ menuEntry systemMenu[10] {
   { "Exit", "Goes back to main menu", &backMenu },
   { "", "", &backMenu},
   { "", "", &backMenu},
-  { "", "", &backMenu},
   { "", "", &backMenu}
 };
 
-int systemMenuItems = 6;
+int systemMenuItems = 7;
 
 menuEntry currentMenu[10];
 
@@ -285,6 +286,7 @@ unsigned int setNumber = 0;
 unsigned int dirNumber;
 String dirName = "";
 String fileName = "";
+unsigned short group = 0;
 
 struct personType {
   unsigned int index;
@@ -328,7 +330,15 @@ void setup() {
 
   EEPROM.get(forceGoalAddress, forceGoal);
   if (isnan(forceGoal)) {
-    EEPROM.put(forceGoal, 300);
+    EEPROM.put(forceGoalAddress, 300);
+  }
+
+  EEPROM.get(groupAddress, group);
+  Serial.print("Group: ");
+  Serial.println(group);
+  if (group == 65535) {
+    group = 0;
+    EEPROM.put(groupAddress, 0);
   }
 
   //Start TFT

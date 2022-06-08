@@ -60,10 +60,10 @@ void readPersonsFile()
   */
   String row = "";
   char readChar;
-  File  personsFile = SD.open("persons.txt");
+  String filename = "group"+String(group)+".txt";
+  File  personsFile = SD.open(filename);
   if (personsFile)
   {
-
     currentPerson = 0;
     personsFile.seek(0);
 
@@ -85,7 +85,7 @@ void readPersonsFile()
     personsFile.close();
   } else {
     // if the file didn't open, print an error:
-    Serial.println("error opening persons.txt");
+    Serial.println("error opening " + filename);
   }
 }
 
@@ -93,7 +93,8 @@ unsigned int getTotalPerson()
 {
   char readChar;
   String readString = "";
-  File  personsFile = SD.open("persons.txt");
+  String filename = "group"+String(group)+".txt";
+  File  personsFile = SD.open(filename);
   if (personsFile)
   {
     //Start reading from the last byte
@@ -115,7 +116,6 @@ unsigned int getTotalPerson()
       readString = readString + readChar;
     }
   }
-
   totalPersons = readString.toInt() + 1;
   return (totalPersons);
 }
@@ -138,4 +138,14 @@ void updatePersonSet()
   tft.setCursor(148, 223);
   tft.print(persons[currentPerson].name + " " + persons[currentPerson].surname);
   tft.setTextSize(2);
+}
+
+void selectGroup()
+{
+  group = selectValueDialog("", "Select the group number", "0,9", "1", 0);
+  EEPROM.put(groupAddress, group);
+  totalPersons = getTotalPerson();
+  readPersonsFile();
+  menuItemsNum = systemMenuItems;
+  showMenuEntry(currentMenuIndex);
 }

@@ -146,6 +146,8 @@ void selectGroup()
   EEPROM.put(groupAddress, group);
   totalPersons = getTotalPerson();
   readPersonsFile();
+  dirNumber -= 1; //It makes not to increase the session number
+  dirName = createNewDir();
   menuItemsNum = systemMenuItems;
   showMenuEntry(currentMenuIndex);
 }

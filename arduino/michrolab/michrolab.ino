@@ -41,8 +41,8 @@
 //Device commented for memory optimization
 String version = "0.1";
 
-#define teensy_3_2
-//#define teensy_4_0
+//#define teensy_3_2
+#define teensy_4_0
 
 //Encoder variables
 Encoder encoder(8, 9);
@@ -1384,16 +1384,17 @@ int countDirs()
 String createNewDir()
 {
   dirNumber = countDirs() + 1;
-  dirName = "SA";
-  dirName = dirName + addLeadingZeros(dirNumber, 5);;
+  dirName = "ML";
+  dirName = dirName + addLeadingZeros(dirNumber, 4) + "G" + String(group);
   SD.mkdir(dirName);
   return (dirName);
 }
 
 String addLeadingZeros(int number, int totalDigits)
 {
-  int leadingZeros = totalDigits - 1;
+  int leadingZeros = 0;
   if (number != 0) leadingZeros = (totalDigits - (floor(log10(number)) + 1));
+  else if (number == 0) leadingZeros = totalDigits - 1;
   String fixLenNumber = String(number);
   for (int i = 1; i <= leadingZeros; i++)
   {

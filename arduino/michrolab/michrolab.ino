@@ -303,6 +303,19 @@ personType persons[100];
 IntervalTimer rcaTimer;
 
 void setup() {
+  //Attention: some SD cards fails to initalize after uploading the firmware
+  // See if the card is present and can be initialized:
+  //TODO. Open a dialog with advertising of this situation
+  
+  while (!SD.begin(chipSelect))
+  {
+    Serial.println("Card failed, or not present");
+    tft.println("Card failed, or not present");
+    //delay(1000);
+  }
+  tft.println("Card initialized");
+  Serial.println("card initialized");
+  
   pinMode(redButtonPin, INPUT_PULLUP);
   pinMode(blueButtonPin, INPUT_PULLUP);
 
@@ -356,19 +369,6 @@ void setup() {
   #ifdef teensy_4_0
     tft.setRotation(3);
   #endif
-
-  // See if the card is present and can be initialized:
-  //TODO. Open a dialog with advertising of this situation
-  if (!SD.begin(chipSelect))
-  {
-    Serial.println("Card failed, or not present");
-    tft.println("Card failed, or not present");
-    delay(100);
-  } else
-  {
-    tft.println("Card initialized");
-    Serial.println("card initialized");
-  }
 
   dirName = createNewDir();
   totalPersons = getTotalPerson();

@@ -117,7 +117,8 @@ bool elapsed200 = false;  //Wether it has passed 200 ms since the start
 bool elapsed100 = false;  //Wether it has passed 100 ms since the start
 
 
-unsigned long rcaTime = 0;  //Time at which RCA changed
+volatile unsigned long rcaTime = 0;  //Time at which RCA changed
+volatile bool rcaFlag = false;
 elapsedMicros totalTime = 0;
 unsigned long lastSampleTime;
 
@@ -136,11 +137,9 @@ double graphMax = measuredMax;
 float bars[10] = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
 
 
-const unsigned int rcaPin = 3;
-
-unsigned long triggerTime = 0;        //The instant in which the trigger signal is activated
-bool rcaState = digitalRead(rcaPin);  //Wether the RCA is shorted or not
-bool lastRcaState = rcaState;         //The previous state of the RCA
+const unsigned int rcaPin = 16;
+volatile bool rcaState = LOW;
+bool lastRcaState = LOW;         //The previous state of the RCA
 
 unsigned int currentMenuIndex = 0;              //Main menu state
 unsigned int submenu = 0;           //submenus state
@@ -301,6 +300,8 @@ struct personType {
 unsigned int totalPersons = 0;
 personType persons[100];
 
+IntervalTimer rcaTimer;
+
 void setup() {
   pinMode(redButtonPin, INPUT_PULLUP);
   pinMode(blueButtonPin, INPUT_PULLUP);
@@ -308,7 +309,9 @@ void setup() {
   //  Serial.begin(256000);
   Serial.begin(115200);
 
-  attachInterrupt(digitalPinToInterrupt(rcaPin), changingRCA, CHANGE);
+
+  pinMode(rcaPin, INPUT_PULLUP);
+  attachInterrupt(rcaPin, changingRCA, CHANGE);
 
   EEPROM.get(tareAddress, tareValue);
   //If the arduino has not been tared the default value in the EEPROM is -151.
@@ -376,6 +379,12 @@ void setup() {
     currentMenu[i].description = mainMenu[i].description;
     currentMenu[i].function = mainMenu[i].function;
   }
+
+//  while (true)
+//  {
+//    Serial.println(digitalRead(rcaPin));
+//    delay(100);
+//  }
 
   tft.fillScreen(BLACK);
   drawMenuBackground();
@@ -722,11 +731,22 @@ void get_transmission_format()
   }
 }
 
+//Any change in the RCA activates the timer
 void changingRCA() {
-  detachInterrupt(digitalPinToInterrupt(rcaPin));
   rcaTime = totalTime;
   rcaState = digitalRead(rcaPin);
-  attachInterrupt(digitalPinToInterrupt(rcaPin), changingRCA, CHANGE);
+  rcaTimer.begin(rcaDebounce, 2000);
+}
+
+//After the debounce time the state of the RCA is checked again to see if it has changed
+void rcaDebounce()
+{
+  rcaTimer.end();
+  rcaState = digitalRead(rcaPin);
+  if (rcaState != lastRcaState)
+  {
+    rcaFlag = true;
+  }
 }
 
 void calibrateTFT(void) {
@@ -1316,17 +1336,33 @@ void showPowerResults()
 
 void startJumpsCapture()
 {
+  rcaState = digitalRead(rcaPin);
+  lastRcaState = rcaState;
+  rcaFlag = false;
   tft.fillScreen(BLACK);
 //Testing barPlot
   redrawAxes(tft, 30, 200, 290, 200, 290, 200, 0, 100, 10, "", "", "", WHITE, GREY, WHITE, WHITE, BLACK, RED, true);
-  for (int i = 0; i< 100; i++)
+  redButton.update();
+  while(!redButton.fell())
   {
-    bars[i % 10] = random(10,60);
-    barPlot(30, 200, 290, 200, 100, 5, i % 10, 0.5, RED);
-    delay(500);
-    barPlot(30, 200, 290, 200, 100, 5, i % 10, 0.5, BLACK);
-    redrawAxes(tft, 30, 200, 290, 200, 290, 200, 0, 100, 10, "", "", "", WHITE, GREY, WHITE, WHITE, BLACK, RED, false);
+    if (rcaFlag)
+    {
+      rcaFlag = false;
+      Serial.print(rcaTime);
+      Serial.print(":");
+      if(rcaState)
+      {
+        Serial.print("R");
+      } else if(!rcaState)
+      {
+        Serial.print("r");
+      }
+      Serial.println(";");
+      lastRcaState = rcaState;
+    }
+    redButton.update();
   }
+  
   drawMenuBackground();
   showMenuEntry(currentMenuIndex);
 }

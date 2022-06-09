@@ -142,7 +142,7 @@ void updatePersonSet()
 
 void selectGroup()
 {
-  group = selectValueDialog("", "Select the group number", "0,9", "1", 0);
+  group = selectValueDialog("Select the group number", "0,9", "1", 0);
   EEPROM.put(groupAddress, group);
   totalPersons = getTotalPerson();
   readPersonsFile();

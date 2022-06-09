@@ -101,13 +101,14 @@ void drawLeftButton(String label, uint16_t tColor, uint16_t bColor)
 }
 
 //Dialog for selecting float value
-float selectValueDialog(String title, String description, String rangesString, String incString, unsigned int decimals)
+float selectValueDialog(String description, String rangesString, String incString, unsigned int decimals)
 {
   //ranges are of the format "1,10,500"
   //increments are in the format of  "2,10"
   //From 1..10 increment by 2
   //From 10..500 increment by 10
   //increments must have the number of ranges elements -1
+  //Maximum number of ranges is 10 (11 key values)
   int prevColon = 0;
   int nextColon = rangesString.indexOf(",");
   unsigned int rangesNum = 0;
@@ -119,7 +120,7 @@ float selectValueDialog(String title, String description, String rangesString, S
     prevColon = nextColon + 1;
     nextColon = rangesString.indexOf(",", prevColon);
   } while (nextColon != -1);
-  float rangesValues[10];
+  float rangesValues[11];
   float incValues[10];
 
   //Assigning key values of the ranges
@@ -149,8 +150,8 @@ float selectValueDialog(String title, String description, String rangesString, S
   //Delete description
   tft.fillRect(0, 50, 320, 190, BLACK);
 
-  tft.setCursor(30, 80);
-  tft.print(title);
+//  tft.setCursor(30, 80);
+//  tft.print(title);
 
   //Explanation of the process
   tft.setTextColor(WHITE);
@@ -181,13 +182,14 @@ float selectValueDialog(String title, String description, String rangesString, S
       printTftFormat(value, 236, 174, 2, decimals);
       
       value += incValues[currentSegment - 1];
-      if (abs(value -  rangesValues[rangesNum]) < 0.0001) {
+      if (abs(value -  rangesValues[rangesNum] - incValues[currentSegment - 1]) < 0.0001) {
         tft.setTextColor(BLACK);
         printTftFormat(value, 236, 174, 2, decimals);
         value = rangesValues[0];
         currentSegment = 1;
         drawLeftButton("+" + String(incValues[currentSegment - 1], decimals), WHITE, BLUE);
       }
+      //Sometimes float values are not exatcly the expected one
       if (abs(value - rangesValues[currentSegment]) < 0.0001)
       {
         currentSegment++;

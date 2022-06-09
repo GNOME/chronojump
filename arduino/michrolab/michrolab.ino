@@ -371,7 +371,6 @@ void setup() {
   totalPersons = getTotalPerson();
   readPersonsFile();
 
-
   for (int i = 0; i < 10; i++) {
     currentMenu[i].title = mainMenu[i].title;
     currentMenu[i].description = mainMenu[i].description;
@@ -731,7 +730,7 @@ void changingRCA() {
 }
 
 void calibrateTFT(void) {
-  float weight = selectValueDialog("", "Select the weight to use", "1,5,100", "1,5", 0);
+  float weight = selectValueDialog("Select the weight to use", "1,5,100", "1,5", 0);
   String calibrateCommand = "calibrate:" + String(weight, DEC) + ";";
   calibrate(calibrateCommand);
   tft.setTextColor(WHITE);
@@ -1171,7 +1170,7 @@ void startEncoderCapture(void)
   avgVelocity = 0;
   maxAvgVelocity = 0;
   lastVelocity = 0;
-  selectValueDialog("Load", "Select the load you are\ngoing to move", "0,5,20,200", "0.5,1,5", 1);
+  selectValueDialog("Select the load you are\ngoing to move", "0,5,20,200", "0.5,1,5", 1);
   capture();
 }
 
@@ -1334,7 +1333,7 @@ void startJumpsCapture()
 
 void setForceGoal()
 {
-  forceGoal = selectValueDialog("", "Select the force goal in Newtons.\nAn horizontal red line will be drawn", "10,50,1000,10000", "10,100,500", 0);
+  forceGoal = selectValueDialog("Select the force goal in Newtons.\nAn horizontal red line will be drawn", "10,50,1000,10000", "10,100,500", 0);
   Serial.println(forceGoal);
   menuItemsNum = systemMenuItems;
   showMenuEntry(currentMenuIndex);

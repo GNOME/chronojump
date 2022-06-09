@@ -118,6 +118,7 @@ bool elapsed100 = false;  //Wether it has passed 100 ms since the start
 
 
 volatile unsigned long rcaTime = 0;  //Time at which RCA changed
+unsigned long lastRcaTime = 0;
 volatile bool rcaFlag = false;
 elapsedMicros totalTime = 0;
 unsigned long lastSampleTime;
@@ -1339,10 +1340,13 @@ void startJumpsCapture()
   rcaState = digitalRead(rcaPin);
   lastRcaState = rcaState;
   rcaFlag = false;
+  float flightTime = 0;
+  bool firstContact = true;
   tft.fillScreen(BLACK);
 //Testing barPlot
   redrawAxes(tft, 30, 200, 290, 200, 290, 200, 0, 100, 10, "", "", "", WHITE, GREY, WHITE, WHITE, BLACK, RED, true);
   redButton.update();
+  int index = 0;
   while(!redButton.fell())
   {
     if (rcaFlag)
@@ -1352,13 +1356,21 @@ void startJumpsCapture()
       Serial.print(":");
       if(rcaState)
       {
-        Serial.print("R");
-      } else if(!rcaState)
+        Serial.println("R;");
+        if(firstContact) firstContact = false;
+      } else if(!rcaState && !firstContact)
       {
-        Serial.print("r");
+        Serial.println("r;");
+        barPlot(30, 200, 290, 200, 100, 10, (index -1)%10, 0.5, BLACK);
+        index = (index + 1) % 10;
+        flightTime = (float)(rcaTime - lastRcaTime) / 1E6;
+        bars[index] = 122.6*flightTime*flightTime; //In cm
+        Serial.println(bars[index]);
+        redrawAxes(tft, 30, 200, 290, 200, 290, 200, 0, 100, 10, "", "", "", WHITE, GREY, WHITE, WHITE, BLACK, RED, true);
+        barPlot(30, 200, 290, 200, 100, 10, index, 0.5, RED);
       }
-      Serial.println(";");
       lastRcaState = rcaState;
+      lastRcaTime = rcaTime;
     }
     redButton.update();
   }

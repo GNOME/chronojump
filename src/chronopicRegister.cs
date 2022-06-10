@@ -306,17 +306,22 @@ public abstract class ChronopicRegister
 	private List <selectedForMode> selectedForMode_l;
 	public struct selectedForMode
 	{
-		public string portName;
+		public ChronopicRegisterPort crp;
 		public Constants.Modes mode;
 
-		public selectedForMode (string portName, Constants.Modes mode)
+		public selectedForMode (ChronopicRegisterPort crp, Constants.Modes mode)
 		{
-			this.portName = portName;
+			this.crp = crp;
 			this.mode = mode;
+		}
+
+		public override string ToString () 	//debug
+		{
+			return string.Format ("crp: {0}; mode: {1}", crp, mode);
 		}
 	}
 
-	public void SetSelectedForMode (string portName, Constants.Modes mode)
+	public void SetSelectedForMode (ChronopicRegisterPort crp, Constants.Modes mode)
 	{
 		if (selectedForMode_l == null)
 			selectedForMode_l = new List<selectedForMode> ();
@@ -325,21 +330,34 @@ public abstract class ChronopicRegister
 			if (selectedForMode_l[i].mode == mode)
 			{
 				//note structs cannot be changed, so change by a new one
-				selectedForMode_l[i] = new selectedForMode (portName, mode);
+				selectedForMode_l[i] = new selectedForMode (crp, mode);
 				return;
 			}
 
 		//not found, add it
-		selectedForMode_l.Add (new selectedForMode (portName, mode));
+		selectedForMode_l.Add (new selectedForMode (crp, mode));
 	}
 
-	public string GetSelectedForMode (Constants.Modes mode)
+	public ChronopicRegisterPort GetSelectedForMode (Constants.Modes mode)
 	{
+		if (selectedForMode_l == null)
+			return new ChronopicRegisterPort ("");
+
 		foreach (selectedForMode sfm in selectedForMode_l)
 			if (sfm.mode == mode)
-				return sfm.portName;
+				return sfm.crp;
 
-		return "";
+		return new ChronopicRegisterPort ("");
+	}
+
+	//to debug
+	public void ListSelectedForAllModes ()
+	{
+		if (selectedForMode_l == null)
+			return;
+
+		foreach (selectedForMode sfm in selectedForMode_l)
+			LogB.Information (sfm.ToString ());
 	}
 
 	// <---- end of selectedForMode ----

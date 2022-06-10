@@ -1116,6 +1116,18 @@ public class EncoderSQL
 		return str;
 	}
 
+	public override string ToString () 	 //debug
+	{
+		return string.Format (
+				"uniqueID: {0},  personID: {1},  sessionID: {2},  exerciseID: {3},  eccon: {4}, " +
+				"laterality: {5},  extraWeight: {6},  signalOrCurve: {7},  filename: {8}, " +
+				"url: {9},  time: {10},  minHeight: {11},  description: {12}, " +
+				"status: {13},  videoURL: {14},  encoderConfiguration: {15},  future1: {16}, " +
+				"future2: {17},  future3: {18},   repCriteria: {19},  exerciseName: {20}",
+				uniqueID, personID, sessionID, exerciseID, eccon, laterality, extraWeight, signalOrCurve, filename,
+				url, time, minHeight, description, status, videoURL, encoderConfiguration, future1, future2, future3,  repCriteria, exerciseName);
+	}
+
 	//uniqueID:name
 	public EncoderSQL ChangePerson(string newIDAndName) {
 		int newPersonID = Util.FetchID(newIDAndName);

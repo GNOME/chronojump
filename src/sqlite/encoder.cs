@@ -226,6 +226,10 @@ class SqliteEncoder : Sqlite
 		if(! dbconOpened)
 			Sqlite.Open();
 
+		string encT = Constants.EncoderTable;
+		string encSCT = Constants.EncoderSignalCurveTable;
+		string encExT = Constants.EncoderExerciseTable;
+
 		string andString = "";
 		string personIDStr = "";
 		if(personID != -1) {
@@ -253,7 +257,7 @@ class SqliteEncoder : Sqlite
 
 		string selectStr = "";
 		if(uniqueID != -1)
-			selectStr = Constants.EncoderTable + ".uniqueID = " + uniqueID;
+			selectStr = encT + ".uniqueID = " + uniqueID;
 		else {
 			if(signalOrCurve == "all")
 				selectStr = personIDStr + sessionIDStr + exerciseIDStr + lateralityEnglishStr;
@@ -261,12 +265,12 @@ class SqliteEncoder : Sqlite
 				selectStr = personIDStr + sessionIDStr + exerciseIDStr + lateralityEnglishStr + andString + " signalOrCurve = \"" + signalOrCurve + "\"";
 		
 			if(ecconSelect != EncoderSQL.Eccons.ALL)
-				selectStr += andString + Constants.EncoderTable + ".eccon = \"" + EncoderSQL.Eccons.ecS.ToString() + "\"";
+				selectStr += andString + encT + ".eccon = \"" + EncoderSQL.Eccons.ecS.ToString() + "\"";
 		}
 
-		string fromString = " FROM " + Constants.EncoderTable  + ", " + Constants.EncoderExerciseTable;
+		string fromString = " FROM " + encT  + ", " + encExT;
 		if(orderRepsByPosInSet)
-			fromString += ", " + Constants.EncoderSignalCurveTable;
+			fromString += ", " + encSCT;
 
 		//ensure andString is defined if selectStr is != "" (bug on 2.1.2 release)
 		if(selectStr != "")
@@ -275,32 +279,32 @@ class SqliteEncoder : Sqlite
 		string onlyActiveString = "";
 		if(onlyActive)
 		{
-			onlyActiveString = andString + Constants.EncoderTable + ".status = \"active\" ";
+			onlyActiveString = andString + encT + ".status = \"active\" ";
 			andString = " AND ";
 		}
 
 		string orderRepsByPosInSetAndStr = "";
 		if(orderRepsByPosInSet)
 		{
-			orderRepsByPosInSetAndStr = andString + Constants.EncoderTable + ".uniqueID = " +
-				Constants.EncoderSignalCurveTable + ".curveID ";
+			orderRepsByPosInSetAndStr = andString + encT + ".uniqueID = " +
+				encSCT + ".curveID ";
 			//andString = " AND ";
 		}
 
 		string orderRepsByPosInSetOrderStr = "";
 		if(orderRepsByPosInSet)
-			orderRepsByPosInSetOrderStr = Constants.EncoderSignalCurveTable + ".mscentral, ";
+			orderRepsByPosInSetOrderStr = encSCT + ".mscentral, ";
 
 		string orderIDstr = "";
 		if(! orderIDascendent)
 			orderIDstr = " DESC";
 
 		dbcmd.CommandText = "SELECT " + 
-			Constants.EncoderTable + ".*, " + Constants.EncoderExerciseTable + ".name " +
+			encT + ".*, " + encExT + ".name " +
 			fromString +
 			" WHERE " + selectStr +
-			andString + Constants.EncoderTable + ".exerciseID = " + 
-				Constants.EncoderExerciseTable + ".uniqueID " +
+			andString + encT + ".exerciseID = " + 
+				encExT + ".uniqueID " +
 				onlyActiveString + orderRepsByPosInSetAndStr +
 			" ORDER BY substr(filename,-23,19), " + //'filename,-23,19' has the date of capture signal
 			orderRepsByPosInSetOrderStr +

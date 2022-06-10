@@ -123,7 +123,7 @@ public class DiscoverWindow
 	List<Gtk.ProgressBar> progressbar_microNotDiscovered_l;
 	List<Gtk.Button> button_microNotDiscovered_l;
 
-	List<string> portAlreadyDiscovered_l;
+	List<ChronopicRegisterPort> portAlreadyDiscovered_l;
 	List<Gtk.Button> button_microAlreadyDiscovered_l;
 
 	static bool discoverCloseAfterCancel; //is true when select useThis while reading other devices
@@ -137,7 +137,7 @@ public class DiscoverWindow
 	private Gtk.Image image_button_micro_discover_cancel_close;
 	private Gtk.Label label_button_micro_discover_cancel_close;
 
-	private string portSelected;
+	private ChronopicRegisterPort portSelected;
 
 	public DiscoverWindow (Constants.Modes current_mode, ChronopicRegister chronopicRegister,
 			Gtk.Label label_micro_discover_not_found,
@@ -154,7 +154,7 @@ public class DiscoverWindow
 		// 1) set up gui
 
 		FakeButtonClose = new Gtk.Button();
-		portSelected = "";
+		portSelected = new ChronopicRegisterPort ("");
 
 		//ChronoDebug cDebug = new ChronoDebug("Discover " + current_mode.ToString());
 		//cDebug.Start();
@@ -165,7 +165,6 @@ public class DiscoverWindow
 		List<ChronopicRegisterPort> alreadyDiscovered_l = new List<ChronopicRegisterPort> ();
 		List<ChronopicRegisterPort> notDiscovered_l = new List<ChronopicRegisterPort> ();
 		foreach (ChronopicRegisterPort crp in chronopicRegister.Crpl.L)
-		//foreach (ChronopicRegisterPort crp in crpl.L)
                         if (crp.Port != "")
 			{
 				if (crp.Type != ChronopicRegisterPort.Types.UNKNOWN &&
@@ -220,7 +219,7 @@ public class DiscoverWindow
 		// 2) create the lists of widgets to be able to access later
 		progressbar_microNotDiscovered_l = new List<Gtk.ProgressBar> ();
 		button_microNotDiscovered_l = new List<Gtk.Button> ();
-		portAlreadyDiscovered_l = new List<string> ();
+		portAlreadyDiscovered_l = new List<ChronopicRegisterPort> ();
 		button_microAlreadyDiscovered_l = new List<Gtk.Button> ();
 
 		// 3) create widgets, lists, attach to table and show all
@@ -280,8 +279,8 @@ public class DiscoverWindow
 		{
 			b.Sensitive = discoverMatchCurrentMode (crp.Type);
 			button_microAlreadyDiscovered_l.Add (b);
-			portAlreadyDiscovered_l.Add (crp.Port);
-			b.Clicked += new EventHandler (on_discover_button_clicked);
+			portAlreadyDiscovered_l.Add (crp);
+			b.Clicked += new EventHandler (on_discover_use_this_clicked);
 		} else {
 			b.Sensitive = false;
 			button_microNotDiscovered_l.Add (b);
@@ -328,7 +327,7 @@ public class DiscoverWindow
 			{
 				(progressbar_microNotDiscovered_l[i]).Text = ChronopicRegisterPort.TypePrint(microDiscover.Discovered_l[i]);
 				button_microNotDiscovered_l[i].Sensitive = true;
-				button_microNotDiscovered_l[i].Clicked += new EventHandler(on_discover_button_clicked);
+				button_microNotDiscovered_l[i].Clicked += new EventHandler(on_discover_use_this_clicked);
 			}
 		}
 
@@ -390,7 +389,7 @@ public class DiscoverWindow
 		return false;
 	}
 
-	private void on_discover_button_clicked (object o, EventArgs args)
+	private void on_discover_use_this_clicked (object o, EventArgs args)
 	{
 		Button bPress = (Button) o;
 		bool success = false;
@@ -404,8 +403,7 @@ public class DiscoverWindow
 						microDiscover.ToDiscover_l[i], microDiscover.Discovered_l[i]);
 				chronopicRegister.SetType (microDiscover.ToDiscover_l[i].SerialNumber,
 						microDiscover.Discovered_l[i]);
-				//portSelectedForceSensor = microDiscover.ToDiscover_l[i].Port;
-				portSelected = microDiscover.ToDiscover_l[i].Port;
+				portSelected = microDiscover.ToDiscover_l[i];
 
 				/* instead of connect, just do changes on gui in order to be used
 				if(! portFSOpened)
@@ -429,7 +427,6 @@ public class DiscoverWindow
 			if (button_microAlreadyDiscovered_l[i] == bPress)
 			{
 				portSelected = portAlreadyDiscovered_l[i];
-
 				success = true;
 			}
 
@@ -475,7 +472,7 @@ public class DiscoverWindow
 	}
 
 	//the port that user clicked on "Use this!"
-	public string PortSelected {
+	public ChronopicRegisterPort PortSelected {
 		get { return portSelected; }
 	}
 }

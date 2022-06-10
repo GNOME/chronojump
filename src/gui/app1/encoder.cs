@@ -3231,11 +3231,11 @@ public partial class ChronoJumpWindow
 		}
 		else {
 			LogB.Warning("TOSTRING1");
-			eSQL.ToString();
+			LogB.Information (eSQL.ToString());
 			//only signal is updated
 			SqliteEncoder.Update(dbconOpened, eSQL); //Adding on SQL
 			LogB.Warning("TOSTRING2");
-			eSQL.ToString();
+			LogB.Information (eSQL.ToString());
 			feedback = Catalog.GetString("Set updated");
 		}
 		
@@ -7755,16 +7755,18 @@ public partial class ChronoJumpWindow
 		 * (2) update analyze labels and combos
 		 */
 
+		// get the signal
 		ArrayList array = SqliteEncoder.Select(
 				true, Convert.ToInt32(encoderSignalUniqueID), 0, 0, getEncoderGI(),
-				-1, "", EncoderSQL.Eccons.ALL, "",
-				false, true, true);
+				-1, "signal", EncoderSQL.Eccons.ALL, "",
+				false, true, false);
 
 		if(array.Count == 0)
 			return;
 
 		EncoderSQL currentSignalSQL = (EncoderSQL) array[0];
 
+		// get the curves sorted by position in set
 		ArrayList data = SqliteEncoder.Select(
 				true, -1, currentPerson.UniqueID, currentSession.UniqueID, getEncoderGI(),
 				-1, "curve", EncoderSQL.Eccons.ALL, "",

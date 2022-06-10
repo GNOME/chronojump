@@ -216,12 +216,13 @@ class SqliteEncoder : Sqlite
 	   eg if you save only the best (maybe the 4th), will have uniqueID 1, and then if you save it all,
 	   then they will be saved as 2, 3, (4 not saved becuase it is already one), 4, 5, ... So 4th in order will be 1
 	   orderRepsByPosInSet fixes this problem. this is used eg. in analyze session to sort them correctly
+	   but note it Select will only work ok for curves
 	 */
 	public static ArrayList Select (
 			bool dbconOpened, int uniqueID, int personID, int sessionID, Constants.EncoderGI encoderGI, 
 			int exerciseID, string signalOrCurve, EncoderSQL.Eccons ecconSelect, string lateralityEnglish,
 			bool onlyActive, bool orderIDascendent,
-			bool orderRepsByPosInSet)
+			bool orderRepsByPosInSet) // Attention! note this only selects curves
 	{
 		if(! dbconOpened)
 			Sqlite.Open();

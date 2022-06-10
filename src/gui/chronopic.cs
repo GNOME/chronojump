@@ -37,13 +37,20 @@ public partial class ChronoJumpWindow
 	List<ChronopicRegisterPort> crpMultiList;
 
 	ChronopicRegisterPort crpDoing;
-	bool connectAnother;
+	//bool connectAnother;
 	int connectNum;
 	enum connectingSequenceEnum { START, CONNECTINGREAL, FIRMWAREIFNEEDED, END }
 	private static connectingSequenceEnum connectingSequence;
 
-	private void chronopicConnectionSequenceInit(int numCPs)
+	private void chronopicConnectionSequenceInit (ChronopicRegisterPort crpDoing)
 	{
+		// 2.2.2
+		this.crpDoing = crpDoing;
+		//store a boolean in order to read info faster
+		cp2016.StoredCanCaptureContacts = true;
+		connectNum = 1;
+
+		/* before 2.2.2
 		connectNum = 1;
 		if(numCPs == 1)
 		{
@@ -65,8 +72,10 @@ public partial class ChronoJumpWindow
 
 			cp2016.StoredCanCaptureContacts = (crpMultiList.Count == 2);
 		}
+		*/
 		connectingSequence = connectingSequenceEnum.START;
 		chronopicConnectionSequenceDo();
+
 	}
 
 	private void chronopicConnectionSequenceDo()
@@ -77,6 +86,7 @@ public partial class ChronoJumpWindow
 		//1 check if need to end sequence or go to second chronopic
 		if (connectingSequence == connectingSequenceEnum.END)
 		{
+			/*
 			if(connectAnother)
 			{
 				System.Threading.Thread.Sleep(250);
@@ -87,10 +97,11 @@ public partial class ChronoJumpWindow
 				chronopicConnectionSequenceDo();
 				return;
 			} else {
+			*/
 				button_activate_chronopics.Show();
 				on_button_execute_test_acceptedPre_start_camera(ChronoJumpWindow.WebcamStartedTestStart.CHRONOPIC);
 				return;
-			}
+			//}
 		}
 
 		//2 update sequence

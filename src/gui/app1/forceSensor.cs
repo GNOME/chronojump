@@ -252,7 +252,7 @@ public partial class ChronoJumpWindow
 	private bool forceSensorConnect()
 	{
 		LogB.Information(" FS connect 0 ");
-		if (chronopicRegister.GetSelectedForMode (current_mode) == "")
+		if (chronopicRegister.GetSelectedForMode (current_mode).Port == "")
 		{
 			forceSensorOtherMessage = forceSensorNotConnectedString;
 			return false;
@@ -267,7 +267,7 @@ public partial class ChronoJumpWindow
 	{
 		forceSensorOtherMessage = "Connecting ...";
 
-		portFS = new SerialPort (chronopicRegister.GetSelectedForMode (current_mode), 115200);
+		portFS = new SerialPort (chronopicRegister.GetSelectedForMode (current_mode).Port, 115200);
 		LogB.Information(" FS connect 4: opening port...");
 
 		try {
@@ -451,7 +451,7 @@ public partial class ChronoJumpWindow
 			}
 		}
 
-		if (chronopicRegister.GetSelectedForMode (current_mode) == "")
+		if (chronopicRegister.GetSelectedForMode (current_mode).Port == "")
 		{
 			event_execute_label_message.Text = forceSensorNotConnectedString;
 			return;

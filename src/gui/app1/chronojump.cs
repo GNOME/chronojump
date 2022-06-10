@@ -4676,7 +4676,8 @@ public partial class ChronoJumpWindow
 
 		chronopicRegister = discoverWin.ChronopicRegisterGet;
 
-		if(discoverWin.PortSelected != "")
+		//if(discoverWin.PortSelected != "")
+		if(discoverWin.PortSelected.Port != "")
 		{
 			chronopicRegister.SetSelectedForMode (discoverWin.PortSelected, current_mode);
 			button_contacts_detect.Visible = false;
@@ -4727,9 +4728,9 @@ public partial class ChronoJumpWindow
 		if(current_mode == Constants.Modes.RUNSINTERVALLIC && compujumpAutologout != null)
 			compujumpAutologout.StartCapturingRunInterval();
 
-		if( chronopicRegister.NumConnectedOfType(ChronopicRegisterPort.Types.RUN_WIRELESS) == 1 && (
-			current_mode == Constants.Modes.RUNSSIMPLE ||
-			current_mode == Constants.Modes.RUNSINTERVALLIC) )
+		//WICHRO
+		if ( chronopicRegister.NumConnectedOfType(ChronopicRegisterPort.Types.RUN_WIRELESS) == 1 &&
+				(current_mode == Constants.Modes.RUNSSIMPLE || current_mode == Constants.Modes.RUNSINTERVALLIC) )
 		{
 			//cp2016.StoredCanCaptureContacts = true;
 			cp2016.StoredWireless = true;
@@ -4738,48 +4739,72 @@ public partial class ChronoJumpWindow
 			return;
 		}
 
-		//Done before the Wichro capture.
-		//If we want to use this before Wichro capture, then we will need to call first Arduino.Disconnect.
-		chronopicRegisterUpdate(false);
-
-		cp2016.StoredWireless = false;
-
-		int numContacts = chronopicRegister.NumConnectedOfType(ChronopicRegisterPort.Types.CONTACTS);
-		LogB.Information("numContacts: " + numContacts);
-
-		//check if chronopics have changed
-		if(numContacts >= 2 && current_mode == Constants.Modes.OTHER && radio_mode_multi_chronopic_small.Active)
+		if (current_mode == Constants.Modes.JUMPSSIMPLE || current_mode == Constants.Modes.JUMPSREACTIVE ||
+				current_mode == Constants.Modes.RUNSSIMPLE || current_mode == Constants.Modes.RUNSINTERVALLIC)
 		{
+			// non-wichro 2.2.2
+			chronopicRegister.ListSelectedForAllModes (); //debug
+
+			if (chronopicRegister.GetSelectedForMode (current_mode).Port == "")
+			{
+				// simulated test can be done on SIMULATED session
+				if(currentSession.Name == Constants.SessionSimulatedName)
+					on_button_execute_test_acceptedPre_start_camera (WebcamStartedTestStart.CHRONOPIC);
+				else
+					on_button_contacts_detect_clicked (o, args); //open discover win
+			} else {
+				LogB.Information ("getSelectedFormode: " + chronopicRegister.GetSelectedForMode (current_mode).ToString ());
+				chronopicConnectionSequenceInit (chronopicRegister.GetSelectedForMode (current_mode));
+			}
+
+			/* before 2.2.2
+			//Done before the Wichro capture.
+			//If we want to use this before Wichro capture, then we will need to call first Arduino.Disconnect.
+			chronopicRegisterUpdate(false);
+
+			cp2016.StoredWireless = false;
+
+			int numContacts = chronopicRegister.NumConnectedOfType(ChronopicRegisterPort.Types.CONTACTS);
+			LogB.Information("numContacts: " + numContacts);
+
+			//check if chronopics have changed
+			if(numContacts >= 2 && current_mode == Constants.Modes.OTHER && radio_mode_multi_chronopic_small.Active)
+			{
 			chronopicConnectionSequenceInit(2);
-		}
-		else if(numContacts >= 1) //will get first
-		{
+			}
+			else if(numContacts >= 1) //will get first
+			{
 			chronopicConnectionSequenceInit(1);
-		}
-		else //(numContacts == 0)
-		{
+			}
+			else //(numContacts == 0)
+			{
 			//store a boolean in order to read info faster
 			cp2016.StoredCanCaptureContacts = false;
 
+			 */
 			/*
 			 * if serial port gets opened, then a new USB connection will use different ttyUSB on Linux
 			 * and maybe is the cause for blocking the port on OSX
 			 * close the port if opened
 			 */
-			cp2016.SerialPortsCloseIfNeeded(true);
+			/*
+			   cp2016.SerialPortsCloseIfNeeded(true);
 
 			//simulated tests are only allowed on SIMULATED session
 			if(currentSession.Name != Constants.SessionSimulatedName)
 			{
-				//new DialogMessage(Constants.MessageTypes.WARNING, Constants.SimulatedTestsNotAllowed);
-	                        //UtilGtk.DeviceColors(viewport_chronopics, false);
-				//open device window
-				chronopicRegisterUpdate(true);
+			//new DialogMessage(Constants.MessageTypes.WARNING, Constants.SimulatedTestsNotAllowed);
+			//UtilGtk.DeviceColors(viewport_chronopics, false);
+			//open device window
+			chronopicRegisterUpdate(true);
 
-				return;
+			return;
 			}
 			on_button_execute_test_acceptedPre_start_camera(WebcamStartedTestStart.CHRONOPIC);
+			}
+			 */
 		}
+
 	        UtilGtk.DeviceColors(viewport_chronopics, true);
 	}
 

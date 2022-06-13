@@ -363,8 +363,7 @@ public partial class ChronoJumpWindow
 	// updateConfigFile only if selected a new db by user: on_button_database_change_clicked ()
 	private void databaseChange (bool updateConfigFile)
 	{
-		//TODO: need to close session first
-
+		closeSession ();
 
 		Sqlite.DisConnect ();
 

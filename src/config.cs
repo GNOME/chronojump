@@ -29,7 +29,7 @@ public class Config
 	public static bool UseSystemColor; //do nothing at all
 	public static Gdk.Color ColorBackground;
 	public static bool ColorBackgroundIsDark;
-	public static string DataDirStatic = ""; //works even with spaces in name
+	public static string LastDBFullPathStatic = ""; //works even with spaces in name
 
 	public enum SessionModeEnum { STANDARD, UNIQUE, MONTHLY }
 
@@ -61,8 +61,9 @@ public class Config
 	public bool LowHeight; //devices with less than 500 px vertical, like Odroid Go Super
 	public bool LowCPU; //workaround to not show realtime graph on force sensor capture (until its optimized)
 	public bool GuiTest;
-	public bool CanOpenExternalDataDir;
-	public string DataDir = ""; //on chronojump-networks admin to replace GetLocalDataDir (), think if Import has to be disabled
+	public bool CanOpenExternalDB;
+	public string ExternalDBDefaultPath = ""; //on chronojump-networks admin to replace GetLocalDataDir (), think if Import has to be disabled
+	public string LastDBFullPath = ""; //on chronojump-networks admin to replace GetLocalDataDir (), think if Import has to be disabled
 
 	/*
 	 * unused because the default serverURL chronojump.org is ok:
@@ -149,15 +150,17 @@ public class Config
 						LowCPU = true;
 					else if(parts[0] == "GuiTest" && Util.StringToBool(parts[1]))
 						GuiTest = true;
-					else if(parts[0] == "CanOpenExternalDataDir" && Util.StringToBool(parts[1]))
-						CanOpenExternalDataDir = true;
-					else if(parts[0] == "DataDir" && parts[1] != "")
+					else if(parts[0] == "CanOpenExternalDB" && Util.StringToBool(parts[1]))
+						CanOpenExternalDB = true;
+					else if(parts[0] == "ExternalDBDefaultPath" && parts[1] != "")
+						ExternalDBDefaultPath = parts[1]; //works even with spaces on name
+					else if(parts[0] == "LastDBFullPath" && parts[1] != "")
 					{
-						DataDir = parts[1]; //works even with spaces on name
+						LastDBFullPath = parts[1]; //works even with spaces on name
 						/*
 						   DataDirStatic is assigned later to not be active on chronojump.cs,
 						   start when gui is started, to not mess with runningFileName and others
-						DataDirStatic = parts[1]; //called from Util.GetLocalDataDir
+						LastDBFullPathStatic = parts[1]; //called from Util.GetLocalDataDir
 						 */
 					}
 				} while(true);

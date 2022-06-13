@@ -969,13 +969,13 @@ public class Util
 	//this will check if any config path is present
 	public static string GetLocalDataDir (bool withFinalSeparator)
 	{
-		if (Config.DataDirStatic == "")
+		if (Config.LastDBFullPathStatic == "")
 			return UtilAll.GetDefaultLocalDataDir (withFinalSeparator); //this can be checked by Mini
 		else {
 			if (withFinalSeparator)
-				 return Config.DataDirStatic + Path.DirectorySeparatorChar;
+				 return Config.LastDBFullPathStatic + Path.DirectorySeparatorChar;
 			else
-				 return Config.DataDirStatic;
+				 return Config.LastDBFullPathStatic;
 		}
 	}
 

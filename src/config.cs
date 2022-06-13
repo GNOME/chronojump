@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2017   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2004-2022   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -180,56 +180,6 @@ public class Config
 		return (Compujump && pID == CompujumpAdminID);
 	}
 
-	/*
-	public void Read()
-	{
-		string contents = Util.ReadFile(Util.GetConfigFileName(), false);
-		if (contents != null && contents != "") 
-		{
-			string line;
-			using (StringReader reader = new StringReader (contents)) {
-				do {
-					line = reader.ReadLine ();
-
-					if (line == null)
-						break;
-					if (line == "" || line[0] == '#')
-						continue;
-
-					string [] parts = line.Split(new char[] {'='});
-					if(parts.Length != 2)
-						continue;
-
-					if(parts[0] == "Maximized" && Util.StringToBool(parts[1]))
-						Maximized = true;
-					else if(parts[0] == "CustomButtons" && Util.StringToBool(parts[1]))
-						CustomButtons = true;
-					else if(parts[0] == "UseVideo" && ! Util.StringToBool(parts[1]))
-						UseVideo = false;
-					else if(parts[0] == "OnlyEncoderGravitatory" && Util.StringToBool(parts[1]))
-						OnlyEncoderGravitatory = true;
-					else if(parts[0] == "OnlyEncoderInertial" && Util.StringToBool(parts[1]))
-						OnlyEncoderInertial = true;
-					else if(parts[0] == "EncoderCaptureShowOnlyBars" && Util.StringToBool(parts[1]))
-						EncoderCaptureShowOnlyBars = true;
-					else if(parts[0] == "EncoderUpdateTreeViewWhileCapturing" && ! Util.StringToBool(parts[1]))
-						EncoderUpdateTreeViewWhileCapturing = false;
-					else if(parts[0] == "PersonWinHide" && Util.StringToBool(parts[1]))
-						PersonWinHide = true;
-					else if(parts[0] == "EncoderAnalyzeHide" && Util.StringToBool(parts[1]))
-						EncoderAnalyzeHide = true;
-					else if(parts[0] == "SessionMode" && Enum.IsDefined(typeof(SessionModeEnum), parts[1]))
-						SessionMode = (SessionModeEnum) 
-							Enum.Parse(typeof(SessionModeEnum), parts[1]);
-					else if(parts[0] == "Compujump" && Util.StringToBool(parts[1]))
-						Compujump = true;
-					else if(parts[0] == "RunScriptOnExit" && parts[1] != "")
-						RunScriptOnExit = parts[1];
-				} while(true);
-			}
-		}
-	}
-	*/
 	/*
 	public static void UpdateField(string field, string text)
 	{

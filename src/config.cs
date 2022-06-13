@@ -229,22 +229,18 @@ public class Config
 
 	public override string ToString() 
 	{
-		return(
-				"Maximized = " + Maximized.ToString() + "\n" +
-				"CustomButtons = " + CustomButtons.ToString() + "\n" +
-				"UseVideo = " + UseVideo.ToString() + "\n" +
-				"OnlyEncoderGravitatory = " + OnlyEncoderGravitatory.ToString() + "\n" +
-				"OnlyEncoderInertial = " + OnlyEncoderInertial.ToString() + "\n" +
-				"EncoderCaptureShowOnlyBars = " + EncoderCaptureShowOnlyBars.ToString() + "\n" +
-				"EncoderUpdateTreeViewWhileCapturing = " + EncoderUpdateTreeViewWhileCapturing.ToString() + "\n" +
-				"PersonWinHide = " + PersonWinHide.ToString() + "\n" +
-				"EncoderAnalyzeHide = " + EncoderAnalyzeHide.ToString() + "\n" +
-				"SessionMode = " + SessionMode.ToString() + "\n" +
-				"Compujump = " + Compujump.ToString() + "\n" +
-				"RunScriptOnExit = " + RunScriptOnExit.ToString() + "\n"
-		      );
+		return (string.Format (
+					"Compujump = {0}, CompujumpDjango = {1}, CompujumpHideTaskDone = {2}, CompujumpServerURL = {3}, " +
+					"CompujumpStationID = {4}, CompujumpAdminID = {5}, compujumpAdminEmail = {6}, CompujumpStationMode = {7}, " +
+					"SessionMode = {8}, PlaySoundsFromFile = {9}, Exhibition = {10}, Raspberry = {11}, " +
+					"LowHeight = {12}, LowCPU = {13}, GuiTest = {14}, CanOpenExternalDB = {15}, " +
+					"ExternalDBDefaultPath = {16}, LastDBFullPath = {17}",
+					Compujump, CompujumpDjango, CompujumpHideTaskDone, CompujumpServerURL,
+					CompujumpStationID, CompujumpAdminID, CompujumpAdminEmail, CompujumpStationMode,
+					SessionMode, PlaySoundsFromFile, Exhibition, Raspberry,
+					LowHeight, LowCPU, GuiTest, CanOpenExternalDB,
+					ExternalDBDefaultPath, LastDBFullPath));
 	}
-	*/
 
 	~Config() {}
 }

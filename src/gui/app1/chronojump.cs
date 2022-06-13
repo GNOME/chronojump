@@ -7884,11 +7884,13 @@ LogB.Debug("mc finished 5");
 		if(translator_credits == "translator-credits") 
 			translator_credits = "";
 
+		string versionStr = progVersion;
+
 		//DB version
 		if(File.Exists(System.IO.Path.Combine(Util.GetDatabaseDir(), "chronojump.db"))) {
 			try {
 				Sqlite.Connect();
-				progVersion += "\nDB version: " + SqlitePreferences.Select("databaseVersion", false);
+				versionStr += "\nDB version: " + SqlitePreferences.Select("databaseVersion", false);
 				Sqlite.DisConnect();
 			}
 			catch {
@@ -7897,7 +7899,7 @@ LogB.Debug("mc finished 5");
 			}
 		}
 
-		new About(progVersion, translator_credits);
+		new About(versionStr, translator_credits);
 	}
 
 	private void on_feedback_closed(object o, EventArgs args)

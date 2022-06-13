@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2021   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2004-2022   Xavier de Blas <xaviblas@gmail.com>
  */
 
 
@@ -284,13 +284,13 @@ public partial class ChronoJumpWindow
 			SqliteJson.UploadExhibitionTestsPending();
 		}
 
-		if (configChronojump.CanOpenExternalDataDir)
+		if (configChronojump.CanOpenExternalDB)
 		{
 			frame_database.Visible = true;
 			button_menu_database.Visible = true;
 
-			if (configChronojump.DataDir != "")
-				databaseChange ();
+			if (configChronojump.LastDBFullPath != "")
+				databaseChange (false);
 		}
 
 		configDo();
@@ -360,12 +360,16 @@ public partial class ChronoJumpWindow
 		rfidProcessCancel = true;
 	}
 
-	private void databaseChange ()
+	// updateConfigFile only if selected a new db by user: on_button_database_change_clicked ()
+	private void databaseChange (bool updateConfigFile)
 	{
+		//TODO: need to close session first
+
+
 		Sqlite.DisConnect ();
 
 		//called from Util.GetLocalDataDir
-		Config.DataDirStatic = configChronojump.DataDir;
+		Config.LastDBFullPathStatic = configChronojump.LastDBFullPath;
 		Sqlite.SetHome ();
 
 		Sqlite.Connect ();
@@ -373,32 +377,41 @@ public partial class ChronoJumpWindow
 		//this updated if needed:
 		Sqlite.ConvertToLastChronojumpDBVersion ();
 
-		label_current_database.Text = "<b>" + Util.GetLastPartOfPath (configChronojump.DataDir) + "</b>";
+		label_current_database.Text = "<b>" + Util.GetLastPartOfPath (
+				configChronojump.LastDBFullPath) + "</b>";
+
 		label_current_database.UseMarkup = true;
-		label_current_database.TooltipText = configChronojump.DataDir;
+		label_current_database.TooltipText = configChronojump.LastDBFullPath;
+
+		/*
+		//TODO
+		if (updateConfigFile)
+		*/
 	}
 
 	Gtk.FileChooserDialog database_fc;
 	private void on_button_database_change_clicked (object o, EventArgs args)
 	{
-		database_fc = new Gtk.FileChooserDialog("Use database:",
+		database_fc = new Gtk.FileChooserDialog("Select folder:",
 				app1,
 				FileChooserAction.SelectFolder,
 				Catalog.GetString("Cancel"),ResponseType.Cancel,
 				Catalog.GetString("Select"),ResponseType.Accept
 				);
-		//database_fc.SetCurrentFolder(whatever);
+
+		if (configChronojump.ExternalDBDefaultPath != "")
+			database_fc.SetCurrentFolder (configChronojump.ExternalDBDefaultPath);
 
 		if (database_fc.Run() == (int)ResponseType.Accept)
 		{
 			// 1) update to config file (to be opened again on next boot)
 
-			// 2) reassing configChronojump.DataDir
-			configChronojump.DataDir = database_fc.Filename;
+			// 2) reassing configChronojump.LastDBFullPath
+			configChronojump.LastDBFullPath = database_fc.Filename;
 
 			// 2) open database
 			//TODO: think where to put a try/catch, eg if there is no database file, or search database/chronojump.db before
-			databaseChange ();
+			databaseChange (true);
 		}
 
 		database_fc.Hide ();

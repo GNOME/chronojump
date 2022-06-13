@@ -319,8 +319,8 @@ class Sqlite
 	}
 
 
-	//used on Chronojump-Networks admin (if Config.DataDir is != "")
-	//Config.DataDirStatic has been changed before
+	//used on Chronojump-Networks admin (if Config.LastDBFullPath is != "")
+	//Config.LastDBFullPathStatic has been changed before
 	public static void SetHome ()
 	{
 		home = Util.GetDatabaseDir ();

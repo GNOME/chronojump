@@ -3154,11 +3154,6 @@ class Sqlite
 					}
 				}
 
-				//adding the insertDefault here because now it will be in cm
-				ex_l = SqliteRunEncoderExercise.Select(true, -1);
-				if(ex_l == null || ex_l.Count == 0)
-					SqliteRunEncoderExercise.insertDefault();
-
 				currentVersion = updateVersion("2.33");
 			}
 			if(currentVersion == "2.33")
@@ -3287,6 +3282,11 @@ class Sqlite
 				} catch {
 					LogB.SQL("Catched at Doing ALTER TABLE RunEncoder added angle.");
 				}
+
+				//adding the insertDefault here because now it will be in cm
+				List<RunEncoderExercise> ex_l = SqliteRunEncoderExercise.Select (true, -1);
+				if(ex_l == null || ex_l.Count == 0)
+					SqliteRunEncoderExercise.insertDefault();
 
 				currentVersion = updateVersion("2.39");
 			}

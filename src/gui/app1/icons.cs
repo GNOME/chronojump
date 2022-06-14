@@ -182,6 +182,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_force_sensor_tare;
 	[Widget] Gtk.Image image_force_sensor_calibrate;
 	[Widget] Gtk.Image image_force_sensor_capture_adjust;
+	[Widget] Gtk.Image image_force_sensor_capture_adjust1;
 	[Widget] Gtk.Image image_force_sensor_capture_adjust_close;
 	[Widget] Gtk.Image image_force_sensor_analyze_options;
 	[Widget] Gtk.Image image_force_sensor_analyze_options1;
@@ -468,6 +469,7 @@ public partial class ChronoJumpWindow
 		image_multi_chronopic_repair.Pixbuf = pixbuf;
 		image_encoder_configuration.Pixbuf = pixbuf;
 		image_force_sensor_capture_adjust.Pixbuf = pixbuf;
+		image_force_sensor_capture_adjust1.Pixbuf = pixbuf;
 		image_force_sensor_analyze_options.Pixbuf = pixbuf;
 		image_force_sensor_analyze_options1.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_build_16.png");

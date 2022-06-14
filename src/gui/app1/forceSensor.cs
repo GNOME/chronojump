@@ -535,7 +535,7 @@ public partial class ChronoJumpWindow
 
 		hbox_top_person.Sensitive = sensitive;
 		hbox_chronopics_and_more.Sensitive = sensitive;
-		alignment_button_force_sensor_adjust.Sensitive = sensitive;
+		button_force_sensor_adjust.Sensitive = sensitive;
 	}
 
 	private void on_button_force_sensor_stiffness_detect_clicked (object o, EventArgs args)
@@ -3171,7 +3171,7 @@ LogB.Information(" fs R ");
 
 	private void on_button_force_sensor_adjust_clicked (object o, EventArgs args)
 	{
-		alignment_button_force_sensor_adjust.Sensitive = false; //to not be called again
+		button_force_sensor_adjust.Sensitive = false; //to not be called again
 
 		notebook_contacts_capture_doing_wait.Sensitive = false;
 		notebook_contacts_execute_or.CurrentPage = Convert.ToInt32(notebook_contacts_execute_or_pages.FORCESENSORADJUST);
@@ -3184,7 +3184,7 @@ LogB.Information(" fs R ");
 	}
 	private void on_button_force_sensor_adjust_close_clicked (object o, EventArgs args)
 	{
-		alignment_button_force_sensor_adjust.Sensitive = true;
+		button_force_sensor_adjust.Sensitive = true;
 
 		notebook_contacts_capture_doing_wait.Sensitive = true;
 		notebook_contacts_execute_or.CurrentPage = Convert.ToInt32(notebook_contacts_execute_or_pages.EXECUTE);

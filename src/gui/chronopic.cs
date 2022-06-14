@@ -152,7 +152,7 @@ public partial class ChronoJumpWindow
 			label_threshold.Text = //Catalog.GetString("Threshold") + " " +
 				threshold.GetLabel() + " ms";
 			if(threshold.GetT == 50)
-				label_threshold.Text += " (" + Catalog.GetString("Applied") + ")";
+				button_threshold.TooltipText = label_threshold.Text + " (" + Catalog.GetString("Applied") + ")";
 
 			UtilGtk.PrintLabelWithTooltip(event_execute_label_message,
 					Catalog.GetString("Connected to Chronopic"));
@@ -173,9 +173,9 @@ public partial class ChronoJumpWindow
 			bool ok = cp2016.ChangeMultitestFirmwarePre(threshold.GetT, cpCount);
 			if(ok) {
 				threshold.ChronopicFirmwareUpdated(cpCount);
-				label_threshold.Text += " (" + Catalog.GetString("Applied") + ")";
+				button_threshold.TooltipText = label_threshold.Text + " (" + Catalog.GetString("Applied") + ")";
 			} else
-				label_threshold.Text += " (" + Catalog.GetString("Failed") + ")";
+				button_threshold.TooltipText = label_threshold.Text + " (" + Catalog.GetString("Failed") + ")";
 		}
 
 		connectingSequence = connectingSequenceEnum.END;

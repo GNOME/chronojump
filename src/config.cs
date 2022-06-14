@@ -183,50 +183,65 @@ public class Config
 		return (Compujump && pID == CompujumpAdminID);
 	}
 
-	/*
-	public static void UpdateField(string field, string text)
+	//adapted from: http://stackoverflow.com/a/2401873
+	//useDefaultConfigFile is the default. It ensures no use the config of another database
+	public void UpdateFieldEnsuringDefaultConfigFile (string field, string text)
 	{
-		//adapted from
-		//http://stackoverflow.com/a/2401873
-				
-		string tempfile = Path.GetTempFileName();
+		string storedLastDBFullPathStatic = Config.LastDBFullPathStatic;
+		Config.LastDBFullPathStatic = "";
 
-		LogB.Information("UpdateField, field: " + field + ", text: " + text);
+		UpdateField (field, text);
+
+		Config.LastDBFullPathStatic = storedLastDBFullPathStatic;
+	}
+	public void UpdateField (string field, string text)
+	{
+		string tempfile = Path.GetTempFileName ();
+		string configFile = Util.GetConfigFileName ();
+		LogB.Information( string.Format ("Config.UpdateField tempfile: {0}, configFile: {1}, field: {2}, text: {3}",
+					tempfile, configFile, field, text));
 		
-		if(! File.Exists(Util.GetConfigFileName())) {
+		if(! File.Exists (configFile)) {
 			try {
-				using (var writer = new StreamWriter(tempfile))
+				using (var writer = new StreamWriter (tempfile))
 				{
-					writer.WriteLine(field + "=" + text);
+					writer.WriteLine (field + "=" + text);
 				}
-				File.Copy(tempfile, Util.GetConfigFileName(), true);
+				File.Copy (tempfile, configFile, true);
 			} catch {
-				LogB.Warning("Cannot write at Config.UpdateField");
+				LogB.Warning ("Cannot write at Config.UpdateField");
 			}
 		} else {
 			try {
 				using (var writer = new StreamWriter(tempfile))
-					using (var reader = new StreamReader(Util.GetConfigFileName()))
+					using (var reader = new StreamReader (configFile))
 					{
-						while (! reader.EndOfStream) {
-							string line = reader.ReadLine();
+						bool found = false;
+						while (! reader.EndOfStream)
+						{
+							string line = reader.ReadLine ();
 							if (line != "" && line[0] != '#') 
 							{
-								string [] parts = line.Split(new char[] {'='});
-								if(parts.Length == 2 && parts[0] == field)
+								string [] parts = line.Split (new char[] {'='});
+								if (parts.Length == 2 && parts[0] == field)
+								{
 									line = field + "=" + text;
+									found = true;
+								}
 							}
-
-							writer.WriteLine(line);
+							writer.WriteLine (line);
 						}
+
+						//if not found it adds the command
+						if (! found)
+							writer.WriteLine (field + "=" + text);
 					}
-				File.Copy(tempfile, Util.GetConfigFileName(), true);
+				File.Copy (tempfile, configFile, true);
 			} catch {
-				LogB.Warning("Cannot write at Config.UpdateField");
+				LogB.Warning ("Cannot write at Config.UpdateField");
 			}
 		}
 	}
-	*/
 
 	public override string ToString() 
 	{

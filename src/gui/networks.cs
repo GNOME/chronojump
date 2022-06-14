@@ -301,7 +301,7 @@ public partial class ChronoJumpWindow
 			button_menu_database.Visible = true;
 
 			if (configChronojump.LastDBFullPath != "")
-				databaseChange (false);
+				databaseChange ();
 		}
 
 		configDo();
@@ -372,7 +372,7 @@ public partial class ChronoJumpWindow
 	}
 
 	// updateConfigFile only if selected a new db by user: on_button_database_change_clicked ()
-	private void databaseChange (bool updateConfigFile)
+	private void databaseChange ()
 	{
 		closeSession ();
 
@@ -392,11 +392,6 @@ public partial class ChronoJumpWindow
 
 		label_current_database.UseMarkup = true;
 		label_current_database.TooltipText = configChronojump.LastDBFullPath;
-
-		/*
-		//TODO
-		if (updateConfigFile)
-		*/
 	}
 
 	Gtk.FileChooserDialog database_fc;
@@ -419,9 +414,12 @@ public partial class ChronoJumpWindow
 			// 2) reassing configChronojump.LastDBFullPath
 			configChronojump.LastDBFullPath = database_fc.Filename;
 
-			// 2) open database
+			// 3) update config file (taking care of being default config file)
+			configChronojump.UpdateFieldEnsuringDefaultConfigFile ("LastDBFullPath", database_fc.Filename);
+
+			// 4) change database
 			//TODO: think where to put a try/catch, eg if there is no database file, or search database/chronojump.db before
-			databaseChange (true);
+			databaseChange ();
 		}
 
 		database_fc.Hide ();

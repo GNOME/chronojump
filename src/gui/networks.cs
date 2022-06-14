@@ -258,6 +258,16 @@ public partial class ChronoJumpWindow
 				button_encoder_analyze_image_compujump_send_email.Visible = true;
 		}
 
+		if (configChronojump.Compujump) {
+			button_activate_chronopics.Visible = true;
+			button_activate_chronopics_encoder.Visible = true;
+			button_contacts_detect_small.Visible = false;
+		} else {
+			button_activate_chronopics.Visible = false;
+			button_activate_chronopics_encoder.Visible = false;
+			button_contacts_detect_small.Visible = true;
+		}
+
 		if(configChronojump.Raspberry)
 		{
 			//make easiers to use some treeviews

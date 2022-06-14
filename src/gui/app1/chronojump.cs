@@ -300,6 +300,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Table table_micro_discover;
 	[Widget] Gtk.HBox hbox_contacts_detect_and_execute;
 	[Widget] Gtk.Button button_contacts_detect;
+	[Widget] Gtk.Button button_contacts_detect_small;
 	[Widget] Gtk.EventBox eventbox_button_micro_discover_cancel_close;
 	[Widget] Gtk.Image image_button_micro_discover_cancel_close;
 	[Widget] Gtk.Label label_button_micro_discover_cancel_close;
@@ -350,8 +351,8 @@ public partial class ChronoJumpWindow
 
 	[Widget] Gtk.HBox hbox_chronopics_and_more;
 	[Widget] Gtk.Button button_activate_chronopics;
-	[Widget] Gtk.Alignment alignment_button_threshold;
-	[Widget] Gtk.Alignment alignment_button_force_sensor_adjust;
+	[Widget] Gtk.Button button_threshold;
+	[Widget] Gtk.Button button_force_sensor_adjust;
 	[Widget] Gtk.Button button_force_sensor_sync;
 
 	//non standard icons	
@@ -3608,7 +3609,7 @@ public partial class ChronoJumpWindow
 		hbox_race_analyzer_capture_tab_result_views.Visible = false;
 		notebook_analyze.CurrentPage = Convert.ToInt32(notebook_analyze_pages.STATISTICS);
 		button_inspect_last_test_run_intervallic.Visible = false;
-		alignment_button_force_sensor_adjust.Visible = false;
+		button_force_sensor_adjust.Visible = false;
 		button_force_sensor_sync.Visible = false;
 		vbox_contacts_load_recalculate.Visible = false;
 		button_contacts_exercise_close_and_recalculate.Visible = false;
@@ -3624,8 +3625,7 @@ public partial class ChronoJumpWindow
 		hbox_drawingarea_realtime_capture_cairo.Visible = false;
 		vbox_event_execute_drawingarea_run_interval_realtime_capture_cairo.Visible = false;
 
-		button_contacts_detect.Visible = false;
-		hbox_contacts_detect_and_execute.Visible = true;
+		button_detect_show_hide (false);
 
 		//blank exercise options: useful for changing from jumps or runs to forceSensor, runEncoder, reaction time, other
 		label_contacts_exercise_selected_name.Visible = true; //will not be visible when all the contacts_top combo is implemented
@@ -3646,13 +3646,12 @@ public partial class ChronoJumpWindow
 
 		if(m == Constants.Modes.JUMPSSIMPLE || m == Constants.Modes.JUMPSREACTIVE)
 		{
-			button_contacts_detect.Visible = true;
-			hbox_contacts_detect_and_execute.Visible = false;
+			button_detect_show_hide (true);
 
 			notebook_sup.CurrentPage = Convert.ToInt32(notebook_sup_pages.CONTACTS);
 			//notebook_capture_analyze.ShowTabs = true;
 			hbox_contacts_sup_capture_analyze_two_buttons.Visible = true;
-			alignment_button_threshold.Visible = true;
+			button_threshold.Visible = true;
 
 			label_contacts_exercise_selected_options.Visible = true;
 			image_top_laterality_contacts.Visible = false;
@@ -3716,13 +3715,12 @@ public partial class ChronoJumpWindow
 			LogB.Information(string.Format("wireless conditions B: {0}, {1}",
 				cp2016.StoredWireless, chronopicRegister != null));
 
-			button_contacts_detect.Visible = true;
-			hbox_contacts_detect_and_execute.Visible = false;
+			button_detect_show_hide (true);
 
 			notebook_sup.CurrentPage = Convert.ToInt32(notebook_sup_pages.CONTACTS);
 			//notebook_capture_analyze.ShowTabs = true;
 			hbox_contacts_sup_capture_analyze_two_buttons.Visible = true;
-			alignment_button_threshold.Visible = true;
+			button_threshold.Visible = true;
 
 			label_contacts_exercise_selected_options.Visible = true;
 			image_top_laterality_contacts.Visible = false;
@@ -3778,6 +3776,7 @@ public partial class ChronoJumpWindow
 		}
 		else if(m == Constants.Modes.POWERGRAVITATORY || m == Constants.Modes.POWERINERTIAL) 
 		{
+			button_detect_show_hide (true);
 			notebook_sup.CurrentPage = Convert.ToInt32(notebook_sup_pages.ENCODER);
 
 
@@ -3897,8 +3896,7 @@ public partial class ChronoJumpWindow
 		} 
 		else if(Constants.ModeIsFORCESENSOR (m))
 		{
-			button_contacts_detect.Visible = true;
-			hbox_contacts_detect_and_execute.Visible = false;
+			button_detect_show_hide (true);
 
 			notebook_sup.CurrentPage = Convert.ToInt32(notebook_sup_pages.CONTACTS);
 			notebooks_change(m);
@@ -3916,8 +3914,8 @@ public partial class ChronoJumpWindow
 			button_contacts_bells.Sensitive = true;
 			//notebook_capture_analyze.ShowTabs = false; //only capture tab is shown (only valid for "OTHER" tests)
 			hbox_contacts_sup_capture_analyze_two_buttons.Visible = true;
-			alignment_button_threshold.Visible = false;
-			alignment_button_force_sensor_adjust.Visible = true;
+			button_threshold.Visible = false;
+			button_force_sensor_adjust.Visible = true;
 			//button_force_sensor_sync.Visible = true; //TODO: show again when it fully works, now is hidden for 2.1.0 release
 			//notebook_capture_analyze.GetNthPage(2).Hide(); //hide jumpsProfile on other tests
 
@@ -3946,8 +3944,7 @@ public partial class ChronoJumpWindow
 		}
 		else if(m == Constants.Modes.RUNSENCODER)
 		{
-			button_contacts_detect.Visible = true;
-			hbox_contacts_detect_and_execute.Visible = false;
+			button_detect_show_hide (true);
 
 			notebook_sup.CurrentPage = Convert.ToInt32(notebook_sup_pages.CONTACTS);
 			notebooks_change(m);
@@ -3966,7 +3963,7 @@ public partial class ChronoJumpWindow
 
 			//notebook_capture_analyze.ShowTabs = false; //only capture tab is shown (only valid for "OTHER" tests)
 			hbox_contacts_sup_capture_analyze_two_buttons.Visible = true;
-			alignment_button_threshold.Visible = false;
+			button_threshold.Visible = false;
 			//notebook_capture_analyze.GetNthPage(2).Hide(); //hide jumpsProfile on other tests
 
 			hbox_race_analyzer_capture_tab_result_views.Visible = true;
@@ -3997,7 +3994,7 @@ public partial class ChronoJumpWindow
 			notebook_capture_analyze.CurrentPage = 0;
 			//notebook_capture_analyze.ShowTabs = false; //only capture tab is shown (only valid for "OTHER" tests)
 			hbox_contacts_sup_capture_analyze_two_buttons.Visible = false;
-			alignment_button_threshold.Visible = true;
+			button_threshold.Visible = true;
 			//notebook_capture_analyze.GetNthPage(2).Hide(); //hide jumpsProfile on other tests
 
 			label_contacts_exercise_selected_options.Visible = true;
@@ -4017,7 +4014,7 @@ public partial class ChronoJumpWindow
 			notebook_capture_analyze.CurrentPage = 0;
 			//notebook_capture_analyze.ShowTabs = false; //only capture tab is shown (only valid for "OTHER" tests)
 			hbox_contacts_sup_capture_analyze_two_buttons.Visible = false;
-			alignment_button_threshold.Visible = true;
+			button_threshold.Visible = true;
 			//notebook_capture_analyze.GetNthPage(2).Hide(); //hide jumpsProfile on other tests
 
 			label_contacts_exercise_selected_options.Visible = true;
@@ -4631,6 +4628,17 @@ public partial class ChronoJumpWindow
 	   ----------------- discover / detect devices --------->
 	   */
 
+	//also manages if networks or not, on networks do not show
+	//TODO: add the encoder controls
+	private void button_detect_show_hide (bool show)
+	{
+		//compujump will continue with the top right device button, far from the capture button
+		if (! configChronojump.Compujump)
+		{
+			button_contacts_detect.Visible = show;
+			hbox_contacts_detect_and_execute.Visible = ! show;
+		}
+	}
 
 	//right now implemented only contacts
 	DiscoverWindow discoverWin;
@@ -4680,8 +4688,7 @@ public partial class ChronoJumpWindow
 		if(discoverWin.PortSelected.Port != "")
 		{
 			chronopicRegister.SetSelectedForMode (discoverWin.PortSelected, current_mode);
-			button_contacts_detect.Visible = false;
-			hbox_contacts_detect_and_execute.Visible = true;
+			button_detect_show_hide (false);
 		}
 
 		notebook_sup.CurrentPage = app1s_notebook_sup_entered_from; //CONTACTS or ENCODER
@@ -4751,7 +4758,10 @@ public partial class ChronoJumpWindow
 				if(currentSession.Name == Constants.SessionSimulatedName)
 					on_button_execute_test_acceptedPre_start_camera (WebcamStartedTestStart.CHRONOPIC);
 				else
-					on_button_contacts_detect_clicked (o, args); //open discover win
+				{
+					if (! configChronojump.Compujump)
+						on_button_contacts_detect_clicked (o, args); //open discover win
+				}
 			} else {
 				LogB.Information ("getSelectedFormode: " + chronopicRegister.GetSelectedForMode (current_mode).ToString ());
 				chronopicConnectionSequenceInit (chronopicRegister.GetSelectedForMode (current_mode));
@@ -8326,7 +8336,7 @@ LogB.Debug("mc finished 5");
 		vbox_execute_test.Sensitive = false;
 		button_execute_test.Sensitive = false;
 		button_auto_start.Sensitive = false;
-		alignment_button_force_sensor_adjust.Sensitive = false;
+		button_force_sensor_adjust.Sensitive = false;
 		button_force_sensor_sync.Sensitive = false;
 
 		encoderButtonsSensitive(encoderSensEnum.NOSESSION);
@@ -8345,7 +8355,7 @@ LogB.Debug("mc finished 5");
 		
 		button_contacts_person_change.Sensitive = true;
 		button_encoder_person_change.Sensitive = true;
-		alignment_button_force_sensor_adjust.Sensitive = true;
+		button_force_sensor_adjust.Sensitive = true;
 		button_force_sensor_sync.Sensitive = true;
 		
 		menuSessionSensitive(true);
@@ -8470,8 +8480,8 @@ LogB.Debug("mc finished 5");
 
 		button_activate_chronopics.Sensitive = false;
 		button_activate_chronopics_encoder.Sensitive = false;
-		alignment_button_threshold.Sensitive = false;
-		alignment_button_force_sensor_adjust.Sensitive = false;
+		button_threshold.Sensitive = false;
+		button_force_sensor_adjust.Sensitive = false;
 		button_force_sensor_sync.Sensitive = false;
 		button_auto_start.Sensitive = false;
 		frame_contacts_exercise.Sensitive = false;
@@ -8535,8 +8545,8 @@ LogB.Debug("mc finished 5");
 		if(! configChronojump.Compujump)
 			button_activate_chronopics_encoder.Sensitive = true;
 
-		alignment_button_threshold.Sensitive = true;
-		alignment_button_force_sensor_adjust.Sensitive = true;
+		button_threshold.Sensitive = true;
+		button_force_sensor_adjust.Sensitive = true;
 		button_force_sensor_sync.Sensitive = true;
 		button_auto_start.Sensitive = true;
 		frame_contacts_exercise.Sensitive = true;
@@ -8681,7 +8691,7 @@ LogB.Debug("mc finished 5");
 	private void sensitiveGuiAutoExecuteOrWait (bool execute) {
 		//if automode, sensitiveGuiEventDoing, sensitiveGuiEventDone don't work
 		button_activate_chronopics.Sensitive 	= ! execute;
-		alignment_button_threshold.Sensitive 		= ! execute;
+		button_threshold.Sensitive 		= ! execute;
 		button_execute_test.Sensitive 		= ! execute;
 		sensitiveLastTestButtons(! execute);
 	}

@@ -350,7 +350,7 @@ public partial class ChronoJumpWindow
 	//[Widget] Gtk.VBox vbox_last_test_buttons;
 
 	[Widget] Gtk.HBox hbox_chronopics_and_more;
-	[Widget] Gtk.Button button_activate_chronopics;
+	[Widget] Gtk.Button button_contacts_devices_networks;
 	[Widget] Gtk.Button button_threshold;
 	[Widget] Gtk.Button button_force_sensor_adjust;
 	[Widget] Gtk.Button button_force_sensor_sync;
@@ -3308,8 +3308,8 @@ public partial class ChronoJumpWindow
 		if(configChronojump.Compujump)
 		{
 			viewport_chronopics.Sensitive = preferences.networksAllowChangeDevices;
-			button_activate_chronopics_encoder.Sensitive = preferences.networksAllowChangeDevices;
-			button_activate_chronopics_networks_problems.Sensitive = preferences.networksAllowChangeDevices;
+			button_encoder_devices_networks.Sensitive = preferences.networksAllowChangeDevices;
+			button_contacts_devices_networks_problems.Sensitive = preferences.networksAllowChangeDevices;
 		}
 
 		//change language works on windows. On Linux let's change the locale
@@ -6300,7 +6300,7 @@ public partial class ChronoJumpWindow
 		chronopicRegisterUpdate(true);
 	}
 
-	private void on_button_activate_chronopics_networks_problems_clicked (object o, EventArgs args)
+	private void on_button_contacts_devices_networks_problems_clicked (object o, EventArgs args)
 	{
 		chronopicRegisterUpdate(true);
 	}
@@ -8478,8 +8478,8 @@ LogB.Debug("mc finished 5");
 		//do not allow to touch buttons on show table
 		notebook_results.Sensitive = false;
 
-		button_activate_chronopics.Sensitive = false;
-		button_activate_chronopics_encoder.Sensitive = false;
+		button_contacts_devices_networks.Sensitive = false;
+		button_encoder_devices_networks.Sensitive = false;
 		button_threshold.Sensitive = false;
 		button_force_sensor_adjust.Sensitive = false;
 		button_force_sensor_sync.Sensitive = false;
@@ -8540,10 +8540,10 @@ LogB.Debug("mc finished 5");
 		//allow to touch buttons on show table
 		notebook_results.Sensitive = true;
 
-		button_activate_chronopics.Sensitive = true;
+		button_contacts_devices_networks.Sensitive = true;
 
 		if(! configChronojump.Compujump)
-			button_activate_chronopics_encoder.Sensitive = true;
+			button_encoder_devices_networks.Sensitive = true;
 
 		button_threshold.Sensitive = true;
 		button_force_sensor_adjust.Sensitive = true;
@@ -8690,7 +8690,7 @@ LogB.Debug("mc finished 5");
 	//true: executing a test; false: waiting a test to be executed
 	private void sensitiveGuiAutoExecuteOrWait (bool execute) {
 		//if automode, sensitiveGuiEventDoing, sensitiveGuiEventDone don't work
-		button_activate_chronopics.Sensitive 	= ! execute;
+		button_contacts_devices_networks.Sensitive 	= ! execute;
 		button_threshold.Sensitive 		= ! execute;
 		button_execute_test.Sensitive 		= ! execute;
 		sensitiveLastTestButtons(! execute);

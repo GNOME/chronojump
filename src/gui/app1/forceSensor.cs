@@ -3200,7 +3200,7 @@ LogB.Information(" fs R ");
 	{
 		hbox_force_capture_buttons.Sensitive = s;
 
-		button_activate_chronopics.Sensitive = s;
+		button_contacts_devices_networks.Sensitive = s;
 		image_test.Sensitive = s;
 		button_execute_test.Sensitive = (s && currentPerson != null && currentPerson.UniqueID > 0 && currentSession != null);
 		button_force_sensor_image_save_signal.Sensitive = s;

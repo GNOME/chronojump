@@ -39,7 +39,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.VBox vbox_start_window_sub;
 	[Widget] Gtk.Alignment alignment_start_window;
 	[Widget] Gtk.Alignment alignment_encoder_capture_options;
-	[Widget] Gtk.Button button_activate_chronopics_networks_problems;
+	[Widget] Gtk.Button button_contacts_devices_networks_problems;
 
 	//RFID
 	[Widget] Gtk.Label label_rfid_wait;
@@ -191,7 +191,7 @@ public partial class ChronoJumpWindow
 
 			//on networks do not allow to change devices until preferences option is checked
 			viewport_chronopics.Sensitive = false;
-			button_activate_chronopics_encoder.Sensitive = false;
+			button_encoder_devices_networks.Sensitive = false;
 
 			//do not allow camera controls
 			showWebcamCaptureContactsControls (false); //contacts
@@ -259,12 +259,12 @@ public partial class ChronoJumpWindow
 		}
 
 		if (configChronojump.Compujump) {
-			button_activate_chronopics.Visible = true;
-			button_activate_chronopics_encoder.Visible = true;
+			button_contacts_devices_networks.Visible = true;
+			button_encoder_devices_networks.Visible = true;
 			button_contacts_detect_small.Visible = false;
 		} else {
-			button_activate_chronopics.Visible = false;
-			button_activate_chronopics_encoder.Visible = false;
+			button_contacts_devices_networks.Visible = false;
+			button_encoder_devices_networks.Visible = false;
 			button_contacts_detect_small.Visible = true;
 		}
 
@@ -997,7 +997,7 @@ public partial class ChronoJumpWindow
 
 			//not allow to change devices if person changed. If you want to change again, go to preferences/advanced networksAllowChangeDevices
 			preferences.networksAllowChangeDevices = false;
-			button_activate_chronopics_encoder.Sensitive = false;
+			button_encoder_devices_networks.Sensitive = false;
 		}
 
 		//Wakeup screen if it's off
@@ -1314,7 +1314,7 @@ public partial class ChronoJumpWindow
 
 		//not allow to change devices if person changed. If you want to change again, go to preferences/advanced networksAllowChangeDevices
 		preferences.networksAllowChangeDevices = false;
-		button_activate_chronopics_encoder.Sensitive = false;
+		button_encoder_devices_networks.Sensitive = false;
 	}
 
 	private void compujumpPersonAutoLogoutChanged(object o, EventArgs args)
@@ -1372,7 +1372,7 @@ public partial class ChronoJumpWindow
 			hbox_RFID_disconnected.Visible = false;
 			hbox_encoder_disconnected.Visible = true;
 			label_encoder_checked_error.Visible = false;
-			button_activate_chronopics_networks_problems.Sensitive = preferences.networksAllowChangeDevices;
+			button_contacts_devices_networks_problems.Sensitive = preferences.networksAllowChangeDevices;
 		}
 		else {
 			notebook_sup.CurrentPage = Convert.ToInt32(notebook_sup_pages.ENCODER);
@@ -1393,7 +1393,7 @@ public partial class ChronoJumpWindow
 			notebook_sup.CurrentPage = Convert.ToInt32(notebook_sup_pages.NETWORKSPROBLEMS);
 			hbox_RFID_disconnected.Visible = true;
 
-			button_activate_chronopics_networks_problems.Sensitive = preferences.networksAllowChangeDevices;
+			button_contacts_devices_networks_problems.Sensitive = preferences.networksAllowChangeDevices;
 			hbox_encoder_disconnected.Visible = false;
 		}
 		else {

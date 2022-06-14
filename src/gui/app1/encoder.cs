@@ -120,8 +120,8 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Button button_encoder_delete_signal;
 	
 	[Widget] Gtk.Alignment alignment_encoder_capture_signal;
-	[Widget] Gtk.Button button_activate_chronopics_encoder;
-	//[Widget] Gtk.Button button_activate_chronopics_encoder_networks_problems;
+	[Widget] Gtk.Button button_encoder_devices_networks;
+	//[Widget] Gtk.Button button_encoder_devices_networks_problems;
 
 	[Widget] Gtk.Notebook notebook_encoder_sup;
 	[Widget] Gtk.Notebook notebook_encoder_capture;

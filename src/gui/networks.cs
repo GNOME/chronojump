@@ -409,17 +409,21 @@ public partial class ChronoJumpWindow
 
 		if (database_fc.Run() == (int)ResponseType.Accept)
 		{
-			// 1) update to config file (to be opened again on next boot)
+			// 1) check that there is a database/chronojump.db inside
+			if ( ! File.Exists( System.IO.Path.Combine (database_fc.Filename, "database", "chronojump.db")) )
+			{
+				new DialogMessage (Constants.MessageTypes.WARNING,
+						"Error: Need to select a folder that has a \"database\" folder inside an a \"chronojump.db\" file inside.");
+			} else {
+				// 2) reassing configChronojump.LastDBFullPath
+				configChronojump.LastDBFullPath = database_fc.Filename;
 
-			// 2) reassing configChronojump.LastDBFullPath
-			configChronojump.LastDBFullPath = database_fc.Filename;
+				// 3) update config file (taking care of being default config file)
+				configChronojump.UpdateFieldEnsuringDefaultConfigFile ("LastDBFullPath", database_fc.Filename);
 
-			// 3) update config file (taking care of being default config file)
-			configChronojump.UpdateFieldEnsuringDefaultConfigFile ("LastDBFullPath", database_fc.Filename);
-
-			// 4) change database
-			//TODO: think where to put a try/catch, eg if there is no database file, or search database/chronojump.db before
-			databaseChange ();
+				// 4) change database
+				databaseChange ();
+			}
 		}
 
 		database_fc.Hide ();

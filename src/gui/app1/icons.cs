@@ -55,10 +55,13 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_chronopic_connect_contacts;
 	[Widget] Gtk.Image image_chronopic_connect_contacts1;
 	[Widget] Gtk.Image image_chronopic_connect_contacts2;
+	[Widget] Gtk.Image image_chronopic_connect_contacts3;
+	[Widget] Gtk.Image image_chronopic_connect_contacts4;
 	[Widget] Gtk.Image image_chronopic_connect_encoder;
 	[Widget] Gtk.Image image_chronopic_connect_encoder1;
 	[Widget] Gtk.Image image_chronopic_connect_encoder2;
 	[Widget] Gtk.Image image_button_contacts_detect;
+	[Widget] Gtk.Image image_button_encoder_detect;
 	[Widget] Gtk.Image image_button_execute;
 	[Widget] Gtk.Image image_contacts_bell;
 	[Widget] Gtk.Image image_contacts_close_and_capture;
@@ -454,6 +457,8 @@ public partial class ChronoJumpWindow
 		image_chronopic_connect_contacts.Pixbuf = pixbuf;
 		image_chronopic_connect_contacts1.Pixbuf = pixbuf;
 		image_chronopic_connect_contacts2.Pixbuf = pixbuf;
+		image_chronopic_connect_contacts3.Pixbuf = pixbuf;
+		image_chronopic_connect_contacts4.Pixbuf = pixbuf;
 		image_chronopic_connect_encoder.Pixbuf = pixbuf;
 		image_chronopic_connect_encoder1.Pixbuf = pixbuf;
 		image_chronopic_connect_encoder2.Pixbuf = pixbuf;
@@ -514,6 +519,7 @@ public partial class ChronoJumpWindow
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_capture.png");
 		image_button_contacts_detect.Pixbuf = pixbuf;
+		image_button_encoder_detect.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_capture_big.png");
 		image_encoder_capture_execute.Pixbuf = pixbuf;
 		image_button_execute.Pixbuf = pixbuf;

@@ -1059,6 +1059,10 @@ public class Constants
 		RT, OTHER } //OTHER can be: Multichronopic, Pulse
 
 	//to shorten code on the rest of the software
+	public static bool ModeIsENCODER (Modes mode)
+	{
+		return (mode == Modes.POWERGRAVITATORY || mode == Modes.POWERINERTIAL);
+	}
 	public static bool ModeIsFORCESENSOR (Modes mode)
 	{
 		return (mode == Modes.FORCESENSORISOMETRIC || mode == Modes.FORCESENSORELASTIC);

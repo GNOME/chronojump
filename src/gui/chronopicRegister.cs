@@ -385,6 +385,11 @@ public class DiscoverWindow
 			return true;
 		else if (current_mode == Constants.Modes.RUNSENCODER && crpt == ChronopicRegisterPort.Types.ARDUINO_RUN_ENCODER)
 			return true;
+		else if (
+				(current_mode == Constants.Modes.POWERGRAVITATORY ||
+				 current_mode == Constants.Modes.POWERINERTIAL) &&
+				crpt == ChronopicRegisterPort.Types.ENCODER )
+			return true;
 
 		return false;
 	}

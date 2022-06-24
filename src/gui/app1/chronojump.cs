@@ -299,8 +299,11 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Label label_micro_discover_not_found;
 	[Widget] Gtk.Table table_micro_discover;
 	[Widget] Gtk.HBox hbox_contacts_detect_and_execute;
+	[Widget] Gtk.HBox hbox_encoder_detect_and_execute;
 	[Widget] Gtk.Button button_contacts_detect;
+	[Widget] Gtk.Button button_encoder_detect;
 	[Widget] Gtk.Button button_contacts_detect_small;
+	[Widget] Gtk.Button button_encoder_detect_small;
 	[Widget] Gtk.EventBox eventbox_button_micro_discover_cancel_close;
 	[Widget] Gtk.Image image_button_micro_discover_cancel_close;
 	[Widget] Gtk.Label label_button_micro_discover_cancel_close;
@@ -4637,6 +4640,9 @@ public partial class ChronoJumpWindow
 		{
 			button_contacts_detect.Visible = show;
 			hbox_contacts_detect_and_execute.Visible = ! show;
+
+			button_encoder_detect.Visible = show;
+			hbox_encoder_detect_and_execute.Visible = ! show;
 		}
 	}
 

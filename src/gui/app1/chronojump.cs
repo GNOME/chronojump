@@ -4642,8 +4642,9 @@ public partial class ChronoJumpWindow
 
 	//right now implemented only contacts
 	DiscoverWindow discoverWin;
-	private void on_button_contacts_detect_clicked (object o, EventArgs args)
+	private void on_button_detect_clicked (object o, EventArgs args)
 	{
+		/*
 		if(
 				current_mode != Constants.Modes.JUMPSSIMPLE &&
 				current_mode != Constants.Modes.JUMPSREACTIVE &&
@@ -4652,6 +4653,7 @@ public partial class ChronoJumpWindow
 				! Constants.ModeIsFORCESENSOR (current_mode) &&
 				current_mode != Constants.Modes.RUNSENCODER)
 			return;
+			*/
 
 		app1s_notebook_sup_entered_from = notebook_sup.CurrentPage; //CONTACTS or ENCODER
 		notebook_sup.CurrentPage = Convert.ToInt32 (notebook_sup_pages.MICRODISCOVER);
@@ -4760,7 +4762,7 @@ public partial class ChronoJumpWindow
 				else
 				{
 					if (! configChronojump.Compujump)
-						on_button_contacts_detect_clicked (o, args); //open discover win
+						on_button_detect_clicked (o, args); //open discover win
 				}
 			} else {
 				LogB.Information ("getSelectedFormode: " + chronopicRegister.GetSelectedForMode (current_mode).ToString ());

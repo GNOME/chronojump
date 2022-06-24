@@ -546,7 +546,7 @@ public class MicroDiscover : MicroComms
 	private string forceSensorStr = "Force_Sensor-";
 	private string raceAnalyzerStr = "Race_Analyzer-";
 	private string wichroStr = "Wifi-Controller-"; //Will be used for Wichro and Quick, then user will decide. "local:get_channel;" to know the channel
-	//private string encoderStr = "J"; //for encoder send a J and receive a J
+	private string encoderStr = "J"; //for encoder send a J and receive a J
 
 	public enum Status { NotStarted, Connecting, Detecting, Done };
 	private List<Status> progressBar_l; //progressBars status
@@ -639,6 +639,8 @@ public class MicroDiscover : MicroComms
 					success = discoverForceSensor ();
 				else if(mode == Constants.Modes.RUNSENCODER)
 					success = discoverRaceAnalyzer ();
+				else if (Constants.ModeIsENCODER (mode))
+					success = discoverEncoder ();
 			} else
 				micro.Discovered = ChronopicRegisterPort.Types.UNKNOWN;
 
@@ -825,6 +827,28 @@ public class MicroDiscover : MicroComms
 					success = true;
 					break;
 				}
+			}
+		}
+
+		flush(); //empty the port for future use
+		return success;
+	}
+
+	private bool discoverEncoder ()
+	{
+		bool success = false;
+		List<string> responseExpected_l = new List<string>();
+		responseExpected_l.Add (encoderStr);
+		if(cancel)
+			return false;
+
+		if(getVersion ("J", responseExpected_l, true, 2000))
+		{
+			LogB.Information("Discover found this device: " + micro.Response);
+			if(micro.Response.Contains(encoderStr))
+			{
+				micro.Discovered = ChronopicRegisterPort.Types.ENCODER;
+				success = true;
 			}
 		}
 

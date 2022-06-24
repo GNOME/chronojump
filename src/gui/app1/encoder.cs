@@ -991,8 +991,16 @@ public partial class ChronoJumpWindow
 		else //if we are NOT capturing on the background …
 		{
 			//check if chronopics have changed
+			/*
 			if(! canCaptureEncoder() )
 				return;
+				*/
+			chronopicRegister.ListSelectedForAllModes (); //debug
+			if (chronopicRegister.GetSelectedForMode (current_mode).Port == "")
+			{
+				if (! configChronojump.Compujump)
+					on_button_detect_clicked (new object (), new EventArgs ()); //open discover win
+			}
 
 			if(encoderConfigurationCurrent.has_inertia)
 			{

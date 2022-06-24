@@ -1453,9 +1453,7 @@ public partial class ChronoJumpWindow
 		}
 		else if(current_mode == Constants.Modes.RT)
 			updateGraphReactionTimes();
-
-		else if(current_mode == Constants.Modes.POWERGRAVITATORY ||
-				current_mode == Constants.Modes.POWERINERTIAL)
+		else if(Constants.ModeIsENCODER (current_mode))
 			encoderPersonChanged();
 		else if(Constants.ModeIsFORCESENSOR (current_mode))
 			forceSensorPersonChanged();
@@ -3226,7 +3224,7 @@ public partial class ChronoJumpWindow
 
 		Constants.Modes m = current_mode;
 
-		if(m == Constants.Modes.POWERGRAVITATORY || m == Constants.Modes.POWERINERTIAL)
+		if(Constants.ModeIsENCODER (m))
 			overviewWin = EncoderOverviewWindow.Show (app1, currentEncoderGI, currentSession.UniqueID, currentPerson.UniqueID);
 		else if(Constants.ModeIsFORCESENSOR (m))
 			overviewWin = ForceSensorOverviewWindow.Show (app1, currentSession.UniqueID, currentPerson.UniqueID, m);
@@ -3567,7 +3565,7 @@ public partial class ChronoJumpWindow
 		sensitiveLastTestButtons(false);
 
 		//show capture graph and/or table
-		if(m != Constants.Modes.POWERGRAVITATORY && m != Constants.Modes.POWERINERTIAL)
+		if (! Constants.ModeIsENCODER (m))
 		{
 			if(Constants.ModeIsFORCESENSOR (m) || m == Constants.Modes.RUNSENCODER)
 			{
@@ -3636,8 +3634,7 @@ public partial class ChronoJumpWindow
 
 		//on OSX R is not installed by default. Check if it's installed. Needed for encoder and force sensor
 		if(
-				( m == Constants.Modes.POWERGRAVITATORY ||
-				  m == Constants.Modes.POWERINERTIAL ||
+				( Constants.ModeIsENCODER (m) ||
 				  Constants.ModeIsFORCESENSOR (m) ) &&
 				operatingSystem == UtilAll.OperatingSystems.MACOSX &&
 				! Util.FileExists(Constants.ROSX) )
@@ -3777,7 +3774,7 @@ public partial class ChronoJumpWindow
 			label_contacts_exercise_selected_name.Visible = false;
 			hbox_combo_select_contacts_top_with_arrows.Visible = true; //this will be unneded
 		}
-		else if(m == Constants.Modes.POWERGRAVITATORY || m == Constants.Modes.POWERINERTIAL) 
+		else if (Constants.ModeIsENCODER (m))
 		{
 			button_detect_show_hide (true);
 			notebook_sup.CurrentPage = Convert.ToInt32(notebook_sup_pages.ENCODER);
@@ -4038,8 +4035,8 @@ public partial class ChronoJumpWindow
 		else
 			image_contacts_bell.Pixbuf = pixbufBellInactive;
 
-		if( (m == Constants.Modes.POWERGRAVITATORY || m == Constants.Modes.POWERINERTIAL)
-				&&  feedbackWin.FeedbackActive(Constants.BellModes.ENCODERGRAVITATORY) )
+		if (Constants.ModeIsENCODER (m) &&
+				feedbackWin.FeedbackActive(Constants.BellModes.ENCODERGRAVITATORY) )
 			image_encoder_bell.Pixbuf = pixbufBellActive;
 		else
 			image_encoder_bell.Pixbuf = pixbufBellInactive;
@@ -4048,7 +4045,7 @@ public partial class ChronoJumpWindow
 		//show the program
 		notebook_start.CurrentPage = Convert.ToInt32(notebook_start_pages.PROGRAM);
 
-		if(m != Constants.Modes.POWERGRAVITATORY && m != Constants.Modes.POWERINERTIAL)
+		if (! Constants.ModeIsENCODER (m))
 		{
 			//don't change threshold if changing from jumpssimple to jumpsreactive ...
 			if(! last_menuitem_mode_defined ||
@@ -5381,8 +5378,7 @@ public partial class ChronoJumpWindow
 			return true;
 		}
 
-		if(current_mode == Constants.Modes.POWERGRAVITATORY ||
-			       current_mode == Constants.Modes.POWERINERTIAL)
+		if (Constants.ModeIsENCODER (current_mode))
 		{
 			updateTopRestTimesEncoder();
 		} else {
@@ -7937,7 +7933,7 @@ LogB.Debug("mc finished 5");
 
 			image_contacts_bell.Pixbuf = pixbuf;
 		}
-		else if(m == Constants.Modes.POWERGRAVITATORY || m == Constants.Modes.POWERINERTIAL)
+		else if (Constants.ModeIsENCODER (m))
 		{
 			// 1) Update bell
 			if(feedbackWin.FeedbackActive(bellMode))

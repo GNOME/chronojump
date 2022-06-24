@@ -261,10 +261,16 @@ public partial class ChronoJumpWindow
 			button_contacts_devices_networks.Visible = true;
 			button_encoder_devices_networks.Visible = true;
 			button_contacts_detect_small.Visible = false;
+			button_threshold.Visible = false;
+			//button_force_sensor_adjust.Visible = false;
+			button_encoder_detect_small.Visible = false;
 		} else {
 			button_contacts_devices_networks.Visible = false;
 			button_encoder_devices_networks.Visible = false;
 			button_contacts_detect_small.Visible = true;
+			button_threshold.Visible = true;
+			//button_force_sensor_adjust.Visible = true;
+			button_encoder_detect_small.Visible = true;
 		}
 
 		if(configChronojump.Raspberry)

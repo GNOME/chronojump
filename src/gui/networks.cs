@@ -75,7 +75,6 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Button button_encoder_exercise_delete;
 
 	//encoder ...
-	[Widget] Gtk.Alignment alignment_check_encoder_networks_upload;
 	[Widget] Gtk.CheckButton check_encoder_networks_upload;
 	[Widget] Gtk.Button button_encoder_monthly_change_current_session;
 	[Widget] Gtk.Button button_encoder_analyze_image_compujump_send_email;
@@ -197,7 +196,7 @@ public partial class ChronoJumpWindow
 			showWebcamCaptureContactsControls (false); //contacts
 			hbox_video_encoder.Visible = false;
 
-			alignment_check_encoder_networks_upload.Visible = true;
+			check_encoder_networks_upload.Visible = true;
 
 			//networks always without lateral person win
 			//also this is important for seing label_rfid_encoder_wait

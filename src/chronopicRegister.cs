@@ -343,9 +343,26 @@ public abstract class ChronopicRegister
 		if (selectedForMode_l == null)
 			return new ChronopicRegisterPort ("");
 
+		//first search strict to that mode, so if there is a chronopic for jumps and another for races, will select the appropriate
 		foreach (selectedForMode sfm in selectedForMode_l)
 			if (sfm.mode == mode)
 				return sfm.crp;
+
+		//if not found for that mode, find for equivalent mode, so a chronopic for jumps can be suitable for races
+		foreach (selectedForMode sfm in selectedForMode_l)
+		{
+			if (
+					(mode == Constants.Modes.JUMPSSIMPLE || mode == Constants.Modes.JUMPSREACTIVE ||
+					 mode == Constants.Modes.RUNSSIMPLE || mode == Constants.Modes.RUNSINTERVALLIC)
+					&&
+					(sfm.mode == Constants.Modes.JUMPSSIMPLE || sfm.mode == Constants.Modes.JUMPSREACTIVE ||
+					 sfm.mode == Constants.Modes.RUNSSIMPLE || sfm.mode == Constants.Modes.RUNSINTERVALLIC) )
+				return sfm.crp;
+			else if (Constants.ModeIsFORCESENSOR (mode) && Constants.ModeIsFORCESENSOR (sfm.mode))
+				return sfm.crp;
+			else if (Constants.ModeIsENCODER (mode) && Constants.ModeIsENCODER (sfm.mode))
+				return sfm.crp;
+		}
 
 		return new ChronopicRegisterPort ("");
 	}

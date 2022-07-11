@@ -3626,7 +3626,10 @@ public partial class ChronoJumpWindow
 		hbox_drawingarea_realtime_capture_cairo.Visible = false;
 		vbox_event_execute_drawingarea_run_interval_realtime_capture_cairo.Visible = false;
 
-		button_detect_show_hide (false);
+		if(chronopicRegister == null)
+			chronopicRegisterUpdate(false);
+		chronopicRegister.ListSelectedForAllModes (); //debug
+		button_detect_show_hide (chronopicRegister.GetSelectedForMode (m).Port == "");
 
 		//blank exercise options: useful for changing from jumps or runs to forceSensor, runEncoder, reaction time, other
 		label_contacts_exercise_selected_name.Visible = true; //will not be visible when all the contacts_top combo is implemented
@@ -3646,8 +3649,6 @@ public partial class ChronoJumpWindow
 
 		if(m == Constants.Modes.JUMPSSIMPLE || m == Constants.Modes.JUMPSREACTIVE)
 		{
-			button_detect_show_hide (true);
-
 			notebook_sup.CurrentPage = Convert.ToInt32(notebook_sup_pages.CONTACTS);
 			//notebook_capture_analyze.ShowTabs = true;
 			hbox_contacts_sup_capture_analyze_two_buttons.Visible = true;
@@ -3706,16 +3707,8 @@ public partial class ChronoJumpWindow
 			LogB.Information(string.Format("wireless conditions A: {0}, {1}",
 				cp2016.StoredWireless, chronopicRegister != null));
 
-			if(chronopicRegister == null)
-			{
-				LogB.Information("Updating chronopicRegister to know if we have a wichro connected so we don't need 'Connected' at start");
-				chronopicRegisterUpdate(false);
-			}
-
 			LogB.Information(string.Format("wireless conditions B: {0}, {1}",
 				cp2016.StoredWireless, chronopicRegister != null));
-
-			button_detect_show_hide (true);
 
 			notebook_sup.CurrentPage = Convert.ToInt32(notebook_sup_pages.CONTACTS);
 			//notebook_capture_analyze.ShowTabs = true;
@@ -3776,7 +3769,6 @@ public partial class ChronoJumpWindow
 		}
 		else if (Constants.ModeIsENCODER (m))
 		{
-			button_detect_show_hide (true);
 			notebook_sup.CurrentPage = Convert.ToInt32(notebook_sup_pages.ENCODER);
 
 
@@ -3896,8 +3888,6 @@ public partial class ChronoJumpWindow
 		} 
 		else if(Constants.ModeIsFORCESENSOR (m))
 		{
-			button_detect_show_hide (true);
-
 			notebook_sup.CurrentPage = Convert.ToInt32(notebook_sup_pages.CONTACTS);
 			notebooks_change(m);
 
@@ -3944,8 +3934,6 @@ public partial class ChronoJumpWindow
 		}
 		else if(m == Constants.Modes.RUNSENCODER)
 		{
-			button_detect_show_hide (true);
-
 			notebook_sup.CurrentPage = Convert.ToInt32(notebook_sup_pages.CONTACTS);
 			notebooks_change(m);
 
@@ -4075,8 +4063,6 @@ public partial class ChronoJumpWindow
 		last_menuitem_mode_defined = true;
 
 		SqlitePreferences.Update(SqlitePreferences.LastMode, m.ToString(), false);
-
-		chronopicRegisterUpdate(false);
 
 		chronojumpWindowTestsNext();
 

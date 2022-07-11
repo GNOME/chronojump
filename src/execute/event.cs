@@ -557,7 +557,7 @@ public class EventExecute
 
 	//from confirm_window cancel button (thread has not started)
 	//this is NOT called when a event has started and user click on "Cancel"
-	protected void cancel_event_before_start(object o, EventArgs args)
+	protected void cancel_event_before_start (object o, EventArgs args)
 	{
 		cancel = true;
 			
@@ -566,11 +566,12 @@ public class EventExecute
 		fakeButtonThreadDyed.Click();
 	}
 
-	protected void chronopicHasBeenDisconnected() {
+	protected void chronopicHasBeenDisconnected ()
+	{
 		chronopicDisconnected = true;
 		ErrorWindow errorWin;		
 		errorWin = ErrorWindow.Show( 
-				Catalog.GetString("Chronopic seems disconnected. Reconnect again on Chronopic Window."));
+				Catalog.GetString("Chronopic seems disconnected."));
 
 		Util.PlaySound(Constants.SoundTypes.BAD, volumeOn, gstreamer);
 		errorWin.Button_accept.Clicked += new EventHandler(cancel_event_before_start);

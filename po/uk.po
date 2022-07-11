@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: chronojump master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/chronojump/issues\n"
-"POT-Creation-Date: 2022-06-24 13:31+0000\n"
-"PO-Revision-Date: 2022-06-24 18:55+0300\n"
+"POT-Creation-Date: 2022-07-11 09:22+0000\n"
+"PO-Revision-Date: 2022-07-11 14:41+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -297,7 +297,6 @@ msgid "Execute test"
 msgstr "Виконати тест"
 
 #: ../glade/app1.glade.h:56
-#| msgid "Change date"
 msgid "Change device"
 msgstr "Змінити пристрій"
 
@@ -1833,7 +1832,6 @@ msgid "Connect encoder"
 msgstr "З'єднати кодувальник"
 
 #: ../glade/app1.glade.h:382
-#| msgid "Close and capture"
 msgid "Upload next capture"
 msgstr "Вивантажити наступне захоплення"
 
@@ -4047,8 +4045,8 @@ msgstr "Висота стегна при згинанні SJ"
 #: ../glade/person_win.glade.h:24
 msgid "Measured from trochanter to the ground in Squat jump flexion"
 msgstr ""
-"Виміряно від вертлюга до носочка стопи до підлоги при згинанні при"
-" підстрибуванні з положення сидячи"
+"Виміряно від вертлюга до носочка стопи до підлоги при згинанні при "
+"підстрибуванні з положення сидячи"
 
 #: ../glade/person_win.glade.h:25
 msgid "Used on jump force/speed profile"
@@ -5955,11 +5953,10 @@ msgstr ""
 msgid "Resting {0} s"
 msgstr "Відпочинок {0} с"
 
-#: ../src/execute/event.cs:573
-msgid "Chronopic seems disconnected. Reconnect again on Chronopic Window."
-msgstr ""
-"Здається, Chronopic від'єднано. Встановіть з'єднання повторно у вікні "
-"Chronopic."
+#: ../src/execute/event.cs:574
+#| msgid "Chronopic is disconnected."
+msgid "Chronopic seems disconnected."
+msgstr "Здається, Chronopic від'єднано."
 
 #: ../src/execute/jump.cs:141 ../src/execute/jump.cs:218
 #: ../src/execute/jump.cs:648
@@ -8381,7 +8378,7 @@ msgstr "Перейдіть до пункту <i>обладнання</i>."
 
 #: ../src/gui/old/helpPorts.cs:104
 msgid "Select <i>administrate dispositives</i>. It's first button."
-msgstr ""
+msgstr "Натисніть <i>administrate dispositives</i>. Це перша кнопка."
 
 #: ../src/gui/old/helpPorts.cs:105
 msgid "Click on the '+' at left of COM and LPT ports."
@@ -11416,6 +11413,11 @@ msgstr "Помилка. {0} не вдалося зберегти відео."
 #: ../src/webcam/webcamFfmpeg.cs:290
 msgid "Preview. Press any key to exit."
 msgstr "Попередній перегляд. Натисніть будь-яку клавішу, щоб вийти."
+
+#~ msgid "Chronopic seems disconnected. Reconnect again on Chronopic Window."
+#~ msgstr ""
+#~ "Здається, Chronopic від'єднано. Встановіть з'єднання повторно у вікні "
+#~ "Chronopic."
 
 #~ msgid "Connect Chronopics"
 #~ msgstr "З'єднатися із Chronopics"

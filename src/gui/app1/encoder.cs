@@ -1009,7 +1009,7 @@ public partial class ChronoJumpWindow
 			}
 		}
 
-		//This notebook has capture (signal plotting), and curves (shows R graph)	
+		//This notebook has capture (signal plotting), and curves (shows R graph)
 		if(notebook_encoder_capture.CurrentPage == 1)
 			notebook_encoder_capture.PrevPage();
 
@@ -1044,7 +1044,7 @@ public partial class ChronoJumpWindow
 				preferences.encoderCaptureTimeIM,
 				EncoderCaptureIMCalc.InactivityEndTime);
 		
-		//tis notebook has capture (signal plotting), and curves (shows R graph)	
+		//tis notebook has capture (signal plotting), and curves (shows R graph)
 		if(notebook_encoder_capture.CurrentPage == 1)
 			notebook_encoder_capture.PrevPage();
 		
@@ -6271,6 +6271,23 @@ public partial class ChronoJumpWindow
 				{
 					new DialogMessage(Constants.MessageTypes.WARNING,
 							Catalog.GetString("Sorry, cannot start capture."));
+
+					// 1) sensitivize again
+					sensitiveGuiEventDone(); //senstivize again
+
+					// 2) show the detect big button
+					button_detect_show_hide (true);
+
+					// 3) erase cairo barplot (remove the Capturing...)
+					cairoPaintBarsPre = new CairoPaintBarplotPreEncoder (
+							encoder_capture_curves_bars_drawingarea_cairo,
+							preferences.fontType.ToString());
+
+					// 4) this notebook has capture (signal plotting), and curves (shows R graph)
+					if(notebook_encoder_capture.CurrentPage == 0 )
+						notebook_encoder_capture.NextPage();
+					encoder_pulsebar_capture.Fraction = 1;
+
 					return;
 				}
 
@@ -7322,7 +7339,7 @@ public partial class ChronoJumpWindow
 				sensitiveGuiEventDone();
 			
 			if(encoderProcessCancel || encoderProcessProblems) {
-				//tis notebook has capture (signal plotting), and curves (shows R graph)	
+				//this notebook has capture (signal plotting), and curves (shows R graph)
 				if(notebook_encoder_capture.CurrentPage == 0 )
 					notebook_encoder_capture.NextPage();
 				encoder_pulsebar_capture.Fraction = 1;
@@ -7348,7 +7365,7 @@ public partial class ChronoJumpWindow
 			} 
 			else if(action == encoderActions.CURVES || action == encoderActions.CURVES_AC || action == encoderActions.LOAD) 
 			{
-				//this notebook has capture (signal plotting), and curves (shows R graph)	
+				//this notebook has capture (signal plotting), and curves (shows R graph)
 				if(notebook_encoder_capture.CurrentPage == 0)
 					notebook_encoder_capture.NextPage();
 

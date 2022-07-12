@@ -616,7 +616,10 @@ public partial class ChronoJumpWindow
 
 		if(! portREOpened)
 			if(! runEncoderConnect()) //GTK
+			{
+				runEncoderProcessError = true;
 				return;
+			}
 
 		lastChangedTime = 0;
 
@@ -624,11 +627,17 @@ public partial class ChronoJumpWindow
 		if(versionDouble >= Convert.ToDouble(Util.ChangeDecimalSeparator("0.3")))
 		{
 			if(! runEncoderSendCommand(string.Format("set_pps:{0};", preferences.runEncoderPPS), "Sending pps", "Catched at set_pps"))
+			{
+				runEncoderProcessError = true;
 				return;
+			}
 
 			//read confirmation data
 			if(runEncoderReceiveFeedback("pps set to") == "")
+			{
+				runEncoderProcessError = true;
 				return;
+			}
 		}
 
 		string command = "start_capture:";

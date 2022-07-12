@@ -4393,6 +4393,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Notebook notebook_menu_2_2_2; //0 jumps, 1 races, 2 isometric/elastic/weights/inertial
 	[Widget] Gtk.Label label_selector_menu_2_2_2_title;
 	[Widget] Gtk.Label label_selector_menu_2_2_2_desc;
+	[Widget] Gtk.Alignment align_label_selector_menu_2_2_2_desc;
 
 	//clicked from start_window
 	private void on_button_menu_2_2_2_clicked (object o, EventArgs args)
@@ -4423,7 +4424,8 @@ public partial class ChronoJumpWindow
 			canBeDoubleClick = false;
 
 			title = "Races";
-			desc = "Measured by …";
+			desc = ""; //"Measured by …";
+
 			notebook_menu_2_2_2.CurrentPage = 1;
 		}
 		else if (o == (object) radio_menu_2_2_2_isometric)
@@ -4450,6 +4452,9 @@ public partial class ChronoJumpWindow
 			desc = "Speed/power exercises rotating an inertial machine and measured by an encoder";
 			notebook_menu_2_2_2.CurrentPage = 2;
 		}
+
+		//do not show desc on races (it has its own labels on table columns)
+		align_label_selector_menu_2_2_2_desc.Visible = (o != (object) radio_menu_2_2_2_races);
 
 		// if we already have clicked before, execute go!
 		if (canBeDoubleClick && label_selector_menu_2_2_2_title.Text == Catalog.GetString(title)) //note the "<b></b>" are not on .Text

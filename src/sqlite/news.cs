@@ -45,6 +45,7 @@ class SqliteNews : Sqlite
 	//INSERT INTO news VALUES (NULL, 0, 0, "something newer", "una cosa más nueva", "https://chronojump.org/shop/force-equipment/force-sensor/", "https://chronojump.org/es/shop/material-de-fuerza/kit-sensor-de-fuerza/", "Desc of force sensor", "Descripción del sensor de fuerza", "https://chronojump.org/wp-content/uploads/2016/11/chronojump-logo-web-e1589545113863.png");
 	//INSERT INTO news VALUES (NULL, 0, 0, "something even more new spare_parts", "una cosa más y más nueva spare_parts", "https://chronojump.org/product-category/races/races_spare_parts/", "https://chronojump.org/es/categoria-producto/carreras/productos-_de_carreras_por_separado/", "Desc of spare_parts", "Descripción de spare_parts", "https://chronojump.org/wp-content/uploads/2020/10/web-selector-races-PARTS.png");
 
+	//see howto_news.txt
 
 	protected internal static new void createTable ()
 	{

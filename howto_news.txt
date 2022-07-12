@@ -1,0 +1,9 @@
+At securitytesting
+1- put the image on securitytesting.chronojump.org /opt/srv/chronojump/static_news/latest_products
+
+At chronojump.org
+2- access mysql on chronojump.org (b6...)
+3- use chronojump
+4- insert into news values (NULL, 0, 0, "WICHRO: Wireless Race Kit", "WICHRO: Kit de carreras wireless", "https://chronojump.org/product/wichro-races-kit/", "https://chronojump.org/es/product/kit-carreras-wichro/", "- Easy alignment\n- Double beam\n- High power\n- Expandable battery\n- Allows any sprint or agility test\n- Coding channels & individually coded", "- Fácil de alinear\n- Doble haz\n- Alta potencia\n- Batería expandible\n- Permite cualquier test de sprint o agilidad\n- Canales de codificación y codificada individualmente", "http://static.chronojump.org/latest_products/wichro-athletics_400w.png");
+5- change chronojump_news_datetime at /etc/chronojump.conf
+6- systemctl restart gunicorn

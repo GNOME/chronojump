@@ -4633,19 +4633,9 @@ public partial class ChronoJumpWindow
 	DiscoverWindow discoverWin;
 	private void on_button_detect_clicked (object o, EventArgs args)
 	{
-		/*
-		if(
-				current_mode != Constants.Modes.JUMPSSIMPLE &&
-				current_mode != Constants.Modes.JUMPSREACTIVE &&
-				current_mode != Constants.Modes.RUNSSIMPLE &&
-				current_mode != Constants.Modes.RUNSINTERVALLIC &&
-				! Constants.ModeIsFORCESENSOR (current_mode) &&
-				current_mode != Constants.Modes.RUNSENCODER)
-			return;
-			*/
-
 		app1s_notebook_sup_entered_from = notebook_sup.CurrentPage; //CONTACTS or ENCODER
 		notebook_sup.CurrentPage = Convert.ToInt32 (notebook_sup_pages.MICRODISCOVER);
+		event_execute_label_message.Text = "";
 		menus_and_mode_sensitive (false);
 
 		chronopicRegisterUpdate (false);

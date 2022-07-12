@@ -1725,8 +1725,11 @@ public partial class ChronoJumpWindow
 
 				if(runEncoderProcessCancel)
 					event_execute_label_message.Text = "Cancelled.";
-				else
+				else {
 					event_execute_label_message.Text = runEncoderNotConnectedString;
+					button_detect_show_hide (true); // show the detect big button
+				}
+
 				LogB.Information(" re C cancel 2");
 			}
 			else

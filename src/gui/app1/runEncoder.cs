@@ -385,7 +385,7 @@ public partial class ChronoJumpWindow
 			reCGSD = new RunEncoderCaptureGetSpeedAndDisplacement(
 					currentRunEncoderExercise.SegmentCm, currentRunEncoderExercise.SegmentVariableCm,
 					currentPersonSession.Weight, //but note if person changes (but graph will be hopefully erased), this will change also take care on exports
-					currentRunEncoder.Angle);
+					Convert.ToInt32(race_analyzer_spinbutton_angle.Value) );
 
 		updateRaceAnalyzerCapturePositionTime(true);
 		updateRaceAnalyzerCaptureSpeedTime(true);

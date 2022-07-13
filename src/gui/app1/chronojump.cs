@@ -4675,6 +4675,11 @@ public partial class ChronoJumpWindow
 		{
 			chronopicRegister.SetSelectedForMode (discoverWin.PortSelected, current_mode);
 			button_detect_show_hide (false);
+
+			//do not show the threshold on WICHRO
+			//if ( chronopicRegister.NumConnectedOfType (ChronopicRegisterPort.Types.RUN_WIRELESS) == 1)
+			if (current_mode == Constants.Modes.RUNSSIMPLE || current_mode == Constants.Modes.RUNSINTERVALLIC)
+				button_threshold.Visible = (discoverWin.PortSelected.Type != ChronopicRegisterPort.Types.RUN_WIRELESS);
 		}
 
 		notebook_sup.CurrentPage = app1s_notebook_sup_entered_from; //CONTACTS or ENCODER

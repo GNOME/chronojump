@@ -3459,9 +3459,13 @@ LogB.Information(" fs R ");
 
 		LogB.Information("selected exercise: " + ex.ToString());
 
+		string subtitle = Catalog.GetString ("Isometric exercise");
+		if (current_mode == Constants.Modes.FORCESENSORELASTIC)
+			subtitle = Catalog.GetString ("Elastic exercise");
+
 		forceSensorExerciseWin = ForceSensorExerciseWindow.ShowEdit (current_mode,
 				Catalog.GetString("Exercise"),
-				Catalog.GetString("Force sensor exercise:"), ex,
+				subtitle, ex,
 				preferences.forceSensorElasticEccMinDispl, preferences.forceSensorElasticConMinDispl,
 				preferences.forceSensorNotElasticEccMinForce, preferences.forceSensorNotElasticConMinForce);
 
@@ -3470,9 +3474,13 @@ LogB.Information(" fs R ");
 
 	void on_button_force_sensor_exercise_add_clicked (object o, EventArgs args)
 	{
+		string subtitle = Catalog.GetString ("Isometric exercise");
+		if (current_mode == Constants.Modes.FORCESENSORELASTIC)
+			subtitle = Catalog.GetString ("Elastic exercise");
+
 		forceSensorExerciseWin = ForceSensorExerciseWindow.ShowAdd (current_mode,
 				Catalog.GetString("Exercise"),
-				Catalog.GetString("Force sensor exercise:"),
+				subtitle,
 				preferences.forceSensorElasticEccMinDispl, preferences.forceSensorElasticConMinDispl,
 				preferences.forceSensorNotElasticEccMinForce, preferences.forceSensorNotElasticConMinForce);
 

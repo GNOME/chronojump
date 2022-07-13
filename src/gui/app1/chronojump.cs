@@ -2483,6 +2483,9 @@ public partial class ChronoJumpWindow
 
 	private void on_combo_select_contacts_top_changed (object o, EventArgs args)
 	{
+		if (comboSelectContactsTopNoFollow)
+			return;
+
 		LogB.Information("on_combo_select_contacts_top_changed");
 
 		ComboBox combo = o as ComboBox;
@@ -3890,6 +3893,9 @@ public partial class ChronoJumpWindow
 		{
 			notebook_sup.CurrentPage = Convert.ToInt32(notebook_sup_pages.CONTACTS);
 			notebooks_change(m);
+
+			//combos should show exercises (isometric or elastic)
+			updateForceExerciseCombo ();
 
 			vbox_contacts_load_recalculate.Visible = true;
 			button_contacts_exercise_close_and_recalculate.Visible = true;

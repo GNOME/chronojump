@@ -3269,9 +3269,10 @@ LogB.Information(" fs R ");
 
 	string [] forceSensorComboExercisesString; //id:name (no translations, use user language)
 
-	//called on init
+	//called on initForceSensor (just one time)
 	private void createForceExerciseCombo ()
 	{
+		LogB.Information("createForceExerciseCombo start");
 		//force_sensor_exercise
 
 		combo_force_sensor_exercise = ComboBox.NewText ();
@@ -3285,6 +3286,22 @@ LogB.Information(" fs R ");
 		on_combo_force_sensor_exercise_changed (new object (), new EventArgs ());
 
 		combo_force_sensor_button_sensitive_exercise(UtilGtk.ComboGetActive(combo_force_sensor_exercise) != "");
+		LogB.Information("createForceExerciseCombo end");
+	}
+
+	//called on change mode, can be from isometric to elastic
+	private void updateForceExerciseCombo ()
+	{
+		LogB.Information("updateForceExerciseCombo start");
+		combo_force_sensor_exercise.Changed -= new EventHandler (on_combo_force_sensor_exercise_changed);
+		UtilGtk.ComboDelAll(combo_force_sensor_exercise);
+		combo_force_sensor_exercise.Changed += new EventHandler (on_combo_force_sensor_exercise_changed);
+		LogB.Information("updateForceExerciseCombo going to fill");
+		fillForceSensorExerciseCombo("");
+		LogB.Information("updateForceExerciseCombo end");
+
+		//needed because the += EventHandler does not work on first fill of the combo
+		on_combo_force_sensor_exercise_changed (new object (), new EventArgs ());
 	}
 
 	//left-right buttons on force_sensor combo exercise selection

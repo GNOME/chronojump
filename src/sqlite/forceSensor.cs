@@ -689,6 +689,19 @@ class SqliteForceSensorExercise : Sqlite
 
 		return array;
 	}
+
+	/*
+	   ForceSensor exercises raw are now both (isometric & elastic) because there was a bug creating raw exercises
+	   (elastic was not asked and was assigned true) and we don't know where to put them
+	   */
+	protected internal static void UpdateTo2_40 ()
+	{
+		dbcmd.CommandText = "UPDATE " + table + " SET elastic = -1 WHERE forceResultant = 0";
+		//-1 as is the same than a select inespecific
+
+		LogB.SQL(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+	}
 }
 
 class SqliteForceSensorExerciseImport : SqliteForceSensorExercise

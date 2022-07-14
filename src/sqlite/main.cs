@@ -131,7 +131,7 @@ class Sqlite
 	/*
 	 * Important, change this if there's any update to database
 	 */
-	static string lastChronojumpDatabaseVersion = "2.39";
+	static string lastChronojumpDatabaseVersion = "2.40";
 
 	public Sqlite()
 	{
@@ -3290,6 +3290,14 @@ class Sqlite
 
 				currentVersion = updateVersion("2.39");
 			}
+			if(currentVersion == "2.39")
+			{
+				LogB.SQL("ForceSensor exercises raw are now both (isometric & elastic) because there was a bug creating raw exercises (elastic was not asked and was assigned true) and we don't know where to put them.");
+
+				SqliteForceSensorExercise.UpdateTo2_40 ();
+
+				currentVersion = updateVersion("2.40");
+			}
 
 			/*
 			if(currentVersion == "1.79")
@@ -3511,6 +3519,7 @@ class Sqlite
 		//changes [from - to - desc]
 //just testing: 1.79 - 1.80 Converted DB to 1.80 Created table ForceSensorElasticBandGlue and moved stiffnessString records there
 
+		//2.39 - 2.40 Converted DB to 2.40 ForceSensor exercises raw are now both (isometric & elastic) because there was a bug creating raw exercises (elastic was not asked and was assigned true) and we don't know where to put them.
 		//2.38 - 2.39 Converted DB to 2.39 RunEncoderExercise ALTER TABLE added angleDefault. RunEncoder ALTER TABLE added angle
 		//2.37 - 2.38 Converted DB to 2.38 Doing alter table runInterval, tempRunInterval add photocellStr
 		//2.36 - 2.37 Converted DB to 2.37 Doing ALTER TABLE encoder add repCriteria.

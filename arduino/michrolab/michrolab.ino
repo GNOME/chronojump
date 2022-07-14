@@ -1337,6 +1337,7 @@ void showPowerResults()
 
 void startJumpsCapture()
 {
+  float maxJump = 0;
   int totalJumps = 0;
   rcaState = digitalRead(rcaPin);
   lastRcaState = rcaState;
@@ -1353,6 +1354,13 @@ void startJumpsCapture()
   int index = 0;
   currentPerson = 0;
   updatePersonJump(totalJumps);
+
+    //Print summary results
+  tft.setTextSize(2);
+  tft.setCursor(10, 215);
+  tft.print("H:");
+  printTftFormat(maxJump, 58, 215, 2, 2);
+  
   while ( !redButton.fell() )
   {
     if( blueButton.fell() ){
@@ -1371,6 +1379,14 @@ void startJumpsCapture()
           tft.fillRect(30, 0, 290, 200, BLACK);
           flightTime = (float)(rcaTime - lastRcaTime) / 1E6;
           bars[index] = 122.6 * flightTime * flightTime; //In cm
+          tft.setTextColor(BLACK);
+          printTftFormat(bars[(index + 10 - 1) % 10], 58, 215, 2, 2);
+          tft.setTextColor(WHITE); 
+          printTftFormat(bars[index], 58, 215, 2, 2);
+          if (bars[index] > maxJump)
+          {
+            maxJump = bars[index];
+          }
           redrawAxes(tft, 30, 200, 290, 200, 290, 200, 0, 100, 10, "", "", "", WHITE, GREY, WHITE, WHITE, BLACK, RED, true);
           barPlot(30, 200, 290, 200, 100, 10, index, 0.5, RED);
           index = (index + 1) % 10;

@@ -101,6 +101,99 @@
                 <property name="can_focus">True</property>
                 <property name="show_tabs">False</property>
                 <child>
+                  <widget class="GtkVBox" id="vbox_type">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="border_width">8</property>
+                    <property name="spacing">20</property>
+                    <child>
+                      <widget class="GtkLabel" id="label_type">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="xalign">0</property>
+                        <property name="label" translatable="yes">Chronojump 2.2.2 split force sensor mode into isometric and elastic modes.
+During the conversion, this exercise has been assigned to both modes.
+Do you want to have it in only one mode?</property>
+                      </widget>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">False</property>
+                        <property name="position">0</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <widget class="GtkVBox" id="vbox1">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="spacing">12</property>
+                        <child>
+                          <widget class="GtkRadioButton" id="radio_type_both">
+                            <property name="label" translatable="yes">Continue in both modes</property>
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="receives_default">False</property>
+                            <property name="active">True</property>
+                            <property name="draw_indicator">True</property>
+                          </widget>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">False</property>
+                            <property name="position">0</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <widget class="GtkRadioButton" id="radio_type_isometric">
+                            <property name="label" translatable="yes">Only for isometric mode</property>
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="receives_default">False</property>
+                            <property name="active">True</property>
+                            <property name="draw_indicator">True</property>
+                            <property name="group">radio_type_both</property>
+                          </widget>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">False</property>
+                            <property name="position">1</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <widget class="GtkRadioButton" id="radio_type_elastic">
+                            <property name="label" translatable="yes">Only for elastic mode</property>
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="receives_default">False</property>
+                            <property name="relief">none</property>
+                            <property name="draw_indicator">True</property>
+                            <property name="group">radio_type_both</property>
+                          </widget>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">False</property>
+                            <property name="position">2</property>
+                          </packing>
+                        </child>
+                      </widget>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">False</property>
+                        <property name="position">1</property>
+                      </packing>
+                    </child>
+                  </widget>
+                </child>
+                <child>
+                  <widget class="GtkLabel" id="label13">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="label">type: iso/elastic</property>
+                  </widget>
+                  <packing>
+                    <property name="tab_fill">False</property>
+                    <property name="type">tab</property>
+                  </packing>
+                </child>
+                <child>
                   <widget class="GtkVBox" id="vbox_force">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
@@ -211,6 +304,9 @@
                       </packing>
                     </child>
                   </widget>
+                  <packing>
+                    <property name="position">1</property>
+                  </packing>
                 </child>
                 <child>
                   <widget class="GtkLabel" id="label3">
@@ -219,6 +315,7 @@
                     <property name="label">force</property>
                   </widget>
                   <packing>
+                    <property name="position">1</property>
                     <property name="tab_fill">False</property>
                     <property name="type">tab</property>
                   </packing>
@@ -303,7 +400,7 @@
                     </child>
                   </widget>
                   <packing>
-                    <property name="position">1</property>
+                    <property name="position">2</property>
                   </packing>
                 </child>
                 <child>
@@ -313,7 +410,7 @@
                     <property name="label">fixation</property>
                   </widget>
                   <packing>
-                    <property name="position">1</property>
+                    <property name="position">2</property>
                     <property name="tab_fill">False</property>
                     <property name="type">tab</property>
                   </packing>
@@ -472,7 +569,7 @@
                     </child>
                   </widget>
                   <packing>
-                    <property name="position">2</property>
+                    <property name="position">3</property>
                   </packing>
                 </child>
                 <child>
@@ -482,7 +579,7 @@
                     <property name="label">mass</property>
                   </widget>
                   <packing>
-                    <property name="position">2</property>
+                    <property name="position">3</property>
                     <property name="tab_fill">False</property>
                     <property name="type">tab</property>
                   </packing>
@@ -1044,7 +1141,7 @@
                     </child>
                   </widget>
                   <packing>
-                    <property name="position">3</property>
+                    <property name="position">4</property>
                   </packing>
                 </child>
                 <child>
@@ -1054,7 +1151,7 @@
                     <property name="label">repetitionsDetect</property>
                   </widget>
                   <packing>
-                    <property name="position">3</property>
+                    <property name="position">4</property>
                     <property name="tab_fill">False</property>
                     <property name="type">tab</property>
                   </packing>
@@ -1184,7 +1281,7 @@
                     </child>
                   </widget>
                   <packing>
-                    <property name="position">4</property>
+                    <property name="position">5</property>
                   </packing>
                 </child>
                 <child>
@@ -1194,7 +1291,7 @@
                     <property name="label">repetitionsShow</property>
                   </widget>
                   <packing>
-                    <property name="position">4</property>
+                    <property name="position">5</property>
                     <property name="tab_fill">False</property>
                     <property name="type">tab</property>
                   </packing>
@@ -1343,7 +1440,7 @@
                     </child>
                   </widget>
                   <packing>
-                    <property name="position">5</property>
+                    <property name="position">6</property>
                   </packing>
                 </child>
                 <child>
@@ -1353,7 +1450,7 @@
                     <property name="label">other</property>
                   </widget>
                   <packing>
-                    <property name="position">5</property>
+                    <property name="position">6</property>
                     <property name="tab_fill">False</property>
                     <property name="type">tab</property>
                   </packing>

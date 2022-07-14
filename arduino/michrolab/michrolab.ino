@@ -1342,7 +1342,6 @@ void startJumpsCapture()
   rcaFlag = false;
   float flightTime = 0;
   bool firstContact = true;
-
   for (int i = 0; i < 10; i++)
   {
     bars[i] = 0;
@@ -1351,8 +1350,14 @@ void startJumpsCapture()
   redrawAxes(tft, 30, 200, 290, 200, 290, 200, 0, 100, 10, "", "", "", WHITE, GREY, WHITE, WHITE, BLACK, RED, true);
   redButton.update();
   int index = 0;
-  while (!redButton.fell())
+  currentPerson = 0;
+  updatePersonJump();
+  while ( !redButton.fell() )
   {
+    if( blueButton.fell() ){
+      currentPerson = (currentPerson + 1)%totalPersons;
+      updatePersonJump();
+    }
     if (rcaFlag)
     {
       rcaFlag = false;
@@ -1388,6 +1393,7 @@ void startJumpsCapture()
       lastRcaTime = rcaTime;
     }
     redButton.update();
+    blueButton.update();
   }
 
   drawMenuBackground();

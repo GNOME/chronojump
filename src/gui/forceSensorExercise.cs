@@ -52,6 +52,11 @@ public class ForceSensorExerciseWindow
 	[Widget] Gtk.Image image_next;
 	[Widget] Gtk.Image image_cancel;
 
+	//type tab
+	[Widget] Gtk.RadioButton radio_type_both;
+	[Widget] Gtk.RadioButton radio_type_isometric;
+	[Widget] Gtk.RadioButton radio_type_elastic;
+
 	//force tab
 	[Widget] Gtk.Label label_force;
 	[Widget] Gtk.TextView textview_force_explanation;
@@ -63,8 +68,9 @@ public class ForceSensorExerciseWindow
 	//fixation tab
 	[Widget] Gtk.Label label_fixation;
 	[Widget] Gtk.TextView textview_fixation_explanation;
-	[Widget] Gtk.RadioButton radio_fixation_elastic;
-	[Widget] Gtk.RadioButton radio_fixation_not_elastic;
+	// disabled, using the "type" variable
+	//[Widget] Gtk.RadioButton radio_fixation_elastic;
+	//[Widget] Gtk.RadioButton radio_fixation_not_elastic;
 
 	//mass tab
 	[Widget] Gtk.Label label_mass;
@@ -109,7 +115,9 @@ public class ForceSensorExerciseWindow
 	[Widget] Gtk.Button fakeButtonReadValues;
 
 	public bool Success;
+	private bool adding;
 	private Constants.Modes chronojumpMode;
+	private ForceSensorExercise.Types type;
 	private ForceSensorExercise exercise;
 
 	//values on preferences, useful to show them unsensitive if the radio_detect_repetitions_from_prefs.Active
@@ -121,7 +129,7 @@ public class ForceSensorExerciseWindow
 
 	private enum modesEnum { EDIT, ADD }
 	private modesEnum modeEnum;
-	private enum Pages { FORCE, FIXATION, MASS, REPSDETECT, REPSSHOW, OTHER }
+	private enum Pages { TYPE, FORCE, FIXATION, MASS, REPSDETECT, REPSSHOW, OTHER }
 	private enum Options { FORCE_SENSOR, FORCE_RESULTANT, FIXATION_ELASTIC, FIXATION_NOT_ELASTIC,
 		MASS_ADD, MASS_SUBTRACT, MASS_NOTHING,
 		REPETITIONS_PREFS, REPETITIONS_NO_PREFS, REPETITIONS_SHOW, OTHER }
@@ -176,7 +184,9 @@ public class ForceSensorExerciseWindow
 			ForceSensorExerciseWindowBox.label_header.Text = textHeader;
 		}
 
+		ForceSensorExerciseWindowBox.adding = false;
 		ForceSensorExerciseWindowBox.chronojumpMode = chronojumpMode;
+		ForceSensorExerciseWindowBox.type = exercise.Type; //do not change the type here, if it's both will continue being both
 		ForceSensorExerciseWindowBox.Success = false;
 		ForceSensorExerciseWindowBox.modeEnum = modesEnum.EDIT;
 		ForceSensorExerciseWindowBox.exercise = exercise;
@@ -228,7 +238,7 @@ public class ForceSensorExerciseWindow
 					Convert.ToInt32(em), Convert.ToInt32(cm));
 		}
 
-		ForceSensorExerciseWindowBox.initializeGuiAtShow(false);
+		ForceSensorExerciseWindowBox.initializeGuiAtShow ();
 		ForceSensorExerciseWindowBox.force_sensor_exercise.Show ();
 
 		return ForceSensorExerciseWindowBox;
@@ -246,11 +256,12 @@ public class ForceSensorExerciseWindow
 			ForceSensorExerciseWindowBox.label_header.Text = textHeader;
 		}
 
+		ForceSensorExerciseWindowBox.adding = true;
 		ForceSensorExerciseWindowBox.chronojumpMode = chronojumpMode;
 		if(chronojumpMode == Constants.Modes.FORCESENSORISOMETRIC)
-			ForceSensorExerciseWindowBox.radio_fixation_not_elastic.Active = true;
+			ForceSensorExerciseWindowBox.type = ForceSensorExercise.Types.ISOMETRIC;
 		else //if(chronojumpMode == Constants.Modes.FORCESENSORELASTIC)
-			ForceSensorExerciseWindowBox.radio_fixation_elastic.Active = true;
+			ForceSensorExerciseWindowBox.type = ForceSensorExercise.Types.ELASTIC;
 
 		ForceSensorExerciseWindowBox.Success = false;
 		ForceSensorExerciseWindowBox.modeEnum = modesEnum.ADD;
@@ -266,7 +277,7 @@ public class ForceSensorExerciseWindow
 				prefsForceSensorElasticEccMinDispl, prefsForceSensorElasticConMinDispl,
 				prefsForceSensorNotElasticEccMinForce, prefsForceSensorNotElasticConMinForce);
 
-		ForceSensorExerciseWindowBox.initializeGuiAtShow(true);
+		ForceSensorExerciseWindowBox.initializeGuiAtShow ();
 		ForceSensorExerciseWindowBox.force_sensor_exercise.Show ();
 
 		return ForceSensorExerciseWindowBox;
@@ -306,10 +317,17 @@ public class ForceSensorExerciseWindow
 		image_force_exerted_help.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_info.png");
 	}
 
-	private void initializeGuiAtShow (bool adding)
+	private void initializeGuiAtShow ()
 	{
-		managePage(Pages.FORCE);
-		ForceSensorExerciseWindowBox.notebook_main.CurrentPage = Convert.ToInt32(Pages.FORCE);
+		Pages p = Pages.FORCE;
+		if (! adding && exercise.Type == ForceSensorExercise.Types.BOTH)
+		{
+			p = Pages.TYPE;
+			radio_type_both.Active = true;
+		}
+
+		managePage (p);
+		ForceSensorExerciseWindowBox.notebook_main.CurrentPage = Convert.ToInt32 (p);
 
 		//on edit spin_body_mass_add.Value is set at exerciseToGUI(), but on adding, set at 100
 		if(adding)
@@ -328,11 +346,6 @@ public class ForceSensorExerciseWindow
 			radio_force_sensor_raw.Active = true;
 			button_force_exerted_help.Sensitive = false;
 		}
-
-		if(exercise.Elastic)
-			radio_fixation_elastic.Active = true;
-		else
-			radio_fixation_not_elastic.Active = true;
 
 		if(exercise.PercentBodyWeight > 0 && ! exercise.TareBeforeCapture)
 			radio_mass_add.Active = true;
@@ -522,9 +535,16 @@ public class ForceSensorExerciseWindow
 		radio_desc_examples_examples.Show();
 		notebook_desc_examples.GetNthPage(1).Show();
 
-		if(p == Pages.FORCE)
+		if(p == Pages.TYPE)
 		{
+			desc = "";
+			ex = "";
 			button_back.Sensitive = false;
+		}
+		else if(p == Pages.FORCE)
+		{
+			if (adding || exercise.Type != ForceSensorExercise.Types.BOTH)
+				button_back.Sensitive = false;
 
 			if(radio_force_sensor_raw.Active) {
 				desc = getDescription(Options.FORCE_SENSOR);
@@ -540,15 +560,8 @@ public class ForceSensorExerciseWindow
 		}
 		else if(p == Pages.FIXATION)
 		{
-			if(radio_fixation_elastic.Active) {
-				desc = getDescription(Options.FIXATION_ELASTIC);
-				ex = getExample(Options.FIXATION_ELASTIC);
-				set_notebook_desc_example_labels(Options.FIXATION_ELASTIC);
-			} else {
-				desc = getDescription(Options.FIXATION_NOT_ELASTIC);
-				ex = getExample(Options.FIXATION_NOT_ELASTIC);
-				set_notebook_desc_example_labels(Options.FIXATION_NOT_ELASTIC);
-			}
+			desc = "";
+			ex = "";
 		}
 		else if(p == Pages.MASS)
 		{
@@ -569,7 +582,7 @@ public class ForceSensorExerciseWindow
 		}
 		else if(p == Pages.REPSDETECT)
 		{
-			if(radio_force_sensor_raw.Active || ! radio_fixation_elastic.Active)
+			if(radio_force_sensor_raw.Active || chronojumpMode == Constants.Modes.FORCESENSORISOMETRIC)
 			{
 				label_repetitions_prefs_ecc_value.Text = prefsForceSensorNotElasticEccMinForce.ToString();
 				label_repetitions_prefs_con_value.Text = prefsForceSensorNotElasticConMinForce.ToString();
@@ -584,7 +597,7 @@ public class ForceSensorExerciseWindow
 
 
 			//visibilities
-			if(radio_force_sensor_raw.Active || ! radio_fixation_elastic.Active)
+			if(radio_force_sensor_raw.Active || chronojumpMode == Constants.Modes.FORCESENSORISOMETRIC)
 			{
 				hbox_detect_repetitions_not_elastic.Visible = true;
 				hbox_detect_repetitions_elastic.Visible = false;
@@ -691,6 +704,9 @@ public class ForceSensorExerciseWindow
 			notebook_main.CurrentPage = Convert.ToInt32 (Pages.FORCE);
 		else if (notebook_main.CurrentPage > Convert.ToInt32 (Pages.FORCE))
 			notebook_main.CurrentPage --;
+		else if (notebook_main.CurrentPage == Convert.ToInt32 (Pages.FORCE) &&
+				! adding && exercise.Type == ForceSensorExercise.Types.BOTH)
+			notebook_main.CurrentPage --;
 		else
 			return;
 
@@ -790,7 +806,7 @@ public class ForceSensorExerciseWindow
 		double conMin = -1;
 		if(! radio_detect_repetitions_from_prefs.Active)
 		{
-			if(radio_force_sensor_raw.Active || ! radio_fixation_elastic.Active) {
+			if (radio_force_sensor_raw.Active || chronojumpMode == Constants.Modes.FORCESENSORISOMETRIC) {
 				eccMin = spin_force_sensor_not_elastic_ecc_min_force.Value;
 				conMin = spin_force_sensor_not_elastic_con_min_force.Value;
 			} else {
@@ -818,6 +834,15 @@ public class ForceSensorExerciseWindow
 		else //if(radio_reps_show_both.Active && radio_reps_show_both_separated.Active)
 			repetitionsShow = ForceSensorExercise.RepetitionsShowTypes.BOTHSEPARATED;
 
+		ForceSensorExercise.Types typeNew = type;
+		if (! adding && exercise.Type == ForceSensorExercise.Types.BOTH)
+		{
+			if (radio_type_isometric.Active)
+				typeNew = ForceSensorExercise.Types.ISOMETRIC;
+			else if (radio_type_elastic.Active)
+				typeNew = ForceSensorExercise.Types.ELASTIC;
+		}
+
 		ForceSensorExercise exerciseTemp = new ForceSensorExercise(
 				myID, entry_name.Text,
 				percentBodyWeight,
@@ -826,7 +851,7 @@ public class ForceSensorExerciseWindow
 				entry_description.Text,
 				radio_mass_subtract.Active, 	//tareBeforeCapture
 				radio_force_resultant.Active,
-				radio_fixation_elastic.Active,
+				typeNew,
 				repetitionsShow, eccMin, conMin);
 
 		if(modeEnum == modesEnum.ADD)

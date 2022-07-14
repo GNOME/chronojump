@@ -69,8 +69,7 @@ bool rcaState = digitalRead(rcaPin);
 bool lastRcaState = rcaState;
 
 void setup() {
-  Serial.begin(9600);
-  Serial.println("Initiated at 9600");
+  Serial.begin(115200);
 
   long tare = 0;
   EEPROM.get(tareAddress, tare);

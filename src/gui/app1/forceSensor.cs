@@ -2288,7 +2288,6 @@ LogB.Information(" fs R ");
 		{
 			setStiffnessButtonLabel(fs.Stiffness);
 			frame_force_sensor_elastic.Visible = true;
-			changeTestImage("", "", "FORCESENSOR_ELASTIC");
 
 			// stiffness 2: update elastic bands table
 			if(! ForceSensorElasticBand.UpdateBandsStatusToSqlite (
@@ -2306,7 +2305,6 @@ LogB.Information(" fs R ");
 		{
 			label_button_force_sensor_stiffness.Text = "0";
 			frame_force_sensor_elastic.Visible = false;
-			changeTestImage("", "", "FORCESENSOR_NOT_ELASTIC");
 		}
 
 		//triggers
@@ -3346,7 +3344,6 @@ LogB.Information(" fs R ");
 			image_button_force_sensor_stiffness_problem.Visible = true;
 
 			frame_force_sensor_elastic.Visible = false;
-			changeTestImage("", "", "FORCESENSOR_NOT_ELASTIC");
 
 			setLabelContactsExerciseSelected(current_mode);
 			combo_force_sensor_button_sensitive_exercise(false);
@@ -3361,19 +3358,11 @@ LogB.Information(" fs R ");
 
 			setStiffnessButtonLabel(stiffness);
 			frame_force_sensor_elastic.Visible = true;
-			changeTestImage("", "", "FORCESENSOR_ELASTIC");
-			label_contacts_exercise_selected_options.Text = Catalog.GetString("Elastic");
 		} else {
 			label_button_force_sensor_stiffness.Text = "0";
 			frame_force_sensor_elastic.Visible = false;
-			changeTestImage("", "", "FORCESENSOR_NOT_ELASTIC");
 			image_button_force_sensor_stiffness_problem.Visible = false;
-			label_contacts_exercise_selected_options.Text = Catalog.GetString("Not elastic");
 		}
-
-		string isElasticStr = " (" + Catalog.GetString("Elastic") + ")";
-		if(! fse.ComputeAsElastic)
-			isElasticStr = " (" + Catalog.GetString("Not elastic") + ")";
 
 		//sensitivity of left/right buttons
 		button_combo_force_sensor_exercise_capture_left.Sensitive = (combo_force_sensor_exercise.Active > 0);
@@ -3381,7 +3370,7 @@ LogB.Information(" fs R ");
 		button_combo_select_contacts_top_left.Sensitive = (combo_force_sensor_exercise.Active > 0);
 		button_combo_select_contacts_top_right.Sensitive = ! UtilGtk.ComboSelectedIsLast(combo_force_sensor_exercise);
 
-		setLabelContactsExerciseSelected(Catalog.GetString(fse.Name) + isElasticStr);
+		setLabelContactsExerciseSelected(Catalog.GetString(fse.Name));
 		combo_force_sensor_button_sensitive_exercise(true);
 
 		if(fse.ForceResultant) {

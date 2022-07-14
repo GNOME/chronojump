@@ -3930,7 +3930,7 @@ public partial class ChronoJumpWindow
 			on_combo_force_sensor_exercise_changed (new object(), new EventArgs ());
 			//setLabelContactsExerciseSelectedOptionsForceSensor();
 
-			label_contacts_exercise_selected_options.Visible = true;
+			label_contacts_exercise_selected_options.Visible = false;
 			image_top_laterality_contacts.Visible = true;
 			setForceSensorLateralityPixbuf();
 
@@ -5025,14 +5025,6 @@ public partial class ChronoJumpWindow
 		switch (fileNameString) {
 			case "LOGO":
 				pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameLogo);
-				button_image_test_zoom.Hide();
-			break;
-			case "FORCESENSOR_NOT_ELASTIC":
-				pixbuf = new Pixbuf (null, Util.GetImagePath(true) + Constants.FileNameForceSensorNotElastic);
-				button_image_test_zoom.Hide();
-			break;
-			case "FORCESENSOR_ELASTIC":
-				pixbuf = new Pixbuf (null, Util.GetImagePath(true) + Constants.FileNameForceSensorElastic);
 				button_image_test_zoom.Hide();
 			break;
 			case "RUNSENCODER":
@@ -7568,11 +7560,6 @@ LogB.Debug("mc finished 5");
 			notebook_execute.CurrentPage = 4;
 			notebook_options_top.CurrentPage = 4; //but at FORCESENSOR this notebook is not shown until adjust button is clicked
 			notebook_results.CurrentPage = 4;
-
-			if(frame_force_sensor_elastic.Visible)
-				changeTestImage("", "", "FORCESENSOR_ELASTIC");
-			else
-				changeTestImage("", "", "FORCESENSOR_NOT_ELASTIC");
 
 			event_execute_button_finish.Sensitive = false;
 		} else if(mode == Constants.Modes.RT)

@@ -8168,7 +8168,7 @@ msgstr "Vertical:"
 #: ../src/gui/forceSensorExercise.cs:446
 msgid ""
 "Isometric squat with the force sensor fixed between the floor and the body."
-msgstr "Sentadilla isométrica con el sensor fijado entre el techo y el cuerpo."
+msgstr "Sentadilla isométrica con el sensor fijado entre el suelo y el cuerpo."
 
 #: ../src/gui/forceSensorExercise.cs:447
 msgid "Horizontal:"

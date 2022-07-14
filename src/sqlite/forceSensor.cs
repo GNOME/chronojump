@@ -158,9 +158,9 @@ class SqliteForceSensor : Sqlite
 
 		string elasticStr = "";
 		if (elastic == 0)
-			elasticStr = " AND " + table + ".stiffness < 0"; //isometric has stiffness -1.0
+			elasticStr = " AND " + Constants.ForceSensorExerciseTable + ".elastic != 1"; //0 or -1 (both)
 		else if (elastic == 1)
-			elasticStr = " AND " + table + ".stiffness > 0"; //elastic has stiffness > 0
+			elasticStr = " AND " + Constants.ForceSensorExerciseTable + ".elastic != 0"; //1 or -1 (both)
 
 		dbcmd.CommandText = selectStr + whereStr + uniqueIDStr + personIDStr + sessionIDStr + elasticStr +
 			" Order BY " + table + ".uniqueID";
@@ -252,9 +252,9 @@ class SqliteForceSensor : Sqlite
 
 		string elasticStr = "";
 		if (chronojumpMode == Constants.Modes.FORCESENSORISOMETRIC)
-			elasticStr = " AND " + table + ".stiffness < 0"; //isometric has stiffness -1.0
+			elasticStr = " AND " + Constants.ForceSensorExerciseTable + ".elastic != 1"; //0 or -1 (both)
 		else if (chronojumpMode == Constants.Modes.FORCESENSORELASTIC)
-			elasticStr = " AND " + table + ".stiffness > 0"; //elastic has stiffness > 0
+			elasticStr = " AND " + Constants.ForceSensorExerciseTable + ".elastic != 0"; //1 or -1 (both)
 
 		dbcmd.CommandText =
 			"SELECT person77.uniqueID, person77.name, person77.sex, forceSensorExercise.name, COUNT(*)" +
@@ -404,7 +404,7 @@ class SqliteForceSensor : Sqlite
 				{
 					if(unknownExerciseID == -1)
 					{
-						ForceSensorExercise fse = new ForceSensorExercise (-1, Catalog.GetString("Unknown"), 0, "", 0, "", false, false, false);
+						ForceSensorExercise fse = new ForceSensorExercise (-1, Catalog.GetString("Unknown"), 0, "", 0, "", false, false, ForceSensorExercise.Types.ISOMETRIC);
 						//note we are on 1_68 so we need this import method
 						unknownExerciseID = SqliteForceSensorExerciseImport.InsertAtDB_1_68(true, fse);
 					}
@@ -418,7 +418,7 @@ class SqliteForceSensor : Sqlite
 
 				if(fslt.Exercise != "" && exerciseID == -1)
 				{
-					ForceSensorExercise fse = new ForceSensorExercise (-1, fslt.Exercise, 0, "", 0, "", false, false, false);
+					ForceSensorExercise fse = new ForceSensorExercise (-1, fslt.Exercise, 0, "", 0, "", false, false, ForceSensorExercise.Types.ISOMETRIC);
 					//note we are on 1_68 so we need this import method
 					unknownExerciseID = SqliteForceSensorExerciseImport.InsertAtDB_1_68(true, fse);
 				}
@@ -499,8 +499,8 @@ class SqliteForceSensorExercise : Sqlite
 			"description TEXT, " +
 			"tareBeforeCapture INT, " +
 			"forceResultant INT NOT NULL, " +
-			"elastic INT NOT NULL, " +
-			"eccReps INT DEFAULT 0, " + 	//since ~2.22 (not really a change on DB) is repetitionsShow
+			"elastic INT NOT NULL, " + 	//since 2.2.2 on edit can be also -1 (meaning both, used when force is divided into isometric/elastic)
+			"eccReps INT DEFAULT 0, " + 	//since ~2.2.2 (not really a change on DB) is repetitionsShow
 			"eccMin FLOAT DEFAULT -1, " + 	//can be displacement or N
 			"conMin FLOAT DEFAULT -1)"; 	//can be displacement or N
 		LogB.SQL(dbcmd.CommandText.ToString());
@@ -536,23 +536,23 @@ class SqliteForceSensorExercise : Sqlite
 	protected internal static void insertDefault ()
 	{
 		Insert (true, new ForceSensorExercise(-1, "Leg extension", 0, "", 0,
-					"", false, false, false,
+					"", false, false, ForceSensorExercise.Types.ISOMETRIC,
 					ForceSensorExercise.RepetitionsShowTypes.CONCENTRIC,
 					100, 100));
 		Insert (true, new ForceSensorExercise(-1, "ABD/ADD", 0, "", 0,
-					"Abduction/Adduction", false, false, false,
+					"Abduction/Adduction", false, false, ForceSensorExercise.Types.ISOMETRIC,
 					ForceSensorExercise.RepetitionsShowTypes.BOTHSEPARATED,
 					100, 100));
 		Insert (true, new ForceSensorExercise(-1, "Mid thigh pull", 100, "", 90,
-					"", false, true, false,
+					"", false, true, ForceSensorExercise.Types.ISOMETRIC,
 					ForceSensorExercise.RepetitionsShowTypes.CONCENTRIC,
 					200, 200));
 		Insert (true, new ForceSensorExercise(-1, "Hamstring", 0, "", 0,
-					"", true, true, false,
+					"", true, true, ForceSensorExercise.Types.ISOMETRIC,
 					ForceSensorExercise.RepetitionsShowTypes.CONCENTRIC,
 					50, 50));
 		Insert (true, new ForceSensorExercise(-1, "Pull rubber band", 0, "", 0,
-					"", false, true, true,
+					"", false, true, ForceSensorExercise.Types.ELASTIC,
 					ForceSensorExercise.RepetitionsShowTypes.CONCENTRIC,
 					-1, -1));
 	}
@@ -570,7 +570,7 @@ class SqliteForceSensorExercise : Sqlite
 			", description = \"" + ex.Description +
 			"\", tareBeforeCapture = " + Util.BoolToInt(ex.TareBeforeCapture).ToString() +
 			", forceResultant = " + Util.BoolToInt(ex.ForceResultant).ToString() +
-			", elastic = " + Util.BoolToInt(ex.Elastic).ToString() +
+			", elastic = " + ex.TypeToInt ().ToString() +
 			", eccReps = " + ex.RepetitionsShowToCode().ToString() +
 			", eccMin = " + Util.ConvertToPoint(ex.EccMin) +
 			", conMin = " + Util.ConvertToPoint(ex.ConMin) +
@@ -623,9 +623,9 @@ class SqliteForceSensorExercise : Sqlite
 				*/
 			//since the separation between isometric and elastic, show on elastic all the elastic exercises (not only the resultant = 1)
 			if (elastic == 1)
-				elasticStr = whereOrAndStr + table + ".elastic = 1";
+				elasticStr = whereOrAndStr + table + ".elastic != 0"; //elastic && both (-1)
 			else //elastic == 0
-				elasticStr = whereOrAndStr + table + ".elastic = 0";
+				elasticStr = whereOrAndStr + table + ".elastic != 1"; //isometric && both (-1)
 
 			whereOrAndStr = " AND ";
 		}
@@ -662,7 +662,7 @@ class SqliteForceSensorExercise : Sqlite
 							reader[5].ToString(),			//description
 							Util.IntToBool(Convert.ToInt32(reader[6].ToString())),	//tareBeforeCapture
 							Util.IntToBool(Convert.ToInt32(reader[7].ToString())),	//forceResultant
-							Util.IntToBool(Convert.ToInt32(reader[8].ToString()))	//elastic
+							ForceSensorExercise.IntToType (Convert.ToInt32(reader[8].ToString()))	//elastic (on this DB conversation cannot be both: "-1")
 							);
 				else //if(reader.FieldCount == 12) DB: 1.87
 					ex = new ForceSensorExercise (
@@ -674,7 +674,7 @@ class SqliteForceSensorExercise : Sqlite
 							reader[5].ToString(),			//description
 							Util.IntToBool(Convert.ToInt32(reader[6].ToString())),	//tareBeforeCapture
 							Util.IntToBool(Convert.ToInt32(reader[7].ToString())),	//forceResultant
-							Util.IntToBool(Convert.ToInt32(reader[8].ToString())),	//elastic
+							ForceSensorExercise.IntToType (Convert.ToInt32(reader[8].ToString())),	//elastic (on this DB conversation cannot be both: "-1")
 							ForceSensorExercise.RepetitionsShowFromCode(Convert.ToInt32(reader[9].ToString())),	//eccReps
 							Convert.ToDouble(Util.ChangeDecimalSeparator(reader[10].ToString())), 	//eccMin
 							Convert.ToDouble(Util.ChangeDecimalSeparator(reader[11].ToString())) 	//conMin
@@ -769,7 +769,7 @@ class SqliteForceSensorExerciseImport : SqliteForceSensorExercise
 			", description = \"" + ex.Description +
 			"\", tareBeforeCapture = " + Util.BoolToInt(ex.TareBeforeCapture).ToString() +
 			", forceResultant = " + Util.BoolToInt(ex.ForceResultant).ToString() +
-			", elastic = " + Util.BoolToInt(ex.Elastic).ToString() +
+			", elastic = " + ex.TypeToInt ().ToString() + //on this DB conversation cannot be both "-1"
 			" WHERE uniqueID = " + ex.UniqueID;
 
 		LogB.SQL(dbcmd.CommandText.ToString());
@@ -921,7 +921,7 @@ class SqliteForceSensorElasticBand : Sqlite
 			"FROM session, forceSensor, forceSensorExercise " +
 			"WHERE forceSensor.sessionID = session.uniqueID " +
 			"AND forceSensor.exerciseID = forceSensorExercise.uniqueID " +
-			"AND forceSensorExercise.elastic = 1 " +
+			"AND forceSensorExercise.elastic != 0 " + //elastic && both
 			"AND forceSensorExercise.forceResultant = 1 " +
 			"ORDER BY session.name";
 

@@ -1342,8 +1342,12 @@ void startJumpsCapture()
   rcaFlag = false;
   float flightTime = 0;
   bool firstContact = true;
+  
+  for (int i = 0; i<10; i++)
+  {
+    bars[i] = 0;
+  }
   tft.fillScreen(BLACK);
-//Testing barPlot
   redrawAxes(tft, 30, 200, 290, 200, 290, 200, 0, 100, 10, "", "", "", WHITE, GREY, WHITE, WHITE, BLACK, RED, true);
   redButton.update();
   int index = 0;
@@ -1353,7 +1357,7 @@ void startJumpsCapture()
     {
       rcaFlag = false;
       Serial.print(rcaTime);
-      Serial.print(":");
+      Serial.println(":");
       if(rcaState)
       {
         Serial.println("R;");
@@ -1361,13 +1365,13 @@ void startJumpsCapture()
       } else if(!rcaState && !firstContact)
       {
         Serial.println("r;");
-        barPlot(30, 200, 290, 200, 100, 10, (index -1)%10, 0.5, BLACK);
-        index = (index + 1) % 10;
+        //barPlot(30, 200, 290, 200, 100, 10, (index -1)%10, 0.5, BLACK);
+        tft.fillRect(30,0,290,200, BLACK);
         flightTime = (float)(rcaTime - lastRcaTime) / 1E6;
         bars[index] = 122.6*flightTime*flightTime; //In cm
-        Serial.println(bars[index]);
         redrawAxes(tft, 30, 200, 290, 200, 290, 200, 0, 100, 10, "", "", "", WHITE, GREY, WHITE, WHITE, BLACK, RED, true);
         barPlot(30, 200, 290, 200, 100, 10, index, 0.5, RED);
+        index = (index + 1) % 10;
       }
       lastRcaState = rcaState;
       lastRcaTime = rcaTime;

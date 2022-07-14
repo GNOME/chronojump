@@ -129,30 +129,34 @@ void redrawAxes(ILI9341_t3 & d, double gx, double gy, double w, double h, double
   }
 }
 
+
+void barPlot (float gx, float gy, float w, float h, float yhi, int numBars, int currentIndex, float abRatio, unsigned int color)
+{
 /*
- * 
  * a is the separation between bars
  * b is the width of the bar
  * System of 2 equations:
  * abRatio = a/b
  * width = n * (a+b) + a
  */
-void barPlot (float gx, float gy, float w, float h, float yhi, int numBars, int currentIndex, float abRatio, unsigned int color)
-{
   //Solution of the system of 2 equations
   float b = w / (numBars + abRatio + abRatio * numBars);
   float a = b * abRatio;
-  float localX = 0;
+  float localX = w - b;
   float barValue = 0;
   float barPixHeight = 0;
 
-  for (int i = currentIndex; i< currentIndex + numBars; i++)
+  for (int i = 0; i<10; i++)
   {
-    localX += a;
-    barValue = bars[ (i + 10 - numBars) % 10];
+    localX -= a;
+    barValue = bars[ (currentIndex - i + 10) % 10];
     barPixHeight =  barValue * h / yhi;
-//    Serial.println(String(gx+localX) + "," + String(gy) + "\t" + String(b) + "," + String(bars[ (i + 10 - numBars) % 10]));
-    tft.fillRect(gx+localX, gy - barPixHeight , b, barPixHeight, color);
-    localX += b;
+    //Serial.println(String(gx+localX) + "," + String(gy) + "\t" + String(b) + "," + String(bars[ (i + 10 - numBars) % 10]));
+    if(i==0){
+      tft.fillRect(gx+localX, gy - barPixHeight , b, barPixHeight, RED);
+    } else {
+      tft.fillRect(gx+localX, gy - barPixHeight , b, barPixHeight, BLUE);
+    }
+    localX -= b;
   }
 }

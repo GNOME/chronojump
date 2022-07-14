@@ -233,31 +233,31 @@ const int chipSelect = 6;
 
 
 #ifdef teensy_4_0
-  #define TFT_DC      20
-  #define TFT_CS      10
-  #define TFT_RST    255  // 255 = unused, connect to 3.3V
-  #define TFT_MOSI    11
-  #define TFT_MISO    12
-  #define TFT_SCLK    13
-  
-  const unsigned int redButtonPin = 5;
-  const unsigned int blueButtonPin = 4;
+#define TFT_DC      20
+#define TFT_CS      10
+#define TFT_RST    255  // 255 = unused, connect to 3.3V
+#define TFT_MOSI    11
+#define TFT_MISO    12
+#define TFT_SCLK    13
+
+const unsigned int redButtonPin = 5;
+const unsigned int blueButtonPin = 4;
 #endif
 
 #ifdef teensy_3_2
-  #define TFT_DC      20
-  #define TFT_CS      21
-  #define TFT_RST    255  // 255 = unused, connect to 3.3V
-  #define TFT_MISO    12
-  #define TFT_MOSI     7
-  #define TFT_SCLK    14
+#define TFT_DC      20
+#define TFT_CS      21
+#define TFT_RST    255  // 255 = unused, connect to 3.3V
+#define TFT_MISO    12
+#define TFT_MOSI     7
+#define TFT_SCLK    14
 
-  const unsigned int redButtonPin = 4;
-  const unsigned int blueButtonPin = 5;
+const unsigned int redButtonPin = 4;
+const unsigned int blueButtonPin = 5;
 #endif
 
-  Bounce redButton = Bounce(redButtonPin, 50);
-  Bounce blueButton = Bounce(blueButtonPin, 50);
+Bounce redButton = Bounce(redButtonPin, 50);
+Bounce blueButton = Bounce(blueButtonPin, 50);
 
 ILI9341_t3 tft = ILI9341_t3(TFT_CS, TFT_DC, TFT_RST, TFT_MOSI, TFT_SCLK, TFT_MISO);
 //Adafruit_ILI9341 tft = Adafruit_ILI9341(TFT_CS, TFT_DC, TFT_MOSI, TFT_SCLK, TFT_RST, TFT_MISO);
@@ -307,7 +307,7 @@ void setup() {
   //Attention: some SD cards fails to initalize after uploading the firmware
   // See if the card is present and can be initialized:
   //TODO. Open a dialog with advertising of this situation
-  
+
   while (!SD.begin(chipSelect))
   {
     Serial.println("Card failed, or not present");
@@ -316,7 +316,7 @@ void setup() {
   }
   tft.println("Card initialized");
   Serial.println("card initialized");
-  
+
   pinMode(redButtonPin, INPUT_PULLUP);
   pinMode(blueButtonPin, INPUT_PULLUP);
 
@@ -363,13 +363,13 @@ void setup() {
 
   //Start TFT
   tft.begin();
-  #ifdef teensy_3_2
-    tft.setRotation(1);
-  #endif
+#ifdef teensy_3_2
+  tft.setRotation(1);
+#endif
 
-  #ifdef teensy_4_0
-    tft.setRotation(3);
-  #endif
+#ifdef teensy_4_0
+  tft.setRotation(3);
+#endif
 
   dirName = createNewDir();
   totalPersons = getTotalPerson();
@@ -381,11 +381,11 @@ void setup() {
     currentMenu[i].function = mainMenu[i].function;
   }
 
-//  while (true)
-//  {
-//    Serial.println(digitalRead(rcaPin));
-//    delay(100);
-//  }
+  //  while (true)
+  //  {
+  //    Serial.println(digitalRead(rcaPin));
+  //    delay(100);
+  //  }
 
   tft.fillScreen(BLACK);
   drawMenuBackground();
@@ -1342,8 +1342,8 @@ void startJumpsCapture()
   rcaFlag = false;
   float flightTime = 0;
   bool firstContact = true;
-  
-  for (int i = 0; i<10; i++)
+
+  for (int i = 0; i < 10; i++)
   {
     bars[i] = 0;
   }
@@ -1351,34 +1351,45 @@ void startJumpsCapture()
   redrawAxes(tft, 30, 200, 290, 200, 290, 200, 0, 100, 10, "", "", "", WHITE, GREY, WHITE, WHITE, BLACK, RED, true);
   redButton.update();
   int index = 0;
-  while(!redButton.fell())
+  while (!redButton.fell())
   {
     if (rcaFlag)
     {
       rcaFlag = false;
       Serial.print(rcaTime);
-      Serial.println(":");
-      if(rcaState)
-      {
-        Serial.println("R;");
-        if(firstContact) firstContact = false;
-      } else if(!rcaState && !firstContact)
-      {
-        Serial.println("r;");
-        //barPlot(30, 200, 290, 200, 100, 10, (index -1)%10, 0.5, BLACK);
-        tft.fillRect(30,0,290,200, BLACK);
-        flightTime = (float)(rcaTime - lastRcaTime) / 1E6;
-        bars[index] = 122.6*flightTime*flightTime; //In cm
-        redrawAxes(tft, 30, 200, 290, 200, 290, 200, 0, 100, 10, "", "", "", WHITE, GREY, WHITE, WHITE, BLACK, RED, true);
-        barPlot(30, 200, 290, 200, 100, 10, index, 0.5, RED);
-        index = (index + 1) % 10;
+      Serial.print(":");
+      if (!firstContact) {
+        if (rcaState)
+        {
+          Serial.println("r;");
+          if (firstContact) firstContact = false;
+        } else if (!rcaState)
+        {
+          Serial.println("R;");
+          //barPlot(30, 200, 290, 200, 100, 10, (index -1)%10, 0.5, BLACK);
+          tft.fillRect(30, 0, 290, 200, BLACK);
+          flightTime = (float)(rcaTime - lastRcaTime) / 1E6;
+          bars[index] = 122.6 * flightTime * flightTime; //In cm
+          redrawAxes(tft, 30, 200, 290, 200, 290, 200, 0, 100, 10, "", "", "", WHITE, GREY, WHITE, WHITE, BLACK, RED, true);
+          barPlot(30, 200, 290, 200, 100, 10, index, 0.5, RED);
+          index = (index + 1) % 10;
+        }
+      } else if (firstContact) {
+        firstContact = false;
+        if (rcaState)
+        {
+          Serial.println("r;");
+        }
+        else if (!rcaState) {
+          Serial.println("R;");
+        }
       }
       lastRcaState = rcaState;
       lastRcaTime = rcaTime;
     }
     redButton.update();
   }
-  
+
   drawMenuBackground();
   showMenuEntry(currentMenuIndex);
 }

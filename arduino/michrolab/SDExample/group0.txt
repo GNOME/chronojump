@@ -1,0 +1,25 @@
+0,Blancaneus,,160,65
+1,Pulgarcito,,16,6
+2,Tres,porquets,50,20
+3,Snoopy,,40,15
+4,Emili,,160,65
+5,Simbad,,160,65
+6,Ali,baba,160,65
+7,Guilliverd,,160,65
+8,Jaimito,,140,55
+9,dona,Urraca,160,65
+10,Carpanta,,160,65
+11,Barba,azul,160,65
+12,Frank, Einstein,160,65
+13,home,llop,160,65
+14,compte,Dracula,160,65
+15,tarzan,,160,65
+16,mona,Chita,160,65
+17,Peter,Pan,160,65
+18,Marieta,de l'ull viu,160,65
+19,Reis,d'orient,160,65
+20,Papa,Noel,160,65
+21,pato,Donald,140,55
+22,Paqual,,160,65
+23,Pepa,maca,160,65
+24,Superman,,160,65

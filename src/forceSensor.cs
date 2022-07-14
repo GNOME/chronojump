@@ -446,7 +446,10 @@ public class ForceSensorExercise
 	private string description;
 	private bool tareBeforeCapture;
 	private bool forceResultant;
-	private bool elastic;
+
+	public enum Types { ISOMETRIC, ELASTIC, BOTH };
+	private Types type;
+
 	//private bool eccReps;
 	public enum RepetitionsShowTypes { CONCENTRIC, BOTHTOGETHER, BOTHSEPARATED };
 	private RepetitionsShowTypes repetitionsShow;
@@ -464,7 +467,7 @@ public class ForceSensorExercise
 	{
 		//default values
 		this.forceResultant = false;
-		this.elastic = false;
+		this.type = Types.ISOMETRIC;
 	}
 
 	public ForceSensorExercise(string name)
@@ -473,12 +476,12 @@ public class ForceSensorExercise
 
 		//default values
 		this.forceResultant = false;
-		this.elastic = false;
+		this.type = Types.ISOMETRIC;
 	}
 
 	public ForceSensorExercise(int uniqueID, string name, int percentBodyWeight, string resistance, int angleDefault,
-			string description, bool tareBeforeCapture, bool forceResultant, bool elastic,
-			RepetitionsShowTypes repetitionsShow, double eccMin, double conMin)
+			string description, bool tareBeforeCapture, bool forceResultant,
+			Types type, RepetitionsShowTypes repetitionsShow, double eccMin, double conMin)
 	{
 		this.uniqueID = uniqueID;
 		this.name = name;
@@ -488,7 +491,7 @@ public class ForceSensorExercise
 		this.description = description;
 		this.tareBeforeCapture = tareBeforeCapture;
 		this.forceResultant = forceResultant;
-		this.elastic = elastic;
+		this.type = type;
 		this.repetitionsShow = repetitionsShow;
 		this.eccMin = eccMin;
 		this.conMin = conMin;
@@ -496,7 +499,7 @@ public class ForceSensorExercise
 
 	//constructor at DB: 1.86
 	public ForceSensorExercise(int uniqueID, string name, int percentBodyWeight, string resistance, int angleDefault,
-			string description, bool tareBeforeCapture, bool forceResultant, bool elastic)
+			string description, bool tareBeforeCapture, bool forceResultant, Types type)
 	{
 		this.uniqueID = uniqueID;
 		this.name = name;
@@ -506,14 +509,15 @@ public class ForceSensorExercise
 		this.description = description;
 		this.tareBeforeCapture = tareBeforeCapture;
 		this.forceResultant = forceResultant;
-		this.elastic = elastic;
+		this.type = type;
 	}
 
 	public override string ToString()
 	{
 		return uniqueID.ToString() + ":" + name + ":" + percentBodyWeight.ToString() + ":" +
 			resistance + ":" + angleDefault.ToString() + ":" + description + ":" +
-			tareBeforeCapture.ToString() + ":" + forceResultant.ToString() + ":" + elastic.ToString() + ":" +
+			tareBeforeCapture.ToString() + ":" + forceResultant.ToString() + ":" +
+			type.ToString() + ":" +
 			repetitionsShow.ToString() + ":" + eccMin.ToString() + ":" + conMin.ToString();
 	}
 
@@ -549,6 +553,25 @@ public class ForceSensorExercise
 		return RepetitionsShowTypes.CONCENTRIC;
 	}
 
+	public int TypeToInt ()
+	{
+		if (type == Types.ISOMETRIC)
+			return 0;
+		else if (type == Types.ELASTIC)
+			return 1;
+		else //if (type == Types.BOTH)
+			return -1; //-1 as is the same than a select inespecific
+	}
+	public static Types IntToType (int i)
+	{
+		if (i == 0)
+			return Types.ISOMETRIC;
+		else if (i == 1)
+			return Types.ELASTIC;
+		else //if (type == -1)
+			return Types.BOTH; //-1 as is the same than a select inespecific
+	}
+
 	public string ToSQLInsertString()
 	{
 		string uniqueIDStr = "NULL";
@@ -560,7 +583,7 @@ public class ForceSensorExercise
 			resistance + "\", " + angleDefault + ", \"" + description + "\", " +
 			Util.BoolToInt(tareBeforeCapture).ToString() + ", " +
 			Util.BoolToInt(forceResultant).ToString() + ", " +
-			Util.BoolToInt(elastic).ToString() + ", " +
+			TypeToInt ().ToString() + ", " +
 			RepetitionsShowToCode().ToString() + ", " +
 			Util.ConvertToPoint(eccMin) + ", " + Util.ConvertToPoint(conMin);
 	}
@@ -578,7 +601,7 @@ public class ForceSensorExercise
 			Util.BoolToInt(tareBeforeCapture).ToString();
 	}
 
-	public bool Changed(ForceSensorExercise newEx)
+	public bool Changed (ForceSensorExercise newEx)
 	{
 		if(
 				name == newEx.Name &&
@@ -588,7 +611,7 @@ public class ForceSensorExercise
 				description == newEx.Description &&
 				tareBeforeCapture == newEx.TareBeforeCapture &&
 				forceResultant == newEx.ForceResultant &&
-				elastic == newEx.Elastic &&
+				type == newEx.Type &&
 				repetitionsShow == newEx.RepetitionsShow &&
 				eccMin == newEx.EccMin &&
 				conMin == newEx.ConMin)
@@ -631,13 +654,13 @@ public class ForceSensorExercise
 	{
 		get { return forceResultant; }
 	}
-	public bool Elastic //TODO: take care because ComputeAsElastic is much better criteria
+	public Types Type
 	{
-		get { return elastic; }
+		get { return type; }
 	}
 	public bool ComputeAsElastic //use this
 	{
-		get { return forceResultant && elastic; }
+		get { return forceResultant && type != Types.ISOMETRIC; }
 	}
 	public RepetitionsShowTypes RepetitionsShow
 	{

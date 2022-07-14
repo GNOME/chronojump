@@ -64,7 +64,7 @@ public partial class ChronoJumpWindow
 		hbox_top_person.Sensitive = false;
 
 		//do not show the image on runEncoder
-		frame_image_test.Visible = (current_mode != Constants.Modes.RUNSENCODER);
+		frame_image_test.Visible = (! Constants.ModeIsFORCESENSOR (current_mode) && current_mode != Constants.Modes.RUNSENCODER);
 
 		frame_run_encoder_exercise.Visible = false; //TODO: implement more modes in the future
 

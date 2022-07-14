@@ -109,6 +109,7 @@ public class ForceSensorExerciseWindow
 	[Widget] Gtk.Button fakeButtonReadValues;
 
 	public bool Success;
+	private Constants.Modes chronojumpMode;
 	private ForceSensorExercise exercise;
 
 	//values on preferences, useful to show them unsensitive if the radio_detect_repetitions_from_prefs.Active
@@ -175,6 +176,7 @@ public class ForceSensorExerciseWindow
 			ForceSensorExerciseWindowBox.label_header.Text = textHeader;
 		}
 
+		ForceSensorExerciseWindowBox.chronojumpMode = chronojumpMode;
 		ForceSensorExerciseWindowBox.Success = false;
 		ForceSensorExerciseWindowBox.modeEnum = modesEnum.EDIT;
 		ForceSensorExerciseWindowBox.exercise = exercise;
@@ -244,6 +246,7 @@ public class ForceSensorExerciseWindow
 			ForceSensorExerciseWindowBox.label_header.Text = textHeader;
 		}
 
+		ForceSensorExerciseWindowBox.chronojumpMode = chronojumpMode;
 		if(chronojumpMode == Constants.Modes.FORCESENSORISOMETRIC)
 			ForceSensorExerciseWindowBox.radio_fixation_not_elastic.Active = true;
 		else //if(chronojumpMode == Constants.Modes.FORCESENSORELASTIC)
@@ -440,10 +443,13 @@ public class ForceSensorExerciseWindow
 	{
 		string str;
 		if(o == Options.FORCE_SENSOR)
-			str = "1.- " + Catalog.GetString("Isometric Leg Extension.") +
-				"\n2.- " + Catalog.GetString("Upper limb movements against a rubber if the displaced mass is considered insignificant.");
-		else if(o == Options.FORCE_RESULTANT)
-			str = "1.- " + Catalog.GetString("Vertical:") + " " + Catalog.GetString("Isometric squat with the force sensor fixed between the floor and the body.") +
+		{
+			if (chronojumpMode == Constants.Modes.FORCESENSORISOMETRIC)
+				str = "- " + Catalog.GetString("Isometric Leg Extension.");
+			else //if (chronojumpMode == Constants.Modes.FORCESENSORELASTIC)
+				str = "- " + Catalog.GetString("Upper limb movements against a rubber if the displaced mass is considered insignificant.");
+		} else if(o == Options.FORCE_RESULTANT)
+			str = "1.- " + Catalog.GetString("Vertical:") + " " + Catalog.GetString("Squat with the force sensor fixed between the floor and the body.") +
 				"\n2.- " + Catalog.GetString("Horizontal:") + " " + Catalog.GetString("Movements where a significant mass is accelerated.") +
 				"\n3.- " + Catalog.GetString("Diagonal movement:") + " " + Catalog.GetString("Lateral squat.");
 		else if(o == Options.FIXATION_ELASTIC)

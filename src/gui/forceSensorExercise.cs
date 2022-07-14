@@ -430,7 +430,7 @@ public class ForceSensorExerciseWindow
 		else if(o == Options.REPETITIONS_NO_PREFS)
 			str = Catalog.GetString("These values will be used to detect repetitions.");
 		else if(o == Options.REPETITIONS_SHOW)
-			str = Catalog.GetString("Detected repetitions will show only concentric phase or both.");
+			str = Catalog.GetString("Detected repetitions will show only the phase in which the force increases or also where decreases.");
 		else //if(o == Options.OTHER)
 			str = Catalog.GetString("0 means horizontally") + "\n" +
 				Catalog.GetString("90 means vertically with the person above the sensor") + "\n" +
@@ -664,10 +664,14 @@ public class ForceSensorExerciseWindow
 
 	private void on_button_next_clicked (object o, EventArgs args)
 	{
-		if(notebook_main.CurrentPage == Convert.ToInt32(Pages.FORCE))
-			//&& radio_force_sensor_raw.Active) do not ask about elastic. Since 2.2.2 depends on mode
-			notebook_main.CurrentPage = Convert.ToInt32(Pages.REPSDETECT);
-		else if(notebook_main.CurrentPage < Convert.ToInt32(Pages.OTHER))
+		// do not ask about elastic. Since 2.2.2 depends on mode
+		if (notebook_main.CurrentPage == Convert.ToInt32 (Pages.FORCE))
+		{
+			if (radio_force_sensor_raw.Active)
+				notebook_main.CurrentPage = Convert.ToInt32 (Pages.REPSDETECT);
+			else //if (radio_force_resultant.Active)
+				notebook_main.CurrentPage = Convert.ToInt32 (Pages.MASS);
+		} else if (notebook_main.CurrentPage < Convert.ToInt32 (Pages.OTHER))
 			notebook_main.CurrentPage ++;
 		else
 			return;
@@ -676,10 +680,16 @@ public class ForceSensorExerciseWindow
 	}
 	private void on_button_back_clicked (object o, EventArgs args)
 	{
-		if(notebook_main.CurrentPage == Convert.ToInt32(Pages.REPSDETECT))
-			//&& radio_force_sensor_raw.Active) do not ask about elastic. Since 2.2.2 depends on mode
-			notebook_main.CurrentPage = Convert.ToInt32(Pages.FORCE);
-		else if(notebook_main.CurrentPage > Convert.ToInt32(Pages.FORCE))
+		// do not ask about elastic. Since 2.2.2 depends on mode
+		if (notebook_main.CurrentPage == Convert.ToInt32 (Pages.REPSDETECT))
+		{
+			if (radio_force_sensor_raw.Active)
+				notebook_main.CurrentPage = Convert.ToInt32 (Pages.FORCE);
+			else //if (radio_force_resultant.Active)
+				notebook_main.CurrentPage = Convert.ToInt32 (Pages.MASS);
+		} else if (notebook_main.CurrentPage == Convert.ToInt32 (Pages.MASS))
+			notebook_main.CurrentPage = Convert.ToInt32 (Pages.FORCE);
+		else if (notebook_main.CurrentPage > Convert.ToInt32 (Pages.FORCE))
 			notebook_main.CurrentPage --;
 		else
 			return;

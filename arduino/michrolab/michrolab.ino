@@ -743,7 +743,7 @@ void changingRCA() {
 void rcaDebounce()
 {
   rcaTimer.end();
-  rcaState = digitalRead(rcaPin);
+  rcaState = !digitalRead(rcaPin);
   if (rcaState != lastRcaState)
   {
     rcaFlag = true;
@@ -1337,6 +1337,7 @@ void showPowerResults()
 
 void startJumpsCapture()
 {
+  int totalJumps = 0;
   rcaState = digitalRead(rcaPin);
   lastRcaState = rcaState;
   rcaFlag = false;
@@ -1351,12 +1352,12 @@ void startJumpsCapture()
   redButton.update();
   int index = 0;
   currentPerson = 0;
-  updatePersonJump();
+  updatePersonJump(totalJumps);
   while ( !redButton.fell() )
   {
     if( blueButton.fell() ){
       currentPerson = (currentPerson + 1)%totalPersons;
-      updatePersonJump();
+      updatePersonJump(totalJumps);
     }
     if (rcaFlag)
     {
@@ -1366,11 +1367,6 @@ void startJumpsCapture()
       if (!firstContact) {
         if (rcaState)
         {
-          Serial.println("r;");
-          if (firstContact) firstContact = false;
-        } else if (!rcaState)
-        {
-          Serial.println("R;");
           //barPlot(30, 200, 290, 200, 100, 10, (index -1)%10, 0.5, BLACK);
           tft.fillRect(30, 0, 290, 200, BLACK);
           flightTime = (float)(rcaTime - lastRcaTime) / 1E6;
@@ -1378,15 +1374,21 @@ void startJumpsCapture()
           redrawAxes(tft, 30, 200, 290, 200, 290, 200, 0, 100, 10, "", "", "", WHITE, GREY, WHITE, WHITE, BLACK, RED, true);
           barPlot(30, 200, 290, 200, 100, 10, index, 0.5, RED);
           index = (index + 1) % 10;
+          Serial.println("R;");
+          totalJumps++;
+          updatePersonJump(totalJumps);
+        } else if (!rcaState)
+        {
+          Serial.println("r;");
         }
       } else if (firstContact) {
         firstContact = false;
         if (rcaState)
         {
-          Serial.println("r;");
+          Serial.println("R;");
         }
         else if (!rcaState) {
-          Serial.println("R;");
+          Serial.println("r;");
         }
       }
       lastRcaState = rcaState;

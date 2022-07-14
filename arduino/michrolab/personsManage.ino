@@ -140,7 +140,7 @@ void updatePersonSet()
   tft.setTextSize(2);
 }
 
-void updatePersonJump()
+void updatePersonJump(int totalJumps)
 {
   //Deleting last string
   tft.fillRect(141, 207, 127, 24, BLACK);
@@ -149,7 +149,7 @@ void updatePersonJump()
   tft.setTextSize(1);
   tft.setTextColor(WHITE);
   tft.setCursor(141, 207);
-  tft.print("Jump: " + addLeadingZeros(setNumber, 2) +  "   Person: " + addLeadingZeros(currentPerson, 2));
+  tft.print("Jump: " + addLeadingZeros(totalJumps, 2) +  "   Person: " + addLeadingZeros(currentPerson, 2));
   tft.setCursor(141, 223);
   tft.print(persons[currentPerson].name + " " + persons[currentPerson].surname);
   tft.setTextSize(2);

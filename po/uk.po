@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: chronojump master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/chronojump/issues\n"
-"POT-Creation-Date: 2022-07-13 10:09+0000\n"
-"PO-Revision-Date: 2022-07-13 13:22+0300\n"
+"POT-Creation-Date: 2022-07-14 10:33+0000\n"
+"PO-Revision-Date: 2022-07-14 16:33+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -182,7 +182,7 @@ msgstr "Ізометричний"
 #: ../src/gui/app1/forceSensor.cs:2179 ../src/gui/app1/forceSensor.cs:3365
 #: ../src/gui/app1/forceSensor.cs:3374
 #: ../src/gui/app1/session/loadAndImport.cs:320
-#: ../src/gui/forceSensorExercise.cs:479
+#: ../src/gui/forceSensorExercise.cs:485
 msgid "Elastic"
 msgstr "Гнучке"
 
@@ -3637,12 +3637,12 @@ msgid "What force do you want to show?"
 msgstr "Яку силу ви хочете показати?"
 
 #: ../glade/force_sensor_exercise.glade.h:3 ../src/gui/app1/forceSensor.cs:2182
-#: ../src/gui/forceSensorExercise.cs:475
+#: ../src/gui/forceSensorExercise.cs:481
 msgid "Raw data"
 msgstr "Необроблені дані"
 
 #: ../glade/force_sensor_exercise.glade.h:4
-#: ../src/gui/forceSensorExercise.cs:477 ../src/gui/forceSensorExercise.cs:720
+#: ../src/gui/forceSensorExercise.cs:483 ../src/gui/forceSensorExercise.cs:736
 msgid "Projection of exerted force"
 msgstr "Проєкція напруженої сили"
 
@@ -3700,13 +3700,13 @@ msgid "Minimal force"
 msgstr "Мінімальна сила"
 
 #: ../glade/force_sensor_exercise.glade.h:21
-#: ../src/gui/forceSensorExercise.cs:493
+#: ../src/gui/forceSensorExercise.cs:499
 msgid "Show repetitions"
 msgstr "Показати повторення"
 
 #: ../glade/force_sensor_exercise.glade.h:22
-msgid "Show only concentric phase"
-msgstr "Показати лише концентричну фазу"
+msgid "Show only the phase in which the force increases"
+msgstr "Показати лише фазу, у якій зусилля зростає"
 
 #: ../glade/force_sensor_exercise.glade.h:23
 msgid "Show both phases"
@@ -7025,14 +7025,14 @@ msgid "This exercise has been used on gravitatory sets."
 msgstr "Цю вправу використано для гравітаційних наборів."
 
 #: ../src/gui/app1/encoder.cs:5604 ../src/gui/app1/runEncoder.cs:2183
-#: ../src/gui/forceSensorExercise.cs:750
+#: ../src/gui/forceSensorExercise.cs:766
 msgid "Error: Missing name of exercise."
 msgstr "Помилка: не вказано назви вправи."
 
 #. if we add, check that this name does not exists
 #: ../src/gui/app1/encoder.cs:5610 ../src/gui/app1/encoder.cs:5625
 #: ../src/gui/app1/runEncoder.cs:2189 ../src/gui/app1/runEncoder.cs:2199
-#: ../src/gui/forceSensorExercise.cs:757 ../src/gui/forceSensorExercise.cs:767
+#: ../src/gui/forceSensorExercise.cs:773 ../src/gui/forceSensorExercise.cs:783
 #, csharp-format
 msgid "Error: An exercise named '{0}' already exists."
 msgstr "Помилка: запис вправи із назвою «{0}» вже існує."
@@ -7195,12 +7195,10 @@ msgstr ""
 "шкали."
 
 #: ../src/gui/app1/forceSensor.cs:3462 ../src/gui/app1/forceSensor.cs:3477
-#| msgid "Isometric Leg Extension."
 msgid "Isometric exercise"
 msgstr "Ізометрична вправа"
 
 #: ../src/gui/app1/forceSensor.cs:3464 ../src/gui/app1/forceSensor.cs:3479
-#| msgid "Edit exercise"
 msgid "Elastic exercise"
 msgstr "Пружна вправа"
 
@@ -7962,7 +7960,7 @@ msgstr ""
 msgid "Color"
 msgstr "Колір"
 
-#: ../src/gui/forceSensorExercise.cs:385
+#: ../src/gui/forceSensorExercise.cs:388
 msgid ""
 "In some cases the force registered by the Force Sensor is not directly the "
 "force that the person is exerting."
@@ -7970,18 +7968,18 @@ msgstr ""
 "У деяких випадках сила, яку реєструє датчик сили, не є безпосередньо силою, "
 "яку докладає особа."
 
-#: ../src/gui/forceSensorExercise.cs:387
+#: ../src/gui/forceSensorExercise.cs:390
 msgid "How the force is transmitted to the sensor"
 msgstr "Як сила передається на датчик"
 
-#: ../src/gui/forceSensorExercise.cs:389
+#: ../src/gui/forceSensorExercise.cs:392
 msgid ""
 "Depending on the exercise and configuration of the test, the total mass "
 "(mass of the person and the extra load) can affect the sensor measuring. "
 "Select how to manage this effect."
 msgstr ""
 
-#: ../src/gui/forceSensorExercise.cs:396
+#: ../src/gui/forceSensorExercise.cs:399
 msgid ""
 "In current exercise configuration, it is necessary to enter the angle in "
 "which the sensor is measuring."
@@ -7989,7 +7987,7 @@ msgstr ""
 "Для поточних налаштувань вправи необхідно ввести кут, за яким "
 "виконуватиметься вимірювання датчиком."
 
-#: ../src/gui/forceSensorExercise.cs:398
+#: ../src/gui/forceSensorExercise.cs:401
 msgid ""
 "In current exercise configuration, angle is merely descriptive (not used in "
 "calculations)."
@@ -7997,7 +7995,7 @@ msgstr ""
 "За поточних налаштувань вправи кут є лише описовим (не використовується в "
 "обчисленнях)."
 
-#: ../src/gui/forceSensorExercise.cs:408
+#: ../src/gui/forceSensorExercise.cs:411
 msgid ""
 "When you are interested only in the force transmitted to the force sensor. "
 "This option do NOT take into account the effect of the weight or the "
@@ -8007,17 +8005,17 @@ msgstr ""
 "обчисленні цього параметра НЕ буде взято до уваги ефекти ваги або "
 "прискорення маси."
 
-#: ../src/gui/forceSensorExercise.cs:410
+#: ../src/gui/forceSensorExercise.cs:413
 msgid "When you want the resultant of all the forces exerted by the person."
 msgstr ""
 
-#: ../src/gui/forceSensorExercise.cs:411
+#: ../src/gui/forceSensorExercise.cs:414
 msgid ""
 "Chronojump needs to know the involved mass (usually person's mass) and the "
 "angle."
 msgstr "Chronojump потрібно знати задіяну масу (зазвичай, масу особи) та кут."
 
-#: ../src/gui/forceSensorExercise.cs:412
+#: ../src/gui/forceSensorExercise.cs:415
 msgid ""
 "This option allows to take into account the effect of the weight or the "
 "acceleration of a mass."
@@ -8025,7 +8023,7 @@ msgstr ""
 "За допомогою цього параметра можна врахувати ефекти ваги або прискорення "
 "маси."
 
-#: ../src/gui/forceSensorExercise.cs:413
+#: ../src/gui/forceSensorExercise.cs:416
 msgid ""
 "Projection of exerted force is calculated as the sum of forces projected in "
 "the direction defined by the exercise."
@@ -8033,7 +8031,7 @@ msgstr ""
 "Проєкцію напруженої сили буде обчислено як проєкцію суми сил напрямок, який "
 "визначено у вправі."
 
-#: ../src/gui/forceSensorExercise.cs:415
+#: ../src/gui/forceSensorExercise.cs:418
 msgid ""
 "If, exerting a force, some element is significantly elongated it means that "
 "you are using elastic elements. Knowing the characteristics of the elastic "
@@ -8041,7 +8039,7 @@ msgid ""
 "the exercise"
 msgstr ""
 
-#: ../src/gui/forceSensorExercise.cs:417
+#: ../src/gui/forceSensorExercise.cs:420
 msgid ""
 "If exerting a force there's no significant elongation you are using not "
 "elastic elements."
@@ -8049,30 +8047,30 @@ msgstr ""
 "Якщо при прикладанні сили немає суттєвого видовження, ви використовуєте "
 "нееластичні елементи."
 
-#: ../src/gui/forceSensorExercise.cs:419
+#: ../src/gui/forceSensorExercise.cs:422
 msgid ""
 "When the mass doesn't affect the sensor data but it must be added to it."
 msgstr "Якщо маса не впливає на дані датчика, але її слід додати до них."
 
-#: ../src/gui/forceSensorExercise.cs:421
+#: ../src/gui/forceSensorExercise.cs:424
 msgid ""
 "In some cases the weight of the mass is supported by the sensor but it is "
 "not a force that the subject is exerting. In this case, the sensor will be "
 "tared before starting the test."
 msgstr ""
 
-#: ../src/gui/forceSensorExercise.cs:423
+#: ../src/gui/forceSensorExercise.cs:426
 msgid ""
 "In some cases the weight is transmitted to the sensor and it is also "
 "supported by the measured limb. If the effect of the mass is not "
 "significant, use this option also."
 msgstr ""
 
-#: ../src/gui/forceSensorExercise.cs:424
+#: ../src/gui/forceSensorExercise.cs:427
 msgid "This configuration is the same as raw data."
 msgstr "Ця конфігурація є тією самою, що і у необроблених даних."
 
-#: ../src/gui/forceSensorExercise.cs:426
+#: ../src/gui/forceSensorExercise.cs:429
 msgid ""
 "If user changes values on preferences, these values will automatically "
 "change."
@@ -8080,127 +8078,134 @@ msgstr ""
 "Якщо користувачем змінено дані у налаштуваннях, ці значення зміняться "
 "автоматично."
 
-#: ../src/gui/forceSensorExercise.cs:428
+#: ../src/gui/forceSensorExercise.cs:431
 msgid "These values will be used to detect repetitions."
 msgstr "Ці значення буде використано для виявлення повторень."
 
-#: ../src/gui/forceSensorExercise.cs:430
-msgid "Detected repetitions will show only concentric phase or both."
+#: ../src/gui/forceSensorExercise.cs:433
+#| msgid "Detected repetitions will show only concentric phase or both."
+msgid ""
+"Detected repetitions will show only the phase in which the force increases "
+"or also where decreases."
 msgstr ""
-"У виявлених повтореннях буде показано лише концентричну фазу або обидві фази."
+"У виявлених повтореннях буде показано лише фазу, у якій зростає або спадає"
+" сила."
 
 #. if(o == Options.OTHER)
-#: ../src/gui/forceSensorExercise.cs:432
+#: ../src/gui/forceSensorExercise.cs:435
 msgid "0 means horizontally"
 msgstr "0 означає «горизонтально»"
 
-#: ../src/gui/forceSensorExercise.cs:433
+#: ../src/gui/forceSensorExercise.cs:436
 msgid "90 means vertically with the person above the sensor"
 msgstr "90 означає «вертикально» із особою над датчиком"
 
-#: ../src/gui/forceSensorExercise.cs:434
+#: ../src/gui/forceSensorExercise.cs:437
 msgid "-90 means vertically with the person below the sensor"
 msgstr "-90 означає «вертикально» із особою під датчиком"
 
-#: ../src/gui/forceSensorExercise.cs:443
+#: ../src/gui/forceSensorExercise.cs:448
 msgid "Isometric Leg Extension."
 msgstr "Ізометричне видовження ніг."
 
-#: ../src/gui/forceSensorExercise.cs:444
+#. if (chronojumpMode == Constants.Modes.FORCESENSORELASTIC)
+#: ../src/gui/forceSensorExercise.cs:450
 msgid ""
 "Upper limb movements against a rubber if the displaced mass is considered "
 "insignificant."
 msgstr ""
 "Рух верхніх кінцівок щодо гуми, якщо зміщена маса вважається незначною."
 
-#: ../src/gui/forceSensorExercise.cs:446
+#: ../src/gui/forceSensorExercise.cs:452
 msgid "Vertical:"
 msgstr "Вертикальний:"
 
-#: ../src/gui/forceSensorExercise.cs:446
-msgid ""
-"Isometric squat with the force sensor fixed between the floor and the body."
+#: ../src/gui/forceSensorExercise.cs:452
+#| msgid ""
+#| "Isometric squat with the force sensor fixed between the floor and the "
+#| "body."
+msgid "Squat with the force sensor fixed between the floor and the body."
 msgstr ""
-"Ізометричне присідання із датчиком сили, який зафіксовано між підлогою та "
+"Присідання із датчиком сили, який зафіксовано між підлогою та "
 "тілом."
 
-#: ../src/gui/forceSensorExercise.cs:447
+#: ../src/gui/forceSensorExercise.cs:453
 msgid "Horizontal:"
 msgstr "Горизонтальний:"
 
-#: ../src/gui/forceSensorExercise.cs:447
+#: ../src/gui/forceSensorExercise.cs:453
 msgid "Movements where a significant mass is accelerated."
 msgstr "Рухи, при яких прискорення набуває значна маса."
 
-#: ../src/gui/forceSensorExercise.cs:448
+#: ../src/gui/forceSensorExercise.cs:454
 msgid "Diagonal movement:"
 msgstr "Діагональний рух:"
 
-#: ../src/gui/forceSensorExercise.cs:448
+#: ../src/gui/forceSensorExercise.cs:454
 msgid "Lateral squat."
 msgstr "Бічне присідання."
 
-#: ../src/gui/forceSensorExercise.cs:450
+#: ../src/gui/forceSensorExercise.cs:456
 msgid "Rubber bands, springs, flexible material …"
 msgstr "Гумові джгути, пружини, гнучкий матеріал…"
 
-#: ../src/gui/forceSensorExercise.cs:452 ../src/gui/forceSensorExercise.cs:454
+#: ../src/gui/forceSensorExercise.cs:458 ../src/gui/forceSensorExercise.cs:460
 msgid ""
 "In an isometric squat with the force sensor fixed between the floor and the "
 "body, increasing the mass don't affect the measure of the sensor because the "
 "weight is supported by the lower limbs, not the sensor."
 msgstr ""
 
-#: ../src/gui/forceSensorExercise.cs:456
+#: ../src/gui/forceSensorExercise.cs:462
 msgid ""
 "Hamstring test where the heel of the person is suspended in a cinch attached "
 "to the sensor. The weight of the leg is affecting the measure of the force "
 "transmitted to the sensor but this is not a force exerted by the subject."
 msgstr ""
 
-#: ../src/gui/forceSensorExercise.cs:458
+#: ../src/gui/forceSensorExercise.cs:464
 msgid ""
 "Nordic hamstring. In a Nordic hamstring with the sensor attached to the "
 "ankle, the weight affects the values of the sensor but this weight is "
 "supported by the hamstrings we are measuring."
 msgstr ""
 
-#: ../src/gui/forceSensorExercise.cs:459
+#: ../src/gui/forceSensorExercise.cs:465
 msgid ""
 "Pulling on a TRX. Pulling from a TRX implies overcome the body weight. This "
 "body weight is also measured by the sensor."
 msgstr ""
 
-#: ../src/gui/forceSensorExercise.cs:481
+#: ../src/gui/forceSensorExercise.cs:487
 msgid "Not Elastic"
 msgstr "Нееластичний"
 
-#: ../src/gui/forceSensorExercise.cs:483
+#: ../src/gui/forceSensorExercise.cs:489
 msgid "Add mass"
 msgstr "Додати масу"
 
-#: ../src/gui/forceSensorExercise.cs:485
+#: ../src/gui/forceSensorExercise.cs:491
 msgid "Subtract mass"
 msgstr "Відняти масу"
 
-#: ../src/gui/forceSensorExercise.cs:487
+#: ../src/gui/forceSensorExercise.cs:493
 msgid "Mass is included"
 msgstr "Масу включено"
 
-#: ../src/gui/forceSensorExercise.cs:489
+#: ../src/gui/forceSensorExercise.cs:495
 msgid "Repetitions according to preferences"
 msgstr "Повторення за налаштуваннями"
 
-#: ../src/gui/forceSensorExercise.cs:491
+#: ../src/gui/forceSensorExercise.cs:497
 msgid "Repetitions using custom values"
 msgstr "Повторення з використанням нетипових значень"
 
 #. if(o == Options.OTHER)
-#: ../src/gui/forceSensorExercise.cs:495
+#: ../src/gui/forceSensorExercise.cs:501
 msgid "Angle explanation"
 msgstr "Пояснення кута"
 
-#: ../src/gui/forceSensorExercise.cs:498
+#: ../src/gui/forceSensorExercise.cs:504
 msgid "Examples of:"
 msgstr "Приклади:"
 
@@ -11422,6 +11427,9 @@ msgstr "Помилка. {0} не вдалося зберегти відео."
 #: ../src/webcam/webcamFfmpeg.cs:290
 msgid "Preview. Press any key to exit."
 msgstr "Попередній перегляд. Натисніть будь-яку клавішу, щоб вийти."
+
+#~ msgid "Show only concentric phase"
+#~ msgstr "Показати лише концентричну фазу"
 
 #~ msgid "Force sensor exercise:"
 #~ msgstr "Вправа із датчиком сили:"

@@ -1339,6 +1339,7 @@ void startJumpsCapture()
 {
   float maxJump = 0;
   int totalJumps = 0;
+  float graphRange = 100;
   rcaState = digitalRead(rcaPin);
   lastRcaState = rcaState;
   rcaFlag = false;
@@ -1349,7 +1350,7 @@ void startJumpsCapture()
     bars[i] = 0;
   }
   tft.fillScreen(BLACK);
-  redrawAxes(tft, 30, 200, 290, 200, 290, 200, 0, 100, 10, "", "", "", WHITE, GREY, WHITE, WHITE, BLACK, RED, true);
+  redrawAxes(tft, 30, 200, 290, 200, 290, 200, 0, graphRange, graphRange/10, "", "", "", WHITE, GREY, WHITE, WHITE, BLACK, RED, true);
   redButton.update();
   int index = 0;
   currentPerson = 0;
@@ -1387,8 +1388,14 @@ void startJumpsCapture()
           {
             maxJump = bars[index];
           }
-          redrawAxes(tft, 30, 200, 290, 200, 290, 200, 0, 100, 10, "", "", "", WHITE, GREY, WHITE, WHITE, BLACK, RED, true);
-          barPlot(30, 200, 290, 200, 100, 10, index, 0.5, RED);
+          
+          if (bars[index] > graphRange)
+          {
+            redrawAxes(tft, 30, 200, 290, 200, 290, 200, 0, graphRange, graphRange/10, "", "", "", WHITE, BLACK, WHITE, BLACK, BLACK, RED, true);
+            graphRange = bars[index]*1.25;
+          }
+          redrawAxes(tft, 30, 200, 290, 200, 290, 200, 0, graphRange, graphRange/10, "", "", "", WHITE, GREY, WHITE, WHITE, BLACK, RED, true);
+          barPlot(30, 200, 290, 200, graphRange, 10, index, 0.5, RED);
           index = (index + 1) % 10;
           Serial.println("R;");
           totalJumps++;

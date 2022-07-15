@@ -1327,7 +1327,7 @@ void startJumpsCapture()
   float maxJump = 0;
   int totalJumps = 0;
   int bestJumper = 0;
-  float graphRange = 100;
+  float graphRange = 50;
   fileName = String("J") + "-S" + String(setNumber);
   //fileName = "P" + String(currentPerson) + "-S" + String(setNumber);
   lastRcaState = !digitalRead(rcaPin);
@@ -1422,6 +1422,7 @@ void startJumpsCapture()
 void showJumpsResults(float maxJump, unsigned int bestJumper, int totalJumps)
 {
   resultsBackground();
+  tft.drawLine(160, 240, 160, 80, BLACK);
   int textSize = 2;
 
   tft.setCursor(0, 40);
@@ -1429,16 +1430,21 @@ void showJumpsResults(float maxJump, unsigned int bestJumper, int totalJumps)
   tft.setCursor(12, 48);
   tft.setTextSize(1);
   tft.print("max");
-  printTftFormat(maxJump, 100, 40, textSize, 1);
+  printTftFormat(maxJump, 100, 40, textSize, 2);
 
   tft.setTextSize(2);
   tft.setCursor(170, 40);
-  tft.print("Best Jumper:");
+  tft.print("N");
+  tft.setCursor(182, 48);
+  tft.setTextSize(1);
+  tft.print("Jumps");
+  tft.setCursor(218, 40);
+  printTftFormat(totalJumps, 268, 40, textSize, 0);
+  
 
   tft.setCursor(170, 80);
-  tft.println(persons[bestJumper].name);
   tft.setCursor(170, 120);
-  tft.println(persons[bestJumper].surname);
+  tft.println();
 //  tft.setTextSize(1);
 //  tft.setCursor(218, 48);
 //  tft.print("max");
@@ -1446,12 +1452,10 @@ void showJumpsResults(float maxJump, unsigned int bestJumper, int totalJumps)
 
   tft.setTextSize(2);
   tft.setCursor(0, 80);
-  tft.print("N");
-  tft.setCursor(12, 88);
-  tft.setTextSize(1);
-  tft.print("Jumps");
-  printTftFormat(totalJumps, 100, 80, textSize, 0);
+  tft.print("Best Jumper: ");
+  tft.setCursor(12, 100);
   tft.setTextSize(2);
+  tft.print(persons[bestJumper].name + " " + persons[bestJumper].surname);
 
   redButton.update();
   while (!redButton.fell()) {

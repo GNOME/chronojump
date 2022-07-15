@@ -737,6 +737,7 @@ void changingRCA() {
   rcaTime = totalTime;
   rcaState = digitalRead(rcaPin);
   rcaTimer.begin(rcaDebounce, 2000);
+  //Serial.print("-");
 }
 
 //After the debounce time the state of the RCA is checked again to see if it has changed
@@ -1340,8 +1341,7 @@ void startJumpsCapture()
   float maxJump = 0;
   int totalJumps = 0;
   float graphRange = 100;
-  rcaState = digitalRead(rcaPin);
-  lastRcaState = rcaState;
+  lastRcaState = !digitalRead(rcaPin);
   rcaFlag = false;
   float flightTime = 0;
   bool firstContact = true;

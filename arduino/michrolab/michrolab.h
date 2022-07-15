@@ -116,3 +116,12 @@ int countDirs();
 
 //Process of changing the person with the blue button
 void selectPerson();
+
+//Plot raw data in y axis over time horizontal axis
+void Graph(ILI9341_t3 & d, double x, double y, double gx, double gy, double w, double h, double xlo, double xhi, double xinc, double ylo, double yhi, double yinc, String title, String xlabel, String ylabel, unsigned int gcolor, unsigned int acolor, unsigned int pcolor, unsigned int tcolor, unsigned int bcolor, boolean & startOver);
+
+//Redraw axes and vertical labels of the graph
+void redrawAxes(ILI9341_t3 & d, double gx, double gy, double w, double h, double xlo, double xhi, double ylo, double yhi, double yinc, String title, String xlabel, String ylabel, unsigned int gcolor, unsigned int acolor, unsigned int pcolor, unsigned int tcolor, unsigned int bcolor, unsigned int goalColor, boolean resize);
+
+//Plot a set of bars stored in bars[]
+void barPlot (float gx, float gy, float w, float h, float yhi, int numBars, int currentIndex, float abRatio, unsigned int color);

@@ -1212,15 +1212,8 @@ void endEncoderCapture()
 
 void showEncoderResults()
 {
+  resultsBackground();
   int textSize = 2;
-  tft.fillScreen(BLACK);
-  tft.setTextSize(3);
-  tft.setCursor(100, 0);
-  tft.print("Results");
-
-  tft.drawLine(0, 20, 320, 20, GREY);
-  tft.drawLine(160, 240, 160, 20, GREY);
-  tft.setTextSize(textSize);
 
   tft.setCursor(0, 40);
   tft.print("v");
@@ -1311,15 +1304,8 @@ void endPowerCapture()
 
 void showPowerResults()
 {
+  resultsBackground();
   int textSize = 2;
-  tft.fillScreen(BLACK);
-  tft.setTextSize(3);
-  tft.setCursor(100, 0);
-  tft.print("Results");
-
-  tft.drawLine(0, 20, 320, 20, GREY);
-  tft.drawLine(160, 240, 160, 20, GREY);
-  tft.setTextSize(textSize);
 
   tft.setCursor(0, 40);
   tft.print("P");
@@ -1340,6 +1326,7 @@ void startJumpsCapture()
 {
   float maxJump = 0;
   int totalJumps = 0;
+  int bestJumper = 0;
   float graphRange = 100;
   fileName = String("J") + "-S" + String(setNumber);
   //fileName = "P" + String(currentPerson) + "-S" + String(setNumber);
@@ -1390,6 +1377,7 @@ void startJumpsCapture()
           if (bars[index] > maxJump)
           {
             maxJump = bars[index];
+            bestJumper = currentPerson;
           }
           
           if (bars[index] > graphRange)
@@ -1426,8 +1414,51 @@ void startJumpsCapture()
     blueButton.update();
   }
   setNumber++;
+  showJumpsResults(maxJump, bestJumper, totalJumps);
   drawMenuBackground();
   showMenuEntry(currentMenuIndex);
+}
+
+void showJumpsResults(float maxJump, unsigned int bestJumper, int totalJumps)
+{
+  resultsBackground();
+  int textSize = 2;
+
+  tft.setCursor(0, 40);
+  tft.print("J");
+  tft.setCursor(12, 48);
+  tft.setTextSize(1);
+  tft.print("max");
+  printTftFormat(maxJump, 100, 40, textSize, 1);
+
+  tft.setTextSize(2);
+  tft.setCursor(170, 40);
+  tft.print("Best Jumper:");
+
+  tft.setCursor(170, 80);
+  tft.println(persons[bestJumper].name);
+  tft.setCursor(170, 120);
+  tft.println(persons[bestJumper].surname);
+//  tft.setTextSize(1);
+//  tft.setCursor(218, 48);
+//  tft.print("max");
+//  printTftFormat(maxAvgVelocity, 268, 40, textSize, 2);
+
+  tft.setTextSize(2);
+  tft.setCursor(0, 80);
+  tft.print("N");
+  tft.setCursor(12, 88);
+  tft.setTextSize(1);
+  tft.print("Jumps");
+  printTftFormat(totalJumps, 100, 80, textSize, 0);
+  tft.setTextSize(2);
+
+  redButton.update();
+  while (!redButton.fell()) {
+    redButton.update();
+  }
+  tft.fillRect(0, 20, 320, 240, BLACK);
+  drawMenuBackground();
 }
 
 void setForceGoal()
@@ -1598,4 +1629,17 @@ void saveJumps()
 }
 void fakeFunction()
 {
+}
+
+void resultsBackground()
+{
+  int textSize = 2;
+  tft.fillScreen(BLACK);
+  tft.setTextSize(3);
+  tft.setCursor(100, 0);
+  tft.print("Results");
+
+  tft.drawLine(0, 20, 320, 20, GREY);
+  tft.drawLine(160, 240, 160, 20, GREY);
+  tft.setTextSize(textSize);
 }

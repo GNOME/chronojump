@@ -1341,6 +1341,8 @@ void startJumpsCapture()
   float maxJump = 0;
   int totalJumps = 0;
   float graphRange = 100;
+  fileName = String("J") + "-S" + String(setNumber);
+  //fileName = "P" + String(currentPerson) + "-S" + String(setNumber);
   lastRcaState = !digitalRead(rcaPin);
   rcaFlag = false;
   float flightTime = 0;
@@ -1367,6 +1369,7 @@ void startJumpsCapture()
     if( blueButton.fell() ){
       currentPerson = (currentPerson + 1)%totalPersons;
       updatePersonJump(totalJumps);
+      firstContact = true;
     }
     if (rcaFlag)
     {
@@ -1404,6 +1407,7 @@ void startJumpsCapture()
         {
           Serial.println("r;");
         }
+        
       } else if (firstContact) {
         firstContact = false;
         if (rcaState)
@@ -1414,13 +1418,14 @@ void startJumpsCapture()
           Serial.println("r;");
         }
       }
+      saveJumps();
       lastRcaState = rcaState;
       lastRcaTime = rcaTime;
     }
     redButton.update();
     blueButton.update();
   }
-
+  setNumber++;
   drawMenuBackground();
   showMenuEntry(currentMenuIndex);
 }
@@ -1460,7 +1465,7 @@ int countDirs()
     if (dir.isDirectory())
     {
       String dirName = file.name();
-      if (dirName.substring(0, 2) == "SA" && dirName.substring(2, 5).toInt() < 1000)
+      if (dirName.substring(0, 2) == "ML" && dirName.substring(2, 5).toInt() < 1000)
       {
         numDirs++;
       }
@@ -1578,6 +1583,19 @@ void selectPerson()
   }
 }
 
+void saveJumps()
+{
+  String fullFileName = "/" + dirName + "/" + fileName + ".txt";
+  File dataFile = SD.open(fullFileName, FILE_WRITE);
+  if(rcaState)
+  {
+    dataFile.println(String(currentPerson) + ";" + String(rcaTime) + "R");
+  } else if(!rcaState)
+  {
+    dataFile.println(String(currentPerson) + ";" + String(rcaTime) + "r");
+  }
+  dataFile.close();
+}
 void fakeFunction()
 {
 }

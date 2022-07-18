@@ -301,6 +301,16 @@ struct personType {
 unsigned int totalPersons = 0;
 personType persons[100];
 
+struct jumpType {
+  int id;
+  String name;
+  bool startIn;   //If the time of contact is required, start outside or start inside but make a previous jump
+};
+
+jumpType jumpTypes[100];
+unsigned int totalJumpTypes = 0;
+unsigned int currentJumpType = 0;
+
 IntervalTimer rcaTimer;
 
 void setup() {
@@ -387,6 +397,10 @@ void setup() {
   //    delay(100);
   //  }
 
+  Serial.println(getTotalJumpTypes());
+  readJumpsFile();
+  printJumpTypesList();
+  
   tft.fillScreen(BLACK);
   drawMenuBackground();
   showMenuEntry(currentMenuIndex);

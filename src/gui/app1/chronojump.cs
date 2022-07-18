@@ -4671,7 +4671,10 @@ public partial class ChronoJumpWindow
 	private void on_button_micro_discover_cancel_close_clicked (object o, EventArgs args)
 	{
 		if (discoverWin != null)
+		{
 			discoverWin.CancelCloseFromUser ();
+			button_detect_show_hide (true); //as closed without use this, then show the big button again
+		}
 	}
 
 	private void on_discoverWindow_closed (object o, EventArgs args)

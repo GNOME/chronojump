@@ -3632,7 +3632,12 @@ public partial class ChronoJumpWindow
 		if(chronopicRegister == null)
 			chronopicRegisterUpdate(false);
 		chronopicRegister.ListSelectedForAllModes (); //debug
+		//if not selected, assign (auto-select) any compatible (using NumConnectedOfType)
+		if (chronopicRegister.GetSelectedForMode (m).Port == "")
+			chronopicRegister.SetAnyCompatibleConnectedAsSelected (m);
+		//show button_detect depending on selected or not
 		button_detect_show_hide (chronopicRegister.GetSelectedForMode (m).Port == "");
+
 
 		//blank exercise options: useful for changing from jumps or runs to forceSensor, runEncoder, reaction time, other
 		label_contacts_exercise_selected_name.Visible = true; //will not be visible when all the contacts_top combo is implemented
@@ -4626,7 +4631,6 @@ public partial class ChronoJumpWindow
 	   */
 
 	//also manages if networks or not, on networks do not show
-	//TODO: add the encoder controls
 	private void button_detect_show_hide (bool show)
 	{
 		//compujump will continue with the top right device button, far from the capture button

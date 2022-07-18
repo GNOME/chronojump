@@ -338,6 +338,54 @@ public abstract class ChronopicRegister
 		selectedForMode_l.Add (new selectedForMode (crp, mode));
 	}
 
+	// in order to the device available without needing to click to device button
+	public bool SetAnyCompatibleConnectedAsSelected (Constants.Modes mode)
+	{
+		if (mode == Constants.Modes.JUMPSSIMPLE || mode == Constants.Modes.JUMPSREACTIVE)
+		{
+			if (setAnyCompatibleConnectedAsSelectedDo (mode, ChronopicRegisterPort.Types.CONTACTS))
+				return true;
+		}
+		else if (mode == Constants.Modes.RUNSSIMPLE || mode == Constants.Modes.RUNSINTERVALLIC)
+		{
+			if (setAnyCompatibleConnectedAsSelectedDo (mode, ChronopicRegisterPort.Types.CONTACTS))
+				return true;
+			//with the repeated FTDI number it will not work until selected at each Chronojump boot
+			else if (setAnyCompatibleConnectedAsSelectedDo (mode, ChronopicRegisterPort.Types.RUN_WIRELESS))
+				return true;
+		}
+		else if (Constants.ModeIsENCODER (mode))
+		{
+			if (setAnyCompatibleConnectedAsSelectedDo (mode, ChronopicRegisterPort.Types.ENCODER))
+				return true;
+		}
+		//with the repeated FTDI number it will not work until selected at each Chronojump boot
+		else if (Constants.ModeIsFORCESENSOR (mode))
+		{
+			if (setAnyCompatibleConnectedAsSelectedDo (mode, ChronopicRegisterPort.Types.ARDUINO_FORCE))
+				return true;
+		}
+		//with the repeated FTDI number it will not work until selected at each Chronojump boot
+		else if (mode == Constants.Modes.RUNSENCODER)
+		{
+			if (setAnyCompatibleConnectedAsSelectedDo (mode, ChronopicRegisterPort.Types.ARDUINO_RUN_ENCODER))
+				return true;
+		}
+
+		return false;
+	}
+	private bool setAnyCompatibleConnectedAsSelectedDo (Constants.Modes mode, ChronopicRegisterPort.Types type)
+	{
+		foreach(ChronopicRegisterPort crp in crpl.L)
+			if(crp.Type == type && crp.Port != "")
+			{
+				SetSelectedForMode (crp, mode);
+				return true;
+			}
+
+		return false;
+	}
+
 	public ChronopicRegisterPort GetSelectedForMode (Constants.Modes mode)
 	{
 		if (selectedForMode_l == null)

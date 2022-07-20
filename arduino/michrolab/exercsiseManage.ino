@@ -9,7 +9,7 @@ void readJumpsFile(){
   */
   String row = "";
   char readChar;
-  File  jumpsFile = SD.open("jumpTypes.txt");
+  File  jumpsFile = SD.open("/jumpType.txt");
   if (jumpsFile)
   {
     currentJumpType = 0;
@@ -19,7 +19,6 @@ void readJumpsFile(){
     while (currentJumpType < totalJumpTypes)
     {
       readChar = jumpsFile.read();
-      Serial.println("-");
       if (readChar != '\n' && readChar != '\r')
       {
         row = row + readChar;
@@ -29,13 +28,12 @@ void readJumpsFile(){
         row = "";
         currentJumpType++;
       }
-      Serial.println(row);
     }
     // close the file:
     jumpsFile.close();
   } else {
     // if the file didn't open, print an error:
-    Serial.println("error opening jumpTypes.txt");
+    Serial.println("error opening jumpType.txt");
   } 
 }
 
@@ -60,7 +58,7 @@ unsigned int getTotalJumpTypes()
 {
   char readChar;
   String readString = "";
-  File  jumpsFile = SD.open("jumpTypes.txt");
+  File  jumpsFile = SD.open("jumpType.txt");
   if (jumpsFile)
   {
     //Start reading from the last byte

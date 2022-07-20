@@ -1160,16 +1160,16 @@ void getEncoderDynamics()
     {
       //Serial.println("New localMax : " + String(position) + "\t" + String(localEncoderPhase));
       localMax = position;
-
-      //Checking if this local maximum is actually the start of the new phase
     }
 
+    //Checking if this local maximum is actually the start of the new phase
     if (encoderPhase * (localMax - position) > minRom)
     {
       encoderPhase *= -1;
       propulsive = true;
+      avgVelocity = (float)(position - startPhasePosition) * 1000 / (lastSampleTime - startPhaseTime);
+      bars[numRepetitions%10] = abs(avgVelocity);
       numRepetitions++;
-      //avgVelocity = (float)(position - startPhasePosition) * 1000 / (lastSampleTime - startPhaseTime);
       if (avgVelocity > maxAvgVelocity) maxAvgVelocity = avgVelocity;
       //        Serial.println(String(position) + " - " + String(startPhasePosition) + " = " + String(position - localMax) + "\t" + String(encoderPhase));
       //        Serial.println("Change of phase at: " + String(lastSampleTime));
@@ -1219,6 +1219,10 @@ void endEncoderCapture()
   Serial.println("Capture ended:");
   //If the device is controlled by the PC the results menu is not showed
   //because during the menu navigation the Serial is not listened.
+  tft.fillScreen(BLACK);
+  redrawAxes(tft, 30, 200, 290, 200, 0, 9, graphMin, graphMax, 5, "", "", "", WHITE, GREY, WHITE, WHITE, BLACK, RED, true);
+  barPlot(30, 200, 290, 200, 5, 10, numRepetitions%10, 0.5, RED);
+  delay(5000);
   if (!PcControlled) {
     showEncoderResults();
   }

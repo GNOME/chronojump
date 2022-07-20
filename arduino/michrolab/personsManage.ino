@@ -149,7 +149,9 @@ void updatePersonJump(int totalJumps)
   tft.setTextSize(1);
   tft.setTextColor(WHITE);
   tft.setCursor(141, 207);
-  tft.print("Jump: " + addLeadingZeros(totalJumps, 2) +  "   Person: " + addLeadingZeros(currentPerson, 2));
+  tft.print(jumpTypes[currentJumpType].name);
+  tft.setCursor(195,207);
+  tft.print("Person: " + addLeadingZeros(currentPerson, 2));
   tft.setCursor(141, 223);
   tft.print(persons[currentPerson].name + " " + persons[currentPerson].surname);
   tft.setTextSize(2);

@@ -397,9 +397,10 @@ void setup() {
   //    delay(100);
   //  }
 
-  Serial.println(getTotalJumpTypes());
+  getTotalJumpTypes();
   readJumpsFile();
   printJumpTypesList();
+  currentJumpType = 0;
   
   tft.fillScreen(BLACK);
   drawMenuBackground();
@@ -1338,6 +1339,7 @@ void showPowerResults()
 
 void startJumpsCapture()
 {
+  selectJumpType();
   float maxJump = 0;
   int totalJumps = 0;
   int bestJumper = 0;

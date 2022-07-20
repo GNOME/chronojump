@@ -215,3 +215,40 @@ float selectValueDialog(String description, String rangesString, String incStrin
   }
   return (value);
 }
+
+void selectJumpType()
+{
+  tft.fillScreen(BLACK);
+  tft.setCursor(40, 20);
+  tft.setTextSize(3);
+  tft.print("Jump type");
+  
+  drawLeftButton("Next", WHITE, BLUE);
+  drawRightButton("Accept", WHITE, RED);
+
+  tft.setTextSize(2);
+  tft.setCursor(50, 100);
+  tft.print(jumpTypes[currentJumpType].name);
+
+  
+  blueButton.update();
+  redButton.update();
+  while(!redButton.fell())
+  {
+    if(blueButton.fell())
+    {      
+      //Deleting last jumpType text
+      tft.setCursor(50, 100);
+      tft.setTextColor(BLACK);
+      tft.print(jumpTypes[currentJumpType].name);
+
+      //Printing new jump type text
+      tft.setCursor(50, 100);
+      tft.setTextColor(WHITE);
+      currentJumpType = (currentJumpType + 1) % totalJumpTypes;
+      tft.print(jumpTypes[currentJumpType].name);
+    }
+    blueButton.update();
+    redButton.update();
+  }
+}

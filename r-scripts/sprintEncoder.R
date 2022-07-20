@@ -191,7 +191,7 @@ getSprintFromEncoder <- function(filename, testLength, Mass, Temperature = 25, H
                 text(x = length(position)/2, y = max(position)/4,
                      labels = "or does not seem a sprint", cex = 2, pos = 3)
 		print("Capture has not enough accel")
-		return("Capture has not enough accel")
+                return(list(longEnough = longEnough, regressionDone = FALSE))
 	}
 
         #Zeroing time to the initial acceleration sample

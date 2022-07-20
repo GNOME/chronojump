@@ -169,7 +169,7 @@ float selectValueDialog(String description, String rangesString, String incStrin
   tft.setTextColor(WHITE, BLACK);
   tft.print("Current:");
   tft.setCursor(220, 174);
-  printTftFormat(value, 236, 174, 2, 0);
+  printTftValue(value, 236, 174, 2, 0);
   redButton.update();
   blueButton.update();
   
@@ -179,12 +179,12 @@ float selectValueDialog(String description, String rangesString, String incStrin
     //TODO: Allow coninuous increasing by keeping pressed the button
     if (blueButton.fell()) {
       tft.setTextColor(BLACK);
-      printTftFormat(value, 236, 174, 2, decimals);
+      printTftValue(value, 236, 174, 2, decimals);
       
       value += incValues[currentSegment - 1];
       if (abs(value -  rangesValues[rangesNum] - incValues[currentSegment - 1]) < 0.0001) {
         tft.setTextColor(BLACK);
-        printTftFormat(value, 236, 174, 2, decimals);
+        printTftValue(value, 236, 174, 2, decimals);
         value = rangesValues[0];
         currentSegment = 1;
         drawLeftButton("+" + String(incValues[currentSegment - 1], decimals), WHITE, BLUE);
@@ -197,7 +197,7 @@ float selectValueDialog(String description, String rangesString, String incStrin
       }
       tft.setTextColor(WHITE);
       tft.setCursor(216, 150);
-      printTftFormat(value, 236, 174, 2, decimals);
+      printTftValue(value, 236, 174, 2, decimals);
     }
 
     //Change to Calibrate execution

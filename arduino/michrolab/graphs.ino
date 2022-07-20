@@ -98,7 +98,7 @@ void redrawAxes(ILI9341_t3 & d, double gx, double gy, double w, double h, double
     //If the scale has changed the numbers must be redrawn
     if (resize)
     {
-      printTftFormat(i, gx - 6, yAxis - 3, 1, 0);
+      printTftValue(i, gx - 6, yAxis - 3, 1, 0);
     }
   }
 

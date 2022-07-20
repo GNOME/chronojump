@@ -55,7 +55,7 @@ void startJumpsCapture();
 void capture();
 
 //Prints a float number with the units number at the selected positoin and precission
-void printTftFormat (float val, int x, int y, int fontSize, int decimal);
+void printTftValue (float val, int x, int y, int fontSize, int decimal);
 
 //Reads whatever it is in the serial buffer
 void serialEvent();

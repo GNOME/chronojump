@@ -401,7 +401,6 @@ void setup() {
   readJumpsFile();
   printJumpTypesList();
   currentJumpType = 0;
-  
   tft.fillScreen(BLACK);
   drawMenuBackground();
   showMenuEntry(currentMenuIndex);
@@ -486,7 +485,7 @@ void getLoadCellDynamics(void)
   }
 }
 
-void printTftFormat (float val, int x, int y, int fontSize, int decimal) {
+void printTftValue (float val, int x, int y, int fontSize, int decimal) {
 
   /*How many characters are to the left of the units number.
      Examples:
@@ -512,6 +511,22 @@ void printTftFormat (float val, int x, int y, int fontSize, int decimal) {
   tft.setTextSize(fontSize);
   tft.setCursor(x , y);
   tft.print(val, decimal);
+}
+
+void printTftText(String text, int x, int y, int fontSize, unsigned int color, bool alignRight)
+{
+  if(alignRight)
+  {
+    int len = text.length();
+    x = x - 6*fontSize*len;
+  }
+  tft.setTextColor(color);
+  tft.setTextSize(fontSize);
+  tft.setCursor(x,y);
+  tft.print(text);
+
+  tft.setTextColor(WHITE);
+  tft.setTextSize(2);
 }
 
 void serialEvent() {
@@ -665,49 +680,29 @@ void calibrate(String inputString)
 
 void tare()
 {
-  tft.setCursor(12, 100);
-  tft.setTextColor(BLACK);
-  tft.print(currentMenu[currentMenuIndex].description);
-  tft.setTextColor(WHITE);
-  tft.setCursor(120, 100);
-  tft.print("Taring...");
+  printTftText(currentMenu[currentMenuIndex].description, 12, 100, 2, BLACK, false);
+  printTftText("Taring...", 120, 100, 2, WHITE, false);
   scale.tare(50); //Reset the scale to 0 using the mean of 255 raw values
   EEPROM.put(tareAddress, scale.get_offset());
-  tft.setTextColor(BLACK);
-  tft.setCursor(120, 100);
-  tft.print("Taring...");
-  tft.setTextColor(WHITE);
-  tft.setCursor(120, 100);
-  tft.print("Tared");
-
+  printTftText("Taring...", 120, 100, 2, BLACK, false);
+  printTftText("Tared", 120, 100, 2, WHITE, false);
 
   Serial.print("Taring OK:");
   Serial.println(scale.get_offset());
 
   delay(300);
-  tft.setTextColor(BLACK);
-  tft.setCursor(120, 100);
-  tft.print("Tared");
-  tft.setTextColor(WHITE);
+  printTftText("Tared", 120, 100, 2, BLACK, false);
   showMenuEntry(currentMenuIndex);
 }
 
 void startTareCapture(void)
 {
-  tft.setTextSize(2);
-  tft.setCursor(12, 100);
-  tft.setTextColor(BLACK);
-  tft.print(currentMenu[currentMenuIndex].description);
-  tft.setTextColor(WHITE);
-  tft.setCursor(100, 100);
-  tft.print("Taring...");
+
+  printTftText(currentMenu[currentMenuIndex].description, 12, 100, 2, BLACK, false);
+  printTftText("Taring...", 100, 100, 2, WHITE, false);
   scale.tare(50); //Reset the scale to 0 using the mean of 255 raw values
-  tft.setTextColor(BLACK);
-  tft.setCursor(100, 100);
-  tft.print("Taring...");
-  tft.setTextColor(WHITE);
-  tft.setCursor(100, 100);
-  tft.print("  Tared  ");
+  printTftText("Taring...", 100, 100, 2, BLACK, false);
+  printTftText("  Tared  ", 100, 100, 2, WHITE, false);
   delay(300);
   startLoadCellCapture();
 }
@@ -770,14 +765,15 @@ void calibrateTFT(void) {
   float weight = selectValueDialog("Select the weight to use", "1,5,100", "1,5", 0);
   String calibrateCommand = "calibrate:" + String(weight, DEC) + ";";
   calibrate(calibrateCommand);
-  tft.setTextColor(WHITE);
-  tft.setCursor(120, 150);
-  tft.print("Calibrated");
+//  tft.setTextColor(WHITE);
+//  tft.setCursor(120, 150);
+//  tft.print("Calibrated");
+  printTftText("Calibrated", 120, 150, 2, WHITE, false);
   delay(300);
-  tft.setTextColor(BLACK);
-  tft.setCursor(120, 150);
-  tft.print("Calibrated");
-  tft.setTextColor(WHITE);
+//  tft.setTextColor(BLACK);
+//  tft.setCursor(120, 150);
+//  tft.print("Calibrated");
+  printTftText("Calibrated", 120, 150, 2, BLACK, false);
   drawMenuBackground();
   showMenuEntry(currentMenuIndex);
 }
@@ -793,104 +789,69 @@ void updateTime() {
   //  if (totalTime > 1000000)
   //  {
   //    tft.setTextColor(BLACK);
-  //    printTftFormat(totalTime / 1000000 - 1, 302, 215, 2, 0);
+  //    printTftValue(totalTime / 1000000 - 1, 302, 215, 2, 0);
   //  }
   tft.setTextColor(WHITE);
-  printTftFormat(totalTime / 1000000, 302, 215, 2, 0);
+  printTftValue(totalTime / 1000000, 302, 215, 2, 0);
 }
 //TODO: Add more information or eliminate
 void showSystemInfo(void) {
 
   //Erases the description of the upper menu entry
-  tft.setTextSize(2);
-  tft.setCursor(12, 100);
-  tft.setTextColor(BLACK);
-  tft.print(currentMenu[currentMenuIndex].description);
+  printTftText(currentMenu[currentMenuIndex].description, 12, 100, 2, BLACK, false);
 
-
-  tft.setTextColor(WHITE);
-  tft.setCursor(100, 100);
-  tft.print("System Info");
+  printTftText("System Info", 100, 100, 2, WHITE, false);
   redButton.update();
   while (!redButton.fell()) {
     redButton.update();
   }
-  tft.setTextColor(BLACK);
-  tft.setCursor(100, 100);
-  tft.print("System Info");
-  tft.setTextColor(WHITE);
+  printTftText("System Info", 100, 100, 2, BLACK, false);
   showMenuEntry(currentMenuIndex);
 }
 
 void showLoadCellResults() {
   int textSize = 2;
   tft.fillScreen(BLACK);
-  tft.setTextSize(3);
-  tft.setCursor(100, 0);
-  tft.print("Results");
+  printTftText("Results", 100, 100, 3, BLACK, false);
 
   tft.drawLine(0, 20, 320, 20, GREY);
   tft.drawLine(160, 240, 160, 20, GREY);
   tft.setTextSize(textSize);
 
-  tft.setCursor(0, 40);
-  tft.print("F");
-  tft.setCursor(12, 48);
-  tft.setTextSize(1);
-  tft.print("max");
-  printTftFormat(measuredMax, 100, 40, textSize, 1);
+  printTftText("F", 0, 40, textSize, WHITE, false);
+  printTftText("max", 12, 48, 1, WHITE, false);
+  printTftValue(measuredMax, 112, 40, textSize, 0);
 
-  tft.setTextSize(2);
-  tft.setCursor(170, 40);
-  tft.print("F");
-  tft.setTextSize(1);
-  tft.setCursor(182, 48);
-  tft.print("max1s");
-  printTftFormat(maxMeanForce1s, 280, 40, textSize, 1);
+  printTftText("F", 170, 40, textSize, WHITE, false);
+  printTftText("max1s", 182, 48, 1, WHITE, false);
 
-  tft.setTextSize(2);
-  tft.setCursor(0, 80);
-  tft.print("F");
-  tft.setTextSize(1);
-  tft.setCursor(12, 88);
-  tft.print("trig");
-  printTftFormat(forceTrigger, 100, 80, textSize, 1);
+  printTftValue(maxMeanForce1s, 296, 40, textSize, 0);
 
+  printTftText("F", 0, 80, textSize, WHITE, false);
+  printTftText("trig", 12, 88, 1, WHITE, false);
+  
+  printTftValue(forceTrigger, 100, 80, textSize, 1);
 
-  tft.setTextSize(2);
-  tft.setCursor(170, 80);
-  tft.print("Imp");
-  printTftFormat(impulse, 280, 80, textSize, 1);
+  printTftText("Imp", 170, 80, textSize, WHITE, false);
+  printTftValue(impulse, 296, 80, textSize, 0);
 
-  tft.setCursor(0, 120);
-  tft.print("RFD");
-  tft.setTextSize(1);
-  tft.setCursor(36, 128);
-  tft.print("100");
-  printTftFormat(maxRFD100, 118, 120, textSize, 0);
+  printTftText("RFD", 0, 120, textSize, WHITE, false);
+  printTftText("100", 36, 128, 1, WHITE, false);
+  printTftValue(maxRFD100, 118, 120, textSize, 0);
 
-  tft.setTextSize(2);
-  tft.setCursor(170, 120);
-  tft.print("RFD");
-  tft.setTextSize(1);
-  tft.setCursor(206, 128);
-  tft.print("200");
-  printTftFormat(maxRFD200, 298, 120, textSize, 0);
+  printTftText("RFD", 170, 120, textSize, WHITE, false);
+
+  printTftText("200", 206, 128, 1, WHITE, false);
+  printTftValue(maxRFD200, 298, 120, textSize, 0);
 
   if (RMSSD != 0)
   {
-    tft.setCursor(0, 160);
-    tft.print("RMSSD");
-    printTftFormat(RMSSD, 100, 160, textSize, 1);
+    printTftText("RMSSD", 0, 160, textSize, WHITE, false);
+    printTftValue(RMSSD, 100, 160, textSize, 1);
 
-
-    tft.setTextSize(2);
-    tft.setCursor(170, 160);
-    tft.print("CV");
-    tft.setTextSize(1);
-    tft.setCursor(194, 168);
-    tft.print("RMSSD");
-    printTftFormat(cvRMSSD, 280, 160, textSize, 1);
+    printTftText("CV", 170, 160, textSize, WHITE, false);
+    printTftText("RMSSD", 194, 168, 1, WHITE, false);
+    printTftValue(cvRMSSD, 280, 160, textSize, 1);
   }
 
   //Red button exits results
@@ -951,23 +912,14 @@ void capture()
 
   double xGraph = 1;
 
-  //Print summary results
-  tft.setTextSize(2);
-  tft.setCursor(10, 215);
-  tft.print(maxString);
-  tft.setTextSize(1);
-  tft.setCursor(22, 223);
-  tft.print("max");
-  tft.setTextSize(2);
-  tft.setCursor(40, 215);
-  tft.print(":");
-  printTftFormat(measuredMax, 94, 215, 2, 1);
+    printTftText(maxString, 10, 215, 2, WHITE, false);
+    printTftText("max", 22, 223, 1, WHITE, false);
+    printTftText(":", 40, 215, 2, WHITE, false);
+  printTftValue(measuredMax, 94, 215, 2, 1);
   if (! PcControlled)
   {
     updatePersonSet();
   }
-  //  tft.setCursor(308, 215);
-  //  tft.print("s");
 
   while (capturing)
   {
@@ -1056,7 +1008,7 @@ void capture()
               capturingPreSteadiness = false;
               capturingSteadiness = true;
               tft.setTextColor(BLACK);
-              printTftFormat(totalTime / 1000000, 284, 215, 2, 0);
+              printTftValue(totalTime / 1000000, 284, 215, 2, 0);
               redrawAxes(tft, graphX, graphY, graphW, graphH, xMin, xMax, graphMin, graphMax, yDivSize, "", "", "", WHITE, BLACK, BLACK, BLACK, BLACK, BLACK, resized);
               startLoadCellCapture();
               newGraphMax = forceGoal * 1.5;
@@ -1100,10 +1052,10 @@ void capture()
         if (measured > measuredMax)
         {
           tft.setTextColor(BLACK);
-          printTftFormat(measuredMax, 94, 215, 2, 1);
+          printTftValue(measuredMax, 94, 215, 2, 1);
           measuredMax = measured;
           tft.setTextColor(WHITE);
-          printTftFormat(measuredMax, 94, 215, 2, 1);
+          printTftValue(measuredMax, 94, 215, 2, 1);
         }
 
         if ((lastUpdateTime - totalTime) >= 1000000) {
@@ -1232,27 +1184,16 @@ void endEncoderCapture()
 void showEncoderResults()
 {
   resultsBackground();
-  int textSize = 2;
+  printTftText("v", 0, 40, 2, WHITE, false);
+  printTftText("peak", 12, 48, 1, WHITE, false);
+  printTftValue(measuredMax, 100, 40, 2, 1);
 
-  tft.setCursor(0, 40);
-  tft.print("v");
-  tft.setCursor(12, 48);
-  tft.setTextSize(1);
-  tft.print("peak");
-  printTftFormat(measuredMax, 100, 40, textSize, 1);
+  printTftText("Vrep", 170, 40, 2, WHITE, false);
+  printTftText("max", 218, 48, 1, WHITE, false);
+  printTftValue(maxAvgVelocity, 268, 40, 2, 2);
 
-  tft.setTextSize(2);
-  tft.setCursor(170, 40);
-  tft.print("Vrep");
-  tft.setTextSize(1);
-  tft.setCursor(218, 48);
-  tft.print("max");
-  printTftFormat(maxAvgVelocity, 268, 40, textSize, 2);
-
-  tft.setTextSize(2);
-  tft.setCursor(0, 80);
-  tft.print("nRep");
-  printTftFormat(numRepetitions, 100, 80, textSize, 0);
+  printTftText("nRep", 0, 80, 2, WHITE, false);
+  printTftValue(numRepetitions, 100, 80, 2, 0);
 
   redButton.update();
   while (!redButton.fell()) {
@@ -1324,14 +1265,9 @@ void endPowerCapture()
 void showPowerResults()
 {
   resultsBackground();
-  int textSize = 2;
-
-  tft.setCursor(0, 40);
-  tft.print("P");
-  tft.setCursor(12, 48);
-  tft.setTextSize(1);
-  tft.print("peak");
-  printTftFormat(measuredMax, 100, 40, textSize, 1);
+  printTftText("P", 0, 40, 2, WHITE, false);
+  printTftText("peak", 12, 48, 2, WHITE, false);
+  printTftValue(measuredMax, 100, 40, 2, 1);
 
   redButton.update();
   while (!redButton.fell()) {
@@ -1366,10 +1302,8 @@ void startJumpsCapture()
   updatePersonJump(totalJumps);
 
     //Print summary results
-  tft.setTextSize(2);
-  tft.setCursor(10, 215);
-  tft.print("H:");
-  printTftFormat(maxJump, 58, 215, 2, 2);
+  printTftText("H:", 10, 215, 2, WHITE, false);
+  printTftValue(maxJump, 58, 215, 2, 2);
   
   while ( !redButton.fell() )
   {
@@ -1391,9 +1325,9 @@ void startJumpsCapture()
           flightTime = (float)(rcaTime - lastRcaTime) / 1E6;
           bars[index] = 122.6 * flightTime * flightTime; //In cm
           tft.setTextColor(BLACK);
-          printTftFormat(bars[(index + 10 - 1) % 10], 58, 215, 2, 2);
+          printTftValue(bars[(index + 10 - 1) % 10], 58, 215, 2, 2);
           tft.setTextColor(WHITE); 
-          printTftFormat(bars[index], 58, 215, 2, 2);
+          printTftValue(bars[index], 58, 215, 2, 2);
           if (bars[index] > maxJump)
           {
             maxJump = bars[index];
@@ -1444,38 +1378,18 @@ void showJumpsResults(float maxJump, unsigned int bestJumper, int totalJumps)
   resultsBackground();
   tft.drawLine(160, 240, 160, 80, BLACK);
   int textSize = 2;
-
-  tft.setCursor(0, 40);
-  tft.print("J");
-  tft.setCursor(12, 48);
-  tft.setTextSize(1);
-  tft.print("max");
-  printTftFormat(maxJump, 100, 40, textSize, 2);
-
-  tft.setTextSize(2);
-  tft.setCursor(170, 40);
-  tft.print("N");
-  tft.setCursor(182, 48);
-  tft.setTextSize(1);
-  tft.print("Jumps");
-  tft.setCursor(218, 40);
-  printTftFormat(totalJumps, 268, 40, textSize, 0);
   
+  printTftText("J", 0, 40, 2, WHITE, false);
+  printTftText("max", 12, 48, 1, WHITE, false);
+  printTftValue(maxJump, 100, 40, textSize, 2);
 
-  tft.setCursor(170, 80);
-  tft.setCursor(170, 120);
-  tft.println();
-//  tft.setTextSize(1);
-//  tft.setCursor(218, 48);
-//  tft.print("max");
-//  printTftFormat(maxAvgVelocity, 268, 40, textSize, 2);
-
-  tft.setTextSize(2);
-  tft.setCursor(0, 80);
-  tft.print("Best Jumper: ");
-  tft.setCursor(12, 100);
-  tft.setTextSize(2);
-  tft.print(persons[bestJumper].name + " " + persons[bestJumper].surname);
+  printTftText("N", 170, 40, 2, WHITE, false);
+  printTftText("Jumps", 218, 40, 1, WHITE, false);
+  printTftValue(totalJumps, 268, 40, textSize, 0);
+  
+  printTftText("Best Jumper: ", 0, 80, 2, WHITE, false);
+  
+  printTftText(persons[bestJumper].name + " " + persons[bestJumper].surname, 12, 100, 2, WHITE, false);
 
   redButton.update();
   while (!redButton.fell()) {
@@ -1566,57 +1480,45 @@ void startInertialEncoderCapture()
 
 void calibrateInertial()
 {
-  tft.setTextColor(BLACK);
-  tft.setCursor(12, 100);
-  tft.print(currentMenu[currentMenuIndex].description);
-  tft.setTextColor(WHITE);
-  tft.setCursor(12, 100);
-  tft.println("Extend the rope or belt.\nOnce extended press RedButton");
-
-  tft.setCursor(12, 200);
-  tft.print("Position: ");
-  tft.setTextColor(WHITE);
-  tft.setCursor(124, 200);
+  printTftText(currentMenu[currentMenuIndex].description, 12, 100, 2, BLACK, false);
+  printTftText("Extend the rope or belt.\nOnce extended press RedButton", 12, 100, 2, WHITE, false);
+//
+//  tft.setCursor(12, 200);
+//  tft.print("Position: ");
+  printTftText("Position: ", 12, 200, 2, WHITE, false);
   position = encoder.read();
-  tft.print(position);
+//  tft.setTextColor(WHITE);
+//  tft.setCursor(124, 200);
+//  tft.print(position);
+  printTftText(position, 124, 200, 2, WHITE, false);
   redButton.update();
   while (!redButton.fell())
   {
     position = encoder.read();
     if (position != lastEncoderPosition) {
-      tft.setCursor(124, 200);
-      tft.setTextColor(BLACK);
-      tft.print(lastEncoderPosition);
-      tft.setCursor(124, 200);
-      tft.setTextColor(WHITE);
-      tft.print(position);
+//      tft.setCursor(124, 200);
+//      tft.setTextColor(BLACK);
+//      tft.print(lastEncoderPosition);
+      printTftText(lastEncoderPosition, 124, 200, 2, BLACK, false);
+//      tft.setCursor(124, 200);
+//      tft.setTextColor(WHITE);
+//      tft.print(position);
+      printTftText(position, 124, 200, 2, WHITE, false);
       lastEncoderPosition = position;
     }
     redButton.update();
   }
 
   //Deleting text
-  tft.setTextColor(BLACK);
-  tft.setCursor(12, 100);
-  tft.println("Extend the rope or belt.\nOnce extended press RedButton");
-  tft.setCursor(12, 200);
-  tft.print("Position: ");
-  tft.setCursor(124, 200);
-  tft.print(lastEncoderPosition);
-  tft.setTextColor(WHITE);
+  printTftText("Extend the rope or belt.\nOnce extended press RedButton", 12, 100, 2, BLACK, false);
+  printTftText("Position: ", 12, 200, 2, BLACK, false);
+  printTftText(lastEncoderPosition, 124, 200, 2, BLACK, false);
 
-  tft.setCursor(100, 150);
-  tft.setTextSize(3);
-  tft.print("Calibrated");
+  printTftText("Calibrated", 100, 150, 3, WHITE, false);
   delay(500);
-  tft.setTextColor(BLACK);
-  tft.setCursor(100, 150);
-  tft.print("Calibrated");
+  printTftText("Calibrated", 100, 150, 3, BLACK, false);
 
-  tft.setTextSize(2);
-  tft.setTextColor(WHITE);
-  tft.setCursor(12, 100);
-  tft.print(currentMenu[currentMenuIndex].description);
+  printTftText(currentMenu[currentMenuIndex].description, 12, 100, 2, WHITE, false);
 
   encoder.write(0);
   Serial.print(encoder.read());
@@ -1657,13 +1559,9 @@ void fakeFunction()
 
 void resultsBackground()
 {
-  int textSize = 2;
   tft.fillScreen(BLACK);
-  tft.setTextSize(3);
-  tft.setCursor(100, 0);
-  tft.print("Results");
+  printTftText("Results", 100, 0, 3, WHITE, false);
 
   tft.drawLine(0, 20, 320, 20, GREY);
   tft.drawLine(160, 240, 160, 20, GREY);
-  tft.setTextSize(textSize);
 }

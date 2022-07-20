@@ -183,13 +183,13 @@ getSprintFromEncoder <- function(filename, testLength, Mass, Temperature = 25, H
 	#plot error if no enough acceleration
 	if(trimmingSamples$start == -1 & trimmingSamples$end == -1)
 	{
-		plot(position, type = "l", ylab = "Position (m)")
-                text(x = length(position)/2, y = max(position)/2,
-                     labels = "The capture has not enough accel", cex = 2, pos = 3)
-                text(x = length(position)/2, y = max(position)/3,
-                     labels = paste("Max raw detected accel: ", round(max(accel),2), "\nMinimum raw accel needed: ", startAccel), cex = 2, pos = 3)
-                text(x = length(position)/2, y = max(position)/4,
-                     labels = "or does not seem a sprint", cex = 2, pos = 3)
+		plot(position, type = "n", ylab = "Position (m)")
+                text(x = length(position)/2, y = max(position) * .75,
+                     labels = "The capture has not enough accel", cex = 2)
+                text(x = length(position)/2, y = max(position) *.5,
+                     labels = paste("Max raw detected accel: ", round(max(accel),2), "\nMinimum raw accel needed: ", startAccel), cex = 2)
+                text(x = length(position)/2, y = max(position) * .25,
+                     labels = "or does not seem a sprint", cex = 2)
 		print("Capture has not enough accel")
                 return(list(longEnough = longEnough, regressionDone = FALSE))
 	}

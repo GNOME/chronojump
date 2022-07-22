@@ -66,6 +66,7 @@ bool propulsive = true;
 bool calibratedInertial = false;
 
 int numRepetitions = 0;
+bool redrawBars = false;
 
 int tareAddress = 0;
 int calibrationAddress = 4;
@@ -385,23 +386,16 @@ void setup() {
   totalPersons = getTotalPerson();
   readPersonsFile();
 
-  for (int i = 0; i < 10; i++) {
-    currentMenu[i].title = mainMenu[i].title;
-    currentMenu[i].description = mainMenu[i].description;
-    currentMenu[i].function = mainMenu[i].function;
-  }
-
-  //  while (true)
-  //  {
-  //    Serial.println(digitalRead(rcaPin));
-  //    delay(100);
-  //  }
-
+  //TODO: Read jumps only if necessary
   getTotalJumpTypes();
   readJumpsFile();
-  printJumpTypesList();
   currentJumpType = 0;
+  
   tft.fillScreen(BLACK);
+  
+  capturing = true;
+  captureBars();
+  
   drawMenuBackground();
   showMenuEntry(currentMenuIndex);
 }
@@ -413,7 +407,7 @@ void loop()
     showMenu();
   } else
   {
-    capture();
+    captureRaw();
   }
 
   //With Teensy serialEvent is not called automatically after loop
@@ -537,7 +531,7 @@ void serialEvent() {
   if (commandString == "start_capture") {
     PcControlled = true;
     startLoadCellCapture();
-    //capture();
+    //captureRaw();
   } else if (commandString == "end_capture") {
     endLoadCellCapture();
   } else if (commandString == "get_version") {
@@ -879,7 +873,7 @@ void end_steadiness()
   capturingSteadiness = false;
 }
 
-void capture()
+void captureRaw()
 {
   currentPerson = totalPersons - 1;
   fileName = "P" + String(currentPerson) + "-S" + String(setNumber);
@@ -912,9 +906,9 @@ void capture()
 
   double xGraph = 1;
 
-    printTftText(maxString, 10, 215, 2, WHITE, false);
-    printTftText("max", 22, 223, 1, WHITE, false);
-    printTftText(":", 40, 215, 2, WHITE, false);
+  printTftText(maxString, 10, 215, 2, WHITE, false);
+  printTftText("max", 22, 223, 1, WHITE, false);
+  printTftText(":", 40, 215, 2, WHITE, false);
   printTftValue(measuredMax, 94, 215, 2, 1);
   if (! PcControlled)
   {
@@ -963,7 +957,7 @@ void capture()
           }
           lastRcaState = rcaState;
 
-          //If no RCA event, read the sensor as usual
+        //If no RCA event, read the sensor as usual
         } else {
           //Calculation of the variables shown in the results
           if (sensor == incEncoder) getEncoderDynamics();
@@ -1069,6 +1063,47 @@ void capture()
   if (!capturingPreSteadiness) setNumber++;
 }
 
+void captureBars()
+{
+  maxString = "V";
+  float graphRange = 10;
+  int index = 0;
+  currentPerson = totalPersons - 1;
+  fileName = "P" + String(currentPerson) + "-S" + String(setNumber);
+  long lastUpdateTime = 0;
+
+  tft.fillScreen(BLACK);
+
+  if (! PcControlled)
+  {
+    //Info at the lower part of the screen
+    printTftText(maxString, 10, 215, 2, WHITE, false);
+    printTftText("max", 22, 223, 1, WHITE, false);
+    printTftText(":", 40, 215, 2, WHITE, false);
+    printTftValue(measuredMax, 94, 215, 2, 1);
+    updatePersonSet();
+  }
+  
+  redrawAxes(tft, 30, 200, 290, 200, 290, 200, 0, graphRange, graphRange/10, "", "", "", WHITE, GREY, WHITE, WHITE, BLACK, RED, true);
+  
+  while(capturing)
+  {
+    getEncoderDynamics();
+    if(redrawBars)
+    {
+      index = (numRepetitions - 1)%10;
+      redrawBars = false;
+      tft.fillRect(30, 0, 290, 200, BLACK);
+      if (bars[(numRepetitions - 1)%10] > graphRange)
+      {
+        redrawAxes(tft, 30, 200, 290, 200, 290, 200, 0, graphRange, graphRange/10, "", "", "", WHITE, BLACK, WHITE, BLACK, BLACK, RED, true);
+        graphRange = bars[index]*1.25;
+      }
+      //redrawAxes(tft, 30, 200, 290, 200, 290, 200, 0, graphRange, graphRange/10, "", "", "", WHITE, GREY, WHITE, WHITE, BLACK, RED, true);
+      barPlot(30, 200, 290, 200, graphRange, 10, index, 0.5, RED);
+    }
+  }
+}
 void getEncoderDynamics()
 {
   int sampleDuration = totalTime - lastSampleTime;
@@ -1108,9 +1143,9 @@ void getEncoderDynamics()
 
     //Detecting the phanse change
     //TODO. Detect propulsive phase
-    if (encoderPhase * (position - localMax) >= 0)  //Local maximum detected
+    if (encoderPhase * (position - localMax) > 0)  //Local maximum detected
     {
-      //Serial.println("New localMax : " + String(position) + "\t" + String(localEncoderPhase));
+      //Serial.println("New localMax : " + String(position) + "\t" + String(localMax));
       localMax = position;
     }
 
@@ -1121,6 +1156,15 @@ void getEncoderDynamics()
       propulsive = true;
       avgVelocity = (float)(position - startPhasePosition) * 1000 / (lastSampleTime - startPhaseTime);
       bars[numRepetitions%10] = abs(avgVelocity);
+      redrawBars = true;
+  
+//      for(int i = 0; i<10; i++)
+//      {
+//        Serial.print(bars[ (numRepetitions%10 - i + 10) % 10]);
+//        Serial.print("\t");
+//      }
+//      Serial.println();
+
       numRepetitions++;
       if (avgVelocity > maxAvgVelocity) maxAvgVelocity = avgVelocity;
       //        Serial.println(String(position) + " - " + String(startPhasePosition) + " = " + String(position - localMax) + "\t" + String(encoderPhase));
@@ -1160,7 +1204,7 @@ void startEncoderCapture(void)
   maxAvgVelocity = 0;
   lastVelocity = 0;
   selectValueDialog("Select the load you are\ngoing to move", "0,5,20,200", "0.5,1,5", 1);
-  capture();
+  captureRaw();
 }
 
 void endEncoderCapture()
@@ -1236,7 +1280,7 @@ void startPowerCapture(void)
   //96 Mhz and 1000 us captures but the screen refreshing becomes unstable
   //72 Mhz and 2000 us captures but the screen refreshing becomes unstable
   encoderTimer.begin(readEncoder, 2000);
-  capture();
+  captureRaw();
 }
 
 void readEncoder()

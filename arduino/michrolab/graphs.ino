@@ -133,6 +133,7 @@ void redrawAxes(ILI9341_t3 & d, double gx, double gy, double w, double h, double
 void barPlot (float gx, float gy, float w, float h, float yhi, int numBars, int currentIndex, float abRatio, unsigned int color)
 {
 /*
+ * currentIndex is the las updated slot of the array
  * a is the separation between bars
  * b is the width of the bar
  * System of 2 equations:
@@ -145,7 +146,8 @@ void barPlot (float gx, float gy, float w, float h, float yhi, int numBars, int 
   float localX = w - b;
   float barValue = 0;
   float barPixHeight = 0;
-
+  
+  //the first bar to plot corresponds to the last updated slot of the array
   for (int i = 0; i<10; i++)
   {
     localX -= a;

@@ -158,8 +158,8 @@ public class CairoGraphRaceAnalyzer : CairoXY
 						string xTextTop = segmentCalcs.Dist_l[i].ToString();
 
 						//seconds
-						string xTextBottom = Util.TrimDecimals(segmentCalcs.Time_l[i]/1000000.0, 1).ToString();
-						double xGraph = calculatePaintX(segmentCalcs.Time_l[i]/1000000.0);
+						string xTextBottom = Util.TrimDecimals(segmentCalcs.TimeEnd_l[i]/1000000.0, 1).ToString();
+						double xGraph = calculatePaintX(segmentCalcs.TimeEnd_l[i]/1000000.0);
 
 						if(useListOfDoublesOnY)
 							paintVerticalGridLine(g, Convert.ToInt32(xGraph), xTextBottom, textHeight-3);
@@ -203,7 +203,7 @@ public class CairoGraphRaceAnalyzer : CairoXY
 						}
 
 						g.SetSourceColor (colorFromRGB (190,190,190));
-						double powerPropAt0 = MathUtil.GetProportion (0, data_l);
+						double powerPropAt0 = MathUtil.GetProportion (0, data_l, true);
 
 						//draw Y0 line
 						g.SetSourceColor (colorFromRGB (66,66,66));
@@ -219,15 +219,14 @@ public class CairoGraphRaceAnalyzer : CairoXY
 						for(int i = 0 ; i < segmentCalcs.Count ; i ++)
 						{
 							/* debug
-							   LogB.Information(string.Format("{0} ; {1} ; {2} ; {3} : {4} ; {5}", segmentCalcs.Dist_l[i], segmentCalcs.Time_l[i]/1000000.0,
+							   LogB.Information(string.Format("dist: {0} ; timeStart {1} ; timeEnd: {2} ; speed: {3} : accel: {4} ; force: {5}: power: {6}",
+										   segmentCalcs.Dist_l[i], segmentCalcs.TimeStart_l[i]/1000000.0, segmentCalcs.TimeEnd_l[i]/1000000.0,
 							   segmentCalcs.SpeedCont_l[i], segmentCalcs.Accel_l[i], segmentCalcs.Force_l[i], segmentCalcs.Power_l[i] ));
 							 */
 
-							double powerProp = MathUtil.GetProportion (data_l[i], data_l);
-							double xStart = calculatePaintX (points_list[0].X);
-							if(i > 0)
-								xStart = calculatePaintX (segmentCalcs.Time_l[i-1]/1000000.0);
-							double xEnd = calculatePaintX (segmentCalcs.Time_l[i]/1000000.0);
+							double powerProp = MathUtil.GetProportion (data_l[i], data_l, true);
+							double xStart = calculatePaintX (segmentCalcs.TimeStart_l[i]/1000000.0);
+							double xEnd = calculatePaintX (segmentCalcs.TimeEnd_l[i]/1000000.0);
 
 							g.SetSourceColor (colorFromRGB (190,190,190));
 							g.Rectangle (xStart, //x
@@ -318,10 +317,10 @@ public class CairoGraphRaceAnalyzer : CairoXY
 				}
 			}
 
-			if (timeAtEnoughAccelMark > 0)
+			if (timeAtEnoughAccelMark >= 0 || timeAtEnoughAccelOrTrigger0 >= 0)
 			{
 				//on load we have to shift if trigger0 has been first
-				if (timeAtEnoughAccelOrTrigger0 > 0)
+				if (timeAtEnoughAccelOrTrigger0 > 0 && timeAtEnoughAccelMark > timeAtEnoughAccelOrTrigger0)
 					timeAtEnoughAccelMark -= timeAtEnoughAccelOrTrigger0;
 
 				double xTimeAtEnoughAccelMark = calculatePaintX (timeAtEnoughAccelMark/1000000.0);

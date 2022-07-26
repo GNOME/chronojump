@@ -528,6 +528,15 @@ public class MovingAverage
 	public List<PointF> MovingAverage_l {
 		get { return movingAverage_l; }
 	}
+	public List<double> MovingAverage_l_Y {
+		get {
+			List<double> d_l = new List<double> ();
+			foreach (PointF p in movingAverage_l)
+				d_l.Add (p.Y);
+
+			return d_l;
+		}
+	}
 }
 
 public static class MathCJ

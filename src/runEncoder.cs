@@ -284,8 +284,12 @@ public class RunEncoderCaptureGetSpeedAndDisplacement
 	private int segmentVariableCmDistAccumulated;
 	private RunEncoderSegmentCalcs segmentCalcs;
 
+	private double massKg;
+	private int angle;
+
 	private int encoderDisplacement;
 	private int time;
+	private List<int> time_l; //to calculate smoothing
 	private int force;
 	private int encoderOrRCA;
 
@@ -298,11 +302,16 @@ public class RunEncoderCaptureGetSpeedAndDisplacement
 	private double runEncoderCaptureSpeed;
 	private double runEncoderCaptureSpeedMax;
 	private double runEncoderCaptureDistance; //m
+	private List<double> runEncoderCaptureDistance_l; //to calculate smoothing
+	private List<double> runEncoderCaptureSpeed_l; //to calculate smoothing
+	//private List<double> runEncoderCaptureSpeedSmoothed_l; //smoothed
 
 	public RunEncoderCaptureGetSpeedAndDisplacement(int segmentCm, List<int> segmentVariableCm, double massKg, int angle)
 	{
 		this.segmentCm = segmentCm;
 		this.segmentVariableCm = segmentVariableCm;
+		this.massKg = massKg;
+		this.angle = angle;
 		segmentVariableCmDistAccumulated = 0;
 
 		segmentCalcs = new RunEncoderSegmentCalcs (massKg, angle);
@@ -311,6 +320,10 @@ public class RunEncoderCaptureGetSpeedAndDisplacement
 		timeAtEnoughAccelMark = -1;
 		distanceAtEnoughAccelMark = 0;
 		distanceAtEnoughAccelMarkSet = false;
+
+		time_l = new List<int> ();
+		runEncoderCaptureDistance_l = new List<double> ();
+		runEncoderCaptureSpeed_l = new List<double> ();
 	}
 
 	public void PassCapturedRow (List<int> binaryReaded)
@@ -336,6 +349,7 @@ public class RunEncoderCaptureGetSpeedAndDisplacement
 		//after enoughAccel, time has to be shifted to left.
 		if(timeAtEnoughAccelOrTrigger0 > 0)
 			time -= timeAtEnoughAccelOrTrigger0;
+		time_l.Add (time);
 
 		return true;
 	}
@@ -390,6 +404,7 @@ public class RunEncoderCaptureGetSpeedAndDisplacement
 		runEncoderCaptureSpeed = UtilAll.DivideSafe(runEncoderCaptureDistanceAtThisSample, (t - tPre)) * 1000000;
 		//LogB.Information(string.Format("speed: {0}, runEncoderCaptureDistanceAtThisSample: {1}, tPre: {2}, t: {3}",
 		//			runEncoderCaptureSpeed, runEncoderCaptureDistanceAtThisSample, tPre, t));
+		runEncoderCaptureSpeed_l.Add (runEncoderCaptureSpeed);
 
 		if(runEncoderCaptureSpeed > runEncoderCaptureSpeedMax)
 			runEncoderCaptureSpeedMax = runEncoderCaptureSpeed;
@@ -403,7 +418,10 @@ public class RunEncoderCaptureGetSpeedAndDisplacement
 //			if(timePre > 0)
 //			{
 				double runEncoderCaptureDistanceAtThisSample = Math.Abs(encoderDisplacement) * 0.0030321; //hardcoded: same as sprintEncoder.R
+				runEncoderCaptureDistance_l.Add (runEncoderCaptureDistanceAtThisSample);
+
 				runEncoderCaptureSpeed = UtilAll.DivideSafe(runEncoderCaptureDistanceAtThisSample, (time - timePre)) * 1000000;
+				runEncoderCaptureSpeed_l.Add (runEncoderCaptureSpeed);
 				//LogB.Information(string.Format("speed: {0}, runEncoderCaptureDistanceAtThisSample: {1}, timePre: {2}, time: {3}",
 				//			runEncoderCaptureSpeed, runEncoderCaptureDistanceAtThisSample, timePre, time));
 
@@ -450,17 +468,25 @@ public class RunEncoderCaptureGetSpeedAndDisplacement
 		return timeStart;
 	}
 
-	private void updateSegmentDistTimeFixed () //m
+	private void updateSegmentDistTimeFixed () //at capture or load (no smooth)
+	{
+		updateSegmentDistTimeFixed (runEncoderCaptureDistance, time, runEncoderCaptureSpeed);
+	}
+	private void updateSegmentDistTimeFixed (double distanceNow, double timeNow, double speedNow) //m
 	{
 		double timeStart = getFirstSegmentTimeStart ();
 
-		if(runEncoderCaptureDistance - distanceAtEnoughAccelMark
+		if(distanceNow - distanceAtEnoughAccelMark
 				>= (segmentCm/100.0) * (segmentCalcs.Count +1))
-			segmentCalcs.Add((segmentCm/100.0) * (segmentCalcs.Count +1), timeStart, time, runEncoderCaptureSpeed);
+			segmentCalcs.Add((segmentCm/100.0) * (segmentCalcs.Count +1), timeStart, timeNow, speedNow);
 		//note this is not very precise because time can be a bit later than the selected dist
 	}
 
-	private void updateSegmentDistTimeVariable () //cm
+	private void updateSegmentDistTimeVariable () //at capture or load (no smooth)
+	{
+		updateSegmentDistTimeVariable (runEncoderCaptureDistance, time, runEncoderCaptureSpeed);
+	}
+	private void updateSegmentDistTimeVariable (double distanceNow, double timeNow, double speedNow)
 	{
 		//care of overflow
 		if(segmentCalcs.Count >= segmentVariableCm.Count)
@@ -469,10 +495,64 @@ public class RunEncoderCaptureGetSpeedAndDisplacement
 		double timeStart = getFirstSegmentTimeStart ();
 
 		double distToBeat = (segmentVariableCm[segmentCalcs.Count] + segmentVariableCmDistAccumulated) / 100.0; //cm -> m
-		if(runEncoderCaptureDistance >= distToBeat)
+		if(distanceNow >= distToBeat)
 		{
 			segmentVariableCmDistAccumulated += segmentVariableCm[segmentCalcs.Count];
-			segmentCalcs.Add (distToBeat, timeStart, time, runEncoderCaptureSpeed);
+			segmentCalcs.Add (distToBeat, timeStart, timeNow, speedNow);
+		}
+	}
+
+	public void SegmentsRedoWithSmoothing (int smoothSamples)
+	{
+		LogB.Information ( string.Format ("SegmentsRedoWithSmoothing smoothSamples: {0}", smoothSamples));
+		// 1) convert time_l and runEncoderCaptureSpeed_l to List<PointF>
+		List<PointF> pf_l = new List<PointF> ();
+		for (int i = 0; i < time_l.Count; i++)
+			if (i < runEncoderCaptureSpeed_l.Count)
+				pf_l.Add (new PointF (time_l[i], runEncoderCaptureSpeed_l[i]));
+
+		MovingAverage mAverageSmoothLine = null;
+		List<double> runEncoderCaptureSpeedSmoothed_l = new List<double> ();
+		if (smoothSamples >= 3)
+		{
+			// 2) calculate the moving average and get the smoothed speed
+			mAverageSmoothLine = new MovingAverage (pf_l, smoothSamples);
+			mAverageSmoothLine.Calculate ();
+			runEncoderCaptureSpeedSmoothed_l = mAverageSmoothLine.MovingAverage_l_Y;
+		}
+
+		// 3) initialize objects
+		segmentVariableCmDistAccumulated = 0;
+		segmentCalcs = new RunEncoderSegmentCalcs (massKg, angle);
+		double distanceNow = 0;
+		double timeNow = 0;
+		double speedNow = 0;
+
+		List<double> speed_l = new List<double> ();
+		if (smoothSamples < 3)
+			speed_l = runEncoderCaptureSpeed_l;
+		else
+			speed_l = runEncoderCaptureSpeedSmoothed_l;
+
+		// 4) redo the segments
+		for (int i = 0; i < time_l.Count; i++)
+		{
+			if (i >= runEncoderCaptureDistance_l.Count ||
+					i >= time_l.Count ||
+					i >= speed_l.Count)
+				break;
+
+			distanceNow += runEncoderCaptureDistance_l[i];
+			timeNow = time_l[i];
+			speedNow = speed_l[i];
+
+			if(distanceNow >= distanceAtEnoughAccelMark)
+			{
+				if(segmentCm > 0)
+					updateSegmentDistTimeFixed (distanceNow, timeNow, speedNow);
+				else if(segmentVariableCm.Count > 0)
+					updateSegmentDistTimeVariable (distanceNow, timeNow, speedNow);
+			}
 		}
 	}
 

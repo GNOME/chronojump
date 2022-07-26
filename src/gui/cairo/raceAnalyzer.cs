@@ -290,12 +290,21 @@ public class CairoGraphRaceAnalyzer : CairoXY
 			{
 				if(isSprint) //on sprint plot an arrow from top speed (with moving average) to the right
 				{
-					MovingAverage mAverage = new MovingAverage(points_list, 5);
-					mAverage.Calculate();
-					PointF pMaxY = mAverage.GetMaxY();
-
-					plotArrowPassingRealPoints (g, colorFromRGB(255,0,0),
-							pMaxY.X, pMaxY.Y, points_list[points_list.Count -1].X, pMaxY.Y, true, false, 0);
+					double graphX = 0;
+					double graphY = 0;
+					if (smoothLineWindow >= 3)
+					{
+						MovingAverage mAverage = new MovingAverage (points_list, smoothLineWindow);
+						mAverage.Calculate ();
+						PointF pMaxY = mAverage.GetMaxY ();
+						graphX = pMaxY.X;
+						graphY = pMaxY.Y;
+					} else {
+						graphX = xAtMaxY;
+						graphY = maxY;
+					}
+					plotArrowPassingRealPoints (g, colorFromRGB (255,0,0),
+							graphX, graphY, points_list[points_list.Count -1].X, graphY, true, false, 0);
 				}
 				else  //if no sprint just plot a circle on max value
 				{

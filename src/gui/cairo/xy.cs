@@ -756,4 +756,12 @@ public abstract class CairoXY : CairoGeneric
 	}
 	*/
 
+	protected void drawCircle (double x, double y, double radio, Cairo.Color color)
+	{
+		g.MoveTo(x +radio, y);
+		g.Arc(x, y, radio, 0.0, 2.0 * Math.PI); //full circle
+		g.SetSourceColor(color);
+		g.Stroke();
+	}
+
 }

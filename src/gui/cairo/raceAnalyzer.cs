@@ -314,11 +314,7 @@ public class CairoGraphRaceAnalyzer : CairoXY
 					}
 					graphX = calculatePaintX (graphX);
 					graphY = calculatePaintY (graphY);
-
-					g.MoveTo(graphX +8, graphY);
-					g.Arc(graphX, graphY, 8.0, 0.0, 2.0 * Math.PI); //full circle
-					g.SetSourceColor(red);
-					g.Stroke();
+					drawCircle (graphX, graphY, 8, red);
 				}
 			}
 

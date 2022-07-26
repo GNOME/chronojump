@@ -385,7 +385,7 @@ public partial class ChronoJumpWindow
 			reCGSD = new RunEncoderCaptureGetSpeedAndDisplacement(
 					currentRunEncoderExercise.SegmentCm, currentRunEncoderExercise.SegmentVariableCm,
 					currentPersonSession.Weight, //but note if person changes (but graph will be hopefully erased), this will change also take care on exports
-					Convert.ToInt32(race_analyzer_spinbutton_angle.Value) );
+					Convert.ToInt32(race_analyzer_spinbutton_angle.Value));
 
 		updateRaceAnalyzerCapturePositionTime(true);
 		updateRaceAnalyzerCaptureSpeedTime(true);
@@ -1207,6 +1207,10 @@ public partial class ChronoJumpWindow
 
 			rowPre = row;
 		}
+
+		if (getSmoothFrom_gui_at_race_analyzer_capture_smooth_graphs () > 0)
+			reCGSD.SegmentsRedoWithSmoothing (
+					getSmoothFrom_gui_at_race_analyzer_capture_smooth_graphs ());
 
 		if(reCGSD.RunEncoderCaptureSpeedMax > 0)
 		{
@@ -2467,12 +2471,12 @@ public partial class ChronoJumpWindow
 
 	private void on_check_race_analyzer_capture_smooth_graphs_clicked (object o, EventArgs args)
 	{
+		int smooth = getSmoothFrom_gui_at_race_analyzer_capture_smooth_graphs ();
 		if(check_race_analyzer_capture_smooth_graphs.Active)
 		{
 			hscale_race_analyzer_capture_smooth_graphs.Visible = true;
 			label_race_analyzer_capture_smooth_graphs.Visible = true;
 
-			int smooth = getSmoothFrom_gui_at_race_analyzer_capture_smooth_graphs ();
 			if(smooth == 0)
 				label_race_analyzer_capture_smooth_graphs.Text = "";
 			else
@@ -2481,6 +2485,9 @@ public partial class ChronoJumpWindow
 			hscale_race_analyzer_capture_smooth_graphs.Visible = false;
 			label_race_analyzer_capture_smooth_graphs.Visible = false;
 		}
+
+		if (reCGSD != null)
+			reCGSD.SegmentsRedoWithSmoothing (smooth);
 
 		updateRaceAnalyzerCapturePositionTime(true);
 		updateRaceAnalyzerCaptureSpeedTime(true);
@@ -2502,6 +2509,9 @@ public partial class ChronoJumpWindow
 			label_race_analyzer_capture_smooth_graphs.Text = "";
 		else
 			label_race_analyzer_capture_smooth_graphs.Text = smooth.ToString();
+
+		if (reCGSD != null)
+			reCGSD.SegmentsRedoWithSmoothing (smooth);
 
 		updateRaceAnalyzerCapturePositionTime(true);
 		updateRaceAnalyzerCaptureSpeedTime(true);

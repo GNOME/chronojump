@@ -276,7 +276,7 @@ public class CairoGraphRaceAnalyzer : CairoXY
 			points_list_painted = points_list.Count;
 
 			// 3.b) paint smooth line
-			if(smoothLineWindow > 0 && points_list.Count > 5)
+			if(smoothLineWindow > 0 && points_list.Count > smoothLineWindow)
 			{
 				MovingAverage mAverageSmoothLine = new MovingAverage (points_list, smoothLineWindow);
 				mAverageSmoothLine.Calculate ();

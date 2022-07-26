@@ -342,9 +342,12 @@ public class CairoGraphRaceAnalyzer : CairoXY
 				 */
 				//above the graph with short top line
 				g.SetSourceColor(black);
+				g.Save();
+				g.SetDash(new double[]{1, 2}, 0);
 				g.MoveTo (xTimeAtEnoughAccelMark, topMargin * 2/3);
-				g.LineTo (xTimeAtEnoughAccelMark, topMargin);
+				g.LineTo (xTimeAtEnoughAccelMark, graphHeight -bottomMargin);
 				g.Stroke ();
+				g.Restore ();
 				printText(xTimeAtEnoughAccelMark+2, topMargin * 3/4,
 						0, textHeight-3, string.Format("a >= {0} m/s^2 at {1} s",
 							minAccel, Math.Round(timeAtEnoughAccelMark/1000000.0, 3)),

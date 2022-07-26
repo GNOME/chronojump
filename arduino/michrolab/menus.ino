@@ -64,17 +64,10 @@ void showSystemMenu(void)
 void showMenuEntry(unsigned int currentMenuIndex)
 {
   tft.fillRect(30, 0, 260, 50, BLACK);
-  tft.setCursor(40, 20);
-  tft.setTextSize(3);
-  tft.print(currentMenu[currentMenuIndex].title);
-
-  tft.setTextSize(2);
-  tft.setCursor(12, 100);
-  tft.setTextColor(BLACK);
-  tft.print(currentMenu[(currentMenuIndex + menuItemsNum - 1) % menuItemsNum].description);
-  tft.setTextColor(WHITE);
-  tft.setCursor(12, 100);
-  tft.print(currentMenu[currentMenuIndex].description);
+  printTftText(currentMenu[currentMenuIndex].title, 40, 20, WHITE, 3);
+  printTftText(currentMenu[(currentMenuIndex + menuItemsNum - 1) % menuItemsNum].description, 12, 100, BLACK);
+  
+  printTftText(currentMenu[currentMenuIndex].description, 12, 100);
 }
 
 void drawRightButton(String label, uint16_t tColor, uint16_t bColor)
@@ -154,9 +147,7 @@ float selectValueDialog(String description, String rangesString, String incStrin
 //  tft.print(title);
 
   //Explanation of the process
-  tft.setTextColor(WHITE);
-  tft.setCursor(10, 112);
-  tft.print(description);
+  printTftText(description, 10, 112);
 
   //Blue button
   drawLeftButton("+" + String(incValues[0], decimals), WHITE, BLUE);
@@ -165,10 +156,7 @@ float selectValueDialog(String description, String rangesString, String incStrin
   drawRightButton("Accept", WHITE, RED);
 
   //Current value
-  tft.setCursor(100, 174);
-  tft.setTextColor(WHITE, BLACK);
-  tft.print("Current:");
-  tft.setCursor(220, 174);
+  printTftText("Current:", 100, 174);
   printTftValue(value, 236, 174, 2, 0);
   redButton.update();
   blueButton.update();
@@ -219,16 +207,12 @@ float selectValueDialog(String description, String rangesString, String incStrin
 void selectJumpType()
 {
   tft.fillScreen(BLACK);
-  tft.setCursor(40, 20);
-  tft.setTextSize(3);
-  tft.print("Jump type");
+  printTftText("Jump type", 40, 20, WHITE, 3);
   
   drawLeftButton("Next", WHITE, BLUE);
   drawRightButton("Accept", WHITE, RED);
 
-  tft.setTextSize(2);
-  tft.setCursor(50, 100);
-  tft.print(jumpTypes[currentJumpType].name);
+  printTftText(jumpTypes[currentJumpType].name, 50, 100);
 
   
   blueButton.update();
@@ -238,15 +222,11 @@ void selectJumpType()
     if(blueButton.fell())
     {      
       //Deleting last jumpType text
-      tft.setCursor(50, 100);
-      tft.setTextColor(BLACK);
-      tft.print(jumpTypes[currentJumpType].name);
+      printTftText(jumpTypes[currentJumpType].name, 50, 100, BLACK);
 
       //Printing new jump type text
-      tft.setCursor(50, 100);
-      tft.setTextColor(WHITE);
       currentJumpType = (currentJumpType + 1) % totalJumpTypes;
-      tft.print(jumpTypes[currentJumpType].name);
+      printTftText(jumpTypes[currentJumpType].name, 50, 100);
     }
     blueButton.update();
     redButton.update();

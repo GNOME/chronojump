@@ -152,8 +152,8 @@ functionPointer FArray[3] = {&fakeFunction, &fakeFunction, &fakeFunction};
 menuEntry mainMenu[10] = {
   { "Jumps", "Shows the height of jumps", &startJumpsCapture},
   { "Raw Force", "Shows standard graph of\nthe force and the summary of the set.\n(Maximum Force, RFD and\nImpulse)", &startLoadCellCapture},
-  { "Raw Velocity", "Show a standard graph of linear velocity", &startEncoderCapture },
-  { "Raw Inertial V.", "Show a standard graph of the velocity of the person", &startInertialEncoderCapture },
+  { "Lin. Velocity", "Show bars of linear velocity", &startEncoderCapture },
+  { "Inert. Velocity", "Show a bars of the velocity of the person in inertial machines", &startInertialEncoderCapture },
   { "RawPower", "Measure Force and Speed\nat the same time.\nOnly power is shown in thegraph", &startPowerCapture},
   { "Tared Force", "Offset the force before\nmeasuring it.\nUseful to substract body\nweight.", &startTareCapture},
   { "F. Steadiness", "RMSSD and cvRMSSD.\nSteadynessof the force.\nWhen ready, press the Red Button to get the\nsteadiness of the next 5s.", &startSteadiness},
@@ -392,9 +392,6 @@ void setup() {
   currentJumpType = 0;
   
   tft.fillScreen(BLACK);
-  
-//  capturing = true;
-//  captureBars();
   
   drawMenuBackground();
   backMenu();
@@ -1106,11 +1103,16 @@ void captureBars()
       tft.fillRect(30, 0, 290, 200, BLACK);
       if (bars[(numRepetitions - 1)%10] > graphRange)
       {
-        redrawAxes(tft, 30, 200, 290, 200, 290, 200, 0, graphRange, graphRange/10, "", "", "", WHITE, BLACK, WHITE, BLACK, BLACK, RED, true);
+        redrawAxes(tft, 30, 200, 290, 200, 290, 200, 0, graphRange, graphRange/10, "", "", "", WHITE, GREY, WHITE, WHITE, BLACK, RED, true);
         graphRange = bars[index]*1.25;
       }
-      //redrawAxes(tft, 30, 200, 290, 200, 290, 200, 0, graphRange, graphRange/10, "", "", "", WHITE, GREY, WHITE, WHITE, BLACK, RED, true);
+      redrawAxes(tft, 30, 200, 290, 200, 290, 200, 0, graphRange, graphRange/10, "", "", "", WHITE, GREY, WHITE, WHITE, BLACK, RED, true);
       barPlot(30, 200, 290, 200, graphRange, 10, index, 0.5, RED);
+    }
+    redButton.update();
+    if (redButton.fell())
+    {
+      endEncoderCapture();
     }
   }
 }
@@ -1214,7 +1216,8 @@ void startEncoderCapture(void)
   maxAvgVelocity = 0;
   lastVelocity = 0;
   selectValueDialog("Select the load you are\ngoing to move", "0,5,20,200", "0.5,1,5", 1);
-  captureRaw();
+  //captureRaw();
+  captureBars();
 }
 
 void endEncoderCapture()
@@ -1226,9 +1229,6 @@ void endEncoderCapture()
   //If the device is controlled by the PC the results menu is not showed
   //because during the menu navigation the Serial is not listened.
   tft.fillScreen(BLACK);
-  redrawAxes(tft, 30, 200, 290, 200, 0, 9, graphMin, graphMax, 5, "", "", "", WHITE, GREY, WHITE, WHITE, BLACK, RED, true);
-  barPlot(30, 200, 290, 200, 5, 10, numRepetitions%10, 0.5, RED);
-  delay(5000);
   if (!PcControlled) {
     showEncoderResults();
   }
@@ -1238,15 +1238,15 @@ void endEncoderCapture()
 void showEncoderResults()
 {
   resultsBackground();
-  printTftText("v", 0, 40, 2, WHITE, false);
+  printTftText("V", 0, 40);
   printTftText("peak", 12, 48, WHITE, 1);
   printTftValue(measuredMax, 100, 40, 2, 1);
 
-  printTftText("Vrep", 170, 40, 2, WHITE, false);
+  printTftText("Vrep", 170, 40, WHITE);
   printTftText("max", 218, 48, WHITE, 1);
   printTftValue(maxAvgVelocity, 268, 40, 2, 2);
 
-  printTftText("nRep", 0, 80, 2, WHITE, false);
+  printTftText("nRep", 0, 80);
   printTftValue(numRepetitions, 100, 80, 2, 0);
 
   redButton.update();
@@ -1374,7 +1374,6 @@ void startJumpsCapture()
       if (!firstContact) {
         if (rcaState)
         {
-          //barPlot(30, 200, 290, 200, 100, 10, (index -1)%10, 0.5, BLACK);
           tft.fillRect(30, 0, 290, 200, BLACK);
           flightTime = (float)(rcaTime - lastRcaTime) / 1E6;
           bars[index] = 122.6 * flightTime * flightTime; //In cm

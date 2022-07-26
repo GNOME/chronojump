@@ -292,6 +292,8 @@ public class RunEncoderCaptureGetSpeedAndDisplacement
 	private int timePre;
 	private int timeAtEnoughAccelOrTrigger0; //load (discard previous and shift time)
 	private int timeAtEnoughAccelMark; //capture (just draw a vertical line, to not erase previous points while capture)
+	private double distanceAtEnoughAccelMark; //load (to know where the bars start)
+	private bool distanceAtEnoughAccelMarkSet;
 
 	private double runEncoderCaptureSpeed;
 	private double runEncoderCaptureSpeedMax;
@@ -305,8 +307,10 @@ public class RunEncoderCaptureGetSpeedAndDisplacement
 
 		segmentCalcs = new RunEncoderSegmentCalcs (massKg, angle);
 		timePre = 0;
-		timeAtEnoughAccelOrTrigger0 = 0;
-		timeAtEnoughAccelMark = 0;
+		timeAtEnoughAccelOrTrigger0 = -1;
+		timeAtEnoughAccelMark = -1;
+		distanceAtEnoughAccelMark = 0;
+		distanceAtEnoughAccelMarkSet = false;
 	}
 
 	public void PassCapturedRow (List<int> binaryReaded)
@@ -329,7 +333,7 @@ public class RunEncoderCaptureGetSpeedAndDisplacement
 		this.encoderDisplacement = Convert.ToInt32(cells[0]);
 
 		this.time = Convert.ToInt32(cells[1]);
-		//after enoughAccel, time has to be shifted to left
+		//after enoughAccel, time has to be shifted to left.
 		if(timeAtEnoughAccelOrTrigger0 > 0)
 			time -= timeAtEnoughAccelOrTrigger0;
 
@@ -345,12 +349,18 @@ public class RunEncoderCaptureGetSpeedAndDisplacement
 	public void SetTimeAtEnoughAccelMark (int t)
 	{
 		timeAtEnoughAccelMark = t;
+
+		distanceAtEnoughAccelMark = runEncoderCaptureDistance;
+		distanceAtEnoughAccelMarkSet = true; //need this because distanceAtEnoughAccelMark = 0 can be a valid value
 	}
 
 	//to sync time at load, also used to sync triggers at load
 	public void SetTimeAtEnoughAccelOrTrigger0 (int time)
 	{
 		timeAtEnoughAccelOrTrigger0 = time;
+
+		distanceAtEnoughAccelMark = runEncoderCaptureDistance;
+		distanceAtEnoughAccelMarkSet = true; //need this because distanceAtEnoughAccelMark = 0 can be a valid value
 	}
 
 	// when at load signal is shifted, calcule the speed of previous sample and the sample that will be 0
@@ -394,15 +404,21 @@ public class RunEncoderCaptureGetSpeedAndDisplacement
 //			{
 				double runEncoderCaptureDistanceAtThisSample = Math.Abs(encoderDisplacement) * 0.0030321; //hardcoded: same as sprintEncoder.R
 				runEncoderCaptureSpeed = UtilAll.DivideSafe(runEncoderCaptureDistanceAtThisSample, (time - timePre)) * 1000000;
+				//LogB.Information(string.Format("speed: {0}, runEncoderCaptureDistanceAtThisSample: {1}, timePre: {2}, time: {3}",
+				//			runEncoderCaptureSpeed, runEncoderCaptureDistanceAtThisSample, timePre, time));
+
 				if(runEncoderCaptureSpeed > runEncoderCaptureSpeedMax)
 					runEncoderCaptureSpeedMax = runEncoderCaptureSpeed;
 
 				runEncoderCaptureDistance += runEncoderCaptureDistanceAtThisSample;
 
-				if(segmentCm > 0)
-					updateSegmentDistTimeFixed ();
-				else if(segmentVariableCm.Count > 0)
-					updateSegmentDistTimeVariable ();
+				if(distanceAtEnoughAccelMarkSet)
+				{
+					if(segmentCm > 0)
+						updateSegmentDistTimeFixed ();
+					else if(segmentVariableCm.Count > 0)
+						updateSegmentDistTimeVariable ();
+				}
 
 				hasCalculed = true;
 //			}
@@ -410,23 +426,53 @@ public class RunEncoderCaptureGetSpeedAndDisplacement
 		}
 		return hasCalculed;
 	}
+
+	private double getFirstSegmentTimeStart ()
+	{
+		double timeStart = 0;
+		if(segmentCalcs.Count == 0)
+		{
+			if (timeAtEnoughAccelOrTrigger0 >= 0 && timeAtEnoughAccelMark > timeAtEnoughAccelOrTrigger0)
+			{
+				if (timeAtEnoughAccelMark < 0)
+					timeStart = timeAtEnoughAccelOrTrigger0;
+				else
+					timeStart = timeAtEnoughAccelMark - timeAtEnoughAccelOrTrigger0;
+			} else {
+				if (timeAtEnoughAccelMark < 0)
+					timeStart = 0;
+				else
+					timeStart = timeAtEnoughAccelMark;
+			}
+		} else
+			timeStart = segmentCalcs.TimeEnd_l[segmentCalcs.Count -1];
+
+		return timeStart;
+	}
+
 	private void updateSegmentDistTimeFixed () //m
 	{
-		if(runEncoderCaptureDistance >= (segmentCm/100.0) * (segmentCalcs.Count +1))
-			segmentCalcs.Add((segmentCm/100.0) * (segmentCalcs.Count +1), time, runEncoderCaptureSpeed);
+		double timeStart = getFirstSegmentTimeStart ();
+
+		if(runEncoderCaptureDistance - distanceAtEnoughAccelMark
+				>= (segmentCm/100.0) * (segmentCalcs.Count +1))
+			segmentCalcs.Add((segmentCm/100.0) * (segmentCalcs.Count +1), timeStart, time, runEncoderCaptureSpeed);
 		//note this is not very precise because time can be a bit later than the selected dist
 	}
+
 	private void updateSegmentDistTimeVariable () //cm
 	{
 		//care of overflow
 		if(segmentCalcs.Count >= segmentVariableCm.Count)
 			return;
 
+		double timeStart = getFirstSegmentTimeStart ();
+
 		double distToBeat = (segmentVariableCm[segmentCalcs.Count] + segmentVariableCmDistAccumulated) / 100.0; //cm -> m
 		if(runEncoderCaptureDistance >= distToBeat)
 		{
 			segmentVariableCmDistAccumulated += segmentVariableCm[segmentCalcs.Count];
-			segmentCalcs.Add (distToBeat, time, runEncoderCaptureSpeed);
+			segmentCalcs.Add (distToBeat, timeStart, time, runEncoderCaptureSpeed);
 		}
 	}
 
@@ -463,6 +509,9 @@ public class RunEncoderCaptureGetSpeedAndDisplacement
 	public int TimeAtEnoughAccelMark {
 		get { return timeAtEnoughAccelMark; }
 	}
+	public double DistanceAtEnoughAccelMark {
+		get { return distanceAtEnoughAccelMark; }
+	}
 }
 
 /*
@@ -479,7 +528,8 @@ public class RunEncoderSegmentCalcs
 
 	//calculated list of vars
 	private List<double> dist_l;
-	private List<double> time_l;
+	private List<double> timeStart_l;
+	private List<double> timeEnd_l;
 	private List<double> speedCont_l;
 	private List<double> accel_l;
 	private List<double> force_l;
@@ -501,7 +551,8 @@ public class RunEncoderSegmentCalcs
 		this.angle = angle;
 
 		dist_l = new List<double> ();
-		time_l = new List<double> ();
+		timeStart_l = new List<double> ();
+		timeEnd_l = new List<double> ();
 		speedCont_l = new List<double> ();
 		accel_l = new List<double> ();
 		force_l = new List<double> ();
@@ -509,21 +560,23 @@ public class RunEncoderSegmentCalcs
 	}
 
 	//speedCont is continuous (at this instant) (no avg: dist/time of the segment)
-	public void Add (double dist, double time, double speedCont)
+	public void Add (double dist, double timeStart, double timeEnd, double speedCont)
 	{
 		//store this variable before adding the dist
 		bool isFirstOne = (dist_l.Count == 0);
 
 		dist_l.Add (dist);
-		time_l.Add (time);
+		timeStart_l.Add (timeStart);
+		timeEnd_l.Add (timeEnd);
 		speedCont_l.Add(speedCont);
+		double timeElapsed = timeEnd - timeStart;
 
 		if(isFirstOne)
 		{
-			double accel = UtilAll.DivideSafe(speedCont, time/1000000.0);
+			double accel = UtilAll.DivideSafe(speedCont, timeElapsed/1000000.0);
 			accel_l.Add (accel);
 			force_l.Add ( massKg * (accel + g * Math.Sin(angle)) );
-			power_l.Add (UtilAll.DivideSafe(( 0.5 * massKg * Math.Pow(speedCont, 2) + massKg * g * (dist * Math.Sin(angle)) ) , time/1000000.0));
+			power_l.Add (UtilAll.DivideSafe(( 0.5 * massKg * Math.Pow(speedCont, 2) + massKg * g * (dist * Math.Sin(angle)) ) , timeElapsed/1000000.0));
 		}
 		else
 		{
@@ -535,13 +588,13 @@ public class RunEncoderSegmentCalcs
 						*/
 
 			double accel = UtilAll.DivideSafe(
-					(speedCont - speedCont_l[Count -2]), (time/1000000.0 - time_l[Count -2]/1000000.0) );
+					(speedCont - speedCont_l[Count -2]), (timeEnd/1000000.0 - timeStart/1000000.0) );
 			accel_l.Add (accel);
 			force_l.Add ( massKg * (accel + g * Math.Sin(angle)) );
 			power_l.Add ( UtilAll.DivideSafe (
 						0.5 * massKg * (Math.Pow(speedCont, 2) - Math.Pow(speedCont_l[Count -2], 2)) + //Kinetic Energy +
 						massKg * g * (dist * Math.Sin(angle) - dist_l[Count -2] * Math.Sin(angle)), //Potential Energy
-						(time - time_l[Count -2]) / 1000000.0 //Time
+						(timeElapsed) / 1000000.0 //Time
 						) );
 		}
 	}
@@ -559,8 +612,11 @@ public class RunEncoderSegmentCalcs
 	public List<double> Dist_l {
 		get { return dist_l; }
 	}
-	public List<double> Time_l {
-		get { return time_l; }
+	public List<double> TimeStart_l {
+		get { return timeStart_l; }
+	}
+	public List<double> TimeEnd_l {
+		get { return timeEnd_l; }
 	}
 	//to debug
 	public List<double> SpeedCont_l {

@@ -624,13 +624,22 @@ public static class MathUtil
 		return min;
 	}
 
-	public static double GetProportion (double d, List<double> d_l)
+	/*
+	   on raceAnalyzer we want a proportion of a value between a list of values, and we want 0 is included.
+	   Maybe in that list the min is above 0, so shouldInclude0 fixes it
+	   */
+	public static double GetProportion (double d, List<double> d_l, bool shouldInclude0)
 	{
 		double max = GetMax (d_l);
 		double min = GetMin (d_l);
 
-		d -= min; //move d to 0
-		return UtilAll.DivideSafe(d, max - min);
+		if (shouldInclude0 && min > 0)
+			min = 0;
+
+		// move d and max to min
+		d -= min;
+		max -= min;
+		return UtilAll.DivideSafe(d, max);
 	}
 
 }

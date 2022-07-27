@@ -387,9 +387,10 @@ void setup() {
   readPersonsFile();
 
   //TODO: Read jumps only if necessary
-  getTotalJumpTypes();
-  readJumpsFile();
+  readJumpsTypesFile();
+  Serial.println(totalJumpTypes);
   currentJumpType = 0;
+  printJumpTypesList();
   
   tft.fillScreen(BLACK);
   
@@ -1413,7 +1414,7 @@ void startJumpsCapture()
           Serial.println("r;");
         }
       }
-      saveJumps();
+      saveJump();
       lastRcaState = rcaState;
       lastRcaTime = rcaTime;
     }
@@ -1582,17 +1583,19 @@ void selectPerson()
   }
 }
 
-void saveJumps()
+void saveJump()
 {
   String fullFileName = "/" + dirName + "/" + fileName + ".txt";
   File dataFile = SD.open(fullFileName, FILE_WRITE);
+  String row = String(currentPerson) + ";" + jumpTypes[currentJumpType].id + ";" + String(rcaTime);
   if(rcaState)
   {
-    dataFile.println(String(currentPerson) + ";" + String(rcaTime) + "R");
+    row = row + "R";
   } else if(!rcaState)
   {
-    dataFile.println(String(currentPerson) + ";" + String(rcaTime) + "r");
+    row = row + "r";
   }
+  dataFile.println(row);
   dataFile.close();
 }
 void fakeFunction()

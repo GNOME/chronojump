@@ -1,44 +1,3 @@
-//void readJumpsFile(){
-//    /*
-//     Example of jumpsType.txt
-//     0,SJ,1
-//     1,CMJ,1
-//     2,ABK,1
-//     3,DJna,0
-//     4,SJl,1
-//  */
-//  String row = "";
-//  char readChar;
-//  File  jumpsFile = SD.open("/jumpType.txt");
-//  if (jumpsFile)
-//  {
-//    currentJumpType = 0;
-//    jumpsFile.seek(0);
-//
-//    // read from the file until there's nothing else in it:
-//    while (currentJumpType < totalJumpTypes)
-//    {
-//      readChar = jumpsFile.read();
-//      if (readChar != '\n' && readChar != '\r')
-//      {
-//        row = row + readChar;
-//      } else if (readChar == '\n' || readChar == '\r')
-//      {
-//        //Serial.println(row);
-//        addJump(row);
-//        row = "";
-//        currentJumpType++;
-//      }
-//    }
-//    // close the file:
-//    jumpsFile.close();
-//    //printJumpTypesList();
-//  } else {
-//    // if the file didn't open, print an error:
-//    Serial.println("error opening jumpType.txt");
-//  }
-//}
-
 void addJump(String row)
 {
   int prevComaIndex = row.indexOf(":");
@@ -65,27 +24,9 @@ void readJumpsTypesFile()
   File  jumpsFile = SD.open("jumpType.txt");
   if (jumpsFile)
   {
-//    //Start reading from the last byte
-//    unsigned long pos = jumpsFile.size() - 4;
-//
-//    //Reading the jump number of the last row
-//    while (readChar != '\n' && readChar != '\r')
-//    {
-//      jumpsFile.seek(pos);
-//      readChar = jumpsFile.peek();
-//      pos--;
-//    }
-//    pos++;
-//    jumpsFile.seek(pos);
-//    readChar = jumpsFile.read();
-//    while (readChar != ',')
-//    {
-//      readChar = jumpsFile.read();
-//      readString = readString + readChar;
-//    }
     while (pos <= jumpsFile.size())
     {
-      readChar = NULL;
+      readChar = '0';
       String readString = "";
       while (readChar != '\n' && readChar != '\r' && pos<=jumpsFile.size())
       {
@@ -100,7 +41,6 @@ void readJumpsTypesFile()
         currentJumpType = numRows - 1;
         addJump(readString);
         totalJumpTypes = numRows;
-        Serial.print(readString);
       }
     }
   }

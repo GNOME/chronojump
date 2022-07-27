@@ -123,6 +123,9 @@ unsigned long lastRcaTime = 0;
 volatile bool rcaFlag = false;
 elapsedMicros totalTime = 0;
 unsigned long lastSampleTime;
+//By default the debounce time for the RCA is 10000.
+//With the foot pedal 2000 is too short for jumps and some values are repeated
+unsigned int rcaDebounceTime = 10000;
 
 //TODO. Manage it with timer interruptions
 //unsigned short lcdDelay = 25; //to be able to see the screen. Seconds are also printed in delay but 25 values are less than one second
@@ -388,9 +391,7 @@ void setup() {
 
   //TODO: Read jumps only if necessary
   readJumpsTypesFile();
-  Serial.println(totalJumpTypes);
   currentJumpType = 0;
-  printJumpTypesList();
   
   tft.fillScreen(BLACK);
   
@@ -754,7 +755,7 @@ void get_transmission_format()
 void changingRCA() {
   rcaTime = totalTime;
   rcaState = digitalRead(rcaPin);
-  rcaTimer.begin(rcaDebounce, 2000);
+  rcaTimer.begin(rcaDebounce, rcaDebounceTime);
   //Serial.print("-");
 }
 
@@ -1078,7 +1079,6 @@ void captureBars()
   int index = 0;
   currentPerson = totalPersons - 1;
   fileName = "P" + String(currentPerson) + "-S" + String(setNumber);
-  long lastUpdateTime = 0;
 
   tft.fillScreen(BLACK);
 
@@ -1343,8 +1343,9 @@ void startJumpsCapture()
   //fileName = "P" + String(currentPerson) + "-S" + String(setNumber);
   lastRcaState = !digitalRead(rcaPin);
   rcaFlag = false;
-  float flightTime = 0;
-  bool firstContact = true;
+  //lastPhaseTime could be contactTime or flightTime depending on the phase
+  float lastPhaseTime = 0;
+  bool waitingFirstContact = true;
   for (int i = 0; i < 10; i++)
   {
     bars[i] = 0;
@@ -1365,22 +1366,31 @@ void startJumpsCapture()
     if( blueButton.fell() ){
       currentPerson = (currentPerson + 1)%totalPersons;
       updatePersonJump(totalJumps);
-      firstContact = true;
+      waitingFirstContact = true;
     }
+
+    //There's been a change in the mat state. Landing or taking off.
     if (rcaFlag)
     {
       rcaFlag = false;
-      Serial.print(rcaTime);
+      //Elapsed time in seconds
+      lastSampleTime = rcaTime - lastRcaTime;
+      lastPhaseTime = ((float)(rcaTime - lastRcaTime)) / 1E6;
+      Serial.print(lastPhaseTime, 6);
       Serial.print(":");
-      if (!firstContact) {
+
+      //If there's been a previous contact
+      if (!waitingFirstContact) {
+        
+        //Stepping on the mat. End of flight time. Starts contact.
         if (rcaState)
         {
+          Serial.println("R");
           tft.fillRect(30, 0, 290, 200, BLACK);
-          flightTime = (float)(rcaTime - lastRcaTime) / 1E6;
-          bars[index] = 122.6 * flightTime * flightTime; //In cm
+          bars[index] = 122.6 * lastPhaseTime * lastPhaseTime; //In cm
           tft.setTextColor(BLACK);
           printTftValue(bars[(index + 10 - 1) % 10], 58, 215, 2, 2);
-          tft.setTextColor(WHITE); 
+          tft.setTextColor(WHITE);
           printTftValue(bars[index], 58, 215, 2, 2);
           if (bars[index] > maxJump)
           {
@@ -1396,25 +1406,26 @@ void startJumpsCapture()
           redrawAxes(tft, 30, 200, 290, 200, 290, 200, 0, graphRange, graphRange/10, "", "", "", WHITE, GREY, WHITE, WHITE, BLACK, RED, true);
           barPlot(30, 200, 290, 200, graphRange, 10, index, 0.5, RED);
           index = (index + 1) % 10;
-          Serial.println("R;");
           totalJumps++;
           updatePersonJump(totalJumps);
+          
+        //Taking off. Ends contact. start of flight time
         } else if (!rcaState)
         {
-          Serial.println("r;");
+          Serial.println("r");
         }
         
-      } else if (firstContact) {
-        firstContact = false;
+      } else if (waitingFirstContact) {
+        waitingFirstContact = false;
         if (rcaState)
         {
-          Serial.println("R;");
+          Serial.println("R");
         }
         else if (!rcaState) {
-          Serial.println("r;");
+          Serial.println("r");
         }
       }
-      saveJump();
+      saveJump(lastPhaseTime);
       lastRcaState = rcaState;
       lastRcaTime = rcaTime;
     }
@@ -1583,21 +1594,21 @@ void selectPerson()
   }
 }
 
-void saveJump()
+void saveJump(float lastPhaseTime)
 {
   String fullFileName = "/" + dirName + "/" + fileName + ".txt";
   File dataFile = SD.open(fullFileName, FILE_WRITE);
-  String row = String(currentPerson) + ";" + jumpTypes[currentJumpType].id + ";" + String(rcaTime);
-  if(rcaState)
+  if( !rcaState)
   {
-    row = row + "R";
-  } else if(!rcaState)
-  {
-    row = row + "r";
+    dataFile.print(String(currentPerson) + ";" + jumpTypes[currentJumpType].id + ";" + String(lastPhaseTime, 6) );
   }
-  dataFile.println(row);
+  else if(rcaState)
+  {
+    dataFile.println(";" + String(lastPhaseTime, 6));
+  }
   dataFile.close();
 }
+
 void fakeFunction()
 {
 }

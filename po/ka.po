@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/chronojump/issues\n"
-"POT-Creation-Date: 2022-07-26 17:42+0000\n"
-"PO-Revision-Date: 2022-07-27 09:24+0200\n"
+"POT-Creation-Date: 2022-07-27 07:25+0000\n"
+"PO-Revision-Date: 2022-07-27 17:33+0200\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: \n"
 "Language: ka\n"
@@ -801,7 +801,7 @@ msgstr "შემოდგომა"
 #: ../src/sqlite/forceSensor.cs:376 ../src/sqlite/forceSensor.cs:407
 #: ../src/sqlite/forceSensor.cs:413
 msgid "Unknown"
-msgstr ""
+msgstr "უცნობი"
 
 #: ../glade/app1.glade.h:161
 msgid "This"
@@ -820,7 +820,6 @@ msgid "Vertical"
 msgstr "ვერტიკალური"
 
 #: ../glade/app1.glade.h:165 ../glade/edit_event.glade.h:59
-#, fuzzy
 msgid "Horizontal"
 msgstr "ჰორიზონტალური"
 
@@ -1970,7 +1969,6 @@ msgid "Minimal length"
 msgstr ""
 
 #: ../glade/app1.glade.h:415
-#, fuzzy
 msgid "Type:"
 msgstr "ტიპი:"
 
@@ -3322,7 +3320,7 @@ msgstr ""
 
 #: ../glade/feedback.glade.h:13
 msgid "Conditions"
-msgstr ""
+msgstr "პირობები"
 
 #: ../glade/feedback.glade.h:15
 msgid "Main variable"

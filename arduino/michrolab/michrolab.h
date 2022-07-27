@@ -16,6 +16,8 @@ void endLoadCellCapture();
 
 void showLoadCellResults();
 
+void resultsBackground();
+
 //Starts reading from the encoder alone
 void startEncoderCapture(void);
 
@@ -50,12 +52,23 @@ void end_steadiness();
 //Reads from the RCA to calculate jump heights
 void startJumpsCapture();
 
-//Measuring the selected sensors as well as plotting and saving to SD
+//Measuring the selected sensors as well as plotting raw data and saving to SD
 //It also manage the buttons pressed
-void capture();
+void captureRaw();
+
+//Measuring the selected sensors as well as plotting bars of each repetition and saving to SD
+//It also manage the buttons pressed
+void captureBars();
 
 //Prints a float number with the units number at the selected positoin and precission
 void printTftValue (float val, int x, int y, int fontSize, int decimal);
+
+/*  Prints in the TFT a text. By default:
+ *  color = WHITE
+ *  fontSize = 2
+ *  alignRight = false;
+ */
+void printTftText(String text, int x, int y, unsigned int color, int fontSize, bool alignRight);
 
 //Reads whatever it is in the serial buffer
 void serialEvent();
@@ -111,6 +124,9 @@ void setForceGoal();
 //Saves the meadured data in the SD
 void saveSD(String fileName);
 
+//Saves the results of the current jump
+void saveJump();
+
 //Count how many dirs exists. Used to create new dirs with the correct numeration
 int countDirs();
 
@@ -125,3 +141,18 @@ void redrawAxes(ILI9341_t3 & d, double gx, double gy, double w, double h, double
 
 //Plot a set of bars stored in bars[]
 void barPlot (float gx, float gy, float w, float h, float yhi, int numBars, int currentIndex, float abRatio, unsigned int color);
+
+//Read the jumType.txt file and assign each row to a jumpTypes[] element
+void readJumpsFile();
+
+//Assign a jumpType to a jumpTypes[] element. The input String is of the same format as in the jumpType.txt
+void addJump(String row);
+
+//Read how many rows has the jumpTypes.txt
+void getTotalJumpTypes();
+
+//Print in the Serial a list of all jump types
+void printJumpTypesList();
+
+//Shows a simple report of the jump
+void showJumpsResults(float maxJump, unsigned int bestJumper, int totalJumps);

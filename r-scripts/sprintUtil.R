@@ -16,7 +16,7 @@
 #    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 # 
 #   Copyright (C) 2017-2020   	Xavier Padullés <x.padulles@gmail.com>
-#   Copyright (C) 2017-2020   	Xavier de Blas <xaviblas@gmail.com>
+#   Copyright (C) 2017-2022   	Xavier de Blas <xaviblas@gmail.com>
 
 #This code uses splitTimes: accumulated time (not lap time)
 
@@ -111,7 +111,7 @@ getDynamicsFromSprint <- function(K, Vmax, Mass, T0 = 0, Temperature = 25, Heigh
                     p.fitted = p.fitted ))
 }
 
-exportSprintDynamicsPrepareRow <- function(sprintDynamics, splitTime, splitPosition, splitPositionAll, decimalIsComma)
+getSplitsForPrepareRow <- function (splitTime, splitPosition, splitPositionAll, decimalIsComma)
 {
 	splits = NULL
 
@@ -146,34 +146,99 @@ exportSprintDynamicsPrepareRow <- function(sprintDynamics, splitTime, splitPosit
 			names(splits) = paste(splitPositionAll, "m", sep="")
 	}
 
+	return (splits)
+}
+
+#data is an sprint and has been modelized
+exportSprintDynamicsPrepareRow <- function(sprintFittedDynamics, sprintRawDynamics, splitTime, splitPosition, splitPositionAll, decimalIsComma)
+{
+	print ("at exportSprintDynamicsPrepareRow decimalIsComma:")
+	print (decimalIsComma)
+	splits <- getSplitsForPrepareRow (splitTime, splitPosition, splitPositionAll, decimalIsComma)
+
 	#print("exportSprintDynamicsPrepareRow names(splits):")
 	#print(names(splits))
 
-        raw = c(list(Mass = sprintDynamics$Mass,
-                   Height = sprintDynamics$Height,
-                   Temperature = sprintDynamics$Temperature,
-                   V.wind = sprintDynamics$Vw,
-                   Ka = sprintDynamics$Ka,
-                   K.fitted = sprintDynamics$K.fitted,
-                   Vmax.fitted = sprintDynamics$Vmax,
-                   amax.fitted = sprintDynamics$amax.fitted,
-                   fmax.fitted = sprintDynamics$fmax.fitted,
-                   fmax.rel.fitted = sprintDynamics$fmax.rel.fitted,
-                   sfv.fitted = sprintDynamics$sfv.fitted,
-                   sfv.rel.fitted = sprintDynamics$sfv.rel.fitted,
-                   sfv.lm = sprintDynamics$sfv.lm,
-                   sfv.rel.lm = sprintDynamics$sfv.rel.lm,
-                   pmax.fitted = sprintDynamics$pmax.fitted,
-                   pmax.rel.fitted = sprintDynamics$pmax.rel.fitted,
-                   tpmax.fitted = sprintDynamics$tpmax.fitted,
-                   F0 = sprintDynamics$F0,
-                   F0.rel = sprintDynamics$F0.rel,
-                   V0 = sprintDynamics$V0,
-                   pmax.lm = sprintDynamics$pmax.lm,
-                   pmax.rel.lm = sprintDynamics$pmax.rel.lm), splits)
-        print(raw)
-        
-        return(raw)
+	#on Race analyzer we send raw data, but on photocells we are not sending raw data here (right now).
+	rawVmax = 0
+	rawAmax = 0
+	rawFmax = 0
+	rawPmax = 0
+	if (! is.null(sprintRawDynamics))
+	{
+		   rawVmax = sprintRawDynamics$rawVmax
+		   rawAmax = sprintRawDynamics$rawAmax
+		   rawFmax = sprintRawDynamics$rawFmax
+		   rawPmax = sprintRawDynamics$rawPmax
+	}
+
+        row = c(list(Mass = sprintFittedDynamics$Mass,
+                   Height = sprintFittedDynamics$Height,
+                   Temperature = sprintFittedDynamics$Temperature,
+                   V.wind = sprintFittedDynamics$Vw,
+                   Ka = sprintFittedDynamics$Ka,
+                   K.fitted = sprintFittedDynamics$K.fitted,
+                   Vmax.fitted = sprintFittedDynamics$Vmax,
+                   amax.fitted = sprintFittedDynamics$amax.fitted,
+                   fmax.fitted = sprintFittedDynamics$fmax.fitted,
+                   fmax.rel.fitted = sprintFittedDynamics$fmax.rel.fitted,
+                   sfv.fitted = sprintFittedDynamics$sfv.fitted,
+                   sfv.rel.fitted = sprintFittedDynamics$sfv.rel.fitted,
+                   sfv.lm = sprintFittedDynamics$sfv.lm,
+                   sfv.rel.lm = sprintFittedDynamics$sfv.rel.lm,
+                   pmax.fitted = sprintFittedDynamics$pmax.fitted,
+                   pmax.rel.fitted = sprintFittedDynamics$pmax.rel.fitted,
+                   tpmax.fitted = sprintFittedDynamics$tpmax.fitted,
+                   F0 = sprintFittedDynamics$F0,
+                   F0.rel = sprintFittedDynamics$F0.rel,
+                   V0 = sprintFittedDynamics$V0,
+                   pmax.lm = sprintFittedDynamics$pmax.lm,
+                   pmax.rel.lm = sprintFittedDynamics$pmax.rel.lm,
+		   raw.Vmax = rawVmax,
+		   raw.Amax = rawAmax,
+		   raw.Fmax = rawFmax,
+		   raw.Pmax = rawPmax
+		   ), splits)
+        print(row)
+
+        return(row)
+}
+
+#data is not sprint or model has failed
+exportSprintRawPrepareRow <- function (sprintRawDynamics, splitPositionAll, decimalIsComma)
+{
+	splits <- getSplitsForPrepareRow (sprintRawDynamics$splitTime, sprintRawDynamics$splitPosition, splitPositionAll, decimalIsComma)
+
+        row = c(list(Mass = sprintRawDynamics$Mass,
+                   Height = sprintRawDynamics$height,
+                   Temperature = sprintRawDynamics$temperature,
+                   V.wind = sprintRawDynamics$Vw,
+                   Ka = 0,
+                   K.fitted = 0,
+                   Vmax.fitted = 0,
+                   amax.fitted = 0,
+                   fmax.fitted = 0,
+                   fmax.rel.fitted = 0,
+                   sfv.fitted = 0,
+                   sfv.rel.fitted = 0,
+                   sfv.lm = 0,
+                   sfv.rel.lm = 0,
+                   pmax.fitted = 0,
+                   pmax.rel.fitted = 0,
+                   tpmax.fitted = 0,
+                   F0 = 0,
+                   F0.rel = 0,
+                   V0 = 0,
+                   pmax.lm = 0,
+                   pmax.rel.lm = 0,
+		   raw.Vmax = sprintRawDynamics$rawVmax,
+		   raw.Amax = sprintRawDynamics$rawAmax,
+		   raw.Fmax = sprintRawDynamics$rawFmax,
+		   raw.Pmax = sprintRawDynamics$rawPmax
+		   ), splits)
+        print(row)
+
+        return(row)
 }
 
 exportSprintDynamicsWriteRow <- function(exportRow)

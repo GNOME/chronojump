@@ -16,7 +16,7 @@
 #    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 # 
 #   Copyright (C) 2017   	Xavier Padullés <x.padulles@gmail.com>
-#   Copyright (C) 2017,2021   	Xavier de Blas <xaviblas@gmail.com>
+#   Copyright (C) 2017,2022   	Xavier de Blas <xaviblas@gmail.com>
 
 #This code uses splitTimes: accumulated time (not lap time)
 
@@ -287,7 +287,8 @@ drawSprintFromPhotocells <- function(sprintDynamics, splitTimes, positions, spli
                            paste("pmax =", round(sprintDynamics$pmax.rel.fitted, digits = 2), "W/kg")),
                 text.col = c("black", "black", "black", "magenta", "blue", "red"))
 
-        return (exportSprintDynamicsPrepareRow(sprintDynamics, splitTimes, positions, splitPositionAll, op$decimalCharAtExport == ","))
+	#TODO: check if we can pass raw values of v,a,F,P
+        return (exportSprintDynamicsPrepareRow(sprintDynamics, NULL, splitTimes, positions, splitPositionAll, op$decimalCharAtExport == ","))
 }
 
 testPhotocellsCJ <- function(positions, splitTimes, splitPositionAll, mass, personHeight, tempC, personName)

@@ -838,12 +838,17 @@ public class RunEncoderCSV
 	public double V0;
 	public double Pmax_lm;
 	public double Pmax_rel_lm;
+	public double Vmax_raw;
+	public double Amax_raw;
+	public double Fmax_raw;
+	public double Pmax_raw;
 
 	public RunEncoderCSV ()
 	{
 	}
 
-	public RunEncoderCSV (double mass, double height, int temperature, double vw, double ka, double k_fitted, double vmax_fitted, double amax_fitted, double fmax_fitted, double fmax_rel_fitted, double sfv_fitted, double sfv_rel_fitted, double sfv_lm, double sfv_rel_lm, double pmax_fitted, double pmax_rel_fitted, double tpmax_fitted, double f0, double f0_rel, double v0, double pmax_lm, double pmax_rel_lm)
+	public RunEncoderCSV (double mass, double height, int temperature, double vw, double ka, double k_fitted, double vmax_fitted, double amax_fitted, double fmax_fitted, double fmax_rel_fitted, double sfv_fitted, double sfv_rel_fitted, double sfv_lm, double sfv_rel_lm, double pmax_fitted, double pmax_rel_fitted, double tpmax_fitted, double f0, double f0_rel, double v0, double pmax_lm, double pmax_rel_lm,
+			double vmax_raw, double amax_raw, double fmax_raw, double pmax_raw)
 	{
 		this.Mass = mass;
 		this.Height = height;
@@ -867,6 +872,10 @@ public class RunEncoderCSV
 		this.V0 = v0;
 		this.Pmax_lm = pmax_lm;
 		this.Pmax_rel_lm = pmax_rel_lm;
+		this.Vmax_raw = vmax_raw;
+		this.Amax_raw = amax_raw;
+		this.Fmax_raw = fmax_raw;
+		this.Pmax_raw = pmax_raw;
 	}
 
 	public string [] ToTreeView()
@@ -893,7 +902,11 @@ public class RunEncoderCSV
 				Util.TrimDecimals(F0_rel, 3),
 				Util.TrimDecimals(V0, 3),
 				Util.TrimDecimals(Pmax_lm, 3),
-				Util.TrimDecimals(Pmax_rel_lm, 3)
+				Util.TrimDecimals(Pmax_rel_lm, 3),
+				Util.TrimDecimals(Vmax_raw, 3),
+				Util.TrimDecimals(Amax_raw, 3),
+				Util.TrimDecimals(Fmax_raw, 3),
+				Util.TrimDecimals(Pmax_raw, 3),
 		};
 	}
 
@@ -979,6 +992,7 @@ public class RunEncoderGraphExport
 			device.ToString() + ";" +
 			Util.ConvertToPoint(tempC) + ";" +
 			testLength.ToString() + ";" +
+			Util.BoolToRBool(exercise.IsSprint) + ";" +
 			segmentM + ";" + //fixed segments (m)
 			segmentVariableCm + ";" + //variable segments (cm)
 			title + ";" +
@@ -995,7 +1009,7 @@ public class RunEncoderGraphExport
 
 	public static string PrintCSVHeaderOnExport()
 	{
-		return "fullURL;mass;personHeight;device;tempC;testLength;" +
+		return "fullURL;mass;personHeight;device;tempC;testLength;isSprint;" +
 			"splitLength;" + //segmentCm on C#, splitLength on R
 			"splitVariableCm;" +
 			"title;datetime;triggersOn;triggersOff;comments";
@@ -1142,6 +1156,7 @@ public class RunEncoderGraph
 			"#personHeight\n" + 		Util.ConvertToPoint(personHeight / 100.0) + "\n" + 	//unused on multiple  //send it in meters
 			"#tempC\n" + 			tempC + "\n" +	//unused on multiple
 			"#testLength\n" + 		testLength.ToString() + "\n" +	//unused on multiple
+			"#isSprint\n" + 		Util.BoolToRBool(rex.IsSprint) + "\n" +
 			"#os\n" + 			UtilEncoder.OperatingSystemForRGraphs() + "\n" +
 			"#graphWidth\n" + 		graphWidth.ToString() + "\n" +
 			"#graphHeight\n" + 		graphHeight.ToString() + "\n" +

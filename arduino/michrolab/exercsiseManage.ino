@@ -14,7 +14,7 @@ void addJump(String row)
   jumpTypes[currentJumpType].startIn = (row.substring(prevComaIndex + 1 , nextComaIndex) == "1");
 }
 
-void readJumpsTypesFile()
+void readJumpTypesFile()
 {
   char readChar;
   String readString = "";

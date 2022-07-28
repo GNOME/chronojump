@@ -390,7 +390,7 @@ void setup() {
   readPersonsFile();
 
   //TODO: Read jumps only if necessary
-  readJumpsTypesFile();
+  readJumpTypesFile();
   currentJumpType = 0;
   
   tft.fillScreen(BLACK);

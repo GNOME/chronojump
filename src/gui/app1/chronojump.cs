@@ -2288,6 +2288,7 @@ public partial class ChronoJumpWindow
 	private bool comboSelectContactsTopNoFollow;
 	private void createComboSelectContactsTop ()
 	{
+		LogB.Information ("createComboSelectContactsTop");
 		//deactivate signal
 		if(combo_select_contacts_top != null)
 			combo_select_contacts_top.Changed -= new EventHandler (on_combo_select_contacts_top_changed);
@@ -3899,6 +3900,11 @@ public partial class ChronoJumpWindow
 			notebook_sup.CurrentPage = Convert.ToInt32(notebook_sup_pages.CONTACTS);
 			notebooks_change(m);
 
+			//we need combo_select_contacts_top before updateForceExerciseCombo
+			createComboSelectContactsTop ();
+			label_contacts_exercise_selected_name.Visible = false;
+			hbox_combo_select_contacts_top_with_arrows.Visible = true; //this will be unneded
+
 			//combos should show exercises (isometric or elastic)
 			updateForceExerciseCombo ();
 
@@ -3938,10 +3944,6 @@ public partial class ChronoJumpWindow
 			label_contacts_exercise_selected_options.Visible = false;
 			image_top_laterality_contacts.Visible = true;
 			setForceSensorLateralityPixbuf();
-
-			createComboSelectContactsTop ();
-			label_contacts_exercise_selected_name.Visible = false;
-			hbox_combo_select_contacts_top_with_arrows.Visible = true; //this will be unneded
 		}
 		else if(m == Constants.Modes.RUNSENCODER)
 		{

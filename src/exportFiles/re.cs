@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2021   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2022   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -167,12 +167,6 @@ public class RunEncoderExport : ExportFiles
 				}
 			if(! found)
 				continue;
-
-			if(! reEx.IsSprint) //currently can only export (analyze with model) sprints
-			{
-				discarded ++;
-				continue;
-			}
 
 			// 4) create the export row
 			string title = Util.ChangeSpaceAndMinusForUnderscore(p.Name) + "-" +

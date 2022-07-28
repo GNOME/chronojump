@@ -210,12 +210,6 @@ public partial class ChronoJumpWindow
 			return;
 		}
 
-		if(! currentRunEncoderExercise.IsSprint)
-		{
-			new DialogMessage(Constants.MessageTypes.WARNING, "Currently you can only analyze sprint exercises.");
-			return;
-		}
-
 		if(lastRunEncoderFullPath != null && lastRunEncoderFullPath != "")
 			raceEncoderCopyToTempAndDoRGraph();
 

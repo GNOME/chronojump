@@ -1523,7 +1523,8 @@ public partial class ChronoJumpWindow
 				typeof (string), typeof (string), typeof (string),
 				typeof (string), typeof (string), typeof (string),
 				typeof (string), typeof (string), typeof (string),
-				typeof (string)
+				typeof (string),
+				typeof (string), typeof (string), typeof (string), typeof (string) //raw (vmax, amax, fmax, pmax)
 				);
 
 		RunEncoderCSV recsv = readRunEncoderCSVContents (contents);
@@ -1544,7 +1545,8 @@ public partial class ChronoJumpWindow
 			"Sfv\nlm\n", "Sfv\nrel lm\n", "Pmax\nfitted\n(W)",
 			"Pmax\nrel fitted\n(W/Kg)", "Time to pmax\nfitted\n(s)", "F0\n\n(N)",
 			"F0\nrel\n(N/Kg)", "V0\n\n(m/s)", "Pmax\nlm\n(W)",
-			"Pmax\nrel lm\n(W/Kg)"
+			"Pmax\nrel lm\n(W/Kg)",
+			"Vmax\nraw\n(m/s)", "Amax\nraw\n(m/s^2)", "Fmax\nraw\n(N)", "Pmax\nraw\n(W)"
 		};
 		return headers;
 	}
@@ -1566,7 +1568,7 @@ public partial class ChronoJumpWindow
 
 				string [] cells = line.Split(new char[] {';'});
 
-				recsv = new RunEncoderCSV(
+				recsv = new RunEncoderCSV (
 						Convert.ToDouble(cells[0]), Convert.ToDouble(cells[1]), Convert.ToInt32(cells[2]),
 						Convert.ToDouble(cells[3]), Convert.ToDouble(cells[4]), Convert.ToDouble(cells[5]),
 						Convert.ToDouble(cells[6]), Convert.ToDouble(cells[7]), Convert.ToDouble(cells[8]),
@@ -1574,7 +1576,9 @@ public partial class ChronoJumpWindow
 						Convert.ToDouble(cells[12]), Convert.ToDouble(cells[13]), Convert.ToDouble(cells[14]),
 						Convert.ToDouble(cells[15]), Convert.ToDouble(cells[16]), Convert.ToDouble(cells[17]),
 						Convert.ToDouble(cells[18]), Convert.ToDouble(cells[19]), Convert.ToDouble(cells[20]),
-						Convert.ToDouble(cells[21])
+						Convert.ToDouble(cells[21]),
+						Convert.ToDouble(cells[22]), Convert.ToDouble(cells[23]), //vmax raw, amax raw
+						Convert.ToDouble(cells[24]), Convert.ToDouble(cells[25]) //fmax raw, pmax raw
 						);
 			} while(true);
 		}

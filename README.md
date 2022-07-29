@@ -1,4 +1,6 @@
----- ENGLISH ----
+# chronojump
+
+## ENGLISH
 
 Chronojump is a free software dedicated to the management of several human movement measurement devices. Chronojump is compatible with Windows, Mac and Linux systems. It is regularly updated and the updates are and will always be free. 
 
@@ -9,7 +11,7 @@ Chronojump started as a doctoral thesis related to vertical jumping in 2004, and
 
 Chronojump: Field evaluation with laboratory quality measurement / No more blind training.
 
----- SPANISH ----
+## SPANISH
 
 Chronojump es un software libre para la gestión de diferentes dispositivos de medición del movimiento humano.
 

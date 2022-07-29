@@ -153,7 +153,8 @@ unsigned int submenu = 0;           //submenus state
 functionPointer FArray[3] = {&fakeFunction, &fakeFunction, &fakeFunction};
 
 menuEntry mainMenu[10] = {
-  { "Jumps", "Shows the height of jumps", &simpleJumpsCapture},
+  { "Drop Jumps", "Jumps with a previous\nfalling height (previous\njump or fixed height)\nShows bars with the heightof jumps", &dropJumpsCapture},
+  { "Jumps", "Shows bars with the jumps height", &simpleJumpsCapture},
   { "Raw Force", "Shows standard graph of\nthe force and the summary of the set.\n(Maximum Force, RFD and\nImpulse)", &startLoadCellCapture},
   { "Lin. Velocity", "Show bars of linear velocity", &startEncoderCapture },
   { "Inert. Velocity", "Show a bars of the velocity of the person in inertial machines", &startInertialEncoderCapture },
@@ -161,11 +162,10 @@ menuEntry mainMenu[10] = {
   { "Tared Force", "Offset the force before\nmeasuring it.\nUseful to substract body\nweight.", &startTareCapture},
   { "F. Steadiness", "RMSSD and cvRMSSD.\nSteadynessof the force.\nWhen ready, press the Red Button to get the\nsteadiness of the next 5s.", &startSteadiness},
   { "System", "Performs calibration or\ntare and shows some system\ninformation.", &showSystemMenu},
-  { "", "", &backMenu},
   { "", "", &backMenu}
 };
 
-int mainMenuItems = 8;
+int mainMenuItems = 9;
 
 menuEntry systemMenu[10] {
   { "Group", "Select the group you are going to use.\nUp to 9 groups can be\nselected", &selectGroup},
@@ -397,8 +397,6 @@ void setup() {
   currentJumpType = 0;
 
   tft.fillScreen(BLACK);
-  
-  dropJumpsCapture();
   
   drawMenuBackground();
   backMenu();

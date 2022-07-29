@@ -314,6 +314,8 @@ struct jumpType {
 jumpType jumpTypes[100];
 unsigned int totalJumpTypes = 0;
 unsigned int currentJumpType = 0;
+int totalJumps = 0;
+bool waitingFirstContact = true;
 
 IntervalTimer rcaTimer;
 
@@ -392,7 +394,7 @@ void setup() {
   //TODO: Read jumps only if necessary
   readJumpTypesFile();
   currentJumpType = 0;
-  
+
   tft.fillScreen(BLACK);
   
   drawMenuBackground();
@@ -507,21 +509,9 @@ void printTftValue (float val, int x, int y, int fontSize, int decimal) {
   tft.print(val, decimal);
 }
 
-void printTftText(String text, int x, int y)
-{
-  printTftText(text, x, y, WHITE, 2, false);
-}
-
-void printTftText(String text, int x, int y, unsigned int color)
-{
-  printTftText(text, x, y, color, 2, false);
-}
-
-void printTftText(String text, int x, int y, unsigned int color, int fontSize)
-{
-  printTftText(text, x, y, color, fontSize, false);
-}
-
+void printTftText(String text, int x, int y){ printTftText(text, x, y, WHITE, 2, false);}
+void printTftText(String text, int x, int y, unsigned int color){ printTftText(text, x, y, color, 2, false);}
+void printTftText(String text, int x, int y, unsigned int color, int fontSize){ printTftText(text, x, y, color, fontSize, false);}
 void printTftText(String text, int x, int y, unsigned int color, int fontSize, bool alignRight)
 {
   if(alignRight)
@@ -1336,7 +1326,6 @@ void startJumpsCapture()
 {
   selectJumpType();
   float maxJump = 0;
-  int totalJumps = 0;
   int bestJumper = 0;
   float graphRange = 50;
   fileName = String("J") + "-S" + String(setNumber);
@@ -1345,7 +1334,6 @@ void startJumpsCapture()
   rcaFlag = false;
   //lastPhaseTime could be contactTime or flightTime depending on the phase
   float lastPhaseTime = 0;
-  bool waitingFirstContact = true;
   for (int i = 0; i < 10; i++)
   {
     bars[i] = 0;
@@ -1357,7 +1345,7 @@ void startJumpsCapture()
   currentPerson = 0;
   updatePersonJump(totalJumps);
 
-    //Print summary results
+  //Print summary results
   printTftText("H:", 10, 215, 2, WHITE, false);
   printTftValue(maxJump, 58, 215, 2, 2);
   
@@ -1408,9 +1396,11 @@ void startJumpsCapture()
           index = (index + 1) % 10;
           totalJumps++;
           updatePersonJump(totalJumps);
+          waitingFirstContact = true;
+          nextJump("Red: Next jump", 100, 6);
           
         //Taking off. Ends contact. start of flight time
-        } else if (!rcaState)
+        } else if (!rcaState && !waitingFirstContact)
         {
           Serial.println("r");
         }
@@ -1620,4 +1610,48 @@ void resultsBackground()
 
   tft.drawLine(0, 20, 320, 20, GREY);
   tft.drawLine(160, 240, 160, 20, GREY);
+}
+
+
+void nextJump(){ nextJump("", 0, 0, 2);}
+void nextJump(String message, float x, float y){ nextJump(message, x, y, 2);}
+void nextJump(String message, float x, float y, int fontSize)
+{
+  int len = message.length();
+  unsigned int w = 6*fontSize*len;
+  unsigned int h = 8*fontSize;
+  uint16_t backRect[w*h];
+  tft.readRect(x, y, w, h, backRect);
+  
+  printTftText(message, x, y, RED);
+  redButton.update();
+  while( !redButton.fell())
+  {
+    if( blueButton.fell() ){
+      currentPerson = (currentPerson + 1)%totalPersons;
+      updatePersonJump(totalJumps);
+      waitingFirstContact = true;
+    }
+    blueButton.update();
+    redButton.update();
+  }
+  printTftText(message, x, y, BLACK);
+  tft.writeRect(x, y, w, h, backRect);
+}
+
+void waitingRedButton(){ nextJump("", 0, 0, 2);}
+void waitingRedButton(String message, float x, float y){ nextJump(message, x, y, 2);}
+void waitingRedButton(String message, float x, float y, int fontSize)
+{
+  int len = message.length();
+  unsigned int w = 6*fontSize*len;
+  unsigned int h = 8*fontSize;
+  uint16_t backRect[w*h];
+  tft.readRect(x, y, w, h, backRect);
+  
+  printTftText(message, x, y, RED);
+  redButton.update();
+  while( !redButton.fell()) redButton.update();
+  printTftText(message, x, y, BLACK);
+  tft.writeRect(x, y, w, h, backRect);
 }

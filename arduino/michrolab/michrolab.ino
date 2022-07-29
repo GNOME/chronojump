@@ -397,7 +397,7 @@ void setup() {
   currentJumpType = 0;
 
   tft.fillScreen(BLACK);
-  
+
   drawMenuBackground();
   backMenu();
   showMenuEntry(currentMenuIndex);
@@ -510,19 +510,25 @@ void printTftValue (float val, int x, int y, int fontSize, int decimal) {
   tft.print(val, decimal);
 }
 
-void printTftText(String text, int x, int y){ printTftText(text, x, y, WHITE, 2, false);}
-void printTftText(String text, int x, int y, unsigned int color){ printTftText(text, x, y, color, 2, false);}
-void printTftText(String text, int x, int y, unsigned int color, int fontSize){ printTftText(text, x, y, color, fontSize, false);}
+void printTftText(String text, int x, int y) {
+  printTftText(text, x, y, WHITE, 2, false);
+}
+void printTftText(String text, int x, int y, unsigned int color) {
+  printTftText(text, x, y, color, 2, false);
+}
+void printTftText(String text, int x, int y, unsigned int color, int fontSize) {
+  printTftText(text, x, y, color, fontSize, false);
+}
 void printTftText(String text, int x, int y, unsigned int color, int fontSize, bool alignRight)
 {
-  if(alignRight)
+  if (alignRight)
   {
     int len = text.length();
-    x = x - 6*fontSize*len;
+    x = x - 6 * fontSize * len;
   }
   tft.setTextColor(color);
   tft.setTextSize(fontSize);
-  tft.setCursor(x,y);
+  tft.setCursor(x, y);
   tft.print(text);
 
   tft.setTextColor(WHITE);
@@ -823,7 +829,7 @@ void showLoadCellResults() {
 
   printTftText("F", 0, 80);
   printTftText("trig", 12, 88, WHITE);
-  
+
   printTftValue(forceTrigger, 100, 80, textSize, 1);
 
   printTftText("Imp", 170, 80);
@@ -957,7 +963,7 @@ void captureRaw()
           }
           lastRcaState = rcaState;
 
-        //If no RCA event, read the sensor as usual
+          //If no RCA event, read the sensor as usual
         } else {
           //Calculation of the variables shown in the results
           if (sensor == incEncoder) getEncoderDynamics();
@@ -1082,23 +1088,23 @@ void captureBars()
     printTftValue(measuredMax, 94, 215, 2, 1);
     updatePersonSet();
   }
-  
-  redrawAxes(tft, 30, 200, 290, 200, 290, 200, 0, graphRange, graphRange/10, "", "", "", WHITE, GREY, WHITE, WHITE, BLACK, RED, true);
-  
-  while(capturing)
+
+  redrawAxes(tft, 30, 200, 290, 200, 290, 200, 0, graphRange, graphRange / 10, "", "", "", WHITE, GREY, WHITE, WHITE, BLACK, RED, true);
+
+  while (capturing)
   {
     getEncoderDynamics();
-    if(redrawBars)
+    if (redrawBars)
     {
-      index = (numRepetitions - 1)%10;
+      index = (numRepetitions - 1) % 10;
       redrawBars = false;
       tft.fillRect(30, 0, 290, 200, BLACK);
-      if (bars[(numRepetitions - 1)%10] > graphRange)
+      if (bars[(numRepetitions - 1) % 10] > graphRange)
       {
-        redrawAxes(tft, 30, 200, 290, 200, 290, 200, 0, graphRange, graphRange/10, "", "", "", WHITE, GREY, WHITE, WHITE, BLACK, RED, true);
-        graphRange = bars[index]*1.25;
+        redrawAxes(tft, 30, 200, 290, 200, 290, 200, 0, graphRange, graphRange / 10, "", "", "", WHITE, GREY, WHITE, WHITE, BLACK, RED, true);
+        graphRange = bars[index] * 1.25;
       }
-      redrawAxes(tft, 30, 200, 290, 200, 290, 200, 0, graphRange, graphRange/10, "", "", "", WHITE, GREY, WHITE, WHITE, BLACK, RED, true);
+      redrawAxes(tft, 30, 200, 290, 200, 290, 200, 0, graphRange, graphRange / 10, "", "", "", WHITE, GREY, WHITE, WHITE, BLACK, RED, true);
       barPlot(30, 200, 290, 200, graphRange, 10, index, 0.5, RED);
     }
     redButton.update();
@@ -1159,15 +1165,15 @@ void getEncoderDynamics()
       encoderPhase *= -1;
       propulsive = true;
       avgVelocity = (float)(position - startPhasePosition) * 1000 / (lastSampleTime - startPhaseTime);
-      bars[numRepetitions%10] = abs(avgVelocity);
+      bars[numRepetitions % 10] = abs(avgVelocity);
       redrawBars = true;
-  
-//      for(int i = 0; i<10; i++)
-//      {
-//        Serial.print(bars[ (numRepetitions%10 - i + 10) % 10]);
-//        Serial.print("\t");
-//      }
-//      Serial.println();
+
+      //      for(int i = 0; i<10; i++)
+      //      {
+      //        Serial.print(bars[ (numRepetitions%10 - i + 10) % 10]);
+      //        Serial.print("\t");
+      //      }
+      //      Serial.println();
 
       numRepetitions++;
       if (avgVelocity > maxAvgVelocity) maxAvgVelocity = avgVelocity;
@@ -1340,7 +1346,7 @@ void simpleJumpsCapture()
     bars[i] = 0;
   }
   tft.fillScreen(BLACK);
-  redrawAxes(tft, 30, 200, 290, 200, 290, 200, 0, graphRange, graphRange/10, "", "", "", WHITE, GREY, WHITE, WHITE, BLACK, RED, true);
+  redrawAxes(tft, 30, 200, 290, 200, 290, 200, 0, graphRange, graphRange / 10, "", "", "", WHITE, GREY, WHITE, WHITE, BLACK, RED, true);
   redButton.update();
   int index = 0;
   currentPerson = 0;
@@ -1349,11 +1355,11 @@ void simpleJumpsCapture()
   //Print summary results
   printTftText("H:", 10, 215, 2, WHITE, false);
   printTftValue(maxJump, 58, 215, 2, 2);
-  
+
   while ( !redButton.fell() )
   {
-    if( blueButton.fell() ){
-      currentPerson = (currentPerson + 1)%totalPersons;
+    if ( blueButton.fell() ) {
+      currentPerson = (currentPerson + 1) % totalPersons;
       updatePersonJump(totalJumps);
       waitingFirstPhase = true;
     }
@@ -1370,7 +1376,7 @@ void simpleJumpsCapture()
 
       //If there's been a previous contact it means thet this is the start or end of flight time
       if (!waitingFirstPhase) {
-        
+
         //Stepping on the mat. End of flight time. Starts contact.
         if (rcaState)
         {
@@ -1386,26 +1392,26 @@ void simpleJumpsCapture()
             maxJump = bars[index];
             bestJumper = currentPerson;
           }
-          
+
           if (bars[index] > graphRange)
           {
-            redrawAxes(tft, 30, 200, 290, 200, 290, 200, 0, graphRange, graphRange/10, "", "", "", WHITE, BLACK, WHITE, BLACK, BLACK, RED, true);
-            graphRange = bars[index]*1.25;
+            redrawAxes(tft, 30, 200, 290, 200, 290, 200, 0, graphRange, graphRange / 10, "", "", "", WHITE, BLACK, WHITE, BLACK, BLACK, RED, true);
+            graphRange = bars[index] * 1.25;
           }
-          redrawAxes(tft, 30, 200, 290, 200, 290, 200, 0, graphRange, graphRange/10, "", "", "", WHITE, GREY, WHITE, WHITE, BLACK, RED, true);
+          redrawAxes(tft, 30, 200, 290, 200, 290, 200, 0, graphRange, graphRange / 10, "", "", "", WHITE, GREY, WHITE, WHITE, BLACK, RED, true);
           barPlot(30, 200, 290, 200, graphRange, 10, index, 0.5, RED);
           index = (index + 1) % 10;
           totalJumps++;
           updatePersonJump(totalJumps);
           waitingFirstPhase = true;
           nextJump("Red: Next jump", 100, 6);
-          
-        //Taking off. Ends contact. start of flight time
+
+          //Taking off. Ends contact. start of flight time
         } else if (!rcaState && !waitingFirstPhase)
         {
           Serial.println("r");
         }
-        
+
       } else if (waitingFirstPhase) {
         waitingFirstPhase = false;
         if (rcaState)
@@ -1436,9 +1442,11 @@ void dropJumpsCapture()
   int bestJumper = 0;
   float graphRange = 50;
   fileName = String("D") + "-S" + String(setNumber);
-  //fileName = "P" + String(currentPerson) + "-S" + String(setNumber);
+  String fullFileName = "/" + dirName + "/" + fileName + ".txt";
+  File dataFile = SD.open(fullFileName, FILE_WRITE);
   lastRcaState = !digitalRead(rcaPin);
   rcaFlag = false;
+  bool jumpStart = rcaState;
   //lastPhaseTime could be contactTime or flightTime depending on the phase
   float lastPhaseTime = 0;
   float contactTime = 0;
@@ -1447,7 +1455,7 @@ void dropJumpsCapture()
     bars[i] = 0;
   }
   tft.fillScreen(BLACK);
-  redrawAxes(tft, 30, 184, 290, 184, 0, 0, 0, graphRange, graphRange/10, "", "", "", WHITE, GREY, WHITE, WHITE, BLACK, RED, true);
+  redrawAxes(tft, 30, 184, 290, 184, 0, 0, 0, graphRange, graphRange / 10, "", "", "", WHITE, GREY, WHITE, WHITE, BLACK, RED, true);
   redButton.update();
   int index = 0;
   currentPerson = 0;
@@ -1458,11 +1466,11 @@ void dropJumpsCapture()
   printTftValue(maxJump, 70, 200, 2, 2);
   printTftText("Tc:", 10, 216);
   printTftValue(contactTime, 70, 216, 2, 2);
-  
+
   while ( !redButton.fell() )
   {
-    if( blueButton.fell() ){
-      currentPerson = (currentPerson + 1)%totalPersons;
+    if ( blueButton.fell() ) {
+      currentPerson = (currentPerson + 1) % totalPersons;
       updatePersonJump(totalJumps);
       waitingFirstPhase = true;
     }
@@ -1473,7 +1481,7 @@ void dropJumpsCapture()
       rcaFlag = false;
       //Elapsed time in seconds
       lastSampleTime = rcaTime - lastRcaTime;
-      if(!rcaState){
+      if (!rcaState) {
         tft.setTextColor(BLACK);
         printTftValue(contactTime, 70, 216, 2, 2);
         contactTime = ((float)(rcaTime - lastRcaTime)) / 1E6;
@@ -1482,17 +1490,43 @@ void dropJumpsCapture()
       Serial.print(lastPhaseTime, 6);
       Serial.print(":");
 
-      //If there's been a previous flight it means that the 
-      if (!waitingFirstPhase) {
-        
-        //Stepping on the mat. End of flight time. Starts contact.
-        if (rcaState)
+      //There is no previous phase
+      if (waitingFirstPhase) {
+        //Start of the first jump
+        if (!rcaState)
         {
+          Serial.println("r");
+        }
+        //First landing. End of the first jump and start of the contact
+        else if (rcaState) {
+          waitingFirstPhase = false;
           Serial.println("R");
+          if (!jumpStart)
+          {
+            dataFile.print(String(currentPerson) + ";" + jumpTypes[currentJumpType].id + ";" + "0R" );
+          } else if(jumpStart)
+          {
+            dataFile.print(String(currentPerson) + ";" + jumpTypes[currentJumpType].id + ";" + String(lastPhaseTime, 6) + "R" );
+          }
+        }
+
+      } else if (!waitingFirstPhase) {
+
+        //Take off. Starts the second jump
+        if (!rcaState)
+        {
+          tft.setTextColor(WHITE);
+          printTftValue(contactTime, 70, 216, 2, 2);
+          Serial.println("r");
+          dataFile.print(";" + String(lastPhaseTime, 6) + "r");
+        //Second landing. Ends the second jump
+        } else if (rcaState){
+          Serial.println("R");
+          dataFile.println(";" + String(lastPhaseTime, 6) + "R");
           tft.fillRect(30, 0, 290, 200, BLACK);
           tft.setTextColor(BLACK);
           printTftValue(bars[(index + 10 - 1) % 10], 70, 200, 2, 2);
-          
+
           bars[index] = 122.6 * lastPhaseTime * lastPhaseTime; //In cm
           tft.setTextColor(WHITE);
           printTftValue(bars[index], 70, 200, 2, 2);
@@ -1501,45 +1535,31 @@ void dropJumpsCapture()
             maxJump = bars[index];
             bestJumper = currentPerson;
           }
-          
+
           if (bars[index] > graphRange)
           {
-            redrawAxes(tft, 30, 184, 290, 184, 0, 0, 0, graphRange, graphRange/10, "", "", "", WHITE, BLACK, WHITE, BLACK, BLACK, RED, true);
-            graphRange = bars[index]*1.25;
+            redrawAxes(tft, 30, 184, 290, 184, 0, 0, 0, graphRange, graphRange / 10, "", "", "", WHITE, BLACK, WHITE, BLACK, BLACK, RED, true);
+            graphRange = bars[index] * 1.25;
           }
-          redrawAxes(tft, 30, 184, 290, 184, 0, 0, 0, graphRange, graphRange/10, "", "", "", WHITE, GREY, WHITE, WHITE, BLACK, RED, true);
+          redrawAxes(tft, 30, 184, 290, 184, 0, 0, 0, graphRange, graphRange / 10, "", "", "", WHITE, GREY, WHITE, WHITE, BLACK, RED, true);
           barPlot(30, 184, 290, 184, graphRange, 10, index, 0.5, RED);
           index = (index + 1) % 10;
           totalJumps++;
           updatePersonJump(totalJumps);
           nextJump("Red: Next jump", 100, 6);
+          jumpStart = rcaState;
           waitingFirstPhase = true;
-          
-        //Taking off. Ends contact. start of flight time
-        } else if (!rcaState && !waitingFirstPhase)
-        {
-          tft.setTextColor(WHITE);
-          printTftValue(contactTime, 70, 216, 2, 2);
-          Serial.println("r");
         }
-        
-      } else if (waitingFirstPhase) {
-        if (rcaState)
-        {
-          waitingFirstPhase = false;
-          Serial.println("R");
-        }
-        else if (!rcaState) {
-          Serial.println("r");
-        }
+
       }
-      saveSimpleJump(lastPhaseTime);
+      //saveDropJump(lastPhaseTime);
       lastRcaState = rcaState;
       lastRcaTime = rcaTime;
     }
     redButton.update();
     blueButton.update();
   }
+  dataFile.close();
   setNumber++;
   showJumpsResults(maxJump, bestJumper, totalJumps);
   drawMenuBackground();
@@ -1551,7 +1571,7 @@ void showJumpsResults(float maxJump, unsigned int bestJumper, int totalJumps)
   resultsBackground();
   tft.drawLine(160, 240, 160, 80, BLACK);
   int textSize = 2;
-  
+
   printTftText("J", 0, 40, 2, WHITE, false);
   printTftText("max", 12, 48, WHITE, 1);
   printTftValue(maxJump, 100, 40, textSize, 2);
@@ -1559,9 +1579,9 @@ void showJumpsResults(float maxJump, unsigned int bestJumper, int totalJumps)
   printTftText("N", 170, 40, 2, WHITE, false);
   printTftText("Jumps", 218, 40, WHITE, 1);
   printTftValue(totalJumps, 268, 40, textSize, 0);
-  
+
   printTftText("Best Jumper: ", 0, 80, 2, WHITE, false);
-  
+
   printTftText(persons[bestJumper].name + " " + persons[bestJumper].surname, 12, 100, 2, WHITE, false);
 
   redButton.update();
@@ -1673,7 +1693,7 @@ void calibrateInertial()
 
   //Deleting text
   printTftText("Extend the rope or belt.\nOnce extended press RedButton", 12, 100, BLACK);
-  printTftText("Position: ", 12, 190,BLACK);
+  printTftText("Position: ", 12, 190, BLACK);
   printTftText(lastEncoderPosition, 124, 190, BLACK);
 
   printTftText("Calibrated", 100, 150, WHITE, 3);
@@ -1706,11 +1726,11 @@ void saveSimpleJump(float lastPhaseTime)
 {
   String fullFileName = "/" + dirName + "/" + fileName + ".txt";
   File dataFile = SD.open(fullFileName, FILE_WRITE);
-  if( !rcaState)
+  if ( !rcaState)
   {
     dataFile.print(String(currentPerson) + ";" + jumpTypes[currentJumpType].id + ";" + String(lastPhaseTime, 6) );
   }
-  else if(rcaState)
+  else if (rcaState)
   {
     dataFile.println(";" + String(lastPhaseTime, 6));
   }
@@ -1719,23 +1739,28 @@ void saveSimpleJump(float lastPhaseTime)
 
 void saveDropJump(float lastPhaseTime)
 {
+  Serial.println(waitingFirstPhase);
   String fullFileName = "/" + dirName + "/" + fileName + ".txt";
   File dataFile = SD.open(fullFileName, FILE_WRITE);
-  if(!waitingFirstPhase){
-      if( !rcaState)
-      {
-        if(waitingFirstPhase){
-          dataFile.print(String(currentPerson) + ";" + jumpTypes[currentJumpType].id + ";" + String(lastPhaseTime, 6) );
-          Serial.println("---");
-          Serial.print(String(currentPerson) + ";" + jumpTypes[currentJumpType].id + ";" + String(lastPhaseTime, 6) );
-        }
-      }
-      else if(rcaState)
-      {
-        dataFile.println(";" + String(lastPhaseTime, 6));
-        Serial.println(";" + String(lastPhaseTime, 6));
-      }
-      dataFile.close();
+  if (waitingFirstPhase)
+  {
+    //Starts the previous jump
+    if ( !rcaState)
+    {
+      Serial.print("Previous jump started");
+    }
+
+    //Starts de first landing
+    else if (rcaState)
+    {
+      dataFile.print(String(currentPerson) + ";" + jumpTypes[currentJumpType].id + ";" + String(lastPhaseTime, 6) );
+      Serial.println("Previous jump ended");
+    }
+    //Starting or ending the second jump
+  } else  if (!waitingFirstPhase)
+  {
+    Serial.println("Second jump");
+    dataFile.print( ";" + String(lastPhaseTime, 6) );
   }
 }
 
@@ -1753,22 +1778,26 @@ void resultsBackground()
 }
 
 
-void nextJump(){ nextJump("", 0, 0, 2);}
-void nextJump(String message, float x, float y){ nextJump(message, x, y, 2);}
+void nextJump() {
+  nextJump("", 0, 0, 2);
+}
+void nextJump(String message, float x, float y) {
+  nextJump(message, x, y, 2);
+}
 void nextJump(String message, float x, float y, int fontSize)
 {
   int len = message.length();
-  unsigned int w = 6*fontSize*len;
-  unsigned int h = 8*fontSize;
-  uint16_t backRect[w*h];
+  unsigned int w = 6 * fontSize * len;
+  unsigned int h = 8 * fontSize;
+  uint16_t backRect[w * h];
   tft.readRect(x, y, w, h, backRect);
-  
+
   printTftText(message, x, y, RED);
   redButton.update();
-  while( !redButton.fell())
+  while ( !redButton.fell())
   {
-    if( blueButton.fell() ){
-      currentPerson = (currentPerson + 1)%totalPersons;
+    if ( blueButton.fell() ) {
+      currentPerson = (currentPerson + 1) % totalPersons;
       updatePersonJump(totalJumps);
       waitingFirstPhase = true;
     }
@@ -1779,19 +1808,23 @@ void nextJump(String message, float x, float y, int fontSize)
   tft.writeRect(x, y, w, h, backRect);
 }
 
-void waitingRedButton(){ nextJump("", 0, 0, 2);}
-void waitingRedButton(String message, float x, float y){ nextJump(message, x, y, 2);}
+void waitingRedButton() {
+  nextJump("", 0, 0, 2);
+}
+void waitingRedButton(String message, float x, float y) {
+  nextJump(message, x, y, 2);
+}
 void waitingRedButton(String message, float x, float y, int fontSize)
 {
   int len = message.length();
-  unsigned int w = 6*fontSize*len;
-  unsigned int h = 8*fontSize;
-  uint16_t backRect[w*h];
+  unsigned int w = 6 * fontSize * len;
+  unsigned int h = 8 * fontSize;
+  uint16_t backRect[w * h];
   tft.readRect(x, y, w, h, backRect);
-  
+
   printTftText(message, x, y, RED);
   redButton.update();
-  while( !redButton.fell()) redButton.update();
+  while ( !redButton.fell()) redButton.update();
   printTftText(message, x, y, BLACK);
   tft.writeRect(x, y, w, h, backRect);
 }

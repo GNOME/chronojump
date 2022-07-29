@@ -842,13 +842,15 @@ public class RunEncoderCSV
 	public double Amax_raw;
 	public double Fmax_raw;
 	public double Pmax_raw;
+	public List<double> time_l;
 
 	public RunEncoderCSV ()
 	{
 	}
 
 	public RunEncoderCSV (double mass, double height, int temperature, double vw, double ka, double k_fitted, double vmax_fitted, double amax_fitted, double fmax_fitted, double fmax_rel_fitted, double sfv_fitted, double sfv_rel_fitted, double sfv_lm, double sfv_rel_lm, double pmax_fitted, double pmax_rel_fitted, double tpmax_fitted, double f0, double f0_rel, double v0, double pmax_lm, double pmax_rel_lm,
-			double vmax_raw, double amax_raw, double fmax_raw, double pmax_raw)
+			double vmax_raw, double amax_raw, double fmax_raw, double pmax_raw,
+			List<double> time_l)
 	{
 		this.Mass = mass;
 		this.Height = height;
@@ -876,11 +878,12 @@ public class RunEncoderCSV
 		this.Amax_raw = amax_raw;
 		this.Fmax_raw = fmax_raw;
 		this.Pmax_raw = pmax_raw;
+		this.time_l = time_l;
 	}
 
 	public string [] ToTreeView()
 	{
-		return new string [] {
+		string [] strArray = new string [] {
 			Util.TrimDecimals(Mass, 1),
 				Util.TrimDecimals(Height, 1),
 				Temperature.ToString(),
@@ -906,8 +909,16 @@ public class RunEncoderCSV
 				Util.TrimDecimals(Vmax_raw, 3),
 				Util.TrimDecimals(Amax_raw, 3),
 				Util.TrimDecimals(Fmax_raw, 3),
-				Util.TrimDecimals(Pmax_raw, 3),
+				Util.TrimDecimals(Pmax_raw, 3)
 		};
+
+		//convert time_l to strings to add them to strArray
+		List<string> timeStr_l = new List<string> ();
+		foreach (double time in time_l)
+			timeStr_l.Add (Util.TrimDecimals (time, 3));
+		strArray = Util.AddToArrayString (strArray, timeStr_l);
+
+		return strArray;
 	}
 
 	public string ToCSV(string decimalSeparator)

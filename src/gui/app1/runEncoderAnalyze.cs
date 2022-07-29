@@ -261,11 +261,12 @@ public partial class ChronoJumpWindow
 			else
 				sep = ",";
 
+			string contents = Util.ReadFile(RunEncoder.GetCSVResultsURL(), false);
+
 			//write header
 			writer.WriteLine(Util.RemoveNewLine(Util.StringArrayToString(
-							getTreeviewRaceAnalyzerHeaders(), sep), true));
+							getTreeviewRaceAnalyzerHeaders(contents), sep), true));
 
-			string contents = Util.ReadFile(RunEncoder.GetCSVResultsURL(), false);
 			RunEncoderCSV recsv = readRunEncoderCSVContents(contents);
 
 			writer.WriteLine(recsv.ToCSV(preferences.CSVExportDecimalSeparator));

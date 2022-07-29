@@ -1510,33 +1510,56 @@ public partial class ChronoJumpWindow
 
 	private void createTreeViewRaceEncoder (string contents)
 	{
-		string [] columnsString = getTreeviewRaceAnalyzerHeaders();
+		// 1) read the contents of the CSV
+		RunEncoderCSV recsv = readRunEncoderCSVContents (contents);
+
+		// 2) Add the columns to the treeview
+		string [] columnsString = getTreeviewRaceAnalyzerHeaders(contents);
 		int count = 0;
 		foreach(string column in columnsString)
 			treeview_raceAnalyzer.AppendColumn (column, new CellRendererText(), "text", count++);
 
-		TreeStore store = new TreeStore(
-				typeof (string), typeof (string), typeof (string),
-				typeof (string), typeof (string), typeof (string),
-				typeof (string), typeof (string), typeof (string),
-				typeof (string), typeof (string), typeof (string),
-				typeof (string), typeof (string), typeof (string),
-				typeof (string), typeof (string), typeof (string),
-				typeof (string), typeof (string), typeof (string),
-				typeof (string),
-				typeof (string), typeof (string), typeof (string), typeof (string) //raw (vmax, amax, fmax, pmax)
-				);
+		// 3) Add the TreeStore
+		Type [] types = new Type [columnsString.Length];
+		for (int i=0; i < columnsString.Length; i++) {
+			types[i] = typeof (string);
+		}
+		TreeStore store = new TreeStore(types);
 
-		RunEncoderCSV recsv = readRunEncoderCSVContents (contents);
 		store.AppendValues (recsv.ToTreeView());
 
+		// 4) Assing model to store and other tweaks
 		treeview_raceAnalyzer.Model = store;
 		treeview_raceAnalyzer.Selection.Mode = SelectionMode.None;
                 treeview_raceAnalyzer.HeadersVisible=true;
 	}
 
-	private string [] getTreeviewRaceAnalyzerHeaders ()
+	private string [] getTreeviewRaceAnalyzerHeaders (string contents)
         {
+		// 1) check how many dist columns we should add
+		List<string> dist_l = new List<string> ();
+		using (StringReader reader = new StringReader (contents))
+		{
+			string line = reader.ReadLine ();      //headers
+			LogB.Information(line);
+			if (line != null)
+			{
+				string [] cells = line.Split(new char[] {';'});
+				dist_l = new List<string> ();
+				for (int i = 26; i < cells.Length; i ++) //Attention!: take care with this 26 if in the future add more columns before dist/times
+				{
+					//each string comes as "X25.5m" convert to Time\n25.5\n(m) or Time\n25,5\n(m)
+					string temp = Util.RemoveChar (cells[i], '"', false);
+					temp = Util.RemoveChar (temp, 'X', false);
+					temp = Util.ChangeChars (temp, "m", "\n(m)");
+					temp = Util.ChangeDecimalSeparator (temp);
+					temp = Catalog.GetString ("Time") + "\n" + temp;
+					dist_l.Add (temp);
+				}
+			}
+		}
+
+		// 2) prepare the headers
                 string [] headers = {
 			"Mass\n\n(Kg)", "Height\n\n(m)", "Temperature\n\n(ºC)",
 			"V (wind)\n\n(m/s)", "Ka\n\n", "K\nfitted\n(s^-1)",
@@ -1548,6 +1571,10 @@ public partial class ChronoJumpWindow
 			"Pmax\nrel lm\n(W/Kg)",
 			"Vmax\nraw\n(m/s)", "Amax\nraw\n(m/s^2)", "Fmax\nraw\n(N)", "Pmax\nraw\n(W)"
 		};
+
+		// 3) add the dists to the headers
+		headers = Util.AddToArrayString (headers, dist_l);
+
 		return headers;
 	}
 
@@ -1559,7 +1586,6 @@ public partial class ChronoJumpWindow
 		using (StringReader reader = new StringReader (contents))
 		{
 			line = reader.ReadLine ();      //headers
-			//LogB.Information(line);
 			do {
 				line = reader.ReadLine ();
 				LogB.Information(line);
@@ -1567,6 +1593,11 @@ public partial class ChronoJumpWindow
 					break;
 
 				string [] cells = line.Split(new char[] {';'});
+
+				// get the times (total columns can be different each time)
+				List<double> time_l = new List<double> ();
+				for (int i = 26; i < cells.Length; i ++) //Attention! take care with this 26 if in the future add more columns before dist/times
+					time_l.Add (Convert.ToDouble (cells[i]));
 
 				recsv = new RunEncoderCSV (
 						Convert.ToDouble(cells[0]), Convert.ToDouble(cells[1]), Convert.ToInt32(cells[2]),
@@ -1578,7 +1609,8 @@ public partial class ChronoJumpWindow
 						Convert.ToDouble(cells[18]), Convert.ToDouble(cells[19]), Convert.ToDouble(cells[20]),
 						Convert.ToDouble(cells[21]),
 						Convert.ToDouble(cells[22]), Convert.ToDouble(cells[23]), //vmax raw, amax raw
-						Convert.ToDouble(cells[24]), Convert.ToDouble(cells[25]) //fmax raw, pmax raw
+						Convert.ToDouble(cells[24]), Convert.ToDouble(cells[25]), //fmax raw, pmax raw
+						time_l
 						);
 			} while(true);
 		}

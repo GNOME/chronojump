@@ -1953,7 +1953,20 @@ public class Util
 		return TrimDecimals(myLimitedWithoutLetter, pDN) + myLimitedLetter;
 	}
 
-	public static string [] AddArrayString(string [] initialString, string [] addString) {
+	public static string [] AddToArrayString(string [] initialString, List<string> add_l)
+	{
+		string [] returnString = new string[initialString.Length + add_l.Count];
+		int i, j;
+		for (i=0 ; i < initialString.Length; i ++)
+			returnString[i] = initialString[i];
+		for (j=0 ; j < add_l.Count; j ++)
+			returnString[i+j] = add_l[j];
+
+		return returnString;
+	}
+
+	public static string [] AddArrayString(string [] initialString, string [] addString)
+	{
 		string [] returnString = new string[initialString.Length + addString.Length];
 		int i;
 		int j;
@@ -1966,7 +1979,8 @@ public class Util
 	}
 
 	//bool firstOrLast: true means first
-	public static string [] AddArrayString(string [] initialString, string addString, bool firstOrLast) {
+	public static string [] AddArrayString(string [] initialString, string addString, bool firstOrLast)
+	{
 		string [] returnString = new string[initialString.Length + 1];
 
 		int i;

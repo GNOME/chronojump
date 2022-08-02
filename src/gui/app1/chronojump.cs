@@ -96,6 +96,7 @@ public partial class ChronoJumpWindow
 
 	[Widget] Gtk.Alignment alignment_contacts_show_graph_table;
 	[Widget] Gtk.HBox hbox_contacts_capture_show_need_one;
+	[Widget] Gtk.Label label_contacts_capture_show_need_one;
 	[Widget] Gtk.CheckButton check_contacts_capture_graph;
 	[Widget] Gtk.CheckButton check_contacts_capture_table;
 	[Widget] Gtk.Button button_contacts_capture_save_image;
@@ -4107,7 +4108,11 @@ public partial class ChronoJumpWindow
 		if (check_contacts_capture_graph.Active || check_contacts_capture_table.Active)
 			hbox_contacts_capture_show_need_one.Visible = false;
 		else
+		{
+			label_contacts_capture_show_need_one.Text = "<b>" + Catalog.GetString("Select at least one") + "</b>";
+			label_contacts_capture_show_need_one.UseMarkup = true;
 			hbox_contacts_capture_show_need_one.Visible = true;
+		}
 
 		/*
 		   update the preferences variable

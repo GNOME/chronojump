@@ -231,5 +231,19 @@ public class UtilAll
 		return Convert.ToInt32(DivideSafe(val1, val2));
 	}
 
+	//here to be able to be called from chronojumpMini
+	public static string [] AddArrayString(string [] initialString, string [] addString)
+	{
+		string [] returnString = new string[initialString.Length + addString.Length];
+		int i;
+		int j;
+		for (i=0 ; i < initialString.Length; i ++)
+			returnString[i] = initialString[i];
+		for (j=0 ; j < addString.Length; j ++)
+			returnString[i+j] = addString[j];
+
+		return returnString;
+	}
+
 
 }

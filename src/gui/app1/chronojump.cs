@@ -1396,8 +1396,9 @@ public partial class ChronoJumpWindow
 			if(! configChronojump.Exhibition)
 				updateGraphJumpsSimple();
 
-			update_label_extra_window_jumps_radiobutton_weight_percent_as_kg(
-					(currentJumpType.HasWeight && extra_window_jumps_radiobutton_weight.Active));
+			if(currentJumpType != null)
+				update_label_extra_window_jumps_radiobutton_weight_percent_as_kg(
+						(currentJumpType.HasWeight && extra_window_jumps_radiobutton_weight.Active));
 
 			if(notebook_analyze.CurrentPage == Convert.ToInt32(notebook_analyze_pages.JUMPSPROFILE))
 				jumpsProfileDo(true); //calculate data

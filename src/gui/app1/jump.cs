@@ -307,7 +307,7 @@ public partial class ChronoJumpWindow
 	private void updateGraphJumpsSimple () 
 	{
 		LogB.Information("Called updateGraphJumpsSimple");
-		if(currentPerson == null || currentSession == null)
+		if(currentPerson == null || currentSession == null || currentJumpType == null) //currentJumpType needed if there are no jumpTypes
 			return;
 
 		double tc = 0.0;

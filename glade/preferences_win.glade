@@ -4228,7 +4228,7 @@ It starts before and arrives there with some speed.</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="has_tooltip">True</property>
-                                                            <property name="tooltip" translatable="yes">Minimal height</property>
+                                                            <property name="tooltip" translatable="yes">Minimal force</property>
                                                             <property name="invisible_char">●</property>
                                                             <property name="width_chars">3</property>
                                                             <property name="invisible_char_set">True</property>
@@ -4288,7 +4288,7 @@ It starts before and arrives there with some speed.</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="has_tooltip">True</property>
-                                                            <property name="tooltip" translatable="yes">Minimal height</property>
+                                                            <property name="tooltip" translatable="yes">Minimal force</property>
                                                             <property name="invisible_char">●</property>
                                                             <property name="width_chars">3</property>
                                                             <property name="invisible_char_set">True</property>
@@ -4463,7 +4463,6 @@ It starts before and arrives there with some speed.</property>
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">True</property>
                                                     <property name="has_tooltip">True</property>
-                                                    <property name="tooltip" translatable="yes">Minimal height</property>
                                                     <property name="invisible_char">●</property>
                                                     <property name="width_chars">4</property>
                                                     <property name="invisible_char_set">True</property>
@@ -4569,7 +4568,6 @@ It starts before and arrives there with some speed.</property>
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">True</property>
                                                     <property name="has_tooltip">True</property>
-                                                    <property name="tooltip" translatable="yes">Minimal height</property>
                                                     <property name="invisible_char">●</property>
                                                     <property name="width_chars">4</property>
                                                     <property name="invisible_char_set">True</property>

@@ -9,6 +9,26 @@ void addJump(String row)
   nextComaIndex = row.indexOf(",", prevComaIndex + 1 );
   jumpTypes[currentJumpType].name = row.substring(prevComaIndex + 1 , nextComaIndex);
   prevComaIndex = nextComaIndex;
+
+  prevComaIndex = nextComaIndex;
+  nextComaIndex = row.indexOf(",", prevComaIndex + 1 );
+  jumpTypes[currentJumpType].jumpLimit = row.substring(prevComaIndex + 1, nextComaIndex).toInt();
+  prevComaIndex = nextComaIndex;
+  
+  prevComaIndex = nextComaIndex;
+  nextComaIndex = row.indexOf(",", prevComaIndex + 1 );
+  jumpTypes[currentJumpType].timeLimit = row.substring(prevComaIndex + 1, nextComaIndex).toFloat();
+  prevComaIndex = nextComaIndex;
+  
+  prevComaIndex = nextComaIndex;
+  nextComaIndex = row.indexOf(",", prevComaIndex + 1 );
+  jumpTypes[currentJumpType].hardTimeLimit = (row.substring(prevComaIndex + 1 , nextComaIndex) == 1);
+  prevComaIndex = nextComaIndex;
+    
+  prevComaIndex = nextComaIndex;
+  nextComaIndex = row.indexOf(",", prevComaIndex + 1 );
+  jumpTypes[currentJumpType].fall = row.substring(prevComaIndex + 1, nextComaIndex).toFloat();
+  prevComaIndex = nextComaIndex;
   
   nextComaIndex = row.indexOf(",", prevComaIndex + 1 );
   jumpTypes[currentJumpType].startIn = (row.substring(prevComaIndex + 1 , nextComaIndex) == "1");
@@ -34,7 +54,7 @@ void readJumpTypesFile()
         readString = readString + readChar;
         pos++;
       }
-      //Check that it is a valid row
+      //Check that it is a valid row.
       if ( isDigit(readString[0]) )
       {
         numRows++;
@@ -52,7 +72,12 @@ void printJumpTypesList()
   for (unsigned int i = 0; i < totalJumpTypes; i++)
   {
     Serial.print(jumpTypes[i].id);
-    Serial.print("," + jumpTypes[i].name + ",");
+    Serial.print("," + jumpTypes[i].name + " ,");
+    Serial.print(String( jumpTypes[i].jumpLimit , 2) + " ,");
+    Serial.print(String( jumpTypes[i].timeLimit ) + "s ,");
+    Serial.print(String( jumpTypes[i].hardTimeLimit) + " ,");
+    Serial.print(String( jumpTypes[i].percentBodyWeight , 2) + "% ,");
+    Serial.print(String( jumpTypes[i].fall , 2) + "cm ,");
     Serial.println(jumpTypes[i].startIn);
   }
 }

@@ -61,7 +61,7 @@ void readPersonsFile()
   String row = "";
   char readChar;
   String filename = "group"+String(group)+".txt";
-  File  personsFile = SD.open(filename);
+  File  personsFile = SD.open(filename.c_str());
   if (personsFile)
   {
     currentPerson = 0;
@@ -94,7 +94,7 @@ unsigned int getTotalPerson()
   char readChar;
   String readString = "";
   String filename = "group"+String(group)+".txt";
-  File  personsFile = SD.open(filename);
+  File  personsFile = SD.open(filename.c_str());
   if (personsFile)
   {
     //Start reading from the last byte

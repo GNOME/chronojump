@@ -1,9 +1,10 @@
-1,Free,1
-1,SJ,1
-3,SJl,1
-4,CMJ,1
-5,CMJl,1
-6,slCMJleft,1
-7,slCMJright,1
-8,ABK,1
-10,DJa,0
+#id, name, jumpLimit,timeLimit, hardTimeLimit, percentBodyWeight, fall, startIn
+1,Free,1,0,0,0,0,1
+2,SJ,1,0,0,0,0,1
+3,SJl100,1,0,0,100,0,1
+4,CMJ,1,0,0,0,0,1
+5,CMJl,1,0,0,100,0,1
+6,slCMJleft,1,0,0,0,0,1
+7,slCMJright,1,0,0,0,0,1
+8,ABK,1,0,0,0,0,1
+10,DJa,1,0,0,0,0,0

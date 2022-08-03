@@ -306,8 +306,13 @@ unsigned int totalPersons = 0;
 personType persons[100];
 
 struct jumpType {
-  int id;
+  unsigned int id;
   String name;
+  unsigned int jumpLimit;
+  float timeLimit;
+  bool hardTimeLimit;
+  float percentBodyWeight;
+  float fall;
   bool startIn;   //If the time of contact is required, start outside or start inside but make a previous jump
 };
 
@@ -1443,7 +1448,7 @@ void dropJumpsCapture()
   float graphRange = 50;
   fileName = String("D") + "-S" + String(setNumber);
   String fullFileName = "/" + dirName + "/" + fileName + ".txt";
-  File dataFile = SD.open(fullFileName, FILE_WRITE);
+  File dataFile = SD.open(fullFileName.c_str(), FILE_WRITE);
   lastRcaState = !digitalRead(rcaPin);
   rcaFlag = false;
   bool jumpStart = rcaState;
@@ -1612,7 +1617,7 @@ void saveSD(String fileName)
     return;
   }
   String fullFileName = "/" + dirName + "/" + fileName + sensorString + ".txt";
-  File dataFile = SD.open(fullFileName, FILE_WRITE);
+  File dataFile = SD.open(fullFileName.c_str(), FILE_WRITE);
   dataFile.println(String(lastSampleTime) + ";" + String(measured));
   dataFile.close();
 }
@@ -1646,8 +1651,8 @@ String createNewDir()
   dirNumber = countDirs() + 1;
   dirName = "ML";
   dirName = dirName + addLeadingZeros(dirNumber, 4) + "G" + String(group);
-  SD.mkdir(dirName);
-  return (dirName);
+  SD.mkdir(dirName.c_str());
+  return (dirName.c_str());
 }
 
 String addLeadingZeros(int number, int totalDigits)
@@ -1725,7 +1730,7 @@ void selectPerson()
 void saveSimpleJump(float lastPhaseTime)
 {
   String fullFileName = "/" + dirName + "/" + fileName + ".txt";
-  File dataFile = SD.open(fullFileName, FILE_WRITE);
+  File dataFile = SD.open(fullFileName.c_str(), FILE_WRITE);
   if ( !rcaState)
   {
     dataFile.print(String(currentPerson) + ";" + jumpTypes[currentJumpType].id + ";" + String(lastPhaseTime, 6) );
@@ -1741,7 +1746,7 @@ void saveDropJump(float lastPhaseTime)
 {
   Serial.println(waitingFirstPhase);
   String fullFileName = "/" + dirName + "/" + fileName + ".txt";
-  File dataFile = SD.open(fullFileName, FILE_WRITE);
+  File dataFile = SD.open(fullFileName.c_str(), FILE_WRITE);
   if (waitingFirstPhase)
   {
     //Starts the previous jump

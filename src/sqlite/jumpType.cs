@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2017   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2004-2022   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -78,7 +78,7 @@ class SqliteJumpType : Sqlite
 				dbcmdTr.Transaction = tr;
 	
 				foreach(string myJumpType in iniJumpTypes) {
-					JumpTypeInsert(myJumpType, true, dbcmdTr);
+					JumpTypeInsert(-1, myJumpType, true, dbcmdTr);
 					conversionSubRate ++;
 				}
 			}
@@ -159,7 +159,7 @@ class SqliteJumpType : Sqlite
 				dbcmdTr.Transaction = tr;
 
 				foreach(string myJumpType in iniJumpTypes) {
-					JumpRjTypeInsert(myJumpType, true, dbcmdTr);
+					JumpRjTypeInsert(-1, myJumpType, true, dbcmdTr);
 				}
 			}
 			tr.Commit();
@@ -190,20 +190,30 @@ class SqliteJumpType : Sqlite
 
 	//called from some Chronojump methods
 	//adds dbcmd to be used on next Insert method
-	public static void JumpTypeInsert(string myJump, bool dbconOpened)
+	public static void JumpTypeInsert (string myJump, bool dbconOpened)
 	{
-		JumpTypeInsert(myJump, dbconOpened, dbcmd);
+		JumpTypeInsert (-1, myJump, dbconOpened, dbcmd);
+	}
+	//used on networks when will force the server id of that exercise
+	public static void JumpTypeInsert (int uniqueID, string myJump, bool dbconOpened)
+	{
+		JumpTypeInsert (uniqueID, myJump, dbconOpened, dbcmd);
 	}
 	//Called from initialize
-	public static void JumpTypeInsert(string myJump, bool dbconOpened, SqliteCommand mycmd)
+	public static void JumpTypeInsert (int uniqueID, string myJump, bool dbconOpened, SqliteCommand mycmd)
 	{
 		string [] myStr = myJump.Split(new char[] {':'});
 		if(! dbconOpened) {
 			Sqlite.Open();
 		}
+		string uniqueIDstr = "NULL";
+		if (uniqueID >= 0)
+			uniqueIDstr = uniqueID.ToString ();
+
 		mycmd.CommandText = "INSERT INTO " + Constants.JumpTypeTable +  
 				" (uniqueID, name, startIn, weight, description)" +
-				" VALUES (NULL, \""
+				//" VALUES (NULL, \""
+				" VALUES (" + uniqueIDstr + ", \""
 				+ myStr[0] + "\", " + myStr[1] + ", " +	//name, startIn
 				myStr[2] + ", \"" + myStr[3] + "\")" ;	//weight, description
 		LogB.SQL(mycmd.CommandText.ToString());
@@ -215,20 +225,30 @@ class SqliteJumpType : Sqlite
 
 	//called from some Chronojump methods
 	//adds dbcmd to be used on next Insert method
-	public static void JumpRjTypeInsert(string myJump, bool dbconOpened)
+	public static void JumpRjTypeInsert (string myJump, bool dbconOpened)
 	{
-		JumpRjTypeInsert(myJump, dbconOpened, dbcmd);
+		JumpRjTypeInsert (-1, myJump, dbconOpened, dbcmd);
+	}
+	//used on networks when will force the server id of that exercise
+	public static void JumpRjTypeInsert (int uniqueID, string myJump, bool dbconOpened)
+	{
+		JumpRjTypeInsert (uniqueID, myJump, dbconOpened, dbcmd);
 	}
 	//Called from initialize
-	public static void JumpRjTypeInsert(string myJump, bool dbconOpened, SqliteCommand mycmd)
+	public static void JumpRjTypeInsert (int uniqueID, string myJump, bool dbconOpened, SqliteCommand mycmd)
 	{
 		string [] myStr = myJump.Split(new char[] {':'});
 		if(! dbconOpened) {
 			Sqlite.Open();
 		}
+		string uniqueIDstr = "NULL";
+		if (uniqueID >= 0)
+			uniqueIDstr = uniqueID.ToString ();
+
 		mycmd.CommandText = "INSERT INTO " + Constants.JumpRjTypeTable + 
 				" (uniqueID, name, startIn, weight, jumpsLimited, fixedValue, description)" +
-				" VALUES (NULL, \""
+				//" VALUES (NULL, \""
+				" VALUES (" + uniqueIDstr + ", \""
 				+ myStr[0] + "\", " + myStr[1] + ", " +	//name, startIn
 				myStr[2] + ", " + myStr[3] + ", " +	//weight, jumpsLimited
 				myStr[4] + ", \"" + myStr[5] + "\")" ;	//fixedValue, description

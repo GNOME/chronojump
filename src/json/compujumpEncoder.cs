@@ -20,9 +20,116 @@
  */
 
 using System;
+using System.Net;
+using System.IO;
+using System.Json;
 using System.Text;
 using System.Collections;
+using System.Collections.Generic; //List<>
 
+public class JsonCompujumpEncoder : JsonCompujump
+{
+	public JsonCompujumpEncoder (bool django)
+	{
+		this.django = django;
+
+		ResultMessage = "";
+	}
+
+	//stationType can be GRAVITATORY or INERTIAL
+	public override List<EncoderExercise> GetEncoderStationExercises (int stationId, Constants.EncoderGI stationType)
+	{
+		List<EncoderExercise> ex_list = new List<EncoderExercise>();
+
+		// Create a request using a URL that can receive a post.
+		if (! createWebRequest(requestType.AUTHENTICATED, "/api/v1/client/getStationExercises"))
+			return ex_list;
+
+		// Set the Method property of the request to GET.
+		request.Method = "GET";
+
+		HttpWebResponse response;
+		if(! getHttpWebResponse (request, out response, exercisesFailedStr))
+			return ex_list;
+
+		string responseFromServer;
+		using (var sr = new StreamReader(response.GetResponseStream()))
+		{
+			responseFromServer = sr.ReadToEnd();
+		}
+
+		LogB.Information("GetStationExercises: " + responseFromServer);
+
+		if(responseFromServer == "")
+			LogB.Information(" Empty "); //never happens
+		else if(responseFromServer == "[]")
+			LogB.Information(" Empty2 "); //when rfid is not on server
+		else {
+			ex_list = stationExercisesDeserialize(responseFromServer, stationId, stationType);
+		}
+
+		return ex_list;
+	}
+
+	private List<EncoderExercise> stationExercisesDeserialize (string str, int stationId, Constants.EncoderGI stationType)
+	{
+		List<EncoderExercise> ex_list = new List<EncoderExercise>();
+		JsonValue jsonStationExercises = JsonValue.Parse (str);
+
+		foreach (JsonValue jsonSE in jsonStationExercises)
+		{
+			/*
+			   not needed, as exercises on the json are the related to our station
+			   and this code uses machineID, but the list jsonSEStation ["id"] contains logical instead of physical.
+			   so no need to check anything
+			// 1) discard exercise if is not for this station
+			JsonValue jsonSEStations = JsonValue.Parse (jsonSE["stations"].ToString());
+			bool exerciseForThisStation = false;
+			foreach (JsonValue jsonSEStation in jsonSEStations)
+			{
+				Int32 stations_id = jsonSEStation ["id"];
+				if(stations_id == stationId)
+					exerciseForThisStation = true;
+			}
+
+			if(! exerciseForThisStation)
+				continue;
+			*/
+
+			// 2) discard if is not for this station type
+			string type = jsonSE ["measurable"];
+			Constants.EncoderGI newExEncoderGi = Constants.EncoderGI.GRAVITATORY;
+			if(type == "E")
+				newExEncoderGi = Constants.EncoderGI.GRAVITATORY;
+			else if(type == "I")
+				newExEncoderGi = Constants.EncoderGI.INERTIAL;
+			else
+				continue;
+
+			if(stationType != newExEncoderGi)
+				continue;
+
+			// 3) add exercise to the list
+			Int32 newExId = jsonSE ["id"];
+			string newExName = jsonSE ["name"];
+
+			int newExPercentBodyMassDisplaced = 0;
+			if(jsonSE ["measurable_info"]["percent_body_mass_displaced"] != null)
+				newExPercentBodyMassDisplaced = jsonSE ["measurable_info"]["percent_body_mass_displaced"];
+
+			double newExSpeedAt1RM = 0;
+			if(type == "G" && jsonSE ["measurable_info"]["speed_at_one_rm"] != null)
+				newExSpeedAt1RM = Convert.ToDouble(Util.ChangeDecimalSeparator(
+							jsonSE ["measurable_info"]["speed_at_one_rm"].ToString() )); //ToString is mandatory
+
+			ex_list.Add(new EncoderExercise(newExId, newExName, newExPercentBodyMassDisplaced,
+						"", "", newExSpeedAt1RM, newExEncoderGi));
+		}
+		return ex_list;
+	}
+
+
+}
 
 public class UploadEncoderDataFullObject
 {

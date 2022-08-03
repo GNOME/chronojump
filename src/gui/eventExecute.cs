@@ -622,13 +622,16 @@ public partial class ChronoJumpWindow
 	}
 
 	// simple and DJ jump	
-	public void PrepareJumpSimpleGraph(PrepareEventGraphJumpSimple eventGraph, bool animate)
+	public void PrepareJumpSimpleGraph (PrepareEventGraphJumpSimple eventGraph, bool animate)
 	{
 		/*
 		 * if not dj show heights
 		 * and it is a single jump type, and it has tc, tv (it is a dj or similar)
 		 * then show tc, tf
 		 */
+		if (eventGraph == null)
+			return;
+
 		bool useHeights = true;
 		if(! eventGraph.djShowHeights &&
 				eventGraph.type != "" && //it is a concrete type, not all jumps

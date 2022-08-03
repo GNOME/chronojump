@@ -212,6 +212,7 @@ SOURCES = \
 	json/compujump.cs\
 	json/compujumpEncoder.cs\
 	json/compujumpForceSensor.cs\
+	json/compujumpJumps.cs\
 	json/compujumpSprint.cs\
 	json/compujumpOther.cs\
 	json/exhibitions.cs\

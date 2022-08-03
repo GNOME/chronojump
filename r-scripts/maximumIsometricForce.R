@@ -681,6 +681,9 @@ drawDynamicsFromLoadCell <- function(title, exercise, datetime,
 
     exportValues = c(exportValues, impulse)
 
+    #adding also model error
+    exportValues = c(exportValues, dynamics$meanError)
+
     if(impulseLegend != ""){
         legendText = c(legendText, impulseLegend)
         legendColor = c(legendColor, impulseColor)
@@ -711,7 +714,7 @@ drawDynamicsFromLoadCell <- function(title, exercise, datetime,
 #                        "rfd0.fitted", "rfd100.raw", "rfd0_100.raw", "rfd0_100.fitted",
 #                        "rfd200.raw", "rfd0_200.raw", "rfd0_200.fitted",
 #                        "rfd50pfmax.raw", "rfd50pfmax.fitted")
-#    
+
 #    results[,"fileName"] = originalFiles
 #    
 #    for(i in 1:nFiles)
@@ -1201,6 +1204,8 @@ start <- function(op)
 		if(impulseOptions$impulseFunction != "-1")
 			exportModelVectorOnFail = c(exportModelVectorOnFail, NA) 		#impulse
 
+		exportModelVectorOnFail = c(exportModelVectorOnFail, NA) 		#model error
+
 		#preparing header row (each set will have this in the result dataframe to be able to combine them)
 		maxAvgWindowSecondsHeader = op$maxAvgWindowSeconds
 		if(op$decimalCharAtExport == ",")
@@ -1219,6 +1224,7 @@ start <- function(op)
 			exportNames = c(exportNames, paste("Impulse", impulseOptions$impulseFunction, impulseOptions$type,
 					impulseOptions$start, impulseOptions$end, sep ="_"))
 
+		exportNames = c(exportNames, "Model mean error (%)")
 		exportNames = c(exportNames, "Comments (set)")
 
 		if(op$includeImagesOnExport)

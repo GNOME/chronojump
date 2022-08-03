@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2017-2020   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2017-2022   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -152,6 +152,12 @@ public class SelectJumpTypes : SelectTypes
 		this.HasWeight = hasWeight;
 		this.Description = description;
 	}
+
+	public string ToSQLString ()
+	{
+		return string.Format("{0}:{1}:{2}:{3}",
+				NameEnglish, Util.BoolToInt (StartIn), Util.BoolToInt (HasWeight), Description);
+	}
 }
 
 public class SelectJumpRjTypes : SelectJumpTypes
@@ -174,6 +180,13 @@ public class SelectJumpRjTypes : SelectJumpTypes
 		this.JumpsLimited = jumpsLimited;
 		this.FixedValue = fixedValue;
 		this.Description = description;
+	}
+
+	public new string ToSQLString () //"new" to override inherited
+	{
+		return string.Format("{0}:{1}:{2}:{3}:{4}:{5}",
+				NameEnglish, Util.BoolToInt (StartIn), Util.BoolToInt (HasWeight),
+				Util.BoolToInt (JumpsLimited), Util.ConvertToPoint (FixedValue), Description);
 	}
 }
 

@@ -63,6 +63,11 @@ public class EventType
 		return false;
 	}
 	
+	public int UniqueID
+	{
+		get { return uniqueID; }
+	}
+
 	/*
 	 * defined on webservice
 	 */

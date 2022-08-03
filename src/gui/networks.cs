@@ -1112,7 +1112,21 @@ public partial class ChronoJumpWindow
 	private void getTasksExercisesAndPopup()
 	{
 		//1) get tasks
-		JsonCompujump json = new JsonCompujump(configChronojump.CompujumpDjango);
+		JsonCompujump json;
+
+		if(configChronojump.CompujumpStationMode == Constants.Modes.POWERGRAVITATORY ||
+				configChronojump.CompujumpStationMode == Constants.Modes.POWERINERTIAL)
+		{
+			json = new JsonCompujumpEncoder (configChronojump.CompujumpDjango);
+		}
+		else if(configChronojump.CompujumpStationMode == Constants.Modes.JUMPSSIMPLE ||
+				configChronojump.CompujumpStationMode == Constants.Modes.JUMPSREACTIVE)
+		{
+			json = new JsonCompujumpJumps (configChronojump.CompujumpDjango);
+		}
+		else
+			return;
+
 		string tasksStr = json.GetTasksResponse (currentPerson.UniqueID, configChronojump.CompujumpStationID);
 
 		List<Task> tasks = new List<Task>();
@@ -1125,8 +1139,55 @@ public partial class ChronoJumpWindow
 				tasks = new TaskDeserialize().DeserializeTaskEncoder(tasksStr);
 		}
 
-		//3) get exercises and insert if needed (only on encoder)
-		if(configChronojump.CompujumpStationMode == Constants.Modes.POWERGRAVITATORY ||
+		// 1) get tasks
+		// 3) get exercises and insert if needed (at the moment only for jumps and encoder)
+		// 3a) jumps
+		if(configChronojump.CompujumpStationMode == Constants.Modes.JUMPSSIMPLE ||
+				configChronojump.CompujumpStationMode == Constants.Modes.JUMPSREACTIVE)
+		{
+			List<object> jumpsSimpleExercisesOnLocal = SqliteJumpType.SelectJumpTypesNew (false, "", "", false);
+			List<object> jumpsRjExercisesOnLocal = SqliteJumpType.SelectJumpRjTypesNew ("", false);
+
+			//List<SelectJumpTypes> exRemote_l = json.GetJumpStationExercises (configChronojump.CompujumpStationID);
+			json.GetJumpStationExercises (configChronojump.CompujumpStationID);
+
+			// 3a1) Jumps simple
+			foreach(SelectJumpTypes exRemote in json.JumpSimpleExercises_l)
+			{
+				bool found = false;
+				foreach(SelectJumpTypes jLocal in jumpsSimpleExercisesOnLocal)
+					if(jLocal.Id == exRemote.Id)
+					{
+						found = true;
+						break;
+					}
+
+				if(! found)
+				{
+					SqliteJumpType.JumpTypeInsert (exRemote.Id, exRemote.ToSQLString (), false);
+					createComboSelectJumps (false);
+				}
+			}
+			// 3a2) Jumps Reactive
+			foreach(SelectJumpRjTypes exRemote in json.JumpRjExercises_l)
+			{
+				bool found = false;
+				foreach(SelectJumpRjTypes jLocal in jumpsRjExercisesOnLocal)
+					if(jLocal.Id == exRemote.Id)
+					{
+						found = true;
+						break;
+					}
+
+				if(! found)
+				{
+					SqliteJumpType.JumpRjTypeInsert (exRemote.Id, exRemote.ToSQLString (), false);
+					createComboSelectJumpsRj (false);
+				}
+			}
+		}
+		// 3b) encoder
+		else if(configChronojump.CompujumpStationMode == Constants.Modes.POWERGRAVITATORY ||
 				configChronojump.CompujumpStationMode == Constants.Modes.POWERINERTIAL)
 		{
 			Constants.EncoderGI type = Constants.EncoderGI.GRAVITATORY;
@@ -1134,7 +1195,7 @@ public partial class ChronoJumpWindow
 				type = Constants.EncoderGI.INERTIAL;
 
 			ArrayList encoderExercisesOnLocal = SqliteEncoder.SelectEncoderExercises(false, -1, false, type);
-			List<EncoderExercise> exRemote_list = json.GetStationExercises(configChronojump.CompujumpStationID, type);
+			List<EncoderExercise> exRemote_list = json.GetEncoderStationExercises (configChronojump.CompujumpStationID, type);
 
 			foreach(EncoderExercise exRemote in exRemote_list)
 			{

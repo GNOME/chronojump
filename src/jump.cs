@@ -97,6 +97,12 @@ public class Jump : Event
 		return Util.GetStiffness(personMassInKg, extraMass, tv, tc);
 	}	
 
+	//in JumpRj do not use this because we don't know on which subjumps use it
+	public double GetInitialSpeedJumpSimple (bool metersSecondsPreferred)
+	{
+		return (GetInitialSpeed (tv, metersSecondsPreferred));
+	}
+
 	//old code sends and returns strings
 	public static string GetInitialSpeed (string time, bool metersSecondsPreferred)
 	{

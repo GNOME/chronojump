@@ -804,42 +804,6 @@ public class Util
 		return Math.Sqrt( (9.81 * jumpHeightM) / 2);
 	}
 	
-	public static double GetDjPower (double tc, double tf, double mass, double fallHeight) 
-	{
-		/*
-		 * old method
-		//relative potency in Watts/Kg
-		//Bosco. Pendent to find if published
-
-		//P = 24.6 * (TotalTime + FlightTime) / ContactTime
-
-		double tt = tc + tf; //totalTime
-
-		return 24.6 * ( tt + tf ) / (Double)tc;
-		*/
-
-		//new method (proposal by Xavier Padullés)
-		//Calcule the potential energies before (mass * g * fallHeight) and after the jump (mass * g * tv^2 * 1.226)
-		//and divide by the time during force is applied
-		double g = 9.81;
-		fallHeight = fallHeight / 100.0; //cm -> m
-		
-		return mass * g * ( fallHeight + 1.226 * Math.Pow(tf,2) ) / (Double)tc;
-	}
-				
-	//only Lewis now
-	public static double GetPower (double tf, double bodyWeight, double extraWeightKg) 
-	{
-		//Log.WriteLine("tf: " + tf + ", bodyWeight: " + bodyWeight + ", extra: " + extraWeightKg);
-		double pw = System.Math.Sqrt ( 4.9 ) * 9.8 * (bodyWeight + extraWeightKg) *
-			System.Math.Sqrt(
-				       Convert.ToDouble(GetHeightInCentimeters(tf.ToString()))/100);
-		//Log.WriteLine("pw: " + pw);
-		return pw;
-
-	}
-
-
 	public static double GetQIndex (double tv, double tc) 
 	{
 		if(tv == 0 || tc == 0)

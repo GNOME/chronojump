@@ -4706,26 +4706,63 @@ EncoderInertialCapture</property>
                                                   </packing>
                                                 </child>
                                                 <child>
-                                                  <widget class="GtkButton" id="button_contacts_person_change">
-                                                    <property name="width_request">80</property>
-                                                    <property name="height_request">40</property>
+                                                  <widget class="GtkHBox" id="hbox500">
                                                     <property name="visible">True</property>
-                                                    <property name="can_focus">True</property>
-                                                    <property name="receives_default">True</property>
-                                                    <property name="tooltip" translatable="yes">Person</property>
-                                                    <signal name="clicked" handler="on_button_top_person_clicked" swapped="no"/>
+                                                    <property name="can_focus">False</property>
                                                     <child>
-                                                      <widget class="GtkEventBox" id="eventbox_button_contacts_person_change">
+                                                      <widget class="GtkButton" id="button_contacts_person_change">
+                                                        <property name="width_request">80</property>
+                                                        <property name="height_request">40</property>
                                                         <property name="visible">True</property>
-                                                        <property name="can_focus">False</property>
+                                                        <property name="can_focus">True</property>
+                                                        <property name="receives_default">True</property>
+                                                        <property name="tooltip" translatable="yes">Person</property>
+                                                        <signal name="clicked" handler="on_button_top_person_clicked" swapped="no"/>
                                                         <child>
-                                                          <widget class="GtkImage" id="image_person1">
+                                                          <widget class="GtkEventBox" id="eventbox_button_contacts_person_change">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <child>
+                                                            <widget class="GtkImage" id="image_person1">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="stock">gtk-missing-image</property>
+                                                            </widget>
+                                                            </child>
                                                           </widget>
                                                         </child>
                                                       </widget>
+                                                      <packing>
+                                                        <property name="expand">True</property>
+                                                        <property name="fill">True</property>
+                                                        <property name="position">0</property>
+                                                      </packing>
+                                                    </child>
+                                                    <child>
+                                                      <widget class="GtkButton" id="button_networks_contacts_guest">
+                                                        <property name="height_request">40</property>
+                                                        <property name="can_focus">True</property>
+                                                        <property name="receives_default">True</property>
+                                                        <signal name="clicked" handler="on_button_networks_guest_clicked" swapped="no"/>
+                                                        <child>
+                                                          <widget class="GtkEventBox" id="eventbox_button_networks_contacts_guest">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label280">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="label" translatable="yes">Guest</property>
+                                                            </widget>
+                                                            </child>
+                                                          </widget>
+                                                        </child>
+                                                      </widget>
+                                                      <packing>
+                                                        <property name="expand">True</property>
+                                                        <property name="fill">True</property>
+                                                        <property name="position">1</property>
+                                                      </packing>
                                                     </child>
                                                   </widget>
                                                   <packing>
@@ -6558,6 +6595,7 @@ EncoderInertialCapture</property>
                                                           <widget class="GtkHBox" id="hbox170">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
+                                                            <property name="border_width">4</property>
                                                             <child>
                                                             <widget class="GtkHBox" id="hbox_contacts_device_adjust_threshold">
                                                             <property name="visible">True</property>
@@ -6650,8 +6688,8 @@ EncoderInertialCapture</property>
                                                             </child>
                                                           </widget>
                                                           <packing>
-                                                            <property name="expand">True</property>
-                                                            <property name="fill">True</property>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
                                                             <property name="position">0</property>
                                                           </packing>
                                                         </child>
@@ -31130,8 +31168,7 @@ Concentric</property>
                                                         <property name="height_request">40</property>
                                                         <property name="can_focus">True</property>
                                                         <property name="receives_default">True</property>
-                                                        <property name="tooltip" translatable="yes">Person</property>
-                                                        <signal name="clicked" handler="on_button_networks_encoder_guest_clicked" swapped="no"/>
+                                                        <signal name="clicked" handler="on_button_networks_guest_clicked" swapped="no"/>
                                                         <child>
                                                           <widget class="GtkEventBox" id="eventbox_button_networks_encoder_guest">
                                                             <property name="visible">True</property>

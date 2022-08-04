@@ -64,6 +64,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_current_person;
 	[Widget] Gtk.Button button_contacts_person_change;
 	[Widget] Gtk.Button button_encoder_person_change;
+	[Widget] Gtk.Button button_networks_contacts_guest;
 	[Widget] Gtk.Button button_networks_encoder_guest;
 
 	//encoder exercise stuff
@@ -210,7 +211,9 @@ public partial class ChronoJumpWindow
 			configChronojump.PersonWinHide = true;
 			showPersonsOnTop(true);
 
+			button_networks_contacts_guest.Visible = true;
 			button_networks_encoder_guest.Visible = true;
+			button_contacts_person_change.Visible = false;
 			button_encoder_person_change.Visible = false;
 
 			if(configChronojump.CompujumpStationMode != Constants.Modes.UNDEFINED)
@@ -442,9 +445,10 @@ public partial class ChronoJumpWindow
 		database_fc.Destroy();
 	}
 
-	private void on_button_networks_encoder_guest_clicked (object sender, EventArgs e)
+	private void on_button_networks_guest_clicked (object sender, EventArgs e)
 	{
 		// 1) do not allow to click again the button
+		button_networks_contacts_guest.Visible = false;
 		button_networks_encoder_guest.Visible = false;
 
 		// 2) reset logout counter
@@ -475,13 +479,50 @@ public partial class ChronoJumpWindow
 		label_person_change();
 
 		// 6) specific guest setup
-		configNetworsEncoderAsGuest (true);
+		if (Constants.ModeIsENCODER (current_mode))
+			configNetworksEncoderAsGuest (true);
+		else
+			configNetworksContactsAsGuest (true);
 	}
-	private void configNetworsEncoderAsGuest(bool guest)
+	private void configNetworksContactsAsGuest (bool guest)
 	{
 		//on guest widgets are invisible, cleaner and easier than unsensitive because during capture/curves sensitivity changes on some buttons
 		check_contacts_networks_upload.Active = ! guest;
 		check_contacts_networks_upload.Visible = ! guest;
+
+		//radio_mode_contacts_analyze_small.Visible = ! guest;
+		button_menu_preferences1.Visible = ! guest;
+		button_contacts_capture_load.Visible = ! guest;
+		button_contacts_capture_session_overview.Visible = ! guest;
+		button_delete_last_test.Visible = ! guest;
+
+		button_contacts_bells.Visible = ! guest;
+
+		//simple jumps
+		button_edit_selected_jump.Visible = ! guest;
+		button_video_play_selected_jump.Visible = ! guest;
+		button_delete_selected_jump.Visible = ! guest;
+
+		//multiple jumps
+		button_edit_selected_jump_rj.Visible = ! guest;
+		button_repair_selected_jump_rj.Visible = ! guest;
+		button_video_play_selected_jump_rj.Visible = ! guest;
+		button_delete_selected_jump_rj.Visible = ! guest;
+
+		//simple races
+		button_edit_selected_run.Visible = ! guest;
+		button_video_play_selected_run.Visible = ! guest;
+		button_delete_selected_run.Visible = ! guest;
+
+		//intervallic races
+		button_edit_selected_run_interval.Visible = ! guest;
+		button_repair_selected_run_interval.Visible = ! guest;
+		button_video_play_selected_run_interval.Visible = ! guest;
+		button_delete_selected_run_interval.Visible = ! guest;
+	}
+	private void configNetworksEncoderAsGuest(bool guest)
+	{
+		//on guest widgets are invisible, cleaner and easier than unsensitive because during capture/curves sensitivity changes on some buttons
 		check_encoder_networks_upload.Active = ! guest;
 		check_encoder_networks_upload.Visible = ! guest;
 
@@ -990,13 +1031,18 @@ public partial class ChronoJumpWindow
 			sensitiveGuiYesPerson();
 
 		//it is not a guest remove guest changes
-		configNetworsEncoderAsGuest (false);
+		if (Constants.ModeIsENCODER (current_mode))
+			configNetworksEncoderAsGuest (false);
+		else
+			configNetworksContactsAsGuest (false);
 
 		if(pChangedShowTasks)
 		{
 			compujumpAutologout = new CompujumpAutologout();
 
+			button_networks_contacts_guest.Visible = false;
 			button_networks_encoder_guest.Visible = false;
+			button_contacts_person_change.Visible = true;
 			button_encoder_person_change.Visible = true;
 
 			/*TODO:
@@ -1384,7 +1430,9 @@ public partial class ChronoJumpWindow
 		currentPerson = null;
 		currentPersonSession = null;
 		sensitiveGuiNoPerson ();
+		button_networks_contacts_guest.Visible = true;
 		button_networks_encoder_guest.Visible = true;
+		button_contacts_person_change.Visible = false;
 		button_encoder_person_change.Visible = false;
 
 		//not allow to change devices if person changed. If you want to change again, go to preferences/advanced networksAllowChangeDevices

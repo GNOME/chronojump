@@ -43,6 +43,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.EventBox eventbox_button_menu_exit1;
 	[Widget] Gtk.EventBox eventbox_button_contacts_person_change;
 	[Widget] Gtk.EventBox eventbox_button_encoder_person_change;
+	[Widget] Gtk.EventBox eventbox_button_networks_contacts_guest;
 	[Widget] Gtk.EventBox eventbox_button_networks_encoder_guest;
 	[Widget] Gtk.CheckButton check_menu_session1;
 	[Widget] Gtk.Button button_menu_preferences1;
@@ -155,6 +156,7 @@ public partial class ChronoJumpWindow
 
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_contacts_person_change, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_encoder_person_change, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
+		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_networks_contacts_guest, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_networks_encoder_guest, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
 	}
 

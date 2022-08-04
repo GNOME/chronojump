@@ -231,7 +231,7 @@ public class TreeViewJumps : TreeViewEvent
 		if (preferences.showStiffness)
 			myData[count++] = newJump.Stiffness(personWeight, weightInKg).ToString();
 		if (preferences.showInitialSpeed) 
-			myData[count++] = Util.TrimDecimals(Util.GetInitialSpeed(newJump.Tv.ToString(), preferences.metersSecondsPreferred), pDN);
+			myData[count++] = Util.TrimDecimals(Jump.GetInitialSpeed(newJump.Tv.ToString(), preferences.metersSecondsPreferred), pDN);
 		if (preferences.showJumpRSI)
 			myData[count++] = Util.TrimDecimals(newJump.RSI, pDN);
 		if (preferences.showAngle) 
@@ -419,7 +419,7 @@ public class TreeViewJumpsRj : TreeViewJumps
 				myData[count++] = ""; 
 		}
 		if (preferences.showInitialSpeed) 
-			myData[count++] = Util.TrimDecimals(Util.GetInitialSpeed(
+			myData[count++] = Util.TrimDecimals(Jump.GetInitialSpeed(
 						thisTv, preferences.metersSecondsPreferred), pDN);
 		if (preferences.showJumpRSI)
 			myData[count++] = Util.TrimDecimals(
@@ -553,7 +553,7 @@ public class TreeViewJumpsRj : TreeViewJumps
 		}
 		if (preferences.showInitialSpeed) 
 			myData[count++] = Util.TrimDecimals(
-					Util.GetInitialSpeed(
+					Jump.GetInitialSpeed(
 						tvAVGDouble.ToString(), preferences.metersSecondsPreferred)
 					, pDN);
 		if (preferences.showJumpRSI)

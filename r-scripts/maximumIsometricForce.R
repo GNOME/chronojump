@@ -626,43 +626,38 @@ drawDynamicsFromLoadCell <- function(title, exercise, datetime,
                 
             } else if(RFDoptions$type == "BEST_AVG_RFD_IN_X_MS")
             {
-		RFD = 0
-		window = RFDoptions$start / 1000 # RFDoptions$start from ms to s
-
-		#if window does not fit in graph, discard it
-		if (dynamics$time[dynamics$startSample] + window > dynamics$time[dynamics$endSample])
-		    next
-
-		if (RFDoptions$rfdFunction == "FITTED")
-		{
-		} else if(RFDoptions$rfdFunction == "RAW")
-		{
-			for (i in dynamics$startSample:dynamics$endSample)
-			{
-				#stop calculating when currentSample + window is greater than endSample
-				if (i + window > dynamics$time[dynamics$endSample])
-					break()
-
-				forceTemp1 = dynamics$f.raw[i]
-				forceTemp2 = interpolateXAtY(dynamics$f.raw, dynamics$time, dynamics$time[i] + window)
-				RFDtemp = (forceTemp2 - forceTemp1) / window
-
-				if (RFDtemp > RFD)
-				{
-					force1 = forceTemp1
-					force2 = forceTemp2
-					RFD = RFDtemp
-					time1 = dynamics$time[i]
-					time2 = interpolateXAtY(dynamics$time, dynamics$time, dynamics$time[i] + window)
-				}
-			}
-			legendText = c(legendText, paste("RFD max avg in", RFDoptions$start, "ms = ", round(RFD, digits = 1), " N/s", sep = ""))
-			legendColor = c(legendColor, "black")
-		}
-	    }
+                window = RFDoptions$start / 1000
+                print("detected BEST_AVG_RFD_IN_X_MS")
+                if (RFDoptions$rfdFunction == "FITTED")
+                {
+                    print("FITTED")
+                    #In the model the max RFD is always the RFD0
+                    time1 = dynamics$time[dynamics$startSample]
+                    # print(paste("In drawDynamics time1:", time1))
+                    time2 = time1 + window
+                    force1 = 0
+                    force2 = dynamics$fmax.fitted*(1 - exp(-dynamics$k.fitted*window))
+                    RFD = force2 / window
+                    legendText = c(legendText, paste("RFD max avg in ", RFDoptions$start, "ms = ", round(RFD, digits = 1), " N/s", sep = ""))
+                    legendColor = c(legendColor, "blue")
+                } else if(RFDoptions$rfdFunction == "RAW")
+                {
+                    maxAvgRFD = getAvgRfdXSeconds(dynamics, window )
+                    force1 = maxAvgRFD$force1
+                    
+                    time1 = maxAvgRFD$time1
+                    time2 = maxAvgRFD$time2
+                    force1 = maxAvgRFD$force1
+                    force2 = maxAvgRFD$force2
+                    RFD = maxAvgRFD$RFD
+                    legendColor = c(legendColor, "black")
+                    legendText = c(legendText, paste("RFD max avg in  ", RFDoptions$start, "ms = ", round(RFD, digits = 1), " N/s", sep = ""))
+                }
+	        }
 
             #The Y coordinate of the line when it crosses the Y axis
             intercept = force1 - RFD * time1
+            print(paste("Intercetp:", intercept))
             
             #The slope of the line seen in the screen(pixels units), NOT in the time-force units
             windowSlope = RFD*(plotHeight/yHeight)/(plotWidth/xWidth)
@@ -701,12 +696,47 @@ drawDynamicsFromLoadCell <- function(title, exercise, datetime,
         legendColor = c(legendColor, "grey40")
     }
     
+    force2 = dynamics$fmax.fitted*(1 - exp(-dynamics$k.fitted*window))
+    modelRFD=force2/0.05
+    rawRFD = getAvgRfdXSeconds(dynamics, 0.05 )$RFD
+    legendText = c(legendText, paste("RFD50 error = ", round((rawRFD - modelRFD)*100/rawRFD, 2), "%"))
+    legendColor = c(legendColor, "grey20")
+    
     legend(x = xmax, y = dynamics$fmax.fitted/2, legend = legendText, xjust = 1, yjust = 0.1, text.col = legendColor)
 
     if(op$singleOrMultiple == "FALSE")
     {
 	return(exportValues)
     }
+}
+
+getAvgRfdXSeconds <-function(dynamics, window)
+{
+    print("In getAvgRfdxSeconds")
+    RFD = 0
+    
+    #if window does not fit in graph, discard it
+    if (dynamics$time[dynamics$startSample] + window > dynamics$time[dynamics$endSample])
+        next
+    #Measure how much samples corresponds to the window
+    time = dynamics$time[dynamics$startSample:dynamics$endSample]
+    windowSamples = which.min(time - (dynamics$time[dynamics$startSample] + window))
+    for (i in dynamics$startSample:(dynamics$endSample - windowSamples))
+    {
+        forceTemp1 = dynamics$f.raw[i]
+        forceTemp2 = interpolateXAtY(dynamics$f.raw, dynamics$time, dynamics$time[i] + window)
+        RFDtemp = (forceTemp2 - forceTemp1) / window
+        
+        if (RFDtemp > RFD)
+        {
+            force1 = forceTemp1
+            force2 = forceTemp2
+            RFD = RFDtemp
+            time1 = dynamics$time[i]
+            time2 = interpolateXAtY(dynamics$time, dynamics$time, dynamics$time[i] + window)
+        }
+    }
+    return(list(RFD = RFD, time1 = time1, force1 = force1, time2 = time2, force2=force2))
 }
 
 #getDynamicsFromLoadCellFolder <- function(folderName, resultFileName, captureOptions)

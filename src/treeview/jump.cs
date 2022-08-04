@@ -231,7 +231,7 @@ public class TreeViewJumps : TreeViewEvent
 		if (preferences.showStiffness)
 			myData[count++] = newJump.Stiffness(personWeight, weightInKg).ToString();
 		if (preferences.showInitialSpeed) 
-			myData[count++] = Util.TrimDecimals(Jump.GetInitialSpeed(newJump.Tv.ToString(), preferences.metersSecondsPreferred), pDN);
+			myData[count++] = Util.TrimDecimals(newJump.GetInitialSpeedJumpSimple (preferences.metersSecondsPreferred), pDN);
 		if (preferences.showJumpRSI)
 			myData[count++] = Util.TrimDecimals(newJump.RSI, pDN);
 		if (preferences.showAngle) 

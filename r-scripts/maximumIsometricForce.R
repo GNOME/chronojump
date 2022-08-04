@@ -639,6 +639,10 @@ drawDynamicsFromLoadCell <- function(title, exercise, datetime,
 		{
 			for (i in dynamics$startSample:dynamics$endSample)
 			{
+				#stop calculating when currentSample + window is greater than endSample
+				if (i + window > dynamics$time[dynamics$endSample])
+					break()
+
 				forceTemp1 = dynamics$f.raw[i]
 				forceTemp2 = interpolateXAtY(dynamics$f.raw, dynamics$time, dynamics$time[i] + window)
 				RFDtemp = (forceTemp2 - forceTemp1) / window

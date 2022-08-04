@@ -96,7 +96,26 @@ public class Jump : Event
 	{
 		return Util.GetStiffness(personMassInKg, extraMass, tv, tc);
 	}	
-	
+
+	//old code sends and returns strings
+	public static string GetInitialSpeed (string time, bool metersSecondsPreferred)
+	{
+		return GetInitialSpeed (Convert.ToDouble (time), metersSecondsPreferred).ToString();
+	}
+	//new code (2019 ...) sends and returns doubles
+	public static double GetInitialSpeed (double time, bool metersSecondsPreferred)
+	{
+		double height = Util.GetHeightInCentimeters (time);
+		height = height / 100; //in meters
+
+		// Vo = sqrt(2gh)
+		double initialSpeed = System.Math.Sqrt ( 2 * 9.81 * height );
+
+		if(! metersSecondsPreferred)
+			initialSpeed *= 3.6;
+
+		return initialSpeed;
+	}
 
 	public override string ToString() {
 		return uniqueID + ":" + personID + ":" + sessionID + ":" + type + ":" + tv + ":" + tc + ":" + datetime + ":" + description;

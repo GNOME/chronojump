@@ -373,7 +373,7 @@ public class ExportSession
 						Util.TrimDecimals(Util.GetHeightInCentimeters(myStr[5]), dec) + ":" +  
 						Util.TrimDecimals(getPower(tc, tf, personWeight, extraWeightInKg, fall), dec) + ":" +
 						Util.TrimDecimals(Util.GetStiffness(personWeight, extraWeightInKg, tf, tc), dec) + ":" +
-						Util.TrimDecimals(Util.GetInitialSpeed(myStr[5], preferences.metersSecondsPreferred), dec) + ":" +  //true: m/s
+						Util.TrimDecimals(Jump.GetInitialSpeed(myStr[5], preferences.metersSecondsPreferred), dec) + ":" +  //true: m/s
 						Util.TrimDecimals(UtilAll.DivideSafe(Util.GetHeightInMeters(tf), tc), dec) + ":" +
 						myStr[12] + ":" +	//jump.datetime
 						Util.RemoveNewLine(myStr[9], true) + ":" +	//jump.description
@@ -497,13 +497,13 @@ public class ExportSession
 					Util.TrimDecimals(myStr[6], dec) + ":" +  		//jumpRj.tcMax 
 					Util.TrimDecimals(myStr[5], dec) + ":" + 		//jumpRj.tvMax
 					Util.TrimDecimals(Util.GetHeightInCentimeters(myStr[5]), dec) + ":" +  	//Max height
-					Util.TrimDecimals(Util.GetInitialSpeed(
+					Util.TrimDecimals(Jump.GetInitialSpeed(
 							myStr[5], preferences.metersSecondsPreferred), dec) + ":" +  	//Max initial speed (true:m/s)
 					Util.TrimDecimals(maxRSI, dec) + ":" +
 					Util.TrimDecimals(myStr[11], dec) + ":" +  		//jumpRj.tcAvg
 					Util.TrimDecimals(myStr[10], dec) + ":" + 		//jumpRj.tvAvg
 					Util.TrimDecimals(Util.GetHeightInCentimeters(myStr[10]), dec) + ":" +  //Avg height
-					Util.TrimDecimals(Util.GetInitialSpeed(
+					Util.TrimDecimals(Jump.GetInitialSpeed(
 							myStr[10], preferences.metersSecondsPreferred), dec) + ":" +  	//Avg Initial speed (true:m/s)
 					Util.TrimDecimals(avgRSI, dec) + ":" +
 					myStr[7] + ":" + 	 	//jumpRj.Fall

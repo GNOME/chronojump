@@ -219,10 +219,10 @@ public class TreeViewJumps : TreeViewEvent
 			if(newJump.Tv > 0) {	
 				if(newJump.Tc > 0) 	//if it's Dj (has tf, and tc)
 					myData[count++] = Util.TrimDecimals(
-							Util.GetDjPower(newJump.Tc, newJump.Tv, (personWeight + weightInKg), newJump.Fall).ToString(), 1);
+							Jump.GetDjPower (newJump.Tc, newJump.Tv, (personWeight + weightInKg), newJump.Fall).ToString(), 1);
 				else {			//it's a simple jump without tc
 					myData[count++] = Util.TrimDecimals(
-							Util.GetPower(newJump.Tv, personWeight, weightInKg).ToString(), 1);
+							Jump.GetPower (newJump.Tv, personWeight, weightInKg).ToString(), 1);
 				}
 			} else
 				myData[count++] = "0";
@@ -402,11 +402,11 @@ public class TreeViewJumpsRj : TreeViewJumps
 			
 			if(Convert.ToDouble(thisTc) > 0)
 				myData[count++] = Util.TrimDecimals(
-						Util.GetDjPower(thisTcD, thisTvD,
+						Jump.GetDjPower (thisTcD, thisTvD,
 							(personWeight + weightInKg), myFall).ToString(), 1);
 			else
 				myData[count++] = Util.TrimDecimals(
-						Util.GetPower(thisTvD, personWeight, weightInKg).ToString(), 1);
+						Jump.GetPower (thisTvD, personWeight, weightInKg).ToString(), 1);
 		}
 		if (preferences.showStiffness) {
 			//use directly Util.GetStiffness because we want to get from this specific subjump, not all the reactive jump.
@@ -533,13 +533,13 @@ public class TreeViewJumpsRj : TreeViewJumps
 				double tv = Convert.ToDouble(tv_array[i]);
 				double fall = 0;
 				if(tc_array[i] == "-1") //startIn at first jump tc is 0, better check like this (string)
-					powerSum += Util.GetPower(tv, personWeight, weightInKg);
+					powerSum += Jump.GetPower (tv, personWeight, weightInKg);
 				else {
 					if(i == 0)
 						fall = newJumpRj.Fall;
 					else
 						fall = Util.GetHeightInCentimeters(Convert.ToDouble(tv_array[i-1]));
-					powerSum += Util.GetDjPower(tc, tv,
+					powerSum += Jump.GetDjPower (tc, tv,
 							(personWeight + weightInKg), fall);
 					stiffnessSum += Util.GetStiffness(personWeight, weightInKg, tv, tc);
 					stiffnessCount ++;

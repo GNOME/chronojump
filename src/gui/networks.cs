@@ -88,6 +88,9 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.HBox hbox_RFID_disconnected;
 	[Widget] Gtk.Label label_encoder_checked_error;
 
+	//contacts
+	[Widget] Gtk.CheckButton check_contacts_networks_upload;
+
 	//runsInterval
 	[Widget] Gtk.RadioButton radio_run_interval_compujump_5m;
 	[Widget] Gtk.RadioButton radio_run_interval_compujump_10m;
@@ -194,8 +197,10 @@ public partial class ChronoJumpWindow
 
 			//do not allow camera controls
 			showWebcamCaptureContactsControls (false); //contacts
+			notebook_video_contacts.Visible = false;
 			hbox_video_encoder.Visible = false;
 
+			check_contacts_networks_upload.Visible = true;
 			check_encoder_networks_upload.Visible = true;
 
 			//networks always without lateral person win
@@ -475,6 +480,8 @@ public partial class ChronoJumpWindow
 	private void configNetworsEncoderAsGuest(bool guest)
 	{
 		//on guest widgets are invisible, cleaner and easier than unsensitive because during capture/curves sensitivity changes on some buttons
+		check_contacts_networks_upload.Active = ! guest;
+		check_contacts_networks_upload.Visible = ! guest;
 		check_encoder_networks_upload.Active = ! guest;
 		check_encoder_networks_upload.Visible = ! guest;
 

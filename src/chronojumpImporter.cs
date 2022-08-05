@@ -202,6 +202,10 @@ LogB.Information("import H ");
 		Result sourceDatabaseVersion = getDatabaseVersionFromFile (temporarySourceFile);
 		Result destinationDatabaseVersion = getDatabaseVersionFromFile (destinationFile);
 
+		/* if it fails here and ends on next return
+		   probably is because on windows it lacks the msvcr100.dll
+		   It is documented on howto_new_version.txt
+		   */
 LogB.Information("import I ");
 		if (! sourceDatabaseVersion.success)
 			return sourceDatabaseVersion;

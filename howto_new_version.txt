@@ -158,8 +158,18 @@ copy chronojump-importer-python3 dir to  ~/informatica/virtualbox_windows_shared
 and there move to win32/deps/bin
 git commit / push
 
-note if an user cannot get version on chronojump-importer execution, try running the python file from the commandline and if it fails, maybe it will say that msvcr100.dll is missing, just copy it there
---
+---
+msvcr100.dll problem:
+note if an user cannot get version on chronojump-importer execution, try running the python file from the commandline:
+cd C:\Program Files (x86)\Chronojump\bin\chronojump-importer-python3
+chronojump_importer.exe
+- if the dll is missing, it will not show any message on the terminal, and for this reason we don't know it on the log, but on the screen will show a dialog: telling that MSVCR100.dll is missing
+Note the dialog says that reinstalling the program (don't know if it's the dll or chronojump) it fixes it. But we think Chronojump does not install that dll
+if the dll is not missing, then will say on the terminal:
+usage: chronojump_importer.exe [-h] --source SOURCE, and other params needed as help in more lines
+
+to solve this, just copy msvcr100.dll on that dir. I have it on ~/informatica/virtualbox_windows_shared
+---
 
 2) See: howto_compile.txt
 

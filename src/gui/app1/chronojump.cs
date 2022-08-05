@@ -4766,7 +4766,10 @@ public partial class ChronoJumpWindow
 
 			//on networks as device detect is not used, mark one compatible as selected
 			if (configChronojump.Compujump)
+			{
+				chronopicRegisterUpdate (false);
 				chronopicRegister.SetAnyCompatibleConnectedAsSelected (current_mode);
+			}
 
 			if (chronopicRegister.GetSelectedForMode (current_mode).Port == "")
 			{
@@ -4775,7 +4778,10 @@ public partial class ChronoJumpWindow
 					on_button_execute_test_acceptedPre_start_camera (WebcamStartedTestStart.CHRONOPIC);
 				else
 				{
-					if (! configChronojump.Compujump)
+					if (configChronojump.Compujump)
+						new DialogMessage (Constants.MessageTypes.WARNING,
+								Catalog.GetString("Device not found"));
+					else
 						on_button_detect_clicked (o, args); //open discover win
 				}
 			} else {

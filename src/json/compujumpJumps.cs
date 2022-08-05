@@ -99,12 +99,14 @@ public class JsonCompujumpJumps : JsonCompujump
 				comment = jsonSEStation ["comment"];
 			*/
 
-			//TODO: think on unlimited jumps
+			//multiple jumps
 			if (
 					(jsonSE ["measurable_info"]["jump_limit"] != null &&
 					 jsonSE ["measurable_info"]["jump_limit"] > 1) ||
 					(jsonSE ["measurable_info"]["time_limit"] != null &&
-					 jsonSE ["measurable_info"]["time_limit"] > 1) )
+					 jsonSE ["measurable_info"]["time_limit"] > 1) ||
+					(jsonSE ["measurable_info"]["jump_limit"] == null &&
+					 jsonSE ["measurable_info"]["time_limit"] == null) )
 			{
 				bool jumpsLimited;
 				double fixedValue;
@@ -113,15 +115,26 @@ public class JsonCompujumpJumps : JsonCompujump
 				{
 					jumpsLimited = true;
 					fixedValue = jsonSE ["measurable_info"]["jump_limit"];
-				} else {
+				}
+				else if (jsonSE ["measurable_info"]["time_limit"] != null &&
+						jsonSE ["measurable_info"]["time_limit"] > 1)
+				{
 					jumpsLimited = false;
 					fixedValue = jsonSE ["measurable_info"]["time_limit"];
+				} else
+					//unlimited jump rj
+					//(jsonSE ["measurable_info"]["jump_limit"] == null &&
+					//(jsonSE ["measurable_info"]["time_limit"] == null )
+				{
+					jumpsLimited = true; //end on a jump, not in a second
+					fixedValue = -1; //unlimited
 				}
 
 				JumpRjExercises_l.Add (new SelectJumpRjTypes (newExId, newExName,
 							(bool) jsonSE ["measurable_info"]["start_inside"],
 							hasWeight, jumpsLimited, fixedValue, ""));
 			}
+			//simple jumps
 			else
 				JumpSimpleExercises_l.Add (new SelectJumpTypes (newExId, newExName,
 							(bool) jsonSE ["measurable_info"]["start_inside"],

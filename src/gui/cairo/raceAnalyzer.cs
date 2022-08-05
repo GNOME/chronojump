@@ -27,6 +27,13 @@ using Cairo;
 
 public class CairoGraphRaceAnalyzer : CairoXY
 {
+	/*
+	   at load if 1st value of triggerList is lower than minAccel,
+	   shift points and triggerList to sample before of 1st trigger
+	   */
+	private bool setExists;
+//	private bool load;
+
 	int points_list_painted;
 	private bool isSprint;
 	private bool plotMaxMark;
@@ -42,6 +49,8 @@ public class CairoGraphRaceAnalyzer : CairoXY
 //	static bool doing;
 	//regular constructor
 	public CairoGraphRaceAnalyzer (
+//			bool load,
+			bool setExists, //if capture or load: setExists (currentRunEncoder != null)
 			DrawingArea area, string title,
 			string yVariable, string yUnits,
 			bool isSprint, bool plotMaxMark,
@@ -49,6 +58,8 @@ public class CairoGraphRaceAnalyzer : CairoXY
 			bool plotSegmentBars, FeedbackWindow.RunsEncoderMainVariableTypes mainVariable,
 			bool useListOfDoublesOnY) //for pos/time graph
 	{
+		this.setExists = setExists;
+//		this.load = load;
 		this.area = area;
 		this.title = title;
 		this.colorBackground = colorFromGdk(Config.ColorBackground); //but note if we are using system colors, this will not match
@@ -120,6 +131,18 @@ public class CairoGraphRaceAnalyzer : CairoXY
 			}
 
 			paintAxis();
+			if (setExists && (points_list == null || points_list.Count == 0))
+			{
+				printText(graphWidth/2, graphHeight/2,
+						0, textHeight-3,
+						string.Format ("No data. Minimum acceleration is {0} m/s^2.", minAccel),
+						g, alignTypes.CENTER);
+				printText(graphWidth/2, graphHeight/2 + 16,
+						0, textHeight-3,
+						"Maybe is too high. Change it on preferences.",
+						g, alignTypes.CENTER);
+			}
+
 			return graphInited;
 		}
 

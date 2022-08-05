@@ -5847,10 +5847,8 @@ public partial class ChronoJumpWindow
 
 			addTreeView_runs_interval_sprint (currentRunInterval, currentRunIntervalType);
 
-			if(configChronojump.Compujump)
-			{
+			if (configChronojump.Compujump && check_contacts_networks_upload.Active)
 				calculateSprintAndUpload();
-			}
 		}
 		else if( currentEventExecute.ChronopicDisconnected )
 			chronopicDisconnectedWhileExecuting();

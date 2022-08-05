@@ -4764,6 +4764,10 @@ public partial class ChronoJumpWindow
 			// non-wichro 2.2.2
 			chronopicRegister.ListSelectedForAllModes (); //debug
 
+			//on networks as device detect is not used, mark one compatible as selected
+			if (configChronojump.Compujump)
+				chronopicRegister.SetAnyCompatibleConnectedAsSelected (current_mode);
+
 			if (chronopicRegister.GetSelectedForMode (current_mode).Port == "")
 			{
 				// simulated test can be done on SIMULATED session

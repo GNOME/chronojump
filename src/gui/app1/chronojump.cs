@@ -823,21 +823,25 @@ public partial class ChronoJumpWindow
 			if(! check_menu_session.Active)
 				check_menu_session.Click(); //have sesion menu opened
 
-		if(! showSendLog && ! showSocialNetworkPoll && preferences.loadLastModeAtStart &&
-				preferences.lastMode != Constants.Modes.UNDEFINED && ! configChronojump.Compujump)
+		//in networks starting mode is always the defined on chronojump_config CompujumpStationMode
+		if (! configChronojump.Compujump)
 		{
-			// 0) note this code is repeated on gui/sendLog.cs on_button_open_chronojump_clicked()
-			// 1) to avoid impossibility to start Chronojump if there's any problem with this mode, first put this to false
-			SqlitePreferences.Update(SqlitePreferences.LoadLastModeAtStart, false, false);
+			if(! showSendLog && ! showSocialNetworkPoll && preferences.loadLastModeAtStart &&
+					preferences.lastMode != Constants.Modes.UNDEFINED)
+			{
+				// 0) note this code is repeated on gui/sendLog.cs on_button_open_chronojump_clicked()
+				// 1) to avoid impossibility to start Chronojump if there's any problem with this mode, first put this to false
+				SqlitePreferences.Update(SqlitePreferences.LoadLastModeAtStart, false, false);
 
-			// 2) change mode
-			changeModeCheckRadios (preferences.lastMode); //this will update current_mode
+				// 2) change mode
+				changeModeCheckRadios (preferences.lastMode); //this will update current_mode
 
-			// 3) put preference to true again
-			SqlitePreferences.Update(SqlitePreferences.LoadLastModeAtStart, true, false);
+				// 3) put preference to true again
+				SqlitePreferences.Update(SqlitePreferences.LoadLastModeAtStart, true, false);
+			}
+			else if (preferences.lastMode != Constants.Modes.UNDEFINED)
+				current_mode = preferences.lastMode; //needed for show_start_page () below
 		}
-		else if (preferences.lastMode != Constants.Modes.UNDEFINED)
-			current_mode = preferences.lastMode; //needed for show_start_page () below
 
 		createComboSelectContactsTop (); //need to at least have it not null (to not crash on a import session)
 

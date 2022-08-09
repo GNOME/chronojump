@@ -70,6 +70,8 @@ void showMenuEntry(unsigned int currentMenuIndex)
   printTftText(currentMenu[currentMenuIndex].description, 12, 100);
 }
 
+void drawRightButton(String label) { drawRightButton(label, WHITE, RED); }
+void drawRightButton(String label, uint16_t tColor) { drawRightButton(label, tColor, RED); }
 void drawRightButton(String label, uint16_t tColor, uint16_t bColor)
 {
   //Red button
@@ -83,6 +85,8 @@ void drawRightButton(String label, uint16_t tColor, uint16_t bColor)
 }
 
 
+void drawLeftButton(String label) { drawLeftButton(label, WHITE, BLUE); }
+void drawLeftButton(String label, uint16_t tColor) { drawLeftButton(label, tColor, BLUE); }
 void drawLeftButton(String label, uint16_t tColor, uint16_t bColor)
 {
   //Red button
@@ -231,4 +235,41 @@ void selectJumpType()
     blueButton.update();
     redButton.update();
   }
+}
+
+bool yesNoDialog(String message, float x, float y) {
+  return yesNoDialog(message, x, y, 2);
+}
+bool yesNoDialog(String message, float x, float y, int fontSize)
+{
+  bool answer = false;
+  int len = message.length();
+  unsigned int w = 6 * fontSize * len;
+  unsigned int h = 8 * fontSize;
+  uint16_t textBackRect[w * h];
+  tft.readRect(x, y, w, h, textBackRect);
+
+  uint16_t redBackRect[78 * 32];
+  tft.readRect(242, 210, 78, 32, redBackRect);
+  drawRightButton("Yes");
+
+  uint16_t blueBackRect[78 * 32];
+  tft.readRect(0, 210, 78, 32, blueBackRect);
+  drawLeftButton("No");
+
+  printTftText(message, x, y, RED);
+  redButton.update();
+  while ( !redButton.fell() && !blueButton.fell() )
+  {
+    redButton.update();
+    blueButton.update();
+  }
+  printTftText(message, x, y, BLACK);
+  tft.writeRect(x, y, w, h, textBackRect);
+  tft.writeRect(242, 210, 78, 32, redBackRect);
+  tft.writeRect(0, 210, 78, 32, redBackRect);
+  answer = redButton.fell();
+  redButton.update();
+  blueButton.update();
+  return answer ;
 }

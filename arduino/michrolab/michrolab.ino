@@ -1344,17 +1344,17 @@ void jumpsCapture()
   float maxJump = 0;
   int bestJumper = 0;
   float graphRange = 50;
-  
+
   fileName = String("J") + "-S" + String(setNumber);
   String fullFileName = "/" + dirName + "/" + fileName + ".txt";
   File dataFile = SD.open(fullFileName.c_str(), FILE_WRITE);
-  
+
   lastRcaState = !digitalRead(rcaPin);
   rcaFlag = false;
   //lastPhaseTime could be contactTime or flightTime depending on the phase
   float lastPhaseTime = 0;
   bool firstJump = true;
-  
+
   for (int i = 0; i < 10; i++)
   {
     bars[i] = 0;
@@ -1369,7 +1369,7 @@ void jumpsCapture()
   //Print summary results
   printTftText("H:", 10, 215, 2, WHITE, false);
   printTftValue(maxJump, 58, 215, 2, 2);
-  
+
   while ( !redButton.fell())
   {
     while (capturingCurrentTest && !redButton.fell())
@@ -1383,7 +1383,7 @@ void jumpsCapture()
       }
 
       //Check if hard time limit is active
-      if ( jumpTypes[currentJumpType].hardTimeLimit ) {
+      if ( jumpTypes[currentJumpType].hardTimeLimit && !waitingFirstPhase) {
         //Check if the limit is surpassed
         if ( jumpTypes[currentJumpType].hardTimeLimit && jumpTypes[currentJumpType].timeLimit > 0 && totalTestTime >= (unsigned int)jumpTypes[currentJumpType].timeLimit * 1000000)
         {
@@ -1393,9 +1393,8 @@ void jumpsCapture()
       //There's been a change in the mat state. Landing or taking off.
       if (rcaFlag)
       {
-//        Serial.print("totalTestTime: ");
-//        Serial.println(totalTestTime);
-//        Serial.println("rcaFlag");
+        //        Serial.print("totalTestTime: ");
+        //        Serial.println(totalTestTime);
         rcaFlag = false;
         //Elapsed time in seconds
         lastSampleTime = rcaTime - lastRcaTime;
@@ -1442,6 +1441,7 @@ void jumpsCapture()
             if ( jumpTypes[currentJumpType].timeLimit > 0 && totalTestTime >= (unsigned int)jumpTypes[currentJumpType].timeLimit * 1000000)
             {
               capturingCurrentTest = false;
+              waitingFirstPhase = true;
             }
 
             //Taking off. Ends contact. start of flight time
@@ -1452,9 +1452,9 @@ void jumpsCapture()
           }
 
         }
-        else if (waitingFirstPhase) {
+        else if (waitingFirstPhase && capturingCurrentTest) {
           waitingFirstPhase = false;
-          if(!firstJump)
+          if (!firstJump)
           {
             dataFile.println();
             Serial.println();
@@ -1484,15 +1484,15 @@ void jumpsCapture()
 
     //The current test has ended
 
-//    Serial.print("jumps = ");
-//    Serial.println(totalJumps);
+    //    Serial.print("jumps = ");
+    //    Serial.println(totalJumps);
     dataFile.close();
-    
+
     waitingFirstPhase = true;
     rcaFlag = false;
     totalJumps = 0;
     totalTestTime = 0;
-    
+
     //check if the user wants to perform another one
     if ( !yesNoDialog("Continue with " + jumpTypes[currentJumpType].name + "?", 10, 10)) break;
 
@@ -1500,6 +1500,8 @@ void jumpsCapture()
     redButton.update();
     blueButton.update();
     capturingCurrentTest = true;
+    //rca may have changed after finishing the test
+    rcaFlag = false;
   }
   showJumpsResults(maxJump, bestJumper, totalJumps);
   drawMenuBackground();

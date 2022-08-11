@@ -122,6 +122,7 @@ volatile unsigned long rcaTime = 0;  //Time at which RCA changed
 unsigned long lastRcaTime = 0;
 volatile bool rcaFlag = false;
 elapsedMicros totalTime = 0;
+elapsedMicros totalTestTime;
 unsigned long lastSampleTime;
 //By default the debounce time for the RCA is 10000.
 //With the foot pedal 2000 is too short for jumps and some values are repeated
@@ -321,8 +322,6 @@ unsigned int totalJumpTypes = 0;
 unsigned int currentJumpType = 0;
 unsigned int totalJumps = 0;
 //In simple jumps the firstPhase is the contact. In DropJumps the first phase is flight
-bool waitingFirstPhase = true;
-bool capturingCurrentTest = false;
 
 IntervalTimer rcaTimer;
 
@@ -348,7 +347,7 @@ void setup() {
 
 
   pinMode(rcaPin, INPUT_PULLUP);
-  attachInterrupt(rcaPin, changingRCA, CHANGE);
+  attachInterrupt(rcaPin, changedRCA, CHANGE);
 
   EEPROM.get(tareAddress, tareValue);
   //If the arduino has not been tared the default value in the EEPROM is -151.
@@ -755,7 +754,7 @@ void get_transmission_format()
 }
 
 //Any change in the RCA activates the timer
-void changingRCA() {
+void changedRCA() {
   rcaTime = totalTime;
   rcaState = digitalRead(rcaPin);
   rcaTimer.begin(rcaDebounce, rcaDebounceTime);
@@ -790,7 +789,20 @@ void showBatteryLevel() {
 
 }
 
+void updateJumpTime()
+{
+  updateTime(0, jumpTypes[currentJumpType].timeLimit);
+}
+
+//Shows time in seconds at right lower corner. If limit is present non-zero it will we a countdown
 void updateTime() {
+  updateTime( 0, 0.0 );
+}
+void updateTime( unsigned int decimals ) {
+  updateTime( decimals, 0.0 );
+}
+void updateTime( unsigned int decimals, float limit )
+{
   tft.fillRect(268, 215, 48, 16, BLACK);
   //  if (totalTime > 1000000)
   //  {
@@ -798,8 +810,14 @@ void updateTime() {
   //    printTftValue(totalTime / 1000000 - 1, 302, 215, 2, 0);
   //  }
   tft.setTextColor(WHITE);
-  printTftValue(totalTime / 1000000, 302, 215, 2, 0);
+  if (limit == 0) {
+    printTftValue(totalTime / 1000000, 302, 215, 2, decimals);
+  }
+  else if (limit != 0) {
+    printTftValue(limit - totalTime / 1000000, 302, 215, 2, decimals);
+  }
 }
+
 //TODO: Add more information or eliminate
 void showSystemInfo(void) {
 
@@ -1337,13 +1355,17 @@ void showPowerResults()
 
 void jumpsCapture()
 {
-
   selectJumpType();
-  elapsedMicros totalTestTime;
-  capturingCurrentTest = true;
+  IntervalTimer testTime;             //Timer that controls the refreshing of time in lower right corner
+  capturing = true;
+  //In the first change of state the header of the row is writen.
+  //TODO: MAKE IT SENSITIVE TO THE startIn parameter
+  bool waitingFirstPhase = true;
+  bool timeEnded = false;             //Used to manage soft time limit. Allows to wait until the last contact
   float maxJump = 0;
   int bestJumper = 0;
-  float graphRange = 50;
+  float graphRange = 50;              //Height of the jumps are in cm
+  int index = 0;                      //Specify the slot used in bars[] circular buffer
 
   fileName = String("J") + "-S" + String(setNumber);
   String fullFileName = "/" + dirName + "/" + fileName + ".txt";
@@ -1351,18 +1373,20 @@ void jumpsCapture()
 
   lastRcaState = !digitalRead(rcaPin);
   rcaFlag = false;
-  //lastPhaseTime could be contactTime or flightTime depending on the phase
+  //lastPhaseTime can be contactTime or flightTime depending on the phase
   float lastPhaseTime = 0;
-  bool firstJump = true;
 
+  //Initializing values of the bars
   for (int i = 0; i < 10; i++)
   {
     bars[i] = 0;
   }
+  
+  //Drawing axes
   tft.fillScreen(BLACK);
   redrawAxes(tft, 30, 200, 290, 200, 290, 200, 0, graphRange, graphRange / 10, "", "", "", WHITE, GREY, WHITE, WHITE, BLACK, RED, true);
   redButton.update();
-  int index = 0;
+  
   currentPerson = 0;
   updatePersonJump(totalJumps);
 
@@ -1370,43 +1394,47 @@ void jumpsCapture()
   printTftText("H:", 10, 215, 2, WHITE, false);
   printTftValue(maxJump, 58, 215, 2, 2);
 
+  totalTestTime = 0;
+  totalTime = 0;
+
+  //Draws the time if necessary
+  if ( jumpTypes[currentJumpType].timeLimit > 0 ) updateJumpTime();
+
+  //Pressing the redButton during a test ends it
   while ( !redButton.fell())
   {
-    while (capturingCurrentTest && !redButton.fell())
+    while (capturing && !redButton.fell())
     {
-      //Person is changed
+      //Person has changed
       if ( blueButton.fell() ) {
         currentPerson = (currentPerson + 1) % totalPersons;
         updatePersonJump(totalJumps);
-        totalJumps = 0;
         waitingFirstPhase = true;
+        totalJumps = 0;
+        totalTestTime = 0;
+        testTime.end();
+        totalTime = 0;
+        timeEnded = false;
+        Serial.println();
       }
 
-      //Check if hard time limit is active
-      if ( jumpTypes[currentJumpType].hardTimeLimit && !waitingFirstPhase) {
-        //Check if the limit is surpassed
-        if ( jumpTypes[currentJumpType].hardTimeLimit && jumpTypes[currentJumpType].timeLimit > 0 && totalTestTime >= (unsigned int)jumpTypes[currentJumpType].timeLimit * 1000000)
-        {
-          capturingCurrentTest = false;
-        }
-      }
       //There's been a change in the mat state. Landing or taking off.
       if (rcaFlag)
       {
-        //        Serial.print("totalTestTime: ");
-        //        Serial.println(totalTestTime);
         rcaFlag = false;
-        //Elapsed time in seconds
+        //Calculate the time of the last phase. Flight or Contact time
         lastSampleTime = rcaTime - lastRcaTime;
-        lastPhaseTime = ((float)(rcaTime - lastRcaTime)) / 1E6;
+        lastPhaseTime = ((float)rcaTime - (float)lastRcaTime) / 1E6;  //Time in seconds
+        lastRcaState = rcaState;
+        lastRcaTime = rcaTime;
 
         //If there's been a previous contact it means thet this is the start or end of flight time
         if (!waitingFirstPhase) {
           dataFile.print(",");
-          //!!! Atention. change to 6 decimals if you want microseconds precission
-          dataFile.print(lastPhaseTime, 3);
+          //Hard coded microsonds precission
+          dataFile.print(lastPhaseTime, 6);
           Serial.print(",");
-          Serial.print(lastPhaseTime, 3);
+          Serial.print(lastPhaseTime, 6);
 
           //Stepping on the mat. End of flight time. Starts contact.
           if (rcaState)
@@ -1417,9 +1445,11 @@ void jumpsCapture()
             tft.fillRect(30, 0, 290, 200, BLACK);
             bars[index] = 122.6 * lastPhaseTime * lastPhaseTime; //In cm
             tft.setTextColor(BLACK);
+            //We always add 10 to index to avoid the negative number in (index - 1) when index is 0
             printTftValue(bars[(index + 10 - 1) % 10], 58, 215, 2, 2);
             tft.setTextColor(WHITE);
             printTftValue(bars[index], 58, 215, 2, 2);
+            //Check if a new best jump is performed
             if (bars[index] > maxJump)
             {
               maxJump = bars[index];
@@ -1437,10 +1467,10 @@ void jumpsCapture()
             totalJumps++;
             updatePersonJump(totalJumps);
 
-            //Check the soft time limit
-            if ( jumpTypes[currentJumpType].timeLimit > 0 && totalTestTime >= (unsigned int)jumpTypes[currentJumpType].timeLimit * 1000000)
+            //If soft time limit check if time was ended in the moment of the contact
+            if ( timeEnded )
             {
-              capturingCurrentTest = false;
+              capturing = false;
               waitingFirstPhase = true;
             }
 
@@ -1450,32 +1480,47 @@ void jumpsCapture()
             dataFile.print("r");
             Serial.print("r");
           }
-
-        }
-        else if (waitingFirstPhase && capturingCurrentTest) {
+          //Waiting first phase. TODO: Make it sensible to startIn parameter
+        } else if (waitingFirstPhase && capturing) {
           waitingFirstPhase = false;
-          if (!firstJump)
-          {
-            dataFile.println();
-            Serial.println();
-          } else if (firstJump) {
-            firstJump = false;
-          }
+          totalTestTime = 0;
+          totalTime = 0;
+          rcaTime = 0;
+          lastRcaTime = 0;
+          setNumber++;
+
           dataFile.print(String(setNumber) + "," + String(currentPerson) + "," + String(jumpTypes[currentJumpType].id));
           Serial.print(String(setNumber) + "," + String(currentPerson) + "," + String(jumpTypes[currentJumpType].id));
-          //Starting timer
-          totalTestTime = 0;
-          setNumber++;
-        }
-        //saveSimpleJump(lastPhaseTime);
-        lastRcaState = rcaState;
-        lastRcaTime = rcaTime;
 
-        //Limited by jumps
-        if (jumpTypes[currentJumpType].jumpLimit > 0) {
-          if (totalJumps >= jumpTypes[currentJumpType].jumpLimit) {
-            capturingCurrentTest = false;
+          //Starting timer
+          if (jumpTypes[currentJumpType].timeLimit != 0)
+          {
+            //Hardcoded to show integers and update every second
+            testTime.begin(updateJumpTime, 1000000);
+            updateJumpTime();
           }
+        }
+
+        //Check jumps limit
+        if (jumpTypes[currentJumpType].jumpLimit > 0                //Jumps limit set
+            && totalJumps >= jumpTypes[currentJumpType].jumpLimit)  //Jumps equal or exceeded to limit
+          capturing = false;
+
+      } //End of rcaFlag
+
+      //Check time limit
+      if ( !waitingFirstPhase
+           && !timeEnded                                                                    //Only check once
+           && jumpTypes[currentJumpType].timeLimit > 0                                      //time limit set
+           && totalTestTime >= (unsigned int)jumpTypes[currentJumpType].timeLimit * 1000000) //time limit exceeded
+      {
+        timeEnded = true;
+        //Check if test must end. Hard time limit or soft time limit but sepping on the mat
+        if ( jumpTypes[currentJumpType].hardTimeLimit                         //Hard time limit
+             || ( !jumpTypes[currentJumpType].hardTimeLimit && rcaState ) )   //Soft time limit and in contact with the mat           
+        {
+          capturing = false;
+          rcaFlag = false;
         }
       }
       redButton.update();
@@ -1483,27 +1528,33 @@ void jumpsCapture()
     }
 
     //The current test has ended
-
-    //    Serial.print("jumps = ");
-    //    Serial.println(totalJumps);
+    Serial.println();
+    dataFile.println();
     dataFile.close();
 
     waitingFirstPhase = true;
-    rcaFlag = false;
     totalJumps = 0;
     totalTestTime = 0;
-
+    testTime.end();
+    totalTime = 0;
+    timeEnded = false;
+    
     //check if the user wants to perform another one
-    if ( !yesNoDialog("Continue with " + jumpTypes[currentJumpType].name + "?", 10, 10)) break;
+    if ( yesNoDialog("Continue with " + jumpTypes[currentJumpType].name + "?", 10, 10))
+    {
+      if (jumpTypes[currentJumpType].timeLimit > 0) updateJumpTime();
+    } else 
+      break;
 
-    //If the user chooses yes continue and start over in the while(capturint)
+    //If the user chooses yes continue and start over in the while(capturing)
     redButton.update();
     blueButton.update();
-    capturingCurrentTest = true;
+    capturing = true;
     //rca may have changed after finishing the test
     rcaFlag = false;
   }
   showJumpsResults(maxJump, bestJumper, totalJumps);
+  capturing = false;
   drawMenuBackground();
   redButton.update();
   blueButton.update();
@@ -1512,7 +1563,6 @@ void jumpsCapture()
 
 void dropJumpsCapture()
 {
-  Serial.println("In dropJumps");
   //Select falling heigth (optional)
   float maxJump = 0;
   int bestJumper = 0;
@@ -1523,6 +1573,7 @@ void dropJumpsCapture()
   lastRcaState = !digitalRead(rcaPin);
   rcaFlag = false;
   bool jumpStart = rcaState;
+  bool waitingFirstPhase = true;
   //lastPhaseTime could be contactTime or flightTime depending on the phase
   float lastPhaseTime = 0;
   float contactTime = 0;
@@ -1813,32 +1864,32 @@ void saveSimpleJump(float lastPhaseTime)
   dataFile.close();
 }
 
-void saveDropJump(float lastPhaseTime)
-{
-  Serial.println(waitingFirstPhase);
-  String fullFileName = "/" + dirName + "/" + fileName + ".txt";
-  File dataFile = SD.open(fullFileName.c_str(), FILE_WRITE);
-  if (waitingFirstPhase)
-  {
-    //Starts the previous jump
-    if ( !rcaState)
-    {
-      Serial.print("Previous jump started");
-    }
-
-    //Starts de first landing
-    else if (rcaState)
-    {
-      dataFile.print(String(currentPerson) + ";" + jumpTypes[currentJumpType].id + ";" + String(lastPhaseTime, 6) );
-      Serial.println("Previous jump ended");
-    }
-    //Starting or ending the second jump
-  } else  if (!waitingFirstPhase)
-  {
-    Serial.println("Second jump");
-    dataFile.print( ";" + String(lastPhaseTime, 6) );
-  }
-}
+//void saveDropJump(float lastPhaseTime)
+//{
+//  Serial.println(waitingFirstPhase);
+//  String fullFileName = "/" + dirName + "/" + fileName + ".txt";
+//  File dataFile = SD.open(fullFileName.c_str(), FILE_WRITE);
+//  if (waitingFirstPhase)
+//  {
+//    //Starts the previous jump
+//    if ( !rcaState)
+//    {
+//      Serial.print("Previous jump started");
+//    }
+//
+//    //Starts de first landing
+//    else if (rcaState)
+//    {
+//      dataFile.print(String(currentPerson) + ";" + jumpTypes[currentJumpType].id + ";" + String(lastPhaseTime, 6) );
+//      Serial.println("Previous jump ended");
+//    }
+//    //Starting or ending the second jump
+//  } else  if (!waitingFirstPhase)
+//  {
+//    Serial.println("Second jump");
+//    dataFile.print( ";" + String(lastPhaseTime, 6) );
+//  }
+//}
 
 void fakeFunction()
 {

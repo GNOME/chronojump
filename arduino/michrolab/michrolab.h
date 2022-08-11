@@ -104,7 +104,7 @@ String get_command_argument(String inputString);
 void get_transmission_format();
 
 //Funcion called when the RCA state has changed
-void changingRCA();
+void changedRCA();
 
 //Process of calibration controled from the tft
 void calibrateTFT(void);

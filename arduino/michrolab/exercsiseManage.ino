@@ -24,14 +24,19 @@ void addJump(String row)
   nextComaIndex = row.indexOf(",", prevComaIndex + 1 );
   jumpTypes[currentJumpType].hardTimeLimit = (row.substring(prevComaIndex + 1 , nextComaIndex) == 1);
   prevComaIndex = nextComaIndex;
+  
+  prevComaIndex = nextComaIndex;
+  nextComaIndex = row.indexOf(",", prevComaIndex + 1 );
+  jumpTypes[currentJumpType].percentBodyWeight = row.substring(prevComaIndex + 1 , nextComaIndex).toFloat();
+  prevComaIndex = nextComaIndex;
     
   prevComaIndex = nextComaIndex;
   nextComaIndex = row.indexOf(",", prevComaIndex + 1 );
   jumpTypes[currentJumpType].fall = row.substring(prevComaIndex + 1, nextComaIndex).toFloat();
   prevComaIndex = nextComaIndex;
   
-  nextComaIndex = row.indexOf(",", prevComaIndex + 1 );
-  jumpTypes[currentJumpType].startIn = (row.substring(prevComaIndex + 1 , nextComaIndex) == "1");
+  prevComaIndex = nextComaIndex;
+  jumpTypes[currentJumpType].startIn = (row.substring(prevComaIndex + 1, prevComaIndex + 2) == "1");
 }
 
 void readJumpTypesFile()

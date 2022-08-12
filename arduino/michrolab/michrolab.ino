@@ -155,7 +155,7 @@ functionPointer FArray[3] = {&fakeFunction, &fakeFunction, &fakeFunction};
 
 menuEntry mainMenu[10] = {
   { "Jumps", "Shows bars with the jumps height", &jumpsCapture},
-  { "Drop Jumps", "Jumps with a previous\nfalling height (previous\njump or fixed height)\nShows bars with the heightof jumps", &dropJumpsCapture},
+//  { "Drop Jumps", "Jumps with a previous\nfalling height (previous\njump or fixed height)\nShows bars with the heightof jumps", &dropJumpsCapture},
   { "Raw Force", "Shows standard graph of\nthe force and the summary of the set.\n(Maximum Force, RFD and\nImpulse)", &startLoadCellCapture},
   { "Lin. Velocity", "Show bars of linear velocity", &startEncoderCapture },
   { "Inert. Velocity", "Show a bars of the velocity of the person in inertial machines", &startInertialEncoderCapture },
@@ -309,7 +309,7 @@ personType persons[100];
 struct jumpType {
   unsigned int id;
   String name;
-  unsigned int jumpLimit;
+  int jumpLimit;
   float timeLimit;
   bool hardTimeLimit;
   float percentBodyWeight;
@@ -320,7 +320,7 @@ struct jumpType {
 jumpType jumpTypes[100];
 unsigned int totalJumpTypes = 0;
 unsigned int currentJumpType = 0;
-unsigned int totalJumps = 0;
+int totalJumps = 0;
 //In simple jumps the firstPhase is the contact. In DropJumps the first phase is flight
 
 IntervalTimer rcaTimer;
@@ -1366,6 +1366,7 @@ void jumpsCapture()
   int bestJumper = 0;
   float graphRange = 50;              //Height of the jumps are in cm
   int index = 0;                      //Specify the slot used in bars[] circular buffer
+  bool rowCreated = false;
 
   fileName = String("J") + "-S" + String(setNumber);
   String fullFileName = "/" + dirName + "/" + fileName + ".txt";
@@ -1381,12 +1382,12 @@ void jumpsCapture()
   {
     bars[i] = 0;
   }
-  
+
   //Drawing axes
   tft.fillScreen(BLACK);
   redrawAxes(tft, 30, 200, 290, 200, 290, 200, 0, graphRange, graphRange / 10, "", "", "", WHITE, GREY, WHITE, WHITE, BLACK, RED, true);
   redButton.update();
-  
+
   currentPerson = 0;
   updatePersonJump(totalJumps);
 
@@ -1421,6 +1422,7 @@ void jumpsCapture()
       //There's been a change in the mat state. Landing or taking off.
       if (rcaFlag)
       {
+        //Serial.print("!");
         rcaFlag = false;
         //Calculate the time of the last phase. Flight or Contact time
         lastSampleTime = rcaTime - lastRcaTime;
@@ -1430,6 +1432,7 @@ void jumpsCapture()
 
         //If there's been a previous contact it means thet this is the start or end of flight time
         if (!waitingFirstPhase) {
+          //Serial.print("*");
           dataFile.print(",");
           //Hard coded microsonds precission
           dataFile.print(lastPhaseTime, 6);
@@ -1482,15 +1485,35 @@ void jumpsCapture()
           }
           //Waiting first phase. TODO: Make it sensible to startIn parameter
         } else if (waitingFirstPhase && capturing) {
-          waitingFirstPhase = false;
+//          Serial.print("#");
+//          if (rcaState) Serial.print("IN");
+//          else Serial.print("OUT");
+
+          //The state  previous to change was WRONG
+          //The first change of RCA is in the state that is supposed to be at start of the test.        
+          if ( jumpTypes[currentJumpType].startIn == rcaState ) {
+            if (rcaState) {             //Landing. Don't measure the Time of Flight
+              //Do nothing
+            } else if ( !rcaState) {  //Take off.         
+              //Measure one more jump..
+              totalJumps = -1;
+              waitingFirstPhase = false;
+            }
+            //The state previous change was RIGHT
+            //The first change of RCA is to the state that is NOT supposed to be at start of the test.
+          } else if ( jumpTypes[currentJumpType].startIn != rcaState) {
+            waitingFirstPhase = false;
+          }
           totalTestTime = 0;
           totalTime = 0;
           rcaTime = 0;
           lastRcaTime = 0;
           setNumber++;
-
-          dataFile.print(String(setNumber) + "," + String(currentPerson) + "," + String(jumpTypes[currentJumpType].id));
-          Serial.print(String(setNumber) + "," + String(currentPerson) + "," + String(jumpTypes[currentJumpType].id));
+          if( !rowCreated ){
+            dataFile.print(String(setNumber) + "," + String(currentPerson) + "," + String(jumpTypes[currentJumpType].id));
+            Serial.print(String(setNumber) + "," + String(currentPerson) + "," + String(jumpTypes[currentJumpType].id));
+            rowCreated = true;
+          }
 
           //Starting timer
           if (jumpTypes[currentJumpType].timeLimit != 0)
@@ -1507,7 +1530,6 @@ void jumpsCapture()
           capturing = false;
 
       } //End of rcaFlag
-
       //Check time limit
       if ( !waitingFirstPhase
            && !timeEnded                                                                    //Only check once
@@ -1517,7 +1539,7 @@ void jumpsCapture()
         timeEnded = true;
         //Check if test must end. Hard time limit or soft time limit but sepping on the mat
         if ( jumpTypes[currentJumpType].hardTimeLimit                         //Hard time limit
-             || ( !jumpTypes[currentJumpType].hardTimeLimit && rcaState ) )   //Soft time limit and in contact with the mat           
+             || ( !jumpTypes[currentJumpType].hardTimeLimit && rcaState ) )   //Soft time limit and in contact with the mat
         {
           capturing = false;
           rcaFlag = false;
@@ -1526,24 +1548,25 @@ void jumpsCapture()
       redButton.update();
       blueButton.update();
     }
-
     //The current test has ended
     Serial.println();
     dataFile.println();
     dataFile.close();
 
     waitingFirstPhase = true;
+    rcaFlag = false;
     totalJumps = 0;
     totalTestTime = 0;
     testTime.end();
     totalTime = 0;
     timeEnded = false;
-    
+    rowCreated = false;
+
     //check if the user wants to perform another one
     if ( yesNoDialog("Continue with " + jumpTypes[currentJumpType].name + "?", 10, 10))
     {
       if (jumpTypes[currentJumpType].timeLimit > 0) updateJumpTime();
-    } else 
+    } else
       break;
 
     //If the user chooses yes continue and start over in the while(capturing)
@@ -1552,144 +1575,13 @@ void jumpsCapture()
     capturing = true;
     //rca may have changed after finishing the test
     rcaFlag = false;
+    lastRcaState = rcaState;
   }
   showJumpsResults(maxJump, bestJumper, totalJumps);
   capturing = false;
   drawMenuBackground();
   redButton.update();
   blueButton.update();
-  showMenuEntry(currentMenuIndex);
-}
-
-void dropJumpsCapture()
-{
-  //Select falling heigth (optional)
-  float maxJump = 0;
-  int bestJumper = 0;
-  float graphRange = 50;
-  fileName = String("D") + "-S" + String(setNumber);
-  String fullFileName = "/" + dirName + "/" + fileName + ".txt";
-  File dataFile = SD.open(fullFileName.c_str(), FILE_WRITE);
-  lastRcaState = !digitalRead(rcaPin);
-  rcaFlag = false;
-  bool jumpStart = rcaState;
-  bool waitingFirstPhase = true;
-  //lastPhaseTime could be contactTime or flightTime depending on the phase
-  float lastPhaseTime = 0;
-  float contactTime = 0;
-  for (int i = 0; i < 10; i++)
-  {
-    bars[i] = 0;
-  }
-  tft.fillScreen(BLACK);
-  redrawAxes(tft, 30, 184, 290, 184, 0, 0, 0, graphRange, graphRange / 10, "", "", "", WHITE, GREY, WHITE, WHITE, BLACK, RED, true);
-  redButton.update();
-  int index = 0;
-  currentPerson = 0;
-  updatePersonJump(totalJumps);
-
-  //Print summary results
-  printTftText("H:", 10, 200);
-  printTftValue(maxJump, 70, 200, 2, 2);
-  printTftText("Tc:", 10, 216);
-  printTftValue(contactTime, 70, 216, 2, 2);
-
-  while ( !redButton.fell() )
-  {
-    if ( blueButton.fell() ) {
-      currentPerson = (currentPerson + 1) % totalPersons;
-      updatePersonJump(totalJumps);
-      waitingFirstPhase = true;
-    }
-
-    //There's been a change in the mat state. Landing or taking off.
-    if (rcaFlag)
-    {
-      rcaFlag = false;
-      //Elapsed time in seconds
-      lastSampleTime = rcaTime - lastRcaTime;
-      if (!rcaState) {
-        tft.setTextColor(BLACK);
-        printTftValue(contactTime, 70, 216, 2, 2);
-        contactTime = ((float)(rcaTime - lastRcaTime)) / 1E6;
-      }
-      lastPhaseTime = ((float)(rcaTime - lastRcaTime)) / 1E6;
-      Serial.print(lastPhaseTime, 6);
-      Serial.print(":");
-
-      //There is no previous phase
-      if (waitingFirstPhase) {
-        //Start of the first jump
-        if (!rcaState)
-        {
-          Serial.println("r");
-        }
-        //First landing. End of the first jump and start of the contact
-        else if (rcaState) {
-          waitingFirstPhase = false;
-          Serial.println("R");
-          if (!jumpStart)
-          {
-            dataFile.print(String(currentPerson) + ";" + jumpTypes[currentJumpType].id + ";" + "0R" );
-          } else if (jumpStart)
-          {
-            dataFile.print(String(currentPerson) + ";" + jumpTypes[currentJumpType].id + ";" + String(lastPhaseTime, 6) + "R" );
-          }
-        }
-
-      } else if (!waitingFirstPhase) {
-
-        //Take off. Starts the second jump
-        if (!rcaState)
-        {
-          tft.setTextColor(WHITE);
-          printTftValue(contactTime, 70, 216, 2, 2);
-          Serial.println("r");
-          dataFile.print(";" + String(lastPhaseTime, 6) + "r");
-          //Second landing. Ends the second jump
-        } else if (rcaState) {
-          Serial.println("R");
-          dataFile.println(";" + String(lastPhaseTime, 6) + "R");
-          tft.fillRect(30, 0, 290, 200, BLACK);
-          tft.setTextColor(BLACK);
-          printTftValue(bars[(index + 10 - 1) % 10], 70, 200, 2, 2);
-
-          bars[index] = 122.6 * lastPhaseTime * lastPhaseTime; //In cm
-          tft.setTextColor(WHITE);
-          printTftValue(bars[index], 70, 200, 2, 2);
-          if (bars[index] > maxJump)
-          {
-            maxJump = bars[index];
-            bestJumper = currentPerson;
-          }
-
-          if (bars[index] > graphRange)
-          {
-            redrawAxes(tft, 30, 184, 290, 184, 0, 0, 0, graphRange, graphRange / 10, "", "", "", WHITE, BLACK, WHITE, BLACK, BLACK, RED, true);
-            graphRange = bars[index] * 1.25;
-          }
-          redrawAxes(tft, 30, 184, 290, 184, 0, 0, 0, graphRange, graphRange / 10, "", "", "", WHITE, GREY, WHITE, WHITE, BLACK, RED, true);
-          barPlot(30, 184, 290, 184, graphRange, 10, index, 0.5, RED);
-          index = (index + 1) % 10;
-          totalJumps++;
-          updatePersonJump(totalJumps);
-          yesNoDialog("Red: Next jump", 100, 6);
-          jumpStart = rcaState;
-          waitingFirstPhase = true;
-        }
-
-      }
-      //saveDropJump(lastPhaseTime);
-      lastRcaState = rcaState;
-      lastRcaTime = rcaTime;
-    }
-    redButton.update();
-    blueButton.update();
-  }
-  dataFile.close();
-  setNumber++;
-  showJumpsResults(maxJump, bestJumper, totalJumps);
-  drawMenuBackground();
   showMenuEntry(currentMenuIndex);
 }
 

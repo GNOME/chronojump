@@ -174,7 +174,7 @@ menuEntry mainMenu[10] = {
   { "", "", &backMenu}
 };
 
-int mainMenuItems = 9;
+int mainMenuItems = 8;
 
 menuEntry systemMenu[10] {
   { "Group", "Select the group you are going to use.\nUp to 9 groups can be\nselected", &selectGroup},
@@ -416,7 +416,7 @@ void setup() {
   totalPersons = getTotalPerson();
   readPersonsFile();
 
-  //TODO: Read jumps only if necessary
+  //TODO: Read exercises only if necessary
   currentExerciseType = 0;
 
   tft.fillScreen(BLACK);
@@ -1255,6 +1255,9 @@ void startEncoderCapture(void)
   avgVelocity = 0;
   maxAvgVelocity = 0;
   lastVelocity = 0;
+  readExercisesFile(gravitatory);
+  currentExerciseType = 0;
+  selectExerciseType(gravitatory);
   selectValueDialog("Select the load you are\ngoing to move", "0,5,20,200", "0.5,1,5", 1);
   //captureRaw();
   captureBars();
@@ -1375,7 +1378,7 @@ void jumpsCapture()
 {
   readExercisesFile(jumps);
   printJumpTypesList();
-  selectJumpType();
+  selectExerciseType(jumps);
   IntervalTimer testTime;             //Timer that controls the refreshing of time in lower right corner
   capturing = true;
   //In the first change of state the header of the row is writen.

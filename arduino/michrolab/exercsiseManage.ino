@@ -80,14 +80,14 @@ void readExercisesFile(exerciseType mode)
   }
   else if (mode == gravitatory) {
     //Serial.println("G");
-    file = "gravitat.txt";
+    file = "gravType.txt";
   }
 
   File  exercisesFile = SD.open(file);
 
   if (exercisesFile)
   {
-    Serial.println("file size: " + String(exercisesFile.size()) );
+    //Serial.println("File size = " + String(exercisesFile.size() ) );
     while (pos <= exercisesFile.size())
     {
       readChar = '0';
@@ -98,8 +98,9 @@ void readExercisesFile(exerciseType mode)
         readString = readString + readChar;
         pos++;
       }
+      
+      //Serial.print(readString);
 
-      //Serial.print(" | ");
       //Check that it is a valid row.
       if ( isDigit(readString[0]) )
       {
@@ -122,7 +123,7 @@ void readExercisesFile(exerciseType mode)
 void printJumpTypesList()
 {
   Serial.println("id, name, jumpLimit,timeLimit, hardTimeLimit, percentBodyWeight, fall, startIn");
-  for (unsigned int i = 0; i < totalJumpTypes; i++)
+  for (unsigned int i = 0; i < totalGravTypes; i++)
   {
     Serial.print(jumpTypes[i].id);
     Serial.print("," + jumpTypes[i].name + ", ");
@@ -134,5 +135,20 @@ void printJumpTypesList()
     Serial.print(String( jumpTypes[i].fall , 2) + "cm, ");
     if(jumpTypes[i].startIn) Serial.println("Yes, ");
     else Serial.println("No, ");
+  }
+}
+
+void printGravTypesList()
+{
+  Serial.println();
+  Serial.println("totalGravTypes: " + String(totalGravTypes) );
+  Serial.println("id, name, description, percentBodyWeight, speed1RM");
+  for (unsigned int i = 0; i < totalGravTypes; i++)
+  {
+    Serial.print(String(gravTypes[i].id) + ", ");
+    Serial.print(gravTypes[i].name + ", ");
+    Serial.print(gravTypes[i].description + ", ");
+    Serial.print(String( gravTypes[i].percentBodyWeight , 2) + "%, ");
+    Serial.println(String( gravTypes[i].speed1Rm , 2) + "m/s, ");
   }
 }

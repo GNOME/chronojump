@@ -216,7 +216,7 @@ void selectJumpType()
   drawLeftButton("Next", WHITE, BLUE);
   drawRightButton("Accept", WHITE, RED);
 
-  printTftText(jumpTypes[currentJumpType].name, 50, 100);
+  printTftText(jumpTypes[currentExerciseType].name, 50, 100);
 
   
   blueButton.update();
@@ -226,11 +226,11 @@ void selectJumpType()
     if(blueButton.fell())
     {      
       //Deleting last jumpType text
-      printTftText(jumpTypes[currentJumpType].name, 50, 100, BLACK);
+      printTftText(jumpTypes[currentExerciseType].name, 50, 100, BLACK);
 
       //Printing new jump type text
-      currentJumpType = (currentJumpType + 1) % totalJumpTypes;
-      printTftText(jumpTypes[currentJumpType].name, 50, 100);
+      currentExerciseType = (currentExerciseType + 1) % totalJumpTypes;
+      printTftText(jumpTypes[currentExerciseType].name, 50, 100);
     }
     blueButton.update();
     redButton.update();

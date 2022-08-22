@@ -149,7 +149,7 @@ void readJumpsFile();
 void addJump(String row);
 
 //Read how many rows has the jumpTypes.txt
-void getTotalJumpTypes();
+void gettotalJumpTypes();
 
 //Print in the Serial a list of all jump types
 void printJumpTypesList();

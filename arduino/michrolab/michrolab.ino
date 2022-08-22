@@ -100,6 +100,14 @@ enum sensorType {
   none
 };
 
+enum exerciseType {
+  jumps,
+  inertial,
+  gravitatory,
+  raceAnalyzer,
+  races
+};
+
 sensorType sensor = none;
 String maxString = "";
 
@@ -319,9 +327,20 @@ struct jumpType {
 
 jumpType jumpTypes[100];
 unsigned int totalJumpTypes = 0;
-unsigned int currentJumpType = 0;
+unsigned int currentExerciseType = 0;
 int totalJumps = 0;
 //In simple jumps the firstPhase is the contact. In DropJumps the first phase is flight
+
+struct gravitType {
+  unsigned int id;
+  String name;
+  String description;
+  float percentBodyWeight;
+  float speed1Rm;
+};
+
+gravitType gravTypes[100];
+unsigned int totalGravTypes = 0;
 
 IntervalTimer rcaTimer;
 
@@ -398,8 +417,7 @@ void setup() {
   readPersonsFile();
 
   //TODO: Read jumps only if necessary
-  readJumpTypesFile();
-  currentJumpType = 0;
+  currentExerciseType = 0;
 
   tft.fillScreen(BLACK);
 
@@ -791,7 +809,7 @@ void showBatteryLevel() {
 
 void updateJumpTime()
 {
-  updateTime(0, jumpTypes[currentJumpType].timeLimit);
+  updateTime(0, jumpTypes[currentExerciseType].timeLimit);
 }
 
 //Shows time in seconds at right lower corner. If limit is present non-zero it will we a countdown
@@ -1355,6 +1373,8 @@ void showPowerResults()
 
 void jumpsCapture()
 {
+  readExercisesFile(jumps);
+  printJumpTypesList();
   selectJumpType();
   IntervalTimer testTime;             //Timer that controls the refreshing of time in lower right corner
   capturing = true;
@@ -1399,7 +1419,7 @@ void jumpsCapture()
   totalTime = 0;
 
   //Draws the time if necessary
-  if ( jumpTypes[currentJumpType].timeLimit > 0 ) updateJumpTime();
+  if ( jumpTypes[currentExerciseType].timeLimit > 0 ) updateJumpTime();
 
   //Pressing the redButton during a test ends it
   while ( !redButton.fell())
@@ -1491,7 +1511,7 @@ void jumpsCapture()
 
           //The state  previous to change was WRONG
           //The first change of RCA is in the state that is supposed to be at start of the test.        
-          if ( jumpTypes[currentJumpType].startIn == rcaState ) {
+          if ( jumpTypes[currentExerciseType].startIn == rcaState ) {
             if (rcaState) {             //Landing. Don't measure the Time of Flight
               //Do nothing
             } else if ( !rcaState) {  //Take off.         
@@ -1501,7 +1521,7 @@ void jumpsCapture()
             }
             //The state previous change was RIGHT
             //The first change of RCA is to the state that is NOT supposed to be at start of the test.
-          } else if ( jumpTypes[currentJumpType].startIn != rcaState) {
+          } else if ( jumpTypes[currentExerciseType].startIn != rcaState) {
             waitingFirstPhase = false;
           }
           totalTestTime = 0;
@@ -1510,13 +1530,13 @@ void jumpsCapture()
           lastRcaTime = 0;
           setNumber++;
           if( !rowCreated ){
-            dataFile.print(String(setNumber) + "," + String(currentPerson) + "," + String(jumpTypes[currentJumpType].id));
-            Serial.print(String(setNumber) + "," + String(currentPerson) + "," + String(jumpTypes[currentJumpType].id));
+            dataFile.print(String(setNumber) + "," + String(currentPerson) + "," + String(jumpTypes[currentExerciseType].id));
+            Serial.print(String(setNumber) + "," + String(currentPerson) + "," + String(jumpTypes[currentExerciseType].id));
             rowCreated = true;
           }
 
           //Starting timer
-          if (jumpTypes[currentJumpType].timeLimit != 0)
+          if (jumpTypes[currentExerciseType].timeLimit != 0)
           {
             //Hardcoded to show integers and update every second
             testTime.begin(updateJumpTime, 1000000);
@@ -1525,21 +1545,21 @@ void jumpsCapture()
         }
 
         //Check jumps limit
-        if (jumpTypes[currentJumpType].jumpLimit > 0                //Jumps limit set
-            && totalJumps >= jumpTypes[currentJumpType].jumpLimit)  //Jumps equal or exceeded to limit
+        if (jumpTypes[currentExerciseType].jumpLimit > 0                //Jumps limit set
+            && totalJumps >= jumpTypes[currentExerciseType].jumpLimit)  //Jumps equal or exceeded to limit
           capturing = false;
 
       } //End of rcaFlag
       //Check time limit
       if ( !waitingFirstPhase
            && !timeEnded                                                                    //Only check once
-           && jumpTypes[currentJumpType].timeLimit > 0                                      //time limit set
-           && totalTestTime >= (unsigned int)jumpTypes[currentJumpType].timeLimit * 1000000) //time limit exceeded
+           && jumpTypes[currentExerciseType].timeLimit > 0                                      //time limit set
+           && totalTestTime >= (unsigned int)jumpTypes[currentExerciseType].timeLimit * 1000000) //time limit exceeded
       {
         timeEnded = true;
         //Check if test must end. Hard time limit or soft time limit but sepping on the mat
-        if ( jumpTypes[currentJumpType].hardTimeLimit                         //Hard time limit
-             || ( !jumpTypes[currentJumpType].hardTimeLimit && rcaState ) )   //Soft time limit and in contact with the mat
+        if ( jumpTypes[currentExerciseType].hardTimeLimit                         //Hard time limit
+             || ( !jumpTypes[currentExerciseType].hardTimeLimit && rcaState ) )   //Soft time limit and in contact with the mat
         {
           capturing = false;
           rcaFlag = false;
@@ -1563,9 +1583,9 @@ void jumpsCapture()
     rowCreated = false;
 
     //check if the user wants to perform another one
-    if ( yesNoDialog("Continue with " + jumpTypes[currentJumpType].name + "?", 10, 10))
+    if ( yesNoDialog("Continue with " + jumpTypes[currentExerciseType].name + "?", 10, 10))
     {
-      if (jumpTypes[currentJumpType].timeLimit > 0) updateJumpTime();
+      if (jumpTypes[currentExerciseType].timeLimit > 0) updateJumpTime();
     } else
       break;
 
@@ -1747,7 +1767,7 @@ void saveSimpleJump(float lastPhaseTime)
   File dataFile = SD.open(fullFileName.c_str(), FILE_WRITE);
   if ( !rcaState)
   {
-    dataFile.print(String(currentPerson) + ";" + jumpTypes[currentJumpType].id + ";" + String(lastPhaseTime, 6) );
+    dataFile.print(String(currentPerson) + ";" + jumpTypes[currentExerciseType].id + ";" + String(lastPhaseTime, 6) );
   }
   else if (rcaState)
   {
@@ -1772,7 +1792,6 @@ void saveSimpleJump(float lastPhaseTime)
 //    //Starts de first landing
 //    else if (rcaState)
 //    {
-//      dataFile.print(String(currentPerson) + ";" + jumpTypes[currentJumpType].id + ";" + String(lastPhaseTime, 6) );
 //      Serial.println("Previous jump ended");
 //    }
 //    //Starting or ending the second jump

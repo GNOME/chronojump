@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2020   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2004-2022   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -33,6 +33,7 @@ public class EventExecute
 	protected string personName;
 	protected int sessionID;
 	protected int uniqueID;
+	protected int typeID; //to upload to networks
 	protected string type;
 	protected string description;
 
@@ -65,6 +66,7 @@ public class EventExecute
 	//protected bool needShowSyncMessage;
 	protected string feedbackMessage;
 	protected bool needShowFeedbackMessage;
+	protected bool feedbackMessageOnDialog;
 
 	//instances with the info to create
 	public PrepareEventGraphJumpSimple PrepareEventGraphJumpSimpleObject; 
@@ -366,6 +368,11 @@ public class EventExecute
 		} 
 		else if(needShowFeedbackMessage) 
 		{
+			if (feedbackMessageOnDialog)
+			{
+				new DialogMessage(Constants.MessageTypes.WARNING, feedbackMessage);
+				feedbackMessageOnDialog = false;
+			}
 			UtilGtk.PrintLabelWithTooltip(egd.Label_message, feedbackMessage);
 			needShowFeedbackMessage = false;
 		}

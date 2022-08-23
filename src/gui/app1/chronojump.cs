@@ -5196,14 +5196,17 @@ public partial class ChronoJumpWindow
 		event_execute_ButtonCancel.Clicked += new EventHandler(on_cancel_clicked);
 		event_execute_ButtonFinish.Clicked += new EventHandler(on_finish_clicked);
 
-		currentEventExecute = new JumpExecute(currentPerson.UniqueID, currentPerson.Name, 
-				currentSession.UniqueID, currentJumpType.Name, myFall, jumpWeight,
+		currentEventExecute = new JumpExecute (
+				currentPerson.UniqueID, currentPerson.Name, currentPersonSession.Weight,
+				currentSession.UniqueID, currentJumpType.UniqueID, currentJumpType.Name, myFall, jumpWeight,
 				cp2016.CP, preferences.digitsNumber,
 				preferences.volumeOn, preferences.gstreamer,
 				progressbarLimit, egd, description, configChronojump.Exhibition,
-				preferences.heightPreferred,
+				preferences.heightPreferred, preferences.metersSecondsPreferred,
 				Convert.ToInt32(spin_contacts_graph_last_limit.Value),
-				radio_contacts_graph_allTests.Active, radio_contacts_graph_allPersons.Active);
+				radio_contacts_graph_allTests.Active, radio_contacts_graph_allPersons.Active,
+				(configChronojump.Compujump && check_contacts_networks_upload.Active),
+				configChronojump.CompujumpStationID, configChronojump.CompujumpDjango);
 
 
 		//UtilGtk.ChronopicColors(viewport_chronopics, label_chronopics, label_connected_chronopics, chronopicWin.Connected);

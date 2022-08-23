@@ -855,6 +855,10 @@ public partial class ChronoJumpWindow
 
 			return false;
 		} else {
+			//don't allow to press guest button while connection is being done
+			button_networks_contacts_guest.Visible = false;
+			button_networks_encoder_guest.Visible = false;
+
 			sendingJsonRFID = true;
 			GLib.Timeout.Add (50, new GLib.TimeoutHandler (sendJsonRFID));
 		}

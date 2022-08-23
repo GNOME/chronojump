@@ -5138,7 +5138,8 @@ public partial class ChronoJumpWindow
 
 		double myFall = 0;
 		ljstp.fallmm = 0;
-		if(currentJumpType.HasFall) {
+		if (currentJumpType.HasFall (configChronojump.Compujump))
+		{
 			if(extra_window_jumps_check_dj_fall_calculate.Active) {
 				myFall = -1;
 				ljstp.fallmm = -1;
@@ -5149,8 +5150,8 @@ public partial class ChronoJumpWindow
 		}
 
 		//to store how this test is for future jumps (do)
-		if(currentJumpType.HasWeight || currentJumpType.HasFall)
-			SqliteJumpType.LastJumpSimpleTypeParamsInsertOrUpdate(ljstp);
+		if(currentJumpType.HasWeight || currentJumpType.HasFall (configChronojump.Compujump))
+			SqliteJumpType.LastJumpSimpleTypeParamsInsertOrUpdate (ljstp);
 
 		string description = "";
 		if(currentJumpType.Name == "slCMJleft" || currentJumpType.Name == "slCMJright") {
@@ -5451,7 +5452,7 @@ public partial class ChronoJumpWindow
 			ljrtp.weightValue = selectedWeight;
 		}
 		double myFall = 0;
-		if( currentJumpRjType.HasFall || currentJumpRjType.Name == Constants.RunAnalysisName)
+		if( currentJumpRjType.HasFall (configChronojump.Compujump) || currentJumpRjType.Name == Constants.RunAnalysisName)
 		{
 			myFall = (double) extra_window_jumps_rj_spinbutton_fall.Value;
 			ljrtp.fallmm = Convert.ToInt32(myFall * 10);
@@ -5459,7 +5460,7 @@ public partial class ChronoJumpWindow
 
 		//to store how this test is for future jumps (do)
 		if( (! currentJumpRjType.Unlimited && currentJumpRjType.FixedValue == 0) ||
-				currentJumpType.HasWeight || currentJumpType.HasFall )
+				currentJumpType.HasWeight || currentJumpType.HasFall (configChronojump.Compujump) )
 			SqliteJumpType.LastJumpRjTypeParamsInsertOrUpdate(ljrtp);
 
 		//used by cancel and finish

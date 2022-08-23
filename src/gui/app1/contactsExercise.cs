@@ -189,7 +189,7 @@ public partial class ChronoJumpWindow
 				name += sep + extra_window_jumps_spinbutton_weight.Value.ToString() + " kg";
 				sep = "; ";
 		}
-		if(((JumpType) currentEventType).HasFall)
+		if(((JumpType) currentEventType).HasFall (configChronojump.Compujump))
 		{
 			if(! extra_window_jumps_check_dj_fall_calculate.Active)
 			{
@@ -229,7 +229,7 @@ public partial class ChronoJumpWindow
 				name += sep + extra_window_jumps_rj_spinbutton_weight.Value.ToString() + " kg";
 			sep = "; ";
 		}
-		if(((JumpType) currentEventType).HasFall)
+		if(((JumpType) currentEventType).HasFall (configChronojump.Compujump))
 		{
 			name += sep + extra_window_jumps_rj_spinbutton_fall.Value.ToString() + " cm";
 			sep = "; ";

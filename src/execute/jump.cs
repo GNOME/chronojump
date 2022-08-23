@@ -28,6 +28,7 @@ using Mono.Unix;
 
 public class JumpExecute : EventExecute
 {
+	protected double personWeight;
 	protected double tv;
 	protected double tc;
 	protected double fall;
@@ -50,22 +51,32 @@ public class JumpExecute : EventExecute
 	private int angle = -1;
 	private bool avoidGraph;
 	private bool heightPreferred;
-	
+	private bool metersSecondsPreferred;
+	protected bool upload;
+	protected int uploadStationId;
+	protected bool django;
+
 	public JumpExecute() {
 	}
 
 	//jump execution
-	public JumpExecute(int personID, string personName, int sessionID, string type, double fall, double weight,  
+	public JumpExecute (
+			int personID, string personName, double personWeight,
+			int sessionID, int typeID, string type, double fall, double weight,
 			Chronopic cp, int pDN,
 			bool volumeOn, Preferences.GstreamerTypes gstreamer,
 			double progressbarLimit, ExecutingGraphData egd, string description,
 			bool avoidGraph, //on configChronojump.Exhibition do not show graph because it gets too slow with big database
-			bool heightPreferred, int graphLimit, bool graphAllTypes, bool graphAllPersons
+			bool heightPreferred, bool metersSecondsPreferred,
+			int graphLimit, bool graphAllTypes, bool graphAllPersons,
+			bool upload, int uploadStationId, bool django //upload: configChronojump.Compujump && upload (contacts) button active
 			)
 	{
 		this.personID = personID;
 		this.personName = personName;
+		this.personWeight = personWeight; //for Stiffness at upload on compujump
 		this.sessionID = sessionID;
+		this.typeID = typeID;
 		this.type = type;
 		this.fall = fall; //-1 means has to be calculated with a previous jump
 		this.weight = weight;
@@ -80,10 +91,14 @@ public class JumpExecute : EventExecute
 		this.description = description;
 		this.avoidGraph = avoidGraph;
 		this.heightPreferred = heightPreferred;
+		this.metersSecondsPreferred = metersSecondsPreferred;
 		this.graphLimit = graphLimit;
 		this.graphAllTypes = graphAllTypes;
 		this.graphAllPersons = graphAllPersons;
-	
+		this.upload = upload;
+		this.uploadStationId = uploadStationId;
+		this.django = django;
+
 		if(TypeHasFall) {
 			hasFall = true;
 		} else {
@@ -467,8 +482,7 @@ public class JumpExecute : EventExecute
 			feedbackMessage = Catalog.GetString(Constants.SimulatedMessage());
 		else
 			feedbackMessage = "";
-		needShowFeedbackMessage = true; 
-		
+
 		string table = Constants.JumpTable;
 		string datetime = UtilDate.ToFile(DateTime.Now);
 
@@ -480,6 +494,28 @@ public class JumpExecute : EventExecute
 		//define the created object
 		eventDone = new Jump(uniqueID, personID, sessionID, type, tv, tc, fall, 
 				weight, description, angle, Util.BoolToNegativeInt(simulated), datetime);
+
+		if(upload)
+		{
+			UploadJumpSimpleDataObject uj = new UploadJumpSimpleDataObject (
+					uploadStationId, (Jump) eventDone, typeID, personWeight, metersSecondsPreferred);
+			JsonCompujump js = new JsonCompujump (django);
+			if( ! js.UploadJumpSimpleData (uj) )
+			{
+				LogB.Error (js.ResultMessage);
+
+				/*
+				   feedbackMessage will be shown on a DialogMessage to not being erased by updateGraphJumpsSimple -> event_execute_initializeVariables
+				   the dialog cannot be called here to avoid gtk crash
+				   */
+				feedbackMessageOnDialog = true;
+				feedbackMessage = js.ResultMessage;
+
+				//since 2.1.3 do not store in Temp, if there are network errors, it is not going to be uploaded later, because wristbands can be re-assigned
+				//SqliteJson.InsertTempSprint(false, usdo); //insert only if couldn't be uploaded
+			}
+		}
+		needShowFeedbackMessage = true;
 
 		if(! avoidGraph)
 		{

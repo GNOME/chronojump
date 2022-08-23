@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2020   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2004-2022   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -107,10 +107,13 @@ public partial class ChronoJumpWindow
 	
 	//creates and if is not predefined, checks database to gather all the data
 	//simple == true  for simple jumps, and false for reactive
-	private JumpType createJumpType(string name, bool simple) {
+	private JumpType createJumpType(string name, bool simple)
+	{
 		JumpType t = new JumpType(name);
-		
-		if(! t.IsPredefined) {
+
+		//on networks need the uniquedID, so we need to do the SQL selection
+		if(! t.IsPredefined || configChronojump.Compujump)
+		{
 			if(simple) {
 				t = SqliteJumpType.SelectAndReturnJumpType(name, false);
 				t.ImageFileName = SqliteEvent.GraphLinkSelectFileName(Constants.JumpTable, name);
@@ -119,6 +122,7 @@ public partial class ChronoJumpWindow
 				t.ImageFileName = SqliteEvent.GraphLinkSelectFileName(Constants.JumpRjTable, name);
 			}
 		}
+
 		return t;
 	}
 

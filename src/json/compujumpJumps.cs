@@ -142,3 +142,48 @@ public class JsonCompujumpJumps : JsonCompujump
 		}
 	}
 }
+
+public class UploadJumpSimpleDataObject
+{
+	public int stationId;
+	public Jump jump;
+
+	private int exerciseId;
+
+	private double power;
+	private double stiffness;
+	private double initialSpeed;
+
+	public UploadJumpSimpleDataObject (int stationId, Jump jump, int exerciseId, double personMassInKg, bool metersSecondsPreferred)
+	{
+		this.stationId = stationId;
+		this.jump = jump;
+		this.exerciseId = exerciseId;
+
+		if (jump.Tc > 0)
+			this.power = Jump.GetDjPower (jump.Tc, jump.Tv, personMassInKg + jump.Weight, jump.Fall);
+		else
+			this.power = Jump.GetPower (jump.Tv, personMassInKg, jump.Weight);
+
+		this.stiffness = jump.Stiffness (personMassInKg, jump.Weight);
+		this.initialSpeed = jump.GetInitialSpeedJumpSimple (metersSecondsPreferred);
+	}
+
+	public string ExerciseIdStr
+	{
+		get { return exerciseId.ToString(); }
+	}
+	public string PowerStr
+	{
+		get { return Util.ConvertToPoint (power); }
+	}
+	public string StiffnessStr
+	{
+		get { return Util.ConvertToPoint (stiffness); }
+	}
+	public string InitialSpeedStr
+	{
+		get { return Util.ConvertToPoint (initialSpeed); }
+	}
+}
+

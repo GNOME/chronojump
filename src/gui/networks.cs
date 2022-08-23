@@ -112,7 +112,7 @@ public partial class ChronoJumpWindow
 	private static string capturedRFID; //current RFID in use
 	private static bool shouldUpdateRFIDGui;
 	private static bool shouldShowRFIDDisconnected;
-	private static bool updatingRFIDGuiStuff;
+	private static bool sendingJsonRFID; //if connection is very slow, this helps to show a Readed (RFID) message fast and then the connection will be done
 	private static bool networksRunIntervalCanChangePersonSQLReady;
 	private static DateTime startedRFIDWait; //just to display a message at the moment of try to wristband change while capturing
 	private bool rfidProcessCancel;
@@ -238,7 +238,6 @@ public partial class ChronoJumpWindow
 			Json.ChangeServerUrl(configChronojump.CompujumpServerURL);
 
 			capturedRFID = "";
-			updatingRFIDGuiStuff = false;
 			shouldUpdateRFIDGui = false;
 			rfidProcessCancel = false;
 			networksRunIntervalCanChangePersonSQLReady = true;
@@ -253,6 +252,7 @@ public partial class ChronoJumpWindow
 				rfid.FakeButtonDisconnected.Clicked += new EventHandler(rfidDisconnected);
 				rfid.FakeButtonAdminDetected.Clicked += new EventHandler(rfidAdminDetectedSendMail);
 
+				sendingJsonRFID = false;
 				threadRFID = new Thread (new ThreadStart (RFIDStart));
 				GLib.Idle.Add (new GLib.IdleHandler (pulseRFID));
 
@@ -824,31 +824,45 @@ public partial class ChronoJumpWindow
 		}
 
 
-		//don't allow this method to be called again until ended
-		//Note RFID detection can send many cards (the same) per second
-		if(updatingRFIDGuiStuff) {
-			Thread.Sleep (100);
-			return true;
-		}
-
 		if(! shouldUpdateRFIDGui) {
 			Thread.Sleep (100);
 			return true;
 		}
 
 		//show a Read message nice if the network is slow or there is any problem with the web services
-		label_rfid_wait.Text = Catalog.GetString("Read");
-		label_rfid_encoder_wait.Text = Catalog.GetString("Read");
+		string str = Catalog.GetString ("The wristband has been read.") + "\n" +
+			Catalog.GetString ("Connecting to server …");
+		label_rfid_wait.Text = str;
+		label_rfid_encoder_wait.Text = str;
 		label_rfid_wait.Visible = true;
 		label_rfid_encoder_wait.Visible = true;
 
 		shouldUpdateRFIDGui = false;
-		updatingRFIDGuiStuff = true;
 
 		//is we are on analyze, switch to capture
 		if(! radio_mode_encoder_capture_small.Active)
 			radio_mode_encoder_capture_small.Active = true;
 
+		/*
+		   don't allow sendJsonRFID to be called again until ended
+		   Note RFID detection can send many cards (the same) per second
+		   having that call on a timeout is to ensure the label_rfid_wait will be shown
+		   */
+		if (sendingJsonRFID)
+		{
+			Thread.Sleep (100);
+			LogB.Information(" threadRFID:" + threadRFID.ThreadState.ToString());
+
+			return false;
+		} else {
+			sendingJsonRFID = true;
+			GLib.Timeout.Add (50, new GLib.TimeoutHandler (sendJsonRFID));
+		}
+
+		return true;
+	}
+	private bool sendJsonRFID ()
+	{
 		/*
 		 * This method is shown on diagrams/processes/rfid-local-read.dia
 		 */
@@ -1063,12 +1077,8 @@ public partial class ChronoJumpWindow
 		//Wakeup screen if it's off
 		Networks.WakeUpRaspberryIfNeeded();
 
-		updatingRFIDGuiStuff = false;
-
-		Thread.Sleep (100);
-		//LogB.Information(" threadRFID:" + threadRFID.ThreadState.ToString());
-
-		return true;
+		sendingJsonRFID = false;
+		return false;
 	}
 
 	private void compujumpDownloadImage (JsonCompujump json, string url, int personID)

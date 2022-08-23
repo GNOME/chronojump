@@ -235,7 +235,7 @@ public partial class ChronoJumpWindow
 		setLabelContactsExerciseSelected(Constants.Modes.JUMPSSIMPLE);
 
 		LastJumpSimpleTypeParams ljstp = new LastJumpSimpleTypeParams(myJumpType.Name);
-		if(myJumpType.HasWeight || myJumpType.HasFall)
+		if(myJumpType.HasWeight || myJumpType.HasFall (configChronojump.Compujump))
 			ljstp = SqliteJumpType.LastJumpSimpleTypeParamsSelect(myJumpType.Name); //search it on DB
 
 		if(myJumpType.HasWeight)
@@ -243,7 +243,7 @@ public partial class ChronoJumpWindow
 		else
 			extra_window_showWeightData(myJumpType, false);	
 
-		if(myJumpType.HasFall) {
+		if(myJumpType.HasFall (configChronojump.Compujump)) {
 			extra_window_showFallData(myJumpType, true);
 			if(ljstp.uniqueID != -1)
 				extra_window_jumps_check_dj_fall_calculate.Active = (ljstp.fallmm == -1);
@@ -276,7 +276,7 @@ public partial class ChronoJumpWindow
 
 		button_jump_type_delete_simple.Sensitive = ! myJumpType.IsPredefined;
 
-		if( (myJumpType.HasWeight || myJumpType.HasFall) && ljstp.uniqueID != -1) {
+		if( (myJumpType.HasWeight || myJumpType.HasFall (configChronojump.Compujump)) && ljstp.uniqueID != -1) {
 			extra_window_jumps_spinbutton_weight.Value = ljstp.weightValue;
 			extra_window_jumps_spinbutton_fall.Value = ljstp.fallmm/10.0;
 		} else {
@@ -439,14 +439,14 @@ public partial class ChronoJumpWindow
 		} else 
 			extra_window_showWeightData(myJumpType, false);	
 
-		if(myJumpType.HasFall || myJumpType.Name == Constants.RunAnalysisName) {
+		if(myJumpType.HasFall (configChronojump.Compujump) || myJumpType.Name == Constants.RunAnalysisName) {
 			extra_window_showFallData(myJumpType, true);	
 		} else
 			extra_window_showFallData(myJumpType, false);
 
 		button_jump_type_delete_reactive.Sensitive = ! myJumpType.IsPredefined;
 
-		if( (myJumpType.HasWeight || myJumpType.HasFall) && ljrtp.uniqueID != -1) {
+		if( (myJumpType.HasWeight || myJumpType.HasFall (configChronojump.Compujump)) && ljrtp.uniqueID != -1) {
 			extra_window_jumps_rj_spinbutton_weight.Value = ljrtp.weightValue;
 			extra_window_jumps_rj_spinbutton_fall.Value = ljrtp.fallmm/10.0;
 		} else {

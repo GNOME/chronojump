@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Copyright (C) 2004-2020   Xavier de Blas <xaviblas@gmail.com> 
+ *  Copyright (C) 2004-2022   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -261,20 +261,18 @@ public class JumpType : EventType
 		set { hasWeight = value; }
 	}
 	
-	public bool HasFall
+	public bool HasFall (bool compujump)
 	{
-		get { 
-			if(name == Constants.TakeOffName || name == Constants.TakeOffWeightName)
-				return false;
+		if(name == Constants.TakeOffName || name == Constants.TakeOffWeightName)
+			return false;
 
-			if(isPredefined) {
-				return ! startIn; 
-			} else {
-				if(isRepetitive)
-					return SqliteJumpType.HasFall("jumpRjType", name);
-				else
-					return SqliteJumpType.HasFall("jumpType", name);
-			}
+		if(isPredefined && ! compujump) {
+			return ! startIn;
+		} else {
+			if(isRepetitive)
+				return SqliteJumpType.HasFall("jumpRjType", name);
+			else
+				return SqliteJumpType.HasFall("jumpType", name);
 		}
 	}
 	

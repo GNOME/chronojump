@@ -33,7 +33,12 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Button button_contacts_exercise;
 	[Widget] Gtk.Frame frame_image_test;
 	[Widget] Gtk.Label label_contacts_exercise_selected_name;
-	[Widget] Gtk.Label label_contacts_exercise_selected_options;
+	[Widget] Gtk.Image image_contacts_exercise_selected_options1;
+	[Widget] Gtk.Image image_contacts_exercise_selected_options2;
+	[Widget] Gtk.Image image_contacts_exercise_selected_options3;
+	[Widget] Gtk.Label label_contacts_exercise_selected_options1;
+	[Widget] Gtk.Label label_contacts_exercise_selected_options2;
+	[Widget] Gtk.Label label_contacts_exercise_selected_options3;
 	[Widget] Gtk.HBox hbox_contacts_exercise_actions;
 	[Widget] Gtk.Button button_contacts_exercise_actions_edit_do;
 	[Widget] Gtk.Button button_contacts_exercise_actions_add_do;
@@ -155,6 +160,28 @@ public partial class ChronoJumpWindow
 		label_contacts_exercise_selected_name.Text = name;
 	}
 
+	private void label_contacts_exercise_selected_options_blank ()
+	{
+		image_contacts_exercise_selected_options1.Visible = false;
+		image_contacts_exercise_selected_options2.Visible = false;
+		image_contacts_exercise_selected_options3.Visible = false;
+
+		label_contacts_exercise_selected_options1.Text = "";
+		label_contacts_exercise_selected_options2.Text = "";
+		label_contacts_exercise_selected_options3.Text = "";
+	}
+
+	private void label_contacts_exercise_selected_options_visible (bool visible)
+	{
+		image_contacts_exercise_selected_options1.Visible = visible;
+		image_contacts_exercise_selected_options2.Visible = visible;
+		image_contacts_exercise_selected_options3.Visible = visible;
+
+		label_contacts_exercise_selected_options1.Visible = visible;
+		label_contacts_exercise_selected_options2.Visible = visible;
+		label_contacts_exercise_selected_options3.Visible = visible;
+	}
+
 	private void on_contacts_exercise_value_changed (object o, EventArgs args)
 	{
 		setLabelContactsExerciseSelectedOptions();
@@ -179,26 +206,37 @@ public partial class ChronoJumpWindow
 
 		LogB.Information("TT2");
 		string name = "";
-		string sep = "";
 
 		if(((JumpType) currentEventType).HasWeight)
 		{
 			if(extra_window_jumps_radiobutton_weight.Active)
-				name += sep + label_extra_window_jumps_radiobutton_weight_percent_as_kg.Text;
+				name = label_extra_window_jumps_radiobutton_weight_percent_as_kg.Text;
 			else
-				name += sep + extra_window_jumps_spinbutton_weight.Value.ToString() + " kg";
-				sep = "; ";
-		}
-		if(((JumpType) currentEventType).HasFall (configChronojump.Compujump))
-		{
-			if(! extra_window_jumps_check_dj_fall_calculate.Active)
-			{
-				name += sep + extra_window_jumps_spinbutton_fall.Value.ToString() + " cm";
-				sep = "; ";
-			}
+				name = extra_window_jumps_spinbutton_weight.Value.ToString() + " kg";
+
+			label_contacts_exercise_selected_options1.Text = name;
+			image_contacts_exercise_selected_options1.Visible = false; //TODO: change to true when have the image
+		} else {
+			label_contacts_exercise_selected_options1.Text = "";
+			image_contacts_exercise_selected_options1.Visible = false;
 		}
 
-		label_contacts_exercise_selected_options.Text = name;
+		if( ((JumpType) currentEventType).HasFall (configChronojump.Compujump) &&
+				! extra_window_jumps_check_dj_fall_calculate.Active )
+		{
+			name = extra_window_jumps_spinbutton_fall.Value.ToString() + " cm";
+			label_contacts_exercise_selected_options2.Text = name;
+
+			image_contacts_exercise_selected_options2.Pixbuf =
+				new Pixbuf (null, Util.GetImagePath(false) + "image_fall.png");
+			image_contacts_exercise_selected_options2.Visible = true;
+		} else {
+			label_contacts_exercise_selected_options2.Text = "";
+			image_contacts_exercise_selected_options2.Visible = false;
+		}
+
+		label_contacts_exercise_selected_options3.Text = "";
+		image_contacts_exercise_selected_options3.Visible = false;
 	}
 
 	private void setLabelContactsExerciseSelectedOptionsJumpsReactive()
@@ -209,38 +247,57 @@ public partial class ChronoJumpWindow
 
 		LogB.Information("TT2");
 		string name = "";
-		string sep = "";
 
 		if(((JumpType) currentEventType).FixedValue >= 0)
 		{
-			name += extra_window_jumps_rj_spinbutton_limit.Value.ToString();
+			name = extra_window_jumps_rj_spinbutton_limit.Value.ToString();
 			if(((JumpType) currentEventType).JumpsLimited)
 				name += " " + Catalog.GetString("jumps");
 			else
 				name += " s";
 
-			sep = "; ";
+			label_contacts_exercise_selected_options1.Text = name;
+			image_contacts_exercise_selected_options1.Visible = false; //TODO: change to true when have the image;
+		} else {
+			label_contacts_exercise_selected_options1.Text = "";
+			image_contacts_exercise_selected_options1.Visible = false;
 		}
+
 		if(((JumpType) currentEventType).HasWeight)
 		{
 			if(extra_window_jumps_rj_radiobutton_weight.Active)
-				name += sep + label_extra_window_jumps_rj_radiobutton_weight_percent_as_kg.Text;
+				name = label_extra_window_jumps_rj_radiobutton_weight_percent_as_kg.Text;
 			else
-				name += sep + extra_window_jumps_rj_spinbutton_weight.Value.ToString() + " kg";
-			sep = "; ";
-		}
-		if(((JumpType) currentEventType).HasFall (configChronojump.Compujump))
-		{
-			name += sep + extra_window_jumps_rj_spinbutton_fall.Value.ToString() + " cm";
-			sep = "; ";
+				name = extra_window_jumps_rj_spinbutton_weight.Value.ToString() + " kg";
+
+			label_contacts_exercise_selected_options2.Text = name;
+			image_contacts_exercise_selected_options2.Visible = false; //TODO: change to true when have the image;
+		} else {
+			label_contacts_exercise_selected_options2.Text = "";
+			image_contacts_exercise_selected_options2.Visible = false;
 		}
 
-		label_contacts_exercise_selected_options.Text = name;
+		if(((JumpType) currentEventType).HasFall (configChronojump.Compujump))
+		{
+			name = extra_window_jumps_rj_spinbutton_fall.Value.ToString() + " cm";
+			label_contacts_exercise_selected_options3.Text = name;
+			image_contacts_exercise_selected_options3.Visible = false; //TODO: change to true when have the image;
+		} else {
+			label_contacts_exercise_selected_options3.Text = "";
+			image_contacts_exercise_selected_options3.Visible = false;
+		}
 	}
 
 	private void setLabelContactsExerciseSelectedOptionsRunsSimple()
 	{
-		label_contacts_exercise_selected_options.Text = label_runs_simple_track_distance_value.Text + " " + label_runs_simple_track_distance_units.Text;
+		label_contacts_exercise_selected_options1.Text = label_runs_simple_track_distance_value.Text;
+		image_contacts_exercise_selected_options1.Visible = false; //TODO: change to true when have the image;
+
+		label_contacts_exercise_selected_options2.Text = label_runs_simple_track_distance_units.Text;
+		image_contacts_exercise_selected_options2.Visible = false; //TODO: change to true when have the image;
+
+		label_contacts_exercise_selected_options3.Text = "";
+		image_contacts_exercise_selected_options3.Visible = false;
 	}
 
 	private void setLabelContactsExerciseSelectedOptionsRunsInterval()
@@ -251,24 +308,35 @@ public partial class ChronoJumpWindow
 
 		LogB.Information("TT2");
 		string name = "";
-		string sep = "";
 
 		if( ((RunType) currentEventType).Distance >= 0 )
 		{
 			name = label_runs_interval_track_distance_value.Text + " m";
-			sep = "; ";
+			label_contacts_exercise_selected_options1.Text = name;
+			image_contacts_exercise_selected_options1.Visible = false; //TODO: change to true when have the image;
+		} else {
+			label_contacts_exercise_selected_options1.Text = "";
+			image_contacts_exercise_selected_options1.Visible = false;
 		}
+
 		if( ! ((RunType) currentEventType).Unlimited )
 		{
-			name += sep + extra_window_runs_interval_spinbutton_limit.Value;
+			name = extra_window_runs_interval_spinbutton_limit.Value.ToString();
 
 			if( ((RunType) currentEventType).TracksLimited )
 				name += " " + Catalog.GetString("laps");
 			else
 				name += " s";
+
+			label_contacts_exercise_selected_options2.Text = name;
+			image_contacts_exercise_selected_options2.Visible = false; //TODO: change to true when have the image;
+		} else {
+			label_contacts_exercise_selected_options2.Text = "";
+			image_contacts_exercise_selected_options2.Visible = false;
 		}
 
-		label_contacts_exercise_selected_options.Text = name;
+		label_contacts_exercise_selected_options3.Text = "";
+		image_contacts_exercise_selected_options3.Visible = false;
 	}
 
 	private void on_button_combo_select_contacts_top_left_clicked (object o, EventArgs args)

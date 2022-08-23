@@ -3648,7 +3648,7 @@ public partial class ChronoJumpWindow
 
 		//blank exercise options: useful for changing from jumps or runs to forceSensor, runEncoder, reaction time, other
 		label_contacts_exercise_selected_name.Visible = true; //will not be visible when all the contacts_top combo is implemented
-		label_contacts_exercise_selected_options.Text = "";
+		label_contacts_exercise_selected_options_blank ();
 
 		//on OSX R is not installed by default. Check if it's installed. Needed for encoder and force sensor
 		if(
@@ -3669,7 +3669,7 @@ public partial class ChronoJumpWindow
 			hbox_contacts_sup_capture_analyze_two_buttons.Visible = true;
 			button_threshold.Visible = true;
 
-			label_contacts_exercise_selected_options.Visible = true;
+			label_contacts_exercise_selected_options_visible (true);
 			image_top_laterality_contacts.Visible = false;
 
 			hbox_change_modes_jumps.Visible = true;
@@ -3730,7 +3730,7 @@ public partial class ChronoJumpWindow
 			hbox_contacts_sup_capture_analyze_two_buttons.Visible = true;
 			button_threshold.Visible = true;
 
-			label_contacts_exercise_selected_options.Visible = true;
+			label_contacts_exercise_selected_options_visible (true);
 			image_top_laterality_contacts.Visible = false;
 
 			hbox_change_modes_runs.Visible = true;
@@ -3947,7 +3947,7 @@ public partial class ChronoJumpWindow
 			on_combo_force_sensor_exercise_changed (new object(), new EventArgs ());
 			//setLabelContactsExerciseSelectedOptionsForceSensor();
 
-			label_contacts_exercise_selected_options.Visible = false;
+			label_contacts_exercise_selected_options_visible (false);
 			image_top_laterality_contacts.Visible = true;
 			setForceSensorLateralityPixbuf();
 		}
@@ -3983,7 +3983,7 @@ public partial class ChronoJumpWindow
 			forceSensorImageTestChange();
 			setLabelContactsExerciseSelected(m);
 
-			label_contacts_exercise_selected_options.Visible = true;
+			label_contacts_exercise_selected_options_visible (false);
 			image_top_laterality_contacts.Visible = false;
 
 			createComboSelectContactsTop ();
@@ -4004,7 +4004,7 @@ public partial class ChronoJumpWindow
 			button_threshold.Visible = true;
 			//notebook_capture_analyze.GetNthPage(2).Hide(); //hide jumpsProfile on other tests
 
-			label_contacts_exercise_selected_options.Visible = true;
+			label_contacts_exercise_selected_options_visible (true);
 			image_top_laterality_contacts.Visible = false;
 		}
 		else {	//m == Constants.Modes.OTHER (contacts / other)
@@ -4024,7 +4024,7 @@ public partial class ChronoJumpWindow
 			button_threshold.Visible = true;
 			//notebook_capture_analyze.GetNthPage(2).Hide(); //hide jumpsProfile on other tests
 
-			label_contacts_exercise_selected_options.Visible = true;
+			label_contacts_exercise_selected_options_visible (true);
 			image_top_laterality_contacts.Visible = false;
 		}
 

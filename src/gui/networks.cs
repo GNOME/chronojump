@@ -1219,6 +1219,7 @@ public partial class ChronoJumpWindow
 			json.GetJumpStationExercises (configChronojump.CompujumpStationID);
 
 			// 3a1) Jumps simple
+			bool insertedJumps = false;
 			foreach(SelectJumpTypes exRemote in json.JumpSimpleExercises_l)
 			{
 				bool found = false;
@@ -1232,10 +1233,18 @@ public partial class ChronoJumpWindow
 				if(! found)
 				{
 					SqliteJumpType.JumpTypeInsert (exRemote.Id, exRemote.ToSQLString (), false);
-					createComboSelectJumps (false);
+					insertedJumps = true;
 				}
 			}
+			if (insertedJumps)
+			{
+				createComboSelectJumps (false);
+				if (current_mode == Constants.Modes.JUMPSSIMPLE)
+					createComboSelectContactsTop ();
+			}
+
 			// 3a2) Jumps Reactive
+			insertedJumps = false;
 			foreach(SelectJumpRjTypes exRemote in json.JumpRjExercises_l)
 			{
 				bool found = false;
@@ -1249,8 +1258,14 @@ public partial class ChronoJumpWindow
 				if(! found)
 				{
 					SqliteJumpType.JumpRjTypeInsert (exRemote.Id, exRemote.ToSQLString (), false);
-					createComboSelectJumpsRj (false);
+					insertedJumps = true;
 				}
+			}
+			if (insertedJumps)
+			{
+				createComboSelectJumpsRj (false);
+				if (current_mode == Constants.Modes.JUMPSSIMPLE)
+					createComboSelectContactsTop ();
 			}
 		}
 		// 3b) encoder

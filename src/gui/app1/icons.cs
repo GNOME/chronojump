@@ -682,6 +682,7 @@ public partial class ChronoJumpWindow
 		image_tab_jumps_dj_optimal_fall.Pixbuf = pixbuf;
 
 		extra_window_jumps_image_fall.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_fall.png");
+		extra_window_jumps_image_weight.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "extra-mass.png");
 
 		image_tab_jumps_weight_fv_profile.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "jumps-fv.png");
 

@@ -42,6 +42,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.CheckButton extra_window_jumps_check_dj_fall_calculate;
 	[Widget] Gtk.Label extra_window_jumps_label_dj_start_inside;
 	[Widget] Gtk.Label extra_window_jumps_label_dj_start_outside;
+	[Widget] Gtk.Image extra_window_jumps_image_fall;
 	[Widget] Gtk.SpinButton extra_window_jumps_spinbutton_fall;
 	[Widget] Gtk.HBox hbox_extra_window_jumps_weight;
 	[Widget] Gtk.RadioButton extra_window_jumps_radiobutton_kg;

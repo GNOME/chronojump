@@ -215,7 +215,9 @@ public partial class ChronoJumpWindow
 				name = extra_window_jumps_spinbutton_weight.Value.ToString() + " kg";
 
 			label_contacts_exercise_selected_options1.Text = name;
-			image_contacts_exercise_selected_options1.Visible = false; //TODO: change to true when have the image
+			image_contacts_exercise_selected_options1.Pixbuf =
+				new Pixbuf (null, Util.GetImagePath(false) + "extra-mass.png");
+			image_contacts_exercise_selected_options1.Visible = true;
 		} else {
 			label_contacts_exercise_selected_options1.Text = "";
 			image_contacts_exercise_selected_options1.Visible = false;

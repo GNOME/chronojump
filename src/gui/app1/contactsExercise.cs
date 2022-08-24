@@ -273,7 +273,9 @@ public partial class ChronoJumpWindow
 				name = extra_window_jumps_rj_spinbutton_weight.Value.ToString() + " kg";
 
 			label_contacts_exercise_selected_options2.Text = name;
-			image_contacts_exercise_selected_options2.Visible = false; //TODO: change to true when have the image;
+			image_contacts_exercise_selected_options2.Pixbuf =
+				new Pixbuf (null, Util.GetImagePath(false) + "extra-mass.png");
+			image_contacts_exercise_selected_options2.Visible = true;
 		} else {
 			label_contacts_exercise_selected_options2.Text = "";
 			image_contacts_exercise_selected_options2.Visible = false;
@@ -283,7 +285,9 @@ public partial class ChronoJumpWindow
 		{
 			name = extra_window_jumps_rj_spinbutton_fall.Value.ToString() + " cm";
 			label_contacts_exercise_selected_options3.Text = name;
-			image_contacts_exercise_selected_options3.Visible = false; //TODO: change to true when have the image;
+			image_contacts_exercise_selected_options3.Pixbuf =
+				new Pixbuf (null, Util.GetImagePath(false) + "image_fall.png");
+			image_contacts_exercise_selected_options3.Visible = true;
 		} else {
 			label_contacts_exercise_selected_options3.Text = "";
 			image_contacts_exercise_selected_options3.Visible = false;

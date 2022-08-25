@@ -233,13 +233,13 @@ public class EventExecute
 		if ( ! thread.IsAlive || cancel) {
 			LogB.ThreadEnding();
 
-			//TODO: only for mode jump
-			//don't show any of the jumpChangeImage icons
-			jumpChangeImageForceHide();
-
-			//TODO: only for mode run
-			//don't show any of the runChangeImage icons
-			runChangeImageForceHide();
+			//don't show any of the change image icons
+			if (this.GetType ().Equals (typeof (JumpExecute)) ||
+					this.GetType ().Equals (typeof (JumpRjExecute)))
+				jumpChangeImageForceHide();
+			else if (this.GetType ().Equals (typeof (RunExecute)) ||
+					this.GetType ().Equals (typeof (RunIntervalExecute)))
+				runChangeImageForceHide();
 
 			fakeButtonThreadDyed.Click();
 
@@ -339,42 +339,53 @@ public class EventExecute
 			needSensitiveButtonFinish = false;
 		}
 
+		// jump specific --------------------------------->
+		if (this.GetType ().Equals (typeof (JumpExecute)) ||
+				this.GetType ().Equals (typeof (JumpRjExecute)))
+			jumpChangeImageIfNeeded ();
+
 		// races specific --------------------------------->
 
 		//TODO: pass mode and only do what related to mode
 
-		jumpChangeImageIfNeeded ();
-		runChangeImageIfNeeded ();
-
-		updateRunPhaseInfoManage();
-
-		//Race track with DoubleContacts mode NONE
-		if(needCallTrackDone)
+		if (this.GetType ().Equals (typeof (RunExecute)) ||
+				this.GetType ().Equals (typeof (RunIntervalExecute)))
 		{
-			trackDone();
-			needCallTrackDone = false;
-		}
-		//Race track with DoubleContacts mode != NONE
-		//LogB.Information("needCheckIfTrackEnded: " + needCheckIfTrackEnded.ToString());
-		if(needCheckIfTrackEnded && lastTfCheckTimeEnded())
-		{
-			if(trackDone())
+			runChangeImageIfNeeded ();
+
+			updateRunPhaseInfoManage();
+
+			//Race track with DoubleContacts mode NONE
+			if(needCallTrackDone)
 			{
-				//LogB.Information("needCheckIfTrackEnded changing to false");
-				needCheckIfTrackEnded = false;
-			} else {
-				//LogB.Information("needCheckIfTrackEnded continue true, trackDone() will be called again");
-				//this helps to fix when contact time display when it is bigger than double contact time * 1.5
+				trackDone();
+				needCallTrackDone = false;
+			}
+			//Race track with DoubleContacts mode != NONE
+			//LogB.Information("needCheckIfTrackEnded: " + needCheckIfTrackEnded.ToString());
+			if(needCheckIfTrackEnded && lastTfCheckTimeEnded())
+			{
+				if(trackDone())
+				{
+					//LogB.Information("needCheckIfTrackEnded changing to false");
+					needCheckIfTrackEnded = false;
+				} else {
+					//LogB.Information("needCheckIfTrackEnded continue true, trackDone() will be called again");
+					//this helps to fix when contact time display when it is bigger than double contact time * 1.5
+				}
+			}
+
+			//RSA
+			if(needShowCountDown)
+			{
+				feedbackMessage = countDownMessage();
+				UtilGtk.PrintLabelWithTooltip(egd.Label_message, feedbackMessage);
 			}
 		}
 
-		//RSA
-		if(needShowCountDown) 
-		{
-			feedbackMessage = countDownMessage();
-			UtilGtk.PrintLabelWithTooltip(egd.Label_message, feedbackMessage);
-		} 
-		else if(needShowFeedbackMessage) 
+		// <-------------------------- end of races specific
+
+		if(! needShowCountDown && needShowFeedbackMessage)
 		{
 			if (feedbackMessageOnDialog)
 			{
@@ -385,8 +396,6 @@ public class EventExecute
 			needShowFeedbackMessage = false;
 		}
 		
-		// <-------------------------- end of races specific
-
 		//check if it should finish by time
 		if(shouldFinishByTime()) {
 			finish = true;

@@ -672,9 +672,8 @@ public partial class ChronoJumpWindow
 		image_mode_race_encoder_small1.Pixbuf = pixbuf;
 		image_change_modes_contacts_runs_encoder.Pixbuf = pixbuf;
 
-		//TODO: change them
-		image_jump_execute_air.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "run_2x.png");
-		image_jump_execute_land.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "run_photocell.png");
+		image_jump_execute_air.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_jump_air.png");
+		image_jump_execute_land.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_jump_land.png");
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "run_2x.png");
 		image_run_execute_running.Pixbuf = pixbuf;

@@ -233,6 +233,11 @@ public class EventExecute
 		if ( ! thread.IsAlive || cancel) {
 			LogB.ThreadEnding();
 
+			//TODO: only for mode jump
+			//don't show any of the jumpChangeImage icons
+			jumpChangeImageForceHide();
+
+			//TODO: only for mode run
 			//don't show any of the runChangeImage icons
 			runChangeImageForceHide();
 
@@ -336,7 +341,10 @@ public class EventExecute
 
 		// races specific --------------------------------->
 
-		runChangeImageIfNeeded();
+		//TODO: pass mode and only do what related to mode
+
+		jumpChangeImageIfNeeded ();
+		runChangeImageIfNeeded ();
 
 		updateRunPhaseInfoManage();
 
@@ -401,10 +409,16 @@ public class EventExecute
 		return true;
 	}
 
+	protected virtual void jumpChangeImageIfNeeded()
+	{
+	}
 	protected virtual void runChangeImageIfNeeded()
 	{
 	}
 
+	protected virtual void jumpChangeImageForceHide()
+	{
+	}
 	protected virtual void runChangeImageForceHide()
 	{
 	}

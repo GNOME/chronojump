@@ -5206,6 +5206,7 @@ public partial class ChronoJumpWindow
 				preferences.heightPreferred, preferences.metersSecondsPreferred,
 				Convert.ToInt32(spin_contacts_graph_last_limit.Value),
 				radio_contacts_graph_allTests.Active, radio_contacts_graph_allPersons.Active,
+				image_jump_execute_air, image_jump_execute_land,
 				(configChronojump.Compujump && check_contacts_networks_upload.Active),
 				configChronojump.CompujumpStationID, configChronojump.CompujumpDjango);
 
@@ -5501,6 +5502,7 @@ public partial class ChronoJumpWindow
 				preferences.volumeOn, preferences.gstreamer,
 				preferences.metersSecondsPreferred,
 				feedbackWin, progressbarLimit, egd,
+				image_jump_execute_air, image_jump_execute_land,
 				(configChronojump.Compujump && check_contacts_networks_upload.Active),
 				configChronojump.CompujumpStationID, configChronojump.CompujumpDjango);
 		

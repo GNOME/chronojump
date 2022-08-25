@@ -51,7 +51,7 @@ public class JumpExecute : EventExecute
 	private int angle = -1;
 	private bool avoidGraph;
 	private bool heightPreferred;
-	private bool metersSecondsPreferred;
+	protected bool metersSecondsPreferred;
 	protected bool upload;
 	protected int uploadStationId;
 	protected bool django;
@@ -119,7 +119,7 @@ public class JumpExecute : EventExecute
 	
 	public override void SimulateInitValues(Random randSent)
 	{
-		LogB.Information("From execute/jump.cs");
+		LogB.Information ("From execute/jump.cs");
 
 		rand = randSent; //we send the random, because if we create here, the values will be the same for each nbew instance
 		simulated = true;
@@ -143,6 +143,7 @@ public class JumpExecute : EventExecute
 	
 	public override void Manage()
 	{
+		LogB.Information("Jumps Manage!");
 		//boolean to know if chronopic has been disconnected	
 		chronopicDisconnected = false;
 
@@ -197,6 +198,8 @@ public class JumpExecute : EventExecute
 
 	public override void ManageFall()
 	{
+		LogB.Information ("Jumps ManageFall!, fall: ", fall.ToString ());
+
 		//boolean to know if chronopic has been disconnected	
 		chronopicDisconnected = false;
 
@@ -500,7 +503,7 @@ public class JumpExecute : EventExecute
 			UploadJumpSimpleDataObject uj = new UploadJumpSimpleDataObject (
 					uploadStationId, (Jump) eventDone, typeID, personWeight, metersSecondsPreferred);
 			JsonCompujump js = new JsonCompujump (django);
-			if( ! js.UploadJumpSimpleData (uj) )
+			if( ! js.UploadJumpData (uj, Constants.Modes.JUMPSSIMPLE) )
 			{
 				LogB.Error (js.ResultMessage);
 
@@ -596,19 +599,22 @@ public class JumpRjExecute : JumpExecute
 	}
 
 	//jump execution
-	public JumpRjExecute(int personID, string personName, 
-			int sessionID, string type, double fall, double weight, 
+	public JumpRjExecute(int personID, string personName, double personWeight,
+			int sessionID, int typeID, string type, double fall, double weight,
 			double limitAsDouble, bool jumpsLimited, 
 			Chronopic cp, int pDN, bool allowFinishAfterTime,
 			bool volumeOn, Preferences.GstreamerTypes gstreamer,
-			FeedbackWindow feedbackWin,
-			double progressbarLimit, ExecutingGraphData egd
+			bool metersSecondsPreferred, FeedbackWindow feedbackWin,
+			double progressbarLimit, ExecutingGraphData egd,
+			bool upload, int uploadStationId, bool django //upload: configChronojump.Compujump && upload (contacts) button active
 			)
 	{
 		this.personID = personID;
 		this.personName = personName;
+		this.personWeight = personWeight; //for Stiffness at upload on compujump
 		this.sessionID = sessionID;
 		this.type = type;
+		this.typeID = typeID;
 		this.fall = fall;
 		this.weight = weight;
 		this.limitAsDouble = limitAsDouble;
@@ -629,12 +635,17 @@ public class JumpRjExecute : JumpExecute
 		this.allowFinishAfterTime = allowFinishAfterTime;
 		this.volumeOn = volumeOn;
 		this.gstreamer = gstreamer;
+		this.metersSecondsPreferred = metersSecondsPreferred;
 		this.feedbackWin = feedbackWin;
 		this.progressbarLimit = progressbarLimit;
 		this.egd = egd;
 	
 		if(TypeHasFall) { hasFall = true; } 
 		else { hasFall = false; }
+
+		this.upload = upload;
+		this.uploadStationId = uploadStationId;
+		this.django = django;
 		
 		fakeButtonUpdateGraph = new Gtk.Button();
 		fakeButtonThreadDyed = new Gtk.Button();
@@ -1099,6 +1110,11 @@ public class JumpRjExecute : JumpExecute
 					jumps, Util.GetTotalTime(tcString, tvString), limitString, angleString, Util.BoolToNegativeInt(simulated),
 					datetime);
 		else {
+			if(simulated)
+				feedbackMessage = Catalog.GetString(Constants.SimulatedMessage());
+			else
+				feedbackMessage = "";
+
 			uniqueID = SqliteJumpRj.Insert(false, Constants.JumpRjTable, "NULL", personID, sessionID, 
 					type, Util.GetMax(tvString), Util.GetMax(tcString), 
 					fall, weight, description,
@@ -1110,22 +1126,31 @@ public class JumpRjExecute : JumpExecute
 			//define the created object
 			eventDone = new JumpRj(uniqueID, personID, sessionID, type, tvString, tcString, fall, weight, description, jumps, Util.GetTotalTime(tcString, tvString), limitString, angleString, Util.BoolToNegativeInt(simulated), datetime);
 
+			if(upload)
+			{
+				/* debug
+				LogB.Information ("upload will start");
+				LogB.Information (string.Format (
+							"uploadStationId: {0}, (JumpRj) eventDone {1}, typeID {2}, personWeight {3}, metersSecondsPreferred {4}",
+							uploadStationId, (JumpRj) eventDone, typeID, personWeight, metersSecondsPreferred));
+				 */
 
-			//event will be raised, and managed in chronojump.cs
-			/*
-			string myStringPush =   
-				//Catalog.GetString("Last jump: ") + 
-				personName + " " + 
-				type + " (" + limitString + ") " +
-				" " + Catalog.GetString("AVG TF") + ": " + Util.TrimDecimals( Util.GetAverage (tvString).ToString(), pDN ) +
-				" " + Catalog.GetString("AVG TC") + ": " + Util.TrimDecimals( Util.GetAverage (tcString).ToString(), pDN ) ;
-			*/
-			if(simulated)
-				feedbackMessage = Catalog.GetString(Constants.SimulatedMessage());
-			else
-				feedbackMessage = "";
+				UploadJumpReactiveDataObject uj = new UploadJumpReactiveDataObject (
+						uploadStationId, (JumpRj) eventDone, typeID, personWeight, metersSecondsPreferred);
+				LogB.Information ("uj: " + uj.ToString ());
+
+				JsonCompujump js = new JsonCompujump (django);
+				if( ! js.UploadJumpData (uj, Constants.Modes.JUMPSREACTIVE) )
+				{
+					LogB.Error (js.ResultMessage);
+
+					feedbackMessageOnDialog = true;
+					feedbackMessage = js.ResultMessage;
+				}
+			}
+
 			needShowFeedbackMessage = true; 
-		
+
 			needEndEvent = true; //used for hiding some buttons on eventWindow, and also for updateTimeProgressBar here
 		}
 	}

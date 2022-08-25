@@ -420,7 +420,7 @@ void setup() {
   currentExerciseType = 0;
 
   tft.fillScreen(BLACK);
-
+  
   drawMenuBackground();
   backMenu();
   showMenuEntry(currentMenuIndex);
@@ -1256,6 +1256,7 @@ void startEncoderCapture(void)
   lastVelocity = 0;
   readExercisesFile(gravitatory);
   //currentExerciseType = 0;
+  Serial.println("Starting. CurrentPerson: " + String(currentPerson));
   selectPersonDialog();
   selectExerciseType(gravitatory);
   selectValueDialog("Select the load you are\ngoing to move", "0,5,20,200", "0.5,1,5", 1);
@@ -1411,9 +1412,6 @@ void jumpsCapture()
   redrawAxes(tft, 30, 200, 290, 200, 290, 200, 0, graphRange, graphRange / 10, "", "", "", WHITE, GREY, WHITE, WHITE, BLACK, RED, true);
   redButton.update();
 
-  
-  currentPerson = 0;
-  Serial.println("currentPerson set to 0");
   updatePersonJump(totalJumps);
 
   //Print summary results

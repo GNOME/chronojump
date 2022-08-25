@@ -60,7 +60,7 @@ void readPersonsFile()
   */
   String row = "";
   char readChar;
-  String filename = "group"+String(group)+".txt";
+  String filename = "group" + String(group) + ".txt";
   File  personsFile = SD.open(filename.c_str());
   if (personsFile)
   {
@@ -87,13 +87,14 @@ void readPersonsFile()
     // if the file didn't open, print an error:
     Serial.println("error opening " + filename);
   }
+  currentPerson = 0;
 }
 
 unsigned int getTotalPerson()
 {
   char readChar;
   String readString = "";
-  String filename = "group"+String(group)+".txt";
+  String filename = "group" + String(group) + ".txt";
   File  personsFile = SD.open(filename.c_str());
   if (personsFile)
   {
@@ -146,14 +147,9 @@ void updatePersonJump(int totalJumps)
   tft.fillRect(141, 207, 127, 24, BLACK);
 
   //Writing new string
-  tft.setTextSize(1);
-  tft.setTextColor(WHITE);
-  tft.setCursor(141, 207);
-  tft.print(jumpTypes[currentExerciseType].name);
-  tft.setCursor(195,207);
-  tft.print("Person: " + addLeadingZeros(currentPerson, 2));
-  tft.setCursor(141, 223);
-  tft.print(persons[currentPerson].name + " " + persons[currentPerson].surname);
+  printTftText(jumpTypes[currentExerciseType].name, 141, 207, WHITE, 1);
+  printTftText("Person: " + addLeadingZeros(currentPerson, 2), 195, 207, WHITE, 1);
+  printTftText(persons[currentPerson].name + " " + persons[currentPerson].surname, 141, 223, WHITE, 1);
   tft.setTextSize(2);
 }
 void selectGroup()
@@ -166,4 +162,54 @@ void selectGroup()
   dirName = createNewDir();
   menuItemsNum = systemMenuItems;
   showMenuEntry(currentMenuIndex);
+}
+
+void selectPersonDialog()
+{
+  tft.fillScreen(BLACK);
+  showPersonList(WHITE);
+
+  drawLeftButton("Next", WHITE, BLUE);
+  drawRightButton("Accept", WHITE, RED);
+
+  blueButton.update();
+  redButton.update();
+  while (!redButton.fell())
+  {
+    if (blueButton.fell())
+    {
+      //Deleting last list
+      showPersonList(BLACK);
+      
+      currentPerson = (currentPerson + 1) % totalPersons;
+
+      //Printing new list
+      showPersonList(WHITE);
+    }
+    blueButton.update();
+    redButton.update();
+  }
+}
+
+void showPersonList(unsigned int color)
+{
+  int xPosos = 10;
+  int midYPos = 110;
+  int currentY = 0;
+  printTftText("Select person", 40, 20, color, 3);
+  for (int i = -3; i <= 3; i++) {
+    if (i == 0) {
+      //Do nothing
+    } else {
+      if (i < 0 ) {
+        currentY = midYPos + i * 16 - 3;
+      } else if (i > 0) {
+        currentY = midYPos + i * 16 + 8;
+      }
+      printTftText(persons[(currentPerson + totalPersons + i) % totalPersons].name + " " + persons[(currentPerson + totalPersons + i) % totalPersons].surname,
+                   xPosos, currentY, color, 2);
+    }
+  }
+  printTftText("[" + persons[currentPerson].name + " " + persons[currentPerson].surname + "]",
+               xPosos, midYPos, color, 3);
 }

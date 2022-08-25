@@ -539,11 +539,20 @@ public class TreeViewJumpsRj : TreeViewJumps
 						fall = newJumpRj.Fall;
 					else
 						fall = Util.GetHeightInCentimeters(Convert.ToDouble(tv_array[i-1]));
+
 					powerSum += Jump.GetDjPower (tc, tv,
 							(personWeight + weightInKg), fall);
+
+					/* debug
+					LogB.Information (string.Format (
+								"at treeviewJump, tc: {0}, tv: {1}, (personWeight + weightInKg): {2}, fall: {3}, powerSum: {4}",
+							tc, tv, (personWeight + weightInKg), fall, powerSum));
+							*/
+
 					stiffnessSum += Util.GetStiffness(personWeight, weightInKg, tv, tc);
 					stiffnessCount ++;
 				}
+				//LogB.Information ("at treeviewJump, powerSum = ", powerSum.ToString());
 				powerCount ++;
 			}
 			if (preferences.showPower)

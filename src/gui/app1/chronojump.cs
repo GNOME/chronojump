@@ -5491,13 +5491,18 @@ public partial class ChronoJumpWindow
 		event_execute_ButtonCancel.Clicked += new EventHandler(on_cancel_clicked);
 		event_execute_ButtonFinish.Clicked += new EventHandler(on_finish_clicked);
 
-		currentEventExecute = new JumpRjExecute(currentPerson.UniqueID, currentPerson.Name, 
-				currentSession.UniqueID, currentJumpRjType.Name, myFall, jumpWeight, 
+		currentEventExecute = new JumpRjExecute(
+				currentPerson.UniqueID, currentPerson.Name, currentPersonSession.Weight,
+				currentSession.UniqueID, currentJumpRjType.UniqueID, currentJumpRjType.Name,
+				myFall, jumpWeight,
 				progressbarLimit, currentJumpRjType.JumpsLimited, 
 				cp2016.CP, preferences.digitsNumber,
 				checkbutton_allow_finish_rj_after_time.Active,
 				preferences.volumeOn, preferences.gstreamer,
-				feedbackWin, progressbarLimit, egd);
+				preferences.metersSecondsPreferred,
+				feedbackWin, progressbarLimit, egd,
+				(configChronojump.Compujump && check_contacts_networks_upload.Active),
+				configChronojump.CompujumpStationID, configChronojump.CompujumpDjango);
 		
 		//suitable for limited by jump and time
 		//simulated always simulate limited by jumps

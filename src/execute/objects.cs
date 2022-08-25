@@ -22,6 +22,10 @@ using System;
 using System.Data;
 using System.Collections.Generic; //List
 
+/*
+   RUN OBJECTS
+ */
+
 //contains for each phase: isContact? startMSInSequence duration
 public class RunPhaseInfo
 {
@@ -890,4 +894,43 @@ public class RunChangeImage
 		set { photocell = value; }
 	}
 
+}
+
+/*
+   JUMP OBJECTS
+ */
+
+/*
+   This is written by capture thread and readed by GTK thread.
+   Manages the icon shown on jumping.
+   */
+
+public class JumpChangeImage
+{
+	public enum Types { NONE, AIR, LAND }
+	private Types last;
+	private Types current;
+
+	//constructor, don't show any image
+	public JumpChangeImage()
+	{
+		last = Types.NONE;
+		current = Types.NONE;
+	}
+
+	public bool ShouldBeChanged()
+	{
+		//LogB.Information (string.Format ("ShouldBeChanged, current: {0}, last: {1}", current, last));
+		if(current == last)
+			return false;
+
+		last = current;
+		return true;
+	}
+
+	//accesssor: get/change current image
+	public Types Current {
+		get { return current; }
+		set { current = value; }
+	}
 }

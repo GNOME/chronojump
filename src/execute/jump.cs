@@ -47,11 +47,14 @@ public class JumpExecute : EventExecute
 		PRE_OR_DOING, PLATFORM_END
 	}
 	protected static jumpPhases jumpPhase;
+	protected static JumpChangeImage jumpChangeImage;
 
 	private int angle = -1;
 	private bool avoidGraph;
 	private bool heightPreferred;
 	protected bool metersSecondsPreferred;
+	protected Gtk.Image image_jump_execute_air;
+	protected Gtk.Image image_jump_execute_land;
 	protected bool upload;
 	protected int uploadStationId;
 	protected bool django;
@@ -69,6 +72,7 @@ public class JumpExecute : EventExecute
 			bool avoidGraph, //on configChronojump.Exhibition do not show graph because it gets too slow with big database
 			bool heightPreferred, bool metersSecondsPreferred,
 			int graphLimit, bool graphAllTypes, bool graphAllPersons,
+			Gtk.Image image_jump_execute_air, Gtk.Image image_jump_execute_land,
 			bool upload, int uploadStationId, bool django //upload: configChronojump.Compujump && upload (contacts) button active
 			)
 	{
@@ -95,6 +99,8 @@ public class JumpExecute : EventExecute
 		this.graphLimit = graphLimit;
 		this.graphAllTypes = graphAllTypes;
 		this.graphAllPersons = graphAllPersons;
+		this.image_jump_execute_air = image_jump_execute_air;
+		this.image_jump_execute_land = image_jump_execute_land;
 		this.upload = upload;
 		this.uploadStationId = uploadStationId;
 		this.django = django;
@@ -146,6 +152,7 @@ public class JumpExecute : EventExecute
 		LogB.Information("Jumps Manage!");
 		//boolean to know if chronopic has been disconnected	
 		chronopicDisconnected = false;
+		jumpChangeImage = new JumpChangeImage();
 
 		if (simulated) 
 			platformState = Chronopic.Plataforma.ON;
@@ -153,7 +160,10 @@ public class JumpExecute : EventExecute
 			platformState = chronopicInitialValue(cp);
 		
 		
-		if (platformState==Chronopic.Plataforma.ON) {
+		if (platformState==Chronopic.Plataforma.ON)
+		{
+			jumpChangeImageDo (platformState); //done here before thread starts
+
 			feedbackMessage = Catalog.GetString("You are IN, JUMP when prepared!");
 			needShowFeedbackMessage = true; 
 			Util.PlaySound(Constants.SoundTypes.CAN_START, volumeOn, gstreamer);
@@ -177,7 +187,10 @@ public class JumpExecute : EventExecute
 			LogB.ThreadStart(); 
 			thread.Start(); 
 		} 
-		else if (platformState==Chronopic.Plataforma.OFF) {
+		else if (platformState==Chronopic.Plataforma.OFF)
+		{
+			jumpChangeImageDo (platformState);
+
 			ConfirmWindow confirmWin;		
 			confirmWin = ConfirmWindow.Show(Catalog.GetString(
 						"You are OUT, please enter the platform, prepare for jump and press the 'accept' button"),
@@ -192,6 +205,8 @@ public class JumpExecute : EventExecute
 			confirmWin.Button_cancel.Clicked += new EventHandler(cancel_event_before_start);
 		}
 		else { //UNKNOW (Chronopic disconnected, port changed, ...)
+			jumpChangeImageDo (platformState);
+
 			chronopicHasBeenDisconnected();
 		}
 	}
@@ -202,6 +217,7 @@ public class JumpExecute : EventExecute
 
 		//boolean to know if chronopic has been disconnected	
 		chronopicDisconnected = false;
+		jumpChangeImage = new JumpChangeImage();
 
 		if (simulated) {
 			if(fall != -1)
@@ -218,6 +234,8 @@ public class JumpExecute : EventExecute
 				platformState != Chronopic.Plataforma.ON) 
 		{
 			//UNKNOW (Chronopic disconnected, port changed, ...)
+			jumpChangeImageDo (platformState);
+
 			chronopicHasBeenDisconnected();
 			return;
 		}
@@ -256,7 +274,8 @@ public class JumpExecute : EventExecute
 				else
 					platformState = Chronopic.Plataforma.OFF; //mark now that we have jumped
 			}
-			
+			jumpChangeImageDo (platformState);
+
 			//start thread
 			thread = new Thread(new ThreadStart(waitEvent));
 			GLib.Idle.Add (new GLib.IdleHandler (PulseGTK));
@@ -266,6 +285,8 @@ public class JumpExecute : EventExecute
 		} 
 		else  
 		{
+			jumpChangeImageDo (platformState);
+
 			ConfirmWindow confirmWin;
 
 			string message = Catalog.GetString("You are IN, please leave the platform, and press the 'accept' button");
@@ -290,8 +311,46 @@ public class JumpExecute : EventExecute
 	private void callAgainManageFall(object o, EventArgs args) {
 		ManageFall();
 	}
-	
-	
+
+	//before thread start, to set the image
+	protected void jumpChangeImageDo (Chronopic.Plataforma plat)
+	{
+		if (plat == Chronopic.Plataforma.OFF)
+			jumpChangeImage.Current = JumpChangeImage.Types.AIR;
+		else if (plat == Chronopic.Plataforma.ON)
+			jumpChangeImage.Current = JumpChangeImage.Types.LAND;
+		else
+			jumpChangeImage.Current = JumpChangeImage.Types.NONE;
+
+		jumpChangeImageIfNeeded ();
+	}
+
+	protected override void jumpChangeImageIfNeeded ()
+	{
+		if(! jumpChangeImage.ShouldBeChanged())
+			return;
+
+		if (jumpChangeImage.Current == JumpChangeImage.Types.AIR)
+		{
+			image_jump_execute_air.Visible = true;
+			image_jump_execute_land.Visible = false;
+		} else if (jumpChangeImage.Current == JumpChangeImage.Types.LAND)
+		{
+			image_jump_execute_air.Visible = false;
+			image_jump_execute_land.Visible = true;
+		} else
+		{ //UNKNOW (Chronopic disconnected, port changed, ...)
+			image_jump_execute_air.Visible = false;
+			image_jump_execute_land.Visible = false;
+		}
+	}
+
+	protected override void jumpChangeImageForceHide()
+	{
+		image_jump_execute_air.Visible = false;
+		image_jump_execute_land.Visible = false;
+	}
+
 	protected override void waitEvent ()
 	{
 		double timestamp = 0;
@@ -338,6 +397,8 @@ public class JumpExecute : EventExecute
 				if (platformState == Chronopic.Plataforma.ON && loggedState == States.OFF) 
 				{
 					//has landed
+					jumpChangeImage.Current = JumpChangeImage.Types.LAND;
+
 					if(hasFall && tc == 0) 
 					{
 						//**** graphC **** 
@@ -396,6 +457,7 @@ public class JumpExecute : EventExecute
 				else if (platformState == Chronopic.Plataforma.OFF && loggedState == States.ON) 
 				{
 					//it's out, was inside (= has jumped)
+					jumpChangeImage.Current = JumpChangeImage.Types.AIR;
 				
 					//fall != -1 because if it was == -1, it will change once touching floor for the first time	
 					if(hasFall && fall != -1) {
@@ -606,6 +668,7 @@ public class JumpRjExecute : JumpExecute
 			bool volumeOn, Preferences.GstreamerTypes gstreamer,
 			bool metersSecondsPreferred, FeedbackWindow feedbackWin,
 			double progressbarLimit, ExecutingGraphData egd,
+			Gtk.Image image_jump_execute_air, Gtk.Image image_jump_execute_land,
 			bool upload, int uploadStationId, bool django //upload: configChronojump.Compujump && upload (contacts) button active
 			)
 	{
@@ -643,6 +706,8 @@ public class JumpRjExecute : JumpExecute
 		if(TypeHasFall) { hasFall = true; } 
 		else { hasFall = false; }
 
+		this.image_jump_execute_air = image_jump_execute_air;
+		this.image_jump_execute_land = image_jump_execute_land;
 		this.upload = upload;
 		this.uploadStationId = uploadStationId;
 		this.django = django;
@@ -665,6 +730,7 @@ public class JumpRjExecute : JumpExecute
 	{
 		//boolean to know if chronopic has been disconnected	
 		chronopicDisconnected = false;
+		jumpChangeImage = new JumpChangeImage();
 
 		if (simulated)
 			if(hasFall) 
@@ -683,7 +749,8 @@ public class JumpRjExecute : JumpExecute
 			return;
 		}
 
-		
+		jumpChangeImageDo (platformState);
+
 		bool success = false;
 
 		if (platformState==Chronopic.Plataforma.OFF && hasFall ) {
@@ -773,6 +840,10 @@ public class JumpRjExecute : JumpExecute
 			else
 				ok = cp.Read_event(out timestamp, out platformState);
 			
+			if (platformState == Chronopic.Plataforma.OFF)
+				jumpChangeImage.Current = JumpChangeImage.Types.AIR;
+			else if (platformState == Chronopic.Plataforma.ON)
+				jumpChangeImage.Current = JumpChangeImage.Types.LAND;
 			
 			//if chronopic signal is Ok and state has changed
 			if (ok && (

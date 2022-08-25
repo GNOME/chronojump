@@ -1255,8 +1255,6 @@ void startEncoderCapture(void)
   maxAvgVelocity = 0;
   lastVelocity = 0;
   readExercisesFile(gravitatory);
-  //currentExerciseType = 0;
-  Serial.println("Starting. CurrentPerson: " + String(currentPerson));
   selectPersonDialog();
   selectExerciseType(gravitatory);
   selectValueDialog("Select the load you are\ngoing to move", "0,5,20,200", "0.5,1,5", 1);

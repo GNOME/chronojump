@@ -297,7 +297,7 @@ double ox , oy ;
 double x, y;
 
 //SD stuff
-unsigned int currentPerson;
+unsigned int currentPerson = 0;
 unsigned int setNumber = 0;
 unsigned int dirNumber;
 String dirName = "";
@@ -1116,7 +1116,6 @@ void captureBars()
   maxString = "V";
   float graphRange = 10;
   int index = 0;
-  currentPerson = totalPersons - 1;
   fileName = "P" + String(currentPerson) + "-S" + String(setNumber);
 
   tft.fillScreen(BLACK);
@@ -1124,7 +1123,7 @@ void captureBars()
   if (! PcControlled)
   {
     //Info at the lower part of the screen
-    printTftText(maxString, 10, 215, 2, WHITE);
+    printTftText(maxString, 10, 215, WHITE, 2);
     printTftText("max", 22, 223, 1, WHITE);
     printTftText(":", 40, 215, 2, WHITE);
     printTftValue(measuredMax, 94, 215, 2, 1);
@@ -1256,7 +1255,8 @@ void startEncoderCapture(void)
   maxAvgVelocity = 0;
   lastVelocity = 0;
   readExercisesFile(gravitatory);
-  currentExerciseType = 0;
+  //currentExerciseType = 0;
+  selectPersonDialog();
   selectExerciseType(gravitatory);
   selectValueDialog("Select the load you are\ngoing to move", "0,5,20,200", "0.5,1,5", 1);
   //captureRaw();
@@ -1377,7 +1377,7 @@ void showPowerResults()
 void jumpsCapture()
 {
   readExercisesFile(jumps);
-  printJumpTypesList();
+  //printJumpTypesList();
   selectExerciseType(jumps);
   IntervalTimer testTime;             //Timer that controls the refreshing of time in lower right corner
   capturing = true;
@@ -1411,13 +1411,14 @@ void jumpsCapture()
   redrawAxes(tft, 30, 200, 290, 200, 290, 200, 0, graphRange, graphRange / 10, "", "", "", WHITE, GREY, WHITE, WHITE, BLACK, RED, true);
   redButton.update();
 
+  
   currentPerson = 0;
+  Serial.println("currentPerson set to 0");
   updatePersonJump(totalJumps);
 
   //Print summary results
-  printTftText("H:", 10, 215, 2, WHITE, false);
+  printTftText("H:", 10, 215, WHITE, 2, false);
   printTftValue(maxJump, 58, 215, 2, 2);
-
   totalTestTime = 0;
   totalTime = 0;
 
@@ -1467,7 +1468,6 @@ void jumpsCapture()
           {
             dataFile.print("R");
             Serial.print("R");
-
             tft.fillRect(30, 0, 290, 200, BLACK);
             bars[index] = 122.6 * lastPhaseTime * lastPhaseTime; //In cm
             tft.setTextColor(BLACK);
@@ -1614,17 +1614,17 @@ void showJumpsResults(float maxJump, unsigned int bestJumper, int totalJumps)
   tft.drawLine(160, 240, 160, 80, BLACK);
   int textSize = 2;
 
-  printTftText("J", 0, 40, 2, WHITE, false);
+  printTftText("J", 0, 40, WHITE, 2, false);
   printTftText("max", 12, 48, WHITE, 1);
   printTftValue(maxJump, 100, 40, textSize, 2);
 
-  printTftText("N", 170, 40, 2, WHITE, false);
+  printTftText("N", 170, 40, WHITE, 2, false);
   printTftText("Jumps", 218, 40, WHITE, 1);
   printTftValue(totalJumps, 268, 40, textSize, 0);
 
-  printTftText("Best Jumper: ", 0, 80, 2, WHITE, false);
+  printTftText("Best Jumper: ", 0, 80, WHITE, 2, false);
 
-  printTftText(persons[bestJumper].name + " " + persons[bestJumper].surname, 12, 100, 2, WHITE, false);
+  printTftText(persons[bestJumper].name + " " + persons[bestJumper].surname, 12, 100, WHITE, 2, false);
 
   redButton.update();
   while (!redButton.fell()) {

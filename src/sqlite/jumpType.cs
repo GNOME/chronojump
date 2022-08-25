@@ -536,6 +536,7 @@ class SqliteJumpType : Sqlite
 		JumpType myJumpType = new JumpType();
 		
 		while(reader.Read()) {
+			myJumpType.UniqueID = Convert.ToInt32(reader[0].ToString());
 			myJumpType.Name = reader[1].ToString();
 			
 			if(reader[2].ToString() == "1") { myJumpType.StartIn = true; }

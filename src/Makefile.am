@@ -539,6 +539,8 @@ RESOURCES = \
 	../images/md/ic_jump_simple_blue_1x.png,image_jump_simple.png \
 	../images/md/ic_jump_reactive_blue_1x.png,image_jump_reactive.png \
 	../images/md/fall.png,image_fall.png \
+	../images/md/jump_air.png,image_jump_air.png \
+	../images/md/jump_land.png,image_jump_land.png \
 	../images/md/run_blue_2x.png,run_2x.png \
 	../images/md/run_mov_blue_2x.png,run_mov_2x.png \
 	../images/md/run_blue_1x.png,image_run.png \

@@ -143,30 +143,24 @@ public class JsonCompujumpJumps : JsonCompujump
 	}
 }
 
-public class UploadJumpSimpleDataObject
+public abstract class UploadJumpDataObject
 {
-	public int stationId;
 	public Jump jump;
+	public JumpRj jumpRj;
 
-	private int exerciseId;
+	public int stationId;
 
-	private double power;
-	private double stiffness;
-	private double initialSpeed;
+	protected int exerciseId;
 
-	public UploadJumpSimpleDataObject (int stationId, Jump jump, int exerciseId, double personMassInKg, bool metersSecondsPreferred)
+	protected double power;
+	protected double stiffness;
+	protected double initialSpeed;
+
+	//debug
+	public override string ToString ()
 	{
-		this.stationId = stationId;
-		this.jump = jump;
-		this.exerciseId = exerciseId;
-
-		if (jump.Tc > 0)
-			this.power = Jump.GetDjPower (jump.Tc, jump.Tv, personMassInKg + jump.Weight, jump.Fall);
-		else
-			this.power = Jump.GetPower (jump.Tv, personMassInKg, jump.Weight);
-
-		this.stiffness = jump.Stiffness (personMassInKg, jump.Weight);
-		this.initialSpeed = jump.GetInitialSpeedJumpSimple (metersSecondsPreferred);
+		return string.Format ("power: {0}, stiffness: {1}, initialSpeed: {2}",
+				power, stiffness, initialSpeed);
 	}
 
 	public string ExerciseIdStr
@@ -184,6 +178,38 @@ public class UploadJumpSimpleDataObject
 	public string InitialSpeedStr
 	{
 		get { return Util.ConvertToPoint (initialSpeed); }
+	}
+}
+
+public class UploadJumpSimpleDataObject : UploadJumpDataObject
+{
+	public UploadJumpSimpleDataObject (int stationId, Jump jump, int exerciseId, double personMassInKg, bool metersSecondsPreferred)
+	{
+		this.stationId = stationId;
+		this.jump = jump;
+		this.exerciseId = exerciseId;
+
+		if (jump.Tc > 0)
+			this.power = Jump.GetDjPower (jump.Tc, jump.Tv, personMassInKg + jump.Weight, jump.Fall);
+		else
+			this.power = Jump.GetPower (jump.Tv, personMassInKg, jump.Weight);
+
+		this.stiffness = jump.Stiffness (personMassInKg, jump.Weight);
+		this.initialSpeed = jump.GetInitialSpeedJumpSimple (metersSecondsPreferred);
+	}
+}
+
+public class UploadJumpReactiveDataObject : UploadJumpDataObject
+{
+	public UploadJumpReactiveDataObject (int stationId, JumpRj jumpRj, int exerciseId, double personMassInKg, bool metersSecondsPreferred)
+	{
+		this.stationId = stationId;
+		this.jumpRj = jumpRj;
+		this.exerciseId = exerciseId;
+
+		this.power = jumpRj.PowerAverage (personMassInKg);
+		this.stiffness = jumpRj.Stiffness (personMassInKg, jumpRj.Weight);
+		this.initialSpeed = Jump.GetInitialSpeed (jumpRj.TvAvg, metersSecondsPreferred);
 	}
 }
 

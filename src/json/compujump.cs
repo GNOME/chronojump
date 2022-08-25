@@ -407,9 +407,9 @@ public class JsonCompujump : Json
 	}
 	*/
 
-	public bool UploadJumpSimpleData (UploadJumpSimpleDataObject o)
+	public bool UploadJumpData (UploadJumpDataObject o, Constants.Modes m)
 	{
-		LogB.Information("calling upload jump simple");
+		LogB.Information("calling jump upload, mode = " + m.ToString());
 		// Create a request using a URL that can receive a post.
 		if (! createWebRequest(requestType.AUTHENTICATED, "/api/v1/client/uploadJump"))
 			return false;
@@ -421,26 +421,37 @@ public class JsonCompujump : Json
 		// debug reading on server /var/log/chronojump/debug.log
 
 		JsonObject json = new JsonObject();
-		json.Add("player_id", o.jump.PersonID);
 		json.Add("station_id", o.stationId);
 		json.Add("exercise_id", o.ExerciseIdStr);
-		json.Add("multiple", 0);
 		json.Add("comment", "");
-		json.Add("contact_time", Util.ConvertToPoint (o.jump.Tc));
-		json.Add("flight_time", Util.ConvertToPoint (o.jump.Tv));
-		json.Add("extra_weight", Util.ConvertToPoint (o.jump.Weight));
-		json.Add("fall", Util.ConvertToPoint (o.jump.Fall));
+		if (m == Constants.Modes.JUMPSSIMPLE)
+		{
+			json.Add("player_id", o.jump.PersonID);
+			json.Add("multiple", 0);
+			json.Add("contact_time", Util.ConvertToPoint (o.jump.Tc));
+			json.Add("flight_time", Util.ConvertToPoint (o.jump.Tv));
+			json.Add("extra_weight", Util.ConvertToPoint (o.jump.Weight));
+			json.Add("fall", Util.ConvertToPoint (o.jump.Fall));
+		} else // if (m == Constants.Modes.JUMPSREACTIVE)
+		{
+			json.Add("player_id", o.jumpRj.PersonID);
+			json.Add("multiple", 1);
+			json.Add("contact_time", Util.ConvertToPoint (o.jumpRj.TcAvg));
+			json.Add("flight_time", Util.ConvertToPoint (o.jumpRj.TvAvg));
+			json.Add("extra_weight", Util.ConvertToPoint (o.jumpRj.Weight));
+			json.Add("fall", Util.ConvertToPoint (o.jumpRj.Fall));
+		}
 		json.Add("power", o.PowerStr);
 		json.Add("stiffness", o.StiffnessStr);
 		json.Add("initial_speed", o.InitialSpeedStr);
 
 		// Converts it to a String
 		String js = json.ToString();
-		LogB.Information("json UploadJumpSimpleData: ", js);
+		LogB.Information("json UploadJumpData: ", js);
 
 		// Writes the json object into the request dataStream
 		Stream dataStream;
-		if(! getWebRequestStream (request, out dataStream, "Could not upload jump simple data."))
+		if(! getWebRequestStream (request, out dataStream, "Could not upload jump data."))
 			return false;
 
 		dataStream.Write (Encoding.UTF8.GetBytes(js), 0, js.Length);
@@ -448,7 +459,7 @@ public class JsonCompujump : Json
 
 		// Get the response.
 		WebResponse response;
-		if(! getWebResponse (request, out response, "Could not upload jump simple data."))
+		if(! getWebResponse (request, out response, "Could not upload jump data."))
 			return false;
 
 		// Display the status (will be 202, CREATED)
@@ -458,7 +469,7 @@ public class JsonCompujump : Json
 		dataStream.Close ();
 		response.Close ();
 
-		this.ResultMessage = "Jump simple data sent.";
+		this.ResultMessage = "Jump data sent.";
 		return true;
 	}
 

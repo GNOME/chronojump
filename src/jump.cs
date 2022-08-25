@@ -332,6 +332,37 @@ public class JumpRj : Jump
 				angleString, simulated, datetime);
 	}
 
+	// based on treeviewJump printAVG
+	public double PowerAverage (double personMassInKg)
+	{
+		double powerSum = 0;
+		for (int i = 0; i < tcList.Count; i ++)
+		{
+			double tc = tcList[i];
+			double tv = tvList[i];
+			double myfall = 0;
+			if (tcList[i] == -1) //startIn at first jump tc is 0, better check like this (string)
+				powerSum += GetPower (tv, personMassInKg, weight);
+			else {
+				if (i == 0)
+					myfall = fall;
+				else
+					myfall = Util.GetHeightInCentimeters (tvList[i-1]);
+
+				powerSum += Jump.GetDjPower (tc, tv,
+						(personMassInKg + weight), myfall);
+
+				/* debug
+				LogB.Information (string.Format (
+							"at jumpRj.PowerAverage, tc: {0}, tv: {1}, (personMassInKg + weight): {2}, myfall: {3}, powerSum: {4}",
+							tc, tv, (personMassInKg + weight), myfall, powerSum));
+				*/
+
+				//LogB.Information ("at jumpRj.PowerAverage, powerSum = ", powerSum.ToString());
+			}
+		}
+		return UtilAll.DivideSafe (powerSum, tcList.Count);
+	}
 
 	public override double Stiffness(double personMassInKg, double extraMass) 
 	{

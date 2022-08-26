@@ -12249,18 +12249,6 @@ EncoderInertialCapture</property>
                                                             <placeholder/>
                                                             </child>
                                                             <child>
-                                                            <placeholder/>
-                                                            </child>
-                                                            <child>
-                                                            <placeholder/>
-                                                            </child>
-                                                            <child>
-                                                            <placeholder/>
-                                                            </child>
-                                                            <child>
-                                                            <placeholder/>
-                                                            </child>
-                                                            <child>
                                                             <widget class="GtkHBox" id="hbox564">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
@@ -12401,7 +12389,7 @@ EncoderInertialCapture</property>
                                                             <property name="receives_default">True</property>
                                                             <property name="has_tooltip">True</property>
                                                             <property name="relief">half</property>
-                                                            <signal name="clicked" handler="on_button_jumps_extra_weight_accelerators_clicked" swapped="no"/>
+                                                            <signal name="clicked" handler="on_button_jumps_all_extra_weight_accelerators_clicked" swapped="no"/>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -12419,7 +12407,7 @@ EncoderInertialCapture</property>
                                                             <property name="receives_default">True</property>
                                                             <property name="has_tooltip">True</property>
                                                             <property name="relief">half</property>
-                                                            <signal name="clicked" handler="on_button_jumps_extra_weight_accelerators_clicked" swapped="no"/>
+                                                            <signal name="clicked" handler="on_button_jumps_all_extra_weight_accelerators_clicked" swapped="no"/>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -12437,7 +12425,7 @@ EncoderInertialCapture</property>
                                                             <property name="receives_default">True</property>
                                                             <property name="has_tooltip">True</property>
                                                             <property name="relief">half</property>
-                                                            <signal name="clicked" handler="on_button_jumps_extra_weight_accelerators_clicked" swapped="no"/>
+                                                            <signal name="clicked" handler="on_button_jumps_all_extra_weight_accelerators_clicked" swapped="no"/>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -12455,7 +12443,7 @@ EncoderInertialCapture</property>
                                                             <property name="receives_default">True</property>
                                                             <property name="has_tooltip">True</property>
                                                             <property name="relief">half</property>
-                                                            <signal name="clicked" handler="on_button_jumps_extra_weight_accelerators_clicked" swapped="no"/>
+                                                            <signal name="clicked" handler="on_button_jumps_all_extra_weight_accelerators_clicked" swapped="no"/>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -13097,10 +13085,16 @@ EncoderInertialCapture</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <widget class="GtkHBox" id="hbox_extra_window_jumps_rj_weight">
+                                                            <widget class="GtkTable" id="table_extra_window_jumps_rj_weight">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="spacing">6</property>
+                                                            <property name="n_rows">2</property>
+                                                            <property name="n_columns">2</property>
+                                                            <property name="column_spacing">10</property>
+                                                            <property name="row_spacing">6</property>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
                                                             <child>
                                                             <widget class="GtkHBox" id="hbox565">
                                                             <property name="visible">True</property>
@@ -13134,13 +13128,77 @@ EncoderInertialCapture</property>
                                                             </child>
                                                             </widget>
                                                             <packing>
+                                                            <property name="x_options">GTK_FILL</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkHBox" id="hbox171">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="spacing">10</property>
+                                                            <child>
+                                                            <widget class="GtkRadioButton" id="extra_window_jumps_rj_radiobutton_weight">
+                                                            <property name="label" translatable="yes">% body weight</property>
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">True</property>
+                                                            <property name="receives_default">False</property>
+                                                            <property name="use_underline">True</property>
+                                                            <property name="active">True</property>
+                                                            <property name="draw_indicator">True</property>
+                                                            <property name="group">extra_window_jumps_rj_radiobutton_kg</property>
+                                                            <signal name="toggled" handler="on_extra_window_jumps_rj_radiobutton_weight_toggled" swapped="no"/>
+                                                            </widget>
+                                                            <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">False</property>
                                                             <property name="position">0</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <widget class="GtkHBox" id="hbox69">
+                                                            <widget class="GtkRadioButton" id="extra_window_jumps_rj_radiobutton_kg">
+                                                            <property name="label">Kg</property>
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">True</property>
+                                                            <property name="receives_default">False</property>
+                                                            <property name="use_underline">True</property>
+                                                            <property name="active">True</property>
+                                                            <property name="draw_indicator">True</property>
+                                                            <signal name="toggled" handler="on_extra_window_jumps_rj_radiobutton_kg_toggled" swapped="no"/>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkAlignment" id="alignment31">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="left_padding">20</property>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label_extra_window_jumps_rj_radiobutton_weight_percent_as_kg">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            </widget>
+                                                            </child>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">2</property>
+                                                            </packing>
+                                                            </child>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="left_attach">1</property>
+                                                            <property name="right_attach">2</property>
+                                                            <property name="top_attach">1</property>
+                                                            <property name="bottom_attach">2</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkHBox" id="hbox570">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="spacing">6</property>
@@ -13167,15 +13225,39 @@ EncoderInertialCapture</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <widget class="GtkRadioButton" id="extra_window_jumps_rj_radiobutton_weight">
-                                                            <property name="label" translatable="yes">% body weight</property>
+                                                            <widget class="GtkHBox" id="hbox69">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="spacing">6</property>
+                                                            <child>
+                                                            <widget class="GtkButton" id="button_jumps_rj_extra_weight_minus_10">
+                                                            <property name="label">-10</property>
+                                                            <property name="width_request">50</property>
+                                                            <property name="height_request">40</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
-                                                            <property name="receives_default">False</property>
-                                                            <property name="use_underline">True</property>
-                                                            <property name="draw_indicator">True</property>
-                                                            <property name="group">extra_window_jumps_rj_radiobutton_kg</property>
-                                                            <signal name="toggled" handler="on_extra_window_jumps_rj_radiobutton_weight_toggled" swapped="no"/>
+                                                            <property name="receives_default">True</property>
+                                                            <property name="has_tooltip">True</property>
+                                                            <property name="relief">half</property>
+                                                            <signal name="clicked" handler="on_button_jumps_all_extra_weight_accelerators_clicked" swapped="no"/>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkButton" id="button_jumps_rj_extra_weight_minus_1">
+                                                            <property name="label"> -1 </property>
+                                                            <property name="width_request">40</property>
+                                                            <property name="height_request">40</property>
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">True</property>
+                                                            <property name="receives_default">True</property>
+                                                            <property name="has_tooltip">True</property>
+                                                            <property name="relief">half</property>
+                                                            <signal name="clicked" handler="on_button_jumps_all_extra_weight_accelerators_clicked" swapped="no"/>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -13184,15 +13266,16 @@ EncoderInertialCapture</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <widget class="GtkRadioButton" id="extra_window_jumps_rj_radiobutton_kg">
-                                                            <property name="label">Kg</property>
+                                                            <widget class="GtkButton" id="button_jumps_rj_extra_weight_plus_1">
+                                                            <property name="label"> +1 </property>
+                                                            <property name="width_request">40</property>
+                                                            <property name="height_request">40</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
-                                                            <property name="receives_default">False</property>
-                                                            <property name="use_underline">True</property>
-                                                            <property name="active">True</property>
-                                                            <property name="draw_indicator">True</property>
-                                                            <signal name="toggled" handler="on_extra_window_jumps_rj_radiobutton_kg_toggled" swapped="no"/>
+                                                            <property name="receives_default">True</property>
+                                                            <property name="has_tooltip">True</property>
+                                                            <property name="relief">half</property>
+                                                            <signal name="clicked" handler="on_button_jumps_all_extra_weight_accelerators_clicked" swapped="no"/>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -13201,20 +13284,20 @@ EncoderInertialCapture</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <widget class="GtkAlignment" id="alignment31">
+                                                            <widget class="GtkButton" id="button_jumps_rj_extra_weight_plus_10">
+                                                            <property name="label">+10</property>
+                                                            <property name="width_request">50</property>
+                                                            <property name="height_request">40</property>
                                                             <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            <property name="left_padding">20</property>
-                                                            <child>
-                                                            <widget class="GtkLabel" id="label_extra_window_jumps_rj_radiobutton_weight_percent_as_kg">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            </widget>
-                                                            </child>
+                                                            <property name="can_focus">True</property>
+                                                            <property name="receives_default">True</property>
+                                                            <property name="has_tooltip">True</property>
+                                                            <property name="relief">half</property>
+                                                            <signal name="clicked" handler="on_button_jumps_all_extra_weight_accelerators_clicked" swapped="no"/>
                                                             </widget>
                                                             <packing>
-                                                            <property name="expand">True</property>
-                                                            <property name="fill">True</property>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
                                                             <property name="position">3</property>
                                                             </packing>
                                                             </child>
@@ -13227,9 +13310,16 @@ EncoderInertialCapture</property>
                                                             </child>
                                                             </widget>
                                                             <packing>
+                                                            <property name="left_attach">1</property>
+                                                            <property name="right_attach">2</property>
+                                                            <property name="x_options">GTK_FILL</property>
+                                                            <property name="y_options">GTK_FILL</property>
+                                                            </packing>
+                                                            </child>
+                                                            </widget>
+                                                            <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">False</property>
-                                                            <property name="padding">5</property>
                                                             <property name="position">2</property>
                                                             </packing>
                                                             </child>
@@ -26468,6 +26558,15 @@ Concentric</property>
                                                             <child>
                                                             <placeholder/>
                                                             </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -33267,6 +33366,18 @@ Concentric</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="spacing">6</property>
                                                             <child>
+                                                            <widget class="GtkLabel" id="label_video_encoder_tests_will_be_filmed">
+                                                            <property name="can_focus">False</property>
+                                                            <property name="label" translatable="yes">Tests will be filmed</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="pack_type">end</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
                                                             <widget class="GtkHBox" id="hbox_video_encoder_capturing">
                                                             <property name="can_focus">False</property>
                                                             <property name="spacing">4</property>
@@ -33294,18 +33405,6 @@ Concentric</property>
                                                             <property name="position">1</property>
                                                             </packing>
                                                             </child>
-                                                            </widget>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="pack_type">end</property>
-                                                            <property name="position">0</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
-                                                            <widget class="GtkLabel" id="label_video_encoder_tests_will_be_filmed">
-                                                            <property name="can_focus">False</property>
-                                                            <property name="label" translatable="yes">Tests will be filmed</property>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -39782,6 +39881,15 @@ then click this button.</property>
                                                             <property name="x_options"/>
                                                             <property name="y_options"/>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>
@@ -50730,6 +50838,15 @@ Since Chronojump 2.1.3, backups contain the complete data.</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="column_spacing">10</property>
                                                             <property name="row_spacing">10</property>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
                                                             <child>
                                                             <placeholder/>
                                                             </child>

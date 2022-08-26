@@ -77,7 +77,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.SpinButton extra_window_jumps_rj_spinbutton_fall;
 	[Widget] Gtk.RadioButton extra_window_jumps_rj_radiobutton_kg;
 	[Widget] Gtk.RadioButton extra_window_jumps_rj_radiobutton_weight;
-	[Widget] Gtk.HBox hbox_extra_window_jumps_rj_weight;
+	[Widget] Gtk.Table table_extra_window_jumps_rj_weight;
 	[Widget] Gtk.Image extra_window_jumps_rj_image_fall;
 	[Widget] Gtk.Image extra_window_jumps_rj_image_weight;
 	//[Widget] Gtk.Label extra_window_jumps_rj_label_weight;
@@ -552,7 +552,7 @@ public partial class ChronoJumpWindow
 	
 	private void extra_window_showWeightData (JumpType myJumpType, bool show) {
 		if(myJumpType.IsRepetitive) {
-			hbox_extra_window_jumps_rj_weight.Visible = show;
+			table_extra_window_jumps_rj_weight.Visible = show;
 			update_label_extra_window_jumps_rj_radiobutton_weight_percent_as_kg(show);
 		} else {
 			table_extra_window_jumps_weight.Visible = show;
@@ -630,29 +630,50 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Button button_jumps_extra_weight_minus_1;
 	[Widget] Gtk.Button button_jumps_extra_weight_plus_1;
 	[Widget] Gtk.Button button_jumps_extra_weight_plus_10;
-	private void on_button_jumps_extra_weight_accelerators_clicked (object o, EventArgs args)
+	[Widget] Gtk.Button button_jumps_rj_extra_weight_minus_10;
+	[Widget] Gtk.Button button_jumps_rj_extra_weight_minus_1;
+	[Widget] Gtk.Button button_jumps_rj_extra_weight_plus_1;
+	[Widget] Gtk.Button button_jumps_rj_extra_weight_plus_10;
+
+	private void on_button_jumps_all_extra_weight_accelerators_clicked (object o, EventArgs args)
 	{
-		if(o == (object) button_jumps_extra_weight_minus_10)
-			button_jumps_extra_weight_accelerators_do (-10);
-		else if(o == (object) button_jumps_extra_weight_minus_1)
-			button_jumps_extra_weight_accelerators_do (-1);
-		else if(o == (object) button_jumps_extra_weight_plus_1)
-			button_jumps_extra_weight_accelerators_do (1);
-		else if(o == (object) button_jumps_extra_weight_plus_10)
-			button_jumps_extra_weight_accelerators_do (10);
+		if (o == (object) button_jumps_extra_weight_minus_10)
+			button_jumps_all_extra_weight_accelerators_do
+				(extra_window_jumps_spinbutton_weight, -10);
+		else if (o == (object) button_jumps_extra_weight_minus_1)
+			button_jumps_all_extra_weight_accelerators_do
+				(extra_window_jumps_spinbutton_weight, -1);
+		else if (o == (object) button_jumps_extra_weight_plus_1)
+			button_jumps_all_extra_weight_accelerators_do
+				(extra_window_jumps_spinbutton_weight, 1);
+		else if (o == (object) button_jumps_extra_weight_plus_10)
+			button_jumps_all_extra_weight_accelerators_do
+				(extra_window_jumps_spinbutton_weight, 10);
+		else if (o == (object) button_jumps_rj_extra_weight_minus_10)
+			button_jumps_all_extra_weight_accelerators_do
+				(extra_window_jumps_rj_spinbutton_weight, -10);
+		else if (o == (object) button_jumps_rj_extra_weight_minus_1)
+			button_jumps_all_extra_weight_accelerators_do
+				(extra_window_jumps_rj_spinbutton_weight, -1);
+		else if (o == (object) button_jumps_rj_extra_weight_plus_1)
+			button_jumps_all_extra_weight_accelerators_do
+				(extra_window_jumps_rj_spinbutton_weight, 1);
+		else if (o == (object) button_jumps_rj_extra_weight_plus_10)
+			button_jumps_all_extra_weight_accelerators_do
+				(extra_window_jumps_rj_spinbutton_weight, 10);
 	}
-	private void button_jumps_extra_weight_accelerators_do (int change)
+	private void button_jumps_all_extra_weight_accelerators_do (Gtk.SpinButton spin, int change)
 	{
-		double newValue = extra_window_jumps_spinbutton_weight.Value + change;
+		double newValue = spin.Value + change;
 
 		double min, max;
-		extra_window_jumps_spinbutton_weight.GetRange (out min, out max);
+		spin.GetRange (out min, out max);
 		if(newValue < min)
-			extra_window_jumps_spinbutton_weight.Value = min;
+			spin.Value = min;
 		else if(newValue > max)
-			extra_window_jumps_spinbutton_weight.Value = max;
+			spin.Value = max;
 		else
-			extra_window_jumps_spinbutton_weight.Value = newValue;
+			spin.Value = newValue;
 	}
 
 	private void on_extra_window_jumps_spinbutton_weight_value_changed (object o, EventArgs args)

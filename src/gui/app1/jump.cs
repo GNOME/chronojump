@@ -569,6 +569,7 @@ public partial class ChronoJumpWindow
 	{
 		if(myJumpType.IsRepetitive)
 		{
+			extra_window_jumps_rj_image_fall.Visible = show;
 			extra_window_jumps_rj_label_fall.Visible = show;
 			extra_window_jumps_rj_spinbutton_fall.Visible = show;
 			extra_window_jumps_rj_label_cm.Visible = show;

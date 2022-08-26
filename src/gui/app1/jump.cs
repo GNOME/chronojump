@@ -78,11 +78,9 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.RadioButton extra_window_jumps_rj_radiobutton_kg;
 	[Widget] Gtk.RadioButton extra_window_jumps_rj_radiobutton_weight;
 	[Widget] Gtk.Table table_extra_window_jumps_rj_weight;
+	[Widget] Gtk.HBox hbox_extra_window_jumps_rj_hbox_fall;
 	[Widget] Gtk.Image extra_window_jumps_rj_image_fall;
 	[Widget] Gtk.Image extra_window_jumps_rj_image_weight;
-	//[Widget] Gtk.Label extra_window_jumps_rj_label_weight;
-	[Widget] Gtk.Label extra_window_jumps_rj_label_fall;
-	[Widget] Gtk.Label extra_window_jumps_rj_label_cm;
 	[Widget] Gtk.Label extra_window_jumps_label_rj_start_inside;
 	[Widget] Gtk.Label extra_window_jumps_label_rj_start_outside;
 	[Widget] Gtk.CheckButton checkbutton_allow_finish_rj_after_time;
@@ -569,11 +567,7 @@ public partial class ChronoJumpWindow
 	{
 		if(myJumpType.IsRepetitive)
 		{
-			extra_window_jumps_rj_image_fall.Visible = show;
-			extra_window_jumps_rj_label_fall.Visible = show;
-			extra_window_jumps_rj_spinbutton_fall.Visible = show;
-			extra_window_jumps_rj_label_cm.Visible = show;
-
+			hbox_extra_window_jumps_rj_hbox_fall.Visible = show;
 			extra_window_jumps_label_rj_start_inside.Visible = ! show;
 			extra_window_jumps_label_rj_start_outside.Visible = show;
 		

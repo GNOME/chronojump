@@ -13399,7 +13399,7 @@ EncoderInertialCapture</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <widget class="GtkHBox" id="hbox158">
+                                                            <widget class="GtkHBox" id="hbox_extra_window_jumps_rj_hbox_fall">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="spacing">6</property>
@@ -13422,6 +13422,7 @@ EncoderInertialCapture</property>
                                                             </child>
                                                             <child>
                                                             <widget class="GtkLabel" id="extra_window_jumps_rj_label_fall">
+                                                            <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="xalign">0</property>
                                                             <property name="label" translatable="yes">Falling height</property>
@@ -13446,6 +13447,7 @@ EncoderInertialCapture</property>
                                                             <property name="spacing">6</property>
                                                             <child>
                                                             <widget class="GtkSpinButton" id="extra_window_jumps_rj_spinbutton_fall">
+                                                            <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="invisible_char">●</property>
                                                             <property name="invisible_char_set">True</property>
@@ -13467,6 +13469,7 @@ EncoderInertialCapture</property>
                                                             </child>
                                                             <child>
                                                             <widget class="GtkLabel" id="extra_window_jumps_rj_label_cm">
+                                                            <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="xalign">0</property>
                                                             <property name="label">cm</property>

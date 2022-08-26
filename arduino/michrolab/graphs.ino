@@ -80,13 +80,15 @@ void redrawAxes(ILI9341_t3 & d, double gx, double gy, double w, double h, double
     d.drawLine(gx, yAxis, gx + w, yAxis, BLACK);
   }
 
-  if (resize) tft.drawRect(0, 0, gx, gy, BLACK);
+  if (resize){
+    tft.drawRect(0, 0, gx, gy, BLACK);
+    //Vertical line
+    //d.drawLine(gx, gy, gx, gy - h, acolor);
+  }
 
   d.setTextSize(1);
   d.setTextColor(tcolor, bcolor);
 
-  //Vertical line
-  d.drawLine(gx, gy, gx, gy - h, acolor);
 
   // draw y scale
   for (double i = ylo; i <= yhi; i += yinc)
@@ -94,7 +96,7 @@ void redrawAxes(ILI9341_t3 & d, double gx, double gy, double w, double h, double
     // compute the transform
     yAxis =  (i - ylo) * (-h) / (yhi - ylo) + gy;
 
-    d.drawLine(gx, yAxis, gx + w, yAxis, acolor);
+    //d.drawLine(gx, yAxis, gx + w, yAxis, acolor);
     //If the scale has changed the numbers must be redrawn
     if (resize)
     {
@@ -146,8 +148,39 @@ void barPlot (float gx, float gy, float w, float h, float yhi, int numBars, int 
   float localX = w - b;
   float barValue = 0;
   float barPixHeight = 0;
+
+  for(int i = currentIndex + 1; i <= currentIndex + 10; i++)
+  {
+    Serial.print(i % 10);
+    Serial.print("\t");
+  }
+
+  Serial.println();
+
+  for(int i = currentIndex + 1; i <= currentIndex + 10; i++)
+  {
+    Serial.print(bars[ i % 10]);
+    Serial.print("\t");
+  }
+
+  Serial.println();
   
   //the first bar to plot corresponds to the last updated slot of the array
+
+  //Deleting the previous bars (The older bar are not in the buffer)
+  for (int i = 1; i<10; i++)
+  {
+    localX -= a;
+    barValue = bars[ (currentIndex - i -1 + 10) % 10];
+    barPixHeight =  barValue * h / yhi;
+    tft.fillRect(gx+localX, gy - barPixHeight , b, barPixHeight, BLACK);
+    localX -= b;
+  }
+
+  localX -= a;
+  tft.fillRect(gx+localX, gy - h , b, h, BLACK);
+  localX = w - b;
+  
   for (int i = 0; i<10; i++)
   {
     localX -= a;
@@ -161,4 +194,5 @@ void barPlot (float gx, float gy, float w, float h, float yhi, int numBars, int 
     }
     localX -= b;
   }
+  Serial.println("-----");
 }

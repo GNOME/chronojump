@@ -347,7 +347,8 @@ IntervalTimer rcaTimer;
 String fullFileName;
 File dataFile;
 int sampleNum = 0;
-String fileBuffer;
+//String fileBuffer;
+char fileBuffer[100];
 
 void setup() {
   //Attention: some SD cards fails to initalize after uploading the firmware
@@ -1151,7 +1152,7 @@ void captureBars()
     {
       index = (numRepetitions - 1) % 10;
       redrawBars = false;
-      tft.fillRect(30, 0, 290, 200, BLACK);
+      //tft.fillRect(30, 0, 290, 200, BLACK);
       if (bars[(numRepetitions - 1) % 10] > graphRange)
       {
         redrawAxes(tft, 30, 200, 290, 200, 290, 200, 0, graphRange, graphRange / 10, "", "", "", WHITE, GREY, WHITE, WHITE, BLACK, RED, true);
@@ -1168,16 +1169,28 @@ void captureBars()
   }
 }
 
+//void saveEncoderSpeed()
+//{
+//  long position = encoder.read();
+//  fileBuffer = fileBuffer + String(position - lastSamplePosition) + ",";
+//  sampleNum++;
+//  lastSamplePosition = position;
+//  if (sampleNum >= 5){
+//    dataFile.print(fileBuffer);
+//    fileBuffer = "";
+//    sampleNum = 1;
+//  }
+//}
+
 void saveEncoderSpeed()
 {
   long position = encoder.read();
-  fileBuffer = fileBuffer + String(position - lastSamplePosition) + ",";
+  fileBuffer[sampleNum] =(char)(position - lastSamplePosition);
   sampleNum++;
   lastSamplePosition = position;
-  if (sampleNum >= 100){
-    dataFile.print(fileBuffer);
-    fileBuffer = "";
-    sampleNum = 1;
+  if (sampleNum >= 99){
+    //dataFile.write(fileBuffer, 100);
+    sampleNum = 0;
   }
 }
 
@@ -1285,7 +1298,7 @@ void startEncoderCapture(void)
   selectExerciseType(gravitatory);
   selectValueDialog("Select the load you are\ngoing to move", "0,5,20,200", "0.5,1,5", 1);
   //captureRaw();
-  encoderTimer.begin(saveEncoderSpeed,1000);
+  encoderTimer.begin(saveEncoderSpeed,1000000);
   captureBars();
 }
 

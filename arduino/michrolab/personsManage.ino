@@ -180,7 +180,7 @@ void selectPersonDialog()
     {
       //Deleting last list
       showPersonList(BLACK);
-      
+
       currentPerson = (currentPerson + 1) % totalPersons;
 
       //Printing new list
@@ -193,7 +193,7 @@ void selectPersonDialog()
 
 void showPersonList(unsigned int color)
 {
-  int xPosos = 10;
+  int xPos = 10;
   int midYPos = 110;
   int currentY = 0;
   printTftText("Select person", 40, 20, color, 3);
@@ -207,9 +207,12 @@ void showPersonList(unsigned int color)
         currentY = midYPos + i * 16 + 8;
       }
       printTftText(persons[(currentPerson + totalPersons + i) % totalPersons].name + " " + persons[(currentPerson + totalPersons + i) % totalPersons].surname,
-                   xPosos, currentY, color, 2);
+                   xPos, currentY, color, 2);
     }
   }
-  printTftText("[" + persons[currentPerson].name + " " + persons[currentPerson].surname + "]",
-               xPosos, midYPos, color, 3);
+  //  printTftText("[" + (persons[currentPerson].name + " " + persons[currentPerson].surname).substring(0,14) + "]",
+  //               xPos, midYPos, color, 3);
+  tft.fillRoundRect(0, midYPos -1 ,320, 25, 5, RED);
+  printTftText((persons[currentPerson].name + " " + persons[currentPerson].surname).substring(0, 17),
+               xPos, midYPos, color, 3);
 }

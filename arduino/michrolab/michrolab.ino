@@ -49,8 +49,8 @@ Encoder encoder(8, 9);
 IntervalTimer encoderTimer;
 long position = 0;
 bool inertialMode = false;
-long lastEncoderPosition;
-long lastSamplePosition = 0;
+long lastEncoderPosition = 0;
+long lastSamplePosition;
 int encoderBuffer[20];
 byte encoderBufferIndex = 0;
 String encoderString = "";
@@ -132,6 +132,7 @@ volatile bool rcaFlag = false;
 elapsedMicros totalTime = 0;
 elapsedMicros totalTestTime;
 unsigned long lastSampleTime;
+unsigned long lastMeasuredTime;
 //By default the debounce time for the RCA is 10000.
 //With the foot pedal 2000 is too short for jumps and some values are repeated
 unsigned int rcaDebounceTime = 10000;
@@ -343,6 +344,10 @@ gravitType gravTypes[100];
 unsigned int totalGravTypes = 0;
 
 IntervalTimer rcaTimer;
+String fullFileName;
+File dataFile;
+int sampleNum = 0;
+String fileBuffer;
 
 void setup() {
   //Attention: some SD cards fails to initalize after uploading the firmware
@@ -1116,7 +1121,14 @@ void captureBars()
   maxString = "V";
   float graphRange = 10;
   int index = 0;
-  fileName = "P" + String(currentPerson) + "-S" + String(setNumber);
+  String fileName = "P" + String(currentPerson) + "-S" + String(setNumber);
+
+  if (sensor == incEncoder) fileName = fileName + "-G";
+  else if (sensor == incRotEncoder) fileName = fileName + "-I";
+  else if (sensor == loadCellincEncoder) fileName = fileName + "-P";
+  
+  fullFileName = "/" + dirName + "/" + fileName + ".txt";
+  dataFile = SD.open(fullFileName.c_str(), FILE_WRITE);
 
   tft.fillScreen(BLACK);
 
@@ -1155,24 +1167,38 @@ void captureBars()
     }
   }
 }
+
+void saveEncoderSpeed()
+{
+  long position = encoder.read();
+  fileBuffer = fileBuffer + String(position - lastSamplePosition) + ",";
+  sampleNum++;
+  lastSamplePosition = position;
+  if (sampleNum >= 100){
+    dataFile.print(fileBuffer);
+    fileBuffer = "";
+    sampleNum = 1;
+  }
+}
+
 void getEncoderDynamics()
 {
-  int sampleDuration = totalTime - lastSampleTime;
-  if (sampleDuration >= 1000)
+  int duration = totalTime - lastMeasuredTime;
+  if (duration >= 1000)
   {
-    lastSampleTime = totalTime;
+    lastMeasuredTime = totalTime;
 
     long position = encoder.read();
 
     //TODO: Calculate positoion depending on the parameters of the encoder/machine
     if (inertialMode) position = - abs(position);
-    measured = (float)(position - lastSamplePosition) * 1000 / (sampleDuration);
+    measured = (float)(position - lastEncoderPosition) * 1000 / (duration);
     //measured = position;
-    //    if(position != lastSamplePosition) Serial.println(String(localMax) + "\t" + String(lastSamplePosition) +
+    //    if(position != lastEncoderPosition) Serial.println(String(localMax) + "\t" + String(lastEncoderPosition) +
     //      "\t" + String(position) + "\t" + String(encoderPhase * (position - localMax)));
-    float accel = (measured - lastVelocity) * 1000000 / sampleDuration;
+    float accel = (measured - lastVelocity) * 1000000 / duration;
     if (propulsive && accel <= -9.81) {
-      //Serial.println("End propulsive at time: " + String(lastSampleTime));
+      //Serial.println("End propulsive at time: " + String(lastMeasuredTime));
       propulsive = false;
     }
     //measured = position;
@@ -1205,7 +1231,7 @@ void getEncoderDynamics()
     {
       encoderPhase *= -1;
       propulsive = true;
-      avgVelocity = (float)(position - startPhasePosition) * 1000 / (lastSampleTime - startPhaseTime);
+      avgVelocity = (float)(position - startPhasePosition) * 1000 / (lastMeasuredTime - startPhaseTime);
       bars[numRepetitions % 10] = abs(avgVelocity);
       redrawBars = true;
 
@@ -1219,14 +1245,14 @@ void getEncoderDynamics()
       numRepetitions++;
       if (avgVelocity > maxAvgVelocity) maxAvgVelocity = avgVelocity;
       //        Serial.println(String(position) + " - " + String(startPhasePosition) + " = " + String(position - localMax) + "\t" + String(encoderPhase));
-      //        Serial.println("Change of phase at: " + String(lastSampleTime));
-      //        Serial.print(String(1000 * (float)(position - startPhasePosition) / (lastSampleTime - startPhaseTime)) + " m/s\t" );
+      //        Serial.println("Change of phase at: " + String(lastMeasuredTime));
+      //        Serial.print(String(1000 * (float)(position - startPhasePosition) / (lastMeasuredTime - startPhaseTime)) + " m/s\t" );
       //        Serial.println(String(1000*(persons[currentPerson].weight * 9.81 * (position - startPhasePosition)) /
-      //        (lastSampleTime - startPhaseTime))+" W");
+      //        (lastMeasuredTime - startPhaseTime))+" W");
       startPhasePosition = position;
-      startPhaseTime = lastSampleTime;
+      startPhaseTime = lastMeasuredTime;
     }
-    lastSamplePosition = position;
+    lastEncoderPosition = position;
     lastVelocity = measured;
     //Serial.println(String(measured) + "\t" + String(accel));
   }
@@ -1247,8 +1273,8 @@ void startEncoderCapture(void)
   encoderPhase = 0;
   localMax = 0;
   encoder.write(0);
-  lastSamplePosition = 0;
-  lastSampleTime = 0;
+  lastEncoderPosition = 0;
+  lastMeasuredTime = 0;
   startPhasePosition = 0;
   startPhaseTime = 0;
   avgVelocity = 0;
@@ -1259,15 +1285,18 @@ void startEncoderCapture(void)
   selectExerciseType(gravitatory);
   selectValueDialog("Select the load you are\ngoing to move", "0,5,20,200", "0.5,1,5", 1);
   //captureRaw();
+  encoderTimer.begin(saveEncoderSpeed,1000);
   captureBars();
 }
 
 void endEncoderCapture()
 {
   capturing = false;
+  encoderTimer.end();
   numRepetitions = ceil((float)(numRepetitions / 2));
   sensor = none;
   Serial.println("Capture ended:");
+  dataFile.close();
   //If the device is controlled by the PC the results menu is not showed
   //because during the menu navigation the Serial is not listened.
   tft.fillScreen(BLACK);
@@ -1303,9 +1332,9 @@ void getPowerDynamics()
 {
   float force = scale.get_units();
   //position = encoder.read();
-  float velocity = (float)(position - lastSamplePosition) * 1000 / (totalTime - lastSampleTime);
+  float velocity = (float)(position - lastEncoderPosition) * 1000 / (totalTime - lastSampleTime);
   lastSampleTime = totalTime;
-  lastSamplePosition = position;
+  lastEncoderPosition = position;
   for (int i = 0; i < encoderBufferIndex; i++)
   {
     Serial.print(encoderBuffer[i]);
@@ -1391,8 +1420,8 @@ void jumpsCapture()
   bool rowCreated = false;
 
   fileName = String("J") + "-S" + String(setNumber);
-  String fullFileName = "/" + dirName + "/" + fileName + ".txt";
-  File dataFile = SD.open(fullFileName.c_str(), FILE_WRITE);
+  fullFileName = "/" + dirName + "/" + fileName + ".txt";
+  dataFile = SD.open(fullFileName.c_str(), FILE_WRITE);
 
   lastRcaState = !digitalRead(rcaPin);
   rcaFlag = false;
@@ -1649,8 +1678,8 @@ void saveSD(String fileName)
     Serial.println("no sensor type");
     return;
   }
-  String fullFileName = "/" + dirName + "/" + fileName + sensorString + ".txt";
-  File dataFile = SD.open(fullFileName.c_str(), FILE_WRITE);
+  fullFileName = "/" + dirName + "/" + fileName + sensorString + ".txt";
+  dataFile = SD.open(fullFileName.c_str(), FILE_WRITE);
   dataFile.println(String(lastSampleTime) + ";" + String(measured));
   dataFile.close();
 }
@@ -1762,8 +1791,8 @@ void selectPerson()
 
 void saveSimpleJump(float lastPhaseTime)
 {
-  String fullFileName = "/" + dirName + "/" + fileName + ".txt";
-  File dataFile = SD.open(fullFileName.c_str(), FILE_WRITE);
+  fullFileName = "/" + dirName + "/" + fileName + ".txt";
+  dataFile = SD.open(fullFileName.c_str(), FILE_WRITE);
   if ( !rcaState)
   {
     dataFile.print(String(currentPerson) + ";" + jumpTypes[currentExerciseType].id + ";" + String(lastPhaseTime, 6) );
@@ -1778,8 +1807,8 @@ void saveSimpleJump(float lastPhaseTime)
 //void saveDropJump(float lastPhaseTime)
 //{
 //  Serial.println(waitingFirstPhase);
-//  String fullFileName = "/" + dirName + "/" + fileName + ".txt";
-//  File dataFile = SD.open(fullFileName.c_str(), FILE_WRITE);
+//  fullFileName = "/" + dirName + "/" + fileName + ".txt";
+//  dataFile = SD.open(fullFileName.c_str(), FILE_WRITE);
 //  if (waitingFirstPhase)
 //  {
 //    //Starts the previous jump

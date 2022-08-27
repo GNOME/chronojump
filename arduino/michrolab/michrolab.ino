@@ -164,7 +164,7 @@ functionPointer FArray[3] = {&fakeFunction, &fakeFunction, &fakeFunction};
 
 menuEntry mainMenu[10] = {
   { "Jumps", "Shows bars with the jumps height", &jumpsCapture},
-//  { "Drop Jumps", "Jumps with a previous\nfalling height (previous\njump or fixed height)\nShows bars with the heightof jumps", &dropJumpsCapture},
+  //  { "Drop Jumps", "Jumps with a previous\nfalling height (previous\njump or fixed height)\nShows bars with the heightof jumps", &dropJumpsCapture},
   { "Raw Force", "Shows standard graph of\nthe force and the summary of the set.\n(Maximum Force, RFD and\nImpulse)", &startLoadCellCapture},
   { "Lin. Velocity", "Show bars of linear velocity", &startEncoderCapture },
   { "Inert. Velocity", "Show a bars of the velocity of the person in inertial machines", &startInertialEncoderCapture },
@@ -347,8 +347,8 @@ IntervalTimer rcaTimer;
 String fullFileName;
 File dataFile;
 int sampleNum = 0;
-//String fileBuffer;
-char fileBuffer[100];
+String fileBuffer;        //Text mode
+//char fileBuffer[100];       //binary mode. Using char type cannot write speeds greater than +-127 pulses/mm
 
 void setup() {
   //Attention: some SD cards fails to initalize after uploading the firmware
@@ -426,7 +426,7 @@ void setup() {
   currentExerciseType = 0;
 
   tft.fillScreen(BLACK);
-  
+
   drawMenuBackground();
   backMenu();
   showMenuEntry(currentMenuIndex);
@@ -511,7 +511,9 @@ void getLoadCellDynamics(void)
   }
 }
 
-void printTftValue (float val, int x, int y, int fontSize, int decimal) {
+
+void printTftValue (float val, int x, int y, int fontSize, int decimal) {printTftValue (val, x, y, fontSize, decimal, WHITE);}
+void printTftValue (float val, int x, int y, int fontSize, int decimal, int color) {
 
   /*How many characters are to the left of the units number.
      Examples:
@@ -534,9 +536,11 @@ void printTftValue (float val, int x, int y, int fontSize, int decimal) {
   if (val < 0) {
     x = x - 1 * charWidth;
   }
+  tft.setTextColor(color);
   tft.setTextSize(fontSize);
   tft.setCursor(x , y);
   tft.print(val, decimal);
+  tft.setTextColor(WHITE);
 }
 
 void printTftText(String text, int x, int y) {
@@ -1121,27 +1125,24 @@ void captureBars()
 {
   maxString = "V";
   float graphRange = 10;
-  int index = 0;
+  int currentSlot = 0;
   String fileName = "P" + String(currentPerson) + "-S" + String(setNumber);
 
   if (sensor == incEncoder) fileName = fileName + "-G";
   else if (sensor == incRotEncoder) fileName = fileName + "-I";
   else if (sensor == loadCellincEncoder) fileName = fileName + "-P";
-  
+
   fullFileName = "/" + dirName + "/" + fileName + ".txt";
   dataFile = SD.open(fullFileName.c_str(), FILE_WRITE);
 
   tft.fillScreen(BLACK);
 
-  if (! PcControlled)
-  {
-    //Info at the lower part of the screen
-    printTftText(maxString, 10, 215, WHITE, 2);
-    printTftText("max", 22, 223, 1, WHITE);
-    printTftText(":", 40, 215, 2, WHITE);
-    printTftValue(measuredMax, 94, 215, 2, 1);
-    updatePersonSet();
-  }
+  //Info at the lower part of the screen
+  printTftText(maxString, 10, 215, WHITE, 2);
+  printTftText("max", 22, 223, WHITE, 1);
+  printTftText(":", 40, 215, WHITE, 2);
+  printTftValue(maxAvgVelocity, 94, 215, 2, 1);
+  updatePersonSet();
 
   redrawAxes(tft, 30, 200, 290, 200, 290, 200, 0, graphRange, graphRange / 10, "", "", "", WHITE, GREY, WHITE, WHITE, BLACK, RED, true);
 
@@ -1150,16 +1151,21 @@ void captureBars()
     getEncoderDynamics();
     if (redrawBars)
     {
-      index = (numRepetitions - 1) % 10;
+      currentSlot = (numRepetitions - 1) % 10;
       redrawBars = false;
-      //tft.fillRect(30, 0, 290, 200, BLACK);
-      if (bars[(numRepetitions - 1) % 10] > graphRange)
+      if(bars[currentSlot] > maxAvgVelocity)
+      {
+        printTftValue(maxAvgVelocity, 94, 215, 2, 1, BLACK);
+        maxAvgVelocity = bars[currentSlot];
+        printTftValue(maxAvgVelocity, 94, 215, 2, 1);
+      }
+      if (bars[currentSlot] > graphRange)
       {
         redrawAxes(tft, 30, 200, 290, 200, 290, 200, 0, graphRange, graphRange / 10, "", "", "", WHITE, GREY, WHITE, WHITE, BLACK, RED, true);
-        graphRange = bars[index] * 1.25;
+        graphRange = bars[currentSlot] * 1.25;
       }
       redrawAxes(tft, 30, 200, 290, 200, 290, 200, 0, graphRange, graphRange / 10, "", "", "", WHITE, GREY, WHITE, WHITE, BLACK, RED, true);
-      barPlot(30, 200, 290, 200, graphRange, 10, index, 0.5, RED);
+      barPlot(30, 200, 290, 200, graphRange, 10, currentSlot, 0.75, RED);
     }
     redButton.update();
     if (redButton.fell())
@@ -1169,30 +1175,40 @@ void captureBars()
   }
 }
 
-//void saveEncoderSpeed()
-//{
-//  long position = encoder.read();
-//  fileBuffer = fileBuffer + String(position - lastSamplePosition) + ",";
-//  sampleNum++;
-//  lastSamplePosition = position;
-//  if (sampleNum >= 5){
-//    dataFile.print(fileBuffer);
-//    fileBuffer = "";
-//    sampleNum = 1;
-//  }
-//}
-
+//text mode
 void saveEncoderSpeed()
 {
+  long position = encoder.read();
+  String currentValue = String(position - lastSamplePosition) + ",";
+
+  if (PcControlled) {
+    Serial.print(currentValue);
+  } else {
+    fileBuffer = fileBuffer + currentValue;
+    sampleNum++;
+    if (sampleNum >= 100) {
+      dataFile.print(fileBuffer);
+      fileBuffer = "";
+      sampleNum = 1;
+    }
+  }
+  lastSamplePosition = position;
+}
+
+/*
+  //binary mode
+  void saveEncoderSpeed()
+  {
   long position = encoder.read();
   fileBuffer[sampleNum] =(char)(position - lastSamplePosition);
   sampleNum++;
   lastSamplePosition = position;
   if (sampleNum >= 99){
-    //dataFile.write(fileBuffer, 100);
+    dataFile.write(fileBuffer, 100);
     sampleNum = 0;
   }
-}
+  }
+*/
 
 void getEncoderDynamics()
 {
@@ -1222,12 +1238,12 @@ void getEncoderDynamics()
       if (position >= minRom) {
         encoderPhase = 1;
         localMax = position;
-        Serial.println("Start in CONcentric");
+        //Serial.println("Start in CONcentric");
       }
       else if (position <= -minRom) {
         encoderPhase = 1;
         localMax = position;
-        Serial.println("Start in ECCentric");
+        //Serial.println("Start in ECCentric");
       }
     }
 
@@ -1256,7 +1272,7 @@ void getEncoderDynamics()
       //      Serial.println();
 
       numRepetitions++;
-      if (avgVelocity > maxAvgVelocity) maxAvgVelocity = avgVelocity;
+      if (avgVelocity > maxAvgVelocity)
       //        Serial.println(String(position) + " - " + String(startPhasePosition) + " = " + String(position - localMax) + "\t" + String(encoderPhase));
       //        Serial.println("Change of phase at: " + String(lastMeasuredTime));
       //        Serial.print(String(1000 * (float)(position - startPhasePosition) / (lastMeasuredTime - startPhaseTime)) + " m/s\t" );
@@ -1298,7 +1314,7 @@ void startEncoderCapture(void)
   selectExerciseType(gravitatory);
   selectValueDialog("Select the load you are\ngoing to move", "0,5,20,200", "0.5,1,5", 1);
   //captureRaw();
-  encoderTimer.begin(saveEncoderSpeed,1000000);
+  encoderTimer.begin(saveEncoderSpeed, 1000);
   captureBars();
 }
 
@@ -1546,16 +1562,16 @@ void jumpsCapture()
           }
           //Waiting first phase. TODO: Make it sensible to startIn parameter
         } else if (waitingFirstPhase && capturing) {
-//          Serial.print("#");
-//          if (rcaState) Serial.print("IN");
-//          else Serial.print("OUT");
+          //          Serial.print("#");
+          //          if (rcaState) Serial.print("IN");
+          //          else Serial.print("OUT");
 
           //The state  previous to change was WRONG
-          //The first change of RCA is in the state that is supposed to be at start of the test.        
+          //The first change of RCA is in the state that is supposed to be at start of the test.
           if ( jumpTypes[currentExerciseType].startIn == rcaState ) {
             if (rcaState) {             //Landing. Don't measure the Time of Flight
               //Do nothing
-            } else if ( !rcaState) {  //Take off.         
+            } else if ( !rcaState) {  //Take off.
               //Measure one more jump..
               totalJumps = -1;
               waitingFirstPhase = false;
@@ -1570,7 +1586,7 @@ void jumpsCapture()
           rcaTime = 0;
           lastRcaTime = 0;
           setNumber++;
-          if( !rowCreated ){
+          if ( !rowCreated ) {
             dataFile.print(String(setNumber) + "," + String(currentPerson) + "," + String(jumpTypes[currentExerciseType].id));
             Serial.print(String(setNumber) + "," + String(currentPerson) + "," + String(jumpTypes[currentExerciseType].id));
             rowCreated = true;

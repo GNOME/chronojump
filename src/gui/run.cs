@@ -667,7 +667,7 @@ public class RepairRunIntervalWindow
 							"This race type is fixed to one lap.",
 							"This race type is fixed to {0} laps.",
 							myRunType.FixedValue), 
-						myRunType.FixedValue) +
+						myRunType.FixedValue) + " " +
 					Catalog.GetString("You cannot add more.");
 			} else {
 				//if it's a run type timeLimited with a fixed value, then complain when the total time is higher
@@ -676,7 +676,7 @@ public class RepairRunIntervalWindow
 							"This race type is fixed to one second.",
 							"This race type is fixed to {0} seconds.",
 							myRunType.FixedValue),
-						myRunType.FixedValue) +
+						myRunType.FixedValue) + " " +
 					Catalog.GetString("Totaltime cannot be greater.");
 			}
 		}

@@ -668,7 +668,7 @@ public class RepairJumpRjWindow
 							"This jump type is fixed to one jump.",
 							"This jump type is fixed to {0} jumps.",
 							Convert.ToInt32(myJumpType.FixedValue)),
-						myJumpType.FixedValue) +
+						myJumpType.FixedValue) + " " +
 					Catalog.GetString("You cannot add more.");
 			} else {
 				//if it's a jump type timeLimited with a fixed value, then complain when the total time is higher
@@ -677,7 +677,7 @@ public class RepairJumpRjWindow
 							"This jump type is fixed to one second.",
 							"This jump type is fixed to {0} seconds.",
 							Convert.ToInt32(myJumpType.FixedValue)),
-						myJumpType.FixedValue) +
+						myJumpType.FixedValue) + " " +
 					Catalog.GetString("You cannot add more.");
 			}
 		}

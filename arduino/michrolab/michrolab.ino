@@ -1323,16 +1323,11 @@ void getEncoderDynamics()
       avgVelocity = (float)(position - startPhasePosition) * 1000 / (lastMeasuredTime - startPhaseTime);
       bars[numRepetitions % 10] = abs(avgVelocity);
       redrawBars = true;
-
-//      for(int i = 0; i<10; i++)
-//      {
-//        Serial.print(bars[ (numRepetitions%10 - i + 10) % 10]);
-//        Serial.print("\t");
-//      }
-//      Serial.println();
+      
+      //printBarsValues();
 
       numRepetitions++;
-      if (avgVelocity > maxAvgVelocity)
+      if (avgVelocity > maxAvgVelocity) maxAvgVelocity = avgVelocity;
       //        Serial.println(String(position) + " - " + String(startPhasePosition) + " = " + String(position - localMax) + "\t" + String(encoderPhase));
       //        Serial.println("Change of phase at: " + String(lastMeasuredTime));
       //        Serial.print(String(1000 * (float)(position - startPhasePosition) / (lastMeasuredTime - startPhaseTime)) + " m/s\t" );
@@ -1892,32 +1887,6 @@ void saveSimpleJump(float lastPhaseTime)
   }
   dataFile.close();
 }
-
-//void saveDropJump(float lastPhaseTime)
-//{
-//  Serial.println(waitingFirstPhase);
-//  fullFileName = "/" + dirName + "/" + fileName + ".txt";
-//  dataFile = SD.open(fullFileName.c_str(), FILE_WRITE);
-//  if (waitingFirstPhase)
-//  {
-//    //Starts the previous jump
-//    if ( !rcaState)
-//    {
-//      Serial.print("Previous jump started");
-//    }
-//
-//    //Starts de first landing
-//    else if (rcaState)
-//    {
-//      Serial.println("Previous jump ended");
-//    }
-//    //Starting or ending the second jump
-//  } else  if (!waitingFirstPhase)
-//  {
-//    Serial.println("Second jump");
-//    dataFile.print( ";" + String(lastPhaseTime, 6) );
-//  }
-//}
 
 void fakeFunction()
 {

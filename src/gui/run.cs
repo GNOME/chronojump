@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2020   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2004-2022   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -23,7 +23,7 @@ using Gtk;
 using Glade;
 using System.Text; //StringBuilder
 using System.Collections; //ArrayList
-
+using System.Collections.Generic; //List<T>
 using System.Threading;
 using Mono.Unix;
 
@@ -499,10 +499,27 @@ public class EditRunIntervalWindow : EditRunWindow
 	}
 	
 	
-	protected override void fillDistance(Event myEvent) {
+	protected override void fillDistance(Event myEvent)
+	{
 		RunInterval myRun = (RunInterval) myEvent;
-		entry_distance_value.Text = myRun.DistanceInterval.ToString() +
-			"x" + myRun.Limited;
+		string distancesString = "";
+
+		//1 on agility test show the distances string in meters
+		if (myRun.DistanceInterval < 0)
+		{
+			List<object> selectRunITypes_l = SqliteRunIntervalType.SelectRunIntervalTypesNew ("", false);
+			if (selectRunITypes_l != null && selectRunITypes_l.Count > 0)
+				distancesString = SelectRunITypes.RunIntervalTypeDistances (myRun.Type, selectRunITypes_l);
+		}
+
+		if (distancesString != "")
+			entry_distance_value.Text = RunType.DistancesStringAsMeters (distancesString);
+		else {
+			//2 on the rest of tests show interval x times
+			entry_distance_value.Text = myRun.DistanceInterval.ToString() +
+				"x" + myRun.Limited;
+		}
+
 		entry_distance_value.Sensitive = false;
 	}
 

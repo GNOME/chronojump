@@ -252,6 +252,13 @@ public class SelectRunITypes : SelectRunTypes
 		return "";
 	}
 
+	//debug
+	public override string ToString ()
+	{
+		return string.Format ("Id: {0}, NameEnglish: {1}, Distance: {2}, TracksLimited: {3}, " +
+				"FixedValue: {4}, Unlimited: {5}, Description: {6}, DistancesString: {7}",
+				Id, NameEnglish, Distance, TracksLimited, FixedValue, Unlimited, Description, DistancesString);
+	}
 }
 
 public class LastJumpSimpleTypeParams

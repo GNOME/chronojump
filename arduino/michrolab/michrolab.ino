@@ -48,6 +48,7 @@ String version = "0.1";
 Encoder encoder(8, 9);
 IntervalTimer encoderTimer;
 long position = 0;
+float load = 0.0;
 bool inertialMode = false;
 long lastEncoderPosition = 0;
 long lastSamplePosition;
@@ -1135,6 +1136,9 @@ void captureBars(float fullScreen)
 
   fullFileName = "/" + dirName + "/" + fileName + ".txt";
   dataFile = SD.open(fullFileName.c_str(), FILE_WRITE);
+  dataFile.println("Person:" + String(persons[currentPerson].index) + "," + persons[currentPerson].name + " " + persons[currentPerson].surname);
+  dataFile.println("Exercise:" + String(gravTypes[currentExerciseType].id) + "," + gravTypes[currentExerciseType].name);
+  dataFile.println("Load:" + String(load));
 
   tft.fillScreen(BLACK);
   
@@ -1368,7 +1372,7 @@ void startEncoderCapture(void)
   readExercisesFile(gravitatory);
   selectPersonDialog();
   selectExerciseType(gravitatory);
-  selectValueDialog("Select the load you are\ngoing to move", "0,5,20,200", "0.5,1,5", 1);
+  load = selectValueDialog("Select the load you are\ngoing to move", "0,5,20,200", "0.5,1,5", 1);
   //captureRaw();
   encoderTimer.begin(saveEncoderSpeed, 1000);
   captureBars(false);

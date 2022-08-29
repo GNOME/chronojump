@@ -494,6 +494,7 @@ public partial class ChronoJumpWindow
 		else {
 			menus_sensitive_import_not_danger(true);
 			notebook_supSetOldPage();
+			new ChronojumpLogo (notebook_chronojump_logo, drawingarea_chronojump_logo, preferences.logoAnimatedShow);
 		}
 	}
 }

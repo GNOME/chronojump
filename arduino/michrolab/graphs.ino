@@ -61,8 +61,10 @@ void Graph(ILI9341_t3 & d, double x, double y, double gx, double gy, double w, d
   oy = y;
 
 }
-
-void redrawAxes(ILI9341_t3 & d, double gx, double gy, double w, double h, double xlo, double xhi, double ylo, double yhi, double yinc, String title, String xlabel, String ylabel, unsigned int gcolor, unsigned int acolor, unsigned int pcolor, unsigned int tcolor, unsigned int bcolor, unsigned int goalColor, boolean resize)
+void redrawAxes(ILI9341_t3 & d, double gx, double gy, double w, double h, double xlo, double xhi, double ylo, double yhi, double yinc, String title, String xlabel, String ylabel, unsigned int gcolor, unsigned int acolor, unsigned int pcolor, unsigned int tcolor, unsigned int bcolor, unsigned int goalColor, boolean resize){
+  redrawAxes(d, gx, gy, w, h, xlo, xhi, ylo, yhi, yinc, title, xlabel, ylabel, gcolor, acolor, pcolor, tcolor, bcolor, goalColor, resize, 0);
+}
+void redrawAxes(ILI9341_t3 & d, double gx, double gy, double w, double h, double xlo, double xhi, double ylo, double yhi, double yinc, String title, String xlabel, String ylabel, unsigned int gcolor, unsigned int acolor, unsigned int pcolor, unsigned int tcolor, unsigned int bcolor, unsigned int goalColor, boolean resize, int dec)
 {
   //double ydiv, xdiv;
   // initialize old x and old y in order to draw the first point of the graph
@@ -100,7 +102,8 @@ void redrawAxes(ILI9341_t3 & d, double gx, double gy, double w, double h, double
     //If the scale has changed the numbers must be redrawn
     if (resize)
     {
-      printTftValue(i, gx - 6, yAxis - 3, 1, 0);
+      if(dec == 0) printTftValue(i, gx - 6, yAxis - 3, 1, dec);
+      else if(dec > 0) printTftValue(i, gx - 6 - 5*(dec + 1), yAxis - 3, 1, dec);
     }
   }
 

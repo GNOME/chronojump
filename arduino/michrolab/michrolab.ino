@@ -426,7 +426,7 @@ void setup() {
   currentExerciseType = 0;
 
   tft.fillScreen(BLACK);
-
+  startEncoderCapture();
   drawMenuBackground();
   backMenu();
   showMenuEntry(currentMenuIndex);
@@ -1121,10 +1121,72 @@ void captureRaw()
   if (!capturingPreSteadiness) setNumber++;
 }
 
-void captureBars()
+void captureBars() {captureBars(false);}
+void captureBars(float fullScreen)
 {
   maxString = "V";
-  float graphRange = 10;
+  float graphRange = 5;
+  int currentSlot = 0;
+  String fileName = "P" + String(currentPerson) + "-S" + String(setNumber);
+
+  if (sensor == incEncoder) fileName = fileName + "-G";
+  else if (sensor == incRotEncoder) fileName = fileName + "-I";
+  else if (sensor == loadCellincEncoder) fileName = fileName + "-P";
+
+  fullFileName = "/" + dirName + "/" + fileName + ".txt";
+  dataFile = SD.open(fullFileName.c_str(), FILE_WRITE);
+
+  tft.fillScreen(BLACK);
+  
+  float h = 0;
+  if (fullScreen) h = 240;
+  else h = 200;
+  
+  if (!fullScreen)
+  {
+    //Info at the lower part of the screen
+    printTftText(maxString, 10, 215, WHITE, 2);
+    printTftText("max", 22, 223, WHITE, 1);
+    printTftText(":", 40, 215, WHITE, 2);
+    printTftValue(maxAvgVelocity, 94, 215, 2, 1);
+    updatePersonSet();
+  }
+
+  redrawAxes(tft, 30, h, 290, h, 290, h, 0, graphRange, graphRange / 10, "", "", "", WHITE, GREY, WHITE, WHITE, BLACK, RED, true, 1);
+
+  while (capturing)
+  {
+    getEncoderDynamics();
+    if (redrawBars)
+    {
+      currentSlot = (numRepetitions - 1) % 10;
+      redrawBars = false;
+      if(bars[currentSlot] > maxAvgVelocity)
+      {
+        if (!fullScreen) printTftValue(maxAvgVelocity, 94, 215, 2, 1, BLACK);
+        maxAvgVelocity = bars[currentSlot];
+        if (!fullScreen) printTftValue(maxAvgVelocity, 94, 215, 2, 1);
+      }
+      if (bars[currentSlot] > graphRange)
+      {
+        redrawAxes(tft, 30, h, 290, h, 290, h, 0, graphRange, graphRange / 10, "", "", "", WHITE, GREY, WHITE, WHITE, BLACK, RED, true, 1);
+        graphRange = bars[currentSlot] * 1.25;
+      }
+      redrawAxes(tft, 30, h, 290, h, 290, h, 0, graphRange, graphRange / 10, "", "", "", WHITE, GREY, WHITE, WHITE, BLACK, RED, true, 1);
+      barPlot(30, h, 290, h, graphRange, 10, currentSlot, 0.75, RED);
+    }
+    redButton.update();
+    if (redButton.fell())
+    {
+      endEncoderCapture();
+    }
+  }
+}
+
+void captureBarsFullScreen()
+{
+  maxString = "V";
+  float graphRange = 5;
   int currentSlot = 0;
   String fileName = "P" + String(currentPerson) + "-S" + String(setNumber);
 
@@ -1137,14 +1199,7 @@ void captureBars()
 
   tft.fillScreen(BLACK);
 
-  //Info at the lower part of the screen
-  printTftText(maxString, 10, 215, WHITE, 2);
-  printTftText("max", 22, 223, WHITE, 1);
-  printTftText(":", 40, 215, WHITE, 2);
-  printTftValue(maxAvgVelocity, 94, 215, 2, 1);
-  updatePersonSet();
-
-  redrawAxes(tft, 30, 200, 290, 200, 290, 200, 0, graphRange, graphRange / 10, "", "", "", WHITE, GREY, WHITE, WHITE, BLACK, RED, true);
+  redrawAxes(tft, 30, 240, 290, 240, 290, 240, 0, graphRange, graphRange / 10, "", "", "", WHITE, GREY, WHITE, WHITE, BLACK, RED, true, 1);
 
   while (capturing)
   {
@@ -1155,17 +1210,17 @@ void captureBars()
       redrawBars = false;
       if(bars[currentSlot] > maxAvgVelocity)
       {
-        printTftValue(maxAvgVelocity, 94, 215, 2, 1, BLACK);
+        //printTftValue(maxAvgVelocity, 94, 215, 2, 1, BLACK);
         maxAvgVelocity = bars[currentSlot];
-        printTftValue(maxAvgVelocity, 94, 215, 2, 1);
+        //printTftValue(maxAvgVelocity, 94, 215, 2, 1);
       }
       if (bars[currentSlot] > graphRange)
       {
-        redrawAxes(tft, 30, 200, 290, 200, 290, 200, 0, graphRange, graphRange / 10, "", "", "", WHITE, GREY, WHITE, WHITE, BLACK, RED, true);
+        redrawAxes(tft, 30, 240, 290, 240, 290, 240, 0, graphRange, graphRange / 10, "", "", "", WHITE, GREY, WHITE, WHITE, BLACK, RED, true, 1);
         graphRange = bars[currentSlot] * 1.25;
       }
-      redrawAxes(tft, 30, 200, 290, 200, 290, 200, 0, graphRange, graphRange / 10, "", "", "", WHITE, GREY, WHITE, WHITE, BLACK, RED, true);
-      barPlot(30, 200, 290, 200, graphRange, 10, currentSlot, 0.75, RED);
+      redrawAxes(tft, 30, 240, 290, 240, 290, 240, 0, graphRange, graphRange / 10, "", "", "", WHITE, GREY, WHITE, WHITE, BLACK, RED, true, 1);
+      barPlot(30, 240, 290, 240, graphRange, 10, currentSlot, 0.75, RED);
     }
     redButton.update();
     if (redButton.fell())
@@ -1222,6 +1277,7 @@ void getEncoderDynamics()
     //TODO: Calculate positoion depending on the parameters of the encoder/machine
     if (inertialMode) position = - abs(position);
     measured = (float)(position - lastEncoderPosition) * 1000 / (duration);
+    if(measured > measuredMax) measuredMax = measured;
     //measured = position;
     //    if(position != lastEncoderPosition) Serial.println(String(localMax) + "\t" + String(lastEncoderPosition) +
     //      "\t" + String(position) + "\t" + String(encoderPhase * (position - localMax)));
@@ -1264,12 +1320,12 @@ void getEncoderDynamics()
       bars[numRepetitions % 10] = abs(avgVelocity);
       redrawBars = true;
 
-      //      for(int i = 0; i<10; i++)
-      //      {
-      //        Serial.print(bars[ (numRepetitions%10 - i + 10) % 10]);
-      //        Serial.print("\t");
-      //      }
-      //      Serial.println();
+//      for(int i = 0; i<10; i++)
+//      {
+//        Serial.print(bars[ (numRepetitions%10 - i + 10) % 10]);
+//        Serial.print("\t");
+//      }
+//      Serial.println();
 
       numRepetitions++;
       if (avgVelocity > maxAvgVelocity)
@@ -1315,7 +1371,7 @@ void startEncoderCapture(void)
   selectValueDialog("Select the load you are\ngoing to move", "0,5,20,200", "0.5,1,5", 1);
   //captureRaw();
   encoderTimer.begin(saveEncoderSpeed, 1000);
-  captureBars();
+  captureBars(false);
 }
 
 void endEncoderCapture()

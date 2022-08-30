@@ -304,7 +304,7 @@ unsigned int setNumber = 0;
 unsigned int dirNumber;
 String dirName = "";
 String fileName = "";
-unsigned short group = 0;
+int group = 0;
 
 struct personType {
   unsigned int index;
@@ -402,8 +402,6 @@ void setup() {
   }
 
   EEPROM.get(groupAddress, group);
-  Serial.print("Group: ");
-  Serial.println(group);
   if (group == 65535) {
     group = 0;
     EEPROM.put(groupAddress, 0);
@@ -420,22 +418,13 @@ void setup() {
 #endif
 
   dirName = createNewDir();
-  totalPersons = getTotalPerson();
+  //totalPersons = getTotalPerson();
   readPersonsFile();
 
   //TODO: Read exercises only if necessary
   currentExerciseType = 0;
 
   tft.fillScreen(BLACK);
-
-  readExercisesFile(jumps);
-  printJumpTypesList();
-  addJump("14,Prova,,0,0,0,0,0,1");
-  printJumpTypesList();
-  saveJumpsList();
-  readExercisesFile(jumps);
-  printJumpTypesList();
-  
   drawMenuBackground();
   backMenu();
   showMenuEntry(currentMenuIndex);
@@ -521,7 +510,9 @@ void getLoadCellDynamics(void)
 }
 
 
-void printTftValue (float val, int x, int y, int fontSize, int decimal) {printTftValue (val, x, y, fontSize, decimal, WHITE);}
+void printTftValue (float val, int x, int y, int fontSize, int decimal) {
+  printTftValue (val, x, y, fontSize, decimal, WHITE);
+}
 void printTftValue (float val, int x, int y, int fontSize, int decimal, int color) {
 
   /*How many characters are to the left of the units number.
@@ -580,7 +571,7 @@ void printTftText(String text, int x, int y, unsigned int color, int fontSize, b
 void serialEvent() {
   String inputString = Serial.readString();
   String commandString = inputString.substring(0, inputString.lastIndexOf(":"));
-  String parameters = inputString.substring(commandString.indexOf(":") + 1);
+  String parameters = inputString.substring(inputString.lastIndexOf(":") + 1);
 
   if (commandString == "start_capture") {
     PcControlled = true;
@@ -612,11 +603,17 @@ void serialEvent() {
     */
   } else if (commandString == "addPerson") {
     addPerson(parameters);
+  } else if (commandString == "readPersonsFile") {
+    readPersonsFile();
   } else if (commandString == "getPersons") {
     printPersonsList();
   } else if (commandString == "savePersons") {
-    Serial.println("Going to savePersons...");
     savePersonsList();
+    Serial.println("Saved in GROUP" + String(group) + ".TXT");
+  } else if (commandString == "setGroup") {
+    setGroup(parameters);
+  } else if (commandString == "getGroup") {
+    Serial.println(group);
   } else if (commandString == "addJumpType") {
     addJump(parameters);
     Serial.println("Jump added");
@@ -624,8 +621,10 @@ void serialEvent() {
     printJumpTypesList();
   } else if (commandString == "saveJumpTypes") {
     saveJumpsList();
-//  } else if (commandString == "saveGravit") {
-//    saveGravitatory();
+  } else if (commandString == "deleteJumpTypes") {
+    deleteJumpTypes();
+    //  } else if (commandString == "saveGravit") {
+    //    saveGravitatory();
   } else {
     Serial.println("Not a valid command");
   }
@@ -1139,7 +1138,9 @@ void captureRaw()
   if (!capturingPreSteadiness) setNumber++;
 }
 
-void captureBars() {captureBars(false);}
+void captureBars() {
+  captureBars(false);
+}
 void captureBars(float fullScreen)
 {
   maxString = "V";
@@ -1151,18 +1152,18 @@ void captureBars(float fullScreen)
   else if (sensor == incRotEncoder) fileName = fileName + "-I";
   else if (sensor == loadCellincEncoder) fileName = fileName + "-P";
 
-  fullFileName = "/" + dirName + "/" + fileName + ".txt";
+  fullFileName = "/" + dirName + "/" + fileName + ".TXT";
   dataFile = SD.open(fullFileName.c_str(), FILE_WRITE);
   dataFile.println("Person:" + String(persons[currentPerson].index) + "," + persons[currentPerson].name + " " + persons[currentPerson].surname);
   dataFile.println("Exercise:" + String(gravTypes[currentExerciseType].id) + "," + gravTypes[currentExerciseType].name);
   dataFile.println("Load:" + String(load));
 
   tft.fillScreen(BLACK);
-  
+
   float h = 0;
   if (fullScreen) h = 240;
   else h = 200;
-  
+
   if (!fullScreen)
   {
     //Info at the lower part of the screen
@@ -1182,7 +1183,7 @@ void captureBars(float fullScreen)
     {
       currentSlot = (numRepetitions - 1) % 10;
       redrawBars = false;
-      if(bars[currentSlot] > maxAvgVelocity)
+      if (bars[currentSlot] > maxAvgVelocity)
       {
         if (!fullScreen) printTftValue(maxAvgVelocity, 94, 215, 2, 1, BLACK);
         maxAvgVelocity = bars[currentSlot];
@@ -1251,7 +1252,7 @@ void getEncoderDynamics()
     //TODO: Calculate positoion depending on the parameters of the encoder/machine
     if (inertialMode) position = - abs(position);
     measured = (float)(position - lastEncoderPosition) * 1000 / (duration);
-    if(measured > measuredMax) measuredMax = measured;
+    if (measured > measuredMax) measuredMax = measured;
     //measured = position;
     //    if(position != lastEncoderPosition) Serial.println(String(localMax) + "\t" + String(lastEncoderPosition) +
     //      "\t" + String(position) + "\t" + String(encoderPhase * (position - localMax)));
@@ -1293,7 +1294,7 @@ void getEncoderDynamics()
       avgVelocity = (float)(position - startPhasePosition) * 1000 / (lastMeasuredTime - startPhaseTime);
       bars[numRepetitions % 10] = abs(avgVelocity);
       redrawBars = true;
-      
+
       //printBarsValues();
 
       numRepetitions++;
@@ -1474,7 +1475,7 @@ void jumpsCapture()
   bool rowCreated = false;
 
   fileName = String("J") + "-S" + String(setNumber);
-  fullFileName = "/" + dirName + "/" + fileName + ".txt";
+  fullFileName = "/" + dirName + "/" + fileName + ".TXT";
   dataFile = SD.open(fullFileName.c_str(), FILE_WRITE);
 
   lastRcaState = !digitalRead(rcaPin);
@@ -1730,7 +1731,7 @@ void saveSD(String fileName)
     Serial.println("no sensor type");
     return;
   }
-  fullFileName = "/" + dirName + "/" + fileName + sensorString + ".txt";
+  fullFileName = "/" + dirName + "/" + fileName + sensorString + ".TXT";
   dataFile = SD.open(fullFileName.c_str(), FILE_WRITE);
   dataFile.println(String(lastSampleTime) + ";" + String(measured));
   dataFile.close();
@@ -1843,7 +1844,7 @@ void selectPerson()
 
 void saveSimpleJump(float lastPhaseTime)
 {
-  fullFileName = "/" + dirName + "/" + fileName + ".txt";
+  fullFileName = "/" + dirName + "/" + fileName + ".TXT";
   dataFile = SD.open(fullFileName.c_str(), FILE_WRITE);
   if ( !rcaState)
   {
@@ -1879,4 +1880,28 @@ void printBarsValues(int currentIndex)
     Serial.print("\t");
   }
   Serial.println();
+}
+
+void printDirectory(File dir, int numTabs)
+{
+  while (true) {
+    File entry =  dir.openNextFile();
+    if (! entry) {
+      // no more files
+      break;
+    }
+    for (uint8_t i = 0; i < numTabs; i++) {
+      Serial.print('\t');
+    }
+    Serial.print(entry.name());
+    if (entry.isDirectory()) {
+      Serial.println("/");
+      printDirectory(entry, numTabs + 1);
+    } else {
+      // files have sizes, directories do not
+      Serial.print("\t\t");
+      Serial.println(entry.size(), DEC);
+    }
+    entry.close();
+  }
 }

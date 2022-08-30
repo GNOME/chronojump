@@ -1,5 +1,6 @@
 void addJump(String row)
 {
+  currentExerciseType = totalJumpTypes;
   int prevComaIndex = row.indexOf(":");
   int nextComaIndex = row.indexOf(",");
   //currentExerciseType = row.substring(prevComaIndex + 1, nextComaIndex).toInt();
@@ -37,18 +38,20 @@ void addJump(String row)
 
   prevComaIndex = nextComaIndex;
   jumpTypes[currentExerciseType].startIn = (row.substring(prevComaIndex + 1, prevComaIndex + 2) == "1");
+  totalJumpTypes++;
+  Serial.println("totalJumpTypes: " + String(totalJumpTypes));
 }
 
 void saveJumpsList()
 {
-  SD.remove("jumpType.txt");
-  if( !SD.exists("jumpType.txt") ) Serial.println("File doesn't exists");
-  else Serial.println("File exists");
+  SD.remove("JUMPTYPE.TXT");
  
-  File jumpFile = SD.open("jumpType.txt", FILE_WRITE);
+  File jumpFile = SD.open("JUMPTYPE.TXT", FILE_WRITE);
 
+//  if(jumpFile) Serial.println("File created");
+//  else Serial.println("Error creating file");
 
-  for (int i = 0; i < totalJumps; i++)
+  for (unsigned int i = 0; i < totalJumpTypes; i++)
   {
     jumpFile.print(jumpTypes[i].id);
     jumpFile.print("," + String(jumpTypes[i].name));
@@ -61,8 +64,22 @@ void saveJumpsList()
   }
   jumpFile.flush();
   jumpFile.close();
-  
-  Serial.println("Jump types saved in jumpType.txt");
+}
+
+void deleteJumpTypes()
+{
+  totalJumpTypes = 0;
+//  for (int i = 0; i < totalJumpTypes; i++)
+//  {
+//    jumpTypes[i].id = 0;
+//    jumpTypes[i].name = "";
+//    jumpTypes[i].jumpLimit = 0;
+//    jumpTypes[i].timeLimit = 0;
+//    jumpTypes[i].hardTimeLimit = false;
+//    jumpTypes[i].percentBodyWeight = 0.0;
+//    jumpTypes[i].fall = 0.0;
+//    jumpTypes[i].startIn = true;
+//  }
 }
 
 void addGravitatory(String row)
@@ -102,11 +119,11 @@ void readExercisesFile(exerciseType mode)
 
   if (mode == jumps) {
     //Serial.println("J");
-    file = "jumpType.txt";
+    file = "JUMPTYPE.TXT";
   }
   else if (mode == gravitatory) {
     //Serial.println("G");
-    file = "gravType.txt";
+    file = "GRAVTYPE.TXT";
   }
 
   File  exercisesFile = SD.open(file);

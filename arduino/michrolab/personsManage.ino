@@ -1,7 +1,12 @@
 void savePersonsList()
 {
-  SD.remove("persons.txt");
-  File personsFile = SD.open("persons.txt");
+  SD.remove("GROUP" + String(group) + ".TXT");
+  File personsFile = SD.open("GROUP" + String(group) + ".TXT", FILE_WRITE);
+
+  if(personsFile) Serial.println("File created");
+  else Serial.println("Error creating file");
+
+  Serial.println("totalPersons:" + String(totalPersons));
   for (unsigned int i = 0; i < totalPersons; i++)
   {
     personsFile.print(persons[i].index);
@@ -10,11 +15,15 @@ void savePersonsList()
     personsFile.print(",");
     personsFile.println(persons[i].heigh);
   }
+  personsFile.flush();
   personsFile.close();
+  File root = SD.open("/");
+  printDirectory(root, 4);
 }
 
 void printPersonsList()
 {
+  Serial.println("Current group:" + String(group));
   for (unsigned int i = 0; i < totalPersons; i++)
   {
     Serial.print(persons[i].index);
@@ -25,100 +34,84 @@ void printPersonsList()
   }
 }
 
+void deletePersonsList()
+{
+  totalPersons = 0;
+}
+
+//TODO: Check the the id is unique
 void addPerson(String row)
 {
   int prevComaIndex = row.indexOf(":");
   int nextComaIndex = row.indexOf(",");
-  currentPerson = row.substring(prevComaIndex + 1, nextComaIndex).toInt();
-  persons[currentPerson].index = currentPerson;
-
-  if (currentPerson >= totalPersons) totalPersons = currentPerson + 1;
-  prevComaIndex = nextComaIndex;
-  nextComaIndex = row.indexOf(",", prevComaIndex + 1 );
-  persons[currentPerson].name = row.substring(prevComaIndex + 1 , nextComaIndex);
-  prevComaIndex = nextComaIndex;
-  nextComaIndex = row.indexOf(",", prevComaIndex + 1 );
-  persons[currentPerson].surname = row.substring(prevComaIndex + 1 , nextComaIndex);
+  
+  persons[totalPersons].index = row.substring(prevComaIndex + 1, nextComaIndex).toInt();
 
   prevComaIndex = nextComaIndex;
   nextComaIndex = row.indexOf(",", prevComaIndex + 1 );
-  persons[currentPerson].weight = row.substring(prevComaIndex + 1 , nextComaIndex).toFloat();
+  persons[totalPersons].name = row.substring(prevComaIndex + 1 , nextComaIndex);
+  prevComaIndex = nextComaIndex;
+  nextComaIndex = row.indexOf(",", prevComaIndex + 1 );
+  persons[totalPersons].surname = row.substring(prevComaIndex + 1 , nextComaIndex);
 
   prevComaIndex = nextComaIndex;
   nextComaIndex = row.indexOf(",", prevComaIndex + 1 );
-  persons[currentPerson].heigh = row.substring(prevComaIndex + 1 , nextComaIndex).toFloat();
+  persons[totalPersons].heigh = row.substring(prevComaIndex + 1 , nextComaIndex).toFloat();
+
+  prevComaIndex = nextComaIndex;
+  nextComaIndex = row.indexOf(",", prevComaIndex + 1 );
+  persons[totalPersons].weight = row.substring(prevComaIndex + 1 , nextComaIndex).toFloat();
+
+  totalPersons++;
 }
 
 //void readPersonsFile(struct personType * persons)
 void readPersonsFile()
 {
   /*
-     Ecample of persons.txt format
+    Example of persons file format
     0,Blancaneus,160, 65,
     1,Pulgarcito,16, 6,
     3,Tres porquets,50, 20,
   */
   String row = "";
   char readChar;
-  String filename = "group" + String(group) + ".txt";
-  File  personsFile = SD.open(filename.c_str());
+  String rowString = "";
+  unsigned long pos = 0;    //Position in the file
+  String fileName = "GROUP" + String(group) + ".TXT";
+  File  personsFile = SD.open(fileName.c_str());
   if (personsFile)
   {
     currentPerson = 0;
     personsFile.seek(0);
+    totalPersons = 0;
 
     // read from the file until there's nothing else in it:
-    while (currentPerson < totalPersons)
+    while ( pos <= personsFile.size() )
     {
-      readChar = personsFile.read();
-      if (readChar != '\n' && readChar != '\r')
+      readChar = '0';
+      rowString = "";
+
+      //Reading the new row
+      while (readChar != '\n' && readChar != '\r' && pos <= personsFile.size())
       {
-        row = row + readChar;
-      } else if (readChar == '\n' || readChar == '\r')
+        readChar = personsFile.read();
+        rowString = rowString + readChar;
+        pos++;
+      }
+
+      if ( isDigit(rowString[0]) )
       {
-        addPerson(row);
-        row = "";
-        currentPerson++;
+        addPerson(rowString);
       }
     }
     // close the file:
     personsFile.close();
   } else {
     // if the file didn't open, print an error:
-    Serial.println("error opening " + filename);
+    Serial.println("error opening " + fileName);
   }
   currentPerson = 0;
-}
-
-unsigned int getTotalPerson()
-{
-  char readChar;
-  String readString = "";
-  String filename = "group" + String(group) + ".txt";
-  File  personsFile = SD.open(filename.c_str());
-  if (personsFile)
-  {
-    //Start reading from the last byte
-    unsigned long pos = personsFile.size() - 4;
-
-    //Reading the person number of the last row
-    while (readChar != '\n' && readChar != '\r')
-    {
-      personsFile.seek(pos);
-      readChar = personsFile.peek();
-      pos--;
-    }
-    pos++;
-    personsFile.seek(pos);
-    readChar = personsFile.read();
-    while (readChar != ',')
-    {
-      readChar = personsFile.read();
-      readString = readString + readChar;
-    }
-  }
-  totalPersons = readString.toInt() + 1;
-  return (totalPersons);
 }
 
 void updatePersonSet()
@@ -152,11 +145,12 @@ void updatePersonJump(int totalJumps)
   printTftText(persons[currentPerson].name + " " + persons[currentPerson].surname, 141, 223, WHITE, 1);
   tft.setTextSize(2);
 }
+
 void selectGroup()
 {
   group = selectValueDialog("Select the group number", "0,9", "1", 0);
   EEPROM.put(groupAddress, group);
-  totalPersons = getTotalPerson();
+  //totalPersons = getTotalPerson();
   readPersonsFile();
   dirNumber -= 1; //It makes not to increase the session number
   dirName = createNewDir();
@@ -215,4 +209,11 @@ void showPersonList(unsigned int color)
   tft.fillRoundRect(0, midYPos -1 ,320, 25, 5, RED);
   printTftText((persons[currentPerson].name + " " + persons[currentPerson].surname).substring(0, 17),
                xPos, midYPos, color, 3);
+}
+
+void setGroup(String parameters)
+{
+  group = parameters.substring(0, parameters.lastIndexOf(";")).toInt();
+  EEPROM.put(groupAddress, group);
+  Serial.println("Group:" + String(group));
 }

@@ -142,13 +142,13 @@ void redrawAxes(ILI9341_t3 & d, double gx, double gy, double w, double h, double
 //Plot a set of bars stored in bars[]
 void barPlot (float gx, float gy, float w, float h, float yhi, int numBars, int currentIndex, float abRatio, unsigned int color);
 
-//Read the jumType.txt file and assign each row to a jumpTypes[] element
+//Read the JUMPTYPE.TXT file and assign each row to a jumpTypes[] element
 void readJumpsFile();
 
-//Assign a jumpType to a jumpTypes[] element. The input String is of the same format as in the jumpType.txt
+//Assign a jumpType to a jumpTypes[] element. The input String is of the same format as in the JUMPTYPE.TXT
 void addJump(String row);
 
-//Read how many rows has the jumpTypes.txt
+//Read how many rows has the JUMPTYPE.TXT
 void gettotalJumpTypes();
 
 //Print in the Serial a list of all jump types

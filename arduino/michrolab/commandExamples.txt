@@ -1,0 +1,52 @@
+#Examples of serial port commands
+# [command]:  or [command]:[parameters];
+## Generic ##
+
+get_version:                                //Gets the version of the firmware.
+
+## Persons management ##
+
+getGroup:9;                                 //Shows the current group. Up to 10 groups (0 to 9)
+setGroup:                                   //Sets the current group.
+
+#addPerson:id,name,surname,heigh,weight;
+addPerson:16,mona,Chita,160,65               //Adds a person to the persons list in memory. Not saved to SD.
+addPerson:17,Peter,Pan,160,65;
+addPerson:18,Marieta,de l'ull viu,160,65;
+addPerson:19,Reis,d'orient,160,65;
+getPersons                                  //Shows the list of the persons of this group.
+savePersons                                 //Copies the list of persons from memory to the SD.
+deletePersons                               //Deletes from merory the persons list.
+
+## Jumps ##
+
+deleteJumpTypes:                            //Deletes the jump types in memory. It doesn't delete from SD
+
+#addJumpType:id,name,jumpLimit,timeLimit,hardLimnit,bodyWeightPercent,fall,startIn;
+addJumpType:24,RJ(5j),5,0,0,0,0,0;          //Adds a jump type to the memory. It doesn't delete from SD
+addJumpType:32,RJ(5ss),0,5,0,0,0,1;
+addJumpType:39,RJ(5sh),0,5,1,0,0,1;
+addJumpType:1,Free,1,0,0,0,0,1;
+addJumpType:2,SJ,1,0,0,0,0,1;
+addJumpType:3,SJl100,1,0,0,100,0,1;
+addJumpType:4,CMJ,1,0,0,0,0,1;
+addJumpType:5,CMJl,1,0,0,100,0,1;
+addJumpType:6,slCMJleft,1,0,0,0,0,1;
+addJumpType:7,slCMJright,1,0,0,0,0,1;
+addJumpType:8,ABK,1,0,0,0,0,1;
+addJumpType:10,DJa,1,0,0,0,0,0;
+
+getJumpTypes:                               //Shows the list of all jump types in memory
+saveJumpTypes:                              //Copy all the jump types from memory to the SD
+
+## Force sensosr ##
+
+start_capture:                              //Starts the acquiring process
+end_capture:                                //Ends the acquiring process
+get_calibration_factor:                     //Shows the factor to convert voltage 10 bits reading (0-1024) to force (Newton)
+set_calibration_factor:                     //Sets the factor to convert voltage 10 bits reading (0-1024) to force (Newton)
+calibrate:32;                               //Starts the process to calculate the calibration factor with the load in kg
+get_tare:                                   //Shows the voltage reading that corresponds to the null force
+set_tare:                                   //Sets the voltage reading that corresponds to the null force
+tare:                                       //Starts the process to calculate the voltage reading corresponding to the null force
+get_transmission_format:                    //Shows how the information is transmitted (binary or text)

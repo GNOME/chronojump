@@ -1884,17 +1884,25 @@ public class Util
 
 		
 	//do this for showing the Limited with selected decimals and without loosing the end letter: 'J' or 'T'
-	//called by treeview_jump, treeview_run and gui/jump_edit and gui/run_edit?
-	public static string GetLimitedRounded(string limitedString, int pDN)
+	//called by treeview_jump, treeview_run and gui/jump_edit and gui/run_edit
+	public static string GetLimitedRounded (string limitedString, int pDN)
 	{
 		LogB.Information("GetLimitedRounded limitedString pdN");
 		LogB.Information(limitedString);
 		LogB.Information(pDN.ToString());
 
 		string myLimitedWithoutLetter = limitedString.Substring(0, limitedString.Length -1);
+
 		string myLimitedLetter = limitedString.Substring(limitedString.Length -1, 1);
 
-		return TrimDecimals(myLimitedWithoutLetter, pDN) + myLimitedLetter;
+		//without the letter, use jumps, tracks or seconds
+		string myLimiter = " " + Constants.jumpsTranslatedStr (); //("J")
+		if (myLimitedLetter == "R")
+			myLimiter = " " + Constants.tracksTranslatedStr ();
+		if (myLimitedLetter == "T")
+			myLimiter = " s";
+
+		return TrimDecimals(myLimitedWithoutLetter, pDN) + myLimiter;
 	}
 
 	public static string [] AddToArrayString (string [] initialString, List<string> add_l)

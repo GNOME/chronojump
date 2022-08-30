@@ -513,11 +513,13 @@ public class EditRunIntervalWindow : EditRunWindow
 		}
 
 		if (distancesString != "")
+		{
 			entry_distance_value.Text = RunType.DistancesStringAsMeters (distancesString);
-		else {
+			label_distance_units.Hide ();
+		} else {
 			//2 on the rest of tests show interval x times
-			entry_distance_value.Text = myRun.DistanceInterval.ToString() +
-				"x" + myRun.Limited;
+			entry_distance_value.Text = myRun.DistanceInterval.ToString();
+			label_distance_units.Show ();
 		}
 
 		entry_distance_value.Sensitive = false;

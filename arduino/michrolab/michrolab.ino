@@ -427,7 +427,15 @@ void setup() {
   currentExerciseType = 0;
 
   tft.fillScreen(BLACK);
-  startEncoderCapture();
+
+  readExercisesFile(jumps);
+  printJumpTypesList();
+  addJump("14,Prova,,0,0,0,0,0,1");
+  printJumpTypesList();
+  saveJumpsList();
+  readExercisesFile(jumps);
+  printJumpTypesList();
+  
   drawMenuBackground();
   backMenu();
   showMenuEntry(currentMenuIndex);
@@ -572,7 +580,7 @@ void printTftText(String text, int x, int y, unsigned int color, int fontSize, b
 void serialEvent() {
   String inputString = Serial.readString();
   String commandString = inputString.substring(0, inputString.lastIndexOf(":"));
-
+  String parameters = inputString.substring(commandString.indexOf(":") + 1);
 
   if (commandString == "start_capture") {
     PcControlled = true;
@@ -603,12 +611,21 @@ void serialEvent() {
       //    listenSyncSignal();
     */
   } else if (commandString == "addPerson") {
-    addPerson(inputString.substring(commandString.indexOf(":") + 1));
-  } else if (commandString == "getPersonsList") {
+    addPerson(parameters);
+  } else if (commandString == "getPersons") {
     printPersonsList();
-  } else if (commandString == "savePersonsList") {
+  } else if (commandString == "savePersons") {
     Serial.println("Going to savePersons...");
     savePersonsList();
+  } else if (commandString == "addJumpType") {
+    addJump(parameters);
+    Serial.println("Jump added");
+  } else if (commandString == "getJumpTypes") {
+    printJumpTypesList();
+  } else if (commandString == "saveJumpTypes") {
+    saveJumpsList();
+//  } else if (commandString == "saveGravit") {
+//    saveGravitatory();
   } else {
     Serial.println("Not a valid command");
   }
@@ -1187,53 +1204,6 @@ void captureBars(float fullScreen)
   }
 }
 
-void captureBarsFullScreen()
-{
-  maxString = "V";
-  float graphRange = 5;
-  int currentSlot = 0;
-  String fileName = "P" + String(currentPerson) + "-S" + String(setNumber);
-
-  if (sensor == incEncoder) fileName = fileName + "-G";
-  else if (sensor == incRotEncoder) fileName = fileName + "-I";
-  else if (sensor == loadCellincEncoder) fileName = fileName + "-P";
-
-  fullFileName = "/" + dirName + "/" + fileName + ".txt";
-  dataFile = SD.open(fullFileName.c_str(), FILE_WRITE);
-
-  tft.fillScreen(BLACK);
-
-  redrawAxes(tft, 30, 240, 290, 240, 290, 240, 0, graphRange, graphRange / 10, "", "", "", WHITE, GREY, WHITE, WHITE, BLACK, RED, true, 1);
-
-  while (capturing)
-  {
-    getEncoderDynamics();
-    if (redrawBars)
-    {
-      currentSlot = (numRepetitions - 1) % 10;
-      redrawBars = false;
-      if(bars[currentSlot] > maxAvgVelocity)
-      {
-        //printTftValue(maxAvgVelocity, 94, 215, 2, 1, BLACK);
-        maxAvgVelocity = bars[currentSlot];
-        //printTftValue(maxAvgVelocity, 94, 215, 2, 1);
-      }
-      if (bars[currentSlot] > graphRange)
-      {
-        redrawAxes(tft, 30, 240, 290, 240, 290, 240, 0, graphRange, graphRange / 10, "", "", "", WHITE, GREY, WHITE, WHITE, BLACK, RED, true, 1);
-        graphRange = bars[currentSlot] * 1.25;
-      }
-      redrawAxes(tft, 30, 240, 290, 240, 290, 240, 0, graphRange, graphRange / 10, "", "", "", WHITE, GREY, WHITE, WHITE, BLACK, RED, true, 1);
-      barPlot(30, 240, 290, 240, graphRange, 10, currentSlot, 0.75, RED);
-    }
-    redButton.update();
-    if (redButton.fell())
-    {
-      endEncoderCapture();
-    }
-  }
-}
-
 //text mode
 void saveEncoderSpeed()
 {
@@ -1579,10 +1549,8 @@ void jumpsCapture()
             Serial.print("R");
             tft.fillRect(30, 0, 290, 200, BLACK);
             bars[index] = 122.6 * lastPhaseTime * lastPhaseTime; //In cm
-            tft.setTextColor(BLACK);
             //We always add 10 to index to avoid the negative number in (index - 1) when index is 0
-            printTftValue(bars[(index + 10 - 1) % 10], 58, 215, 2, 2);
-            tft.setTextColor(WHITE);
+            printTftValue(bars[(index + 10 - 1) % 10], 58, 215, 2, 2, BLACK);
             printTftValue(bars[index], 58, 215, 2, 2);
             //Check if a new best jump is performed
             if (bars[index] > maxJump)
@@ -1615,7 +1583,7 @@ void jumpsCapture()
             dataFile.print("r");
             Serial.print("r");
           }
-          //Waiting first phase. TODO: Make it sensible to startIn parameter
+          //Waiting first phase.
         } else if (waitingFirstPhase && capturing) {
           //          Serial.print("#");
           //          if (rcaState) Serial.print("IN");

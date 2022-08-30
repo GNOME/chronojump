@@ -39,6 +39,32 @@ void addJump(String row)
   jumpTypes[currentExerciseType].startIn = (row.substring(prevComaIndex + 1, prevComaIndex + 2) == "1");
 }
 
+void saveJumpsList()
+{
+  SD.remove("jumpType.txt");
+  if( !SD.exists("jumpType.txt") ) Serial.println("File doesn't exists");
+  else Serial.println("File exists");
+ 
+  File jumpFile = SD.open("jumpType.txt", FILE_WRITE);
+
+
+  for (int i = 0; i < totalJumps; i++)
+  {
+    jumpFile.print(jumpTypes[i].id);
+    jumpFile.print("," + String(jumpTypes[i].name));
+    jumpFile.print("," + String(jumpTypes[i].jumpLimit));
+    jumpFile.print("," + String(jumpTypes[i].timeLimit));
+    jumpFile.print("," + String(jumpTypes[i].hardTimeLimit));
+    jumpFile.print("," + String(jumpTypes[i].percentBodyWeight));
+    jumpFile.print("," + String(jumpTypes[i].fall));
+    jumpFile.println("," + String(jumpTypes[i].startIn));
+  }
+  jumpFile.flush();
+  jumpFile.close();
+  
+  Serial.println("Jump types saved in jumpType.txt");
+}
+
 void addGravitatory(String row)
 {
   int prevComaIndex = row.indexOf(":");
@@ -123,7 +149,7 @@ void readExercisesFile(exerciseType mode)
 void printJumpTypesList()
 {
   Serial.println("id, name, jumpLimit,timeLimit, hardTimeLimit, percentBodyWeight, fall, startIn");
-  for (unsigned int i = 0; i < totalGravTypes; i++)
+  for (unsigned int i = 0; i < totalJumpTypes; i++)
   {
     Serial.print(jumpTypes[i].id);
     Serial.print("," + jumpTypes[i].name + ", ");

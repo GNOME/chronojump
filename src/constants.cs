@@ -559,6 +559,14 @@ public class Constants
 		return Catalog.GetString("Races: Intervallic");
 	}
 
+	public static string jumpsTranslatedStr ()
+	{
+		return Catalog.GetString ("jumps");
+	}
+	public static string tracksTranslatedStr ()
+	{
+		return Catalog.GetString ("tracks");
+	}
 
 	//strings
 	public static string AllJumpsNameStr()

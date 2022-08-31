@@ -595,12 +595,6 @@ void serialEvent() {
     tare();
   } else if (commandString == "get_transmission_format") {
     get_transmission_format();
-    /* Commented due to memory optimization
-      //  } else if (commandString == "send_sync_signal") {
-      //    sendSyncSignal();
-      //  } else if (commandString == "listen_sync_signal") {
-      //    listenSyncSignal();
-    */
   } else if (commandString == "addPerson") {
     addPerson(parameters);
   } else if (commandString == "readPersonsFile") {
@@ -616,15 +610,24 @@ void serialEvent() {
     Serial.println(group);
   } else if (commandString == "addJumpType") {
     addJump(parameters);
-    Serial.println("Jump added");
+    //Serial.println("Jump added");
   } else if (commandString == "getJumpTypes") {
     printJumpTypesList();
   } else if (commandString == "saveJumpTypes") {
     saveJumpsList();
   } else if (commandString == "deleteJumpTypes") {
-    deleteJumpTypes();
-    //  } else if (commandString == "saveGravit") {
-    //    saveGravitatory();
+    totalJumpTypes = 0;
+  } else if (commandString == "readExercisesFile") {
+    readExercisesFile(parameters);
+  } else if (commandString == "getGravitatoryTypes") {
+    printGravTypesList();
+  } else if (commandString == "addGravitatoryType") {
+    addGravitatory(parameters);
+    //Serial.println("Gravitatory added");  
+  } else if (commandString == "deleteGravitatoryTypes") {
+    totalGravTypes = 0;
+  } else if (commandString == "saveGravitatoryTypes") {
+    saveGravitatoryList();
   } else {
     Serial.println("Not a valid command");
   }

@@ -1,45 +1,44 @@
 void addJump(String row)
 {
-  currentExerciseType = totalJumpTypes;
   int prevComaIndex = row.indexOf(":");
   int nextComaIndex = row.indexOf(",");
-  //currentExerciseType = row.substring(prevComaIndex + 1, nextComaIndex).toInt();
-  jumpTypes[currentExerciseType].id = row.substring(prevComaIndex + 1, nextComaIndex).toInt();
+  //totalJumpTypes = row.substring(prevComaIndex + 1, nextComaIndex).toInt();
+  jumpTypes[totalJumpTypes].id = row.substring(prevComaIndex + 1, nextComaIndex).toInt();
 
   prevComaIndex = nextComaIndex;
   nextComaIndex = row.indexOf(",", prevComaIndex + 1 );
-  jumpTypes[currentExerciseType].name = row.substring(prevComaIndex + 1 , nextComaIndex);
-  prevComaIndex = nextComaIndex;
-
-  prevComaIndex = nextComaIndex;
-  nextComaIndex = row.indexOf(",", prevComaIndex + 1 );
-  jumpTypes[currentExerciseType].jumpLimit = row.substring(prevComaIndex + 1, nextComaIndex).toInt();
+  jumpTypes[totalJumpTypes].name = row.substring(prevComaIndex + 1 , nextComaIndex);
   prevComaIndex = nextComaIndex;
 
   prevComaIndex = nextComaIndex;
   nextComaIndex = row.indexOf(",", prevComaIndex + 1 );
-  jumpTypes[currentExerciseType].timeLimit = row.substring(prevComaIndex + 1, nextComaIndex).toFloat();
+  jumpTypes[totalJumpTypes].jumpLimit = row.substring(prevComaIndex + 1, nextComaIndex).toInt();
   prevComaIndex = nextComaIndex;
 
   prevComaIndex = nextComaIndex;
   nextComaIndex = row.indexOf(",", prevComaIndex + 1 );
-  jumpTypes[currentExerciseType].hardTimeLimit = (row.substring(prevComaIndex + 1 , nextComaIndex) == 1);
+  jumpTypes[totalJumpTypes].timeLimit = row.substring(prevComaIndex + 1, nextComaIndex).toFloat();
   prevComaIndex = nextComaIndex;
 
   prevComaIndex = nextComaIndex;
   nextComaIndex = row.indexOf(",", prevComaIndex + 1 );
-  jumpTypes[currentExerciseType].percentBodyWeight = row.substring(prevComaIndex + 1 , nextComaIndex).toFloat();
+  jumpTypes[totalJumpTypes].hardTimeLimit = (row.substring(prevComaIndex + 1 , nextComaIndex) == 1);
   prevComaIndex = nextComaIndex;
 
   prevComaIndex = nextComaIndex;
   nextComaIndex = row.indexOf(",", prevComaIndex + 1 );
-  jumpTypes[currentExerciseType].fall = row.substring(prevComaIndex + 1, nextComaIndex).toFloat();
+  jumpTypes[totalJumpTypes].percentBodyWeight = row.substring(prevComaIndex + 1 , nextComaIndex).toFloat();
   prevComaIndex = nextComaIndex;
 
   prevComaIndex = nextComaIndex;
-  jumpTypes[currentExerciseType].startIn = (row.substring(prevComaIndex + 1, prevComaIndex + 2) == "1");
+  nextComaIndex = row.indexOf(",", prevComaIndex + 1 );
+  jumpTypes[totalJumpTypes].fall = row.substring(prevComaIndex + 1, nextComaIndex).toFloat();
+  prevComaIndex = nextComaIndex;
+
+  prevComaIndex = nextComaIndex;
+  jumpTypes[totalJumpTypes].startIn = (row.substring(prevComaIndex + 1, prevComaIndex + 2) == "1");
   totalJumpTypes++;
-  Serial.println("totalJumpTypes: " + String(totalJumpTypes));
+  //Serial.println("totalJumpTypes: " + String(totalJumpTypes));
 }
 
 void saveJumpsList()
@@ -62,53 +61,65 @@ void saveJumpsList()
     jumpFile.print("," + String(jumpTypes[i].fall));
     jumpFile.println("," + String(jumpTypes[i].startIn));
   }
-  jumpFile.flush();
   jumpFile.close();
-}
-
-void deleteJumpTypes()
-{
-  totalJumpTypes = 0;
-//  for (int i = 0; i < totalJumpTypes; i++)
-//  {
-//    jumpTypes[i].id = 0;
-//    jumpTypes[i].name = "";
-//    jumpTypes[i].jumpLimit = 0;
-//    jumpTypes[i].timeLimit = 0;
-//    jumpTypes[i].hardTimeLimit = false;
-//    jumpTypes[i].percentBodyWeight = 0.0;
-//    jumpTypes[i].fall = 0.0;
-//    jumpTypes[i].startIn = true;
-//  }
+  Serial.println("Saved " + String(totalJumpTypes) + " to JUMPTYPE.TXT");
 }
 
 void addGravitatory(String row)
 {
   int prevComaIndex = row.indexOf(":");
   int nextComaIndex = row.indexOf(",");
-  //currentExerciseType = row.substring(prevComaIndex + 1, nextComaIndex).toInt();
-  gravTypes[currentExerciseType].id = row.substring(prevComaIndex + 1, nextComaIndex).toInt();
+  //totalGravTypes = row.substring(prevComaIndex + 1, nextComaIndex).toInt();
+  gravTypes[totalGravTypes].id = row.substring(prevComaIndex + 1, nextComaIndex).toInt();
 
   prevComaIndex = nextComaIndex;
   nextComaIndex = row.indexOf(",", prevComaIndex + 1 );
-  gravTypes[currentExerciseType].name = row.substring(prevComaIndex + 1 , nextComaIndex);
-  prevComaIndex = nextComaIndex;
-
-  prevComaIndex = nextComaIndex;
-  nextComaIndex = row.indexOf(",", prevComaIndex + 1 );
-  gravTypes[currentExerciseType].description = row.substring(prevComaIndex + 1, nextComaIndex);
+  gravTypes[totalGravTypes].name = row.substring(prevComaIndex + 1 , nextComaIndex);
   prevComaIndex = nextComaIndex;
 
   prevComaIndex = nextComaIndex;
   nextComaIndex = row.indexOf(",", prevComaIndex + 1 );
-  gravTypes[currentExerciseType].percentBodyWeight = row.substring(prevComaIndex + 1 , nextComaIndex).toFloat();
+  gravTypes[totalGravTypes].description = row.substring(prevComaIndex + 1, nextComaIndex);
   prevComaIndex = nextComaIndex;
 
   prevComaIndex = nextComaIndex;
   nextComaIndex = row.indexOf(",", prevComaIndex + 1 );
-  gravTypes[currentExerciseType].speed1Rm = row.substring(prevComaIndex + 1, nextComaIndex).toFloat();
+  gravTypes[totalGravTypes].percentBodyWeight = row.substring(prevComaIndex + 1 , nextComaIndex).toFloat();
+  prevComaIndex = nextComaIndex;
+
+  prevComaIndex = nextComaIndex;
+  nextComaIndex = row.indexOf(",", prevComaIndex + 1 );
+  gravTypes[totalGravTypes].speed1Rm = row.substring(prevComaIndex + 1, nextComaIndex).toFloat();
+  totalGravTypes++;
 }
 
+void saveGravitatoryList()
+{
+  SD.remove("GRAVTYPE.TXT");
+ 
+  File gravFile = SD.open("GRAVTYPE.TXT", FILE_WRITE);
+
+//  if(gravFile) Serial.println("File created");
+//  else Serial.println("Error creating file");
+
+  for (unsigned int i = 0; i < totalGravTypes; i++)
+  {
+    gravFile.print(jumpTypes[i].id);
+    gravFile.print("," + String(gravTypes[i].name));
+    gravFile.print("," + gravTypes[i].description );
+    gravFile.print("," + String(gravTypes[i].percentBodyWeight));
+    gravFile.println("," + String(gravTypes[i].speed1Rm));
+  }
+  gravFile.close();
+  Serial.println("Saved " + String(totalGravTypes) + " to GRAVTYPE.TXT");
+}
+
+void readExercisesFile(String parameters){
+  parameters = parameters.substring(0, parameters.lastIndexOf(";"));
+  if ( parameters == "jumps" ) readExercisesFile(jumps);
+  else if ( parameters == "gravitatory" ) readExercisesFile(gravitatory);
+  else Serial.print("Not a valid parameter");
+}
 void readExercisesFile(exerciseType mode)
 {
   char readChar;
@@ -159,6 +170,7 @@ void readExercisesFile(exerciseType mode)
         }
       }
     }
+    Serial.println("Total:" + String(numRows));
   }
   exercisesFile.close();
 }
@@ -176,15 +188,13 @@ void printJumpTypesList()
     else Serial.print("No, ");
     Serial.print(String( jumpTypes[i].percentBodyWeight , 2) + "%, ");
     Serial.print(String( jumpTypes[i].fall , 2) + "cm, ");
-    if(jumpTypes[i].startIn) Serial.println("Yes, ");
-    else Serial.println("No, ");
+    if(jumpTypes[i].startIn) Serial.println("Yes");
+    else Serial.println("No");
   }
 }
 
 void printGravTypesList()
 {
-  Serial.println();
-  Serial.println("totalGravTypes: " + String(totalGravTypes) );
   Serial.println("id, name, description, percentBodyWeight, speed1RM");
   for (unsigned int i = 0; i < totalGravTypes; i++)
   {
@@ -192,6 +202,6 @@ void printGravTypesList()
     Serial.print(gravTypes[i].name + ", ");
     Serial.print(gravTypes[i].description + ", ");
     Serial.print(String( gravTypes[i].percentBodyWeight , 2) + "%, ");
-    Serial.println(String( gravTypes[i].speed1Rm , 2) + "m/s, ");
+    Serial.println(String( gravTypes[i].speed1Rm , 2) + "m/s");
   }
 }

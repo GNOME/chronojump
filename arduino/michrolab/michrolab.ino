@@ -30,6 +30,9 @@
 // If you have this library in your Arduino/libraries delete it
 // To check the library used go to preferences -> Detailed output for compilation
 #include "ILI9341_t3.h"
+
+// ¡¡¡Atention, HX711 library of the arduino library manager has some issues with teensy.
+// Use the code from https://github.com/bogde/HX711
 #include "HX711.h"
 #include "Bounce2.h"
 #include "Encoder.h"
@@ -78,7 +81,8 @@ int groupAddress = 12;
 #define DOUT  2
 #define CLK  3
 
-HX711 scale(DOUT, CLK);
+//HX711 scale(DOUT, CLK);
+HX711 scale;
 
 //Data comming from the cell after resting the offset weight
 float offsetted_data = 0;
@@ -375,6 +379,7 @@ void setup() {
   pinMode(rcaPin, INPUT_PULLUP);
   attachInterrupt(rcaPin, changedRCA, CHANGE);
 
+  scale.begin(DOUT, CLK);
   EEPROM.get(tareAddress, tareValue);
   //If the arduino has not been tared the default value in the EEPROM is -151.
   //TODO: Check that it is stil true in the current models
@@ -395,6 +400,8 @@ void setup() {
   } else {
     scale.set_scale(calibration_factor);
   }
+
+  scale.power_down();
 
   EEPROM.get(forceGoalAddress, forceGoal);
   if (isnan(forceGoal)) {
@@ -447,7 +454,8 @@ void loop()
 void getLoadCellDynamics(void)
 {
   measured = scale.get_units();
-
+  lastMeasuredTime = totalTime;
+  Serial.println(String(lastMeasuredTime) + ";" + String(measured));
   //When current Force Slot is equal to size of the buffer it starts over to 0
   currentFSlot = (currentFSlot + 1) % freq;
   //wHEN current Time Slot is equal to the size of the buffer it starts over to 0
@@ -458,7 +466,7 @@ void getLoadCellDynamics(void)
   if (currentTSlot >= (samples100ms - 1)) elapsed100 = true;
 
   forces1s[currentFSlot] = measured;
-  totalTimes1s[currentTSlot] = totalTime;
+  totalTimes1s[currentTSlot] = lastMeasuredTime;
 
   //Calculating the average during 1s
   float sumForces = 0;
@@ -493,18 +501,18 @@ void getLoadCellDynamics(void)
   //To go backwards N slots use [currentSlot + TotalPositions - N]
   if (elapsed1Sample) {
     impulse += (((measured + forces1s[(currentFSlot + freq - 1) % freq])  / 2) *      //Mean force between 2 samples
-                (totalTime - totalTimes1s[(currentTSlot + samples200ms - 1) % samples200ms]) / 1e6);  //Elapsed time between 2 samples
+                (lastMeasuredTime - totalTimes1s[(currentTSlot + samples200ms - 1) % samples200ms]) / 1e6);  //Elapsed time between 2 samples
   }
 
   if (elapsed200) {
     RFD200 = (measured - forces1s[(currentFSlot + freq - samples200ms) % freq]) /     //Increment of the force in 200ms
-             ((totalTime - totalTimes1s[(currentTSlot + 1) % samples200ms]) / 1e6);          //Increment of time
+             ((lastMeasuredTime - totalTimes1s[(currentTSlot + 1) % samples200ms]) / 1e6);          //Increment of time
     if (RFD200 > maxRFD200) maxRFD200 = RFD200;
   }
 
   if (elapsed100) {
     RFD100 = (measured - forces1s[(currentFSlot + freq - samples100ms) % freq]) /     //Increment of the force in 200ms
-             ((totalTime - totalTimes1s[(currentTSlot + samples200ms - samples100ms) % samples200ms]) / 1e6); //Increment of time
+             ((lastMeasuredTime - totalTimes1s[(currentTSlot + samples200ms - samples100ms) % samples200ms]) / 1e6); //Increment of time
     if (RFD100 > maxRFD100) maxRFD100 = RFD100;
   }
 }
@@ -638,6 +646,7 @@ void serialEvent() {
 void startLoadCellCapture(void)
 {
   Serial.println("Starting capture...");
+  scale.power_up();
   totalTime = 0;
   measuredMax = scale.get_units();
   impulse = 0;
@@ -646,6 +655,7 @@ void startLoadCellCapture(void)
 
   //filling the array of forces ant times with initial force
   lastMeasure = scale.get_units();
+  measured = lastMeasure;
   for (unsigned int i = 0; i < freq; i++) {
     forces1s[i] = lastMeasure;
   }
@@ -691,6 +701,7 @@ void endLoadCellCapture()
     //Serial.println(scale.get_offset());
     showLoadCellResults();
   }
+  scale.power_down();
   drawMenuBackground();
   showMenuEntry(currentMenuIndex);
 }
@@ -967,11 +978,12 @@ void captureRaw()
   double xMin = 0;
   double xMax = 290;
 
-  //Size an num of divisions
+  //Size and num of divisions
   double yDivSize = 100;
   double yDivN = 10;
   double xDivSize = 100;
   double yBuffer[320];
+  yBuffer[0] = measured;
 
   double plotBuffer[plotPeriod];
 
@@ -1018,7 +1030,8 @@ void captureRaw()
     resized = false;
 
     if (xGraph >= xMax) xGraph = 0;
-    while ((xGraph < xMax && !resized) && capturing) {
+    while ((xGraph < xMax && !resized) && capturing)
+    {
       for (int n = 0; n < plotPeriod; n++)
       {
         //Checking the RCA state

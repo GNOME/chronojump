@@ -588,10 +588,14 @@ public class RunType : EventType
 		set { distancesString = value; }
 	}
 
+	// converts "5-R24" into "5m" for displaying
 	// converts "5-5-10" into "5m 5m 10m" for displaying
 	public static string DistancesStringAsMeters (string distancesString)
 	{
-		return Util.ChangeChars (distancesString, "-", "m ") + "m";
+		if (distancesString.Contains ("R")) //RSA
+			return Util.RemoveFromChar (distancesString, '-') + "m";
+		else
+			return Util.ChangeChars (distancesString, "-", "m ") + "m";
 	}
 
 	public bool IsRSA {

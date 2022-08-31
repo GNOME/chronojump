@@ -6686,7 +6686,8 @@ LogB.Debug("mc finished 5");
 			stats_win_fillTreeView_stats(false, false);
 	}
 	
-	private void on_edit_selected_run_interval_accepted (object o, EventArgs args) {
+	private void on_edit_selected_run_interval_accepted (object o, EventArgs args)
+	{
 		LogB.Information("edit selected run interval accepted");
 		
 		RunInterval myRun = SqliteRunInterval.SelectRunData( Constants.RunIntervalTable, myTreeViewRunsInterval.EventSelectedID, false, false );
@@ -6698,6 +6699,13 @@ LogB.Debug("mc finished 5");
 			pre_fillTreeView_runs_interval(false);
 		else
 			myTreeViewRunsInterval.Update(myRun);
+
+		//update the session barplot
+		updateGraphRunsInterval();
+
+		//update the selected runI barplot
+		selectedRunInterval = SqliteRunInterval.SelectRunData (Constants.RunIntervalTable, myTreeViewRunsInterval.EventSelectedID, true, false);
+		on_treeview_runs_interval_cursor_changed (new object (), new EventArgs ());
 
 		if(createdStatsWin)
 			stats_win_fillTreeView_stats(false, false);

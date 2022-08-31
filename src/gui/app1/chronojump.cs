@@ -6692,10 +6692,12 @@ LogB.Debug("mc finished 5");
 		RunInterval myRun = SqliteRunInterval.SelectRunData( Constants.RunIntervalTable, myTreeViewRunsInterval.EventSelectedID, false, false );
 
 		//if person changed, fill treeview again, if not, only update it's line
-		if(eventOldPerson == myRun.PersonID)
-			myTreeViewRunsInterval.Update(myRun);
-		else
+		//distanceChanged is also managed with no problems because TreeViewEvent.Update has been extend to work with two level treeviews
+		if ( eventOldPerson != myRun.PersonID )// ||
+				//(editRunIntervalWin != null && editRunIntervalWin.DistanceChanged) )
 			pre_fillTreeView_runs_interval(false);
+		else
+			myTreeViewRunsInterval.Update(myRun);
 
 		if(createdStatsWin)
 			stats_win_fillTreeView_stats(false, false);

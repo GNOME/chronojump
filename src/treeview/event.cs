@@ -139,23 +139,27 @@ public class TreeViewEvent
 		return columnsString.Length +1;
 	}
 	
-	protected virtual void addStatisticInfo(TreeIter iterDeep, System.Object myObject) {
-		store.AppendValues(iterDeep, printTotal(myObject, getColsNum()));
-		store.AppendValues(iterDeep, printAVG(myObject, getColsNum()));
-		store.AppendValues(iterDeep, printSD(myObject, getColsNum()));
+	protected virtual void addStatisticInfo (TreeIter iterDeep, System.Object myObject)
+	{
+		store.AppendValues (iterDeep, printTotal (myObject));
+		store.AppendValues (iterDeep, printAVG (myObject));
+		store.AppendValues (iterDeep, printSD (myObject));
 	}
 	
-	protected virtual string [] printTotal(System.Object myObject, int cols) {
+	protected virtual string [] printTotal (System.Object myObject)
+	{
 		string [] nothing = new string[0];
 		return nothing;
 	}
 	
-	protected virtual string [] printAVG(System.Object myObject, int cols) {
+	protected virtual string [] printAVG (System.Object myObject)
+	{
 		string [] nothing = new string[0];
 		return nothing;
 	}
 
-	protected virtual string [] printSD(System.Object myObject, int cols) {
+	protected virtual string [] printSD (System.Object myObject)
+	{
 		string [] nothing = new string[0];
 		return nothing;
 	}

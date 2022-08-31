@@ -122,7 +122,8 @@ public class TreeViewPulses : TreeViewEvent
 		return myData;
 	}
 	
-	protected override string [] printTotal(System.Object myObject, int cols) {
+	protected override string [] printTotal (System.Object myObject)
+	{
 		Pulse newPulse = (Pulse)myObject;
 
 		string [] myData = new String [getColsNum()];
@@ -139,7 +140,8 @@ public class TreeViewPulses : TreeViewEvent
 		return myData;
 	}
 	
-	protected override string [] printAVG(System.Object myObject, int cols) {
+	protected override string [] printAVG (System.Object myObject)
+	{
 		Pulse newPulse = (Pulse)myObject;
 
 		string [] myData = new String [getColsNum()];
@@ -156,7 +158,8 @@ public class TreeViewPulses : TreeViewEvent
 		return myData;
 	}
 	
-	protected override string [] printSD(System.Object myObject, int cols) {
+	protected override string [] printSD(System.Object myObject)
+	{
 		Pulse newPulse = (Pulse)myObject;
 
 		string [] myData = new String [getColsNum()];

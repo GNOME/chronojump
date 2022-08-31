@@ -164,13 +164,14 @@ public class TreeViewMultiChronopic : TreeViewEvent
 		MultiChronopic mc = (MultiChronopic)myObject;
 		if(mc.Type == Constants.RunAnalysisName) {
 		} else {
-			store.AppendValues(iterDeep, printAVG(myObject, 19+1));
-			store.AppendValues(iterDeep, printSD(myObject, 19+1));
+			store.AppendValues (iterDeep, printAVG (myObject));
+			store.AppendValues (iterDeep, printSD (myObject));
 		}
 
 	}
 	
-	protected override string [] printAVG(System.Object myObject, int cols) {
+	protected override string [] printAVG (System.Object myObject)
+	{
 		MultiChronopic mc = (MultiChronopic)myObject;
 		string [] averages = mc.Statistics(true, pDN); //first boolean is averageOrSD
 		
@@ -190,7 +191,8 @@ public class TreeViewMultiChronopic : TreeViewEvent
 		return mc.DeleteCols(myData, maxCPs, false);
 	}
 
-	protected override string [] printSD(System.Object myObject, int cols) {
+	protected override string [] printSD (System.Object myObject)
+	{
 		MultiChronopic mc = (MultiChronopic)myObject;
 		string [] sds = mc.Statistics(false, pDN); //first boolean is averageOrSD
 		

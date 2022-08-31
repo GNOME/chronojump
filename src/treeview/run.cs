@@ -255,7 +255,8 @@ public class TreeViewRunsInterval : TreeViewRuns
 		return myStringFull.Length; 
 	} 
 			
-	protected override string [] printTotal(System.Object myObject, int cols) {
+	protected override string [] printTotal (System.Object myObject)
+	{
 		RunInterval newRunI = (RunInterval)myObject;
 
 		string [] myData = new String [getColsNum()];
@@ -272,7 +273,8 @@ public class TreeViewRunsInterval : TreeViewRuns
 		return myData;
 	}
 	
-	protected override string [] printAVG(System.Object myObject, int cols) {
+	protected override string [] printAVG (System.Object myObject)
+	{
 		RunInterval newRunI = (RunInterval)myObject;
 
 		string [] myData = new String [getColsNum()];
@@ -295,7 +297,8 @@ public class TreeViewRunsInterval : TreeViewRuns
 		return myData;
 	}
 
-	protected override string [] printSD(System.Object myObject, int cols) {
+	protected override string [] printSD (System.Object myObject)
+	{
 		RunInterval newRunI = (RunInterval)myObject;
 
 		string [] myData = new String [getColsNum()];

@@ -170,13 +170,11 @@ float selectValueDialog(String description, String rangesString, String incStrin
     //Selecting the force goal
     //TODO: Allow coninuous increasing by keeping pressed the button
     if (blueButton.fell()) {
-      tft.setTextColor(BLACK);
-      printTftValue(value, 236, 174, 2, decimals);
+      printTftValue(value, 236, 174, 2, decimals, BLACK);
       
       value += incValues[currentSegment - 1];
       if (abs(value -  rangesValues[rangesNum] - incValues[currentSegment - 1]) < 0.0001) {
-        tft.setTextColor(BLACK);
-        printTftValue(value, 236, 174, 2, decimals);
+        printTftValue(value, 236, 174, 2, decimals, BLACK);
         value = rangesValues[0];
         currentSegment = 1;
         drawLeftButton("+" + String(incValues[currentSegment - 1], decimals), WHITE, BLUE);
@@ -187,8 +185,6 @@ float selectValueDialog(String description, String rangesString, String incStrin
         currentSegment++;
         drawLeftButton("+" + String(incValues[currentSegment - 1], decimals), WHITE, BLUE);
       }
-      tft.setTextColor(WHITE);
-      tft.setCursor(216, 150);
       printTftValue(value, 236, 174, 2, decimals);
     }
 

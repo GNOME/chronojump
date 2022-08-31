@@ -672,7 +672,7 @@ void startLoadCellCapture(void)
     newGraphMax = forceGoal * 1.5;
   } else {
     newGraphMin = -100;
-    newGraphMax = max(300, measuredMax * 1.5);
+    newGraphMax = max(100, measuredMax * 1.5);
   }
 }
 
@@ -857,7 +857,6 @@ void updateTime( unsigned int decimals, float limit )
   //    tft.setTextColor(BLACK);
   //    printTftValue(totalTime / 1000000 - 1, 302, 215, 2, 0);
   //  }
-  tft.setTextColor(WHITE);
   if (limit == 0) {
     printTftValue(totalTime / 1000000, 302, 215, 2, decimals);
   }
@@ -1079,8 +1078,7 @@ void captureRaw()
             {
               capturingPreSteadiness = false;
               capturingSteadiness = true;
-              tft.setTextColor(BLACK);
-              printTftValue(totalTime / 1000000, 284, 215, 2, 0);
+              printTftValue(totalTime / 1000000, 284, 215, 2, 0, BLACK);
               redrawAxes(tft, graphX, graphY, graphW, graphH, xMin, xMax, graphMin, graphMax, yDivSize, "", "", "", WHITE, BLACK, BLACK, BLACK, BLACK, BLACK, resized);
               startLoadCellCapture();
               newGraphMax = forceGoal * 1.5;
@@ -1123,10 +1121,8 @@ void captureRaw()
         xGraph++;
         if (measured > measuredMax)
         {
-          tft.setTextColor(BLACK);
-          printTftValue(measuredMax, 94, 215, 2, 1);
+          printTftValue(measuredMax, 94, 215, 2, 1, BLACK);
           measuredMax = measured;
-          tft.setTextColor(WHITE);
           printTftValue(measuredMax, 94, 215, 2, 1);
         }
 
@@ -1462,7 +1458,7 @@ void showPowerResults()
 
 void jumpsCapture()
 {
-  readExercisesFile(jumps);
+  if (totalJumpTypes == 0) readExercisesFile(jumps);
   //printJumpTypesList();
   selectExerciseType(jumps);
   IntervalTimer testTime;             //Timer that controls the refreshing of time in lower right corner

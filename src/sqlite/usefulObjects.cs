@@ -242,7 +242,7 @@ public class SelectRunITypes : SelectRunTypes
 		this.DistancesString = distancesString;
 	}
 
-	public static string RunIntervalTypeDistances(
+	public static string RunIntervalTypeDistancesString (
 			string runTypeEnglishName, List<object> selectRunITypes_l)
 	{
 		foreach(SelectRunITypes type in selectRunITypes_l)

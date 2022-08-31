@@ -82,13 +82,9 @@ public class Util
 	//all numbers are saved in database with '.' as decimal separator (method for numbers)
 	public static string ConvertToPoint (double myDouble)
 	{
-		StringBuilder myStringBuilder = new StringBuilder(myDouble.ToString());
-		myStringBuilder.Replace(",", ".");
-		return myStringBuilder.ToString();
+		return ConvertToPoint (myDouble.ToString ());
 	}
-	
 	//all numbers are saved in database with '.' as decimal separator
-	//method for the tvString, tcString, and runIntervalTimesString
 	public static string ConvertToPoint (string myString)
 	{
 		StringBuilder myStringBuilder = new StringBuilder(myString);
@@ -738,17 +734,17 @@ public class Util
 	}
 
 
-	//public static string GetSpeed (string distance, string time) {
-	public static string GetSpeed (string distance, string time, bool metersSecondsPreferred) {
-		double distanceAsDouble = Convert.ToDouble(distance);
-		double timeAsDouble = Convert.ToDouble(time);
-
-		if(metersSecondsPreferred)
-			return (distanceAsDouble / timeAsDouble).ToString();
-		else
-			return (3.6 * distanceAsDouble / timeAsDouble).ToString();
+	public static string GetSpeed (string distance, string time, bool metersSecondsPreferred)
+	{
+		return GetSpeed (Convert.ToDouble (distance), Convert.ToDouble (time), metersSecondsPreferred).ToString ();
 	}
-					
+	public static double GetSpeed (double distance, double time, bool metersSecondsPreferred)
+	{
+		if(metersSecondsPreferred)
+			return UtilAll.DivideSafe (distance, time);
+		else
+			return UtilAll.DivideSafe (3.6 * distance, time);
+	}
 	
 	public static int FetchID (string text)
 	{

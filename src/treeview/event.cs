@@ -211,15 +211,49 @@ public class TreeViewEvent
 		}
 	}
 
-	public void Update (Event myEvent) {
+	public void Update (Event myEvent)
+	{
+		LogB.Information ("Called TreeViewEvent.Update ()");
 		TreeIter iter = new TreeIter();
 		TreeModel myModel = treeview.Model;
-		if (treeview.Selection.GetSelected (out myModel, out iter)) {
+		if (treeview.Selection.GetSelected (out myModel, out iter))
+		{
 			//this doesn't work on windows gtk-sharp 2.10 (works on 2.12)
 			//store.SetValues (iter, getLineToStore(myEvent));
 			string [] myRow = getLineToStore(myEvent);
-			for(int i=0; i < myRow.Length; i++)
+			for (int i = 0; i < myRow.Length; i++)
 				store.SetValue (iter, i, myRow[i]);
+
+			if (treeviewHasTwoLevels)
+			{
+				TreeIter iterDeep = new TreeIter ();
+				treeview.Model.IterChildren (out iterDeep, iter);
+
+				for (int j = 0; j < getNumOfSubEvents (myEvent); j++)
+				{
+					string firstCol = treeview.Model.GetValue (iterDeep, 0).ToString ();
+					if (
+							firstCol.StartsWith (Catalog.GetString ("Total")) ||
+							firstCol.StartsWith (Catalog.GetString ("SD")))
+					{
+						//do nothing as update right now only updates distance that makes change speed AVG
+					}
+					else if (firstCol.StartsWith (Catalog.GetString ("AVG")))
+					{
+						myRow = printAVG (myEvent);
+						for (int i = 0; i < myRow.Length; i++)
+							store.SetValue (iterDeep, i, myRow[i]);
+					}
+					else
+					{
+						myRow = getSubLineToStore (myEvent, j);
+						for (int i = 0; i < myRow.Length; i++)
+							store.SetValue (iterDeep, i, myRow[i]);
+					}
+
+					treeview.Model.IterNext (ref iterDeep);
+				}
+			}
 		}
 	}
 

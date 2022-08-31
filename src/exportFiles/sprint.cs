@@ -123,7 +123,7 @@ public class SprintExport : ExportFiles
 			string positions = RunInterval.GetSprintPositions(
 					ri.DistanceInterval, //distanceInterval. == -1 means variable distances
 					ri.IntervalTimesString,
-					SelectRunITypes.RunIntervalTypeDistances(ri.Type, riTypes_l) 	// distancesString
+					SelectRunITypes.RunIntervalTypeDistancesString (ri.Type, riTypes_l) 	// distancesString
 					);
 			if(positions == "") //RSAs are discarded
 				continue;

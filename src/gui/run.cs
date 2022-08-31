@@ -509,7 +509,7 @@ public class EditRunIntervalWindow : EditRunWindow
 		{
 			List<object> selectRunITypes_l = SqliteRunIntervalType.SelectRunIntervalTypesNew ("", false);
 			if (selectRunITypes_l != null && selectRunITypes_l.Count > 0)
-				distancesString = SelectRunITypes.RunIntervalTypeDistances (myRun.Type, selectRunITypes_l);
+				distancesString = SelectRunITypes.RunIntervalTypeDistancesString (myRun.Type, selectRunITypes_l);
 		}
 
 		if (distancesString != "")

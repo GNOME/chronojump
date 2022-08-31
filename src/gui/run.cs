@@ -182,8 +182,11 @@ public class EditRunWindow : EditEventWindow
 	}
 		
 
-	protected override void updateEvent(int eventID, int personID, string description) {
-		SqliteRun.Update(eventID, UtilGtk.ComboGetActive(combo_eventType), entryDistance, entryTime, personID, description);
+	protected override void updateEvent(int eventID, int personID, string description)
+	{
+		SqliteRun.Update (eventID, UtilGtk.ComboGetActive(combo_eventType),
+				Convert.ToDouble (entry_distance_value.Text),
+				entryTime, personID, description);
 	}
 
 	protected override void on_button_cancel_clicked (object o, EventArgs args)
@@ -249,6 +252,9 @@ public class EditRunIntervalWindow : EditRunWindow
 	[Widget] private Gtk.RadioButton radio_mtgug_6_0;
 
 	static EditRunIntervalWindow EditRunIntervalWindowBox;
+
+	private double tracks = -1;
+	private string distancesString; //to manage agility/non agility tests in order to know totalDistance, this will not change
 
 	EditRunIntervalWindow (Gtk.Window parent) {
 		Glade.XML gladeXML;
@@ -502,12 +508,18 @@ public class EditRunIntervalWindow : EditRunWindow
 	protected override void fillDistance(Event myEvent)
 	{
 		RunInterval myRun = (RunInterval) myEvent;
-		string distancesString = "";
+
+		//distanceAtInit = 0;
+		tracks = myRun.Tracks;
+
+		//string distancesString = "";
+		distancesString = "";
+		List<object> selectRunITypes_l = SqliteRunIntervalType.SelectRunIntervalTypesNew ("", false);
+		entry_distance_value.Sensitive = false;
 
 		//1 on agility test show the distances string in meters
 		if (myRun.DistanceInterval < 0)
 		{
-			List<object> selectRunITypes_l = SqliteRunIntervalType.SelectRunIntervalTypesNew ("", false);
 			if (selectRunITypes_l != null && selectRunITypes_l.Count > 0)
 				distancesString = SelectRunITypes.RunIntervalTypeDistancesString (myRun.Type, selectRunITypes_l);
 		}
@@ -520,9 +532,18 @@ public class EditRunIntervalWindow : EditRunWindow
 			//2 on the rest of tests show interval x times
 			entry_distance_value.Text = myRun.DistanceInterval.ToString();
 			label_distance_units.Show ();
-		}
 
-		entry_distance_value.Sensitive = false;
+			if (selectRunITypes_l != null && selectRunITypes_l.Count > 0)
+				foreach (SelectRunITypes srit in selectRunITypes_l)
+				{
+					if (srit.NameEnglish == myRun.Type && srit.Distance == 0)
+					{
+						entry_distance_value.Sensitive = true;
+						//distanceAtInit = myRun.DistanceInterval;
+						break;
+					}
+				}
+		}
 	}
 
 	protected override void fillTime(Event myEvent) {
@@ -537,7 +558,24 @@ public class EditRunIntervalWindow : EditRunWindow
 		//don't allow to change totaltime in rjedit
 		entry_time_value.Sensitive = false; 
 	}
-	
+
+	protected override void on_entry_distance_changed (object o, EventArgs args)
+	{
+		if (Util.IsNumber(entry_distance_value.Text.ToString(), distanceCanBeDecimal))
+		{
+			label_speed_value.Text = Util.TrimDecimals(
+					Util.GetSpeed (
+						Util.GetRunITotalDistance (Convert.ToDouble(entry_distance_value.Text), distancesString, tracks), //TODO: check this ToDouble works on RSA
+						Convert.ToDouble (entryTime), //totalTime
+						metersSecondsPreferred) , pDN);
+			button_accept.Sensitive = true;
+		} else {
+			button_accept.Sensitive = false;
+			//entry_distance_value.Text = "";
+			//entry_distance_value.Text = entryDistance;
+		}
+	}
+
 	protected override void fillSpeed(Event myEvent) {
 		RunInterval myRun = (RunInterval) myEvent;
 		label_speed_value.Text = Util.TrimDecimals( 
@@ -553,8 +591,19 @@ public class EditRunIntervalWindow : EditRunWindow
 	}
 
 
-	protected override void updateEvent(int eventID, int personID, string description) {
-		SqliteRunInterval.Update(eventID, personID, description);
+	protected override void updateEvent (int eventID, int personID, string description)
+	{
+		LogB.Information (string.Format (
+			"updateEvent eventID: {0}, entry_distance_value.Text: {1}, tracks: {2}, personID: {3}, description: {4}",
+			eventID, entry_distance_value.Text, tracks, personID, description));
+
+		double distanceInterval = 0;
+		if (Util.IsNumber (entry_distance_value.Text, true))
+			distanceInterval = Convert.ToDouble (entry_distance_value.Text);
+		else
+			distanceInterval = -1;
+
+		SqliteRunInterval.Update (eventID, distanceInterval, tracks, personID, description);
 	}
 
 	protected override void on_button_cancel_clicked (object o, EventArgs args)

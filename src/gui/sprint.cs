@@ -103,7 +103,7 @@ public partial class ChronoJumpWindow
 			string positions = RunInterval.GetSprintPositions(
 					Convert.ToDouble(lineSplit[7]), //distanceInterval. == -1 means variable distances
 					intervalTimesString,
-					SelectRunITypes.RunIntervalTypeDistances(lineSplit[4], runITypes) 	//distancesString
+					SelectRunITypes.RunIntervalTypeDistancesString (lineSplit[4], runITypes) 	//distancesString
 					);
 			if(positions == "")
 				continue;

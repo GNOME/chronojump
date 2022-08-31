@@ -124,6 +124,9 @@ public class EditEventWindow
 
 	protected int oldPersonID; //used to record the % for old person if we change it
 
+	//to know if changed or not in order to redo the treeview
+	//public double distanceAtInit;
+
 	//for inheritance
 	protected EditEventWindow () {
 	}
@@ -168,6 +171,7 @@ public class EditEventWindow
 		showLimited = true;
 		//showAngle = true; //kneeAngle
 		showMistakes = false;
+		//distanceAtInit = 0;
 
 		label_simulated.Hide();
 	}
@@ -494,7 +498,8 @@ public class EditEventWindow
 		}
 	}
 	
-	private void on_entry_distance_changed (object o, EventArgs args) {
+	protected virtual void on_entry_distance_changed (object o, EventArgs args)
+	{
 		if(Util.IsNumber(entry_distance_value.Text.ToString(), distanceCanBeDecimal)){
 			entryDistance = entry_distance_value.Text.ToString();
 			label_speed_value.Text = Util.TrimDecimals(
@@ -506,7 +511,7 @@ public class EditEventWindow
 			//entry_distance_value.Text = entryDistance;
 		}
 	}
-		
+
 	private void on_entry_weight_value_changed (object o, EventArgs args) {
 		if(Util.IsNumber(entry_weight_value.Text.ToString(), true)){
 			entryWeight = entry_weight_value.Text.ToString();
@@ -586,6 +591,19 @@ public class EditEventWindow
 		set { button_accept = value;	}
 		get { return button_accept;	}
 	}
+
+	/*
+	   unused
+	public bool DistanceChanged
+	{
+		get {
+			LogB.Information ("entry_distance_value: " + entry_distance_value.Text);
+			if (distanceAtInit != 0 && distanceAtInit != Convert.ToDouble(entry_distance_value.Text))
+				return true;
+			return false;
+		}
+	}
+	*/
 
 	~EditEventWindow() {}
 }
@@ -778,7 +796,7 @@ public class EventMoreWindow
 		set { button_cancel = value; }
 		get { return button_cancel; }
 	}
-	
+
 	public string SelectedEventName
 	{
 		set { selectedEventName = value; }

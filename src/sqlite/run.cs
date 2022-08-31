@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2021   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2004-2022   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -314,13 +314,13 @@ class SqliteRun : Sqlite
 		return str;
 	}
 	
-	public static void Update(int runID, string type, string distance, string time, int personID, string description)
+	public static void Update(int runID, string type, double distance, string time, int personID, string description)
 	{
 		Sqlite.Open();
 		dbcmd.CommandText = "UPDATE " + Constants.RunTable + 
 			" SET personID = " + personID + 
 			", type = \"" + type +
-			"\", distance = " + Util.ConvertToPoint(Convert.ToDouble(distance)) + 
+			"\", distance = " + Util.ConvertToPoint(distance) +
 			", time = " + Util.ConvertToPoint(Convert.ToDouble(time)) + 
 			", description = \"" + description +
 			"\" WHERE uniqueID == " + runID ;

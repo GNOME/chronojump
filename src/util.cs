@@ -514,6 +514,15 @@ public class Util
 		return s;
 	}
 
+	public static string RemoveFromChar (string str, char c)
+	{
+		int pos = str.IndexOf(c);
+		if (pos > 0)
+			return str.Substring(0, pos);
+
+		return str;
+	}
+
 	public static string ChangeEqualForColon(string myString) 
 	{
 		StringBuilder myStringBuilder = new StringBuilder(myString);

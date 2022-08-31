@@ -1,13 +1,14 @@
 #Examples of serial port commands
 # [command]:  or [command]:[parameters];
-## Generic ##
+
+    ## Generic ##
 
 get_version:                                //Gets the version of the firmware.
 
 ## Persons management ##
 
-getGroup:9;                                 //Shows the current group. Up to 10 groups (0 to 9)
-setGroup:                                   //Sets the current group.
+getGroup:                                   //Shows the current group. Up to 10 groups (0 to 9)
+setGroup:9;                                 //Sets the current group.
 
 #addPerson:id,name,surname,heigh,weight;
 addPerson:16,mona,Chita,160,65               //Adds a person to the persons list in memory. Not saved to SD.
@@ -16,30 +17,31 @@ addPerson:18,Marieta,de l'ull viu,160,65;
 addPerson:19,Reis,d'orient,160,65;
 getPersons                                  //Shows the list of the persons of this group.
 savePersons                                 //Copies the list of persons from memory to the SD.
-deletePersons                               //Deletes from merory the persons list.
+deletePersons                               //Deletes from memory the persons list.
 
-## Jumps ##
+    ## Jumps ##
 
+readExercisesFile:jumps;                    //Reads the JUMPTYPES.TXT and adds each row as a jump type
 deleteJumpTypes:                            //Deletes the jump types in memory. It doesn't delete from SD
 
 #addJumpType:id,name,jumpLimit,timeLimit,hardLimnit,bodyWeightPercent,fall,startIn;
 addJumpType:24,RJ(5j),5,0,0,0,0,0;          //Adds a jump type to the memory. It doesn't delete from SD
-addJumpType:32,RJ(5ss),0,5,0,0,0,1;
-addJumpType:39,RJ(5sh),0,5,1,0,0,1;
-addJumpType:1,Free,1,0,0,0,0,1;
-addJumpType:2,SJ,1,0,0,0,0,1;
-addJumpType:3,SJl100,1,0,0,100,0,1;
-addJumpType:4,CMJ,1,0,0,0,0,1;
-addJumpType:5,CMJl,1,0,0,100,0,1;
-addJumpType:6,slCMJleft,1,0,0,0,0,1;
-addJumpType:7,slCMJright,1,0,0,0,0,1;
-addJumpType:8,ABK,1,0,0,0,0,1;
-addJumpType:10,DJa,1,0,0,0,0,0;
 
 getJumpTypes:                               //Shows the list of all jump types in memory
 saveJumpTypes:                              //Copy all the jump types from memory to the SD
 
-## Force sensosr ##
+    ## Gravitatory ##
+
+readExercisesFile:gravitatory;              //Reads the GRAVTYPES.TXT and adds each row as a gravitatory exercise type
+deleteGravitatoryTypes:                     //Delete gravitatory exercise types in memory. It doesn't delete from SD
+
+#addGravitatoryType:id,name,description,percentBodyWeight,speed1RM;
+addGravitatoryType:5,Bench Press,Typical Bench press with a barbell,0,0.185;        //Adds a gravitatory exercise type. It doesn't save it to SD
+
+getGravitatoryTypes:                        //Shows the gravitatory exercises types
+saveGravitatoryTypes:                       //Saves the gravitatory exercises types to the GRAVTYPES.TXT file in the SD
+
+    ## Force sensosr ##
 
 start_capture:                              //Starts the acquiring process
 end_capture:                                //Ends the acquiring process

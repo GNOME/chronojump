@@ -424,13 +424,13 @@ public class JsonCompujump : Json
 		json.Add("station_id", o.stationId);
 		json.Add("exercise_id", o.ExerciseIdStr);
 		json.Add("comment", "");
+		json.Add("extra_weight", o.WeightInKg);
 		if (m == Constants.Modes.JUMPSSIMPLE)
 		{
 			json.Add("player_id", o.jump.PersonID);
 			json.Add("multiple", 0);
 			json.Add("contact_time", Util.ConvertToPoint (o.jump.Tc));
 			json.Add("flight_time", Util.ConvertToPoint (o.jump.Tv));
-			json.Add("extra_weight", Util.ConvertToPoint (o.jump.Weight));
 			json.Add("fall", Util.ConvertToPoint (o.jump.Fall));
 		} else // if (m == Constants.Modes.JUMPSREACTIVE)
 		{
@@ -438,7 +438,6 @@ public class JsonCompujump : Json
 			json.Add("multiple", 1);
 			json.Add("contact_time", Util.ConvertToPoint (o.jumpRj.TcAvg));
 			json.Add("flight_time", Util.ConvertToPoint (o.jumpRj.TvAvg));
-			json.Add("extra_weight", Util.ConvertToPoint (o.jumpRj.Weight));
 			json.Add("fall", Util.ConvertToPoint (o.jumpRj.Fall));
 		}
 		json.Add("power", o.PowerStr);

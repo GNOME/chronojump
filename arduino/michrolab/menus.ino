@@ -215,6 +215,10 @@ void selectExerciseType(exerciseType mode)
     printTftText("Gravit. type", 40, 20, WHITE, 3);
     printTftText(gravTypes[currentExerciseType].name, 50, 100);
   }
+  else if (mode == inertial) {
+    printTftText("Inertt. type", 40, 20, WHITE, 3);
+    printTftText(inertTypes[currentExerciseType].name, 50, 100);
+  }
   
   drawLeftButton("Next", WHITE, BLUE);
   drawRightButton("Accept", WHITE, RED);
@@ -237,6 +241,11 @@ void selectExerciseType(exerciseType mode)
         printTftText(gravTypes[currentExerciseType].name, 50, 100, BLACK);
         currentExerciseType = (currentExerciseType + 1) % totalGravTypes;   
         printTftText(gravTypes[currentExerciseType].name, 50, 100);   
+      }
+        else if (mode == inertial) {
+        printTftText(inertTypes[currentExerciseType].name, 50, 100, BLACK);
+        currentExerciseType = (currentExerciseType + 1) % totalInertTypes;   
+        printTftText(inertTypes[currentExerciseType].name, 50, 100);   
       }
     }
     blueButton.update();

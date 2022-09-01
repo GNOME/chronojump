@@ -348,6 +348,17 @@ struct gravitType {
 gravitType gravTypes[100];
 unsigned int totalGravTypes = 0;
 
+
+struct inertType {
+  unsigned int id;
+  String name;
+  String description;
+  float percentBodyWeight;
+};
+
+inertType inertTypes[100];
+unsigned int totalInertTypes = 0;
+
 IntervalTimer rcaTimer;
 String fullFileName;
 File dataFile;
@@ -635,7 +646,16 @@ void serialEvent() {
   } else if (commandString == "deleteGravitatoryTypes") {
     totalGravTypes = 0;
   } else if (commandString == "saveGravitatoryTypes") {
-    saveGravitatoryList();
+    saveInertialList();
+  } else if (commandString == "getInertialTypes") {
+    printInertTypesList();
+  } else if (commandString == "addInertialType") {
+    addInertial(parameters);
+    //Serial.println("Gravitatory added");  
+  } else if (commandString == "deleteInertialTypes") {
+    totalInertTypes = 0;
+  } else if (commandString == "saveInertialTypes") {
+    saveInertialList();
   } else {
     Serial.println("Not a valid command");
   }
@@ -1325,6 +1345,15 @@ void getEncoderDynamics()
   }
 }
 
+
+void startInertialEncoderCapture()
+{
+  inertialMode = true;
+  if (!calibratedInertial) calibrateInertial();
+
+  startEncoderCapture();
+}
+
 void startEncoderCapture(void)
 {
   capturing = true;
@@ -1347,9 +1376,14 @@ void startEncoderCapture(void)
   avgVelocity = 0;
   maxAvgVelocity = 0;
   lastVelocity = 0;
-  readExercisesFile(gravitatory);
   selectPersonDialog();
-  selectExerciseType(gravitatory);
+  if (!inertialMode ){
+    readExercisesFile(gravitatory);
+    selectExerciseType(gravitatory);
+  } else if( inertialMode ){
+    readExercisesFile(inertial);
+    selectExerciseType(inertial);
+  }
   load = selectValueDialog("Select the load you are\ngoing to move", "0,5,20,200", "0.5,1,5", 1);
   //captureRaw();
   encoderTimer.begin(saveEncoderSpeed, 1000);
@@ -1793,14 +1827,6 @@ String addLeadingZeros(int number, int totalDigits)
     fixLenNumber = "0" + fixLenNumber;
   }
   return (fixLenNumber);
-}
-
-void startInertialEncoderCapture()
-{
-  inertialMode = true;
-  if (!calibratedInertial) calibrateInertial();
-
-  startEncoderCapture();
 }
 
 void calibrateInertial()

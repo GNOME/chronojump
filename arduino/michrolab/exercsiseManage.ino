@@ -114,10 +114,58 @@ void saveGravitatoryList()
   Serial.println("Saved " + String(totalGravTypes) + " to GRAVTYPE.TXT");
 }
 
+void addInertial(String row)
+{
+  int prevComaIndex = row.indexOf(":");
+  int nextComaIndex = row.indexOf(",");
+  //totalInertTypes = row.substring(prevComaIndex + 1, nextComaIndex).toInt();
+  inertTypes[totalInertTypes].id = row.substring(prevComaIndex + 1, nextComaIndex).toInt();
+
+  prevComaIndex = nextComaIndex;
+  nextComaIndex = row.indexOf(",", prevComaIndex + 1 );
+  inertTypes[totalInertTypes].name = row.substring(prevComaIndex + 1 , nextComaIndex);
+  prevComaIndex = nextComaIndex;
+
+  prevComaIndex = nextComaIndex;
+  nextComaIndex = row.indexOf(",", prevComaIndex + 1 );
+  inertTypes[totalInertTypes].description = row.substring(prevComaIndex + 1, nextComaIndex);
+  prevComaIndex = nextComaIndex;
+
+  prevComaIndex = nextComaIndex;
+  nextComaIndex = row.indexOf(",", prevComaIndex + 1 );
+  inertTypes[totalInertTypes].percentBodyWeight = row.substring(prevComaIndex + 1 , nextComaIndex).toFloat();
+  prevComaIndex = nextComaIndex;
+
+  totalInertTypes++;
+}
+
+
+void saveInertialList()
+{
+  SD.remove("INERTYPE.TXT");
+ 
+  File inertFile = SD.open("INERTYPE.TXT", FILE_WRITE);
+
+//  if(gravFile) Serial.println("File created");
+//  else Serial.println("Error creating file");
+
+  for (unsigned int i = 0; i < totalInertTypes; i++)
+  {
+    inertFile.print(jumpTypes[i].id);
+    inertFile.print("," + String(gravTypes[i].name));
+    inertFile.print("," + gravTypes[i].description );
+    inertFile.print("," + String(gravTypes[i].percentBodyWeight));
+    inertFile.println("," + String(gravTypes[i].speed1Rm));
+  }
+  inertFile.close();
+  Serial.println("Saved " + String(totalInertTypes) + " to GRAVTYPE.TXT");
+}
+
 void readExercisesFile(String parameters){
   parameters = parameters.substring(0, parameters.lastIndexOf(";"));
   if ( parameters == "jumps" ) readExercisesFile(jumps);
   else if ( parameters == "gravitatory" ) readExercisesFile(gravitatory);
+  else if ( parameters == "inertial" ) readExercisesFile(inertial);
   else Serial.print("Not a valid parameter");
 }
 void readExercisesFile(exerciseType mode)
@@ -135,6 +183,10 @@ void readExercisesFile(exerciseType mode)
   else if (mode == gravitatory) {
     //Serial.println("G");
     file = "GRAVTYPE.TXT";
+  }
+  else if (mode == inertial) {
+    //Serial.println("G");
+    file = "INERTYPE.TXT";
   }
 
   File  exercisesFile = SD.open(file);
@@ -167,6 +219,9 @@ void readExercisesFile(exerciseType mode)
         } else if (mode == gravitatory) {
           addGravitatory(readString);
           totalGravTypes = numRows;
+        } else if (mode == inertial) {
+          addInertial(readString);
+          totalInertTypes = numRows;
         }
       }
     }
@@ -203,5 +258,17 @@ void printGravTypesList()
     Serial.print(gravTypes[i].description + ", ");
     Serial.print(String( gravTypes[i].percentBodyWeight , 2) + "%, ");
     Serial.println(String( gravTypes[i].speed1Rm , 2) + "m/s");
+  }
+}
+
+void printInertTypesList()
+{
+  Serial.println("id, name, description, percentBodyWeight");
+  for (unsigned int i = 0; i < totalInertTypes; i++)
+  {
+    Serial.print(String(inertTypes[i].id) + ", ");
+    Serial.print(inertTypes[i].name + ", ");
+    Serial.print(inertTypes[i].description + ", ");
+    Serial.println(String( inertTypes[i].percentBodyWeight , 2) + "%, ");
   }
 }

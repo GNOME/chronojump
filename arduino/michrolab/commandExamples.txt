@@ -41,6 +41,17 @@ addGravitatoryType:5,Bench Press,Typical Bench press with a barbell,0,0.185;    
 getGravitatoryTypes:                        //Shows the gravitatory exercises types
 saveGravitatoryTypes:                       //Saves the gravitatory exercises types to the GRAVTYPES.TXT file in the SD
 
+    ## Inertial ##
+
+readExercisesFile:inertial;              //Reads the INERTYPES.TXT and adds each row as a inertial exercise type
+deleteInertialTypes:                     //Delete inertial exercise types in memory. It doesn't delete from SD
+
+#addInertialType:id,name,description,percentBodyWeight;
+addInertialType:0,Pull,Pulling with one hand,0.0;        //Adds a inertial exercise type. It doesn't save it to SD
+
+getInertialTypes:                        //Shows the inertial exercises types
+saveInertialTypes:                       //Saves the inertial exercises types to the INERTYPES.TXT file in the SD
+
     ## Force sensosr ##
 
 start_capture:                              //Starts the acquiring process

@@ -535,10 +535,10 @@ class SqliteJump : Sqlite
 		  double lastWeight = 0;
 		  foreach(Jump j in jmp_l)
 		  {
-			  if(j.Weight != lastWeight)
+			  if(j.WeightPercent != lastWeight)
 				  jmp_l_purged.Add(j);
 
-			  lastWeight = j.Weight;
+			  lastWeight = j.WeightPercent;
 		  }
 		  return jmp_l_purged;
 	  }

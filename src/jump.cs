@@ -30,7 +30,7 @@ public class Jump : Event
 	protected double tc;
 	protected double fall;	//-1 if start inside to detect the fall. This is a special case where there are two flight times, but 1st is only used to detect fall-
 				//when jump finishes, fall is calculated and 2nd flight time is stored. It becomes a jump with one TC and one TF
-	protected double weight; //always write in % (not kg or %) then sqlite can do avgs
+	protected double weightPercent; //always write in % (not kg or %) then sqlite can do avgs
 
 	//for not checking always in database
 	protected bool hasFall;
@@ -41,7 +41,7 @@ public class Jump : Event
 	}
 	
 	//after inserting database (SQL)
-	public Jump(int uniqueID, int personID, int sessionID, string type, double tv, double tc, double fall, double weight, string description, double angle, int simulated, string datetime)
+	public Jump(int uniqueID, int personID, int sessionID, string type, double tv, double tc, double fall, double weightPercent, string description, double angle, int simulated, string datetime)
 	{
 		this.uniqueID = uniqueID;
 		this.personID = personID;
@@ -50,7 +50,7 @@ public class Jump : Event
 		this.tv = tv;
 		this.tc = tc;
 		this.fall = fall;
-		this.weight = weight;
+		this.weightPercent = weightPercent;
 		this.description = description;
 		this.angle = angle;
 		this.simulated = simulated;
@@ -67,7 +67,7 @@ public class Jump : Event
 		this.tv = Convert.ToDouble(Util.ChangeDecimalSeparator(eventString[4]));
 		this.tc = Convert.ToDouble(Util.ChangeDecimalSeparator(eventString[5]));
 		this.fall = Convert.ToDouble(Util.ChangeDecimalSeparator(eventString[6]));
-		this.weight = Convert.ToDouble(Util.ChangeDecimalSeparator(eventString[7]));
+		this.weightPercent = Convert.ToDouble(Util.ChangeDecimalSeparator(eventString[7]));
 		this.description = eventString[8].ToString();
 		this.angle = Convert.ToDouble(Util.ChangeDecimalSeparator(eventString[9]));
 		this.simulated = Convert.ToInt32(eventString[10]);
@@ -88,7 +88,7 @@ public class Jump : Event
 				uniqueID.ToString(), 
 				personID, sessionID, 
 				type, tv, tc, fall, 
-				weight, description, 
+				weightPercent, description, 
 				angle, simulated, datetime);
 	}
 
@@ -185,13 +185,13 @@ public class Jump : Event
 		set { fall = value; }
 	}
 	
-	public double Weight {
-		get { return weight; }
-		set { weight = value; }
+	public double WeightPercent {
+		get { return weightPercent; }
+		set { weightPercent = value; }
 	}
 	public double WeightInKg (double personMassInKg)
 	{
-		return Util.WeightFromPercentToKg (weight, personMassInKg);
+		return Util.WeightFromPercentToKg (weightPercent, personMassInKg);
 	}
 
 	public double RSI {
@@ -239,7 +239,7 @@ public class JumpRj : Jump
 
 	public JumpRj(int uniqueID, int personID, int sessionID, string type,
 			double tvMax, double tcMax,
-			double fall, double weight, string description,
+			double fall, double weightPercent, string description,
 			double tvAvg, double tcAvg,
 			string tvString, string tcString,
 			int jumps, double time, string limited,
@@ -252,7 +252,7 @@ public class JumpRj : Jump
 		this.tvMax = tvMax;
 		this.tcMax = tcMax;
 		this.fall = fall;
-		this.weight = weight;
+		this.weightPercent = weightPercent;
 		this.description = description;
 		this.tvAvg = tvAvg;
 		this.tcAvg = tcAvg;
@@ -270,7 +270,7 @@ public class JumpRj : Jump
 	
 	//after inserting database (SQL)
 	public JumpRj(int uniqueID, int personID, int sessionID, string type, 
-			string tvString, string tcString, double fall, double weight, 
+			string tvString, string tcString, double fall, double weightPercent, 
 			string description, int jumps, double time, string limited, string angleString, int simulated, string datetime)
 	{
 		this.uniqueID = uniqueID;
@@ -280,7 +280,7 @@ public class JumpRj : Jump
 		this.tvString = tvString;
 		this.tcString = tcString;
 		this.fall = fall;
-		this.weight = weight;
+		this.weightPercent = weightPercent;
 		this.description = description;
 		this.jumps = jumps;
 		this.time = time;
@@ -305,7 +305,7 @@ public class JumpRj : Jump
 		this.tvString = Util.ChangeDecimalSeparator(eventString[11].ToString());
 		this.tcString = Util.ChangeDecimalSeparator(eventString[12].ToString());
 		this.fall = Convert.ToDouble(Util.ChangeDecimalSeparator(eventString[6]));
-		this.weight = Convert.ToDouble(Util.ChangeDecimalSeparator(eventString[7]));
+		this.weightPercent = Convert.ToDouble(Util.ChangeDecimalSeparator(eventString[7]));
 		this.description = eventString[8].ToString();
 		this.jumps = Convert.ToInt32(eventString[13]);
 		this.time = Convert.ToDouble(Util.ChangeDecimalSeparator(eventString[14]));
@@ -330,7 +330,7 @@ public class JumpRj : Jump
 		return SqliteJumpRj.Insert(dbconOpened, tableName, 
 				uniqueID.ToString(),
 				personID, sessionID, 
-				type, TvMax, TcMax, fall, weight,
+				type, TvMax, TcMax, fall, weightPercent,
 				description, TvAvg, TcAvg, tvString, tcString,
 				jumps, time, limited, 
 				angleString, simulated, datetime);

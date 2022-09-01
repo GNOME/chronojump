@@ -229,27 +229,36 @@ public class TreeViewEvent
 				TreeIter iterDeep = new TreeIter ();
 				treeview.Model.IterChildren (out iterDeep, iter);
 
+				string firstCol = treeview.Model.GetValue (iterDeep, 0).ToString ();
+				if (firstCol.StartsWith (Catalog.GetString ("Total")))
+				{
+					//do nothing as update right now only updates distance that makes change speed AVG
+					treeview.Model.IterNext (ref iterDeep);
+					firstCol = treeview.Model.GetValue (iterDeep, 0).ToString ();
+				}
+
+				if (firstCol.StartsWith (Catalog.GetString ("AVG")))
+				{
+					myRow = printAVG (myEvent);
+					for (int i = 0; i < myRow.Length; i++)
+						store.SetValue (iterDeep, i, myRow[i]);
+
+					treeview.Model.IterNext (ref iterDeep);
+					firstCol = treeview.Model.GetValue (iterDeep, 0).ToString ();
+				}
+
+				if (firstCol.StartsWith (Catalog.GetString ("SD")))
+				{
+					//do nothing as update right now only updates distance that makes change speed AVG
+					treeview.Model.IterNext (ref iterDeep);
+					firstCol = treeview.Model.GetValue (iterDeep, 0).ToString ();
+				}
+
 				for (int j = 0; j < getNumOfSubEvents (myEvent); j++)
 				{
-					string firstCol = treeview.Model.GetValue (iterDeep, 0).ToString ();
-					if (
-							firstCol.StartsWith (Catalog.GetString ("Total")) ||
-							firstCol.StartsWith (Catalog.GetString ("SD")))
-					{
-						//do nothing as update right now only updates distance that makes change speed AVG
-					}
-					else if (firstCol.StartsWith (Catalog.GetString ("AVG")))
-					{
-						myRow = printAVG (myEvent);
-						for (int i = 0; i < myRow.Length; i++)
-							store.SetValue (iterDeep, i, myRow[i]);
-					}
-					else
-					{
-						myRow = getSubLineToStore (myEvent, j);
-						for (int i = 0; i < myRow.Length; i++)
-							store.SetValue (iterDeep, i, myRow[i]);
-					}
+					myRow = getSubLineToStore (myEvent, j);
+					for (int i = 0; i < myRow.Length; i++)
+						store.SetValue (iterDeep, i, myRow[i]);
 
 					treeview.Model.IterNext (ref iterDeep);
 				}

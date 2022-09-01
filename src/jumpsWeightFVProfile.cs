@@ -58,7 +58,7 @@ public class JumpsWeightFVProfile
 			//Samozino formula is F = m*g*( (h/hp0) +1)
 			//h is jump's height
 			//hp0 = trochanterToe - trochanterFloorOnFlexion
-			double force = (personWeight + (personWeight * j.Weight / 100.0)) * 9.81 * ( ( jumpHeightM / hp0 ) + 1 );
+			double force = (personWeight + (personWeight * j.WeightPercent / 100.0)) * 9.81 * ( ( jumpHeightM / hp0 ) + 1 );
 			//use force relative
 			//force /= personWeight;
 			//not because affects z and other calculations, do it later, just on the cairo graph
@@ -69,7 +69,7 @@ public class JumpsWeightFVProfile
 			// 3 add informational height and extra weight
 			List<KeyDouble> lkd = new List<KeyDouble>();
 			lkd.Add(new KeyDouble("Height (cm)", jumpHeightM * 100.0));
-			lkd.Add(new KeyDouble("Extra weight (Kg)", personWeight * j.Weight / 100.0));
+			lkd.Add(new KeyDouble("Extra weight (Kg)", personWeight * j.WeightPercent / 100.0));
 			p.l_keydouble = lkd;
 
 			//4 add to point_l

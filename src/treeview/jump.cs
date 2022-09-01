@@ -170,11 +170,11 @@ public class TreeViewJumps : TreeViewEvent
 		myJump.Simulated = Convert.ToInt32(myStringOfData[11].ToString());
 		myJump.Datetime = myStringOfData[12].ToString();
 
-		myJump.Weight = Convert.ToDouble(myStringOfData[8].ToString());
+		myJump.WeightPercent = Convert.ToDouble(myStringOfData[8].ToString());
 
 		//to calculate potency
 		personWeight = Convert.ToDouble(myStringOfData[13]);
-		weightInKg = Util.WeightFromPercentToKg(myJump.Weight, personWeight);
+		weightInKg = Util.WeightFromPercentToKg (myJump.WeightPercent, personWeight);
 
 		return myJump;
 	}
@@ -200,13 +200,13 @@ public class TreeViewJumps : TreeViewEvent
 		//Also this is needed on Add (where personWeight is passed using PersonWeight, but not weightInKg)
 		//LogB.Information("getLineToStore personWeight: " + personWeight.ToString());
 		weightInKg = Util.WeightFromPercentToKg(
-				Convert.ToDouble(newJump.Weight.ToString()),
+				Convert.ToDouble (newJump.WeightPercent.ToString ()),
 				personWeight);
 		
 		if(preferences.weightStatsPercent)
-			myData[count++] = Util.TrimDecimals(newJump.Weight.ToString(), pDN);
+			myData[count++] = Util.TrimDecimals (newJump.WeightPercent.ToString(), pDN);
 		else
-			myData[count++] = Util.TrimDecimals(weightInKg.ToString(), pDN);
+			myData[count++] = Util.TrimDecimals (weightInKg.ToString (), pDN);
 
 		myData[count++] = Util.TrimDecimals(newJump.Fall.ToString(), pDN);
 		myData[count++] = Util.TrimDecimals(Util.GetHeightInCentimeters(newJump.Tv.ToString()), pDN);
@@ -303,10 +303,10 @@ public class TreeViewJumpsRj : TreeViewJumps
 		myJumpRj.Simulated = Convert.ToInt32(myStringOfData[18].ToString());
 		myJumpRj.Datetime = myStringOfData[19].ToString();
 		
-		myJumpRj.Weight = Convert.ToDouble(myStringOfData[8].ToString());
+		myJumpRj.WeightPercent = Convert.ToDouble (myStringOfData[8].ToString());
 
 		personWeight = Convert.ToDouble(myStringOfData[20]);
-		weightInKg = Util.WeightFromPercentToKg(myJumpRj.Weight, personWeight);
+		weightInKg = Util.WeightFromPercentToKg (myJumpRj.WeightPercent, personWeight);
 
 		return myJumpRj;
 	}
@@ -332,7 +332,7 @@ public class TreeViewJumpsRj : TreeViewJumps
 		myData[count++] = "";
 		
 		weightInKg = Util.WeightFromPercentToKg(
-				Convert.ToDouble(newJumpRj.Weight.ToString()),
+				Convert.ToDouble (newJumpRj.WeightPercent.ToString()),
 				personWeight);
 		myData[count++] = Util.TrimDecimals(weightInKg.ToString(), pDN);
 
@@ -390,7 +390,7 @@ public class TreeViewJumpsRj : TreeViewJumps
 		
 		//This is needed on Add (where personWeight is passed using PersonWeight, but not weightInKg)
 		weightInKg = Util.WeightFromPercentToKg(
-				Convert.ToDouble(newJumpRj.Weight.ToString()),
+				Convert.ToDouble (newJumpRj.WeightPercent.ToString()),
 				personWeight);
 		
 		if (preferences.showPower) {
@@ -517,8 +517,8 @@ public class TreeViewJumpsRj : TreeViewJumps
 			 * in order to calculate the total, AVG, SD using that data
 			 */
 
-			weightInKg = Util.WeightFromPercentToKg(
-					Convert.ToDouble(newJumpRj.Weight.ToString()),
+			weightInKg = Util.WeightFromPercentToKg (
+					Convert.ToDouble (newJumpRj.WeightPercent.ToString ()),
 					personWeight);
 
 			string [] tc_array = newJumpRj.TcString.Split(new char[] {'='});

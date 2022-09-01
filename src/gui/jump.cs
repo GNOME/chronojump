@@ -170,9 +170,9 @@ public class EditJumpWindow : EditEventWindow
 		Jump myJump = (Jump) myEvent;
 		if(myJump.TypeHasWeight) {
 			if(weightPercentPreferred)
-				entryWeight = myJump.Weight.ToString();
+				entryWeight = myJump.WeightPercent.ToString ();
 			else
-				entryWeight = Util.WeightFromPercentToKg(myJump.Weight, personWeight).ToString();
+				entryWeight = Util.WeightFromPercentToKg (myJump.WeightPercent, personWeight).ToString ();
 
 			entry_weight_value.Text = entryWeight;
 			entry_weight_value.Sensitive = true;
@@ -518,9 +518,9 @@ public class EditJumpRjWindow : EditJumpWindow
 		JumpRj myJump = (JumpRj) myEvent;
 		if(myJump.TypeHasWeight) {
 			if(weightPercentPreferred)
-				entryWeight = myJump.Weight.ToString();
+				entryWeight = myJump.WeightPercent.ToString ();
 			else
-				entryWeight = Util.WeightFromPercentToKg(myJump.Weight, personWeight).ToString();
+				entryWeight = Util.WeightFromPercentToKg (myJump.WeightPercent, personWeight).ToString ();
 
 			entry_weight_value.Text = entryWeight;
 			entry_weight_value.Sensitive = true;

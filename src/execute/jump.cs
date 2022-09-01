@@ -50,8 +50,8 @@ public class JumpExecute : EventExecute
 	protected static JumpChangeImage jumpChangeImage;
 
 	private int angle = -1;
-	private bool avoidGraph;
-	private bool heightPreferred;
+	//private bool avoidGraph;
+	//private bool heightPreferred;
 	protected bool metersSecondsPreferred;
 	protected Gtk.Image image_jump_execute_air;
 	protected Gtk.Image image_jump_execute_land;
@@ -69,8 +69,9 @@ public class JumpExecute : EventExecute
 			Chronopic cp, int pDN,
 			bool volumeOn, Preferences.GstreamerTypes gstreamer,
 			double progressbarLimit, ExecutingGraphData egd, string description,
-			bool avoidGraph, //on configChronojump.Exhibition do not show graph because it gets too slow with big database
-			bool heightPreferred, bool metersSecondsPreferred,
+			//bool avoidGraph, //on configChronojump.Exhibition do not show graph because it gets too slow with big database
+			//bool heightPreferred,
+			bool metersSecondsPreferred,
 			int graphLimit, bool graphAllTypes, bool graphAllPersons,
 			Gtk.Image image_jump_execute_air, Gtk.Image image_jump_execute_land,
 			bool upload, int uploadStationId, bool django //upload: configChronojump.Compujump && upload (contacts) button active
@@ -93,8 +94,8 @@ public class JumpExecute : EventExecute
 		this.progressbarLimit = progressbarLimit;
 		this.egd = egd;
 		this.description = description;
-		this.avoidGraph = avoidGraph;
-		this.heightPreferred = heightPreferred;
+		//this.avoidGraph = avoidGraph;
+		//this.heightPreferred = heightPreferred;
 		this.metersSecondsPreferred = metersSecondsPreferred;
 		this.graphLimit = graphLimit;
 		this.graphAllTypes = graphAllTypes;

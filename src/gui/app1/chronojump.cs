@@ -5711,7 +5711,8 @@ public partial class ChronoJumpWindow
 		else if( currentEventExecute.ChronopicDisconnected )
 			chronopicDisconnectedWhileExecuting();
 
-		//Cairo graph is not updated if window is not resized, so force update
+		//2.2.1 Cairo graph is not updated if window is not resized, so force update
+		//since 2.2.2 graph is not updated at test end by write. is updated here to not have to readers on separated threads
 		updateGraphRunsSimple();
 
 		//stop camera (storing value or not)

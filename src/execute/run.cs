@@ -880,6 +880,12 @@ LogB.Information("going to call photocellWirelessCapture.CaptureStart ()");
 		if(graphAllTypes)
 			type = "";
 
+		/* 2.2.2 do not do the graph here because PrepareEventGraphRunSimple has an SQL call with a reader
+		   and updateGraph can be also called by gtk thread and also call PrepareEventGraphRunSimple,
+		   so SQL can be tried to open again, but the problem is in reader that if both run at same time it will crash (seen a log on 2.2.1)
+		   Note on_run_finished (main thread) also calls updateGraphRunsSimple(); so graph will be updated at end
+		   Note also the PrepareEventGraphRunIntervalRealtimeCaptureObject has no SQL calls, and the PrepareEventGraphRunInterval is not called while capture
+
 		//app1.PrepareRunSimpleGraph(time, distance/time);
 		PrepareEventGraphRunSimpleObject = new PrepareEventGraphRunSimple(
 				trackTime, distance/trackTime, sessionID,
@@ -888,6 +894,7 @@ LogB.Information("going to call photocellWirelessCapture.CaptureStart ()");
 
 		needUpdateGraphType = eventType.RUN;
 		needUpdateGraph = true;
+		*/
 		
 		needEndEvent = true; //used for hiding some buttons on eventWindow
 	}

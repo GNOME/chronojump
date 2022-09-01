@@ -118,11 +118,11 @@ public class Jump : Event
 	//only Lewis now
 	public static double GetPower (double tf, double bodyWeight, double extraWeightKg)
 	{
-		//Log.WriteLine("tf: " + tf + ", bodyWeight: " + bodyWeight + ", extra: " + extraWeightKg);
+		//LogB.Information ("tf: " + tf + ", bodyWeight: " + bodyWeight + ", extra: " + extraWeightKg);
 		double pw = System.Math.Sqrt ( 4.9 ) * 9.8 * (bodyWeight + extraWeightKg) *
 			System.Math.Sqrt(
 				       Convert.ToDouble ( Util.GetHeightInCentimeters(tf.ToString()))/100);
-		//Log.WriteLine("pw: " + pw);
+		//LogB.Information ("pw: " + pw);
 		return pw;
 
 	}
@@ -345,8 +345,9 @@ public class JumpRj : Jump
 			double tc = tcList[i];
 			double tv = tvList[i];
 			double myfall = 0;
+			double weightInKg = WeightInKg (personMassInKg);
 			if (tcList[i] == -1) //startIn at first jump tc is 0, better check like this (string)
-				powerSum += GetPower (tv, personMassInKg, weight);
+				powerSum += GetPower (tv, personMassInKg, weightInKg);
 			else {
 				if (i == 0)
 					myfall = fall;
@@ -354,15 +355,15 @@ public class JumpRj : Jump
 					myfall = Util.GetHeightInCentimeters (tvList[i-1]);
 
 				powerSum += Jump.GetDjPower (tc, tv,
-						(personMassInKg + weight), myfall);
+						(personMassInKg + weightInKg), myfall);
 
 				/* debug
 				LogB.Information (string.Format (
-							"at jumpRj.PowerAverage, tc: {0}, tv: {1}, (personMassInKg + weight): {2}, myfall: {3}, powerSum: {4}",
-							tc, tv, (personMassInKg + weight), myfall, powerSum));
-				*/
+							"at jumpRj.PowerAverage, tc: {0}, tv: {1}, (personMassInKg + weightInKg): {2}, myfall: {3}, powerSum: {4}",
+							tc, tv, (personMassInKg + weightInKg), myfall, powerSum));
 
-				//LogB.Information ("at jumpRj.PowerAverage, powerSum = ", powerSum.ToString());
+				LogB.Information ("at jumpRj.PowerAverage, powerSum = ", powerSum.ToString());
+				*/
 			}
 		}
 		return UtilAll.DivideSafe (powerSum, tcList.Count);

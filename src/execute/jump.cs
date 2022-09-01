@@ -582,6 +582,12 @@ public class JumpExecute : EventExecute
 		}
 		needShowFeedbackMessage = true;
 
+		/* 2.2.2 do not do the graph here because PrepareEventGraphJumpSimple has an SQL call with a reader
+		   and updateGraph can be also called by gtk thread and also call PrepareEventGraphJumpSimple,
+		   so SQL can be tried to open again, but the problem is in reader that if both run at same time it will crash (seen a log on 2.2.1)
+		   Note on_jump_finished (main thread) also calls updateGraphJumpsSimple(); so graph will be updated at end
+		   Note also the PrepareEventGraphJumpReactiveRealtimeCaptureObject has no SQL calls, and the PrepareEventGraphJumpReactive is not called while capture
+
 		if(! avoidGraph)
 		{
 			if(graphAllTypes)
@@ -595,6 +601,7 @@ public class JumpExecute : EventExecute
 			needUpdateGraphType = eventType.JUMP;
 			needUpdateGraph = true;
 		}
+		*/
 		
 		needEndEvent = true; //used for hiding some buttons on eventWindow
 	}

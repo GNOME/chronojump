@@ -189,6 +189,10 @@ public class Jump : Event
 		get { return weight; }
 		set { weight = value; }
 	}
+	public double WeightInKg (double personMassInKg)
+	{
+		return Util.WeightFromPercentToKg (weight, personMassInKg);
+	}
 
 	public double RSI {
 		get { return UtilAll.DivideSafe(Util.GetHeightInMeters(tv), tc); }
@@ -362,6 +366,28 @@ public class JumpRj : Jump
 			}
 		}
 		return UtilAll.DivideSafe (powerSum, tcList.Count);
+	}
+
+	// based on treeviewJump printAVG
+	public double StiffnessAverage (double personMassInKg, double weightInKg)
+	{
+		double stiffnessSum = 0;
+		int stiffnessCount = 0;
+
+		for (int i = 0; i < tcList.Count; i ++)
+		{
+			if(tcList[i] == -1) //startIn at first jump tc is 0, better check like this (string)
+			{
+				//do nothing
+			} else
+			{
+				stiffnessSum += Util.GetStiffness
+					(personMassInKg, weightInKg, tvList[i], tcList[i]);
+				stiffnessCount ++;
+			}
+		}
+
+		return UtilAll.DivideSafe (stiffnessSum, stiffnessCount);
 	}
 
 	public override double Stiffness(double personMassInKg, double extraMass) 

@@ -152,6 +152,7 @@ public abstract class UploadJumpDataObject
 
 	protected int exerciseId;
 
+	protected double weightInKg;
 	protected double power;
 	protected double stiffness;
 	protected double initialSpeed;
@@ -166,6 +167,10 @@ public abstract class UploadJumpDataObject
 	public string ExerciseIdStr
 	{
 		get { return exerciseId.ToString(); }
+	}
+	public string WeightInKg
+	{
+		get { return Util.ConvertToPoint (weightInKg); }
 	}
 	public string PowerStr
 	{
@@ -188,13 +193,14 @@ public class UploadJumpSimpleDataObject : UploadJumpDataObject
 		this.stationId = stationId;
 		this.jump = jump;
 		this.exerciseId = exerciseId;
+		this.weightInKg = jump.WeightInKg (personMassInKg);
 
 		if (jump.Tc > 0)
 			this.power = Jump.GetDjPower (jump.Tc, jump.Tv, personMassInKg + jump.Weight, jump.Fall);
 		else
 			this.power = Jump.GetPower (jump.Tv, personMassInKg, jump.Weight);
 
-		this.stiffness = jump.Stiffness (personMassInKg, jump.Weight);
+		this.stiffness = jump.Stiffness (personMassInKg, weightInKg);
 		this.initialSpeed = jump.GetInitialSpeedJumpSimple (metersSecondsPreferred);
 	}
 }
@@ -206,9 +212,10 @@ public class UploadJumpReactiveDataObject : UploadJumpDataObject
 		this.stationId = stationId;
 		this.jumpRj = jumpRj;
 		this.exerciseId = exerciseId;
+		this.weightInKg = jumpRj.WeightInKg (personMassInKg);
 
 		this.power = jumpRj.PowerAverage (personMassInKg);
-		this.stiffness = jumpRj.Stiffness (personMassInKg, jumpRj.Weight);
+		this.stiffness = jumpRj.StiffnessAverage (personMassInKg, weightInKg);
 		this.initialSpeed = Jump.GetInitialSpeed (jumpRj.TvAvg, metersSecondsPreferred);
 	}
 }

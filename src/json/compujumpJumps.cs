@@ -196,9 +196,9 @@ public class UploadJumpSimpleDataObject : UploadJumpDataObject
 		this.weightInKg = jump.WeightInKg (personMassInKg);
 
 		if (jump.Tc > 0)
-			this.power = Jump.GetDjPower (jump.Tc, jump.Tv, personMassInKg + jump.Weight, jump.Fall);
+			this.power = Jump.GetDjPower (jump.Tc, jump.Tv, personMassInKg + weightInKg, jump.Fall);
 		else
-			this.power = Jump.GetPower (jump.Tv, personMassInKg, jump.Weight);
+			this.power = Jump.GetPower (jump.Tv, personMassInKg, weightInKg);
 
 		this.stiffness = jump.Stiffness (personMassInKg, weightInKg);
 		this.initialSpeed = jump.GetInitialSpeedJumpSimple (metersSecondsPreferred);

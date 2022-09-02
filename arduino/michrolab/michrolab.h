@@ -28,7 +28,7 @@ void showEncoderResults();
 void endEncoderCapture();
 
 //Sets the inertial mode on and sets the position of Con/Ecc change
-void startInertialEncoderCapture();
+void startInertEncoderCapture();
 
 //sets the position of Con/Ecc change
 void calibrateInertial();

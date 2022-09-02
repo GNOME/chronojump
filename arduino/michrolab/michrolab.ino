@@ -99,7 +99,7 @@ boolean capturing = false;
 //Variables to capture
 enum sensorType {
   loadCell,
-  incEncoder,
+  incLinEncoder,
   incRotEncoder,
   loadCellincEncoder,
   none
@@ -172,7 +172,7 @@ menuEntry mainMenu[10] = {
   //  { "Drop Jumps", "Jumps with a previous\nfalling height (previous\njump or fixed height)\nShows bars with the heightof jumps", &dropJumpsCapture},
   { "Raw Force", "Shows standard graph of\nthe force and the summary of the set.\n(Maximum Force, RFD and\nImpulse)", &startLoadCellCapture},
   { "Lin. Velocity", "Show bars of linear velocity", &startGravitEncoderCapture },
-  { "Inert. Velocity", "Show a bars of the velocity of the person in inertial machines", &startInertialEncoderCapture },
+  { "Inert. Velocity", "Show a bars of the velocity of the person in inertial machines", &startInertEncoderCapture },
   { "RawPower", "Measure Force and Speed\nat the same time.\nOnly power is shown in thegraph", &startPowerCapture},
   { "Tared Force", "Offset the force before\nmeasuring it.\nUseful to substract body\nweight.", &startTareCapture},
   { "F. Steadiness", "RMSSD and cvRMSSD.\nSteadynessof the force.\nWhen ready, press the Red Button to get the\nsteadiness of the next 5s.", &startSteadiness},
@@ -635,6 +635,10 @@ void serialEvent() {
   } else if (commandString == "savePersons") {
     savePersonsList();
     Serial.println("Saved in GROUP" + String(group) + ".TXT");
+  } else if (commandString == "listDir") {
+    File dir = SD.open("/");
+    printDirectory(dir, 2);
+    dir.close();
   } else if (commandString == "setGroup") {
     setGroup(parameters);
   } else if (commandString == "getGroup") {
@@ -1088,7 +1092,7 @@ void captureRaw()
           //If no RCA event, read the sensor as usual
         } else {
           //Calculation of the variables shown in the results
-          if (sensor == incEncoder) getEncoderDynamics();
+          if (sensor == incLinEncoder || sensor == incRotEncoder ) getEncoderDynamics();
           else if (sensor == loadCell) getLoadCellDynamics();
           else if (sensor == loadCellincEncoder) getPowerDynamics();
 
@@ -1116,7 +1120,7 @@ void captureRaw()
         if (redButton.fell())
         {
           n = plotPeriod;
-          if (sensor == incEncoder)
+          if (sensor == incLinEncoder || sensor == incRotEncoder)
           {
             endEncoderCapture();
           } else if (sensor == loadCell)
@@ -1198,7 +1202,7 @@ void captureBars(float fullScreen)
   int currentSlot = 0;
   String fileName = "P" + String(currentPerson) + "-S" + String(setNumber);
 
-  if (sensor == incEncoder) fileName = fileName + "-G";
+  if (sensor == incLinEncoder) fileName = fileName + "-G";
   else if (sensor == incRotEncoder) fileName = fileName + "-I";
   else if (sensor == loadCellincEncoder) fileName = fileName + "-P";
 
@@ -1372,7 +1376,7 @@ void getEncoderDynamics()
 }
 
 
-void startInertialEncoderCapture()
+void startInertEncoderCapture()
 {
   inertialMode = true;
   sensor = incRotEncoder;
@@ -1387,7 +1391,7 @@ void startInertialEncoderCapture()
 void startGravitEncoderCapture()
 {
   inertialMode = false;
-  
+  sensor = incLinEncoder;
   readExercisesFile(gravitatory);
   selectExerciseType(gravitatory);
   load = selectValueDialog("Select the load you are\ngoing to move", "0,5,20,200", "0.5,1,5", 1);
@@ -1800,7 +1804,7 @@ void setForceGoal()
 void saveSD(String fileName)
 {
   String sensorString = "";
-  if (sensor == incEncoder) sensorString = "-V";
+  if (sensor == incLinEncoder || sensor == incRotEncoder) sensorString = "-V";
   else if (sensor == loadCell) sensorString = "-F";
   else if (sensor == loadCellincEncoder) sensorString = "-P";
   else
@@ -1814,17 +1818,21 @@ void saveSD(String fileName)
   dataFile.close();
 }
 
-int countDirs()
+
+//Create a new folder with an incremental number if necessari
+String createNewDir()
 {
+  //Checking dirs in /
   int numDirs = 0;
+  String lastDirName;
   File dir = SD.open("/");
   File file = dir.openNextFile();
 
   while (file) {
     if (dir.isDirectory())
     {
-      String dirName = file.name();
-      if (dirName.substring(0, 2) == "ML" && dirName.substring(2, 5).toInt() < 1000)
+      lastDirName = file.name();
+      if (lastDirName.substring(0, 2) == "ML" && lastDirName.substring(2, 5).toInt() < 1000)
       {
         numDirs++;
       }
@@ -1832,18 +1840,24 @@ int countDirs()
     file.close();
     file = dir.openNextFile();
   }
-  dir.close();
-  return (numDirs);
-}
 
-
-//Create a new folder with an incremental number
-String createNewDir()
-{
-  dirNumber = countDirs() + 1;
-  dirName = "ML";
-  dirName = dirName + addLeadingZeros(dirNumber, 4) + "G" + String(group);
-  SD.mkdir(dirName.c_str());
+  file.close();
+  
+  File lastDir = SD.open(lastDirName);
+  file = lastDir.openNextFile();
+  //The dir is not empty or the group is not the same, create a new dir
+  if (file || lastDirName.substring(7) != String(group)) {
+    //Serial.println("File name: " + String(file.name()));
+    numDirs++;
+    dirName = "ML" + addLeadingZeros(numDirs, 4) + "G" + String(group);
+    SD.mkdir(dirName.c_str());
+    file.close();
+    //The dir is empty reuse the lastDir
+  } else {  
+    //Serial.println("Empty dir");
+    dirName = lastDirName;
+  }
+  lastDir.close();
   return (dirName.c_str());
 }
 

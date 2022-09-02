@@ -272,3 +272,50 @@ void printInertTypesList()
     Serial.println(String( inertTypes[i].percentBodyWeight , 2) + "%, ");
   }
 }
+
+void selectExerciseType(exerciseType mode)
+{
+  tft.fillScreen(BLACK);
+  if (mode == jumps) {
+    printTftText("Jump type", 40, 20, WHITE, 3);
+    printTftText(jumpTypes[currentExerciseType].name, 50, 100);
+  }
+  else if (mode == gravitatory) {
+    printTftText("Gravit. type", 40, 20, WHITE, 3);
+    printTftText(gravTypes[currentExerciseType].name, 50, 100);
+  }
+  else if (mode == inertial) {
+    printTftText("Inertt. type", 40, 20, WHITE, 3);
+    printTftText(inertTypes[currentExerciseType].name, 50, 100);
+  }
+  
+  drawLeftButton("Next", WHITE, BLUE);
+  drawRightButton("Accept", WHITE, RED);
+  
+  blueButton.update();
+  redButton.update();
+  while(!redButton.fell())
+  {
+    if(blueButton.fell())
+    {
+      
+      if (mode == jumps) {
+        printTftText(jumpTypes[currentExerciseType].name, 50, 100, BLACK);
+        currentExerciseType = (currentExerciseType + 1) % totalJumpTypes;
+        printTftText(jumpTypes[currentExerciseType].name, 50, 100);
+      }
+      else if (mode == gravitatory) {
+        printTftText(gravTypes[currentExerciseType].name, 50, 100, BLACK);
+        currentExerciseType = (currentExerciseType + 1) % totalGravTypes;   
+        printTftText(gravTypes[currentExerciseType].name, 50, 100);   
+      }
+        else if (mode == inertial) {
+        printTftText(inertTypes[currentExerciseType].name, 50, 100, BLACK);
+        currentExerciseType = (currentExerciseType + 1) % totalInertTypes;   
+        printTftText(inertTypes[currentExerciseType].name, 50, 100);   
+      }
+    }
+    blueButton.update();
+    redButton.update();
+  }
+}

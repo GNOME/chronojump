@@ -378,6 +378,8 @@ int sampleNum = 0;
 String fileBuffer;        //Text mode
 //char fileBuffer[100];       //binary mode. Using char type cannot write speeds greater than +-127 pulses/mm
 
+String textList[7] = {"First", "Second", "Thirth", "Fourth", "Fifth", "Sixtth", "Seventh"} ;
+
 void setup() {
   //Attention: some SD cards fails to initalize after uploading the firmware
   // See if the card is present and can be initialized:
@@ -454,7 +456,9 @@ void setup() {
   //TODO: Read exercises only if necessary
   currentExerciseType = 0;
 
+
   tft.fillScreen(BLACK);
+  
   drawMenuBackground();
   backMenu();
   showMenuEntry(currentMenuIndex);
@@ -1382,7 +1386,7 @@ void startInertEncoderCapture()
   sensor = incRotEncoder;
   if (!calibratedInertial) calibrateInertial();
   
-  readExercisesFile(inertial);
+  if(totalInertTypes == 0) readExercisesFile(inertial);
   selectExerciseType(inertial);
   load = selectValueDialog("Select the amount of extra loads attached to the machine", "0,18", "1", 0);
   startEncoderCapture();
@@ -1392,7 +1396,7 @@ void startGravitEncoderCapture()
 {
   inertialMode = false;
   sensor = incLinEncoder;
-  readExercisesFile(gravitatory);
+  if(totalGravTypes == 0) readExercisesFile(gravitatory);
   selectExerciseType(gravitatory);
   load = selectValueDialog("Select the load you are\ngoing to move", "0,5,20,200", "0.5,1,5", 1);
   startEncoderCapture();
@@ -2076,4 +2080,25 @@ void readInertMachineFile()
     Serial.println("Total:" + String(totalInertMachines));
   }
   machinesFile.close();
+}
+
+void showList(int color)
+{
+  int xPos = 10;
+  int midYPos = 110;
+  int currentY = 0;
+  for (int i = -3; i <= 3; i++) {
+    if (i == 0) {
+      //Do nothing
+    } else {
+      if (i < 0 ) {
+        currentY = midYPos + i * 16 - 3;
+      } else if (i > 0) {
+        currentY = midYPos + i * 16 + 8;
+      }
+      printTftText(textList[i+3], xPos, currentY, color, 2);
+    }
+  }
+  tft.fillRoundRect(0, midYPos -1 ,320, 25, 5, RED);
+  printTftText(textList[3], xPos, midYPos, color, 3);
 }

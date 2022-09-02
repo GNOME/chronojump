@@ -162,7 +162,14 @@ void selectGroup()
 void selectPersonDialog()
 {
   tft.fillScreen(BLACK);
-  showPersonList(WHITE);
+  printTftText("Select person", 40, 20, WHITE, 3);
+  for (int i = -3; i <= 3; i++)
+  {
+    textList[i+3] = persons[ (i + totalPersons) % totalPersons].name + " " + persons[ (i + totalPersons) % totalPersons].surname;
+  }
+  
+  //showPersonList(WHITE);
+  showList(WHITE);
 
   drawLeftButton("Next", WHITE, BLUE);
   drawRightButton("Accept", WHITE, RED);
@@ -174,43 +181,22 @@ void selectPersonDialog()
     if (blueButton.fell())
     {
       //Deleting last list
-      showPersonList(BLACK);
+      showList(BLACK);
 
       currentPerson = (currentPerson + 1) % totalPersons;
+      for (int i = -3; i <= 3; i++)
+      {
+        textList[i+3] = persons[ (currentPerson + i + totalPersons) % totalPersons].name + " " + persons[ (currentPerson + i + totalPersons) % totalPersons].surname;
+      }
+      
       Serial.println("Changed to " + String(currentPerson));
 
       //Printing new list
-      showPersonList(WHITE);
+      showList(WHITE);
     }
     blueButton.update();
     redButton.update();
   }
-}
-
-void showPersonList(unsigned int color)
-{
-  int xPos = 10;
-  int midYPos = 110;
-  int currentY = 0;
-  printTftText("Select person", 40, 20, color, 3);
-  for (int i = -3; i <= 3; i++) {
-    if (i == 0) {
-      //Do nothing
-    } else {
-      if (i < 0 ) {
-        currentY = midYPos + i * 16 - 3;
-      } else if (i > 0) {
-        currentY = midYPos + i * 16 + 8;
-      }
-      printTftText(persons[(currentPerson + totalPersons + i) % totalPersons].name + " " + persons[(currentPerson + totalPersons + i) % totalPersons].surname,
-                   xPos, currentY, color, 2);
-    }
-  }
-  //  printTftText("[" + (persons[currentPerson].name + " " + persons[currentPerson].surname).substring(0,14) + "]",
-  //               xPos, midYPos, color, 3);
-  tft.fillRoundRect(0, midYPos -1 ,320, 25, 5, RED);
-  printTftText((persons[currentPerson].name + " " + persons[currentPerson].surname).substring(0, 17),
-               xPos, midYPos, color, 3);
 }
 
 void setGroup(String parameters)

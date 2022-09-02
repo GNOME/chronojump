@@ -27,6 +27,7 @@ using Cairo;
 
 public class JumpsRjFatigueGraph : CairoXY
 {
+	private List<double> timesAccu_l;
 	private int divideIn;
 
 	//constructor when there are no points
@@ -43,10 +44,12 @@ public class JumpsRjFatigueGraph : CairoXY
 		endGraphDisposing(g, surface, area.GdkWindow);
 	}
 	public JumpsRjFatigueGraph (
+			List<double> timesAccu_l,
 			List<PointF> point_l, double slope, double intercept,
 			DrawingArea area, string title, string jumpType, string date,
 			JumpsRjFatigue.Statistic statistic, int divideIn)
 	{
+		this.timesAccu_l = timesAccu_l;
 		this.point_l = point_l;
 		this.slope = slope;
 		this.intercept = intercept;
@@ -96,7 +99,7 @@ public class JumpsRjFatigueGraph : CairoXY
 			plotPredictedLine(predictedLineTypes.STRAIGHT, predictedLineCrossMargins.TOUCH);
 		//g.SetSourceColor(black);
 		g.SetSourceColor(gray99);
-		divideAndPlotAverage(divideIn);
+		divideAndPlotAverage (divideIn, true);
 		g.SetSourceColor(black);
 
 		plotRealPoints(PlotTypes.POINTSLINES);
@@ -129,12 +132,17 @@ public class JumpsRjFatigueGraph : CairoXY
 		writeTextAtRight(ypos++, date, false);
 	}
 
-	private void divideAndPlotAverage(int parts)
+	private void divideAndPlotAverage (int parts, bool byTime) //byTime or byJumps
 	{
 		if(point_l.Count < parts * 2)
 			return;
 
-		List<List<PointF>> l_l = SplitList(point_l, Convert.ToInt32(Math.Floor(point_l.Count / (1.0 * parts))));
+		List<List<PointF>> l_l = new List<List<PointF>> ();
+		if (byTime)
+			l_l = divideAndPlotAverageByTime (parts);
+		else
+			l_l = divideAndPlotAverageByJumps (parts);
+
 		int done = 0;
 		foreach(List<PointF> l in l_l)
 		{
@@ -147,6 +155,16 @@ public class JumpsRjFatigueGraph : CairoXY
 			paintHorizSegment (l[0].X, l[l.Count -1].X, sum / l.Count);
 			done ++;
 		}
+	}
+
+	private List<List<PointF>> divideAndPlotAverageByTime (int parts)
+	{
+		return SplitListByTime (timesAccu_l, point_l, parts);
+	}
+
+	private List<List<PointF>> divideAndPlotAverageByJumps (int parts)
+	{
+		return SplitListByJumps (point_l, Convert.ToInt32(Math.Floor(point_l.Count / (1.0 * parts))));
 	}
 
 	private void paintHorizSegment (double xa, double xb, double y)
@@ -172,13 +190,50 @@ public class JumpsRjFatigueGraph : CairoXY
 		g.Stroke ();
 	}
 
-	//https://stackoverflow.com/a/11463800
-	public static List<List<PointF>> SplitList(List<PointF> listMain, int nSize)
+	public static List<List<PointF>> SplitListByTime (List<double> timesAccu_l, List<PointF> p_l, int parts)
 	{
 		var l_l = new List<List<PointF>>();
 
-		for (int i = 0; i < listMain.Count; i += nSize)
-			l_l.Add(listMain.GetRange(i, Math.Min(nSize, listMain.Count - i)));
+		if (p_l.Count <= 1)
+			return l_l;
+
+		double partRange = timesAccu_l[timesAccu_l.Count -1] / (1.0 * parts);
+
+		for (int p = 0; p < parts; p ++)
+		{
+			int start = -1;
+			int count = 0;
+			int j;
+			for (j = 0; j < timesAccu_l.Count ; j ++)
+			{
+				LogB.Information (string.Format ("p: {0}, j: {1}, timesAccu_l[j]: {2}, partRange: {3}", p, j, timesAccu_l[j], partRange));
+				if ( timesAccu_l[j] >= partRange * p && (
+							timesAccu_l[j] < partRange * (p+1) ||
+							p == parts -1) ) //to have also the last value
+				{
+					if (start < 0)
+						start = j;
+					count ++;
+				}
+			}
+
+			if (start >= 0 && count > 0)
+			{
+				LogB.Information (string.Format ("p: {0}, j: {1}, start: {2}, count: {3}", p, j, start, count));
+				l_l.Add (p_l.GetRange (start, count));
+			}
+		}
+
+		return l_l;
+	}
+
+	//https://stackoverflow.com/a/11463800
+	public static List<List<PointF>> SplitListByJumps (List<PointF> p_l, int nSize)
+	{
+		var l_l = new List<List<PointF>>();
+
+		for (int i = 0; i < p_l.Count; i += nSize)
+			l_l.Add (p_l.GetRange (i, Math.Min (nSize, p_l.Count - i)));
 
 		return l_l;
 	}

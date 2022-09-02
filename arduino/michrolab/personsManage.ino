@@ -114,7 +114,8 @@ void readPersonsFile()
   currentPerson = 0;
 }
 
-void updatePersonSet()
+void updatePersonSet() {updatePersonSet(true); }
+void updatePersonSet(bool nextPerson)
 {
   String personSet = "Set: " + addLeadingZeros(setNumber, 2) + "   Person: " + addLeadingZeros(currentPerson, 2);
   tft.setTextSize(1);
@@ -122,7 +123,7 @@ void updatePersonSet()
   tft.setTextColor(BLACK);
   tft.setCursor(148, 223);
   tft.print(persons[currentPerson].name + " " + persons[currentPerson].surname);
-  currentPerson = (currentPerson + 1) % totalPersons;
+  if( nextPerson ) currentPerson = (currentPerson + 1) % totalPersons;
 
   personSet = "Set: " + addLeadingZeros(setNumber, 2) + "   Person: " + addLeadingZeros(currentPerson, 2);
   fileName = "S" + addLeadingZeros(setNumber, 2) + "P" + addLeadingZeros(currentPerson, 2);
@@ -176,6 +177,7 @@ void selectPersonDialog()
       showPersonList(BLACK);
 
       currentPerson = (currentPerson + 1) % totalPersons;
+      Serial.println("Changed to " + String(currentPerson));
 
       //Printing new list
       showPersonList(WHITE);

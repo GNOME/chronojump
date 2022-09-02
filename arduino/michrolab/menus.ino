@@ -98,6 +98,9 @@ void drawLeftButton(String label, uint16_t tColor, uint16_t bColor)
 }
 
 //Dialog for selecting float value
+float selectValueDialog(String description, String rangesString, String incString) {
+  return selectValueDialog(description, rangesString, incString,0);
+}
 float selectValueDialog(String description, String rangesString, String incString, unsigned int decimals)
 {
   //ranges are of the format "1,10,500"
@@ -201,7 +204,7 @@ float selectValueDialog(String description, String rangesString, String incStrin
     redButton.update();
     blueButton.update();
   }
-  return (value);
+  return value;
 }
 
 void selectExerciseType(exerciseType mode)

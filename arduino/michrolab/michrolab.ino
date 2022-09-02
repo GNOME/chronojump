@@ -171,7 +171,7 @@ menuEntry mainMenu[10] = {
   { "Jumps", "Shows bars with the jumps height", &jumpsCapture},
   //  { "Drop Jumps", "Jumps with a previous\nfalling height (previous\njump or fixed height)\nShows bars with the heightof jumps", &dropJumpsCapture},
   { "Raw Force", "Shows standard graph of\nthe force and the summary of the set.\n(Maximum Force, RFD and\nImpulse)", &startLoadCellCapture},
-  { "Lin. Velocity", "Show bars of linear velocity", &startEncoderCapture },
+  { "Lin. Velocity", "Show bars of linear velocity", &startGravitEncoderCapture },
   { "Inert. Velocity", "Show a bars of the velocity of the person in inertial machines", &startInertialEncoderCapture },
   { "RawPower", "Measure Force and Speed\nat the same time.\nOnly power is shown in thegraph", &startPowerCapture},
   { "Tared Force", "Offset the force before\nmeasuring it.\nUseful to substract body\nweight.", &startTareCapture},
@@ -1205,8 +1205,16 @@ void captureBars(float fullScreen)
   fullFileName = "/" + dirName + "/" + fileName + ".TXT";
   dataFile = SD.open(fullFileName.c_str(), FILE_WRITE);
   dataFile.println("Person:" + String(persons[currentPerson].index) + "," + persons[currentPerson].name + " " + persons[currentPerson].surname);
-  dataFile.println("Exercise:" + String(gravTypes[currentExerciseType].id) + "," + gravTypes[currentExerciseType].name);
-  dataFile.println("Load:" + String(load));
+
+  if (!inertialMode)
+  {
+    dataFile.println("Exercise:" + String(gravTypes[currentExerciseType].id) + "," + gravTypes[currentExerciseType].name);
+    dataFile.println("Load:" + String(load));
+  } else if (inertialMode)
+  {
+    dataFile.println("Exercise:" + String(inertTypes[currentExerciseType].id) + "," + inertTypes[currentExerciseType].name);
+    dataFile.println("Load:" + String(load));
+  }
 
   tft.fillScreen(BLACK);
 
@@ -1221,7 +1229,7 @@ void captureBars(float fullScreen)
     printTftText("max", 22, 223, WHITE, 1);
     printTftText(":", 40, 215, WHITE, 2);
     printTftValue(maxAvgVelocity, 94, 215, 2, 1);
-    updatePersonSet();
+    updatePersonSet(false);
   }
 
   redrawAxes(tft, 30, h, 290, h, 290, h, 0, graphRange, graphRange / 10, "", "", "", WHITE, GREY, WHITE, WHITE, BLACK, RED, true, 1);
@@ -1367,15 +1375,28 @@ void getEncoderDynamics()
 void startInertialEncoderCapture()
 {
   inertialMode = true;
+  sensor = incRotEncoder;
   if (!calibratedInertial) calibrateInertial();
+  
+  readExercisesFile(inertial);
+  selectExerciseType(inertial);
+  load = selectValueDialog("Select the amount of extra loads attached to the machine", "0,18", "1", 0);
+  startEncoderCapture();
+}
 
+void startGravitEncoderCapture()
+{
+  inertialMode = false;
+  
+  readExercisesFile(gravitatory);
+  selectExerciseType(gravitatory);
+  load = selectValueDialog("Select the load you are\ngoing to move", "0,5,20,200", "0.5,1,5", 1);
   startEncoderCapture();
 }
 
 void startEncoderCapture(void)
 {
   capturing = true;
-  sensor = incEncoder;
   //Serial.println(sensor);
   maxString = "V";
   plotPeriod = 1;
@@ -1386,7 +1407,7 @@ void startEncoderCapture(void)
   totalTime = 0;
   encoderPhase = 0;
   localMax = 0;
-  encoder.write(0);
+  //encoder.write(0);
   lastEncoderPosition = 0;
   lastMeasuredTime = 0;
   startPhasePosition = 0;
@@ -1395,14 +1416,6 @@ void startEncoderCapture(void)
   maxAvgVelocity = 0;
   lastVelocity = 0;
   selectPersonDialog();
-  if (!inertialMode ){
-    readExercisesFile(gravitatory);
-    selectExerciseType(gravitatory);
-  } else if( inertialMode ){
-    readExercisesFile(inertial);
-    selectExerciseType(inertial);
-  }
-  load = selectValueDialog("Select the load you are\ngoing to move", "0,5,20,200", "0.5,1,5", 1);
   //captureRaw();
   encoderTimer.begin(saveEncoderSpeed, 1000);
   captureBars(false);

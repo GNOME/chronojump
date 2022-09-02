@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Copyright (C) 2004-2020   Xavier de Blas <xaviblas@gmail.com> 
+ *  Copyright (C) 2004-2022   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -503,6 +503,41 @@ public class JumpRj : Jump
 			{
 				if(Util.IsNumber(Util.ChangeDecimalSeparator(str), true))
 					l.Add(Convert.ToDouble(Util.ChangeDecimalSeparator(str)));
+			}
+			return l;
+		}
+	}
+
+	/*
+	public List<double> TcPlusTvList
+	{
+		get {
+			List<double> l = new List<double>();
+			for (int i = 0; i < tcList.Count; i ++)
+			{
+				if (tcList[i] <= 0)
+					l.Add (tvList[i]); //discard -1 tc on first jump starting in
+				else
+					l.Add (tcList[i] + tvList[i]);
+			}
+			return l;
+		}
+	}
+	*/
+	//tc + tv, used on jumpsRjFatigue
+	public List<double> TcPlusTvAccumulatedList
+	{
+		get {
+			List<double> l = new List<double>();
+			double accumulatedSum = 0;
+			for (int i = 0; i < tcList.Count; i ++)
+			{
+				if (tcList[i] <= 0)
+					accumulatedSum += tvList[i]; //discard -1 tc on first jump starting in
+				else
+					accumulatedSum += tcList[i] + tvList[i];
+
+				l.Add (accumulatedSum);
 			}
 			return l;
 		}

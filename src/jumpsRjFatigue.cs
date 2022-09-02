@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Copyright (C) 2020   Xavier de Blas <xaviblas@gmail.com>
+ *  Copyright (C) 2022   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -26,6 +26,8 @@ using System.Collections.Generic; //List
 public class JumpsRjFatigue
 {
 	private List<PointF> point_l;
+	private List<double> timesAccu_l;
+	//private List<Point3F> point_3l;
 	LeastSquaresLine ls;
 	public enum Statistic { HEIGHTS, Q, RSI } //RSI is jump height (m)/ contact time (s)
 
@@ -46,10 +48,14 @@ public class JumpsRjFatigue
 		else if(statistic == Statistic.RSI)
 			y_l = jumpRj.RSIList;
 
+		//List<double> z_l = jumpRj.SumTcTvList;
+		timesAccu_l = jumpRj.TcPlusTvAccumulatedList;
+
 		point_l = new List<PointF>();
+		//point_3l = new List<Point3F>();
 
 		for(int i = 0; i < y_l.Count ; i ++)
-			point_l.Add(new PointF(i+1, y_l[i]));
+			point_l.Add (new PointF (i+1, y_l[i]));
 
 		//3 get LeastSquaresLine (straight line)
 		ls = new LeastSquaresLine();
@@ -76,6 +82,11 @@ public class JumpsRjFatigue
 	public List<PointF> Point_l
 	{
 		get { return point_l; }
+	}
+
+	public List<double> TimesAccu_l
+	{
+		get { return timesAccu_l; }
 	}
 
 	public double Slope

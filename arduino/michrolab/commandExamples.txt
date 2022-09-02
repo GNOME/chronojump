@@ -63,3 +63,13 @@ get_tare:                                   //Shows the voltage reading that cor
 set_tare:                                   //Sets the voltage reading that corresponds to the null force
 tare:                                       //Starts the process to calculate the voltage reading corresponding to the null force
 get_transmission_format:                    //Shows how the information is transmitted (binary or text)
+
+    ## Inertial machines ##
+
+#addInertialMachine:id,name,description,diameters,gearedDown;
+addInertialMachine:0,Prosquat,Squat machine of Proinertial,3,1;
+addInertialMachine:1,Eccotek,Conical machine of Byomedic,9.27_7.8_6.17_4.7,1;
+addInertialMachine:2,Cubic,Custom machine with cubic structure,2,1;
+
+readInertialMachinesFile:
+saveInertialMachines:

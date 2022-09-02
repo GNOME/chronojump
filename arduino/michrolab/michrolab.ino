@@ -359,6 +359,18 @@ struct inertType {
 inertType inertTypes[100];
 unsigned int totalInertTypes = 0;
 
+struct inertMachineType {
+  unsigned int id;
+  String name;
+  String description;
+  String diameters;
+  float gearedDown;
+};
+
+inertMachineType inertMachines[10];
+unsigned int totalInertMachines = 0;
+unsigned int currentInertMachine = 0;
+
 IntervalTimer rcaTimer;
 String fullFileName;
 File dataFile;
@@ -656,6 +668,12 @@ void serialEvent() {
     totalInertTypes = 0;
   } else if (commandString == "saveInertialTypes") {
     saveInertialList();
+  } else if (commandString == "addInertialMachine") {
+    addInertMachine(parameters);
+  } else if (commandString == "saveInertialMachines") {
+    saveInertMachines();
+  } else if (commandString == "readInertialMachinesFile") {
+    readInertMachineFile();
   } else {
     Serial.println("Not a valid command");
   }
@@ -1942,4 +1960,93 @@ void printDirectory(File dir, int numTabs)
     }
     entry.close();
   }
+}
+
+void addInertMachine(String row)
+{
+  int prevComaIndex = row.indexOf(":");
+  int nextComaIndex = row.indexOf(",");
+  //totalinertMachines = row.substring(prevComaIndex + 1, nextComaIndex).toInt();
+  inertMachines[totalInertMachines].id = row.substring(prevComaIndex + 1, nextComaIndex).toInt();
+
+  prevComaIndex = nextComaIndex;
+  nextComaIndex = row.indexOf(",", prevComaIndex + 1 );
+  inertMachines[totalInertMachines].name = row.substring(prevComaIndex + 1 , nextComaIndex);
+  prevComaIndex = nextComaIndex;
+
+  prevComaIndex = nextComaIndex;
+  nextComaIndex = row.indexOf(",", prevComaIndex + 1 );
+  inertMachines[totalInertMachines].description = row.substring(prevComaIndex + 1, nextComaIndex);
+  prevComaIndex = nextComaIndex;
+
+  prevComaIndex = nextComaIndex;
+  nextComaIndex = row.indexOf(",", prevComaIndex + 1 );
+  inertMachines[totalInertMachines].diameters = row.substring(prevComaIndex + 1 , nextComaIndex);
+  prevComaIndex = nextComaIndex;
+
+  prevComaIndex = nextComaIndex;
+  nextComaIndex = row.indexOf(",", prevComaIndex + 1 );
+  inertMachines[totalInertMachines].gearedDown = row.substring(prevComaIndex + 1, nextComaIndex).toFloat();
+  totalInertMachines++;
+}
+
+void saveInertMachines()
+{
+  SD.remove("INERMACH.TXT");
+ 
+  File inertFile = SD.open("INERMACH.TXT", FILE_WRITE);
+
+//  if(gravFile) Serial.println("File created");
+//  else Serial.println("Error creating file");
+
+  for (unsigned int i = 0; i < totalInertMachines; i++)
+  {
+    inertFile.print(inertMachines[i].id);
+    inertFile.print("," + inertMachines[i].name);
+    inertFile.print("," + inertMachines[i].description );
+    inertFile.print("," + inertMachines[i].diameters);
+    inertFile.println("," + String(inertMachines[i].gearedDown));
+  }
+  inertFile.close();
+  Serial.println("Saved " + String(totalInertMachines) + " to INERMACH.TXT");
+}
+
+void readInertMachineFile()
+{
+  char readChar;
+  String readString = "";
+  unsigned long pos = 0;    //Position in the file
+  int numRows = 0;          //Number of valid rows in the file
+
+  File  machinesFile = SD.open("INERMACH.TXT");
+
+  if (machinesFile)
+  {
+    //Serial.println("File size = " + String(exercisesFile.size() ) );
+    while (pos <= machinesFile.size())
+    {
+      readChar = '0';
+      String readString = "";
+      while (readChar != '\n' && readChar != '\r' && pos <= machinesFile.size())
+      {
+        readChar = machinesFile.read();
+        readString = readString + readChar;
+        pos++;
+      }
+      
+      //Serial.print(readString);
+
+      //Check that it is a valid row.
+      if ( isDigit(readString[0]) )
+      {
+        numRows++;
+        currentInertMachine = numRows - 1;
+        addInertMachine(readString);
+      }
+    }
+    
+    totalInertMachines = numRows;
+    Serial.println("Total:" + String(totalInertMachines));
+  }
+  machinesFile.close();
 }

@@ -48,12 +48,14 @@ String version = "0.1";
 #define teensy_4_0
 
 //Encoder variables
-Encoder encoder(8, 9);
+const unsigned int encoderAPin = 8;
+const unsigned int encoderBPin = 9;
+Encoder encoder(encoderAPin, encoderBPin);
 IntervalTimer encoderTimer;
-long position = 0;
+volatile int position = 0;
 float load = 0.0;
 bool inertialMode = false;
-long lastEncoderPosition = 0;
+long lastPosition = 0;
 long lastSamplePosition;
 int encoderBuffer[20];
 byte encoderBufferIndex = 0;
@@ -68,6 +70,7 @@ float avgVelocity = 0;
 float maxAvgVelocity = 0;
 bool propulsive = true;
 bool calibratedInertial = false;
+bool encoderFlag = false;
 
 int numRepetitions = 0;
 bool redrawBars = false;
@@ -98,23 +101,33 @@ boolean capturing = false;
 
 //Variables to capture
 enum sensorType {
-  loadCell,
-  incLinEncoder,
-  incRotEncoder,
-  loadCellincEncoder,
-  none
+  none = 0,
+  rca = 1,
+  loadCell = 2,
+  incLinEncoder = 3,
+  incRotEncoder = 4,
+  raceAnalyzer = 5,
+  loadCellincEncoder = 6
 };
 
 enum exerciseType {
   jumps,
   inertial,
   gravitatory,
-  raceAnalyzer,
-  races
+  encoderRace,
+  photocelRace
 };
 
 sensorType sensor = none;
 String maxString = "";
+
+struct frame {
+  int position;
+  unsigned long totalTime;
+  sensorType sensor;
+};
+
+frame raceAnalyzerSample = {.position = 0, .totalTime = 0, sensor = incRotEncoder};
 
 ////Wether the sync time must be sent or not
 //bool sendSyncTime = false;
@@ -173,11 +186,11 @@ menuEntry mainMenu[10] = {
   { "Raw Force", "Shows standard graph of\nthe force and the summary of the set.\n(Maximum Force, RFD and\nImpulse)", &startLoadCellCapture},
   { "Lin. Velocity", "Show bars of linear velocity", &startGravitEncoderCapture },
   { "Inert. Velocity", "Show a bars of the velocity of the person in inertial machines", &startInertEncoderCapture },
+  { "RaceAnalyzer", "Measure speed with a raceAnalyzer", &startRaceAnalyzerCapture},
   { "RawPower", "Measure Force and Speed\nat the same time.\nOnly power is shown in thegraph", &startPowerCapture},
   { "Tared Force", "Offset the force before\nmeasuring it.\nUseful to substract body\nweight.", &startTareCapture},
   { "F. Steadiness", "RMSSD and cvRMSSD.\nSteadynessof the force.\nWhen ready, press the Red Button to get the\nsteadiness of the next 5s.", &startSteadiness},
-  { "System", "Performs calibration or\ntare and shows some system\ninformation.", &showSystemMenu},
-  { "", "", &backMenu}
+  { "System", "Performs calibration or\ntare and shows some system\ninformation.", &showSystemMenu}
 };
 
 int mainMenuItems = 8;
@@ -402,7 +415,6 @@ void setup() {
 
 
   pinMode(rcaPin, INPUT_PULLUP);
-  attachInterrupt(rcaPin, changedRCA, CHANGE);
 
   scale.begin(DOUT, CLK);
   EEPROM.get(tareAddress, tareValue);
@@ -458,6 +470,8 @@ void setup() {
 
 
   tft.fillScreen(BLACK);
+
+  startRaceAnalyzerCapture();
   
   drawMenuBackground();
   backMenu();
@@ -691,6 +705,7 @@ void serialEvent() {
 
 void startLoadCellCapture(void)
 {
+  attachInterrupt(rcaPin, changedRCA, CHANGE);
   Serial.println("Starting capture...");
   scale.power_up();
   totalTime = 0;
@@ -734,6 +749,7 @@ void startLoadCellCapture(void)
 
 void endLoadCellCapture()
 {
+  detachInterrupt(rcaPin);
   capturing = false;
   sensor = none;
   Serial.println("Capture ended:");
@@ -863,6 +879,11 @@ void changedRCA() {
   rcaTime = totalTime;
   rcaState = digitalRead(rcaPin);
   rcaTimer.begin(rcaDebounce, rcaDebounceTime);
+  if (sensor == raceAnalyzer)
+  {
+    raceAnalyzerSample.position = position;
+    position = 0;
+  }
   //Serial.print("-");
 }
 
@@ -873,6 +894,7 @@ void rcaDebounce()
   rcaState = !digitalRead(rcaPin);
   if (rcaState != lastRcaState)
   {
+    lastRcaState = rcaState;
     rcaFlag = true;
   }
 }
@@ -1317,10 +1339,10 @@ void getEncoderDynamics()
 
     //TODO: Calculate positoion depending on the parameters of the encoder/machine
     if (inertialMode) position = - abs(position);
-    measured = (float)(position - lastEncoderPosition) * 1000 / (duration);
+    measured = (float)(position - lastPosition) * 1000 / (duration);
     if (measured > measuredMax) measuredMax = measured;
     //measured = position;
-    //    if(position != lastEncoderPosition) Serial.println(String(localMax) + "\t" + String(lastEncoderPosition) +
+    //    if(position != lastPosition) Serial.println(String(localMax) + "\t" + String(lastPosition) +
     //      "\t" + String(position) + "\t" + String(encoderPhase * (position - localMax)));
     float accel = (measured - lastVelocity) * 1000000 / duration;
     if (propulsive && accel <= -9.81) {
@@ -1373,7 +1395,7 @@ void getEncoderDynamics()
       startPhasePosition = position;
       startPhaseTime = lastMeasuredTime;
     }
-    lastEncoderPosition = position;
+    lastPosition = position;
     lastVelocity = measured;
     //Serial.println(String(measured) + "\t" + String(accel));
   }
@@ -1404,6 +1426,7 @@ void startGravitEncoderCapture()
 
 void startEncoderCapture(void)
 {
+  attachInterrupt(rcaPin, changedRCA, CHANGE);
   capturing = true;
   //Serial.println(sensor);
   maxString = "V";
@@ -1416,7 +1439,7 @@ void startEncoderCapture(void)
   encoderPhase = 0;
   localMax = 0;
   //encoder.write(0);
-  lastEncoderPosition = 0;
+  lastPosition = 0;
   lastMeasuredTime = 0;
   startPhasePosition = 0;
   startPhaseTime = 0;
@@ -1431,6 +1454,7 @@ void startEncoderCapture(void)
 
 void endEncoderCapture()
 {
+  detachInterrupt(rcaPin);
   capturing = false;
   encoderTimer.end();
   numRepetitions = ceil((float)(numRepetitions / 2));
@@ -1472,9 +1496,9 @@ void getPowerDynamics()
 {
   float force = scale.get_units();
   //position = encoder.read();
-  float velocity = (float)(position - lastEncoderPosition) * 1000 / (totalTime - lastSampleTime);
+  float velocity = (float)(position - lastPosition) * 1000 / (totalTime - lastSampleTime);
   lastSampleTime = totalTime;
-  lastEncoderPosition = position;
+  lastPosition = position;
   for (int i = 0; i < encoderBufferIndex; i++)
   {
     Serial.print(encoderBuffer[i]);
@@ -1488,6 +1512,7 @@ void getPowerDynamics()
 
 void startPowerCapture(void)
 {
+  attachInterrupt(rcaPin, changedRCA, CHANGE);
   capturing = true;
   sensor = loadCellincEncoder;
   maxString = "P";
@@ -1507,14 +1532,15 @@ void startPowerCapture(void)
 void readEncoder()
 {
   position = encoder.read();
-  //  encoderString = encoderString + String(position - lastEncoderPosition) + ",";
-  encoderBuffer[encoderBufferIndex] = position - lastEncoderPosition;
-  lastEncoderPosition = position;
+  //  encoderString = encoderString + String(position - lastPosition) + ",";
+  encoderBuffer[encoderBufferIndex] = position - lastPosition;
+  lastPosition = position;
   encoderBufferIndex++;
 }
 
 void endPowerCapture()
 {
+  detachInterrupt(rcaPin);
   capturing = false;
   encoderTimer.end();
   sensor = none;
@@ -1544,6 +1570,7 @@ void showPowerResults()
 
 void jumpsCapture()
 {
+  attachInterrupt(rcaPin, changedRCA, CHANGE);
   if (totalJumpTypes == 0) readExercisesFile(jumps);
   //printJumpTypesList();
   selectExerciseType(jumps);
@@ -1768,6 +1795,7 @@ void jumpsCapture()
   drawMenuBackground();
   redButton.update();
   blueButton.update();
+  detachInterrupt(rcaPin);
   showMenuEntry(currentMenuIndex);
 }
 
@@ -1890,10 +1918,10 @@ void calibrateInertial()
   while (!redButton.fell())
   {
     position = encoder.read();
-    if (position != lastEncoderPosition) {
-      printTftText(lastEncoderPosition, 124, 190, BLACK);
+    if (position != lastPosition) {
+      printTftText(lastPosition, 124, 190, BLACK);
       printTftText(position, 124, 190);
-      lastEncoderPosition = position;
+      lastPosition = position;
     }
     redButton.update();
   }
@@ -1901,7 +1929,7 @@ void calibrateInertial()
   //Deleting text
   printTftText("Extend the rope or belt.\nOnce extended press RedButton", 12, 100, BLACK);
   printTftText("Position: ", 12, 190, BLACK);
-  printTftText(lastEncoderPosition, 124, 190, BLACK);
+  printTftText(lastPosition, 124, 190, BLACK);
 
   printTftText("Calibrated", 100, 150, WHITE, 3);
   delay(500);
@@ -1911,7 +1939,7 @@ void calibrateInertial()
 
   encoder.write(0);
   Serial.print(encoder.read());
-  lastEncoderPosition = 0;
+  lastPosition = 0;
   calibratedInertial = true;
 }
 
@@ -2101,4 +2129,52 @@ void showList(int color)
   }
   tft.fillRoundRect(0, midYPos -1 ,320, 25, 5, RED);
   printTftText(textList[3], xPos, midYPos, color, 3);
+}
+
+void startRaceAnalyzerCapture()
+{
+  attachInterrupt(8, encoderChange, RISING);
+  attachInterrupt(rcaPin, changedRCA, CHANGE);
+  calibratedInertial = false;
+  totalTime = 0;
+  redButton.update();
+  while (!redButton.fell())
+  {
+    if(encoderFlag)
+    {
+      encoderFlag = false;
+      raceAnalyzerSample.sensor = raceAnalyzer;
+      if (!binaryFormat) Serial.println(String(raceAnalyzerSample.totalTime) + ";" + String(raceAnalyzerSample.position));
+      else Serial.write((byte*)&raceAnalyzerSample, 9);
+    }
+
+    if(rcaFlag)
+    {
+      rcaFlag = 0;
+      raceAnalyzerSample.sensor = rca;
+      if (!binaryFormat) Serial.println(String(raceAnalyzerSample.totalTime) + ";" + String(position) + ";" + String(rcaState));
+      else Serial.write((byte*)&raceAnalyzerSample, 9);
+    }
+    if (Serial.available()) serialEvent();
+    redButton.update();
+  }
+  detachInterrupt(encoderAPin);
+  detachInterrupt(rcaPin);
+}
+
+void encoderChange()
+{
+  if (digitalRead(encoderBPin) == HIGH) {
+    position--;
+  } else {
+    position++;
+  }
+
+  if(abs(position)>=10)
+  {
+    raceAnalyzerSample.totalTime = totalTime;
+    raceAnalyzerSample.position = position;
+    position = 0;
+    encoderFlag = true;
+  }
 }

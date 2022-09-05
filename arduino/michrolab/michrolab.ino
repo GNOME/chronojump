@@ -71,6 +71,7 @@ float maxAvgVelocity = 0;
 bool propulsive = true;
 bool calibratedInertial = false;
 bool encoderFlag = false;
+int pps = 40;
 
 int numRepetitions = 0;
 bool redrawBars = false;
@@ -122,12 +123,12 @@ sensorType sensor = none;
 String maxString = "";
 
 struct frame {
-  int position;
+  int displacement;
   unsigned long totalTime;
   sensorType sensor;
 };
 
-frame raceAnalyzerSample = {.position = 0, .totalTime = 0, sensor = incRotEncoder};
+frame raceAnalyzerSample = {.displacement = 0, .totalTime = 0, sensor = incRotEncoder};
 
 ////Wether the sync time must be sent or not
 //bool sendSyncTime = false;
@@ -150,6 +151,7 @@ volatile bool rcaFlag = false;
 elapsedMicros totalTime = 0;
 elapsedMicros totalTestTime;
 unsigned long lastSampleTime;
+unsigned long currentSampleTime;
 unsigned long lastMeasuredTime;
 //By default the debounce time for the RCA is 10000.
 //With the foot pedal 2000 is too short for jumps and some values are repeated
@@ -470,8 +472,6 @@ void setup() {
 
 
   tft.fillScreen(BLACK);
-
-  startRaceAnalyzerCapture();
   
   drawMenuBackground();
   backMenu();
@@ -696,6 +696,11 @@ void serialEvent() {
     saveInertMachines();
   } else if (commandString == "readInertialMachinesFile") {
     readInertMachineFile();
+  } else if (commandString == "startRaceAnalyzerCapture") {
+    PcControlled = true;
+    startRaceAnalyzerCapture();
+  } else if (commandString == "endRaceAnalyzerCapture") {
+    endRaceAnalyzerCapture();
   } else {
     Serial.println("Not a valid command");
   }
@@ -876,13 +881,14 @@ void get_transmission_format()
 
 //Any change in the RCA activates the timer
 void changedRCA() {
+  Serial.println("RCA");
   rcaTime = totalTime;
   rcaState = digitalRead(rcaPin);
   rcaTimer.begin(rcaDebounce, rcaDebounceTime);
   if (sensor == raceAnalyzer)
   {
-    raceAnalyzerSample.position = position;
-    position = 0;
+    raceAnalyzerSample.displacement = encoder.read();
+    encoder.write(0);
   }
   //Serial.print("-");
 }
@@ -1063,7 +1069,7 @@ void captureRaw()
 
   double xGraph = 1;
 
-  printTftText(maxString, 10, 215, 2, WHITE, false);
+  printTftText(maxString, 10, 215, WHITE, 2, false);
   printTftText("max", 22, 223, WHITE, 1);
   printTftText(":", 40, 215, 2, WHITE, false);
   printTftValue(measuredMax, 94, 215, 2, 1);
@@ -1121,6 +1127,7 @@ void captureRaw()
           if (sensor == incLinEncoder || sensor == incRotEncoder ) getEncoderDynamics();
           else if (sensor == loadCell) getLoadCellDynamics();
           else if (sensor == loadCellincEncoder) getPowerDynamics();
+          else if (sensor == raceAnalyzer) getRaceAnalyzerDynamics();
 
           //Value exceeds the plotting area
           if (measured > newGraphMax) {
@@ -1178,6 +1185,8 @@ void captureRaw()
 
           } else if (sensor == loadCellincEncoder) {
             endPowerCapture();
+          } else if (sensor == raceAnalyzer) {
+            endRaceAnalyzerCapture();
           }
           //xGraph = xMax;
         }
@@ -1400,7 +1409,6 @@ void getEncoderDynamics()
     //Serial.println(String(measured) + "\t" + String(accel));
   }
 }
-
 
 void startInertEncoderCapture()
 {
@@ -1839,6 +1847,7 @@ void saveSD(String fileName)
   if (sensor == incLinEncoder || sensor == incRotEncoder) sensorString = "-V";
   else if (sensor == loadCell) sensorString = "-F";
   else if (sensor == loadCellincEncoder) sensorString = "-P";
+  else if (sensor == raceAnalyzer) sensorString = "-R";
   else
   {
     Serial.println("no sensor type");
@@ -2133,48 +2142,85 @@ void showList(int color)
 
 void startRaceAnalyzerCapture()
 {
-  attachInterrupt(8, encoderChange, RISING);
+  attachInterrupt(encoderAPin, encoderAChange, CHANGE);
+  //attachInterrupt(encoderBPin, encoderBChange, CHANGE);
   attachInterrupt(rcaPin, changedRCA, CHANGE);
   calibratedInertial = false;
   totalTime = 0;
+  sensor = raceAnalyzer;
+  pps = 40;
+  capturing = true;
+  maxString = "V";
+  plotPeriod = 5;
+  newGraphMin = -1;
+  newGraphMax = 10;
+  measuredMax = 0;
+  measured = 0;
+  totalTime = 0;
+
+  captureRaw();
+
+  endRaceAnalyzerCapture();
+}
+
+void endRaceAnalyzerCapture()
+{
+  detachInterrupt(encoderAPin);
+  //detachInterrupt(encoderBPin);
+  detachInterrupt(rcaPin);
   redButton.update();
-  while (!redButton.fell())
+  blueButton.update();
+  capturing = false;
+}
+
+void encoderAChange()
+{
+  position = encoder.read();
+  if(abs(position) >= pps)
   {
+    //Serial.println(raceAnalyzerSample.displacement);
+    raceAnalyzerSample.displacement = position;
+    currentSampleTime = totalTime;
+    encoder.write(0);
+    encoderFlag = true;
+  }
+}
+
+void getRaceAnalyzerDynamics()
+{
+  if((encoderFlag || rcaFlag) && !PcControlled)
+  {
+    //Serial.println(raceAnalyzerSample.displacement);
     if(encoderFlag)
     {
+      measured = abs( (float)raceAnalyzerSample.displacement * 1000000 * 0.0030321 /  4 / (float)(currentSampleTime - raceAnalyzerSample.totalTime) );
+      raceAnalyzerSample.totalTime = currentSampleTime;
       encoderFlag = false;
       raceAnalyzerSample.sensor = raceAnalyzer;
-      if (!binaryFormat) Serial.println(String(raceAnalyzerSample.totalTime) + ";" + String(raceAnalyzerSample.position));
-      else Serial.write((byte*)&raceAnalyzerSample, 9);
     }
 
     if(rcaFlag)
     {
-      rcaFlag = 0;
+      rcaFlag = false;
       raceAnalyzerSample.sensor = rca;
-      if (!binaryFormat) Serial.println(String(raceAnalyzerSample.totalTime) + ";" + String(position) + ";" + String(rcaState));
-      else Serial.write((byte*)&raceAnalyzerSample, 9);
     }
-    if (Serial.available()) serialEvent();
-    redButton.update();
+    
+    if (!binaryFormat) Serial.println(String(raceAnalyzerSample.totalTime) + ";" + String(raceAnalyzerSample.displacement) + ";" + String(rcaState));
+    else Serial.write((byte*)&raceAnalyzerSample, 9);
   }
-  detachInterrupt(encoderAPin);
-  detachInterrupt(rcaPin);
 }
 
-void encoderChange()
+/*
+void encoderBChange()
 {
-  if (digitalRead(encoderBPin) == HIGH) {
-    position--;
-  } else {
-    position++;
-  }
-
-  if(abs(position)>=10)
+  raceAnalyzerSample.displacement = encoder.read();
+  currentSampleTime = totalTime;
+  if(abs(raceAnalyzerSample.displacement) >= pps)
   {
-    raceAnalyzerSample.totalTime = totalTime;
-    raceAnalyzerSample.position = position;
-    position = 0;
+    measured = raceAnalyzerSample.displacement * 1000 /  (currentSampleTime - raceAnalyzerSample.totalTime);
+    raceAnalyzerSample.totalTime = currentSampleTime;
+    encoder.write(0);
     encoderFlag = true;
   }
 }
+*/

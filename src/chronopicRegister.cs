@@ -198,8 +198,12 @@ public abstract class ChronopicRegister
 	protected ChronopicRegisterPortList crpl;
 	public static string SerialNumberNotUnique = "A50285BI"; //A FTDI sadly not unique
 
-	protected void process(bool compujump, bool showRunWireless)
+	private bool compujump;
+
+	protected void process (bool compujump, bool showRunWireless)
 	{
+		this.compujump = compujump;
+
 		//1 print the registered ports on SQL
 		crpl = new ChronopicRegisterPortList(compujump, showRunWireless); //compujump means: showArduinoRFID
 		crpl.Print();
@@ -247,8 +251,12 @@ public abstract class ChronopicRegister
 		if(! crp.FTDI)
 			return;
 
-		//special case for the massively repeated A50285BI
-		if (crp.SerialNumber == SerialNumberNotUnique)
+		/*
+		   special case for the massively repeated A50285BI
+		   on compujump there is no problem as there will be rfid (maybe bad number),
+		   but the rest of the devices (right now: contact platform, photocells or encoder) all Chronopic (ftdi ok)
+		   */
+		if (crp.SerialNumber == SerialNumberNotUnique && ! compujump)
 		{
 			crpl.Add (crp, false); //only add to the current list
 			return;

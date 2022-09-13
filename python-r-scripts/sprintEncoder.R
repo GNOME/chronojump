@@ -158,7 +158,7 @@ getSprintFromEncoder <- function(filename, testLength, isSprint, Mass, Temperatu
         #         longEnough = FALSE
         #         return(list(longEnough = longEnough))
         # }
-        
+       
         #Checking that the position reaches at least testLength
         if(max(position) < testLength)
         {

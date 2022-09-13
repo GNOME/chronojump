@@ -9,8 +9,8 @@ for filename in listdir():
     df = pd.read_csv(filename, sep=";", decimal=",")
     for i, row in df.iterrows():
         current = float(df.at[i,'Force(N)'])
-        new = ((current -257.13) / 13.4) * 930.59 #obviously, change the values
+        new = ((current -257.13) * 13.4) / 930.59 #obviously, change the values
         df.at[i,'Force(N)'] = new
         #print("row: " + str(i) + "; current: " + str(current) + "; new: " + str(new))
     
-    df.to_csv("../forceSensorCSVFixCalibration_files_fixed/" + filename, sep=';', decimal=",")
+    df.to_csv("../forceSensorCSVFixCalibration_files_fixed/" + filename, sep=';', decimal=",", index=False)

@@ -195,7 +195,8 @@ public partial class ChronoJumpWindow
 
 			//regular constructor
 			jumpsRjFatigueGraph = new JumpsRjFatigueGraph (
-					jumpsRjFatigue.TimesAccu_l,
+					jumpsRjFatigue.Tc_l,
+					jumpsRjFatigue.Tv_l,
 					jumpsRjFatigue.Point_l,
 					jumpsRjFatigue.Slope,
 					jumpsRjFatigue.Intercept,

@@ -508,6 +508,17 @@ public class JumpRj : Jump
 		}
 	}
 
+	//both used on jumpsRjFatigue
+	public List<double> TvList
+	{
+		get { return tvList; }
+	}
+	public List<double> TcList
+	{
+		get { return tcList; }
+	}
+
+
 	/*
 	public List<double> TcPlusTvList
 	{

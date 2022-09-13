@@ -26,8 +26,8 @@ using System.Collections.Generic; //List
 public class JumpsRjFatigue
 {
 	private List<PointF> point_l;
-	private List<double> timesAccu_l;
-	//private List<Point3F> point_3l;
+	private List<double> tc_l;
+	private List<double> tv_l;
 	LeastSquaresLine ls;
 	public enum Statistic { HEIGHTS, Q, RSI } //RSI is jump height (m)/ contact time (s)
 
@@ -48,11 +48,10 @@ public class JumpsRjFatigue
 		else if(statistic == Statistic.RSI)
 			y_l = jumpRj.RSIList;
 
-		//List<double> z_l = jumpRj.SumTcTvList;
-		timesAccu_l = jumpRj.TcPlusTvAccumulatedList;
+		tc_l = jumpRj.TcList;
+		tv_l = jumpRj.TvList;
 
 		point_l = new List<PointF>();
-		//point_3l = new List<Point3F>();
 
 		for(int i = 0; i < y_l.Count ; i ++)
 			point_l.Add (new PointF (i+1, y_l[i]));
@@ -84,9 +83,13 @@ public class JumpsRjFatigue
 		get { return point_l; }
 	}
 
-	public List<double> TimesAccu_l
+	public List<double> Tc_l
 	{
-		get { return timesAccu_l; }
+		get { return tc_l; }
+	}
+	public List<double> Tv_l
+	{
+		get { return tv_l; }
 	}
 
 	public double Slope

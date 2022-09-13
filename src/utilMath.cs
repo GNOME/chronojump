@@ -16,7 +16,7 @@
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
  *  Copyright (C) 2016, 2019   Xavier Padullés <x.padulles@gmail.com>
- *  Copyright (C) 2016-2017, 2019-2020   Xavier de Blas <xaviblas@gmail.com>
+ *  Copyright (C) 2016-2017, 2019-2022   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -631,6 +631,13 @@ public static class MathUtil
 				min = d;
 
 		return min;
+	}
+
+	public static double GetProportion (double d, double min, double max)
+	{
+		d -= min;
+		max -= min;
+		return UtilAll.DivideSafe(d, max);
 	}
 
 	/*

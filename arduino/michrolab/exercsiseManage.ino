@@ -161,13 +161,66 @@ void saveInertialList()
   Serial.println("Saved " + String(totalInertTypes) + " to GRAVTYPE.TXT");
 }
 
+void addForce(String row)
+{
+  //Serial.println(row);
+  int prevComaIndex = row.indexOf(":");
+  int nextComaIndex = row.indexOf(",");
+  forceTypes[totalForceTypes].id = row.substring(prevComaIndex + 1, nextComaIndex).toInt();
+
+  prevComaIndex = nextComaIndex;
+  nextComaIndex = row.indexOf(",", prevComaIndex + 1 );
+  forceTypes[totalForceTypes].name = row.substring(prevComaIndex + 1 , nextComaIndex);
+  prevComaIndex = nextComaIndex;
+
+  nextComaIndex = row.indexOf(",", prevComaIndex + 1 );
+  forceTypes[totalForceTypes].description = row.substring(prevComaIndex + 1, nextComaIndex);
+  prevComaIndex = nextComaIndex;
+
+  nextComaIndex = row.indexOf(",", prevComaIndex + 1 );
+  forceTypes[totalForceTypes].percentBodyWeight = row.substring(prevComaIndex + 1 , nextComaIndex).toFloat();
+  prevComaIndex = nextComaIndex;
+
+  nextComaIndex = row.indexOf(",", prevComaIndex + 1 );
+  forceTypes[totalForceTypes].angle = row.substring(prevComaIndex + 1 , nextComaIndex).toFloat();
+  prevComaIndex = nextComaIndex;
+
+  nextComaIndex = row.indexOf(",", prevComaIndex + 1 );
+  forceTypes[totalForceTypes].percentBodyWeight = ( row.substring(prevComaIndex + 1 , nextComaIndex) == 1 );
+  totalForceTypes++;
+}
+
+void saveForceList()
+{
+  SD.remove("FORCTYPE.TXT");
+ 
+  File forceFile = SD.open("FORCTYPE.TXT", FILE_WRITE);
+
+//  if(gravFile) Serial.println("File created");
+//  else Serial.println("Error creating file");
+
+  for (unsigned int i = 0; i < totalForceTypes; i++)
+  {
+    forceFile.print(forceTypes[i].id);
+    forceFile.print("," + String(forceTypes[i].name));
+    forceFile.print("," + forceTypes[i].description );
+    forceFile.print("," + String(forceTypes[i].percentBodyWeight));
+    forceFile.print("," + String(forceTypes[i].angle));
+    forceFile.println("," + String(forceTypes[i].tare));
+  }
+  forceFile.close();
+  Serial.println("Saved " + String(totalForceTypes) + " to FORCTYPE.TXT");
+}
+
 void readExercisesFile(String parameters){
   parameters = parameters.substring(0, parameters.lastIndexOf(";"));
   if ( parameters == "jumps" ) readExercisesFile(jumps);
   else if ( parameters == "gravitatory" ) readExercisesFile(gravitatory);
   else if ( parameters == "inertial" ) readExercisesFile(inertial);
+  else if ( parameters == "force" ) readExercisesFile( force );
   else Serial.print("Not a valid parameter");
 }
+
 void readExercisesFile(exerciseType mode)
 {
   char readChar;
@@ -179,14 +232,15 @@ void readExercisesFile(exerciseType mode)
   if (mode == jumps) {
     //Serial.println("J");
     file = "JUMPTYPE.TXT";
-  }
-  else if (mode == gravitatory) {
+  } else if (mode == gravitatory) {
     //Serial.println("G");
     file = "GRAVTYPE.TXT";
-  }
-  else if (mode == inertial) {
-    //Serial.println("G");
+  } else if (mode == inertial) {
+    //Serial.println("I");
     file = "INERTYPE.TXT";
+  } else if (mode == force) {
+    //Serial.println("F");
+    file = "FORCTYPE.TXT";
   }
 
   File  exercisesFile = SD.open(file);
@@ -222,6 +276,9 @@ void readExercisesFile(exerciseType mode)
         } else if (mode == inertial) {
           addInertial(readString);
           totalInertTypes = numRows;
+        } else if (mode == force) {
+          addForce(readString);
+          totalForceTypes = numRows;
         }
       }
     }
@@ -230,7 +287,7 @@ void readExercisesFile(exerciseType mode)
   exercisesFile.close();
 }
 
-void printJumpTypesList()
+void printJumpTypes()
 {
   Serial.println("id, name, jumpLimit,timeLimit, hardTimeLimit, percentBodyWeight, fall, startIn");
   for (unsigned int i = 0; i < totalJumpTypes; i++)
@@ -248,7 +305,7 @@ void printJumpTypesList()
   }
 }
 
-void printGravTypesList()
+void printGravTypes()
 {
   Serial.println("id, name, description, percentBodyWeight, speed1RM");
   for (unsigned int i = 0; i < totalGravTypes; i++)
@@ -261,7 +318,7 @@ void printGravTypesList()
   }
 }
 
-void printInertTypesList()
+void printInertTypes()
 {
   Serial.println("id, name, description, percentBodyWeight");
   for (unsigned int i = 0; i < totalInertTypes; i++)
@@ -270,6 +327,20 @@ void printInertTypesList()
     Serial.print(inertTypes[i].name + ", ");
     Serial.print(inertTypes[i].description + ", ");
     Serial.println(String( inertTypes[i].percentBodyWeight , 2) + "%, ");
+  }
+}
+
+void printForceTypes()
+{
+  Serial.println("id, name, description, percentBodyWeight, angle, tare");
+  for (unsigned int i = 0; i < totalForceTypes; i++)
+  {
+    Serial.print(String(forceTypes[i].id) + ", ");
+    Serial.print(forceTypes[i].name + ", ");
+    Serial.print(forceTypes[i].description + ", ");
+    Serial.print(String( forceTypes[i].percentBodyWeight , 2) + "%, ");
+    Serial.print(String( forceTypes[i].angle , 2) + ", ");
+    Serial.println(forceTypes[i].tare);
   }
 }
 

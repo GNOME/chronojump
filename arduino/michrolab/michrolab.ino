@@ -115,6 +115,7 @@ enum exerciseType {
   jumps,
   inertial,
   gravitatory,
+  force,
   encoderRace,
   photocelRace
 };
@@ -195,7 +196,7 @@ menuEntry mainMenu[10] = {
   { "System", "Performs calibration or\ntare and shows some system\ninformation.", &showSystemMenu}
 };
 
-int mainMenuItems = 8;
+int mainMenuItems = 9;
 
 menuEntry systemMenu[10] {
   { "Group", "Select the group you are going to use.\nUp to 9 groups can be\nselected", &selectGroup},
@@ -385,6 +386,18 @@ struct inertMachineType {
 inertMachineType inertMachines[10];
 unsigned int totalInertMachines = 0;
 unsigned int currentInertMachine = 0;
+
+struct forceType {
+  unsigned int id;
+  String name;
+  String description;
+  float percentBodyWeight;
+  float angle;
+  bool tare;
+};
+
+forceType forceTypes[100];
+unsigned int totalForceTypes = 0;
 
 IntervalTimer rcaTimer;
 String fullFileName;
@@ -665,7 +678,7 @@ void serialEvent() {
     addJump(parameters);
     //Serial.println("Jump added");
   } else if (commandString == "getJumpTypes") {
-    printJumpTypesList();
+    printJumpTypes();
   } else if (commandString == "saveJumpTypes") {
     saveJumpsList();
   } else if (commandString == "deleteJumpTypes") {
@@ -673,16 +686,16 @@ void serialEvent() {
   } else if (commandString == "readExercisesFile") {
     readExercisesFile(parameters);
   } else if (commandString == "getGravitatoryTypes") {
-    printGravTypesList();
+    printGravTypes();
   } else if (commandString == "addGravitatoryType") {
     addGravitatory(parameters);
     //Serial.println("Gravitatory added");  
   } else if (commandString == "deleteGravitatoryTypes") {
     totalGravTypes = 0;
   } else if (commandString == "saveGravitatoryTypes") {
-    saveInertialList();
+    saveGravitatoryList();
   } else if (commandString == "getInertialTypes") {
-    printInertTypesList();
+    printInertTypes();
   } else if (commandString == "addInertialType") {
     addInertial(parameters);
     //Serial.println("Gravitatory added");  
@@ -696,6 +709,14 @@ void serialEvent() {
     saveInertMachines();
   } else if (commandString == "readInertialMachinesFile") {
     readInertMachineFile();
+  } else if (commandString == "getForceTypes") {
+    printForceTypes();
+  } else if (commandString == "addForceType") {
+    addForce(parameters);
+  } else if (commandString == "deleteForceTypes") {
+    totalForceTypes = 0;
+  } else if (commandString == "saveForceTypes") {
+    saveForceList();
   } else if (commandString == "startRaceAnalyzerCapture") {
     PcControlled = true;
     startRaceAnalyzerCapture();
@@ -1580,7 +1601,7 @@ void jumpsCapture()
 {
   attachInterrupt(rcaPin, changedRCA, CHANGE);
   if (totalJumpTypes == 0) readExercisesFile(jumps);
-  //printJumpTypesList();
+  //printJumpTypes();
   selectExerciseType(jumps);
   IntervalTimer testTime;             //Timer that controls the refreshing of time in lower right corner
   capturing = true;

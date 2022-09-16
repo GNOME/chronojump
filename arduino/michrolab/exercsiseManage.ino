@@ -151,7 +151,6 @@ void saveInertialList()
 
 void addForce(String row)
 {
-  //Serial.println(row);
   int prevComaIndex = row.indexOf(":");
   int nextComaIndex = row.indexOf(",");
   forceTypes[totalForceTypes].id = row.substring(prevComaIndex + 1, nextComaIndex).toInt();
@@ -173,8 +172,7 @@ void addForce(String row)
   forceTypes[totalForceTypes].angle = row.substring(prevComaIndex + 1 , nextComaIndex).toFloat();
   prevComaIndex = nextComaIndex;
 
-  nextComaIndex = row.indexOf(",", prevComaIndex + 1 );
-  forceTypes[totalForceTypes].percentBodyWeight = ( row.substring(prevComaIndex + 1 , nextComaIndex) == 1 );
+  forceTypes[totalForceTypes].tare = ( row.substring(prevComaIndex + 1 , prevComaIndex + 2) == "1" );
   totalForceTypes++;
 }
 
@@ -344,8 +342,12 @@ void selectExerciseType(exerciseType mode)
     printTftText(gravTypes[currentExerciseType].name, 50, 100);
   }
   else if (mode == inertial) {
-    printTftText("Inertt. type", 40, 20, WHITE, 3);
+    printTftText("Inert. type", 40, 20, WHITE, 3);
     printTftText(inertTypes[currentExerciseType].name, 50, 100);
+  }
+    else if (mode == force) {
+    printTftText("Force type", 40, 20, WHITE, 3);
+    printTftText(forceTypes[currentExerciseType].name, 50, 100);
   }
   
   drawLeftButton("Next", WHITE, BLUE);
@@ -372,6 +374,11 @@ void selectExerciseType(exerciseType mode)
         printTftText(inertTypes[currentExerciseType].name, 50, 100, BLACK);
         currentExerciseType = (currentExerciseType + 1) % totalInertTypes;   
         printTftText(inertTypes[currentExerciseType].name, 50, 100);   
+      }
+        else if (mode == force) {
+        printTftText(forceTypes[currentExerciseType].name, 50, 100, BLACK);
+        currentExerciseType = (currentExerciseType + 1) % totalForceTypes;   
+        printTftText(forceTypes[currentExerciseType].name, 50, 100);   
       }
     }
     blueButton.update();

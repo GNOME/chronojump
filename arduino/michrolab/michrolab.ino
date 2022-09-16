@@ -191,12 +191,12 @@ menuEntry mainMenu[10] = {
   { "Inert. Velocity", "Show a bars of the velocity of the person in inertial machines", &startInertEncoderCapture },
   { "RaceAnalyzer", "Measure speed with a raceAnalyzer", &startRaceAnalyzerCapture},
   { "RawPower", "Measure Force and Speed\nat the same time.\nOnly power is shown in thegraph", &startPowerCapture},
-  { "Tared Force", "Offset the force before\nmeasuring it.\nUseful to substract body\nweight.", &startTareCapture},
+  //{ "Tared Force", "Offset the force before\nmeasuring it.\nUseful to substract body\nweight.", &startTareCapture},
   { "F. Steadiness", "RMSSD and cvRMSSD.\nSteadynessof the force.\nWhen ready, press the Red Button to get the\nsteadiness of the next 5s.", &startSteadiness},
   { "System", "Performs calibration or\ntare and shows some system\ninformation.", &showSystemMenu}
 };
 
-int mainMenuItems = 9;
+int mainMenuItems = 8;
 
 menuEntry systemMenu[10] {
   { "Group", "Select the group you are going to use.\nUp to 9 groups can be\nselected", &selectGroup},
@@ -483,8 +483,9 @@ void setup() {
   //TODO: Read exercises only if necessary
   currentExerciseType = 0;
 
-
   tft.fillScreen(BLACK);
+
+  Serial.println("Microlab-" + version);
   
   drawMenuBackground();
   backMenu();
@@ -771,6 +772,21 @@ void startLoadCellCapture(void)
     newGraphMin = -100;
     newGraphMax = max(100, measuredMax * 1.5);
   }
+
+  selectPersonDialog();
+  if (totalForceTypes == 0) readExercisesFile(force);
+  selectExerciseType(force);
+  if(forceTypes[currentExerciseType].tare)
+  {
+    tft.fillScreen(BLACK);
+    printTftText(currentMenu[currentMenuIndex].description, 12, 100, 2);
+    printTftText("Taring...", 100, 100);
+    scale.tare(50); //Reset the scale to 0 using the mean of 255 raw values
+    printTftText("Taring...", 100, 100, BLACK);
+    printTftText("  Tared  ", 100, 100);
+    delay(300);
+  }
+  
 }
 
 void endLoadCellCapture()
@@ -853,6 +869,7 @@ void tare()
   showMenuEntry(currentMenuIndex);
 }
 
+/*
 void startTareCapture(void)
 {
 
@@ -864,6 +881,7 @@ void startTareCapture(void)
   delay(300);
   startLoadCellCapture();
 }
+*/
 
 void get_tare()
 {

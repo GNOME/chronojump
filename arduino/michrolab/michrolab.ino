@@ -2061,17 +2061,14 @@ void addInertMachine(String row)
   prevComaIndex = nextComaIndex;
   nextComaIndex = row.indexOf(",", prevComaIndex + 1 );
   inertMachines[totalInertMachines].name = row.substring(prevComaIndex + 1 , nextComaIndex);
-  prevComaIndex = nextComaIndex;
 
   prevComaIndex = nextComaIndex;
   nextComaIndex = row.indexOf(",", prevComaIndex + 1 );
   inertMachines[totalInertMachines].description = row.substring(prevComaIndex + 1, nextComaIndex);
-  prevComaIndex = nextComaIndex;
 
   prevComaIndex = nextComaIndex;
   nextComaIndex = row.indexOf(",", prevComaIndex + 1 );
   inertMachines[totalInertMachines].diameters = row.substring(prevComaIndex + 1 , nextComaIndex);
-  prevComaIndex = nextComaIndex;
 
   prevComaIndex = nextComaIndex;
   nextComaIndex = row.indexOf(",", prevComaIndex + 1 );

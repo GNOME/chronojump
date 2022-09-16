@@ -50,6 +50,7 @@ void addPerson(String row)
   prevComaIndex = nextComaIndex;
   nextComaIndex = row.indexOf(",", prevComaIndex + 1 );
   persons[totalPersons].name = row.substring(prevComaIndex + 1 , nextComaIndex);
+  
   prevComaIndex = nextComaIndex;
   nextComaIndex = row.indexOf(",", prevComaIndex + 1 );
   persons[totalPersons].surname = row.substring(prevComaIndex + 1 , nextComaIndex);

@@ -8,32 +8,26 @@ void addJump(String row)
   prevComaIndex = nextComaIndex;
   nextComaIndex = row.indexOf(",", prevComaIndex + 1 );
   jumpTypes[totalJumpTypes].name = row.substring(prevComaIndex + 1 , nextComaIndex);
-  prevComaIndex = nextComaIndex;
 
   prevComaIndex = nextComaIndex;
   nextComaIndex = row.indexOf(",", prevComaIndex + 1 );
   jumpTypes[totalJumpTypes].jumpLimit = row.substring(prevComaIndex + 1, nextComaIndex).toInt();
-  prevComaIndex = nextComaIndex;
 
   prevComaIndex = nextComaIndex;
   nextComaIndex = row.indexOf(",", prevComaIndex + 1 );
   jumpTypes[totalJumpTypes].timeLimit = row.substring(prevComaIndex + 1, nextComaIndex).toFloat();
-  prevComaIndex = nextComaIndex;
 
   prevComaIndex = nextComaIndex;
   nextComaIndex = row.indexOf(",", prevComaIndex + 1 );
   jumpTypes[totalJumpTypes].hardTimeLimit = (row.substring(prevComaIndex + 1 , nextComaIndex) == 1);
-  prevComaIndex = nextComaIndex;
 
   prevComaIndex = nextComaIndex;
   nextComaIndex = row.indexOf(",", prevComaIndex + 1 );
   jumpTypes[totalJumpTypes].percentBodyWeight = row.substring(prevComaIndex + 1 , nextComaIndex).toFloat();
-  prevComaIndex = nextComaIndex;
 
   prevComaIndex = nextComaIndex;
   nextComaIndex = row.indexOf(",", prevComaIndex + 1 );
   jumpTypes[totalJumpTypes].fall = row.substring(prevComaIndex + 1, nextComaIndex).toFloat();
-  prevComaIndex = nextComaIndex;
 
   prevComaIndex = nextComaIndex;
   jumpTypes[totalJumpTypes].startIn = (row.substring(prevComaIndex + 1, prevComaIndex + 2) == "1");
@@ -75,17 +69,14 @@ void addGravitatory(String row)
   prevComaIndex = nextComaIndex;
   nextComaIndex = row.indexOf(",", prevComaIndex + 1 );
   gravTypes[totalGravTypes].name = row.substring(prevComaIndex + 1 , nextComaIndex);
-  prevComaIndex = nextComaIndex;
 
   prevComaIndex = nextComaIndex;
   nextComaIndex = row.indexOf(",", prevComaIndex + 1 );
   gravTypes[totalGravTypes].description = row.substring(prevComaIndex + 1, nextComaIndex);
-  prevComaIndex = nextComaIndex;
 
   prevComaIndex = nextComaIndex;
   nextComaIndex = row.indexOf(",", prevComaIndex + 1 );
   gravTypes[totalGravTypes].percentBodyWeight = row.substring(prevComaIndex + 1 , nextComaIndex).toFloat();
-  prevComaIndex = nextComaIndex;
 
   prevComaIndex = nextComaIndex;
   nextComaIndex = row.indexOf(",", prevComaIndex + 1 );
@@ -124,17 +115,14 @@ void addInertial(String row)
   prevComaIndex = nextComaIndex;
   nextComaIndex = row.indexOf(",", prevComaIndex + 1 );
   inertTypes[totalInertTypes].name = row.substring(prevComaIndex + 1 , nextComaIndex);
-  prevComaIndex = nextComaIndex;
 
   prevComaIndex = nextComaIndex;
   nextComaIndex = row.indexOf(",", prevComaIndex + 1 );
   inertTypes[totalInertTypes].description = row.substring(prevComaIndex + 1, nextComaIndex);
-  prevComaIndex = nextComaIndex;
 
   prevComaIndex = nextComaIndex;
   nextComaIndex = row.indexOf(",", prevComaIndex + 1 );
   inertTypes[totalInertTypes].percentBodyWeight = row.substring(prevComaIndex + 1 , nextComaIndex).toFloat();
-  prevComaIndex = nextComaIndex;
 
   totalInertTypes++;
 }

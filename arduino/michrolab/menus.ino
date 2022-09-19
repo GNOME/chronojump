@@ -14,6 +14,7 @@ void showMenu()
   redButton.update();
   if (redButton.fell())
   {
+    Serial.println("showMenu()");
     PcControlled = false;
     currentMenu[currentMenuIndex].function();
   }

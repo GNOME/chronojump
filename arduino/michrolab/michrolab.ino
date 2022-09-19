@@ -2227,6 +2227,8 @@ void endRaceAnalyzerCapture()
   redButton.update();
   blueButton.update();
   capturing = false;
+  drawMenuBackground();
+  showMenuEntry(currentMenuIndex);
 }
 
 void encoderAChange()

@@ -399,6 +399,15 @@ struct forceType {
 forceType forceTypes[100];
 unsigned int totalForceTypes = 0;
 
+struct raceAnalyzerType {
+  unsigned int id;
+  String name;
+  String description;
+};
+
+raceAnalyzerType raceAnalyzerTypes[100];
+unsigned int totalRaceAnalyzerTypes = 0;
+
 IntervalTimer rcaTimer;
 String fullFileName;
 File dataFile;
@@ -486,7 +495,7 @@ void setup() {
   tft.fillScreen(BLACK);
 
   Serial.println("Microlab-" + version);
-  
+
   drawMenuBackground();
   backMenu();
   showMenuEntry(currentMenuIndex);
@@ -681,7 +690,7 @@ void serialEvent() {
   } else if (commandString == "getJumpTypes") {
     printJumpTypes();
   } else if (commandString == "saveJumpTypes") {
-    saveJumpsList();
+    saveJumpsType();
   } else if (commandString == "deleteJumpTypes") {
     totalJumpTypes = 0;
   } else if (commandString == "readExercisesFile") {
@@ -694,7 +703,7 @@ void serialEvent() {
   } else if (commandString == "deleteGravitatoryTypes") {
     totalGravTypes = 0;
   } else if (commandString == "saveGravitatoryTypes") {
-    saveGravitatoryList();
+    saveGravitatoryType();
   } else if (commandString == "getInertialTypes") {
     printInertTypes();
   } else if (commandString == "addInertialType") {
@@ -703,7 +712,7 @@ void serialEvent() {
   } else if (commandString == "deleteInertialTypes") {
     totalInertTypes = 0;
   } else if (commandString == "saveInertialTypes") {
-    saveInertialList();
+    saveInertialType();
   } else if (commandString == "addInertialMachine") {
     addInertMachine(parameters);
   } else if (commandString == "saveInertialMachines") {
@@ -717,7 +726,15 @@ void serialEvent() {
   } else if (commandString == "deleteForceTypes") {
     totalForceTypes = 0;
   } else if (commandString == "saveForceTypes") {
-    saveForceList();
+    saveForceType();
+  } else if (commandString == "getRaceAnalyzerTypes") {
+    printRaceAnalyzerTypes();
+  } else if (commandString == "addRaceAnalyzerType") {
+    addRaceAnalyzer(parameters);
+  } else if (commandString == "deleteRaceAnalyzereTypes") {
+    totalRaceAnalyzerTypes = 0;
+  } else if (commandString == "saveRaceAnalyzerTypes") {
+    saveRaceAnalyzerTypes();
   } else if (commandString == "startRaceAnalyzerCapture") {
     PcControlled = true;
     startRaceAnalyzerCapture();
@@ -2194,6 +2211,9 @@ void startRaceAnalyzerCapture()
   measured = 0;
   totalTime = 0;
 
+  if(totalRaceAnalyzerTypes == 0) readExercisesFile(encoderRace);
+  selectExerciseType(encoderRace);
+  
   captureRaw();
 
   endRaceAnalyzerCapture();

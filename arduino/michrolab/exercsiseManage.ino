@@ -35,7 +35,7 @@ void addJump(String row)
   //Serial.println("totalJumpTypes: " + String(totalJumpTypes));
 }
 
-void saveJumpsList()
+void saveJumpsType()
 {
   SD.remove("JUMPTYPE.TXT");
  
@@ -84,7 +84,7 @@ void addGravitatory(String row)
   totalGravTypes++;
 }
 
-void saveGravitatoryList()
+void saveGravitatoryType()
 {
   SD.remove("GRAVTYPE.TXT");
  
@@ -128,7 +128,7 @@ void addInertial(String row)
 }
 
 
-void saveInertialList()
+void saveInertialType()
 {
   SD.remove("INERTYPE.TXT");
  
@@ -176,7 +176,24 @@ void addForce(String row)
   totalForceTypes++;
 }
 
-void saveForceList()
+void addRaceAnalyzer(String row)
+{
+  int prevComaIndex = row.indexOf(":");
+  int nextComaIndex = row.indexOf(",");
+  raceAnalyzerTypes[totalRaceAnalyzerTypes].id = row.substring(prevComaIndex + 1, nextComaIndex).toInt();
+
+  prevComaIndex = nextComaIndex;
+  nextComaIndex = row.indexOf(",", prevComaIndex + 1 );
+  raceAnalyzerTypes[totalRaceAnalyzerTypes].name = row.substring(prevComaIndex + 1 , nextComaIndex);
+  prevComaIndex = nextComaIndex;
+
+  nextComaIndex = row.length() - 1; //Eliminating the last character (end of line)
+  raceAnalyzerTypes[totalRaceAnalyzerTypes].description = row.substring(prevComaIndex + 1,nextComaIndex);
+  
+  totalRaceAnalyzerTypes++;
+}
+
+void saveForceType()
 {
   SD.remove("FORCTYPE.TXT");
  
@@ -198,13 +215,35 @@ void saveForceList()
   Serial.println("Saved " + String(totalForceTypes) + " to FORCTYPE.TXT");
 }
 
+
+void saveRaceAnalyzerTypes()
+{
+  SD.remove("ERTYPE.TXT");
+ 
+  File raceAnalyzerFile = SD.open("ERTYPE.TXT", FILE_WRITE);
+
+//  if(gravFile) Serial.println("File created");
+//  else Serial.println("Error creating file");
+
+  for (unsigned int i = 0; i < totalRaceAnalyzerTypes; i++)
+  {
+    raceAnalyzerFile.print(forceTypes[i].id);
+    raceAnalyzerFile.print("," + String(forceTypes[i].name));
+    raceAnalyzerFile.println("," + forceTypes[i].description );
+  }
+  
+  raceAnalyzerFile.close();
+  Serial.println("Saved " + String(totalRaceAnalyzerTypes) + " to ERTYPE.TXT");
+}
+
 void readExercisesFile(String parameters){
   parameters = parameters.substring(0, parameters.lastIndexOf(";"));
   if ( parameters == "jumps" ) readExercisesFile(jumps);
   else if ( parameters == "gravitatory" ) readExercisesFile(gravitatory);
   else if ( parameters == "inertial" ) readExercisesFile(inertial);
   else if ( parameters == "force" ) readExercisesFile( force );
-  else Serial.print("Not a valid parameter");
+  else if ( parameters == "raceAnalyzer" ) readExercisesFile( encoderRace );
+  else Serial.println("Not a valid parameter");
 }
 
 void readExercisesFile(exerciseType mode)
@@ -227,6 +266,9 @@ void readExercisesFile(exerciseType mode)
   } else if (mode == force) {
     //Serial.println("F");
     file = "FORCTYPE.TXT";
+  } else if (mode == encoderRace) {
+    //Serial.println("ER");
+    file = "ERTYPE.TXT";
   }
 
   File  exercisesFile = SD.open(file);
@@ -265,6 +307,9 @@ void readExercisesFile(exerciseType mode)
         } else if (mode == force) {
           addForce(readString);
           totalForceTypes = numRows;
+        } else if (mode == encoderRace) {
+          addRaceAnalyzer(readString);
+          totalRaceAnalyzerTypes = numRows;
         }
       }
     }
@@ -330,24 +375,35 @@ void printForceTypes()
   }
 }
 
+void printRaceAnalyzerTypes()
+{
+  Serial.println("id, name, description");
+  for (unsigned int i = 0; i < totalRaceAnalyzerTypes; i++)
+  {
+    Serial.print(String(raceAnalyzerTypes[i].id) + ", ");
+    Serial.print(raceAnalyzerTypes[i].name + ", ");
+    Serial.println(raceAnalyzerTypes[i].description);
+  }
+}
+
 void selectExerciseType(exerciseType mode)
 {
   tft.fillScreen(BLACK);
   if (mode == jumps) {
     printTftText("Jump type", 40, 20, WHITE, 3);
     printTftText(jumpTypes[currentExerciseType].name, 50, 100);
-  }
-  else if (mode == gravitatory) {
+  } else if (mode == gravitatory) {
     printTftText("Gravit. type", 40, 20, WHITE, 3);
     printTftText(gravTypes[currentExerciseType].name, 50, 100);
-  }
-  else if (mode == inertial) {
+  } else if (mode == inertial) {
     printTftText("Inert. type", 40, 20, WHITE, 3);
     printTftText(inertTypes[currentExerciseType].name, 50, 100);
-  }
-    else if (mode == force) {
+  } else if (mode == force) {
     printTftText("Force type", 40, 20, WHITE, 3);
     printTftText(forceTypes[currentExerciseType].name, 50, 100);
+  } else if (mode == encoderRace) {
+    printTftText("Race type", 40, 20, WHITE, 3);
+    printTftText(raceAnalyzerTypes[currentExerciseType].name, 50, 100);
   }
   
   drawLeftButton("Next", WHITE, BLUE);
@@ -364,21 +420,22 @@ void selectExerciseType(exerciseType mode)
         printTftText(jumpTypes[currentExerciseType].name, 50, 100, BLACK);
         currentExerciseType = (currentExerciseType + 1) % totalJumpTypes;
         printTftText(jumpTypes[currentExerciseType].name, 50, 100);
-      }
-      else if (mode == gravitatory) {
+      } else if (mode == gravitatory) {
         printTftText(gravTypes[currentExerciseType].name, 50, 100, BLACK);
         currentExerciseType = (currentExerciseType + 1) % totalGravTypes;   
         printTftText(gravTypes[currentExerciseType].name, 50, 100);   
-      }
-        else if (mode == inertial) {
+      } else if (mode == inertial) {
         printTftText(inertTypes[currentExerciseType].name, 50, 100, BLACK);
         currentExerciseType = (currentExerciseType + 1) % totalInertTypes;   
         printTftText(inertTypes[currentExerciseType].name, 50, 100);   
-      }
-        else if (mode == force) {
+      } else if (mode == force) {
         printTftText(forceTypes[currentExerciseType].name, 50, 100, BLACK);
         currentExerciseType = (currentExerciseType + 1) % totalForceTypes;   
         printTftText(forceTypes[currentExerciseType].name, 50, 100);   
+      } else if (mode == encoderRace) {
+        printTftText(raceAnalyzerTypes[currentExerciseType].name, 50, 100, BLACK);
+        currentExerciseType = (currentExerciseType + 1) % totalRaceAnalyzerTypes;   
+        printTftText(raceAnalyzerTypes[currentExerciseType].name, 50, 100);   
       }
     }
     blueButton.update();

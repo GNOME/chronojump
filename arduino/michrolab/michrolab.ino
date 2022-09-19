@@ -1093,8 +1093,7 @@ void end_steadiness()
 
 void captureRaw()
 {
-  currentPerson = totalPersons - 1;
-  fileName = "P" + String(currentPerson) + "-S" + String(setNumber);
+  writeCaptureHeaders();  
 
   //Position graph's lower left corner.
   double graphX = 30;
@@ -1199,7 +1198,7 @@ void captureRaw()
         //        Serial.print(totalTime); Serial.print(";");
         //        Serial.println(measured, 2); //scale.get_units() returns a float
 
-        if (!PcControlled) saveSD(fileName);
+        if (!PcControlled) saveData(fileName);
         plotBuffer[n] = measured;
 
         //Pressing blue or red button ends the capture
@@ -1280,6 +1279,7 @@ void captureRaw()
       if (Serial.available()) serialEvent();
     }
   }
+  dataFile.close();
   if (!capturingPreSteadiness) setNumber++;
 }
 
@@ -1288,28 +1288,10 @@ void captureBars() {
 }
 void captureBars(float fullScreen)
 {
+  writeCaptureHeaders();
   maxString = "V";
   float graphRange = 5;
   int currentSlot = 0;
-  String fileName = "P" + String(currentPerson) + "-S" + String(setNumber);
-
-  if (sensor == incLinEncoder) fileName = fileName + "-G";
-  else if (sensor == incRotEncoder) fileName = fileName + "-I";
-  else if (sensor == loadCellincEncoder) fileName = fileName + "-P";
-
-  fullFileName = "/" + dirName + "/" + fileName + ".TXT";
-  dataFile = SD.open(fullFileName.c_str(), FILE_WRITE);
-  dataFile.println("Person:" + String(persons[currentPerson].index) + "," + persons[currentPerson].name + " " + persons[currentPerson].surname);
-
-  if (!inertialMode)
-  {
-    dataFile.println("Exercise:" + String(gravTypes[currentExerciseType].id) + "," + gravTypes[currentExerciseType].name);
-    dataFile.println("Load:" + String(load));
-  } else if (inertialMode)
-  {
-    dataFile.println("Exercise:" + String(inertTypes[currentExerciseType].id) + "," + inertTypes[currentExerciseType].name);
-    dataFile.println("Load:" + String(load));
-  }
 
   tft.fillScreen(BLACK);
 
@@ -1358,6 +1340,38 @@ void captureBars(float fullScreen)
   }
 }
 
+void writeCaptureHeaders()
+{
+  fileName = "S" + addLeadingZeros(setNumber, 2) + "P" + addLeadingZeros(currentPerson, 2);
+  if (sensor == loadCell) fileName = fileName + "-F";
+  else if (sensor == incLinEncoder) fileName = fileName + "-G";
+  else if (sensor == incRotEncoder) fileName = fileName + "-I";
+  else if (sensor == loadCellincEncoder) fileName = fileName + "-P";
+  else if (sensor == raceAnalyzer) fileName = fileName + "-R";
+
+  fullFileName = "/" + dirName + "/" + fileName + ".TXT";
+  Serial.println(fullFileName);
+  dataFile = SD.open(fullFileName.c_str(), FILE_WRITE);
+  dataFile.println("Person:" + String(persons[currentPerson].index) + "," + persons[currentPerson].name + " " + persons[currentPerson].surname);
+
+
+  if (sensor == incLinEncoder)
+  {
+    dataFile.println("Exercise:" + String(gravTypes[currentExerciseType].id) + "," + gravTypes[currentExerciseType].name);
+    dataFile.println("Load:" + String(load));
+  } else if (sensor == incRotEncoder)
+  {
+    dataFile.println("Exercise:" + String(inertTypes[currentExerciseType].id) + "," + inertTypes[currentExerciseType].name);
+    dataFile.println("Load:" + String(load));
+  } else if (sensor == loadCell)
+  {
+    dataFile.println("Exercise:" + String(forceTypes[currentExerciseType].id) + "," + forceTypes[currentExerciseType].name);
+  } else if (sensor == raceAnalyzer)
+  {
+    dataFile.println("Exercise:" + String(raceAnalyzerTypes[currentExerciseType].id) + "," + raceAnalyzerTypes[currentExerciseType].name);
+  }
+}
+
 //text mode
 void saveEncoderSpeed()
 {
@@ -1371,8 +1385,9 @@ void saveEncoderSpeed()
     sampleNum++;
     if (sampleNum >= 100) {
       dataFile.print(fileBuffer);
+      Serial.println(fileBuffer);
       fileBuffer = "";
-      sampleNum = 1;
+      sampleNum = 0;
     }
   }
   lastSamplePosition = position;
@@ -1531,6 +1546,7 @@ void endEncoderCapture()
   if (!PcControlled) {
     showEncoderResults();
   }
+  dataFile.close();
   showMenuEntry(currentMenuIndex);
 }
 
@@ -1897,22 +1913,23 @@ void setForceGoal()
   showMenuEntry(currentMenuIndex);
 }
 
-void saveSD(String fileName)
+void saveData(String fileName)
 {
-  String sensorString = "";
-  if (sensor == incLinEncoder || sensor == incRotEncoder) sensorString = "-V";
-  else if (sensor == loadCell) sensorString = "-F";
-  else if (sensor == loadCellincEncoder) sensorString = "-P";
-  else if (sensor == raceAnalyzer) sensorString = "-R";
-  else
+  if (sensor == loadCell)
+    dataFile.println(String(lastSampleTime) + ";" + String(measured));
+  else if(sensor == raceAnalyzer)
   {
-    Serial.println("no sensor type");
-    return;
+    //Only write on interruption
+    if (rcaFlag || encoderFlag)
+    {
+      encoderFlag = false;
+      rcaFlag = false;
+      if (!binaryFormat) Serial.println(String(raceAnalyzerSample.totalTime) + ";" + String(raceAnalyzerSample.displacement) + ";" + String(rcaState));
+      else Serial.write((byte*)&raceAnalyzerSample, 9);
+      if(!PcControlled)
+        dataFile.println(String(raceAnalyzerSample.totalTime) + ";" + String(raceAnalyzerSample.displacement) + ";" + String(rcaState));
+    }
   }
-  fullFileName = "/" + dirName + "/" + fileName + sensorString + ".TXT";
-  dataFile = SD.open(fullFileName.c_str(), FILE_WRITE);
-  dataFile.println(String(lastSampleTime) + ";" + String(measured));
-  dataFile.close();
 }
 
 
@@ -2195,6 +2212,8 @@ void showList(int color)
 
 void startRaceAnalyzerCapture()
 {
+  encoderFlag = false;
+  rcaFlag = false;
   attachInterrupt(encoderAPin, encoderAChange, CHANGE);
   //attachInterrupt(encoderBPin, encoderBChange, CHANGE);
   attachInterrupt(rcaPin, changedRCA, CHANGE);
@@ -2215,7 +2234,6 @@ void startRaceAnalyzerCapture()
   selectExerciseType(encoderRace);
   
   captureRaw();
-
   endRaceAnalyzerCapture();
 }
 
@@ -2246,25 +2264,19 @@ void encoderAChange()
 
 void getRaceAnalyzerDynamics()
 {
-  if((encoderFlag || rcaFlag) && !PcControlled)
+  if((encoderFlag || rcaFlag))
   {
-    //Serial.println(raceAnalyzerSample.displacement);
     if(encoderFlag)
     {
       measured = abs( (float)raceAnalyzerSample.displacement * 1000000 * 0.0030321 /  4 / (float)(currentSampleTime - raceAnalyzerSample.totalTime) );
       raceAnalyzerSample.totalTime = currentSampleTime;
-      encoderFlag = false;
       raceAnalyzerSample.sensor = raceAnalyzer;
     }
 
     if(rcaFlag)
     {
-      rcaFlag = false;
       raceAnalyzerSample.sensor = rca;
     }
-    
-    if (!binaryFormat) Serial.println(String(raceAnalyzerSample.totalTime) + ";" + String(raceAnalyzerSample.displacement) + ";" + String(rcaState));
-    else Serial.write((byte*)&raceAnalyzerSample, 9);
   }
 }
 

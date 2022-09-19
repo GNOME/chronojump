@@ -122,7 +122,7 @@ void showSystemInfo(void);
 void setForceGoal();
 
 //Saves the meadured data in the SD
-void saveSD(String fileName);
+void saveData(String fileName);
 
 //Saves the results of the current jump
 void saveJump();

@@ -131,7 +131,7 @@ class Sqlite
 	/*
 	 * Important, change this if there's any update to database
 	 */
-	static string lastChronojumpDatabaseVersion = "2.40";
+	static string lastChronojumpDatabaseVersion = "2.41";
 
 	public Sqlite()
 	{
@@ -3298,6 +3298,15 @@ class Sqlite
 
 				currentVersion = updateVersion("2.40");
 			}
+			if(currentVersion == "2.40")
+			{
+				//to have less problems, eg on SqliteJump.SelectJumpsStatsByDay do not assign date to a grouped jumps from different sessions
+				LogB.SQL("Tests without datetime: jump (db 1.81), jumpRj (db 1.81), run (db 2.13), runI (2.13) now have session date (and 00-00-01 time)");
+
+				updateTo2_41 ();
+
+				currentVersion = updateVersion("2.41");
+			}
 
 			/*
 			if(currentVersion == "1.79")
@@ -3519,6 +3528,7 @@ class Sqlite
 		//changes [from - to - desc]
 //just testing: 1.79 - 1.80 Converted DB to 1.80 Created table ForceSensorElasticBandGlue and moved stiffnessString records there
 
+		//2.40 - 2.41 Converted DB to 2.41 Tests without datetime: jump (db 1.81), jumpRj (db 1.81), run (db 2.13), runI (2.13) now have session date (and 00-00-01 time)
 		//2.39 - 2.40 Converted DB to 2.40 ForceSensor exercises raw are now both (isometric & elastic) because there was a bug creating raw exercises (elastic was not asked and was assigned true) and we don't know where to put them.
 		//2.38 - 2.39 Converted DB to 2.39 RunEncoderExercise ALTER TABLE added angleDefault. RunEncoder ALTER TABLE added angle
 		//2.37 - 2.38 Converted DB to 2.38 Doing alter table runInterval, tempRunInterval add photocellStr
@@ -4274,6 +4284,49 @@ class Sqlite
 		SqliteJumpType.Delete(Constants.JumpTypeTable, "DJ", true);
 	}
 
+	private static void updateTo2_41 ()
+	{
+		updateTo2_41_do (Constants.JumpTable);
+		updateTo2_41_do (Constants.JumpRjTable);
+		updateTo2_41_do (Constants.TempJumpRjTable);
+		updateTo2_41_do (Constants.RunTable);
+		updateTo2_41_do (Constants.RunIntervalTable);
+		updateTo2_41_do (Constants.TempRunIntervalTable);
+	}
+	private static void updateTo2_41_do (string table)
+	{
+		dbcmd.CommandText = string.Format ("SELECT {0}.uniqueID, session.date FROM {0}, session WHERE (datetime IS NULL OR datetime = '') AND {0}.sessionID = session.uniqueID", table);
+		LogB.SQL(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+
+		SqliteDataReader reader;
+		reader = dbcmd.ExecuteReader();
+
+		List<SqliteStruct.IntegerText> list = new List<SqliteStruct.IntegerText> ();
+		while (reader.Read ())
+			list.Add (new SqliteStruct.IntegerText (
+						Convert.ToInt32 (reader[0].ToString ()),
+						reader[1].ToString () ));
+
+		reader.Close ();
+
+		//update as transaction
+		using (SqliteTransaction tr = dbcon.BeginTransaction())
+		{
+			using (SqliteCommand dbcmdTr = dbcon.CreateCommand())
+			{
+				dbcmdTr.Transaction = tr;
+
+				foreach (SqliteStruct.IntegerText it in list)
+				{
+					dbcmdTr.CommandText = string.Format ("UPDATE {0} SET datetime = '{1}' WHERE uniqueID = {2}", table, it.text + "_00-00-01", it.integer);
+					LogB.SQL (dbcmdTr.CommandText.ToString());
+					dbcmdTr.ExecuteNonQuery();
+				}
+			}
+			tr.Commit();
+		}
+	}
 
 
 	/*
@@ -4798,3 +4851,33 @@ LogB.SQL("5" + tableName);
 
 
 }
+
+public class SqliteStruct
+{
+	public struct DateTypeResult
+	{
+		public string date;
+		public string type;
+		public double result;
+
+		public DateTypeResult (string date, string type, double result)
+		{
+			this.date = date;
+			this.type = type;
+			this.result = result;
+		}
+	};
+
+	public struct IntegerText
+	{
+		public int integer;
+		public string text;
+
+		public IntegerText (int integer, string text)
+		{
+			this.integer = integer;
+			this.text = text;
+		}
+	}
+}
+

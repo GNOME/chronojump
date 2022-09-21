@@ -1798,16 +1798,18 @@ void jumpsCapture()
           lastRcaTime = 0;
           setNumber++;
           if ( !rowCreated ) {
+            //Headers of each line
             dataFile.print(String(setNumber) + ","
               + String(currentPerson) + "," + persons[currentPerson].name + " " + persons[currentPerson].surname +
               "," + String(jumpTypes[currentExerciseType].id) + "," + jumpTypes[currentExerciseType].name);
-            if (PcControlled)
-            {
-              Serial.print(String(setNumber) + ","
-                + String(currentPerson) + "," + persons[currentPerson].name + " " + persons[currentPerson].surname +
-                "," + String(jumpTypes[currentExerciseType].id) + "," + jumpTypes[currentExerciseType].name);
-              rowCreated = true;
-            }
+                                    
+//            if (PcControlled)
+//            {
+//              Serial.print(String(setNumber) + ","
+//                + String(currentPerson) + "," + persons[currentPerson].name + " " + persons[currentPerson].surname +
+//                "," + String(jumpTypes[currentExerciseType].id) + "," + jumpTypes[currentExerciseType].name);
+//            }
+            rowCreated = true;
           }
 
           //Starting timer

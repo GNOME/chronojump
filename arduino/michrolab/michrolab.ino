@@ -937,7 +937,6 @@ void get_transmission_format()
 
 //Any change in the RCA activates the timer
 void changedRCA() {
-  Serial.println("RCA");
   rcaTime = totalTime;
   rcaState = digitalRead(rcaPin);
   rcaTimer.begin(rcaDebounce, rcaDebounceTime);
@@ -1666,7 +1665,7 @@ void jumpsCapture()
   int index = 0;                      //Specify the slot used in bars[] circular buffer
   bool rowCreated = false;
 
-  fileName = String("J") + "-S" + String(setNumber);
+  fileName = "S" + addLeadingZeros(setNumber,2) + "J" + addLeadingZeros(jumpTypes[currentExerciseType].id,2) + "-J";
   fullFileName = "/" + dirName + "/" + fileName + ".TXT";
   dataFile = SD.open(fullFileName.c_str(), FILE_WRITE);
 
@@ -1712,7 +1711,6 @@ void jumpsCapture()
         testTime.end();
         totalTime = 0;
         timeEnded = false;
-        Serial.println();
       }
 
       //There's been a change in the mat state. Landing or taking off.
@@ -1778,9 +1776,6 @@ void jumpsCapture()
           }
           //Waiting first phase.
         } else if (waitingFirstPhase && capturing) {
-          //          Serial.print("#");
-          //          if (rcaState) Serial.print("IN");
-          //          else Serial.print("OUT");
 
           //The state  previous to change was WRONG
           //The first change of RCA is in the state that is supposed to be at start of the test.
@@ -1803,9 +1798,16 @@ void jumpsCapture()
           lastRcaTime = 0;
           setNumber++;
           if ( !rowCreated ) {
-            dataFile.print(String(setNumber) + "," + String(currentPerson) + "," + String(jumpTypes[currentExerciseType].id));
-            Serial.print(String(setNumber) + "," + String(currentPerson) + "," + String(jumpTypes[currentExerciseType].id));
-            rowCreated = true;
+            dataFile.print(String(setNumber) + ","
+              + String(currentPerson) + "," + persons[currentPerson].name + " " + persons[currentPerson].surname +
+              "," + String(jumpTypes[currentExerciseType].id) + "," + jumpTypes[currentExerciseType].name);
+            if (PcControlled)
+            {
+              Serial.print(String(setNumber) + ","
+                + String(currentPerson) + "," + persons[currentPerson].name + " " + persons[currentPerson].surname +
+                "," + String(jumpTypes[currentExerciseType].id) + "," + jumpTypes[currentExerciseType].name);
+              rowCreated = true;
+            }
           }
 
           //Starting timer
@@ -1844,7 +1846,6 @@ void jumpsCapture()
     //The current test has ended
     Serial.println();
     dataFile.println();
-    dataFile.close();
 
     waitingFirstPhase = true;
     rcaFlag = false;
@@ -1858,6 +1859,7 @@ void jumpsCapture()
     //check if the user wants to perform another one
     if ( yesNoDialog("Continue with " + jumpTypes[currentExerciseType].name + "?", 10, 10))
     {
+      rowCreated = false;
       if (jumpTypes[currentExerciseType].timeLimit > 0) updateJumpTime();
     } else
       break;
@@ -1870,6 +1872,7 @@ void jumpsCapture()
     rcaFlag = false;
     lastRcaState = rcaState;
   }
+  dataFile.close();
   showJumpsResults(maxJump, bestJumper, totalJumps);
   capturing = false;
   drawMenuBackground();
@@ -2027,7 +2030,7 @@ void calibrateInertial()
 
 void selectPerson()
 {
-  setNumber++;
+  //setNumber++;
   updatePersonSet();
   while (!redButton.fell())
   {
@@ -2039,20 +2042,20 @@ void selectPerson()
   }
 }
 
-void saveSimpleJump(float lastPhaseTime)
-{
-  fullFileName = "/" + dirName + "/" + fileName + ".TXT";
-  dataFile = SD.open(fullFileName.c_str(), FILE_WRITE);
-  if ( !rcaState)
-  {
-    dataFile.print(String(currentPerson) + ";" + jumpTypes[currentExerciseType].id + ";" + String(lastPhaseTime, 6) );
-  }
-  else if (rcaState)
-  {
-    dataFile.println(";" + String(lastPhaseTime, 6));
-  }
-  dataFile.close();
-}
+//void saveSimpleJump(float lastPhaseTime)
+//{
+//  fullFileName = "/" + dirName + "/" + fileName + ".TXT";
+//  dataFile = SD.open(fullFileName.c_str(), FILE_WRITE);
+//  if ( !rcaState)
+//  {
+//    dataFile.print(String(currentPerson) + ";" + jumpTypes[currentExerciseType].id + ";" + String(lastPhaseTime, 6) );
+//  }
+//  else if (rcaState)
+//  {
+//    dataFile.println(";" + String(lastPhaseTime, 6));
+//  }
+//  dataFile.close();
+//}
 
 void fakeFunction()
 {

@@ -239,4 +239,68 @@ public class RunsEvolutionGraph : EvolutionGraph
 		writeTextAtRight(ypos++, runTypeStr + " " + runType, false);
 		writeTextAtRight(ypos++, date, false);
 	}
+
+}
+
+public class JumpsAsymmetryGraph : EvolutionGraph //to inherit paintGridDatetime()
+{
+	//constructor when there are no points
+	public JumpsAsymmetryGraph (DrawingArea area, string jumpType, string font)
+	{
+		this.area = area;
+
+		initGraph(font, .8);
+
+		g.SetFontSize(16);
+		printText(area.Allocation.Width /2, area.Allocation.Height /2, 24, textHeight,
+				needToExecuteJumpsStr + " " + jumpType + ".", g, alignTypes.CENTER);
+
+		endGraphDisposing(g, surface, area.GdkWindow);
+	}
+
+	//regular constructor
+	public JumpsAsymmetryGraph (
+			List<PointF> point_l, List<DateTime> dates_l,
+			double slope, double intercept,
+			DrawingArea area, string title,
+			string jumpType,
+			string date,
+			bool showTime, bool metersSecondsPreferred)
+	{
+		this.point_l = point_l;
+		this.dates_l = dates_l;
+		this.slope = slope;
+		this.intercept = intercept;
+		this.area = area;
+		this.title = title;
+		this.jumpType = jumpType;
+		this.date = date;
+		this.colorBackground = colorFromGdk(Config.ColorBackground); //but note if we are using system colors, this will not match
+
+		xVariable = dateStr;
+		yVariable = "Index";
+
+		xUnits = "";
+		yUnits = "";
+
+		area.AddEvents((int) Gdk.EventMask.ButtonPressMask); //to have mouse clicks
+		mouseX = -1;
+		mouseY = -1;
+	}
+
+	//on jumpsAsymmetry is overrided and only prints time
+	protected override string printXDateTime (DateTime dt)
+	{
+		return (dt.ToShortDateString ());
+	}
+
+	protected override void writeTitle()
+	{
+		int ypos = -6;
+
+		//writeTextAtRight(ypos++, title, true);
+		//writeTextAtRight(ypos++, runTypeStr + " " + runType, false);
+		//writeTextAtRight(ypos++, date, false);
+	}
+
 }

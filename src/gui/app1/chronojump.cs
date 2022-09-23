@@ -136,6 +136,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.RadioButton radio_mode_contacts_jumps_profile;
 	[Widget] Gtk.RadioButton radio_mode_contacts_jumps_dj_optimal_fall;
 	[Widget] Gtk.RadioButton radio_mode_contacts_jumps_weight_fv_profile;
+	[Widget] Gtk.RadioButton radio_mode_contacts_jumps_asymmetry;
 	[Widget] Gtk.RadioButton radio_mode_contacts_jumps_evolution;
 	[Widget] Gtk.RadioButton radio_mode_contacts_jumps_rj_fatigue;
 	[Widget] Gtk.RadioButton radio_mode_contacts_runs_evolution;
@@ -515,7 +516,7 @@ public partial class ChronoJumpWindow
 	private enum notebook_start_pages { PROGRAM, SENDLOG, EXITCONFIRM, SOCIALNETWORKPOLL }
 	private enum notebook_sup_pages { START, CONTACTS, ENCODER, SESSION, NETWORKSPROBLEMS, HELP, NEWS, MICRODISCOVER }
 	private enum notebook_contacts_execute_or_pages { EXECUTE, INSTRUCTIONS, FORCESENSORADJUST, RACEINSPECTOR }
-	private enum notebook_analyze_pages { STATISTICS, JUMPSPROFILE, JUMPSDJOPTIMALFALL, JUMPSWEIGHTFVPROFILE, JUMPSEVOLUTION, JUMPSRJFATIGUE,
+	private enum notebook_analyze_pages { STATISTICS, JUMPSPROFILE, JUMPSDJOPTIMALFALL, JUMPSWEIGHTFVPROFILE, JUMPSASYMMETRY, JUMPSEVOLUTION, JUMPSRJFATIGUE,
 		RUNSEVOLUTION, SPRINT, FORCESENSOR, RACEENCODER }
 
 	private string runningFileName; //useful for knowing if there are two chronojump instances
@@ -686,6 +687,7 @@ public partial class ChronoJumpWindow
 		createComboSelectJumps(true);
 		createComboSelectJumpsDjOptimalFall(true);
 		createComboSelectJumpsWeightFVProfile(true);
+		createComboSelectJumpsAsymmetry(true);
 		createComboSelectJumpsEvolution(true);
 		createComboSelectJumpsRj(true);
 		createComboSelectJumpsRjFatigue(true);
@@ -1410,6 +1412,8 @@ public partial class ChronoJumpWindow
 				jumpsDjOptimalFallDo(true); //calculate data
 			else if(notebook_analyze.CurrentPage == Convert.ToInt32(notebook_analyze_pages.JUMPSWEIGHTFVPROFILE))
 				jumpsWeightFVProfileDo(true); //calculate data
+			else if(notebook_analyze.CurrentPage == Convert.ToInt32(notebook_analyze_pages.JUMPSASYMMETRY))
+				jumpsAsymmetryDo(true); //calculate data
 			else if(notebook_analyze.CurrentPage == Convert.ToInt32(notebook_analyze_pages.JUMPSEVOLUTION))
 				jumpsEvolutionDo(true); //calculate data
 		}
@@ -7247,6 +7251,7 @@ LogB.Debug("mc finished 5");
 			createComboSelectJumps(false);
 			createComboSelectJumpsDjOptimalFall(false);
 			createComboSelectJumpsWeightFVProfile(false);
+			createComboSelectJumpsAsymmetry(false);
 			createComboSelectJumpsEvolution(false);
 
 			pre_fillTreeView_jumps(false);
@@ -8217,6 +8222,12 @@ LogB.Debug("mc finished 5");
 					jumpsWeightFVProfileDo(true);
 				}
 
+				if(radio_mode_contacts_jumps_asymmetry.Active)
+				{
+					notebook_analyze.CurrentPage = Convert.ToInt32(notebook_analyze_pages.JUMPSASYMMETRY);
+					jumpsAsymmetryDo(true);
+				}
+
 				if(radio_mode_contacts_jumps_evolution.Active)
 				{
 					notebook_analyze.CurrentPage = Convert.ToInt32(notebook_analyze_pages.JUMPSEVOLUTION);
@@ -8279,6 +8290,14 @@ LogB.Debug("mc finished 5");
 		{
 			notebook_analyze.CurrentPage = Convert.ToInt32(notebook_analyze_pages.JUMPSWEIGHTFVPROFILE);
 			jumpsWeightFVProfileDo(true);
+		}
+	}
+	private void on_radio_mode_contacts_jumps_asymmetry_toggled (object o, EventArgs args)
+	{
+		if (radio_mode_contacts_jumps_asymmetry.Active)
+		{
+			notebook_analyze.CurrentPage = Convert.ToInt32(notebook_analyze_pages.JUMPSASYMMETRY);
+			jumpsAsymmetryDo(true);
 		}
 	}
 	private void on_radio_mode_contacts_jumps_evolution_toggled (object o, EventArgs args)

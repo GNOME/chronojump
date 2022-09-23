@@ -121,6 +121,7 @@ public partial class ChronoJumpWindow
 			//regular constructor
 			jumpsEvolutionGraph = new JumpsEvolutionGraph(
 					jumpsEvolution.Point_l,
+					jumpsEvolution.Dates_l,
 					jumpsEvolution.Slope,
 					jumpsEvolution.Intercept,
 					drawingarea_jumps_evolution,
@@ -334,6 +335,7 @@ public partial class ChronoJumpWindow
 			//regular constructor
 			runsEvolutionGraph = new RunsEvolutionGraph(
 					runsEvolution.Point_l,
+					runsEvolution.Dates_l,
 					runsEvolution.Slope,
 					runsEvolution.Intercept,
 					drawingarea_runs_evolution,

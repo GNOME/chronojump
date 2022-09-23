@@ -29,6 +29,7 @@ public abstract class CairoXY : CairoGeneric
 {
 	//used on construction
 	protected List<PointF> point_l;
+	protected List<DateTime> dates_l; //used on button press to know day date instead of date as double
 	protected bool predictedPointDone;
 
 	//regression line straight
@@ -570,6 +571,7 @@ public abstract class CairoXY : CairoGeneric
 			g.SelectFontFace(font, Cairo.FontSlant.Normal, Cairo.FontWeight.Normal);
 	}
 
+	protected PointF pClosest;
 	protected void writeCoordinatesOfMouseClick (double graphX, double graphY, double realX, double realY)
 	{
 		int line = 4;
@@ -589,11 +591,11 @@ public abstract class CairoXY : CairoGeneric
 
 		LogB.Information("calling findClosestGraphPoint ...");
 		// 2) find closest point (including predicted point if any)
-		PointF pClosest = findClosestGraphPoint(graphX, graphY);
+		int closestPos = findClosestGraphPointPos (graphX, graphY);
 
 		LogB.Information("writeSelectedValues ...");
 		// 3) write text at right
-		writeSelectedValues(line, pClosest);
+		writeSelectedValues (line, pClosest, closestPos);
 
 		LogB.Information("painting rectangle ...");
 		// 4) paint rectangle around that point
@@ -608,10 +610,14 @@ public abstract class CairoXY : CairoGeneric
 	 * using graphPoints and not real points because X and Y scale can be very different
 	 * and this would be stranger for user to have a point selected far away to the "graph" closest point
 	 */
-	private PointF findClosestGraphPoint(double graphX, double graphY)
+	//return the position in point_l, -1 if predicted is used
+	//the position is useful for jumpsRunsEvolution and asymmetry to know the real date on date_l
+	private int findClosestGraphPointPos (double graphX, double graphY)
 	{
 		double distMin = 10000000;
-		PointF pClosest = point_l[0];
+		pClosest = point_l[0];
+		int count = 0;
+		int found = 0;
 		foreach(PointF p in point_l)
 		{
 			double dist = Math.Sqrt(Math.Pow(graphX - calculatePaintX(p.X), 2) + Math.Pow(graphY - calculatePaintY(p.Y), 2));
@@ -619,17 +625,22 @@ public abstract class CairoXY : CairoGeneric
 			{
 				distMin = dist;
 				pClosest = p;
+				found = count;
 			}
+			count ++;
 		}
 
 		//also check predicted point if exists
 		if(predictedPointDone && Math.Sqrt(Math.Pow(graphX - calculatePaintX(xAtMMaxY), 2) + Math.Pow(graphY - calculatePaintY(yAtMMaxY), 2)) < distMin)
+		{
 			pClosest = new PointF(xAtMMaxY, yAtMMaxY);
+			return -1;
+		}
 
-		return pClosest;
+		return found;
 	}
 
-	protected virtual void writeSelectedValues(int line, PointF pClosest)
+	protected virtual void writeSelectedValues(int line, PointF pClosest, int closestPos)
 	{
 		g.SelectFontFace(font, Cairo.FontSlant.Normal, Cairo.FontWeight.Normal);
 		g.SetFontSize(textHeight);
@@ -638,10 +649,19 @@ public abstract class CairoXY : CairoGeneric
 		writeTextAtRight(line, Catalog.GetString("Selected") + ":", false);
 		g.SetSourceRGB(0, 0, 0);
 
-		writeTextAtRight(line +1, string.Format("- {0}: {1} {2}", xVariable, Util.TrimDecimals(pClosest.X, 2), xUnits), false);
+		if (closestPos >= 0 && dates_l != null && dates_l.Count > 0 && closestPos < dates_l.Count)
+			writeTextAtRight(line +1, string.Format("- {0}: {1} {2}", xVariable, printXDateTime (dates_l[closestPos]), xUnits), false);
+		else
+			writeTextAtRight(line +1, string.Format("- {0}: {1} {2}", xVariable, Util.TrimDecimals(pClosest.X, 2), xUnits), false);
+
 		writeTextAtRight(line +2, string.Format("- {0}: {1} {2}", yVariable, Util.TrimDecimals(pClosest.Y, 2), yUnits), false);
 	}
 
+	//on jumpsAsymmetry is overrided and only prints time
+	protected virtual string printXDateTime (DateTime dt)
+	{
+		return (dt.ToString ());
+	}
 
 	protected override double calculatePaintX (double realX)
 	{

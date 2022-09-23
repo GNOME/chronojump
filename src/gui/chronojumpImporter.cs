@@ -169,6 +169,7 @@ public partial class ChronoJumpWindow
 
 			createComboSelectJumpsDjOptimalFall(false);
 			createComboSelectJumpsWeightFVProfile(false);
+			createComboSelectJumpsAsymmetry(false);
 			createComboSelectJumpsEvolution(false);
 			createComboSelectJumpsRjFatigue(false);
 			//createComboSelectJumpsRjFatigueNum(false); do not need because will be updated by createComboSelectJumpsRjFatigue

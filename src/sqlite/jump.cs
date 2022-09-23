@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2020   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2004-2022   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -270,6 +270,55 @@ class SqliteJump : Sqlite
 	  Sqlite.Close(); // <--------------------
 
 	  return jmp_l;
+	}
+
+	/* returns:
+	   2022-09-20|CMJ|0.427596
+	   2022-09-20|SJ|0.456648
+	   2022-09-19|CMJ|0.733992
+	   */
+	//TODO: if no date, select the session date
+	public static List<SqliteStruct.DateTypeResult> SelectJumpsStatsByDay (int pID, List<string> jumps_l, StatType statType)
+	{
+		List<SqliteStruct.DateTypeResult> list = new List<SqliteStruct.DateTypeResult> ();
+		if (jumps_l.Count == 0)
+			return list;
+
+		Sqlite.Open();
+
+		//jumps previous to DB 1.82 have no datetime on jump
+		//find session datetime for that jumps
+		//List<Session> session_l = SqliteSession.SelectAll(true, Sqlite.Orders_by.DEFAULT);
+
+		string jumpTypes = "";
+		string orStr = "";
+		foreach (string str in jumps_l)
+		{
+			jumpTypes += orStr + string.Format ("type='{0}'", str);
+			orStr = " OR ";
+		}
+
+		dbcmd.CommandText = string.Format ("SELECT SUBSTR(datetime, 1, 10) AS day, type, {0}(tv) FROM jump WHERE ({1}) AND personID={2} GROUP BY day, type ORDER BY day desc, type",
+				statType, jumpTypes, pID);
+
+		LogB.SQL(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+
+		SqliteDataReader reader;
+		reader = dbcmd.ExecuteReader();
+
+		//note DB 2.41 forces all old jump, jumpRj, run, runI to have datetime
+		while (reader.Read())
+			list.Add (new SqliteStruct.DateTypeResult (
+						reader[0].ToString (),
+						reader[1].ToString (),
+						Convert.ToDouble(Util.ChangeDecimalSeparator(reader[2].ToString ()))
+						));
+
+		reader.Close ();
+		Sqlite.Close ();
+
+		return list;
 	}
 
 	public static Jump SelectJumpData(int uniqueID, bool dbconOpened)

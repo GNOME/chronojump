@@ -105,6 +105,7 @@ class Sqlite
 	public enum UpdatingDBFromEnum { LOCAL, IMPORTED_SESSION }
 	public static UpdatingDBFromEnum UpdatingDBFrom;
 	
+	public enum StatType { MAX, AVG }
 	public enum Orders_by { DEFAULT, ID_ASC, ID_DESC }
 
 	//for db creation

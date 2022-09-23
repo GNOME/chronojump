@@ -10,6 +10,7 @@ SOURCES = \
 	gui/app1/chronojumpPersons.cs\
 	gui/app1/encoder.cs\
 	gui/app1/icons.cs\
+	gui/app1/jumpsAsymmetry.cs\
 	gui/app1/jumpsProfile.cs\
 	gui/app1/jumpsDjOptimalFall.cs\
 	gui/app1/jumpsRunsEvolution.cs\
@@ -217,6 +218,7 @@ SOURCES = \
 	json/compujumpOther.cs\
 	json/exhibitions.cs\
 	jump.cs\
+	jumpsAsymmetry.cs\
 	jumpsProfile.cs\
 	jumpsDjOptimalFall.cs\
 	jumpsRunsEvolution.cs\

@@ -143,10 +143,12 @@ public class JumpsEvolutionGraph : EvolutionGraph
 
 	//regular constructor
 	public JumpsEvolutionGraph (
-			List<PointF> point_l, double slope, double intercept,
+			List<PointF> point_l, List<DateTime> dates_l,
+			double slope, double intercept,
 			DrawingArea area, string title, string jumpType, string date)
 	{
 		this.point_l = point_l;
+		this.dates_l = dates_l;
 		this.slope = slope;
 		this.intercept = intercept;
 		this.area = area;
@@ -193,11 +195,13 @@ public class RunsEvolutionGraph : EvolutionGraph
 
 	//regular constructor
 	public RunsEvolutionGraph (
-			List<PointF> point_l, double slope, double intercept,
+			List<PointF> point_l, List<DateTime> dates_l,
+			double slope, double intercept,
 			DrawingArea area, string title, string runType, string date,
 			bool showTime, bool metersSecondsPreferred)
 	{
 		this.point_l = point_l;
+		this.dates_l = dates_l;
 		this.slope = slope;
 		this.intercept = intercept;
 		this.area = area;

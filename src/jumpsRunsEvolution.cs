@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Copyright (C) 2019-2021   Xavier de Blas <xaviblas@gmail.com>
+ *  Copyright (C) 2019-2022   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -26,6 +26,7 @@ using System.Collections.Generic; //List
 public abstract class JumpsRunsEvolution
 {
 	protected List<PointF> point_l;
+	protected List<DateTime> dates_l; //used on button press to know day date instead of date as double
 	protected LeastSquaresLine ls;
 
 	public abstract void Calculate(int personID, string type, bool onlyBestInSession);
@@ -56,6 +57,10 @@ public abstract class JumpsRunsEvolution
 	{
 		get { return point_l; }
 	}
+	public List<DateTime> Dates_l
+	{
+		get { return dates_l; }
+	}
 
 	public double Slope
 	{
@@ -82,6 +87,7 @@ public class JumpsEvolution : JumpsRunsEvolution
 
 		//2 convert to list of PointF
 		point_l = new List<PointF>();
+		dates_l = new List<DateTime>();
 		int currentSession = -1;
                 foreach(Jump j in jump_l)
 		{
@@ -98,6 +104,7 @@ public class JumpsEvolution : JumpsRunsEvolution
 			double dtDouble = UtilDate.DateTimeYearDayAsDouble(dt);
 
 			point_l.Add(new PointF(dtDouble, Util.GetHeightInCentimeters(j.Tv)));
+			dates_l.Add(dt);
 		}
 
 		getLeastSquaresLine ();
@@ -172,6 +179,7 @@ public class RunsEvolution : JumpsRunsEvolution
 				r.MetersSecondsPreferred = metersSecondsPreferred;
 				point_l.Add(new PointF(dtDouble, r.Speed));
 			}
+			dates_l.Add(dt);
 		}
 
 		distance_l = Util.SortDoublesListString(distance_l);

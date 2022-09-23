@@ -218,7 +218,7 @@ public class JumpsWeightFVProfileGraph : CairoXY
 					), false);
 	}
 
-	protected override void writeSelectedValues(int line, PointF pClosest)
+	protected override void writeSelectedValues (int line, PointF pClosest, int closestPos)
 	{
 		g.SelectFontFace(font, Cairo.FontSlant.Normal, Cairo.FontWeight.Normal);
 		g.SetFontSize(textHeight);

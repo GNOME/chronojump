@@ -347,10 +347,10 @@ public class ForceSensorExerciseWindow
 			button_force_exerted_help.Sensitive = false;
 		}
 
-		if(exercise.PercentBodyWeight > 0 && ! exercise.TareBeforeCapture)
+		if(exercise.PercentBodyWeight > 0 && ! exercise.TareBeforeCaptureOnExerciseEdit)
 			radio_mass_add.Active = true;
 
-		else if(exercise.PercentBodyWeight == 0 && exercise.TareBeforeCapture)
+		else if(exercise.PercentBodyWeight == 0 && exercise.TareBeforeCaptureOnExerciseEdit)
 			radio_mass_subtract.Active = true;
 		else
 			radio_mass_nothing.Active = true;

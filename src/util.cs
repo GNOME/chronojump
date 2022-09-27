@@ -555,6 +555,11 @@ public class Util
 		// s = 100 * 4.9 * (tv/2)^2
 		return 100 * 4.9 * Math.Pow( tv / 2.0 , 2 );
 	}
+	//shorter
+	public static double GetHeightInCm (double tv) {
+		return GetHeightInCentimeters (tv);
+	}
+
 	public static double GetHeightInMeters (double tv) {
 		// s = 4.9 * (tv/2)^2
 		return 4.9 * Math.Pow( tv / 2.0 , 2 );

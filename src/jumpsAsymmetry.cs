@@ -53,7 +53,7 @@ public class JumpsAsymmetry
 
 		foreach (SqliteStruct.DateTypeResult sdtr in sdtr_l)
 		{
-			LogB.Information (string.Format ("-MMMM {0} {1} {2}", sdtr.date, sdtr.type, sdtr.result));
+			LogB.Information (string.Format ("-MMMM {0} {1} {2}", sdtr.date, sdtr.type, Util.GetHeightInCm (sdtr.result)));
 
 			if (sdtr.date != currentDate)
 			{
@@ -75,11 +75,11 @@ public class JumpsAsymmetry
 			}
 
 			if (bilateral && sdtr.type == jumpBilateralStr)
-				jad.AddBilateral (sdtr.type, sdtr.result);
+				jad.AddBilateral (sdtr.type, Util.GetHeightInCm (sdtr.result));
 			else if (sdtr.type == j1Str)
-				jad.AddAsymmetry1 (sdtr.type, sdtr.result);
+				jad.AddAsymmetry1 (sdtr.type, Util.GetHeightInCm (sdtr.result));
 			else if (sdtr.type == j2Str)
-				jad.AddAsymmetry2 (sdtr.type, sdtr.result);
+				jad.AddAsymmetry2 (sdtr.type, Util.GetHeightInCm (sdtr.result));
 
 			currentDate = sdtr.date;
 		}
@@ -175,8 +175,7 @@ public class JumpsAsymmetryDay
 
 		return false;
 	}
-	
-	//TODO: flight time or heights?
+
 	public double GetIndex ()
 	{
 		if (bilateral) {

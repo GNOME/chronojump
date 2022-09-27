@@ -1504,9 +1504,6 @@ public partial class ChronoJumpWindow
 				fillTreeView_persons();
 		}
 
-		treeview_jumps_rj_storeReset();
-		treeview_runs_storeReset();
-		treeview_runs_interval_storeReset();
 		treeview_pulses_storeReset();
 		treeview_reaction_times_storeReset();
 
@@ -1517,18 +1514,23 @@ public partial class ChronoJumpWindow
 
 		if(fillTests)
 		{
-			fillTreeView_jumps_rj(Constants.AllJumpsNameStr(), true);
-			fillTreeView_runs(Constants.AllRunsNameStr(), true);
-			fillTreeView_runs_interval(Constants.AllRunsNameStr(), true);
 			fillTreeView_pulses(Constants.AllPulsesNameStr(), true);
 			fillTreeView_reaction_times("reactionTime", true);
 			fillTreeView_multi_chronopic(true);
 		}
 
-		if(fillTests)
+		if(fillTests) {
 			pre_fillTreeView_jumps (true);
-		else
+			pre_fillTreeView_jumps_rj (true);
+			pre_fillTreeView_runs (true);
+			pre_fillTreeView_runs_interval (true);
+		}
+		else {
 			treeview_jumps_storeReset();
+			treeview_jumps_rj_storeReset();
+			treeview_runs_storeReset();
+			treeview_runs_interval_storeReset();
+		}
 
 		//close SQL opened in all this process
 		Sqlite.Close(); // ------------------------------

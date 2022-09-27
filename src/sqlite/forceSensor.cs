@@ -568,7 +568,7 @@ class SqliteForceSensorExercise : Sqlite
 			", resistance = \"" + ex.Resistance + 					//unused
 			"\", angleDefault = " + ex.AngleDefault +
 			", description = \"" + ex.Description +
-			"\", tareBeforeCapture = " + Util.BoolToInt(ex.TareBeforeCapture).ToString() +
+			"\", tareBeforeCapture = " + Util.BoolToInt(ex.TareBeforeCaptureOnExerciseEdit).ToString() +
 			", forceResultant = " + Util.BoolToInt(ex.ForceResultant).ToString() +
 			", elastic = " + ex.TypeToInt ().ToString() +
 			", eccReps = " + ex.RepetitionsShowToCode().ToString() +
@@ -780,7 +780,7 @@ class SqliteForceSensorExerciseImport : SqliteForceSensorExercise
 			", resistance = \"" + ex.Resistance + 					//unused
 			"\", angleDefault = " + ex.AngleDefault +
 			", description = \"" + ex.Description +
-			"\", tareBeforeCapture = " + Util.BoolToInt(ex.TareBeforeCapture).ToString() +
+			"\", tareBeforeCapture = " + Util.BoolToInt(ex.TareBeforeCaptureOnExerciseEdit).ToString() +
 			", forceResultant = " + Util.BoolToInt(ex.ForceResultant).ToString() +
 			", elastic = " + ex.TypeToInt ().ToString() + //on this DB conversation cannot be both "-1"
 			" WHERE uniqueID = " + ex.UniqueID;

@@ -65,6 +65,7 @@ src/gui/app1/encoder.cs
 src/gui/app1/forceSensorAnalyze.cs
 src/gui/app1/forceSensor.cs
 src/gui/app1/jump.cs
+src/gui/app1/jumpsAsymmetry.cs
 src/gui/app1/jumpsDjOptimalFall.cs
 src/gui/app1/jumpsRunsEvolution.cs
 src/gui/app1/jumpsProfile.cs

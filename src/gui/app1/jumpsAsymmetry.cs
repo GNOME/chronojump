@@ -23,6 +23,7 @@ using System;
 using System.Collections.Generic; //List
 using Gtk;
 using Glade;
+using Mono.Unix;
 
 public partial class ChronoJumpWindow 
 {
@@ -138,6 +139,25 @@ public partial class ChronoJumpWindow
 					UtilGtk.ComboGetActive (combo_select_jumps_asymmetry_2)
 					);
 
+		string index = Catalog.GetString ("Bilateral deficit");
+		string formula = string.Format ("{0} - ({1} + {2})",
+				UtilGtk.ComboGetActive (combo_select_jumps_asymmetry_bilateral),
+				UtilGtk.ComboGetActive (combo_select_jumps_asymmetry_1),
+				UtilGtk.ComboGetActive (combo_select_jumps_asymmetry_2));
+
+		if (radio_jumps_asymmetry_asymmetry.Active)
+		{
+			index = Catalog.GetString ("Asymmetry");
+			string higherTranslated = Catalog.GetString ("higher");
+			string lowerTranslated = Catalog.GetString ("lower");
+			formula = Catalog.GetString ("Find daily higher of jumps:") + "\n" +
+				string.Format ("{0}, {1}",
+						UtilGtk.ComboGetActive (combo_select_jumps_asymmetry_1),
+						UtilGtk.ComboGetActive (combo_select_jumps_asymmetry_2)) + "\n" +
+				string.Format ("100 * ({0} - {1}) / {0}",
+						higherTranslated, lowerTranslated);
+		}
+
 		bool bars = false;
 		if (jumpsAsymmetry.Jad_l.Count == 0)
 		{
@@ -147,7 +167,7 @@ public partial class ChronoJumpWindow
 			} else {
 				new JumpsAsymmetryGraph (drawingarea_jumps_asymmetry, 
 						//JumpsEvolutionGraph.Error.NEEDJUMP,
-						"el meu salt", preferences.fontType.ToString());
+						index, preferences.fontType.ToString());
 			}
 
 			button_jumps_asymmetry_save_image.Sensitive = false;
@@ -177,8 +197,9 @@ public partial class ChronoJumpWindow
 						jumpsAsymmetry.Dates_l,
 						0,
 						0,
-						drawingarea_jumps_asymmetry, "title",
-						"el meu salt", currentSession.DateShort, false, true);
+						drawingarea_jumps_asymmetry,
+						currentPerson.Name, index, formula,
+						currentSession.DateShort, false, true);
 				jumpsAsymmetryGraph.Do (preferences.fontType.ToString());
 			}
 

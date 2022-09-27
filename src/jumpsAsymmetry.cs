@@ -32,7 +32,7 @@ public class JumpsAsymmetry
 	{
 	}
 	
-	public void Calculate (int personID, int sessionID, bool bilateral, //TODO: max,avg
+	public void Calculate (int personID, int sessionID, bool bilateral, bool means,
 			string jumpBilateralStr, string j1Str, string j2Str)
 	{
 		List<string> jumpTypes_l = new List<string> ();
@@ -41,8 +41,12 @@ public class JumpsAsymmetry
 		jumpTypes_l.Add (j1Str);
 		jumpTypes_l.Add (j2Str);
 
+		Sqlite.StatType stat = Sqlite.StatType.AVG;
+		if (! means)
+			stat = Sqlite.StatType.MAX;
+
 		//1 get data
-                List<SqliteStruct.DateTypeResult> sdtr_l = SqliteJump.SelectJumpsStatsByDay (personID, jumpTypes_l, Sqlite.StatType.MAX);
+                List<SqliteStruct.DateTypeResult> sdtr_l = SqliteJump.SelectJumpsStatsByDay (personID, jumpTypes_l, stat);
 
 		point_l = new List<PointF> ();
 		dates_l = new List<DateTime> ();

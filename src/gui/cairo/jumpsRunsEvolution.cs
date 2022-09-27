@@ -321,7 +321,8 @@ public class JumpsAsymmetryGraph : EvolutionGraph //to inherit paintGridDatetime
 		} else
 			writeTextAtRight(ypos++, formula, false);
 
-		writeTextAtRight(ypos++, date, false);
+		//better do not write the date as this graph is longitudinal
+		//writeTextAtRight(ypos++, date, false);
 	}
 
 }

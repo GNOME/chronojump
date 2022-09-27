@@ -244,12 +244,14 @@ public class RunsEvolutionGraph : EvolutionGraph
 
 public class JumpsAsymmetryGraph : EvolutionGraph //to inherit paintGridDatetime()
 {
+	public enum Error { NEEDJUMP, REPEATEDJUMPS }
+
 	private string personName;
 	private string index;
 	private string formula;
 
 	//constructor when there are no points
-	public JumpsAsymmetryGraph (DrawingArea area, string title, string font)
+	public JumpsAsymmetryGraph (DrawingArea area, Error error, string title, string font)
 	{
 		this.area = area;
 		this.title = "";
@@ -258,9 +260,13 @@ public class JumpsAsymmetryGraph : EvolutionGraph //to inherit paintGridDatetime
 		initGraph(font, .8);
 
 		g.SetFontSize(16);
-		printText(area.Allocation.Width /2, area.Allocation.Height /2, 24, textHeight,
-				needToExecuteJumpsStr //+ " " + jumpType + "."
-				, g, alignTypes.CENTER);
+
+		if (error == Error.REPEATEDJUMPS)
+			printText(area.Allocation.Width /2, area.Allocation.Height /2, 24, textHeight,
+					repeatedJumpsStr, g, alignTypes.CENTER);
+		else
+			printText(area.Allocation.Width /2, area.Allocation.Height /2, 24, textHeight,
+					Constants.NotEnoughDataStr (), g, alignTypes.CENTER);
 
 		endGraphDisposing(g, surface, area.GdkWindow);
 	}

@@ -89,6 +89,7 @@ public abstract class CairoXY : CairoGeneric
 	//but jumpsWeightFVProfile has many messages, so done also there, and also on radial
 	protected string needToExecuteJumpsStr = Catalog.GetString("Need to execute jumps:");
 	protected string needToExecuteRunsStr = Catalog.GetString("Need to execute races:");
+	protected string repeatedJumpsStr = Catalog.GetString("Jumps cannot be the same.");
 	protected string optimalFallHeightStr = Catalog.GetString("Optimal fall height");
 	protected string heightStr = Catalog.GetString("Height");
 	protected string extraWeightStr = Catalog.GetString("Extra weight");

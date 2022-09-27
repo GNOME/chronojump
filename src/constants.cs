@@ -879,7 +879,11 @@ public class Constants
 		"Creating encoder widgets", 	//9
 		"Starting main window", 	//10
 	};
-	
+
+	public static string NotEnoughDataStr ()
+	{
+		return Catalog.GetString ("Not enough data.");
+	}
 	public static string DatabaseNotFoundStr()
 	{
 		return Catalog.GetString("Error. Cannot find database.");

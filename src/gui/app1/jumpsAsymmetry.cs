@@ -129,21 +129,25 @@ public partial class ChronoJumpWindow
 			calculateData = true;
 		}
 
+		string jumpBilateral = UtilGtk.ComboGetActive (combo_select_jumps_asymmetry_bilateral);
+		string jumpAsymmetry1 = UtilGtk.ComboGetActive (combo_select_jumps_asymmetry_1);
+		string jumpAsymmetry2 = UtilGtk.ComboGetActive (combo_select_jumps_asymmetry_2);
+
 		if(calculateData)
 			jumpsAsymmetry.Calculate (
 					currentPerson.UniqueID, currentSession.UniqueID,
 					radio_jumps_asymmetry_bilateral.Active,
 					//TODO: max/avg
-					UtilGtk.ComboGetActive (combo_select_jumps_asymmetry_bilateral),
-					UtilGtk.ComboGetActive (combo_select_jumps_asymmetry_1),
-					UtilGtk.ComboGetActive (combo_select_jumps_asymmetry_2)
+					jumpBilateral,
+					jumpAsymmetry1,
+					jumpAsymmetry2
 					);
 
 		string index = Catalog.GetString ("Bilateral deficit");
 		string formula = string.Format ("{0} - ({1} + {2})",
-				UtilGtk.ComboGetActive (combo_select_jumps_asymmetry_bilateral),
-				UtilGtk.ComboGetActive (combo_select_jumps_asymmetry_1),
-				UtilGtk.ComboGetActive (combo_select_jumps_asymmetry_2));
+				jumpBilateral,
+				jumpAsymmetry1,
+				jumpAsymmetry2);
 
 		if (radio_jumps_asymmetry_asymmetry.Active)
 		{
@@ -152,8 +156,8 @@ public partial class ChronoJumpWindow
 			string lowerTranslated = Catalog.GetString ("lower");
 			formula = Catalog.GetString ("Find daily higher of jumps:") + "\n" +
 				string.Format ("{0}, {1}",
-						UtilGtk.ComboGetActive (combo_select_jumps_asymmetry_1),
-						UtilGtk.ComboGetActive (combo_select_jumps_asymmetry_2)) + "\n" +
+						jumpAsymmetry1,
+						jumpAsymmetry2) + "\n" +
 				string.Format ("100 * ({0} - {1}) / {0}",
 						higherTranslated, lowerTranslated);
 		}
@@ -165,9 +169,19 @@ public partial class ChronoJumpWindow
 				//constructor for showing blank screen with a message
 				CairoBars cb = new CairoBars1Series (drawingarea_jumps_asymmetry, CairoBars.Type.NORMAL, preferences.fontType.ToString(), "Need more data"); //TODO: change message
 			} else {
+
+				JumpsAsymmetryGraph.Error error = JumpsAsymmetryGraph.Error.NEEDJUMP;
+
+				if (radio_jumps_asymmetry_bilateral.Active &&
+						(jumpBilateral == jumpAsymmetry1 ||
+						jumpBilateral == jumpAsymmetry2 ||
+						jumpAsymmetry1 == jumpAsymmetry2))
+					error = JumpsAsymmetryGraph.Error.REPEATEDJUMPS;
+				else if (jumpAsymmetry1 == jumpAsymmetry2)
+					error = JumpsAsymmetryGraph.Error.REPEATEDJUMPS;
+
 				new JumpsAsymmetryGraph (drawingarea_jumps_asymmetry, 
-						//JumpsEvolutionGraph.Error.NEEDJUMP,
-						index, preferences.fontType.ToString());
+						error, index, preferences.fontType.ToString());
 			}
 
 			button_jumps_asymmetry_save_image.Sensitive = false;

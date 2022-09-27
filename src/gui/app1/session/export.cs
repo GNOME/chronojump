@@ -70,6 +70,8 @@ public partial class ChronoJumpWindow
 			app1s_fileCopy = app1s_fc.Filename + Path.DirectorySeparatorChar + "chronojump_" + currentSession.Name + "_" + UtilDate.ToFile();
 
 			app1s_label_export_destination.Text = app1s_fileCopy;
+			if (exportImportCompressed)
+				app1s_label_export_destination.Text += ".7z";
 
 			app1s_button_export_start.Sensitive = true;
 		}
@@ -201,6 +203,7 @@ public partial class ChronoJumpWindow
 		}
 	}
 
+	private const bool exportImportCompressed = true;
 	static string app1s_exportText;
 	static long app1s_exportElapsedMs;
 	//No GTK here!
@@ -247,6 +250,26 @@ public partial class ChronoJumpWindow
 			count ++;
 		}
 
+		if (exportImportCompressed)
+		{
+			//compressing with 7z
+			app1s_exportText = string.Format("Compressing …");
+			List<string> parameters = new List<string>();
+			parameters.Add ("a");
+			parameters.Add (app1s_fileCopy + ".7z");
+
+			// option 1 add the folder with the files (better to have a dir that can be uncompressed in order to be opened from importer)
+			parameters.Add (app1s_fileCopy);
+			// option 2 without the parent folder (cleaner, but do not found how to import)
+			//parameters.Add (app1s_fileCopy + Path.DirectorySeparatorChar + "*");
+
+			ExecuteProcess.Result execute_result = ExecuteProcess.run ("7z", parameters, false, false);
+			// delete exported folder
+			if (execute_result.success)
+				Util.DirectoryDelete (app1s_fileCopy);
+		}
+
+		//finishing
 		sw.Stop();
 		app1s_exportElapsedMs = sw.ElapsedMilliseconds;
 		LogB.Information("ended app1s_export()");

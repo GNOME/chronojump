@@ -1466,6 +1466,22 @@ public class Util
 		return false;
 	}
 	
+	public static bool DirectoryDelete (string fileName)
+	{
+		LogB.Information("Checking if this directory exists: " + fileName);
+		try {
+			if(Directory.Exists (fileName)) {
+				LogB.Information ("Deleting " + fileName + " ...");
+				Directory.Delete (fileName, true); //recursive
+				LogB.Information ("Deleted");
+				return true;
+			}
+		} catch {
+			LogB.Error ("Problem deleting");
+		}
+		return false;
+	}
+
 	public static bool FileMove(string path, string filenameOrigin, string filenameDestination)
 	{
 		LogB.Information(string.Format("Going to move: {0} to {1}",

@@ -490,7 +490,7 @@ public partial class ChronoJumpWindow
 			//textview_force_sensor_capture_comment.Buffer.Text = "";
 			textview_contacts_signal_comment.Buffer.Text = "";
 
-			if(currentForceSensorExercise.TareBeforeCapture)
+			if(currentForceSensorExercise.TareBeforeCaptureAndForceResultant)
 			{
 				forceSensorOtherMode = forceSensorOtherModeEnum.TARE_AND_CAPTURE_PRE;
 				//forceOtherThread = new Thread(new ThreadStart(forceSensorTareAndCapturePre_noGTK)); //unused see comments on that method
@@ -1077,7 +1077,7 @@ public partial class ChronoJumpWindow
 			if(! forceSensorConnect())
 				return;
 
-		if(currentForceSensorExercise.TareBeforeCapture)
+		if(currentForceSensorExercise.TareBeforeCaptureAndForceResultant)
 			forceSensorOtherMessage = Catalog.GetString ("The tare will soon begin");
 		else
 			forceSensorOtherMessage = Catalog.GetString ("Please, wait …");
@@ -1312,7 +1312,7 @@ public partial class ChronoJumpWindow
 		   that will affect other normal captures
 		   */
 		double forceTared = 0;
-		if(currentForceSensorExercise.TareBeforeCapture)
+		if(currentForceSensorExercise.TareBeforeCaptureAndForceResultant)
 		{
 			forceSensorOtherMessage = Catalog.GetString ("Taring; …");
 			LogB.Information("Taring starts");
@@ -1377,7 +1377,7 @@ public partial class ChronoJumpWindow
 					continue;
 			}
 
-			if(currentForceSensorExercise.TareBeforeCapture && forceTared != 0)
+			if(currentForceSensorExercise.TareBeforeCaptureAndForceResultant && forceTared != 0)
 			{
 				LogB.Information(string.Format("forceTared: {0}, force: {1}, forceFixed: {2}",
 							forceTared, force, force - forceTared));
@@ -1745,7 +1745,7 @@ LogB.Information(" fs F ");
 		{
 LogB.Information(" fs G ");
 			//do this if we are not on tare and TareBeforeCapture
-			if( ! (currentForceSensorExercise.TareBeforeCapture && ! forceCaptureStartMark) )
+			if( ! (currentForceSensorExercise.TareBeforeCaptureAndForceResultant && ! forceCaptureStartMark) )
 			{
 
 				label_force_sensor_value_max.Text = string.Format("{0:0.##} N", forceSensorValues.Max);
@@ -1791,7 +1791,7 @@ LogB.Information(" fs H2 ");
 			}
 
 			//if taring at TareBeforeCapture, just show message
-			if( currentForceSensorExercise.TareBeforeCapture && ! forceCaptureStartMark)
+			if( currentForceSensorExercise.TareBeforeCaptureAndForceResultant && ! forceCaptureStartMark)
 			{
 				event_execute_label_message.Text = forceSensorOtherMessage; //"Taring ..."
 				Thread.Sleep(25);

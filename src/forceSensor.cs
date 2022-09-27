@@ -609,7 +609,7 @@ public class ForceSensorExercise
 				resistance == newEx.Resistance &&
 				angleDefault == newEx.AngleDefault &&
 				description == newEx.Description &&
-				tareBeforeCapture == newEx.TareBeforeCapture &&
+				tareBeforeCapture == newEx.TareBeforeCaptureOnExerciseEdit &&
 				forceResultant == newEx.ForceResultant &&
 				type == newEx.Type &&
 				repetitionsShow == newEx.RepetitionsShow &&
@@ -646,7 +646,22 @@ public class ForceSensorExercise
 		get { return description; }
 		set { description = value; }
 	}
-	public bool TareBeforeCapture
+
+	/*
+	   at exercise edit with forceResultant, user can select tareBeforeCapture
+	   if edit again and select forceRaw, tareBeforeCapture bool is still ok on sqlite,
+	   just to be shown again if user want to go to forceResultant again.
+	   So this applies to TareBeforeCaptureOnExerciseEdit
+
+	   But, on capture, only apply tareBeforeCapture if forceResultant is true,
+	   so useTareBeforeCaptureAndForceResultant
+	   */
+
+	public bool TareBeforeCaptureAndForceResultant
+	{
+		get { return (tareBeforeCapture && forceResultant); }
+	}
+	public bool TareBeforeCaptureOnExerciseEdit
 	{
 		get { return tareBeforeCapture; }
 	}
@@ -654,6 +669,7 @@ public class ForceSensorExercise
 	{
 		get { return forceResultant; }
 	}
+
 	public Types Type
 	{
 		get { return type; }

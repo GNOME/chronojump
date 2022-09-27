@@ -721,11 +721,24 @@ public partial class ChronoJumpWindow
 			if(! forceSensorConnect())
 				return;
 
-		// 1 send tare command
-		if(! forceSensorSendCommand("tare:", "Taring ...", "Catched force taring"))
+		// 1 countdown before tare
+		forceSensorTimeStart = DateTime.Now;
+		forceSensorOtherMessageShowSecondsInit = 2.999;
+		forceSensorOtherMessageShowSeconds = secondsEnum.DESC;
+		forceSensorOtherMessage = Catalog.GetString ("Taring will start in …");
+		do {
+			/* wait for countdown to end
+			LogB.Information (string.Format ("countdown taring: {0}",
+						forceSensorOtherMessageShowSecondsInit - DateTime.Now.Subtract(forceSensorTimeStart).TotalSeconds));
+			 */
+		} while (forceSensorOtherMessageShowSecondsInit - DateTime.Now.Subtract(forceSensorTimeStart).TotalSeconds > 0);
+
+		// 2 send tare command
+		forceSensorOtherMessageShowSeconds = secondsEnum.ASC;
+		if(! forceSensorSendCommand("tare:", Catalog.GetString ("Taring …"), "Catched force taring"))
 			return;
 
-		// 2 read confirmation data
+		// 3 read confirmation data
 		string str = "";
 		do {
 			Thread.Sleep(100); //sleep to let arduino start reading
@@ -747,21 +760,21 @@ public partial class ChronoJumpWindow
 			str = Util.ChangeDecimalSeparator(match.Groups[1].ToString());
 		} else {
 			LogB.Information("not matched OK");
-			// 3 get tare factor
+			// 4 get tare factor
 			if (portFS.BytesToRead > 0)
 				LogB.Information("PRE_get_tare bytes: " + portFS.ReadExisting());
 
-			if(! forceSensorSendCommand("get_tare:", "Checking ...", "Catched at get_tare"))
+			if(! forceSensorSendCommand("get_tare:", Catalog.GetString ("Checking …"), "Catched at get_tare"))
 				return;
 
 			str = Util.ChangeDecimalSeparator(portFS.ReadLine().Trim());
 		}
 
-		// 4 update preferences and SQL with new tare
+		// 5 update preferences and SQL with new tare
 		if(Util.IsNumber(str, true))
 			preferences.UpdateForceSensorTare(Convert.ToDouble(str));
 
-		// 5 print message
+		// 6 print message
 		forceSensorOtherMessageShowSeconds = secondsEnum.NO;
 		forceSensorOtherMessage = "Tared!";
 	}
@@ -774,12 +787,25 @@ public partial class ChronoJumpWindow
 			if(! forceSensorConnect())
 				return;
 
-		// 1 send calibrate command
+		// 1 countdown before calibrate
+		forceSensorTimeStart = DateTime.Now;
+		forceSensorOtherMessageShowSecondsInit = 2.999;
+		forceSensorOtherMessageShowSeconds = secondsEnum.DESC;
+		forceSensorOtherMessage = Catalog.GetString ("Calibrating will start in …");
+		do {
+			/* wait for countdown to end
+			LogB.Information (string.Format ("countdown taring: {0}",
+						forceSensorOtherMessageShowSecondsInit - DateTime.Now.Subtract(forceSensorTimeStart).TotalSeconds));
+			*/
+		} while (forceSensorOtherMessageShowSecondsInit - DateTime.Now.Subtract(forceSensorTimeStart).TotalSeconds > 0);
+
+		// 2 send calibrate command
+		forceSensorOtherMessageShowSeconds = secondsEnum.ASC;
 		if(! forceSensorSendCommand("calibrate:" + Util.ConvertToPoint(spin_force_sensor_calibration_kg_value.Value) + ";",
-					"Calibrating ...", "Catched force calibrating"))
+					Catalog.GetString ("Calibrating …"), "Catched force calibrating"))
 			return;
 
-		// 2 read confirmation data
+		// 3 read confirmation data
 		string str = "";
 		do {
 			Thread.Sleep(100); //sleep to let arduino start reading
@@ -801,14 +827,14 @@ public partial class ChronoJumpWindow
 			str = Util.ChangeDecimalSeparator(match.Groups[1].ToString());
 		} else {
 			LogB.Information("not matched OK");
-			// 3 get calibration factor
+			// 4 get calibration factor
 			if (portFS.BytesToRead > 0)
 				LogB.Information("PRE_get_calibrationfactor bytes: " + portFS.ReadExisting());
 
-			if(! forceSensorSendCommand("get_calibration_factor:", "Checking ...", "Catched at get_calibration_factor"))
+			if(! forceSensorSendCommand("get_calibration_factor:", Catalog.GetString ("Checking …"), "Catched at get_calibration_factor"))
 				return;
 
-			// 4 update preferences and SQL with new calibration factor
+			// 5 update preferences and SQL with new calibration factor
 			str = Util.ChangeDecimalSeparator(portFS.ReadLine().Trim());
 		}
 
@@ -816,7 +842,7 @@ public partial class ChronoJumpWindow
 			preferences.UpdateForceSensorCalibration(
 					spin_force_sensor_calibration_kg_value.Value, Convert.ToDouble(str));
 
-		// 5 print message
+		// 6 print message
 		forceSensorOtherMessageShowSeconds = secondsEnum.NO;
 		forceSensorOtherMessage = "Calibrated!";
 	}

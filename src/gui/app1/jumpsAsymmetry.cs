@@ -252,33 +252,33 @@ public partial class ChronoJumpWindow
 		//data is calculated on switch page (at notebook_capture_analyze) or on change person
 	}
 
-
-	/*
-	private void on_button_jumps_profile_save_image_clicked (object o, EventArgs args)
+	private void on_button_jumps_asymmetry_save_image_clicked (object o, EventArgs args)
 	{
-		checkFile(Constants.CheckFileOp.JUMPS_PROFILE_SAVE_IMAGE);
+		if (radio_jumps_asymmetry_bilateral.Active)
+			checkFile (Constants.CheckFileOp.JUMPS_ASYMMETRY_BILATERAL_SAVE_IMAGE);
+		else
+			checkFile (Constants.CheckFileOp.JUMPS_ASYMMETRY_ASYMMETRY_SAVE_IMAGE);
 	}
 
-	private void on_button_jumps_profile_save_image_selected (string destination)
+	private void on_button_jumps_asymmetry_save_image_selected (string destination)
 	{
-		if(drawingarea_jumps_profile == null)
+		if(drawingarea_jumps_asymmetry == null)
 			return;
 
-		Gdk.Pixbuf pixbuf = Gdk.Pixbuf.FromDrawable(drawingarea_jumps_profile.GdkWindow, Gdk.Colormap.System,
+		Gdk.Pixbuf pixbuf = Gdk.Pixbuf.FromDrawable(drawingarea_jumps_asymmetry.GdkWindow, Gdk.Colormap.System,
 				0, 0, 0, 0,
-				UtilGtk.WidgetWidth(drawingarea_jumps_profile),
-				UtilGtk.WidgetHeight(drawingarea_jumps_profile) );
+				UtilGtk.WidgetWidth(drawingarea_jumps_asymmetry),
+				UtilGtk.WidgetHeight(drawingarea_jumps_asymmetry) );
 
 		LogB.Information("Saving");
 		pixbuf.Save(destination,"png");
 	}
-	private void on_overwrite_file_jumps_profile_save_image_accepted (object o, EventArgs args)
+	private void on_overwrite_file_jumps_asymmetry_save_image_accepted (object o, EventArgs args)
 	{
-		on_button_jumps_profile_save_image_selected (exportFileName);
+		on_button_jumps_asymmetry_save_image_selected (exportFileName);
 
 		string myString = string.Format(Catalog.GetString("Saved to {0}"), exportFileName);
 		new DialogMessage(Constants.MessageTypes.INFO, myString);
 	}
-	*/
 
 }

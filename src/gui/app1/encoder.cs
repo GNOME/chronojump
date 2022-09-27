@@ -2244,6 +2244,8 @@ public partial class ChronoJumpWindow
 				checkFileOp == Constants.CheckFileOp.JUMPS_REACTIVE_CAPTURE_SAVE_IMAGE ||
 				checkFileOp == Constants.CheckFileOp.JUMPS_PROFILE_SAVE_IMAGE ||
 				checkFileOp == Constants.CheckFileOp.JUMPS_DJ_OPTIMAL_FALL_SAVE_IMAGE ||
+				checkFileOp == Constants.CheckFileOp.JUMPS_ASYMMETRY_BILATERAL_SAVE_IMAGE ||
+				checkFileOp == Constants.CheckFileOp.JUMPS_ASYMMETRY_ASYMMETRY_SAVE_IMAGE ||
 				checkFileOp == Constants.CheckFileOp.JUMPS_WEIGHT_FV_PROFILE_SAVE_IMAGE ||
 				checkFileOp == Constants.CheckFileOp.JUMPS_EVOLUTION_SAVE_IMAGE ||
 				checkFileOp == Constants.CheckFileOp.JUMPS_RJ_FATIGUE_SAVE_IMAGE ||
@@ -2290,6 +2292,8 @@ public partial class ChronoJumpWindow
 
 		//on intersession do not show session in nameString
 		else if(
+				checkFileOp == Constants.CheckFileOp.JUMPS_ASYMMETRY_BILATERAL_SAVE_IMAGE ||
+				checkFileOp == Constants.CheckFileOp.JUMPS_ASYMMETRY_ASYMMETRY_SAVE_IMAGE ||
 				checkFileOp == Constants.CheckFileOp.RUNS_SPRINT_EXPORT_INDIVIDUAL_ALL_SESSIONS_NO_IMAGES ||
 				checkFileOp == Constants.CheckFileOp.FORCESENSOR_EXPORT_INDIVIDUAL_ALL_SESSIONS_NO_IMAGES ||
 				checkFileOp == Constants.CheckFileOp.RUNENCODER_EXPORT_INDIVIDUAL_ALL_SESSIONS_NO_IMAGES)
@@ -2362,6 +2366,10 @@ public partial class ChronoJumpWindow
 			nameString += "_jumps_profile.png";
 		else if(checkFileOp == Constants.CheckFileOp.JUMPS_DJ_OPTIMAL_FALL_SAVE_IMAGE)
 			nameString += "_jumps_dj_optimal_fall.png";
+		else if(checkFileOp == Constants.CheckFileOp.JUMPS_ASYMMETRY_BILATERAL_SAVE_IMAGE)
+			nameString += "_jumps_asymmetry_bilateral.png";
+		else if(checkFileOp == Constants.CheckFileOp.JUMPS_ASYMMETRY_ASYMMETRY_SAVE_IMAGE)
+			nameString += "_jumps_asymmetry_asymmetry.png";
 		else if(checkFileOp == Constants.CheckFileOp.JUMPS_WEIGHT_FV_PROFILE_SAVE_IMAGE)
 			nameString += "_jumps_fv_profile.png";
 		else if(checkFileOp == Constants.CheckFileOp.JUMPS_EVOLUTION_SAVE_IMAGE)
@@ -2473,6 +2481,10 @@ public partial class ChronoJumpWindow
 					else if(checkFileOp == Constants.CheckFileOp.JUMPS_DJ_OPTIMAL_FALL_SAVE_IMAGE)
 						confirmWin.Button_accept.Clicked +=
 							new EventHandler(on_overwrite_file_jumps_dj_optimal_fall_save_image_accepted);
+					else if(checkFileOp == Constants.CheckFileOp.JUMPS_ASYMMETRY_BILATERAL_SAVE_IMAGE ||
+							checkFileOp == Constants.CheckFileOp.JUMPS_ASYMMETRY_ASYMMETRY_SAVE_IMAGE)
+						confirmWin.Button_accept.Clicked +=
+							new EventHandler(on_overwrite_file_jumps_asymmetry_save_image_accepted);
 					else if(checkFileOp == Constants.CheckFileOp.JUMPS_WEIGHT_FV_PROFILE_SAVE_IMAGE)
 						confirmWin.Button_accept.Clicked +=
 							new EventHandler(on_overwrite_file_jumps_weight_fv_profile_save_image_accepted);
@@ -2557,6 +2569,9 @@ public partial class ChronoJumpWindow
 						on_button_jumps_profile_save_image_selected (exportFileName);
 					else if(checkFileOp == Constants.CheckFileOp.JUMPS_DJ_OPTIMAL_FALL_SAVE_IMAGE)
 						on_button_jumps_dj_optimal_fall_save_image_selected (exportFileName);
+					else if(checkFileOp == Constants.CheckFileOp.JUMPS_ASYMMETRY_BILATERAL_SAVE_IMAGE ||
+							checkFileOp == Constants.CheckFileOp.JUMPS_ASYMMETRY_ASYMMETRY_SAVE_IMAGE)
+						on_button_jumps_asymmetry_save_image_selected (exportFileName);
 					else if(checkFileOp == Constants.CheckFileOp.JUMPS_WEIGHT_FV_PROFILE_SAVE_IMAGE)
 						on_button_jumps_weight_fv_profile_save_image_selected (exportFileName);
 					else if(checkFileOp == Constants.CheckFileOp.JUMPS_EVOLUTION_SAVE_IMAGE)

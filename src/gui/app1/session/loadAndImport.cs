@@ -19,6 +19,7 @@
  */
 
 using System;
+using System.IO;
 using Gtk;
 using Glade;
 using GLib; //for Value
@@ -372,12 +373,42 @@ public partial class ChronoJumpWindow
 		                                                               "Open",ResponseType.Accept);
 
 		FileFilter file_filter = new FileFilter();
-		file_filter.AddPattern ("*.db");
-		file_filter.Name = "Chronojump database (chronojump.db)";
+
+		if (exportImportCompressed)
+		{
+			file_filter.AddPattern ("*.7z");
+			file_filter.Name = "Chronojump data (.7z)";
+		} else {
+			file_filter.AddPattern ("*.db");
+			file_filter.Name = "Chronojump database (chronojump.db)";
+		}
 		filechooser.AddFilter (file_filter);
 
-		if (filechooser.Run () == (int)ResponseType.Accept) {
+		if (filechooser.Run () == (int)ResponseType.Accept)
+		{
+			if (exportImportCompressed)
+			{
+				List<string> parameters = new List<string>();
+				//parameters.Add ("e");
+				parameters.Add ("x"); //we need the parent folder
+				parameters.Add ("-aoa"); //Overwrite All existing files without prompt.
+				parameters.Add ("-o" + Path.DirectorySeparatorChar + UtilAll.GetTempDir ());
+				parameters.Add (filechooser.Filename);
+
+				ExecuteProcess.Result execute_result = ExecuteProcess.run ("7z", parameters, false, false);
+			}
+
 			app1s_import_file_path = filechooser.Filename;
+			if (exportImportCompressed)
+			{
+				app1s_import_file_path = Path.Combine (
+						UtilAll.GetTempDir (),
+						Util.RemoveExtension (Util.GetLastPartOfPath (filechooser.Filename)),
+						"database",
+						"chronojump.db");
+				LogB.Information ("import from: " + app1s_import_file_path);
+			}
+
 			//file_path_import.Text = System.IO.Path.GetFileName (import_file_path);
 			app1s_file_path_import.Text = app1s_import_file_path;
 			app1s_file_path_import.TooltipText = app1s_import_file_path;

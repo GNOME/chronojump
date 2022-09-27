@@ -244,16 +244,23 @@ public class RunsEvolutionGraph : EvolutionGraph
 
 public class JumpsAsymmetryGraph : EvolutionGraph //to inherit paintGridDatetime()
 {
+	private string personName;
+	private string index;
+	private string formula;
+
 	//constructor when there are no points
-	public JumpsAsymmetryGraph (DrawingArea area, string jumpType, string font)
+	public JumpsAsymmetryGraph (DrawingArea area, string title, string font)
 	{
 		this.area = area;
+		this.title = "";
+		this.formula = "";
 
 		initGraph(font, .8);
 
 		g.SetFontSize(16);
 		printText(area.Allocation.Width /2, area.Allocation.Height /2, 24, textHeight,
-				needToExecuteJumpsStr + " " + jumpType + ".", g, alignTypes.CENTER);
+				needToExecuteJumpsStr //+ " " + jumpType + "."
+				, g, alignTypes.CENTER);
 
 		endGraphDisposing(g, surface, area.GdkWindow);
 	}
@@ -262,18 +269,18 @@ public class JumpsAsymmetryGraph : EvolutionGraph //to inherit paintGridDatetime
 	public JumpsAsymmetryGraph (
 			List<PointF> point_l, List<DateTime> dates_l,
 			double slope, double intercept,
-			DrawingArea area, string title,
-			string jumpType,
-			string date,
-			bool showTime, bool metersSecondsPreferred)
+			DrawingArea area,
+			string personName, string index, string formula,
+			string date, bool showTime, bool metersSecondsPreferred)
 	{
 		this.point_l = point_l;
 		this.dates_l = dates_l;
 		this.slope = slope;
 		this.intercept = intercept;
 		this.area = area;
-		this.title = title;
-		this.jumpType = jumpType;
+		this.personName = personName;
+		this.index = index;
+		this.formula = formula;
 		this.date = date;
 		this.colorBackground = colorFromGdk(Config.ColorBackground); //but note if we are using system colors, this will not match
 
@@ -296,11 +303,19 @@ public class JumpsAsymmetryGraph : EvolutionGraph //to inherit paintGridDatetime
 
 	protected override void writeTitle()
 	{
-		int ypos = -6;
+		int ypos = -7;
 
-		//writeTextAtRight(ypos++, title, true);
-		//writeTextAtRight(ypos++, runTypeStr + " " + runType, false);
-		//writeTextAtRight(ypos++, date, false);
+		writeTextAtRight(ypos++, personName, true);
+		writeTextAtRight(ypos++, index, false);
+		if (formula.Contains ("\n"))
+		{
+			string [] strFull = formula.Split(new char[] {'\n'});
+			foreach (string str in strFull)
+				writeTextAtRight(ypos++, str, false);
+		} else
+			writeTextAtRight(ypos++, formula, false);
+
+		writeTextAtRight(ypos++, date, false);
 	}
 
 }

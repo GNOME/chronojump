@@ -864,7 +864,7 @@ public partial class ChronoJumpWindow
 		if (portFS.BytesToRead > 0)
 			LogB.Information("check_version read possible bytes: " + portFS.ReadExisting());
 
-		if(! forceSensorSendCommand("get_version:", "Checking version ...", "Catched checking version"))
+		if(! forceSensorSendCommand("get_version:", Catalog.GetString ("Checking version …"), "Catched checking version"))
 			return "";
 
 		string str = "";
@@ -891,7 +891,7 @@ public partial class ChronoJumpWindow
 		if (portFS_B.BytesToRead > 0)
 			LogB.Information("Port_B check_version read possible bytes: " + portFS_B.ReadExisting());
 
-		if(! forceSensorSendCommand_B("get_version:", "Checking version ...", "Catched checking version"))
+		if(! forceSensorSendCommand_B("get_version:", Catalog.GetString ("Checking version …"), "Catched checking version"))
 			return "";
 
 		string str = forceSensorReceiveFeedback("Force_Sensor-", forceSensorPortEnum.PORT_B);
@@ -960,7 +960,7 @@ public partial class ChronoJumpWindow
 	private double forceSensorDetectStiffnessDo (int distanceCm, string letter)
 	{
 		// 1 send tare command
-		if(! forceSensorSendCommand("start_capture:", "Preparing capture...", "Catched force capturing"))
+		if(! forceSensorSendCommand("start_capture:", Catalog.GetString ("Preparing capture …"), "Catched force capturing"))
 			return -1;
 
 		// 2 read confirmation data
@@ -1011,7 +1011,7 @@ public partial class ChronoJumpWindow
 		LogB.Information("timeLast: " + forceSensorValues.TimeLast.ToString());
 
 		LogB.Information("Calling end_capture");
-		if(! forceSensorSendCommand("end_capture:", "Ending capture ...", "Catched ending capture"))
+		if(! forceSensorSendCommand("end_capture:", Catalog.GetString ("Ending capture …"), "Catched ending capture"))
 			return -1;
 
 		LogB.Information("Waiting end_capture");
@@ -1037,7 +1037,7 @@ public partial class ChronoJumpWindow
 	//Attention: no GTK here!!
 	private bool forceSensorCheckBinaryCapture()
 	{
-		if(! forceSensorSendCommand("get_transmission_format:", "Checking transmission format ...", "Catched checking transmission format"))
+		if(! forceSensorSendCommand("get_transmission_format:", Catalog.GetString ("Checking transmission format …"), "Catched checking transmission format"))
 			return false;
 
 		string str = "";
@@ -1078,9 +1078,9 @@ public partial class ChronoJumpWindow
 				return;
 
 		if(currentForceSensorExercise.TareBeforeCapture)
-			forceSensorOtherMessage = "The tare will soon begin";
+			forceSensorOtherMessage = Catalog.GetString ("The tare will soon begin");
 		else
-			forceSensorOtherMessage = "Please, wait ...";
+			forceSensorOtherMessage = Catalog.GetString ("Please, wait …");
 
 		capturingForce = arduinoCaptureStatus.STARTING;
 	}
@@ -1240,7 +1240,7 @@ public partial class ChronoJumpWindow
 
 		lastChangedTime = 0;
 
-		if(! forceSensorSendCommand("start_capture:", "Preparing capture...", "Catched force capturing"))
+		if(! forceSensorSendCommand("start_capture:", Catalog.GetString ("Preparing capture …"), "Catched force capturing"))
 		{
 			LogB.Information("fs Error 1");
 			forceProcessError = true;
@@ -1314,7 +1314,7 @@ public partial class ChronoJumpWindow
 		double forceTared = 0;
 		if(currentForceSensorExercise.TareBeforeCapture)
 		{
-			forceSensorOtherMessage = "Taring ...";
+			forceSensorOtherMessage = Catalog.GetString ("Taring; …");
 			LogB.Information("Taring starts");
 			int taringSample = 0;
 			int taringSamplesTotal = 50;
@@ -1472,7 +1472,7 @@ public partial class ChronoJumpWindow
 		else {
 			//LogB.Information(string.Format("forceProcessFinish: {0}, forceProcessCancel: {1}, forceProcessError: {2}", forceProcessFinish, forceProcessCancel, forceProcessError));
 			LogB.Information("Calling end_capture");
-			if(! forceSensorSendCommand("end_capture:", "Ending capture ...", "Catched ending capture"))
+			if(! forceSensorSendCommand("end_capture:", Catalog.GetString ("Ending capture …"), "Catched ending capture"))
 			{
 				forceProcessError = true;
 				LogB.Information("fs Error 3");

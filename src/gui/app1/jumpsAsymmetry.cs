@@ -35,6 +35,8 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.RadioButton radio_jumps_asymmetry_bilateral;
 	[Widget] Gtk.RadioButton radio_jumps_asymmetry_asymmetry;
 
+	[Widget] Gtk.RadioButton radio_jumps_asymmetry_use_means;
+
 	[Widget] Gtk.HBox hbox_combo_select_jumps_asymmetry_bilateral;
 	[Widget] Gtk.ComboBox combo_select_jumps_asymmetry_bilateral;
 	[Widget] Gtk.HBox hbox_combo_select_jumps_asymmetry_1;
@@ -98,6 +100,15 @@ public partial class ChronoJumpWindow
 		jumpsAsymmetryDo (true);
 	}
 
+	private void on_radio_jumps_asymmetry_use_means_toggled (object o, EventArgs args)
+	{
+		jumpsAsymmetryDo (true);
+	}
+	private void on_radio_jumps_asymmetry_use_maximums_toggled (object o, EventArgs args)
+	{
+		jumpsAsymmetryDo (true);
+	}
+
 	private void on_combo_select_jumps_asymmetry_bilateral_changed (object o, EventArgs args)
 	{
 		jumpsAsymmetryDo (true);
@@ -137,7 +148,7 @@ public partial class ChronoJumpWindow
 			jumpsAsymmetry.Calculate (
 					currentPerson.UniqueID, currentSession.UniqueID,
 					radio_jumps_asymmetry_bilateral.Active,
-					//TODO: max/avg
+					radio_jumps_asymmetry_use_means.Active,
 					jumpBilateral,
 					jumpAsymmetry1,
 					jumpAsymmetry2

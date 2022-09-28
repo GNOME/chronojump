@@ -396,8 +396,10 @@ public partial class ChronoJumpWindow
 				parameters.Add (filechooser.Filename);
 
 				string executable = "7z";
-				if(operatingSystem == UtilAll.OperatingSystems.MACOSX)
+				if (operatingSystem == UtilAll.OperatingSystems.MACOSX)
 					executable = System.IO.Path.Combine(Util.GetPrefixDir(), "bin/7zz");
+				else if (operatingSystem == UtilAll.OperatingSystems.WINDOWS)
+					executable = System.IO.Path.Combine(Util.GetPrefixDir(), "bin/7zr.exe");
 
 				ExecuteProcess.Result execute_result = ExecuteProcess.run (executable, parameters, false, false);
 			}

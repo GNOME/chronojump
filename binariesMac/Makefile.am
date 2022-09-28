@@ -1,3 +1,3 @@
 TARGET = all
 
-bin_SCRIPTS = ffmpeg ffplay
+bin_SCRIPTS = 7zz ffmpeg ffplay

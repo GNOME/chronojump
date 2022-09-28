@@ -395,7 +395,11 @@ public partial class ChronoJumpWindow
 				parameters.Add ("-o" + Path.DirectorySeparatorChar + UtilAll.GetTempDir ());
 				parameters.Add (filechooser.Filename);
 
-				ExecuteProcess.Result execute_result = ExecuteProcess.run ("7z", parameters, false, false);
+				string executable = "7z";
+				if(operatingSystem == UtilAll.OperatingSystems.MACOSX)
+					executable = System.IO.Path.Combine(Util.GetPrefixDir(), "bin/7zz");
+
+				ExecuteProcess.Result execute_result = ExecuteProcess.run (executable, parameters, false, false);
 			}
 
 			app1s_import_file_path = filechooser.Filename;

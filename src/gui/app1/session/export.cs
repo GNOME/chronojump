@@ -256,6 +256,7 @@ public partial class ChronoJumpWindow
 			app1s_exportText = string.Format("Compressing …");
 			List<string> parameters = new List<string>();
 			parameters.Add ("a");
+
 			parameters.Add (app1s_fileCopy + ".7z");
 
 			// option 1 add the folder with the files (better to have a dir that can be uncompressed in order to be opened from importer)
@@ -263,7 +264,11 @@ public partial class ChronoJumpWindow
 			// option 2 without the parent folder (cleaner, but do not found how to import)
 			//parameters.Add (app1s_fileCopy + Path.DirectorySeparatorChar + "*");
 
-			ExecuteProcess.Result execute_result = ExecuteProcess.run ("7z", parameters, false, false);
+			string executable = "7z";
+			if(operatingSystem == UtilAll.OperatingSystems.MACOSX)
+				executable = System.IO.Path.Combine(Util.GetPrefixDir(), "bin/7zz");
+
+			ExecuteProcess.Result execute_result = ExecuteProcess.run (executable, parameters, false, false);
 			// delete exported folder
 			if (execute_result.success)
 				Util.DirectoryDelete (app1s_fileCopy);

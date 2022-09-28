@@ -2,7 +2,8 @@ EXTRA_DIST = win32/chronojump_innosetup.iss.in \
 	     win32/Makefile.in glade/*.glade \
 	     src/chronojump-importer/chronojump_importer.py \
 	     src/chronojump-importer/test-delete.py \
-	     binariesMac/ffplay
+	     binariesMac/ffplay \
+	     binariesMac/7zz
 
 CLEANFILES = win32/Makefile win32/chronojump_innosetup.iss
 

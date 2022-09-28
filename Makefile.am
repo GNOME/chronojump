@@ -2,7 +2,7 @@ EXTRA_DIST = win32/chronojump_innosetup.iss.in \
 	     win32/Makefile.in glade/*.glade \
 	     src/chronojump-importer/chronojump_importer.py \
 	     src/chronojump-importer/test-delete.py \
-	     ffmpegBinariesMac/ffplay
+	     binariesMac/ffplay
 
 CLEANFILES = win32/Makefile win32/chronojump_innosetup.iss
 
@@ -29,7 +29,7 @@ ChangeLog:
 dist: ChangeLog
 
 if OSTYPE_OS_X
-SUBDIRS += ffmpegBinariesMac
+SUBDIRS += binariesMac
 export CHRONOJUMP_VERSION = @PACKAGE_VERSION@
 export CHRONOJUMP_COMMIT = origin/@GIT_BRANCH@
 CERBERO_COMMAND = /Users/chronojump/cerbero/cerbero-uninstalled -c /Users/chronojump/cerbero/cerbero-extras/chronojump.cbc

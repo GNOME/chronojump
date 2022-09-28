@@ -125,7 +125,7 @@ macosx stuff
 
 Check if there are new static ffmpeg binaries on:
 https://evermeet.cx/ffmpeg/
-download compressed files, uncompress and put ffmpeg and ffplay files on ffmpegBinariesMac dir
+download compressed files, uncompress and put ffmpeg and ffplay files on binariesMac dir
 
 If is for internal use, mv into: /Users/chronojump/BinarisMac/
 to be automatically available on owncloud

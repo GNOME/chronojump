@@ -142,7 +142,7 @@ chronopic-firmware/chronopic-firmwarecord/Makefile
 chronopic-firmware/chronopic-firmwarecord/libIris/Makefile
 chronopic-firmware/chronopic-firmwarecord/chronopic-firmwarecord
 chronopic-tests/Makefile
-ffmpegBinariesMac/Makefile
+binariesMac/Makefile
 src/Makefile
 src/Mini/Makefile
 src/chronojump-importer/Makefile

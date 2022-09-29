@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2020   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2004-2022   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -30,8 +30,11 @@ public class PersonShowAllEventsWindow
 {
 	[Widget] Gtk.Window person_show_all_events;
 
-	[Widget] Gtk.CheckButton checkbutton_only_current_session;
-	[Widget] Gtk.Label label_checkbutton_only_current_session;
+	[Widget] Gtk.HBox hbox_session_radios;
+	[Widget] Gtk.RadioButton radio_session_current;
+	[Widget] Gtk.RadioButton radio_session_all;
+	[Widget] Gtk.Label label_radio_session_current;
+	[Widget] Gtk.Label label_radio_session_all;
 	[Widget] Gtk.HBox hbox_filter;
 	[Widget] Gtk.Label label_filter;
 	[Widget] Gtk.Entry entry_filter;
@@ -47,9 +50,9 @@ public class PersonShowAllEventsWindow
 	TreeStore store;
 	static PersonShowAllEventsWindow PersonShowAllEventsWindowBox;
 
-	protected int sessionID;
+	private int sessionID;
 	
-	protected Person currentPerson;
+	private Person currentPerson;
 	
 	PersonShowAllEventsWindow (Gtk.Window parent, int sessionID, Person currentPerson)
 	{
@@ -64,7 +67,8 @@ public class PersonShowAllEventsWindow
 		if(! Config.UseSystemColor)
 		{
 			UtilGtk.WindowColor(person_show_all_events, Config.ColorBackground);
-			UtilGtk.ContrastLabelsLabel(Config.ColorBackgroundIsDark, label_checkbutton_only_current_session);
+			UtilGtk.ContrastLabelsLabel(Config.ColorBackgroundIsDark, label_radio_session_current);
+			UtilGtk.ContrastLabelsLabel(Config.ColorBackgroundIsDark, label_radio_session_all);
 			UtilGtk.ContrastLabelsLabel(Config.ColorBackgroundIsDark, label_filter);
 			UtilGtk.ContrastLabelsLabel(Config.ColorBackgroundIsDark, label_person);
 			UtilGtk.ContrastLabelsLabel(Config.ColorBackgroundIsDark, label_person_name);
@@ -95,13 +99,13 @@ public class PersonShowAllEventsWindow
 
 		if(allowChangePerson)
 		{
-			PersonShowAllEventsWindowBox.checkbutton_only_current_session.Visible = true;
+			PersonShowAllEventsWindowBox.hbox_session_radios.Visible = true;
 			PersonShowAllEventsWindowBox.hbox_filter.Visible =
-				! PersonShowAllEventsWindowBox.checkbutton_only_current_session.Active;
+				PersonShowAllEventsWindowBox.radio_session_all.Active;
 			PersonShowAllEventsWindowBox.hbox_combo_persons.Visible = true;
 			PersonShowAllEventsWindowBox.label_person_name.Visible = false;
 		} else {
-			PersonShowAllEventsWindowBox.checkbutton_only_current_session.Visible = false;
+			PersonShowAllEventsWindowBox.hbox_session_radios.Visible = false;
 			PersonShowAllEventsWindowBox.hbox_filter.Visible = false;
 			PersonShowAllEventsWindowBox.entry_filter.Text = "";
 			PersonShowAllEventsWindowBox.hbox_combo_persons.Visible = false;
@@ -115,19 +119,16 @@ public class PersonShowAllEventsWindow
 
 	private void on_entry_filter_changed (object o, EventArgs args)
 	{
-		LogB.Information ("on_entry_filter_changed");
-		//this will update combo and treeview
-		on_checkbutton_only_current_session_clicked (o, args);
+		radio_session_toggled_do (); 	//this will update combo and treeview
 	}
 
-	private void createComboPersons(int sessionID, string personID, string personName)
+	private void createComboPersons (int sessionID, string personID, string personName)
 	{
 		combo_persons = ComboBox.NewText ();
 
 		int inSession = -1;		//select persons from all sessions
-		if(checkbutton_only_current_session.Active) {
+		if (radio_session_current.Active)
 			inSession = sessionID;	//select only persons who are on currentSession
-		}
 
 		string filter = "";
 		if (entry_filter != null && entry_filter.Text != "")
@@ -154,7 +155,8 @@ public class PersonShowAllEventsWindow
 		combo_persons.Sensitive = true;
 	}
 	
-	private void on_combo_persons_changed(object o, EventArgs args) {
+	private void on_combo_persons_changed (object o, EventArgs args)
+	{
 		string myText = UtilGtk.ComboGetActive(combo_persons);
 
 		store = new TreeStore( typeof (string), typeof (string), typeof (string), typeof (string), 
@@ -169,13 +171,20 @@ public class PersonShowAllEventsWindow
 			fillTreeView( treeview_person_show_all_events, store, -1);
 	}
 	
-	protected void on_checkbutton_only_current_session_clicked(object o, EventArgs args)
+	private void on_radio_session_toggled (object o, EventArgs args)
 	{
-		LogB.Information ("only_current_session_clicked");
+		//only manage active
+		if (o == (object) radio_session_current && radio_session_current.Active)
+			radio_session_toggled_do ();
+		else if (o == (object) radio_session_all && radio_session_all.Active)
+			radio_session_toggled_do ();
+	}
 
-		hbox_filter.Visible = ! checkbutton_only_current_session.Active;
+	private void radio_session_toggled_do ()
+	{
+		hbox_filter.Visible = radio_session_all.Active;
 
-		string myText = UtilGtk.ComboGetActive(combo_persons);
+		string myText = UtilGtk.ComboGetActive (combo_persons);
 		combo_persons.Destroy();
 
 		if(myText != "") {
@@ -184,10 +193,11 @@ public class PersonShowAllEventsWindow
 		} else
 			createComboPersons(sessionID, "-1", "" );
 
-		on_combo_persons_changed(0, args);	//called for updating the treeview ifcombo_persons.Entry changed
+		on_combo_persons_changed (0, new EventArgs ());	//called for updating the treeview ifcombo_persons.Entry changed
 	}
 	
-	protected void createTreeView (Gtk.TreeView tv) {
+	private void createTreeView (Gtk.TreeView tv)
+	{
 		tv.HeadersVisible=true;
 		int count = 0;
 		tv.AppendColumn ( Catalog.GetString ("Session name"), new CellRendererText(), "text", count++);
@@ -206,7 +216,8 @@ public class PersonShowAllEventsWindow
 		tv.AppendColumn ( Catalog.GetString ("Race analyzer"), new CellRendererText(), "text", count++);
 	}
 	
-	protected void fillTreeView (Gtk.TreeView tv, TreeStore store, int personID) {
+	private void fillTreeView (Gtk.TreeView tv, TreeStore store, int personID)
+	{
 		ArrayList myEvents = new ArrayList ();
 		if (personID >= 0)
 			myEvents = SqlitePerson.SelectAllPersonEvents(personID); 
@@ -219,14 +230,14 @@ public class PersonShowAllEventsWindow
 		}
 	}
 
-	protected virtual void on_button_close_clicked (object o, EventArgs args)
+	private void on_button_close_clicked (object o, EventArgs args)
 	{
 		fakeButtonDone.Click();
 		PersonShowAllEventsWindowBox.person_show_all_events.Hide();
 		PersonShowAllEventsWindowBox = null;
 	}
 	
-	protected virtual void on_delete_event (object o, DeleteEventArgs args)
+	private void on_delete_event (object o, DeleteEventArgs args)
 	{
 		fakeButtonDone.Click();
 		PersonShowAllEventsWindowBox.person_show_all_events.Hide();

@@ -130,6 +130,10 @@ download compressed files, uncompress and put ffmpeg and ffplay files on binarie
 If is for internal use, mv into: /Users/chronojump/BinarisMac/
 to be automatically available on owncloud
 
+7z https://www.7-zip.org/download.html
+find Zip for MacOS: console version
+extract the 7zz and put on binariesMac folder
+
 download (with filezilla is very fast), using owncloud is nice also
 /Users/chronojump/chronojump/Chronojump-1.4.2-x86_64.dmg
 scp -l 8192 Chronojump...dmg xaviblas@master.gnome.org:.
@@ -170,6 +174,10 @@ usage: chronojump_importer.exe [-h] --source SOURCE, and other params needed as 
 
 to solve this, just copy msvcr100.dll on that dir. I have it on ~/informatica/virtualbox_windows_shared
 ---
+
+7z https://www.7-zip.org/download.html
+Install 7zr.exe
+7zr(1) is a stand-alone executable. It is a "light-version" of 7za that only handles 7z archives. In contrast to 7za, it cannot handle encrypted archives. (https://wiki.archlinux.org/title/p7zip#Differences_between_7z.2C_7za_and_7zr_binaries)
 
 2) See: howto_compile.txt
 

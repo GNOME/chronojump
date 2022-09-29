@@ -32,6 +32,9 @@ public class PersonShowAllEventsWindow
 
 	[Widget] Gtk.CheckButton checkbutton_only_current_session;
 	[Widget] Gtk.Label label_checkbutton_only_current_session;
+	[Widget] Gtk.HBox hbox_filter;
+	[Widget] Gtk.Label label_filter;
+	[Widget] Gtk.Entry entry_filter;
 	[Widget] Gtk.Label label_person;
 	[Widget] Gtk.Label label_person_name;
 
@@ -62,6 +65,7 @@ public class PersonShowAllEventsWindow
 		{
 			UtilGtk.WindowColor(person_show_all_events, Config.ColorBackground);
 			UtilGtk.ContrastLabelsLabel(Config.ColorBackgroundIsDark, label_checkbutton_only_current_session);
+			UtilGtk.ContrastLabelsLabel(Config.ColorBackgroundIsDark, label_filter);
 			UtilGtk.ContrastLabelsLabel(Config.ColorBackgroundIsDark, label_person);
 			UtilGtk.ContrastLabelsLabel(Config.ColorBackgroundIsDark, label_person_name);
 		}
@@ -92,10 +96,14 @@ public class PersonShowAllEventsWindow
 		if(allowChangePerson)
 		{
 			PersonShowAllEventsWindowBox.checkbutton_only_current_session.Visible = true;
+			PersonShowAllEventsWindowBox.hbox_filter.Visible =
+				! PersonShowAllEventsWindowBox.checkbutton_only_current_session.Active;
 			PersonShowAllEventsWindowBox.hbox_combo_persons.Visible = true;
 			PersonShowAllEventsWindowBox.label_person_name.Visible = false;
 		} else {
 			PersonShowAllEventsWindowBox.checkbutton_only_current_session.Visible = false;
+			PersonShowAllEventsWindowBox.hbox_filter.Visible = false;
+			PersonShowAllEventsWindowBox.entry_filter.Text = "";
 			PersonShowAllEventsWindowBox.hbox_combo_persons.Visible = false;
 			PersonShowAllEventsWindowBox.label_person_name.Visible = true;
 		}
@@ -104,16 +112,28 @@ public class PersonShowAllEventsWindow
 		
 		return PersonShowAllEventsWindowBox;
 	}
-	
-	private void createComboPersons(int sessionID, string personID, string personName) {
+
+	private void on_entry_filter_changed (object o, EventArgs args)
+	{
+		LogB.Information ("on_entry_filter_changed");
+		//this will update combo and treeview
+		on_checkbutton_only_current_session_clicked (o, args);
+	}
+
+	private void createComboPersons(int sessionID, string personID, string personName)
+	{
 		combo_persons = ComboBox.NewText ();
 
 		int inSession = -1;		//select persons from all sessions
 		if(checkbutton_only_current_session.Active) {
 			inSession = sessionID;	//select only persons who are on currentSession
 		}
-		
-		ArrayList myPersons = SqlitePerson.SelectAllPersonsRecuperable("name", -1, inSession, ""); //"" is searchFilterName (not implemented on PersonShowAllEventsWindow)
+
+		string filter = "";
+		if (entry_filter != null && entry_filter.Text != "")
+			filter = entry_filter.Text;
+
+		ArrayList myPersons = SqlitePerson.SelectAllPersonsRecuperable("name", -1, inSession, filter);
 
 		//put only id and name in combo
 		string [] myPersonsIDName = new string[myPersons.Count];
@@ -122,7 +142,10 @@ public class PersonShowAllEventsWindow
 			myPersonsIDName[count++] = person.IDAndName(":");
 		
 		UtilGtk.ComboUpdate(combo_persons, myPersonsIDName, "");
-		combo_persons.Active = UtilGtk.ComboMakeActive(myPersonsIDName, personID + ":" + personName);
+		if (personID == "-1" || personName == "")
+			combo_persons.Active = 0;
+		else
+			combo_persons.Active = UtilGtk.ComboMakeActive(myPersonsIDName, personID + ":" + personName);
 
 		combo_persons.Changed += new EventHandler (on_combo_persons_changed);
 
@@ -133,26 +156,35 @@ public class PersonShowAllEventsWindow
 	
 	private void on_combo_persons_changed(object o, EventArgs args) {
 		string myText = UtilGtk.ComboGetActive(combo_persons);
-		if(myText != "") {
-			store = new TreeStore( typeof (string), typeof (string), typeof (string), typeof (string), 
-					typeof (string), typeof(string), typeof(string), typeof(string), typeof(string), typeof(string),
-					typeof (string), typeof (string), typeof(string), typeof(string));
-			treeview_person_show_all_events.Model = store;
-			
-			string [] myStringFull = myText.Split(new char[] {':'});
 
+		store = new TreeStore( typeof (string), typeof (string), typeof (string), typeof (string), 
+				typeof (string), typeof(string), typeof(string), typeof(string), typeof(string), typeof(string),
+				typeof (string), typeof (string), typeof(string), typeof(string));
+		treeview_person_show_all_events.Model = store;
+
+		if(myText != "") {
+			string [] myStringFull = myText.Split(new char[] {':'});
 			fillTreeView( treeview_person_show_all_events, store, Convert.ToInt32(myStringFull[0]) );
-		}
+		} else
+			fillTreeView( treeview_person_show_all_events, store, -1);
 	}
 	
-	protected void on_checkbutton_only_current_session_clicked(object o, EventArgs args) {
+	protected void on_checkbutton_only_current_session_clicked(object o, EventArgs args)
+	{
+		LogB.Information ("only_current_session_clicked");
+
+		hbox_filter.Visible = ! checkbutton_only_current_session.Active;
+
 		string myText = UtilGtk.ComboGetActive(combo_persons);
+		combo_persons.Destroy();
+
 		if(myText != "") {
 			string [] myStringFull = myText.Split(new char[] {':'});
-			combo_persons.Destroy();
 			createComboPersons(sessionID, myStringFull[0], myStringFull[1] );
-			on_combo_persons_changed(0, args);	//called for updating the treeview ifcombo_persons.Entry changed
-		}
+		} else
+			createComboPersons(sessionID, "-1", "" );
+
+		on_combo_persons_changed(0, args);	//called for updating the treeview ifcombo_persons.Entry changed
 	}
 	
 	protected void createTreeView (Gtk.TreeView tv) {
@@ -175,8 +207,9 @@ public class PersonShowAllEventsWindow
 	}
 	
 	protected void fillTreeView (Gtk.TreeView tv, TreeStore store, int personID) {
-		ArrayList myEvents;
-		myEvents = SqlitePerson.SelectAllPersonEvents(personID); 
+		ArrayList myEvents = new ArrayList ();
+		if (personID >= 0)
+			myEvents = SqlitePerson.SelectAllPersonEvents(personID); 
 
 		foreach (string myEvent in myEvents) {
 			string [] myStr = myEvent.Split(new char[] {':'});

@@ -450,9 +450,9 @@ RESOURCES = \
 	../images/infrared.jpg,infrared.jpg \
 	../images/mini/infrared.jpg,mini/infrared.jpg \
 	../images/md/start-24-blue.png,start.png \
-	../images/md/ic_notifications_blue_1x.png,stock_bell.png \
-	../images/md/ic_notifications_active_blue_1x.png,stock_bell_active.png \
-	../images/md/ic_notifications_none_blue_1x.png,stock_bell_none.png \
+	../images/md/notifications_blue_1x.png,stock_bell.png \
+	../images/md/notifications_active_blue_1x.png,stock_bell_active.png \
+	../images/md/notifications_none_blue_1x.png,stock_bell_none.png \
 	../images/stock_bell_green.png,stock_bell_green.png \
 	../images/stock_bell_red.png,stock_bell_red.png \
 	../images/line_session_max.png,line_session_max.png \
@@ -472,19 +472,19 @@ RESOURCES = \
 	../images/md/photo_camera_end_blue.png,image_photo_end_camera.png \
 	../images/md/photo_camera_do_red.png,image_photo_do.png \
 	../images/md/photo_camera_preview_blue.png,image_photo_preview.png \
-	../images/md/ic_audio_blue_1x.png,audio.png \
-	../images/md/ic_videocam_blue_1x.png,videocamera_on.png \
-	../images/md/ic_videocam_off_blue_1x.png,videocamera_off.png \
+	../images/md/audio_blue_1x.png,audio.png \
+	../images/md/videocam_blue_1x.png,videocamera_on.png \
+	../images/md/videocam_off_blue_1x.png,videocamera_off.png \
 	../images/md/play_arrow_blue.png,video_play.png \
-	../images/md/ic_home_blue_1x.png,image_home.png \
-	../images/md/ic_import_1x.png,import.png \
-	../images/md/ic_import_yellow_1x.png,import_yellow.png \
-	../images/md/ic_export_1x.png,export.png \
-	../images/md/ic_settings_blue_1x.png,image_settings.png \
-	../images/md/ic_close_blue_1x.png,image_close_blue.png \
-	../images/md/ic_close_red_1x.png,image_close.png \
-	../images/md/ic_close_blue_2x.png,image_close_big.png \
-	../images/md/ic_power_settings_new_red_1x.png,image_quit.png \
+	../images/md/home_blue_1x.png,image_home.png \
+	../images/md/import_1x.png,import.png \
+	../images/md/import_yellow_1x.png,import_yellow.png \
+	../images/md/export_1x.png,export.png \
+	../images/md/settings_blue_1x.png,image_settings.png \
+	../images/md/close_blue_1x.png,image_close_blue.png \
+	../images/md/close_red_1x.png,image_close.png \
+	../images/md/close_blue_2x.png,image_close_big.png \
+	../images/md/power_settings_new_red_1x.png,image_quit.png \
 	../images/md/weight.png,image_weight.png \
 	../images/md/weight_yellow.png,image_weight_yellow.png \
 	../images/md/weight_mov_2x.png,image_weight_mov_2x.png \
@@ -492,51 +492,51 @@ RESOURCES = \
 	../images/md/conical_blue_2x.png,image_inertia_2x.png \
 	../images/md/conical_blue_2x_2col.png,image_inertia_2x_2col.png \
 	../images/md/conical_yellow_1x.png,image_inertia_yellow.png \
-	../images/md/ic_timer_blue_1x.png,image_capture.png \
-	../images/md/ic_timer_blue_2x.png,image_capture_big.png \
-	../images/md/ic_last_page_blue_1x.png,finish.png \
+	../images/md/timer_blue_1x.png,image_capture.png \
+	../images/md/timer_blue_2x.png,image_capture_big.png \
+	../images/md/last_page_blue_1x.png,finish.png \
 	../images/gtk-floppy.png,floppy.png \
 	../images/md/arrow_back_blue.png,arrow_back.png \
-	../images/md/ic_cancel_red_1x.png,image_cancel.png \
+	../images/md/cancel_red_1x.png,image_cancel.png \
 	../images/md/done_blue.png,image_done_blue.png \
-	../images/md/ic_insert_chart_blue_1x.png,image_analyze.png \
-	../images/md/ic_assignment_blue_1x.png,image_analyze_general.png \
-	../images/md/ic_fast_forward_blue_1x.png,image_sprint.png \
-	../images/md/ic_developer_board_blue_1x.png,image_chronopic_connect.png \
-	../images/md/ic_developer_board_yellow_1x.png,image_chronopic_connect_yellow.png \
-	../images/md/ic_developer_board_blue_2x.png,image_chronopic_connect_big.png \
+	../images/md/insert_chart_blue_1x.png,image_analyze.png \
+	../images/md/assignment_blue_1x.png,image_analyze_general.png \
+	../images/md/fast_forward_blue_1x.png,image_sprint.png \
+	../images/md/developer_board_blue_1x.png,image_chronopic_connect.png \
+	../images/md/developer_board_yellow_1x.png,image_chronopic_connect_yellow.png \
+	../images/md/developer_board_blue_2x.png,image_chronopic_connect_big.png \
 	../images/md/p_blue_1x.png,image_person.png \
 	../images/md/p_yellow_1x.png,image_person_yellow.png \
 	../images/md/p_logout_blue_1x.png,image_person_logout.png \
 	../images/md/persons_manage.png,persons_manage.png \
-	../images/md/ic_photo_camera_blue_2x.png,image_no_photo.png \
-	../images/md/ic_photo_camera_yellow_2x.png,image_no_photo_yellow.png \
-	../images/md/ic_select_blue_3x.png,image_selected.png \
-	../images/md/ic_cached_blue_1x.png,image_recalculate.png \
-	../images/md/ic_delete_blue_1x.png,stock_delete.png \
-	../images/md/ic_create_new_folder_blue_2x.png,folder_new_big.png \
-	../images/md/ic_create_new_folder_blue_1x.png,folder_new.png \
-	../images/md/ic_create_new_folder_yellow_1x.png,folder_new_yellow.png \
-	../images/md/ic_fullscreen_exit_blue_1x.png,image_minimize.png \
-	../images/md/ic_folder_open_blue_2x.png,folder_open_big.png \
-	../images/md/ic_folder_open_blue_1x.png,folder_open.png \
-	../images/md/ic_folder_open_yellow_1x.png,folder_open_yellow.png \
-	../images/md/ic_folder_open_set_blue_1x.png,folder_open_set.png \
-	../images/md/ic_visibility_blue_1x.png,image_visibility.png \
+	../images/md/photo_camera_blue_2x.png,image_no_photo.png \
+	../images/md/photo_camera_yellow_2x.png,image_no_photo_yellow.png \
+	../images/md/select_blue_3x.png,image_selected.png \
+	../images/md/cached_blue_1x.png,image_recalculate.png \
+	../images/md/delete_blue_1x.png,stock_delete.png \
+	../images/md/create_new_folder_blue_2x.png,folder_new_big.png \
+	../images/md/create_new_folder_blue_1x.png,folder_new.png \
+	../images/md/create_new_folder_yellow_1x.png,folder_new_yellow.png \
+	../images/md/fullscreen_exit_blue_1x.png,image_minimize.png \
+	../images/md/folder_open_blue_2x.png,folder_open_big.png \
+	../images/md/folder_open_blue_1x.png,folder_open.png \
+	../images/md/folder_open_yellow_1x.png,folder_open_yellow.png \
+	../images/md/folder_open_set_blue_1x.png,folder_open_set.png \
+	../images/md/visibility_blue_1x.png,image_visibility.png \
 	../images/md/p_pin_blue_1x.png,image_person_pin.png \
-	../images/md/ic_face_blue_1x.png,image_face.png \
+	../images/md/face_blue_1x.png,image_face.png \
 	../images/md/p_add_blue_1x.png,image_person_add.png \
-	../images/md/ic_group_add_blue_1x.png,image_group_add.png \
+	../images/md/group_add_blue_1x.png,image_group_add.png \
 	../images/md/p_outline_blue_1x.png,image_person_outline.png \
 	../images/md/image_group_outline.png,image_group_outline.png \
 	../images/md/outline_mouse_black_18dp.png,mouse.png \
-	../images/md/ic_weekend_blue_1x.png,image_rest.png \
-	../images/md/ic_weekend_blue_inactive_1x.png,image_rest_inactive.png \
-	../images/md/ic_weekend_yellow_1x.png,image_rest_yellow.png \
-	../images/md/ic_looks_zero_blue_1x.png,zero.png \
-	../images/md/ic_looks_one_blue_1x.png,one.png \
-	../images/md/ic_add_circle_blue_1x.png,image_add_test.png \
-	../images/md/ic_all_inclusive_blue_1x.png,cont.png \
+	../images/md/weekend_blue_1x.png,image_rest.png \
+	../images/md/weekend_blue_inactive_1x.png,image_rest_inactive.png \
+	../images/md/weekend_yellow_1x.png,image_rest_yellow.png \
+	../images/md/looks_zero_blue_1x.png,zero.png \
+	../images/md/looks_one_blue_1x.png,one.png \
+	../images/md/add_circle_blue_1x.png,image_add_test.png \
+	../images/md/all_inclusive_blue_1x.png,cont.png \
 	../images/md/jump_blue_1x.png,image_jump.png \
 	../images/md/jump_blue_2x.png,image_jump_2x.png \
 	../images/md/jump_simple_blue_1x.png,image_jump_simple.png \
@@ -553,15 +553,15 @@ RESOURCES = \
 	../images/md/run_multiple_yellow_1x.png,image_run_multiple_yellow.png \
 	../images/md/run_photocell_blue_2x.png,run_photocell.png \
 	../images/md/run_track_blue_1x.png,run_track_distance.png \
-	../images/md/ic_build_blue_1x.png,image_build_24.png \
-	../images/md/ic_build_blue_16dp_1x.png,image_build_16.png \
-	../images/md/ic_edit_blue_1x.png,image_edit.png \
-	../images/md/ic_add_blue_1x.png,image_add.png \
+	../images/md/build_blue_1x.png,image_build_24.png \
+	../images/md/build_blue_16dp_1x.png,image_build_16.png \
+	../images/md/edit_blue_1x.png,image_edit.png \
+	../images/md/add_blue_1x.png,image_add.png \
 	../images/md/content_copy_blue.png,image_duplicate.png \
-	../images/md/ic_info_outline_blue_1x.png,image_info.png \
-	../images/md/ic_fitness_center_blue_1x.png,image_exercise.png \
-	../images/md/ic_keyboard_arrow_up_blue_1x.png,image_up.png \
-	../images/md/ic_keyboard_arrow_down_blue_1x.png,image_down.png \
+	../images/md/info_outline_blue_1x.png,image_info.png \
+	../images/md/fitness_center_blue_1x.png,image_exercise.png \
+	../images/md/keyboard_arrow_up_blue_1x.png,image_up.png \
+	../images/md/keyboard_arrow_down_blue_1x.png,image_down.png \
 	../images/md/arrow_forward_blue.png,arrow_forward.png \
 	../images/md/arrow_backward_blue.png,arrow_backward.png \
 	../images/md/arrow_forward_red_yellow.png,arrow_forward_emphasis.png \
@@ -569,8 +569,8 @@ RESOURCES = \
 	../images/md/inertial_half_rolled.png,inertial_half_rolled.png \
 	../images/md/inertial_extended.png,inertial_extended.png \
 	../images/md/calibrate.png,calibrate.png \
-	../images/md/ic_folder_check_blue_1x.png,folder_check.png \
-	../images/md/ic_test_inspect_blue_1x.png,image_test_inspect.png \
+	../images/md/folder_check_blue_1x.png,folder_check.png \
+	../images/md/test_inspect_blue_1x.png,image_test_inspect.png \
 	../images/md/zoom_in.png,zoom_in.png \
 	../images/md/zoom_out.png,zoom_out.png \
 	../images/md/portrait_search_blue.png,portrait_zoom.png \

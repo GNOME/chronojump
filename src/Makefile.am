@@ -618,6 +618,8 @@ RESOURCES = \
 	../images/force_sensor_icon_yellow.png,force_sensor_icon_yellow.png \
 	../images/md/isometric.png,isometric.png \
 	../images/md/elastic.png,elastic.png \
+	../images/md/isometric_2x.png,isometric_2x.png \
+	../images/md/elastic_2x.png,elastic_2x.png \
 	../images/reaction_time_icon.png,reaction_time_icon.png \
 	../images/other_icon.png,other_icon.png \
 	../images/other_icon_yellow.png,other_icon_yellow.png \

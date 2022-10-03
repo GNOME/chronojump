@@ -643,9 +643,9 @@ public partial class ChronoJumpWindow
 		image_selector_start_jumps1.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "run_mov_2x.png");
 		image_selector_start_runs1.Pixbuf = pixbuf;
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "isometric.png");
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "isometric_2x.png");
 		image_selector_start_isometric.Pixbuf = pixbuf;
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "elastic.png");
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "elastic_2x.png");
 		image_selector_start_elastic.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_weight_mov_2x.png");
 		image_selector_start_displ_weights.Pixbuf = pixbuf;
@@ -671,8 +671,8 @@ public partial class ChronoJumpWindow
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_run_multiple.png");
 		image_mode_runs_intervallic_small2.Pixbuf = pixbuf;
 		image_change_modes_contacts_runs_intervallic.Pixbuf = pixbuf;
-		image_change_modes_contacts_force_sensor.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "force_sensor_icon.png");
-		image_change_modes_contacts_force_sensor1.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "force_sensor_icon.png");
+		image_change_modes_contacts_force_sensor.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "isometric.png");
+		image_change_modes_contacts_force_sensor1.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "elastic.png");
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "race_encoder_icon.png");
 		image_mode_race_encoder_small1.Pixbuf = pixbuf;
 		image_change_modes_contacts_runs_encoder.Pixbuf = pixbuf;

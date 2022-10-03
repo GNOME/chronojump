@@ -1094,6 +1094,31 @@ public class Constants
 			return ""; //should never happen
 	}
 
+	//used on detect device
+	public static string ModeIcon (Constants.Modes mode)
+	{
+		if (mode == Constants.Modes.JUMPSSIMPLE)
+			return "image_jump_simple.png";
+		else if (mode == Constants.Modes.JUMPSREACTIVE)
+			return "image_jump_reactive.png";
+		else if (mode == Constants.Modes.RUNSSIMPLE)
+			return "image_run_simple.png";
+		else if (mode == Constants.Modes.RUNSINTERVALLIC)
+			return "image_run_multiple.png";
+		else if (mode == Constants.Modes.RUNSENCODER)
+			return "race_encoder_icon.png";
+		else if (mode == Constants.Modes.POWERGRAVITATORY)
+			return "image_weight.png";
+		else if (mode == Constants.Modes.POWERINERTIAL)
+			return "image_inertia.png";
+		else if (mode == Constants.Modes.FORCESENSORISOMETRIC)
+			return "force_sensor_icon.png"; //TODO: change this
+		else if (mode == Constants.Modes.FORCESENSORELASTIC)
+			return "force_sensor_icon.png"; //TODO: change this
+		else
+			return "image_jump_simple"; //to not crash if there is any future mode
+	}
+
 	public static string All = "All";
 	public static string None = "None";
 	public static string Invert = "Invert";

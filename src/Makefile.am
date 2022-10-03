@@ -537,10 +537,10 @@ RESOURCES = \
 	../images/md/ic_looks_one_blue_1x.png,one.png \
 	../images/md/ic_add_circle_blue_1x.png,image_add_test.png \
 	../images/md/ic_all_inclusive_blue_1x.png,cont.png \
-	../images/md/ic_jump_blue_1x.png,image_jump.png \
-	../images/md/ic_jump_blue_2x.png,image_jump_2x.png \
-	../images/md/ic_jump_simple_blue_1x.png,image_jump_simple.png \
-	../images/md/ic_jump_reactive_blue_1x.png,image_jump_reactive.png \
+	../images/md/jump_blue_1x.png,image_jump.png \
+	../images/md/jump_blue_2x.png,image_jump_2x.png \
+	../images/md/jump_simple_blue_1x.png,image_jump_simple.png \
+	../images/md/jump_reactive_blue_1x.png,image_jump_reactive.png \
 	../images/md/fall.png,image_fall.png \
 	../images/md/jump_air.png,image_jump_air.png \
 	../images/md/jump_land.png,image_jump_land.png \

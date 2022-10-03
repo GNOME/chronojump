@@ -136,6 +136,7 @@ public class DiscoverWindow
 	private Gtk.Table table_micro_discover;
 	private Gtk.Image image_button_micro_discover_cancel_close;
 	private Gtk.Label label_button_micro_discover_cancel_close;
+	private Gtk.Image image_discover_mode;
 
 	private ChronopicRegisterPort portSelected;
 
@@ -143,7 +144,9 @@ public class DiscoverWindow
 			Gtk.Label label_micro_discover_not_found,
 			Gtk.Table table_micro_discover,
 			Gtk.Image image_button_micro_discover_cancel_close,
-			Gtk.Label label_button_micro_discover_cancel_close)
+			Gtk.Label label_button_micro_discover_cancel_close,
+			string iconModeStr
+			)
 	{
 		this.current_mode = current_mode;
 		this.chronopicRegister = chronopicRegister;
@@ -155,6 +158,7 @@ public class DiscoverWindow
 
 		FakeButtonClose = new Gtk.Button();
 		portSelected = new ChronopicRegisterPort ("");
+		image_discover_mode = new Gtk.Image (new Pixbuf (null, Util.GetImagePath(false) + iconModeStr));
 
 		//ChronoDebug cDebug = new ChronoDebug("Discover " + current_mode.ToString());
 		//cDebug.Start();
@@ -225,13 +229,18 @@ public class DiscoverWindow
 		// 3) create widgets, lists, attach to table and show all
 
 		// 3a) create table header row
-		Gtk.Label l0 = new Gtk.Label ("<b>Device</b>");
-		Gtk.Label l1 = new Gtk.Label ("<b>Type</b>");
+		Gtk.Label l0 = new Gtk.Label ("<b>" + Catalog.GetString ("Device") + "</b>");
 		l0.UseMarkup = true;
+
+		Gtk.Label l1 = new Gtk.Label ("<b>" + Catalog.GetString ("Compatible") + "</b>");
 		l1.UseMarkup = true;
+		Gtk.HBox hbox_l1 = new Gtk.HBox (false, 4);
+		hbox_l1.PackStart (l1);
+		hbox_l1.PackStart (image_discover_mode);
+
 		table_micro_discover.Attach (l0, (uint) 0, (uint) 1, (uint) 0, (uint) 1,
 				AttachOptions.Shrink, AttachOptions.Shrink, 0, 0);
-		table_micro_discover.Attach (l1, (uint) 1, (uint) 2, (uint) 0, (uint) 1,
+		table_micro_discover.Attach (hbox_l1, (uint) 1, (uint) 2, (uint) 0, (uint) 1,
 				AttachOptions.Shrink, AttachOptions.Shrink, 0, 0);
 
 		// 3b) create a row for each device
@@ -347,7 +356,7 @@ public class DiscoverWindow
 
 				if ( ! (i < microDiscover.Discovered_l.Count &&
 							discoverMatchCurrentMode (microDiscover.Discovered_l[i])) )
-					(progressbar_microNotDiscovered_l[i]).Text = "----";
+					(progressbar_microNotDiscovered_l[i]).Text = Catalog.GetString ("No");
 			}
 
 			image_button_micro_discover_cancel_close.Pixbuf =

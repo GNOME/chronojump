@@ -309,6 +309,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.EventBox eventbox_button_micro_discover_cancel_close;
 	[Widget] Gtk.Image image_button_micro_discover_cancel_close;
 	[Widget] Gtk.Label label_button_micro_discover_cancel_close;
+	[Widget] Gtk.Image image_micro_discover_mode;
 
 	[Widget] Gtk.Label label_threshold;
 
@@ -956,6 +957,13 @@ public partial class ChronoJumpWindow
 			UtilGtk.ContrastLabelsNotebook (Config.ColorBackgroundIsDark, app1s_notebook);
 			UtilGtk.ContrastLabelsVBox (Config.ColorBackgroundIsDark, vbox_help);
 			UtilGtk.ContrastLabelsVBox (Config.ColorBackgroundIsDark, vbox_micro_discover);
+
+			if(Config.ColorBackgroundIsDark)
+				image_chronopic_connect_encoder2.Pixbuf =
+					new Pixbuf (null, Util.GetImagePath(false) + "image_chronopic_connect_yellow.png");
+			else
+				image_chronopic_connect_encoder2.Pixbuf =
+					new Pixbuf (null, Util.GetImagePath(false) + "image_chronopic_connect.png");
 		}
 
 		LogB.Information(string.Format("UseSystemColor: {0}, ColorBackgroundIsDark: {1}", Config.UseSystemColor, Config.ColorBackgroundIsDark));
@@ -4662,7 +4670,6 @@ public partial class ChronoJumpWindow
 		}
 	}
 
-	//right now implemented only contacts
 	DiscoverWindow discoverWin;
 	private void on_button_detect_clicked (object o, EventArgs args)
 	{
@@ -4674,14 +4681,15 @@ public partial class ChronoJumpWindow
 		chronopicRegisterUpdate (false);
 
 		label_micro_discover_title.Text = string.Format (Catalog.GetString (
-					"Detect device for mode: <b>{0}</b>"), modePrint(current_mode));
+					"Compatible with: <b>{0}</b>"), modePrint(current_mode));
 		label_micro_discover_title.UseMarkup = true;
 
 		discoverWin = new DiscoverWindow (current_mode, chronopicRegister,
 			label_micro_discover_not_found,
 			table_micro_discover,
 			image_button_micro_discover_cancel_close,
-			label_button_micro_discover_cancel_close);
+			label_button_micro_discover_cancel_close,
+			Constants.ModeIcon (current_mode));
 
 		discoverWin.FakeButtonClose.Clicked += new EventHandler (on_discoverWindow_closed);
 	}

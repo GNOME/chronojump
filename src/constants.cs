@@ -1112,9 +1112,9 @@ public class Constants
 		else if (mode == Constants.Modes.POWERINERTIAL)
 			return "image_inertia.png";
 		else if (mode == Constants.Modes.FORCESENSORISOMETRIC)
-			return "force_sensor_icon.png"; //TODO: change this
+			return "isometric.png";
 		else if (mode == Constants.Modes.FORCESENSORELASTIC)
-			return "force_sensor_icon.png"; //TODO: change this
+			return "elastic.png";
 		else
 			return "image_jump_simple"; //to not crash if there is any future mode
 	}

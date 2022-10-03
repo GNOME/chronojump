@@ -488,10 +488,10 @@ RESOURCES = \
 	../images/md/weight.png,image_weight.png \
 	../images/md/weight_yellow.png,image_weight_yellow.png \
 	../images/md/weight_mov_2x.png,image_weight_mov_2x.png \
-	../images/md/ic_settings_backup_restore_blue_1x.png,image_inertia.png \
-	../images/md/ic_settings_backup_restore_blue_2x.png,image_inertia_2x.png \
-	../images/md/ic_settings_backup_restore_blue_2x_2col.png,image_inertia_2x_2col.png \
-	../images/md/ic_settings_backup_restore_yellow_1x.png,image_inertia_yellow.png \
+	../images/md/conical_blue_1x.png,image_inertia.png \
+	../images/md/conical_blue_2x.png,image_inertia_2x.png \
+	../images/md/conical_blue_2x_2col.png,image_inertia_2x_2col.png \
+	../images/md/conical_yellow_1x.png,image_inertia_yellow.png \
 	../images/md/ic_timer_blue_1x.png,image_capture.png \
 	../images/md/ic_timer_blue_2x.png,image_capture_big.png \
 	../images/md/ic_last_page_blue_1x.png,finish.png \

@@ -503,6 +503,7 @@ RESOURCES = \
 	../images/md/ic_assignment_blue_1x.png,image_analyze_general.png \
 	../images/md/ic_fast_forward_blue_1x.png,image_sprint.png \
 	../images/md/ic_developer_board_blue_1x.png,image_chronopic_connect.png \
+	../images/md/ic_developer_board_yellow_1x.png,image_chronopic_connect_yellow.png \
 	../images/md/ic_developer_board_blue_2x.png,image_chronopic_connect_big.png \
 	../images/md/p_blue_1x.png,image_person.png \
 	../images/md/p_yellow_1x.png,image_person_yellow.png \

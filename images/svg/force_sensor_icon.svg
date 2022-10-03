@@ -28,9 +28,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="5.6579031"
-     inkscape:cx="-0.26511589"
-     inkscape:cy="120.27424"
+     inkscape:zoom="5.463494"
+     inkscape:cx="-14.002029"
+     inkscape:cy="129.31285"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
      showgrid="true"
@@ -398,17 +398,17 @@
        height="6.875"
        x="-2.1316001"
        y="324.19778"
-       inkscape:export-filename="../md/elastic_2x.png"
-       inkscape:export-xdpi="177.33446"
-       inkscape:export-ydpi="177.33446" />
+       inkscape:export-filename="../md/elastic.png"
+       inkscape:export-xdpi="88.667229"
+       inkscape:export-ydpi="88.667229" />
     <path
        style="fill:#687db1;fill-opacity:1;stroke:none;stroke-width:0.261307px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m -1.9846857,326.44633 c 0,0 0.818518,1.49488 1.43871189,1.44142 1.28907604,-0.11113 0.81991283,-2.89405 1.82989241,-2.9139 1.0097679,-0.0198 0.5874837,2.78271 1.7372402,2.94778 0.6619401,0.095 1.5974452,-1.49888 1.5974452,-1.49888 l -0.00491,4.23891 -6.6017279,-0.002 z"
+       d="m -1.9846857,326.44633 c 0,0 0.818518,0.81761 1.43871189,0.76415 1.28907604,-0.11113 0.81991283,-2.21678 1.82989241,-2.23663 1.0097679,-0.0198 0.5874837,2.10544 1.7372402,2.27051 0.6619401,0.095 1.5974452,-0.82161 1.5974452,-0.82161 l -0.00491,4.23891 -6.6017279,-0.002 z"
        id="path25509-0"
        sodipodi:nodetypes="cssscccc" />
     <path
        style="fill:none;stroke:#0e1e46;stroke-width:0.291968px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m -1.8664162,326.36292 c 0,0 0.762551,1.48052 1.43167582,1.3947 1.14140864,-0.14639 0.57562854,-2.9138 1.72688638,-2.9138 1.1563654,0 0.5880734,2.7797 1.7345461,2.92674 0.6854061,0.0879 1.466509,-1.42866 1.466509,-1.42866"
+       d="m -1.8664162,326.36292 c 0,0 0.762551,0.83486 1.43167582,0.74904 1.14140864,-0.14639 0.57562854,-2.26814 1.72688638,-2.26814 1.1563654,0 0.5880734,2.13404 1.7345461,2.28108 0.6854061,0.0879 1.466509,-0.783 1.466509,-0.783"
        id="path3249-1-9"
        sodipodi:nodetypes="csssc" />
     <g

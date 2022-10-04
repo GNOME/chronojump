@@ -4197,11 +4197,11 @@ public partial class ChronoJumpWindow
 	{
 		Pixbuf pixbuf;
 		if(encoderConfigurationCurrent.type == Constants.EncoderType.LINEAR)
-			pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "encoder-linear-blue.png");
+			pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "encoder-l-blue.png");
 		else if(encoderConfigurationCurrent.type == Constants.EncoderType.ROTARYFRICTION)
-			pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "encoder-rotary-friction-blue.png");
+			pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "encoder-rf-blue.png");
 		else // if(encoderConfigurationCurrent.type == Constants.EncoderType.ROTARYAXIS)
-			pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "encoder-rotary-axis-blue.png");
+			pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "encoder-ra-blue.png");
 
 		image_encoder_top_selected_type.Pixbuf = pixbuf;
 		image_encoder_selected_type.Pixbuf = pixbuf;

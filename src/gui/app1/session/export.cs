@@ -104,6 +104,7 @@ public partial class ChronoJumpWindow
 				app1s_uc = new UtilCopy(currentSession.UniqueID, false);
 
 				cancelExport = false;
+				needToCloseSessionToCompress = false;
 				app1s_threadExport = new Thread(new ThreadStart(app1s_export));
 				GLib.Idle.Add (new GLib.IdleHandler (app1s_ExportPulseGTK));
 
@@ -121,14 +122,26 @@ public partial class ChronoJumpWindow
 
 	private bool app1s_ExportPulseGTK ()
 	{
+		if (exportImportCompressed && needToCloseSessionToCompress)
+		{
+			LogB.Information("calling reloadSession on compress");
+			reloadSession ();
+			LogB.Information("called reloadSession on compress");
+
+			needToCloseSessionToCompress = false;
+		}
+
 		if ( ! app1s_threadExport.IsAlive )
 		{
 			LogB.ThreadEnding();
 			app1s_ExportPulseEnd();
 
-			LogB.Information("calling reloadSession");
-			reloadSession(); //to use default db again
-			LogB.Information("called reloadSession");
+			if (! exportImportCompressed)
+			{
+				LogB.Information("calling reloadSession on thread end");
+				reloadSession(); //to use default db again
+				LogB.Information("called reloadSession on thread end");
+			}
 
 			//but unsensitivize left menu
 			vbox_menu_tiny_menu.Sensitive = false;
@@ -190,6 +203,7 @@ public partial class ChronoJumpWindow
 			app1s_uc = new UtilCopy(currentSession.UniqueID, false);
 
 			cancelExport = false;
+			needToCloseSessionToCompress = false;
 			app1s_threadExport = new Thread(new ThreadStart(app1s_export));
 			GLib.Idle.Add (new GLib.IdleHandler (app1s_ExportPulseGTK));
 
@@ -204,6 +218,7 @@ public partial class ChronoJumpWindow
 	}
 
 	private const bool exportImportCompressed = true;
+	private static bool needToCloseSessionToCompress;
 	static string app1s_exportText;
 	static long app1s_exportElapsedMs;
 	//No GTK here!
@@ -252,6 +267,10 @@ public partial class ChronoJumpWindow
 
 		if (exportImportCompressed)
 		{
+			needToCloseSessionToCompress = true;
+			while (needToCloseSessionToCompress)
+				;
+
 			//compressing with 7z
 			app1s_exportText = string.Format("Compressing …");
 			List<string> parameters = new List<string>();

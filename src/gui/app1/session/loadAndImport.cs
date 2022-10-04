@@ -392,7 +392,7 @@ public partial class ChronoJumpWindow
 				//parameters.Add ("e");
 				parameters.Add ("x"); //we need the parent folder
 				parameters.Add ("-aoa"); //Overwrite All existing files without prompt.
-				parameters.Add ("-o" + Path.DirectorySeparatorChar + UtilAll.GetTempDir ());
+				parameters.Add ("-o" + UtilAll.GetTempDir ());
 				parameters.Add (filechooser.Filename);
 
 				string executable = "7z";

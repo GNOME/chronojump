@@ -1229,37 +1229,37 @@ public class Constants
 	
 	//encoder configurations
 	//linear
-	public static string FileNameEncoderLinearFreeWeight = "encoder-linear-free-weight.png";
-	public static string FileNameEncoderLinearFreeWeightInv = "encoder-linear-free-weight-inv.png";
-	public static string FileNameEncoderLinearInertial = "encoder-linear-inertial.png";
-	public static string FileNameEncoderWeightedMovPulleyOnPerson1 = "encoder-linear-on-person-weighted-moving-pulley1.png";
-	public static string FileNameEncoderWeightedMovPulleyOnPerson1Inv = "encoder-linear-inv-on-person-weighted-moving-pulley1.png";
-	public static string FileNameEncoderWeightedMovPulleyOnPerson2 = "encoder-linear-on-person-weighted-moving-pulley2.png";
-	public static string FileNameEncoderWeightedMovPulleyOnPerson2Inv = "encoder-linear-inv-on-person-weighted-moving-pulley2.png";
-	public static string FileNameEncoderWeightedMovPulleyOnLinearEncoder = "encoder-linear-on-weighted-moving-pulley.png";
-	public static string FileNameEncoderLinearOnPlane = "encoder-linear-inclined-plane.png";	
-	public static string FileNameEncoderLinearOnPlaneWeightDiffAngle = "encoder-linear-inclined-plane-weight-diff-angle.png";	
-	public static string FileNameEncoderLinearOnPlaneWeightDiffAngleMovPulley = "encoder-linear-inclined-plane-weight-diff-angle-mov-pulley.png";
-	public static string FileNameEncoderLinearPneumatic = "encoder-linear-pneumatic.png";
+	public static string FileNameEncoderLinearFreeWeight = "encoder-l-free-weight.png";
+	public static string FileNameEncoderLinearFreeWeightInv = "encoder-l-free-weight-inv.png";
+	public static string FileNameEncoderLinearInertial = "encoder-l-inertial.png";
+	public static string FileNameEncoderWeightedMovPulleyOnPerson1 = "encoder-l-on-person-weighted-moving-pulley1.png";
+	public static string FileNameEncoderWeightedMovPulleyOnPerson1Inv = "encoder-l-inv-on-person-weighted-moving-pulley1.png";
+	public static string FileNameEncoderWeightedMovPulleyOnPerson2 = "encoder-l-on-person-weighted-moving-pulley2.png";
+	public static string FileNameEncoderWeightedMovPulleyOnPerson2Inv = "encoder-l-inv-on-person-weighted-moving-pulley2.png";
+	public static string FileNameEncoderWeightedMovPulleyOnLinearEncoder = "encoder-l-on-weighted-moving-pulley.png";
+	public static string FileNameEncoderLinearOnPlane = "encoder-l-inclined-plane.png";
+	public static string FileNameEncoderLinearOnPlaneWeightDiffAngle = "encoder-l-inclined-plane-weight-diff-angle.png";
+	public static string FileNameEncoderLinearOnPlaneWeightDiffAngleMovPulley = "encoder-l-inclined-plane-weight-diff-angle-mov-pulley.png";
+	public static string FileNameEncoderLinearPneumatic = "encoder-l-pneumatic.png";
 
 	//rotary friction
-	public static string FileNameEncoderFrictionSide = "encoder-rotary-friction-pulley.png";
-	public static string FileNameEncoderFrictionAxis = "encoder-rotary-friction-pulley-axis.png";
-	public static string FileNameEncoderFrictionSideInertial = "encoder-rotary-friction-side-inertial.png";
-	public static string FileNameEncoderFrictionAxisInertial = "encoder-rotary-friction-axis-inertial.png";
-	public static string FileNameEncoderFrictionSideInertialLateral = "encoder-rotary-friction-side-inertial-lateral.png";
-	public static string FileNameEncoderFrictionAxisInertialLateral = "encoder-rotary-friction-axis-inertial-lateral.png";
-	public static string FileNameEncoderFrictionSideInertialMovPulley = "encoder-rotary-friction-side-inertial-mov-pulley.png";
-	public static string FileNameEncoderFrictionAxisInertialMovPulley = "encoder-rotary-friction-axis-inertial-mov-pulley.png";
-	public static string FileNameEncoderFrictionWithMovPulley = "encoder-rotary-friction-on-fixed-pulley-with-weighted-moving-pulley.png";
+	public static string FileNameEncoderFrictionSide = "encoder-rf-pulley.png";
+	public static string FileNameEncoderFrictionAxis = "encoder-rf-pulley-axis.png";
+	public static string FileNameEncoderFrictionSideInertial = "encoder-rf-side-inertial.png";
+	public static string FileNameEncoderFrictionAxisInertial = "encoder-rf-axis-inertial.png";
+	public static string FileNameEncoderFrictionSideInertialLateral = "encoder-rf-side-inertial-lateral.png";
+	public static string FileNameEncoderFrictionAxisInertialLateral = "encoder-rf-axis-inertial-lateral.png";
+	public static string FileNameEncoderFrictionSideInertialMovPulley = "encoder-rf-side-inertial-mov-pulley.png";
+	public static string FileNameEncoderFrictionAxisInertialMovPulley = "encoder-rf-axis-inertial-mov-pulley.png";
+	public static string FileNameEncoderFrictionWithMovPulley = "encoder-rf-on-fixed-pulley-with-weighted-moving-pulley.png";
 
 	//rotary axis
-	public static string FileNameEncoderRotaryAxisOnAxis = "encoder-rotary-axis-pulley-axis.png";
-	public static string FileNameEncoderAxisInertial = "encoder-rotary-axis-inertial.png";
-	public static string FileNameEncoderAxisInertialLateral = "encoder-rotary-axis-inertial-lateral.png";
-	public static string FileNameEncoderAxisInertialMovPulley = "encoder-rotary-axis-inertial-mov-pulley.png";
-	public static string FileNameEncoderAxisInertialMovPulleyLateral = "encoder-rotary-axis-inertial-mov-pulley-lateral.png";
-	public static string FileNameEncoderAxisWithMovPulley = "encoder-rotary-axis-on-fixed-pulley-with-weighted-moving-pulley.png";
+	public static string FileNameEncoderRotaryAxisOnAxis = "encoder-ra-pulley-axis.png";
+	public static string FileNameEncoderAxisInertial = "encoder-ra-inertial.png";
+	public static string FileNameEncoderAxisInertialLateral = "encoder-ra-inertial-lateral.png";
+	public static string FileNameEncoderAxisInertialMovPulley = "encoder-ra-inertial-mov-pulley.png";
+	public static string FileNameEncoderAxisInertialMovPulleyLateral = "encoder-ra-inertial-mov-pulley-lateral.png";
+	public static string FileNameEncoderAxisWithMovPulley = "encoder-ra-on-fixed-pulley-with-weighted-moving-pulley.png";
 	
 	public static string FileNameEncoderCalculeIM = "encoder-calcule-im.png";	
 

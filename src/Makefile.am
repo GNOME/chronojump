@@ -688,37 +688,37 @@ RESOURCES = \
 	../images/force_exerted_projected.png,force_exerted_projected.png \
 	../images/er-fr.png,encoder-rotary-friction.png \
 	../images/er-axis.png,encoder-rotary-axis.png \
-	../images/el-blue.png,encoder-linear-blue.png \
-	../images/er-fr-blue.png,encoder-rotary-friction-blue.png \
-	../images/er-axis-blue.png,encoder-rotary-axis-blue.png \
-	../images/el-free-weight.png,encoder-linear-free-weight.png \
-	../images/el-free-weight-inv.png,encoder-linear-free-weight-inv.png \
-	../images/el-inertial.png,encoder-linear-inertial.png \
-	../images/el-on-person-weighted-moving-pulley1.png,encoder-linear-on-person-weighted-moving-pulley1.png \
-	../images/el-inv-on-person-weighted-moving-pulley1.png,encoder-linear-inv-on-person-weighted-moving-pulley1.png \
-	../images/el-on-person-weighted-moving-pulley2.png,encoder-linear-on-person-weighted-moving-pulley2.png \
-	../images/el-inv-on-person-weighted-moving-pulley2.png,encoder-linear-inv-on-person-weighted-moving-pulley2.png \
-	../images/el-on-weighted-moving-pulley.png,encoder-linear-on-weighted-moving-pulley.png \
-	../images/el-inclined-plane.png,encoder-linear-inclined-plane.png \
-	../images/el-inclined-plane-weight-diff-angle.png,encoder-linear-inclined-plane-weight-diff-angle.png \
-	../images/el-inclined-plane-weight-diff-angle-mov-pulley.png,encoder-linear-inclined-plane-weight-diff-angle-mov-pulley.png \
-	../images/el-pneumatic.png,encoder-linear-pneumatic.png \
-	../images/er-fr-pulley.png,encoder-rotary-friction-pulley.png \
-	../images/er-fr-pulley-axis.png,encoder-rotary-friction-pulley-axis.png \
-	../images/er-fr-side-inertial.png,encoder-rotary-friction-side-inertial.png \
-	../images/er-fr-axis-inertial.png,encoder-rotary-friction-axis-inertial.png \
-	../images/er-fr-side-inertial-lateral.png,encoder-rotary-friction-side-inertial-lateral.png \
-	../images/er-fr-axis-inertial-lateral.png,encoder-rotary-friction-axis-inertial-lateral.png \
-	../images/er-fr-side-inertial-mov-pulley.png,encoder-rotary-friction-side-inertial-mov-pulley.png \
-	../images/er-fr-axis-inertial-mov-pulley.png,encoder-rotary-friction-axis-inertial-mov-pulley.png \
-	../images/er-fr-on-fixed-pulley-with-weighted-moving-pulley.png,encoder-rotary-friction-on-fixed-pulley-with-weighted-moving-pulley.png \
-	../images/er-axis-pulley-axis.png,encoder-rotary-axis-pulley-axis.png \
-	../images/er-axis-inertial.png,encoder-rotary-axis-inertial.png \
-	../images/er-axis-inertial-lateral.png,encoder-rotary-axis-inertial-lateral.png \
-	../images/er-axis-inertial-mov-pulley.png,encoder-rotary-axis-inertial-mov-pulley.png \
-	../images/er-axis-inertial-mov-pulley-lateral.png,encoder-rotary-axis-inertial-mov-pulley-lateral.png \
+	../images/el-blue.png,encoder-l-blue.png \
+	../images/er-fr-blue.png,encoder-rf-blue.png \
+	../images/er-axis-blue.png,encoder-ra-blue.png \
+	../images/el-free-weight.png,encoder-l-free-weight.png \
+	../images/el-free-weight-inv.png,encoder-l-free-weight-inv.png \
+	../images/el-inertial.png,encoder-l-inertial.png \
+	../images/el-on-person-weighted-moving-pulley1.png,encoder-l-on-person-weighted-moving-pulley1.png \
+	../images/el-inv-on-person-weighted-moving-pulley1.png,encoder-l-inv-on-person-weighted-moving-pulley1.png \
+	../images/el-on-person-weighted-moving-pulley2.png,encoder-l-on-person-weighted-moving-pulley2.png \
+	../images/el-inv-on-person-weighted-moving-pulley2.png,encoder-l-inv-on-person-weighted-moving-pulley2.png \
+	../images/el-on-weighted-moving-pulley.png,encoder-l-on-weighted-moving-pulley.png \
+	../images/el-inclined-plane.png,encoder-l-inclined-plane.png \
+	../images/el-inclined-plane-weight-diff-angle.png,encoder-l-inclined-plane-weight-diff-angle.png \
+	../images/el-inclined-plane-weight-diff-angle-mov-pulley.png,encoder-l-inclined-plane-weight-diff-angle-mov-pulley.png \
+	../images/el-pneumatic.png,encoder-l-pneumatic.png \
+	../images/er-fr-pulley.png,encoder-rf-pulley.png \
+	../images/er-fr-pulley-axis.png,encoder-rf-pulley-axis.png \
+	../images/er-fr-side-inertial.png,encoder-rf-side-inertial.png \
+	../images/er-fr-axis-inertial.png,encoder-rf-axis-inertial.png \
+	../images/er-fr-side-inertial-lateral.png,encoder-rf-side-inertial-lateral.png \
+	../images/er-fr-axis-inertial-lateral.png,encoder-rf-axis-inertial-lateral.png \
+	../images/er-fr-side-inertial-mov-pulley.png,encoder-rf-side-inertial-mov-pulley.png \
+	../images/er-fr-axis-inertial-mov-pulley.png,encoder-rf-axis-inertial-mov-pulley.png \
+	../images/er-fr-on-fixed-pulley-with-weighted-moving-pulley.png,encoder-rf-on-fixed-pulley-with-weighted-moving-pulley.png \
+	../images/er-axis-pulley-axis.png,encoder-ra-pulley-axis.png \
+	../images/er-axis-inertial.png,encoder-ra-inertial.png \
+	../images/er-axis-inertial-lateral.png,encoder-ra-inertial-lateral.png \
+	../images/er-axis-inertial-mov-pulley.png,encoder-ra-inertial-mov-pulley.png \
+	../images/er-axis-inertial-mov-pulley-lateral.png,encoder-ra-inertial-mov-pulley-lateral.png \
 	../images/encoder-calcule-im.png,encoder-calcule-im.png \
-	../images/er-axis-on-fixed-pulley-with-weighted-moving-pulley.png,encoder-rotary-axis-on-fixed-pulley-with-weighted-moving-pulley.png \
+	../images/er-axis-on-fixed-pulley-with-weighted-moving-pulley.png,encoder-ra-on-fixed-pulley-with-weighted-moving-pulley.png \
 	../images/inertial-start.png,inertial-start.png \
 	../images/start.wav,sound_can_start.wav \
 	../images/ok.wav,ok.wav \

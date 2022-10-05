@@ -138,6 +138,7 @@ public class RunsEvolution : JumpsRunsEvolution
 		//2 convert to list of PointF, and also create distance_l
 		point_l = new List<PointF>();
 		distance_l = new List<string>();
+		dates_l = new List<DateTime>();
 		int currentSession = -1;
                 foreach(Run r in run_l)
 		{

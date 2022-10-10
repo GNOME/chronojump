@@ -35,6 +35,7 @@ public partial class ChronoJumpWindow
 	/*
 	   on Windows when exporting and compressing, the chronojump.db is still used
 	   so better export on app1s_fileCopyPre, then copy dir to app1s_fileCopy and then compress
+	   this will be on a temp file because it also cannot be deleted on export end
 	   */
 	string app1s_fileCopyPre;
 
@@ -74,7 +75,7 @@ public partial class ChronoJumpWindow
 		if (app1s_fc.Run() == (int)ResponseType.Accept)
 		{
 			app1s_fileCopy = app1s_fc.Filename + Path.DirectorySeparatorChar + "chronojump_" + currentSession.Name + "_" + UtilDate.ToFile();
-			app1s_fileCopyPre = app1s_fc.Filename + Path.DirectorySeparatorChar + "chronojumpCopyPre_" + currentSession.Name + "_" + UtilDate.ToFile();
+			app1s_fileCopyPre = Path.Combine (Path.GetTempPath (), "chronojumpCopyPre_" + currentSession.Name + "_" + UtilDate.ToFile()); //on temp because on Windows cannot be deleted
 
 			app1s_label_export_destination.Text = app1s_fileCopy;
 			if (exportImportCompressed)

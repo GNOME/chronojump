@@ -32,6 +32,12 @@ public partial class ChronoJumpWindow
 	private Thread app1s_threadExport;
 	private static bool cancelExport;
 
+	/*
+	   on Windows when exporting and compressing, the chronojump.db is still used
+	   so better export on app1s_fileCopyPre, then copy dir to app1s_fileCopy and then compress
+	   */
+	string app1s_fileCopyPre;
+
 	private void on_button_session_export_pre_clicked (object o, EventArgs args)
 	{
 		if(! app1s_getDatabaseFile())
@@ -68,6 +74,7 @@ public partial class ChronoJumpWindow
 		if (app1s_fc.Run() == (int)ResponseType.Accept)
 		{
 			app1s_fileCopy = app1s_fc.Filename + Path.DirectorySeparatorChar + "chronojump_" + currentSession.Name + "_" + UtilDate.ToFile();
+			app1s_fileCopyPre = app1s_fc.Filename + Path.DirectorySeparatorChar + "chronojumpCopyPre_" + currentSession.Name + "_" + UtilDate.ToFile();
 
 			app1s_label_export_destination.Text = app1s_fileCopy;
 			if (exportImportCompressed)
@@ -92,6 +99,7 @@ public partial class ChronoJumpWindow
 							app1s_fileCopy, Directory.GetCreationTime(app1s_fileCopy)));
 				exists = true;
 			}
+			//if exists app1s_fileCopyPre overwrite it without asking
 
 			if(exists) {
 				LogB.Information("Overwrite...");
@@ -197,6 +205,8 @@ public partial class ChronoJumpWindow
 	{
 		try {
 			Directory.Delete(app1s_fileCopy, true);
+			if(Directory.Exists(app1s_fileCopyPre))
+				Directory.Delete(app1s_fileCopyPre, true);
 
 			//note this is the same than: on_app1s_button_export_start_clicked
 			app1s_pulsebarExportActivity.Visible = true;
@@ -230,11 +240,15 @@ public partial class ChronoJumpWindow
 
 		app1s_exportText = Catalog.GetString("Copying files");
 
+		string exportDir = app1s_fileCopy;
+		if (exportImportCompressed)
+			exportDir = app1s_fileCopyPre;
+
 		//TODO: copy only needed multimedia (photos), videos are discarded by sessions
-		app1s_uc.CopyFilesRecursively (new DirectoryInfo(Util.GetLocalDataDir (false)), new DirectoryInfo (app1s_fileCopy), 0);
+		app1s_uc.CopyFilesRecursively (new DirectoryInfo(Util.GetLocalDataDir (false)), new DirectoryInfo (exportDir), 0);
 
 		//TODO: check that db exists and manage sessionSwitcher to go back
-		string exportedDB = app1s_fileCopy + System.IO.Path.DirectorySeparatorChar  +
+		string exportedDB = exportDir + System.IO.Path.DirectorySeparatorChar  +
 			 "database" + System.IO.Path.DirectorySeparatorChar + "chronojump.db";
 		LogB.Information("exporting to:" + exportedDB);
 		if(! File.Exists(exportedDB))
@@ -270,6 +284,11 @@ public partial class ChronoJumpWindow
 			needToCloseSessionToCompress = true;
 			while (needToCloseSessionToCompress)
 				;
+			//sessionSwitcher.Dispose ();
+			sessionSwitcher = null;
+
+			//need to copy the dir from app1s_fileCopyPre to app1s_fileCopy, because the exported chronojump.db is still used (not succeeded on closing it on Windows)
+			Util.CopyFilesRecursively(app1s_fileCopyPre, app1s_fileCopy);
 
 			//compressing with 7z
 			app1s_exportText = string.Format("Compressing …");
@@ -292,7 +311,10 @@ public partial class ChronoJumpWindow
 			ExecuteProcess.Result execute_result = ExecuteProcess.run (executable, parameters, false, false);
 			// delete exported folder
 			if (execute_result.success)
+			{
 				Util.DirectoryDelete (app1s_fileCopy);
+				Util.DirectoryDelete (app1s_fileCopyPre);
+			}
 		}
 
 		//finishing

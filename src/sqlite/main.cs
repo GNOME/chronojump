@@ -52,6 +52,18 @@ class SqliteGeneral
 		}
 	}
 
+	//if this does not work, the just export to another folder and then copy where desired and the compress
+	//needed to compress db on export
+	/* unfortunately this does not help to be able to export/compress the used chronojump.db
+	   //TODO: maybe try also to close the command
+	public void CloseConnection ()
+	{
+		dbcon.Close ();
+		dbcon.Dispose ();
+		GC.Collect ();
+	}
+	*/
+
 	public bool IsOpened
 	{
 		get

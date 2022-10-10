@@ -72,6 +72,11 @@ public class SqliteSessionSwitcher
 			SqliteConnection dbcon = sqliteGeneral.connection;
 
 			List<SessionTestsCount> allSessions_l = SqliteSession.SelectAllSessionsTestsCount (filterName, dbcon);
+			/*
+			   does not help to be able to export/compress the used chronojump.db
+			sqliteGeneral.CloseConnection ();
+			sqliteGeneral = null;
+			*/
 
 			// on IMPORT, filtered sessions will contain all sessions but not the "SIMULATED"
 			List<SessionTestsCount> stc_l = new List<SessionTestsCount> ();

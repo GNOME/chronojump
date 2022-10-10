@@ -2565,8 +2565,27 @@ public class Util
 			LogB.Error("Couldn't Insert text at the beginning of File");
 		}
 	}
+
+	//used on export where we just want to copy the dirs without updating gui objects
+	//https://stackoverflow.com/a/3822913
+	public static void CopyFilesRecursively(string sourcePath, string targetPath)
+	{
+		//Now Create all of the directories
+		foreach (string dirPath in Directory.GetDirectories(sourcePath, "*", SearchOption.AllDirectories))
+		{
+			Directory.CreateDirectory(dirPath.Replace(sourcePath, targetPath));
+		}
+
+		//Copy all the files & Replaces any files with the same name
+		foreach (string newPath in Directory.GetFiles(sourcePath, "*.*",SearchOption.AllDirectories))
+		{
+			File.Copy(newPath, newPath.Replace(sourcePath, targetPath), true);
+		}
+	}
+
 }
 
+//used on backup
 public class UtilCopy
 {
 	public int BackupMainDirsCount;

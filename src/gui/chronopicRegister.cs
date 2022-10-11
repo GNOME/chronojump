@@ -258,7 +258,8 @@ public class DiscoverWindow
 		if (portNameShort.StartsWith ("/dev/"))
 			portNameShort = portNameShort.Replace ("/dev/", "");
 
-		Gtk.Label l = new Gtk.Label (string.Format("{0}\n{1}", portNameShort, crp.SerialNumber));
+		Gtk.Label l = new Gtk.Label (string.Format("{0}\n{1}",
+					portNameShort, Util.RemoveCenterCharsOnLongString (crp.SerialNumber, 12)));
 		table_micro_discover.Attach (l, (uint) 0, (uint) 1, (uint) i, (uint) i+1, //left, right, top, bottom
 				AttachOptions.Shrink, AttachOptions.Shrink, 0, 0);
 

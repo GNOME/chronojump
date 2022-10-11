@@ -3365,13 +3365,13 @@ public partial class ChronoJumpWindow
 				if( (radio_encoder_analyze_individual_all_sessions.Active ||
 						radio_encoder_analyze_groupal_current_session.Active) &&
 						(
-						 nameTemp == "Speed,Power / Load" || 
-						 nameTemp == Catalog.GetString("Speed,Power / Load")
+						 nameTemp == "(Speed,Power) - Load" ||
+						 nameTemp == Catalog.GetString("(Speed,Power) - Load")
 						)) {
 					new DialogMessage(Constants.MessageTypes.WARNING, 
 							Catalog.GetString("Sorry, this graph is not supported yet.") +
 							"\n\nIntersession or Interperson - cross variables" +
-							"\n- Speed,Power / Load"
+							"\n- (Speed,Power) - Load"
 							);
 
 					return;
@@ -3545,17 +3545,22 @@ public partial class ChronoJumpWindow
 						encoderAnalyzeCrossTranslation);
 			
 			if(
-					crossName == "Power / Load" || crossName == "Speed / Load" || crossName == "Force / Load" ||
+					crossName == "Power - Load" || crossName == "Speed - Load" || crossName == "Force - Load" ||
 					crossName == "Pmax(F0,V0)" ||
-					crossName == "Speed,Power / Load" ||
-					crossName == "Force,Power / Speed"|| crossName == "Power / Speed" )
+					crossName == "(Speed,Power) - Load" ||
+					crossName == "(Force,Power) - Speed"|| crossName == "Power - Speed" )
 			{
 				if(crossName == "Pmax(F0,V0)")
 					analysisVariables = "Pmax(F0,V0);Pmax(F0,V0)"; //this is not used but we want to preserve chunks between ';'
 				else {
-					//convert: "Force,Power / Speed" in: "Force,Power;Speed;mean"
+					//convert: "(Force,Power) - Speed" in: "(Force,Power);Speed;mean"
 					string [] crossNameFull = crossName.Split(new char[] {' '});
-					analysisVariables = crossNameFull[0] + ";" + crossNameFull[2]; //[1]=="/"
+
+					//remove the '(', ')'
+					crossNameFull[0] = Util.RemoveChar (crossNameFull[0], '(', false);
+					crossNameFull[0] = Util.RemoveChar (crossNameFull[0], ')', false);
+
+					analysisVariables = crossNameFull[0] + ";" + crossNameFull[2]; //[1]=="-"
 				}
 
 				if(check_encoder_analyze_mean_or_max.Active)
@@ -3563,7 +3568,7 @@ public partial class ChronoJumpWindow
 				else
 					analysisVariables += ";max";
 			} 
-			else if (crossName == "Power / Date" || crossName == "Speed / Date" || crossName == "Force / Date" ) 
+			else if (crossName == "Power - Date" || crossName == "Speed - Date" || crossName == "Force - Date")
 			{
 				/*
 				 * In order to recycle paintCrossVariables in encoder/graph.R, 
@@ -3902,7 +3907,7 @@ public partial class ChronoJumpWindow
 		if(sendAnalysis == "cross")
 		{
 			string temp = Util.ChangeChars(crossName, " / ", "-");
-			temp = Util.ChangeChars(temp, ",", "-"); //needed for "Speed,Power - Load"
+			temp = Util.ChangeChars(temp, ",", "-"); //needed for "(Speed,Power) - Load"
 			encoderSendedAnalysis = temp;
 		}
 		else
@@ -4828,16 +4833,18 @@ public partial class ChronoJumpWindow
 		if(! dateOnX) {
 			//create combo analyze cross (variables)
 			comboAnalyzeCrossOptions = new string [] { 
-				"Power / Load", "Speed / Load", "Force / Load",
+				"Power - Load", "Speed - Load", "Force - Load",
 					"Pmax(F0,V0)",
-					"Speed,Power / Load", "Force,Power / Speed", "Power / Speed"
+					"(Speed,Power) - Load", "(Force,Power) - Speed", "Power - Speed"
 			};
 			comboAnalyzeCrossOptionsTranslated = new string [] { 
-				Catalog.GetString("Power / Load"), Catalog.GetString("Speed / Load"), 
-				Catalog.GetString("Force / Load"),
+				Catalog.GetString ("Power - Load"),
+				Catalog.GetString ("Speed - Load"),
+				Catalog.GetString ("Force - Load"),
 				"Pmax(F0,V0)", //will not be translated
-				Catalog.GetString("Speed,Power / Load"),
-				Catalog.GetString("Force,Power / Speed"), Catalog.GetString("Power / Speed")
+				Catalog.GetString ("(Speed,Power) - Load"),
+				Catalog.GetString ("(Force,Power) - Speed"),
+				Catalog.GetString ("Power - Speed")
 			}; //if added more, change the int in the 'for' below
 			encoderAnalyzeCrossTranslation = new String [comboAnalyzeCrossOptions.Length];
 			for(int j=0; j < 7 ; j++)
@@ -4845,11 +4852,11 @@ public partial class ChronoJumpWindow
 					comboAnalyzeCrossOptions[j] + ":" + comboAnalyzeCrossOptionsTranslated[j];
 		} else {
 			//create combo analyze cross (variables)
-			comboAnalyzeCrossOptions = new string [] { "Power / Date", "Speed / Date", "Force / Date" };
+			comboAnalyzeCrossOptions = new string [] { "Power - Date", "Speed - Date", "Force - Date" };
 			comboAnalyzeCrossOptionsTranslated = new string [] { 
-				Catalog.GetString("Power / Date"), 
-				Catalog.GetString("Speed / Date"), 
-				Catalog.GetString("Force / Date") 
+				Catalog.GetString ("Power - Date"),
+				Catalog.GetString ("Speed - Date"),
+				Catalog.GetString ("Force - Date")
 			}; //if added more, change the int in the 'for' below
 			encoderAnalyzeCrossTranslation = new String [comboAnalyzeCrossOptions.Length];
 			for(int j=0; j < 3 ; j++)

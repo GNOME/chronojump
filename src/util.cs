@@ -545,6 +545,17 @@ public class Util
 		return myStringBuilder.ToString();
 	}
 
+	public static string RemoveCenterCharsOnLongString (string str, int maxLength)
+	{
+		if (str.Length > maxLength)
+		{
+			int charsAtSide = Convert.ToInt32 (Math.Floor (maxLength / 2.0));
+			return (
+					str.Substring (0, charsAtSide) + "…" +
+					str.Substring (str.Length -charsAtSide, charsAtSide) );
+		}
+		return str;
+	}
 
 	//old code sends and returns strings
 	public static string GetHeightInCentimeters (string time) {

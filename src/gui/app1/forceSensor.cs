@@ -1372,6 +1372,7 @@ public partial class ChronoJumpWindow
 			}
 			else {
 				str = portFS.ReadLine();
+				//LogB.Information ("forceSensor captured str: " + str);
 				if(! forceSensorProcessCapturedLine(str, out time, out force,
 							readTriggers, out triggerCode))
 					continue;
@@ -1544,6 +1545,14 @@ public partial class ChronoJumpWindow
 			return false;
 
 		time = Convert.ToInt32(strFull[0]);
+
+		//bad tare or bad calibration or too much force
+		if (Math.Abs (Convert.ToDouble(Util.ChangeDecimalSeparator(strFull[1]))) > 5000) // 5000 N (500 Kg)
+		{
+			LogB.Information ("Error. Force too big: " + strFull[1]);
+			return false;
+		}
+
 		force = Convert.ToDouble(Util.ChangeDecimalSeparator(strFull[1]));
 
 		return true;

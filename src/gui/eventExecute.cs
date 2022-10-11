@@ -3839,20 +3839,19 @@ public class CairoPaintBarplotPreEncoder : CairoPaintBarsPre
 					discarded = true;
 			}
 
-			if( ! discarded && ( myColor == UtilGtk.ColorGood || (pegbe.mainVariableHigher != -1 && mainVariableValue >= pegbe.mainVariableHigher) ) )
+			if ( ! discarded && ( myColor == UtilGtk.ColorGood || (pegbe.mainVariableHigher != -1 && mainVariableValue >= pegbe.mainVariableHigher) ) )
 			{
 				colorPhase = UtilGtk.GREEN_PLOTS;
 				//play sound if value is high, volumeOn == true, is last value, capturing
-//TODO implement later, check how we pass this variables, as cairo should not play again n times the same while capturing
-//				if(preferences.volumeOn && count == data.Count -1 && capturing)
-//					Util.PlaySound(Constants.SoundTypes.GOOD, preferences.volumeOn, preferences.gstreamer);
+				if (pegbe.volumeOn && count == data.Count -1 && pegbe.capturing)
+					Util.PlaySound (Constants.SoundTypes.GOOD, preferences.volumeOn, preferences.gstreamer);
 			}
-			else if( ! discarded && ( myColor == UtilGtk.ColorBad || (pegbe.mainVariableLower != -1 && mainVariableValue <= pegbe.mainVariableLower) ) )
+			else if ( ! discarded && ( myColor == UtilGtk.ColorBad || (pegbe.mainVariableLower != -1 && mainVariableValue <= pegbe.mainVariableLower) ) )
 			{
 				colorPhase = UtilGtk.RED_PLOTS;
 				//play sound if value is low, volumeOn == true, is last value, capturing
-				if(pegbe.volumeOn && count == 0 -1 && pegbe.capturing)
-					Util.PlaySound(Constants.SoundTypes.BAD, pegbe.volumeOn, pegbe.gstreamer);
+				if (pegbe.volumeOn && count == data.Count -1 && pegbe.capturing)
+					Util.PlaySound (Constants.SoundTypes.BAD, pegbe.volumeOn, pegbe.gstreamer);
 			}
 			else if(myColor == UtilGtk.ColorGray)
 			{

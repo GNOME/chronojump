@@ -695,13 +695,15 @@ drawDynamicsFromLoadCell <- function(title, exercise, datetime,
     } else {
         legendColor = c(legendColor, "grey40")
     }
-    
-    force2 = dynamics$fmax.fitted*(1 - exp(-dynamics$k.fitted*window))
-    modelRFD=force2/0.05
-    rawRFD = getAvgRfdXSeconds(dynamics, 0.05 )$RFD
-    legendText = c(legendText, paste("RFD50 error = ", round((rawRFD - modelRFD)*100/rawRFD, 2), "%"))
-    legendColor = c(legendColor, "grey20")
-    
+
+    #experimental avg error on RFD calculation from 0 to 50 ms
+    #window = RFDoptions$start / 1000
+    #force2 = dynamics$fmax.fitted*(1 - exp(-dynamics$k.fitted*window))
+    #modelRFD=force2/0.05
+    #rawRFD = getAvgRfdXSeconds(dynamics, 0.05 )$RFD
+    #legendText = c(legendText, paste("RFD0-50 error = ", round((rawRFD - modelRFD)*100/rawRFD, 2), "%"))
+    #legendColor = c(legendColor, "grey20")
+
     legend(x = xmax, y = dynamics$fmax.fitted/2, legend = legendText, xjust = 1, yjust = 0.1, text.col = legendColor)
 
     if(op$singleOrMultiple == "FALSE")

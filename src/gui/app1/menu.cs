@@ -84,7 +84,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Button button_menu_help_shortcuts;
 	[Widget] Gtk.Button button_menu_help_about;
 	[Widget] Gtk.Button button_menu_guiTest;
-	[Widget] Gtk.Button hbox_prefs_help_news_exit;
+	[Widget] Gtk.HBox hbox_prefs_help_news_exit;
 
 	//just to manage width
 	[Widget] Gtk.Image image_session_import;

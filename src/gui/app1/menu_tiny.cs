@@ -32,6 +32,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Arrow arrow_menu_show_session_down1;
 	[Widget] Gtk.VBox vbox_menu_tiny;
 	[Widget] Gtk.VBox vbox_menu_tiny_menu; //really the menu (without the logos at the bottom)
+	[Widget] Gtk.VBox vbox_manage_sessions1;
 	[Widget] Gtk.EventBox eventbox_button_menu_database;
 	[Widget] Gtk.EventBox eventbox_check_menu_session1;
 	[Widget] Gtk.EventBox eventbox_button_menu_session_more1;

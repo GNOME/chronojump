@@ -33,8 +33,6 @@ public partial class ChronoJumpWindow
 {
 	[Widget] Gtk.Alignment alignment_session_persons;
 	[Widget] Gtk.VBox vbox_manage_persons;
-	[Widget] Gtk.Arrow arrow_manage_persons_up;
-	[Widget] Gtk.Arrow arrow_manage_persons_down;
 
 	private void showPersonsOnTop (bool onTop)
 	{

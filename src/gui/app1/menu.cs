@@ -84,6 +84,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Button button_menu_help_shortcuts;
 	[Widget] Gtk.Button button_menu_help_about;
 	[Widget] Gtk.Button button_menu_guiTest;
+	[Widget] Gtk.Button hbox_prefs_help_news_exit;
 
 	//just to manage width
 	[Widget] Gtk.Image image_session_import;
@@ -293,10 +294,19 @@ public partial class ChronoJumpWindow
 		{
 			app1s_notebook_sup_entered_from = notebook_sup.CurrentPage;
 			notebook_sup.CurrentPage = Convert.ToInt32(notebook_sup_pages.PERSON);
+
+			//do not allow to use session buttons to not confuse the button_close actions
+			vbuttonbox_menu_session.Sensitive = false;
+			hbox_prefs_help_news_exit.Sensitive = false;
+
 			arrow_manage_persons_left.Visible = true;
 			arrow_manage_persons_right.Visible = false;
 		} else {
 			notebook_sup.CurrentPage = app1s_notebook_sup_entered_from;
+
+			vbuttonbox_menu_session.Sensitive = true;
+			hbox_prefs_help_news_exit.Sensitive = true;
+
 			arrow_manage_persons_left.Visible = false;
 			arrow_manage_persons_right.Visible = true;;
 		}

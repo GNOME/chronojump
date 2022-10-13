@@ -2004,7 +2004,7 @@
                                       </packing>
                                     </child>
                                     <child>
-                                      <widget class="GtkHBox" id="hbox340">
+                                      <widget class="GtkHBox" id="hbox_prefs_help_news_exit">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
                                         <child>

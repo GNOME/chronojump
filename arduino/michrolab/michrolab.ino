@@ -680,6 +680,8 @@ void serialEvent() {
     File dir = SD.open("/");
     printDirectory(dir, 2);
     dir.close();
+  } else if (commandString == "getFile") {
+    sendFile(parameters);
   } else if (commandString == "setGroup") {
     setGroup(parameters);
   } else if (commandString == "getGroup") {
@@ -2283,6 +2285,28 @@ void getRaceAnalyzerDynamics()
       raceAnalyzerSample.sensor = rca;
     }
   }
+}
+
+void sendFile(String fullFileName)
+{
+  //Extracting the text before the ";"
+  fullFileName = fullFileName.substring(0, fullFileName.indexOf(";"));
+  Serial.println("Retrieving file \"" + fullFileName + "\"");
+  if (! SD.exists(fullFileName.c_str()) )
+  {
+    Serial.println("File not found");
+    return;
+  } 
+  File file = SD.open(fullFileName, FILE_READ);
+  //Serial.println(file.name());
+  unsigned long int fileSize = file.size();
+  unsigned long int pos = 0;
+  while (pos < fileSize)
+  {
+    Serial.print((char)file.read());
+    pos++;
+  }
+  file.close();
 }
 
 /*

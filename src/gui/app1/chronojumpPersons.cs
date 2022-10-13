@@ -396,6 +396,10 @@ public partial class ChronoJumpWindow
 			return;
 		}
 
+		//personSelectWindow is not modal to allow other windows to show on top
+		//but not allow to change session while personSelectWindow is active
+		vbox_menu_tiny.Sensitive = false;
+
 		//if not compujump show person change window
 		ArrayList myPersons = SqlitePersonSession.SelectCurrentSessionPersons(
 				currentSession.UniqueID, 
@@ -487,6 +491,8 @@ public partial class ChronoJumpWindow
 
 	private void on_button_top_person_change_done(object o, EventArgs args)
 	{
+		vbox_menu_tiny.Sensitive = true;
+
 		if(personSelectWin.SelectedPerson == null)
 			return;
 

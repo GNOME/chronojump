@@ -43,6 +43,10 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.EventBox eventbox_button_menu_help;
 	[Widget] Gtk.EventBox eventbox_button_menu_news;
 	[Widget] Gtk.EventBox eventbox_button_menu_exit;
+	[Widget] Gtk.VBox vbox_person;
+	[Widget] Gtk.Arrow arrow_manage_persons_left;
+	[Widget] Gtk.Arrow arrow_manage_persons_right;
+	[Widget] Gtk.Image image_button_person_close;
 	[Widget] Gtk.EventBox eventbox_check_manage_persons;
 	[Widget] Gtk.EventBox eventbox_persons_up;
 	[Widget] Gtk.EventBox eventbox_persons_down;
@@ -82,9 +86,6 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Button button_menu_guiTest;
 
 	//just to manage width
-	[Widget] Gtk.VBox vbox_person_manage_create;
-	[Widget] Gtk.VBox vbox_person_manage_load;
-
 	[Widget] Gtk.Image image_session_import;
 	[Widget] Gtk.Image image_session_export;
 	[Widget] Gtk.Image image_session_export1;
@@ -178,9 +179,6 @@ public partial class ChronoJumpWindow
 		l.Add(button_menu_help_documents.SizeRequest().Width + 16);
 		l.Add(button_menu_help_shortcuts.SizeRequest().Width + 16);
 		l.Add(button_menu_help_about.SizeRequest().Width + 16);
-
-		l.Add(vbox_person_manage_create.SizeRequest().Width);
-		l.Add(vbox_person_manage_load.SizeRequest().Width);
 
 		//int maxWidth = getMenuButtonsMaxWidth(l) + 4 + 6; //4, 6 are alignments spaces.
 
@@ -289,43 +287,33 @@ public partial class ChronoJumpWindow
 		a_down.Visible = ! selected;
 	}
 
-	private void on_check_menu_session_or_persons_clicked (object o, EventArgs args)
+	private void on_check_manage_persons_clicked (object o, EventArgs args)
 	{
-		/*
-		   if one checkbutton unfolds, the other should get folded.
-		   do not need to care for circular calls, because it sets the other as false
-		   */
-
-		if(o == (object) check_menu_session)
+		if (check_manage_persons.Active)
 		{
-			menuShowVerticalArrow (check_menu_session.Active, arrow_menu_show_session_up, arrow_menu_show_session_down);
-			if(check_menu_session.Active)
-			{
-				vbuttonbox_menu_session.Visible = true;
-
-				if(check_manage_persons.Active)
-					check_manage_persons.Active = false; //changing the other checkbutton
-			}
-			else
-				vbuttonbox_menu_session.Visible = false;
+			app1s_notebook_sup_entered_from = notebook_sup.CurrentPage;
+			notebook_sup.CurrentPage = Convert.ToInt32(notebook_sup_pages.PERSON);
+			arrow_manage_persons_left.Visible = true;
+			arrow_manage_persons_right.Visible = false;
+		} else {
+			notebook_sup.CurrentPage = app1s_notebook_sup_entered_from;
+			arrow_manage_persons_left.Visible = false;
+			arrow_manage_persons_right.Visible = true;;
 		}
-		else if(o == (object) check_manage_persons)
-		{
-			menuShowVerticalArrow (check_manage_persons.Active, arrow_manage_persons_up, arrow_manage_persons_down);
-			if(check_manage_persons.Active)
-			{
-				vbox_manage_persons.Visible = true;
+	}
+	private void on_button_person_close_clicked (object o, EventArgs args)
+	{
+		check_manage_persons.Click ();
+	}
 
-				if(check_menu_session.Active)
-					check_menu_session.Active = false; //changing the other checkbutton
-			} else
-				vbox_manage_persons.Visible = false;
-		}
+	private void on_check_menu_session_clicked (object o, EventArgs args)
+	{
+		menuShowVerticalArrow (check_menu_session.Active, arrow_menu_show_session_up, arrow_menu_show_session_down);
+		vbuttonbox_menu_session.Visible = check_menu_session.Active;
 
 		//hide the person photo if anything is unfolded
 		if(preferences.personPhoto)
-			vbox_persons_bottom.Visible =
-				(! check_menu_session.Active && ! check_manage_persons.Active);
+			vbox_persons_bottom.Visible = ! check_menu_session.Active;
 
 		//scroll it, but wait a bit before to be all the things at place
 		if(myTreeViewPersons != null)

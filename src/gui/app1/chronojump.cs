@@ -515,7 +515,7 @@ public partial class ChronoJumpWindow
 	private string progVersion;
 	private string progName;
 	private enum notebook_start_pages { PROGRAM, SENDLOG, EXITCONFIRM, SOCIALNETWORKPOLL }
-	private enum notebook_sup_pages { START, CONTACTS, ENCODER, SESSION, NETWORKSPROBLEMS, HELP, NEWS, MICRODISCOVER }
+	private enum notebook_sup_pages { START, CONTACTS, ENCODER, SESSION, NETWORKSPROBLEMS, HELP, NEWS, MICRODISCOVER, PERSON }
 	private enum notebook_contacts_execute_or_pages { EXECUTE, INSTRUCTIONS, FORCESENSORADJUST, RACEINSPECTOR }
 	private enum notebook_analyze_pages { STATISTICS, JUMPSPROFILE, JUMPSDJOPTIMALFALL, JUMPSWEIGHTFVPROFILE, JUMPSASYMMETRY, JUMPSEVOLUTION, JUMPSRJFATIGUE,
 		RUNSEVOLUTION, SPRINT, FORCESENSOR, RACEENCODER }
@@ -932,9 +932,6 @@ public partial class ChronoJumpWindow
 				UtilGtk.ContrastLabelsLabel (Config.ColorBackgroundIsDark, label_session_at_frame_session);
 				UtilGtk.ContrastLabelsLabel (Config.ColorBackgroundIsDark, label_current_session);
 				UtilGtk.ContrastLabelsLabel (Config.ColorBackgroundIsDark, label_persons_at_frame_persons);
-				UtilGtk.ContrastLabelsVBox (Config.ColorBackgroundIsDark, vbox_person_manage_create);
-				UtilGtk.ContrastLabelsVBox (Config.ColorBackgroundIsDark, vbox_person_manage_load);
-				UtilGtk.ContrastLabelsVBox (Config.ColorBackgroundIsDark, vbox_persons_bottom_no_photo);
 			}
 
 			Pixbuf pixbuf;
@@ -957,6 +954,7 @@ public partial class ChronoJumpWindow
 			UtilGtk.ContrastLabelsNotebook (Config.ColorBackgroundIsDark, app1s_notebook);
 			UtilGtk.ContrastLabelsVBox (Config.ColorBackgroundIsDark, vbox_help);
 			UtilGtk.ContrastLabelsVBox (Config.ColorBackgroundIsDark, vbox_micro_discover);
+			UtilGtk.ContrastLabelsVBox (Config.ColorBackgroundIsDark, vbox_person);
 
 			if(Config.ColorBackgroundIsDark)
 				image_chronopic_connect_encoder2.Pixbuf =
@@ -3098,9 +3096,6 @@ public partial class ChronoJumpWindow
 		//fold menu session
 		check_menu_session.Click();
 
-		//unfold menu person
-		check_manage_persons.Click();
-
 		SqlitePreferences.Update(SqlitePreferences.LastSessionID, currentSession.UniqueID.ToString(), false);
 	}
 	
@@ -3193,8 +3188,6 @@ public partial class ChronoJumpWindow
 			currentPerson = null;
 			label_top_person_name.Text = "";
 			label_top_encoder_person_name.Text = "";
-
-			check_manage_persons.Click(); //unfold persons.
 		}
 
 		//update report

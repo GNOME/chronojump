@@ -47,8 +47,8 @@ public partial class ChronoJumpWindow
 		spin_exhibition_school.Value = 0; //need to assign an inital value (if not it shows blank value)
 		spin_exhibition_group.Value = 0;
 
-		button_persons_up.SetSizeRequest (45,10);
-		button_persons_down.SetSizeRequest (45,10);
+		//button_persons_up.SetSizeRequest (45,10);
+		//button_persons_down.SetSizeRequest (45,10);
 	}
 
 	//---- spin_exhibition_school stuff

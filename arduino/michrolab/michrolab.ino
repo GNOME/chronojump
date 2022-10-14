@@ -2227,7 +2227,7 @@ void startRaceAnalyzerCapture()
   calibratedInertial = false;
   totalTime = 0;
   sensor = raceAnalyzer;
-  pps = 40;
+  pps = 40;             //TODO: Manage the PPS by serial commands
   capturing = true;
   maxString = "V";
   plotPeriod = 5;

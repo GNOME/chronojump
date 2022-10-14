@@ -4,6 +4,8 @@
     ## Generic ##
 
 get_version:                                //Gets the version of the firmware.
+listDir:                                    //Shows the files and directory structure in the SD
+getFile:ML0002G9/S02P01-F.TXT               //Sends the content of the file to the Serial port
 
 ## Persons management ##
 
@@ -43,8 +45,8 @@ saveGravitatoryTypes:                       //Saves the gravitatory exercises ty
 
     ## Inertial ##
 
-readExercisesFile:inertial;              //Reads the INERTYPES.TXT and adds each row as a inertial exercise type
-deleteInertialTypes:                     //Delete inertial exercise types in memory. It doesn't delete from SD
+readExercisesFile:inertial;                 //Reads the INERTYPES.TXT and adds each row as a inertial exercise type
+deleteInertialTypes:                        //Delete inertial exercise types in memory. It doesn't delete from SD
 
 #addInertialType:id,name,description,percentBodyWeight;
 addInertialType:0,Pull,Pulling with one hand,0.0;        //Adds a inertial exercise type. It doesn't save it to SD
@@ -54,7 +56,7 @@ saveInertialTypes:                       //Saves the inertial exercises types to
 
     ## Force sensosr ##
 
-start_capture:                              //Starts the acquiring process
+start_capture:                              //Starts the acquiring process. TODO: Change to an specific command
 end_capture:                                //Ends the acquiring process
 get_calibration_factor:                     //Shows the factor to convert voltage 10 bits reading (0-1024) to force (Newton)
 set_calibration_factor:                     //Sets the factor to convert voltage 10 bits reading (0-1024) to force (Newton)
@@ -63,6 +65,12 @@ get_tare:                                   //Shows the voltage reading that cor
 set_tare:                                   //Sets the voltage reading that corresponds to the null force
 tare:                                       //Starts the process to calculate the voltage reading corresponding to the null force
 get_transmission_format:                    //Shows how the information is transmitted (binary or text)
+
+#addForceType:id,name,description,percentBodyWeight,angle,tare
+addForceType:12,Lateral movement,Lateral movement attached to a rubber band or elastic element,100.0,0,0;       //Adds a force sensor exercise. It doesn't save to SD
+getForceTypes:                              //Shows a list of force sensor exercises                             
+deleteForceTypes:                           //Delete force sensor exercise types in memory. It doesn't delete from SD
+saveForceTypes                              //Saves the force sensor exercises list to the SD          
 
     ## Inertial machines ##
 
@@ -73,3 +81,16 @@ addInertialMachine:2,Cubic,Custom machine with cubic structure,2,1;
 
 readInertialMachinesFile:
 saveInertialMachines:
+
+    ## RaceAnalyzer  ##
+
+startRaceAnalyzerCapture:                   //Starts aquiring data of RaceAnalyzer
+endRaceAnalyzerCapture:                     //Stops aquiring data of RaceAnalyzer
+set_pps:                                    //Pending
+get_pps:                                    //Pending
+    
+#addRaceAnalyzerType:id,name,description
+addRaceAnalyzerType:9,30m Sprint,Running 30m as fast as possible;       //Adds a RaceAnalyzer exercise. It doesn't save to SD
+getRaceAnalyzerTypes:                              //Shows a list of RaceAnalyzer exercises                             
+deleteRaceAnalyzerTypes:                           //Delete RaceAnalyzer exercise types in memory. It doesn't delete from SD
+saveRaceAnalyzerTypes                              //Saves the RaceAnalyzer exercises list to the SD   

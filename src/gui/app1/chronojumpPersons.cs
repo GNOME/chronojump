@@ -350,8 +350,12 @@ public partial class ChronoJumpWindow
 
 	private void on_show_all_person_events_activate (object o, EventArgs args)
 	{
+		Person p = new Person (); //uniqueID = -1
+		if (currentPerson != null)
+			p = currentPerson;
+
 		personShowAllEventsWin = PersonShowAllEventsWindow.Show(app1,
-				currentSession.UniqueID, currentPerson, true, preferences.colorBackground);
+				currentSession.UniqueID, p, true, preferences.colorBackground);
 	}
 	
 	

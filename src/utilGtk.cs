@@ -335,13 +335,26 @@ public class UtilGtk
 	}
 
 	/*
-	 * DateColumnCompare depends on the column. Better define this method where is needed.
-	 * Search for dateColumnCompare
+	 * DateColumnCompare depends on the column. Note here we are using column 0
+	 * Other parts of the program use another column, search for dateColumnCompare
 	 *
-	public static int DateColumnCompare (TreeModel model, TreeIter iter1, TreeIter iter2)     {
-	}
-	*/
+	 */
+	public static int DateColumnCompare (TreeModel model, TreeIter iter1, TreeIter iter2)
+	{
+		var dt1String = (model.GetValue(iter1, 0).ToString());
+		var dt2String = (model.GetValue(iter2, 0).ToString());
 
+		DateTime dt1;
+		DateTime dt2;
+
+		var converted1 = DateTime.TryParse(dt1String, out dt1);
+		var converted2 = DateTime.TryParse(dt2String, out dt2);
+
+		if(converted1 && converted2)
+			return DateTime.Compare(dt1, dt2);
+		else
+			return 0;
+	}
 	
 	public static int GetSelectedRowUniqueID (Gtk.TreeView tv, Gtk.TreeStore store, int uniqueIDcol) {
 		TreeModel model;

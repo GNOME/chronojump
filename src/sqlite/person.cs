@@ -286,6 +286,9 @@ finishForeach:
 		return arrayReturn;
 	}
 
+	/*
+	   unused, now used SqliteSession.SelectAllSessionsTestsCount
+
 	public static ArrayList SelectAllPersonEvents (int personID)
 	{
 		SqliteDataReader reader;
@@ -627,6 +630,7 @@ finishForeach:
 
 		return arrayAll;
 	}
+*/
 	
 	public static bool ExistsAndItsNotMe(int uniqueID, string personName)
 	{

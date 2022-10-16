@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2017   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2004-2022   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -286,7 +286,7 @@ finishForeach:
 		return arrayReturn;
 	}
 
-	public static ArrayList SelectAllPersonEvents(int personID) 
+	public static ArrayList SelectAllPersonEvents (int personID)
 	{
 		SqliteDataReader reader;
 		ArrayList arraySessions = new ArrayList(2);
@@ -299,7 +299,8 @@ finishForeach:
 		ArrayList arrayMCs = new ArrayList(2);
 		ArrayList arrayEncS = new ArrayList(2);
 		ArrayList arrayEncC = new ArrayList(2);
-		ArrayList arrayForce = new ArrayList(2);
+		ArrayList arrayForceIsometric = new ArrayList(2);
+		ArrayList arrayForceElastic = new ArrayList(2);
 		ArrayList arrayRunEncoder = new ArrayList(2);
 		
 		string tps = Constants.PersonSessionTable;
@@ -426,14 +427,29 @@ finishForeach:
 		}
 		reader.Close();
 
-		//forceSensor
-		dbcmd.CommandText = "SELECT sessionID, count(*) FROM " + Constants.ForceSensorTable + " WHERE personID = " + personID +
+		//forceSensor (isometric)
+		dbcmd.CommandText = "SELECT sessionID, count(*) FROM " + Constants.ForceSensorTable +
+			" WHERE personID = " + personID +
+			" AND " + Constants.ForceSensorTable + ".stiffness < 0" + //isometric has stiffness -1.0
 			" GROUP BY sessionID ORDER BY sessionID";
 		LogB.SQL(dbcmd.CommandText.ToString());
 
 		reader = dbcmd.ExecuteReader();
 		while(reader.Read()) {
-			arrayForce.Add ( reader[0].ToString() + ":" + reader[1].ToString() );
+			arrayForceIsometric.Add ( reader[0].ToString() + ":" + reader[1].ToString() );
+		}
+		reader.Close();
+
+		//forceSensor (elastic)
+		dbcmd.CommandText = "SELECT sessionID, count(*) FROM " + Constants.ForceSensorTable +
+			" WHERE personID = " + personID +
+			" AND " + Constants.ForceSensorTable + ".stiffness > 0" + //elastic has stiffness > 0
+			" GROUP BY sessionID ORDER BY sessionID";
+		LogB.SQL(dbcmd.CommandText.ToString());
+
+		reader = dbcmd.ExecuteReader();
+		while(reader.Read()) {
+			arrayForceElastic.Add ( reader[0].ToString() + ":" + reader[1].ToString() );
 		}
 		reader.Close();
 
@@ -463,7 +479,8 @@ finishForeach:
 		string tempMCs;
 		string tempEncS;
 		string tempEncC;
-		string tempForce;
+		string tempForceIsometric;
+		string tempForceElastic;
 		string tempRunEncoder;
 		bool found; 	//using found because a person can be loaded in a session 
 				//but whithout having done any event yet
@@ -480,7 +497,8 @@ finishForeach:
 			tempMCs = "";
 			tempEncS = "";
 			tempEncC = "";
-			tempForce = "";
+			tempForceIsometric = "";
+			tempForceElastic = "";
 			tempRunEncoder = "";
 			found = false;
 			
@@ -565,10 +583,19 @@ finishForeach:
 				}
 			}
 
-			foreach (string f in arrayForce) {
+			foreach (string f in arrayForceIsometric) {
 				string [] myStr = f.Split(new char[] {':'});
 				if(myStrSession[0] == myStr[0]) {
-					tempForce = myStr[1];
+					tempForceIsometric = myStr[1];
+					found = true;
+					break;
+				}
+			}
+
+			foreach (string f in arrayForceElastic) {
+				string [] myStr = f.Split(new char[] {':'});
+				if(myStrSession[0] == myStr[0]) {
+					tempForceElastic = myStr[1];
 					found = true;
 					break;
 				}
@@ -592,7 +619,8 @@ finishForeach:
 						tempRunsInterval + ":" + tempRTs + ":" + 	//runsInterval, Reaction times
 						tempPulses + ":" + tempMCs + ":" +		//pulses, MultiChronopic
 						tempEncS + ":" + tempEncC + ":" + 		//encoder signal, encoder curve
-						tempForce + ":" + tempRunEncoder 		//forceSensor, runEncoder
+						tempForceIsometric + ":" + tempForceElastic + ":" + //forceSensor
+						tempRunEncoder 		//runEncoder
 						);
 			}
 		}

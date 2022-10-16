@@ -22,6 +22,7 @@ using System;
 using Gtk;
 using Glade;
 using System.Collections; //ArrayList
+using System.Collections.Generic; //List<T>
 using Mono.Unix;
 
 
@@ -83,9 +84,12 @@ public class PersonShowAllEventsWindow
 		label_person_name.Text = currentPerson.Name;
 		createComboPersons(sessionID, currentPerson.UniqueID.ToString(), currentPerson.Name);
 		createTreeView(treeview_person_show_all_events);
-		store = new TreeStore( typeof (string), typeof (string), typeof (string), typeof (string), 
-				typeof (string), typeof(string), typeof(string), typeof(string), typeof(string), typeof(string),
-				typeof (string), typeof (string), typeof(string), typeof(string), typeof(string));
+		store = new TreeStore(
+				typeof (string), typeof (string), typeof (string), //session
+				typeof (string), typeof(string), //jumps
+				typeof(string), typeof(string), typeof(string), //races
+				typeof (string), typeof(string), //isometric, elastic
+				typeof (string), typeof(string) ); //weights, inertial
 		treeview_person_show_all_events.Model = store;
 		fillTreeView(treeview_person_show_all_events,store, currentPerson.UniqueID);
 	}
@@ -159,9 +163,12 @@ public class PersonShowAllEventsWindow
 	{
 		string myText = UtilGtk.ComboGetActive(combo_persons);
 
-		store = new TreeStore( typeof (string), typeof (string), typeof (string), typeof (string), 
-				typeof (string), typeof(string), typeof(string), typeof(string), typeof(string), typeof(string),
-				typeof (string), typeof (string), typeof(string), typeof(string), typeof(string));
+		store = new TreeStore(
+				typeof (string), typeof (string), typeof (string), //session
+				typeof (string), typeof(string), //jumps
+				typeof(string), typeof(string), typeof(string), //races
+				typeof (string), typeof(string), //isometric, elastic
+				typeof (string), typeof(string) ); //weights, inertial
 		treeview_person_show_all_events.Model = store;
 
 		if(myText != "") {
@@ -200,25 +207,27 @@ public class PersonShowAllEventsWindow
 	{
 		tv.HeadersVisible=true;
 		int count = 0;
+		tv.AppendColumn ( Catalog.GetString ("Date"), new CellRendererText(), "text", count++);
 		tv.AppendColumn ( Catalog.GetString ("Session name"), new CellRendererText(), "text", count++);
 		tv.AppendColumn ( Catalog.GetString ("Place"), new CellRendererText(), "text", count++);
-		tv.AppendColumn ( Catalog.GetString ("Date"), new CellRendererText(), "text", count++);
 		tv.AppendColumn ( Catalog.GetString ("Jumps\nsimple"), new CellRendererText(), "text", count++);
 		tv.AppendColumn ( Catalog.GetString ("Jumps\nreactive"), new CellRendererText(), "text", count++);
 		tv.AppendColumn ( Catalog.GetString ("Races\nsimple"), new CellRendererText(), "text", count++);
 		tv.AppendColumn ( Catalog.GetString ("Races\ninterval"), new CellRendererText(), "text", count++);
-		tv.AppendColumn ( Catalog.GetString ("Reaction\ntime"), new CellRendererText(), "text", count++);
-		tv.AppendColumn ( Catalog.GetString ("Pulses"), new CellRendererText(), "text", count++);
-		tv.AppendColumn ( Catalog.GetString ("MultiChronopic"), new CellRendererText(), "text", count++);
-		tv.AppendColumn ( Catalog.GetString ("Encoder sets"), new CellRendererText(), "text", count++);
-		tv.AppendColumn ( Catalog.GetString ("Encoder repetitions"), new CellRendererText(), "text", count++);
+		tv.AppendColumn ( Catalog.GetString ("Race analyzer"), new CellRendererText(), "text", count++);
 		tv.AppendColumn ( Catalog.GetString ("Isometric"), new CellRendererText(), "text", count++);
 		tv.AppendColumn ( Catalog.GetString ("Elastic"), new CellRendererText(), "text", count++);
-		tv.AppendColumn ( Catalog.GetString ("Race analyzer"), new CellRendererText(), "text", count++);
+		tv.AppendColumn (Catalog.GetString ("Weights") + "\n" +
+				Catalog.GetString("Sets") + " ; " + Catalog.GetString("Repetitions"),
+				new CellRendererText(), "text", count++);
+		tv.AppendColumn (Catalog.GetString ("Inertial") + "\n" +
+				Catalog.GetString("Sets") + " ; " + Catalog.GetString("Repetitions"),
+				new CellRendererText(), "text", count++);
 	}
 	
 	private void fillTreeView (Gtk.TreeView tv, TreeStore store, int personID)
 	{
+		/* old code using SqlitePerson.SelectAllPersonEvents
 		ArrayList myEvents = new ArrayList ();
 		if (personID >= 0)
 			myEvents = SqlitePerson.SelectAllPersonEvents(personID); 
@@ -229,6 +238,38 @@ public class PersonShowAllEventsWindow
 			store.AppendValues (myStr[0], myStr[1], myStr[2], myStr[3], myStr[4], myStr[5], 
 					myStr[6], myStr[7], myStr[8], myStr[9], myStr[10], myStr[11], myStr[12], myStr[13], myStr[14]);
 		}
+		*/
+
+		//new code using SqliteSession.SelectAllSessionsTestsCount
+		if (personID < 0)
+			return;
+
+		List<SessionTestsCount> stc_l = SqliteSession.SelectAllSessionsTestsCount (personID); //returns a string of values separated by ':'
+		foreach (SessionTestsCount stc in stc_l)
+		{
+			string [] strings = new string [12];
+			int i = 0;
+			strings[i ++] = stc.sessionParams.Date;
+			strings[i ++] = stc.sessionParams.Name;
+			//no tags
+			strings[i ++] = stc.sessionParams.Place;
+			strings[i ++] = stc.JumpsSimple.ToString ();
+			strings[i ++] = stc.JumpsReactive.ToString ();
+			strings[i ++] = stc.RunsSimple.ToString ();
+			strings[i ++] = stc.RunsInterval.ToString ();
+			strings[i ++] = stc.RunsEncoder.ToString ();
+			strings[i ++] = stc.Isometric.ToString ();
+			strings[i ++] = stc.Elastic.ToString ();
+			strings[i ++] = string.Format ("{0} ; {1}",
+					stc.WeightsSets, stc.WeightsReps); //number of encoder grav signal,reps x session
+			strings[i ++] = string.Format ("{0} ; {1}",
+					stc.InertialSets, stc.InertialReps); //number of encoder inertial signal,reps x session
+			store.AppendValues (strings);
+		}
+
+		store.SetSortFunc (0, UtilGtk.DateColumnCompare);
+		store.SetSortColumnId (0, Gtk.SortType.Descending); //date
+		store.ChangeSortColumn();
 	}
 
 	private void on_button_close_clicked (object o, EventArgs args)

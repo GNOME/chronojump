@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2020   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2004-2022   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -384,7 +384,7 @@ class SqliteSession : Sqlite
 	// It's used by chronojump-importer and receives a specific database
 	public static List<SessionTestsCount> SelectAllSessionsTestsCount (string filterName, SqliteConnection dbcon)
 	{
-		return selectAllSessionsTestsCountDo (filterName, dbcon);
+		return selectAllSessionsTestsCountDo (filterName, -1, dbcon); //-1 for allTests, contrary to person show all events use
 	}
 
 	// This is the usual chronojump's call (default database)
@@ -393,7 +393,7 @@ class SqliteSession : Sqlite
 		Sqlite.Open();
 
 		// SelectAllSessionsTestCount is used here and by the Chronojump importer to allow to pass an arbitrary dbcon.
-		List<SessionTestsCount> stc_l = selectAllSessionsTestsCountDo (filterName, dbcon);
+		List<SessionTestsCount> stc_l = selectAllSessionsTestsCountDo (filterName, -1, dbcon);
 
 		//close database connection
 		Sqlite.Close();
@@ -401,7 +401,21 @@ class SqliteSession : Sqlite
 		return stc_l;
 	}
 
-	private static List<SessionTestsCount> selectAllSessionsTestsCountDo (string filterName, SqliteConnection dbcon)
+	//called from person show all events
+	public static List<SessionTestsCount> SelectAllSessionsTestsCount (int personID)
+	{
+		Sqlite.Open();
+
+		// SelectAllSessionsTestCount is used here and by the Chronojump importer to allow to pass an arbitrary dbcon.
+		List<SessionTestsCount> stc_l = selectAllSessionsTestsCountDo ("", personID, dbcon);
+
+		//close database connection
+		Sqlite.Close();
+
+		return stc_l;
+	}
+
+	private static List<SessionTestsCount> selectAllSessionsTestsCountDo (string filterName, int personID, SqliteConnection dbcon)
 	{
 		// This method should NOT use Sqlite.open() / Sqlite.close(): it should only use dbcon
 		// to connect to the database. This method is used by the importer after opening an arbitrary
@@ -413,13 +427,26 @@ class SqliteSession : Sqlite
 		if(filterName != "")
 			filterNameString = " AND LOWER(session.name) LIKE LOWER (\"%" + filterName  + "%\") ";
 
-		dbcmd.CommandText = 
-			"SELECT session.*, sport.name, speciallity.name" +
+		if (personID < 0)
+			dbcmd.CommandText =
+				"SELECT session.*, sport.name, speciallity.name" +
 				" FROM session, sport, speciallity " +
 				" WHERE session.personsSportID == sport.uniqueID " + 
 				" AND session.personsSpeciallityID == speciallity.UniqueID " +
 				filterNameString + 
 				" ORDER BY session.uniqueID";
+		else {
+			string tps = Constants.PersonSessionTable;
+			dbcmd.CommandText =
+				"SELECT session.*, sport.name, speciallity.name" +
+				" FROM session, sport, speciallity, " + tps +
+				" WHERE session.personsSportID == sport.uniqueID " +
+				" AND session.personsSpeciallityID == speciallity.UniqueID " +
+				" AND " + tps + ".personID = " + personID + " AND " + tps + ".sessionID = session.UniqueID" +
+				filterNameString +
+				" ORDER BY session.uniqueID";
+		}
+
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
@@ -458,8 +485,17 @@ class SqliteSession : Sqlite
 		 * this solution it's more "lighter" for people who have  abig DB
 		 * */
 
+		string wherePersonStr = "";
+		string andPersonStr = "";
+		if (personID >= 0)
+		{
+			wherePersonStr = string.Format (" WHERE personID = {0} ", personID);
+			andPersonStr = string.Format (" AND personID = {0} ", personID);
+		}
+
 		//select persons of each session
 		dbcmd.CommandText = "SELECT sessionID, count(*) FROM " + Constants.PersonSessionTable + 
+			wherePersonStr +
 			" GROUP BY sessionID ORDER BY sessionID";
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
@@ -475,6 +511,7 @@ class SqliteSession : Sqlite
 
 		//select jumps of each session
 		dbcmd.CommandText = "SELECT sessionID, count(*) FROM " + Constants.JumpTable + 
+			wherePersonStr +
 			" GROUP BY sessionID ORDER BY sessionID";
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
@@ -490,6 +527,7 @@ class SqliteSession : Sqlite
 
 		//select jumpsRj of each session
 		dbcmd.CommandText = "SELECT sessionID, count(*) FROM " + Constants.JumpRjTable + 
+			wherePersonStr +
 			" GROUP BY sessionID ORDER BY sessionID";
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
@@ -505,6 +543,7 @@ class SqliteSession : Sqlite
 
 		//select runs of each session
 		dbcmd.CommandText = "SELECT sessionID, count(*) FROM " + Constants.RunTable + 
+			wherePersonStr +
 			" GROUP BY sessionID ORDER BY sessionID";
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
@@ -520,6 +559,7 @@ class SqliteSession : Sqlite
 
 		//select runsInterval of each session
 		dbcmd.CommandText = "SELECT sessionID, count(*) FROM " + Constants.RunIntervalTable + 
+			wherePersonStr +
 			" GROUP BY sessionID ORDER BY sessionID";
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
@@ -535,6 +575,7 @@ class SqliteSession : Sqlite
 
 		//select reaction time of each session
 		dbcmd.CommandText = "SELECT sessionID, count(*) FROM " + Constants.ReactionTimeTable + 
+			wherePersonStr +
 			" GROUP BY sessionID ORDER BY sessionID";
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
@@ -550,6 +591,7 @@ class SqliteSession : Sqlite
 
 		//select pulses of each session
 		dbcmd.CommandText = "SELECT sessionID, count(*) FROM " + Constants.PulseTable + 
+			wherePersonStr +
 			" GROUP BY sessionID ORDER BY sessionID";
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
@@ -565,6 +607,7 @@ class SqliteSession : Sqlite
 
 		//select multichronopic of each session
 		dbcmd.CommandText = "SELECT sessionID, count(*) FROM " + Constants.MultiChronopicTable + 
+			wherePersonStr +
 			" GROUP BY sessionID ORDER BY sessionID";
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
@@ -580,7 +623,9 @@ class SqliteSession : Sqlite
 
 
 		//select encoder stuff of each session
-		dbcmd.CommandText = "SELECT sessionID, encoderConfiguration, signalOrCurve FROM " + Constants.EncoderTable + " ORDER BY sessionID";
+		dbcmd.CommandText = "SELECT sessionID, encoderConfiguration, signalOrCurve FROM " + Constants.EncoderTable +
+			wherePersonStr +
+			" ORDER BY sessionID";
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
@@ -644,6 +689,7 @@ class SqliteSession : Sqlite
 		{
 			dbcmd.CommandText = "SELECT sessionID, count(*) FROM " + Constants.ForceSensorTable +
 				" WHERE " + Constants.ForceSensorTable + ".stiffness < 0" + //isometric has stiffness -1.0
+				andPersonStr +
 				" GROUP BY sessionID ORDER BY sessionID";
 			LogB.SQL(dbcmd.CommandText.ToString());
 			dbcmd.ExecuteNonQuery();
@@ -665,6 +711,7 @@ class SqliteSession : Sqlite
 		{
 			dbcmd.CommandText = "SELECT sessionID, count(*) FROM " + Constants.ForceSensorTable +
 				" WHERE " + Constants.ForceSensorTable + ".stiffness > 0" + //elastic has stiffness > 0
+				andPersonStr +
 				" GROUP BY sessionID ORDER BY sessionID";
 			LogB.SQL(dbcmd.CommandText.ToString());
 			dbcmd.ExecuteNonQuery();
@@ -685,6 +732,7 @@ class SqliteSession : Sqlite
 		if(tableExists(true, Constants.RunEncoderTable))
 		{
 			dbcmd.CommandText = "SELECT sessionID, count(*) FROM " + Constants.RunEncoderTable +
+				wherePersonStr +
 				" GROUP BY sessionID ORDER BY sessionID";
 			LogB.SQL(dbcmd.CommandText.ToString());
 			dbcmd.ExecuteNonQuery();

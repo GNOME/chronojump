@@ -85,7 +85,7 @@ public class PersonShowAllEventsWindow
 		createTreeView(treeview_person_show_all_events);
 		store = new TreeStore( typeof (string), typeof (string), typeof (string), typeof (string), 
 				typeof (string), typeof(string), typeof(string), typeof(string), typeof(string), typeof(string),
-				typeof (string), typeof (string), typeof(string), typeof(string));
+				typeof (string), typeof (string), typeof(string), typeof(string), typeof(string));
 		treeview_person_show_all_events.Model = store;
 		fillTreeView(treeview_person_show_all_events,store, currentPerson.UniqueID);
 	}
@@ -161,7 +161,7 @@ public class PersonShowAllEventsWindow
 
 		store = new TreeStore( typeof (string), typeof (string), typeof (string), typeof (string), 
 				typeof (string), typeof(string), typeof(string), typeof(string), typeof(string), typeof(string),
-				typeof (string), typeof (string), typeof(string), typeof(string));
+				typeof (string), typeof (string), typeof(string), typeof(string), typeof(string));
 		treeview_person_show_all_events.Model = store;
 
 		if(myText != "") {
@@ -212,7 +212,8 @@ public class PersonShowAllEventsWindow
 		tv.AppendColumn ( Catalog.GetString ("MultiChronopic"), new CellRendererText(), "text", count++);
 		tv.AppendColumn ( Catalog.GetString ("Encoder sets"), new CellRendererText(), "text", count++);
 		tv.AppendColumn ( Catalog.GetString ("Encoder repetitions"), new CellRendererText(), "text", count++);
-		tv.AppendColumn ( Catalog.GetString ("Force sensor"), new CellRendererText(), "text", count++);
+		tv.AppendColumn ( Catalog.GetString ("Isometric"), new CellRendererText(), "text", count++);
+		tv.AppendColumn ( Catalog.GetString ("Elastic"), new CellRendererText(), "text", count++);
 		tv.AppendColumn ( Catalog.GetString ("Race analyzer"), new CellRendererText(), "text", count++);
 	}
 	
@@ -226,7 +227,7 @@ public class PersonShowAllEventsWindow
 			string [] myStr = myEvent.Split(new char[] {':'});
 
 			store.AppendValues (myStr[0], myStr[1], myStr[2], myStr[3], myStr[4], myStr[5], 
-					myStr[6], myStr[7], myStr[8], myStr[9], myStr[10], myStr[11], myStr[12], myStr[13]);
+					myStr[6], myStr[7], myStr[8], myStr[9], myStr[10], myStr[11], myStr[12], myStr[13], myStr[14]);
 		}
 	}
 

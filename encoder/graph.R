@@ -2063,11 +2063,13 @@ paintCrossVariables <- function (paf, varX, varY, option,
                                         }
                                 }
                                 else {
-                                        if(varX == "Speed" && varY == "Force") #is "Force,Power" but using Force to have less problems
+					#is "Force,Power" but using Force to have less problems, or
+					#is "Load,Power" but using Load to have less problems
+                                        if(varX == "Speed" && (varY == "Force" || varY == "Load"))
                                         {
                                                 fit = lm(y ~ x)
                                                 V0 = -coef(fit)[[1]] / coef(fit)[[2]]
-                                                F0 = coef(fit)[[1]]
+                                                F0 = coef(fit)[[1]] #or L0
                                                 plot(x,y,
                                                      xlim=c(0, max(x,V0)), ylim=c(0, max(y,F0)),
                                                      xlab=varXut, ylab="", pch=pchVector, col=colBalls,bg=bgBalls,cex=cexBalls,axes=F)
@@ -2092,7 +2094,12 @@ paintCrossVariables <- function (paf, varX, varY, option,
                                                 points(V0,0,col="darkgreen")
                                                 points(0,F0,col="blue")
                                                 text(x=V0, y=0, paste("V0=", round(V0,2), "m/s", sep=""), col="darkgreen", pos = 1)
-                                                text(x=0, y=F0, paste("F0=", round(F0,2), "N", sep=""), col="blue", pos = 4)
+						if(varY == "Force")
+						{
+	                                                text(x=0, y=F0, paste("F0=", round(F0,2), "N", sep=""), col="blue", pos = 4)
+						} else { #(varY == "Load")
+	                                                text(x=0, y=F0, paste("L0=", round(F0,2), "Kg", sep=""), col="blue", pos = 4)
+						}
                                         } else {
                                                 plot(x,y, xlab=varXut, ylab="", pch=pchVector, col=colBalls,bg=bgBalls,cex=cexBalls,axes=F)
                                         }
@@ -2141,8 +2148,16 @@ paintCrossVariables <- function (paf, varX, varY, option,
                                                                   paste("Pmax = ", round(F0*V0/4, digits = 0), "W", sep = "")
                                                                   #,paste("Load = ", round(optimLoad, digits=1), "Kg", sep = "")),
                                                                   ))
-                                                
                                         }
+					else if(varX == "Speed" && varY == "Load") #is "Load,Power" but using Force to have less problems
+                                        {
+                                                legend(x = V0*1.04, y = V0 * F0 * 0.2, xjust = 1, yjust = 0.1,
+                                                       text.col = c("Blue", "darkgreen", "red", "black"), cex = 1.3,
+                                                       legend = c(paste("L0 = ", round(F0, digits = 0), "Kg", sep = ""),
+                                                                  paste("V0 = ", round(V0, digits = 2), "m/s", sep = "")
+                                                                  #,paste("Load = ", round(optimLoad, digits=1), "Kg", sep = "")),
+                                                                  ))
+					}
                                 }
                         }
                 }
@@ -3799,6 +3814,10 @@ doProcess <- function(options)
 				#if Force,Power is on Y, then send only force to paintCrossVariables. Power will be added on that function
 				if(op$AnalysisVariables[1] == "Force,Power") {
 					op$AnalysisVariables[1] = "Force";
+				}
+				#same for Load,Power
+				else if(op$AnalysisVariables[1] == "Load,Power") {
+					op$AnalysisVariables[1] = "Load";
 				}
 
                                 dateAsX <- FALSE

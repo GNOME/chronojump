@@ -10815,7 +10815,7 @@ EncoderInertialCapture</property>
                                                             <property name="spacing">30</property>
                                                             <child>
                                                             <widget class="GtkRadioButton" id="radio_run_interval_compujump_5m">
-                                                            <property name="label" translatable="yes">5 m</property>
+                                                            <property name="label">5 m</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="receives_default">False</property>
@@ -10831,7 +10831,7 @@ EncoderInertialCapture</property>
                                                             </child>
                                                             <child>
                                                             <widget class="GtkRadioButton" id="radio_run_interval_compujump_10m">
-                                                            <property name="label" translatable="yes">10 m</property>
+                                                            <property name="label">10 m</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="receives_default">False</property>
@@ -10847,7 +10847,7 @@ EncoderInertialCapture</property>
                                                             </child>
                                                             <child>
                                                             <widget class="GtkRadioButton" id="radio_run_interval_compujump_15m">
-                                                            <property name="label" translatable="yes">15 m</property>
+                                                            <property name="label">15 m</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="receives_default">False</property>
@@ -10863,7 +10863,7 @@ EncoderInertialCapture</property>
                                                             </child>
                                                             <child>
                                                             <widget class="GtkRadioButton" id="radio_run_interval_compujump_20m">
-                                                            <property name="label" translatable="yes">20 m</property>
+                                                            <property name="label">20 m</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="receives_default">False</property>
@@ -21311,6 +21311,9 @@ Concentric</property>
                                                             <child>
                                                             <placeholder/>
                                                             </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -25129,6 +25132,9 @@ Concentric</property>
                                                             <property name="x_options"/>
                                                             <property name="y_options">GTK_SHRINK</property>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>
@@ -33456,6 +33462,18 @@ Concentric</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="spacing">6</property>
                                                             <child>
+                                                            <widget class="GtkLabel" id="label_video_encoder_tests_will_be_filmed">
+                                                            <property name="can_focus">False</property>
+                                                            <property name="label" translatable="yes">Tests will be filmed</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="pack_type">end</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
                                                             <widget class="GtkHBox" id="hbox_video_encoder_capturing">
                                                             <property name="can_focus">False</property>
                                                             <property name="spacing">4</property>
@@ -33483,18 +33501,6 @@ Concentric</property>
                                                             <property name="position">1</property>
                                                             </packing>
                                                             </child>
-                                                            </widget>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="pack_type">end</property>
-                                                            <property name="position">0</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
-                                                            <widget class="GtkLabel" id="label_video_encoder_tests_will_be_filmed">
-                                                            <property name="can_focus">False</property>
-                                                            <property name="label" translatable="yes">Tests will be filmed</property>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -37340,7 +37346,7 @@ then click this button.</property>
                                                             <widget class="GtkLabel" id="label76">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="label" translatable="yes">(</property>
+                                                            <property name="label">(</property>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">True</property>
@@ -37354,7 +37360,7 @@ then click this button.</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="has_tooltip">True</property>
                                                             <property name="tooltip" translatable="yes">Active</property>
-                                                            <property name="label" translatable="yes">0</property>
+                                                            <property name="label">0</property>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">True</property>
@@ -37366,7 +37372,7 @@ then click this button.</property>
                                                             <widget class="GtkLabel" id="label_encoder_user_curves_slash">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="label" translatable="yes">/</property>
+                                                            <property name="label">/</property>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">True</property>
@@ -37380,7 +37386,7 @@ then click this button.</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="has_tooltip">True</property>
                                                             <property name="tooltip" translatable="yes">All</property>
-                                                            <property name="label" translatable="yes">0</property>
+                                                            <property name="label">0</property>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">True</property>
@@ -37392,7 +37398,7 @@ then click this button.</property>
                                                             <widget class="GtkLabel" id="label80">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="label" translatable="yes">)</property>
+                                                            <property name="label">)</property>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">True</property>
@@ -39971,6 +39977,9 @@ then click this button.</property>
                                                             <property name="x_options"/>
                                                             <property name="y_options"/>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>
@@ -51026,6 +51035,9 @@ Since Chronojump 2.1.3, backups contain the complete data.</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="column_spacing">10</property>
                                                             <property name="row_spacing">10</property>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
                                                             <child>
                                                             <placeholder/>
                                                             </child>

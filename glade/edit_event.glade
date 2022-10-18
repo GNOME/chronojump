@@ -2755,7 +2755,7 @@ comments</property>
                     </child>
                     <child>
                       <widget class="GtkRadioButton" id="radio_mtgug_1_2">
-                        <property name="label" translatable="yes">2</property>
+                        <property name="label">2</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">False</property>
@@ -2773,7 +2773,7 @@ comments</property>
                     </child>
                     <child>
                       <widget class="GtkRadioButton" id="radio_mtgug_1_1">
-                        <property name="label" translatable="yes">1</property>
+                        <property name="label">1</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">False</property>
@@ -2791,7 +2791,7 @@ comments</property>
                     </child>
                     <child>
                       <widget class="GtkRadioButton" id="radio_mtgug_1_0">
-                        <property name="label" translatable="yes">0</property>
+                        <property name="label">0</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">False</property>
@@ -2824,7 +2824,7 @@ comments</property>
                     </child>
                     <child>
                       <widget class="GtkRadioButton" id="radio_mtgug_1_3">
-                        <property name="label" translatable="yes">3</property>
+                        <property name="label">3</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">False</property>
@@ -2987,7 +2987,7 @@ comments</property>
                     </child>
                     <child>
                       <widget class="GtkRadioButton" id="radio_mtgug_2_3">
-                        <property name="label" translatable="yes">3</property>
+                        <property name="label">3</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">False</property>
@@ -3005,7 +3005,7 @@ comments</property>
                     </child>
                     <child>
                       <widget class="GtkRadioButton" id="radio_mtgug_2_2">
-                        <property name="label" translatable="yes">2</property>
+                        <property name="label">2</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">False</property>
@@ -3023,7 +3023,7 @@ comments</property>
                     </child>
                     <child>
                       <widget class="GtkRadioButton" id="radio_mtgug_2_1">
-                        <property name="label" translatable="yes">1</property>
+                        <property name="label">1</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">False</property>
@@ -3041,7 +3041,7 @@ comments</property>
                     </child>
                     <child>
                       <widget class="GtkRadioButton" id="radio_mtgug_2_0">
-                        <property name="label" translatable="yes">0</property>
+                        <property name="label">0</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">False</property>
@@ -3208,7 +3208,7 @@ comments</property>
                     </child>
                     <child>
                       <widget class="GtkRadioButton" id="radio_mtgug_3_3">
-                        <property name="label" translatable="yes">3</property>
+                        <property name="label">3</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">False</property>
@@ -3226,7 +3226,7 @@ comments</property>
                     </child>
                     <child>
                       <widget class="GtkRadioButton" id="radio_mtgug_3_2">
-                        <property name="label" translatable="yes">2</property>
+                        <property name="label">2</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">False</property>
@@ -3244,7 +3244,7 @@ comments</property>
                     </child>
                     <child>
                       <widget class="GtkRadioButton" id="radio_mtgug_3_1">
-                        <property name="label" translatable="yes">1</property>
+                        <property name="label">1</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">False</property>
@@ -3262,7 +3262,7 @@ comments</property>
                     </child>
                     <child>
                       <widget class="GtkRadioButton" id="radio_mtgug_3_0">
-                        <property name="label" translatable="yes">0</property>
+                        <property name="label">0</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">False</property>
@@ -3429,7 +3429,7 @@ comments</property>
                     </child>
                     <child>
                       <widget class="GtkRadioButton" id="radio_mtgug_4_3">
-                        <property name="label" translatable="yes">3</property>
+                        <property name="label">3</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">False</property>
@@ -3447,7 +3447,7 @@ comments</property>
                     </child>
                     <child>
                       <widget class="GtkRadioButton" id="radio_mtgug_4_2">
-                        <property name="label" translatable="yes">2</property>
+                        <property name="label">2</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">False</property>
@@ -3465,7 +3465,7 @@ comments</property>
                     </child>
                     <child>
                       <widget class="GtkRadioButton" id="radio_mtgug_4_1">
-                        <property name="label" translatable="yes">1</property>
+                        <property name="label">1</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">False</property>
@@ -3483,7 +3483,7 @@ comments</property>
                     </child>
                     <child>
                       <widget class="GtkRadioButton" id="radio_mtgug_4_0">
-                        <property name="label" translatable="yes">0</property>
+                        <property name="label">0</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">False</property>
@@ -3650,7 +3650,7 @@ comments</property>
                     </child>
                     <child>
                       <widget class="GtkRadioButton" id="radio_mtgug_5_3">
-                        <property name="label" translatable="yes">3</property>
+                        <property name="label">3</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">False</property>
@@ -3668,7 +3668,7 @@ comments</property>
                     </child>
                     <child>
                       <widget class="GtkRadioButton" id="radio_mtgug_5_2">
-                        <property name="label" translatable="yes">2</property>
+                        <property name="label">2</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">False</property>
@@ -3686,7 +3686,7 @@ comments</property>
                     </child>
                     <child>
                       <widget class="GtkRadioButton" id="radio_mtgug_5_1">
-                        <property name="label" translatable="yes">1</property>
+                        <property name="label">1</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">False</property>
@@ -3704,7 +3704,7 @@ comments</property>
                     </child>
                     <child>
                       <widget class="GtkRadioButton" id="radio_mtgug_5_0">
-                        <property name="label" translatable="yes">0</property>
+                        <property name="label">0</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">False</property>
@@ -3856,7 +3856,7 @@ comments</property>
                     </child>
                     <child>
                       <widget class="GtkRadioButton" id="radio_mtgug_6_3">
-                        <property name="label" translatable="yes">3</property>
+                        <property name="label">3</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">False</property>
@@ -3874,7 +3874,7 @@ comments</property>
                     </child>
                     <child>
                       <widget class="GtkRadioButton" id="radio_mtgug_6_2">
-                        <property name="label" translatable="yes">2</property>
+                        <property name="label">2</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">False</property>
@@ -3892,7 +3892,7 @@ comments</property>
                     </child>
                     <child>
                       <widget class="GtkRadioButton" id="radio_mtgug_6_1">
-                        <property name="label" translatable="yes">1</property>
+                        <property name="label">1</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">False</property>
@@ -3910,7 +3910,7 @@ comments</property>
                     </child>
                     <child>
                       <widget class="GtkRadioButton" id="radio_mtgug_6_0">
-                        <property name="label" translatable="yes">0</property>
+                        <property name="label">0</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">False</property>

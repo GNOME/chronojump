@@ -82,7 +82,7 @@ public class TagSession
 		foreach(TagSession ts in SqliteTagSession.Select(false, -1))
 		{
 			if(list.Count == 0)
-				list.Add(new SelectTypes(0, "------", Catalog.GetString("------")));
+				list.Add(new SelectTypes(0, "------", "------"));
 
 			list.Add(new SelectTypes(ts.UniqueID, ts.Name, ts.Name)); //no translation on tags
 		}

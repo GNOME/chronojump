@@ -3549,14 +3549,13 @@ public partial class ChronoJumpWindow
 					crossName == "Pmax(F0,V0)" ||
 					crossName == "(Speed,Power) - Load" ||
 					crossName == "(Force,Power) - Speed"||
-					crossName == "(Load,Power) - Speed"||
+					crossName == "Load - Speed"||
 					crossName == "Power - Speed" )
 			{
 				if(crossName == "Pmax(F0,V0)")
 					analysisVariables = "Pmax(F0,V0);Pmax(F0,V0)"; //this is not used but we want to preserve chunks between ';'
 				else {
 					//convert: "(Force,Power) - Speed" in: "(Force,Power);Speed;mean"
-					//convert: "(Load,Power) - Speed" in: "(Load,Power);Speed;mean"
 					string [] crossNameFull = crossName.Split(new char[] {' '});
 
 					//remove the '(', ')'
@@ -4840,7 +4839,7 @@ public partial class ChronoJumpWindow
 					"Pmax(F0,V0)",
 					"(Speed,Power) - Load",
 					"(Force,Power) - Speed",
-					"(Load,Power) - Speed",
+					"Load - Speed",
 					"Power - Speed"
 			};
 			comboAnalyzeCrossOptionsTranslated = new string [] { 
@@ -4850,7 +4849,7 @@ public partial class ChronoJumpWindow
 				"Pmax(F0,V0)", //will not be translated
 				Catalog.GetString ("(Speed,Power) - Load"),
 				Catalog.GetString ("(Force,Power) - Speed"),
-				Catalog.GetString ("(Load,Power) - Speed"),
+				Catalog.GetString ("Load - Speed"),
 				Catalog.GetString ("Power - Speed")
 			}; //if added more, change the int in the 'for' below
 			encoderAnalyzeCrossTranslation = new String [comboAnalyzeCrossOptions.Length];

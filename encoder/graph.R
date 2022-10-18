@@ -2093,7 +2093,7 @@ paintCrossVariables <- function (paf, varX, varY, option,
                                                 #draw points and mtext
                                                 points(V0,0,col="darkgreen")
                                                 points(0,F0,col="blue")
-                                                text(x=V0, y=0, paste("V0=", round(V0,2), "m/s", sep=""), col="darkgreen", pos = 1)
+                                                text(x=V0, y=0, paste("V0=", round(V0,2), "m/s", sep=""), col="darkgreen", pos = 3)
 						if(varY == "Force")
 						{
 	                                                text(x=0, y=F0, paste("F0=", round(F0,2), "N", sep=""), col="blue", pos = 4)
@@ -2143,18 +2143,19 @@ paintCrossVariables <- function (paf, varX, varY, option,
                                                 mtext(side = 3, at = V0 / 2, paste("Pmax = ",round(F0 * V0 / 4, digits = 2),"W*", sep =""), col = "red")
                                                 legend(x = V0*1.04, y = V0 * F0 * 0.2, xjust = 1, yjust = 0.1,
                                                        text.col = c("Blue", "darkgreen", "red", "black"), cex = 1.3,
-                                                       legend = c(paste("F0 = ", round(F0, digits = 0), "N", sep = ""),
-                                                                  paste("V0 = ", round(V0, digits = 2), "m/s", sep = ""),
-                                                                  paste("Pmax = ", round(F0*V0/4, digits = 0), "W", sep = "")
+                                                       legend = c(paste("F0 = ", round(F0, digits = 0), " N", sep = ""),
+                                                                  paste("V0 = ", round(V0, digits = 2), " m/s", sep = ""),
+                                                                  paste("Pmax = ", round(F0*V0/4, digits = 0), " W", sep = "")
                                                                   #,paste("Load = ", round(optimLoad, digits=1), "Kg", sep = "")),
                                                                   ))
                                         }
 					else if(varX == "Speed" && varY == "Load") #is "Load,Power" but using Force to have less problems
                                         {
-                                                legend(x = V0*1.04, y = V0 * F0 * 0.2, xjust = 1, yjust = 0.1,
-                                                       text.col = c("Blue", "darkgreen", "red", "black"), cex = 1.3,
-                                                       legend = c(paste("L0 = ", round(F0, digits = 0), "Kg", sep = ""),
-                                                                  paste("V0 = ", round(V0, digits = 2), "m/s", sep = "")
+                                                legend(x = V0*1.04, y = F0, xjust = 1, yjust = 1,
+                                                       text.col = c("Blue", "darkgreen", "black"), cex = 1.3,
+                                                       legend = c(paste("L0 = ", round(F0, digits = 0), " Kg", sep = ""),
+                                                                  paste("V0 = ", round(V0, digits = 2), " m/s", sep = ""),
+                                                                  paste("Momentum = ", round(F0*V0/2, digits = 2), " Kg*m/s", sep = "")
                                                                   #,paste("Load = ", round(optimLoad, digits=1), "Kg", sep = "")),
                                                                   ))
 					}

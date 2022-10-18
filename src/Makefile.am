@@ -486,7 +486,6 @@ RESOURCES = \
 	../images/md/close_blue_2x.png,image_close_big.png \
 	../images/md/power_settings_new_red_1x.png,image_quit.png \
 	../images/md/weight.png,image_weight.png \
-	../images/md/weight_yellow.png,image_weight_yellow.png \
 	../images/md/weight_mov_2x.png,image_weight_mov_2x.png \
 	../images/md/conical_blue_1x.png,image_inertia.png \
 	../images/md/conical_blue_2x.png,image_inertia_2x.png \

@@ -2064,7 +2064,6 @@ paintCrossVariables <- function (paf, varX, varY, option,
                                 }
                                 else {
 					#is "Force,Power" but using Force to have less problems, or
-					#is "Load,Power" but using Load to have less problems
                                         if(varX == "Speed" && (varY == "Force" || varY == "Load"))
                                         {
                                                 fit = lm(y ~ x)
@@ -2093,12 +2092,13 @@ paintCrossVariables <- function (paf, varX, varY, option,
                                                 #draw points and mtext
                                                 points(V0,0,col="darkgreen")
                                                 points(0,F0,col="blue")
-                                                text(x=V0, y=0, paste("V0=", round(V0,2), "m/s", sep=""), col="darkgreen", pos = 3)
+                                                text(x=V0, y=0, paste("V0 = ", round(V0,2), " m/s", sep=""), col="darkgreen", pos = 3)
 						if(varY == "Force")
 						{
-	                                                text(x=0, y=F0, paste("F0=", round(F0,2), "N", sep=""), col="blue", pos = 4)
+	                                                text(x=0, y=F0, paste("F0 = ", round(F0,2), " N", sep=""), col="blue", pos = 4)
 						} else { #(varY == "Load")
-	                                                text(x=0, y=F0, paste("L0=", round(F0,2), "Kg", sep=""), col="blue", pos = 4)
+	                                                text(x=0, y=F0, paste("L0 = ", round(F0,2), " Kg", sep=""), col="blue", pos = 4)
+	                                                text(x=V0*.25, y=F0*.25, paste("M0 (F0*V0/2) =\n", round(F0*V0/2,2), " Kg*m/2", sep=""), col="black")
 						}
                                         } else {
                                                 plot(x,y, xlab=varXut, ylab="", pch=pchVector, col=colBalls,bg=bgBalls,cex=cexBalls,axes=F)
@@ -2155,7 +2155,7 @@ paintCrossVariables <- function (paf, varX, varY, option,
                                                        text.col = c("Blue", "darkgreen", "black"), cex = 1.3,
                                                        legend = c(paste("L0 = ", round(F0, digits = 0), " Kg", sep = ""),
                                                                   paste("V0 = ", round(V0, digits = 2), " m/s", sep = ""),
-                                                                  paste("Momentum = ", round(F0*V0/2, digits = 2), " Kg*m/s", sep = "")
+                                                                  paste("M0 = ", round(F0*V0/2, digits = 2), " Kg*m/s", sep = "")
                                                                   #,paste("Load = ", round(optimLoad, digits=1), "Kg", sep = "")),
                                                                   ))
 					}

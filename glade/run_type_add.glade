@@ -49,6 +49,9 @@
                     <property name="column_spacing">10</property>
                     <property name="row_spacing">10</property>
                     <child>
+                      <placeholder/>
+                    </child>
+                    <child>
                       <widget class="GtkLabel" id="label133">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
@@ -408,7 +411,7 @@ options</property>
                                       <widget class="GtkLabel" id="label142">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
-                                        <property name="label" translatable="yes">(m)</property>
+                                        <property name="label">(m)</property>
                                       </widget>
                                       <packing>
                                         <property name="expand">False</property>
@@ -622,12 +625,6 @@ suitable for agility tests and RSA)</property>
                       </packing>
                     </child>
                     <child>
-                      <placeholder/>
-                    </child>
-                    <child>
-                      <placeholder/>
-                    </child>
-                    <child>
                       <widget class="GtkVSeparator" id="vseparator1">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
@@ -652,6 +649,9 @@ suitable for agility tests and RSA)</property>
                         <property name="bottom_attach">2</property>
                         <property name="x_options"/>
                       </packing>
+                    </child>
+                    <child>
+                      <placeholder/>
                     </child>
                   </widget>
                 </child>

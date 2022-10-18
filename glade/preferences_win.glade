@@ -3192,7 +3192,7 @@ It starts before and arrives there with some speed.</property>
                           <widget class="GtkLabel" id="label137">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
-                            <property name="label" translatable="yes">/</property>
+                            <property name="label">/</property>
                           </widget>
                           <packing>
                             <property name="expand">True</property>
@@ -3766,7 +3766,7 @@ It starts before and arrives there with some speed.</property>
                           <widget class="GtkLabel" id="label140">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
-                            <property name="label" translatable="yes">/</property>
+                            <property name="label">/</property>
                           </widget>
                           <packing>
                             <property name="expand">True</property>
@@ -5605,7 +5605,7 @@ It starts before and arrives there with some speed.</property>
                                                         <property name="can_focus">True</property>
                                                         <property name="invisible_char">●</property>
                                                         <property name="width_chars">7</property>
-                                                        <property name="text" translatable="yes">0</property>
+                                                        <property name="text">0</property>
                                                         <property name="invisible_char_set">True</property>
                                                         <property name="primary_icon_activatable">False</property>
                                                         <property name="secondary_icon_activatable">False</property>

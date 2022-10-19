@@ -154,6 +154,14 @@ public class PersonAddModifyWindow
 	//PersonAddModifyWindow (Gtk.Window parent, Session currentSession, Person currentPerson, bool showCapturePhoto)
 	PersonAddModifyWindow (Gtk.Window parent, Session currentSession, Person currentPerson)
 	{
+		//this strings will be used on merge persons code. Now are here just to be translated in the meantime.
+		LogB.Information (Catalog.GetString ("Merge with another person"));
+		LogB.Information (string.Format (Catalog.GetString ("Merge persons '{0}' with '{1}' in all sessions."), "xavi", "jordi") + "\n" +
+			string.Format (Catalog.GetString ("All tests of person '{0}' will be assigned to person '{1}'."),
+				"jordi", "xavi")); //Are you sure?
+		LogB.Information (Catalog.GetString ("Please, choose person's parameters."));
+		LogB.Information (string.Format (Catalog.GetString ("Please, choose person's parameters at session {0}."), "session"));
+
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "person_win.glade", "person_win", null);
 		gladeXML.Autoconnect(this);

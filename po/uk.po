@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: chronojump master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/chronojump/issues\n"
-"POT-Creation-Date: 2022-10-18 17:38+0000\n"
-"PO-Revision-Date: 2022-10-18 21:49+0300\n"
+"POT-Creation-Date: 2022-10-19 14:19+0000\n"
+"PO-Revision-Date: 2022-10-19 19:55+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -344,7 +344,7 @@ msgstr "Скасувати тест"
 #: ../src/gui/app1/session/backup.cs:405 ../src/gui/app1/session/export.cs:71
 #: ../src/gui/chronopicRegister.cs:183 ../src/gui/encoderConfiguration.cs:733
 #: ../src/gui/encoderConfiguration.cs:790 ../src/gui/networks.cs:416
-#: ../src/gui/person/addModify.cs:355 ../src/gui/person/addMultiple.cs:247
+#: ../src/gui/person/addModify.cs:363 ../src/gui/person/addMultiple.cs:247
 #: ../src/gui/preferences.cs:1671
 msgid "Cancel"
 msgstr "Скасувати"
@@ -2274,7 +2274,7 @@ msgstr "Буде імпортовано до поточного сеансу."
 #: ../src/gui/app1/encoder.cs:2429 ../src/gui/app1/encoder.cs:2715
 #: ../src/gui/encoderConfiguration.cs:734
 #: ../src/gui/encoderConfiguration.cs:791 ../src/gui/executeAuto.cs:545
-#: ../src/gui/person/addModify.cs:356
+#: ../src/gui/person/addModify.cs:364
 msgid "Accept"
 msgstr "Прийняти"
 
@@ -2550,7 +2550,7 @@ msgid "Create new person"
 msgstr "Створити запис особи"
 
 #: ../glade/app1.glade.h:538 ../glade/person_select_window.glade.h:3
-#: ../glade/person_win.glade.h:1 ../src/gui/person/addModify.cs:246
+#: ../glade/person_win.glade.h:1 ../src/gui/person/addModify.cs:254
 msgid "New person"
 msgstr "Нова особа"
 
@@ -3169,8 +3169,8 @@ msgid "Select your Chronometer"
 msgstr "Виберіть ваш хронометр"
 
 #: ../glade/evaluator_window.glade.h:14 ../src/constants.cs:196
-#: ../src/constants.cs:197 ../src/gui/person/addModify.cs:681
-#: ../src/gui/person/addModify.cs:723
+#: ../src/constants.cs:197 ../src/gui/person/addModify.cs:689
+#: ../src/gui/person/addModify.cs:731
 msgid "Undefined"
 msgstr "Не визначено"
 
@@ -6809,7 +6809,7 @@ msgstr "Ви справді хочете перезаписати:"
 #: ../src/gui/app1/encoder.cs:5132 ../src/gui/app1/encoder.cs:5156
 #: ../src/gui/app1/encoder.cs:5244 ../src/gui/app1/runEncoderAnalyze.cs:239
 #: ../src/gui/app1/runEncoderAnalyze.cs:289 ../src/gui/app1/runEncoder.cs:2572
-#: ../src/gui/encoderConfiguration.cs:823 ../src/gui/person/addModify.cs:386
+#: ../src/gui/encoderConfiguration.cs:823 ../src/gui/person/addModify.cs:394
 #: ../src/gui/sprint.cs:287
 #, csharp-format
 msgid "Cannot save file {0} "
@@ -7005,7 +7005,6 @@ msgid "(Force,Power) - Speed"
 msgstr "(Сила,Потужність) - Швидкість"
 
 #: ../src/gui/app1/encoder.cs:4852
-#| msgid "(Load,Power) - Speed"
 msgid "Load - Speed"
 msgstr "Навантаження - Швидкість"
 
@@ -7362,19 +7361,19 @@ msgstr "Можливий діапазон від {0} до {1}."
 msgid "Accel"
 msgstr "Прискорення"
 
-#: ../src/gui/app1/session/addEdit.cs:605 ../src/gui/person/addModify.cs:832
+#: ../src/gui/app1/session/addEdit.cs:605 ../src/gui/person/addModify.cs:840
 msgid "Select session date"
 msgstr "Виберіть дату сеансу"
 
-#: ../src/gui/app1/session/addEdit.cs:618 ../src/gui/person/addModify.cs:978
+#: ../src/gui/app1/session/addEdit.cs:618 ../src/gui/person/addModify.cs:986
 msgid "Add sport"
 msgstr "Додати вид спорту"
 
-#: ../src/gui/app1/session/addEdit.cs:619 ../src/gui/person/addModify.cs:979
+#: ../src/gui/app1/session/addEdit.cs:619 ../src/gui/person/addModify.cs:987
 msgid "Add new sport to database"
 msgstr "Додати до бази даних новий вид спорту"
 
-#: ../src/gui/app1/session/addEdit.cs:634 ../src/gui/person/addModify.cs:994
+#: ../src/gui/app1/session/addEdit.cs:634 ../src/gui/person/addModify.cs:1002
 #, csharp-format
 msgid "Sorry, this sport '{0}' already exists in database"
 msgstr "Вибачте, цей запис виду спорту «{0}» вже існує у базі даних"
@@ -8590,28 +8589,55 @@ msgstr "Примусовий огляд датчиків"
 msgid "Race analyzer overview"
 msgstr "Огляд аналізатора дистанцій"
 
-#: ../src/gui/person/addModify.cs:249
+#. this strings will be used on merge persons code. Now are here just to be translated in the meantime.
+#: ../src/gui/person/addModify.cs:158
+#| msgid "Please, write the name of the person."
+msgid "Merge with another person"
+msgstr "Об'єднати із іншою особою"
+
+#: ../src/gui/person/addModify.cs:159
+#, csharp-format
+msgid "Merge persons '{0}' with '{1}' in all sessions."
+msgstr "Об'єднати записи особи «{0}» із записом особи «{1}» в усіх сеансах."
+
+#: ../src/gui/person/addModify.cs:160
+#, csharp-format
+msgid "All tests of person '{0}' will be assigned to person '{1}'."
+msgstr "Усі тести особи «{0}» буде пов'язано із особою «{1}»."
+
+#. Are you sure?
+#: ../src/gui/person/addModify.cs:162
+#| msgid "Need to fill person's leg parameters."
+msgid "Please, choose person's parameters."
+msgstr "Будь ласка, виберіть параметри особи"
+
+#: ../src/gui/person/addModify.cs:163
+#, csharp-format
+msgid "Please, choose person's parameters at session {0}."
+msgstr "Будь ласка, виберіть параметри особи у сеансі {0}."
+
+#: ../src/gui/person/addModify.cs:257
 msgid "Edit person"
 msgstr "Редагувати особу"
 
-#: ../src/gui/person/addModify.cs:352
+#: ../src/gui/person/addModify.cs:360
 msgid "Select file"
 msgstr "Вибір файла"
 
-#: ../src/gui/person/addModify.cs:1031
+#: ../src/gui/person/addModify.cs:1039
 msgid "Please, write the name of the person."
 msgstr "Будь ласка, впишіть назву особи."
 
-#: ../src/gui/person/addModify.cs:1034 ../src/gui/person/addModify.cs:1036
+#: ../src/gui/person/addModify.cs:1042 ../src/gui/person/addModify.cs:1044
 msgid "Please, complete the weight of the person."
 msgstr "Будь ласка, вкажіть вагу особи."
 
-#: ../src/gui/person/addModify.cs:1066
+#: ../src/gui/person/addModify.cs:1074
 #, csharp-format
 msgid "Person: '{0}' exists. Please, use another name."
 msgstr "Особа: існує «{0}». Будь ласка, вкажіть інше ім'я."
 
-#: ../src/gui/person/addModify.cs:1069
+#: ../src/gui/person/addModify.cs:1077
 msgid "Or load this person from another session using this button:"
 msgstr ""
 "Або завантажте цей запис особи з іншого сеансу за допомогою цієї кнопки:"

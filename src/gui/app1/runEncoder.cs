@@ -1437,10 +1437,12 @@ public partial class ChronoJumpWindow
 
 		string contents = Util.ReadFile(RunEncoder.GetCSVResultsURL(), false);
 
-		//maybe captured data was too low or two different than an sprint.
-		//then we have image but maybe we have no sprintResults.csv
-
-		if(contents == null || contents == "")
+		/*
+		   maybe captured data was too low or two different than an sprint.
+		   Then we have image but maybe we have no sprintResults.csv
+		   Length < 10 is written because on a model too short R can just return ""
+		   */
+		if(contents == null || contents == "" || contents.Length < 10)
 			return;
 		else {
 			createTreeViewRaceEncoder(contents);

@@ -162,16 +162,23 @@ getSprintFromEncoder <- function(filename, testLength, isSprint, Mass, Temperatu
         #Checking that the position reaches at least testLength
         if(max(position) < testLength)
         {
-                plot(totalTime, position, type = "l",
+                plot(totalTime, position, type = "l", lwd=2,
                      ylim = c(min(position), testLength)*1.05,
-                     xlab = "Time (s)", ylab = "Position (m)")
+                     xlab = "Time (s)", ylab = "Position (m)",
+                     main = "The capture does not reach the length of the test")
+
                 abline(h = testLength, lty = 2)
                 text(x = (totalTime[length(totalTime)] + totalTime[1])/2,
                      y = testLength,
-                     labels = (paste("Configured test length :", testLength, " m", sep = "")),
+                     labels = (paste("Configured test length: ", testLength, " m", sep = "")),
                      pos = 3)
-                text(x = (totalTime[length(totalTime)] + totalTime[1])/2, testLength /2,
-                     labels = "The capture does not reach the length of the test", cex = 2, pos = 3)
+
+                abline(h = max(position), lty = 2)
+                text(x = (totalTime[length(totalTime)] + totalTime[1])/2,
+                     y = max(position),
+                     labels = (paste("Length of this test: ", round(max(position), 3), " m", sep = "")),
+                     pos = 1)
+
                 print("Capture too short")
                 longEnough = FALSE
                 return(list(longEnough = longEnough, problems = TRUE))

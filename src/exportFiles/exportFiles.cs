@@ -162,8 +162,8 @@ public abstract class ExportFiles
 
 			if(discarded > 0)
 				labelDiscarded.Text = string.Format(Catalog.GetPluralString(
-							"Discarded 1 set for not being an sprint.",
-							"Discarded {0} sets for not being sprints.",
+							"Discarded 1 set for being too short.",
+							"Discarded {0} sets for being too short.",
 							discarded), discarded);
 
 			if(cancel)

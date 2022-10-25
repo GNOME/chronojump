@@ -111,40 +111,94 @@ getDynamicsFromSprint <- function(K, Vmax, Mass, T0 = 0, Temperature = 25, Heigh
                     p.fitted = p.fitted ))
 }
 
-getSplitsForPrepareRow <- function (splitTime, splitPosition, splitPositionAll, decimalIsComma)
+getSplitsForPrepareRow <- function (splitTime, splitMeanSpeed, splitMeanForce, splitMeanPower,
+		splitPosition, splitPositionAll, decimalIsComma)
 {
 	splits = NULL
 
 	#print("exportSprintDynamicsPrepareRow splitPositionAll:")
 	#print(splitPositionAll)
 
+	nameVector = NULL
+	timeVector = "m_Time" #this is at a given time
+	magnitudeVector = c("m_Speed", "m_Force", "m_Power") #this are from a split to the next (avg)
+	#sprintPhotocells does not send right now splitMeanSpeed, splitMeanForce, splitMeanPower
+
 	if(is.null(splitPositionAll))
 	{
-		splits = as.list(splitTime)
-		if(decimalIsComma)
-		        names(splits) = gsub("\\.",",",paste(splitPosition, "m", sep=""))
-		else
-		        names(splits) = paste(splitPosition, "m", sep="")
+		if (is.null (splitMeanSpeed))
+			splits = as.list(splitTime)
+		else {
+			for(i in 1:length(splitTime))
+			{
+				splits = c(splits, splitTime[i])
+				splits = c(splits, splitMeanSpeed[i])
+				splits = c(splits, splitMeanForce[i])
+				splits = c(splits, splitMeanPower[i])
+			}
+		}
+
+		oldSplitPosition = 0
+		for (i in 1:length(splitPosition))
+		{
+			dist = paste(oldSplitPosition, "Y", splitPosition[i], sep="")
+			if(decimalIsComma)
+			{
+				nameVector = c(nameVector, gsub("\\.",",",paste(splitPosition[i], timeVector, sep="")))
+				nameVector = c(nameVector, gsub("\\.",",",paste(dist, magnitudeVector, sep="")))
+			} else {
+				nameVector = c(nameVector, paste(splitPosition[i], timeVector, sep=""))
+				nameVector = c(nameVector, paste(dist, magnitudeVector, sep=""))
+			}
+			oldSplitPosition = splitPosition[i]
+		}
 	} else
 	{
-		splitTimeVector = NULL
+		splitTimeSFPVector = NULL #TimeSpeedForcePower
 		for(i in 1:length(splitPositionAll))
 		{
 			pos = match(splitPositionAll[i], splitPosition)
 			if(is.na(pos)) # current set to export has not this position
 			{
-				splitTimeVector = c(splitTimeVector, NA) #create an NA "value"
+				if (is.null (splitMeanSpeed))
+					splitTimeSFPVector = c(splitTimeSFPVector, NA) #create an NA "value" for time
+				else
+					splitTimeSFPVector = c(splitTimeSFPVector, NA, NA, NA, NA) #create an NA "value" for time, speed, force, power
 			} else {
-				splitTimeVector = c(splitTimeVector, splitTime[pos])
+				if (is.null (splitMeanSpeed))
+					splitTimeSFPVector = c(splitTimeSFPVector, splitTime[pos])
+				else {
+					splitTimeSFPVector = c(splitTimeSFPVector, splitTime[pos])
+					splitTimeSFPVector = c(splitTimeSFPVector, splitMeanSpeed[pos])
+					splitTimeSFPVector = c(splitTimeSFPVector, splitMeanForce[pos])
+					splitTimeSFPVector = c(splitTimeSFPVector, splitMeanPower[pos])
+				}
 			}
 		}
 
-		splits = as.list(splitTimeVector)
-		if(decimalIsComma)
-		        names(splits) = gsub("\\.",",",paste(splitPositionAll, "m", sep=""))
-		else
-			names(splits) = paste(splitPositionAll, "m", sep="")
+		splits = as.list(splitTimeSFPVector)
+
+		oldSplitPosition = 0
+		for (i in 1:length(splitPositionAll))
+		{
+			dist = paste(oldSplitPosition, "Y", splitPositionAll[i], sep="")
+			if(decimalIsComma)
+			{
+				nameVector = c(nameVector, gsub("\\.",",",paste(splitPositionAll[i], timeVector, sep="")))
+				nameVector = c(nameVector, gsub("\\.",",",paste(dist, magnitudeVector, sep="")))
+			} else {
+				nameVector = c(nameVector, paste(splitPositionAll[i], timeVector, sep=""))
+				nameVector = c(nameVector, paste(dist, magnitudeVector, sep=""))
+			}
+			oldSplitPosition = splitPositionAll[i]
+		}
 	}
+
+	#debug
+	#print ("splits:"); print (splits)
+	#print ("nameVector:"); print (nameVector)
+
+	names(splits) = nameVector
 
 	return (splits)
 }
@@ -154,7 +208,9 @@ exportSprintDynamicsPrepareRow <- function(sprintFittedDynamics, sprintRawDynami
 {
 	print ("at exportSprintDynamicsPrepareRow decimalIsComma:")
 	print (decimalIsComma)
-	splits <- getSplitsForPrepareRow (splitTime, splitPosition, splitPositionAll, decimalIsComma)
+	splits <- getSplitsForPrepareRow (splitTime,
+			sprintRawDynamics$meanSpeed, sprintRawDynamics$meanForce, sprintRawDynamics$meanPower,
+			splitPosition, splitPositionAll, decimalIsComma)
 
 	#print("exportSprintDynamicsPrepareRow names(splits):")
 	#print(names(splits))
@@ -207,7 +263,9 @@ exportSprintDynamicsPrepareRow <- function(sprintFittedDynamics, sprintRawDynami
 #data is not sprint or model has failed
 exportSprintRawPrepareRow <- function (sprintRawDynamics, splitPositionAll, decimalIsComma)
 {
-	splits <- getSplitsForPrepareRow (sprintRawDynamics$splitTime, sprintRawDynamics$splitPosition, splitPositionAll, decimalIsComma)
+	splits <- getSplitsForPrepareRow (sprintRawDynamics$splitTime,
+			sprintRawDynamics$meanSpeed, sprintRawDynamics$meanForce, sprintRawDynamics$meanPower,
+			sprintRawDynamics$splitPosition, splitPositionAll, decimalIsComma)
 
         row = c(list(Mass = sprintRawDynamics$Mass,
                    Height = sprintRawDynamics$height,
@@ -246,6 +304,7 @@ exportSprintDynamicsWriteRow <- function(exportRow)
         write.csv2(exportRow, file = paste(tempPath, "/sprintResults.csv", sep = ""), row.names = FALSE)
 }
 
+#This is only used on sprintRadar
 #Finds the time correspondig to a given position in the formula x(t) = Vmax*(t + (1/K)*exp(-K*t)) -Vmax - 1/K
 #Uses the iterative Newton's method of the tangent aproximation
 splitTime <- function(Vmax, K, position, tolerance = 0.001, initTime = 1)

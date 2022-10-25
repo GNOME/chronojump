@@ -1550,12 +1550,13 @@ public partial class ChronoJumpWindow
 				dist_l = new List<string> ();
 				for (int i = 26; i < cells.Length; i ++) //Attention!: take care with this 26 if in the future add more columns before dist/times
 				{
-					//each string comes as "X25.5m" convert to Time\n25.5\n(m) or Time\n25,5\n(m)
+					//each string comes as "X0Y25.5m_Speed" convert to 0-25.5 m\nSpeed or 0-25,5 m/nSpeed
 					string temp = Util.RemoveChar (cells[i], '"', false);
 					temp = Util.RemoveChar (temp, 'X', false);
-					temp = Util.ChangeChars (temp, "m", "\n(m)");
+					temp = Util.ChangeChars (temp, "Y", "-");
 					temp = Util.ChangeDecimalSeparator (temp);
-					temp = Catalog.GetString ("Time") + "\n" + temp;
+					temp = Util.ChangeChars (temp, "_", "\n");
+
 					dist_l.Add (temp);
 				}
 			}

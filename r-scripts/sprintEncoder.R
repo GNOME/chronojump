@@ -74,6 +74,7 @@ op <- assignOptions(options)
 op$title = fixTitleAndOtherStrings(op$title)
 op$datetime = fixDatetime(op$datetime)
 
+#this returns sprintRawDynamics
 getSprintFromEncoder <- function(filename, testLength, isSprint, Mass, Temperature = 25, Height , Vw = 0, device = "MANUAL", startAccel, splitLength, splitVariableCm)
 {
         print("#####Entering in getSprintFromEncoder###############")
@@ -307,6 +308,7 @@ getSprintFromEncoder <- function(filename, testLength, isSprint, Mass, Temperatu
         meanForce = splits$meanForce
         meanPower = splits$meanPower
 
+	#returns sprintRawDynamics
         return(list(Vmax = Vmax, K = K, T0 = T0, Ka=Ka, Vw=Vw, Mass=Mass,
 		    height = Height, temperature = Temperature, #both used only at export row
                     time = time, rawPosition = position + P0, rawSpeed = speed, rawAccel = accel, rawForce = totalForce, rawPower = power,
@@ -319,7 +321,8 @@ getSprintFromEncoder <- function(filename, testLength, isSprint, Mass, Temperatu
 		    longEnough = longEnough,
 		    #regression = regression,
 		    regressionDone = regression$regressionDone, timeBefore = T0, startAccel = startAccel,
-                    splitTime = splitTime, splitPosition = splitPosition, meanSpeed = meanSpeed, meanForde = meanForce, meanPower = meanPower,
+                    splitTime = splitTime, splitPosition = splitPosition,
+		    meanSpeed = meanSpeed, meanForce = meanForce, meanPower = meanPower, #of each split
 		    problems = FALSE#,
 		    #comment = "" #to send comments of problems by previous returns
 		    ))
@@ -564,6 +567,7 @@ plotSprintFromEncoder <- function(sprintRawDynamics, sprintFittedDynamics, isSpr
 		}
         }     
 
+	 #this is not being used
         if(plotMeanRawForce)
         {
                 par(new = TRUE)

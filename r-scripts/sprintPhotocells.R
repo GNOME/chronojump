@@ -201,13 +201,13 @@ getModelWithOptimalTimeCorrection <- function(splitTimes)
         return(list(K = summary(model)$parameters[1],  Vmax = summary(model)$parameters[2], T0 = bestT0))
 }
 
-drawSprintFromPhotocells <- function(sprintDynamics, splitTimes, positions, splitPositionAll, title, plotFittedSpeed = T, plotFittedAccel = T, plotFittedForce = T, plotFittedPower = T)
+drawSprintFromPhotocells <- function(sprintFittedDynamics, splitTimes, positions, splitPositionAll, title, plotFittedSpeed = T, plotFittedAccel = T, plotFittedForce = T, plotFittedPower = T)
 {
 	#return if fitted values of a or fmax are <= 0, it would make fail the seq by operator
 	#done it before start drawing to avoid png being created
-	if(max(sprintDynamics$a.fitted) <= 0)
+	if(max(sprintFittedDynamics$a.fitted) <= 0)
 		return (NULL)
-	if(max(sprintDynamics$fmax.fitted) <= 0)
+	if(max(sprintFittedDynamics$fmax.fitted) <= 0)
 		return (NULL)
 
         maxTime = splitTimes[length(splitTimes)]
@@ -216,79 +216,79 @@ drawSprintFromPhotocells <- function(sprintDynamics, splitTimes, positions, spli
         avg.speeds = diff(positions)/diff(splitTimes)
         textXPos = splitTimes[1:length(splitTimes) - 1] + diff(splitTimes)/2
 
-        xlims = c(-sprintDynamics$T0, splitTimes[length(splitTimes)])
+        xlims = c(-sprintFittedDynamics$T0, splitTimes[length(splitTimes)])
         
         # Plotting average speed
         par(mar = c(7, 4, 5, 7.5))
         barplot(height = avg.speeds, width = diff(splitTimes), space = 0,
-                ylim = c(0, max(c(avg.speeds, sprintDynamics$Vmax) + 1)), xlim = xlims,
+                ylim = c(0, max(c(avg.speeds, sprintFittedDynamics$Vmax) + 1)), xlim = xlims,
                 main=title,
                 #sub = substitute(v(t) == Vmax*(1-e^(-K*t)), list(Vmax="Vmax", K="K")),
                 xlab="Time[s]", ylab="Velocity[m/s]",
                 axes = FALSE, yaxs= "i", xaxs = "i")
         text(textXPos, avg.speeds, round(avg.speeds, digits = 2), pos = 3)
 
-        axis(3, at = c(-sprintDynamics$T0,splitTimes), labels = c(round(-sprintDynamics$T0, digits = 3),splitTimes))
+        axis(3, at = c(-sprintFittedDynamics$T0,splitTimes), labels = c(round(-sprintFittedDynamics$T0, digits = 3),splitTimes))
         
         # Fitted speed plotting
         par(new=T)
-        plot((sprintDynamics$t.fitted - sprintDynamics$T0), sprintDynamics$v.fitted, type = "l", xlab="", ylab = "",
-             ylim = c(0, max(c(avg.speeds, sprintDynamics$Vmax) + 1)), xlim = xlims,
+        plot((sprintFittedDynamics$t.fitted - sprintFittedDynamics$T0), sprintFittedDynamics$v.fitted, type = "l", xlab="", ylab = "",
+             ylim = c(0, max(c(avg.speeds, sprintFittedDynamics$Vmax) + 1)), xlim = xlims,
              yaxs= "i", xaxs = "i", axis = F) # Fitted data
-        axis(2, at = seq(0, sprintDynamics$Vmax + 1, by = 1))
-        abline(h = sprintDynamics$Vmax, lty = 2)
+        axis(2, at = seq(0, sprintFittedDynamics$Vmax + 1, by = 1))
+        abline(h = sprintFittedDynamics$Vmax, lty = 2)
         mtext(side = 1, line = 3, at = splitTimes[length(splitTimes)]*0.25, cex = 1.5 , substitute(v(t) == Vmax*(1-e^(-K*t)), list(Vmax="Vmax", K="K")))
         if(plotFittedAccel)
         {
                 par(new = T)
-                plot((sprintDynamics$t.fitted - sprintDynamics$T0), sprintDynamics$a.fitted, type = "l", col = "magenta", yaxs= "i", xaxs = "i", xlab="", ylab = "",
-                     ylim=c(0,sprintDynamics$amax.fitted), xlim = xlims,
+                plot((sprintFittedDynamics$t.fitted - sprintFittedDynamics$T0), sprintFittedDynamics$a.fitted, type = "l", col = "magenta", yaxs= "i", xaxs = "i", xlab="", ylab = "",
+                     ylim=c(0,sprintFittedDynamics$amax.fitted), xlim = xlims,
                      axes = FALSE )
-		axis(side = 4, col ="magenta", at = seq(0,max(sprintDynamics$a.fitted), by = 1))
+		axis(side = 4, col ="magenta", at = seq(0,max(sprintFittedDynamics$a.fitted), by = 1))
         }
         
         #Force plotting
         if(plotFittedForce)
         {
                 par(new=T)
-                plot((sprintDynamics$t.fitted - sprintDynamics$T0), sprintDynamics$f.fitted, type="l", col="blue", yaxs= "i", xaxs = "i", xlab="", ylab="",
-                     ylim=c(0,sprintDynamics$fmax.fitted), xlim = xlims,
+                plot((sprintFittedDynamics$t.fitted - sprintFittedDynamics$T0), sprintFittedDynamics$f.fitted, type="l", col="blue", yaxs= "i", xaxs = "i", xlab="", ylab="",
+                     ylim=c(0,sprintFittedDynamics$fmax.fitted), xlim = xlims,
                      axes = FALSE)
-		axis(line = 2.5, side = 4, col ="blue", at = seq(0, sprintDynamics$fmax.fitted + 100, by = 100))
+		axis(line = 2.5, side = 4, col ="blue", at = seq(0, sprintFittedDynamics$fmax.fitted + 100, by = 100))
         }
 
         #Power plotting
         if(plotFittedPower)
         {
                 par(new=T)
-                plot((sprintDynamics$t.fitted - sprintDynamics$T0), sprintDynamics$p.fitted, type="l", axes = FALSE, xlab="", ylab="", col="red"
-                     , ylim=c(0,sprintDynamics$pmax.fitted + .1 * sprintDynamics$pmax.fitted), xlim = xlims
+                plot((sprintFittedDynamics$t.fitted - sprintFittedDynamics$T0), sprintFittedDynamics$p.fitted, type="l", axes = FALSE, xlab="", ylab="", col="red"
+                     , ylim=c(0,sprintFittedDynamics$pmax.fitted + .1 * sprintFittedDynamics$pmax.fitted), xlim = xlims
                      , yaxs= "i", xaxs = "i")
-                abline(v = (sprintDynamics$tpmax.fitted- sprintDynamics$T0), col="red", lty = 2)
-                axis(line = 5, side = 4, col ="red", at = seq(0, sprintDynamics$pmax.fitted, by = 200))
-                axis(3, at = sprintDynamics$tpmax.fitted- sprintDynamics$T0, labels = round(sprintDynamics$tpmax.fitted, 3))
-                #text(sprintDynamics$tpmax.fitted, sprintDynamics$pmax.fitted, paste("Pmax fitted =", round(sprintDynamics$pmax.fitted, digits = 2)),  pos = 3)
+                abline(v = (sprintFittedDynamics$tpmax.fitted- sprintFittedDynamics$T0), col="red", lty = 2)
+                axis(line = 5, side = 4, col ="red", at = seq(0, sprintFittedDynamics$pmax.fitted, by = 200))
+                axis(3, at = sprintFittedDynamics$tpmax.fitted- sprintFittedDynamics$T0, labels = round(sprintFittedDynamics$tpmax.fitted, 3))
+                #text(sprintFittedDynamics$tpmax.fitted, sprintFittedDynamics$pmax.fitted, paste("Pmax fitted =", round(sprintFittedDynamics$pmax.fitted, digits = 2)),  pos = 3)
                 # mtext(side = 1, line = 5, at = splitTimes[length(splitTimes)]*0.75, cex = 1.5,
                 #       substitute(P(t) == A*e^(-K*t)*(1-e^(-K*t)) + B*(1-e^(-K*t))^3,
-                #                         list(A=round(sprintDynamics$Vmax.fitted^2*sprintDynamics$Mass, digits=3),
-                #                              B = round(sprintDynamics$Vmax.fitted^3*sprintDynamics$Ka, digits = 3),
-                #                              Vmax=round(sprintDynamics$Vmax.fitted, digits=3),
-                #                              K=round(sprintDynamics$K.fitted, digits=3)))
+                #                         list(A=round(sprintFittedDynamics$Vmax.fitted^2*sprintFittedDynamics$Mass, digits=3),
+                #                              B = round(sprintFittedDynamics$Vmax.fitted^3*sprintFittedDynamics$Ka, digits = 3),
+                #                              Vmax=round(sprintFittedDynamics$Vmax.fitted, digits=3),
+                #                              K=round(sprintFittedDynamics$K.fitted, digits=3)))
                 #       , col ="red")
         }
         
-        legend (x = time[length(time)], y = sprintDynamics$pmax.fitted / 2,
+        legend (x = time[length(time)], y = sprintFittedDynamics$pmax.fitted / 2,
                 xjust = 1, yjust = 0.5, cex = 1,
-                legend = c(paste("K =", round(sprintDynamics$K.fitted, digits = 2)),
-                           paste("\u03C4 =", round(1/sprintDynamics$K.fitted, digits = 2), "s"),
-                           paste("Vmax =", round(sprintDynamics$Vmax.fitted, digits = 2), "m/s"),
-                           paste("Amax =", round(sprintDynamics$amax.fitted, digits = 2), "m/s\u00b2"),
-                           paste("fmax =", round(sprintDynamics$fmax.rel.fitted, digits = 2), "N/kg"),
-                           paste("pmax =", round(sprintDynamics$pmax.rel.fitted, digits = 2), "W/kg")),
+                legend = c(paste("K =", round(sprintFittedDynamics$K.fitted, digits = 2)),
+                           paste("\u03C4 =", round(1/sprintFittedDynamics$K.fitted, digits = 2), "s"),
+                           paste("Vmax =", round(sprintFittedDynamics$Vmax.fitted, digits = 2), "m/s"),
+                           paste("Amax =", round(sprintFittedDynamics$amax.fitted, digits = 2), "m/s\u00b2"),
+                           paste("fmax =", round(sprintFittedDynamics$fmax.rel.fitted, digits = 2), "N/kg"),
+                           paste("pmax =", round(sprintFittedDynamics$pmax.rel.fitted, digits = 2), "W/kg")),
                 text.col = c("black", "black", "black", "magenta", "blue", "red"))
 
 	#TODO: check if we can pass raw values of v,a,F,P
-        return (exportSprintDynamicsPrepareRow(sprintDynamics, NULL, splitTimes, positions, splitPositionAll, op$decimalCharAtExport == ","))
+        return (exportSprintDynamicsPrepareRow(sprintFittedDynamics, NULL, splitTimes, positions, splitPositionAll, op$decimalCharAtExport == ","))
 }
 
 testPhotocellsCJ <- function(positions, splitTimes, splitPositionAll, mass, personHeight, tempC, personName)
@@ -301,17 +301,17 @@ testPhotocellsCJ <- function(positions, splitTimes, splitPositionAll, mass, pers
 		return (NULL)
 	}
 
-        sprintDynamics = getDynamicsFromSprint(K = sprint$K, Vmax = sprint$Vmax, T0 = sprint$T0
+        sprintFittedDynamics = getDynamicsFromSprint(K = sprint$K, Vmax = sprint$Vmax, T0 = sprint$T0
                                                , Mass = mass
                                                , Temperature = tempC
                                                , Height = personHeight
                                                , maxTime = max(splitTimes))
-        print(paste("K =",sprintDynamics$K.fitted, "Vmax =", sprintDynamics$Vmax.fitted))
+        print(paste("K =",sprintFittedDynamics$K.fitted, "Vmax =", sprintFittedDynamics$Vmax.fitted))
 
-	if(is.null(sprintDynamics))
+	if(is.null(sprintFittedDynamics))
 		return (NULL)
 	else
-	        return(drawSprintFromPhotocells(sprintDynamics = sprintDynamics, splitTimes, positions, splitPositionAll, title = personName))
+	        return(drawSprintFromPhotocells(sprintFittedDynamics = sprintFittedDynamics, splitTimes, positions, splitPositionAll, title = personName))
 }
 
 #----- execute code
@@ -421,9 +421,9 @@ start(op)
 #	positions = Vmax*(splitTimes + (1/K)*exp(-K*splitTimes)) -Vmax/K
 #	photocell.noise = data.frame(time = splitTimes + noise*rnorm(length(splitTimes), 0, 1), position = positions)
 #	sprint = getSprintFromPhotocell(position = photocell.noise$position, splitTimes = photocell.noise$time)
-#	sprintDynamics = getDynamicsFromSprint(K = sprint$K, Vmax = sprint$Vmax, 75, 25, 1.65)
-#	print(paste("K =",sprintDynamics$K.fitted, "Vmax =", sprintDynamics$Vmax.fitted))
-#	drawSprintFromPhotocells(sprintDynamics = sprintDynamics, splitTimes, positions, title = "Testing graph")
+#	sprintFittedDynamics = getDynamicsFromSprint(K = sprint$K, Vmax = sprint$Vmax, 75, 25, 1.65)
+#	print(paste("K =",sprintFittedDynamics$K.fitted, "Vmax =", sprintFittedDynamics$Vmax.fitted))
+#	drawSprintFromPhotocells(sprintFittedDynamics = sprintFittedDynamics, splitTimes, positions, title = "Testing graph")
 #}
 
 #Test wiht data like is coming from Chronojump
@@ -437,7 +437,7 @@ start(op)
 #	personHeight = 1.65
 #
 #	sprint = getSprintFromPhotocell(position = positions, splitTimes = splitTimes)
-#	sprintDynamics = getDynamicsFromSprint(K = sprint$K, Vmax = sprint$Vmax, mass, tempC, personHeight, maxTime = max(splitTimes))
-#	print(paste("K =",sprintDynamics$K.fitted, "Vmax =", sprintDynamics$Vmax.fitted))
-#	drawSprintFromPhotocells(sprintDynamics = sprintDynamics, splitTimes, positions, title = "Testing graph")
+#	sprintFittedDynamics = getDynamicsFromSprint(K = sprint$K, Vmax = sprint$Vmax, mass, tempC, personHeight, maxTime = max(splitTimes))
+#	print(paste("K =",sprintFittedDynamics$K.fitted, "Vmax =", sprintFittedDynamics$Vmax.fitted))
+#	drawSprintFromPhotocells(sprintFittedDynamics = sprintFittedDynamics, splitTimes, positions, title = "Testing graph")
 #}

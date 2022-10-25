@@ -766,64 +766,74 @@ getTrimmingSamples <- function(totalTime, position, speed, accel, testLength, st
 #Getting the mean values of the dynamics in each split
 getSplits <- function(time, rawPosition, rawForce, rawPower, startSample, endSample, testLength, splitLength, splitVariableCm)
 {
-        splitPosition = NULL
-	if(splitLength > 0) #use splitLength
-	      splitPosition = min(testLength, splitLength)
+    # Vector where the positions that separates the splits 
+    splitPositions_v = NULL
+    equalSplits = splitLength > 0
+    # All splits are of equal distance
+	if(equalSplits) #use splitLength
+	      splitPositions_v = min(testLength, splitLength)
+	#The distance of the splits are diferent
 	else
-		splitPosition = min(testLength, splitVariableCm[1]/100)
-        print("Going to interpolate:")
+		splitPositions_v = min(testLength, splitVariableCm[1]/100)
+    
+    print("Going to interpolate:")
 	print("time")
         print(time[startSample:endSample])
 	print("rawPosition")
         print(rawPosition[startSample:endSample])
-	print("splitPosition")
-        print(splitPosition)
-        splitTime = interpolateXAtY(time[startSample:endSample],
-                                    rawPosition[startSample:endSample],
-                                    splitPosition)
+	print("splitPositions_v")
+        print(splitPositions_v)
+    splitTimes_v = interpolateXAtY(time[startSample:endSample],
+                                rawPosition[startSample:endSample],
+                                splitPositions_v)
+
+    meanSpeeds_v = splitPositions_v / splitTimes_v
+    meanForces_v = getMeanValue(time, rawForce, time[startSample], splitTimes_v)
+    meanPowers_v = getMeanValue(time, rawPower, time[startSample], splitTimes_v)
         
-        meanSpeed = splitPosition / splitTime
-        meanForce = getMeanValue(time, rawForce, time[startSample], splitTime)
-        meanPower = getMeanValue(time, rawPower, time[startSample], splitTime)
-        
-        #while the next split position is within the testLength
-	#while(splitPosition[length(splitPosition)] + splitLength < testLength)
+    #while the next split position is within the testLength
+	#while(splitPositions_v[length(splitPositions_v)] + splitLength < testLength)
 	nextLength = NULL
 	continueBucle = FALSE
 	splitVariableCmIter = 2
-	if(splitLength > 0)
+	
+	#Equidistant splits
+	if(equalSplits)
 	{
 		nextLength = splitLength
-		continueBucle = (splitPosition[length(splitPosition)] + nextLength < testLength)
+		#continueBucle = (splitPositions_v[length(splitPositions_v)] + nextLength < testLength)
+		continueBucle = (splitPositions_v[length(splitPositions_v)] < testLength)
 	}
+	#Diferent split distances
 	else {
 		continueBucle = FALSE
 		if(length(splitVariableCm) >= splitVariableCmIter)
 		{
 			nextLength = splitVariableCm[splitVariableCmIter]/100
-			continueBucle = (splitPosition[length(splitPosition)] + nextLength < testLength)
+			#continueBucle = (splitPositions_v[length(splitPositions_v)] + nextLength < testLength)
+			continueBucle = (splitPositions_v[length(splitPositions_v)] < testLength)
 		}
 	}
 
 	while(continueBucle)
         {
-                splitPosition = c(splitPosition, splitPosition[length(splitPosition)] + nextLength)
-                print(paste("Going to interpolate at:", splitPosition[length(splitPosition)]))
-                splitTime = c(splitTime, interpolateXAtY(X = time[startSample:endSample],
+                splitPositions_v = c(splitPositions_v, splitPositions_v[length(splitPositions_v)] + nextLength)
+                print(paste("Going to interpolate at:", splitPositions_v[length(splitPositions_v)]))
+                splitTimes_v = c(splitTimes_v, interpolateXAtY(X = time[startSample:endSample],
                                                          Y = rawPosition[startSample:endSample],
-                                                         desiredY = splitPosition[length(splitPosition)]))
+                                                         desiredY = splitPositions_v[length(splitPositions_v)]))
                 
-                meanSpeed = c(meanSpeed, (splitPosition[length(splitPosition)] - splitPosition[length(splitPosition) -1]) /
-                                      (splitTime[length(splitTime)] - splitTime[length(splitTime) -1]))
-                meanForce = c(meanForce, getMeanValue(time, rawForce,
-                                                      splitTime[length(splitTime) -1], splitTime[length(splitTime)]))
-                meanPower = c(meanPower, getMeanValue(time, rawPower,
-                                                      splitTime[length(splitTime) -1], splitTime[length(splitTime)]))
+                meanSpeeds_v = c(meanSpeeds_v, (splitPositions_v[length(splitPositions_v)] - splitPositions_v[length(splitPositions_v) -1]) /
+                                      (splitTimes_v[length(splitTimes_v)] - splitTimes_v[length(splitTimes_v) -1]))
+                meanForces_v = c(meanForces_v, getMeanValue(time, rawForce,
+                                                      splitTimes_v[length(splitTimes_v) -1], splitTimes_v[length(splitTimes_v)]))
+                meanPowers_v = c(meanPowers_v, getMeanValue(time, rawPower,
+                                                      splitTimes_v[length(splitTimes_v) -1], splitTimes_v[length(splitTimes_v)]))
 
-		if(splitLength > 0)
+		if(equalSplits)
 		{
 			nextLength = splitLength
-			continueBucle = (splitPosition[length(splitPosition)] + nextLength < testLength)
+			continueBucle = (splitPositions_v[length(splitPositions_v)] + nextLength < testLength)
 		}
 		else {
 			continueBucle = FALSE
@@ -831,32 +841,32 @@ getSplits <- function(time, rawPosition, rawForce, rawPower, startSample, endSam
 			if(length(splitVariableCm) >= splitVariableCmIter)
 			{
 				nextLength = splitVariableCm[splitVariableCmIter]/100
-				continueBucle = (splitPosition[length(splitPosition)] + nextLength < testLength)
+				continueBucle = (splitPositions_v[length(splitPositions_v)] + nextLength < testLength)
 			}
 		}
 	}
-        splitPosition = c(splitPosition, testLength)
-        splitTime = c(splitTime, interpolateXAtY(X = time[startSample:length(rawPosition)],
+        splitPositions_v = c(splitPositions_v, testLength)
+        splitTimes_v = c(splitTimes_v, interpolateXAtY(X = time[startSample:length(rawPosition)],
                                                  Y = rawPosition[startSample:length(rawPosition)],
                                                  desiredY = testLength))
         
-        meanSpeed = c(meanSpeed, (splitPosition[length(splitPosition)] - splitPosition[length(splitPosition) -1]) /
-                              (splitTime[length(splitTime)] - splitTime[length(splitTime) -1]))
+        meanSpeeds_v = c(meanSpeeds_v, (splitPositions_v[length(splitPositions_v)] - splitPositions_v[length(splitPositions_v) -1]) /
+                              (splitTimes_v[length(splitTimes_v)] - splitTimes_v[length(splitTimes_v) -1]))
         
-        meanForce = c(meanForce, getMeanValue(time, rawForce,
-                                              splitTime[length(splitTime) -1], splitTime[length(splitTime)]))
-        meanPower = c(meanPower, getMeanValue(time, rawPower,
-                                              splitTime[length(splitTime) -1], splitTime[length(splitTime)]))
-        print("splitPosition:")
-        print(splitPosition)
-        print("splitTime:")
-        print(splitTime)
-        print("meanForce:")
-        print(meanForce)
-        print("meanPower:")
-        print(meanPower)
+        meanForces_v = c(meanForces_v, getMeanValue(time, rawForce,
+                                              splitTimes_v[length(splitTimes_v) -1], splitTimes_v[length(splitTimes_v)]))
+        meanPowers_v = c(meanPowers_v, getMeanValue(time, rawPower,
+                                              splitTimes_v[length(splitTimes_v) -1], splitTimes_v[length(splitTimes_v)]))
+        print("splitPositions_v:")
+        print(splitPositions_v)
+        print("splitTimes_v:")
+        print(splitTimes_v)
+        print("meanForces_v:")
+        print(meanForces_v)
+        print("meanPowers_v:")
+        print(meanPowers_v)
         
-        return(list(positions = splitPosition, time = splitTime, meanSpeed = meanSpeed, meanForce = meanForce, meanPower = meanPower))
+        return(list(positions = splitPositions_v, time = splitTimes_v, meanSpeed = meanSpeeds_v, meanForce = meanForces_v, meanPower = meanPowers_v))
 }
 
 tryNLS <- function(data){

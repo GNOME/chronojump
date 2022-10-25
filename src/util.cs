@@ -137,6 +137,18 @@ public class Util
 		return l;
 	}
 
+	public static string ListDoubleToString (List<double> d_l, int decs, string sep)
+	{
+		string str = "";
+		string sepStr = "";
+		foreach (double d in d_l)
+		{
+			str += sepStr + TrimDecimals (d, decs);
+			sepStr = sep;
+		}
+		return str;
+	}
+
 	//when we do a query to the server, it returns avg as "0,54" because it's latin localized
 	//if client is on english machine, need to convert this to "0.54"
 	public static string ConvertToPointIfNeeded (string myString)

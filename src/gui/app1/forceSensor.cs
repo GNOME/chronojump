@@ -1972,9 +1972,9 @@ LogB.Information(" fs R ");
 		// 1) draw the vertical line
 		int vertLineBottom = fscPoints.GetForceInPx(force);
 		//if the line is shorter than 5, then have a line of size 5
-		if(vertLineBottom - 16 <= 5)
-			vertLineBottom = 16 +5;
-		force_capture_pixmap.DrawLine (myPen, x, 16, x, vertLineBottom);
+		if(vertLineBottom - 16*(row+1) <= 5)
+			vertLineBottom = 16*(row+1) +5;
+		force_capture_pixmap.DrawLine (myPen, x, 3 + 12*(row+1), x, vertLineBottom);
 
 		// 2) write force value
 		layout_force_text.SetMarkup(Util.TrimDecimals(force, 1));

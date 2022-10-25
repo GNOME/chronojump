@@ -1229,6 +1229,19 @@ public partial class ChronoJumpWindow
 			updateRaceAnalyzerCaptureAccelTime(true);
 		}
 
+		//debug reCGSD.SegmentCalcs
+		if (reCGSD != null && reCGSD.SegmentCalcs != null)
+		{
+			LogB.Information ("segmentCalcs:");
+			LogB.Information ("- TimeStart_l: " + Util.ListDoubleToString (reCGSD.SegmentCalcs.TimeStart_l, 3, ";"));
+			LogB.Information ("- TimeEnd_l: " + Util.ListDoubleToString (reCGSD.SegmentCalcs.TimeEnd_l, 3, ";"));
+			LogB.Information ("- Dist_l: " + Util.ListDoubleToString (reCGSD.SegmentCalcs.Dist_l, 3, ";"));
+			LogB.Information ("- SpeedCont_l: " + Util.ListDoubleToString (reCGSD.SegmentCalcs.SpeedCont_l, 3, ";"));
+			LogB.Information ("- Accel_l: " + Util.ListDoubleToString (reCGSD.SegmentCalcs.Accel_l, 3, ";"));
+			LogB.Information ("- Force_l: " + Util.ListDoubleToString (reCGSD.SegmentCalcs.Force_l, 3, ";"));
+			LogB.Information ("- Power_l: " + Util.ListDoubleToString (reCGSD.SegmentCalcs.Power_l, 3, ";"));
+		}
+
 		// <---- capture tab graphs end ----
 
 		//on load do the R graph, but not on capture, to show on capture the label related to lack of person height

@@ -97,13 +97,11 @@ getAreaUnderCurve <- function(x, y)
         for(i in 2:(length(x) -1))
         {
                 parallelogramArea = ((x[i + 1] - x[1])* (y[i] - y[1]) - (x[i] - x[1]) * (y[i+1] - y[1]))
-                
-                # print(paste("V",i," = ", "(",x[i + 1] - x[1],",", y[i + 1] - y[1], ")", sep = ""))
-                # print(parallelogramArea/2)
-                
+                #print(paste("V",i," = ", "(",x[i + 1] - x[1],",", y[i + 1] - y[1], ") = " , parallelogramArea / 2, sep = ""))
+
                 totalArea = totalArea + parallelogramArea
         }
-        # print(paste("toalArea:", totalArea/2))
+        print(paste("toalArea:", totalArea/2))
         return(totalArea/2) #The area of the parallelograms are twice the triangles areas
 }
 

@@ -130,7 +130,8 @@ getSprintFromEncoder <- function(filename, testLength, isSprint, Mass, Temperatu
         }
         accel = c(accel, accel[length(accel)])
         accel = c(0, accel)
-        forceBody = accel * Mass + Ka*(speed - Vw)^2
+        # Adding the force against the air.
+        forceBody = accel * Mass + Ka*(speed - Vw)*abs(speed - Vw)  
         totalForce = forceBody + raceAnalyzer$force
         power = totalForce * speed
         # print("totalTime:")
@@ -853,6 +854,10 @@ getSplits <- function(time, rawPosition, rawForce, rawPower, startSample, endSam
         meanSpeeds_v = c(meanSpeeds_v, (splitPositions_v[length(splitPositions_v)] - splitPositions_v[length(splitPositions_v) -1]) /
                               (splitTimes_v[length(splitTimes_v)] - splitTimes_v[length(splitTimes_v) -1]))
         
+        print("--------Forces in segment------")
+        print(which.min(abs(time - splitTimes_v[length(splitTimes_v) -1])))
+        print(which.min(abs(time - splitTimes_v[length(splitTimes_v) ])))
+        print(rawForce[ which.min(abs(time - splitTimes_v[length(splitTimes_v) -1])) : which.min(abs(time - splitTimes_v[length(splitTimes_v)])) ])
         meanForces_v = c(meanForces_v, getMeanValue(time, rawForce,
                                               splitTimes_v[length(splitTimes_v) -1], splitTimes_v[length(splitTimes_v)]))
         meanPowers_v = c(meanPowers_v, getMeanValue(time, rawPower,

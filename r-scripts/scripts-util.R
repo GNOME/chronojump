@@ -82,7 +82,7 @@ interpolateXAtY <- function(X, Y, desiredY)
 }
 
 
-#Calculate the area under a curve using the cross product of consecutive vectors with the origin in the first point
+#Calculate the area under a curve using the cross product of consecutive vectors with the origin of each vector in the first point
 getAreaUnderCurve <- function(x, y)
 {
         print("Calculating Area")
@@ -90,8 +90,10 @@ getAreaUnderCurve <- function(x, y)
         # print(x)
         # print("Y:")
         # print(y)
-        x = c(x, x[length(x)], x[1])
-        y = c(y, 0, 0)
+        
+        #Adding a point in the last X and Y = 0 in order to calculate the area added by the last point
+        x = c(x, x[length(x)])
+        y = c(y, 0)
         totalArea = 0
         # print(paste("V",1," = ", "(",x[1 + 1] - x[1],",", y[1 + 1] - y[1], ")", sep = ""))
         for(i in 2:(length(x) -1))
@@ -102,29 +104,6 @@ getAreaUnderCurve <- function(x, y)
                 totalArea = totalArea + parallelogramArea
         }
         print(paste("toalArea:", totalArea/2))
-        return(totalArea/2) #The area of the parallelograms are twice the triangles areas
-}
-
-getAreaUnderCurve2 <- function(x, y)
-{
-        # print("Calculating Area")
-        # print("X:")
-        # print(x)
-        # print("Y:")
-        # print(y)
-
-        totalArea = 0
-        # print(paste("V",1," = ", "(",x[1 + 1] - x[1],",", y[1 + 1] - y[1], ")", sep = ""))
-        for(i in 1:length(x))
-        {
-                barArea = y[i]*(x[i+1] - x[i])
-                
-                # print(paste("V",i," = ", "(",x[i + 1] - x[1],",", y[i + 1] - y[1], ")", sep = ""))
-                # print(parallelogramArea/2)
-                
-                totalArea = totalArea + barArea
-        }
-        # print(paste("toalArea:", totalArea/2))
         return(totalArea/2) #The area of the parallelograms are twice the triangles areas
 }
 
@@ -145,15 +124,20 @@ getMeanValue <- function(X, Y, startX, endX)
         #print("Calculating the last Y value")
         endY = interpolateXAtY(X = Y, Y = X, desiredY = endX) #The order are changed because we are looking for the Y value instead of X value
 
+        #trimming X to the values that are between startX and endX
         X = X[which(X > startX & X < endX)]
+        #Adding Xs of the limits
         X = c(startX, X, endX)
         
+        #trimming Y to the values that are between startY and endY
         Y = Y[which(X > startX & X < endX)]
+        #Adding Ys of the limits
         Y = c(startY, Y, endY)
         
         #calculating the area under the curve (integral)
         area = getAreaUnderCurve(X , Y)
 
+        #The mean value is the area under the curve divided by the lenth in the X axis of the curve
         return(area / (X[length(X)] - X[1]))
 }
 

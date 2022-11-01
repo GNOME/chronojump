@@ -51468,10 +51468,6 @@ Since Chronojump 2.1.3, backups contain the complete data.</property>
                                                             <property name="relief">half</property>
                                                             <signal name="clicked" handler="on_person_add_single_from_main_gui" swapped="no"/>
                                                             <child>
-                                                            <widget class="GtkEventBox" id="eventbox_person_add_single">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            <child>
                                                             <widget class="GtkHBox" id="hbox536">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
@@ -51503,8 +51499,6 @@ Since Chronojump 2.1.3, backups contain the complete data.</property>
                                                             </widget>
                                                             </child>
                                                             </widget>
-                                                            </child>
-                                                            </widget>
                                                             <packing>
                                                             <property name="expand">True</property>
                                                             <property name="fill">True</property>
@@ -51521,10 +51515,6 @@ Since Chronojump 2.1.3, backups contain the complete data.</property>
                                                             <property name="tooltip" translatable="yes">New persons (multiple)</property>
                                                             <property name="relief">half</property>
                                                             <signal name="clicked" handler="on_person_add_multiple_from_main_gui" swapped="no"/>
-                                                            <child>
-                                                            <widget class="GtkEventBox" id="eventbox_person_add_multiple">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
                                                             <child>
                                                             <widget class="GtkHBox" id="hbox579">
                                                             <property name="visible">True</property>
@@ -51553,8 +51543,6 @@ Since Chronojump 2.1.3, backups contain the complete data.</property>
                                                             <property name="fill">False</property>
                                                             <property name="position">1</property>
                                                             </packing>
-                                                            </child>
-                                                            </widget>
                                                             </child>
                                                             </widget>
                                                             </child>
@@ -51613,10 +51601,6 @@ Since Chronojump 2.1.3, backups contain the complete data.</property>
                                                             <property name="relief">half</property>
                                                             <signal name="clicked" handler="on_recuperate_person_from_main_gui" swapped="no"/>
                                                             <child>
-                                                            <widget class="GtkEventBox" id="eventbox_recuperate_person">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            <child>
                                                             <widget class="GtkHBox" id="hbox538">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
@@ -51648,8 +51632,6 @@ Since Chronojump 2.1.3, backups contain the complete data.</property>
                                                             </widget>
                                                             </child>
                                                             </widget>
-                                                            </child>
-                                                            </widget>
                                                             <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">False</property>
@@ -51666,10 +51648,6 @@ Since Chronojump 2.1.3, backups contain the complete data.</property>
                                                             <property name="tooltip" translatable="yes">Load persons from other session</property>
                                                             <property name="relief">half</property>
                                                             <signal name="clicked" handler="on_recuperate_persons_from_session_at_main_gui" swapped="no"/>
-                                                            <child>
-                                                            <widget class="GtkEventBox" id="eventbox_recuperate_persons_from_other_session">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
                                                             <child>
                                                             <widget class="GtkHBox" id="hbox584">
                                                             <property name="visible">True</property>
@@ -51698,8 +51676,6 @@ Since Chronojump 2.1.3, backups contain the complete data.</property>
                                                             <property name="fill">False</property>
                                                             <property name="position">1</property>
                                                             </packing>
-                                                            </child>
-                                                            </widget>
                                                             </child>
                                                             </widget>
                                                             </child>
@@ -51782,17 +51758,11 @@ Since Chronojump 2.1.3, backups contain the complete data.</property>
                                                             <signal name="clicked" handler="on_button_image_current_person_zoom_clicked" swapped="no"/>
                                                             <accelerator key="p" signal="clicked" modifiers="GDK_CONTROL_MASK"/>
                                                             <child>
-                                                            <widget class="GtkEventBox" id="eventbox_current_person_zoom_h">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            <child>
                                                             <widget class="GtkImage" id="image_current_person_zoom_h">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="stock">gtk-missing-image</property>
                                                             <property name="icon-size">2</property>
-                                                            </widget>
-                                                            </child>
                                                             </widget>
                                                             </child>
                                                             </widget>
@@ -51813,17 +51783,11 @@ Since Chronojump 2.1.3, backups contain the complete data.</property>
                                                             <signal name="clicked" handler="on_edit_current_person_clicked_from_main_gui" swapped="no"/>
                                                             <accelerator key="p" signal="clicked" modifiers="GDK_CONTROL_MASK"/>
                                                             <child>
-                                                            <widget class="GtkEventBox" id="eventbox_edit_current_person_h">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            <child>
                                                             <widget class="GtkImage" id="image_edit_current_person_h">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="stock">gtk-missing-image</property>
                                                             <property name="icon-size">2</property>
-                                                            </widget>
-                                                            </child>
                                                             </widget>
                                                             </child>
                                                             </widget>
@@ -51844,16 +51808,10 @@ Since Chronojump 2.1.3, backups contain the complete data.</property>
                                                             <property name="relief">half</property>
                                                             <signal name="clicked" handler="on_delete_current_person_from_session_clicked" swapped="no"/>
                                                             <child>
-                                                            <widget class="GtkEventBox" id="eventbox_delete_current_person_h">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            <child>
                                                             <widget class="GtkImage" id="image_person_delete_h">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="icon-size">2</property>
-                                                            </widget>
-                                                            </child>
                                                             </widget>
                                                             </child>
                                                             </widget>
@@ -51973,10 +51931,6 @@ Since Chronojump 2.1.3, backups contain the complete data.</property>
                                                             <property name="relief">half</property>
                                                             <signal name="clicked" handler="on_show_all_person_events_activate" swapped="no"/>
                                                             <child>
-                                                            <widget class="GtkEventBox" id="eventbox_show_all_person_events_h">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            <child>
                                                             <widget class="GtkHBox" id="hbox390">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
@@ -52005,8 +51959,6 @@ Since Chronojump 2.1.3, backups contain the complete data.</property>
                                                             <property name="fill">True</property>
                                                             <property name="position">1</property>
                                                             </packing>
-                                                            </child>
-                                                            </widget>
                                                             </child>
                                                             </widget>
                                                             </child>

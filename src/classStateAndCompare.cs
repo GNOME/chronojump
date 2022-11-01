@@ -128,9 +128,39 @@ static class ClassCompare
 }
 public class ClassVariance
 {
+	//just to debug
 	public override string ToString ()
 	{
 		return (string.Format ("Prop: {0}, valA: {1}, valB: {2}", Prop, valA, valB));
+	}
+
+	public Struct GetStruct ()
+	{
+		return new Struct (Prop, valA, valB);
+	}
+
+	public struct Struct //to be able to pass the 3 things
+	{
+		public string Prop;
+		public object valA;
+		public object valB;
+
+		public Struct (string Prop, object valA, object valB)
+		{
+			this.Prop = Prop;
+			this.valA = valA;
+			this.valB = valB;
+		}
+		public override string ToString ()
+		{
+			return (string.Format ("Prop: {0}, valA: {1}, valB: {2}", Prop, valA, valB));
+		}
+		//TODO: maybe have ToStringA and ToStringB to print both side by side, eg:
+		public override string ToStringA ()
+		{
+			return (string.Format ("Prop: {0}, valA: {1}", Prop, valA));
+		}
+
 	}
 
 	public string Prop { get; set; }

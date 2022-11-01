@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2020   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2004-2022   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -374,14 +374,36 @@ class SqlitePersonSession : Sqlite
 	}
 	
 	//use this in the future:
-	public static List<PersonSession> SelectPersonSessionList(int sessionID)
+	public static List<PersonSession> SelectPersonSessionList (int personID, int sessionID)
 	{
 		string tps = Constants.PersonSessionTable;
+
+		string whereStr = "";
+		string andStr = "";
+
+		string personIDStr = "";
+		if (personID != -1)
+		{
+			personIDStr = tps + ".personID = " + personID;
+			whereStr = " WHERE ";
+		}
+
+		string sessionIDStr = "";
+		if (sessionID != -1)
+		{
+			sessionIDStr = tps + ".sessionID = " + sessionID;
+			if (whereStr == "")
+				whereStr = " WHERE ";
+			else
+				andStr = " AND ";
+		}
 
 		Sqlite.Open();
 		dbcmd.CommandText = "SELECT " + tps + ".*" +
 			" FROM " + tps +
-			" WHERE " + tps + ".sessionID == " + sessionID;
+			whereStr + personIDStr +
+			andStr + sessionIDStr;
+
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		SqliteDataReader reader;

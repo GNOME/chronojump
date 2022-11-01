@@ -15,17 +15,19 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Copyright (C) 2004-2017   Xavier de Blas <xaviblas@gmail.com> 
+ *  Copyright (C) 2004-2022   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
 using System.Data;
 using System.Text; //StringBuilder
 using System.Collections; //ArrayList
+using System.Collections.Generic; //List
 using Mono.Unix;
 
-public class Person {
 
+public class Person
+{
 	private int uniqueID;
 	private string name;
 	private string sex; // "M" (male) , "F" (female) (Constants.M, Constants.F)
@@ -143,7 +145,6 @@ public class Person {
 		str[1] = name;
 		return str;
 	}
-	
 
 	public override string ToString()
 	{
@@ -167,6 +168,20 @@ public class Person {
 	public override int GetHashCode()
 	{
 		return this.ToString().GetHashCode();
+	}
+
+	//personToMerge will be merged with currentPerson
+	public void MergeWithPersonGetConflicts (Person personToMerge)
+	{
+		List<ClassVariance> v_l = this.DetailedCompare (
+				personToMerge, ClassCompare.Visibility.PUBLICANDPRIVATE);
+
+		if (v_l.Count > 0)
+		{
+			LogB.Information ("Differences found:");
+			foreach (ClassVariance v in v_l)
+				LogB.Information (v.ToString());
+		}
 	}
 	
 	//some "set"s are needed. If not data of personSession does not arrive to the server

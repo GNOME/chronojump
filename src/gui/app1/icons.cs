@@ -52,6 +52,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_contacts_recalculate;
 	[Widget] Gtk.Image image_all_persons_events_h;
 	[Widget] Gtk.Image image_person_delete_h;
+	[Widget] Gtk.Image image_merge_persons;
 	[Widget] Gtk.Image image_chronopic_connect_contacts;
 	[Widget] Gtk.Image image_chronopic_connect_contacts1;
 	[Widget] Gtk.Image image_chronopic_connect_contacts2;
@@ -431,6 +432,8 @@ public partial class ChronoJumpWindow
 		image_person1.Pixbuf = pixbuf;
 		app1s_image_show_data_persons.Pixbuf = pixbuf;
 		image_persons_manage.Pixbuf = pixbuf;
+
+		image_merge_persons.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "merge.png");
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_info.png");
 		image_info1.Pixbuf = pixbuf;

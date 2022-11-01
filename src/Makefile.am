@@ -509,6 +509,7 @@ RESOURCES = \
 	../images/md/p_yellow_1x.png,image_person_yellow.png \
 	../images/md/p_logout_blue_1x.png,image_person_logout.png \
 	../images/md/persons_manage.png,persons_manage.png \
+	../images/md/merge.png,merge.png \
 	../images/md/photo_camera_blue_2x.png,image_no_photo.png \
 	../images/md/photo_camera_yellow_2x.png,image_no_photo_yellow.png \
 	../images/md/select_blue_3x.png,image_selected.png \

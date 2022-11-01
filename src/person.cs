@@ -171,14 +171,14 @@ public class Person
 	}
 
 	//personToMerge will be merged with currentPerson
-	public void MergeWithPersonGetConflicts (Person personToMerge)
+	public void MergeWithAnotherGetConflicts (Person personToMerge)
 	{
 		List<ClassVariance> v_l = this.DetailedCompare (
 				personToMerge, ClassCompare.Visibility.PUBLICANDPRIVATE);
 
 		if (v_l.Count > 0)
 		{
-			LogB.Information ("Differences found:");
+			LogB.Information ("Differences found between persons:");
 			foreach (ClassVariance v in v_l)
 				LogB.Information (v.ToString());
 		}

@@ -83,9 +83,9 @@ public class TestObjectsDifferences
 		SomeCustomClass a = new SomeCustomClass();
 		SomeCustomClass b = new SomeCustomClass();
 		a.x = 100;
-		List<ClassVariance> rt = a.DetailedCompare(b);
+		List<ClassVariance> v_l = a.DetailedCompare (b, ClassCompare.Visibility.PUBLIC);
 
-		foreach (ClassVariance v in rt)
+		foreach (ClassVariance v in v_l)
 			LogB.Information (v.ToString());
 	}
 }
@@ -98,22 +98,33 @@ public class SomeCustomClass
 
 static class ClassCompare
 {
-    public static List<ClassVariance> DetailedCompare<T>(this T val1, T val2)
-    {
-        List<ClassVariance> variances = new List<ClassVariance>();
-        FieldInfo[] fi = val1.GetType().GetFields();
-        foreach (FieldInfo f in fi)
-        {
-            ClassVariance v = new ClassVariance();
-            v.Prop = f.Name;
-            v.valA = f.GetValue(val1);
-            v.valB = f.GetValue(val2);
-            if (!Equals(v.valA, v.valB))
-                variances.Add(v);
+	public enum Visibility { PUBLIC, PUBLICANDPRIVATE };
 
-        }
-        return variances;
-    }
+	public static List<ClassVariance> DetailedCompare<T>(this T val1, T val2, Visibility visibility)
+	{
+		//LogB.Information ("at DetailedCompare");
+		List<ClassVariance> variances = new List<ClassVariance>();
+		FieldInfo[] fi;
+		if (visibility == Visibility.PUBLIC)
+			fi = val1.GetType().GetFields();
+		else {
+			//https://stackoverflow.com/a/95973
+			fi = val1.GetType().GetFields(BindingFlags.NonPublic | BindingFlags.Instance);
+		}
+
+		foreach (FieldInfo f in fi)
+		{
+			//LogB.Information ("Comparing: " + f.Name);
+			ClassVariance v = new ClassVariance();
+			v.Prop = f.Name;
+			v.valA = f.GetValue(val1);
+			v.valB = f.GetValue(val2);
+			if (!Equals(v.valA, v.valB))
+				variances.Add(v);
+
+		}
+		return variances;
+	}
 }
 public class ClassVariance
 {

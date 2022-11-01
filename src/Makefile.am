@@ -77,6 +77,7 @@ SOURCES = \
 	gui/overview.cs\
 	gui/person/addModify.cs\
 	gui/person/addMultiple.cs\
+	gui/person/merge.cs\
 	gui/person/personSelect.cs\
 	gui/person/recuperate.cs\
 	gui/person/showAllEvents.cs\

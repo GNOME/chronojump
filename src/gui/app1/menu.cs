@@ -50,14 +50,6 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.EventBox eventbox_check_manage_persons;
 	[Widget] Gtk.EventBox eventbox_persons_up;
 	[Widget] Gtk.EventBox eventbox_persons_down;
-	[Widget] Gtk.EventBox eventbox_person_add_single;
-	[Widget] Gtk.EventBox eventbox_person_add_multiple;
-	[Widget] Gtk.EventBox eventbox_recuperate_person;
-	[Widget] Gtk.EventBox eventbox_recuperate_persons_from_other_session;
-	[Widget] Gtk.EventBox eventbox_current_person_zoom_h;
-	[Widget] Gtk.EventBox eventbox_edit_current_person_h;
-	[Widget] Gtk.EventBox eventbox_show_all_person_events_h;
-	[Widget] Gtk.EventBox eventbox_delete_current_person_h;
 	[Widget] Gtk.Label label_current_database;
 	[Widget] Gtk.Label label_current_session;
 	[Widget] Gtk.Label label_current_person;
@@ -272,14 +264,6 @@ public partial class ChronoJumpWindow
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_check_manage_persons, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_persons_up, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_persons_down, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
-		UtilGtk.EventBoxColorBackgroundActive (eventbox_person_add_single, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
-		UtilGtk.EventBoxColorBackgroundActive (eventbox_person_add_multiple, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
-		UtilGtk.EventBoxColorBackgroundActive (eventbox_recuperate_person, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
-		UtilGtk.EventBoxColorBackgroundActive (eventbox_recuperate_persons_from_other_session, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
-		UtilGtk.EventBoxColorBackgroundActive (eventbox_current_person_zoom_h, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
-		UtilGtk.EventBoxColorBackgroundActive (eventbox_edit_current_person_h, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
-		UtilGtk.EventBoxColorBackgroundActive (eventbox_show_all_person_events_h, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
-		UtilGtk.EventBoxColorBackgroundActive (eventbox_delete_current_person_h, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
 	}
 
 	private void menuShowVerticalArrow (bool selected, Gtk.Arrow a_up, Gtk.Arrow a_down)

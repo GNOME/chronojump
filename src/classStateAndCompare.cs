@@ -1,6 +1,7 @@
 using System;
 using System.Reflection;
 using System.Collections;
+using System.Collections.Generic;
 
 /*
  * This file is part of ChronoJump
@@ -70,4 +71,58 @@ class StaticClassState
 			field.SetValue (name, attributes [name]);
 		}
 	}
+}
+
+
+//Thanks to deepee1, Bigbob556677 https://stackoverflow.com/a/4951271
+public class TestObjectsDifferences
+{
+	public static void Test ()
+	{
+		LogB.Information ("TestObjectDifferences");
+		SomeCustomClass a = new SomeCustomClass();
+		SomeCustomClass b = new SomeCustomClass();
+		a.x = 100;
+		List<ClassVariance> rt = a.DetailedCompare(b);
+
+		foreach (ClassVariance v in rt)
+			LogB.Information (v.ToString());
+	}
+}
+
+public class SomeCustomClass
+{
+	public int x = 12;
+	public int y = 13;
+}
+
+static class ClassCompare
+{
+    public static List<ClassVariance> DetailedCompare<T>(this T val1, T val2)
+    {
+        List<ClassVariance> variances = new List<ClassVariance>();
+        FieldInfo[] fi = val1.GetType().GetFields();
+        foreach (FieldInfo f in fi)
+        {
+            ClassVariance v = new ClassVariance();
+            v.Prop = f.Name;
+            v.valA = f.GetValue(val1);
+            v.valB = f.GetValue(val2);
+            if (!Equals(v.valA, v.valB))
+                variances.Add(v);
+
+        }
+        return variances;
+    }
+}
+public class ClassVariance
+{
+	public override string ToString ()
+	{
+		return (string.Format ("Prop: {0}, valA: {1}, valB: {2}", Prop, valA, valB));
+	}
+
+	public string Prop { get; set; }
+	public object valA { get; set; }
+	public object valB { get; set; }
 }

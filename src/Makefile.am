@@ -272,7 +272,7 @@ SOURCES = \
 	RFID.cs\
 	serverPing.cs\
 	serverEvaluator.cs\
-	staticClassState.cs\
+	classStateAndCompare.cs\
 	chronopic.cs\
 	chronopic2016.cs\
 	chronopicDetect.cs\

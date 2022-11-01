@@ -1060,6 +1060,8 @@ public partial class ChronoJumpWindow
 		*/
 
 		//MovingAverage.TestCalculate();
+
+		//TestObjectsDifferences.Test ();
 	}
 
 

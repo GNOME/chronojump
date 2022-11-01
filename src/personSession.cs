@@ -15,16 +15,17 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Copyright (C) 2004-2020   Xavier de Blas <xaviblas@gmail.com> 
+ *  Copyright (C) 2004-2022   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
 using System.Data;
 using System.Text; //StringBuilder
+using System.Collections.Generic; //List
 using Mono.Unix;
 
-public class PersonSession {
-
+public class PersonSession
+{
 	private int uniqueID;
 	private int personID;
 	private int sessionID;
@@ -127,6 +128,29 @@ public class PersonSession {
 			Util.ConvertToPoint(trochanterToe) + ", " +
 			Util.ConvertToPoint(trochanterFloorOnFlexion);
 	}
+
+	//personToMerge will be merged with currentPerson
+	public List<ClassVariance.Struct> MergeWithAnotherGetConflicts (PersonSession personSessionToMerge)
+	{
+		List<ClassVariance> v_l = this.DetailedCompare (
+				personSessionToMerge, ClassCompare.Visibility.PUBLICANDPRIVATE);
+
+		List<ClassVariance.Struct> propDiff_l = new List<ClassVariance.Struct> ();
+		if (v_l.Count > 0)
+		{
+			LogB.Information ("Differences found between persons sessions:");
+			foreach (ClassVariance v in v_l)
+			{
+				//LogB.Information (v.ToString()); //debug
+				//don't add the uniqueID, personID. Obviously they are different
+				if (v.Prop != "uniqueID" && v.Prop != "personID")
+					propDiff_l.Add (v.GetStruct ());
+			}
+		}
+
+		return propDiff_l;
+	}
+
 
 	//some "set"s are needed. If not data of personSession does not arrive to the server
 

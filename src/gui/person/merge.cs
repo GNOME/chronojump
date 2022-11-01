@@ -20,12 +20,13 @@
 
 using System;
 using Gtk;
+using System.Collections.Generic; //List
 
 public partial class ChronoJumpWindow
 {
 	private void on_button_person_merge_clicked (object o, EventArgs args)
 	{
-		if (currentPerson == null)
+		if (currentPerson == null || currentPersonSession == null)
 			return;
 
 		Person personToMerge = SqlitePerson.Select (false, 752);
@@ -33,6 +34,23 @@ public partial class ChronoJumpWindow
 		if (personToMerge == null)
 			return;
 
-		currentPerson.MergeWithPersonGetConflicts (personToMerge);
+		//person
+		currentPerson.MergeWithAnotherGetConflicts (personToMerge);
+
+		//personSession
+		List<PersonSession> psCurrentPerson_l = SqlitePersonSession.SelectPersonSessionList (currentPerson.UniqueID, -1);
+		List<PersonSession> psMergePerson_l = SqlitePersonSession.SelectPersonSessionList (752, -1);
+
+		foreach (PersonSession psCurrentPerson in psCurrentPerson_l)
+			foreach (PersonSession psMergePerson in psMergePerson_l)
+			{
+				if (psCurrentPerson.SessionID == psMergePerson.SessionID)
+				{
+					List<ClassVariance.Struct> psPropDiff_l = psCurrentPerson.MergeWithAnotherGetConflicts (psMergePerson);
+					if (psPropDiff_l.Count > 0)
+						foreach (ClassVariance.Struct cvs in psPropDiff_l)
+							LogB.Information (cvs.ToString ());
+				}
+			}
 	}
 }

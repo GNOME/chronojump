@@ -126,6 +126,9 @@ getSplitsForPrepareRow <- function (splitTime, splitMeanSpeed, splitMeanForce, s
 
 	if(is.null(splitPositionAll))
 	{
+		#print(paste("splitTime:",splitTime))
+		#print(paste("splitPosition:",splitPosition))
+
 		if (is.null (splitMeanSpeed))
 			splits = as.list(splitTime)
 		else {
@@ -145,10 +148,12 @@ getSplitsForPrepareRow <- function (splitTime, splitMeanSpeed, splitMeanForce, s
 			if(decimalIsComma)
 			{
 				nameVector = c(nameVector, gsub("\\.",",",paste(splitPosition[i], timeVector, sep="")))
-				nameVector = c(nameVector, gsub("\\.",",",paste(dist, magnitudeVector, sep="")))
+				if (! is.null (splitMeanSpeed))
+					nameVector = c(nameVector, gsub("\\.",",",paste(dist, magnitudeVector, sep="")))
 			} else {
 				nameVector = c(nameVector, paste(splitPosition[i], timeVector, sep=""))
-				nameVector = c(nameVector, paste(dist, magnitudeVector, sep=""))
+				if (! is.null (splitMeanSpeed))
+					nameVector = c(nameVector, paste(dist, magnitudeVector, sep=""))
 			}
 			oldSplitPosition = splitPosition[i]
 		}
@@ -185,10 +190,12 @@ getSplitsForPrepareRow <- function (splitTime, splitMeanSpeed, splitMeanForce, s
 			if(decimalIsComma)
 			{
 				nameVector = c(nameVector, gsub("\\.",",",paste(splitPositionAll[i], timeVector, sep="")))
-				nameVector = c(nameVector, gsub("\\.",",",paste(dist, magnitudeVector, sep="")))
+				if (! is.null (splitMeanSpeed))
+					nameVector = c(nameVector, gsub("\\.",",",paste(dist, magnitudeVector, sep="")))
 			} else {
 				nameVector = c(nameVector, paste(splitPositionAll[i], timeVector, sep=""))
-				nameVector = c(nameVector, paste(dist, magnitudeVector, sep=""))
+				if (! is.null (splitMeanSpeed))
+					nameVector = c(nameVector, paste(dist, magnitudeVector, sep=""))
 			}
 			oldSplitPosition = splitPositionAll[i]
 		}

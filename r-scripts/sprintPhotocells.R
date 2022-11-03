@@ -234,7 +234,7 @@ drawSprintFromPhotocells <- function(sprintFittedDynamics, splitTimes, positions
         par(new=T)
         plot((sprintFittedDynamics$t.fitted - sprintFittedDynamics$T0), sprintFittedDynamics$v.fitted, type = "l", xlab="", ylab = "",
              ylim = c(0, max(c(avg.speeds, sprintFittedDynamics$Vmax) + 1)), xlim = xlims,
-             yaxs= "i", xaxs = "i", axis = F) # Fitted data
+             yaxs= "i", xaxs = "i", axes = F) # Fitted data
         axis(2, at = seq(0, sprintFittedDynamics$Vmax + 1, by = 1))
         abline(h = sprintFittedDynamics$Vmax, lty = 2)
         mtext(side = 1, line = 3, at = splitTimes[length(splitTimes)]*0.25, cex = 1.5 , substitute(v(t) == Vmax*(1-e^(-K*t)), list(Vmax="Vmax", K="K")))

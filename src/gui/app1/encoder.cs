@@ -2275,6 +2275,7 @@ public partial class ChronoJumpWindow
 			exportString = Catalog.GetString ("Export repetition in CSV format");
 		else if(checkFileOp == Constants.CheckFileOp.ENCODER_ANALYZE_SAVE_TABLE ||
 				checkFileOp == Constants.CheckFileOp.ENCODER_ANALYZE_SAVE_TABLE_CURRENT_SESSION ||
+				checkFileOp == Constants.CheckFileOp.RUNS_SPRINT_SAVE_TABLE ||
 				checkFileOp == Constants.CheckFileOp.RUNENCODER_ANALYZE_SAVE_TABLE)
 			exportString = Catalog.GetString ("Save table");
 
@@ -2415,6 +2416,8 @@ public partial class ChronoJumpWindow
 		else if(checkFileOp == Constants.CheckFileOp.ENCODER_ANALYZE_SAVE_TABLE ||
 				checkFileOp == Constants.CheckFileOp.ENCODER_ANALYZE_SAVE_TABLE_CURRENT_SESSION)
 			nameString += "_encoder_curves_table.csv";
+		else if(checkFileOp == Constants.CheckFileOp.RUNS_SPRINT_SAVE_TABLE)
+			nameString += "_runs_sprint_table.csv";
 		else if(checkFileOp == Constants.CheckFileOp.RUNENCODER_ANALYZE_SAVE_TABLE)
 			nameString += "_raceAnalyzer_table.csv";
 
@@ -2437,6 +2440,7 @@ public partial class ChronoJumpWindow
 			if(checkFileOp == Constants.CheckFileOp.ENCODER_CAPTURE_EXPORT_ALL ||
 					checkFileOp == Constants.CheckFileOp.ENCODER_ANALYZE_SAVE_AB ||
 					checkFileOp == Constants.CheckFileOp.FORCESENSOR_ANALYZE_SAVE_AB ||
+					checkFileOp == Constants.CheckFileOp.RUNS_SPRINT_SAVE_TABLE ||
 					checkFileOp == Constants.CheckFileOp.RUNS_SPRINT_EXPORT_INDIVIDUAL_CURRENT_SESSION_NO_IMAGES ||
 					checkFileOp == Constants.CheckFileOp.RUNS_SPRINT_EXPORT_INDIVIDUAL_ALL_SESSIONS_NO_IMAGES ||
 					checkFileOp == Constants.CheckFileOp.RUNS_SPRINT_EXPORT_GROUPAL_CURRENT_SESSION_NO_IMAGES ||
@@ -2504,6 +2508,9 @@ public partial class ChronoJumpWindow
 					else if(checkFileOp == Constants.CheckFileOp.RUNS_SPRINT_SAVE_IMAGE)
 						confirmWin.Button_accept.Clicked +=
 							new EventHandler(on_overwrite_file_runs_sprint_save_image_accepted);
+					else if(checkFileOp == Constants.CheckFileOp.RUNS_SPRINT_SAVE_TABLE)
+						confirmWin.Button_accept.Clicked +=
+							new EventHandler(on_overwrite_file_runs_sprint_save_table_accepted);
 					else if(checkFileOp == Constants.CheckFileOp.ENCODER_CAPTURE_SAVE_IMAGE)
 						confirmWin.Button_accept.Clicked +=
 							new EventHandler(on_overwrite_file_encoder_capture_save_image_accepted);
@@ -2585,6 +2592,8 @@ public partial class ChronoJumpWindow
 						on_button_runs_evolution_save_image_selected (exportFileName);
 					else if(checkFileOp == Constants.CheckFileOp.RUNS_SPRINT_SAVE_IMAGE)
 						on_button_runs_sprint_save_image_selected (exportFileName);
+					else if(checkFileOp == Constants.CheckFileOp.RUNS_SPRINT_SAVE_TABLE)
+						on_button_runs_sprint_save_table_selected (exportFileName);
 					else if(checkFileOp == Constants.CheckFileOp.ENCODER_CAPTURE_SAVE_IMAGE)
 						on_button_encoder_capture_save_image_file_selected (exportFileName);
 					else if(checkFileOp == Constants.CheckFileOp.ENCODER_CAPTURE_EXPORT_ALL)

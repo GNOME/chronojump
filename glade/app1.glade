@@ -21317,6 +21317,12 @@ Concentric</property>
                                                             <child>
                                                             <placeholder/>
                                                             </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -22638,6 +22644,11 @@ Concentric</property>
                                                             </packing>
                                                             </child>
                                                             <child>
+                                                            <widget class="GtkNotebook" id="notebook_sprint_analyze_current_set">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">True</property>
+                                                            <property name="tab_pos">bottom</property>
+                                                            <child>
                                                             <widget class="GtkHBox" id="hbox291">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
@@ -22727,9 +22738,121 @@ Concentric</property>
                                                             </packing>
                                                             </child>
                                                             </widget>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label680">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="label" translatable="yes">Show graph</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="tab_fill">False</property>
+                                                            <property name="type">tab</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkHBox" id="hbox585">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="spacing">2</property>
+                                                            <child>
+                                                            <widget class="GtkScrolledWindow" id="scrolledwindow_sprint">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">True</property>
+                                                            <property name="hscrollbar_policy">automatic</property>
+                                                            <property name="vscrollbar_policy">automatic</property>
+                                                            <child>
+                                                            <widget class="GtkTreeView" id="treeview_sprint">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">True</property>
+                                                            </widget>
+                                                            </child>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkVBox" id="vbox277">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <child>
+                                                            <widget class="GtkButton" id="button_sprint_table_save">
+                                                            <property name="visible">True</property>
+                                                            <property name="sensitive">False</property>
+                                                            <property name="can_focus">True</property>
+                                                            <property name="receives_default">True</property>
+                                                            <property name="tooltip" translatable="yes">Save table</property>
+                                                            <signal name="clicked" handler="on_button_sprint_table_save_clicked" swapped="no"/>
+                                                            <child>
+                                                            <widget class="GtkVBox" id="vbox285">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="spacing">4</property>
+                                                            <child>
+                                                            <widget class="GtkImage" id="image_sprint_table_save_grid">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="stock">gtk-missing-image</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkImage" id="image_sprint_table_save_disk">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="stock">gtk-missing-image</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            </widget>
+                                                            </child>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="pack_type">end</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label681">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="label" translatable="yes">Show table</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="position">1</property>
+                                                            <property name="tab_fill">False</property>
+                                                            <property name="type">tab</property>
+                                                            </packing>
+                                                            </child>
+                                                            </widget>
                                                             <packing>
                                                             <property name="resize">True</property>
-                                                            <property name="shrink">False</property>
+                                                            <property name="shrink">True</property>
                                                             </packing>
                                                             </child>
                                                             </widget>
@@ -25135,6 +25258,12 @@ Concentric</property>
                                                             <property name="x_options"/>
                                                             <property name="y_options">GTK_SHRINK</property>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>
@@ -43014,6 +43143,12 @@ then click this button.</property>
                                                             <child>
                                                             <placeholder/>
                                                             </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -51044,6 +51179,12 @@ Since Chronojump 2.1.3, backups contain the complete data.</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="column_spacing">10</property>
                                                             <property name="row_spacing">10</property>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
                                                             <child>
                                                             <placeholder/>
                                                             </child>

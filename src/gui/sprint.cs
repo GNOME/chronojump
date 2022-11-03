@@ -15,11 +15,12 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2017,2021   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2017,2022   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
 using System.IO;
+using System.Threading;
 using Gtk;
 using Glade;
 using System.Text; //StringBuilder
@@ -44,6 +45,8 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_sprint_analyze_individual_all_sessions;
 	[Widget] Gtk.Image image_sprint_analyze_groupal_current_session;
 	[Widget] Gtk.Notebook notebook_sprint_analyze_top;
+	[Widget] Gtk.TreeView treeview_sprint;
+	[Widget] Gtk.Button button_sprint_table_save;
 
 	//export
 	[Widget] Gtk.Notebook notebook_sprint_export;
@@ -67,6 +70,7 @@ public partial class ChronoJumpWindow
 		button_sprint.Sensitive = false;
 		image_sprint.Sensitive = false;
 		button_sprint_save_image.Sensitive = false;
+		button_sprint_table_save.Sensitive = false;
 
 		tv.HeadersVisible=true;
 
@@ -249,8 +253,9 @@ public partial class ChronoJumpWindow
 		}
 
 		Util.FileDelete(UtilEncoder.GetSprintImage());
-
 		image_sprint.Sensitive = false;
+		button_sprint_table_save.Sensitive = false;
+		treeview_sprint = UtilGtk.RemoveColumns (treeview_sprint);
 
 		bool success = sprintRGraph.CallR(
 				viewport_sprint.Allocation.Width -5,
@@ -270,7 +275,29 @@ public partial class ChronoJumpWindow
 				image_sprint);
 		image_sprint.Sensitive = true;
 		button_sprint_save_image.Sensitive = true;
+
+		//csv
+		Thread.Sleep (250); //Wait a bit to ensure the csv is done
+		string contents = Util.ReadFile (RunInterval.GetCSVResultsURL(), false);
+		/*
+		   maybe captured data was too low or two different than an sprint.
+		   Then we have image but maybe we have no sprintResults.csv
+		   Length < 10 is written because on a model too short R can just return ""
+		   */
+		if(contents == null || contents == "" || contents.Length < 10)
+			return false;
+		else {
+			createTreeViewAnalyzeSprint (contents);
+
+			button_sprint_table_save.Sensitive = true;
+		}
+
 		return true;
+	}
+
+	private void on_button_sprint_table_save_clicked (object o, EventArgs args)
+	{
+		checkFile(Constants.CheckFileOp.RUNS_SPRINT_SAVE_TABLE);
 	}
 
 	private void on_button_sprint_save_image_clicked (object o, EventArgs args)
@@ -297,6 +324,158 @@ public partial class ChronoJumpWindow
 		new DialogMessage(Constants.MessageTypes.INFO, myString);
 	}
 
+	private void on_button_runs_sprint_save_table_selected (string destination)
+	{
+		try {
+			//this overwrites if needed
+			TextWriter writer = File.CreateText(destination);
+
+			string sep = " ";
+			if (preferences.CSVExportDecimalSeparator == "COMMA")
+				sep = ";";
+			else
+				sep = ",";
+
+			string contents = Util.ReadFile(RunInterval.GetCSVResultsURL(), false);
+
+			//write header
+			writer.WriteLine(Util.RemoveNewLine(Util.StringArrayToString(
+							getTreeviewSprintHeaders (contents), sep), true));
+
+			SprintCSV csv = readSprintCSVContents (contents);
+
+			writer.WriteLine (csv.ToCSV (preferences.CSVExportDecimalSeparator));
+
+			writer.Flush();
+			writer.Close();
+			((IDisposable)writer).Dispose();
+		} catch {
+			string myString = string.Format(
+					Catalog.GetString("Cannot save file {0} "), destination);
+			new DialogMessage(Constants.MessageTypes.WARNING, myString);
+		}
+	}
+
+	private void on_overwrite_file_runs_sprint_save_table_accepted(object o, EventArgs args)
+	{
+		on_button_runs_sprint_save_table_selected (exportFileName);
+
+		string myString = string.Format(Catalog.GetString("Saved to {0}"), exportFileName);
+		new DialogMessage(Constants.MessageTypes.INFO, myString);
+	}
+
+	//note this is almost the same than runEncoder
+	private void createTreeViewAnalyzeSprint (string contents)
+	{
+		// 1) read the contents of the CSV
+		SprintCSV csv = readSprintCSVContents (contents);
+
+		// 2) Add the columns to the treeview
+		string [] columnsString = getTreeviewSprintHeaders (contents);
+		int count = 0;
+		foreach(string column in columnsString)
+			treeview_sprint.AppendColumn (column, new CellRendererText(), "text", count++);
+
+		// 3) Add the TreeStore
+		Type [] types = new Type [columnsString.Length];
+		for (int i=0; i < columnsString.Length; i++) {
+			types[i] = typeof (string);
+		}
+		TreeStore store = new TreeStore(types);
+
+		store.AppendValues (csv.ToTreeView());
+
+		// 4) Assing model to store and other tweaks
+		treeview_sprint.Model = store;
+		treeview_sprint.Selection.Mode = SelectionMode.None;
+                treeview_sprint.HeadersVisible=true;
+	}
+
+	//note this is almost the same than runEncoder
+	private string [] getTreeviewSprintHeaders (string contents)
+        {
+		// 1) check how many dist columns we should add
+		List<string> dist_l = new List<string> ();
+		using (StringReader reader = new StringReader (contents))
+		{
+			string line = reader.ReadLine ();      //headers
+			LogB.Information(line);
+			if (line != null)
+			{
+				string [] cells = line.Split(new char[] {';'});
+				dist_l = new List<string> ();
+				for (int i = 26; i < cells.Length; i ++) //Attention!: take care with this 26 if in the future add more columns before dist/times
+				{
+					//each string comes as "X0Y25.5m_Speed" convert to 0-25.5 m\nSpeed or 0-25,5 m/nSpeed
+					string temp = Util.RemoveChar (cells[i], '"', false);
+					temp = Util.RemoveChar (temp, 'X', false);
+					temp = Util.ChangeChars (temp, "Y", "-");
+					temp = Util.ChangeDecimalSeparator (temp);
+					temp = Util.ChangeChars (temp, "_", "\n");
+
+					dist_l.Add (temp);
+				}
+			}
+		}
+
+		// 2) prepare the headers
+                string [] headers = {
+			"Mass\n\n(Kg)", "Height\n\n(m)", "Temperature\n\n(ºC)",
+			"V (wind)\n\n(m/s)", "Ka\n\n", "K\nfitted\n(s^-1)",
+			"Vmax\nfitted\n(m/s)", "Amax\nfitted\n(m/s^2)", "Fmax\nfitted\n(N)",
+			"Fmax\nrel fitted\n(N/Kg)", "Sfv\nfitted\n", "Sfv\nrel fitted\n",
+			"Sfv\nlm\n", "Sfv\nrel lm\n", "Pmax\nfitted\n(W)",
+			"Pmax\nrel fitted\n(W/Kg)", "Time to pmax\nfitted\n(s)", "F0\n\n(N)",
+			"F0\nrel\n(N/Kg)", "V0\n\n(m/s)", "Pmax\nlm\n(W)",
+			"Pmax\nrel lm\n(W/Kg)"
+		};
+
+		// 3) add the dists to the headers
+		headers = Util.AddToArrayString (headers, dist_l);
+
+		return headers;
+	}
+
+	//note this is almost the same than runEncoder
+	//right now it only returns one line
+	private SprintCSV readSprintCSVContents (string contents)
+	{
+		SprintCSV csv = new SprintCSV();
+		string line;
+		using (StringReader reader = new StringReader (contents))
+		{
+			line = reader.ReadLine ();      //headers
+			do {
+				line = reader.ReadLine ();
+				LogB.Information(line);
+				if (line == null)
+					break;
+
+				string [] cells = line.Split(new char[] {';'});
+
+				// get the times (total columns can be different each time)
+				List<double> time_l = new List<double> ();
+				for (int i = 26; i < cells.Length; i ++) //Attention! take care with this 26 if in the future add more columns before dist/times
+					time_l.Add (Convert.ToDouble (cells[i]));
+
+				csv = new SprintCSV (
+						Convert.ToDouble(cells[0]), Convert.ToDouble(cells[1]), Convert.ToInt32(cells[2]),
+						Convert.ToDouble(cells[3]), Convert.ToDouble(cells[4]), Convert.ToDouble(cells[5]),
+						Convert.ToDouble(cells[6]), Convert.ToDouble(cells[7]), Convert.ToDouble(cells[8]),
+						Convert.ToDouble(cells[9]), Convert.ToDouble(cells[10]), Convert.ToDouble(cells[11]),
+						Convert.ToDouble(cells[12]), Convert.ToDouble(cells[13]), Convert.ToDouble(cells[14]),
+						Convert.ToDouble(cells[15]), Convert.ToDouble(cells[16]), Convert.ToDouble(cells[17]),
+						Convert.ToDouble(cells[18]), Convert.ToDouble(cells[19]), Convert.ToDouble(cells[20]),
+						Convert.ToDouble(cells[21]),
+						Convert.ToDouble(cells[22]), Convert.ToDouble(cells[23]), //vmax raw, amax raw //both unused
+						Convert.ToDouble(cells[24]), Convert.ToDouble(cells[25]), //fmax raw, pmax raw //both unused
+						time_l
+						);
+			} while(true);
+		}
+
+		return csv;
+	}
 
 	//move to export gui file
 

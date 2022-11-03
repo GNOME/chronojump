@@ -814,36 +814,8 @@ public class RunEncoderExercise
 }
 
 //results coming from analyze (load) using R. To be published on exportable table
-public class RunEncoderCSV
+public class RunEncoderCSV : RexportedCSV
 {
-	public double Mass;
-	public double Height;
-	public int Temperature;
-	public double Vw;
-	public double Ka;
-	public double K_fitted;
-	public double Vmax_fitted;
-	public double Amax_fitted;
-	public double Fmax_fitted;
-	public double Fmax_rel_fitted;
-	public double Sfv_fitted;
-	public double Sfv_rel_fitted;
-	public double Sfv_lm;
-	public double Sfv_rel_lm;
-	public double Pmax_fitted;
-	public double Pmax_rel_fitted;
-	public double Tpmax_fitted;
-	public double F0;
-	public double F0_rel;
-	public double V0;
-	public double Pmax_lm;
-	public double Pmax_rel_lm;
-	public double Vmax_raw;
-	public double Amax_raw;
-	public double Fmax_raw;
-	public double Pmax_raw;
-	public List<double> time_l;
-
 	public RunEncoderCSV ()
 	{
 	}
@@ -879,65 +851,6 @@ public class RunEncoderCSV
 		this.Fmax_raw = fmax_raw;
 		this.Pmax_raw = pmax_raw;
 		this.time_l = time_l;
-	}
-
-	public string [] ToTreeView()
-	{
-		string [] strArray = new string [] {
-			Util.TrimDecimals(Mass, 1),
-				Util.TrimDecimals(Height, 1),
-				Temperature.ToString(),
-				Util.TrimDecimals(Vw, 3),
-				Util.TrimDecimals(Ka, 3),
-				Util.TrimDecimals(K_fitted, 3),
-				Util.TrimDecimals(Vmax_fitted, 3),
-				Util.TrimDecimals(Amax_fitted, 3),
-				Util.TrimDecimals(Fmax_fitted, 3),
-				Util.TrimDecimals(Fmax_rel_fitted, 3),
-				Util.TrimDecimals(Sfv_fitted, 3),
-				Util.TrimDecimals(Sfv_rel_fitted, 3),
-				Util.TrimDecimals(Sfv_lm, 3),
-				Util.TrimDecimals(Sfv_rel_lm, 3),
-				Util.TrimDecimals(Pmax_fitted, 3),
-				Util.TrimDecimals(Pmax_rel_fitted, 3),
-				Util.TrimDecimals(Tpmax_fitted, 3),
-				Util.TrimDecimals(F0, 3),
-				Util.TrimDecimals(F0_rel, 3),
-				Util.TrimDecimals(V0, 3),
-				Util.TrimDecimals(Pmax_lm, 3),
-				Util.TrimDecimals(Pmax_rel_lm, 3),
-				Util.TrimDecimals(Vmax_raw, 3),
-				Util.TrimDecimals(Amax_raw, 3),
-				Util.TrimDecimals(Fmax_raw, 3),
-				Util.TrimDecimals(Pmax_raw, 3)
-		};
-
-		//convert time_l to strings to add them to strArray
-		List<string> timeStr_l = new List<string> ();
-		foreach (double time in time_l)
-			timeStr_l.Add (Util.TrimDecimals (time, 3));
-		strArray = Util.AddToArrayString (strArray, timeStr_l);
-
-		return strArray;
-	}
-
-	public string ToCSV(string decimalSeparator)
-	{
-		//latin:	2,3 ; 2,5
-		//non-latin:	2.3 , 2.5
-
-		string sep = ":::";
-		string str = Util.StringArrayToString(ToTreeView(), sep);
-
-		if(decimalSeparator == "COMMA")
-			str = Util.ConvertToComma(str);
-		else
-			str = Util.ConvertToPoint(str);
-
-		if(decimalSeparator == "COMMA")
-			return Util.ChangeChars(str, ":::", ";");
-		else
-			return Util.ChangeChars(str, ":::", ",");
 	}
 }
 

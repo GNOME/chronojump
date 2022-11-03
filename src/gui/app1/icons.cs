@@ -275,6 +275,8 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_run_encoder_analyze_table_save_1;
 	[Widget] Gtk.Image image_sprint_analyze_image_save;
 	[Widget] Gtk.Image image_raceAnalyzer_table_save_grid;
+	[Widget] Gtk.Image image_sprint_table_save_disk;
+	[Widget] Gtk.Image image_sprint_table_save_grid;
 	[Widget] Gtk.Image image_raceAnalyzer_table_save_disk;
 	[Widget] Gtk.Image image_message_permissions_at_boot;
 	[Widget] Gtk.Image image_camera_at_boot;
@@ -834,6 +836,7 @@ public partial class ChronoJumpWindow
 		image_encoder_analyze_table_save.Pixbuf = pixbuf;
 		image_force_sensor_analyze_table_save.Pixbuf = pixbuf;
 		image_run_encoder_analyze_table_save.Pixbuf = pixbuf;
+		image_sprint_table_save_grid.Pixbuf = pixbuf;
 		image_raceAnalyzer_table_save_grid.Pixbuf = pixbuf;
 		image_session_export_csv1.Pixbuf = pixbuf;
 
@@ -906,6 +909,7 @@ public partial class ChronoJumpWindow
 		image_run_encoder_analyze_table_save_1.Pixbuf = pixbuf;
 		image_sprint_analyze_image_save.Pixbuf = pixbuf;
 		image_run_encoder_analyze_image_save_disk.Pixbuf = pixbuf;
+		image_sprint_table_save_disk.Pixbuf = pixbuf;
 		image_raceAnalyzer_table_save_disk.Pixbuf = pixbuf;
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_email.png");

@@ -156,7 +156,7 @@ public class ClassVariance
 			return (string.Format ("Prop: {0}, valA: {1}, valB: {2}", Prop, valA, valB));
 		}
 		//TODO: maybe have ToStringA and ToStringB to print both side by side, eg:
-		public override string ToStringA ()
+		public string ToStringA ()
 		{
 			return (string.Format ("Prop: {0}, valA: {1}", Prop, valA));
 		}

@@ -159,9 +159,9 @@ public class PersonRecuperateWindow {
 
 	private void fillTreeView (Gtk.TreeView tv, TreeStore store, string searchFilterName) 
 	{
-		int except = currentSession.UniqueID;
+		int exceptSession = currentSession.UniqueID;
 		int inSession = -1;	//search persons for recuperating in all sessions
-		ArrayList myPersons = SqlitePerson.SelectAllPersonsRecuperable("name", except, inSession, searchFilterName); 
+		ArrayList myPersons = SqlitePerson.SelectAllPersonsRecuperable("name", exceptSession, inSession, searchFilterName);
 		
 		foreach (Person person in myPersons) {
 			store.AppendValues (
@@ -500,9 +500,9 @@ public class PersonsRecuperateFromOtherSessionWindow : PersonRecuperateWindow
 	}
 
 	
-	private void fillTreeView (Gtk.TreeView tv, TreeStore store, int except, int inSession) 
+	private void fillTreeView (Gtk.TreeView tv, TreeStore store, int exceptSession, int inSession)
 	{
-		ArrayList myPersons = SqlitePerson.SelectAllPersonsRecuperable("name", except, inSession, ""); //"" is searchFilterName (not implemented on recuperate multiple)
+		ArrayList myPersons = SqlitePerson.SelectAllPersonsRecuperable("name", exceptSession, inSession, ""); //"" is searchFilterName (not implemented on recuperate multiple)
 
 		foreach (Person person in myPersons) {
 			store.AppendValues (

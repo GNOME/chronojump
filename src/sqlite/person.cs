@@ -181,12 +181,12 @@ class SqlitePerson : Sqlite
 		return myArray;
 	}
 		
-	public static ArrayList SelectAllPersonsRecuperable(string sortedBy, int except, int inSession, string searchFilterName) 
+	public static ArrayList SelectAllPersonsRecuperable(string sortedBy, int exceptSession, int inSession, string searchFilterName)
 	{
 		//sortedBy = name or uniqueID (= creation date)
 	
 
-		//1st select all the person.uniqueID of people who are in CurrentSession (or none if except == -1)
+		//1st select all the person.uniqueID of people who are in CurrentSession (or none if exceptSession == -1)
 		//2n select all names in database (or in one session if inSession != -1)
 		//3d filter all names (save all found in 2 that is not in 1)
 		//
@@ -200,7 +200,7 @@ class SqlitePerson : Sqlite
 		Sqlite.Open();
 		dbcmd.CommandText = "SELECT " + tp + ".uniqueID " +
 			" FROM " + tp + "," + tps +
-			" WHERE " + tps + ".sessionID == " + except + 
+			" WHERE " + tps + ".sessionID == " + exceptSession +
 			" AND " + tp + ".uniqueID == " + tps + ".personID "; 
 		LogB.SQL(dbcmd.CommandText.ToString());
 		

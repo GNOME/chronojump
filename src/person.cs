@@ -171,17 +171,25 @@ public class Person
 	}
 
 	//personToMerge will be merged with currentPerson
-	public void MergeWithAnotherGetConflicts (Person personToMerge)
+	public List<ClassVariance.Struct> MergeWithAnotherGetConflicts (Person personToMerge)
 	{
 		List<ClassVariance> v_l = this.DetailedCompare (
 				personToMerge, ClassCompare.Visibility.PUBLICANDPRIVATE);
 
+		List<ClassVariance.Struct> propDiff_l = new List<ClassVariance.Struct> ();
 		if (v_l.Count > 0)
 		{
 			LogB.Information ("Differences found between persons:");
 			foreach (ClassVariance v in v_l)
-				LogB.Information (v.ToString());
+			{
+				//LogB.Information (v.ToString()); //debug
+				//don't add the uniqueID, Obviously it is different
+				if (v.Prop != "uniqueID")
+					propDiff_l.Add (v.GetStruct ());
+			}
 		}
+
+		return propDiff_l;
 	}
 	
 	//some "set"s are needed. If not data of personSession does not arrive to the server

@@ -155,10 +155,15 @@ public class ClassVariance
 		{
 			return (string.Format ("Prop: {0}, valA: {1}, valB: {2}", Prop, valA, valB));
 		}
-		//TODO: maybe have ToStringA and ToStringB to print both side by side, eg:
+
+		//to print both side by side, eg:
 		public string ToStringA ()
 		{
 			return (string.Format ("Prop: {0}, valA: {1}", Prop, valA));
+		}
+		public string ToStringB ()
+		{
+			return (string.Format ("Prop: {0}, valB: {1}", Prop, valB));
 		}
 
 	}

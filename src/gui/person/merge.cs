@@ -33,6 +33,7 @@ public partial class ChronoJumpWindow
 		if (currentPerson == null || currentPersonSession == null)
 			return;
 
+		/*
 		Person personToMerge = SqlitePerson.Select (false, 752);
 		
 		if (personToMerge == null)
@@ -58,7 +59,12 @@ public partial class ChronoJumpWindow
 		//personSession
 		List<PersonSession> psCurrentPerson_l = SqlitePersonSession.SelectPersonSessionList (currentPerson.UniqueID, -1);
 		List<PersonSession> psMergePerson_l = SqlitePersonSession.SelectPersonSessionList (752, -1);
+
+
+		//Diffs on each session, the top list is each session
 		List<List<ClassVariance.Struct>> psDiffAllSessions_l = new List<List<ClassVariance.Struct>> ();
+		//List of this sessions, to match name on printed table
+		//List<Session> sessionsDiff_l = new List<Session> ();
 
 		foreach (PersonSession psCurrentPerson in psCurrentPerson_l)
 			foreach (PersonSession psMergePerson in psMergePerson_l)
@@ -72,13 +78,15 @@ public partial class ChronoJumpWindow
 							LogB.Information (cvs.ToString ());
 
 						psDiffAllSessions_l.Add (psDiffThisSession_l);
+						//sessionDiff_l.Add (
 					}
 				}
 			}
+			*/
 
 		personMergeWin = PersonMergeWindow.Show (app1,
-                                currentSession.UniqueID, currentPerson, preferences.colorBackground,
-				pDiff_l, psDiffAllSessions_l);
+                                currentSession.UniqueID, currentPerson, preferences.colorBackground);//,
+				//pDiff_l, psDiffAllSessions_l);
 	}
 }
 
@@ -162,16 +170,16 @@ public class PersonMergeWindow
 
 	static public PersonMergeWindow Show (Gtk.Window parent,
 			int sessionID, Person currentPerson,
-			Gdk.Color colorBackground,
-			List<ClassVariance.Struct> pDiff_l,
-			List<List<ClassVariance.Struct>> psDiffAllSessions_l)
+			Gdk.Color colorBackground/*,
+			List<ClassVariance.Struct> pDiff_l),
+			//List<List<ClassVariance.Struct>> psDiffAllSessions_l*/)
 	{
 		if (PersonMergeWindowBox == null) {
 			PersonMergeWindowBox = new PersonMergeWindow (parent, sessionID, currentPerson);
 		}
 
-		PersonMergeWindowBox.pDiff_l = pDiff_l;
-		PersonMergeWindowBox.psDiffAllSessions_l = psDiffAllSessions_l;
+		//PersonMergeWindowBox.pDiff_l = pDiff_l;
+		//PersonMergeWindowBox.psDiffAllSessions_l = psDiffAllSessions_l;
 
 		PersonMergeWindowBox.hbox_session_radios.Visible = true;
 		PersonMergeWindowBox.hbox_filter.Visible = PersonMergeWindowBox.radio_session_all.Active;
@@ -200,7 +208,7 @@ public class PersonMergeWindow
 		if (entry_filter != null && entry_filter.Text != "")
 			filter = entry_filter.Text;
 
-		ArrayList myPersonsAll = SqlitePerson.SelectAllPersonsRecuperable("name", -1, inSession, filter);
+		ArrayList myPersonsAll = SqlitePerson.SelectAllPersonsRecuperable ("name", -1, inSession, filter);
 
 		//discard current person
 		ArrayList myPersons = new ArrayList ();
@@ -265,15 +273,79 @@ public class PersonMergeWindow
 		on_combo_persons_changed (0, new EventArgs ());	//called for updating the widgets ifcombo_persons.Entry changed
 	}
 
+	//check the diffs to do the merge
 	private void on_button_accept_clicked (object o, EventArgs args)
 	{
-		createTable ();
+		//get the person to merge
+		string [] strFull = UtilGtk.ComboGetActive(combo_persons).Split (new char[] {':'});
+		if (strFull.Length != 2)
+			return;
 
+		if (! Util.IsNumber (strFull[0], false))
+			return;
+
+		int personToMergeID = Convert.ToInt32(strFull[0]);
+		Person personToMerge = SqlitePerson.Select (false, personToMergeID);
+
+		if (personToMerge == null)
+			return;
+
+		//person
+		pDiff_l = currentPerson.MergeWithAnotherGetConflicts (personToMerge);
+		/*
+		   debug
+		if (pDiff_l.Count > 0)
+		{
+			foreach (ClassVariance.Struct cvs in pDiff_l)
+			{
+				//LogB.Information (cvs.ToString ());
+				//like this the widgets will be managed in each row:
+				LogB.Information (string.Format ("Person diff row {0}", row));
+				LogB.Information (cvs.Prop.ToString ());
+				LogB.Information (cvs.valA.ToString ());
+				LogB.Information (cvs.valB.ToString ());
+			}
+		}
+		*/
+
+		//personSession
+		List<PersonSession> psCurrentPerson_l = SqlitePersonSession.SelectPersonSessionList (currentPerson.UniqueID, -1);
+		List<PersonSession> psMergePerson_l = SqlitePersonSession.SelectPersonSessionList (personToMergeID, -1);
+
+
+		//Diffs on each session, the top list is each session
+		psDiffAllSessions_l = new List<List<ClassVariance.Struct>> ();
+		//List of this sessions, to match name on printed table
+		//List<Session> sessionsDiff_l = new List<Session> ();
+
+		foreach (PersonSession psCurrentPerson in psCurrentPerson_l)
+			foreach (PersonSession psMergePerson in psMergePerson_l)
+			{
+				if (psCurrentPerson.SessionID == psMergePerson.SessionID)
+				{
+					List<ClassVariance.Struct> psDiffThisSession_l = psCurrentPerson.MergeWithAnotherGetConflicts (psMergePerson);
+					if (psDiffThisSession_l.Count > 0)
+					{
+						/*
+						   debug
+						foreach (ClassVariance.Struct cvs in psDiffThisSession_l)
+							LogB.Information (cvs.ToString ());
+							*/
+
+						psDiffAllSessions_l.Add (psDiffThisSession_l);
+						//sessionDiff_l.Add (
+					}
+				}
+			}
+
+		createTable ();
 		notebook.CurrentPage = 1;
 	}
 
 	private void createTable ()
 	{
+		//TODO: care if some of the lists are null
+
 		//person
 		uint row = 0;
 		if (pDiff_l.Count > 0)

@@ -316,6 +316,7 @@ RESOURCES = \
 	../glade/jump_type_add.glade \
 	../glade/jumps_runs_more.glade \
 	../glade/overview.glade \
+	../glade/person_merge.glade \
 	../glade/person_multiple_infinite.glade \
 	../glade/person_recuperate.glade \
 	../glade/person_select_window.glade \

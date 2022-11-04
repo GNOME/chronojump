@@ -477,6 +477,7 @@ public partial class ChronoJumpWindow
 	PersonAddModifyWindow personAddModifyWin; 
 	PersonAddMultipleWindow personAddMultipleWin;
 	PersonShowAllEventsWindow personShowAllEventsWin;
+	PersonMergeWindow personMergeWin;
 	PersonSelectWindow personSelectWin;
 	JumpsMoreWindow jumpsMoreWin;
 	JumpsRjMoreWindow jumpsRjMoreWin;
@@ -1063,6 +1064,17 @@ public partial class ChronoJumpWindow
 		//MovingAverage.TestCalculate();
 
 		//TestObjectsDifferences.Test ();
+
+		List<PersonSession> personSessionsXavi = SqlitePersonSession.SelectPersonSessionList(225, -1);
+		List<PersonSession> personSessionsChile = SqlitePersonSession.SelectPersonSessionList(-1, 156);
+
+		LogB.Information ("ps Xavi:");
+		foreach(PersonSession ps in personSessionsXavi)
+			LogB.Information (ps.ToString ());
+
+		LogB.Information ("ps Chile:");
+		foreach(PersonSession ps in personSessionsChile)
+			LogB.Information (ps.ToString ());
 	}
 
 

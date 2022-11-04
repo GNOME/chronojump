@@ -113,6 +113,7 @@ src/gui/old/queryServer.cs
 src/gui/overview.cs
 src/gui/person/addModify.cs
 src/gui/person/addMultiple.cs
+src/gui/person/merge.cs
 src/gui/person/recuperate.cs
 src/gui/person/showAllEvents.cs
 src/gui/preferences.cs

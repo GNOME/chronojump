@@ -65,9 +65,9 @@ public class PersonMergeWindow
 	[Widget] Gtk.Label label_persons_tests;
 	[Widget] Gtk.Label label_persons_confirm;
 	[Widget] Gtk.Image image_button_cancel;
-	[Widget] Gtk.Image image_button_cancel1;
+	[Widget] Gtk.Image image_button_back;
 	[Widget] Gtk.Image image_button_accept;
-	[Widget] Gtk.Image image_button_accept1;
+	[Widget] Gtk.Image image_button_merge;
 	[Widget] Gtk.Table table_diffs;
 	[Widget] Gtk.ScrolledWindow scrolledWin;
 
@@ -105,9 +105,9 @@ public class PersonMergeWindow
 		}
 
 		image_button_cancel.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_cancel.png");
-		image_button_cancel1.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_cancel.png");
+		image_button_back.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "arrow_back.png");
 		image_button_accept.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_done_blue.png");
-		image_button_accept1.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_done_blue.png");
+		image_button_merge.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "merge.png");
 
 		person_merge.Parent = parent;
 		this.sessionID = sessionID;
@@ -191,7 +191,7 @@ public class PersonMergeWindow
 
 		label_persons_identify.Text = string.Format (Catalog.GetString ("Merge persons '{0}' with '{1}' in all sessions."), currentPerson.Name, strFull[1]);
 		label_persons_tests.Text = string.Format (Catalog.GetString ("All tests of person '{0}' will be assigned to person '{1}'."), strFull[1], currentPerson.Name);
-		label_persons_confirm.Text = Catalog.GetString ("Are you sure?");
+		//label_persons_confirm.Text = Catalog.GetString ("Are you sure?");
 	}
 
 	private void on_radio_session_toggled (object o, EventArgs args)
@@ -302,7 +302,8 @@ public class PersonMergeWindow
 		createPersonNamesRow (currentPerson.Name, personToMerge.Name, row++);
 		if (pDiff_l.Count > 0)
 		{
-			createTitleRow ("\n", "\n<b>Differences between persons</b>", row++);
+			//createTitleRow ("\n", "\n<b>Differences between persons</b>", row++);
+			createTitleRow ("\n", "\n Differences between persons ", row++);
 			createPersonRadiosRow (row ++);
 			row = createRowsForDiff (pDiff_l, row);
 		}
@@ -311,7 +312,9 @@ public class PersonMergeWindow
 		int count = 0;
 		foreach (List<ClassVariance.Struct> cvs_l in psDiffAllSessions_l)
 		{
-			createTitleRow ("\nDifferences in session:", string.Format ("\n<b>{0}</b>", sessionDiff_l[count ++].Name), row++);
+			//createTitleRow ("\nDifferences in session:", string.Format ("\n<b>{0}</b>", sessionDiff_l[count ++].Name), row++);
+			createTitleRow ("\nDifferences in session:", string.Format ("\n {0} ({1}) ", sessionDiff_l[count].Name, sessionDiff_l[count].DateShort), row++);
+			count ++;
 			createPersonSessionRadiosRow (row ++);
 			row = createRowsForDiff (cvs_l, row);
 		}
@@ -410,7 +413,7 @@ public class PersonMergeWindow
 		PersonMergeWindowBox = null;
 	}
 
-	private void on_button_cancel_diffs_clicked (object o, EventArgs args)
+	private void on_button_back_clicked (object o, EventArgs args)
 	{
 		notebook.CurrentPage = 0;
 	}

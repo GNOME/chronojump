@@ -364,16 +364,16 @@ public class PersonMergeWindow
 		uint row = 0;
 		if (pDiff_l.Count > 0)
 		{
-			createTitleRow ("Differences between persons", row++);
-			createRow (pDiff_l, row++);
+			createTitleRow ("<b>Differences between persons</b>", row++);
+			row = createRowsForDiff (pDiff_l, row);
 		}
 
 		//personSession
 		int count = 0;
 		foreach (List<ClassVariance.Struct> cvs_l in psDiffAllSessions_l)
 		{
-			createTitleRow (sessionDiff_l[count ++].Name, row++);
-			createRow (cvs_l, row++);
+			createTitleRow (string.Format ("\nDifferences in session: <b>{0}</b>", sessionDiff_l[count ++].Name), row++);
+			row = createRowsForDiff (cvs_l, row);
 		}
 
 		table_diffs.ShowAll ();
@@ -382,36 +382,26 @@ public class PersonMergeWindow
 	//each personSession row has first a combined row with session title
 	private void createTitleRow (string title, uint row)
 	{
-		Gtk.Label l = new Gtk.Label ("\n<b>" + title + "</b>");
+		Gtk.Label l = new Gtk.Label (title);
 		l.UseMarkup = true;
 		table_diffs.Attach (l, 0, 3, row, row+1, Gtk.AttachOptions.Expand, Gtk.AttachOptions.Fill, padding, padding);
 	}
 
-	private void createRow (List<ClassVariance.Struct> cvs_l, uint row)
+	private uint createRowsForDiff (List<ClassVariance.Struct> cvs_l, uint row)
 	{
-		string personPropStr = "";
-		string personAStr = "";
-		string personBStr = "";
-		string sep = "";
-
 		foreach (ClassVariance.Struct cvs in cvs_l)
 		{
-			personPropStr += sep + cvs.Prop;
-			personAStr += sep + cvs.valA.ToString ();
-			personBStr += sep + cvs.valB.ToString ();
-			sep = "\n";
+			Gtk.Label lPersonProp = new Gtk.Label (cvs.Prop);
+			Gtk.Label lPersonVarA = new Gtk.Label (cvs.valA.ToString ());
+			Gtk.Label lPersonVarB = new Gtk.Label (cvs.valB.ToString ());
 
-			//LogB.Information  (string.Format ("Prop: |{0}|", cvs.Prop));
-			//LogB.Information  (string.Format ("valA: |{0}|", cvs.valA));
+			table_diffs.Attach (lPersonProp, 0, 1, row, row+1, Gtk.AttachOptions.Fill, Gtk.AttachOptions.Fill, padding, padding);
+			table_diffs.Attach (lPersonVarA, 1, 2, row, row+1, Gtk.AttachOptions.Fill, Gtk.AttachOptions.Fill, padding, padding);
+			table_diffs.Attach (lPersonVarB, 2, 3, row, row+1, Gtk.AttachOptions.Fill, Gtk.AttachOptions.Fill, padding, padding);
+			row ++;
 		}
 
-		Gtk.Label lPersonProp = new Gtk.Label (personPropStr);
-		Gtk.Label lPersonVarA = new Gtk.Label (personAStr);
-		Gtk.Label lPersonVarB = new Gtk.Label (personBStr);
-
-		table_diffs.Attach (lPersonProp, 0, 1, row, row+1, Gtk.AttachOptions.Fill, Gtk.AttachOptions.Fill, padding, padding);
-		table_diffs.Attach (lPersonVarA, 1, 2, row, row+1, Gtk.AttachOptions.Fill, Gtk.AttachOptions.Fill, padding, padding);
-		table_diffs.Attach (lPersonVarB, 2, 3, row, row+1, Gtk.AttachOptions.Fill, Gtk.AttachOptions.Fill, padding, padding);
+		return row;
 	}
 
 	private void on_button_close_clicked (object o, EventArgs args)

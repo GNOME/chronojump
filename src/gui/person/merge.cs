@@ -129,6 +129,7 @@ public class PersonMergeWindow
 
 	List<ClassVariance.Struct> pDiff_l;
 	List<List<ClassVariance.Struct>> psDiffAllSessions_l;
+	List<Session> sessionDiff_l;
 
 	PersonMergeWindow (Gtk.Window parent, int sessionID, Person currentPerson)
 	{
@@ -276,7 +277,7 @@ public class PersonMergeWindow
 	//check the diffs to do the merge
 	private void on_button_accept_clicked (object o, EventArgs args)
 	{
-		//get the person to merge
+		// 1) get the person to merge
 		string [] strFull = UtilGtk.ComboGetActive(combo_persons).Split (new char[] {':'});
 		if (strFull.Length != 2)
 			return;
@@ -290,7 +291,7 @@ public class PersonMergeWindow
 		if (personToMerge == null)
 			return;
 
-		//person
+		// 2) person
 		pDiff_l = currentPerson.MergeWithAnotherGetConflicts (personToMerge);
 		/*
 		   debug
@@ -308,15 +309,19 @@ public class PersonMergeWindow
 		}
 		*/
 
-		//personSession
+		// 3) personSession
+		//select the personSessions where currentPerson and mergePerson are
 		List<PersonSession> psCurrentPerson_l = SqlitePersonSession.SelectPersonSessionList (currentPerson.UniqueID, -1);
 		List<PersonSession> psMergePerson_l = SqlitePersonSession.SelectPersonSessionList (personToMergeID, -1);
 
-
 		//Diffs on each session, the top list is each session
 		psDiffAllSessions_l = new List<List<ClassVariance.Struct>> ();
-		//List of this sessions, to match name on printed table
-		//List<Session> sessionsDiff_l = new List<Session> ();
+
+		//select all sessions to know session name of each sessionID returned by personSession. This will fill 
+		List<Session> session_l = SqliteSession.SelectAll (false, Sqlite.Orders_by.ID_DESC);
+
+		//List of sessions where there are differences on personSession, to match name on printed table
+		sessionDiff_l = new List<Session> ();
 
 		foreach (PersonSession psCurrentPerson in psCurrentPerson_l)
 			foreach (PersonSession psMergePerson in psMergePerson_l)
@@ -326,14 +331,22 @@ public class PersonMergeWindow
 					List<ClassVariance.Struct> psDiffThisSession_l = psCurrentPerson.MergeWithAnotherGetConflicts (psMergePerson);
 					if (psDiffThisSession_l.Count > 0)
 					{
-						/*
-						   debug
+						/* debug
 						foreach (ClassVariance.Struct cvs in psDiffThisSession_l)
 							LogB.Information (cvs.ToString ());
 							*/
 
-						psDiffAllSessions_l.Add (psDiffThisSession_l);
-						//sessionDiff_l.Add (
+						//as there are two different lists do this found check to ensure the two lists are same length
+						bool found = false;
+						foreach (Session session in session_l)
+							if (session.UniqueID == psCurrentPerson.SessionID)
+							{
+								sessionDiff_l.Add (session);
+								found = true;
+							}
+
+						if (found)
+							psDiffAllSessions_l.Add (psDiffThisSession_l);
 					}
 				}
 			}
@@ -349,21 +362,25 @@ public class PersonMergeWindow
 		//person
 		uint row = 0;
 		if (pDiff_l.Count > 0)
-			createRow (pDiff_l, row++);
+			createRow (pDiff_l, "", row++);
 
 		//personSession
+		int count = 0;
 		foreach (List<ClassVariance.Struct> cvs_l in psDiffAllSessions_l)
-			createRow (cvs_l, row++);
+			createRow (cvs_l, sessionDiff_l[count ++].Name, row++);
 
 		table_diffs.ShowAll ();
 	}
 
-	private void createRow (List<ClassVariance.Struct> cvs_l, uint row)
+	private void createRow (List<ClassVariance.Struct> cvs_l, string sessionName, uint row)
 	{
-		string personPropStr = "";
+		string personPropStr = sessionName;
 		string personAStr = "";
 		string personBStr = "";
-		string sep = "";
+
+		string sep = ""; //person diffs, no title on top of first cell (personPropStr)
+		if (sessionName != "")
+			sep = "\n"; //personSession diffs, on top of first cell personPropStr
 
 		foreach (ClassVariance.Struct cvs in cvs_l)
 		{

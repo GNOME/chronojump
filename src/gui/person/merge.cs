@@ -126,6 +126,7 @@ public class PersonMergeWindow
 
 	private int sessionID;
 	private Person currentPerson;
+	private uint padding = 4;
 
 	List<ClassVariance.Struct> pDiff_l;
 	List<List<ClassVariance.Struct>> psDiffAllSessions_l;
@@ -317,7 +318,7 @@ public class PersonMergeWindow
 		//Diffs on each session, the top list is each session
 		psDiffAllSessions_l = new List<List<ClassVariance.Struct>> ();
 
-		//select all sessions to know session name of each sessionID returned by personSession. This will fill 
+		//select all sessions to know session name of each sessionID returned by personSession. This will fill
 		List<Session> session_l = SqliteSession.SelectAll (false, Sqlite.Orders_by.ID_DESC);
 
 		//List of sessions where there are differences on personSession, to match name on printed table
@@ -362,25 +363,36 @@ public class PersonMergeWindow
 		//person
 		uint row = 0;
 		if (pDiff_l.Count > 0)
-			createRow (pDiff_l, "", row++);
+		{
+			createTitleRow ("Differences between persons", row++);
+			createRow (pDiff_l, row++);
+		}
 
 		//personSession
 		int count = 0;
 		foreach (List<ClassVariance.Struct> cvs_l in psDiffAllSessions_l)
-			createRow (cvs_l, sessionDiff_l[count ++].Name, row++);
+		{
+			createTitleRow (sessionDiff_l[count ++].Name, row++);
+			createRow (cvs_l, row++);
+		}
 
 		table_diffs.ShowAll ();
 	}
 
-	private void createRow (List<ClassVariance.Struct> cvs_l, string sessionName, uint row)
+	//each personSession row has first a combined row with session title
+	private void createTitleRow (string title, uint row)
 	{
-		string personPropStr = sessionName;
+		Gtk.Label l = new Gtk.Label ("\n<b>" + title + "</b>");
+		l.UseMarkup = true;
+		table_diffs.Attach (l, 0, 3, row, row+1, Gtk.AttachOptions.Expand, Gtk.AttachOptions.Fill, padding, padding);
+	}
+
+	private void createRow (List<ClassVariance.Struct> cvs_l, uint row)
+	{
+		string personPropStr = "";
 		string personAStr = "";
 		string personBStr = "";
-
-		string sep = ""; //person diffs, no title on top of first cell (personPropStr)
-		if (sessionName != "")
-			sep = "\n"; //personSession diffs, on top of first cell personPropStr
+		string sep = "";
 
 		foreach (ClassVariance.Struct cvs in cvs_l)
 		{
@@ -388,13 +400,15 @@ public class PersonMergeWindow
 			personAStr += sep + cvs.valA.ToString ();
 			personBStr += sep + cvs.valB.ToString ();
 			sep = "\n";
+
+			//LogB.Information  (string.Format ("Prop: |{0}|", cvs.Prop));
+			//LogB.Information  (string.Format ("valA: |{0}|", cvs.valA));
 		}
 
 		Gtk.Label lPersonProp = new Gtk.Label (personPropStr);
 		Gtk.Label lPersonVarA = new Gtk.Label (personAStr);
 		Gtk.Label lPersonVarB = new Gtk.Label (personBStr);
 
-		uint padding = 4;
 		table_diffs.Attach (lPersonProp, 0, 1, row, row+1, Gtk.AttachOptions.Fill, Gtk.AttachOptions.Fill, padding, padding);
 		table_diffs.Attach (lPersonVarA, 1, 2, row, row+1, Gtk.AttachOptions.Fill, Gtk.AttachOptions.Fill, padding, padding);
 		table_diffs.Attach (lPersonVarB, 2, 3, row, row+1, Gtk.AttachOptions.Fill, Gtk.AttachOptions.Fill, padding, padding);

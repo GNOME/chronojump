@@ -131,6 +131,8 @@ public class PersonMergeWindow
 	List<ClassVariance.Struct> pDiff_l;
 	List<List<ClassVariance.Struct>> psDiffAllSessions_l;
 	List<Session> sessionDiff_l;
+	List<RadioButton> psRadiosA_l;
+	List<RadioButton> psRadiosB_l;
 
 	PersonMergeWindow (Gtk.Window parent, int sessionID, Person currentPerson)
 	{
@@ -324,6 +326,10 @@ public class PersonMergeWindow
 		//List of sessions where there are differences on personSession, to match name on printed table
 		sessionDiff_l = new List<Session> ();
 
+		//List of personSession diffs radios to allow user choose one or the other
+		psRadiosA_l = new List<Gtk.RadioButton> ();
+		psRadiosB_l = new List<Gtk.RadioButton> ();
+
 		foreach (PersonSession psCurrentPerson in psCurrentPerson_l)
 			foreach (PersonSession psMergePerson in psMergePerson_l)
 			{
@@ -373,6 +379,7 @@ public class PersonMergeWindow
 		foreach (List<ClassVariance.Struct> cvs_l in psDiffAllSessions_l)
 		{
 			createTitleRow (string.Format ("\nDifferences in session: <b>{0}</b>", sessionDiff_l[count ++].Name), row++);
+			createRadiosRow (row ++);
 			row = createRowsForDiff (cvs_l, row);
 		}
 
@@ -385,6 +392,26 @@ public class PersonMergeWindow
 		Gtk.Label l = new Gtk.Label (title);
 		l.UseMarkup = true;
 		table_diffs.Attach (l, 0, 3, row, row+1, Gtk.AttachOptions.Expand, Gtk.AttachOptions.Fill, padding, padding);
+	}
+
+	private void createRadiosRow (uint row)
+	{
+		Gtk.Label l = new Gtk.Label ("");
+		Gtk.RadioButton radioA = new Gtk.RadioButton ("Use this values");
+		Gtk.RadioButton radioB = new Gtk.RadioButton (radioA, "Use this values");
+
+		//to have radios center aligned
+		Gtk.HBox hboxA = new Gtk.HBox (false, 1);
+		Gtk.HBox hboxB = new Gtk.HBox (false, 1);
+		hboxA.PackStart (radioA, true, false, 0);
+		hboxB.PackStart (radioB, true, false, 0);
+
+		table_diffs.Attach (l, 0, 1, row, row+1, Gtk.AttachOptions.Fill, Gtk.AttachOptions.Fill, padding, padding);
+		table_diffs.Attach (hboxA, 1, 2, row, row+1, Gtk.AttachOptions.Fill, Gtk.AttachOptions.Fill, padding, padding);
+		table_diffs.Attach (hboxB, 2, 3, row, row+1, Gtk.AttachOptions.Fill, Gtk.AttachOptions.Fill, padding, padding);
+
+		psRadiosA_l.Add (radioA);
+		psRadiosB_l.Add (radioB);
 	}
 
 	private uint createRowsForDiff (List<ClassVariance.Struct> cvs_l, uint row)

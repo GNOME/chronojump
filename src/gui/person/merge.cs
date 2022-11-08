@@ -420,11 +420,28 @@ public class PersonMergeWindow
 
 	private void on_button_merge_clicked (object o, EventArgs args)
 	{
+		// 0) debug
 		LogB.Information ( string.Format ("At person, use default radio? {0}", pRadioA.Active));
 
 		int count = 0;
 		foreach (Gtk.RadioButton r in psRadiosA_l)
-			LogB.Information ( string.Format ("At session {0} on list, use default radio? {1}", count ++, r.Active));
+		{
+			Session s = sessionDiff_l[count ++];
+			LogB.Information ( string.Format ("At session ({0}) {1} on list, use default radio? {2}", s.UniqueID, s.Name, r.Active));
+		}
+
+		// 1) changes in person table (using pDiff_l and pRadioA)
+		// 2) changes in personSession table (using psDiffAllSessions_l and psRadiosA_l)
+		// 3) changes in all tests tables (using just the personID)
+		// 3a) jump
+		// 3b) jumpRj
+		// 3c) run
+		// 3d) runInterval
+		// 3e) runEncoder
+		// 3f) forceSensor
+		// 3g) encoder
+		// 3h) encoder1RM
+		// unused (not needed) reaction time, pulse, multichronopic
 	}
 
 	private void on_delete_event (object o, DeleteEventArgs args)

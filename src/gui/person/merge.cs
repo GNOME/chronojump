@@ -33,60 +33,8 @@ public partial class ChronoJumpWindow
 		if (currentPerson == null || currentPersonSession == null)
 			return;
 
-		/*
-		Person personToMerge = SqlitePerson.Select (false, 752);
-		
-		if (personToMerge == null)
-			return;
-
-		//person
-		List<ClassVariance.Struct> pDiff_l = currentPerson.MergeWithAnotherGetConflicts (personToMerge);
-		if (pDiff_l.Count > 0)
-		{
-			int row = 0;
-			foreach (ClassVariance.Struct cvs in pDiff_l)
-			{
-				//LogB.Information (cvs.ToString ());
-				//like this the widgets will be managed in each row:
-				LogB.Information (string.Format ("Person diff row {0}", row));
-				LogB.Information (cvs.Prop.ToString ());
-				LogB.Information (cvs.valA.ToString ());
-				LogB.Information (cvs.valB.ToString ());
-				row ++;
-			}
-		}
-
-		//personSession
-		List<PersonSession> psCurrentPerson_l = SqlitePersonSession.SelectPersonSessionList (currentPerson.UniqueID, -1);
-		List<PersonSession> psMergePerson_l = SqlitePersonSession.SelectPersonSessionList (752, -1);
-
-
-		//Diffs on each session, the top list is each session
-		List<List<ClassVariance.Struct>> psDiffAllSessions_l = new List<List<ClassVariance.Struct>> ();
-		//List of this sessions, to match name on printed table
-		//List<Session> sessionsDiff_l = new List<Session> ();
-
-		foreach (PersonSession psCurrentPerson in psCurrentPerson_l)
-			foreach (PersonSession psMergePerson in psMergePerson_l)
-			{
-				if (psCurrentPerson.SessionID == psMergePerson.SessionID)
-				{
-					List<ClassVariance.Struct> psDiffThisSession_l = psCurrentPerson.MergeWithAnotherGetConflicts (psMergePerson);
-					if (psDiffThisSession_l.Count > 0)
-					{
-						foreach (ClassVariance.Struct cvs in psDiffThisSession_l)
-							LogB.Information (cvs.ToString ());
-
-						psDiffAllSessions_l.Add (psDiffThisSession_l);
-						//sessionDiff_l.Add (
-					}
-				}
-			}
-			*/
-
 		personMergeWin = PersonMergeWindow.Show (app1,
-                                currentSession.UniqueID, currentPerson, preferences.colorBackground);//,
-				//pDiff_l, psDiffAllSessions_l);
+                                currentSession.UniqueID, currentPerson, preferences.colorBackground);
 	}
 }
 
@@ -117,8 +65,11 @@ public class PersonMergeWindow
 	[Widget] Gtk.Label label_persons_tests;
 	[Widget] Gtk.Label label_persons_confirm;
 	[Widget] Gtk.Image image_button_cancel;
+	[Widget] Gtk.Image image_button_cancel1;
 	[Widget] Gtk.Image image_button_accept;
+	[Widget] Gtk.Image image_button_accept1;
 	[Widget] Gtk.Table table_diffs;
+	[Widget] Gtk.ScrolledWindow scrolledWin;
 
 	public Gtk.Button fakeButtonDone;
 
@@ -126,13 +77,17 @@ public class PersonMergeWindow
 
 	private int sessionID;
 	private Person currentPerson;
-	private uint padding = 4;
+	private Person personToMerge;
+	private uint padding = 2;
 
 	List<ClassVariance.Struct> pDiff_l;
 	List<List<ClassVariance.Struct>> psDiffAllSessions_l;
 	List<Session> sessionDiff_l;
+
+	RadioButton pRadioA; //person diffs radiobutton
+	//Lists of personSession diffs at each session:
 	List<RadioButton> psRadiosA_l;
-	List<RadioButton> psRadiosB_l;
+	//List<RadioButton> psRadiosB_l; //not needed because with psRadiosA_l Active/Not Active is enough
 
 	PersonMergeWindow (Gtk.Window parent, int sessionID, Person currentPerson)
 	{
@@ -147,20 +102,12 @@ public class PersonMergeWindow
 		if(! Config.UseSystemColor)
 		{
 			UtilGtk.WindowColor(person_merge, Config.ColorBackground);
-			/*
-			UtilGtk.ContrastLabelsLabel(Config.ColorBackgroundIsDark, label_radio_session_current);
-			UtilGtk.ContrastLabelsLabel(Config.ColorBackgroundIsDark, label_radio_session_all);
-			UtilGtk.ContrastLabelsLabel(Config.ColorBackgroundIsDark, label_filter);
-			UtilGtk.ContrastLabelsLabel(Config.ColorBackgroundIsDark, label_person);
-			UtilGtk.ContrastLabelsLabel(Config.ColorBackgroundIsDark, label_person_name);
-			UtilGtk.ContrastLabelsLabel(Config.ColorBackgroundIsDark, label_persons_identify);
-			UtilGtk.ContrastLabelsLabel(Config.ColorBackgroundIsDark, label_persons_tests);
-			UtilGtk.ContrastLabelsLabel(Config.ColorBackgroundIsDark, label_persons_confirm);
-			*/
 		}
 
 		image_button_cancel.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_cancel.png");
+		image_button_cancel1.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_cancel.png");
 		image_button_accept.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_done_blue.png");
+		image_button_accept1.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_done_blue.png");
 
 		person_merge.Parent = parent;
 		this.sessionID = sessionID;
@@ -174,16 +121,11 @@ public class PersonMergeWindow
 
 	static public PersonMergeWindow Show (Gtk.Window parent,
 			int sessionID, Person currentPerson,
-			Gdk.Color colorBackground/*,
-			List<ClassVariance.Struct> pDiff_l),
-			//List<List<ClassVariance.Struct>> psDiffAllSessions_l*/)
+			Gdk.Color colorBackground)
 	{
 		if (PersonMergeWindowBox == null) {
 			PersonMergeWindowBox = new PersonMergeWindow (parent, sessionID, currentPerson);
 		}
-
-		//PersonMergeWindowBox.pDiff_l = pDiff_l;
-		//PersonMergeWindowBox.psDiffAllSessions_l = psDiffAllSessions_l;
 
 		PersonMergeWindowBox.hbox_session_radios.Visible = true;
 		PersonMergeWindowBox.hbox_filter.Visible = PersonMergeWindowBox.radio_session_all.Active;
@@ -278,7 +220,7 @@ public class PersonMergeWindow
 	}
 
 	//check the diffs to do the merge
-	private void on_button_accept_clicked (object o, EventArgs args)
+	private void on_button_check_diffs_clicked (object o, EventArgs args)
 	{
 		// 1) get the person to merge
 		string [] strFull = UtilGtk.ComboGetActive(combo_persons).Split (new char[] {':'});
@@ -289,28 +231,13 @@ public class PersonMergeWindow
 			return;
 
 		int personToMergeID = Convert.ToInt32(strFull[0]);
-		Person personToMerge = SqlitePerson.Select (false, personToMergeID);
+		personToMerge = SqlitePerson.Select (false, personToMergeID);
 
 		if (personToMerge == null)
 			return;
 
 		// 2) person
 		pDiff_l = currentPerson.MergeWithAnotherGetConflicts (personToMerge);
-		/*
-		   debug
-		if (pDiff_l.Count > 0)
-		{
-			foreach (ClassVariance.Struct cvs in pDiff_l)
-			{
-				//LogB.Information (cvs.ToString ());
-				//like this the widgets will be managed in each row:
-				LogB.Information (string.Format ("Person diff row {0}", row));
-				LogB.Information (cvs.Prop.ToString ());
-				LogB.Information (cvs.valA.ToString ());
-				LogB.Information (cvs.valB.ToString ());
-			}
-		}
-		*/
 
 		// 3) personSession
 		//select the personSessions where currentPerson and mergePerson are
@@ -328,7 +255,7 @@ public class PersonMergeWindow
 
 		//List of personSession diffs radios to allow user choose one or the other
 		psRadiosA_l = new List<Gtk.RadioButton> ();
-		psRadiosB_l = new List<Gtk.RadioButton> ();
+		//psRadiosB_l = new List<Gtk.RadioButton> ();
 
 		foreach (PersonSession psCurrentPerson in psCurrentPerson_l)
 			foreach (PersonSession psMergePerson in psMergePerson_l)
@@ -358,19 +285,25 @@ public class PersonMergeWindow
 				}
 			}
 
-		createTable ();
 		notebook.CurrentPage = 1;
+		createTable ();
 	}
 
 	private void createTable ()
 	{
+		if (table_diffs != null && table_diffs.Children.Length > 0)
+			foreach (Gtk.Widget w in table_diffs.Children)
+				table_diffs.Remove (w);
+
 		//TODO: care if some of the lists are null
 
 		//person
 		uint row = 0;
+		createPersonNamesRow (currentPerson.Name, personToMerge.Name, row++);
 		if (pDiff_l.Count > 0)
 		{
-			createTitleRow ("<b>Differences between persons</b>", row++);
+			createTitleRow ("\n", "\n<b>Differences between persons</b>", row++);
+			createPersonRadiosRow (row ++);
 			row = createRowsForDiff (pDiff_l, row);
 		}
 
@@ -378,27 +311,62 @@ public class PersonMergeWindow
 		int count = 0;
 		foreach (List<ClassVariance.Struct> cvs_l in psDiffAllSessions_l)
 		{
-			createTitleRow (string.Format ("\nDifferences in session: <b>{0}</b>", sessionDiff_l[count ++].Name), row++);
-			createRadiosRow (row ++);
+			createTitleRow ("\nDifferences in session:", string.Format ("\n<b>{0}</b>", sessionDiff_l[count ++].Name), row++);
+			createPersonSessionRadiosRow (row ++);
 			row = createRowsForDiff (cvs_l, row);
 		}
 
 		table_diffs.ShowAll ();
+		//scrolledWin.ShowAll ();
+	}
+
+	private void createPersonNamesRow (string name1, string name2, uint row)
+	{
+		Gtk.Label l1 = new Gtk.Label ("");
+		table_diffs.Attach (l1, 0, 1, row, row+1, Gtk.AttachOptions.Expand, Gtk.AttachOptions.Fill, padding, padding);
+
+		Gtk.Label l2 = new Gtk.Label ("<b>" + name1 + "</b>");
+		l2.UseMarkup = true;
+		table_diffs.Attach (l2, 1, 2, row, row+1, Gtk.AttachOptions.Expand, Gtk.AttachOptions.Fill, padding, padding);
+
+		Gtk.Label l3 = new Gtk.Label ("<b>" + name2 + "</b>");
+		l3.UseMarkup = true;
+		table_diffs.Attach (l3, 2, 3, row, row+1, Gtk.AttachOptions.Expand, Gtk.AttachOptions.Fill, padding, padding);
 	}
 
 	//each personSession row has first a combined row with session title
-	private void createTitleRow (string title, uint row)
+	private void createTitleRow (string firstCol, string col2_3, uint row)
 	{
-		Gtk.Label l = new Gtk.Label (title);
-		l.UseMarkup = true;
-		table_diffs.Attach (l, 0, 3, row, row+1, Gtk.AttachOptions.Expand, Gtk.AttachOptions.Fill, padding, padding);
+		Gtk.Label l1 = new Gtk.Label (firstCol);
+		table_diffs.Attach (l1, 0, 1, row, row+1, Gtk.AttachOptions.Expand, Gtk.AttachOptions.Fill, padding, padding);
+
+		Gtk.Label l2_3 = new Gtk.Label (col2_3);
+		l2_3.UseMarkup = true;
+		table_diffs.Attach (l2_3, 1, 3, row, row+1, Gtk.AttachOptions.Expand, Gtk.AttachOptions.Fill, padding, padding);
 	}
 
-	private void createRadiosRow (uint row)
+	private void createPersonRadiosRow (uint row)
 	{
 		Gtk.Label l = new Gtk.Label ("");
-		Gtk.RadioButton radioA = new Gtk.RadioButton ("Use this values");
-		Gtk.RadioButton radioB = new Gtk.RadioButton (radioA, "Use this values");
+		pRadioA = new Gtk.RadioButton ("Use these values");
+		Gtk.RadioButton pRadioB = new Gtk.RadioButton (pRadioA, "Use these values");
+
+		//to have radios center aligned
+		Gtk.HBox hboxA = new Gtk.HBox (false, 1);
+		Gtk.HBox hboxB = new Gtk.HBox (false, 1);
+		hboxA.PackStart (pRadioA, true, false, 0);
+		hboxB.PackStart (pRadioB, true, false, 0);
+
+		table_diffs.Attach (l, 0, 1, row, row+1, Gtk.AttachOptions.Fill, Gtk.AttachOptions.Fill, padding, padding);
+		table_diffs.Attach (hboxA, 1, 2, row, row+1, Gtk.AttachOptions.Fill, Gtk.AttachOptions.Fill, padding, padding);
+		table_diffs.Attach (hboxB, 2, 3, row, row+1, Gtk.AttachOptions.Fill, Gtk.AttachOptions.Fill, padding, padding);
+	}
+
+	private void createPersonSessionRadiosRow (uint row)
+	{
+		Gtk.Label l = new Gtk.Label ("");
+		Gtk.RadioButton radioA = new Gtk.RadioButton ("Use these values");
+		Gtk.RadioButton radioB = new Gtk.RadioButton (radioA, "Use these values");
 
 		//to have radios center aligned
 		Gtk.HBox hboxA = new Gtk.HBox (false, 1);
@@ -411,13 +379,17 @@ public class PersonMergeWindow
 		table_diffs.Attach (hboxB, 2, 3, row, row+1, Gtk.AttachOptions.Fill, Gtk.AttachOptions.Fill, padding, padding);
 
 		psRadiosA_l.Add (radioA);
-		psRadiosB_l.Add (radioB);
+		//psRadiosB_l.Add (radioB);
 	}
 
 	private uint createRowsForDiff (List<ClassVariance.Struct> cvs_l, uint row)
-	{
+	 {
 		foreach (ClassVariance.Struct cvs in cvs_l)
 		{
+			//do not display the name
+			if (cvs.Prop == "name")
+				continue;
+
 			Gtk.Label lPersonProp = new Gtk.Label (cvs.Prop);
 			Gtk.Label lPersonVarA = new Gtk.Label (cvs.valA.ToString ());
 			Gtk.Label lPersonVarB = new Gtk.Label (cvs.valB.ToString ());
@@ -436,6 +408,20 @@ public class PersonMergeWindow
 		fakeButtonDone.Click();
 		PersonMergeWindowBox.person_merge.Hide();
 		PersonMergeWindowBox = null;
+	}
+
+	private void on_button_cancel_diffs_clicked (object o, EventArgs args)
+	{
+		notebook.CurrentPage = 0;
+	}
+
+	private void on_button_merge_clicked (object o, EventArgs args)
+	{
+		LogB.Information ( string.Format ("At person, use default radio? {0}", pRadioA.Active));
+
+		int count = 0;
+		foreach (Gtk.RadioButton r in psRadiosA_l)
+			LogB.Information ( string.Format ("At session {0} on list, use default radio? {1}", count ++, r.Active));
 	}
 
 	private void on_delete_event (object o, DeleteEventArgs args)

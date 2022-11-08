@@ -4,7 +4,7 @@
   <!-- interface-naming-policy toplevel-contextual -->
   <widget class="GtkWindow" id="person_merge">
     <property name="width_request">700</property>
-    <property name="height_request">400</property>
+    <property name="height_request">500</property>
     <property name="visible">True</property>
     <property name="can_focus">False</property>
     <property name="border_width">10</property>
@@ -33,6 +33,7 @@
                   <widget class="GtkNotebook" id="notebook">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
+                    <property name="show_tabs">False</property>
                     <child>
                       <widget class="GtkVBox" id="vbox49">
                         <property name="visible">True</property>
@@ -188,27 +189,254 @@
                           </packing>
                         </child>
                         <child>
-                          <widget class="GtkHButtonBox" id="app1s_hbuttonbox_delete_accept_cancel">
+                          <widget class="GtkVBox" id="vbox2">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="spacing">16</property>
+                            <child>
+                              <widget class="GtkVBox" id="vbox4">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="spacing">8</property>
+                                <child>
+                                  <widget class="GtkLabel" id="label_persons_identify">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
+                                  </widget>
+                                  <packing>
+                                    <property name="expand">False</property>
+                                    <property name="fill">False</property>
+                                    <property name="position">0</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <widget class="GtkLabel" id="label_persons_tests">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
+                                  </widget>
+                                  <packing>
+                                    <property name="expand">False</property>
+                                    <property name="fill">False</property>
+                                    <property name="position">1</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <widget class="GtkLabel" id="label_persons_confirm">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
+                                  </widget>
+                                  <packing>
+                                    <property name="expand">False</property>
+                                    <property name="fill">False</property>
+                                    <property name="position">2</property>
+                                  </packing>
+                                </child>
+                              </widget>
+                              <packing>
+                                <property name="expand">True</property>
+                                <property name="fill">True</property>
+                                <property name="position">0</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <widget class="GtkHButtonBox" id="app1s_hbuttonbox_delete_accept_cancel">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="spacing">20</property>
+                                <property name="layout_style">spread</property>
+                                <child>
+                                  <widget class="GtkButton" id="button_cancel">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">True</property>
+                                    <property name="can_default">True</property>
+                                    <property name="receives_default">False</property>
+                                    <property name="relief">half</property>
+                                    <signal name="clicked" handler="on_button_close_clicked" swapped="no"/>
+                                    <accelerator key="Escape" signal="clicked"/>
+                                    <child>
+                                      <widget class="GtkHBox" id="hbox370">
+                                        <property name="visible">True</property>
+                                        <property name="can_focus">False</property>
+                                        <property name="spacing">4</property>
+                                        <child>
+                                          <widget class="GtkImage" id="image_button_cancel">
+                                            <property name="visible">True</property>
+                                            <property name="can_focus">False</property>
+                                            <property name="stock">gtk-missing-image</property>
+                                          </widget>
+                                          <packing>
+                                            <property name="expand">False</property>
+                                            <property name="fill">False</property>
+                                            <property name="position">0</property>
+                                          </packing>
+                                        </child>
+                                        <child>
+                                          <widget class="GtkLabel" id="label158">
+                                            <property name="visible">True</property>
+                                            <property name="can_focus">False</property>
+                                            <property name="label" translatable="yes">Cancel</property>
+                                          </widget>
+                                          <packing>
+                                            <property name="expand">True</property>
+                                            <property name="fill">True</property>
+                                            <property name="position">1</property>
+                                          </packing>
+                                        </child>
+                                      </widget>
+                                    </child>
+                                  </widget>
+                                  <packing>
+                                    <property name="expand">True</property>
+                                    <property name="fill">False</property>
+                                    <property name="position">0</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <widget class="GtkButton" id="button_check_diffs">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">True</property>
+                                    <property name="can_default">True</property>
+                                    <property name="receives_default">False</property>
+                                    <property name="relief">half</property>
+                                    <signal name="clicked" handler="on_button_check_diffs_clicked" swapped="no"/>
+                                    <child>
+                                      <widget class="GtkHBox" id="hbox452">
+                                        <property name="visible">True</property>
+                                        <property name="can_focus">False</property>
+                                        <property name="spacing">4</property>
+                                        <child>
+                                          <widget class="GtkImage" id="image_button_accept">
+                                            <property name="visible">True</property>
+                                            <property name="can_focus">False</property>
+                                            <property name="stock">gtk-missing-image</property>
+                                          </widget>
+                                          <packing>
+                                            <property name="expand">False</property>
+                                            <property name="fill">False</property>
+                                            <property name="position">0</property>
+                                          </packing>
+                                        </child>
+                                        <child>
+                                          <widget class="GtkLabel" id="label159">
+                                            <property name="visible">True</property>
+                                            <property name="can_focus">False</property>
+                                            <property name="label">Check differences</property>
+                                          </widget>
+                                          <packing>
+                                            <property name="expand">True</property>
+                                            <property name="fill">True</property>
+                                            <property name="position">1</property>
+                                          </packing>
+                                        </child>
+                                      </widget>
+                                    </child>
+                                  </widget>
+                                  <packing>
+                                    <property name="expand">True</property>
+                                    <property name="fill">False</property>
+                                    <property name="position">1</property>
+                                  </packing>
+                                </child>
+                              </widget>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">False</property>
+                                <property name="pack_type">end</property>
+                                <property name="position">1</property>
+                              </packing>
+                            </child>
+                          </widget>
+                          <packing>
+                            <property name="expand">True</property>
+                            <property name="fill">False</property>
+                            <property name="position">3</property>
+                          </packing>
+                        </child>
+                      </widget>
+                    </child>
+                    <child>
+                      <widget class="GtkLabel" id="label2">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="label">page 1</property>
+                      </widget>
+                      <packing>
+                        <property name="tab_fill">False</property>
+                        <property name="type">tab</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <widget class="GtkVBox" id="vbox3">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="border_width">12</property>
+                        <property name="spacing">16</property>
+                        <child>
+                          <widget class="GtkScrolledWindow" id="scrolledWin">
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="hscrollbar_policy">automatic</property>
+                            <property name="vscrollbar_policy">automatic</property>
+                            <child>
+                              <widget class="GtkViewport" id="viewport2">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <child>
+                                  <widget class="GtkTable" id="table_diffs">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
+                                    <property name="n_columns">3</property>
+                                    <child>
+                                      <placeholder/>
+                                    </child>
+                                    <child>
+                                      <placeholder/>
+                                    </child>
+                                    <child>
+                                      <placeholder/>
+                                    </child>
+                                    <child>
+                                      <placeholder/>
+                                    </child>
+                                    <child>
+                                      <placeholder/>
+                                    </child>
+                                    <child>
+                                      <placeholder/>
+                                    </child>
+                                  </widget>
+                                </child>
+                              </widget>
+                            </child>
+                          </widget>
+                          <packing>
+                            <property name="expand">True</property>
+                            <property name="fill">True</property>
+                            <property name="position">0</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <widget class="GtkHButtonBox" id="app1s_hbuttonbox_delete_accept_cancel1">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
                             <property name="spacing">20</property>
                             <property name="layout_style">spread</property>
                             <child>
-                              <widget class="GtkButton" id="button_cancel">
+                              <widget class="GtkButton" id="button_cancel_diffs">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="can_default">True</property>
                                 <property name="receives_default">False</property>
                                 <property name="relief">half</property>
-                                <signal name="clicked" handler="on_button_close_clicked" swapped="no"/>
+                                <signal name="clicked" handler="on_button_cancel_diffs_clicked" swapped="no"/>
                                 <accelerator key="Escape" signal="clicked"/>
                                 <child>
-                                  <widget class="GtkHBox" id="hbox370">
+                                  <widget class="GtkHBox" id="hbox1">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
                                     <property name="spacing">4</property>
                                     <child>
-                                      <widget class="GtkImage" id="image_button_cancel">
+                                      <widget class="GtkImage" id="image_button_cancel1">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
                                         <property name="stock">gtk-missing-image</property>
@@ -220,7 +448,7 @@
                                       </packing>
                                     </child>
                                     <child>
-                                      <widget class="GtkLabel" id="label158">
+                                      <widget class="GtkLabel" id="label1">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
                                         <property name="label" translatable="yes">Cancel</property>
@@ -241,20 +469,20 @@
                               </packing>
                             </child>
                             <child>
-                              <widget class="GtkButton" id="button_accept">
+                              <widget class="GtkButton" id="button_merge">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="can_default">True</property>
                                 <property name="receives_default">False</property>
                                 <property name="relief">half</property>
-                                <signal name="clicked" handler="on_button_accept_clicked" swapped="no"/>
+                                <signal name="clicked" handler="on_button_merge_clicked" swapped="no"/>
                                 <child>
-                                  <widget class="GtkHBox" id="hbox452">
+                                  <widget class="GtkHBox" id="hbox2">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
                                     <property name="spacing">4</property>
                                     <child>
-                                      <widget class="GtkImage" id="image_button_accept">
+                                      <widget class="GtkImage" id="image_button_accept1">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
                                         <property name="stock">gtk-missing-image</property>
@@ -266,10 +494,10 @@
                                       </packing>
                                     </child>
                                     <child>
-                                      <widget class="GtkLabel" id="label159">
+                                      <widget class="GtkLabel" id="label4">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
-                                        <property name="label" translatable="yes">Accept</property>
+                                        <property name="label">Merge</property>
                                       </widget>
                                       <packing>
                                         <property name="expand">True</property>
@@ -291,81 +519,8 @@
                             <property name="expand">False</property>
                             <property name="fill">False</property>
                             <property name="pack_type">end</property>
-                            <property name="position">3</property>
+                            <property name="position">1</property>
                           </packing>
-                        </child>
-                        <child>
-                          <widget class="GtkVBox" id="vbox2">
-                            <property name="visible">True</property>
-                            <property name="can_focus">False</property>
-                            <property name="spacing">8</property>
-                            <child>
-                              <widget class="GtkLabel" id="label_persons_identify">
-                                <property name="visible">True</property>
-                                <property name="can_focus">False</property>
-                              </widget>
-                              <packing>
-                                <property name="expand">False</property>
-                                <property name="fill">False</property>
-                                <property name="position">0</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <widget class="GtkLabel" id="label_persons_tests">
-                                <property name="visible">True</property>
-                                <property name="can_focus">False</property>
-                              </widget>
-                              <packing>
-                                <property name="expand">False</property>
-                                <property name="fill">False</property>
-                                <property name="position">1</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <widget class="GtkLabel" id="label_persons_confirm">
-                                <property name="visible">True</property>
-                                <property name="can_focus">False</property>
-                              </widget>
-                              <packing>
-                                <property name="expand">False</property>
-                                <property name="fill">False</property>
-                                <property name="position">2</property>
-                              </packing>
-                            </child>
-                          </widget>
-                          <packing>
-                            <property name="expand">False</property>
-                            <property name="fill">False</property>
-                            <property name="pack_type">end</property>
-                            <property name="position">4</property>
-                          </packing>
-                        </child>
-                      </widget>
-                    </child>
-                    <child>
-                      <widget class="GtkLabel" id="label2">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="label">page 1</property>
-                      </widget>
-                      <packing>
-                        <property name="tab_fill">False</property>
-                        <property name="type">tab</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <widget class="GtkTable" id="table_diffs">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="n_columns">3</property>
-                        <child>
-                          <placeholder/>
-                        </child>
-                        <child>
-                          <placeholder/>
-                        </child>
-                        <child>
-                          <placeholder/>
                         </child>
                       </widget>
                       <packing>

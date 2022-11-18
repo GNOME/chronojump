@@ -62,23 +62,40 @@ public class PersonAddMultipleWindow
 	[Widget] Gtk.Label label_name;
 
 	[Widget] Gtk.Button button_manually_create;
-	[Widget] Gtk.Table table_fullname;
-	[Widget] Gtk.Table table_nameSurname;
 	
 	[Widget] Gtk.Image image_name1;
 	[Widget] Gtk.Image image_name2;
 
 	[Widget] Gtk.CheckButton check_headers;
-	[Widget] Gtk.CheckButton check_fullname_1_column;
+	[Widget] Gtk.CheckButton check_fullname_1_col;
+	[Widget] Gtk.CheckButton check_person_height;
+	[Widget] Gtk.CheckButton check_legsLength;
+	[Widget] Gtk.CheckButton check_hipsHeight;
 
-	//to show/hide headers
-	[Widget] Gtk.Label label_t_fullname_fullname;
-	[Widget] Gtk.Label label_t_fullname_genre;
-	[Widget] Gtk.Label label_t_fullname_weight;
-	[Widget] Gtk.Label label_t_nameSurname_name;
-	[Widget] Gtk.Label label_t_nameSurname_surname;
-	[Widget] Gtk.Label label_t_nameSurname_genre;
-	[Widget] Gtk.Label label_t_nameSurname_weight;
+	//[Widget] Gtk.Table table_example;
+	//show/hide headers and make them bold
+	[Widget] Gtk.Label label_t_fullname;
+	[Widget] Gtk.Label label_t_name;
+	[Widget] Gtk.Label label_t_surname;
+	[Widget] Gtk.Label label_t_genre;
+	[Widget] Gtk.Label label_t_weight;
+	[Widget] Gtk.Label label_t_height;
+	[Widget] Gtk.Label label_t_legsLength;
+	[Widget] Gtk.Label label_t_hipsHeight;
+	//show/hide hideable columns of June Carter
+	[Widget] Gtk.Label label_t_fullname_june;
+	[Widget] Gtk.Label label_t_name_june;
+	[Widget] Gtk.Label label_t_surname_june;
+	[Widget] Gtk.Label label_t_height_june;
+	[Widget] Gtk.Label label_t_legsLength_june;
+	[Widget] Gtk.Label label_t_hipsHeight_june;
+	//show/hide hideable columns of Johnny Cash
+	[Widget] Gtk.Label label_t_fullname_johnny;
+	[Widget] Gtk.Label label_t_name_johnny;
+	[Widget] Gtk.Label label_t_surname_johnny;
+	[Widget] Gtk.Label label_t_height_johnny;
+	[Widget] Gtk.Label label_t_legsLength_johnny;
+	[Widget] Gtk.Label label_t_hipsHeight_johnny;
 
 	[Widget] Gtk.TextView textview;
 
@@ -132,8 +149,9 @@ public class PersonAddMultipleWindow
 		}
 		
 		PersonAddMultipleWindowBox.putNonStandardIcons ();
+		PersonAddMultipleWindowBox.tableHeaderBold ();
 		PersonAddMultipleWindowBox.textviewUpdate ();
-		PersonAddMultipleWindowBox.tablesVisibility ();
+		PersonAddMultipleWindowBox.tableLabelsVisibility ();
 
 		PersonAddMultipleWindowBox.person_multiple_infinite.Show ();
 		
@@ -152,7 +170,7 @@ public class PersonAddMultipleWindow
 		PersonAddMultipleWindowBox = null;
 	}
 		
-	void putNonStandardIcons()
+	void putNonStandardIcons ()
 	{
 		Pixbuf pixbuf;
 		
@@ -173,24 +191,58 @@ public class PersonAddMultipleWindow
 		label_name.Text = Catalog.GetString("Full name in one column");
 	}
 	
-	void tablesVisibility()
+	void tableHeaderBold ()
 	{
-		table_fullname.Visible = false;
-		table_nameSurname.Visible = false;
-		
-		if(check_fullname_1_column.Active)
-		{
-			table_fullname.Visible = true;
-			label_t_fullname_fullname.Visible = check_headers.Active;
-			label_t_fullname_genre.Visible = check_headers.Active;
-			label_t_fullname_weight.Visible = check_headers.Active;
-		} else {
-			table_nameSurname.Visible = true;
-			label_t_nameSurname_name.Visible = check_headers.Active;
-			label_t_nameSurname_surname.Visible = check_headers.Active;
-			label_t_nameSurname_genre.Visible = check_headers.Active;
-			label_t_nameSurname_weight.Visible = check_headers.Active;
-		}
+		label_t_fullname.Text = "<b>" + label_t_fullname.Text + "</b>";
+		label_t_name.Text = "<b>" + label_t_name.Text + "</b>";
+		label_t_surname.Text = "<b>" + label_t_surname.Text + "</b>";
+		label_t_genre.Text = "<b>" + label_t_genre.Text + "</b>";
+		label_t_weight.Text = "<b>" + label_t_weight.Text + "</b>";
+		label_t_height.Text = "<b>" + label_t_height.Text + "</b>";
+		label_t_legsLength.Text = "<b>" + label_t_legsLength.Text + "</b>";
+		label_t_hipsHeight.Text = "<b>" + label_t_hipsHeight.Text + "</b>";
+
+		label_t_fullname.UseMarkup = true;
+		label_t_name.UseMarkup = true;
+		label_t_surname.UseMarkup = true;
+		label_t_genre.UseMarkup = true;
+		label_t_weight.UseMarkup = true;
+		label_t_height.UseMarkup = true;
+		label_t_legsLength.UseMarkup = true;
+		label_t_hipsHeight.UseMarkup = true;
+	}
+
+	void tableLabelsVisibility ()
+	{
+		// 1) fullname vs name surname
+		label_t_fullname.Visible = (check_headers.Active && check_fullname_1_col.Active);
+		label_t_name.Visible = (check_headers.Active && ! check_fullname_1_col.Active);
+		label_t_surname.Visible = (check_headers.Active && ! check_fullname_1_col.Active);
+		label_t_fullname_june.Visible = check_fullname_1_col.Active;
+		label_t_name_june.Visible = ! check_fullname_1_col.Active;
+		label_t_surname_june.Visible = ! check_fullname_1_col.Active;
+		label_t_fullname_johnny.Visible = check_fullname_1_col.Active;
+		label_t_name_johnny.Visible = ! check_fullname_1_col.Active;
+		label_t_surname_johnny.Visible = ! check_fullname_1_col.Active;
+
+		// 2) Genre, Weight row headers
+		label_t_genre.Visible = check_headers.Active;
+		label_t_weight.Visible = check_headers.Active;
+
+		// 3) Height
+		label_t_height.Visible = (check_headers.Active && check_person_height.Active);
+		label_t_height_june.Visible = check_person_height.Active;
+		label_t_height_johnny.Visible = check_person_height.Active;
+
+		// 4) legsLength
+		label_t_legsLength.Visible = (check_headers.Active && check_legsLength.Active);
+		label_t_legsLength_june.Visible = check_legsLength.Active;
+		label_t_legsLength_johnny.Visible = check_legsLength.Active;
+
+		// 5) hipsHeight
+		label_t_hipsHeight.Visible = (check_headers.Active && check_hipsHeight.Active);
+		label_t_hipsHeight_june.Visible = check_hipsHeight.Active;
+		label_t_hipsHeight_johnny.Visible = check_hipsHeight.Active;
 
 		button_accept.Sensitive = false;
 	}
@@ -208,7 +260,7 @@ public class PersonAddMultipleWindow
 			label_csv.Text = Catalog.GetString("CSV file does not have headers");
 		}
 
-		tablesVisibility();
+		tableLabelsVisibility();
 	}
 
 	private void textviewUpdate ()
@@ -224,9 +276,9 @@ public class PersonAddMultipleWindow
 		textview.Buffer = tb;
 	}
 
-	void on_check_fullname_1_column_toggled (object obj, EventArgs args)
+	void on_check_fullname_1_col_toggled (object obj, EventArgs args)
 	{
-		if(check_fullname_1_column.Active) {
+		if(check_fullname_1_col.Active) {
 			image_name1.Visible = true;
 			image_name2.Visible = false;
 			label_name.Text = Catalog.GetString("Full name in one column");
@@ -236,7 +288,12 @@ public class PersonAddMultipleWindow
 			label_name.Text = Catalog.GetString("Full name in two columns");
 		}
 		
-		tablesVisibility();
+		tableLabelsVisibility();
+	}
+
+	private void on_check_person_other_variables_toggled (object o, EventArgs args)
+	{
+		tableLabelsVisibility();
 	}
 	
 	void on_radio_csv_toggled (object obj, EventArgs args)
@@ -286,7 +343,7 @@ public class PersonAddMultipleWindow
 			{
 				reader.ChangeDelimiter(columnDelimiter);
 				bool headersActive = check_headers.Active;
-				bool name1Column = check_fullname_1_column.Active;
+				bool name1Column = check_fullname_1_col.Active;
 				int row = 0;
 				while (reader.ReadRow(columns))
 				{

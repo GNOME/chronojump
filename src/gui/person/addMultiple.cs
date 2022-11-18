@@ -47,7 +47,7 @@ public class PersonAddMultipleWindow
 	
 	[Widget] Gtk.Window person_multiple_infinite;
 		
-	[Widget] Gtk.VBox vbox_top;
+	[Widget] Gtk.HBox hbox_top;
 	[Widget] Gtk.Notebook notebook;
 	
 	[Widget] Gtk.RadioButton radio_csv;
@@ -62,18 +62,25 @@ public class PersonAddMultipleWindow
 	[Widget] Gtk.Label label_name;
 
 	[Widget] Gtk.Button button_manually_create;
-	[Widget] Gtk.Table table_headers_1_column;
-	[Widget] Gtk.Table table_no_headers_1_column;
-	[Widget] Gtk.Table table_headers_2_columns;
-	[Widget] Gtk.Table table_no_headers_2_columns;
+	[Widget] Gtk.Table table_fullname;
+	[Widget] Gtk.Table table_nameSurname;
 	
 	[Widget] Gtk.Image image_name1;
 	[Widget] Gtk.Image image_name2;
 
 	[Widget] Gtk.CheckButton check_headers;
-	[Widget] Gtk.CheckButton check_name_1_column;
+	[Widget] Gtk.CheckButton check_fullname_1_column;
 
-	[Widget] Gtk.Label label_column_separator;
+	//to show/hide headers
+	[Widget] Gtk.Label label_t_fullname_fullname;
+	[Widget] Gtk.Label label_t_fullname_genre;
+	[Widget] Gtk.Label label_t_fullname_weight;
+	[Widget] Gtk.Label label_t_nameSurname_name;
+	[Widget] Gtk.Label label_t_nameSurname_surname;
+	[Widget] Gtk.Label label_t_nameSurname_genre;
+	[Widget] Gtk.Label label_t_nameSurname_weight;
+
+	[Widget] Gtk.TextView textview;
 
 	//use this to read/write table
 	ArrayList entries;
@@ -125,6 +132,7 @@ public class PersonAddMultipleWindow
 		}
 		
 		PersonAddMultipleWindowBox.putNonStandardIcons ();
+		PersonAddMultipleWindowBox.textviewUpdate ();
 		PersonAddMultipleWindowBox.tablesVisibility ();
 
 		PersonAddMultipleWindowBox.person_multiple_infinite.Show ();
@@ -144,7 +152,8 @@ public class PersonAddMultipleWindow
 		PersonAddMultipleWindowBox = null;
 	}
 		
-	void putNonStandardIcons() {
+	void putNonStandardIcons()
+	{
 		Pixbuf pixbuf;
 		
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameCSVHeadersIcon);
@@ -162,37 +171,27 @@ public class PersonAddMultipleWindow
 
 		label_csv.Text = Catalog.GetString("CSV file has headers");
 		label_name.Text = Catalog.GetString("Full name in one column");
-
-		label_column_separator.Text = string.Format(Catalog.GetString(
-					"Expected column separator character is '<b>{0}</b>'"), columnDelimiter) +
-			"\n" + Catalog.GetString("You can change this on Preferences / Language.");
-		label_column_separator.UseMarkup = true;
-
-		//label_csv_help.Text =
-			//"<b>" + Catalog.GetString("Import persons from an spreadsheet. Eg. Excel, LibreOffice, Google Drive.") + "</b>\n\n" +
-			//Catalog.GetString("Open the spreadsheet with the persons data to be added.") + "\n" +
-		//	Catalog.GetString("Spreadsheet structure need to have this structure:");
-		//label_csv_help.UseMarkup = true;
 	}
 	
-	void tablesVisibility() {
-		table_headers_1_column.Visible = false;
-		table_no_headers_1_column.Visible = false;
-		table_headers_2_columns.Visible = false;
-		table_no_headers_2_columns.Visible = false;
+	void tablesVisibility()
+	{
+		table_fullname.Visible = false;
+		table_nameSurname.Visible = false;
 		
-		if(check_headers.Active) {
-			if(check_name_1_column.Active)
-				table_headers_1_column.Visible = true;
-			else
-				table_headers_2_columns.Visible = true;
+		if(check_fullname_1_column.Active)
+		{
+			table_fullname.Visible = true;
+			label_t_fullname_fullname.Visible = check_headers.Active;
+			label_t_fullname_genre.Visible = check_headers.Active;
+			label_t_fullname_weight.Visible = check_headers.Active;
 		} else {
-			if(check_name_1_column.Active)
-				table_no_headers_1_column.Visible = true;
-			else
-				table_no_headers_2_columns.Visible = true;
+			table_nameSurname.Visible = true;
+			label_t_nameSurname_name.Visible = check_headers.Active;
+			label_t_nameSurname_surname.Visible = check_headers.Active;
+			label_t_nameSurname_genre.Visible = check_headers.Active;
+			label_t_nameSurname_weight.Visible = check_headers.Active;
 		}
-		
+
 		button_accept.Sensitive = false;
 	}
 
@@ -212,9 +211,22 @@ public class PersonAddMultipleWindow
 		tablesVisibility();
 	}
 
-	void on_check_name_1_column_toggled (object obj, EventArgs args)
+	private void textviewUpdate ()
 	{
-		if(check_name_1_column.Active) {
+		string s1 = Catalog.GetString ("To differentiate between male and female,\nuse the values 1/0, or m/f, or M/F on the genre column.") + "\n\n" +
+			Catalog.GetString ("Save the spreadsheet as CSV (Comma Separated Values).");
+		string s2 = string.Format (Catalog.GetString(
+					"Expected column separator character is '{0}'"), columnDelimiter) +
+			"\n" + Catalog.GetString("You can change this on Preferences / Language.");
+
+		TextBuffer tb = new TextBuffer (new TextTagTable());
+		tb.Text = s1 + "\n\n" + s2;
+		textview.Buffer = tb;
+	}
+
+	void on_check_fullname_1_column_toggled (object obj, EventArgs args)
+	{
+		if(check_fullname_1_column.Active) {
 			image_name1.Visible = true;
 			image_name2.Visible = false;
 			label_name.Text = Catalog.GetString("Full name in one column");
@@ -274,7 +286,7 @@ public class PersonAddMultipleWindow
 			{
 				reader.ChangeDelimiter(columnDelimiter);
 				bool headersActive = check_headers.Active;
-				bool name1Column = check_name_1_column.Active;
+				bool name1Column = check_fullname_1_column.Active;
 				int row = 0;
 				while (reader.ReadRow(columns))
 				{
@@ -356,7 +368,7 @@ public class PersonAddMultipleWindow
 
 	void createEmptyTable()
 	{
-		vbox_top.Visible = false;
+		hbox_top.Visible = false;
 		hbox_manually.Visible = false;
 
 		entries = new ArrayList();

@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2020   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2004-2022   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -31,11 +31,19 @@ public class PersonAddMultipleTable
 	public string name;
 	public bool maleOrFemale;
 	public double weight;
+	public double height;
+	public double legsLength;
+	public double hipsHeight;
 
-	public PersonAddMultipleTable(string name, bool maleOrFemale, double weight) {
+	public PersonAddMultipleTable (string name, bool maleOrFemale, double weight,
+			double height, double legsLength, double hipsHeight)
+	{
 		this.name = name;
 		this.maleOrFemale = maleOrFemale;
 		this.weight = weight;
+		this.height = height;
+		this.legsLength = legsLength;
+		this.hipsHeight = hipsHeight;
 	}
 
 	~PersonAddMultipleTable() {}
@@ -103,7 +111,10 @@ public class PersonAddMultipleWindow
 	ArrayList entries;
 	ArrayList radiosM;
 	ArrayList radiosF;
-	ArrayList spins;
+	ArrayList spinsWeight;
+	ArrayList spinsHeight;
+	ArrayList spinsLegsLength;
+	ArrayList spinsHipsHeight;
 	
 	int rows;
 	
@@ -343,7 +354,35 @@ public class PersonAddMultipleWindow
 			{
 				reader.ChangeDelimiter(columnDelimiter);
 				bool headersActive = check_headers.Active;
-				bool name1Column = check_fullname_1_col.Active;
+				bool name1Col = check_fullname_1_col.Active;
+				bool useHeightCol = check_person_height.Active;
+				bool useLegsLengthCol = check_legsLength.Active;
+				bool useHipsHeightCol = check_hipsHeight.Active;
+
+				int genreCol = 1;
+				int weightCol = 2;
+				int heightCol = 3;
+				int legsLengthCol = 4;
+				int hipsHeightCol = 5;
+
+				if (! name1Col)
+				{
+					genreCol ++;
+					weightCol ++;
+					heightCol ++;
+					legsLengthCol ++;
+					hipsHeightCol ++;
+				}
+				if (! useHeightCol)
+				{
+					legsLengthCol --;
+					hipsHeightCol --;
+				}
+				if (! useLegsLengthCol)
+				{
+					hipsHeightCol --;
+				}
+
 				int row = 0;
 				while (reader.ReadRow(columns))
 				{
@@ -351,8 +390,14 @@ public class PersonAddMultipleWindow
 					string onlyname = "";
 					bool maleOrFemale = true;
 					double weight = 0;
+					double height = 0;
+					double legsLength = 0;
+					double hipsHeight = 0;
+					bool errorsReading = false;
+
 					int col = 0;
-					foreach(string str in columns) {
+					foreach (string str in columns)
+					{
 						//if headers are active do not process first row
 						//do not process this first row because weight can be a string
 						if(headersActive && row == 0)
@@ -361,40 +406,72 @@ public class PersonAddMultipleWindow
 						LogB.Debug(":" + str);
 
 						if(col == 0) {
-							if(name1Column)
+							if(name1Col)
 								fullname = str;
 							else
 								onlyname = str;
 						}
-						else if(col == 1 && ! name1Column)
+						else if(col == 1 && ! name1Col)
 							fullname = onlyname + " " + str;
-						else if( (col == 1 && name1Column) || (col == 2 && ! name1Column) ) {
-							//female symbols
-							if(str == "0" || str == "f" || str == "F")
-								maleOrFemale = false;
-						}
-						else if( (col == 2 && name1Column) || (col == 3 && ! name1Column) ) {
+						else if (col == genreCol && (str == "0" || str == "f" || str == "F")) 	//female symbols
+							maleOrFemale = false;
+						else if (col == weightCol)
+						{
 							try {
 								weight = Convert.ToDouble(Util.ChangeDecimalSeparator(str));
+								LogB.Information("wwwww weight" + weight.ToString());
 							} catch {
-								string message = Catalog.GetString("Error importing data.");
-								if( ! check_headers.Active && row == 0)
-									message += "\n" + Catalog.GetString("Seems there's a header row and you have not marked it.");
-
-								new DialogMessage(Constants.MessageTypes.WARNING, message);
-
-								file.Close(); 
-								//Don't forget to call Destroy() or the FileChooserDialog window won't get closed.
-								fc.Destroy();
-
-								return;
+								errorsReading = true;
 							}
 						}
+						else if (useHeightCol && col == heightCol)
+						{
+							try {
+								height = Convert.ToDouble(Util.ChangeDecimalSeparator(str));
+							} catch {
+								errorsReading = true;
+							}
+						}
+						else if (useLegsLengthCol && col == legsLengthCol)
+						{
+							try {
+								legsLength = Convert.ToDouble(Util.ChangeDecimalSeparator(str));
+							} catch {
+								errorsReading = true;
+							}
+						}
+						else if (useHipsHeightCol && col == hipsHeightCol)
+						{
+							try {
+								hipsHeight = Convert.ToDouble(Util.ChangeDecimalSeparator(str));
+							} catch {
+								errorsReading = true;
+							}
+						}
+
+						if (errorsReading)
+						{
+							string message = Catalog.GetString("Error importing data.");
+							if( ! check_headers.Active && row == 0)
+								message += "\n" + Catalog.GetString("Seems there's a header row and you have not marked it.");
+
+							new DialogMessage(Constants.MessageTypes.WARNING, message);
+
+							file.Close();
+							//Don't forget to call Destroy() or the FileChooserDialog window won't get closed.
+							fc.Destroy();
+
+							return;
+						}
+
 						col ++;
 					}
 					//if headers are active do not add first row
 					if( ! (headersActive && row == 0) ) {
-						PersonAddMultipleTable pamt = new PersonAddMultipleTable(Util.MakeValidSQL(fullname), maleOrFemale, weight);
+						PersonAddMultipleTable pamt = new PersonAddMultipleTable (
+								Util.MakeValidSQL(fullname), maleOrFemale, weight,
+								height, legsLength, hipsHeight);
+
 						array.Add(pamt);
 					}
 					
@@ -431,22 +508,40 @@ public class PersonAddMultipleWindow
 		entries = new ArrayList();
 		radiosM = new ArrayList();
 		radiosF = new ArrayList();
-		spins = new ArrayList();
+		spinsWeight = new ArrayList();
+		spinsHeight = new ArrayList();
+		spinsLegsLength = new ArrayList();
+		spinsHipsHeight = new ArrayList();
 
 		Gtk.Label nameLabel = new Gtk.Label("<b>" + Catalog.GetString("Full name") + "</b>");
 		Gtk.Label sexLabel = new Gtk.Label("<b>" + Catalog.GetString("Sex") + "</b>");
 		Gtk.Label weightLabel = new Gtk.Label("<b>" + Catalog.GetString("Weight") +
 			"</b>(" + Catalog.GetString("Kg") + ")" );
+		Gtk.Label heightLabel = new Gtk.Label("<b>" + Catalog.GetString("Height") +
+			"</b>(" + Catalog.GetString("cm") + ")" );
+		Gtk.Label legsLengthLabel = new Gtk.Label("<b>" + Catalog.GetString("Leg length") +
+			"</b>(" + Catalog.GetString("cm") + ")" );
+		Gtk.Label hipsHeightLabel = new Gtk.Label("<b>" + Catalog.GetString("Hips height on SJ flexion") +
+			"</b>(" + Catalog.GetString("cm") + ")" );
 		
 		nameLabel.UseMarkup = true;
 		sexLabel.UseMarkup = true;
 		weightLabel.UseMarkup = true;
+		heightLabel.UseMarkup = true;
+		legsLengthLabel.UseMarkup = true;
+		hipsHeightLabel.UseMarkup = true;
 
 		nameLabel.Xalign = 0;
 		sexLabel.Xalign = 0;
 		weightLabel.Xalign = 0;
+		heightLabel.Xalign = 0;
+		legsLengthLabel.Xalign = 0;
+		hipsHeightLabel.Xalign = 0;
 		
 		weightLabel.Show();
+		heightLabel.Show();
+		legsLengthLabel.Show();
+		hipsHeightLabel.Show();
 		nameLabel.Show();
 		sexLabel.Show();
 	
@@ -457,6 +552,12 @@ public class PersonAddMultipleWindow
 		table_main.Attach (sexLabel, (uint) 2, (uint) 3, 0, 1, 
 				Gtk.AttachOptions.Shrink, Gtk.AttachOptions.Shrink, padding, padding);
 		table_main.Attach (weightLabel, (uint) 3, (uint) 4, 0, 1, 
+				Gtk.AttachOptions.Shrink, Gtk.AttachOptions.Shrink, padding, padding);
+		table_main.Attach (heightLabel, (uint) 4, (uint) 5, 0, 1,
+				Gtk.AttachOptions.Shrink, Gtk.AttachOptions.Shrink, padding, padding);
+		table_main.Attach (legsLengthLabel, (uint) 5, (uint) 6, 0, 1,
+				Gtk.AttachOptions.Shrink, Gtk.AttachOptions.Shrink, padding, padding);
+		table_main.Attach (hipsHeightLabel, (uint) 6, (uint) 7, 0, 1,
 				Gtk.AttachOptions.Shrink, Gtk.AttachOptions.Shrink, padding, padding);
 
 		for (int count=1; count <= rows; count ++) {
@@ -490,11 +591,29 @@ public class PersonAddMultipleWindow
 					Gtk.AttachOptions.Shrink, Gtk.AttachOptions.Shrink, padding, padding);
 
 
-			Gtk.SpinButton mySpin = new Gtk.SpinButton(0, 300, .1);
-			table_main.Attach (mySpin, (uint) 3, (uint) 4, (uint) count, (uint) count +1, 
+			Gtk.SpinButton mySpinWeight = new Gtk.SpinButton(0, 300, .1);
+			table_main.Attach (mySpinWeight, (uint) 3, (uint) 4, (uint) count, (uint) count +1,
 					Gtk.AttachOptions.Shrink, Gtk.AttachOptions.Shrink, padding, padding);
-			mySpin.Show();
-			spins.Add(mySpin);
+			mySpinWeight.Show();
+			spinsWeight.Add (mySpinWeight);
+
+			Gtk.SpinButton mySpinHeight = new Gtk.SpinButton(0, 250, .1);
+			table_main.Attach (mySpinHeight, (uint) 4, (uint) 5, (uint) count, (uint) count +1,
+					Gtk.AttachOptions.Shrink, Gtk.AttachOptions.Shrink, padding, padding);
+			mySpinHeight.Show();
+			spinsHeight.Add (mySpinHeight);
+
+			Gtk.SpinButton mySpinLegsLength = new Gtk.SpinButton(0, 150, .1);
+			table_main.Attach (mySpinLegsLength, (uint) 5, (uint) 6, (uint) count, (uint) count +1,
+					Gtk.AttachOptions.Shrink, Gtk.AttachOptions.Shrink, padding, padding);
+			mySpinLegsLength.Show();
+			spinsLegsLength.Add (mySpinLegsLength);
+
+			Gtk.SpinButton mySpinHipsHeight = new Gtk.SpinButton(0, 150, .1);
+			table_main.Attach (mySpinHipsHeight, (uint) 6, (uint) 7, (uint) count, (uint) count +1,
+					Gtk.AttachOptions.Shrink, Gtk.AttachOptions.Shrink, padding, padding);
+			mySpinHipsHeight.Show();
+			spinsHipsHeight.Add (mySpinHipsHeight);
 		}
 
 		string sportStuffString = "";
@@ -530,14 +649,18 @@ public class PersonAddMultipleWindow
 		entry.Text = Util.MakeValidSQL(entry.Text);
 	}
 
-	void fillTableFromCSV(ArrayList array) {
+	void fillTableFromCSV (ArrayList array)
+	{
 		int i = 0;
-		foreach(PersonAddMultipleTable pamt in array) {
-			((Gtk.Entry)entries[i]).Text = pamt.name;
-			((Gtk.RadioButton)radiosM[i]).Active = pamt.maleOrFemale;
-			((Gtk.RadioButton)radiosF[i]).Active = ! pamt.maleOrFemale;
-			((Gtk.SpinButton)spins[i]).Value = pamt.weight;
-			i++;
+		foreach (PersonAddMultipleTable pamt in array) {
+			((Gtk.Entry) entries[i]).Text = pamt.name;
+			((Gtk.RadioButton) radiosM[i]).Active = pamt.maleOrFemale;
+			((Gtk.RadioButton) radiosF[i]).Active = ! pamt.maleOrFemale;
+			((Gtk.SpinButton) spinsWeight[i]).Value = pamt.weight;
+			((Gtk.SpinButton) spinsHeight[i]).Value = pamt.height;
+			((Gtk.SpinButton) spinsLegsLength[i]).Value = pamt.legsLength;
+			((Gtk.SpinButton) spinsHipsHeight[i]).Value = pamt.hipsHeight;
+			i ++;
 		}
 	}
 
@@ -550,7 +673,7 @@ public class PersonAddMultipleWindow
 
 		Sqlite.Open();
 		for (int i = 0; i < rows; i ++) 
-			checkEntries(i, ((Gtk.Entry)entries[i]).Text.ToString(), (int) ((Gtk.SpinButton)spins[i]).Value);
+			checkEntries(i, ((Gtk.Entry)entries[i]).Text.ToString(), (int) ((Gtk.SpinButton) spinsWeight[i]).Value);
 		Sqlite.Close();
 	
 		checkAllEntriesAreDifferent();
@@ -567,8 +690,8 @@ public class PersonAddMultipleWindow
 			PersonAddMultipleWindowBox = null;
 		}
 	}
-		
-	private void checkEntries(int count, string name, double weight) {
+	//do not need to check height, legsLength, hipsHeight, can be 0
+	private void checkEntries (int count, string name, double weight) {
 		if(name.Length > 0) {
 			bool personExists = Sqlite.Exists (true, Constants.PersonTable, Util.RemoveTilde(name));
 			if(personExists) {
@@ -642,6 +765,9 @@ public class PersonAddMultipleWindow
 		
 		string sex = "";
 		double weight = 0;
+		double height = 0;
+		double legsLength = 0;
+		double hipsHeight = 0;
 				
 		List <Person> persons = new List<Person>();
 		List <PersonSession> personSessions = new List<PersonSession>();
@@ -669,17 +795,20 @@ public class PersonAddMultipleWindow
 				
 				persons.Add(currentPerson);
 						
-				weight = (double) ((Gtk.SpinButton)spins[i]).Value;
+				weight = (double) ((Gtk.SpinButton) spinsWeight[i]).Value;
+				height = (double) ((Gtk.SpinButton) spinsHeight[i]).Value;
+				legsLength = (double) ((Gtk.SpinButton) spinsLegsLength[i]).Value;
+				hipsHeight = (double) ((Gtk.SpinButton) spinsHipsHeight[i]).Value;
+
 				personSessions.Add(new PersonSession(
 							psID ++,
 							currentPerson.UniqueID, currentSession.UniqueID, 
-							0, weight, 		//height, weight	
+							height, weight,
 							currentSession.PersonsSportID,
 							currentSession.PersonsSpeciallityID,
 							currentSession.PersonsPractice,
 							"", 			//comments
-							Constants.TrochanterToeUndefinedID,
-							Constants.TrochanterFloorOnFlexionUndefinedID
+							legsLength, hipsHeight
 							)
 						);
 

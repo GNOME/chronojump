@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2017   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2004-2022   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -132,7 +132,7 @@ public class StatDjPower : Stat
 				strFull[0] + "(" + strFull[2] + ")";
 		}
 
-		return string.Format(Catalog.GetString("{0} in Dj Power [mass * g * (fallHeight + 1.226 * (tv^2) ) / (tc+tv)] applied to {1} on {2}"), selectedValuesString, jumpType, mySessionString);
+		return string.Format(Catalog.GetString("{0} in Dj Power [mass * g * (fallHeight + 1.226 * (tv^2) ) / tc] applied to {1} on {2}"), selectedValuesString, jumpType, mySessionString);
 	}
 }
 

@@ -55,7 +55,6 @@ public class PersonAddMultipleWindow
 	
 	[Widget] Gtk.Window person_multiple_infinite;
 		
-	[Widget] Gtk.HBox hbox_top;
 	[Widget] Gtk.Notebook notebook;
 	
 	[Widget] Gtk.RadioButton radio_csv;
@@ -70,6 +69,7 @@ public class PersonAddMultipleWindow
 	[Widget] Gtk.Label label_name;
 
 	[Widget] Gtk.Button button_manually_create;
+	[Widget] Gtk.Button button_csv_prepare;
 	
 	[Widget] Gtk.Image image_name1;
 	[Widget] Gtk.Image image_name2;
@@ -79,6 +79,10 @@ public class PersonAddMultipleWindow
 	[Widget] Gtk.CheckButton check_person_height;
 	[Widget] Gtk.CheckButton check_legsLength;
 	[Widget] Gtk.CheckButton check_hipsHeight;
+
+	[Widget] Gtk.HBox hbox_h1_h2_help;
+	[Widget] Gtk.Label label_h1_legsLength;
+	[Widget] Gtk.Label label_h2_hipsHeight;
 
 	//[Widget] Gtk.Table table_example;
 	//show/hide headers and make them bold
@@ -106,6 +110,8 @@ public class PersonAddMultipleWindow
 	[Widget] Gtk.Label label_t_hipsHeight_johnny;
 
 	[Widget] Gtk.TextView textview;
+
+	private enum notebookPages { MAINOPTIONS, TABLEMANUALLY, LOADCSV };
 
 	//use this to read/write table
 	ArrayList entries;
@@ -309,13 +315,24 @@ public class PersonAddMultipleWindow
 	
 	void on_radio_csv_toggled (object obj, EventArgs args)
 	{
-		if(radio_csv.Active)
-			notebook.CurrentPage = 1;
+		if (radio_csv.Active)
+		{
+			button_csv_prepare.Sensitive = true;
+			hbox_manually.Sensitive = false;
+		}
 	}
 	void on_radio_manually_toggled (object obj, EventArgs args)
 	{
-		if(radio_manually.Active)
-			notebook.CurrentPage = 0;
+		if (radio_manually.Active)
+		{
+			button_csv_prepare.Sensitive = false;
+			hbox_manually.Sensitive = true;
+		}
+	}
+
+	private void on_button_csv_prepare_clicked (object obj, EventArgs args)
+	{
+		notebook.CurrentPage = Convert.ToInt32 (notebookPages.LOADCSV);
 	}
 		
 	void on_button_csv_load_clicked (object obj, EventArgs args) 
@@ -349,16 +366,16 @@ public class PersonAddMultipleWindow
 				return;
 			}
 
+			bool headersActive = check_headers.Active;
+			bool name1Col = check_fullname_1_col.Active;
+			bool useHeightCol = check_person_height.Active;
+			bool useLegsLengthCol = check_legsLength.Active;
+			bool useHipsHeightCol = check_hipsHeight.Active;
+
 			List<string> columns = new List<string>();
 			using (var reader = new CsvFileReader(fc.Filename))
 			{
 				reader.ChangeDelimiter(columnDelimiter);
-				bool headersActive = check_headers.Active;
-				bool name1Col = check_fullname_1_col.Active;
-				bool useHeightCol = check_person_height.Active;
-				bool useLegsLengthCol = check_legsLength.Active;
-				bool useHipsHeightCol = check_hipsHeight.Active;
-
 				int genreCol = 1;
 				int weightCol = 2;
 				int heightCol = 3;
@@ -483,8 +500,8 @@ public class PersonAddMultipleWindow
 			file.Close(); 
 
 			rows = array.Count;
-			createEmptyTable();
-			fillTableFromCSV(array);
+			createEmptyTable (useHeightCol, useLegsLengthCol, useHipsHeightCol);
+			fillTableFromCSV (array, useHeightCol, useLegsLengthCol, useHipsHeightCol);
 		} 
 
 		//Don't forget to call Destroy() or the FileChooserDialog window won't get closed.
@@ -493,18 +510,19 @@ public class PersonAddMultipleWindow
 
 	void on_button_manually_create_clicked (object obj, EventArgs args) 
 	{
-		button_manually_create.Sensitive = false;
+		//button_manually_create.Sensitive = false;
 
 		rows = Convert.ToInt32(spin_manually.Value);
 
-		createEmptyTable();
+		bool useHeightCol = check_person_height.Active;
+		bool useLegsLengthCol = check_legsLength.Active;
+		bool useHipsHeightCol = check_hipsHeight.Active;
+
+		createEmptyTable (useHeightCol, useLegsLengthCol, useHipsHeightCol);
 	}
 
-	void createEmptyTable()
+	void createEmptyTable (bool useHeightCol, bool useLegsLengthCol, bool useHipsHeightCol)
 	{
-		hbox_top.Visible = false;
-		hbox_manually.Visible = false;
-
 		entries = new ArrayList();
 		radiosM = new ArrayList();
 		radiosF = new ArrayList();
@@ -516,20 +534,21 @@ public class PersonAddMultipleWindow
 		Gtk.Label nameLabel = new Gtk.Label("<b>" + Catalog.GetString("Full name") + "</b>");
 		Gtk.Label sexLabel = new Gtk.Label("<b>" + Catalog.GetString("Sex") + "</b>");
 		Gtk.Label weightLabel = new Gtk.Label("<b>" + Catalog.GetString("Weight") +
-			"</b>(" + Catalog.GetString("Kg") + ")" );
+				"</b> (" + Catalog.GetString("Kg") + ")" );
 		Gtk.Label heightLabel = new Gtk.Label("<b>" + Catalog.GetString("Height") +
-			"</b>(" + Catalog.GetString("cm") + ")" );
-		Gtk.Label legsLengthLabel = new Gtk.Label("<b>" + Catalog.GetString("Leg length") +
-			"</b>(" + Catalog.GetString("cm") + ")" );
-		Gtk.Label hipsHeightLabel = new Gtk.Label("<b>" + Catalog.GetString("Hips height on SJ flexion") +
-			"</b>(" + Catalog.GetString("cm") + ")" );
+				"</b> (" + Catalog.GetString("cm") + ")" );
+		Gtk.Label legsLengthLabel = new Gtk.Label("<b>h1</b> (" + Catalog.GetString("cm") + ")" );
+		Gtk.Label hipsHeightLabel = new Gtk.Label("<b>h2</b> (" + Catalog.GetString("cm") + ")" );
 		
 		nameLabel.UseMarkup = true;
 		sexLabel.UseMarkup = true;
 		weightLabel.UseMarkup = true;
-		heightLabel.UseMarkup = true;
-		legsLengthLabel.UseMarkup = true;
-		hipsHeightLabel.UseMarkup = true;
+		if (useHeightCol)
+			heightLabel.UseMarkup = true;
+		if (useLegsLengthCol)
+			legsLengthLabel.UseMarkup = true;
+		if (useHipsHeightCol)
+			hipsHeightLabel.UseMarkup = true;
 
 		nameLabel.Xalign = 0;
 		sexLabel.Xalign = 0;
@@ -538,37 +557,46 @@ public class PersonAddMultipleWindow
 		legsLengthLabel.Xalign = 0;
 		hipsHeightLabel.Xalign = 0;
 		
-		weightLabel.Show();
-		heightLabel.Show();
-		legsLengthLabel.Show();
-		hipsHeightLabel.Show();
 		nameLabel.Show();
 		sexLabel.Show();
+		weightLabel.Show();
+		if (useHeightCol)
+			heightLabel.Show();
+		if (useLegsLengthCol)
+			legsLengthLabel.Show();
+		if (useHipsHeightCol)
+			hipsHeightLabel.Show();
 	
 		uint padding = 4;	
 
-		table_main.Attach (nameLabel, (uint) 1, (uint) 2, 0, 1, 
+		int x = 1; //fullname is in col (1)
+		table_main.Attach (nameLabel, (uint) x, (uint) ++x, 0, 1,
 				Gtk.AttachOptions.Fill | Gtk.AttachOptions.Expand , Gtk.AttachOptions.Shrink, padding, padding);
-		table_main.Attach (sexLabel, (uint) 2, (uint) 3, 0, 1, 
+		table_main.Attach (sexLabel, (uint) x, (uint) ++x, 0, 1,
 				Gtk.AttachOptions.Shrink, Gtk.AttachOptions.Shrink, padding, padding);
-		table_main.Attach (weightLabel, (uint) 3, (uint) 4, 0, 1, 
+		table_main.Attach (weightLabel, (uint) x, (uint) ++x, 0, 1,
 				Gtk.AttachOptions.Shrink, Gtk.AttachOptions.Shrink, padding, padding);
-		table_main.Attach (heightLabel, (uint) 4, (uint) 5, 0, 1,
-				Gtk.AttachOptions.Shrink, Gtk.AttachOptions.Shrink, padding, padding);
-		table_main.Attach (legsLengthLabel, (uint) 5, (uint) 6, 0, 1,
-				Gtk.AttachOptions.Shrink, Gtk.AttachOptions.Shrink, padding, padding);
-		table_main.Attach (hipsHeightLabel, (uint) 6, (uint) 7, 0, 1,
-				Gtk.AttachOptions.Shrink, Gtk.AttachOptions.Shrink, padding, padding);
+		if (useHeightCol)
+			table_main.Attach (heightLabel, (uint) x, (uint) ++x, 0, 1,
+					Gtk.AttachOptions.Shrink, Gtk.AttachOptions.Shrink, padding, padding);
+		if (useLegsLengthCol)
+			table_main.Attach (legsLengthLabel, (uint) x, (uint) ++x, 0, 1,
+					Gtk.AttachOptions.Shrink, Gtk.AttachOptions.Shrink, padding, padding);
+		if (useHipsHeightCol)
+			table_main.Attach (hipsHeightLabel, (uint) x, (uint) ++x, 0, 1,
+					Gtk.AttachOptions.Shrink, Gtk.AttachOptions.Shrink, padding, padding);
 
-		for (int count=1; count <= rows; count ++) {
+		for (int count=1; count <= rows; count ++)
+		{
+			x = 0; //count is in first col (0)
 			Gtk.Label myLabel = new Gtk.Label((count).ToString());
-			table_main.Attach (myLabel, (uint) 0, (uint) 1, (uint) count, (uint) count +1, 
+			table_main.Attach (myLabel, (uint) x, (uint) ++x, (uint) count, (uint) count +1,
 					Gtk.AttachOptions.Shrink, Gtk.AttachOptions.Shrink, padding, padding);
 			myLabel.Show();
 			//labels.Add(myLabel);
 
 			Gtk.Entry myEntry = new Gtk.Entry();
-			table_main.Attach (myEntry, (uint) 1, (uint) 2, (uint) count, (uint) count +1, 
+			table_main.Attach (myEntry, (uint) x, (uint) ++x, (uint) count, (uint) count +1,
 					Gtk.AttachOptions.Fill | Gtk.AttachOptions.Expand , Gtk.AttachOptions.Shrink, padding, padding);
 			myEntry.Changed += on_entry_changed;
 			myEntry.Show();
@@ -587,33 +615,42 @@ public class PersonAddMultipleWindow
 			sexBox.PackStart(myRadioM, false, false, 4);
 			sexBox.PackStart(myRadioF, false, false, 4);
 			sexBox.Show();
-			table_main.Attach (sexBox, (uint) 2, (uint) 3, (uint) count, (uint) count +1, 
+			table_main.Attach (sexBox, (uint) x, (uint) ++x, (uint) count, (uint) count +1,
 					Gtk.AttachOptions.Shrink, Gtk.AttachOptions.Shrink, padding, padding);
 
 
 			Gtk.SpinButton mySpinWeight = new Gtk.SpinButton(0, 300, .1);
-			table_main.Attach (mySpinWeight, (uint) 3, (uint) 4, (uint) count, (uint) count +1,
+			table_main.Attach (mySpinWeight, (uint) x, (uint) ++x, (uint) count, (uint) count +1,
 					Gtk.AttachOptions.Shrink, Gtk.AttachOptions.Shrink, padding, padding);
 			mySpinWeight.Show();
 			spinsWeight.Add (mySpinWeight);
 
-			Gtk.SpinButton mySpinHeight = new Gtk.SpinButton(0, 250, .1);
-			table_main.Attach (mySpinHeight, (uint) 4, (uint) 5, (uint) count, (uint) count +1,
-					Gtk.AttachOptions.Shrink, Gtk.AttachOptions.Shrink, padding, padding);
-			mySpinHeight.Show();
-			spinsHeight.Add (mySpinHeight);
+			if (useHeightCol)
+			{
+				Gtk.SpinButton mySpinHeight = new Gtk.SpinButton(0, 250, .1);
+				table_main.Attach (mySpinHeight, (uint) x, (uint) ++x, (uint) count, (uint) count +1,
+						Gtk.AttachOptions.Shrink, Gtk.AttachOptions.Shrink, padding, padding);
+				mySpinHeight.Show();
+				spinsHeight.Add (mySpinHeight);
+			}
 
-			Gtk.SpinButton mySpinLegsLength = new Gtk.SpinButton(0, 150, .1);
-			table_main.Attach (mySpinLegsLength, (uint) 5, (uint) 6, (uint) count, (uint) count +1,
-					Gtk.AttachOptions.Shrink, Gtk.AttachOptions.Shrink, padding, padding);
-			mySpinLegsLength.Show();
-			spinsLegsLength.Add (mySpinLegsLength);
+			if (useLegsLengthCol)
+			{
+				Gtk.SpinButton mySpinLegsLength = new Gtk.SpinButton(0, 150, .1);
+				table_main.Attach (mySpinLegsLength, (uint) x, (uint) ++x, (uint) count, (uint) count +1,
+						Gtk.AttachOptions.Shrink, Gtk.AttachOptions.Shrink, padding, padding);
+				mySpinLegsLength.Show();
+				spinsLegsLength.Add (mySpinLegsLength);
+			}
 
-			Gtk.SpinButton mySpinHipsHeight = new Gtk.SpinButton(0, 150, .1);
-			table_main.Attach (mySpinHipsHeight, (uint) 6, (uint) 7, (uint) count, (uint) count +1,
-					Gtk.AttachOptions.Shrink, Gtk.AttachOptions.Shrink, padding, padding);
-			mySpinHipsHeight.Show();
-			spinsHipsHeight.Add (mySpinHipsHeight);
+			if (useHipsHeightCol)
+			{
+				Gtk.SpinButton mySpinHipsHeight = new Gtk.SpinButton(0, 150, .1);
+				table_main.Attach (mySpinHipsHeight, (uint) x, (uint) ++x, (uint) count, (uint) count +1,
+						Gtk.AttachOptions.Shrink, Gtk.AttachOptions.Shrink, padding, padding);
+				mySpinHipsHeight.Show();
+				spinsHipsHeight.Add (mySpinHipsHeight);
+			}
 		}
 
 		string sportStuffString = "";
@@ -633,9 +670,24 @@ public class PersonAddMultipleWindow
 			label_message.Visible = true;
 		}
 
+		if (useLegsLengthCol || useHipsHeightCol) 	//show the h1, h2
+		{
+			hbox_h1_h2_help.Visible = true;
+			if (useLegsLengthCol)
+			{
+				label_h1_legsLength.Text = "<b>h1</b>: " + Catalog.GetString ("Leg length");
+				label_h1_legsLength.UseMarkup = true;
+			}
+			if (useHipsHeightCol)
+			{
+				label_h2_hipsHeight.Text = "<b>h2</b>: " + Catalog.GetString ("Hips height on SJ flexion");
+				label_h2_hipsHeight.UseMarkup = true;
+			}
+		}
+
 		table_main.Show();
 		table_main.Visible = true;
-		notebook.CurrentPage = 0;
+		notebook.CurrentPage = Convert.ToInt32 (notebookPages.TABLEMANUALLY);
 
 		button_accept.Sensitive = true;
 	}
@@ -649,17 +701,33 @@ public class PersonAddMultipleWindow
 		entry.Text = Util.MakeValidSQL(entry.Text);
 	}
 
-	void fillTableFromCSV (ArrayList array)
+	void fillTableFromCSV (ArrayList array, bool useHeightCol, bool useLegsLengthCol, bool useHipsHeightCol)
 	{
 		int i = 0;
-		foreach (PersonAddMultipleTable pamt in array) {
+		foreach (PersonAddMultipleTable pamt in array)
+		{
 			((Gtk.Entry) entries[i]).Text = pamt.name;
 			((Gtk.RadioButton) radiosM[i]).Active = pamt.maleOrFemale;
 			((Gtk.RadioButton) radiosF[i]).Active = ! pamt.maleOrFemale;
+			LogB.Information("going to weight");
 			((Gtk.SpinButton) spinsWeight[i]).Value = pamt.weight;
-			((Gtk.SpinButton) spinsHeight[i]).Value = pamt.height;
-			((Gtk.SpinButton) spinsLegsLength[i]).Value = pamt.legsLength;
-			((Gtk.SpinButton) spinsHipsHeight[i]).Value = pamt.hipsHeight;
+
+			if (useHeightCol)
+			{
+				LogB.Information("going to height");
+				((Gtk.SpinButton) spinsHeight[i]).Value = pamt.height;
+			}
+			if (useLegsLengthCol)
+			{
+				LogB.Information("going to h1");
+				((Gtk.SpinButton) spinsLegsLength[i]).Value = pamt.legsLength;
+			}
+			if (useHipsHeightCol)
+			{
+				LogB.Information("going to h2");
+				((Gtk.SpinButton) spinsHipsHeight[i]).Value = pamt.hipsHeight;
+				LogB.Information("h2 done");
+			}
 			i ++;
 		}
 	}
@@ -741,7 +809,7 @@ public class PersonAddMultipleWindow
 
 	//inserts all the rows where name is not blank
 	//all this names doesn't match with other in the database, and the weights are > 0 ( checked in checkEntries() )
-	void processAllNonBlankRows() 
+	void processAllNonBlankRows ()
 	{
 		int pID;
 		int countPersons = Sqlite.Count(Constants.PersonTable, false);
@@ -793,14 +861,23 @@ public class PersonAddMultipleWindow
 							""			//linkServerImage
 							);
 				
-				persons.Add(currentPerson);
+				persons.Add (currentPerson);
 						
 				weight = (double) ((Gtk.SpinButton) spinsWeight[i]).Value;
-				height = (double) ((Gtk.SpinButton) spinsHeight[i]).Value;
-				legsLength = (double) ((Gtk.SpinButton) spinsLegsLength[i]).Value;
-				hipsHeight = (double) ((Gtk.SpinButton) spinsHipsHeight[i]).Value;
 
-				personSessions.Add(new PersonSession(
+				height = 0;
+				if (check_person_height.Active)
+					height = (double) ((Gtk.SpinButton) spinsHeight[i]).Value;
+
+				legsLength = 0;
+				if (check_legsLength.Active)
+					legsLength = (double) ((Gtk.SpinButton) spinsLegsLength[i]).Value;
+
+				hipsHeight = 0;
+				if (check_hipsHeight.Active)
+					hipsHeight = (double) ((Gtk.SpinButton) spinsHipsHeight[i]).Value;
+
+				personSessions.Add (new PersonSession (
 							psID ++,
 							currentPerson.UniqueID, currentSession.UniqueID, 
 							height, weight,
@@ -816,7 +893,7 @@ public class PersonAddMultipleWindow
 			}
 	
 		//do the transaction	
-		new SqlitePersonSessionTransaction(persons, personSessions);
+		new SqlitePersonSessionTransaction (persons, personSessions);
 	}
 
 	public Button Button_accept 

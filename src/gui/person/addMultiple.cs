@@ -127,6 +127,7 @@ public class PersonAddMultipleWindow
 	//[Widget] Gtk.ScrolledWindow scrolledwindow;
 	[Widget] Gtk.Table table_main;
 	[Widget] Gtk.Label label_message;
+	[Widget] Gtk.Label label_columns_order;
 	
 	[Widget] Gtk.Button button_accept;
 	
@@ -270,11 +271,13 @@ public class PersonAddMultipleWindow
 			image_csv_headers.Visible = true;
 			image_csv_noheaders.Visible = false;
 			label_csv.Text = Catalog.GetString("CSV file has headers");
+			label_columns_order.Visible = true;
 
 		} else {
 			image_csv_headers.Visible = false;
 			image_csv_noheaders.Visible = true;
 			label_csv.Text = Catalog.GetString("CSV file does not have headers");
+			label_columns_order.Visible = false;
 		}
 
 		tableLabelsVisibility();

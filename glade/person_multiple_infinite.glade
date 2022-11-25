@@ -653,6 +653,24 @@
                                     <child>
                                       <placeholder/>
                                     </child>
+                                    <child>
+                                      <placeholder/>
+                                    </child>
+                                    <child>
+                                      <placeholder/>
+                                    </child>
+                                    <child>
+                                      <placeholder/>
+                                    </child>
+                                    <child>
+                                      <placeholder/>
+                                    </child>
+                                    <child>
+                                      <placeholder/>
+                                    </child>
+                                    <child>
+                                      <placeholder/>
+                                    </child>
                                   </widget>
                                   <packing>
                                     <property name="expand">True</property>
@@ -1475,14 +1493,14 @@
             <property name="can_focus">False</property>
             <property name="layout_style">spread</property>
             <child>
-              <widget class="GtkButton" id="button_cancel">
+              <widget class="GtkButton" id="button_cancel_or_back">
                 <property name="label">gtk-cancel</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="can_default">True</property>
                 <property name="receives_default">False</property>
                 <property name="use_stock">True</property>
-                <signal name="clicked" handler="on_button_cancel_clicked" swapped="no"/>
+                <signal name="clicked" handler="on_button_cancel_or_back_clicked" swapped="no"/>
                 <accelerator key="Escape" signal="clicked"/>
               </widget>
               <packing>

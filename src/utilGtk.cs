@@ -504,14 +504,14 @@ public class UtilGtk
 
 	/*
 	 *
-	 * CONTAINER
+	 * CONTAINER (also table)
 	 *
 	 */
 
 	public static void  RemoveChildren (Gtk.Container c)
 	{
-		foreach(Gtk.Widget w in c.Children)
-			c.Remove(w);
+		foreach (Gtk.Widget w in c.Children)
+			c.Remove (w);
 	}
 
 

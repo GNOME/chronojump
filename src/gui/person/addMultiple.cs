@@ -56,6 +56,7 @@ public class PersonAddMultipleWindow
 	[Widget] Gtk.Window person_multiple_infinite;
 		
 	[Widget] Gtk.Notebook notebook;
+	[Widget] Gtk.Button button_cancel_or_back;
 	
 	[Widget] Gtk.RadioButton radio_csv;
 	[Widget] Gtk.RadioButton radio_manually;
@@ -170,16 +171,23 @@ public class PersonAddMultipleWindow
 		PersonAddMultipleWindowBox.tableHeaderBold ();
 		PersonAddMultipleWindowBox.textviewUpdate ();
 		PersonAddMultipleWindowBox.tableLabelsVisibility ();
+		PersonAddMultipleWindowBox.button_cancel_or_back.Label = Catalog.GetString ("Cancel");
 
 		PersonAddMultipleWindowBox.person_multiple_infinite.Show ();
 		
 		return PersonAddMultipleWindowBox;
 	}
 	
-	void on_button_cancel_clicked (object o, EventArgs args)
+	void on_button_cancel_or_back_clicked (object o, EventArgs args)
 	{
-		PersonAddMultipleWindowBox.person_multiple_infinite.Hide();
-		PersonAddMultipleWindowBox = null;
+		if (notebook.CurrentPage == Convert.ToInt32 (notebookPages.MAINOPTIONS))
+		{
+			PersonAddMultipleWindowBox.person_multiple_infinite.Hide();
+			PersonAddMultipleWindowBox = null;
+		} else {
+			notebook.CurrentPage = Convert.ToInt32 (notebookPages.MAINOPTIONS);
+			PersonAddMultipleWindowBox.button_cancel_or_back.Label = Catalog.GetString ("Cancel");
+		}
 	}
 	
 	void on_delete_event (object o, DeleteEventArgs args)
@@ -335,6 +343,7 @@ public class PersonAddMultipleWindow
 
 	private void on_button_csv_prepare_clicked (object obj, EventArgs args)
 	{
+		button_cancel_or_back.Label = Catalog.GetString ("Back");
 		notebook.CurrentPage = Convert.ToInt32 (notebookPages.LOADCSV);
 	}
 		
@@ -513,7 +522,7 @@ public class PersonAddMultipleWindow
 
 	void on_button_manually_create_clicked (object obj, EventArgs args) 
 	{
-		//button_manually_create.Sensitive = false;
+		button_cancel_or_back.Label = Catalog.GetString ("Back");
 
 		rows = Convert.ToInt32(spin_manually.Value);
 
@@ -526,6 +535,9 @@ public class PersonAddMultipleWindow
 
 	void createEmptyTable (bool useHeightCol, bool useLegsLengthCol, bool useHipsHeightCol)
 	{
+		if (table_main != null && table_main.Children.Length > 0)
+			UtilGtk.RemoveChildren (table_main);
+
 		entries = new ArrayList();
 		radiosM = new ArrayList();
 		radiosF = new ArrayList();

@@ -49,6 +49,33 @@ public class PersonAddMultipleTable
 	~PersonAddMultipleTable() {}
 }
 
+
+//an id can have more than 1 ErrorType
+public class PersonAddMultipleError
+{
+	public enum ErrorType { INSESSION, INDB, REPEATEDNAME, NOWEIGHT }
+
+	public int id; //starts at 0
+	public string nameOptional; //needed at repeated
+	public ErrorType errorType;
+
+	public PersonAddMultipleError (int id, string nameOptional, ErrorType errorType)
+	{
+		this.id = id;
+		this.nameOptional = nameOptional;
+		this.errorType = errorType;
+	}
+
+	public static bool ExistErrorLike (List<PersonAddMultipleError> pame_l, string nameOptional, ErrorType errorType)
+	{
+		foreach (PersonAddMultipleError pame in pame_l)
+			if (pame.errorType == errorType && pame.nameOptional == nameOptional)
+				return true;
+
+		return false;
+	}
+}
+
 //new persons multiple (infinite)
 public class PersonAddMultipleWindow
 {
@@ -542,24 +569,7 @@ public class PersonAddMultipleWindow
 	List<Gtk.Label> error_label_no_weight_l;
 	Gtk.Label errorLabel;
 
-	List<ErrorStruct> errorStruct_l;
-	//an id can have more than 1 ErrorType
-	//TODO: manage for being visible onle for this class
-	private struct ErrorStruct
-	{
-		public enum ErrorType { INSESSION, INDB, REPEATEDNAME, NOWEIGHT }
-
-		public int id; //starts at 0
-		public string nameOptional; //needed at repeated
-		public ErrorType errorType;
-
-		public ErrorStruct (int id, string nameOptional, ErrorType errorType)
-		{
-			this.id = id;
-			this.nameOptional = nameOptional;
-			this.errorType = errorType;
-		}
-	}
+	List<PersonAddMultipleError> pame_l;
 
 	void createEmptyTable (bool useHeightCol, bool useLegsLengthCol, bool useHipsHeightCol)
 	{
@@ -823,7 +833,7 @@ public class PersonAddMultipleWindow
 
 	void on_button_accept_clicked (object o, EventArgs args)
 	{
-		errorStruct_l = new List<ErrorStruct>();
+		pame_l = new List<PersonAddMultipleError>();
 		foreach (Gtk.Label l in error_label_in_session_l)
 			l.Visible = false;
 		foreach (Gtk.Label l in error_label_in_db_l)
@@ -863,22 +873,22 @@ public class PersonAddMultipleWindow
 					*/
 			//TODO: use this instead the above if
 			errorLabel.Visible = true;
-			foreach (ErrorStruct es in errorStruct_l)
+			foreach (PersonAddMultipleError pame in pame_l)
 			{
-				if (es.errorType == ErrorStruct.ErrorType.INSESSION)
+				if (pame.errorType == PersonAddMultipleError.ErrorType.INSESSION)
 				{
-					error_label_in_session_l[es.id].Visible = true;
-					error_check_use_stored_l[es.id].Visible = true;
+					error_label_in_session_l[pame.id].Visible = true;
+					error_check_use_stored_l[pame.id].Visible = true;
 				}
-				else if (es.errorType == ErrorStruct.ErrorType.INDB)
+				else if (pame.errorType == PersonAddMultipleError.ErrorType.INDB)
 				{
-					error_label_in_db_l[es.id].Visible = true;
-					error_check_use_stored_l[es.id].Visible = true;
+					error_label_in_db_l[pame.id].Visible = true;
+					error_check_use_stored_l[pame.id].Visible = true;
 				}
-				else if (es.errorType == ErrorStruct.ErrorType.REPEATEDNAME)
-					error_label_repeated_name_l[es.id].Visible = true;
-				else if (es.errorType == ErrorStruct.ErrorType.NOWEIGHT)
-					error_label_no_weight_l[es.id].Visible = true;
+				else if (pame.errorType == PersonAddMultipleError.ErrorType.REPEATEDNAME)
+					error_label_repeated_name_l[pame.id].Visible = true;
+				else if (pame.errorType == PersonAddMultipleError.ErrorType.NOWEIGHT)
+					error_label_no_weight_l[pame.id].Visible = true;
 			}
 		} else {
 			processAllNonBlankRows();
@@ -893,11 +903,9 @@ public class PersonAddMultipleWindow
 		if(name.Length > 0)
 		{
 			//1st check that name is not repeated. If repeated, 1st solve this
-			foreach (ErrorStruct es in errorStruct_l)
-				if (es.errorType == ErrorStruct.ErrorType.REPEATEDNAME && es.nameOptional == Util.RemoveTilde (name))
-					return;
-
-			//errorStruct_l.Add (new ErrorStruct (i, ErrorStruct.ErrorType.REPEATEDNAME));
+			if (PersonAddMultipleError.ExistErrorLike (pame_l,
+						Util.RemoveTilde (name), PersonAddMultipleError.ErrorType.REPEATEDNAME))
+				return;
 
 			bool personExists = Sqlite.Exists (true, Constants.PersonTable, Util.RemoveTilde(name));
 
@@ -916,14 +924,14 @@ public class PersonAddMultipleWindow
 				errorExistsString += "[" + (count+1) + "] " + name + "\n";
 				if (inThisSession)
 				{
-					errorStruct_l.Add (new ErrorStruct (count, "", ErrorStruct.ErrorType.INSESSION));
+					pame_l.Add (new PersonAddMultipleError (count, "", PersonAddMultipleError.ErrorType.INSESSION));
 				} else {
-					errorStruct_l.Add (new ErrorStruct (count, "", ErrorStruct.ErrorType.INDB));
+					pame_l.Add (new PersonAddMultipleError (count, "", PersonAddMultipleError.ErrorType.INDB));
 				}
 			}
 			if(Convert.ToInt32(weight) == 0) {
 				errorWeightString += "[" + (count+1) + "] " + name + "\n";
-				errorStruct_l.Add (new ErrorStruct (count, "", ErrorStruct.ErrorType.NOWEIGHT));
+				pame_l.Add (new PersonAddMultipleError (count, "", PersonAddMultipleError.ErrorType.NOWEIGHT));
 			}
 		}
 	}
@@ -950,21 +958,16 @@ public class PersonAddMultipleWindow
 					errorRepeatedEntryString += string.Format("[{0}] {1} - [{2}] {3}\n",
 							i+1, newNames[i].ToString(), j, newNames[j-1].ToString());
 
-					// a) if the first time it appeared is not on errorStruct_l yet, include it now
-					bool found = false;
-					foreach (ErrorStruct es in errorStruct_l)
-						if (es.nameOptional == Util.RemoveTilde (newNames[i].ToString ()))
-						{
-							found = true;
-							break;
-						}
-					if (! found)
-						errorStruct_l.Add (new ErrorStruct (
-									j-1, Util.RemoveTilde (newNames[i].ToString()), ErrorStruct.ErrorType.REPEATEDNAME));
+					// a) if the first time it appeared is not on pame_l yet, include it now
+					if ( ! PersonAddMultipleError.ExistErrorLike (pame_l,
+								Util.RemoveTilde (newNames[i].ToString ()),
+								PersonAddMultipleError.ErrorType.REPEATEDNAME))
+						pame_l.Add (new PersonAddMultipleError (
+									j-1, Util.RemoveTilde (newNames[i].ToString()), PersonAddMultipleError.ErrorType.REPEATEDNAME));
 
 					// b) then add current row
-					errorStruct_l.Add (new ErrorStruct (
-								i, Util.RemoveTilde (newNames[i].ToString()), ErrorStruct.ErrorType.REPEATEDNAME));
+					pame_l.Add (new PersonAddMultipleError (
+								i, Util.RemoveTilde (newNames[i].ToString()), PersonAddMultipleError.ErrorType.REPEATEDNAME));
 				}
 			}
 		}

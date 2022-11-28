@@ -50,7 +50,7 @@ public class PersonAddMultipleTable
 }
 
 
-//an id can have more than 1 ErrorType
+// on current implementation PersonAddMultipleWindow, an id will have just 1 ErrorType
 public class PersonAddMultipleError
 {
 	public enum ErrorType { INSESSION, INDB, REPEATEDNAME, NOWEIGHT }
@@ -679,10 +679,28 @@ public class PersonAddMultipleWindow
 			error_label_no_weight.Visible = false;
 
 			Gtk.HBox idError = new HBox();
-			idError.PackStart (error_label_in_session, false, false, 4);
-			idError.PackStart (error_label_in_db, false, false, 4);
-			idError.PackStart (error_check_use_stored, false, false, 4);
+			/* structure of HBox idError:
+
+			            |  in_session  | in_db   |
+			   repeated | ---------------------- | no weight
+			            | error_check_use_stored |
+
+			   it will be shown 1 of the 4 error types
+			   if in_session or in_db then show the checkbox
+			*/
+
 			idError.PackStart (error_label_repeated_name, false, false, 4);
+
+			Gtk.HBox idErrorExistsH = new HBox();
+			idErrorExistsH.PackStart (error_label_in_session, false, false, 4);
+			idErrorExistsH.PackStart (error_label_in_db, false, false, 4);
+			idErrorExistsH.Show();
+			Gtk.VBox idErrorExistsV = new VBox();
+			idErrorExistsV.PackStart (idErrorExistsH, false, false, 2);
+			idErrorExistsV.PackStart (error_check_use_stored, false, false, 2);
+			idErrorExistsV.Show();
+			idError.PackStart (idErrorExistsV, false, false, 4);
+
 			idError.PackStart (error_label_no_weight, false, false, 4);
 			idError.Show();
 

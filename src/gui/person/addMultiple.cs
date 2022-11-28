@@ -533,10 +533,46 @@ public class PersonAddMultipleWindow
 		createEmptyTable (useHeightCol, useLegsLengthCol, useHipsHeightCol);
 	}
 
+	List<Gtk.HBox> errorHBox_l;
+
+	List<Gtk.Label> error_label_in_session_l;
+	List<Gtk.Label> error_label_in_db_l;
+	List<Gtk.CheckButton> error_check_use_stored_l;
+	List<Gtk.Label> error_label_repeated_name_l;
+	List<Gtk.Label> error_label_no_weight_l;
+	Gtk.Label errorLabel;
+
+	List<ErrorStruct> errorStruct_l;
+	//an id can have more than 1 ErrorType
+	//TODO: manage for being visible onle for this class
+	private struct ErrorStruct
+	{
+		public enum ErrorType { INSESSION, INDB, REPEATEDNAME, NOWEIGHT }
+
+		public int id; //starts at 0
+		public string nameOptional; //needed at repeated
+		public ErrorType errorType;
+
+		public ErrorStruct (int id, string nameOptional, ErrorType errorType)
+		{
+			this.id = id;
+			this.nameOptional = nameOptional;
+			this.errorType = errorType;
+		}
+	}
+
 	void createEmptyTable (bool useHeightCol, bool useLegsLengthCol, bool useHipsHeightCol)
 	{
 		if (table_main != null && table_main.Children.Length > 0)
 			UtilGtk.RemoveChildren (table_main);
+
+		//initialize error lists
+		errorHBox_l = new List<Gtk.HBox>();
+		error_label_in_session_l = new List<Gtk.Label>();
+		error_label_in_db_l = new List<Gtk.Label>();
+		error_check_use_stored_l = new List<Gtk.CheckButton>();
+		error_label_repeated_name_l = new List<Gtk.Label>();
+		error_label_no_weight_l = new List<Gtk.Label>();
 
 		entries = new ArrayList();
 		radiosM = new ArrayList();
@@ -546,6 +582,7 @@ public class PersonAddMultipleWindow
 		spinsLegsLength = new ArrayList();
 		spinsHipsHeight = new ArrayList();
 
+		errorLabel = new Gtk.Label("<b>" + Catalog.GetString("Error") + "</b>");
 		Gtk.Label nameLabel = new Gtk.Label("<b>" + Catalog.GetString("Full name") + "</b>");
 		Gtk.Label sexLabel = new Gtk.Label("<b>" + Catalog.GetString("Sex") + "</b>");
 		Gtk.Label weightLabel = new Gtk.Label("<b>" + Catalog.GetString("Weight") +
@@ -555,6 +592,7 @@ public class PersonAddMultipleWindow
 		Gtk.Label legsLengthLabel = new Gtk.Label("<b>h1</b> (" + Catalog.GetString("cm") + ")" );
 		Gtk.Label hipsHeightLabel = new Gtk.Label("<b>h2</b> (" + Catalog.GetString("cm") + ")" );
 		
+		errorLabel.UseMarkup = true;
 		nameLabel.UseMarkup = true;
 		sexLabel.UseMarkup = true;
 		weightLabel.UseMarkup = true;
@@ -572,6 +610,7 @@ public class PersonAddMultipleWindow
 		legsLengthLabel.Xalign = 0;
 		hipsHeightLabel.Xalign = 0;
 		
+		errorLabel.Hide();
 		nameLabel.Show();
 		sexLabel.Show();
 		weightLabel.Show();
@@ -584,7 +623,9 @@ public class PersonAddMultipleWindow
 	
 		uint padding = 4;	
 
-		int x = 1; //fullname is in col (1)
+		int x = 1; //id col 0, errors col1, fullname col (2)
+		table_main.Attach (errorLabel, (uint) x, (uint) ++x, 0, 1,
+				Gtk.AttachOptions.Shrink | Gtk.AttachOptions.Shrink , Gtk.AttachOptions.Shrink, padding, padding);
 		table_main.Attach (nameLabel, (uint) x, (uint) ++x, 0, 1,
 				Gtk.AttachOptions.Fill | Gtk.AttachOptions.Expand , Gtk.AttachOptions.Shrink, padding, padding);
 		table_main.Attach (sexLabel, (uint) x, (uint) ++x, 0, 1,
@@ -603,12 +644,45 @@ public class PersonAddMultipleWindow
 
 		for (int count=1; count <= rows; count ++)
 		{
-			x = 0; //count is in first col (0)
+			x = 0; //id col 0, errors col1, fullname col (2)
+
+			//id (count)
 			Gtk.Label myLabel = new Gtk.Label((count).ToString());
+			myLabel.Show();
 			table_main.Attach (myLabel, (uint) x, (uint) ++x, (uint) count, (uint) count +1,
 					Gtk.AttachOptions.Shrink, Gtk.AttachOptions.Shrink, padding, padding);
-			myLabel.Show();
-			//labels.Add(myLabel);
+
+			//errors
+			Gtk.Label error_label_in_session = new Gtk.Label("Name already in session");
+			Gtk.Label error_label_in_db = new Gtk.Label("Name already in database");
+			Gtk.CheckButton error_check_use_stored = new Gtk.CheckButton ("Use stored person");
+			Gtk.Label error_label_repeated_name = new Gtk.Label("Name repeated");
+			Gtk.Label error_label_no_weight = new Gtk.Label("No weight");
+
+			error_label_in_session_l.Add (error_label_in_session);
+			error_label_in_db_l.Add (error_label_in_db);
+			error_check_use_stored_l.Add (error_check_use_stored);
+			error_label_repeated_name_l.Add (error_label_repeated_name);
+			error_label_no_weight_l.Add (error_label_no_weight);
+
+			error_label_in_session.Visible = false;
+			error_label_in_db.Visible = false;
+			error_check_use_stored.Visible = false;
+			error_label_repeated_name.Visible = false;
+			error_label_no_weight.Visible = false;
+
+			Gtk.HBox idError = new HBox();
+			idError.PackStart (error_label_in_session, false, false, 4);
+			idError.PackStart (error_label_in_db, false, false, 4);
+			idError.PackStart (error_check_use_stored, false, false, 4);
+			idError.PackStart (error_label_repeated_name, false, false, 4);
+			idError.PackStart (error_label_no_weight, false, false, 4);
+			idError.Show();
+
+			errorHBox_l.Add (idError);
+
+			table_main.Attach (idError, (uint) x, (uint) ++x, (uint) count, (uint) count +1,
+					Gtk.AttachOptions.Shrink, Gtk.AttachOptions.Shrink, padding, padding);
 
 			Gtk.Entry myEntry = new Gtk.Entry();
 			table_main.Attach (myEntry, (uint) x, (uint) ++x, (uint) count, (uint) count +1,
@@ -749,23 +823,63 @@ public class PersonAddMultipleWindow
 
 	void on_button_accept_clicked (object o, EventArgs args)
 	{
+		errorStruct_l = new List<ErrorStruct>();
+		foreach (Gtk.Label l in error_label_in_session_l)
+			l.Visible = false;
+		foreach (Gtk.Label l in error_label_in_db_l)
+			l.Visible = false;
+		foreach (Gtk.CheckButton cb in error_check_use_stored_l)
+			cb.Visible = false;
+		foreach (Gtk.Label l in error_label_repeated_name_l)
+			l.Visible = false;
+		foreach (Gtk.Label l in error_label_no_weight_l)
+			l.Visible = false;
+
 		errorExistsString = "";
 		errorWeightString = "";
 		errorRepeatedEntryString = "";
 		personsCreatedCount = 0;
+
+		checkAllEntriesAreDifferent();
 
 		Sqlite.Open();
 		for (int i = 0; i < rows; i ++) 
 			checkEntries(i, ((Gtk.Entry)entries[i]).Text.ToString(), (int) ((Gtk.SpinButton) spinsWeight[i]).Value);
 		Sqlite.Close();
 	
-		checkAllEntriesAreDifferent();
-
 		string combinedErrorString = "";
 		combinedErrorString = readErrorStrings();
 		
-		if (combinedErrorString.Length > 0) {
+		if (combinedErrorString.Length > 0)
+		{
 			ErrorWindow.Show(combinedErrorString);
+
+			//foreach (Gtk.Widget w in table_main.Children)
+			//	LogB.Information (w.ToString ());
+			/*
+			foreach (Gtk.HBox hb in errorHBox_l)
+				foreach (Gtk.Widget w in hb)
+					w.Visible = true;
+					*/
+			//TODO: use this instead the above if
+			errorLabel.Visible = true;
+			foreach (ErrorStruct es in errorStruct_l)
+			{
+				if (es.errorType == ErrorStruct.ErrorType.INSESSION)
+				{
+					error_label_in_session_l[es.id].Visible = true;
+					error_check_use_stored_l[es.id].Visible = true;
+				}
+				else if (es.errorType == ErrorStruct.ErrorType.INDB)
+				{
+					error_label_in_db_l[es.id].Visible = true;
+					error_check_use_stored_l[es.id].Visible = true;
+				}
+				else if (es.errorType == ErrorStruct.ErrorType.REPEATEDNAME)
+					error_label_repeated_name_l[es.id].Visible = true;
+				else if (es.errorType == ErrorStruct.ErrorType.NOWEIGHT)
+					error_label_no_weight_l[es.id].Visible = true;
+			}
 		} else {
 			processAllNonBlankRows();
 		
@@ -774,35 +888,83 @@ public class PersonAddMultipleWindow
 		}
 	}
 	//do not need to check height, legsLength, hipsHeight, can be 0
-	private void checkEntries (int count, string name, double weight) {
-		if(name.Length > 0) {
+	private void checkEntries (int count, string name, double weight)
+	{
+		if(name.Length > 0)
+		{
+			//1st check that name is not repeated. If repeated, 1st solve this
+			foreach (ErrorStruct es in errorStruct_l)
+				if (es.errorType == ErrorStruct.ErrorType.REPEATEDNAME && es.nameOptional == Util.RemoveTilde (name))
+					return;
+
+			//errorStruct_l.Add (new ErrorStruct (i, ErrorStruct.ErrorType.REPEATEDNAME));
+
 			bool personExists = Sqlite.Exists (true, Constants.PersonTable, Util.RemoveTilde(name));
-			if(personExists) {
+
+			if(personExists)
+			{
+				bool inThisSession = false;
+				List<Person> p_l = SqlitePersonSession.SelectCurrentSessionPersonsAsList (
+						true, currentSession.UniqueID);
+				foreach (Person p in p_l)
+					if (name == p.Name)
+					{
+						inThisSession = true;
+						break;
+					}
+
 				errorExistsString += "[" + (count+1) + "] " + name + "\n";
+				if (inThisSession)
+				{
+					errorStruct_l.Add (new ErrorStruct (count, "", ErrorStruct.ErrorType.INSESSION));
+				} else {
+					errorStruct_l.Add (new ErrorStruct (count, "", ErrorStruct.ErrorType.INDB));
+				}
 			}
 			if(Convert.ToInt32(weight) == 0) {
 				errorWeightString += "[" + (count+1) + "] " + name + "\n";
+				errorStruct_l.Add (new ErrorStruct (count, "", ErrorStruct.ErrorType.NOWEIGHT));
 			}
 		}
 	}
 		
-	void checkAllEntriesAreDifferent() {
+	void checkAllEntriesAreDifferent()
+	{
 		ArrayList newNames= new ArrayList();
 		for (int i = 0; i < rows; i ++) 
 			newNames.Add(((Gtk.Entry)entries[i]).Text.ToString());
 
-		for(int i=0; i < rows; i++) {
+		for(int i=0; i < rows; i++)
+		{
 			bool repeated = false;
-			if(Util.RemoveTilde(newNames[i].ToString()).Length > 0) {
+			if(Util.RemoveTilde(newNames[i].ToString()).Length > 0)
+			{
 				int j;
-				for(j=i+1; j < newNames.Count && !repeated; j++) {
-					if( Util.RemoveTilde(newNames[i].ToString()) == Util.RemoveTilde(newNames[j].ToString()) ) {
+				for (j=i+1; j < newNames.Count && ! repeated; j++)
+				{
+					if( Util.RemoveTilde(newNames[i].ToString()) == Util.RemoveTilde(newNames[j].ToString()) )
 						repeated = true;
-					}
 				}
-				if(repeated) {
+				if(repeated)
+				{
 					errorRepeatedEntryString += string.Format("[{0}] {1} - [{2}] {3}\n",
 							i+1, newNames[i].ToString(), j, newNames[j-1].ToString());
+
+					// a) if the first time it appeared is not on errorStruct_l yet, include it now
+					bool found = false;
+					foreach (ErrorStruct es in errorStruct_l)
+						if (es.nameOptional == Util.RemoveTilde (newNames[i].ToString ()))
+						{
+							found = true;
+							break;
+						}
+					if (! found)
+						errorStruct_l.Add (new ErrorStruct (
+									j-1, Util.RemoveTilde (newNames[i].ToString()), ErrorStruct.ErrorType.REPEATEDNAME));
+
+					// b) then add current row
+					errorStruct_l.Add (new ErrorStruct (
+								i, Util.RemoveTilde (newNames[i].ToString()), ErrorStruct.ErrorType.REPEATEDNAME));
 				}
 			}
 		}

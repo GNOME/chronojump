@@ -560,8 +560,6 @@ public class PersonAddMultipleWindow
 		createEmptyTable (useHeightCol, useLegsLengthCol, useHipsHeightCol);
 	}
 
-	List<Gtk.HBox> errorHBox_l;
-
 	List<Gtk.Label> error_label_in_session_l;
 	List<Gtk.Label> error_label_in_db_l;
 	List<Gtk.CheckButton> error_check_use_stored_l;
@@ -577,7 +575,6 @@ public class PersonAddMultipleWindow
 			UtilGtk.RemoveChildren (table_main);
 
 		//initialize error lists
-		errorHBox_l = new List<Gtk.HBox>();
 		error_label_in_session_l = new List<Gtk.Label>();
 		error_label_in_db_l = new List<Gtk.Label>();
 		error_check_use_stored_l = new List<Gtk.CheckButton>();
@@ -688,8 +685,6 @@ public class PersonAddMultipleWindow
 			idError.PackStart (error_label_repeated_name, false, false, 4);
 			idError.PackStart (error_label_no_weight, false, false, 4);
 			idError.Show();
-
-			errorHBox_l.Add (idError);
 
 			table_main.Attach (idError, (uint) x, (uint) ++x, (uint) count, (uint) count +1,
 					Gtk.AttachOptions.Shrink, Gtk.AttachOptions.Shrink, padding, padding);
@@ -864,13 +859,6 @@ public class PersonAddMultipleWindow
 		{
 			ErrorWindow.Show(combinedErrorString);
 
-			//foreach (Gtk.Widget w in table_main.Children)
-			//	LogB.Information (w.ToString ());
-			/*
-			foreach (Gtk.HBox hb in errorHBox_l)
-				foreach (Gtk.Widget w in hb)
-					w.Visible = true;
-					*/
 			//TODO: use this instead the above if
 			errorLabel.Visible = true;
 			foreach (PersonAddMultipleError pame in pame_l)
@@ -909,7 +897,7 @@ public class PersonAddMultipleWindow
 
 			bool personExists = Sqlite.Exists (true, Constants.PersonTable, Util.RemoveTilde(name));
 
-			if(personExists)
+			if (personExists)
 			{
 				bool inThisSession = false;
 				List<Person> p_l = SqlitePersonSession.SelectCurrentSessionPersonsAsList (
@@ -923,13 +911,12 @@ public class PersonAddMultipleWindow
 
 				errorExistsString += "[" + (count+1) + "] " + name + "\n";
 				if (inThisSession)
-				{
 					pame_l.Add (new PersonAddMultipleError (count, "", PersonAddMultipleError.ErrorType.INSESSION));
-				} else {
+				else
 					pame_l.Add (new PersonAddMultipleError (count, "", PersonAddMultipleError.ErrorType.INDB));
-				}
 			}
-			if(Convert.ToInt32(weight) == 0) {
+			else if (Convert.ToInt32(weight) == 0) // "else if" to only complain on no weight when person is new
+			{
 				errorWeightString += "[" + (count+1) + "] " + name + "\n";
 				pame_l.Add (new PersonAddMultipleError (count, "", PersonAddMultipleError.ErrorType.NOWEIGHT));
 			}

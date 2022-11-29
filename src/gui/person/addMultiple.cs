@@ -792,7 +792,8 @@ public class PersonAddMultipleWindow
 				label_h2_hipsHeight.Text = "<b>h2</b>: " + Catalog.GetString ("Hips height on SJ flexion");
 				label_h2_hipsHeight.UseMarkup = true;
 			}
-		}
+		} else
+			hbox_h1_h2_help.Visible = false;
 
 		table_main.Show();
 		table_main.Visible = true;

@@ -158,6 +158,7 @@ public class PersonAddMultipleWindow
 	[Widget] Gtk.Label label_columns_order;
 	
 	[Widget] Gtk.Button button_accept;
+	private Gtk.Button fakeButtonDone;
 	
 	static PersonAddMultipleWindow PersonAddMultipleWindowBox;
 
@@ -180,6 +181,7 @@ public class PersonAddMultipleWindow
 		if(! Config.UseSystemColor)
 			UtilGtk.WindowColor(person_multiple_infinite, Config.ColorBackground);
 	
+		fakeButtonDone = new Gtk.Button();
 		person_multiple_infinite.Parent = parent;
 		this.currentSession = currentSession;
 		this.columnDelimiter = columnDelimiter;
@@ -907,6 +909,8 @@ public class PersonAddMultipleWindow
 			errorColumnLabel.Visible = true;
 		else {
 			processAllNonBlankRows();
+			fakeButtonDone.Click();
+
 			PersonAddMultipleWindowBox.person_multiple_infinite.Hide();
 			PersonAddMultipleWindowBox = null;
 		}
@@ -1111,14 +1115,14 @@ public class PersonAddMultipleWindow
 		new SqlitePersonSessionTransaction (persons, personSessions);
 	}
 
-	public Button Button_accept 
+	public new Button FakeButtonDone
 	{
-		set {
-			button_accept = value;	
-		}
-		get {
-			return button_accept;
-		}
+		get { return fakeButtonDone; }
+	}
+
+	public Person CurrentPerson
+	{
+		get { return currentPerson; }
 	}
 
 	/*
@@ -1127,13 +1131,5 @@ public class PersonAddMultipleWindow
 		get { return personsCreatedCount; }
 	}
 	*/
-	
-	public Person CurrentPerson 
-	{
-		get {
-			return currentPerson;
-		}
-	}
-
 }
 

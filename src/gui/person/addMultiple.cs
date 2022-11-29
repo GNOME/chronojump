@@ -211,6 +211,7 @@ public class PersonAddMultipleWindow
 		} else {
 			notebook.CurrentPage = Convert.ToInt32 (notebookPages.MAINOPTIONS);
 			PersonAddMultipleWindowBox.button_cancel_or_back.Label = Catalog.GetString ("Cancel");
+			PersonAddMultipleWindowBox.button_accept.Sensitive = false;
 		}
 	}
 	

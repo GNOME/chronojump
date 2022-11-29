@@ -4934,7 +4934,7 @@ EncoderInertialCapture</property>
                                                             <widget class="GtkLabel" id="label_button_contacts_detect">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="label">Device</property>
+                                                            <property name="label" translatable="yes">Device</property>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -5057,7 +5057,7 @@ EncoderInertialCapture</property>
                                                             <widget class="GtkLabel" id="label_button_contacts_detect1">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="label">Device</property>
+                                                            <property name="label" translatable="yes">Device</property>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -6971,7 +6971,7 @@ EncoderInertialCapture</property>
                                                             <property name="spacing">6</property>
                                                             <child>
                                                             <widget class="GtkCheckButton" id="check_race_analyzer_capture_smooth_graphs">
-                                                            <property name="label" translatable="yes">Smooth</property>
+                                                            <property name="label" translatable="yes">Smoothing</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="receives_default">False</property>
@@ -32689,7 +32689,7 @@ Concentric</property>
                                                             <widget class="GtkLabel" id="label_button_contacts_detect3">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="label">Device</property>
+                                                            <property name="label" translatable="yes">Device</property>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -32814,7 +32814,7 @@ Concentric</property>
                                                             <widget class="GtkLabel" id="label_button_contacts_detect2">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="label">Device</property>
+                                                            <property name="label" translatable="yes">Device</property>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">False</property>

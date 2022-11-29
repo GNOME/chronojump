@@ -4461,7 +4461,7 @@ public partial class ChronoJumpWindow
 			canBeDoubleClick = false;
 
 			title = "Jumps";
-			desc = "Measured by a contact platform";
+			desc = Catalog.GetString ("Measured by a contact platform");
 			notebook_menu_2_2_2.CurrentPage = 0;
 		}
 		else if (o == (object) radio_menu_2_2_2_races)
@@ -4482,19 +4482,19 @@ public partial class ChronoJumpWindow
 		else if (o == (object) radio_menu_2_2_2_elastic)
 		{
 			title = "Elastic";
-			desc = "Elastic force exercises measured by a force sensor";
+			desc = Catalog.GetString ("Elastic force exercises measured by a force sensor");
 			notebook_menu_2_2_2.CurrentPage = 2;
 		}
 		else if (o == (object) radio_menu_2_2_2_weights)
 		{
 			title = "Weights";
-			desc = "Speed/power exercises displacing weights measured by an encoder";
+			desc = Catalog.GetString ("Speed/power exercises displacing weights measured by an encoder");
 			notebook_menu_2_2_2.CurrentPage = 2;
 		}
 		else if (o == (object) radio_menu_2_2_2_inertial)
 		{
 			title = "Inertial";
-			desc = "Speed/power exercises rotating an inertial machine and measured by an encoder";
+			desc = Catalog.GetString ("Speed/power exercises rotating an inertial machine and measured by an encoder");
 			notebook_menu_2_2_2.CurrentPage = 2;
 		}
 
@@ -4511,7 +4511,7 @@ public partial class ChronoJumpWindow
 				label_selector_menu_2_2_2_title.UseMarkup = true;
 			}
 			if (desc != "")
-				label_selector_menu_2_2_2_desc.Text = Catalog.GetString(desc);
+				label_selector_menu_2_2_2_desc.Text = desc;
 		}
 	}
 

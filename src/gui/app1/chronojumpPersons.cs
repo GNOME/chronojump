@@ -255,13 +255,13 @@ public partial class ChronoJumpWindow
 	private void person_add_multiple ()
 	{
 		personAddMultipleWin = PersonAddMultipleWindow.Show(app1, currentSession, preferences.CSVColumnDelimiter);
-		personAddMultipleWin.Button_accept.Clicked -= new EventHandler(on_person_add_multiple_accepted);
-		personAddMultipleWin.Button_accept.Clicked += new EventHandler(on_person_add_multiple_accepted);
+		personAddMultipleWin.FakeButtonDone.Clicked -= new EventHandler(on_person_add_multiple_accepted);
+		personAddMultipleWin.FakeButtonDone.Clicked += new EventHandler(on_person_add_multiple_accepted);
 	}
 	
 	private void on_person_add_multiple_accepted (object o, EventArgs args)
 	{
-		personAddMultipleWin.Button_accept.Clicked -= new EventHandler(on_person_add_multiple_accepted);
+		personAddMultipleWin.FakeButtonDone.Clicked -= new EventHandler(on_person_add_multiple_accepted);
 		if (personAddMultipleWin.CurrentPerson != null)
 		{
 			currentPerson = personAddMultipleWin.CurrentPerson;

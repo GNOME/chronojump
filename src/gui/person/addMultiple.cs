@@ -164,7 +164,7 @@ public class PersonAddMultipleWindow
 	private Person currentPerson;
 	Session currentSession;
 	char columnDelimiter;
-	int personsCreatedCount;
+	//int personsCreatedCount;
 
 
 	PersonAddMultipleWindow (Gtk.Window parent, Session currentSession, char columnDelimiter)
@@ -857,7 +857,7 @@ public class PersonAddMultipleWindow
 		foreach (Gtk.Label l in error_label_no_weight_l)
 			l.Visible = false;
 
-		personsCreatedCount = 0;
+		//personsCreatedCount = 0;
 
 		checkAllEntriesAreDifferent();
 
@@ -1023,14 +1023,14 @@ public class PersonAddMultipleWindow
 				if(((Gtk.RadioButton)radiosM[i]).Active) { sex = Constants.M; }
 
 				PersonSession psExisting = new PersonSession ();
-				bool loadingPerson = false;
+				bool createPerson = true;
 				if (error_check_use_stored_l[i].Visible && error_check_use_stored_l[i].Active)
 				{
 					//do not create person, just load it (create personSession below)
 					currentPerson = SqlitePerson.SelectByName (false,
 							Util.RemoveTilde (((Gtk.Entry)entries[i]).Text.ToString()));
 					psExisting = SqlitePersonSession.Select (currentPerson.UniqueID, -1); //if sessionID == -1 we search data in last sessionID
-					loadingPerson = true;
+					createPerson = false;
 				} else {
 					currentPerson = new Person(
 							pID ++,
@@ -1052,47 +1052,59 @@ public class PersonAddMultipleWindow
 				height = 0;
 				if (check_person_height.Active)
 					height = (double) ((Gtk.SpinButton) spinsHeight[i]).Value;
-				if (loadingPerson && height == 0 && psExisting.Height > 0)
+				if (! createPerson && height == 0 && psExisting.Height > 0)
 					height = psExisting.Height;
 
 				legsLength = 0;
 				if (check_legsLength.Active)
 					legsLength = (double) ((Gtk.SpinButton) spinsLegsLength[i]).Value;
-				if (loadingPerson && legsLength == 0 && psExisting.TrochanterToe > 0)
+				if (! createPerson && legsLength == 0 && psExisting.TrochanterToe > 0)
 					legsLength = psExisting.TrochanterToe;
 
 				hipsHeight = 0;
 				if (check_hipsHeight.Active)
 					hipsHeight = (double) ((Gtk.SpinButton) spinsHipsHeight[i]).Value;
-				if (loadingPerson && hipsHeight == 0 && psExisting.TrochanterFloorOnFlexion > 0)
+				if (! createPerson && hipsHeight == 0 && psExisting.TrochanterFloorOnFlexion > 0)
 					hipsHeight = psExisting.TrochanterFloorOnFlexion;
 
 				int sportID = currentSession.PersonsSportID;
-				if (loadingPerson && sportID == Constants.SportUndefinedID &&
+				if (! createPerson && sportID == Constants.SportUndefinedID &&
 						psExisting.SportID > Constants.SportUndefinedID)
 					sportID = psExisting.SportID;
 
 				int speciallityID = currentSession.PersonsSpeciallityID;
-				if (loadingPerson && speciallityID == Constants.SpeciallityUndefinedID &&
+				if (! createPerson && speciallityID == Constants.SpeciallityUndefinedID &&
 						psExisting.SpeciallityID > Constants.SpeciallityUndefinedID)
 					speciallityID = psExisting.SpeciallityID;
 
 				int practice = currentSession.PersonsPractice;
-				if (loadingPerson && practice == Constants.LevelUndefinedID &&
+				if (! createPerson && practice == Constants.LevelUndefinedID &&
 						psExisting.Practice > Constants.LevelUndefinedID)
 					practice = psExisting.Practice;
 
-				personSessions.Add (new PersonSession (
-							psID ++,
-							currentPerson.UniqueID, currentSession.UniqueID, 
-							height, weight,
-							sportID, speciallityID,	practice,
-							"", 			//comments
-							legsLength, hipsHeight
-							)
+				PersonSession ps = new PersonSession (
+						psID ++,
+						currentPerson.UniqueID, currentSession.UniqueID,
+						height, weight,
+						sportID, speciallityID,	practice,
+						"", 			//comments
+						legsLength, hipsHeight
 						);
 
-				personsCreatedCount ++;
+				if (! createPerson && error_label_in_session_l[i].Visible)
+				{
+					//if it is on session not need to create the personSession, just update it
+					//get the personSession on this session
+					psID = SqlitePersonSession.Select (false, currentPerson.UniqueID, currentSession.UniqueID).UniqueID;
+					if (psID > 0)
+					{
+						ps.UniqueID = psID;
+						SqlitePersonSession.Update (ps); //update
+					}
+				} else
+					personSessions.Add (ps);
+
+				//personsCreatedCount ++;
 			}
 	
 		//do the transaction	
@@ -1109,10 +1121,12 @@ public class PersonAddMultipleWindow
 		}
 	}
 
+	/*
 	public int PersonsCreatedCount 
 	{
 		get { return personsCreatedCount; }
 	}
+	*/
 	
 	public Person CurrentPerson 
 	{

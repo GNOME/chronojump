@@ -320,7 +320,7 @@
                                           <widget class="GtkLabel" id="label159">
                                             <property name="visible">True</property>
                                             <property name="can_focus">False</property>
-                                            <property name="label">Check differences</property>
+                                            <property name="label" translatable="yes">Check differences</property>
                                           </widget>
                                           <packing>
                                             <property name="expand">True</property>

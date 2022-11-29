@@ -302,8 +302,7 @@ public class PersonMergeWindow
 		createPersonNamesRow (currentPerson.Name, personToMerge.Name, row++);
 		if (pDiff_l.Count > 0)
 		{
-			//createTitleRow ("\n", "\n<b>Differences between persons</b>", row++);
-			createTitleRow ("\n", "\n Differences between persons ", row++);
+			createTitleRow ("\n", "\n " + Catalog.GetString("Differences between persons"), row ++);
 			createPersonRadiosRow (row ++);
 			row = createRowsForDiff (pDiff_l, row);
 		}
@@ -312,8 +311,8 @@ public class PersonMergeWindow
 		int count = 0;
 		foreach (List<ClassVariance.Struct> cvs_l in psDiffAllSessions_l)
 		{
-			//createTitleRow ("\nDifferences in session:", string.Format ("\n<b>{0}</b>", sessionDiff_l[count ++].Name), row++);
-			createTitleRow ("\nDifferences in session:", string.Format ("\n {0} ({1}) ", sessionDiff_l[count].Name, sessionDiff_l[count].DateShort), row++);
+			createTitleRow ("\n" + Catalog.GetString ("Differences in session"),
+					string.Format ("\n {0} ({1}) ", sessionDiff_l[count].Name, sessionDiff_l[count].DateShort), row ++);
 			count ++;
 			createPersonSessionRadiosRow (row ++);
 			row = createRowsForDiff (cvs_l, row);
@@ -351,8 +350,8 @@ public class PersonMergeWindow
 	private void createPersonRadiosRow (uint row)
 	{
 		Gtk.Label l = new Gtk.Label ("");
-		pRadioA = new Gtk.RadioButton ("Use these values");
-		Gtk.RadioButton pRadioB = new Gtk.RadioButton (pRadioA, "Use these values");
+		pRadioA = new Gtk.RadioButton (Catalog.GetString ("Use these values"));
+		Gtk.RadioButton pRadioB = new Gtk.RadioButton (pRadioA, Catalog.GetString ("Use these values"));
 
 		//to have radios center aligned
 		Gtk.HBox hboxA = new Gtk.HBox (false, 1);
@@ -368,8 +367,8 @@ public class PersonMergeWindow
 	private void createPersonSessionRadiosRow (uint row)
 	{
 		Gtk.Label l = new Gtk.Label ("");
-		Gtk.RadioButton radioA = new Gtk.RadioButton ("Use these values");
-		Gtk.RadioButton radioB = new Gtk.RadioButton (radioA, "Use these values");
+		Gtk.RadioButton radioA = new Gtk.RadioButton (Catalog.GetString ("Use these values"));
+		Gtk.RadioButton radioB = new Gtk.RadioButton (radioA, Catalog.GetString ("Use these values"));
 
 		//to have radios center aligned
 		Gtk.HBox hboxA = new Gtk.HBox (false, 1);

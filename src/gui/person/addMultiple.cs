@@ -565,7 +565,7 @@ public class PersonAddMultipleWindow
 	List<Gtk.CheckButton> error_check_use_stored_l;
 	List<Gtk.Label> error_label_repeated_name_l;
 	List<Gtk.Label> error_label_no_weight_l;
-	Gtk.Label errorLabel;
+	Gtk.Label errorColumnLabel;
 
 	List<PersonAddMultipleError> pame_l;
 
@@ -589,7 +589,7 @@ public class PersonAddMultipleWindow
 		spinsLegsLength = new ArrayList();
 		spinsHipsHeight = new ArrayList();
 
-		errorLabel = new Gtk.Label("<b>" + Catalog.GetString("Error") + "</b>");
+		errorColumnLabel = new Gtk.Label("<b>" + Catalog.GetString("Error") + "</b>");
 		Gtk.Label nameLabel = new Gtk.Label("<b>" + Catalog.GetString("Full name") + "</b>");
 		Gtk.Label sexLabel = new Gtk.Label("<b>" + Catalog.GetString("Sex") + "</b>");
 		Gtk.Label weightLabel = new Gtk.Label("<b>" + Catalog.GetString("Weight") +
@@ -599,7 +599,7 @@ public class PersonAddMultipleWindow
 		Gtk.Label legsLengthLabel = new Gtk.Label("<b>h1</b> (" + Catalog.GetString("cm") + ")" );
 		Gtk.Label hipsHeightLabel = new Gtk.Label("<b>h2</b> (" + Catalog.GetString("cm") + ")" );
 		
-		errorLabel.UseMarkup = true;
+		errorColumnLabel.UseMarkup = true;
 		nameLabel.UseMarkup = true;
 		sexLabel.UseMarkup = true;
 		weightLabel.UseMarkup = true;
@@ -617,7 +617,7 @@ public class PersonAddMultipleWindow
 		legsLengthLabel.Xalign = 0;
 		hipsHeightLabel.Xalign = 0;
 		
-		errorLabel.Hide();
+		errorColumnLabel.Hide();
 		nameLabel.Show();
 		sexLabel.Show();
 		weightLabel.Show();
@@ -631,7 +631,7 @@ public class PersonAddMultipleWindow
 		uint padding = 4;	
 
 		int x = 1; //id col 0, errors col1, fullname col (2)
-		table_main.Attach (errorLabel, (uint) x, (uint) ++x, 0, 1,
+		table_main.Attach (errorColumnLabel, (uint) x, (uint) ++x, 0, 1,
 				Gtk.AttachOptions.Shrink | Gtk.AttachOptions.Shrink , Gtk.AttachOptions.Shrink, padding, padding);
 		table_main.Attach (nameLabel, (uint) x, (uint) ++x, 0, 1,
 				Gtk.AttachOptions.Fill | Gtk.AttachOptions.Expand , Gtk.AttachOptions.Shrink, padding, padding);
@@ -660,11 +660,11 @@ public class PersonAddMultipleWindow
 					Gtk.AttachOptions.Shrink, Gtk.AttachOptions.Shrink, padding, padding);
 
 			//errors
-			Gtk.Label error_label_in_session = new Gtk.Label("Name already in session");
-			Gtk.Label error_label_in_db = new Gtk.Label("Name already in database");
+			Gtk.Label error_label_in_session = new Gtk.Label (Catalog.GetString ("Name already\nin session"));
+			Gtk.Label error_label_in_db = new Gtk.Label (Catalog.GetString ("Name already\nin database"));
 			Gtk.CheckButton error_check_use_stored = new Gtk.CheckButton ("Use stored person");
-			Gtk.Label error_label_repeated_name = new Gtk.Label("Name repeated");
-			Gtk.Label error_label_no_weight = new Gtk.Label("No weight");
+			Gtk.Label error_label_repeated_name = new Gtk.Label (Catalog.GetString ("Repeated name"));
+			Gtk.Label error_label_no_weight = new Gtk.Label (Catalog.GetString ("No weight"));
 
 			error_label_in_session_l.Add (error_label_in_session);
 			error_label_in_db_l.Add (error_label_in_db);
@@ -869,40 +869,53 @@ public class PersonAddMultipleWindow
 		for (int i = 0; i < rows; i ++) 
 			checkEntries(i, ((Gtk.Entry)entries[i]).Text.ToString(), (int) ((Gtk.SpinButton) spinsWeight[i]).Value);
 		Sqlite.Close();
-	
-		string combinedErrorString = "";
-		combinedErrorString = readErrorStrings();
-		
-		if (combinedErrorString.Length > 0)
-		{
-			ErrorWindow.Show(combinedErrorString);
 
-			//TODO: use this instead the above if
-			errorLabel.Visible = true;
-			foreach (PersonAddMultipleError pame in pame_l)
+		bool errors = false;
+		errorColumnLabel.Visible = false;
+
+		foreach (PersonAddMultipleError pame in pame_l)
+		{
+			if (pame.errorType == PersonAddMultipleError.ErrorType.REPEATEDNAME)
+			{
+				error_label_repeated_name_l[pame.id].Visible = true;
+				errors = true;
+			}
+			else if (pame.errorType == PersonAddMultipleError.ErrorType.INSESSION ||
+					pame.errorType == PersonAddMultipleError.ErrorType.INDB)
 			{
 				if (pame.errorType == PersonAddMultipleError.ErrorType.INSESSION)
 				{
 					error_label_in_session_l[pame.id].Visible = true;
-					error_check_use_stored_l[pame.id].Visible = true;
+					error_label_in_session_l[pame.id].Justify = Justification.Center;
+					error_label_in_session_l[pame.id].Wrap = true;
 				}
 				else if (pame.errorType == PersonAddMultipleError.ErrorType.INDB)
 				{
 					error_label_in_db_l[pame.id].Visible = true;
-					error_check_use_stored_l[pame.id].Visible = true;
+					error_label_in_db_l[pame.id].Justify = Justification.Center;
+					error_label_in_db_l[pame.id].Wrap = true;
 				}
-				else if (pame.errorType == PersonAddMultipleError.ErrorType.REPEATEDNAME)
-					error_label_repeated_name_l[pame.id].Visible = true;
-				else if (pame.errorType == PersonAddMultipleError.ErrorType.NOWEIGHT)
-					error_label_no_weight_l[pame.id].Visible = true;
+
+				error_check_use_stored_l[pame.id].Visible = true;
+				if ( ! error_check_use_stored_l[pame.id].Active)
+					errors = true;
 			}
-		} else {
+			else if (pame.errorType == PersonAddMultipleError.ErrorType.NOWEIGHT)
+			{
+				error_label_no_weight_l[pame.id].Visible = true;
+				errors = true;
+			}
+		}
+
+		if (errors)
+			errorColumnLabel.Visible = true;
+		else {
 			processAllNonBlankRows();
-		
 			PersonAddMultipleWindowBox.person_multiple_infinite.Hide();
 			PersonAddMultipleWindowBox = null;
 		}
 	}
+
 	//do not need to check height, legsLength, hipsHeight, can be 0
 	private void checkEntries (int count, string name, double weight)
 	{

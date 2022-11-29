@@ -1021,7 +1021,17 @@ public class PersonAddMultipleWindow
 				sex = Constants.F;
 				if(((Gtk.RadioButton)radiosM[i]).Active) { sex = Constants.M; }
 
-				currentPerson = new Person(
+				PersonSession psExisting = new PersonSession ();
+				bool loadingPerson = false;
+				if (error_check_use_stored_l[i].Visible && error_check_use_stored_l[i].Active)
+				{
+					//do not create person, just load it (create personSession below)
+					currentPerson = SqlitePerson.SelectByName (false,
+							Util.RemoveTilde (((Gtk.Entry)entries[i]).Text.ToString()));
+					psExisting = SqlitePersonSession.Select (currentPerson.UniqueID, -1); //if sessionID == -1 we search data in last sessionID
+					loadingPerson = true;
+				} else {
+					currentPerson = new Person(
 							pID ++,
 							((Gtk.Entry)entries[i]).Text.ToString(), //name
 							sex,
@@ -1032,30 +1042,50 @@ public class PersonAddMultipleWindow
 							Constants.ServerUndefinedID,
 							""			//linkServerImage
 							);
-				
-				persons.Add (currentPerson);
-						
+
+					persons.Add (currentPerson);
+				}
+
 				weight = (double) ((Gtk.SpinButton) spinsWeight[i]).Value;
 
 				height = 0;
 				if (check_person_height.Active)
 					height = (double) ((Gtk.SpinButton) spinsHeight[i]).Value;
+				if (loadingPerson && height == 0 && psExisting.Height > 0)
+					height = psExisting.Height;
 
 				legsLength = 0;
 				if (check_legsLength.Active)
 					legsLength = (double) ((Gtk.SpinButton) spinsLegsLength[i]).Value;
+				if (loadingPerson && legsLength == 0 && psExisting.TrochanterToe > 0)
+					legsLength = psExisting.TrochanterToe;
 
 				hipsHeight = 0;
 				if (check_hipsHeight.Active)
 					hipsHeight = (double) ((Gtk.SpinButton) spinsHipsHeight[i]).Value;
+				if (loadingPerson && hipsHeight == 0 && psExisting.TrochanterFloorOnFlexion > 0)
+					hipsHeight = psExisting.TrochanterFloorOnFlexion;
+
+				int sportID = currentSession.PersonsSportID;
+				if (loadingPerson && sportID == Constants.SportUndefinedID &&
+						psExisting.SportID > Constants.SportUndefinedID)
+					sportID = psExisting.SportID;
+
+				int speciallityID = currentSession.PersonsSpeciallityID;
+				if (loadingPerson && speciallityID == Constants.SpeciallityUndefinedID &&
+						psExisting.SpeciallityID > Constants.SpeciallityUndefinedID)
+					speciallityID = psExisting.SpeciallityID;
+
+				int practice = currentSession.PersonsPractice;
+				if (loadingPerson && practice == Constants.LevelUndefinedID &&
+						psExisting.Practice > Constants.LevelUndefinedID)
+					practice = psExisting.Practice;
 
 				personSessions.Add (new PersonSession (
 							psID ++,
 							currentPerson.UniqueID, currentSession.UniqueID, 
 							height, weight,
-							currentSession.PersonsSportID,
-							currentSession.PersonsSpeciallityID,
-							currentSession.PersonsPractice,
+							sportID, speciallityID,	practice,
 							"", 			//comments
 							legsLength, hipsHeight
 							)

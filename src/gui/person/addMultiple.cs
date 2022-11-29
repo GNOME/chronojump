@@ -165,11 +165,8 @@ public class PersonAddMultipleWindow
 	Session currentSession;
 	char columnDelimiter;
 	int personsCreatedCount;
-	string errorExistsString;
-	string errorWeightString;
-	string errorRepeatedEntryString;
 
-	
+
 	PersonAddMultipleWindow (Gtk.Window parent, Session currentSession, char columnDelimiter)
 	{
 		Glade.XML gladeXML;
@@ -858,9 +855,6 @@ public class PersonAddMultipleWindow
 		foreach (Gtk.Label l in error_label_no_weight_l)
 			l.Visible = false;
 
-		errorExistsString = "";
-		errorWeightString = "";
-		errorRepeatedEntryString = "";
 		personsCreatedCount = 0;
 
 		checkAllEntriesAreDifferent();
@@ -940,17 +934,13 @@ public class PersonAddMultipleWindow
 						break;
 					}
 
-				errorExistsString += "[" + (count+1) + "] " + name + "\n";
 				if (inThisSession)
 					pame_l.Add (new PersonAddMultipleError (count, "", PersonAddMultipleError.ErrorType.INSESSION));
 				else
 					pame_l.Add (new PersonAddMultipleError (count, "", PersonAddMultipleError.ErrorType.INDB));
 			}
 			else if (Convert.ToInt32(weight) == 0) // "else if" to only complain on no weight when person is new
-			{
-				errorWeightString += "[" + (count+1) + "] " + name + "\n";
 				pame_l.Add (new PersonAddMultipleError (count, "", PersonAddMultipleError.ErrorType.NOWEIGHT));
-			}
 		}
 	}
 		
@@ -973,9 +963,6 @@ public class PersonAddMultipleWindow
 				}
 				if(repeated)
 				{
-					errorRepeatedEntryString += string.Format("[{0}] {1} - [{2}] {3}\n",
-							i+1, newNames[i].ToString(), j, newNames[j-1].ToString());
-
 					// a) if the first time it appeared is not on pame_l yet, include it now
 					if ( ! PersonAddMultipleError.ExistErrorLike (pame_l,
 								Util.RemoveTilde (newNames[i].ToString ()),
@@ -991,20 +978,6 @@ public class PersonAddMultipleWindow
 		}
 	}
 	
-	string readErrorStrings() {
-		if (errorExistsString.Length > 0) {
-			errorExistsString = "ERROR This person(s) exists in the database:\n" + errorExistsString;
-		}
-		if (errorWeightString.Length > 0) {
-			errorWeightString = "\nERROR weight of this person(s) cannot be 0:\n" + errorWeightString;
-		}
-		if (errorRepeatedEntryString.Length > 0) {
-			errorRepeatedEntryString = "\nERROR this names are repeated:\n" + errorRepeatedEntryString;
-		}
-		
-		return errorExistsString + errorWeightString + errorRepeatedEntryString;
-	}
-
 	//inserts all the rows where name is not blank
 	//all this names doesn't match with other in the database, and the weights are > 0 ( checked in checkEntries() )
 	void processAllNonBlankRows ()

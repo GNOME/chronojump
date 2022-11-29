@@ -3269,7 +3269,7 @@ public class CairoPaintBarsPreRunIntervalRealtimeCapture : CairoPaintBarsPre
 		if(isLastCaptured)
 			this.title = Catalog.GetString("Last test:") + " " + generateTitle();
 		else
-			this.title = Catalog.GetString("Viewing:") + " " + generateTitle();
+			this.title = generateTitle();
 
 		this.isRelative = isRelative;
 

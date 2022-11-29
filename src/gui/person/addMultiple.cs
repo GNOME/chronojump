@@ -686,19 +686,19 @@ public class PersonAddMultipleWindow
 			   if in_session or in_db then show the checkbox
 			*/
 
-			idError.PackStart (error_label_repeated_name, false, false, 4);
+			idError.PackStart (error_label_repeated_name, false, false, 0);
 
 			Gtk.HBox idErrorExistsH = new HBox();
-			idErrorExistsH.PackStart (error_label_in_session, false, false, 4);
-			idErrorExistsH.PackStart (error_label_in_db, false, false, 4);
+			idErrorExistsH.PackStart (error_label_in_session, true, true, 0);
+			idErrorExistsH.PackStart (error_label_in_db, true, true, 0);
 			idErrorExistsH.Show();
 			Gtk.VBox idErrorExistsV = new VBox();
-			idErrorExistsV.PackStart (idErrorExistsH, false, false, 2);
-			idErrorExistsV.PackStart (error_check_use_stored, false, false, 2);
+			idErrorExistsV.PackStart (idErrorExistsH, true, true, 0);
+			idErrorExistsV.PackStart (error_check_use_stored, false, false, 0);
 			idErrorExistsV.Show();
-			idError.PackStart (idErrorExistsV, false, false, 4);
+			idError.PackStart (idErrorExistsV, false, false, 0);
 
-			idError.PackStart (error_label_no_weight, false, false, 4);
+			idError.PackStart (error_label_no_weight, false, false, 0);
 			idError.Show();
 
 			table_main.Attach (idError, (uint) x, (uint) ++x, (uint) count, (uint) count +1,

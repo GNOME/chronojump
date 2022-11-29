@@ -6715,8 +6715,9 @@ LogB.Debug("mc finished 5");
 	private void on_edit_selected_run_interval_accepted (object o, EventArgs args)
 	{
 		LogB.Information("edit selected run interval accepted");
-		
-		RunInterval myRun = SqliteRunInterval.SelectRunData( Constants.RunIntervalTable, myTreeViewRunsInterval.EventSelectedID, false, false );
+
+		int selectedID = myTreeViewRunsInterval.EventSelectedID;
+		RunInterval myRun = SqliteRunInterval.SelectRunData (Constants.RunIntervalTable, selectedID, false, false);
 
 		//if person changed, fill treeview again, if not, only update it's line
 		//distanceChanged is also managed with no problems because TreeViewEvent.Update has been extend to work with two level treeviews
@@ -6730,8 +6731,11 @@ LogB.Debug("mc finished 5");
 		updateGraphRunsInterval();
 
 		//update the selected runI barplot
-		selectedRunInterval = SqliteRunInterval.SelectRunData (Constants.RunIntervalTable, myTreeViewRunsInterval.EventSelectedID, true, false);
+		selectedRunInterval = SqliteRunInterval.SelectRunData (Constants.RunIntervalTable, selectedID, true, false);
 		on_treeview_runs_interval_cursor_changed (new object (), new EventArgs ());
+
+		//update top graph:
+		on_event_execute_drawingarea_realtime_capture_cairo_expose_event (new object (), new ExposeEventArgs ());
 
 		if(createdStatsWin)
 			stats_win_fillTreeView_stats(false, false);

@@ -603,7 +603,7 @@ public class EditRunIntervalWindow : EditRunWindow
 		else
 			distanceInterval = -1;
 
-		SqliteRunInterval.Update (eventID, distanceInterval, tracks, personID, description);
+		SqliteRunInterval.Update (eventID, distanceInterval, tracks, distancesString, personID, description);
 	}
 
 	protected override void on_button_cancel_clicked (object o, EventArgs args)

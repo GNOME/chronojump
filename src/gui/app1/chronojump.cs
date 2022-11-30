@@ -6695,9 +6695,10 @@ LogB.Debug("mc finished 5");
 		}
 	}
 	
-	private void on_edit_selected_run_accepted (object o, EventArgs args) {
+	private void on_edit_selected_run_accepted (object o, EventArgs args)
+	{
 		LogB.Information("edit selected run accepted");
-		
+
 		Run myRun = SqliteRun.SelectRunData( myTreeViewRuns.EventSelectedID, false );
 		
 		//if person changed, fill treeview again, if not, only update it's line

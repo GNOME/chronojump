@@ -260,13 +260,13 @@ class SqliteRunInterval : SqliteRun
 		return myRun;
 	}
 
-	public static void Update(int runID, double distanceInterval, double tracks, int personID, string description)
+	public static void Update (int runID, double distanceInterval, double tracks, string distancesString, int personID, string description)
 	{
 		Sqlite.Open();
 		dbcmd.CommandText = "UPDATE " + Constants.RunIntervalTable +
 			" SET personID = " + personID + 
 			", distanceInterval = " + Util.ConvertToPoint(distanceInterval) +
-			", distanceTotal = " + Util.ConvertToPoint (tracks * Convert.ToDouble (distanceInterval)) + //note the update only is applied to non agility tests
+			", distanceTotal = " + Util.ConvertToPoint (Util.GetRunITotalDistance (distanceInterval, distancesString, tracks)) +
 			", description = \"" + description +
 			"\" WHERE uniqueID == " + runID ;
 		LogB.SQL(dbcmd.CommandText.ToString());

@@ -2441,10 +2441,11 @@ public partial class ChronoJumpWindow
 					false, feedbackWin.GetRunsEncoderMainVariable (),
 					true);
 
+		int smoothGui = getSmoothFrom_gui_at_race_analyzer_capture_smooth_graphs ();
 		cairoGraphRaceAnalyzer_dt.DoSendingList (preferences.fontType.ToString(),
 				cairoGraphRaceAnalyzerPoints_dt_l,
-				forceRedraw, CairoXY.PlotTypes.LINES, true,
-				getSmoothFrom_gui_at_race_analyzer_capture_smooth_graphs (),
+				forceRedraw, CairoXY.PlotTypes.LINES, smoothGui == 0,
+				smoothGui,
 				triggerListRunEncoder, timeAtEnoughAccel,
 				timeAtEnoughAccelMark, preferences.runEncoderMinAccel);
 	}
@@ -2477,10 +2478,11 @@ public partial class ChronoJumpWindow
 					true, feedbackWin.GetRunsEncoderMainVariable (),
 					false);
 
+		int smoothGui = getSmoothFrom_gui_at_race_analyzer_capture_smooth_graphs ();
 		cairoGraphRaceAnalyzer_st.DoSendingList (preferences.fontType.ToString(),
 				cairoGraphRaceAnalyzerPoints_st_l,
-				forceRedraw, CairoXY.PlotTypes.LINES, true,
-				getSmoothFrom_gui_at_race_analyzer_capture_smooth_graphs (),
+				forceRedraw, CairoXY.PlotTypes.LINES, smoothGui == 0,
+				smoothGui,
 				triggerListRunEncoder, timeAtEnoughAccel,
 				timeAtEnoughAccelMark, preferences.runEncoderMinAccel);
 	}

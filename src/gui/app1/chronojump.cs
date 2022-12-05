@@ -4732,7 +4732,7 @@ public partial class ChronoJumpWindow
 			if (Constants.ModeIsFORCESENSOR (current_mode) && portFSOpened)
 				portFSOpened = false;
 			// same for runEncoder
-			else if (current_mode == Constants.RUNSENCODER && portREOpened)
+			else if (current_mode == Constants.Modes.RUNSENCODER && portREOpened)
 				portREOpened = false;
 		}
 

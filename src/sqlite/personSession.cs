@@ -448,16 +448,8 @@ class SqlitePersonSession : Sqlite
 		//2.- Now, it's not in this personSession77 in other sessions, delete if from DB
 
 		//if person is not in other sessions, delete it from DB
-		if(! PersonExistsInPS(true, Convert.ToInt32(personID))) {
-			//this will open and close DB connection
-			Delete(true, Constants.PersonTable, Convert.ToInt32(personID));
-
-			//delete photos if any
-			if(File.Exists(Util.UserPhotoURL(false, Convert.ToInt32(personID))))
-				File.Delete(Util.UserPhotoURL(false, Convert.ToInt32(personID)));
-			if(File.Exists(Util.UserPhotoURL(true, Convert.ToInt32(personID))))
-				File.Delete(Util.UserPhotoURL(true, Convert.ToInt32(personID)));
-		}
+		if (! PersonExistsInAnyPS (true, Convert.ToInt32 (personID)))
+			SqlitePerson.DeletePersonAndImages (true, Convert.ToInt32 (personID));
 
 		//3.- Delete tests without files
 				
@@ -561,7 +553,7 @@ class SqlitePersonSession : Sqlite
 		Sqlite.Close();
 	}
 
-	public static bool PersonExistsInPS(bool dbconOpened, int personID)
+	public static bool PersonExistsInAnyPS (bool dbconOpened, int personID)
 	{
 		if( ! dbconOpened)
 			Sqlite.Open();

@@ -4210,10 +4210,10 @@ class Sqlite
 			myArray.Add (Convert.ToInt32(reader[0]));
 		reader.Close();
 
-		foreach(int personID in myArray) {
+		foreach (int personID in myArray) {
 			//if person is not in other sessions, delete it from DB
-			if(! SqlitePersonSession.PersonExistsInPS(true, personID))
-				Delete(true, Constants.PersonTable, personID);
+			if (! SqlitePersonSession.PersonExistsInAnyPS (true, personID))
+				SqlitePerson.DeletePersonAndImages (true, personID);
 		}
 	}
 				

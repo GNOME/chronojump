@@ -363,6 +363,7 @@ public partial class ChronoJumpWindow
 		}
 		catch (Exception ex)
 		{
+			LogB.Information ("exception: " + ex.ToString ());
 			if(ex is System.IO.IOException || ex is System.TimeoutException)
 			{
 				LogB.Information(errorMessage);

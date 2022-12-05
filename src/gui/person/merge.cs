@@ -299,20 +299,17 @@ public class PersonMergeWindow
 
 		//person
 		uint row = 0;
-		createPersonNamesRow (currentPerson.Name, personToMerge.Name, row++);
-		if (pDiff_l.Count > 0)
-		{
-			createTitleRow ("\n", "\n " + Catalog.GetString("Differences between persons"), row ++);
-			createPersonRadiosRow (row ++);
-			row = createRowsForDiff (pDiff_l, row);
-		}
+		createTitleRow ("\n", "\n " + Catalog.GetString("Differences between persons"), row ++);
+		createPersonRadiosRow (row ++);
+		row = createRowsForDiff (pDiff_l, row);
 
 		//personSession
 		int count = 0;
 		foreach (List<ClassVariance.Struct> cvs_l in psDiffAllSessions_l)
 		{
-			createTitleRow ("\n" + Catalog.GetString ("Differences in session"),
-					string.Format ("\n {0} ({1}) ", sessionDiff_l[count].Name, sessionDiff_l[count].DateShort), row ++);
+			string sessionStr = Catalog.GetString ("Differences in session");
+			createTitleRow ("", string.Format ("\n{0} '{1}' ({2})",
+						sessionStr, sessionDiff_l[count].Name, sessionDiff_l[count].DateShort), row ++);
 			count ++;
 			createPersonSessionRadiosRow (row ++);
 			row = createRowsForDiff (cvs_l, row);
@@ -320,20 +317,6 @@ public class PersonMergeWindow
 
 		table_diffs.ShowAll ();
 		//scrolledWin.ShowAll ();
-	}
-
-	private void createPersonNamesRow (string name1, string name2, uint row)
-	{
-		Gtk.Label l1 = new Gtk.Label ("");
-		table_diffs.Attach (l1, 0, 1, row, row+1, Gtk.AttachOptions.Expand, Gtk.AttachOptions.Fill, padding, padding);
-
-		Gtk.Label l2 = new Gtk.Label ("<b>" + name1 + "</b>");
-		l2.UseMarkup = true;
-		table_diffs.Attach (l2, 1, 2, row, row+1, Gtk.AttachOptions.Expand, Gtk.AttachOptions.Fill, padding, padding);
-
-		Gtk.Label l3 = new Gtk.Label ("<b>" + name2 + "</b>");
-		l3.UseMarkup = true;
-		table_diffs.Attach (l3, 2, 3, row, row+1, Gtk.AttachOptions.Expand, Gtk.AttachOptions.Fill, padding, padding);
 	}
 
 	//each personSession row has first a combined row with session title
@@ -385,16 +368,20 @@ public class PersonMergeWindow
 	}
 
 	private uint createRowsForDiff (List<ClassVariance.Struct> cvs_l, uint row)
-	 {
+	{
 		foreach (ClassVariance.Struct cvs in cvs_l)
 		{
-			//do not display the name
-			if (cvs.Prop == "name")
-				continue;
-
 			Gtk.Label lPersonProp = new Gtk.Label (cvs.Prop);
 			Gtk.Label lPersonVarA = new Gtk.Label (cvs.valA.ToString ());
 			Gtk.Label lPersonVarB = new Gtk.Label (cvs.valB.ToString ());
+
+			if (cvs.Prop == "name")
+			{
+				lPersonVarA.Text = "<b>" + lPersonVarA.Text + "</b>";
+				lPersonVarB.Text = "<b>" + lPersonVarB.Text + "</b>";
+				lPersonVarA.UseMarkup = true;
+				lPersonVarB.UseMarkup = true;
+			}
 
 			table_diffs.Attach (lPersonProp, 0, 1, row, row+1, Gtk.AttachOptions.Fill, Gtk.AttachOptions.Fill, padding, padding);
 			table_diffs.Attach (lPersonVarA, 1, 2, row, row+1, Gtk.AttachOptions.Fill, Gtk.AttachOptions.Fill, padding, padding);

@@ -703,4 +703,23 @@ finishForeach:
 		dbcmd.ExecuteNonQuery();
 		Sqlite.Close();
 	}
+
+	public static void DeletePersonAndImages (bool dbconOpened, int uniqueID)
+	{
+		// 1) delete from DB
+		openIfNeeded (dbconOpened);
+
+		dbcmd.CommandText = "DELETE FROM " + Constants.PersonTable + " WHERE uniqueID = " + uniqueID;
+
+		LogB.SQL (dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery ();
+
+		closeIfNeeded (dbconOpened);
+
+		// 2) delete photos if any
+		if (File.Exists (Util.UserPhotoURL (false, uniqueID)))
+			File.Delete (Util.UserPhotoURL (false, uniqueID));
+		if (File.Exists (Util.UserPhotoURL (true, uniqueID)))
+			File.Delete (Util.UserPhotoURL (true, uniqueID));
+	}
 }

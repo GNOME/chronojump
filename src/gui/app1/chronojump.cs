@@ -4727,6 +4727,13 @@ public partial class ChronoJumpWindow
 			//if ( chronopicRegister.NumConnectedOfType (ChronopicRegisterPort.Types.RUN_WIRELESS) == 1)
 			if (current_mode == Constants.Modes.RUNSSIMPLE || current_mode == Constants.Modes.RUNSINTERVALLIC)
 				button_threshold.Visible = (discoverWin.PortSelected.Type != ChronopicRegisterPort.Types.RUN_WIRELESS);
+
+			// close portFSOpened after discover to ensure do a forceSensorConnect()
+			if (Constants.ModeIsFORCESENSOR (current_mode) && portFSOpened)
+				portFSOpened = false;
+			// same for runEncoder
+			else if (current_mode == Constants.RUNSENCODER && portREOpened)
+				portREOpened = false;
 		}
 
 		notebook_sup.CurrentPage = app1s_notebook_sup_entered_from; //CONTACTS or ENCODER

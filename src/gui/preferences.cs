@@ -191,6 +191,7 @@ public class PreferencesWindow
 	[Widget] Gtk.RadioButton radio_force_sensor_variability_rmssd;
 	[Widget] Gtk.RadioButton radio_force_sensor_variability_cvrmssd;
 	[Widget] Gtk.RadioButton radio_force_sensor_variability_old;
+	[Widget] Gtk.SpinButton spin_force_sensor_variability_lag;
 	[Widget] Gtk.SpinButton spin_force_sensor_analyze_ab_slider_increment;
 	[Widget] Gtk.SpinButton spin_force_sensor_analyze_max_avg_force_in_window;
 
@@ -746,6 +747,8 @@ public class PreferencesWindow
 			PreferencesWindowBox.radio_force_sensor_variability_cvrmssd.Active = true;
 		else
 			PreferencesWindowBox.radio_force_sensor_variability_old.Active = true;
+
+		PreferencesWindowBox.spin_force_sensor_variability_lag.Value = preferences.forceSensorVariabilityLag;
 
 		PreferencesWindowBox.spin_force_sensor_analyze_ab_slider_increment.Value = preferences.forceSensorAnalyzeABSliderIncrement;
 		PreferencesWindowBox.spin_force_sensor_analyze_max_avg_force_in_window.Value = preferences.forceSensorAnalyzeMaxAVGInWindow;
@@ -2280,6 +2283,11 @@ public class PreferencesWindow
 			SqlitePreferences.Update(SqlitePreferences.ForceSensorVariabilityMethod, Preferences.VariabilityMethodEnum.CHRONOJUMP_OLD.ToString(), true);
 			preferences.forceSensorVariabilityMethod = Preferences.VariabilityMethodEnum.CHRONOJUMP_OLD;
 		}
+
+		preferences.forceSensorVariabilityLag = Preferences.PreferencesChange(
+				SqlitePreferences.ForceSensorVariabilityLag,
+				preferences.forceSensorVariabilityLag,
+				Convert.ToInt32(spin_force_sensor_variability_lag.Value));
 
 		preferences.forceSensorAnalyzeABSliderIncrement = Preferences.PreferencesChange(
 				SqlitePreferences.ForceSensorAnalyzeABSliderIncrement,

@@ -151,6 +151,7 @@ public class Preferences
 	public int forceSensorNotElasticConMinForce;
 	public enum VariabilityMethodEnum { CHRONOJUMP_OLD, RMSSD, CVRMSSD };
 	public VariabilityMethodEnum forceSensorVariabilityMethod;
+	public int forceSensorVariabilityLag;
 	public double forceSensorAnalyzeABSliderIncrement;
 	public double forceSensorAnalyzeMaxAVGInWindow; //seconds
 	public int forceSensorGraphsLineWidth;

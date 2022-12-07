@@ -1227,7 +1227,7 @@ public class ForceSensorCapturePoints
 		return sum * UtilAll.DivideSafe(elapsedSeconds, samples);
 	}
 	
-	public void GetVariabilityAndAccuracy(int countA, int countB, int feedbackF,
+	public void GetVariabilityAndAccuracy (int countA, int countB, int feedbackF,
 			out double variability, out double feedbackDifference,
 			Preferences.VariabilityMethodEnum variabilityMethod, int lag)
 	{
@@ -1319,7 +1319,7 @@ public class ForceSensorCapturePoints
 
 		double variability = 0;
 		double feedbackDiff = 0;
-		fscp.GetVariabilityAndAccuracy(0, nums.Count -1, 20, out variability, out feedbackDiff, Preferences.VariabilityMethodEnum.CVRMSSD, lag);
+		fscp.GetVariabilityAndAccuracy (0, nums.Count -1, 20, out variability, out feedbackDiff, Preferences.VariabilityMethodEnum.CVRMSSD, lag);
 		LogB.Information("cvRMSSD: " + variability);
 	}
 
@@ -2579,10 +2579,9 @@ public class ForceSensorAnalyzeInstant
 
 	public void CalculateVariabilityAndAccuracy(int countA, int countB,
 			int feedbackF, out double variability, out double feedbackDifference,
-			Preferences.VariabilityMethodEnum variabilityMethod)
+			Preferences.VariabilityMethodEnum variabilityMethod, int lag)
 	{
-		int lag = 1;
-		fscAIPoints.GetVariabilityAndAccuracy(countA, countB, feedbackF, out variability, out feedbackDifference, variabilityMethod, lag);
+		fscAIPoints.GetVariabilityAndAccuracy (countA, countB, feedbackF, out variability, out feedbackDifference, variabilityMethod, lag);
 	}
 	/*
 	 * Calculates RFD in a point using previous and next point

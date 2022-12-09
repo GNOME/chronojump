@@ -4393,6 +4393,7 @@ It starts before and arrives there with some speed.</property>
                                                             <property name="active">True</property>
                                                             <property name="draw_indicator">True</property>
                                                             <property name="group">radio_force_sensor_variability_cvrmssd</property>
+                                                            <signal name="toggled" handler="on_radio_force_sensor_variability_toggled" swapped="no"/>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">True</property>
@@ -4408,6 +4409,7 @@ It starts before and arrives there with some speed.</property>
                                                             <property name="receives_default">False</property>
                                                             <property name="active">True</property>
                                                             <property name="draw_indicator">True</property>
+                                                            <signal name="toggled" handler="on_radio_force_sensor_variability_toggled" swapped="no"/>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">True</property>
@@ -4423,6 +4425,7 @@ It starts before and arrives there with some speed.</property>
                                                             <property name="receives_default">False</property>
                                                             <property name="draw_indicator">True</property>
                                                             <property name="group">radio_force_sensor_variability_rmssd</property>
+                                                            <signal name="toggled" handler="on_radio_force_sensor_variability_toggled" swapped="no"/>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -4442,7 +4445,7 @@ It starts before and arrives there with some speed.</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <child>
-                                                            <widget class="GtkHBox" id="hbox90">
+                                                            <widget class="GtkHBox" id="hbox_force_sensor_lag">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="spacing">6</property>

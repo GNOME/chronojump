@@ -191,6 +191,7 @@ public class PreferencesWindow
 	[Widget] Gtk.RadioButton radio_force_sensor_variability_rmssd;
 	[Widget] Gtk.RadioButton radio_force_sensor_variability_cvrmssd;
 	[Widget] Gtk.RadioButton radio_force_sensor_variability_old;
+	[Widget] Gtk.HBox hbox_force_sensor_lag;
 	[Widget] Gtk.SpinButton spin_force_sensor_variability_lag;
 	[Widget] Gtk.SpinButton spin_force_sensor_analyze_ab_slider_increment;
 	[Widget] Gtk.SpinButton spin_force_sensor_analyze_max_avg_force_in_window;
@@ -742,11 +743,17 @@ public class PreferencesWindow
 		PreferencesWindowBox.spin_force_sensor_graphs_line_width.Value = preferences.forceSensorGraphsLineWidth;
 
 		if(preferences.forceSensorVariabilityMethod == Preferences.VariabilityMethodEnum.RMSSD)
+		{
 			PreferencesWindowBox.radio_force_sensor_variability_rmssd.Active = true;
-		else if(preferences.forceSensorVariabilityMethod == Preferences.VariabilityMethodEnum.CVRMSSD)
+			PreferencesWindowBox.hbox_force_sensor_lag.Visible = true;
+		} else if(preferences.forceSensorVariabilityMethod == Preferences.VariabilityMethodEnum.CVRMSSD)
+		{
 			PreferencesWindowBox.radio_force_sensor_variability_cvrmssd.Active = true;
-		else
+			PreferencesWindowBox.hbox_force_sensor_lag.Visible = true;
+		} else {
 			PreferencesWindowBox.radio_force_sensor_variability_old.Active = true;
+			PreferencesWindowBox.hbox_force_sensor_lag.Visible = false;
+		}
 
 		PreferencesWindowBox.spin_force_sensor_variability_lag.Value = preferences.forceSensorVariabilityLag;
 
@@ -994,6 +1001,23 @@ public class PreferencesWindow
 				Catalog.GetString("But keep in mind that if you display reactive jumps with other jumps (like CMJ, ABK), then heights will be shown."));
 	}
 
+	/*
+	 * forceSensor stuff
+	 */
+
+	private void on_radio_force_sensor_variability_toggled (object o, EventArgs args)
+	{
+		//only manage active
+		if (! ((Gtk.RadioButton) o).Active)
+			return;
+
+		if (o == (object) radio_force_sensor_variability_rmssd)
+			hbox_force_sensor_lag.Visible = true;
+		else if (o == (object) radio_force_sensor_variability_cvrmssd)
+			hbox_force_sensor_lag.Visible = true;
+		else // (o == (object) radio_force_sensor_variability_old)
+			hbox_force_sensor_lag.Visible = false;
+	}
 
 	/*
 	 * triggers stuff

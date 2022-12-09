@@ -1513,4 +1513,15 @@ public class Constants
 		Catalog.GetString("Non propulsive"),
 		Catalog.GetString("Impulse")
 	};
+
+	public static string Get7zExecutable (UtilAll.OperatingSystems os)
+	{
+		string executable = "7z";
+		if (os == UtilAll.OperatingSystems.MACOSX)
+			executable = System.IO.Path.Combine(Util.GetPrefixDir(), "bin/7zz");
+		else if (os == UtilAll.OperatingSystems.WINDOWS)
+			executable = System.IO.Path.Combine(Util.GetPrefixDir(), "bin/7zr.exe");
+
+		return executable;
+	}
 }

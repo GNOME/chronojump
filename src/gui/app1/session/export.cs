@@ -47,6 +47,12 @@ public partial class ChronoJumpWindow
 			return;
 		}
 
+		if (operatingSystem == UtilAll.OperatingSystems.LINUX && ! ExecuteProcess.InstalledOnLinux ("7z"))
+		{
+			showLinux7zInstallMessage ();
+			return;
+		}
+
 		app1s_label_export_destination.Text = "";
 		app1s_label_export_progress.Text = "";
 		app1s_exportText = "";

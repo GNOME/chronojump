@@ -31,7 +31,13 @@ public partial class ChronoJumpWindow
 
 	private void on_button_import_chronojump_session(object o, EventArgs args)
 	{
-		sessionLoadWindowShow(app1s_windowType.IMPORT_SESSION);
+		if (operatingSystem == UtilAll.OperatingSystems.LINUX && ! ExecuteProcess.InstalledOnLinux ("7z"))
+		{
+			showLinux7zInstallMessage ();
+			return;
+		}
+
+		sessionLoadWindowShow (app1s_windowType.IMPORT_SESSION);
 		app1s_radio_import_new_current_sensitive();
 	}
 

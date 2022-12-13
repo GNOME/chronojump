@@ -395,7 +395,7 @@ public partial class ChronoJumpWindow
 				parameters.Add ("-o" + UtilAll.GetTempDir ());
 				parameters.Add (filechooser.Filename);
 
-				string executable = Constants.Get7zExecutable (operatingSystem);
+				string executable = ExecuteProcess.Get7zExecutable (operatingSystem);
 				ExecuteProcess.Result execute_result = ExecuteProcess.run (executable, parameters, false, false);
 			}
 

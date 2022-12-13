@@ -532,6 +532,12 @@ public partial class ChronoJumpWindow
 			showMacRInstallMessage ();
 			return;
 		}
+		else if (operatingSystem == UtilAll.OperatingSystems.LINUX &&
+				! ExecuteProcess.InstalledOnLinux ("R"))
+		{
+			showLinuxRInstallMessage ();
+			return;
+		}
 
 		// 2) check if all sessions
 		if(radio_sprint_analyze_individual_all_sessions.Active)

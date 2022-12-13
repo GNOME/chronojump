@@ -4121,6 +4121,11 @@ public partial class ChronoJumpWindow
 		new DialogMessage (Constants.MessageTypes.WARNING,
 				Catalog.GetString ("Sorry, R software is not installed."));
 	}
+	private void showLinux7zInstallMessage ()
+	{
+		new DialogMessage (Constants.MessageTypes.WARNING,
+				string.Format (Catalog.GetString ("Sorry, {0} software is not installed."), "7z"));
+	}
 
 	private void on_check_contacts_capture_show_modes_clicked (object o, EventArgs args)
 	{

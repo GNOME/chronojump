@@ -479,4 +479,19 @@ class ExecuteProcess
 
 		return executable;
 	}
+
+	/*
+	   On Windows everything is installed with the installer,
+	   on Mac we check on some folders, but on Linux better run a "which" command to see if it is installed
+	   */
+	public static bool InstalledOnLinux (string program)
+	{
+		List<string> parameters = new List<string>();
+		parameters.Add (program);
+		Result result = run ("which", parameters, true, true);
+
+		LogB.Information (string.Format ("'which {0}' success = {1}", program, result.success));
+		return result.success;
+	}
+
 }

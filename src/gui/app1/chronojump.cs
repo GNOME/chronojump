@@ -3663,15 +3663,22 @@ public partial class ChronoJumpWindow
 		label_contacts_exercise_selected_options_blank ();
 
 		//on OSX R is not installed by default. Check if it's installed. Needed for encoder and force sensor
-		if(
-				( Constants.ModeIsENCODER (m) ||
-				  Constants.ModeIsFORCESENSOR (m) ) &&
-				operatingSystem == UtilAll.OperatingSystems.MACOSX &&
-				! Util.FileExists(Constants.ROSX) )
+		if (Constants.ModeIsENCODER (m) || Constants.ModeIsFORCESENSOR (m))
 		{
-			showMacRInstallMessage ();
-			show_start_page();
-			return;
+			if (operatingSystem == UtilAll.OperatingSystems.MACOSX &&
+				! Util.FileExists(Constants.ROSX))
+			{
+				showMacRInstallMessage ();
+				show_start_page ();
+				return;
+			}
+			else if (operatingSystem == UtilAll.OperatingSystems.LINUX &&
+				! ExecuteProcess.InstalledOnLinux ("R"))
+			{
+				showLinuxRInstallMessage ();
+				show_start_page ();
+				return;
+			}
 		}
 
 		if(m == Constants.Modes.JUMPSSIMPLE || m == Constants.Modes.JUMPSREACTIVE)
@@ -4108,6 +4115,11 @@ public partial class ChronoJumpWindow
 				"\n" + Catalog.GetString("Please, install it from here:") +
 				"\n\n" + Constants.RmacDownload,
 				"button_go_r_mac");
+	}
+	private void showLinuxRInstallMessage ()
+	{
+		new DialogMessage (Constants.MessageTypes.WARNING,
+				Catalog.GetString ("Sorry, R software is not installed."));
 	}
 
 	private void on_check_contacts_capture_show_modes_clicked (object o, EventArgs args)

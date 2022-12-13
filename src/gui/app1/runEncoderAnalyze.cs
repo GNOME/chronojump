@@ -209,6 +209,12 @@ public partial class ChronoJumpWindow
 			showMacRInstallMessage ();
 			return;
 		}
+		else if (operatingSystem == UtilAll.OperatingSystems.LINUX &&
+				! ExecuteProcess.InstalledOnLinux ("R"))
+		{
+			showLinuxRInstallMessage ();
+			return;
+		}
 
 		if(lastRunEncoderFullPath != null && lastRunEncoderFullPath != "")
 			raceEncoderCopyToTempAndDoRGraph();

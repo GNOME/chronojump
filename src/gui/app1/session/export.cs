@@ -303,7 +303,7 @@ public partial class ChronoJumpWindow
 			// option 2 without the parent folder (cleaner, but do not found how to import)
 			//parameters.Add (app1s_fileCopy + Path.DirectorySeparatorChar + "*");
 
-			string executable = Constants.Get7zExecutable (operatingSystem);
+			string executable = ExecuteProcess.Get7zExecutable (operatingSystem);
 			ExecuteProcess.Result execute_result = ExecuteProcess.run (executable, parameters, false, false);
 			// delete exported folder
 			if (execute_result.success)

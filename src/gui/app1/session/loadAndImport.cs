@@ -378,10 +378,13 @@ public partial class ChronoJumpWindow
 		{
 			file_filter.AddPattern ("*.7z");
 			file_filter.Name = "Chronojump data (.7z)";
-		} else {
+		}
+		/* This is commented to avoid the unreachable code warning. If ever change the exportImportCompressed, uncomment
+		else {
 			file_filter.AddPattern ("*.db");
 			file_filter.Name = "Chronojump database (chronojump.db)";
 		}
+		*/
 		filechooser.AddFilter (file_filter);
 
 		if (filechooser.Run () == (int)ResponseType.Accept)
@@ -396,7 +399,7 @@ public partial class ChronoJumpWindow
 				parameters.Add (filechooser.Filename);
 
 				string executable = ExecuteProcess.Get7zExecutable (operatingSystem);
-				ExecuteProcess.Result execute_result = ExecuteProcess.run (executable, parameters, false, false);
+				ExecuteProcess.run (executable, parameters, false, false);
 			}
 
 			app1s_import_file_path = filechooser.Filename;

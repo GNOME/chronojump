@@ -34,7 +34,7 @@ using System.Collections.Generic; //List
 public partial class ChronoJumpWindow
 {
 	//multi chronopic stuff
-	List<ChronopicRegisterPort> crpMultiList;
+	//List<ChronopicRegisterPort> crpMultiList;
 
 	ChronopicRegisterPort crpDoing;
 	//bool connectAnother;

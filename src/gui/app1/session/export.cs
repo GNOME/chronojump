@@ -151,12 +151,14 @@ public partial class ChronoJumpWindow
 			LogB.ThreadEnding();
 			app1s_ExportPulseEnd();
 
+			/* This is commented to avoid the unreachable code warning. If ever change the exportImportCompressed, uncomment
 			if (! exportImportCompressed)
 			{
 				LogB.Information("calling reloadSession on thread end");
 				reloadSession(); //to use default db again
 				LogB.Information("called reloadSession on thread end");
 			}
+			*/
 
 			//but unsensitivize left menu
 			vbox_menu_tiny_menu.Sensitive = false;

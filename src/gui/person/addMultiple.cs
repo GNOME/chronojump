@@ -96,7 +96,6 @@ public class PersonAddMultipleWindow
 	[Widget] Gtk.Label label_csv;
 	[Widget] Gtk.Label label_name;
 
-	[Widget] Gtk.Button button_manually_create;
 	[Widget] Gtk.Button button_csv_prepare;
 	
 	[Widget] Gtk.Image image_name1;
@@ -1115,7 +1114,7 @@ public class PersonAddMultipleWindow
 		new SqlitePersonSessionTransaction (persons, personSessions);
 	}
 
-	public new Button FakeButtonDone
+	public Button FakeButtonDone
 	{
 		get { return fakeButtonDone; }
 	}

@@ -185,7 +185,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_encoder_capture_inertial_con;
 
 	//force sensor
-	[Widget] Gtk.Image image_selector_start_force_sensor;
+	//[Widget] Gtk.Image image_selector_start_force_sensor;
 	[Widget] Gtk.Image image_force_sensor_adjust_help;
 	[Widget] Gtk.Image image_force_sensor_analyze_load;
 	[Widget] Gtk.Image image_force_sensor_tare;

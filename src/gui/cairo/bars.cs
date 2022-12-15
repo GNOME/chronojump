@@ -305,7 +305,8 @@ public abstract class CairoBars : CairoGeneric
 
 	public virtual void PassData2Series (List<PointF> barMain_l, List<List<PointF>> barSecondary_ll, bool mainAtLeft,
 			List<Cairo.Color> colorMain_l, List<Cairo.Color> colorSecondary_l, List<string> names_l,
-			string labelBarMain, string labelBarSecondary, bool labelRotateInFirstBar,
+			string labelBarMain,// string labelBarSecondary,
+			bool labelRotateInFirstBar,
 			int fontHeightAboveBar, int fontHeightForBottomNames, int marginForBottomNames,
 			string titleStr)
 	{
@@ -1379,7 +1380,7 @@ public class CairoBarsNHSeries : CairoBars
 	private List<string> names_l;
 	private bool showLegend;
 	private string labelBarMain;
-	private string labelBarSecondary;
+	//private string labelBarSecondary;
 	private bool labelRotateInFirstBar;
 
 	private Cairo.Color colorSerieB;
@@ -1769,7 +1770,8 @@ public class CairoBarsNHSeries : CairoBars
 	//done here and not in the constructor because most of this variables are known after construction
 	public override void PassData2Series (List<PointF> barMain_l, List<List<PointF>> barSecondary_ll, bool mainAtLeft,
 			List<Cairo.Color> colorMain_l, List<Cairo.Color> colorSecondary_l, List<string> names_l,
-			string labelBarMain, string labelBarSecondary, bool labelRotateInFirstBar,
+			string labelBarMain,// string labelBarSecondary,
+			bool labelRotateInFirstBar,
 			int fontHeightAboveBar, int fontHeightForBottomNames, int marginForBottomNames,
 			string titleStr)
 	{
@@ -1779,7 +1781,7 @@ public class CairoBarsNHSeries : CairoBars
 		this.colorSecondary_l = colorSecondary_l;
 		this.names_l = names_l;
 		this.labelBarMain = labelBarMain;
-		this.labelBarSecondary = labelBarSecondary;
+		//this.labelBarSecondary = labelBarSecondary;
 		this.labelRotateInFirstBar = labelRotateInFirstBar;
 		this.fontHeightAboveBar = fontHeightAboveBar;
 		this.fontHeightForBottomNames = fontHeightForBottomNames;

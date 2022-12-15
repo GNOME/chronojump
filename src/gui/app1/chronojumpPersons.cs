@@ -32,7 +32,6 @@ using Mono.Unix;
 public partial class ChronoJumpWindow
 {
 	[Widget] Gtk.Alignment alignment_session_persons;
-	[Widget] Gtk.VBox vbox_manage_persons;
 	[Widget] Gtk.EventBox eventbox_button_person_close;
 
 	private void showPersonsOnTop (bool onTop)

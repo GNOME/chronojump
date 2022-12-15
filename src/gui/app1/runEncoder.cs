@@ -152,7 +152,6 @@ public partial class ChronoJumpWindow
 
 	*/
 	static string captureEndedMessage;
-	string runEncoderPortName;
 	SerialPort portRE; //Attention!! Don't reopen port because arduino makes reset
 	bool portREOpened;
 

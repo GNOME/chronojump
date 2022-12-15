@@ -95,7 +95,7 @@ public class FeedbackEncoder
 		// 1) assign radios
 		bool radio_ecc = false;
 		bool radio_con = false;
-		bool radio_both = false;
+		//bool radio_both = false;
 		if(preferences.encoderCaptureMainVariableThisSetOrHistorical || ( 
 					preferences.encoderCaptureMainVariable != Constants.EncoderVariablesCapture.MeanPower &&
 					preferences.encoderCaptureMainVariable != Constants.EncoderVariablesCapture.MeanSpeed &&
@@ -105,10 +105,10 @@ public class FeedbackEncoder
 				radio_con = true;
 			else if(preferences.encoderCaptureFeedbackEccon == Preferences.EncoderPhasesEnum.ECC)
 				radio_ecc = true;
-			else
-				radio_both = true; //unused
-		} else
-			radio_both = true; ///unused
+			//else
+			//	radio_both = true; //unused
+		} //else
+		//	radio_both = true; ///unused
 
 		// 2) assign radios
 		//note on "c" phaseEnum will be BOTH

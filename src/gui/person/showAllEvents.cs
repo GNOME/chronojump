@@ -52,9 +52,8 @@ public class PersonShowAllEventsWindow
 	static PersonShowAllEventsWindow PersonShowAllEventsWindowBox;
 
 	private int sessionID;
-	
-	private Person currentPerson;
-	
+
+
 	PersonShowAllEventsWindow (Gtk.Window parent, int sessionID, Person currentPerson)
 	{
 		Glade.XML gladeXML;
@@ -77,7 +76,6 @@ public class PersonShowAllEventsWindow
 
 		person_show_all_events.Parent = parent;
 		this.sessionID = sessionID;
-		this.currentPerson = currentPerson;
 
 		fakeButtonDone = new Gtk.Button();
 

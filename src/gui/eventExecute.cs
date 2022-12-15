@@ -1,9 +1,4 @@
 /*
-curses trams graph de sessió podria ser 2H (totaltime, maxSpeed)
-*/
-
-
-/*
  * This file is part of ChronoJump
  *
  * ChronoJump is free software; you can redistribute it and/or modify
@@ -2734,7 +2729,7 @@ public class CairoPaintBarsPreJumpSimple : CairoPaintBarsPre
 
 			cb.PassData2Series (pointB_l, barsSecondary_ll, false,
 					new List<Cairo.Color>(), new List<Cairo.Color>(), names_l,
-					"", "", false,
+					"", false,
 					-1, fontHeightForBottomNames, bottomMargin, title);
 		} else if (showBarA) //takeOff, takeOffWeight
 			cb.PassData1Serie (pointA_l,
@@ -2880,7 +2875,7 @@ public class CairoPaintBarsPreJumpReactive : CairoPaintBarsPre
 
 		cb.PassData2Series (pointB_l, barsSecondary_ll, false,
 				new List<Cairo.Color>(), new List<Cairo.Color>(), names_l,
-				"", "", false,
+				"", false,
 				-1, fontHeightForBottomNames, bottomMargin, title);
 		cb.GraphDo();
 	}
@@ -3233,7 +3228,7 @@ public class CairoPaintBarsPreJumpReactiveRealtimeCapture : CairoPaintBarsPre
 
 		cb.PassData2Series (pointB_l, barsSecondary_ll, false,
 				new List<Cairo.Color>(), new List<Cairo.Color>(), names_l,
-				"", "", false,
+				"", false,
 				-1, 14, 8, title);
 		cb.GraphDo();
 	}
@@ -3866,8 +3861,9 @@ public class CairoPaintBarplotPreEncoder : CairoPaintBarsPre
 				colorPhase = UtilGtk.BLUE_LIGHT;
 
 			//know if ecc or con to paint with dark or light pen
-			if (pegbe.eccon == "ec" || pegbe.eccon == "ecS") {
-				bool isEven = Util.IsEven(count +1);
+			if (pegbe.eccon == "ec" || pegbe.eccon == "ecS")
+			{
+				//bool isEven = Util.IsEven(count +1);
 
 				//on inertial if discardFirstN , they have to be gray
 				if( pegbe.hasInertia && pegbe.discardFirstN > 0 &&
@@ -4085,7 +4081,8 @@ public class CairoPaintBarplotPreEncoder : CairoPaintBarsPre
 
 			cb.PassData2Series (barB_l, barsSecondary_ll, false,
 					colorMain_l, colorSecondary_l, names_l,
-					"Ecc", "Con", false,
+					"Ecc",// "Con",
+					false,
 					preferences.encoderCaptureBarplotFontSize, 14, 8, "");
 		}
 

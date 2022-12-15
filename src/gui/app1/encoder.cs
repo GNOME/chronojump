@@ -4739,7 +4739,7 @@ public partial class ChronoJumpWindow
 
 
 		//combo_encoder_laterality_analyze
-		string [] comboEncoderLateralityAnalyzeOptions = { "Any laterality", "Both", "Left", "Right" };
+		//string [] comboEncoderLateralityAnalyzeOptions = { "Any laterality", "Both", "Left", "Right" };
 		string [] comboEncoderLateralityAnalyzeTranslated = {
 			Catalog.GetString("Any laterality"), Catalog.GetString("Both"),
 			Catalog.GetString("Left"), Catalog.GetString("Right")

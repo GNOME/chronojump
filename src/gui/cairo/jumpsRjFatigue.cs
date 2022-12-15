@@ -261,7 +261,7 @@ public class JumpsRjFatigueGraph : CairoXY
 
 		double partRange = totalTime / (1.0 * parts);
 		double partCurrent = 0;
-		double partStart = partCurrent * partRange;
+		//double partStart = partCurrent * partRange;
 		double partEnd = (partCurrent + 1) * partRange;
 		double timeAccu = 0;
 		List<PointF> pointsThisPart_l = new List<PointF>();
@@ -282,7 +282,7 @@ public class JumpsRjFatigueGraph : CairoXY
 			}
 			else {
 				partCurrent ++;
-				partStart = partCurrent * partRange;
+				//partStart = partCurrent * partRange;
 				partEnd = (partCurrent + 1) * partRange;
 				l_l.Add (pointsThisPart_l);
 				//LogB.Information (string.Format ("stored part {0}", partCurrent-1));

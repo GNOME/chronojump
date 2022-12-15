@@ -53,7 +53,6 @@ public class JumpsAsymmetry
 		jad_l = new List<JumpsAsymmetryDay> ();
 		JumpsAsymmetryDay jad = new JumpsAsymmetryDay (bilateral);
 		string currentDate = "";
-		bool jadAdded = false; //to know if at end of bucle we need to check for completion
 
 		foreach (SqliteStruct.DateTypeResult sdtr in sdtr_l)
 		{

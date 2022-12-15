@@ -178,7 +178,7 @@ public partial class ChronoJumpWindow
 		{
 			if (bars) {
 				//constructor for showing blank screen with a message
-				CairoBars cb = new CairoBars1Series (drawingarea_jumps_asymmetry, CairoBars.Type.NORMAL, preferences.fontType.ToString(), "Need more data"); //TODO: change message
+				new CairoBars1Series (drawingarea_jumps_asymmetry, CairoBars.Type.NORMAL, preferences.fontType.ToString(), "Need more data"); //TODO: change message
 			} else {
 
 				JumpsAsymmetryGraph.Error error = JumpsAsymmetryGraph.Error.NEEDJUMP;

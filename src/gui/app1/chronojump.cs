@@ -309,7 +309,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.EventBox eventbox_button_micro_discover_cancel_close;
 	[Widget] Gtk.Image image_button_micro_discover_cancel_close;
 	[Widget] Gtk.Label label_button_micro_discover_cancel_close;
-	[Widget] Gtk.Image image_micro_discover_mode;
+	//[Widget] Gtk.Image image_micro_discover_mode;
 
 	[Widget] Gtk.Label label_threshold;
 

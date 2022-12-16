@@ -67,15 +67,12 @@ public partial class ChronoJumpWindow
 		{
 			Pixbuf pixbuf = new Pixbuf (filenameMini);
 			image_current_person.Pixbuf = pixbuf;
-			button_image_current_person_zoom_h.Sensitive = true;
 		} else {
 			//image_current_person.Pixbuf = null;
 			Pixbuf pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_no_photo.png");
 			if(Config.ColorBackgroundIsDark)
 				pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_no_photo_yellow.png");
 			image_current_person.Pixbuf = pixbuf;
-
-			button_image_current_person_zoom_h.Sensitive = false;
 		}
 	}
 

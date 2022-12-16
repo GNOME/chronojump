@@ -335,7 +335,6 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.VBox vbox_persons_bottom;
 	[Widget] Gtk.HBox hbox_persons_bottom_photo;
 	[Widget] Gtk.VBox vbox_persons_bottom_no_photo;
-	//[Widget] Gtk.HBox hbox_persons_bottom_no_photo;
 	[Widget] Gtk.Button button_recuperate_person;
 	[Widget] Gtk.Button button_recuperate_persons_from_session;
 	[Widget] Gtk.Button button_person_add_single;
@@ -1367,13 +1366,6 @@ public partial class ChronoJumpWindow
 		}
 	}
 
-	private void on_button_image_current_person_zoom_clicked(object o, EventArgs args)
-	{
-		new DialogImageTest(currentPerson.Name,
-				Util.UserPhotoURL(false, currentPerson.UniqueID),
-				DialogImageTest.ArchiveType.FILE);
-	}
-	
 	private void treeview_persons_storeReset()
 	{
 		myTreeViewPersons.RemoveColumns();

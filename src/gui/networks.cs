@@ -60,7 +60,6 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.HBox hbox_top_person_encoder;
 	[Widget] Gtk.Label label_top_person_name;
 	[Widget] Gtk.Label label_top_encoder_person_name;
-	[Widget] Gtk.Button button_image_current_person_zoom_h;
 	[Widget] Gtk.Image image_current_person;
 	[Widget] Gtk.Button button_contacts_person_change;
 	[Widget] Gtk.Button button_encoder_person_change;

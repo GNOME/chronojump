@@ -38,7 +38,6 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_db_backup;
 	[Widget] Gtk.Image image_db_view;
 	[Widget] Gtk.Image image_mode_encoder_capture;
-	[Widget] Gtk.Image image_current_person_zoom_h;
 	[Widget] Gtk.Image image_person;
 	[Widget] Gtk.Image image_person1;
 	[Widget] Gtk.Image image_edit_current_person_h;
@@ -385,9 +384,6 @@ public partial class ChronoJumpWindow
 		image_encoder_inertial_top_weights.Pixbuf = pixbuf;
 		image_encoder_inertial_weights.Pixbuf = pixbuf;
 		image_force_sensor_calibrate.Pixbuf = pixbuf;
-
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "portrait_zoom.png");
-		image_current_person_zoom_h.Pixbuf = pixbuf;
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_no_photo.png");
 		if(Config.ColorBackgroundIsDark)

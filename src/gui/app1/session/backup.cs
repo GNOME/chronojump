@@ -494,7 +494,8 @@ public partial class ChronoJumpWindow
 		else {
 			menus_sensitive_import_not_danger(true);
 			notebook_supSetOldPage();
-			new ChronojumpLogo (notebook_chronojump_logo, drawingarea_chronojump_logo, preferences.logoAnimatedShow);
+			if (notebook_sup.CurrentPage == Convert.ToInt32(notebook_sup_pages.START))
+				new ChronojumpLogo (notebook_chronojump_logo, drawingarea_chronojump_logo, preferences.logoAnimatedShow);
 		}
 	}
 }

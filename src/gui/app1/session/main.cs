@@ -36,6 +36,8 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Label label_session_more_session_name;
 	[Widget] Gtk.Button button_menu_session_export;
 	[Widget] Gtk.EventBox app1s_eventbox_button_close0;
+	[Widget] Gtk.Image image_session_more_window_blue;
+	[Widget] Gtk.Image image_session_more_window_yellow;
 
 	//notebook tab 1
 	[Widget] Gtk.RadioButton app1s_radio_import_new_session;

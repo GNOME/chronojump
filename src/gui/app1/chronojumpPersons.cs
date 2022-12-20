@@ -33,6 +33,8 @@ public partial class ChronoJumpWindow
 {
 	[Widget] Gtk.Alignment alignment_session_persons;
 	[Widget] Gtk.EventBox eventbox_button_person_close;
+	[Widget] Gtk.Image image_person_manage_blue;
+	[Widget] Gtk.Image image_person_manage_yellow;
 
 	private void showPersonsOnTop (bool onTop)
 	{

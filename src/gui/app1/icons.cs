@@ -431,6 +431,9 @@ public partial class ChronoJumpWindow
 		app1s_image_show_data_persons.Pixbuf = pixbuf;
 		image_persons_manage.Pixbuf = pixbuf;
 
+		image_person_manage_blue.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_person.png");
+		image_person_manage_yellow.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_person_yellow.png");
+
 		image_merge_persons.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "merge.png");
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_info.png");

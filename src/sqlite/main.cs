@@ -4736,6 +4736,7 @@ LogB.SQL("5" + tableName);
 
 	//if we want to use the condition2 but not the searchValue, leave this as ""
 	//note that eg. newValue could be an int or others
+	//not sure if this works for non-literals
 	public static void Update(
 			bool dbconOpened, string tableName, string columnName, 
 			string searchValue, string newValue, 
@@ -4773,6 +4774,19 @@ LogB.SQL("5" + tableName);
 		
 		if( ! dbconOpened)
 			Sqlite.Close();
+	}
+
+	public static void UpdateTestPersonID (bool dbconOpened, string tableName, int personIDold, int personIDnew)
+	{
+		openIfNeeded (dbconOpened);
+
+		dbcmd.CommandText = "UPDATE " + tableName +
+			" SET personID = " + personIDnew +
+			" WHERE personID = " + personIDold;
+		LogB.SQL (dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery ();
+
+		closeIfNeeded (dbconOpened);
 	}
 
 	public static void Delete(bool dbconOpened, string tableName, int uniqueID)

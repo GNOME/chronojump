@@ -970,24 +970,28 @@ public partial class ChronoJumpWindow
 		{
 			image_session_new_blue.Visible = false;
 			image_session_load3_blue.Visible = false;
+			image_session_more_window_blue.Visible = false;
 			image_session_import1_blue.Visible = false;
 			image_person_manage_blue.Visible = false;
 			image_news_blue.Visible = false;
 
 			image_session_new_yellow.Visible = true;
 			image_session_load3_yellow.Visible = true;
+			image_session_more_window_yellow.Visible = true;
 			image_session_import1_yellow.Visible = true;
 			image_person_manage_yellow.Visible = true;
 			image_news_yellow.Visible = true;
 		} else {
 			image_session_new_blue.Visible = true;
 			image_session_load3_blue.Visible = true;
+			image_session_more_window_blue.Visible = true;
 			image_session_import1_blue.Visible = true;
 			image_person_manage_blue.Visible = true;
 			image_news_blue.Visible = true;
 
 			image_session_new_yellow.Visible = false;
 			image_session_load3_yellow.Visible = false;
+			image_session_more_window_yellow.Visible = false;
 			image_session_import1_yellow.Visible = false;
 			image_person_manage_yellow.Visible = false;
 			image_news_yellow.Visible = false;

@@ -67,6 +67,11 @@ class ChronojumpImporter
 			this.output = output;
 			this.error = error;
 		}
+
+		public void AddErrorComment (string s)
+		{
+			this.error += "\n\n" + s;
+		}
 	}
 
 	// ChronojumpImporter class imports a specific session from sourceFile to destinationFile.
@@ -208,10 +213,22 @@ LogB.Information("import H ");
 		   */
 LogB.Information("import I ");
 		if (! sourceDatabaseVersion.success)
+		{
+			if (UtilAll.IsWindows())
+				sourceDatabaseVersion.AddErrorComment ("This error can be caused by a faulty Windows installation of msvcr100.dll."
+						+ "\n" + "Contact Chronojump to solve it."); //TODO: translate this
+
 			return sourceDatabaseVersion;
+		}
 
 		if (! destinationDatabaseVersion.success)
+		{
+			if (UtilAll.IsWindows())
+				sourceDatabaseVersion.AddErrorComment ("This error can be caused by a faulty Windows installation of msvcr100.dll."
+						+ "\n" + "Contact Chronojump to solve it."); //TODO: translate this
+
 			return destinationDatabaseVersion;
+		}
 
 		float destinationDatabaseVersionNum = float.Parse (destinationDatabaseVersion.output);
 		float sourceDatabaseVersionNum = float.Parse (sourceDatabaseVersion.output);

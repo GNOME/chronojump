@@ -182,7 +182,6 @@ public partial class ChronoJumpWindow
 		LogB.Information(string.Format("frame_persons_top: {0}", frame_persons_top.SizeRequest().Width));
 		LogB.Information(string.Format("treeview_persons: {0}", treeview_persons.SizeRequest().Width));
 		LogB.Information(string.Format("vbox_persons_bottom: {0}", vbox_persons_bottom.SizeRequest().Width));
-		LogB.Information(string.Format("hbox_persons_bottom_no_photo: {0}", hbox_persons_bottom_no_photo.SizeRequest().Width));
 		LogB.Information(string.Format("hbox_persons_bottom_photo: {0}", hbox_persons_bottom_photo.SizeRequest().Width));
 		LogB.Information(string.Format("image_current_person: {0}", image_current_person.SizeRequest().Width));
 		LogB.Information(string.Format("hbox_rest_time: {0}", hbox_rest_time.SizeRequest().Width));

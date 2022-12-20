@@ -1102,7 +1102,7 @@ public class PersonAddMultipleWindow
 					if (psID > 0)
 					{
 						ps.UniqueID = psID;
-						SqlitePersonSession.Update (ps); //update
+						SqlitePersonSession.Update (false, ps); //update
 					}
 				} else
 					personSessions.Add (ps);

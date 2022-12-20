@@ -142,8 +142,9 @@ public class PersonSession
 			foreach (ClassVariance v in v_l)
 			{
 				//LogB.Information (v.ToString()); //debug
-				//don't add the uniqueID, personID. Obviously they are different
-				if (v.Prop != "uniqueID" && v.Prop != "personID")
+				//don't personID. Obviously is different
+				//but need uniqueID to do the merge
+				if (v.Prop != "personID")
 					propDiff_l.Add (v.GetStruct ());
 			}
 		}

@@ -1271,7 +1271,7 @@ public class PersonAddModifyWindow
 					trochanterFloorOnFlexion);
 
 			//3.- update in database
-			SqlitePersonSession.Update (currentPersonSession); 
+			SqlitePersonSession.Update (false, currentPersonSession);
 		}
 
 		if(webcam != null && webcam.Running)

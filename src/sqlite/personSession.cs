@@ -141,9 +141,10 @@ class SqlitePersonSession : Sqlite
 		return myReturn;
 	}
 	
-	public static void Update(PersonSession ps)
+	public static void Update (bool dbconOpened, PersonSession ps)
 	{
-		Sqlite.Open();
+		openIfNeeded (dbconOpened);
+
 		dbcmd.CommandText = "UPDATE " + Constants.PersonSessionTable + 
 			" SET personID = " + ps.PersonID + 
 			", sessionID = " + ps.SessionID + 
@@ -158,7 +159,8 @@ class SqlitePersonSession : Sqlite
 			" WHERE uniqueID == " + ps.UniqueID;
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
-		Sqlite.Close();
+
+		closeIfNeeded (dbconOpened);
 	}
 
 	//double
@@ -432,7 +434,6 @@ class SqlitePersonSession : Sqlite
 		return list;
 	}
 
-
 	public static void DeletePersonFromSessionAndTests(string sessionID, string personID)
 	{
 		Sqlite.Open();
@@ -551,6 +552,19 @@ class SqlitePersonSession : Sqlite
 		// 7).- TODO: delete videos
 
 		Sqlite.Close();
+	}
+
+	public static void DeletePersonSessionOnMerge (bool dbconOpened, int uniqueID)
+	{
+		// 1) delete from DB
+		openIfNeeded (dbconOpened);
+
+		dbcmd.CommandText = "DELETE FROM " + Constants.PersonSessionTable + " WHERE uniqueID = " + uniqueID;
+
+		LogB.SQL (dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery ();
+
+		closeIfNeeded (dbconOpened);
 	}
 
 	public static bool PersonExistsInAnyPS (bool dbconOpened, int personID)

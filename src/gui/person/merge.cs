@@ -35,6 +35,21 @@ public partial class ChronoJumpWindow
 
 		personMergeWin = PersonMergeWindow.Show (app1,
                                 currentSession.UniqueID, currentPerson, preferences.colorBackground);
+
+		personMergeWin.FakeButtonDone.Clicked -= new EventHandler (on_button_person_merge_done);
+		personMergeWin.FakeButtonDone.Clicked += new EventHandler (on_button_person_merge_done);
+	}
+	private void on_button_person_merge_done (object o, EventArgs args)
+	{
+		personMergeWin.FakeButtonDone.Clicked -= new EventHandler (on_button_person_merge_done);
+		currentPerson = personMergeWin.CurrentPerson;
+		currentPersonSession = personMergeWin.CurrentPersonSession;
+
+		label_person_change ();
+		personChanged ();
+		resetAllTreeViews(true, true, true); //fillTests, resetPersons, fillPersons
+
+		personMergeWin.HideAndNull ();
 	}
 }
 
@@ -48,12 +63,8 @@ public class PersonMergeWindow
 	[Widget] Gtk.HBox hbox_session_radios;
 	[Widget] Gtk.RadioButton radio_session_current;
 	[Widget] Gtk.RadioButton radio_session_all;
-	[Widget] Gtk.Label label_radio_session_current;
-	[Widget] Gtk.Label label_radio_session_all;
 	[Widget] Gtk.HBox hbox_filter;
-	[Widget] Gtk.Label label_filter;
 	[Widget] Gtk.Entry entry_filter;
-	[Widget] Gtk.Label label_person;
 	[Widget] Gtk.Label label_person_name;
 
 	[Widget] Gtk.Box hbox_combo_persons;
@@ -63,13 +74,11 @@ public class PersonMergeWindow
 	[Widget] Gtk.Notebook notebook;
 	[Widget] Gtk.Label label_persons_identify;
 	[Widget] Gtk.Label label_persons_tests;
-	[Widget] Gtk.Label label_persons_confirm;
 	[Widget] Gtk.Image image_button_cancel;
 	[Widget] Gtk.Image image_button_back;
 	[Widget] Gtk.Image image_button_accept;
 	[Widget] Gtk.Image image_button_merge;
 	[Widget] Gtk.Table table_diffs;
-	[Widget] Gtk.ScrolledWindow scrolledWin;
 
 	public Gtk.Button fakeButtonDone;
 
@@ -87,7 +96,6 @@ public class PersonMergeWindow
 	RadioButton pRadioA; //person diffs radiobutton
 	//Lists of personSession diffs at each session:
 	List<RadioButton> psRadiosA_l;
-	//List<RadioButton> psRadiosB_l; //not needed because with psRadiosA_l Active/Not Active is enough
 
 	PersonMergeWindow (Gtk.Window parent, int sessionID, Person currentPerson)
 	{
@@ -263,7 +271,7 @@ public class PersonMergeWindow
 				if (psCurrentPerson.SessionID == psMergePerson.SessionID)
 				{
 					List<ClassVariance.Struct> psDiffThisSession_l = psCurrentPerson.MergeWithAnotherGetConflicts (psMergePerson);
-					if (psDiffThisSession_l.Count > 0)
+					if (psDiffThisSession_l.Count > 1) //there is at least the difference between uniqueID
 					{
 						/* debug
 						foreach (ClassVariance.Struct cvs in psDiffThisSession_l)
@@ -371,6 +379,10 @@ public class PersonMergeWindow
 	{
 		foreach (ClassVariance.Struct cvs in cvs_l)
 		{
+			// do not display personSession.uniqueID
+			if (cvs.Prop == "uniqueID")
+				continue;
+
 			Gtk.Label lPersonProp = new Gtk.Label (cvs.Prop);
 			Gtk.Label lPersonVarA = new Gtk.Label (cvs.valA.ToString ());
 			Gtk.Label lPersonVarB = new Gtk.Label (cvs.valB.ToString ());
@@ -394,7 +406,6 @@ public class PersonMergeWindow
 
 	private void on_button_close_clicked (object o, EventArgs args)
 	{
-		fakeButtonDone.Click();
 		PersonMergeWindowBox.person_merge.Hide();
 		PersonMergeWindowBox = null;
 	}
@@ -404,6 +415,29 @@ public class PersonMergeWindow
 		notebook.CurrentPage = 0;
 	}
 
+	/* on an USELESS database, try with:
+
+	   DELETE FROM session; DELETE FROM person77; DELETE FROM personSession77; DELETE FROM jump;
+
+	   INSERT INTO session values (NULL, "1st session", "1st place", "0001-01-01", 1, -1, -1, "", -1);
+	   INSERT INTO session values (NULL, "2nd session", "2nd place", "0001-01-01", 1, -1, -1, "", -1);
+	   INSERT INTO session values (NULL, "3rd session", "3rd place", "0001-01-01", 1, -1, -1, "", -1);
+
+	   INSERT INTO person77 values (NULL, "p1", "M", "0001-01-01", -1, 1, "", "", "", -1, "");
+	   INSERT INTO person77 values (NULL, "p2", "F", "0001-01-01", -1, 1, "", "", "", -1, "");
+
+	   INSERT INTO personSession77 values (NULL, 1, 1, 0, 70, 1, -1, -1, "", 0, 0);
+	   INSERT INTO personSession77 values (NULL, 2, 1, 0, 50, 1, -1, -1, "", 0, 0);
+	   INSERT INTO personSession77 values (NULL, 1, 2, 0, 72, 1, -1, -1, "", 0, 0);
+	   INSERT INTO personSession77 values (NULL, 2, 3, 0, 52, 1, -1, -1, "", 0, 0);
+
+	   INSERT INTO jump VALUES (NULL, 1, 1, "SJ", .7, 0, 0, "", "", 0, 0, "");
+	   INSERT INTO jump VALUES (NULL, 2, 1, "CMJ", .5, 0, 0, "", "", 0, 0, "");
+	   INSERT INTO jump VALUES (NULL, 1, 2, "SJ", .72, 0, 0, "", "", 0, 0, "");
+	   INSERT INTO jump VALUES (NULL, 2, 3, "CMJ", .52, 0, 0, "", "", 0, 0, "");
+
+	   SELECT * FROM session; SELECT * FROM person77; SELECT * FROM personSession77; SELECT * FROM jump;
+	 */
 	private void on_button_merge_clicked (object o, EventArgs args)
 	{
 		// 0) debug
@@ -416,23 +450,121 @@ public class PersonMergeWindow
 			LogB.Information ( string.Format ("At session ({0}) {1} on list, use default radio? {2}", s.UniqueID, s.Name, r.Active));
 		}
 
-		// 1) changes in person table (using pDiff_l and pRadioA)
-		// 2) changes in personSession table (using psDiffAllSessions_l and psRadiosA_l)
-		// 3) changes in all tests tables (using just the personID)
-		// 3a) jump
-		// 3b) jumpRj
-		// 3c) run
-		// 3d) runInterval
-		// 3e) runEncoder
-		// 3f) forceSensor
-		// 3g) encoder
-		// 3h) encoder1RM
-		// unused (not needed) reaction time, pulse, multichronopic
+		Sqlite.Open ();   // --------------------------------->
+
+		// 1) changes in person table
+		//Person currentPersonCopy = currentPerson;
+		int personIDselected = currentPerson.UniqueID;
+		int personIDdiscarded = personToMerge.UniqueID;
+
+		if (pRadioA.Active)
+			SqlitePerson.DeletePersonAndImages (true, personToMerge.UniqueID);
+		else {
+			personIDselected = personToMerge.UniqueID;
+			personIDdiscarded = currentPerson.UniqueID;
+			SqlitePerson.DeletePersonAndImages (true, currentPerson.UniqueID);
+			currentPerson = personToMerge;
+		}
+
+		// 2) changes in personSession table for each of the sessions where are diffs between bot ps
+		count = 0;
+		PersonSession ps = new PersonSession ();
+		foreach (Gtk.RadioButton psR in psRadiosA_l)
+		{
+			// get personSession.UniqueID
+			int personSessionIDA = -1;
+			int personSessionIDB = -1;
+			List<ClassVariance.Struct> cvs_l = psDiffAllSessions_l[count];
+			foreach (ClassVariance.Struct cvs in cvs_l)
+				if (cvs.Prop == "uniqueID")
+				{
+					personSessionIDA = Convert.ToInt32 (cvs.valA.ToString ());
+					personSessionIDB = Convert.ToInt32 (cvs.valB.ToString ());
+					break;
+				}
+
+			Session s = sessionDiff_l[count];
+
+			// if we selected a personSession different than the person selection, need to put the correct personID on personSession
+			if (psR.Active != pRadioA.Active)
+			{
+				ps = SqlitePersonSession.Select (true, personIDdiscarded, s.UniqueID);
+				ps.PersonID = personIDselected; //and update it to use correct personID
+				SqlitePersonSession.Update (true, ps);
+			}
+
+			// delete the unwanted personSession
+			if (psR.Active)
+				SqlitePersonSession.DeletePersonSessionOnMerge (true, personSessionIDB);
+			else
+				SqlitePersonSession.DeletePersonSessionOnMerge (true, personSessionIDA);
+
+			count ++;
+		}
+
+		LogB.Information ("personIDselected: " + personIDselected.ToString ());
+		LogB.Information ("personIDdiscarded: " + personIDdiscarded.ToString ());
+
+		// 3) Update the personSession tables for sessions that have only the personSession of discarded person
+		Sqlite.Update (
+                        true, Constants.PersonSessionTable, "personID",
+                        personIDdiscarded.ToString (), personIDselected.ToString (),
+                        "", "");
+
+		// 4) If personSession does not exist for current session, create it
+		ps = SqlitePersonSession.Select (true, personIDselected, sessionID);
+		if (ps.UniqueID < 0)
+		{
+			ps = SqlitePersonSession.Select (true, personIDselected, -1);
+
+			LogB.Information ("Going to insert personSession: " + ps.ToString ());
+			//this inserts in DB
+			ps = new PersonSession (
+					currentPerson.UniqueID, sessionID,
+					ps.Height, ps.Weight,
+					ps.SportID, ps.SpeciallityID,
+					ps.Practice,
+					ps.Comments,
+					ps.TrochanterToe,
+					ps.TrochanterFloorOnFlexion,
+					true); //dbconOpened
+		}
+
+		// 5) Change the test tables
+		string [] testTables = {
+			Constants.JumpTable,
+			Constants.JumpRjTable,
+			Constants.RunTable,
+			Constants.RunIntervalTable,
+			Constants.RunEncoderTable,
+			Constants.EncoderTable,
+			Constants.Encoder1RMTable,
+			Constants.ForceSensorTable,
+			Constants.PulseTable,
+			Constants.ReactionTimeTable,
+			Constants.MultiChronopicTable,
+		};
+		foreach (string table in testTables)
+			Sqlite.UpdateTestPersonID (true, table, personIDdiscarded, personIDselected);
+
+		/*
+		   - change of person weight should not affect to jump.weight because 100 (%) is 100 (%) for both
+		   - raceAnalyzer, encoder, forceSensor files do not change the name as will involve lots of changes on individual sqlite records
+		 */
+
+		Sqlite.Close ();   // <--------------------------------
+
+		fakeButtonDone.Click();
 	}
 
 	private void on_delete_event (object o, DeleteEventArgs args)
 	{
-		fakeButtonDone.Click();
+		PersonMergeWindowBox.person_merge.Hide();
+		PersonMergeWindowBox = null;
+	}
+
+	public void HideAndNull ()
+	{
 		PersonMergeWindowBox.person_merge.Hide();
 		PersonMergeWindowBox = null;
 	}
@@ -440,5 +572,15 @@ public class PersonMergeWindow
 	public Button FakeButtonDone
 	{
 		get { return fakeButtonDone; }
+	}
+
+	public Person CurrentPerson
+	{
+		get { return currentPerson; }
+	}
+
+	public PersonSession CurrentPersonSession
+	{
+		get { return SqlitePersonSession.Select (false, currentPerson.UniqueID, sessionID); }
 	}
 }

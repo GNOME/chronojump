@@ -91,9 +91,10 @@ getAreaUnderCurve <- function(x, y)
         # print("Y:")
         # print(y)
         
-        #Adding a point in the last X and Y = 0 in order to calculate the area added by the last point
-        x = c(x, x[length(x)])
-        y = c(y, 0)
+    
+        #Adding a starting point at (x[1], 0) and last point at (x[last], 0)
+        x = c(x[1], x, x[length(x)])
+        y = c(0,y, 0)
         totalArea = 0
         # print(paste("V",1," = ", "(",x[1 + 1] - x[1],",", y[1 + 1] - y[1], ")", sep = ""))
         for(i in 2:(length(x) -1))

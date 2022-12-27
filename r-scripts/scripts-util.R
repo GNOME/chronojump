@@ -52,11 +52,18 @@ fixDatetime <- function(str)
 }
 
 #Function to get the interpolated x at a given y
-interpolateXAtY <- function(X, Y, desiredY)
+interpolateXAtY <- function(X, Y, desiredY, debug = FALSE)
 {
-	#print(paste("Y:", Y))
-	#print(paste("finding the X at desiredY:", desiredY))
-	#print(paste("max(Y):", max(Y)))
+    if(debug)
+    {
+        print("    In interpolate...")
+        print("    X:")
+        print(X)
+        print("    Y:")
+        print(Y)
+    # 	print(paste("finding the X at desiredY:", desiredY))
+    	#print(paste("max(Y):", max(Y)))
+    }
 	if(max(Y) < desiredY){
                 # print("desiredY is greater than max(Y)")
                 return(max(Y))
@@ -85,27 +92,27 @@ interpolateXAtY <- function(X, Y, desiredY)
 #Calculate the area under a curve using the cross product of consecutive vectors with the origin of each vector in the first point
 getAreaUnderCurve <- function(x, y)
 {
-        print("Calculating Area")
+        #Adding a starting point at (x[1], 0) and last point at (x[last], 0)
+        x = c(x[1], x, x[length(x)])
+        y = c(0,y, 0)
+        totalArea = 0
+        
+        # print("Calculating Area")
         # print("X:")
         # print(x)
         # print("Y:")
         # print(y)
         
-    
-        #Adding a starting point at (x[1], 0) and last point at (x[last], 0)
-        x = c(x[1], x, x[length(x)])
-        y = c(0,y, 0)
-        totalArea = 0
         # print(paste("V",1," = ", "(",x[1 + 1] - x[1],",", y[1 + 1] - y[1], ")", sep = ""))
         for(i in 2:(length(x) -1))
         {
                 parallelogramArea = ((x[i + 1] - x[1])* (y[i] - y[1]) - (x[i] - x[1]) * (y[i+1] - y[1]))
-                #print(paste("V",i," = ", "(",x[i + 1] - x[1],",", y[i + 1] - y[1], ") = " , parallelogramArea / 2, sep = ""))
+                # print(paste("V",i," = ", "(",x[i + 1] - x[1],",", y[i + 1] - y[1], ") = " , parallelogramArea / 2, sep = ""))
 
-                totalArea = totalArea + parallelogramArea
+                totalArea = totalArea + parallelogramArea/2     #The area of the parallelograms are twice the triangles areas
         }
-        print(paste("toalArea:", totalArea/2))
-        return(totalArea/2) #The area of the parallelograms are twice the triangles areas
+        print(paste("toalArea:", totalArea))
+        return(totalArea)
 }
 
 #Calculates the mean of a curve interval
@@ -135,6 +142,12 @@ getMeanValue <- function(X, Y, startX, endX)
         #Adding Ys of the limits
         Y = c(startY, Y, endY)
         
+        # print("Xs in getMeanValue():")
+        # print(X)
+        # print("Ys in getMeanValue():")
+        # print(Y)
+        
+        
         #calculating the area under the curve (integral)
         area = getAreaUnderCurve(X , Y)
 
@@ -158,4 +171,8 @@ prepareGraph <- function(os, pngFile, width, height)
 endGraph <- function()
 {
         dev.off()
+}
+
+last <- function(input) {
+    return( tail(input, n=1) )
 }

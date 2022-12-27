@@ -818,6 +818,11 @@ public partial class ChronoJumpWindow
 				currentSession = sessionLoading;
 				on_load_session_accepted();
 
+				// select last person
+				if (preferences.lastPersonID > 0)
+					selectRowTreeView_persons (treeview_persons,
+							myTreeViewPersons.FindRow (preferences.lastPersonID));
+
 				// 3) put preference to true again
 				SqlitePreferences.Update(SqlitePreferences.LoadLastSessionAtStart, true, false);
 			} else
@@ -2968,6 +2973,9 @@ public partial class ChronoJumpWindow
 		if(preferences.runEncoderCaptureDisplaySimple != preferences.runEncoderCaptureDisplaySimpleStored)
 			SqlitePreferences.Update(SqlitePreferences.RunEncoderCaptureDisplaySimple,
 					preferences.runEncoderCaptureDisplaySimple.ToString(), false);
+
+		if (currentPerson != null && currentPerson.UniqueID > 0)
+			SqlitePreferences.Update (SqlitePreferences.LastPersonID, currentPerson.UniqueID.ToString (), false);
 
 		LogB.Information("Bye3!");
 

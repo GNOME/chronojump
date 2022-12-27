@@ -68,6 +68,7 @@ public abstract class CairoXY : CairoGeneric
 	protected double minY = 1000000;
 	protected double maxY = 0;
 	protected double xAtMaxY = 0; //raw, used on raceAnalyzer
+	protected double yAtMaxY = 0; //raw, used on raceAnalyzer (needed because maxY can increase if == to minY, and this yAtMaxY refers to the best point
 	double yAtMMaxY;
 	protected double absoluteMaxX;
 	protected double absoluteMaxY;
@@ -218,6 +219,7 @@ public abstract class CairoXY : CairoGeneric
 			{
 				maxY = p.Y;
 				xAtMaxY = p.X; //used on raceAnalyzer
+				yAtMaxY = p.Y; //used on raceAnalyzer (needed because maxY can increase if == to minY), and this yAtMaxY refers to the best point
 			}
 		}
 

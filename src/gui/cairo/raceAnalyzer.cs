@@ -86,6 +86,7 @@ public class CairoGraphRaceAnalyzer : CairoXY
 		minY = 1000000;
 		maxY = 0;
 		xAtMaxY = 0;
+		yAtMaxY = 0;
 		absoluteMaxX = 0;
 		absoluteMaxY = 0;
 
@@ -324,7 +325,7 @@ public class CairoGraphRaceAnalyzer : CairoXY
 						graphY = pMaxY.Y;
 					} else {
 						graphX = xAtMaxY;
-						graphY = maxY;
+						graphY = yAtMaxY;
 					}
 					plotArrowPassingRealPoints (g, colorFromRGB (255,0,0),
 							graphX, graphY, points_list[points_list.Count -1].X, graphY, true, false, 0);
@@ -332,7 +333,7 @@ public class CairoGraphRaceAnalyzer : CairoXY
 				else  //if no sprint just plot a circle on max value
 				{
 					double graphX = xAtMaxY;
-					double graphY = maxY;
+					double graphY = yAtMaxY;
 					bool useMovingAverage = false;
 					if(useMovingAverage)
 					{

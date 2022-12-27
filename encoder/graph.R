@@ -3415,25 +3415,32 @@ doProcess <- function(options)
 			if(op$TriggersOnList != "" && op$TriggersOnList != -1)
 				abline(v=op$TriggersOnList, col="yellow3", lwd=2, lty=2);
 
-                        if (showSpeed){
-                                
+                        if (showSpeed)
+			{
                                 speedCorrected = speed$y
-                                
-                                #If the speed at the firs repetition has the right sign, we change it because we will
-                                #start changing in the first repetition
-                                if(mean(speedCorrected[(curves[1,"endStored"] - 100):curves[1,"endStored"]]) > 0){
-                                        changingRep = 2
-                                        speedCorrected[1:curves[1,"startStored"]] = -speedCorrected[1:curves[1,"startStored"]]
-                                } else if(mean(speedCorrected[(curves[1,"endStored"] - 100):curves[1,"endStored"]]) < 0){
-                                        changingRep = 1
-                                }
-                                
-                                #Changing the sign of each repetition alternately (changed, NOTchanged, changed, NOTchanged,....)
-                                while(changingRep <= length(curves[,"startStored"]))
-                                {
-                                        speedCorrected[curves[changingRep,"startStored"]:curves[changingRep,"endStored"]] = -speedCorrected[curves[changingRep,"startStored"]:curves[changingRep,"endStored"]]
-                                        changingRep = changingRep +2
-                                }
+
+				if(isInertial(op$EncoderConfigurationName))
+				{
+					#If the speed at the first repetition has the right sign, we change it because we will
+					#start changing in the first repetition
+					if(mean(speedCorrected[(curves[1,"endStored"] - 100):curves[1,"endStored"]]) > 0)
+					{
+						changingRep = 2
+						speedCorrected[1:curves[1,"startStored"]] = -speedCorrected[1:curves[1,"startStored"]]
+					}
+					else if(mean(speedCorrected[(curves[1,"endStored"] - 100):curves[1,"endStored"]]) < 0)
+					{
+						changingRep = 1
+					}
+
+					#Changing the sign of each repetition alternately (changed, NOTchanged, changed, NOTchanged,....)
+					while(changingRep <= length(curves[,"startStored"]))
+					{
+						speedCorrected[curves[changingRep,"startStored"]:curves[changingRep,"endStored"]] =
+							-speedCorrected[curves[changingRep,"startStored"]:curves[changingRep,"endStored"]]
+						changingRep = changingRep +2
+					}
+				}
                                 
                                 par(new=T)
                                 ylimHeight = max(abs(range(speed$y)))

@@ -4509,7 +4509,7 @@ public partial class ChronoJumpWindow
 
 			"Perform 6 ABK jumps each one with 1 second rest." + "\n\n" + //TODO: translate
 			Catalog.GetString("Analysis uses the best three jumps using 'jump height' criterion.") + "\n\n" +
-			Catalog.GetString("Lapuente and De Blas. Adapted from Wagner:") + "\nhttp://spartapoint.com/category/spartapoint-101/";
+			Catalog.GetString("Lapuente and De Blas. Adapted from Wagner:") + "\nhttps://spartascience.com/";
 		
 		new DialogMessage(Catalog.GetString("Neuromuscular profile"), Constants.MessageTypes.INFO, str, true);
 	}

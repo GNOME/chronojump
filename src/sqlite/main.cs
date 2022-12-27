@@ -144,7 +144,7 @@ class Sqlite
 	/*
 	 * Important, change this if there's any update to database
 	 */
-	static string lastChronojumpDatabaseVersion = "2.42";
+	static string lastChronojumpDatabaseVersion = "2.43";
 
 	public Sqlite()
 	{
@@ -3326,6 +3326,12 @@ class Sqlite
 				SqlitePreferences.Insert (SqlitePreferences.ForceSensorVariabilityLag, "1");
 				currentVersion = updateVersion("2.42");
 			}
+			if(currentVersion == "2.42")
+			{
+				LogB.SQL("Inserted into preferences: lastPersonID");
+				SqlitePreferences.Insert (SqlitePreferences.LastPersonID, "-1");
+				currentVersion = updateVersion("2.43");
+			}
 
 			/*
 			if(currentVersion == "1.79")
@@ -3547,6 +3553,7 @@ class Sqlite
 		//changes [from - to - desc]
 //just testing: 1.79 - 1.80 Converted DB to 1.80 Created table ForceSensorElasticBandGlue and moved stiffnessString records there
 
+		//2.42 - 2.43 Converted DB to 2.43 Inserted into preferences: lastPersonID
 		//2.41 - 2.42 Converted DB to 2.42 Added ForceSensorVariabilityLag
 		//2.40 - 2.41 Converted DB to 2.41 Tests without datetime: jump (db 1.81), jumpRj (db 1.81), run (db 2.13), runI (2.13) now have session date (and 00-00-01 time)
 		//2.39 - 2.40 Converted DB to 2.40 ForceSensor exercises raw are now both (isometric & elastic) because there was a bug creating raw exercises (elastic was not asked and was assigned true) and we don't know where to put them.

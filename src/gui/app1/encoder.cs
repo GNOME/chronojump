@@ -4507,6 +4507,7 @@ public partial class ChronoJumpWindow
 			Catalog.GetString("Explode: Perform exercises that develop force in short time, and maximum force.") + "\n" + 
 			Catalog.GetString("Drive: Perform exercises where force is developed during more time.") + "\n\n" +
 
+			"Perform 6 ABK jumps each one with 1 second rest." + "\n\n" + //TODO: translate
 			Catalog.GetString("Analysis uses the best three jumps using 'jump height' criterion.") + "\n\n" +
 			Catalog.GetString("Lapuente and De Blas. Adapted from Wagner:") + "\nhttp://spartapoint.com/category/spartapoint-101/";
 		

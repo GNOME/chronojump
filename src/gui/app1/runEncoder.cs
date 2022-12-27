@@ -703,7 +703,7 @@ public partial class ChronoJumpWindow
 		double timePre2 = -1;
 		double speedPre = -1;
 		double timePre = -1;
-		bool enoughAccel = false; //accel has been > preferences.runEncoderMinAccel (default 10ms^2)
+		bool enoughAccelFound = false; //accel has been > preferences.runEncoderMinAccel (default 10ms^2)
 
 		int rowsCount = 0;
 		while(! runEncoderProcessFinish && ! runEncoderProcessCancel && ! runEncoderProcessError)
@@ -758,9 +758,9 @@ public partial class ChronoJumpWindow
 					double accel = UtilAll.DivideSafe(reCGSD.RunEncoderCaptureSpeed - speedPre2,
 								UtilAll.DivideSafe(reCGSD.Time, 1000000) - timePre2);
 
-					if (accel >= preferences.runEncoderMinAccel && ! enoughAccel)
+					if (accel >= preferences.runEncoderMinAccel && ! enoughAccelFound)
 					{
-						enoughAccel = true;
+						enoughAccelFound = true;
 
 						//at load to shift times to the left
 						//at capture to draw a vertical line
@@ -1100,14 +1100,14 @@ public partial class ChronoJumpWindow
 		double speedPre = -1;
 		double timePre = -1;
 		double accel = -1;
-		bool enoughAccel = false; //accel has been > preferences.runEncoderMinAccel (default 10ms^2)
+		bool enoughAccelFound = false; //accel has been > preferences.runEncoderMinAccel (default 10ms^2)
 		bool signalShifted = false; //shifted on trigger0 or accel >= minAccel, whatever is first
 		string rowPre = "";
 
 		//store data on cairoGraphRaceAnalyzerPoints_dt_l, ...st_l, ...at_l
 		foreach(string row in contents)
 		{
-			if(count < 3)
+			if(count < 3) //is this useful at all? because the timePre will be also -1 on the 4th row
 			{
 				count ++;
 				continue;
@@ -1121,10 +1121,19 @@ public partial class ChronoJumpWindow
 			speedPre = reCGSD.RunEncoderCaptureSpeed;
 			timePre = UtilAll.DivideSafe(reCGSD.Time, 1000000);
 
-			if(timePre2 > 0)
+			/*
+			LogB.Information ( string.Format ("reCGSD.RunEncoderCaptureSpeed: {0}, speedPre2: {1}," +
+						"UtilAll.DivideSafe(reCGSD.Time, 1000000): {2}, timePre2: {3}",
+						reCGSD.RunEncoderCaptureSpeed, speedPre2,
+						UtilAll.DivideSafe(reCGSD.Time, 1000000), timePre2));
+						*/
+
+			if(speedPre2 > 0)
 			{
 				accel = UtilAll.DivideSafe(reCGSD.RunEncoderCaptureSpeed - speedPre2,
 								UtilAll.DivideSafe(reCGSD.Time, 1000000) - timePre2);
+
+				//LogB.Information (string.Format ("accel: {0} (count {1})", accel, count));
 
 				int timeNow = 0;
 				string [] cells = row.Split(new char[] {';'});
@@ -1150,13 +1159,13 @@ public partial class ChronoJumpWindow
 						shiftNow = true;
 					}
 
-					if (accel >= preferences.runEncoderMinAccel && ! enoughAccel)
+					if (accel >= preferences.runEncoderMinAccel && ! enoughAccelFound)
 					{
 						if (cells.Length == 3 && Util.IsNumber(cells[0], false) && Util.IsNumber(cells[1], false))
 						{
 							shiftTo = timeNow;
 							shiftNow = true;
-							enoughAccel = true;
+							enoughAccelFound = true;
 						}
 					}
 
@@ -1181,10 +1190,10 @@ public partial class ChronoJumpWindow
 					   if first was trigger then accel >= minAccel,
 					   we need to use the reCGSD.SetTimeAtEnoughAccelMark () to show a line
 					   */
-					if (accel >= preferences.runEncoderMinAccel && ! enoughAccel)
+					if (accel >= preferences.runEncoderMinAccel && ! enoughAccelFound)
 					{
 						reCGSD.SetTimeAtEnoughAccelMark (timeNow);
-						enoughAccel = true;
+						enoughAccelFound = true;
 					}
 				}
 			}

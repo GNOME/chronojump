@@ -415,12 +415,18 @@ public class RunEncoderCaptureGetSpeedAndDisplacement
 		bool hasCalculed = false;
 		if(time > timePre)
 		{
-//			if(timePre > 0)
-//			{
+			if(timePre > 0)
+			{
 				double runEncoderCaptureDistanceAtThisSample = Math.Abs(encoderDisplacement) * 0.0030321; //hardcoded: same as sprintEncoder.R
 				runEncoderCaptureDistance_l.Add (runEncoderCaptureDistanceAtThisSample);
 
 				runEncoderCaptureSpeed = UtilAll.DivideSafe(runEncoderCaptureDistanceAtThisSample, (time - timePre)) * 1000000;
+
+LogB.Information (string.Format ("encoderDisplacement: {0}, runEncoderCaptureDistanceAtThisSample: {1}," +
+			"time: {2}, timePre: {3}, runEncoderCaptureSpeed: {4}",
+			encoderDisplacement, runEncoderCaptureDistanceAtThisSample,
+			time, timePre, runEncoderCaptureSpeed));
+
 				runEncoderCaptureSpeed_l.Add (runEncoderCaptureSpeed);
 				//LogB.Information(string.Format("speed: {0}, runEncoderCaptureDistanceAtThisSample: {1}, timePre: {2}, time: {3}",
 				//			runEncoderCaptureSpeed, runEncoderCaptureDistanceAtThisSample, timePre, time));
@@ -439,7 +445,7 @@ public class RunEncoderCaptureGetSpeedAndDisplacement
 				}
 
 				hasCalculed = true;
-//			}
+			}
 			timePre = time;
 		}
 		return hasCalculed;

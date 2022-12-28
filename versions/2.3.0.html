@@ -1,0 +1,59 @@
+start at 10/3/2022
+done until 26/4/2022
+
+
+	<p><span class="highlight2"><i class="fa fa-area-chart fa-2x"></i>  General Chronojump changes</span></p>
+	<ul>
+	All the software new graphs (Cairo) are much faster now (draw is done first to a surface).
+	Interactive graphs show a mouse icon (meaning that can be clicked).
+	Updated Windows Chronopic drivers CDM21228 -> CDM212364 (2021-07-15)
+	More height for gui import results (to allow showing any error message).
+	When another person is selected all the graphs get blank to not display data of another person.
+	</ul>
+
+	<p><span class="highlight2"><i class="fa fa-running fa-2x"></i>  Race analyzer</span></p>
+	<ul>
+	Fixed occasional duplicated values on import race analyzer data.
+	</ul>
+
+	<p><span class="highlight2"><i class="fa fa-clock-o fa-2x"></i>  Jumps, Races</span></p>
+	<ul>
+	<b>Improvements on linked selection of graphs</b> Selecting a jump or race on the bottom/left graph, selects it on the table and it shows on the top graph (for jumps multiple and intervallic races). Selecting on the table it also shows on the top.
+		<li><b>Jumps</b></li>
+		<ul>
+			jump/races data table show datetime in YYYY-MM-DD hh:mm:ss
+		</ul>
+		<li><b>Races</b></li>
+		<ul>
+			Capture graph show no spaces between bars to express the continuity.
+			On WICHRO the photocell number that cuts each of the phases is shown on capture graph at edge of each bar (and gets stored for being shown when selected).
+			Red photocells running mark, show photocell number on WICHRO.
+			Fixed distance, time, speed labels in agility tests graphs since moved to Cairo.
+			Fixed crash on select "unlimited" race test. 
+		</ul>
+	</ul>
+
+	<p><span class="highlight2"><i class="fa fa-bar-chart fa-2x"></i>  Encoder</span></p>i
+	<ul>
+	<b>Realtime capture line graph and bars are now done by Cairo.</b>
+	Improvements on encoder configuration actions: edit, duplicate, ...
+	Encoder analyze can filter repetitions by laterality.
+	Preferences encoder can select criteria for best ecc-con repetition, and stored meanPower, meanSpeed, meanForce is according to this criteria.
+	Encoder overview reps show meanSpeed, meanForce, meanPower (previously only show meanPower)
+	Encoder overview shows the contraction and the criteria.
+	Fixed sometimes awkward value of spin_encoder_im_weights_n (number of inertial weights) and label_encoder_displaced_weight (displaced weight)
+	</ul>
+
+	<p><span class="highlight2"><i class="fa fa-area-chart fa-2x"></i>  Force sensor</span></p>
+	<ul>
+	</ul>
+
+	<p><span class="highlight2"><i class="fa fa-sitemap fa-2x"></i>  Chronojump-Networks</span></p>
+	<ul>
+	<b>Networks (encoder) now how as Guest button to be used by persons without wristband/account</b>. Data is not uploaded, not stored, use main speed, disables some widgets.
+	</ul>
+
+	<p><span class="highlight2"><i class="fa fa-flag-o fa-2x"></i>  Translations</span></p>
+	<ul>
+	</ul>
+

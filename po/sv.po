@@ -23,8 +23,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: chronojump\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/chronojump/issues\n"
-"POT-Creation-Date: 2022-11-04 16:27+0000\n"
-"PO-Revision-Date: 2022-11-07 15:15+0100\n"
+"POT-Creation-Date: 2022-11-22 11:39+0000\n"
+"PO-Revision-Date: 2022-12-22 17:36+0100\n"
 "Last-Translator: Anders Jonsson <anders.jonsson@norsjovallen.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "Language: sv\n"
@@ -32,7 +32,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.1.1\n"
+"X-Generator: Poedit 3.2.2\n"
 "X-Poedit-Bookmarks: -1,1564,-1,-1,-1,-1,-1,-1,-1,-1\n"
 
 #: ../glade/app1.glade.h:1 ../glade/error_window.glade.h:1
@@ -91,7 +91,7 @@ msgstr "Ny"
 #: ../glade/app1.glade.h:12 ../glade/person_recuperate.glade.h:7
 #: ../src/gui/app1/encoder.cs:1800 ../src/gui/app1/forceSensor.cs:2233
 #: ../src/gui/app1/forceSensor.cs:2264 ../src/gui/app1/runEncoder.cs:977
-#: ../src/gui/app1/runEncoder.cs:1008 ../src/gui/person/addMultiple.cs:248
+#: ../src/gui/app1/runEncoder.cs:1008 ../src/gui/person/addMultiple.cs:345
 msgid "Load"
 msgstr "Läs in"
 
@@ -108,7 +108,7 @@ msgid "Select next person"
 msgstr "Välj nästa person"
 
 #: ../glade/app1.glade.h:16 ../glade/dialog_shortcuts.glade.h:5
-#: ../glade/person_multiple_infinite.glade.h:4
+#: ../glade/person_multiple_infinite.glade.h:12
 #: ../glade/report_window.glade.h:13 ../src/exportSession.cs:212
 #: ../src/gui/app1/session/loadAndImport.cs:303 ../src/report.cs:146
 msgid "Persons"
@@ -360,7 +360,7 @@ msgstr "Avbryt test"
 #: ../src/gui/app1/session/backup.cs:405 ../src/gui/app1/session/export.cs:71
 #: ../src/gui/chronopicRegister.cs:183 ../src/gui/encoderConfiguration.cs:733
 #: ../src/gui/encoderConfiguration.cs:790 ../src/gui/networks.cs:416
-#: ../src/gui/person/addModify.cs:363 ../src/gui/person/addMultiple.cs:247
+#: ../src/gui/person/addModify.cs:363 ../src/gui/person/addMultiple.cs:344
 #: ../src/gui/preferences.cs:1671
 msgid "Cancel"
 msgstr "Avbryt"
@@ -393,6 +393,8 @@ msgid "Jump distance"
 msgstr "Hoppavstånd"
 
 #: ../glade/app1.glade.h:69 ../glade/edit_event.glade.h:19
+#: ../src/gui/person/addMultiple.cs:539 ../src/gui/person/addMultiple.cs:540
+#: ../src/gui/person/addMultiple.cs:541
 msgid "cm"
 msgstr "cm"
 
@@ -954,7 +956,8 @@ msgstr "kör kodare"
 
 #: ../glade/app1.glade.h:185 ../glade/encoder_configuration.glade.h:30
 #: ../glade/evaluator_window.glade.h:4 ../glade/execute_auto.glade.h:20
-#: ../glade/jump_type_add.glade.h:3 ../glade/run_type_add.glade.h:3
+#: ../glade/jump_type_add.glade.h:3
+#: ../glade/person_multiple_infinite.glade.h:20 ../glade/run_type_add.glade.h:3
 #: ../src/exportSession.cs:246 ../src/exportSession.cs:261
 #: ../src/gui/app1/session/loadAndImport.cs:289
 #: ../src/gui/app1/session/tagSessionSelect.cs:118
@@ -1186,7 +1189,7 @@ msgstr "Märk"
 msgid "statistic's description"
 msgstr "statistikbeskrivning"
 
-#: ../glade/app1.glade.h:231
+#: ../glade/app1.glade.h:231 ../glade/person_multiple_infinite.glade.h:2
 msgid "Variables"
 msgstr "Variabler"
 
@@ -1198,7 +1201,7 @@ msgstr "Transponera diagram"
 msgid "Transpose"
 msgstr "Transponera"
 
-#: ../glade/app1.glade.h:234 ../glade/person_multiple_infinite.glade.h:13
+#: ../glade/app1.glade.h:234
 msgid "Options"
 msgstr "Alternativ"
 
@@ -1228,13 +1231,14 @@ msgid "Width"
 msgstr "Bredd"
 
 #: ../glade/app1.glade.h:241 ../glade/feedback.glade.h:10
+#: ../glade/person_multiple_infinite.glade.h:19
 #: ../glade/preferences_win.glade.h:131 ../src/exportSession.cs:264
 #: ../src/exportSession.cs:325 ../src/exportSession.cs:527
 #: ../src/gui/cairo/xy.cs:94 ../src/gui/eventExecute.cs:2635
-#: ../src/stats/djIndex.cs:33 ../src/stats/djPower.cs:33 ../src/stats/djQ.cs:33
-#: ../src/stats/potency.cs:63 ../src/stats/sjCmjAbk.cs:53
-#: ../src/stats/sjCmjAbkPlus.cs:63 ../src/treeview/jump.cs:33
-#: ../src/treeview/multiChronopic.cs:230
+#: ../src/gui/person/addMultiple.cs:538 ../src/stats/djIndex.cs:33
+#: ../src/stats/djPower.cs:33 ../src/stats/djQ.cs:33 ../src/stats/potency.cs:63
+#: ../src/stats/sjCmjAbk.cs:53 ../src/stats/sjCmjAbkPlus.cs:63
+#: ../src/treeview/jump.cs:33 ../src/treeview/multiChronopic.cs:230
 msgid "Height"
 msgstr "Höjd"
 
@@ -1656,6 +1660,7 @@ msgid "Export data from A to B"
 msgstr "Exportera data från A till B"
 
 #: ../glade/app1.glade.h:334 ../glade/force_sensor_exercise.glade.h:38
+#: ../glade/person_merge.glade.h:7
 msgid "Back"
 msgstr "Tillbaka"
 
@@ -2280,9 +2285,9 @@ msgid "Will be imported into the current session."
 msgstr "Kommer att importeras till aktuell session."
 
 #: ../glade/app1.glade.h:479 ../glade/encoder_configuration.glade.h:33
-#: ../glade/generic_window.glade.h:11 ../glade/person_merge.glade.h:7
-#: ../glade/preferences_win.glade.h:181 ../src/gui/app1/encoder.cs:2432
-#: ../src/gui/app1/encoder.cs:2724 ../src/gui/encoderConfiguration.cs:734
+#: ../glade/generic_window.glade.h:11 ../glade/preferences_win.glade.h:181
+#: ../src/gui/app1/encoder.cs:2432 ../src/gui/app1/encoder.cs:2724
+#: ../src/gui/encoderConfiguration.cs:734
 #: ../src/gui/encoderConfiguration.cs:791 ../src/gui/executeAuto.cs:545
 #: ../src/gui/person/addModify.cs:364
 msgid "Accept"
@@ -2366,7 +2371,7 @@ msgstr "Sessionsdata"
 #: ../glade/app1.glade.h:492 ../glade/person_win.glade.h:33
 #: ../glade/query_server_window.glade.h:9 ../src/exportSession.cs:265
 #: ../src/gui/app1/session/loadAndImport.cs:305
-#: ../src/gui/person/addMultiple.cs:433
+#: ../src/gui/person/addMultiple.cs:658
 msgid "Sport"
 msgstr "Sport"
 
@@ -2385,7 +2390,7 @@ msgstr "Lägg till ny sport"
 #: ../glade/app1.glade.h:496 ../glade/person_win.glade.h:34
 #: ../glade/query_server_window.glade.h:11 ../src/exportSession.cs:265
 #: ../src/gui/app1/session/loadAndImport.cs:306
-#: ../src/gui/person/addMultiple.cs:435
+#: ../src/gui/person/addMultiple.cs:660
 msgid "Specialty"
 msgstr "Specialitet"
 
@@ -2396,7 +2401,7 @@ msgstr "Olika specialiteter"
 #: ../glade/app1.glade.h:498 ../glade/person_win.glade.h:35
 #: ../glade/query_server_window.glade.h:10 ../src/exportSession.cs:266
 #: ../src/gui/app1/session/loadAndImport.cs:307
-#: ../src/gui/person/addMultiple.cs:437
+#: ../src/gui/person/addMultiple.cs:662
 msgid "Level"
 msgstr "Nivå"
 
@@ -2886,7 +2891,7 @@ msgstr "m"
 msgid "m/s"
 msgstr "m/s"
 
-#: ../glade/edit_event.glade.h:22 ../src/gui/person/addMultiple.cs:370
+#: ../glade/edit_event.glade.h:22 ../src/gui/person/addMultiple.cs:537
 msgid "Kg"
 msgstr "Kg"
 
@@ -3355,6 +3360,7 @@ msgid "page 3"
 msgstr "sida 3"
 
 #: ../glade/execute_auto.glade.h:24 ../glade/force_sensor_exercise.glade.h:39
+#: ../glade/person_multiple_infinite.glade.h:10
 msgid "Next"
 msgstr "Nästa"
 
@@ -3894,60 +3900,70 @@ msgstr "Person:"
 msgid "Add multiple persons"
 msgstr "Lägg till flera personer"
 
-#: ../glade/person_multiple_infinite.glade.h:2
-msgid "Add entries manually"
-msgstr "Lägg till poster manuellt"
+#: ../glade/person_multiple_infinite.glade.h:3 ../glade/person_win.glade.h:2
+#: ../src/gui/person/addMultiple.cs:534
+msgid "Full name"
+msgstr "Fullständigt namn"
 
-#: ../glade/person_multiple_infinite.glade.h:3
+#: ../glade/person_multiple_infinite.glade.h:4
+msgid "Genre"
+msgstr "Genre"
+
+#: ../glade/person_multiple_infinite.glade.h:5 ../src/stats/potency.cs:61
+msgid "Person's Weight"
+msgstr "Personens vikt"
+
+#: ../glade/person_multiple_infinite.glade.h:6 ../glade/person_win.glade.h:17
+msgid "Person's height"
+msgstr "Personens längd"
+
+#: ../glade/person_multiple_infinite.glade.h:7 ../glade/person_win.glade.h:21
+#: ../src/gui/person/addMultiple.cs:678
+msgid "Leg length"
+msgstr "Benlängd"
+
+#: ../glade/person_multiple_infinite.glade.h:8 ../glade/person_win.glade.h:23
+#: ../src/gui/person/addMultiple.cs:683
+msgid "Hips height on SJ flexion"
+msgstr "Höfthöjd vid SJ-flexion"
+
+#: ../glade/person_multiple_infinite.glade.h:9
 msgid "Add entries from CSV (spreadsheet)"
 msgstr "Lägg till poster från CSV (kalkylark)"
 
-#: ../glade/person_multiple_infinite.glade.h:5
+#: ../glade/person_multiple_infinite.glade.h:11
+msgid "Add entries manually"
+msgstr "Lägg till poster manuellt"
+
+#: ../glade/person_multiple_infinite.glade.h:13
 msgid "Create table"
 msgstr "Skapa tabell"
 
-#: ../glade/person_multiple_infinite.glade.h:6
+#: ../glade/person_multiple_infinite.glade.h:14
 msgid "Mark if CSV file has header row or not."
 msgstr "Markera om CSV-filen har en kolumnhuvudrad eller ej."
 
-#: ../glade/person_multiple_infinite.glade.h:7
+#: ../glade/person_multiple_infinite.glade.h:15
 msgid "Full name in one column or in two (name/surname)."
 msgstr "Hela namnet i en kolumn eller i två (namn/efternamn)."
 
-#: ../glade/person_multiple_infinite.glade.h:8
+#: ../glade/person_multiple_infinite.glade.h:16
 msgid "Spreadsheet structure need to have this structure:"
 msgstr "Kalkylbladsstrukturen behöver ha denna struktur:"
 
-#: ../glade/person_multiple_infinite.glade.h:9
-msgid "<b>Full name</b>"
-msgstr "<b>Fullständigt namn</b>"
+#: ../glade/person_multiple_infinite.glade.h:17 ../glade/person_win.glade.h:40
+msgid "Units:"
+msgstr "Enheter:"
 
-#: ../glade/person_multiple_infinite.glade.h:10
-msgid "<b>Genre</b>"
-msgstr "<b>Genre</b>"
+#. decimals
+#: ../glade/person_multiple_infinite.glade.h:18 ../glade/person_win.glade.h:9
+#: ../src/constants.cs:1490 ../src/exportSession.cs:264
+#: ../src/exportSession.cs:306 ../src/exportSession.cs:407
+#: ../src/gui/person/addMultiple.cs:536 ../src/stats/djPower.cs:37
+msgid "Weight"
+msgstr "Vikt"
 
-#: ../glade/person_multiple_infinite.glade.h:11
-msgid "<b>Weight</b>"
-msgstr "<b>Vikt</b>"
-
-#: ../glade/person_multiple_infinite.glade.h:12
-msgid "<b>Name</b>"
-msgstr "<b>Namn</b>"
-
-# Hittar inget som tyder på att m/f går att översätta.
-#: ../glade/person_multiple_infinite.glade.h:14
-msgid ""
-"To differentiate between male and female,\n"
-"use the values 1/0, or m/f, or M/F on the genre column."
-msgstr ""
-"För att skilja mellan man och kvinna,\n"
-"använd värdena 1/0, m/f eller M/F i kolumnen genre."
-
-#: ../glade/person_multiple_infinite.glade.h:16
-msgid "Save the spreadsheet as CSV (Comma Separated Values)."
-msgstr "Spara kalkylbladet som CSV (Kommaseparerade värden)."
-
-#: ../glade/person_multiple_infinite.glade.h:17
+#: ../glade/person_multiple_infinite.glade.h:21
 msgid "Open CSV file"
 msgstr "Öppna CSV-fil"
 
@@ -3979,7 +3995,7 @@ msgstr "Välj person"
 msgid "Create new"
 msgstr "Skapa ny"
 
-#: ../glade/person_select_window.glade.h:12 ../src/gui/person/merge.cs:248
+#: ../glade/person_select_window.glade.h:12
 msgid "Are you sure?"
 msgstr "Är du säker?"
 
@@ -3999,14 +4015,10 @@ msgstr "Visa bilder"
 msgid "Show all tests of a person"
 msgstr "Visa alla tester för en person"
 
-#: ../glade/person_win.glade.h:2 ../src/gui/person/addMultiple.cs:367
-msgid "Full name"
-msgstr "Fullständigt namn"
-
 #: ../glade/person_win.glade.h:3 ../glade/query_server_window.glade.h:7
 #: ../src/exportSession.cs:262 ../src/gui/overview.cs:99
 #: ../src/gui/overview.cs:278 ../src/gui/overview.cs:287
-#: ../src/gui/person/addMultiple.cs:368 ../src/gui/person/recuperate.cs:127
+#: ../src/gui/person/addMultiple.cs:535 ../src/gui/person/recuperate.cs:127
 msgid "Sex"
 msgstr "Kön"
 
@@ -4026,14 +4038,6 @@ msgstr "pund\t"
 #: ../glade/person_win.glade.h:8
 msgid "Club ID"
 msgstr "Klubb-ID för person"
-
-#. decimals
-#: ../glade/person_win.glade.h:9 ../src/constants.cs:1490
-#: ../src/exportSession.cs:264 ../src/exportSession.cs:306
-#: ../src/exportSession.cs:407 ../src/gui/person/addMultiple.cs:369
-#: ../src/stats/djPower.cs:37
-msgid "Weight"
-msgstr "Vikt"
 
 #: ../glade/person_win.glade.h:10
 msgid "Load from file"
@@ -4059,25 +4063,13 @@ msgstr "Ta bort foto"
 msgid "Photo"
 msgstr "Foto"
 
-#: ../glade/person_win.glade.h:17
-msgid "Person's height"
-msgstr "Höjd för person"
-
 #: ../glade/person_win.glade.h:20
 msgid "Used on sprint analysis"
 msgstr "Används vid sprintanalys"
 
-#: ../glade/person_win.glade.h:21
-msgid "Leg length"
-msgstr "Benlängd"
-
 #: ../glade/person_win.glade.h:22
 msgid "Measured from trochanter to toe with foot extended"
 msgstr "Mätt från höftknöl till tå med foten utsträckt"
-
-#: ../glade/person_win.glade.h:23
-msgid "Hips height on SJ flexion"
-msgstr "Höfthöjd vid SJ-flexion"
 
 #: ../glade/person_win.glade.h:24
 msgid "Measured from trochanter to the ground in Squat jump flexion"
@@ -4115,10 +4107,6 @@ msgstr "Persondata i denna session"
 #: ../glade/person_win.glade.h:39
 msgid "Other data"
 msgstr "Andra data"
-
-#: ../glade/person_win.glade.h:40
-msgid "Units:"
-msgstr "Enheter:"
 
 #: ../glade/person_win.glade.h:41
 msgid "metric"
@@ -7846,7 +7834,7 @@ msgstr "Om du fortfarande vill importera den, ändra till gravitationellt läge.
 msgid "copy"
 msgstr "kopia"
 
-#: ../src/gui/encoderConfiguration.cs:776 ../src/gui/person/addMultiple.cs:311
+#: ../src/gui/encoderConfiguration.cs:776 ../src/gui/person/addMultiple.cs:471
 #: ../src/gui/preferences.cs:1694
 msgid "Error importing data."
 msgstr "Fel vid import av data."
@@ -8623,12 +8611,12 @@ msgstr "Kraftsensoröversikt"
 msgid "Race analyzer overview"
 msgstr "Översikt för loppanalysator"
 
-#: ../src/gui/person/addModify.cs:159 ../src/gui/person/merge.cs:246
+#: ../src/gui/person/addModify.cs:159 ../src/gui/person/merge.cs:192
 #, csharp-format
 msgid "Merge persons '{0}' with '{1}' in all sessions."
 msgstr "Sammanfoga personerna ”{0}” och ”{1}” i alla sessioner."
 
-#: ../src/gui/person/addModify.cs:160 ../src/gui/person/merge.cs:247
+#: ../src/gui/person/addModify.cs:160 ../src/gui/person/merge.cs:193
 #, csharp-format
 msgid "All tests of person '{0}' will be assigned to person '{1}'."
 msgstr "Alla tester för personen ”{0}” kommer att tilldelas personen ”{1}”."
@@ -8668,36 +8656,49 @@ msgstr "Person: ”{0}” finns redan. Använd ett annat namn."
 msgid "Or load this person from another session using this button:"
 msgstr "Eller läs in den här personen från en annan session med denna knapp:"
 
-#: ../src/gui/person/addMultiple.cs:163 ../src/gui/person/addMultiple.cs:204
+#: ../src/gui/person/addMultiple.cs:207 ../src/gui/person/addMultiple.cs:272
 msgid "CSV file has headers"
 msgstr "CSV-fil har kolumnhuvuden"
 
-#: ../src/gui/person/addMultiple.cs:164 ../src/gui/person/addMultiple.cs:220
+#: ../src/gui/person/addMultiple.cs:208 ../src/gui/person/addMultiple.cs:301
 msgid "Full name in one column"
 msgstr "Hela namnet i en kolumn"
 
-#: ../src/gui/person/addMultiple.cs:167
-#, csharp-format
-msgid "Expected column separator character is '<b>{0}</b>'"
-msgstr "Förväntat tecken för kolumnseparator är ”<b>{0}</b>”"
-
-#: ../src/gui/person/addMultiple.cs:168
-msgid "You can change this on Preferences / Language."
-msgstr "Detta kan ändras i Inställningar/Språk."
-
-#: ../src/gui/person/addMultiple.cs:209
+#: ../src/gui/person/addMultiple.cs:277
 msgid "CSV file does not have headers"
 msgstr "CSV-fil har inga kolumnhuvuden"
 
-#: ../src/gui/person/addMultiple.cs:224
+# Hittar inget som tyder på att m/f går att översätta.
+#: ../src/gui/person/addMultiple.cs:285
+msgid ""
+"To differentiate between male and female,\n"
+"use the values 1/0, or m/f, or M/F on the genre column."
+msgstr ""
+"För att skilja mellan man och kvinna,\n"
+"använd värdena 1/0, m/f eller M/F i kolumnen genre."
+
+#: ../src/gui/person/addMultiple.cs:286
+msgid "Save the spreadsheet as CSV (Comma Separated Values)."
+msgstr "Spara kalkylbladet som CSV (Kommaseparerade värden)."
+
+#: ../src/gui/person/addMultiple.cs:288
+#, csharp-format
+msgid "Expected column separator character is '{0}'"
+msgstr "Förväntat tecken för kolumnseparator är ”{0}”"
+
+#: ../src/gui/person/addMultiple.cs:289
+msgid "You can change this on Preferences / Language."
+msgstr "Detta kan ändras i Inställningar/Språk."
+
+#: ../src/gui/person/addMultiple.cs:305
 msgid "Full name in two columns"
 msgstr "Hela namnet i två kolumner"
 
-#: ../src/gui/person/addMultiple.cs:244
+#: ../src/gui/person/addMultiple.cs:341
 msgid "Select CSV file"
 msgstr "Välj CSV-fil"
 
-#: ../src/gui/person/addMultiple.cs:266
+#: ../src/gui/person/addMultiple.cs:363
 msgid ""
 "Maybe this file is opened by an SpreadSheet software like Excel. Please, "
 "close that program."
@@ -8705,11 +8706,11 @@ msgstr ""
 "Kanske denna fil är öppnad av ett kalkylprogram som Excel. Stäng detta "
 "program."
 
-#: ../src/gui/person/addMultiple.cs:313
+#: ../src/gui/person/addMultiple.cs:473
 msgid "Seems there's a header row and you have not marked it."
 msgstr "Ser ut som det finns en rubrikrad och du har inte markerat den."
 
-#: ../src/gui/person/addMultiple.cs:441
+#: ../src/gui/person/addMultiple.cs:666
 msgid "Persons will be created with default session values"
 msgstr "Personer kommer att skapas med standardsessionsvärden"
 
@@ -11434,11 +11435,11 @@ msgstr "{0} i Dj-index [(tl-kt)/kt * 100] tillämpat till {1} på {2}"
 #: ../src/stats/djPower.cs:135
 #, csharp-format
 msgid ""
-"{0} in Dj Power [mass * g * (fallHeight + 1.226 * (tv^2) ) / (tc+tv)] "
-"applied to {1} on {2}"
+"{0} in Dj Power [mass * g * (fallHeight + 1.226 * (tv^2) ) / tc] applied to "
+"{1} on {2}"
 msgstr ""
-"{0} i Dj-effekt [massa * g * (fallhöjd + 1.226 * (tv^2) ) / (kt+tv)] "
-"tillämpat till {1} på {2}"
+"{0} i Dj-effekt [massa * g * (fallhöjd + 1.226 * (tv^2) ) / kt] tillämpat "
+"till {1} på {2}"
 
 #: ../src/stats/djQ.cs:32
 msgid "Q Index"
@@ -11516,10 +11517,6 @@ msgstr "Dispersion"
 #: ../src/stats/main.cs:1520
 msgid "Chronojump Graph"
 msgstr "Chronojump-diagram"
-
-#: ../src/stats/potency.cs:61
-msgid "Person's Weight"
-msgstr "Personens vikt"
 
 #: ../src/stats/potency.cs:62
 msgid "Extra Weight"
@@ -11650,6 +11647,18 @@ msgstr "Fel. {0} kan inte spara video."
 #: ../src/webcam/webcamFfmpeg.cs:290
 msgid "Preview. Press any key to exit."
 msgstr "Förhandsgranska. Tryck på en tangent för att avsluta."
+
+#~ msgid "<b>Full name</b>"
+#~ msgstr "<b>Fullständigt namn</b>"
+
+#~ msgid "<b>Genre</b>"
+#~ msgstr "<b>Genre</b>"
+
+#~ msgid "<b>Weight</b>"
+#~ msgstr "<b>Vikt</b>"
+
+#~ msgid "<b>Name</b>"
+#~ msgstr "<b>Namn</b>"
 
 #~ msgid "5 m"
 #~ msgstr "5 m"
@@ -12617,9 +12626,6 @@ msgstr "Förhandsgranska. Tryck på en tangent för att avsluta."
 
 #~ msgid "Finish capture"
 #~ msgstr "Avsluta inspelning"
-
-#~ msgid "Genre"
-#~ msgstr "Genre"
 
 #~ msgid "Open CSV file."
 #~ msgstr "Öppna CSV-fil."

@@ -107,23 +107,18 @@ getAreaUnderCurve <- function(x, y)
         for(i in 2:(length(x) -1))
         {
                 parallelogramArea = ((x[i + 1] - x[1])* (y[i] - y[1]) - (x[i] - x[1]) * (y[i+1] - y[1]))
-                # print(paste("V",i," = ", "(",x[i + 1] - x[1],",", y[i + 1] - y[1], ") = " , parallelogramArea / 2, sep = ""))
+                #print(paste("V",i," = ", "(",x[i + 1] - x[1],",", y[i + 1] - y[1], ") = " , parallelogramArea / 2, sep = ""))
 
                 totalArea = totalArea + parallelogramArea/2     #The area of the parallelograms are twice the triangles areas
         }
-        print(paste("toalArea:", totalArea))
+        #print(paste("toalArea:", totalArea))
         return(totalArea)
 }
 
 #Calculates the mean of a curve interval
-getMeanValue <- function(X, Y, startX, endX)
+getMeanValue <- function(X, Y, startX, endX, debug = FALSE)
 {
-        # print(paste("Calculating mean in the X range of [", startX, ",", endX, "]"))
-        # print("x:")
-        # print(X)
-        # print("y:")
-        # print(Y)
-        
+
         #Calculating the value of Y corresponding at startX
         #print("Calculating the first Y value")
         startY = interpolateXAtY(X = Y, Y = X, desiredY = startX) #The order are changed because we are looking for the Y value instead of X value
@@ -131,16 +126,29 @@ getMeanValue <- function(X, Y, startX, endX)
         #Calculating the last value using the interpolation
         #print("Calculating the last Y value")
         endY = interpolateXAtY(X = Y, Y = X, desiredY = endX) #The order are changed because we are looking for the Y value instead of X value
-
+        
         #trimming X to the values that are between startX and endX
-        X = X[which(X > startX & X < endX)]
+        selectedRange = which(X > startX & X < endX)
+        X = X[selectedRange]
         #Adding Xs of the limits
         X = c(startX, X, endX)
         
         #trimming Y to the values that are between startY and endY
-        Y = Y[which(X > startX & X < endX)]
+        Y = Y[selectedRange]
         #Adding Ys of the limits
         Y = c(startY, Y, endY)
+        if (debug){
+            print("    In getMeanValue:")
+            print(paste("    startX:", startX))
+            print(paste("    endX:", endX))
+            print(paste("    startY:", startY))
+            print(paste("    endY:", endY))
+            print(paste("Calculating mean in the X range of [", startX, ",", endX, "]"))
+            print("x:")
+            print(X)
+            print("y:")
+            print(Y)
+        }
         
         # print("Xs in getMeanValue():")
         # print(X)
@@ -152,7 +160,7 @@ getMeanValue <- function(X, Y, startX, endX)
         area = getAreaUnderCurve(X , Y)
 
         #The mean value is the area under the curve divided by the lenth in the X axis of the curve
-        return(area / (X[length(X)] - X[1]))
+        return(area / (last(X) - X[1]))
 }
 
 prepareGraph <- function(os, pngFile, width, height)

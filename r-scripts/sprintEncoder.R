@@ -784,10 +784,12 @@ getTrimmingSamples <- function(totalTime, position, speed, accel, testLength, st
 #Getting the mean values of the dynamics in each split
 getSplits <- function(time, rawPosition, rawForce, rawPower, startSample, endSample, testLength, splitLength, splitVariableCm)
 {
-    endSample = endSample + startSample
+        endSample = endSample + startSample
         # Vector with the positions that separates the splits 
         splitPositions_v = NULL
+        
         equalSplits = splitLength > 0
+        
         # All splits are of equal distance
         if(equalSplits) #use splitLength
                 splitPositions_v = min(testLength, splitLength)
@@ -795,14 +797,17 @@ getSplits <- function(time, rawPosition, rawForce, rawPower, startSample, endSam
         else
                 splitPositions_v = min(testLength, splitVariableCm[1]/100)
         
-        print("Going to interpolate:")
-        print("time")
-        print(time[startSample:endSample])
-        print("rawPosition")
-        print(rawPosition[startSample:endSample])
-        print(paste("--------Segment 1 ------------------------------------"))
-        print("splitPositions_v")
-        print(splitPositions_v)
+        # print("Going to interpolate:")
+        # print("time")
+        # print(time[startSample:endSample])
+        # print("rawPosition")
+        # print(rawPosition[startSample:endSample])
+        # print("rawForce:")
+        # print(rawForce)
+        
+        # print(paste("--------Segment 1 ------------------------------------"))
+        # print("splitPositions_v")
+        # print(splitPositions_v)
         splitTimes_v = interpolateXAtY( X = time[startSample:endSample],
                                         Y = rawPosition[startSample:endSample],
                                         desiredY = last(splitPositions_v))
@@ -812,19 +817,18 @@ getSplits <- function(time, rawPosition, rawForce, rawPower, startSample, endSam
         splitStartSample = startSample
         splitEndSample = which.min(abs(time - last(splitTimes_v)))
         
-        print(paste("splitStartSample =", splitStartSample, "->", time[splitStartSample]))
-        print(paste("splitEndSample =", splitEndSample, "->", time[splitEndSample]))
+        # print(paste("splitStartSample =", splitStartSample, "->", time[splitStartSample]))
+        # print(paste("splitEndSample =", splitEndSample, "->", time[splitEndSample]))
         # print("--Force--")
         # print(rawForce[ splitStartSample : splitEndSample])
-        meanForces_v = getMeanValue(time, rawForce, time[startSample], splitTimes_v)
-        print(paste("Mean using the area:", last(meanForces_v)))
-        print(paste("mean force values NOT PONDERATED:", mean(rawForce[splitStartSample : splitEndSample] ) ) )
+        #meanForces_v = getMeanValue(time, rawForce, time[splitStart], splitTimes_v)
+        meanForces_v = getMeanValue(time, rawForce, time[splitStartSample], time[splitEndSample], FALSE)
+        # print(paste("Mean using the area:", last(meanForces_v)))
+        # print(paste("mean force values NOT PONDERATED:", mean(rawForce[splitStartSample : splitEndSample] ) ) )
         rawSpeed1 = (rawPosition[splitStartSample + 1] - rawPosition[splitStartSample - 1]) / (time[splitStartSample + 1] - time[splitStartSample - 1])
         rawSpeed2 = (rawPosition[splitEndSample + 1] - rawPosition[splitEndSample - 1]) / (time[splitEndSample + 1] - time[splitEndSample - 1])
-        print( paste( "speeds:", rawSpeed1, " , ", rawSpeed2))
-        print(paste("Force:", 75 * (rawSpeed2 - rawSpeed1) / (last(splitTimes_v) - splitTimes_v[length(splitTimes_v) -1]) ))
+        # print( paste( "speeds:", rawSpeed1, " , ", rawSpeed2))
         
-        print("--Power--")
         meanPowers_v = getMeanValue(time, rawPower, time[startSample], splitTimes_v)
         
         #while the next split position is within the testLength
@@ -837,9 +841,8 @@ getSplits <- function(time, rawPosition, rawForce, rawPower, startSample, endSam
         if(equalSplits)
         {
                 nextLength = splitLength
-                #continueBucle = (splitPositions_v[length(splitPositions_v)] + nextLength < testLength)
                 continueBucle = (last(splitPositions_v) < testLength)
-                print(paste("currentLength:", nextLength, "testLength:", testLength))
+                #print(paste("currentLength:", nextLength, "testLength:", testLength))
         } else {      #Different split distances
                 continueBucle = FALSE
                 if(length(splitVariableCm) >= splitVariableCmIter)
@@ -852,11 +855,11 @@ getSplits <- function(time, rawPosition, rawForce, rawPower, startSample, endSam
         
         while(continueBucle)
         {
-                print(paste("--------Segment", length(splitTimes_v) +1, "------------------------------------"))
-                splitPositions_v = c(splitPositions_v, last(splitPositions_v) + nextLength)
-                print("splitPositions_v")
-                print(splitPositions_v)
-                print(paste("Going to interpolate at:", last(splitPositions_v)))
+                # print(paste("--------Segment", length(splitTimes_v) +1, "------------------------------------"))
+                # splitPositions_v = c(splitPositions_v, last(splitPositions_v) + nextLength)
+                # print("splitPositions_v")
+                # print(splitPositions_v)
+                #print(paste("Going to interpolate at:", last(splitPositions_v)))
                 
                 splitStartSample = splitEndSample
                 splitEndSample = which.min(abs(rawPosition - last(splitPositions_v)))
@@ -866,38 +869,32 @@ getSplits <- function(time, rawPosition, rawForce, rawPower, startSample, endSam
                     splitEndSample = splitEndSample + 1
                 }
                 
-                print(paste("splitStartSample:", splitStartSample, ":->", time[splitStartSample]))
-                print(paste("splitEndSample:", splitEndSample, ":->", time[splitEndSample]))
+                # print(paste("splitStartSample:", splitStartSample, ":->", time[splitStartSample]))
+                # print(paste("splitEndSample:", splitEndSample, ":->", time[splitEndSample]))
                 
                 splitTimes_v = c(splitTimes_v, interpolateXAtY(X = time[splitStartSample:splitEndSample+1],
                                                                Y = rawPosition[splitStartSample:(splitEndSample+1)],
                                                                desiredY = last(splitPositions_v)))
                 
-                print("splitTimes_v:")
-                print(splitTimes_v)
+                # print("splitTimes_v:")
+                # print(splitTimes_v)
                 
                 meanSpeeds_v = c(meanSpeeds_v, (last(splitPositions_v) - splitPositions_v[length(splitPositions_v) -1]) /
                                          (last(splitTimes_v) - splitTimes_v[length(splitTimes_v) -1]))
                 
-                print(paste("splitStartSample =", splitStartSample, "->", time[splitStartSample]))
-                print(paste("splitEndSample =", splitEndSample, "->", time[splitEndSample]))
                 # print("--Force--")
                 # print(rawForce[splitStartSample:splitEndSample])
                 meanForces_v = c(meanForces_v, getMeanValue(time, rawForce,
-                                                            splitTimes_v[length(splitTimes_v) -1], last(splitTimes_v)))
-                print(paste("Mean using the area:", last(meanForces_v)))
-                print(paste("mean force values NOT PONDERATED:", mean(rawForce[splitStartSample:splitEndSample])))
+                                                            splitTimes_v[length(splitTimes_v) -1], last(splitTimes_v), debug = FALSE))
+                # print(paste("Mean using the area:", last(meanForces_v)))
+                # print(paste("mean force values NOT PONDERATED:", mean(rawForce[splitStartSample:splitEndSample])))
                 
                 rawSpeed1 = (rawPosition[splitStartSample + 1] - rawPosition[splitStartSample - 1]) / (time[splitStartSample + 1] - time[splitStartSample - 1])
                 rawSpeed2 = (rawPosition[splitEndSample + 1] - rawPosition[splitEndSample - 1]) / (time[splitEndSample + 1] - time[splitEndSample - 1])
                 print( paste( "speeds:", rawSpeed1, " , ", rawSpeed2))
-                print(paste("Force:", 75 * (rawSpeed2 - rawSpeed1) / (last(splitTimes_v) - splitTimes_v[length(splitTimes_v) -1]) ))
                 
-                print("--Power--")
                 meanPowers_v = c(meanPowers_v, getMeanValue(time, rawPower,
                                                             splitTimes_v[length(splitTimes_v) -1], last(splitTimes_v)))
-                print("splitPosition_v:")
-                print(splitPositions_v)
                 if(equalSplits)
                 {
                         if ((last(splitPositions_v) + splitLength < testLength))
@@ -919,6 +916,7 @@ getSplits <- function(time, rawPosition, rawForce, rawPower, startSample, endSam
         if ( last(splitPositions_v) < testLength)
         {
             splitPositions_v = c(splitPositions_v, testLength)
+            
             splitTimes_v = c(splitTimes_v, interpolateXAtY(X = time[startSample:length(rawPosition)],
                                                            Y = rawPosition[startSample:length(rawPosition)],
                                                            desiredY = testLength))
@@ -930,22 +928,22 @@ getSplits <- function(time, rawPosition, rawForce, rawPower, startSample, endSam
             meanSpeeds_v = c(meanSpeeds_v, (splitPositions_v[length(splitPositions_v)] - splitPositions_v[length(splitPositions_v) -1]) /
                                      (splitTimes_v[length(splitTimes_v)] - splitTimes_v[length(splitTimes_v) -1]))
             
-            print(paste("--------Segment", length(splitTimes_v), "------------------------------------"))
-            print(paste("splitStartSample =", splitStartSample))
-            print(paste("splitEndSample =", splitEndSample))
+            # print(paste("--------Segment", length(splitTimes_v), "------------------------------------"))
+            # print("splitPositions_v:")
+            # print(splitPositions_v)
+            # print(paste("splitStartSample:", splitStartSample, ":->", time[splitStartSample]))
+            # print(paste("splitEndSample:", splitEndSample, ":->", time[splitEndSample]))
             # print("--Force--")
             # print(rawForce[ which.min(abs(time - splitTimes_v[length(splitTimes_v) -1])) : which.min(abs(time - splitTimes_v[length(splitTimes_v)])) ])
             meanForces_v = c(meanForces_v, getMeanValue(time, rawForce,
                                                         splitTimes_v[length(splitTimes_v) -1], splitTimes_v[length(splitTimes_v)]))
-            print(paste("Mean using the area:", meanForces_v[length(meanForces_v)]))
-            print(paste("mean force values NOT PONDERATED:", mean(which.min(abs(time - splitTimes_v[length(splitTimes_v) -1])))))
+            # print(paste("Mean using the area:", last(meanForces_v)))
+            # print(paste("mean force values NOT PONDERATED:", mean(rawForce[splitStartSample:splitEndSample])))
             
             rawSpeed1 = (rawPosition[splitStartSample + 1] - rawPosition[splitStartSample - 1]) / (time[splitStartSample + 1] - time[splitStartSample - 1])
             rawSpeed2 = (rawPosition[splitEndSample + 1] - rawPosition[splitEndSample - 1]) / (time[splitEndSample + 1] - time[splitEndSample - 1])
             print( paste( "speeds:", rawSpeed1, " , ", rawSpeed2))
-            print(paste("Force:", 75 * (rawSpeed2 - rawSpeed1) / (splitTimes_v[length(splitTimes_v)] - splitTimes_v[length(splitTimes_v) -1]) ))
             
-            print("--Power--")
             meanPowers_v = c(meanPowers_v, getMeanValue(time, rawPower,
                                                         splitTimes_v[length(splitTimes_v) -1], splitTimes_v[length(splitTimes_v)]))
         }

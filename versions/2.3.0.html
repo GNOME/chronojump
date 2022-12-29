@@ -1,84 +1,123 @@
-start at 10/3/2022
-done until 24/5/2022
-
-
 	<p><span class="highlight2"><i class="fa fa-area-chart fa-2x"></i>  General Chronojump changes</span></p>
 	<ul>
-	<b>Changed software modes</b>
+		<li><b>Changed software modes</b></li>
 		<ul>
-		Now modes are jumps, races, isometric, elastic, weights, inertial
-		Jumps uses the contact platform
-		Races use photocells (wireless like WICHRO or the old ones) or the Race Analyzer
-		Isometric and elastic use the force sensor. But it has been separated in two modes because the tests and the resistance are very different. Note exercises can be in one mode or in both (user can choose).
-		Weights and inertial are related to encoder (linear on the first, rotary on the second).
+			<li>Now <b>modes are jumps, races, isometric, elastic, weights, inertial</b>.</li>
+			<li><b>Jumps</b> uses the contact platform.</li>
+			<li><b>Races</b> use photocells (wireless like WICHRO or the old ones) or the Race Analyzer.</li>
+			<li><b>Isometric</b> and <b>elastic</b> use the force sensor. But it has been separated in two modes because the tests and the resistance are very different. Note exercises can be in one mode or in both (user can choose).</li>
+			<li><b>Weights</b> and <b>inertial</b> are related to encoder (linear on the first, rotary on the second).</li>
 		</ul>
+		<li><b>Automatic hardware detection</b></li>
 		<ul>
-	<b>Automatic hardware detection</b>
-		<ul>
-		<b>Hardware devices are automatically discovered</b> Need to select previously the mode: jumps, races, ....
-		Allows to have eg. n forceSensors connected and choose which is going to be used.
+			<li><b>Hardware devices are automatically discovered</b>. Selection depends on the mode (compatible devices for the mode are searched)</li>
+			<li>Allows to have eg. n forceSensors connected and choose which is going to be used.</li>
+			<li>Device button is now at right of capture buttons (as its related). And Adjust button (force sensor) is also there.</li>
+			<li>Devices button on right top is only shown on Networks (that continues with past behaviour).</li>
 		</ul>
-
-
-	All the software new graphs (Cairo) are much faster now (draw is done first to a surface).
-	Interactive graphs show a mouse icon (meaning that can be clicked).
-	Updated Windows Chronopic drivers CDM21228 -> CDM212364 (2021-07-15)
-	More height for gui import results (to allow showing any error message).
-	From session more can be seen the data folder and the specific data folder if the mode is a mode with datafiles like force sensor.
-	When another person is selected all the graphs get blank to not display data of another person.
+		<li><b>Persons management changes</b></li>
+		<ul>
+			<li>Moved to the center of the screen. In order to show options clearly (like on session/more).</li>
+			<li>Added <b>Merge persons</b> button (to solve import problems where a person has been imported with a different name than the current person). It manages any change in the person variables and in the variables of that persons related to each session.</li>
+			<li><b>Adding multiple persons had several improvements</b> like being able to use person's height, leg height and hips height on SJ flexion. And many user interface improvements.</li>
+		</ul>
+		<li><b>Sessions are imported/exported compressed.</b> This helps a lot to share sessions between users. Compression/decompression is done by 7zip. Installed automatically on Win/Mac under Chronojump dirs. On Linux it warns if not found.</li>
+		<li><b>Last person is stored and automatically selected on new Chronojump start</b> if load last session is active.</li>
+		<li><b>Improvements on linked selection of graphs</b> Selecting a jump or race on the bottom/left graph, selects it on the table and it shows on the top graph (for jumps multiple and intervallic races). Selecting on the table it also shows on the top.</li>
+		<li>Show all tests of a person allow to partially write a name and a list of coindicing names is shown.</li>
+		<li>All the software new graphs (Cairo) are much faster now (draw is done first to a surface).</li>
+		<li>Interactive graphs show a mouse icon (meaning that can be clicked).</li>
+		<li>Any Cairo XY graph where x is datetime, on click show date in days instead of percentage of year.</li>
+		<li>From session more can be seen the data folder and the specific data folder if the mode is a mode with datafiles like force sensor.</li>
+		<li>Updated Windows Chronopic drivers CDM21228 -> CDM212364 (2021-07-15)</li>
+		<li>If importer fails on Windows by lack of msvcr100.dll (faulty Windows installation) an specific error message is shown.</li>
+		<li>More height for gui import results (to allow showing any error message).</li>
+		<li>Fixed bugs related to animated logo being shown or not after the backups question.</li>
+		<li>When another person is selected all the graphs get blank to not display data of another person.</li>
 	</ul>
 
-	<p><span class="highlight2"><i class="fa fa-clock-o fa-2x"></i>  Jumps, Races</span></p>
+	<p><img src="https://chronojump.org/wp-content/uploads/2022/12/jump_blue_1x.png">  Jumps</p>
 	<ul>
-	<b>Improvements on linked selection of graphs</b> Selecting a jump or race on the bottom/left graph, selects it on the table and it shows on the top graph (for jumps multiple and intervallic races). Selecting on the table it also shows on the top.
-		<li><b>Jumps</b></li>
-		<ul>
-			jump/races data table show datetime in YYYY-MM-DD hh:mm:ss
-		</ul>
-		<li><b>Races with photocells</b></li>
-		<ul>
-			Capture graph show no spaces between bars to express the continuity.
-			On WICHRO the photocell number that cuts each of the phases is shown on capture graph at edge of each bar (and gets stored for being shown when selected).
-			Red photocells running mark, show photocell number on WICHRO.
-			Fixed distance, time, speed labels in agility tests graphs since moved to Cairo.
-			Ensure races ends correctly when there are problems with contacts (Was: Waiting 100 ms to exit bucle).
-			Fixed crash on select "unlimited" race test. 
-		</ul>
+		<li><b>While capture it shows an icon for land/air.</b></li>
+		<li><b>Jumps assymetry and bilateral daily graph with options to configure selected jump types.</b></li>
+		<li><b>Jumps multiple fatigue graph divided by time instead of by jumps and shows IRFR calculation (last quarter / 1st quarter).</b></li>
+		<li>Extra weight and fall variables: Icons and values are displayed on top left at capture tab.</li>
+		<li>Also weight and fall have buttons for -10, -1, +1, 10.</li>
+		<li>jump/races data table show datetime in YYYY-MM-DD hh:mm:ss</li>
+		<li>Fixed Jump stats advanced simple with Tc DjPower formula (label and calc).</li>
+		<li>Fixed a crash that happens ocassionally at ending a jump (after being stored) (by having two data readers open if window gets resized).</li>
 	</ul>
 
-	<p><span class="highlight2"><i class="fa fa-running fa-2x"></i>  Race analyzer</span></p>
+	<p><img src="https://chronojump.org/wp-content/uploads/2022/12/run_simple_blue_1x.png"> <img src="https://chronojump.org/wp-content/uploads/2022/12/run_multiple_blue_1x.png"> Races with photocells</p>
 	<ul>
-	Fixed occasional duplicated values on import race analyzer data.
-	There's a smooth slider to see capture graphs with a smooth (moving average) filter.
-	Capture tabs graph speed/time have bars (for each segment) showing power or force or accel (selectable from feedback icon).
-	Exercise types have a default angle.
-	Graphs at capture tab, when loaded start at preferences.runEncoderMinAccel (10ms^2) (shifting time to left) or at 1st trigger (whatever happens first).
-	Improvements on the calculation of modelized data (model starts at T0).
+		<li>On <b>edit a race, the distance of each track can be changed</b> (except on agility tests, fixed distance tests and RSA).</li>
+		<li>On <b>edit a race it can be changed the person</b> who done it.</li>
+		<li>Capture graph show no spaces between bars to express the continuity.</li>
+		<li>Sprint model analysis display a table that can be exported.</li>
+		<li>On WICHRO the photocell number that cuts each of the phases is shown on capture graph at edge of each bar (and gets stored for being shown when selected).</li>
+		<li>Red photocells running mark, show photocell number on WICHRO.</li>
+		<li>Fixed distance, time, speed labels in agility tests graphs since moved to Cairo.</li>
+		<li>Ensure races ends correctly when there are problems with contacts (Was: Waiting 100 ms to exit bucle).</li>
+		<li>Fixed crash on select "unlimited" race test.</li>
 	</ul>
 
-	<p><span class="highlight2"><i class="fa fa-bar-chart fa-2x"></i>  Encoder</span></p>i
+	<p><img src="https://chronojump.org/wp-content/uploads/2022/12/race_encoder_blue_1x.png">  Race analyzer</p>
 	<ul>
-	<b>Realtime capture line graph and bars are now done by Cairo.</b>
-	Improvements on encoder configuration actions: edit, duplicate, ...
-	Encoder analyze can filter repetitions by laterality.
-	Preferences encoder can select criteria for best ecc-con repetition, and stored meanPower, meanSpeed, meanForce is according to this criteria.
-	Encoder overview reps show meanSpeed, meanForce, meanPower (previously only show meanPower)
-	Encoder overview shows the contraction and the criteria.
-	Encoder configuration import/edit does not create new configurations with _copy. Fixed and deleted unused configurations.
-	Fixed sometimes awkward value of spin_encoder_im_weights_n (number of inertial weights) and label_encoder_displaced_weight (displaced weight)
+		<li><b>Analyze tab can also analyze/export non-sprints</b>.</li>
+		<li><b>Export exports the speed, power and force of each split (segment).</b></li>
+		<li>Smooth slider to see <b>capture graphs with an smoothing</b> (moving average) filter.</li>
+		<li>Capture tabs <b>graph speed/time have bars (for each segment) showing power or force or accel</b> (selectable from feedback icon) and according to smoothing.</li>
+		<li>Sprint max speed line is drawn according to smoothing.</li>
+		<li>When test is shorter than configured distance now on analyze it displays a graph that shows clearly the problem.</li>
+		<li>Exercise types have a default angle.</li>
+		<li>Graphs at capture tab, when loaded start at preferences.runEncoderMinAccel (10ms^2) (shifting time to left) or at 1st trigger (whatever happens first).</li>
+		<li>On changing device and then connect, no longer need to double click capture to make it work.</li>
+		<li>Analyze/export export datetime column.</li>
+		<li>Improvements on the calculation of modelized data (model starts at T0).</li>
+		<li>Fixed occasional duplicated values on import race analyzer data.</li>
+		<li>Fixed crash on removing RaceAnalyzer USB cable while capturing.</li>
 	</ul>
 
-	<p><span class="highlight2"><i class="fa fa-area-chart fa-2x"></i>  Force sensor (Isometric, Ilastic)</span></p>
+	<p> <img src="https://chronojump.org/wp-content/uploads/2022/12/isometric.png"> <img src="https://chronojump.org/wp-content/uploads/2022/12/elastic.png"> Force sensor (Isometric, Elastic)</p>
 	<ul>
-	Best average RFD in x ms implemented (only in raw)
+		<li><b>Force sensor modes separated into Isometric and Elastic</b>.</li>
+		<li><b>Implemented Best average RFD in x ms</b> (raw and fitted).</li>
+		<li>Tare and calibrate have a countdown first in order to know when process will start (and be used easily by only one person).</li>
+		<li>Added program forceSensorCSVFixCalibration.py to fix forceSensor calibration on a dir.</li>
+		<li>Capture force window was +-2N now is +-50N.</li>
+		<li>On preferences it can be changed the lag for RMSSD/cvRMSSD (previously was always 1).</li>
+		<li>On changing device and then connect, no longer need to double click capture to make it work.</li>
+		<li>Fixed crash on forces higher than 5000N (impossible) and bigger (caused by bad cable connection or other hardware related problems).</li>
+	</ul>
+
+	<p> <img src="https://chronojump.org/wp-content/uploads/2022/12/weight.png"> <img src="https://chronojump.org/wp-content/uploads/2022/12/conical_blue_1x.png"> Encoder (Weights, Inertial)</p>
+	<ul>
+		<li><b>Realtime capture line graph and bars are now done by Cairo.</b></li>
+		<li><b>Implemented Load-Speed graph with L0, V0.</b></li>
+		<li>Encoder <b>analyze can filter repetitions by laterality</b>.</li>
+		<li>Improvements on encoder configuration actions: edit, duplicate, ...</li>
+		<li>Preferences encoder can select criteria for best ecc-con repetition, and stored meanPower, meanSpeed, meanForce is according to this criteria.</li>
+		<li>Encoder overview reps show meanSpeed, meanForce, meanPower (previously only show meanPower).</li>
+		<li>Encoder overview shows the contraction and the criteria.</li>
+		<li>Encoder configuration import/edit does not create new configurations with _copy. Fixed and deleted unused configurations.</li>
+		<li>The options on encoder cross analyze have been written in a more clear way.</li>
+		<li>Fixed encoder analyze show all set speed was treated always as inertial (forcing to sign changes).</li>
+		<li>Fixed sometimes awkward value of spin_encoder_im_weights_n (number of inertial weights) and label_encoder_displaced_weight (displaced weight)</li>
+		<li>Fixed on encoder recalculate does not store change of extra weight.</li>
+		<li>Fixed lack of smoothings on some configurations at graph.R singleFile.</li>
 	</ul>
 
 	<p><span class="highlight2"><i class="fa fa-sitemap fa-2x"></i>  Chronojump-Networks</span></p>
 	<ul>
-	<b>Networks (encoder) now how as Guest button to be used by persons without wristband/account</b>. Data is not uploaded, not stored, use main speed, disables some widgets.
+		<li><b>Networks (all modes) now how as Guest button to be used by persons without wristband/account</b>. Data is not uploaded, not stored, use main speed, disables some widgets.</li>
+		<li><b>Client can use another database</b> using some chronojumpConfig commands. Nice to open backups of different stations and working in them like being local.</li>
+		<li><b>Jumps are fully functional</b>: Any jump type can be download from the server, any jump can be uploaded to the server.</li>
+		<li>When wristband is detected a Read/connecting message is shown. Allows to know that wristband is readed and we are waiting to server.</li>
+		<li>Magic number: A50285BI can be used and remembered on Arduino RFID.</li>
 	</ul>
 
-	<p><span class="highlight2"><i class="fa fa-flag-o fa-2x"></i>  Translations</span></p>
+	<p><span class="highlight2"><i class="fa fa-flag-o fa-2x"></i>  Updated translations</span></p>
 	<ul>
+		<li>Basque, Brazilian Portuguese, Catalan, Georgian, Hungarian, Italian, Portuguese, Serbian, Spanish, Swedish, Ukranian.</li>
 	</ul>
 

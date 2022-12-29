@@ -856,7 +856,7 @@ getSplits <- function(time, rawPosition, rawForce, rawPower, startSample, endSam
         while(continueBucle)
         {
                 # print(paste("--------Segment", length(splitTimes_v) +1, "------------------------------------"))
-                # splitPositions_v = c(splitPositions_v, last(splitPositions_v) + nextLength)
+                splitPositions_v = c(splitPositions_v, last(splitPositions_v) + nextLength)
                 # print("splitPositions_v")
                 # print(splitPositions_v)
                 #print(paste("Going to interpolate at:", last(splitPositions_v)))
@@ -865,7 +865,7 @@ getSplits <- function(time, rawPosition, rawForce, rawPower, startSample, endSam
                 splitEndSample = which.min(abs(rawPosition - last(splitPositions_v)))
                 
                 #The last Sample of the split must be, at least, the next sample after the desired position
-                if (rawPosition - rawPosition[splitEndSample] < 0 ) {
+                if (last(splitPositions_v) - rawPosition[splitEndSample] > 0 ) {
                     splitEndSample = splitEndSample + 1
                 }
                 

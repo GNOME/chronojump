@@ -1,19 +1,31 @@
 start at 10/3/2022
-done until 26/4/2022
+done until 24/5/2022
 
 
 	<p><span class="highlight2"><i class="fa fa-area-chart fa-2x"></i>  General Chronojump changes</span></p>
 	<ul>
+	<b>Changed software modes</b>
+		<ul>
+		Now modes are jumps, races, isometric, elastic, weights, inertial
+		Jumps uses the contact platform
+		Races use photocells (wireless like WICHRO or the old ones) or the Race Analyzer
+		Isometric and elastic use the force sensor. But it has been separated in two modes because the tests and the resistance are very different. Note exercises can be in one mode or in both (user can choose).
+		Weights and inertial are related to encoder (linear on the first, rotary on the second).
+		</ul>
+		<ul>
+	<b>Automatic hardware detection</b>
+		<ul>
+		<b>Hardware devices are automatically discovered</b> Need to select previously the mode: jumps, races, ....
+		Allows to have eg. n forceSensors connected and choose which is going to be used.
+		</ul>
+
+
 	All the software new graphs (Cairo) are much faster now (draw is done first to a surface).
 	Interactive graphs show a mouse icon (meaning that can be clicked).
 	Updated Windows Chronopic drivers CDM21228 -> CDM212364 (2021-07-15)
 	More height for gui import results (to allow showing any error message).
+	From session more can be seen the data folder and the specific data folder if the mode is a mode with datafiles like force sensor.
 	When another person is selected all the graphs get blank to not display data of another person.
-	</ul>
-
-	<p><span class="highlight2"><i class="fa fa-running fa-2x"></i>  Race analyzer</span></p>
-	<ul>
-	Fixed occasional duplicated values on import race analyzer data.
 	</ul>
 
 	<p><span class="highlight2"><i class="fa fa-clock-o fa-2x"></i>  Jumps, Races</span></p>
@@ -23,14 +35,25 @@ done until 26/4/2022
 		<ul>
 			jump/races data table show datetime in YYYY-MM-DD hh:mm:ss
 		</ul>
-		<li><b>Races</b></li>
+		<li><b>Races with photocells</b></li>
 		<ul>
 			Capture graph show no spaces between bars to express the continuity.
 			On WICHRO the photocell number that cuts each of the phases is shown on capture graph at edge of each bar (and gets stored for being shown when selected).
 			Red photocells running mark, show photocell number on WICHRO.
 			Fixed distance, time, speed labels in agility tests graphs since moved to Cairo.
+			Ensure races ends correctly when there are problems with contacts (Was: Waiting 100 ms to exit bucle).
 			Fixed crash on select "unlimited" race test. 
 		</ul>
+	</ul>
+
+	<p><span class="highlight2"><i class="fa fa-running fa-2x"></i>  Race analyzer</span></p>
+	<ul>
+	Fixed occasional duplicated values on import race analyzer data.
+	There's a smooth slider to see capture graphs with a smooth (moving average) filter.
+	Capture tabs graph speed/time have bars (for each segment) showing power or force or accel (selectable from feedback icon).
+	Exercise types have a default angle.
+	Graphs at capture tab, when loaded start at preferences.runEncoderMinAccel (10ms^2) (shifting time to left) or at 1st trigger (whatever happens first).
+	Improvements on the calculation of modelized data (model starts at T0).
 	</ul>
 
 	<p><span class="highlight2"><i class="fa fa-bar-chart fa-2x"></i>  Encoder</span></p>i
@@ -41,11 +64,13 @@ done until 26/4/2022
 	Preferences encoder can select criteria for best ecc-con repetition, and stored meanPower, meanSpeed, meanForce is according to this criteria.
 	Encoder overview reps show meanSpeed, meanForce, meanPower (previously only show meanPower)
 	Encoder overview shows the contraction and the criteria.
+	Encoder configuration import/edit does not create new configurations with _copy. Fixed and deleted unused configurations.
 	Fixed sometimes awkward value of spin_encoder_im_weights_n (number of inertial weights) and label_encoder_displaced_weight (displaced weight)
 	</ul>
 
-	<p><span class="highlight2"><i class="fa fa-area-chart fa-2x"></i>  Force sensor</span></p>
+	<p><span class="highlight2"><i class="fa fa-area-chart fa-2x"></i>  Force sensor (Isometric, Ilastic)</span></p>
 	<ul>
+	Best average RFD in x ms implemented (only in raw)
 	</ul>
 
 	<p><span class="highlight2"><i class="fa fa-sitemap fa-2x"></i>  Chronojump-Networks</span></p>

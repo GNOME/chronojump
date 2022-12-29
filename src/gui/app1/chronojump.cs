@@ -4491,7 +4491,7 @@ public partial class ChronoJumpWindow
 		else if (o == (object) radio_menu_2_2_2_isometric)
 		{
 			title = "Isometric";
-			desc = "Isometric force exercises measured by a force sensor";
+			desc = Catalog.GetString ("Isometric force exercises measured by a force sensor");
 			notebook_menu_2_2_2.CurrentPage = 2;
 		}
 		else if (o == (object) radio_menu_2_2_2_elastic)

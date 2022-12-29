@@ -2441,7 +2441,7 @@ public partial class ChronoJumpWindow
 
 		if(cairoGraphRaceAnalyzer_dt == null || forceRedraw)
 			cairoGraphRaceAnalyzer_dt = new CairoGraphRaceAnalyzer(
-					(currentRunEncoder != null),
+					(currentRunEncoder != null && currentRunEncoder.UniqueID >= 0),
 					drawingarea_race_analyzer_capture_position_time, "title",
 					Catalog.GetString("Distance"), "m",
 					isSprint, false,
@@ -2478,7 +2478,7 @@ public partial class ChronoJumpWindow
 
 		if(cairoGraphRaceAnalyzer_st == null || forceRedraw)
 			cairoGraphRaceAnalyzer_st = new CairoGraphRaceAnalyzer(
-					(currentRunEncoder != null),
+					(currentRunEncoder != null && currentRunEncoder.UniqueID >= 0),
 					drawingarea_race_analyzer_capture_speed_time, "title",
 					Catalog.GetString("Speed"), "m/s",
 					isSprint, true,
@@ -2518,7 +2518,7 @@ public partial class ChronoJumpWindow
 
 		if(cairoGraphRaceAnalyzer_at == null || forceRedraw)
 			cairoGraphRaceAnalyzer_at = new CairoGraphRaceAnalyzer(
-					(currentRunEncoder != null),
+					(currentRunEncoder != null && currentRunEncoder.UniqueID >= 0),
 					drawingarea_race_analyzer_capture_accel_time, "title",
 					Catalog.GetString("Accel"), "m/s^2",
 					isSprint, false,

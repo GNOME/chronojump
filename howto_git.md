@@ -113,3 +113,6 @@ Find ======     Solve the problems (HEAD) is what there is on git repo
     git rebase -- continue
     git push
 
+If you want to abort a merge done on a git stash pop (discarding the stashed stuff)
+
+	git reset --merge

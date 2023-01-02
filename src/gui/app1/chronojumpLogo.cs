@@ -31,8 +31,7 @@ public class ChronojumpLogo
 {
 	private bool timer;
 	private double alpha;
-	private double size;
-	private Stopwatch stopwatch1;
+	private double size = 60; //hardcoded 2023
 	private Stopwatch stopwatch2;
 	private Stopwatch stopwatch3;
 
@@ -66,14 +65,11 @@ public class ChronojumpLogo
 
 		timer = true;
 		alpha = 1.0;
-		size = 1.0;
-		stopwatch1 = new Stopwatch();
 		stopwatch2 = new Stopwatch();
 		stopwatch3 = new Stopwatch();
 
 		GLib.Timeout.Add(12, new GLib.TimeoutHandler(onTimer));
 		//GLib.Timeout.Add(30, new GLib.TimeoutHandler(onTimer));
-		stopwatch1.Start();
 
 		LogB.Information("Chronojump logo constructor end");
 	}
@@ -97,10 +93,9 @@ public class ChronojumpLogo
 	{
                 Cairo.Context cr =  Gdk.CairoHelper.Create(drawingarea.GdkWindow);
 
-		double elapsedMs1 = stopwatch1.Elapsed.TotalMilliseconds;
-
-		int x = Convert.ToInt32(drawingarea.Allocation.Width / 2); //2022
+		int x = Convert.ToInt32(drawingarea.Allocation.Width *.33); //2023
                 int y = Convert.ToInt32(drawingarea.Allocation.Height / 2); //2022b
+		int xMax = Convert.ToInt32(drawingarea.Allocation.Width);
 
                 cr.SetSourceRGB(.055, .118, .275);
                 cr.Paint();
@@ -109,15 +104,6 @@ public class ChronojumpLogo
                 //cr.SelectFontFace(font, FontSlant.Normal, FontWeight.Bold); //Courier is so ugly on logo
 		cr.SelectFontFace("Helvetica", FontSlant.Normal, FontWeight.Bold);
 
-		//bool showVersion = false;
-		if (size <= 80) {
-			//size += 0.6;
-			size = elapsedMs1 / 12.0;
-		}
-
-		if(size > 30)
-		{
-			//alpha -= 0.01;
 			if(! stopwatch2.IsRunning)
 				stopwatch2.Start();
 			alpha = 1 - stopwatch2.Elapsed.TotalMilliseconds * 0.0006;
@@ -127,15 +113,13 @@ public class ChronojumpLogo
 				alpha = 0;
 				stopwatch3.Start();
 			}
-		}
 
 		if (stopwatch3.Elapsed.TotalMilliseconds >= 150)
 			timer = false;
 
-		if(stopwatch2.IsRunning && stopwatch2.Elapsed.TotalMilliseconds >= 300)
-			chronojumpLogo_showChronojump (cr, x, y, "2.2");
-		else
-			chronojumpLogo_showChronojump (cr, x, y, "CHRONOJUMP");
+		string words = "CHRONOJUMP 2.3";
+		x = Convert.ToInt32 (UtilAll.DivideSafe ((xMax -x) * 700, stopwatch2.Elapsed.TotalMilliseconds));
+			chronojumpLogo_showChronojump (cr, x, y, words);
 
                 ((IDisposable) cr.GetTarget()).Dispose();
                 ((IDisposable) cr).Dispose();

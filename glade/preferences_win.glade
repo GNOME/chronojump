@@ -842,6 +842,7 @@
                                                             <property name="use_underline">True</property>
                                                             <property name="active">True</property>
                                                             <property name="draw_indicator">True</property>
+                                                            <signal name="toggled" handler="on_radiobutton_show_q_index_toggled" swapped="no"/>
                                                           </widget>
                                                           <packing>
                                                             <property name="expand">False</property>
@@ -859,6 +860,7 @@
                                                             <property name="use_underline">True</property>
                                                             <property name="draw_indicator">True</property>
                                                             <property name="group">radiobutton_show_q_index</property>
+                                                            <signal name="toggled" handler="on_radiobutton_show_dj_index_toggled" swapped="no"/>
                                                           </widget>
                                                           <packing>
                                                             <property name="expand">False</property>
@@ -887,6 +889,7 @@
                                                             <property name="receives_default">False</property>
                                                             <property name="use_underline">True</property>
                                                             <property name="draw_indicator">True</property>
+                                                            <signal name="toggled" handler="on_checkbutton_power_toggled" swapped="no"/>
                                                           </widget>
                                                           <packing>
                                                             <property name="expand">False</property>
@@ -925,6 +928,7 @@
                                                         <property name="receives_default">False</property>
                                                         <property name="use_underline">True</property>
                                                         <property name="draw_indicator">True</property>
+                                                        <signal name="toggled" handler="on_checkbutton_initial_speed_toggled" swapped="no"/>
                                                       </widget>
                                                       <packing>
                                                         <property name="left_attach">1</property>
@@ -944,6 +948,7 @@
                                                             <property name="receives_default">False</property>
                                                             <property name="use_underline">True</property>
                                                             <property name="draw_indicator">True</property>
+                                                            <signal name="toggled" handler="on_checkbutton_stiffness_toggled" swapped="no"/>
                                                           </widget>
                                                           <packing>
                                                             <property name="expand">False</property>
@@ -986,6 +991,7 @@
                                                         <property name="receives_default">False</property>
                                                         <property name="use_underline">True</property>
                                                         <property name="draw_indicator">True</property>
+                                                        <signal name="toggled" handler="on_checkbutton_jump_rsi_toggled" swapped="no"/>
                                                       </widget>
                                                       <packing>
                                                         <property name="left_attach">1</property>
@@ -1065,6 +1071,7 @@
                                                             <property name="receives_default">False</property>
                                                             <property name="active">True</property>
                                                             <property name="draw_indicator">True</property>
+                                                            <signal name="toggled" handler="on_radio_jumps_dj_heights_times_toggled" swapped="no"/>
                                                           </widget>
                                                           <packing>
                                                             <property name="expand">False</property>
@@ -1081,6 +1088,7 @@
                                                             <property name="receives_default">False</property>
                                                             <property name="draw_indicator">True</property>
                                                             <property name="group">radio_jumps_dj_heights</property>
+                                                            <signal name="toggled" handler="on_radio_jumps_dj_heights_times_toggled" swapped="no"/>
                                                           </widget>
                                                           <packing>
                                                             <property name="expand">True</property>
@@ -1128,6 +1136,7 @@
                                                         <property name="xalign">0</property>
                                                         <property name="active">True</property>
                                                         <property name="draw_indicator">True</property>
+                                                        <signal name="toggled" handler="on_radio_weight_percent_kg_toggled" swapped="no"/>
                                                       </widget>
                                                       <packing>
                                                         <property name="expand">False</property>
@@ -1145,6 +1154,7 @@
                                                         <property name="xalign">0</property>
                                                         <property name="draw_indicator">True</property>
                                                         <property name="group">radio_weight_percent</property>
+                                                        <signal name="toggled" handler="on_radio_weight_percent_kg_toggled" swapped="no"/>
                                                       </widget>
                                                       <packing>
                                                         <property name="expand">False</property>
@@ -1307,6 +1317,7 @@
                                                         <property name="use_underline">True</property>
                                                         <property name="active">True</property>
                                                         <property name="draw_indicator">True</property>
+                                                        <signal name="toggled" handler="on_radio_use_heights_or_not_on_jump_indexes_toggled" swapped="no"/>
                                                         <child>
                                                           <widget class="GtkHBox" id="hbox8">
                                                             <property name="visible">True</property>
@@ -1390,6 +1401,7 @@
                                                         <property name="use_underline">True</property>
                                                         <property name="draw_indicator">True</property>
                                                         <property name="group">radio_use_heights_on_jump_indexes</property>
+                                                        <signal name="toggled" handler="on_radio_use_heights_or_not_on_jump_indexes_toggled" swapped="no"/>
                                                       </widget>
                                                       <packing>
                                                         <property name="expand">False</property>

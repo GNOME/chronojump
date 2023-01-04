@@ -2868,8 +2868,13 @@ doProcess <- function(options)
                 #but meanwhile we can check like this:
                 if(length(inputMultiData[,1]) == 0) {
                         plot(0,0,type="n",axes=F,xlab="",ylab="")
-                        text(x=0,y=0,translateToPrint("Not enough data."),
-                             cex=1.5)
+
+			if(op$Analysis == "neuromuscularProfile")
+				text(x=0,y=0,paste(translateToPrint("Not enough data."), "\n",
+							translateToPrint("Need at least three eccentric-concentric jumps")), cex=1.5)
+			else
+				text(x=0,y=0,translateToPrint("Not enough data."), cex=1.5)
+
                         dev.off()
                         write("", op$OutputData1)
                         quit()

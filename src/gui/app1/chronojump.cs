@@ -8067,34 +8067,40 @@ LogB.Debug("mc finished 5");
 			}
 
 			preferences.encoderCaptureMainVariableThisSetOrHistorical = Preferences.PreferencesChange(
-				SqlitePreferences.EncoderCaptureMainVariableThisSetOrHistorical,
-				preferences.encoderCaptureMainVariableThisSetOrHistorical,
-				feedbackWin.EncoderRelativeToSet);
+					true,
+					SqlitePreferences.EncoderCaptureMainVariableThisSetOrHistorical,
+					preferences.encoderCaptureMainVariableThisSetOrHistorical,
+					feedbackWin.EncoderRelativeToSet);
 
 			preferences.encoderCaptureMainVariableGreaterActive = Preferences.PreferencesChange(
-				SqlitePreferences.EncoderCaptureMainVariableGreaterActive,
-				preferences.encoderCaptureMainVariableGreaterActive,
-				feedbackWin.EncoderAutomaticHigherActive);
+					true,
+					SqlitePreferences.EncoderCaptureMainVariableGreaterActive,
+					preferences.encoderCaptureMainVariableGreaterActive,
+					feedbackWin.EncoderAutomaticHigherActive);
 
 			preferences.encoderCaptureMainVariableGreaterValue = Preferences.PreferencesChange(
-				SqlitePreferences.EncoderCaptureMainVariableGreaterValue,
-				preferences.encoderCaptureMainVariableGreaterValue,
-				feedbackWin.EncoderAutomaticHigherValue);
+					true,
+					SqlitePreferences.EncoderCaptureMainVariableGreaterValue,
+					preferences.encoderCaptureMainVariableGreaterValue,
+					feedbackWin.EncoderAutomaticHigherValue);
 
 			preferences.encoderCaptureMainVariableLowerActive = Preferences.PreferencesChange(
-				SqlitePreferences.EncoderCaptureMainVariableLowerActive,
-				preferences.encoderCaptureMainVariableLowerActive,
-				feedbackWin.EncoderAutomaticLowerActive);
+					true,
+					SqlitePreferences.EncoderCaptureMainVariableLowerActive,
+					preferences.encoderCaptureMainVariableLowerActive,
+					feedbackWin.EncoderAutomaticLowerActive);
 
 			preferences.encoderCaptureMainVariableLowerValue = Preferences.PreferencesChange(
-				SqlitePreferences.EncoderCaptureMainVariableLowerValue,
-				preferences.encoderCaptureMainVariableLowerValue,
-				feedbackWin.EncoderAutomaticLowerValue);
+					true,
+					SqlitePreferences.EncoderCaptureMainVariableLowerValue,
+					preferences.encoderCaptureMainVariableLowerValue,
+					feedbackWin.EncoderAutomaticLowerValue);
 
 			preferences.encoderCaptureShowLoss = Preferences.PreferencesChange(
-				SqlitePreferences.EncoderCaptureShowLoss,
-				preferences.encoderCaptureShowLoss,
-				feedbackWin.EncoderCaptureShowLoss);
+					true,
+					SqlitePreferences.EncoderCaptureShowLoss,
+					preferences.encoderCaptureShowLoss,
+					feedbackWin.EncoderCaptureShowLoss);
 
 			Sqlite.Close();
 

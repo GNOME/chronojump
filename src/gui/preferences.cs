@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2022   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2004-2023   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -823,6 +823,127 @@ public class PreferencesWindow
 		return PreferencesWindowBox;
 	}
 
+
+	/* callbacks tab: main */
+
+	private void on_radio_color_custom_toggled (object o, EventArgs args)
+	{
+		// changes on preferences gui
+		button_color_choose.Sensitive = true;
+		label_radio_color_os_needs_restart.Visible = false;
+
+		// changes on preferences object and SqlitePreferences
+		preferences.colorBackgroundString = Preferences.PreferencesChange(
+				false,
+				SqlitePreferences.ColorBackground, preferences.colorBackgroundString,
+				UtilGtk.ColorToColorString(colorBackground)); //this does the reverse of Gdk.Color.Parse on UtilGtk.ColorParse()
+		preferences.colorBackgroundOsColor = Preferences.PreferencesChange(
+				false,
+				SqlitePreferences.ColorBackgroundOsColor, preferences.colorBackgroundOsColor,
+				false);
+		preferences.colorBackgroundIsDark = UtilGtk.ColorIsDark(colorBackground);
+	}
+	private void on_radio_color_chronojump_blue_toggled (object o, EventArgs args)
+	{
+		// changes on preferences gui
+		button_color_choose.Sensitive = false;
+		label_radio_color_os_needs_restart.Visible = false;
+
+		// changes on preferences object and SqlitePreferences
+		preferences.colorBackgroundString = Preferences.PreferencesChange(
+				false,
+				SqlitePreferences.ColorBackground, preferences.colorBackgroundString,
+				"#0e1e46");
+		preferences.colorBackgroundOsColor = Preferences.PreferencesChange(
+				false,
+				SqlitePreferences.ColorBackgroundOsColor, preferences.colorBackgroundOsColor,
+				false);
+		preferences.colorBackgroundIsDark = true;
+	}
+	private void on_radio_color_os_toggled (object o, EventArgs args)
+	{
+		// changes on preferences gui
+		button_color_choose.Sensitive = false;
+		label_radio_color_os_needs_restart.Visible = true;
+
+		// changes on preferences object and SqlitePreferences
+		//radio_color_os does not change the colorBackgroundString, it changes the Config.UseSystemColor
+		//but note that on showing cairo and execute graphs, primary color will be colorBackground
+		preferences.colorBackgroundOsColor = Preferences.PreferencesChange(
+				false,
+				SqlitePreferences.ColorBackgroundOsColor, preferences.colorBackgroundOsColor,
+				true);
+		preferences.colorBackgroundIsDark = false; //is not important as it is not going to be used
+	}
+
+	private void on_button_color_choose_clicked(object o, EventArgs args)
+	{
+		using (ColorSelectionDialog colorSelectionDialog = new ColorSelectionDialog (Catalog.GetString("Select color")))
+		{
+			colorSelectionDialog.TransientFor = preferences_win;
+			colorSelectionDialog.ColorSelection.CurrentColor = colorBackground;
+			colorSelectionDialog.ColorSelection.HasPalette = true;
+
+			if (colorSelectionDialog.Run () == (int) ResponseType.Ok) {
+				colorBackground = colorSelectionDialog.ColorSelection.CurrentColor;
+				paintColorDrawingAreaAndBg(colorBackground);
+
+				/*
+				LogB.Information(string.Format("color: red {0}, green {1}, blue {2}",
+							colorBackground.Red, colorBackground.Green, colorBackground.Blue));
+				LogB.Information(string.Format("color: red {0}, green {1}, blue {2}",
+							colorBackground.Red/256.0, colorBackground.Green/256.0, colorBackground.Blue/256.0));
+				*/
+				LogB.Information("color to string: " + UtilGtk.ColorToColorString(colorBackground));
+
+				// changes on preferences object and SqlitePreferences
+				preferences.colorBackgroundString = Preferences.PreferencesChange(
+						false,
+						SqlitePreferences.ColorBackground, preferences.colorBackgroundString,
+						UtilGtk.ColorToColorString(colorBackground)); //this does the reverse of Gdk.Color.Parse on UtilGtk.ColorParse()
+				preferences.colorBackgroundOsColor = Preferences.PreferencesChange(
+						false,
+						SqlitePreferences.ColorBackgroundOsColor, preferences.colorBackgroundOsColor,
+						false);
+				preferences.colorBackgroundIsDark = UtilGtk.ColorIsDark(colorBackground);
+			}
+
+			colorSelectionDialog.Hide ();
+		}
+	}
+
+	private void on_check_session_autoload_at_start_toggled (object o, EventArgs args)
+	{
+	}
+	private void on_check_mode_autoload_at_start_toggled (object o, EventArgs args)
+	{
+	}
+	private void on_check_logo_animated_toggled (object o, EventArgs args)
+	{
+	}
+
+	private void on_check_rest_time_toggled (object o, EventArgs args)
+	{
+		Pixbuf pixbuf;
+		if(check_rest_time.Active)
+		{
+			hbox_rest_time_values.Visible = true;
+			pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_rest.png");
+		} else
+		{
+			hbox_rest_time_values.Visible = false;
+			pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_rest_inactive.png");
+		}
+		PreferencesWindowBox.image_rest.Pixbuf = pixbuf;
+	}
+
+	private void on_spinbutton_rest_minutes_value_changed (object o, EventArgs args)
+	{
+	}
+	private void on_spinbutton_rest_seconds_value_changed (object o, EventArgs args)
+	{
+	}
+
 	// view more tabs ---->
 
 	private void on_button_view_more_tabs_clicked (object o, EventArgs args)
@@ -904,47 +1025,6 @@ public class PreferencesWindow
 			UtilGtk.WindowColor(preferences_win, color);
 	}
 
-	private void on_radio_color_custom_toggled (object o, EventArgs args)
-	{
-		button_color_choose.Sensitive = true;
-		label_radio_color_os_needs_restart.Visible = false;
-	}
-	private void on_radio_color_chronojump_blue_toggled (object o, EventArgs args)
-	{
-		button_color_choose.Sensitive = false;
-		label_radio_color_os_needs_restart.Visible = false;
-	}
-	private void on_radio_color_os_toggled (object o, EventArgs args)
-	{
-		button_color_choose.Sensitive = false;
-		label_radio_color_os_needs_restart.Visible = true;
-	}
-
-	private void on_button_color_choose_clicked(object o, EventArgs args)
-	{
-		using (ColorSelectionDialog colorSelectionDialog = new ColorSelectionDialog (Catalog.GetString("Select color")))
-		{
-			colorSelectionDialog.TransientFor = preferences_win;
-			colorSelectionDialog.ColorSelection.CurrentColor = colorBackground;
-			colorSelectionDialog.ColorSelection.HasPalette = true;
-
-			if (colorSelectionDialog.Run () == (int) ResponseType.Ok) {
-				colorBackground = colorSelectionDialog.ColorSelection.CurrentColor;
-				paintColorDrawingAreaAndBg(colorBackground);
-
-				/*
-				LogB.Information(string.Format("color: red {0}, green {1}, blue {2}",
-							colorBackground.Red, colorBackground.Green, colorBackground.Blue));
-				LogB.Information(string.Format("color: red {0}, green {1}, blue {2}",
-							colorBackground.Red/256.0, colorBackground.Green/256.0, colorBackground.Blue/256.0));
-				*/
-				LogB.Information("color to string: " + UtilGtk.ColorToColorString(colorBackground));
-			}
-
-			colorSelectionDialog.Hide ();
-		}
-	}
-
 	private void on_radio_font_courier_toggled (object o, EventArgs args)
 	{
 		label_radio_font_needs_restart.Visible = true;
@@ -952,21 +1032,6 @@ public class PreferencesWindow
 	private void on_radio_font_helvetica_toggled (object o, EventArgs args)
 	{
 		label_radio_font_needs_restart.Visible = true;
-	}
-
-	private void on_check_rest_time_toggled (object o, EventArgs args)
-	{
-		Pixbuf pixbuf;
-		if(check_rest_time.Active)
-		{
-			hbox_rest_time_values.Visible = true;
-			pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_rest.png");
-		} else
-		{
-			hbox_rest_time_values.Visible = false;
-			pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_rest_inactive.png");
-		}
-		PreferencesWindowBox.image_rest.Pixbuf = pixbuf;
 	}
 
 	private void on_radio_encoder_capture_show_all_bars_toggled (object o, EventArgs args)
@@ -1883,43 +1948,16 @@ public class PreferencesWindow
 			preferences.personPhoto = PreferencesWindowBox.check_appearance_person_photo.Active;
 		}
 
-		if(radio_color_chronojump_blue.Active) 
-		{
-			preferences.colorBackgroundString = Preferences.PreferencesChange(
-					SqlitePreferences.ColorBackground, preferences.colorBackgroundString,
-					"#0e1e46");
-			preferences.colorBackgroundOsColor = Preferences.PreferencesChange(
-					SqlitePreferences.ColorBackgroundOsColor, preferences.colorBackgroundOsColor,
-					false);
-			preferences.colorBackgroundIsDark = true;
-		} else if(radio_color_os.Active)
-		{
-			//radio_color_os does not change the colorBackgroundString, it changes the Config.UseSystemColor
-			//but note that on showing cairo and execute graphs, primary color will be colorBackground
-			preferences.colorBackgroundOsColor = Preferences.PreferencesChange(
-					SqlitePreferences.ColorBackgroundOsColor, preferences.colorBackgroundOsColor,
-					true);
-			preferences.colorBackgroundIsDark = false; //is not important as it is not going to be used
-		} else {
-			preferences.colorBackgroundString = Preferences.PreferencesChange(
-					SqlitePreferences.ColorBackground, preferences.colorBackgroundString,
-					UtilGtk.ColorToColorString(colorBackground)); //this does the reverse of Gdk.Color.Parse on UtilGtk.ColorParse()
-			preferences.colorBackgroundOsColor = Preferences.PreferencesChange(
-					SqlitePreferences.ColorBackgroundOsColor, preferences.colorBackgroundOsColor,
-					false);
-			preferences.colorBackgroundIsDark = UtilGtk.ColorIsDark(colorBackground);
-		}
-
 		preferences.logoAnimatedShow = Preferences.PreferencesChange(
-				SqlitePreferences.LogoAnimatedShow, preferences.logoAnimatedShow,
+				true, SqlitePreferences.LogoAnimatedShow, preferences.logoAnimatedShow,
 				PreferencesWindowBox.check_logo_animated.Active);
 
 		preferences.loadLastSessionAtStart = Preferences.PreferencesChange(
-				SqlitePreferences.LoadLastSessionAtStart, preferences.loadLastSessionAtStart,
+				true, SqlitePreferences.LoadLastSessionAtStart, preferences.loadLastSessionAtStart,
 				PreferencesWindowBox.check_session_autoload_at_start.Active);
 
 		preferences.loadLastModeAtStart = Preferences.PreferencesChange(
-				SqlitePreferences.LoadLastModeAtStart, preferences.loadLastModeAtStart,
+				true, SqlitePreferences.LoadLastModeAtStart, preferences.loadLastModeAtStart,
 				PreferencesWindowBox.check_mode_autoload_at_start.Active);
 
 
@@ -1996,20 +2034,20 @@ public class PreferencesWindow
 
 		if(PreferencesWindowBox.checkbutton_show_tv_tc_index.Active) {
 			preferences.showQIndex = Preferences.PreferencesChange(
-					"showQIndex", preferences.showQIndex,
+					true, "showQIndex", preferences.showQIndex,
 					PreferencesWindowBox.radiobutton_show_q_index.Active);
 			preferences.showDjIndex = Preferences.PreferencesChange(
-					"showDjIndex", preferences.showDjIndex,
+					true, "showDjIndex", preferences.showDjIndex,
 					PreferencesWindowBox.radiobutton_show_dj_index.Active);
 		} else {
 			preferences.showQIndex = Preferences.PreferencesChange(
-					"showQIndex", preferences.showQIndex, false);
+					true, "showQIndex", preferences.showQIndex, false);
 			preferences.showDjIndex = Preferences.PreferencesChange(
-					"showDjIndex", preferences.showDjIndex, false);
+					true, "showDjIndex", preferences.showDjIndex, false);
 		}
 
 		preferences.heightPreferred = Preferences.PreferencesChange(
-				"heightPreferred",
+				true, "heightPreferred",
 				preferences.heightPreferred,
 				radio_jumps_dj_heights.Active);
 
@@ -2095,7 +2133,7 @@ public class PreferencesWindow
 		//encoder capture ----
 	
 		preferences.encoderCaptureTime = Preferences.PreferencesChange(
-				"encoderCaptureTime",
+				true, "encoderCaptureTime",
 				preferences.encoderCaptureTime,
 				(int) PreferencesWindowBox.spin_encoder_capture_time.Value);
 
@@ -2105,7 +2143,7 @@ public class PreferencesWindow
 			preferences.encoderCaptureInactivityEndTime = -1;
 		} else {
 			preferences.encoderCaptureInactivityEndTime = Preferences.PreferencesChange(
-					"encoderCaptureInactivityEndTime",
+					true, "encoderCaptureInactivityEndTime",
 					preferences.encoderCaptureInactivityEndTime,
 					(int) PreferencesWindowBox.spin_encoder_capture_inactivity_end_time.Value);
 		}
@@ -2132,12 +2170,12 @@ public class PreferencesWindow
 		}
 
 		preferences.encoderCaptureBarplotFontSize = Preferences.PreferencesChange(
-				"encoderCaptureBarplotFontSize",
+				true, "encoderCaptureBarplotFontSize",
 				preferences.encoderCaptureBarplotFontSize,
 				(int) PreferencesWindowBox.spin_encoder_capture_barplot_font_size.Value);
 
 		preferences.encoderShowStartAndDuration = Preferences.PreferencesChange(
-				"encoderShowStartAndDuration",
+				true, "encoderShowStartAndDuration",
 				preferences.encoderShowStartAndDuration,
 				PreferencesWindowBox.check_show_start_and_duration.Active);
 
@@ -2163,6 +2201,7 @@ public class PreferencesWindow
 		}
 
 		preferences.encoderCaptureInfinite = Preferences.PreferencesChange(
+				true,
 				SqlitePreferences.EncoderCaptureInfinite, preferences.encoderCaptureInfinite,
 				PreferencesWindowBox.check_encoder_capture_infinite.Active);
 
@@ -2217,16 +2256,19 @@ public class PreferencesWindow
 		//encoder other ----
 		
 		preferences.encoderPropulsive = Preferences.PreferencesChange(
+				true,
 				"encoderPropulsive",
 				preferences.encoderPropulsive,
 				PreferencesWindowBox.checkbutton_encoder_propulsive.Active);
 
 		preferences.encoderWorkKcal = Preferences.PreferencesChange(
+				true,
 				SqlitePreferences.EncoderWorkKcal,
 				preferences.encoderWorkKcal,
 				radio_encoder_work_kcal.Active);
 
 		preferences.encoderSmoothCon = Preferences.PreferencesChange(
+				true,
 				"encoderSmoothCon",
 				preferences.encoderSmoothCon,
 				(double) PreferencesWindowBox.spin_encoder_smooth_con.Value);
@@ -2257,33 +2299,40 @@ public class PreferencesWindow
 
 		//forceSensor
 		preferences.forceSensorCaptureWidthSeconds = Preferences.PreferencesChange(
+				true,
 				SqlitePreferences.ForceSensorCaptureWidthSeconds,
 				preferences.forceSensorCaptureWidthSeconds,
 				Convert.ToInt32(spin_force_sensor_capture_width_graph_seconds.Value));
 
 		preferences.forceSensorCaptureScroll = Preferences.PreferencesChange(
+				true,
 				SqlitePreferences.ForceSensorCaptureScroll,
 				preferences.forceSensorCaptureScroll,
 				radio_force_sensor_capture_scroll.Active);
 
 		preferences.forceSensorElasticEccMinDispl = Preferences.PreferencesChange(
+				true,
 				SqlitePreferences.ForceSensorElasticEccMinDispl,
 				preferences.forceSensorElasticEccMinDispl,
 				Convert.ToDouble(spin_force_sensor_elastic_ecc_min_displ.Value));
 		preferences.forceSensorElasticConMinDispl = Preferences.PreferencesChange(
+				true,
 				SqlitePreferences.ForceSensorElasticConMinDispl,
 				preferences.forceSensorElasticConMinDispl,
 				Convert.ToDouble(spin_force_sensor_elastic_con_min_displ.Value));
 		preferences.forceSensorNotElasticEccMinForce = Preferences.PreferencesChange(
+				true,
 				SqlitePreferences.ForceSensorNotElasticEccMinForce,
 				preferences.forceSensorNotElasticEccMinForce,
 				Convert.ToInt32(spin_force_sensor_not_elastic_ecc_min_force.Value));
 		preferences.forceSensorNotElasticConMinForce = Preferences.PreferencesChange(
+				true,
 				SqlitePreferences.ForceSensorNotElasticConMinForce,
 				preferences.forceSensorNotElasticConMinForce,
 				Convert.ToInt32(spin_force_sensor_not_elastic_con_min_force.Value));
 
 		preferences.forceSensorGraphsLineWidth = Preferences.PreferencesChange(
+				true,
 				SqlitePreferences.ForceSensorGraphsLineWidth,
 				preferences.forceSensorGraphsLineWidth,
 				Convert.ToInt32(spin_force_sensor_graphs_line_width.Value));
@@ -2309,16 +2358,19 @@ public class PreferencesWindow
 		}
 
 		preferences.forceSensorVariabilityLag = Preferences.PreferencesChange(
+				true,
 				SqlitePreferences.ForceSensorVariabilityLag,
 				preferences.forceSensorVariabilityLag,
 				Convert.ToInt32(spin_force_sensor_variability_lag.Value));
 
 		preferences.forceSensorAnalyzeABSliderIncrement = Preferences.PreferencesChange(
+				true,
 				SqlitePreferences.ForceSensorAnalyzeABSliderIncrement,
 				preferences.forceSensorAnalyzeABSliderIncrement,
 				Convert.ToDouble(spin_force_sensor_analyze_ab_slider_increment.Value));
 
 		preferences.forceSensorAnalyzeMaxAVGInWindow = Preferences.PreferencesChange(
+				true,
 				SqlitePreferences.ForceSensorAnalyzeMaxAVGInWindow,
 				preferences.forceSensorAnalyzeMaxAVGInWindow,
 				Convert.ToDouble(spin_force_sensor_analyze_max_avg_force_in_window.Value));
@@ -2326,11 +2378,13 @@ public class PreferencesWindow
 		//runEncoder ----
 
 		preferences.runEncoderMinAccel = Preferences.PreferencesChange(
+				true,
 				SqlitePreferences.RunEncoderMinAccel,
 				preferences.runEncoderMinAccel,
 				Convert.ToDouble(spin_run_encoder_acceleration.Value));
 
 		preferences.runEncoderPPS = Preferences.PreferencesChange(
+				true,
 				SqlitePreferences.RunEncoderPPS,
 				preferences.runEncoderPPS,
 				Convert.ToInt32(spin_run_encoder_pps.Value));

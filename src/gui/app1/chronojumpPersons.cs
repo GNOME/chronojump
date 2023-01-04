@@ -481,15 +481,11 @@ public partial class ChronoJumpWindow
 	}
 	private void on_button_top_person_show_images (object o, EventArgs args)
 	{
-		Sqlite.Open();
-		preferences.personSelectWinImages = Preferences.PreferencesChange(SqlitePreferences.PersonSelectWinImages, false, true);
-		Sqlite.Close();
+		preferences.personSelectWinImages = Preferences.PreferencesChange (false, SqlitePreferences.PersonSelectWinImages, false, true);
 	}
 	private void on_button_top_person_hide_images (object o, EventArgs args)
 	{
-		Sqlite.Open();
-		preferences.personSelectWinImages = Preferences.PreferencesChange(SqlitePreferences.PersonSelectWinImages, true, false);
-		Sqlite.Close();
+		preferences.personSelectWinImages = Preferences.PreferencesChange(false, SqlitePreferences.PersonSelectWinImages, true, false);
 	}
 
 	private void on_button_top_person_change_done(object o, EventArgs args)

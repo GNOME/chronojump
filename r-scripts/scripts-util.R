@@ -61,7 +61,7 @@ interpolateXAtY <- function(X, Y, desiredY, debug = FALSE)
         print(X)
         print("    Y:")
         print(Y)
-    # 	print(paste("finding the X at desiredY:", desiredY))
+     	print(paste("finding the X at desiredY:", desiredY))
     	#print(paste("max(Y):", max(Y)))
     }
 	if(max(Y) < desiredY){
@@ -79,6 +79,8 @@ interpolateXAtY <- function(X, Y, desiredY, debug = FALSE)
         
         previousSample = nextSample - 1
         
+        print(paste("sample1:", previousSample, "X:", X[previousSample], "Y:", Y[previousSample]))
+        print(paste("sample2:", nextSample, "X:", X[nextSample], "Y:", Y[nextSample]))
         if(Y[nextSample] == desiredY){
                 correspondingX = X[nextSample]
         } else {

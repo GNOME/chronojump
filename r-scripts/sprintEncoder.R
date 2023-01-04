@@ -152,8 +152,8 @@ getSprintFromEncoder <- function(filename, testLength, isSprint, Mass, Temperatu
         # print(position)
         # print("speed:")
         # print(speed)
-        print("accel:")
-        print(accel)
+        # print("accel:")
+        # print(accel)
         # print("forceBody:")
         # print(forceBody)
         # print("forceRope:")
@@ -314,7 +314,8 @@ getSprintFromEncoder <- function(filename, testLength, isSprint, Mass, Temperatu
                            , totalForce, power
                            , trimmingSamples$start, trimmingSamples$end
                            , testLength, splitLength, splitVariableCm)
-        
+        print("In getSprintFromEncoder, splits$meanSpeed:")
+        print(splits$meanSpeed)
         splitPosition = splits$position
         splitTime = splits$time
         meanSpeed = splits$meanSpeed
@@ -423,7 +424,7 @@ plotSprintFromEncoder <- function(sprintRawDynamics, sprintFittedDynamics, isSpr
 		legendLwd = c(legendLwd, 0)
 	}
 
-	#T0 variable is lot used on this function, usually sprintFittedDynamics$T0, but this can be only used on model (isSprint)
+	#T0 variable is not used on this function, usually sprintFittedDynamics$T0, but this can be only used on model (isSprint)
 	T0 <- 0
 	if (isSprint)
 		T0 <- sprintFittedDynamics$T0
@@ -434,9 +435,12 @@ plotSprintFromEncoder <- function(sprintRawDynamics, sprintFittedDynamics, isSpr
 
 	#print ("xlimits: ")
 	#print (xlimits)
-        
+        print("sprintRawDynamics$rawSpeed")
+        print(sprintRawDynamics$rawSpeed)
         if(plotRawMeanSpeed)
         {
+                print("In plotSrintFromEncoder, sprintRawDynamics$meanSpeed:")
+                print(sprintRawDynamics$meanSpeed)
                 barplot(height = sprintRawDynamics$meanSpeed, width = diff(c(0,sprintRawDynamics$splitTime)), space = 0,
                         ylim = ylimits, xlim = xlimits,
                         xlab = "Time (s)", ylab = "Speed (m/s)",
@@ -869,8 +873,8 @@ getSplits <- function(time, rawPosition, rawForce, rawPower, startSample, endSam
                     splitEndSample = splitEndSample + 1
                 }
                 
-                # print(paste("splitStartSample:", splitStartSample, ":->", time[splitStartSample]))
-                # print(paste("splitEndSample:", splitEndSample, ":->", time[splitEndSample]))
+                print(paste("splitStartSample:", splitStartSample, ":->", time[splitStartSample]))
+                print(paste("splitEndSample:", splitEndSample, ":->", time[splitEndSample]))
                 
                 splitTimes_v = c(splitTimes_v, interpolateXAtY(X = time[splitStartSample:splitEndSample+1],
                                                                Y = rawPosition[splitStartSample:(splitEndSample+1)],
@@ -879,6 +883,8 @@ getSplits <- function(time, rawPosition, rawForce, rawPower, startSample, endSam
                 # print("splitTimes_v:")
                 # print(splitTimes_v)
                 
+                print(paste("position1:", splitPositions_v[length(splitPositions_v) -1], "position2:", last(splitPositions_v)))
+                print(paste("time1:", splitTimes_v[length(splitTimes_v) -1], "time2:", last(splitTimes_v)))
                 meanSpeeds_v = c(meanSpeeds_v, (last(splitPositions_v) - splitPositions_v[length(splitPositions_v) -1]) /
                                          (last(splitTimes_v) - splitTimes_v[length(splitTimes_v) -1]))
                 
@@ -919,16 +925,16 @@ getSplits <- function(time, rawPosition, rawForce, rawPower, startSample, endSam
             
             splitTimes_v = c(splitTimes_v, interpolateXAtY(X = time[startSample:length(rawPosition)],
                                                            Y = rawPosition[startSample:length(rawPosition)],
-                                                           desiredY = testLength))
+                                                           desiredY = testLength, debug = FALSE))
             
             
             splitStartSample = splitEndSample
             splitEndSample = which.min(abs(time - splitTimes_v[length(splitTimes_v) ]))
             
-            meanSpeeds_v = c(meanSpeeds_v, (splitPositions_v[length(splitPositions_v)] - splitPositions_v[length(splitPositions_v) -1]) /
-                                     (splitTimes_v[length(splitTimes_v)] - splitTimes_v[length(splitTimes_v) -1]))
+            meanSpeeds_v = c(meanSpeeds_v, (last(splitPositions_v) - splitPositions_v[length(splitPositions_v) -1]) /
+                                     (last(splitTimes_v) - splitTimes_v[length(splitTimes_v) -1]))
             
-            # print(paste("--------Segment", length(splitTimes_v), "------------------------------------"))
+            print(paste("--------Segment", length(splitTimes_v), "------------------------------------"))
             # print("splitPositions_v:")
             # print(splitPositions_v)
             # print(paste("splitStartSample:", splitStartSample, ":->", time[splitStartSample]))
@@ -939,10 +945,12 @@ getSplits <- function(time, rawPosition, rawForce, rawPower, startSample, endSam
                                                         splitTimes_v[length(splitTimes_v) -1], splitTimes_v[length(splitTimes_v)]))
             # print(paste("Mean using the area:", last(meanForces_v)))
             # print(paste("mean force values NOT PONDERATED:", mean(rawForce[splitStartSample:splitEndSample])))
-            
+            print("speeds returned:")
+            print(meanSpeeds_v)
             rawSpeed1 = (rawPosition[splitStartSample + 1] - rawPosition[splitStartSample - 1]) / (time[splitStartSample + 1] - time[splitStartSample - 1])
             rawSpeed2 = (rawPosition[splitEndSample + 1] - rawPosition[splitEndSample - 1]) / (time[splitEndSample + 1] - time[splitEndSample - 1])
-            print( paste( "speeds:", rawSpeed1, " , ", rawSpeed2))
+            print( paste( "speeds calculated:", rawSpeed1, " , ", rawSpeed2))
+            
             
             meanPowers_v = c(meanPowers_v, getMeanValue(time, rawPower,
                                                         splitTimes_v[length(splitTimes_v) -1], splitTimes_v[length(splitTimes_v)]))
@@ -953,6 +961,8 @@ getSplits <- function(time, rawPosition, rawForce, rawPower, startSample, endSam
         print(splitPositions_v)
         print("splitTimes_v:")
         print(splitTimes_v)
+        print("meanSpeeds_v:")
+        print(meanSpeeds_v)
         print("meanForces_v:")
         print(meanForces_v)
         print("meanPowers_v:")

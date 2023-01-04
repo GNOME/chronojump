@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Copyright (C) 2004-2022   Xavier de Blas <xaviblas@gmail.com>
+ *  Copyright (C) 2004-2023   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -529,31 +529,31 @@ public class Preferences
 	}
 
 	//this methods update the SQL and returns the value that is assigned to preferences object
-	public static bool PreferencesChange(string prefName, bool prefValue, bool bNew)
+	public static bool PreferencesChange (bool dbconOpened, string prefName, bool prefValue, bool bNew)
 	{
 		if(prefValue != bNew)
-			SqlitePreferences.Update(prefName, bNew.ToString(), true);
+			SqlitePreferences.Update(prefName, bNew.ToString(), dbconOpened);
 
 		return bNew;
 	}
-	public static int PreferencesChange(string prefName, int prefValue, int iNew)
+	public static int PreferencesChange (bool dbconOpened, string prefName, int prefValue, int iNew)
 	{
 		if(prefValue != iNew)
-			SqlitePreferences.Update(prefName, iNew.ToString(), true);
+			SqlitePreferences.Update(prefName, iNew.ToString(), dbconOpened);
 
 		return iNew;
 	}
-	public static double PreferencesChange(string prefName, double prefValue, double dNew)
+	public static double PreferencesChange (bool dbconOpened, string prefName, double prefValue, double dNew)
 	{
 		if(prefValue != dNew)
-			SqlitePreferences.Update(prefName, Util.ConvertToPoint(dNew), true);
+			SqlitePreferences.Update(prefName, Util.ConvertToPoint(dNew), dbconOpened);
 
 		return dNew;
 	}
-	public static string PreferencesChange(string prefName, string prefValue, string sNew)
+	public static string PreferencesChange (bool dbconOpened, string prefName, string prefValue, string sNew)
 	{
 		if(prefValue != sNew)
-			SqlitePreferences.Update(prefName, sNew, true);
+			SqlitePreferences.Update(prefName, sNew, dbconOpened);
 
 		return sNew;
 	}

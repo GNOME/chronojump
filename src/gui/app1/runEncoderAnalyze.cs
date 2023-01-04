@@ -404,10 +404,10 @@ public partial class ChronoJumpWindow
 		//store new width/height if changed
 		Sqlite.Open();
 		preferences.exportGraphWidth = Preferences.PreferencesChange(
-				SqlitePreferences.ExportGraphWidth,
+				true, SqlitePreferences.ExportGraphWidth,
 				preferences.exportGraphWidth, Convert.ToInt32(spinbutton_run_encoder_export_image_width.Value));
 		preferences.exportGraphHeight = Preferences.PreferencesChange(
-				SqlitePreferences.ExportGraphHeight,
+				true, SqlitePreferences.ExportGraphHeight,
 				preferences.exportGraphHeight, Convert.ToInt32(spinbutton_run_encoder_export_image_height.Value));
 		Sqlite.Close();
 

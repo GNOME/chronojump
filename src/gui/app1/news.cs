@@ -300,11 +300,10 @@ public partial class ChronoJumpWindow
 	private void newsLanguageRadioChanged (bool langEs)
 	{
 		// 1) update preferences.newsLanguageEs and also SQL
-		Sqlite.Open();
 		preferences.newsLanguageEs = Preferences.PreferencesChange(
+				false,
 				SqlitePreferences.NewsLanguageEs, preferences.newsLanguageEs,
 				langEs);
-		Sqlite.Close();
 
 		// 2) rewrite the labels
 		news_fill_gui (false);

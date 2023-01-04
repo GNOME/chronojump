@@ -38,6 +38,7 @@ SOURCES = \
 	gui/app1/shortcuts.cs\
 	gui/cairo/bars.cs\
 	gui/cairo/encoder.cs\
+	gui/cairo/forceSensor.cs\
 	gui/cairo/generic.cs\
 	gui/cairo/jumpsDjOptimalFall.cs\
 	gui/cairo/jumpsRunsEvolution.cs\

@@ -1047,6 +1047,109 @@ public class PreferencesWindow
 		}
 	}
 
+	/* callbacks SQL change at any change for tab: jumps */
+
+	private void on_checkbutton_power_toggled (object o, EventArgs args)
+	{
+		// B) changes on preferences object and SqlitePreferences
+		if( preferences.showPower != PreferencesWindowBox.checkbutton_power.Active ) {
+			SqlitePreferences.Update("showPower", PreferencesWindowBox.checkbutton_power.Active.ToString(), false);
+			preferences.showPower = PreferencesWindowBox.checkbutton_power.Active;
+		}
+	}
+	private void on_checkbutton_stiffness_toggled (object o, EventArgs args)
+	{
+		// B) changes on preferences object and SqlitePreferences
+		if( preferences.showStiffness != PreferencesWindowBox.checkbutton_stiffness.Active ) {
+			SqlitePreferences.Update("showStiffness", PreferencesWindowBox.checkbutton_stiffness.Active.ToString(), false);
+			preferences.showStiffness = PreferencesWindowBox.checkbutton_stiffness.Active;
+		}
+	}
+	private void on_checkbutton_initial_speed_toggled (object o, EventArgs args)
+	{
+		// B) changes on preferences object and SqlitePreferences
+		if( preferences.showInitialSpeed != PreferencesWindowBox.checkbutton_initial_speed.Active ) {
+			SqlitePreferences.Update("showInitialSpeed", PreferencesWindowBox.checkbutton_initial_speed.Active.ToString(), false);
+			preferences.showInitialSpeed = PreferencesWindowBox.checkbutton_initial_speed.Active;
+		}
+	}
+	private void on_checkbutton_jump_rsi_toggled (object o, EventArgs args)
+	{
+		// B) changes on preferences object and SqlitePreferences
+		if( preferences.showJumpRSI != PreferencesWindowBox.checkbutton_jump_rsi.Active ) {
+			SqlitePreferences.Update(SqlitePreferences.ShowJumpRSI, PreferencesWindowBox.checkbutton_jump_rsi.Active.ToString(), false);
+			preferences.showJumpRSI = PreferencesWindowBox.checkbutton_jump_rsi.Active;
+		}
+	}
+
+	private void on_checkbutton_show_tv_tc_index_clicked (object o, EventArgs args)
+	{
+		// A) changes on preferences gui
+		if(checkbutton_show_tv_tc_index.Active)
+			hbox_indexes.Show();
+		else
+			hbox_indexes.Hide();
+
+		// B) changes on preferences object and SqlitePreferences
+		changeQDJIndexOnPreferencesAndDB ();
+	}
+	private void on_radiobutton_show_q_index_toggled (object o, EventArgs args)
+	{
+		// B) changes on preferences object and SqlitePreferences
+		changeQDJIndexOnPreferencesAndDB ();
+	}
+	private void on_radiobutton_show_dj_index_toggled (object o, EventArgs args)
+	{
+		// B) changes on preferences object and SqlitePreferences
+		changeQDJIndexOnPreferencesAndDB ();
+	}
+	private void changeQDJIndexOnPreferencesAndDB ()
+	{
+		if(PreferencesWindowBox.checkbutton_show_tv_tc_index.Active) {
+			preferences.showQIndex = Preferences.PreferencesChange(
+					false, "showQIndex", preferences.showQIndex,
+					PreferencesWindowBox.radiobutton_show_q_index.Active);
+			preferences.showDjIndex = Preferences.PreferencesChange(
+					false, "showDjIndex", preferences.showDjIndex,
+					PreferencesWindowBox.radiobutton_show_dj_index.Active);
+		} else {
+			preferences.showQIndex = Preferences.PreferencesChange(
+					false, "showQIndex", preferences.showQIndex, false);
+			preferences.showDjIndex = Preferences.PreferencesChange(
+					false, "showDjIndex", preferences.showDjIndex, false);
+		}
+	}
+
+
+	private void on_radio_jumps_dj_heights_times_toggled (object o, EventArgs args)
+	{
+		// B) changes on preferences object and SqlitePreferences
+		if ( ((Gtk.RadioButton) o).Active)
+			preferences.heightPreferred = Preferences.PreferencesChange(
+					false, "heightPreferred",
+					preferences.heightPreferred,
+					radio_jumps_dj_heights.Active);
+	}
+
+	private void on_radio_weight_percent_kg_toggled (object o, EventArgs args)
+	{
+		// B) changes on preferences object and SqlitePreferences
+		if ( ((Gtk.RadioButton) o).Active)
+			if( preferences.weightStatsPercent != PreferencesWindowBox.radio_weight_percent.Active ) {
+				SqlitePreferences.Update("weightStatsPercent", PreferencesWindowBox.radio_weight_percent.Active.ToString(), false);
+				preferences.weightStatsPercent = PreferencesWindowBox.radio_weight_percent.Active;
+			}
+	}
+	private void on_radio_use_heights_or_not_on_jump_indexes_toggled (object o, EventArgs args)
+	{
+		// B) changes on preferences object and SqlitePreferences
+		if ( ((Gtk.RadioButton) o).Active)
+			if( preferences.useHeightsOnJumpIndexes != PreferencesWindowBox.radio_use_heights_on_jump_indexes.Active ) {
+				SqlitePreferences.Update("useHeightsOnJumpIndexes",
+						PreferencesWindowBox.radio_use_heights_on_jump_indexes.Active.ToString(), false);
+				preferences.useHeightsOnJumpIndexes = PreferencesWindowBox.radio_use_heights_on_jump_indexes.Active;
+			}
+	}
 
 	// view more tabs ---->
 
@@ -1742,13 +1845,6 @@ public class PreferencesWindow
 	// ---- end of Language stuff
 
 			
-	private void on_checkbutton_show_tv_tc_index_clicked (object o, EventArgs args) {
-		if(checkbutton_show_tv_tc_index.Active)
-			hbox_indexes.Show();
-		else
-			hbox_indexes.Hide();
-	}
-
 	private void on_button_run_speed_start_help_clicked (object o, EventArgs args)
 	{
 		showHelp(Catalog.GetString("Race measurement"), helpTypes.NORMAL,
@@ -2043,25 +2139,6 @@ public class PreferencesWindow
 			preferences.digitsNumber = Convert.ToInt32(UtilGtk.ComboGetActive(combo_decimals));
 		}
 		
-		if( preferences.showPower != PreferencesWindowBox.checkbutton_power.Active ) {
-			SqlitePreferences.Update("showPower", PreferencesWindowBox.checkbutton_power.Active.ToString(), true);
-			preferences.showPower = PreferencesWindowBox.checkbutton_power.Active;
-		}
-
-		if( preferences.showStiffness != PreferencesWindowBox.checkbutton_stiffness.Active ) {
-			SqlitePreferences.Update("showStiffness", PreferencesWindowBox.checkbutton_stiffness.Active.ToString(), true);
-			preferences.showStiffness = PreferencesWindowBox.checkbutton_stiffness.Active;
-		}
-		
-		if( preferences.showInitialSpeed != PreferencesWindowBox.checkbutton_initial_speed.Active ) {
-			SqlitePreferences.Update("showInitialSpeed", PreferencesWindowBox.checkbutton_initial_speed.Active.ToString(), true);
-			preferences.showInitialSpeed = PreferencesWindowBox.checkbutton_initial_speed.Active;
-		}
-
-		if( preferences.showJumpRSI != PreferencesWindowBox.checkbutton_jump_rsi.Active ) {
-			SqlitePreferences.Update(SqlitePreferences.ShowJumpRSI, PreferencesWindowBox.checkbutton_jump_rsi.Active.ToString(), true);
-			preferences.showJumpRSI = PreferencesWindowBox.checkbutton_jump_rsi.Active;
-		}
 
 		/*
 		if( preferences.showAngle != PreferencesWindowBox.checkbutton_angle.Active ) {
@@ -2070,24 +2147,7 @@ public class PreferencesWindow
 		}
 		*/
 
-		if(PreferencesWindowBox.checkbutton_show_tv_tc_index.Active) {
-			preferences.showQIndex = Preferences.PreferencesChange(
-					true, "showQIndex", preferences.showQIndex,
-					PreferencesWindowBox.radiobutton_show_q_index.Active);
-			preferences.showDjIndex = Preferences.PreferencesChange(
-					true, "showDjIndex", preferences.showDjIndex,
-					PreferencesWindowBox.radiobutton_show_dj_index.Active);
-		} else {
-			preferences.showQIndex = Preferences.PreferencesChange(
-					true, "showQIndex", preferences.showQIndex, false);
-			preferences.showDjIndex = Preferences.PreferencesChange(
-					true, "showDjIndex", preferences.showDjIndex, false);
-		}
 
-		preferences.heightPreferred = Preferences.PreferencesChange(
-				true, "heightPreferred",
-				preferences.heightPreferred,
-				radio_jumps_dj_heights.Active);
 
 		
 		if( preferences.askDeletion != PreferencesWindowBox.checkbutton_ask_deletion.Active ) {
@@ -2103,10 +2163,6 @@ public class PreferencesWindow
 		//this is not stored in SQL
 		preferences.networksAllowChangeDevices = PreferencesWindowBox.check_networks_devices.Active;
 
-		if( preferences.weightStatsPercent != PreferencesWindowBox.radio_weight_percent.Active ) {
-			SqlitePreferences.Update("weightStatsPercent", PreferencesWindowBox.radio_weight_percent.Active.ToString(), true);
-			preferences.weightStatsPercent = PreferencesWindowBox.radio_weight_percent.Active;
-		}
 
 		if( preferences.metersSecondsPreferred != PreferencesWindowBox.radio_speed_ms.Active ) {
 			SqlitePreferences.Update("metersSecondsPreferred", PreferencesWindowBox.radio_speed_ms.Active.ToString(), true);
@@ -2519,11 +2575,6 @@ public class PreferencesWindow
 			preferences.RGraphsTranslate = PreferencesWindowBox.radio_graphs_translate.Active;
 		}
 
-		if( preferences.useHeightsOnJumpIndexes != PreferencesWindowBox.radio_use_heights_on_jump_indexes.Active ) {
-			SqlitePreferences.Update("useHeightsOnJumpIndexes", 
-					PreferencesWindowBox.radio_use_heights_on_jump_indexes.Active.ToString(), true);
-			preferences.useHeightsOnJumpIndexes = PreferencesWindowBox.radio_use_heights_on_jump_indexes.Active;
-		}
 
 		Preferences.pythonVersionEnum pythonVersionFromGUI = get_pythonVersion_from_gui();
 		if(preferences.importerPythonVersion != pythonVersionFromGUI)

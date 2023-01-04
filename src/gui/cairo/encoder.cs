@@ -166,37 +166,6 @@ public class CairoGraphEncoderSignal : CairoXY
 		return true;
 	}
 
-	//based on XY findPointMaximums
-	private bool findPointMaximums (List<PointF> points_list)
-	{
-		bool changedY = false;
-		for(int i = 0; i < points_list.Count; i ++)
-		{
-			PointF p = points_list[i];
-
-			if(p.X < minX)
-				minX = p.X;
-			if(p.X > maxX)
-				maxX = p.X;
-			if(p.Y < minY)
-			{
-				minY = p.Y;
-				changedY = true;
-			}
-			if(p.Y > maxY)
-			{
-				maxY = p.Y;
-				changedY = true;
-			}
-		}
-
-		//if there is only one point, or by any reason mins == maxs, have mins and maxs separated
-		separateMinXMaxXIfNeeded();
-		separateMinYMaxYIfNeeded();
-
-		return changedY;
-	}
-
 	protected override void writeTitle()
 	{
 	}

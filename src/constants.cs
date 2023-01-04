@@ -1452,7 +1452,8 @@ public class Constants
 		"Adapted from",
 		"Mean speed in concentric propulsive phase",
 		"Sorry, no repetitions matched your criteria.",
-		"Need at least three jumps",
+		"Need at least three jumps", 	//used on set analysis (has the whole set and finds ecc and cons)
+		"Need at least three eccentric-concentric jumps", //used on session analysis, needs saved reps as ecc-con
 		"Laterality", "RL", "R", "L",
 		"Inertia M.",
 		"Maximum mean power using the F-V profile",
@@ -1505,6 +1506,7 @@ public class Constants
 		Catalog.GetString("Mean speed in concentric propulsive phase"),
 		Catalog.GetString("Sorry, no repetitions matched your criteria."),
 		Catalog.GetString("Need at least three jumps"),
+		Catalog.GetString("Need at least three eccentric-concentric jumps"),
 		Catalog.GetString("Laterality"), Catalog.GetString("RL"), Catalog.GetString("R"), Catalog.GetString("L"),
 		Catalog.GetString("Inertia M."),
 		Catalog.GetString("Maximum mean power using the F-V profile"),

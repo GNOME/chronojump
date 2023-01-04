@@ -824,15 +824,15 @@ public class PreferencesWindow
 	}
 
 
-	/* callbacks tab: main */
+	/* callbacks SQL change at any change for tab: main */
 
 	private void on_radio_color_custom_toggled (object o, EventArgs args)
 	{
-		// changes on preferences gui
+		// A) changes on preferences gui
 		button_color_choose.Sensitive = true;
 		label_radio_color_os_needs_restart.Visible = false;
 
-		// changes on preferences object and SqlitePreferences
+		// B) changes on preferences object and SqlitePreferences
 		preferences.colorBackgroundString = Preferences.PreferencesChange(
 				false,
 				SqlitePreferences.ColorBackground, preferences.colorBackgroundString,
@@ -845,11 +845,11 @@ public class PreferencesWindow
 	}
 	private void on_radio_color_chronojump_blue_toggled (object o, EventArgs args)
 	{
-		// changes on preferences gui
+		// A) changes on preferences gui
 		button_color_choose.Sensitive = false;
 		label_radio_color_os_needs_restart.Visible = false;
 
-		// changes on preferences object and SqlitePreferences
+		// B) changes on preferences object and SqlitePreferences
 		preferences.colorBackgroundString = Preferences.PreferencesChange(
 				false,
 				SqlitePreferences.ColorBackground, preferences.colorBackgroundString,
@@ -862,11 +862,11 @@ public class PreferencesWindow
 	}
 	private void on_radio_color_os_toggled (object o, EventArgs args)
 	{
-		// changes on preferences gui
+		// A) changes on preferences gui
 		button_color_choose.Sensitive = false;
 		label_radio_color_os_needs_restart.Visible = true;
 
-		// changes on preferences object and SqlitePreferences
+		// B) changes on preferences object and SqlitePreferences
 		//radio_color_os does not change the colorBackgroundString, it changes the Config.UseSystemColor
 		//but note that on showing cairo and execute graphs, primary color will be colorBackground
 		preferences.colorBackgroundOsColor = Preferences.PreferencesChange(
@@ -884,7 +884,9 @@ public class PreferencesWindow
 			colorSelectionDialog.ColorSelection.CurrentColor = colorBackground;
 			colorSelectionDialog.ColorSelection.HasPalette = true;
 
-			if (colorSelectionDialog.Run () == (int) ResponseType.Ok) {
+			if (colorSelectionDialog.Run () == (int) ResponseType.Ok)
+			{
+				// A) changes on preferences gui
 				colorBackground = colorSelectionDialog.ColorSelection.CurrentColor;
 				paintColorDrawingAreaAndBg(colorBackground);
 
@@ -896,7 +898,7 @@ public class PreferencesWindow
 				*/
 				LogB.Information("color to string: " + UtilGtk.ColorToColorString(colorBackground));
 
-				// changes on preferences object and SqlitePreferences
+				// B) changes on preferences object and SqlitePreferences
 				preferences.colorBackgroundString = Preferences.PreferencesChange(
 						false,
 						SqlitePreferences.ColorBackground, preferences.colorBackgroundString,
@@ -914,6 +916,7 @@ public class PreferencesWindow
 
 	private void on_check_session_autoload_at_start_toggled (object o, EventArgs args)
 	{
+		// B) changes on preferences object and SqlitePreferences
 		preferences.loadLastSessionAtStart = Preferences.PreferencesChange (
 				false, SqlitePreferences.LoadLastSessionAtStart, preferences.loadLastSessionAtStart,
 				PreferencesWindowBox.check_session_autoload_at_start.Active);
@@ -922,6 +925,7 @@ public class PreferencesWindow
 
 	private void on_check_mode_autoload_at_start_toggled (object o, EventArgs args)
 	{
+		// B) changes on preferences object and SqlitePreferences
 		preferences.loadLastModeAtStart = Preferences.PreferencesChange (
 				false, SqlitePreferences.LoadLastModeAtStart, preferences.loadLastModeAtStart,
 				PreferencesWindowBox.check_mode_autoload_at_start.Active);
@@ -929,6 +933,7 @@ public class PreferencesWindow
 
 	private void on_check_logo_animated_toggled (object o, EventArgs args)
 	{
+		// B) changes on preferences object and SqlitePreferences
 		preferences.logoAnimatedShow = Preferences.PreferencesChange(
 				false, SqlitePreferences.LogoAnimatedShow, preferences.logoAnimatedShow,
 				PreferencesWindowBox.check_logo_animated.Active);
@@ -936,6 +941,7 @@ public class PreferencesWindow
 
 	private void on_check_rest_time_toggled (object o, EventArgs args)
 	{
+		// A) changes on preferences gui
 		Pixbuf pixbuf;
 		if(check_rest_time.Active)
 		{
@@ -948,15 +954,18 @@ public class PreferencesWindow
 		}
 		PreferencesWindowBox.image_rest.Pixbuf = pixbuf;
 
+		// B) changes on preferences object and SqlitePreferences
 		changeRestTimeOnPreferencesAndDB ();
 	}
 
 	private void on_spinbutton_rest_minutes_value_changed (object o, EventArgs args)
 	{
+		// B) changes on preferences object and SqlitePreferences
 		changeRestTimeOnPreferencesAndDB ();
 	}
 	private void on_spinbutton_rest_seconds_value_changed (object o, EventArgs args)
 	{
+		// B) changes on preferences object and SqlitePreferences
 		changeRestTimeOnPreferencesAndDB ();
 	}
 
@@ -988,6 +997,56 @@ public class PreferencesWindow
 			preferences.restTimeSeconds = seconds;
 		}
 	}
+
+	/* callbacks SQL change at any change for tab: screen */
+
+	private void on_check_appearance_maximized_toggled (object obj, EventArgs args)
+	{
+		// A) changes on preferences gui
+		alignment_undecorated.Visible = check_appearance_maximized.Active;
+		label_recommended_undecorated.Visible = check_appearance_maximized.Active;
+
+		// B) changes on preferences object and SqlitePreferences
+		Preferences.MaximizedTypes maximizedTypeFromGUI = get_maximized_from_gui();
+		if(preferences.maximized != maximizedTypeFromGUI)
+		{
+			SqlitePreferences.Update ("maximized", maximizedTypeFromGUI.ToString(), false);
+			preferences.maximized = maximizedTypeFromGUI;
+		}
+	}
+
+	private void on_check_appearance_maximized_undecorated_toggled (object obj, EventArgs args)
+	{
+		// B) changes on preferences object and SqlitePreferences
+		Preferences.MaximizedTypes maximizedTypeFromGUI = get_maximized_from_gui();
+		if(preferences.maximized != maximizedTypeFromGUI)
+		{
+			SqlitePreferences.Update ("maximized", maximizedTypeFromGUI.ToString(), false);
+			preferences.maximized = maximizedTypeFromGUI;
+		}
+	}
+
+	private void on_check_appearance_person_win_hide_toggled (object obj, EventArgs args)
+	{
+		// A) changes on preferences gui
+		check_appearance_person_photo.Sensitive = ! check_appearance_person_win_hide.Active;
+
+		// B) changes on preferences object and SqlitePreferences
+		if( preferences.personWinHide != PreferencesWindowBox.check_appearance_person_win_hide.Active ) {
+			SqlitePreferences.Update("personWinHide", PreferencesWindowBox.check_appearance_person_win_hide.Active.ToString(), false);
+			preferences.personWinHide = PreferencesWindowBox.check_appearance_person_win_hide.Active;
+		}
+	}
+
+	private void on_check_appearance_person_photo_toggled (object obj, EventArgs args)
+	{
+		// B) changes on preferences object and SqlitePreferences
+		if( preferences.personPhoto != PreferencesWindowBox.check_appearance_person_photo.Active ) {
+			SqlitePreferences.Update("personPhoto", PreferencesWindowBox.check_appearance_person_photo.Active.ToString(), false);
+			preferences.personPhoto = PreferencesWindowBox.check_appearance_person_photo.Active;
+		}
+	}
+
 
 	// view more tabs ---->
 
@@ -1411,17 +1470,6 @@ public class PreferencesWindow
 	private void on_check_camera_advanced_toggled (object o, EventArgs args)
 	{
 		frame_camera_advanced.Visible = check_camera_advanced.Active;
-	}
-
-	private void on_check_appearance_maximized_toggled (object obj, EventArgs args)
-	{
-		alignment_undecorated.Visible = check_appearance_maximized.Active;
-		label_recommended_undecorated.Visible = check_appearance_maximized.Active;
-	}
-
-	private void on_check_appearance_person_win_hide_toggled (object obj, EventArgs args)
-	{
-		check_appearance_person_photo.Sensitive = ! check_appearance_person_win_hide.Active;
 	}
 
 	private void on_checkbutton_encoder_capture_inertial_discard_first_n_toggled (object obj, EventArgs args)
@@ -1977,22 +2025,6 @@ public class PreferencesWindow
 
 
 		//appearance tab
-		Preferences.MaximizedTypes maximizedTypeFromGUI = get_maximized_from_gui();
-		if(preferences.maximized != maximizedTypeFromGUI)
-		{
-			SqlitePreferences.Update("maximized", maximizedTypeFromGUI.ToString(), true);
-			preferences.maximized = maximizedTypeFromGUI;
-		}
-
-		if( preferences.personWinHide != PreferencesWindowBox.check_appearance_person_win_hide.Active ) {
-			SqlitePreferences.Update("personWinHide", PreferencesWindowBox.check_appearance_person_win_hide.Active.ToString(), true);
-			preferences.personWinHide = PreferencesWindowBox.check_appearance_person_win_hide.Active;
-		}
-		if( preferences.personPhoto != PreferencesWindowBox.check_appearance_person_photo.Active ) {
-			SqlitePreferences.Update("personPhoto", PreferencesWindowBox.check_appearance_person_photo.Active.ToString(), true);
-			preferences.personPhoto = PreferencesWindowBox.check_appearance_person_photo.Active;
-		}
-
 
 		if(preferences.fontType == Preferences.FontTypes.Courier && radio_font_helvetica.Active)
 		{

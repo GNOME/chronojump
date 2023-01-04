@@ -586,6 +586,7 @@
                                         <property name="can_focus">True</property>
                                         <property name="receives_default">False</property>
                                         <property name="draw_indicator">True</property>
+                                        <signal name="toggled" handler="on_check_appearance_person_photo_toggled" swapped="no"/>
                                       </widget>
                                       <packing>
                                         <property name="top_attach">2</property>
@@ -678,6 +679,7 @@
                                                 <property name="can_focus">True</property>
                                                 <property name="receives_default">False</property>
                                                 <property name="draw_indicator">True</property>
+                                                <signal name="toggled" handler="on_check_appearance_maximized_undecorated_toggled" swapped="no"/>
                                               </widget>
                                             </child>
                                           </widget>

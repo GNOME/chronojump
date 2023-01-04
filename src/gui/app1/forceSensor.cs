@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2017-2022   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2017-2023   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -58,6 +58,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.SpinButton spin_force_sensor_calibration_kg_value;
 	[Widget] Gtk.Button button_force_sensor_image_save_signal;
 	[Widget] Gtk.DrawingArea force_capture_drawingarea;
+	[Widget] Gtk.DrawingArea force_capture_drawingarea_cairo;
 	[Widget] Gtk.Button button_force_sensor_exercise_edit;
 	[Widget] Gtk.Button button_force_sensor_exercise_delete;
 
@@ -1120,6 +1121,8 @@ public partial class ChronoJumpWindow
 		forceSensorValues = new ForceSensorValues();
 
 		UtilGtk.ErasePaint(force_capture_drawingarea, force_capture_pixmap);
+
+		cairoGraphForceSensorSignalPoints_l = new List<PointF> ();
 		fscPoints = new ForceSensorCapturePoints(
 				ForceSensorCapturePoints.GraphTypes.FORCESIGNAL,
 				force_capture_drawingarea.Allocation.Width,
@@ -1450,6 +1453,7 @@ public partial class ChronoJumpWindow
 
 			forceSensorValues.SetMaxMinIfNeeded(forceCalculated, time);
 
+			cairoGraphForceSensorSignalPoints_l.Add (new PointF (time, forceCalculated));
 			fscPoints.Add(time, forceCalculated);
 			fscPoints.NumCaptured ++;
 			if(fscPoints.OutsideGraphChangeValues(preferences.forceSensorCaptureScroll))
@@ -1875,6 +1879,8 @@ LogB.Information(" fs J ");
 							points, fscPoints.TriggerXForceList);
 
 				force_capture_drawingarea.QueueDraw(); // -- refresh
+
+				updateForceSensorCaptureSignalCairo (false);
 			}
 
 			/*
@@ -2737,6 +2743,7 @@ LogB.Information(" fs R ");
 	}
 	void forceSensorDoSignalGraphReadFile(ForceSensor.CaptureOptions fsco)
 	{
+		cairoGraphForceSensorSignalPoints_l = new List<PointF> ();
 		fscPoints = new ForceSensorCapturePoints(
 				ForceSensorCapturePoints.GraphTypes.FORCESIGNAL,
 				force_capture_drawingarea.Allocation.Width,
@@ -2794,6 +2801,7 @@ LogB.Information(" fs R ");
 		int i = 0;
 		foreach(int time in times)
 		{
+			cairoGraphForceSensorSignalPoints_l.Add (new PointF (time, forces[i]));
 			fscPoints.Add(time, forces[i]);
 			fscPoints.NumCaptured ++;
 
@@ -2804,7 +2812,52 @@ LogB.Information(" fs R ");
 			i ++;
 		}
 	}
-	void forceSensorDoSignalGraphPlot()
+
+	CairoGraphForceSensorSignal cairoGraphForceSensorSignal;
+	static List<PointF> cairoGraphForceSensorSignalPoints_l;
+
+	public void on_force_capture_drawingarea_cairo_expose_event (object o, ExposeEventArgs args)
+	{
+		updateForceSensorCaptureSignalCairo (true);
+	}
+	private void updateForceSensorCaptureSignalCairo (bool forceRedraw)
+	{
+		if (cairoGraphForceSensorSignal == null)
+			cairoGraphForceSensorSignal = new CairoGraphForceSensorSignal (
+				force_capture_drawingarea_cairo, "title");
+
+		if (cairoGraphForceSensorSignalPoints_l != null)
+		{
+			cairoGraphForceSensorSignal.DoSendingList (preferences.fontType.ToString(),
+					cairoGraphForceSensorSignalPoints_l,
+					forceRedraw, CairoXY.PlotTypes.LINES);
+
+			label_force_sensor_value.Text = string.Format("{0:0.##} N", forceSensorValues.ValueLast);
+			label_force_sensor_value_max.Text = string.Format("{0:0.##} N", forceSensorValues.Max);
+			label_force_sensor_value_min.Text = string.Format("{0:0.##} N", forceSensorValues.Min);
+			button_force_sensor_image_save_signal.Sensitive = true;
+			button_force_sensor_analyze_analyze.Sensitive = true;
+		}
+	}
+
+	private void forceSensorDoSignalGraphPlot ()
+	{
+		forceSensorDoSignalGraphPlotCairo ();
+		forceSensorDoSignalGraphPlotOldGTK ();
+
+		label_force_sensor_value.Text = string.Format("{0:0.##} N", forceSensorValues.ValueLast);
+		label_force_sensor_value_max.Text = string.Format("{0:0.##} N", forceSensorValues.Max);
+		label_force_sensor_value_min.Text = string.Format("{0:0.##} N", forceSensorValues.Min);
+		button_force_sensor_image_save_signal.Sensitive = true;
+		button_force_sensor_analyze_analyze.Sensitive = true;
+	}
+
+	private void forceSensorDoSignalGraphPlotCairo ()
+	{
+		updateForceSensorCaptureSignalCairo (true);
+	}
+
+	private void forceSensorDoSignalGraphPlotOldGTK ()
 	{
 		UtilGtk.ErasePaint(force_capture_drawingarea, force_capture_pixmap);
 
@@ -2868,12 +2921,6 @@ LogB.Information(" fs R ");
 				12, 12, 90 * 64, 360 * 64);
 
 		force_capture_drawingarea.QueueDraw(); // -- refresh
-
-		label_force_sensor_value.Text = string.Format("{0:0.##} N", forceSensorValues.ValueLast);
-		label_force_sensor_value_max.Text = string.Format("{0:0.##} N", forceSensorValues.Max);
-		label_force_sensor_value_min.Text = string.Format("{0:0.##} N", forceSensorValues.Min);
-		button_force_sensor_image_save_signal.Sensitive = true;
-		button_force_sensor_analyze_analyze.Sensitive = true;
 	}
 
 	List<Gdk.Point> paintPointsInterpolate;

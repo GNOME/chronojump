@@ -40,13 +40,21 @@ public class CairoGraphForceSensorSignal : CairoXY
 
 		//need to be small because graphHeight could be 100,
 		//if margins are big then calculatePaintY could give us reverse results
-		outerMargin = 10;
-		innerMargin = 0;
+		leftMargin = 30;
+		topMargin = 30;
+		bottomMargin = 30;
+		outerMargin = 30; //outerMargin has to be the same than topMargin & bottomMargin to have grid arrive to the margins
+		innerMargin = 10;
+
+		yVariable = forceStr;
+		yUnits = "N";
 
 		xAtMaxY = 0;
 		yAtMaxY = 0;
 		xAtMinY = 0;
 		yAtMinY = 0;
+
+		gridNiceSeps = 7;
 	}
 
 	//separated in two methods to ensure endGraphDisposing on any return of the other method
@@ -112,14 +120,23 @@ public class CairoGraphForceSensorSignal : CairoXY
 		pointsRadius = 1;
 
 		int startAt = 0;
-		if (showLastSeconds > 0)
+		if (showLastSeconds > 0 && points_list.Count > 1)
 			startAt = configureTimeWindow (points_list, showLastSeconds);
 
 		if(maxValuesChanged || forceRedraw || points_list.Count != points_list_painted)
 		{
+			paintGrid(gridTypes.BOTH, true);
+			paintAxis();
+			printYAxisText();
+
 			plotRealPoints(plotType, points_list, startAt, true); //fast (but the difference is very low)
-			drawCircle (calculatePaintX (xAtMaxY), calculatePaintY (yAtMaxY), 8, red);
-			drawCircle (calculatePaintX (xAtMinY), calculatePaintY (yAtMinY), 8, red);
+			//plotRealPoints(plotType, points_list, startAt, false); //fast (but the difference is very low)
+
+			if(calculatePaintX (xAtMaxY) > leftMargin)
+				drawCircle (calculatePaintX (xAtMaxY), calculatePaintY (yAtMaxY), 8, red);
+
+			if(calculatePaintX (xAtMinY) > leftMargin)
+				drawCircle (calculatePaintX (xAtMinY), calculatePaintY (yAtMinY), 8, red);
 
 			points_list_painted = points_list.Count;
 		}
@@ -144,6 +161,21 @@ public class CairoGraphForceSensorSignal : CairoXY
 		return startAt;
 	}
 
+	protected override void paintVerticalGridLine(Cairo.Context g, int xtemp, string text, int fontH)
+	{
+		if(fontH < 1)
+			fontH = 1;
+
+		g.MoveTo(xtemp, topMargin);
+		g.LineTo(xtemp, graphHeight - bottomMargin);
+
+		if (Util.IsNumber (text, false))
+		{
+			double micros = Convert.ToDouble (text);
+			text = string.Format ("{0}s", UtilAll.DivideSafe (micros, 1000000));
+		}
+		printText(xtemp, graphHeight -bottomMargin/2, 0, fontH, text, g, alignTypes.CENTER);
+	}
 	protected override void writeTitle()
 	{
 	}

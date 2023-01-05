@@ -2834,7 +2834,9 @@ LogB.Information(" fs R ");
 
 			cairoGraphForceSensorSignal.DoSendingList (preferences.fontType.ToString(),
 					cairoGraphForceSensorSignalPoints_l,
-					showLastSeconds, forceRedraw, CairoXY.PlotTypes.LINES);
+					showLastSeconds,
+					-50, 50, //minimum Y display from -50 to 50
+					forceRedraw, CairoXY.PlotTypes.LINES);
 
 			label_force_sensor_value.Text = string.Format("{0:0.##} N", forceSensorValues.ValueLast);
 			label_force_sensor_value_max.Text = string.Format("{0:0.##} N", forceSensorValues.Max);

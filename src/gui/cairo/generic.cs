@@ -219,6 +219,8 @@ public abstract class CairoGeneric
 		printText(leftMargin/2, ytemp, 0, fontH, text, g, alignTypes.CENTER);
 		//LogB.Information("phgl fontH: " + fontH.ToString());
 	}
+
+	//this is different on forceSensor: ms to s (and with 's')
 	//this combined with printXAxisText is different on RaceAnalyzer
 	protected virtual void paintVerticalGridLine(Cairo.Context g, int xtemp, string text, int fontH)
 	{
@@ -432,7 +434,7 @@ public abstract class CairoGeneric
 		//Console.WriteLine(string.Format("normalizedStep: {0}", normalizedStep));
 		foreach(var item in goodNormalizedSteps)
 		{
-			Console.WriteLine(item);
+			//Console.WriteLine(item);
 			if(item >= normalizedStep)
 				return item;
 		}

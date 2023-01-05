@@ -2828,9 +2828,13 @@ LogB.Information(" fs R ");
 
 		if (cairoGraphForceSensorSignalPoints_l != null)
 		{
+			int showLastSeconds = -1; //show all signal
+			if (forceCaptureThread != null && forceCaptureThread.IsAlive)
+				showLastSeconds = 10; //TODO: make this configurable from GUI
+
 			cairoGraphForceSensorSignal.DoSendingList (preferences.fontType.ToString(),
 					cairoGraphForceSensorSignalPoints_l,
-					forceRedraw, CairoXY.PlotTypes.LINES);
+					showLastSeconds, forceRedraw, CairoXY.PlotTypes.LINES);
 
 			label_force_sensor_value.Text = string.Format("{0:0.##} N", forceSensorValues.ValueLast);
 			label_force_sensor_value_max.Text = string.Format("{0:0.##} N", forceSensorValues.Max);

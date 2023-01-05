@@ -51,17 +51,17 @@ public class CairoGraphForceSensorSignal : CairoXY
 
 	//separated in two methods to ensure endGraphDisposing on any return of the other method
 	public void DoSendingList (string font,
-			List<PointF> points_list,
+			List<PointF> points_list, int showLastSeconds,
 			bool forceRedraw, PlotTypes plotType)
 	{
-		if(doSendingList (font, points_list, forceRedraw, plotType))
+		if(doSendingList (font, points_list, showLastSeconds, forceRedraw, plotType))
 			endGraphDisposing(g, surface, area.GdkWindow);
 	}
 
-	//similar to encoder method
+	//similar to encoder method but calling configureTimeWindow
 	//return true if graph is inited (to dispose it)
 	private bool doSendingList (string font,
-			List<PointF> points_list,
+			List<PointF> points_list, int showLastSeconds,
 			bool forceRedraw, PlotTypes plotType)
 	{
 		bool maxValuesChanged = false;
@@ -105,17 +105,9 @@ public class CairoGraphForceSensorSignal : CairoXY
 		}
 		pointsRadius = 1;
 
-		//display this milliseconds on screen, when is higher, scroll
-		int msWidth = 10000;
-		if(absoluteMaxX < msWidth)
-			absoluteMaxX = msWidth;
-
 		int startAt = 0;
-		if(points_list.Count - msWidth > 0)
-		{
-			startAt = points_list.Count - msWidth;
-			minX = points_list[startAt].X;
-		}
+		if (showLastSeconds > 0)
+			startAt = configureTimeWindow (points_list, showLastSeconds);
 
 		if(maxValuesChanged || forceRedraw || points_list.Count != points_list_painted)
 		{
@@ -127,6 +119,23 @@ public class CairoGraphForceSensorSignal : CairoXY
 		}
 
 		return true;
+	}
+
+	//for signals like forceSensor where points_list.X is time in microseconds and there is not a sample for each second (like encoder)
+	private int configureTimeWindow (List<PointF> points_list, int seconds)
+	{
+		//double firstTime = points_list[0].X; //micros
+		double lastTime = points_list[points_list.Count -1].X; //micros
+		//LogB.Information (string.Format ("firstTime: {0}, lastTime: {1}, elapsed: {2}", firstTime, lastTime, lastTime - firstTime));
+
+		absoluteMaxX = lastTime;
+		if (absoluteMaxX < seconds * 1000000)
+			absoluteMaxX = seconds * 1000000;
+
+		int startAt = PointF.FindSampleAtTimeToEnd (points_list, seconds * 1000000); //s to ms
+		minX = points_list[startAt].X;
+
+		return startAt;
 	}
 
 	protected override void writeTitle()

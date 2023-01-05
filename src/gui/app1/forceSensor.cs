@@ -1453,7 +1453,11 @@ public partial class ChronoJumpWindow
 
 			forceSensorValues.SetMaxMinIfNeeded(forceCalculated, time);
 
-			cairoGraphForceSensorSignalPoints_l.Add (new PointF (time, forceCalculated));
+			//done in two phases in order to avoid having last element empty
+			//cairoGraphForceSensorSignalPoints_l.Add (new PointF (time, forceCalculated));
+			PointF pNow =  new PointF (time, forceCalculated);
+			cairoGraphForceSensorSignalPoints_l.Add (pNow);
+
 			fscPoints.Add(time, forceCalculated);
 			fscPoints.NumCaptured ++;
 			if(fscPoints.OutsideGraphChangeValues(preferences.forceSensorCaptureScroll))

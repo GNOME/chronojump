@@ -125,9 +125,10 @@ public class CairoGraphForceSensorSignal : CairoXY
 
 		if(maxValuesChanged || forceRedraw || points_list.Count != points_list_painted)
 		{
-			paintGrid(gridTypes.BOTH, true);
+			if (points_list.Count > 2) //to ensure minX != maxX
+				paintGrid(gridTypes.BOTH, true);
+
 			paintAxis();
-			printYAxisText();
 
 			plotRealPoints(plotType, points_list, startAt, true); //fast (but the difference is very low)
 			//plotRealPoints(plotType, points_list, startAt, false); //fast (but the difference is very low)

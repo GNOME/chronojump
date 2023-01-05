@@ -61,10 +61,12 @@ public class CairoGraphForceSensorSignal : CairoXY
 	public void DoSendingList (string font,
 			List<PointF> points_list, int showLastSeconds,
 			int minDisplayFNegative, int minDisplayFPositive,
+			int rectangleN, int rectangleRange,
 			bool forceRedraw, PlotTypes plotType)
 	{
-		if(doSendingList (font, points_list,
-					showLastSeconds, minDisplayFNegative, minDisplayFPositive,
+		if(doSendingList (font, points_list, showLastSeconds,
+					minDisplayFNegative, minDisplayFPositive,
+					rectangleN, rectangleRange,
 					forceRedraw, plotType))
 			endGraphDisposing(g, surface, area.GdkWindow);
 	}
@@ -74,6 +76,7 @@ public class CairoGraphForceSensorSignal : CairoXY
 	private bool doSendingList (string font,
 			List<PointF> points_list, int showLastSeconds,
 			int minDisplayFNegative, int minDisplayFPositive,
+			int rectangleN, int rectangleRange,
 			bool forceRedraw, PlotTypes plotType)
 	{
 		bool maxValuesChanged = false;
@@ -87,6 +90,14 @@ public class CairoGraphForceSensorSignal : CairoXY
 				minY = minDisplayFNegative;
 			if (absoluteMaxY < minDisplayFPositive)
 				absoluteMaxY = minDisplayFPositive;
+
+			if (rectangleRange > 0)
+			{
+				if (rectangleN < 0 && rectangleN - rectangleRange/2 < minY)
+					minY = rectangleN - rectangleRange/2;
+				if (rectangleN > 0 && rectangleN + rectangleRange/2 > absoluteMaxY)
+					absoluteMaxY = rectangleN + rectangleRange/2;
+			}
 		}
 
 		bool graphInited = false;
@@ -125,6 +136,9 @@ public class CairoGraphForceSensorSignal : CairoXY
 
 		if(maxValuesChanged || forceRedraw || points_list.Count != points_list_painted)
 		{
+			if (rectangleRange > 0)
+				paintRectangle (rectangleN, rectangleRange);
+
 			if (points_list.Count > 2) //to ensure minX != maxX
 				paintGrid(gridTypes.BOTH, true);
 
@@ -160,6 +174,31 @@ public class CairoGraphForceSensorSignal : CairoXY
 		minX = points_list[startAt].X;
 
 		return startAt;
+	}
+
+	private void paintRectangle (int rectangleN, int rectangleRange)
+	{
+		// 1) paint the light blue rectangle
+		//no need to be transparent as the rectangle is un the bottom layer
+		//g.SetSourceRGBA(0.6, 0.8, 1, .5); //light blue
+		g.SetSourceRGB(0.6, 0.8, 1); //light blue
+
+		g.Rectangle (leftMargin +innerMargin,
+				calculatePaintY (rectangleN +rectangleRange/2),
+				graphWidth -rightMargin -leftMargin -innerMargin,
+				calculatePaintY (rectangleN -rectangleRange/2) - calculatePaintY (rectangleN +rectangleRange/2));
+		g.Fill();
+
+		// 2) paint the dark blue center line
+		g.SetSourceRGB(0.3, 0.3, 1); //dark blue
+		g.Save ();
+		g.LineWidth = 3;
+		g.MoveTo (leftMargin +innerMargin, calculatePaintY (rectangleN));
+		g.LineTo (graphWidth -rightMargin, calculatePaintY (rectangleN));
+		g.Stroke();
+		g.Restore();
+
+		g.SetSourceRGB(0, 0, 0);
 	}
 
 	protected override void paintVerticalGridLine(Cairo.Context g, int xtemp, string text, int fontH)

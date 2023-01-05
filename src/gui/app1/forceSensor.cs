@@ -2836,10 +2836,19 @@ LogB.Information(" fs R ");
 			if (forceCaptureThread != null && forceCaptureThread.IsAlive)
 				showLastSeconds = 10; //TODO: make this configurable from GUI
 
+			int rectangleN = 0;
+			int rectangleRange = 0;
+			if(preferences.forceSensorCaptureFeedbackActive == Preferences.ForceSensorCaptureFeedbackActiveEnum.RECTANGLE)
+			{
+				rectangleN = preferences.forceSensorCaptureFeedbackAt;
+				rectangleRange = preferences.forceSensorCaptureFeedbackRange;
+			}
+
 			cairoGraphForceSensorSignal.DoSendingList (preferences.fontType.ToString(),
 					cairoGraphForceSensorSignalPoints_l,
 					showLastSeconds,
 					-50, 50, //minimum Y display from -50 to 50
+					rectangleN, rectangleRange,
 					forceRedraw, CairoXY.PlotTypes.LINES);
 
 			label_force_sensor_value.Text = string.Format("{0:0.##} N", forceSensorValues.ValueLast);

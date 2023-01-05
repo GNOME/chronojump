@@ -52,16 +52,20 @@ public class CairoGraphForceSensorSignal : CairoXY
 	//separated in two methods to ensure endGraphDisposing on any return of the other method
 	public void DoSendingList (string font,
 			List<PointF> points_list, int showLastSeconds,
+			int minDisplayFNegative, int minDisplayFPositive,
 			bool forceRedraw, PlotTypes plotType)
 	{
-		if(doSendingList (font, points_list, showLastSeconds, forceRedraw, plotType))
+		if(doSendingList (font, points_list,
+					showLastSeconds, minDisplayFNegative, minDisplayFPositive,
+					forceRedraw, plotType))
 			endGraphDisposing(g, surface, area.GdkWindow);
 	}
 
-	//similar to encoder method but calling configureTimeWindow
+	//similar to encoder method but calling configureTimeWindow and using minDisplayF(Negative/Positive)
 	//return true if graph is inited (to dispose it)
 	private bool doSendingList (string font,
 			List<PointF> points_list, int showLastSeconds,
+			int minDisplayFNegative, int minDisplayFPositive,
 			bool forceRedraw, PlotTypes plotType)
 	{
 		bool maxValuesChanged = false;
@@ -69,10 +73,12 @@ public class CairoGraphForceSensorSignal : CairoXY
 		if(points_list != null)
 		{
 			maxValuesChanged = findPointMaximums(false, points_list);
-
 			//LogB.Information(string.Format("minY: {0}, maxY: {1}", minY, maxY));
-			if(maxY < 100)
-				maxY = 100; //to be able to graph at start when all the points are 0
+
+			if (minY > minDisplayFNegative)
+				minY = minDisplayFNegative;
+			if (absoluteMaxY < minDisplayFPositive)
+				absoluteMaxY = minDisplayFPositive;
 		}
 
 		bool graphInited = false;

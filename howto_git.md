@@ -64,6 +64,17 @@ You have some changes on a file (uncommited) but you don't wanted (and you don't
 
     git checkout -- <filename>
 
+### Use a concrete commit without all the previous
+
+On Windows or Mac compilation machine, we createed a version. But a bug appeared, we fix, so we want to use that commit but not all the new commits pushed since last version
+
+Update references (then git local will know about the commit)
+
+    git fetch
+
+Pick the commit (eg af8e0132)
+
+    git cherry-pick af8e0132
 
 ### Merge with a remote branch (but do not do it with my laptop, because has problems fetching from github)
 

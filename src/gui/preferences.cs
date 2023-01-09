@@ -1478,6 +1478,71 @@ public class PreferencesWindow
 	}
 
 
+	/* callbacks SQL change at any change for tab: encoder - other */
+
+	private void on_checkbutton_encoder_propulsive_clicked (object o, EventArgs args)
+	{
+		// B) changes on preferences object and SqlitePreferences
+		preferences.encoderPropulsive = Preferences.PreferencesChange(
+				false, "encoderPropulsive",
+				preferences.encoderPropulsive,
+				PreferencesWindowBox.checkbutton_encoder_propulsive.Active);
+	}
+
+	private void on_radio_encoder_work_toggled (object o, EventArgs args)
+	{
+		// B) changes on preferences object and SqlitePreferences
+		preferences.encoderWorkKcal = Preferences.PreferencesChange(
+				false, SqlitePreferences.EncoderWorkKcal,
+				preferences.encoderWorkKcal,
+				radio_encoder_work_kcal.Active);
+	}
+
+	private void on_radio_encoder_inertial_analyze_toggled (object o, EventArgs args)
+	{
+		// B) changes on preferences object and SqlitePreferences
+		Preferences.EncoderInertialGraphsXTypes encoderInertialGraphsXFromGUI = get_encoderInertialGraphsX_from_gui();
+		if(preferences.encoderInertialGraphsX != encoderInertialGraphsXFromGUI)
+		{
+			SqlitePreferences.Update(SqlitePreferences.EncoderInertialGraphsX, encoderInertialGraphsXFromGUI.ToString(), false);
+			preferences.encoderInertialGraphsX = encoderInertialGraphsXFromGUI;
+		}
+	}
+	private Preferences.EncoderInertialGraphsXTypes get_encoderInertialGraphsX_from_gui()
+	{
+		if(PreferencesWindowBox.radio_encoder_inertial_analyze_inertia_moment.Active)
+			return Preferences.EncoderInertialGraphsXTypes.INERTIA_MOMENT;
+		else if(PreferencesWindowBox.radio_encoder_inertial_analyze_diameter.Active)
+			return Preferences.EncoderInertialGraphsXTypes.DIAMETER;
+		else
+			return Preferences.EncoderInertialGraphsXTypes.EQUIVALENT_MASS;
+	}
+
+	private void on_spin_encoder_smooth_con_value_changed (object o, EventArgs args)
+	{
+		// B) changes on preferences object and SqlitePreferences
+		preferences.encoderSmoothCon = Preferences.PreferencesChange(
+				false, "encoderSmoothCon",
+				preferences.encoderSmoothCon,
+				(double) PreferencesWindowBox.spin_encoder_smooth_con.Value);
+	}
+	private void on_radio_encoder_1RM_weight_toggled (object o, EventArgs args)
+	{
+		Constants.Encoder1RMMethod encoder1RMMethod;
+		if(PreferencesWindowBox.radio_encoder_1RM_nonweighted.Active)
+			encoder1RMMethod = Constants.Encoder1RMMethod.NONWEIGHTED;
+		else if(PreferencesWindowBox.radio_encoder_1RM_weighted.Active)
+			encoder1RMMethod = Constants.Encoder1RMMethod.WEIGHTED;
+		else if(PreferencesWindowBox.radio_encoder_1RM_weighted2.Active)
+			encoder1RMMethod = Constants.Encoder1RMMethod.WEIGHTED2;
+		else // (PreferencesWindowBox.radio_encoder_1RM_weighted3.Active)
+			encoder1RMMethod = Constants.Encoder1RMMethod.WEIGHTED3;
+
+		if(preferences.encoder1RMMethod != encoder1RMMethod) {
+			SqlitePreferences.Update("encoder1RMMethod", encoder1RMMethod.ToString(), false);
+			preferences.encoder1RMMethod = encoder1RMMethod;
+		}
+	}
 
 
 	// view more tabs ---->
@@ -2448,49 +2513,6 @@ public class PreferencesWindow
 		//this is not stored in SQL
 		preferences.networksAllowChangeDevices = PreferencesWindowBox.check_networks_devices.Active;
 
-		//encoder other ----
-		
-		preferences.encoderPropulsive = Preferences.PreferencesChange(
-				true,
-				"encoderPropulsive",
-				preferences.encoderPropulsive,
-				PreferencesWindowBox.checkbutton_encoder_propulsive.Active);
-
-		preferences.encoderWorkKcal = Preferences.PreferencesChange(
-				true,
-				SqlitePreferences.EncoderWorkKcal,
-				preferences.encoderWorkKcal,
-				radio_encoder_work_kcal.Active);
-
-		preferences.encoderSmoothCon = Preferences.PreferencesChange(
-				true,
-				"encoderSmoothCon",
-				preferences.encoderSmoothCon,
-				(double) PreferencesWindowBox.spin_encoder_smooth_con.Value);
-
-		Preferences.EncoderInertialGraphsXTypes encoderInertialGraphsXFromGUI = get_encoderInertialGraphsX_from_gui();
-		if(preferences.encoderInertialGraphsX != encoderInertialGraphsXFromGUI)
-		{
-			SqlitePreferences.Update(SqlitePreferences.EncoderInertialGraphsX, encoderInertialGraphsXFromGUI.ToString(), true);
-			preferences.encoderInertialGraphsX = encoderInertialGraphsXFromGUI;
-		}
-
-		Constants.Encoder1RMMethod encoder1RMMethod;
-		if(PreferencesWindowBox.radio_encoder_1RM_nonweighted.Active)
-			encoder1RMMethod = Constants.Encoder1RMMethod.NONWEIGHTED;
-		else if(PreferencesWindowBox.radio_encoder_1RM_weighted.Active)
-			encoder1RMMethod = Constants.Encoder1RMMethod.WEIGHTED;
-		else if(PreferencesWindowBox.radio_encoder_1RM_weighted2.Active)
-			encoder1RMMethod = Constants.Encoder1RMMethod.WEIGHTED2;
-		else // (PreferencesWindowBox.radio_encoder_1RM_weighted3.Active)
-			encoder1RMMethod = Constants.Encoder1RMMethod.WEIGHTED3;
-
-		if(preferences.encoder1RMMethod != encoder1RMMethod) {
-			SqlitePreferences.Update("encoder1RMMethod", encoder1RMMethod.ToString(), true);
-			preferences.encoder1RMMethod = encoder1RMMethod;
-		}
-
-		//---- end of encoder other
 
 		//forceSensor
 		preferences.forceSensorCaptureWidthSeconds = Preferences.PreferencesChange(
@@ -2700,16 +2722,6 @@ public class PreferencesWindow
 			return Preferences.MaximizedTypes.YES;
 
 		return Preferences.MaximizedTypes.YESUNDECORATED;
-	}
-
-	private Preferences.EncoderInertialGraphsXTypes get_encoderInertialGraphsX_from_gui()
-	{
-		if(PreferencesWindowBox.radio_encoder_inertial_analyze_inertia_moment.Active)
-			return Preferences.EncoderInertialGraphsXTypes.INERTIA_MOMENT;
-		else if(PreferencesWindowBox.radio_encoder_inertial_analyze_diameter.Active)
-			return Preferences.EncoderInertialGraphsXTypes.DIAMETER;
-		else
-			return Preferences.EncoderInertialGraphsXTypes.EQUIVALENT_MASS;
 	}
 
 	private Preferences.pythonVersionEnum get_pythonVersion_from_gui()

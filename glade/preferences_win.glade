@@ -2064,6 +2064,7 @@ It starts before and arrives there with some speed.</property>
                                             <property name="climb_rate">1</property>
                                             <property name="snap_to_ticks">True</property>
                                             <property name="numeric">True</property>
+                                            <signal name="value_changed" handler="on_spin_encoder_capture_time_value_changed" swapped="no"/>
                                           </widget>
                                           <packing>
                                             <property name="expand">False</property>
@@ -2113,6 +2114,7 @@ It starts before and arrives there with some speed.</property>
                                             <property name="climb_rate">1</property>
                                             <property name="snap_to_ticks">True</property>
                                             <property name="numeric">True</property>
+                                            <signal name="value_changed" handler="on_spin_encoder_capture_inactivity_end_time_value_changed" swapped="no"/>
                                           </widget>
                                           <packing>
                                             <property name="expand">False</property>
@@ -2272,6 +2274,7 @@ It starts before and arrives there with some speed.</property>
                                             <property name="climb_rate">1</property>
                                             <property name="snap_to_ticks">True</property>
                                             <property name="numeric">True</property>
+                                            <signal name="value_changed" handler="on_spin_encoder_capture_inertial_discard_first_n_value_changed" swapped="no"/>
                                           </widget>
                                           <packing>
                                             <property name="expand">False</property>
@@ -2405,6 +2408,7 @@ It starts before and arrives there with some speed.</property>
                                                 <property name="receives_default">False</property>
                                                 <property name="active">True</property>
                                                 <property name="draw_indicator">True</property>
+                                                <signal name="toggled" handler="on_radio_encoder_rep_criteria_gravitatory_toggled" swapped="no"/>
                                               </widget>
                                               <packing>
                                                 <property name="top_attach">1</property>
@@ -2420,6 +2424,7 @@ It starts before and arrives there with some speed.</property>
                                                 <property name="active">True</property>
                                                 <property name="draw_indicator">True</property>
                                                 <property name="group">radio_encoder_rep_criteria_gravitatory_ecc_con</property>
+                                                <signal name="toggled" handler="on_radio_encoder_rep_criteria_gravitatory_toggled" swapped="no"/>
                                               </widget>
                                               <packing>
                                                 <property name="top_attach">2</property>
@@ -2439,6 +2444,7 @@ It starts before and arrives there with some speed.</property>
                                                     <property name="receives_default">False</property>
                                                     <property name="draw_indicator">True</property>
                                                     <property name="group">radio_encoder_rep_criteria_gravitatory_ecc_con</property>
+                                                    <signal name="toggled" handler="on_radio_encoder_rep_criteria_gravitatory_toggled" swapped="no"/>
                                                   </widget>
                                                   <packing>
                                                     <property name="expand">False</property>
@@ -2508,6 +2514,7 @@ It starts before and arrives there with some speed.</property>
                                                 <property name="receives_default">False</property>
                                                 <property name="active">True</property>
                                                 <property name="draw_indicator">True</property>
+                                                <signal name="toggled" handler="on_radio_encoder_rep_criteria_inertial_toggled" swapped="no"/>
                                               </widget>
                                               <packing>
                                                 <property name="left_attach">1</property>
@@ -2524,6 +2531,7 @@ It starts before and arrives there with some speed.</property>
                                                 <property name="receives_default">False</property>
                                                 <property name="draw_indicator">True</property>
                                                 <property name="group">radio_encoder_rep_criteria_inertial_ecc_con</property>
+                                                <signal name="toggled" handler="on_radio_encoder_rep_criteria_inertial_toggled" swapped="no"/>
                                               </widget>
                                               <packing>
                                                 <property name="left_attach">1</property>
@@ -2545,6 +2553,7 @@ It starts before and arrives there with some speed.</property>
                                                     <property name="receives_default">False</property>
                                                     <property name="draw_indicator">True</property>
                                                     <property name="group">radio_encoder_rep_criteria_inertial_ecc_con</property>
+                                                    <signal name="toggled" handler="on_radio_encoder_rep_criteria_inertial_toggled" swapped="no"/>
                                                   </widget>
                                                   <packing>
                                                     <property name="expand">False</property>
@@ -2737,6 +2746,7 @@ It starts before and arrives there with some speed.</property>
                                                             <property name="climb_rate">1</property>
                                                             <property name="snap_to_ticks">True</property>
                                                             <property name="numeric">True</property>
+                                                            <signal name="value_changed" handler="on_spin_encoder_capture_show_only_some_bars_value_changed" swapped="no"/>
                                                           </widget>
                                                           <packing>
                                                             <property name="expand">False</property>
@@ -2799,6 +2809,7 @@ It starts before and arrives there with some speed.</property>
                                                         <property name="climb_rate">1</property>
                                                         <property name="snap_to_ticks">True</property>
                                                         <property name="numeric">True</property>
+                                                        <signal name="value_changed" handler="on_spin_encoder_capture_barplot_font_size_value_changed" swapped="no"/>
                                                       </widget>
                                                       <packing>
                                                         <property name="expand">False</property>
@@ -2849,6 +2860,7 @@ It starts before and arrives there with some speed.</property>
                                     <property name="can_focus">True</property>
                                     <property name="receives_default">False</property>
                                     <property name="draw_indicator">True</property>
+                                    <signal name="clicked" handler="on_check_show_start_and_duration_clicked" swapped="no"/>
                                   </widget>
                                   <packing>
                                     <property name="expand">False</property>
@@ -3050,6 +3062,7 @@ It starts before and arrives there with some speed.</property>
                                                         <property name="receives_default">False</property>
                                                         <property name="active">True</property>
                                                         <property name="draw_indicator">True</property>
+                                                        <signal name="toggled" handler="on_radio_encoder_triggers_yes_start_at_toggled" swapped="no"/>
                                                       </widget>
                                                       <packing>
                                                         <property name="expand">True</property>
@@ -3065,6 +3078,7 @@ It starts before and arrives there with some speed.</property>
                                                         <property name="receives_default">False</property>
                                                         <property name="draw_indicator">True</property>
                                                         <property name="group">radio_encoder_triggers_yes_start_at_capture</property>
+                                                        <signal name="toggled" handler="on_radio_encoder_triggers_yes_start_at_toggled" swapped="no"/>
                                                       </widget>
                                                       <packing>
                                                         <property name="expand">True</property>
@@ -3115,6 +3129,7 @@ It starts before and arrives there with some speed.</property>
                                         <property name="can_focus">True</property>
                                         <property name="receives_default">False</property>
                                         <property name="draw_indicator">True</property>
+                                        <signal name="clicked" handler="on_check_encoder_capture_infinite_clicked" swapped="no"/>
                                       </widget>
                                       <packing>
                                         <property name="expand">False</property>

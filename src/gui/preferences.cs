@@ -1152,6 +1152,7 @@ public class PreferencesWindow
 	}
 
 	/* callbacks SQL change at any change for tab: races */
+
 	private void on_radio_speed_ms_km_toggled (object o, EventArgs args)
 	{
 		// B) changes on preferences object and SqlitePreferences
@@ -1248,7 +1249,240 @@ public class PreferencesWindow
 		}
 	}
 
+	/* callbacks SQL change at any change for tab: encoder - capture */
+
+	private void on_spin_encoder_capture_time_value_changed (object o, EventArgs args)
+	{
+		// B) changes on preferences object and SqlitePreferences
+		preferences.encoderCaptureTime = Preferences.PreferencesChange(
+				false, "encoderCaptureTime",
+				preferences.encoderCaptureTime,
+				(int) PreferencesWindowBox.spin_encoder_capture_time.Value);
+	}
+
+	private void on_check_encoder_capture_inactivity_end_time_clicked (object o, EventArgs args)
+	{
+		// A) changes on preferences gui
+		hbox_encoder_capture_inactivity_time.Sensitive = check_encoder_capture_inactivity_end_time.Active;
+
+		// B) changes on preferences object and SqlitePreferences
+		changeEncoderInactivityEndTimeOnPreferencesAndDB ();
+	}
+	private void on_spin_encoder_capture_inactivity_end_time_value_changed (object o, EventArgs args)
+	{
+		// B) changes on preferences object and SqlitePreferences
+		changeEncoderInactivityEndTimeOnPreferencesAndDB ();
+	}
+	private void changeEncoderInactivityEndTimeOnPreferencesAndDB ()
+	{
+		if(! PreferencesWindowBox.check_encoder_capture_inactivity_end_time.Active)
+		{
+			SqlitePreferences.Update("encoderCaptureInactivityEndTime", "-1", false);
+			preferences.encoderCaptureInactivityEndTime = -1;
+		} else {
+			preferences.encoderCaptureInactivityEndTime = Preferences.PreferencesChange(
+					false, "encoderCaptureInactivityEndTime",
+					preferences.encoderCaptureInactivityEndTime,
+					(int) PreferencesWindowBox.spin_encoder_capture_inactivity_end_time.Value);
+		}
+	}
+
+	private void on_checkbutton_encoder_capture_inertial_discard_first_n_toggled (object o, EventArgs args)
+	{
+		// A) changes on preferences gui
+		hbox_encoder_capture_inertial_discard_first_n.Visible = (checkbutton_encoder_capture_inertial_discard_first_n.Active);
+
+		// B) changes on preferences object and SqlitePreferences
+		changeEncoderInertialDiscardFirstNOnPreferencesAndDB ();
+	}
+	private void on_spin_encoder_capture_inertial_discard_first_n_value_changed (object o, EventArgs args)
+	{
+		// B) changes on preferences object and SqlitePreferences
+		changeEncoderInertialDiscardFirstNOnPreferencesAndDB ();
+	}
+	private void changeEncoderInertialDiscardFirstNOnPreferencesAndDB ()
+	{
+		int spinEncoderCaptureDiscardFirstN = Convert.ToInt32(PreferencesWindowBox.spin_encoder_capture_inertial_discard_first_n.Value);
+		if(! checkbutton_encoder_capture_inertial_discard_first_n.Active)
+			spinEncoderCaptureDiscardFirstN = 0;
+
+		if(spinEncoderCaptureDiscardFirstN != preferences.encoderCaptureInertialDiscardFirstN)
+		{
+			SqlitePreferences.Update("encoderCaptureInertialDiscardFirstN", spinEncoderCaptureDiscardFirstN.ToString(), false);
+			preferences.encoderCaptureInertialDiscardFirstN = spinEncoderCaptureDiscardFirstN;
+		}
+	}
+
+	private void on_radio_encoder_rep_criteria_gravitatory_toggled (object o, EventArgs args)
+	{
+		// B) changes on preferences object and SqlitePreferences
+		//radio_encoder_rep_criteria_gravitatory_*
+		if(PreferencesWindowBox.radio_encoder_rep_criteria_gravitatory_ecc_con.Active &&
+				preferences.encoderRepetitionCriteriaGravitatory != Preferences.EncoderRepetitionCriteria.ECC_CON)
+		{
+			SqlitePreferences.Update(SqlitePreferences.EncoderRepetitionCriteriaGravitatoryStr,
+					Preferences.EncoderRepetitionCriteria.ECC_CON.ToString(), false);
+			preferences.encoderRepetitionCriteriaGravitatory = Preferences.EncoderRepetitionCriteria.ECC_CON;
+		}
+		else if(PreferencesWindowBox.radio_encoder_rep_criteria_gravitatory_ecc.Active &&
+				preferences.encoderRepetitionCriteriaGravitatory != Preferences.EncoderRepetitionCriteria.ECC)
+		{
+			SqlitePreferences.Update(SqlitePreferences.EncoderRepetitionCriteriaGravitatoryStr,
+					Preferences.EncoderRepetitionCriteria.ECC.ToString(), false);
+			preferences.encoderRepetitionCriteriaGravitatory = Preferences.EncoderRepetitionCriteria.ECC;
+		}
+		else if(PreferencesWindowBox.radio_encoder_rep_criteria_gravitatory_con.Active &&
+				preferences.encoderRepetitionCriteriaGravitatory != Preferences.EncoderRepetitionCriteria.CON)
+		{
+			SqlitePreferences.Update(SqlitePreferences.EncoderRepetitionCriteriaGravitatoryStr,
+					Preferences.EncoderRepetitionCriteria.CON.ToString(), false);
+			preferences.encoderRepetitionCriteriaGravitatory = Preferences.EncoderRepetitionCriteria.CON;
+		}
+	}
+
+	private void on_radio_encoder_rep_criteria_inertial_toggled (object o, EventArgs args)
+	{
+		// B) changes on preferences object and SqlitePreferences
+		//radio_encoder_rep_criteria_inertial_*
+		if(PreferencesWindowBox.radio_encoder_rep_criteria_inertial_ecc_con.Active &&
+				preferences.encoderRepetitionCriteriaInertial != Preferences.EncoderRepetitionCriteria.ECC_CON)
+		{
+			SqlitePreferences.Update(SqlitePreferences.EncoderRepetitionCriteriaInertialStr,
+					Preferences.EncoderRepetitionCriteria.ECC_CON.ToString(), false);
+			preferences.encoderRepetitionCriteriaInertial = Preferences.EncoderRepetitionCriteria.ECC_CON;
+		}
+		else if(PreferencesWindowBox.radio_encoder_rep_criteria_inertial_ecc.Active &&
+				preferences.encoderRepetitionCriteriaInertial != Preferences.EncoderRepetitionCriteria.ECC)
+		{
+			SqlitePreferences.Update(SqlitePreferences.EncoderRepetitionCriteriaInertialStr,
+					Preferences.EncoderRepetitionCriteria.ECC.ToString(), false);
+			preferences.encoderRepetitionCriteriaInertial = Preferences.EncoderRepetitionCriteria.ECC;
+		}
+		else if(PreferencesWindowBox.radio_encoder_rep_criteria_inertial_con.Active &&
+				preferences.encoderRepetitionCriteriaInertial != Preferences.EncoderRepetitionCriteria.CON)
+		{
+			SqlitePreferences.Update(SqlitePreferences.EncoderRepetitionCriteriaInertialStr,
+					Preferences.EncoderRepetitionCriteria.CON.ToString(), false);
+			preferences.encoderRepetitionCriteriaInertial = Preferences.EncoderRepetitionCriteria.CON;
+		}
+	}
+
+	private void on_radio_encoder_capture_show_all_bars_toggled (object o, EventArgs args)
+	{
+		// A) changes on preferences gui
+		spin_encoder_capture_show_only_some_bars.Sensitive = false;
+
+		// B) changes on preferences object and SqlitePreferences
+		changeEncoderCaptureShowOnlyBarsOnPreferencesAndDB ();
+	}
+	private void on_radio_encoder_capture_show_only_some_bars_toggled (object o, EventArgs args)
+	{
+		// A) changes on preferences gui
+		spin_encoder_capture_show_only_some_bars.Sensitive = true;
+
+		// B) changes on preferences object and SqlitePreferences
+		changeEncoderCaptureShowOnlyBarsOnPreferencesAndDB ();
+	}
+	private void on_spin_encoder_capture_show_only_some_bars_value_changed (object o, EventArgs args)
+	{
+		// B) changes on preferences object and SqlitePreferences
+		changeEncoderCaptureShowOnlyBarsOnPreferencesAndDB ();
+	}
+	private void changeEncoderCaptureShowOnlyBarsOnPreferencesAndDB ()
+	{
+		if( preferences.encoderCaptureShowNRepetitions > 0 && PreferencesWindowBox.radio_encoder_capture_show_all_bars.Active )
+		{
+			SqlitePreferences.Update("encoderCaptureShowNRepetitions", "-1", false);
+			preferences.encoderCaptureShowNRepetitions = -1;
+		}
+		else if( PreferencesWindowBox.radio_encoder_capture_show_only_some_bars.Active &&
+				preferences.encoderCaptureShowNRepetitions != (int) PreferencesWindowBox.spin_encoder_capture_show_only_some_bars.Value) {
+			SqlitePreferences.Update("encoderCaptureShowNRepetitions",
+					PreferencesWindowBox.spin_encoder_capture_show_only_some_bars.Value.ToString(), false);
+			preferences.encoderCaptureShowNRepetitions = (int) PreferencesWindowBox.spin_encoder_capture_show_only_some_bars.Value;
+		}
+	}
+
+	private void on_spin_encoder_capture_barplot_font_size_value_changed (object o, EventArgs args)
+	{
+		// B) changes on preferences object and SqlitePreferences
+		preferences.encoderCaptureBarplotFontSize = Preferences.PreferencesChange(
+				false, "encoderCaptureBarplotFontSize",
+				preferences.encoderCaptureBarplotFontSize,
+				(int) PreferencesWindowBox.spin_encoder_capture_barplot_font_size.Value);
+	}
+
+	private void on_check_show_start_and_duration_clicked (object o, EventArgs args)
+	{
+		// B) changes on preferences object and SqlitePreferences
+		preferences.encoderShowStartAndDuration = Preferences.PreferencesChange(
+				false, "encoderShowStartAndDuration",
+				preferences.encoderShowStartAndDuration,
+				PreferencesWindowBox.check_show_start_and_duration.Active);
+	}
+
+	private void on_radio_encoder_triggers_toggled (object o, EventArgs args)
+	{
+		// A) changes on preferences gui
+		Pixbuf pixbuf;
+		if(radio_encoder_triggers_no.Active)
+		{
+			vbox_encoder_triggers_yes.Visible = false;
+			pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_encoder_triggers_no.png");
+		PreferencesWindowBox.image_encoder_triggers.Pixbuf = pixbuf;
+		} else {
+			vbox_encoder_triggers_yes.Visible = true;
+			pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_encoder_triggers.png");
+		}
+		image_encoder_triggers.Pixbuf = pixbuf;
+
+		// B) changes on preferences object and SqlitePreferences
+		changeEncoderCaptureTriggersOnPreferencesAndDB ();
+	}
+	private void on_radio_encoder_triggers_yes_start_at_toggled (object o, EventArgs args)
+	{
+		// B) changes on preferences object and SqlitePreferences
+		changeEncoderCaptureTriggersOnPreferencesAndDB ();
+	}
+	private void changeEncoderCaptureTriggersOnPreferencesAndDB ()
+	{
+		if(PreferencesWindowBox.radio_encoder_triggers_no.Active &&
+				preferences.encoderCaptureCutByTriggers != Preferences.TriggerTypes.NO_TRIGGERS)
+		{
+			SqlitePreferences.Update("encoderCaptureCutByTriggers", Preferences.TriggerTypes.NO_TRIGGERS.ToString(), false);
+			preferences.encoderCaptureCutByTriggers = Preferences.TriggerTypes.NO_TRIGGERS;
+		}
+		else if(PreferencesWindowBox.radio_encoder_triggers_yes.Active &&
+				PreferencesWindowBox.radio_encoder_triggers_yes_start_at_capture.Active &&
+				preferences.encoderCaptureCutByTriggers != Preferences.TriggerTypes.START_AT_CAPTURE)
+		{
+			SqlitePreferences.Update("encoderCaptureCutByTriggers", Preferences.TriggerTypes.START_AT_CAPTURE.ToString(), false);
+			preferences.encoderCaptureCutByTriggers = Preferences.TriggerTypes.START_AT_CAPTURE;
+		}
+		else if(PreferencesWindowBox.radio_encoder_triggers_yes.Active &&
+				PreferencesWindowBox.radio_encoder_triggers_yes_start_at_first_trigger.Active &&
+				preferences.encoderCaptureCutByTriggers != Preferences.TriggerTypes.START_AT_FIRST_ON)
+		{
+			SqlitePreferences.Update("encoderCaptureCutByTriggers", Preferences.TriggerTypes.START_AT_FIRST_ON.ToString(), false);
+			preferences.encoderCaptureCutByTriggers = Preferences.TriggerTypes.START_AT_FIRST_ON;
+		}
+	}
+
+	private void on_check_encoder_capture_infinite_clicked (object o, EventArgs args)
+	{
+		// B) changes on preferences object and SqlitePreferences
+		preferences.encoderCaptureInfinite = Preferences.PreferencesChange(
+				false,
+				SqlitePreferences.EncoderCaptureInfinite, preferences.encoderCaptureInfinite,
+				PreferencesWindowBox.check_encoder_capture_infinite.Active);
+	}
+
+
+
+
 	// view more tabs ---->
+
+
 
 	private void on_button_view_more_tabs_clicked (object o, EventArgs args)
 	{
@@ -1338,20 +1572,6 @@ public class PreferencesWindow
 		label_radio_font_needs_restart.Visible = true;
 	}
 
-	private void on_radio_encoder_capture_show_all_bars_toggled (object o, EventArgs args)
-	{
-		spin_encoder_capture_show_only_some_bars.Sensitive = false;
-	}
-	private void on_radio_encoder_capture_show_only_some_bars_toggled (object o, EventArgs args)
-	{
-		spin_encoder_capture_show_only_some_bars.Sensitive = true;
-	}
-
-	private void on_check_encoder_capture_inactivity_end_time_clicked (object o, EventArgs args)
-	{
-		hbox_encoder_capture_inactivity_time.Sensitive = check_encoder_capture_inactivity_end_time.Active;
-	}
-
 	/* ---------------------------------------------------------
 	 * ----------------  Jumps. Info on power and stiffness -----------
 	 *  --------------------------------------------------------
@@ -1388,25 +1608,6 @@ public class PreferencesWindow
 			hbox_force_sensor_lag.Visible = false;
 	}
 
-	/*
-	 * triggers stuff
-	 */
-
-	private void on_radio_encoder_triggers_toggled (object obj, EventArgs args)
-	{
-		Pixbuf pixbuf;
-		if(radio_encoder_triggers_no.Active)
-		{
-			vbox_encoder_triggers_yes.Visible = false;
-			pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_encoder_triggers_no.png");
-		PreferencesWindowBox.image_encoder_triggers.Pixbuf = pixbuf;
-		} else {
-			vbox_encoder_triggers_yes.Visible = true;
-			pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_encoder_triggers.png");
-		}
-
-		image_encoder_triggers.Pixbuf = pixbuf;
-	}
 
 	private void on_button_encoder_capture_cut_by_triggers_help_clicked (object o, EventArgs args)
 	{
@@ -1671,12 +1872,6 @@ public class PreferencesWindow
 	{
 		frame_camera_advanced.Visible = check_camera_advanced.Active;
 	}
-
-	private void on_checkbutton_encoder_capture_inertial_discard_first_n_toggled (object obj, EventArgs args)
-	{
-		hbox_encoder_capture_inertial_discard_first_n.Visible = (checkbutton_encoder_capture_inertial_discard_first_n.Active);
-	}
-
 
 
 	// ---- multimedia stuff
@@ -2253,129 +2448,6 @@ public class PreferencesWindow
 		//this is not stored in SQL
 		preferences.networksAllowChangeDevices = PreferencesWindowBox.check_networks_devices.Active;
 
-		//encoder capture ----
-	
-		preferences.encoderCaptureTime = Preferences.PreferencesChange(
-				true, "encoderCaptureTime",
-				preferences.encoderCaptureTime,
-				(int) PreferencesWindowBox.spin_encoder_capture_time.Value);
-
-		if(! PreferencesWindowBox.check_encoder_capture_inactivity_end_time.Active)
-		{
-			SqlitePreferences.Update("encoderCaptureInactivityEndTime", "-1", true);
-			preferences.encoderCaptureInactivityEndTime = -1;
-		} else {
-			preferences.encoderCaptureInactivityEndTime = Preferences.PreferencesChange(
-					true, "encoderCaptureInactivityEndTime",
-					preferences.encoderCaptureInactivityEndTime,
-					(int) PreferencesWindowBox.spin_encoder_capture_inactivity_end_time.Value);
-		}
-
-		int spinEncoderCaptureDiscardFirstN = Convert.ToInt32(PreferencesWindowBox.spin_encoder_capture_inertial_discard_first_n.Value);
-		if(! checkbutton_encoder_capture_inertial_discard_first_n.Active)
-			spinEncoderCaptureDiscardFirstN = 0;
-		if(spinEncoderCaptureDiscardFirstN != preferences.encoderCaptureInertialDiscardFirstN)
-		{
-			SqlitePreferences.Update("encoderCaptureInertialDiscardFirstN", spinEncoderCaptureDiscardFirstN.ToString(), true);
-			preferences.encoderCaptureInertialDiscardFirstN = spinEncoderCaptureDiscardFirstN;
-		}
-
-		if( preferences.encoderCaptureShowNRepetitions > 0 && PreferencesWindowBox.radio_encoder_capture_show_all_bars.Active )
-		{
-			SqlitePreferences.Update("encoderCaptureShowNRepetitions", "-1", true);
-			preferences.encoderCaptureShowNRepetitions = -1;
-		}
-		else if( PreferencesWindowBox.radio_encoder_capture_show_only_some_bars.Active &&
-				preferences.encoderCaptureShowNRepetitions != (int) PreferencesWindowBox.spin_encoder_capture_show_only_some_bars.Value) {
-			SqlitePreferences.Update("encoderCaptureShowNRepetitions",
-					PreferencesWindowBox.spin_encoder_capture_show_only_some_bars.Value.ToString(), true);
-			preferences.encoderCaptureShowNRepetitions = (int) PreferencesWindowBox.spin_encoder_capture_show_only_some_bars.Value;
-		}
-
-		preferences.encoderCaptureBarplotFontSize = Preferences.PreferencesChange(
-				true, "encoderCaptureBarplotFontSize",
-				preferences.encoderCaptureBarplotFontSize,
-				(int) PreferencesWindowBox.spin_encoder_capture_barplot_font_size.Value);
-
-		preferences.encoderShowStartAndDuration = Preferences.PreferencesChange(
-				true, "encoderShowStartAndDuration",
-				preferences.encoderShowStartAndDuration,
-				PreferencesWindowBox.check_show_start_and_duration.Active);
-
-		if(PreferencesWindowBox.radio_encoder_triggers_no.Active &&
-				preferences.encoderCaptureCutByTriggers != Preferences.TriggerTypes.NO_TRIGGERS)
-		{
-			SqlitePreferences.Update("encoderCaptureCutByTriggers", Preferences.TriggerTypes.NO_TRIGGERS.ToString(), true);
-			preferences.encoderCaptureCutByTriggers = Preferences.TriggerTypes.NO_TRIGGERS;
-		}
-		else if(PreferencesWindowBox.radio_encoder_triggers_yes.Active &&
-				PreferencesWindowBox.radio_encoder_triggers_yes_start_at_capture.Active &&
-				preferences.encoderCaptureCutByTriggers != Preferences.TriggerTypes.START_AT_CAPTURE)
-		{
-			SqlitePreferences.Update("encoderCaptureCutByTriggers", Preferences.TriggerTypes.START_AT_CAPTURE.ToString(), true);
-			preferences.encoderCaptureCutByTriggers = Preferences.TriggerTypes.START_AT_CAPTURE;
-		}
-		else if(PreferencesWindowBox.radio_encoder_triggers_yes.Active &&
-				PreferencesWindowBox.radio_encoder_triggers_yes_start_at_first_trigger.Active &&
-				preferences.encoderCaptureCutByTriggers != Preferences.TriggerTypes.START_AT_FIRST_ON)
-		{
-			SqlitePreferences.Update("encoderCaptureCutByTriggers", Preferences.TriggerTypes.START_AT_FIRST_ON.ToString(), true);
-			preferences.encoderCaptureCutByTriggers = Preferences.TriggerTypes.START_AT_FIRST_ON;
-		}
-
-		preferences.encoderCaptureInfinite = Preferences.PreferencesChange(
-				true,
-				SqlitePreferences.EncoderCaptureInfinite, preferences.encoderCaptureInfinite,
-				PreferencesWindowBox.check_encoder_capture_infinite.Active);
-
-		//radio_encoder_rep_criteria_gravitatory_*
-		if(PreferencesWindowBox.radio_encoder_rep_criteria_gravitatory_ecc_con.Active &&
-				preferences.encoderRepetitionCriteriaGravitatory != Preferences.EncoderRepetitionCriteria.ECC_CON)
-		{
-			SqlitePreferences.Update(SqlitePreferences.EncoderRepetitionCriteriaGravitatoryStr,
-					Preferences.EncoderRepetitionCriteria.ECC_CON.ToString(), true);
-			preferences.encoderRepetitionCriteriaGravitatory = Preferences.EncoderRepetitionCriteria.ECC_CON;
-		}
-		else if(PreferencesWindowBox.radio_encoder_rep_criteria_gravitatory_ecc.Active &&
-				preferences.encoderRepetitionCriteriaGravitatory != Preferences.EncoderRepetitionCriteria.ECC)
-		{
-			SqlitePreferences.Update(SqlitePreferences.EncoderRepetitionCriteriaGravitatoryStr,
-					Preferences.EncoderRepetitionCriteria.ECC.ToString(), true);
-			preferences.encoderRepetitionCriteriaGravitatory = Preferences.EncoderRepetitionCriteria.ECC;
-		}
-		else if(PreferencesWindowBox.radio_encoder_rep_criteria_gravitatory_con.Active &&
-				preferences.encoderRepetitionCriteriaGravitatory != Preferences.EncoderRepetitionCriteria.CON)
-		{
-			SqlitePreferences.Update(SqlitePreferences.EncoderRepetitionCriteriaGravitatoryStr,
-					Preferences.EncoderRepetitionCriteria.CON.ToString(), true);
-			preferences.encoderRepetitionCriteriaGravitatory = Preferences.EncoderRepetitionCriteria.CON;
-		}
-
-		//radio_encoder_rep_criteria_inertial_*
-		if(PreferencesWindowBox.radio_encoder_rep_criteria_inertial_ecc_con.Active &&
-				preferences.encoderRepetitionCriteriaInertial != Preferences.EncoderRepetitionCriteria.ECC_CON)
-		{
-			SqlitePreferences.Update(SqlitePreferences.EncoderRepetitionCriteriaInertialStr,
-					Preferences.EncoderRepetitionCriteria.ECC_CON.ToString(), true);
-			preferences.encoderRepetitionCriteriaInertial = Preferences.EncoderRepetitionCriteria.ECC_CON;
-		}
-		else if(PreferencesWindowBox.radio_encoder_rep_criteria_inertial_ecc.Active &&
-				preferences.encoderRepetitionCriteriaInertial != Preferences.EncoderRepetitionCriteria.ECC)
-		{
-			SqlitePreferences.Update(SqlitePreferences.EncoderRepetitionCriteriaInertialStr,
-					Preferences.EncoderRepetitionCriteria.ECC.ToString(), true);
-			preferences.encoderRepetitionCriteriaInertial = Preferences.EncoderRepetitionCriteria.ECC;
-		}
-		else if(PreferencesWindowBox.radio_encoder_rep_criteria_inertial_con.Active &&
-				preferences.encoderRepetitionCriteriaInertial != Preferences.EncoderRepetitionCriteria.CON)
-		{
-			SqlitePreferences.Update(SqlitePreferences.EncoderRepetitionCriteriaInertialStr,
-					Preferences.EncoderRepetitionCriteria.CON.ToString(), true);
-			preferences.encoderRepetitionCriteriaInertial = Preferences.EncoderRepetitionCriteria.CON;
-		}
-
-		//---- end of encoder capture
-		
 		//encoder other ----
 		
 		preferences.encoderPropulsive = Preferences.PreferencesChange(

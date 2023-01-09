@@ -1151,6 +1151,103 @@ public class PreferencesWindow
 			}
 	}
 
+	/* callbacks SQL change at any change for tab: races */
+	private void on_radio_speed_ms_km_toggled (object o, EventArgs args)
+	{
+		// B) changes on preferences object and SqlitePreferences
+		if ( ((Gtk.RadioButton) o).Active)
+			if( preferences.metersSecondsPreferred != PreferencesWindowBox.radio_speed_ms.Active ) {
+				SqlitePreferences.Update("metersSecondsPreferred", PreferencesWindowBox.radio_speed_ms.Active.ToString(), false);
+				preferences.metersSecondsPreferred = PreferencesWindowBox.radio_speed_ms.Active;
+			}
+	}
+	private void on_radio_runs_speed_start_arrival_leaving_toggled (object o, EventArgs args)
+	{
+		// B) changes on preferences object and SqlitePreferences
+		if ( ((Gtk.RadioButton) o).Active)
+			if( preferences.runSpeedStartArrival != PreferencesWindowBox.radio_runs_speed_start_arrival.Active ) {
+				SqlitePreferences.Update("runSpeedStartArrival", PreferencesWindowBox.radio_runs_speed_start_arrival.Active.ToString(), false);
+				preferences.runSpeedStartArrival = PreferencesWindowBox.radio_runs_speed_start_arrival.Active;
+			}
+	}
+
+	private void on_checkbutton_runs_prevent_double_contact_toggled (object o, EventArgs args)
+	{
+		// A) changes on preferences gui
+		vbox_runs_prevent_double_contact.Visible = checkbutton_runs_prevent_double_contact.Active;
+
+		// B) changes on preferences object and SqlitePreferences
+		changeRunSimpleDoubleContactOnPreferencesAndDB ();
+	}
+
+	private void on_checkbutton_runs_i_prevent_double_contact_toggled (object o, EventArgs args)
+	{
+		// A) changes on preferences gui
+		vbox_runs_i_prevent_double_contact.Visible = checkbutton_runs_i_prevent_double_contact.Active;
+
+		// B) changes on preferences object and SqlitePreferences
+		changeRunIntervalDoubleContactOnPreferencesAndDB ();
+	}
+
+	private void on_spinbutton_runs_prevent_double_contact_value_changed (object o, EventArgs args)
+	{
+		// B) changes on preferences object and SqlitePreferences
+		changeRunSimpleDoubleContactOnPreferencesAndDB ();
+	}
+	private void on_spinbutton_runs_i_prevent_double_contact_value_changed (object o, EventArgs args)
+	{
+		// B) changes on preferences object and SqlitePreferences
+		changeRunIntervalDoubleContactOnPreferencesAndDB ();
+	}
+
+	private void changeRunSimpleDoubleContactOnPreferencesAndDB ()
+	{
+		//1.1 was FIRST or AVERAGE or LAST and now will be NONE
+		if( (preferences.runDoubleContactsMode != Constants.DoubleContact.NONE) &&
+				! PreferencesWindowBox.checkbutton_runs_prevent_double_contact.Active)
+		{
+				SqlitePreferences.Update("runDoubleContactsMode", Constants.DoubleContact.NONE.ToString(), false);
+				preferences.runDoubleContactsMode = Constants.DoubleContact.NONE;
+		}
+		else if(PreferencesWindowBox.checkbutton_runs_prevent_double_contact.Active)
+		{
+			if( preferences.runDoubleContactsMode != Constants.DoubleContact.BIGGEST_TC ) {
+				SqlitePreferences.Update("runDoubleContactsMode", Constants.DoubleContact.BIGGEST_TC.ToString(), false);
+				preferences.runDoubleContactsMode = Constants.DoubleContact.BIGGEST_TC;
+			}
+
+			if(preferences.runDoubleContactsMS != (int) PreferencesWindowBox.spinbutton_runs_prevent_double_contact.Value) {
+				SqlitePreferences.Update("runDoubleContactsMS",
+						PreferencesWindowBox.spinbutton_runs_prevent_double_contact.Value.ToString(), false); //saved as string
+				preferences.runDoubleContactsMS = (int) spinbutton_runs_prevent_double_contact.Value;
+			}
+		}
+	}
+
+	private void changeRunIntervalDoubleContactOnPreferencesAndDB ()
+	{
+		//2.1 was FIRST or AVERAGE or LAST and now will be NONE
+		if( (preferences.runIDoubleContactsMode != Constants.DoubleContact.NONE) &&
+				! PreferencesWindowBox.checkbutton_runs_i_prevent_double_contact.Active)
+		{
+				SqlitePreferences.Update("runIDoubleContactsMode", Constants.DoubleContact.NONE.ToString(), false);
+				preferences.runIDoubleContactsMode = Constants.DoubleContact.NONE;
+		}
+		else if(PreferencesWindowBox.checkbutton_runs_i_prevent_double_contact.Active)
+		{
+			if( preferences.runIDoubleContactsMode != Constants.DoubleContact.BIGGEST_TC ) {
+				SqlitePreferences.Update("runIDoubleContactsMode", Constants.DoubleContact.BIGGEST_TC.ToString(), false);
+				preferences.runIDoubleContactsMode = Constants.DoubleContact.BIGGEST_TC;
+			}
+
+			if(preferences.runIDoubleContactsMS != (int) PreferencesWindowBox.spinbutton_runs_i_prevent_double_contact.Value) {
+				SqlitePreferences.Update("runIDoubleContactsMS",
+						PreferencesWindowBox.spinbutton_runs_i_prevent_double_contact.Value.ToString(), false); //saved as string
+				preferences.runIDoubleContactsMS = (int) spinbutton_runs_i_prevent_double_contact.Value;
+			}
+		}
+	}
+
 	// view more tabs ---->
 
 	private void on_button_view_more_tabs_clicked (object o, EventArgs args)
@@ -1862,13 +1959,6 @@ public class PreferencesWindow
 				);
 	}
 
-	private void on_checkbutton_runs_prevent_double_contact_toggled (object o, EventArgs args) {
-		vbox_runs_prevent_double_contact.Visible = checkbutton_runs_prevent_double_contact.Active;
-	}
-	private void on_checkbutton_runs_i_prevent_double_contact_toggled (object o, EventArgs args) {
-		vbox_runs_i_prevent_double_contact.Visible = checkbutton_runs_i_prevent_double_contact.Active;
-	}
-
 		
 	void on_button_cancel_clicked (object o, EventArgs args)
 	{
@@ -2163,67 +2253,6 @@ public class PreferencesWindow
 		//this is not stored in SQL
 		preferences.networksAllowChangeDevices = PreferencesWindowBox.check_networks_devices.Active;
 
-
-		if( preferences.metersSecondsPreferred != PreferencesWindowBox.radio_speed_ms.Active ) {
-			SqlitePreferences.Update("metersSecondsPreferred", PreferencesWindowBox.radio_speed_ms.Active.ToString(), true);
-			preferences.metersSecondsPreferred = PreferencesWindowBox.radio_speed_ms.Active;
-		}
-		
-		if( preferences.runSpeedStartArrival != PreferencesWindowBox.radio_runs_speed_start_arrival.Active ) {
-			SqlitePreferences.Update("runSpeedStartArrival", PreferencesWindowBox.radio_runs_speed_start_arrival.Active.ToString(), true);
-			preferences.runSpeedStartArrival = PreferencesWindowBox.radio_runs_speed_start_arrival.Active;
-		}
-		
-		//start of double contacts stuff ----
-
-		//1 simple runs ----
-		
-		//1.1 was FIRST or AVERAGE or LAST and now will be NONE
-		if( (preferences.runDoubleContactsMode != Constants.DoubleContact.NONE) && 
-				! PreferencesWindowBox.checkbutton_runs_prevent_double_contact.Active) 
-		{
-				SqlitePreferences.Update("runDoubleContactsMode", Constants.DoubleContact.NONE.ToString(), true);
-				preferences.runDoubleContactsMode = Constants.DoubleContact.NONE;
-		}
-		else if(PreferencesWindowBox.checkbutton_runs_prevent_double_contact.Active) 
-		{
-			if( preferences.runDoubleContactsMode != Constants.DoubleContact.BIGGEST_TC ) {
-				SqlitePreferences.Update("runDoubleContactsMode", Constants.DoubleContact.BIGGEST_TC.ToString(), true);
-				preferences.runDoubleContactsMode = Constants.DoubleContact.BIGGEST_TC;
-			}
-
-			if(preferences.runDoubleContactsMS != (int) PreferencesWindowBox.spinbutton_runs_prevent_double_contact.Value) {
-				SqlitePreferences.Update("runDoubleContactsMS", 
-						PreferencesWindowBox.spinbutton_runs_prevent_double_contact.Value.ToString(), true); //saved as string
-				preferences.runDoubleContactsMS = (int) spinbutton_runs_prevent_double_contact.Value;
-			}
-		}
-
-		//2 intervallic runs ----
-		
-		//2.1 was FIRST or AVERAGE or LAST and now will be NONE
-		if( (preferences.runIDoubleContactsMode != Constants.DoubleContact.NONE) && 
-				! PreferencesWindowBox.checkbutton_runs_i_prevent_double_contact.Active) 
-		{
-				SqlitePreferences.Update("runIDoubleContactsMode", Constants.DoubleContact.NONE.ToString(), true);
-				preferences.runIDoubleContactsMode = Constants.DoubleContact.NONE;
-		}
-		else if(PreferencesWindowBox.checkbutton_runs_i_prevent_double_contact.Active) 
-		{
-			if( preferences.runIDoubleContactsMode != Constants.DoubleContact.BIGGEST_TC ) {
-				SqlitePreferences.Update("runIDoubleContactsMode", Constants.DoubleContact.BIGGEST_TC.ToString(), true);
-				preferences.runIDoubleContactsMode = Constants.DoubleContact.BIGGEST_TC;
-			}
-			
-			if(preferences.runIDoubleContactsMS != (int) PreferencesWindowBox.spinbutton_runs_i_prevent_double_contact.Value) {
-				SqlitePreferences.Update("runIDoubleContactsMS", 
-						PreferencesWindowBox.spinbutton_runs_i_prevent_double_contact.Value.ToString(), true); //saved as string
-				preferences.runIDoubleContactsMS = (int) spinbutton_runs_i_prevent_double_contact.Value;
-			}
-		}
-
-		//---- end of double contacts stuff
-		
 		//encoder capture ----
 	
 		preferences.encoderCaptureTime = Preferences.PreferencesChange(

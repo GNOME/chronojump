@@ -1500,6 +1500,7 @@
                                 <property name="xalign">0</property>
                                 <property name="active">True</property>
                                 <property name="draw_indicator">True</property>
+                                <signal name="toggled" handler="on_radio_speed_ms_km_toggled" swapped="no"/>
                               </widget>
                               <packing>
                                 <property name="expand">False</property>
@@ -1516,6 +1517,7 @@
                                 <property name="xalign">0</property>
                                 <property name="draw_indicator">True</property>
                                 <property name="group">radio_speed_ms</property>
+                                <signal name="toggled" handler="on_radio_speed_ms_km_toggled" swapped="no"/>
                               </widget>
                               <packing>
                                 <property name="expand">False</property>
@@ -1604,6 +1606,7 @@ It starts before and arrives there with some speed.</property>
                                         <property name="receives_default">False</property>
                                         <property name="active">True</property>
                                         <property name="draw_indicator">True</property>
+                                        <signal name="toggled" handler="on_radio_runs_speed_start_arrival_leaving_toggled" swapped="no"/>
                                       </widget>
                                       <packing>
                                         <property name="expand">True</property>
@@ -1619,6 +1622,7 @@ It starts before and arrives there with some speed.</property>
                                         <property name="receives_default">False</property>
                                         <property name="draw_indicator">True</property>
                                         <property name="group">radio_runs_speed_start_arrival</property>
+                                        <signal name="toggled" handler="on_radio_runs_speed_start_arrival_leaving_toggled" swapped="no"/>
                                       </widget>
                                       <packing>
                                         <property name="expand">True</property>
@@ -1717,6 +1721,7 @@ It starts before and arrives there with some speed.</property>
                                                     <property name="snap_to_ticks">True</property>
                                                     <property name="numeric">True</property>
                                                     <property name="update_policy">if-valid</property>
+                                                    <signal name="value_changed" handler="on_spinbutton_runs_prevent_double_contact_value_changed" swapped="no"/>
                                                   </widget>
                                                   <packing>
                                                     <property name="expand">True</property>
@@ -1878,6 +1883,7 @@ It starts before and arrives there with some speed.</property>
                                                     <property name="snap_to_ticks">True</property>
                                                     <property name="numeric">True</property>
                                                     <property name="update_policy">if-valid</property>
+                                                    <signal name="value_changed" handler="on_spinbutton_runs_i_prevent_double_contact_value_changed" swapped="no"/>
                                                   </widget>
                                                   <packing>
                                                     <property name="expand">False</property>

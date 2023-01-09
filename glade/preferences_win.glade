@@ -1717,7 +1717,7 @@ It starts before and arrives there with some speed.</property>
                                                     <property name="secondary_icon_activatable">False</property>
                                                     <property name="primary_icon_sensitive">True</property>
                                                     <property name="secondary_icon_sensitive">True</property>
-                                                    <property name="adjustment">980 0 3000 10 1000 0</property>
+                                                    <property name="adjustment">300 0 3000 10 1000 0</property>
                                                     <property name="snap_to_ticks">True</property>
                                                     <property name="numeric">True</property>
                                                     <property name="update_policy">if-valid</property>
@@ -1879,7 +1879,7 @@ It starts before and arrives there with some speed.</property>
                                                     <property name="secondary_icon_activatable">False</property>
                                                     <property name="primary_icon_sensitive">True</property>
                                                     <property name="secondary_icon_sensitive">True</property>
-                                                    <property name="adjustment">960 0 3000 10 1000 0</property>
+                                                    <property name="adjustment">300 0 3000 10 1000 0</property>
                                                     <property name="snap_to_ticks">True</property>
                                                     <property name="numeric">True</property>
                                                     <property name="update_policy">if-valid</property>
@@ -2742,7 +2742,7 @@ It starts before and arrives there with some speed.</property>
                                                             <property name="secondary_icon_activatable">False</property>
                                                             <property name="primary_icon_sensitive">True</property>
                                                             <property name="secondary_icon_sensitive">True</property>
-                                                            <property name="adjustment">11 1 30 1 10 0</property>
+                                                            <property name="adjustment">10 1 30 1 10 0</property>
                                                             <property name="climb_rate">1</property>
                                                             <property name="snap_to_ticks">True</property>
                                                             <property name="numeric">True</property>

@@ -3292,6 +3292,7 @@ It starts before and arrives there with some speed.</property>
                                         <property name="tooltip" translatable="yes">On concentric evaluate only propulsive phase</property>
                                         <property name="active">True</property>
                                         <property name="draw_indicator">True</property>
+                                        <signal name="clicked" handler="on_checkbutton_encoder_propulsive_clicked" swapped="no"/>
                                       </widget>
                                       <packing>
                                         <property name="expand">False</property>
@@ -3362,6 +3363,7 @@ It starts before and arrives there with some speed.</property>
                                                     <property name="receives_default">False</property>
                                                     <property name="active">True</property>
                                                     <property name="draw_indicator">True</property>
+                                                    <signal name="toggled" handler="on_radio_encoder_work_toggled" swapped="no"/>
                                                   </widget>
                                                   <packing>
                                                     <property name="expand">False</property>
@@ -3377,6 +3379,7 @@ It starts before and arrives there with some speed.</property>
                                                     <property name="receives_default">False</property>
                                                     <property name="draw_indicator">True</property>
                                                     <property name="group">radio_encoder_work_kcal</property>
+                                                    <signal name="toggled" handler="on_radio_encoder_work_toggled" swapped="no"/>
                                                   </widget>
                                                   <packing>
                                                     <property name="expand">False</property>
@@ -3454,6 +3457,7 @@ It starts before and arrives there with some speed.</property>
                                                     <property name="receives_default">False</property>
                                                     <property name="active">True</property>
                                                     <property name="draw_indicator">True</property>
+                                                    <signal name="toggled" handler="on_radio_encoder_inertial_analyze_toggled" swapped="no"/>
                                                   </widget>
                                                   <packing>
                                                     <property name="expand">False</property>
@@ -3523,6 +3527,7 @@ It starts before and arrives there with some speed.</property>
                                                 <property name="receives_default">False</property>
                                                 <property name="draw_indicator">True</property>
                                                 <property name="group">radio_encoder_inertial_analyze_equivalent_mass</property>
+                                                <signal name="toggled" handler="on_radio_encoder_inertial_analyze_toggled" swapped="no"/>
                                               </widget>
                                               <packing>
                                                 <property name="expand">False</property>
@@ -3538,6 +3543,7 @@ It starts before and arrives there with some speed.</property>
                                                 <property name="receives_default">False</property>
                                                 <property name="draw_indicator">True</property>
                                                 <property name="group">radio_encoder_inertial_analyze_equivalent_mass</property>
+                                                <signal name="toggled" handler="on_radio_encoder_inertial_analyze_toggled" swapped="no"/>
                                               </widget>
                                               <packing>
                                                 <property name="expand">True</property>
@@ -3599,6 +3605,7 @@ It starts before and arrives there with some speed.</property>
                                             <property name="digits">2</property>
                                             <property name="snap_to_ticks">True</property>
                                             <property name="numeric">True</property>
+                                            <signal name="value_changed" handler="on_spin_encoder_smooth_con_value_changed" swapped="no"/>
                                           </widget>
                                           <packing>
                                             <property name="expand">False</property>
@@ -3689,6 +3696,7 @@ It starts before and arrives there with some speed.</property>
                                                     <property name="receives_default">False</property>
                                                     <property name="active">True</property>
                                                     <property name="draw_indicator">True</property>
+                                                    <signal name="toggled" handler="on_radio_encoder_1RM_weight_toggled" swapped="no"/>
                                                   </widget>
                                                 </child>
                                                 <child>
@@ -3699,6 +3707,7 @@ It starts before and arrives there with some speed.</property>
                                                     <property name="receives_default">False</property>
                                                     <property name="draw_indicator">True</property>
                                                     <property name="group">radio_encoder_1RM_nonweighted</property>
+                                                    <signal name="toggled" handler="on_radio_encoder_1RM_weight_toggled" swapped="no"/>
                                                   </widget>
                                                   <packing>
                                                     <property name="left_attach">1</property>
@@ -3713,6 +3722,7 @@ It starts before and arrives there with some speed.</property>
                                                     <property name="receives_default">False</property>
                                                     <property name="draw_indicator">True</property>
                                                     <property name="group">radio_encoder_1RM_nonweighted</property>
+                                                    <signal name="toggled" handler="on_radio_encoder_1RM_weight_toggled" swapped="no"/>
                                                   </widget>
                                                   <packing>
                                                     <property name="top_attach">1</property>
@@ -3727,6 +3737,7 @@ It starts before and arrives there with some speed.</property>
                                                     <property name="receives_default">False</property>
                                                     <property name="draw_indicator">True</property>
                                                     <property name="group">radio_encoder_1RM_nonweighted</property>
+                                                    <signal name="toggled" handler="on_radio_encoder_1RM_weight_toggled" swapped="no"/>
                                                   </widget>
                                                   <packing>
                                                     <property name="left_attach">1</property>

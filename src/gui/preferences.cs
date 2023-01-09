@@ -1545,9 +1545,143 @@ public class PreferencesWindow
 	}
 
 
+	/* callbacks SQL change at any change for tab: forceSensor */
+
+	private void on_spin_force_sensor_capture_width_graph_seconds_value_changed (object o, EventArgs args)
+	{
+		// B) changes on preferences object and SqlitePreferences
+		preferences.forceSensorCaptureWidthSeconds = Preferences.PreferencesChange(
+				false,
+				SqlitePreferences.ForceSensorCaptureWidthSeconds,
+				preferences.forceSensorCaptureWidthSeconds,
+				Convert.ToInt32(spin_force_sensor_capture_width_graph_seconds.Value));
+	}
+
+	private void on_radio_force_sensor_capture_scroll_zoom_toggled (object o, EventArgs args)
+	{
+		// B) changes on preferences object and SqlitePreferences
+		preferences.forceSensorCaptureScroll = Preferences.PreferencesChange(
+				false,
+				SqlitePreferences.ForceSensorCaptureScroll,
+				preferences.forceSensorCaptureScroll,
+				radio_force_sensor_capture_scroll.Active);
+	}
+
+	private void on_spin_force_sensor_graphs_line_width_value_changed (object o, EventArgs args)
+	{
+		// B) changes on preferences object and SqlitePreferences
+		preferences.forceSensorGraphsLineWidth = Preferences.PreferencesChange(
+				false,
+				SqlitePreferences.ForceSensorGraphsLineWidth,
+				preferences.forceSensorGraphsLineWidth,
+				Convert.ToInt32(spin_force_sensor_graphs_line_width.Value));
+	}
+
+	private void on_spin_force_sensor_not_elastic_ecc_min_force_value_changed (object o, EventArgs args)
+	{
+		// B) changes on preferences object and SqlitePreferences
+		preferences.forceSensorNotElasticEccMinForce = Preferences.PreferencesChange(
+				false,
+				SqlitePreferences.ForceSensorNotElasticEccMinForce,
+				preferences.forceSensorNotElasticEccMinForce,
+				Convert.ToInt32(spin_force_sensor_not_elastic_ecc_min_force.Value));
+	}
+
+	private void on_spin_force_sensor_not_elastic_con_min_force_value_changed (object o, EventArgs args)
+	{
+		// B) changes on preferences object and SqlitePreferences
+		preferences.forceSensorNotElasticConMinForce = Preferences.PreferencesChange(
+				false,
+				SqlitePreferences.ForceSensorNotElasticConMinForce,
+				preferences.forceSensorNotElasticConMinForce,
+				Convert.ToInt32(spin_force_sensor_not_elastic_con_min_force.Value));
+	}
+
+	private void on_spin_force_sensor_elastic_ecc_min_displ_value_changed (object o, EventArgs args)
+	{
+		// B) changes on preferences object and SqlitePreferences
+		preferences.forceSensorElasticEccMinDispl = Preferences.PreferencesChange(
+				false,
+				SqlitePreferences.ForceSensorElasticEccMinDispl,
+				preferences.forceSensorElasticEccMinDispl,
+				Convert.ToDouble(spin_force_sensor_elastic_ecc_min_displ.Value));
+	}
+
+	private void on_spin_force_sensor_elastic_con_min_displ_value_changed (object o, EventArgs args)
+	{
+		// B) changes on preferences object and SqlitePreferences
+		preferences.forceSensorElasticConMinDispl = Preferences.PreferencesChange(
+				false,
+				SqlitePreferences.ForceSensorElasticConMinDispl,
+				preferences.forceSensorElasticConMinDispl,
+				Convert.ToDouble(spin_force_sensor_elastic_con_min_displ.Value));
+	}
+
+	private void on_radio_force_sensor_variability_toggled (object o, EventArgs args)
+	{
+		// A) changes on preferences gui
+		//only manage active
+		if (! ((Gtk.RadioButton) o).Active)
+			return;
+
+		if (o == (object) radio_force_sensor_variability_rmssd)
+			hbox_force_sensor_lag.Visible = true;
+		else if (o == (object) radio_force_sensor_variability_cvrmssd)
+			hbox_force_sensor_lag.Visible = true;
+		else // (o == (object) radio_force_sensor_variability_old)
+			hbox_force_sensor_lag.Visible = false;
+
+		// B) changes on preferences object and SqlitePreferences
+		if(PreferencesWindowBox.radio_force_sensor_variability_rmssd.Active &&
+				preferences.forceSensorVariabilityMethod != Preferences.VariabilityMethodEnum.RMSSD)
+		{
+			SqlitePreferences.Update(SqlitePreferences.ForceSensorVariabilityMethod, Preferences.VariabilityMethodEnum.RMSSD.ToString(), false);
+			preferences.forceSensorVariabilityMethod = Preferences.VariabilityMethodEnum.RMSSD;
+		}
+		else if(PreferencesWindowBox.radio_force_sensor_variability_cvrmssd.Active &&
+				preferences.forceSensorVariabilityMethod != Preferences.VariabilityMethodEnum.CVRMSSD)
+		{
+			SqlitePreferences.Update(SqlitePreferences.ForceSensorVariabilityMethod, Preferences.VariabilityMethodEnum.CVRMSSD.ToString(), false);
+			preferences.forceSensorVariabilityMethod = Preferences.VariabilityMethodEnum.CVRMSSD;
+		}
+		else if(PreferencesWindowBox.radio_force_sensor_variability_old.Active &&
+				preferences.forceSensorVariabilityMethod != Preferences.VariabilityMethodEnum.CHRONOJUMP_OLD)
+		{
+			SqlitePreferences.Update(SqlitePreferences.ForceSensorVariabilityMethod, Preferences.VariabilityMethodEnum.CHRONOJUMP_OLD.ToString(), false);
+			preferences.forceSensorVariabilityMethod = Preferences.VariabilityMethodEnum.CHRONOJUMP_OLD;
+		}
+	}
+
+	private void on_spin_force_sensor_variability_lag_value_changed (object o, EventArgs args)
+	{
+		// B) changes on preferences object and SqlitePreferences
+		preferences.forceSensorVariabilityLag = Preferences.PreferencesChange(
+				false,
+				SqlitePreferences.ForceSensorVariabilityLag,
+				preferences.forceSensorVariabilityLag,
+				Convert.ToInt32(spin_force_sensor_variability_lag.Value));
+	}
+	private void on_spin_force_sensor_analyze_ab_slider_increment_value_changed (object o, EventArgs args)
+	{
+		// B) changes on preferences object and SqlitePreferences
+		preferences.forceSensorAnalyzeABSliderIncrement = Preferences.PreferencesChange(
+				false,
+				SqlitePreferences.ForceSensorAnalyzeABSliderIncrement,
+				preferences.forceSensorAnalyzeABSliderIncrement,
+				Convert.ToDouble(spin_force_sensor_analyze_ab_slider_increment.Value));
+	}
+	private void on_spin_force_sensor_analyze_max_avg_force_in_window_value_changed (object o, EventArgs args)
+	{
+		// B) changes on preferences object and SqlitePreferences
+		preferences.forceSensorAnalyzeMaxAVGInWindow = Preferences.PreferencesChange(
+				false,
+				SqlitePreferences.ForceSensorAnalyzeMaxAVGInWindow,
+				preferences.forceSensorAnalyzeMaxAVGInWindow,
+				Convert.ToDouble(spin_force_sensor_analyze_max_avg_force_in_window.Value));
+	}
+
+
 	// view more tabs ---->
-
-
 
 	private void on_button_view_more_tabs_clicked (object o, EventArgs args)
 	{
@@ -1655,23 +1789,7 @@ public class PreferencesWindow
 				Catalog.GetString("But keep in mind that if you display reactive jumps with other jumps (like CMJ, ABK), then heights will be shown."));
 	}
 
-	/*
-	 * forceSensor stuff
-	 */
 
-	private void on_radio_force_sensor_variability_toggled (object o, EventArgs args)
-	{
-		//only manage active
-		if (! ((Gtk.RadioButton) o).Active)
-			return;
-
-		if (o == (object) radio_force_sensor_variability_rmssd)
-			hbox_force_sensor_lag.Visible = true;
-		else if (o == (object) radio_force_sensor_variability_cvrmssd)
-			hbox_force_sensor_lag.Visible = true;
-		else // (o == (object) radio_force_sensor_variability_old)
-			hbox_force_sensor_lag.Visible = false;
-	}
 
 
 	private void on_button_encoder_capture_cut_by_triggers_help_clicked (object o, EventArgs args)
@@ -2512,85 +2630,6 @@ public class PreferencesWindow
 
 		//this is not stored in SQL
 		preferences.networksAllowChangeDevices = PreferencesWindowBox.check_networks_devices.Active;
-
-
-		//forceSensor
-		preferences.forceSensorCaptureWidthSeconds = Preferences.PreferencesChange(
-				true,
-				SqlitePreferences.ForceSensorCaptureWidthSeconds,
-				preferences.forceSensorCaptureWidthSeconds,
-				Convert.ToInt32(spin_force_sensor_capture_width_graph_seconds.Value));
-
-		preferences.forceSensorCaptureScroll = Preferences.PreferencesChange(
-				true,
-				SqlitePreferences.ForceSensorCaptureScroll,
-				preferences.forceSensorCaptureScroll,
-				radio_force_sensor_capture_scroll.Active);
-
-		preferences.forceSensorElasticEccMinDispl = Preferences.PreferencesChange(
-				true,
-				SqlitePreferences.ForceSensorElasticEccMinDispl,
-				preferences.forceSensorElasticEccMinDispl,
-				Convert.ToDouble(spin_force_sensor_elastic_ecc_min_displ.Value));
-		preferences.forceSensorElasticConMinDispl = Preferences.PreferencesChange(
-				true,
-				SqlitePreferences.ForceSensorElasticConMinDispl,
-				preferences.forceSensorElasticConMinDispl,
-				Convert.ToDouble(spin_force_sensor_elastic_con_min_displ.Value));
-		preferences.forceSensorNotElasticEccMinForce = Preferences.PreferencesChange(
-				true,
-				SqlitePreferences.ForceSensorNotElasticEccMinForce,
-				preferences.forceSensorNotElasticEccMinForce,
-				Convert.ToInt32(spin_force_sensor_not_elastic_ecc_min_force.Value));
-		preferences.forceSensorNotElasticConMinForce = Preferences.PreferencesChange(
-				true,
-				SqlitePreferences.ForceSensorNotElasticConMinForce,
-				preferences.forceSensorNotElasticConMinForce,
-				Convert.ToInt32(spin_force_sensor_not_elastic_con_min_force.Value));
-
-		preferences.forceSensorGraphsLineWidth = Preferences.PreferencesChange(
-				true,
-				SqlitePreferences.ForceSensorGraphsLineWidth,
-				preferences.forceSensorGraphsLineWidth,
-				Convert.ToInt32(spin_force_sensor_graphs_line_width.Value));
-
-		//variability
-		if(PreferencesWindowBox.radio_force_sensor_variability_rmssd.Active &&
-				preferences.forceSensorVariabilityMethod != Preferences.VariabilityMethodEnum.RMSSD)
-		{
-			SqlitePreferences.Update(SqlitePreferences.ForceSensorVariabilityMethod, Preferences.VariabilityMethodEnum.RMSSD.ToString(), true);
-			preferences.forceSensorVariabilityMethod = Preferences.VariabilityMethodEnum.RMSSD;
-		}
-		else if(PreferencesWindowBox.radio_force_sensor_variability_cvrmssd.Active &&
-				preferences.forceSensorVariabilityMethod != Preferences.VariabilityMethodEnum.CVRMSSD)
-		{
-			SqlitePreferences.Update(SqlitePreferences.ForceSensorVariabilityMethod, Preferences.VariabilityMethodEnum.CVRMSSD.ToString(), true);
-			preferences.forceSensorVariabilityMethod = Preferences.VariabilityMethodEnum.CVRMSSD;
-		}
-		else if(PreferencesWindowBox.radio_force_sensor_variability_old.Active &&
-				preferences.forceSensorVariabilityMethod != Preferences.VariabilityMethodEnum.CHRONOJUMP_OLD)
-		{
-			SqlitePreferences.Update(SqlitePreferences.ForceSensorVariabilityMethod, Preferences.VariabilityMethodEnum.CHRONOJUMP_OLD.ToString(), true);
-			preferences.forceSensorVariabilityMethod = Preferences.VariabilityMethodEnum.CHRONOJUMP_OLD;
-		}
-
-		preferences.forceSensorVariabilityLag = Preferences.PreferencesChange(
-				true,
-				SqlitePreferences.ForceSensorVariabilityLag,
-				preferences.forceSensorVariabilityLag,
-				Convert.ToInt32(spin_force_sensor_variability_lag.Value));
-
-		preferences.forceSensorAnalyzeABSliderIncrement = Preferences.PreferencesChange(
-				true,
-				SqlitePreferences.ForceSensorAnalyzeABSliderIncrement,
-				preferences.forceSensorAnalyzeABSliderIncrement,
-				Convert.ToDouble(spin_force_sensor_analyze_ab_slider_increment.Value));
-
-		preferences.forceSensorAnalyzeMaxAVGInWindow = Preferences.PreferencesChange(
-				true,
-				SqlitePreferences.ForceSensorAnalyzeMaxAVGInWindow,
-				preferences.forceSensorAnalyzeMaxAVGInWindow,
-				Convert.ToDouble(spin_force_sensor_analyze_max_avg_force_in_window.Value));
 
 		//runEncoder ----
 

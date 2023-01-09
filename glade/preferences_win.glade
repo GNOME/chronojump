@@ -3897,6 +3897,7 @@ It starts before and arrives there with some speed.</property>
                                             <property name="adjustment">10 1 100 1 10 0</property>
                                             <property name="climb_rate">1</property>
                                             <property name="numeric">True</property>
+                                            <signal name="value_changed" handler="on_spin_force_sensor_capture_width_graph_seconds_value_changed" swapped="no"/>
                                           </widget>
                                           <packing>
                                             <property name="expand">False</property>
@@ -3960,6 +3961,7 @@ It starts before and arrives there with some speed.</property>
                                                     <property name="receives_default">False</property>
                                                     <property name="active">True</property>
                                                     <property name="draw_indicator">True</property>
+                                                    <signal name="toggled" handler="on_radio_force_sensor_capture_scroll_zoom_toggled" swapped="no"/>
                                                   </widget>
                                                   <packing>
                                                     <property name="expand">False</property>
@@ -3975,6 +3977,7 @@ It starts before and arrives there with some speed.</property>
                                                     <property name="receives_default">False</property>
                                                     <property name="draw_indicator">True</property>
                                                     <property name="group">radio_force_sensor_capture_scroll</property>
+                                                    <signal name="toggled" handler="on_radio_force_sensor_capture_scroll_zoom_toggled" swapped="no"/>
                                                   </widget>
                                                   <packing>
                                                     <property name="expand">False</property>
@@ -4135,6 +4138,7 @@ It starts before and arrives there with some speed.</property>
                                                             <property name="digits">1</property>
                                                             <property name="snap_to_ticks">True</property>
                                                             <property name="numeric">True</property>
+                                                            <signal name="value_changed" handler="on_spin_force_sensor_elastic_ecc_min_displ_value_changed" swapped="no"/>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -4196,6 +4200,7 @@ It starts before and arrives there with some speed.</property>
                                                             <property name="digits">1</property>
                                                             <property name="snap_to_ticks">True</property>
                                                             <property name="numeric">True</property>
+                                                            <signal name="value_changed" handler="on_spin_force_sensor_elastic_con_min_displ_value_changed" swapped="no"/>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -4294,6 +4299,7 @@ It starts before and arrives there with some speed.</property>
                                                             <property name="climb_rate">1</property>
                                                             <property name="snap_to_ticks">True</property>
                                                             <property name="numeric">True</property>
+                                                            <signal name="value_changed" handler="on_spin_force_sensor_not_elastic_ecc_min_force_value_changed" swapped="no"/>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -4354,6 +4360,7 @@ It starts before and arrives there with some speed.</property>
                                                             <property name="climb_rate">1</property>
                                                             <property name="snap_to_ticks">True</property>
                                                             <property name="numeric">True</property>
+                                                            <signal name="value_changed" handler="on_spin_force_sensor_not_elastic_con_min_force_value_changed" swapped="no"/>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -4526,6 +4533,7 @@ It starts before and arrives there with some speed.</property>
                                                             <property name="adjustment">1 1 10 1 10 0</property>
                                                             <property name="climb_rate">1</property>
                                                             <property name="numeric">True</property>
+                                                            <signal name="value_changed" handler="on_spin_force_sensor_variability_lag_value_changed" swapped="no"/>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -4636,6 +4644,7 @@ It starts before and arrives there with some speed.</property>
                                                     <property name="digits">1</property>
                                                     <property name="snap_to_ticks">True</property>
                                                     <property name="numeric">True</property>
+                                                    <signal name="value_changed" handler="on_spin_force_sensor_analyze_ab_slider_increment_value_changed" swapped="no"/>
                                                   </widget>
                                                   <packing>
                                                     <property name="expand">False</property>
@@ -4741,6 +4750,7 @@ It starts before and arrives there with some speed.</property>
                                                     <property name="digits">1</property>
                                                     <property name="snap_to_ticks">True</property>
                                                     <property name="numeric">True</property>
+                                                    <signal name="value_changed" handler="on_spin_force_sensor_analyze_max_avg_force_in_window_value_changed" swapped="no"/>
                                                   </widget>
                                                   <packing>
                                                     <property name="expand">False</property>
@@ -4828,6 +4838,7 @@ It starts before and arrives there with some speed.</property>
                                 <property name="adjustment">2 1 10 1 10 0</property>
                                 <property name="climb_rate">1</property>
                                 <property name="numeric">True</property>
+                                <signal name="value_changed" handler="on_spin_force_sensor_graphs_line_width_value_changed" swapped="no"/>
                               </widget>
                               <packing>
                                 <property name="expand">False</property>

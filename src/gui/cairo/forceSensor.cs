@@ -27,12 +27,14 @@ using Cairo;
 public class CairoGraphForceSensorSignal : CairoXY
 {
 	private int points_list_painted;
+	private int pathLineWidthInN;
 
 	//regular constructor
-	public CairoGraphForceSensorSignal (DrawingArea area, string title)
+	public CairoGraphForceSensorSignal (DrawingArea area, string title, int pathLineWidthInN)
 	{
 		this.area = area;
 		this.title = title;
+		this.pathLineWidthInN = pathLineWidthInN;
 		this.colorBackground = colorFromGdk(Config.ColorBackground); //but note if we are using system colors, this will not match
 		
 		//doing = false;
@@ -60,14 +62,14 @@ public class CairoGraphForceSensorSignal : CairoXY
 	//separated in two methods to ensure endGraphDisposing on any return of the other method
 	public void DoSendingList (string font,
 			List<PointF> points_list,
-			List<PointF> points_list_interpolated_path,
+			List<PointF> points_list_interpolated_path, int interpolatedMin, int interpolatedMax,
 			int showLastSeconds,
 			int minDisplayFNegative, int minDisplayFPositive,
 			int rectangleN, int rectangleRange,
 			bool forceRedraw, PlotTypes plotType)
 	{
 		if(doSendingList (font, points_list,
-					points_list_interpolated_path,
+					points_list_interpolated_path, interpolatedMin, interpolatedMax,
 					showLastSeconds,
 					minDisplayFNegative, minDisplayFPositive,
 					rectangleN, rectangleRange,
@@ -79,7 +81,7 @@ public class CairoGraphForceSensorSignal : CairoXY
 	//return true if graph is inited (to dispose it)
 	private bool doSendingList (string font,
 			List<PointF> points_list,
-			List<PointF> points_list_interpolated_path,
+			List<PointF> points_list_interpolated_path, int interpolatedMin, int interpolatedMax,
 			int showLastSeconds,
 			int minDisplayFNegative, int minDisplayFPositive,
 			int rectangleN, int rectangleRange,
@@ -103,6 +105,14 @@ public class CairoGraphForceSensorSignal : CairoXY
 					minY = rectangleN - rectangleRange/2;
 				if (rectangleN > 0 && rectangleN + rectangleRange/2 > absoluteMaxY)
 					absoluteMaxY = rectangleN + rectangleRange/2;
+			}
+
+			if (points_list_interpolated_path != null && points_list_interpolated_path.Count > 0)
+			{
+				if (interpolatedMin - pathLineWidthInN/2 < minY)
+					minY = interpolatedMin - pathLineWidthInN/2;
+				if (interpolatedMax + pathLineWidthInN/2 > absoluteMaxY)
+					absoluteMaxY = interpolatedMax + pathLineWidthInN/2;
 			}
 		}
 
@@ -157,21 +167,50 @@ public class CairoGraphForceSensorSignal : CairoXY
 
 			paintAxis();
 
+			if (points_list_interpolated_path != null && points_list_interpolated_path.Count > 0)
+			{
+				g.LineWidth = calculatePathWidth ();
+				g.SetSourceColor (colorFromRGB (178,223,238));
+
+				//make the line start at startAt +1 (if possible) and draw cicle at left (startAt) to have nice rounding at left.
+				int startAt_theLine = startAt;
+				if (points_list.Count -1 > startAt)
+					startAt_theLine = startAt +1;
+
+				plotRealPoints(plotType, points_list_interpolated_path, startAt_theLine, true); //fast (but the difference is very low)
+
+				//circle at left
+				drawCircle (
+						calculatePaintX (points_list_interpolated_path[startAt].X),
+						calculatePaintY (points_list_interpolated_path[startAt].Y),
+						g.LineWidth/2, colorFromRGB (178,223,238), true);
+				//circle at right
+				drawCircle (
+						calculatePaintX (points_list_interpolated_path[points_list_interpolated_path.Count -1].X),
+						calculatePaintY (points_list_interpolated_path[points_list_interpolated_path.Count -1].Y),
+						g.LineWidth/2, colorFromRGB (178,223,238), true);
+
+				g.LineWidth = 2;
+				g.SetSourceColor (black);
+			}
+
 			plotRealPoints(plotType, points_list, startAt, true); //fast (but the difference is very low)
-			if (points_list_interpolated_path != null)
-				plotRealPoints(plotType, points_list_interpolated_path, startAt, true); //fast (but the difference is very low)
-			//plotRealPoints(plotType, points_list, startAt, false); //fast (but the difference is very low)
 
 			if(calculatePaintX (xAtMaxY) > leftMargin)
-				drawCircle (calculatePaintX (xAtMaxY), calculatePaintY (yAtMaxY), 8, red);
+				drawCircle (calculatePaintX (xAtMaxY), calculatePaintY (yAtMaxY), 8, red, false);
 
 			if(calculatePaintX (xAtMinY) > leftMargin)
-				drawCircle (calculatePaintX (xAtMinY), calculatePaintY (yAtMinY), 8, red);
+				drawCircle (calculatePaintX (xAtMinY), calculatePaintY (yAtMinY), 8, red, false);
 
 			points_list_painted = points_list.Count;
 		}
 
 		return true;
+	}
+
+	private double calculatePathWidth ()
+	{
+		return Math.Abs (calculatePaintY (pathLineWidthInN) - calculatePaintY (0));
 	}
 
 	//for signals like forceSensor where points_list.X is time in microseconds and there is not a sample for each second (like encoder)

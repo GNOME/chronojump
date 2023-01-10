@@ -2855,7 +2855,9 @@ LogB.Information(" fs R ");
 		//LogB.Information ("updateForceSensorCaptureSignalCairo 0");
 		if (cairoGraphForceSensorSignal == null)
 			cairoGraphForceSensorSignal = new CairoGraphForceSensorSignal (
-					force_capture_drawingarea_cairo, "title");
+					force_capture_drawingarea_cairo, "title",
+					preferences.forceSensorFeedbackPathLineWidth
+					);
 
 		//LogB.Information ("updateForceSensorCaptureSignalCairo 1");
 
@@ -2890,14 +2892,15 @@ LogB.Information(" fs R ");
 		for (int i = 0; i < pointsToCopy; i ++)
 		{
 			cairoGraphForceSensorSignalPoints_l_copy.Add (cairoGraphForceSensorSignalPoints_l[i]);
-			if(preferences.forceSensorCaptureFeedbackActive == Preferences.ForceSensorCaptureFeedbackActiveEnum.PATH)
+			if(interpolate_l != null && //do not paint interpolate path on load
+					preferences.forceSensorCaptureFeedbackActive == Preferences.ForceSensorCaptureFeedbackActiveEnum.PATH)
 				paintPointsInterpolateCairo_l_copy.Add (paintPointsInterpolateCairo_l[i]);
 		}
 
 		//LogB.Information ("updateForceSensorCaptureSignalCairo 4");
 		cairoGraphForceSensorSignal.DoSendingList (preferences.fontType.ToString(),
 				cairoGraphForceSensorSignalPoints_l_copy,
-				paintPointsInterpolateCairo_l_copy,
+				paintPointsInterpolateCairo_l_copy, preferences.forceSensorFeedbackPathMin, preferences.forceSensorFeedbackPathMax,
 				showLastSeconds,
 				-50, 50, //minimum Y display from -50 to 50
 				rectangleN, rectangleRange,

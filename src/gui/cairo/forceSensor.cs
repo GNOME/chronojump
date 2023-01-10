@@ -59,12 +59,16 @@ public class CairoGraphForceSensorSignal : CairoXY
 
 	//separated in two methods to ensure endGraphDisposing on any return of the other method
 	public void DoSendingList (string font,
-			List<PointF> points_list, int showLastSeconds,
+			List<PointF> points_list,
+			List<PointF> points_list_interpolated_path,
+			int showLastSeconds,
 			int minDisplayFNegative, int minDisplayFPositive,
 			int rectangleN, int rectangleRange,
 			bool forceRedraw, PlotTypes plotType)
 	{
-		if(doSendingList (font, points_list, showLastSeconds,
+		if(doSendingList (font, points_list,
+					points_list_interpolated_path,
+					showLastSeconds,
 					minDisplayFNegative, minDisplayFPositive,
 					rectangleN, rectangleRange,
 					forceRedraw, plotType))
@@ -74,7 +78,9 @@ public class CairoGraphForceSensorSignal : CairoXY
 	//similar to encoder method but calling configureTimeWindow and using minDisplayF(Negative/Positive)
 	//return true if graph is inited (to dispose it)
 	private bool doSendingList (string font,
-			List<PointF> points_list, int showLastSeconds,
+			List<PointF> points_list,
+			List<PointF> points_list_interpolated_path,
+			int showLastSeconds,
 			int minDisplayFNegative, int minDisplayFPositive,
 			int rectangleN, int rectangleRange,
 			bool forceRedraw, PlotTypes plotType)
@@ -105,7 +111,7 @@ public class CairoGraphForceSensorSignal : CairoXY
 				(points_list != null && points_list.Count != points_list_painted)
 				)
 		{
-			initGraph( font, 1, (maxValuesChanged || forceRedraw) );
+			initGraph (font, 1, (maxValuesChanged || forceRedraw) );
 			graphInited = true;
 			points_list_painted = 0;
 		}
@@ -115,7 +121,14 @@ public class CairoGraphForceSensorSignal : CairoXY
 		//	paintAxis();
 
 		if( points_list == null || points_list.Count == 0)
+		{
+			if (! graphInited)
+			{
+				initGraph (font, 1, true);
+				graphInited = true;
+			}
 			return graphInited;
+		}
 
 		//fix an eventual crash on g.LineWidth below
 		if(g == null || ! graphInited)
@@ -145,6 +158,8 @@ public class CairoGraphForceSensorSignal : CairoXY
 			paintAxis();
 
 			plotRealPoints(plotType, points_list, startAt, true); //fast (but the difference is very low)
+			if (points_list_interpolated_path != null)
+				plotRealPoints(plotType, points_list_interpolated_path, startAt, true); //fast (but the difference is very low)
 			//plotRealPoints(plotType, points_list, startAt, false); //fast (but the difference is very low)
 
 			if(calculatePaintX (xAtMaxY) > leftMargin)

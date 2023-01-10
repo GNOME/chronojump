@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Copyright (C) 2004-2022   Xavier de Blas <xaviblas@gmail.com>
+ *  Copyright (C) 2004-2023   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -436,6 +436,15 @@ public class Util
 		myStringBuilder.Replace("'", " ");
 		myStringBuilder.Replace(":", " ");
 		return myStringBuilder.ToString();
+	}
+
+	public static string RemoveComma (string myString) //to not make fail encoder exercise on tables sent to R
+	{
+		return myString.Replace(",", "");
+	}
+	public static string RemoveSemicolon (string myString) //to not make fail encoder exercise on tables sent to R
+	{
+		return myString.Replace(";", "");
 	}
 	
 	//dot is used for separating sex in stats names (cannot be used for a new jumpType)

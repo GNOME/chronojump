@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2022   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2004-2023   Xavier de Blas <xaviblas@gmail.com>
  */
 using System;
 using System.IO; 
@@ -5640,6 +5640,8 @@ public partial class ChronoJumpWindow
 	bool encoder_exercise_do_add_or_edit (bool adding)
 	{
 		string name = Util.RemoveTildeAndColonAndDot(entry_encoder_exercise_name.Text);
+		name = Util.RemoveComma (name); 	//to not make fail encoder exercise on tables sent to R
+		name = Util.RemoveSemicolon (name);	//to not make fail encoder exercise on tables sent to R
 		name = Util.RemoveChar(name, '"');
 
 		if(adding)

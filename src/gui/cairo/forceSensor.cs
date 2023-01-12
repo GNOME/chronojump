@@ -46,11 +46,12 @@ public class CairoGraphForceSensorSignal : CairoXY
 
 		//need to be small because graphHeight could be 100,
 		//if margins are big then calculatePaintY could give us reverse results
-		leftMargin = 30;
-		topMargin = 30;
-		bottomMargin = 30;
-		outerMargin = 30; //outerMargin has to be the same than topMargin & bottomMargin to have grid arrive to the margins
-		innerMargin = 10;
+		leftMargin = 20;
+		rightMargin = 20;
+		topMargin = 20;
+		bottomMargin = 20;
+		outerMargin = 20; //outerMargin has to be the same than topMargin & bottomMargin to have grid arrive to the margins
+		innerMargin = 20;
 
 		yVariable = forceStr;
 		yUnits = "N";
@@ -120,6 +121,9 @@ public class CairoGraphForceSensorSignal : CairoXY
 					minY = interpolatedMin - pathLineWidthInN/2;
 				if (interpolatedMax + pathLineWidthInN/2 > absoluteMaxY)
 					absoluteMaxY = interpolatedMax + pathLineWidthInN/2;
+				//make the head of the worm fit inside the graph increasing rightMargin if needed
+				if  (calculatePathWidth ()/2 > rightMargin)
+					rightMargin = Convert.ToInt32 (Math.Ceiling (calculatePathWidth ()/2));
 			}
 		}
 
@@ -185,7 +189,7 @@ public class CairoGraphForceSensorSignal : CairoXY
 				if (points_list.Count -1 > startAt)
 					startAt_theLine = startAt +1;
 
-				plotRealPoints(plotType, points_list_interpolated_path, startAt_theLine, true); //fast (but the difference is very low)
+				plotRealPoints(plotType, points_list_interpolated_path, startAt_theLine, false); //fast (but the difference is very low)
 
 				//circle at left
 				drawCircle (calculatePaintX (points_list_interpolated_path[startAt].X),
@@ -236,7 +240,7 @@ public class CairoGraphForceSensorSignal : CairoXY
 				g.LineWidth = 2;
 			}
 
-			plotRealPoints(plotType, points_list, startAt, true); //fast (but the difference is very low)
+			plotRealPoints(plotType, points_list, startAt, false); //fast (but the difference is very low)
 
 			if(calculatePaintX (xAtMaxY) > leftMargin)
 				drawCircle (calculatePaintX (xAtMaxY), calculatePaintY (yAtMaxY), 8, red, false);
@@ -296,6 +300,14 @@ public class CairoGraphForceSensorSignal : CairoXY
 
 		g.SetSourceRGB(0, 0, 0);
 	}
+
+	//instead of use totalMargins, use leftMargin and rightMargin to allow feedback path head be inside the graph (not at extreme right)
+	protected override double calculatePaintX (double realX)
+	{
+                return leftMargin + innerMargin + (realX - minX) * UtilAll.DivideSafe(
+				graphWidth -(leftMargin + rightMargin) -2*innerMargin,
+				absoluteMaxX - minX);
+        }
 
 	protected override void paintVerticalGridLine(Cairo.Context g, int xtemp, string text, int fontH)
 	{

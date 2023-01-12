@@ -1678,7 +1678,7 @@ LogB.Information(" fs C ");
 
 					fscPoints.InitRealWidthHeight(preferences.forceSensorCaptureWidthSeconds);
 
-					forceSensorDoSignalGraphPlot();
+					forceSensorDoSignalGraphPlot (forceSensorGraphEnum.BOTH);
 
 					//do not calculate RFD until analyze button there is clicked
 					//forceSensorDoRFDGraph();
@@ -2170,7 +2170,7 @@ LogB.Information(" fs R ");
 					fscPoints.WidthG = allocation.Width;
 					fscPoints.HeightG = allocation.Height;
 					fscPoints.Redo();
-					forceSensorDoSignalGraphPlot();
+					forceSensorDoSignalGraphPlot (forceSensorGraphEnum.GTK);
 				}
 			}
 
@@ -2205,7 +2205,7 @@ LogB.Information(" fs R ");
 					fscPoints.WidthG = allocation.Width;
 					fscPoints.HeightG = allocation.Height;
 					fscPoints.Redo();
-					forceSensorDoSignalGraphPlot();
+					forceSensorDoSignalGraphPlot (forceSensorGraphEnum.GTK);
 				}
 			}
 
@@ -2675,7 +2675,7 @@ LogB.Information(" fs R ");
 		File.Copy(lastForceSensorFullPath, UtilEncoder.GetmifCSVFileName(), true); //can be overwritten
 
 		if(fsge == forceSensorGraphsEnum.SIGNAL)
-			forceSensorDoSignalGraph();
+			forceSensorDoSignalGraph ();
 		else //(fsge == forceSensorGraphsEnum.RFD)
 			forceSensorDoRFDGraph();
 	}
@@ -2768,8 +2768,8 @@ LogB.Information(" fs R ");
 
 	void forceSensorDoSignalGraph()
 	{
-		forceSensorDoSignalGraphReadFile(getForceSensorCaptureOptions());
-		forceSensorDoSignalGraphPlot();
+		forceSensorDoSignalGraphReadFile (getForceSensorCaptureOptions());
+		forceSensorDoSignalGraphPlot (forceSensorGraphEnum.BOTH);
 	}
 	void forceSensorDoSignalGraphReadFile(ForceSensor.CaptureOptions fsco)
 	{
@@ -2920,10 +2920,13 @@ LogB.Information(" fs R ");
 		button_force_sensor_analyze_analyze.Sensitive = true;
 	}
 
-	private void forceSensorDoSignalGraphPlot ()
+	private enum forceSensorGraphEnum { GTK, CAIRO, BOTH };
+	private void forceSensorDoSignalGraphPlot (forceSensorGraphEnum fsge)
 	{
-		forceSensorDoSignalGraphPlotCairo ();
-		forceSensorDoSignalGraphPlotOldGTK ();
+		if (fsge != forceSensorGraphEnum.GTK)
+			forceSensorDoSignalGraphPlotCairo ();
+		if (fsge != forceSensorGraphEnum.CAIRO)
+			forceSensorDoSignalGraphPlotOldGTK ();
 
 		label_force_sensor_value.Text = string.Format("{0:0.##} N", forceSensorValues.ValueLast);
 		label_force_sensor_value_max.Text = string.Format("{0:0.##} N", forceSensorValues.Max);

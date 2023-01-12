@@ -169,8 +169,9 @@ public class CairoGraphForceSensorSignal : CairoXY
 
 			if (points_list_interpolated_path != null && points_list_interpolated_path.Count > 0)
 			{
+				Cairo.Color colorPathBlue = colorFromRGB (178,223,238);
 				g.LineWidth = calculatePathWidth ();
-				g.SetSourceColor (colorFromRGB (178,223,238));
+				g.SetSourceColor (colorPathBlue);
 
 				//make the line start at startAt +1 (if possible) and draw cicle at left (startAt) to have nice rounding at left.
 				int startAt_theLine = startAt;
@@ -180,15 +181,24 @@ public class CairoGraphForceSensorSignal : CairoXY
 				plotRealPoints(plotType, points_list_interpolated_path, startAt_theLine, true); //fast (but the difference is very low)
 
 				//circle at left
-				drawCircle (
-						calculatePaintX (points_list_interpolated_path[startAt].X),
+				drawCircle (calculatePaintX (points_list_interpolated_path[startAt].X),
 						calculatePaintY (points_list_interpolated_path[startAt].Y),
-						g.LineWidth/2, colorFromRGB (178,223,238), true);
-				//circle at right
-				drawCircle (
+						g.LineWidth/2, colorPathBlue, true);
+
+				//compare last point painted with circle at right
+				double error = getDistance2D (calculatePaintX (points_list[points_list.Count -1].X),
+						calculatePaintY (points_list[points_list.Count -1].Y),
 						calculatePaintX (points_list_interpolated_path[points_list_interpolated_path.Count -1].X),
+						calculatePaintY (points_list_interpolated_path[points_list_interpolated_path.Count -1].Y));
+
+				Cairo.Color colorHead = colorPathBlue;
+				if (error > g.LineWidth/2)
+					colorHead = colorFromRGB (238, 0, 0);
+
+				//circle at right
+				drawCircle (calculatePaintX (points_list_interpolated_path[points_list_interpolated_path.Count -1].X),
 						calculatePaintY (points_list_interpolated_path[points_list_interpolated_path.Count -1].Y),
-						g.LineWidth/2, colorFromRGB (178,223,238), true);
+						g.LineWidth/2, colorHead, true);
 
 				g.LineWidth = 2;
 				g.SetSourceColor (black);

@@ -53,6 +53,10 @@ https://cscheng.info/2017/01/26/git-tip-autostash-with-git-pull-rebase.html
 
 ## Common use
 
+### Change commit message (before push)
+
+    git commit --amend
+
 ### Change to a concrete hash:
 
     git checkout d1dba97d

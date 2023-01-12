@@ -2901,6 +2901,7 @@ LogB.Information(" fs R ");
 		cairoGraphForceSensorSignal.DoSendingList (preferences.fontType.ToString(),
 				cairoGraphForceSensorSignalPoints_l_copy,
 				paintPointsInterpolateCairo_l_copy, preferences.forceSensorFeedbackPathMin, preferences.forceSensorFeedbackPathMax,
+				(forceCaptureThread != null && forceCaptureThread.IsAlive),
 				showLastSeconds,
 				-50, 50, //minimum Y display from -50 to 50
 				rectangleN, rectangleRange,

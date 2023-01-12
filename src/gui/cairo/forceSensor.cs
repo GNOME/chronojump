@@ -28,6 +28,8 @@ public class CairoGraphForceSensorSignal : CairoXY
 {
 	private int points_list_painted;
 	private int pathLineWidthInN;
+	private int accuracySamplesGood;
+	private int accuracySamplesBad;
 
 	//regular constructor
 	public CairoGraphForceSensorSignal (DrawingArea area, string title, int pathLineWidthInN)
@@ -39,6 +41,8 @@ public class CairoGraphForceSensorSignal : CairoXY
 		
 		//doing = false;
 		points_list_painted = 0;
+		accuracySamplesGood = 0;
+		accuracySamplesBad = 0;
 
 		//need to be small because graphHeight could be 100,
 		//if margins are big then calculatePaintY could give us reverse results
@@ -63,6 +67,7 @@ public class CairoGraphForceSensorSignal : CairoXY
 	public void DoSendingList (string font,
 			List<PointF> points_list,
 			List<PointF> points_list_interpolated_path, int interpolatedMin, int interpolatedMax,
+			bool capturing,
 			int showLastSeconds,
 			int minDisplayFNegative, int minDisplayFPositive,
 			int rectangleN, int rectangleRange,
@@ -70,6 +75,7 @@ public class CairoGraphForceSensorSignal : CairoXY
 	{
 		if(doSendingList (font, points_list,
 					points_list_interpolated_path, interpolatedMin, interpolatedMax,
+					capturing,
 					showLastSeconds,
 					minDisplayFNegative, minDisplayFPositive,
 					rectangleN, rectangleRange,
@@ -82,6 +88,7 @@ public class CairoGraphForceSensorSignal : CairoXY
 	private bool doSendingList (string font,
 			List<PointF> points_list,
 			List<PointF> points_list_interpolated_path, int interpolatedMin, int interpolatedMax,
+			bool capturing,
 			int showLastSeconds,
 			int minDisplayFNegative, int minDisplayFPositive,
 			int rectangleN, int rectangleRange,
@@ -185,23 +192,48 @@ public class CairoGraphForceSensorSignal : CairoXY
 						calculatePaintY (points_list_interpolated_path[startAt].Y),
 						g.LineWidth/2, colorPathBlue, true);
 
-				//compare last point painted with circle at right
-				double error = getDistance2D (calculatePaintX (points_list[points_list.Count -1].X),
-						calculatePaintY (points_list[points_list.Count -1].Y),
-						calculatePaintX (points_list_interpolated_path[points_list_interpolated_path.Count -1].X),
-						calculatePaintY (points_list_interpolated_path[points_list_interpolated_path.Count -1].Y));
-
 				Cairo.Color colorHead = colorPathBlue;
-				if (error > g.LineWidth/2)
-					colorHead = colorFromRGB (238, 0, 0);
+
+				string accuracyText = "";
+				if (points_list[points_list.Count -1].X < 5000000)
+				{
+					accuracyText = string.Format ("Accuracy calculation starts in {0} s",
+							Convert.ToInt32 (UtilAll.DivideSafe(5000000 - points_list[points_list.Count -1].X, 1000000)));
+				}
+				else {
+					//compare last point painted with circle at right
+					double error = getDistance2D (calculatePaintX (points_list[points_list.Count -1].X),
+							calculatePaintY (points_list[points_list.Count -1].Y),
+							calculatePaintX (points_list_interpolated_path[points_list_interpolated_path.Count -1].X),
+							calculatePaintY (points_list_interpolated_path[points_list_interpolated_path.Count -1].Y));
+
+					accuracyText = string.Format ("Accuracy {0} %", Util.TrimDecimals (100 * UtilAll.DivideSafe (accuracySamplesGood, (accuracySamplesGood + accuracySamplesBad)), 1));
+
+					if (error > g.LineWidth/2)
+					{
+						colorHead = colorFromRGB (238, 0, 0);
+
+						//avoid to change the results on a resize after capture
+						if (capturing)
+							accuracySamplesBad ++; //but need to check the rest of the sample points, not only last
+					} else
+						if (capturing)
+							accuracySamplesGood ++; //but need to check the rest of the sample points, not only last
+				}
 
 				//circle at right
 				drawCircle (calculatePaintX (points_list_interpolated_path[points_list_interpolated_path.Count -1].X),
 						calculatePaintY (points_list_interpolated_path[points_list_interpolated_path.Count -1].Y),
 						g.LineWidth/2, colorHead, true);
 
-				g.LineWidth = 2;
 				g.SetSourceColor (black);
+
+				g.SetFontSize (textHeight +4);
+				printText (graphWidth/2, outerMargin, 0, textHeight +4,
+						accuracyText, g, alignTypes.CENTER);
+				g.SetFontSize (textHeight);
+
+				g.LineWidth = 2;
 			}
 
 			plotRealPoints(plotType, points_list, startAt, true); //fast (but the difference is very low)

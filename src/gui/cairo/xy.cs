@@ -632,7 +632,7 @@ public abstract class CairoXY : CairoGeneric
 		int found = 0;
 		foreach(PointF p in point_l)
 		{
-			double dist = Math.Sqrt(Math.Pow(graphX - calculatePaintX(p.X), 2) + Math.Pow(graphY - calculatePaintY(p.Y), 2));
+			double dist = getDistance2D (graphX, graphY, calculatePaintX (p.X), calculatePaintY (p.Y));
 			if(dist < distMin)
 			{
 				distMin = dist;
@@ -650,6 +650,11 @@ public abstract class CairoXY : CairoGeneric
 		}
 
 		return found;
+	}
+
+	protected double getDistance2D (double x1, double y1, double x2, double y2)
+	{
+		return Math.Sqrt (Math.Pow (x1 - x2, 2) + Math.Pow (y1 - y2, 2));
 	}
 
 	protected virtual void writeSelectedValues(int line, PointF pClosest, int closestPos)

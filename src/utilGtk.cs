@@ -855,6 +855,15 @@ public class UtilGtk
 		if(width <= 0 || height <= 0) //just a caution
 			return;
 
+		LogB.Information(string.Format ("getPixelsInOutOfPathSafeMemory minX: {0} minY: {1} width: {2} height: {3}", minX, minY, width, height));
+		int pixmapW = 0;
+		int pixmapH = 0;
+		pixmap.GetSize (out pixmapW, out pixmapH);
+
+		LogB.Information(string.Format ("pixmapW: {0} pixmapH: {1}", pixmapW, pixmapH));
+		if (minX + width >= pixmapW || minY + height >= pixmapH) //avoid a crash
+			return;
+
 		Gdk.Image image = pixmap.GetImage(minX, minY, width, height);
 
 		// 2) calculate inPath, outPath

@@ -234,26 +234,36 @@ public abstract class CairoGeneric
 		//LogB.Information("pvgl fontH: " + fontH.ToString());
 	}
 
-	protected void paintVerticalTriggerLine (Cairo.Context g, Trigger trigger, int fontH)
+	protected enum timeUnits { SECONDS, MICROSECONDS };
+	protected double paintVerticalTriggerLine (Cairo.Context g, Trigger trigger, timeUnits tUnits, bool printLabel, int fontH)
 	{
 		if(fontH < 1)
 			fontH = 1;
 
-		if(trigger.InOut)
-			g.SetSourceColor(green);
-		else
+		g.SetSourceColor(green);
+		int row = 0;
+		if (! trigger.InOut)
+		{
 			g.SetSourceColor(red);
+			row = 1;
+		}
 
-		double triggerInSeconds = UtilAll.DivideSafe(trigger.Us, 1000000);
-		double xtemp = calculatePaintX(triggerInSeconds);
-		//LogB.Information(string.Format("trigger.Us:{0}, xtemp:{1}", triggerInSeconds, xtemp));
-		g.MoveTo(xtemp, topMargin);
+		double triggerTimeConverted = trigger.Us;
+		if (tUnits == timeUnits.SECONDS)
+			triggerTimeConverted = UtilAll.DivideSafe (trigger.Us, 1000000);
+
+		double xtemp = calculatePaintX (triggerTimeConverted);
+		//LogB.Information(string.Format("trigger time:{0}, xtemp:{1}", triggerTimeConverted, xtemp));
+		g.MoveTo(xtemp, 10 + fontH + row*12);
 		g.LineTo(xtemp, graphHeight - bottomMargin);
 		g.Stroke ();
 
-		printText(xtemp, graphHeight -.8*bottomMargin, 0, fontH, Util.TrimDecimals(triggerInSeconds,1), g, alignTypes.CENTER);
+		if (printLabel)
+			printText (xtemp, 10 + row*12, 0, fontH, Util.TrimDecimals (triggerTimeConverted, 1), g, alignTypes.CENTER);
 
 		g.SetSourceColor(black);
+
+		return xtemp;
 	}
 
 	/*

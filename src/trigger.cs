@@ -164,6 +164,10 @@ public class TriggerList
 	{
 		return l;
 	}
+	public Trigger GetTrigger (int i)
+	{
+		return l[i];
+	}
 
 	//just to debug
 	public void Print()

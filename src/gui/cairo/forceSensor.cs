@@ -68,18 +68,18 @@ public class CairoGraphForceSensorSignal : CairoXY
 	public void DoSendingList (string font,
 			List<PointF> points_list,
 			List<PointF> points_list_interpolated_path, int interpolatedMin, int interpolatedMax,
-			bool capturing,
-			int showLastSeconds,
+			bool capturing, int showLastSeconds,
 			int minDisplayFNegative, int minDisplayFPositive,
 			int rectangleN, int rectangleRange,
+			TriggerList triggerList,
 			bool forceRedraw, PlotTypes plotType)
 	{
 		if(doSendingList (font, points_list,
 					points_list_interpolated_path, interpolatedMin, interpolatedMax,
-					capturing,
-					showLastSeconds,
+					capturing, showLastSeconds,
 					minDisplayFNegative, minDisplayFPositive,
 					rectangleN, rectangleRange,
+					triggerList,
 					forceRedraw, plotType))
 			endGraphDisposing(g, surface, area.GdkWindow);
 	}
@@ -93,6 +93,7 @@ public class CairoGraphForceSensorSignal : CairoXY
 			int showLastSeconds,
 			int minDisplayFNegative, int minDisplayFPositive,
 			int rectangleN, int rectangleRange,
+			TriggerList triggerList,
 			bool forceRedraw, PlotTypes plotType)
 	{
 		bool maxValuesChanged = false;
@@ -168,6 +169,7 @@ public class CairoGraphForceSensorSignal : CairoXY
 		if (showLastSeconds > 0 && points_list.Count > 1)
 			startAt = configureTimeWindow (points_list, showLastSeconds);
 
+		// paint points and maybe interpolated path
 		if(maxValuesChanged || forceRedraw || points_list.Count != points_list_painted)
 		{
 			if (rectangleRange > 0)
@@ -249,6 +251,56 @@ public class CairoGraphForceSensorSignal : CairoXY
 				drawCircle (calculatePaintX (xAtMinY), calculatePaintY (yAtMinY), 8, red, false);
 
 			points_list_painted = points_list.Count;
+		}
+
+		// paint triggers
+		if (points_list != null && points_list.Count > 3 && graphInited && triggerList != null && triggerList.Count() > 0)
+		{
+			g.LineWidth = 1;
+			foreach (Trigger trigger in triggerList.GetList())
+			//List <Trigger> triggerList_l = triggerList.GetList();
+			//foreach (Trigger trigger in triggerList_l)
+			{
+				LogB.Information ("bucle start");
+				LogB.Information ("trigger: " + trigger.ToString ());
+				double timeGraphX = paintVerticalTriggerLine (g, trigger, timeUnits.MICROSECONDS, false, textHeight -3);
+
+				//TODO: do all this on an overloaded paintVerticalTriggerLine
+				for (int i = points_list.Count -2; i >= 0; i --)
+				{
+					LogB.Information ("i start: " + i.ToString ());
+					if (points_list[i].X <= trigger.Us)
+					{
+						LogB.Information ("trigger.Us: " + trigger.Us.ToString ());
+						int bestFit = i+1;
+						if (MathUtil.PassedSampleIsCloserToCriteria (
+									points_list[i].X, points_list[i+1].X, trigger.Us))
+							bestFit = i;
+
+						LogB.Information ("trigger 3");
+						int fontH = textHeight -3;
+						if(fontH < 1)
+							fontH = 1;
+
+						g.SetSourceColor (green);
+						int row = 0;
+						if (! trigger.InOut)
+						{
+							g.SetSourceColor (red);
+							row = 1;
+						}
+
+						LogB.Information ("trigger 4");
+						printText (timeGraphX, 10 + row*12, 0, fontH, Util.TrimDecimals (points_list[bestFit].Y,1), g, alignTypes.CENTER);
+
+						LogB.Information ("trigger 5");
+						break;
+					}
+					LogB.Information ("i done: " + i.ToString ());
+				}
+				LogB.Information ("bucle end");
+			}
+			g.SetSourceColor (black);
 		}
 
 		return true;

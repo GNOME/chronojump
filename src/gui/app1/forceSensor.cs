@@ -2897,6 +2897,14 @@ LogB.Information(" fs R ");
 				paintPointsInterpolateCairo_l_copy.Add (paintPointsInterpolateCairo_l[i]);
 		}
 
+		TriggerList triggerListForceSensor_copy = new TriggerList ();
+		if (triggerListForceSensor != null && triggerListForceSensor.Count() > 0)
+		{
+			pointsToCopy = triggerListForceSensor.Count ();
+			for (int i = 0; i < pointsToCopy; i ++)
+				triggerListForceSensor_copy.Add (triggerListForceSensor.GetTrigger (i));
+		}
+
 		//LogB.Information ("updateForceSensorCaptureSignalCairo 4");
 		cairoGraphForceSensorSignal.DoSendingList (preferences.fontType.ToString(),
 				cairoGraphForceSensorSignalPoints_l_copy,
@@ -2905,6 +2913,7 @@ LogB.Information(" fs R ");
 				showLastSeconds,
 				-50, 50, //minimum Y display from -50 to 50
 				rectangleN, rectangleRange,
+				triggerListForceSensor_copy,
 				forceRedraw, CairoXY.PlotTypes.LINES);
 
 		//LogB.Information ("updateForceSensorCaptureSignalCairo 5");

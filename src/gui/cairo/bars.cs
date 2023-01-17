@@ -71,8 +71,6 @@ public abstract class CairoBars : CairoGeneric
 	protected Cairo.Color gray99;
 	protected Cairo.Color gray153; //light
 	protected Cairo.Color white;
-	protected Cairo.Color red;
-	protected Cairo.Color green;
 	protected Cairo.Color greenDark;
 	protected Cairo.Color blue;
 	//protected Cairo.Color blueChronojump;
@@ -350,8 +348,6 @@ public abstract class CairoBars : CairoGeneric
 		gray99 = colorFromRGB(99,99,99);
 		gray153 = colorFromRGB(153,153,153);
 		white = colorFromRGB(255,255,255);
-		red = colorFromRGB(200,0,0);
-		green = colorFromRGB(0,200,0);
 		greenDark = colorFromRGB(0,140,0);
 		blue = colorFromRGB(178, 223, 238); //lightblue
 		//blueChronojump = colorFromRGB(14, 30, 70);

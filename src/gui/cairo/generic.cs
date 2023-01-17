@@ -41,8 +41,8 @@ public abstract class CairoGeneric
 	protected string font;
 	protected int textHeight = 12;
 
-	Cairo.Color green = colorFromRGB(0, 200, 0);
-	Cairo.Color red = colorFromRGB(200, 0, 0);
+	protected Cairo.Color green = colorFromRGB(0, 200, 0);
+	protected Cairo.Color red = colorFromRGB(200, 0, 0);
 	Cairo.Color black = colorFromRGB(0, 0, 0);
 
 

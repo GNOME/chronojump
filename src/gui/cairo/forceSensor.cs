@@ -261,45 +261,22 @@ public class CairoGraphForceSensorSignal : CairoXY
 
 			foreach (Trigger trigger in triggerList.GetList())
 			{
-				LogB.Information ("bucle start");
-				LogB.Information ("trigger: " + trigger.ToString ());
-				double timeGraphX = paintVerticalTriggerLine (g, trigger, timeUnits.MICROSECONDS, false, textHeight -3);
-
-				//TODO: do all this on an overloaded paintVerticalTriggerLine
 				for (int i = bucleStartPoints; i >= 0; i --)
 				{
-					LogB.Information ("i start: " + i.ToString ());
 					if (points_list[i].X <= trigger.Us)
 					{
-						LogB.Information ("trigger.Us: " + trigger.Us.ToString ());
 						int bestFit = i+1;
 						if (MathUtil.PassedSampleIsCloserToCriteria (
 									points_list[i].X, points_list[i+1].X, trigger.Us))
 							bestFit = i;
 
-						LogB.Information ("trigger 3");
-						int fontH = textHeight -3;
-						if(fontH < 1)
-							fontH = 1;
+						paintVerticalTriggerLine (g, trigger, timeUnits.MICROSECONDS,
+								Util.TrimDecimals (points_list[bestFit].Y,1), textHeight -3);
 
-						g.SetSourceColor (green);
-						int row = 0;
-						if (! trigger.InOut)
-						{
-							g.SetSourceColor (red);
-							row = 1;
-						}
-
-						LogB.Information ("trigger 4");
-						printText (timeGraphX, 10 + row*12, 0, fontH, Util.TrimDecimals (points_list[bestFit].Y,1), g, alignTypes.CENTER);
-
-						LogB.Information ("trigger 5");
-						bucleStartPoints = i;
+						bucleStartPoints = bestFit;
 						break;
 					}
-					LogB.Information ("i done: " + i.ToString ());
 				}
-				LogB.Information ("bucle end");
 			}
 			g.SetSourceColor (black);
 		}

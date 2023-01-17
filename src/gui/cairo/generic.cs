@@ -235,7 +235,10 @@ public abstract class CairoGeneric
 	}
 
 	protected enum timeUnits { SECONDS, MICROSECONDS };
-	protected double paintVerticalTriggerLine (Cairo.Context g, Trigger trigger, timeUnits tUnits, bool printLabel, int fontH)
+
+	//raceAnalyzer label is "". This method will write the time in seconds
+	//forceSensor label is the force in N
+	protected void paintVerticalTriggerLine (Cairo.Context g, Trigger trigger, timeUnits tUnits, string label, int fontH)
 	{
 		if(fontH < 1)
 			fontH = 1;
@@ -258,12 +261,12 @@ public abstract class CairoGeneric
 		g.LineTo(xtemp, graphHeight - bottomMargin);
 		g.Stroke ();
 
-		if (printLabel)
-			printText (xtemp, 10 + row*12, 0, fontH, Util.TrimDecimals (triggerTimeConverted, 1), g, alignTypes.CENTER);
+		if (label == "")
+			label = Util.TrimDecimals (triggerTimeConverted, 1);
+
+		printText (xtemp, 10 + row*12, 0, fontH, label, g, alignTypes.CENTER);
 
 		g.SetSourceColor(black);
-
-		return xtemp;
 	}
 
 	/*

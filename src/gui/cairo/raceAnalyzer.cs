@@ -400,7 +400,7 @@ public class CairoGraphRaceAnalyzer : CairoXY
 
 				LogB.Information("triggerModified.Us fixed: " + triggerModified.Us.ToString());
 
-				paintVerticalTriggerLine (g, triggerModified, timeUnits.SECONDS, true, textHeight -3);
+				paintVerticalTriggerLine (g, triggerModified, timeUnits.SECONDS, "", textHeight -3);
 			}
 		}
 

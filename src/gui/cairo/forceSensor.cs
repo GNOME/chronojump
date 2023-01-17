@@ -257,16 +257,16 @@ public class CairoGraphForceSensorSignal : CairoXY
 		if (points_list != null && points_list.Count > 3 && graphInited && triggerList != null && triggerList.Count() > 0)
 		{
 			g.LineWidth = 1;
+			int bucleStartPoints = points_list.Count -2; //to start searching points for each trigger since last one
+
 			foreach (Trigger trigger in triggerList.GetList())
-			//List <Trigger> triggerList_l = triggerList.GetList();
-			//foreach (Trigger trigger in triggerList_l)
 			{
 				LogB.Information ("bucle start");
 				LogB.Information ("trigger: " + trigger.ToString ());
 				double timeGraphX = paintVerticalTriggerLine (g, trigger, timeUnits.MICROSECONDS, false, textHeight -3);
 
 				//TODO: do all this on an overloaded paintVerticalTriggerLine
-				for (int i = points_list.Count -2; i >= 0; i --)
+				for (int i = bucleStartPoints; i >= 0; i --)
 				{
 					LogB.Information ("i start: " + i.ToString ());
 					if (points_list[i].X <= trigger.Us)
@@ -294,6 +294,7 @@ public class CairoGraphForceSensorSignal : CairoXY
 						printText (timeGraphX, 10 + row*12, 0, fontH, Util.TrimDecimals (points_list[bestFit].Y,1), g, alignTypes.CENTER);
 
 						LogB.Information ("trigger 5");
+						bucleStartPoints = i;
 						break;
 					}
 					LogB.Information ("i done: " + i.ToString ());

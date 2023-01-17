@@ -1171,6 +1171,7 @@ public partial class ChronoJumpWindow
 
 //		twoListsOfInts = new TwoListsOfInts("times", "positions");
 
+		cairoGraphForceSensorSignalPointsShowAccuracy = true;
 		forceCaptureThread = new Thread(new ThreadStart(forceSensorCaptureDo));
 		GLib.Idle.Add (new GLib.IdleHandler (pulseGTKForceSensorCapture));
 
@@ -2395,6 +2396,7 @@ LogB.Information(" fs R ");
 		*/
 			interpolate_l = null;
 
+		cairoGraphForceSensorSignalPointsShowAccuracy = false;
 		forceSensorCopyTempAndDoGraphs(forceSensorGraphsEnum.SIGNAL);
 		//image_force_sensor_graph.Sensitive = false; //unsensitivize the RFD image (can contain info of previous data)
 		notebook_force_sensor_analyze_top.CurrentPage = Convert.ToInt32(notebook_force_sensor_analyze_top_pages.CURRENTSETSIGNAL);
@@ -2845,6 +2847,7 @@ LogB.Information(" fs R ");
 
 	CairoGraphForceSensorSignal cairoGraphForceSensorSignal;
 	static List<PointF> cairoGraphForceSensorSignalPoints_l;
+	bool cairoGraphForceSensorSignalPointsShowAccuracy;
 
 	public void on_force_capture_drawingarea_cairo_expose_event (object o, ExposeEventArgs args)
 	{
@@ -2910,6 +2913,7 @@ LogB.Information(" fs R ");
 				cairoGraphForceSensorSignalPoints_l_copy,
 				paintPointsInterpolateCairo_l_copy, preferences.forceSensorFeedbackPathMin, preferences.forceSensorFeedbackPathMax,
 				(forceCaptureThread != null && forceCaptureThread.IsAlive),
+				cairoGraphForceSensorSignalPointsShowAccuracy,
 				showLastSeconds,
 				-50, 50, //minimum Y display from -50 to 50
 				rectangleN, rectangleRange,

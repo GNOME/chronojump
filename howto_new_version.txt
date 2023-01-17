@@ -138,7 +138,11 @@ download (with filezilla is very fast), using owncloud is nice also
 /Users/chronojump/chronojump/Chronojump-1.4.2-x86_64.dmg
 scp -l 8192 Chronojump...dmg xaviblas@master.gnome.org:.
 ssh xaviblas@master.gnome.org
-mv Chrono...dmg /ftp/pub/gnome/binaries/mac/chronojump
+
+cp Chrono...dmg /ftp/pub/gnome/binaries/mac/chronojump
+remember cp and no mv, because "mv always maintains the SELinux context of a specific file whereas cp does not"
+https://discourse.gnome.org/t/signal-ftp-sync-removed-on-master-gnome-org/13239/7
+
 cd /ftp/pub/gnome/binaries/mac/chronojump
 chmod 644 ...dmg
 signal-ftp-sync
@@ -187,7 +191,11 @@ to be automatically available on owncloud
 
 scp -l 8192 Chronojump...exe xaviblas@master.gnome.org:.
 ssh xaviblas@master.gnome.org
-mv Chrono...exe /ftp/pub/gnome/binaries/win32/chronojump
+
+cp Chrono...exe /ftp/pub/gnome/binaries/win32/chronojump
+remember cp and no mv, because "mv always maintains the SELinux context of a specific file whereas cp does not"
+https://discourse.gnome.org/t/signal-ftp-sync-removed-on-master-gnome-org/13239/7
+
 cd /ftp/pub/gnome/binaries/win32/chronojump
 chmod 755 Chrono...exe
 signal-ftp-sync

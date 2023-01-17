@@ -200,7 +200,7 @@ public partial class ChronoJumpWindow
 
 	private void setLabelContactsExerciseSelectedOptionsJumpsSimple()
 	{
-		LogB.Information("TT1");
+		LogB.Information("setLabelContactsExerciseSelectedOptionsJumpsSimple TT1");
 		if(currentEventType == null)
 			return;
 
@@ -223,6 +223,7 @@ public partial class ChronoJumpWindow
 			image_contacts_exercise_selected_options1.Visible = false;
 		}
 
+		LogB.Information("TT3");
 		if( ((JumpType) currentEventType).HasFall (configChronojump.Compujump) &&
 				! extra_window_jumps_check_dj_fall_calculate.Active )
 		{
@@ -239,11 +240,12 @@ public partial class ChronoJumpWindow
 
 		label_contacts_exercise_selected_options3.Text = "";
 		image_contacts_exercise_selected_options3.Visible = false;
+		LogB.Information("TT4");
 	}
 
 	private void setLabelContactsExerciseSelectedOptionsJumpsReactive()
 	{
-		LogB.Information("TT1");
+		LogB.Information("setLabelContactsExerciseSelectedOptionsJumpsReactive TT1");
 		if(currentEventType == null)
 			return;
 
@@ -265,6 +267,7 @@ public partial class ChronoJumpWindow
 			image_contacts_exercise_selected_options1.Visible = false;
 		}
 
+		LogB.Information("TT3");
 		if(((JumpType) currentEventType).HasWeight)
 		{
 			if(extra_window_jumps_rj_radiobutton_weight.Active)
@@ -281,6 +284,7 @@ public partial class ChronoJumpWindow
 			image_contacts_exercise_selected_options2.Visible = false;
 		}
 
+		LogB.Information("TT4");
 		if(((JumpType) currentEventType).HasFall (configChronojump.Compujump))
 		{
 			name = extra_window_jumps_rj_spinbutton_fall.Value.ToString() + " cm";
@@ -292,6 +296,7 @@ public partial class ChronoJumpWindow
 			label_contacts_exercise_selected_options3.Text = "";
 			image_contacts_exercise_selected_options3.Visible = false;
 		}
+		LogB.Information("TT5");
 	}
 
 	private void setLabelContactsExerciseSelectedOptionsRunsSimple()
@@ -308,7 +313,7 @@ public partial class ChronoJumpWindow
 
 	private void setLabelContactsExerciseSelectedOptionsRunsInterval()
 	{
-		LogB.Information("TT1");
+		LogB.Information("setLabelContactsExerciseSelectedOptionsRunsInterval TT1");
 		if(currentEventType == null)
 			return;
 
@@ -325,6 +330,7 @@ public partial class ChronoJumpWindow
 			image_contacts_exercise_selected_options1.Visible = false;
 		}
 
+		LogB.Information("TT3");
 		if( ! ((RunType) currentEventType).Unlimited )
 		{
 			name = extra_window_runs_interval_spinbutton_limit.Value.ToString();
@@ -343,6 +349,7 @@ public partial class ChronoJumpWindow
 
 		label_contacts_exercise_selected_options3.Text = "";
 		image_contacts_exercise_selected_options3.Visible = false;
+		LogB.Information("TT4");
 	}
 
 	private void on_button_combo_select_contacts_top_left_clicked (object o, EventArgs args)

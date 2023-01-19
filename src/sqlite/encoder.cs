@@ -642,9 +642,9 @@ class SqliteEncoder : Sqlite
 					reader[4].ToString(), 	//encoder exercise name
 					Util.ChangeDecimalSeparator(reader[5].ToString()),	//extra mass
 					EncoderSQL.EcconLong(reader[6].ToString()),
-					reader[7].ToString(),	//power
-					reader[8].ToString(),	//speed
-					reader[9].ToString(),	//force
+					Util.ChangeDecimalSeparator (reader[7].ToString()),	//power
+					Util.ChangeDecimalSeparator (reader[8].ToString()),	//speed
+					Util.ChangeDecimalSeparator (reader[9].ToString()),	//force
 					repCriteria
 				};
 				array.Add (s);
@@ -656,9 +656,9 @@ class SqliteEncoder : Sqlite
 					econf.ToStringPretty(), //encoder configuration
 					reader[4].ToString(), 	//encoder exercise name
 					EncoderSQL.EcconLong(reader[6].ToString()),
-					reader[7].ToString(),	//power
-					reader[8].ToString(),	//speed
-					reader[9].ToString(),	//force
+					Util.ChangeDecimalSeparator (reader[7].ToString()),	//power
+					Util.ChangeDecimalSeparator (reader[8].ToString()),	//speed
+					Util.ChangeDecimalSeparator (reader[9].ToString()),	//force
 					repCriteria
 				};
 				array.Add (s);

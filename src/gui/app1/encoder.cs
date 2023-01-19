@@ -7941,13 +7941,13 @@ public partial class ChronoJumpWindow
 					if(updateSQLRecords) {
 						//update the future1, future2, future3
 						Sqlite.Update(true, Constants.EncoderTable, "future1",
-								"", curve.MeanPower,
+								"", Util.ConvertToPoint (curve.MeanPower),
 								"uniqueID", esc.curveID.ToString());
 						Sqlite.Update(true, Constants.EncoderTable, "future2",
-								"", curve.MeanSpeed,
+								"", Util.ConvertToPoint (curve.MeanSpeed),
 								"uniqueID", esc.curveID.ToString());
 						Sqlite.Update(true, Constants.EncoderTable, "future3",
-								"", curve.MeanForce,
+								"", Util.ConvertToPoint (curve.MeanForce),
 								"uniqueID", esc.curveID.ToString());
 					}
 					

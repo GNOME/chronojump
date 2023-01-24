@@ -498,7 +498,7 @@ public class ForceSensorElasticBandsWindow
 
 	private void on_delete_event (object o, DeleteEventArgs args)
 	{
-		LogB.Information("calling on_delete_event");
+		LogB.Information("calling on_delete_event on ForceSensorElasticBandsWindow");
 
 		//args.RetVal = true;
 			

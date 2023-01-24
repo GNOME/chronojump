@@ -1064,7 +1064,7 @@ public class GenericWindow
 
 	private void on_delete_event (object o, DeleteEventArgs args)
 	{
-		LogB.Information("calling on_delete_event");
+		LogB.Information("calling on_delete_event on genericWindow");
 
 		args.RetVal = true;
 			

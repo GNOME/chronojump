@@ -878,7 +878,7 @@ public class ChronopicRegisterWindow
 
 	private void on_delete_event (object o, DeleteEventArgs args)
 	{
-		LogB.Information("calling on_delete_event");
+		LogB.Information("calling on_delete_event on ChronopicRegisterWindow");
 
 		args.RetVal = true;
 

@@ -5754,7 +5754,7 @@ It starts before and arrives there with some speed.</property>
                                                         <property name="secondary_icon_activatable">False</property>
                                                         <property name="primary_icon_sensitive">True</property>
                                                         <property name="secondary_icon_sensitive">True</property>
-                                                        <property name="adjustment">100 5 9999 1 10 0</property>
+                                                        <property name="adjustment">99 5 9999 1 10 0</property>
                                                         <property name="climb_rate">1</property>
                                                         <property name="snap_to_ticks">True</property>
                                                         <property name="numeric">True</property>
@@ -6242,10 +6242,11 @@ It starts before and arrives there with some speed.</property>
                                                             <property name="secondary_icon_activatable">False</property>
                                                             <property name="primary_icon_sensitive">True</property>
                                                             <property name="secondary_icon_sensitive">True</property>
-                                                            <property name="adjustment">2 0 9 1 10 0</property>
+                                                            <property name="adjustment">9 0 9 1 10 0</property>
                                                             <property name="climb_rate">1</property>
                                                             <property name="snap_to_ticks">True</property>
                                                             <property name="numeric">True</property>
+                                                            <signal name="value_changed" handler="on_spin_camera_stop_after_value_changed" swapped="no"/>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">False</property>

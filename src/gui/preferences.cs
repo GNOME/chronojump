@@ -1718,7 +1718,7 @@ public class PreferencesWindow
 				spin_run_encoder_pps.Value, spin_run_encoder_pps.Value * 4);
 	}
 
-	/* callbacks SQL change at any change for tab: multimedia */
+	/* callbacks SQL change at any change for tab: multimedia/sound */
 
 	private void on_checkbutton_volume_clicked (object o, EventArgs args)
 	{
@@ -1754,6 +1754,116 @@ public class PreferencesWindow
 		{
 			SqlitePreferences.Update(Preferences.GstreamerStr, Preferences.GstreamerTypes.SYSTEMSOUNDS.ToString(), false);
 			preferences.gstreamer = Preferences.GstreamerTypes.SYSTEMSOUNDS;
+		}
+	}
+
+	/* callbacks SQL change at any change for tab: multimedia/camera */
+
+	private void on_combo_camera_changed (object o, EventArgs args)
+	{
+		// A) changes on preferences gui
+
+		//if camera changes then do not allow to view/change format, resolution, framerate, or preview until configure button is clicked
+		label_camera_pixel_format_current.Visible = false;
+		label_camera_resolution_current.Visible = false;
+		label_camera_framerate_current.Visible = false;
+
+		hbox_combo_camera_pixel_format.Visible = false;
+		hbox_combo_camera_resolution.Visible = false;
+		hbox_combo_camera_framerate.Visible = false;
+
+		//blank camera values
+		UtilGtk.ComboDelAll(combo_camera_pixel_format);
+		UtilGtk.ComboDelAll(combo_camera_resolution);
+		UtilGtk.ComboDelAll(combo_camera_framerate);
+
+		//do not allow to preview
+		button_video_preview.Sensitive = false;
+
+		// B) changes on preferences object and SqlitePreferences
+		string cameraCode = wd_list.GetCodeOfFullname (UtilGtk.ComboGetActive (combo_camera));
+		if (cameraCode != "" && preferences.videoDevice != cameraCode) {
+			SqlitePreferences.Update ("videoDevice", cameraCode, false);
+			preferences.videoDevice = cameraCode;
+		}
+	}
+
+	private void on_combo_camera_pixel_format_changed (object o, EventArgs args)
+	{
+		// A) changes on preferences gui
+		string pixelFormat = getSelectedPixelFormat ();
+
+		if(pixelFormat != "" && wfsm != null)
+		{
+			string currentResolution = getSelectedResolution();
+			UtilGtk.ComboUpdate(combo_camera_resolution, wfsm.PopulateListByPixelFormat(pixelFormat));
+			combo_camera_resolution.Active = UtilGtk.ComboMakeActive(combo_camera_resolution, currentResolution);
+			button_video_preview.Sensitive = true;
+		}
+
+		// B) changes on preferences object and SqlitePreferences
+		if (preferences.videoDevicePixelFormat != pixelFormat) {
+			SqlitePreferences.Update ("videoDevicePixelFormat", pixelFormat, false);
+			preferences.videoDevicePixelFormat = pixelFormat;
+		}
+	}
+
+	private void on_combo_camera_resolution_changed (object o, EventArgs args)
+	{
+		// A) changes on preferences gui
+		string pixelFormat = UtilGtk.ComboGetActive(combo_camera_pixel_format);
+		string resolution = UtilGtk.ComboGetActive(combo_camera_resolution);
+		hbox_camera_resolution_custom.Visible = resolution == Catalog.GetString("Custom");
+
+		if(resolution != "" && resolution != Catalog.GetString("Custom") && wfsm != null)
+		{
+			string currentFramerate = getSelectedFramerate();
+			UtilGtk.ComboUpdate(combo_camera_framerate, wfsm.GetFramerates (pixelFormat, resolution));
+			combo_camera_framerate.Active = UtilGtk.ComboMakeActive(combo_camera_framerate, currentFramerate);
+		}
+
+		// B) changes on preferences object and SqlitePreferences
+		resolution = getSelectedResolution ();
+		if (preferences.videoDeviceResolution != resolution) {
+			SqlitePreferences.Update( "videoDeviceResolution", resolution, false);
+			preferences.videoDeviceResolution = resolution;
+		}
+	}
+
+	private void on_combo_camera_framerate_changed (object o, EventArgs args)
+	{
+		// A) changes on preferences gui
+		hbox_camera_framerate_custom.Visible = UtilGtk.ComboGetActive(combo_camera_framerate) == Catalog.GetString("Custom");
+
+		// B) changes on preferences object and SqlitePreferences
+		string framerate = getSelectedFramerate ();
+		if (preferences.videoDeviceFramerate != framerate) {
+			SqlitePreferences.Update ("videoDeviceFramerate", framerate, false);
+			preferences.videoDeviceFramerate = framerate; //if it has decimals, separator should be a point
+		}
+	}
+
+	private void on_check_camera_stop_after_toggled (object o, EventArgs args)
+	{
+		// A) changes on preferences gui
+		hbox_camera_stop_after_seconds.Visible = check_camera_stop_after.Active;
+
+		// B) changes on preferences object and SqlitePreferences
+		changeCameraStopAfterOnPreferencesAndDB ();
+	}
+	private void on_spin_camera_stop_after_value_changed (object o, EventArgs args)
+	{
+		// B) changes on preferences object and SqlitePreferences
+		changeCameraStopAfterOnPreferencesAndDB ();
+	}
+	private void changeCameraStopAfterOnPreferencesAndDB ()
+	{
+		int selected_camera_stop_after = Convert.ToInt32 (spin_camera_stop_after.Value);
+		if (! check_camera_stop_after.Active)
+			selected_camera_stop_after = 0;
+		if (preferences.videoStopAfter != selected_camera_stop_after) {
+			SqlitePreferences.Update("videoStopAfter", selected_camera_stop_after.ToString(), false);
+			preferences.videoStopAfter = selected_camera_stop_after;
 		}
 	}
 
@@ -2054,61 +2164,7 @@ public class PreferencesWindow
 		combo_camera_framerate.Changed += new EventHandler (on_combo_camera_framerate_changed);
 	}
 
-	private void on_check_camera_stop_after_toggled (object o, EventArgs args)
-	{
-		//vbox_camera_stop_after.Visible = check_camera_stop_after.Active;
-		hbox_camera_stop_after_seconds.Visible = check_camera_stop_after.Active;
-	}
 
-	private void on_combo_camera_changed (object o, EventArgs args)
-	{
-		//if camera changes then do not allow to view/change format, resolution, framerate, or preview until configure button is clicked
-		label_camera_pixel_format_current.Visible = false;
-		label_camera_resolution_current.Visible = false;
-		label_camera_framerate_current.Visible = false;
-
-		hbox_combo_camera_pixel_format.Visible = false;
-		hbox_combo_camera_resolution.Visible = false;
-		hbox_combo_camera_framerate.Visible = false;
-
-		//blank camera values
-		UtilGtk.ComboDelAll(combo_camera_pixel_format);
-		UtilGtk.ComboDelAll(combo_camera_resolution);
-		UtilGtk.ComboDelAll(combo_camera_framerate);
-
-		//do not allow to preview
-		button_video_preview.Sensitive = false;
-	}
-
-	private void on_combo_camera_pixel_format_changed (object o, EventArgs args)
-	{
-		string pixelFormat = UtilGtk.ComboGetActive(combo_camera_pixel_format);
-
-		if(pixelFormat != "" && wfsm != null)
-		{
-			string currentResolution = getSelectedResolution();
-			UtilGtk.ComboUpdate(combo_camera_resolution, wfsm.PopulateListByPixelFormat(pixelFormat));
-			combo_camera_resolution.Active = UtilGtk.ComboMakeActive(combo_camera_resolution, currentResolution);
-			button_video_preview.Sensitive = true;
-		}
-	}
-	private void on_combo_camera_resolution_changed (object o, EventArgs args)
-	{
-		string pixelFormat = UtilGtk.ComboGetActive(combo_camera_pixel_format);
-		string resolution = UtilGtk.ComboGetActive(combo_camera_resolution);
-		hbox_camera_resolution_custom.Visible = resolution == Catalog.GetString("Custom");
-
-		if(resolution != "" && resolution != Catalog.GetString("Custom") && wfsm != null)
-		{
-			string currentFramerate = getSelectedFramerate();
-			UtilGtk.ComboUpdate(combo_camera_framerate, wfsm.GetFramerates (pixelFormat, resolution));
-			combo_camera_framerate.Active = UtilGtk.ComboMakeActive(combo_camera_framerate, currentFramerate);
-		}
-	}
-	private void on_combo_camera_framerate_changed (object o, EventArgs args)
-	{
-		hbox_camera_framerate_custom.Visible = UtilGtk.ComboGetActive(combo_camera_framerate) == Catalog.GetString("Custom");
-	}
 
 	private void on_check_camera_advanced_toggled (object o, EventArgs args)
 	{
@@ -2236,8 +2292,7 @@ public class PreferencesWindow
 
 	private string getSelectedPixelFormat()
 	{
-		string selected = UtilGtk.ComboGetActive(combo_camera_pixel_format);
-		return selected;
+		return UtilGtk.ComboGetActive (combo_camera_pixel_format);
 	}
 	private string getSelectedResolution()
 	{
@@ -2693,37 +2748,10 @@ public class PreferencesWindow
 
 		//camera stuff
 
-		string cameraCode = wd_list.GetCodeOfFullname(UtilGtk.ComboGetActive(combo_camera));
-		if( cameraCode != "" && preferences.videoDevice != cameraCode ) {
-			SqlitePreferences.Update("videoDevice", cameraCode, true);
-			preferences.videoDevice = cameraCode;
-		}
 
-		string pixelFormat = getSelectedPixelFormat();
-		if( preferences.videoDevicePixelFormat != pixelFormat ) {
-			SqlitePreferences.Update("videoDevicePixelFormat", pixelFormat, true);
-			preferences.videoDevicePixelFormat = pixelFormat;
-		}
 
-		string resolution = getSelectedResolution();
-		if( preferences.videoDeviceResolution != resolution ) {
-			SqlitePreferences.Update("videoDeviceResolution", resolution, true);
-			preferences.videoDeviceResolution = resolution;
-		}
 
-		string framerate = getSelectedFramerate();
-		if( preferences.videoDeviceFramerate != framerate ) {
-			SqlitePreferences.Update("videoDeviceFramerate", framerate, true);
-			preferences.videoDeviceFramerate = framerate; //if it has decimals, separator should be a point
-		}
 
-		int selected_camera_stop_after = Convert.ToInt32(spin_camera_stop_after.Value);
-		if(! check_camera_stop_after.Active)
-			selected_camera_stop_after = 0;
-		if( preferences.videoStopAfter != selected_camera_stop_after) {
-			SqlitePreferences.Update("videoStopAfter", selected_camera_stop_after.ToString(), true);
-			preferences.videoStopAfter = selected_camera_stop_after;
-		}
 
 		if(preferences.CSVExportDecimalSeparator == "POINT" && PreferencesWindowBox.radio_export_latin.Active)
 		{

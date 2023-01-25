@@ -3314,7 +3314,7 @@ public partial class ChronoJumpWindow
 
 		preferencesWin.FakeButtonConfigurationImported.Clicked += new EventHandler(on_preferences_import_configuration);
 		preferencesWin.FakeButtonDebugModeStart.Clicked += new EventHandler(on_preferences_debug_mode_start);
-		preferencesWin.Button_accept.Clicked += new EventHandler(on_preferences_accepted);
+		preferencesWin.Button_close.Clicked += new EventHandler(on_preferences_closed);
 	}
 		
 	private void on_preferences_import_configuration (object o, EventArgs args)
@@ -3327,7 +3327,7 @@ public partial class ChronoJumpWindow
 		*/
 	}
 
-	private void on_preferences_accepted (object o, EventArgs args) 
+	private void on_preferences_closed (object o, EventArgs args)
 	{
 		preferences = preferencesWin.GetPreferences;
 		LogB.Mute = preferences.muteLogs;

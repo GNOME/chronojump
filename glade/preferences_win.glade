@@ -8206,65 +8206,20 @@ version:</property>
                 <property name="spacing">60</property>
                 <property name="layout_style">end</property>
                 <child>
-                  <widget class="GtkButton" id="button_cancel">
+                  <widget class="GtkButton" id="button_close">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="can_default">True</property>
                     <property name="receives_default">False</property>
-                    <signal name="clicked" handler="on_button_cancel_clicked" swapped="no"/>
+                    <signal name="clicked" handler="on_button_close_clicked" swapped="no"/>
                     <accelerator key="Escape" signal="clicked"/>
-                    <child>
-                      <widget class="GtkHBox" id="hbox30">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="spacing">4</property>
-                        <child>
-                          <widget class="GtkImage" id="image_button_cancel">
-                            <property name="visible">True</property>
-                            <property name="can_focus">False</property>
-                            <property name="stock">gtk-missing-image</property>
-                          </widget>
-                          <packing>
-                            <property name="expand">False</property>
-                            <property name="fill">False</property>
-                            <property name="position">0</property>
-                          </packing>
-                        </child>
-                        <child>
-                          <widget class="GtkLabel" id="label73">
-                            <property name="visible">True</property>
-                            <property name="can_focus">False</property>
-                            <property name="label" translatable="yes">Cancel</property>
-                          </widget>
-                          <packing>
-                            <property name="expand">True</property>
-                            <property name="fill">True</property>
-                            <property name="position">1</property>
-                          </packing>
-                        </child>
-                      </widget>
-                    </child>
-                  </widget>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">False</property>
-                    <property name="position">0</property>
-                  </packing>
-                </child>
-                <child>
-                  <widget class="GtkButton" id="button_accept">
-                    <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="can_default">True</property>
-                    <property name="receives_default">False</property>
-                    <signal name="clicked" handler="on_button_accept_clicked" swapped="no"/>
                     <child>
                       <widget class="GtkHBox" id="hbox53">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="spacing">4</property>
                         <child>
-                          <widget class="GtkImage" id="image_button_accept">
+                          <widget class="GtkImage" id="image_button_close">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
                             <property name="stock">gtk-missing-image</property>
@@ -8279,7 +8234,7 @@ version:</property>
                           <widget class="GtkLabel" id="label92">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
-                            <property name="label" translatable="yes">Accept</property>
+                            <property name="label" translatable="yes">Close</property>
                           </widget>
                           <packing>
                             <property name="expand">True</property>
@@ -8293,7 +8248,7 @@ version:</property>
                   <packing>
                     <property name="expand">False</property>
                     <property name="fill">False</property>
-                    <property name="position">1</property>
+                    <property name="position">0</property>
                   </packing>
                 </child>
               </widget>

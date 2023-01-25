@@ -1939,6 +1939,81 @@ public class PreferencesWindow
 		}
 	}
 
+	/* callbacks SQL change at any change for tab: advanced */
+
+	private void on_check_networks_devices_clicked (object o, EventArgs args)
+	{
+		// this is not stored in SQL. used on networks
+		preferences.networksAllowChangeDevices = PreferencesWindowBox.check_networks_devices.Active;
+	}
+
+	private void on_checkbutton_ask_deletion_clicked (object o, EventArgs args)
+	{
+		// B) changes on preferences object and SqlitePreferences
+		if (preferences.askDeletion != PreferencesWindowBox.checkbutton_ask_deletion.Active) {
+			SqlitePreferences.Update ("askDeletion", PreferencesWindowBox.checkbutton_ask_deletion.Active.ToString(), false);
+			preferences.askDeletion = PreferencesWindowBox.checkbutton_ask_deletion.Active;
+		}
+	}
+
+	private void on_combo_decimals_changed (object o, EventArgs args)
+	{
+		// B) changes on preferences object and SqlitePreferences
+		if (preferences.digitsNumber != Convert.ToInt32(UtilGtk.ComboGetActive(combo_decimals))) {
+			SqlitePreferences.Update ("digitsNumber", UtilGtk.ComboGetActive(combo_decimals), false);
+			preferences.digitsNumber = Convert.ToInt32(UtilGtk.ComboGetActive(combo_decimals));
+		}
+	}
+
+	private void on_radio_python_2_3_toggled (object o, EventArgs args)
+	{
+		// B) changes on preferences object and SqlitePreferences
+		Preferences.pythonVersionEnum pythonVersionFromGUI = get_pythonVersion_from_gui();
+		if (preferences.importerPythonVersion != pythonVersionFromGUI)
+		{
+			SqlitePreferences.Update (SqlitePreferences.ImporterPythonVersion, pythonVersionFromGUI.ToString(), false);
+			preferences.importerPythonVersion = pythonVersionFromGUI;
+		}
+	}
+
+	private void on_radio_font_courier_toggled (object o, EventArgs args)
+	{
+		// A) changes on preferences gui
+		label_radio_font_needs_restart.Visible = true;
+
+		// B) changes on preferences object and SqlitePreferences
+		changeFontOnPreferencesAndDB ();
+	}
+	private void on_radio_font_helvetica_toggled (object o, EventArgs args)
+	{
+		// A) changes on preferences gui
+		label_radio_font_needs_restart.Visible = true;
+
+		// B) changes on preferences object and SqlitePreferences
+		changeFontOnPreferencesAndDB ();
+	}
+	private void changeFontOnPreferencesAndDB ()
+	{
+		if (preferences.fontType == Preferences.FontTypes.Courier && radio_font_helvetica.Active)
+		{
+			SqlitePreferences.Update (SqlitePreferences.FontsOnGraphs, Preferences.FontTypes.Helvetica.ToString(), false);
+			preferences.fontType = Preferences.FontTypes.Helvetica;
+		}
+		else if (preferences.fontType == Preferences.FontTypes.Helvetica && radio_font_courier.Active)
+		{
+			SqlitePreferences.Update (SqlitePreferences.FontsOnGraphs, Preferences.FontTypes.Courier.ToString(), false);
+			preferences.fontType = Preferences.FontTypes.Courier;
+		}
+	}
+
+	private void on_checkbutton_mute_logs_clicked (object o, EventArgs args)
+	{
+		// B) changes on preferences object and SqlitePreferences
+		if (preferences.muteLogs != PreferencesWindowBox.checkbutton_mute_logs.Active) {
+			SqlitePreferences.Update ("muteLogs", PreferencesWindowBox.checkbutton_mute_logs.Active.ToString(), false);
+			preferences.muteLogs = PreferencesWindowBox.checkbutton_mute_logs.Active;
+		}
+	}
 
 	// view more tabs ---->
 
@@ -2021,14 +2096,6 @@ public class PreferencesWindow
 			UtilGtk.WindowColor(preferences_win, color);
 	}
 
-	private void on_radio_font_courier_toggled (object o, EventArgs args)
-	{
-		label_radio_font_needs_restart.Visible = true;
-	}
-	private void on_radio_font_helvetica_toggled (object o, EventArgs args)
-	{
-		label_radio_font_needs_restart.Visible = true;
-	}
 
 	/* ---------------------------------------------------------
 	 * ----------------  Jumps. Info on power and stiffness -----------
@@ -2756,63 +2823,12 @@ public class PreferencesWindow
 	//change stuff in Sqlite and in preferences object that will be retrieved by GetPreferences
 	void on_button_accept_clicked (object o, EventArgs args)
 	{
-		Sqlite.Open();
-
-
-		//appearance tab
-
-		if(preferences.fontType == Preferences.FontTypes.Courier && radio_font_helvetica.Active)
-		{
-			SqlitePreferences.Update(SqlitePreferences.FontsOnGraphs, Preferences.FontTypes.Helvetica.ToString(), true);
-			preferences.fontType = Preferences.FontTypes.Helvetica;
-		}
-		else if(preferences.fontType == Preferences.FontTypes.Helvetica && radio_font_courier.Active)
-		{
-			SqlitePreferences.Update(SqlitePreferences.FontsOnGraphs, Preferences.FontTypes.Courier.ToString(), true);
-			preferences.fontType = Preferences.FontTypes.Courier;
-		}
-
-
-		if( preferences.digitsNumber != Convert.ToInt32(UtilGtk.ComboGetActive(combo_decimals)) ) {
-			SqlitePreferences.Update("digitsNumber", UtilGtk.ComboGetActive(combo_decimals), true);
-			preferences.digitsNumber = Convert.ToInt32(UtilGtk.ComboGetActive(combo_decimals));
-		}
-		
-
 		/*
 		if( preferences.showAngle != PreferencesWindowBox.checkbutton_angle.Active ) {
-			SqlitePreferences.Update("showAngle", PreferencesWindowBox.checkbutton_angle.Active.ToString(), true);
+			SqlitePreferences.Update("showAngle", PreferencesWindowBox.checkbutton_angle.Active.ToString(), false);
 			preferences.showAngle = PreferencesWindowBox.checkbutton_angle.Active;
 		}
 		*/
-
-
-
-		
-		if( preferences.askDeletion != PreferencesWindowBox.checkbutton_ask_deletion.Active ) {
-			SqlitePreferences.Update("askDeletion", PreferencesWindowBox.checkbutton_ask_deletion.Active.ToString(), true);
-			preferences.askDeletion = PreferencesWindowBox.checkbutton_ask_deletion.Active;
-		}
-
-		if( preferences.muteLogs != PreferencesWindowBox.checkbutton_mute_logs.Active ) {
-			SqlitePreferences.Update("muteLogs", PreferencesWindowBox.checkbutton_mute_logs.Active.ToString(), true);
-			preferences.muteLogs = PreferencesWindowBox.checkbutton_mute_logs.Active;
-		}
-
-		//this is not stored in SQL
-		preferences.networksAllowChangeDevices = PreferencesWindowBox.check_networks_devices.Active;
-
-
-
-		Preferences.pythonVersionEnum pythonVersionFromGUI = get_pythonVersion_from_gui();
-		if(preferences.importerPythonVersion != pythonVersionFromGUI)
-		{
-			SqlitePreferences.Update(SqlitePreferences.ImporterPythonVersion, pythonVersionFromGUI.ToString(), true);
-			preferences.importerPythonVersion = pythonVersionFromGUI;
-		}
-
-
-		Sqlite.Close();
 
 		PreferencesWindowBox.preferences_win.Hide();
 		PreferencesWindowBox = null;

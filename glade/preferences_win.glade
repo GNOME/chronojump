@@ -6852,6 +6852,7 @@ It starts before and arrives there with some speed.</property>
                                             <property name="can_focus">True</property>
                                             <property name="receives_default">False</property>
                                             <property name="draw_indicator">True</property>
+                                            <signal name="clicked" handler="on_check_networks_devices_clicked" swapped="no"/>
                                           </widget>
                                           <packing>
                                             <property name="expand">False</property>
@@ -6908,6 +6909,7 @@ It starts before and arrives there with some speed.</property>
                                     <property name="use_underline">True</property>
                                     <property name="active">True</property>
                                     <property name="draw_indicator">True</property>
+                                    <signal name="clicked" handler="on_checkbutton_ask_deletion_clicked" swapped="no"/>
                                   </widget>
                                   <packing>
                                     <property name="expand">True</property>
@@ -6940,6 +6942,7 @@ It starts before and arrives there with some speed.</property>
                                         <property name="items">1
 2
 3</property>
+                                        <signal name="changed" handler="on_combo_decimals_changed" swapped="no"/>
                                       </widget>
                                       <packing>
                                         <property name="expand">False</property>
@@ -7242,6 +7245,7 @@ version:</property>
                                                     <property name="receives_default">False</property>
                                                     <property name="draw_indicator">True</property>
                                                     <property name="group">radio_python_3</property>
+                                                    <signal name="toggled" handler="on_radio_python_2_3_toggled" swapped="no"/>
                                                   </widget>
                                                   <packing>
                                                     <property name="expand">False</property>
@@ -7434,6 +7438,7 @@ version:</property>
                                             <property name="use_underline">True</property>
                                             <property name="active">True</property>
                                             <property name="draw_indicator">True</property>
+                                            <signal name="clicked" handler="on_checkbutton_mute_logs_clicked" swapped="no"/>
                                             <child>
                                               <widget class="GtkHBox" id="hbox34">
                                                 <property name="visible">True</property>

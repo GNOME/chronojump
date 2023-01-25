@@ -53,9 +53,15 @@ https://cscheng.info/2017/01/26/git-tip-autostash-with-git-pull-rebase.html
 
 ## Common use
 
-### Change commit message (before push)
+### Change commit message (unpushed)
 
     git commit --amend
+
+### Undo a commit (unpushed)
+
+    git reset --soft HEAD~1
+
+Then you will not see differences with git diff, and git commit -p will not work as expected, but the written code exists (just commit is undone).
 
 ### Change to a concrete hash:
 

@@ -1867,6 +1867,79 @@ public class PreferencesWindow
 		}
 	}
 
+	/* callbacks SQL change at any change for tab: language */
+
+	private void on_radio_language_toggled (object obj, EventArgs args)
+	{
+		// A) changes on preferences gui
+		hbox_combo_language.Sensitive = radio_language_force.Active;
+
+		if(hbox_language_signalOn)
+			vbox_need_restart.Visible = true;
+
+		// B) changes on preferences object and SqlitePreferences
+		changeLanguageOnPreferencesAndDB ();
+	}
+	private	void combo_language_changed (object obj, EventArgs args)
+	{
+		// A) changes on preferences gui
+		if(hbox_language_signalOn)
+			vbox_need_restart.Visible = true;
+
+		// B) changes on preferences object and SqlitePreferences
+		changeLanguageOnPreferencesAndDB ();
+	}
+	private void changeLanguageOnPreferencesAndDB ()
+	{
+		string selectedLanguage = getSelectedLanguage();
+
+		//if there was a language on SQL but now "detected" is selected, put "" in language on SQL
+		if (preferences.language != "" && radio_language_detected.Active) {
+			SqlitePreferences.Update ("language", "", false);
+			preferences.language = "";
+		}
+		//if force a language, and SQL language is != than selected language, change language on SQL
+		else if (radio_language_force.Active && preferences.language != selectedLanguage) {
+			SqlitePreferences.Update ("language", selectedLanguage, false);
+			preferences.language = selectedLanguage;
+		}
+	}
+
+	private void on_radio_export_latin_non_latin_toggled (object o, EventArgs args)
+	{
+		// B) changes on preferences object and SqlitePreferences
+		if ( ! ((Gtk.RadioButton) o).Active)
+			return;
+
+		if (preferences.CSVExportDecimalSeparator == "POINT" &&
+				PreferencesWindowBox.radio_export_latin.Active)
+		{
+			SqlitePreferences.Update ("CSVExportDecimalSeparator","COMMA", false);
+			preferences.CSVExportDecimalSeparator = "COMMA";
+		}
+		else if (preferences.CSVExportDecimalSeparator == "COMMA" &&
+				! PreferencesWindowBox.radio_export_latin.Active)
+		{
+			SqlitePreferences.Update ("CSVExportDecimalSeparator","POINT", false);
+			preferences.CSVExportDecimalSeparator = "POINT";
+		}
+	}
+
+	private void on_radio_translate_toggled (object obj, EventArgs args)
+	{
+		// A) changes on preferences gui
+		if(hbox_language_signalOn)
+			vbox_need_restart.Visible = true;
+
+		// B) changes on preferences object and SqlitePreferences
+		if (preferences.RGraphsTranslate != PreferencesWindowBox.radio_graphs_translate.Active) {
+			SqlitePreferences.Update ("RGraphsTranslate",
+					PreferencesWindowBox.radio_graphs_translate.Active.ToString(), false);
+			preferences.RGraphsTranslate = PreferencesWindowBox.radio_graphs_translate.Active;
+		}
+	}
+
+
 	// view more tabs ---->
 
 	private void on_button_view_more_tabs_clicked (object o, EventArgs args)
@@ -2401,22 +2474,6 @@ public class PreferencesWindow
 		combo_language.Changed += combo_language_changed;
 	}
 
-	private void on_radio_language_toggled (object obj, EventArgs args) {
-		hbox_combo_language.Sensitive = radio_language_force.Active;
-
-		if(hbox_language_signalOn)
-			vbox_need_restart.Visible = true;
-	}
-	private void on_radio_translate_toggled (object obj, EventArgs args) {
-		if(hbox_language_signalOn)
-			vbox_need_restart.Visible = true;
-	}
-	private	void combo_language_changed (object obj, EventArgs args) {
-		if(hbox_language_signalOn)
-			vbox_need_restart.Visible = true;
-	}
-
-
 	string getSelectedLanguage()
 	{
 		TreeIter iter;
@@ -2745,44 +2802,6 @@ public class PreferencesWindow
 		//this is not stored in SQL
 		preferences.networksAllowChangeDevices = PreferencesWindowBox.check_networks_devices.Active;
 
-
-		//camera stuff
-
-
-
-
-
-
-		if(preferences.CSVExportDecimalSeparator == "POINT" && PreferencesWindowBox.radio_export_latin.Active)
-		{
-			SqlitePreferences.Update("CSVExportDecimalSeparator","COMMA", true); 
-			preferences.CSVExportDecimalSeparator = "COMMA";
-		}
-		else if(preferences.CSVExportDecimalSeparator == "COMMA" && ! PreferencesWindowBox.radio_export_latin.Active)
-		{
-			SqlitePreferences.Update("CSVExportDecimalSeparator","POINT", true); 
-			preferences.CSVExportDecimalSeparator = "POINT";
-		}
-	
-		string selectedLanguage = getSelectedLanguage();
-
-		//if there was a language on SQL but now "detected" is selected, put "" in language on SQL
-		if(preferences.language != "" && radio_language_detected.Active) {
-			SqlitePreferences.Update("language", "", true);
-			preferences.language = "";
-		}
-		//if force a language, and SQL language is != than selected language, change language on SQL
-		else if(radio_language_force.Active && preferences.language != selectedLanguage) {
-			SqlitePreferences.Update("language", selectedLanguage, true);
-			preferences.language = selectedLanguage;
-		}
-
-
-		if( preferences.RGraphsTranslate != PreferencesWindowBox.radio_graphs_translate.Active ) {
-			SqlitePreferences.Update("RGraphsTranslate", 
-					PreferencesWindowBox.radio_graphs_translate.Active.ToString(), true);
-			preferences.RGraphsTranslate = PreferencesWindowBox.radio_graphs_translate.Active;
-		}
 
 
 		Preferences.pythonVersionEnum pythonVersionFromGUI = get_pythonVersion_from_gui();

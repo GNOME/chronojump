@@ -5240,6 +5240,7 @@ It starts before and arrives there with some speed.</property>
                                     <property name="relief">none</property>
                                     <property name="active">True</property>
                                     <property name="draw_indicator">True</property>
+                                    <signal name="clicked" handler="on_checkbutton_volume_clicked" swapped="no"/>
                                   </widget>
                                   <packing>
                                     <property name="expand">False</property>
@@ -5248,7 +5249,7 @@ It starts before and arrives there with some speed.</property>
                                   </packing>
                                 </child>
                                 <child>
-                                  <widget class="GtkAlignment" id="alignment10">
+                                  <widget class="GtkAlignment" id="alignment_multimedia_sounds">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
                                     <property name="left_padding">20</property>
@@ -5270,6 +5271,7 @@ It starts before and arrives there with some speed.</property>
                                                 <property name="receives_default">False</property>
                                                 <property name="active">True</property>
                                                 <property name="draw_indicator">True</property>
+                                                <signal name="toggled" handler="on_multimedia_sound_radios_toggled" swapped="no"/>
                                               </widget>
                                               <packing>
                                                 <property name="expand">True</property>
@@ -5285,6 +5287,7 @@ It starts before and arrives there with some speed.</property>
                                                 <property name="receives_default">False</property>
                                                 <property name="draw_indicator">True</property>
                                                 <property name="group">radio_ffplay</property>
+                                                <signal name="toggled" handler="on_multimedia_sound_radios_toggled" swapped="no"/>
                                               </widget>
                                               <packing>
                                                 <property name="expand">True</property>
@@ -5300,6 +5303,7 @@ It starts before and arrives there with some speed.</property>
                                                 <property name="receives_default">False</property>
                                                 <property name="draw_indicator">True</property>
                                                 <property name="group">radio_ffplay</property>
+                                                <signal name="toggled" handler="on_multimedia_sound_radios_toggled" swapped="no"/>
                                               </widget>
                                               <packing>
                                                 <property name="expand">True</property>
@@ -5320,6 +5324,7 @@ It starts before and arrives there with some speed.</property>
                                                     <property name="receives_default">False</property>
                                                     <property name="draw_indicator">True</property>
                                                     <property name="group">radio_ffplay</property>
+                                                    <signal name="toggled" handler="on_multimedia_sound_radios_toggled" swapped="no"/>
                                                   </widget>
                                                   <packing>
                                                     <property name="expand">False</property>

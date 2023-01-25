@@ -763,7 +763,7 @@ public class PreferencesWindow
 		//runEncoder -->
 		PreferencesWindowBox.spin_run_encoder_acceleration.Value = preferences.runEncoderMinAccel;
 		PreferencesWindowBox.spin_run_encoder_pps.Value = preferences.runEncoderPPS;
-		PreferencesWindowBox.update_run_encoder_pps_equivalence_and_max ();
+		PreferencesWindowBox.update_run_encoder_gui_pps_equivalence_and_max ();
 
 		//language -->
 		if(preferences.language == "")
@@ -1680,6 +1680,41 @@ public class PreferencesWindow
 				Convert.ToDouble(spin_force_sensor_analyze_max_avg_force_in_window.Value));
 	}
 
+	/* callbacks SQL change at any change for tab: raceAnalyzer */
+
+	private void on_spin_run_encoder_acceleration_value_changed (object o, EventArgs args)
+	{
+		// B) changes on preferences object and SqlitePreferences
+		preferences.runEncoderMinAccel = Preferences.PreferencesChange (
+				false,
+				SqlitePreferences.RunEncoderMinAccel,
+				preferences.runEncoderMinAccel,
+				Convert.ToDouble (spin_run_encoder_acceleration.Value));
+	}
+
+	private void on_spin_run_encoder_pps_value_changed (object o, EventArgs args)
+	{
+		// A) changes on preferences gui
+		update_run_encoder_gui_pps_equivalence_and_max ();
+
+		// B) changes on preferences object and SqlitePreferences
+		preferences.runEncoderPPS = Preferences.PreferencesChange (
+				false,
+				SqlitePreferences.RunEncoderPPS,
+				preferences.runEncoderPPS,
+				Convert.ToInt32 (spin_run_encoder_pps.Value));
+	}
+
+	private void update_run_encoder_gui_pps_equivalence_and_max ()
+	{
+		label_pps_equivalent.Text = string.Format(Catalog.GetString("{0} pps is equivalent to a resolution of {1} cm."),
+				spin_run_encoder_pps.Value, 0.3003 * spin_run_encoder_pps.Value);
+
+		label_pps_maximum.Text = string.Format(Catalog.GetString("{0} pps allows to record up to {1} m/s."),
+				spin_run_encoder_pps.Value, spin_run_encoder_pps.Value * 4);
+	}
+
+
 
 	// view more tabs ---->
 
@@ -1816,23 +1851,6 @@ public class PreferencesWindow
 	 * end of triggers stuff
 	 */
 
-
-	// ---- race analyzer ---->
-
-	private void on_spin_run_encoder_pps_value_changed (object o, EventArgs args)
-	{
-		update_run_encoder_pps_equivalence_and_max ();
-	}
-	private void update_run_encoder_pps_equivalence_and_max ()
-	{
-		label_pps_equivalent.Text = string.Format(Catalog.GetString("{0} pps is equivalent to a resolution of {1} cm."),
-				spin_run_encoder_pps.Value, 0.3003 * spin_run_encoder_pps.Value);
-
-		label_pps_maximum.Text = string.Format(Catalog.GetString("{0} pps allows to record up to {1} m/s."),
-				spin_run_encoder_pps.Value, spin_run_encoder_pps.Value * 4);
-	}
-
-	// <---- end of race analyzer ----
 
 	private void createComboCamera(string current, string pixelFormat, string resolution, string framerate)
 	{
@@ -2631,19 +2649,6 @@ public class PreferencesWindow
 		//this is not stored in SQL
 		preferences.networksAllowChangeDevices = PreferencesWindowBox.check_networks_devices.Active;
 
-		//runEncoder ----
-
-		preferences.runEncoderMinAccel = Preferences.PreferencesChange(
-				true,
-				SqlitePreferences.RunEncoderMinAccel,
-				preferences.runEncoderMinAccel,
-				Convert.ToDouble(spin_run_encoder_acceleration.Value));
-
-		preferences.runEncoderPPS = Preferences.PreferencesChange(
-				true,
-				SqlitePreferences.RunEncoderPPS,
-				preferences.runEncoderPPS,
-				Convert.ToInt32(spin_run_encoder_pps.Value));
 
 		//multimedia ----
 		if( preferences.volumeOn != PreferencesWindowBox.checkbutton_volume.Active ) {

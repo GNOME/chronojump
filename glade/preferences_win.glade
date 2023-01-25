@@ -6670,6 +6670,7 @@ It starts before and arrives there with some speed.</property>
                                     <property name="receives_default">False</property>
                                     <property name="active">True</property>
                                     <property name="draw_indicator">True</property>
+                                    <signal name="toggled" handler="on_radio_export_latin_non_latin_toggled" swapped="no"/>
                                   </widget>
                                   <packing>
                                     <property name="expand">False</property>
@@ -6709,6 +6710,7 @@ It starts before and arrives there with some speed.</property>
                                     <property name="receives_default">False</property>
                                     <property name="draw_indicator">True</property>
                                     <property name="group">radio_export_latin</property>
+                                    <signal name="toggled" handler="on_radio_export_latin_non_latin_toggled" swapped="no"/>
                                   </widget>
                                   <packing>
                                     <property name="expand">False</property>

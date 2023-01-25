@@ -278,10 +278,8 @@ public class PreferencesWindow
 	[Widget] Gtk.RadioButton radio_python_2;
 	[Widget] Gtk.RadioButton radio_python_3;
 
-	[Widget] Gtk.Button button_accept;
-	//[Widget] Gtk.Button button_cancel;
-	[Widget] Gtk.Image image_button_accept;
-	[Widget] Gtk.Image image_button_cancel;
+	[Widget] Gtk.Button button_close;
+	[Widget] Gtk.Image image_button_close;
 	public Gtk.Button FakeButtonConfigurationImported;
 	public Gtk.Button FakeButtonDebugModeStart;
 	
@@ -377,8 +375,7 @@ public class PreferencesWindow
 		Pixbuf pixbuf;
 
 
-		PreferencesWindowBox.image_button_cancel.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_cancel.png");
-		PreferencesWindowBox.image_button_accept.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_done_blue.png");
+		PreferencesWindowBox.image_button_close.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_close.png");
 
 		//appearance tab
 
@@ -2151,7 +2148,7 @@ public class PreferencesWindow
 
 		/*
 		 * declare both because there is a return just here and if they are undeclred the method:
-		 * on_button_accept_clicked () will fail
+		 * on_button_close_clicked () will fail
 		 */
 		combo_camera_pixel_format = ComboBox.NewText ();
 		combo_camera_resolution = ComboBox.NewText ();
@@ -2575,15 +2572,22 @@ public class PreferencesWindow
 				);
 	}
 
-		
-	void on_button_cancel_clicked (object o, EventArgs args)
+	void on_button_close_clicked (object o, EventArgs args)
 	{
+		/*
+		if( preferences.showAngle != PreferencesWindowBox.checkbutton_angle.Active ) {
+			SqlitePreferences.Update("showAngle", PreferencesWindowBox.checkbutton_angle.Active.ToString(), false);
+			preferences.showAngle = PreferencesWindowBox.checkbutton_angle.Active;
+		}
+		*/
+
 		PreferencesWindowBox.preferences_win.Hide();
 		PreferencesWindowBox = null;
 	}
-	
+
 	void on_preferences_delete_event (object o, DeleteEventArgs args)
 	{
+		LogB.Information("calling on_delete_event at preferences");
 /*
 		//do not hide/exit if copyiing
 		if (thread != null && thread.IsAlive)
@@ -2820,20 +2824,6 @@ public class PreferencesWindow
 		}
 	}
 
-	//change stuff in Sqlite and in preferences object that will be retrieved by GetPreferences
-	void on_button_accept_clicked (object o, EventArgs args)
-	{
-		/*
-		if( preferences.showAngle != PreferencesWindowBox.checkbutton_angle.Active ) {
-			SqlitePreferences.Update("showAngle", PreferencesWindowBox.checkbutton_angle.Active.ToString(), false);
-			preferences.showAngle = PreferencesWindowBox.checkbutton_angle.Active;
-		}
-		*/
-
-		PreferencesWindowBox.preferences_win.Hide();
-		PreferencesWindowBox = null;
-	}
-
 	private Preferences.MaximizedTypes get_maximized_from_gui()
 	{
 		if( ! PreferencesWindowBox.check_appearance_maximized.Active )
@@ -2853,10 +2843,10 @@ public class PreferencesWindow
 			return Preferences.pythonVersionEnum.Python3;
 	}
 
-	public Button Button_accept 
+	public Button Button_close
 	{
-		set { button_accept = value; }
-		get { return button_accept;  }
+		set { button_close = value; }
+		get { return button_close;  }
 	}
 
 	public Preferences GetPreferences 

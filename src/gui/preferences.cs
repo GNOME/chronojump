@@ -204,6 +204,7 @@ public class PreferencesWindow
 
 	//multimedia tab
 	[Widget] Gtk.CheckButton checkbutton_volume;
+	[Widget] Gtk.Alignment alignment_multimedia_sounds;
 	[Widget] Gtk.RadioButton radio_gstreamer_0_1;
 	[Widget] Gtk.RadioButton radio_gstreamer_1_0;
 	[Widget] Gtk.RadioButton radio_ffplay;
@@ -445,10 +446,13 @@ public class PreferencesWindow
 		}
 
 		//multimedia tab
-		if(preferences.volumeOn)  
+		if(preferences.volumeOn) {
 			PreferencesWindowBox.checkbutton_volume.Active = true; 
-		else 
+			PreferencesWindowBox.alignment_multimedia_sounds.Visible = true;
+		} else {
 			PreferencesWindowBox.checkbutton_volume.Active = false; 
+			PreferencesWindowBox.alignment_multimedia_sounds.Visible = false;
+		}
 
 		//hide video for compujump
 		if(compujump)
@@ -1714,7 +1718,44 @@ public class PreferencesWindow
 				spin_run_encoder_pps.Value, spin_run_encoder_pps.Value * 4);
 	}
 
+	/* callbacks SQL change at any change for tab: multimedia */
 
+	private void on_checkbutton_volume_clicked (object o, EventArgs args)
+	{
+		// A) changes on preferences gui
+		alignment_multimedia_sounds.Visible = checkbutton_volume.Active;
+
+		// B) changes on preferences object and SqlitePreferences
+		if( preferences.volumeOn != PreferencesWindowBox.checkbutton_volume.Active ) {
+			SqlitePreferences.Update ("volumeOn", PreferencesWindowBox.checkbutton_volume.Active.ToString(), false);
+			preferences.volumeOn = PreferencesWindowBox.checkbutton_volume.Active;
+		}
+	}
+
+	private void on_multimedia_sound_radios_toggled (object o, EventArgs args)
+	{
+		// B) changes on preferences object and SqlitePreferences
+		if( preferences.gstreamer != Preferences.GstreamerTypes.GST_1_0 && radio_gstreamer_1_0.Active)
+		{
+			SqlitePreferences.Update(Preferences.GstreamerStr, Preferences.GstreamerTypes.GST_1_0.ToString(), false);
+			preferences.gstreamer = Preferences.GstreamerTypes.GST_1_0;
+		}
+		else if( preferences.gstreamer != Preferences.GstreamerTypes.GST_0_1 && radio_gstreamer_0_1.Active)
+		{
+			SqlitePreferences.Update(Preferences.GstreamerStr, Preferences.GstreamerTypes.GST_0_1.ToString(), false);
+			preferences.gstreamer = Preferences.GstreamerTypes.GST_0_1;
+		}
+		else if( preferences.gstreamer != Preferences.GstreamerTypes.FFPLAY && radio_ffplay.Active)
+		{
+			SqlitePreferences.Update(Preferences.GstreamerStr, Preferences.GstreamerTypes.FFPLAY.ToString(), false);
+			preferences.gstreamer = Preferences.GstreamerTypes.FFPLAY;
+		}
+		else if( preferences.gstreamer != Preferences.GstreamerTypes.SYSTEMSOUNDS && radio_sound_systemsounds.Active)
+		{
+			SqlitePreferences.Update(Preferences.GstreamerStr, Preferences.GstreamerTypes.SYSTEMSOUNDS.ToString(), false);
+			preferences.gstreamer = Preferences.GstreamerTypes.SYSTEMSOUNDS;
+		}
+	}
 
 	// view more tabs ---->
 
@@ -2649,33 +2690,6 @@ public class PreferencesWindow
 		//this is not stored in SQL
 		preferences.networksAllowChangeDevices = PreferencesWindowBox.check_networks_devices.Active;
 
-
-		//multimedia ----
-		if( preferences.volumeOn != PreferencesWindowBox.checkbutton_volume.Active ) {
-			SqlitePreferences.Update("volumeOn", PreferencesWindowBox.checkbutton_volume.Active.ToString(), true);
-			preferences.volumeOn = PreferencesWindowBox.checkbutton_volume.Active;
-		}
-
-		if( preferences.gstreamer != Preferences.GstreamerTypes.GST_1_0 && radio_gstreamer_1_0.Active)
-		{
-			SqlitePreferences.Update(Preferences.GstreamerStr, Preferences.GstreamerTypes.GST_1_0.ToString(), true);
-			preferences.gstreamer = Preferences.GstreamerTypes.GST_1_0;
-		}
-		else if( preferences.gstreamer != Preferences.GstreamerTypes.GST_0_1 && radio_gstreamer_0_1.Active)
-		{
-			SqlitePreferences.Update(Preferences.GstreamerStr, Preferences.GstreamerTypes.GST_0_1.ToString(), true);
-			preferences.gstreamer = Preferences.GstreamerTypes.GST_0_1;
-		}
-		else if( preferences.gstreamer != Preferences.GstreamerTypes.FFPLAY && radio_ffplay.Active)
-		{
-			SqlitePreferences.Update(Preferences.GstreamerStr, Preferences.GstreamerTypes.FFPLAY.ToString(), true);
-			preferences.gstreamer = Preferences.GstreamerTypes.FFPLAY;
-		}
-		else if( preferences.gstreamer != Preferences.GstreamerTypes.SYSTEMSOUNDS && radio_sound_systemsounds.Active)
-		{
-			SqlitePreferences.Update(Preferences.GstreamerStr, Preferences.GstreamerTypes.SYSTEMSOUNDS.ToString(), true);
-			preferences.gstreamer = Preferences.GstreamerTypes.SYSTEMSOUNDS;
-		}
 
 		//camera stuff
 

@@ -12,6 +12,9 @@ SELECT COUNT(*) FROM ping WHERE cjVersion LIKE "%2.0.2%" AND osVersion LIKE "%Ma
 SELECT COUNT(*) FROM ping WHERE cjVersion LIKE "%2.0.2%" AND osVersion LIKE "Unix, %" GROUP BY machineID;
 SELECT COUNT(*) FROM ping WHERE cjVersion LIKE "%2.0.2%" AND osVersion LIKE "%Win%" GROUP BY machineID;
 
+to see evolution of pings by years:
+select count(*) from ping where dtPing > "2021-01-01" and dtPing < "2022-01-01";
+
 
 SELECT count(*) AS conta, socialNetwork FROM socialNetwork GROUP BY socialNetwork ORDER BY conta DESC;
 

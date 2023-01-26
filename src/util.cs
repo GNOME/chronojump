@@ -1016,6 +1016,22 @@ public class Util
 		return Path.Combine(Path.GetTempPath(), "ChronojumpImportDir");
 	}
 
+	/*
+	   when exporting a session the 7z filename will be the same than the folder inside
+	   and this is imported correctly on 2.3.0,
+
+	   BUT if on passing the file to another person the 7z exists,
+	   then will be renamed by the OS somthing like _copy.7z
+	   and 2.3.0 will not be able to find the dir inside because it is named different than the 7z
+
+	   So we use this TempImportExtractDir to put the extracted content on that folder and be able to find it on import
+
+	   We do this process because listing the .db with 7zr gives too much info
+	   */
+	public static string GetDatabaseTempImportExtractDir() {
+		return Path.Combine(Path.GetTempPath(), "ChronojumpImportExtractDir");
+	}
+
 	/********** end of database paths ************/
 
 	/*	

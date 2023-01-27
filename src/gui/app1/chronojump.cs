@@ -4766,23 +4766,30 @@ public partial class ChronoJumpWindow
 	{
 		if (Constants.ModeIsFORCESENSOR (current_mode))
 		{
-			//LogB.Debug("radio_mode_force_sensor");
+			LogB.Debug ("execute test mode: force_sensor");
 			/*
 			 * force sensor is not FTDI
-			 on_force_sensor_activate(canCaptureC);
 			 */
 
-			on_buttons_force_sensor_clicked(button_execute_test, new EventArgs ());
+			if (chronopicRegister.GetSelectedForMode (current_mode).Port == "")
+				on_button_detect_clicked (o, args); //open discover win
+			else
+				on_buttons_force_sensor_clicked (button_execute_test, new EventArgs ());
+
 			return;
 		}
 		if(current_mode == Constants.Modes.RUNSENCODER)
 		{
-			LogB.Debug("runs_encoder");
+			LogB.Debug ("execute test mode: runs_encoder");
 			/*
 			 * runs encoder is not FTDI
 			 */
 
-			on_runs_encoder_capture_clicked ();
+			if (chronopicRegister.GetSelectedForMode (current_mode).Port == "")
+				on_button_detect_clicked (o, args); //open discover win
+			else
+				on_runs_encoder_capture_clicked ();
+
 			return;
 		}
 

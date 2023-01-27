@@ -967,7 +967,10 @@ public partial class ChronoJumpWindow
 
 		saveEncoderExerciseOptionsToPreferences();
 
-		on_button_encoder_capture_clicked_do (true);
+		if (chronopicRegister.GetSelectedForMode (current_mode).Port == "")
+			on_button_detect_clicked (o, args); //open discover win
+		else
+			on_button_encoder_capture_clicked_do (true);
 	}
 
 	void on_button_encoder_capture_clicked_do (bool firstSet)

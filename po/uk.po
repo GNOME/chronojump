@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: chronojump master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/chronojump/issues\n"
 "POT-Creation-Date: 2023-01-24 18:20+0000\n"
-"PO-Revision-Date: 2023-01-27 18:45+0200\n"
-"Last-Translator: Fracture dept <yurchor@ukr.net>\n"
+"PO-Revision-Date: 2023-01-27 19:37+0200\n"
+"Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
 "MIME-Version: 1.0\n"
@@ -3879,7 +3879,7 @@ msgstr "Особа:"
 
 #: ../glade/person_merge.glade.h:7
 msgid "Check differences"
-msgstr "Перевірити різниці"
+msgstr "Перевірити різницю"
 
 #: ../glade/person_multiple_infinite.glade.h:1
 msgid "Add multiple persons"
@@ -3943,7 +3943,7 @@ msgstr "Одиниці:"
 #: ../glade/person_multiple_infinite.glade.h:18
 msgid ""
 "The name of the columns is not relevant, the important thing is the order."
-msgstr ""
+msgstr "Назва стовпчика не має значення. Важливим є порядок."
 
 #. decimals
 #: ../glade/person_multiple_infinite.glade.h:19 ../glade/person_win.glade.h:9
@@ -6625,7 +6625,7 @@ msgstr ""
 #: ../src/gui/app1/chronojump.cs:4707
 #, csharp-format
 msgid "Compatible with: <b>{0}</b>"
-msgstr ""
+msgstr "Сумісне з <b>{0}</b>"
 
 #: ../src/gui/app1/chronojump.cs:4831 ../src/gui/chronopicRegister.cs:740
 msgid "Device not found"
@@ -11309,7 +11309,7 @@ msgstr "F-вибуховий"
 
 #: ../src/stats/chronojumpProfile.cs:34
 msgid "Elastic cap."
-msgstr "Пружна вершина."
+msgstr ""
 
 #: ../src/stats/chronojumpProfile.cs:35
 msgid "Arms use."

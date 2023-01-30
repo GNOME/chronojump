@@ -23,27 +23,16 @@ using System.Collections.Generic; //List
 using Gtk;
 using Cairo;
 
-
-public class CairoGraphForceSensorSignal : CairoXY
+public abstract class CairoGraphForceSensor : CairoXY
 {
-	private int points_list_painted;
-	private int pathLineWidthInN;
-	private int accuracySamplesGood;
-	private int accuracySamplesBad;
-	private Cairo.Color colorPathBlue = colorFromRGB (178,223,238);
+	protected int points_list_painted;
 
-	//regular constructor
-	public CairoGraphForceSensorSignal (DrawingArea area, string title, int pathLineWidthInN)
+	protected void initForceSensor (DrawingArea area, string title)
 	{
 		this.area = area;
 		this.title = title;
-		this.pathLineWidthInN = pathLineWidthInN;
-		this.colorBackground = colorFromGdk(Config.ColorBackground); //but note if we are using system colors, this will not match
-		
-		//doing = false;
+
 		points_list_painted = 0;
-		accuracySamplesGood = 0;
-		accuracySamplesBad = 0;
 
 		//need to be small because graphHeight could be 100,
 		//if margins are big then calculatePaintY could give us reverse results
@@ -63,6 +52,55 @@ public class CairoGraphForceSensorSignal : CairoXY
 		yAtMinY = 0;
 
 		gridNiceSeps = 7;
+	}
+
+	//instead of use totalMargins, use leftMargin and rightMargin to allow feedback path head be inside the graph (not at extreme right)
+	protected override double calculatePaintX (double realX)
+	{
+                return leftMargin + innerMargin + (realX - minX) * UtilAll.DivideSafe(
+				graphWidth -(leftMargin + rightMargin) -2*innerMargin,
+				absoluteMaxX - minX);
+        }
+
+	protected override void paintVerticalGridLine(Cairo.Context g, int xtemp, string text, int fontH)
+	{
+		if(fontH < 1)
+			fontH = 1;
+
+		g.MoveTo(xtemp, topMargin);
+		g.LineTo(xtemp, graphHeight - bottomMargin);
+
+		if (Util.IsNumber (text, false))
+		{
+			double micros = Convert.ToDouble (text);
+			text = string.Format ("{0}s", UtilAll.DivideSafe (micros, 1000000));
+		}
+		printText(xtemp, graphHeight -bottomMargin/2, 0, fontH, text, g, alignTypes.CENTER);
+	}
+
+	protected override void writeTitle()
+	{
+	}
+}
+
+public class CairoGraphForceSensorSignal : CairoGraphForceSensor
+{
+	private int pathLineWidthInN;
+	private int accuracySamplesGood;
+	private int accuracySamplesBad;
+	private Cairo.Color colorPathBlue = colorFromRGB (178,223,238);
+
+	//regular constructor
+	public CairoGraphForceSensorSignal (DrawingArea area, string title, int pathLineWidthInN)
+	{
+		initForceSensor (area, title);
+
+		this.pathLineWidthInN = pathLineWidthInN;
+		this.colorBackground = colorFromGdk(Config.ColorBackground); //but note if we are using system colors, this will not match
+
+		//doing = false;
+		accuracySamplesGood = 0;
+		accuracySamplesBad = 0;
 	}
 
 	//separated in two methods to ensure endGraphDisposing on any return of the other method
@@ -363,30 +401,4 @@ public class CairoGraphForceSensorSignal : CairoXY
 		g.SetSourceRGB(0, 0, 0);
 	}
 
-	//instead of use totalMargins, use leftMargin and rightMargin to allow feedback path head be inside the graph (not at extreme right)
-	protected override double calculatePaintX (double realX)
-	{
-                return leftMargin + innerMargin + (realX - minX) * UtilAll.DivideSafe(
-				graphWidth -(leftMargin + rightMargin) -2*innerMargin,
-				absoluteMaxX - minX);
-        }
-
-	protected override void paintVerticalGridLine(Cairo.Context g, int xtemp, string text, int fontH)
-	{
-		if(fontH < 1)
-			fontH = 1;
-
-		g.MoveTo(xtemp, topMargin);
-		g.LineTo(xtemp, graphHeight - bottomMargin);
-
-		if (Util.IsNumber (text, false))
-		{
-			double micros = Convert.ToDouble (text);
-			text = string.Format ("{0}s", UtilAll.DivideSafe (micros, 1000000));
-		}
-		printText(xtemp, graphHeight -bottomMargin/2, 0, fontH, text, g, alignTypes.CENTER);
-	}
-	protected override void writeTitle()
-	{
-	}
 }

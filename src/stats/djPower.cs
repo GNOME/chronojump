@@ -132,7 +132,7 @@ public class StatDjPower : Stat
 				strFull[0] + "(" + strFull[2] + ")";
 		}
 
-		return string.Format(Catalog.GetString("{0} in Dj Power [mass * g * (fallHeight + 1.226 * (tv^2) ) / tc] applied to {1} on {2}"), selectedValuesString, jumpType, mySessionString);
+		return string.Format(Catalog.GetString("{0} in Dj Power [mass * g * (fallHeight + 1.226 * (tf^2) ) / tc] applied to {1} on {2}"), selectedValuesString, jumpType, mySessionString);
 	}
 }
 

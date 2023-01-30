@@ -1294,6 +1294,14 @@ public partial class ChronoJumpWindow
 			cairoGraphForceSensorAI = new CairoGraphForceSensorAI (
 					force_sensor_ai_drawingarea_cairo, "title");
 
+		int rectangleN = 0;
+		int rectangleRange = 0;
+		if(preferences.forceSensorCaptureFeedbackActive == Preferences.ForceSensorCaptureFeedbackActiveEnum.RECTANGLE)
+		{
+			rectangleN = preferences.forceSensorCaptureFeedbackAt;
+			rectangleRange = preferences.forceSensorCaptureFeedbackRange;
+		}
+
 		if (cairoGraphForceSensorSignalPoints_l == null)
 			cairoGraphForceSensorSignalPoints_l = new List<PointF> ();
 
@@ -1309,7 +1317,7 @@ public partial class ChronoJumpWindow
 		cairoGraphForceSensorAI.DoSendingList (preferences.fontType.ToString(),
 				cairoGraphForceSensorSignalPoints_l_copy,
 				-50, 50, //minimum Y display from -50 to 50
-				//rectangleN, rectangleRange,
+				rectangleN, rectangleRange,
 				//triggerListForceSensor_copy,
 				forceRedraw, CairoXY.PlotTypes.LINES);
 	}

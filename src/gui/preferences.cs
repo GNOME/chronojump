@@ -2792,6 +2792,10 @@ public class PreferencesWindow
 		}
 	}
 
+	private void on_button_test_bluetooth_clicked (object o, EventArgs args)
+	{
+	}
+
 	private Preferences.MaximizedTypes get_maximized_from_gui()
 	{
 		if( ! PreferencesWindowBox.check_appearance_maximized.Active )

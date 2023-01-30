@@ -2761,38 +2761,6 @@ public class PreferencesWindow
 
 	// <---- end SQL stress tests ----
 
-	private void on_button_discover_devices_clicked (object o, EventArgs args)
-	{
-		discoverDevices (false);
-	}
-	private void on_button_discover_devices_fast_clicked (object o, EventArgs args)
-	{
-		discoverDevices (true);
-	}
-	private void discoverDevices (bool fast)
-	{
-		/*
-		ChronoDebug cDebug = new ChronoDebug("Discover fast? " + fast.ToString());
-		cDebug.Start();
-
-		List<string> list_discover_ports = Util.StringArrayToListString (ChronopicPorts.GetPorts ());
-		MicroDiscover md = new MicroDiscover (list_discover_ports); //all ports
-		List<string> discovered_l = new List<string> ();
-		if(fast)
-			discovered_l = md.DiscoverNotSequential ();
-		else
-			discovered_l = md.Discover ();
-
-		cDebug.StopAndPrint();
-
-		string discoveredStr = "Discovered: ";
-		foreach (string str in discovered_l)
-			discoveredStr += "\n- " + str;
-
-		new DialogMessage( Constants.MessageTypes.INFO, discoveredStr +
-				string.Format("\n{0} ms", cDebug.StartToEndInMs()) );
-				*/
-	}
 
 	private void on_debug_mode_clicked (object o, EventArgs args) {
 		//will be managed from gui/chronojump.cs

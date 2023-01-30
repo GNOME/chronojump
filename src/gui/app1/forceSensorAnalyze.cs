@@ -1281,6 +1281,11 @@ public partial class ChronoJumpWindow
 		LogB.Information("EXPOSE END");
 	}
 
+	public void on_force_sensor_ai_drawingarea_cairo_expose_event (object o, ExposeEventArgs args)
+	{
+		//TODO
+	}
+
 	private void on_force_sensor_ai_drawingarea_button_press_event (object o, ButtonPressEventArgs args)
 	{
 		//LogB.Information(string.Format("Mouse X: {0}; Mouse Y: {1}", args.Event.X, args.Event.Y));
@@ -1343,6 +1348,11 @@ public partial class ChronoJumpWindow
 				 */
 			}
 		}
+	}
+
+	private void on_force_sensor_ai_drawingarea_cairo_button_press_event (object o, ButtonPressEventArgs args)
+	{
+		//TODO
 	}
 
 	private bool forceSensorZoomApplied;

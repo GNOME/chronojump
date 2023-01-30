@@ -31,6 +31,7 @@ public abstract class CairoGraphForceSensor : CairoXY
 	{
 		this.area = area;
 		this.title = title;
+		this.colorBackground = colorFromGdk(Config.ColorBackground); //but note if we are using system colors, this will not match
 
 		points_list_painted = 0;
 
@@ -96,7 +97,6 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 		initForceSensor (area, title);
 
 		this.pathLineWidthInN = pathLineWidthInN;
-		this.colorBackground = colorFromGdk(Config.ColorBackground); //but note if we are using system colors, this will not match
 
 		//doing = false;
 		accuracySamplesGood = 0;
@@ -399,6 +399,115 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 		g.Restore();
 
 		g.SetSourceRGB(0, 0, 0);
+	}
+
+}
+
+public class CairoGraphForceSensorAI : CairoGraphForceSensor
+{
+	//regular constructor
+	public CairoGraphForceSensorAI (DrawingArea area, string title)
+	{
+		initForceSensor (area, title);
+	}
+
+	//separated in two methods to ensure endGraphDisposing on any return of the other method
+	public void DoSendingList (string font,
+			List<PointF> points_list,
+			int minDisplayFNegative, int minDisplayFPositive,
+			//int rectangleN, int rectangleRange,
+			//TriggerList triggerList,
+			bool forceRedraw, PlotTypes plotType)
+	{
+		if(doSendingList (font, points_list,
+					minDisplayFNegative, minDisplayFPositive,
+					//rectangleN, rectangleRange,
+					//triggerList,
+					forceRedraw, plotType))
+			endGraphDisposing(g, surface, area.GdkWindow);
+	}
+
+	//similar to encoder method but calling configureTimeWindow and using minDisplayF(Negative/Positive)
+	//return true if graph is inited (to dispose it)
+	private bool doSendingList (string font,
+			List<PointF> points_list,
+			int minDisplayFNegative, int minDisplayFPositive,
+			//int rectangleN, int rectangleRange,
+			//TriggerList triggerList,
+			bool forceRedraw, PlotTypes plotType)
+	{
+		bool maxValuesChanged = false;
+
+		if(points_list != null)
+		{
+			maxValuesChanged = findPointMaximums(false, points_list);
+			//LogB.Information(string.Format("minY: {0}, maxY: {1}", minY, maxY));
+
+			if (minY > minDisplayFNegative)
+				minY = minDisplayFNegative;
+			if (absoluteMaxY < minDisplayFPositive)
+				absoluteMaxY = minDisplayFPositive;
+		}
+
+		bool graphInited = false;
+		if( maxValuesChanged || forceRedraw ||
+				(points_list != null && points_list.Count != points_list_painted)
+				)
+		{
+			initGraph (font, 1, (maxValuesChanged || forceRedraw) );
+			graphInited = true;
+			points_list_painted = 0;
+		}
+
+		if( points_list == null || points_list.Count == 0)
+		{
+			if (! graphInited)
+			{
+				initGraph (font, 1, true);
+				graphInited = true;
+			}
+			return graphInited;
+		}
+
+		//fix an eventual crash on g.LineWidth below
+		if(g == null || ! graphInited)
+			return false;
+
+		//this try/catch is an extra precaution
+		try {
+			g.LineWidth = 1;
+		} catch {
+			LogB.Information("Catched on CairoGraphForceSensorSignal soSendingList() g.LineWidth");
+			return graphInited;
+		}
+		pointsRadius = 1;
+		int startAt = 0;
+
+		// paint points and maybe interpolated path
+		if(maxValuesChanged || forceRedraw || points_list.Count != points_list_painted)
+		{
+			//if (rectangleRange > 0)
+			//	paintRectangle (rectangleN, rectangleRange);
+
+			if (points_list.Count > 2) //to ensure minX != maxX
+				paintGrid(gridTypes.BOTH, true);
+
+			paintAxis();
+
+			plotRealPoints(plotType, points_list, startAt, false); //fast (but the difference is very low)
+
+			if(calculatePaintX (xAtMaxY) > leftMargin)
+				drawCircle (calculatePaintX (xAtMaxY), calculatePaintY (yAtMaxY), 8, red, false);
+
+			if(calculatePaintX (xAtMinY) > leftMargin)
+				drawCircle (calculatePaintX (xAtMinY), calculatePaintY (yAtMinY), 8, red, false);
+
+			points_list_painted = points_list.Count;
+		}
+
+		// paint triggers TODO
+
+		return true;
 	}
 
 }

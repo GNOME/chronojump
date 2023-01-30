@@ -2409,6 +2409,7 @@ LogB.Information(" fs R ");
 		{
 			forceSensorZoomDefaultValues();
 			forceSensorDoGraphAI(false);
+			updateForceSensorAICairo (true);
 		}
 		//event_execute_label_message.Text = "Loaded: " + Util.GetLastPartOfPath(filechooser.Filename);
 		event_execute_label_message.Text = Catalog.GetString("Loaded:") + " " + lastForceSensorFile;

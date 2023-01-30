@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2018-2021   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2018-2023   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -668,6 +668,7 @@ public partial class ChronoJumpWindow
 
 	[Widget] Gtk.HBox hbox_force_sensor_analyze_ai_sliders_and_buttons;
 	[Widget] Gtk.DrawingArea force_sensor_ai_drawingarea;
+	[Widget] Gtk.DrawingArea force_sensor_ai_drawingarea_cairo;
 	[Widget] Gtk.HScale hscale_force_sensor_ai_a;
 	[Widget] Gtk.HScale hscale_force_sensor_ai_b;
 	[Widget] Gtk.Label label_force_sensor_ai_time_a;
@@ -1281,9 +1282,36 @@ public partial class ChronoJumpWindow
 		LogB.Information("EXPOSE END");
 	}
 
+	CairoGraphForceSensorAI cairoGraphForceSensorAI;
 	public void on_force_sensor_ai_drawingarea_cairo_expose_event (object o, ExposeEventArgs args)
 	{
-		//TODO
+		updateForceSensorAICairo (true);
+	}
+
+	private void updateForceSensorAICairo (bool forceRedraw)
+	{
+		if (cairoGraphForceSensorAI == null)
+			cairoGraphForceSensorAI = new CairoGraphForceSensorAI (
+					force_sensor_ai_drawingarea_cairo, "title");
+
+		if (cairoGraphForceSensorSignalPoints_l == null)
+			cairoGraphForceSensorSignalPoints_l = new List<PointF> ();
+
+		//create copys to not have problem on updating data that is being graph in other thread (even using static variables)
+		//TODO: don't do this if already done on capture tab
+		int pointsToCopy = cairoGraphForceSensorSignalPoints_l.Count;
+		List<PointF> cairoGraphForceSensorSignalPoints_l_copy = new List<PointF>();
+		for (int i = 0; i < pointsToCopy; i ++)
+			cairoGraphForceSensorSignalPoints_l_copy.Add (cairoGraphForceSensorSignalPoints_l[i]);
+
+		//TODO: same for trigger
+
+		cairoGraphForceSensorAI.DoSendingList (preferences.fontType.ToString(),
+				cairoGraphForceSensorSignalPoints_l_copy,
+				-50, 50, //minimum Y display from -50 to 50
+				//rectangleN, rectangleRange,
+				//triggerListForceSensor_copy,
+				forceRedraw, CairoXY.PlotTypes.LINES);
 	}
 
 	private void on_force_sensor_ai_drawingarea_button_press_event (object o, ButtonPressEventArgs args)

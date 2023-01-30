@@ -7164,30 +7164,10 @@ version:</property>
                                                   </packing>
                                                 </child>
                                                 <child>
-                                                  <widget class="GtkButton" id="button_discover_devices">
-                                                    <property name="label">Discover devices</property>
-                                                    <property name="can_focus">True</property>
-                                                    <property name="receives_default">True</property>
-                                                    <signal name="clicked" handler="on_button_discover_devices_clicked" swapped="no"/>
-                                                  </widget>
-                                                  <packing>
-                                                    <property name="expand">False</property>
-                                                    <property name="fill">False</property>
-                                                    <property name="position">2</property>
-                                                  </packing>
+                                                  <placeholder/>
                                                 </child>
                                                 <child>
-                                                  <widget class="GtkButton" id="button_discover_devices_fast">
-                                                    <property name="label">Discover devices (fast)</property>
-                                                    <property name="can_focus">True</property>
-                                                    <property name="receives_default">True</property>
-                                                    <signal name="clicked" handler="on_button_discover_devices_fast_clicked" swapped="no"/>
-                                                  </widget>
-                                                  <packing>
-                                                    <property name="expand">False</property>
-                                                    <property name="fill">False</property>
-                                                    <property name="position">3</property>
-                                                  </packing>
+                                                  <placeholder/>
                                                 </child>
                                               </widget>
                                               <packing>

@@ -2447,6 +2447,18 @@ public class PreferencesWindow
 		PreferencesWindowBox = null;
 	}
 
+	private void on_checkbutton_mute_logs_clicked (object o, EventArgs args)
+	{
+		/* disabled. Only false since 2.3.0-2
+
+		// B) changes on preferences object and SqlitePreferences
+		if (preferences.muteLogs != PreferencesWindowBox.checkbutton_mute_logs.Active) {
+			SqlitePreferences.Update ("muteLogs", PreferencesWindowBox.checkbutton_mute_logs.Active.ToString(), false);
+			preferences.muteLogs = PreferencesWindowBox.checkbutton_mute_logs.Active;
+		}
+		*/
+	}
+
 	private Preferences.MaximizedTypes get_maximized_from_gui()
 	{
 		if( ! PreferencesWindowBox.check_appearance_maximized.Active )

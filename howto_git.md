@@ -38,6 +38,23 @@ Perform an stash of your current code
 
     git stash
 
+More stash list options https://stackoverflow.com/a/10726185
+
+Show the files in the most recent stash:
+
+    git stash show
+
+Show the changes of the most recent stash:
+
+    git stash show -p
+
+Show the changes of the named stash:
+
+    git stash show -p stash@{1}
+    git stash show -p 1
+
+
+
 download from git repo
 
     git pull --rebase
@@ -85,6 +102,8 @@ Update references (then git local will know about the commit)
 Pick the commit (eg af8e0132)
 
     git cherry-pick af8e0132
+
+If any problem: fix thefile, git add thefile, git commit
 
 ### Merge with a remote branch (but do not do it with my laptop, because has problems fetching from github)
 

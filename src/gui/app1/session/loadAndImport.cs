@@ -389,23 +389,11 @@ public partial class ChronoJumpWindow
 
 		if (filechooser.Run () == (int)ResponseType.Accept)
 		{
-			string tempImportExtractDir = Util.GetDatabaseTempImportExtractDir ();
+			string tempImportExtractDir = "";
 			if (exportImportCompressed)
 			{
-				if (Directory.Exists (tempImportExtractDir))
-				{
-					try {
-						var dir = new DirectoryInfo (@tempImportExtractDir);
-						dir.Delete (true); //recursive delete
-					} catch {
-						new DialogMessage (Constants.MessageTypes.WARNING,
-								string.Format (Catalog.GetString ("Cannot delete directory:\n{0}"),
-						tempImportExtractDir));
+				tempImportExtractDir = Util.CreateAndGetDatabaseTempImportExtractDirNext ();
 
-						filechooser.Destroy ();
-						return;
-					}
-				}
 				List<string> parameters = new List<string>();
 				//parameters.Add ("e");
 				parameters.Add ("x"); //we need the parent folder

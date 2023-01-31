@@ -1030,15 +1030,39 @@ public class Util
 	   and this is imported correctly on 2.3.0,
 
 	   BUT if on passing the file to another person the 7z exists,
-	   then will be renamed by the OS somthing like _copy.7z
+	   then will be renamed by the OS something like _copy.7z
 	   and 2.3.0 will not be able to find the dir inside because it is named different than the 7z
 
 	   So we use this TempImportExtractDir to put the extracted content on that folder and be able to find it on import
 
 	   We do this process because listing the .db with 7zr gives too much info
 	   */
+	/*
+	   Unfortunately on Windows we cannot delete the dir after a call, because the sessionSwitcher has this dir opened for some Sqlite problem, we have not succeded on closing the dbcon or whatever, so instead of having a dir, have subdirs from 1 to ... that will be deleted on computer reboot
+
 	public static string GetDatabaseTempImportExtractDir() {
 		return Path.Combine(Path.GetTempPath(), "ChronojumpImportExtractDir");
+	}
+	*/
+	public static string CreateAndGetDatabaseTempImportExtractDirNext ()
+	{
+		string parentDir = Path.Combine(Path.GetTempPath(), "ChronojumpImportExtractDir");
+		int biggest = -1;
+
+		if( ! Directory.Exists (parentDir))
+			Directory.CreateDirectory (parentDir);
+		else {
+			foreach (string dir in Directory.GetDirectories (parentDir))
+			{
+				string dirName = GetLastPartOfPath (dir);
+				if (IsNumber (dirName, false) && Convert.ToInt32 (dirName) > biggest)
+					biggest = Convert.ToInt32 (dirName);
+			}
+		}
+
+		string pathToReturn = Path.Combine (parentDir, (biggest + 1).ToString ());
+		Directory.CreateDirectory (pathToReturn);
+		return pathToReturn;
 	}
 
 	/********** end of database paths ************/

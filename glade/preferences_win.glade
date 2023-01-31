@@ -7421,7 +7421,7 @@ version:</property>
                                         </child>
                                         <child>
                                           <widget class="GtkCheckButton" id="checkbutton_mute_logs">
-                                            <property name="visible">True</property>
+                                            <property name="visible">False</property>
                                             <property name="can_focus">True</property>
                                             <property name="receives_default">False</property>
                                             <property name="has_tooltip">True</property>

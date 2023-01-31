@@ -884,7 +884,10 @@ class SqlitePreferences : Sqlite
 			else if(reader[0].ToString() == "askDeletion")
 				preferences.askDeletion = reader[1].ToString() == "True";
 			else if(reader[0].ToString() == "muteLogs")
-				preferences.muteLogs = reader[1].ToString() == "True";
+			{
+				//preferences.muteLogs = reader[1].ToString() == "True";
+				preferences.muteLogs = false;
+			}
 			else if(reader[0].ToString() == "machineID")
 				preferences.machineID = reader[1].ToString();
 			else if(reader[0].ToString() == "multimediaStorage")

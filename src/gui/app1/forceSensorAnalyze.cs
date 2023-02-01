@@ -1305,20 +1305,31 @@ public partial class ChronoJumpWindow
 		if (cairoGraphForceSensorSignalPoints_l == null)
 			cairoGraphForceSensorSignalPoints_l = new List<PointF> ();
 
-		//create copys to not have problem on updating data that is being graph in other thread (even using static variables)
-		//TODO: don't do this if already done on capture tab
+		/* no need of copy because this graph is done on load or at end of capture (points_list does not grow in other thread
 		int pointsToCopy = cairoGraphForceSensorSignalPoints_l.Count;
 		List<PointF> cairoGraphForceSensorSignalPoints_l_copy = new List<PointF>();
 		for (int i = 0; i < pointsToCopy; i ++)
 			cairoGraphForceSensorSignalPoints_l_copy.Add (cairoGraphForceSensorSignalPoints_l[i]);
+		*/
 
 		//TODO: same for trigger
 
+		int fMaxAvgSampleStart = -1;
+		int fMaxAvgSampleEnd = -1;
+		if(fsAI != null)
+		{
+			fMaxAvgSampleStart = fsAI.ForceMaxAvgInWindowSampleStart;
+			fMaxAvgSampleEnd = fsAI.ForceMaxAvgInWindowSampleEnd;
+		}
+
 		cairoGraphForceSensorAI.DoSendingList (preferences.fontType.ToString(),
-				cairoGraphForceSensorSignalPoints_l_copy,
+				cairoGraphForceSensorSignalPoints_l,
 				-50, 50, //minimum Y display from -50 to 50
 				rectangleN, rectangleRange,
 				//triggerListForceSensor_copy,
+				Convert.ToInt32 (hscale_force_sensor_ai_a.Value),
+				Convert.ToInt32 (hscale_force_sensor_ai_b.Value),
+				fMaxAvgSampleStart, fMaxAvgSampleEnd,
 				forceRedraw, CairoXY.PlotTypes.LINES);
 	}
 
@@ -1909,6 +1920,7 @@ public partial class ChronoJumpWindow
 		forceSensorAnalyzeGeneralButtonHscaleZoomSensitiveness();
 		forceSensorAIChanged = true;
 		force_sensor_ai_drawingarea.QueueDraw(); //will fire ExposeEvent
+		force_sensor_ai_drawingarea_cairo.QueueDraw(); //will fire ExposeEvent
 	}
 	private void on_hscale_force_sensor_ai_b_value_changed (object o, EventArgs args)
 	{
@@ -1979,6 +1991,7 @@ public partial class ChronoJumpWindow
 		forceSensorAnalyzeGeneralButtonHscaleZoomSensitiveness();
 		forceSensorAIChanged = true;
 		force_sensor_ai_drawingarea.QueueDraw(); //will fire ExposeEvent
+		force_sensor_ai_drawingarea_cairo.QueueDraw(); //will fire ExposeEvent
 	}
 
 	private void on_check_force_sensor_ai_chained_clicked (object o, EventArgs args)

@@ -16,7 +16,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Copyright (C) 2004-2020   Xavier de Blas <xaviblas@gmail.com> 
+ *  Copyright (C) 2004-2023   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -46,7 +46,13 @@ public static class CairoUtil
 	}
 
 	public static void PaintVerticalLinesAndRectangle (
-			Gtk.DrawingArea darea, int xposA, int xposB, bool posBuse, int topRect, int bottomRect)
+			Cairo.Context g, int graphHeight, double xposA, double xposB, bool posBuse, int topRect, int bottomRect)
+	{
+		paintVerticalLinesAndRectangleDo (g, graphHeight, xposA, xposB, posBuse, topRect, bottomRect);
+	}
+
+	public static void PaintVerticalLinesAndRectangle (
+			Gtk.DrawingArea darea, double xposA, double xposB, bool posBuse, int topRect, int bottomRect)
 	{
 		using (Cairo.Context g = Gdk.CairoHelper.Create (darea.GdkWindow)) 
 		{
@@ -87,7 +93,7 @@ public static class CairoUtil
 	 * private methods
 	 */
 
-	private static void paintVerticalLinesAndRectangleDo (Cairo.Context g, int height, int xposA, int xposB, bool posBuse, int topRect, int bottomRect)
+	private static void paintVerticalLinesAndRectangleDo (Cairo.Context g, int height, double xposA, double xposB, bool posBuse, int topRect, int bottomRect)
 	{
 		//add rectangle
 		g.SetSourceRGBA(0.906, 0.745, 0.098, 1); //Chronojump yellow
@@ -102,8 +108,8 @@ public static class CairoUtil
 			g.SetSourceRGBA(0.9, 0.9, 0.01, .15); //More yellow and very transp
 
 			//create rectangle
-			int min = Math.Min(xposA, xposB) +1;
-			int max = Math.Max(xposA, xposB) -1;
+			double min = Math.Min(xposA, xposB) +1;
+			double max = Math.Max(xposA, xposB) -1;
 			if(min < max)
 			{
 				g.Rectangle(min, topRect , max-min, height - bottomRect);
@@ -112,7 +118,7 @@ public static class CairoUtil
 		}
 	}
 
-	private static void paintVerticalLine (Cairo.Context g, int x, int height, string letter)
+	private static void paintVerticalLine (Cairo.Context g, double x, int height, string letter)
 	{
 		//vertical line
 		g.MoveTo(x, 9);
@@ -138,7 +144,7 @@ public static class CairoUtil
 		*/
 	}
 
-	private static void printText (int x, int y, int height, int textHeight, string text, Cairo.Context g, bool centered)
+	private static void printText (double x, int y, int height, int textHeight, string text, Cairo.Context g, bool centered)
 	{
 		int moveToLeft = 0;
 		if(centered)

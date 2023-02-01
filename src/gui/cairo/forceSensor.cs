@@ -25,7 +25,7 @@ using Cairo;
 
 public abstract class CairoGraphForceSensor : CairoXY
 {
-	protected int points_list_painted;
+	protected int points_l_painted;
 
 	protected void initForceSensor (DrawingArea area, string title)
 	{
@@ -33,7 +33,7 @@ public abstract class CairoGraphForceSensor : CairoXY
 		this.title = title;
 		this.colorBackground = colorFromGdk(Config.ColorBackground); //but note if we are using system colors, this will not match
 
-		points_list_painted = 0;
+		points_l_painted = 0;
 
 		//need to be small because graphHeight could be 100,
 		//if margins are big then calculatePaintY could give us reverse results
@@ -130,16 +130,16 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 
 	//separated in two methods to ensure endGraphDisposing on any return of the other method
 	public void DoSendingList (string font,
-			List<PointF> points_list,
-			List<PointF> points_list_interpolated_path, int interpolatedMin, int interpolatedMax,
+			List<PointF> points_l,
+			List<PointF> points_l_interpolated_path, int interpolatedMin, int interpolatedMax,
 			bool capturing, bool showAccuracy, int showLastSeconds,
 			int minDisplayFNegative, int minDisplayFPositive,
 			int rectangleN, int rectangleRange,
 			TriggerList triggerList,
 			bool forceRedraw, PlotTypes plotType)
 	{
-		if(doSendingList (font, points_list,
-					points_list_interpolated_path, interpolatedMin, interpolatedMax,
+		if(doSendingList (font, points_l,
+					points_l_interpolated_path, interpolatedMin, interpolatedMax,
 					capturing, showAccuracy, showLastSeconds,
 					minDisplayFNegative, minDisplayFPositive,
 					rectangleN, rectangleRange,
@@ -151,8 +151,8 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 	//similar to encoder method but calling configureTimeWindow and using minDisplayF(Negative/Positive)
 	//return true if graph is inited (to dispose it)
 	private bool doSendingList (string font,
-			List<PointF> points_list,
-			List<PointF> points_list_interpolated_path, int interpolatedMin, int interpolatedMax,
+			List<PointF> points_l,
+			List<PointF> points_l_interpolated_path, int interpolatedMin, int interpolatedMax,
 			bool capturing, bool showAccuracy, int showLastSeconds,
 			int minDisplayFNegative, int minDisplayFPositive,
 			int rectangleN, int rectangleRange,
@@ -161,9 +161,9 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 	{
 		bool maxValuesChanged = false;
 
-		if(points_list != null)
+		if(points_l != null)
 		{
-			maxValuesChanged = findPointMaximums(false, points_list);
+			maxValuesChanged = findPointMaximums(false, points_l);
 			//LogB.Information(string.Format("minY: {0}, maxY: {1}", minY, maxY));
 
 			if (minY > minDisplayFNegative)
@@ -179,7 +179,7 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 					absoluteMaxY = rectangleN + rectangleRange/2;
 			}
 
-			if (points_list_interpolated_path != null && points_list_interpolated_path.Count > 0)
+			if (points_l_interpolated_path != null && points_l_interpolated_path.Count > 0)
 			{
 				if (interpolatedMin - pathLineWidthInN/2 < minY)
 					minY = interpolatedMin - pathLineWidthInN/2;
@@ -193,19 +193,23 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 
 		bool graphInited = false;
 		if( maxValuesChanged || forceRedraw ||
-				(points_list != null && points_list.Count != points_list_painted)
+				(points_l != null && points_l.Count != points_l_painted)
 				)
 		{
 			initGraph (font, 1, (maxValuesChanged || forceRedraw) );
 			graphInited = true;
-			points_list_painted = 0;
+			points_l_painted = 0;
 		}
 
 		//do not draw axis at the moment (and it is not in 0Y right now)
 		//if(maxValuesChanged || forceRedraw)
 		//	paintAxis();
 
-		if( points_list == null || points_list.Count == 0)
+		//LogB.Information (string.Format ("doSendingList B points_l == null: {0}", (points_l == null)));
+		//if (points_l != null)
+		//	LogB.Information (string.Format ("doSendingList C points_l.Count: {0}", points_l.Count));
+
+		if( points_l == null || points_l.Count == 0)
 		{
 			if (! graphInited)
 			{
@@ -229,16 +233,16 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 		pointsRadius = 1;
 
 		int startAt = 0;
-		if (showLastSeconds > 0 && points_list.Count > 1)
-			startAt = configureTimeWindow (points_list, showLastSeconds);
+		if (showLastSeconds > 0 && points_l.Count > 1)
+			startAt = configureTimeWindow (points_l, showLastSeconds);
 
 		// paint points and maybe interpolated path
-		if(maxValuesChanged || forceRedraw || points_list.Count != points_list_painted)
+		if(maxValuesChanged || forceRedraw || points_l.Count != points_l_painted)
 		{
 			if (rectangleRange > 0)
 				paintRectangle (rectangleN, rectangleRange);
 
-			if (points_list.Count > 2) //to ensure minX != maxX
+			if (points_l.Count > 2) //to ensure minX != maxX
 				paintGrid(gridTypes.BOTH, true);
 
 			paintAxis();
@@ -250,25 +254,25 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 			string accuracyText = "";
 			if (showAccuracy &&
 					(rectangleRange > 0 ||
-					 (points_list_interpolated_path != null && points_list_interpolated_path.Count > 0)))
+					 (points_l_interpolated_path != null && points_l_interpolated_path.Count > 0)))
 			{
-				if (points_list[points_list.Count -1].X < 5000000)
+				if (points_l[points_l.Count -1].X < 5000000)
 				{
 					accuracyText = string.Format ("Accuracy calculation starts in {0} s",
-							Convert.ToInt32 (UtilAll.DivideSafe(5000000 - points_list[points_list.Count -1].X, 1000000)));
+							Convert.ToInt32 (UtilAll.DivideSafe(5000000 - points_l[points_l.Count -1].X, 1000000)));
 				}
 				else {
 					if (rectangleRange > 0)
 					{
 						accuracyNowIn =
-							(rectangleN + rectangleRange/2 >= points_list[points_list.Count -1].Y &&
-							rectangleN - rectangleRange/2 <= points_list[points_list.Count -1].Y);
+							(rectangleN + rectangleRange/2 >= points_l[points_l.Count -1].Y &&
+							rectangleN - rectangleRange/2 <= points_l[points_l.Count -1].Y);
 					} else {
 						//compare last point painted with circle at right
-						double error = getDistance2D (calculatePaintX (points_list[points_list.Count -1].X),
-								calculatePaintY (points_list[points_list.Count -1].Y),
-								calculatePaintX (points_list_interpolated_path[points_list_interpolated_path.Count -1].X),
-								calculatePaintY (points_list_interpolated_path[points_list_interpolated_path.Count -1].Y));
+						double error = getDistance2D (calculatePaintX (points_l[points_l.Count -1].X),
+								calculatePaintY (points_l[points_l.Count -1].Y),
+								calculatePaintX (points_l_interpolated_path[points_l_interpolated_path.Count -1].X),
+								calculatePaintY (points_l_interpolated_path[points_l_interpolated_path.Count -1].Y));
 
 						if (error > calculatePathWidth ()/2)
 							accuracyNowIn = false;
@@ -302,26 +306,26 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 
 				g.LineWidth = 2;
 			}
-			else if (points_list_interpolated_path != null && points_list_interpolated_path.Count > 0)
+			else if (points_l_interpolated_path != null && points_l_interpolated_path.Count > 0)
 			{
 				g.LineWidth = calculatePathWidth ();
 				g.SetSourceColor (colorPathBlue);
 
 				//make the line start at startAt +1 (if possible) and draw cicle at left (startAt) to have nice rounding at left.
 				int startAt_theLine = startAt;
-				if (points_list.Count -1 > startAt)
+				if (points_l.Count -1 > startAt)
 					startAt_theLine = startAt +1;
 
-				plotRealPoints(plotType, points_list_interpolated_path, startAt_theLine, false); //fast (but the difference is very low)
+				plotRealPoints(plotType, points_l_interpolated_path, startAt_theLine, false); //fast (but the difference is very low)
 
 				//circle at left
-				drawCircle (calculatePaintX (points_list_interpolated_path[startAt].X),
-						calculatePaintY (points_list_interpolated_path[startAt].Y),
+				drawCircle (calculatePaintX (points_l_interpolated_path[startAt].X),
+						calculatePaintY (points_l_interpolated_path[startAt].Y),
 						g.LineWidth/2, colorPathBlue, true);
 
 				//circle at right
-				drawCircle (calculatePaintX (points_list_interpolated_path[points_list_interpolated_path.Count -1].X),
-						calculatePaintY (points_list_interpolated_path[points_list_interpolated_path.Count -1].Y),
+				drawCircle (calculatePaintX (points_l_interpolated_path[points_l_interpolated_path.Count -1].X),
+						calculatePaintY (points_l_interpolated_path[points_l_interpolated_path.Count -1].Y),
 						g.LineWidth/2, colorHead, true);
 
 				g.SetSourceColor (black);
@@ -337,7 +341,7 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 				g.LineWidth = 2;
 			}
 
-			plotRealPoints(plotType, points_list, startAt, false); //fast (but the difference is very low)
+			plotRealPoints(plotType, points_l, startAt, false); //fast (but the difference is very low)
 
 			if(calculatePaintX (xAtMaxY) > leftMargin)
 				drawCircle (calculatePaintX (xAtMaxY), calculatePaintY (yAtMaxY), 8, red, false);
@@ -345,28 +349,28 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 			if(calculatePaintX (xAtMinY) > leftMargin)
 				drawCircle (calculatePaintX (xAtMinY), calculatePaintY (yAtMinY), 8, red, false);
 
-			points_list_painted = points_list.Count;
+			points_l_painted = points_l.Count;
 		}
 
 		// paint triggers
-		if (points_list != null && points_list.Count > 3 && graphInited && triggerList != null && triggerList.Count() > 0)
+		if (points_l != null && points_l.Count > 3 && graphInited && triggerList != null && triggerList.Count() > 0)
 		{
 			g.LineWidth = 1;
-			int bucleStartPoints = points_list.Count -2; //to start searching points for each trigger since last one
+			int bucleStartPoints = points_l.Count -2; //to start searching points for each trigger since last one
 
 			foreach (Trigger trigger in triggerList.GetList())
 			{
 				for (int i = bucleStartPoints; i >= 0; i --)
 				{
-					if (points_list[i].X <= trigger.Us)
+					if (points_l[i].X <= trigger.Us)
 					{
 						int bestFit = i+1;
 						if (MathUtil.PassedSampleIsCloserToCriteria (
-									points_list[i].X, points_list[i+1].X, trigger.Us))
+									points_l[i].X, points_l[i+1].X, trigger.Us))
 							bestFit = i;
 
 						paintVerticalTriggerLine (g, trigger, timeUnits.MICROSECONDS,
-								Util.TrimDecimals (points_list[bestFit].Y,1), textHeight -3);
+								Util.TrimDecimals (points_l[bestFit].Y,1), textHeight -3);
 
 						bucleStartPoints = bestFit;
 						break;
@@ -384,19 +388,31 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 		return Math.Abs (calculatePaintY (pathLineWidthInN) - calculatePaintY (0));
 	}
 
-	//for signals like forceSensor where points_list.X is time in microseconds and there is not a sample for each second (like encoder)
-	private int configureTimeWindow (List<PointF> points_list, int seconds)
+	//for signals like forceSensor where points_l.X is time in microseconds and there is not a sample for each second (like encoder)
+	private int configureTimeWindow (List<PointF> points_l, int seconds)
 	{
-		//double firstTime = points_list[0].X; //micros
-		double lastTime = points_list[points_list.Count -1].X; //micros
+//LogB.Information ("configureTimeWindow 0");
+		//double firstTime = points_l[0].X; //micros
+
+		/*
+LogB.Information ("points_l.Count");
+LogB.Information (points_l.Count.ToString());
+LogB.Information ("points_l[points_l.Count-1].X");
+LogB.Information (points_l[points_l.Count-1].X.ToString());
+*/
+
+		double lastTime = points_l[points_l.Count -1].X; //micros
 		//LogB.Information (string.Format ("firstTime: {0}, lastTime: {1}, elapsed: {2}", firstTime, lastTime, lastTime - firstTime));
 
 		absoluteMaxX = lastTime;
 		if (absoluteMaxX < seconds * 1000000)
 			absoluteMaxX = seconds * 1000000;
 
-		int startAt = PointF.FindSampleAtTimeToEnd (points_list, seconds * 1000000); //s to ms
-		minX = points_list[startAt].X;
+//LogB.Information ("configureTimeWindow 2");
+		int startAt = PointF.FindSampleAtTimeToEnd (points_l, seconds * 1000000); //s to ms
+//LogB.Information ("configureTimeWindow 3");
+		minX = points_l[startAt].X;
+//LogB.Information ("configureTimeWindow 4");
 
 		return startAt;
 	}
@@ -406,6 +422,7 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 public class CairoGraphForceSensorAI : CairoGraphForceSensor
 {
 	private Cairo.Color colorGreen = colorFromRGB (0,200,0);
+	private Cairo.Color colorBlue = colorFromRGB (0,0,200);
 
 	//regular constructor
 	public CairoGraphForceSensorAI (DrawingArea area, string title)
@@ -415,20 +432,22 @@ public class CairoGraphForceSensorAI : CairoGraphForceSensor
 
 	//separated in two methods to ensure endGraphDisposing on any return of the other method
 	public void DoSendingList (string font,
-			List<PointF> points_list,
+			List<PointF> points_l,
 			int minDisplayFNegative, int minDisplayFPositive,
 			int rectangleN, int rectangleRange,
 			//TriggerList triggerList,
 			int hscaleSampleA, int hscaleSampleB,
 			int fMaxAvgSampleStart, int fMaxAvgSampleEnd, double fMaxAvgForce,
+			List<ForceSensorRepetition> reps_l,
 			bool forceRedraw, PlotTypes plotType)
 	{
-		if(doSendingList (font, points_list,
+		if(doSendingList (font, points_l,
 					minDisplayFNegative, minDisplayFPositive,
 					rectangleN, rectangleRange,
 					//triggerList,
 					hscaleSampleA, hscaleSampleB,
 					fMaxAvgSampleStart, fMaxAvgSampleEnd, fMaxAvgForce,
+					reps_l,
 					forceRedraw, plotType))
 			endGraphDisposing(g, surface, area.GdkWindow);
 	}
@@ -436,19 +455,20 @@ public class CairoGraphForceSensorAI : CairoGraphForceSensor
 	//similar to encoder method but calling configureTimeWindow and using minDisplayF(Negative/Positive)
 	//return true if graph is inited (to dispose it)
 	private bool doSendingList (string font,
-			List<PointF> points_list,
+			List<PointF> points_l,
 			int minDisplayFNegative, int minDisplayFPositive,
 			int rectangleN, int rectangleRange,
 			//TriggerList triggerList,
 			int hscaleSampleA, int hscaleSampleB,
 			int fMaxAvgSampleStart, int fMaxAvgSampleEnd, double fMaxAvgForce,
+			List<ForceSensorRepetition> reps_l,
 			bool forceRedraw, PlotTypes plotType)
 	{
 		bool maxValuesChanged = false;
 
-		if(points_list != null)
+		if(points_l != null)
 		{
-			maxValuesChanged = findPointMaximums(false, points_list);
+			maxValuesChanged = findPointMaximums(false, points_l);
 			//LogB.Information(string.Format("minY: {0}, maxY: {1}", minY, maxY));
 
 			if (minY > minDisplayFNegative)
@@ -467,14 +487,14 @@ public class CairoGraphForceSensorAI : CairoGraphForceSensor
 
 		bool graphInited = false;
 		if ( maxValuesChanged || forceRedraw ||
-				(points_list != null && points_list.Count != points_list_painted) )
+				(points_l != null && points_l.Count != points_l_painted) )
 		{
 			initGraph (font, 1, (maxValuesChanged || forceRedraw) );
 			graphInited = true;
-			points_list_painted = 0;
+			points_l_painted = 0;
 		}
 
-		if (points_list == null || points_list.Count == 0)
+		if (points_l == null || points_l.Count == 0)
 		{
 			if (! graphInited)
 			{
@@ -499,47 +519,79 @@ public class CairoGraphForceSensorAI : CairoGraphForceSensor
 		int startAt = 0;
 
 		// paint points and maybe interpolated path
-		if(maxValuesChanged || forceRedraw || points_list.Count != points_list_painted)
+		if(maxValuesChanged || forceRedraw || points_l.Count != points_l_painted)
 		{
 			if (rectangleRange > 0)
 				paintRectangle (rectangleN, rectangleRange);
 
-			if (points_list.Count > 2) //to ensure minX != maxX
+			if (points_l.Count > 2) //to ensure minX != maxX
 				paintGrid(gridTypes.BOTH, true);
 
 			paintAxis();
 
-			plotRealPoints(plotType, points_list, startAt, false); //fast (but the difference is very low)
+			plotRealPoints(plotType, points_l, startAt, false); //fast (but the difference is very low)
 
+			// paint the AB rectangle
 			if (hscaleSampleA >= 0 && hscaleSampleB >= 0 &&
-					points_list.Count > hscaleSampleA && points_list.Count > hscaleSampleB)
+					points_l.Count > hscaleSampleA && points_l.Count > hscaleSampleB)
 				CairoUtil.PaintVerticalLinesAndRectangle (g, graphHeight,
-						calculatePaintX (points_list[hscaleSampleA].X),
-						calculatePaintX (points_list[hscaleSampleB].X),
-						true, 9, 18);
+						calculatePaintX (points_l[hscaleSampleA].X),
+						calculatePaintX (points_l[hscaleSampleB].X),
+						true, 15, 0);
 
-			if ( points_list != null && fMaxAvgSampleEnd >= 0 && points_list.Count > fMaxAvgSampleEnd)
+			// paint the repetition lines
+			if (reps_l.Count > 0)
+			{
+				g.LineWidth = 1;
+				g.SetSourceColor (colorBlue);
+				foreach (ForceSensorRepetition rep in reps_l)
+				{
+					if (points_l.Count <= rep.sampleStart || points_l.Count <= rep.sampleEnd)
+						continue;
+
+					//LogB.Information(string.Format("repetition: {0}", reps_l[r]));
+					CairoUtil.PaintSegment (g,
+							calculatePaintX (points_l[rep.sampleStart].X),
+							textHeight +6,
+							calculatePaintX (points_l[rep.sampleStart].X),
+							graphHeight - textHeight -6);
+					CairoUtil.PaintSegment (g,
+							calculatePaintX (points_l[rep.sampleEnd].X),
+							textHeight +6,
+							calculatePaintX (points_l[rep.sampleEnd].X),
+							graphHeight - textHeight -6);
+
+					//TODO: show numbers (if they fit)
+					//TODO: have a way to select the repetition clicking
+				}
+				g.SetSourceColor (black);
+			}
+
+			// paint the f max avg in x seconds
+			g.LineWidth = 2;
+			if ( points_l != null && fMaxAvgSampleEnd >= 0 && points_l.Count > fMaxAvgSampleEnd)
 			{
 				double yPx = calculatePaintY (fMaxAvgForce);
 
 				CairoUtil.PaintSegment (g, colorGreen,
-						calculatePaintX (points_list[fMaxAvgSampleStart].X), yPx,
-						calculatePaintX (points_list[fMaxAvgSampleEnd].X), yPx);
+						calculatePaintX (points_l[fMaxAvgSampleStart].X), yPx,
+						calculatePaintX (points_l[fMaxAvgSampleEnd].X), yPx);
 				CairoUtil.PaintSegment (g, colorGreen,
-						calculatePaintX (points_list[fMaxAvgSampleStart].X), yPx-10,
-						calculatePaintX (points_list[fMaxAvgSampleStart].X), yPx+10);
+						calculatePaintX (points_l[fMaxAvgSampleStart].X), yPx-10,
+						calculatePaintX (points_l[fMaxAvgSampleStart].X), yPx+10);
 				CairoUtil.PaintSegment (g, colorGreen,
-						calculatePaintX (points_list[fMaxAvgSampleEnd].X), yPx-10,
-						calculatePaintX (points_list[fMaxAvgSampleEnd].X), yPx+10);
+						calculatePaintX (points_l[fMaxAvgSampleEnd].X), yPx-10,
+						calculatePaintX (points_l[fMaxAvgSampleEnd].X), yPx+10);
 			}
 
+			// paint max, min circles
 			if(calculatePaintX (xAtMaxY) > leftMargin)
 				drawCircle (calculatePaintX (xAtMaxY), calculatePaintY (yAtMaxY), 8, red, false);
 
 			if(calculatePaintX (xAtMinY) > leftMargin)
 				drawCircle (calculatePaintX (xAtMinY), calculatePaintY (yAtMinY), 8, red, false);
 
-			points_list_painted = points_list.Count;
+			points_l_painted = points_l.Count;
 		}
 
 		// paint triggers TODO

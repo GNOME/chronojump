@@ -405,6 +405,8 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 
 public class CairoGraphForceSensorAI : CairoGraphForceSensor
 {
+	private Cairo.Color colorGreen = colorFromRGB (0,200,0);
+
 	//regular constructor
 	public CairoGraphForceSensorAI (DrawingArea area, string title)
 	{
@@ -418,7 +420,7 @@ public class CairoGraphForceSensorAI : CairoGraphForceSensor
 			int rectangleN, int rectangleRange,
 			//TriggerList triggerList,
 			int hscaleSampleA, int hscaleSampleB,
-			int fMaxAvgSampleStart, int fMaxAvgSampleEnd,
+			int fMaxAvgSampleStart, int fMaxAvgSampleEnd, double fMaxAvgForce,
 			bool forceRedraw, PlotTypes plotType)
 	{
 		if(doSendingList (font, points_list,
@@ -426,7 +428,7 @@ public class CairoGraphForceSensorAI : CairoGraphForceSensor
 					rectangleN, rectangleRange,
 					//triggerList,
 					hscaleSampleA, hscaleSampleB,
-					fMaxAvgSampleStart, fMaxAvgSampleEnd,
+					fMaxAvgSampleStart, fMaxAvgSampleEnd, fMaxAvgForce,
 					forceRedraw, plotType))
 			endGraphDisposing(g, surface, area.GdkWindow);
 	}
@@ -439,7 +441,7 @@ public class CairoGraphForceSensorAI : CairoGraphForceSensor
 			int rectangleN, int rectangleRange,
 			//TriggerList triggerList,
 			int hscaleSampleA, int hscaleSampleB,
-			int fMaxAvgSampleStart, int fMaxAvgSampleEnd,
+			int fMaxAvgSampleStart, int fMaxAvgSampleEnd, double fMaxAvgForce,
 			bool forceRedraw, PlotTypes plotType)
 	{
 		bool maxValuesChanged = false;
@@ -515,6 +517,21 @@ public class CairoGraphForceSensorAI : CairoGraphForceSensor
 						calculatePaintX (points_list[hscaleSampleA].X),
 						calculatePaintX (points_list[hscaleSampleB].X),
 						true, 9, 18);
+
+			if ( points_list != null && fMaxAvgSampleEnd >= 0 && points_list.Count > fMaxAvgSampleEnd)
+			{
+				double yPx = calculatePaintY (fMaxAvgForce);
+
+				CairoUtil.PaintSegment (g, colorGreen,
+						calculatePaintX (points_list[fMaxAvgSampleStart].X), yPx,
+						calculatePaintX (points_list[fMaxAvgSampleEnd].X), yPx);
+				CairoUtil.PaintSegment (g, colorGreen,
+						calculatePaintX (points_list[fMaxAvgSampleStart].X), yPx-10,
+						calculatePaintX (points_list[fMaxAvgSampleStart].X), yPx+10);
+				CairoUtil.PaintSegment (g, colorGreen,
+						calculatePaintX (points_list[fMaxAvgSampleEnd].X), yPx-10,
+						calculatePaintX (points_list[fMaxAvgSampleEnd].X), yPx+10);
+			}
 
 			if(calculatePaintX (xAtMaxY) > leftMargin)
 				drawCircle (calculatePaintX (xAtMaxY), calculatePaintY (yAtMaxY), 8, red, false);

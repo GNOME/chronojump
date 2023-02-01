@@ -32,6 +32,13 @@ public static class CairoUtil
 	 * public methods
 	 */
 
+	public static void PaintSegment (Cairo.Context g, Cairo.Color color, double x1, double y1, double x2, double y2)
+	{
+		g.SetSourceColor (color);
+		g.MoveTo (x1, y1);
+		g.LineTo (x2, y2);
+		g.Stroke ();
+	}
 	public static void PaintSegment (Gtk.DrawingArea darea, Cairo.Color color, int x1, int y1, int x2, int y2)
 	{
 		using (Cairo.Context g = Gdk.CairoHelper.Create (darea.GdkWindow))

@@ -1316,10 +1316,12 @@ public partial class ChronoJumpWindow
 
 		int fMaxAvgSampleStart = -1;
 		int fMaxAvgSampleEnd = -1;
-		if(fsAI != null)
+		double fsMaxAvgForce = -1;
+		if(fsAI != null && fsAI.ForceMaxAvgInWindowError == "")
 		{
 			fMaxAvgSampleStart = fsAI.ForceMaxAvgInWindowSampleStart;
 			fMaxAvgSampleEnd = fsAI.ForceMaxAvgInWindowSampleEnd;
+			fsMaxAvgForce = fsAI.ForceMaxAvgInWindow;
 		}
 
 		cairoGraphForceSensorAI.DoSendingList (preferences.fontType.ToString(),
@@ -1329,7 +1331,7 @@ public partial class ChronoJumpWindow
 				//triggerListForceSensor_copy,
 				Convert.ToInt32 (hscale_force_sensor_ai_a.Value),
 				Convert.ToInt32 (hscale_force_sensor_ai_b.Value),
-				fMaxAvgSampleStart, fMaxAvgSampleEnd,
+				fMaxAvgSampleStart, fMaxAvgSampleEnd, fsMaxAvgForce,
 				forceRedraw, CairoXY.PlotTypes.LINES);
 	}
 

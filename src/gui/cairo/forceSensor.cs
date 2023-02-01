@@ -417,12 +417,16 @@ public class CairoGraphForceSensorAI : CairoGraphForceSensor
 			int minDisplayFNegative, int minDisplayFPositive,
 			int rectangleN, int rectangleRange,
 			//TriggerList triggerList,
+			int hscaleSampleA, int hscaleSampleB,
+			int fMaxAvgSampleStart, int fMaxAvgSampleEnd,
 			bool forceRedraw, PlotTypes plotType)
 	{
 		if(doSendingList (font, points_list,
 					minDisplayFNegative, minDisplayFPositive,
 					rectangleN, rectangleRange,
 					//triggerList,
+					hscaleSampleA, hscaleSampleB,
+					fMaxAvgSampleStart, fMaxAvgSampleEnd,
 					forceRedraw, plotType))
 			endGraphDisposing(g, surface, area.GdkWindow);
 	}
@@ -434,6 +438,8 @@ public class CairoGraphForceSensorAI : CairoGraphForceSensor
 			int minDisplayFNegative, int minDisplayFPositive,
 			int rectangleN, int rectangleRange,
 			//TriggerList triggerList,
+			int hscaleSampleA, int hscaleSampleB,
+			int fMaxAvgSampleStart, int fMaxAvgSampleEnd,
 			bool forceRedraw, PlotTypes plotType)
 	{
 		bool maxValuesChanged = false;
@@ -458,16 +464,15 @@ public class CairoGraphForceSensorAI : CairoGraphForceSensor
 		}
 
 		bool graphInited = false;
-		if( maxValuesChanged || forceRedraw ||
-				(points_list != null && points_list.Count != points_list_painted)
-				)
+		if ( maxValuesChanged || forceRedraw ||
+				(points_list != null && points_list.Count != points_list_painted) )
 		{
 			initGraph (font, 1, (maxValuesChanged || forceRedraw) );
 			graphInited = true;
 			points_list_painted = 0;
 		}
 
-		if( points_list == null || points_list.Count == 0)
+		if (points_list == null || points_list.Count == 0)
 		{
 			if (! graphInited)
 			{
@@ -478,7 +483,7 @@ public class CairoGraphForceSensorAI : CairoGraphForceSensor
 		}
 
 		//fix an eventual crash on g.LineWidth below
-		if(g == null || ! graphInited)
+		if (g == null || ! graphInited)
 			return false;
 
 		//this try/catch is an extra precaution
@@ -503,6 +508,13 @@ public class CairoGraphForceSensorAI : CairoGraphForceSensor
 			paintAxis();
 
 			plotRealPoints(plotType, points_list, startAt, false); //fast (but the difference is very low)
+
+			if (hscaleSampleA >= 0 && hscaleSampleB >= 0 &&
+					points_list.Count > hscaleSampleA && points_list.Count > hscaleSampleB)
+				CairoUtil.PaintVerticalLinesAndRectangle (g, graphHeight,
+						calculatePaintX (points_list[hscaleSampleA].X),
+						calculatePaintX (points_list[hscaleSampleB].X),
+						true, 9, 18);
 
 			if(calculatePaintX (xAtMaxY) > leftMargin)
 				drawCircle (calculatePaintX (xAtMaxY), calculatePaintY (yAtMaxY), 8, red, false);

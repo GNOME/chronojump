@@ -35,6 +35,10 @@ public static class CairoUtil
 	public static void PaintSegment (Cairo.Context g, Cairo.Color color, double x1, double y1, double x2, double y2)
 	{
 		g.SetSourceColor (color);
+		PaintSegment (g, x1, y1, x2, y2);
+	}
+	public static void PaintSegment (Cairo.Context g, double x1, double y1, double x2, double y2)
+	{
 		g.MoveTo (x1, y1);
 		g.LineTo (x2, y2);
 		g.Stroke ();

@@ -547,7 +547,7 @@ public class CairoGraphForceSensorAI : CairoGraphForceSensor
 			{
 				g.LineWidth = 1;
 				g.SetSourceColor (colorBlue);
-				int count = 0;
+				int i = 0;
 				foreach (ForceSensorRepetition rep in reps_l)
 				{
 					if (points_l.Count <= rep.sampleStart || points_l.Count <= rep.sampleEnd)
@@ -556,20 +556,24 @@ public class CairoGraphForceSensorAI : CairoGraphForceSensor
 					double xgStart = calculatePaintX (points_l[rep.sampleStart].X);
 					double xgEnd = calculatePaintX (points_l[rep.sampleEnd].X);
 					//LogB.Information(string.Format("repetition: {0}", reps_l[r]));
-					CairoUtil.PaintSegment (g,
-							xgStart, textHeight +6,
-							xgStart, graphHeight - textHeight -6);
+
+					//display left vertical line if does not overlap a previous right vertical line
+					if (i == 0 || (i > 0 && points_l[rep.sampleStart].X > points_l[reps_l[i-1].sampleEnd].X))
+						CairoUtil.PaintSegment (g,
+								xgStart, textHeight +6,
+								xgStart, graphHeight - textHeight -6);
+
 					CairoUtil.PaintSegment (g,
 							xgEnd, textHeight +6,
 							xgEnd, graphHeight - textHeight -6);
 
 					// show numbers (and arrows if they fit)
-					writeRepetitionCode (count, rep.TypeShort(), xgStart, xgEnd,
+					writeRepetitionCode (i, rep.TypeShort(), xgStart, xgEnd,
 						rep.sampleStart > 0, true);
 
 					//TODO: have a way to select the repetition clicking
 
-					count ++;
+					i ++;
 				}
 				g.SetSourceColor (black);
 			}

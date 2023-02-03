@@ -423,6 +423,7 @@ public class CairoGraphForceSensorAI : CairoGraphForceSensor
 {
 	private Cairo.Color colorGreen = colorFromRGB (0,200,0);
 	private Cairo.Color colorBlue = colorFromRGB (0,0,200);
+	private ForceSensorExercise exercise;
 
 	//regular constructor
 	public CairoGraphForceSensorAI (DrawingArea area, string title)
@@ -438,16 +439,18 @@ public class CairoGraphForceSensorAI : CairoGraphForceSensor
 			//TriggerList triggerList,
 			int hscaleSampleA, int hscaleSampleB,
 			int fMaxAvgSampleStart, int fMaxAvgSampleEnd, double fMaxAvgForce,
-			List<ForceSensorRepetition> reps_l,
+			ForceSensorExercise exercise, List<ForceSensorRepetition> reps_l,
 			bool forceRedraw, PlotTypes plotType)
 	{
+		this.exercise = exercise;
+
 		if(doSendingList (font, points_l,
 					minDisplayFNegative, minDisplayFPositive,
 					rectangleN, rectangleRange,
 					//triggerList,
 					hscaleSampleA, hscaleSampleB,
 					fMaxAvgSampleStart, fMaxAvgSampleEnd, fMaxAvgForce,
-					reps_l,
+					exercise, reps_l,
 					forceRedraw, plotType))
 			endGraphDisposing(g, surface, area.GdkWindow);
 	}
@@ -461,7 +464,7 @@ public class CairoGraphForceSensorAI : CairoGraphForceSensor
 			//TriggerList triggerList,
 			int hscaleSampleA, int hscaleSampleB,
 			int fMaxAvgSampleStart, int fMaxAvgSampleEnd, double fMaxAvgForce,
-			List<ForceSensorRepetition> reps_l,
+			ForceSensorExercise exercise, List<ForceSensorRepetition> reps_l,
 			bool forceRedraw, PlotTypes plotType)
 	{
 		bool maxValuesChanged = false;
@@ -539,30 +542,34 @@ public class CairoGraphForceSensorAI : CairoGraphForceSensor
 						calculatePaintX (points_l[hscaleSampleB].X),
 						true, 15, 0);
 
-			// paint the repetition lines
+			// paint the repetition lines and codes
 			if (reps_l.Count > 0)
 			{
 				g.LineWidth = 1;
 				g.SetSourceColor (colorBlue);
+				int count = 0;
 				foreach (ForceSensorRepetition rep in reps_l)
 				{
 					if (points_l.Count <= rep.sampleStart || points_l.Count <= rep.sampleEnd)
 						continue;
 
+					double xgStart = calculatePaintX (points_l[rep.sampleStart].X);
+					double xgEnd = calculatePaintX (points_l[rep.sampleEnd].X);
 					//LogB.Information(string.Format("repetition: {0}", reps_l[r]));
 					CairoUtil.PaintSegment (g,
-							calculatePaintX (points_l[rep.sampleStart].X),
-							textHeight +6,
-							calculatePaintX (points_l[rep.sampleStart].X),
-							graphHeight - textHeight -6);
+							xgStart, textHeight +6,
+							xgStart, graphHeight - textHeight -6);
 					CairoUtil.PaintSegment (g,
-							calculatePaintX (points_l[rep.sampleEnd].X),
-							textHeight +6,
-							calculatePaintX (points_l[rep.sampleEnd].X),
-							graphHeight - textHeight -6);
+							xgEnd, textHeight +6,
+							xgEnd, graphHeight - textHeight -6);
 
-					//TODO: show numbers (if they fit)
+					// show numbers (and arrows if they fit)
+					writeRepetitionCode (count, rep.TypeShort(), xgStart, xgEnd,
+						rep.sampleStart > 0, true);
+
 					//TODO: have a way to select the repetition clicking
+
+					count ++;
 				}
 				g.SetSourceColor (black);
 			}
@@ -597,6 +604,48 @@ public class CairoGraphForceSensorAI : CairoGraphForceSensor
 		// paint triggers TODO
 
 		return true;
+	}
+
+	private void writeRepetitionCode (int number, string type,
+			double xposRepStart, double xposRepEnd, bool endsAtLeft, bool endsAtRight)
+	{
+		//just be safe
+		if (exercise == null)
+			return;
+
+		string text = "";
+		if (exercise.RepetitionsShow == ForceSensorExercise.RepetitionsShowTypes.CONCENTRIC ||
+				exercise.RepetitionsShow == ForceSensorExercise.RepetitionsShowTypes.BOTHTOGETHER)
+			text = (number +1).ToString();
+		else
+			text = string.Format ("{0}{1}", Math.Ceiling ((number +1)/2.0), type);
+
+		Cairo.TextExtents te;
+		te = g.TextExtents (text);
+
+		int xposNumber = Convert.ToInt32 ((xposRepStart + xposRepEnd)/2);
+
+		printText (xposNumber, 6, 0, Convert.ToInt32 (te.Height), text, g, alignTypes.CENTER);
+
+		//if it does not fit, do not plot the horizontal lines + arrows, just plot an horizontal line at top of the vertical lines
+		//if (xposNumber - xposRepStart < 16)
+		//{
+			CairoUtil.PaintSegment (g,
+					xposRepStart, textHeight +6,
+					xposRepEnd, textHeight +6);
+		//	return;
+		//}
+
+		/*
+		//draw arrows to left, right
+		int tempY = 3 + Convert.ToInt32 (te.Height/2); //int for not having interpolations on the line
+		plotArrowFree (g, colorBlue, 1, 8, false,
+					    xposNumber -6, tempY,
+					    xposRepStart +6, tempY);
+		plotArrowFree (g, colorBlue, 1, 8, false,
+					    xposNumber +6, tempY,
+					    xposRepEnd -6, tempY);
+		 */
 	}
 
 }

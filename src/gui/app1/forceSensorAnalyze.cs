@@ -1338,7 +1338,7 @@ public partial class ChronoJumpWindow
 				Convert.ToInt32 (hscale_force_sensor_ai_a.Value),
 				Convert.ToInt32 (hscale_force_sensor_ai_b.Value),
 				fMaxAvgSampleStart, fMaxAvgSampleEnd, fsMaxAvgForce,
-				reps_l,
+				currentForceSensorExercise, reps_l,
 				forceRedraw, CairoXY.PlotTypes.LINES);
 	}
 
@@ -1632,7 +1632,7 @@ public partial class ChronoJumpWindow
 		int j = 0;
 		for(j = 0; j < reps_l.Count; j ++)
 		{
-			LogB.Information(string.Format("repetition: {0}", reps_l[j]));
+			//LogB.Information(string.Format("repetition: {0}", reps_l[j]));
 			int sampleStart = reps_l[j].sampleStart;
 			int sampleEnd = reps_l[j].sampleEnd;
 			if(forceSensorZoomApplied)

@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2022   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2004-2023   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -698,13 +698,22 @@ public class MovingBar
 //note every rep will be c or ec
 public class RepetitionMouseLimits
 {
+//	TODO: make all the sample stuff inherited
+
 	private List<PointStartEnd> list;
 	private int current;
+
+	//used on gui/cairo/forceSensor.cs
+	private List<int> sampleStart_l;
+	private List<int> sampleEnd_l;
 
 	public RepetitionMouseLimits()
 	{
 		list = new List<PointStartEnd>();
 		current = 0;
+
+		sampleStart_l = new List<int>();
+		sampleEnd_l = new List<int>();
 	}
 
 	public void Add (double start, double end)
@@ -720,6 +729,12 @@ public class RepetitionMouseLimits
 		PointStartEnd p = new PointStartEnd(pos, start, end);
 		list.Add(p);
 		LogB.Information("Mouse added: " + p.ToString());
+	}
+
+	public void AddSamples (int sampleStart, int sampleEnd)
+	{
+		sampleStart_l.Add (sampleStart);
+		sampleEnd_l.Add (sampleEnd);
 	}
 
 	public int FindBarInPixel (double pixel)
@@ -738,6 +753,15 @@ public class RepetitionMouseLimits
 	public double GetEndOfARep(int rep)
 	{
 		return ((PointStartEnd) list[rep]).End;
+	}
+
+	public int GetSampleStartOfARep (int rep)
+	{
+		return (sampleStart_l[rep]);
+	}
+	public int GetSampleEndOfARep (int rep)
+	{
+		return (sampleEnd_l[rep]);
 	}
 
 	//to debug

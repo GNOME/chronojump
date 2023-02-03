@@ -273,7 +273,7 @@ public abstract class CairoGeneric
 	   not horizontal, not vertical. Adapted from UtilGtk.DrawArrow()
 	   tip is the point where the arrow will be drawn
 	   */
-	protected void plotArrowFree (Cairo.Context g, Cairo.Color color, int lineWidth, int arrowLength,
+	protected void plotArrowFree (Cairo.Context g, Cairo.Color color, int lineWidth, int arrowLength, bool fill,
 			double tailX, double tailY, double tipX, double tipY)
 	{
 		g.Save();
@@ -308,7 +308,10 @@ public abstract class CairoGeneric
 		g.MoveTo(points_l[0].X, points_l[0].Y);
 		g.LineTo(points_l[1].X, points_l[1].Y);
 		g.LineTo(points_l[2].X, points_l[2].Y);
-		g.FillPreserve ();
+
+		if (fill)
+			g.FillPreserve ();
+
 		g.Stroke();
 
 		g.Restore();

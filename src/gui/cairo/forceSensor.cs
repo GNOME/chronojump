@@ -547,6 +547,11 @@ public class CairoGraphForceSensorAI : CairoGraphForceSensor
 			{
 				g.LineWidth = 1;
 				g.SetSourceColor (colorBlue);
+
+				// for RepetitionsShowTypes.BOTHSEPARATED to write correctly e or c
+				int sepCount = 0;
+				bool lastIsCon = true;
+
 				int i = 0;
 				foreach (ForceSensorRepetition rep in reps_l)
 				{
@@ -555,7 +560,6 @@ public class CairoGraphForceSensorAI : CairoGraphForceSensor
 
 					double xgStart = calculatePaintX (points_l[rep.sampleStart].X);
 					double xgEnd = calculatePaintX (points_l[rep.sampleEnd].X);
-					//LogB.Information(string.Format("repetition: {0}", reps_l[r]));
 
 					//display left vertical line if does not overlap a previous right vertical line
 					if (i == 0 || (i > 0 && points_l[rep.sampleStart].X > points_l[reps_l[i-1].sampleEnd].X))
@@ -568,8 +572,18 @@ public class CairoGraphForceSensorAI : CairoGraphForceSensor
 							xgEnd, graphHeight - textHeight -6);
 
 					// show numbers (and arrows if they fit)
-					writeRepetitionCode (i, rep.TypeShort(), xgStart, xgEnd,
-						rep.sampleStart > 0, true);
+					if (exercise.RepetitionsShow == ForceSensorExercise.RepetitionsShowTypes.BOTHSEPARATED)
+					{
+						if (lastIsCon && rep.TypeShort() == "c")
+							sepCount ++;
+						else if (! lastIsCon)
+							sepCount ++;
+
+						lastIsCon = (rep.TypeShort() == "c");
+					}
+
+					writeRepetitionCode (i, rep.TypeShort(), sepCount,
+							xgStart, xgEnd, rep.sampleStart > 0, true);
 
 					//TODO: have a way to select the repetition clicking
 
@@ -610,7 +624,7 @@ public class CairoGraphForceSensorAI : CairoGraphForceSensor
 		return true;
 	}
 
-	private void writeRepetitionCode (int number, string type,
+	private void writeRepetitionCode (int number, string type, int sepCount,
 			double xposRepStart, double xposRepEnd, bool endsAtLeft, bool endsAtRight)
 	{
 		//just be safe
@@ -622,7 +636,7 @@ public class CairoGraphForceSensorAI : CairoGraphForceSensor
 				exercise.RepetitionsShow == ForceSensorExercise.RepetitionsShowTypes.BOTHTOGETHER)
 			text = (number +1).ToString();
 		else
-			text = string.Format ("{0}{1}", Math.Ceiling ((number +1)/2.0), type);
+			text = string.Format ("{0}{1}", sepCount, type);
 
 		Cairo.TextExtents te;
 		te = g.TextExtents (text);

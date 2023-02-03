@@ -142,7 +142,7 @@ public class CairoRunDoubleContacts : CairoGeneric
 
 	protected virtual void drawTracks (double timeTotal, double timeTotalWithExtraPTL, double negativePTLTime)
 	{
-		plotArrowPassingGraphPoints (g, colorBackground,
+		plotArrowPassingGraphPoints (g, colorBackground, true,
 				rightMargin + (graphWidth - 2*rightMargin) * (negativePTLTime) / timeTotalWithExtraPTL,
 				15,
 				rightMargin + (graphWidth - 2*rightMargin) * (timeTotal + negativePTLTime) / timeTotalWithExtraPTL,
@@ -218,7 +218,7 @@ public class CairoRunIntervalDoubleContacts : CairoRunDoubleContacts
 			g.Stroke();
 			*/
 
-			plotArrowPassingGraphPoints (g, colorBackground,
+			plotArrowPassingGraphPoints (g, colorBackground, true,
 				rightMargin + (graphWidth - 2*rightMargin) * (accumulated + negativePTLTime) / timeTotalWithExtraPTL,
 				15,
 				rightMargin + (graphWidth - 2*rightMargin) * (Convert.ToDouble(time) + accumulated + negativePTLTime) / timeTotalWithExtraPTL,

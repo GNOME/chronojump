@@ -231,7 +231,7 @@ public abstract class CairoBars : CairoGeneric
 		if(top != bottom) // if only 1 value (top == bottom), do not draw the arrow
 		{
 			//draw arrow
-			plotArrowPassingGraphPoints (g, color,
+			plotArrowPassingGraphPoints (g, color, true,
 					graphWidth -rightMargin +xStart +12,
 					bottomG,
 					graphWidth -rightMargin +xStart +12,

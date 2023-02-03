@@ -321,12 +321,14 @@ public abstract class CairoGeneric
 	protected void plotArrowPassingRealPoints (Cairo.Context g, Cairo.Color color,
 			double ax, double ay, double bx, double by, bool horiz, bool doubleTip, int spacement)
 	{
-		plotArrowPassingGraphPoints (g, color,
+		plotArrowPassingGraphPoints (g, color, true,
 				calculatePaintX(ax), calculatePaintY(ay),
 				calculatePaintX(bx), calculatePaintY(by),
 				horiz, doubleTip, spacement);
 	}
-	protected void plotArrowPassingGraphPoints (Cairo.Context g, Cairo.Color color,
+	//note this is for left to right arrow and also only one vertical direction arrow.
+	//If you want any direction, or just right to left, use plotArrowFree
+	protected void plotArrowPassingGraphPoints (Cairo.Context g, Cairo.Color colorArrow, bool blackAfter,
 			double ax, double ay, double bx, double by, bool horiz, bool doubleTip, int spacement)
 	{
 		// 1) have spacements
@@ -337,7 +339,7 @@ public abstract class CairoGeneric
 			ay -= spacement;
 			by += spacement;
 		}
-		g.SetSourceColor(color);
+		g.SetSourceColor (colorArrow);
 
 		// 2) write line (if it fits)
 		if(horiz && bx > ax || ! horiz && ay > by)
@@ -385,7 +387,8 @@ public abstract class CairoGeneric
 
 		// 4) end
 		g.Stroke ();
-		g.SetSourceRGB(0,0,0);
+		if (blackAfter)
+			g.SetSourceRGB(0,0,0);
 	}
 
 	protected void addClickableMark (Cairo.Context g)

@@ -424,7 +424,7 @@ public class CairoGraphForceSensorAI : CairoGraphForceSensor
 	private Cairo.Color colorGreen = colorFromRGB (0,200,0);
 	private Cairo.Color colorBlue = colorFromRGB (0,0,200);
 	private ForceSensorExercise exercise;
-	private RepetitionMouseLimits repMouseLimits; 
+	private RepetitionMouseLimitsWithSamples repMouseLimits;
 
 	//regular constructor
 	public CairoGraphForceSensorAI (DrawingArea area, string title)
@@ -433,7 +433,8 @@ public class CairoGraphForceSensorAI : CairoGraphForceSensor
 	}
 
 	//separated in two methods to ensure endGraphDisposing on any return of the other method
-	public RepetitionMouseLimits DoSendingList (string font,
+	public RepetitionMouseLimitsWithSamples DoSendingList (
+			string font,
 			List<PointF> points_l,
 			int minDisplayFNegative, int minDisplayFPositive,
 			int rectangleN, int rectangleRange,
@@ -444,7 +445,7 @@ public class CairoGraphForceSensorAI : CairoGraphForceSensor
 			bool forceRedraw, PlotTypes plotType)
 	{
 		this.exercise = exercise;
-		repMouseLimits = new RepetitionMouseLimits ();
+		repMouseLimits = new RepetitionMouseLimitsWithSamples ();
 		area.AddEvents((int) Gdk.EventMask.ButtonPressMask); //to have mouse clicks
 
 		if(doSendingList (font, points_l,

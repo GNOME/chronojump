@@ -172,7 +172,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Button button_force_sensor_export_result_open;
 
 	private RepetitionMouseLimits fsAIRepetitionMouseLimits;
-	private RepetitionMouseLimits fsAIRepetitionMouseLimitsCairo;
+	private RepetitionMouseLimitsWithSamples fsAIRepetitionMouseLimitsCairo;
 
 	private enum notebook_force_sensor_analyze_top_pages { CURRENTSETSIGNAL, CURRENTSETMODEL, CURRENTSESSION, AUTOMATICOPTIONS }
 	/*

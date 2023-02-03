@@ -172,6 +172,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Button button_force_sensor_export_result_open;
 
 	private RepetitionMouseLimits fsAIRepetitionMouseLimits;
+	private RepetitionMouseLimits fsAIRepetitionMouseLimitsCairo;
 
 	private enum notebook_force_sensor_analyze_top_pages { CURRENTSETSIGNAL, CURRENTSETMODEL, CURRENTSESSION, AUTOMATICOPTIONS }
 	/*
@@ -1330,7 +1331,8 @@ public partial class ChronoJumpWindow
 			reps_l = fsAI.ForceSensorRepetition_l;
 		}
 
-		cairoGraphForceSensorAI.DoSendingList (preferences.fontType.ToString(),
+		fsAIRepetitionMouseLimitsCairo = cairoGraphForceSensorAI.DoSendingList (
+				preferences.fontType.ToString(),
 				cairoGraphForceSensorSignalPoints_l,
 				-50, 50, //minimum Y display from -50 to 50
 				rectangleN, rectangleRange,
@@ -1354,61 +1356,85 @@ public partial class ChronoJumpWindow
 		}
 
 		//if list exists, select the repetition
-		if(fsAIRepetitionMouseLimits != null)
-		{
-			int repetition = fsAIFindBarInPixel(args.Event.X);
-			LogB.Information("Repetition: " + repetition.ToString());
-			if(repetition >= 0)
-			{
-				double start = fsAIRepetitionMouseLimits.GetStartOfARep(repetition);
-				if(start < 0)
-					start = 0; //just a precaution
-				double end = fsAIRepetitionMouseLimits.GetEndOfARep(repetition);
-				if(end >= fsAI.GetLength() -1)
-					end -= 1; //just a precaution
-				LogB.Information(string.Format("start px: {0}, end px: {1}", start, end));
+		if (fsAIRepetitionMouseLimits == null)
+			return;
 
-				//find the hscale value for this x
-				//TODO: move this to forceSensor.cs
-				bool startFound = false;
-				bool endFound = false;
-				for(int i = 0; i < fsAI.GetLength(); i++)
-				{
-					int xposHere = fsAI.GetXFromSampleCount(i);
-					//LogB.Information(string.Format("xposHere: {0} px, startFound: {1}, endFound: {2}", xposHere, startFound, endFound));
+		int repetition = fsAIFindBarInPixel(args.Event.X);
+		LogB.Information("Repetition: " + repetition.ToString());
+		if(repetition < 0)
+			return;
 
-					//with >= to solve problems of doubles
-					if(! startFound && xposHere >= start)
-					{
-						hscale_force_sensor_ai_a.Value = i;
-						//LogB.Information(string.Format("start2 sample: {0}", i));
-						startFound = true;
-					}
+		double start = fsAIRepetitionMouseLimits.GetStartOfARep(repetition);
+		if(start < 0)
+			start = 0; //just a precaution
+		double end = fsAIRepetitionMouseLimits.GetEndOfARep(repetition);
+		if(end >= fsAI.GetLength() -1)
+			end -= 1; //just a precaution
+		LogB.Information(string.Format("start px: {0}, end px: {1}", start, end));
 
-					if(! endFound && xposHere >= end)
-					{
-						hscale_force_sensor_ai_b.Value = i;
-						//LogB.Information(string.Format("end2 sample: {0}", i));
-						endFound = true;
-					}
-				}
-
-				/*
-				 * right now click on sets hscales but does not zoom
-				 * because zoom on elastic is not working ok
-				 *
-				//LogB.Information("call zoom start -->");
-				if(startFound && endFound)
-					button_force_sensor_ai_zoom.Click();
-				//LogB.Information("<-- call zoom end");
-				 */
-			}
-		}
+		changeHscalesAccordingButtonPressNotCairo (start, end);
 	}
-
 	private void on_force_sensor_ai_drawingarea_cairo_button_press_event (object o, ButtonPressEventArgs args)
 	{
-		//TODO
+		//LogB.Information(string.Format("Mouse X: {0}; Mouse Y: {1}", args.Event.X, args.Event.Y));
+
+		//if zoomed: unzoom and return
+		if(forceSensorZoomApplied)
+		{
+			check_force_sensor_ai_zoom.Click();
+			return;
+		}
+
+		//if list exists, select the repetition
+		if (fsAIRepetitionMouseLimitsCairo == null)
+			return;
+
+		int repetition = fsAIFindBarInPixelCairo (args.Event.X);
+		LogB.Information("Repetition: " + repetition.ToString());
+		if(repetition < 0)
+			return;
+
+		hscale_force_sensor_ai_a.Value = fsAIRepetitionMouseLimitsCairo.GetSampleStartOfARep (repetition);
+		hscale_force_sensor_ai_b.Value = fsAIRepetitionMouseLimitsCairo.GetSampleEndOfARep (repetition);
+	}
+
+
+	private void changeHscalesAccordingButtonPressNotCairo (double start, double end)
+	{
+		//find the hscale value for this x
+		//TODO: move this to forceSensor.cs
+		bool startFound = false;
+		bool endFound = false;
+		for(int i = 0; i < fsAI.GetLength(); i++)
+		{
+			int xposHere = fsAI.GetXFromSampleCount(i);
+			//LogB.Information(string.Format("xposHere: {0} px, startFound: {1}, endFound: {2}", xposHere, startFound, endFound));
+
+			//with >= to solve problems of doubles
+			if(! startFound && xposHere >= start)
+			{
+				hscale_force_sensor_ai_a.Value = i;
+				//LogB.Information(string.Format("start2 sample: {0}", i));
+				startFound = true;
+			}
+
+			if(! endFound && xposHere >= end)
+			{
+				hscale_force_sensor_ai_b.Value = i;
+				//LogB.Information(string.Format("end2 sample: {0}", i));
+				endFound = true;
+			}
+		}
+
+		/*
+		 * right now click on sets hscales but does not zoom
+		 * because zoom on elastic is not working ok
+		 *
+		//LogB.Information("call zoom start -->");
+		if(startFound && endFound)
+		button_force_sensor_ai_zoom.Click();
+		//LogB.Information("<-- call zoom end");
+		 */
 	}
 
 	private bool forceSensorZoomApplied;
@@ -1831,6 +1857,13 @@ public partial class ChronoJumpWindow
 			return -1;
 
 		return fsAIRepetitionMouseLimits.FindBarInPixel(pixel);
+	}
+	private int fsAIFindBarInPixelCairo (double pixel)
+	{
+		if(fsAIRepetitionMouseLimitsCairo == null)
+			return -1;
+
+		return fsAIRepetitionMouseLimitsCairo.FindBarInPixel (pixel);
 	}
 
 	private void plotRFDLineDebugConstruction(int countRFDMax)

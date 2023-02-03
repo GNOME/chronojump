@@ -700,20 +700,13 @@ public class RepetitionMouseLimits
 {
 //	TODO: make all the sample stuff inherited
 
-	private List<PointStartEnd> list;
-	private int current;
-
-	//used on gui/cairo/forceSensor.cs
-	private List<int> sampleStart_l;
-	private List<int> sampleEnd_l;
+	protected List<PointStartEnd> list;
+	protected int current;
 
 	public RepetitionMouseLimits()
 	{
 		list = new List<PointStartEnd>();
 		current = 0;
-
-		sampleStart_l = new List<int>();
-		sampleEnd_l = new List<int>();
 	}
 
 	public void Add (double start, double end)
@@ -729,12 +722,6 @@ public class RepetitionMouseLimits
 		PointStartEnd p = new PointStartEnd(pos, start, end);
 		list.Add(p);
 		LogB.Information("Mouse added: " + p.ToString());
-	}
-
-	public void AddSamples (int sampleStart, int sampleEnd)
-	{
-		sampleStart_l.Add (sampleStart);
-		sampleEnd_l.Add (sampleEnd);
 	}
 
 	public int FindBarInPixel (double pixel)
@@ -755,6 +742,33 @@ public class RepetitionMouseLimits
 		return ((PointStartEnd) list[rep]).End;
 	}
 
+	//to debug
+	public int Count ()
+	{
+		return list.Count;
+	}
+}
+//used on gui/cairo/forceSensor.cs
+public class RepetitionMouseLimitsWithSamples : RepetitionMouseLimits
+{
+	private List<int> sampleStart_l;
+	private List<int> sampleEnd_l;
+
+	public RepetitionMouseLimitsWithSamples ()
+	{
+		list = new List<PointStartEnd>();
+		current = 0;
+
+		sampleStart_l = new List<int>();
+		sampleEnd_l = new List<int>();
+	}
+
+	public void AddSamples (int sampleStart, int sampleEnd)
+	{
+		sampleStart_l.Add (sampleStart);
+		sampleEnd_l.Add (sampleEnd);
+	}
+
 	public int GetSampleStartOfARep (int rep)
 	{
 		return (sampleStart_l[rep]);
@@ -762,11 +776,5 @@ public class RepetitionMouseLimits
 	public int GetSampleEndOfARep (int rep)
 	{
 		return (sampleEnd_l[rep]);
-	}
-
-	//to debug
-	public int Count ()
-	{
-		return list.Count;
 	}
 }

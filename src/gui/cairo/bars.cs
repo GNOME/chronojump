@@ -591,7 +591,7 @@ public abstract class CairoBars : CairoGeneric
 				cairoBarsArrow.x1pos >= barsXCenter_l.Count)
 			return;
 
-		plotArrowFree (g, gray153, 5, 20,
+		plotArrowFree (g, gray153, 5, 20, true,
 				cairoBarsArrow.GetX0Graph (barsXCenter_l),
 				calculatePaintY(cairoBarsArrow.y0),
 				cairoBarsArrow.GetX1Graph (barsXCenter_l),
@@ -615,7 +615,7 @@ public abstract class CairoBars : CairoGeneric
 					cba.x1pos >= barsXCenter_l.Count)
 				continue;
 
-			plotArrowFree (g, greenDark, 3, 14,
+			plotArrowFree (g, greenDark, 3, 14, true,
 					cba.GetX0Graph (barsXCenter_l),
 					calculatePaintY(cba.y0),
 					cba.GetX1Graph (barsXCenter_l),

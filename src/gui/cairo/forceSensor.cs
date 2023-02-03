@@ -424,6 +424,7 @@ public class CairoGraphForceSensorAI : CairoGraphForceSensor
 	private Cairo.Color colorGreen = colorFromRGB (0,200,0);
 	private Cairo.Color colorBlue = colorFromRGB (0,0,200);
 	private ForceSensorExercise exercise;
+	private RepetitionMouseLimits repMouseLimits; 
 
 	//regular constructor
 	public CairoGraphForceSensorAI (DrawingArea area, string title)
@@ -432,7 +433,7 @@ public class CairoGraphForceSensorAI : CairoGraphForceSensor
 	}
 
 	//separated in two methods to ensure endGraphDisposing on any return of the other method
-	public void DoSendingList (string font,
+	public RepetitionMouseLimits DoSendingList (string font,
 			List<PointF> points_l,
 			int minDisplayFNegative, int minDisplayFPositive,
 			int rectangleN, int rectangleRange,
@@ -443,6 +444,8 @@ public class CairoGraphForceSensorAI : CairoGraphForceSensor
 			bool forceRedraw, PlotTypes plotType)
 	{
 		this.exercise = exercise;
+		repMouseLimits = new RepetitionMouseLimits ();
+		area.AddEvents((int) Gdk.EventMask.ButtonPressMask); //to have mouse clicks
 
 		if(doSendingList (font, points_l,
 					minDisplayFNegative, minDisplayFPositive,
@@ -453,6 +456,8 @@ public class CairoGraphForceSensorAI : CairoGraphForceSensor
 					exercise, reps_l,
 					forceRedraw, plotType))
 			endGraphDisposing(g, surface, area.GdkWindow);
+
+		return repMouseLimits;
 	}
 
 	//similar to encoder method but calling configureTimeWindow and using minDisplayF(Negative/Positive)
@@ -585,7 +590,9 @@ public class CairoGraphForceSensorAI : CairoGraphForceSensor
 					writeRepetitionCode (i, rep.TypeShort(), sepCount,
 							xgStart, xgEnd, rep.sampleStart > 0, true);
 
-					//TODO: have a way to select the repetition clicking
+					//store x,y to select the repetition clicking
+					repMouseLimits.Add (xgStart, xgEnd);
+					repMouseLimits.AddSamples (rep.sampleStart, rep.sampleEnd);
 
 					i ++;
 				}

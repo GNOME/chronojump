@@ -1074,6 +1074,13 @@ public class ForceSensorCapturePoints
 	{
 		//LogB.Information(string.Format("At GetTimeAtCount, count:{0}, times.Count:{1}", count, times.Count));
 
+		//more safe check
+		if (times == null || times.Count == 0)
+		{
+			LogB.Warning (string.Format ("GetTimeAtCount with count: {0} and times null or 0 length", count));
+			return 0;
+		}
+
 		//safe check
 		if(count < 0)
 			return times[0];

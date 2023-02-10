@@ -1,4 +1,68 @@
+All this is related to glade-3 the glade with GTK2
+
+Debian 11 "Bullseye" (2023 Feb info)
+-------------------
+
+1) installed the dependencies on linux-compile https://chronojump.org/linux-compile/
+
+sudo apt install build-essential libgtk2.0-dev r-base automake mono-mcs libtool libmono-cil-dev libmono-2.0-dev libglib2.0-cil-dev libgtk2.0-cil-dev libglade2.0-cil-dev libmono-cil-dev mono-xbuild intltool libgtk2.0-dev r-base mono-devel libmono-system-json4.0-cil
+
+2) installed libxml2-dev (maybe not needed)
+
+3) installed itstool
+
+with this is enough to compile, but for run needed:
+
+libgladeui-2-13
+
+with this works, as opposite of Manjaro that does not work.
+Asked for help https://aur.archlinux.org/packages/glade-gtk2
+on  2022-11-29, no response and now is: 2023-2-10
+So Debian again
+
+
+Arch/Manjaro:
+-------------
+
+if we use gtk3, it would be:
+$ sudo pacman -S glade
+
+BUT glade-gtk3 use GTK3 and this is only gtkbuilder and we need libglade, so we nee:
+
+https:://aur.archlinux.org/packages/glade-gtk2
+
+do:
+
+$ git clone https:://aur.archlinux.org/packages/glade-gtk2
+makepkg fails, it needs: python2 gobject-introspection python2-gobject2 gtk-doc
+
+$ sudo pacman -S python2 gobject-introspection python2-gobject2 gtk-doc
+
+makepkg and install with:
+makepkg -si 
+
+Could not open glade files since nov 2022 (read above)
+
+
+pop_os 20.04
+------------
+
+https://download.gnome.org/sources/glade3/3.8/
+
+autogen seems to want:
+sudo apt install gnome-common
+https://download.gnome.org/sources/gtk-doc/
+xsltproc
+
+but configure has enough with:
+
+sudo apt install itstool libgladeui-2-6
+./configure
+sudo make install
+
+
 On Linux Mint 17 and Debian Jessie:
+-----------------------------------
 
 https://bugzilla.gnome.org/show_bug.cgi?id=731080
 
@@ -13,4 +77,6 @@ $ su
 
 $ export LD_LIBRARY_PATH=/usr/local/lib
 $ glade-3 chronojump.glade
+
+
 

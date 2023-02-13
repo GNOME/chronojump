@@ -536,11 +536,15 @@ public class CairoGraphForceSensorAI : CairoGraphForceSensor
 			plotRealPoints(plotType, points_l, startAt, false); //fast (but the difference is very low)
 
 			// paint the AB rectangle
+			// hscales start at 1
+			//LogB.Information (string.Format ("hscaleSampleA: {0}, hscaleSampleB: {1}",
+			//			hscaleSampleA, hscaleSampleB));
+
 			if (hscaleSampleA >= 0 && hscaleSampleB >= 0 &&
-					points_l.Count > hscaleSampleA && points_l.Count > hscaleSampleB)
+					points_l.Count >= hscaleSampleA && points_l.Count >= hscaleSampleB)
 				CairoUtil.PaintVerticalLinesAndRectangle (g, graphHeight,
-						calculatePaintX (points_l[hscaleSampleA].X),
-						calculatePaintX (points_l[hscaleSampleB].X),
+						calculatePaintX (points_l[hscaleSampleA -1].X),
+						calculatePaintX (points_l[hscaleSampleB -1].X),
 						true, 15, 0);
 
 			// paint the repetition lines and codes

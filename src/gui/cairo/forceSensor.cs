@@ -37,11 +37,11 @@ public abstract class CairoGraphForceSensor : CairoXY
 
 		//need to be small because graphHeight could be 100,
 		//if margins are big then calculatePaintY could give us reverse results
-		leftMargin = 20;
-		rightMargin = 20;
-		topMargin = 20;
-		bottomMargin = 20;
-		outerMargin = 20; //outerMargin has to be the same than topMargin & bottomMargin to have grid arrive to the margins
+		leftMargin = 40;
+		rightMargin = 40;
+		topMargin = 40;
+		bottomMargin = 40;
+		outerMargin = 40; //outerMargin has to be the same than topMargin & bottomMargin to have grid arrive to the margins
 		innerMargin = 20;
 
 		yVariable = forceStr;

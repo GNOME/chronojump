@@ -63,9 +63,9 @@ public abstract class CairoXY : CairoGeneric
 	protected string xUnits = "";
 	protected string yUnits = "";
 
-	protected double minX = 1000000;
+	protected double minX = 0;
 	protected double maxX = 0;
-	protected double minY = 1000000;
+	protected double minY = 0;
 	protected double maxY = 0;
 	protected double xAtMaxY = 0; //raw, used on raceAnalyzer & forceSensor
 	protected double yAtMaxY = 0; //raw, used on raceAnalyzer & forceSensor (needed because maxY can increase if == to minY, and this yAtMaxY refers to the best point
@@ -201,19 +201,19 @@ public abstract class CairoXY : CairoGeneric
 	//true if changed
 	protected bool findPointMaximums(bool showFullGraph, List<PointF> points_list)
 	{
-		minX = 1000000;
-		minY = 1000000;
+		minX = 0;
+		minY = 0;
 		maxX = 0;
 		maxY = 0;
 		for(int i = 0; i < points_list.Count; i ++)
 		{
 			PointF p = points_list[i];
 
-			if(p.X < minX)
+			if(i == 0 || p.X < minX)
 				minX = p.X;
 			if(p.X > maxX)
 				maxX = p.X;
-			if(p.Y < minY)
+			if(i == 0 || p.Y < minY)
 			{
 				minY = p.Y;
 

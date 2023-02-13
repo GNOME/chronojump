@@ -15,7 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2019-2021   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2019-2023   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using Gtk;
@@ -168,45 +168,7 @@ public partial class ChronoJumpWindow
 		if (importerResult.success)
 		{
 			//update GUI if events have been added
-			//1) simple jump
-			createComboSelectJumps(false);
-			combo_select_jumps.Active = 0;
-			pre_fillTreeView_jumps(false);
-
-			createComboSelectJumpsDjOptimalFall(false);
-			createComboSelectJumpsWeightFVProfile(false);
-			createComboSelectJumpsAsymmetry(false);
-			createComboSelectJumpsEvolution(false);
-			createComboSelectJumpsRjFatigue(false);
-			//createComboSelectJumpsRjFatigueNum(false); do not need because will be updated by createComboSelectJumpsRjFatigue
-
-			//2) reactive jump
-			createComboSelectJumpsRj(false);
-			combo_select_jumps_rj.Active = 0;
-			pre_fillTreeView_jumps_rj(false);
-
-			//3) simple run
-			createComboSelectRuns(false);
-			createComboSelectRunsEvolution(false);
-			combo_select_runs.Active = 0;
-			pre_fillTreeView_runs(false);
-
-			//4) intervallic run
-			createComboSelectRunsInterval(false);
-			combo_select_runs_interval.Active = 0;
-			pre_fillTreeView_runs_interval(false);
-
-			// TODO: we need this on encoder or is already done at reloadSession???
-			//createEncoderCombos();
-
-			// forceSensor
-			fillForceSensorExerciseCombo("");
-
-			// runEncoder
-			fillRunEncoderExerciseCombo("");
-
-			//update stats combos
-			updateComboStats ();
+			fillAllCombos ();
 
 			reloadSession ();
 

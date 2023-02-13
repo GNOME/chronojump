@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2022   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2004-2023   Xavier de Blas <xaviblas@gmail.com>
  */
 
 
@@ -404,6 +404,8 @@ public partial class ChronoJumpWindow
 
 		label_current_database.UseMarkup = true;
 		label_current_database.TooltipText = configChronojump.LastDBFullPath;
+
+		fillAllCombos ();
 	}
 
 	Gtk.FileChooserDialog database_fc;

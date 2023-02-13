@@ -1333,15 +1333,12 @@ public partial class ChronoJumpWindow
 				reps_l = forceSensorRepetition_lZoomAppliedCairo;
 		}
 
-		int sampleStart = Convert.ToInt32(hscale_force_sensor_ai_a.Value);
-		int sampleEnd = Convert.ToInt32(hscale_force_sensor_ai_b.Value);
+		int hscaleSampleStart = Convert.ToInt32 (hscale_force_sensor_ai_a.Value);
+		int hscaleSampleEnd = Convert.ToInt32 (hscale_force_sensor_ai_b.Value);
+
 		List<PointF> sendPoints_l = cairoGraphForceSensorSignalPoints_l;
 		if(forceSensorZoomApplied)
-		{
-			sampleStart = 0;
-			sampleEnd = hscale_force_sensor_ai_b_BeforeZoom - hscale_force_sensor_ai_a_BeforeZoom;
 			sendPoints_l = cairoGraphForceSensorSignalPointsZoomed_l;
-		}
 
 		fsAIRepetitionMouseLimitsCairo = cairoGraphForceSensorAI.DoSendingList (
 				preferences.fontType.ToString(),
@@ -1349,7 +1346,7 @@ public partial class ChronoJumpWindow
 				-50, 50, //minimum Y display from -50 to 50
 				rectangleN, rectangleRange,
 				//triggerListForceSensor_copy,
-				sampleStart, sampleEnd, forceSensorZoomApplied,
+				hscaleSampleStart, hscaleSampleEnd, forceSensorZoomApplied,
 				fMaxAvgSampleStart, fMaxAvgSampleEnd, fsMaxAvgForce,
 				currentForceSensorExercise, reps_l,
 				forceRedraw, CairoXY.PlotTypes.LINES);

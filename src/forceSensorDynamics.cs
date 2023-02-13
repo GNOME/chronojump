@@ -740,6 +740,13 @@ public class ForceSensorRepetition
 		return string.Format("sampleStart:{0}; sampleEnd:{1}; meanSpeed:{2}; RFD:{3}", sampleStart, sampleEnd, meanSpeed, RFD);
 	}
 
+	public ForceSensorRepetition Clone ()
+	{
+		ForceSensorRepetition fsr = new ForceSensorRepetition (sampleStart, sampleEnd, type, meanSpeed, RFD);
+		fsr.con = con;
+		return fsr;
+	}
+
 	/*
 	//gets repetition num form a list
 	public static int GetRepetitionNumFromList(List<ForceSensorRepetition> l, int sampleEnd)

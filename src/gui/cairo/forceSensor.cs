@@ -439,7 +439,7 @@ public class CairoGraphForceSensorAI : CairoGraphForceSensor
 			int minDisplayFNegative, int minDisplayFPositive,
 			int rectangleN, int rectangleRange,
 			//TriggerList triggerList,
-			int hscaleSampleA, int hscaleSampleB,
+			int hscaleSampleA, int hscaleSampleB, bool zoomed,
 			int fMaxAvgSampleStart, int fMaxAvgSampleEnd, double fMaxAvgForce,
 			ForceSensorExercise exercise, List<ForceSensorRepetition> reps_l,
 			bool forceRedraw, PlotTypes plotType)
@@ -452,7 +452,7 @@ public class CairoGraphForceSensorAI : CairoGraphForceSensor
 					minDisplayFNegative, minDisplayFPositive,
 					rectangleN, rectangleRange,
 					//triggerList,
-					hscaleSampleA, hscaleSampleB,
+					hscaleSampleA, hscaleSampleB, zoomed,
 					fMaxAvgSampleStart, fMaxAvgSampleEnd, fMaxAvgForce,
 					exercise, reps_l,
 					forceRedraw, plotType))
@@ -468,7 +468,7 @@ public class CairoGraphForceSensorAI : CairoGraphForceSensor
 			int minDisplayFNegative, int minDisplayFPositive,
 			int rectangleN, int rectangleRange,
 			//TriggerList triggerList,
-			int hscaleSampleA, int hscaleSampleB,
+			int hscaleSampleA, int hscaleSampleB, bool zoomed,
 			int fMaxAvgSampleStart, int fMaxAvgSampleEnd, double fMaxAvgForce,
 			ForceSensorExercise exercise, List<ForceSensorRepetition> reps_l,
 			bool forceRedraw, PlotTypes plotType)
@@ -479,11 +479,6 @@ public class CairoGraphForceSensorAI : CairoGraphForceSensor
 		{
 			maxValuesChanged = findPointMaximums(false, points_l);
 			//LogB.Information(string.Format("minY: {0}, maxY: {1}", minY, maxY));
-
-			if (minY > minDisplayFNegative)
-				minY = minDisplayFNegative;
-			if (absoluteMaxY < minDisplayFPositive)
-				absoluteMaxY = minDisplayFPositive;
 
 			if (rectangleRange > 0)
 			{
@@ -558,17 +553,22 @@ public class CairoGraphForceSensorAI : CairoGraphForceSensor
 				int sepCount = 0;
 				bool lastIsCon = true;
 
-				int i = 0;
+				int iAll = 0;
+				int iAccepted = 0;
 				foreach (ForceSensorRepetition rep in reps_l)
 				{
-					if (points_l.Count <= rep.sampleStart || points_l.Count <= rep.sampleEnd)
+					//LogB.Information (string.Format ("points_l.Count: {0}, rep: {1}", points_l.Count, rep));
+					if (points_l.Count <= rep.sampleStart || points_l.Count <= rep.sampleEnd || rep.sampleStart < 0 || rep.sampleEnd < 0)
+					{
+						iAll ++;
 						continue;
+					}
 
 					double xgStart = calculatePaintX (points_l[rep.sampleStart].X);
 					double xgEnd = calculatePaintX (points_l[rep.sampleEnd].X);
 
 					//display left vertical line if does not overlap a previous right vertical line
-					if (i == 0 || (i > 0 && points_l[rep.sampleStart].X > points_l[reps_l[i-1].sampleEnd].X))
+					if (iAccepted == 0 || (iAccepted > 0 && points_l[rep.sampleStart].X > points_l[reps_l[iAll-1].sampleEnd].X))
 						CairoUtil.PaintSegment (g,
 								xgStart, textHeight +6,
 								xgStart, graphHeight - textHeight -6);
@@ -588,14 +588,15 @@ public class CairoGraphForceSensorAI : CairoGraphForceSensor
 						lastIsCon = (rep.TypeShort() == "c");
 					}
 
-					writeRepetitionCode (i, rep.TypeShort(), sepCount,
+					writeRepetitionCode (iAll, rep.TypeShort(), sepCount,
 							xgStart, xgEnd, rep.sampleStart > 0, true);
 
 					//store x,y to select the repetition clicking
 					repMouseLimits.Add (xgStart, xgEnd);
 					repMouseLimits.AddSamples (rep.sampleStart, rep.sampleEnd);
 
-					i ++;
+					iAll ++;
+					iAccepted ++;
 				}
 				g.SetSourceColor (black);
 			}

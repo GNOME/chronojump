@@ -564,6 +564,17 @@ public class CairoGraphForceSensorAI : CairoGraphForceSensor
 				int iAccepted = 0;
 				foreach (ForceSensorRepetition rep in reps_l)
 				{
+					// 0) manage sepCount before the continue's to show numbers correctly on BOTHSEPARATED
+					if (exercise.RepetitionsShow == ForceSensorExercise.RepetitionsShowTypes.BOTHSEPARATED)
+					{
+						if (lastIsCon && rep.TypeShort() == "c")
+							sepCount ++;
+						else if (! lastIsCon)
+							sepCount ++;
+
+						lastIsCon = (rep.TypeShort() == "c");
+					}
+
 					// 1) if the rep does not overlap because on zoom ends before A, do not paint it
 					//    | rep |  A    B
 					if (zoomed && rep.sampleEnd <= 0)
@@ -639,17 +650,6 @@ public class CairoGraphForceSensorAI : CairoGraphForceSensor
 						CairoUtil.PaintSegment (g,
 								xgEnd, textHeight +6,
 								xgEnd, graphHeight -outerMargin);
-
-					// show numbers (and arrows if they fit)
-					if (exercise.RepetitionsShow == ForceSensorExercise.RepetitionsShowTypes.BOTHSEPARATED)
-					{
-						if (lastIsCon && rep.TypeShort() == "c")
-							sepCount ++;
-						else if (! lastIsCon)
-							sepCount ++;
-
-						lastIsCon = (rep.TypeShort() == "c");
-					}
 
 					writeRepetitionCode (iAll, rep.TypeShort(), sepCount,
 							xgStart, xgEnd, rep.sampleStart > 0, true);

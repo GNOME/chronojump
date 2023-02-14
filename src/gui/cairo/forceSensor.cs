@@ -536,15 +536,16 @@ public class CairoGraphForceSensorAI : CairoGraphForceSensor
 			plotRealPoints(plotType, points_l, startAt, false); //fast (but the difference is very low)
 
 			// paint the AB rectangle
-			// hscales start at 1
-			//LogB.Information (string.Format ("hscaleSampleA: {0}, hscaleSampleB: {1}",
-			//			hscaleSampleA, hscaleSampleB));
+			// hscales start at 1.
+			LogB.Information (string.Format ("doSendingList hscales: hscaleSampleA: {0}, hscaleSampleB: {1}, points_l.Count: {2}",
+						hscaleSampleA, hscaleSampleB, points_l.Count));
 
+			// hscales start at 0
 			if (hscaleSampleA >= 0 && hscaleSampleB >= 0 &&
-					points_l.Count >= hscaleSampleA && points_l.Count >= hscaleSampleB)
+					points_l.Count > hscaleSampleA && points_l.Count > hscaleSampleB)
 				CairoUtil.PaintVerticalLinesAndRectangle (g, graphHeight,
-						calculatePaintX (points_l[hscaleSampleA -1].X),
-						calculatePaintX (points_l[hscaleSampleB -1].X),
+						calculatePaintX (points_l[hscaleSampleA].X),
+						calculatePaintX (points_l[hscaleSampleB].X),
 						true, 15, 0);
 
 			// paint the repetition lines and codes
@@ -556,30 +557,88 @@ public class CairoGraphForceSensorAI : CairoGraphForceSensor
 				// for RepetitionsShowTypes.BOTHSEPARATED to write correctly e or c
 				int sepCount = 0;
 				bool lastIsCon = true;
+				double xgStart;
+				double xgEnd;
 
 				int iAll = 0;
 				int iAccepted = 0;
 				foreach (ForceSensorRepetition rep in reps_l)
 				{
-					//LogB.Information (string.Format ("points_l.Count: {0}, rep: {1}", points_l.Count, rep));
-					if (points_l.Count <= rep.sampleStart || points_l.Count <= rep.sampleEnd || rep.sampleStart < 0 || rep.sampleEnd < 0)
+					// 1) if the rep does not overlap because on zoom ends before A, do not paint it
+					//    | rep |  A    B
+					if (zoomed && rep.sampleEnd <= 0)
+					{
+						iAll ++;
+						continue;
+					}
+					// 2) if the rep does not overlap because on zoom starts after B, do not paint it
+					//    A    B  | rep |
+					else if (zoomed && rep.sampleStart >= points_l.Count)
 					{
 						iAll ++;
 						continue;
 					}
 
-					double xgStart = calculatePaintX (points_l[rep.sampleStart].X);
-					double xgEnd = calculatePaintX (points_l[rep.sampleEnd].X);
+					bool arrowL = false;
+					bool arrowR = false;
 
-					//display left vertical line if does not overlap a previous right vertical line
-					if (iAccepted == 0 || (iAccepted > 0 && points_l[rep.sampleStart].X > points_l[reps_l[iAll-1].sampleEnd].X))
+					// 3) rep starts before A, paint an arrow to A (and write text in the center of A and the end of rep
+					// hscales:     A      B
+					// rep:      |  rep  |
+					// show:        <----|
+					if (zoomed && rep.sampleStart < 0)
+					{
+						arrowL = true;
+						xgStart = calculatePaintX (points_l[0].X);
+					} else
+						xgStart = calculatePaintX (points_l[rep.sampleStart].X);
+
+					// 4) rep ends after B, paint an arrow to B (and write text in the center of the end of rep and B
+					// hscales:     A      B
+					// rep:            |  rep  |
+					// show:           |--->
+					LogB.Information (string.Format ("rep.sampleStart: {0}, rep.sampleEnd: {1}, points_l.Count: {2}",
+								rep.sampleStart, rep.sampleEnd, points_l.Count));
+					if (zoomed && rep.sampleEnd >= points_l.Count)
+					{
+						arrowR = true;
+						xgEnd = calculatePaintX (points_l[points_l.Count -1].X);
+					} else
+						xgEnd = calculatePaintX (points_l[rep.sampleEnd].X);
+
+					//display arrows if needed
+					if (arrowL && arrowR)
+					{
+						plotArrowFree (g, colorBlue, 1, 8, false,
+								(xgStart + xgEnd) /2, textHeight +6,
+								xgStart, textHeight +6);
+						plotArrowFree (g, colorBlue, 1, 8, false,
+								(xgStart + xgEnd) /2, textHeight +6,
+								xgEnd, textHeight +6);
+					} else if (arrowL)
+						plotArrowFree (g, colorBlue, 1, 8, false,
+								xgEnd, textHeight +6,
+								xgStart, textHeight +6);
+					else if (arrowR)
+						plotArrowFree (g, colorBlue, 1, 8, false,
+								xgStart, textHeight +6,
+								xgEnd, textHeight +6);
+					else
 						CairoUtil.PaintSegment (g,
 								xgStart, textHeight +6,
-								xgStart, graphHeight - textHeight -6);
+								xgEnd, textHeight +6);
 
-					CairoUtil.PaintSegment (g,
-							xgEnd, textHeight +6,
-							xgEnd, graphHeight - textHeight -6);
+					// display left vertical line if does not overlap a previous right vertical line
+					if (! arrowL && (iAccepted == 0 || (iAccepted > 0 && points_l[rep.sampleStart].X > points_l[reps_l[iAll-1].sampleEnd].X)))
+						CairoUtil.PaintSegment (g,
+								xgStart, textHeight +6,
+								xgStart, graphHeight -outerMargin);
+
+					// display right vertical line
+					if (! arrowR)
+						CairoUtil.PaintSegment (g,
+								xgEnd, textHeight +6,
+								xgEnd, graphHeight -outerMargin);
 
 					// show numbers (and arrows if they fit)
 					if (exercise.RepetitionsShow == ForceSensorExercise.RepetitionsShowTypes.BOTHSEPARATED)
@@ -657,26 +716,6 @@ public class CairoGraphForceSensorAI : CairoGraphForceSensor
 		int xposNumber = Convert.ToInt32 ((xposRepStart + xposRepEnd)/2);
 
 		printText (xposNumber, 6, 0, Convert.ToInt32 (te.Height), text, g, alignTypes.CENTER);
-
-		//if it does not fit, do not plot the horizontal lines + arrows, just plot an horizontal line at top of the vertical lines
-		//if (xposNumber - xposRepStart < 16)
-		//{
-			CairoUtil.PaintSegment (g,
-					xposRepStart, textHeight +6,
-					xposRepEnd, textHeight +6);
-		//	return;
-		//}
-
-		/*
-		//draw arrows to left, right
-		int tempY = 3 + Convert.ToInt32 (te.Height/2); //int for not having interpolations on the line
-		plotArrowFree (g, colorBlue, 1, 8, false,
-					    xposNumber -6, tempY,
-					    xposRepStart +6, tempY);
-		plotArrowFree (g, colorBlue, 1, 8, false,
-					    xposNumber +6, tempY,
-					    xposRepEnd -6, tempY);
-		 */
 	}
 
 }

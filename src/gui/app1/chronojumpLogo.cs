@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2017-2022   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2017-2023   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using Gtk;
@@ -69,9 +69,16 @@ public class ChronojumpLogo
 		stopwatch3 = new Stopwatch();
 
 		GLib.Timeout.Add(12, new GLib.TimeoutHandler(onTimer));
-		//GLib.Timeout.Add(30, new GLib.TimeoutHandler(onTimer));
+		//GLib.Timeout.Add(100, new GLib.TimeoutHandler(onTimerCall));
 
 		LogB.Information("Chronojump logo constructor end");
+	}
+
+	//maybe this is better on mac to ensure logo starts moving when notebook has really changed
+	private bool onTimerCall()
+	{
+		GLib.Timeout.Add(12, new GLib.TimeoutHandler(onTimer));
+		return false;
 	}
 
 	private bool onTimer()
@@ -93,7 +100,7 @@ public class ChronojumpLogo
 	{
                 Cairo.Context cr =  Gdk.CairoHelper.Create(drawingarea.GdkWindow);
 
-		int x = Convert.ToInt32(drawingarea.Allocation.Width *.33); //2023
+		double x = Convert.ToInt32(drawingarea.Allocation.Width *.33); //2023
                 int y = Convert.ToInt32(drawingarea.Allocation.Height / 2); //2022b
 		int xMax = Convert.ToInt32(drawingarea.Allocation.Width);
 
@@ -118,14 +125,23 @@ public class ChronojumpLogo
 			timer = false;
 
 		string words = "CHRONOJUMP 2.3";
-		x = Convert.ToInt32 (UtilAll.DivideSafe ((xMax -x) * 700, stopwatch2.Elapsed.TotalMilliseconds));
-			chronojumpLogo_showChronojump (cr, x, y, words);
+
+		/*
+		   as integer can crash if stopwatch has just started and ms is almost 0:
+		   x = Convert.ToInt32 (UtilAll.DivideSafe (1000, .00000000000000001));
+		   but this does not crash:
+		   x = UtilAll.DivideSafe (1000, .00000000000000001);
+		   so use a double
+		   */
+		x = UtilAll.DivideSafe ((xMax -x) * 700, stopwatch2.Elapsed.TotalMilliseconds);
+
+		chronojumpLogo_showChronojump (cr, x, y, words);
 
                 ((IDisposable) cr.GetTarget()).Dispose();
                 ((IDisposable) cr).Dispose();
         }
 
-	private void chronojumpLogo_showChronojump (Cairo.Context cr, int x, int y, string message)
+	private void chronojumpLogo_showChronojump (Cairo.Context cr, double x, int y, string message)
 	{
                 cr.SetFontSize(size);
                 cr.SetSourceRGB(1, 1, 1);

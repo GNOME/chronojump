@@ -236,11 +236,11 @@ public abstract class ForceSensorDynamics
 				yList.Count - sampleEnd, yList.Count - sampleStart, maxAbs);
 
 		// 2) remove values to avoid smoothing problems:
-		sampleStart = sampleStart -RemoveNValues -1;
+		sampleStart = sampleStart -RemoveNValues ;//-1;  this -1 makes the rep have start erroneously 1 sample before
 		if(sampleStart < 0)
 			sampleStart = 0;
 
-		sampleEnd = sampleEnd -RemoveNValues -1;
+		sampleEnd = sampleEnd -RemoveNValues ;//-1;  this -1 makes the rep have end erroneously 1 sample before
 		if(sampleEnd < 0)
 			return;
 

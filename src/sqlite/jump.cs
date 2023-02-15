@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2022   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2004-2023   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -100,7 +100,7 @@ class SqliteJump : Sqlite
 	//if all sessions, put -1 in sessionID
 	//if all persons, put -1 in personID
 	//if all types put, "" in filterType
-	//unlimited put -1 in limit
+	// limit 0 means no limit (limit negative is the last results)
 	//SA for String Array
 	public static string[] SelectJumpsSA (bool dbconOpened, int sessionID, int personID, string filterWeight, string filterType,
 			Orders_by order, int limit) 
@@ -134,7 +134,7 @@ class SqliteJump : Sqlite
 			orderByString = " ORDER BY jump.uniqueID DESC ";
 		
 		string limitString = "";
-		if(limit != -1)
+		if(limit > 0)
 			limitString = " LIMIT " + limit;
 
 		dbcmd.CommandText = "SELECT " + tp + ".name, jump.*, " + tps + ".weight " +
@@ -200,7 +200,7 @@ class SqliteJump : Sqlite
 	 * sID -1 means all sessions
 	 * pID -1 means all persons
 	 * jumpType "" means all jumps
-	 * limit -1 means no limit
+	 * limit 0 means no limit (limit negative is the last results)
 	 * personNameInComment is used to be able to display names in graphs
 	 *   because event.PersonName makes individual SQL SELECTs
 	 */
@@ -249,7 +249,7 @@ class SqliteJump : Sqlite
 		  orderByString = " ORDER BY jump.sessionID, jump.Tv DESC ";
 
 	  string limitString = "";
-	  if(limit != -1)
+	  if(limit > 0)
 		  limitString = " LIMIT " + limit;
 
 
@@ -268,6 +268,10 @@ class SqliteJump : Sqlite
 
 	  reader.Close();
 	  Sqlite.Close(); // <--------------------
+
+	  //get last values on negative limit
+	  if (limit < 0 && jmp_l.Count + limit >= 0)
+		  jmp_l = jmp_l.GetRange (jmp_l.Count + limit, -1 * limit);
 
 	  return jmp_l;
 	}

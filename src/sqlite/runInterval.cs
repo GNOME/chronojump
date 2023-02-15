@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2022   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2004-2023   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -95,6 +95,7 @@ class SqliteRunInterval : SqliteRun
 	}
 
         //like SelectRunsSA below method but much better: return list of RunInterval
+	// limit 0 means no limit (limit negative is the last results) (used on SelectRuns)
 	public static List<RunInterval> SelectRuns (bool dbconOpened, int sessionID, int personID, string runType,
 			Orders_by order, int limit, bool personNameInComment)
 	{
@@ -168,6 +169,10 @@ class SqliteRunInterval : SqliteRun
 		if(!dbconOpened)
 			Sqlite.Close();
 
+		//get last values on negative limit
+		if (limit < 0 && ri_l.Count + limit >= 0)
+			ri_l = ri_l.GetRange (ri_l.Count + limit, -1 * limit);
+
 		return ri_l;
 	}
 
@@ -178,7 +183,7 @@ class SqliteRunInterval : SqliteRun
 			Sqlite.Open();
 
 		dbcmd.CommandText = selectCreateSelection (Constants.RunIntervalTable,
-				sessionID, personID, runType, Orders_by.DEFAULT, -1, false);
+				sessionID, personID, runType, Orders_by.DEFAULT, 0, false);
 		
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();

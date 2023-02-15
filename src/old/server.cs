@@ -254,8 +254,8 @@ public class Server
 				int countE = 0;					
 				int countS = 0;					
 
-				string [] jumps = SqliteJump.SelectJumps(false, currentSession.UniqueID, person.UniqueID, "", "",
-						Sqlite.Orders_by.DEFAULT, -1);
+				string [] jumps = SqliteJump.SelectJumps (false, currentSession.UniqueID, person.UniqueID, "", "",
+						Sqlite.Orders_by.DEFAULT, 0);
 				Sqlite.Open();
 				foreach(string myJump in jumps) {
 					string [] js = myJump.Split(new char[] {':'});
@@ -324,7 +324,7 @@ public class Server
 				countE = 0;					
 				countS = 0;					
 
-				string [] jumpsRj = SqliteJumpRj.SelectJumps(false, currentSession.UniqueID, person.UniqueID, "", "");
+				string [] jumpsRj = SqliteJumpRj.SelectJumps (false, currentSession.UniqueID, person.UniqueID, "", "");
 				Sqlite.Open();
 				foreach(string myJump in jumpsRj) {
 					string [] js = myJump.Split(new char[] {':'});
@@ -368,8 +368,8 @@ public class Server
 				countE = 0;					
 				countS = 0;					
 
-				string [] runs = SqliteRun.SelectRuns(false, currentSession.UniqueID, person.UniqueID, "",
-						Sqlite.Orders_by.DEFAULT, -1);
+				string [] runs = SqliteRun.SelectRuns (false, currentSession.UniqueID, person.UniqueID, "",
+						Sqlite.Orders_by.DEFAULT, 0);
 
 				Sqlite.Open();
 				foreach(string myRun in runs) {
@@ -414,7 +414,7 @@ public class Server
 				countE = 0;					
 				countS = 0;					
 
-				string [] runsI = SqliteRunInterval.SelectRuns(false, currentSession.UniqueID, person.UniqueID, "");
+				string [] runsI = SqliteRunInterval.SelectRuns (false, currentSession.UniqueID, person.UniqueID, "");
 				Sqlite.Open();
 				foreach(string myRun in runsI) {
 					string [] js = myRun.Split(new char[] {':'});

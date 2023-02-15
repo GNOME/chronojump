@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2021   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2004-2023   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -95,6 +95,7 @@ class SqliteJumpRj : SqliteJump
 		return myLast;
 	}
 
+	// limit 0 means no limit (limit negative is the last results)
 	public static List<JumpRj> SelectJumps (bool dbconOpened, int sessionID, int personID, string filterType, Orders_by order, int limit, bool personNameInComment)
 	{
 		if(! dbconOpened)
@@ -139,7 +140,7 @@ class SqliteJumpRj : SqliteJump
 			orderByString = " ORDER BY jumpRj.uniqueID DESC ";
 
 		string limitString = "";
-		if(limit != -1)
+		if(limit > 0)
 			limitString = " LIMIT " + limit;
 
 		dbcmd.CommandText = "SELECT * FROM jumpRj" +
@@ -161,6 +162,10 @@ class SqliteJumpRj : SqliteJump
 
 		if(!dbconOpened)
 			Sqlite.Close();
+
+		//get last values on negative limit
+		if (limit < 0 && jmpRj_l.Count + limit >= 0)
+			jmpRj_l = jmpRj_l.GetRange (jmpRj_l.Count + limit, -1 * limit);
 
 		return jmpRj_l;
 	}

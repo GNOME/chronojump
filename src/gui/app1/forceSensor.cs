@@ -615,6 +615,20 @@ public partial class ChronoJumpWindow
 		button_force_sensor_analyze_analyze.Sensitive = false;
 		button_delete_last_test.Sensitive = false;
 
+		// if on RFD model graph shown, go back to signal
+		if (notebook_force_sensor_analyze_top.CurrentPage ==
+				Convert.ToInt32 (notebook_force_sensor_analyze_top_pages.CURRENTSETMODEL))
+			notebook_force_sensor_analyze_top.CurrentPage =
+				Convert.ToInt32 (notebook_force_sensor_analyze_top_pages.CURRENTSETSIGNAL);
+
+		// if on zoom, exit
+		if (check_force_sensor_ai_zoom.Active)
+		{
+			check_force_sensor_ai_zoom.Active = false;
+			image_force_sensor_ai_zoom.Visible = true;
+			image_force_sensor_ai_zoom_out.Visible = false;
+		}
+
 		// erase non-cairo graphs
 		if(force_capture_drawingarea != null && force_capture_pixmap != null)
 			UtilGtk.ErasePaint(force_capture_drawingarea, force_capture_pixmap);
@@ -629,23 +643,18 @@ public partial class ChronoJumpWindow
 		force_capture_drawingarea_cairo.QueueDraw ();
 
 		// ... at analyze tab
-		// if on zoom, exit:
-		if (check_force_sensor_ai_zoom.Active)
-		{
-			check_force_sensor_ai_zoom.Active = false;
-			image_force_sensor_ai_zoom.Visible = true;
-			image_force_sensor_ai_zoom_out.Visible = false;
-		}
-		// if on RFD model graph shown, go back to signal
-		if (notebook_force_sensor_analyze_top.CurrentPage ==
-				Convert.ToInt32 (notebook_force_sensor_analyze_top_pages.CURRENTSETMODEL))
-			notebook_force_sensor_analyze_top.CurrentPage =
-				Convert.ToInt32 (notebook_force_sensor_analyze_top_pages.CURRENTSETSIGNAL);
 
 		cairoGraphForceSensorSignalPoints_l = new List<PointF> ();
 		cairoGraphForceSensorSignalPointsZoomed_l = new List<PointF> ();
 		force_sensor_ai_drawingarea_cairo.QueueDraw ();
 		// <---- end of erase cairo graphs
+
+		//put scales to 0,0
+		hscale_force_sensor_ai_a.SetRange(0, 0);
+		hscale_force_sensor_ai_b.SetRange(0, 0);
+		//set them to 0, because if not is set to 1 by a GTK error
+		hscale_force_sensor_ai_a.Value = 0;
+		hscale_force_sensor_ai_b.Value = 0;
 
 		label_force_sensor_value_max.Text = "";
 		label_force_sensor_value.Text = "";

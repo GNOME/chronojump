@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Copyright (C) 2019-2022   Xavier de Blas <xaviblas@gmail.com>
+ *  Copyright (C) 2019-2023   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -83,7 +83,7 @@ public class JumpsEvolution : JumpsRunsEvolution
 	public override void Calculate (int personID, string jumpType, bool onlyBestInSession)
 	{
 		//1 get data
-                List<Jump> jump_l = SqliteJump.SelectJumps (-1, personID, jumpType, Sqlite.Orders_by.DEFAULT, -1, false, onlyBestInSession);
+                List<Jump> jump_l = SqliteJump.SelectJumps (-1, personID, jumpType, Sqlite.Orders_by.DEFAULT, 0, false, onlyBestInSession);
 
 		//2 convert to list of PointF
 		point_l = new List<PointF>();
@@ -133,7 +133,7 @@ public class RunsEvolution : JumpsRunsEvolution
 	{
 		//1 get data
                 List<Run> run_l = SqliteRun.SelectRuns (false, -1, personID, runType,
-				Sqlite.Orders_by.DEFAULT, -1, false, onlyBestInSession);
+				Sqlite.Orders_by.DEFAULT, 0, false, onlyBestInSession);
 
 		//2 convert to list of PointF, and also create distance_l
 		point_l = new List<PointF>();

@@ -16,7 +16,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2022   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2023   Xavier de Blas <xaviblas@gmail.com>
  */
 
 
@@ -132,7 +132,7 @@ public partial class ChronoJumpWindow
 			return types;
 
 		List <JumpRj> jrj_l = SqliteJumpRj.SelectJumps (false, currentSession.UniqueID, currentPerson.UniqueID,
-				comboSelectJumpsRjFatigue.GetSelectedNameEnglish(), Sqlite.Orders_by.DEFAULT, -1, false);
+				comboSelectJumpsRjFatigue.GetSelectedNameEnglish(), Sqlite.Orders_by.DEFAULT, 0, false);
 
 		int count = 1;
 		foreach(JumpRj jrj in jrj_l)

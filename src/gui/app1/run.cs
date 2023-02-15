@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2020   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2004-2023   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -200,7 +200,7 @@ public partial class ChronoJumpWindow
 				1, 1, //both unused
 				currentSession.UniqueID,
 				currentPerson.UniqueID, radio_contacts_graph_allPersons.Active,
-				Convert.ToInt32(spin_contacts_graph_last_limit.Value),
+				-1 * Convert.ToInt32 (spin_contacts_graph_last_limit.Value), //negative: end limit
 				Constants.RunTable, typeTemp);
 		
 		//if(eventGraph.personMAXAtSQLAllSessions > 0 || eventGraph.runsAtSQL.Count > 0)
@@ -253,7 +253,7 @@ public partial class ChronoJumpWindow
 		PrepareEventGraphRunInterval eventGraph = new PrepareEventGraphRunInterval(
 				currentSession.UniqueID, currentPerson.UniqueID,
 				radio_contacts_graph_allPersons.Active,
-				Convert.ToInt32(spin_contacts_graph_last_limit.Value),
+				-1 * Convert.ToInt32 (spin_contacts_graph_last_limit.Value), //negative: end limit
 				typeTemp);
 
 		string personStr = "";

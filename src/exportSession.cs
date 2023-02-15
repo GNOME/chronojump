@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Copyright (C) 2004-2020   Xavier de Blas <xaviblas@gmail.com> 
+ *  Copyright (C) 2004-2023   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -183,11 +183,11 @@ public class ExportSession
 		Sqlite.Open(); // ------------------------------
 		
 		myJumps= SqliteJump.SelectJumpsSA (true, mySession.UniqueID, -1, "", "",
-				Sqlite.Orders_by.DEFAULT, -1);
+				Sqlite.Orders_by.DEFAULT, 0);
 
 		myJumpsRj = SqliteJumpRj.SelectJumpsSA (true, mySession.UniqueID, -1, "", "");
 		myRuns= SqliteRun.SelectRunsSA (true, mySession.UniqueID, -1, "",
-				Sqlite.Orders_by.DEFAULT, -1);
+				Sqlite.Orders_by.DEFAULT, 0);
 
 		myRunsInterval = SqliteRunInterval.SelectRunsSA (true, mySession.UniqueID, -1, "");
 		myReactionTimes = SqliteReactionTime.SelectReactionTimes(true, mySession.UniqueID, -1, "",

@@ -763,6 +763,11 @@ public partial class ChronoJumpWindow
 			return true;
 
 		chronopicRegisterUpdate(false);
+
+		//need to restore selectedForMode_l after the chronopicRegisterUpdate
+		if (chronopicRegister.GetSelectedForMode (current_mode).Port == "")
+			chronopicRegister.SetAnyCompatibleConnectedAsSelected (current_mode);
+
 		int numEncoders = chronopicRegister.NumConnectedOfType(ChronopicRegisterPort.Types.ENCODER);
 		LogB.Information("numEncoders: " + numEncoders);
 		if(numEncoders == 0)

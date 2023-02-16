@@ -426,6 +426,7 @@ public abstract class ChronopicRegister
 	//to debug
 	public void ListSelectedForAllModes ()
 	{
+		LogB.Information ("at ListSelectedForAllModes:");
 		if (selectedForMode_l == null)
 			return;
 

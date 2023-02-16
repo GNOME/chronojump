@@ -6322,6 +6322,7 @@ public partial class ChronoJumpWindow
 						findEccon(true),
 						portName,
 						(encoderConfigurationCurrent.has_inertia && eCaptureInertialBG != null),
+						encoderConfigurationCurrent.IsInverted (),
 						//configChronojump.EncoderCaptureShowOnlyBars,
 						false, //false to show all, and let user change this at any moment
 						currentSession.Name == Constants.SessionSimulatedName && testsActive);
@@ -6408,6 +6409,7 @@ public partial class ChronoJumpWindow
 						false,
 						findEccon(true),
 						chronopicRegister.ConnectedOfType(ChronopicRegisterPort.Types.ENCODER).Port,
+						false,
 						false,
 						false,
 						false);

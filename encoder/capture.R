@@ -1,7 +1,7 @@
 # 
 #  This file is part of ChronoJump
 # 
-#   Copyright (C) 2014-2017  	Xavier de Blas <xaviblas@gmail.com> 
+#   Copyright (C) 2014-2023  	Xavier de Blas <xaviblas@gmail.com>
 # 
 
 
@@ -218,9 +218,8 @@ doProcess <- function(options)
 			displacement = getDisplacementInertial(displacement, op$EncoderConfigurationName, 
 							       diametersPerTick, op$diameterExt, op$gearedDown)
 		} else {
-			displacement = getDisplacement(op$EncoderConfigurationName, displacement, op$diameter, op$diameterExt, op$gearedDown)
+			displacement = getDisplacement(TRUE, op$EncoderConfigurationName, displacement, op$diameter, op$diameterExt, op$gearedDown)
 		}
-
 		
 		#cut curve by reduceCurveBySpeed ---->
 

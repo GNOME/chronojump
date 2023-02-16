@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Copyright (C) 2004-2022   Xavier de Blas <xaviblas@gmail.com>
+ *  Copyright (C) 2004-2023   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -2151,6 +2151,17 @@ public class EncoderConfiguration
 			str_gearedDown = sep + "geared down=" + gearedDown.ToString();
 
 		return code + str_d + str_D + str_anglePush + str_angleWeight + str_inertia + str_gearedDown;
+	}
+
+	// while capture to show correctly on screen and to send the correct concentric cut to R
+	public bool IsInverted ()
+	{
+		if (name == Constants.EncoderConfigurationNames.LINEARINVERTED ||
+				name == Constants.EncoderConfigurationNames.WEIGHTEDMOVPULLEYLINEARONPERSON1INV ||
+				name == Constants.EncoderConfigurationNames.WEIGHTEDMOVPULLEYLINEARONPERSON2INV)
+			return true;
+
+		return false;
 	}
 
 	/*

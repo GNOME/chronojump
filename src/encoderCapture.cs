@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Copyright (C) 2004-2022   Xavier de Blas <xaviblas@gmail.com>
+ *  Copyright (C) 2004-2023   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -91,6 +91,7 @@ public abstract class EncoderCapture
 	private Random rand;
 	protected bool finish;
 	protected bool capturingInertialBG;
+	protected bool encoderConfigurationIsInverted;
 	protected bool showOnlyBars; //only false on inertia moment calculation
 
 	//get the moment where we cross 0 first time on inertial calibrated
@@ -113,12 +114,15 @@ public abstract class EncoderCapture
 
 	//if cont (continuous mode), then will not end when too much time passed before start
 	public bool InitGlobal (int time, int timeEnd,
-			bool cont, string eccon, string port, bool capturingInertialBG, bool showOnlyBars,
+			bool cont, string eccon, string port,
+			bool capturingInertialBG, bool encoderConfigurationIsInverted,
+			bool showOnlyBars,
 			bool simulated)
 	{
 		this.cont = cont;
 		this.eccon = eccon;
 		this.capturingInertialBG = capturingInertialBG;
+		this.encoderConfigurationIsInverted = encoderConfigurationIsInverted;
 		this.showOnlyBars = showOnlyBars;
 		this.simulated = simulated;
 
@@ -350,6 +354,9 @@ public abstract class EncoderCapture
 			//3 if is not trigger: convertByte
 			byteReaded = convertByte(byteReaded);
 			//LogB.Information(" byte: " + byteReaded);
+
+			if (encoderConfigurationIsInverted)
+				byteReaded *= -1;
 
 			i = i+1;
 			if(i >= 0) 
@@ -814,8 +821,13 @@ public abstract class EncoderCapture
 		encoderReaded = trimInitialZeros(encoderReaded);
 
 		string sep = "";
-		foreach(int k in encoderReaded) {
-			writer.Write(sep + k); //store the raw file (before encoderConfigurationConversions)
+		foreach(int k in encoderReaded)
+		{
+			if (encoderConfigurationIsInverted)
+				writer.Write (sep + (-1 * k)); //store the raw file (before encoderConfigurationConversions)
+			else
+				writer.Write(sep + k); //store the raw file (before encoderConfigurationConversions)
+
 			sep = ", ";
 		}
 

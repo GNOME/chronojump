@@ -15,7 +15,7 @@
 #   along with this program; if not, write to the Free Software
 #    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 # 
-#   Copyright (C) 2014-2020  	Xavier de Blas <xaviblas@gmail.com> 
+#   Copyright (C) 2014-2023  	Xavier de Blas <xaviblas@gmail.com>
 #   Copyright (C) 2014-2020   	Xavier Padullés <x.padulles@gmail.com>
 # 
 
@@ -1034,7 +1034,7 @@ getDynamicsInertial <- function(encoderConfigurationName, displacement, diameter
 
 
 #in signals and curves, need to do conversions (invert, diameter)
-getDisplacement <- function(encoderConfigurationName, displacement, diameter, diameterExt, gearedDown) {
+getDisplacement <- function(capturing, encoderConfigurationName, displacement, diameter, diameterExt, gearedDown) {
 	#no change
 	#WEIGHTEDMOVPULLEYLINEARONPERSON1, WEIGHTEDMOVPULLEYLINEARONPERSON1INV,
 	#WEIGHTEDMOVPULLEYLINEARONPERSON2, WEIGHTEDMOVPULLEYLINEARONPERSON2INV,
@@ -1043,10 +1043,10 @@ getDisplacement <- function(encoderConfigurationName, displacement, diameter, di
 	#WEIGHTEDMOVPULLEYROTARYFRICTION
   #ROTARYAXISINERTIALMOVPULLEY
 
-  if(
+  if( ! capturing && (
 	   encoderConfigurationName == "LINEARINVERTED" ||
 	   encoderConfigurationName == "WEIGHTEDMOVPULLEYLINEARONPERSON1INV" ||
-	   encoderConfigurationName == "WEIGHTEDMOVPULLEYLINEARONPERSON2INV") 
+	   encoderConfigurationName == "WEIGHTEDMOVPULLEYLINEARONPERSON2INV") )
 	  #On inverted modes the direction of the displacement is changed
   {
 	  displacement = -displacement

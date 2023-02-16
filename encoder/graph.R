@@ -15,7 +15,7 @@
 #   along with this program; if not, write to the Free Software
 #    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 # 
-#   Copyright (C) 2004-2022  	Xavier de Blas <xaviblas@gmail.com>
+#   Copyright (C) 2004-2023  	Xavier de Blas <xaviblas@gmail.com>
 #   Copyright (C) 2014-2020   	Xavier Padullés <x.padulles@gmail.com>
 # 
 
@@ -2907,7 +2907,7 @@ doProcess <- function(options)
                                 #getDisplacementInertialBody is not needed because it's done on curve save
                         } else {
                                 #dataTempFile = getDisplacement(inputMultiData$econfName[i], dataTempFile, op$diameter, op$diameterExt,
-                                dataTempFile = getDisplacement(inputMultiData$econfName[i], dataTempFile, inputMultiData$econfd, inputMultiData$econfD,
+                                dataTempFile = getDisplacement(FALSE, inputMultiData$econfName[i], dataTempFile, inputMultiData$econfd, inputMultiData$econfD,
                                                                inputMultiData$econfGearedDown[i])
                         }
                         
@@ -3062,7 +3062,7 @@ doProcess <- function(options)
                         
                         curvesPlot <- FALSE
                 } else {
-                        displacement <- getDisplacement(op$EncoderConfigurationName, displacement, op$diameter, op$diameterExt, op$gearedDown)
+                        displacement <- getDisplacement(FALSE, op$EncoderConfigurationName, displacement, op$diameter, op$diameterExt, op$gearedDown)
                 }
                 
                 #TODO: is this needed at all?

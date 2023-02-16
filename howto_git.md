@@ -103,7 +103,12 @@ Pick the commit (eg af8e0132)
 
     git cherry-pick af8e0132
 
-If any problem: fix thefile, git add thefile, git commit
+If any problem:
+
+    search with grep -r "===="
+    fix thefile
+    git add thefile
+    git commit
 
 ### Merge with a remote branch (but do not do it with my laptop, because has problems fetching from github)
 

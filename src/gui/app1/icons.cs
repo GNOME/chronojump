@@ -36,6 +36,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_session_delete;
 	[Widget] Gtk.Image app1s_image_button_close;
 	[Widget] Gtk.Image image_db_backup;
+	[Widget] Gtk.Image app1s_image_button_backup_start;
 	[Widget] Gtk.Image image_db_view;
 	[Widget] Gtk.Image image_mode_encoder_capture;
 	[Widget] Gtk.Image image_person;
@@ -336,6 +337,7 @@ public partial class ChronoJumpWindow
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_db_backup.png");
 		image_db_backup.Pixbuf = pixbuf;
+		app1s_image_button_backup_start.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_more_horiz.png");
 		image_session_more.Pixbuf = pixbuf;
 		image_session_more1.Pixbuf = pixbuf;

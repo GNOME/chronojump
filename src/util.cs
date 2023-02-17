@@ -1488,10 +1488,18 @@ public class Util
 	}
 
 	//TODO: maybe this will need a thread
-	public static int GetFullDataSize (bool includingOldBackupsDir)
+	public static int GetFullDataSize (bool includingLogs, bool includingOldBackupsDir)
 	{
-		long fullDataSize = DirSizeWithSubdirs (new DirectoryInfo( GetLocalDataDir(false)));
-		int sizeInKB = (int) UtilAll.DivideSafe(fullDataSize, 1024);
+		int sizeInKB = 0;
+
+		long fullDataSize = DirSizeWithSubdirs (new DirectoryInfo (GetLocalDataDir(false)));
+		sizeInKB = (int) UtilAll.DivideSafe (fullDataSize, 1024);
+
+		if (! includingLogs)
+		{
+			long logsSize = DirSizeWithSubdirs (new DirectoryInfo (UtilAll.GetLogsDir (Config.LastDBFullPathStatic)));
+			sizeInKB -= (int) UtilAll.DivideSafe (logsSize, 1024);
+		}
 
 		if(! includingOldBackupsDir)
 		{
@@ -2666,15 +2674,16 @@ public class UtilCopy
 	public string LastMainDir;
 	public string LastSecondDir;
 	private int sessionID;
-	private bool backup;
+	private bool copyLogs;
+	private bool copyConfig;
 
 	//to go faster on CopyFilesRecursively
 	static string backupDirOld = Util.GetBackupDirOld();
 
 	//-1 is the default on a backup, means all sessions (regular backup)
 	//4 will only copy files related to session 4 (for export session)
-	//on export do not copy logs
-	public UtilCopy(int sessionID, bool backup)
+	//on export do not copy logs, on backup user can select
+	public UtilCopy(int sessionID, bool copyLogs, bool copyConfig)
 	{
 		BackupMainDirsCount = 0;
 		BackupSecondDirsCount = 0;
@@ -2683,7 +2692,8 @@ public class UtilCopy
 		LastSecondDir = "";
 
 		this.sessionID = sessionID;
-		this.backup = backup;
+		this.copyLogs = copyLogs;
+		this.copyConfig = copyConfig;
 	}
 
 	//http://stackoverflow.com/a/58779
@@ -2695,7 +2705,7 @@ public class UtilCopy
 			{
 				if(level == 0)
 				{
-					if(! backup && Util.GetLastPartOfPath(dir.ToString()) == "logs")
+					if (! copyLogs && Util.GetLastPartOfPath(dir.ToString()) == "logs")
 						continue;
 
 					BackupMainDirsCount ++;
@@ -2746,6 +2756,10 @@ public class UtilCopy
 			{
 				if(file.Name == "chronojump_running") 	//do not copy chronojump_running file
 					continue;
+	
+				if (! copyConfig && file.Name.StartsWith ("chronojump_config"))
+					continue;
+
 
 				file.CopyTo(Path.Combine(target.FullName, file.Name));
 			}

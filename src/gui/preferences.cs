@@ -2624,7 +2624,7 @@ public class PreferencesWindow
 	
 	void on_button_logs_folder_open_clicked (object o, EventArgs args)
 	{
-		string dir = UtilAll.GetLogsDir();
+		string dir = UtilAll.GetLogsDir("");
 		LogB.Information(dir);
 		
 		if( ! new System.IO.DirectoryInfo(dir).Exists) {

@@ -37,7 +37,7 @@ public class Log
 		useConsole = true;
 
 		//create dir if not exists
-		string dir = UtilAll.GetLogsDir();
+		string dir = UtilAll.GetLogsDir ("");
 		if( ! Directory.Exists(dir)) {
 			try {
 				Directory.CreateDirectory (dir);

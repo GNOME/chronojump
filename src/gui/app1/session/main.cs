@@ -154,6 +154,8 @@ public partial class ChronoJumpWindow
 	//notebook tab 7 (backup)
 	[Widget] Gtk.Notebook notebook_session_backup;
 	[Widget] Gtk.Label label_backup_why;
+	[Widget] Gtk.CheckButton app1s_check_backup_include_logs;
+	[Widget] Gtk.CheckButton app1s_check_backup_include_config;
 	[Widget] Gtk.Label app1s_label_backup_estimated_size;
 	[Widget] Gtk.Button app1s_button_backup_select;
 	[Widget] Gtk.Button app1s_button_backup_start;

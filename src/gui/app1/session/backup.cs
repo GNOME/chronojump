@@ -15,12 +15,13 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2020-2021   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2020-2023   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
 using System.IO;
 using Gtk;
+using System.Collections.Generic;
 using System.Diagnostics;  //Stopwatch
 using System.Threading;
 using Mono.Unix;
@@ -28,9 +29,12 @@ using Mono.Unix;
 public partial class ChronoJumpWindow
 {
 	//string app1s_fileDB;
-	string app1s_fileCopy; //contains chronojump_datetime
 	string app1s_parentCopy; //is the dir selected by app1s_fc, before adding chronojump_datetime,
 				//nice to store in SQL and reuse in next backups
+	string app1s_fileCopy; //contains chronojump_datetime (just name of the file without the .7z)
+	string app1s_tmpCopy; //contains chronojump_datetime (full path at tmp without the .7z). copy here (tmp) and then compress on person selected folder.
+	string app1s_fullPathCopy; //contains chronojump_datetime (full path with the .7z)
+
 	Gtk.FileChooserDialog app1s_fc;
 	static UtilCopy app1s_uc;
 	private Thread app1s_threadBackup;
@@ -57,6 +61,12 @@ public partial class ChronoJumpWindow
 			return;
 		}
 
+		if (operatingSystem == UtilAll.OperatingSystems.LINUX && ! ExecuteProcess.InstalledOnLinux ("7z"))
+		{
+			showLinux7zInstallMessage ();
+			return;
+		}
+
 		notebook_session_backup.Page = Convert.ToInt32(notebook_session_backup_pages.BACKUP_DO);
 		app1s_label_backup_destination.Text = "";
 		app1s_label_backup_progress.Text = "";
@@ -70,8 +80,20 @@ public partial class ChronoJumpWindow
 
 		app1s_notebook.CurrentPage = app1s_PAGE_BACKUP;
 
-		int sizeInKB = Util.GetFullDataSize (false);
-		app1s_label_backup_estimated_size.Text = string.Format(Catalog.GetString("Estimated size: {0} MB."),
+		app1s_check_backup_include_config.Visible = File.Exists (Util.GetConfigFileName());
+
+		showBackupEstimatedSize ();
+	}
+
+	private void on_app1s_check_backup_include_logs_clicked (object o, EventArgs args)
+	{
+		showBackupEstimatedSize ();
+	}
+
+	private void showBackupEstimatedSize ()
+	{
+		int sizeInKB = Util.GetFullDataSize (app1s_check_backup_include_logs.Active, false);
+		app1s_label_backup_estimated_size.Text = string.Format(Catalog.GetString("Estimated size: {0} MB (uncompressed)."),
 				UtilAll.DivideSafe(sizeInKB, 1000));
 	}
 
@@ -217,14 +239,11 @@ public partial class ChronoJumpWindow
 		if (app1s_fc.Run() == (int)ResponseType.Accept)
 		{
 			app1s_parentCopy = app1s_fc.Filename;
+			app1s_fileCopy = "chronojump_" + UtilDate.ToFile();
+			app1s_tmpCopy = Path.Combine (Path.GetTempPath (), app1s_fileCopy);
+			app1s_fullPathCopy = Path.Combine (app1s_fc.Filename, app1s_fileCopy + ".7z");
 
-			//if multimedia_and_encoder, then copy the folder. If not checked, then copy only the db file
-			//if(check_backup_multimedia_and_encoder.Active)
-				app1s_fileCopy = app1s_fc.Filename + Path.DirectorySeparatorChar + "chronojump_" + UtilDate.ToFile();
-			//else
-			//	app1s_fileCopy = app1s_fc.Filename + Path.DirectorySeparatorChar + "chronojump_copy.db";
-
-			app1s_label_backup_destination.Text = app1s_fileCopy;
+			app1s_label_backup_destination.Text = app1s_fullPathCopy;
 
 			app1s_button_backup_start.Sensitive = true;
 		}
@@ -240,9 +259,9 @@ public partial class ChronoJumpWindow
 		try {
 			bool exists = false;
 			//if(check_backup_multimedia_and_encoder.Active) {
-			if(Directory.Exists(app1s_fileCopy)) {
-				LogB.Information(string.Format("Directory {0} exists, created at {1}",
-							app1s_fileCopy, Directory.GetCreationTime(app1s_fileCopy)));
+			if( File.Exists (app1s_fullPathCopy)) {
+				LogB.Information (string.Format ("File {0} exists, created at {1}",
+							app1s_fullPathCopy, File.GetCreationTime (app1s_fullPathCopy)));
 				exists = true;
 			}
 			/*} else {
@@ -257,12 +276,15 @@ public partial class ChronoJumpWindow
 			if(exists) {
 				LogB.Information("Overwrite...");
 				ConfirmWindow confirmWin = ConfirmWindow.Show(Catalog.GetString("Are you sure you want to overwrite: "),
-						"", app1s_fileCopy);
+						"", app1s_fullPathCopy);
 				confirmWin.Button_accept.Clicked += new EventHandler(app1s_backup_on_overwrite_file_accepted);
 			} else {
 				//if multimedia_and_encoder, then copy the folder. If not checked, then copy only the db file
 				//if(check_backup_multimedia_and_encoder.Active) {
-				app1s_uc = new UtilCopy(-1, true); //all sessions, backup
+				app1s_uc = new UtilCopy (-1,   //allSessions
+						app1s_check_backup_include_logs.Active,
+						app1s_check_backup_include_config.Active);
+
 				app1s_threadBackup = new Thread(new ThreadStart(app1s_copyRecursive));
 				GLib.Idle.Add (new GLib.IdleHandler (app1s_BackupPulseGTK));
 
@@ -279,7 +301,7 @@ public partial class ChronoJumpWindow
 			}
 		}
 		catch {
-			string myString = string.Format(Catalog.GetString("Cannot copy to {0} "), app1s_fileCopy);
+			string myString = string.Format(Catalog.GetString("Cannot copy to {0} "), app1s_fullPathCopy);
 			new DialogMessage(Constants.MessageTypes.WARNING, myString);
 		}
 	}
@@ -292,7 +314,7 @@ public partial class ChronoJumpWindow
 
 			LogB.ThreadEnded();
 
-			if (! app1s_copyRecursiveSuccess)
+			if (! app1s_copyRecursiveSuccess || ! app1s_copyCompressSuccess)
 				return false;
 
 			//update Sqlite backup vars (preferences not neede because will not be used until next boot)
@@ -307,6 +329,9 @@ public partial class ChronoJumpWindow
 
 			return false;
 		}
+
+		if (app1s_copyRecursiveSuccess)
+			app1s_label_backup_progress.Text = Catalog.GetString("Compressing …");
 
 		app1s_pulsebarBackupActivity.Pulse();
 		app1s_pulsebarBackupDirs.Fraction = UtilAll.DivideSafeFraction(app1s_uc.BackupMainDirsCount, 6);
@@ -330,13 +355,20 @@ public partial class ChronoJumpWindow
 		app1s_backup_doing_sensitive_start_end(false);
 		//app1s_fc.Hide ();
 
+		string str = "";
 		if (app1s_copyRecursiveSuccess)
-			app1s_label_backup_progress.Text =
-				string.Format(Catalog.GetString("Copied in {0} ms."),
-						app1s_copyRecursiveElapsedMs);
-		else
-			app1s_label_backup_progress.Text =
-				Catalog.GetString("Failed, maybe the disk is full.");
+		{
+			str = string.Format(Catalog.GetString("Copied in {0} ms."),
+					Math.Round (UtilAll.DivideSafe (app1s_copyRecursiveElapsedMs, 1000), 1));
+			if (app1s_copyCompressSuccess)
+				str += " " + string.Format(Catalog.GetString("Compressed in {0} s."),
+						Math.Round (UtilAll.DivideSafe (app1s_copyCompressElapsedMs, 1000), 1));
+			else
+				str += " " + Catalog.GetString("Failed at compress.");
+		} else
+			str = Catalog.GetString("Copy failed, maybe the disk is full.");
+
+		app1s_label_backup_progress.Text = str;
 
 		// show button to delete old backups (if exists)
 		if(Directory.Exists (Util.GetBackupDirOld()))
@@ -359,6 +391,9 @@ public partial class ChronoJumpWindow
 		app1s_button_backup_select.Sensitive = ! start;
 		app1s_button_backup_start.Sensitive = false;
 
+		app1s_check_backup_include_logs.Sensitive = ! start;
+		app1s_check_backup_include_config.Sensitive = ! start;
+
 		if(start) {
 			app1s_button_backup_cancel_close.Sensitive = false; //or make cancel sensitive while process?
 		} else {
@@ -375,7 +410,10 @@ public partial class ChronoJumpWindow
 			//if multimedia_and_encoder, then copy the folder. If not checked, then copy only the db file
 			//if(check_backup_multimedia_and_encoder.Active) {
 				Directory.Delete(app1s_fileCopy, true);
-				app1s_uc = new UtilCopy(-1, true); //all sessions, backup
+				app1s_uc = new UtilCopy (-1,   //allSessions
+						app1s_check_backup_include_logs.Active,
+						app1s_check_backup_include_config.Active);
+
 				app1s_threadBackup = new Thread(new ThreadStart(app1s_copyRecursive));
 				GLib.Idle.Add (new GLib.IdleHandler (app1s_BackupPulseGTK));
 
@@ -421,19 +459,114 @@ public partial class ChronoJumpWindow
 	 * deprecated since 1.6.0. Use backup method below
 	*/
 	static long app1s_copyRecursiveElapsedMs;
+	static long app1s_copyCompressElapsedMs;
+
 	static bool app1s_copyRecursiveSuccess;
+	static bool app1s_copyCompressSuccess;
 	//static int app1s_backupMainDirsDone;
 	private void app1s_copyRecursive()
+	{
+		app1s_copyRecursiveCopy ();
+
+		System.Threading.Thread.Sleep (250);
+		if (! app1s_copyRecursiveSuccess)
+			return;
+
+		app1s_copyRecursiveCompress ();
+		//do not need to delete tmp folder
+	}
+
+	private void app1s_copyRecursiveCopy ()
 	{
 		app1s_copyRecursiveElapsedMs = 0;
 		Stopwatch sw = new Stopwatch();
 		sw.Start();
 
 		app1s_copyRecursiveSuccess = app1s_uc.CopyFilesRecursively(
-				new DirectoryInfo(Util.GetLocalDataDir(false)), new DirectoryInfo(app1s_fileCopy), 0);
-		sw.Stop();
+				new DirectoryInfo(Util.GetLocalDataDir(false)),
+				new DirectoryInfo (app1s_tmpCopy), 0);
 
+		sw.Stop();
 		app1s_copyRecursiveElapsedMs = sw.ElapsedMilliseconds;
+	}
+
+	private void app1s_copyRecursiveCompress ()
+	{
+		Stopwatch sw = new Stopwatch();
+		sw.Start();
+
+		List<string> parameters = new List<string>();
+		parameters.Add ("a");
+		parameters.Add (app1s_fullPathCopy);
+
+		// option 1 add the folder with the files (better to have a dir that can be uncompressed in order to be opened from importer)
+		// parameters.Add (app1s_fileCopy);
+		// option 2 without the parent folder (cleaner, but do not found how to import)
+		parameters.Add (app1s_tmpCopy + Path.DirectorySeparatorChar + "*");
+
+		string executable = ExecuteProcess.Get7zExecutable (operatingSystem);
+
+		//not at background
+		ExecuteProcess.Result execute_result = ExecuteProcess.run (executable, parameters, false, false);
+		app1s_copyCompressSuccess = execute_result.success;
+
+
+		//at background
+/*
+		Process process = new Process ();
+		app1s_copyCompressSuccess = ExecuteProcess.RunAtBackground (
+				ref process, executable, parameters, false, false, false, true, false);
+
+		if (! app1s_copyCompressSuccess)
+		{
+			sw.Stop();
+			process = null;
+			return;
+		} else {
+			//process.WaitForExit ();
+			using (var sr = new StreamReader (process.StandardOutput))
+			{
+				while (sr.Peek() >= 0)
+				{
+					LogB.Information (sr.ReadLine());
+				}
+			}
+*/
+			/*
+//			process.BeginOutputReadLine();
+			while (! process.StandardOutput.EndOfStream)
+			{
+//				var line = process.StandardOutput.ReadLine();
+//				LogB.Information (line);
+				LogB.Information (process.StandardOutput.ReadToEnd().TrimEnd ('\n'));
+			}
+			*/
+			//StreamReader sr = process.StandardOutput;
+
+//			process.WaitForExit();
+//		}
+
+
+		/*
+		//using (Process process = new Process())
+		Process process = new Process();
+//		{
+			app1s_copyCompressSuccess = ExecuteProcess.RunAtBackground (
+					ref process, executable, parameters, false, false, false, true, false);
+
+			// Synchronously read the standard output of the spawned process.
+			StreamReader reader = process.StandardOutput;
+			string output = reader.ReadToEnd();
+
+			// Write the redirected output to this application's window.
+			LogB.Information(output);
+
+			process.WaitForExit();
+//		}
+//		*/
+
+		sw.Stop();
+		app1s_copyCompressElapsedMs = sw.ElapsedMilliseconds;
 	}
 
 	/*

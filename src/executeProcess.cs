@@ -178,8 +178,8 @@ class ExecuteProcess
 		processStartInfo.CreateNoWindow = createNoWindow;
 		processStartInfo.UseShellExecute = useShellExecute;
 		processStartInfo.RedirectStandardInput = redirectInput; //note UseShellExecute has to be false to be able to redirect
-		processStartInfo.RedirectStandardError = redirectOutput;
-		processStartInfo.RedirectStandardOutput = redirectStderr;
+		processStartInfo.RedirectStandardOutput = redirectOutput;
+		processStartInfo.RedirectStandardError = redirectStderr;
 
 		process.StartInfo = processStartInfo;
 

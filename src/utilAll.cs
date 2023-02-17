@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Copyright (C) 2004-2020   Xavier de Blas <xaviblas@gmail.com> 
+ *  Copyright (C) 2004-2023   Xavier de Blas <xaviblas@gmail.com> 
  */
 
 using System;
@@ -123,15 +123,22 @@ public class UtilAll
 
 	// ----------- logs -----------------------
 	
-	public static string GetLogsDir() {
-		return Path.Combine(
-				GetDefaultLocalDataDir (false) + Path.DirectorySeparatorChar + "logs");
+	//Since 2.2.2 on Compujump admin LocaApplicationData can change
+	//this will check if any config path is present
+	public static string GetLogsDir (string pathChangedInConfig)
+	{
+		if (pathChangedInConfig == "")
+			return Path.Combine(
+					GetDefaultLocalDataDir (false) + Path.DirectorySeparatorChar + "logs");
+		else
+			return pathChangedInConfig + Path.DirectorySeparatorChar + "logs";
 	}
+
 	public static string GetLogFileCurrent() {
-		return Path.Combine(GetLogsDir() +  Path.DirectorySeparatorChar + Constants.FileNameLog);
+		return Path.Combine(GetLogsDir("") +  Path.DirectorySeparatorChar + Constants.FileNameLog);
 	}
 	public static string GetLogFileOld() {
-		return Path.Combine(GetLogsDir() +  Path.DirectorySeparatorChar + Constants.FileNameLogOld);
+		return Path.Combine(GetLogsDir("") +  Path.DirectorySeparatorChar + Constants.FileNameLogOld);
 	}
 
 	public static string GetLogsCrashedDir() {

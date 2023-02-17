@@ -1410,6 +1410,7 @@ public partial class ChronoJumpWindow
 		sensitiveLastTestButtons(false);
 
 		label_current_person.Text = currentPerson.Name;
+		button_person_merge.Sensitive = true;
 
 		if(current_mode == Constants.Modes.JUMPSSIMPLE)
 		{
@@ -3092,8 +3093,10 @@ public partial class ChronoJumpWindow
 
 		hbox_persons_bottom_photo.Sensitive = false;
 		vbox_persons_bottom_no_photo.Sensitive = false;
+		label_current_person.Text = "";
 		label_top_person_name.Text = "";
 		label_top_encoder_person_name.Text = "";
+		button_person_merge.Sensitive = false;
 
 		//update report
 		report.SessionID = currentSession.UniqueID;
@@ -3199,9 +3202,11 @@ public partial class ChronoJumpWindow
 		} else {
 			sensitiveGuiNoPerson();
 			currentPerson = null;
+			label_current_person.Text = "";
 			label_top_person_name.Text = "";
 			label_top_encoder_person_name.Text = "";
 		}
+		button_person_merge.Sensitive = foundPersons;
 
 		//update report
 		report.SessionID = currentSession.UniqueID;
@@ -8504,8 +8509,10 @@ LogB.Debug("mc finished 5");
 		menuPersonSelectedSensitive(false);
 		vbox_execute_test.Sensitive = false;
 
+		label_current_person.Text = "";
 		label_top_person_name.Text = "";
 		label_top_encoder_person_name.Text = "";
+		button_person_merge.Sensitive = false;
 	}
 	
 	private void sensitiveGuiYesPerson ()

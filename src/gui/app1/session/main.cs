@@ -59,7 +59,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image app1s_image_load;
 	[Widget] Gtk.Image app1s_image_import;
 	[Widget] Gtk.Entry app1s_entry_search_filter;
-	[Widget] Gtk.HBox app1s_hbox_manage;
+	[Widget] Gtk.HBox app1s_hbox_tags;
 	[Widget] Gtk.Button app1s_button_manage_tags;
 	[Widget] Gtk.CheckButton app1s_checkbutton_show_data_persons;
 	[Widget] Gtk.CheckButton app1s_checkbutton_show_data_jumps;

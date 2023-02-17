@@ -45127,23 +45127,6 @@ then click this button.</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <widget class="GtkCheckButton" id="app1s_check_filter_by_sensor">
-                                                            <property name="label" translatable="yes">Filter by sensor data</property>
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">True</property>
-                                                            <property name="receives_default">False</property>
-                                                            <property name="draw_indicator">True</property>
-                                                            <signal name="clicked" handler="on_app1s_check_filter_by_sensor_clicked" swapped="no"/>
-                                                            </widget>
-                                                            <packing>
-                                                            <property name="left_attach">1</property>
-                                                            <property name="right_attach">2</property>
-                                                            <property name="top_attach">1</property>
-                                                            <property name="bottom_attach">2</property>
-                                                            <property name="x_options">GTK_FILL</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
                                                             <widget class="GtkHBox" id="hbox115">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
@@ -45153,7 +45136,7 @@ then click this button.</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="xalign">0</property>
-                                                            <property name="label" translatable="yes">View</property>
+                                                            <property name="label" translatable="yes">Sensor columns</property>
                                                             <property name="use_markup">True</property>
                                                             </widget>
                                                             <packing>
@@ -45167,27 +45150,6 @@ then click this button.</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="spacing">2</property>
-                                                            <child>
-                                                            <widget class="GtkCheckButton" id="app1s_checkbutton_show_data_persons">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">True</property>
-                                                            <property name="receives_default">False</property>
-                                                            <property name="draw_indicator">False</property>
-                                                            <signal name="toggled" handler="app1s_on_checkbutton_show_data_toggled" swapped="no"/>
-                                                            <child>
-                                                            <widget class="GtkImage" id="app1s_image_show_data_persons">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            <property name="stock">gtk-missing-image</property>
-                                                            </widget>
-                                                            </child>
-                                                            </widget>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="position">0</property>
-                                                            </packing>
-                                                            </child>
                                                             <child>
                                                             <widget class="GtkCheckButton" id="app1s_checkbutton_show_data_jumps">
                                                             <property name="visible">True</property>
@@ -45206,7 +45168,7 @@ then click this button.</property>
                                                             <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">False</property>
-                                                            <property name="position">1</property>
+                                                            <property name="position">0</property>
                                                             </packing>
                                                             </child>
                                                             <child>
@@ -45227,7 +45189,7 @@ then click this button.</property>
                                                             <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">False</property>
-                                                            <property name="position">2</property>
+                                                            <property name="position">1</property>
                                                             </packing>
                                                             </child>
                                                             <child>
@@ -45248,7 +45210,7 @@ then click this button.</property>
                                                             <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">False</property>
-                                                            <property name="position">3</property>
+                                                            <property name="position">2</property>
                                                             </packing>
                                                             </child>
                                                             <child>
@@ -45269,7 +45231,7 @@ then click this button.</property>
                                                             <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">False</property>
-                                                            <property name="position">4</property>
+                                                            <property name="position">3</property>
                                                             </packing>
                                                             </child>
                                                             <child>
@@ -45290,7 +45252,7 @@ then click this button.</property>
                                                             <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">False</property>
-                                                            <property name="position">5</property>
+                                                            <property name="position">4</property>
                                                             </packing>
                                                             </child>
                                                             <child>
@@ -45311,7 +45273,7 @@ then click this button.</property>
                                                             <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">False</property>
-                                                            <property name="position">6</property>
+                                                            <property name="position">5</property>
                                                             </packing>
                                                             </child>
                                                             </widget>
@@ -45327,6 +45289,82 @@ then click this button.</property>
                                                             <property name="right_attach">2</property>
                                                             <property name="x_options">GTK_FILL</property>
                                                             <property name="y_options"/>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkHBox" id="hbox386">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <child>
+                                                            <widget class="GtkCheckButton" id="app1s_check_filter_by_sensor">
+                                                            <property name="label" translatable="yes">Filter by sensor data</property>
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">True</property>
+                                                            <property name="receives_default">False</property>
+                                                            <property name="draw_indicator">True</property>
+                                                            <signal name="clicked" handler="on_app1s_check_filter_by_sensor_clicked" swapped="no"/>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkHBox" id="hbox535">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="spacing">6</property>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label107">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="xalign">0</property>
+                                                            <property name="label" translatable="yes">View</property>
+                                                            <property name="use_markup">True</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkCheckButton" id="app1s_checkbutton_show_data_persons">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">True</property>
+                                                            <property name="receives_default">False</property>
+                                                            <property name="draw_indicator">False</property>
+                                                            <signal name="toggled" handler="app1s_on_checkbutton_show_data_toggled" swapped="no"/>
+                                                            <child>
+                                                            <widget class="GtkImage" id="app1s_image_show_data_persons">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="stock">gtk-missing-image</property>
+                                                            </widget>
+                                                            </child>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="pack_type">end</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="left_attach">1</property>
+                                                            <property name="right_attach">2</property>
+                                                            <property name="top_attach">1</property>
+                                                            <property name="bottom_attach">2</property>
+                                                            <property name="x_options">GTK_FILL</property>
                                                             </packing>
                                                             </child>
                                                             </widget>

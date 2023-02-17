@@ -35,6 +35,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.EventBox eventbox_button_person_close;
 	[Widget] Gtk.Image image_person_manage_blue;
 	[Widget] Gtk.Image image_person_manage_yellow;
+	[Widget] Gtk.Button button_person_merge;
 
 	private void showPersonsOnTop (bool onTop)
 	{

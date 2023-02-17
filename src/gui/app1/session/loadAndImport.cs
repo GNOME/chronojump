@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2022   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2004-2023   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -53,6 +53,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Label app1s_label_import;
 	[Widget] Gtk.ScrolledWindow scrolledwin_session_load;
 
+	[Widget] Gtk.CheckButton app1s_check_filter_by_sensor;
 	[Widget] Gtk.HBox app1s_hbox_combo_tags;
 	[Widget] Gtk.ComboBox app1s_combo_tags;
 	CjComboGeneric app1sComboTags;
@@ -100,7 +101,8 @@ public partial class ChronoJumpWindow
 			app1s_hbox_frame_import.Visible = false;
 			app1s_notebook.CurrentPage = app1s_PAGE_SELECT_SESSION;
 			app1s_notebook_load_button_animation.CurrentPage = 0;
-			app1s_hbox_manage.Visible = true;
+			app1s_hbox_tags.Visible = true;
+			app1s_check_filter_by_sensor.Visible = true;
 		} else {
 			app1s_file_path_import.Visible = true;
 			app1s_notebook_load_button_animation.Visible = false;
@@ -111,7 +113,8 @@ public partial class ChronoJumpWindow
 			app1s_hbox_frame_import.Visible = true;
 			app1s_button_select_file_import_same_database.Visible = false; //is shown when user want to import a second session
 			app1s_notebook.CurrentPage = app1s_PAGE_IMPORT_START;
-			app1s_hbox_manage.Visible = false;
+			app1s_hbox_tags.Visible = false;
+			app1s_check_filter_by_sensor.Visible = false;
 		}
 
 		createComboSessionLoadTags (false); //TODO: care because this is only related to load (not report)
@@ -360,6 +363,11 @@ public partial class ChronoJumpWindow
 		app1s_recreateTreeView("changed tag");
 	}
 
+	private void on_app1s_check_filter_by_sensor_clicked (object o, EventArgs args)
+	{
+		app1s_recreateTreeView("changed filter by sensor checkbox");
+	}
+
 	protected void app1s_on_entry_search_filter_changed (object o, EventArgs args) {
 		app1s_recreateTreeView("changed search filter");
 	}
@@ -576,6 +584,11 @@ public partial class ChronoJumpWindow
 
 		foreach (SessionTestsCount stc in stc_l)
 		{
+			if (discardSessionBySensorFilter (stc,
+						showJumps, showRuns, showIsometric, showElastic,
+						showWeights, showInertial))
+				continue;
+
 			//don't show any text at sport, speciallity and level if it's undefined	
 			string mySport = "";
 			if (stc.sessionParams.SportName != Catalog.GetString(Constants.SportUndefined))
@@ -680,6 +693,32 @@ public partial class ChronoJumpWindow
 		}
 	}
 	*/
+
+	public bool discardSessionBySensorFilter (SessionTestsCount stc,
+			bool showJumps, bool showRuns, bool showIsometric, bool showElastic,
+			bool showWeights, bool showInertial)//, bool showRT, bool showOther)
+	{
+		if (app1s_type == app1s_windowType.IMPORT_SESSION)
+			return false;
+
+		if (! app1s_check_filter_by_sensor.Active)
+			return false;
+
+		if (showJumps && stc.JumpsSimple == 0 && stc.JumpsReactive == 0)
+			return true;
+		else if (showRuns && stc.RunsSimple == 0 && stc.RunsInterval == 0 && stc.RunsEncoder == 0)
+			return true;
+		else if (showIsometric && stc.Isometric == 0)
+			return true;
+		else if (showElastic && stc.Elastic == 0)
+			return true;
+		else if (showWeights && stc.WeightsSets == 0 && stc.WeightsReps == 0)
+			return true;
+		else if (showInertial && stc.InertialSets == 0 && stc.InertialReps == 0)
+			return true;
+
+		return false;
+	}
 
 	public bool app1s_SelectRowByID(int searchedID)
 	{

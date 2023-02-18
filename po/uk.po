@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: chronojump master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/chronojump/issues\n"
-"POT-Creation-Date: 2023-02-17 12:12+0000\n"
-"PO-Revision-Date: 2023-02-17 14:40+0200\n"
+"POT-Creation-Date: 2023-02-17 22:02+0000\n"
+"PO-Revision-Date: 2023-02-18 21:17+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -33,7 +33,7 @@ msgstr "База даних"
 #: ../glade/app1.glade.h:3 ../glade/report_window.glade.h:9
 #: ../src/exportSession.cs:209 ../src/gui/app1/encoder.cs:5783
 #: ../src/gui/app1/forceSensor.cs:3755 ../src/gui/app1/runEncoder.cs:2349
-#: ../src/gui/app1/session/backup.cs:148 ../src/report.cs:141
+#: ../src/gui/app1/session/backup.cs:170 ../src/report.cs:141
 msgid "Session"
 msgstr "Сеанс"
 
@@ -79,7 +79,7 @@ msgstr "Створити"
 msgid "Load"
 msgstr "Завантажити"
 
-#: ../glade/app1.glade.h:13 ../src/gui/app1/session/backup.cs:148
+#: ../glade/app1.glade.h:13 ../src/gui/app1/session/backup.cs:170
 msgid "More"
 msgstr "Більше"
 
@@ -347,8 +347,8 @@ msgstr "Скасувати тест"
 #: ../glade/force_sensor_exercise.glade.h:37 ../glade/generic_window.glade.h:7
 #: ../glade/person_merge.glade.h:6 ../glade/person_select_window.glade.h:11
 #: ../src/exportSession.cs:75 ../src/gui/app1/encoder.cs:2444
-#: ../src/gui/app1/encoder.cs:2741 ../src/gui/app1/session/backup.cs:69
-#: ../src/gui/app1/session/backup.cs:211 ../src/gui/app1/session/backup.cs:405
+#: ../src/gui/app1/encoder.cs:2741 ../src/gui/app1/session/backup.cs:79
+#: ../src/gui/app1/session/backup.cs:233 ../src/gui/app1/session/backup.cs:443
 #: ../src/gui/app1/session/export.cs:77 ../src/gui/chronopicRegister.cs:183
 #: ../src/gui/encoderConfiguration.cs:733
 #: ../src/gui/encoderConfiguration.cs:790 ../src/gui/networks.cs:417
@@ -1013,8 +1013,8 @@ msgstr "Зберегти"
 #: ../src/gui/app1/encoder.cs:1809 ../src/gui/app1/encoder.cs:5769
 #: ../src/gui/app1/forceSensor.cs:2340 ../src/gui/app1/forceSensor.cs:3741
 #: ../src/gui/app1/runEncoder.cs:1008 ../src/gui/app1/runEncoder.cs:2335
-#: ../src/gui/app1/session/backup.cs:172 ../src/gui/app1/session/backup.cs:368
-#: ../src/gui/app1/session/backup.cs:417 ../src/gui/chronopicRegister.cs:204
+#: ../src/gui/app1/session/backup.cs:194 ../src/gui/app1/session/backup.cs:403
+#: ../src/gui/app1/session/backup.cs:455 ../src/gui/chronopicRegister.cs:204
 #: ../src/gui/chronopicRegister.cs:365 ../src/gui/chronopicRegister.cs:776
 #: ../src/gui/encoderSelectRepetitions.cs:289 ../src/gui/executeAuto.cs:306
 #: ../src/gui/genericWindow.cs:972
@@ -2234,7 +2234,6 @@ msgid "Import"
 msgstr "Імпортувати"
 
 #: ../glade/app1.glade.h:470
-#| msgid "Filename"
 msgid "Filter by name"
 msgstr "Фільтрувати за назвою"
 
@@ -2248,7 +2247,6 @@ msgid "Manage tags"
 msgstr "Керування мітками"
 
 #: ../glade/app1.glade.h:473
-#| msgid "Show more columns"
 msgid "Sensor columns"
 msgstr "Стовпчики датчика"
 
@@ -2426,46 +2424,56 @@ msgstr ""
 "убезпечить вас від втрати даних."
 
 #: ../glade/app1.glade.h:506
+#| msgid "Include laps"
+msgid "Include logs"
+msgstr "Включити журнали"
+
+#: ../glade/app1.glade.h:507
+#| msgid "Include images"
+msgid "Include config files"
+msgstr "Включити файли налаштувань"
+
+#: ../glade/app1.glade.h:508
 msgid "Select destination"
 msgstr "Виберіть призначення"
 
-#: ../glade/app1.glade.h:507
+#: ../glade/app1.glade.h:509
 msgid "Start backup"
 msgstr "Розпочати копіювання"
 
-#: ../glade/app1.glade.h:508
+#: ../glade/app1.glade.h:510
 msgid "Directory"
 msgstr "Каталог"
 
-#: ../glade/app1.glade.h:509
+#: ../glade/app1.glade.h:511
 msgid "Subdirectory"
 msgstr "Підкаталог"
 
-#: ../glade/app1.glade.h:510
+#: ../glade/app1.glade.h:512
 msgid "Delete old incomplete backups"
 msgstr "Вилучити старі неповні резервні копії"
 
-#: ../glade/app1.glade.h:511
+#: ../glade/app1.glade.h:513
 msgid "Do you want to do a full Chronojump data backup?"
 msgstr "Хочете створити повну резервну копіюю даних Chronojump?"
 
-#: ../glade/app1.glade.h:512
+#: ../glade/app1.glade.h:514
 msgid "Make the backup now!"
 msgstr "Зробити резервну копію зараз!"
 
-#: ../glade/app1.glade.h:513
+#: ../glade/app1.glade.h:515
 msgid "Remind me next time"
 msgstr "Нагадати наступного разу"
 
-#: ../glade/app1.glade.h:514
+#: ../glade/app1.glade.h:516
 msgid "Remind me in … days"
 msgstr "Нагадати за … днів"
 
-#: ../glade/app1.glade.h:515
+#: ../glade/app1.glade.h:517
 msgid "Don't ask me again"
 msgstr "Більше не питати"
 
-#: ../glade/app1.glade.h:516
+#: ../glade/app1.glade.h:518
 msgid ""
 "Versions prior to Chronojump 2.1.3 performed automatic backups at each "
 "Chronojump boot but did not include the raw data.\n"
@@ -2476,201 +2484,201 @@ msgstr ""
 "необроблених даних.\n"
 "Починаючи з версії Chronojump 2.1.3, у резервних копіях містяться усі дані."
 
-#: ../glade/app1.glade.h:518
+#: ../glade/app1.glade.h:520
 msgid "Do you want to delete old incomplete backups?"
 msgstr "Хочете вилучити стані неповні резервні копії?"
 
-#: ../glade/app1.glade.h:519
+#: ../glade/app1.glade.h:521
 msgid "Delete them"
 msgstr "Вилучити їх"
 
-#: ../glade/app1.glade.h:520
+#: ../glade/app1.glade.h:522
 msgid "Deleted."
 msgstr "Вилучено."
 
-#: ../glade/app1.glade.h:521
+#: ../glade/app1.glade.h:523
 msgid "Backup"
 msgstr "Резервна копія"
 
-#: ../glade/app1.glade.h:522
+#: ../glade/app1.glade.h:524
 msgid "Start export"
 msgstr "Почати експортування"
 
-#: ../glade/app1.glade.h:523
+#: ../glade/app1.glade.h:525
 msgid "Select whether you want to view the Chronojump generic data folder …"
 msgstr "Виберіть, хочете ви переглянути загальну теку даних Chronojump…"
 
-#: ../glade/app1.glade.h:524
+#: ../glade/app1.glade.h:526
 msgid "View generic data folder"
 msgstr "Переглянути загальну теку даних"
 
-#: ../glade/app1.glade.h:525
+#: ../glade/app1.glade.h:527
 msgid "… or the data folder of the current mode and session:"
 msgstr "…чи теку даних поточного режиму і сеансу:"
 
-#: ../glade/app1.glade.h:526
+#: ../glade/app1.glade.h:528
 msgid "View specific data folder"
 msgstr "Переглянути специфічну теку даних"
 
-#: ../glade/app1.glade.h:527
+#: ../glade/app1.glade.h:529
 msgid "Encoder disconnected."
 msgstr "Кодувальний від'єднано."
 
-#: ../glade/app1.glade.h:528
+#: ../glade/app1.glade.h:530
 msgid "Please, connect it and click here:"
 msgstr "Будь ласка, з'єднайте його і натисніть тут:"
 
-#: ../glade/app1.glade.h:529
+#: ../glade/app1.glade.h:531
 msgid "Check connection"
 msgstr "Перевірити з'єднання"
 
-#: ../glade/app1.glade.h:530 ../src/constants.cs:253
+#: ../glade/app1.glade.h:532 ../src/constants.cs:253
 msgid "RFID has been disconnected!"
 msgstr "RFID було від'єднано!"
 
-#: ../glade/app1.glade.h:531 ../src/constants.cs:254
+#: ../glade/app1.glade.h:533 ../src/constants.cs:254
 msgid "Please, connect it and restart Chronojump."
 msgstr "Будь ласка, відновіть з'єднання і перезапустіть Chronojump."
 
-#: ../glade/app1.glade.h:532
+#: ../glade/app1.glade.h:534
 msgid "Documents"
 msgstr "Документи"
 
-#: ../glade/app1.glade.h:533 ../glade/dialog_shortcuts.glade.h:1
+#: ../glade/app1.glade.h:535 ../glade/dialog_shortcuts.glade.h:1
 msgid "Shortcuts"
 msgstr "Скорочення"
 
-#: ../glade/app1.glade.h:534 ../glade/dialog_about.glade.h:1
+#: ../glade/app1.glade.h:536 ../glade/dialog_about.glade.h:1
 msgid "About"
 msgstr "Про програму"
 
-#: ../glade/app1.glade.h:535
+#: ../glade/app1.glade.h:537
 msgid "English"
 msgstr "англійська"
 
-#: ../glade/app1.glade.h:536
+#: ../glade/app1.glade.h:538
 msgid "Spanish"
 msgstr "іспанська"
 
-#: ../glade/app1.glade.h:537
+#: ../glade/app1.glade.h:539
 msgid "Open in browser"
 msgstr "Відкрити у переглядачі"
 
-#: ../glade/app1.glade.h:538 ../src/constants.cs:893
+#: ../glade/app1.glade.h:540 ../src/constants.cs:893
 msgid "Sorry, cannot open website."
 msgstr "Вибачте, не вдалося відкрити сайт."
 
-#: ../glade/app1.glade.h:539 ../glade/dialog_person_popup.glade.h:3
+#: ../glade/app1.glade.h:541 ../glade/dialog_person_popup.glade.h:3
 msgid "label"
 msgstr "мітка"
 
-#: ../glade/app1.glade.h:540
+#: ../glade/app1.glade.h:542
 msgid "Create new person"
 msgstr "Створити запис особи"
 
-#: ../glade/app1.glade.h:541 ../glade/person_select_window.glade.h:3
+#: ../glade/app1.glade.h:543 ../glade/person_select_window.glade.h:3
 #: ../glade/person_win.glade.h:1 ../src/gui/person/addModify.cs:254
 msgid "New person"
 msgstr "Нова особа"
 
-#: ../glade/app1.glade.h:542 ../glade/person_select_window.glade.h:4
+#: ../glade/app1.glade.h:544 ../glade/person_select_window.glade.h:4
 msgid "One"
 msgstr "Один"
 
-#: ../glade/app1.glade.h:543 ../glade/person_select_window.glade.h:5
+#: ../glade/app1.glade.h:545 ../glade/person_select_window.glade.h:5
 msgid "New persons (multiple)"
 msgstr "Нові особи (декілька)"
 
-#: ../glade/app1.glade.h:544 ../glade/person_select_window.glade.h:7
+#: ../glade/app1.glade.h:546 ../glade/person_select_window.glade.h:7
 msgid "Load into session"
 msgstr "Завантажити до сеансу"
 
-#: ../glade/app1.glade.h:545 ../glade/person_select_window.glade.h:8
+#: ../glade/app1.glade.h:547 ../glade/person_select_window.glade.h:8
 #: ../glade/person_win.glade.h:44
 msgid "Load person"
 msgstr "Завантажити особу"
 
-#: ../glade/app1.glade.h:546 ../glade/person_select_window.glade.h:9
+#: ../glade/app1.glade.h:548 ../glade/person_select_window.glade.h:9
 #: ../src/gui/person/recuperate.cs:343
 msgid "Load persons from other session"
 msgstr "Завантажити особи з іншого сеансу"
 
-#: ../glade/app1.glade.h:547 ../glade/dialog_shortcuts.glade.h:2
+#: ../glade/app1.glade.h:549 ../glade/dialog_shortcuts.glade.h:2
 #: ../glade/person_select_window.glade.h:15
 msgid "Edit selected person"
 msgstr "Редагувати позначену особу"
 
-#: ../glade/app1.glade.h:548
+#: ../glade/app1.glade.h:550
 msgid "Delete person from this session."
 msgstr "Вилучити особу з цього сеансу."
 
-#: ../glade/app1.glade.h:549
+#: ../glade/app1.glade.h:551
 msgid "Show all tests of any person"
 msgstr "Показати усі тести для будь-якої особи"
 
 #. this strings will be used on merge persons code. Now are here just to be translated in the meantime.
-#: ../glade/app1.glade.h:550 ../glade/person_merge.glade.h:1
+#: ../glade/app1.glade.h:552 ../glade/person_merge.glade.h:1
 #: ../src/gui/person/addModify.cs:158
 msgid "Merge with another person"
 msgstr "Об'єднати із іншою особою"
 
-#: ../glade/app1.glade.h:551 ../glade/person_select_window.glade.h:10
+#: ../glade/app1.glade.h:553 ../glade/person_select_window.glade.h:10
 msgid "Manage persons"
 msgstr "Керування особами"
 
-#: ../glade/app1.glade.h:552
+#: ../glade/app1.glade.h:554
 msgid "Your email"
 msgstr "Ваша адреса ел. пошти"
 
-#: ../glade/app1.glade.h:553
+#: ../glade/app1.glade.h:555
 msgid "Preferred response language "
 msgstr "Бажана мова відповіді "
 
-#: ../glade/app1.glade.h:554
+#: ../glade/app1.glade.h:556
 msgid "Portuguese"
 msgstr "португальська"
 
-#: ../glade/app1.glade.h:555
+#: ../glade/app1.glade.h:557
 msgid "Catalan"
 msgstr "каталонська"
 
-#: ../glade/app1.glade.h:556
+#: ../glade/app1.glade.h:558
 msgid "Add comments"
 msgstr "Додати коментарі"
 
-#: ../glade/app1.glade.h:557 ../src/chronojump.cs:756
+#: ../glade/app1.glade.h:559 ../src/chronojump.cs:756
 msgid "Send error log"
 msgstr "Надіслати журнал помилок"
 
-#: ../glade/app1.glade.h:558
+#: ../glade/app1.glade.h:560
 msgid "Check last version"
 msgstr "Виконати пошук свіжішої версії"
 
-#: ../glade/app1.glade.h:559
+#: ../glade/app1.glade.h:561
 msgid "Open Chronojump"
 msgstr "Відкрити Chronojump"
 
-#: ../glade/app1.glade.h:560
+#: ../glade/app1.glade.h:562
 msgid "Are you sure you want to exit Chronojump?"
 msgstr "Ви справді хочете вийти з Chronojump?"
 
-#: ../glade/app1.glade.h:561
+#: ../glade/app1.glade.h:563
 msgid "Please, help us to provide videos on the most suitable platforms."
 msgstr "Будь ласка, допоможіть нам із відео для найпридатніших платформ."
 
-#: ../glade/app1.glade.h:562
+#: ../glade/app1.glade.h:564
 msgid "What social network do you use to watch videos?"
 msgstr "Якими соціальними мережами ви користуєтеся для перегляду відео?"
 
-#: ../glade/app1.glade.h:563
+#: ../glade/app1.glade.h:565
 msgid "I don't use social networks or don't want to respond"
 msgstr "Я не користуюся соціальними мережами або не хочу відповідати"
 
-#: ../glade/app1.glade.h:564
+#: ../glade/app1.glade.h:566
 msgid "Other (which)"
 msgstr "Інше (яке)"
 
-#: ../glade/app1.glade.h:565
+#: ../glade/app1.glade.h:567
 msgid "Send poll"
 msgstr "Надіслати результати опитування"
 
@@ -5580,13 +5588,13 @@ msgstr "Еліта"
 msgid "Not enough data."
 msgstr "Недостатньо даних."
 
-#: ../src/constants.cs:889 ../src/gui/app1/session/backup.cs:56
+#: ../src/constants.cs:889 ../src/gui/app1/session/backup.cs:60
 #: ../src/gui/app1/session/export.cs:46
 msgid "Error. Cannot find database."
 msgstr "Помилка. Не вдалося знайти базу даних."
 
-#: ../src/constants.cs:897 ../src/gui/app1/session/main.cs:269
-#: ../src/gui/app1/session/main.cs:299 ../src/gui/app1/session/main.cs:307
+#: ../src/constants.cs:897 ../src/gui/app1/session/main.cs:271
+#: ../src/gui/app1/session/main.cs:301 ../src/gui/app1/session/main.cs:309
 #: ../src/gui/splash.cs:141
 msgid "Error. Cannot open directory."
 msgstr "Помилка. Не вдалося відкрити каталог."
@@ -6169,8 +6177,8 @@ msgstr "Немає потрібних даних."
 msgid "Error doing operation."
 msgstr "Помилка під час виконання дії."
 
-#: ../src/exportFiles/exportFiles.cs:176 ../src/gui/app1/session/backup.cs:282
-#: ../src/gui/app1/session/backup.cs:396 ../src/gui/app1/session/export.cs:133
+#: ../src/exportFiles/exportFiles.cs:176 ../src/gui/app1/session/backup.cs:304
+#: ../src/gui/app1/session/backup.cs:434 ../src/gui/app1/session/export.cs:133
 #: ../src/gui/app1/session/export.cs:235
 #, csharp-format
 msgid "Cannot copy to {0} "
@@ -6858,7 +6866,7 @@ msgid "Export repetition in CSV format"
 msgstr "Експортувати повторення у форматі CSV"
 
 #: ../src/gui/app1/encoder.cs:2488 ../src/gui/app1/encoder.cs:2766
-#: ../src/gui/app1/session/backup.cs:259 ../src/gui/app1/session/export.cs:113
+#: ../src/gui/app1/session/backup.cs:278 ../src/gui/app1/session/export.cs:113
 msgid "Are you sure you want to overwrite: "
 msgstr "Ви справді хочете перезаписати:"
 
@@ -7146,7 +7154,7 @@ msgstr "Кластери"
 
 #. to allow hslides and table
 #: ../src/gui/app1/encoder.cs:6524 ../src/gui/app1/encoder.cs:7073
-#: ../src/gui/app1/session/backup.cs:354
+#: ../src/gui/app1/session/backup.cs:386
 msgid "Please, wait."
 msgstr "Будь ласка, зачекайте."
 
@@ -7438,23 +7446,24 @@ msgstr "Вибачте, цей запис виду спорту «{0}» вже �
 msgid "Session: '{0}' exists. Please, use another name"
 msgstr "Сеанс: «{0}» існує. Будь ласка, використайте іншу назву"
 
-#: ../src/gui/app1/session/backup.cs:74
+#: ../src/gui/app1/session/backup.cs:96
 #, csharp-format
-msgid "Estimated size: {0} MB."
-msgstr "Очікуваний розмір: {0} МБ."
+#| msgid "Estimated size: {0} MB."
+msgid "Estimated size: {0} MB (uncompressed)."
+msgstr "Очікуваний розмір: {0} МБ (без стискання)."
 
-#: ../src/gui/app1/session/backup.cs:138
+#: ../src/gui/app1/session/backup.cs:160
 msgid "You will be prompted for a backup the next time you start Chronojump."
 msgstr ""
 "Програма попросить вас створити резервну копію під час наступного запуску "
 "Chronojump"
 
-#: ../src/gui/app1/session/backup.cs:140
+#: ../src/gui/app1/session/backup.cs:162
 #, csharp-format
 msgid "You will be prompted for a backup in {0} days."
 msgstr "Програма попросить вас зробити резервну копію за {0} днів."
 
-#: ../src/gui/app1/session/backup.cs:147
+#: ../src/gui/app1/session/backup.cs:169
 msgid ""
 "You will no longer be bothered with scheduled backups, but you can continue "
 "backing up by clicking on"
@@ -7462,22 +7471,38 @@ msgstr ""
 "Програма більше не турбуватиме вас повідомленнями щодо запланованих "
 "резервних копіювань, але ви можете продовжити резервне копіювання натисканням"
 
-#: ../src/gui/app1/session/backup.cs:208
+#: ../src/gui/app1/session/backup.cs:230
 msgid "Copy database to:"
 msgstr "Копіювати базу даних сюди:"
 
-#: ../src/gui/app1/session/backup.cs:212 ../src/gui/networks.cs:418
+#: ../src/gui/app1/session/backup.cs:234 ../src/gui/networks.cs:418
 msgid "Select"
 msgstr "Вибрати"
 
-#: ../src/gui/app1/session/backup.cs:335
+#: ../src/gui/app1/session/backup.cs:334
+#| msgid "Checking …"
+msgid "Compressing …"
+msgstr "Стискання…"
+
+#: ../src/gui/app1/session/backup.cs:361
 #, csharp-format
 msgid "Copied in {0} ms."
 msgstr "Скопійовано за {0} мс."
 
-#: ../src/gui/app1/session/backup.cs:339
-msgid "Failed, maybe the disk is full."
-msgstr "Помилка. Можливо, диск переповнено."
+#: ../src/gui/app1/session/backup.cs:364
+#, csharp-format
+#| msgid "Copied in {0} ms."
+msgid "Compressed in {0} s."
+msgstr "Стиснено за {0} с."
+
+#: ../src/gui/app1/session/backup.cs:367
+msgid "Failed at compress."
+msgstr "Не вдалося стиснути."
+
+#: ../src/gui/app1/session/backup.cs:369
+#| msgid "Failed, maybe the disk is full."
+msgid "Copy failed, maybe the disk is full."
+msgstr "Помилка копіювання. Можливо, диск переповнено."
 
 #: ../src/gui/app1/session/export.cs:74
 msgid "Export session to:"
@@ -7519,7 +7544,7 @@ msgstr "Помилка під час імпорту даних."
 msgid "Open another database"
 msgstr "Відкрити іншу базу даних"
 
-#: ../src/gui/app1/session/main.cs:283
+#: ../src/gui/app1/session/main.cs:285
 msgid "No data. Please, perform tests."
 msgstr "Немає даних. Будь ласка, виконайте тести."
 

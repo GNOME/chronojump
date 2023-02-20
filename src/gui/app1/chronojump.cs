@@ -699,6 +699,8 @@ public partial class ChronoJumpWindow
 		createComboSelectRunsEvolution(true);
 		createComboSelectRunsEvolutionDistance();
 		createComboSelectRunsInterval(true);
+		createComboSelectContactsTop (); //need to at least have it not null (to not crash on a import session)
+
 
 		//reaction_times has no combo
 		//createComboPulses();
@@ -851,8 +853,6 @@ public partial class ChronoJumpWindow
 			else if (preferences.lastMode != Constants.Modes.UNDEFINED)
 				current_mode = preferences.lastMode; //needed for show_start_page () below
 		}
-
-		createComboSelectContactsTop (); //need to at least have it not null (to not crash on a import session)
 
 		initialize_menu_or_menu_tiny();
 

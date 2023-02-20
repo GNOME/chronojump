@@ -104,6 +104,40 @@ public abstract class CairoGraphForceSensor : CairoXY
 		g.SetSourceRGB(0, 0, 0);
 	}
 
+	protected void paintTriggers (List<PointF> points_l, TriggerList triggerList)
+	{
+		g.LineWidth = 1;
+		int bucleStartPoints = points_l.Count -2; //to start searching points for each trigger since last one
+
+		foreach (Trigger trigger in triggerList.GetList())
+		{
+			for (int i = bucleStartPoints; i >= 0; i --)
+			{
+				/* This fixes crash when triggers are done after force capture end
+				 * triggers are searched from last (right) to first (left).
+				 * If right is just at the end, bucleStartPoints will be set at end, and i will fail at next iteration
+				 */
+				if (i +1 >= points_l.Count)
+					continue;
+
+				if (points_l[i].X <= trigger.Us)
+				{
+					int bestFit = i+1;
+					if (MathUtil.PassedSampleIsCloserToCriteria (
+								points_l[i].X, points_l[i+1].X, trigger.Us))
+						bestFit = i;
+
+					paintVerticalTriggerLine (g, trigger, timeUnits.MICROSECONDS,
+							Util.TrimDecimals (points_l[bestFit].Y,1), textHeight -3);
+
+					bucleStartPoints = bestFit;
+					break;
+				}
+			}
+		}
+		g.SetSourceColor (black);
+	}
+
 	protected override void writeTitle()
 	{
 	}
@@ -354,38 +388,7 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 
 		// paint triggers
 		if (points_l != null && points_l.Count > 3 && graphInited && triggerList != null && triggerList.Count() > 0)
-		{
-			g.LineWidth = 1;
-			int bucleStartPoints = points_l.Count -2; //to start searching points for each trigger since last one
-
-			foreach (Trigger trigger in triggerList.GetList())
-			{
-				for (int i = bucleStartPoints; i >= 0; i --)
-				{
-					/* This fixes crash when triggers are done after force capture end
-					 * triggers are searched from last (right) to first (left).
-					 * If right is just at the end, bucleStartPoints will be set at end, and i will fail at next iteration
-					 */
-					if (i +1 >= points_l.Count)
-						continue;
-
-					if (points_l[i].X <= trigger.Us)
-					{
-						int bestFit = i+1;
-						if (MathUtil.PassedSampleIsCloserToCriteria (
-									points_l[i].X, points_l[i+1].X, trigger.Us))
-							bestFit = i;
-
-						paintVerticalTriggerLine (g, trigger, timeUnits.MICROSECONDS,
-								Util.TrimDecimals (points_l[bestFit].Y,1), textHeight -3);
-
-						bucleStartPoints = bestFit;
-						break;
-					}
-				}
-			}
-			g.SetSourceColor (black);
-		}
+			paintTriggers (points_l, triggerList);
 
 		return true;
 	}
@@ -445,7 +448,7 @@ public class CairoGraphForceSensorAI : CairoGraphForceSensor
 			List<PointF> points_l,
 			int minDisplayFNegative, int minDisplayFPositive,
 			int rectangleN, int rectangleRange,
-			//TriggerList triggerList,
+			TriggerList triggerList,
 			int hscaleSampleA, int hscaleSampleB, bool zoomed,
 			int fMaxAvgSampleStart, int fMaxAvgSampleEnd, double fMaxAvgForce,
 			ForceSensorExercise exercise, List<ForceSensorRepetition> reps_l,
@@ -458,7 +461,7 @@ public class CairoGraphForceSensorAI : CairoGraphForceSensor
 		if(doSendingList (font, points_l,
 					minDisplayFNegative, minDisplayFPositive,
 					rectangleN, rectangleRange,
-					//triggerList,
+					triggerList,
 					hscaleSampleA, hscaleSampleB, zoomed,
 					fMaxAvgSampleStart, fMaxAvgSampleEnd, fMaxAvgForce,
 					exercise, reps_l,
@@ -474,7 +477,7 @@ public class CairoGraphForceSensorAI : CairoGraphForceSensor
 			List<PointF> points_l,
 			int minDisplayFNegative, int minDisplayFPositive,
 			int rectangleN, int rectangleRange,
-			//TriggerList triggerList,
+			TriggerList triggerList,
 			int hscaleSampleA, int hscaleSampleB, bool zoomed,
 			int fMaxAvgSampleStart, int fMaxAvgSampleEnd, double fMaxAvgForce,
 			ForceSensorExercise exercise, List<ForceSensorRepetition> reps_l,
@@ -698,7 +701,9 @@ public class CairoGraphForceSensorAI : CairoGraphForceSensor
 			points_l_painted = points_l.Count;
 		}
 
-		// paint triggers TODO
+		// paint triggers
+		if (points_l != null && points_l.Count > 3 && graphInited && triggerList != null && triggerList.Count() > 0)
+			paintTriggers (points_l, triggerList);
 
 		return true;
 	}

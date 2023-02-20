@@ -1321,9 +1321,9 @@ public partial class ChronoJumpWindow
 		List<PointF> cairoGraphForceSensorSignalPoints_l_copy = new List<PointF>();
 		for (int i = 0; i < pointsToCopy; i ++)
 			cairoGraphForceSensorSignalPoints_l_copy.Add (cairoGraphForceSensorSignalPoints_l[i]);
+		same for trigger
 		*/
 
-		//TODO: same for trigger
 
 		int fMaxAvgSampleStart = -1;
 		int fMaxAvgSampleEnd = -1;
@@ -1355,7 +1355,7 @@ public partial class ChronoJumpWindow
 				sendPoints_l,
 				-50, 50, //minimum Y display from -50 to 50
 				rectangleN, rectangleRange,
-				//triggerListForceSensor_copy,
+				triggerListForceSensor,
 				hscaleSampleStart, hscaleSampleEnd, forceSensorZoomApplied,
 				fMaxAvgSampleStart, fMaxAvgSampleEnd, fsMaxAvgForce,
 				currentForceSensorExercise, reps_l,

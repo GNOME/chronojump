@@ -362,6 +362,13 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 			{
 				for (int i = bucleStartPoints; i >= 0; i --)
 				{
+					/* This fixes crash when triggers are done after force capture end
+					 * triggers are searched from last (right) to first (left).
+					 * If right is just at the end, bucleStartPoints will be set at end, and i will fail at next iteration
+					 */
+					if (i +1 >= points_l.Count)
+						continue;
+
 					if (points_l[i].X <= trigger.Us)
 					{
 						int bestFit = i+1;

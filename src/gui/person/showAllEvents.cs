@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2022   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2004-2023   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -45,16 +45,18 @@ public class PersonShowAllEventsWindow
 	[Widget] Gtk.TreeView treeview_person_show_all_events;
 	[Widget] Gtk.Box hbox_combo_persons;
 	[Widget] Gtk.ComboBox combo_persons;
+	[Widget] Gtk.Button button_load_session;
 
 	public Gtk.Button fakeButtonDone;
 
 	TreeStore store;
 	static PersonShowAllEventsWindow PersonShowAllEventsWindowBox;
 
-	private int sessionID;
+	private int currentSessionID;
+	private int selectedSessionID;
 
 
-	PersonShowAllEventsWindow (Gtk.Window parent, int sessionID, Person currentPerson)
+	PersonShowAllEventsWindow (Gtk.Window parent, int currentSessionID, Person currentPerson)
 	{
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "person_show_all_events.glade", "person_show_all_events", "chronojump");
@@ -75,28 +77,32 @@ public class PersonShowAllEventsWindow
 		}
 
 		person_show_all_events.Parent = parent;
-		this.sessionID = sessionID;
+		this.currentSessionID = currentSessionID;
 
 		fakeButtonDone = new Gtk.Button();
 
 		label_person_name.Text = currentPerson.Name;
-		createComboPersons(sessionID, currentPerson.UniqueID.ToString(), currentPerson.Name);
+		createComboPersons(currentSessionID, currentPerson.UniqueID.ToString(), currentPerson.Name);
 		createTreeView(treeview_person_show_all_events);
 		store = new TreeStore(
+				typeof (string), //sessionID (hidden)
 				typeof (string), typeof (string), typeof (string), //session
-				typeof (string), typeof(string), //jumps
-				typeof(string), typeof(string), typeof(string), //races
-				typeof (string), typeof(string), //isometric, elastic
-				typeof (string), typeof(string) ); //weights, inertial
+				typeof (string), typeof (string), //jumps
+				typeof (string), typeof (string), typeof (string), //races
+				typeof (string), typeof (string), //isometric, elastic
+				typeof (string), typeof (string) ); //weights, inertial
 		treeview_person_show_all_events.Model = store;
 		fillTreeView(treeview_person_show_all_events,store, currentPerson.UniqueID);
+
+		treeview_person_show_all_events.CursorChanged += on_treeview_cursor_changed;
+		//treeview_person_show_all_events.RowActivated += on_row_double_clicked;
 	}
 	
 	static public PersonShowAllEventsWindow Show (Gtk.Window parent,
-			int sessionID, Person currentPerson, bool allowChangePerson, Gdk.Color colorBackground)
+			int currentSessionID, Person currentPerson, bool allowChangePerson, Gdk.Color colorBackground)
 	{
 		if (PersonShowAllEventsWindowBox == null) {
-			PersonShowAllEventsWindowBox = new PersonShowAllEventsWindow (parent, sessionID, currentPerson);
+			PersonShowAllEventsWindowBox = new PersonShowAllEventsWindow (parent, currentSessionID, currentPerson);
 		}
 
 		if(allowChangePerson)
@@ -124,13 +130,13 @@ public class PersonShowAllEventsWindow
 		radio_session_toggled_do (); 	//this will update combo and treeview
 	}
 
-	private void createComboPersons (int sessionID, string personID, string personName)
+	private void createComboPersons (int currentSessionID, string personID, string personName)
 	{
 		combo_persons = ComboBox.NewText ();
 
 		int inSession = -1;		//select persons from all sessions
 		if (radio_session_current.Active)
-			inSession = sessionID;	//select only persons who are on currentSession
+			inSession = currentSessionID;	//select only persons who are on currentSession
 
 		string filter = "";
 		if (entry_filter != null && entry_filter.Text != "")
@@ -162,11 +168,12 @@ public class PersonShowAllEventsWindow
 		string myText = UtilGtk.ComboGetActive(combo_persons);
 
 		store = new TreeStore(
+				typeof (string), //sessionID (hidden)
 				typeof (string), typeof (string), typeof (string), //session
-				typeof (string), typeof(string), //jumps
-				typeof(string), typeof(string), typeof(string), //races
-				typeof (string), typeof(string), //isometric, elastic
-				typeof (string), typeof(string) ); //weights, inertial
+				typeof (string), typeof (string), //jumps
+				typeof (string), typeof (string), typeof (string), //races
+				typeof (string), typeof (string), //isometric, elastic
+				typeof (string), typeof (string) ); //weights, inertial
 		treeview_person_show_all_events.Model = store;
 
 		if(myText != "") {
@@ -194,17 +201,25 @@ public class PersonShowAllEventsWindow
 
 		if(myText != "") {
 			string [] myStringFull = myText.Split(new char[] {':'});
-			createComboPersons(sessionID, myStringFull[0], myStringFull[1] );
+			createComboPersons(currentSessionID, myStringFull[0], myStringFull[1] );
 		} else
-			createComboPersons(sessionID, "-1", "" );
+			createComboPersons(currentSessionID, "-1", "" );
 
 		on_combo_persons_changed (0, new EventArgs ());	//called for updating the treeview ifcombo_persons.Entry changed
+
+		button_load_session.Visible = radio_session_all.Active;
 	}
 	
 	private void createTreeView (Gtk.TreeView tv)
 	{
 		tv.HeadersVisible=true;
 		int count = 0;
+
+		//invisible sessionID column
+		Gtk.TreeViewColumn sessionIDCol = new Gtk.TreeViewColumn ("sessionID", new CellRendererText(), "text", count ++);
+		sessionIDCol.Visible = false;
+		tv.AppendColumn (sessionIDCol);
+
 		tv.AppendColumn ( Catalog.GetString ("Date"), new CellRendererText(), "text", count++);
 		tv.AppendColumn ( Catalog.GetString ("Session name"), new CellRendererText(), "text", count++);
 		tv.AppendColumn ( Catalog.GetString ("Place"), new CellRendererText(), "text", count++);
@@ -225,28 +240,15 @@ public class PersonShowAllEventsWindow
 	
 	private void fillTreeView (Gtk.TreeView tv, TreeStore store, int personID)
 	{
-		/* old code using SqlitePerson.SelectAllPersonEvents
-		ArrayList myEvents = new ArrayList ();
-		if (personID >= 0)
-			myEvents = SqlitePerson.SelectAllPersonEvents(personID); 
-
-		foreach (string myEvent in myEvents) {
-			string [] myStr = myEvent.Split(new char[] {':'});
-
-			store.AppendValues (myStr[0], myStr[1], myStr[2], myStr[3], myStr[4], myStr[5], 
-					myStr[6], myStr[7], myStr[8], myStr[9], myStr[10], myStr[11], myStr[12], myStr[13], myStr[14]);
-		}
-		*/
-
-		//new code using SqliteSession.SelectAllSessionsTestsCount
 		if (personID < 0)
 			return;
 
 		List<SessionTestsCount> stc_l = SqliteSession.SelectAllSessionsTestsCount (personID); //returns a string of values separated by ':'
 		foreach (SessionTestsCount stc in stc_l)
 		{
-			string [] strings = new string [12];
+			string [] strings = new string [13];
 			int i = 0;
+			strings[i ++] = stc.sessionParams.ID.ToString ();
 			strings[i ++] = stc.sessionParams.Date;
 			strings[i ++] = stc.sessionParams.Name;
 			//no tags
@@ -265,9 +267,37 @@ public class PersonShowAllEventsWindow
 			store.AppendValues (strings);
 		}
 
-		store.SetSortFunc (0, UtilGtk.DateColumnCompare);
-		store.SetSortColumnId (0, Gtk.SortType.Descending); //date
+		store.SetSortFunc (1, UtilGtk.DateColumnCompare);
+		store.SetSortColumnId (1, Gtk.SortType.Descending); //date
 		store.ChangeSortColumn();
+
+		on_treeview_cursor_changed (treeview_person_show_all_events, new EventArgs ());
+	}
+
+	private void on_treeview_cursor_changed (object o, EventArgs args)
+	{
+		LogB.Information("on_treeview_cursor_changed");
+
+		TreeIter iter = new TreeIter();
+
+		TreeModel myModel = treeview_person_show_all_events.Model;
+		if (treeview_person_show_all_events.Selection.GetSelected (out myModel, out iter))
+		{
+			string selected = (treeview_person_show_all_events.Model.GetValue (iter, 0) ).ToString();
+			if (Util.IsNumber (selected, false) && Convert.ToInt32 (selected) != currentSessionID)
+			{
+				selectedSessionID = Convert.ToInt32 (selected);
+				button_load_session.Sensitive = radio_session_all.Active;
+				return;
+			}
+		}
+
+		button_load_session.Sensitive = false;
+	}
+
+	private void on_button_load_session_clicked (object o, EventArgs args)
+	{
+		//TODO
 	}
 
 	private void on_button_close_clicked (object o, EventArgs args)

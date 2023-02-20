@@ -228,6 +228,21 @@
                 <property name="position">0</property>
               </packing>
             </child>
+            <child>
+              <widget class="GtkButton" id="button_load_session">
+                <property name="label">Load session</property>
+                <property name="can_focus">True</property>
+                <property name="can_default">True</property>
+                <property name="receives_default">False</property>
+                <signal name="clicked" handler="on_button_load_session_clicked" swapped="no"/>
+                <accelerator key="Escape" signal="clicked"/>
+              </widget>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">False</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
           </widget>
           <packing>
             <property name="expand">False</property>

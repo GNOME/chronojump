@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2018-2020   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2018-2023   Xavier de Blas <xaviblas@gmail.com>
  */
 
 //this file has methods of ChronoJumpWindow related to manage persons
@@ -356,9 +356,27 @@ public partial class ChronoJumpWindow
 
 		personShowAllEventsWin = PersonShowAllEventsWindow.Show(app1,
 				currentSession.UniqueID, p, true, preferences.colorBackground);
+
+		personShowAllEventsWin.FakeButtonLoadSession.Clicked += new EventHandler (on_show_all_persons_load_session);
 	}
-	
-	
+
+	private void on_show_all_persons_load_session (object o, EventArgs args)
+	{
+		currentSession = SqliteSession.Select (personShowAllEventsWin.SelectedSessionID.ToString ());
+
+		on_load_session_accepted();
+
+		//on loaded session make selected person the same than in showAllPersonsWin combo
+		if (personShowAllEventsWin.SelectedPersonID >= 0)
+		{
+			int rowToSelect = myTreeViewPersons.FindRow (personShowAllEventsWin.SelectedPersonID);
+			if(rowToSelect != -1)
+				selectRowTreeView_persons (treeview_persons, rowToSelect);
+		}
+
+		personShowAllEventsWin.CloseWindowAfterLoadSession ();
+	}
+
 	private void on_delete_current_person_from_session_clicked (object o, EventArgs args) {
 		LogB.Information("delete current person from this session");
 		ConfirmWindow confirmWin = ConfirmWindow.Show(
@@ -454,12 +472,12 @@ public partial class ChronoJumpWindow
 	{
 		personShowAllEventsWin = PersonShowAllEventsWindow.Show(app1,
 				currentSession.UniqueID, currentPerson, false, preferences.colorBackground);
-		personShowAllEventsWin.FakeButtonDone.Clicked -= new EventHandler(on_person_show_all_persons_event_close);
-		personShowAllEventsWin.FakeButtonDone.Clicked += new EventHandler(on_person_show_all_persons_event_close);
+		personShowAllEventsWin.FakeButtonDoneCalledFromTop.Clicked -= new EventHandler(on_person_show_all_persons_event_close);
+		personShowAllEventsWin.FakeButtonDoneCalledFromTop.Clicked += new EventHandler(on_person_show_all_persons_event_close);
 	}
 	private void on_person_show_all_persons_event_close (object o, EventArgs args)
 	{
-		personShowAllEventsWin.FakeButtonDone.Clicked -= new EventHandler(on_person_show_all_persons_event_close);
+		personShowAllEventsWin.FakeButtonDoneCalledFromTop.Clicked -= new EventHandler(on_person_show_all_persons_event_close);
 
 		ArrayList myPersons = SqlitePersonSession.SelectCurrentSessionPersons(
 				currentSession.UniqueID,

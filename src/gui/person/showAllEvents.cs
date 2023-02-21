@@ -47,11 +47,15 @@ public class PersonShowAllEventsWindow
 	[Widget] Gtk.ComboBox combo_persons;
 	[Widget] Gtk.Button button_load_session;
 
-	public Gtk.Button fakeButtonDone;
+	public Gtk.Button fakeButtonLoadSession;
+
+	//when using persons at top, at close this window need to show again the persons top window
+	public Gtk.Button fakeButtonDoneCalledFromTop;
 
 	TreeStore store;
 	static PersonShowAllEventsWindow PersonShowAllEventsWindowBox;
 
+	private int selectedPersonID;
 	private int currentSessionID;
 	private int selectedSessionID;
 
@@ -79,7 +83,8 @@ public class PersonShowAllEventsWindow
 		person_show_all_events.Parent = parent;
 		this.currentSessionID = currentSessionID;
 
-		fakeButtonDone = new Gtk.Button();
+		fakeButtonLoadSession = new Gtk.Button();
+		fakeButtonDoneCalledFromTop = new Gtk.Button();
 
 		label_person_name.Text = currentPerson.Name;
 		createComboPersons(currentSessionID, currentPerson.UniqueID.ToString(), currentPerson.Name);
@@ -178,9 +183,10 @@ public class PersonShowAllEventsWindow
 
 		if(myText != "") {
 			string [] myStringFull = myText.Split(new char[] {':'});
-			fillTreeView( treeview_person_show_all_events, store, Convert.ToInt32(myStringFull[0]) );
+			selectedPersonID = Convert.ToInt32 (myStringFull[0]);
+			fillTreeView (treeview_person_show_all_events, store, selectedPersonID);
 		} else
-			fillTreeView( treeview_person_show_all_events, store, -1);
+			fillTreeView (treeview_person_show_all_events, store, -1);
 	}
 	
 	private void on_radio_session_toggled (object o, EventArgs args)
@@ -240,6 +246,8 @@ public class PersonShowAllEventsWindow
 	
 	private void fillTreeView (Gtk.TreeView tv, TreeStore store, int personID)
 	{
+		selectedSessionID = -1;
+
 		if (personID < 0)
 			return;
 
@@ -297,25 +305,48 @@ public class PersonShowAllEventsWindow
 
 	private void on_button_load_session_clicked (object o, EventArgs args)
 	{
-		//TODO
+		if (selectedSessionID >= 0)
+			fakeButtonLoadSession.Click ();
 	}
 
 	private void on_button_close_clicked (object o, EventArgs args)
 	{
-		fakeButtonDone.Click();
-		PersonShowAllEventsWindowBox.person_show_all_events.Hide();
-		PersonShowAllEventsWindowBox = null;
-	}
-	
-	private void on_delete_event (object o, DeleteEventArgs args)
-	{
-		fakeButtonDone.Click();
+		fakeButtonDoneCalledFromTop.Click();
 		PersonShowAllEventsWindowBox.person_show_all_events.Hide();
 		PersonShowAllEventsWindowBox = null;
 	}
 
-	public Button FakeButtonDone
+	//this is never called when persons is on top
+	public void CloseWindowAfterLoadSession ()
 	{
-		get { return fakeButtonDone; }
+		PersonShowAllEventsWindowBox.person_show_all_events.Hide();
+		PersonShowAllEventsWindowBox = null;
+	}
+
+	private void on_delete_event (object o, DeleteEventArgs args)
+	{
+		fakeButtonDoneCalledFromTop.Click();
+		PersonShowAllEventsWindowBox.person_show_all_events.Hide();
+		PersonShowAllEventsWindowBox = null;
+	}
+
+	public int SelectedPersonID
+	{
+		get { return selectedPersonID; }
+	}
+
+	public int SelectedSessionID
+	{
+		get { return selectedSessionID; }
+	}
+
+	public Button FakeButtonLoadSession
+	{
+		get { return fakeButtonLoadSession; }
+	}
+
+	public Button FakeButtonDoneCalledFromTop
+	{
+		get { return fakeButtonDoneCalledFromTop; }
 	}
 }

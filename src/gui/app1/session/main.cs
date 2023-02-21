@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2020   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2004-2023   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -68,6 +68,13 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.CheckButton app1s_checkbutton_show_data_elastic;
 	[Widget] Gtk.CheckButton app1s_checkbutton_show_data_weights;
 	[Widget] Gtk.CheckButton app1s_checkbutton_show_data_inertial;
+	[Widget] Gtk.Viewport app1s_viewport_checkbutton_show_data_jumps;
+	[Widget] Gtk.Viewport app1s_viewport_checkbutton_show_data_runs;
+	[Widget] Gtk.Viewport app1s_viewport_checkbutton_show_data_isometric;
+	[Widget] Gtk.Viewport app1s_viewport_checkbutton_show_data_elastic;
+	[Widget] Gtk.Viewport app1s_viewport_checkbutton_show_data_weights;
+	[Widget] Gtk.Viewport app1s_viewport_checkbutton_show_data_inertial;
+
 	//[Widget] Gtk.CheckButton app1s_checkbutton_show_data_rt;
 	//[Widget] Gtk.CheckButton app1s_checkbutton_show_data_other;
 	[Widget] Gtk.Image app1s_image_show_data_persons;

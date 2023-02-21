@@ -138,6 +138,13 @@ public partial class ChronoJumpWindow
 		app1s_checkbutton_show_data_weights.Active = (current_mode == Constants.Modes.POWERGRAVITATORY);
 		app1s_checkbutton_show_data_inertial.Active = (current_mode == Constants.Modes.POWERINERTIAL);
 
+		UtilGtk.ViewportColor (app1s_viewport_checkbutton_show_data_jumps, UtilGtk.YELLOW);
+		UtilGtk.ViewportColor (app1s_viewport_checkbutton_show_data_runs, UtilGtk.YELLOW);
+		UtilGtk.ViewportColor (app1s_viewport_checkbutton_show_data_isometric, UtilGtk.YELLOW);
+		UtilGtk.ViewportColor (app1s_viewport_checkbutton_show_data_elastic, UtilGtk.YELLOW);
+		UtilGtk.ViewportColor (app1s_viewport_checkbutton_show_data_weights, UtilGtk.YELLOW);
+		UtilGtk.ViewportColor (app1s_viewport_checkbutton_show_data_inertial, UtilGtk.YELLOW);
+
 		sessionLoadWinSignals = true;
 
 		app1s_createTreeView (app1s_treeview_session_load, app1s_type == app1s_windowType.LOAD_SESSION,
@@ -368,6 +375,27 @@ public partial class ChronoJumpWindow
 		app1s_recreateTreeView("changed filter by sensor checkbox");
 	}
 
+	private void sensorViewportVisibility ()
+	{
+		app1s_viewport_checkbutton_show_data_jumps.Visible =
+			(app1s_check_filter_by_sensor.Active && app1s_checkbutton_show_data_jumps.Active);
+
+		app1s_viewport_checkbutton_show_data_runs.Visible =
+			(app1s_check_filter_by_sensor.Active && app1s_checkbutton_show_data_runs.Active);
+
+		app1s_viewport_checkbutton_show_data_isometric.Visible =
+			(app1s_check_filter_by_sensor.Active && app1s_checkbutton_show_data_isometric.Active);
+
+		app1s_viewport_checkbutton_show_data_elastic.Visible =
+			(app1s_check_filter_by_sensor.Active && app1s_checkbutton_show_data_elastic.Active);
+
+		app1s_viewport_checkbutton_show_data_weights.Visible =
+			(app1s_check_filter_by_sensor.Active && app1s_checkbutton_show_data_weights.Active);
+
+		app1s_viewport_checkbutton_show_data_inertial.Visible =
+			(app1s_check_filter_by_sensor.Active && app1s_checkbutton_show_data_inertial.Active);
+	}
+
 	protected void app1s_on_entry_search_filter_changed (object o, EventArgs args) {
 		app1s_recreateTreeView("changed search filter");
 	}
@@ -537,6 +565,8 @@ public partial class ChronoJumpWindow
 			bool showJumps, bool showRuns, bool showIsometric, bool showElastic,
 			bool showWeights, bool showInertial)//, bool showRT, bool showOther)
 	{
+		sensorViewportVisibility ();
+
 		string filterName = "";
 		if(app1s_entry_search_filter.Text.ToString().Length > 0)
 			filterName = app1s_entry_search_filter.Text.ToString();

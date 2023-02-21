@@ -763,6 +763,8 @@ public class ForceSensorExerciseWindow
 			return;
 
 		entry_name.Text = Util.MakeValidSQL(entry.Text);
+		entry_name.Text = Util.RemoveBackSlash (entry_name.Text);
+		entry_name.Text = Util.RemoveSlash (entry_name.Text);
 	}
 	private void on_entry_description_changed (object o, EventArgs args)
 	{

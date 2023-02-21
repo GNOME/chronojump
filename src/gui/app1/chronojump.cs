@@ -5889,6 +5889,10 @@ public partial class ChronoJumpWindow
 			selectedRunInterval = currentRunInterval;
 			selectedRunIntervalType = currentRunIntervalType;
 
+			//fix showing 2414 at end of 3L3R capture. With this shows: 24,14
+			if (selectedRunIntervalType.DistancesString != "")
+				selectedRunIntervalType.DistancesString = Util.ChangeDecimalSeparator (selectedRunIntervalType.DistancesString);
+
 			currentRunInterval.MetersSecondsPreferred = preferences.metersSecondsPreferred;
 
 			//if user clicked in finish earlier

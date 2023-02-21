@@ -331,7 +331,12 @@ public partial class ChronoJumpWindow
 		}
 
 		if (app1s_copyRecursiveSuccess)
-			app1s_label_backup_progress.Text = Catalog.GetString("Compressing …");
+		{
+			app1s_label_backup_progress.Text = Catalog.GetString("Compressing …") + "\n" +
+				string.Format (Catalog.GetString ("Please, wait approximately {0} s."),
+						Convert.ToInt32 (12 * UtilAll.DivideSafe (app1s_copyRecursiveElapsedMs, 1000)));
+			app1s_hbox_backup_doing.Visible = false;
+		}
 
 		app1s_pulsebarBackupActivity.Pulse();
 		app1s_pulsebarBackupDirs.Fraction = UtilAll.DivideSafeFraction(app1s_uc.BackupMainDirsCount, 6);
@@ -500,9 +505,9 @@ public partial class ChronoJumpWindow
 		parameters.Add (app1s_fullPathCopy);
 
 		// option 1 add the folder with the files (better to have a dir that can be uncompressed in order to be opened from importer)
-		// parameters.Add (app1s_fileCopy);
+		parameters.Add (app1s_tmpCopy);
 		// option 2 without the parent folder (cleaner, but do not found how to import)
-		parameters.Add (app1s_tmpCopy + Path.DirectorySeparatorChar + "*");
+		//parameters.Add (app1s_tmpCopy + Path.DirectorySeparatorChar + "*");
 
 		string executable = ExecuteProcess.Get7zExecutable (operatingSystem);
 
@@ -511,8 +516,10 @@ public partial class ChronoJumpWindow
 		app1s_copyCompressSuccess = execute_result.success;
 
 
+		/*
+		 * unsuccessful tests on get progress of 7zip
+		 *
 		//at background
-/*
 		Process process = new Process ();
 		app1s_copyCompressSuccess = ExecuteProcess.RunAtBackground (
 				ref process, executable, parameters, false, false, false, true, false);
@@ -531,26 +538,22 @@ public partial class ChronoJumpWindow
 					LogB.Information (sr.ReadLine());
 				}
 			}
-*/
-			/*
-//			process.BeginOutputReadLine();
+			process.BeginOutputReadLine();
 			while (! process.StandardOutput.EndOfStream)
 			{
-//				var line = process.StandardOutput.ReadLine();
-//				LogB.Information (line);
+				var line = process.StandardOutput.ReadLine();
+				LogB.Information (line);
 				LogB.Information (process.StandardOutput.ReadToEnd().TrimEnd ('\n'));
 			}
-			*/
 			//StreamReader sr = process.StandardOutput;
 
-//			process.WaitForExit();
-//		}
+			process.WaitForExit();
+		}
 
 
-		/*
 		//using (Process process = new Process())
 		Process process = new Process();
-//		{
+		{
 			app1s_copyCompressSuccess = ExecuteProcess.RunAtBackground (
 					ref process, executable, parameters, false, false, false, true, false);
 
@@ -562,8 +565,8 @@ public partial class ChronoJumpWindow
 			LogB.Information(output);
 
 			process.WaitForExit();
-//		}
-//		*/
+		}
+		*/
 
 		sw.Stop();
 		app1s_copyCompressElapsedMs = sw.ElapsedMilliseconds;

@@ -2326,10 +2326,12 @@ public partial class ChronoJumpWindow
 				checkFileOp == Constants.CheckFileOp.FORCESENSOR_SAVE_IMAGE_RFD_MANUAL ||
 				checkFileOp == Constants.CheckFileOp.FORCESENSOR_ANALYZE_SAVE_AB )
 		{
+			string exName = Util.RemoveBackSlash (Util.RemoveSlash (currentForceSensorExercise.Name));
+
 			if(currentForceSensorExercise.ComputeAsElastic)
-				nameString += "_" + currentForceSensorExercise.Name + "_Stiffness" + currentForceSensor.Stiffness.ToString();
+				nameString += "_" + exName + "_Stiffness" + currentForceSensor.Stiffness.ToString();
 			else
-				nameString += "_" + currentForceSensorExercise.Name;
+				nameString += "_" + exName;
 
 			nameString += "_" + getLaterality(true);
 		}

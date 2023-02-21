@@ -2602,9 +2602,10 @@ public class ForceSensorAnalyzeInstant
 		double current = 0;
 		int countRFDMax = countA; //count where maxRFD is found
 
-		for(int i = countA; i < countB; i ++)
+		for(int i = countA; i < countB -2; i ++)
 		{
-			current = fscAIPoints.GetRFD(i-1, i+1);
+			//current = fscAIPoints.GetRFD(i-1, i+1);
+			current = fscAIPoints.GetRFD (i, i+2);
 			if(current > max)
 			{
 				max = current;
@@ -2700,7 +2701,7 @@ public class ForceSensorAnalyzeInstant
 		writer.WriteLine(exportCSVHeader(CalculedElasticPSAP, sep, false));
 
 		//write data
-		for(int i = countA; i <= countB; i ++)
+		for(int i = countA; i < countB -2; i ++)
 			writer.WriteLine(exportCSVIteration(CalculedElasticPSAP, sep, sepString, i));
 
 		writer.Flush();
@@ -2736,18 +2737,25 @@ public class ForceSensorAnalyzeInstant
 		double timeB = GetTimeMicros(countB);
 		double forceA = GetForceAtCount(countA);
 		double forceB = GetForceAtCount(countB);
-		double rfdA = CalculateRFD(countA -1, countA +1);
-		double rfdB = CalculateRFD(countB -1, countB +1);
+
+		/* as A and B cannot calcule rfd because pre and post values do not exists, just show ""
+		//double rfdA = CalculateRFD(countA -1, countA +1);
+		//double rfdB = CalculateRFD(countB -1, countB +1);
+		double rfdA = CalculateRFD (countA, countA);
+		double rfdB = CalculateRFD (countB, countB);
+		*/
+
 		double timeDiff = timeB - timeA;
 		double forceDiff =forceB - forceA;
-		double rfdDiff = rfdB - rfdA;
+		//double rfdDiff = rfdB - rfdA;
 
 		string str = Catalog.GetString("Difference") + sep;
 
 		str += "" + sep + 		//repetition
 			Util.DoubleToCSV(timeDiff, 3, sepString) + sep +
 			Util.DoubleToCSV(forceDiff, 3, sepString) + sep +
-			Util.DoubleToCSV(rfdDiff, 3, sepString);
+			//Util.DoubleToCSV(rfdDiff, 3, sepString);
+			"";
 
 		if(elastic)
 			str += sep + Util.DoubleToCSV(Position_l[countB] - Position_l[countA], 3, sepString) + sep +
@@ -2809,7 +2817,7 @@ public class ForceSensorAnalyzeInstant
 		str += ForceSensorRepetition.GetRepetitionCodeFromList(ForceSensorRepetition_l, i, fse.RepetitionsShow) + sep + 	//repetition
 			Util.DoubleToCSV(timeAtCount, sepString) + sep +
 			Util.DoubleToCSV(fscAIPoints.GetForceAtCount(i), sepString) + sep +
-			Util.DoubleToCSV(CalculateRFD(i-1, i+1), 3, sepString);
+			Util.DoubleToCSV(CalculateRFD (i, i+2), 3, sepString);
 
 		if(elastic)
 			str += sep + Util.DoubleToCSV(Position_l[i], 3, sepString) + sep +

@@ -2977,7 +2977,8 @@ LogB.Information(" fs R ");
 		}
 
 		//LogB.Information ("updateForceSensorCaptureSignalCairo 4");
-		cairoGraphForceSensorSignal.DoSendingList (preferences.fontType.ToString(),
+		cairoGraphForceSensorSignal.DoSendingList (
+				preferences.fontType.ToString(),
 				cairoGraphForceSensorSignalPoints_l_copy,
 				cairoGraphForceSensorSignalPointsDispl_l_copy,
 				paintPointsInterpolateCairo_l_copy, preferences.forceSensorFeedbackPathMin, preferences.forceSensorFeedbackPathMax,

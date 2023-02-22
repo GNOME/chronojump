@@ -27,6 +27,16 @@ public abstract class CairoGraphForceSensor : CairoXY
 {
 	protected int points_l_painted;
 
+	protected int pathLineWidthInN;
+
+	protected int minDisplayFNegative;
+	protected int minDisplayFPositive;
+	protected int rectangleN;
+	protected int rectangleRange;
+	protected List<PointF> points_l_interpolated_path;
+	protected int interpolatedMin;
+	protected int interpolatedMax;
+
 	protected void initForceSensor (DrawingArea area, string title)
 	{
 		this.area = area;
@@ -46,6 +56,8 @@ public abstract class CairoGraphForceSensor : CairoXY
 
 		yVariable = forceStr;
 		yUnits = "N";
+		yRightVariable = distanceStr;
+		yRightUnits = "m";
 
 		xAtMaxY = 0;
 		yAtMaxY = 0;
@@ -53,6 +65,38 @@ public abstract class CairoGraphForceSensor : CairoXY
 		yAtMinY = 0;
 
 		gridNiceSeps = 7;
+	}
+
+	protected void fixMaximums ()
+	{
+		if (minY > minDisplayFNegative)
+			minY = minDisplayFNegative;
+		if (absoluteMaxY < minDisplayFPositive)
+			absoluteMaxY = minDisplayFPositive;
+
+		if (rectangleRange > 0)
+		{
+			if (rectangleN < 0 && rectangleN - rectangleRange/2 < minY)
+				minY = rectangleN - rectangleRange/2;
+			if (rectangleN > 0 && rectangleN + rectangleRange/2 > absoluteMaxY)
+				absoluteMaxY = rectangleN + rectangleRange/2;
+		}
+
+		if (points_l_interpolated_path != null && points_l_interpolated_path.Count > 0)
+		{
+			if (interpolatedMin - pathLineWidthInN/2 < minY)
+				minY = interpolatedMin - pathLineWidthInN/2;
+			if (interpolatedMax + pathLineWidthInN/2 > absoluteMaxY)
+				absoluteMaxY = interpolatedMax + pathLineWidthInN/2;
+			//make the head of the worm fit inside the graph increasing rightMargin if needed
+			if  (calculatePathWidth ()/2 > rightMargin)
+				rightMargin = Convert.ToInt32 (Math.Ceiling (calculatePathWidth ()/2));
+		}
+	}
+
+	protected double calculatePathWidth ()
+	{
+		return Math.Abs (calculatePaintY (pathLineWidthInN) - calculatePaintY (0));
 	}
 
 	//instead of use totalMargins, use leftMargin and rightMargin to allow feedback path head be inside the graph (not at extreme right)
@@ -137,6 +181,18 @@ public abstract class CairoGraphForceSensor : CairoXY
 		}
 		g.SetSourceColor (black);
 	}
+	
+	//this is painted after the 1st serie because this changes the mins and max to be used on calculatePaintY
+	protected void paintAnotherSerie (List<PointF> p_l, int startAt, PlotTypes plotType, Cairo.Color color)
+	{
+		g.SetSourceColor (color);
+
+		findPointMaximums (false, p_l);
+		fixMaximums ();
+		paintGrid (gridTypes.HORIZONTALLINESATRIGHT, true);
+		paintAxisRight ();
+		plotRealPoints (plotType, p_l, startAt, false); //fast (but the difference is very low)
+	}
 
 	protected override void writeTitle()
 	{
@@ -145,10 +201,10 @@ public abstract class CairoGraphForceSensor : CairoXY
 
 public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 {
-	private int pathLineWidthInN;
 	private int accuracySamplesGood;
 	private int accuracySamplesBad;
 	private Cairo.Color colorPathBlue = colorFromRGB (178,223,238);
+	private int startAt;
 
 	//regular constructor
 	public CairoGraphForceSensorSignal (DrawingArea area, string title, int pathLineWidthInN)
@@ -165,6 +221,7 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 	//separated in two methods to ensure endGraphDisposing on any return of the other method
 	public void DoSendingList (string font,
 			List<PointF> points_l,
+			List<PointF> pointsDispl_l,
 			List<PointF> points_l_interpolated_path, int interpolatedMin, int interpolatedMax,
 			bool capturing, bool showAccuracy, int showLastSeconds,
 			int minDisplayFNegative, int minDisplayFPositive,
@@ -172,24 +229,31 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 			TriggerList triggerList,
 			bool forceRedraw, PlotTypes plotType)
 	{
-		if(doSendingList (font, points_l,
-					points_l_interpolated_path, interpolatedMin, interpolatedMax,
+		this.minDisplayFNegative = minDisplayFNegative;
+		this.minDisplayFPositive = minDisplayFPositive;
+		this.rectangleN = rectangleN;
+		this.rectangleRange = rectangleRange;
+		this.points_l_interpolated_path = points_l_interpolated_path;
+		this.interpolatedMin = interpolatedMin;
+		this.interpolatedMax = interpolatedMax;
+
+		if (doSendingList (font, points_l,
 					capturing, showAccuracy, showLastSeconds,
-					minDisplayFNegative, minDisplayFPositive,
-					rectangleN, rectangleRange,
 					triggerList,
 					forceRedraw, plotType))
+		{
+			if (pointsDispl_l != null && pointsDispl_l.Count > 0)
+				paintAnotherSerie (pointsDispl_l, startAt, plotType, bluePlots);
+
 			endGraphDisposing(g, surface, area.GdkWindow);
+		}
 	}
 
 	//similar to encoder method but calling configureTimeWindow and using minDisplayF(Negative/Positive)
 	//return true if graph is inited (to dispose it)
 	private bool doSendingList (string font,
 			List<PointF> points_l,
-			List<PointF> points_l_interpolated_path, int interpolatedMin, int interpolatedMax,
 			bool capturing, bool showAccuracy, int showLastSeconds,
-			int minDisplayFNegative, int minDisplayFPositive,
-			int rectangleN, int rectangleRange,
 			TriggerList triggerList,
 			bool forceRedraw, PlotTypes plotType)
 	{
@@ -200,29 +264,7 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 			maxValuesChanged = findPointMaximums(false, points_l);
 			//LogB.Information(string.Format("minY: {0}, maxY: {1}", minY, maxY));
 
-			if (minY > minDisplayFNegative)
-				minY = minDisplayFNegative;
-			if (absoluteMaxY < minDisplayFPositive)
-				absoluteMaxY = minDisplayFPositive;
-
-			if (rectangleRange > 0)
-			{
-				if (rectangleN < 0 && rectangleN - rectangleRange/2 < minY)
-					minY = rectangleN - rectangleRange/2;
-				if (rectangleN > 0 && rectangleN + rectangleRange/2 > absoluteMaxY)
-					absoluteMaxY = rectangleN + rectangleRange/2;
-			}
-
-			if (points_l_interpolated_path != null && points_l_interpolated_path.Count > 0)
-			{
-				if (interpolatedMin - pathLineWidthInN/2 < minY)
-					minY = interpolatedMin - pathLineWidthInN/2;
-				if (interpolatedMax + pathLineWidthInN/2 > absoluteMaxY)
-					absoluteMaxY = interpolatedMax + pathLineWidthInN/2;
-				//make the head of the worm fit inside the graph increasing rightMargin if needed
-				if  (calculatePathWidth ()/2 > rightMargin)
-					rightMargin = Convert.ToInt32 (Math.Ceiling (calculatePathWidth ()/2));
-			}
+			fixMaximums ();
 		}
 
 		bool graphInited = false;
@@ -266,7 +308,7 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 		}
 		pointsRadius = 1;
 
-		int startAt = 0;
+		startAt = 0;
 		if (showLastSeconds > 0 && points_l.Count > 1)
 			startAt = configureTimeWindow (points_l, showLastSeconds);
 
@@ -391,11 +433,6 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 			paintTriggers (points_l, triggerList);
 
 		return true;
-	}
-
-	private double calculatePathWidth ()
-	{
-		return Math.Abs (calculatePaintY (pathLineWidthInN) - calculatePaintY (0));
 	}
 
 	//for signals like forceSensor where points_l.X is time in microseconds and there is not a sample for each second (like encoder)

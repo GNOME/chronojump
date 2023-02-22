@@ -16,7 +16,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Copyright (C) 2004-2022   Xavier de Blas <xaviblas@gmail.com>
+ *  Copyright (C) 2004-2023   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -62,6 +62,8 @@ public abstract class CairoXY : CairoGeneric
 	protected string yVariable = "";
 	protected string xUnits = "";
 	protected string yUnits = "";
+	protected string yRightVariable = "";
+	protected string yRightUnits = "";
 
 	protected double minX = 0;
 	protected double maxX = 0;
@@ -221,7 +223,7 @@ public abstract class CairoXY : CairoGeneric
 				xAtMinY = p.X;
 				yAtMinY = p.Y; //(needed because maxY can increase if == to minY), and this yAtMinY refers to the best point
 			}
-			if(p.Y > maxY)
+			if(i == 0 || p.Y > maxY)
 			{
 				maxY = p.Y;
 				xAtMaxY = p.X; //used on raceAnalyzer
@@ -344,13 +346,27 @@ public abstract class CairoXY : CairoGeneric
 		g.LineWidth = 2;
 	}
 
+	protected void paintAxisRight ()
+	{
+		g.MoveTo (graphWidth - outerMargin, graphHeight - outerMargin);
+		g.LineTo (graphWidth - outerMargin, outerMargin);
+		g.Stroke ();
+		printYRightAxisText();
+		g.Stroke ();
+		g.LineWidth = 2;
+	}
+
 	protected virtual void printYAxisText()
 	{
-		printText(2, Convert.ToInt32(outerMargin/2), 0, textHeight, getYAxisLabel(), g, alignTypes.LEFT);
+		printText (outerMargin, Convert.ToInt32(outerMargin/2), 0, textHeight, getYAxisLabel(), g, alignTypes.CENTER);
+	}
+	protected virtual void printYRightAxisText()
+	{
+		printText (graphWidth -outerMargin, Convert.ToInt32 (outerMargin/2), 0, textHeight, getYRightAxisLabel(), g, alignTypes.CENTER);
 	}
 	protected virtual void printXAxisText()
 	{
-		printText(graphWidth - Convert.ToInt32(outerMargin/2), graphHeight - outerMargin, 0, textHeight, getXAxisLabel(), g, alignTypes.LEFT);
+		printText (graphWidth - Convert.ToInt32(outerMargin/2), graphHeight - outerMargin, 0, textHeight, getXAxisLabel(), g, alignTypes.LEFT);
 	}
 
 	protected string getXAxisLabel()
@@ -360,6 +376,10 @@ public abstract class CairoXY : CairoGeneric
 	protected string getYAxisLabel()
 	{
 		return getAxisLabel(yVariable, yUnits);
+	}
+	protected string getYRightAxisLabel()
+	{
+		return getAxisLabel (yRightVariable, yRightUnits);
 	}
 	protected string getAxisLabel(string variable, string units)
 	{

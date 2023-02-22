@@ -165,7 +165,7 @@ public class CairoGraphRaceAnalyzer : CairoXY
 					for(int i = 0 ; i < segmentCalcs.Count ; i ++)
 					{
 						double yValue = segmentCalcs.Dist_l[i];
-						paintHorizontalGridLine(g, Convert.ToInt32(calculatePaintY(yValue)), yValue.ToString(), textHeight -3);
+						paintHorizontalGridLine(g, Convert.ToInt32(calculatePaintY(yValue)), yValue.ToString(), textHeight -3, false);
 					}
 					g.Stroke ();
 					g.Restore();

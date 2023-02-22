@@ -16,7 +16,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Copyright (C) 2004-2022   Xavier de Blas <xaviblas@gmail.com>
+ *  Copyright (C) 2004-2023   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -153,7 +153,7 @@ public abstract class CairoGeneric
 	}
 
 	//TODO: fix if min == max (crashes)
-	protected enum gridTypes { BOTH, HORIZONTALLINES, VERTICALLINES }
+	protected enum gridTypes { BOTH, HORIZONTALLINES, HORIZONTALLINESATRIGHT, VERTICALLINES }
 	protected void paintGridNiceAutoValues (Cairo.Context g, double minX, double maxX, double minY, double maxY, int seps, gridTypes gridType, int fontH)
 	{
 		var gridXTuple = getGridStepAndBoundaries ((decimal) minX, (decimal) maxX, seps);
@@ -161,7 +161,7 @@ public abstract class CairoGeneric
 
 		g.Save();
 		g.SetDash(new double[]{1, 2}, 0);
-		if(gridType != gridTypes.HORIZONTALLINES)
+		if(gridType == gridTypes.BOTH || gridType == gridTypes.VERTICALLINES)
 			for(double i = gridXTuple.Item1; i <= gridXTuple.Item2 ; i += gridXTuple.Item3)
 			{
 				int xtemp = Convert.ToInt32(calculatePaintX(i));
@@ -171,14 +171,15 @@ public abstract class CairoGeneric
 				paintVerticalGridLine(g, xtemp, Util.TrimDecimals(i, 2), fontH);
 			}
 
-		if(gridType != gridTypes.VERTICALLINES)
+		if(gridType == gridTypes.BOTH || gridType == gridTypes.HORIZONTALLINES || gridType == gridTypes.HORIZONTALLINESATRIGHT)
 			for(double i = gridYTuple.Item1; i <= gridYTuple.Item2 ; i += gridYTuple.Item3)
 			{
 				int ytemp = Convert.ToInt32(calculatePaintY(i));
 				if(ytemp <= topMargin || ytemp >= graphHeight -bottomMargin)
 					continue;
 
-				paintHorizontalGridLine(g, ytemp, Util.TrimDecimals(i, 2), fontH);
+				paintHorizontalGridLine (g, ytemp, Util.TrimDecimals(i, 2), fontH,
+						(gridType == gridTypes.HORIZONTALLINESATRIGHT));
 			}
 		g.Stroke ();
 		g.Restore();
@@ -189,7 +190,7 @@ public abstract class CairoGeneric
 	{
 		g.Save();
 		g.SetDash(new double[]{1, 2}, 0);
-		if(gridType != gridTypes.HORIZONTALLINES)
+		if(gridType == gridTypes.BOTH || gridType == gridTypes.VERTICALLINES)
 			for(double i = Math.Floor(minX); i <= Math.Ceiling(maxX) ; i += by)
 			{
 				int xtemp = Convert.ToInt32(calculatePaintX(i));
@@ -199,25 +200,37 @@ public abstract class CairoGeneric
 				paintVerticalGridLine(g, xtemp, Util.TrimDecimals(i, 2), fontH);
 			}
 
-		if(gridType != gridTypes.VERTICALLINES)
+		if(gridType == gridTypes.BOTH || gridType == gridTypes.HORIZONTALLINES || gridType == gridTypes.HORIZONTALLINESATRIGHT)
 			for(double i = Math.Floor(minY); i <= Math.Ceiling(maxY) ; i += by)
 			{
 				int ytemp = Convert.ToInt32(calculatePaintY(i));
 				if(ytemp <= topMargin || ytemp >= graphHeight -bottomMargin)
 					continue;
 
-				paintHorizontalGridLine(g, ytemp, Util.TrimDecimals(i, 2), fontH);
+				paintHorizontalGridLine (g, ytemp, Util.TrimDecimals(i, 2), fontH,
+						(gridType == gridTypes.HORIZONTALLINESATRIGHT));
 			}
 		g.Stroke ();
 		g.Restore();
 	}
 
-	protected void paintHorizontalGridLine(Cairo.Context g, int ytemp, string text, int fontH)
+	protected void paintHorizontalGridLine (Cairo.Context g, int ytemp, string text, int fontH, bool atRight)
 	{
+		if (atRight) //atRight do not write the line
+		{
+			g.MoveTo(leftMargin, ytemp);
+			g.LineTo(graphWidth - rightMargin, ytemp);
+
+			//g.SetDash(new double[]{1,0}, 0);
+			g.SetDash(new double[] {10,5}, 0);
+			printText (graphWidth -rightMargin/2, ytemp, 0, fontH, text, g, alignTypes.CENTER);
+			return;
+		}
+
 		g.MoveTo(leftMargin, ytemp);
 		g.LineTo(graphWidth - rightMargin, ytemp);
-		printText(leftMargin/2, ytemp, 0, fontH, text, g, alignTypes.CENTER);
-		//LogB.Information("phgl fontH: " + fontH.ToString());
+
+		printText (leftMargin/2, ytemp, 0, fontH, text, g, alignTypes.CENTER);
 	}
 
 	//this is different on forceSensor: ms to s (and with 's')

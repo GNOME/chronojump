@@ -472,6 +472,7 @@ public class CairoGraphForceSensorAI : CairoGraphForceSensor
 	private Cairo.Color colorBlue = colorFromRGB (0,0,200);
 	private ForceSensorExercise exercise;
 	private RepetitionMouseLimitsWithSamples repMouseLimits;
+	private int startAt;
 
 	//regular constructor
 	public CairoGraphForceSensorAI (DrawingArea area, string title)
@@ -483,6 +484,7 @@ public class CairoGraphForceSensorAI : CairoGraphForceSensor
 	public RepetitionMouseLimitsWithSamples DoSendingList (
 			string font,
 			List<PointF> points_l,
+			List<PointF> pointsDispl_l,
 			int minDisplayFNegative, int minDisplayFPositive,
 			int rectangleN, int rectangleRange,
 			TriggerList triggerList,
@@ -491,19 +493,29 @@ public class CairoGraphForceSensorAI : CairoGraphForceSensor
 			ForceSensorExercise exercise, List<ForceSensorRepetition> reps_l,
 			bool forceRedraw, PlotTypes plotType)
 	{
+		this.minDisplayFNegative = minDisplayFNegative;
+		this.minDisplayFPositive = minDisplayFPositive;
+		this.rectangleN = rectangleN;
+		this.rectangleRange = rectangleRange;
+		this.points_l_interpolated_path = new List<PointF> ();
+
 		this.exercise = exercise;
+
 		repMouseLimits = new RepetitionMouseLimitsWithSamples ();
 		area.AddEvents((int) Gdk.EventMask.ButtonPressMask); //to have mouse clicks
 
-		if(doSendingList (font, points_l,
-					minDisplayFNegative, minDisplayFPositive,
-					rectangleN, rectangleRange,
+		if (doSendingList (font, points_l,
 					triggerList,
 					hscaleSampleA, hscaleSampleB, zoomed,
 					fMaxAvgSampleStart, fMaxAvgSampleEnd, fMaxAvgForce,
 					exercise, reps_l,
 					forceRedraw, plotType))
+		{
+			if (pointsDispl_l != null && pointsDispl_l.Count > 0)
+				paintAnotherSerie (pointsDispl_l, startAt, plotType, bluePlots);
+
 			endGraphDisposing(g, surface, area.GdkWindow);
+		}
 
 		return repMouseLimits;
 	}
@@ -512,8 +524,6 @@ public class CairoGraphForceSensorAI : CairoGraphForceSensor
 	//return true if graph is inited (to dispose it)
 	private bool doSendingList (string font,
 			List<PointF> points_l,
-			int minDisplayFNegative, int minDisplayFPositive,
-			int rectangleN, int rectangleRange,
 			TriggerList triggerList,
 			int hscaleSampleA, int hscaleSampleB, bool zoomed,
 			int fMaxAvgSampleStart, int fMaxAvgSampleEnd, double fMaxAvgForce,
@@ -527,13 +537,7 @@ public class CairoGraphForceSensorAI : CairoGraphForceSensor
 			maxValuesChanged = findPointMaximums(false, points_l);
 			//LogB.Information(string.Format("minY: {0}, maxY: {1}", minY, maxY));
 
-			if (rectangleRange > 0)
-			{
-				if (rectangleN < 0 && rectangleN - rectangleRange/2 < minY)
-					minY = rectangleN - rectangleRange/2;
-				if (rectangleN > 0 && rectangleN + rectangleRange/2 > absoluteMaxY)
-					absoluteMaxY = rectangleN + rectangleRange/2;
-			}
+			fixMaximums ();
 		}
 
 		bool graphInited = false;
@@ -567,7 +571,7 @@ public class CairoGraphForceSensorAI : CairoGraphForceSensor
 			return graphInited;
 		}
 		pointsRadius = 1;
-		int startAt = 0;
+		startAt = 0;
 
 		// paint points and maybe interpolated path
 		if(maxValuesChanged || forceRedraw || points_l.Count != points_l_painted)

@@ -485,6 +485,14 @@ public class Util
 		return myStringBuilder.ToString();
 	}
 
+	//problems with paths
+	public static string RemoveSlash(string myString)
+	{
+		StringBuilder myStringBuilder = new StringBuilder(myString);
+		myStringBuilder.Replace("/", " ");
+		return myStringBuilder.ToString();
+	}
+
 	public static string AddBoldMarks(string s)
 	{
 		return "<b>" + s + "</b>";

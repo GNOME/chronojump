@@ -34,7 +34,7 @@ public abstract class EvolutionGraph : CairoXY
 
                 findPointMaximums(false);
                 //findAbsoluteMaximums();
-		paintGrid(gridTypes.HORIZONTALLINES, true);
+		paintGrid(gridTypes.HORIZONTALLINES, true, 0);
 		paintAxis();
 		paintGridDatetime();
 

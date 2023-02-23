@@ -640,6 +640,8 @@ public partial class ChronoJumpWindow
 		cairoGraphForceSensorSignal = null;
 		cairoGraphForceSensorSignalPoints_l = new List<PointF> ();
 		cairoGraphForceSensorSignalPointsDispl_l = new List<PointF> ();
+		cairoGraphForceSensorSignalPointsSpeed_l = new List<PointF> ();
+		cairoGraphForceSensorSignalPointsPower_l = new List<PointF> ();
 		paintPointsInterpolateCairo_l = new List<PointF>();
 		force_capture_drawingarea_cairo.QueueDraw ();
 
@@ -1162,6 +1164,8 @@ public partial class ChronoJumpWindow
 		cairoGraphForceSensorSignal = null;
 		cairoGraphForceSensorSignalPoints_l = new List<PointF> ();
 		cairoGraphForceSensorSignalPointsDispl_l = new List<PointF> ();
+		cairoGraphForceSensorSignalPointsSpeed_l = new List<PointF> ();
+		cairoGraphForceSensorSignalPointsPower_l = new List<PointF> ();
 		paintPointsInterpolateCairo_l = new List<PointF>();
 
 		fscPoints = new ForceSensorCapturePoints(
@@ -2815,6 +2819,8 @@ LogB.Information(" fs R ");
 	{
 		cairoGraphForceSensorSignalPoints_l = new List<PointF> ();
 		cairoGraphForceSensorSignalPointsDispl_l = new List<PointF> ();
+		cairoGraphForceSensorSignalPointsSpeed_l = new List<PointF> ();
+		cairoGraphForceSensorSignalPointsPower_l = new List<PointF> ();
 
 		fscPoints = new ForceSensorCapturePoints(
 				ForceSensorCapturePoints.GraphTypes.FORCESIGNAL,
@@ -2869,17 +2875,27 @@ LogB.Information(" fs R ");
 		forces = fsd.GetForces();
 		times.RemoveAt(0); //always (not-elastic and elastic) 1st has to be removed, because time is not ok there.
 		List<double> position_l = new List<double> ();
+		List<double> speed_l = new List<double> ();
+		//List<double> accel_l = new List<double> ();
+		List<double> power_l = new List<double> ();
 		if(fsd.CalculedElasticPSAP)
 		{
 			times = times.GetRange(fsd.RemoveNValues +1, times.Count -2*fsd.RemoveNValues);
 			position_l = fsd.GetPositions();
+			speed_l = fsd.GetSpeeds();
+			//accel_l = fsd.GetAccels();
+			power_l = fsd.GetPowers();
 		}
 		int i = 0;
 		foreach(int time in times)
 		{
 			cairoGraphForceSensorSignalPoints_l.Add (new PointF (time, forces[i]));
 			if(fsd.CalculedElasticPSAP)
+			{
 				cairoGraphForceSensorSignalPointsDispl_l.Add (new PointF (time, position_l[i]));
+				cairoGraphForceSensorSignalPointsSpeed_l.Add (new PointF (time, speed_l[i]));
+				cairoGraphForceSensorSignalPointsPower_l.Add (new PointF (time, power_l[i]));
+			}
 
 			fscPoints.Add(time, forces[i]);
 			fscPoints.NumCaptured ++;
@@ -2895,6 +2911,8 @@ LogB.Information(" fs R ");
 	CairoGraphForceSensorSignal cairoGraphForceSensorSignal;
 	static List<PointF> cairoGraphForceSensorSignalPoints_l;
 	static List<PointF> cairoGraphForceSensorSignalPointsDispl_l;
+	static List<PointF> cairoGraphForceSensorSignalPointsSpeed_l;
+	static List<PointF> cairoGraphForceSensorSignalPointsPower_l;
 	bool cairoGraphForceSensorSignalPointsShowAccuracy;
 
 	public void on_force_capture_drawingarea_cairo_expose_event (object o, ExposeEventArgs args)
@@ -2935,6 +2953,10 @@ LogB.Information(" fs R ");
 			cairoGraphForceSensorSignalPoints_l = new List<PointF> ();
 		if (cairoGraphForceSensorSignalPointsDispl_l == null)
 			cairoGraphForceSensorSignalPointsDispl_l = new List<PointF> ();
+		if (cairoGraphForceSensorSignalPointsSpeed_l == null)
+			cairoGraphForceSensorSignalPointsSpeed_l = new List<PointF> ();
+		if (cairoGraphForceSensorSignalPointsPower_l == null)
+			cairoGraphForceSensorSignalPointsPower_l = new List<PointF> ();
 		if (paintPointsInterpolateCairo_l == null)
 			paintPointsInterpolateCairo_l = new List<PointF> ();
 
@@ -2951,12 +2973,26 @@ LogB.Information(" fs R ");
 				paintPointsInterpolateCairo_l_copy.Add (paintPointsInterpolateCairo_l[i]);
 		}
 
-		//elastic
+		//elastic displ
 		List<PointF> cairoGraphForceSensorSignalPointsDispl_l_copy = new List<PointF>();
 		int pointsToCopyDispl = cairoGraphForceSensorSignalPointsDispl_l.Count;
 		if (cairoGraphForceSensorSignalPointsDispl_l != null && cairoGraphForceSensorSignalPointsDispl_l.Count > 0)
 			for (int i = 0; i < pointsToCopyDispl; i ++)
 				cairoGraphForceSensorSignalPointsDispl_l_copy.Add (cairoGraphForceSensorSignalPointsDispl_l[i]);
+
+		//elastic speed
+		List<PointF> cairoGraphForceSensorSignalPointsSpeed_l_copy = new List<PointF>();
+		int pointsToCopySpeed = cairoGraphForceSensorSignalPointsSpeed_l.Count;
+		if (cairoGraphForceSensorSignalPointsSpeed_l != null && cairoGraphForceSensorSignalPointsSpeed_l.Count > 0)
+			for (int i = 0; i < pointsToCopySpeed; i ++)
+				cairoGraphForceSensorSignalPointsSpeed_l_copy.Add (cairoGraphForceSensorSignalPointsSpeed_l[i]);
+
+		//elastic power
+		List<PointF> cairoGraphForceSensorSignalPointsPower_l_copy = new List<PointF>();
+		int pointsToCopyPower = cairoGraphForceSensorSignalPointsPower_l.Count;
+		if (cairoGraphForceSensorSignalPointsPower_l != null && cairoGraphForceSensorSignalPointsPower_l.Count > 0)
+			for (int i = 0; i < pointsToCopyPower; i ++)
+				cairoGraphForceSensorSignalPointsPower_l_copy.Add (cairoGraphForceSensorSignalPointsPower_l[i]);
 
 
 		TriggerList triggerListForceSensor_copy = new TriggerList ();
@@ -2981,6 +3017,8 @@ LogB.Information(" fs R ");
 				preferences.fontType.ToString(),
 				cairoGraphForceSensorSignalPoints_l_copy,
 				cairoGraphForceSensorSignalPointsDispl_l_copy,
+				cairoGraphForceSensorSignalPointsSpeed_l_copy,
+				cairoGraphForceSensorSignalPointsPower_l_copy,
 				paintPointsInterpolateCairo_l_copy, preferences.forceSensorFeedbackPathMin, preferences.forceSensorFeedbackPathMax,
 				(forceCaptureThread != null && forceCaptureThread.IsAlive),
 				cairoGraphForceSensorSignalPointsShowAccuracy,

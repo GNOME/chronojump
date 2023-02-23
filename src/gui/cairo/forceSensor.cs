@@ -183,14 +183,14 @@ public abstract class CairoGraphForceSensor : CairoXY
 	}
 	
 	//this is painted after the 1st serie because this changes the mins and max to be used on calculatePaintY
-	protected void paintAnotherSerie (List<PointF> p_l, int startAt, PlotTypes plotType, Cairo.Color color)
+	protected void paintAnotherSerie (List<PointF> p_l, int startAt, PlotTypes plotType, Cairo.Color color, int axisShiftToRight)
 	{
 		g.SetSourceColor (color);
 
 		findPointMaximums (false, p_l);
 		fixMaximums ();
-		paintGrid (gridTypes.HORIZONTALLINESATRIGHT, true);
-		paintAxisRight ();
+		paintGrid (gridTypes.HORIZONTALLINESATRIGHT, true, axisShiftToRight);
+		paintAxisRight (axisShiftToRight);
 		plotRealPoints (plotType, p_l, startAt, false); //fast (but the difference is very low)
 	}
 
@@ -221,7 +221,7 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 	//separated in two methods to ensure endGraphDisposing on any return of the other method
 	public void DoSendingList (string font,
 			List<PointF> points_l,
-			List<PointF> pointsDispl_l,
+			List<PointF> pointsDispl_l, List<PointF> pointsSpeed_l, List<PointF> pointsPower_l,
 			List<PointF> points_l_interpolated_path, int interpolatedMin, int interpolatedMax,
 			bool capturing, bool showAccuracy, int showLastSeconds,
 			int minDisplayFNegative, int minDisplayFPositive,
@@ -243,7 +243,13 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 					forceRedraw, plotType))
 		{
 			if (pointsDispl_l != null && pointsDispl_l.Count > 0)
-				paintAnotherSerie (pointsDispl_l, startAt, plotType, bluePlots);
+				paintAnotherSerie (pointsDispl_l, startAt, plotType, bluePlots, 0);
+
+			if (pointsSpeed_l != null && pointsSpeed_l.Count > 0)
+				paintAnotherSerie (pointsSpeed_l, startAt, plotType, green, 40);
+
+			if (pointsPower_l != null && pointsPower_l.Count > 0)
+				paintAnotherSerie (pointsPower_l, startAt, plotType, red, 80);
 
 			endGraphDisposing(g, surface, area.GdkWindow);
 		}
@@ -319,7 +325,7 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 				paintRectangle (rectangleN, rectangleRange);
 
 			if (points_l.Count > 2) //to ensure minX != maxX
-				paintGrid(gridTypes.BOTH, true);
+				paintGrid (gridTypes.BOTH, true, 0);
 
 			paintAxis();
 
@@ -376,7 +382,7 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 				g.SetSourceColor (black);
 
 				g.SetFontSize (textHeight +4);
-				printText (graphWidth/2, outerMargin, 0, textHeight +4,
+				printText (graphWidth/2, leftMargin, 0, textHeight +4,
 						accuracyText, g, alignTypes.CENTER);
 				g.SetFontSize (textHeight);
 
@@ -409,7 +415,7 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 				if (showAccuracy)
 				{
 					g.SetFontSize (textHeight +4);
-					printText (graphWidth/2, outerMargin, 0, textHeight +4,
+					printText (graphWidth/2, leftMargin, 0, textHeight +4,
 							accuracyText, g, alignTypes.CENTER);
 					g.SetFontSize (textHeight);
 				}
@@ -512,7 +518,7 @@ public class CairoGraphForceSensorAI : CairoGraphForceSensor
 					forceRedraw, plotType))
 		{
 			if (pointsDispl_l != null && pointsDispl_l.Count > 0)
-				paintAnotherSerie (pointsDispl_l, startAt, plotType, bluePlots);
+				paintAnotherSerie (pointsDispl_l, startAt, plotType, bluePlots, 0);
 
 			endGraphDisposing(g, surface, area.GdkWindow);
 		}
@@ -580,7 +586,7 @@ public class CairoGraphForceSensorAI : CairoGraphForceSensor
 				paintRectangle (rectangleN, rectangleRange);
 
 			if (points_l.Count > 2) //to ensure minX != maxX
-				paintGrid(gridTypes.BOTH, true);
+				paintGrid(gridTypes.BOTH, true, 0);
 
 			paintAxis();
 
@@ -694,13 +700,13 @@ public class CairoGraphForceSensorAI : CairoGraphForceSensor
 					if (! arrowL && (iAccepted == 0 || (iAccepted > 0 && points_l[rep.sampleStart].X > points_l[reps_l[iAll-1].sampleEnd].X)))
 						CairoUtil.PaintSegment (g,
 								xgStart, textHeight +6,
-								xgStart, graphHeight -outerMargin);
+								xgStart, graphHeight -bottomMargin);
 
 					// display right vertical line
 					if (! arrowR)
 						CairoUtil.PaintSegment (g,
 								xgEnd, textHeight +6,
-								xgEnd, graphHeight -outerMargin);
+								xgEnd, graphHeight -bottomMargin);
 
 					writeRepetitionCode (iAll, rep.TypeShort(), sepCount,
 							xgStart, xgEnd, rep.sampleStart > 0, true);

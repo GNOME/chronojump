@@ -1035,9 +1035,9 @@ public abstract class CairoBars : CairoGeneric
 		g.LineWidth = 1; //to allow to be shown the red arrows on jumpsWeightFVProfile
 
 		if(niceAutoValues)
-			paintGridNiceAutoValues (g, minX, maxX, minY, maxY, 5, gridType, textHeight -2);
+			paintGridNiceAutoValues (g, minX, maxX, minY, maxY, 5, gridType, 0, textHeight -2);
 		else
-			paintGridInt (g, minX, maxX, minY, maxY, 1, gridType, textHeight -2);
+			paintGridInt (g, minX, maxX, minY, maxY, 1, gridType, 0, textHeight -2);
 	}
 
 	//return the bar num from 0 (left bar) to the last bar

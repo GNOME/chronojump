@@ -79,7 +79,7 @@ public class JumpsDjOptimalFallGraph : CairoXY
 
                 findPointMaximums(false);
                 findAbsoluteMaximums();
-		paintGrid(gridTypes.BOTH, true);
+		paintGrid(gridTypes.BOTH, true, 0);
 		paintAxis();
 
 		LogB.Information(string.Format("coef length:{0}", coefs.Length));

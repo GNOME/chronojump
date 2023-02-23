@@ -145,7 +145,7 @@ public class JumpsWeightFVProfileGraph : CairoXY
 			findPointMaximums(false);
 
 		//findAbsoluteMaximums();
-		paintGrid(gridTypes.BOTH, true);
+		paintGrid (gridTypes.BOTH, true, 0);
 		LogB.Information("before paintAxis call , outerMargin: " + outerMargin);
 		paintAxis();
 

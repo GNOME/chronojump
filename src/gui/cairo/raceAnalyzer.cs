@@ -153,7 +153,7 @@ public class CairoGraphRaceAnalyzer : CairoXY
 			if(segmentCalcs == null || segmentCalcs.Count == 0)
 			{
 				// do not show vertical grid lines if we do not pass any distance mark. Show only horizontal.
-				paintGrid(gridTypes.HORIZONTALLINES, true);
+				paintGrid (gridTypes.HORIZONTALLINES, true, 0);
 			}
 			else {
 				//horizontal
@@ -165,12 +165,12 @@ public class CairoGraphRaceAnalyzer : CairoXY
 					for(int i = 0 ; i < segmentCalcs.Count ; i ++)
 					{
 						double yValue = segmentCalcs.Dist_l[i];
-						paintHorizontalGridLine(g, Convert.ToInt32(calculatePaintY(yValue)), yValue.ToString(), textHeight -3, false);
+						paintHorizontalGridLine (g, Convert.ToInt32(calculatePaintY(yValue)), yValue.ToString(), textHeight -3, false, 0);
 					}
 					g.Stroke ();
 					g.Restore();
 				} else //maybe we have not arrived to any segment
-					paintGrid(gridTypes.HORIZONTALLINES, true);
+					paintGrid (gridTypes.HORIZONTALLINES, true, 0);
 
 				//vertical
 				if(segmentCalcs.Count > 0)

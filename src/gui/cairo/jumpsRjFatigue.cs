@@ -90,8 +90,8 @@ public class JumpsRjFatigueGraph : CairoXY
 
                 findPointMaximums(false);
                 //findAbsoluteMaximums();
-		paintGrid(gridTypes.HORIZONTALLINES, true);
-		paintGrid(gridTypes.VERTICALLINES, false);
+		paintGrid (gridTypes.HORIZONTALLINES, true, 0);
+		paintGrid (gridTypes.VERTICALLINES, false, 0);
 		paintAxis();
 
 		g.SetSourceColor(red);

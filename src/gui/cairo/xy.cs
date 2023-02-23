@@ -324,14 +324,15 @@ public abstract class CairoXY : CairoGeneric
 
 	protected int gridNiceSeps = 5;
 	//reccomended to 1st paint the grid, then the axis
-	protected void paintGrid(gridTypes gridType, bool niceAutoValues)
+	//shift right is good when there are several axis at right
+	protected void paintGrid (gridTypes gridType, bool niceAutoValues, int shiftRight)
 	{
 		g.LineWidth = 1; //to allow to be shown the red arrows on jumpsWeightFVProfile
 
 		if(niceAutoValues)
-			paintGridNiceAutoValues (g, minX, absoluteMaxX, minY, absoluteMaxY, gridNiceSeps, gridType, textHeight);
+			paintGridNiceAutoValues (g, minX, absoluteMaxX, minY, absoluteMaxY, gridNiceSeps, gridType, shiftRight, textHeight);
 		else
-			paintGridInt (g, minX, absoluteMaxX, minY, absoluteMaxY, 1, gridType, textHeight);
+			paintGridInt (g, minX, absoluteMaxX, minY, absoluteMaxY, 1, gridType, shiftRight, textHeight);
 	}
 
 	protected void paintAxis()
@@ -346,12 +347,14 @@ public abstract class CairoXY : CairoGeneric
 		g.LineWidth = 2;
 	}
 
-	protected void paintAxisRight ()
+	protected void paintAxisRight (int shiftToRight)
 	{
-		g.MoveTo (graphWidth - outerMargin, graphHeight - outerMargin);
-		g.LineTo (graphWidth - outerMargin, outerMargin);
+		g.MoveTo (graphWidth - outerMargin + shiftToRight, graphHeight - outerMargin);
+		g.LineTo (graphWidth - outerMargin + shiftToRight, outerMargin);
 		g.Stroke ();
-		printYRightAxisText();
+
+		printYRightAxisText (shiftToRight);
+
 		g.Stroke ();
 		g.LineWidth = 2;
 	}
@@ -360,9 +363,9 @@ public abstract class CairoXY : CairoGeneric
 	{
 		printText (outerMargin, Convert.ToInt32(outerMargin/2), 0, textHeight, getYAxisLabel(), g, alignTypes.CENTER);
 	}
-	protected virtual void printYRightAxisText()
+	protected virtual void printYRightAxisText (int shiftToRight)
 	{
-		printText (graphWidth -outerMargin, Convert.ToInt32 (outerMargin/2), 0, textHeight, getYRightAxisLabel(), g, alignTypes.CENTER);
+		printText (graphWidth -outerMargin +shiftToRight, Convert.ToInt32 (outerMargin/2), 0, textHeight, getYRightAxisLabel(), g, alignTypes.CENTER);
 	}
 	protected virtual void printXAxisText()
 	{

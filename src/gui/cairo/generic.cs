@@ -154,7 +154,7 @@ public abstract class CairoGeneric
 
 	//TODO: fix if min == max (crashes)
 	protected enum gridTypes { BOTH, HORIZONTALLINES, HORIZONTALLINESATRIGHT, VERTICALLINES }
-	protected void paintGridNiceAutoValues (Cairo.Context g, double minX, double maxX, double minY, double maxY, int seps, gridTypes gridType, int fontH)
+	protected void paintGridNiceAutoValues (Cairo.Context g, double minX, double maxX, double minY, double maxY, int seps, gridTypes gridType, int shiftRight, int fontH)
 	{
 		var gridXTuple = getGridStepAndBoundaries ((decimal) minX, (decimal) maxX, seps);
 		var gridYTuple = getGridStepAndBoundaries ((decimal) minY, (decimal) maxY, seps);
@@ -179,14 +179,14 @@ public abstract class CairoGeneric
 					continue;
 
 				paintHorizontalGridLine (g, ytemp, Util.TrimDecimals(i, 2), fontH,
-						(gridType == gridTypes.HORIZONTALLINESATRIGHT));
+						(gridType == gridTypes.HORIZONTALLINESATRIGHT), shiftRight);
 			}
 		g.Stroke ();
 		g.Restore();
 	}
 
 	//for a grid of integers
-	protected void paintGridInt (Cairo.Context g, double minX, double maxX, double minY, double maxY, int by, gridTypes gridType, int fontH)
+	protected void paintGridInt (Cairo.Context g, double minX, double maxX, double minY, double maxY, int by, gridTypes gridType, int shiftRight, int fontH)
 	{
 		g.Save();
 		g.SetDash(new double[]{1, 2}, 0);
@@ -208,22 +208,22 @@ public abstract class CairoGeneric
 					continue;
 
 				paintHorizontalGridLine (g, ytemp, Util.TrimDecimals(i, 2), fontH,
-						(gridType == gridTypes.HORIZONTALLINESATRIGHT));
+						(gridType == gridTypes.HORIZONTALLINESATRIGHT), shiftRight);
 			}
 		g.Stroke ();
 		g.Restore();
 	}
 
-	protected void paintHorizontalGridLine (Cairo.Context g, int ytemp, string text, int fontH, bool atRight)
+	protected void paintHorizontalGridLine (Cairo.Context g, int ytemp, string text, int fontH, bool atRight, int shiftRight)
 	{
 		if (atRight) //atRight do not write the line
 		{
-			g.MoveTo(leftMargin, ytemp);
-			g.LineTo(graphWidth - rightMargin, ytemp);
+			//g.MoveTo(leftMargin, ytemp);
+			//g.LineTo(graphWidth - rightMargin, ytemp);
+			//g.SetDash(new double[] {10,5}, 0);
 
-			//g.SetDash(new double[]{1,0}, 0);
-			g.SetDash(new double[] {10,5}, 0);
-			printText (graphWidth -rightMargin/2, ytemp, 0, fontH, text, g, alignTypes.CENTER);
+			printText (graphWidth -rightMargin/2 + shiftRight, ytemp, 0, fontH, text, g, alignTypes.CENTER);
+
 			return;
 		}
 

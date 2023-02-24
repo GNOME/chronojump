@@ -48,7 +48,7 @@ public abstract class CairoGraphForceSensor : CairoXY
 		//need to be small because graphHeight could be 100,
 		//if margins are big then calculatePaintY could give us reverse results
 		leftMargin = 40;
-		rightMargin = 40;
+		//rightMargin = 40; //defined in subclasses
 		topMargin = 40;
 		bottomMargin = 40;
 
@@ -235,6 +235,7 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 		this.interpolatedMin = interpolatedMin;
 		this.interpolatedMax = interpolatedMax;
 
+		rightMargin = 40;
 		if (pointsDispl_l != null && pointsDispl_l.Count > 0)
 			rightMargin = 150;
 
@@ -494,7 +495,7 @@ public class CairoGraphForceSensorAI : CairoGraphForceSensor
 	public RepetitionMouseLimitsWithSamples DoSendingList (
 			string font,
 			List<PointF> points_l,
-			List<PointF> pointsDispl_l,
+			List<PointF> pointsDispl_l, List<PointF> pointsSpeed_l, List<PointF> pointsPower_l,
 			int minDisplayFNegative, int minDisplayFPositive,
 			int rectangleN, int rectangleRange,
 			TriggerList triggerList,
@@ -514,6 +515,10 @@ public class CairoGraphForceSensorAI : CairoGraphForceSensor
 		repMouseLimits = new RepetitionMouseLimitsWithSamples ();
 		area.AddEvents((int) Gdk.EventMask.ButtonPressMask); //to have mouse clicks
 
+		rightMargin = 40;
+		if (pointsDispl_l != null && pointsDispl_l.Count > 0)
+			rightMargin = 150;
+
 		if (doSendingList (font, points_l,
 					triggerList,
 					hscaleSampleA, hscaleSampleB, zoomed,
@@ -524,6 +529,14 @@ public class CairoGraphForceSensorAI : CairoGraphForceSensor
 			if (pointsDispl_l != null && pointsDispl_l.Count > 0)
 				paintAnotherSerie (pointsDispl_l, startAt, plotType, bluePlots, 0,
 						true, distanceStr, "m");
+
+			if (pointsSpeed_l != null && pointsSpeed_l.Count > 0)
+				paintAnotherSerie (pointsSpeed_l, startAt, plotType, green, 50,
+						false, speedStr, "m/s");
+
+			if (pointsPower_l != null && pointsPower_l.Count > 0)
+				paintAnotherSerie (pointsPower_l, startAt, plotType, red, 100,
+						true, powerStr, "W");
 
 			endGraphDisposing(g, surface, area.GdkWindow);
 		}

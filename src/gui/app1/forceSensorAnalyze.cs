@@ -1317,6 +1317,10 @@ public partial class ChronoJumpWindow
 			cairoGraphForceSensorSignalPoints_l = new List<PointF> ();
 		if (cairoGraphForceSensorSignalPointsDispl_l == null)
 			cairoGraphForceSensorSignalPointsDispl_l = new List<PointF> ();
+		if (cairoGraphForceSensorSignalPointsSpeed_l == null)
+			cairoGraphForceSensorSignalPointsSpeed_l = new List<PointF> ();
+		if (cairoGraphForceSensorSignalPointsPower_l == null)
+			cairoGraphForceSensorSignalPointsPower_l = new List<PointF> ();
 
 		/* no need of copy because this graph is done on load or at end of capture (points_list does not grow in other thread
 		int pointsToCopy = cairoGraphForceSensorSignalPoints_l.Count;
@@ -1350,10 +1354,14 @@ public partial class ChronoJumpWindow
 
 		List<PointF> sendPoints_l = cairoGraphForceSensorSignalPoints_l;
 		List<PointF> sendPointsDispl_l = cairoGraphForceSensorSignalPointsDispl_l;
+		List<PointF> sendPointsSpeed_l = cairoGraphForceSensorSignalPointsSpeed_l;
+		List<PointF> sendPointsPower_l = cairoGraphForceSensorSignalPointsPower_l;
 		if(forceSensorZoomApplied)
 		{
 			sendPoints_l = cairoGraphForceSensorSignalPointsZoomed_l;
 			sendPointsDispl_l = cairoGraphForceSensorSignalPointsDisplZoomed_l;
+			sendPointsSpeed_l = cairoGraphForceSensorSignalPointsSpeedZoomed_l;
+			sendPointsPower_l = cairoGraphForceSensorSignalPointsPowerZoomed_l;
 		}
 
 		//minimum Y display from -50 to 50
@@ -1367,7 +1375,8 @@ public partial class ChronoJumpWindow
 
 		fsAIRepetitionMouseLimitsCairo = cairoGraphForceSensorAI.DoSendingList (
 				preferences.fontType.ToString(),
-				sendPoints_l, sendPointsDispl_l,
+				sendPoints_l,
+				sendPointsDispl_l, sendPointsSpeed_l, sendPointsPower_l,
 				minY, maxY,
 				rectangleN, rectangleRange,
 				triggerListForceSensor,
@@ -1488,6 +1497,8 @@ public partial class ChronoJumpWindow
 
 	static List<PointF> cairoGraphForceSensorSignalPointsZoomed_l;
 	static List<PointF> cairoGraphForceSensorSignalPointsDisplZoomed_l;
+	static List<PointF> cairoGraphForceSensorSignalPointsSpeedZoomed_l;
+	static List<PointF> cairoGraphForceSensorSignalPointsPowerZoomed_l;
 	private void on_check_force_sensor_ai_zoom_clicked (object o, EventArgs args)
 	{
 		if(fsAI == null || fsAI.GetLength() == 0)
@@ -1506,11 +1517,18 @@ public partial class ChronoJumpWindow
 
 			cairoGraphForceSensorSignalPointsZoomed_l = new List<PointF> ();
 			cairoGraphForceSensorSignalPointsDisplZoomed_l = new List<PointF> ();
+			cairoGraphForceSensorSignalPointsSpeedZoomed_l = new List<PointF> ();
+			cairoGraphForceSensorSignalPointsPowerZoomed_l = new List<PointF> ();
 			for (int i = hscale_force_sensor_ai_a_BeforeZoom; i <= hscale_force_sensor_ai_b_BeforeZoom; i ++)
 			{
 				cairoGraphForceSensorSignalPointsZoomed_l.Add (cairoGraphForceSensorSignalPoints_l[i]);
+
 				if (cairoGraphForceSensorSignalPointsDispl_l != null && cairoGraphForceSensorSignalPointsDispl_l.Count > 0)
 					cairoGraphForceSensorSignalPointsDisplZoomed_l.Add (cairoGraphForceSensorSignalPointsDispl_l[i]);
+				if (cairoGraphForceSensorSignalPointsSpeed_l != null && cairoGraphForceSensorSignalPointsSpeed_l.Count > 0)
+					cairoGraphForceSensorSignalPointsSpeedZoomed_l.Add (cairoGraphForceSensorSignalPointsSpeed_l[i]);
+				if (cairoGraphForceSensorSignalPointsPower_l != null && cairoGraphForceSensorSignalPointsPower_l.Count > 0)
+					cairoGraphForceSensorSignalPointsPowerZoomed_l.Add (cairoGraphForceSensorSignalPointsPower_l[i]);
 			}
 
 			//non-cairo

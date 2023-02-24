@@ -194,8 +194,8 @@ public class CairoGraphRaceAnalyzer : CairoXY
 					g.Restore();
 					if(! useListOfDoublesOnY)
 					{
-						g.MoveTo(graphWidth - outerMargin, outerMargin);
-						g.LineTo(outerMargin, outerMargin);
+						g.MoveTo (graphWidth -rightMargin, topMargin);
+						g.LineTo (leftMargin, topMargin);
 						g.Stroke();
 						printXAxisTopText();
 					}
@@ -231,7 +231,7 @@ public class CairoGraphRaceAnalyzer : CairoXY
 
 						//draw Y0 line
 						g.SetSourceColor (colorFromRGB (66,66,66));
-						g.MoveTo (outerMargin, calculatePaintYProportion (powerPropAt0));
+						g.MoveTo (leftMargin, calculatePaintYProportion (powerPropAt0));
 						g.LineTo (calculatePaintX (points_list[points_list.Count -1].X), calculatePaintYProportion (powerPropAt0));
 						g.Stroke ();
 						g.SetSourceColor (black);
@@ -410,7 +410,7 @@ public class CairoGraphRaceAnalyzer : CairoXY
 
 	protected override void printYAxisText()
 	{
-		printText(2, Convert.ToInt32(outerMargin/2), 0, textHeight-3, getYAxisLabel(), g, alignTypes.LEFT);
+		printText(2, Convert.ToInt32 (leftMargin/2), 0, textHeight-3, getYAxisLabel(), g, alignTypes.LEFT);
 	}
 	protected override void printXAxisText()
 	{

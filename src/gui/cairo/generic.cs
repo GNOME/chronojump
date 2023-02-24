@@ -30,7 +30,6 @@ public abstract class CairoGeneric
 	protected int graphHeight;
 
 	//for all 4 sides
-	protected int outerMargin = 40; //blank space outside the axis.
 	protected int innerMargin = 30; //space between the axis and the real coordinates.
 
 	protected int leftMargin = 40;
@@ -222,7 +221,7 @@ public abstract class CairoGeneric
 			//g.LineTo(graphWidth - rightMargin, ytemp);
 			//g.SetDash(new double[] {10,5}, 0);
 
-			printText (graphWidth -rightMargin/2 + shiftRight, ytemp, 0, fontH, text, g, alignTypes.CENTER);
+			printText (graphWidth -rightMargin + shiftRight, ytemp, 0, fontH, text, g, alignTypes.LEFT);
 
 			return;
 		}

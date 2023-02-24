@@ -110,6 +110,23 @@ If any problem:
     git add thefile
     git commit
 
+### Cherry branches and new versions
+
+- All commits are in master
+- cherry2.3.0 is the first branch for fixes. There will be one for each version.
+- when a new fix-bug version is needed, do:
+    - git checkout cherry2.3.0
+    - git cherry-pick (commit), fix merges, see above
+    - on Windows and mac virtual machines, and linux computers in our lab be on cherry2.3.0 branch
+    - compile, publish
+- when a new version with new features is done, (eg 2.3.1) then:
+    - from master create new branch git checkout -b cherry2.3.1
+    - push it with: git push -u origin cherry2.3.1
+    - on Windows and mac virtual machines, and linux computers on our lab: git checkout cherry2.3.1
+    - compile, publish
+- working like this we have the historical of any version and can go to the branch and cherry-pick more commmits if needed
+
+
 ### Merge with a remote branch (but do not do it with my laptop, because has problems fetching from github)
 
     git remote add ylatuya https://github.com/ylatuya/chronojump

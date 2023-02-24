@@ -22,6 +22,9 @@ git tag -a "$VERSION"
 git push
 git push origin --tags
 
+
+See also howto_git.md "Cherry branches and new versions"
+
 # If some day we decide to do branching instead of tags:
 #with branching:
 #git checkout -b "tags/$VERSION" # creates a new branch

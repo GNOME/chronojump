@@ -76,7 +76,7 @@ public class JumpsWeightFVProfileGraph : CairoXY
 		this.errorMessage = errorMessage;
 		this.colorBackground = colorFromGdk(Config.ColorBackground); //but note if we are using system colors, this will not match
 
-		outerMargin = 50; //blank space outside the axis
+		//outerMargin = 50; //blank space outside the axis
 		leftMargin = 50;
 		rightMargin = 50;
 		topMargin = 50;
@@ -146,7 +146,7 @@ public class JumpsWeightFVProfileGraph : CairoXY
 
 		//findAbsoluteMaximums();
 		paintGrid (gridTypes.BOTH, true, 0);
-		LogB.Information("before paintAxis call , outerMargin: " + outerMargin);
+		//LogB.Information("before paintAxis call , outerMargin: " + outerMargin);
 		paintAxis();
 
 		if(showFullGraph)

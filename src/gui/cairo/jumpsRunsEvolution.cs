@@ -82,7 +82,7 @@ public abstract class EvolutionGraph : CairoXY
 		for(int year = Convert.ToInt32(Math.Floor(minX)) -1; year <= Convert.ToInt32(Math.Floor(maxX)); year ++)
 		{
 			int xtemp = Convert.ToInt32(calculatePaintX(year));
-			if( ! (xtemp < outerMargin || xtemp > graphWidth - outerMargin) )
+			if( ! (xtemp < leftMargin || xtemp > graphWidth - rightMargin) )
 			{
 				if(paintMonths)
 					paintVerticalGridLine(g, xtemp, string.Format("{0} {1}", year, UtilDate.GetMonthName(0, true)), textHeight);
@@ -104,7 +104,7 @@ public abstract class EvolutionGraph : CairoXY
 			{
 				LogB.Information(string.Format("year-month: {0}-{1}", year, month));
 				xtemp = Convert.ToInt32(calculatePaintX(year + month/12.0));
-				if(xtemp < outerMargin || xtemp > graphWidth - outerMargin)
+				if(xtemp < leftMargin || xtemp > graphWidth - rightMargin)
 					continue;
 
 				paintVerticalGridLine(g, xtemp, string.Format("{0} {1}", year, UtilDate.GetMonthName(month, true)), textHeight);

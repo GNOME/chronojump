@@ -44,7 +44,10 @@ public class CairoGraphEncoderSignal : CairoXY
 
 		//need to be small because graphHeight could be 100,
 		//if margins are big then calculatePaintY could give us reverse results
-		outerMargin = 10;
+		bottomMargin = 10;
+		leftMargin = 10;
+		topMargin = 10;
+		rightMargin = 10;
 		innerMargin = 0;
 	}
 

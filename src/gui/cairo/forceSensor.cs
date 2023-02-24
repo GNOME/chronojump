@@ -48,7 +48,7 @@ public abstract class CairoGraphForceSensor : CairoXY
 		//need to be small because graphHeight could be 100,
 		//if margins are big then calculatePaintY could give us reverse results
 		leftMargin = 40;
-		rightMargin = 150; //TODO: bigger value only on elastic (and not use outerMargin or totalMargin anywhere, maybe just a totalMarginsX and totalMarginsY
+		rightMargin = 40;
 		topMargin = 40;
 		bottomMargin = 40;
 
@@ -234,6 +234,9 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 		this.points_l_interpolated_path = points_l_interpolated_path;
 		this.interpolatedMin = interpolatedMin;
 		this.interpolatedMax = interpolatedMax;
+
+		if (pointsDispl_l != null && pointsDispl_l.Count > 0)
+			rightMargin = 150;
 
 		if (doSendingList (font, points_l,
 					capturing, showAccuracy, showLastSeconds,

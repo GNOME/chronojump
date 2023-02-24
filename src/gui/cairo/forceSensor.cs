@@ -48,16 +48,14 @@ public abstract class CairoGraphForceSensor : CairoXY
 		//need to be small because graphHeight could be 100,
 		//if margins are big then calculatePaintY could give us reverse results
 		leftMargin = 40;
-		rightMargin = 40;
+		rightMargin = 150; //TODO: bigger value only on elastic (and not use outerMargin or totalMargin anywhere, maybe just a totalMarginsX and totalMarginsY
 		topMargin = 40;
 		bottomMargin = 40;
-		outerMargin = 40; //outerMargin has to be the same than topMargin & bottomMargin to have grid arrive to the margins
+
 		innerMargin = 20;
 
 		yVariable = forceStr;
 		yUnits = "N";
-		yRightVariable = distanceStr;
-		yRightUnits = "m";
 
 		xAtMaxY = 0;
 		yAtMaxY = 0;
@@ -183,14 +181,14 @@ public abstract class CairoGraphForceSensor : CairoXY
 	}
 	
 	//this is painted after the 1st serie because this changes the mins and max to be used on calculatePaintY
-	protected void paintAnotherSerie (List<PointF> p_l, int startAt, PlotTypes plotType, Cairo.Color color, int axisShiftToRight)
+	protected void paintAnotherSerie (List<PointF> p_l, int startAt, PlotTypes plotType, Cairo.Color color, int axisShiftToRight, bool axisLabelTop, string variable, string units)
 	{
 		g.SetSourceColor (color);
 
 		findPointMaximums (false, p_l);
 		fixMaximums ();
-		paintGrid (gridTypes.HORIZONTALLINESATRIGHT, true, axisShiftToRight);
-		paintAxisRight (axisShiftToRight);
+		paintGrid (gridTypes.HORIZONTALLINESATRIGHT, true, axisShiftToRight + 5);
+		paintAxisRight (axisShiftToRight, axisLabelTop, variable, units);
 		plotRealPoints (plotType, p_l, startAt, false); //fast (but the difference is very low)
 	}
 
@@ -243,13 +241,16 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 					forceRedraw, plotType))
 		{
 			if (pointsDispl_l != null && pointsDispl_l.Count > 0)
-				paintAnotherSerie (pointsDispl_l, startAt, plotType, bluePlots, 0);
+				paintAnotherSerie (pointsDispl_l, startAt, plotType, bluePlots, 0,
+						true, distanceStr, "m");
 
 			if (pointsSpeed_l != null && pointsSpeed_l.Count > 0)
-				paintAnotherSerie (pointsSpeed_l, startAt, plotType, green, 40);
+				paintAnotherSerie (pointsSpeed_l, startAt, plotType, green, 50,
+						false, speedStr, "m/s");
 
 			if (pointsPower_l != null && pointsPower_l.Count > 0)
-				paintAnotherSerie (pointsPower_l, startAt, plotType, red, 80);
+				paintAnotherSerie (pointsPower_l, startAt, plotType, red, 100,
+						true, powerStr, "W");
 
 			endGraphDisposing(g, surface, area.GdkWindow);
 		}
@@ -518,7 +519,8 @@ public class CairoGraphForceSensorAI : CairoGraphForceSensor
 					forceRedraw, plotType))
 		{
 			if (pointsDispl_l != null && pointsDispl_l.Count > 0)
-				paintAnotherSerie (pointsDispl_l, startAt, plotType, bluePlots, 0);
+				paintAnotherSerie (pointsDispl_l, startAt, plotType, bluePlots, 0,
+						true, distanceStr, "m");
 
 			endGraphDisposing(g, surface, area.GdkWindow);
 		}

@@ -86,7 +86,6 @@ public abstract class CairoXY : CairoGeneric
 	protected Cairo.Color bluePlots;
 
 	private int crossMargins = 10; //cross slope line with margins will have this length
-	int totalMargins;
 
 	//translated strings
 	//done to use Catalog just only on gui/cairo/xy.cs
@@ -151,8 +150,7 @@ public abstract class CairoXY : CairoGeneric
 		//outerMargin = 40; //blank space outside the axis.
 		//innerMargin = 30; //space between the axis and the real coordinates.
 
-		totalMargins = outerMargin + innerMargin;
-
+		LogB.Information("initGraph 2");
 		// 1 create context
 		/* using drawingarea (slow)
 		   g = Gdk.CairoHelper.Create (area.GdkWindow);
@@ -337,9 +335,9 @@ public abstract class CairoXY : CairoGeneric
 
 	protected void paintAxis()
 	{
-		g.MoveTo(outerMargin, outerMargin);
-		g.LineTo(outerMargin, graphHeight - outerMargin);
-		g.LineTo(graphWidth - outerMargin, graphHeight - outerMargin);
+		g.MoveTo (leftMargin, topMargin);
+		g.LineTo (leftMargin, graphHeight -bottomMargin);
+		g.LineTo (graphWidth -rightMargin, graphHeight -bottomMargin);
 		g.Stroke ();
 		printYAxisText();
 		printXAxisText();
@@ -347,13 +345,13 @@ public abstract class CairoXY : CairoGeneric
 		g.LineWidth = 2;
 	}
 
-	protected void paintAxisRight (int shiftToRight)
+	protected void paintAxisRight (int shiftToRight, bool axisLabelTop, string variable, string units)
 	{
-		g.MoveTo (graphWidth - outerMargin + shiftToRight, graphHeight - outerMargin);
-		g.LineTo (graphWidth - outerMargin + shiftToRight, outerMargin);
+		g.MoveTo (graphWidth -rightMargin + shiftToRight, graphHeight -bottomMargin);
+		g.LineTo (graphWidth -rightMargin + shiftToRight, topMargin);
 		g.Stroke ();
 
-		printYRightAxisText (shiftToRight);
+		printYRightAxisText (shiftToRight, axisLabelTop, getAxisLabel (variable, units));
 
 		g.Stroke ();
 		g.LineWidth = 2;
@@ -361,15 +359,19 @@ public abstract class CairoXY : CairoGeneric
 
 	protected virtual void printYAxisText()
 	{
-		printText (outerMargin, Convert.ToInt32(outerMargin/2), 0, textHeight, getYAxisLabel(), g, alignTypes.CENTER);
+		printText (leftMargin, Convert.ToInt32 (topMargin/2), 0, textHeight, getYAxisLabel(), g, alignTypes.CENTER);
 	}
-	protected virtual void printYRightAxisText (int shiftToRight)
+	protected virtual void printYRightAxisText (int shiftToRight, bool axisLabelTop, string variableUnits)
 	{
-		printText (graphWidth -outerMargin +shiftToRight, Convert.ToInt32 (outerMargin/2), 0, textHeight, getYRightAxisLabel(), g, alignTypes.CENTER);
+		int y = Convert.ToInt32 (topMargin /2);
+		if (! axisLabelTop)
+			y = Convert.ToInt32 (graphHeight -bottomMargin /2);
+
+		printText (graphWidth -rightMargin +shiftToRight, y, 0, textHeight, variableUnits, g, alignTypes.CENTER);
 	}
 	protected virtual void printXAxisText()
 	{
-		printText (graphWidth - Convert.ToInt32(outerMargin/2), graphHeight - outerMargin, 0, textHeight, getXAxisLabel(), g, alignTypes.LEFT);
+		printText (graphWidth - Convert.ToInt32 (rightMargin/2), graphHeight -bottomMargin, 0, textHeight, getXAxisLabel(), g, alignTypes.LEFT);
 	}
 
 	protected string getXAxisLabel()
@@ -379,10 +381,6 @@ public abstract class CairoXY : CairoGeneric
 	protected string getYAxisLabel()
 	{
 		return getAxisLabel(yVariable, yUnits);
-	}
-	protected string getYRightAxisLabel()
-	{
-		return getAxisLabel (yRightVariable, yRightUnits);
 	}
 	protected string getAxisLabel(string variable, string units)
 	{
@@ -427,17 +425,24 @@ public abstract class CairoXY : CairoGeneric
 				ygraph = calculatePaintY(coefs[0] + coefs[1]*x + coefs[2]*Math.Pow(x,2));
 
 			// ---- do not plot line outer the axis ---->
-			int om = outerMargin;
+			int omX = leftMargin;
+			int omY = bottomMargin;
 
 			// have a bit more distance
 			if(crossMarginType == predictedLineCrossMargins.CROSS)
-				om -= crossMargins;
+			{
+				omX -= crossMargins;
+				omY -= crossMargins;
+			}
 			else if(crossMarginType == predictedLineCrossMargins.DONOTTOUCH)
-				om += crossMargins;
+			{
+				omX += crossMargins;
+				omY += crossMargins;
+			}
 
 			if(
-					xgraph < om || xgraph > graphWidth - om ||
-					ygraph < om || ygraph > graphHeight - om )
+					xgraph < omX || xgraph > graphWidth - omX ||
+					ygraph < omY || ygraph > graphHeight - omY )
 			{
 				wasOutOfMargins = true;
 				continue;
@@ -555,13 +560,13 @@ public abstract class CairoXY : CairoGeneric
 
 		//print X, Y of maxY
 		//at axis
-		g.Save();
-		g.SetDash(new double[]{14, 6}, 0);
-		g.MoveTo(xgraph, graphHeight - outerMargin);
-		g.LineTo(xgraph, ygraph);
-		g.LineTo(outerMargin, ygraph);
+		g.Save ();
+		g.SetDash (new double[]{14, 6}, 0);
+		g.MoveTo (xgraph, graphHeight -bottomMargin);
+		g.LineTo (xgraph, ygraph);
+		g.LineTo (leftMargin, ygraph);
 		g.Stroke ();
-		g.Restore();
+		g.Restore ();
 
 
 		g.MoveTo(xgraph+8, ygraph);
@@ -612,8 +617,8 @@ public abstract class CairoXY : CairoGeneric
 		// 1) exit if out of graph area
 		LogB.Information(string.Format("graphX: {0}; graphY: {1}", graphX, graphY));
 		if(
-				graphX < outerMargin || graphX > graphWidth - outerMargin ||
-				graphY < outerMargin || graphY > graphHeight - outerMargin )
+				graphX < leftMargin || graphX > graphWidth -rightMargin ||
+				graphY < topMargin || graphY > graphHeight -bottomMargin )
 			return;
 
 		/* optional show real mouse click
@@ -701,11 +706,31 @@ public abstract class CairoXY : CairoGeneric
 		return (dt.ToString ());
 	}
 
+	protected enum Directions { B, L, T, R, LR, BT } //like on R (Bottom, Left, Top, Right) but adding LR and BT
+	// gets the margins (outer + inner) of each of the directions
+	protected int getMargins (Directions dir)
+	{
+		if (dir == Directions.B)
+			return bottomMargin + innerMargin;
+		else if (dir == Directions.L)
+			return leftMargin + innerMargin;
+		else if (dir == Directions.T)
+			return topMargin + innerMargin;
+		else if (dir == Directions.R)
+			return rightMargin + innerMargin;
+		else if (dir == Directions.LR)
+			return leftMargin + innerMargin + rightMargin + innerMargin;
+		else if (dir == Directions.BT)
+			return bottomMargin + innerMargin + topMargin + innerMargin;
+
+		return 0;
+	}
+
 	protected override double calculatePaintX (double realX)
 	{
                 //return totalMargins + (realX - minX) * (graphWidth - totalMargins - totalMargins) / (absoluteMaxX - minX);
-                return totalMargins + (realX - minX) * UtilAll.DivideSafe(
-				graphWidth - totalMargins - totalMargins,
+                return getMargins (Directions.L) + (realX - minX) * UtilAll.DivideSafe(
+				graphWidth - getMargins (Directions.LR),
 				absoluteMaxX - minX);
         }
 	protected override double calculatePaintY (double realY)
@@ -721,15 +746,15 @@ public abstract class CairoXY : CairoGeneric
 				absoluteMaxY - minY) ));
 		*/
 
-                return graphHeight - totalMargins - ((realY - minY) * UtilAll.DivideSafe (
-				graphHeight - totalMargins - totalMargins,
+                return graphHeight -getMargins (Directions.B) - ((realY - minY) * UtilAll.DivideSafe (
+				graphHeight - getMargins (Directions.BT),
 				absoluteMaxY - minY));
         }
 
 	//when you want to plot another value, so minY, maxY is different
 	protected double calculatePaintYProportion (double YProp) //from 0 to 1
 	{
-                return graphHeight - totalMargins - (YProp * (graphHeight - 2*totalMargins));
+                return graphHeight -getMargins (Directions.B) - (YProp * (graphHeight - getMargins (Directions.BT)));
 	}
 
 	// Fast calculatePaintX/Y, sadly for 10000 points the difference between fast and slow is very low
@@ -744,12 +769,12 @@ public abstract class CairoXY : CairoGeneric
 	protected void calculatePaintXFastPre (out double A, out double B)
 	{
 		//A = totalMargins - minX  *  (graphWidth - totalMargins - totalMargins) / (absoluteMaxX - minX);
-		A = totalMargins - minX  *  UtilAll.DivideSafe (
-				graphWidth - totalMargins - totalMargins,
+		A = getMargins (Directions.L) - minX  *  UtilAll.DivideSafe ( //or Directions.L ?
+				graphWidth - getMargins (Directions.LR),
 				absoluteMaxX - minX);
 
 		//B = (graphWidth - totalMargins - totalMargins) / (absoluteMaxX - minX);
-		B = UtilAll.DivideSafe(graphWidth - totalMargins - totalMargins, absoluteMaxX - minX);
+		B = UtilAll.DivideSafe (graphWidth - getMargins (Directions.LR), absoluteMaxX - minX);
 
 		return;
 	}
@@ -770,10 +795,10 @@ public abstract class CairoXY : CairoGeneric
 	protected void calculatePaintYFastPre (out double A, out double B)
 	{
 		B = UtilAll.DivideSafe(
-				- (graphHeight - 2*totalMargins),
+				- (graphHeight - getMargins (Directions.BT)),
 				absoluteMaxY - minY);
 
-		A = graphHeight - totalMargins - minY * B;
+		A = graphHeight - getMargins (Directions.B) - minY * B; //or Directions.T ?
 
 		return;
 	}
@@ -787,11 +812,11 @@ public abstract class CairoXY : CairoGeneric
 
 	private double calculateRealX (double graphX)
 	{
-                return minX + ( (graphX - totalMargins) * (absoluteMaxX - minX) / (graphWidth - totalMargins - totalMargins) );
+                return minX + ( (graphX - getMargins (Directions.L)) * (absoluteMaxX - minX) / (graphWidth - getMargins (Directions.LR)) );
 	}
 	private double calculateRealY (double graphY)
 	{
-		return minY - (graphY - graphHeight + totalMargins) * (absoluteMaxY - minY) / (graphHeight - totalMargins - totalMargins);
+		return minY - (graphY - graphHeight + getMargins (Directions.T)) * (absoluteMaxY - minY) / (graphHeight - getMargins (Directions.BT));
         }
 
 	//TODO: delete this method (see gui/cairo/jumpsDjOptimalFall.cs), use only the protected below

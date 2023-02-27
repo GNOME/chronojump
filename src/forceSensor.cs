@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Copyright (C) 2017-2022   Xavier de Blas <xaviblas@gmail.com>
+ *  Copyright (C) 2017-2023   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -1140,6 +1140,7 @@ public class ForceSensorCapturePoints
 	//stored, to not calculate again with same data
 	CalculatedForceMaxAvgInWindow calculatedForceMaxAvgInWindow;
 
+	// this is being replaced by UtilMath GetMaxAvgInWindow
 	public void GetForceMaxAvgInWindow (int countA, int countB, double windowSeconds,
 			out double avgMax, out int avgMaxSampleStart, out int avgMaxSampleEnd, out string error)
 	{

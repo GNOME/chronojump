@@ -576,6 +576,115 @@ public class MovingAverage
 	}
 }
 
+//TODO: manage if X is micros or millis
+public class GetMaxAvgInWindow
+{
+	private double avgMax;
+	private double avgMaxSampleStart;
+	private double avgMaxSampleEnd;
+	private string error;
+
+	public GetMaxAvgInWindow (List<PointF> p_l, int countA, int countB, double windowSeconds)//,
+		// out double avgMax, out int avgMaxSampleStart, out int avgMaxSampleEnd, out string error)
+	{
+		LogB.Information ("GetMaxAvgInWindow start");
+
+		/* TODO: manage this
+		// 1) check if ws calculated before
+		if(calculatedForceMaxAvgInWindow != null &&
+		calculatedForceMaxAvgInWindow.InputsToString() ==
+		new CalculatedForceMaxAvgInWindow(countA, countB, windowSeconds).InputsToString())
+		{
+		LogB.Information("Was calculated before");
+		avgMax = calculatedForceMaxAvgInWindow.Result;
+		avgMaxSampleStart = calculatedForceMaxAvgInWindow.ResultSampleStart;
+		avgMaxSampleEnd = calculatedForceMaxAvgInWindow.ResultSampleEnd;
+		error = ""; //there will be no error, because when is stored is without error
+		return;
+		}
+		*/
+
+		LogB.Information (string.Format ("p_l.Count: {0}, countA: {1}, countB: {2}, windowSeconds: {3}",
+					p_l.Count, countA, countB, windowSeconds));
+
+		if (p_l == null || countA < 0 || countB < 0 || countA >= p_l.Count || countB >= p_l.Count)
+		{
+			error = string.Format ("p_l.Count: {0}, countA: {1}, countB: {2}, windowSeconds: {3}",
+					p_l.Count, countA, countB, windowSeconds);
+			return;
+		}
+
+		// 2) check if countB - countA fits in window time
+		double timeA = p_l[countA].X;
+
+		if(p_l[countB].X - timeA <= 1000000 * windowSeconds)
+		{
+			avgMax = 0;
+			avgMaxSampleStart = countA; //there is an error, this will not be used
+			avgMaxSampleEnd = countA; //there is an error, this will not be used
+			error = "Need more time";
+			return;
+		}
+
+		avgMax = 0;
+		avgMaxSampleStart = countA; 	//sample where avgMax starts (to draw a line)
+		avgMaxSampleEnd = countA; 	//sample where avgMax starts (to draw a line)
+		error = "";
+
+		double sum = 0;
+		int count = 0;
+
+		//note if countB - countA < 1s then can have higher values than all the set
+		// 3) get the first second (or whatever in windowSeconds)
+		int i;
+		for(i = countA; i <= countB && p_l[i].X - timeA <= 1000000 * windowSeconds; i ++)
+		{
+			sum += p_l[i].Y;
+			count ++;
+		}
+		avgMax = sum / count;
+		avgMaxSampleEnd = countA + count;
+
+		LogB.Information(string.Format("avgMax 1st for: {0}", avgMax));
+		//note "count" has the window size in samples
+
+		// 4) continue until the end (countB)
+		for(int j = i; j < countB; j ++)
+		{
+			sum -= p_l[j - count].Y;
+			sum += p_l[j].Y;
+
+			double avg = sum / count;
+			if(avg > avgMax)
+			{
+				avgMax = avg;
+				avgMaxSampleStart = j - count;
+				avgMaxSampleEnd = j;
+			}
+		}
+
+		LogB.Information(string.Format("Average max force in {0} seconds: {1}, started at sample range: {2}:{3}",
+					windowSeconds, avgMax, avgMaxSampleStart, avgMaxSampleEnd));
+
+		/*
+		// 5) store data to not calculate it again if data is the same
+		calculatedForceMaxAvgInWindow = new CalculatedForceMaxAvgInWindow (
+				countA, countB, windowSeconds, avgMax, avgMaxSampleStart, avgMaxSampleEnd);
+				*/
+		LogB.Information ("GetMaxAvgInWindow done!");
+	}
+
+	public double AvgMax
+	{
+		get { return avgMax; }
+	}
+
+	public string Error
+	{
+		get { return error; }
+	}
+}
+
 public static class MathCJ
 {
 	public static double ToRadians(double angdeg)

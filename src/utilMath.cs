@@ -869,6 +869,23 @@ public class GetMaxAvgInWindow
 	}
 }
 
+public static class ForceCalcs
+{
+	public static double GetImpulse (List<PointF> p_l, int countA, int countB)
+	{
+		double sum = 0;
+		int samples = 0;
+		for(int i = countA; i <= countB; i ++)
+		{
+			sum += p_l[i].Y;
+			samples ++;
+		}
+
+		double elapsedSeconds = p_l[countB].X/1000000.0 - p_l[countA].X/1000000.0;
+		return sum * UtilAll.DivideSafe (elapsedSeconds, samples);
+	}
+}
+
 public static class MathCJ
 {
 	public static double ToRadians(double angdeg)

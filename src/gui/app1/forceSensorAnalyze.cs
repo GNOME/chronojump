@@ -2128,20 +2128,20 @@ public partial class ChronoJumpWindow
 						countA, countB), 1).ToString();
 
 			// 11) calculate variability
-			double variability = 0;
-			double feedbackDiff = 0;
 			int feedbackF = preferences.forceSensorCaptureFeedbackAt;
 
-			fsAI.CalculateVariabilityAndAccuracy(countA, countB, feedbackF, out variability, out feedbackDiff,
+			VariabilityAndAccuracy vaa = new VariabilityAndAccuracy ();
+			vaa.Calculate (cairoGraphForceSensorSignalPoints_l, countA, countB, feedbackF,
 					preferences.forceSensorVariabilityMethod, preferences.forceSensorVariabilityLag);
+			//LogB.Information (string.Format ("vaa variability: {0}, feedbackDiff: {1}", vaa.Variability, vaa.FeedbackDifference));
 
-			label_force_sensor_ai_variability_values.Text = Math.Round(variability, 3).ToString();
+			label_force_sensor_ai_variability_values.Text = Math.Round (vaa.Variability, 3).ToString();
 
 			// 12) calculate Accuracy (Feedback difference)
 			//if(preferences.forceSensorCaptureFeedbackActive && feedbackF > 0)
 			if(preferences.forceSensorCaptureFeedbackActive == Preferences.ForceSensorCaptureFeedbackActiveEnum.RECTANGLE && feedbackF > 0)
 			{
-				label_force_sensor_ai_feedback_values.Text = Math.Round(feedbackDiff, 3).ToString();
+				label_force_sensor_ai_feedback_values.Text = Math.Round (vaa.FeedbackDiff, 3).ToString();
 				label_force_sensor_ai_feedback.Visible = true;
 				hbox_force_sensor_ai_feedback.Visible = true;
 			} else {

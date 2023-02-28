@@ -16,7 +16,7 @@
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
  *  Copyright (C) 2016, 2019   Xavier Padullés <x.padulles@gmail.com>
- *  Copyright (C) 2016-2017, 2019-2022   Xavier de Blas <xaviblas@gmail.com>
+ *  Copyright (C) 2016-2017, 2019-2023   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -576,7 +576,192 @@ public class MovingAverage
 	}
 }
 
-//TODO: manage if X is micros or millis
+public class VariabilityAndAccuracy
+{
+	private	List<PointF> p_l;
+
+	private double variability;
+	private double feedbackDiff;
+
+	public VariabilityAndAccuracy ()
+	{
+	}
+
+	public void Calculate (List<PointF> p_l, int countA, int countB,
+			int feedbackF, Preferences.VariabilityMethodEnum variabilityMethod, int lag)
+	{
+		if(countA == countB)
+		{
+			variability = 0;
+			feedbackDiff = 0;
+			return;
+		}
+
+		this.p_l = p_l;
+
+		// 1) calculate numSamples. Note countA and countB are included, so
+		//countA = 2; countB = 4; samples are: 2,3,4; 3 samples
+		int numSamples = (countB - countA) + 1;
+
+		// 2) get variability
+		if(variabilityMethod == Preferences.VariabilityMethodEnum.CHRONOJUMP_OLD)
+			variability = getVariabilityOldMethod (countA, countB, numSamples);
+		else
+			variability = getVariabilityRMSSDCVRMSSD (variabilityMethod, lag, countA, countB, numSamples);
+
+		// 3) Calculate difference.
+		// Average of the differences between force and average
+		//feedbackDiff = Math.Abs(feedbackF - avg);
+		double sum = 0;
+		for(int i = countA; i <= countB; i ++)
+			sum += Math.Abs (p_l[i].Y - feedbackF);
+
+		feedbackDiff = UtilAll.DivideSafe (sum, numSamples);
+	}
+
+	private double getVariabilityRMSSDCVRMSSD (
+			Preferences.VariabilityMethodEnum method, int lag,
+			int countA, int countB, int numSamples)
+	{
+		//see a test of this method below:
+		//public static void TestVariabilityCVRMSSD()
+
+		//sqrt(Σ( x_i - x_{i+1})^2 /(n-1)) )   //note pow should be inside the summation
+		double sum = 0;
+		double sumForMean = 0;
+		for(int i = countA; i+lag <= countB; i ++)
+		{
+			sum += Math.Pow(p_l[i].Y - p_l[i+lag].Y, 2);
+			sumForMean += p_l[i].Y;
+		}
+
+		double rmssd = Math.Sqrt (UtilAll.DivideSafe (sum, numSamples -lag));
+		LogB.Information("RMSSD: " + rmssd.ToString());
+
+		if(method == Preferences.VariabilityMethodEnum.RMSSD)
+			return rmssd;
+
+		//sumForMean += forces[countB]; //need this?
+		double mean = sumForMean / numSamples;
+
+		return 100 * UtilAll.DivideSafe (rmssd, mean);
+	}
+
+	private double getVariabilityOldMethod (int countA, int countB, int numSamples)
+	{
+		// 1) get average
+		double sum = 0;
+		for(int i = countA; i <= countB; i ++)
+			sum += p_l[i].Y;
+
+		double avg = sum / numSamples;
+
+		// 2) Average of the differences between force and average
+		sum = 0;
+		for (int i = countA; i <= countB; i ++)
+			sum += Math.Abs (p_l[i].Y-avg);
+
+		return UtilAll.DivideSafe (sum, numSamples);
+	}
+
+	public void TestVariabilityCVRMSSD (int lag)
+	{
+		/*
+		   R psych test:
+		   library("psych")
+		   > x=c(21, 45, 75, 54, 5.5, 545.5, 44, 17, 8, -15, -12.8, -15.9, -11.5, -2, 5.3)
+		   > rmssd(x,group=NULL, lag=1, na.rm=TRUE)
+		   [1] 234.2467
+		*/
+
+		List<PointF> pTest_l = new List<PointF> ();
+		List <double> nums = new List<double> {21, 45, 75, 54, 5.5, 545.5, 44, 17, 8, -15, -12.8, -15.9, -11.5, -2, 5.3};
+		for (int i = 0; i < nums.Count; i ++)
+			pTest_l.Add (new PointF (i+1, nums[i]));
+
+		Calculate (pTest_l, 0, nums.Count -1,
+				20, Preferences.VariabilityMethodEnum.CVRMSSD, lag);
+
+		LogB.Information("cvRMSSD: " + variability);
+	}
+
+	public void TestVariabilityRMSSDAndCVRMSSD ()
+	{
+		/* R code:
+
+		library("psych")
+		d=read.csv2("rmssd2.csv")
+		png(width=1920, height=1080, filename="rmssd.png")
+		y=d$Force..N.
+		maxyStored = max(y)
+		plot(y, ylim=c(0,maxyStored))
+		#abline(v=seq(from=1, to=length(y), by=100))
+		maxVariab = 0
+		for(n in seq(from=1, to=(length(y) -100), by=100)) {
+			variab = rmssd(y[n:(n+100)], group=NULL, lag=1, na.rm=TRUE)
+			mtext(side=1, at=n+50, round(variab,3), line=0)
+			if(variab > maxVariab)
+				maxVariab = variab
+		}
+		for(n in seq(from=1, to=(length(y) -100), by=100)) {
+			variab = rmssd(y[n:(n+100)], group=NULL, lag=1, na.rm=TRUE)
+			variabScaled = max(y) * variab / maxVariab
+			#rect(n, 0, n+100, variabScaled)
+		}
+
+		#try to lower the values
+		y=y-100
+		lines(y, col="blue")
+		for(n in seq(from=1, to=(length(y) -100), by=100)) {
+			variab = rmssd(y[n:(n+100)], group=NULL, lag=1, na.rm=TRUE)
+			mtext(side=1, at=n+50, round(variab,3), col="blue", line=1)
+		}
+		for(n in seq(from=1, to=(length(y) -100), by=100)) {
+			variab = rmssd(y[n:(n+100)], group=NULL, lag=1, na.rm=TRUE)
+			variabScaled = maxyStored * variab / maxVariab
+			#rect(n, 0, n+100, variabScaled, col="blue")
+		}
+
+		#cv rmssd
+		y=d$Force..N.
+		lines(y, col="green4")
+		for(n in seq(from=1, to=(length(y) -100), by=100)) {
+			variab = 100*rmssd(y[n:(n+100)], group=NULL, lag=1, na.rm=TRUE)/mean(y[n:(n+100)])
+			mtext(side=1, at=n+50, round(variab,3), col="green4", line=2)
+		}
+		for(n in seq(from=1, to=(length(y) -100), by=100)) {
+			variab = 100*rmssd(y[n:(n+100)], group=NULL, lag=1, na.rm=TRUE)/mean(y[n:(n+100)])
+			variabScaled = maxyStored * variab / maxVariab
+			#rect(n, 0, n+100, variabScaled, col="green4")
+		}
+
+		# y/2
+		y=d$Force..N.
+		y=y/2
+		lines(y, col="red")
+		for(n in seq(from=1, to=(length(y) -100), by=100)) {
+			variab = rmssd(y[n:(n+100)], group=NULL, lag=1, na.rm=TRUE)
+			mtext(side=1, at=n+50, round(variab,3), col="red", line=3)
+		}
+		for(n in seq(from=1, to=(length(y) -100), by=100)) {
+			variab = rmssd(y[n:(n+100)], group=NULL, lag=1, na.rm=TRUE)
+			variabScaled = maxyStored * variab / maxVariab
+			#rect(n, 0, n+100, variabScaled, col="red")
+		}
+		dev.off()
+		 */
+	}
+
+	public double Variability {
+		get { return variability; }
+	}
+
+	public double FeedbackDiff {
+		get { return feedbackDiff; }
+	}
+}
+
+// TODO: manage if X is micros or millis
 public class GetMaxAvgInWindow
 {
 	private double avgMax;
@@ -584,8 +769,7 @@ public class GetMaxAvgInWindow
 	private double avgMaxSampleEnd;
 	private string error;
 
-	public GetMaxAvgInWindow (List<PointF> p_l, int countA, int countB, double windowSeconds)//,
-		// out double avgMax, out int avgMaxSampleStart, out int avgMaxSampleEnd, out string error)
+	public GetMaxAvgInWindow (List<PointF> p_l, int countA, int countB, double windowSeconds)
 	{
 		LogB.Information ("GetMaxAvgInWindow start");
 

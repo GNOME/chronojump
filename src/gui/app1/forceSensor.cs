@@ -118,9 +118,6 @@ public partial class ChronoJumpWindow
 	SerialPort portFS_B; //Attention!! Don't reopen port because arduino makes reset and tare, calibration... is lost
 	bool portFSOpened_B;
 
-	Gdk.GC pen_black_force_capture; //TODO: remove also this
-	Gdk.Colormap colormapForce = Gdk.Colormap.System;
-
 	List<PointF> interpolate_l; 	//interpolated path
 
 	string forceSensorNotConnectedString =
@@ -145,12 +142,6 @@ public partial class ChronoJumpWindow
 
 		spinbutton_force_sensor_export_image_width.Value = preferences.exportGraphWidth;
 		spinbutton_force_sensor_export_image_height.Value = preferences.exportGraphHeight;
-	}
-
-	private void force_graphs_init()
-	{
-		colormapForce = Gdk.Colormap.System;
-		colormapForce.AllocColor (ref UtilGtk.BLACK,true,true);
 	}
 
 	//Attention: no GTK here!!
@@ -367,10 +358,6 @@ public partial class ChronoJumpWindow
 		forceSensorTimeStart = DateTime.Now;
 		forceSensorOtherMessageShowSeconds = secondsEnum.ASC;
 
-		//TODO: remove this
-		if(pen_black_force_capture == null)
-			force_graphs_init();
-
 		if(o == (object) button_force_sensor_tare)
 		{
 			vbox_force_sensor_adjust_actions.Sensitive = false;
@@ -534,16 +521,13 @@ public partial class ChronoJumpWindow
 			image_force_sensor_ai_zoom_out.Visible = false;
 		}
 
-		// erase non-cairo graphs
-		if(force_sensor_ai_drawingarea != null && force_sensor_ai_pixmap != null)
-			UtilGtk.ErasePaint(force_sensor_ai_drawingarea, force_sensor_ai_pixmap);
-
 		// erase cairo graphs ---->
 		// ... at capture tab
 		cairoGraphForceSensorSignal = null;
 		cairoGraphForceSensorSignalPoints_l = new List<PointF> ();
 		cairoGraphForceSensorSignalPointsDispl_l = new List<PointF> ();
 		cairoGraphForceSensorSignalPointsSpeed_l = new List<PointF> ();
+		cairoGraphForceSensorSignalPointsAccel_l = new List<PointF> ();
 		cairoGraphForceSensorSignalPointsPower_l = new List<PointF> ();
 		paintPointsInterpolateCairo_l = new List<PointF>();
 		force_capture_drawingarea_cairo.QueueDraw ();
@@ -1066,6 +1050,7 @@ public partial class ChronoJumpWindow
 		cairoGraphForceSensorSignalPoints_l = new List<PointF> ();
 		cairoGraphForceSensorSignalPointsDispl_l = new List<PointF> ();
 		cairoGraphForceSensorSignalPointsSpeed_l = new List<PointF> ();
+		cairoGraphForceSensorSignalPointsAccel_l = new List<PointF> ();
 		cairoGraphForceSensorSignalPointsPower_l = new List<PointF> ();
 		paintPointsInterpolateCairo_l = new List<PointF>();
 
@@ -1567,12 +1552,8 @@ LogB.Information(" fs C ");
 					//do not calculate RFD until analyze button there is clicked
 					//forceSensorDoRFDGraph();
 
-					//if drawingarea has still not shown, don't paint graph because GC screen is not defined
-					if(force_sensor_ai_drawingareaShown)
-					{
-						forceSensorZoomDefaultValues();
-						forceSensorDoGraphAI(false);
-					}
+					forceSensorZoomDefaultValues();
+					forceSensorDoGraphAI(false);
 
 					hbox_force_sensor_analyze_ai_sliders_and_buttons.Sensitive = true;
 
@@ -1902,13 +1883,10 @@ LogB.Information(" fs R ");
 		button_video_play_this_test_contacts.Sensitive = (fs.VideoURL != "");
 		sensitiveLastTestButtons(true);
 
-		//if drawingarea has still not shown, don't paint graph because GC screen is not defined
-		if(force_sensor_ai_drawingareaShown)
-		{
-			forceSensorZoomDefaultValues();
-			forceSensorDoGraphAI(false);
-			updateForceSensorAICairo (true);
-		}
+		forceSensorZoomDefaultValues();
+		forceSensorDoGraphAI(false);
+		updateForceSensorAICairo (true);
+
 		//event_execute_label_message.Text = "Loaded: " + Util.GetLastPartOfPath(filechooser.Filename);
 		event_execute_label_message.Text = Catalog.GetString("Loaded:") + " " + lastForceSensorFile;
 
@@ -2132,12 +2110,8 @@ LogB.Information(" fs R ");
 			image_force_sensor_graph.Sensitive = false; //unsensitivize the RFD image (can contain info of previous data)
 		}
 
-		//if drawingarea has still not shown, don't paint graph because GC screen is not defined
-		if(force_sensor_ai_drawingareaShown)
-		{
-			forceSensorZoomDefaultValues();
-			forceSensorDoGraphAI(false);
-		}
+		forceSensorZoomDefaultValues();
+		forceSensorDoGraphAI(false);
 
 		//to update maxAvgForce in 1s and fmax need to have fscPoints changed according to CaptureOption. So do it here
 		currentForceSensor.MaxForceRaw = forceSensorValues.Max;
@@ -2272,6 +2246,7 @@ LogB.Information(" fs R ");
 		cairoGraphForceSensorSignalPoints_l = new List<PointF> ();
 		cairoGraphForceSensorSignalPointsDispl_l = new List<PointF> ();
 		cairoGraphForceSensorSignalPointsSpeed_l = new List<PointF> ();
+		cairoGraphForceSensorSignalPointsAccel_l = new List<PointF> ();
 		cairoGraphForceSensorSignalPointsPower_l = new List<PointF> ();
 
 		//LogB.Information("at forceSensorDoSignalGraphReadFile(), filename: " + UtilEncoder.GetmifCSVFileName());
@@ -2321,14 +2296,14 @@ LogB.Information(" fs R ");
 		times.RemoveAt(0); //always (not-elastic and elastic) 1st has to be removed, because time is not ok there.
 		List<double> position_l = new List<double> ();
 		List<double> speed_l = new List<double> ();
-		//List<double> accel_l = new List<double> ();
+		List<double> accel_l = new List<double> ();
 		List<double> power_l = new List<double> ();
 		if(fsd.CalculedElasticPSAP)
 		{
 			times = times.GetRange(fsd.RemoveNValues +1, times.Count -2*fsd.RemoveNValues);
 			position_l = fsd.GetPositions();
 			speed_l = fsd.GetSpeeds();
-			//accel_l = fsd.GetAccels();
+			accel_l = fsd.GetAccels();
 			power_l = fsd.GetPowers();
 		}
 		int i = 0;
@@ -2339,6 +2314,7 @@ LogB.Information(" fs R ");
 			{
 				cairoGraphForceSensorSignalPointsDispl_l.Add (new PointF (time, position_l[i]));
 				cairoGraphForceSensorSignalPointsSpeed_l.Add (new PointF (time, speed_l[i]));
+				cairoGraphForceSensorSignalPointsAccel_l.Add (new PointF (time, accel_l[i]));
 				cairoGraphForceSensorSignalPointsPower_l.Add (new PointF (time, power_l[i]));
 			}
 
@@ -2354,6 +2330,7 @@ LogB.Information(" fs R ");
 	static List<PointF> cairoGraphForceSensorSignalPoints_l;
 	static List<PointF> cairoGraphForceSensorSignalPointsDispl_l;
 	static List<PointF> cairoGraphForceSensorSignalPointsSpeed_l;
+	static List<PointF> cairoGraphForceSensorSignalPointsAccel_l;
 	static List<PointF> cairoGraphForceSensorSignalPointsPower_l;
 	bool cairoGraphForceSensorSignalPointsShowAccuracy;
 
@@ -2397,6 +2374,8 @@ LogB.Information(" fs R ");
 			cairoGraphForceSensorSignalPointsDispl_l = new List<PointF> ();
 		if (cairoGraphForceSensorSignalPointsSpeed_l == null)
 			cairoGraphForceSensorSignalPointsSpeed_l = new List<PointF> ();
+		if (cairoGraphForceSensorSignalPointsAccel_l == null)
+			cairoGraphForceSensorSignalPointsAccel_l = new List<PointF> ();
 		if (cairoGraphForceSensorSignalPointsPower_l == null)
 			cairoGraphForceSensorSignalPointsPower_l = new List<PointF> ();
 		if (paintPointsInterpolateCairo_l == null)
@@ -2428,6 +2407,8 @@ LogB.Information(" fs R ");
 		if (cairoGraphForceSensorSignalPointsSpeed_l != null && cairoGraphForceSensorSignalPointsSpeed_l.Count > 0)
 			for (int i = 0; i < pointsToCopySpeed; i ++)
 				cairoGraphForceSensorSignalPointsSpeed_l_copy.Add (cairoGraphForceSensorSignalPointsSpeed_l[i]);
+
+		//elast accel is not needed
 
 		//elastic power
 		List<PointF> cairoGraphForceSensorSignalPointsPower_l_copy = new List<PointF>();
@@ -2564,6 +2545,7 @@ LogB.Information(" fs R ");
 
 	void on_button_forcesensor_save_image_rfd_manual_file_selected (string destination)
 	{
+		/*
 		LogB.Information("CREATING PIXBUF");
 		LogB.Information("force_sensor_ai_pixmap is null == " + (force_sensor_ai_pixmap == null));
 		LogB.Information("colormapForceAI is null == " + (colormapForceAI == null));
@@ -2576,6 +2558,9 @@ LogB.Information(" fs R ");
 
 		LogB.Information("Saving");
 		pixbuf.Save(destination,"png");
+
+		TODO: do it for Cairo
+		*/
 	}
 	private void on_overwrite_file_forcesensor_save_image_rfd_manual_accepted(object o, EventArgs args)
 	{

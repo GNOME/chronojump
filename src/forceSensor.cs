@@ -2404,6 +2404,13 @@ public class ForceSensorAnalyzeInstant
 		return fscAIPoints.GetRFD(countA, countB);
 	}
 
+	//TODO: do not pass forces_l here, have it on the class
+	public double CalculateImpulse (List<PointF> forces_l, int countA, int countB)
+	{
+		//return fscAIPoints.GetImpulse(countA, countB);
+		return ForceCalcs.GetImpulse (forces_l, countA, countB);
+	}
+
 	/*
 	 * Calculates RFD in a point using previous and next point
 	 */

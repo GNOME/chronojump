@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: chronojump master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/chronojump/issues\n"
-"POT-Creation-Date: 2023-02-17 22:02+0000\n"
-"PO-Revision-Date: 2023-02-20 23:54+0100\n"
+"POT-Creation-Date: 2023-02-21 12:16+0000\n"
+"PO-Revision-Date: 2023-02-28 02:02+0100\n"
 "Last-Translator: Balázs Úr <ur.balazs at fsf dot hu>\n"
 "Language-Team: Hungarian <gnome-hu-list at gnome dot org>\n"
 "Language: hu\n"
@@ -128,7 +128,7 @@ msgstr "Versenyek"
 #: ../glade/app1.glade.h:22 ../glade/preferences_win.glade.h:108
 #: ../src/gui/app1/chronojump.cs:3055
 #: ../src/gui/app1/session/loadAndImport.cs:322
-#: ../src/gui/person/showAllEvents.cs:216
+#: ../src/gui/person/showAllEvents.cs:237
 msgid "Isometric"
 msgstr "Izometrikus"
 
@@ -136,20 +136,20 @@ msgstr "Izometrikus"
 #: ../glade/preferences_win.glade.h:106 ../src/gui/app1/chronojump.cs:3057
 #: ../src/gui/app1/forceSensor.cs:2289
 #: ../src/gui/app1/session/loadAndImport.cs:324
-#: ../src/gui/forceSensorExercise.cs:498 ../src/gui/person/showAllEvents.cs:217
+#: ../src/gui/forceSensorExercise.cs:498 ../src/gui/person/showAllEvents.cs:238
 msgid "Elastic"
 msgstr "Elasztikus"
 
 #: ../glade/app1.glade.h:24 ../src/gui/app1/encoder.cs:4747
 #: ../src/gui/app1/session/loadAndImport.cs:326
-#: ../src/gui/person/showAllEvents.cs:218
+#: ../src/gui/person/showAllEvents.cs:239
 msgid "Weights"
 msgstr "Súlyok"
 
 #: ../glade/app1.glade.h:25 ../glade/preferences_win.glade.h:56
 #: ../src/gui/app1/session/loadAndImport.cs:330
 #: ../src/gui/encoderConfiguration.cs:210 ../src/gui/overview.cs:246
-#: ../src/gui/person/showAllEvents.cs:221
+#: ../src/gui/person/showAllEvents.cs:242
 msgid "Inertial"
 msgstr "Tehetetlenségi"
 
@@ -349,7 +349,7 @@ msgstr "Teszt megszakítása"
 #: ../glade/person_merge.glade.h:6 ../glade/person_select_window.glade.h:11
 #: ../src/exportSession.cs:75 ../src/gui/app1/encoder.cs:2444
 #: ../src/gui/app1/encoder.cs:2741 ../src/gui/app1/session/backup.cs:79
-#: ../src/gui/app1/session/backup.cs:233 ../src/gui/app1/session/backup.cs:443
+#: ../src/gui/app1/session/backup.cs:233 ../src/gui/app1/session/backup.cs:448
 #: ../src/gui/app1/session/export.cs:77 ../src/gui/chronopicRegister.cs:183
 #: ../src/gui/encoderConfiguration.cs:733
 #: ../src/gui/encoderConfiguration.cs:790 ../src/gui/networks.cs:417
@@ -1014,8 +1014,8 @@ msgstr "Mentés"
 #: ../src/gui/app1/encoder.cs:1809 ../src/gui/app1/encoder.cs:5769
 #: ../src/gui/app1/forceSensor.cs:2340 ../src/gui/app1/forceSensor.cs:3741
 #: ../src/gui/app1/runEncoder.cs:1008 ../src/gui/app1/runEncoder.cs:2335
-#: ../src/gui/app1/session/backup.cs:194 ../src/gui/app1/session/backup.cs:403
-#: ../src/gui/app1/session/backup.cs:455 ../src/gui/chronopicRegister.cs:204
+#: ../src/gui/app1/session/backup.cs:194 ../src/gui/app1/session/backup.cs:408
+#: ../src/gui/app1/session/backup.cs:460 ../src/gui/chronopicRegister.cs:204
 #: ../src/gui/chronopicRegister.cs:365 ../src/gui/chronopicRegister.cs:776
 #: ../src/gui/encoderSelectRepetitions.cs:289 ../src/gui/executeAuto.cs:306
 #: ../src/gui/genericWindow.cs:972
@@ -1840,8 +1840,8 @@ msgstr "Válassza ki azokat a mentéshez"
 #: ../src/gui/app1/session/loadAndImport.cs:331
 #: ../src/gui/encoderSelectRepetitions.cs:262
 #: ../src/gui/encoderSelectRepetitions.cs:462
-#: ../src/gui/person/showAllEvents.cs:219
-#: ../src/gui/person/showAllEvents.cs:222
+#: ../src/gui/person/showAllEvents.cs:240
+#: ../src/gui/person/showAllEvents.cs:243
 msgid "Repetitions"
 msgstr "Ismétlések"
 
@@ -2233,7 +2233,6 @@ msgid "Import"
 msgstr "Importálás"
 
 #: ../glade/app1.glade.h:470
-#| msgid "Full name"
 msgid "Filter by name"
 msgstr "Szűrés név szerint"
 
@@ -2321,7 +2320,7 @@ msgstr "A munkamenet és az összes tesztje törölve."
 
 #: ../glade/app1.glade.h:490 ../src/exportSession.cs:247
 #: ../src/gui/app1/session/loadAndImport.cs:305
-#: ../src/gui/person/showAllEvents.cs:210 ../src/gui/session/selectStats.cs:79
+#: ../src/gui/person/showAllEvents.cs:231 ../src/gui/session/selectStats.cs:79
 #: ../src/report.cs:230
 msgid "Place"
 msgstr "Hely"
@@ -2333,7 +2332,7 @@ msgstr "Hely"
 #: ../src/gui/app1/runEncoder.cs:961 ../src/gui/app1/runEncoder.cs:2349
 #: ../src/gui/app1/session/loadAndImport.cs:287 ../src/gui/cairo/xy.cs:103
 #: ../src/gui/encoderSelectRepetitions.cs:230
-#: ../src/gui/person/showAllEvents.cs:208 ../src/gui/session/selectStats.cs:80
+#: ../src/gui/person/showAllEvents.cs:229 ../src/gui/session/selectStats.cs:80
 #: ../src/report.cs:230 ../src/treeview/jump.cs:39 ../src/treeview/run.cs:31
 msgid "Date"
 msgstr "Dátum"
@@ -2424,12 +2423,10 @@ msgstr ""
 "fájljait és megvédi az adatvesztéstől."
 
 #: ../glade/app1.glade.h:506
-#| msgid "Include laps"
 msgid "Include logs"
 msgstr "Tartalmazza a naplókat"
 
 #: ../glade/app1.glade.h:507
-#| msgid "Include images"
 msgid "Include config files"
 msgstr "Tartalmazza a beállítófájlokat"
 
@@ -3880,8 +3877,8 @@ msgstr "Chronopic port kényszerítése COM1 - COM4-re"
 #: ../src/gui/app1/forceSensor.cs:3754 ../src/gui/app1/runEncoder.cs:2348
 #: ../src/gui/app1/session/loadAndImport.cs:327
 #: ../src/gui/app1/session/loadAndImport.cs:331 ../src/gui/overview.cs:101
-#: ../src/gui/overview.cs:284 ../src/gui/person/showAllEvents.cs:219
-#: ../src/gui/person/showAllEvents.cs:222
+#: ../src/gui/overview.cs:284 ../src/gui/person/showAllEvents.cs:240
+#: ../src/gui/person/showAllEvents.cs:243
 msgid "Sets"
 msgstr "Sorozatok"
 
@@ -3914,7 +3911,6 @@ msgid "Person:"
 msgstr "Személy:"
 
 #: ../glade/person_merge.glade.h:7
-#| msgid "Difference"
 msgid "Check differences"
 msgstr "Különbség ellenőrzése"
 
@@ -4534,7 +4530,7 @@ msgstr "Felismerés"
 
 #: ../glade/preferences_win.glade.h:121 ../src/gui/app1/chronojump.cs:3049
 #: ../src/gui/app1/session/loadAndImport.cs:319
-#: ../src/gui/person/showAllEvents.cs:215
+#: ../src/gui/person/showAllEvents.cs:236
 msgid "Race analyzer"
 msgstr "Versenyelemző"
 
@@ -5809,7 +5805,6 @@ msgid "Need at least three jumps"
 msgstr "Legalább három ugrás szükséges"
 
 #: ../src/constants.cs:1509
-#| msgid "Need at least three jumps"
 msgid "Need at least three eccentric-concentric jumps"
 msgstr "Legalább három excentrikus-koncentrikus ugrás szükséges"
 
@@ -6173,7 +6168,7 @@ msgid "Error doing operation."
 msgstr "Hiba a művelet végrehajtásakor."
 
 #: ../src/exportFiles/exportFiles.cs:176 ../src/gui/app1/session/backup.cs:304
-#: ../src/gui/app1/session/backup.cs:434 ../src/gui/app1/session/export.cs:133
+#: ../src/gui/app1/session/backup.cs:439 ../src/gui/app1/session/export.cs:133
 #: ../src/gui/app1/session/export.cs:235
 #, csharp-format
 msgid "Cannot copy to {0} "
@@ -6618,12 +6613,10 @@ msgstr "Kérjük, innen telepítse:"
 
 #: ../src/gui/app1/chronojump.cs:4140
 #, csharp-format
-#| msgid "Sorry, R software is not installed."
 msgid "Sorry, {0} software is not installed."
 msgstr "Elnézést, a(z) {0} szoftver nincs telepítve."
 
 #: ../src/gui/app1/chronojump.cs:4484
-#| msgid "Measured by Encoder"
 msgid "Measured by a contact platform"
 msgstr "Érintkezési platformmal mért"
 
@@ -6643,8 +6636,8 @@ msgstr "Jeladóval mért sebesség/teljesítmény gyakorlatok súlyok elmozdít�
 msgid ""
 "Speed/power exercises rotating an inertial machine and measured by an encoder"
 msgstr ""
-"Jeladóval mért sebesség/teljesítmény gyakorlatok egy tehetetlen gép"
-" forgatására"
+"Jeladóval mért sebesség/teljesítmény gyakorlatok egy tehetetlen gép "
+"forgatására"
 
 #: ../src/gui/app1/chronojump.cs:4712
 #, csharp-format
@@ -6706,7 +6699,7 @@ msgstr ""
 msgid "Done for testing purposes. Chronojump will exit badly"
 msgstr "Tesztelési célokhoz készítve. A Chronojump rosszul fog kilépni"
 
-#: ../src/gui/app1/chronojumpPersons.cs:365
+#: ../src/gui/app1/chronojumpPersons.cs:383
 msgid ""
 "Are you sure you want to delete the current person and all his/her tests "
 "(jumps, races, pulses, …) from this session?\n"
@@ -6716,11 +6709,11 @@ msgstr ""
 "(ugrások, versenyek, impulzusok, …) ebből a munkamenetből?\n"
 "(A személyes adatai és tesztjei más munkamenetekben érintetlenek maradnak.)"
 
-#: ../src/gui/app1/chronojumpPersons.cs:366
+#: ../src/gui/app1/chronojumpPersons.cs:384
 msgid "Current Person: "
 msgstr "Jelenlegi személy: "
 
-#: ../src/gui/app1/chronojumpPersons.cs:373
+#: ../src/gui/app1/chronojumpPersons.cs:391
 msgid "Deleted person and all his/her tests on this session."
 msgstr "A személy és az összes tesztje törölve a munkamenetből."
 
@@ -7162,7 +7155,7 @@ msgstr "Fürtök"
 
 #. to allow hslides and table
 #: ../src/gui/app1/encoder.cs:6524 ../src/gui/app1/encoder.cs:7073
-#: ../src/gui/app1/session/backup.cs:386
+#: ../src/gui/app1/session/backup.cs:391
 msgid "Please, wait."
 msgstr "Kis türelmet."
 
@@ -7454,7 +7447,6 @@ msgstr "A(z) „{0}” munkamenet létezik. Használjon másik nevet"
 
 #: ../src/gui/app1/session/backup.cs:96
 #, csharp-format
-#| msgid "Estimated size: {0} MB."
 msgid "Estimated size: {0} MB (uncompressed)."
 msgstr "Becsült méret: {0} MB (tömörítetlen)."
 
@@ -7486,28 +7478,30 @@ msgstr "Adatbázis másolása ide:"
 msgid "Select"
 msgstr "Kijelölés"
 
-#: ../src/gui/app1/session/backup.cs:334
-#| msgid "Checking …"
+#: ../src/gui/app1/session/backup.cs:335
 msgid "Compressing …"
 msgstr "Tömörítés…"
 
-#: ../src/gui/app1/session/backup.cs:361
+#: ../src/gui/app1/session/backup.cs:336
+#, csharp-format
+msgid "Please, wait approximately {0} s."
+msgstr "Várjon körülbelül {0} másodpercet."
+
+#: ../src/gui/app1/session/backup.cs:366
 #, csharp-format
 msgid "Copied in {0} ms."
 msgstr "Átmásolva {0} ezredmásodperc alatt."
 
-#: ../src/gui/app1/session/backup.cs:364
+#: ../src/gui/app1/session/backup.cs:369
 #, csharp-format
-#| msgid "Copied in {0} ms."
 msgid "Compressed in {0} s."
 msgstr "Tömörítve {0} másodperc alatt."
 
-#: ../src/gui/app1/session/backup.cs:367
+#: ../src/gui/app1/session/backup.cs:372
 msgid "Failed at compress."
 msgstr "Hiba a tömörítésnél."
 
-#: ../src/gui/app1/session/backup.cs:369
-#| msgid "Failed, maybe the disk is full."
+#: ../src/gui/app1/session/backup.cs:374
 msgid "Copy failed, maybe the disk is full."
 msgstr "A másolás sikertelen, talán betelt a lemez."
 
@@ -7963,7 +7957,7 @@ msgstr "Biztosan törölni szeretné ezt az ismétlést?"
 
 #. checkboxes
 #: ../src/gui/encoderSelectRepetitions.cs:440
-#: ../src/gui/person/showAllEvents.cs:209
+#: ../src/gui/person/showAllEvents.cs:230
 msgid "Session name"
 msgstr "Munkamenet neve"
 
@@ -8789,7 +8783,6 @@ msgstr "Úgy tűnik, hogy van egy fejlécsor, és nem jelölte meg."
 
 #. errors
 #: ../src/gui/person/addMultiple.cs:662
-#| msgid "Change current session"
 msgid ""
 "Name already\n"
 "in session"
@@ -8798,7 +8791,6 @@ msgstr ""
 "a munkamenetben"
 
 #: ../src/gui/person/addMultiple.cs:663
-#| msgid "Import from already opened database"
 msgid ""
 "Name already\n"
 "in database"
@@ -8807,12 +8799,10 @@ msgstr ""
 "az adatbázisban"
 
 #: ../src/gui/person/addMultiple.cs:665
-#| msgid "Create new"
 msgid "Repeated name"
 msgstr "Ismételt név"
 
 #: ../src/gui/person/addMultiple.cs:666
-#| msgid "Non weighted"
 msgid "No weight"
 msgstr "Nincs súly"
 
@@ -8821,18 +8811,15 @@ msgid "Persons will be created with default session values"
 msgstr "A személyek alapértelmezett munkamenetértékekkel lesznek létrehozva"
 
 #: ../src/gui/person/merge.cs:310
-#| msgid "Rest between repetitions"
 msgid "Differences between persons"
 msgstr "Különbségek a személyek között"
 
 #: ../src/gui/person/merge.cs:318
-#| msgid "Delete session"
 msgid "Differences in session"
 msgstr "Különbségek a munkamenetben"
 
 #: ../src/gui/person/merge.cs:344 ../src/gui/person/merge.cs:345
 #: ../src/gui/person/merge.cs:361 ../src/gui/person/merge.cs:362
-#| msgid "Please fill these values."
 msgid "Use these values"
 msgstr "Ezen értékek használata"
 
@@ -8871,7 +8858,7 @@ msgstr ""
 "Ha azt szeretné, hogy egy személy ne legyen feltöltve, akkor szüntesse meg a "
 "kijelölését."
 
-#: ../src/gui/person/showAllEvents.cs:211
+#: ../src/gui/person/showAllEvents.cs:232
 msgid ""
 "Jumps\n"
 "simple"
@@ -8879,7 +8866,7 @@ msgstr ""
 "Ugrások\n"
 "egyszerű"
 
-#: ../src/gui/person/showAllEvents.cs:212
+#: ../src/gui/person/showAllEvents.cs:233
 msgid ""
 "Jumps\n"
 "reactive"
@@ -8887,7 +8874,7 @@ msgstr ""
 "Ugrások\n"
 "reaktív"
 
-#: ../src/gui/person/showAllEvents.cs:213
+#: ../src/gui/person/showAllEvents.cs:234
 msgid ""
 "Races\n"
 "simple"
@@ -8895,7 +8882,7 @@ msgstr ""
 "Versenyek\n"
 "egyszerű"
 
-#: ../src/gui/person/showAllEvents.cs:214
+#: ../src/gui/person/showAllEvents.cs:235
 msgid ""
 "Races\n"
 "interval"
@@ -11557,15 +11544,12 @@ msgstr "{0} a DJ indexben [(tf-tc)/tc * 100] alkalmazva erre: {1} ezen: {2}"
 
 #: ../src/stats/djPower.cs:135
 #, csharp-format
-#| msgid ""
-#| "{0} in Dj Power [mass * g * (fallHeight + 1.226 * (tv^2) ) / tc] applied "
-#| "to {1} on {2}"
 msgid ""
 "{0} in Dj Power [mass * g * (fallHeight + 1.226 * (tf^2) ) / tc] applied to "
 "{1} on {2}"
 msgstr ""
-"{0} a DJ teljesítményben [mass * g * (fallHeight + 1,226 * (tf^2) ) / tc]"
-" alkalmazva erre: {1} ezen: {2}"
+"{0} a DJ teljesítményben [mass * g * (fallHeight + 1,226 * (tf^2) ) / tc] "
+"alkalmazva erre: {1} ezen: {2}"
 
 #: ../src/stats/djQ.cs:32
 msgid "Q Index"

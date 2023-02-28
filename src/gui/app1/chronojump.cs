@@ -1056,9 +1056,12 @@ public partial class ChronoJumpWindow
 
 		//Util.TestSortDoublesListstring();
 
+		/*
 		//Test ForceSensor GetVariabilityAndAccuracy: getVariabilityCVRMSSD
-		//ForceSensorCapturePoints.TestVariabilityCVRMSSD (1); //lag
-		//ForceSensorCapturePoints.TestVariabilityCVRMSSD (2);
+		VariabilityAndAccuracy vaa = new VariabilityAndAccuracy ();
+		vaa.TestVariabilityCVRMSSD (1); //lag
+		vaa.TestVariabilityCVRMSSD (2); //lag
+		*/
 
 		//InterpolateSignal.TestInterpolateBetween();
 		//InterpolateSignal.TestCosineAndCubicInterpolate(true);

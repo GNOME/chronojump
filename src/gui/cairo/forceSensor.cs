@@ -740,21 +740,22 @@ public class CairoGraphForceSensorAI : CairoGraphForceSensor
 			}
 
 			// paint the f max avg in x seconds
-			g.LineWidth = 2;
 			if ( points_l != null && fMaxAvgSampleEnd >= 0 && points_l.Count > fMaxAvgSampleEnd)
 			{
+				g.LineWidth = 4;
 				double yPx = calculatePaintY (fMaxAvgForce);
 
-				CairoUtil.PaintSegment (g, colorGreen,
+				CairoUtil.PaintSegment (g, black,
 						calculatePaintX (points_l[fMaxAvgSampleStart].X), yPx,
 						calculatePaintX (points_l[fMaxAvgSampleEnd].X), yPx);
-				CairoUtil.PaintSegment (g, colorGreen,
+				CairoUtil.PaintSegment (g, black,
 						calculatePaintX (points_l[fMaxAvgSampleStart].X), yPx-10,
 						calculatePaintX (points_l[fMaxAvgSampleStart].X), yPx+10);
-				CairoUtil.PaintSegment (g, colorGreen,
+				CairoUtil.PaintSegment (g, black,
 						calculatePaintX (points_l[fMaxAvgSampleEnd].X), yPx-10,
 						calculatePaintX (points_l[fMaxAvgSampleEnd].X), yPx+10);
 			}
+			g.LineWidth = 2;
 
 			// paint max, min circles
 			if(calculatePaintX (xAtMaxY) > leftMargin)

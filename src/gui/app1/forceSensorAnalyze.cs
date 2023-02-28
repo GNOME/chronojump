@@ -1980,8 +1980,10 @@ public partial class ChronoJumpWindow
 
 	private void force_sensor_analyze_instant_calculate_params()
 	{
-		int countA = Convert.ToInt32(hscale_force_sensor_ai_a.Value);
-		int countB = Convert.ToInt32(hscale_force_sensor_ai_b.Value);
+		List<PointF> p_l = cairoGraphForceSensorSignalPoints_l; //to have shorter code
+
+		int countA = Convert.ToInt32 (hscale_force_sensor_ai_a.Value);
+		int countB = Convert.ToInt32 (hscale_force_sensor_ai_b.Value);
 
 		//avoid problems of GTK misreading of hscale on a notebook change or load file
 		if(countA < 0 || countA > fsAI.GetLength() -1 || countB < 0 || countB > fsAI.GetLength() -1)
@@ -2124,14 +2126,14 @@ public partial class ChronoJumpWindow
 		if(countA != countB)
 		{
 			// 10) calculate impulse
-			label_force_sensor_ai_impulse_values.Text = Math.Round(fsAI.CalculateImpulse(
-						countA, countB), 1).ToString();
+			label_force_sensor_ai_impulse_values.Text = Math.Round (ForceCalcs.GetImpulse (
+						p_l, countA, countB), 1).ToString();
 
 			// 11) calculate variability
 			int feedbackF = preferences.forceSensorCaptureFeedbackAt;
 
 			VariabilityAndAccuracy vaa = new VariabilityAndAccuracy ();
-			vaa.Calculate (cairoGraphForceSensorSignalPoints_l, countA, countB, feedbackF,
+			vaa.Calculate (p_l, countA, countB, feedbackF,
 					preferences.forceSensorVariabilityMethod, preferences.forceSensorVariabilityLag);
 			//LogB.Information (string.Format ("vaa variability: {0}, feedbackDiff: {1}", vaa.Variability, vaa.FeedbackDifference));
 

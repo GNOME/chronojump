@@ -1221,19 +1221,6 @@ public class ForceSensorCapturePoints
 		//			countA, countB, forces[countA], forces[countB], times[countA], times[countB], calc));
 		return calc;
 	}
-	public double GetImpulse(int countA, int countB)
-	{
-		double sum = 0;
-		int samples = 0;
-		for(int i = countA; i <= countB; i ++)
-		{
-			sum += forces[i];
-			samples ++;
-		}
-
-		double elapsedSeconds = times[countB]/1000000.0 - times[countA]/1000000.0;
-		return sum * UtilAll.DivideSafe(elapsedSeconds, samples);
-	}
 	
 	public int MarginLeft
 	{
@@ -2415,11 +2402,6 @@ public class ForceSensorAnalyzeInstant
 	public double CalculateRFD(int countA, int countB)
 	{
 		return fscAIPoints.GetRFD(countA, countB);
-	}
-
-	public double CalculateImpulse(int countA, int countB)
-	{
-		return fscAIPoints.GetImpulse(countA, countB);
 	}
 
 	/*

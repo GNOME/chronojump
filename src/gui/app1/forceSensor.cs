@@ -55,6 +55,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Label label_force_sensor_value;
 	[Widget] Gtk.Label label_force_sensor_value_min;
 	[Widget] Gtk.Label label_force_sensor_value_best_second;
+	[Widget] Gtk.VBox vbox_force_sensor_capture_best_second;
 	//[Widget] Gtk.VScale vscale_force_sensor;
 	[Widget] Gtk.SpinButton spin_force_sensor_calibration_kg_value;
 	[Widget] Gtk.Button button_force_sensor_image_save_signal;
@@ -381,6 +382,7 @@ public partial class ChronoJumpWindow
 			sensitiveLastTestButtons(false);
 			contactsShowCaptureDoingButtons(true);
 			image_force_sensor_graph.Sensitive = false; //unsensitivize the RFD image (can contain info of previous data)
+			vbox_force_sensor_capture_best_second.Visible = false;
 
 			//textview_force_sensor_capture_comment.Buffer.Text = "";
 			textview_contacts_signal_comment.Buffer.Text = "";
@@ -1611,6 +1613,7 @@ LogB.Information(" fs D ");
 
 			//finish, cancel: sensitive = false
 			hideButtons();
+			vbox_force_sensor_capture_best_second.Visible = true;
 
 			restTime.AddOrModify(currentPerson.UniqueID, currentPerson.Name, true);
 			updateRestTimes();

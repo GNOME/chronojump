@@ -8806,7 +8806,7 @@ EncoderInertialCapture</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <widget class="GtkVBox" id="vbox287">
+                                                            <widget class="GtkVBox" id="vbox_force_sensor_capture_best_second">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="spacing">8</property>

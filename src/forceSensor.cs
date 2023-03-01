@@ -879,6 +879,7 @@ public class ForceSensorValues
 	public double ValueLast; //store last force (or displ)
 	public double Max; //store max force (or displ)
 	public double Min; //store min force (or displ)
+	public double BestSecond; //max avg force in 1s
 
 	public ForceSensorValues()
 	{
@@ -887,6 +888,7 @@ public class ForceSensorValues
 		ValueLast = 0;
 		Max = -10000;
 		Min = 10000;
+		BestSecond = 0;
 	}
 
 	public void SetMaxMinIfNeeded(double newValue, int time)

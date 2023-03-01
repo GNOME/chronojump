@@ -54,6 +54,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Label label_force_sensor_value_max;
 	[Widget] Gtk.Label label_force_sensor_value;
 	[Widget] Gtk.Label label_force_sensor_value_min;
+	[Widget] Gtk.Label label_force_sensor_value_best_second;
 	//[Widget] Gtk.VScale vscale_force_sensor;
 	[Widget] Gtk.SpinButton spin_force_sensor_calibration_kg_value;
 	[Widget] Gtk.Button button_force_sensor_image_save_signal;
@@ -547,6 +548,7 @@ public partial class ChronoJumpWindow
 		label_force_sensor_value_max.Text = "";
 		label_force_sensor_value.Text = "";
 		label_force_sensor_value_min.Text = "";
+		label_force_sensor_value_best_second.Text = "";
 
 		if (radio_force_sensor_analyze_individual_current_session.Active)
 		{
@@ -602,6 +604,7 @@ public partial class ChronoJumpWindow
 				label_force_sensor_value_max.Text = string.Format("{0:0.##} N", forceSensorValues.Max);
 				label_force_sensor_value_min.Text = string.Format("{0:0.##} N", forceSensorValues.Min);
 				label_force_sensor_value.Text = string.Format("{0:0.##} N", forceSensorValues.ValueLast);
+				label_force_sensor_value_best_second.Text = string.Format("{0:0.##} N", forceSensorValues.BestSecond);
 			}
 		}
 		else
@@ -914,6 +917,7 @@ public partial class ChronoJumpWindow
 		label_force_sensor_value_max.Text = "0 N";
 		label_force_sensor_value.Text = "0 N";
 		label_force_sensor_value_min.Text = "0 N";
+		label_force_sensor_value_best_second.Text = "0 N";
 
 		int count = 0;
 		do {
@@ -1030,6 +1034,7 @@ public partial class ChronoJumpWindow
 		label_force_sensor_value_max.Text = "0 N";
 		label_force_sensor_value.Text = "0 N";
 		label_force_sensor_value_min.Text = "0 N";
+		label_force_sensor_value_best_second.Text = "0 N";
 		label_force_sensor_analyze.Text = "";
 		label_force_sensor_analyze.Visible = false;
 
@@ -1357,23 +1362,6 @@ public partial class ChronoJumpWindow
 			}
 
 			LogB.Information("at bucle8");
-			/*
-			fscPoints.Add(time, forceCalculated);
-			fscPoints.NumCaptured ++;
-			if(fscPoints.OutsideGraphChangeValues(preferences.forceSensorCaptureScroll))
-			{
-				redoingPoints = true;
-				fscPoints.Redo();
-
-				//mark meaning screen should be erased
-				//but only applies when not in scroll
-				//because scroll already erases screen all the time, paintHVLines and plot feedback rectangle
-				if(! (preferences.forceSensorCaptureScroll && fscPoints.ScrollStartedAtCount > 0))
-					fscPoints.NumPainted = -1;
-
-				redoingPoints = false;
-			}
-			*/
 
 			//changeSlideIfNeeded(time, force);
 		}
@@ -1415,11 +1403,25 @@ public partial class ChronoJumpWindow
 		if(forceProcessCancel || forceProcessKill || forceProcessError)
 			Util.FileDelete(fileName);
 		else {
+			forceSensorValues.BestSecond = getMaxAvgForce1s ();
+
 			//call graph
 			File.Copy(fileName, UtilEncoder.GetmifCSVFileName(), true); //can be overwritten
 			lastForceSensorFullPath = fileName;
 			capturingForce = arduinoCaptureStatus.COPIED_TO_TMP;
 		}
+	}
+
+	private double getMaxAvgForce1s ()
+	{
+		double maxAvgForce1s = -1; //default value
+		GetMaxAvgInWindow miw = new GetMaxAvgInWindow (cairoGraphForceSensorSignalPoints_l,
+				0, cairoGraphForceSensorSignalPoints_l.Count -1, 1); //1s
+
+		if (miw.Error == "")
+			maxAvgForce1s = miw.AvgMax;
+
+		return maxAvgForce1s;
 	}
 
 	private bool forceSensorProcessCapturedLine (string str,
@@ -1503,17 +1505,6 @@ LogB.Information(" fs C ");
 					string stiffnessString;
 					getStiffnessAndStiffnessStringFromSQL(out stiffness, out stiffnessString);
 
-					//get maxAvgForce in 1s start ---->
-					double maxAvgForce1s = -1; //default value
-					GetMaxAvgInWindow miw = new GetMaxAvgInWindow (
-							cairoGraphForceSensorSignalPoints_l,
-							0, //countA
-							cairoGraphForceSensorSignalPoints_l.Count -1, //countB
-							1); //1s
-					if (miw.Error == "")
-						maxAvgForce1s = miw.AvgMax;
-					//<---- get maxAvgForce in 1s end
-
 					currentForceSensor = new ForceSensor(-1, currentPerson.UniqueID, currentSession.UniqueID,
 							currentForceSensorExercise.UniqueID, getForceSensorCaptureOptions(),
 							ForceSensor.AngleUndefined, getLaterality(false),
@@ -1524,7 +1515,7 @@ LogB.Information(" fs C ");
 							"", //videoURL
 							stiffness, stiffnessString,
 							forceSensorValues.Max,
-							maxAvgForce1s,
+							forceSensorValues.BestSecond,
 							currentForceSensorExercise.Name);
 
 					currentForceSensor.UniqueID = currentForceSensor.InsertSQL(false);
@@ -1640,6 +1631,7 @@ LogB.Information(" fs G ");
 				label_force_sensor_value_max.Text = string.Format("{0:0.##} N", forceSensorValues.Max);
 				label_force_sensor_value_min.Text = string.Format("{0:0.##} N", forceSensorValues.Min);
 				label_force_sensor_value.Text = string.Format("{0:0.##} N", forceSensorValues.ValueLast);
+				label_force_sensor_value_best_second.Text = string.Format("{0:0.##} N", forceSensorValues.BestSecond);
 
 
 				LogB.Information(" fs H ");
@@ -2116,17 +2108,8 @@ LogB.Information(" fs R ");
 		//to update maxAvgForce in 1s and fmax need to have fscPoints changed according to CaptureOption. So do it here
 		currentForceSensor.MaxForceRaw = forceSensorValues.Max;
 
-		//get maxAvgForce in 1s start ---->
-		double maxAvgForce1s = -1; //default value
-		GetMaxAvgInWindow miw = new GetMaxAvgInWindow (
-				cairoGraphForceSensorSignalPoints_l,
-				0, //countA
-				cairoGraphForceSensorSignalPoints_l.Count -1, //countB
-				1); //1s
-		if (miw.Error == "")
-			maxAvgForce1s = miw.AvgMax;
-		//<---- get maxAvgForce in 1s end
-
+		forceSensorValues.BestSecond = getMaxAvgForce1s ();
+		currentForceSensor.MaxAvgForce1s = forceSensorValues.BestSecond;
 
 		currentForceSensor.UpdateSQL(false);
 
@@ -2324,6 +2307,8 @@ LogB.Information(" fs R ");
 
 			i ++;
 		}
+
+		forceSensorValues.BestSecond = getMaxAvgForce1s ();
 	}
 
 	CairoGraphForceSensorSignal cairoGraphForceSensorSignal;
@@ -2457,6 +2442,7 @@ LogB.Information(" fs R ");
 			label_force_sensor_value.Text = string.Format("{0:0.##} N", forceSensorValues.ValueLast);
 			label_force_sensor_value_max.Text = string.Format("{0:0.##} N", forceSensorValues.Max);
 			label_force_sensor_value_min.Text = string.Format("{0:0.##} N", forceSensorValues.Min);
+			label_force_sensor_value_best_second.Text = string.Format("{0:0.##} N", forceSensorValues.BestSecond);
 		}
 
 		//LogB.Information ("updateForceSensorCaptureSignalCairo 6");
@@ -2473,6 +2459,7 @@ LogB.Information(" fs R ");
 		label_force_sensor_value.Text = string.Format("{0:0.##} N", forceSensorValues.ValueLast);
 		label_force_sensor_value_max.Text = string.Format("{0:0.##} N", forceSensorValues.Max);
 		label_force_sensor_value_min.Text = string.Format("{0:0.##} N", forceSensorValues.Min);
+		label_force_sensor_value_best_second.Text = string.Format("{0:0.##} N", forceSensorValues.BestSecond);
 		button_force_sensor_image_save_signal.Sensitive = true;
 		button_force_sensor_analyze_analyze.Sensitive = true;
 	}

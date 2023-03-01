@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2021   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2021-2023   Xavier de Blas <xaviblas@gmail.com>
  */
 
 
@@ -193,7 +193,6 @@ public class ForceSensorExport : ExportFiles
 			// 4) create fsAI (includes the repetitions)
 			ForceSensorAnalyzeInstant fsAI = new ForceSensorAnalyzeInstant(
 					fs.FullURL,
-					imageWidth, imageHeight,
 					-1, -1,
 					fsEx, ps.Weight,
 					fs.CaptureOption, fs.Stiffness,
@@ -242,9 +241,9 @@ public class ForceSensorExport : ExportFiles
 					bool success = fsAI.CalculateRangeParams(repConcentricSampleStart, rep.sampleEnd,
 							forceSensorAnalyzeMaxAVGInWindowSeconds);
 					if(success) {
-						maxAvgForceInWindow = fsAI.ForceMaxAvgInWindow;
-						maxAvgForceInWindowSampleStart = fsAI.ForceMaxAvgInWindowSampleStart;
-						maxAvgForceInWindowSampleEnd = fsAI.ForceMaxAvgInWindowSampleEnd;
+						maxAvgForceInWindow = fsAI.Gmaiw.AvgMax;
+						maxAvgForceInWindowSampleStart = fsAI.Gmaiw.AvgMaxSampleStart;
+						maxAvgForceInWindowSampleEnd = fsAI.Gmaiw.AvgMaxSampleEnd;
 					}
 
 					if(! addedSet) {
@@ -301,9 +300,9 @@ public class ForceSensorExport : ExportFiles
 				bool success = fsAI.CalculateRangeParams(sampleA, sampleB,
 						forceSensorAnalyzeMaxAVGInWindowSeconds);
 				if(success) {
-					maxAvgForceInWindow = fsAI.ForceMaxAvgInWindow;
-					maxAvgForceInWindowSampleStart = fsAI.ForceMaxAvgInWindowSampleStart;
-					maxAvgForceInWindowSampleEnd = fsAI.ForceMaxAvgInWindowSampleEnd;
+					maxAvgForceInWindow = fsAI.Gmaiw.AvgMax;
+					maxAvgForceInWindowSampleStart = fsAI.Gmaiw.AvgMaxSampleStart;
+					maxAvgForceInWindowSampleEnd = fsAI.Gmaiw.AvgMaxSampleEnd;
 				}
 
 				if(! addedSet) {

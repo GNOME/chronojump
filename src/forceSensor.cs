@@ -900,467 +900,6 @@ public class ForceSensorValues
 			Min = newValue;
 	}
 }
-/*
- * TODO: this class only contains points plot stuff
- * currently all the code relevant to force sensor actions is on gui/forcesensor.cs
- * that code should be here and there only the gui stuff
- */
-//to manage force, but can also manage displ on elastic
-public class ForceSensorCapturePoints
-{
-	//ForceCapturePoints stored to be realtime displayed
-	public List<Gdk.Point> Points;
-	public int NumCaptured;
-	public int NumPainted;
-
-	public enum GraphTypes { FORCESIGNAL, FORCEAIFORCE, FORCEAIDISPL }
-	private GraphTypes graphType;
-
-	//used to redo all points if change RealWidthG or RealHeightG
-	private List<int> times;
-	private List<double> forces;
-	private double forceMax;
-	private double forceMin;
-	private int scrollStartedAtCount;
-
-	public int RealWidthG; //width of graph in microseconds (will be upgraded if needed, but not while capturing on scroll)
-
-	public const int DefaultRealHeightG = 50;
-	public const int DefaultRealHeightGNeg = 50; //absolute values
-	public int RealHeightG; //Newtons (will be upgraded if needed)
-	public int RealHeightGNeg; //Newtons (negative) (will be upgraded if needed) //absolute values
-
-	//for displacement
-	public const int DefaultRealHeightGDispl = 1;
-	public const int DefaultRealHeightGNegDispl = 0;
-
-	//trigger
-	private List<TriggerXForce> triggerXForceList;
-
-	private int widthG;
-	private int heightG;
-	private int marginLeft = 45; //px
-	private int marginRight = 40; //px
-	private int marginTop = 30; //px
-	private int marginBottom = 30; //px
-
-	//initialize
-	public ForceSensorCapturePoints(GraphTypes graphType, int widthG, int heightG, int widthInSeconds)
-	{
-		Points = new List<Gdk.Point>();
-		NumCaptured = 0;
-		NumPainted = 0; 	//-1 means delete screen
-		times = new List<int>();
-		forces = new List<double>();
-		forceMax = 0;
-		forceMin = 10000;
-		scrollStartedAtCount = -1;
-
-		triggerXForceList = new List<TriggerXForce>();
-
-		InitRealWidthHeight(widthInSeconds);
-
-		this.graphType = graphType;
-		this.widthG = widthG;
-		this.heightG = heightG;
-	}
-
-	public void InitRealWidthHeight(int widthInSeconds)
-	{
-		//width of graph in microseconds (will be upgraded if needed)
-		if(widthInSeconds == -1)
-			RealWidthG = 10000000; //default 10 seconds
-		else
-			RealWidthG = 1000000 * widthInSeconds;
-
-		RealHeightG = DefaultRealHeightG; //Newtons (will be upgraded when needed) (nice to see the +25 -25 marks)
-		RealHeightGNeg = DefaultRealHeightGNeg; //Newtons (will be upgraded when needed) (nice to see the +25 -25 marks)
-
-		if(graphType == GraphTypes.FORCEAIDISPL)
-		{
-			RealHeightG = DefaultRealHeightGDispl;
-			RealHeightGNeg = DefaultRealHeightGNegDispl;
-		}
-	}
-
-	public void Add(int time, double force)
-	{
-		times.Add(time);
-		forces.Add(force);
-		Points.Add(new Gdk.Point(GetTimeInPx(time), GetForceInPx(force)));
-
-		if(scrollStartedAtCount == -1 && scrollStarted())
-			scrollStartedAtCount = GetLength();
-
-		if(force > forceMax)
-			forceMax = force;
-		if(force < forceMin)
-			forceMin = force;
-	}
-
-	public void AddTrigger (Trigger trigger, double force)
-	{
-		triggerXForceList.Add(new TriggerXForce(trigger, GetTimeInPx(trigger.Us), force));
-	}
-
-
-	private bool scrollStarted()
-	{
-		return (GetLastTime() > .9 * RealWidthG); //90% of screen
-	}
-
-	/*
-	 * unused and not checked if it is ok
-	private int getPxInTime(int px)
-	{
-		//without 1.0 calculation is done as int producing very buggy value
-		return Convert.ToInt32(
-				(px * RealWidthG) / (1.0 * (widthG -marginLeft -marginRight) * time))
-			- marginLeft;
-	}
-	*/
-
-	public int GetTimeInPx(int time)
-	{
-		//without 1.0 calculation is done as int producing very buggy value
-		return marginLeft + Convert.ToInt32(1.0 * (widthG -marginLeft -marginRight) * time / RealWidthG);
-	}
-
-	public int GetForceInPx(double force)
-	{
-		/*
-		 * simmetrical positive / negative
-		return Convert.ToInt32(
-				(heightG/2)
-				- ( UtilAll.DivideSafe((force * heightG), (1.0 * RealHeightG)) )
-				);
-				*/
-		return Convert.ToInt32(
-				heightG
-				- UtilAll.DivideSafe(
-						(force * (heightG - (marginTop + marginBottom))),
-						(1.0 * (RealHeightG + RealHeightGNeg))
-						)
-				- UtilAll.DivideSafe(
-						RealHeightGNeg * (heightG - (marginTop + marginBottom)),
-						(1.0 * (RealHeightG + RealHeightGNeg))
-						)
-				- marginBottom
-				);
-	}
-
-	private Gdk.Point getLastPoint()
-	{
-		return Points[Points.Count -1];
-	}
-
-	// TODO: do all this in an inherited class
-	public int GetLength()
-	{
-		return times.Count;
-	}
-
-	public int GetLastTime()
-	{
-		return times[times.Count -1];
-	}
-
-	public double GetLastForce()
-	{
-		return forces[forces.Count -1];
-	}
-
-	public double GetTimeAtCount(int count)
-	{
-		//LogB.Information(string.Format("At GetTimeAtCount, count:{0}, times.Count:{1}", count, times.Count));
-
-		//more safe check
-		if (times == null || times.Count == 0)
-		{
-			LogB.Warning (string.Format ("GetTimeAtCount with count: {0} and times null or 0 length", count));
-			return 0;
-		}
-
-		//safe check
-		if(count < 0)
-			return times[0];
-		else if (count >= times.Count)
-			return times[times.Count -1];
-
-		return times[count];
-	}
-	public double GetForceAtCount(int count)
-	{
-		return forces[count];
-	}
-
-	//gets which sample we have at some time in Us or if it does not match, returns previous sample
-	//startAtSample is to make algorithm more efficient
-	public int GetSampleOrPreviousAtTimeUs (int us, int startAtSample)
-	{
-		//LogB.Information(string.Format("us {0}, startAtSample {1}, times.Count {2} ",
-		//			us, startAtSample, times.Count));
-		int lastPos = startAtSample;
-		for(int i = startAtSample; i < times.Count; i ++)
-		{
-			//LogB.Information(string.Format("i {0}, times[i] {1}, lastPos {2}",
-			//			i, times[i], lastPos));
-			if(times[i] > us)
-				return lastPos;
-
-			//increment lastPos, but never allow it to be outside of times.Count
-			if(lastPos <= times.Count -2)
-				lastPos ++;
-		}
-
-		//LogB.Information(string.Format("lastPos {0}", lastPos));
-		return lastPos;
-	}
-
-	public void GetAverageAndMaxForce(int countA, int countB, out double avg, out double max)
-	{
-		if(countA == countB) {
-			avg = forces[countA];
-			max = forces[countA];
-			return;
-		}
-
-		double sum = 0;
-		max = -100000;
-		for(int i = countA; i <= countB; i ++) {
-			sum += forces[i];
-			if(forces[i] > max)
-				max = forces[i];
-		}
-
-		avg = sum / ((countB - countA) +1);
-	}
-
-
-	//stored, to not calculate again with same data
-	CalculatedForceMaxAvgInWindow calculatedForceMaxAvgInWindow;
-
-	// this is being replaced by UtilMath GetMaxAvgInWindow
-	public void GetForceMaxAvgInWindow (int countA, int countB, double windowSeconds,
-			out double avgMax, out int avgMaxSampleStart, out int avgMaxSampleEnd, out string error)
-	{
-		// 1) check if ws calculated before
-		if(calculatedForceMaxAvgInWindow != null &&
-				calculatedForceMaxAvgInWindow.InputsToString() ==
-				new CalculatedForceMaxAvgInWindow(countA, countB, windowSeconds).InputsToString())
-		{
-			LogB.Information("Was calculated before");
-			avgMax = calculatedForceMaxAvgInWindow.Result;
-			avgMaxSampleStart = calculatedForceMaxAvgInWindow.ResultSampleStart;
-			avgMaxSampleEnd = calculatedForceMaxAvgInWindow.ResultSampleEnd;
-			error = ""; //there will be no error, because when is stored is without error
-			return;
-		}
-
-		// 2) check if countB - countA fits in window time
-		double timeA = GetTimeAtCount(countA);
-		
-		if(GetTimeAtCount(countB) - timeA <= 1000000 * windowSeconds)
-		{
-			avgMax = 0;
-			avgMaxSampleStart = countA; //there is an error, this will not be used
-			avgMaxSampleEnd = countA; //there is an error, this will not be used
-			error = "Need more time";
-			return;
-		}
-
-		avgMax = 0;
-		avgMaxSampleStart = countA; 	//sample where avgMax starts (to draw a line)
-		avgMaxSampleEnd = countA; 	//sample where avgMax starts (to draw a line)
-		error = "";
-
-		double sum = 0;
-		int count = 0;
-
-		//note if countB - countA < 1s then can have higher values than all the set
-		// 3) get the first second (or whatever in windowSeconds)
-		int i;
-		for(i = countA; i <= countB && GetTimeAtCount(i) - timeA <= 1000000 * windowSeconds; i ++)
-		{
-			sum += forces[i];
-			count ++;
-		}
-		avgMax = sum / count;
-		avgMaxSampleEnd = countA + count;
-
-		LogB.Information(string.Format("avgMax 1st for: {0}", avgMax));
-		//note "count" has the window size in samples
-
-		// 4) continue until the end (countB)
-		for(int j = i; j < countB; j ++)
-		{
-			sum -= forces[j - count];
-			sum += forces[j];
-
-			double avg = sum / count;
-			if(avg > avgMax)
-			{
-				avgMax = avg;
-				avgMaxSampleStart = j - count;
-				avgMaxSampleEnd = j;
-			}
-		}
-
-		LogB.Information(string.Format("Average max force in {0} seconds: {1}, started at sample range: {2}:{3}",
-					windowSeconds, avgMax, avgMaxSampleStart, avgMaxSampleEnd));
-
-		// 5) store data to not calculate it again if data is the same
-		calculatedForceMaxAvgInWindow = new CalculatedForceMaxAvgInWindow (
-				countA, countB, windowSeconds, avgMax, avgMaxSampleStart, avgMaxSampleEnd);
-	}
-
-	public double GetRFD(int countA, int countB)
-	{
-		double calc = (forces[countB] - forces[countA]) / (times[countB]/1000000.0 - times[countA]/1000000.0); //microsec to sec
-		//LogB.Information(string.Format("GetRFD {0}, {1}, {2}, {3}, {4}, {5}, RFD: {6}",
-		//			countA, countB, forces[countA], forces[countB], times[countA], times[countB], calc));
-		return calc;
-	}
-	
-	public int MarginLeft
-	{
-		get { return marginLeft; }
-	}
-	public int MarginRight
-	{
-		get { return marginRight; }
-	}
-	// TODO: end of... do all this in an inherited class
-
-
-	// this is called while capturing, checks if last captured value is outside the graph
-	public bool OutsideGraphChangeValues (bool checkOnlyY)
-	{
-		Gdk.Point p = getLastPoint();
-		//LogB.Information("p.Y: " + p.Y + "; heightG: " +  heightG);
-		bool outsideGraph = false;
-
-		if(! checkOnlyY && p.X > widthG)
-		{
-			RealWidthG *= 2;
-			outsideGraph = true;
-		}
-
-		if(p.Y < marginTop)
-		{
-			//too drastic change that makes DrawingArea empty at capture
-			//RealHeightG *= 2;
-			RealHeightG += 20;
-			outsideGraph = true;
-		}
-		else if(p.Y > heightG - marginBottom)
-		{
-			//too drastic change that makes DrawingArea empty at capture
-			//RealHeightGNeg *= 2;
-			RealHeightGNeg += 20;
-			outsideGraph = true;
-		}
-
-		return outsideGraph;
-	}
-	// this is called at load signal, checks if last X is outside the graph and max/min force
-	// mustChangeRealWidthG makes easier to sync width on Force and displacement
-	public bool OutsideGraphChangeValues (int lastTime, double maxForce, double minForce, bool mustChangeRealWidthG)
-	{
-		/*
-		LogB.Information(string.Format("At OutsideGraph: graphType: {0}, maxForce {1}, minForce: {2}, " +
-					" forceInPx(maxForce): {3}, forceInPx(minForce): {4}",
-					graphType, maxForce, minForce, GetForceInPx(maxForce), GetForceInPx(minForce)));
-		LogB.Information(string.Format("conditions: {0}, {1}, {2}, {3}",
-					lastTime + GetTimeInPx(marginLeft) + GetTimeInPx(marginRight),
-					RealWidthG, GetForceInPx(minForce) > heightG, GetForceInPx(maxForce) < 0));
-					*/
-
-		bool change = false;
-		if(lastTime + GetTimeInPx(marginLeft) + GetTimeInPx(marginRight) > RealWidthG ||
-				GetForceInPx(minForce) > heightG ||
-				GetForceInPx(maxForce) < 0 ||
-				GetForceInPx(maxForce) == GetForceInPx(minForce)
-				)
-		{
-			RealHeightG = Convert.ToInt32(Math.Ceiling(maxForce)); //Math.Ceiling to ensure the displ will fit
-
-			//RealHeightGNeg = Convert.ToInt32(Math.Abs(minForce));
-			if(minForce < 0)
-				RealHeightGNeg = Convert.ToInt32(Math.Ceiling(Math.Abs(minForce)));
-			else
-				RealHeightGNeg = 0;
-
-			change = true;
-		}
-
-		if(change || mustChangeRealWidthG)
-		{
-			RealWidthG = lastTime + GetTimeInPx(marginLeft) + GetTimeInPx(marginRight);
-			//LogB.Information(string.Format("OutsideGraph: {0}, {1}, {2}, {3}",
-			//			RealWidthG, lastTime, GetTimeInPx(marginLeft), GetTimeInPx(marginRight)));
-		}
-
-		return (change || mustChangeRealWidthG);
-	}
-
-	public void Zoom(int lastTime) //on zoom adjust width
-	{
-		LogB.Information("At Zoom with graphType: " + graphType.ToString());
-		//X
-		RealWidthG = lastTime + GetTimeInPx(marginLeft) + GetTimeInPx(marginRight);
-
-		//Y
-		RealHeightG = Convert.ToInt32(forceMax);
-		if(forceMin < 0)
-			RealHeightGNeg = Convert.ToInt32(Math.Abs(forceMin));
-		else
-			RealHeightGNeg = -1 * Convert.ToInt32(forceMin);
-
-		//LogB.Information(string.Format("RealHeightG: {0}; RealHeightGNeg: {1}", RealHeightG, RealHeightGNeg));
-	}
-
-	public void Redo()
-	{
-		for(int i=0; i < NumCaptured; i ++)
-			Points[i] = new Gdk.Point(GetTimeInPx(times[i]), GetForceInPx(forces[i]));
-
-		for(int i=0; i < triggerXForceList.Count; i ++)
-			triggerXForceList[i] = new TriggerXForce (
-					TriggerXForceList[i].trigger,
-					GetTimeInPx(TriggerXForceList[i].trigger.Us),
-					TriggerXForceList[i].force);
-	}
-
-	public List<TriggerXForce> TriggerXForceList
-	{
-		get { return triggerXForceList; }
-	}
-
-	public int WidthG
-	{
-		get { return widthG; }
-		set { widthG = value; }
-	}
-
-	public int HeightG
-	{
-		set { heightG = value; }
-	}
-
-	public double ForceMax
-	{
-		get { return forceMax; }
-	}
-	public double ForceMin
-	{
-		get { return forceMin; }
-	}
-	public int ScrollStartedAtCount
-	{
-		get { return scrollStartedAtCount; }
-	}
-}
 
 public class TriggerXForce
 {
@@ -2056,10 +1595,8 @@ public class ForceSensorAnalyzeInstant
 	public double PowerAVG;
 	public double PowerMAX;
 
-	public double ForceMaxAvgInWindow; 		//the result
-	public int ForceMaxAvgInWindowSampleStart;	//the start sample of the result
-	public int ForceMaxAvgInWindowSampleEnd;	//the end sample of the result
-	public string ForceMaxAvgInWindowError; 	//if there is any error
+	private GetMaxAvgInWindow gmaiw;
+	private VariabilityAndAccuracy vaa;
 
 	//for elastic
 	public bool CalculedElasticPSAP;
@@ -2069,62 +1606,23 @@ public class ForceSensorAnalyzeInstant
 	public List<double> Power_l;
 	public List<ForceSensorRepetition> ForceSensorRepetition_l;
 
-	private ForceSensorCapturePoints fscAIPoints; //Analyze Instant
 	private ForceSensorValues forceSensorValues;
-
-	private ForceSensorCapturePoints fscAIPointsDispl; //Analyze Instant only on elastic
 	private ForceSensorValues forceSensorValuesDispl; //this class can be used for force, displ, or whatever
 
-	private int graphWidth;
-	private int graphHeight;
+	private List<PointF> p_l;
+//	private List<PointF> pDist_l;
+
 	private ForceSensorExercise fse;
 
 	public ForceSensorAnalyzeInstant(
-			string file, int graphWidth, int graphHeight, int startSample, int endSample,
+			string file,
+			int startSample, int endSample,
 			ForceSensorExercise fse, double personWeight, ForceSensor.CaptureOptions fsco, double stiffness,
 			double eccMinDisplacement, double conMinDisplacement)
 	{
-		this.graphWidth = graphWidth;
-		this.graphHeight = graphHeight;
 		this.fse = fse;
 
 		readFile(file, startSample, endSample, personWeight, fsco, stiffness, eccMinDisplacement, conMinDisplacement);
-
-		//on zoom adjust width
-		if(startSample >= 0 || endSample >= 0)
-		{
-			fscAIPoints.Zoom(forceSensorValues.TimeLast);
-			LogB.Information("Redo normal at constructor");
-			fscAIPoints.Redo();
-
-			if(fse.ComputeAsElastic) {
-				fscAIPointsDispl.Zoom(forceSensorValuesDispl.TimeLast);
-				LogB.Information("Redo elastic at constructor");
-				fscAIPointsDispl.Redo();
-			}
-		}
-
-		//ensure points fit on display
-		if(fscAIPoints.OutsideGraphChangeValues (forceSensorValues.TimeLast, forceSensorValues.Max, forceSensorValues.Min, false))
-		{
-			LogB.Information("Redo normal at constructor b");
-			fscAIPoints.Redo();
-		}
-
-		if(fse.ComputeAsElastic)
-		{
-			//LogB.Information(string.Format("fscAiPointsDispl.GetLastTime: {0}, forceSensorValuesDispl.TimeLast: {1}, forceSensorValuesDispl.Max: {2}, forceSensorValuesDispl.Min: {3}", 
-			//			fscAIPointsDispl.GetLastTime(), forceSensorValuesDispl.TimeLast, forceSensorValuesDispl.Max, forceSensorValuesDispl.Min));
-
-			if(fscAIPointsDispl.RealWidthG != fscAIPoints.RealWidthG) {
-				fscAIPointsDispl.RealWidthG = fscAIPoints.RealWidthG;
-				if(fscAIPointsDispl.OutsideGraphChangeValues(forceSensorValuesDispl.TimeLast, forceSensorValuesDispl.Max, forceSensorValuesDispl.Min, true))
-					fscAIPointsDispl.Redo();
-			}
-
-			if(fscAIPointsDispl.OutsideGraphChangeValues(forceSensorValuesDispl.TimeLast, forceSensorValuesDispl.Max, forceSensorValuesDispl.Min, false))
-				fscAIPointsDispl.Redo();
-		}
 	}
 
 	private void readFile(string file, int startSample, int endSample,
@@ -2135,9 +1633,10 @@ public class ForceSensorAnalyzeInstant
 
 		// 0 initialize
 
-		fscAIPoints = new ForceSensorCapturePoints(ForceSensorCapturePoints.GraphTypes.FORCEAIFORCE, graphWidth, graphHeight, -1);
-		if(fse.ComputeAsElastic)
-			fscAIPointsDispl = new ForceSensorCapturePoints(ForceSensorCapturePoints.GraphTypes.FORCEAIDISPL, graphWidth, graphHeight, -1);
+		p_l = new List<PointF> ();
+		//if(fse.ComputeAsElastic)
+		//	pDist_l = new List<PointF> ();
+
 
 		List<string> contents = Util.ReadFileAsStringList(file);
 		bool headersRow = true;
@@ -2252,18 +1751,14 @@ public class ForceSensorAnalyzeInstant
 		int i = 0;
 		foreach(int time in times)
 		{
-			fscAIPoints.Add(time, forces[i]);
-			fscAIPoints.NumCaptured ++;
-
+			p_l.Add (new PointF (time, forces[i]));
 			forceSensorValues.TimeLast = time;
 			forceSensorValues.ValueLast = forces[i];
 			forceSensorValues.SetMaxMinIfNeeded(forces[i], time);
 
 			if(fse.ComputeAsElastic)
 			{
-				fscAIPointsDispl.Add(time, Position_l[i]);
-				fscAIPointsDispl.NumCaptured ++;
-
+				//pDist_l.Add (new PointF (time, Position_l[i]));
 				forceSensorValuesDispl.TimeLast = time;
 				forceSensorValuesDispl.ValueLast = Position_l[i];
 				forceSensorValuesDispl.SetMaxMinIfNeeded(Position_l[i], time);
@@ -2273,90 +1768,28 @@ public class ForceSensorAnalyzeInstant
 		}
 	}
 
-	//When B checkbutton is clicked or window is resized
-	public void RedoGraph(int graphWidth, int graphHeight)
-	{
-		this.graphWidth = graphWidth;
-		this.graphHeight = graphHeight;
-		fscAIPoints.WidthG = graphWidth;
-		fscAIPoints.HeightG = graphHeight;
-
-		LogB.Information("RedoGraph normal at RedoGraph");
-		fscAIPoints.Redo();
-
-		if(fse.ComputeAsElastic) {
-			fscAIPointsDispl.WidthG = graphWidth;
-			fscAIPointsDispl.HeightG = graphHeight;
-			LogB.Information("RedoGraph displ elastic at RedoGraph");
-			fscAIPointsDispl.Redo();
-		}
-	}
-
 	//gets an instant value
 	public double GetTimeMS(int count)
 	{
-		return fscAIPoints.GetTimeAtCount(count) / 1000.0; //microseconds to milliseconds
+		return p_l[count].X / 1000.0; //microseconds to milliseconds
 	}
 	public double GetTimeMicros(int count)
 	{
-		return fscAIPoints.GetTimeAtCount(count);
+		return p_l[count].X; //microseconds to milliseconds
 	}
 
 	public double GetForceAtCount(int count)
 	{
-		return fscAIPoints.GetForceAtCount(count);
+		return p_l[count].Y;
 	}
 
 	public int GetLength()
 	{
-		//LogB.Information("GetLength: " + fscAIPoints.GetLength());
-		return fscAIPoints.GetLength();
-	}
-
-	//public int GetXFromSampleCount(int currentPos, int totalPos)
-	public int GetXFromSampleCount(int currentPos)
-	{
-		//LogB.Information(string.Format("currentPos: {0}", currentPos));
-		//this can be called on expose event before calculating needed parameters
-		if(graphWidth == 0)
-			return 0;
-
-		int leftMargin = fscAIPoints.MarginLeft;
-		int rightMargin = fscAIPoints.MarginRight;
-
-		/*
-		 * note samples don't come at same time separation, so this does not work:
-		double px = UtilAll.DivideSafe(
-				(graphWidth - leftMargin - rightMargin) * currentPos,
-				totalPos -1); //-1 ok
-				//fscAIPoints.RealWidthG);
-		*/
-		//get the time of sample
-		double currentTime = fscAIPoints.GetTimeAtCount(currentPos);
-		double lastTime = fscAIPoints.GetLastTime();
-
-		double px = UtilAll.DivideSafe(
-				(graphWidth - leftMargin - rightMargin) * currentTime,
-				lastTime);
-
-		// fix margin
-		//px = px + plt.x1 * graphWidth;
-		px = px + leftMargin;
-
-		return Convert.ToInt32(px);
-	}
-
-	public int GetPxAtForce(double f)
-	{
-		return fscAIPoints.GetForceInPx(f);
-	}
-	public int GetPxAtDispl(double f)
-	{
-		return fscAIPointsDispl.GetForceInPx(f);
+		return p_l.Count;
 	}
 
 	//calculates from a range
-	public bool CalculateRangeParams(int countA, int countB, double forceSensorAnalyzeMaxAVGInWindowSeconds)
+	public bool CalculateRangeParams (int countA, int countB, double maxAVGInWindowSeconds)
 	{
 		//countA will be the lowest and countB the highest to calcule Avg and max correctly no matter if B is before A
 		if(countA > countB) {
@@ -2365,50 +1798,27 @@ public class ForceSensorAnalyzeInstant
 			countB = temp;
 		}
 
-		fscAIPoints.GetAverageAndMaxForce(countA, countB, out ForceAVG, out ForceMAX);
-		fscAIPoints.GetForceMaxAvgInWindow (countA, countB, forceSensorAnalyzeMaxAVGInWindowSeconds,
-				out ForceMaxAvgInWindow, out ForceMaxAvgInWindowSampleStart, out ForceMaxAvgInWindowSampleEnd,
-				out ForceMaxAvgInWindowError);
+		ForceCalcs.GetAverageAndMaxForce (p_l, countA, countB, out ForceAVG, out ForceMAX);
+		gmaiw = new GetMaxAvgInWindow (p_l, countA, countB, maxAVGInWindowSeconds);
 
 		if(CalculedElasticPSAP)
 		{
-			calculeElasticPSAPAveragesAndMax(countA, countB, Speed_l, out SpeedAVG, out SpeedMAX);
-			calculeElasticPSAPAveragesAndMax(countA, countB, Accel_l, out AccelAVG, out AccelMAX);
-			calculeElasticPSAPAveragesAndMax(countA, countB, Power_l, out PowerAVG, out PowerMAX);
+			ForceCalcs.GetAverageAndMaxForce (Speed_l, countA, countB, out SpeedAVG, out SpeedMAX);
+			ForceCalcs.GetAverageAndMaxForce (Accel_l, countA, countB, out AccelAVG, out AccelMAX);
+			ForceCalcs.GetAverageAndMaxForce (Power_l, countA, countB, out PowerAVG, out PowerMAX);
 		}
 
 		return true;
 	}
 
-	private void calculeElasticPSAPAveragesAndMax(int countA, int countB, List<double> list, out double avg, out double max)
+	public double CalculateRFD (int countA, int countB)
 	{
-		if(countA == countB) {
-			avg = list[countA];
-			max = list[countA];
-			return;
-		}
-
-		double sum = 0;
-		max = 0;
-		for(int i = countA; i <= countB; i ++) {
-			sum += list[i];
-			if(list[i] > max)
-				max = list[i];
-		}
-
-		avg = sum / ((countB - countA) +1);
+		return ForceCalcs.GetRFD (p_l, countA, countB);
 	}
 
-	public double CalculateRFD(int countA, int countB)
+	public double CalculateImpulse (int countA, int countB)
 	{
-		return fscAIPoints.GetRFD(countA, countB);
-	}
-
-	//TODO: do not pass forces_l here, have it on the class
-	public double CalculateImpulse (List<PointF> forces_l, int countA, int countB)
-	{
-		//return fscAIPoints.GetImpulse(countA, countB);
-		return ForceCalcs.GetImpulse (forces_l, countA, countB);
+		return ForceCalcs.GetImpulse (p_l, countA, countB);
 	}
 
 	/*
@@ -2426,7 +1836,7 @@ public class ForceSensorAnalyzeInstant
 		for(int i = countA; i < countB -2; i ++)
 		{
 			//current = fscAIPoints.GetRFD(i-1, i+1);
-			current = fscAIPoints.GetRFD (i, i+2);
+			current = CalculateRFD (i, i+2);
 			if(current > max)
 			{
 				max = current;
@@ -2439,55 +1849,11 @@ public class ForceSensorAnalyzeInstant
 		LastRFDMaxCount = countRFDMax;
 	}
 
-	/* this method is not working
-	public int CalculateXOfTangentLine(int x0, int y0, double RFD, int y, int height)
+	public void CalculateVariabilityAndAccuracy (int countA, int countB,
+			int feedbackF, Preferences.VariabilityMethodEnum variabilityMethod, int lag)
 	{
-	*/
-		/*
-		 * x0 and y0 are coordinates of RFD point
-		 * RFD is the RFD value
-		 * x is the returned value for an x value
-		 * height is used to transform the y's in order to make following formula work
-		 *
-		 * y = RFD * x + y0 - x0*RFD
-		 * y - y0 + x0*RFD = x*RFD
-		 * x = (y - y0 + x0*RFD) / RFD
-		 */
-	/*
-		y0 = height - y0;
-		y = height -y;
-
-		return Convert.ToInt32(UtilAll.DivideSafe(y - y0 + x0*RFD, RFD));
-	}
-	*/
-
-	public void CalculateRFDTangentLine(int countRFDMax, out int lineXStart, out int lineXEnd, out int lineYStart, out int lineYEnd)
-	{
-		LogB.Information(string.Format("CalculateRFDTangentLine: {0}" , countRFDMax));
-
-		// 1) calculate X and Y of points before and after RFD
-		int pointXBefore = GetXFromSampleCount(countRFDMax -1);
-		int pointXAfter = GetXFromSampleCount(countRFDMax +1);
-		int pointYBefore = GetPxAtForce(GetForceAtCount(countRFDMax -1));
-		int pointYAfter = GetPxAtForce(GetForceAtCount(countRFDMax +1));
-
-		// 2) calculate the slope of the line that could pass across this points
-		double slope = Math.Abs( UtilAll.DivideSafe( pointYAfter - pointYBefore,
-					(1.0 * (pointXAfter- pointXBefore)) ) );
-
-		// 3) get the RFD point
-		int pointXRFD = GetXFromSampleCount(countRFDMax);
-		int pointYRFD = GetPxAtForce(GetForceAtCount(countRFDMax));
-
-		// 4) calculate line that cross RFD point with calculated slope
-		lineXStart = pointXRFD - Convert.ToInt32(UtilAll.DivideSafe(
-					(graphHeight - pointYRFD),
-					slope));
-		lineXEnd = pointXRFD + Convert.ToInt32(UtilAll.DivideSafe(
-					(pointYRFD - 0),
-					slope));
-		lineYStart = graphHeight;
-		lineYEnd = 0;
+		vaa = new VariabilityAndAccuracy ();
+		vaa.Calculate (p_l, countA, countB, feedbackF, variabilityMethod, lag);
 	}
 
 	public void ExportToCSV(int countA, int countB, string selectedFileName, string sepString)
@@ -2589,7 +1955,7 @@ public class ForceSensorAnalyzeInstant
 
 	private string exportCSVAverage(bool elastic, string sep, string sepString, int countA, int countB)
 	{
-		double rfdAVG = CalculateRFD(countA, countB);
+		double rfdAVG = CalculateRFD (countA, countB);
 
 		string str = Catalog.GetString("Average") + sep;
 
@@ -2630,15 +1996,13 @@ public class ForceSensorAnalyzeInstant
 
 	private string exportCSVIteration(bool elastic, string sep, string sepString, int i)
 	{
-		double timeAtCount = fscAIPoints.GetTimeAtCount(i);
-
 		string str = (i+1).ToString() + sep; //sample
 
 		//str += ForceSensorRepetition.GetRepetitionNumFromList(ForceSensorRepetition_l, i).ToString() + sep + 	//repetition
 		str += ForceSensorRepetition.GetRepetitionCodeFromList(ForceSensorRepetition_l, i, fse.RepetitionsShow) + sep + 	//repetition
-			Util.DoubleToCSV(timeAtCount, sepString) + sep +
-			Util.DoubleToCSV(fscAIPoints.GetForceAtCount(i), sepString) + sep +
-			Util.DoubleToCSV(CalculateRFD (i, i+2), 3, sepString);
+			Util.DoubleToCSV (p_l[i].X, sepString) + sep +
+			Util.DoubleToCSV (p_l[i].Y, sepString) + sep +
+			Util.DoubleToCSV (CalculateRFD (i, i+2), 3, sepString);
 
 		if(elastic)
 			str += sep + Util.DoubleToCSV(Position_l[i], 3, sepString) + sep +
@@ -2649,13 +2013,14 @@ public class ForceSensorAnalyzeInstant
 		return str;
 	}
 
-	public ForceSensorCapturePoints FscAIPoints
+	public GetMaxAvgInWindow Gmaiw
 	{
-		get { return fscAIPoints; }
+		get { return gmaiw; }
 	}
-	public ForceSensorCapturePoints FscAIPointsDispl
+
+	public VariabilityAndAccuracy Vaa
 	{
-		get { return fscAIPointsDispl; }
+		get { return vaa; }
 	}
 }
 

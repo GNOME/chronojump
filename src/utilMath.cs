@@ -765,8 +765,8 @@ public class VariabilityAndAccuracy
 public class GetMaxAvgInWindow
 {
 	private double avgMax;
-	private double avgMaxSampleStart;
-	private double avgMaxSampleEnd;
+	private int avgMaxSampleStart;
+	private int avgMaxSampleEnd;
 	private string error;
 
 	public GetMaxAvgInWindow (List<PointF> p_l, int countA, int countB, double windowSeconds)
@@ -863,14 +863,190 @@ public class GetMaxAvgInWindow
 		get { return avgMax; }
 	}
 
+	public int AvgMaxSampleStart
+	{
+		get { return avgMaxSampleStart; }
+	}
+
+	public int AvgMaxSampleEnd
+	{
+		get { return avgMaxSampleEnd; }
+	}
+
 	public string Error
 	{
 		get { return error; }
 	}
 }
 
+/*
+public class ForceCalculateRange
+{
+	private List<PointF> p_l;
+	private int countA;
+	private int countB;
+	private double maxAVGInWindowSeconds;
+
+	private double forceAVG;
+	private double forceMAX;
+	private GetMaxAvgInWindow gmaiw;
+
+	public double SpeedAVG;
+	public double SpeedMAX;
+	public double AccelAVG;
+	public double AccelMAX;
+	public double PowerAVG;
+	public double PowerMAX;
+
+	public ForceCalculateRange (
+			List<PointF> p_l,
+			int countA, int countB, double maxAVGInWindowSeconds)
+	{
+		this.p_l = p_l;
+		this.countA = countA;
+		this.countB = countB;
+		this.maxAVGInWindowSeconds = maxAVGInWindowSeconds;
+
+		calcule ();
+	}
+
+	public ForceCalculateRange (
+			List<PointF> p_l,
+			List<PointF> speed_l, List<PointF> accel_l, List<PointF> power_l,
+			int countA, int countB, double maxAVGInWindowSeconds)
+	{
+		this.p_l = p_l;
+		this.countA = countA;
+		this.countB = countB;
+		this.maxAVGInWindowSeconds = maxAVGInWindowSeconds;
+
+		calcule ();
+
+		calculeElasticAvgAndMax (speed_l, countA, countB, out SpeedAVG, out SpeedMAX);
+		calculeElasticAvgAndMax (accel_l, countA, countB, out AccelAVG, out AccelMAX);
+		calculeElasticAvgAndMax (power_l, countA, countB, out PowerAVG, out PowerMAX);
+	}
+
+	private void calcule ()
+	{
+	*/
+		/*
+		 * countA will be the lowest and countB the highest
+		 * to calcule Avg and max correctly no matter if B is before A
+		 */
+	/*
+		if(countA > countB) {
+			int temp = countA;
+			countA = countB;
+			countB = temp;
+		}
+
+		getAverageAndMaxForce ();
+		gmaiw = new GetMaxAvgInWindow (p_l, countA, countB, maxAVGInWindowSeconds);
+	}
+
+	private void getAverageAndMaxForce ()
+	{
+		if(countA == countB) {
+			forceAVG = p_l[countA].Y;
+			forceMAX = p_l[countA].Y;
+			return;
+		}
+
+		double sum = 0;
+		forceMAX = -100000;
+		for (int i = countA; i <= countB; i ++) {
+			sum += p_l[i].Y;
+			if (p_l[i].Y > forceMAX)
+				forceMAX = p_l[i].Y;
+		}
+
+		forceAVG = sum / ((countB - countA) +1);
+	}
+
+	private void calculeElasticAvgAndMax (List<PointF> list, int countA, int countB,
+			out double avg, out double max)
+	{
+		if(countA == countB) {
+			avg = list[countA].Y;
+			max = list[countA].Y;
+			return;
+		}
+
+		double sum = 0;
+		max = 0;
+		for(int i = countA; i <= countB; i ++) {
+			sum += list[i].Y;
+			if(list[i].Y > max)
+				max = list[i].Y;
+		}
+
+		avg = sum / ((countB - countA) +1);
+	}
+
+	public double ForceAVG {
+		get { return forceAVG; }
+	}
+	public double ForceMAX {
+		get { return forceMAX; }
+	}
+
+	public GetMaxAvgInWindow Gmaiw {
+		get { return gmaiw; }
+	}
+}
+*/
+
 public static class ForceCalcs
 {
+	public static void GetAverageAndMaxForce (List<double> p_l, int countA, int countB, out double avg, out double max)
+	{
+		if(countA == countB) {
+			avg = p_l[countA];
+			max = p_l[countA];
+			return;
+		}
+
+		double sum = 0;
+		max = 0;
+		for (int i = countA; i <= countB; i ++) {
+			sum += p_l[i];
+			if (i == countA || p_l[i] > max)
+				max = p_l[i];
+		}
+
+		avg = sum / ((countB - countA) +1);
+	}
+	public static void GetAverageAndMaxForce (List<PointF> p_l, int countA, int countB, out double avg, out double max)
+	{
+		if(countA == countB) {
+			avg = p_l[countA].Y;
+			max = p_l[countA].Y;
+			return;
+		}
+
+		double sum = 0;
+		max = 0;
+		for (int i = countA; i <= countB; i ++) {
+			sum += p_l[i].Y;
+			if (i == countA || p_l[i].Y > max)
+				max = p_l[i].Y;
+		}
+
+		avg = sum / ((countB - countA) +1);
+	}
+
+	public static double GetRFD (List<PointF> p_l, int countA, int countB)
+	{
+		//LogB.Information(string.Format("GetRFD count A: {0}, count B: {1}, forces.Count: {2}, time.Count: {3}",
+		//			countA, countB, forces.Count, times.Count));
+
+		double calc = (p_l[countB].Y - p_l[countA].Y) / (p_l[countB].X/1000000.0 - p_l[countA].X/1000000.0); //microsec to sec
+		//LogB.Information(string.Format("GetRFD {0}, {1}, {2}, {3}, {4}, {5}, RFD: {6}",
+		//			countA, countB, forces[countA], forces[countB], times[countA], times[countB], calc));
+		return calc;
+	}
+
 	public static double GetImpulse (List<PointF> p_l, int countA, int countB)
 	{
 		double sum = 0;

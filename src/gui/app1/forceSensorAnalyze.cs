@@ -969,8 +969,6 @@ public partial class ChronoJumpWindow
 		//LogB.Information(string.Format("creating fsAI with zoomFrameA: {0}, zoomFrameB: {1}", zoomFrameA, zoomFrameB));
 		fsAI = new ForceSensorAnalyzeInstant(
 				lastForceSensorFullPath,
-				force_sensor_ai_drawingarea_cairo.Allocation.Width,
-				force_sensor_ai_drawingarea_cairo.Allocation.Height,
 				zoomFrameA, zoomFrameB,
 				currentForceSensorExercise, currentPersonSession.Weight,
 				getForceSensorCaptureOptions(), currentForceSensor.Stiffness,
@@ -1053,11 +1051,11 @@ public partial class ChronoJumpWindow
 		List<ForceSensorRepetition> reps_l = new List<ForceSensorRepetition> ();
 		if (fsAI != null)
 		{
-			if (fsAI.ForceMaxAvgInWindowError == "")
+			if (fsAI.Gmaiw.Error == "")
 			{
-				fMaxAvgSampleStart = fsAI.ForceMaxAvgInWindowSampleStart;
-				fMaxAvgSampleEnd = fsAI.ForceMaxAvgInWindowSampleEnd;
-				fsMaxAvgForce = fsAI.ForceMaxAvgInWindow;
+				fMaxAvgSampleStart = fsAI.Gmaiw.AvgMaxSampleStart;
+				fMaxAvgSampleEnd = fsAI.Gmaiw.AvgMaxSampleEnd;
+				fsMaxAvgForce = fsAI.Gmaiw.AvgMax;
 			}
 
 			reps_l = fsAI.ForceSensorRepetition_l;
@@ -1573,15 +1571,16 @@ public partial class ChronoJumpWindow
 
 	private void force_sensor_analyze_instant_calculate_params()
 	{
-		List<PointF> p_l = cairoGraphForceSensorSignalPoints_l; //to have shorter code
-
+		//List<PointF> p_l = cairoGraphForceSensorSignalPoints_l; //to have shorter code
 		int countA = Convert.ToInt32 (hscale_force_sensor_ai_a.Value);
 		int countB = Convert.ToInt32 (hscale_force_sensor_ai_b.Value);
 
 		//avoid problems of GTK misreading of hscale on a notebook change or load file
-		if(countA < 0 || countA > fsAI.GetLength() -1 || countB < 0 || countB > fsAI.GetLength() -1)
+		if (countA < 0 || countA > fsAI.GetLength() -1 || countB < 0 || countB > fsAI.GetLength() -1)
 			return;
 
+
+		//old method
 		double timeA = fsAI.GetTimeMS(countA);
 		double timeB = fsAI.GetTimeMS(countB);
 		double forceA = fsAI.GetForceAtCount(countA);
@@ -1595,8 +1594,8 @@ public partial class ChronoJumpWindow
 				label_force_sensor_ai_force_average.Text = Math.Round(fsAI.ForceAVG, 1).ToString();
 				label_force_sensor_ai_force_max.Text = Math.Round(fsAI.ForceMAX, 1).ToString();
 
-				if(fsAI.ForceMaxAvgInWindowError == "")
-					label_force_sensor_ai_max_avg_in_window_values.Text = Math.Round(fsAI.ForceMaxAvgInWindow, 1).ToString();
+				if(fsAI.Gmaiw.Error == "")
+					label_force_sensor_ai_max_avg_in_window_values.Text = Math.Round(fsAI.Gmaiw.AvgMax, 1).ToString();
 				else
 					label_force_sensor_ai_max_avg_in_window_values.Text = "----";
 			} else {
@@ -1606,15 +1605,65 @@ public partial class ChronoJumpWindow
 			}
 		}
 
-		if(fsAI.CalculedElasticPSAP && success)
+		/*
+		//new method
+		LogB.Information ("fsAI timeA: " + timeA.ToString());
+		LogB.Information ("p_l timeA: " + p_l[countA].X.ToString());
+
+		double msA = p_l[countA].X / 1000.0;
+		double msB = p_l[countB].X / 1000.0;
+		forceA = p_l[countA].Y;
+		forceB = p_l[countB].Y;
+
+		ForceCalculateRange fcr;
+		if (cairoGraphForceSensorSignalPointsDispl_l != null && cairoGraphForceSensorSignalPointsDispl_l.Count > 0)
+			fcr = new ForceCalculateRange (p_l,
+					cairoGraphForceSensorSignalPointsSpeed_l,
+					cairoGraphForceSensorSignalPointsAccel_l,
+					cairoGraphForceSensorSignalPointsPower_l,
+					countA, countB, preferences.forceSensorAnalyzeMaxAVGInWindow);
+		else
+			fcr = new ForceCalculateRange (p_l, countA, countB, preferences.forceSensorAnalyzeMaxAVGInWindow);
+
+		LogB.Information ("ai_time_diff: " + Math.Round(msB - msA, 1).ToString());
+		LogB.Information ("ai_force_diff: " + Math.Round(forceB - forceA, 1).ToString());
+
+		if(countA != countB) {
+			//label_force_sensor_ai_force_average.Text = Math.Round(fsAI.ForceAVG, 1).ToString();
+			//abel_force_sensor_ai_force_max.Text = Math.Round(fsAI.ForceMAX, 1).ToString();
+			LogB.Information (string.Format ("ForceCalculateRange AVG: {0}, MAX: {1}", fcr.ForceAVG, fcr.ForceMAX));
+
+			if (fcr.Gmaiw.Error == "")
+			{
+				//label_force_sensor_ai_max_avg_in_window_values.Text = Math.Round (fcr.Gmaiw.AvgMax, 1).ToString();
+				LogB.Information ("InWindow: " + Math.Round (fcr.Gmaiw.AvgMax, 1).ToString());
+			}
+			else
+			{
+				//label_force_sensor_ai_max_avg_in_window_values.Text = "----";
+				LogB.Information ("InWindow: ----");
+			}
+		} else {
+			label_force_sensor_ai_force_average.Text = "";
+			label_force_sensor_ai_force_max.Text = "";
+			label_force_sensor_ai_max_avg_in_window_values.Text = "";
+		}
+		//end of new method
+		*/
+
+		if(fsAI.CalculedElasticPSAP && success) //success is always true
 		{
 			double positionA = fsAI.Position_l[countA];
 			double positionB = fsAI.Position_l[countB];
 			label_force_sensor_ai_position_diff.Text = Math.Round(positionB - positionA, 3).ToString();
 
+			//LogB.Information ("fcr position_diff = " + Math.Round (cairoGraphForceSensorSignalPointsDispl_l[countB].Y - cairoGraphForceSensorSignalPointsDispl_l[countA].Y, 3).ToString());
+
 			double speedA = fsAI.Speed_l[countA];
 			double speedB = fsAI.Speed_l[countB];
 			label_force_sensor_ai_speed_diff.Text = Math.Round(speedB - speedA, 3).ToString();
+			//LogB.Information ("fcr speed_diff = " + Math.Round (cairoGraphForceSensorSignalPointsSpeed_l[countB].Y - cairoGraphForceSensorSignalPointsSpeed_l[countA].Y, 3).ToString());
+
 			if(countA != countB) {
 				label_force_sensor_ai_speed_average.Text = Math.Round(fsAI.SpeedAVG, 3).ToString();
 				label_force_sensor_ai_speed_max.Text = Math.Round(fsAI.SpeedMAX, 3).ToString();
@@ -1723,23 +1772,22 @@ public partial class ChronoJumpWindow
 			//			p_l, countA, countB), 1).ToString();
 			//	again this should be on fsAI:
 			label_force_sensor_ai_impulse_values.Text = Math.Round (fsAI.CalculateImpulse (
-						p_l, countA, countB), 1).ToString();
+						countA, countB), 1).ToString();
 
 			// 11) calculate variability
 			int feedbackF = preferences.forceSensorCaptureFeedbackAt;
 
-			VariabilityAndAccuracy vaa = new VariabilityAndAccuracy ();
-			vaa.Calculate (p_l, countA, countB, feedbackF,
+			fsAI.CalculateVariabilityAndAccuracy (countA, countB, feedbackF,
 					preferences.forceSensorVariabilityMethod, preferences.forceSensorVariabilityLag);
-			//LogB.Information (string.Format ("vaa variability: {0}, feedbackDiff: {1}", vaa.Variability, vaa.FeedbackDifference));
+			LogB.Information (string.Format ("vaa variability: {0}, feedbackDiff: {1}", fsAI.Vaa.Variability, fsAI.Vaa.FeedbackDiff));
 
-			label_force_sensor_ai_variability_values.Text = Math.Round (vaa.Variability, 3).ToString();
+			label_force_sensor_ai_variability_values.Text = Math.Round (fsAI.Vaa.Variability, 3).ToString();
 
 			// 12) calculate Accuracy (Feedback difference)
 			//if(preferences.forceSensorCaptureFeedbackActive && feedbackF > 0)
 			if(preferences.forceSensorCaptureFeedbackActive == Preferences.ForceSensorCaptureFeedbackActiveEnum.RECTANGLE && feedbackF > 0)
 			{
-				label_force_sensor_ai_feedback_values.Text = Math.Round (vaa.FeedbackDiff, 3).ToString();
+				label_force_sensor_ai_feedback_values.Text = Math.Round (fsAI.Vaa.FeedbackDiff, 3).ToString();
 				label_force_sensor_ai_feedback.Visible = true;
 				hbox_force_sensor_ai_feedback.Visible = true;
 			} else {

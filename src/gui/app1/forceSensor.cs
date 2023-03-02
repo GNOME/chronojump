@@ -1622,6 +1622,14 @@ LogB.Information(" fs D ");
 		}
 
 LogB.Information(" fs E ");
+
+		if(forceCaptureStartMark)
+		{
+			event_execute_label_message.Text = "Capturing" +
+				" (" + Util.TrimDecimals(DateTime.Now.Subtract(forceSensorTimeStart).TotalSeconds, 0) + " s)";
+			event_execute_label_message.UseMarkup = true;
+		}
+
 LogB.Information(" fs F ");
 
 		if(capturingForce == arduinoCaptureStatus.CAPTURING)

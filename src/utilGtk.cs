@@ -955,24 +955,6 @@ public class UtilGtk
 	 *
 	 */
 
-	
-	public static void ErasePaint(Gtk.DrawingArea da, Gdk.Pixmap px)
-	{
-		if(px != null)
-			px.DrawRectangle (da.Style.WhiteGC, true, 0, 0, da.Allocation.Width, da.Allocation.Height);
-
-		da.QueueDraw(); // -- refresh
-	}
-	
-	//called for cleaning the graph of a event done before than the current
-	public static void ClearDrawingArea(Gtk.DrawingArea da, Gdk.Pixmap px) 
-	{
-		if(px == null) 
-			px = new Gdk.Pixmap (da.GdkWindow, da.Allocation.Width, da.Allocation.Height, -1);
-		
-		UtilGtk.ErasePaint(da, px);
-	}
-
 	//color string like "#0e1e46" for Chronojump blue
 	public static Gdk.Color ColorParse(string colorString)
 	{

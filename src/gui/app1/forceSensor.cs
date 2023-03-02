@@ -566,6 +566,7 @@ public partial class ChronoJumpWindow
 
 		label_force_sensor_export_result.Text = "";
 		button_force_sensor_export_result_open.Visible = false;
+		event_execute_label_message.Text = "";
 	}
 
 	private bool pulseGTKForceSensorOther ()
@@ -2461,7 +2462,7 @@ LogB.Information(" fs R ");
 				forceRedraw, CairoXY.PlotTypes.LINES);
 
 		//LogB.Information ("updateForceSensorCaptureSignalCairo 5");
-		if (forceSensorValues != null)
+		if (currentForceSensor.UniqueID >= 0 && forceSensorValues != null)
 		{
 			label_force_sensor_value.Text = string.Format("{0:0.##} N", forceSensorValues.ValueLast);
 			label_force_sensor_value_max.Text = string.Format("{0:0.##} N", forceSensorValues.Max);
@@ -2469,9 +2470,12 @@ LogB.Information(" fs R ");
 			label_force_sensor_value_best_second.Text = string.Format("{0:0.##} N", forceSensorValues.BestSecond);
 		}
 
-		//LogB.Information ("updateForceSensorCaptureSignalCairo 6");
-		button_force_sensor_image_save_signal.Sensitive = true;
-		button_force_sensor_analyze_analyze.Sensitive = true;
+		if (currentForceSensor.UniqueID >= 0)
+		{
+			//LogB.Information ("updateForceSensorCaptureSignalCairo 6");
+			button_force_sensor_image_save_signal.Sensitive = true;
+			button_force_sensor_analyze_analyze.Sensitive = true;
+		}
 	}
 
 	private enum forceSensorGraphEnum { GTK, CAIRO, BOTH };

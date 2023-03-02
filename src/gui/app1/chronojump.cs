@@ -3935,6 +3935,8 @@ public partial class ChronoJumpWindow
 			notebook_sup.CurrentPage = Convert.ToInt32(notebook_sup_pages.CONTACTS);
 			notebooks_change(m);
 
+			blankForceSensorInterface();
+
 			//we need combo_select_contacts_top before updateForceExerciseCombo
 			createComboSelectContactsTop ();
 			label_contacts_exercise_selected_name.Visible = false;

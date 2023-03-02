@@ -111,6 +111,8 @@ public partial class ChronoJumpWindow
 	static bool redoingPoints; //don't draw while redoing points (adjusting screen)
 
 	static bool forceCaptureStartMark; 	//Just needed to display Capturing message (with seconds)
+	static bool forceTooBigMark;
+	static double forceTooBigValue;
 	static ForceSensorValues forceSensorValues;
 
 	SerialPort portFS; //Attention!! Don't reopen port because arduino makes reset and tare, calibration... is lost
@@ -1100,6 +1102,8 @@ public partial class ChronoJumpWindow
 		button_force_sensor_image_save_signal.Sensitive = false;
 		button_force_sensor_analyze_analyze.Sensitive = false;
 		forceCaptureStartMark = false;
+		forceTooBigMark = false;
+		forceTooBigValue = 0;
 		//vscale_force_sensor.Value = 0;
 		label_force_sensor_value_max.Text = "0 N";
 		label_force_sensor_value.Text = "0 N";
@@ -1551,6 +1555,10 @@ public partial class ChronoJumpWindow
 		if (Math.Abs (Convert.ToDouble(Util.ChangeDecimalSeparator(strFull[1]))) > 5000) // 5000 N (500 Kg)
 		{
 			LogB.Information ("Error. Force too big: " + strFull[1]);
+			forceTooBigMark = true;
+			forceTooBigValue = Convert.ToDouble (Util.ChangeDecimalSeparator(strFull[1]));
+			forceProcessError = true;
+
 			return false;
 		}
 
@@ -1685,7 +1693,12 @@ LogB.Information(" fs C ");
 				sensitiveLastTestButtons(false);
 				contactsShowCaptureDoingButtons(false);
 
-				if(forceProcessCancel)
+				if (forceTooBigMark)
+					event_execute_label_message.Text = string.Format (
+							Catalog.GetString ("Error. Force too big: {0} N"), forceTooBigValue) + " " +
+						Catalog.GetString ("Bad calibration or too much force for this sensor.") +
+						" " + Catalog.GetString ("Stopped.");
+				else if (forceProcessCancel)
 					event_execute_label_message.Text = "Cancelled.";
 				else
 					event_execute_label_message.Text = forceSensorNotConnectedString;
@@ -1730,7 +1743,8 @@ LogB.Information(" fs D ");
 		}
 
 LogB.Information(" fs E ");
-		if(forceCaptureStartMark)
+
+		if (forceCaptureStartMark)
 		{
 			string accuracyStr = "";
 			if(interpolate_l != null)

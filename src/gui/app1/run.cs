@@ -228,13 +228,6 @@ public partial class ChronoJumpWindow
 		if(currentPerson == null || currentSession == null)
 			return;
 
-		/*
-		if(event_execute_drawingarea == null || event_execute_pixmap == null)
-			return;
-
-		UtilGtk.ErasePaint(event_execute_drawingarea, event_execute_pixmap);
-		*/
-
 		//we do not plot graph, but we want to update label event_graph_label_graph_test
 		//intializeVariables if not done before
 		event_execute_initializeVariables(

@@ -733,7 +733,6 @@ public partial class ChronoJumpWindow
 
 		putNonStandardIcons();
 		eventExecutePutNonStandardIcons();
-		//eventExecuteCreateComboGraphResultsSize();
 
 
 		/*
@@ -3653,7 +3652,6 @@ public partial class ChronoJumpWindow
 		hbox_combo_select_contacts_top_with_arrows.Visible = false; //TODO: this will be unneded
 
 		event_execute_label_message.Text = "";
-		event_execute_drawingarea.Visible = false;
 
 		hbox_drawingarea_realtime_capture_cairo.Visible = false;
 		vbox_event_execute_drawingarea_run_interval_realtime_capture_cairo.Visible = false;
@@ -4023,8 +4021,6 @@ public partial class ChronoJumpWindow
 		}
 		else if(m == Constants.Modes.RT)
 		{
-			event_execute_drawingarea.Visible = true;
-
 			notebook_sup.CurrentPage = Convert.ToInt32(notebook_sup_pages.CONTACTS);
 			notebooks_change(m);
 			on_extra_window_reaction_times_test_changed(new object(), new EventArgs());
@@ -4039,8 +4035,6 @@ public partial class ChronoJumpWindow
 			image_top_laterality_contacts.Visible = false;
 		}
 		else {	//m == Constants.Modes.OTHER (contacts / other)
-			event_execute_drawingarea.Visible = true;
-
 			notebook_sup.CurrentPage = Convert.ToInt32(notebook_sup_pages.CONTACTS);
 			hbox_other.Visible = true;
 			notebooks_change(m);
@@ -6976,7 +6970,6 @@ LogB.Debug("mc finished 5");
 
 	private void deleted_last_test_update_widgets() {
 		sensitiveLastTestButtons(false);
-		UtilGtk.ClearDrawingArea(event_execute_drawingarea, event_execute_pixmap);
 	}
 	
 	private void on_delete_selected_jump_clicked (object o, EventArgs args) {
@@ -7710,8 +7703,6 @@ LogB.Debug("mc finished 5");
 			}
 		}
 
-		//delete capture graph
-		UtilGtk.ClearDrawingArea(event_execute_drawingarea, event_execute_pixmap);
 		//change table under graph
 		change_notebook_results_data();
 

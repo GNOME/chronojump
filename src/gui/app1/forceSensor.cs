@@ -2522,21 +2522,22 @@ LogB.Information(" fs R ");
 
 	void on_button_forcesensor_save_image_signal_file_selected (string destination)
 	{
-		/* TODO: save the Cairo graph instead of this
-		 *
-		LogB.Information("CREATING PIXBUF");
-		LogB.Information("force_capture_pixmap is null == " + (force_capture_pixmap == null));
-		LogB.Information("colormapForce is null == " + (colormapForce == null));
-		LogB.Information("force_capture_drawingarea is null == " + (force_capture_drawingarea == null));
-		int pixmapW = 0;
-		int pixmapH = 0;
-		force_capture_pixmap.GetSize(out pixmapW, out pixmapH);
-		Gdk.Pixbuf pixbuf = Pixbuf.FromDrawable(force_capture_pixmap, colormapForce,
-				0, 0, 0, 0, pixmapW, pixmapH);
+		try {
+			if (force_capture_drawingarea_cairo == null)
+				return;
 
-		LogB.Information("Saving");
-		pixbuf.Save(destination,"png");
-		*/
+			Gdk.Pixbuf pixbuf = Gdk.Pixbuf.FromDrawable (force_capture_drawingarea_cairo.GdkWindow, Gdk.Colormap.System,
+					0, 0, 0, 0,
+					UtilGtk.WidgetWidth (force_capture_drawingarea_cairo),
+					UtilGtk.WidgetHeight (force_capture_drawingarea_cairo) );
+
+			LogB.Information ("Saving");
+			pixbuf.Save (destination,"png");
+		} catch {
+			string myString = string.Format (
+					Catalog.GetString ("Cannot save file {0} "), destination);
+			new DialogMessage (Constants.MessageTypes.WARNING, myString);
+		}
 	}
 	private void on_overwrite_file_forcesensor_save_image_signal_accepted(object o, EventArgs args)
 	{

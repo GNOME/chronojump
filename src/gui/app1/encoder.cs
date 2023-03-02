@@ -2946,9 +2946,10 @@ public partial class ChronoJumpWindow
 		image_encoder_capture.Sensitive = false;
 		treeviewEncoderCaptureRemoveColumns();
 		updateEncoderAnalyzeExercisesPre();
-		//UtilGtk.ErasePaint(encoder_capture_curves_bars_drawingarea, encoder_capture_curves_bars_pixmap);
-		//TODO: do it for cairo
-		
+		cairoPaintBarsPre = new CairoPaintBarplotPreEncoder (
+				encoder_capture_curves_bars_drawingarea_cairo,
+				preferences.fontType.ToString());
+
 		encoderButtonsSensitive(encoderSensEnum.DONENOSIGNAL);
 		
 		//need this because DONENOSIGNAL allows to recalculate with different parameters, 

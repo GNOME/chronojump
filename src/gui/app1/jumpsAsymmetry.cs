@@ -265,13 +265,8 @@ public partial class ChronoJumpWindow
 		if(drawingarea_jumps_asymmetry == null)
 			return;
 
-		Gdk.Pixbuf pixbuf = Gdk.Pixbuf.FromDrawable(drawingarea_jumps_asymmetry.GdkWindow, Gdk.Colormap.System,
-				0, 0, 0, 0,
-				UtilGtk.WidgetWidth(drawingarea_jumps_asymmetry),
-				UtilGtk.WidgetHeight(drawingarea_jumps_asymmetry) );
-
 		LogB.Information("Saving");
-		pixbuf.Save(destination,"png");
+		CairoUtil.GetScreenshotFromDrawingArea (drawingarea_jumps_asymmetry, destination);
 	}
 	private void on_overwrite_file_jumps_asymmetry_save_image_accepted (object o, EventArgs args)
 	{

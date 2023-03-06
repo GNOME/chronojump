@@ -132,13 +132,8 @@ public partial class ChronoJumpWindow
 		if(drawingarea_jumps_dj_optimal_fall == null)
 			return;
 
-		Gdk.Pixbuf pixbuf = Gdk.Pixbuf.FromDrawable(drawingarea_jumps_dj_optimal_fall.GdkWindow, Gdk.Colormap.System,
-				0, 0, 0, 0,
-				UtilGtk.WidgetWidth(drawingarea_jumps_dj_optimal_fall),
-				UtilGtk.WidgetHeight(drawingarea_jumps_dj_optimal_fall) );
-
 		LogB.Information("Saving");
-		pixbuf.Save(destination,"png");
+		CairoUtil.GetScreenshotFromDrawingArea (drawingarea_jumps_dj_optimal_fall, destination);
 	}
 	private void on_overwrite_file_jumps_dj_optimal_fall_save_image_accepted (object o, EventArgs args)
 	{

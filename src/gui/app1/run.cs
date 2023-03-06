@@ -501,13 +501,8 @@ public partial class ChronoJumpWindow
 		if(event_execute_drawingarea_cairo == null)
 			return;
 
-		Gdk.Pixbuf pixbuf = Gdk.Pixbuf.FromDrawable(event_execute_drawingarea_cairo.GdkWindow, Gdk.Colormap.System,
-				0, 0, 0, 0,
-				UtilGtk.WidgetWidth(event_execute_drawingarea_cairo),
-				UtilGtk.WidgetHeight(event_execute_drawingarea_cairo) );
-
 		LogB.Information("Saving");
-		pixbuf.Save(destination,"png");
+		CairoUtil.GetScreenshotFromDrawingArea (event_execute_drawingarea_cairo, destination);
 	}
 	private void on_overwrite_file_runs_capture_save_image_accepted (object o, EventArgs args)
 	{

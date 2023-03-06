@@ -2590,9 +2590,8 @@ public partial class ChronoJumpWindow
 	private void on_button_run_encoder_capture_image_save_selected (string destination)
 	{
 		try {
-			Gdk.Pixbuf pixbuf = UtilGtk.PixbufFromVBox(vbox_race_analyzer_capture_graphs);
 			LogB.Information("Saving");
-			pixbuf.Save(destination,"png");
+			CairoUtil.GetScreenshotFromVBox (vbox_race_analyzer_capture_graphs, destination);
 		} catch {
 			string myString = string.Format(
 					Catalog.GetString("Cannot save file {0} "), destination);

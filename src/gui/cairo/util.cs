@@ -32,6 +32,29 @@ public static class CairoUtil
 	 * public methods
 	 */
 
+	//based on https://stackoverflow.com/q/9899756
+	public static void GetScreenshotFromDrawingArea (Gtk.DrawingArea darea, string destination)
+	{
+		var src_context = Gdk.CairoHelper.Create (darea.GdkWindow);
+		var src_surface = src_context.GetTarget ();
+		var dst_surface = new Cairo.ImageSurface (Cairo.Format.ARGB32, darea.Allocation.Width, darea.Allocation.Height);
+		var dst_context = new Cairo.Context (dst_surface);
+		dst_context.SetSourceSurface (src_surface, 0, 0);
+		dst_context.Paint ();
+		dst_surface.WriteToPng (destination);
+	}
+
+	public static void GetScreenshotFromVBox (Gtk.VBox vbox, string destination)
+	{
+		var src_context = Gdk.CairoHelper.Create (vbox.GdkWindow);
+		var src_surface = src_context.GetTarget ();
+		var dst_surface = new Cairo.ImageSurface (Cairo.Format.ARGB32, vbox.Allocation.Width, vbox.Allocation.Height);
+		var dst_context = new Cairo.Context (dst_surface);
+		dst_context.SetSourceSurface (src_surface, -vbox.Allocation.X, -vbox.Allocation.Y);
+		dst_context.Paint ();
+		dst_surface.WriteToPng (destination);
+	}
+
 	public static void PaintSegment (Cairo.Context g, Cairo.Color color, double x1, double y1, double x2, double y2)
 	{
 		g.SetSourceColor (color);

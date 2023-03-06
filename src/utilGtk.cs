@@ -842,13 +842,6 @@ public class UtilGtk
 		return w.Allocation.Height;
 	}
 
-	public static Gdk.Pixbuf PixbufFromVBox (Gtk.VBox vbox)
-	{
-		return Gdk.Pixbuf.FromDrawable(vbox.GdkWindow, Gdk.Colormap.System,
-				vbox.Allocation.X, vbox.Allocation.Y, 0, 0,
-				WidgetWidth(vbox), WidgetHeight(vbox));
-	}
-
 	public static void IconWindow(Gtk.Window myWindow) {
 		Gdk.Pixbuf chronojumpIcon = new Gdk.Pixbuf (null, Constants.FileNameIcon);
             	myWindow.Icon = chronojumpIcon;

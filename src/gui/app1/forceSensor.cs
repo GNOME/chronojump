@@ -2526,13 +2526,8 @@ LogB.Information(" fs R ");
 			if (force_capture_drawingarea_cairo == null)
 				return;
 
-			Gdk.Pixbuf pixbuf = Gdk.Pixbuf.FromDrawable (force_capture_drawingarea_cairo.GdkWindow, Gdk.Colormap.System,
-					0, 0, 0, 0,
-					UtilGtk.WidgetWidth (force_capture_drawingarea_cairo),
-					UtilGtk.WidgetHeight (force_capture_drawingarea_cairo) );
-
 			LogB.Information ("Saving");
-			pixbuf.Save (destination,"png");
+			CairoUtil.GetScreenshotFromDrawingArea (force_capture_drawingarea_cairo, destination);
 		} catch {
 			string myString = string.Format (
 					Catalog.GetString ("Cannot save file {0} "), destination);
@@ -2565,13 +2560,8 @@ LogB.Information(" fs R ");
 			if (force_sensor_ai_drawingarea_cairo == null)
 				return;
 
-			Gdk.Pixbuf pixbuf = Gdk.Pixbuf.FromDrawable (force_sensor_ai_drawingarea_cairo.GdkWindow, Gdk.Colormap.System,
-					0, 0, 0, 0,
-					UtilGtk.WidgetWidth (force_sensor_ai_drawingarea_cairo),
-					UtilGtk.WidgetHeight (force_sensor_ai_drawingarea_cairo) );
-
 			LogB.Information ("Saving");
-			pixbuf.Save (destination,"png");
+			CairoUtil.GetScreenshotFromDrawingArea (force_sensor_ai_drawingarea_cairo, destination);
 		} catch {
 			string myString = string.Format (
 					Catalog.GetString ("Cannot save file {0} "), destination);

@@ -5152,13 +5152,8 @@ public partial class ChronoJumpWindow
 			if(encoder_capture_curves_bars_drawingarea_cairo == null)
 				return;
 
-			Gdk.Pixbuf pixbuf = Gdk.Pixbuf.FromDrawable(encoder_capture_curves_bars_drawingarea_cairo.GdkWindow, Gdk.Colormap.System,
-					0, 0, 0, 0,
-					UtilGtk.WidgetWidth(encoder_capture_curves_bars_drawingarea_cairo),
-					UtilGtk.WidgetHeight(encoder_capture_curves_bars_drawingarea_cairo) );
-
 			LogB.Information("Saving");
-			pixbuf.Save(destination,"png");
+			CairoUtil.GetScreenshotFromDrawingArea (encoder_capture_curves_bars_drawingarea_cairo, destination);
 		} catch {
 			string myString = string.Format(
 					Catalog.GetString("Cannot save file {0} "), destination);

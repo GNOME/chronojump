@@ -1,0 +1,5 @@
+#resource (recommended for Chronojump)
+mcs win2labels.cs -pkg:gtk-sharp-3.0 -resource:glade/win2labels.glade
+
+#as file
+mcs win2labels.cs -pkg:gtk-sharp-3.0

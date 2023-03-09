@@ -209,7 +209,7 @@ drawSprintFromPhotocells <- function(sprintFittedDynamics, splitTimes, positions
 		return (NULL)
 	if(max(sprintFittedDynamics$fmax.fitted) <= 0)
 		return (NULL)
-
+        T0 = sprintFittedDynamics$T0
         maxTime = splitTimes[length(splitTimes)]
         time = seq(0, maxTime, by=0.01)
         #Calculating measured average speeds
@@ -238,6 +238,15 @@ drawSprintFromPhotocells <- function(sprintFittedDynamics, splitTimes, positions
         axis(2, at = seq(0, sprintFittedDynamics$Vmax + 1, by = 1))
         abline(h = sprintFittedDynamics$Vmax, lty = 2)
         mtext(side = 1, line = 3, at = splitTimes[length(splitTimes)]*0.25, cex = 1.5 , substitute(v(t) == Vmax*(1-e^(-K*t)), list(Vmax="Vmax", K="K")))
+        
+        if(plotFittedPower)
+        {
+                lines(c(-T0, sprintFittedDynamics$tpmax.fitted -T0), c(sprintFittedDynamics$vpmax.fitted, sprintFittedDynamics$vpmax.fitted)
+                , col = "black", lty = 3, lwd = 2)
+                text(-T0, sprintFittedDynamics$vpmax.fitted , round(sprintFittedDynamics$vpmax.fitted, 2)
+                     , col = "black", adj = c(-0.1, -0.5))
+        }
+        
         if(plotFittedAccel)
         {
                 par(new = T)
@@ -275,6 +284,8 @@ drawSprintFromPhotocells <- function(sprintFittedDynamics, splitTimes, positions
                 #                              Vmax=round(sprintFittedDynamics$Vmax.fitted, digits=3),
                 #                              K=round(sprintFittedDynamics$K.fitted, digits=3)))
                 #       , col ="red")
+                
+                
         }
         
         legend (x = time[length(time)], y = sprintFittedDynamics$pmax.fitted / 2,
@@ -284,8 +295,9 @@ drawSprintFromPhotocells <- function(sprintFittedDynamics, splitTimes, positions
                            paste("Vmax =", round(sprintFittedDynamics$Vmax.fitted, digits = 2), "m/s"),
                            paste("Amax =", round(sprintFittedDynamics$amax.fitted, digits = 2), "m/s\u00b2"),
                            paste("fmax =", round(sprintFittedDynamics$fmax.rel.fitted, digits = 2), "N/kg"),
-                           paste("pmax =", round(sprintFittedDynamics$pmax.rel.fitted, digits = 2), "W/kg")),
-                text.col = c("black", "black", "black", "magenta", "blue", "red"))
+                           paste("pmax =", round(sprintFittedDynamics$pmax.rel.fitted, digits = 2), "W/kg"),
+                           paste("Vpmax =", round(sprintFittedDynamics$vpmax.fitted, digits = 2), "m/s")),
+                text.col = c("black", "black", "black", "magenta", "blue", "red", "black"))
 
 	#TODO: check if we can pass raw values of v,a,F,P
         return (exportSprintDynamicsPrepareRow(sprintFittedDynamics, NULL, splitTimes, positions, splitPositionAll, op$decimalCharAtExport == ","))

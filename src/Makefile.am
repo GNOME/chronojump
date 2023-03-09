@@ -60,7 +60,6 @@ SOURCES = \
 	gui/encoderSelectRepetitions.cs\
 	gui/error.cs\
 	gui/eventExecute.cs\
-	gui/eventGraphConfigure.cs\
 	gui/event.cs\
 	gui/executeAuto.cs\
 	gui/exhibition.cs\
@@ -307,7 +306,6 @@ RESOURCES = \
 	../glade/encoder_configuration.glade \
 	../glade/error_window.glade \
 	../glade/evaluator_window.glade \
-	../glade/event_graph_configure.glade \
 	../glade/execute_auto.glade \
 	../glade/generic_window.glade \
 	../glade/force_sensor_elastic_bands.glade \
@@ -322,7 +320,6 @@ RESOURCES = \
 	../glade/person_show_all_events.glade \
 	../glade/person_win.glade \
 	../glade/preferences_win.glade \
-	../glade/query_server_window.glade \
 	../glade/repair_sub_event.glade \
 	../glade/feedback.glade \
 	../glade/report_window.glade \

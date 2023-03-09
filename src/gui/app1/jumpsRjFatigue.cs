@@ -153,7 +153,7 @@ public partial class ChronoJumpWindow
 				drawingarea_jumps_rj_fatigue == null || drawingarea_jumps_rj_fatigue.Window == null || //it happens at start on click on analyze
 				comboSelectJumpsRjFatigueNum.GetSelectedId() < 0)
 		{
-			if(drawingarea_jumps_rj_fatigue != null && drawingarea_jumps_rj_fatigue.GdkWindow != null)
+			if(drawingarea_jumps_rj_fatigue != null && drawingarea_jumps_rj_fatigue.Window != null)
 				new JumpsRjFatigueGraph(drawingarea_jumps_rj_fatigue, "", preferences.fontType.ToString());
 
 			button_jumps_rj_fatigue_save_image.Sensitive = false;

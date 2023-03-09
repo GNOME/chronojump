@@ -485,6 +485,16 @@ plotSprintFromEncoder <- function(sprintRawDynamics, sprintFittedDynamics, isSpr
                       , lty = 2, lwd = 2
                       #, col = "green"
                       )
+                
+                #Speed when power is maximum
+                if(plotFittedPower)
+                {
+                        
+                        lines(c(-T0, sprintFittedDynamics$tpmax.fitted -T0), c(sprintFittedDynamics$vpmax.fitted, sprintFittedDynamics$vpmax.fitted)
+                              , col = "green", lty = 3, lwd = 2)
+                        text(-T0, sprintFittedDynamics$vpmax.fitted , paste( round(sprintFittedDynamics$vpmax.fitted, 2), "m/s")
+                             , col = "green", adj = c(-0.1, -0.5))
+                }
         }
         
         if (plotRawAccel || plotFittedAccel)
@@ -655,6 +665,8 @@ plotSprintFromEncoder <- function(sprintRawDynamics, sprintFittedDynamics, isSpr
                              , labels = paste(round(sprintFittedDynamics$pmax.fitted, digits = 2), "W")
                              , pos = 3
                              , col = "red")
+                        
+                        
                         lines(c(sprintFittedDynamics$tpmax.fitted, sprintFittedDynamics$tpmax.fitted), c(sprintFittedDynamics$pmax.fitted, 0)
                               , lty = 2, col = "red")
                         mtext(paste(round(sprintFittedDynamics$tpmax.fitted, digits = 3), "s")
@@ -664,6 +676,13 @@ plotSprintFromEncoder <- function(sprintRawDynamics, sprintFittedDynamics, isSpr
 			legendText = c(legendText, paste("P max (fitted) =", round(sprintFittedDynamics$pmax.fitted, digits = 2), "W"))
 			legendColor = c(legendColor, "red")
 			legendLty = c(legendLty, ltyFitted)
+			legendLwd = c(legendLwd, lwdFitted)
+			
+			#Speed when power is max
+			
+			legendText = c(legendText, paste("VPmax (fitted) =", round(sprintFittedDynamics$vpmax.fitted, digits = 2), "m/s"))
+			legendColor = c(legendColor, "green")
+			legendLty = c(legendLty, 3)
 			legendLwd = c(legendLwd, lwdFitted)
                 }
                 axis(side = 4, col = "red", line = 4)

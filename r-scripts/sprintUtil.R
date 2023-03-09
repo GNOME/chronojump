@@ -81,6 +81,7 @@ getDynamicsFromSprint <- function(K, Vmax, Mass, T0 = 0, Temperature = 25, Heigh
         pmax.fitted = max(p.fitted)
         pmax.rel.fitted = pmax.fitted / Mass
         tpmax.fitted = time[which(p.fitted == pmax.fitted)]
+        vpmax.fitted = Vmax * ( 1 - exp( -K * tpmax.fitted))
         
         return(list(Mass = Mass,
                     Height = Height, Temperature = Temperature,
@@ -108,7 +109,8 @@ getDynamicsFromSprint <- function(K, Vmax, Mass, T0 = 0, Temperature = 25, Heigh
                     v.fitted = v.fitted,
                     a.fitted = a.fitted,
                     f.fitted = f.fitted,
-                    p.fitted = p.fitted ))
+                    p.fitted = p.fitted,
+                    vpmax.fitted = vpmax.fitted))
 }
 
 getSplitsForPrepareRow <- function (splitTime, splitMeanSpeed, splitMeanForce, splitMeanPower,

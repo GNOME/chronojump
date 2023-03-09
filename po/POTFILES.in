@@ -15,7 +15,6 @@ glade/edit_event.glade
 glade/encoder_configuration.glade
 glade/error_window.glade
 glade/evaluator_window.glade
-glade/event_graph_configure.glade
 glade/execute_auto.glade
 glade/feedback.glade
 glade/force_sensor_elastic_bands.glade

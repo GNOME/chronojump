@@ -73,7 +73,7 @@ public partial class ChronoJumpWindow
 		button_jumps_weight_fv_profile_save_image.Sensitive = false;
 
 		if(currentPerson == null || currentPersonSession == null || currentSession == null ||
-				drawingarea_jumps_weight_fv_profile == null || drawingarea_jumps_weight_fv_profile.GdkWindow == null) //it happens at start on click on analyze
+				drawingarea_jumps_weight_fv_profile == null || drawingarea_jumps_weight_fv_profile.Window == null) //it happens at start on click on analyze
 			return;
 		
 		if(currentPersonSession.TrochanterToe == Constants.TrochanterToeUndefinedID || 

@@ -50,7 +50,7 @@ public partial class ChronoJumpWindow
 	private void jumpsProfileDo (bool calculateData)
 	{
 		if(currentPerson == null || currentSession == null ||
-				drawingarea_jumps_profile == null || drawingarea_jumps_profile.GdkWindow == null) //it happens at start on click on analyze
+				drawingarea_jumps_profile == null || drawingarea_jumps_profile.Window == null) //it happens at start on click on analyze
 		{
 			button_jumps_profile_save_image.Sensitive = false;
 			return;

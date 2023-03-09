@@ -137,7 +137,7 @@ public class CairoRunDoubleContacts : CairoGeneric
 		drawTracks (timeTotal, timeTotalWithExtraPTL, negativePTLTime);
 		drawStartAndEnd (timeTotal, timeTotalWithExtraPTL, negativePTLTime);
 
-		endGraphDisposing(g, surface, area.GdkWindow);
+		endGraphDisposing(g, surface, area.Window);
 	}
 
 	protected virtual void drawTracks (double timeTotal, double timeTotalWithExtraPTL, double negativePTLTime)

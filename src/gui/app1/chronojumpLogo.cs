@@ -98,7 +98,7 @@ public class ChronojumpLogo
 
 	private void redraw()
 	{
-                Cairo.Context cr =  Gdk.CairoHelper.Create(drawingarea.GdkWindow);
+                Cairo.Context cr =  Gdk.CairoHelper.Create(drawingarea.Window);
 
 		double x = Convert.ToInt32(drawingarea.Allocation.Width *.33); //2023
                 int y = Convert.ToInt32(drawingarea.Allocation.Height / 2); //2022b

@@ -46,7 +46,7 @@ public class CairoRadial : CairoGeneric
 	public void GraphBlank()
 	{
 		initGraph();
-		endGraphDisposing(g, surface, area.GdkWindow);
+		endGraphDisposing(g, surface, area.Window);
 	}
 
 	private void initGraph()
@@ -156,7 +156,7 @@ public class CairoRadial : CairoGeneric
 		if(speedMax > speed)
 			graphLineFromCenter(speedMax, gray);
 
-		endGraphDisposing(g, surface, area.GdkWindow);
+		endGraphDisposing(g, surface, area.Window);
 	}
 
 	//used at end or capture or at load
@@ -182,7 +182,7 @@ public class CairoRadial : CairoGeneric
 
 		graphLineFromCenter(speedMax, gray);
 
-		endGraphDisposing(g, surface, area.GdkWindow);
+		endGraphDisposing(g, surface, area.Window);
 	}
 
 	private void graphLineFromCenter(double toValue, Cairo.Color color)

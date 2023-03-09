@@ -67,7 +67,7 @@ public partial class ChronoJumpWindow
 	private void jumpsDjOptimalFallDo (bool calculateData)
 	{
 		if(currentPerson == null || currentSession == null ||
-				drawingarea_jumps_dj_optimal_fall == null || drawingarea_jumps_dj_optimal_fall.GdkWindow == null) //it happens at start on click on analyze
+				drawingarea_jumps_dj_optimal_fall == null || drawingarea_jumps_dj_optimal_fall.Window == null) //it happens at start on click on analyze
 		{
 			button_jumps_dj_optimal_fall_save_image.Sensitive = false;
 			return;

@@ -132,7 +132,7 @@ public partial class ChronoJumpWindow
 		button_jumps_asymmetry_save_image.Sensitive = false;
 
 		if (currentPerson == null || currentSession == null ||
-				drawingarea_jumps_asymmetry == null || drawingarea_jumps_asymmetry.GdkWindow == null) //it happens at start on click on analyze
+				drawingarea_jumps_asymmetry == null || drawingarea_jumps_asymmetry.Window == null) //it happens at start on click on analyze
 		{
 			button_jumps_asymmetry_save_image.Sensitive = false;
 			return;

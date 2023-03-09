@@ -153,7 +153,7 @@ public abstract class CairoXY : CairoGeneric
 		LogB.Information("initGraph 2");
 		// 1 create context
 		/* using drawingarea (slow)
-		   g = Gdk.CairoHelper.Create (area.GdkWindow);
+		   g = Gdk.CairoHelper.Create (area.Window);
 
 		   //from area->surface (see xy.cs)
 		   //draw on surface: create surface, context related to this surface, draw on this contex

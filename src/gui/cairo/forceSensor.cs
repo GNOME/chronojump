@@ -256,7 +256,7 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 				paintAnotherSerie (pointsPower_l, startAt, plotType, red, 100,
 						true, powerStr, "W");
 
-			endGraphDisposing(g, surface, area.GdkWindow);
+			endGraphDisposing(g, surface, area.Window);
 		}
 	}
 
@@ -538,7 +538,7 @@ public class CairoGraphForceSensorAI : CairoGraphForceSensor
 				paintAnotherSerie (pointsPower_l, startAt, plotType, red, 100,
 						true, powerStr, "W");
 
-			endGraphDisposing(g, surface, area.GdkWindow);
+			endGraphDisposing(g, surface, area.Window);
 		}
 
 		return repMouseLimits;

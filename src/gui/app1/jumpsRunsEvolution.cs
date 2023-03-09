@@ -91,7 +91,7 @@ public partial class ChronoJumpWindow
 	{
 		// 1) exit, if problems
 		if(currentPerson == null || currentSession == null ||
-				drawingarea_jumps_evolution == null || drawingarea_jumps_evolution.GdkWindow == null) //it happens at start on click on analyze
+				drawingarea_jumps_evolution == null || drawingarea_jumps_evolution.Window == null) //it happens at start on click on analyze
 		{
 			button_jumps_evolution_save_image.Sensitive = false;
 			return;

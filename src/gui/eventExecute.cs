@@ -1143,7 +1143,7 @@ public abstract class CairoPaintBarsPre
 
 	public void Paint ()
 	{
-		if(darea == null || darea.GdkWindow == null) //at start program, this can fail
+		if(darea == null || darea.Window == null) //at start program, this can fail
 			return;
 
 		if(! storeCreated())
@@ -2307,7 +2307,7 @@ public class CairoManageRunDoubleContacts
 	public void Paint (EventExecute currentEventExecute, RunPhaseTimeList runPTL, double timeTotal,
 			string intervalTimesString) //"" on runSimple
 	{
-		if(darea == null || darea.GdkWindow == null) //at start program, this can fail
+		if(darea == null || darea.Window == null) //at start program, this can fail
 			return;
 
 		// 1) get data

@@ -47,7 +47,7 @@ public abstract class EvolutionGraph : CairoXY
 		if(mouseX >= 0 && mouseY >= 0)
 			calculateAndWriteRealXY ();
 
-		endGraphDisposing(g, surface, area.GdkWindow);
+		endGraphDisposing(g, surface, area.Window);
 	}
 
 	//here X is year, add/subtract third of a year
@@ -138,7 +138,7 @@ public class JumpsEvolutionGraph : EvolutionGraph
 		printText(area.Allocation.Width /2, area.Allocation.Height /2, 24, textHeight,
 				errorMessage, g, alignTypes.CENTER);
 
-		endGraphDisposing(g, surface, area.GdkWindow);
+		endGraphDisposing(g, surface, area.Window);
 	}
 
 	//regular constructor
@@ -190,7 +190,7 @@ public class RunsEvolutionGraph : EvolutionGraph
 		printText(area.Allocation.Width /2, area.Allocation.Height /2, 24, textHeight,
 				needToExecuteRunsStr + " " + runType + ".", g, alignTypes.CENTER);
 
-		endGraphDisposing(g, surface, area.GdkWindow);
+		endGraphDisposing(g, surface, area.Window);
 	}
 
 	//regular constructor
@@ -268,7 +268,7 @@ public class JumpsAsymmetryGraph : EvolutionGraph //to inherit paintGridDatetime
 			printText(area.Allocation.Width /2, area.Allocation.Height /2, 24, textHeight,
 					Constants.NotEnoughDataStr (), g, alignTypes.CENTER);
 
-		endGraphDisposing(g, surface, area.GdkWindow);
+		endGraphDisposing(g, surface, area.Window);
 	}
 
 	//regular constructor

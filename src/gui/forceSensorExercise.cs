@@ -15,14 +15,14 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2019-2022   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2019-2023   Xavier de Blas <xaviblas@gmail.com>
  * Copyright (C) 2019  	Xavier Padullés <x.padulles@gmail.com>
  */
 
 using System;
 using Gdk; //Pixbuf
 using Gtk;
-using Glade;
+//using Glade;
 using GLib; //for Value
 using System.Collections.Generic; //List<T>
 using Mono.Unix;
@@ -31,88 +31,88 @@ using Mono.Unix;
 public class ForceSensorExerciseWindow
 {
 	//general widgets
-	[Widget] Gtk.Window force_sensor_exercise;
-	[Widget] Gtk.Label label_header;
-	[Widget] Gtk.Box hbox_error;
-	[Widget] Gtk.Label label_error;
-	[Widget] Gtk.Entry entry_name;
-	[Widget] Gtk.Notebook notebook_main;
-	[Widget] Gtk.Notebook notebook_desc_examples;
-	[Widget] Gtk.RadioButton radio_desc_examples_desc;
-	[Widget] Gtk.RadioButton radio_desc_examples_examples;
-	[Widget] Gtk.Label label_help;
-	[Widget] Gtk.Label label_radio_desc_examples_desc;
-	[Widget] Gtk.Label label_radio_desc_examples_examples;
-	[Widget] Gtk.TextView textview_description;
-	[Widget] Gtk.TextView textview_examples;
-	[Widget] Gtk.Button button_back;
-	[Widget] Gtk.Button button_next;
-	[Widget] Gtk.Button button_accept;
-	[Widget] Gtk.Image image_back;
-	[Widget] Gtk.Image image_next;
-	[Widget] Gtk.Image image_cancel;
+	Gtk.Window force_sensor_exercise;
+	Gtk.Label label_header;
+	Gtk.Box hbox_error;
+	Gtk.Label label_error;
+	Gtk.Entry entry_name;
+	Gtk.Notebook notebook_main;
+	Gtk.Notebook notebook_desc_examples;
+	Gtk.RadioButton radio_desc_examples_desc;
+	Gtk.RadioButton radio_desc_examples_examples;
+	Gtk.Label label_help;
+	Gtk.Label label_radio_desc_examples_desc;
+	Gtk.Label label_radio_desc_examples_examples;
+	Gtk.TextView textview_description;
+	Gtk.TextView textview_examples;
+	Gtk.Button button_back;
+	Gtk.Button button_next;
+	Gtk.Button button_accept;
+	Gtk.Image image_back;
+	Gtk.Image image_next;
+	Gtk.Image image_cancel;
 
 	//type tab
-	[Widget] Gtk.RadioButton radio_type_both;
-	[Widget] Gtk.RadioButton radio_type_isometric;
-	[Widget] Gtk.RadioButton radio_type_elastic;
+	Gtk.RadioButton radio_type_both;
+	Gtk.RadioButton radio_type_isometric;
+	Gtk.RadioButton radio_type_elastic;
 
 	//force tab
-	[Widget] Gtk.Label label_force;
-	[Widget] Gtk.TextView textview_force_explanation;
-	[Widget] Gtk.RadioButton radio_force_sensor_raw;
-	[Widget] Gtk.RadioButton radio_force_resultant;
-	[Widget] Gtk.Button button_force_exerted_help;
-	[Widget] Gtk.Image image_force_exerted_help;
+	Gtk.Label label_force;
+	Gtk.TextView textview_force_explanation;
+	Gtk.RadioButton radio_force_sensor_raw;
+	Gtk.RadioButton radio_force_resultant;
+	Gtk.Button button_force_exerted_help;
+	Gtk.Image image_force_exerted_help;
 
 	//fixation tab
-	[Widget] Gtk.Label label_fixation;
-	[Widget] Gtk.TextView textview_fixation_explanation;
+	Gtk.Label label_fixation;
+	Gtk.TextView textview_fixation_explanation;
 	// disabled, using the "type" variable
-	//[Widget] Gtk.RadioButton radio_fixation_elastic;
-	//[Widget] Gtk.RadioButton radio_fixation_not_elastic;
+	//Gtk.RadioButton radio_fixation_elastic;
+	//Gtk.RadioButton radio_fixation_not_elastic;
 
 	//mass tab
-	[Widget] Gtk.Label label_mass;
-	[Widget] Gtk.TextView textview_mass_explanation;
-	[Widget] Gtk.RadioButton radio_mass_add;
-	[Widget] Gtk.RadioButton radio_mass_subtract;
-	[Widget] Gtk.RadioButton radio_mass_nothing;
-	[Widget] Gtk.HBox hbox_body_mass_add;
-	[Widget] Gtk.SpinButton spin_body_mass_add;
+	Gtk.Label label_mass;
+	Gtk.TextView textview_mass_explanation;
+	Gtk.RadioButton radio_mass_add;
+	Gtk.RadioButton radio_mass_subtract;
+	Gtk.RadioButton radio_mass_nothing;
+	Gtk.HBox hbox_body_mass_add;
+	Gtk.SpinButton spin_body_mass_add;
 
 	//repetitions detect tab
-	[Widget] Gtk.Label label_detect_repetitions;
-	[Widget] Gtk.RadioButton radio_detect_repetitions_from_prefs;
-	[Widget] Gtk.RadioButton radio_detect_repetitions_custom;
-	[Widget] Gtk.HBox hbox_detect_repetitions_preferences;
-	[Widget] Gtk.HBox hbox_detect_repetitions_elastic;
-	[Widget] Gtk.HBox hbox_detect_repetitions_not_elastic;
-	[Widget] Gtk.Label label_repetitions_prefs_ecc_value;
-	[Widget] Gtk.Label label_repetitions_prefs_con_value;
-	[Widget] Gtk.Label label_repetitions_prefs_ecc_units;
-	[Widget] Gtk.Label label_repetitions_prefs_con_units;
-	[Widget] Gtk.SpinButton spin_force_sensor_elastic_ecc_min_displ;
-	[Widget] Gtk.SpinButton spin_force_sensor_elastic_con_min_displ;
-	[Widget] Gtk.SpinButton spin_force_sensor_not_elastic_ecc_min_force;
-	[Widget] Gtk.SpinButton spin_force_sensor_not_elastic_con_min_force;
+	Gtk.Label label_detect_repetitions;
+	Gtk.RadioButton radio_detect_repetitions_from_prefs;
+	Gtk.RadioButton radio_detect_repetitions_custom;
+	Gtk.HBox hbox_detect_repetitions_preferences;
+	Gtk.HBox hbox_detect_repetitions_elastic;
+	Gtk.HBox hbox_detect_repetitions_not_elastic;
+	Gtk.Label label_repetitions_prefs_ecc_value;
+	Gtk.Label label_repetitions_prefs_con_value;
+	Gtk.Label label_repetitions_prefs_ecc_units;
+	Gtk.Label label_repetitions_prefs_con_units;
+	Gtk.SpinButton spin_force_sensor_elastic_ecc_min_displ;
+	Gtk.SpinButton spin_force_sensor_elastic_con_min_displ;
+	Gtk.SpinButton spin_force_sensor_not_elastic_ecc_min_force;
+	Gtk.SpinButton spin_force_sensor_not_elastic_con_min_force;
 
 	//repetitions show tab
-	//[Widget] Gtk.CheckButton check_show_ecc;
-	[Widget] Gtk.RadioButton radio_reps_show_concentric;
-	[Widget] Gtk.RadioButton radio_reps_show_both;
-	[Widget] Gtk.Alignment alignment_reps_show_both;
-	[Widget] Gtk.RadioButton radio_reps_show_both_together;
-	[Widget] Gtk.RadioButton radio_reps_show_both_separated;
+	//Gtk.CheckButton check_show_ecc;
+	Gtk.RadioButton radio_reps_show_concentric;
+	Gtk.RadioButton radio_reps_show_both;
+	Gtk.Alignment alignment_reps_show_both;
+	Gtk.RadioButton radio_reps_show_both_together;
+	Gtk.RadioButton radio_reps_show_both_separated;
 
 	//other tab
-	[Widget] Gtk.Label label_other;
-	[Widget] Gtk.TextView textview_other_explanation;
-	[Widget] Gtk.SpinButton spin_angle;
-	[Widget] Gtk.Entry entry_description;
+	Gtk.Label label_other;
+	Gtk.TextView textview_other_explanation;
+	Gtk.SpinButton spin_angle;
+	Gtk.Entry entry_description;
 
 	//fake button
-	[Widget] Gtk.Button fakeButtonReadValues;
+	Gtk.Button fakeButtonReadValues;
 
 	public bool Success;
 	private bool adding;
@@ -143,9 +143,14 @@ public class ForceSensorExerciseWindow
 
 	public ForceSensorExerciseWindow (string title, string textHeader)
 	{
+		/*
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "force_sensor_exercise.glade", "force_sensor_exercise", "chronojump");
 		gladeXML.Autoconnect(this);
+		*/
+		Gtk.Builder builder = new Gtk.Builder (null, Util.GetGladePath () + "force_sensor_exercise.glade", null);
+		connectWidgets (builder);
+		builder.Autoconnect (this);
 
 		//put an icon to window
 		UtilGtk.IconWindow(force_sensor_exercise);
@@ -905,6 +910,93 @@ public class ForceSensorExerciseWindow
 
 		ForceSensorExerciseWindowBox.force_sensor_exercise.Hide();
 		ForceSensorExerciseWindowBox = null;
+	}
+
+	private void connectWidgets (Gtk.Builder builder)
+	{
+		//general widgets
+		force_sensor_exercise = (Gtk.Window) builder.GetObject ("force_sensor_exercise");
+		label_header = (Gtk.Label) builder.GetObject ("label_header");
+		hbox_error = (Gtk.Box) builder.GetObject ("hbox_error");
+		label_error = (Gtk.Label) builder.GetObject ("label_error");
+		entry_name = (Gtk.Entry) builder.GetObject ("entry_name");
+		notebook_main = (Gtk.Notebook) builder.GetObject ("notebook_main");
+		notebook_desc_examples = (Gtk.Notebook) builder.GetObject ("notebook_desc_examples");
+		radio_desc_examples_desc = (Gtk.RadioButton) builder.GetObject ("radio_desc_examples_desc");
+		radio_desc_examples_examples = (Gtk.RadioButton) builder.GetObject ("radio_desc_examples_examples");
+		label_help = (Gtk.Label) builder.GetObject ("label_help");
+		label_radio_desc_examples_desc = (Gtk.Label) builder.GetObject ("label_radio_desc_examples_desc");
+		label_radio_desc_examples_examples = (Gtk.Label) builder.GetObject ("label_radio_desc_examples_examples");
+		textview_description = (Gtk.TextView) builder.GetObject ("textview_description");
+		textview_examples = (Gtk.TextView) builder.GetObject ("textview_examples");
+		button_back = (Gtk.Button) builder.GetObject ("button_back");
+		button_next = (Gtk.Button) builder.GetObject ("button_next");
+		button_accept = (Gtk.Button) builder.GetObject ("button_accept");
+		image_back = (Gtk.Image) builder.GetObject ("image_back");
+		image_next = (Gtk.Image) builder.GetObject ("image_next");
+		image_cancel = (Gtk.Image) builder.GetObject ("image_cancel");
+
+		//type tab
+		radio_type_both = (Gtk.RadioButton) builder.GetObject ("radio_type_both");
+		radio_type_isometric = (Gtk.RadioButton) builder.GetObject ("radio_type_isometric");
+		radio_type_elastic = (Gtk.RadioButton) builder.GetObject ("radio_type_elastic");
+
+		//force tab
+		label_force = (Gtk.Label) builder.GetObject ("label_force");
+		textview_force_explanation = (Gtk.TextView) builder.GetObject ("textview_force_explanation");
+		radio_force_sensor_raw = (Gtk.RadioButton) builder.GetObject ("radio_force_sensor_raw");
+		radio_force_resultant = (Gtk.RadioButton) builder.GetObject ("radio_force_resultant");
+		button_force_exerted_help = (Gtk.Button) builder.GetObject ("button_force_exerted_help");
+		image_force_exerted_help = (Gtk.Image) builder.GetObject ("image_force_exerted_help");
+
+		//fixation tab
+		label_fixation = (Gtk.Label) builder.GetObject ("label_fixation");
+		textview_fixation_explanation = (Gtk.TextView) builder.GetObject ("textview_fixation_explanation");
+		// disabled, using the "type" variable
+		//radio_fixation_elastic = (Gtk.RadioButton) builder.GetObject ("radio_fixation_elastic");
+		//radio_fixation_not_elastic = (Gtk.RadioButton) builder.GetObject ("radio_fixation_not_elastic");
+
+		//mass tab
+		label_mass = (Gtk.Label) builder.GetObject ("label_mass");
+		textview_mass_explanation = (Gtk.TextView) builder.GetObject ("textview_mass_explanation");
+		radio_mass_add = (Gtk.RadioButton) builder.GetObject ("radio_mass_add");
+		radio_mass_subtract = (Gtk.RadioButton) builder.GetObject ("radio_mass_subtract");
+		radio_mass_nothing = (Gtk.RadioButton) builder.GetObject ("radio_mass_nothing");
+		hbox_body_mass_add = (Gtk.HBox) builder.GetObject ("hbox_body_mass_add");
+		spin_body_mass_add = (Gtk.SpinButton) builder.GetObject ("spin_body_mass_add");
+
+		//repetitions detect tab
+		label_detect_repetitions = (Gtk.Label) builder.GetObject ("label_detect_repetitions");
+		radio_detect_repetitions_from_prefs = (Gtk.RadioButton) builder.GetObject ("radio_detect_repetitions_from_prefs");
+		radio_detect_repetitions_custom = (Gtk.RadioButton) builder.GetObject ("radio_detect_repetitions_custom");
+		hbox_detect_repetitions_preferences = (Gtk.HBox) builder.GetObject ("hbox_detect_repetitions_preferences");
+		hbox_detect_repetitions_elastic = (Gtk.HBox) builder.GetObject ("hbox_detect_repetitions_elastic");
+		hbox_detect_repetitions_not_elastic = (Gtk.HBox) builder.GetObject ("hbox_detect_repetitions_not_elastic");
+		label_repetitions_prefs_ecc_value = (Gtk.Label) builder.GetObject ("label_repetitions_prefs_ecc_value");
+		label_repetitions_prefs_con_value = (Gtk.Label) builder.GetObject ("label_repetitions_prefs_con_value");
+		label_repetitions_prefs_ecc_units = (Gtk.Label) builder.GetObject ("label_repetitions_prefs_ecc_units");
+		label_repetitions_prefs_con_units = (Gtk.Label) builder.GetObject ("label_repetitions_prefs_con_units");
+		spin_force_sensor_elastic_ecc_min_displ = (Gtk.SpinButton) builder.GetObject ("spin_force_sensor_elastic_ecc_min_displ");
+		spin_force_sensor_elastic_con_min_displ = (Gtk.SpinButton) builder.GetObject ("spin_force_sensor_elastic_con_min_displ");
+		spin_force_sensor_not_elastic_ecc_min_force = (Gtk.SpinButton) builder.GetObject ("spin_force_sensor_not_elastic_ecc_min_force");
+		spin_force_sensor_not_elastic_con_min_force = (Gtk.SpinButton) builder.GetObject ("spin_force_sensor_not_elastic_con_min_force");
+
+		//repetitions show tab
+		//check_show_ecc = (Gtk.CheckButton) builder.GetObject ("check_show_ecc");
+		radio_reps_show_concentric = (Gtk.RadioButton) builder.GetObject ("radio_reps_show_concentric");
+		radio_reps_show_both = (Gtk.RadioButton) builder.GetObject ("radio_reps_show_both");
+		alignment_reps_show_both = (Gtk.Alignment) builder.GetObject ("alignment_reps_show_both");
+		radio_reps_show_both_together = (Gtk.RadioButton) builder.GetObject ("radio_reps_show_both_together");
+		radio_reps_show_both_separated = (Gtk.RadioButton) builder.GetObject ("radio_reps_show_both_separated");
+
+		//other tab
+		label_other = (Gtk.Label) builder.GetObject ("label_other");
+		textview_other_explanation = (Gtk.TextView) builder.GetObject ("textview_other_explanation");
+		spin_angle = (Gtk.SpinButton) builder.GetObject ("spin_angle");
+		entry_description = (Gtk.Entry) builder.GetObject ("entry_description");
+
+		//fake button
+		fakeButtonReadValues = (Gtk.Button) builder.GetObject ("fakeButtonReadValues");
 	}
 
 	~ForceSensorExerciseWindow() {}

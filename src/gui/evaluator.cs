@@ -15,74 +15,76 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2017   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2004-2023   Xavier de Blas <xaviblas@gmail.com> 
  */
 
 using System;
 using Gtk;
 using Gdk;
-using Glade;
+//using Glade;
 using GLib; //for Value
 using Mono.Unix;
 
 
 public class EvaluatorWindow
 {
-	[Widget] Gtk.Window evaluator_window;
-	[Widget] Gtk.Entry entry_name;
-	[Widget] Gtk.Entry entry_email;
-	[Widget] Gtk.Label label_date;
-	[Widget] Gtk.Box hbox_combo_continents;
-	[Widget] Gtk.Box hbox_combo_countries;
-	[Widget] Gtk.ComboBox combo_continents;
-	[Widget] Gtk.ComboBox combo_countries;
-	[Widget] Gtk.Label label_confiable;
-	[Widget] Gtk.TextView textview_comments;
+	// at glade ---->
+	Gtk.Window evaluator_window;
+	Gtk.Entry entry_name;
+	Gtk.Entry entry_email;
+	Gtk.Label label_date;
+	Gtk.Box hbox_combo_continents;
+	Gtk.Box hbox_combo_countries;
+	Gtk.Label label_confiable;
+	Gtk.TextView textview_comments;
 
 	//chronometer tab
-	[Widget] Gtk.RadioButton radio_cp_undef;
-	[Widget] Gtk.RadioButton radio_cp1;
-	[Widget] Gtk.RadioButton radio_cp2;
-	[Widget] Gtk.RadioButton radio_cp3;
-	[Widget] Gtk.RadioButton radio_cp_other;
-	[Widget] Gtk.Image image_cp1;
-	[Widget] Gtk.Image image_cp2;
-	[Widget] Gtk.Image image_cp3;
-	[Widget] Gtk.Image image_zoom_cp1;
-	[Widget] Gtk.Image image_zoom_cp2;
-	[Widget] Gtk.Image image_zoom_cp3;
-	[Widget] Gtk.Entry entry_cp_other;
-	[Widget] Gtk.Button button_zoom_cp1;
-	[Widget] Gtk.Button button_zoom_cp2;
-	[Widget] Gtk.Button button_zoom_cp3;
+	Gtk.RadioButton radio_cp_undef;
+	Gtk.RadioButton radio_cp1;
+	Gtk.RadioButton radio_cp2;
+	Gtk.RadioButton radio_cp3;
+	Gtk.RadioButton radio_cp_other;
+	Gtk.Image image_cp1;
+	Gtk.Image image_cp2;
+	Gtk.Image image_cp3;
+	Gtk.Image image_zoom_cp1;
+	Gtk.Image image_zoom_cp2;
+	Gtk.Image image_zoom_cp3;
+	Gtk.Entry entry_cp_other;
+	Gtk.Button button_zoom_cp1;
+	Gtk.Button button_zoom_cp2;
+	Gtk.Button button_zoom_cp3;
 	
 	//devices tab
-	[Widget] Gtk.RadioButton radio_device_undef;
-	[Widget] Gtk.RadioButton radio_contact_steel;
-	[Widget] Gtk.RadioButton radio_contact_modular;
-	[Widget] Gtk.RadioButton radio_infrared;
-	[Widget] Gtk.RadioButton radio_device_other;
-	[Widget] Gtk.Entry entry_device_other;
-	[Widget] Gtk.Image image_contact_steel;
-	[Widget] Gtk.Image image_contact_modular;
-	[Widget] Gtk.Image image_infrared;
-	[Widget] Gtk.Image image_zoom_contact_steel;
-	[Widget] Gtk.Image image_zoom_contact_modular;
-	[Widget] Gtk.Image image_zoom_infrared;
-	[Widget] Gtk.Button button_zoom_contact_steel;
-	[Widget] Gtk.Button button_zoom_contact_modular;
-	[Widget] Gtk.Button button_zoom_infrared;
+	Gtk.RadioButton radio_device_undef;
+	Gtk.RadioButton radio_contact_steel;
+	Gtk.RadioButton radio_contact_modular;
+	Gtk.RadioButton radio_infrared;
+	Gtk.RadioButton radio_device_other;
+	Gtk.Entry entry_device_other;
+	Gtk.Image image_contact_steel;
+	Gtk.Image image_contact_modular;
+	Gtk.Image image_infrared;
+	Gtk.Image image_zoom_contact_steel;
+	Gtk.Image image_zoom_contact_modular;
+	Gtk.Image image_zoom_infrared;
+	Gtk.Button button_zoom_contact_steel;
+	Gtk.Button button_zoom_contact_modular;
+	Gtk.Button button_zoom_infrared;
 
-
-	[Widget] Gtk.Button button_accept;
+	Gtk.Button button_accept;
+	// <---- at glade
 	
+	Gtk.ComboBoxText combo_continents;
+	Gtk.ComboBoxText combo_countries;
+
 	string [] continents;
 	string [] continentsTranslated;
 	string [] countries;
 	string [] countriesTranslated;
 
 	DialogCalendar myDialogCalendar;
-	DateTime dateTime;
+	System.DateTime dateTime;
 
 	ServerEvaluator eval;
 	ServerEvaluator evalBefore;
@@ -97,9 +99,14 @@ public class EvaluatorWindow
 	public EvaluatorWindow (ServerEvaluator eval)
 	{
 		//Setup (text, table, uniqueID);
+		/*
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "evaluator_window.glade", "evaluator_window", "chronojump");
 		gladeXML.Autoconnect(this);
+		*/
+		Gtk.Builder builder = new Gtk.Builder (null, Util.GetGladePath () + "evaluator_window.glade", null);
+		connectWidgets (builder);
+		builder.Autoconnect (this);
 		
 		//put an icon to window
 		UtilGtk.IconWindow(evaluator_window);
@@ -166,7 +173,7 @@ public class EvaluatorWindow
 	}
 	
 	private void createComboContinents() {
-		combo_continents = ComboBox.NewText ();
+		combo_continents = new ComboBoxText ();
 		continents = Constants.ContinentsStr();
 
 		//create continentsTranslated, only with translated stuff
@@ -187,7 +194,7 @@ public class EvaluatorWindow
 	}
 
 	private void createComboCountries() {
-		combo_countries = ComboBox.NewText ();
+		combo_countries = new ComboBoxText ();
 
 		countries = new String[1];
 		//record countries with id:english name:translatedName
@@ -335,9 +342,9 @@ public class EvaluatorWindow
 
 	void on_button_change_date_clicked (object o, EventArgs args)
 	{
-		DateTime dt = dateTime;
-		if(dt == DateTime.MinValue)
-			dt = DateTime.Now;
+		System.DateTime dt = dateTime;
+		if(dt == System.DateTime.MinValue)
+			dt = System.DateTime.Now;
 		myDialogCalendar = new DialogCalendar(Catalog.GetString("Select of Birth"), dt);
 		myDialogCalendar.FakeButtonDateChanged.Clicked += new EventHandler(on_calendar_changed);
 	}
@@ -359,7 +366,7 @@ public class EvaluatorWindow
 			label_date.Text = Catalog.GetString(Constants.UndefinedDefault);
 		else {
 			dateTime = eval.DateBorn;
-			if(dateTime == DateTime.MinValue)
+			if(dateTime == System.DateTime.MinValue)
 				label_date.Text = Catalog.GetString(Constants.UndefinedDefault);
 			else
 				label_date.Text = dateTime.ToLongDateString();
@@ -508,6 +515,53 @@ public class EvaluatorWindow
 		get { return changed; }
 	}
 
+	private void connectWidgets (Gtk.Builder builder)
+	{
+		evaluator_window = (Gtk.Window) builder.GetObject ("evaluator_window");
+		entry_name = (Gtk.Entry) builder.GetObject ("entry_name");
+		entry_email = (Gtk.Entry) builder.GetObject ("entry_email");
+		label_date = (Gtk.Label) builder.GetObject ("label_date");
+		hbox_combo_continents = (Gtk.Box) builder.GetObject ("hbox_combo_continents");
+		hbox_combo_countries = (Gtk.Box) builder.GetObject ("hbox_combo_countries");
+		label_confiable = (Gtk.Label) builder.GetObject ("label_confiable");
+		textview_comments = (Gtk.TextView) builder.GetObject ("textview_comments");
+
+		//chronometer tab
+		radio_cp_undef = (Gtk.RadioButton) builder.GetObject ("radio_cp_undef");
+		radio_cp1 = (Gtk.RadioButton) builder.GetObject ("radio_cp1");
+		radio_cp2 = (Gtk.RadioButton) builder.GetObject ("radio_cp2");
+		radio_cp3 = (Gtk.RadioButton) builder.GetObject ("radio_cp3");
+		radio_cp_other = (Gtk.RadioButton) builder.GetObject ("radio_cp_other");
+		image_cp1 = (Gtk.Image) builder.GetObject ("image_cp1");
+		image_cp2 = (Gtk.Image) builder.GetObject ("image_cp2");
+		image_cp3 = (Gtk.Image) builder.GetObject ("image_cp3");
+		image_zoom_cp1 = (Gtk.Image) builder.GetObject ("image_zoom_cp1");
+		image_zoom_cp2 = (Gtk.Image) builder.GetObject ("image_zoom_cp2");
+		image_zoom_cp3 = (Gtk.Image) builder.GetObject ("image_zoom_cp3");
+		entry_cp_other = (Gtk.Entry) builder.GetObject ("entry_cp_other");
+		button_zoom_cp1 = (Gtk.Button) builder.GetObject ("button_zoom_cp1");
+		button_zoom_cp2 = (Gtk.Button) builder.GetObject ("button_zoom_cp2");
+		button_zoom_cp3 = (Gtk.Button) builder.GetObject ("button_zoom_cp3");
+
+		//devices tab
+		radio_device_undef = (Gtk.RadioButton) builder.GetObject ("radio_device_undef");
+		radio_contact_steel = (Gtk.RadioButton) builder.GetObject ("radio_contact_steel");
+		radio_contact_modular = (Gtk.RadioButton) builder.GetObject ("radio_contact_modular");
+		radio_infrared = (Gtk.RadioButton) builder.GetObject ("radio_infrared");
+		radio_device_other = (Gtk.RadioButton) builder.GetObject ("radio_device_other");
+		entry_device_other = (Gtk.Entry) builder.GetObject ("entry_device_other");
+		image_contact_steel = (Gtk.Image) builder.GetObject ("image_contact_steel");
+		image_contact_modular = (Gtk.Image) builder.GetObject ("image_contact_modular");
+		image_infrared = (Gtk.Image) builder.GetObject ("image_infrared");
+		image_zoom_contact_steel = (Gtk.Image) builder.GetObject ("image_zoom_contact_steel");
+		image_zoom_contact_modular = (Gtk.Image) builder.GetObject ("image_zoom_contact_modular");
+		image_zoom_infrared = (Gtk.Image) builder.GetObject ("image_zoom_infrared");
+		button_zoom_contact_steel = (Gtk.Button) builder.GetObject ("button_zoom_contact_steel");
+		button_zoom_contact_modular = (Gtk.Button) builder.GetObject ("button_zoom_contact_modular");
+		button_zoom_infrared = (Gtk.Button) builder.GetObject ("button_zoom_infrared");
+
+		button_accept = (Gtk.Button) builder.GetObject ("button_accept");
+	}
 
 	~EvaluatorWindow() {}
 	

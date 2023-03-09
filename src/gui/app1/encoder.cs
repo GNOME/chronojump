@@ -21,7 +21,7 @@ using System;
 using System.IO; 
 using Gtk;
 using Gdk;
-using Glade;
+//using Glade;
 using System.Collections;
 using System.Collections.Generic; //List<T>
 using System.Threading;
@@ -31,320 +31,315 @@ using System.Diagnostics; 	//for detect OS and for Process
 
 public partial class ChronoJumpWindow 
 {
-	[Widget] Gtk.HBox hbox_encoder_capture_top;
-	[Widget] Gtk.Label label_button_encoder_select;
-	[Widget] Gtk.Label label_encoder_exercise_mass;
-	[Widget] Gtk.HBox hbox_encoder_exercise_mass;
-	[Widget] Gtk.Label label_encoder_exercise_inertia;
-	[Widget] Gtk.HBox hbox_encoder_exercise_inertia;
-	[Widget] Gtk.HBox hbox_encoder_exercise_gravitatory_min_mov;
-	[Widget] Gtk.HBox hbox_encoder_exercise_inertial_min_mov;
-	[Widget] Gtk.SpinButton spin_encoder_capture_min_height_gravitatory;
-	[Widget] Gtk.SpinButton spin_encoder_capture_min_height_inertial;
+	// at glade ---->
+	Gtk.HBox hbox_encoder_capture_top;
+	Gtk.Label label_button_encoder_select;
+	Gtk.Label label_encoder_exercise_mass;
+	Gtk.HBox hbox_encoder_exercise_mass;
+	Gtk.Label label_encoder_exercise_inertia;
+	Gtk.HBox hbox_encoder_exercise_inertia;
+	Gtk.HBox hbox_encoder_exercise_gravitatory_min_mov;
+	Gtk.HBox hbox_encoder_exercise_inertial_min_mov;
+	Gtk.SpinButton spin_encoder_capture_min_height_gravitatory;
+	Gtk.SpinButton spin_encoder_capture_min_height_inertial;
 
-	[Widget] Gtk.Button button_encoder_select;
-	[Widget] Gtk.SpinButton spin_encoder_extra_weight;
-	[Widget] Gtk.Label label_encoder_displaced_weight;
-	[Widget] Gtk.HBox hbox_capture_1RM;
-	[Widget] Gtk.Label label_encoder_1RM_percent;
-	[Widget] Gtk.Label label_encoder_im_total;
-	[Widget] Gtk.SpinButton spin_encoder_im_weights_n;
-	[Widget] Gtk.Entry entry_encoder_im_weights_n;
-	[Widget] Gtk.HBox hbox_combo_encoder_anchorage;
-	[Widget] Gtk.ComboBox combo_encoder_anchorage;
+	Gtk.Button button_encoder_select;
+	Gtk.SpinButton spin_encoder_extra_weight;
+	Gtk.Label label_encoder_displaced_weight;
+	Gtk.HBox hbox_capture_1RM;
+	Gtk.Label label_encoder_1RM_percent;
+	Gtk.Label label_encoder_im_total;
+	Gtk.SpinButton spin_encoder_im_weights_n;
+	Gtk.Entry entry_encoder_im_weights_n;
+	Gtk.HBox hbox_combo_encoder_anchorage;
 
-	[Widget] Gtk.Label label_encoder_selected;	
-	[Widget] Gtk.Image image_encoder_top_selected_type;
-	[Widget] Gtk.Image image_encoder_selected_type;
+	Gtk.Label label_encoder_selected;	
+	Gtk.Image image_encoder_top_selected_type;
+	Gtk.Image image_encoder_selected_type;
 
-	[Widget] Gtk.Notebook notebook_encoder_top;
-	[Widget] Gtk.Notebook notebook_hpaned_encoder_or_exercise_config;
-	[Widget] Gtk.Label label_encoder_top_selected;
-	[Widget] Gtk.Label label_encoder_top_exercise;
-	[Widget] Gtk.Label label_encoder_top_extra_mass;
-	[Widget] Gtk.Label label_encoder_top_1RM_percent;
-	[Widget] Gtk.Label label_encoder_top_weights;
-	[Widget] Gtk.Label label_encoder_top_im;
+	Gtk.Notebook notebook_encoder_top;
+	Gtk.Notebook notebook_hpaned_encoder_or_exercise_config;
+	Gtk.Label label_encoder_top_selected;
+	Gtk.Label label_encoder_top_exercise;
+	Gtk.Label label_encoder_top_extra_mass;
+	Gtk.Label label_encoder_top_1RM_percent;
+	Gtk.Label label_encoder_top_weights;
+	Gtk.Label label_encoder_top_im;
 
 	//this is Kg*cm^2 because there's limitation of Glade on 3 decimals. 
 	//at SQL it's in Kg*cm^2 also because it's stored as int
 	//at graph.R is converted to Kg*m^2 ( /10000 )
-	//[Widget] Gtk.SpinButton spin_encoder_capture_inertial; 
+	//Gtk.SpinButton spin_encoder_capture_inertial; 
 	
-	[Widget] Gtk.Box hbox_encoder_sup_capture_analyze;
-	[Widget] Gtk.Box hbox_encoder_sup_capture_analyze_two_buttons;
-	[Widget] Gtk.Box hbox_encoder_configuration;
-	[Widget] Gtk.Frame frame_encoder_capture_options;
-	[Widget] Gtk.HBox hbox_encoder_capture_actions;
-	[Widget] Gtk.VBox vbox_inertial_instructions;
+	Gtk.Box hbox_encoder_sup_capture_analyze;
+	Gtk.Box hbox_encoder_sup_capture_analyze_two_buttons;
+	Gtk.Box hbox_encoder_configuration;
+	Gtk.Frame frame_encoder_capture_options;
+	Gtk.HBox hbox_encoder_capture_actions;
+	Gtk.VBox vbox_inertial_instructions;
 	
-	[Widget] Gtk.Box hbox_encoder_capture_wait;
-	[Widget] Gtk.Box vbox_encoder_capture_doing;
-	[Widget] Gtk.VScale vscale_encoder_capture_inertial_angle_now;
-	[Widget] Gtk.VBox vbox_angle_now;
-	[Widget] Gtk.Label label_encoder_capture_inertial_angle_now;
+	Gtk.Box hbox_encoder_capture_wait;
+	Gtk.Box vbox_encoder_capture_doing;
+	Gtk.VScale vscale_encoder_capture_inertial_angle_now;
+	Gtk.VBox vbox_angle_now;
+	Gtk.Label label_encoder_capture_inertial_angle_now;
 
-	[Widget] Gtk.Button button_encoder_capture;
+	Gtk.Button button_encoder_capture;
 
 	//encoder calibrate/recalibrate widgets
-	[Widget] Gtk.Button button_encoder_inertial_calibrate;
-	[Widget] Gtk.Button button_encoder_inertial_recalibrate;
-	[Widget] Gtk.Label label_calibrate_output_message;
-	[Widget] Gtk.Button button_encoder_inertial_calibrate_close;
-	[Widget] Gtk.Label label_wait;
+	Gtk.Button button_encoder_inertial_calibrate;
+	Gtk.Button button_encoder_inertial_recalibrate;
+	Gtk.Label label_calibrate_output_message;
+	Gtk.Button button_encoder_inertial_calibrate_close;
+	Gtk.Label label_wait;
 
 	
-	[Widget] Gtk.Image image_encoder_bell;
-	[Widget] Gtk.Button button_encoder_capture_cancel;
-	[Widget] Gtk.Button button_encoder_capture_finish;
-	[Widget] Gtk.Button button_encoder_capture_finish_cont;
-	[Widget] Gtk.Button button_encoder_exercise_close_and_recalculate;
-	[Widget] Gtk.Button button_encoder_capture_session_overview;
-	[Widget] Gtk.Button button_encoder_bells;
-	[Widget] Gtk.Button button_encoder_load_signal;
-	[Widget] Gtk.Button button_encoder_load_signal_at_analyze;
-	[Widget] Gtk.Viewport viewport_image_encoder_capture;
-	[Widget] Gtk.Image image_encoder_capture;
-	[Widget] Gtk.ProgressBar encoder_pulsebar_capture;
-	[Widget] Gtk.ProgressBar encoder_pulsebar_rhythm_eccon;
-	[Widget] Gtk.Label label_encoder_rhythm_rest;
-	[Widget] Gtk.Image image_encoder_rhythm_alert;
-	[Widget] Gtk.Label label_rhythm;
-	[Widget] Gtk.VBox vbox_encoder_signal_comment;
-	[Widget] Gtk.Notebook notebook_encoder_signal_comment_rhythm_and_triggers;
-	[Widget] Gtk.TextView textview_encoder_signal_comment;
-	//[Widget] Gtk.Frame frame_encoder_signal_comment;
-	[Widget] Gtk.Button button_encoder_signal_save_comment;
-	[Widget] Gtk.Button button_export_encoder_signal;
-//	[Widget] Gtk.Button button_menu_encoder_export_set;
-	[Widget] Gtk.Button button_encoder_delete_signal;
+	Gtk.Image image_encoder_bell;
+	Gtk.Button button_encoder_capture_cancel;
+	Gtk.Button button_encoder_capture_finish;
+	Gtk.Button button_encoder_capture_finish_cont;
+	Gtk.Button button_encoder_exercise_close_and_recalculate;
+	Gtk.Button button_encoder_capture_session_overview;
+	Gtk.Button button_encoder_bells;
+	Gtk.Button button_encoder_load_signal;
+	Gtk.Button button_encoder_load_signal_at_analyze;
+	Gtk.Viewport viewport_image_encoder_capture;
+	Gtk.Image image_encoder_capture;
+	Gtk.ProgressBar encoder_pulsebar_capture;
+	Gtk.ProgressBar encoder_pulsebar_rhythm_eccon;
+	Gtk.Label label_encoder_rhythm_rest;
+	Gtk.Image image_encoder_rhythm_alert;
+	Gtk.Label label_rhythm;
+	Gtk.VBox vbox_encoder_signal_comment;
+	Gtk.Notebook notebook_encoder_signal_comment_rhythm_and_triggers;
+	Gtk.TextView textview_encoder_signal_comment;
+	//Gtk.Frame frame_encoder_signal_comment;
+	Gtk.Button button_encoder_signal_save_comment;
+	Gtk.Button button_export_encoder_signal;
+//	Gtk.Button button_menu_encoder_export_set;
+	Gtk.Button button_encoder_delete_signal;
 	
-	[Widget] Gtk.Alignment alignment_encoder_capture_signal;
-	[Widget] Gtk.Button button_encoder_devices_networks;
-	//[Widget] Gtk.Button button_encoder_devices_networks_problems;
+	Gtk.Alignment alignment_encoder_capture_signal;
+	Gtk.Button button_encoder_devices_networks;
+	//Gtk.Button button_encoder_devices_networks_problems;
 
-	[Widget] Gtk.Notebook notebook_encoder_sup;
-	[Widget] Gtk.Notebook notebook_encoder_capture;
+	Gtk.Notebook notebook_encoder_sup;
+	Gtk.Notebook notebook_encoder_capture;
 
 	//encoder capture tab view options
-	[Widget] Gtk.CheckButton check_encoder_capture_bars;
-	[Widget] Gtk.CheckButton check_encoder_capture_table;
-	[Widget] Gtk.CheckButton check_encoder_capture_signal;
-	[Widget] Gtk.VBox vbox_encoder_bars_table_and_save_reps;
-	[Widget] Gtk.HBox hbox_encoder_capture_save_repetitions;
-	[Widget] Gtk.HBox hbox_encoder_capture_show_need_one;
-	[Widget] Gtk.VPaned vpaned_encoder_main;
-	[Widget] Gtk.Alignment alignment_encoder_capture_curves_bars_drawingarea;
+	Gtk.CheckButton check_encoder_capture_bars;
+	Gtk.CheckButton check_encoder_capture_table;
+	Gtk.CheckButton check_encoder_capture_signal;
+	Gtk.VBox vbox_encoder_bars_table_and_save_reps;
+	Gtk.HBox hbox_encoder_capture_save_repetitions;
+	Gtk.HBox hbox_encoder_capture_show_need_one;
+	Gtk.VPaned vpaned_encoder_main;
+	Gtk.Alignment alignment_encoder_capture_curves_bars_drawingarea;
 
-	[Widget] Gtk.Box hbox_combo_encoder_exercise_capture;
-	[Widget] Gtk.ComboBox combo_encoder_exercise_capture;
-	[Widget] Gtk.RadioButton radio_encoder_eccon_concentric;
-	[Widget] Gtk.RadioButton radio_encoder_eccon_eccentric_concentric;
-	[Widget] Gtk.RadioButton radio_encoder_laterality_both;
-	[Widget] Gtk.RadioButton radio_encoder_laterality_r;
-	[Widget] Gtk.RadioButton radio_encoder_laterality_l;
-	[Widget] Gtk.Box hbox_encoder_capture_curves_save_all_none;
+	Gtk.Box hbox_combo_encoder_exercise_capture;
+	Gtk.RadioButton radio_encoder_eccon_concentric;
+	Gtk.RadioButton radio_encoder_eccon_eccentric_concentric;
+	Gtk.RadioButton radio_encoder_laterality_both;
+	Gtk.RadioButton radio_encoder_laterality_r;
+	Gtk.RadioButton radio_encoder_laterality_l;
+	Gtk.Box hbox_encoder_capture_curves_save_all_none;
 
 	//exercise edit/add
-	[Widget] Gtk.HBox hbox_encoder_exercise_close_and;
-	[Widget] Gtk.HBox hbox_encoder_exercise_select;
-	[Widget] Gtk.HBox hbox_encoder_exercise_actions;
-	[Widget] Gtk.Button button_encoder_exercise_actions_edit_do;
-	[Widget] Gtk.Button button_encoder_exercise_actions_add_do;
-	[Widget] Gtk.Notebook notebook_encoder_exercise;
-	[Widget] Gtk.Entry entry_encoder_exercise_name;
-	[Widget] Gtk.RadioButton radio_encoder_exercise_gravitatory;
-	[Widget] Gtk.RadioButton radio_encoder_exercise_inertial;
-	[Widget] Gtk.RadioButton radio_encoder_exercise_all;
-	[Widget] Gtk.Button button_radio_encoder_exercise_help;
-	[Widget] Gtk.SpinButton	spin_encoder_exercise_displaced_body_weight;
-	[Widget] Gtk.SpinButton spin_encoder_exercise_speed_1rm;
-	[Widget] Gtk.HBox hbox_encoder_exercise_speed_1rm;
-	[Widget] Gtk.Entry entry_encoder_exercise_resistance;
-	[Widget] Gtk.Entry entry_encoder_exercise_description;
+	Gtk.HBox hbox_encoder_exercise_close_and;
+	Gtk.HBox hbox_encoder_exercise_select;
+	Gtk.HBox hbox_encoder_exercise_actions;
+	Gtk.Button button_encoder_exercise_actions_edit_do;
+	Gtk.Button button_encoder_exercise_actions_add_do;
+	Gtk.Notebook notebook_encoder_exercise;
+	Gtk.Entry entry_encoder_exercise_name;
+	Gtk.RadioButton radio_encoder_exercise_gravitatory;
+	Gtk.RadioButton radio_encoder_exercise_inertial;
+	Gtk.RadioButton radio_encoder_exercise_all;
+	Gtk.Button button_radio_encoder_exercise_help;
+	Gtk.SpinButton spin_encoder_exercise_displaced_body_weight;
+	Gtk.SpinButton spin_encoder_exercise_speed_1rm;
+	Gtk.HBox hbox_encoder_exercise_speed_1rm;
+	Gtk.Entry entry_encoder_exercise_resistance;
+	Gtk.Entry entry_encoder_exercise_description;
 
 	/*
 	//used on guiTests
-	[Widget] Gtk.Button button_encoder_capture_curves_all;
-	[Widget] Gtk.Button button_encoder_capture_curves_best;
-	[Widget] Gtk.Button button_encoder_capture_curves_none;
-	[Widget] Gtk.Button button_encoder_capture_curves_4top;
+	Gtk.Button button_encoder_capture_curves_all;
+	Gtk.Button button_encoder_capture_curves_best;
+	Gtk.Button button_encoder_capture_curves_none;
+	Gtk.Button button_encoder_capture_curves_4top;
 	*/
-	[Widget] Gtk.HBox hbox_encoder_capture_curves_save;
-	[Widget] Gtk.Label label_encoder_capture_curves_save;
-	[Widget] Gtk.ComboBox combo_encoder_capture_curves_save;
-	[Widget] Gtk.Button button_encoder_capture_curves_save;
-	[Widget] Gtk.Button button_encoder_capture_image_save;
+	Gtk.HBox hbox_encoder_capture_curves_save;
+	Gtk.Label label_encoder_capture_curves_save;
+	Gtk.Button button_encoder_capture_curves_save;
+	Gtk.Button button_encoder_capture_image_save;
 
-	[Widget] Gtk.Notebook notebook_analyze_results;
-	[Widget] Gtk.Box hbox_combo_encoder_exercise_analyze;
-	[Widget] Gtk.ComboBox combo_encoder_exercise_analyze;
-	[Widget] Gtk.HBox hbox_combo_encoder_laterality_analyze;
-	[Widget] Gtk.ComboBox combo_encoder_laterality_analyze;
+	Gtk.Notebook notebook_analyze_results;
+	Gtk.Box hbox_combo_encoder_exercise_analyze;
+	Gtk.HBox hbox_combo_encoder_laterality_analyze;
 
-	[Widget] Gtk.Box hbox_combo_encoder_analyze_cross_sup; //includes "Profile" label and the hbox
-	[Widget] Gtk.Box hbox_combo_encoder_analyze_cross;
-	[Widget] Gtk.ComboBox combo_encoder_analyze_cross;
+	Gtk.Box hbox_combo_encoder_analyze_cross_sup; //includes "Profile" label and the hbox
+	Gtk.Box hbox_combo_encoder_analyze_cross;
+	Gtk.Box hbox_combo_encoder_analyze_1RM;
 	
-	[Widget] Gtk.Box hbox_combo_encoder_analyze_1RM;
-	[Widget] Gtk.ComboBox combo_encoder_analyze_1RM;
+	Gtk.Box hbox_encoder_analyze_show_powerbars;
+	Gtk.CheckButton check_encoder_analyze_show_impulse;
+	Gtk.CheckButton check_encoder_analyze_show_time_to_peak_power;
+	Gtk.CheckButton check_encoder_analyze_show_range;
+
+	Gtk.HBox hbox_encoder_analyze_instantaneous;
+	Gtk.CheckButton check_encoder_analyze_show_position;
+	Gtk.CheckButton check_encoder_analyze_show_speed;
+	Gtk.CheckButton check_encoder_analyze_show_accel;
+	Gtk.CheckButton check_encoder_analyze_show_force;
+	Gtk.CheckButton check_encoder_analyze_show_power;
+	Gtk.CheckButton checkbutton_encoder_analyze_side_share_x;
+
+	Gtk.Frame frame_encoder_analyze_options;
+	Gtk.Table table_encoder_analyze_options;
+	Gtk.Image image_encoder_analyze_show_SAFE_position;
+	Gtk.Image image_encoder_analyze_show_SAFE_speed;
+	Gtk.Image image_encoder_analyze_show_SAFE_accel;
+	Gtk.Image image_encoder_analyze_show_SAFE_force;
+	Gtk.Image image_encoder_analyze_show_SAFE_power;
 	
-	[Widget] Gtk.Box hbox_encoder_analyze_show_powerbars;
-	[Widget] Gtk.CheckButton check_encoder_analyze_show_impulse;
-	[Widget] Gtk.CheckButton check_encoder_analyze_show_time_to_peak_power;
-	[Widget] Gtk.CheckButton check_encoder_analyze_show_range;
+	Gtk.CheckButton checkbutton_crossvalidate;
+	Gtk.Button button_encoder_analyze;
+	Gtk.Button button_encoder_analyze_mode_options_close_and_analyze;
+	Gtk.Box hbox_encoder_analyze_progress;
+	Gtk.Button button_encoder_analyze_cancel;
+	Gtk.Button button_encoder_analyze_data_select_curves;
+	Gtk.Label label_encoder_user_curves_active_num;
+	Gtk.Label label_encoder_user_curves_all_num;
 
-	[Widget] Gtk.HBox hbox_encoder_analyze_instantaneous;
-	[Widget] Gtk.CheckButton check_encoder_analyze_show_position;
-	[Widget] Gtk.CheckButton check_encoder_analyze_show_speed;
-	[Widget] Gtk.CheckButton check_encoder_analyze_show_accel;
-	[Widget] Gtk.CheckButton check_encoder_analyze_show_force;
-	[Widget] Gtk.CheckButton check_encoder_analyze_show_power;
-	[Widget] Gtk.CheckButton checkbutton_encoder_analyze_side_share_x;
+	Gtk.VBox vbox_encoder_analyze_instant;
+	Gtk.Table table_encoder_analyze_instant;
+	Gtk.HScale hscale_encoder_analyze_a;
+	Gtk.CheckButton checkbutton_encoder_analyze_b;
+	Gtk.HScale hscale_encoder_analyze_b;
+	Gtk.HBox hbox_buttons_scale_encoder_analyze_b;
+	Gtk.Label label_encoder_analyze_time_a;
+	Gtk.Label label_encoder_analyze_displ_a;
+	Gtk.Label label_encoder_analyze_speed_a;
+	Gtk.Label label_encoder_analyze_accel_a;
+	Gtk.Label label_encoder_analyze_force_a;
+	Gtk.Label label_encoder_analyze_power_a;
+	Gtk.Label label_encoder_analyze_time_b;
+	Gtk.Label label_encoder_analyze_displ_b;
+	Gtk.Label label_encoder_analyze_speed_b;
+	Gtk.Label label_encoder_analyze_accel_b;
+	Gtk.Label label_encoder_analyze_force_b;
+	Gtk.Label label_encoder_analyze_power_b;
+	Gtk.Label label_encoder_analyze_time_diff;
+	Gtk.Label label_encoder_analyze_displ_diff;
+	Gtk.Label label_encoder_analyze_speed_diff;
+	Gtk.Label label_encoder_analyze_accel_diff;
+	Gtk.Label label_encoder_analyze_force_diff;
+	Gtk.Label label_encoder_analyze_power_diff;
+	Gtk.Label label_encoder_analyze_displ_average;
+	Gtk.Label label_encoder_analyze_speed_average;
+	Gtk.Label label_encoder_analyze_accel_average;
+	Gtk.Label label_encoder_analyze_force_average;
+	Gtk.Label label_encoder_analyze_power_average;
+	Gtk.Label label_encoder_analyze_displ_max;
+	Gtk.Label label_encoder_analyze_speed_max;
+	Gtk.Label label_encoder_analyze_accel_max;
+	Gtk.Label label_encoder_analyze_force_max;
+	Gtk.Label label_encoder_analyze_power_max;
+	Gtk.Label label_encoder_analyze_diff;
+	Gtk.Label label_encoder_analyze_average;
+	Gtk.Label label_encoder_analyze_max;
+	Gtk.Button button_encoder_analyze_AB_save;
 
-	[Widget] Gtk.Frame frame_encoder_analyze_options;
-	[Widget] Gtk.Table table_encoder_analyze_options;
-	[Widget] Gtk.Image image_encoder_analyze_show_SAFE_position;
-	[Widget] Gtk.Image image_encoder_analyze_show_SAFE_speed;
-	[Widget] Gtk.Image image_encoder_analyze_show_SAFE_accel;
-	[Widget] Gtk.Image image_encoder_analyze_show_SAFE_force;
-	[Widget] Gtk.Image image_encoder_analyze_show_SAFE_power;
+	Gtk.Button button_encoder_analyze_image_save;
+	Gtk.Button button_encoder_analyze_table_save;
+	Gtk.Button button_encoder_analyze_1RM_save;
+
+	Gtk.RadioButton radio_encoder_analyze_individual_current_set;
+	Gtk.RadioButton radio_encoder_analyze_individual_current_session;
+	Gtk.RadioButton radio_encoder_analyze_individual_all_sessions;
+	Gtk.RadioButton radio_encoder_analyze_groupal_current_session;
+
+	Gtk.Image image_encoder_analyze_individual_current_set;
+	Gtk.Image image_encoder_analyze_individual_current_session;
+	Gtk.Image image_encoder_analyze_individual_all_sessions;
+	Gtk.Image image_encoder_analyze_groupal_current_session;
+
+	Gtk.HBox hbox_encoder_analyze_current_signal;
 	
-	[Widget] Gtk.CheckButton checkbutton_crossvalidate;
-	[Widget] Gtk.Button button_encoder_analyze;
-	[Widget] Gtk.Button button_encoder_analyze_mode_options_close_and_analyze;
-	[Widget] Gtk.Box hbox_encoder_analyze_progress;
-	[Widget] Gtk.Button button_encoder_analyze_cancel;
-	[Widget] Gtk.Button button_encoder_analyze_data_select_curves;
-	[Widget] Gtk.Label label_encoder_user_curves_active_num;
-	[Widget] Gtk.Label label_encoder_user_curves_all_num;
-
-	[Widget] Gtk.VBox vbox_encoder_analyze_instant;
-	[Widget] Gtk.Table table_encoder_analyze_instant;
-	[Widget] Gtk.HScale hscale_encoder_analyze_a;
-	[Widget] Gtk.CheckButton checkbutton_encoder_analyze_b;
-	[Widget] Gtk.HScale hscale_encoder_analyze_b;
-	[Widget] Gtk.HBox hbox_buttons_scale_encoder_analyze_b;
-	[Widget] Gtk.Label label_encoder_analyze_time_a;
-	[Widget] Gtk.Label label_encoder_analyze_displ_a;
-	[Widget] Gtk.Label label_encoder_analyze_speed_a;
-	[Widget] Gtk.Label label_encoder_analyze_accel_a;
-	[Widget] Gtk.Label label_encoder_analyze_force_a;
-	[Widget] Gtk.Label label_encoder_analyze_power_a;
-	[Widget] Gtk.Label label_encoder_analyze_time_b;
-	[Widget] Gtk.Label label_encoder_analyze_displ_b;
-	[Widget] Gtk.Label label_encoder_analyze_speed_b;
-	[Widget] Gtk.Label label_encoder_analyze_accel_b;
-	[Widget] Gtk.Label label_encoder_analyze_force_b;
-	[Widget] Gtk.Label label_encoder_analyze_power_b;
-	[Widget] Gtk.Label label_encoder_analyze_time_diff;
-	[Widget] Gtk.Label label_encoder_analyze_displ_diff;
-	[Widget] Gtk.Label label_encoder_analyze_speed_diff;
-	[Widget] Gtk.Label label_encoder_analyze_accel_diff;
-	[Widget] Gtk.Label label_encoder_analyze_force_diff;
-	[Widget] Gtk.Label label_encoder_analyze_power_diff;
-	[Widget] Gtk.Label label_encoder_analyze_displ_average;
-	[Widget] Gtk.Label label_encoder_analyze_speed_average;
-	[Widget] Gtk.Label label_encoder_analyze_accel_average;
-	[Widget] Gtk.Label label_encoder_analyze_force_average;
-	[Widget] Gtk.Label label_encoder_analyze_power_average;
-	[Widget] Gtk.Label label_encoder_analyze_displ_max;
-	[Widget] Gtk.Label label_encoder_analyze_speed_max;
-	[Widget] Gtk.Label label_encoder_analyze_accel_max;
-	[Widget] Gtk.Label label_encoder_analyze_force_max;
-	[Widget] Gtk.Label label_encoder_analyze_power_max;
-	[Widget] Gtk.Label label_encoder_analyze_diff;
-	[Widget] Gtk.Label label_encoder_analyze_average;
-	[Widget] Gtk.Label label_encoder_analyze_max;
-	[Widget] Gtk.Button button_encoder_analyze_AB_save;
-
-	[Widget] Gtk.Button button_encoder_analyze_image_save;
-	[Widget] Gtk.Button button_encoder_analyze_table_save;
-	[Widget] Gtk.Button button_encoder_analyze_1RM_save;
-
-	[Widget] Gtk.RadioButton radio_encoder_analyze_individual_current_set;
-	[Widget] Gtk.RadioButton radio_encoder_analyze_individual_current_session;
-	[Widget] Gtk.RadioButton radio_encoder_analyze_individual_all_sessions;
-	[Widget] Gtk.RadioButton radio_encoder_analyze_groupal_current_session;
-
-	[Widget] Gtk.Image image_encoder_analyze_individual_current_set;
-	[Widget] Gtk.Image image_encoder_analyze_individual_current_session;
-	[Widget] Gtk.Image image_encoder_analyze_individual_all_sessions;
-	[Widget] Gtk.Image image_encoder_analyze_groupal_current_session;
-
-	[Widget] Gtk.HBox hbox_encoder_analyze_current_signal;
+	Gtk.RadioButton radiobutton_encoder_analyze_powerbars;
+	Gtk.RadioButton radiobutton_encoder_analyze_cross;
+	Gtk.RadioButton radiobutton_encoder_analyze_1RM;
+	Gtk.RadioButton radiobutton_encoder_analyze_instantaneous;
+	Gtk.RadioButton radiobutton_encoder_analyze_single;
+	Gtk.RadioButton radiobutton_encoder_analyze_side;
+	Gtk.RadioButton radiobutton_encoder_analyze_superpose;
+	Gtk.RadioButton radiobutton_encoder_analyze_all_set;
+	Gtk.RadioButton radiobutton_encoder_analyze_neuromuscular_profile;
+	Gtk.Image image_encoder_analyze_powerbars;
+	Gtk.Image image_encoder_analyze_cross;
+	Gtk.Image image_encoder_analyze_1RM;
+	Gtk.Image image_encoder_analyze_instantaneous;
+	Gtk.Image image_encoder_analyze_single;
+	Gtk.Image image_encoder_analyze_side;
+	Gtk.Image image_encoder_analyze_superpose;
+	Gtk.Image image_encoder_analyze_all_set;
+	Gtk.Image image_encoder_analyze_nmp;
+	Gtk.Image image_encoder_analyze_selected_single;
+	Gtk.Image image_encoder_analyze_selected_side;
+	Gtk.Image image_encoder_analyze_selected_superpose;
+	Gtk.Image image_encoder_analyze_selected_all_set;
+	Gtk.Label label_encoder_analyze_selected;
+	Gtk.HBox hbox_encoder_analyze_intersession;
+	Gtk.CheckButton check_encoder_intersession_x_is_date;
+	Gtk.CheckButton check_encoder_separate_session_in_days;
+	Gtk.HBox hbox_combo_encoder_analyze_weights;
 	
-	[Widget] Gtk.RadioButton radiobutton_encoder_analyze_powerbars;
-	[Widget] Gtk.RadioButton radiobutton_encoder_analyze_cross;
-	[Widget] Gtk.RadioButton radiobutton_encoder_analyze_1RM;
-	[Widget] Gtk.RadioButton radiobutton_encoder_analyze_instantaneous;
-	[Widget] Gtk.RadioButton radiobutton_encoder_analyze_single;
-	[Widget] Gtk.RadioButton radiobutton_encoder_analyze_side;
-	[Widget] Gtk.RadioButton radiobutton_encoder_analyze_superpose;
-	[Widget] Gtk.RadioButton radiobutton_encoder_analyze_all_set;
-	[Widget] Gtk.RadioButton radiobutton_encoder_analyze_neuromuscular_profile;
-	[Widget] Gtk.Image image_encoder_analyze_powerbars;
-	[Widget] Gtk.Image image_encoder_analyze_cross;
-	[Widget] Gtk.Image image_encoder_analyze_1RM;
-	[Widget] Gtk.Image image_encoder_analyze_instantaneous;
-	[Widget] Gtk.Image image_encoder_analyze_single;
-	[Widget] Gtk.Image image_encoder_analyze_side;
-	[Widget] Gtk.Image image_encoder_analyze_superpose;
-	[Widget] Gtk.Image image_encoder_analyze_all_set;
-	[Widget] Gtk.Image image_encoder_analyze_nmp;
-	[Widget] Gtk.Image image_encoder_analyze_selected_single;
-	[Widget] Gtk.Image image_encoder_analyze_selected_side;
-	[Widget] Gtk.Image image_encoder_analyze_selected_superpose;
-	[Widget] Gtk.Image image_encoder_analyze_selected_all_set;
-	[Widget] Gtk.Label label_encoder_analyze_selected;
-	[Widget] Gtk.HBox hbox_encoder_analyze_intersession;
-	[Widget] Gtk.CheckButton check_encoder_intersession_x_is_date;
-	[Widget] Gtk.CheckButton check_encoder_separate_session_in_days;
-	[Widget] Gtk.HBox hbox_combo_encoder_analyze_weights;
-	[Widget] Gtk.ComboBox combo_encoder_analyze_weights;
+	Gtk.Button button_encoder_analyze_neuromuscular_help;
+
+
+	Gtk.CheckButton check_encoder_analyze_eccon_together;
+	Gtk.Image image_encoder_analyze_eccon_together;
+	Gtk.Image image_encoder_analyze_eccon_separated;
 	
-	[Widget] Gtk.Button button_encoder_analyze_neuromuscular_help;
-
-
-	[Widget] Gtk.CheckButton check_encoder_analyze_eccon_together;
-	[Widget] Gtk.Image image_encoder_analyze_eccon_together;
-	[Widget] Gtk.Image image_encoder_analyze_eccon_separated;
+	Gtk.Image image_encoder_analyze_position;
+	Gtk.Image image_encoder_analyze_speed;
+	Gtk.Image image_encoder_analyze_accel;
+	Gtk.Image image_encoder_analyze_force;
+	Gtk.Image image_encoder_analyze_power;
 	
-	[Widget] Gtk.Image image_encoder_analyze_position;
-	[Widget] Gtk.Image image_encoder_analyze_speed;
-	[Widget] Gtk.Image image_encoder_analyze_accel;
-	[Widget] Gtk.Image image_encoder_analyze_force;
-	[Widget] Gtk.Image image_encoder_analyze_power;
+	Gtk.HBox hbox_encoder_analyze_mean;
+	Gtk.HBox hbox_encoder_analyze_max;
+	Gtk.Image image_encoder_analyze_mean;
+	Gtk.Image image_encoder_analyze_max;
+	Gtk.Image image_encoder_analyze_range;
+	Gtk.Image image_encoder_analyze_time_to_pp;
+
+	Gtk.Box hbox_encoder_analyze_curve_num;
+	Gtk.Box hbox_combo_encoder_analyze_curve_num_combo;
+	Gtk.Label label_encoder_analyze_side_max;
+
+	Gtk.CheckButton check_encoder_analyze_mean_or_max;
+
+	Gtk.ScrolledWindow scrolledwindow_image_encoder_analyze;
+//	Gtk.Viewport viewport_image_encoder_analyze;
+	Gtk.Notebook notebook_encoder_analyze;
+	Gtk.Image image_encoder_analyze;
+	Gtk.ProgressBar encoder_pulsebar_analyze;
+	Gtk.ProgressBar encoder_pulsebar_load_signal;
+	Gtk.ProgressBar encoder_pulsebar_load_signal_at_analyze;
+	Gtk.Label label_encoder_load_signal_at_analyze;
 	
-	[Widget] Gtk.HBox hbox_encoder_analyze_mean;
-	[Widget] Gtk.HBox hbox_encoder_analyze_max;
-	[Widget] Gtk.Image image_encoder_analyze_mean;
-	[Widget] Gtk.Image image_encoder_analyze_max;
-	[Widget] Gtk.Image image_encoder_analyze_range;
-	[Widget] Gtk.Image image_encoder_analyze_time_to_pp;
+	Gtk.Alignment alignment_treeview_encoder_capture_curves;
+	Gtk.TreeView treeview_encoder_capture_curves;
+	Gtk.TreeView treeview_encoder_analyze_curves;
+	Gtk.SpinButton spin_encoder_capture_curves_best_n;
 
-	[Widget] Gtk.Box hbox_encoder_analyze_curve_num;
-	[Widget] Gtk.Box hbox_combo_encoder_analyze_curve_num_combo;
-	[Widget] Gtk.ComboBox combo_encoder_analyze_curve_num_combo;
-	[Widget] Gtk.Label label_encoder_analyze_side_max;
+	Gtk.DrawingArea encoder_capture_signal_drawingarea_cairo;
+	Gtk.DrawingArea encoder_capture_curves_bars_drawingarea_cairo;
+	Gtk.DrawingArea drawingarea_encoder_analyze_instant;
+	// <---- at glade
 
-	[Widget] Gtk.CheckButton check_encoder_analyze_mean_or_max;
-
-	[Widget] Gtk.ScrolledWindow scrolledwindow_image_encoder_analyze;
-//	[Widget] Gtk.Viewport viewport_image_encoder_analyze;
-	[Widget] Gtk.Notebook notebook_encoder_analyze;
-	[Widget] Gtk.Image image_encoder_analyze;
-	[Widget] Gtk.ProgressBar encoder_pulsebar_analyze;
-	[Widget] Gtk.ProgressBar encoder_pulsebar_load_signal;
-	[Widget] Gtk.ProgressBar encoder_pulsebar_load_signal_at_analyze;
-	[Widget] Gtk.Label label_encoder_load_signal_at_analyze;
-	
-	[Widget] Gtk.Alignment alignment_treeview_encoder_capture_curves;
-	[Widget] Gtk.TreeView treeview_encoder_capture_curves;
-	[Widget] Gtk.TreeView treeview_encoder_analyze_curves;
-
-	[Widget] Gtk.DrawingArea encoder_capture_signal_drawingarea_cairo;
-	[Widget] Gtk.DrawingArea encoder_capture_curves_bars_drawingarea_cairo;
 
 	ArrayList encoderCaptureCurves;
         Gtk.ListStore encoderCaptureListStore;
@@ -352,7 +347,17 @@ public partial class ChronoJumpWindow
 
 	Thread encoderThread;
 	Thread encoderThreadBG;
-	
+
+
+	Gtk.ComboBoxText combo_encoder_anchorage;
+	Gtk.ComboBoxText combo_encoder_exercise_capture;
+	Gtk.ComboBoxText combo_encoder_capture_curves_save;
+	Gtk.ComboBoxText combo_encoder_exercise_analyze;
+	Gtk.ComboBoxText combo_encoder_laterality_analyze;
+	Gtk.ComboBoxText combo_encoder_analyze_cross;
+	Gtk.ComboBoxText combo_encoder_analyze_1RM;
+	Gtk.ComboBoxText combo_encoder_analyze_weights;
+	Gtk.ComboBoxText combo_encoder_analyze_curve_num_combo;
 
 	bool encoderPreferencesSet = false;
 
@@ -4627,8 +4632,8 @@ public partial class ChronoJumpWindow
 	protected void createEncoderCombos() 
 	{
 		//create combo exercises
-		combo_encoder_exercise_capture = ComboBox.NewText ();
-		combo_encoder_exercise_analyze = ComboBox.NewText ();
+		combo_encoder_exercise_capture = new ComboBoxText ();
+		combo_encoder_exercise_analyze = new ComboBoxText ();
 		
 		createEncoderComboExerciseAndAnalyze();
 		
@@ -4636,7 +4641,7 @@ public partial class ChronoJumpWindow
 		combo_encoder_exercise_analyze.Changed += new EventHandler (on_combo_encoder_exercise_analyze_changed);
 
 		//combo_encoder_capture_curves_save;
-		combo_encoder_capture_curves_save = ComboBox.NewText();
+		combo_encoder_capture_curves_save = new ComboBoxText();
 		string [] comboEncoderCaptureCurvesSaveOptionsTranslated = {
 			Catalog.GetString(Constants.EncoderAutoSaveCurvesStrings[0]),
 			Catalog.GetString(Constants.EncoderAutoSaveCurvesStrings[1]),
@@ -4659,7 +4664,7 @@ public partial class ChronoJumpWindow
 		 */
 
 		//create combo encoder anchorage
-		combo_encoder_anchorage = Gtk.ComboBox.NewText();
+		combo_encoder_anchorage = new ComboBoxText();
 		combo_encoder_anchorage.Changed += 
 			new EventHandler(on_combo_encoder_anchorage_changed );
 
@@ -4677,7 +4682,7 @@ public partial class ChronoJumpWindow
 		for(int j=0; j < 4 ; j++)
 			encoderAnalyze1RMTranslation[j] = 
 				comboAnalyze1RMOptions[j] + ":" + comboAnalyze1RMOptionsTranslated[j];
-		combo_encoder_analyze_1RM = ComboBox.NewText ();
+		combo_encoder_analyze_1RM = new ComboBoxText ();
 		UtilGtk.ComboUpdate(combo_encoder_analyze_1RM, comboAnalyze1RMOptionsTranslated, "");
 		combo_encoder_analyze_1RM.Active = UtilGtk.ComboMakeActive(combo_encoder_analyze_1RM, 
 				Catalog.GetString(comboAnalyze1RMOptions[0]));
@@ -4686,7 +4691,7 @@ public partial class ChronoJumpWindow
 
 		//create combo analyze curve num combo
 		//is not an spinbutton because values can be separated: "3,4,7,21"
-		combo_encoder_analyze_curve_num_combo = ComboBox.NewText ();
+		combo_encoder_analyze_curve_num_combo = new ComboBoxText ();
 		UtilGtk.ComboUpdate(combo_encoder_analyze_curve_num_combo, Util.StringToStringArray(""), "");
 
 
@@ -4758,7 +4763,7 @@ public partial class ChronoJumpWindow
 			Catalog.GetString("Left"), Catalog.GetString("Right")
 		};
 
-		combo_encoder_laterality_analyze = ComboBox.NewText ();
+		combo_encoder_laterality_analyze = new ComboBoxText ();
 		UtilGtk.ComboUpdate(combo_encoder_laterality_analyze, comboEncoderLateralityAnalyzeTranslated, "");
 		combo_encoder_laterality_analyze.Active = 0;
 		combo_encoder_laterality_analyze.Visible = false; //because we start on current set radio
@@ -4903,7 +4908,7 @@ public partial class ChronoJumpWindow
 		}
 
 		if(firstCreation)
-			combo_encoder_analyze_cross = ComboBox.NewText ();
+			combo_encoder_analyze_cross = new ComboBoxText ();
 
 		UtilGtk.ComboUpdate(combo_encoder_analyze_cross, comboAnalyzeCrossOptionsTranslated, "");
 		combo_encoder_analyze_cross.Active = UtilGtk.ComboMakeActive(combo_encoder_analyze_cross, 
@@ -4922,7 +4927,7 @@ public partial class ChronoJumpWindow
 	private void createComboEncoderAnalyzeWeights(bool firstCreation) 
 	{
 		if(firstCreation)
-			combo_encoder_analyze_weights = ComboBox.NewText ();
+			combo_encoder_analyze_weights = new ComboBoxText ();
 	
 		string lastActive = UtilGtk.ComboGetActive(combo_encoder_analyze_weights);
 
@@ -6103,9 +6108,9 @@ public partial class ChronoJumpWindow
 		}
 	}
 
-	public void on_encoder_capture_curves_bars_drawingarea_cairo_expose_event (object o, ExposeEventArgs args)
+	public void on_encoder_capture_curves_bars_drawingarea_cairo_draw (object o, Gtk.DrawnArgs args)
 	{
-		LogB.Information("on_encoder_capture_curves_bars_drawingarea_cairo_expose_event A");
+		LogB.Information("on_encoder_capture_curves_bars_drawingarea_cairo_draw A");
 		encoder_capture_curves_bars_drawingarea_cairo.AddEvents((int) Gdk.EventMask.ButtonPressMask);
 
 		//if object not defined or not defined fo this mode, return
@@ -6113,7 +6118,7 @@ public partial class ChronoJumpWindow
 //		if(cairoPaintBarsPre == null || ! cairoPaintBarsPre.ModeMatches (current_mode))
 //			return;
 
-		LogB.Information("on_encoder_capture_curves_bars_drawingarea_cairo_expose_event B");
+		LogB.Information("on_encoder_capture_curves_bars_drawingarea_cairo_draw B");
 		if(prepareEventGraphBarplotEncoder != null)
 			prepareEncoderBarplotCairo (false); //just redraw the graph
 	}
@@ -6134,7 +6139,7 @@ public partial class ChronoJumpWindow
 		cairoPaintBarsPre.Paint();
 	}
 
-	public void on_encoder_capture_signal_drawingarea_cairo_expose_event (object o, ExposeEventArgs args)
+	public void on_encoder_capture_signal_drawingarea_cairo_draw (object o, Gtk.DrawnArgs args)
 	{
 		updateEncoderCaptureSignalCairo (current_mode == Constants.Modes.POWERINERTIAL, true);
 	}
@@ -7249,7 +7254,6 @@ public partial class ChronoJumpWindow
 	
 	Pixbuf drawingarea_encoder_analyze_cairo_pixbuf;
 	
-	[Widget] Gtk.DrawingArea drawingarea_encoder_analyze_instant;
 	void on_hscale_encoder_analyze_a_value_changed (object o, EventArgs args) {
 		if(eai != null) {
 			int ms = Convert.ToInt32(hscale_encoder_analyze_a.Value);
@@ -7362,7 +7366,7 @@ public partial class ChronoJumpWindow
 		checkFile(Constants.CheckFileOp.ENCODER_ANALYZE_SAVE_AB);
 	}
 
-	public void on_drawingarea_encoder_analyze_instant_expose_event(object o, ExposeEventArgs args)
+	public void on_drawingarea_encoder_analyze_instant_draw (object o, Gtk.DrawnArgs args)
 	{
 		if(drawingarea_encoder_analyze_cairo_pixbuf == null)
 			return;
@@ -7968,9 +7972,319 @@ public partial class ChronoJumpWindow
 		if(! dbconOpened)
 			Sqlite.Close();
 	}
-
 	
 	/* end of thread stuff */
+
+
+	private void connectWidgetsEncoder (Gtk.Builder builder)
+	{
+		hbox_encoder_capture_top = (Gtk.HBox) builder.GetObject ("hbox_encoder_capture_top");
+		label_button_encoder_select = (Gtk.Label) builder.GetObject ("label_button_encoder_select");
+		label_encoder_exercise_mass = (Gtk.Label) builder.GetObject ("label_encoder_exercise_mass");
+		hbox_encoder_exercise_mass = (Gtk.HBox) builder.GetObject ("hbox_encoder_exercise_mass");
+		label_encoder_exercise_inertia = (Gtk.Label) builder.GetObject ("label_encoder_exercise_inertia");
+		hbox_encoder_exercise_inertia = (Gtk.HBox) builder.GetObject ("hbox_encoder_exercise_inertia");
+		hbox_encoder_exercise_gravitatory_min_mov = (Gtk.HBox) builder.GetObject ("hbox_encoder_exercise_gravitatory_min_mov");
+		hbox_encoder_exercise_inertial_min_mov = (Gtk.HBox) builder.GetObject ("hbox_encoder_exercise_inertial_min_mov");
+		spin_encoder_capture_min_height_gravitatory = (Gtk.SpinButton) builder.GetObject ("spin_encoder_capture_min_height_gravitatory");
+		spin_encoder_capture_min_height_inertial = (Gtk.SpinButton) builder.GetObject ("spin_encoder_capture_min_height_inertial");
+
+		button_encoder_select = (Gtk.Button) builder.GetObject ("button_encoder_select");
+		spin_encoder_extra_weight = (Gtk.SpinButton) builder.GetObject ("spin_encoder_extra_weight");
+		label_encoder_displaced_weight = (Gtk.Label) builder.GetObject ("label_encoder_displaced_weight");
+		hbox_capture_1RM = (Gtk.HBox) builder.GetObject ("hbox_capture_1RM");
+		label_encoder_1RM_percent = (Gtk.Label) builder.GetObject ("label_encoder_1RM_percent");
+		label_encoder_im_total = (Gtk.Label) builder.GetObject ("label_encoder_im_total");
+		spin_encoder_im_weights_n = (Gtk.SpinButton) builder.GetObject ("spin_encoder_im_weights_n");
+		entry_encoder_im_weights_n = (Gtk.Entry) builder.GetObject ("entry_encoder_im_weights_n");
+		hbox_combo_encoder_anchorage = (Gtk.HBox) builder.GetObject ("hbox_combo_encoder_anchorage");
+
+		label_encoder_selected = (Gtk.Label) builder.GetObject ("label_encoder_selected");	
+		image_encoder_top_selected_type = (Gtk.Image) builder.GetObject ("image_encoder_top_selected_type");
+		image_encoder_selected_type = (Gtk.Image) builder.GetObject ("image_encoder_selected_type");
+
+		notebook_encoder_top = (Gtk.Notebook) builder.GetObject ("notebook_encoder_top");
+		notebook_hpaned_encoder_or_exercise_config = (Gtk.Notebook) builder.GetObject ("notebook_hpaned_encoder_or_exercise_config");
+		label_encoder_top_selected = (Gtk.Label) builder.GetObject ("label_encoder_top_selected");
+		label_encoder_top_exercise = (Gtk.Label) builder.GetObject ("label_encoder_top_exercise");
+		label_encoder_top_extra_mass = (Gtk.Label) builder.GetObject ("label_encoder_top_extra_mass");
+		label_encoder_top_1RM_percent = (Gtk.Label) builder.GetObject ("label_encoder_top_1RM_percent");
+		label_encoder_top_weights = (Gtk.Label) builder.GetObject ("label_encoder_top_weights");
+		label_encoder_top_im = (Gtk.Label) builder.GetObject ("label_encoder_top_im");
+
+		//this is Kg*cm^2 because there's limitation of Glade on 3 decimals. 
+		//at SQL it's in Kg*cm^2 also because it's stored as int
+		//at graph.R is converted to Kg*m^2 ( /10000 )
+		//spin_encoder_capture_inertial = (Gtk.SpinButton) builder.GetObject ("spin_encoder_capture_inertial"); 
+
+		hbox_encoder_sup_capture_analyze = (Gtk.Box) builder.GetObject ("hbox_encoder_sup_capture_analyze");
+		hbox_encoder_sup_capture_analyze_two_buttons = (Gtk.Box) builder.GetObject ("hbox_encoder_sup_capture_analyze_two_buttons");
+		hbox_encoder_configuration = (Gtk.Box) builder.GetObject ("hbox_encoder_configuration");
+		frame_encoder_capture_options = (Gtk.Frame) builder.GetObject ("frame_encoder_capture_options");
+		hbox_encoder_capture_actions = (Gtk.HBox) builder.GetObject ("hbox_encoder_capture_actions");
+		vbox_inertial_instructions = (Gtk.VBox) builder.GetObject ("vbox_inertial_instructions");
+
+		hbox_encoder_capture_wait = (Gtk.Box) builder.GetObject ("hbox_encoder_capture_wait");
+		vbox_encoder_capture_doing = (Gtk.Box) builder.GetObject ("vbox_encoder_capture_doing");
+		vscale_encoder_capture_inertial_angle_now = (Gtk.VScale) builder.GetObject ("vscale_encoder_capture_inertial_angle_now");
+		vbox_angle_now = (Gtk.VBox) builder.GetObject ("vbox_angle_now");
+		label_encoder_capture_inertial_angle_now = (Gtk.Label) builder.GetObject ("label_encoder_capture_inertial_angle_now");
+
+		button_encoder_capture = (Gtk.Button) builder.GetObject ("button_encoder_capture");
+
+		//encoder calibrate/recalibrate widgets
+		button_encoder_inertial_calibrate = (Gtk.Button) builder.GetObject ("button_encoder_inertial_calibrate");
+		button_encoder_inertial_recalibrate = (Gtk.Button) builder.GetObject ("button_encoder_inertial_recalibrate");
+		label_calibrate_output_message = (Gtk.Label) builder.GetObject ("label_calibrate_output_message");
+		button_encoder_inertial_calibrate_close = (Gtk.Button) builder.GetObject ("button_encoder_inertial_calibrate_close");
+		label_wait = (Gtk.Label) builder.GetObject ("label_wait");
+
+
+		image_encoder_bell = (Gtk.Image) builder.GetObject ("image_encoder_bell");
+		button_encoder_capture_cancel = (Gtk.Button) builder.GetObject ("button_encoder_capture_cancel");
+		button_encoder_capture_finish = (Gtk.Button) builder.GetObject ("button_encoder_capture_finish");
+		button_encoder_capture_finish_cont = (Gtk.Button) builder.GetObject ("button_encoder_capture_finish_cont");
+		button_encoder_exercise_close_and_recalculate = (Gtk.Button) builder.GetObject ("button_encoder_exercise_close_and_recalculate");
+		button_encoder_capture_session_overview = (Gtk.Button) builder.GetObject ("button_encoder_capture_session_overview");
+		button_encoder_bells = (Gtk.Button) builder.GetObject ("button_encoder_bells");
+		button_encoder_load_signal = (Gtk.Button) builder.GetObject ("button_encoder_load_signal");
+		button_encoder_load_signal_at_analyze = (Gtk.Button) builder.GetObject ("button_encoder_load_signal_at_analyze");
+		viewport_image_encoder_capture = (Gtk.Viewport) builder.GetObject ("viewport_image_encoder_capture");
+		image_encoder_capture = (Gtk.Image) builder.GetObject ("image_encoder_capture");
+		encoder_pulsebar_capture = (Gtk.ProgressBar) builder.GetObject ("encoder_pulsebar_capture");
+		encoder_pulsebar_rhythm_eccon = (Gtk.ProgressBar) builder.GetObject ("encoder_pulsebar_rhythm_eccon");
+		label_encoder_rhythm_rest = (Gtk.Label) builder.GetObject ("label_encoder_rhythm_rest");
+		image_encoder_rhythm_alert = (Gtk.Image) builder.GetObject ("image_encoder_rhythm_alert");
+		label_rhythm = (Gtk.Label) builder.GetObject ("label_rhythm");
+		vbox_encoder_signal_comment = (Gtk.VBox) builder.GetObject ("vbox_encoder_signal_comment");
+		notebook_encoder_signal_comment_rhythm_and_triggers = (Gtk.Notebook) builder.GetObject ("notebook_encoder_signal_comment_rhythm_and_triggers");
+		textview_encoder_signal_comment = (Gtk.TextView) builder.GetObject ("textview_encoder_signal_comment");
+		//frame_encoder_signal_comment = (Gtk.Frame) builder.GetObject ("frame_encoder_signal_comment");
+		button_encoder_signal_save_comment = (Gtk.Button) builder.GetObject ("button_encoder_signal_save_comment");
+		button_export_encoder_signal = (Gtk.Button) builder.GetObject ("button_export_encoder_signal");
+		//	button_menu_encoder_export_set = (Gtk.Button) builder.GetObject ("button_menu_encoder_export_set");
+		button_encoder_delete_signal = (Gtk.Button) builder.GetObject ("button_encoder_delete_signal");
+
+		alignment_encoder_capture_signal = (Gtk.Alignment) builder.GetObject ("alignment_encoder_capture_signal");
+		button_encoder_devices_networks = (Gtk.Button) builder.GetObject ("button_encoder_devices_networks");
+		//button_encoder_devices_networks_problems = (Gtk.Button) builder.GetObject ("button_encoder_devices_networks_problems");
+
+		notebook_encoder_sup = (Gtk.Notebook) builder.GetObject ("notebook_encoder_sup");
+		notebook_encoder_capture = (Gtk.Notebook) builder.GetObject ("notebook_encoder_capture");
+
+		//encoder capture tab view options
+		check_encoder_capture_bars = (Gtk.CheckButton) builder.GetObject ("check_encoder_capture_bars");
+		check_encoder_capture_table = (Gtk.CheckButton) builder.GetObject ("check_encoder_capture_table");
+		check_encoder_capture_signal = (Gtk.CheckButton) builder.GetObject ("check_encoder_capture_signal");
+		vbox_encoder_bars_table_and_save_reps = (Gtk.VBox) builder.GetObject ("vbox_encoder_bars_table_and_save_reps");
+		hbox_encoder_capture_save_repetitions = (Gtk.HBox) builder.GetObject ("hbox_encoder_capture_save_repetitions");
+		hbox_encoder_capture_show_need_one = (Gtk.HBox) builder.GetObject ("hbox_encoder_capture_show_need_one");
+		vpaned_encoder_main = (Gtk.VPaned) builder.GetObject ("vpaned_encoder_main");
+		alignment_encoder_capture_curves_bars_drawingarea = (Gtk.Alignment) builder.GetObject ("alignment_encoder_capture_curves_bars_drawingarea");
+
+		hbox_combo_encoder_exercise_capture = (Gtk.Box) builder.GetObject ("hbox_combo_encoder_exercise_capture");
+		radio_encoder_eccon_concentric = (Gtk.RadioButton) builder.GetObject ("radio_encoder_eccon_concentric");
+		radio_encoder_eccon_eccentric_concentric = (Gtk.RadioButton) builder.GetObject ("radio_encoder_eccon_eccentric_concentric");
+		radio_encoder_laterality_both = (Gtk.RadioButton) builder.GetObject ("radio_encoder_laterality_both");
+		radio_encoder_laterality_r = (Gtk.RadioButton) builder.GetObject ("radio_encoder_laterality_r");
+		radio_encoder_laterality_l = (Gtk.RadioButton) builder.GetObject ("radio_encoder_laterality_l");
+		hbox_encoder_capture_curves_save_all_none = (Gtk.Box) builder.GetObject ("hbox_encoder_capture_curves_save_all_none");
+
+		//exercise edit/add
+		hbox_encoder_exercise_close_and = (Gtk.HBox) builder.GetObject ("hbox_encoder_exercise_close_and");
+		hbox_encoder_exercise_select = (Gtk.HBox) builder.GetObject ("hbox_encoder_exercise_select");
+		hbox_encoder_exercise_actions = (Gtk.HBox) builder.GetObject ("hbox_encoder_exercise_actions");
+		button_encoder_exercise_actions_edit_do = (Gtk.Button) builder.GetObject ("button_encoder_exercise_actions_edit_do");
+		button_encoder_exercise_actions_add_do = (Gtk.Button) builder.GetObject ("button_encoder_exercise_actions_add_do");
+		notebook_encoder_exercise = (Gtk.Notebook) builder.GetObject ("notebook_encoder_exercise");
+		entry_encoder_exercise_name = (Gtk.Entry) builder.GetObject ("entry_encoder_exercise_name");
+		radio_encoder_exercise_gravitatory = (Gtk.RadioButton) builder.GetObject ("radio_encoder_exercise_gravitatory");
+		radio_encoder_exercise_inertial = (Gtk.RadioButton) builder.GetObject ("radio_encoder_exercise_inertial");
+		radio_encoder_exercise_all = (Gtk.RadioButton) builder.GetObject ("radio_encoder_exercise_all");
+		button_radio_encoder_exercise_help = (Gtk.Button) builder.GetObject ("button_radio_encoder_exercise_help");
+		spin_encoder_exercise_displaced_body_weight = (Gtk.SpinButton) builder.GetObject ("spin_encoder_exercise_displaced_body_weight");
+		spin_encoder_exercise_speed_1rm = (Gtk.SpinButton) builder.GetObject ("spin_encoder_exercise_speed_1rm");
+		hbox_encoder_exercise_speed_1rm = (Gtk.HBox) builder.GetObject ("hbox_encoder_exercise_speed_1rm");
+		entry_encoder_exercise_resistance = (Gtk.Entry) builder.GetObject ("entry_encoder_exercise_resistance");
+		entry_encoder_exercise_description = (Gtk.Entry) builder.GetObject ("entry_encoder_exercise_description");
+
+		/*
+		//used on guiTests
+		button_encoder_capture_curves_all = (Gtk.Button) builder.GetObject ("button_encoder_capture_curves_all");
+		button_encoder_capture_curves_best = (Gtk.Button) builder.GetObject ("button_encoder_capture_curves_best");
+		button_encoder_capture_curves_none = (Gtk.Button) builder.GetObject ("button_encoder_capture_curves_none");
+		button_encoder_capture_curves_4top = (Gtk.Button) builder.GetObject ("button_encoder_capture_curves_4top");
+		*/
+		hbox_encoder_capture_curves_save = (Gtk.HBox) builder.GetObject ("hbox_encoder_capture_curves_save");
+		label_encoder_capture_curves_save = (Gtk.Label) builder.GetObject ("label_encoder_capture_curves_save");
+		button_encoder_capture_curves_save = (Gtk.Button) builder.GetObject ("button_encoder_capture_curves_save");
+		button_encoder_capture_image_save = (Gtk.Button) builder.GetObject ("button_encoder_capture_image_save");
+
+		notebook_analyze_results = (Gtk.Notebook) builder.GetObject ("notebook_analyze_results");
+		hbox_combo_encoder_exercise_analyze = (Gtk.Box) builder.GetObject ("hbox_combo_encoder_exercise_analyze");
+		hbox_combo_encoder_laterality_analyze = (Gtk.HBox) builder.GetObject ("hbox_combo_encoder_laterality_analyze");
+
+		hbox_combo_encoder_analyze_cross_sup = (Gtk.Box) builder.GetObject ("hbox_combo_encoder_analyze_cross_sup"); //includes "Profile" label and the hbox
+		hbox_combo_encoder_analyze_cross = (Gtk.Box) builder.GetObject ("hbox_combo_encoder_analyze_cross");
+		hbox_combo_encoder_analyze_1RM = (Gtk.Box) builder.GetObject ("hbox_combo_encoder_analyze_1RM");
+
+		hbox_encoder_analyze_show_powerbars = (Gtk.Box) builder.GetObject ("hbox_encoder_analyze_show_powerbars");
+		check_encoder_analyze_show_impulse = (Gtk.CheckButton) builder.GetObject ("check_encoder_analyze_show_impulse");
+		check_encoder_analyze_show_time_to_peak_power = (Gtk.CheckButton) builder.GetObject ("check_encoder_analyze_show_time_to_peak_power");
+		check_encoder_analyze_show_range = (Gtk.CheckButton) builder.GetObject ("check_encoder_analyze_show_range");
+
+		hbox_encoder_analyze_instantaneous = (Gtk.HBox) builder.GetObject ("hbox_encoder_analyze_instantaneous");
+		check_encoder_analyze_show_position = (Gtk.CheckButton) builder.GetObject ("check_encoder_analyze_show_position");
+		check_encoder_analyze_show_speed = (Gtk.CheckButton) builder.GetObject ("check_encoder_analyze_show_speed");
+		check_encoder_analyze_show_accel = (Gtk.CheckButton) builder.GetObject ("check_encoder_analyze_show_accel");
+		check_encoder_analyze_show_force = (Gtk.CheckButton) builder.GetObject ("check_encoder_analyze_show_force");
+		check_encoder_analyze_show_power = (Gtk.CheckButton) builder.GetObject ("check_encoder_analyze_show_power");
+		checkbutton_encoder_analyze_side_share_x = (Gtk.CheckButton) builder.GetObject ("checkbutton_encoder_analyze_side_share_x");
+
+		frame_encoder_analyze_options = (Gtk.Frame) builder.GetObject ("frame_encoder_analyze_options");
+		table_encoder_analyze_options = (Gtk.Table) builder.GetObject ("table_encoder_analyze_options");
+		image_encoder_analyze_show_SAFE_position = (Gtk.Image) builder.GetObject ("image_encoder_analyze_show_SAFE_position");
+		image_encoder_analyze_show_SAFE_speed = (Gtk.Image) builder.GetObject ("image_encoder_analyze_show_SAFE_speed");
+		image_encoder_analyze_show_SAFE_accel = (Gtk.Image) builder.GetObject ("image_encoder_analyze_show_SAFE_accel");
+		image_encoder_analyze_show_SAFE_force = (Gtk.Image) builder.GetObject ("image_encoder_analyze_show_SAFE_force");
+		image_encoder_analyze_show_SAFE_power = (Gtk.Image) builder.GetObject ("image_encoder_analyze_show_SAFE_power");
+
+		checkbutton_crossvalidate = (Gtk.CheckButton) builder.GetObject ("checkbutton_crossvalidate");
+		button_encoder_analyze = (Gtk.Button) builder.GetObject ("button_encoder_analyze");
+		button_encoder_analyze_mode_options_close_and_analyze = (Gtk.Button) builder.GetObject ("button_encoder_analyze_mode_options_close_and_analyze");
+		hbox_encoder_analyze_progress = (Gtk.Box) builder.GetObject ("hbox_encoder_analyze_progress");
+		button_encoder_analyze_cancel = (Gtk.Button) builder.GetObject ("button_encoder_analyze_cancel");
+		button_encoder_analyze_data_select_curves = (Gtk.Button) builder.GetObject ("button_encoder_analyze_data_select_curves");
+		label_encoder_user_curves_active_num = (Gtk.Label) builder.GetObject ("label_encoder_user_curves_active_num");
+		label_encoder_user_curves_all_num = (Gtk.Label) builder.GetObject ("label_encoder_user_curves_all_num");
+
+		vbox_encoder_analyze_instant = (Gtk.VBox) builder.GetObject ("vbox_encoder_analyze_instant");
+		table_encoder_analyze_instant = (Gtk.Table) builder.GetObject ("table_encoder_analyze_instant");
+		hscale_encoder_analyze_a = (Gtk.HScale) builder.GetObject ("hscale_encoder_analyze_a");
+		checkbutton_encoder_analyze_b = (Gtk.CheckButton) builder.GetObject ("checkbutton_encoder_analyze_b");
+		hscale_encoder_analyze_b = (Gtk.HScale) builder.GetObject ("hscale_encoder_analyze_b");
+		hbox_buttons_scale_encoder_analyze_b = (Gtk.HBox) builder.GetObject ("hbox_buttons_scale_encoder_analyze_b");
+		label_encoder_analyze_time_a = (Gtk.Label) builder.GetObject ("label_encoder_analyze_time_a");
+		label_encoder_analyze_displ_a = (Gtk.Label) builder.GetObject ("label_encoder_analyze_displ_a");
+		label_encoder_analyze_speed_a = (Gtk.Label) builder.GetObject ("label_encoder_analyze_speed_a");
+		label_encoder_analyze_accel_a = (Gtk.Label) builder.GetObject ("label_encoder_analyze_accel_a");
+		label_encoder_analyze_force_a = (Gtk.Label) builder.GetObject ("label_encoder_analyze_force_a");
+		label_encoder_analyze_power_a = (Gtk.Label) builder.GetObject ("label_encoder_analyze_power_a");
+		label_encoder_analyze_time_b = (Gtk.Label) builder.GetObject ("label_encoder_analyze_time_b");
+		label_encoder_analyze_displ_b = (Gtk.Label) builder.GetObject ("label_encoder_analyze_displ_b");
+		label_encoder_analyze_speed_b = (Gtk.Label) builder.GetObject ("label_encoder_analyze_speed_b");
+		label_encoder_analyze_accel_b = (Gtk.Label) builder.GetObject ("label_encoder_analyze_accel_b");
+		label_encoder_analyze_force_b = (Gtk.Label) builder.GetObject ("label_encoder_analyze_force_b");
+		label_encoder_analyze_power_b = (Gtk.Label) builder.GetObject ("label_encoder_analyze_power_b");
+		label_encoder_analyze_time_diff = (Gtk.Label) builder.GetObject ("label_encoder_analyze_time_diff");
+		label_encoder_analyze_displ_diff = (Gtk.Label) builder.GetObject ("label_encoder_analyze_displ_diff");
+		label_encoder_analyze_speed_diff = (Gtk.Label) builder.GetObject ("label_encoder_analyze_speed_diff");
+		label_encoder_analyze_accel_diff = (Gtk.Label) builder.GetObject ("label_encoder_analyze_accel_diff");
+		label_encoder_analyze_force_diff = (Gtk.Label) builder.GetObject ("label_encoder_analyze_force_diff");
+		label_encoder_analyze_power_diff = (Gtk.Label) builder.GetObject ("label_encoder_analyze_power_diff");
+		label_encoder_analyze_displ_average = (Gtk.Label) builder.GetObject ("label_encoder_analyze_displ_average");
+		label_encoder_analyze_speed_average = (Gtk.Label) builder.GetObject ("label_encoder_analyze_speed_average");
+		label_encoder_analyze_accel_average = (Gtk.Label) builder.GetObject ("label_encoder_analyze_accel_average");
+		label_encoder_analyze_force_average = (Gtk.Label) builder.GetObject ("label_encoder_analyze_force_average");
+		label_encoder_analyze_power_average = (Gtk.Label) builder.GetObject ("label_encoder_analyze_power_average");
+		label_encoder_analyze_displ_max = (Gtk.Label) builder.GetObject ("label_encoder_analyze_displ_max");
+		label_encoder_analyze_speed_max = (Gtk.Label) builder.GetObject ("label_encoder_analyze_speed_max");
+		label_encoder_analyze_accel_max = (Gtk.Label) builder.GetObject ("label_encoder_analyze_accel_max");
+		label_encoder_analyze_force_max = (Gtk.Label) builder.GetObject ("label_encoder_analyze_force_max");
+		label_encoder_analyze_power_max = (Gtk.Label) builder.GetObject ("label_encoder_analyze_power_max");
+		label_encoder_analyze_diff = (Gtk.Label) builder.GetObject ("label_encoder_analyze_diff");
+		label_encoder_analyze_average = (Gtk.Label) builder.GetObject ("label_encoder_analyze_average");
+		label_encoder_analyze_max = (Gtk.Label) builder.GetObject ("label_encoder_analyze_max");
+		button_encoder_analyze_AB_save = (Gtk.Button) builder.GetObject ("button_encoder_analyze_AB_save");
+
+		button_encoder_analyze_image_save = (Gtk.Button) builder.GetObject ("button_encoder_analyze_image_save");
+		button_encoder_analyze_table_save = (Gtk.Button) builder.GetObject ("button_encoder_analyze_table_save");
+		button_encoder_analyze_1RM_save = (Gtk.Button) builder.GetObject ("button_encoder_analyze_1RM_save");
+
+		radio_encoder_analyze_individual_current_set = (Gtk.RadioButton) builder.GetObject ("radio_encoder_analyze_individual_current_set");
+		radio_encoder_analyze_individual_current_session = (Gtk.RadioButton) builder.GetObject ("radio_encoder_analyze_individual_current_session");
+		radio_encoder_analyze_individual_all_sessions = (Gtk.RadioButton) builder.GetObject ("radio_encoder_analyze_individual_all_sessions");
+		radio_encoder_analyze_groupal_current_session = (Gtk.RadioButton) builder.GetObject ("radio_encoder_analyze_groupal_current_session");
+
+		image_encoder_analyze_individual_current_set = (Gtk.Image) builder.GetObject ("image_encoder_analyze_individual_current_set");
+		image_encoder_analyze_individual_current_session = (Gtk.Image) builder.GetObject ("image_encoder_analyze_individual_current_session");
+		image_encoder_analyze_individual_all_sessions = (Gtk.Image) builder.GetObject ("image_encoder_analyze_individual_all_sessions");
+		image_encoder_analyze_groupal_current_session = (Gtk.Image) builder.GetObject ("image_encoder_analyze_groupal_current_session");
+
+		hbox_encoder_analyze_current_signal = (Gtk.HBox) builder.GetObject ("hbox_encoder_analyze_current_signal");
+
+		radiobutton_encoder_analyze_powerbars = (Gtk.RadioButton) builder.GetObject ("radiobutton_encoder_analyze_powerbars");
+		radiobutton_encoder_analyze_cross = (Gtk.RadioButton) builder.GetObject ("radiobutton_encoder_analyze_cross");
+		radiobutton_encoder_analyze_1RM = (Gtk.RadioButton) builder.GetObject ("radiobutton_encoder_analyze_1RM");
+		radiobutton_encoder_analyze_instantaneous = (Gtk.RadioButton) builder.GetObject ("radiobutton_encoder_analyze_instantaneous");
+		radiobutton_encoder_analyze_single = (Gtk.RadioButton) builder.GetObject ("radiobutton_encoder_analyze_single");
+		radiobutton_encoder_analyze_side = (Gtk.RadioButton) builder.GetObject ("radiobutton_encoder_analyze_side");
+		radiobutton_encoder_analyze_superpose = (Gtk.RadioButton) builder.GetObject ("radiobutton_encoder_analyze_superpose");
+		radiobutton_encoder_analyze_all_set = (Gtk.RadioButton) builder.GetObject ("radiobutton_encoder_analyze_all_set");
+		radiobutton_encoder_analyze_neuromuscular_profile = (Gtk.RadioButton) builder.GetObject ("radiobutton_encoder_analyze_neuromuscular_profile");
+		image_encoder_analyze_powerbars = (Gtk.Image) builder.GetObject ("image_encoder_analyze_powerbars");
+		image_encoder_analyze_cross = (Gtk.Image) builder.GetObject ("image_encoder_analyze_cross");
+		image_encoder_analyze_1RM = (Gtk.Image) builder.GetObject ("image_encoder_analyze_1RM");
+		image_encoder_analyze_instantaneous = (Gtk.Image) builder.GetObject ("image_encoder_analyze_instantaneous");
+		image_encoder_analyze_single = (Gtk.Image) builder.GetObject ("image_encoder_analyze_single");
+		image_encoder_analyze_side = (Gtk.Image) builder.GetObject ("image_encoder_analyze_side");
+		image_encoder_analyze_superpose = (Gtk.Image) builder.GetObject ("image_encoder_analyze_superpose");
+		image_encoder_analyze_all_set = (Gtk.Image) builder.GetObject ("image_encoder_analyze_all_set");
+		image_encoder_analyze_nmp = (Gtk.Image) builder.GetObject ("image_encoder_analyze_nmp");
+		image_encoder_analyze_selected_single = (Gtk.Image) builder.GetObject ("image_encoder_analyze_selected_single");
+		image_encoder_analyze_selected_side = (Gtk.Image) builder.GetObject ("image_encoder_analyze_selected_side");
+		image_encoder_analyze_selected_superpose = (Gtk.Image) builder.GetObject ("image_encoder_analyze_selected_superpose");
+		image_encoder_analyze_selected_all_set = (Gtk.Image) builder.GetObject ("image_encoder_analyze_selected_all_set");
+		label_encoder_analyze_selected = (Gtk.Label) builder.GetObject ("label_encoder_analyze_selected");
+		hbox_encoder_analyze_intersession = (Gtk.HBox) builder.GetObject ("hbox_encoder_analyze_intersession");
+		check_encoder_intersession_x_is_date = (Gtk.CheckButton) builder.GetObject ("check_encoder_intersession_x_is_date");
+		check_encoder_separate_session_in_days = (Gtk.CheckButton) builder.GetObject ("check_encoder_separate_session_in_days");
+		hbox_combo_encoder_analyze_weights = (Gtk.HBox) builder.GetObject ("hbox_combo_encoder_analyze_weights");
+
+		button_encoder_analyze_neuromuscular_help = (Gtk.Button) builder.GetObject ("button_encoder_analyze_neuromuscular_help");
+
+
+		check_encoder_analyze_eccon_together = (Gtk.CheckButton) builder.GetObject ("check_encoder_analyze_eccon_together");
+		image_encoder_analyze_eccon_together = (Gtk.Image) builder.GetObject ("image_encoder_analyze_eccon_together");
+		image_encoder_analyze_eccon_separated = (Gtk.Image) builder.GetObject ("image_encoder_analyze_eccon_separated");
+
+		image_encoder_analyze_position = (Gtk.Image) builder.GetObject ("image_encoder_analyze_position");
+		image_encoder_analyze_speed = (Gtk.Image) builder.GetObject ("image_encoder_analyze_speed");
+		image_encoder_analyze_accel = (Gtk.Image) builder.GetObject ("image_encoder_analyze_accel");
+		image_encoder_analyze_force = (Gtk.Image) builder.GetObject ("image_encoder_analyze_force");
+		image_encoder_analyze_power = (Gtk.Image) builder.GetObject ("image_encoder_analyze_power");
+
+		hbox_encoder_analyze_mean = (Gtk.HBox) builder.GetObject ("hbox_encoder_analyze_mean");
+		hbox_encoder_analyze_max = (Gtk.HBox) builder.GetObject ("hbox_encoder_analyze_max");
+		image_encoder_analyze_mean = (Gtk.Image) builder.GetObject ("image_encoder_analyze_mean");
+		image_encoder_analyze_max = (Gtk.Image) builder.GetObject ("image_encoder_analyze_max");
+		image_encoder_analyze_range = (Gtk.Image) builder.GetObject ("image_encoder_analyze_range");
+		image_encoder_analyze_time_to_pp = (Gtk.Image) builder.GetObject ("image_encoder_analyze_time_to_pp");
+
+		hbox_encoder_analyze_curve_num = (Gtk.Box) builder.GetObject ("hbox_encoder_analyze_curve_num");
+		hbox_combo_encoder_analyze_curve_num_combo = (Gtk.Box) builder.GetObject ("hbox_combo_encoder_analyze_curve_num_combo");
+		label_encoder_analyze_side_max = (Gtk.Label) builder.GetObject ("label_encoder_analyze_side_max");
+
+		check_encoder_analyze_mean_or_max = (Gtk.CheckButton) builder.GetObject ("check_encoder_analyze_mean_or_max");
+
+		scrolledwindow_image_encoder_analyze = (Gtk.ScrolledWindow) builder.GetObject ("scrolledwindow_image_encoder_analyze");
+		//	viewport_image_encoder_analyze = (Gtk.Viewport) builder.GetObject ("viewport_image_encoder_analyze");
+		notebook_encoder_analyze = (Gtk.Notebook) builder.GetObject ("notebook_encoder_analyze");
+		image_encoder_analyze = (Gtk.Image) builder.GetObject ("image_encoder_analyze");
+		encoder_pulsebar_analyze = (Gtk.ProgressBar) builder.GetObject ("encoder_pulsebar_analyze");
+		encoder_pulsebar_load_signal = (Gtk.ProgressBar) builder.GetObject ("encoder_pulsebar_load_signal");
+		encoder_pulsebar_load_signal_at_analyze = (Gtk.ProgressBar) builder.GetObject ("encoder_pulsebar_load_signal_at_analyze");
+		label_encoder_load_signal_at_analyze = (Gtk.Label) builder.GetObject ("label_encoder_load_signal_at_analyze");
+
+		alignment_treeview_encoder_capture_curves = (Gtk.Alignment) builder.GetObject ("alignment_treeview_encoder_capture_curves");
+		treeview_encoder_capture_curves = (Gtk.TreeView) builder.GetObject ("treeview_encoder_capture_curves");
+		treeview_encoder_analyze_curves = (Gtk.TreeView) builder.GetObject ("treeview_encoder_analyze_curves");
+		spin_encoder_capture_curves_best_n = (Gtk.SpinButton) builder.GetObject ("spin_encoder_capture_curves_best_n");
+
+		encoder_capture_signal_drawingarea_cairo = (Gtk.DrawingArea) builder.GetObject ("encoder_capture_signal_drawingarea_cairo");
+		encoder_capture_curves_bars_drawingarea_cairo = (Gtk.DrawingArea) builder.GetObject ("encoder_capture_curves_bars_drawingarea_cairo");
+		drawingarea_encoder_analyze_instant = (Gtk.DrawingArea) builder.GetObject ("drawingarea_encoder_analyze_instant");
+	}
 }	
 
 public class EncoderCaptureDisplay : BooleansInt

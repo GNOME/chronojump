@@ -15,14 +15,14 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2017,2022   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2017,2023   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
 using System.IO;
 using System.Threading;
 using Gtk;
-using Glade;
+//using Glade;
 using System.Text; //StringBuilder
 using System.Collections; //ArrayList
 using System.Collections.Generic; //List<T>
@@ -31,34 +31,34 @@ using Mono.Unix;
 
 public partial class ChronoJumpWindow
 {
-	[Widget] Gtk.Button button_sprint;
-	[Widget] Gtk.Viewport viewport_sprint;
-	[Widget] Gtk.Image image_sprint;
-	[Widget] Gtk.Button button_sprint_save_image;
+	Gtk.Button button_sprint;
+	Gtk.Viewport viewport_sprint;
+	Gtk.Image image_sprint;
+	Gtk.Button button_sprint_save_image;
 
-	[Widget] Gtk.HBox hbox_sprint_analyze_top_modes;
-	[Widget] Gtk.RadioButton radio_sprint_analyze_individual_current_session;
-	[Widget] Gtk.RadioButton radio_sprint_analyze_individual_all_sessions;
-	[Widget] Gtk.RadioButton radio_sprint_analyze_groupal_current_session;
-	[Widget] Gtk.Image image_sprint_analyze_individual_current_set;
-	[Widget] Gtk.Image image_sprint_analyze_individual_current_session;
-	[Widget] Gtk.Image image_sprint_analyze_individual_all_sessions;
-	[Widget] Gtk.Image image_sprint_analyze_groupal_current_session;
-	[Widget] Gtk.Notebook notebook_sprint_analyze_top;
-	[Widget] Gtk.TreeView treeview_sprint;
-	[Widget] Gtk.Button button_sprint_table_save;
+	Gtk.HBox hbox_sprint_analyze_top_modes;
+	Gtk.RadioButton radio_sprint_analyze_individual_current_session;
+	Gtk.RadioButton radio_sprint_analyze_individual_all_sessions;
+	Gtk.RadioButton radio_sprint_analyze_groupal_current_session;
+	Gtk.Image image_sprint_analyze_individual_current_set;
+	Gtk.Image image_sprint_analyze_individual_current_session;
+	Gtk.Image image_sprint_analyze_individual_all_sessions;
+	Gtk.Image image_sprint_analyze_groupal_current_session;
+	Gtk.Notebook notebook_sprint_analyze_top;
+	Gtk.TreeView treeview_sprint;
+	Gtk.Button button_sprint_table_save;
 
 	//export
-	[Widget] Gtk.Notebook notebook_sprint_export;
-	[Widget] Gtk.Label label_sprint_export_data;
-	[Widget] Gtk.CheckButton check_sprint_export_images;
-	[Widget] Gtk.HBox hbox_sprint_export_width_height;
-	[Widget] Gtk.SpinButton spinbutton_sprint_export_image_width;
-	[Widget] Gtk.SpinButton spinbutton_sprint_export_image_height;
-	[Widget] Gtk.ProgressBar progressbar_sprint_export;
-	[Widget] Gtk.Label label_sprint_export_discarded;
-	[Widget] Gtk.Label label_sprint_export_result;
-	[Widget] Gtk.Button button_sprint_export_result_open;
+	Gtk.Notebook notebook_sprint_export;
+	Gtk.Label label_sprint_export_data;
+	Gtk.CheckButton check_sprint_export_images;
+	Gtk.HBox hbox_sprint_export_width_height;
+	Gtk.SpinButton spinbutton_sprint_export_image_width;
+	Gtk.SpinButton spinbutton_sprint_export_image_height;
+	Gtk.ProgressBar progressbar_sprint_export;
+	Gtk.Label label_sprint_export_discarded;
+	Gtk.Label label_sprint_export_result;
+	Gtk.Button button_sprint_export_result_open;
 
 	static SprintRGraph sprintRGraph;
 	TreeStore storeSprint;
@@ -164,7 +164,7 @@ public partial class ChronoJumpWindow
 
 	private void onTreeviewSprintSelectionEntry (object o, EventArgs args)
 	{
-		TreeModel model;
+		ITreeModel model;
 		TreeIter iter;
 
 		// you get the iter and the model if something is selected
@@ -183,7 +183,7 @@ public partial class ChronoJumpWindow
 
 	public static bool GetSelectedSprint (Gtk.TreeView tv)
 	{
-		TreeModel model;
+		ITreeModel model;
 		TreeIter iter;
 
 		if (tv.Selection.GetSelected (out model, out iter))
@@ -669,4 +669,35 @@ public partial class ChronoJumpWindow
 					Constants.DirectoryCannotOpenStr() + "\n\n" + sprintExport.ExportURL);
 	}
 
+	private void connectWidgetsSprint (Gtk.Builder builder)
+	{
+		button_sprint = (Gtk.Button) builder.GetObject ("button_sprint");
+		viewport_sprint = (Gtk.Viewport) builder.GetObject ("viewport_sprint");
+		image_sprint = (Gtk.Image) builder.GetObject ("image_sprint");
+		button_sprint_save_image = (Gtk.Button) builder.GetObject ("button_sprint_save_image");
+
+		hbox_sprint_analyze_top_modes = (Gtk.HBox) builder.GetObject ("hbox_sprint_analyze_top_modes");
+		radio_sprint_analyze_individual_current_session = (Gtk.RadioButton) builder.GetObject ("radio_sprint_analyze_individual_current_session");
+		radio_sprint_analyze_individual_all_sessions = (Gtk.RadioButton) builder.GetObject ("radio_sprint_analyze_individual_all_sessions");
+		radio_sprint_analyze_groupal_current_session = (Gtk.RadioButton) builder.GetObject ("radio_sprint_analyze_groupal_current_session");
+		image_sprint_analyze_individual_current_set = (Gtk.Image) builder.GetObject ("image_sprint_analyze_individual_current_set");
+		image_sprint_analyze_individual_current_session = (Gtk.Image) builder.GetObject ("image_sprint_analyze_individual_current_session");
+		image_sprint_analyze_individual_all_sessions = (Gtk.Image) builder.GetObject ("image_sprint_analyze_individual_all_sessions");
+		image_sprint_analyze_groupal_current_session = (Gtk.Image) builder.GetObject ("image_sprint_analyze_groupal_current_session");
+		notebook_sprint_analyze_top = (Gtk.Notebook) builder.GetObject ("notebook_sprint_analyze_top");
+		treeview_sprint = (Gtk.TreeView) builder.GetObject ("treeview_sprint");
+		button_sprint_table_save = (Gtk.Button) builder.GetObject ("button_sprint_table_save");
+
+		//export
+		notebook_sprint_export = (Gtk.Notebook) builder.GetObject ("notebook_sprint_export");
+		label_sprint_export_data = (Gtk.Label) builder.GetObject ("label_sprint_export_data");
+		check_sprint_export_images = (Gtk.CheckButton) builder.GetObject ("check_sprint_export_images");
+		hbox_sprint_export_width_height = (Gtk.HBox) builder.GetObject ("hbox_sprint_export_width_height");
+		spinbutton_sprint_export_image_width = (Gtk.SpinButton) builder.GetObject ("spinbutton_sprint_export_image_width");
+		spinbutton_sprint_export_image_height = (Gtk.SpinButton) builder.GetObject ("spinbutton_sprint_export_image_height");
+		progressbar_sprint_export = (Gtk.ProgressBar) builder.GetObject ("progressbar_sprint_export");
+		label_sprint_export_discarded = (Gtk.Label) builder.GetObject ("label_sprint_export_discarded");
+		label_sprint_export_result = (Gtk.Label) builder.GetObject ("label_sprint_export_result");
+		button_sprint_export_result_open = (Gtk.Button) builder.GetObject ("button_sprint_export_result_open");
+	}
 }

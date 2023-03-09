@@ -15,18 +15,21 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2017-2020   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2017-2023   Xavier de Blas <xaviblas@gmail.com> 
  */
 
 using System;
 using Gtk;
-using Glade;
+//using Glade;
 using System.Collections.Generic; //List<T>
 
 
 public partial class ChronoJumpWindow
 {
-	[Widget] Gtk.TextView textview_encoder_analyze_triggers;
+	Gtk.TextView textview_encoder_analyze_triggers;
+	//Gtk.TextView textview_force_sensor_triggers; //TODO: until know where to put it
+	Gtk.TextView textview_run_encoder_triggers;
+
 	TriggerList triggerListEncoder;
 
 	// start of encoder ------------->
@@ -60,8 +63,6 @@ public partial class ChronoJumpWindow
 
 	// start of force sensor & race analyzer ------------->
 
-	//[Widget] Gtk.TextView textview_force_sensor_triggers; //TODO: until know where to put it
-	[Widget] Gtk.TextView textview_run_encoder_triggers;
 	TriggerList triggerListForceSensor;
 	TriggerList triggerListRunEncoder;
 
@@ -98,4 +99,11 @@ public partial class ChronoJumpWindow
 		UtilGtk.TextViewClear(textview_run_encoder_triggers);
 	}
 	// <--------------- end of force sensor & race_analyzer
+	
+	private void connectWidgetsTrigger (Gtk.Builder builder)
+	{
+		textview_encoder_analyze_triggers = (Gtk.TextView) builder.GetObject ("textview_encoder_analyze_triggers");
+		//textview_force_sensor_triggers = (Gtk.TextView) builder.GetObject ("textview_force_sensor_triggers"); //TODO: until know where to put it
+		textview_run_encoder_triggers = (Gtk.TextView) builder.GetObject ("textview_run_encoder_triggers");
+	}
 }

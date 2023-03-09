@@ -15,12 +15,12 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2017   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2004-2023   Xavier de Blas <xaviblas@gmail.com> 
  */
 
 using System;
 using Gtk;
-using Glade;
+//using Glade;
 using GLib; //for Value
 using System.Text; //StringBuilder
 using System.Collections; //ArrayList
@@ -33,49 +33,55 @@ using Mono.Unix;
 
 public class JumpTypeAddWindow 
 {
-	[Widget] Gtk.Window jump_type_add;
-	[Widget] Gtk.Button button_accept;
+	Gtk.Window jump_type_add;
+	Gtk.Button button_accept;
+	Gtk.Entry entry_name;
+
+	Gtk.Label label_header;
+	Gtk.Label label_main_options;
+	Gtk.Table table_main_options;
+
+	Gtk.RadioButton radiobutton_simple;
+	Gtk.RadioButton radiobutton_repetitive;
+	Gtk.RadioButton radiobutton_unlimited;
+	Gtk.VBox vbox_limited;
+	Gtk.HBox hbox_fixed;
+	Gtk.RadioButton radiobutton_limited_jumps;
+	Gtk.CheckButton checkbutton_limited_fixed;
+	Gtk.SpinButton spin_fixed_num;
+
+	Gtk.Label label_jump_type_simple;
+	Gtk.Label label_jump_type_multiple;
+	Gtk.VBox vbox_simple_type;
+	Gtk.HBox hbox_multiple_type;
+
+	Gtk.RadioButton radiobutton_simple_startIn_yes;
+	Gtk.RadioButton radiobutton_simple_startIn_no;
+	Gtk.RadioButton radiobutton_multiple_startIn_yes;
+	//Gtk.RadioButton radiobutton_multiple_startIn_no;
+	Gtk.RadioButton radiobutton_extra_weight_yes;
+	Gtk.RadioButton radiobutton_extra_weight_no;
+	Gtk.Label label_drop_jump;
+	Gtk.TextView textview_description;
+
 	public Gtk.Button fakeButtonAccept;
-	[Widget] Gtk.Entry entry_name;
-
-
-	[Widget] Gtk.Label label_header;
-	[Widget] Gtk.Label label_main_options;
-	[Widget] Gtk.Table table_main_options;
-
-	[Widget] Gtk.RadioButton radiobutton_simple;
-	[Widget] Gtk.RadioButton radiobutton_repetitive;
-	[Widget] Gtk.RadioButton radiobutton_unlimited;
-	[Widget] Gtk.VBox vbox_limited;
-	[Widget] Gtk.HBox hbox_fixed;
-	[Widget] Gtk.RadioButton radiobutton_limited_jumps;
-	[Widget] Gtk.CheckButton checkbutton_limited_fixed;
-	[Widget] Gtk.SpinButton spin_fixed_num;
-
-	[Widget] Gtk.Label label_jump_type_simple;
-	[Widget] Gtk.Label label_jump_type_multiple;
-	[Widget] Gtk.VBox vbox_simple_type;
-	[Widget] Gtk.HBox hbox_multiple_type;
-
-	[Widget] Gtk.RadioButton radiobutton_simple_startIn_yes;
-	[Widget] Gtk.RadioButton radiobutton_simple_startIn_no;
-	[Widget] Gtk.RadioButton radiobutton_multiple_startIn_yes;
-	//[Widget] Gtk.RadioButton radiobutton_multiple_startIn_no;
-	[Widget] Gtk.RadioButton radiobutton_extra_weight_yes;
-	[Widget] Gtk.RadioButton radiobutton_extra_weight_no;
-	[Widget] Gtk.Label label_drop_jump;
-	[Widget] Gtk.TextView textview_description;
-
 	static JumpTypeAddWindow JumpTypeAddWindowBox;
 
 	public bool InsertedSimple;
 	private bool descriptionChanging = false;
 	private string name;
 
-	JumpTypeAddWindow (Gtk.Window parent, bool simple) {
+	JumpTypeAddWindow (Gtk.Window parent, bool simple)
+	{
+		/*
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "jump_type_add.glade", "jump_type_add", "chronojump");
 		gladeXML.Autoconnect(this);
+		*/
+		Gtk.Builder builder = new Gtk.Builder (null, Util.GetGladePath () + "jump_type_add.glade", null);
+		connectWidgets (builder);
+		builder.Autoconnect (this);
+
 		jump_type_add.Parent = parent;
 		
 		fakeButtonAccept = new Gtk.Button();
@@ -312,6 +318,39 @@ public class JumpTypeAddWindow
 		get { return name; }
 	}
 
+	private void connectWidgets (Gtk.Builder builder)
+	{
+		jump_type_add = (Gtk.Window) builder.GetObject ("jump_type_add");
+		button_accept = (Gtk.Button) builder.GetObject ("button_accept");
+		entry_name = (Gtk.Entry) builder.GetObject ("entry_name");
+
+		label_header = (Gtk.Label) builder.GetObject ("label_header");
+		label_main_options = (Gtk.Label) builder.GetObject ("label_main_options");
+		table_main_options = (Gtk.Table) builder.GetObject ("table_main_options");
+
+		radiobutton_simple = (Gtk.RadioButton) builder.GetObject ("radiobutton_simple");
+		radiobutton_repetitive = (Gtk.RadioButton) builder.GetObject ("radiobutton_repetitive");
+		radiobutton_unlimited = (Gtk.RadioButton) builder.GetObject ("radiobutton_unlimited");
+		vbox_limited = (Gtk.VBox) builder.GetObject ("vbox_limited");
+		hbox_fixed = (Gtk.HBox) builder.GetObject ("hbox_fixed");
+		radiobutton_limited_jumps = (Gtk.RadioButton) builder.GetObject ("radiobutton_limited_jumps");
+		checkbutton_limited_fixed = (Gtk.CheckButton) builder.GetObject ("checkbutton_limited_fixed");
+		spin_fixed_num = (Gtk.SpinButton) builder.GetObject ("spin_fixed_num");
+
+		label_jump_type_simple = (Gtk.Label) builder.GetObject ("label_jump_type_simple");
+		label_jump_type_multiple = (Gtk.Label) builder.GetObject ("label_jump_type_multiple");
+		vbox_simple_type = (Gtk.VBox) builder.GetObject ("vbox_simple_type");
+		hbox_multiple_type = (Gtk.HBox) builder.GetObject ("hbox_multiple_type");
+
+		radiobutton_simple_startIn_yes = (Gtk.RadioButton) builder.GetObject ("radiobutton_simple_startIn_yes");
+		radiobutton_simple_startIn_no = (Gtk.RadioButton) builder.GetObject ("radiobutton_simple_startIn_no");
+		radiobutton_multiple_startIn_yes = (Gtk.RadioButton) builder.GetObject ("radiobutton_multiple_startIn_yes");
+		//radiobutton_multiple_startIn_no = (Gtk.RadioButton) builder.GetObject ("radiobutton_multiple_startIn_no");
+		radiobutton_extra_weight_yes = (Gtk.RadioButton) builder.GetObject ("radiobutton_extra_weight_yes");
+		radiobutton_extra_weight_no = (Gtk.RadioButton) builder.GetObject ("radiobutton_extra_weight_no");
+		label_drop_jump = (Gtk.Label) builder.GetObject ("label_drop_jump");
+		textview_description = (Gtk.TextView) builder.GetObject ("textview_description");
+	}
 }
 
 

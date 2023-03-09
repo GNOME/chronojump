@@ -15,21 +15,21 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2020   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2020-2023   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
 using Gtk;
-using Glade;
+//using Glade;
 using Mono.Unix;
 
 public partial class ChronoJumpWindow
 {
-	//[Widget] Gtk.Button button_edit_current_person;
-	[Widget] Gtk.Button button_edit_current_person_h;
-	[Widget] Gtk.Button button_run_encoder_analyze_load;
-	[Widget] Gtk.Button button_encoder_exercise;
-	[Widget] Gtk.Button button_encoder_exercise_close_and_capture;
+	//Gtk.Button button_edit_current_person;
+	Gtk.Button button_edit_current_person_h;
+	Gtk.Button button_run_encoder_analyze_load;
+	Gtk.Button button_encoder_exercise;
+	Gtk.Button button_encoder_exercise_close_and_capture;
 
 	private string kCtrl = "Ctrl";
 	private string kEnter = "Enter";
@@ -79,5 +79,14 @@ public partial class ChronoJumpWindow
 		button_encoder_load_signal.TooltipText += string.Format(" ({0}+l)", kCtrl);
 		button_encoder_load_signal_at_analyze.TooltipText += string.Format(" ({0}+l)", kCtrl);
 		button_video_play_this_test_encoder.TooltipText += string.Format(" ({0}+v)", kCtrl);
+	}
+
+	private void connectWidgetsShortcuts (Gtk.Builder builder)
+	{
+		//button_edit_current_person = (Gtk.Button) builder.GetObject ("button_edit_current_person");
+		button_edit_current_person_h = (Gtk.Button) builder.GetObject ("button_edit_current_person_h");
+		button_run_encoder_analyze_load = (Gtk.Button) builder.GetObject ("button_run_encoder_analyze_load");
+		button_encoder_exercise = (Gtk.Button) builder.GetObject ("button_encoder_exercise");
+		button_encoder_exercise_close_and_capture = (Gtk.Button) builder.GetObject ("button_encoder_exercise_close_and_capture");
 	}
 }

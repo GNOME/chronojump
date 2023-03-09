@@ -90,13 +90,13 @@ public class TreeViewPersons
 		}
 	}
 
-	private void RenderRestTime (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
+	private void RenderRestTime (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.ITreeModel model, Gtk.TreeIter iter)
 	{
 		string restTime = (string) model.GetValue(iter, 2);
 
 		if(RestSecondsMark > 0 && LastTestTime.GetSeconds(restTime) >= RestSecondsMark)
 		{
-			Gtk.TreeModel model2;
+			Gtk.ITreeModel model2;
 			Gtk.TreeIter iter2;
 			bool selected = false;
 			if (treeview.Selection.GetSelected (out model2, out iter2))
@@ -120,7 +120,7 @@ public class TreeViewPersons
 	/*
 	 * this method works fine but does not show foreground in color when cell is selected
 	 * above method solves this
-	private void RenderRestTime (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
+	private void RenderRestTime (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.ITreeModel model, Gtk.TreeIter iter)
 	{
 		string restTime = (string) model.GetValue(iter, 2);
 		(cell as Gtk.CellRendererText).Text = restTime;
@@ -206,7 +206,7 @@ public class TreeViewPersons
 	public void ScrollToSelectedRow ()
 	{
 		TreeIter iter;
-		Gtk.TreeModel model = treeview.Model;
+		Gtk.ITreeModel model = treeview.Model;
 
 		if (! treeview.Selection.GetSelected (out model, out iter))
 			return;

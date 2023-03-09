@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2018-2022   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2018-2023   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -24,7 +24,7 @@ using System.IO.Ports;
 using System.Threading;
 using Gtk;
 using Gdk;
-using Glade;
+//using Glade;
 using System.Text; //StringBuilder
 using System.Collections;
 using System.Collections.Generic; //List<T>
@@ -35,95 +35,97 @@ using Mono.Unix;
 
 public partial class ChronoJumpWindow 
 {
-	//[Widget] Gtk.CheckMenuItem menuitem_check_race_encoder_capture_simulate;
+	// at glade ---->
+	//Gtk.CheckMenuItem menuitem_check_race_encoder_capture_simulate;
 
-	[Widget] Gtk.Button button_combo_run_encoder_exercise_capture_left;
-	[Widget] Gtk.Button button_combo_run_encoder_exercise_capture_right;
-	[Widget] Gtk.VBox vbox_run_encoder_capture_buttons;
-	[Widget] Gtk.VBox vbox_run_encoder_capture_options;
-	[Widget] Gtk.HBox hbox_combo_run_encoder_exercise;
-	[Widget] Gtk.ComboBox combo_run_encoder_exercise;
-	[Widget] Gtk.SpinButton race_analyzer_spinbutton_distance;
-	[Widget] Gtk.SpinButton race_analyzer_spinbutton_angle;
-	[Widget] Gtk.SpinButton race_analyzer_spinbutton_temperature;
-	[Widget] Gtk.ComboBox combo_race_analyzer_device;
-	[Widget] Gtk.Image image_run_encoder_graph;
-	[Widget] Gtk.Viewport viewport_run_encoder_graph;
-	[Widget] Gtk.TreeView treeview_raceAnalyzer;
-	[Widget] Gtk.Button button_raceAnalyzer_table_save;
-	//[Widget] Gtk.Label label_race_analyzer_capture_speed;
-	[Widget] Gtk.HBox hbox_race_analyzer_capture_tab_result_views;
-	[Widget] Gtk.RadioButton radio_race_analyzer_capture_view_simple;
-	[Widget] Gtk.RadioButton radio_race_analyzer_capture_view_complete;
-	[Widget] Gtk.Alignment alignment_drawingarea_race_analyzer_capture_velocimeter_topleft;
-	[Widget] Gtk.Alignment alignment_hbox_race_analyzer_capture_bottom;
-	[Widget] Gtk.DrawingArea drawingarea_race_analyzer_capture_velocimeter_topleft;
-	[Widget] Gtk.DrawingArea drawingarea_race_analyzer_capture_velocimeter_bottom;
-	[Widget] Gtk.DrawingArea drawingarea_race_analyzer_capture_position_time;
-	[Widget] Gtk.DrawingArea drawingarea_race_analyzer_capture_speed_time;
-	[Widget] Gtk.DrawingArea drawingarea_race_analyzer_capture_accel_time;
-	[Widget] Gtk.VBox vbox_race_analyzer_capture_graphs;
-	[Widget] Gtk.CheckButton check_race_analyzer_capture_smooth_graphs;
-	[Widget] Gtk.HScale hscale_race_analyzer_capture_smooth_graphs;
-	[Widget] Gtk.Label label_race_analyzer_capture_smooth_graphs;
+	Gtk.Button button_combo_run_encoder_exercise_capture_left;
+	Gtk.Button button_combo_run_encoder_exercise_capture_right;
+	Gtk.VBox vbox_run_encoder_capture_buttons;
+	Gtk.VBox vbox_run_encoder_capture_options;
+	Gtk.HBox hbox_combo_run_encoder_exercise;
+	Gtk.SpinButton race_analyzer_spinbutton_distance;
+	Gtk.SpinButton race_analyzer_spinbutton_angle;
+	Gtk.SpinButton race_analyzer_spinbutton_temperature;
+	Gtk.Image image_run_encoder_graph;
+	Gtk.Viewport viewport_run_encoder_graph;
+	Gtk.TreeView treeview_raceAnalyzer;
+	Gtk.Button button_raceAnalyzer_table_save;
+	//Gtk.Label label_race_analyzer_capture_speed;
+	Gtk.HBox hbox_race_analyzer_capture_tab_result_views;
+	Gtk.RadioButton radio_race_analyzer_capture_view_simple;
+	Gtk.RadioButton radio_race_analyzer_capture_view_complete;
+	Gtk.Alignment alignment_drawingarea_race_analyzer_capture_velocimeter_topleft;
+	Gtk.Alignment alignment_hbox_race_analyzer_capture_bottom;
+	Gtk.DrawingArea drawingarea_race_analyzer_capture_velocimeter_topleft;
+	Gtk.DrawingArea drawingarea_race_analyzer_capture_velocimeter_bottom;
+	Gtk.DrawingArea drawingarea_race_analyzer_capture_position_time;
+	Gtk.DrawingArea drawingarea_race_analyzer_capture_speed_time;
+	Gtk.DrawingArea drawingarea_race_analyzer_capture_accel_time;
+	Gtk.VBox vbox_race_analyzer_capture_graphs;
+	Gtk.CheckButton check_race_analyzer_capture_smooth_graphs;
+	Gtk.HScale hscale_race_analyzer_capture_smooth_graphs;
+	Gtk.Label label_race_analyzer_capture_smooth_graphs;
 
-	[Widget] Gtk.Frame frame_run_encoder_exercise;
-	[Widget] Gtk.Entry entry_run_encoder_exercise_name;
-	[Widget] Gtk.Entry entry_run_encoder_exercise_description;
-	[Widget] Gtk.CheckButton check_run_encoder_exercise_is_sprint;
-	[Widget] Gtk.SpinButton spin_run_encoder_exercise_angle_default;
-	[Widget] Gtk.CheckButton check_run_encoder_exercise_fixed_size;
-	[Widget] Gtk.HBox hbox_run_encoder_exercise_fixed_segments_size;
-	[Widget] Gtk.HBox hbox_run_encoder_exercise_notfixed_segment_num;
-	[Widget] Gtk.SpinButton	spin_race_encoder_exercise_f_segment_size_cm; //f: fixed
-	[Widget] Gtk.SpinButton spin_race_encoder_exercise_v_segments_num; //v: variable
-	[Widget] Gtk.Frame frame_run_encoder_exercise_notfixed_segments;
-	[Widget] Gtk.SpinButton spin_race_encoder_exercise_v_segment_size_cm_0; //v: variable
-	[Widget] Gtk.SpinButton spin_race_encoder_exercise_v_segment_size_cm_1;
-	[Widget] Gtk.SpinButton spin_race_encoder_exercise_v_segment_size_cm_2;
-	[Widget] Gtk.SpinButton spin_race_encoder_exercise_v_segment_size_cm_3;
-	[Widget] Gtk.SpinButton spin_race_encoder_exercise_v_segment_size_cm_4;
-	[Widget] Gtk.SpinButton spin_race_encoder_exercise_v_segment_size_cm_5;
-	[Widget] Gtk.SpinButton spin_race_encoder_exercise_v_segment_size_cm_6;
-	[Widget] Gtk.SpinButton spin_race_encoder_exercise_v_segment_size_cm_7;
-	[Widget] Gtk.SpinButton spin_race_encoder_exercise_v_segment_size_cm_8;
-	[Widget] Gtk.SpinButton spin_race_encoder_exercise_v_segment_size_cm_9;
-	[Widget] Gtk.SpinButton spin_race_encoder_exercise_v_segment_size_cm_10;
-	[Widget] Gtk.SpinButton spin_race_encoder_exercise_v_segment_size_cm_11;
-	[Widget] Gtk.SpinButton spin_race_encoder_exercise_v_segment_size_cm_12;
-	[Widget] Gtk.SpinButton spin_race_encoder_exercise_v_segment_size_cm_13;
-	[Widget] Gtk.SpinButton spin_race_encoder_exercise_v_segment_size_cm_14;
-	[Widget] Gtk.SpinButton spin_race_encoder_exercise_v_segment_size_cm_15;
-	[Widget] Gtk.SpinButton spin_race_encoder_exercise_v_segment_size_cm_16;
-	[Widget] Gtk.SpinButton spin_race_encoder_exercise_v_segment_size_cm_17;
-	[Widget] Gtk.SpinButton spin_race_encoder_exercise_v_segment_size_cm_18;
-	[Widget] Gtk.SpinButton spin_race_encoder_exercise_v_segment_size_cm_19;
-	[Widget] Gtk.SpinButton spin_race_encoder_exercise_v_segment_size_cm_20;
-	[Widget] Gtk.SpinButton spin_race_encoder_exercise_v_segment_size_cm_21;
-	[Widget] Gtk.SpinButton spin_race_encoder_exercise_v_segment_size_cm_22;
-	[Widget] Gtk.SpinButton spin_race_encoder_exercise_v_segment_size_cm_23;
-	[Widget] Gtk.SpinButton spin_race_encoder_exercise_v_segment_size_cm_24;
-	[Widget] Gtk.SpinButton spin_race_encoder_exercise_v_segment_size_cm_25;
-	[Widget] Gtk.SpinButton spin_race_encoder_exercise_v_segment_size_cm_26;
-	[Widget] Gtk.SpinButton spin_race_encoder_exercise_v_segment_size_cm_27;
-	[Widget] Gtk.SpinButton spin_race_encoder_exercise_v_segment_size_cm_28;
-	[Widget] Gtk.SpinButton spin_race_encoder_exercise_v_segment_size_cm_29;
-	[Widget] Gtk.SpinButton spin_race_encoder_exercise_v_segment_size_cm_30;
-	[Widget] Gtk.SpinButton spin_race_encoder_exercise_v_segment_size_cm_31;
-	[Widget] Gtk.SpinButton spin_race_encoder_exercise_v_segment_size_cm_32;
-	[Widget] Gtk.SpinButton spin_race_encoder_exercise_v_segment_size_cm_33;
-	[Widget] Gtk.SpinButton spin_race_encoder_exercise_v_segment_size_cm_34;
-	[Widget] Gtk.SpinButton spin_race_encoder_exercise_v_segment_size_cm_35;
-	[Widget] Gtk.SpinButton spin_race_encoder_exercise_v_segment_size_cm_36;
-	[Widget] Gtk.SpinButton spin_race_encoder_exercise_v_segment_size_cm_37;
-	[Widget] Gtk.SpinButton spin_race_encoder_exercise_v_segment_size_cm_38;
-	[Widget] Gtk.SpinButton spin_race_encoder_exercise_v_segment_size_cm_39;
+	Gtk.Frame frame_run_encoder_exercise;
+	Gtk.Entry entry_run_encoder_exercise_name;
+	Gtk.Entry entry_run_encoder_exercise_description;
+	Gtk.CheckButton check_run_encoder_exercise_is_sprint;
+	Gtk.SpinButton spin_run_encoder_exercise_angle_default;
+	Gtk.CheckButton check_run_encoder_exercise_fixed_size;
+	Gtk.HBox hbox_run_encoder_exercise_fixed_segments_size;
+	Gtk.HBox hbox_run_encoder_exercise_notfixed_segment_num;
+	Gtk.SpinButton	spin_race_encoder_exercise_f_segment_size_cm; //f: fixed
+	Gtk.SpinButton spin_race_encoder_exercise_v_segments_num; //v: variable
+	Gtk.Frame frame_run_encoder_exercise_notfixed_segments;
+	Gtk.SpinButton spin_race_encoder_exercise_v_segment_size_cm_0; //v: variable
+	Gtk.SpinButton spin_race_encoder_exercise_v_segment_size_cm_1;
+	Gtk.SpinButton spin_race_encoder_exercise_v_segment_size_cm_2;
+	Gtk.SpinButton spin_race_encoder_exercise_v_segment_size_cm_3;
+	Gtk.SpinButton spin_race_encoder_exercise_v_segment_size_cm_4;
+	Gtk.SpinButton spin_race_encoder_exercise_v_segment_size_cm_5;
+	Gtk.SpinButton spin_race_encoder_exercise_v_segment_size_cm_6;
+	Gtk.SpinButton spin_race_encoder_exercise_v_segment_size_cm_7;
+	Gtk.SpinButton spin_race_encoder_exercise_v_segment_size_cm_8;
+	Gtk.SpinButton spin_race_encoder_exercise_v_segment_size_cm_9;
+	Gtk.SpinButton spin_race_encoder_exercise_v_segment_size_cm_10;
+	Gtk.SpinButton spin_race_encoder_exercise_v_segment_size_cm_11;
+	Gtk.SpinButton spin_race_encoder_exercise_v_segment_size_cm_12;
+	Gtk.SpinButton spin_race_encoder_exercise_v_segment_size_cm_13;
+	Gtk.SpinButton spin_race_encoder_exercise_v_segment_size_cm_14;
+	Gtk.SpinButton spin_race_encoder_exercise_v_segment_size_cm_15;
+	Gtk.SpinButton spin_race_encoder_exercise_v_segment_size_cm_16;
+	Gtk.SpinButton spin_race_encoder_exercise_v_segment_size_cm_17;
+	Gtk.SpinButton spin_race_encoder_exercise_v_segment_size_cm_18;
+	Gtk.SpinButton spin_race_encoder_exercise_v_segment_size_cm_19;
+	Gtk.SpinButton spin_race_encoder_exercise_v_segment_size_cm_20;
+	Gtk.SpinButton spin_race_encoder_exercise_v_segment_size_cm_21;
+	Gtk.SpinButton spin_race_encoder_exercise_v_segment_size_cm_22;
+	Gtk.SpinButton spin_race_encoder_exercise_v_segment_size_cm_23;
+	Gtk.SpinButton spin_race_encoder_exercise_v_segment_size_cm_24;
+	Gtk.SpinButton spin_race_encoder_exercise_v_segment_size_cm_25;
+	Gtk.SpinButton spin_race_encoder_exercise_v_segment_size_cm_26;
+	Gtk.SpinButton spin_race_encoder_exercise_v_segment_size_cm_27;
+	Gtk.SpinButton spin_race_encoder_exercise_v_segment_size_cm_28;
+	Gtk.SpinButton spin_race_encoder_exercise_v_segment_size_cm_29;
+	Gtk.SpinButton spin_race_encoder_exercise_v_segment_size_cm_30;
+	Gtk.SpinButton spin_race_encoder_exercise_v_segment_size_cm_31;
+	Gtk.SpinButton spin_race_encoder_exercise_v_segment_size_cm_32;
+	Gtk.SpinButton spin_race_encoder_exercise_v_segment_size_cm_33;
+	Gtk.SpinButton spin_race_encoder_exercise_v_segment_size_cm_34;
+	Gtk.SpinButton spin_race_encoder_exercise_v_segment_size_cm_35;
+	Gtk.SpinButton spin_race_encoder_exercise_v_segment_size_cm_36;
+	Gtk.SpinButton spin_race_encoder_exercise_v_segment_size_cm_37;
+	Gtk.SpinButton spin_race_encoder_exercise_v_segment_size_cm_38;
+	Gtk.SpinButton spin_race_encoder_exercise_v_segment_size_cm_39;
+	Gtk.ComboBoxText combo_race_analyzer_device;
+	// <---- at glade
 
 	int race_analyzer_distance;
 	//int race_analyzer_angle;
 	int race_analyzer_temperature;
 	RunEncoder.Devices race_analyzer_device;
 
+	Gtk.ComboBoxText combo_run_encoder_exercise;
 
 	Thread runEncoderCaptureThread;
 	static bool runEncoderProcessFinish;
@@ -1976,7 +1978,7 @@ public partial class ChronoJumpWindow
 	{
 		//run_encoder_exercise
 
-		combo_run_encoder_exercise = ComboBox.NewText ();
+		combo_run_encoder_exercise = new ComboBoxText ();
 		fillRunEncoderExerciseCombo("");
 
 		combo_run_encoder_exercise.Changed += new EventHandler (on_combo_run_encoder_exercise_changed);
@@ -2000,7 +2002,7 @@ public partial class ChronoJumpWindow
 
 	private void on_combo_run_encoder_exercise_changed(object o, EventArgs args)
 	{
-		//ComboBox combo = o as ComboBox;
+		//ComboBoxText combo = o as ComboboxText;
 		if (o == null)
 			return;
 
@@ -2364,7 +2366,7 @@ public partial class ChronoJumpWindow
 	// -------------------------------- end of exercise stuff --------------------
 
 	CairoRadial cairoRadial;
-	private void on_drawingarea_race_analyzer_capture_velocimeter_expose_event (object o, ExposeEventArgs args)
+	private void on_drawingarea_race_analyzer_capture_velocimeter_cairo_draw (object o, Gtk.DrawnArgs args)
 	{
 		Gtk.DrawingArea da;
 		if (o == (object) drawingarea_race_analyzer_capture_velocimeter_topleft)
@@ -2398,21 +2400,21 @@ public partial class ChronoJumpWindow
 
 	CairoGraphRaceAnalyzer cairoGraphRaceAnalyzer_dt;
 	static List<PointF> cairoGraphRaceAnalyzerPoints_dt_l; //distancetime
-	private void on_drawingarea_race_analyzer_capture_position_time_expose_event (object o, ExposeEventArgs args)
+	private void on_drawingarea_race_analyzer_capture_position_time_cairo_draw (object o, Gtk.DrawnArgs args)
 	{
 		updateRaceAnalyzerCapturePositionTime(true);
 	}
 
 	CairoGraphRaceAnalyzer cairoGraphRaceAnalyzer_st;
 	static List<PointF> cairoGraphRaceAnalyzerPoints_st_l;	//speed/time
-	private void on_drawingarea_race_analyzer_capture_speed_time_expose_event (object o, ExposeEventArgs args)
+	private void on_drawingarea_race_analyzer_capture_speed_time_cairo_draw (object o, Gtk.DrawnArgs args)
 	{
 		updateRaceAnalyzerCaptureSpeedTime(true);
 	}
 
 	CairoGraphRaceAnalyzer cairoGraphRaceAnalyzer_at;
 	static List<PointF> cairoGraphRaceAnalyzerPoints_at_l;	//accel/time
-	private void on_drawingarea_race_analyzer_capture_accel_time_expose_event (object o, ExposeEventArgs args)
+	private void on_drawingarea_race_analyzer_capture_accel_time_cairo_draw (object o, Gtk.DrawnArgs args)
 	{
 		updateRaceAnalyzerCaptureAccelTime(true);
 	}
@@ -2606,4 +2608,89 @@ public partial class ChronoJumpWindow
 		new DialogMessage(Constants.MessageTypes.INFO, myString);
 	}
 
+	private void connectWidgetsRunEncoder (Gtk.Builder builder)
+	{
+		//menuitem_check_race_encoder_capture_simulate = (Gtk.CheckMenuItem) builder.GetObject ("menuitem_check_race_encoder_capture_simulate");
+
+		button_combo_run_encoder_exercise_capture_left = (Gtk.Button) builder.GetObject ("button_combo_run_encoder_exercise_capture_left");
+		button_combo_run_encoder_exercise_capture_right = (Gtk.Button) builder.GetObject ("button_combo_run_encoder_exercise_capture_right");
+		vbox_run_encoder_capture_buttons = (Gtk.VBox) builder.GetObject ("vbox_run_encoder_capture_buttons");
+		vbox_run_encoder_capture_options = (Gtk.VBox) builder.GetObject ("vbox_run_encoder_capture_options");
+		hbox_combo_run_encoder_exercise = (Gtk.HBox) builder.GetObject ("hbox_combo_run_encoder_exercise");
+		race_analyzer_spinbutton_distance = (Gtk.SpinButton) builder.GetObject ("race_analyzer_spinbutton_distance");
+		race_analyzer_spinbutton_angle = (Gtk.SpinButton) builder.GetObject ("race_analyzer_spinbutton_angle");
+		race_analyzer_spinbutton_temperature = (Gtk.SpinButton) builder.GetObject ("race_analyzer_spinbutton_temperature");
+		image_run_encoder_graph = (Gtk.Image) builder.GetObject ("image_run_encoder_graph");
+		viewport_run_encoder_graph = (Gtk.Viewport) builder.GetObject ("viewport_run_encoder_graph");
+		treeview_raceAnalyzer = (Gtk.TreeView) builder.GetObject ("treeview_raceAnalyzer");
+		button_raceAnalyzer_table_save = (Gtk.Button) builder.GetObject ("button_raceAnalyzer_table_save");
+		//label_race_analyzer_capture_speed = (Gtk.Label) builder.GetObject ("label_race_analyzer_capture_speed");
+		hbox_race_analyzer_capture_tab_result_views = (Gtk.HBox) builder.GetObject ("hbox_race_analyzer_capture_tab_result_views");
+		radio_race_analyzer_capture_view_simple = (Gtk.RadioButton) builder.GetObject ("radio_race_analyzer_capture_view_simple");
+		radio_race_analyzer_capture_view_complete = (Gtk.RadioButton) builder.GetObject ("radio_race_analyzer_capture_view_complete");
+		alignment_drawingarea_race_analyzer_capture_velocimeter_topleft = (Gtk.Alignment) builder.GetObject ("alignment_drawingarea_race_analyzer_capture_velocimeter_topleft");
+		alignment_hbox_race_analyzer_capture_bottom = (Gtk.Alignment) builder.GetObject ("alignment_hbox_race_analyzer_capture_bottom");
+		drawingarea_race_analyzer_capture_velocimeter_topleft = (Gtk.DrawingArea) builder.GetObject ("drawingarea_race_analyzer_capture_velocimeter_topleft");
+		drawingarea_race_analyzer_capture_velocimeter_bottom = (Gtk.DrawingArea) builder.GetObject ("drawingarea_race_analyzer_capture_velocimeter_bottom");
+		drawingarea_race_analyzer_capture_position_time = (Gtk.DrawingArea) builder.GetObject ("drawingarea_race_analyzer_capture_position_time");
+		drawingarea_race_analyzer_capture_speed_time = (Gtk.DrawingArea) builder.GetObject ("drawingarea_race_analyzer_capture_speed_time");
+		drawingarea_race_analyzer_capture_accel_time = (Gtk.DrawingArea) builder.GetObject ("drawingarea_race_analyzer_capture_accel_time");
+		vbox_race_analyzer_capture_graphs = (Gtk.VBox) builder.GetObject ("vbox_race_analyzer_capture_graphs");
+		check_race_analyzer_capture_smooth_graphs = (Gtk.CheckButton) builder.GetObject ("check_race_analyzer_capture_smooth_graphs");
+		hscale_race_analyzer_capture_smooth_graphs = (Gtk.HScale) builder.GetObject ("hscale_race_analyzer_capture_smooth_graphs");
+		label_race_analyzer_capture_smooth_graphs = (Gtk.Label) builder.GetObject ("label_race_analyzer_capture_smooth_graphs");
+
+		frame_run_encoder_exercise = (Gtk.Frame) builder.GetObject ("frame_run_encoder_exercise");
+		entry_run_encoder_exercise_name = (Gtk.Entry) builder.GetObject ("entry_run_encoder_exercise_name");
+		entry_run_encoder_exercise_description = (Gtk.Entry) builder.GetObject ("entry_run_encoder_exercise_description");
+		check_run_encoder_exercise_is_sprint = (Gtk.CheckButton) builder.GetObject ("check_run_encoder_exercise_is_sprint");
+		spin_run_encoder_exercise_angle_default = (Gtk.SpinButton) builder.GetObject ("spin_run_encoder_exercise_angle_default");
+		check_run_encoder_exercise_fixed_size = (Gtk.CheckButton) builder.GetObject ("check_run_encoder_exercise_fixed_size");
+		hbox_run_encoder_exercise_fixed_segments_size = (Gtk.HBox) builder.GetObject ("hbox_run_encoder_exercise_fixed_segments_size");
+		hbox_run_encoder_exercise_notfixed_segment_num = (Gtk.HBox) builder.GetObject ("hbox_run_encoder_exercise_notfixed_segment_num");
+		spin_race_encoder_exercise_f_segment_size_cm = (Gtk.SpinButton) builder.GetObject ("spin_race_encoder_exercise_f_segment_size_cm"); //f: fixed
+		spin_race_encoder_exercise_v_segments_num = (Gtk.SpinButton) builder.GetObject ("spin_race_encoder_exercise_v_segments_num"); //v: variable
+		frame_run_encoder_exercise_notfixed_segments = (Gtk.Frame) builder.GetObject ("frame_run_encoder_exercise_notfixed_segments");
+		spin_race_encoder_exercise_v_segment_size_cm_0 = (Gtk.SpinButton) builder.GetObject ("spin_race_encoder_exercise_v_segment_size_cm_0"); //v: variable
+		spin_race_encoder_exercise_v_segment_size_cm_1 = (Gtk.SpinButton) builder.GetObject ("spin_race_encoder_exercise_v_segment_size_cm_1");
+		spin_race_encoder_exercise_v_segment_size_cm_2 = (Gtk.SpinButton) builder.GetObject ("spin_race_encoder_exercise_v_segment_size_cm_2");
+		spin_race_encoder_exercise_v_segment_size_cm_3 = (Gtk.SpinButton) builder.GetObject ("spin_race_encoder_exercise_v_segment_size_cm_3");
+		spin_race_encoder_exercise_v_segment_size_cm_4 = (Gtk.SpinButton) builder.GetObject ("spin_race_encoder_exercise_v_segment_size_cm_4");
+		spin_race_encoder_exercise_v_segment_size_cm_5 = (Gtk.SpinButton) builder.GetObject ("spin_race_encoder_exercise_v_segment_size_cm_5");
+		spin_race_encoder_exercise_v_segment_size_cm_6 = (Gtk.SpinButton) builder.GetObject ("spin_race_encoder_exercise_v_segment_size_cm_6");
+		spin_race_encoder_exercise_v_segment_size_cm_7 = (Gtk.SpinButton) builder.GetObject ("spin_race_encoder_exercise_v_segment_size_cm_7");
+		spin_race_encoder_exercise_v_segment_size_cm_8 = (Gtk.SpinButton) builder.GetObject ("spin_race_encoder_exercise_v_segment_size_cm_8");
+		spin_race_encoder_exercise_v_segment_size_cm_9 = (Gtk.SpinButton) builder.GetObject ("spin_race_encoder_exercise_v_segment_size_cm_9");
+		spin_race_encoder_exercise_v_segment_size_cm_10 = (Gtk.SpinButton) builder.GetObject ("spin_race_encoder_exercise_v_segment_size_cm_10");
+		spin_race_encoder_exercise_v_segment_size_cm_11 = (Gtk.SpinButton) builder.GetObject ("spin_race_encoder_exercise_v_segment_size_cm_11");
+		spin_race_encoder_exercise_v_segment_size_cm_12 = (Gtk.SpinButton) builder.GetObject ("spin_race_encoder_exercise_v_segment_size_cm_12");
+		spin_race_encoder_exercise_v_segment_size_cm_13 = (Gtk.SpinButton) builder.GetObject ("spin_race_encoder_exercise_v_segment_size_cm_13");
+		spin_race_encoder_exercise_v_segment_size_cm_14 = (Gtk.SpinButton) builder.GetObject ("spin_race_encoder_exercise_v_segment_size_cm_14");
+		spin_race_encoder_exercise_v_segment_size_cm_15 = (Gtk.SpinButton) builder.GetObject ("spin_race_encoder_exercise_v_segment_size_cm_15");
+		spin_race_encoder_exercise_v_segment_size_cm_16 = (Gtk.SpinButton) builder.GetObject ("spin_race_encoder_exercise_v_segment_size_cm_16");
+		spin_race_encoder_exercise_v_segment_size_cm_17 = (Gtk.SpinButton) builder.GetObject ("spin_race_encoder_exercise_v_segment_size_cm_17");
+		spin_race_encoder_exercise_v_segment_size_cm_18 = (Gtk.SpinButton) builder.GetObject ("spin_race_encoder_exercise_v_segment_size_cm_18");
+		spin_race_encoder_exercise_v_segment_size_cm_19 = (Gtk.SpinButton) builder.GetObject ("spin_race_encoder_exercise_v_segment_size_cm_19");
+		spin_race_encoder_exercise_v_segment_size_cm_20 = (Gtk.SpinButton) builder.GetObject ("spin_race_encoder_exercise_v_segment_size_cm_20");
+		spin_race_encoder_exercise_v_segment_size_cm_21 = (Gtk.SpinButton) builder.GetObject ("spin_race_encoder_exercise_v_segment_size_cm_21");
+		spin_race_encoder_exercise_v_segment_size_cm_22 = (Gtk.SpinButton) builder.GetObject ("spin_race_encoder_exercise_v_segment_size_cm_22");
+		spin_race_encoder_exercise_v_segment_size_cm_23 = (Gtk.SpinButton) builder.GetObject ("spin_race_encoder_exercise_v_segment_size_cm_23");
+		spin_race_encoder_exercise_v_segment_size_cm_24 = (Gtk.SpinButton) builder.GetObject ("spin_race_encoder_exercise_v_segment_size_cm_24");
+		spin_race_encoder_exercise_v_segment_size_cm_25 = (Gtk.SpinButton) builder.GetObject ("spin_race_encoder_exercise_v_segment_size_cm_25");
+		spin_race_encoder_exercise_v_segment_size_cm_26 = (Gtk.SpinButton) builder.GetObject ("spin_race_encoder_exercise_v_segment_size_cm_26");
+		spin_race_encoder_exercise_v_segment_size_cm_27 = (Gtk.SpinButton) builder.GetObject ("spin_race_encoder_exercise_v_segment_size_cm_27");
+		spin_race_encoder_exercise_v_segment_size_cm_28 = (Gtk.SpinButton) builder.GetObject ("spin_race_encoder_exercise_v_segment_size_cm_28");
+		spin_race_encoder_exercise_v_segment_size_cm_29 = (Gtk.SpinButton) builder.GetObject ("spin_race_encoder_exercise_v_segment_size_cm_29");
+		spin_race_encoder_exercise_v_segment_size_cm_30 = (Gtk.SpinButton) builder.GetObject ("spin_race_encoder_exercise_v_segment_size_cm_30");
+		spin_race_encoder_exercise_v_segment_size_cm_31 = (Gtk.SpinButton) builder.GetObject ("spin_race_encoder_exercise_v_segment_size_cm_31");
+		spin_race_encoder_exercise_v_segment_size_cm_32 = (Gtk.SpinButton) builder.GetObject ("spin_race_encoder_exercise_v_segment_size_cm_32");
+		spin_race_encoder_exercise_v_segment_size_cm_33 = (Gtk.SpinButton) builder.GetObject ("spin_race_encoder_exercise_v_segment_size_cm_33");
+		spin_race_encoder_exercise_v_segment_size_cm_34 = (Gtk.SpinButton) builder.GetObject ("spin_race_encoder_exercise_v_segment_size_cm_34");
+		spin_race_encoder_exercise_v_segment_size_cm_35 = (Gtk.SpinButton) builder.GetObject ("spin_race_encoder_exercise_v_segment_size_cm_35");
+		spin_race_encoder_exercise_v_segment_size_cm_36 = (Gtk.SpinButton) builder.GetObject ("spin_race_encoder_exercise_v_segment_size_cm_36");
+		spin_race_encoder_exercise_v_segment_size_cm_37 = (Gtk.SpinButton) builder.GetObject ("spin_race_encoder_exercise_v_segment_size_cm_37");
+		spin_race_encoder_exercise_v_segment_size_cm_38 = (Gtk.SpinButton) builder.GetObject ("spin_race_encoder_exercise_v_segment_size_cm_38");
+		spin_race_encoder_exercise_v_segment_size_cm_39 = (Gtk.SpinButton) builder.GetObject ("spin_race_encoder_exercise_v_segment_size_cm_39");
+		combo_race_analyzer_device = (Gtk.ComboBoxText) builder.GetObject ("combo_race_analyzer_device");
+	}
 }

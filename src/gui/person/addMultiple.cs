@@ -15,13 +15,13 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2022   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2004-2023   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
 using Gtk;
 using Gdk;
-using Glade;
+//using Glade;
 using System.Collections; //ArrayList
 using System.Collections.Generic; //List
 using Mono.Unix;
@@ -79,64 +79,69 @@ public class PersonAddMultipleError
 //new persons multiple (infinite)
 public class PersonAddMultipleWindow
 {
-	
-	[Widget] Gtk.Window person_multiple_infinite;
+	Gtk.Window person_multiple_infinite;
 		
-	[Widget] Gtk.Notebook notebook;
-	[Widget] Gtk.Button button_cancel_or_back;
+	Gtk.Notebook notebook;
+	Gtk.Button button_cancel_or_back;
 	
-	[Widget] Gtk.RadioButton radio_csv;
-	[Widget] Gtk.RadioButton radio_manually;
-	[Widget] Gtk.Box hbox_manually;
-	[Widget] Gtk.SpinButton spin_manually;
+	Gtk.RadioButton radio_csv;
+	Gtk.RadioButton radio_manually;
+	Gtk.Box hbox_manually;
+	Gtk.SpinButton spin_manually;
 	
-	[Widget] Gtk.Image image_csv_headers;
-	[Widget] Gtk.Image image_csv_noheaders;
-	[Widget] Gtk.Image image_load;
-	[Widget] Gtk.Label label_csv;
-	[Widget] Gtk.Label label_name;
+	Gtk.Image image_csv_headers;
+	Gtk.Image image_csv_noheaders;
+	Gtk.Image image_load;
+	Gtk.Label label_csv;
+	Gtk.Label label_name;
 
-	[Widget] Gtk.Button button_csv_prepare;
+	Gtk.Button button_csv_prepare;
 	
-	[Widget] Gtk.Image image_name1;
-	[Widget] Gtk.Image image_name2;
+	Gtk.Image image_name1;
+	Gtk.Image image_name2;
 
-	[Widget] Gtk.CheckButton check_headers;
-	[Widget] Gtk.CheckButton check_fullname_1_col;
-	[Widget] Gtk.CheckButton check_person_height;
-	[Widget] Gtk.CheckButton check_legsLength;
-	[Widget] Gtk.CheckButton check_hipsHeight;
+	Gtk.CheckButton check_headers;
+	Gtk.CheckButton check_fullname_1_col;
+	Gtk.CheckButton check_person_height;
+	Gtk.CheckButton check_legsLength;
+	Gtk.CheckButton check_hipsHeight;
 
-	[Widget] Gtk.HBox hbox_h1_h2_help;
-	[Widget] Gtk.Label label_h1_legsLength;
-	[Widget] Gtk.Label label_h2_hipsHeight;
+	Gtk.HBox hbox_h1_h2_help;
+	Gtk.Label label_h1_legsLength;
+	Gtk.Label label_h2_hipsHeight;
 
-	//[Widget] Gtk.Table table_example;
+	//Gtk.Table table_example;
 	//show/hide headers and make them bold
-	[Widget] Gtk.Label label_t_fullname;
-	[Widget] Gtk.Label label_t_name;
-	[Widget] Gtk.Label label_t_surname;
-	[Widget] Gtk.Label label_t_genre;
-	[Widget] Gtk.Label label_t_weight;
-	[Widget] Gtk.Label label_t_height;
-	[Widget] Gtk.Label label_t_legsLength;
-	[Widget] Gtk.Label label_t_hipsHeight;
+	Gtk.Label label_t_fullname;
+	Gtk.Label label_t_name;
+	Gtk.Label label_t_surname;
+	Gtk.Label label_t_genre;
+	Gtk.Label label_t_weight;
+	Gtk.Label label_t_height;
+	Gtk.Label label_t_legsLength;
+	Gtk.Label label_t_hipsHeight;
 	//show/hide hideable columns of June Carter
-	[Widget] Gtk.Label label_t_fullname_june;
-	[Widget] Gtk.Label label_t_name_june;
-	[Widget] Gtk.Label label_t_surname_june;
-	[Widget] Gtk.Label label_t_height_june;
-	[Widget] Gtk.Label label_t_legsLength_june;
-	[Widget] Gtk.Label label_t_hipsHeight_june;
+	Gtk.Label label_t_fullname_june;
+	Gtk.Label label_t_name_june;
+	Gtk.Label label_t_surname_june;
+	Gtk.Label label_t_height_june;
+	Gtk.Label label_t_legsLength_june;
+	Gtk.Label label_t_hipsHeight_june;
 	//show/hide hideable columns of Johnny Cash
-	[Widget] Gtk.Label label_t_fullname_johnny;
-	[Widget] Gtk.Label label_t_name_johnny;
-	[Widget] Gtk.Label label_t_surname_johnny;
-	[Widget] Gtk.Label label_t_height_johnny;
-	[Widget] Gtk.Label label_t_legsLength_johnny;
-	[Widget] Gtk.Label label_t_hipsHeight_johnny;
+	Gtk.Label label_t_fullname_johnny;
+	Gtk.Label label_t_name_johnny;
+	Gtk.Label label_t_surname_johnny;
+	Gtk.Label label_t_height_johnny;
+	Gtk.Label label_t_legsLength_johnny;
+	Gtk.Label label_t_hipsHeight_johnny;
 
-	[Widget] Gtk.TextView textview;
+	Gtk.TextView textview;
+	//Gtk.ScrolledWindow scrolledwindow;
+	Gtk.Table table_main;
+	Gtk.Label label_message;
+	Gtk.Label label_columns_order;
+	
+	Gtk.Button button_accept;
 
 	private enum notebookPages { MAINOPTIONS, TABLEMANUALLY, LOADCSV };
 
@@ -148,15 +153,10 @@ public class PersonAddMultipleWindow
 	ArrayList spinsHeight;
 	ArrayList spinsLegsLength;
 	ArrayList spinsHipsHeight;
+
 	
 	int rows;
 	
-	//[Widget] Gtk.ScrolledWindow scrolledwindow;
-	[Widget] Gtk.Table table_main;
-	[Widget] Gtk.Label label_message;
-	[Widget] Gtk.Label label_columns_order;
-	
-	[Widget] Gtk.Button button_accept;
 	private Gtk.Button fakeButtonDone;
 	
 	static PersonAddMultipleWindow PersonAddMultipleWindowBox;
@@ -169,9 +169,14 @@ public class PersonAddMultipleWindow
 
 	PersonAddMultipleWindow (Gtk.Window parent, Session currentSession, char columnDelimiter)
 	{
+		/*
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "person_multiple_infinite.glade", "person_multiple_infinite", null);
 		gladeXML.Autoconnect(this);
+		*/
+		Gtk.Builder builder = new Gtk.Builder (null, Util.GetGladePath () + "person_multiple_infinite.glade", null);
+		connectWidgets (builder);
+		builder.Autoconnect (this);
 		
 		//put an icon to window
 		UtilGtk.IconWindow(person_multiple_infinite);
@@ -1130,5 +1135,73 @@ public class PersonAddMultipleWindow
 		get { return personsCreatedCount; }
 	}
 	*/
+
+	private void connectWidgets (Gtk.Builder builder)
+	{
+		person_multiple_infinite = (Gtk.Window) builder.GetObject ("person_multiple_infinite");
+
+		notebook = (Gtk.Notebook) builder.GetObject ("notebook");
+		button_cancel_or_back = (Gtk.Button) builder.GetObject ("button_cancel_or_back");
+
+		radio_csv = (Gtk.RadioButton) builder.GetObject ("radio_csv");
+		radio_manually = (Gtk.RadioButton) builder.GetObject ("radio_manually");
+		hbox_manually = (Gtk.Box) builder.GetObject ("hbox_manually");
+		spin_manually = (Gtk.SpinButton) builder.GetObject ("spin_manually");
+
+		image_csv_headers = (Gtk.Image) builder.GetObject ("image_csv_headers");
+		image_csv_noheaders = (Gtk.Image) builder.GetObject ("image_csv_noheaders");
+		image_load = (Gtk.Image) builder.GetObject ("image_load");
+		label_csv = (Gtk.Label) builder.GetObject ("label_csv");
+		label_name = (Gtk.Label) builder.GetObject ("label_name");
+
+		button_csv_prepare = (Gtk.Button) builder.GetObject ("button_csv_prepare");
+
+		image_name1 = (Gtk.Image) builder.GetObject ("image_name1");
+		image_name2 = (Gtk.Image) builder.GetObject ("image_name2");
+
+		check_headers = (Gtk.CheckButton) builder.GetObject ("check_headers");
+		check_fullname_1_col = (Gtk.CheckButton) builder.GetObject ("check_fullname_1_col");
+		check_person_height = (Gtk.CheckButton) builder.GetObject ("check_person_height");
+		check_legsLength = (Gtk.CheckButton) builder.GetObject ("check_legsLength");
+		check_hipsHeight = (Gtk.CheckButton) builder.GetObject ("check_hipsHeight");
+
+		hbox_h1_h2_help = (Gtk.HBox) builder.GetObject ("hbox_h1_h2_help");
+		label_h1_legsLength = (Gtk.Label) builder.GetObject ("label_h1_legsLength");
+		label_h2_hipsHeight = (Gtk.Label) builder.GetObject ("label_h2_hipsHeight");
+
+		//table_example = (Gtk.Table) builder.GetObject ("table_example");
+		//show/hide headers and make them bold
+		label_t_fullname = (Gtk.Label) builder.GetObject ("label_t_fullname");
+		label_t_name = (Gtk.Label) builder.GetObject ("label_t_name");
+		label_t_surname = (Gtk.Label) builder.GetObject ("label_t_surname");
+		label_t_genre = (Gtk.Label) builder.GetObject ("label_t_genre");
+		label_t_weight = (Gtk.Label) builder.GetObject ("label_t_weight");
+		label_t_height = (Gtk.Label) builder.GetObject ("label_t_height");
+		label_t_legsLength = (Gtk.Label) builder.GetObject ("label_t_legsLength");
+		label_t_hipsHeight = (Gtk.Label) builder.GetObject ("label_t_hipsHeight");
+		//show/hide hideable columns of June Carter
+		label_t_fullname_june = (Gtk.Label) builder.GetObject ("label_t_fullname_june");
+		label_t_name_june = (Gtk.Label) builder.GetObject ("label_t_name_june");
+		label_t_surname_june = (Gtk.Label) builder.GetObject ("label_t_surname_june");
+		label_t_height_june = (Gtk.Label) builder.GetObject ("label_t_height_june");
+		label_t_legsLength_june = (Gtk.Label) builder.GetObject ("label_t_legsLength_june");
+		label_t_hipsHeight_june = (Gtk.Label) builder.GetObject ("label_t_hipsHeight_june");
+		//show/hide hideable columns of Johnny Cash
+		label_t_fullname_johnny = (Gtk.Label) builder.GetObject ("label_t_fullname_johnny");
+		label_t_name_johnny = (Gtk.Label) builder.GetObject ("label_t_name_johnny");
+		label_t_surname_johnny = (Gtk.Label) builder.GetObject ("label_t_surname_johnny");
+		label_t_height_johnny = (Gtk.Label) builder.GetObject ("label_t_height_johnny");
+		label_t_legsLength_johnny = (Gtk.Label) builder.GetObject ("label_t_legsLength_johnny");
+		label_t_hipsHeight_johnny = (Gtk.Label) builder.GetObject ("label_t_hipsHeight_johnny");
+
+		textview = (Gtk.TextView) builder.GetObject ("textview");
+
+		//scrolledwindow = (Gtk.ScrolledWindow) builder.GetObject ("scrolledwindow");
+		table_main = (Gtk.Table) builder.GetObject ("table_main");
+		label_message = (Gtk.Label) builder.GetObject ("label_message");
+		label_columns_order = (Gtk.Label) builder.GetObject ("label_columns_order");
+
+		button_accept = (Gtk.Button) builder.GetObject ("button_accept");
+	}
 }
 

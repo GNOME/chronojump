@@ -22,7 +22,7 @@ using System;
 using System.IO;
 using Gdk;
 using Gtk;
-using Glade;
+//using Glade;
 //using Gnome;
 //using GLib; //for Value
 using System.Text; //StringBuilder
@@ -43,243 +43,248 @@ using ICSharpCode.SharpZipLib;
 
 public class PreferencesWindow
 {
-	[Widget] Gtk.Window preferences_win;
-	[Widget] Gtk.Notebook notebook_top;
-	[Widget] Gtk.Notebook notebook;
-	[Widget] Gtk.HBox hbox_buttons_bottom;
+	// at glade ---->
+	Gtk.Window preferences_win;
+	Gtk.Notebook notebook_top;
+	Gtk.Notebook notebook;
+	Gtk.HBox hbox_buttons_bottom;
 
 	//view more tabs
-	[Widget] Gtk.CheckButton check_view_jumps;
-	[Widget] Gtk.CheckButton check_view_runs;
-	[Widget] Gtk.CheckButton check_view_encoder;
-	[Widget] Gtk.CheckButton check_view_force_sensor;
-	[Widget] Gtk.CheckButton check_view_race_analyzer;
+	Gtk.CheckButton check_view_jumps;
+	Gtk.CheckButton check_view_runs;
+	Gtk.CheckButton check_view_encoder;
+	Gtk.CheckButton check_view_force_sensor;
+	Gtk.CheckButton check_view_race_analyzer;
 	//tabs selection widgets
-	[Widget] Gtk.Image image_view_more_tabs_close;
-	[Widget] Gtk.Label label_mandatory_tabs;
-	[Widget] Gtk.Label label_selectable_tabs;
+	Gtk.Image image_view_more_tabs_close;
+	Gtk.Label label_mandatory_tabs;
+	Gtk.Label label_selectable_tabs;
 
 	//help widgets
-	[Widget] Gtk.HBox hbox_stiffness_formula;
-	[Widget] Gtk.TextView textview_help_message;
-	[Widget] Gtk.Image image_help_close;
+	Gtk.HBox hbox_stiffness_formula;
+	Gtk.TextView textview_help_message;
+	Gtk.Image image_help_close;
 
 	//appearance tab
-	[Widget] Gtk.CheckButton check_appearance_maximized;
-	[Widget] Gtk.CheckButton check_appearance_maximized_undecorated;
-	[Widget] Gtk.CheckButton check_appearance_person_win_hide;
-	[Widget] Gtk.CheckButton check_appearance_person_photo;
-	[Widget] Gtk.Alignment alignment_undecorated;
-	[Widget] Gtk.Label label_recommended_undecorated;
-	[Widget] Gtk.RadioButton radio_font_courier;
-	[Widget] Gtk.RadioButton radio_font_helvetica;
-	[Widget] Gtk.Label label_radio_font_needs_restart;
-	[Widget] Gtk.CheckButton check_rest_time;
-	[Widget] Gtk.Image image_rest;
-	[Widget] Gtk.HBox hbox_rest_time_values;
-	[Widget] Gtk.SpinButton spinbutton_rest_minutes;
-	[Widget] Gtk.SpinButton spinbutton_rest_seconds;
+	Gtk.CheckButton check_appearance_maximized;
+	Gtk.CheckButton check_appearance_maximized_undecorated;
+	Gtk.CheckButton check_appearance_person_win_hide;
+	Gtk.CheckButton check_appearance_person_photo;
+	Gtk.Alignment alignment_undecorated;
+	Gtk.Label label_recommended_undecorated;
+	Gtk.RadioButton radio_font_courier;
+	Gtk.RadioButton radio_font_helvetica;
+	Gtk.Label label_radio_font_needs_restart;
+	Gtk.CheckButton check_rest_time;
+	Gtk.Image image_rest;
+	Gtk.HBox hbox_rest_time_values;
+	Gtk.SpinButton spinbutton_rest_minutes;
+	Gtk.SpinButton spinbutton_rest_seconds;
 
-	[Widget] Gtk.RadioButton radio_color_custom;
-	[Widget] Gtk.RadioButton radio_color_chronojump_blue;
-	[Widget] Gtk.RadioButton radio_color_os;
-	[Widget] Gtk.DrawingArea drawingarea_background_color;
-	[Widget] Gtk.Button button_color_choose;
-	[Widget] Gtk.DrawingArea drawingarea_background_color_chronojump_blue;
-	[Widget] Gtk.Label label_radio_color_os_needs_restart;
+	Gtk.RadioButton radio_color_custom;
+	Gtk.RadioButton radio_color_chronojump_blue;
+	Gtk.RadioButton radio_color_os;
+	Gtk.DrawingArea drawingarea_background_color;
+	Gtk.Button button_color_choose;
+	Gtk.DrawingArea drawingarea_background_color_chronojump_blue;
+	Gtk.Label label_radio_color_os_needs_restart;
 
-	[Widget] Gtk.CheckButton check_logo_animated;
-	[Widget] Gtk.HBox hbox_last_session_and_mode;
-	[Widget] Gtk.CheckButton check_session_autoload_at_start;
-	[Widget] Gtk.CheckButton check_mode_autoload_at_start;
+	Gtk.CheckButton check_logo_animated;
+	Gtk.HBox hbox_last_session_and_mode;
+	Gtk.CheckButton check_session_autoload_at_start;
+	Gtk.CheckButton check_mode_autoload_at_start;
 
 
 	//jumps tab	
-//	[Widget] Gtk.Label label_jumps;
-	[Widget] Gtk.CheckButton checkbutton_power;
-	[Widget] Gtk.CheckButton checkbutton_stiffness;
-	[Widget] Gtk.Image image_jumps_power_help;
-	[Widget] Gtk.Image image_jumps_stiffness_help;
-	[Widget] Gtk.Image image_button_jumps_dj_heights_times_help;
-	[Widget] Gtk.CheckButton checkbutton_initial_speed;
-	[Widget] Gtk.CheckButton checkbutton_jump_rsi;
-//	[Widget] Gtk.CheckButton checkbutton_angle;
-	[Widget] Gtk.CheckButton checkbutton_show_tv_tc_index;
-	[Widget] Gtk.Box hbox_indexes;
-	[Widget] Gtk.RadioButton radiobutton_show_q_index;
-	[Widget] Gtk.RadioButton radiobutton_show_dj_index;
-	[Widget] Gtk.RadioButton radio_jumps_dj_heights;
-	[Widget] Gtk.RadioButton radio_jumps_dj_times;
-	[Widget] Gtk.RadioButton radio_weight_percent;
-	[Widget] Gtk.RadioButton radio_weight_kg;
-	[Widget] Gtk.RadioButton radio_use_heights_on_jump_indexes;
-	[Widget] Gtk.RadioButton radio_do_not_use_heights_on_jump_indexes;
+//	Gtk.Label label_jumps;
+	Gtk.CheckButton checkbutton_power;
+	Gtk.CheckButton checkbutton_stiffness;
+	Gtk.Image image_jumps_power_help;
+	Gtk.Image image_jumps_stiffness_help;
+	Gtk.Image image_button_jumps_dj_heights_times_help;
+	Gtk.CheckButton checkbutton_initial_speed;
+	Gtk.CheckButton checkbutton_jump_rsi;
+//	Gtk.CheckButton checkbutton_angle;
+	Gtk.CheckButton checkbutton_show_tv_tc_index;
+	Gtk.Box hbox_indexes;
+	Gtk.RadioButton radiobutton_show_q_index;
+	Gtk.RadioButton radiobutton_show_dj_index;
+	Gtk.RadioButton radio_jumps_dj_heights;
+	Gtk.RadioButton radio_jumps_dj_times;
+	Gtk.RadioButton radio_weight_percent;
+	Gtk.RadioButton radio_weight_kg;
+	Gtk.RadioButton radio_use_heights_on_jump_indexes;
+	Gtk.RadioButton radio_do_not_use_heights_on_jump_indexes;
 			
 	//runs tab	
-	[Widget] Gtk.Image image_run_speed_start_help;
-	[Widget] Gtk.RadioButton radio_speed_ms;
-	[Widget] Gtk.RadioButton radio_speed_km;
-	[Widget] Gtk.RadioButton radio_runs_speed_start_arrival; 
-	[Widget] Gtk.RadioButton radio_runs_speed_start_leaving; 
-	[Widget] Gtk.Image image_races_simple;
-	[Widget] Gtk.Image image_races_intervallic;
-	[Widget] Gtk.Notebook notebook_races_double_contacts;
-	[Widget] Gtk.Box vbox_runs_prevent_double_contact;
-	[Widget] Gtk.CheckButton checkbutton_runs_prevent_double_contact;
-	[Widget] Gtk.SpinButton spinbutton_runs_prevent_double_contact;
-	[Widget] Gtk.Box vbox_runs_i_prevent_double_contact;
-	[Widget] Gtk.CheckButton checkbutton_runs_i_prevent_double_contact;
-	[Widget] Gtk.SpinButton spinbutton_runs_i_prevent_double_contact;
+	Gtk.Image image_run_speed_start_help;
+	Gtk.RadioButton radio_speed_ms;
+	Gtk.RadioButton radio_speed_km;
+	Gtk.RadioButton radio_runs_speed_start_arrival; 
+	Gtk.RadioButton radio_runs_speed_start_leaving; 
+	Gtk.Image image_races_simple;
+	Gtk.Image image_races_intervallic;
+	Gtk.Notebook notebook_races_double_contacts;
+	Gtk.Box vbox_runs_prevent_double_contact;
+	Gtk.CheckButton checkbutton_runs_prevent_double_contact;
+	Gtk.SpinButton spinbutton_runs_prevent_double_contact;
+	Gtk.Box vbox_runs_i_prevent_double_contact;
+	Gtk.CheckButton checkbutton_runs_i_prevent_double_contact;
+	Gtk.SpinButton spinbutton_runs_i_prevent_double_contact;
 	
 	//encoder capture tab
-	[Widget] Gtk.SpinButton spin_encoder_capture_time;
-	[Widget] Gtk.CheckButton check_encoder_capture_inactivity_end_time;
-	[Widget] Gtk.HBox hbox_encoder_capture_inactivity_time;
-	[Widget] Gtk.SpinButton spin_encoder_capture_inactivity_end_time;
-	[Widget] Gtk.Image image_encoder_gravitatory;
-	[Widget] Gtk.Image image_encoder_inertial;
-	[Widget] Gtk.Image image_encoder_inertial2;
-	[Widget] Gtk.Image image_encoder_triggers;
-	[Widget] Gtk.CheckButton checkbutton_encoder_capture_inertial_discard_first_n;
-	[Widget] Gtk.HBox hbox_encoder_capture_inertial_discard_first_n;
-	[Widget] Gtk.SpinButton spin_encoder_capture_inertial_discard_first_n;
-	[Widget] Gtk.SpinButton spin_encoder_capture_show_only_some_bars;
-	[Widget] Gtk.RadioButton radio_encoder_capture_show_all_bars;
-	[Widget] Gtk.RadioButton radio_encoder_capture_show_only_some_bars;
-	[Widget] Gtk.SpinButton spin_encoder_capture_barplot_font_size;
-	[Widget] Gtk.CheckButton check_show_start_and_duration;
-	[Widget] Gtk.RadioButton radio_encoder_triggers_no;
-	[Widget] Gtk.RadioButton radio_encoder_triggers_yes;
-	[Widget] Gtk.VBox vbox_encoder_triggers_yes;
-	[Widget] Gtk.RadioButton radio_encoder_triggers_yes_start_at_capture;
-	[Widget] Gtk.RadioButton radio_encoder_triggers_yes_start_at_first_trigger;
-	[Widget] Gtk.Image image_encoder_inactivity_help;
-	[Widget] Gtk.Image image_encoder_capture_cut_by_triggers_help;
-	[Widget] Gtk.CheckButton check_encoder_capture_infinite;
-	[Widget] Gtk.Image image_encoder_capture_infinite;
-	[Widget] Gtk.RadioButton radio_encoder_rep_criteria_gravitatory_ecc_con;
-	[Widget] Gtk.RadioButton radio_encoder_rep_criteria_gravitatory_ecc;
-	[Widget] Gtk.RadioButton radio_encoder_rep_criteria_gravitatory_con;
-	[Widget] Gtk.RadioButton radio_encoder_rep_criteria_inertial_ecc_con;
-	[Widget] Gtk.RadioButton radio_encoder_rep_criteria_inertial_ecc;
-	[Widget] Gtk.RadioButton radio_encoder_rep_criteria_inertial_con;
+	Gtk.SpinButton spin_encoder_capture_time;
+	Gtk.CheckButton check_encoder_capture_inactivity_end_time;
+	Gtk.HBox hbox_encoder_capture_inactivity_time;
+	Gtk.SpinButton spin_encoder_capture_inactivity_end_time;
+	Gtk.Image image_encoder_gravitatory;
+	Gtk.Image image_encoder_inertial;
+	Gtk.Image image_encoder_inertial2;
+	Gtk.Image image_encoder_triggers;
+	Gtk.CheckButton checkbutton_encoder_capture_inertial_discard_first_n;
+	Gtk.HBox hbox_encoder_capture_inertial_discard_first_n;
+	Gtk.SpinButton spin_encoder_capture_inertial_discard_first_n;
+	Gtk.SpinButton spin_encoder_capture_show_only_some_bars;
+	Gtk.RadioButton radio_encoder_capture_show_all_bars;
+	Gtk.RadioButton radio_encoder_capture_show_only_some_bars;
+	Gtk.SpinButton spin_encoder_capture_barplot_font_size;
+	Gtk.CheckButton check_show_start_and_duration;
+	Gtk.RadioButton radio_encoder_triggers_no;
+	Gtk.RadioButton radio_encoder_triggers_yes;
+	Gtk.VBox vbox_encoder_triggers_yes;
+	Gtk.RadioButton radio_encoder_triggers_yes_start_at_capture;
+	Gtk.RadioButton radio_encoder_triggers_yes_start_at_first_trigger;
+	Gtk.Image image_encoder_inactivity_help;
+	Gtk.Image image_encoder_capture_cut_by_triggers_help;
+	Gtk.CheckButton check_encoder_capture_infinite;
+	Gtk.Image image_encoder_capture_infinite;
+	Gtk.RadioButton radio_encoder_rep_criteria_gravitatory_ecc_con;
+	Gtk.RadioButton radio_encoder_rep_criteria_gravitatory_ecc;
+	Gtk.RadioButton radio_encoder_rep_criteria_gravitatory_con;
+	Gtk.RadioButton radio_encoder_rep_criteria_inertial_ecc_con;
+	Gtk.RadioButton radio_encoder_rep_criteria_inertial_ecc;
+	Gtk.RadioButton radio_encoder_rep_criteria_inertial_con;
 
 	//encoder other tab
-	[Widget] Gtk.CheckButton checkbutton_encoder_propulsive;
-	[Widget] Gtk.RadioButton radio_encoder_work_kcal;
-	[Widget] Gtk.RadioButton radio_encoder_work_joules;
-	[Widget] Gtk.RadioButton radio_encoder_inertial_analyze_equivalent_mass;
-	[Widget] Gtk.RadioButton radio_encoder_inertial_analyze_inertia_moment;
-	[Widget] Gtk.RadioButton radio_encoder_inertial_analyze_diameter;
-	[Widget] Gtk.Image image_encoder_inertial_analyze_eq_mass_help;
-	[Widget] Gtk.SpinButton spin_encoder_smooth_con;
-	[Widget] Gtk.Label label_encoder_con;
-	[Widget] Gtk.RadioButton radio_encoder_1RM_nonweighted;
-	[Widget] Gtk.RadioButton radio_encoder_1RM_weighted;
-	[Widget] Gtk.RadioButton radio_encoder_1RM_weighted2;
-	[Widget] Gtk.RadioButton radio_encoder_1RM_weighted3;
+	Gtk.CheckButton checkbutton_encoder_propulsive;
+	Gtk.RadioButton radio_encoder_work_kcal;
+	Gtk.RadioButton radio_encoder_work_joules;
+	Gtk.RadioButton radio_encoder_inertial_analyze_equivalent_mass;
+	Gtk.RadioButton radio_encoder_inertial_analyze_inertia_moment;
+	Gtk.RadioButton radio_encoder_inertial_analyze_diameter;
+	Gtk.Image image_encoder_inertial_analyze_eq_mass_help;
+	Gtk.SpinButton spin_encoder_smooth_con;
+	Gtk.Label label_encoder_con;
+	Gtk.RadioButton radio_encoder_1RM_nonweighted;
+	Gtk.RadioButton radio_encoder_1RM_weighted;
+	Gtk.RadioButton radio_encoder_1RM_weighted2;
+	Gtk.RadioButton radio_encoder_1RM_weighted3;
 
 	//forceSensor tab
-	[Widget] Gtk.SpinButton spin_force_sensor_capture_width_graph_seconds;
-	[Widget] Gtk.RadioButton radio_force_sensor_capture_zoom_out;
-	[Widget] Gtk.RadioButton radio_force_sensor_capture_scroll;
-	[Widget] Gtk.SpinButton spin_force_sensor_elastic_ecc_min_displ;
-	[Widget] Gtk.SpinButton spin_force_sensor_elastic_con_min_displ;
-	[Widget] Gtk.SpinButton spin_force_sensor_not_elastic_ecc_min_force;
-	[Widget] Gtk.SpinButton spin_force_sensor_not_elastic_con_min_force;
-	[Widget] Gtk.SpinButton spin_force_sensor_graphs_line_width;
-	[Widget] Gtk.RadioButton radio_force_sensor_variability_rmssd;
-	[Widget] Gtk.RadioButton radio_force_sensor_variability_cvrmssd;
-	[Widget] Gtk.RadioButton radio_force_sensor_variability_old;
-	[Widget] Gtk.HBox hbox_force_sensor_lag;
-	[Widget] Gtk.SpinButton spin_force_sensor_variability_lag;
-	[Widget] Gtk.SpinButton spin_force_sensor_analyze_ab_slider_increment;
-	[Widget] Gtk.SpinButton spin_force_sensor_analyze_max_avg_force_in_window;
+	Gtk.SpinButton spin_force_sensor_capture_width_graph_seconds;
+	Gtk.RadioButton radio_force_sensor_capture_zoom_out;
+	Gtk.RadioButton radio_force_sensor_capture_scroll;
+	Gtk.SpinButton spin_force_sensor_elastic_ecc_min_displ;
+	Gtk.SpinButton spin_force_sensor_elastic_con_min_displ;
+	Gtk.SpinButton spin_force_sensor_not_elastic_ecc_min_force;
+	Gtk.SpinButton spin_force_sensor_not_elastic_con_min_force;
+	Gtk.SpinButton spin_force_sensor_graphs_line_width;
+	Gtk.RadioButton radio_force_sensor_variability_rmssd;
+	Gtk.RadioButton radio_force_sensor_variability_cvrmssd;
+	Gtk.RadioButton radio_force_sensor_variability_old;
+	Gtk.HBox hbox_force_sensor_lag;
+	Gtk.SpinButton spin_force_sensor_variability_lag;
+	Gtk.SpinButton spin_force_sensor_analyze_ab_slider_increment;
+	Gtk.SpinButton spin_force_sensor_analyze_max_avg_force_in_window;
 
 	//runEncoder tab
-	[Widget] Gtk.SpinButton spin_run_encoder_acceleration;
-	[Widget] Gtk.SpinButton spin_run_encoder_pps;
-	[Widget] Gtk.Label label_pps_equivalent;
-	[Widget] Gtk.Label label_pps_maximum;
+	Gtk.SpinButton spin_run_encoder_acceleration;
+	Gtk.SpinButton spin_run_encoder_pps;
+	Gtk.Label label_pps_equivalent;
+	Gtk.Label label_pps_maximum;
 
 	//multimedia tab
-	[Widget] Gtk.CheckButton checkbutton_volume;
-	[Widget] Gtk.Alignment alignment_multimedia_sounds;
-	[Widget] Gtk.RadioButton radio_gstreamer_0_1;
-	[Widget] Gtk.RadioButton radio_gstreamer_1_0;
-	[Widget] Gtk.RadioButton radio_ffplay;
-	[Widget] Gtk.RadioButton radio_sound_systemsounds;
-	[Widget] Gtk.HBox hbox_not_recommended_when_not_on_windows;
-	[Widget] Gtk.Label label_test_sound_result;
-	[Widget] Gtk.Notebook notebook_multimedia;
-	[Widget] Gtk.Box hbox_combo_camera;
-	[Widget] Gtk.ComboBox combo_camera;
-	[Widget] Gtk.HBox hbox_camera_resolution_framerate;
-	[Widget] Gtk.HBox hbox_camera_resolution_custom;
-	[Widget] Gtk.SpinButton spin_camera_resolution_custom_width;
-	[Widget] Gtk.SpinButton spin_camera_resolution_custom_height;
-	[Widget] Gtk.HBox hbox_camera_framerate_custom;
-	[Widget] Gtk.SpinButton spin_camera_framerate_custom;
-	[Widget] Gtk.Entry entry_camera_framerate_custom_decimals;
-	//[Widget] Gtk.Label label_camera_pixel_format;
-	[Widget] Gtk.Label label_camera_pixel_format_current;
-	[Widget] Gtk.Label label_camera_resolution_current;
-	[Widget] Gtk.Label label_camera_framerate_current;
-	[Widget] Gtk.HBox hbox_combo_camera_pixel_format;
-	[Widget] Gtk.ComboBox combo_camera_pixel_format;
-	[Widget] Gtk.Box hbox_combo_camera_resolution;
-	[Widget] Gtk.ComboBox combo_camera_resolution;
-	[Widget] Gtk.Box hbox_combo_camera_framerate;
-	[Widget] Gtk.ComboBox combo_camera_framerate;
-	[Widget] Gtk.Label label_camera_error;
-	[Widget] Gtk.Label label_webcam_windows;
-	[Widget] Gtk.Image image_multimedia_audio;
-	[Widget] Gtk.Image image_multimedia_video;
-	[Widget] Gtk.Image image_video_preview;
-	[Widget] Gtk.Button button_video_preview;
-	[Widget] Gtk.Label label_video_preview_error;
-	[Widget] Gtk.CheckButton check_camera_stop_after;
-	[Widget] Gtk.CheckButton check_camera_advanced;
-	[Widget] Gtk.Frame frame_camera_advanced;
-	//[Widget] Gtk.VBox vbox_camera_stop_after_all;
-	//[Widget] Gtk.VBox vbox_camera_stop_after;
-	[Widget] Gtk.HBox hbox_camera_stop_after_seconds;
-	[Widget] Gtk.SpinButton spin_camera_stop_after;
-	[Widget] Gtk.Table table_video_advanced_actions;
-	[Widget] Gtk.Label label_video_check_ffmpeg_running;
-	[Widget] Gtk.Label label_video_check_ffplay_running;
-	[Widget] Gtk.Button button_video_ffmpeg_kill;
-	[Widget] Gtk.Button button_video_ffplay_kill;
-	[Widget] Gtk.Label label_camera_check_running;
+	Gtk.CheckButton checkbutton_volume;
+	Gtk.Alignment alignment_multimedia_sounds;
+	Gtk.RadioButton radio_gstreamer_0_1;
+	Gtk.RadioButton radio_gstreamer_1_0;
+	Gtk.RadioButton radio_ffplay;
+	Gtk.RadioButton radio_sound_systemsounds;
+	Gtk.HBox hbox_not_recommended_when_not_on_windows;
+	Gtk.Label label_test_sound_result;
+	Gtk.Notebook notebook_multimedia;
+	Gtk.Box hbox_combo_camera;
+	Gtk.HBox hbox_camera_resolution_framerate;
+	Gtk.HBox hbox_camera_resolution_custom;
+	Gtk.SpinButton spin_camera_resolution_custom_width;
+	Gtk.SpinButton spin_camera_resolution_custom_height;
+	Gtk.HBox hbox_camera_framerate_custom;
+	Gtk.SpinButton spin_camera_framerate_custom;
+	Gtk.Entry entry_camera_framerate_custom_decimals;
+	//Gtk.Label label_camera_pixel_format;
+	Gtk.Label label_camera_pixel_format_current;
+	Gtk.Label label_camera_resolution_current;
+	Gtk.Label label_camera_framerate_current;
+	Gtk.HBox hbox_combo_camera_pixel_format;
+	Gtk.Box hbox_combo_camera_resolution;
+	Gtk.Box hbox_combo_camera_framerate;
+	Gtk.Label label_camera_error;
+	Gtk.Label label_webcam_windows;
+	Gtk.Image image_multimedia_audio;
+	Gtk.Image image_multimedia_video;
+	Gtk.Image image_video_preview;
+	Gtk.Button button_video_preview;
+	Gtk.Label label_video_preview_error;
+	Gtk.CheckButton check_camera_stop_after;
+	Gtk.CheckButton check_camera_advanced;
+	Gtk.Frame frame_camera_advanced;
+	//Gtk.VBox vbox_camera_stop_after_all;
+	//Gtk.VBox vbox_camera_stop_after;
+	Gtk.HBox hbox_camera_stop_after_seconds;
+	Gtk.SpinButton spin_camera_stop_after;
+	Gtk.Table table_video_advanced_actions;
+	Gtk.Label label_video_check_ffmpeg_running;
+	Gtk.Label label_video_check_ffplay_running;
+	Gtk.Button button_video_ffmpeg_kill;
+	Gtk.Button button_video_ffplay_kill;
+	Gtk.Label label_camera_check_running;
 
 	//language tab
-	[Widget] Gtk.Box hbox_combo_language;
-	[Widget] Gtk.ComboBox combo_language;
-	[Widget] Gtk.RadioButton radio_language_detected;
-	[Widget] Gtk.RadioButton radio_language_force;
-	[Widget] Gtk.RadioButton radio_graphs_translate;
-	[Widget] Gtk.RadioButton radio_graphs_no_translate;
-	[Widget] Gtk.VBox vbox_need_restart;
+	Gtk.Box hbox_combo_language;
+	Gtk.RadioButton radio_language_detected;
+	Gtk.RadioButton radio_language_force;
+	Gtk.RadioButton radio_graphs_translate;
+	Gtk.RadioButton radio_graphs_no_translate;
+	Gtk.VBox vbox_need_restart;
 		
 	//advanced tab
-	[Widget] Gtk.ComboBox combo_decimals;
-	[Widget] Gtk.CheckButton checkbutton_ask_deletion;
-	[Widget] Gtk.CheckButton checkbutton_mute_logs;
-	[Widget] Gtk.RadioButton radio_export_latin;
-	[Widget] Gtk.RadioButton radio_export_non_latin;
-	[Widget] Gtk.Label label_advanced_feedback;
-	[Widget] Gtk.ToggleButton toggle_gc_collect_on_close;
-	[Widget] Gtk.ToggleButton toggle_never_close;
-	[Widget] Gtk.VBox vbox_version;
-	[Widget] Gtk.Label label_progVersion;
-	[Widget] Gtk.Frame frame_networks;
-	[Widget] Gtk.CheckButton check_networks_devices;
+	Gtk.CheckButton checkbutton_ask_deletion;
+	Gtk.CheckButton checkbutton_mute_logs;
+	Gtk.RadioButton radio_export_latin;
+	Gtk.RadioButton radio_export_non_latin;
+	Gtk.Label label_advanced_feedback;
+	Gtk.ToggleButton toggle_gc_collect_on_close;
+	Gtk.ToggleButton toggle_never_close;
+	Gtk.VBox vbox_version;
+	Gtk.Label label_progVersion;
+	Gtk.Frame frame_networks;
+	Gtk.CheckButton check_networks_devices;
 
-	[Widget] Gtk.RadioButton radio_python_2;
-	[Widget] Gtk.RadioButton radio_python_3;
+	Gtk.RadioButton radio_python_2;
+	Gtk.RadioButton radio_python_3;
 
-	[Widget] Gtk.Button button_close;
-	[Widget] Gtk.Image image_button_close;
+	Gtk.Button button_close;
+	Gtk.Image image_button_close;
+	Gtk.ComboBoxText combo_decimals;
+	// <---- at glade
+
+
+	Gtk.ComboBoxText combo_camera;
+	Gtk.ComboBoxText combo_camera_pixel_format;
+	Gtk.ComboBoxText combo_camera_resolution;
+	Gtk.ComboBoxText combo_camera_framerate;
+	Gtk.ComboBoxText combo_language;
+
 	public Gtk.Button FakeButtonConfigurationImported;
 	public Gtk.Button FakeButtonDebugModeStart;
 	
@@ -311,9 +316,14 @@ public class PreferencesWindow
 
 	PreferencesWindow ()
 	{
+		/*
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "preferences_win.glade", "preferences_win", "chronojump");
 		gladeXML.Autoconnect(this);
+		*/
+		Gtk.Builder builder = new Gtk.Builder (null, Util.GetGladePath () + "preferences_win.glade", null);
+		connectWidgets (builder);
+		builder.Autoconnect (this);
 		
 		//put an icon to window
 		UtilGtk.IconWindow(preferences_win);
@@ -2147,15 +2157,15 @@ public class PreferencesWindow
 	{
 		// 1) videoDevice
 
-		combo_camera = ComboBox.NewText ();
+		combo_camera = new ComboBoxText ();
 
 		/*
 		 * declare both because there is a return just here and if they are undeclred the method:
 		 * on_button_close_clicked () will fail
 		 */
-		combo_camera_pixel_format = ComboBox.NewText ();
-		combo_camera_resolution = ComboBox.NewText ();
-		combo_camera_framerate = ComboBox.NewText ();
+		combo_camera_pixel_format = new ComboBoxText ();
+		combo_camera_resolution = new ComboBoxText ();
+		combo_camera_framerate = new ComboBoxText ();
 
 		if(wd_list.Count() == 0) {
 			//devices = Util.StringToStringArray(Constants.CameraNotFound);
@@ -2251,7 +2261,7 @@ public class PreferencesWindow
 
 		// 4) framerate
 
-		combo_camera_framerate = ComboBox.NewText ();
+		combo_camera_framerate = new ComboBoxText ();
 		List<string> framerates = new List<string>();
 		/*
 		 * do not have this default values, just write the option on sqlite (if any)
@@ -2515,7 +2525,7 @@ public class PreferencesWindow
 
 	private void createComboLanguage() {
 		
-		combo_language = ComboBox.NewText ();
+		combo_language = new ComboBoxText ();
 		fillLanguages();
 
 		hbox_combo_language.PackStart(combo_language, false, false, 0);
@@ -2827,5 +2837,241 @@ public class PreferencesWindow
 	public Preferences GetPreferences 
 	{
 		get { return preferences;  }
+	}
+
+	private void connectWidgets (Gtk.Builder builder)
+	{
+		preferences_win = (Gtk.Window) builder.GetObject ("preferences_win");
+		notebook_top = (Gtk.Notebook) builder.GetObject ("notebook_top");
+		notebook = (Gtk.Notebook) builder.GetObject ("notebook");
+		hbox_buttons_bottom = (Gtk.HBox) builder.GetObject ("hbox_buttons_bottom");
+
+		//view more tabs
+		check_view_jumps = (Gtk.CheckButton) builder.GetObject ("check_view_jumps");
+		check_view_runs = (Gtk.CheckButton) builder.GetObject ("check_view_runs");
+		check_view_encoder = (Gtk.CheckButton) builder.GetObject ("check_view_encoder");
+		check_view_force_sensor = (Gtk.CheckButton) builder.GetObject ("check_view_force_sensor");
+		check_view_race_analyzer = (Gtk.CheckButton) builder.GetObject ("check_view_race_analyzer");
+		//tabs selection widgets
+		image_view_more_tabs_close = (Gtk.Image) builder.GetObject ("image_view_more_tabs_close");
+		label_mandatory_tabs = (Gtk.Label) builder.GetObject ("label_mandatory_tabs");
+		label_selectable_tabs = (Gtk.Label) builder.GetObject ("label_selectable_tabs");
+
+		//help widgets
+		hbox_stiffness_formula = (Gtk.HBox) builder.GetObject ("hbox_stiffness_formula");
+		textview_help_message = (Gtk.TextView) builder.GetObject ("textview_help_message");
+		image_help_close = (Gtk.Image) builder.GetObject ("image_help_close");
+
+		//appearance tab
+		check_appearance_maximized = (Gtk.CheckButton) builder.GetObject ("check_appearance_maximized");
+		check_appearance_maximized_undecorated = (Gtk.CheckButton) builder.GetObject ("check_appearance_maximized_undecorated");
+		check_appearance_person_win_hide = (Gtk.CheckButton) builder.GetObject ("check_appearance_person_win_hide");
+		check_appearance_person_photo = (Gtk.CheckButton) builder.GetObject ("check_appearance_person_photo");
+		alignment_undecorated = (Gtk.Alignment) builder.GetObject ("alignment_undecorated");
+		label_recommended_undecorated = (Gtk.Label) builder.GetObject ("label_recommended_undecorated");
+		radio_font_courier = (Gtk.RadioButton) builder.GetObject ("radio_font_courier");
+		radio_font_helvetica = (Gtk.RadioButton) builder.GetObject ("radio_font_helvetica");
+		label_radio_font_needs_restart = (Gtk.Label) builder.GetObject ("label_radio_font_needs_restart");
+		check_rest_time = (Gtk.CheckButton) builder.GetObject ("check_rest_time");
+		image_rest = (Gtk.Image) builder.GetObject ("image_rest");
+		hbox_rest_time_values = (Gtk.HBox) builder.GetObject ("hbox_rest_time_values");
+		spinbutton_rest_minutes = (Gtk.SpinButton) builder.GetObject ("spinbutton_rest_minutes");
+		spinbutton_rest_seconds = (Gtk.SpinButton) builder.GetObject ("spinbutton_rest_seconds");
+
+		radio_color_custom = (Gtk.RadioButton) builder.GetObject ("radio_color_custom");
+		radio_color_chronojump_blue = (Gtk.RadioButton) builder.GetObject ("radio_color_chronojump_blue");
+		radio_color_os = (Gtk.RadioButton) builder.GetObject ("radio_color_os");
+		drawingarea_background_color = (Gtk.DrawingArea) builder.GetObject ("drawingarea_background_color");
+		button_color_choose = (Gtk.Button) builder.GetObject ("button_color_choose");
+		drawingarea_background_color_chronojump_blue = (Gtk.DrawingArea) builder.GetObject ("drawingarea_background_color_chronojump_blue");
+		label_radio_color_os_needs_restart = (Gtk.Label) builder.GetObject ("label_radio_color_os_needs_restart");
+
+		check_logo_animated = (Gtk.CheckButton) builder.GetObject ("check_logo_animated");
+		hbox_last_session_and_mode = (Gtk.HBox) builder.GetObject ("hbox_last_session_and_mode");
+		check_session_autoload_at_start = (Gtk.CheckButton) builder.GetObject ("check_session_autoload_at_start");
+		check_mode_autoload_at_start = (Gtk.CheckButton) builder.GetObject ("check_mode_autoload_at_start");
+
+
+		//jumps tab	
+		//	label_jumps = (Gtk.Label) builder.GetObject ("label_jumps");
+		checkbutton_power = (Gtk.CheckButton) builder.GetObject ("checkbutton_power");
+		checkbutton_stiffness = (Gtk.CheckButton) builder.GetObject ("checkbutton_stiffness");
+		image_jumps_power_help = (Gtk.Image) builder.GetObject ("image_jumps_power_help");
+		image_jumps_stiffness_help = (Gtk.Image) builder.GetObject ("image_jumps_stiffness_help");
+		image_button_jumps_dj_heights_times_help = (Gtk.Image) builder.GetObject ("image_button_jumps_dj_heights_times_help");
+		checkbutton_initial_speed = (Gtk.CheckButton) builder.GetObject ("checkbutton_initial_speed");
+		checkbutton_jump_rsi = (Gtk.CheckButton) builder.GetObject ("checkbutton_jump_rsi");
+		//	checkbutton_angle = (Gtk.CheckButton) builder.GetObject ("checkbutton_angle");
+		checkbutton_show_tv_tc_index = (Gtk.CheckButton) builder.GetObject ("checkbutton_show_tv_tc_index");
+		hbox_indexes = (Gtk.Box) builder.GetObject ("hbox_indexes");
+		radiobutton_show_q_index = (Gtk.RadioButton) builder.GetObject ("radiobutton_show_q_index");
+		radiobutton_show_dj_index = (Gtk.RadioButton) builder.GetObject ("radiobutton_show_dj_index");
+		radio_jumps_dj_heights = (Gtk.RadioButton) builder.GetObject ("radio_jumps_dj_heights");
+		radio_jumps_dj_times = (Gtk.RadioButton) builder.GetObject ("radio_jumps_dj_times");
+		radio_weight_percent = (Gtk.RadioButton) builder.GetObject ("radio_weight_percent");
+		radio_weight_kg = (Gtk.RadioButton) builder.GetObject ("radio_weight_kg");
+		radio_use_heights_on_jump_indexes = (Gtk.RadioButton) builder.GetObject ("radio_use_heights_on_jump_indexes");
+		radio_do_not_use_heights_on_jump_indexes = (Gtk.RadioButton) builder.GetObject ("radio_do_not_use_heights_on_jump_indexes");
+
+		//runs tab	
+		image_run_speed_start_help = (Gtk.Image) builder.GetObject ("image_run_speed_start_help");
+		radio_speed_ms = (Gtk.RadioButton) builder.GetObject ("radio_speed_ms");
+		radio_speed_km = (Gtk.RadioButton) builder.GetObject ("radio_speed_km");
+		radio_runs_speed_start_arrival = (Gtk.RadioButton) builder.GetObject ("radio_runs_speed_start_arrival"); 
+		radio_runs_speed_start_leaving = (Gtk.RadioButton) builder.GetObject ("radio_runs_speed_start_leaving"); 
+		image_races_simple = (Gtk.Image) builder.GetObject ("image_races_simple");
+		image_races_intervallic = (Gtk.Image) builder.GetObject ("image_races_intervallic");
+		notebook_races_double_contacts = (Gtk.Notebook) builder.GetObject ("notebook_races_double_contacts");
+		vbox_runs_prevent_double_contact = (Gtk.Box) builder.GetObject ("vbox_runs_prevent_double_contact");
+		checkbutton_runs_prevent_double_contact = (Gtk.CheckButton) builder.GetObject ("checkbutton_runs_prevent_double_contact");
+		spinbutton_runs_prevent_double_contact = (Gtk.SpinButton) builder.GetObject ("spinbutton_runs_prevent_double_contact");
+		vbox_runs_i_prevent_double_contact = (Gtk.Box) builder.GetObject ("vbox_runs_i_prevent_double_contact");
+		checkbutton_runs_i_prevent_double_contact = (Gtk.CheckButton) builder.GetObject ("checkbutton_runs_i_prevent_double_contact");
+		spinbutton_runs_i_prevent_double_contact = (Gtk.SpinButton) builder.GetObject ("spinbutton_runs_i_prevent_double_contact");
+
+		//encoder capture tab
+		spin_encoder_capture_time = (Gtk.SpinButton) builder.GetObject ("spin_encoder_capture_time");
+		check_encoder_capture_inactivity_end_time = (Gtk.CheckButton) builder.GetObject ("check_encoder_capture_inactivity_end_time");
+		hbox_encoder_capture_inactivity_time = (Gtk.HBox) builder.GetObject ("hbox_encoder_capture_inactivity_time");
+		spin_encoder_capture_inactivity_end_time = (Gtk.SpinButton) builder.GetObject ("spin_encoder_capture_inactivity_end_time");
+		image_encoder_gravitatory = (Gtk.Image) builder.GetObject ("image_encoder_gravitatory");
+		image_encoder_inertial = (Gtk.Image) builder.GetObject ("image_encoder_inertial");
+		image_encoder_inertial2 = (Gtk.Image) builder.GetObject ("image_encoder_inertial2");
+		image_encoder_triggers = (Gtk.Image) builder.GetObject ("image_encoder_triggers");
+		checkbutton_encoder_capture_inertial_discard_first_n = (Gtk.CheckButton) builder.GetObject ("checkbutton_encoder_capture_inertial_discard_first_n");
+		hbox_encoder_capture_inertial_discard_first_n = (Gtk.HBox) builder.GetObject ("hbox_encoder_capture_inertial_discard_first_n");
+		spin_encoder_capture_inertial_discard_first_n = (Gtk.SpinButton) builder.GetObject ("spin_encoder_capture_inertial_discard_first_n");
+		spin_encoder_capture_show_only_some_bars = (Gtk.SpinButton) builder.GetObject ("spin_encoder_capture_show_only_some_bars");
+		radio_encoder_capture_show_all_bars = (Gtk.RadioButton) builder.GetObject ("radio_encoder_capture_show_all_bars");
+		radio_encoder_capture_show_only_some_bars = (Gtk.RadioButton) builder.GetObject ("radio_encoder_capture_show_only_some_bars");
+		spin_encoder_capture_barplot_font_size = (Gtk.SpinButton) builder.GetObject ("spin_encoder_capture_barplot_font_size");
+		check_show_start_and_duration = (Gtk.CheckButton) builder.GetObject ("check_show_start_and_duration");
+		radio_encoder_triggers_no = (Gtk.RadioButton) builder.GetObject ("radio_encoder_triggers_no");
+		radio_encoder_triggers_yes = (Gtk.RadioButton) builder.GetObject ("radio_encoder_triggers_yes");
+		vbox_encoder_triggers_yes = (Gtk.VBox) builder.GetObject ("vbox_encoder_triggers_yes");
+		radio_encoder_triggers_yes_start_at_capture = (Gtk.RadioButton) builder.GetObject ("radio_encoder_triggers_yes_start_at_capture");
+		radio_encoder_triggers_yes_start_at_first_trigger = (Gtk.RadioButton) builder.GetObject ("radio_encoder_triggers_yes_start_at_first_trigger");
+		image_encoder_inactivity_help = (Gtk.Image) builder.GetObject ("image_encoder_inactivity_help");
+		image_encoder_capture_cut_by_triggers_help = (Gtk.Image) builder.GetObject ("image_encoder_capture_cut_by_triggers_help");
+		check_encoder_capture_infinite = (Gtk.CheckButton) builder.GetObject ("check_encoder_capture_infinite");
+		image_encoder_capture_infinite = (Gtk.Image) builder.GetObject ("image_encoder_capture_infinite");
+		radio_encoder_rep_criteria_gravitatory_ecc_con = (Gtk.RadioButton) builder.GetObject ("radio_encoder_rep_criteria_gravitatory_ecc_con");
+		radio_encoder_rep_criteria_gravitatory_ecc = (Gtk.RadioButton) builder.GetObject ("radio_encoder_rep_criteria_gravitatory_ecc");
+		radio_encoder_rep_criteria_gravitatory_con = (Gtk.RadioButton) builder.GetObject ("radio_encoder_rep_criteria_gravitatory_con");
+		radio_encoder_rep_criteria_inertial_ecc_con = (Gtk.RadioButton) builder.GetObject ("radio_encoder_rep_criteria_inertial_ecc_con");
+		radio_encoder_rep_criteria_inertial_ecc = (Gtk.RadioButton) builder.GetObject ("radio_encoder_rep_criteria_inertial_ecc");
+		radio_encoder_rep_criteria_inertial_con = (Gtk.RadioButton) builder.GetObject ("radio_encoder_rep_criteria_inertial_con");
+
+		//encoder other tab
+		checkbutton_encoder_propulsive = (Gtk.CheckButton) builder.GetObject ("checkbutton_encoder_propulsive");
+		radio_encoder_work_kcal = (Gtk.RadioButton) builder.GetObject ("radio_encoder_work_kcal");
+		radio_encoder_work_joules = (Gtk.RadioButton) builder.GetObject ("radio_encoder_work_joules");
+		radio_encoder_inertial_analyze_equivalent_mass = (Gtk.RadioButton) builder.GetObject ("radio_encoder_inertial_analyze_equivalent_mass");
+		radio_encoder_inertial_analyze_inertia_moment = (Gtk.RadioButton) builder.GetObject ("radio_encoder_inertial_analyze_inertia_moment");
+		radio_encoder_inertial_analyze_diameter = (Gtk.RadioButton) builder.GetObject ("radio_encoder_inertial_analyze_diameter");
+		image_encoder_inertial_analyze_eq_mass_help = (Gtk.Image) builder.GetObject ("image_encoder_inertial_analyze_eq_mass_help");
+		spin_encoder_smooth_con = (Gtk.SpinButton) builder.GetObject ("spin_encoder_smooth_con");
+		label_encoder_con = (Gtk.Label) builder.GetObject ("label_encoder_con");
+		radio_encoder_1RM_nonweighted = (Gtk.RadioButton) builder.GetObject ("radio_encoder_1RM_nonweighted");
+		radio_encoder_1RM_weighted = (Gtk.RadioButton) builder.GetObject ("radio_encoder_1RM_weighted");
+		radio_encoder_1RM_weighted2 = (Gtk.RadioButton) builder.GetObject ("radio_encoder_1RM_weighted2");
+		radio_encoder_1RM_weighted3 = (Gtk.RadioButton) builder.GetObject ("radio_encoder_1RM_weighted3");
+
+		//forceSensor tab
+		spin_force_sensor_capture_width_graph_seconds = (Gtk.SpinButton) builder.GetObject ("spin_force_sensor_capture_width_graph_seconds");
+		radio_force_sensor_capture_zoom_out = (Gtk.RadioButton) builder.GetObject ("radio_force_sensor_capture_zoom_out");
+		radio_force_sensor_capture_scroll = (Gtk.RadioButton) builder.GetObject ("radio_force_sensor_capture_scroll");
+		spin_force_sensor_elastic_ecc_min_displ = (Gtk.SpinButton) builder.GetObject ("spin_force_sensor_elastic_ecc_min_displ");
+		spin_force_sensor_elastic_con_min_displ = (Gtk.SpinButton) builder.GetObject ("spin_force_sensor_elastic_con_min_displ");
+		spin_force_sensor_not_elastic_ecc_min_force = (Gtk.SpinButton) builder.GetObject ("spin_force_sensor_not_elastic_ecc_min_force");
+		spin_force_sensor_not_elastic_con_min_force = (Gtk.SpinButton) builder.GetObject ("spin_force_sensor_not_elastic_con_min_force");
+		spin_force_sensor_graphs_line_width = (Gtk.SpinButton) builder.GetObject ("spin_force_sensor_graphs_line_width");
+		radio_force_sensor_variability_rmssd = (Gtk.RadioButton) builder.GetObject ("radio_force_sensor_variability_rmssd");
+		radio_force_sensor_variability_cvrmssd = (Gtk.RadioButton) builder.GetObject ("radio_force_sensor_variability_cvrmssd");
+		radio_force_sensor_variability_old = (Gtk.RadioButton) builder.GetObject ("radio_force_sensor_variability_old");
+		hbox_force_sensor_lag = (Gtk.HBox) builder.GetObject ("hbox_force_sensor_lag");
+		spin_force_sensor_variability_lag = (Gtk.SpinButton) builder.GetObject ("spin_force_sensor_variability_lag");
+		spin_force_sensor_analyze_ab_slider_increment = (Gtk.SpinButton) builder.GetObject ("spin_force_sensor_analyze_ab_slider_increment");
+		spin_force_sensor_analyze_max_avg_force_in_window = (Gtk.SpinButton) builder.GetObject ("spin_force_sensor_analyze_max_avg_force_in_window");
+
+		//runEncoder tab
+		spin_run_encoder_acceleration = (Gtk.SpinButton) builder.GetObject ("spin_run_encoder_acceleration");
+		spin_run_encoder_pps = (Gtk.SpinButton) builder.GetObject ("spin_run_encoder_pps");
+		label_pps_equivalent = (Gtk.Label) builder.GetObject ("label_pps_equivalent");
+		label_pps_maximum = (Gtk.Label) builder.GetObject ("label_pps_maximum");
+
+		//multimedia tab
+		checkbutton_volume = (Gtk.CheckButton) builder.GetObject ("checkbutton_volume");
+		alignment_multimedia_sounds = (Gtk.Alignment) builder.GetObject ("alignment_multimedia_sounds");
+		radio_gstreamer_0_1 = (Gtk.RadioButton) builder.GetObject ("radio_gstreamer_0_1");
+		radio_gstreamer_1_0 = (Gtk.RadioButton) builder.GetObject ("radio_gstreamer_1_0");
+		radio_ffplay = (Gtk.RadioButton) builder.GetObject ("radio_ffplay");
+		radio_sound_systemsounds = (Gtk.RadioButton) builder.GetObject ("radio_sound_systemsounds");
+		hbox_not_recommended_when_not_on_windows = (Gtk.HBox) builder.GetObject ("hbox_not_recommended_when_not_on_windows");
+		label_test_sound_result = (Gtk.Label) builder.GetObject ("label_test_sound_result");
+		notebook_multimedia = (Gtk.Notebook) builder.GetObject ("notebook_multimedia");
+		hbox_combo_camera = (Gtk.Box) builder.GetObject ("hbox_combo_camera");
+		hbox_camera_resolution_framerate = (Gtk.HBox) builder.GetObject ("hbox_camera_resolution_framerate");
+		hbox_camera_resolution_custom = (Gtk.HBox) builder.GetObject ("hbox_camera_resolution_custom");
+		spin_camera_resolution_custom_width = (Gtk.SpinButton) builder.GetObject ("spin_camera_resolution_custom_width");
+		spin_camera_resolution_custom_height = (Gtk.SpinButton) builder.GetObject ("spin_camera_resolution_custom_height");
+		hbox_camera_framerate_custom = (Gtk.HBox) builder.GetObject ("hbox_camera_framerate_custom");
+		spin_camera_framerate_custom = (Gtk.SpinButton) builder.GetObject ("spin_camera_framerate_custom");
+		entry_camera_framerate_custom_decimals = (Gtk.Entry) builder.GetObject ("entry_camera_framerate_custom_decimals");
+		//label_camera_pixel_format = (Gtk.Label) builder.GetObject ("label_camera_pixel_format");
+		label_camera_pixel_format_current = (Gtk.Label) builder.GetObject ("label_camera_pixel_format_current");
+		label_camera_resolution_current = (Gtk.Label) builder.GetObject ("label_camera_resolution_current");
+		label_camera_framerate_current = (Gtk.Label) builder.GetObject ("label_camera_framerate_current");
+		hbox_combo_camera_pixel_format = (Gtk.HBox) builder.GetObject ("hbox_combo_camera_pixel_format");
+		hbox_combo_camera_resolution = (Gtk.Box) builder.GetObject ("hbox_combo_camera_resolution");
+		hbox_combo_camera_framerate = (Gtk.Box) builder.GetObject ("hbox_combo_camera_framerate");
+		label_camera_error = (Gtk.Label) builder.GetObject ("label_camera_error");
+		label_webcam_windows = (Gtk.Label) builder.GetObject ("label_webcam_windows");
+		image_multimedia_audio = (Gtk.Image) builder.GetObject ("image_multimedia_audio");
+		image_multimedia_video = (Gtk.Image) builder.GetObject ("image_multimedia_video");
+		image_video_preview = (Gtk.Image) builder.GetObject ("image_video_preview");
+		button_video_preview = (Gtk.Button) builder.GetObject ("button_video_preview");
+		label_video_preview_error = (Gtk.Label) builder.GetObject ("label_video_preview_error");
+		check_camera_stop_after = (Gtk.CheckButton) builder.GetObject ("check_camera_stop_after");
+		check_camera_advanced = (Gtk.CheckButton) builder.GetObject ("check_camera_advanced");
+		frame_camera_advanced = (Gtk.Frame) builder.GetObject ("frame_camera_advanced");
+		//vbox_camera_stop_after_all = (Gtk.VBox) builder.GetObject ("vbox_camera_stop_after_all");
+		//vbox_camera_stop_after = (Gtk.VBox) builder.GetObject ("vbox_camera_stop_after");
+		hbox_camera_stop_after_seconds = (Gtk.HBox) builder.GetObject ("hbox_camera_stop_after_seconds");
+		spin_camera_stop_after = (Gtk.SpinButton) builder.GetObject ("spin_camera_stop_after");
+		table_video_advanced_actions = (Gtk.Table) builder.GetObject ("table_video_advanced_actions");
+		label_video_check_ffmpeg_running = (Gtk.Label) builder.GetObject ("label_video_check_ffmpeg_running");
+		label_video_check_ffplay_running = (Gtk.Label) builder.GetObject ("label_video_check_ffplay_running");
+		button_video_ffmpeg_kill = (Gtk.Button) builder.GetObject ("button_video_ffmpeg_kill");
+		button_video_ffplay_kill = (Gtk.Button) builder.GetObject ("button_video_ffplay_kill");
+		label_camera_check_running = (Gtk.Label) builder.GetObject ("label_camera_check_running");
+
+		//language tab
+		hbox_combo_language = (Gtk.Box) builder.GetObject ("hbox_combo_language");
+		radio_language_detected = (Gtk.RadioButton) builder.GetObject ("radio_language_detected");
+		radio_language_force = (Gtk.RadioButton) builder.GetObject ("radio_language_force");
+		radio_graphs_translate = (Gtk.RadioButton) builder.GetObject ("radio_graphs_translate");
+		radio_graphs_no_translate = (Gtk.RadioButton) builder.GetObject ("radio_graphs_no_translate");
+		vbox_need_restart = (Gtk.VBox) builder.GetObject ("vbox_need_restart");
+
+		//advanced tab
+		checkbutton_ask_deletion = (Gtk.CheckButton) builder.GetObject ("checkbutton_ask_deletion");
+		checkbutton_mute_logs = (Gtk.CheckButton) builder.GetObject ("checkbutton_mute_logs");
+		radio_export_latin = (Gtk.RadioButton) builder.GetObject ("radio_export_latin");
+		radio_export_non_latin = (Gtk.RadioButton) builder.GetObject ("radio_export_non_latin");
+		label_advanced_feedback = (Gtk.Label) builder.GetObject ("label_advanced_feedback");
+		toggle_gc_collect_on_close = (Gtk.ToggleButton) builder.GetObject ("toggle_gc_collect_on_close");
+		toggle_never_close = (Gtk.ToggleButton) builder.GetObject ("toggle_never_close");
+		vbox_version = (Gtk.VBox) builder.GetObject ("vbox_version");
+		label_progVersion = (Gtk.Label) builder.GetObject ("label_progVersion");
+		frame_networks = (Gtk.Frame) builder.GetObject ("frame_networks");
+		check_networks_devices = (Gtk.CheckButton) builder.GetObject ("check_networks_devices");
+
+		radio_python_2 = (Gtk.RadioButton) builder.GetObject ("radio_python_2");
+		radio_python_3 = (Gtk.RadioButton) builder.GetObject ("radio_python_3");
+
+		button_close = (Gtk.Button) builder.GetObject ("button_close");
+		image_button_close = (Gtk.Image) builder.GetObject ("image_button_close");
+		combo_decimals = (Gtk.ComboBoxText) builder.GetObject ("combo_decimals");
 	}
 }

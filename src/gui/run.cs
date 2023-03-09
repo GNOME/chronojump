@@ -15,12 +15,12 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2022   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2004-2023   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
 using Gtk;
-using Glade;
+//using Glade;
 using System.Text; //StringBuilder
 using System.Collections; //ArrayList
 using System.Collections.Generic; //List<T>
@@ -40,10 +40,17 @@ public class EditRunWindow : EditEventWindow
 	protected EditRunWindow () {
 	}
 
-	public EditRunWindow (Gtk.Window parent) {
+	public EditRunWindow (Gtk.Window parent)
+	{
+		/*
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "edit_event.glade", "edit_event", null);
 		gladeXML.Autoconnect(this);
+		*/
+		Gtk.Builder builder = new Gtk.Builder (null, Util.GetGladePath () + "edit_event.glade", null);
+		connectWidgetsEditEvent (builder);
+		builder.Autoconnect (this);
+
 		this.parent = parent;
 		
 		//put an icon to window
@@ -213,53 +220,61 @@ public class EditRunWindow : EditEventWindow
 
 public class EditRunIntervalWindow : EditRunWindow
 {
-	[Widget] private Gtk.Notebook notebook_mtgug;
+	private Gtk.Notebook notebook_mtgug;
 
-	[Widget] private Gtk.RadioButton radio_mtgug_1_undef;
-	[Widget] private Gtk.RadioButton radio_mtgug_1_3;
-	[Widget] private Gtk.RadioButton radio_mtgug_1_2;
-	[Widget] private Gtk.RadioButton radio_mtgug_1_1;
-	[Widget] private Gtk.RadioButton radio_mtgug_1_0;
+	private Gtk.RadioButton radio_mtgug_1_undef;
+	private Gtk.RadioButton radio_mtgug_1_3;
+	private Gtk.RadioButton radio_mtgug_1_2;
+	private Gtk.RadioButton radio_mtgug_1_1;
+	private Gtk.RadioButton radio_mtgug_1_0;
 
-	[Widget] private Gtk.RadioButton radio_mtgug_2_undef;
-	[Widget] private Gtk.RadioButton radio_mtgug_2_3;
-	[Widget] private Gtk.RadioButton radio_mtgug_2_2;
-	[Widget] private Gtk.RadioButton radio_mtgug_2_1;
-	[Widget] private Gtk.RadioButton radio_mtgug_2_0;
+	private Gtk.RadioButton radio_mtgug_2_undef;
+	private Gtk.RadioButton radio_mtgug_2_3;
+	private Gtk.RadioButton radio_mtgug_2_2;
+	private Gtk.RadioButton radio_mtgug_2_1;
+	private Gtk.RadioButton radio_mtgug_2_0;
 
-	[Widget] private Gtk.RadioButton radio_mtgug_3_undef;
-	[Widget] private Gtk.RadioButton radio_mtgug_3_3;
-	[Widget] private Gtk.RadioButton radio_mtgug_3_2;
-	[Widget] private Gtk.RadioButton radio_mtgug_3_1;
-	[Widget] private Gtk.RadioButton radio_mtgug_3_0;
+	private Gtk.RadioButton radio_mtgug_3_undef;
+	private Gtk.RadioButton radio_mtgug_3_3;
+	private Gtk.RadioButton radio_mtgug_3_2;
+	private Gtk.RadioButton radio_mtgug_3_1;
+	private Gtk.RadioButton radio_mtgug_3_0;
 
-	[Widget] private Gtk.RadioButton radio_mtgug_4_undef;
-	[Widget] private Gtk.RadioButton radio_mtgug_4_3;
-	[Widget] private Gtk.RadioButton radio_mtgug_4_2;
-	[Widget] private Gtk.RadioButton radio_mtgug_4_1;
-	[Widget] private Gtk.RadioButton radio_mtgug_4_0;
+	private Gtk.RadioButton radio_mtgug_4_undef;
+	private Gtk.RadioButton radio_mtgug_4_3;
+	private Gtk.RadioButton radio_mtgug_4_2;
+	private Gtk.RadioButton radio_mtgug_4_1;
+	private Gtk.RadioButton radio_mtgug_4_0;
 
-	[Widget] private Gtk.RadioButton radio_mtgug_5_undef;
-	[Widget] private Gtk.RadioButton radio_mtgug_5_3;
-	[Widget] private Gtk.RadioButton radio_mtgug_5_2;
-	[Widget] private Gtk.RadioButton radio_mtgug_5_1;
-	[Widget] private Gtk.RadioButton radio_mtgug_5_0;
+	private Gtk.RadioButton radio_mtgug_5_undef;
+	private Gtk.RadioButton radio_mtgug_5_3;
+	private Gtk.RadioButton radio_mtgug_5_2;
+	private Gtk.RadioButton radio_mtgug_5_1;
+	private Gtk.RadioButton radio_mtgug_5_0;
 
-	[Widget] private Gtk.RadioButton radio_mtgug_6_undef;
-	[Widget] private Gtk.RadioButton radio_mtgug_6_3;
-	[Widget] private Gtk.RadioButton radio_mtgug_6_2;
-	[Widget] private Gtk.RadioButton radio_mtgug_6_1;
-	[Widget] private Gtk.RadioButton radio_mtgug_6_0;
+	private Gtk.RadioButton radio_mtgug_6_undef;
+	private Gtk.RadioButton radio_mtgug_6_3;
+	private Gtk.RadioButton radio_mtgug_6_2;
+	private Gtk.RadioButton radio_mtgug_6_1;
+	private Gtk.RadioButton radio_mtgug_6_0;
 
 	static EditRunIntervalWindow EditRunIntervalWindowBox;
 
 	private double tracks = -1;
 	private string distancesString; //to manage agility/non agility tests in order to know totalDistance, this will not change
 
-	EditRunIntervalWindow (Gtk.Window parent) {
+	EditRunIntervalWindow (Gtk.Window parent)
+	{
+		/*
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "edit_event.glade", "edit_event", null);
 		gladeXML.Autoconnect(this);
+		*/
+		Gtk.Builder builder = new Gtk.Builder (null, Util.GetGladePath () + "edit_event.glade", null);
+		connectWidgetsEditEvent (builder);
+		connectWidgetsEditRunI (builder);
+		builder.Autoconnect (this);
+
 		this.parent = parent;
 		
 		//put an icon to window
@@ -622,6 +637,41 @@ public class EditRunIntervalWindow : EditRunWindow
 		EditRunIntervalWindowBox.edit_event.Hide();
 		EditRunIntervalWindowBox = null;
 	}
+
+	private void connectWidgetsEditRunI (Gtk.Builder builder)
+	{
+		notebook_mtgug = (Gtk.Notebook) builder.GetObject ("notebook_mtgug");
+		radio_mtgug_1_undef = (Gtk.RadioButton) builder.GetObject ("radio_mtgug_1_undef");
+		radio_mtgug_1_3 = (Gtk.RadioButton) builder.GetObject ("radio_mtgug_1_3");
+		radio_mtgug_1_2 = (Gtk.RadioButton) builder.GetObject ("radio_mtgug_1_2");
+		radio_mtgug_1_1 = (Gtk.RadioButton) builder.GetObject ("radio_mtgug_1_1");
+		radio_mtgug_1_0 = (Gtk.RadioButton) builder.GetObject ("radio_mtgug_1_0");
+		radio_mtgug_2_undef = (Gtk.RadioButton) builder.GetObject ("radio_mtgug_2_undef");
+		radio_mtgug_2_3 = (Gtk.RadioButton) builder.GetObject ("radio_mtgug_2_3");
+		radio_mtgug_2_2 = (Gtk.RadioButton) builder.GetObject ("radio_mtgug_2_2");
+		radio_mtgug_2_1 = (Gtk.RadioButton) builder.GetObject ("radio_mtgug_2_1");
+		radio_mtgug_2_0 = (Gtk.RadioButton) builder.GetObject ("radio_mtgug_2_0");
+		radio_mtgug_3_undef = (Gtk.RadioButton) builder.GetObject ("radio_mtgug_3_undef");
+		radio_mtgug_3_3 = (Gtk.RadioButton) builder.GetObject ("radio_mtgug_3_3");
+		radio_mtgug_3_2 = (Gtk.RadioButton) builder.GetObject ("radio_mtgug_3_2");
+		radio_mtgug_3_1 = (Gtk.RadioButton) builder.GetObject ("radio_mtgug_3_1");
+		radio_mtgug_3_0 = (Gtk.RadioButton) builder.GetObject ("radio_mtgug_3_0");
+		radio_mtgug_4_undef = (Gtk.RadioButton) builder.GetObject ("radio_mtgug_4_undef");
+		radio_mtgug_4_3 = (Gtk.RadioButton) builder.GetObject ("radio_mtgug_4_3");
+		radio_mtgug_4_2 = (Gtk.RadioButton) builder.GetObject ("radio_mtgug_4_2");
+		radio_mtgug_4_1 = (Gtk.RadioButton) builder.GetObject ("radio_mtgug_4_1");
+		radio_mtgug_4_0 = (Gtk.RadioButton) builder.GetObject ("radio_mtgug_4_0");
+		radio_mtgug_5_undef = (Gtk.RadioButton) builder.GetObject ("radio_mtgug_5_undef");
+		radio_mtgug_5_3 = (Gtk.RadioButton) builder.GetObject ("radio_mtgug_5_3");
+		radio_mtgug_5_2 = (Gtk.RadioButton) builder.GetObject ("radio_mtgug_5_2");
+		radio_mtgug_5_1 = (Gtk.RadioButton) builder.GetObject ("radio_mtgug_5_1");
+		radio_mtgug_5_0 = (Gtk.RadioButton) builder.GetObject ("radio_mtgug_5_0");
+		radio_mtgug_6_undef = (Gtk.RadioButton) builder.GetObject ("radio_mtgug_6_undef");
+		radio_mtgug_6_3 = (Gtk.RadioButton) builder.GetObject ("radio_mtgug_6_3");
+		radio_mtgug_6_2 = (Gtk.RadioButton) builder.GetObject ("radio_mtgug_6_2");
+		radio_mtgug_6_1 = (Gtk.RadioButton) builder.GetObject ("radio_mtgug_6_1");
+		radio_mtgug_6_0 = (Gtk.RadioButton) builder.GetObject ("radio_mtgug_6_0");
+	}
 }
 
 
@@ -631,28 +681,35 @@ public class EditRunIntervalWindow : EditRunWindow
 
 public class RepairRunIntervalWindow 
 {
-	[Widget] Gtk.Window repair_sub_event;
-	[Widget] Gtk.HBox hbox_notes_and_totaltime;
-	[Widget] Gtk.Label label_header;
-	[Widget] Gtk.Label label_totaltime_value;
-	[Widget] Gtk.TreeView treeview_subevents;
-	private TreeStore store;
-	[Widget] Gtk.Button button_accept;
-	[Widget] Gtk.Button button_add_before;
-	[Widget] Gtk.Button button_add_after;
-	[Widget] Gtk.Button button_delete;
-	[Widget] Gtk.TextView textview1;
+	Gtk.Window repair_sub_event;
+	Gtk.HBox hbox_notes_and_totaltime;
+	Gtk.Label label_header;
+	Gtk.Label label_totaltime_value;
+	Gtk.TreeView treeview_subevents;
+	Gtk.Button button_accept;
+	Gtk.Button button_add_before;
+	Gtk.Button button_add_after;
+	Gtk.Button button_delete;
+	Gtk.TextView textview1;
 
+	private TreeStore store;
 	static RepairRunIntervalWindow RepairRunIntervalWindowBox;
 
 	RunType type;
 	RunInterval runInterval; //used on button_accept
 	
 
-	RepairRunIntervalWindow (Gtk.Window parent, RunInterval myRun, int pDN) {
+	RepairRunIntervalWindow (Gtk.Window parent, RunInterval myRun, int pDN)
+	{
+		/*
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "repair_sub_event.glade", "repair_sub_event", null);
 		gladeXML.Autoconnect(this);
+		*/
+		Gtk.Builder builder = new Gtk.Builder (null, Util.GetGladePath () + "repair_sub_event.glade", null);
+		connectWidgets (builder);
+		builder.Autoconnect (this);
+
 		repair_sub_event.Parent = parent;
 		
 		//put an icon to window
@@ -803,7 +860,7 @@ public class RepairRunIntervalWindow
 	}
 
 	void onSelectionEntry (object o, EventArgs args) {
-		TreeModel model;
+		ITreeModel model;
 		TreeIter iter;
 		
 		if (((TreeSelection)o).GetSelected(out model, out iter)) {
@@ -829,7 +886,7 @@ public class RepairRunIntervalWindow
 	}
 
 	void on_button_add_before_clicked (object o, EventArgs args) {
-		TreeModel model; 
+		ITreeModel model; 
 		TreeIter iter; 
 		if (treeview_subevents.Selection.GetSelected (out model, out iter)) {
 			int position = Convert.ToInt32( (string) model.GetValue (iter, 0) ) -1; //count starts at '0'
@@ -840,7 +897,7 @@ public class RepairRunIntervalWindow
 	}
 	
 	void on_button_add_after_clicked (object o, EventArgs args) {
-		TreeModel model; 
+		ITreeModel model; 
 		TreeIter iter; 
 		if (treeview_subevents.Selection.GetSelected (out model, out iter)) {
 			int position = Convert.ToInt32( (string) model.GetValue (iter, 0) ); //count starts at '0'
@@ -862,7 +919,7 @@ public class RepairRunIntervalWindow
 	}
 		
 	void on_button_delete_clicked (object o, EventArgs args) {
-		TreeModel model; 
+		ITreeModel model; 
 		TreeIter iter; 
 		if (treeview_subevents.Selection.GetSelected (out model, out iter)) {
 			store.Remove(ref iter);
@@ -962,6 +1019,19 @@ public class RepairRunIntervalWindow
 		get { return button_accept;	}
 	}
 
+	private void connectWidgets (Gtk.Builder builder)
+	{
+		repair_sub_event = (Gtk.Window) builder.GetObject ("repair_sub_event");
+		hbox_notes_and_totaltime = (Gtk.HBox) builder.GetObject ("hbox_notes_and_totaltime");
+		label_header = (Gtk.Label) builder.GetObject ("label_header");
+		label_totaltime_value = (Gtk.Label) builder.GetObject ("label_totaltime_value");
+		treeview_subevents = (Gtk.TreeView) builder.GetObject ("treeview_subevents");
+		button_accept = (Gtk.Button) builder.GetObject ("button_accept");
+		button_add_before = (Gtk.Button) builder.GetObject ("button_add_before");
+		button_add_after = (Gtk.Button) builder.GetObject ("button_add_after");
+		button_delete = (Gtk.Button) builder.GetObject ("button_delete");
+		textview1 = (Gtk.TextView) builder.GetObject ("textview1");
+	}
 }
 
 //--------------------------------------------------------
@@ -970,15 +1040,23 @@ public class RepairRunIntervalWindow
 
 public class RunsMoreWindow : EventMoreWindow 
 {
-	[Widget] Gtk.Window jumps_runs_more;
+	Gtk.Window jumps_runs_more;
 	static RunsMoreWindow RunsMoreWindowBox;
 	
 	private double selectedDistance;
 	
-	RunsMoreWindow (Gtk.Window parent, bool testOrDelete) {
+	RunsMoreWindow (Gtk.Window parent, bool testOrDelete)
+	{
+		/*
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "jumps_runs_more.glade", "jumps_runs_more", null);
 		gladeXML.Autoconnect(this);
+		*/
+		Gtk.Builder builder = new Gtk.Builder (null, Util.GetGladePath () + "jumps_runs_more.glade", null);
+		connectWidgetsEventMore (builder);
+		jumps_runs_more = (Gtk.Window) builder.GetObject ("jumps_runs_more");
+		builder.Autoconnect (this);
+
 		this.parent = parent;
 		this.testOrDelete = testOrDelete;
 		
@@ -1054,7 +1132,7 @@ public class RunsMoreWindow : EventMoreWindow
 
 	protected override void onSelectionEntry (object o, EventArgs args)
 	{
-		TreeModel model;
+		ITreeModel model;
 		TreeIter iter;
 		selectedEventName = "-1";
 		selectedDistance = 0;
@@ -1087,7 +1165,7 @@ public class RunsMoreWindow : EventMoreWindow
 			return;
 
 		TreeView tv = (TreeView) o;
-		TreeModel model;
+		ITreeModel model;
 		TreeIter iter;
 
 		if (tv.Selection.GetSelected (out model, out iter)) {
@@ -1156,7 +1234,8 @@ public class RunsMoreWindow : EventMoreWindow
 
 public class RunsIntervalMoreWindow : EventMoreWindow 
 {
-	[Widget] Gtk.Window jumps_runs_more;
+	Gtk.Window jumps_runs_more;
+
 	static RunsIntervalMoreWindow RunsIntervalMoreWindowBox;
 
 	private double selectedDistance;
@@ -1165,11 +1244,19 @@ public class RunsIntervalMoreWindow : EventMoreWindow
 	private bool selectedUnlimited;
 	private string selectedDistancesString;
 	
-	RunsIntervalMoreWindow (Gtk.Window parent, bool testOrDelete) {
+	RunsIntervalMoreWindow (Gtk.Window parent, bool testOrDelete)
+	{
+		/*
 		//the glade window is the same as jumps_more
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "jumps_runs_more.glade", "jumps_runs_more", "chronojump");
 		gladeXML.Autoconnect(this);
+		*/
+		Gtk.Builder builder = new Gtk.Builder (null, Util.GetGladePath () + "jumps_runs_more.glade", null);
+		connectWidgetsEventMore (builder);
+		jumps_runs_more = (Gtk.Window) builder.GetObject ("jumps_runs_more");
+		builder.Autoconnect (this);
+
 		this.parent = parent;
 		this.testOrDelete = testOrDelete;
 		
@@ -1269,7 +1356,7 @@ public class RunsIntervalMoreWindow : EventMoreWindow
 	//puts a value in private member selected
 	protected override void onSelectionEntry (object o, EventArgs args)
 	{
-		TreeModel model;
+		ITreeModel model;
 		TreeIter iter;
 		selectedEventName = "-1";
 		selectedDistance = -1;
@@ -1332,7 +1419,7 @@ public class RunsIntervalMoreWindow : EventMoreWindow
 			return;
 
 		TreeView tv = (TreeView) o;
-		TreeModel model;
+		ITreeModel model;
 		TreeIter iter;
 
 		if (tv.Selection.GetSelected (out model, out iter)) {

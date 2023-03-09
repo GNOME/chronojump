@@ -43,7 +43,7 @@ public class UtilGtk
 	 *
 	 */
 
-	public static Gtk.ComboBox ComboSelectPrevious(ComboBox myCombo)
+	public static Gtk.ComboBoxText ComboSelectPrevious (ComboBoxText myCombo)
 	{
 		int newPosition = myCombo.Active -1;
 		if(newPosition >= 0)
@@ -51,7 +51,7 @@ public class UtilGtk
 
 		return myCombo;
 	}
-	public static Gtk.ComboBox ComboSelectNext(ComboBox myCombo, out bool isLast)
+	public static Gtk.ComboBoxText ComboSelectNext (ComboBoxText myCombo, out bool isLast)
 	{
 		TreeIter iter;
 		myCombo.Model.GetIterFirst(out iter);
@@ -73,7 +73,7 @@ public class UtilGtk
 		return myCombo;
 	}
 
-	public static bool ComboSelectedIsLast(ComboBox myCombo)
+	public static bool ComboSelectedIsLast (ComboBoxText myCombo)
 	{
 		TreeIter iter;
 		myCombo.Model.GetIterFirst(out iter);
@@ -89,7 +89,7 @@ public class UtilGtk
 	}
 
 
-	public static string ComboGetActive(ComboBox myCombo) {
+	public static string ComboGetActive (ComboBoxText myCombo) {
 		TreeIter iter;
 		string myText = "";
 		if (myCombo.GetActiveIter (out iter))
@@ -98,13 +98,13 @@ public class UtilGtk
 	}
 	
 	//get the position of the active
-	public static int ComboGetActivePos(ComboBox myCombo) {
+	public static int ComboGetActivePos (ComboBoxText myCombo) {
 		//ComboMakeActive returns the position of a searched value(string)
 		//ComboGetActive gets the value of selected value(string)
 		return ComboMakeActive(myCombo, ComboGetActive(myCombo));
 	}
 
-	public static int ComboCount(ComboBox myCombo) {
+	public static int ComboCount (ComboBoxText myCombo) {
 		int count = 0;
 		TreeIter iter;
 		myCombo.Model.GetIterFirst(out iter);
@@ -120,7 +120,7 @@ public class UtilGtk
 	//this is better than the below method, because this search in current combo values
 	//if we use a predefined set of values (like below method), we can have problems 
 	//if some of the values in predefined list have been deleted on combo
-	public static int ComboMakeActive(ComboBox myCombo, string searched) {
+	public static int ComboMakeActive (ComboBoxText myCombo, string searched) {
 		int returnValue = 0;
 		int count = 0;
 		TreeIter iter;
@@ -148,7 +148,7 @@ public class UtilGtk
 		return returnValue;
 	}
 
-	public static void ComboShowAll(ComboBox myCombo) {
+	public static void ComboShowAll (ComboBoxText myCombo) {
 		TreeIter iter;
 		myCombo.Model.GetIterFirst(out iter);
 		do {
@@ -157,32 +157,32 @@ public class UtilGtk
 	}
 
 	//used on gui/preferences camera
-	public static void ComboDelAll(ComboBox myCombo)
+	public static void ComboDelAll (ComboBoxText myCombo)
 	{
 		comboDelAll(myCombo);
 	}
 
-	private static void comboDelAll(ComboBox myCombo) {
+	private static void comboDelAll (ComboBoxText myCombo) {
 		//myCombo = ComboBox.NewText(); don't work
 		TreeIter myIter;
 		while(myCombo.Model.GetIterFirst(out myIter)) {
-			myCombo.RemoveText(0);
+			myCombo.Remove (0);
 		}
 	}
 
-	public static void ComboDelByPosition(ComboBox myCombo, int pos)
+	public static void ComboDelByPosition (ComboBoxText myCombo, int pos)
 	{
-		myCombo.RemoveText(pos);
+		myCombo.Remove (pos);
 	}
 
-	public static void ComboDelThisValue(ComboBox myCombo, string toRemove) {
+	public static void ComboDelThisValue (ComboBoxText myCombo, string toRemove) {
 		int i=0;
 		TreeIter iter;
 		myCombo.Model.GetIterFirst(out iter);
 		do {
 			string str = (string) myCombo.Model.GetValue (iter, 0);
 			if(str == toRemove) {
-				myCombo.RemoveText(i);
+				myCombo.Remove (i);
 				return;
 			}
 			i++;
@@ -190,7 +190,7 @@ public class UtilGtk
 	}
 
 	//used on combo_select_contacts_top at least on runEncoder
-	public static string [] ComboGetValues (ComboBox combo)
+	public static string [] ComboGetValues (ComboBoxText combo)
 	{
 		List<string> values_l = new List<string>();
 
@@ -204,9 +204,9 @@ public class UtilGtk
 	}
 
 
-	//for new code, better use the ComboUpdate(ComboBox, ArrayList)
+	//for new code, better use the ComboUpdate(ComboBoxText, ArrayList)
 	//if there's no default value, simply pass a "" and there will be returned a 0, that's the first value of combo
-	public static int ComboUpdate(ComboBox myCombo, string [] myData, string strDefault) {
+	public static int ComboUpdate (ComboBoxText myCombo, string [] myData, string strDefault) {
 		//1stdelete combo values
 		comboDelAll(myCombo);
 
@@ -223,7 +223,7 @@ public class UtilGtk
 	}
 
 	//when only one value has to be displayed
-	public static void ComboUpdate(ComboBox myCombo, string myData) {
+	public static void ComboUpdate (ComboBoxText myCombo, string myData) {
 		//1stdelete combo values
 		comboDelAll(myCombo);
 
@@ -232,7 +232,7 @@ public class UtilGtk
 	}
 
 	//more elegant method, with ArrayList	
-	public static void ComboUpdate(ComboBox myCombo, ArrayList array) {
+	public static void ComboUpdate (ComboBoxText myCombo, ArrayList array) {
 		//1stdelete combo values
 		comboDelAll(myCombo);
 
@@ -241,7 +241,7 @@ public class UtilGtk
 			myCombo.AppendText (str);
 	}
 	
-	public static void ComboUpdate(ComboBox myCombo, List<int> list) {
+	public static void ComboUpdate (ComboBoxText myCombo, List<int> list) {
 		//1stdelete combo values
 		comboDelAll(myCombo);
 
@@ -250,7 +250,7 @@ public class UtilGtk
 			myCombo.AppendText (l.ToString());
 	}
 	
-	public static void ComboUpdate(ComboBox myCombo, List<double> list) {
+	public static void ComboUpdate (ComboBoxText myCombo, List<double> list) {
 		//1stdelete combo values
 		comboDelAll(myCombo);
 
@@ -259,7 +259,7 @@ public class UtilGtk
 			myCombo.AppendText (l.ToString());
 	}
 	
-	public static void ComboUpdate(ComboBox myCombo, List<string> list) {
+	public static void ComboUpdate (ComboBoxText myCombo, List<string> list) {
 		//1stdelete combo values
 		comboDelAll(myCombo);
 
@@ -268,12 +268,12 @@ public class UtilGtk
 			myCombo.AppendText (l);
 	}
 
-	public static void ComboAdd(ComboBox myCombo, string str) {
+	public static void ComboAdd (ComboBoxText myCombo, string str) {
 		myCombo.AppendText (str);
 	}
 
 
-	public static void ComboPackShowAndSensitive (Gtk.Box box, Gtk.ComboBox combo) {
+	public static void ComboPackShowAndSensitive (Gtk.Box box, Gtk.ComboBoxText combo) {
 		box.PackStart(combo, true, true, 0);
 		box.ShowAll();
 		combo.Sensitive = true;
@@ -325,7 +325,7 @@ public class UtilGtk
 		return(ts.IterNChildren());
 	}
 
-	public static int IdColumnCompare (TreeModel model, TreeIter iter1, TreeIter iter2)     {
+	public static int IdColumnCompare (ITreeModel model, TreeIter iter1, TreeIter iter2)     {
 		int val1 = 0;
 		int val2 = 0;
 		val1 = Convert.ToInt32(model.GetValue(iter1, 0));
@@ -339,7 +339,7 @@ public class UtilGtk
 	 * Other parts of the program use another column, search for dateColumnCompare
 	 *
 	 */
-	public static int DateColumnCompare (TreeModel model, TreeIter iter1, TreeIter iter2)
+	public static int DateColumnCompare (ITreeModel model, TreeIter iter1, TreeIter iter2)
 	{
 		var dt1String = (model.GetValue(iter1, 0).ToString());
 		var dt2String = (model.GetValue(iter2, 0).ToString());
@@ -357,7 +357,7 @@ public class UtilGtk
 	}
 	
 	public static int GetSelectedRowUniqueID (Gtk.TreeView tv, Gtk.TreeStore store, int uniqueIDcol) {
-		TreeModel model;
+		ITreeModel model;
 		TreeIter iter1;
 
 		if (tv.Selection.GetSelected (out model, out iter1)) {
@@ -452,7 +452,7 @@ public class UtilGtk
 	}
 
 	public static Gtk.TreeStore RemoveRow (Gtk.TreeView tv, Gtk.TreeStore store) {
-		TreeModel model;
+		ITreeModel model;
 		TreeIter iter1;
 
 		if (tv.Selection.GetSelected (out model, out iter1)) {
@@ -1053,6 +1053,7 @@ public class UtilGtk
 		return pixbuf;
 	}
 
+	/*
 	//spacing allows the line to breath
 	public static void DrawHorizontalLine(Pixmap pixmap, Gdk.GC pen, int xleft, int xright, int y,
 			int spacing, bool arrowleft, bool arrowright, int arrowlength)
@@ -1110,6 +1111,7 @@ public class UtilGtk
 
 		pixmap.DrawPolygon(pen, true, points);
 	}
+	*/
 
 	public static void FindPangoFonts(Gtk.DrawingArea drawingarea)
 	{

@@ -15,32 +15,29 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2019   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2004-2023   Xavier de Blas <xaviblas@gmail.com> 
  */
 
 using System;
 using Gtk;
-using Glade;
+//using Glade;
 using System.Text; //StringBuilder
 
 using Mono.Unix;
 
 public partial class ChronoJumpWindow 
 {
-	[Widget] Gtk.HBox hbox_animation_lights;
-	[Widget] Gtk.HBox hbox_flicker_lights;
-	[Widget] Gtk.VBox vbox_discriminative_lights;
-	
-	[Widget] Gtk.Label label_animation_lights_interval;
-	[Widget] Gtk.Label label_flicker_lights_cycle;
-	[Widget] Gtk.Label label_flicker_lights_frequency;
-
-	[Widget] Gtk.RadioButton extra_window_radio_reaction_time;
-	[Widget] Gtk.RadioButton extra_window_radio_reaction_time_animation_lights;
-	[Widget] Gtk.RadioButton extra_window_radio_reaction_time_flicker;
-	[Widget] Gtk.RadioButton extra_window_radio_reaction_time_discriminative;
-
-	[Widget] Gtk.Label label_reaction_time_device_help;
+	Gtk.HBox hbox_animation_lights;
+	Gtk.HBox hbox_flicker_lights;
+	Gtk.VBox vbox_discriminative_lights;
+	Gtk.Label label_animation_lights_interval;
+	Gtk.Label label_flicker_lights_cycle;
+	Gtk.Label label_flicker_lights_frequency;
+	Gtk.RadioButton extra_window_radio_reaction_time;
+	Gtk.RadioButton extra_window_radio_reaction_time_animation_lights;
+	Gtk.RadioButton extra_window_radio_reaction_time_flicker;
+	Gtk.RadioButton extra_window_radio_reaction_time_discriminative;
+	Gtk.Label label_reaction_time_device_help;
 
 
 	private void on_extra_window_reaction_times_test_changed(object o, EventArgs args)
@@ -325,4 +322,18 @@ public partial class ChronoJumpWindow
 	}
 	*/
 	
+	private void connectWidgetsReactionTime (Gtk.Builder builder)
+	{
+		hbox_animation_lights = (Gtk.HBox) builder.GetObject ("hbox_animation_lights");
+		hbox_flicker_lights = (Gtk.HBox) builder.GetObject ("hbox_flicker_lights");
+		vbox_discriminative_lights = (Gtk.VBox) builder.GetObject ("vbox_discriminative_lights");
+		label_animation_lights_interval = (Gtk.Label) builder.GetObject ("label_animation_lights_interval");
+		label_flicker_lights_cycle = (Gtk.Label) builder.GetObject ("label_flicker_lights_cycle");
+		label_flicker_lights_frequency = (Gtk.Label) builder.GetObject ("label_flicker_lights_frequency");
+		extra_window_radio_reaction_time = (Gtk.RadioButton) builder.GetObject ("extra_window_radio_reaction_time");
+		extra_window_radio_reaction_time_animation_lights = (Gtk.RadioButton) builder.GetObject ("extra_window_radio_reaction_time_animation_lights");
+		extra_window_radio_reaction_time_flicker = (Gtk.RadioButton) builder.GetObject ("extra_window_radio_reaction_time_flicker");
+		extra_window_radio_reaction_time_discriminative = (Gtk.RadioButton) builder.GetObject ("extra_window_radio_reaction_time_discriminative");
+		label_reaction_time_device_help = (Gtk.Label) builder.GetObject ("label_reaction_time_device_help");
+	}
 }

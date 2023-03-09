@@ -24,7 +24,7 @@ using System.IO.Ports;
 using System.Threading;
 using Gtk;
 using Gdk;
-using Glade;
+//using Glade;
 using System.Text; //StringBuilder
 using System.Collections;
 using System.Collections.Generic; //List<T>
@@ -34,39 +34,41 @@ using Mono.Unix;
 
 public partial class ChronoJumpWindow 
 {
+	// at glade ---->
 	//capture tab
-	[Widget] Gtk.Button button_combo_force_sensor_exercise_capture_left;
-	[Widget] Gtk.Button button_combo_force_sensor_exercise_capture_right;
-	[Widget] Gtk.HBox hbox_force_capture_buttons;
-	[Widget] Gtk.HBox hbox_combo_force_sensor_exercise;
-	[Widget] Gtk.ComboBox combo_force_sensor_exercise;
-	[Widget] Gtk.Frame frame_force_sensor_elastic;
-	[Widget] Gtk.Button button_stiffness_detect;
-	[Widget] Gtk.Label label_button_force_sensor_stiffness;
-	[Widget] Gtk.Image image_button_force_sensor_stiffness_problem;
-	[Widget] Gtk.ComboBox combo_force_sensor_capture_options;
-	[Widget] Gtk.RadioButton radio_force_sensor_laterality_both;
-	[Widget] Gtk.RadioButton radio_force_sensor_laterality_l;
-	[Widget] Gtk.RadioButton radio_force_sensor_laterality_r;
-	[Widget] Gtk.VBox vbox_force_sensor_adjust_actions;
-	[Widget] Gtk.Button button_force_sensor_tare;
-	[Widget] Gtk.Button button_force_sensor_calibrate;
-	[Widget] Gtk.Label label_force_sensor_value_max;
-	[Widget] Gtk.Label label_force_sensor_value;
-	[Widget] Gtk.Label label_force_sensor_value_min;
-	[Widget] Gtk.Label label_force_sensor_value_best_second;
-	[Widget] Gtk.VBox vbox_force_sensor_capture_best_second;
-	//[Widget] Gtk.VScale vscale_force_sensor;
-	[Widget] Gtk.SpinButton spin_force_sensor_calibration_kg_value;
-	[Widget] Gtk.Button button_force_sensor_image_save_signal;
-	[Widget] Gtk.DrawingArea force_capture_drawingarea_cairo;
-	[Widget] Gtk.Button button_force_sensor_exercise_edit;
-	[Widget] Gtk.Button button_force_sensor_exercise_delete;
-
-	[Widget] Gtk.Label force_sensor_adjust_label_message;
+	Gtk.Button button_combo_force_sensor_exercise_capture_left;
+	Gtk.Button button_combo_force_sensor_exercise_capture_right;
+	Gtk.HBox hbox_force_capture_buttons;
+	Gtk.HBox hbox_combo_force_sensor_exercise;
+	Gtk.Frame frame_force_sensor_elastic;
+	Gtk.Button button_stiffness_detect;
+	Gtk.Label label_button_force_sensor_stiffness;
+	Gtk.Image image_button_force_sensor_stiffness_problem;
+	Gtk.RadioButton radio_force_sensor_laterality_both;
+	Gtk.RadioButton radio_force_sensor_laterality_l;
+	Gtk.RadioButton radio_force_sensor_laterality_r;
+	Gtk.VBox vbox_force_sensor_adjust_actions;
+	Gtk.Button button_force_sensor_tare;
+	Gtk.Button button_force_sensor_calibrate;
+	Gtk.Label label_force_sensor_value_max;
+	Gtk.Label label_force_sensor_value;
+	Gtk.Label label_force_sensor_value_min;
+	Gtk.Label label_force_sensor_value_best_second;
+	Gtk.VBox vbox_force_sensor_capture_best_second;
+	//Gtk.VScale vscale_force_sensor;
+	Gtk.SpinButton spin_force_sensor_calibration_kg_value;
+	Gtk.Button button_force_sensor_image_save_signal;
+	Gtk.DrawingArea force_capture_drawingarea_cairo;
+	Gtk.Button button_force_sensor_exercise_edit;
+	Gtk.Button button_force_sensor_exercise_delete;
+	Gtk.Label force_sensor_adjust_label_message;
+	Gtk.ComboBoxText combo_force_sensor_capture_options;
+	// <---- at glade
 
 	ForceSensorExerciseWindow forceSensorExerciseWin;
 	ForceSensorElasticBandsWindow forceSensorElasticBandsWin;
+
+	Gtk.ComboBoxText combo_force_sensor_exercise;
 
 	Thread forceCaptureThread;
 	static bool forceProcessFinish;
@@ -2344,7 +2346,7 @@ LogB.Information(" fs R ");
 	static List<PointF> cairoGraphForceSensorSignalPointsPower_l;
 	bool cairoGraphForceSensorSignalPointsShowAccuracy;
 
-	public void on_force_capture_drawingarea_cairo_expose_event (object o, ExposeEventArgs args)
+	public void on_force_capture_drawingarea_cairo_draw (object o, Gtk.DrawnArgs args)
 	{
 		updateForceSensorCaptureSignalCairo (true);
 	}
@@ -2683,7 +2685,7 @@ LogB.Information(" fs R ");
 		LogB.Information("createForceExerciseCombo start");
 		//force_sensor_exercise
 
-		combo_force_sensor_exercise = ComboBox.NewText ();
+		combo_force_sensor_exercise = new ComboBoxText ();
 		fillForceSensorExerciseCombo("");
 
 		combo_force_sensor_exercise.Changed += new EventHandler (on_combo_force_sensor_exercise_changed);
@@ -2728,7 +2730,7 @@ LogB.Information(" fs R ");
 
 	private void on_combo_force_sensor_exercise_changed (object o, EventArgs args)
 	{
-		//ComboBox combo = o as ComboBox;
+		//ComboBoxText combo = o as ComboboxText;
 		if (o == null)
 			return;
 
@@ -3123,4 +3125,35 @@ LogB.Information(" fs R ");
 
 	// ------------------------------------------------ end of slides stuff for presentations
 
+	private void connectWidgetsForceSensor (Gtk.Builder builder)
+	{
+		//capture tab
+		button_combo_force_sensor_exercise_capture_left = (Gtk.Button) builder.GetObject ("button_combo_force_sensor_exercise_capture_left");
+		button_combo_force_sensor_exercise_capture_right = (Gtk.Button) builder.GetObject ("button_combo_force_sensor_exercise_capture_right");
+		hbox_force_capture_buttons = (Gtk.HBox) builder.GetObject ("hbox_force_capture_buttons");
+		hbox_combo_force_sensor_exercise = (Gtk.HBox) builder.GetObject ("hbox_combo_force_sensor_exercise");
+		frame_force_sensor_elastic = (Gtk.Frame) builder.GetObject ("frame_force_sensor_elastic");
+		button_stiffness_detect = (Gtk.Button) builder.GetObject ("button_stiffness_detect");
+		label_button_force_sensor_stiffness = (Gtk.Label) builder.GetObject ("label_button_force_sensor_stiffness");
+		image_button_force_sensor_stiffness_problem = (Gtk.Image) builder.GetObject ("image_button_force_sensor_stiffness_problem");
+		radio_force_sensor_laterality_both = (Gtk.RadioButton) builder.GetObject ("radio_force_sensor_laterality_both");
+		radio_force_sensor_laterality_l = (Gtk.RadioButton) builder.GetObject ("radio_force_sensor_laterality_l");
+		radio_force_sensor_laterality_r = (Gtk.RadioButton) builder.GetObject ("radio_force_sensor_laterality_r");
+		vbox_force_sensor_adjust_actions = (Gtk.VBox) builder.GetObject ("vbox_force_sensor_adjust_actions");
+		button_force_sensor_tare = (Gtk.Button) builder.GetObject ("button_force_sensor_tare");
+		button_force_sensor_calibrate = (Gtk.Button) builder.GetObject ("button_force_sensor_calibrate");
+		label_force_sensor_value_max = (Gtk.Label) builder.GetObject ("label_force_sensor_value_max");
+		label_force_sensor_value = (Gtk.Label) builder.GetObject ("label_force_sensor_value");
+		label_force_sensor_value_min = (Gtk.Label) builder.GetObject ("label_force_sensor_value_min");
+		label_force_sensor_value_best_second = (Gtk.Label) builder.GetObject ("label_force_sensor_value_best_second");
+		vbox_force_sensor_capture_best_second = (Gtk.VBox) builder.GetObject ("vbox_force_sensor_capture_best_second");
+		//vscale_force_sensor = (Gtk.VScale) builder.GetObject ("vscale_force_sensor");
+		spin_force_sensor_calibration_kg_value = (Gtk.SpinButton) builder.GetObject ("spin_force_sensor_calibration_kg_value");
+		button_force_sensor_image_save_signal = (Gtk.Button) builder.GetObject ("button_force_sensor_image_save_signal");
+		force_capture_drawingarea_cairo = (Gtk.DrawingArea) builder.GetObject ("force_capture_drawingarea_cairo");
+		button_force_sensor_exercise_edit = (Gtk.Button) builder.GetObject ("button_force_sensor_exercise_edit");
+		button_force_sensor_exercise_delete = (Gtk.Button) builder.GetObject ("button_force_sensor_exercise_delete");
+		force_sensor_adjust_label_message = (Gtk.Label) builder.GetObject ("force_sensor_adjust_label_message");
+		combo_force_sensor_capture_options = (Gtk.ComboBoxText) builder.GetObject ("combo_force_sensor_capture_options");
+	}
 }

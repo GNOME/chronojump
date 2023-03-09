@@ -15,12 +15,12 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2017   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2004-2023   Xavier de Blas <xaviblas@gmail.com> 
  */
 
 using System;
 using Gtk;
-using Glade;
+//using Glade;
 using GLib; //for Value
 using System.Text; //StringBuilder
 using Mono.Unix;
@@ -69,10 +69,25 @@ public class SessionUploadPersonData {
 	}
 }
 
-public class SessionUploadWindow {
+public class SessionUploadWindow
+{
+	Gtk.Window session_upload;
 	
-	[Widget] Gtk.Window session_upload;
-	
+	Gtk.TreeView treeview_persons;
+	Gtk.TreeView treeview_jumps;
+	Gtk.TreeView treeview_jumps_rj;
+	Gtk.TreeView treeview_runs;
+	Gtk.TreeView treeview_runs_i;
+	Gtk.TreeView treeview_rts;
+	Gtk.TreeView treeview_pulses;
+	Gtk.TreeView treeview_mcs;
+	Gtk.Label label_uploaded_test_types;
+	Gtk.Label label_uploaded_sports;
+	Gtk.Label label_thanks;
+	Gtk.Button button_close;
+	Gtk.ProgressBar pulsebar;
+	Gtk.ProgressBar progressbar;
+
 	private TreeStore store_persons;
 	private TreeStore store_j;
 	private TreeStore store_jr;
@@ -82,31 +97,20 @@ public class SessionUploadWindow {
 	private TreeStore store_pulses;
 	private TreeStore store_mcs;
 
-	[Widget] Gtk.TreeView treeview_persons;
-	[Widget] Gtk.TreeView treeview_jumps;
-	[Widget] Gtk.TreeView treeview_jumps_rj;
-	[Widget] Gtk.TreeView treeview_runs;
-	[Widget] Gtk.TreeView treeview_runs_i;
-	[Widget] Gtk.TreeView treeview_rts;
-	[Widget] Gtk.TreeView treeview_pulses;
-	[Widget] Gtk.TreeView treeview_mcs;
-	
-	[Widget] Gtk.Label label_uploaded_test_types;
-	[Widget] Gtk.Label label_uploaded_sports;
-	[Widget] Gtk.Label label_thanks;
-
-	[Widget] Gtk.Button button_close;
-	
-	[Widget] Gtk.ProgressBar pulsebar;
-	[Widget] Gtk.ProgressBar progressbar;
-
 
 	static SessionUploadWindow SessionUploadWindowBox;
 	
-	SessionUploadWindow (Gtk.Window parent) {
+	SessionUploadWindow (Gtk.Window parent)
+	{
+		/*
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "session_upload.glade", "session_upload", "chronojump");
 		gladeXML.Autoconnect(this);
+		*/
+		Gtk.Builder builder = new Gtk.Builder (null, Util.GetGladePath () + "session_upload.glade", null);
+		connectWidgets (builder);
+		builder.Autoconnect (this);
+
 		session_upload.Parent = parent;
 		
 		//put an icon to window
@@ -290,4 +294,21 @@ public class SessionUploadWindow {
 		SessionUploadWindowBox = null;
 	}
 	
+	private void connectWidgets (Gtk.Builder builder)
+	{
+		treeview_persons = (Gtk.TreeView) builder.GetObject ("treeview_persons");
+		treeview_jumps = (Gtk.TreeView) builder.GetObject ("treeview_jumps");
+		treeview_jumps_rj = (Gtk.TreeView) builder.GetObject ("treeview_jumps_rj");
+		treeview_runs = (Gtk.TreeView) builder.GetObject ("treeview_runs");
+		treeview_runs_i = (Gtk.TreeView) builder.GetObject ("treeview_runs_i");
+		treeview_rts = (Gtk.TreeView) builder.GetObject ("treeview_rts");
+		treeview_pulses = (Gtk.TreeView) builder.GetObject ("treeview_pulses");
+		treeview_mcs = (Gtk.TreeView) builder.GetObject ("treeview_mcs");
+		label_uploaded_test_types = (Gtk.Label) builder.GetObject ("label_uploaded_test_types");
+		label_uploaded_sports = (Gtk.Label) builder.GetObject ("label_uploaded_sports");
+		label_thanks = (Gtk.Label) builder.GetObject ("label_thanks");
+		button_close = (Gtk.Button) builder.GetObject ("button_close");
+		pulsebar = (Gtk.ProgressBar) builder.GetObject ("pulsebar");
+		progressbar = (Gtk.ProgressBar) builder.GetObject ("progressbar");
+	}
 }

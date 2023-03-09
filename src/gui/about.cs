@@ -15,35 +15,40 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2017   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2004-2023   Xavier de Blas <xaviblas@gmail.com> 
  */
 
 using System;
 using Gtk;
 using Gdk;
-using Glade;
 
 public class About
 {
-	[Widget] Gtk.Dialog dialog_about;
-	[Widget] Gtk.Image image_logo;
-	[Widget] Gtk.Label dialog_about_label_chronojump;
-	[Widget] Gtk.Label dialog_about_label_version;
-	[Widget] Gtk.Image image_button_close;
+	 Gtk.Dialog dialog_about;
+	 Gtk.Image image_logo;
+	 Gtk.Label dialog_about_label_chronojump;
+	 Gtk.Label dialog_about_label_version;
+	 Gtk.Image image_button_close;
 	
-	[Widget] Gtk.Label dialog_about_label_developers_software;
-	[Widget] Gtk.Label dialog_about_label_developers_networks;
-	[Widget] Gtk.Label dialog_about_label_developers_chronopic;
-	[Widget] Gtk.Label dialog_about_label_developers_scientific;
+	 Gtk.Label dialog_about_label_developers_software;
+	 Gtk.Label dialog_about_label_developers_networks;
+	 Gtk.Label dialog_about_label_developers_chronopic;
+	 Gtk.Label dialog_about_label_developers_scientific;
 
-	[Widget] Gtk.Label dialog_about_label_documenters;
-	[Widget] Gtk.Label dialog_about_label_translators;
+	 Gtk.Label dialog_about_label_documenters;
+	 Gtk.Label dialog_about_label_translators;
 
 	public About (string version, string translators)
 	{
+		/*
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "dialog_about.glade", "dialog_about", "chronojump");
 		gladeXML.Autoconnect(this);
+		*/
+
+		Gtk.Builder builder = new Gtk.Builder (null, Util.GetGladePath () + "dialog_about.glade", null);
+		connectWidgets (builder);
+		builder.Autoconnect (this);
 	
 		/*	
 		//crash for test purposes
@@ -110,5 +115,19 @@ public class About
 	private void on_delete_event (object o, DeleteEventArgs args) {
 		dialog_about.Destroy ();
 	}
-}
 
+	private void connectWidgets (Gtk.Builder builder)
+	{
+		dialog_about = (Gtk.Dialog) builder.GetObject ("dialog_about");
+		image_logo = (Gtk.Image) builder.GetObject ("image_logo");
+		dialog_about_label_chronojump = (Gtk.Label) builder.GetObject ("dialog_about_label_chronojump");
+		dialog_about_label_version = (Gtk.Label) builder.GetObject ("dialog_about_label_version");
+		image_button_close = (Gtk.Image) builder.GetObject ("image_button_close");
+		dialog_about_label_developers_software = (Gtk.Label) builder.GetObject ("dialog_about_label_developers_software");
+		dialog_about_label_developers_networks = (Gtk.Label) builder.GetObject ("dialog_about_label_developers_networks");
+		dialog_about_label_developers_chronopic = (Gtk.Label) builder.GetObject ("dialog_about_label_developers_chronopic");
+		dialog_about_label_developers_scientific = (Gtk.Label) builder.GetObject ("dialog_about_label_developers_scientific");
+		dialog_about_label_documenters = (Gtk.Label) builder.GetObject ("dialog_about_label_documenters");
+		dialog_about_label_translators = (Gtk.Label) builder.GetObject ("dialog_about_label_translators");
+	}
+}

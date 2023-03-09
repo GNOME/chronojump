@@ -22,7 +22,7 @@ using System;
 using System.IO;
 using Gtk;
 using Gdk;
-using Glade;
+//using Glade;
 using System.Text; //StringBuilder
 using System.Collections.Generic; //List<T>
 using Mono.Unix;
@@ -30,146 +30,188 @@ using Mono.Unix;
 //struct with relevant data used on various functions and threads
 public partial class ChronoJumpWindow 
 {
+	// at glade ---->
 	//analyze tab
-	[Widget] Gtk.RadioButton radio_force_sensor_analyze_individual_current_set;
-	[Widget] Gtk.RadioButton radio_force_sensor_analyze_individual_current_session;
-	[Widget] Gtk.RadioButton radio_force_sensor_analyze_individual_all_sessions;
-	[Widget] Gtk.RadioButton radio_force_sensor_analyze_groupal_current_session;
-	[Widget] Gtk.Image image_force_sensor_analyze_individual_current_set;
-	[Widget] Gtk.Image image_force_sensor_analyze_individual_current_session;
-	[Widget] Gtk.Image image_force_sensor_analyze_individual_all_sessions;
-	[Widget] Gtk.Image image_force_sensor_analyze_groupal_current_session;
+	Gtk.RadioButton radio_force_sensor_analyze_individual_current_set;
+	Gtk.RadioButton radio_force_sensor_analyze_individual_current_session;
+	Gtk.RadioButton radio_force_sensor_analyze_individual_all_sessions;
+	Gtk.RadioButton radio_force_sensor_analyze_groupal_current_session;
+	Gtk.Image image_force_sensor_analyze_individual_current_set;
+	Gtk.Image image_force_sensor_analyze_individual_current_session;
+	Gtk.Image image_force_sensor_analyze_individual_all_sessions;
+	Gtk.Image image_force_sensor_analyze_groupal_current_session;
 
-	[Widget] Gtk.Notebook notebook_force_sensor_analyze_top;
-	[Widget] Gtk.HBox hbox_force_general_analysis;
-	[Widget] Gtk.Button button_force_sensor_analyze_load;
-	[Widget] Gtk.Button button_force_sensor_analyze_analyze;
-	[Widget] Gtk.Label label_force_sensor_analyze;
-	[Widget] Gtk.Image image_force_sensor_graph;
-	[Widget] Gtk.Viewport viewport_force_sensor_graph;
-	[Widget] Gtk.Button button_force_sensor_image_save_rfd_auto;
-	[Widget] Gtk.Button button_force_sensor_image_save_rfd_manual;
-	//[Widget] Gtk.ScrolledWindow scrolledwindow_force_sensor_ai;
-	[Widget] Gtk.Button button_force_sensor_analyze_AB_save;
-	[Widget] Gtk.CheckButton check_force_sensor_ai_chained;
-	[Widget] Gtk.CheckButton check_force_sensor_ai_zoom;
+	Gtk.Notebook notebook_force_sensor_analyze_top;
+	Gtk.HBox hbox_force_general_analysis;
+	Gtk.Button button_force_sensor_analyze_load;
+	Gtk.Button button_force_sensor_analyze_analyze;
+	Gtk.Label label_force_sensor_analyze;
+	Gtk.Image image_force_sensor_graph;
+	Gtk.Viewport viewport_force_sensor_graph;
+	Gtk.Button button_force_sensor_image_save_rfd_auto;
+	Gtk.Button button_force_sensor_image_save_rfd_manual;
+	//Gtk.ScrolledWindow scrolledwindow_force_sensor_ai;
+	Gtk.Button button_force_sensor_analyze_AB_save;
+	Gtk.CheckButton check_force_sensor_ai_chained;
+	Gtk.CheckButton check_force_sensor_ai_zoom;
 
-	[Widget] Gtk.RadioButton radio_force_rfd_search_optimized_ab;
-	[Widget] Gtk.RadioButton radio_force_rfd_use_ab_range;
-	[Widget] Gtk.SpinButton spin_force_duration_seconds;
-	[Widget] Gtk.RadioButton radio_force_duration_seconds;
-	[Widget] Gtk.HBox hbox_force_rfd_duration_percent;
-	[Widget] Gtk.RadioButton radio_force_rfd_duration_percent;
-	[Widget] Gtk.SpinButton spin_force_rfd_duration_percent;
+	Gtk.RadioButton radio_force_rfd_search_optimized_ab;
+	Gtk.RadioButton radio_force_rfd_use_ab_range;
+	Gtk.SpinButton spin_force_duration_seconds;
+	Gtk.RadioButton radio_force_duration_seconds;
+	Gtk.HBox hbox_force_rfd_duration_percent;
+	Gtk.RadioButton radio_force_rfd_duration_percent;
+	Gtk.SpinButton spin_force_rfd_duration_percent;
 
 	//analyze options
-	[Widget] Gtk.HBox hbox_force_sensor_analyze_top_modes;
-//	[Widget] Gtk.HBox hbox_force_sensor_analyze_automatic_options;
-//	[Widget] Gtk.Notebook notebook_force_analyze_automatic;
-	[Widget] Gtk.Button button_force_sensor_analyze_options_close_and_analyze;
-	[Widget] Gtk.Label label_hscale_force_sensor_ai_a_pre_1s;
-	[Widget] Gtk.Label label_hscale_force_sensor_ai_a_post_1s;
-	[Widget] Gtk.Label label_hscale_force_sensor_ai_b_pre_1s;
-	[Widget] Gtk.Label label_hscale_force_sensor_ai_b_post_1s;
-	[Widget] Gtk.VBox vbox_force_rfd_duration_end;
-	[Widget] Gtk.Button button_force_sensor_analyze_options;
-	[Widget] Gtk.HBox hbox_force_1;
-	[Widget] Gtk.HBox hbox_force_2;
-	[Widget] Gtk.HBox hbox_force_3;
-	[Widget] Gtk.HBox hbox_force_4;
-	[Widget] Gtk.HBox hbox_force_impulse;
-	[Widget] Gtk.CheckButton check_force_1;
-	[Widget] Gtk.CheckButton check_force_2;
-	[Widget] Gtk.CheckButton check_force_3;
-	[Widget] Gtk.CheckButton check_force_4;
-	[Widget] Gtk.CheckButton check_force_impulse;
-	[Widget] Gtk.ComboBox combo_force_1_function;
-	[Widget] Gtk.ComboBox combo_force_2_function;
-	[Widget] Gtk.ComboBox combo_force_3_function;
-	[Widget] Gtk.ComboBox combo_force_4_function;
-	[Widget] Gtk.ComboBox combo_force_impulse_function;
-	[Widget] Gtk.ComboBox combo_force_1_type;
-	[Widget] Gtk.ComboBox combo_force_2_type;
-	[Widget] Gtk.ComboBox combo_force_3_type;
-	[Widget] Gtk.ComboBox combo_force_4_type;
-	[Widget] Gtk.ComboBox combo_force_impulse_type;
-	[Widget] Gtk.HBox hbox_force_1_at_ms;
-	[Widget] Gtk.HBox hbox_force_2_at_ms;
-	[Widget] Gtk.HBox hbox_force_3_at_ms;
-	[Widget] Gtk.HBox hbox_force_4_at_ms;
-	[Widget] Gtk.HBox hbox_force_1_at_percent;
-	[Widget] Gtk.HBox hbox_force_2_at_percent;
-	[Widget] Gtk.HBox hbox_force_3_at_percent;
-	[Widget] Gtk.HBox hbox_force_4_at_percent;
-	[Widget] Gtk.HBox hbox_force_impulse_until_percent;
-	[Widget] Gtk.HBox hbox_force_1_from_to;
-	[Widget] Gtk.HBox hbox_force_2_from_to;
-	[Widget] Gtk.HBox hbox_force_3_from_to;
-	[Widget] Gtk.HBox hbox_force_4_from_to;
-	[Widget] Gtk.HBox hbox_force_1_in_x_ms;
-	[Widget] Gtk.HBox hbox_force_2_in_x_ms;
-	[Widget] Gtk.HBox hbox_force_3_in_x_ms;
-	[Widget] Gtk.HBox hbox_force_4_in_x_ms;
-	[Widget] Gtk.SpinButton spinbutton_force_1_at_ms;
-	[Widget] Gtk.SpinButton spinbutton_force_2_at_ms;
-	[Widget] Gtk.SpinButton spinbutton_force_3_at_ms;
-	[Widget] Gtk.SpinButton spinbutton_force_4_at_ms;
-	[Widget] Gtk.HBox hbox_force_impulse_from_to;
-	[Widget] Gtk.SpinButton spinbutton_force_1_at_percent;
-	[Widget] Gtk.SpinButton spinbutton_force_2_at_percent;
-	[Widget] Gtk.SpinButton spinbutton_force_3_at_percent;
-	[Widget] Gtk.SpinButton spinbutton_force_4_at_percent;
-	[Widget] Gtk.SpinButton spinbutton_force_impulse_until_percent;
-	[Widget] Gtk.SpinButton spinbutton_force_1_from;
-	[Widget] Gtk.SpinButton spinbutton_force_2_from;
-	[Widget] Gtk.SpinButton spinbutton_force_3_from;
-	[Widget] Gtk.SpinButton spinbutton_force_4_from;
-	[Widget] Gtk.SpinButton spinbutton_force_impulse_from;
-	[Widget] Gtk.SpinButton spinbutton_force_1_to;
-	[Widget] Gtk.SpinButton spinbutton_force_2_to;
-	[Widget] Gtk.SpinButton spinbutton_force_3_to;
-	[Widget] Gtk.SpinButton spinbutton_force_4_to;
-	[Widget] Gtk.SpinButton spinbutton_force_impulse_to;
-	[Widget] Gtk.SpinButton spinbutton_force_1_in_x_ms;
-	[Widget] Gtk.SpinButton spinbutton_force_2_in_x_ms;
-	[Widget] Gtk.SpinButton spinbutton_force_3_in_x_ms;
-	[Widget] Gtk.SpinButton spinbutton_force_4_in_x_ms;
+	Gtk.HBox hbox_force_sensor_analyze_top_modes;
+//	Gtk.HBox hbox_force_sensor_analyze_automatic_options;
+//	Gtk.Notebook notebook_force_analyze_automatic;
+	Gtk.Button button_force_sensor_analyze_options_close_and_analyze;
+	Gtk.Label label_hscale_force_sensor_ai_a_pre_1s;
+	Gtk.Label label_hscale_force_sensor_ai_a_post_1s;
+	Gtk.Label label_hscale_force_sensor_ai_b_pre_1s;
+	Gtk.Label label_hscale_force_sensor_ai_b_post_1s;
+	Gtk.VBox vbox_force_rfd_duration_end;
+	Gtk.Button button_force_sensor_analyze_options;
+	Gtk.HBox hbox_force_1;
+	Gtk.HBox hbox_force_2;
+	Gtk.HBox hbox_force_3;
+	Gtk.HBox hbox_force_4;
+	Gtk.HBox hbox_force_impulse;
+	Gtk.CheckButton check_force_1;
+	Gtk.CheckButton check_force_2;
+	Gtk.CheckButton check_force_3;
+	Gtk.CheckButton check_force_4;
+	Gtk.CheckButton check_force_impulse;
+	Gtk.HBox hbox_force_1_at_ms;
+	Gtk.HBox hbox_force_2_at_ms;
+	Gtk.HBox hbox_force_3_at_ms;
+	Gtk.HBox hbox_force_4_at_ms;
+	Gtk.HBox hbox_force_1_at_percent;
+	Gtk.HBox hbox_force_2_at_percent;
+	Gtk.HBox hbox_force_3_at_percent;
+	Gtk.HBox hbox_force_4_at_percent;
+	Gtk.HBox hbox_force_impulse_until_percent;
+	Gtk.HBox hbox_force_1_from_to;
+	Gtk.HBox hbox_force_2_from_to;
+	Gtk.HBox hbox_force_3_from_to;
+	Gtk.HBox hbox_force_4_from_to;
+	Gtk.HBox hbox_force_1_in_x_ms;
+	Gtk.HBox hbox_force_2_in_x_ms;
+	Gtk.HBox hbox_force_3_in_x_ms;
+	Gtk.HBox hbox_force_4_in_x_ms;
+	Gtk.SpinButton spinbutton_force_1_at_ms;
+	Gtk.SpinButton spinbutton_force_2_at_ms;
+	Gtk.SpinButton spinbutton_force_3_at_ms;
+	Gtk.SpinButton spinbutton_force_4_at_ms;
+	Gtk.HBox hbox_force_impulse_from_to;
+	Gtk.SpinButton spinbutton_force_1_at_percent;
+	Gtk.SpinButton spinbutton_force_2_at_percent;
+	Gtk.SpinButton spinbutton_force_3_at_percent;
+	Gtk.SpinButton spinbutton_force_4_at_percent;
+	Gtk.SpinButton spinbutton_force_impulse_until_percent;
+	Gtk.SpinButton spinbutton_force_1_from;
+	Gtk.SpinButton spinbutton_force_2_from;
+	Gtk.SpinButton spinbutton_force_3_from;
+	Gtk.SpinButton spinbutton_force_4_from;
+	Gtk.SpinButton spinbutton_force_impulse_from;
+	Gtk.SpinButton spinbutton_force_1_to;
+	Gtk.SpinButton spinbutton_force_2_to;
+	Gtk.SpinButton spinbutton_force_3_to;
+	Gtk.SpinButton spinbutton_force_4_to;
+	Gtk.SpinButton spinbutton_force_impulse_to;
+	Gtk.SpinButton spinbutton_force_1_in_x_ms;
+	Gtk.SpinButton spinbutton_force_2_in_x_ms;
+	Gtk.SpinButton spinbutton_force_3_in_x_ms;
+	Gtk.SpinButton spinbutton_force_4_in_x_ms;
 
-	[Widget] Gtk.Button button_hscale_force_sensor_ai_a_first;
-	[Widget] Gtk.Button button_hscale_force_sensor_ai_a_pre;
-	[Widget] Gtk.Button button_hscale_force_sensor_ai_a_post;
-	[Widget] Gtk.Button button_hscale_force_sensor_ai_a_last;
+	Gtk.Button button_hscale_force_sensor_ai_a_first;
+	Gtk.Button button_hscale_force_sensor_ai_a_pre;
+	Gtk.Button button_hscale_force_sensor_ai_a_post;
+	Gtk.Button button_hscale_force_sensor_ai_a_last;
 
-	[Widget] Gtk.Button button_hscale_force_sensor_ai_b_first;
-	[Widget] Gtk.Button button_hscale_force_sensor_ai_b_pre;
-	[Widget] Gtk.Button button_hscale_force_sensor_ai_b_post;
-	[Widget] Gtk.Button button_hscale_force_sensor_ai_b_last;
+	Gtk.Button button_hscale_force_sensor_ai_b_first;
+	Gtk.Button button_hscale_force_sensor_ai_b_pre;
+	Gtk.Button button_hscale_force_sensor_ai_b_post;
+	Gtk.Button button_hscale_force_sensor_ai_b_last;
 
-	[Widget] Gtk.HBox hbox_force_sensor_ai_position;
-	[Widget] Gtk.HBox hbox_force_sensor_ai_speed;
-	[Widget] Gtk.HBox hbox_force_sensor_ai_accel;
-	[Widget] Gtk.HBox hbox_force_sensor_ai_power;
+	Gtk.HBox hbox_force_sensor_ai_position;
+	Gtk.HBox hbox_force_sensor_ai_speed;
+	Gtk.HBox hbox_force_sensor_ai_accel;
+	Gtk.HBox hbox_force_sensor_ai_power;
 
-	[Widget] Gtk.Table table_force_sensor_ai_impulse_variability_and_feedback;
-	[Widget] Gtk.Label label_force_sensor_ai_feedback;
-	[Widget] Gtk.HBox hbox_force_sensor_ai_feedback;
-	[Widget] Gtk.Label label_force_sensor_ai_impulse_values;
-	[Widget] Gtk.Label label_force_sensor_ai_variability_values;
-	[Widget] Gtk.Label label_force_sensor_ai_feedback_values;
-	[Widget] Gtk.Label label_force_sensor_ai_variability_method;
-	[Widget] Gtk.Label label_force_sensor_ai_variability_units;
-	[Widget] Gtk.Label label_force_sensor_ai_max_avg_in_window;
+	Gtk.Table table_force_sensor_ai_impulse_variability_and_feedback;
+	Gtk.Label label_force_sensor_ai_feedback;
+	Gtk.HBox hbox_force_sensor_ai_feedback;
+	Gtk.Label label_force_sensor_ai_impulse_values;
+	Gtk.Label label_force_sensor_ai_variability_values;
+	Gtk.Label label_force_sensor_ai_feedback_values;
+	Gtk.Label label_force_sensor_ai_variability_method;
+	Gtk.Label label_force_sensor_ai_variability_units;
+	Gtk.Label label_force_sensor_ai_max_avg_in_window;
 
-	[Widget] Gtk.Notebook notebook_force_sensor_export;
-	[Widget] Gtk.Label label_force_sensor_export_data;
-	[Widget] Gtk.HBox hbox_force_sensor_export_images;
-	[Widget] Gtk.CheckButton check_force_sensor_export_images;
-	[Widget] Gtk.HBox hbox_force_sensor_export_width_height;
-	[Widget] Gtk.SpinButton spinbutton_force_sensor_export_image_width;
-	[Widget] Gtk.SpinButton spinbutton_force_sensor_export_image_height;
-	[Widget] Gtk.ProgressBar progressbar_force_sensor_export;
-	[Widget] Gtk.Label label_force_sensor_export_result;
-	[Widget] Gtk.Button button_force_sensor_export_result_open;
+	Gtk.Notebook notebook_force_sensor_export;
+	Gtk.Label label_force_sensor_export_data;
+	Gtk.HBox hbox_force_sensor_export_images;
+	Gtk.CheckButton check_force_sensor_export_images;
+	Gtk.HBox hbox_force_sensor_export_width_height;
+	Gtk.SpinButton spinbutton_force_sensor_export_image_width;
+	Gtk.SpinButton spinbutton_force_sensor_export_image_height;
+	Gtk.ProgressBar progressbar_force_sensor_export;
+	Gtk.Label label_force_sensor_export_result;
+	Gtk.Button button_force_sensor_export_result_open;
+
+	Gtk.HBox hbox_force_sensor_analyze_ai_sliders_and_buttons;
+	Gtk.DrawingArea force_sensor_ai_drawingarea_cairo;
+	Gtk.HScale hscale_force_sensor_ai_a;
+	Gtk.HScale hscale_force_sensor_ai_b;
+	Gtk.Label label_force_sensor_ai_time_a;
+	Gtk.Label label_force_sensor_ai_force_a;
+	Gtk.Label label_force_sensor_ai_rfd_a;
+	Gtk.Label label_force_sensor_ai_position_a;
+	Gtk.Label label_force_sensor_ai_speed_a;
+	Gtk.Label label_force_sensor_ai_accel_a;
+	Gtk.Label label_force_sensor_ai_power_a;
+	//Gtk.HBox hbox_buttons_scale_force_sensor_ai_b;
+	Gtk.Label label_force_sensor_ai_position_b;
+	Gtk.Label label_force_sensor_ai_position_diff;
+	Gtk.Label label_force_sensor_ai_speed_b;
+	Gtk.Label label_force_sensor_ai_speed_diff;
+	Gtk.Label label_force_sensor_ai_speed_average;
+	Gtk.Label label_force_sensor_ai_speed_max;
+	Gtk.Label label_force_sensor_ai_accel_b;
+	Gtk.Label label_force_sensor_ai_accel_diff;
+	Gtk.Label label_force_sensor_ai_accel_average;
+	Gtk.Label label_force_sensor_ai_accel_max;
+	Gtk.Label label_force_sensor_ai_power_b;
+	Gtk.Label label_force_sensor_ai_power_diff;
+	Gtk.Label label_force_sensor_ai_power_average;
+	Gtk.Label label_force_sensor_ai_power_max;
+	Gtk.Label label_force_sensor_ai_time_b;
+	Gtk.Label label_force_sensor_ai_time_diff;
+	Gtk.Label label_force_sensor_ai_force_b;
+	Gtk.Label label_force_sensor_ai_force_diff;
+	Gtk.Label label_force_sensor_ai_force_average;
+	Gtk.Label label_force_sensor_ai_force_max;
+	Gtk.Label label_force_sensor_ai_rfd_b;
+	Gtk.Label label_force_sensor_ai_rfd_diff;
+	Gtk.Label label_force_sensor_ai_rfd_average;
+	Gtk.Label label_force_sensor_ai_rfd_max;
+	Gtk.Label label_force_sensor_ai_max_avg_in_window_values;
+
+	Gtk.ComboBoxText combo_force_1_function;
+	Gtk.ComboBoxText combo_force_2_function;
+	Gtk.ComboBoxText combo_force_3_function;
+	Gtk.ComboBoxText combo_force_4_function;
+	Gtk.ComboBoxText combo_force_impulse_function;
+	Gtk.ComboBoxText combo_force_1_type;
+	Gtk.ComboBoxText combo_force_2_type;
+	Gtk.ComboBoxText combo_force_3_type;
+	Gtk.ComboBoxText combo_force_4_type;
+	Gtk.ComboBoxText combo_force_impulse_type;
+	// <---- at glade
+
 
 	private RepetitionMouseLimits fsAIRepetitionMouseLimits;
 	private RepetitionMouseLimitsWithSamples fsAIRepetitionMouseLimitsCairo;
@@ -348,7 +390,7 @@ public partial class ChronoJumpWindow
 
 	private void on_combo_force_type_changed (object o, EventArgs args)
 	{
-		Gtk.ComboBox combo = o as ComboBox;
+		Gtk.ComboBoxText combo = o as ComboBoxText;
 		if (o == null)
 			return;
 
@@ -465,7 +507,7 @@ public partial class ChronoJumpWindow
 				hbox_force_4_in_x_ms, spinbutton_force_4_in_x_ms);
 	}
 
-	private void setRFDValue (ForceSensorRFD rfd, Gtk.CheckButton check, Gtk.ComboBox combo_force_function, Gtk.ComboBox combo_force_type,
+	private void setRFDValue (ForceSensorRFD rfd, Gtk.CheckButton check, Gtk.ComboBoxText combo_force_function, Gtk.ComboBoxText combo_force_type,
 			Gtk.HBox hbox_force_at_ms, Gtk.SpinButton spinbutton_force_at_ms,
 			Gtk.HBox hbox_force_at_percent, Gtk.SpinButton spinbutton_force_at_percent,
 			Gtk.HBox hbox_force_from_to, Gtk.SpinButton spinbutton_force_from, Gtk.SpinButton spinbutton_force_to,
@@ -525,7 +567,7 @@ public partial class ChronoJumpWindow
 					spinbutton_force_4_in_x_ms));
 		return l;
 	}
-	private ForceSensorRFD getRFDValue (string code, Gtk.CheckButton check, Gtk.ComboBox combo_force_function, Gtk.ComboBox combo_force_type,
+	private ForceSensorRFD getRFDValue (string code, Gtk.CheckButton check, Gtk.ComboBoxText combo_force_function, Gtk.ComboBoxText combo_force_type,
 			Gtk.SpinButton spinbutton_force_at_ms, Gtk.SpinButton spinbutton_force_at_percent,
 			Gtk.SpinButton spinbutton_force_from, Gtk.SpinButton spinbutton_force_to,
 			Gtk.SpinButton spinbutton_force_in_x_ms)
@@ -667,43 +709,6 @@ public partial class ChronoJumpWindow
 		get { return impulse;  }
 	}
 
-	[Widget] Gtk.HBox hbox_force_sensor_analyze_ai_sliders_and_buttons;
-	[Widget] Gtk.DrawingArea force_sensor_ai_drawingarea_cairo;
-	[Widget] Gtk.HScale hscale_force_sensor_ai_a;
-	[Widget] Gtk.HScale hscale_force_sensor_ai_b;
-	[Widget] Gtk.Label label_force_sensor_ai_time_a;
-	[Widget] Gtk.Label label_force_sensor_ai_force_a;
-	[Widget] Gtk.Label label_force_sensor_ai_rfd_a;
-	[Widget] Gtk.Label label_force_sensor_ai_position_a;
-	[Widget] Gtk.Label label_force_sensor_ai_speed_a;
-	[Widget] Gtk.Label label_force_sensor_ai_accel_a;
-	[Widget] Gtk.Label label_force_sensor_ai_power_a;
-	//[Widget] Gtk.HBox hbox_buttons_scale_force_sensor_ai_b;
-	[Widget] Gtk.Label label_force_sensor_ai_position_b;
-	[Widget] Gtk.Label label_force_sensor_ai_position_diff;
-	[Widget] Gtk.Label label_force_sensor_ai_speed_b;
-	[Widget] Gtk.Label label_force_sensor_ai_speed_diff;
-	[Widget] Gtk.Label label_force_sensor_ai_speed_average;
-	[Widget] Gtk.Label label_force_sensor_ai_speed_max;
-	[Widget] Gtk.Label label_force_sensor_ai_accel_b;
-	[Widget] Gtk.Label label_force_sensor_ai_accel_diff;
-	[Widget] Gtk.Label label_force_sensor_ai_accel_average;
-	[Widget] Gtk.Label label_force_sensor_ai_accel_max;
-	[Widget] Gtk.Label label_force_sensor_ai_power_b;
-	[Widget] Gtk.Label label_force_sensor_ai_power_diff;
-	[Widget] Gtk.Label label_force_sensor_ai_power_average;
-	[Widget] Gtk.Label label_force_sensor_ai_power_max;
-	[Widget] Gtk.Label label_force_sensor_ai_time_b;
-	[Widget] Gtk.Label label_force_sensor_ai_time_diff;
-	[Widget] Gtk.Label label_force_sensor_ai_force_b;
-	[Widget] Gtk.Label label_force_sensor_ai_force_diff;
-	[Widget] Gtk.Label label_force_sensor_ai_force_average;
-	[Widget] Gtk.Label label_force_sensor_ai_force_max;
-	[Widget] Gtk.Label label_force_sensor_ai_rfd_b;
-	[Widget] Gtk.Label label_force_sensor_ai_rfd_diff;
-	[Widget] Gtk.Label label_force_sensor_ai_rfd_average;
-	[Widget] Gtk.Label label_force_sensor_ai_rfd_max;
-	[Widget] Gtk.Label label_force_sensor_ai_max_avg_in_window_values;
 
 	ForceSensorAnalyzeInstant fsAI;
 
@@ -1006,7 +1011,7 @@ public partial class ChronoJumpWindow
 	}
 
 	CairoGraphForceSensorAI cairoGraphForceSensorAI;
-	public void on_force_sensor_ai_drawingarea_cairo_expose_event (object o, ExposeEventArgs args)
+	public void on_force_sensor_ai_drawingarea_cairo_draw (object o, Gtk.DrawnArgs args)
 	{
 		updateForceSensorAICairo (true);
 	}
@@ -1841,4 +1846,186 @@ public partial class ChronoJumpWindow
 			return Convert.ToInt32(hscale_force_sensor_ai_a.Value);
 	}
 
+	private void connectWidgetsForceSensorAnalyze (Gtk.Builder builder)
+	{
+		//analyze tab
+		radio_force_sensor_analyze_individual_current_set = (Gtk.RadioButton) builder.GetObject ("radio_force_sensor_analyze_individual_current_set");
+		radio_force_sensor_analyze_individual_current_session = (Gtk.RadioButton) builder.GetObject ("radio_force_sensor_analyze_individual_current_session");
+		radio_force_sensor_analyze_individual_all_sessions = (Gtk.RadioButton) builder.GetObject ("radio_force_sensor_analyze_individual_all_sessions");
+		radio_force_sensor_analyze_groupal_current_session = (Gtk.RadioButton) builder.GetObject ("radio_force_sensor_analyze_groupal_current_session");
+		image_force_sensor_analyze_individual_current_set = (Gtk.Image) builder.GetObject ("image_force_sensor_analyze_individual_current_set");
+		image_force_sensor_analyze_individual_current_session = (Gtk.Image) builder.GetObject ("image_force_sensor_analyze_individual_current_session");
+		image_force_sensor_analyze_individual_all_sessions = (Gtk.Image) builder.GetObject ("image_force_sensor_analyze_individual_all_sessions");
+		image_force_sensor_analyze_groupal_current_session = (Gtk.Image) builder.GetObject ("image_force_sensor_analyze_groupal_current_session");
+
+		notebook_force_sensor_analyze_top = (Gtk.Notebook) builder.GetObject ("notebook_force_sensor_analyze_top");
+		hbox_force_general_analysis = (Gtk.HBox) builder.GetObject ("hbox_force_general_analysis");
+		button_force_sensor_analyze_load = (Gtk.Button) builder.GetObject ("button_force_sensor_analyze_load");
+		button_force_sensor_analyze_analyze = (Gtk.Button) builder.GetObject ("button_force_sensor_analyze_analyze");
+		label_force_sensor_analyze = (Gtk.Label) builder.GetObject ("label_force_sensor_analyze");
+		image_force_sensor_graph = (Gtk.Image) builder.GetObject ("image_force_sensor_graph");
+		viewport_force_sensor_graph = (Gtk.Viewport) builder.GetObject ("viewport_force_sensor_graph");
+		button_force_sensor_image_save_rfd_auto = (Gtk.Button) builder.GetObject ("button_force_sensor_image_save_rfd_auto");
+		button_force_sensor_image_save_rfd_manual = (Gtk.Button) builder.GetObject ("button_force_sensor_image_save_rfd_manual");
+		//scrolledwindow_force_sensor_ai = (Gtk.ScrolledWindow) builder.GetObject ("scrolledwindow_force_sensor_ai");
+		button_force_sensor_analyze_AB_save = (Gtk.Button) builder.GetObject ("button_force_sensor_analyze_AB_save");
+		check_force_sensor_ai_chained = (Gtk.CheckButton) builder.GetObject ("check_force_sensor_ai_chained");
+		check_force_sensor_ai_zoom = (Gtk.CheckButton) builder.GetObject ("check_force_sensor_ai_zoom");
+
+		radio_force_rfd_search_optimized_ab = (Gtk.RadioButton) builder.GetObject ("radio_force_rfd_search_optimized_ab");
+		radio_force_rfd_use_ab_range = (Gtk.RadioButton) builder.GetObject ("radio_force_rfd_use_ab_range");
+		spin_force_duration_seconds = (Gtk.SpinButton) builder.GetObject ("spin_force_duration_seconds");
+		radio_force_duration_seconds = (Gtk.RadioButton) builder.GetObject ("radio_force_duration_seconds");
+		hbox_force_rfd_duration_percent = (Gtk.HBox) builder.GetObject ("hbox_force_rfd_duration_percent");
+		radio_force_rfd_duration_percent = (Gtk.RadioButton) builder.GetObject ("radio_force_rfd_duration_percent");
+		spin_force_rfd_duration_percent = (Gtk.SpinButton) builder.GetObject ("spin_force_rfd_duration_percent");
+
+		//analyze options
+		hbox_force_sensor_analyze_top_modes = (Gtk.HBox) builder.GetObject ("hbox_force_sensor_analyze_top_modes");
+		//	hbox_force_sensor_analyze_automatic_options = (Gtk.HBox) builder.GetObject ("hbox_force_sensor_analyze_automatic_options");
+		//	notebook_force_analyze_automatic = (Gtk.Notebook) builder.GetObject ("notebook_force_analyze_automatic");
+		button_force_sensor_analyze_options_close_and_analyze = (Gtk.Button) builder.GetObject ("button_force_sensor_analyze_options_close_and_analyze");
+		label_hscale_force_sensor_ai_a_pre_1s = (Gtk.Label) builder.GetObject ("label_hscale_force_sensor_ai_a_pre_1s");
+		label_hscale_force_sensor_ai_a_post_1s = (Gtk.Label) builder.GetObject ("label_hscale_force_sensor_ai_a_post_1s");
+		label_hscale_force_sensor_ai_b_pre_1s = (Gtk.Label) builder.GetObject ("label_hscale_force_sensor_ai_b_pre_1s");
+		label_hscale_force_sensor_ai_b_post_1s = (Gtk.Label) builder.GetObject ("label_hscale_force_sensor_ai_b_post_1s");
+		vbox_force_rfd_duration_end = (Gtk.VBox) builder.GetObject ("vbox_force_rfd_duration_end");
+		button_force_sensor_analyze_options = (Gtk.Button) builder.GetObject ("button_force_sensor_analyze_options");
+		hbox_force_1 = (Gtk.HBox) builder.GetObject ("hbox_force_1");
+		hbox_force_2 = (Gtk.HBox) builder.GetObject ("hbox_force_2");
+		hbox_force_3 = (Gtk.HBox) builder.GetObject ("hbox_force_3");
+		hbox_force_4 = (Gtk.HBox) builder.GetObject ("hbox_force_4");
+		hbox_force_impulse = (Gtk.HBox) builder.GetObject ("hbox_force_impulse");
+		check_force_1 = (Gtk.CheckButton) builder.GetObject ("check_force_1");
+		check_force_2 = (Gtk.CheckButton) builder.GetObject ("check_force_2");
+		check_force_3 = (Gtk.CheckButton) builder.GetObject ("check_force_3");
+		check_force_4 = (Gtk.CheckButton) builder.GetObject ("check_force_4");
+		check_force_impulse = (Gtk.CheckButton) builder.GetObject ("check_force_impulse");
+		hbox_force_1_at_ms = (Gtk.HBox) builder.GetObject ("hbox_force_1_at_ms");
+		hbox_force_2_at_ms = (Gtk.HBox) builder.GetObject ("hbox_force_2_at_ms");
+		hbox_force_3_at_ms = (Gtk.HBox) builder.GetObject ("hbox_force_3_at_ms");
+		hbox_force_4_at_ms = (Gtk.HBox) builder.GetObject ("hbox_force_4_at_ms");
+		hbox_force_1_at_percent = (Gtk.HBox) builder.GetObject ("hbox_force_1_at_percent");
+		hbox_force_2_at_percent = (Gtk.HBox) builder.GetObject ("hbox_force_2_at_percent");
+		hbox_force_3_at_percent = (Gtk.HBox) builder.GetObject ("hbox_force_3_at_percent");
+		hbox_force_4_at_percent = (Gtk.HBox) builder.GetObject ("hbox_force_4_at_percent");
+		hbox_force_impulse_until_percent = (Gtk.HBox) builder.GetObject ("hbox_force_impulse_until_percent");
+		hbox_force_1_from_to = (Gtk.HBox) builder.GetObject ("hbox_force_1_from_to");
+		hbox_force_2_from_to = (Gtk.HBox) builder.GetObject ("hbox_force_2_from_to");
+		hbox_force_3_from_to = (Gtk.HBox) builder.GetObject ("hbox_force_3_from_to");
+		hbox_force_4_from_to = (Gtk.HBox) builder.GetObject ("hbox_force_4_from_to");
+		hbox_force_1_in_x_ms = (Gtk.HBox) builder.GetObject ("hbox_force_1_in_x_ms");
+		hbox_force_2_in_x_ms = (Gtk.HBox) builder.GetObject ("hbox_force_2_in_x_ms");
+		hbox_force_3_in_x_ms = (Gtk.HBox) builder.GetObject ("hbox_force_3_in_x_ms");
+		hbox_force_4_in_x_ms = (Gtk.HBox) builder.GetObject ("hbox_force_4_in_x_ms");
+		spinbutton_force_1_at_ms = (Gtk.SpinButton) builder.GetObject ("spinbutton_force_1_at_ms");
+		spinbutton_force_2_at_ms = (Gtk.SpinButton) builder.GetObject ("spinbutton_force_2_at_ms");
+		spinbutton_force_3_at_ms = (Gtk.SpinButton) builder.GetObject ("spinbutton_force_3_at_ms");
+		spinbutton_force_4_at_ms = (Gtk.SpinButton) builder.GetObject ("spinbutton_force_4_at_ms");
+		hbox_force_impulse_from_to = (Gtk.HBox) builder.GetObject ("hbox_force_impulse_from_to");
+		spinbutton_force_1_at_percent = (Gtk.SpinButton) builder.GetObject ("spinbutton_force_1_at_percent");
+		spinbutton_force_2_at_percent = (Gtk.SpinButton) builder.GetObject ("spinbutton_force_2_at_percent");
+		spinbutton_force_3_at_percent = (Gtk.SpinButton) builder.GetObject ("spinbutton_force_3_at_percent");
+		spinbutton_force_4_at_percent = (Gtk.SpinButton) builder.GetObject ("spinbutton_force_4_at_percent");
+		spinbutton_force_impulse_until_percent = (Gtk.SpinButton) builder.GetObject ("spinbutton_force_impulse_until_percent");
+		spinbutton_force_1_from = (Gtk.SpinButton) builder.GetObject ("spinbutton_force_1_from");
+		spinbutton_force_2_from = (Gtk.SpinButton) builder.GetObject ("spinbutton_force_2_from");
+		spinbutton_force_3_from = (Gtk.SpinButton) builder.GetObject ("spinbutton_force_3_from");
+		spinbutton_force_4_from = (Gtk.SpinButton) builder.GetObject ("spinbutton_force_4_from");
+		spinbutton_force_impulse_from = (Gtk.SpinButton) builder.GetObject ("spinbutton_force_impulse_from");
+		spinbutton_force_1_to = (Gtk.SpinButton) builder.GetObject ("spinbutton_force_1_to");
+		spinbutton_force_2_to = (Gtk.SpinButton) builder.GetObject ("spinbutton_force_2_to");
+		spinbutton_force_3_to = (Gtk.SpinButton) builder.GetObject ("spinbutton_force_3_to");
+		spinbutton_force_4_to = (Gtk.SpinButton) builder.GetObject ("spinbutton_force_4_to");
+		spinbutton_force_impulse_to = (Gtk.SpinButton) builder.GetObject ("spinbutton_force_impulse_to");
+		spinbutton_force_1_in_x_ms = (Gtk.SpinButton) builder.GetObject ("spinbutton_force_1_in_x_ms");
+		spinbutton_force_2_in_x_ms = (Gtk.SpinButton) builder.GetObject ("spinbutton_force_2_in_x_ms");
+		spinbutton_force_3_in_x_ms = (Gtk.SpinButton) builder.GetObject ("spinbutton_force_3_in_x_ms");
+		spinbutton_force_4_in_x_ms = (Gtk.SpinButton) builder.GetObject ("spinbutton_force_4_in_x_ms");
+
+		button_hscale_force_sensor_ai_a_first = (Gtk.Button) builder.GetObject ("button_hscale_force_sensor_ai_a_first");
+		button_hscale_force_sensor_ai_a_pre = (Gtk.Button) builder.GetObject ("button_hscale_force_sensor_ai_a_pre");
+		button_hscale_force_sensor_ai_a_post = (Gtk.Button) builder.GetObject ("button_hscale_force_sensor_ai_a_post");
+		button_hscale_force_sensor_ai_a_last = (Gtk.Button) builder.GetObject ("button_hscale_force_sensor_ai_a_last");
+
+		button_hscale_force_sensor_ai_b_first = (Gtk.Button) builder.GetObject ("button_hscale_force_sensor_ai_b_first");
+		button_hscale_force_sensor_ai_b_pre = (Gtk.Button) builder.GetObject ("button_hscale_force_sensor_ai_b_pre");
+		button_hscale_force_sensor_ai_b_post = (Gtk.Button) builder.GetObject ("button_hscale_force_sensor_ai_b_post");
+		button_hscale_force_sensor_ai_b_last = (Gtk.Button) builder.GetObject ("button_hscale_force_sensor_ai_b_last");
+
+		hbox_force_sensor_ai_position = (Gtk.HBox) builder.GetObject ("hbox_force_sensor_ai_position");
+		hbox_force_sensor_ai_speed = (Gtk.HBox) builder.GetObject ("hbox_force_sensor_ai_speed");
+		hbox_force_sensor_ai_accel = (Gtk.HBox) builder.GetObject ("hbox_force_sensor_ai_accel");
+		hbox_force_sensor_ai_power = (Gtk.HBox) builder.GetObject ("hbox_force_sensor_ai_power");
+
+		table_force_sensor_ai_impulse_variability_and_feedback = (Gtk.Table) builder.GetObject ("table_force_sensor_ai_impulse_variability_and_feedback");
+		label_force_sensor_ai_feedback = (Gtk.Label) builder.GetObject ("label_force_sensor_ai_feedback");
+		hbox_force_sensor_ai_feedback = (Gtk.HBox) builder.GetObject ("hbox_force_sensor_ai_feedback");
+		label_force_sensor_ai_impulse_values = (Gtk.Label) builder.GetObject ("label_force_sensor_ai_impulse_values");
+		label_force_sensor_ai_variability_values = (Gtk.Label) builder.GetObject ("label_force_sensor_ai_variability_values");
+		label_force_sensor_ai_feedback_values = (Gtk.Label) builder.GetObject ("label_force_sensor_ai_feedback_values");
+		label_force_sensor_ai_variability_method = (Gtk.Label) builder.GetObject ("label_force_sensor_ai_variability_method");
+		label_force_sensor_ai_variability_units = (Gtk.Label) builder.GetObject ("label_force_sensor_ai_variability_units");
+		label_force_sensor_ai_max_avg_in_window = (Gtk.Label) builder.GetObject ("label_force_sensor_ai_max_avg_in_window");
+
+		notebook_force_sensor_export = (Gtk.Notebook) builder.GetObject ("notebook_force_sensor_export");
+		label_force_sensor_export_data = (Gtk.Label) builder.GetObject ("label_force_sensor_export_data");
+		hbox_force_sensor_export_images = (Gtk.HBox) builder.GetObject ("hbox_force_sensor_export_images");
+		check_force_sensor_export_images = (Gtk.CheckButton) builder.GetObject ("check_force_sensor_export_images");
+		hbox_force_sensor_export_width_height = (Gtk.HBox) builder.GetObject ("hbox_force_sensor_export_width_height");
+		spinbutton_force_sensor_export_image_width = (Gtk.SpinButton) builder.GetObject ("spinbutton_force_sensor_export_image_width");
+		spinbutton_force_sensor_export_image_height = (Gtk.SpinButton) builder.GetObject ("spinbutton_force_sensor_export_image_height");
+		progressbar_force_sensor_export = (Gtk.ProgressBar) builder.GetObject ("progressbar_force_sensor_export");
+		label_force_sensor_export_result = (Gtk.Label) builder.GetObject ("label_force_sensor_export_result");
+		button_force_sensor_export_result_open = (Gtk.Button) builder.GetObject ("button_force_sensor_export_result_open");
+
+		hbox_force_sensor_analyze_ai_sliders_and_buttons = (Gtk.HBox) builder.GetObject ("hbox_force_sensor_analyze_ai_sliders_and_buttons");
+		force_sensor_ai_drawingarea_cairo = (Gtk.DrawingArea) builder.GetObject ("force_sensor_ai_drawingarea_cairo");
+		hscale_force_sensor_ai_a = (Gtk.HScale) builder.GetObject ("hscale_force_sensor_ai_a");
+		hscale_force_sensor_ai_b = (Gtk.HScale) builder.GetObject ("hscale_force_sensor_ai_b");
+		label_force_sensor_ai_time_a = (Gtk.Label) builder.GetObject ("label_force_sensor_ai_time_a");
+		label_force_sensor_ai_force_a = (Gtk.Label) builder.GetObject ("label_force_sensor_ai_force_a");
+		label_force_sensor_ai_rfd_a = (Gtk.Label) builder.GetObject ("label_force_sensor_ai_rfd_a");
+		label_force_sensor_ai_position_a = (Gtk.Label) builder.GetObject ("label_force_sensor_ai_position_a");
+		label_force_sensor_ai_speed_a = (Gtk.Label) builder.GetObject ("label_force_sensor_ai_speed_a");
+		label_force_sensor_ai_accel_a = (Gtk.Label) builder.GetObject ("label_force_sensor_ai_accel_a");
+		label_force_sensor_ai_power_a = (Gtk.Label) builder.GetObject ("label_force_sensor_ai_power_a");
+		//hbox_buttons_scale_force_sensor_ai_b = (Gtk.HBox) builder.GetObject ("hbox_buttons_scale_force_sensor_ai_b");
+		label_force_sensor_ai_position_b = (Gtk.Label) builder.GetObject ("label_force_sensor_ai_position_b");
+		label_force_sensor_ai_position_diff = (Gtk.Label) builder.GetObject ("label_force_sensor_ai_position_diff");
+		label_force_sensor_ai_speed_b = (Gtk.Label) builder.GetObject ("label_force_sensor_ai_speed_b");
+		label_force_sensor_ai_speed_diff = (Gtk.Label) builder.GetObject ("label_force_sensor_ai_speed_diff");
+		label_force_sensor_ai_speed_average = (Gtk.Label) builder.GetObject ("label_force_sensor_ai_speed_average");
+		label_force_sensor_ai_speed_max = (Gtk.Label) builder.GetObject ("label_force_sensor_ai_speed_max");
+		label_force_sensor_ai_accel_b = (Gtk.Label) builder.GetObject ("label_force_sensor_ai_accel_b");
+		label_force_sensor_ai_accel_diff = (Gtk.Label) builder.GetObject ("label_force_sensor_ai_accel_diff");
+		label_force_sensor_ai_accel_average = (Gtk.Label) builder.GetObject ("label_force_sensor_ai_accel_average");
+		label_force_sensor_ai_accel_max = (Gtk.Label) builder.GetObject ("label_force_sensor_ai_accel_max");
+		label_force_sensor_ai_power_b = (Gtk.Label) builder.GetObject ("label_force_sensor_ai_power_b");
+		label_force_sensor_ai_power_diff = (Gtk.Label) builder.GetObject ("label_force_sensor_ai_power_diff");
+		label_force_sensor_ai_power_average = (Gtk.Label) builder.GetObject ("label_force_sensor_ai_power_average");
+		label_force_sensor_ai_power_max = (Gtk.Label) builder.GetObject ("label_force_sensor_ai_power_max");
+		label_force_sensor_ai_time_b = (Gtk.Label) builder.GetObject ("label_force_sensor_ai_time_b");
+		label_force_sensor_ai_time_diff = (Gtk.Label) builder.GetObject ("label_force_sensor_ai_time_diff");
+		label_force_sensor_ai_force_b = (Gtk.Label) builder.GetObject ("label_force_sensor_ai_force_b");
+		label_force_sensor_ai_force_diff = (Gtk.Label) builder.GetObject ("label_force_sensor_ai_force_diff");
+		label_force_sensor_ai_force_average = (Gtk.Label) builder.GetObject ("label_force_sensor_ai_force_average");
+		label_force_sensor_ai_force_max = (Gtk.Label) builder.GetObject ("label_force_sensor_ai_force_max");
+		label_force_sensor_ai_rfd_b = (Gtk.Label) builder.GetObject ("label_force_sensor_ai_rfd_b");
+		label_force_sensor_ai_rfd_diff = (Gtk.Label) builder.GetObject ("label_force_sensor_ai_rfd_diff");
+		label_force_sensor_ai_rfd_average = (Gtk.Label) builder.GetObject ("label_force_sensor_ai_rfd_average");
+		label_force_sensor_ai_rfd_max = (Gtk.Label) builder.GetObject ("label_force_sensor_ai_rfd_max");
+		label_force_sensor_ai_max_avg_in_window_values = (Gtk.Label) builder.GetObject ("label_force_sensor_ai_max_avg_in_window_values");
+
+		combo_force_1_function = (Gtk.ComboBoxText) builder.GetObject ("combo_force_1_function");
+		combo_force_2_function = (Gtk.ComboBoxText) builder.GetObject ("combo_force_2_function");
+		combo_force_3_function = (Gtk.ComboBoxText) builder.GetObject ("combo_force_3_function");
+		combo_force_4_function = (Gtk.ComboBoxText) builder.GetObject ("combo_force_4_function");
+		combo_force_impulse_function = (Gtk.ComboBoxText) builder.GetObject ("combo_force_impulse_function");
+		combo_force_1_type = (Gtk.ComboBoxText) builder.GetObject ("combo_force_1_type");
+		combo_force_2_type = (Gtk.ComboBoxText) builder.GetObject ("combo_force_2_type");
+		combo_force_3_type = (Gtk.ComboBoxText) builder.GetObject ("combo_force_3_type");
+		combo_force_4_type = (Gtk.ComboBoxText) builder.GetObject ("combo_force_4_type");
+		combo_force_impulse_type = (Gtk.ComboBoxText) builder.GetObject ("combo_force_impulse_type");
+	}
 }

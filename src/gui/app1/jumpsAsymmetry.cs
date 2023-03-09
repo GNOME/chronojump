@@ -15,35 +15,34 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2022   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2023   Xavier de Blas <xaviblas@gmail.com> 
  */
 
 
 using System;
 using System.Collections.Generic; //List
 using Gtk;
-using Glade;
+//using Glade;
 using Mono.Unix;
 
 public partial class ChronoJumpWindow 
 {
-	[Widget] Gtk.DrawingArea drawingarea_jumps_asymmetry;
-	[Widget] Gtk.Image image_tab_jumps_asymmetry;
-	[Widget] Gtk.Image image_jumps_asymmetry_save;
-	[Widget] Gtk.Button button_jumps_asymmetry_save_image;
+	// at glade ---->
+	Gtk.DrawingArea drawingarea_jumps_asymmetry;
+	Gtk.Image image_tab_jumps_asymmetry;
+	Gtk.Image image_jumps_asymmetry_save;
+	Gtk.Button button_jumps_asymmetry_save_image;
 
-	[Widget] Gtk.RadioButton radio_jumps_asymmetry_bilateral;
-	[Widget] Gtk.RadioButton radio_jumps_asymmetry_asymmetry;
+	Gtk.RadioButton radio_jumps_asymmetry_bilateral;
+	Gtk.RadioButton radio_jumps_asymmetry_asymmetry;
 
-	[Widget] Gtk.RadioButton radio_jumps_asymmetry_use_means;
+	Gtk.RadioButton radio_jumps_asymmetry_use_means;
 
-	[Widget] Gtk.HBox hbox_combo_select_jumps_asymmetry_bilateral;
-	[Widget] Gtk.ComboBox combo_select_jumps_asymmetry_bilateral;
-	[Widget] Gtk.HBox hbox_combo_select_jumps_asymmetry_1;
-	[Widget] Gtk.ComboBox combo_select_jumps_asymmetry_1;
-	[Widget] Gtk.HBox hbox_combo_select_jumps_asymmetry_2;
-	[Widget] Gtk.ComboBox combo_select_jumps_asymmetry_2;
-	[Widget] Gtk.Label label_jumps_asymmetry_bilateral;
+	Gtk.HBox hbox_combo_select_jumps_asymmetry_bilateral;
+	Gtk.HBox hbox_combo_select_jumps_asymmetry_1;
+	Gtk.HBox hbox_combo_select_jumps_asymmetry_2;
+	Gtk.Label label_jumps_asymmetry_bilateral;
+	// <---- at glade
 
 	//TODO: need max/avg controls
 
@@ -51,6 +50,10 @@ public partial class ChronoJumpWindow
 	CjComboSelectJumps comboSelectJumpsAsymmetryBilateral;
 	CjComboSelectJumps comboSelectJumpsAsymmetry1;
 	CjComboSelectJumps comboSelectJumpsAsymmetry2;
+	
+	Gtk.ComboBoxText combo_select_jumps_asymmetry_bilateral;
+	Gtk.ComboBoxText combo_select_jumps_asymmetry_1;
+	Gtk.ComboBoxText combo_select_jumps_asymmetry_2;
 
 	private void createComboSelectJumpsAsymmetry (bool create)
 	{
@@ -246,7 +249,7 @@ public partial class ChronoJumpWindow
 		jumpsAsymmetryGraph.PassMouseXY (args.Event.X, args.Event.Y);
 		jumpsAsymmetryGraph.Do (preferences.fontType.ToString());
 	}
-	private void on_drawingarea_jumps_asymmetry_expose_event (object o, ExposeEventArgs args)
+	private void on_drawingarea_jumps_asymmetry_draw (object o, Gtk.DrawnArgs args)
 	{
 		jumpsAsymmetryDo (false); //do not calculate data
 		//data is calculated on switch page (at notebook_capture_analyze) or on change person
@@ -276,4 +279,21 @@ public partial class ChronoJumpWindow
 		new DialogMessage(Constants.MessageTypes.INFO, myString);
 	}
 
+	private void connectWidgetsJumpAsymmetry (Gtk.Builder builder)
+	{
+		drawingarea_jumps_asymmetry = (Gtk.DrawingArea) builder.GetObject ("drawingarea_jumps_asymmetry");
+		image_tab_jumps_asymmetry = (Gtk.Image) builder.GetObject ("image_tab_jumps_asymmetry");
+		image_jumps_asymmetry_save = (Gtk.Image) builder.GetObject ("image_jumps_asymmetry_save");
+		button_jumps_asymmetry_save_image = (Gtk.Button) builder.GetObject ("button_jumps_asymmetry_save_image");
+
+		radio_jumps_asymmetry_bilateral = (Gtk.RadioButton) builder.GetObject ("radio_jumps_asymmetry_bilateral");
+		radio_jumps_asymmetry_asymmetry = (Gtk.RadioButton) builder.GetObject ("radio_jumps_asymmetry_asymmetry");
+
+		radio_jumps_asymmetry_use_means = (Gtk.RadioButton) builder.GetObject ("radio_jumps_asymmetry_use_means");
+
+		hbox_combo_select_jumps_asymmetry_bilateral = (Gtk.HBox) builder.GetObject ("hbox_combo_select_jumps_asymmetry_bilateral");
+		hbox_combo_select_jumps_asymmetry_1 = (Gtk.HBox) builder.GetObject ("hbox_combo_select_jumps_asymmetry_1");
+		hbox_combo_select_jumps_asymmetry_2 = (Gtk.HBox) builder.GetObject ("hbox_combo_select_jumps_asymmetry_2");
+		label_jumps_asymmetry_bilateral = (Gtk.Label) builder.GetObject ("label_jumps_asymmetry_bilateral");
+	}
 }

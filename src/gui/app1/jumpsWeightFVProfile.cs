@@ -15,26 +15,26 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2020   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2004-2023   Xavier de Blas <xaviblas@gmail.com> 
  */
 
 
 using System;
 using Gtk;
-using Glade;
+//using Glade;
 using Mono.Unix;
 
 public partial class ChronoJumpWindow 
 {
-	[Widget] Gtk.DrawingArea drawingarea_jumps_weight_fv_profile;
-	[Widget] Gtk.Image image_tab_jumps_weight_fv_profile;
-	[Widget] Gtk.Image image_jumps_weight_fv_profile_save;
-	//[Widget] Gtk.HBox hbox_combo_select_jumps_weight_fv_profile;
-	//[Widget] Gtk.ComboBox combo_select_jumps_weight_fv_profile;
-	[Widget] Gtk.Button button_jumps_weight_fv_profile_save_image;
-	[Widget] Gtk.CheckButton check_jumps_weight_fv_profile_only_best_in_weight;
-	[Widget] Gtk.RadioButton radio_jumps_weight_fv_profile_show_full_graph;
-	[Widget] Gtk.RadioButton radio_jumps_weight_fv_profile_zoom_to_points;
+	Gtk.DrawingArea drawingarea_jumps_weight_fv_profile;
+	Gtk.Image image_tab_jumps_weight_fv_profile;
+	Gtk.Image image_jumps_weight_fv_profile_save;
+	//Gtk.HBox hbox_combo_select_jumps_weight_fv_profile;
+	//Gtk.ComboBoxText combo_select_jumps_weight_fv_profile;
+	Gtk.Button button_jumps_weight_fv_profile_save_image;
+	Gtk.CheckButton check_jumps_weight_fv_profile_only_best_in_weight;
+	Gtk.RadioButton radio_jumps_weight_fv_profile_show_full_graph;
+	Gtk.RadioButton radio_jumps_weight_fv_profile_zoom_to_points;
 
 	JumpsWeightFVProfile jumpsWeightFVProfile;
 	JumpsWeightFVProfileGraph jumpsWeightFVProfileGraph;
@@ -59,7 +59,7 @@ public partial class ChronoJumpWindow
 	private void on_combo_select_jumps_weight_fv_profile_changed(object o, EventArgs args)
 	{
 		/*
-		ComboBox combo = o as ComboBox;
+		ComboBoxText combo = o as ComboboxText;
 		if (o == null)
 			return;
 
@@ -138,7 +138,7 @@ public partial class ChronoJumpWindow
 			button_jumps_weight_fv_profile_save_image.Sensitive = true;
 		}
 	}
-	private void on_drawingarea_jumps_weight_fv_profile_expose_event (object o, ExposeEventArgs args) 
+	private void on_drawingarea_jumps_weight_fv_profile_draw (object o, Gtk.DrawnArgs args) 
 	{
 		jumpsWeightFVProfileDo(false); //do not calculate data
 		//data is calculated on switch page (at notebook_capture_analyze) or on change person
@@ -207,4 +207,16 @@ public partial class ChronoJumpWindow
 		new DialogMessage(Constants.MessageTypes.INFO, myString);
 	}
 
+	private void connectWidgetsJumpsWeightFVProfile (Gtk.Builder builder)
+	{
+		drawingarea_jumps_weight_fv_profile = (Gtk.DrawingArea) builder.GetObject ("drawingarea_jumps_weight_fv_profile");
+		image_tab_jumps_weight_fv_profile = (Gtk.Image) builder.GetObject ("image_tab_jumps_weight_fv_profile");
+		image_jumps_weight_fv_profile_save = (Gtk.Image) builder.GetObject ("image_jumps_weight_fv_profile_save");
+		//hbox_combo_select_jumps_weight_fv_profile = (Gtk.HBox) builder.GetObject ("hbox_combo_select_jumps_weight_fv_profile");
+		//combo_select_jumps_weight_fv_profile = (Gtk.ComboBoxText) builder.GetObject ("combo_select_jumps_weight_fv_profile");
+		button_jumps_weight_fv_profile_save_image = (Gtk.Button) builder.GetObject ("button_jumps_weight_fv_profile_save_image");
+		check_jumps_weight_fv_profile_only_best_in_weight = (Gtk.CheckButton) builder.GetObject ("check_jumps_weight_fv_profile_only_best_in_weight");
+		radio_jumps_weight_fv_profile_show_full_graph = (Gtk.RadioButton) builder.GetObject ("radio_jumps_weight_fv_profile_show_full_graph");
+		radio_jumps_weight_fv_profile_zoom_to_points = (Gtk.RadioButton) builder.GetObject ("radio_jumps_weight_fv_profile_zoom_to_points");
+	}
 }

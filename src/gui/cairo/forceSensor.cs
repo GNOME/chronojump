@@ -479,7 +479,7 @@ LogB.Information (points_l[points_l.Count-1].X.ToString());
 
 public class CairoGraphForceSensorAI : CairoGraphForceSensor
 {
-	private Cairo.Color colorGreen = colorFromRGB (0,200,0);
+	//private Cairo.Color colorGreen = colorFromRGB (0,200,0);
 	private Cairo.Color colorBlue = colorFromRGB (0,0,200);
 	private ForceSensorExercise exercise;
 	private RepetitionMouseLimitsWithSamples repMouseLimits;

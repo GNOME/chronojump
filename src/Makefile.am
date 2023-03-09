@@ -101,7 +101,6 @@ SOURCES = \
 	gui/server.cs\
 	gui/splash.cs\
 	gui/sprint.cs\
-	gui/dialogServerStats.cs\
 	gui/evaluator.cs\
 	gui/networks.cs\
 	gui/usefulObjects.cs\
@@ -302,7 +301,6 @@ RESOURCES = \
 	../glade/dialog_image_test.glade \
 	../glade/dialog_message.glade \
 	../glade/dialog_person_popup.glade \
-	../glade/dialog_server_stats.glade \
 	../glade/dialog_shortcuts.glade \
 	../glade/dialog_threshold.glade \
 	../glade/edit_event.glade \

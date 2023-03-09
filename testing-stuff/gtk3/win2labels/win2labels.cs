@@ -17,11 +17,14 @@ public class main
 
 public class Win2labels
 {
-	static Win2labels Win2labelsBox;
-
+	//defined in glade
 	Gtk.Window window;
 	Gtk.Label label1;
 	Gtk.Label label2;
+	Gtk.Box hbox_combo;
+
+	static Win2labels Win2labelsBox;
+	Gtk.ComboBoxText combo;
 	
 	public Win2labels ()
 	{
@@ -40,12 +43,21 @@ public class Win2labels
 		//can this program work without next two lines?
 		label1 = (Gtk.Label) builder.GetObject("label1");
 		label2 = (Gtk.Label) builder.GetObject("label2");
+		hbox_combo = (Gtk.Box) builder.GetObject("hbox");
 
 		//builder.Autoconnect (window);
 		builder.Autoconnect (this);
 
 		label1.Text = "Hello!";
 		label2.Text = "Bye!";
+
+		combo = new ComboBoxText ();
+		combo.AppendText ("què");
+		combo.AppendText ("tal");
+		combo.AppendText ("estàs?");
+		combo.Active = 0;
+		hbox_combo.PackStart (combo, true, true, 0);
+		hbox_combo.ShowAll();
 	}
 
 	static public Win2labels Show ()
@@ -56,7 +68,12 @@ public class Win2labels
 		return Win2labelsBox;
 	}
 
-	void on_delete_event (object o, DeleteEventArgs args)
+	void on_window_draw (object o, Gtk.DrawnArgs args)
+	{
+                //Console.WriteLine ("draw");
+	}
+
+	void on_window_delete_event (object o, DeleteEventArgs args)
         {
                 Console.WriteLine ("closing");
 /*

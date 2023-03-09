@@ -491,9 +491,9 @@ plotSprintFromEncoder <- function(sprintRawDynamics, sprintFittedDynamics, isSpr
                 {
                         
                         lines(c(-T0, sprintFittedDynamics$tpmax.fitted -T0), c(sprintFittedDynamics$vpmax.fitted, sprintFittedDynamics$vpmax.fitted)
-                              , col = "green", lty = 3, lwd = 2)
+                              , col = "black", lty = 3, lwd = 2)
                         text(-T0, sprintFittedDynamics$vpmax.fitted , paste( round(sprintFittedDynamics$vpmax.fitted, 2), "m/s")
-                             , col = "green", adj = c(-0.1, -0.5))
+                             , col = "black", adj = c(-0.1, -0.5))
                 }
         }
         
@@ -681,7 +681,7 @@ plotSprintFromEncoder <- function(sprintRawDynamics, sprintFittedDynamics, isSpr
 			#Speed when power is max
 			
 			legendText = c(legendText, paste("VPmax (fitted) =", round(sprintFittedDynamics$vpmax.fitted, digits = 2), "m/s"))
-			legendColor = c(legendColor, "green")
+			legendColor = c(legendColor, "black")
 			legendLty = c(legendLty, 3)
 			legendLwd = c(legendLwd, lwdFitted)
                 }

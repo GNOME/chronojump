@@ -22,7 +22,6 @@ glade/force_sensor_exercise.glade
 glade/generic_window.glade
 glade/jumps_runs_more.glade
 glade/jump_type_add.glade
-glade/old/dialog_help_ports.glade
 glade/overview.glade
 glade/person_merge.glade
 glade/person_multiple_infinite.glade
@@ -31,7 +30,6 @@ glade/person_select_window.glade
 glade/person_show_all_events.glade
 glade/person_win.glade
 glade/preferences_win.glade
-glade/query_server_window.glade
 glade/repair_sub_event.glade
 glade/report_window.glade
 glade/run_type_add.glade
@@ -105,9 +103,6 @@ src/gui/jump.cs
 src/gui/jumpType.cs
 src/gui/multiChronopic.cs
 src/gui/networks.cs
-src/gui/old/chronojumpServerOld.cs
-src/gui/old/helpPorts.cs
-src/gui/old/queryServer.cs
 src/gui/overview.cs
 src/gui/person/addModify.cs
 src/gui/person/addMultiple.cs
@@ -134,7 +129,6 @@ src/jumpsProfile.cs
 src/jumpType.cs
 src/Mini/chronojump_mini.cs
 src/networks.cs
-src/old/server.cs
 src/pulseType.cs
 src/report.cs
 src/runEncoder.cs

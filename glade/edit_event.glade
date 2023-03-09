@@ -1,8 +1,32 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<glade-interface>
+<?xml version="1.0"?>
+<interface>
+  <object class="GtkAdjustment" id="adjustment1">
+    <property name="value">0</property>
+    <property name="lower">0</property>
+    <property name="upper">30</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">10</property>
+    <property name="page_size">0</property>
+  </object>
+  <object class="GtkAdjustment" id="adjustment2">
+    <property name="value">0</property>
+    <property name="lower">0</property>
+    <property name="upper">200</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">1</property>
+    <property name="page_size">0</property>
+  </object>
+  <object class="GtkAdjustment" id="adjustment3">
+    <property name="value">0</property>
+    <property name="lower">0</property>
+    <property name="upper">90</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">1</property>
+    <property name="page_size">0</property>
+  </object>
   <!-- interface-requires gtk+ 3.0 -->
   <!-- interface-naming-policy toplevel-contextual -->
-  <widget class="GtkWindow" id="edit_event">
+  <object class="GtkWindow" id="edit_event">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
     <property name="border_width">10</property>
@@ -12,15 +36,15 @@
     <property name="type_hint">dialog</property>
     <signal name="delete_event" handler="on_delete_event" swapped="no"/>
     <child>
-      <widget class="GtkVBox" id="vbox107">
+      <object class="GtkVBox" id="vbox107">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="spacing">8</property>
         <child>
-          <widget class="GtkLabel" id="label_header">
+          <object class="GtkLabel" id="label_header">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-          </widget>
+          </object>
           <packing>
             <property name="expand">False</property>
             <property name="fill">False</property>
@@ -28,7 +52,7 @@
           </packing>
         </child>
         <child>
-          <widget class="GtkTable" id="table42">
+          <object class="GtkTable" id="table42">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="n_rows">14</property>
@@ -48,12 +72,12 @@
               <placeholder/>
             </child>
             <child>
-              <widget class="GtkLabel" id="label_tv_title">
+              <object class="GtkLabel" id="label_tv_title">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="xalign">0</property>
                 <property name="label" translatable="yes">Flight time</property>
-              </widget>
+              </object>
               <packing>
                 <property name="top_attach">3</property>
                 <property name="bottom_attach">4</property>
@@ -62,12 +86,12 @@
               </packing>
             </child>
             <child>
-              <widget class="GtkLabel" id="label_fall_title">
+              <object class="GtkLabel" id="label_fall_title">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="xalign">0</property>
                 <property name="label" translatable="yes">Falling height</property>
-              </widget>
+              </object>
               <packing>
                 <property name="top_attach">5</property>
                 <property name="bottom_attach">6</property>
@@ -76,12 +100,12 @@
               </packing>
             </child>
             <child>
-              <widget class="GtkLabel" id="label_weight_title">
+              <object class="GtkLabel" id="label_weight_title">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="xalign">0</property>
                 <property name="label" translatable="yes">Extra weight</property>
-              </widget>
+              </object>
               <packing>
                 <property name="top_attach">9</property>
                 <property name="bottom_attach">10</property>
@@ -90,12 +114,12 @@
               </packing>
             </child>
             <child>
-              <widget class="GtkLabel" id="label_type_title">
+              <object class="GtkLabel" id="label_type_title">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="xalign">0</property>
                 <property name="label" translatable="yes">Type</property>
-              </widget>
+              </object>
               <packing>
                 <property name="top_attach">1</property>
                 <property name="bottom_attach">2</property>
@@ -104,12 +128,12 @@
               </packing>
             </child>
             <child>
-              <widget class="GtkLabel" id="label466">
+              <object class="GtkLabel" id="label466">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="xalign">0</property>
                 <property name="label" translatable="yes">Person</property>
-              </widget>
+              </object>
               <packing>
                 <property name="top_attach">11</property>
                 <property name="bottom_attach">12</property>
@@ -118,13 +142,13 @@
               </packing>
             </child>
             <child>
-              <widget class="GtkHBox" id="hbox_combo_person">
+              <object class="GtkHBox" id="hbox_combo_person">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <child>
                   <placeholder/>
                 </child>
-              </widget>
+              </object>
               <packing>
                 <property name="left_attach">1</property>
                 <property name="right_attach">2</property>
@@ -135,24 +159,24 @@
               </packing>
             </child>
             <child>
-              <widget class="GtkLabel" id="label_event_id_title">
+              <object class="GtkLabel" id="label_event_id_title">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="xalign">0</property>
                 <property name="label" translatable="yes">Identifier</property>
-              </widget>
+              </object>
               <packing>
                 <property name="x_options">GTK_FILL</property>
                 <property name="y_options"/>
               </packing>
             </child>
             <child>
-              <widget class="GtkLabel" id="label_limited_title">
+              <object class="GtkLabel" id="label_limited_title">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="xalign">0</property>
                 <property name="label" translatable="yes">Limited by</property>
-              </widget>
+              </object>
               <packing>
                 <property name="top_attach">10</property>
                 <property name="bottom_attach">11</property>
@@ -161,11 +185,11 @@
               </packing>
             </child>
             <child>
-              <widget class="GtkLabel" id="label_limited_value">
+              <object class="GtkLabel" id="label_limited_value">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="xalign">0</property>
-              </widget>
+              </object>
               <packing>
                 <property name="left_attach">1</property>
                 <property name="right_attach">2</property>
@@ -176,12 +200,12 @@
               </packing>
             </child>
             <child>
-              <widget class="GtkLabel" id="label_tc_title">
+              <object class="GtkLabel" id="label_tc_title">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="xalign">0</property>
                 <property name="label" translatable="yes">Contact time</property>
-              </widget>
+              </object>
               <packing>
                 <property name="top_attach">4</property>
                 <property name="bottom_attach">5</property>
@@ -190,7 +214,7 @@
               </packing>
             </child>
             <child>
-              <widget class="GtkEntry" id="entry_tv_value">
+              <object class="GtkEntry" id="entry_tv_value">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="primary_icon_activatable">False</property>
@@ -198,7 +222,7 @@
                 <property name="primary_icon_sensitive">True</property>
                 <property name="secondary_icon_sensitive">True</property>
                 <signal name="changed" handler="on_entry_tv_value_changed" swapped="no"/>
-              </widget>
+              </object>
               <packing>
                 <property name="left_attach">1</property>
                 <property name="right_attach">2</property>
@@ -208,7 +232,7 @@
               </packing>
             </child>
             <child>
-              <widget class="GtkEntry" id="entry_tc_value">
+              <object class="GtkEntry" id="entry_tc_value">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="primary_icon_activatable">False</property>
@@ -216,7 +240,7 @@
                 <property name="primary_icon_sensitive">True</property>
                 <property name="secondary_icon_sensitive">True</property>
                 <signal name="changed" handler="on_entry_tc_value_changed" swapped="no"/>
-              </widget>
+              </object>
               <packing>
                 <property name="left_attach">1</property>
                 <property name="right_attach">2</property>
@@ -226,7 +250,7 @@
               </packing>
             </child>
             <child>
-              <widget class="GtkEntry" id="entry_fall_value">
+              <object class="GtkEntry" id="entry_fall_value">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="primary_icon_activatable">False</property>
@@ -234,7 +258,7 @@
                 <property name="primary_icon_sensitive">True</property>
                 <property name="secondary_icon_sensitive">True</property>
                 <signal name="changed" handler="on_entry_fall_value_changed" swapped="no"/>
-              </widget>
+              </object>
               <packing>
                 <property name="left_attach">1</property>
                 <property name="right_attach">2</property>
@@ -244,7 +268,7 @@
               </packing>
             </child>
             <child>
-              <widget class="GtkEntry" id="entry_weight_value">
+              <object class="GtkEntry" id="entry_weight_value">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="primary_icon_activatable">False</property>
@@ -252,7 +276,7 @@
                 <property name="primary_icon_sensitive">True</property>
                 <property name="secondary_icon_sensitive">True</property>
                 <signal name="changed" handler="on_entry_weight_value_changed" swapped="no"/>
-              </widget>
+              </object>
               <packing>
                 <property name="left_attach">1</property>
                 <property name="right_attach">2</property>
@@ -262,12 +286,12 @@
               </packing>
             </child>
             <child>
-              <widget class="GtkLabel" id="label_distance_title">
+              <object class="GtkLabel" id="label_distance_title">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="xalign">0</property>
                 <property name="label" translatable="yes">Distance</property>
-              </widget>
+              </object>
               <packing>
                 <property name="top_attach">6</property>
                 <property name="bottom_attach">7</property>
@@ -276,12 +300,12 @@
               </packing>
             </child>
             <child>
-              <widget class="GtkLabel" id="label_time_title">
+              <object class="GtkLabel" id="label_time_title">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="xalign">0</property>
                 <property name="label" translatable="yes">Time</property>
-              </widget>
+              </object>
               <packing>
                 <property name="top_attach">7</property>
                 <property name="bottom_attach">8</property>
@@ -290,12 +314,12 @@
               </packing>
             </child>
             <child>
-              <widget class="GtkLabel" id="label_speed_title">
+              <object class="GtkLabel" id="label_speed_title">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="xalign">0</property>
                 <property name="label" translatable="yes">Speed</property>
-              </widget>
+              </object>
               <packing>
                 <property name="top_attach">8</property>
                 <property name="bottom_attach">9</property>
@@ -304,7 +328,7 @@
               </packing>
             </child>
             <child>
-              <widget class="GtkEntry" id="entry_distance_value">
+              <object class="GtkEntry" id="entry_distance_value">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="primary_icon_activatable">False</property>
@@ -312,7 +336,7 @@
                 <property name="primary_icon_sensitive">True</property>
                 <property name="secondary_icon_sensitive">True</property>
                 <signal name="changed" handler="on_entry_distance_changed" swapped="no"/>
-              </widget>
+              </object>
               <packing>
                 <property name="left_attach">1</property>
                 <property name="right_attach">2</property>
@@ -322,7 +346,7 @@
               </packing>
             </child>
             <child>
-              <widget class="GtkEntry" id="entry_time_value">
+              <object class="GtkEntry" id="entry_time_value">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="primary_icon_activatable">False</property>
@@ -330,7 +354,7 @@
                 <property name="primary_icon_sensitive">True</property>
                 <property name="secondary_icon_sensitive">True</property>
                 <signal name="changed" handler="on_entry_time_changed" swapped="no"/>
-              </widget>
+              </object>
               <packing>
                 <property name="left_attach">1</property>
                 <property name="right_attach">2</property>
@@ -340,11 +364,11 @@
               </packing>
             </child>
             <child>
-              <widget class="GtkLabel" id="label_speed_value">
+              <object class="GtkLabel" id="label_speed_value">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="xalign">0</property>
-              </widget>
+              </object>
               <packing>
                 <property name="left_attach">1</property>
                 <property name="right_attach">2</property>
@@ -355,13 +379,13 @@
               </packing>
             </child>
             <child>
-              <widget class="GtkHBox" id="hbox_combo_eventType">
+              <object class="GtkHBox" id="hbox_combo_eventType">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <child>
                   <placeholder/>
                 </child>
-              </widget>
+              </object>
               <packing>
                 <property name="left_attach">1</property>
                 <property name="right_attach">2</property>
@@ -372,16 +396,16 @@
               </packing>
             </child>
             <child>
-              <widget class="GtkHBox" id="hbox_identifier">
+              <object class="GtkHBox" id="hbox_identifier">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="homogeneous">True</property>
                 <child>
-                  <widget class="GtkLabel" id="label_event_id_value">
+                  <object class="GtkLabel" id="label_event_id_value">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="xalign">0</property>
-                  </widget>
+                  </object>
                   <packing>
                     <property name="expand">True</property>
                     <property name="fill">True</property>
@@ -389,18 +413,18 @@
                   </packing>
                 </child>
                 <child>
-                  <widget class="GtkLabel" id="label_simulated">
+                  <object class="GtkLabel" id="label_simulated">
                     <property name="can_focus">False</property>
                     <property name="label" translatable="yes">&lt;b&gt;Simulated&lt;/b&gt;</property>
                     <property name="use_markup">True</property>
-                  </widget>
+                  </object>
                   <packing>
                     <property name="expand">True</property>
                     <property name="fill">True</property>
                     <property name="position">1</property>
                   </packing>
                 </child>
-              </widget>
+              </object>
               <packing>
                 <property name="left_attach">1</property>
                 <property name="right_attach">2</property>
@@ -409,31 +433,31 @@
               </packing>
             </child>
             <child>
-              <widget class="GtkHBox" id="hbox351">
+              <object class="GtkHBox" id="hbox351">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <child>
-                  <widget class="GtkSpinButton" id="spin_mistakes">
+                  <object class="GtkSpinButton" id="spin_mistakes">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="primary_icon_activatable">False</property>
                     <property name="secondary_icon_activatable">False</property>
                     <property name="primary_icon_sensitive">True</property>
                     <property name="secondary_icon_sensitive">True</property>
-                    <property name="adjustment">0 0 30 1 10 0</property>
+                    <property name="adjustment">adjustment1</property>
                     <property name="climb_rate">1</property>
                     <property name="snap_to_ticks">True</property>
                     <property name="numeric">True</property>
                     <property name="update_policy">if-valid</property>
                     <signal name="changed" handler="on_spin_mistakes_changed" swapped="no"/>
-                  </widget>
+                  </object>
                   <packing>
                     <property name="expand">False</property>
                     <property name="fill">True</property>
                     <property name="position">0</property>
                   </packing>
                 </child>
-              </widget>
+              </object>
               <packing>
                 <property name="left_attach">1</property>
                 <property name="right_attach">2</property>
@@ -443,12 +467,12 @@
               </packing>
             </child>
             <child>
-              <widget class="GtkLabel" id="label_mistakes">
+              <object class="GtkLabel" id="label_mistakes">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="xalign">0</property>
                 <property name="label" translatable="yes">Mistakes</property>
-              </widget>
+              </object>
               <packing>
                 <property name="top_attach">13</property>
                 <property name="bottom_attach">14</property>
@@ -457,12 +481,12 @@
               </packing>
             </child>
             <child>
-              <widget class="GtkLabel" id="label_video">
+              <object class="GtkLabel" id="label_video">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="xalign">0</property>
                 <property name="label" translatable="yes">Video available</property>
-              </widget>
+              </object>
               <packing>
                 <property name="top_attach">12</property>
                 <property name="bottom_attach">13</property>
@@ -471,16 +495,16 @@
               </packing>
             </child>
             <child>
-              <widget class="GtkHBox" id="hbox1">
+              <object class="GtkHBox" id="hbox1">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="spacing">20</property>
                 <child>
-                  <widget class="GtkLabel" id="label_video_yes_no">
+                  <object class="GtkLabel" id="label_video_yes_no">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="label" translatable="yes">Yes</property>
-                  </widget>
+                  </object>
                   <packing>
                     <property name="expand">False</property>
                     <property name="fill">False</property>
@@ -488,22 +512,22 @@
                   </packing>
                 </child>
                 <child>
-                  <widget class="GtkButton" id="button_video_watch">
+                  <object class="GtkButton" id="button_video_watch">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
                     <signal name="clicked" handler="on_button_video_watch_clicked" swapped="no"/>
                     <child>
-                      <widget class="GtkHBox" id="hbox7">
+                      <object class="GtkHBox" id="hbox7">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="spacing">6</property>
                         <child>
-                          <widget class="GtkImage" id="image_video_watch">
+                          <object class="GtkImage" id="image_video_watch">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
                             <property name="stock">gtk-missing-image</property>
-                          </widget>
+                          </object>
                           <packing>
                             <property name="expand">True</property>
                             <property name="fill">True</property>
@@ -511,20 +535,20 @@
                           </packing>
                         </child>
                         <child>
-                          <widget class="GtkLabel" id="label6">
+                          <object class="GtkLabel" id="label6">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
                             <property name="label" translatable="yes">Play video</property>
-                          </widget>
+                          </object>
                           <packing>
                             <property name="expand">False</property>
                             <property name="fill">False</property>
                             <property name="position">1</property>
                           </packing>
                         </child>
-                      </widget>
+                      </object>
                     </child>
-                  </widget>
+                  </object>
                   <packing>
                     <property name="expand">True</property>
                     <property name="fill">False</property>
@@ -532,27 +556,27 @@
                   </packing>
                 </child>
                 <child>
-                  <widget class="GtkButton" id="button_video_url">
+                  <object class="GtkButton" id="button_video_url">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
                     <property name="xalign">0</property>
                     <signal name="clicked" handler="on_button_video_url_clicked" swapped="no"/>
                     <child>
-                      <widget class="GtkImage" id="image3">
+                      <object class="GtkImage" id="image3">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="stock">gtk-info</property>
-                      </widget>
+                      </object>
                     </child>
-                  </widget>
+                  </object>
                   <packing>
                     <property name="expand">False</property>
                     <property name="fill">False</property>
                     <property name="position">2</property>
                   </packing>
                 </child>
-              </widget>
+              </object>
               <packing>
                 <property name="left_attach">1</property>
                 <property name="right_attach">2</property>
@@ -561,12 +585,12 @@
               </packing>
             </child>
             <child>
-              <widget class="GtkLabel" id="label_tv_units">
+              <object class="GtkLabel" id="label_tv_units">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="xalign">0</property>
                 <property name="label" translatable="yes">seconds</property>
-              </widget>
+              </object>
               <packing>
                 <property name="left_attach">2</property>
                 <property name="right_attach">3</property>
@@ -577,12 +601,12 @@
               </packing>
             </child>
             <child>
-              <widget class="GtkLabel" id="label_tc_units">
+              <object class="GtkLabel" id="label_tc_units">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="xalign">0</property>
                 <property name="label" translatable="yes">seconds</property>
-              </widget>
+              </object>
               <packing>
                 <property name="left_attach">2</property>
                 <property name="right_attach">3</property>
@@ -593,12 +617,12 @@
               </packing>
             </child>
             <child>
-              <widget class="GtkLabel" id="label_time_units">
+              <object class="GtkLabel" id="label_time_units">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="xalign">0</property>
                 <property name="label" translatable="yes">seconds</property>
-              </widget>
+              </object>
               <packing>
                 <property name="left_attach">2</property>
                 <property name="right_attach">3</property>
@@ -609,12 +633,12 @@
               </packing>
             </child>
             <child>
-              <widget class="GtkLabel" id="label_fall_units">
+              <object class="GtkLabel" id="label_fall_units">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="xalign">0</property>
                 <property name="label" translatable="yes">cm</property>
-              </widget>
+              </object>
               <packing>
                 <property name="left_attach">2</property>
                 <property name="right_attach">3</property>
@@ -625,12 +649,12 @@
               </packing>
             </child>
             <child>
-              <widget class="GtkLabel" id="label_distance_units">
+              <object class="GtkLabel" id="label_distance_units">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="xalign">0</property>
                 <property name="label" translatable="yes">m</property>
-              </widget>
+              </object>
               <packing>
                 <property name="left_attach">2</property>
                 <property name="right_attach">3</property>
@@ -641,12 +665,12 @@
               </packing>
             </child>
             <child>
-              <widget class="GtkLabel" id="label_speed_units">
+              <object class="GtkLabel" id="label_speed_units">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="xalign">0</property>
                 <property name="label" translatable="yes">m/s</property>
-              </widget>
+              </object>
               <packing>
                 <property name="left_attach">2</property>
                 <property name="right_attach">3</property>
@@ -657,12 +681,12 @@
               </packing>
             </child>
             <child>
-              <widget class="GtkLabel" id="label_weight_units">
+              <object class="GtkLabel" id="label_weight_units">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="xalign">0</property>
                 <property name="label" translatable="yes">Kg</property>
-              </widget>
+              </object>
               <packing>
                 <property name="left_attach">2</property>
                 <property name="right_attach">3</property>
@@ -676,12 +700,12 @@
               <placeholder/>
             </child>
             <child>
-              <widget class="GtkLabel" id="label_run_start_title">
+              <object class="GtkLabel" id="label_run_start_title">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="xalign">0</property>
                 <property name="label" translatable="yes">Start</property>
-              </widget>
+              </object>
               <packing>
                 <property name="top_attach">2</property>
                 <property name="bottom_attach">3</property>
@@ -690,11 +714,11 @@
               </packing>
             </child>
             <child>
-              <widget class="GtkLabel" id="label_run_start_value">
+              <object class="GtkLabel" id="label_run_start_value">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="xalign">0</property>
-              </widget>
+              </object>
               <packing>
                 <property name="left_attach">1</property>
                 <property name="right_attach">2</property>
@@ -2588,7 +2612,7 @@
             <child>
               <placeholder/>
             </child>
-          </widget>
+          </object>
           <packing>
             <property name="expand">True</property>
             <property name="fill">True</property>
@@ -2596,18 +2620,18 @@
           </packing>
         </child>
         <child>
-          <widget class="GtkHBox" id="hbox4">
+          <object class="GtkHBox" id="hbox4">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="spacing">10</property>
             <child>
-              <widget class="GtkLabel" id="label462">
+              <object class="GtkLabel" id="label462">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="xalign">0</property>
                 <property name="label" translatable="yes">Description /
 comments</property>
-              </widget>
+              </object>
               <packing>
                 <property name="expand">False</property>
                 <property name="fill">False</property>
@@ -2615,26 +2639,26 @@ comments</property>
               </packing>
             </child>
             <child>
-              <widget class="GtkEntry" id="entry_description">
+              <object class="GtkEntry" id="entry_description">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="can_default">True</property>
                 <property name="has_default">True</property>
-                <property name="invisible_char">●</property>
+                <property name="invisible_char">&#x25CF;</property>
                 <property name="invisible_char_set">True</property>
                 <property name="primary_icon_activatable">False</property>
                 <property name="secondary_icon_activatable">False</property>
                 <property name="primary_icon_sensitive">True</property>
                 <property name="secondary_icon_sensitive">True</property>
                 <signal name="changed" handler="on_entry_description_changed" swapped="no"/>
-              </widget>
+              </object>
               <packing>
                 <property name="expand">True</property>
                 <property name="fill">True</property>
                 <property name="position">1</property>
               </packing>
             </child>
-          </widget>
+          </object>
           <packing>
             <property name="expand">True</property>
             <property name="fill">True</property>
@@ -2642,20 +2666,20 @@ comments</property>
           </packing>
         </child>
         <child>
-          <widget class="GtkNotebook" id="notebook_mtgug">
+          <object class="GtkNotebook" id="notebook_mtgug">
             <property name="can_focus">True</property>
             <child>
-              <widget class="GtkVBox" id="vbox153">
+              <object class="GtkVBox" id="vbox153">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="spacing">6</property>
                 <child>
-                  <widget class="GtkLabel" id="label575">
+                  <object class="GtkLabel" id="label575">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="label" translatable="yes">Sit to stand</property>
                     <property name="use_markup">True</property>
-                  </widget>
+                  </object>
                   <packing>
                     <property name="expand">False</property>
                     <property name="fill">False</property>
@@ -2663,7 +2687,7 @@ comments</property>
                   </packing>
                 </child>
                 <child>
-                  <widget class="GtkTable" id="table52">
+                  <object class="GtkTable" id="table52">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="n_rows">5</property>
@@ -2671,13 +2695,13 @@ comments</property>
                     <property name="column_spacing">8</property>
                     <property name="row_spacing">4</property>
                     <child>
-                      <widget class="GtkLabel" id="label580">
+                      <object class="GtkLabel" id="label580">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="xalign">0</property>
                         <property name="label" translatable="yes">Able to stand up without using hands in a steady and controlled action.</property>
                         <property name="wrap">True</property>
-                      </widget>
+                      </object>
                       <packing>
                         <property name="left_attach">1</property>
                         <property name="right_attach">2</property>
@@ -2688,13 +2712,13 @@ comments</property>
                       </packing>
                     </child>
                     <child>
-                      <widget class="GtkLabel" id="label581">
+                      <object class="GtkLabel" id="label581">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="xalign">0</property>
                         <property name="label" translatable="yes">Able to stand up using hands in a steady and controlled action.</property>
                         <property name="wrap">True</property>
-                      </widget>
+                      </object>
                       <packing>
                         <property name="left_attach">1</property>
                         <property name="right_attach">2</property>
@@ -2705,13 +2729,13 @@ comments</property>
                       </packing>
                     </child>
                     <child>
-                      <widget class="GtkLabel" id="label582">
+                      <object class="GtkLabel" id="label582">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="xalign">0</property>
                         <property name="label" translatable="yes">Able to stand up using hands after multiple attempts.</property>
                         <property name="wrap">True</property>
-                      </widget>
+                      </object>
                       <packing>
                         <property name="left_attach">1</property>
                         <property name="right_attach">2</property>
@@ -2722,13 +2746,13 @@ comments</property>
                       </packing>
                     </child>
                     <child>
-                      <widget class="GtkLabel" id="label583">
+                      <object class="GtkLabel" id="label583">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="xalign">0</property>
                         <property name="label" translatable="yes">Needs or asks for help.</property>
                         <property name="wrap">True</property>
-                      </widget>
+                      </object>
                       <packing>
                         <property name="left_attach">1</property>
                         <property name="right_attach">2</property>
@@ -2739,7 +2763,7 @@ comments</property>
                       </packing>
                     </child>
                     <child>
-                      <widget class="GtkRadioButton" id="radio_mtgug_1_undef">
+                      <object class="GtkRadioButton" id="radio_mtgug_1_undef">
                         <property name="label">u</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
@@ -2747,14 +2771,14 @@ comments</property>
                         <property name="use_underline">True</property>
                         <property name="draw_indicator">True</property>
                         <signal name="toggled" handler="on_radio_mtgug_1_toggled" swapped="no"/>
-                      </widget>
+                      </object>
                       <packing>
                         <property name="x_options">GTK_FILL</property>
                         <property name="y_options"/>
                       </packing>
                     </child>
                     <child>
-                      <widget class="GtkRadioButton" id="radio_mtgug_1_2">
+                      <object class="GtkRadioButton" id="radio_mtgug_1_2">
                         <property name="label">2</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
@@ -2763,7 +2787,7 @@ comments</property>
                         <property name="draw_indicator">True</property>
                         <property name="group">radio_mtgug_1_undef</property>
                         <signal name="toggled" handler="on_radio_mtgug_1_toggled" swapped="no"/>
-                      </widget>
+                      </object>
                       <packing>
                         <property name="top_attach">2</property>
                         <property name="bottom_attach">3</property>
@@ -2772,7 +2796,7 @@ comments</property>
                       </packing>
                     </child>
                     <child>
-                      <widget class="GtkRadioButton" id="radio_mtgug_1_1">
+                      <object class="GtkRadioButton" id="radio_mtgug_1_1">
                         <property name="label">1</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
@@ -2781,7 +2805,7 @@ comments</property>
                         <property name="draw_indicator">True</property>
                         <property name="group">radio_mtgug_1_undef</property>
                         <signal name="toggled" handler="on_radio_mtgug_1_toggled" swapped="no"/>
-                      </widget>
+                      </object>
                       <packing>
                         <property name="top_attach">3</property>
                         <property name="bottom_attach">4</property>
@@ -2790,7 +2814,7 @@ comments</property>
                       </packing>
                     </child>
                     <child>
-                      <widget class="GtkRadioButton" id="radio_mtgug_1_0">
+                      <object class="GtkRadioButton" id="radio_mtgug_1_0">
                         <property name="label">0</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
@@ -2799,7 +2823,7 @@ comments</property>
                         <property name="draw_indicator">True</property>
                         <property name="group">radio_mtgug_1_undef</property>
                         <signal name="toggled" handler="on_radio_mtgug_1_toggled" swapped="no"/>
-                      </widget>
+                      </object>
                       <packing>
                         <property name="top_attach">4</property>
                         <property name="bottom_attach">5</property>
@@ -2808,13 +2832,13 @@ comments</property>
                       </packing>
                     </child>
                     <child>
-                      <widget class="GtkLabel" id="label630">
+                      <object class="GtkLabel" id="label630">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="xalign">0</property>
                         <property name="label" translatable="yes">Undefined.</property>
                         <property name="wrap">True</property>
-                      </widget>
+                      </object>
                       <packing>
                         <property name="left_attach">1</property>
                         <property name="right_attach">2</property>
@@ -2823,7 +2847,7 @@ comments</property>
                       </packing>
                     </child>
                     <child>
-                      <widget class="GtkRadioButton" id="radio_mtgug_1_3">
+                      <object class="GtkRadioButton" id="radio_mtgug_1_3">
                         <property name="label">3</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
@@ -2832,7 +2856,7 @@ comments</property>
                         <property name="draw_indicator">True</property>
                         <property name="group">radio_mtgug_1_undef</property>
                         <signal name="toggled" handler="on_radio_mtgug_1_toggled" swapped="no"/>
-                      </widget>
+                      </object>
                       <packing>
                         <property name="top_attach">1</property>
                         <property name="bottom_attach">2</property>
@@ -2840,39 +2864,38 @@ comments</property>
                         <property name="y_options"/>
                       </packing>
                     </child>
-                  </widget>
+                  </object>
                   <packing>
                     <property name="expand">True</property>
                     <property name="fill">True</property>
                     <property name="position">1</property>
                   </packing>
                 </child>
-              </widget>
+              </object>
             </child>
-            <child>
-              <widget class="GtkLabel" id="label569">
+            <child type="tab">
+              <object class="GtkLabel" id="label569">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="xpad">3</property>
                 <property name="label" translatable="yes">MTGUG Questionnaire 1</property>
-              </widget>
+              </object>
               <packing>
                 <property name="tab_fill">False</property>
-                <property name="type">tab</property>
               </packing>
             </child>
             <child>
-              <widget class="GtkVBox" id="vbox154">
+              <object class="GtkVBox" id="vbox154">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="spacing">6</property>
                 <child>
-                  <widget class="GtkLabel" id="label584">
+                  <object class="GtkLabel" id="label584">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="label" translatable="yes">Kick ball</property>
                     <property name="use_markup">True</property>
-                  </widget>
+                  </object>
                   <packing>
                     <property name="expand">False</property>
                     <property name="fill">False</property>
@@ -2880,7 +2903,7 @@ comments</property>
                   </packing>
                 </child>
                 <child>
-                  <widget class="GtkTable" id="table53">
+                  <object class="GtkTable" id="table53">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="n_rows">5</property>
@@ -2888,13 +2911,13 @@ comments</property>
                     <property name="column_spacing">8</property>
                     <property name="row_spacing">4</property>
                     <child>
-                      <widget class="GtkLabel" id="label589">
+                      <object class="GtkLabel" id="label589">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="xalign">0</property>
                         <property name="label" translatable="yes">Able to kick ball without losing balance.</property>
                         <property name="wrap">True</property>
-                      </widget>
+                      </object>
                       <packing>
                         <property name="left_attach">1</property>
                         <property name="right_attach">2</property>
@@ -2905,13 +2928,13 @@ comments</property>
                       </packing>
                     </child>
                     <child>
-                      <widget class="GtkLabel" id="label590">
+                      <object class="GtkLabel" id="label590">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="xalign">0</property>
                         <property name="label" translatable="yes">Able to kick ball but needs to take a step to get back on balance.</property>
                         <property name="wrap">True</property>
-                      </widget>
+                      </object>
                       <packing>
                         <property name="left_attach">1</property>
                         <property name="right_attach">2</property>
@@ -2922,13 +2945,13 @@ comments</property>
                       </packing>
                     </child>
                     <child>
-                      <widget class="GtkLabel" id="label591">
+                      <object class="GtkLabel" id="label591">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="xalign">0</property>
                         <property name="label" translatable="yes">Able to kick ball with difficulty finding balance.</property>
                         <property name="wrap">True</property>
-                      </widget>
+                      </object>
                       <packing>
                         <property name="left_attach">1</property>
                         <property name="right_attach">2</property>
@@ -2939,13 +2962,13 @@ comments</property>
                       </packing>
                     </child>
                     <child>
-                      <widget class="GtkLabel" id="label592">
+                      <object class="GtkLabel" id="label592">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="xalign">0</property>
                         <property name="label" translatable="yes">Needs or asks for help.</property>
                         <property name="wrap">True</property>
-                      </widget>
+                      </object>
                       <packing>
                         <property name="left_attach">1</property>
                         <property name="right_attach">2</property>
@@ -2956,13 +2979,13 @@ comments</property>
                       </packing>
                     </child>
                     <child>
-                      <widget class="GtkLabel" id="label631">
+                      <object class="GtkLabel" id="label631">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="xalign">0</property>
                         <property name="label" translatable="yes">Undefined.</property>
                         <property name="wrap">True</property>
-                      </widget>
+                      </object>
                       <packing>
                         <property name="left_attach">1</property>
                         <property name="right_attach">2</property>
@@ -2971,7 +2994,7 @@ comments</property>
                       </packing>
                     </child>
                     <child>
-                      <widget class="GtkRadioButton" id="radio_mtgug_2_undef">
+                      <object class="GtkRadioButton" id="radio_mtgug_2_undef">
                         <property name="label">u</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
@@ -2979,14 +3002,14 @@ comments</property>
                         <property name="use_underline">True</property>
                         <property name="draw_indicator">True</property>
                         <signal name="toggled" handler="on_radio_mtgug_2_toggled" swapped="no"/>
-                      </widget>
+                      </object>
                       <packing>
                         <property name="x_options">GTK_FILL</property>
                         <property name="y_options"/>
                       </packing>
                     </child>
                     <child>
-                      <widget class="GtkRadioButton" id="radio_mtgug_2_3">
+                      <object class="GtkRadioButton" id="radio_mtgug_2_3">
                         <property name="label">3</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
@@ -2995,7 +3018,7 @@ comments</property>
                         <property name="draw_indicator">True</property>
                         <property name="group">radio_mtgug_2_undef</property>
                         <signal name="toggled" handler="on_radio_mtgug_2_toggled" swapped="no"/>
-                      </widget>
+                      </object>
                       <packing>
                         <property name="top_attach">1</property>
                         <property name="bottom_attach">2</property>
@@ -3004,7 +3027,7 @@ comments</property>
                       </packing>
                     </child>
                     <child>
-                      <widget class="GtkRadioButton" id="radio_mtgug_2_2">
+                      <object class="GtkRadioButton" id="radio_mtgug_2_2">
                         <property name="label">2</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
@@ -3013,7 +3036,7 @@ comments</property>
                         <property name="draw_indicator">True</property>
                         <property name="group">radio_mtgug_2_undef</property>
                         <signal name="toggled" handler="on_radio_mtgug_2_toggled" swapped="no"/>
-                      </widget>
+                      </object>
                       <packing>
                         <property name="top_attach">2</property>
                         <property name="bottom_attach">3</property>
@@ -3022,7 +3045,7 @@ comments</property>
                       </packing>
                     </child>
                     <child>
-                      <widget class="GtkRadioButton" id="radio_mtgug_2_1">
+                      <object class="GtkRadioButton" id="radio_mtgug_2_1">
                         <property name="label">1</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
@@ -3031,7 +3054,7 @@ comments</property>
                         <property name="draw_indicator">True</property>
                         <property name="group">radio_mtgug_2_undef</property>
                         <signal name="toggled" handler="on_radio_mtgug_2_toggled" swapped="no"/>
-                      </widget>
+                      </object>
                       <packing>
                         <property name="top_attach">3</property>
                         <property name="bottom_attach">4</property>
@@ -3040,7 +3063,7 @@ comments</property>
                       </packing>
                     </child>
                     <child>
-                      <widget class="GtkRadioButton" id="radio_mtgug_2_0">
+                      <object class="GtkRadioButton" id="radio_mtgug_2_0">
                         <property name="label">0</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
@@ -3049,7 +3072,7 @@ comments</property>
                         <property name="draw_indicator">True</property>
                         <property name="group">radio_mtgug_2_undef</property>
                         <signal name="toggled" handler="on_radio_mtgug_2_toggled" swapped="no"/>
-                      </widget>
+                      </object>
                       <packing>
                         <property name="top_attach">4</property>
                         <property name="bottom_attach">5</property>
@@ -3057,43 +3080,39 @@ comments</property>
                         <property name="y_options"/>
                       </packing>
                     </child>
-                  </widget>
+                  </object>
                   <packing>
                     <property name="expand">True</property>
                     <property name="fill">True</property>
                     <property name="position">1</property>
                   </packing>
                 </child>
-              </widget>
-              <packing>
-                <property name="position">1</property>
-              </packing>
+              </object>
             </child>
-            <child>
-              <widget class="GtkLabel" id="label570">
+            <child type="tab">
+              <object class="GtkLabel" id="label570">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="xpad">3</property>
                 <property name="label">2</property>
-              </widget>
+              </object>
               <packing>
                 <property name="position">1</property>
                 <property name="tab_fill">False</property>
-                <property name="type">tab</property>
               </packing>
             </child>
             <child>
-              <widget class="GtkVBox" id="vbox155">
+              <object class="GtkVBox" id="vbox155">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="spacing">6</property>
                 <child>
-                  <widget class="GtkLabel" id="label593">
+                  <object class="GtkLabel" id="label593">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="label" translatable="yes">Walk whilst counting backwards from 15 to 0</property>
                     <property name="use_markup">True</property>
-                  </widget>
+                  </object>
                   <packing>
                     <property name="expand">False</property>
                     <property name="fill">False</property>
@@ -3101,7 +3120,7 @@ comments</property>
                   </packing>
                 </child>
                 <child>
-                  <widget class="GtkTable" id="table54">
+                  <object class="GtkTable" id="table54">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="n_rows">5</property>
@@ -3109,13 +3128,13 @@ comments</property>
                     <property name="column_spacing">8</property>
                     <property name="row_spacing">4</property>
                     <child>
-                      <widget class="GtkLabel" id="label598">
+                      <object class="GtkLabel" id="label598">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="xalign">0</property>
                         <property name="label" translatable="yes">Able to coordinate walking with counting without making a mistake.</property>
                         <property name="wrap">True</property>
-                      </widget>
+                      </object>
                       <packing>
                         <property name="left_attach">1</property>
                         <property name="right_attach">2</property>
@@ -3126,13 +3145,13 @@ comments</property>
                       </packing>
                     </child>
                     <child>
-                      <widget class="GtkLabel" id="label599">
+                      <object class="GtkLabel" id="label599">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="xalign">0</property>
                         <property name="label" translatable="yes">Able to coordinate walking with counting with one mistake.</property>
                         <property name="wrap">True</property>
-                      </widget>
+                      </object>
                       <packing>
                         <property name="left_attach">1</property>
                         <property name="right_attach">2</property>
@@ -3143,13 +3162,13 @@ comments</property>
                       </packing>
                     </child>
                     <child>
-                      <widget class="GtkLabel" id="label600">
+                      <object class="GtkLabel" id="label600">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="xalign">0</property>
                         <property name="label" translatable="yes">Poor coordination between walking and counting with more than one mistake.</property>
                         <property name="wrap">True</property>
-                      </widget>
+                      </object>
                       <packing>
                         <property name="left_attach">1</property>
                         <property name="right_attach">2</property>
@@ -3160,13 +3179,13 @@ comments</property>
                       </packing>
                     </child>
                     <child>
-                      <widget class="GtkLabel" id="label601">
+                      <object class="GtkLabel" id="label601">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="xalign">0</property>
                         <property name="label" translatable="yes">Needs help or cannot perform the counting task.</property>
                         <property name="wrap">True</property>
-                      </widget>
+                      </object>
                       <packing>
                         <property name="left_attach">1</property>
                         <property name="right_attach">2</property>
@@ -3177,13 +3196,13 @@ comments</property>
                       </packing>
                     </child>
                     <child>
-                      <widget class="GtkLabel" id="label632">
+                      <object class="GtkLabel" id="label632">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="xalign">0</property>
                         <property name="label" translatable="yes">Undefined.</property>
                         <property name="wrap">True</property>
-                      </widget>
+                      </object>
                       <packing>
                         <property name="left_attach">1</property>
                         <property name="right_attach">2</property>
@@ -3192,7 +3211,7 @@ comments</property>
                       </packing>
                     </child>
                     <child>
-                      <widget class="GtkRadioButton" id="radio_mtgug_3_undef">
+                      <object class="GtkRadioButton" id="radio_mtgug_3_undef">
                         <property name="label">u</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
@@ -3200,14 +3219,14 @@ comments</property>
                         <property name="use_underline">True</property>
                         <property name="draw_indicator">True</property>
                         <signal name="toggled" handler="on_radio_mtgug_3_toggled" swapped="no"/>
-                      </widget>
+                      </object>
                       <packing>
                         <property name="x_options">GTK_FILL</property>
                         <property name="y_options"/>
                       </packing>
                     </child>
                     <child>
-                      <widget class="GtkRadioButton" id="radio_mtgug_3_3">
+                      <object class="GtkRadioButton" id="radio_mtgug_3_3">
                         <property name="label">3</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
@@ -3216,7 +3235,7 @@ comments</property>
                         <property name="draw_indicator">True</property>
                         <property name="group">radio_mtgug_3_undef</property>
                         <signal name="toggled" handler="on_radio_mtgug_3_toggled" swapped="no"/>
-                      </widget>
+                      </object>
                       <packing>
                         <property name="top_attach">1</property>
                         <property name="bottom_attach">2</property>
@@ -3225,7 +3244,7 @@ comments</property>
                       </packing>
                     </child>
                     <child>
-                      <widget class="GtkRadioButton" id="radio_mtgug_3_2">
+                      <object class="GtkRadioButton" id="radio_mtgug_3_2">
                         <property name="label">2</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
@@ -3234,7 +3253,7 @@ comments</property>
                         <property name="draw_indicator">True</property>
                         <property name="group">radio_mtgug_3_undef</property>
                         <signal name="toggled" handler="on_radio_mtgug_3_toggled" swapped="no"/>
-                      </widget>
+                      </object>
                       <packing>
                         <property name="top_attach">2</property>
                         <property name="bottom_attach">3</property>
@@ -3243,7 +3262,7 @@ comments</property>
                       </packing>
                     </child>
                     <child>
-                      <widget class="GtkRadioButton" id="radio_mtgug_3_1">
+                      <object class="GtkRadioButton" id="radio_mtgug_3_1">
                         <property name="label">1</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
@@ -3252,7 +3271,7 @@ comments</property>
                         <property name="draw_indicator">True</property>
                         <property name="group">radio_mtgug_3_undef</property>
                         <signal name="toggled" handler="on_radio_mtgug_3_toggled" swapped="no"/>
-                      </widget>
+                      </object>
                       <packing>
                         <property name="top_attach">3</property>
                         <property name="bottom_attach">4</property>
@@ -3261,7 +3280,7 @@ comments</property>
                       </packing>
                     </child>
                     <child>
-                      <widget class="GtkRadioButton" id="radio_mtgug_3_0">
+                      <object class="GtkRadioButton" id="radio_mtgug_3_0">
                         <property name="label">0</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
@@ -3270,7 +3289,7 @@ comments</property>
                         <property name="draw_indicator">True</property>
                         <property name="group">radio_mtgug_3_undef</property>
                         <signal name="toggled" handler="on_radio_mtgug_3_toggled" swapped="no"/>
-                      </widget>
+                      </object>
                       <packing>
                         <property name="top_attach">4</property>
                         <property name="bottom_attach">5</property>
@@ -3278,43 +3297,39 @@ comments</property>
                         <property name="y_options"/>
                       </packing>
                     </child>
-                  </widget>
+                  </object>
                   <packing>
                     <property name="expand">True</property>
                     <property name="fill">True</property>
                     <property name="position">1</property>
                   </packing>
                 </child>
-              </widget>
-              <packing>
-                <property name="position">2</property>
-              </packing>
+              </object>
             </child>
-            <child>
-              <widget class="GtkLabel" id="label571">
+            <child type="tab">
+              <object class="GtkLabel" id="label571">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="xpad">3</property>
                 <property name="label">3</property>
-              </widget>
+              </object>
               <packing>
                 <property name="position">2</property>
                 <property name="tab_fill">False</property>
-                <property name="type">tab</property>
               </packing>
             </child>
             <child>
-              <widget class="GtkVBox" id="vbox156">
+              <object class="GtkVBox" id="vbox156">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="spacing">6</property>
                 <child>
-                  <widget class="GtkLabel" id="label629">
+                  <object class="GtkLabel" id="label629">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="label" translatable="yes">Go around back of cone</property>
                     <property name="use_markup">True</property>
-                  </widget>
+                  </object>
                   <packing>
                     <property name="expand">False</property>
                     <property name="fill">False</property>
@@ -3322,7 +3337,7 @@ comments</property>
                   </packing>
                 </child>
                 <child>
-                  <widget class="GtkTable" id="table55">
+                  <object class="GtkTable" id="table55">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="n_rows">5</property>
@@ -3330,13 +3345,13 @@ comments</property>
                     <property name="column_spacing">8</property>
                     <property name="row_spacing">4</property>
                     <child>
-                      <widget class="GtkLabel" id="label608">
+                      <object class="GtkLabel" id="label608">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="xalign">0</property>
                         <property name="label" translatable="yes">Able to go around the cone without touching it, without going outside the marked area, but slowing down the pace.</property>
                         <property name="wrap">True</property>
-                      </widget>
+                      </object>
                       <packing>
                         <property name="left_attach">1</property>
                         <property name="right_attach">2</property>
@@ -3347,13 +3362,13 @@ comments</property>
                       </packing>
                     </child>
                     <child>
-                      <widget class="GtkLabel" id="label609">
+                      <object class="GtkLabel" id="label609">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="xalign">0</property>
                         <property name="label" translatable="yes">Able to go around with obvious signs of insecurity.</property>
                         <property name="wrap">True</property>
-                      </widget>
+                      </object>
                       <packing>
                         <property name="left_attach">1</property>
                         <property name="right_attach">2</property>
@@ -3364,13 +3379,13 @@ comments</property>
                       </packing>
                     </child>
                     <child>
-                      <widget class="GtkLabel" id="label610">
+                      <object class="GtkLabel" id="label610">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="xalign">0</property>
                         <property name="label" translatable="yes">Needs or asks for help.</property>
                         <property name="wrap">True</property>
-                      </widget>
+                      </object>
                       <packing>
                         <property name="left_attach">1</property>
                         <property name="right_attach">2</property>
@@ -3381,13 +3396,13 @@ comments</property>
                       </packing>
                     </child>
                     <child>
-                      <widget class="GtkLabel" id="label602">
+                      <object class="GtkLabel" id="label602">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="xalign">0</property>
                         <property name="label" translatable="yes">Able to go around the cone without touching it, without going outside the marked area, and keeping up the pace.</property>
                         <property name="wrap">True</property>
-                      </widget>
+                      </object>
                       <packing>
                         <property name="left_attach">1</property>
                         <property name="right_attach">2</property>
@@ -3398,13 +3413,13 @@ comments</property>
                       </packing>
                     </child>
                     <child>
-                      <widget class="GtkLabel" id="label633">
+                      <object class="GtkLabel" id="label633">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="xalign">0</property>
                         <property name="label" translatable="yes">Undefined.</property>
                         <property name="wrap">True</property>
-                      </widget>
+                      </object>
                       <packing>
                         <property name="left_attach">1</property>
                         <property name="right_attach">2</property>
@@ -3413,7 +3428,7 @@ comments</property>
                       </packing>
                     </child>
                     <child>
-                      <widget class="GtkRadioButton" id="radio_mtgug_4_undef">
+                      <object class="GtkRadioButton" id="radio_mtgug_4_undef">
                         <property name="label">u</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
@@ -3421,14 +3436,14 @@ comments</property>
                         <property name="use_underline">True</property>
                         <property name="draw_indicator">True</property>
                         <signal name="toggled" handler="on_radio_mtgug_4_toggled" swapped="no"/>
-                      </widget>
+                      </object>
                       <packing>
                         <property name="x_options">GTK_FILL</property>
                         <property name="y_options"/>
                       </packing>
                     </child>
                     <child>
-                      <widget class="GtkRadioButton" id="radio_mtgug_4_3">
+                      <object class="GtkRadioButton" id="radio_mtgug_4_3">
                         <property name="label">3</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
@@ -3437,7 +3452,7 @@ comments</property>
                         <property name="draw_indicator">True</property>
                         <property name="group">radio_mtgug_4_undef</property>
                         <signal name="toggled" handler="on_radio_mtgug_4_toggled" swapped="no"/>
-                      </widget>
+                      </object>
                       <packing>
                         <property name="top_attach">1</property>
                         <property name="bottom_attach">2</property>
@@ -3446,7 +3461,7 @@ comments</property>
                       </packing>
                     </child>
                     <child>
-                      <widget class="GtkRadioButton" id="radio_mtgug_4_2">
+                      <object class="GtkRadioButton" id="radio_mtgug_4_2">
                         <property name="label">2</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
@@ -3455,7 +3470,7 @@ comments</property>
                         <property name="draw_indicator">True</property>
                         <property name="group">radio_mtgug_4_undef</property>
                         <signal name="toggled" handler="on_radio_mtgug_4_toggled" swapped="no"/>
-                      </widget>
+                      </object>
                       <packing>
                         <property name="top_attach">2</property>
                         <property name="bottom_attach">3</property>
@@ -3464,7 +3479,7 @@ comments</property>
                       </packing>
                     </child>
                     <child>
-                      <widget class="GtkRadioButton" id="radio_mtgug_4_1">
+                      <object class="GtkRadioButton" id="radio_mtgug_4_1">
                         <property name="label">1</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
@@ -3473,7 +3488,7 @@ comments</property>
                         <property name="draw_indicator">True</property>
                         <property name="group">radio_mtgug_4_undef</property>
                         <signal name="toggled" handler="on_radio_mtgug_4_toggled" swapped="no"/>
-                      </widget>
+                      </object>
                       <packing>
                         <property name="top_attach">3</property>
                         <property name="bottom_attach">4</property>
@@ -3482,7 +3497,7 @@ comments</property>
                       </packing>
                     </child>
                     <child>
-                      <widget class="GtkRadioButton" id="radio_mtgug_4_0">
+                      <object class="GtkRadioButton" id="radio_mtgug_4_0">
                         <property name="label">0</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
@@ -3491,7 +3506,7 @@ comments</property>
                         <property name="draw_indicator">True</property>
                         <property name="group">radio_mtgug_4_undef</property>
                         <signal name="toggled" handler="on_radio_mtgug_4_toggled" swapped="no"/>
-                      </widget>
+                      </object>
                       <packing>
                         <property name="top_attach">4</property>
                         <property name="bottom_attach">5</property>
@@ -3499,43 +3514,39 @@ comments</property>
                         <property name="y_options"/>
                       </packing>
                     </child>
-                  </widget>
+                  </object>
                   <packing>
                     <property name="expand">True</property>
                     <property name="fill">True</property>
                     <property name="position">1</property>
                   </packing>
                 </child>
-              </widget>
-              <packing>
-                <property name="position">3</property>
-              </packing>
+              </object>
             </child>
-            <child>
-              <widget class="GtkLabel" id="label572">
+            <child type="tab">
+              <object class="GtkLabel" id="label572">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="xpad">3</property>
                 <property name="label">4</property>
-              </widget>
+              </object>
               <packing>
                 <property name="position">3</property>
                 <property name="tab_fill">False</property>
-                <property name="type">tab</property>
               </packing>
             </child>
             <child>
-              <widget class="GtkVBox" id="vbox157">
+              <object class="GtkVBox" id="vbox157">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="spacing">6</property>
                 <child>
-                  <widget class="GtkLabel" id="label611">
+                  <object class="GtkLabel" id="label611">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="label" translatable="yes">Step into circles</property>
                     <property name="use_markup">True</property>
-                  </widget>
+                  </object>
                   <packing>
                     <property name="expand">False</property>
                     <property name="fill">False</property>
@@ -3543,7 +3554,7 @@ comments</property>
                   </packing>
                 </child>
                 <child>
-                  <widget class="GtkTable" id="table56">
+                  <object class="GtkTable" id="table56">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="n_rows">5</property>
@@ -3551,13 +3562,13 @@ comments</property>
                     <property name="column_spacing">8</property>
                     <property name="row_spacing">4</property>
                     <child>
-                      <widget class="GtkLabel" id="label616">
+                      <object class="GtkLabel" id="label616">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="xalign">0</property>
                         <property name="label" translatable="yes">Able to walk, stepping one foot into each circle without touching them and without losing balance.</property>
                         <property name="wrap">True</property>
-                      </widget>
+                      </object>
                       <packing>
                         <property name="left_attach">1</property>
                         <property name="right_attach">2</property>
@@ -3568,13 +3579,13 @@ comments</property>
                       </packing>
                     </child>
                     <child>
-                      <widget class="GtkLabel" id="label617">
+                      <object class="GtkLabel" id="label617">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="xalign">0</property>
                         <property name="label" translatable="yes">Able to walk, stepping one foot into each circle, touching one or needing to take an extra step outside the rings to regain balance.</property>
                         <property name="wrap">True</property>
-                      </widget>
+                      </object>
                       <packing>
                         <property name="left_attach">1</property>
                         <property name="right_attach">2</property>
@@ -3585,13 +3596,13 @@ comments</property>
                       </packing>
                     </child>
                     <child>
-                      <widget class="GtkLabel" id="label618">
+                      <object class="GtkLabel" id="label618">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="xalign">0</property>
                         <property name="label" translatable="yes">Able to walk stepping one foot in each circle, touching more than one, or needing more than one extra step to regain balance.</property>
                         <property name="wrap">True</property>
-                      </widget>
+                      </object>
                       <packing>
                         <property name="left_attach">1</property>
                         <property name="right_attach">2</property>
@@ -3602,13 +3613,13 @@ comments</property>
                       </packing>
                     </child>
                     <child>
-                      <widget class="GtkLabel" id="label619">
+                      <object class="GtkLabel" id="label619">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="xalign">0</property>
                         <property name="label" translatable="yes">Needs or asks for help.</property>
                         <property name="wrap">True</property>
-                      </widget>
+                      </object>
                       <packing>
                         <property name="left_attach">1</property>
                         <property name="right_attach">2</property>
@@ -3619,13 +3630,13 @@ comments</property>
                       </packing>
                     </child>
                     <child>
-                      <widget class="GtkLabel" id="label634">
+                      <object class="GtkLabel" id="label634">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="xalign">0</property>
                         <property name="label" translatable="yes">Undefined.</property>
                         <property name="wrap">True</property>
-                      </widget>
+                      </object>
                       <packing>
                         <property name="left_attach">1</property>
                         <property name="right_attach">2</property>
@@ -3634,7 +3645,7 @@ comments</property>
                       </packing>
                     </child>
                     <child>
-                      <widget class="GtkRadioButton" id="radio_mtgug_5_undef">
+                      <object class="GtkRadioButton" id="radio_mtgug_5_undef">
                         <property name="label">u</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
@@ -3642,14 +3653,14 @@ comments</property>
                         <property name="use_underline">True</property>
                         <property name="draw_indicator">True</property>
                         <signal name="toggled" handler="on_radio_mtgug_5_toggled" swapped="no"/>
-                      </widget>
+                      </object>
                       <packing>
                         <property name="x_options">GTK_FILL</property>
                         <property name="y_options"/>
                       </packing>
                     </child>
                     <child>
-                      <widget class="GtkRadioButton" id="radio_mtgug_5_3">
+                      <object class="GtkRadioButton" id="radio_mtgug_5_3">
                         <property name="label">3</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
@@ -3658,7 +3669,7 @@ comments</property>
                         <property name="draw_indicator">True</property>
                         <property name="group">radio_mtgug_5_undef</property>
                         <signal name="toggled" handler="on_radio_mtgug_5_toggled" swapped="no"/>
-                      </widget>
+                      </object>
                       <packing>
                         <property name="top_attach">1</property>
                         <property name="bottom_attach">2</property>
@@ -3667,7 +3678,7 @@ comments</property>
                       </packing>
                     </child>
                     <child>
-                      <widget class="GtkRadioButton" id="radio_mtgug_5_2">
+                      <object class="GtkRadioButton" id="radio_mtgug_5_2">
                         <property name="label">2</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
@@ -3676,7 +3687,7 @@ comments</property>
                         <property name="draw_indicator">True</property>
                         <property name="group">radio_mtgug_5_undef</property>
                         <signal name="toggled" handler="on_radio_mtgug_5_toggled" swapped="no"/>
-                      </widget>
+                      </object>
                       <packing>
                         <property name="top_attach">2</property>
                         <property name="bottom_attach">3</property>
@@ -3685,7 +3696,7 @@ comments</property>
                       </packing>
                     </child>
                     <child>
-                      <widget class="GtkRadioButton" id="radio_mtgug_5_1">
+                      <object class="GtkRadioButton" id="radio_mtgug_5_1">
                         <property name="label">1</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
@@ -3694,7 +3705,7 @@ comments</property>
                         <property name="draw_indicator">True</property>
                         <property name="group">radio_mtgug_5_undef</property>
                         <signal name="toggled" handler="on_radio_mtgug_5_toggled" swapped="no"/>
-                      </widget>
+                      </object>
                       <packing>
                         <property name="top_attach">3</property>
                         <property name="bottom_attach">4</property>
@@ -3703,7 +3714,7 @@ comments</property>
                       </packing>
                     </child>
                     <child>
-                      <widget class="GtkRadioButton" id="radio_mtgug_5_0">
+                      <object class="GtkRadioButton" id="radio_mtgug_5_0">
                         <property name="label">0</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
@@ -3712,7 +3723,7 @@ comments</property>
                         <property name="draw_indicator">True</property>
                         <property name="group">radio_mtgug_5_undef</property>
                         <signal name="toggled" handler="on_radio_mtgug_5_toggled" swapped="no"/>
-                      </widget>
+                      </object>
                       <packing>
                         <property name="top_attach">4</property>
                         <property name="bottom_attach">5</property>
@@ -3720,43 +3731,39 @@ comments</property>
                         <property name="y_options"/>
                       </packing>
                     </child>
-                  </widget>
+                  </object>
                   <packing>
                     <property name="expand">True</property>
                     <property name="fill">True</property>
                     <property name="position">1</property>
                   </packing>
                 </child>
-              </widget>
-              <packing>
-                <property name="position">4</property>
-              </packing>
+              </object>
             </child>
-            <child>
-              <widget class="GtkLabel" id="label573">
+            <child type="tab">
+              <object class="GtkLabel" id="label573">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="xpad">3</property>
                 <property name="label">5</property>
-              </widget>
+              </object>
               <packing>
                 <property name="position">4</property>
                 <property name="tab_fill">False</property>
-                <property name="type">tab</property>
               </packing>
             </child>
             <child>
-              <widget class="GtkVBox" id="vbox158">
+              <object class="GtkVBox" id="vbox158">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="spacing">6</property>
                 <child>
-                  <widget class="GtkLabel" id="label620">
+                  <object class="GtkLabel" id="label620">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="label" translatable="yes">Sit back down</property>
                     <property name="use_markup">True</property>
-                  </widget>
+                  </object>
                   <packing>
                     <property name="expand">False</property>
                     <property name="fill">False</property>
@@ -3764,7 +3771,7 @@ comments</property>
                   </packing>
                 </child>
                 <child>
-                  <widget class="GtkTable" id="table57">
+                  <object class="GtkTable" id="table57">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="n_rows">5</property>
@@ -3772,13 +3779,13 @@ comments</property>
                     <property name="column_spacing">8</property>
                     <property name="row_spacing">4</property>
                     <child>
-                      <widget class="GtkLabel" id="label625">
+                      <object class="GtkLabel" id="label625">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="xalign">0</property>
                         <property name="label" translatable="yes">Able to sit down smoothly without using hands.</property>
                         <property name="wrap">True</property>
-                      </widget>
+                      </object>
                       <packing>
                         <property name="left_attach">1</property>
                         <property name="right_attach">2</property>
@@ -3789,13 +3796,13 @@ comments</property>
                       </packing>
                     </child>
                     <child>
-                      <widget class="GtkLabel" id="label626">
+                      <object class="GtkLabel" id="label626">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="xalign">0</property>
                         <property name="label" translatable="yes">Able to sit down sharply without using hands.</property>
                         <property name="wrap">True</property>
-                      </widget>
+                      </object>
                       <packing>
                         <property name="left_attach">1</property>
                         <property name="right_attach">2</property>
@@ -3806,13 +3813,13 @@ comments</property>
                       </packing>
                     </child>
                     <child>
-                      <widget class="GtkLabel" id="label627">
+                      <object class="GtkLabel" id="label627">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="xalign">0</property>
                         <property name="label" translatable="yes">Able to sit down using hands.</property>
                         <property name="wrap">True</property>
-                      </widget>
+                      </object>
                       <packing>
                         <property name="left_attach">1</property>
                         <property name="right_attach">2</property>
@@ -3823,13 +3830,13 @@ comments</property>
                       </packing>
                     </child>
                     <child>
-                      <widget class="GtkLabel" id="label628">
+                      <object class="GtkLabel" id="label628">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="xalign">0</property>
                         <property name="label" translatable="yes">Needs or asks for help.</property>
                         <property name="wrap">True</property>
-                      </widget>
+                      </object>
                       <packing>
                         <property name="left_attach">1</property>
                         <property name="right_attach">2</property>
@@ -3840,7 +3847,7 @@ comments</property>
                       </packing>
                     </child>
                     <child>
-                      <widget class="GtkRadioButton" id="radio_mtgug_6_undef">
+                      <object class="GtkRadioButton" id="radio_mtgug_6_undef">
                         <property name="label">u</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
@@ -3848,14 +3855,14 @@ comments</property>
                         <property name="use_underline">True</property>
                         <property name="draw_indicator">True</property>
                         <signal name="toggled" handler="on_radio_mtgug_6_toggled" swapped="no"/>
-                      </widget>
+                      </object>
                       <packing>
                         <property name="x_options">GTK_FILL</property>
                         <property name="y_options"/>
                       </packing>
                     </child>
                     <child>
-                      <widget class="GtkRadioButton" id="radio_mtgug_6_3">
+                      <object class="GtkRadioButton" id="radio_mtgug_6_3">
                         <property name="label">3</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
@@ -3864,7 +3871,7 @@ comments</property>
                         <property name="draw_indicator">True</property>
                         <property name="group">radio_mtgug_6_undef</property>
                         <signal name="toggled" handler="on_radio_mtgug_6_toggled" swapped="no"/>
-                      </widget>
+                      </object>
                       <packing>
                         <property name="top_attach">1</property>
                         <property name="bottom_attach">2</property>
@@ -3873,7 +3880,7 @@ comments</property>
                       </packing>
                     </child>
                     <child>
-                      <widget class="GtkRadioButton" id="radio_mtgug_6_2">
+                      <object class="GtkRadioButton" id="radio_mtgug_6_2">
                         <property name="label">2</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
@@ -3882,7 +3889,7 @@ comments</property>
                         <property name="draw_indicator">True</property>
                         <property name="group">radio_mtgug_6_undef</property>
                         <signal name="toggled" handler="on_radio_mtgug_6_toggled" swapped="no"/>
-                      </widget>
+                      </object>
                       <packing>
                         <property name="top_attach">2</property>
                         <property name="bottom_attach">3</property>
@@ -3891,7 +3898,7 @@ comments</property>
                       </packing>
                     </child>
                     <child>
-                      <widget class="GtkRadioButton" id="radio_mtgug_6_1">
+                      <object class="GtkRadioButton" id="radio_mtgug_6_1">
                         <property name="label">1</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
@@ -3900,7 +3907,7 @@ comments</property>
                         <property name="draw_indicator">True</property>
                         <property name="group">radio_mtgug_6_undef</property>
                         <signal name="toggled" handler="on_radio_mtgug_6_toggled" swapped="no"/>
-                      </widget>
+                      </object>
                       <packing>
                         <property name="top_attach">3</property>
                         <property name="bottom_attach">4</property>
@@ -3909,7 +3916,7 @@ comments</property>
                       </packing>
                     </child>
                     <child>
-                      <widget class="GtkRadioButton" id="radio_mtgug_6_0">
+                      <object class="GtkRadioButton" id="radio_mtgug_6_0">
                         <property name="label">0</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
@@ -3918,7 +3925,7 @@ comments</property>
                         <property name="draw_indicator">True</property>
                         <property name="group">radio_mtgug_6_undef</property>
                         <signal name="toggled" handler="on_radio_mtgug_6_toggled" swapped="no"/>
-                      </widget>
+                      </object>
                       <packing>
                         <property name="top_attach">4</property>
                         <property name="bottom_attach">5</property>
@@ -3927,13 +3934,13 @@ comments</property>
                       </packing>
                     </child>
                     <child>
-                      <widget class="GtkLabel" id="label635">
+                      <object class="GtkLabel" id="label635">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="xalign">0</property>
                         <property name="label" translatable="yes">Undefined.</property>
                         <property name="wrap">True</property>
-                      </widget>
+                      </object>
                       <packing>
                         <property name="left_attach">1</property>
                         <property name="right_attach">2</property>
@@ -3941,32 +3948,28 @@ comments</property>
                         <property name="y_options"/>
                       </packing>
                     </child>
-                  </widget>
+                  </object>
                   <packing>
                     <property name="expand">True</property>
                     <property name="fill">True</property>
                     <property name="position">1</property>
                   </packing>
                 </child>
-              </widget>
-              <packing>
-                <property name="position">5</property>
-              </packing>
+              </object>
             </child>
-            <child>
-              <widget class="GtkLabel" id="label574">
+            <child type="tab">
+              <object class="GtkLabel" id="label574">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="xpad">3</property>
                 <property name="label">6</property>
-              </widget>
+              </object>
               <packing>
                 <property name="position">5</property>
                 <property name="tab_fill">False</property>
-                <property name="type">tab</property>
               </packing>
             </child>
-          </widget>
+          </object>
           <packing>
             <property name="expand">True</property>
             <property name="fill">True</property>
@@ -3974,27 +3977,27 @@ comments</property>
           </packing>
         </child>
         <child>
-          <widget class="GtkFrame" id="frame_jumps_single_leg">
+          <object class="GtkFrame" id="frame_jumps_single_leg">
             <property name="can_focus">False</property>
             <property name="label_xalign">0</property>
             <property name="shadow_type">out</property>
             <child>
-              <widget class="GtkVBox" id="jumps_single_leg">
+              <object class="GtkVBox" id="jumps_single_leg">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="spacing">8</property>
                 <child>
-                  <widget class="GtkVBox" id="vbox82">
+                  <object class="GtkVBox" id="vbox82">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <child>
-                      <widget class="GtkLabel" id="label101">
+                      <object class="GtkLabel" id="label101">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="xalign">0</property>
                         <property name="xpad">12</property>
                         <property name="label" translatable="yes">Type</property>
-                      </widget>
+                      </object>
                       <packing>
                         <property name="expand">False</property>
                         <property name="fill">False</property>
@@ -4002,17 +4005,17 @@ comments</property>
                       </packing>
                     </child>
                     <child>
-                      <widget class="GtkAlignment" id="alignment26">
+                      <object class="GtkAlignment" id="alignment26">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="left_padding">12</property>
                         <child>
-                          <widget class="GtkHBox" id="hbox97">
+                          <object class="GtkHBox" id="hbox97">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
                             <property name="spacing">6</property>
                             <child>
-                              <widget class="GtkRadioButton" id="jumps_radiobutton_single_leg_mode_vertical">
+                              <object class="GtkRadioButton" id="jumps_radiobutton_single_leg_mode_vertical">
                                 <property name="label" translatable="yes">Vertical</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
@@ -4020,7 +4023,7 @@ comments</property>
                                 <property name="active">True</property>
                                 <property name="draw_indicator">True</property>
                                 <signal name="toggled" handler="on_radio_single_leg_1_toggled" swapped="no"/>
-                              </widget>
+                              </object>
                               <packing>
                                 <property name="expand">False</property>
                                 <property name="fill">False</property>
@@ -4028,7 +4031,7 @@ comments</property>
                               </packing>
                             </child>
                             <child>
-                              <widget class="GtkRadioButton" id="jumps_radiobutton_single_leg_mode_horizontal">
+                              <object class="GtkRadioButton" id="jumps_radiobutton_single_leg_mode_horizontal">
                                 <property name="label" translatable="yes">Horizontal</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
@@ -4036,7 +4039,7 @@ comments</property>
                                 <property name="draw_indicator">True</property>
                                 <property name="group">jumps_radiobutton_single_leg_mode_vertical</property>
                                 <signal name="toggled" handler="on_radio_single_leg_1_toggled" swapped="no"/>
-                              </widget>
+                              </object>
                               <packing>
                                 <property name="expand">False</property>
                                 <property name="fill">False</property>
@@ -4044,7 +4047,7 @@ comments</property>
                               </packing>
                             </child>
                             <child>
-                              <widget class="GtkRadioButton" id="jumps_radiobutton_single_leg_mode_lateral">
+                              <object class="GtkRadioButton" id="jumps_radiobutton_single_leg_mode_lateral">
                                 <property name="label" translatable="yes">Lateral</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
@@ -4052,23 +4055,23 @@ comments</property>
                                 <property name="draw_indicator">True</property>
                                 <property name="group">jumps_radiobutton_single_leg_mode_vertical</property>
                                 <signal name="toggled" handler="on_radio_single_leg_1_toggled" swapped="no"/>
-                              </widget>
+                              </object>
                               <packing>
                                 <property name="expand">False</property>
                                 <property name="fill">False</property>
                                 <property name="position">2</property>
                               </packing>
                             </child>
-                          </widget>
+                          </object>
                         </child>
-                      </widget>
+                      </object>
                       <packing>
                         <property name="expand">False</property>
                         <property name="fill">False</property>
                         <property name="position">1</property>
                       </packing>
                     </child>
-                  </widget>
+                  </object>
                   <packing>
                     <property name="expand">False</property>
                     <property name="fill">False</property>
@@ -4076,17 +4079,17 @@ comments</property>
                   </packing>
                 </child>
                 <child>
-                  <widget class="GtkVBox" id="vbox81">
+                  <object class="GtkVBox" id="vbox81">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <child>
-                      <widget class="GtkLabel" id="label100">
+                      <object class="GtkLabel" id="label100">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="xalign">0</property>
                         <property name="xpad">12</property>
                         <property name="label" translatable="yes">Dominance</property>
-                      </widget>
+                      </object>
                       <packing>
                         <property name="expand">False</property>
                         <property name="fill">False</property>
@@ -4094,17 +4097,17 @@ comments</property>
                       </packing>
                     </child>
                     <child>
-                      <widget class="GtkAlignment" id="alignment23">
+                      <object class="GtkAlignment" id="alignment23">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="left_padding">12</property>
                         <child>
-                          <widget class="GtkHBox" id="hbox99">
+                          <object class="GtkHBox" id="hbox99">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
                             <property name="spacing">6</property>
                             <child>
-                              <widget class="GtkRadioButton" id="jumps_radiobutton_single_leg_dominance_unknown">
+                              <object class="GtkRadioButton" id="jumps_radiobutton_single_leg_dominance_unknown">
                                 <property name="label" translatable="yes">Unknown</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
@@ -4112,7 +4115,7 @@ comments</property>
                                 <property name="active">True</property>
                                 <property name="draw_indicator">True</property>
                                 <signal name="toggled" handler="on_radio_single_leg_2_toggled" swapped="no"/>
-                              </widget>
+                              </object>
                               <packing>
                                 <property name="expand">False</property>
                                 <property name="fill">False</property>
@@ -4120,7 +4123,7 @@ comments</property>
                               </packing>
                             </child>
                             <child>
-                              <widget class="GtkRadioButton" id="jumps_radiobutton_single_leg_dominance_this_limb">
+                              <object class="GtkRadioButton" id="jumps_radiobutton_single_leg_dominance_this_limb">
                                 <property name="label" translatable="yes">This limb</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
@@ -4129,7 +4132,7 @@ comments</property>
                                 <property name="draw_indicator">True</property>
                                 <property name="group">jumps_radiobutton_single_leg_dominance_unknown</property>
                                 <signal name="toggled" handler="on_radio_single_leg_2_toggled" swapped="no"/>
-                              </widget>
+                              </object>
                               <packing>
                                 <property name="expand">False</property>
                                 <property name="fill">False</property>
@@ -4137,7 +4140,7 @@ comments</property>
                               </packing>
                             </child>
                             <child>
-                              <widget class="GtkRadioButton" id="jumps_radiobutton_single_leg_dominance_opposite">
+                              <object class="GtkRadioButton" id="jumps_radiobutton_single_leg_dominance_opposite">
                                 <property name="label" translatable="yes">Opposite</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
@@ -4145,23 +4148,23 @@ comments</property>
                                 <property name="draw_indicator">True</property>
                                 <property name="group">jumps_radiobutton_single_leg_dominance_unknown</property>
                                 <signal name="toggled" handler="on_radio_single_leg_2_toggled" swapped="no"/>
-                              </widget>
+                              </object>
                               <packing>
                                 <property name="expand">False</property>
                                 <property name="fill">False</property>
                                 <property name="position">2</property>
                               </packing>
                             </child>
-                          </widget>
+                          </object>
                         </child>
-                      </widget>
+                      </object>
                       <packing>
                         <property name="expand">False</property>
                         <property name="fill">False</property>
                         <property name="position">1</property>
                       </packing>
                     </child>
-                  </widget>
+                  </object>
                   <packing>
                     <property name="expand">False</property>
                     <property name="fill">False</property>
@@ -4169,17 +4172,17 @@ comments</property>
                   </packing>
                 </child>
                 <child>
-                  <widget class="GtkVBox" id="vbox83">
+                  <object class="GtkVBox" id="vbox83">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <child>
-                      <widget class="GtkLabel" id="label102">
+                      <object class="GtkLabel" id="label102">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="xalign">0</property>
                         <property name="xpad">12</property>
                         <property name="label" translatable="yes">Fall</property>
-                      </widget>
+                      </object>
                       <packing>
                         <property name="expand">False</property>
                         <property name="fill">False</property>
@@ -4187,17 +4190,17 @@ comments</property>
                       </packing>
                     </child>
                     <child>
-                      <widget class="GtkAlignment" id="alignment27">
+                      <object class="GtkAlignment" id="alignment27">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="left_padding">12</property>
                         <child>
-                          <widget class="GtkHBox" id="hbox100">
+                          <object class="GtkHBox" id="hbox100">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
                             <property name="spacing">6</property>
                             <child>
-                              <widget class="GtkRadioButton" id="jumps_radiobutton_single_leg_fall_both">
+                              <object class="GtkRadioButton" id="jumps_radiobutton_single_leg_fall_both">
                                 <property name="label" translatable="yes">Both</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
@@ -4205,7 +4208,7 @@ comments</property>
                                 <property name="active">True</property>
                                 <property name="draw_indicator">True</property>
                                 <signal name="toggled" handler="on_radio_single_leg_3_toggled" swapped="no"/>
-                              </widget>
+                              </object>
                               <packing>
                                 <property name="expand">False</property>
                                 <property name="fill">False</property>
@@ -4213,7 +4216,7 @@ comments</property>
                               </packing>
                             </child>
                             <child>
-                              <widget class="GtkRadioButton" id="jumps_radiobutton_single_leg_fall_this_limb">
+                              <object class="GtkRadioButton" id="jumps_radiobutton_single_leg_fall_this_limb">
                                 <property name="label" translatable="yes">This limb</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
@@ -4222,7 +4225,7 @@ comments</property>
                                 <property name="draw_indicator">True</property>
                                 <property name="group">jumps_radiobutton_single_leg_fall_both</property>
                                 <signal name="toggled" handler="on_radio_single_leg_3_toggled" swapped="no"/>
-                              </widget>
+                              </object>
                               <packing>
                                 <property name="expand">False</property>
                                 <property name="fill">False</property>
@@ -4230,7 +4233,7 @@ comments</property>
                               </packing>
                             </child>
                             <child>
-                              <widget class="GtkRadioButton" id="jumps_radiobutton_single_leg_fall_opposite">
+                              <object class="GtkRadioButton" id="jumps_radiobutton_single_leg_fall_opposite">
                                 <property name="label" translatable="yes">Opposite</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
@@ -4238,23 +4241,23 @@ comments</property>
                                 <property name="draw_indicator">True</property>
                                 <property name="group">jumps_radiobutton_single_leg_fall_both</property>
                                 <signal name="toggled" handler="on_radio_single_leg_3_toggled" swapped="no"/>
-                              </widget>
+                              </object>
                               <packing>
                                 <property name="expand">False</property>
                                 <property name="fill">False</property>
                                 <property name="position">2</property>
                               </packing>
                             </child>
-                          </widget>
+                          </object>
                         </child>
-                      </widget>
+                      </object>
                       <packing>
                         <property name="expand">False</property>
                         <property name="fill">False</property>
                         <property name="position">1</property>
                       </packing>
                     </child>
-                  </widget>
+                  </object>
                   <packing>
                     <property name="expand">False</property>
                     <property name="fill">False</property>
@@ -4262,21 +4265,21 @@ comments</property>
                   </packing>
                 </child>
                 <child>
-                  <widget class="GtkHBox" id="hbox3">
+                  <object class="GtkHBox" id="hbox3">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="spacing">10</property>
                     <child>
-                      <widget class="GtkHBox" id="hbox5">
+                      <object class="GtkHBox" id="hbox5">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="spacing">4</property>
                         <child>
-                          <widget class="GtkLabel" id="label2">
+                          <object class="GtkLabel" id="label2">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
                             <property name="label" translatable="yes">Distance</property>
-                          </widget>
+                          </object>
                           <packing>
                             <property name="expand">False</property>
                             <property name="fill">False</property>
@@ -4284,22 +4287,22 @@ comments</property>
                           </packing>
                         </child>
                         <child>
-                          <widget class="GtkSpinButton" id="jumps_spinbutton_single_leg_distance">
+                          <object class="GtkSpinButton" id="jumps_spinbutton_single_leg_distance">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
-                            <property name="invisible_char">●</property>
+                            <property name="invisible_char">&#x25CF;</property>
                             <property name="invisible_char_set">True</property>
                             <property name="primary_icon_activatable">False</property>
                             <property name="secondary_icon_activatable">False</property>
                             <property name="primary_icon_sensitive">True</property>
                             <property name="secondary_icon_sensitive">True</property>
-                            <property name="adjustment">0 0 200 1 1 0</property>
+                            <property name="adjustment">adjustment2</property>
                             <property name="climb_rate">1</property>
                             <property name="snap_to_ticks">True</property>
                             <property name="numeric">True</property>
                             <property name="update_policy">if-valid</property>
                             <signal name="value_changed" handler="on_spin_single_leg_changed" swapped="no"/>
-                          </widget>
+                          </object>
                           <packing>
                             <property name="expand">False</property>
                             <property name="fill">True</property>
@@ -4307,18 +4310,18 @@ comments</property>
                           </packing>
                         </child>
                         <child>
-                          <widget class="GtkLabel" id="label3">
+                          <object class="GtkLabel" id="label3">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
                             <property name="label" translatable="yes">cm</property>
-                          </widget>
+                          </object>
                           <packing>
                             <property name="expand">False</property>
                             <property name="fill">False</property>
                             <property name="position">2</property>
                           </packing>
                         </child>
-                      </widget>
+                      </object>
                       <packing>
                         <property name="expand">True</property>
                         <property name="fill">True</property>
@@ -4327,16 +4330,16 @@ comments</property>
                       </packing>
                     </child>
                     <child>
-                      <widget class="GtkHBox" id="hbox6">
+                      <object class="GtkHBox" id="hbox6">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="spacing">4</property>
                         <child>
-                          <widget class="GtkLabel" id="label4">
+                          <object class="GtkLabel" id="label4">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
                             <property name="label" translatable="yes">Jump angle</property>
-                          </widget>
+                          </object>
                           <packing>
                             <property name="expand">False</property>
                             <property name="fill">False</property>
@@ -4344,22 +4347,22 @@ comments</property>
                           </packing>
                         </child>
                         <child>
-                          <widget class="GtkSpinButton" id="jumps_spinbutton_single_leg_jump_angle">
+                          <object class="GtkSpinButton" id="jumps_spinbutton_single_leg_jump_angle">
                             <property name="visible">True</property>
                             <property name="sensitive">False</property>
                             <property name="can_focus">True</property>
-                            <property name="invisible_char">●</property>
+                            <property name="invisible_char">&#x25CF;</property>
                             <property name="invisible_char_set">True</property>
                             <property name="primary_icon_activatable">False</property>
                             <property name="secondary_icon_activatable">False</property>
                             <property name="primary_icon_sensitive">True</property>
                             <property name="secondary_icon_sensitive">True</property>
-                            <property name="adjustment">0 0 90 1 1 0</property>
+                            <property name="adjustment">adjustment3</property>
                             <property name="climb_rate">1</property>
                             <property name="snap_to_ticks">True</property>
                             <property name="numeric">True</property>
                             <property name="update_policy">if-valid</property>
-                          </widget>
+                          </object>
                           <packing>
                             <property name="expand">False</property>
                             <property name="fill">True</property>
@@ -4367,45 +4370,42 @@ comments</property>
                           </packing>
                         </child>
                         <child>
-                          <widget class="GtkLabel" id="label5">
+                          <object class="GtkLabel" id="label5">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
                             <property name="label" translatable="yes">degrees</property>
-                          </widget>
+                          </object>
                           <packing>
                             <property name="expand">False</property>
                             <property name="fill">False</property>
                             <property name="position">2</property>
                           </packing>
                         </child>
-                      </widget>
+                      </object>
                       <packing>
                         <property name="expand">True</property>
                         <property name="fill">True</property>
                         <property name="position">1</property>
                       </packing>
                     </child>
-                  </widget>
+                  </object>
                   <packing>
                     <property name="expand">False</property>
                     <property name="fill">False</property>
                     <property name="position">3</property>
                   </packing>
                 </child>
-              </widget>
+              </object>
             </child>
-            <child>
-              <widget class="GtkLabel" id="label1">
+            <child type="label">
+              <object class="GtkLabel" id="label1">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="label" translatable="yes">slCMJ</property>
                 <property name="use_markup">True</property>
-              </widget>
-              <packing>
-                <property name="type">label_item</property>
-              </packing>
+              </object>
             </child>
-          </widget>
+          </object>
           <packing>
             <property name="expand">True</property>
             <property name="fill">True</property>
@@ -4413,13 +4413,13 @@ comments</property>
           </packing>
         </child>
         <child>
-          <widget class="GtkHButtonBox" id="hbuttonbox37">
+          <object class="GtkHButtonBox" id="hbuttonbox37">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="spacing">10</property>
             <property name="layout_style">spread</property>
             <child>
-              <widget class="GtkButton" id="button_cancel">
+              <object class="GtkButton" id="button_cancel">
                 <property name="label">gtk-cancel</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
@@ -4428,7 +4428,7 @@ comments</property>
                 <property name="use_stock">True</property>
                 <signal name="clicked" handler="on_button_cancel_clicked" swapped="no"/>
                 <accelerator key="Escape" signal="clicked"/>
-              </widget>
+              </object>
               <packing>
                 <property name="expand">False</property>
                 <property name="fill">False</property>
@@ -4436,7 +4436,7 @@ comments</property>
               </packing>
             </child>
             <child>
-              <widget class="GtkButton" id="button_accept">
+              <object class="GtkButton" id="button_accept">
                 <property name="label">gtk-ok</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
@@ -4445,14 +4445,14 @@ comments</property>
                 <property name="use_stock">True</property>
                 <signal name="clicked" handler="on_button_accept_clicked" swapped="no"/>
                 <accelerator key="Return" signal="clicked"/>
-              </widget>
+              </object>
               <packing>
                 <property name="expand">False</property>
                 <property name="fill">False</property>
                 <property name="position">1</property>
               </packing>
             </child>
-          </widget>
+          </object>
           <packing>
             <property name="expand">False</property>
             <property name="fill">False</property>
@@ -4460,7 +4460,7 @@ comments</property>
             <property name="position">5</property>
           </packing>
         </child>
-      </widget>
+      </object>
     </child>
-  </widget>
-</glade-interface>
+  </object>
+</interface>

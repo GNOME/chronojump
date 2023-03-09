@@ -1,44 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<glade-interface>
-  <!-- interface-requires gtk+ 3.0 -->
-  <!-- interface-naming-policy toplevel-contextual -->
-  <widget class="GtkDialog" id="dialog_about">
-    <property name="height_request">500</property>
-    <property name="can_focus">False</property>
-    <property name="border_width">10</property>
+<!-- Generated with glade 3.38.2 -->
+<interface>
+  <requires lib="gtk+" version="3.0"/>
+  <object class="GtkDialog" id="dialog_about">
+    <property name="height-request">500</property>
+    <property name="can-focus">False</property>
+    <property name="border-width">10</property>
     <property name="title" translatable="yes">About</property>
     <property name="modal">True</property>
-    <property name="type_hint">dialog</property>
-    <signal name="delete_event" handler="on_delete_event" swapped="no"/>
+    <property name="type-hint">dialog</property>
+    <signal name="delete-event" handler="on_delete_event" swapped="no"/>
     <child internal-child="vbox">
-      <widget class="GtkVBox" id="dialog-vbox2">
+      <object class="GtkBox" id="dialog-vbox2">
         <property name="visible">True</property>
-        <property name="can_focus">False</property>
+        <property name="can-focus">False</property>
         <child internal-child="action_area">
-          <widget class="GtkHButtonBox" id="dialog-action_area2">
+          <object class="GtkButtonBox" id="dialog-action_area2">
             <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <property name="layout_style">center</property>
+            <property name="can-focus">False</property>
+            <property name="layout-style">center</property>
             <child>
-              <widget class="GtkButton" id="button_close">
-                <property name="response_id">-7</property>
+              <object class="GtkButton" id="button_close">
                 <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="can_default">True</property>
-                <property name="receives_default">False</property>
+                <property name="can-focus">True</property>
+                <property name="can-default">True</property>
+                <property name="receives-default">False</property>
                 <signal name="clicked" handler="on_button_close_clicked" swapped="no"/>
-                <accelerator key="Escape" signal="clicked"/>
                 <child>
-                  <widget class="GtkHBox" id="hbox1">
+                  <object class="GtkHBox" id="hbox1">
                     <property name="visible">True</property>
-                    <property name="can_focus">False</property>
+                    <property name="can-focus">False</property>
                     <property name="spacing">4</property>
                     <child>
-                      <widget class="GtkImage" id="image_button_close">
+                      <object class="GtkImage" id="image_button_close">
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
+                        <property name="can-focus">False</property>
                         <property name="stock">gtk-missing-image</property>
-                      </widget>
+                      </object>
                       <packing>
                         <property name="expand">False</property>
                         <property name="fill">False</property>
@@ -46,57 +44,58 @@
                       </packing>
                     </child>
                     <child>
-                      <widget class="GtkLabel" id="label1">
+                      <object class="GtkLabel" id="label1">
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
+                        <property name="can-focus">False</property>
                         <property name="label" translatable="yes">Close</property>
-                      </widget>
+                      </object>
                       <packing>
                         <property name="expand">True</property>
                         <property name="fill">True</property>
                         <property name="position">1</property>
                       </packing>
                     </child>
-                  </widget>
+                  </object>
                 </child>
-              </widget>
+                <accelerator key="Escape" signal="clicked"/>
+              </object>
               <packing>
                 <property name="expand">False</property>
                 <property name="fill">False</property>
                 <property name="position">0</property>
               </packing>
             </child>
-          </widget>
+          </object>
           <packing>
             <property name="expand">False</property>
             <property name="fill">True</property>
-            <property name="pack_type">end</property>
+            <property name="pack-type">end</property>
             <property name="position">0</property>
           </packing>
         </child>
         <child>
-          <widget class="GtkVBox" id="vbox70">
+          <object class="GtkVBox" id="vbox70">
             <property name="visible">True</property>
-            <property name="can_focus">False</property>
+            <property name="can-focus">False</property>
             <property name="spacing">10</property>
             <child>
-              <widget class="GtkHBox" id="hbox2">
+              <object class="GtkHBox" id="hbox2">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
+                <property name="can-focus">False</property>
                 <property name="spacing">20</property>
                 <child>
-                  <widget class="GtkHBox" id="hbox3">
+                  <object class="GtkHBox" id="hbox3">
                     <property name="visible">True</property>
-                    <property name="can_focus">False</property>
+                    <property name="can-focus">False</property>
                     <property name="spacing">10</property>
                     <child>
-                      <widget class="GtkLabel" id="dialog_about_label_chronojump">
+                      <object class="GtkLabel" id="dialog_about_label_chronojump">
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="xalign">0</property>
+                        <property name="can-focus">False</property>
                         <property name="label">&lt;b&gt;Chronojump&lt;/b&gt;</property>
-                        <property name="use_markup">True</property>
-                      </widget>
+                        <property name="use-markup">True</property>
+                        <property name="xalign">0</property>
+                      </object>
                       <packing>
                         <property name="expand">True</property>
                         <property name="fill">True</property>
@@ -104,18 +103,18 @@
                       </packing>
                     </child>
                     <child>
-                      <widget class="GtkLabel" id="dialog_about_label_version">
+                      <object class="GtkLabel" id="dialog_about_label_version">
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
+                        <property name="can-focus">False</property>
                         <property name="xalign">0</property>
-                      </widget>
+                      </object>
                       <packing>
                         <property name="expand">True</property>
                         <property name="fill">True</property>
                         <property name="position">1</property>
                       </packing>
                     </child>
-                  </widget>
+                  </object>
                   <packing>
                     <property name="expand">True</property>
                     <property name="fill">True</property>
@@ -123,20 +122,20 @@
                   </packing>
                 </child>
                 <child>
-                  <widget class="GtkImage" id="image_logo">
+                  <object class="GtkImage" id="image_logo">
                     <property name="visible">True</property>
-                    <property name="can_focus">False</property>
+                    <property name="can-focus">False</property>
                     <property name="xalign">0</property>
                     <property name="yalign">1</property>
                     <property name="stock">gtk-network</property>
-                  </widget>
+                  </object>
                   <packing>
                     <property name="expand">False</property>
                     <property name="fill">True</property>
                     <property name="position">1</property>
                   </packing>
                 </child>
-              </widget>
+              </object>
               <packing>
                 <property name="expand">False</property>
                 <property name="fill">False</property>
@@ -144,53 +143,49 @@
               </packing>
             </child>
             <child>
-              <widget class="GtkFrame" id="frame1">
+              <object class="GtkFrame" id="frame1">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="label_xalign">0</property>
-                <property name="label_yalign">1</property>
-                <property name="shadow_type">in</property>
+                <property name="can-focus">False</property>
+                <property name="label-xalign">0</property>
+                <property name="label-yalign">1</property>
+                <property name="shadow-type">in</property>
                 <child>
-                  <widget class="GtkViewport" id="viewport1">
+                  <object class="GtkViewport" id="viewport1">
                     <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="border_width">4</property>
+                    <property name="can-focus">False</property>
+                    <property name="border-width">4</property>
                     <child>
-                      <widget class="GtkNotebook" id="notebook4">
+                      <object class="GtkNotebook" id="notebook4">
                         <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="border_width">6</property>
-                        <property name="tab_hborder">10</property>
-                        <property name="tab_vborder">4</property>
+                        <property name="can-focus">True</property>
+                        <property name="border-width">6</property>
                         <child>
-                          <widget class="GtkScrolledWindow" id="scrolledwindow1">
+                          <object class="GtkScrolledWindow" id="scrolledwindow1">
                             <property name="visible">True</property>
-                            <property name="can_focus">True</property>
-                            <property name="hscrollbar_policy">automatic</property>
-                            <property name="vscrollbar_policy">automatic</property>
+                            <property name="can-focus">True</property>
                             <child>
-                              <widget class="GtkViewport" id="viewport2">
+                              <object class="GtkViewport" id="viewport2">
                                 <property name="visible">True</property>
-                                <property name="can_focus">False</property>
+                                <property name="can-focus">False</property>
                                 <child>
-                                  <widget class="GtkVBox" id="vbox1">
+                                  <object class="GtkVBox" id="vbox1">
                                     <property name="visible">True</property>
-                                    <property name="can_focus">False</property>
-                                    <property name="border_width">10</property>
+                                    <property name="can-focus">False</property>
+                                    <property name="border-width">10</property>
                                     <property name="spacing">12</property>
                                     <child>
-                                      <widget class="GtkVBox" id="vbox3">
+                                      <object class="GtkVBox" id="vbox3">
                                         <property name="visible">True</property>
-                                        <property name="can_focus">False</property>
+                                        <property name="can-focus">False</property>
                                         <property name="spacing">6</property>
                                         <child>
-                                          <widget class="GtkLabel" id="label2">
+                                          <object class="GtkLabel" id="label2">
                                             <property name="visible">True</property>
-                                            <property name="can_focus">False</property>
-                                            <property name="xalign">0</property>
+                                            <property name="can-focus">False</property>
                                             <property name="label" translatable="yes">&lt;b&gt;Software&lt;/b&gt;</property>
-                                            <property name="use_markup">True</property>
-                                          </widget>
+                                            <property name="use-markup">True</property>
+                                            <property name="xalign">0</property>
+                                          </object>
                                           <packing>
                                             <property name="expand">True</property>
                                             <property name="fill">True</property>
@@ -198,20 +193,20 @@
                                           </packing>
                                         </child>
                                         <child>
-                                          <widget class="GtkLabel" id="dialog_about_label_developers_software">
+                                          <object class="GtkLabel" id="dialog_about_label_developers_software">
                                             <property name="visible">True</property>
-                                            <property name="can_focus">False</property>
+                                            <property name="can-focus">False</property>
+                                            <property name="ypad">4</property>
                                             <property name="xalign">0</property>
                                             <property name="yalign">0</property>
-                                            <property name="ypad">4</property>
-                                          </widget>
+                                          </object>
                                           <packing>
                                             <property name="expand">False</property>
                                             <property name="fill">False</property>
                                             <property name="position">1</property>
                                           </packing>
                                         </child>
-                                      </widget>
+                                      </object>
                                       <packing>
                                         <property name="expand">True</property>
                                         <property name="fill">True</property>
@@ -219,18 +214,18 @@
                                       </packing>
                                     </child>
                                     <child>
-                                      <widget class="GtkVBox" id="vbox2">
+                                      <object class="GtkVBox" id="vbox2">
                                         <property name="visible">True</property>
-                                        <property name="can_focus">False</property>
+                                        <property name="can-focus">False</property>
                                         <property name="spacing">6</property>
                                         <child>
-                                          <widget class="GtkLabel" id="label3">
+                                          <object class="GtkLabel" id="label3">
                                             <property name="visible">True</property>
-                                            <property name="can_focus">False</property>
-                                            <property name="xalign">0</property>
+                                            <property name="can-focus">False</property>
                                             <property name="label">&lt;b&gt;Chronojump Networks&lt;/b&gt;</property>
-                                            <property name="use_markup">True</property>
-                                          </widget>
+                                            <property name="use-markup">True</property>
+                                            <property name="xalign">0</property>
+                                          </object>
                                           <packing>
                                             <property name="expand">True</property>
                                             <property name="fill">True</property>
@@ -238,20 +233,20 @@
                                           </packing>
                                         </child>
                                         <child>
-                                          <widget class="GtkLabel" id="dialog_about_label_developers_networks">
+                                          <object class="GtkLabel" id="dialog_about_label_developers_networks">
                                             <property name="visible">True</property>
-                                            <property name="can_focus">False</property>
+                                            <property name="can-focus">False</property>
+                                            <property name="ypad">4</property>
                                             <property name="xalign">0</property>
                                             <property name="yalign">0</property>
-                                            <property name="ypad">4</property>
-                                          </widget>
+                                          </object>
                                           <packing>
                                             <property name="expand">False</property>
                                             <property name="fill">False</property>
                                             <property name="position">1</property>
                                           </packing>
                                         </child>
-                                      </widget>
+                                      </object>
                                       <packing>
                                         <property name="expand">True</property>
                                         <property name="fill">True</property>
@@ -259,18 +254,18 @@
                                       </packing>
                                     </child>
                                     <child>
-                                      <widget class="GtkVBox" id="vbox8">
+                                      <object class="GtkVBox" id="vbox8">
                                         <property name="visible">True</property>
-                                        <property name="can_focus">False</property>
+                                        <property name="can-focus">False</property>
                                         <property name="spacing">6</property>
                                         <child>
-                                          <widget class="GtkLabel" id="label7">
+                                          <object class="GtkLabel" id="label7">
                                             <property name="visible">True</property>
-                                            <property name="can_focus">False</property>
-                                            <property name="xalign">0</property>
+                                            <property name="can-focus">False</property>
                                             <property name="label" translatable="yes">&lt;b&gt;Scientific support&lt;/b&gt;</property>
-                                            <property name="use_markup">True</property>
-                                          </widget>
+                                            <property name="use-markup">True</property>
+                                            <property name="xalign">0</property>
+                                          </object>
                                           <packing>
                                             <property name="expand">True</property>
                                             <property name="fill">True</property>
@@ -278,20 +273,20 @@
                                           </packing>
                                         </child>
                                         <child>
-                                          <widget class="GtkLabel" id="dialog_about_label_developers_scientific">
+                                          <object class="GtkLabel" id="dialog_about_label_developers_scientific">
                                             <property name="visible">True</property>
-                                            <property name="can_focus">False</property>
+                                            <property name="can-focus">False</property>
+                                            <property name="ypad">4</property>
                                             <property name="xalign">0</property>
                                             <property name="yalign">0</property>
-                                            <property name="ypad">4</property>
-                                          </widget>
+                                          </object>
                                           <packing>
                                             <property name="expand">False</property>
                                             <property name="fill">False</property>
                                             <property name="position">1</property>
                                           </packing>
                                         </child>
-                                      </widget>
+                                      </object>
                                       <packing>
                                         <property name="expand">True</property>
                                         <property name="fill">True</property>
@@ -299,18 +294,18 @@
                                       </packing>
                                     </child>
                                     <child>
-                                      <widget class="GtkVBox" id="vbox4">
+                                      <object class="GtkVBox" id="vbox4">
                                         <property name="visible">True</property>
-                                        <property name="can_focus">False</property>
+                                        <property name="can-focus">False</property>
                                         <property name="spacing">6</property>
                                         <child>
-                                          <widget class="GtkLabel" id="label4">
+                                          <object class="GtkLabel" id="label4">
                                             <property name="visible">True</property>
-                                            <property name="can_focus">False</property>
-                                            <property name="xalign">0</property>
+                                            <property name="can-focus">False</property>
                                             <property name="label" translatable="yes">&lt;b&gt;Hardware: Chronopic&lt;/b&gt;</property>
-                                            <property name="use_markup">True</property>
-                                          </widget>
+                                            <property name="use-markup">True</property>
+                                            <property name="xalign">0</property>
+                                          </object>
                                           <packing>
                                             <property name="expand">True</property>
                                             <property name="fill">True</property>
@@ -318,118 +313,115 @@
                                           </packing>
                                         </child>
                                         <child>
-                                          <widget class="GtkLabel" id="dialog_about_label_developers_chronopic">
+                                          <object class="GtkLabel" id="dialog_about_label_developers_chronopic">
                                             <property name="visible">True</property>
-                                            <property name="can_focus">False</property>
+                                            <property name="can-focus">False</property>
+                                            <property name="ypad">4</property>
                                             <property name="xalign">0</property>
                                             <property name="yalign">0</property>
-                                            <property name="ypad">4</property>
-                                          </widget>
+                                          </object>
                                           <packing>
                                             <property name="expand">False</property>
                                             <property name="fill">False</property>
                                             <property name="position">1</property>
                                           </packing>
                                         </child>
-                                      </widget>
+                                      </object>
                                       <packing>
                                         <property name="expand">True</property>
                                         <property name="fill">True</property>
                                         <property name="position">3</property>
                                       </packing>
                                     </child>
-                                  </widget>
+                                  </object>
                                 </child>
-                              </widget>
+                              </object>
                             </child>
-                          </widget>
+                          </object>
                         </child>
-                        <child>
-                          <widget class="GtkLabel" id="label781">
+                        <child type="tab">
+                          <object class="GtkLabel" id="label781">
                             <property name="visible">True</property>
-                            <property name="can_focus">False</property>
+                            <property name="can-focus">False</property>
                             <property name="label" translatable="yes">Developers</property>
-                          </widget>
+                          </object>
                           <packing>
-                            <property name="tab_fill">False</property>
-                            <property name="type">tab</property>
+                            <property name="tab-fill">False</property>
                           </packing>
                         </child>
                         <child>
-                          <widget class="GtkLabel" id="dialog_about_label_documenters">
+                          <object class="GtkLabel" id="dialog_about_label_documenters">
                             <property name="visible">True</property>
-                            <property name="can_focus">False</property>
-                            <property name="xalign">0</property>
-                            <property name="yalign">0</property>
+                            <property name="can-focus">False</property>
                             <property name="xpad">8</property>
                             <property name="ypad">8</property>
-                          </widget>
+                            <property name="xalign">0</property>
+                            <property name="yalign">0</property>
+                          </object>
                           <packing>
                             <property name="position">1</property>
                           </packing>
                         </child>
-                        <child>
-                          <widget class="GtkLabel" id="label782">
+                        <child type="tab">
+                          <object class="GtkLabel" id="label782">
                             <property name="visible">True</property>
-                            <property name="can_focus">False</property>
+                            <property name="can-focus">False</property>
                             <property name="label" translatable="yes">Documenters</property>
-                          </widget>
+                          </object>
                           <packing>
                             <property name="position">1</property>
-                            <property name="tab_fill">False</property>
-                            <property name="type">tab</property>
+                            <property name="tab-fill">False</property>
                           </packing>
                         </child>
                         <child>
-                          <widget class="GtkLabel" id="dialog_about_label_translators">
+                          <object class="GtkLabel" id="dialog_about_label_translators">
                             <property name="visible">True</property>
-                            <property name="can_focus">False</property>
-                            <property name="xalign">0</property>
-                            <property name="yalign">0</property>
+                            <property name="can-focus">False</property>
                             <property name="xpad">8</property>
                             <property name="ypad">8</property>
-                          </widget>
+                            <property name="xalign">0</property>
+                            <property name="yalign">0</property>
+                          </object>
                           <packing>
                             <property name="position">2</property>
                           </packing>
                         </child>
-                        <child>
-                          <widget class="GtkLabel" id="label783">
+                        <child type="tab">
+                          <object class="GtkLabel" id="label783">
                             <property name="visible">True</property>
-                            <property name="can_focus">False</property>
+                            <property name="can-focus">False</property>
                             <property name="label" translatable="yes">Translators</property>
-                          </widget>
+                          </object>
                           <packing>
                             <property name="position">2</property>
-                            <property name="tab_fill">False</property>
-                            <property name="type">tab</property>
+                            <property name="tab-fill">False</property>
                           </packing>
                         </child>
-                      </widget>
+                      </object>
                     </child>
-                  </widget>
+                  </object>
                 </child>
-                <child>
+                <child type="label_item">
                   <placeholder/>
-                  <packing>
-                    <property name="type">label_item</property>
-                  </packing>
                 </child>
-              </widget>
+              </object>
               <packing>
                 <property name="expand">True</property>
                 <property name="fill">True</property>
                 <property name="position">1</property>
               </packing>
             </child>
-          </widget>
+          </object>
           <packing>
             <property name="expand">True</property>
             <property name="fill">True</property>
             <property name="position">2</property>
           </packing>
         </child>
-      </widget>
+      </object>
     </child>
-  </widget>
-</glade-interface>
+    <action-widgets>
+      <action-widget response="-7">button_close</action-widget>
+    </action-widgets>
+  </object>
+</interface>

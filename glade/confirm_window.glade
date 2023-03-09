@@ -1,8 +1,8 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<glade-interface>
+<?xml version="1.0"?>
+<interface>
   <!-- interface-requires gtk+ 3.0 -->
   <!-- interface-naming-policy toplevel-contextual -->
-  <widget class="GtkWindow" id="confirm_window">
+  <object class="GtkWindow" id="confirm_window">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
     <property name="border_width">10</property>
@@ -10,18 +10,18 @@
     <property name="type_hint">dialog</property>
     <signal name="delete_event" handler="on_delete_selected_jump_delete_event" swapped="no"/>
     <child>
-      <widget class="GtkVBox" id="vbox19">
+      <object class="GtkVBox" id="vbox19">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="spacing">10</property>
         <child>
-          <widget class="GtkHButtonBox" id="hbuttonbox12">
+          <object class="GtkHButtonBox" id="hbuttonbox12">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="spacing">10</property>
             <property name="layout_style">spread</property>
             <child>
-              <widget class="GtkButton" id="button_cancel">
+              <object class="GtkButton" id="button_cancel">
                 <property name="label">gtk-cancel</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
@@ -30,7 +30,7 @@
                 <property name="use_stock">True</property>
                 <signal name="clicked" handler="on_button_cancel_clicked" swapped="no"/>
                 <accelerator key="Escape" signal="clicked"/>
-              </widget>
+              </object>
               <packing>
                 <property name="expand">False</property>
                 <property name="fill">False</property>
@@ -38,7 +38,7 @@
               </packing>
             </child>
             <child>
-              <widget class="GtkButton" id="button_accept">
+              <object class="GtkButton" id="button_accept">
                 <property name="label">gtk-ok</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
@@ -47,14 +47,14 @@
                 <property name="receives_default">True</property>
                 <property name="use_stock">True</property>
                 <signal name="clicked" handler="on_button_accept_clicked" swapped="no"/>
-              </widget>
+              </object>
               <packing>
                 <property name="expand">False</property>
                 <property name="fill">False</property>
                 <property name="position">1</property>
               </packing>
             </child>
-          </widget>
+          </object>
           <packing>
             <property name="expand">False</property>
             <property name="fill">False</property>
@@ -63,17 +63,17 @@
           </packing>
         </child>
         <child>
-          <widget class="GtkVBox" id="vbox1">
+          <object class="GtkVBox" id="vbox1">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="spacing">4</property>
             <child>
-              <widget class="GtkLabel" id="label1">
+              <object class="GtkLabel" id="label1">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="use_markup">True</property>
                 <property name="justify">center</property>
-              </widget>
+              </object>
               <packing>
                 <property name="expand">False</property>
                 <property name="fill">False</property>
@@ -81,13 +81,13 @@
               </packing>
             </child>
             <child>
-              <widget class="GtkLabel" id="label_link">
+              <object class="GtkLabel" id="label_link">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="use_markup">True</property>
                 <property name="justify">center</property>
                 <property name="selectable">True</property>
-              </widget>
+              </object>
               <packing>
                 <property name="expand">False</property>
                 <property name="fill">False</property>
@@ -95,26 +95,26 @@
               </packing>
             </child>
             <child>
-              <widget class="GtkLabel" id="label_question">
+              <object class="GtkLabel" id="label_question">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="use_markup">True</property>
                 <property name="justify">center</property>
-              </widget>
+              </object>
               <packing>
                 <property name="expand">False</property>
                 <property name="fill">False</property>
                 <property name="position">2</property>
               </packing>
             </child>
-          </widget>
+          </object>
           <packing>
             <property name="expand">True</property>
             <property name="fill">True</property>
             <property name="position">1</property>
           </packing>
         </child>
-      </widget>
+      </object>
     </child>
-  </widget>
-</glade-interface>
+  </object>
+</interface>

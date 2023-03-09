@@ -270,7 +270,7 @@ public partial class ChronoJumpWindow
 	{
 		LogB.Information("runsEvolutionDo, calculateData: " + calculateData.ToString());
 		if(currentPerson == null || currentSession == null ||
-				drawingarea_runs_evolution == null || drawingarea_runs_evolution.GdkWindow == null) //it happens at start on click on analyze
+				drawingarea_runs_evolution == null || drawingarea_runs_evolution.Window == null) //it happens at start on click on analyze
 		{
 			button_runs_evolution_save_image.Sensitive = false;
 			LogB.Information("runsEvolutionDo: exit early");

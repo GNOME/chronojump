@@ -22,7 +22,7 @@
 using System;
 using Gtk;
 using Gdk;
-using Glade;
+//using Glade;
 using System.IO.Ports;
 using System.IO; //"File" things
 using System.Collections; //ArrayList
@@ -34,74 +34,74 @@ using Mono.Unix;
 public partial class ChronoJumpWindow 
 {
 	//custom buttons
-	[Widget] Gtk.HBox hbox_encoder_analyze_signal_or_curves;
-	[Widget] Gtk.VBox vbox_start_window_main;
-	[Widget] Gtk.VBox vbox_start_window_sub;
-	[Widget] Gtk.Alignment alignment_start_window;
-	[Widget] Gtk.Alignment alignment_encoder_capture_options;
-	[Widget] Gtk.Button button_contacts_devices_networks_problems;
+	Gtk.HBox hbox_encoder_analyze_signal_or_curves;
+	Gtk.VBox vbox_start_window_main;
+	Gtk.VBox vbox_start_window_sub;
+	Gtk.Alignment alignment_start_window;
+	Gtk.Alignment alignment_encoder_capture_options;
+	Gtk.Button button_contacts_devices_networks_problems;
 
 	//RFID
-	[Widget] Gtk.Label label_rfid_wait;
-	[Widget] Gtk.Label label_rfid_encoder_wait;
+	Gtk.Label label_rfid_wait;
+	Gtk.Label label_rfid_encoder_wait;
 
-	[Widget] Gtk.Label label_logout_seconds;
-	[Widget] Gtk.Label label_logout_seconds_encoder;
+	Gtk.Label label_logout_seconds;
+	Gtk.Label label_logout_seconds_encoder;
 	
 	//better raspberry controls
-	[Widget] Gtk.HBox hbox_sessions_raspberry;
-	[Widget] Gtk.HBox hbox_persons_raspberry;
-	[Widget] Gtk.Box hbox_encoder_capture_extra_mass_no_raspberry;
-	[Widget] Gtk.Box hbox_encoder_capture_extra_mass_raspberry;
-	[Widget] Gtk.HBox hbox_encoder_im_weights_n;
+	Gtk.HBox hbox_sessions_raspberry;
+	Gtk.HBox hbox_persons_raspberry;
+	Gtk.Box hbox_encoder_capture_extra_mass_no_raspberry;
+	Gtk.Box hbox_encoder_capture_extra_mass_raspberry;
+	Gtk.HBox hbox_encoder_im_weights_n;
 	
 	//config.EncoderNameAndCapture
-	[Widget] Gtk.HBox hbox_top_person;
-	[Widget] Gtk.HBox hbox_top_person_encoder;
-	[Widget] Gtk.Label label_top_person_name;
-	[Widget] Gtk.Label label_top_encoder_person_name;
-	[Widget] Gtk.Image image_current_person;
-	[Widget] Gtk.Button button_contacts_person_change;
-	[Widget] Gtk.Button button_encoder_person_change;
-	[Widget] Gtk.Button button_networks_contacts_guest;
-	[Widget] Gtk.Button button_networks_encoder_guest;
+	Gtk.HBox hbox_top_person;
+	Gtk.HBox hbox_top_person_encoder;
+	Gtk.Label label_top_person_name;
+	Gtk.Label label_top_encoder_person_name;
+	Gtk.Image image_current_person;
+	Gtk.Button button_contacts_person_change;
+	Gtk.Button button_encoder_person_change;
+	Gtk.Button button_networks_contacts_guest;
+	Gtk.Button button_networks_encoder_guest;
 
 	//encoder exercise stuff
-	[Widget] Gtk.Label label_encoder_exercise_encoder;
-	//[Widget] Gtk.VSeparator vseparator_encoder_exercise_encoder;
-	[Widget] Gtk.HBox hbox_encoder_exercise_encoder;
-	[Widget] Gtk.Button button_encoder_exercise_edit;
-	[Widget] Gtk.Button button_encoder_exercise_add;
-	[Widget] Gtk.Button button_encoder_exercise_delete;
+	Gtk.Label label_encoder_exercise_encoder;
+	//Gtk.VSeparator vseparator_encoder_exercise_encoder;
+	Gtk.HBox hbox_encoder_exercise_encoder;
+	Gtk.Button button_encoder_exercise_edit;
+	Gtk.Button button_encoder_exercise_add;
+	Gtk.Button button_encoder_exercise_delete;
 
 	//encoder ...
-	[Widget] Gtk.CheckButton check_encoder_networks_upload;
-	[Widget] Gtk.Button button_encoder_monthly_change_current_session;
-	[Widget] Gtk.Button button_encoder_analyze_image_compujump_send_email;
+	Gtk.CheckButton check_encoder_networks_upload;
+	Gtk.Button button_encoder_monthly_change_current_session;
+	Gtk.Button button_encoder_analyze_image_compujump_send_email;
 	/*
-	[Widget] Gtk.Label label_RFID_disconnected;
-	[Widget] Gtk.Label label_chronopic_encoder;
-	[Widget] Gtk.Image image_chronopic_encoder_no;
-	[Widget] Gtk.Image image_chronopic_encoder_yes;
+	Gtk.Label label_RFID_disconnected;
+	Gtk.Label label_chronopic_encoder;
+	Gtk.Image image_chronopic_encoder_no;
+	Gtk.Image image_chronopic_encoder_yes;
 	*/
-	[Widget] Gtk.HBox hbox_encoder_disconnected;
-	[Widget] Gtk.HBox hbox_RFID_disconnected;
-	[Widget] Gtk.Label label_encoder_checked_error;
+	Gtk.HBox hbox_encoder_disconnected;
+	Gtk.HBox hbox_RFID_disconnected;
+	Gtk.Label label_encoder_checked_error;
 
 	//contacts
-	[Widget] Gtk.CheckButton check_contacts_networks_upload;
+	Gtk.CheckButton check_contacts_networks_upload;
 
 	//runsInterval
-	[Widget] Gtk.RadioButton radio_run_interval_compujump_5m;
-	[Widget] Gtk.RadioButton radio_run_interval_compujump_10m;
-	[Widget] Gtk.RadioButton radio_run_interval_compujump_15m;
-	[Widget] Gtk.RadioButton radio_run_interval_compujump_20m;
+	Gtk.RadioButton radio_run_interval_compujump_5m;
+	Gtk.RadioButton radio_run_interval_compujump_10m;
+	Gtk.RadioButton radio_run_interval_compujump_15m;
+	Gtk.RadioButton radio_run_interval_compujump_20m;
 
 	//shown when menu is hidden
-	//[Widget] Gtk.HBox hbox_menu_and_preferences_outside_menu_contacts;
-	//[Widget] Gtk.HBox hbox_menu_and_preferences_outside_menu_encoder;
-	//[Widget] Gtk.Button button_menu_outside_menu;
-	//[Widget] Gtk.Button button_menu_outside_menu1;
+	//Gtk.HBox hbox_menu_and_preferences_outside_menu_contacts;
+	//Gtk.HBox hbox_menu_and_preferences_outside_menu_encoder;
+	//Gtk.Button button_menu_outside_menu;
+	//Gtk.Button button_menu_outside_menu1;
 
 	//private enum linuxTypeEnum { NOTLINUX, LINUX, RASPBERRY, NETWORKS }
 	private bool encoderUpdateTreeViewWhileCapturing = true;
@@ -1683,6 +1683,78 @@ public partial class ChronoJumpWindow
 	}
 	*/
 
+	private void connectWidgetsNetworks (Gtk.Builder builder)
+	{
+		//custom buttons
+		hbox_encoder_analyze_signal_or_curves = (Gtk.HBox) builder.GetObject ("hbox_encoder_analyze_signal_or_curves");
+		vbox_start_window_main = (Gtk.VBox) builder.GetObject ("vbox_start_window_main");
+		vbox_start_window_sub = (Gtk.VBox) builder.GetObject ("vbox_start_window_sub");
+		alignment_start_window = (Gtk.Alignment) builder.GetObject ("alignment_start_window");
+		alignment_encoder_capture_options = (Gtk.Alignment) builder.GetObject ("alignment_encoder_capture_options");
+		button_contacts_devices_networks_problems = (Gtk.Button) builder.GetObject ("button_contacts_devices_networks_problems");
+
+		//RFID
+		label_rfid_wait = (Gtk.Label) builder.GetObject ("label_rfid_wait");
+		label_rfid_encoder_wait = (Gtk.Label) builder.GetObject ("label_rfid_encoder_wait");
+
+		label_logout_seconds = (Gtk.Label) builder.GetObject ("label_logout_seconds");
+		label_logout_seconds_encoder = (Gtk.Label) builder.GetObject ("label_logout_seconds_encoder");
+
+		//better raspberry controls
+		hbox_sessions_raspberry = (Gtk.HBox) builder.GetObject ("hbox_sessions_raspberry");
+		hbox_persons_raspberry = (Gtk.HBox) builder.GetObject ("hbox_persons_raspberry");
+		hbox_encoder_capture_extra_mass_no_raspberry = (Gtk.Box) builder.GetObject ("hbox_encoder_capture_extra_mass_no_raspberry");
+		hbox_encoder_capture_extra_mass_raspberry = (Gtk.Box) builder.GetObject ("hbox_encoder_capture_extra_mass_raspberry");
+		hbox_encoder_im_weights_n = (Gtk.HBox) builder.GetObject ("hbox_encoder_im_weights_n");
+
+		//config.EncoderNameAndCapture
+		hbox_top_person = (Gtk.HBox) builder.GetObject ("hbox_top_person");
+		hbox_top_person_encoder = (Gtk.HBox) builder.GetObject ("hbox_top_person_encoder");
+		label_top_person_name = (Gtk.Label) builder.GetObject ("label_top_person_name");
+		label_top_encoder_person_name = (Gtk.Label) builder.GetObject ("label_top_encoder_person_name");
+		image_current_person = (Gtk.Image) builder.GetObject ("image_current_person");
+		button_contacts_person_change = (Gtk.Button) builder.GetObject ("button_contacts_person_change");
+		button_encoder_person_change = (Gtk.Button) builder.GetObject ("button_encoder_person_change");
+		button_networks_contacts_guest = (Gtk.Button) builder.GetObject ("button_networks_contacts_guest");
+		button_networks_encoder_guest = (Gtk.Button) builder.GetObject ("button_networks_encoder_guest");
+
+		//encoder exercise stuff
+		label_encoder_exercise_encoder = (Gtk.Label) builder.GetObject ("label_encoder_exercise_encoder");
+		//vseparator_encoder_exercise_encoder = (Gtk.VSeparator) builder.GetObject ("vseparator_encoder_exercise_encoder");
+		hbox_encoder_exercise_encoder = (Gtk.HBox) builder.GetObject ("hbox_encoder_exercise_encoder");
+		button_encoder_exercise_edit = (Gtk.Button) builder.GetObject ("button_encoder_exercise_edit");
+		button_encoder_exercise_add = (Gtk.Button) builder.GetObject ("button_encoder_exercise_add");
+		button_encoder_exercise_delete = (Gtk.Button) builder.GetObject ("button_encoder_exercise_delete");
+
+		//encoder ...
+		check_encoder_networks_upload = (Gtk.CheckButton) builder.GetObject ("check_encoder_networks_upload");
+		button_encoder_monthly_change_current_session = (Gtk.Button) builder.GetObject ("button_encoder_monthly_change_current_session");
+		button_encoder_analyze_image_compujump_send_email = (Gtk.Button) builder.GetObject ("button_encoder_analyze_image_compujump_send_email");
+		/*
+		   label_RFID_disconnected = (Gtk.Label) builder.GetObject ("label_RFID_disconnected");
+		   label_chronopic_encoder = (Gtk.Label) builder.GetObject ("label_chronopic_encoder");
+		   image_chronopic_encoder_no = (Gtk.Image) builder.GetObject ("image_chronopic_encoder_no");
+		   image_chronopic_encoder_yes = (Gtk.Image) builder.GetObject ("image_chronopic_encoder_yes");
+		   */
+		hbox_encoder_disconnected = (Gtk.HBox) builder.GetObject ("hbox_encoder_disconnected");
+		hbox_RFID_disconnected = (Gtk.HBox) builder.GetObject ("hbox_RFID_disconnected");
+		label_encoder_checked_error = (Gtk.Label) builder.GetObject ("label_encoder_checked_error");
+
+		//contacts
+		check_contacts_networks_upload = (Gtk.CheckButton) builder.GetObject ("check_contacts_networks_upload");
+
+		//runsInterval
+		radio_run_interval_compujump_5m = (Gtk.RadioButton) builder.GetObject ("radio_run_interval_compujump_5m");
+		radio_run_interval_compujump_10m = (Gtk.RadioButton) builder.GetObject ("radio_run_interval_compujump_10m");
+		radio_run_interval_compujump_15m = (Gtk.RadioButton) builder.GetObject ("radio_run_interval_compujump_15m");
+		radio_run_interval_compujump_20m = (Gtk.RadioButton) builder.GetObject ("radio_run_interval_compujump_20m");
+
+		//shown when menu is hidden
+		//hbox_menu_and_preferences_outside_menu_contacts = (Gtk.HBox) builder.GetObject ("hbox_menu_and_preferences_outside_menu_contacts");
+		//hbox_menu_and_preferences_outside_menu_encoder = (Gtk.HBox) builder.GetObject ("hbox_menu_and_preferences_outside_menu_encoder");
+		//button_menu_outside_menu = (Gtk.Button) builder.GetObject ("button_menu_outside_menu");
+		//button_menu_outside_menu1 = (Gtk.Button) builder.GetObject ("button_menu_outside_menu1");
+	}
 }
 
 //Class for manage autologout on Compujump

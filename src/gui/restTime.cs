@@ -15,12 +15,12 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2017-2020   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2017-2023   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
 using Gtk;
-using Glade;
+//using Glade;
 using System.Collections.Generic; //List
 
 /*
@@ -31,54 +31,51 @@ using System.Collections.Generic; //List
 public partial class ChronoJumpWindow 
 {
 	//contacts
+	Gtk.HBox hbox_contacts_rest_time_sofas;
+	Gtk.Image image_contacts_rest_time_dark_blue;
+	Gtk.Image image_contacts_rest_time_clear_yellow;
+	Gtk.ScrolledWindow scrolled_rest_time_contacts;
+	Gtk.Viewport viewport_rest_time_contacts;
+	Gtk.Table table_rest_time_contacts;
+	Gtk.Button button_scrolled_rest_time_contacts_left;
+	Gtk.Button button_scrolled_rest_time_contacts_right;
 
-	[Widget] Gtk.HBox hbox_contacts_rest_time_sofas;
-	[Widget] Gtk.Image image_contacts_rest_time_dark_blue;
-	[Widget] Gtk.Image image_contacts_rest_time_clear_yellow;
-	[Widget] Gtk.ScrolledWindow scrolled_rest_time_contacts;
-	[Widget] Gtk.Viewport viewport_rest_time_contacts;
-	[Widget] Gtk.Table table_rest_time_contacts;
-	[Widget] Gtk.Button button_scrolled_rest_time_contacts_left;
-	[Widget] Gtk.Button button_scrolled_rest_time_contacts_right;
+	Gtk.Label label_contacts_rest_time_1_name;
+	Gtk.Label label_contacts_rest_time_2_name;
+	Gtk.Label label_contacts_rest_time_3_name;
+	Gtk.Label label_contacts_rest_time_4_name;
+	Gtk.Label label_contacts_rest_time_5_name;
 
-	[Widget] Gtk.Label label_contacts_rest_time_1_name;
-	[Widget] Gtk.Label label_contacts_rest_time_2_name;
-	[Widget] Gtk.Label label_contacts_rest_time_3_name;
-	[Widget] Gtk.Label label_contacts_rest_time_4_name;
-	[Widget] Gtk.Label label_contacts_rest_time_5_name;
+	Gtk.Label label_contacts_rest_time_1_time;
+	Gtk.Label label_contacts_rest_time_2_time;
+	Gtk.Label label_contacts_rest_time_3_time;
+	Gtk.Label label_contacts_rest_time_4_time;
+	Gtk.Label label_contacts_rest_time_5_time;
 
-	[Widget] Gtk.Label label_contacts_rest_time_1_time;
-	[Widget] Gtk.Label label_contacts_rest_time_2_time;
-	[Widget] Gtk.Label label_contacts_rest_time_3_time;
-	[Widget] Gtk.Label label_contacts_rest_time_4_time;
-	[Widget] Gtk.Label label_contacts_rest_time_5_time;
+	//encoder
+	Gtk.HBox hbox_encoder_rest_time_sofas;
+	Gtk.Image image_encoder_rest_time_dark_blue;
+	Gtk.Image image_encoder_rest_time_clear_yellow;
+	Gtk.ScrolledWindow scrolled_rest_time_encoder;
+	Gtk.Viewport viewport_rest_time_encoder;
+	Gtk.Table table_rest_time_encoder;
+	Gtk.Button button_scrolled_rest_time_encoder_left;
+	Gtk.Button button_scrolled_rest_time_encoder_right;
+
+	Gtk.Label label_encoder_rest_time_1_name;
+	Gtk.Label label_encoder_rest_time_2_name;
+	Gtk.Label label_encoder_rest_time_3_name;
+	Gtk.Label label_encoder_rest_time_4_name;
+	Gtk.Label label_encoder_rest_time_5_name;
+
+	Gtk.Label label_encoder_rest_time_1_time;
+	Gtk.Label label_encoder_rest_time_2_time;
+	Gtk.Label label_encoder_rest_time_3_time;
+	Gtk.Label label_encoder_rest_time_4_time;
+	Gtk.Label label_encoder_rest_time_5_time;
 
 	List<Gtk.Label> labels_rest_time_contacts_names;
 	List<Gtk.Label> labels_rest_time_contacts_times;
-
-	//encoder
-
-	[Widget] Gtk.HBox hbox_encoder_rest_time_sofas;
-	[Widget] Gtk.Image image_encoder_rest_time_dark_blue;
-	[Widget] Gtk.Image image_encoder_rest_time_clear_yellow;
-	[Widget] Gtk.ScrolledWindow scrolled_rest_time_encoder;
-	[Widget] Gtk.Viewport viewport_rest_time_encoder;
-	[Widget] Gtk.Table table_rest_time_encoder;
-	[Widget] Gtk.Button button_scrolled_rest_time_encoder_left;
-	[Widget] Gtk.Button button_scrolled_rest_time_encoder_right;
-
-	[Widget] Gtk.Label label_encoder_rest_time_1_name;
-	[Widget] Gtk.Label label_encoder_rest_time_2_name;
-	[Widget] Gtk.Label label_encoder_rest_time_3_name;
-	[Widget] Gtk.Label label_encoder_rest_time_4_name;
-	[Widget] Gtk.Label label_encoder_rest_time_5_name;
-
-	[Widget] Gtk.Label label_encoder_rest_time_1_time;
-	[Widget] Gtk.Label label_encoder_rest_time_2_time;
-	[Widget] Gtk.Label label_encoder_rest_time_3_time;
-	[Widget] Gtk.Label label_encoder_rest_time_4_time;
-	[Widget] Gtk.Label label_encoder_rest_time_5_time;
-
 	List<Gtk.Label> labels_rest_time_encoder_names;
 	List<Gtk.Label> labels_rest_time_encoder_times;
 
@@ -239,6 +236,53 @@ public partial class ChronoJumpWindow
 		//scrolled_rest_time_encoder.Hadjustment.Value = scrolled_rest_time_encoder.Hadjustment.Lower; //go to the beginning
 		scrolled_rest_time_encoder.Hadjustment.Value -= scrolled_rest_time_encoder.Hadjustment.PageSize; //one page to the right
 		updateTopRestTimesEncoder(); //make the update because if not it looks weird
+	}
+
+	private void connectWidgetsRestTime (Gtk.Builder builder)
+	{
+		//contacts
+		hbox_contacts_rest_time_sofas = (Gtk.HBox) builder.GetObject ("hbox_contacts_rest_time_sofas");
+		image_contacts_rest_time_dark_blue = (Gtk.Image) builder.GetObject ("image_contacts_rest_time_dark_blue");
+		image_contacts_rest_time_clear_yellow = (Gtk.Image) builder.GetObject ("image_contacts_rest_time_clear_yellow");
+		scrolled_rest_time_contacts = (Gtk.ScrolledWindow) builder.GetObject ("scrolled_rest_time_contacts");
+		viewport_rest_time_contacts = (Gtk.Viewport) builder.GetObject ("viewport_rest_time_contacts");
+		table_rest_time_contacts = (Gtk.Table) builder.GetObject ("table_rest_time_contacts");
+		button_scrolled_rest_time_contacts_left = (Gtk.Button) builder.GetObject ("button_scrolled_rest_time_contacts_left");
+		button_scrolled_rest_time_contacts_right = (Gtk.Button) builder.GetObject ("button_scrolled_rest_time_contacts_right");
+
+		label_contacts_rest_time_1_name = (Gtk.Label) builder.GetObject ("label_contacts_rest_time_1_name");
+		label_contacts_rest_time_2_name = (Gtk.Label) builder.GetObject ("label_contacts_rest_time_2_name");
+		label_contacts_rest_time_3_name = (Gtk.Label) builder.GetObject ("label_contacts_rest_time_3_name");
+		label_contacts_rest_time_4_name = (Gtk.Label) builder.GetObject ("label_contacts_rest_time_4_name");
+		label_contacts_rest_time_5_name = (Gtk.Label) builder.GetObject ("label_contacts_rest_time_5_name");
+
+		label_contacts_rest_time_1_time = (Gtk.Label) builder.GetObject ("label_contacts_rest_time_1_time");
+		label_contacts_rest_time_2_time = (Gtk.Label) builder.GetObject ("label_contacts_rest_time_2_time");
+		label_contacts_rest_time_3_time = (Gtk.Label) builder.GetObject ("label_contacts_rest_time_3_time");
+		label_contacts_rest_time_4_time = (Gtk.Label) builder.GetObject ("label_contacts_rest_time_4_time");
+		label_contacts_rest_time_5_time = (Gtk.Label) builder.GetObject ("label_contacts_rest_time_5_time");
+
+		//encoder
+		hbox_encoder_rest_time_sofas = (Gtk.HBox) builder.GetObject ("hbox_encoder_rest_time_sofas");
+		image_encoder_rest_time_dark_blue = (Gtk.Image) builder.GetObject ("image_encoder_rest_time_dark_blue");
+		image_encoder_rest_time_clear_yellow = (Gtk.Image) builder.GetObject ("image_encoder_rest_time_clear_yellow");
+		scrolled_rest_time_encoder = (Gtk.ScrolledWindow) builder.GetObject ("scrolled_rest_time_encoder");
+		viewport_rest_time_encoder = (Gtk.Viewport) builder.GetObject ("viewport_rest_time_encoder");
+		table_rest_time_encoder = (Gtk.Table) builder.GetObject ("table_rest_time_encoder");
+		button_scrolled_rest_time_encoder_left = (Gtk.Button) builder.GetObject ("button_scrolled_rest_time_encoder_left");
+		button_scrolled_rest_time_encoder_right = (Gtk.Button) builder.GetObject ("button_scrolled_rest_time_encoder_right");
+
+		label_encoder_rest_time_1_name = (Gtk.Label) builder.GetObject ("label_encoder_rest_time_1_name");
+		label_encoder_rest_time_2_name = (Gtk.Label) builder.GetObject ("label_encoder_rest_time_2_name");
+		label_encoder_rest_time_3_name = (Gtk.Label) builder.GetObject ("label_encoder_rest_time_3_name");
+		label_encoder_rest_time_4_name = (Gtk.Label) builder.GetObject ("label_encoder_rest_time_4_name");
+		label_encoder_rest_time_5_name = (Gtk.Label) builder.GetObject ("label_encoder_rest_time_5_name");
+
+		label_encoder_rest_time_1_time = (Gtk.Label) builder.GetObject ("label_encoder_rest_time_1_time");
+		label_encoder_rest_time_2_time = (Gtk.Label) builder.GetObject ("label_encoder_rest_time_2_time");
+		label_encoder_rest_time_3_time = (Gtk.Label) builder.GetObject ("label_encoder_rest_time_3_time");
+		label_encoder_rest_time_4_time = (Gtk.Label) builder.GetObject ("label_encoder_rest_time_4_time");
+		label_encoder_rest_time_5_time = (Gtk.Label) builder.GetObject ("label_encoder_rest_time_5_time");
 	}
 }
 

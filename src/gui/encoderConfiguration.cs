@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2022   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2004-2023   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -24,118 +24,121 @@ using System.Collections;
 using System.Collections.Generic; //List<T>
 using Gtk;
 using Gdk;
-using Glade;
+//using Glade;
 using Mono.Unix;
 
 
 public class EncoderConfigurationWindow 
 {
-	[Widget] Gtk.Window encoder_configuration;
-	[Widget] Gtk.Image image_encoder_linear;
-	[Widget] Gtk.Image image_encoder_rotary_friction;
-	[Widget] Gtk.Image image_encoder_rotary_axis;
-	[Widget] Gtk.Image image_encoder_configuration;
-	[Widget] Gtk.Image image_encoder_calcule_im;
-	[Widget] Gtk.RadioButton radio_linear;
-	[Widget] Gtk.RadioButton radio_rotary_friction;
-	[Widget] Gtk.RadioButton radio_rotary_axis;
+	// at glade ---->
+	Gtk.Window encoder_configuration;
+	Gtk.Image image_encoder_linear;
+	Gtk.Image image_encoder_rotary_friction;
+	Gtk.Image image_encoder_rotary_axis;
+	Gtk.Image image_encoder_configuration;
+	Gtk.Image image_encoder_calcule_im;
+	Gtk.RadioButton radio_linear;
+	Gtk.RadioButton radio_rotary_friction;
+	Gtk.RadioButton radio_rotary_axis;
 
-	[Widget] Gtk.CheckButton check_rotary_friction_inertia_on_axis;
+	Gtk.CheckButton check_rotary_friction_inertia_on_axis;
 	
-	[Widget] Gtk.Button button_previous;
-	[Widget] Gtk.Button button_next;
+	Gtk.Button button_previous;
+	Gtk.Button button_next;
 
 	//to colorize
-	[Widget] Gtk.Label label_radio_linear;
-	[Widget] Gtk.Label label_radio_rotary_friction;
-	[Widget] Gtk.Label label_radio_rotary_axis;
-	[Widget] Gtk.Label label_check_rotary_friction_inertia_on_axis;
-	[Widget] Gtk.Label label_selected;
-	[Widget] Gtk.Label label_count;
+	Gtk.Label label_radio_linear;
+	Gtk.Label label_radio_rotary_friction;
+	Gtk.Label label_radio_rotary_axis;
+	Gtk.Label label_check_rotary_friction_inertia_on_axis;
+	Gtk.Label label_selected;
+	Gtk.Label label_count;
 
-	[Widget] Gtk.TextView textview;
+	Gtk.TextView textview;
 
 	//diameter when there's no inertia
-	[Widget] Gtk.Box hbox_d; 
-	[Widget] Gtk.SpinButton spin_d;
+	Gtk.Box hbox_d; 
+	Gtk.SpinButton spin_d;
 
 	//diameters whent there's inertia (is plural because there can be many anchorages)
-	[Widget] Gtk.Box vbox_d; 
-	[Widget] Gtk.Box hbox_list_d;
-	[Widget] Gtk.ComboBox combo_d_num;
-	[Widget] Gtk.SpinButton spin_d_0;
-	[Widget] Gtk.SpinButton spin_d_1;
-	[Widget] Gtk.SpinButton spin_d_2;
-	[Widget] Gtk.SpinButton spin_d_3;
-	[Widget] Gtk.SpinButton spin_d_4;
-	[Widget] Gtk.SpinButton spin_d_5;
-	[Widget] Gtk.SpinButton spin_d_6;
-	[Widget] Gtk.SpinButton spin_d_7;
-	[Widget] Gtk.SpinButton spin_d_8;
-	[Widget] Gtk.SpinButton spin_d_9;
+	Gtk.Box vbox_d; 
+	Gtk.Box hbox_list_d;
+	Gtk.SpinButton spin_d_0;
+	Gtk.SpinButton spin_d_1;
+	Gtk.SpinButton spin_d_2;
+	Gtk.SpinButton spin_d_3;
+	Gtk.SpinButton spin_d_4;
+	Gtk.SpinButton spin_d_5;
+	Gtk.SpinButton spin_d_6;
+	Gtk.SpinButton spin_d_7;
+	Gtk.SpinButton spin_d_8;
+	Gtk.SpinButton spin_d_9;
 
 
-	[Widget] Gtk.Box hbox_D;
-	[Widget] Gtk.Box hbox_angle_push;
-	[Widget] Gtk.Box hbox_angle_weight;
-	[Widget] Gtk.Box hbox_inertia;
-	[Widget] Gtk.Box hbox_inertia_mass;
-	[Widget] Gtk.Box hbox_inertia_length;
-	[Widget] Gtk.Box vbox_inertia_calcule;
+	Gtk.Box hbox_D;
+	Gtk.Box hbox_angle_push;
+	Gtk.Box hbox_angle_weight;
+	Gtk.Box hbox_inertia;
+	Gtk.Box hbox_inertia_mass;
+	Gtk.Box hbox_inertia_length;
+	Gtk.Box vbox_inertia_calcule;
 
-	[Widget] Gtk.SpinButton spin_D;
-	[Widget] Gtk.SpinButton spin_angle_push;
-	[Widget] Gtk.SpinButton spin_angle_weight;
-	[Widget] Gtk.SpinButton spin_inertia_machine;
-	[Widget] Gtk.SpinButton spin_inertia_mass; //mass of each of the extra load (weights)
-	[Widget] Gtk.SpinButton spin_inertia_length;
+	Gtk.SpinButton spin_D;
+	Gtk.SpinButton spin_angle_push;
+	Gtk.SpinButton spin_angle_weight;
+	Gtk.SpinButton spin_inertia_machine;
+	Gtk.SpinButton spin_inertia_mass; //mass of each of the extra load (weights)
+	Gtk.SpinButton spin_inertia_length;
 	
-	[Widget] Gtk.HBox hbox_gearedUp;
-	[Widget] Gtk.ComboBox combo_gearedUp;
+	Gtk.HBox hbox_gearedUp;
 		
-	[Widget] Gtk.Box vbox_select_encoder;
-	[Widget] Gtk.Frame frame_notebook_side;
-	[Widget] Gtk.Notebook notebook_side;
-	[Widget] Gtk.TreeView treeview_select;
-	[Widget] Gtk.Button button_import;
-	[Widget] Gtk.Button button_export;
-	[Widget] Gtk.Button button_edit;
-	[Widget] Gtk.Button button_add;
-	[Widget] Gtk.Button button_duplicate;
-	[Widget] Gtk.Button button_delete;
-	[Widget] Gtk.Image image_import;
-	[Widget] Gtk.Image image_export;
-	[Widget] Gtk.Image image_capture_cancel;
-	[Widget] Gtk.Image image_cancel;
-	[Widget] Gtk.Image image_accept;
-	[Widget] Gtk.Image image_edit;
-	[Widget] Gtk.Image image_add;
-	[Widget] Gtk.Image image_duplicate;
-	[Widget] Gtk.Image image_delete;
-	[Widget] Gtk.Label label_side_action;
-	[Widget] Gtk.Label label_side_selected;
+	Gtk.Box vbox_select_encoder;
+	Gtk.Frame frame_notebook_side;
+	Gtk.Notebook notebook_side;
+	Gtk.TreeView treeview_select;
+	Gtk.Button button_import;
+	Gtk.Button button_export;
+	Gtk.Button button_edit;
+	Gtk.Button button_add;
+	Gtk.Button button_duplicate;
+	Gtk.Button button_delete;
+	Gtk.Image image_import;
+	Gtk.Image image_export;
+	Gtk.Image image_capture_cancel;
+	Gtk.Image image_cancel;
+	Gtk.Image image_accept;
+	Gtk.Image image_edit;
+	Gtk.Image image_add;
+	Gtk.Image image_duplicate;
+	Gtk.Image image_delete;
+	Gtk.Label label_side_action;
+	Gtk.Label label_side_selected;
 
-	[Widget] Gtk.Notebook notebook_actions;
-	[Widget] Gtk.Entry entry_save_name;
-	[Widget] Gtk.Entry entry_save_description;
-	//[Widget] Gtk.Button button_cancel;
-	[Widget] Gtk.Button button_accept;
+	Gtk.Notebook notebook_actions;
+	Gtk.Entry entry_save_name;
+	Gtk.Entry entry_save_description;
+	//Gtk.Button button_cancel;
+	Gtk.Button button_accept;
 
-	[Widget] Gtk.SpinButton spin_im_weight_calcule;
-	[Widget] Gtk.SpinButton spin_im_length_calcule;
-	//[Widget] Gtk.SpinButton spin_im_duration_calcule;
-	[Widget] Gtk.Label label_im_result_disc;
-	[Widget] Gtk.Label label_im_feedback;
-	[Widget] Gtk.Button button_encoder_capture_inertial_do;
-	[Widget] Gtk.Button button_encoder_capture_inertial_cancel;
-	//[Widget] Gtk.Button button_encoder_capture_inertial_finish;
-	[Widget] Gtk.Label label_capture_time;
-	[Widget] Gtk.Label label_im_calc_angle;
-	[Widget] Gtk.Label label_im_calc_oscillations;
-	[Widget] Gtk.Table table_angle_oscillations;
-	[Widget] Gtk.Table table_im_machine_result;
+	Gtk.SpinButton spin_im_weight_calcule;
+	Gtk.SpinButton spin_im_length_calcule;
+	//Gtk.SpinButton spin_im_duration_calcule;
+	Gtk.Label label_im_result_disc;
+	Gtk.Label label_im_feedback;
+	Gtk.Button button_encoder_capture_inertial_do;
+	Gtk.Button button_encoder_capture_inertial_cancel;
+	//Gtk.Button button_encoder_capture_inertial_finish;
+	Gtk.Label label_capture_time;
+	Gtk.Label label_im_calc_angle;
+	Gtk.Label label_im_calc_oscillations;
+	Gtk.Table table_angle_oscillations;
+	Gtk.Table table_im_machine_result;
 
-	[Widget] Gtk.Button button_close;
+	Gtk.Button button_close;
+	Gtk.ComboBoxText combo_d_num;
+	Gtk.ComboBoxText combo_gearedUp;
+	// <---- at glade
+	
 
 	static EncoderConfigurationWindow EncoderConfigurationWindowBox;
 	
@@ -157,9 +160,14 @@ public class EncoderConfigurationWindow
 
 	EncoderConfigurationWindow ()
 	{
+		/*
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "encoder_configuration.glade", "encoder_configuration", "chronojump");
 		gladeXML.Autoconnect(this);
+		*/
+		Gtk.Builder builder = new Gtk.Builder (null, Util.GetGladePath () + "encoder_configuration.glade", null);
+		connectWidgets (builder);
+		builder.Autoconnect (this);
 		
 		//three encoder types	
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameEncoderTypeLinear);
@@ -664,7 +672,7 @@ public class EncoderConfigurationWindow
 
 	private string getSelectedName ()
 	{
-		TreeModel model;
+		ITreeModel model;
 		TreeIter iter;
 
 		if (treeview_select.Selection.GetSelected(out model, out iter))
@@ -675,7 +683,7 @@ public class EncoderConfigurationWindow
 
 	private string getSelectedDescription ()
 	{
-		TreeModel model;
+		ITreeModel model;
 		TreeIter iter;
 
 		if (treeview_select.Selection.GetSelected(out model, out iter))
@@ -893,7 +901,7 @@ public class EncoderConfigurationWindow
 
 		if(updateGUI)
 		{
-			TreeModel model;
+			ITreeModel model;
 			TreeIter iter = new TreeIter();
 			treeview_select.Selection.GetSelected (out model, out iter);
 			store.SetValue (iter, colName, newName);
@@ -1181,4 +1189,113 @@ public class EncoderConfigurationWindow
 		get { return 60; }
 	}
 		
+	private void connectWidgets (Gtk.Builder builder)
+	{
+		encoder_configuration = (Gtk.Window) builder.GetObject ("encoder_configuration");
+		image_encoder_linear = (Gtk.Image) builder.GetObject ("image_encoder_linear");
+		image_encoder_rotary_friction = (Gtk.Image) builder.GetObject ("image_encoder_rotary_friction");
+		image_encoder_rotary_axis = (Gtk.Image) builder.GetObject ("image_encoder_rotary_axis");
+		image_encoder_configuration = (Gtk.Image) builder.GetObject ("image_encoder_configuration");
+		image_encoder_calcule_im = (Gtk.Image) builder.GetObject ("image_encoder_calcule_im");
+		radio_linear = (Gtk.RadioButton) builder.GetObject ("radio_linear");
+		radio_rotary_friction = (Gtk.RadioButton) builder.GetObject ("radio_rotary_friction");
+		radio_rotary_axis = (Gtk.RadioButton) builder.GetObject ("radio_rotary_axis");
+
+		check_rotary_friction_inertia_on_axis = (Gtk.CheckButton) builder.GetObject ("check_rotary_friction_inertia_on_axis");
+
+		button_previous = (Gtk.Button) builder.GetObject ("button_previous");
+		button_next = (Gtk.Button) builder.GetObject ("button_next");
+
+		//to colorize
+		label_radio_linear = (Gtk.Label) builder.GetObject ("label_radio_linear");
+		label_radio_rotary_friction = (Gtk.Label) builder.GetObject ("label_radio_rotary_friction");
+		label_radio_rotary_axis = (Gtk.Label) builder.GetObject ("label_radio_rotary_axis");
+		label_check_rotary_friction_inertia_on_axis = (Gtk.Label) builder.GetObject ("label_check_rotary_friction_inertia_on_axis");
+		label_selected = (Gtk.Label) builder.GetObject ("label_selected");
+		label_count = (Gtk.Label) builder.GetObject ("label_count");
+
+		textview = (Gtk.TextView) builder.GetObject ("textview");
+
+		//diameter when there's no inertia
+		hbox_d = (Gtk.Box) builder.GetObject ("hbox_d"); 
+		spin_d = (Gtk.SpinButton) builder.GetObject ("spin_d");
+
+		//diameters whent there's inertia (is plural because there can be many anchorages)
+		vbox_d = (Gtk.Box) builder.GetObject ("vbox_d"); 
+		hbox_list_d = (Gtk.Box) builder.GetObject ("hbox_list_d");
+		spin_d_0 = (Gtk.SpinButton) builder.GetObject ("spin_d_0");
+		spin_d_1 = (Gtk.SpinButton) builder.GetObject ("spin_d_1");
+		spin_d_2 = (Gtk.SpinButton) builder.GetObject ("spin_d_2");
+		spin_d_3 = (Gtk.SpinButton) builder.GetObject ("spin_d_3");
+		spin_d_4 = (Gtk.SpinButton) builder.GetObject ("spin_d_4");
+		spin_d_5 = (Gtk.SpinButton) builder.GetObject ("spin_d_5");
+		spin_d_6 = (Gtk.SpinButton) builder.GetObject ("spin_d_6");
+		spin_d_7 = (Gtk.SpinButton) builder.GetObject ("spin_d_7");
+		spin_d_8 = (Gtk.SpinButton) builder.GetObject ("spin_d_8");
+		spin_d_9 = (Gtk.SpinButton) builder.GetObject ("spin_d_9");
+
+
+		hbox_D = (Gtk.Box) builder.GetObject ("hbox_D");
+		hbox_angle_push = (Gtk.Box) builder.GetObject ("hbox_angle_push");
+		hbox_angle_weight = (Gtk.Box) builder.GetObject ("hbox_angle_weight");
+		hbox_inertia = (Gtk.Box) builder.GetObject ("hbox_inertia");
+		hbox_inertia_mass = (Gtk.Box) builder.GetObject ("hbox_inertia_mass");
+		hbox_inertia_length = (Gtk.Box) builder.GetObject ("hbox_inertia_length");
+		vbox_inertia_calcule = (Gtk.Box) builder.GetObject ("vbox_inertia_calcule");
+
+		spin_D = (Gtk.SpinButton) builder.GetObject ("spin_D");
+		spin_angle_push = (Gtk.SpinButton) builder.GetObject ("spin_angle_push");
+		spin_angle_weight = (Gtk.SpinButton) builder.GetObject ("spin_angle_weight");
+		spin_inertia_machine = (Gtk.SpinButton) builder.GetObject ("spin_inertia_machine");
+		spin_inertia_mass = (Gtk.SpinButton) builder.GetObject ("spin_inertia_mass"); //mass of each of the extra load (weights)
+		spin_inertia_length = (Gtk.SpinButton) builder.GetObject ("spin_inertia_length");
+
+		hbox_gearedUp = (Gtk.HBox) builder.GetObject ("hbox_gearedUp");
+
+		vbox_select_encoder = (Gtk.Box) builder.GetObject ("vbox_select_encoder");
+		frame_notebook_side = (Gtk.Frame) builder.GetObject ("frame_notebook_side");
+		notebook_side = (Gtk.Notebook) builder.GetObject ("notebook_side");
+		treeview_select = (Gtk.TreeView) builder.GetObject ("treeview_select");
+		button_import = (Gtk.Button) builder.GetObject ("button_import");
+		button_export = (Gtk.Button) builder.GetObject ("button_export");
+		button_edit = (Gtk.Button) builder.GetObject ("button_edit");
+		button_add = (Gtk.Button) builder.GetObject ("button_add");
+		button_duplicate = (Gtk.Button) builder.GetObject ("button_duplicate");
+		button_delete = (Gtk.Button) builder.GetObject ("button_delete");
+		image_import = (Gtk.Image) builder.GetObject ("image_import");
+		image_export = (Gtk.Image) builder.GetObject ("image_export");
+		image_capture_cancel = (Gtk.Image) builder.GetObject ("image_capture_cancel");
+		image_cancel = (Gtk.Image) builder.GetObject ("image_cancel");
+		image_accept = (Gtk.Image) builder.GetObject ("image_accept");
+		image_edit = (Gtk.Image) builder.GetObject ("image_edit");
+		image_add = (Gtk.Image) builder.GetObject ("image_add");
+		image_duplicate = (Gtk.Image) builder.GetObject ("image_duplicate");
+		image_delete = (Gtk.Image) builder.GetObject ("image_delete");
+		label_side_action = (Gtk.Label) builder.GetObject ("label_side_action");
+		label_side_selected = (Gtk.Label) builder.GetObject ("label_side_selected");
+
+		notebook_actions = (Gtk.Notebook) builder.GetObject ("notebook_actions");
+		entry_save_name = (Gtk.Entry) builder.GetObject ("entry_save_name");
+		entry_save_description = (Gtk.Entry) builder.GetObject ("entry_save_description");
+		//button_cancel = (Gtk.Button) builder.GetObject ("button_cancel");
+		button_accept = (Gtk.Button) builder.GetObject ("button_accept");
+
+		spin_im_weight_calcule = (Gtk.SpinButton) builder.GetObject ("spin_im_weight_calcule");
+		spin_im_length_calcule = (Gtk.SpinButton) builder.GetObject ("spin_im_length_calcule");
+		//spin_im_duration_calcule = (Gtk.SpinButton) builder.GetObject ("spin_im_duration_calcule");
+		label_im_result_disc = (Gtk.Label) builder.GetObject ("label_im_result_disc");
+		label_im_feedback = (Gtk.Label) builder.GetObject ("label_im_feedback");
+		button_encoder_capture_inertial_do = (Gtk.Button) builder.GetObject ("button_encoder_capture_inertial_do");
+		button_encoder_capture_inertial_cancel = (Gtk.Button) builder.GetObject ("button_encoder_capture_inertial_cancel");
+		//button_encoder_capture_inertial_finish = (Gtk.Button) builder.GetObject ("button_encoder_capture_inertial_finish");
+		label_capture_time = (Gtk.Label) builder.GetObject ("label_capture_time");
+		label_im_calc_angle = (Gtk.Label) builder.GetObject ("label_im_calc_angle");
+		label_im_calc_oscillations = (Gtk.Label) builder.GetObject ("label_im_calc_oscillations");
+		table_angle_oscillations = (Gtk.Table) builder.GetObject ("table_angle_oscillations");
+		table_im_machine_result = (Gtk.Table) builder.GetObject ("table_im_machine_result");
+
+		button_close = (Gtk.Button) builder.GetObject ("button_close");
+		combo_d_num = (Gtk.ComboBoxText) builder.GetObject ("combo_d_num");
+		combo_gearedUp = (Gtk.ComboBoxText) builder.GetObject ("combo_gearedUp");
+	}
 }

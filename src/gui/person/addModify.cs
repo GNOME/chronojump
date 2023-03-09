@@ -15,96 +15,99 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2020   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2004-2023   Xavier de Blas <xaviblas@gmail.com> 
  */
 
 using System;
 using Gtk;
 using Gdk;
-using Glade;
+//using Glade;
 using Mono.Unix;
 using System.IO; 
 
 public class PersonAddModifyWindow
 {
+	// at glade ---->
+	Gtk.Window person_win;
+	Gtk.RadioButton radio_metric;
+	Gtk.RadioButton radio_imperial;
+	Gtk.Entry entry1;
+	Gtk.RadioButton radiobutton_man;
+	Gtk.RadioButton radiobutton_woman;
+	Gtk.Entry entry_club_id;
+	Gtk.TextView textview_description;
+	Gtk.TextView textview_ps_comments;
+
+	Gtk.Frame frame_main;
+	Gtk.HButtonBox hbuttonbox_main;
+	Gtk.HBox hbox_units;
+	Gtk.VBox vbox_error;
+	Gtk.Label label_error;
+	Gtk.Button button_load_person;
+	Gtk.Image image_load_person;
+
+	Gtk.Image image_photo_from_file;
+	Gtk.Image image_photo_preview;
+	Gtk.Image image_photo_do;
+
+	Gtk.Button button_delete_photo_file;
+	Gtk.Image image_photo_delete;
+
+	//Gtk.Button button_add_photo_file;
+	//Gtk.Button button_take_photo_do;
+	Gtk.HBox hbox_camera;
 	
-	[Widget] Gtk.Window person_win;
-	[Widget] Gtk.RadioButton radio_metric;
-	[Widget] Gtk.RadioButton radio_imperial;
-	[Widget] Gtk.Entry entry1;
-	[Widget] Gtk.RadioButton radiobutton_man;
-	[Widget] Gtk.RadioButton radiobutton_woman;
-	[Widget] Gtk.Entry entry_club_id;
-	[Widget] Gtk.TextView textview_description;
-	[Widget] Gtk.TextView textview_ps_comments;
+	Gtk.Label label_date;
+	//Gtk.Button button_change_date;
+	Gtk.Image image_calendar;
 
-	[Widget] Gtk.Frame frame_main;
-	[Widget] Gtk.HButtonBox hbuttonbox_main;
-	[Widget] Gtk.HBox hbox_units;
-	[Widget] Gtk.VBox vbox_error;
-	[Widget] Gtk.Label label_error;
-	[Widget] Gtk.Button button_load_person;
-	[Widget] Gtk.Image image_load_person;
+	Gtk.HBox hbox_weight_metric;
+	Gtk.HBox hbox_weight_imperial;
+	Gtk.SpinButton spinbutton_weight_metric;
+	Gtk.SpinButton spinbutton_weight_imperial;
 
-	[Widget] Gtk.Image image_photo_from_file;
-	[Widget] Gtk.Image image_photo_preview;
-	[Widget] Gtk.Image image_photo_do;
+	Gtk.HBox hbox_height_metric;
+	Gtk.HBox hbox_height_imperial;
+	Gtk.SpinButton spinbutton_height_metric;
+	Gtk.SpinButton spinbutton_height_imperial_feet;
+	Gtk.SpinButton spinbutton_height_imperial_inches;
 
-	[Widget] Gtk.Button button_delete_photo_file;
-	[Widget] Gtk.Image image_photo_delete;
+	Gtk.HBox hbox_leg_length_metric;
+	Gtk.HBox hbox_leg_length_imperial;
+	Gtk.SpinButton spinbutton_leg_length_metric;
+	Gtk.SpinButton spinbutton_leg_length_imperial_feet;
+	Gtk.SpinButton spinbutton_leg_length_imperial_inches;
 
-	//[Widget] Gtk.Button button_add_photo_file;
-	//[Widget] Gtk.Button button_take_photo_do;
-	[Widget] Gtk.HBox hbox_camera;
+	Gtk.HBox hbox_trochanter_floor_on_flexion_metric;
+	Gtk.HBox hbox_trochanter_floor_on_flexion_imperial;
+	Gtk.SpinButton spinbutton_trochanter_floor_on_flexion_metric;
+	Gtk.SpinButton spinbutton_trochanter_floor_on_flexion_imperial_feet;
+	Gtk.SpinButton spinbutton_trochanter_floor_on_flexion_imperial_inches;
 	
-	[Widget] Gtk.Label label_date;
-	//[Widget] Gtk.Button button_change_date;
-	[Widget] Gtk.Image image_calendar;
-
-	[Widget] Gtk.HBox hbox_weight_metric;
-	[Widget] Gtk.HBox hbox_weight_imperial;
-	[Widget] Gtk.SpinButton spinbutton_weight_metric;
-	[Widget] Gtk.SpinButton spinbutton_weight_imperial;
-
-	[Widget] Gtk.HBox hbox_height_metric;
-	[Widget] Gtk.HBox hbox_height_imperial;
-	[Widget] Gtk.SpinButton spinbutton_height_metric;
-	[Widget] Gtk.SpinButton spinbutton_height_imperial_feet;
-	[Widget] Gtk.SpinButton spinbutton_height_imperial_inches;
-
-	[Widget] Gtk.HBox hbox_leg_length_metric;
-	[Widget] Gtk.HBox hbox_leg_length_imperial;
-	[Widget] Gtk.SpinButton spinbutton_leg_length_metric;
-	[Widget] Gtk.SpinButton spinbutton_leg_length_imperial_feet;
-	[Widget] Gtk.SpinButton spinbutton_leg_length_imperial_inches;
-
-	[Widget] Gtk.HBox hbox_trochanter_floor_on_flexion_metric;
-	[Widget] Gtk.HBox hbox_trochanter_floor_on_flexion_imperial;
-	[Widget] Gtk.SpinButton spinbutton_trochanter_floor_on_flexion_metric;
-	[Widget] Gtk.SpinButton spinbutton_trochanter_floor_on_flexion_imperial_feet;
-	[Widget] Gtk.SpinButton spinbutton_trochanter_floor_on_flexion_imperial_inches;
+	Gtk.Box hbox_combo_sports;
+	Gtk.Label label_speciallity;
+	Gtk.Box hbox_combo_speciallities;
+	Gtk.Box hbox_combo_levels;
 	
-	[Widget] Gtk.Box hbox_combo_sports;
-	[Widget] Gtk.ComboBox combo_sports;
-	[Widget] Gtk.Label label_speciallity;
-	[Widget] Gtk.Box hbox_combo_speciallities;
-	[Widget] Gtk.ComboBox combo_speciallities;
-	[Widget] Gtk.Box hbox_combo_levels;
-	[Widget] Gtk.ComboBox combo_levels;
+	Gtk.Box hbox_combo_continents;
+	Gtk.Box hbox_combo_countries;
 	
-	[Widget] Gtk.Box hbox_combo_continents;
-	[Widget] Gtk.Box hbox_combo_countries;
-	[Widget] Gtk.ComboBox combo_continents;
-	[Widget] Gtk.ComboBox combo_countries;
+	Gtk.Image image_name;
+	Gtk.Image image_weight;
 	
-	[Widget] Gtk.Image image_name;
-	[Widget] Gtk.Image image_weight;
-	
-	[Widget] Gtk.Button button_zoom;
-	[Widget] Gtk.Image image_photo_mini;
-	[Widget] Gtk.Image image_zoom;
+	Gtk.Button button_zoom;
+	Gtk.Image image_photo_mini;
+	Gtk.Image image_zoom;
 
-	[Widget] Gtk.Button button_accept;
+	Gtk.Button button_accept;
+	// <---- at glade
+
+
+	Gtk.ComboBoxText combo_sports;
+	Gtk.ComboBoxText combo_speciallities;
+	Gtk.ComboBoxText combo_levels;
+	Gtk.ComboBoxText combo_continents;
+	Gtk.ComboBoxText combo_countries;
 
 	//used for connect ok gui/chronojump.cs, PersonRecuperate, PersonRecuperateFromOtherSession,this class, gui/convertWeight.cs
 	public Gtk.Button fakeButtonAccept;
@@ -162,9 +165,14 @@ public class PersonAddModifyWindow
 		LogB.Information (Catalog.GetString ("Please, choose person's parameters."));
 		LogB.Information (string.Format (Catalog.GetString ("Please, choose person's parameters at session {0}."), "session"));
 
+		/*
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "person_win.glade", "person_win", null);
 		gladeXML.Autoconnect(this);
+		*/
+		Gtk.Builder builder = new Gtk.Builder (null, Util.GetGladePath () + "person_win.glade", null);
+		connectWidgets (builder);
+		builder.Autoconnect (this);
 		
 		//put an icon to window
 		UtilGtk.IconWindow(person_win);
@@ -566,7 +574,7 @@ public class PersonAddModifyWindow
 
 
 	private void createComboSports() {
-		combo_sports = ComboBox.NewText ();
+		combo_sports = new ComboBoxText ();
 		sports = SqliteSport.SelectAll();
 			
 		//create sports translated, only with translated stuff
@@ -592,7 +600,7 @@ public class PersonAddModifyWindow
 	}
 	
 	private void createComboSpeciallities(int sportID) {
-		combo_speciallities = ComboBox.NewText ();
+		combo_speciallities = new ComboBoxText ();
 		speciallities = SqliteSpeciallity.SelectAll(true, sportID); //show undefined, filter by sport
 		
 		//create speciallities translated, only with translated stuff
@@ -618,7 +626,7 @@ public class PersonAddModifyWindow
 	}
 	
 	private void createComboLevels() {
-		combo_levels = ComboBox.NewText ();
+		combo_levels = new ComboBoxText ();
 		levels = Constants.LevelsStr();
 		
 		UtilGtk.ComboUpdate(combo_levels, levels, "");
@@ -634,7 +642,7 @@ public class PersonAddModifyWindow
 	}
 		
 	private void createComboContinents() {
-		combo_continents = ComboBox.NewText ();
+		combo_continents = new ComboBoxText ();
 		continents = Constants.ContinentsStr();
 
 		//create continentsTranslated, only with translated stuff
@@ -655,7 +663,7 @@ public class PersonAddModifyWindow
 	}
 
 	private void createComboCountries() {
-		combo_countries = ComboBox.NewText ();
+		combo_countries = new ComboBoxText ();
 
 		countries = new String[1];
 		//record countries with id:english name:translatedName
@@ -1330,6 +1338,81 @@ public class PersonAddModifyWindow
 		}
 	}
 	
+	private void connectWidgets (Gtk.Builder builder)
+	{
+		person_win = (Gtk.Window) builder.GetObject ("person_win");
+		radio_metric = (Gtk.RadioButton) builder.GetObject ("radio_metric");
+		radio_imperial = (Gtk.RadioButton) builder.GetObject ("radio_imperial");
+		entry1 = (Gtk.Entry) builder.GetObject ("entry1");
+		radiobutton_man = (Gtk.RadioButton) builder.GetObject ("radiobutton_man");
+		radiobutton_woman = (Gtk.RadioButton) builder.GetObject ("radiobutton_woman");
+		entry_club_id = (Gtk.Entry) builder.GetObject ("entry_club_id");
+		textview_description = (Gtk.TextView) builder.GetObject ("textview_description");
+		textview_ps_comments = (Gtk.TextView) builder.GetObject ("textview_ps_comments");
+
+		frame_main = (Gtk.Frame) builder.GetObject ("frame_main");
+		hbuttonbox_main = (Gtk.HButtonBox) builder.GetObject ("hbuttonbox_main");
+		hbox_units = (Gtk.HBox) builder.GetObject ("hbox_units");
+		vbox_error = (Gtk.VBox) builder.GetObject ("vbox_error");
+		label_error = (Gtk.Label) builder.GetObject ("label_error");
+		button_load_person = (Gtk.Button) builder.GetObject ("button_load_person");
+		image_load_person = (Gtk.Image) builder.GetObject ("image_load_person");
+
+		image_photo_from_file = (Gtk.Image) builder.GetObject ("image_photo_from_file");
+		image_photo_preview = (Gtk.Image) builder.GetObject ("image_photo_preview");
+		image_photo_do = (Gtk.Image) builder.GetObject ("image_photo_do");
+
+		button_delete_photo_file = (Gtk.Button) builder.GetObject ("button_delete_photo_file");
+		image_photo_delete = (Gtk.Image) builder.GetObject ("image_photo_delete");
+
+		//button_add_photo_file = (Gtk.Button) builder.GetObject ("button_add_photo_file");
+		//button_take_photo_do = (Gtk.Button) builder.GetObject ("button_take_photo_do");
+		hbox_camera = (Gtk.HBox) builder.GetObject ("hbox_camera");
+
+		label_date = (Gtk.Label) builder.GetObject ("label_date");
+		//button_change_date = (Gtk.Button) builder.GetObject ("button_change_date");
+		image_calendar = (Gtk.Image) builder.GetObject ("image_calendar");
+
+		hbox_weight_metric = (Gtk.HBox) builder.GetObject ("hbox_weight_metric");
+		hbox_weight_imperial = (Gtk.HBox) builder.GetObject ("hbox_weight_imperial");
+		spinbutton_weight_metric = (Gtk.SpinButton) builder.GetObject ("spinbutton_weight_metric");
+		spinbutton_weight_imperial = (Gtk.SpinButton) builder.GetObject ("spinbutton_weight_imperial");
+
+		hbox_height_metric = (Gtk.HBox) builder.GetObject ("hbox_height_metric");
+		hbox_height_imperial = (Gtk.HBox) builder.GetObject ("hbox_height_imperial");
+		spinbutton_height_metric = (Gtk.SpinButton) builder.GetObject ("spinbutton_height_metric");
+		spinbutton_height_imperial_feet = (Gtk.SpinButton) builder.GetObject ("spinbutton_height_imperial_feet");
+		spinbutton_height_imperial_inches = (Gtk.SpinButton) builder.GetObject ("spinbutton_height_imperial_inches");
+
+		hbox_leg_length_metric = (Gtk.HBox) builder.GetObject ("hbox_leg_length_metric");
+		hbox_leg_length_imperial = (Gtk.HBox) builder.GetObject ("hbox_leg_length_imperial");
+		spinbutton_leg_length_metric = (Gtk.SpinButton) builder.GetObject ("spinbutton_leg_length_metric");
+		spinbutton_leg_length_imperial_feet = (Gtk.SpinButton) builder.GetObject ("spinbutton_leg_length_imperial_feet");
+		spinbutton_leg_length_imperial_inches = (Gtk.SpinButton) builder.GetObject ("spinbutton_leg_length_imperial_inches");
+
+		hbox_trochanter_floor_on_flexion_metric = (Gtk.HBox) builder.GetObject ("hbox_trochanter_floor_on_flexion_metric");
+		hbox_trochanter_floor_on_flexion_imperial = (Gtk.HBox) builder.GetObject ("hbox_trochanter_floor_on_flexion_imperial");
+		spinbutton_trochanter_floor_on_flexion_metric = (Gtk.SpinButton) builder.GetObject ("spinbutton_trochanter_floor_on_flexion_metric");
+		spinbutton_trochanter_floor_on_flexion_imperial_feet = (Gtk.SpinButton) builder.GetObject ("spinbutton_trochanter_floor_on_flexion_imperial_feet");
+		spinbutton_trochanter_floor_on_flexion_imperial_inches = (Gtk.SpinButton) builder.GetObject ("spinbutton_trochanter_floor_on_flexion_imperial_inches");
+
+		hbox_combo_sports = (Gtk.Box) builder.GetObject ("hbox_combo_sports");
+		label_speciallity = (Gtk.Label) builder.GetObject ("label_speciallity");
+		hbox_combo_speciallities = (Gtk.Box) builder.GetObject ("hbox_combo_speciallities");
+		hbox_combo_levels = (Gtk.Box) builder.GetObject ("hbox_combo_levels");
+
+		hbox_combo_continents = (Gtk.Box) builder.GetObject ("hbox_combo_continents");
+		hbox_combo_countries = (Gtk.Box) builder.GetObject ("hbox_combo_countries");
+
+		image_name = (Gtk.Image) builder.GetObject ("image_name");
+		image_weight = (Gtk.Image) builder.GetObject ("image_weight");
+
+		button_zoom = (Gtk.Button) builder.GetObject ("button_zoom");
+		image_photo_mini = (Gtk.Image) builder.GetObject ("image_photo_mini");
+		image_zoom = (Gtk.Image) builder.GetObject ("image_zoom");
+
+		button_accept = (Gtk.Button) builder.GetObject ("button_accept");
+	}
 }
 
 

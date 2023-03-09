@@ -15,34 +15,34 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2020   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2004-2023   Xavier de Blas <xaviblas@gmail.com> 
  */
 
 
 using System;
 using Gtk;
 //using Gdk;
-using Glade;
+//using Glade;
 using Mono.Unix;
 
 public partial class ChronoJumpWindow 
 {
-	[Widget] Gtk.DrawingArea drawingarea_jumps_profile;
-	[Widget] Gtk.Image image_tab_jumps_profile;
-	[Widget] Gtk.Image image_jumps_profile_save;
-	[Widget] Gtk.Button button_jumps_profile_save_image;
+	Gtk.DrawingArea drawingarea_jumps_profile;
+	Gtk.Image image_tab_jumps_profile;
+	Gtk.Image image_jumps_profile_save;
+	Gtk.Button button_jumps_profile_save_image;
 
-	[Widget] Gtk.HBox hbox_jumps_profile_jumps_done;
-	[Widget] Gtk.Image image_jumps_profile_sj_yes;
-	[Widget] Gtk.Image image_jumps_profile_sj_no;
-	[Widget] Gtk.Image image_jumps_profile_sjl_yes;
-	[Widget] Gtk.Image image_jumps_profile_sjl_no;
-	[Widget] Gtk.Image image_jumps_profile_cmj_yes;
-	[Widget] Gtk.Image image_jumps_profile_cmj_no;
-	[Widget] Gtk.Image image_jumps_profile_abk_yes;
-	[Widget] Gtk.Image image_jumps_profile_abk_no;
-	[Widget] Gtk.Image image_jumps_profile_dja_yes;
-	[Widget] Gtk.Image image_jumps_profile_dja_no;
+	Gtk.HBox hbox_jumps_profile_jumps_done;
+	Gtk.Image image_jumps_profile_sj_yes;
+	Gtk.Image image_jumps_profile_sj_no;
+	Gtk.Image image_jumps_profile_sjl_yes;
+	Gtk.Image image_jumps_profile_sjl_no;
+	Gtk.Image image_jumps_profile_cmj_yes;
+	Gtk.Image image_jumps_profile_cmj_no;
+	Gtk.Image image_jumps_profile_abk_yes;
+	Gtk.Image image_jumps_profile_abk_no;
+	Gtk.Image image_jumps_profile_dja_yes;
+	Gtk.Image image_jumps_profile_dja_no;
 
 
 	JumpsProfile jumpsProfile;
@@ -86,7 +86,7 @@ public partial class ChronoJumpWindow
 		JumpsProfileGraph.Do(jumpsProfile.JumpsDone, jumpsProfile.GetIndexes(), drawingarea_jumps_profile,
 				currentPerson.Name, currentSession.DateShort, preferences.fontType.ToString());
 	}
-	private void on_drawingarea_jumps_profile_expose_event (object o, ExposeEventArgs args) 
+	private void on_drawingarea_jumps_profile_cairo_draw (object o, Gtk.DrawnArgs args) 
 	{
 		jumpsProfileDo(false); //do not calculate data
 		//data is calculated on switch page (at notebook_capture_analyze) or on change person
@@ -113,4 +113,23 @@ public partial class ChronoJumpWindow
 		new DialogMessage(Constants.MessageTypes.INFO, myString);
 	}
 
+	private void connectWidgetsJumpsProfile (Gtk.Builder builder)
+	{
+		drawingarea_jumps_profile = (Gtk.DrawingArea) builder.GetObject ("drawingarea_jumps_profile");
+		image_tab_jumps_profile = (Gtk.Image) builder.GetObject ("image_tab_jumps_profile");
+		image_jumps_profile_save = (Gtk.Image) builder.GetObject ("image_jumps_profile_save");
+		button_jumps_profile_save_image = (Gtk.Button) builder.GetObject ("button_jumps_profile_save_image");
+
+		hbox_jumps_profile_jumps_done = (Gtk.HBox) builder.GetObject ("hbox_jumps_profile_jumps_done");
+		image_jumps_profile_sj_yes = (Gtk.Image) builder.GetObject ("image_jumps_profile_sj_yes");
+		image_jumps_profile_sj_no = (Gtk.Image) builder.GetObject ("image_jumps_profile_sj_no");
+		image_jumps_profile_sjl_yes = (Gtk.Image) builder.GetObject ("image_jumps_profile_sjl_yes");
+		image_jumps_profile_sjl_no = (Gtk.Image) builder.GetObject ("image_jumps_profile_sjl_no");
+		image_jumps_profile_cmj_yes = (Gtk.Image) builder.GetObject ("image_jumps_profile_cmj_yes");
+		image_jumps_profile_cmj_no = (Gtk.Image) builder.GetObject ("image_jumps_profile_cmj_no");
+		image_jumps_profile_abk_yes = (Gtk.Image) builder.GetObject ("image_jumps_profile_abk_yes");
+		image_jumps_profile_abk_no = (Gtk.Image) builder.GetObject ("image_jumps_profile_abk_no");
+		image_jumps_profile_dja_yes = (Gtk.Image) builder.GetObject ("image_jumps_profile_dja_yes");
+		image_jumps_profile_dja_no = (Gtk.Image) builder.GetObject ("image_jumps_profile_dja_no");
+	}
 }

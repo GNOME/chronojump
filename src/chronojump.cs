@@ -21,7 +21,7 @@
 
 using System;
 using Gtk;
-using Glade;
+//using Glade;
 using Mono.Unix;
 using System.IO; //"File" things
 using System.Threading;
@@ -34,6 +34,7 @@ using System.Runtime.InteropServices;
 
 public class ChronoJump 
 {
+	Gtk.Button fakeSplashButton; //raised when splash win ended
 	SplashWindow splashWin;
 	
 	private static string progVersion = ""; //now in "version" file
@@ -46,7 +47,6 @@ public class ChronoJump
 	private bool chronojumpHasToExit = false;
 	private Config configChronojump;
 
-	[Widget] Gtk.Button fakeSplashButton; //raised when splash win ended
 	Thread thread;
 	bool needEndSplashWin = false;
 	bool needUpdateSplashMessage = false;

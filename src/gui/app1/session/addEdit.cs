@@ -15,12 +15,12 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2020   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2004-2023   Xavier de Blas <xaviblas@gmail.com> 
  */
 
 using System;
 using Gtk;
-using Glade;
+//using Glade;
 using GLib; //for Value
 using System.Text; //StringBuilder
 using System.Collections; //ArrayList
@@ -37,7 +37,7 @@ public partial class ChronoJumpWindow
 
 	TagSessionSelect tagSessionSelect;
 	DialogCalendar app1sae_dialogCalendar;
-	DateTime app1sae_dateTime;
+	System.DateTime app1sae_dateTime;
 
 	Sport app1sae_sport;
 	string [] app1sae_sports;
@@ -95,7 +95,7 @@ public partial class ChronoJumpWindow
 		if(app1sae_mode == App1saeModes.ADDSESSION) {
 			hbox_session_add.Visible = true;
 			hbox_session_more_edit.Visible = false;
-			app1sae_dateTime = DateTime.Today;
+			app1sae_dateTime = System.DateTime.Today;
 			app1sae_entry_name.Text = "";
 			app1sae_entry_place.Text = "";
 			app1sae_label_date.Text = app1sae_dateTime.ToLongDateString();
@@ -297,7 +297,7 @@ public partial class ChronoJumpWindow
 
 	private void app1sae_createComboSports()
 	{
-		app1sae_combo_sports = ComboBox.NewText ();
+		app1sae_combo_sports = new ComboBoxText ();
 		app1sae_sports = SqliteSport.SelectAll();
 		
 		//create sports translated, only with translated stuff
@@ -326,7 +326,7 @@ public partial class ChronoJumpWindow
 	
 	private void app1sae_createComboSpeciallities(int sportID)
 	{
-		app1sae_combo_speciallities = ComboBox.NewText ();
+		app1sae_combo_speciallities = new ComboBoxText ();
 		app1sae_speciallities = SqliteSpeciallity.SelectAll(true, sportID); //show undefined, filter by sport
 
 		//create speciallities translated, only with translated stuff
@@ -355,7 +355,7 @@ public partial class ChronoJumpWindow
 	
 	private void app1sae_createComboLevels()
 	{
-		app1sae_combo_levels = ComboBox.NewText ();
+		app1sae_combo_levels = new ComboBoxText ();
 		app1sae_levels = Constants.LevelsStr();
 		
 		UtilGtk.ComboUpdate(app1sae_combo_levels, app1sae_levels, "");

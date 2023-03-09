@@ -15,12 +15,12 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2017   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2004-2023   Xavier de Blas <xaviblas@gmail.com> 
  */
 
 using System;
 using Gtk;
-using Glade;
+//using Glade;
 using GLib; //for Value
 using System.Text; //StringBuilder
 using System.Collections; //ArrayList
@@ -28,22 +28,28 @@ using Mono.Unix;
 
 public class SessionSelectStatsWindow
 {
-	[Widget] Gtk.Window stats_select_sessions;
-	
+	Gtk.Window stats_select_sessions;
+	Gtk.TreeView treeview1;
+	Gtk.TreeView treeview2;
+	Gtk.Button button_accept;
+
 	private TreeStore store1;
 	private TreeStore store2;
-	[Widget] Gtk.TreeView treeview1;
-	[Widget] Gtk.TreeView treeview2;
-	[Widget] Gtk.Button button_accept;
-
 	static SessionSelectStatsWindow SessionSelectStatsWindowBox;
 	
 	private ArrayList arrayOfSelectedSessions;
 	
-	SessionSelectStatsWindow (Gtk.Window parent, ArrayList oldSelectedSessions) {
+	SessionSelectStatsWindow (Gtk.Window parent, ArrayList oldSelectedSessions)
+	{
+		/*
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "stats_select_sessions.glade", "stats_select_sessions", "chronojump");
 		gladeXML.Autoconnect(this);
+		*/
+		Gtk.Builder builder = new Gtk.Builder (null, Util.GetGladePath () + "stats_select_sessions.glade", null);
+		connectWidgets (builder);
+		builder.Autoconnect (this);
+
 		stats_select_sessions.Parent = parent;
 		
 		//put an icon to window
@@ -123,7 +129,7 @@ public class SessionSelectStatsWindow
 	
 	void on_button_select_clicked (object o, EventArgs args)
 	{
-		TreeModel model; 
+		ITreeModel model; 
 		TreeIter iter1; //iter of the first treeview
 		TreeIter iter2; //iter of second treeview. Used for search the row on we are going to insert
 		TreeIter iter3; //new iter in first treeview
@@ -149,7 +155,7 @@ public class SessionSelectStatsWindow
 		
 	void on_button_unselect_clicked (object o, EventArgs args)
 	{
-		TreeModel model; 
+		ITreeModel model; 
 		TreeIter iter1; //iter of first treeview. Used for search the row on we are going to insert
 		TreeIter iter2; //iter of the second treeview
 		TreeIter iter3; //new iter in first treeview
@@ -279,4 +285,11 @@ public class SessionSelectStatsWindow
 		}
 	}
 	
+	private void connectWidgets (Gtk.Builder builder)
+	{
+		stats_select_sessions = (Gtk.Window) builder.GetObject ("stats_select_sessions");
+		treeview1 = (Gtk.TreeView) builder.GetObject ("treeview1");
+		treeview2 = (Gtk.TreeView) builder.GetObject ("treeview2");
+		button_accept = (Gtk.Button) builder.GetObject ("button_accept");
+	}
 }

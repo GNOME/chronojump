@@ -15,190 +15,195 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2021   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2004-2023   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
 using Gtk;
 using Gdk;
-using Glade;
+//using Glade;
 using Mono.Unix;
+using System.IO; 		//Path
 
 public class FeedbackWindow 
 {
-	[Widget] Gtk.Window feedback;
-	[Widget] Gtk.Notebook notebook_main;
-	//[Widget] Gtk.ScrolledWindow scrolled_conditions;
+	// at glade ---->
+	Gtk.Window feedback;
+	Gtk.Notebook notebook_main;
+	//Gtk.ScrolledWindow scrolled_conditions;
 
-	[Widget] Gtk.Box hbox_jump_best_worst;
-	[Widget] Gtk.Box hbox_run_best_worst;
+	Gtk.Box hbox_jump_best_worst;
+	Gtk.Box hbox_run_best_worst;
 	
 	/* jumps */	
-	[Widget] Gtk.Box hbox_jump_conditions;
-	[Widget] Gtk.CheckButton checkbutton_jump_tf_tc_best;
-	[Widget] Gtk.CheckButton checkbutton_jump_tf_tc_worst;
+	Gtk.Box hbox_jump_conditions;
+	Gtk.CheckButton checkbutton_jump_tf_tc_best;
+	Gtk.CheckButton checkbutton_jump_tf_tc_worst;
 
-	[Widget] Gtk.CheckButton checkbutton_height_greater;
-	[Widget] Gtk.CheckButton checkbutton_height_lower;
-	[Widget] Gtk.CheckButton checkbutton_tf_greater;
-	[Widget] Gtk.CheckButton checkbutton_tf_lower;
-	[Widget] Gtk.CheckButton checkbutton_tc_greater;
-	[Widget] Gtk.CheckButton checkbutton_tc_lower;
-	[Widget] Gtk.CheckButton checkbutton_tf_tc_greater;
-	[Widget] Gtk.CheckButton checkbutton_tf_tc_lower;
+	Gtk.CheckButton checkbutton_height_greater;
+	Gtk.CheckButton checkbutton_height_lower;
+	Gtk.CheckButton checkbutton_tf_greater;
+	Gtk.CheckButton checkbutton_tf_lower;
+	Gtk.CheckButton checkbutton_tc_greater;
+	Gtk.CheckButton checkbutton_tc_lower;
+	Gtk.CheckButton checkbutton_tf_tc_greater;
+	Gtk.CheckButton checkbutton_tf_tc_lower;
 	
-	[Widget] Gtk.SpinButton spinbutton_height_greater;
-	[Widget] Gtk.SpinButton spinbutton_height_lower;
-	[Widget] Gtk.SpinButton spinbutton_tf_greater;
-	[Widget] Gtk.SpinButton spinbutton_tf_lower;
-	[Widget] Gtk.SpinButton spinbutton_tc_greater;
-	[Widget] Gtk.SpinButton spinbutton_tc_lower;
-	[Widget] Gtk.SpinButton spinbutton_tf_tc_greater;
-	[Widget] Gtk.SpinButton spinbutton_tf_tc_lower;
+	Gtk.SpinButton spinbutton_height_greater;
+	Gtk.SpinButton spinbutton_height_lower;
+	Gtk.SpinButton spinbutton_tf_greater;
+	Gtk.SpinButton spinbutton_tf_lower;
+	Gtk.SpinButton spinbutton_tc_greater;
+	Gtk.SpinButton spinbutton_tc_lower;
+	Gtk.SpinButton spinbutton_tf_tc_greater;
+	Gtk.SpinButton spinbutton_tf_tc_lower;
 
 	/* runs */	
-	[Widget] Gtk.Box hbox_run_conditions;
-	[Widget] Gtk.CheckButton checkbutton_run_time_best;
-	[Widget] Gtk.CheckButton checkbutton_run_time_worst;
+	Gtk.Box hbox_run_conditions;
+	Gtk.CheckButton checkbutton_run_time_best;
+	Gtk.CheckButton checkbutton_run_time_worst;
 	
-	[Widget] Gtk.CheckButton checkbutton_time_greater;
-	[Widget] Gtk.CheckButton checkbutton_time_lower;
+	Gtk.CheckButton checkbutton_time_greater;
+	Gtk.CheckButton checkbutton_time_lower;
 
-	[Widget] Gtk.SpinButton spinbutton_time_greater;
-	[Widget] Gtk.SpinButton spinbutton_time_lower;
+	Gtk.SpinButton spinbutton_time_greater;
+	Gtk.SpinButton spinbutton_time_lower;
 
 	/* encoder */
-	[Widget] Gtk.HBox hbox_combo_encoder_main_variable;
-	[Widget] Gtk.ComboBox combo_encoder_main_variable;
-	[Widget] Gtk.RadioButton radio_encoder_relative_to_set;
-	[Widget] Gtk.RadioButton radio_encoder_relative_to_historical;
-	[Widget] Gtk.CheckButton checkbutton_encoder_automatic_greater;
-	[Widget] Gtk.CheckButton checkbutton_encoder_automatic_lower;
-	[Widget] Gtk.SpinButton spinbutton_encoder_automatic_greater;
-	[Widget] Gtk.SpinButton spinbutton_encoder_automatic_lower;
-	[Widget] Gtk.CheckButton check_encoder_show_secondary_variable;
-	[Widget] Gtk.HBox hbox_combo_encoder_secondary_variable;
-	[Widget] Gtk.ComboBox combo_encoder_secondary_variable;
-	[Widget] Gtk.RadioButton radio_encoder_eccon_both;
-	[Widget] Gtk.RadioButton radio_encoder_eccon_ecc;
-	[Widget] Gtk.RadioButton radio_encoder_eccon_con;
-	[Widget] Gtk.CheckButton check_encoder_inertial_ecc_overload;
-	[Widget] Gtk.CheckButton check_encoder_inertial_ecc_overload_percent;
-	[Widget] Gtk.CheckButton check_encoder_show_loss;
+	Gtk.HBox hbox_combo_encoder_main_variable;
+	Gtk.RadioButton radio_encoder_relative_to_set;
+	Gtk.RadioButton radio_encoder_relative_to_historical;
+	Gtk.CheckButton checkbutton_encoder_automatic_greater;
+	Gtk.CheckButton checkbutton_encoder_automatic_lower;
+	Gtk.SpinButton spinbutton_encoder_automatic_greater;
+	Gtk.SpinButton spinbutton_encoder_automatic_lower;
+	Gtk.CheckButton check_encoder_show_secondary_variable;
+	Gtk.HBox hbox_combo_encoder_secondary_variable;
+	Gtk.RadioButton radio_encoder_eccon_both;
+	Gtk.RadioButton radio_encoder_eccon_ecc;
+	Gtk.RadioButton radio_encoder_eccon_con;
+	Gtk.CheckButton check_encoder_inertial_ecc_overload;
+	Gtk.CheckButton check_encoder_inertial_ecc_overload_percent;
+	Gtk.CheckButton check_encoder_show_loss;
 
-	[Widget] Gtk.Notebook notebook_encoder_conditions;
-	[Widget] Gtk.CheckButton checkbutton_encoder_height_higher;
-	[Widget] Gtk.CheckButton checkbutton_encoder_height_lower;
-	[Widget] Gtk.CheckButton checkbutton_encoder_mean_speed_higher;
-	[Widget] Gtk.CheckButton checkbutton_encoder_max_speed_higher;
-	[Widget] Gtk.CheckButton checkbutton_encoder_mean_speed_lower;
-	[Widget] Gtk.CheckButton checkbutton_encoder_max_speed_lower;
-	[Widget] Gtk.CheckButton checkbutton_encoder_mean_force_higher;
-	[Widget] Gtk.CheckButton checkbutton_encoder_max_force_higher;
-	[Widget] Gtk.CheckButton checkbutton_encoder_mean_force_lower;
-	[Widget] Gtk.CheckButton checkbutton_encoder_max_force_lower;
-	[Widget] Gtk.CheckButton checkbutton_encoder_power_higher;
-	[Widget] Gtk.CheckButton checkbutton_encoder_peakpower_higher;
-	[Widget] Gtk.CheckButton checkbutton_encoder_power_lower;
-	[Widget] Gtk.CheckButton checkbutton_encoder_peakpower_lower;
-	[Widget] Gtk.SpinButton spinbutton_encoder_height_higher;
-	[Widget] Gtk.SpinButton spinbutton_encoder_height_lower;
-	[Widget] Gtk.SpinButton spinbutton_encoder_mean_speed_higher;
-	[Widget] Gtk.SpinButton spinbutton_encoder_max_speed_higher;
-	[Widget] Gtk.SpinButton spinbutton_encoder_mean_speed_lower;
-	[Widget] Gtk.SpinButton spinbutton_encoder_max_speed_lower;
-	[Widget] Gtk.SpinButton spinbutton_encoder_mean_force_higher;
-	[Widget] Gtk.SpinButton spinbutton_encoder_max_force_higher;
-	[Widget] Gtk.SpinButton spinbutton_encoder_mean_force_lower;
-	[Widget] Gtk.SpinButton spinbutton_encoder_max_force_lower;
-	[Widget] Gtk.SpinButton spinbutton_encoder_power_higher;
-	[Widget] Gtk.SpinButton spinbutton_encoder_peakpower_higher;
-	[Widget] Gtk.SpinButton spinbutton_encoder_power_lower;
-	[Widget] Gtk.SpinButton spinbutton_encoder_peakpower_lower;
+	Gtk.Notebook notebook_encoder_conditions;
+	Gtk.CheckButton checkbutton_encoder_height_higher;
+	Gtk.CheckButton checkbutton_encoder_height_lower;
+	Gtk.CheckButton checkbutton_encoder_mean_speed_higher;
+	Gtk.CheckButton checkbutton_encoder_max_speed_higher;
+	Gtk.CheckButton checkbutton_encoder_mean_speed_lower;
+	Gtk.CheckButton checkbutton_encoder_max_speed_lower;
+	Gtk.CheckButton checkbutton_encoder_mean_force_higher;
+	Gtk.CheckButton checkbutton_encoder_max_force_higher;
+	Gtk.CheckButton checkbutton_encoder_mean_force_lower;
+	Gtk.CheckButton checkbutton_encoder_max_force_lower;
+	Gtk.CheckButton checkbutton_encoder_power_higher;
+	Gtk.CheckButton checkbutton_encoder_peakpower_higher;
+	Gtk.CheckButton checkbutton_encoder_power_lower;
+	Gtk.CheckButton checkbutton_encoder_peakpower_lower;
+	Gtk.SpinButton spinbutton_encoder_height_higher;
+	Gtk.SpinButton spinbutton_encoder_height_lower;
+	Gtk.SpinButton spinbutton_encoder_mean_speed_higher;
+	Gtk.SpinButton spinbutton_encoder_max_speed_higher;
+	Gtk.SpinButton spinbutton_encoder_mean_speed_lower;
+	Gtk.SpinButton spinbutton_encoder_max_speed_lower;
+	Gtk.SpinButton spinbutton_encoder_mean_force_higher;
+	Gtk.SpinButton spinbutton_encoder_max_force_higher;
+	Gtk.SpinButton spinbutton_encoder_mean_force_lower;
+	Gtk.SpinButton spinbutton_encoder_max_force_lower;
+	Gtk.SpinButton spinbutton_encoder_power_higher;
+	Gtk.SpinButton spinbutton_encoder_peakpower_higher;
+	Gtk.SpinButton spinbutton_encoder_power_lower;
+	Gtk.SpinButton spinbutton_encoder_peakpower_lower;
 
 
-	[Widget] Gtk.Button button_test_good;
-	//[Widget] Gtk.Button button_test_bad;
-	[Widget] Gtk.Label label_test_sound_result;
-	[Widget] Gtk.Button button_close;
+	Gtk.Button button_test_good;
+	//Gtk.Button button_test_bad;
+	Gtk.Label label_test_sound_result;
+	Gtk.Button button_close;
 
 	//bells good (green)
-	[Widget] Gtk.Image image_repetitive_best_tf_tc;
-	[Widget] Gtk.Image image_repetitive_best_time;
-	[Widget] Gtk.Image image_repetitive_height_greater;
-	[Widget] Gtk.Image image_repetitive_tf_greater;
-	[Widget] Gtk.Image image_repetitive_tc_lower;
-	[Widget] Gtk.Image image_repetitive_tf_tc_greater;
-	[Widget] Gtk.Image image_repetitive_time_lower;
-	[Widget] Gtk.Image image_repetitive_encoder_automatic_greater;
-	[Widget] Gtk.Image image_encoder_height_higher;
-	[Widget] Gtk.Image image_encoder_mean_speed_higher;
-	[Widget] Gtk.Image image_encoder_max_speed_higher;
-	[Widget] Gtk.Image image_encoder_mean_force_higher;
-	[Widget] Gtk.Image image_encoder_max_force_higher;
-	[Widget] Gtk.Image image_encoder_power_higher;
-	[Widget] Gtk.Image image_encoder_peakpower_higher;
-	[Widget] Gtk.Image image_repetitive_test_good;
+	Gtk.Image image_repetitive_best_tf_tc;
+	Gtk.Image image_repetitive_best_time;
+	Gtk.Image image_repetitive_height_greater;
+	Gtk.Image image_repetitive_tf_greater;
+	Gtk.Image image_repetitive_tc_lower;
+	Gtk.Image image_repetitive_tf_tc_greater;
+	Gtk.Image image_repetitive_time_lower;
+	Gtk.Image image_repetitive_encoder_automatic_greater;
+	Gtk.Image image_encoder_height_higher;
+	Gtk.Image image_encoder_mean_speed_higher;
+	Gtk.Image image_encoder_max_speed_higher;
+	Gtk.Image image_encoder_mean_force_higher;
+	Gtk.Image image_encoder_max_force_higher;
+	Gtk.Image image_encoder_power_higher;
+	Gtk.Image image_encoder_peakpower_higher;
+	Gtk.Image image_repetitive_test_good;
 	//bells bad (red)
-	[Widget] Gtk.Image image_repetitive_worst_tf_tc;
-	[Widget] Gtk.Image image_repetitive_worst_time;
-	[Widget] Gtk.Image image_repetitive_height_lower;
-	[Widget] Gtk.Image image_repetitive_tf_lower;
-	[Widget] Gtk.Image image_repetitive_tc_greater;
-	[Widget] Gtk.Image image_repetitive_tf_tc_lower;
-	[Widget] Gtk.Image image_repetitive_time_greater;
-	[Widget] Gtk.Image image_repetitive_encoder_automatic_lower;
-	[Widget] Gtk.Image image_encoder_height_lower;
-	[Widget] Gtk.Image image_encoder_mean_speed_lower;
-	[Widget] Gtk.Image image_encoder_max_speed_lower;
-	[Widget] Gtk.Image image_encoder_mean_force_lower;
-	[Widget] Gtk.Image image_encoder_max_force_lower;
-	[Widget] Gtk.Image image_encoder_power_lower;
-	[Widget] Gtk.Image image_encoder_peakpower_lower;
-	[Widget] Gtk.Image image_repetitive_test_bad;
+	Gtk.Image image_repetitive_worst_tf_tc;
+	Gtk.Image image_repetitive_worst_time;
+	Gtk.Image image_repetitive_height_lower;
+	Gtk.Image image_repetitive_tf_lower;
+	Gtk.Image image_repetitive_tc_greater;
+	Gtk.Image image_repetitive_tf_tc_lower;
+	Gtk.Image image_repetitive_time_greater;
+	Gtk.Image image_repetitive_encoder_automatic_lower;
+	Gtk.Image image_encoder_height_lower;
+	Gtk.Image image_encoder_mean_speed_lower;
+	Gtk.Image image_encoder_max_speed_lower;
+	Gtk.Image image_encoder_mean_force_lower;
+	Gtk.Image image_encoder_max_force_lower;
+	Gtk.Image image_encoder_power_lower;
+	Gtk.Image image_encoder_peakpower_lower;
+	Gtk.Image image_repetitive_test_bad;
 
 	//encoder rhythm
-	[Widget] Gtk.Label label_rhythm_tab;
-	[Widget] Gtk.CheckButton check_rhythm_active;
-	[Widget] Gtk.RadioButton radio_rhythm_together;
-	[Widget] Gtk.RadioButton radio_rhythm_separated;
-	[Widget] Gtk.Notebook notebook_duration_repetition;
-	[Widget] Gtk.Frame frame_clusters;
-	[Widget] Gtk.Frame frame_rhythm;
-	[Widget] Gtk.CheckButton check_rhythm_use_clusters;
-	[Widget] Gtk.SpinButton	spin_rhythm_rep;
-	[Widget] Gtk.SpinButton	spin_rhythm_ecc;
-	[Widget] Gtk.SpinButton	spin_rhythm_con;
-	[Widget] Gtk.Label label_rhythm_ecc_plus_con;
-	[Widget] Gtk.SpinButton	spin_rhythm_rest_reps;
-	[Widget] Gtk.VBox vbox_rhythm_rest_after;
-	[Widget] Gtk.RadioButton radio_rest_after_ecc;
-	[Widget] Gtk.SpinButton	spin_rhythm_reps_cluster;
-	[Widget] Gtk.SpinButton	spin_rhythm_rest_clusters;
-	[Widget] Gtk.Image image_clusters_info;
-	[Widget] Gtk.HBox hbox_rhythm_rest_reps_value;
-	[Widget] Gtk.CheckButton check_rhythm_rest_reps;
+	Gtk.Label label_rhythm_tab;
+	Gtk.CheckButton check_rhythm_active;
+	Gtk.RadioButton radio_rhythm_together;
+	Gtk.RadioButton radio_rhythm_separated;
+	Gtk.Notebook notebook_duration_repetition;
+	Gtk.Frame frame_clusters;
+	Gtk.Frame frame_rhythm;
+	Gtk.CheckButton check_rhythm_use_clusters;
+	Gtk.SpinButton spin_rhythm_rep;
+	Gtk.SpinButton spin_rhythm_ecc;
+	Gtk.SpinButton spin_rhythm_con;
+	Gtk.Label label_rhythm_ecc_plus_con;
+	Gtk.SpinButton spin_rhythm_rest_reps;
+	Gtk.VBox vbox_rhythm_rest_after;
+	Gtk.RadioButton radio_rest_after_ecc;
+	Gtk.SpinButton spin_rhythm_reps_cluster;
+	Gtk.SpinButton spin_rhythm_rest_clusters;
+	Gtk.Image image_clusters_info;
+	Gtk.HBox hbox_rhythm_rest_reps_value;
+	Gtk.CheckButton check_rhythm_rest_reps;
 
 	//forceSensor
-	[Widget] Gtk.Notebook notebook_force_sensor_feedback;
-	[Widget] Gtk.RadioButton radio_force_sensor_capture_feedback_no;
-	[Widget] Gtk.RadioButton radio_force_sensor_capture_feedback_show_rectangle;
-	[Widget] Gtk.RadioButton radio_force_sensor_capture_feedback_show_path;
+	Gtk.Notebook notebook_force_sensor_feedback;
+	Gtk.RadioButton radio_force_sensor_capture_feedback_no;
+	Gtk.RadioButton radio_force_sensor_capture_feedback_show_rectangle;
+	Gtk.RadioButton radio_force_sensor_capture_feedback_show_path;
 	//rectangle
-	[Widget] Gtk.SpinButton spin_force_sensor_capture_feedback_rectangle_at;
-	[Widget] Gtk.SpinButton spin_force_sensor_capture_feedback_rectangle_range;
+	Gtk.SpinButton spin_force_sensor_capture_feedback_rectangle_at;
+	Gtk.SpinButton spin_force_sensor_capture_feedback_rectangle_range;
 	//path
-	[Widget] Gtk.SpinButton spin_force_sensor_capture_feedback_path_max;
-	[Widget] Gtk.SpinButton spin_force_sensor_capture_feedback_path_min;
-	[Widget] Gtk.SpinButton spin_force_sensor_capture_feedback_path_masters;
-	[Widget] Gtk.SpinButton spin_force_sensor_capture_feedback_path_master_seconds;
-	[Widget] Gtk.SpinButton spin_force_sensor_capture_feedback_path_line_width; //N
-	[Widget] Gtk.Label label_force_sensor_path_recommended;
+	Gtk.SpinButton spin_force_sensor_capture_feedback_path_max;
+	Gtk.SpinButton spin_force_sensor_capture_feedback_path_min;
+	Gtk.SpinButton spin_force_sensor_capture_feedback_path_masters;
+	Gtk.SpinButton spin_force_sensor_capture_feedback_path_master_seconds;
+	Gtk.SpinButton spin_force_sensor_capture_feedback_path_line_width; //N
+	Gtk.Label label_force_sensor_path_recommended;
 
 	//runsEncoder
-	[Widget] Gtk.RadioButton radio_run_encoder_power;
-	[Widget] Gtk.RadioButton radio_run_encoder_force;
-	//[Widget] Gtk.RadioButton radio_run_encoder_accel;
+	Gtk.RadioButton radio_run_encoder_power;
+	Gtk.RadioButton radio_run_encoder_force;
+	//Gtk.RadioButton radio_run_encoder_accel;
+	// <---- at glade
+
+
+	Gtk.ComboBoxText combo_encoder_main_variable;
+	Gtk.ComboBoxText combo_encoder_secondary_variable;
 
 
 	const int JUMPSRUNSPAGE = 0;
@@ -224,9 +229,14 @@ public class FeedbackWindow
 		
 	FeedbackWindow ()
 	{
+		/*
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "feedback.glade", "feedback", "chronojump");
 		gladeXML.Autoconnect(this);
+		*/
+		Gtk.Builder builder = new Gtk.Builder (null, Util.GetGladePath () + "feedback.glade", null);
+		connectWidgets (builder);
+		builder.Autoconnect (this);
 		
 		//don't show until View is called
 		feedback.Hide ();
@@ -470,7 +480,7 @@ public class FeedbackWindow
 	private void createComboEncoderMainAndSecondaryVariables()
 	{
 		//1 mainVariable
-		combo_encoder_main_variable = ComboBox.NewText ();
+		combo_encoder_main_variable = new ComboBoxText ();
 		comboEncoderVariableFill(combo_encoder_main_variable);
 
 		hbox_combo_encoder_main_variable.PackStart(combo_encoder_main_variable, false, false, 0);
@@ -479,7 +489,7 @@ public class FeedbackWindow
 		combo_encoder_main_variable.Changed += new EventHandler (on_combo_encoder_main_variable_changed);
 
 		//1 secondaryVariable
-		combo_encoder_secondary_variable = ComboBox.NewText ();
+		combo_encoder_secondary_variable = new ComboBoxText ();
 		comboEncoderVariableFill(combo_encoder_secondary_variable);
 
 		hbox_combo_encoder_secondary_variable.PackStart(combo_encoder_secondary_variable, false, false, 0);
@@ -487,7 +497,7 @@ public class FeedbackWindow
 		combo_encoder_secondary_variable.Sensitive = true;
 		//combo_encoder_secondary_variable.Changed += new EventHandler (on_combo_encoder_secondary_variable_changed);
 	}
-	private void comboEncoderVariableFill(Gtk.ComboBox combo)
+	private void comboEncoderVariableFill(Gtk.ComboBoxText combo)
 	{
 		string [] values = { Constants.RangeAbsolute, Constants.MeanSpeed, Constants.MaxSpeed, Constants.MeanForce, Constants.MaxForce, Constants.MeanPower, Constants.PeakPower };
 
@@ -1375,6 +1385,181 @@ public class FeedbackWindow
 	}
 	public int EncoderPeakPowerLowerValue {
 		get { return Convert.ToInt32(spinbutton_encoder_peakpower_lower.Value); }
+	}
+
+	private void connectWidgets (Gtk.Builder builder)
+	{
+		feedback = (Gtk.Window) builder.GetObject ("feedback");
+		notebook_main = (Gtk.Notebook) builder.GetObject ("notebook_main");
+		//scrolled_conditions = (Gtk.ScrolledWindow) builder.GetObject ("scrolled_conditions");
+
+		hbox_jump_best_worst = (Gtk.Box) builder.GetObject ("hbox_jump_best_worst");
+		hbox_run_best_worst = (Gtk.Box) builder.GetObject ("hbox_run_best_worst");
+
+		/* jumps */	
+		hbox_jump_conditions = (Gtk.Box) builder.GetObject ("hbox_jump_conditions");
+		checkbutton_jump_tf_tc_best = (Gtk.CheckButton) builder.GetObject ("checkbutton_jump_tf_tc_best");
+		checkbutton_jump_tf_tc_worst = (Gtk.CheckButton) builder.GetObject ("checkbutton_jump_tf_tc_worst");
+
+		checkbutton_height_greater = (Gtk.CheckButton) builder.GetObject ("checkbutton_height_greater");
+		checkbutton_height_lower = (Gtk.CheckButton) builder.GetObject ("checkbutton_height_lower");
+		checkbutton_tf_greater = (Gtk.CheckButton) builder.GetObject ("checkbutton_tf_greater");
+		checkbutton_tf_lower = (Gtk.CheckButton) builder.GetObject ("checkbutton_tf_lower");
+		checkbutton_tc_greater = (Gtk.CheckButton) builder.GetObject ("checkbutton_tc_greater");
+		checkbutton_tc_lower = (Gtk.CheckButton) builder.GetObject ("checkbutton_tc_lower");
+		checkbutton_tf_tc_greater = (Gtk.CheckButton) builder.GetObject ("checkbutton_tf_tc_greater");
+		checkbutton_tf_tc_lower = (Gtk.CheckButton) builder.GetObject ("checkbutton_tf_tc_lower");
+
+		spinbutton_height_greater = (Gtk.SpinButton) builder.GetObject ("spinbutton_height_greater");
+		spinbutton_height_lower = (Gtk.SpinButton) builder.GetObject ("spinbutton_height_lower");
+		spinbutton_tf_greater = (Gtk.SpinButton) builder.GetObject ("spinbutton_tf_greater");
+		spinbutton_tf_lower = (Gtk.SpinButton) builder.GetObject ("spinbutton_tf_lower");
+		spinbutton_tc_greater = (Gtk.SpinButton) builder.GetObject ("spinbutton_tc_greater");
+		spinbutton_tc_lower = (Gtk.SpinButton) builder.GetObject ("spinbutton_tc_lower");
+		spinbutton_tf_tc_greater = (Gtk.SpinButton) builder.GetObject ("spinbutton_tf_tc_greater");
+		spinbutton_tf_tc_lower = (Gtk.SpinButton) builder.GetObject ("spinbutton_tf_tc_lower");
+
+		/* runs */	
+		hbox_run_conditions = (Gtk.Box) builder.GetObject ("hbox_run_conditions");
+		checkbutton_run_time_best = (Gtk.CheckButton) builder.GetObject ("checkbutton_run_time_best");
+		checkbutton_run_time_worst = (Gtk.CheckButton) builder.GetObject ("checkbutton_run_time_worst");
+
+		checkbutton_time_greater = (Gtk.CheckButton) builder.GetObject ("checkbutton_time_greater");
+		checkbutton_time_lower = (Gtk.CheckButton) builder.GetObject ("checkbutton_time_lower");
+
+		spinbutton_time_greater = (Gtk.SpinButton) builder.GetObject ("spinbutton_time_greater");
+		spinbutton_time_lower = (Gtk.SpinButton) builder.GetObject ("spinbutton_time_lower");
+
+		/* encoder */
+		hbox_combo_encoder_main_variable = (Gtk.HBox) builder.GetObject ("hbox_combo_encoder_main_variable");
+		radio_encoder_relative_to_set = (Gtk.RadioButton) builder.GetObject ("radio_encoder_relative_to_set");
+		radio_encoder_relative_to_historical = (Gtk.RadioButton) builder.GetObject ("radio_encoder_relative_to_historical");
+		checkbutton_encoder_automatic_greater = (Gtk.CheckButton) builder.GetObject ("checkbutton_encoder_automatic_greater");
+		checkbutton_encoder_automatic_lower = (Gtk.CheckButton) builder.GetObject ("checkbutton_encoder_automatic_lower");
+		spinbutton_encoder_automatic_greater = (Gtk.SpinButton) builder.GetObject ("spinbutton_encoder_automatic_greater");
+		spinbutton_encoder_automatic_lower = (Gtk.SpinButton) builder.GetObject ("spinbutton_encoder_automatic_lower");
+		check_encoder_show_secondary_variable = (Gtk.CheckButton) builder.GetObject ("check_encoder_show_secondary_variable");
+		hbox_combo_encoder_secondary_variable = (Gtk.HBox) builder.GetObject ("hbox_combo_encoder_secondary_variable");
+		radio_encoder_eccon_both = (Gtk.RadioButton) builder.GetObject ("radio_encoder_eccon_both");
+		radio_encoder_eccon_ecc = (Gtk.RadioButton) builder.GetObject ("radio_encoder_eccon_ecc");
+		radio_encoder_eccon_con = (Gtk.RadioButton) builder.GetObject ("radio_encoder_eccon_con");
+		check_encoder_inertial_ecc_overload = (Gtk.CheckButton) builder.GetObject ("check_encoder_inertial_ecc_overload");
+		check_encoder_inertial_ecc_overload_percent = (Gtk.CheckButton) builder.GetObject ("check_encoder_inertial_ecc_overload_percent");
+		check_encoder_show_loss = (Gtk.CheckButton) builder.GetObject ("check_encoder_show_loss");
+
+		notebook_encoder_conditions = (Gtk.Notebook) builder.GetObject ("notebook_encoder_conditions");
+		checkbutton_encoder_height_higher = (Gtk.CheckButton) builder.GetObject ("checkbutton_encoder_height_higher");
+		checkbutton_encoder_height_lower = (Gtk.CheckButton) builder.GetObject ("checkbutton_encoder_height_lower");
+		checkbutton_encoder_mean_speed_higher = (Gtk.CheckButton) builder.GetObject ("checkbutton_encoder_mean_speed_higher");
+		checkbutton_encoder_max_speed_higher = (Gtk.CheckButton) builder.GetObject ("checkbutton_encoder_max_speed_higher");
+		checkbutton_encoder_mean_speed_lower = (Gtk.CheckButton) builder.GetObject ("checkbutton_encoder_mean_speed_lower");
+		checkbutton_encoder_max_speed_lower = (Gtk.CheckButton) builder.GetObject ("checkbutton_encoder_max_speed_lower");
+		checkbutton_encoder_mean_force_higher = (Gtk.CheckButton) builder.GetObject ("checkbutton_encoder_mean_force_higher");
+		checkbutton_encoder_max_force_higher = (Gtk.CheckButton) builder.GetObject ("checkbutton_encoder_max_force_higher");
+		checkbutton_encoder_mean_force_lower = (Gtk.CheckButton) builder.GetObject ("checkbutton_encoder_mean_force_lower");
+		checkbutton_encoder_max_force_lower = (Gtk.CheckButton) builder.GetObject ("checkbutton_encoder_max_force_lower");
+		checkbutton_encoder_power_higher = (Gtk.CheckButton) builder.GetObject ("checkbutton_encoder_power_higher");
+		checkbutton_encoder_peakpower_higher = (Gtk.CheckButton) builder.GetObject ("checkbutton_encoder_peakpower_higher");
+		checkbutton_encoder_power_lower = (Gtk.CheckButton) builder.GetObject ("checkbutton_encoder_power_lower");
+		checkbutton_encoder_peakpower_lower = (Gtk.CheckButton) builder.GetObject ("checkbutton_encoder_peakpower_lower");
+		spinbutton_encoder_height_higher = (Gtk.SpinButton) builder.GetObject ("spinbutton_encoder_height_higher");
+		spinbutton_encoder_height_lower = (Gtk.SpinButton) builder.GetObject ("spinbutton_encoder_height_lower");
+		spinbutton_encoder_mean_speed_higher = (Gtk.SpinButton) builder.GetObject ("spinbutton_encoder_mean_speed_higher");
+		spinbutton_encoder_max_speed_higher = (Gtk.SpinButton) builder.GetObject ("spinbutton_encoder_max_speed_higher");
+		spinbutton_encoder_mean_speed_lower = (Gtk.SpinButton) builder.GetObject ("spinbutton_encoder_mean_speed_lower");
+		spinbutton_encoder_max_speed_lower = (Gtk.SpinButton) builder.GetObject ("spinbutton_encoder_max_speed_lower");
+		spinbutton_encoder_mean_force_higher = (Gtk.SpinButton) builder.GetObject ("spinbutton_encoder_mean_force_higher");
+		spinbutton_encoder_max_force_higher = (Gtk.SpinButton) builder.GetObject ("spinbutton_encoder_max_force_higher");
+		spinbutton_encoder_mean_force_lower = (Gtk.SpinButton) builder.GetObject ("spinbutton_encoder_mean_force_lower");
+		spinbutton_encoder_max_force_lower = (Gtk.SpinButton) builder.GetObject ("spinbutton_encoder_max_force_lower");
+		spinbutton_encoder_power_higher = (Gtk.SpinButton) builder.GetObject ("spinbutton_encoder_power_higher");
+		spinbutton_encoder_peakpower_higher = (Gtk.SpinButton) builder.GetObject ("spinbutton_encoder_peakpower_higher");
+		spinbutton_encoder_power_lower = (Gtk.SpinButton) builder.GetObject ("spinbutton_encoder_power_lower");
+		spinbutton_encoder_peakpower_lower = (Gtk.SpinButton) builder.GetObject ("spinbutton_encoder_peakpower_lower");
+
+
+		button_test_good = (Gtk.Button) builder.GetObject ("button_test_good");
+		//button_test_bad = (Gtk.Button) builder.GetObject ("button_test_bad");
+		label_test_sound_result = (Gtk.Label) builder.GetObject ("label_test_sound_result");
+		button_close = (Gtk.Button) builder.GetObject ("button_close");
+
+		//bells good (green)
+		image_repetitive_best_tf_tc = (Gtk.Image) builder.GetObject ("image_repetitive_best_tf_tc");
+		image_repetitive_best_time = (Gtk.Image) builder.GetObject ("image_repetitive_best_time");
+		image_repetitive_height_greater = (Gtk.Image) builder.GetObject ("image_repetitive_height_greater");
+		image_repetitive_tf_greater = (Gtk.Image) builder.GetObject ("image_repetitive_tf_greater");
+		image_repetitive_tc_lower = (Gtk.Image) builder.GetObject ("image_repetitive_tc_lower");
+		image_repetitive_tf_tc_greater = (Gtk.Image) builder.GetObject ("image_repetitive_tf_tc_greater");
+		image_repetitive_time_lower = (Gtk.Image) builder.GetObject ("image_repetitive_time_lower");
+		image_repetitive_encoder_automatic_greater = (Gtk.Image) builder.GetObject ("image_repetitive_encoder_automatic_greater");
+		image_encoder_height_higher = (Gtk.Image) builder.GetObject ("image_encoder_height_higher");
+		image_encoder_mean_speed_higher = (Gtk.Image) builder.GetObject ("image_encoder_mean_speed_higher");
+		image_encoder_max_speed_higher = (Gtk.Image) builder.GetObject ("image_encoder_max_speed_higher");
+		image_encoder_mean_force_higher = (Gtk.Image) builder.GetObject ("image_encoder_mean_force_higher");
+		image_encoder_max_force_higher = (Gtk.Image) builder.GetObject ("image_encoder_max_force_higher");
+		image_encoder_power_higher = (Gtk.Image) builder.GetObject ("image_encoder_power_higher");
+		image_encoder_peakpower_higher = (Gtk.Image) builder.GetObject ("image_encoder_peakpower_higher");
+		image_repetitive_test_good = (Gtk.Image) builder.GetObject ("image_repetitive_test_good");
+		//bells bad (red)
+		image_repetitive_worst_tf_tc = (Gtk.Image) builder.GetObject ("image_repetitive_worst_tf_tc");
+		image_repetitive_worst_time = (Gtk.Image) builder.GetObject ("image_repetitive_worst_time");
+		image_repetitive_height_lower = (Gtk.Image) builder.GetObject ("image_repetitive_height_lower");
+		image_repetitive_tf_lower = (Gtk.Image) builder.GetObject ("image_repetitive_tf_lower");
+		image_repetitive_tc_greater = (Gtk.Image) builder.GetObject ("image_repetitive_tc_greater");
+		image_repetitive_tf_tc_lower = (Gtk.Image) builder.GetObject ("image_repetitive_tf_tc_lower");
+		image_repetitive_time_greater = (Gtk.Image) builder.GetObject ("image_repetitive_time_greater");
+		image_repetitive_encoder_automatic_lower = (Gtk.Image) builder.GetObject ("image_repetitive_encoder_automatic_lower");
+		image_encoder_height_lower = (Gtk.Image) builder.GetObject ("image_encoder_height_lower");
+		image_encoder_mean_speed_lower = (Gtk.Image) builder.GetObject ("image_encoder_mean_speed_lower");
+		image_encoder_max_speed_lower = (Gtk.Image) builder.GetObject ("image_encoder_max_speed_lower");
+		image_encoder_mean_force_lower = (Gtk.Image) builder.GetObject ("image_encoder_mean_force_lower");
+		image_encoder_max_force_lower = (Gtk.Image) builder.GetObject ("image_encoder_max_force_lower");
+		image_encoder_power_lower = (Gtk.Image) builder.GetObject ("image_encoder_power_lower");
+		image_encoder_peakpower_lower = (Gtk.Image) builder.GetObject ("image_encoder_peakpower_lower");
+		image_repetitive_test_bad = (Gtk.Image) builder.GetObject ("image_repetitive_test_bad");
+
+		//encoder rhythm
+		label_rhythm_tab = (Gtk.Label) builder.GetObject ("label_rhythm_tab");
+		check_rhythm_active = (Gtk.CheckButton) builder.GetObject ("check_rhythm_active");
+		radio_rhythm_together = (Gtk.RadioButton) builder.GetObject ("radio_rhythm_together");
+		radio_rhythm_separated = (Gtk.RadioButton) builder.GetObject ("radio_rhythm_separated");
+		notebook_duration_repetition = (Gtk.Notebook) builder.GetObject ("notebook_duration_repetition");
+		frame_clusters = (Gtk.Frame) builder.GetObject ("frame_clusters");
+		frame_rhythm = (Gtk.Frame) builder.GetObject ("frame_rhythm");
+		check_rhythm_use_clusters = (Gtk.CheckButton) builder.GetObject ("check_rhythm_use_clusters");
+		spin_rhythm_rep = (Gtk.SpinButton) builder.GetObject ("spin_rhythm_rep");
+		spin_rhythm_ecc = (Gtk.SpinButton) builder.GetObject ("spin_rhythm_ecc");
+		spin_rhythm_con = (Gtk.SpinButton) builder.GetObject ("spin_rhythm_con");
+		label_rhythm_ecc_plus_con = (Gtk.Label) builder.GetObject ("label_rhythm_ecc_plus_con");
+		spin_rhythm_rest_reps = (Gtk.SpinButton) builder.GetObject ("spin_rhythm_rest_reps");
+		vbox_rhythm_rest_after = (Gtk.VBox) builder.GetObject ("vbox_rhythm_rest_after");
+		radio_rest_after_ecc = (Gtk.RadioButton) builder.GetObject ("radio_rest_after_ecc");
+		spin_rhythm_reps_cluster = (Gtk.SpinButton) builder.GetObject ("spin_rhythm_reps_cluster");
+		spin_rhythm_rest_clusters = (Gtk.SpinButton) builder.GetObject ("spin_rhythm_rest_clusters");
+		image_clusters_info = (Gtk.Image) builder.GetObject ("image_clusters_info");
+		hbox_rhythm_rest_reps_value = (Gtk.HBox) builder.GetObject ("hbox_rhythm_rest_reps_value");
+		check_rhythm_rest_reps = (Gtk.CheckButton) builder.GetObject ("check_rhythm_rest_reps");
+
+		//forceSensor
+		notebook_force_sensor_feedback = (Gtk.Notebook) builder.GetObject ("notebook_force_sensor_feedback");
+		radio_force_sensor_capture_feedback_no = (Gtk.RadioButton) builder.GetObject ("radio_force_sensor_capture_feedback_no");
+		radio_force_sensor_capture_feedback_show_rectangle = (Gtk.RadioButton) builder.GetObject ("radio_force_sensor_capture_feedback_show_rectangle");
+		radio_force_sensor_capture_feedback_show_path = (Gtk.RadioButton) builder.GetObject ("radio_force_sensor_capture_feedback_show_path");
+		//rectangle
+		spin_force_sensor_capture_feedback_rectangle_at = (Gtk.SpinButton) builder.GetObject ("spin_force_sensor_capture_feedback_rectangle_at");
+		spin_force_sensor_capture_feedback_rectangle_range = (Gtk.SpinButton) builder.GetObject ("spin_force_sensor_capture_feedback_rectangle_range");
+		//path
+		spin_force_sensor_capture_feedback_path_max = (Gtk.SpinButton) builder.GetObject ("spin_force_sensor_capture_feedback_path_max");
+		spin_force_sensor_capture_feedback_path_min = (Gtk.SpinButton) builder.GetObject ("spin_force_sensor_capture_feedback_path_min");
+		spin_force_sensor_capture_feedback_path_masters = (Gtk.SpinButton) builder.GetObject ("spin_force_sensor_capture_feedback_path_masters");
+		spin_force_sensor_capture_feedback_path_master_seconds = (Gtk.SpinButton) builder.GetObject ("spin_force_sensor_capture_feedback_path_master_seconds");
+		spin_force_sensor_capture_feedback_path_line_width = (Gtk.SpinButton) builder.GetObject ("spin_force_sensor_capture_feedback_path_line_width"); //N
+		label_force_sensor_path_recommended = (Gtk.Label) builder.GetObject ("label_force_sensor_path_recommended");
+
+		//runsEncoder
+		radio_run_encoder_power = (Gtk.RadioButton) builder.GetObject ("radio_run_encoder_power");
+		radio_run_encoder_force = (Gtk.RadioButton) builder.GetObject ("radio_run_encoder_force");
+		//radio_run_encoder_accel = (Gtk.RadioButton) builder.GetObject ("radio_run_encoder_accel");
 	}
 }
 

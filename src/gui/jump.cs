@@ -20,7 +20,7 @@
 
 using System;
 using Gtk;
-using Glade;
+//using Glade;
 using System.Text; //StringBuilder
 using System.Collections; //ArrayList
 
@@ -34,18 +34,18 @@ using Mono.Unix;
 
 public class EditJumpWindow : EditEventWindow
 {
-	[Widget] private Gtk.Frame frame_jumps_single_leg;
-	[Widget] private Gtk.RadioButton jumps_radiobutton_single_leg_mode_vertical;
-	[Widget] private Gtk.RadioButton jumps_radiobutton_single_leg_mode_horizontal;
-	[Widget] private Gtk.RadioButton jumps_radiobutton_single_leg_mode_lateral;
-	[Widget] private Gtk.RadioButton jumps_radiobutton_single_leg_dominance_this_limb;
-	[Widget] private Gtk.RadioButton jumps_radiobutton_single_leg_dominance_opposite;
-	[Widget] private Gtk.RadioButton jumps_radiobutton_single_leg_dominance_unknown;
-	[Widget] private Gtk.RadioButton jumps_radiobutton_single_leg_fall_this_limb;
-	[Widget] private Gtk.RadioButton jumps_radiobutton_single_leg_fall_opposite;
-	[Widget] private Gtk.RadioButton jumps_radiobutton_single_leg_fall_both;
-	[Widget] private Gtk.SpinButton jumps_spinbutton_single_leg_distance;
-	[Widget] private Gtk.SpinButton jumps_spinbutton_single_leg_jump_angle;
+	private Gtk.Frame frame_jumps_single_leg;
+	private Gtk.RadioButton jumps_radiobutton_single_leg_mode_vertical;
+	private Gtk.RadioButton jumps_radiobutton_single_leg_mode_horizontal;
+	private Gtk.RadioButton jumps_radiobutton_single_leg_mode_lateral;
+	private Gtk.RadioButton jumps_radiobutton_single_leg_dominance_this_limb;
+	private Gtk.RadioButton jumps_radiobutton_single_leg_dominance_opposite;
+	private Gtk.RadioButton jumps_radiobutton_single_leg_dominance_unknown;
+	private Gtk.RadioButton jumps_radiobutton_single_leg_fall_this_limb;
+	private Gtk.RadioButton jumps_radiobutton_single_leg_fall_opposite;
+	private Gtk.RadioButton jumps_radiobutton_single_leg_fall_both;
+	private Gtk.SpinButton jumps_spinbutton_single_leg_distance;
+	private Gtk.SpinButton jumps_spinbutton_single_leg_jump_angle;
 
 	static EditJumpWindow EditJumpWindowBox;
 	protected double personWeight;
@@ -55,11 +55,19 @@ public class EditJumpWindow : EditEventWindow
 	protected EditJumpWindow () {
 	}
 
-	public EditJumpWindow (Gtk.Window parent) {
+	public EditJumpWindow (Gtk.Window parent)
+	{
+		/*
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "edit_event.glade", "edit_event", null);
 		gladeXML.Autoconnect(this);
-		this.parent =  parent;
+		*/
+		Gtk.Builder builder = new Gtk.Builder (null, Util.GetGladePath () + "edit_event.glade", null);
+		connectWidgetsEditEvent (builder);
+		connectWidgetsEditJump (builder);
+		builder.Autoconnect (this);
+
+		this.parent = parent;
 
 		//put an icon to window
 		UtilGtk.IconWindow(edit_event);
@@ -439,6 +447,21 @@ public class EditJumpWindow : EditEventWindow
 		return jumpPercentWeightForNewPerson;
 	}
 	
+	private void connectWidgetsEditJump (Gtk.Builder builder)
+	{
+		frame_jumps_single_leg = (Gtk.Frame) builder.GetObject ("frame_jumps_single_leg");
+		jumps_radiobutton_single_leg_mode_vertical = (Gtk.RadioButton) builder.GetObject ("jumps_radiobutton_single_leg_mode_vertical");
+		jumps_radiobutton_single_leg_mode_horizontal = (Gtk.RadioButton) builder.GetObject ("jumps_radiobutton_single_leg_mode_horizontal");
+		jumps_radiobutton_single_leg_mode_lateral = (Gtk.RadioButton) builder.GetObject ("jumps_radiobutton_single_leg_mode_lateral");
+		jumps_radiobutton_single_leg_dominance_this_limb = (Gtk.RadioButton) builder.GetObject ("jumps_radiobutton_single_leg_dominance_this_limb");
+		jumps_radiobutton_single_leg_dominance_opposite = (Gtk.RadioButton) builder.GetObject ("jumps_radiobutton_single_leg_dominance_opposite");
+		jumps_radiobutton_single_leg_dominance_unknown = (Gtk.RadioButton) builder.GetObject ("jumps_radiobutton_single_leg_dominance_unknown");
+		jumps_radiobutton_single_leg_fall_this_limb = (Gtk.RadioButton) builder.GetObject ("jumps_radiobutton_single_leg_fall_this_limb");
+		jumps_radiobutton_single_leg_fall_opposite = (Gtk.RadioButton) builder.GetObject ("jumps_radiobutton_single_leg_fall_opposite");
+		jumps_radiobutton_single_leg_fall_both = (Gtk.RadioButton) builder.GetObject ("jumps_radiobutton_single_leg_fall_both");
+		jumps_spinbutton_single_leg_distance = (Gtk.SpinButton) builder.GetObject ("jumps_spinbutton_single_leg_distance");
+		jumps_spinbutton_single_leg_jump_angle = (Gtk.SpinButton) builder.GetObject ("jumps_spinbutton_single_leg_jump_angle");
+	}
 
 }
 
@@ -450,10 +473,17 @@ public class EditJumpRjWindow : EditJumpWindow
 {
 	static EditJumpRjWindow EditJumpRjWindowBox;
 
-	EditJumpRjWindow (Gtk.Window parent) {
+	EditJumpRjWindow (Gtk.Window parent)
+	{
+		/*
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "edit_event.glade", "edit_event", null);
 		gladeXML.Autoconnect(this);
+		*/
+		Gtk.Builder builder = new Gtk.Builder (null, Util.GetGladePath () + "edit_event.glade", null);
+		connectWidgetsEditEvent (builder);
+		builder.Autoconnect (this);
+
 		this.parent = parent;
 		
 		//put an icon to window
@@ -573,18 +603,18 @@ public class EditJumpRjWindow : EditJumpWindow
 
 public class RepairJumpRjWindow 
 {
-	[Widget] Gtk.Window repair_sub_event;
-	[Widget] Gtk.HBox hbox_notes_and_totaltime;
-	[Widget] Gtk.Label label_header;
-	[Widget] Gtk.Label label_totaltime_value;
-	[Widget] Gtk.TreeView treeview_subevents;
-	private TreeStore store;
-	[Widget] Gtk.Button button_accept;
-	[Widget] Gtk.Button button_add_before;
-	[Widget] Gtk.Button button_add_after;
-	[Widget] Gtk.Button button_delete;
-	[Widget] Gtk.TextView textview1;
+	Gtk.Window repair_sub_event;
+	Gtk.HBox hbox_notes_and_totaltime;
+	Gtk.Label label_header;
+	Gtk.Label label_totaltime_value;
+	Gtk.TreeView treeview_subevents;
+	Gtk.Button button_accept;
+	Gtk.Button button_add_before;
+	Gtk.Button button_add_after;
+	Gtk.Button button_delete;
+	Gtk.TextView textview1;
 
+	private TreeStore store;
 	static RepairJumpRjWindow RepairJumpRjWindowBox;
 	//int pDN;
 
@@ -592,10 +622,16 @@ public class RepairJumpRjWindow
 	JumpRj jumpRj; //used on button_accept
 	
 
-	RepairJumpRjWindow (Gtk.Window parent, JumpRj myJump, int pDN) {
+	RepairJumpRjWindow (Gtk.Window parent, JumpRj myJump, int pDN)
+	{
+		/*
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "repair_sub_event.glade", "repair_sub_event", null);
 		gladeXML.Autoconnect(this);
+		*/
+		Gtk.Builder builder = new Gtk.Builder (null, Util.GetGladePath () + "repair_sub_event.glade", null);
+		connectWidgets (builder);
+		builder.Autoconnect (this);
 	
 		//put an icon to window
 		UtilGtk.IconWindow(repair_sub_event);
@@ -802,7 +838,7 @@ public class RepairJumpRjWindow
 	}
 
 	void onSelectionEntry (object o, EventArgs args) {
-		TreeModel model;
+		ITreeModel model;
 		TreeIter iter;
 		
 		if (((TreeSelection)o).GetSelected(out model, out iter)) {
@@ -844,7 +880,7 @@ public class RepairJumpRjWindow
 	}
 
 	void on_button_add_before_clicked (object o, EventArgs args) {
-		TreeModel model; 
+		ITreeModel model; 
 		TreeIter iter; 
 		if (treeview_subevents.Selection.GetSelected (out model, out iter)) {
 			int position = Convert.ToInt32( (string) model.GetValue (iter, 0) ) -1; //count starts at '0'
@@ -856,7 +892,7 @@ public class RepairJumpRjWindow
 	}
 	
 	void on_button_add_after_clicked (object o, EventArgs args) {
-		TreeModel model; 
+		ITreeModel model; 
 		TreeIter iter; 
 		if (treeview_subevents.Selection.GetSelected (out model, out iter)) {
 			int position = Convert.ToInt32( (string) model.GetValue (iter, 0) ); //count starts at '0'
@@ -879,7 +915,7 @@ public class RepairJumpRjWindow
 	}
 		
 	void on_button_delete_clicked (object o, EventArgs args) {
-		TreeModel model; 
+		ITreeModel model; 
 		TreeIter iter; 
 		if (treeview_subevents.Selection.GetSelected (out model, out iter)) {
 			store.Remove(ref iter);
@@ -969,6 +1005,19 @@ public class RepairJumpRjWindow
 		get { return button_accept;	}
 	}
 
+	private void connectWidgets (Gtk.Builder builder)
+	{
+		repair_sub_event = (Gtk.Window) builder.GetObject ("repair_sub_event");
+		hbox_notes_and_totaltime = (Gtk.HBox) builder.GetObject ("hbox_notes_and_totaltime");
+		label_header = (Gtk.Label) builder.GetObject ("label_header");
+		label_totaltime_value = (Gtk.Label) builder.GetObject ("label_totaltime_value");
+		treeview_subevents = (Gtk.TreeView) builder.GetObject ("treeview_subevents");
+		button_accept = (Gtk.Button) builder.GetObject ("button_accept");
+		button_add_before = (Gtk.Button) builder.GetObject ("button_add_before");
+		button_add_after = (Gtk.Button) builder.GetObject ("button_add_after");
+		button_delete = (Gtk.Button) builder.GetObject ("button_delete");
+		textview1 = (Gtk.TextView) builder.GetObject ("textview1");
+	}
 }
 
 
@@ -978,15 +1027,23 @@ public class RepairJumpRjWindow
 
 public class JumpsMoreWindow : EventMoreWindow
 {
-	[Widget] Gtk.Window jumps_runs_more;
+	Gtk.Window jumps_runs_more;
 	static JumpsMoreWindow JumpsMoreWindowBox;
 	private bool selectedStartIn;
 	private bool selectedExtraWeight;
 
-	public JumpsMoreWindow (Gtk.Window parent, bool testOrDelete) {
+	public JumpsMoreWindow (Gtk.Window parent, bool testOrDelete)
+	{
+		/*
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "jumps_runs_more.glade", "jumps_runs_more", null);
 		gladeXML.Autoconnect(this);
+		*/
+		Gtk.Builder builder = new Gtk.Builder (null, Util.GetGladePath () + "jumps_runs_more.glade", null);
+		connectWidgetsEventMore (builder);
+		jumps_runs_more = (Gtk.Window) builder.GetObject ("jumps_runs_more");
+		builder.Autoconnect (this);
+
 		this.parent = parent;
 		this.testOrDelete = testOrDelete;
 		
@@ -1070,7 +1127,7 @@ public class JumpsMoreWindow : EventMoreWindow
 	}
 
 	protected override void onSelectionEntry (object o, EventArgs args) {
-		TreeModel model;
+		ITreeModel model;
 		TreeIter iter;
 		selectedEventName = "-1";
 		selectedStartIn = false;
@@ -1106,7 +1163,7 @@ public class JumpsMoreWindow : EventMoreWindow
 			return;
 
 		TreeView tv = (TreeView) o;
-		TreeModel model;
+		ITreeModel model;
 		TreeIter iter;
 
 		if (tv.Selection.GetSelected (out model, out iter)) {
@@ -1189,7 +1246,7 @@ public class JumpsMoreWindow : EventMoreWindow
 
 public class JumpsRjMoreWindow : EventMoreWindow 
 {
-	[Widget] Gtk.Window jumps_runs_more;
+	Gtk.Window jumps_runs_more;
 	static JumpsRjMoreWindow JumpsRjMoreWindowBox;
 	
 	private bool selectedStartIn;
@@ -1198,11 +1255,19 @@ public class JumpsRjMoreWindow : EventMoreWindow
 	private double selectedLimitedValue;
 	private bool selectedUnlimited;
 	
-	public JumpsRjMoreWindow (Gtk.Window parent, bool testOrDelete) {
+	public JumpsRjMoreWindow (Gtk.Window parent, bool testOrDelete)
+	{
+		/*
 		//the glade window is the same as jumps_more
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "jumps_runs_more.glade", "jumps_runs_more", "chronojump");
 		gladeXML.Autoconnect(this);
+		*/
+		Gtk.Builder builder = new Gtk.Builder (null, Util.GetGladePath () + "jumps_runs_more.glade", null);
+		connectWidgetsEventMore (builder);
+		jumps_runs_more = (Gtk.Window) builder.GetObject ("jumps_runs_more");
+		builder.Autoconnect (this);
+
 		this.parent = parent;
 		this.testOrDelete = testOrDelete;
 		
@@ -1309,7 +1374,7 @@ public class JumpsRjMoreWindow : EventMoreWindow
 
 	protected override void onSelectionEntry (object o, EventArgs args)
 	{
-		TreeModel model;
+		ITreeModel model;
 		TreeIter iter;
 		selectedEventName = "-1";
 		selectedStartIn = false;
@@ -1366,7 +1431,7 @@ public class JumpsRjMoreWindow : EventMoreWindow
 			return;
 
 		TreeView tv = (TreeView) o;
-		TreeModel model;
+		ITreeModel model;
 		TreeIter iter;
 
 		if (tv.Selection.GetSelected (out model, out iter)) {

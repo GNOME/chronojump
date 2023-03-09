@@ -20,7 +20,7 @@
 
 using System;
 using Gtk;
-using Glade;
+//using Glade;
 using System.Text; //StringBuilder
 using System.Collections; //ArrayList
 using System.Collections.Generic; //List
@@ -38,61 +38,59 @@ using Gdk; //for the EventMask
 
 public partial class ChronoJumpWindow 
 {
-	
-	[Widget] Gtk.Label event_execute_label_phases_name;
-	[Widget] Gtk.Label event_execute_label_message;
-	[Widget] Gtk.Label event_graph_label_graph_test;
+	Gtk.Label event_execute_label_phases_name;
+	Gtk.Label event_execute_label_message;
+	Gtk.Label event_graph_label_graph_test;
 
-
-	[Widget] Gtk.SpinButton spin_contacts_graph_last_limit;
-	[Widget] Gtk.VBox vbox_contacts_simple_graph_controls;
-	[Widget] Gtk.RadioButton radio_contacts_graph_currentTest;
-	[Widget] Gtk.RadioButton radio_contacts_graph_allTests;
-	//[Widget] Gtk.RadioButton radio_contacts_graph_currentPerson;
-	[Widget] Gtk.RadioButton radio_contacts_graph_allPersons;
-	[Widget] Gtk.Image image_radio_contacts_graph_currentPerson;
-	[Widget] Gtk.Image image_radio_contacts_graph_allPersons;
-	[Widget] Gtk.CheckButton check_run_show_time;
+	Gtk.SpinButton spin_contacts_graph_last_limit;
+	Gtk.VBox vbox_contacts_simple_graph_controls;
+	Gtk.RadioButton radio_contacts_graph_currentTest;
+	Gtk.RadioButton radio_contacts_graph_allTests;
+	//Gtk.RadioButton radio_contacts_graph_currentPerson;
+	Gtk.RadioButton radio_contacts_graph_allPersons;
+	Gtk.Image image_radio_contacts_graph_currentPerson;
+	Gtk.Image image_radio_contacts_graph_allPersons;
+	Gtk.CheckButton check_run_show_time;
 	
-	[Widget] Gtk.ProgressBar event_execute_progressbar_event;
-	[Widget] Gtk.ProgressBar event_execute_progressbar_time;
+	Gtk.ProgressBar event_execute_progressbar_event;
+	Gtk.ProgressBar event_execute_progressbar_time;
 	
 
 	//currently gtk-sharp cannot display a label in a progressBar in activity mode (Pulse() not Fraction)
 	//then we show the value in a label:
-	[Widget] Gtk.Label event_execute_label_event_value;
-	[Widget] Gtk.Label event_execute_label_time_value;
+	Gtk.Label event_execute_label_event_value;
+	Gtk.Label event_execute_label_time_value;
 	
-	[Widget] Gtk.Button event_execute_button_cancel;
-	[Widget] Gtk.Button event_execute_button_finish;
+	Gtk.Button event_execute_button_cancel;
+	Gtk.Button event_execute_button_finish;
 
-	[Widget] Gtk.Table event_execute_table_pulse;
-	[Widget] Gtk.Table event_execute_table_pulse_values;
+	Gtk.Table event_execute_table_pulse;
+	Gtk.Table event_execute_table_pulse_values;
 	
-//	[Widget] Gtk.Alignment align_check_vbox_contacts_graph_legend;
-//	[Widget] Gtk.CheckButton check_vbox_contacts_graph_legend;
-//	[Widget] Gtk.VBox vbox_contacts_graph_legend;
+//	Gtk.Alignment align_check_vbox_contacts_graph_legend;
+//	Gtk.CheckButton check_vbox_contacts_graph_legend;
+//	Gtk.VBox vbox_contacts_graph_legend;
 
 	//for the color change in the background of the cell label
-	[Widget] Gtk.EventBox event_execute_eventbox_pulse_time;
-	[Widget] Gtk.Label event_execute_label_pulse_now;
-	[Widget] Gtk.Label event_execute_label_pulse_avg;
+	Gtk.EventBox event_execute_eventbox_pulse_time;
+	Gtk.Label event_execute_label_pulse_now;
+	Gtk.Label event_execute_label_pulse_avg;
 
-	[Widget] Gtk.Notebook notebook_results_data;
+	Gtk.Notebook notebook_results_data;
 
-	[Widget] Gtk.HBox hbox_drawingarea_realtime_capture_cairo;
-	[Widget] Gtk.DrawingArea event_execute_drawingarea_realtime_capture_cairo;
-	[Widget] Gtk.DrawingArea event_execute_drawingarea_cairo;
-	[Widget] Gtk.VBox vbox_event_execute_drawingarea_run_interval_realtime_capture_cairo;
-	[Widget] Gtk.CheckButton check_runI_realtime_rel_abs;
-	[Widget] Gtk.Image image_check_runI_realtime_rel_abs;
-	[Widget] Gtk.DrawingArea event_execute_drawingarea_run_simple_double_contacts;
-	[Widget] Gtk.Label label_run_simple_double_contacts;
+	Gtk.HBox hbox_drawingarea_realtime_capture_cairo;
+	Gtk.DrawingArea event_execute_drawingarea_realtime_capture_cairo;
+	Gtk.DrawingArea event_execute_drawingarea_cairo;
+	Gtk.VBox vbox_event_execute_drawingarea_run_interval_realtime_capture_cairo;
+	Gtk.CheckButton check_runI_realtime_rel_abs;
+	Gtk.Image image_check_runI_realtime_rel_abs;
+	Gtk.DrawingArea event_execute_drawingarea_run_simple_double_contacts;
+	Gtk.Label label_run_simple_double_contacts;
 	/*
-	[Widget] Gtk.Box hbox_combo_graph_results_width;
-	[Widget] Gtk.Box hbox_combo_graph_results_height;
-	[Widget] Gtk.ComboBox combo_graph_results_width;
-	[Widget] Gtk.ComboBox combo_graph_results_height;
+	Gtk.Box hbox_combo_graph_results_width;
+	Gtk.Box hbox_combo_graph_results_height;
+	Gtk.ComboBoxText combo_graph_results_width;
+	Gtk.ComboBoxText combo_graph_results_height;
 	*/
 
 	string event_execute_label_simulated;
@@ -107,7 +105,7 @@ public partial class ChronoJumpWindow
 		UNSTARTED, DOING, DONE
 	}
 	
-	//we need both working to be able to correctly expose_event on jumpRj, runI
+	//we need both working to be able to correctly expose_event (draw) on jumpRj, runI
 	CairoPaintBarsPre cairoPaintBarsPre;  //used for contacts test (no realtime), and also encoder
 	CairoPaintBarsPre cairoPaintBarsPreRealTime; //contacts time realtime: jumpRj/runI capture
 	CairoManageRunDoubleContacts cairoManageRunDoubleContacts;
@@ -279,7 +277,7 @@ public partial class ChronoJumpWindow
 	}
 
 	//realtime capture graph for jumpRj and runInterval
-	public void on_event_execute_drawingarea_realtime_capture_cairo_expose_event (object o, ExposeEventArgs args)
+	public void on_event_execute_drawingarea_realtime_capture_cairo_draw (object o, Gtk.DrawnArgs args)
 	{
 		//right now only for jump reactive
 		if(current_mode != Constants.Modes.JUMPSREACTIVE &&
@@ -333,7 +331,7 @@ public partial class ChronoJumpWindow
 	}
 
 	//barplot of tests in session
-	public void on_event_execute_drawingarea_cairo_expose_event(object o, ExposeEventArgs args)
+	public void on_event_execute_drawingarea_cairo_draw (object o, Gtk.DrawnArgs args)
 	{
 		event_execute_drawingarea_cairo.AddEvents((int) Gdk.EventMask.ButtonPressMask);
 
@@ -359,7 +357,7 @@ public partial class ChronoJumpWindow
 			PrepareRunIntervalGraph (cairoPaintBarsPre.eventGraphRunsIntervalStored, false);
 	}
 
-	public void on_event_execute_drawingarea_run_simple_double_contacts_expose_event (object o, ExposeEventArgs args)
+	public void on_event_execute_drawingarea_run_simple_double_contacts_cairo_draw (object o, Gtk.DrawnArgs args)
 	{
 		if(current_mode != Constants.Modes.RUNSSIMPLE &&
 				current_mode != Constants.Modes.RUNSINTERVALLIC)
@@ -508,7 +506,7 @@ public partial class ChronoJumpWindow
 			image_check_runI_realtime_rel_abs.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "bar_absolute.png");
 
 		// 2) redo graph
-		on_event_execute_drawingarea_realtime_capture_cairo_expose_event (new object(), new ExposeEventArgs());
+		on_event_execute_drawingarea_realtime_capture_cairo_draw (new object(), new Gtk.DrawnArgs());
 	}
 
 	// Reactive jump 
@@ -982,6 +980,65 @@ public partial class ChronoJumpWindow
 	public Button event_execute_ButtonFinish 
 	{
 		get { return event_execute_button_finish; }
+	}
+	
+
+	private void connectWidgetsEventExecute (Gtk.Builder builder)
+	{
+		event_execute_label_phases_name = (Gtk.Label) builder.GetObject ("event_execute_label_phases_name");
+		event_execute_label_message = (Gtk.Label) builder.GetObject ("event_execute_label_message");
+		event_graph_label_graph_test = (Gtk.Label) builder.GetObject ("event_graph_label_graph_test");
+
+		spin_contacts_graph_last_limit = (Gtk.SpinButton) builder.GetObject ("spin_contacts_graph_last_limit");
+		vbox_contacts_simple_graph_controls = (Gtk.VBox) builder.GetObject ("vbox_contacts_simple_graph_controls");
+		radio_contacts_graph_currentTest = (Gtk.RadioButton) builder.GetObject ("radio_contacts_graph_currentTest");
+		radio_contacts_graph_allTests = (Gtk.RadioButton) builder.GetObject ("radio_contacts_graph_allTests");
+		//radio_contacts_graph_currentPerson = (Gtk.RadioButton) builder.GetObject ("radio_contacts_graph_currentPerson");
+		radio_contacts_graph_allPersons = (Gtk.RadioButton) builder.GetObject ("radio_contacts_graph_allPersons");
+		image_radio_contacts_graph_currentPerson = (Gtk.Image) builder.GetObject ("image_radio_contacts_graph_currentPerson");
+		image_radio_contacts_graph_allPersons = (Gtk.Image) builder.GetObject ("image_radio_contacts_graph_allPersons");
+		check_run_show_time = (Gtk.CheckButton) builder.GetObject ("check_run_show_time");
+
+		event_execute_progressbar_event = (Gtk.ProgressBar) builder.GetObject ("event_execute_progressbar_event");
+		event_execute_progressbar_time = (Gtk.ProgressBar) builder.GetObject ("event_execute_progressbar_time");
+
+
+		//currently gtk-sharp cannot display a label in a progressBar in activity mode (Pulse() not Fraction)
+		//then we show the value in a label:
+		event_execute_label_event_value = (Gtk.Label) builder.GetObject ("event_execute_label_event_value");
+		event_execute_label_time_value = (Gtk.Label) builder.GetObject ("event_execute_label_time_value");
+
+		event_execute_button_cancel = (Gtk.Button) builder.GetObject ("event_execute_button_cancel");
+		event_execute_button_finish = (Gtk.Button) builder.GetObject ("event_execute_button_finish");
+
+		event_execute_table_pulse = (Gtk.Table) builder.GetObject ("event_execute_table_pulse");
+		event_execute_table_pulse_values = (Gtk.Table) builder.GetObject ("event_execute_table_pulse_values");
+
+		//	align_check_vbox_contacts_graph_legend = (Gtk.Alignment) builder.GetObject ("align_check_vbox_contacts_graph_legend");
+		//	check_vbox_contacts_graph_legend = (Gtk.CheckButton) builder.GetObject ("check_vbox_contacts_graph_legend");
+		//	vbox_contacts_graph_legend = (Gtk.VBox) builder.GetObject ("vbox_contacts_graph_legend");
+
+		//for the color change in the background of the cell label
+		event_execute_eventbox_pulse_time = (Gtk.EventBox) builder.GetObject ("event_execute_eventbox_pulse_time");
+		event_execute_label_pulse_now = (Gtk.Label) builder.GetObject ("event_execute_label_pulse_now");
+		event_execute_label_pulse_avg = (Gtk.Label) builder.GetObject ("event_execute_label_pulse_avg");
+
+		notebook_results_data = (Gtk.Notebook) builder.GetObject ("notebook_results_data");
+
+		hbox_drawingarea_realtime_capture_cairo = (Gtk.HBox) builder.GetObject ("hbox_drawingarea_realtime_capture_cairo");
+		event_execute_drawingarea_realtime_capture_cairo = (Gtk.DrawingArea) builder.GetObject ("event_execute_drawingarea_realtime_capture_cairo");
+		event_execute_drawingarea_cairo = (Gtk.DrawingArea) builder.GetObject ("event_execute_drawingarea_cairo");
+		vbox_event_execute_drawingarea_run_interval_realtime_capture_cairo = (Gtk.VBox) builder.GetObject ("vbox_event_execute_drawingarea_run_interval_realtime_capture_cairo");
+		check_runI_realtime_rel_abs = (Gtk.CheckButton) builder.GetObject ("check_runI_realtime_rel_abs");
+		image_check_runI_realtime_rel_abs = (Gtk.Image) builder.GetObject ("image_check_runI_realtime_rel_abs");
+		event_execute_drawingarea_run_simple_double_contacts = (Gtk.DrawingArea) builder.GetObject ("event_execute_drawingarea_run_simple_double_contacts");
+		label_run_simple_double_contacts = (Gtk.Label) builder.GetObject ("label_run_simple_double_contacts");
+		/*
+		   hbox_combo_graph_results_width = (Gtk.Box) builder.GetObject ("hbox_combo_graph_results_width");
+		   hbox_combo_graph_results_height = (Gtk.Box) builder.GetObject ("hbox_combo_graph_results_height");
+		   combo_graph_results_width = (Gtk.ComboBoxText) builder.GetObject ("combo_graph_results_width");
+		   combo_graph_results_height = (Gtk.ComboBoxText) builder.GetObject ("combo_graph_results_height");
+		   */
 	}
 }
 

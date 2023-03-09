@@ -20,7 +20,7 @@
 
 using System;
 using Gtk;
-using Glade;
+//using Glade;
 using System.Collections; //ArrayList
 using System.Collections.Generic; //List<T>
 using Mono.Unix;
@@ -29,24 +29,26 @@ using Mono.Unix;
 //show all events (jumps and runs) of a person in different sessions
 public class PersonShowAllEventsWindow
 {
-	[Widget] Gtk.Window person_show_all_events;
+	// at glade ---->
+	Gtk.Window person_show_all_events;
 
-	[Widget] Gtk.HBox hbox_session_radios;
-	[Widget] Gtk.RadioButton radio_session_current;
-	[Widget] Gtk.RadioButton radio_session_all;
-	[Widget] Gtk.Label label_radio_session_current;
-	[Widget] Gtk.Label label_radio_session_all;
-	[Widget] Gtk.HBox hbox_filter;
-	[Widget] Gtk.Label label_filter;
-	[Widget] Gtk.Entry entry_filter;
-	[Widget] Gtk.Label label_person;
-	[Widget] Gtk.Label label_person_name;
+	Gtk.HBox hbox_session_radios;
+	Gtk.RadioButton radio_session_current;
+	Gtk.RadioButton radio_session_all;
+	Gtk.Label label_radio_session_current;
+	Gtk.Label label_radio_session_all;
+	Gtk.HBox hbox_filter;
+	Gtk.Label label_filter;
+	Gtk.Entry entry_filter;
+	Gtk.Label label_person;
+	Gtk.Label label_person_name;
 
-	[Widget] Gtk.TreeView treeview_person_show_all_events;
-	[Widget] Gtk.Box hbox_combo_persons;
-	[Widget] Gtk.ComboBox combo_persons;
-	[Widget] Gtk.Button button_load_session;
+	Gtk.TreeView treeview_person_show_all_events;
+	Gtk.Box hbox_combo_persons;
+	Gtk.Button button_load_session;
+	// <---- at glade
 
+	Gtk.ComboBoxText combo_persons;
 	public Gtk.Button fakeButtonLoadSession;
 
 	//when using persons at top, at close this window need to show again the persons top window
@@ -62,9 +64,14 @@ public class PersonShowAllEventsWindow
 
 	PersonShowAllEventsWindow (Gtk.Window parent, int currentSessionID, Person currentPerson)
 	{
+		/*
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "person_show_all_events.glade", "person_show_all_events", "chronojump");
 		gladeXML.Autoconnect(this);
+		*/
+		Gtk.Builder builder = new Gtk.Builder (null, Util.GetGladePath () + "person_show_all_events.glade", null);
+		connectWidgets (builder);
+		builder.Autoconnect (this);
 		
 		//put an icon to window
 		UtilGtk.IconWindow(person_show_all_events);
@@ -137,7 +144,7 @@ public class PersonShowAllEventsWindow
 
 	private void createComboPersons (int currentSessionID, string personID, string personName)
 	{
-		combo_persons = ComboBox.NewText ();
+		combo_persons = new ComboBoxText ();
 
 		int inSession = -1;		//select persons from all sessions
 		if (radio_session_current.Active)
@@ -288,7 +295,7 @@ public class PersonShowAllEventsWindow
 
 		TreeIter iter = new TreeIter();
 
-		TreeModel myModel = treeview_person_show_all_events.Model;
+		ITreeModel myModel = treeview_person_show_all_events.Model;
 		if (treeview_person_show_all_events.Selection.GetSelected (out myModel, out iter))
 		{
 			string selected = (treeview_person_show_all_events.Model.GetValue (iter, 0) ).ToString();
@@ -348,5 +355,25 @@ public class PersonShowAllEventsWindow
 	public Button FakeButtonDoneCalledFromTop
 	{
 		get { return fakeButtonDoneCalledFromTop; }
+	}
+
+	private void connectWidgets (Gtk.Builder builder)
+	{
+		person_show_all_events = (Gtk.Window) builder.GetObject ("person_show_all_events");
+
+		hbox_session_radios = (Gtk.HBox) builder.GetObject ("hbox_session_radios");
+		radio_session_current = (Gtk.RadioButton) builder.GetObject ("radio_session_current");
+		radio_session_all = (Gtk.RadioButton) builder.GetObject ("radio_session_all");
+		label_radio_session_current = (Gtk.Label) builder.GetObject ("label_radio_session_current");
+		label_radio_session_all = (Gtk.Label) builder.GetObject ("label_radio_session_all");
+		hbox_filter = (Gtk.HBox) builder.GetObject ("hbox_filter");
+		label_filter = (Gtk.Label) builder.GetObject ("label_filter");
+		entry_filter = (Gtk.Entry) builder.GetObject ("entry_filter");
+		label_person = (Gtk.Label) builder.GetObject ("label_person");
+		label_person_name = (Gtk.Label) builder.GetObject ("label_person_name");
+
+		treeview_person_show_all_events = (Gtk.TreeView) builder.GetObject ("treeview_person_show_all_events");
+		hbox_combo_persons = (Gtk.Box) builder.GetObject ("hbox_combo_persons");
+		button_load_session = (Gtk.Button) builder.GetObject ("button_load_session");
 	}
 }

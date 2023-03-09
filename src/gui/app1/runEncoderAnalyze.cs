@@ -15,56 +15,60 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2020   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2020-2023   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
 using System.IO;
 using Gtk;
-using Glade;
+//using Glade;
 using System.Collections.Generic; //List<T>
 using Mono.Unix;
 
 
 public partial class ChronoJumpWindow 
 {
-	[Widget] Gtk.CheckButton check_run_encoder_analyze_accel;
-	[Widget] Gtk.CheckButton check_run_encoder_analyze_force;
-	[Widget] Gtk.CheckButton check_run_encoder_analyze_power;
-	[Widget] Gtk.ComboBox combo_run_encoder_analyze_accel;
-	[Widget] Gtk.ComboBox combo_run_encoder_analyze_force;
-	[Widget] Gtk.ComboBox combo_run_encoder_analyze_power;
-	[Widget] Gtk.Button button_run_encoder_analyze_options_close_and_analyze;
-	[Widget] Gtk.Button button_run_encoder_analyze_analyze;
-	[Widget] Gtk.Button button_run_encoder_image_save;
+	// at glade ---->
+	Gtk.CheckButton check_run_encoder_analyze_accel;
+	Gtk.CheckButton check_run_encoder_analyze_force;
+	Gtk.CheckButton check_run_encoder_analyze_power;
+	Gtk.Button button_run_encoder_analyze_options_close_and_analyze;
+	Gtk.Button button_run_encoder_analyze_analyze;
+	Gtk.Button button_run_encoder_image_save;
 
-	[Widget] Gtk.RadioButton radio_run_encoder_analyze_individual_current_set;
-	[Widget] Gtk.RadioButton radio_run_encoder_analyze_individual_current_session;
-	[Widget] Gtk.RadioButton radio_run_encoder_analyze_individual_all_sessions;
-	[Widget] Gtk.RadioButton radio_run_encoder_analyze_groupal_current_session;
-	[Widget] Gtk.Image image_run_encoder_analyze_individual_current_set;
-	[Widget] Gtk.Image image_run_encoder_analyze_individual_current_session;
-	[Widget] Gtk.Image image_run_encoder_analyze_individual_all_sessions;
-	[Widget] Gtk.Image image_run_encoder_analyze_groupal_current_session;
+	Gtk.RadioButton radio_run_encoder_analyze_individual_current_set;
+	Gtk.RadioButton radio_run_encoder_analyze_individual_current_session;
+	Gtk.RadioButton radio_run_encoder_analyze_individual_all_sessions;
+	Gtk.RadioButton radio_run_encoder_analyze_groupal_current_session;
+	Gtk.Image image_run_encoder_analyze_individual_current_set;
+	Gtk.Image image_run_encoder_analyze_individual_current_session;
+	Gtk.Image image_run_encoder_analyze_individual_all_sessions;
+	Gtk.Image image_run_encoder_analyze_groupal_current_session;
 
-	[Widget] Gtk.HBox hbox_run_encoder_top;
-	[Widget] Gtk.HBox hbox_run_encoder_analyze_top_modes;
+	Gtk.HBox hbox_run_encoder_top;
+	Gtk.HBox hbox_run_encoder_analyze_top_modes;
 
 	//export
-	[Widget] Gtk.Notebook notebook_run_encoder_export;
-	[Widget] Gtk.Label label_run_encoder_export_data;
-	[Widget] Gtk.CheckButton check_run_encoder_export_images;
-	[Widget] Gtk.HBox hbox_run_encoder_export_width_height;
-	[Widget] Gtk.SpinButton spinbutton_run_encoder_export_image_width;
-	[Widget] Gtk.SpinButton spinbutton_run_encoder_export_image_height;
-	[Widget] Gtk.CheckButton check_run_encoder_export_instantaneous;
-	[Widget] Gtk.ProgressBar progressbar_run_encoder_export;
-	[Widget] Gtk.Label label_run_encoder_export_discarded;
-	[Widget] Gtk.Label label_run_encoder_export_result;
-	[Widget] Gtk.Button button_run_encoder_export_result_open;
+	Gtk.Notebook notebook_run_encoder_export;
+	Gtk.Label label_run_encoder_export_data;
+	Gtk.CheckButton check_run_encoder_export_images;
+	Gtk.HBox hbox_run_encoder_export_width_height;
+	Gtk.SpinButton spinbutton_run_encoder_export_image_width;
+	Gtk.SpinButton spinbutton_run_encoder_export_image_height;
+	Gtk.CheckButton check_run_encoder_export_instantaneous;
+	Gtk.ProgressBar progressbar_run_encoder_export;
+	Gtk.Label label_run_encoder_export_discarded;
+	Gtk.Label label_run_encoder_export_result;
+	Gtk.Button button_run_encoder_export_result_open;
 
-	[Widget] Gtk.Notebook notebook_run_encoder_analyze;
-	[Widget] Gtk.Notebook notebook_run_encoder_analyze_current_set;
+	Gtk.Notebook notebook_run_encoder_analyze;
+	Gtk.Notebook notebook_run_encoder_analyze_current_set;
+
+	Gtk.ComboBoxText combo_run_encoder_analyze_accel;
+	Gtk.ComboBoxText combo_run_encoder_analyze_force;
+	Gtk.ComboBoxText combo_run_encoder_analyze_power;
+	// <---- at glade
+
 
 	private enum notebook_run_encoder_analyze_pages { CURRENTSET, CURRENTSESSION, OPTIONS }
 	private enum notebook_run_encoder_analyze_current_set_pages { GRAPH, TABLE, TRIGGERS }
@@ -102,7 +106,7 @@ public partial class ChronoJumpWindow
 		setRunEncoderAnalyzeWidgetsDo (Preferences.runEncoderAnalyzePower,
 				check_run_encoder_analyze_power, combo_run_encoder_analyze_power);
 	}
-	private void setRunEncoderAnalyzeWidgetsDo (LSqlEnTrans lsql, Gtk.CheckButton check, Gtk.ComboBox combo)
+	private void setRunEncoderAnalyzeWidgetsDo (LSqlEnTrans lsql, Gtk.CheckButton check, Gtk.ComboBoxText combo)
 	{
 		if(lsql.SqlCurrentName == Preferences.runEncoderAnalyzeAFPSqlNO)
 		{
@@ -503,4 +507,45 @@ public partial class ChronoJumpWindow
 					Constants.DirectoryCannotOpenStr() + "\n\n" + runEncoderExport.ExportURL);
 	}
 
+	private void connectWidgetsRunEncoderAnalyze (Gtk.Builder builder)
+	{
+		check_run_encoder_analyze_accel = (Gtk.CheckButton) builder.GetObject ("check_run_encoder_analyze_accel");
+		check_run_encoder_analyze_force = (Gtk.CheckButton) builder.GetObject ("check_run_encoder_analyze_force");
+		check_run_encoder_analyze_power = (Gtk.CheckButton) builder.GetObject ("check_run_encoder_analyze_power");
+		button_run_encoder_analyze_options_close_and_analyze = (Gtk.Button) builder.GetObject ("button_run_encoder_analyze_options_close_and_analyze");
+		button_run_encoder_analyze_analyze = (Gtk.Button) builder.GetObject ("button_run_encoder_analyze_analyze");
+		button_run_encoder_image_save = (Gtk.Button) builder.GetObject ("button_run_encoder_image_save");
+
+		radio_run_encoder_analyze_individual_current_set = (Gtk.RadioButton) builder.GetObject ("radio_run_encoder_analyze_individual_current_set");
+		radio_run_encoder_analyze_individual_current_session = (Gtk.RadioButton) builder.GetObject ("radio_run_encoder_analyze_individual_current_session");
+		radio_run_encoder_analyze_individual_all_sessions = (Gtk.RadioButton) builder.GetObject ("radio_run_encoder_analyze_individual_all_sessions");
+		radio_run_encoder_analyze_groupal_current_session = (Gtk.RadioButton) builder.GetObject ("radio_run_encoder_analyze_groupal_current_session");
+		image_run_encoder_analyze_individual_current_set = (Gtk.Image) builder.GetObject ("image_run_encoder_analyze_individual_current_set");
+		image_run_encoder_analyze_individual_current_session = (Gtk.Image) builder.GetObject ("image_run_encoder_analyze_individual_current_session");
+		image_run_encoder_analyze_individual_all_sessions = (Gtk.Image) builder.GetObject ("image_run_encoder_analyze_individual_all_sessions");
+		image_run_encoder_analyze_groupal_current_session = (Gtk.Image) builder.GetObject ("image_run_encoder_analyze_groupal_current_session");
+
+		hbox_run_encoder_top = (Gtk.HBox) builder.GetObject ("hbox_run_encoder_top");
+		hbox_run_encoder_analyze_top_modes = (Gtk.HBox) builder.GetObject ("hbox_run_encoder_analyze_top_modes");
+
+		//export
+		notebook_run_encoder_export = (Gtk.Notebook) builder.GetObject ("notebook_run_encoder_export");
+		label_run_encoder_export_data = (Gtk.Label) builder.GetObject ("label_run_encoder_export_data");
+		check_run_encoder_export_images = (Gtk.CheckButton) builder.GetObject ("check_run_encoder_export_images");
+		hbox_run_encoder_export_width_height = (Gtk.HBox) builder.GetObject ("hbox_run_encoder_export_width_height");
+		spinbutton_run_encoder_export_image_width = (Gtk.SpinButton) builder.GetObject ("spinbutton_run_encoder_export_image_width");
+		spinbutton_run_encoder_export_image_height = (Gtk.SpinButton) builder.GetObject ("spinbutton_run_encoder_export_image_height");
+		check_run_encoder_export_instantaneous = (Gtk.CheckButton) builder.GetObject ("check_run_encoder_export_instantaneous");
+		progressbar_run_encoder_export = (Gtk.ProgressBar) builder.GetObject ("progressbar_run_encoder_export");
+		label_run_encoder_export_discarded = (Gtk.Label) builder.GetObject ("label_run_encoder_export_discarded");
+		label_run_encoder_export_result = (Gtk.Label) builder.GetObject ("label_run_encoder_export_result");
+		button_run_encoder_export_result_open = (Gtk.Button) builder.GetObject ("button_run_encoder_export_result_open");
+
+		notebook_run_encoder_analyze = (Gtk.Notebook) builder.GetObject ("notebook_run_encoder_analyze");
+		notebook_run_encoder_analyze_current_set = (Gtk.Notebook) builder.GetObject ("notebook_run_encoder_analyze_current_set");
+
+		combo_run_encoder_analyze_accel = (Gtk.ComboBoxText) builder.GetObject ("combo_run_encoder_analyze_accel");
+		combo_run_encoder_analyze_force = (Gtk.ComboBoxText) builder.GetObject ("combo_run_encoder_analyze_force");
+		combo_run_encoder_analyze_power = (Gtk.ComboBoxText) builder.GetObject ("combo_run_encoder_analyze_power");
+	}
 }

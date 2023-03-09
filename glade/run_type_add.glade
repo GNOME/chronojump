@@ -1,8 +1,58 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<glade-interface>
+<?xml version="1.0"?>
+<interface>
+  <object class="GtkAdjustment" id="adjustment1">
+    <property name="value">1</property>
+    <property name="lower">0</property>
+    <property name="upper">10000</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">10</property>
+    <property name="page_size">0</property>
+  </object>
+  <object class="GtkAdjustment" id="adjustment2">
+    <property name="value">100</property>
+    <property name="lower">0</property>
+    <property name="upper">99999</property>
+    <property name="step_increment">0.10000000000000001</property>
+    <property name="page_increment">1</property>
+    <property name="page_size">0</property>
+  </object>
+  <object class="GtkListStore" id="model1">
+    <columns>
+      <column type="gchararray"/>
+    </columns>
+    <data>
+      <row>
+        <col id="0">2</col>
+      </row>
+      <row>
+        <col id="0">3</col>
+      </row>
+      <row>
+        <col id="0">4</col>
+      </row>
+      <row>
+        <col id="0">5</col>
+      </row>
+      <row>
+        <col id="0">6</col>
+      </row>
+      <row>
+        <col id="0">7</col>
+      </row>
+      <row>
+        <col id="0">8</col>
+      </row>
+      <row>
+        <col id="0">9</col>
+      </row>
+      <row>
+        <col id="0">10</col>
+      </row>
+    </data>
+  </object>
   <!-- interface-requires gtk+ 3.0 -->
   <!-- interface-naming-policy toplevel-contextual -->
-  <widget class="GtkWindow" id="run_type_add">
+  <object class="GtkWindow" id="run_type_add">
     <property name="can_focus">False</property>
     <property name="border_width">10</property>
     <property name="title" translatable="yes">Create new race type</property>
@@ -11,16 +61,16 @@
     <property name="type_hint">dialog</property>
     <signal name="delete_event" handler="on_delete_event" swapped="no"/>
     <child>
-      <widget class="GtkVBox" id="vbox45">
+      <object class="GtkVBox" id="vbox45">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="spacing">8</property>
         <child>
-          <widget class="GtkLabel" id="label_header">
+          <object class="GtkLabel" id="label_header">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="label" translatable="yes">Create a new race type in the database</property>
-          </widget>
+          </object>
           <packing>
             <property name="expand">False</property>
             <property name="fill">False</property>
@@ -28,19 +78,19 @@
           </packing>
         </child>
         <child>
-          <widget class="GtkFrame" id="frame1">
+          <object class="GtkFrame" id="frame1">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="label_xalign">0</property>
             <property name="label_yalign">1</property>
             <property name="shadow_type">in</property>
             <child>
-              <widget class="GtkViewport" id="viewport1">
+              <object class="GtkViewport" id="viewport1">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="border_width">4</property>
                 <child>
-                  <widget class="GtkTable" id="table17">
+                  <object class="GtkTable" id="table17">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="border_width">10</property>
@@ -52,25 +102,25 @@
                       <placeholder/>
                     </child>
                     <child>
-                      <widget class="GtkLabel" id="label133">
+                      <object class="GtkLabel" id="label133">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="xalign">0</property>
                         <property name="label" translatable="yes">Name</property>
                         <property name="use_markup">True</property>
-                      </widget>
+                      </object>
                       <packing>
                         <property name="x_options">GTK_FILL</property>
                         <property name="y_options"/>
                       </packing>
                     </child>
                     <child>
-                      <widget class="GtkLabel" id="label_description">
+                      <object class="GtkLabel" id="label_description">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="xalign">0</property>
                         <property name="label" translatable="yes">Description</property>
-                      </widget>
+                      </object>
                       <packing>
                         <property name="top_attach">3</property>
                         <property name="bottom_attach">4</property>
@@ -79,7 +129,7 @@
                       </packing>
                     </child>
                     <child>
-                      <widget class="GtkEntry" id="entry_name">
+                      <object class="GtkEntry" id="entry_name">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="primary_icon_activatable">False</property>
@@ -87,7 +137,7 @@
                         <property name="primary_icon_sensitive">True</property>
                         <property name="secondary_icon_sensitive">True</property>
                         <signal name="changed" handler="on_entries_required_changed" swapped="no"/>
-                      </widget>
+                      </object>
                       <packing>
                         <property name="left_attach">2</property>
                         <property name="right_attach">3</property>
@@ -95,13 +145,13 @@
                       </packing>
                     </child>
                     <child>
-                      <widget class="GtkLabel" id="label_main_options">
+                      <object class="GtkLabel" id="label_main_options">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="xalign">0</property>
                         <property name="label" translatable="yes">Main
 options</property>
-                      </widget>
+                      </object>
                       <packing>
                         <property name="top_attach">1</property>
                         <property name="bottom_attach">2</property>
@@ -110,7 +160,7 @@ options</property>
                       </packing>
                     </child>
                     <child>
-                      <widget class="GtkTable" id="table_main_options">
+                      <object class="GtkTable" id="table_main_options">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="n_rows">3</property>
@@ -124,21 +174,21 @@ options</property>
                           <placeholder/>
                         </child>
                         <child>
-                          <widget class="GtkLabel" id="label138">
+                          <object class="GtkLabel" id="label138">
                             <property name="can_focus">False</property>
                             <property name="label" translatable="yes">Type</property>
-                          </widget>
+                          </object>
                           <packing>
                             <property name="x_options">GTK_FILL</property>
                             <property name="y_options"/>
                           </packing>
                         </child>
                         <child>
-                          <widget class="GtkLabel" id="label139">
+                          <object class="GtkLabel" id="label139">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
                             <property name="label" translatable="yes">Limited by (how it finishes)</property>
-                          </widget>
+                          </object>
                           <packing>
                             <property name="left_attach">1</property>
                             <property name="right_attach">2</property>
@@ -147,11 +197,11 @@ options</property>
                           </packing>
                         </child>
                         <child>
-                          <widget class="GtkLabel" id="label140">
+                          <object class="GtkLabel" id="label140">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
                             <property name="label" translatable="yes">value</property>
-                          </widget>
+                          </object>
                           <packing>
                             <property name="left_attach">2</property>
                             <property name="right_attach">3</property>
@@ -160,11 +210,11 @@ options</property>
                           </packing>
                         </child>
                         <child>
-                          <widget class="GtkVBox" id="vbox_limited">
+                          <object class="GtkVBox" id="vbox_limited">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
                             <child>
-                              <widget class="GtkRadioButton" id="radiobutton_limited_tracks">
+                              <object class="GtkRadioButton" id="radiobutton_limited_tracks">
                                 <property name="label" translatable="yes">laps</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
@@ -173,7 +223,7 @@ options</property>
                                 <property name="active">True</property>
                                 <property name="draw_indicator">True</property>
                                 <signal name="toggled" handler="on_radiobutton_limited_tracks_or_time_toggled" swapped="no"/>
-                              </widget>
+                              </object>
                               <packing>
                                 <property name="expand">False</property>
                                 <property name="fill">False</property>
@@ -181,7 +231,7 @@ options</property>
                               </packing>
                             </child>
                             <child>
-                              <widget class="GtkRadioButton" id="radiobutton_limited_time">
+                              <object class="GtkRadioButton" id="radiobutton_limited_time">
                                 <property name="label" translatable="yes">time (s)</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
@@ -190,7 +240,7 @@ options</property>
                                 <property name="draw_indicator">True</property>
                                 <property name="group">radiobutton_limited_tracks</property>
                                 <signal name="toggled" handler="on_radiobutton_limited_tracks_or_time_toggled" swapped="no"/>
-                              </widget>
+                              </object>
                               <packing>
                                 <property name="expand">False</property>
                                 <property name="fill">False</property>
@@ -198,7 +248,7 @@ options</property>
                               </packing>
                             </child>
                             <child>
-                              <widget class="GtkRadioButton" id="radiobutton_unlimited">
+                              <object class="GtkRadioButton" id="radiobutton_unlimited">
                                 <property name="label" translatable="yes">unlimited</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
@@ -207,14 +257,14 @@ options</property>
                                 <property name="draw_indicator">True</property>
                                 <property name="group">radiobutton_limited_tracks</property>
                                 <signal name="toggled" handler="on_radiobutton_unlimited_toggled" swapped="no"/>
-                              </widget>
+                              </object>
                               <packing>
                                 <property name="expand">False</property>
                                 <property name="fill">False</property>
                                 <property name="position">2</property>
                               </packing>
                             </child>
-                          </widget>
+                          </object>
                           <packing>
                             <property name="left_attach">1</property>
                             <property name="right_attach">2</property>
@@ -225,7 +275,7 @@ options</property>
                           </packing>
                         </child>
                         <child>
-                          <widget class="GtkRadioButton" id="radiobutton_simple">
+                          <object class="GtkRadioButton" id="radiobutton_simple">
                             <property name="label" translatable="yes">simple</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
@@ -233,7 +283,7 @@ options</property>
                             <property name="use_underline">True</property>
                             <property name="draw_indicator">True</property>
                             <signal name="toggled" handler="on_radiobutton_simple_toggled" swapped="no"/>
-                          </widget>
+                          </object>
                           <packing>
                             <property name="top_attach">1</property>
                             <property name="bottom_attach">2</property>
@@ -242,7 +292,7 @@ options</property>
                           </packing>
                         </child>
                         <child>
-                          <widget class="GtkRadioButton" id="radiobutton_interval">
+                          <object class="GtkRadioButton" id="radiobutton_interval">
                             <property name="label" translatable="yes">intervallic</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
@@ -251,7 +301,7 @@ options</property>
                             <property name="draw_indicator">True</property>
                             <property name="group">radiobutton_simple</property>
                             <signal name="toggled" handler="on_radiobutton_interval_toggled" swapped="no"/>
-                          </widget>
+                          </object>
                           <packing>
                             <property name="top_attach">2</property>
                             <property name="bottom_attach">3</property>
@@ -260,11 +310,11 @@ options</property>
                           </packing>
                         </child>
                         <child>
-                          <widget class="GtkHBox" id="hbox_fixed">
+                          <object class="GtkHBox" id="hbox_fixed">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
                             <child>
-                              <widget class="GtkCheckButton" id="checkbutton_limited_fixed">
+                              <object class="GtkCheckButton" id="checkbutton_limited_fixed">
                                 <property name="label" translatable="yes">fixed: </property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
@@ -272,7 +322,7 @@ options</property>
                                 <property name="use_underline">True</property>
                                 <property name="draw_indicator">True</property>
                                 <signal name="clicked" handler="on_checkbutton_limited_fixed_clicked" swapped="no"/>
-                              </widget>
+                              </object>
                               <packing>
                                 <property name="expand">False</property>
                                 <property name="fill">False</property>
@@ -280,7 +330,7 @@ options</property>
                               </packing>
                             </child>
                             <child>
-                              <widget class="GtkSpinButton" id="spin_fixed_tracks_or_time">
+                              <object class="GtkSpinButton" id="spin_fixed_tracks_or_time">
                                 <property name="visible">True</property>
                                 <property name="sensitive">False</property>
                                 <property name="can_focus">True</property>
@@ -288,18 +338,18 @@ options</property>
                                 <property name="secondary_icon_activatable">False</property>
                                 <property name="primary_icon_sensitive">True</property>
                                 <property name="secondary_icon_sensitive">True</property>
-                                <property name="adjustment">1 0 10000 1 10 0</property>
+                                <property name="adjustment">adjustment1</property>
                                 <property name="climb_rate">1</property>
                                 <property name="snap_to_ticks">True</property>
                                 <property name="numeric">True</property>
-                              </widget>
+                              </object>
                               <packing>
                                 <property name="expand">True</property>
                                 <property name="fill">True</property>
                                 <property name="position">1</property>
                               </packing>
                             </child>
-                          </widget>
+                          </object>
                           <packing>
                             <property name="left_attach">2</property>
                             <property name="right_attach">3</property>
@@ -309,7 +359,7 @@ options</property>
                             <property name="y_options">GTK_FILL</property>
                           </packing>
                         </child>
-                      </widget>
+                      </object>
                       <packing>
                         <property name="left_attach">2</property>
                         <property name="right_attach">3</property>
@@ -320,12 +370,12 @@ options</property>
                       </packing>
                     </child>
                     <child>
-                      <widget class="GtkLabel" id="label_distance">
+                      <object class="GtkLabel" id="label_distance">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="xalign">0</property>
                         <property name="label" translatable="yes">Distance</property>
-                      </widget>
+                      </object>
                       <packing>
                         <property name="top_attach">2</property>
                         <property name="bottom_attach">3</property>
@@ -334,17 +384,17 @@ options</property>
                       </packing>
                     </child>
                     <child>
-                      <widget class="GtkHBox" id="hbox80">
+                      <object class="GtkHBox" id="hbox80">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="spacing">5</property>
                         <child>
-                          <widget class="GtkVBox" id="vbox149">
+                          <object class="GtkVBox" id="vbox149">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
                             <property name="spacing">4</property>
                             <child>
-                              <widget class="GtkRadioButton" id="radiobutton_dist_variable">
+                              <object class="GtkRadioButton" id="radiobutton_dist_variable">
                                 <property name="label" translatable="yes">Variable (user will select distance at each test)</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
@@ -353,7 +403,7 @@ options</property>
                                 <property name="draw_indicator">True</property>
                                 <signal name="toggled" handler="on_radiobutton_dist_variable_toggled" swapped="no"/>
                                 <signal name="toggled" handler="on_entries_required_changed" swapped="no"/>
-                              </widget>
+                              </object>
                               <packing>
                                 <property name="expand">False</property>
                                 <property name="fill">False</property>
@@ -361,7 +411,7 @@ options</property>
                               </packing>
                             </child>
                             <child>
-                              <widget class="GtkRadioButton" id="radiobutton_dist_fixed">
+                              <object class="GtkRadioButton" id="radiobutton_dist_fixed">
                                 <property name="label" translatable="yes">Fixed (distance will be always the same)</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
@@ -371,7 +421,7 @@ options</property>
                                 <property name="group">radiobutton_dist_variable</property>
                                 <signal name="toggled" handler="on_radiobutton_dist_fixed_toggled" swapped="no"/>
                                 <signal name="toggled" handler="on_entries_required_changed" swapped="no"/>
-                              </widget>
+                              </object>
                               <packing>
                                 <property name="expand">False</property>
                                 <property name="fill">False</property>
@@ -379,28 +429,28 @@ options</property>
                               </packing>
                             </child>
                             <child>
-                              <widget class="GtkAlignment" id="alignment_hbox_distance_fixed">
+                              <object class="GtkAlignment" id="alignment_hbox_distance_fixed">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
                                 <property name="left_padding">30</property>
                                 <child>
-                                  <widget class="GtkHBox" id="hbox_distance_fixed">
+                                  <object class="GtkHBox" id="hbox_distance_fixed">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
                                     <property name="spacing">7</property>
                                     <child>
-                                      <widget class="GtkSpinButton" id="spin_distance_fixed">
+                                      <object class="GtkSpinButton" id="spin_distance_fixed">
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>
                                         <property name="primary_icon_activatable">False</property>
                                         <property name="secondary_icon_activatable">False</property>
                                         <property name="primary_icon_sensitive">True</property>
                                         <property name="secondary_icon_sensitive">True</property>
-                                        <property name="adjustment">100 0 99999 0.10000000000000001 1 0</property>
+                                        <property name="adjustment">adjustment2</property>
                                         <property name="climb_rate">1</property>
                                         <property name="digits">2</property>
                                         <property name="numeric">True</property>
-                                      </widget>
+                                      </object>
                                       <packing>
                                         <property name="expand">False</property>
                                         <property name="fill">False</property>
@@ -408,20 +458,20 @@ options</property>
                                       </packing>
                                     </child>
                                     <child>
-                                      <widget class="GtkLabel" id="label142">
+                                      <object class="GtkLabel" id="label142">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
                                         <property name="label">(m)</property>
-                                      </widget>
+                                      </object>
                                       <packing>
                                         <property name="expand">False</property>
                                         <property name="fill">False</property>
                                         <property name="position">1</property>
                                       </packing>
                                     </child>
-                                  </widget>
+                                  </object>
                                 </child>
-                              </widget>
+                              </object>
                               <packing>
                                 <property name="expand">False</property>
                                 <property name="fill">False</property>
@@ -429,7 +479,7 @@ options</property>
                               </packing>
                             </child>
                             <child>
-                              <widget class="GtkRadioButton" id="radiobutton_dist_different">
+                              <object class="GtkRadioButton" id="radiobutton_dist_different">
                                 <property name="label" translatable="yes">Different (each lap have different distance
 suitable for agility tests and RSA)</property>
                                 <property name="visible">True</property>
@@ -440,7 +490,7 @@ suitable for agility tests and RSA)</property>
                                 <property name="group">radiobutton_dist_variable</property>
                                 <signal name="toggled" handler="on_radiobutton_dist_different_toggled" swapped="no"/>
                                 <signal name="toggled" handler="on_radiobutton_dist_different_toggled" object="on_entries_required_changed" swapped="yes"/>
-                              </widget>
+                              </object>
                               <packing>
                                 <property name="expand">False</property>
                                 <property name="fill">False</property>
@@ -448,25 +498,25 @@ suitable for agility tests and RSA)</property>
                               </packing>
                             </child>
                             <child>
-                              <widget class="GtkAlignment" id="alignment_vbox_distance_variable">
+                              <object class="GtkAlignment" id="alignment_vbox_distance_variable">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
                                 <property name="left_padding">30</property>
                                 <child>
-                                  <widget class="GtkVBox" id="vbox_distance_variable">
+                                  <object class="GtkVBox" id="vbox_distance_variable">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
                                     <child>
-                                      <widget class="GtkHBox" id="hbox_distance_different_tracks">
+                                      <object class="GtkHBox" id="hbox_distance_different_tracks">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
                                         <property name="spacing">8</property>
                                         <child>
-                                          <widget class="GtkLabel" id="label547">
+                                          <object class="GtkLabel" id="label547">
                                             <property name="visible">True</property>
                                             <property name="can_focus">False</property>
                                             <property name="label" translatable="yes">Number of different laps</property>
-                                          </widget>
+                                          </object>
                                           <packing>
                                             <property name="expand">False</property>
                                             <property name="fill">False</property>
@@ -474,20 +524,18 @@ suitable for agility tests and RSA)</property>
                                           </packing>
                                         </child>
                                         <child>
-                                          <widget class="GtkComboBox" id="combo_distance_different_tracks">
+                                          <object class="GtkComboBoxText" id="combo_distance_different_tracks">
                                             <property name="visible">True</property>
                                             <property name="can_focus">False</property>
-                                            <property name="items">2
-3
-4
-5
-6
-7
-8
-9
-10</property>
                                             <signal name="changed" handler="on_combo_distance_different_tracks_changed" swapped="no"/>
-                                          </widget>
+                                            <property name="model">model1</property>
+                                            <child>
+                                              <object class="GtkCellRendererText" id="renderer1"/>
+                                              <attributes>
+                                                <attribute name="text">0</attribute>
+                                              </attributes>
+                                            </child>
+                                          </object>
                                           <packing>
                                             <property name="expand">False</property>
                                             <property name="fill">False</property>
@@ -495,13 +543,13 @@ suitable for agility tests and RSA)</property>
                                           </packing>
                                         </child>
                                         <child>
-                                          <widget class="GtkButton" id="button_help_rsa">
+                                          <object class="GtkButton" id="button_help_rsa">
                                             <property name="label" translatable="yes">Help RSA</property>
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
                                             <property name="receives_default">True</property>
                                             <signal name="clicked" handler="on_button_help_rsa_clicked" swapped="no"/>
-                                          </widget>
+                                          </object>
                                           <packing>
                                             <property name="expand">False</property>
                                             <property name="fill">True</property>
@@ -509,7 +557,7 @@ suitable for agility tests and RSA)</property>
                                             <property name="position">2</property>
                                           </packing>
                                         </child>
-                                      </widget>
+                                      </object>
                                       <packing>
                                         <property name="expand">True</property>
                                         <property name="fill">True</property>
@@ -517,17 +565,17 @@ suitable for agility tests and RSA)</property>
                                       </packing>
                                     </child>
                                     <child>
-                                      <widget class="GtkHBox" id="hbox288">
+                                      <object class="GtkHBox" id="hbox288">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
                                         <property name="spacing">8</property>
                                         <child>
-                                          <widget class="GtkLabel" id="label545">
+                                          <object class="GtkLabel" id="label545">
                                             <property name="visible">True</property>
                                             <property name="can_focus">False</property>
                                             <property name="xalign">0</property>
                                             <property name="label" translatable="yes">Distance of each lap</property>
-                                          </widget>
+                                          </object>
                                           <packing>
                                             <property name="expand">False</property>
                                             <property name="fill">False</property>
@@ -535,11 +583,11 @@ suitable for agility tests and RSA)</property>
                                           </packing>
                                         </child>
                                         <child>
-                                          <widget class="GtkLabel" id="label546">
+                                          <object class="GtkLabel" id="label546">
                                             <property name="visible">True</property>
                                             <property name="can_focus">False</property>
                                             <property name="label" translatable="yes">(m)</property>
-                                          </widget>
+                                          </object>
                                           <packing>
                                             <property name="expand">False</property>
                                             <property name="fill">False</property>
@@ -547,17 +595,17 @@ suitable for agility tests and RSA)</property>
                                           </packing>
                                         </child>
                                         <child>
-                                          <widget class="GtkLabel" id="label_decimal_separator">
+                                          <object class="GtkLabel" id="label_decimal_separator">
                                             <property name="visible">True</property>
                                             <property name="can_focus">False</property>
-                                          </widget>
+                                          </object>
                                           <packing>
                                             <property name="expand">False</property>
                                             <property name="fill">False</property>
                                             <property name="position">2</property>
                                           </packing>
                                         </child>
-                                      </widget>
+                                      </object>
                                       <packing>
                                         <property name="expand">True</property>
                                         <property name="fill">True</property>
@@ -565,36 +613,36 @@ suitable for agility tests and RSA)</property>
                                       </packing>
                                     </child>
                                     <child>
-                                      <widget class="GtkHBox" id="hbox_distance_variable">
+                                      <object class="GtkHBox" id="hbox_distance_variable">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
                                         <child>
                                           <placeholder/>
                                         </child>
-                                      </widget>
+                                      </object>
                                       <packing>
                                         <property name="expand">True</property>
                                         <property name="fill">True</property>
                                         <property name="position">2</property>
                                       </packing>
                                     </child>
-                                  </widget>
+                                  </object>
                                 </child>
-                              </widget>
+                              </object>
                               <packing>
                                 <property name="expand">True</property>
                                 <property name="fill">True</property>
                                 <property name="position">4</property>
                               </packing>
                             </child>
-                          </widget>
+                          </object>
                           <packing>
                             <property name="expand">False</property>
                             <property name="fill">False</property>
                             <property name="position">0</property>
                           </packing>
                         </child>
-                      </widget>
+                      </object>
                       <packing>
                         <property name="left_attach">2</property>
                         <property name="right_attach">3</property>
@@ -605,16 +653,16 @@ suitable for agility tests and RSA)</property>
                       </packing>
                     </child>
                     <child>
-                      <widget class="GtkScrolledWindow" id="scrolledwindow18">
+                      <object class="GtkScrolledWindow" id="scrolledwindow18">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <child>
-                          <widget class="GtkTextView" id="textview_description">
+                          <object class="GtkTextView" id="textview_description">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
-                          </widget>
+                          </object>
                         </child>
-                      </widget>
+                      </object>
                       <packing>
                         <property name="left_attach">2</property>
                         <property name="right_attach">3</property>
@@ -625,10 +673,10 @@ suitable for agility tests and RSA)</property>
                       </packing>
                     </child>
                     <child>
-                      <widget class="GtkVSeparator" id="vseparator1">
+                      <object class="GtkVSeparator" id="vseparator1">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                      </widget>
+                      </object>
                       <packing>
                         <property name="left_attach">1</property>
                         <property name="right_attach">2</property>
@@ -638,10 +686,10 @@ suitable for agility tests and RSA)</property>
                       </packing>
                     </child>
                     <child>
-                      <widget class="GtkVSeparator" id="vseparator2">
+                      <object class="GtkVSeparator" id="vseparator2">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                      </widget>
+                      </object>
                       <packing>
                         <property name="left_attach">1</property>
                         <property name="right_attach">2</property>
@@ -653,17 +701,14 @@ suitable for agility tests and RSA)</property>
                     <child>
                       <placeholder/>
                     </child>
-                  </widget>
+                  </object>
                 </child>
-              </widget>
+              </object>
             </child>
-            <child>
+            <child type="label">
               <placeholder/>
-              <packing>
-                <property name="type">label_item</property>
-              </packing>
             </child>
-          </widget>
+          </object>
           <packing>
             <property name="expand">False</property>
             <property name="fill">False</property>
@@ -671,12 +716,12 @@ suitable for agility tests and RSA)</property>
           </packing>
         </child>
         <child>
-          <widget class="GtkHButtonBox" id="hbuttonbox21">
+          <object class="GtkHButtonBox" id="hbuttonbox21">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="layout_style">spread</property>
             <child>
-              <widget class="GtkButton" id="button_cancel">
+              <object class="GtkButton" id="button_cancel">
                 <property name="label">gtk-cancel</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
@@ -685,7 +730,7 @@ suitable for agility tests and RSA)</property>
                 <property name="use_stock">True</property>
                 <signal name="clicked" handler="on_button_cancel_clicked" swapped="no"/>
                 <accelerator key="Escape" signal="clicked"/>
-              </widget>
+              </object>
               <packing>
                 <property name="expand">False</property>
                 <property name="fill">False</property>
@@ -693,7 +738,7 @@ suitable for agility tests and RSA)</property>
               </packing>
             </child>
             <child>
-              <widget class="GtkButton" id="button_accept">
+              <object class="GtkButton" id="button_accept">
                 <property name="label">gtk-ok</property>
                 <property name="visible">True</property>
                 <property name="sensitive">False</property>
@@ -702,21 +747,21 @@ suitable for agility tests and RSA)</property>
                 <property name="receives_default">False</property>
                 <property name="use_stock">True</property>
                 <signal name="clicked" handler="on_button_accept_clicked" swapped="no"/>
-              </widget>
+              </object>
               <packing>
                 <property name="expand">False</property>
                 <property name="fill">False</property>
                 <property name="position">1</property>
               </packing>
             </child>
-          </widget>
+          </object>
           <packing>
             <property name="expand">False</property>
             <property name="fill">False</property>
             <property name="position">2</property>
           </packing>
         </child>
-      </widget>
+      </object>
     </child>
-  </widget>
-</glade-interface>
+  </object>
+</interface>

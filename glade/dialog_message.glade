@@ -1,8 +1,8 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<glade-interface>
+<?xml version="1.0"?>
+<interface>
   <!-- interface-requires gtk+ 3.0 -->
   <!-- interface-naming-policy toplevel-contextual -->
-  <widget class="GtkDialog" id="dialog_message">
+  <object class="GtkDialog" id="dialog_message">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
     <property name="border_width">8</property>
@@ -12,21 +12,21 @@
     <property name="type_hint">dialog</property>
     <signal name="delete_event" handler="on_delete_event" swapped="no"/>
     <child internal-child="vbox">
-      <widget class="GtkVBox" id="dialog-vbox4">
+      <object class="GtkVBox" id="dialog-vbox4">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="spacing">8</property>
         <child>
-          <widget class="GtkHBox" id="hbox138">
+          <object class="GtkHBox" id="hbox138">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="spacing">8</property>
             <child>
-              <widget class="GtkImage" id="image_warning">
+              <object class="GtkImage" id="image_warning">
                 <property name="can_focus">False</property>
                 <property name="stock">gtk-dialog-warning</property>
                 <property name="icon-size">6</property>
-              </widget>
+              </object>
               <packing>
                 <property name="expand">False</property>
                 <property name="fill">False</property>
@@ -35,11 +35,11 @@
               </packing>
             </child>
             <child>
-              <widget class="GtkImage" id="image_info">
+              <object class="GtkImage" id="image_info">
                 <property name="can_focus">False</property>
                 <property name="stock">gtk-dialog-info</property>
                 <property name="icon-size">6</property>
-              </widget>
+              </object>
               <packing>
                 <property name="expand">False</property>
                 <property name="fill">False</property>
@@ -47,11 +47,11 @@
               </packing>
             </child>
             <child>
-              <widget class="GtkImage" id="image_help">
+              <object class="GtkImage" id="image_help">
                 <property name="can_focus">False</property>
                 <property name="stock">gtk-help</property>
                 <property name="icon-size">6</property>
-              </widget>
+              </object>
               <packing>
                 <property name="expand">False</property>
                 <property name="fill">False</property>
@@ -59,11 +59,11 @@
               </packing>
             </child>
             <child>
-              <widget class="GtkImage" id="image_inspect">
+              <object class="GtkImage" id="image_inspect">
                 <property name="can_focus">False</property>
                 <property name="stock">gtk-missing-image</property>
                 <property name="icon-size">6</property>
-              </widget>
+              </object>
               <packing>
                 <property name="expand">False</property>
                 <property name="fill">False</property>
@@ -71,23 +71,23 @@
               </packing>
             </child>
             <child>
-              <widget class="GtkVBox" id="vbox4">
+              <object class="GtkVBox" id="vbox4">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="spacing">8</property>
                 <child>
-                  <widget class="GtkScrolledWindow" id="scrolledwindow_by_software">
+                  <object class="GtkScrolledWindow" id="scrolledwindow_by_software">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="border_width">4</property>
                     <property name="hscrollbar_policy">never</property>
                     <property name="vscrollbar_policy">never</property>
                     <child>
-                      <widget class="GtkViewport" id="viewport1">
+                      <object class="GtkViewport" id="viewport1">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <child>
-                          <widget class="GtkLabel" id="label_message">
+                          <object class="GtkLabel" id="label_message">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="xalign">0</property>
@@ -96,11 +96,11 @@
                             <property name="use_markup">True</property>
                             <property name="wrap">True</property>
                             <property name="selectable">True</property>
-                          </widget>
+                          </object>
                         </child>
-                      </widget>
+                      </object>
                     </child>
-                  </widget>
+                  </object>
                   <packing>
                     <property name="expand">True</property>
                     <property name="fill">True</property>
@@ -108,26 +108,26 @@
                   </packing>
                 </child>
                 <child>
-                  <widget class="GtkHButtonBox" id="hbuttonbox1">
+                  <object class="GtkHButtonBox" id="hbuttonbox1">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <child>
-                      <widget class="GtkButton" id="button_go">
+                      <object class="GtkButton" id="button_go">
                         <property name="can_focus">True</property>
                         <property name="can_default">True</property>
                         <property name="receives_default">False</property>
                         <signal name="clicked" handler="on_button_go_clicked" swapped="no"/>
                         <child>
-                          <widget class="GtkHBox" id="hbox1">
+                          <object class="GtkHBox" id="hbox1">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
                             <property name="spacing">6</property>
                             <child>
-                              <widget class="GtkLabel" id="label11">
+                              <object class="GtkLabel" id="label11">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
                                 <property name="label" translatable="yes">Go</property>
-                              </widget>
+                              </object>
                               <packing>
                                 <property name="expand">True</property>
                                 <property name="fill">True</property>
@@ -135,41 +135,41 @@
                               </packing>
                             </child>
                             <child>
-                              <widget class="GtkImage" id="image1">
+                              <object class="GtkImage" id="image1">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
                                 <property name="stock">gtk-jump-to</property>
-                              </widget>
+                              </object>
                               <packing>
                                 <property name="expand">True</property>
                                 <property name="fill">True</property>
                                 <property name="position">1</property>
                               </packing>
                             </child>
-                          </widget>
+                          </object>
                         </child>
-                      </widget>
+                      </object>
                       <packing>
                         <property name="expand">False</property>
                         <property name="fill">False</property>
                         <property name="position">0</property>
                       </packing>
                     </child>
-                  </widget>
+                  </object>
                   <packing>
                     <property name="expand">False</property>
                     <property name="fill">False</property>
                     <property name="position">1</property>
                   </packing>
                 </child>
-              </widget>
+              </object>
               <packing>
                 <property name="expand">True</property>
                 <property name="fill">True</property>
                 <property name="position">4</property>
               </packing>
             </child>
-          </widget>
+          </object>
           <packing>
             <property name="expand">True</property>
             <property name="fill">True</property>
@@ -177,13 +177,12 @@
           </packing>
         </child>
         <child internal-child="action_area">
-          <widget class="GtkHButtonBox" id="dialog-action_area4">
+          <object class="GtkHButtonBox" id="dialog-action_area4">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <child>
-              <widget class="GtkButton" id="close_button">
+              <object class="GtkButton" id="close_button">
                 <property name="label">gtk-close</property>
-                <property name="response_id">-7</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="can_default">True</property>
@@ -191,21 +190,24 @@
                 <property name="use_stock">True</property>
                 <signal name="clicked" handler="on_close_button_clicked" swapped="no"/>
                 <accelerator key="Escape" signal="clicked"/>
-              </widget>
+              </object>
               <packing>
                 <property name="expand">False</property>
                 <property name="fill">False</property>
                 <property name="position">0</property>
               </packing>
             </child>
-          </widget>
+          </object>
           <packing>
             <property name="expand">False</property>
             <property name="fill">False</property>
             <property name="position">1</property>
           </packing>
         </child>
-      </widget>
+      </object>
     </child>
-  </widget>
-</glade-interface>
+    <action-widgets>
+      <action-widget response="-7">close_button</action-widget>
+    </action-widgets>
+  </object>
+</interface>

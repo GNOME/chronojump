@@ -1163,13 +1163,13 @@ public class CairoBars1Series : CairoBars
 		this.type = type;
 
 		LogB.Information("constructor without points, area is null:" + (area == null).ToString());
-		LogB.Information("constructor without points, area.GdkWindow is null:" + (area.GdkWindow == null).ToString());
+		LogB.Information("constructor without points, area.Window is null:" + (area.Window == null).ToString());
 		initGraph(font, 1); //.8 to have title at right
 
 		if(message != "")
 			writeMessageAtCenter(message);
 
-		endGraphDisposing(g, surface, area.GdkWindow);
+		endGraphDisposing(g, surface, area.Window);
 	}
 
 	//regular constructor
@@ -1362,7 +1362,7 @@ public class CairoBars1Series : CairoBars
 				addClickableMark (g, 1); //default
 		}
 
-		endGraphDisposing(g, surface, area.GdkWindow);
+		endGraphDisposing(g, surface, area.Window);
 	}
 }
 
@@ -1391,10 +1391,10 @@ public class CairoBarsNHSeries : CairoBars
 		this.type = type;
 
 		LogB.Information("constructor without points, area is null:" + (area == null).ToString());
-		LogB.Information("constructor without points, area.GdkWindow is null:" + (area.GdkWindow == null).ToString());
+		LogB.Information("constructor without points, area.Window is null:" + (area.Window == null).ToString());
 		initGraph(font, 1); //.8 to have title at right
 
-		endGraphDisposing(g, surface, area.GdkWindow);
+		endGraphDisposing(g, surface, area.Window);
 	}
 
 	//regular constructor
@@ -1836,7 +1836,7 @@ public class CairoBarsNHSeries : CairoBars
 				addClickableMark (g, 1); //default
 		}
 
-		endGraphDisposing(g, surface, area.GdkWindow);
+		endGraphDisposing(g, surface, area.Window);
 	}
 }
 

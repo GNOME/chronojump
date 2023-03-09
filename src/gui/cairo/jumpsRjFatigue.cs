@@ -41,7 +41,7 @@ public class JumpsRjFatigueGraph : CairoXY
 		//printText(area.Allocation.Width /2, area.Allocation.Height /2, 24, textHeight,
 		//		string.Format("Need to execute jumps: {0}.", jumpType), g, true);
 
-		endGraphDisposing(g, surface, area.GdkWindow);
+		endGraphDisposing(g, surface, area.Window);
 	}
 	public JumpsRjFatigueGraph (
 			List<double> tc_l, List<double> tv_l,
@@ -111,7 +111,7 @@ public class JumpsRjFatigueGraph : CairoXY
 		if(mouseX >= 0 && mouseY >= 0)
 			calculateAndWriteRealXY ();
 
-		endGraphDisposing(g, surface, area.GdkWindow);
+		endGraphDisposing(g, surface, area.Window);
 	}
 
 	//here X is year, add/subtract third of a year

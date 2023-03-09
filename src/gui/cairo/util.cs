@@ -35,7 +35,7 @@ public static class CairoUtil
 	//based on https://stackoverflow.com/q/9899756
 	public static void GetScreenshotFromDrawingArea (Gtk.DrawingArea darea, string destination)
 	{
-		var src_context = Gdk.CairoHelper.Create (darea.GdkWindow);
+		var src_context = Gdk.CairoHelper.Create (darea.Window);
 		var src_surface = src_context.GetTarget ();
 		var dst_surface = new Cairo.ImageSurface (Cairo.Format.ARGB32, darea.Allocation.Width, darea.Allocation.Height);
 		var dst_context = new Cairo.Context (dst_surface);
@@ -46,7 +46,7 @@ public static class CairoUtil
 
 	public static void GetScreenshotFromVBox (Gtk.VBox vbox, string destination)
 	{
-		var src_context = Gdk.CairoHelper.Create (vbox.GdkWindow);
+		var src_context = Gdk.CairoHelper.Create (vbox.Window);
 		var src_surface = src_context.GetTarget ();
 		var dst_surface = new Cairo.ImageSurface (Cairo.Format.ARGB32, vbox.Allocation.Width, vbox.Allocation.Height);
 		var dst_context = new Cairo.Context (dst_surface);
@@ -68,7 +68,7 @@ public static class CairoUtil
 	}
 	public static void PaintSegment (Gtk.DrawingArea darea, Cairo.Color color, int x1, int y1, int x2, int y2)
 	{
-		using (Cairo.Context g = Gdk.CairoHelper.Create (darea.GdkWindow))
+		using (Cairo.Context g = Gdk.CairoHelper.Create (darea.Window))
 		{
 			g.SetSourceColor(color);
 			g.MoveTo(x1, y1);
@@ -88,7 +88,7 @@ public static class CairoUtil
 	public static void PaintVerticalLinesAndRectangle (
 			Gtk.DrawingArea darea, double xposA, double xposB, bool posBuse, int topRect, int bottomRect)
 	{
-		using (Cairo.Context g = Gdk.CairoHelper.Create (darea.GdkWindow)) 
+		using (Cairo.Context g = Gdk.CairoHelper.Create (darea.Window)) 
 		{
 			paintVerticalLinesAndRectangleDo (g, darea.Allocation.Height, xposA, xposB, posBuse, topRect, bottomRect);
 			g.Stroke();
@@ -98,7 +98,7 @@ public static class CairoUtil
 	public static void PaintVerticalLinesAndRectangleOnSurface (
 			Gtk.DrawingArea darea, int xposA, int xposB, bool posBuse, int topRect, int bottomRect, Pixbuf pixbuf)
 	{
-		using (Cairo.Context g = Gdk.CairoHelper.Create (darea.GdkWindow)) 
+		using (Cairo.Context g = Gdk.CairoHelper.Create (darea.Window)) 
 		{
 			//add image
 			Gdk.CairoHelper.SetSourcePixbuf (g, pixbuf, 0, 0);
@@ -114,7 +114,7 @@ public static class CairoUtil
 	public static void Blank (
 		Gtk.DrawingArea darea)
 	{
-		using (Cairo.Context g = Gdk.CairoHelper.Create (darea.GdkWindow))
+		using (Cairo.Context g = Gdk.CairoHelper.Create (darea.Window))
 		{
 			g.SetSourceRGBA(1, 1, 1, 1);
 			g.Paint();

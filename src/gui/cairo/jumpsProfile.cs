@@ -57,10 +57,10 @@ public static class JumpsProfileGraph
 			string title, string date, string font)
 	{
 		//LogB.Information(string.Format("is area null: {0}", (area == null)));
-		//LogB.Information(string.Format("is area.GdkWindow null: {0}", (area.GdkWindow == null)));
+		//LogB.Information(string.Format("is area.Window null: {0}", (area.Window == null)));
 
 		//1 create context (TODO: future do it converting to a surface like xy, generic, ...)
-		Cairo.Context g = Gdk.CairoHelper.Create (area.GdkWindow);
+		Cairo.Context g = Gdk.CairoHelper.Create (area.Window);
 		
 		//2 clear DrawingArea (white)
 		g.SetSourceRGB(1,1,1);

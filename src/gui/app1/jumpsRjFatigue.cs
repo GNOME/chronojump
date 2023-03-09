@@ -150,7 +150,7 @@ public partial class ChronoJumpWindow
 	private void jumpsRjFatigueDo (bool calculateData)
 	{
 		if(currentPerson == null || currentSession == null ||
-				drawingarea_jumps_rj_fatigue == null || drawingarea_jumps_rj_fatigue.GdkWindow == null || //it happens at start on click on analyze
+				drawingarea_jumps_rj_fatigue == null || drawingarea_jumps_rj_fatigue.Window == null || //it happens at start on click on analyze
 				comboSelectJumpsRjFatigueNum.GetSelectedId() < 0)
 		{
 			if(drawingarea_jumps_rj_fatigue != null && drawingarea_jumps_rj_fatigue.GdkWindow != null)

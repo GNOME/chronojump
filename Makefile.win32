@@ -146,7 +146,6 @@ CHRONOJUMP_FILES = \
  	gui/genericWindow.cs\
  	gui/splash.cs\
 	gui/server.cs\
-	gui/dialogServerStats.cs\
  	gui/evaluator.cs\
  	gui/queryServer.cs\
  	gui/usefulObjects.cs\

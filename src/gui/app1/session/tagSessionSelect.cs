@@ -22,7 +22,7 @@ using System;
 using System.IO; 
 using Gtk;
 using Gdk;
-using Glade;
+//using Glade;
 using System.Collections;
 using System.Collections.Generic; //List<T>
 using Mono.Unix;

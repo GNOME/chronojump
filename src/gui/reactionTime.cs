@@ -15,12 +15,12 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2017   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2004-2023   Xavier de Blas <xaviblas@gmail.com> 
  */
 
 using System;
 using Gtk;
-using Glade;
+//using Glade;
 using System.Text; //StringBuilder
 
 using Mono.Unix;
@@ -33,10 +33,17 @@ public class EditReactionTimeWindow : EditEventWindow
 {
 	static EditReactionTimeWindow EditReactionTimeWindowBox;
 
-	EditReactionTimeWindow (Gtk.Window parent) {
+	EditReactionTimeWindow (Gtk.Window parent)
+	{
+		/*
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "edit_event.glade", "edit_event", "chronojump");
 		gladeXML.Autoconnect(this);
+		*/
+		Gtk.Builder builder = new Gtk.Builder (null, Util.GetGladePath () + "edit_event.glade", null);
+		connectWidgetsEditEvent (builder);
+		builder.Autoconnect (this);
+
 		this.parent = parent;
 		
 		//put an icon to window

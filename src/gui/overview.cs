@@ -15,27 +15,27 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Copyright (C) 2016-2022   Xavier de Blas <xaviblas@gmail.com>
+ *  Copyright (C) 2016-2023   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
 using System.Collections; //ArrayList
 using Gdk;
-using Glade;
+//using Glade;
 using Gtk;
 using Mono.Unix;
 
 
 public abstract class OverviewWindow
 {
-	[Widget] protected Gtk.Window overview_win;
-	[Widget] protected Gtk.TreeView treeview_sets;
-	[Widget] protected Gtk.TreeView treeview_reps;
-	[Widget] protected Gtk.Notebook notebook;
-	[Widget] protected Gtk.HBox hbox_radio_sets_repetitions;
-	[Widget] protected Gtk.RadioButton radio_sets;
-	[Widget] protected Gtk.RadioButton radio_reps;
-	[Widget] protected Gtk.Button button_select_this_person;
+	protected Gtk.Window overview_win;
+	protected Gtk.TreeView treeview_sets;
+	protected Gtk.TreeView treeview_reps;
+	protected Gtk.Notebook notebook;
+	protected Gtk.HBox hbox_radio_sets_repetitions;
+	protected Gtk.RadioButton radio_sets;
+	protected Gtk.RadioButton radio_reps;
+	protected Gtk.Button button_select_this_person;
 
 	//used by personIDAtStart, because we need to select the row after showing the window
 	protected TreeStore storeSets;
@@ -108,7 +108,7 @@ public abstract class OverviewWindow
 
 		if (o == (object) treeview_sets)
 		{
-			TreeModel myModel = treeview_sets.Model;
+			ITreeModel myModel = treeview_sets.Model;
 
 			if (treeview_sets.Selection.GetSelected (out myModel, out iter))
 			{
@@ -119,7 +119,7 @@ public abstract class OverviewWindow
 			}
 		} else if (o == (object) treeview_reps)
 		{
-			TreeModel myModel = treeview_reps.Model;
+			ITreeModel myModel = treeview_reps.Model;
 
 			if (treeview_reps.Selection.GetSelected (out myModel, out iter))
 			{
@@ -194,6 +194,18 @@ public abstract class OverviewWindow
 	{
 		get { return selectedPersonID; }
 	}
+	
+	protected void connectWidgets (Gtk.Builder builder)
+	{
+		overview_win = (Gtk.Window) builder.GetObject ("overview_win");
+		treeview_sets = (Gtk.TreeView) builder.GetObject ("treeview_sets");
+		treeview_reps = (Gtk.TreeView) builder.GetObject ("treeview_reps");
+		notebook = (Gtk.Notebook) builder.GetObject ("notebook");
+		hbox_radio_sets_repetitions = (Gtk.HBox) builder.GetObject ("hbox_radio_sets_repetitions");
+		radio_sets = (Gtk.RadioButton) builder.GetObject ("radio_sets");
+		radio_reps = (Gtk.RadioButton) builder.GetObject ("radio_reps");
+		button_select_this_person = (Gtk.Button) builder.GetObject ("button_select_this_person");
+	}
 
 }
 
@@ -204,9 +216,14 @@ public class EncoderOverviewWindow : OverviewWindow
 
 	public EncoderOverviewWindow(Gtk.Window parent)
 	{
+		/*
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "overview.glade", "overview_win", null);
 		gladeXML.Autoconnect(this);
+		*/
+		Gtk.Builder builder = new Gtk.Builder (null, Util.GetGladePath () + "overview.glade", null);
+		connectWidgets (builder);
+		builder.Autoconnect (this);
 
 		overview_win.Parent = parent;
 
@@ -341,9 +358,14 @@ public class ForceSensorOverviewWindow : OverviewWindow
 
 	public ForceSensorOverviewWindow(Gtk.Window parent)
 	{
+		/*
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "overview.glade", "overview_win", null);
 		gladeXML.Autoconnect(this);
+		*/
+		Gtk.Builder builder = new Gtk.Builder (null, Util.GetGladePath () + "overview.glade", null);
+		connectWidgets (builder);
+		builder.Autoconnect (this);
 
 		overview_win.Parent = parent;
 
@@ -407,9 +429,14 @@ public class RunEncoderOverviewWindow : OverviewWindow
 
 	public RunEncoderOverviewWindow(Gtk.Window parent)
 	{
+		/*
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "overview.glade", "overview_win", null);
 		gladeXML.Autoconnect(this);
+		*/
+		Gtk.Builder builder = new Gtk.Builder (null, Util.GetGladePath () + "overview.glade", null);
+		connectWidgets (builder);
+		builder.Autoconnect (this);
 
 		overview_win.Parent = parent;
 

@@ -15,12 +15,12 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2017   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2004-2023   Xavier de Blas <xaviblas@gmail.com> 
  */
 
 using System;
 using Gtk;
-using Glade;
+//using Glade;
 using GLib; //for Value
 using System.Text; //StringBuilder
 using System.Collections; //ArrayList
@@ -33,62 +33,71 @@ using Mono.Unix;
 
 public class RunTypeAddWindow 
 {
-	[Widget] Gtk.Window run_type_add;
-	[Widget] Gtk.Button button_accept;
-	public Gtk.Button fakeButtonAccept;
-	[Widget] Gtk.Entry entry_name;
+	// at glade ---->
+	Gtk.Window run_type_add;
+	Gtk.Button button_accept;
+	Gtk.Entry entry_name;
 	
-	[Widget] Gtk.Label label_header;
-	[Widget] Gtk.Label label_main_options;
-	[Widget] Gtk.Table table_main_options;
+	Gtk.Label label_header;
+	Gtk.Label label_main_options;
+	Gtk.Table table_main_options;
 
-	[Widget] Gtk.RadioButton radiobutton_simple;
-	[Widget] Gtk.RadioButton radiobutton_interval;
-	[Widget] Gtk.RadioButton radiobutton_unlimited;
-	[Widget] Gtk.VBox vbox_limited;
-	[Widget] Gtk.HBox hbox_fixed;
-	[Widget] Gtk.RadioButton radiobutton_limited_tracks;
-	[Widget] Gtk.CheckButton checkbutton_limited_fixed;
-	[Widget] Gtk.SpinButton spin_fixed_tracks_or_time;
+	Gtk.RadioButton radiobutton_simple;
+	Gtk.RadioButton radiobutton_interval;
+	Gtk.RadioButton radiobutton_unlimited;
+	Gtk.VBox vbox_limited;
+	Gtk.HBox hbox_fixed;
+	Gtk.RadioButton radiobutton_limited_tracks;
+	Gtk.CheckButton checkbutton_limited_fixed;
+	Gtk.SpinButton spin_fixed_tracks_or_time;
 
-	[Widget] Gtk.Label label_distance;
-	[Widget] Gtk.RadioButton radiobutton_dist_variable;
-	[Widget] Gtk.RadioButton radiobutton_dist_fixed;
-	[Widget] Gtk.RadioButton radiobutton_dist_different;
+	Gtk.Label label_distance;
+	Gtk.RadioButton radiobutton_dist_variable;
+	Gtk.RadioButton radiobutton_dist_fixed;
+	Gtk.RadioButton radiobutton_dist_different;
 
-	[Widget] Gtk.Alignment alignment_hbox_distance_fixed;
-	[Widget] Gtk.SpinButton spin_distance_fixed;
+	Gtk.Alignment alignment_hbox_distance_fixed;
+	Gtk.SpinButton spin_distance_fixed;
 
-	[Widget] Gtk.Alignment alignment_vbox_distance_variable;
-	[Widget] Gtk.ComboBox combo_distance_different_tracks;
-	[Widget] Gtk.HBox hbox_distance_variable;
-	[Widget] Gtk.Label label_decimal_separator;
+	Gtk.Alignment alignment_vbox_distance_variable;
+	Gtk.HBox hbox_distance_variable;
+	Gtk.Label label_decimal_separator;
 
-
-	[Widget] Gtk.TextView textview_description;
+	Gtk.TextView textview_description;
 	
 	//10 entries for distance different test definition
-	[Widget] Gtk.Entry dd0;
-	[Widget] Gtk.Entry dd1;
-	[Widget] Gtk.Entry dd2;
-	[Widget] Gtk.Entry dd3;
-	[Widget] Gtk.Entry dd4;
-	[Widget] Gtk.Entry dd5;
-	[Widget] Gtk.Entry dd6;
-	[Widget] Gtk.Entry dd7;
-	[Widget] Gtk.Entry dd8;
-	[Widget] Gtk.Entry dd9;
+	Gtk.Entry dd0;
+	Gtk.Entry dd1;
+	Gtk.Entry dd2;
+	Gtk.Entry dd3;
+	Gtk.Entry dd4;
+	Gtk.Entry dd5;
+	Gtk.Entry dd6;
+	Gtk.Entry dd7;
+	Gtk.Entry dd8;
+	Gtk.Entry dd9;
+	Gtk.ComboBoxText combo_distance_different_tracks;
+	// <---- at glade
+
 
 	static RunTypeAddWindow RunTypeAddWindowBox;
 
+	public Gtk.Button fakeButtonAccept;
 	public bool InsertedSimple;
 	private bool descriptionChanging = false;
 	private string name;
 
-	RunTypeAddWindow (Gtk.Window parent, bool simple) {
+	RunTypeAddWindow (Gtk.Window parent, bool simple)
+	{
+		/*
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "run_type_add.glade", "run_type_add", "chronojump");
 		gladeXML.Autoconnect(this);
+		*/
+		Gtk.Builder builder = new Gtk.Builder (null, Util.GetGladePath () + "run_type_add.glade", null);
+		connectWidgets (builder);
+		builder.Autoconnect (this);
+
 		run_type_add.Parent = parent;
 		
 		fakeButtonAccept = new Gtk.Button();
@@ -467,6 +476,54 @@ public class RunTypeAddWindow
 	public string Name
 	{
 		get { return name; }
+	}
+
+	private void connectWidgets (Gtk.Builder builder)
+	{
+		run_type_add = (Gtk.Window) builder.GetObject ("run_type_add");
+		button_accept = (Gtk.Button) builder.GetObject ("button_accept");
+		entry_name = (Gtk.Entry) builder.GetObject ("entry_name");
+
+		label_header = (Gtk.Label) builder.GetObject ("label_header");
+		label_main_options = (Gtk.Label) builder.GetObject ("label_main_options");
+		table_main_options = (Gtk.Table) builder.GetObject ("table_main_options");
+
+		radiobutton_simple = (Gtk.RadioButton) builder.GetObject ("radiobutton_simple");
+		radiobutton_interval = (Gtk.RadioButton) builder.GetObject ("radiobutton_interval");
+		radiobutton_unlimited = (Gtk.RadioButton) builder.GetObject ("radiobutton_unlimited");
+		vbox_limited = (Gtk.VBox) builder.GetObject ("vbox_limited");
+		hbox_fixed = (Gtk.HBox) builder.GetObject ("hbox_fixed");
+		radiobutton_limited_tracks = (Gtk.RadioButton) builder.GetObject ("radiobutton_limited_tracks");
+		checkbutton_limited_fixed = (Gtk.CheckButton) builder.GetObject ("checkbutton_limited_fixed");
+		spin_fixed_tracks_or_time = (Gtk.SpinButton) builder.GetObject ("spin_fixed_tracks_or_time");
+
+		label_distance = (Gtk.Label) builder.GetObject ("label_distance");
+		radiobutton_dist_variable = (Gtk.RadioButton) builder.GetObject ("radiobutton_dist_variable");
+		radiobutton_dist_fixed = (Gtk.RadioButton) builder.GetObject ("radiobutton_dist_fixed");
+		radiobutton_dist_different = (Gtk.RadioButton) builder.GetObject ("radiobutton_dist_different");
+
+		alignment_hbox_distance_fixed = (Gtk.Alignment) builder.GetObject ("alignment_hbox_distance_fixed");
+		spin_distance_fixed = (Gtk.SpinButton) builder.GetObject ("spin_distance_fixed");
+
+		alignment_vbox_distance_variable = (Gtk.Alignment) builder.GetObject ("alignment_vbox_distance_variable");
+		hbox_distance_variable = (Gtk.HBox) builder.GetObject ("hbox_distance_variable");
+		label_decimal_separator = (Gtk.Label) builder.GetObject ("label_decimal_separator");
+
+
+		textview_description = (Gtk.TextView) builder.GetObject ("textview_description");
+
+		//10 entries for distance different test definition
+		dd0 = (Gtk.Entry) builder.GetObject ("dd0");
+		dd1 = (Gtk.Entry) builder.GetObject ("dd1");
+		dd2 = (Gtk.Entry) builder.GetObject ("dd2");
+		dd3 = (Gtk.Entry) builder.GetObject ("dd3");
+		dd4 = (Gtk.Entry) builder.GetObject ("dd4");
+		dd5 = (Gtk.Entry) builder.GetObject ("dd5");
+		dd6 = (Gtk.Entry) builder.GetObject ("dd6");
+		dd7 = (Gtk.Entry) builder.GetObject ("dd7");
+		dd8 = (Gtk.Entry) builder.GetObject ("dd8");
+		dd9 = (Gtk.Entry) builder.GetObject ("dd9");
+		combo_distance_different_tracks = (Gtk.ComboBoxText) builder.GetObject ("combo_distance_different_tracks");
 	}
 }
 

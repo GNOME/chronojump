@@ -15,56 +15,54 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2017-2021   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2017-2023   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
 using System.IO;
 using Gtk;
 using Gdk;
-using Glade;
+//using Glade;
 using Mono.Unix;
 
 public partial class ChronoJumpWindow
 {
 	//--- send log ----
-
-	[Widget] Gtk.Box hbox_send_log;
-	[Widget] Gtk.TextView textview_send_log;
-	[Widget] Gtk.Image image_send_log_no;
-	[Widget] Gtk.Image image_send_log_yes;
-	[Widget] Gtk.Entry entry_send_log;
-	[Widget] Gtk.RadioButton radio_log_catalan;
-	[Widget] Gtk.RadioButton radio_log_spanish;
-	[Widget] Gtk.RadioButton radio_log_english;
-	[Widget] Gtk.RadioButton radio_log_portuguese;
-	[Widget] Gtk.TextView textview_comments;
-	[Widget] Gtk.Button button_send_log;
-	[Widget] Gtk.Image image_button_send_log;
-	[Widget] Gtk.Image image_button_check_last_version;
-	[Widget] Gtk.Image image_button_open_chronojump;
-	[Widget] Gtk.Image image_button_open_chronojump1;
-	[Widget] Gtk.TextView textview_send_log_message;
+	Gtk.Box hbox_send_log;
+	Gtk.TextView textview_send_log;
+	Gtk.Image image_send_log_no;
+	Gtk.Image image_send_log_yes;
+	Gtk.Entry entry_send_log;
+	Gtk.RadioButton radio_log_catalan;
+	Gtk.RadioButton radio_log_spanish;
+	Gtk.RadioButton radio_log_english;
+	Gtk.RadioButton radio_log_portuguese;
+	Gtk.TextView textview_comments;
+	Gtk.Button button_send_log;
+	Gtk.Image image_button_send_log;
+	Gtk.Image image_button_check_last_version;
+	Gtk.Image image_button_open_chronojump;
+	Gtk.Image image_button_open_chronojump1;
+	Gtk.TextView textview_send_log_message;
 
 	//--- send poll ----
-
-	[Widget] Gtk.Label label_social_network_poll_question;
-	[Widget] Gtk.VBox vbox_social_network_poll_answers;
-	[Widget] Gtk.RadioButton radio_social_network_poll_nsnc;
-	[Widget] Gtk.RadioButton radio_social_network_poll_facebook;
-	[Widget] Gtk.RadioButton radio_social_network_poll_instagram;
-	[Widget] Gtk.RadioButton radio_social_network_poll_tiktok;
-	[Widget] Gtk.RadioButton radio_social_network_poll_twitch;
-	[Widget] Gtk.RadioButton radio_social_network_poll_twitter;
-	[Widget] Gtk.RadioButton radio_social_network_poll_youtube;
-	[Widget] Gtk.RadioButton radio_social_network_poll_other;
-	[Widget] Gtk.Entry entry_social_network_poll_other;
-	[Widget] Gtk.Notebook notebook_social_network_poll_send_result;
-	[Widget] Gtk.Button button_social_network_poll_send;
-	[Widget] Gtk.Image image_button_social_network_poll_send;
-	[Widget] Gtk.Image image_social_network_poll_send_yes;
-	[Widget] Gtk.Image image_social_network_poll_send_no;
-	[Widget] Gtk.Label label_social_network_poll_message;
+	Gtk.Label label_social_network_poll_question;
+	Gtk.VBox vbox_social_network_poll_answers;
+	Gtk.RadioButton radio_social_network_poll_nsnc;
+	Gtk.RadioButton radio_social_network_poll_facebook;
+	Gtk.RadioButton radio_social_network_poll_instagram;
+	Gtk.RadioButton radio_social_network_poll_tiktok;
+	Gtk.RadioButton radio_social_network_poll_twitch;
+	Gtk.RadioButton radio_social_network_poll_twitter;
+	Gtk.RadioButton radio_social_network_poll_youtube;
+	Gtk.RadioButton radio_social_network_poll_other;
+	Gtk.Entry entry_social_network_poll_other;
+	Gtk.Notebook notebook_social_network_poll_send_result;
+	Gtk.Button button_social_network_poll_send;
+	Gtk.Image image_button_social_network_poll_send;
+	Gtk.Image image_social_network_poll_send_yes;
+	Gtk.Image image_social_network_poll_send_no;
+	Gtk.Label label_social_network_poll_message;
 
 
 	//-----------------
@@ -293,5 +291,45 @@ public partial class ChronoJumpWindow
 		} else {
 			show_start_page ();
 		}
+	}
+
+	private void connectWidgetsSendLogAndPoll (Gtk.Builder builder)
+	{
+		//--- send log ----
+		hbox_send_log = (Gtk.Box) builder.GetObject ("hbox_send_log");
+		textview_send_log = (Gtk.TextView) builder.GetObject ("textview_send_log");
+		image_send_log_no = (Gtk.Image) builder.GetObject ("image_send_log_no");
+		image_send_log_yes = (Gtk.Image) builder.GetObject ("image_send_log_yes");
+		entry_send_log = (Gtk.Entry) builder.GetObject ("entry_send_log");
+		radio_log_catalan = (Gtk.RadioButton) builder.GetObject ("radio_log_catalan");
+		radio_log_spanish = (Gtk.RadioButton) builder.GetObject ("radio_log_spanish");
+		radio_log_english = (Gtk.RadioButton) builder.GetObject ("radio_log_english");
+		radio_log_portuguese = (Gtk.RadioButton) builder.GetObject ("radio_log_portuguese");
+		textview_comments = (Gtk.TextView) builder.GetObject ("textview_comments");
+		button_send_log = (Gtk.Button) builder.GetObject ("button_send_log");
+		image_button_send_log = (Gtk.Image) builder.GetObject ("image_button_send_log");
+		image_button_check_last_version = (Gtk.Image) builder.GetObject ("image_button_check_last_version");
+		image_button_open_chronojump = (Gtk.Image) builder.GetObject ("image_button_open_chronojump");
+		image_button_open_chronojump1 = (Gtk.Image) builder.GetObject ("image_button_open_chronojump1");
+		textview_send_log_message = (Gtk.TextView) builder.GetObject ("textview_send_log_message");
+
+		//--- send poll ----
+		label_social_network_poll_question = (Gtk.Label) builder.GetObject ("label_social_network_poll_question");
+		vbox_social_network_poll_answers = (Gtk.VBox) builder.GetObject ("vbox_social_network_poll_answers");
+		radio_social_network_poll_nsnc = (Gtk.RadioButton) builder.GetObject ("radio_social_network_poll_nsnc");
+		radio_social_network_poll_facebook = (Gtk.RadioButton) builder.GetObject ("radio_social_network_poll_facebook");
+		radio_social_network_poll_instagram = (Gtk.RadioButton) builder.GetObject ("radio_social_network_poll_instagram");
+		radio_social_network_poll_tiktok = (Gtk.RadioButton) builder.GetObject ("radio_social_network_poll_tiktok");
+		radio_social_network_poll_twitch = (Gtk.RadioButton) builder.GetObject ("radio_social_network_poll_twitch");
+		radio_social_network_poll_twitter = (Gtk.RadioButton) builder.GetObject ("radio_social_network_poll_twitter");
+		radio_social_network_poll_youtube = (Gtk.RadioButton) builder.GetObject ("radio_social_network_poll_youtube");
+		radio_social_network_poll_other = (Gtk.RadioButton) builder.GetObject ("radio_social_network_poll_other");
+		entry_social_network_poll_other = (Gtk.Entry) builder.GetObject ("entry_social_network_poll_other");
+		notebook_social_network_poll_send_result = (Gtk.Notebook) builder.GetObject ("notebook_social_network_poll_send_result");
+		button_social_network_poll_send = (Gtk.Button) builder.GetObject ("button_social_network_poll_send");
+		image_button_social_network_poll_send = (Gtk.Image) builder.GetObject ("image_button_social_network_poll_send");
+		image_social_network_poll_send_yes = (Gtk.Image) builder.GetObject ("image_social_network_poll_send_yes");
+		image_social_network_poll_send_no = (Gtk.Image) builder.GetObject ("image_social_network_poll_send_no");
+		label_social_network_poll_message = (Gtk.Label) builder.GetObject ("label_social_network_poll_message");
 	}
 }

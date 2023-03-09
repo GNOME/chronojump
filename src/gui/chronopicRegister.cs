@@ -235,8 +235,8 @@ public class DiscoverWindow
 		Gtk.Label l1 = new Gtk.Label ("<b>" + Catalog.GetString ("Compatible") + "</b>");
 		l1.UseMarkup = true;
 		Gtk.HBox hbox_l1 = new Gtk.HBox (false, 4);
-		hbox_l1.PackStart (l1);
-		hbox_l1.PackStart (image_discover_mode);
+		hbox_l1.PackStart (l1, false, false, 0);
+		hbox_l1.PackStart (image_discover_mode, false, false, 0);
 
 		table_micro_discover.Attach (l0, (uint) 0, (uint) 1, (uint) 0, (uint) 1,
 				AttachOptions.Shrink, AttachOptions.Shrink, 0, 0);
@@ -281,8 +281,8 @@ public class DiscoverWindow
 		Gtk.HBox hbox = new Gtk.HBox (false, 6);
 		Gtk.Image image = new Gtk.Image (new Pixbuf (null, Util.GetImagePath(false) + "image_done_blue.png"));
 		Gtk.Label label = new Gtk.Label ("Use this!");
-		hbox.PackStart (image);
-		hbox.PackStart (label);
+		hbox.PackStart (image, false, false, 0);
+		hbox.PackStart (label, false, false, 0);
 		Gtk.Button b = new Gtk.Button (hbox);
 
 		if (alreadyDiscovered)
@@ -550,7 +550,7 @@ public class ChronopicRegisterWindow
 	private void createWindow(Gtk.Window app1)
 	{
 		chronopic_register_win = new Gtk.Window (Catalog.GetString("Chronojump devices"));
-		chronopic_register_win.AllowGrow = false;
+		//chronopic_register_win.AllowGrow = false;
 		chronopic_register_win.Modal = true;
 		chronopic_register_win.TransientFor = app1;
 		chronopic_register_win.WindowPosition = Gtk.WindowPosition.CenterOnParent;

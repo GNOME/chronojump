@@ -23,7 +23,7 @@ using System.IO;
 using System.IO.Ports;
 using Gtk;
 using Gdk;
-using Glade;
+//using Glade;
 using System.Collections;
 using System.Collections.Generic; //List<T>
 using Mono.Unix;
@@ -31,8 +31,6 @@ using Mono.Unix;
 
 public partial class ChronoJumpWindow 
 {
-	[Widget] Gtk.SpinButton spin_encoder_capture_curves_best_n;
-
 	/* TreeView stuff */	
 
 	//returns curves num
@@ -1043,11 +1041,11 @@ public partial class ChronoJumpWindow
 				Convert.ToDouble(higherValue), Convert.ToDouble(lowerValue));
 	}
 	
-	private void RenderRecord (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter) {
+	private void RenderRecord (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.ITreeModel model, Gtk.TreeIter iter) {
 		(cell as Gtk.CellRendererToggle).Active = ((EncoderCurve) model.GetValue (iter, 0)).Record;
 	}
 
-	private void RenderN (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
+	private void RenderN (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.ITreeModel model, Gtk.TreeIter iter)
 	{
 		//do this in order to have ecconLast useful for RenderN when capturing
 		if(capturingCsharp == encoderCaptureProcess.CAPTURING)
@@ -1088,7 +1086,7 @@ public partial class ChronoJumpWindow
 		}
 	}
 	//from analyze, don't checks ecconLast
-	private void RenderNAnalyze (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
+	private void RenderNAnalyze (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.ITreeModel model, Gtk.TreeIter iter)
 	{
 		EncoderCurve curve = (EncoderCurve) model.GetValue (iter, 0);
 
@@ -1131,7 +1129,7 @@ public partial class ChronoJumpWindow
 			(cell as Gtk.CellRendererText).Text = curve.N;
 	}
 
-	private void RenderSeries (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
+	private void RenderSeries (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.ITreeModel model, Gtk.TreeIter iter)
 	{
 		EncoderCurve curve = (EncoderCurve) model.GetValue (iter, 0);
 
@@ -1141,7 +1139,7 @@ public partial class ChronoJumpWindow
 			(cell as Gtk.CellRendererText).Text = curve.Series;
 	}
 
-	private void RenderExercise (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
+	private void RenderExercise (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.ITreeModel model, Gtk.TreeIter iter)
 	{
 		EncoderCurve curve = (EncoderCurve) model.GetValue (iter, 0);
 		
@@ -1151,7 +1149,7 @@ public partial class ChronoJumpWindow
 			(cell as Gtk.CellRendererText).Text = curve.Exercise;
 	}
 
-	private void RenderLaterality (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
+	private void RenderLaterality (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.ITreeModel model, Gtk.TreeIter iter)
 	{
 		EncoderCurve curve = (EncoderCurve) model.GetValue (iter, 0);
 		
@@ -1169,7 +1167,7 @@ public partial class ChronoJumpWindow
 			(cell as Gtk.CellRendererText).Text = str;
 	}
 
-	private void RenderExtraWeight (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
+	private void RenderExtraWeight (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.ITreeModel model, Gtk.TreeIter iter)
 	{
 		EncoderCurve curve = (EncoderCurve) model.GetValue (iter, 0);
 
@@ -1178,7 +1176,7 @@ public partial class ChronoJumpWindow
 		renderBoldIfNeeded(cell, curve, str);
 	}
 
-	private void RenderDisplacedWeight (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
+	private void RenderDisplacedWeight (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.ITreeModel model, Gtk.TreeIter iter)
 	{
 		EncoderCurve curve = (EncoderCurve) model.GetValue (iter, 0);
 		
@@ -1194,7 +1192,7 @@ public partial class ChronoJumpWindow
 		renderBoldIfNeeded(cell, curve, str);
 	}
 	
-	private void RenderInertia (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
+	private void RenderInertia (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.ITreeModel model, Gtk.TreeIter iter)
 	{
 		EncoderCurve curve = (EncoderCurve) model.GetValue (iter, 0);
 
@@ -1203,7 +1201,7 @@ public partial class ChronoJumpWindow
 		renderBoldIfNeeded(cell, curve, str);
 	}
 
-	private void RenderDiameter (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
+	private void RenderDiameter (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.ITreeModel model, Gtk.TreeIter iter)
 	{
 		EncoderCurve curve = (EncoderCurve) model.GetValue (iter, 0);
 
@@ -1212,7 +1210,7 @@ public partial class ChronoJumpWindow
 		renderBoldIfNeeded(cell, curve, str);
 	}
 
-	private void RenderEquivalentMass (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
+	private void RenderEquivalentMass (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.ITreeModel model, Gtk.TreeIter iter)
 	{
 		EncoderCurve curve = (EncoderCurve) model.GetValue (iter, 0);
 
@@ -1221,7 +1219,7 @@ public partial class ChronoJumpWindow
 		renderBoldIfNeeded(cell, curve, str);
 	}
 
-	private void RenderStart (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
+	private void RenderStart (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.ITreeModel model, Gtk.TreeIter iter)
 	{
 		EncoderCurve curve = (EncoderCurve) model.GetValue (iter, 0);
 		double myStart = Convert.ToDouble(curve.Start)/1000; //ms->s
@@ -1229,7 +1227,7 @@ public partial class ChronoJumpWindow
 		renderBoldIfNeeded(cell, curve, str);
 	}
 	
-	private void RenderDuration (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
+	private void RenderDuration (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.ITreeModel model, Gtk.TreeIter iter)
 	{
 		EncoderCurve curve = (EncoderCurve) model.GetValue (iter, 0);
 		double myDuration = Convert.ToDouble(curve.Duration)/1000; //ms->s
@@ -1237,7 +1235,7 @@ public partial class ChronoJumpWindow
 		renderBoldIfNeeded(cell, curve, str);
 	}
 	
-	private void RenderHeight (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
+	private void RenderHeight (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.ITreeModel model, Gtk.TreeIter iter)
 	{
 		EncoderCurve curve = (EncoderCurve) model.GetValue (iter, 0);
 		string heightToCm = (Convert.ToDouble(curve.Height)/10).ToString();
@@ -1261,7 +1259,7 @@ public partial class ChronoJumpWindow
 		renderBoldIfNeeded(cell, curve, str);
 	}
 	
-	private void RenderMeanSpeed (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
+	private void RenderMeanSpeed (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.ITreeModel model, Gtk.TreeIter iter)
 	{
 		EncoderCurve curve = (EncoderCurve) model.GetValue (iter, 0);
 		
@@ -1291,7 +1289,7 @@ public partial class ChronoJumpWindow
 		renderBoldIfNeeded(cell, curve, str);
 	}
 
-	private void RenderMaxSpeed (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
+	private void RenderMaxSpeed (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.ITreeModel model, Gtk.TreeIter iter)
 	{
 		EncoderCurve curve = (EncoderCurve) model.GetValue (iter, 0);
 
@@ -1321,7 +1319,7 @@ public partial class ChronoJumpWindow
 		renderBoldIfNeeded(cell, curve, str);
 	}
 	
-	private void RenderMaxSpeedT (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
+	private void RenderMaxSpeedT (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.ITreeModel model, Gtk.TreeIter iter)
 	{
 		EncoderCurve curve = (EncoderCurve) model.GetValue (iter, 0);
 		double time = Convert.ToDouble(curve.MaxSpeedT)/1000; //ms->s
@@ -1329,7 +1327,7 @@ public partial class ChronoJumpWindow
 		renderBoldIfNeeded(cell, curve, str);
 	}
 
-	private void RenderMeanPower (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
+	private void RenderMeanPower (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.ITreeModel model, Gtk.TreeIter iter)
 	{
 		EncoderCurve curve = (EncoderCurve) model.GetValue (iter, 0);
 		
@@ -1358,7 +1356,7 @@ public partial class ChronoJumpWindow
 		renderBoldIfNeeded(cell, curve, str);
 	}
 
-	private void RenderPeakPower (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
+	private void RenderPeakPower (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.ITreeModel model, Gtk.TreeIter iter)
 	{
 		EncoderCurve curve = (EncoderCurve) model.GetValue (iter, 0);
 
@@ -1387,7 +1385,7 @@ public partial class ChronoJumpWindow
 		renderBoldIfNeeded(cell, curve, str);
 	}
 
-	private void RenderPeakPowerT (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
+	private void RenderPeakPowerT (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.ITreeModel model, Gtk.TreeIter iter)
 	{
 		EncoderCurve curve = (EncoderCurve) model.GetValue (iter, 0);
 		double myPPT = Convert.ToDouble(curve.PeakPowerT)/1000; //ms->s
@@ -1395,7 +1393,7 @@ public partial class ChronoJumpWindow
 		renderBoldIfNeeded(cell, curve, str);
 	}
 
-	private void RenderPP_PPT (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
+	private void RenderPP_PPT (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.ITreeModel model, Gtk.TreeIter iter)
 	{
 		EncoderCurve curve = (EncoderCurve) model.GetValue (iter, 0);
 		string str = String.Format(UtilGtk.TVNumPrint(curve.PP_PPT,6,1),Convert.ToDouble(curve.PP_PPT));
@@ -1404,7 +1402,7 @@ public partial class ChronoJumpWindow
 	
 	/* end of rendering analyze cols. Following gols are only on capture */
 
-	private void RenderMeanForce (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
+	private void RenderMeanForce (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.ITreeModel model, Gtk.TreeIter iter)
 	{
 		EncoderCurve curve = (EncoderCurve) model.GetValue (iter, 0);
 
@@ -1433,7 +1431,7 @@ public partial class ChronoJumpWindow
 		renderBoldIfNeeded(cell, curve, str);
 	}
 
-	private void RenderMaxForce (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
+	private void RenderMaxForce (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.ITreeModel model, Gtk.TreeIter iter)
 	{
 		EncoderCurve curve = (EncoderCurve) model.GetValue (iter, 0);
 		
@@ -1462,7 +1460,7 @@ public partial class ChronoJumpWindow
 		renderBoldIfNeeded(cell, curve, str);
 	}
 	
-	private void RenderMaxForceT (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
+	private void RenderMaxForceT (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.ITreeModel model, Gtk.TreeIter iter)
 	{
 		EncoderCurve curve = (EncoderCurve) model.GetValue (iter, 0);
 		double time = Convert.ToDouble(curve.MaxForceT)/1000; //ms->s
@@ -1470,14 +1468,14 @@ public partial class ChronoJumpWindow
 		renderBoldIfNeeded(cell, curve, str);
 	}
 
-	private void RenderMaxForce_maxForceT (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
+	private void RenderMaxForce_maxForceT (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.ITreeModel model, Gtk.TreeIter iter)
 	{
 		EncoderCurve curve = (EncoderCurve) model.GetValue (iter, 0);
 		string str = String.Format(UtilGtk.TVNumPrint(curve.MaxForce_MaxForceT,6,1),Convert.ToDouble(curve.MaxForce_MaxForceT));
 		renderBoldIfNeeded(cell, curve, str);
 	}
 	
-	private void RenderWork (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
+	private void RenderWork (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.ITreeModel model, Gtk.TreeIter iter)
 	{
 		EncoderCurve curve = (EncoderCurve) model.GetValue (iter, 0);
 
@@ -1493,7 +1491,7 @@ public partial class ChronoJumpWindow
 		renderBoldIfNeeded(cell, curve, str);
 	}
 
-	private void RenderImpulse (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
+	private void RenderImpulse (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.ITreeModel model, Gtk.TreeIter iter)
 	{
 		EncoderCurve curve = (EncoderCurve) model.GetValue (iter, 0);
 		string str = String.Format(UtilGtk.TVNumPrint(curve.Impulse,6,3),Convert.ToDouble(curve.Impulse));
@@ -1532,103 +1530,103 @@ public partial class ChronoJumpWindow
 
 	/* start rendering neuromuscular cols */
 
-	private void Render_jump_num (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
+	private void Render_jump_num (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.ITreeModel model, Gtk.TreeIter iter)
 	{
 		EncoderNeuromuscularData nm = (EncoderNeuromuscularData) model.GetValue (iter, 0);
 		(cell as Gtk.CellRendererText).Text = nm.n.ToString();
 	}
 
-	private void Render_e1_range (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
+	private void Render_e1_range (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.ITreeModel model, Gtk.TreeIter iter)
 	{
 		EncoderNeuromuscularData nm = (EncoderNeuromuscularData) model.GetValue (iter, 0);
 		(cell as Gtk.CellRendererText).Text = nm.e1_range.ToString();
 	}
 
-	private void Render_e1_t (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
+	private void Render_e1_t (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.ITreeModel model, Gtk.TreeIter iter)
 	{
 		EncoderNeuromuscularData nm = (EncoderNeuromuscularData) model.GetValue (iter, 0);
 		(cell as Gtk.CellRendererText).Text = nm.e1_t.ToString();
 	}
 
-	private void Render_e1_fmax (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
+	private void Render_e1_fmax (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.ITreeModel model, Gtk.TreeIter iter)
 	{
 		EncoderNeuromuscularData nm = (EncoderNeuromuscularData) model.GetValue (iter, 0);
 		(cell as Gtk.CellRendererText).Text = nm.e1_fmax.ToString();
 	}
 
-	private void Render_e1_rfd_avg (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
+	private void Render_e1_rfd_avg (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.ITreeModel model, Gtk.TreeIter iter)
 	{
 		EncoderNeuromuscularData nm = (EncoderNeuromuscularData) model.GetValue (iter, 0);
 		(cell as Gtk.CellRendererText).Text = nm.e1_rfd_avg.ToString();
 	}
 
-	private void Render_e1_i (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
+	private void Render_e1_i (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.ITreeModel model, Gtk.TreeIter iter)
 	{
 		EncoderNeuromuscularData nm = (EncoderNeuromuscularData) model.GetValue (iter, 0);
 		(cell as Gtk.CellRendererText).Text = nm.e1_i.ToString();
 	}
 
-	private void Render_ca_range (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
+	private void Render_ca_range (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.ITreeModel model, Gtk.TreeIter iter)
 	{
 		EncoderNeuromuscularData nm = (EncoderNeuromuscularData) model.GetValue (iter, 0);
 		(cell as Gtk.CellRendererText).Text = nm.ca_range.ToString();
 	}
 
-	private void Render_cl_t (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
+	private void Render_cl_t (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.ITreeModel model, Gtk.TreeIter iter)
 	{
 		EncoderNeuromuscularData nm = (EncoderNeuromuscularData) model.GetValue (iter, 0);
 		(cell as Gtk.CellRendererText).Text = nm.cl_t.ToString();
 	}
 
-	private void Render_cl_rfd_avg (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
+	private void Render_cl_rfd_avg (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.ITreeModel model, Gtk.TreeIter iter)
 	{
 		EncoderNeuromuscularData nm = (EncoderNeuromuscularData) model.GetValue (iter, 0);
 		(cell as Gtk.CellRendererText).Text = nm.cl_rfd_avg.ToString();
 	}
 
-	private void Render_cl_i (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
+	private void Render_cl_i (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.ITreeModel model, Gtk.TreeIter iter)
 	{
 		EncoderNeuromuscularData nm = (EncoderNeuromuscularData) model.GetValue (iter, 0);
 		(cell as Gtk.CellRendererText).Text = nm.cl_i.ToString();
 	}
 
-	private void Render_cl_f_avg (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
+	private void Render_cl_f_avg (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.ITreeModel model, Gtk.TreeIter iter)
 	{
 		EncoderNeuromuscularData nm = (EncoderNeuromuscularData) model.GetValue (iter, 0);
 		(cell as Gtk.CellRendererText).Text = nm.cl_f_avg.ToString();
 	}
 
-	private void Render_cl_vf (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
+	private void Render_cl_vf (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.ITreeModel model, Gtk.TreeIter iter)
 	{
 		EncoderNeuromuscularData nm = (EncoderNeuromuscularData) model.GetValue (iter, 0);
 		(cell as Gtk.CellRendererText).Text = nm.cl_vf.ToString();
 	}
 
-	private void Render_cl_f_max (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
+	private void Render_cl_f_max (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.ITreeModel model, Gtk.TreeIter iter)
 	{
 		EncoderNeuromuscularData nm = (EncoderNeuromuscularData) model.GetValue (iter, 0);
 		(cell as Gtk.CellRendererText).Text = nm.cl_f_max.ToString();
 	}
 
-	private void Render_cl_s_avg (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
+	private void Render_cl_s_avg (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.ITreeModel model, Gtk.TreeIter iter)
 	{
 		EncoderNeuromuscularData nm = (EncoderNeuromuscularData) model.GetValue (iter, 0);
 		(cell as Gtk.CellRendererText).Text = nm.cl_s_avg.ToString();
 	}
 
-	private void Render_cl_s_max (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
+	private void Render_cl_s_max (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.ITreeModel model, Gtk.TreeIter iter)
 	{
 		EncoderNeuromuscularData nm = (EncoderNeuromuscularData) model.GetValue (iter, 0);
 		(cell as Gtk.CellRendererText).Text = nm.cl_s_max.ToString();
 	}
 
-	private void Render_cl_p_avg (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
+	private void Render_cl_p_avg (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.ITreeModel model, Gtk.TreeIter iter)
 	{
 		EncoderNeuromuscularData nm = (EncoderNeuromuscularData) model.GetValue (iter, 0);
 		(cell as Gtk.CellRendererText).Text = nm.cl_p_avg.ToString();
 	}
 
-	private void Render_cl_p_max (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
+	private void Render_cl_p_max (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.ITreeModel model, Gtk.TreeIter iter)
 	{
 		EncoderNeuromuscularData nm = (EncoderNeuromuscularData) model.GetValue (iter, 0);
 		(cell as Gtk.CellRendererText).Text = nm.cl_p_max.ToString();

@@ -15,17 +15,17 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2017   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2004-2023   Xavier de Blas <xaviblas@gmail.com> 
  */
 
 using System;
 using Gtk;
-using Glade;
+//using Glade;
 
 public class DialogCalendar
 {
-	[Widget] Gtk.Dialog dialog_calendar;
-	[Widget] Gtk.Calendar calendar1;
+	Gtk.Dialog dialog_calendar;
+	Gtk.Calendar calendar1;
 	
 	private DateTime myDateTime;
 	private bool signalsActive;
@@ -35,9 +35,14 @@ public class DialogCalendar
 
 	public DialogCalendar (string calendarTitle, DateTime dateInitial)
 	{
+		/*
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "dialog_calendar.glade", "dialog_calendar", "chronojump");
 		gladeXML.Autoconnect(this);
+		*/
+		Gtk.Builder builder = new Gtk.Builder (null, Util.GetGladePath () + "dialog_calendar.glade", null);
+		connectWidgets (builder);
+		builder.Autoconnect (this);
 	
 		signalsActive = false;
 		
@@ -94,5 +99,11 @@ public class DialogCalendar
 	public DateTime MyDateTime
 	{
 		get { return	myDateTime; }
+	}
+
+	private void connectWidgets (Gtk.Builder builder)
+	{
+		dialog_calendar = (Gtk.Dialog) builder.GetObject ("dialog_calendar");
+		calendar1 = (Gtk.Calendar) builder.GetObject ("calendar1");
 	}
 }

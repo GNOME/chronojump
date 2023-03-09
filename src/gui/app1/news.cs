@@ -15,37 +15,37 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2021   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2021-2023   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
 using Gdk;  //pixbuf
-using Glade;
+//using Glade;
 using System.IO;
 using System.Collections.Generic; //List<T>
 using System.Threading;
 
 public partial class ChronoJumpWindow
 {
-	[Widget] Gtk.Notebook notebook_news;
-	[Widget] Gtk.ProgressBar progressbar_news_get;
-	[Widget] Gtk.Image image_news_blue;
-	[Widget] Gtk.Image image_news_yellow;
-	[Widget] Gtk.Label label_news_frame;
-	[Widget] Gtk.Alignment alignment_news;
-	[Widget] Gtk.HBox hbox_news_newer_older;
-	[Widget] Gtk.Button button_news_newer;
-	[Widget] Gtk.Button button_news_older;
-	[Widget] Gtk.Label label_news_current_all;
-	[Widget] Gtk.RadioButton radio_news_language_english;
-	[Widget] Gtk.RadioButton radio_news_language_spanish;
-	[Widget] Gtk.Label label_news_title;
-	[Widget] Gtk.Label label_news_description_and_link;
-	[Widget] Gtk.Label label_news_open_error;
-        [Widget] Gtk.Image image_news;
-        [Widget] Gtk.Image image_news_close;
-	[Widget] Gtk.Alignment alignment_above_news; //to align vertically with sidebar
-	[Widget] Gtk.HBox hbox_news_languages; //to align vertically with sidebar
+	Gtk.Notebook notebook_news;
+	Gtk.ProgressBar progressbar_news_get;
+	Gtk.Image image_news_blue;
+	Gtk.Image image_news_yellow;
+	Gtk.Label label_news_frame;
+	Gtk.Alignment alignment_news;
+	Gtk.HBox hbox_news_newer_older;
+	Gtk.Button button_news_newer;
+	Gtk.Button button_news_older;
+	Gtk.Label label_news_current_all;
+	Gtk.RadioButton radio_news_language_english;
+	Gtk.RadioButton radio_news_language_spanish;
+	Gtk.Label label_news_title;
+	Gtk.Label label_news_description_and_link;
+	Gtk.Label label_news_open_error;
+        Gtk.Image image_news;
+        Gtk.Image image_news_close;
+	Gtk.Alignment alignment_above_news; //to align vertically with sidebar
+	Gtk.HBox hbox_news_languages; //to align vertically with sidebar
 
 	//Pixbuf image_news_pixbuf;
 	private int currentNewsPos;
@@ -319,5 +319,28 @@ public partial class ChronoJumpWindow
 
 		LogB.Information("Opening browser (r mac install) to: " + link);
 		label_news_open_error.Visible = ! Util.OpenURL (link);
+	}
+
+	private void connectWidgetsNews (Gtk.Builder builder)
+	{
+		notebook_news = (Gtk.Notebook) builder.GetObject ("notebook_news");
+		progressbar_news_get = (Gtk.ProgressBar) builder.GetObject ("progressbar_news_get");
+		image_news_blue = (Gtk.Image) builder.GetObject ("image_news_blue");
+		image_news_yellow = (Gtk.Image) builder.GetObject ("image_news_yellow");
+		label_news_frame = (Gtk.Label) builder.GetObject ("label_news_frame");
+		alignment_news = (Gtk.Alignment) builder.GetObject ("alignment_news");
+		hbox_news_newer_older = (Gtk.HBox) builder.GetObject ("hbox_news_newer_older");
+		button_news_newer = (Gtk.Button) builder.GetObject ("button_news_newer");
+		button_news_older = (Gtk.Button) builder.GetObject ("button_news_older");
+		label_news_current_all = (Gtk.Label) builder.GetObject ("label_news_current_all");
+		radio_news_language_english = (Gtk.RadioButton) builder.GetObject ("radio_news_language_english");
+		radio_news_language_spanish = (Gtk.RadioButton) builder.GetObject ("radio_news_language_spanish");
+		label_news_title = (Gtk.Label) builder.GetObject ("label_news_title");
+		label_news_description_and_link = (Gtk.Label) builder.GetObject ("label_news_description_and_link");
+		label_news_open_error = (Gtk.Label) builder.GetObject ("label_news_open_error");
+		image_news = (Gtk.Image) builder.GetObject ("image_news");
+		image_news_close = (Gtk.Image) builder.GetObject ("image_news_close");
+		alignment_above_news = (Gtk.Alignment) builder.GetObject ("alignment_above_news"); //to align vertically with sidebar
+		hbox_news_languages = (Gtk.HBox) builder.GetObject ("hbox_news_languages"); //to align vertically with sidebar
 	}
 }

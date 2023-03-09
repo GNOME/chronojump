@@ -15,12 +15,12 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2017   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2004-2023   Xavier de Blas <xaviblas@gmail.com> 
  */
 
 using System;
 using Gtk;
-using Glade;
+//using Glade;
 using System.Text; //StringBuilder
 using System.Collections; //ArrayList
 
@@ -36,11 +36,18 @@ public class EditPulseWindow : EditEventWindow
 {
 	static EditPulseWindow EditPulseWindowBox;
 
-	EditPulseWindow (Gtk.Window parent) {
+	EditPulseWindow (Gtk.Window parent)
+	{
+		/*
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "edit_event.glade", "edit_event", null);
 		gladeXML.Autoconnect(this);
-		this.parent 	= parent;
+		*/
+		Gtk.Builder builder = new Gtk.Builder (null, Util.GetGladePath () + "edit_event.glade", null);
+		connectWidgetsEditEvent (builder);
+		builder.Autoconnect (this);
+
+		this.parent = parent;
 		
 		//put an icon to window
 		UtilGtk.IconWindow(edit_event);
@@ -120,28 +127,34 @@ public class EditPulseWindow : EditEventWindow
 
 public class RepairPulseWindow 
 {
-	[Widget] Gtk.Window repair_sub_event;
-	[Widget] Gtk.HBox hbox_notes_and_totaltime;
-	[Widget] Gtk.Label label_header;
-	[Widget] Gtk.Label label_totaltime_value;
-	[Widget] Gtk.TreeView treeview_subevents;
-	private TreeStore store;
-	[Widget] Gtk.Button button_accept;
-	[Widget] Gtk.Button button_add_before;
-	[Widget] Gtk.Button button_add_after;
-	[Widget] Gtk.Button button_delete;
-	[Widget] Gtk.TextView textview1;
+	Gtk.Window repair_sub_event;
+	Gtk.HBox hbox_notes_and_totaltime;
+	Gtk.Label label_header;
+	Gtk.Label label_totaltime_value;
+	Gtk.TreeView treeview_subevents;
+	Gtk.Button button_accept;
+	Gtk.Button button_add_before;
+	Gtk.Button button_add_after;
+	Gtk.Button button_delete;
+	Gtk.TextView textview1;
 
+	private TreeStore store;
 	static RepairPulseWindow RepairPulseWindowBox;
 
 	PulseType pulseType;
 	Pulse myPulse; //used on button_accept
 	
 
-	RepairPulseWindow (Gtk.Window parent, Pulse myPulse, int pDN) {
+	RepairPulseWindow (Gtk.Window parent, Pulse myPulse, int pDN)
+	{
+		/*
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "repair_sub_event.glade", "repair_sub_event", "chronojump");
 		gladeXML.Autoconnect(this);
+		*/
+		Gtk.Builder builder = new Gtk.Builder (null, Util.GetGladePath () + "repair_sub_event.glade", null);
+		connectWidgets (builder);
+		builder.Autoconnect (this);
 		
 		//put an icon to window
 		UtilGtk.IconWindow(repair_sub_event);
@@ -284,7 +297,7 @@ public class RepairPulseWindow
 	}
 
 	void onSelectionEntry (object o, EventArgs args) {
-		TreeModel model;
+		ITreeModel model;
 		TreeIter iter;
 		
 		if (((TreeSelection)o).GetSelected(out model, out iter)) {
@@ -315,7 +328,7 @@ public class RepairPulseWindow
 	}
 
 	void on_button_add_before_clicked (object o, EventArgs args) {
-		TreeModel model; 
+		ITreeModel model; 
 		TreeIter iter; 
 		if (treeview_subevents.Selection.GetSelected (out model, out iter)) {
 			int position = Convert.ToInt32( (string) model.GetValue (iter, 0) ) -1; //count starts at '0'
@@ -326,7 +339,7 @@ public class RepairPulseWindow
 	}
 	
 	void on_button_add_after_clicked (object o, EventArgs args) {
-		TreeModel model; 
+		ITreeModel model; 
 		TreeIter iter; 
 		if (treeview_subevents.Selection.GetSelected (out model, out iter)) {
 			int position = Convert.ToInt32( (string) model.GetValue (iter, 0) ); //count starts at '0'
@@ -348,7 +361,7 @@ public class RepairPulseWindow
 	}
 		
 	void on_button_delete_clicked (object o, EventArgs args) {
-		TreeModel model; 
+		ITreeModel model; 
 		TreeIter iter; 
 		if (treeview_subevents.Selection.GetSelected (out model, out iter)) {
 			store.Remove(ref iter);
@@ -417,5 +430,18 @@ public class RepairPulseWindow
 		get { return button_accept;	}
 	}
 
+	private void connectWidgets (Gtk.Builder builder)
+	{
+		repair_sub_event = (Gtk.Window) builder.GetObject ("repair_sub_event");
+		hbox_notes_and_totaltime = (Gtk.HBox) builder.GetObject ("hbox_notes_and_totaltime");
+		label_header = (Gtk.Label) builder.GetObject ("label_header");
+		label_totaltime_value = (Gtk.Label) builder.GetObject ("label_totaltime_value");
+		treeview_subevents = (Gtk.TreeView) builder.GetObject ("treeview_subevents");
+		button_accept = (Gtk.Button) builder.GetObject ("button_accept");
+		button_add_before = (Gtk.Button) builder.GetObject ("button_add_before");
+		button_add_after = (Gtk.Button) builder.GetObject ("button_add_after");
+		button_delete = (Gtk.Button) builder.GetObject ("button_delete");
+		textview1 = (Gtk.TextView) builder.GetObject ("textview1");
+	}
 }
 

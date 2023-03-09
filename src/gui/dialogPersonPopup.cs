@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2016-2021   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2016-2023   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -23,31 +23,31 @@ using System.IO;
 using System.Collections.Generic; //List
 using Gtk;
 using Gdk;
-using Glade;
+//using Glade;
 
 public class DialogPersonPopup
 {
-	[Widget] Gtk.Dialog dialog_person_popup;
-	[Widget] Gtk.Label label_name;
-	[Widget] Gtk.Image image_person;
-	[Widget] Gtk.Image image_person_logout;
-	[Widget] Gtk.Image image_new_tasks_other_stations;
-	[Widget] Gtk.CheckButton checkbutton_autologout;
-	[Widget] Gtk.Image image_close;
-	[Widget] Gtk.Label label_rfid;
-	[Widget] Gtk.VBox vbox_tasks_parametrized;
+	Gtk.Dialog dialog_person_popup;
+	Gtk.Label label_name;
+	Gtk.Image image_person;
+	Gtk.Image image_person_logout;
+	Gtk.Image image_new_tasks_other_stations;
+	Gtk.CheckButton checkbutton_autologout;
+	Gtk.Image image_close;
+	Gtk.Label label_rfid;
+	Gtk.VBox vbox_tasks_parametrized;
 
-	[Widget] Gtk.Label label_network_devices;
-	[Widget] Gtk.Label label_server_connected;
-	[Widget] Gtk.Image image_server_connected_yes;
-	[Widget] Gtk.Image image_server_connected_no;
+	Gtk.Label label_network_devices;
+	Gtk.Label label_server_connected;
+	Gtk.Image image_server_connected_yes;
+	Gtk.Image image_server_connected_no;
+	Gtk.Label label_other_stations;
 
 	private List<Task> list_tasks_fixed; //This list has "R,L" separated
 	private List<Gtk.Button> list_buttons_start;
 	private List<Gtk.Button> list_buttons_done;
 	private List<int> list_buttons_done_id; //this has right id to mark task (also R,L) done
 	private List<Gtk.HBox> list_hboxs_row; //to unsensitive when done!
-	[Widget] Gtk.Label label_other_stations;
 
 	private Task taskActive;
 	public Button Fake_button_start_task;
@@ -62,9 +62,14 @@ public class DialogPersonPopup
 			string networkDevices, bool serverConnected, bool Autologout,
 			bool compujumpDjango, bool compujumpHideTaskDone)
 	{
+		/*
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "dialog_person_popup.glade", "dialog_person_popup", null);
 		gladeXML.Autoconnect(this);
+		*/
+		Gtk.Builder builder = new Gtk.Builder (null, Util.GetGladePath () + "dialog_person_popup.glade", null);
+		connectWidgets (builder);
+		builder.Autoconnect (this);
 
 		//put an icon to window
 		UtilGtk.IconWindow(dialog_person_popup);
@@ -328,5 +333,23 @@ public class DialogPersonPopup
 	public Task TaskActive
 	{
 		get { return taskActive; }
+	}
+
+	private void connectWidgets (Gtk.Builder builder)
+	{
+		dialog_person_popup = (Gtk.Dialog) builder.GetObject ("dialog_person_popup");
+		label_name = (Gtk.Label) builder.GetObject ("label_name");
+		image_person = (Gtk.Image) builder.GetObject ("image_person");
+		image_person_logout = (Gtk.Image) builder.GetObject ("image_person_logout");
+		image_new_tasks_other_stations = (Gtk.Image) builder.GetObject ("image_new_tasks_other_stations");
+		checkbutton_autologout = (Gtk.CheckButton) builder.GetObject ("checkbutton_autologout");
+		image_close = (Gtk.Image) builder.GetObject ("image_close");
+		label_rfid = (Gtk.Label) builder.GetObject ("label_rfid");
+		vbox_tasks_parametrized = (Gtk.VBox) builder.GetObject ("vbox_tasks_parametrized");
+		label_network_devices = (Gtk.Label) builder.GetObject ("label_network_devices");
+		label_server_connected = (Gtk.Label) builder.GetObject ("label_server_connected");
+		image_server_connected_yes = (Gtk.Image) builder.GetObject ("image_server_connected_yes");
+		image_server_connected_no = (Gtk.Image) builder.GetObject ("image_server_connected_no");
+		label_other_stations = (Gtk.Label) builder.GetObject ("label_other_stations");
 	}
 }

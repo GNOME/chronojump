@@ -15,13 +15,13 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2017   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2004-2023   Xavier de Blas <xaviblas@gmail.com> 
  */
 
 using System;
 using Gdk;
 using Gtk;
-using Glade;
+//using Glade;
 //using Gnome;
 using GLib; //for Value
 //using System.Text; //StringBuilder
@@ -31,78 +31,81 @@ using Mono.Unix;
 
 public class GenericWindow
 {
-	[Widget] Gtk.Window generic_window;
-	[Widget] Gtk.Label label_header;
-	[Widget] Gtk.Box hbox_error;
-	[Widget] Gtk.Label label_error;
-	[Widget] Gtk.Entry entry;
+	// at glade ---->
+	Gtk.Window generic_window;
+	Gtk.Label label_header;
+	Gtk.Box hbox_error;
+	Gtk.Label label_error;
+	Gtk.Entry entry;
 	
-	[Widget] Gtk.Box hbox_spin_int;
-	[Widget] Gtk.Label label_spin_int;
-	[Widget] Gtk.SpinButton spin_int;
-	[Widget] Gtk.Box hbox_spin_int2;
-	[Widget] Gtk.Label label_spin_int2;
-	[Widget] Gtk.SpinButton spin_int2;
-	[Widget] Gtk.Box hbox_spin_int3;
-	[Widget] Gtk.Label label_spin_int3;
-	[Widget] Gtk.SpinButton spin_int3;
+	Gtk.Box hbox_spin_int;
+	Gtk.Label label_spin_int;
+	Gtk.SpinButton spin_int;
+	Gtk.Box hbox_spin_int2;
+	Gtk.Label label_spin_int2;
+	Gtk.SpinButton spin_int2;
+	Gtk.Box hbox_spin_int3;
+	Gtk.Label label_spin_int3;
+	Gtk.SpinButton spin_int3;
 
-	[Widget] Gtk.SpinButton spin_double;
-	[Widget] Gtk.Box hbox_height_metric;
+	Gtk.SpinButton spin_double;
+	Gtk.Box hbox_height_metric;
 
-	[Widget] Gtk.CheckButton check1;
+	Gtk.CheckButton check1;
 
-	[Widget] Gtk.HButtonBox hbuttonbox_middle;
-	[Widget] Gtk.Button button_middle;
+	Gtk.HButtonBox hbuttonbox_middle;
+	Gtk.Button button_middle;
 
 	//Edit row
-	[Widget] Gtk.Box hbox_edit_row;
-	[Widget] Gtk.Label hbox_combo_label;
-	[Widget] Gtk.Label label_comment;
-	[Widget] Gtk.Box hbox_combo;
-	[Widget] Gtk.ComboBox combo;
-	[Widget] Gtk.Button hbox_combo_button_apply;
-	[Widget] Gtk.Entry entry_edit_row;
+	Gtk.Box hbox_edit_row;
+	Gtk.Label hbox_combo_label;
+	Gtk.Label label_comment;
+	Gtk.Box hbox_combo;
+	Gtk.Button hbox_combo_button_apply;
+	Gtk.Entry entry_edit_row;
 	
-	[Widget] Gtk.Box hbox_all_none_selected;
-	[Widget] Gtk.Box hbox_combo_all_none_selected;
-	[Widget] Gtk.ComboBox combo_all_none_selected;
-	[Widget] Gtk.SpinButton spin_feet;
-	[Widget] Gtk.SpinButton spin_inches;
-	[Widget] Gtk.Label label_before_textview_treeview;
-	[Widget] Gtk.ScrolledWindow scrolled_window_textview;
-	[Widget] Gtk.TextView textview;
-	[Widget] Gtk.ScrolledWindow scrolled_window_treeview;
-	[Widget] Gtk.TreeView treeview;
-	[Widget] Gtk.Button button_accept;
-	[Widget] Gtk.Button button_cancel;
-	[Widget] Gtk.Image image_button_accept;
-	[Widget] Gtk.Image image_button_cancel;
-	[Widget] Gtk.Label label_button_accept;
-	[Widget] Gtk.Label label_button_cancel;
+	Gtk.Box hbox_all_none_selected;
+	Gtk.Box hbox_combo_all_none_selected;
+	Gtk.SpinButton spin_feet;
+	Gtk.SpinButton spin_inches;
+	Gtk.Label label_before_textview_treeview;
+	Gtk.ScrolledWindow scrolled_window_textview;
+	Gtk.TextView textview;
+	Gtk.ScrolledWindow scrolled_window_treeview;
+	Gtk.TreeView treeview;
+	Gtk.Button button_accept;
+	Gtk.Button button_cancel;
+	Gtk.Image image_button_accept;
+	Gtk.Image image_button_cancel;
+	Gtk.Label label_button_accept;
+	Gtk.Label label_button_cancel;
 
 	//treeview fake buttons
-	[Widget] Gtk.Button button_row_edit;
-	[Widget] Gtk.Button button_row_play;
-	[Widget] Gtk.Button button_row_delete;
+	Gtk.Button button_row_edit;
+	Gtk.Button button_row_play;
+	Gtk.Button button_row_delete;
 
-	[Widget] Gtk.Label label_treeviewload_row;
-	[Widget] Gtk.Button button_treeviewload_row_edit;
-	[Widget] Gtk.Button button_treeviewload_row_delete;
-	[Widget] Gtk.Button button_treeviewload_row_play;
-	[Widget] Gtk.Image image_treeviewload_row_play;
+	Gtk.Label label_treeviewload_row;
+	Gtk.Button button_treeviewload_row_edit;
+	Gtk.Button button_treeviewload_row_delete;
+	Gtk.Button button_treeviewload_row_play;
+	Gtk.Image image_treeviewload_row_play;
 	
-	[Widget] Gtk.Box hbox_entry2;
-	[Widget] Gtk.Label label_entry2;
-	[Widget] Gtk.Entry entry2;
-	[Widget] Gtk.Box hbox_entry3;
-	[Widget] Gtk.Label label_entry3;
-	[Widget] Gtk.Entry entry3;
+	Gtk.Box hbox_entry2;
+	Gtk.Label label_entry2;
+	Gtk.Entry entry2;
+	Gtk.Box hbox_entry3;
+	Gtk.Label label_entry3;
+	Gtk.Entry entry3;
 
-	[Widget] Gtk.Box hbox_spin_double2;
-	[Widget] Gtk.Label label_spin_double2;
-	[Widget] Gtk.SpinButton spin_double2;
+	Gtk.Box hbox_spin_double2;
+	Gtk.Label label_spin_double2;
+	Gtk.SpinButton spin_double2;
+	// <---- at glade
 	
+	Gtk.ComboBoxText combo;
+	Gtk.ComboBoxText combo_all_none_selected;
+
 	private ArrayList nonSensitiveRows;
 
 	static GenericWindow GenericWindowBox;
@@ -132,9 +135,14 @@ public class GenericWindow
 
 	public GenericWindow (string title, string textHeader)
 	{
+		/*
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "generic_window.glade", "generic_window", "chronojump");
 		gladeXML.Autoconnect(this);
+		*/
+		Gtk.Builder builder = new Gtk.Builder (null, Util.GetGladePath () + "generic_window.glade", null);
+		connectWidgets (builder);
+		builder.Autoconnect (this);
 	
 		//put an icon to window
 		UtilGtk.IconWindow(generic_window);
@@ -473,7 +481,7 @@ public class GenericWindow
 	}
 	
 	public void SetComboValues(string [] values, string current) {
-		combo = ComboBox.NewText ();
+		combo = new ComboBoxText ();
 		UtilGtk.ComboUpdate(combo, values, "");
 
 		//if there hbox already has a combo (window has not been properly destroyed)
@@ -521,7 +529,7 @@ public class GenericWindow
 		if(hbox_combo_all_none_selected.Children.Length > 0)
 			hbox_combo_all_none_selected.Remove(combo_all_none_selected);
 
-		combo_all_none_selected = ComboBox.NewText ();
+		combo_all_none_selected = new ComboBoxText ();
 		UtilGtk.ComboUpdate(combo_all_none_selected, comboCheckBoxesOptions, "");
 		
 		//combo_all_none_selected.DisableActivate ();
@@ -744,7 +752,7 @@ public class GenericWindow
 	private void on_treeview_cursor_changed (object o, EventArgs args) 
 	{
 		TreeIter iter = new TreeIter();
-		TreeModel myModel = treeview.Model;
+		ITreeModel myModel = treeview.Model;
 		if (treeview.Selection.GetSelected (out myModel, out iter))
 		{
 			SetButtonAcceptSensitive(true);
@@ -770,7 +778,7 @@ public class GenericWindow
 	public void SensitiveEditDeleteIfSelected()
 	{
 		TreeIter iter = new TreeIter();
-		TreeModel myModel = treeview.Model;
+		ITreeModel myModel = treeview.Model;
 		if (treeview.Selection.GetSelected (out myModel, out iter))
 		{
 			label_treeviewload_row.Sensitive = false;
@@ -783,7 +791,7 @@ public class GenericWindow
 	//get the selected	
 	public int TreeviewSelectedRowID() {
 		TreeIter iter = new TreeIter();
-		TreeModel myModel = treeview.Model;
+		ITreeModel myModel = treeview.Model;
 		if (treeview.Selection.GetSelected (out myModel, out iter)) 
 			return Convert.ToInt32(treeview.Model.GetValue (iter, 0));
 		else
@@ -899,7 +907,7 @@ public class GenericWindow
 	{
 		if(activateRowAcceptsWindow) {
 			TreeView tv = (TreeView) o;
-			TreeModel model;
+			ITreeModel model;
 			TreeIter iter;
 
 			if (tv.Selection.GetSelected (out model, out iter)) {
@@ -911,7 +919,7 @@ public class GenericWindow
 
 	private void on_edit_selected_clicked (object o, EventArgs args) 
 	{
-		TreeModel model;
+		ITreeModel model;
 		TreeIter iter = new TreeIter();
 		if(! treeview.Selection.GetSelected (out model, out iter))
 			return;
@@ -933,7 +941,7 @@ public class GenericWindow
 		//remove conflictive characters
 		entry_edit_row.Text = Util.RemoveTildeAndColonAndDot(entry_edit_row.Text);
 
-		TreeModel model;
+		ITreeModel model;
 		TreeIter iter = new TreeIter();
 		treeview.Selection.GetSelected (out model, out iter);
 		store.SetValue (iter, commentColumn, entry_edit_row.Text);
@@ -941,7 +949,7 @@ public class GenericWindow
 
 	private void on_play_selected_clicked (object o, EventArgs args)
 	{
-		TreeModel model;
+		ITreeModel model;
 		TreeIter iter = new TreeIter();
 		if(! treeview.Selection.GetSelected (out model, out iter))
 			return;
@@ -978,7 +986,7 @@ public class GenericWindow
 
 	private void on_delete_selected_clicked (object o, EventArgs args)
 	{
-		TreeModel model;
+		ITreeModel model;
 		TreeIter iter = new TreeIter();
 		if(! treeview.Selection.GetSelected (out model, out iter))
 			return;
@@ -1221,6 +1229,78 @@ public class GenericWindow
 		get { return check1.Active; }
 	}
 
+	private void connectWidgets (Gtk.Builder builder)
+	{
+		generic_window = (Gtk.Window) builder.GetObject ("generic_window");
+		label_header = (Gtk.Label) builder.GetObject ("label_header");
+		hbox_error = (Gtk.Box) builder.GetObject ("hbox_error");
+		label_error = (Gtk.Label) builder.GetObject ("label_error");
+		entry = (Gtk.Entry) builder.GetObject ("entry");
+
+		hbox_spin_int = (Gtk.Box) builder.GetObject ("hbox_spin_int");
+		label_spin_int = (Gtk.Label) builder.GetObject ("label_spin_int");
+		spin_int = (Gtk.SpinButton) builder.GetObject ("spin_int");
+		hbox_spin_int2 = (Gtk.Box) builder.GetObject ("hbox_spin_int2");
+		label_spin_int2 = (Gtk.Label) builder.GetObject ("label_spin_int2");
+		spin_int2 = (Gtk.SpinButton) builder.GetObject ("spin_int2");
+		hbox_spin_int3 = (Gtk.Box) builder.GetObject ("hbox_spin_int3");
+		label_spin_int3 = (Gtk.Label) builder.GetObject ("label_spin_int3");
+		spin_int3 = (Gtk.SpinButton) builder.GetObject ("spin_int3");
+
+		spin_double = (Gtk.SpinButton) builder.GetObject ("spin_double");
+		hbox_height_metric = (Gtk.Box) builder.GetObject ("hbox_height_metric");
+
+		check1 = (Gtk.CheckButton) builder.GetObject ("check1");
+
+		hbuttonbox_middle = (Gtk.HButtonBox) builder.GetObject ("hbuttonbox_middle");
+		button_middle = (Gtk.Button) builder.GetObject ("button_middle");
+
+		//Edit row
+		hbox_edit_row = (Gtk.Box) builder.GetObject ("hbox_edit_row");
+		hbox_combo_label = (Gtk.Label) builder.GetObject ("hbox_combo_label");
+		label_comment = (Gtk.Label) builder.GetObject ("label_comment");
+		hbox_combo = (Gtk.Box) builder.GetObject ("hbox_combo");
+		hbox_combo_button_apply = (Gtk.Button) builder.GetObject ("hbox_combo_button_apply");
+		entry_edit_row = (Gtk.Entry) builder.GetObject ("entry_edit_row");
+
+		hbox_all_none_selected = (Gtk.Box) builder.GetObject ("hbox_all_none_selected");
+		hbox_combo_all_none_selected = (Gtk.Box) builder.GetObject ("hbox_combo_all_none_selected");
+		spin_feet = (Gtk.SpinButton) builder.GetObject ("spin_feet");
+		spin_inches = (Gtk.SpinButton) builder.GetObject ("spin_inches");
+		label_before_textview_treeview = (Gtk.Label) builder.GetObject ("label_before_textview_treeview");
+		scrolled_window_textview = (Gtk.ScrolledWindow) builder.GetObject ("scrolled_window_textview");
+		textview = (Gtk.TextView) builder.GetObject ("textview");
+		scrolled_window_treeview = (Gtk.ScrolledWindow) builder.GetObject ("scrolled_window_treeview");
+		treeview = (Gtk.TreeView) builder.GetObject ("treeview");
+		button_accept = (Gtk.Button) builder.GetObject ("button_accept");
+		button_cancel = (Gtk.Button) builder.GetObject ("button_cancel");
+		image_button_accept = (Gtk.Image) builder.GetObject ("image_button_accept");
+		image_button_cancel = (Gtk.Image) builder.GetObject ("image_button_cancel");
+		label_button_accept = (Gtk.Label) builder.GetObject ("label_button_accept");
+		label_button_cancel = (Gtk.Label) builder.GetObject ("label_button_cancel");
+
+		//treeview fake buttons
+		button_row_edit = (Gtk.Button) builder.GetObject ("button_row_edit");
+		button_row_play = (Gtk.Button) builder.GetObject ("button_row_play");
+		button_row_delete = (Gtk.Button) builder.GetObject ("button_row_delete");
+
+		label_treeviewload_row = (Gtk.Label) builder.GetObject ("label_treeviewload_row");
+		button_treeviewload_row_edit = (Gtk.Button) builder.GetObject ("button_treeviewload_row_edit");
+		button_treeviewload_row_delete = (Gtk.Button) builder.GetObject ("button_treeviewload_row_delete");
+		button_treeviewload_row_play = (Gtk.Button) builder.GetObject ("button_treeviewload_row_play");
+		image_treeviewload_row_play = (Gtk.Image) builder.GetObject ("image_treeviewload_row_play");
+
+		hbox_entry2 = (Gtk.Box) builder.GetObject ("hbox_entry2");
+		label_entry2 = (Gtk.Label) builder.GetObject ("label_entry2");
+		entry2 = (Gtk.Entry) builder.GetObject ("entry2");
+		hbox_entry3 = (Gtk.Box) builder.GetObject ("hbox_entry3");
+		label_entry3 = (Gtk.Label) builder.GetObject ("label_entry3");
+		entry3 = (Gtk.Entry) builder.GetObject ("entry3");
+
+		hbox_spin_double2 = (Gtk.Box) builder.GetObject ("hbox_spin_double2");
+		label_spin_double2 = (Gtk.Label) builder.GetObject ("label_spin_double2");
+		spin_double2 = (Gtk.SpinButton) builder.GetObject ("spin_double2");
+	}
 
 	~GenericWindow() {}
 	

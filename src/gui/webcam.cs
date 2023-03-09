@@ -15,12 +15,12 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2019-2020   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2019-2023   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
 using Gtk;
-using Glade;
+//using Glade;
 using System.IO; //"File" things
 using System.Diagnostics;  //Stopwatch
 using System.Threading;
@@ -28,34 +28,34 @@ using Mono.Unix;
 
 public partial class ChronoJumpWindow 
 {
-	//[Widget] Gtk.Notebook notebook_last_test_buttons; page1: delete, play, inspect, page2: progressbar_video_generating
-	[Widget] Gtk.ProgressBar progressbar_video_generating;
-	[Widget] Gtk.HBox hbox_contacts_camera;
-	[Widget] Gtk.CheckButton checkbutton_video_contacts;
-	[Widget] Gtk.CheckButton checkbutton_video_encoder;
-	//[Widget] Gtk.HBox hbox_video_contacts;
-	[Widget] Gtk.Notebook notebook_video_contacts;
-	//[Widget] Gtk.HBox hbox_video_contacts_no_capturing;
-	//[Widget] Gtk.HBox hbox_video_contacts_capturing;
-	[Widget] Gtk.HBox hbox_video_encoder;
-	[Widget] Gtk.HBox hbox_video_encoder_no_capturing;
-	[Widget] Gtk.HBox hbox_video_encoder_capturing;
-	[Widget] Gtk.Label label_video_feedback;
-	[Widget] Gtk.Label label_video_encoder_feedback;
-	[Widget] Gtk.Button button_video_contacts_preview;
-	[Widget] Gtk.Button button_video_encoder_preview;
-	//[Widget] Gtk.Label label_video;
-	[Widget] Gtk.Image image_video_contacts_yes;
-	[Widget] Gtk.Image image_video_contacts_yes1;
-	[Widget] Gtk.Image image_video_contacts_no;
-	[Widget] Gtk.Image image_video_encoder_yes;
-	[Widget] Gtk.Image image_video_encoder_yes1;
-	[Widget] Gtk.Image image_video_encoder_no;
-	[Widget] Gtk.Label label_video_contacts_tests_will_be_filmed;
-	[Widget] Gtk.Label label_video_encoder_tests_will_be_filmed;
-	[Widget] Gtk.Button button_video_play_this_test_contacts;
-	[Widget] Gtk.Button button_video_play_this_test_encoder;
-	[Widget] Gtk.ProgressBar pulsebar_webcam;
+	//Gtk.Notebook notebook_last_test_buttons; page1: delete, play, inspect, page2: progressbar_video_generating
+	Gtk.ProgressBar progressbar_video_generating;
+	Gtk.HBox hbox_contacts_camera;
+	Gtk.CheckButton checkbutton_video_contacts;
+	Gtk.CheckButton checkbutton_video_encoder;
+	//Gtk.HBox hbox_video_contacts;
+	Gtk.Notebook notebook_video_contacts;
+	//Gtk.HBox hbox_video_contacts_no_capturing;
+	//Gtk.HBox hbox_video_contacts_capturing;
+	Gtk.HBox hbox_video_encoder;
+	Gtk.HBox hbox_video_encoder_no_capturing;
+	Gtk.HBox hbox_video_encoder_capturing;
+	Gtk.Label label_video_feedback;
+	Gtk.Label label_video_encoder_feedback;
+	Gtk.Button button_video_contacts_preview;
+	Gtk.Button button_video_encoder_preview;
+	//Gtk.Label label_video;
+	Gtk.Image image_video_contacts_yes;
+	Gtk.Image image_video_contacts_yes1;
+	Gtk.Image image_video_contacts_no;
+	Gtk.Image image_video_encoder_yes;
+	Gtk.Image image_video_encoder_yes1;
+	Gtk.Image image_video_encoder_no;
+	Gtk.Label label_video_contacts_tests_will_be_filmed;
+	Gtk.Label label_video_encoder_tests_will_be_filmed;
+	Gtk.Button button_video_play_this_test_contacts;
+	Gtk.Button button_video_play_this_test_encoder;
+	Gtk.ProgressBar pulsebar_webcam;
 
 
 	private enum WebcamEncoderFileStarted { NEEDTOCHECK, RECORDSTARTED, NOCAMERA }
@@ -859,4 +859,35 @@ public partial class ChronoJumpWindow
 				Constants.TestTypes.ENCODER, Convert.ToInt32(encoderSignalUniqueID)));
 	}
 
+	private void connectWidgetsWebcam (Gtk.Builder builder)
+	{
+		//notebook_last_test_buttons = (Gtk.Notebook) builder.GetObject ("notebook_last_test_buttons"); page1: delete, play, inspect, page2: progressbar_video_generating
+		progressbar_video_generating = (Gtk.ProgressBar) builder.GetObject ("progressbar_video_generating");
+		hbox_contacts_camera = (Gtk.HBox) builder.GetObject ("hbox_contacts_camera");
+		checkbutton_video_contacts = (Gtk.CheckButton) builder.GetObject ("checkbutton_video_contacts");
+		checkbutton_video_encoder = (Gtk.CheckButton) builder.GetObject ("checkbutton_video_encoder");
+		//hbox_video_contacts = (Gtk.HBox) builder.GetObject ("hbox_video_contacts");
+		notebook_video_contacts = (Gtk.Notebook) builder.GetObject ("notebook_video_contacts");
+		//hbox_video_contacts_no_capturing = (Gtk.HBox) builder.GetObject ("hbox_video_contacts_no_capturing");
+		//hbox_video_contacts_capturing = (Gtk.HBox) builder.GetObject ("hbox_video_contacts_capturing");
+		hbox_video_encoder = (Gtk.HBox) builder.GetObject ("hbox_video_encoder");
+		hbox_video_encoder_no_capturing = (Gtk.HBox) builder.GetObject ("hbox_video_encoder_no_capturing");
+		hbox_video_encoder_capturing = (Gtk.HBox) builder.GetObject ("hbox_video_encoder_capturing");
+		label_video_feedback = (Gtk.Label) builder.GetObject ("label_video_feedback");
+		label_video_encoder_feedback = (Gtk.Label) builder.GetObject ("label_video_encoder_feedback");
+		button_video_contacts_preview = (Gtk.Button) builder.GetObject ("button_video_contacts_preview");
+		button_video_encoder_preview = (Gtk.Button) builder.GetObject ("button_video_encoder_preview");
+		//label_video = (Gtk.Label) builder.GetObject ("label_video");
+		image_video_contacts_yes = (Gtk.Image) builder.GetObject ("image_video_contacts_yes");
+		image_video_contacts_yes1 = (Gtk.Image) builder.GetObject ("image_video_contacts_yes1");
+		image_video_contacts_no = (Gtk.Image) builder.GetObject ("image_video_contacts_no");
+		image_video_encoder_yes = (Gtk.Image) builder.GetObject ("image_video_encoder_yes");
+		image_video_encoder_yes1 = (Gtk.Image) builder.GetObject ("image_video_encoder_yes1");
+		image_video_encoder_no = (Gtk.Image) builder.GetObject ("image_video_encoder_no");
+		label_video_contacts_tests_will_be_filmed = (Gtk.Label) builder.GetObject ("label_video_contacts_tests_will_be_filmed");
+		label_video_encoder_tests_will_be_filmed = (Gtk.Label) builder.GetObject ("label_video_encoder_tests_will_be_filmed");
+		button_video_play_this_test_contacts = (Gtk.Button) builder.GetObject ("button_video_play_this_test_contacts");
+		button_video_play_this_test_encoder = (Gtk.Button) builder.GetObject ("button_video_play_this_test_encoder");
+		pulsebar_webcam = (Gtk.ProgressBar) builder.GetObject ("pulsebar_webcam");
+	}
 }

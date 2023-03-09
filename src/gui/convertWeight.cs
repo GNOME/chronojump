@@ -15,12 +15,12 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2017   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2004-2023   Xavier de Blas <xaviblas@gmail.com> 
  */
 
 using System;
 using Gtk;
-using Glade;
+//using Glade;
 using GLib; //for Value
 using System.Text; //StringBuilder
 using System.Collections; //ArrayList
@@ -28,13 +28,14 @@ using Mono.Unix;
 
 public class ConvertWeightWindow 
 {
-	[Widget] Gtk.Window convert_weight;
+	Gtk.Window convert_weight;
+	Gtk.TreeView treeview1;
+	Gtk.Label label_old_weight_value;
+	Gtk.Label label_new_weight_value;
+	Gtk.Button button_accept;
+	Gtk.Button button_cancel;
+
 	static ConvertWeightWindow ConvertWeightWindowBox;
-	[Widget] Gtk.TreeView treeview1;
-	[Widget] Gtk.Label label_old_weight_value;
-	[Widget] Gtk.Label label_new_weight_value;
-	[Widget] Gtk.Button button_accept;
-	[Widget] Gtk.Button button_cancel;
 	TreeStore store;
 	double oldPersonWeight;
 	double newPersonWeight;
@@ -46,9 +47,14 @@ public class ConvertWeightWindow
 	string reactiveString;
 	
 	ConvertWeightWindow (double oldPersonWeight, double newPersonWeight, string [] jumpsSimple, string [] jumpsReactive) {
+		/*
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "convert_weight.glade", "convert_weight", null);
 		gladeXML.Autoconnect(this);
+		*/
+		Gtk.Builder builder = new Gtk.Builder (null, Util.GetGladePath () + "convert_weight.glade", null);
+		connectWidgets (builder);
+		builder.Autoconnect (this);
 		
 		//put an icon to window
 		UtilGtk.IconWindow(convert_weight);
@@ -301,5 +307,14 @@ public class ConvertWeightWindow
 	{
 		get { return button_cancel; }
 	}
-	
+
+	private void connectWidgets (Gtk.Builder builder)
+	{
+		convert_weight = (Gtk.Window) builder.GetObject ("convert_weight");
+		treeview1 = (Gtk.TreeView) builder.GetObject ("treeview1");
+		label_old_weight_value = (Gtk.Label) builder.GetObject ("label_old_weight_value");
+		label_new_weight_value = (Gtk.Label) builder.GetObject ("label_new_weight_value");
+		button_accept = (Gtk.Button) builder.GetObject ("button_accept");
+		button_cancel = (Gtk.Button) builder.GetObject ("button_cancel");
+	}
 }

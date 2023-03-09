@@ -15,12 +15,12 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2020   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2004-2023   Xavier de Blas <xaviblas@gmail.com> 
  */
 
 using System;
 using Gtk;
-using Glade;
+//using Glade;
 //using Gnome;
 using GLib; //for Value
 using System.Text; //StringBuilder
@@ -30,20 +30,26 @@ using Mono.Unix;
 
 public class ConfirmWindowJumpRun
 {
-	[Widget] Gtk.Window confirm_window;
-	[Widget] Gtk.Label label1;
-	[Widget] Gtk.Label label_question;
-	[Widget] Gtk.Button button_accept;
+	Gtk.Window confirm_window;
+	Gtk.Label label1;
+	Gtk.Label label_question;
+	Gtk.Button button_accept;
 
 	static ConfirmWindowJumpRun ConfirmWindowJumpRunBox;
 	
 	public ConfirmWindowJumpRun (string text1, string question)
 	{
 		//Setup (text, table, uniqueID);
+		/*
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "confirm_window.glade", "confirm_window", "chronojump");
 		gladeXML.Autoconnect(this);
+		*/
+		Gtk.Builder builder = new Gtk.Builder (null, Util.GetGladePath () + "confirm_window.glade", null);
+		connectWidgets (builder);
+		builder.Autoconnect (this);
 		
+
 		confirm_window.Title = "Chronojump - " + Catalog.GetString("Confirm");
 		//put an icon to window
 		UtilGtk.IconWindow(confirm_window);
@@ -96,6 +102,14 @@ public class ConfirmWindowJumpRun
 		get { return button_accept; }
 	}
 
+	private void connectWidgets (Gtk.Builder builder)
+	{
+		confirm_window = (Gtk.Window) builder.GetObject ("confirm_window");
+		label1 = (Gtk.Label) builder.GetObject ("label1");
+		label_question = (Gtk.Label) builder.GetObject ("label_question");
+		button_accept = (Gtk.Button) builder.GetObject ("button_accept");
+	}
+
 	~ConfirmWindowJumpRun() {}
 	
 }
@@ -103,20 +117,25 @@ public class ConfirmWindowJumpRun
 
 public class ConfirmWindow
 {
-	[Widget] Gtk.Window confirm_window;
-	[Widget] Gtk.Label label1;
-	[Widget] Gtk.Label label_link;
-	[Widget] Gtk.Label label_question;
-	[Widget] Gtk.Button button_accept;
-	[Widget] Gtk.Button button_cancel;
+	Gtk.Window confirm_window;
+	Gtk.Label label1;
+	Gtk.Label label_link;
+	Gtk.Label label_question;
+	Gtk.Button button_accept;
+	Gtk.Button button_cancel;
 
 	static ConfirmWindow ConfirmWindowBox;
 	
 	public ConfirmWindow (string text1, string link, string question)
 	{
+		/*
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "confirm_window.glade", "confirm_window", null);
 		gladeXML.Autoconnect(this);
+		*/
+		Gtk.Builder builder = new Gtk.Builder (null, Util.GetGladePath () + "confirm_window.glade", null);
+		connectWidgets (builder);
+		builder.Autoconnect (this);
 		
 		confirm_window.Title = "Chronojump - " + Catalog.GetString("Confirm");
 
@@ -190,6 +209,16 @@ public class ConfirmWindow
 	{
 		set { button_cancel = value; }
 		get { return button_cancel; }
+	}
+
+	private void connectWidgets (Gtk.Builder builder)
+	{
+		confirm_window = (Gtk.Window) builder.GetObject ("confirm_window");
+		label1 = (Gtk.Label) builder.GetObject ("label1");
+		label_link = (Gtk.Label) builder.GetObject ("label_link");
+		label_question = (Gtk.Label) builder.GetObject ("label_question");
+		button_accept = (Gtk.Button) builder.GetObject ("button_accept");
+		button_cancel = (Gtk.Button) builder.GetObject ("button_cancel");
 	}
 
 	~ConfirmWindow() {}

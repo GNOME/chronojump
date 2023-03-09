@@ -15,13 +15,13 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2022   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2023   Xavier de Blas <xaviblas@gmail.com> 
  */
 
 using System;
 using Gtk;
 using Gdk;
-using Glade;
+//using Glade;
 using Mono.Unix;
 using System.Collections; //ArrayList
 using System.Collections.Generic; //List
@@ -57,29 +57,31 @@ public partial class ChronoJumpWindow
 //all the find select controls based on PersonShowAllEventsWindow
 public class PersonMergeWindow
 {
-	[Widget] Gtk.Window person_merge;
+	// at glade ---->
+	Gtk.Window person_merge;
 
 	// widgets like in PersonShowAllEventsWindow
-	[Widget] Gtk.HBox hbox_session_radios;
-	[Widget] Gtk.RadioButton radio_session_current;
-	[Widget] Gtk.RadioButton radio_session_all;
-	[Widget] Gtk.HBox hbox_filter;
-	[Widget] Gtk.Entry entry_filter;
-	[Widget] Gtk.Label label_person_name;
+	Gtk.HBox hbox_session_radios;
+	Gtk.RadioButton radio_session_current;
+	Gtk.RadioButton radio_session_all;
+	Gtk.HBox hbox_filter;
+	Gtk.Entry entry_filter;
+	Gtk.Label label_person_name;
 
-	[Widget] Gtk.Box hbox_combo_persons;
-	[Widget] Gtk.ComboBox combo_persons;
+	Gtk.Box hbox_combo_persons;
 
 	// widgets specific to this class
-	[Widget] Gtk.Notebook notebook;
-	[Widget] Gtk.Label label_persons_identify;
-	[Widget] Gtk.Label label_persons_tests;
-	[Widget] Gtk.Image image_button_cancel;
-	[Widget] Gtk.Image image_button_back;
-	[Widget] Gtk.Image image_button_accept;
-	[Widget] Gtk.Image image_button_merge;
-	[Widget] Gtk.Table table_diffs;
+	Gtk.Notebook notebook;
+	Gtk.Label label_persons_identify;
+	Gtk.Label label_persons_tests;
+	Gtk.Image image_button_cancel;
+	Gtk.Image image_button_back;
+	Gtk.Image image_button_accept;
+	Gtk.Image image_button_merge;
+	Gtk.Table table_diffs;
+	// <---- at glade
 
+	Gtk.ComboBoxText combo_persons;
 	public Gtk.Button fakeButtonDone;
 
 	static PersonMergeWindow PersonMergeWindowBox;
@@ -99,9 +101,14 @@ public class PersonMergeWindow
 
 	PersonMergeWindow (Gtk.Window parent, int sessionID, Person currentPerson)
 	{
+		/*
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "person_merge.glade", "person_merge", "chronojump");
 		gladeXML.Autoconnect(this);
+		*/
+		Gtk.Builder builder = new Gtk.Builder (null, Util.GetGladePath () + "person_merge.glade", null);
+		connectWidgets (builder);
+		builder.Autoconnect (this);
 
 		//put an icon to window
 		UtilGtk.IconWindow(person_merge);
@@ -152,7 +159,7 @@ public class PersonMergeWindow
 
 	private void createComboPersons (int sessionID, string personID, string personName)
 	{
-		combo_persons = ComboBox.NewText ();
+		combo_persons = new ComboBoxText ();
 
 		int inSession = -1;		//select persons from all sessions
 		if (radio_session_current.Active)
@@ -582,5 +589,30 @@ public class PersonMergeWindow
 	public PersonSession CurrentPersonSession
 	{
 		get { return SqlitePersonSession.Select (false, currentPerson.UniqueID, sessionID); }
+	}
+
+	private void connectWidgets (Gtk.Builder builder)
+	{
+		person_merge = (Gtk.Window) builder.GetObject ("person_merge");
+
+		// widgets like in PersonShowAllEventsWindow
+		hbox_session_radios = (Gtk.HBox) builder.GetObject ("hbox_session_radios");
+		radio_session_current = (Gtk.RadioButton) builder.GetObject ("radio_session_current");
+		radio_session_all = (Gtk.RadioButton) builder.GetObject ("radio_session_all");
+		hbox_filter = (Gtk.HBox) builder.GetObject ("hbox_filter");
+		entry_filter = (Gtk.Entry) builder.GetObject ("entry_filter");
+		label_person_name = (Gtk.Label) builder.GetObject ("label_person_name");
+
+		hbox_combo_persons = (Gtk.Box) builder.GetObject ("hbox_combo_persons");
+
+		// widgets specific to this class
+		notebook = (Gtk.Notebook) builder.GetObject ("notebook");
+		label_persons_identify = (Gtk.Label) builder.GetObject ("label_persons_identify");
+		label_persons_tests = (Gtk.Label) builder.GetObject ("label_persons_tests");
+		image_button_cancel = (Gtk.Image) builder.GetObject ("image_button_cancel");
+		image_button_back = (Gtk.Image) builder.GetObject ("image_button_back");
+		image_button_accept = (Gtk.Image) builder.GetObject ("image_button_accept");
+		image_button_merge = (Gtk.Image) builder.GetObject ("image_button_merge");
+		table_diffs = (Gtk.Table) builder.GetObject ("table_diffs");
 	}
 }

@@ -15,13 +15,13 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2021   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2004-2023   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
 using Gdk;
 using Gtk;
-using Glade;
+//using Glade;
 using System.Text; //StringBuilder
 using System.Collections; //ArrayList
 using System.Collections.Generic; //List<>
@@ -36,59 +36,62 @@ using Mono.Unix;
 
 public class EditEventWindow 
 {
-	[Widget] protected Gtk.Window edit_event;
-	protected bool weightPercentPreferred;
-	[Widget] protected Gtk.Button button_accept;
-	[Widget] protected Gtk.Label label_header;
-	[Widget] protected Gtk.Label label_type_title;
-	[Widget] protected Gtk.Label label_type_value;
-	[Widget] protected Gtk.Label label_run_start_title;
-	[Widget] protected Gtk.Label label_run_start_value;
-	[Widget] protected Gtk.Label label_event_id_value;
-	[Widget] protected Gtk.Label label_tv_title;
-	[Widget] protected Gtk.Entry entry_tv_value;
-	[Widget] protected Gtk.Label label_tv_units;
-	[Widget] protected Gtk.Label label_tc_title;
-	[Widget] protected Gtk.Entry entry_tc_value;
-	[Widget] protected Gtk.Label label_tc_units;
-	[Widget] protected Gtk.Label label_fall_title;
-	[Widget] protected Gtk.Entry entry_fall_value;
-	[Widget] protected Gtk.Label label_fall_units;
-	[Widget] protected Gtk.Label label_distance_title;
-	[Widget] protected Gtk.Entry entry_distance_value;
-	[Widget] protected Gtk.Label label_distance_units;
-	[Widget] protected Gtk.Label label_time_title;
-	[Widget] protected Gtk.Entry entry_time_value;
-	[Widget] protected Gtk.Label label_time_units;
-	[Widget] protected Gtk.Label label_speed_title;
-	[Widget] protected Gtk.Label label_speed_value;
-	[Widget] protected Gtk.Label label_speed_units;
-	[Widget] protected Gtk.Label label_weight_title;
-	[Widget] protected Gtk.Entry entry_weight_value;
-	[Widget] protected Gtk.Label label_weight_units;
-	[Widget] protected Gtk.Label label_limited_title;
-	[Widget] protected Gtk.Label label_limited_value;
-	//[Widget] protected Gtk.Label label_angle_title; //kneeAngle
-	//[Widget] protected Gtk.Entry entry_angle_value; //kneeAngle
-	//[Widget] protected Gtk.Label label_angle_units; //kneeAngle
-	[Widget] protected Gtk.Label label_simulated;
+	// at glade ---->
+	protected Gtk.Window edit_event;
+	protected Gtk.Button button_accept;
+	protected Gtk.Label label_header;
+	protected Gtk.Label label_type_title;
+	protected Gtk.Label label_type_value;
+	protected Gtk.Label label_run_start_title;
+	protected Gtk.Label label_run_start_value;
+	protected Gtk.Label label_event_id_value;
+	protected Gtk.Label label_tv_title;
+	protected Gtk.Entry entry_tv_value;
+	protected Gtk.Label label_tv_units;
+	protected Gtk.Label label_tc_title;
+	protected Gtk.Entry entry_tc_value;
+	protected Gtk.Label label_tc_units;
+	protected Gtk.Label label_fall_title;
+	protected Gtk.Entry entry_fall_value;
+	protected Gtk.Label label_fall_units;
+	protected Gtk.Label label_distance_title;
+	protected Gtk.Entry entry_distance_value;
+	protected Gtk.Label label_distance_units;
+	protected Gtk.Label label_time_title;
+	protected Gtk.Entry entry_time_value;
+	protected Gtk.Label label_time_units;
+	protected Gtk.Label label_speed_title;
+	protected Gtk.Label label_speed_value;
+	protected Gtk.Label label_speed_units;
+	protected Gtk.Label label_weight_title;
+	protected Gtk.Entry entry_weight_value;
+	protected Gtk.Label label_weight_units;
+	protected Gtk.Label label_limited_title;
+	protected Gtk.Label label_limited_value;
+	//protected Gtk.Label label_angle_title; //kneeAngle
+	//protected Gtk.Entry entry_angle_value; //kneeAngle
+	//protected Gtk.Label label_angle_units; //kneeAngle
+	protected Gtk.Label label_simulated;
 	
-	[Widget] protected Gtk.Box hbox_combo_eventType;
-	[Widget] protected Gtk.ComboBox combo_eventType;
-	[Widget] protected Gtk.Box hbox_combo_person;
-	[Widget] protected Gtk.ComboBox combo_persons;
+	protected Gtk.Box hbox_combo_eventType;
+	protected Gtk.Box hbox_combo_person;
 	
-	[Widget] protected Gtk.Label label_mistakes;
-	[Widget] protected Gtk.SpinButton spin_mistakes;
+	protected Gtk.Label label_mistakes;
+	protected Gtk.SpinButton spin_mistakes;
 
-	[Widget] protected Gtk.Label label_video_yes_no;
-	[Widget] protected Gtk.Button button_video_watch;
-	[Widget] protected Gtk.Image image_video_watch;
-	[Widget] protected Gtk.Button button_video_url;
+	protected Gtk.Label label_video_yes_no;
+	protected Gtk.Button button_video_watch;
+	protected Gtk.Image image_video_watch;
+	protected Gtk.Button button_video_url;
+	protected Gtk.Entry entry_description;
+	//protected Gtk.TextView textview_description;
+	// <---- at glade
+
+	protected Gtk.ComboBoxText combo_eventType;
+	protected Gtk.ComboBoxText combo_persons;
+
 	protected string videoFileName = "";
-	
-	[Widget] protected Gtk.Entry entry_description;
-	//[Widget] protected Gtk.TextView textview_description;
+	protected bool weightPercentPreferred;
 
 	static EditEventWindow EditEventWindowBox;
 	protected Gtk.Window parent;
@@ -294,7 +297,7 @@ public class EditEventWindow
 		foreach (Person person in persons) 
 			personsStrings[i++] = person.IDAndName(":");
 
-		combo_persons = ComboBox.NewText();
+		combo_persons = new ComboBoxText();
 		UtilGtk.ComboUpdate(combo_persons, personsStrings, "");
 		combo_persons.Active = UtilGtk.ComboMakeActive(personsStrings, myEvent.PersonID + ":" + myEvent.PersonName);
 		
@@ -355,7 +358,7 @@ public class EditEventWindow
 		
 	protected void createComboEventType(Event myEvent) 
 	{
-		combo_eventType = ComboBox.NewText ();
+		combo_eventType = new ComboBoxText ();
 		string [] myTypes = findTypes(myEvent);
 		UtilGtk.ComboUpdate(combo_eventType, myTypes, "");
 		combo_eventType.Active = UtilGtk.ComboMakeActive(myTypes, myEvent.Type);
@@ -605,6 +608,58 @@ public class EditEventWindow
 	}
 	*/
 
+	protected void connectWidgetsEditEvent (Gtk.Builder builder)
+	{
+		edit_event = (Gtk.Window) builder.GetObject ("edit_event");
+		button_accept = (Gtk.Button) builder.GetObject ("button_accept");
+		label_header = (Gtk.Label) builder.GetObject ("label_header");
+		label_type_title = (Gtk.Label) builder.GetObject ("label_type_title");
+		label_type_value = (Gtk.Label) builder.GetObject ("label_type_value");
+		label_run_start_title = (Gtk.Label) builder.GetObject ("label_run_start_title");
+		label_run_start_value = (Gtk.Label) builder.GetObject ("label_run_start_value");
+		label_event_id_value = (Gtk.Label) builder.GetObject ("label_event_id_value");
+		label_tv_title = (Gtk.Label) builder.GetObject ("label_tv_title");
+		entry_tv_value = (Gtk.Entry) builder.GetObject ("entry_tv_value");
+		label_tv_units = (Gtk.Label) builder.GetObject ("label_tv_units");
+		label_tc_title = (Gtk.Label) builder.GetObject ("label_tc_title");
+		entry_tc_value = (Gtk.Entry) builder.GetObject ("entry_tc_value");
+		label_tc_units = (Gtk.Label) builder.GetObject ("label_tc_units");
+		label_fall_title = (Gtk.Label) builder.GetObject ("label_fall_title");
+		entry_fall_value = (Gtk.Entry) builder.GetObject ("entry_fall_value");
+		label_fall_units = (Gtk.Label) builder.GetObject ("label_fall_units");
+		label_distance_title = (Gtk.Label) builder.GetObject ("label_distance_title");
+		entry_distance_value = (Gtk.Entry) builder.GetObject ("entry_distance_value");
+		label_distance_units = (Gtk.Label) builder.GetObject ("label_distance_units");
+		label_time_title = (Gtk.Label) builder.GetObject ("label_time_title");
+		entry_time_value = (Gtk.Entry) builder.GetObject ("entry_time_value");
+		label_time_units = (Gtk.Label) builder.GetObject ("label_time_units");
+		label_speed_title = (Gtk.Label) builder.GetObject ("label_speed_title");
+		label_speed_value = (Gtk.Label) builder.GetObject ("label_speed_value");
+		label_speed_units = (Gtk.Label) builder.GetObject ("label_speed_units");
+		label_weight_title = (Gtk.Label) builder.GetObject ("label_weight_title");
+		entry_weight_value = (Gtk.Entry) builder.GetObject ("entry_weight_value");
+		label_weight_units = (Gtk.Label) builder.GetObject ("label_weight_units");
+		label_limited_title = (Gtk.Label) builder.GetObject ("label_limited_title");
+		label_limited_value = (Gtk.Label) builder.GetObject ("label_limited_value");
+		// label_angle_title = (Gtk.Label) builder.GetObject ("label_angle_title"); //kneeAngle
+		// entry_angle_value = (Gtk.Entry) builder.GetObject ("entry_angle_value"); //kneeAngle
+		// label_angle_units = (Gtk.Label) builder.GetObject ("label_angle_units"); //kneeAngle
+		label_simulated = (Gtk.Label) builder.GetObject ("label_simulated");
+
+		hbox_combo_eventType = (Gtk.Box) builder.GetObject ("hbox_combo_eventType");
+		hbox_combo_person = (Gtk.Box) builder.GetObject ("hbox_combo_person");
+
+		label_mistakes = (Gtk.Label) builder.GetObject ("label_mistakes");
+		spin_mistakes = (Gtk.SpinButton) builder.GetObject ("spin_mistakes");
+
+		label_video_yes_no = (Gtk.Label) builder.GetObject ("label_video_yes_no");
+		button_video_watch = (Gtk.Button) builder.GetObject ("button_video_watch");
+		image_video_watch = (Gtk.Image) builder.GetObject ("image_video_watch");
+		button_video_url = (Gtk.Button) builder.GetObject ("button_video_url");
+		entry_description = (Gtk.Entry) builder.GetObject ("entry_description");
+		// textview_description = (Gtk.TextView) builder.GetObject ("textview_description");
+	}
+
 	~EditEventWindow() {}
 }
 
@@ -615,18 +670,19 @@ public class EditEventWindow
 
 public class EventMoreWindow 
 {
-	[Widget] protected Gtk.Notebook notebook;
-	[Widget] protected Gtk.TreeView treeview_more;
-	[Widget] protected Gtk.Button button_accept;
-	[Widget] protected Gtk.Button button_delete_type;
-	[Widget] protected Gtk.Button button_cancel;
-	[Widget] protected Gtk.Button button_close;
-	[Widget] protected Gtk.Button button_close1;
-	[Widget] protected Gtk.Label label_delete_confirm;
-	[Widget] protected Gtk.Label label_delete_confirm_name;
-	[Widget] protected Gtk.Label label_delete_cannot;
-	[Widget] protected Gtk.Image image_delete;
-	[Widget] protected Gtk.Image image_delete1;
+	protected Gtk.Notebook notebook;
+	protected Gtk.TreeView treeview_more;
+	protected Gtk.Button button_accept;
+	protected Gtk.Button button_delete_type;
+	protected Gtk.Button button_cancel;
+	protected Gtk.Button button_close;
+	protected Gtk.Button button_close1;
+	protected Gtk.Label label_delete_confirm;
+	protected Gtk.Label label_delete_confirm_name;
+	protected Gtk.Label label_delete_cannot;
+	protected Gtk.Image image_delete;
+	protected Gtk.Image image_delete1;
+
 	protected Gtk.Window parent;
 
 	protected enum notebookPages { TESTS, DELETECONFIRM, DELETECANNOT };
@@ -761,7 +817,7 @@ public class EventMoreWindow
 
 		button_deleted_test.Click();
 
-		TreeModel model;
+		ITreeModel model;
 		TreeIter iter;
 		if (treeview_more.Selection.GetSelected (out model, out iter)) 
 			store.Remove(ref iter);
@@ -805,5 +861,21 @@ public class EventMoreWindow
 	
 	public string SelectedDescription {
 		get { return selectedDescription; }
+	}
+
+	protected void connectWidgetsEventMore (Gtk.Builder builder)
+	{
+		notebook = (Gtk.Notebook) builder.GetObject ("notebook");
+		treeview_more = (Gtk.TreeView) builder.GetObject ("treeview_more");
+		button_accept = (Gtk.Button) builder.GetObject ("button_accept");
+		button_delete_type = (Gtk.Button) builder.GetObject ("button_delete_type");
+		button_cancel = (Gtk.Button) builder.GetObject ("button_cancel");
+		button_close = (Gtk.Button) builder.GetObject ("button_close");
+		button_close1 = (Gtk.Button) builder.GetObject ("button_close1");
+		label_delete_confirm = (Gtk.Label) builder.GetObject ("label_delete_confirm");
+		label_delete_confirm_name = (Gtk.Label) builder.GetObject ("label_delete_confirm_name");
+		label_delete_cannot = (Gtk.Label) builder.GetObject ("label_delete_cannot");
+		image_delete = (Gtk.Image) builder.GetObject ("image_delete");
+		image_delete1 = (Gtk.Image) builder.GetObject ("image_delete1");
 	}
 }

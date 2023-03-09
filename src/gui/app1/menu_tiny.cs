@@ -15,54 +15,54 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2018-2020   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2018-2023   Xavier de Blas <xaviblas@gmail.com> 
  */
 
 //this file has methods of ChronoJumpWindow related to manage menu_tiny
 
 using System;
 using Gtk;
-using Glade;
+//using Glade;
 //using System.Collections.Generic; //List
 
 public partial class ChronoJumpWindow
 {
-	[Widget] Gtk.Alignment alignment_menu_tiny;
-	[Widget] Gtk.Arrow arrow_menu_show_session_up1;
-	[Widget] Gtk.Arrow arrow_menu_show_session_down1;
-	[Widget] Gtk.VBox vbox_menu_tiny;
-	[Widget] Gtk.VBox vbox_menu_tiny_menu; //really the menu (without the logos at the bottom)
-	[Widget] Gtk.EventBox eventbox_button_menu_database;
-	[Widget] Gtk.EventBox eventbox_check_menu_session1;
-	[Widget] Gtk.EventBox eventbox_button_menu_session_more1;
-	[Widget] Gtk.EventBox eventbox_button_menu_session_new1;
-	[Widget] Gtk.EventBox eventbox_button_menu_session_load1;
-	[Widget] Gtk.EventBox eventbox_button_menu_preferences1;
-	[Widget] Gtk.EventBox eventbox_button_menu_help1;
-	[Widget] Gtk.EventBox eventbox_button_menu_news1;
-	[Widget] Gtk.EventBox eventbox_button_menu_exit1;
-	[Widget] Gtk.EventBox eventbox_button_contacts_person_change;
-	[Widget] Gtk.EventBox eventbox_button_encoder_person_change;
-	[Widget] Gtk.EventBox eventbox_button_networks_contacts_guest;
-	[Widget] Gtk.EventBox eventbox_button_networks_encoder_guest;
-	[Widget] Gtk.CheckButton check_menu_session1;
-	[Widget] Gtk.Button button_menu_preferences1;
-	[Widget] Gtk.Button button_menu_news1;
-	[Widget] Gtk.VBox vbox_menu_session1;
-	[Widget] Gtk.Alignment alignment_menu_session_options1;
+	Gtk.Alignment alignment_menu_tiny;
+	Gtk.Arrow arrow_menu_show_session_up1;
+	Gtk.Arrow arrow_menu_show_session_down1;
+	Gtk.VBox vbox_menu_tiny;
+	Gtk.VBox vbox_menu_tiny_menu; //really the menu (without the logos at the bottom)
+	Gtk.EventBox eventbox_button_menu_database;
+	Gtk.EventBox eventbox_check_menu_session1;
+	Gtk.EventBox eventbox_button_menu_session_more1;
+	Gtk.EventBox eventbox_button_menu_session_new1;
+	Gtk.EventBox eventbox_button_menu_session_load1;
+	Gtk.EventBox eventbox_button_menu_preferences1;
+	Gtk.EventBox eventbox_button_menu_help1;
+	Gtk.EventBox eventbox_button_menu_news1;
+	Gtk.EventBox eventbox_button_menu_exit1;
+	Gtk.EventBox eventbox_button_contacts_person_change;
+	Gtk.EventBox eventbox_button_encoder_person_change;
+	Gtk.EventBox eventbox_button_networks_contacts_guest;
+	Gtk.EventBox eventbox_button_networks_encoder_guest;
+	Gtk.CheckButton check_menu_session1;
+	Gtk.Button button_menu_preferences1;
+	Gtk.Button button_menu_news1;
+	Gtk.VBox vbox_menu_session1;
+	Gtk.Alignment alignment_menu_session_options1;
 
-	[Widget] Gtk.Image image_menu_folders1;
-	[Widget] Gtk.Image image_session_new1;
-	[Widget] Gtk.Image image_session_load1;
-	[Widget] Gtk.Image image_session_more1;
-	[Widget] Gtk.Image image_menu_preferences1;
-	[Widget] Gtk.Image image_menu_help1;
-	[Widget] Gtk.Image image_menu_news1;
-	[Widget] Gtk.Image image_menu_quit1;
-	[Widget] Gtk.Button button_menu_guiTest1;
+	Gtk.Image image_menu_folders1;
+	Gtk.Image image_session_new1;
+	Gtk.Image image_session_load1;
+	Gtk.Image image_session_more1;
+	Gtk.Image image_menu_preferences1;
+	Gtk.Image image_menu_help1;
+	Gtk.Image image_menu_news1;
+	Gtk.Image image_menu_quit1;
+	Gtk.Button button_menu_guiTest1;
 
-	[Widget] Gtk.Viewport viewport_image_logo_icon;
-	//[Widget] Gtk.HBox hbox_top_contacts;
+	Gtk.Viewport viewport_image_logo_icon;
+	//Gtk.HBox hbox_top_contacts;
 
 	private void menuTinyInitialize ()
 	{
@@ -172,4 +172,43 @@ public partial class ChronoJumpWindow
 			alignment_menu_session_options1.Visible = false;
 	}
 
+	private void connectWidgetsMenuTiny (Gtk.Builder builder)
+	{
+		alignment_menu_tiny = (Gtk.Alignment) builder.GetObject ("alignment_menu_tiny");
+		arrow_menu_show_session_up1 = (Gtk.Arrow) builder.GetObject ("arrow_menu_show_session_up1");
+		arrow_menu_show_session_down1 = (Gtk.Arrow) builder.GetObject ("arrow_menu_show_session_down1");
+		vbox_menu_tiny = (Gtk.VBox) builder.GetObject ("vbox_menu_tiny");
+		vbox_menu_tiny_menu = (Gtk.VBox) builder.GetObject ("vbox_menu_tiny_menu"); //really the menu (without the logos at the bottom)
+		eventbox_button_menu_database = (Gtk.EventBox) builder.GetObject ("eventbox_button_menu_database");
+		eventbox_check_menu_session1 = (Gtk.EventBox) builder.GetObject ("eventbox_check_menu_session1");
+		eventbox_button_menu_session_more1 = (Gtk.EventBox) builder.GetObject ("eventbox_button_menu_session_more1");
+		eventbox_button_menu_session_new1 = (Gtk.EventBox) builder.GetObject ("eventbox_button_menu_session_new1");
+		eventbox_button_menu_session_load1 = (Gtk.EventBox) builder.GetObject ("eventbox_button_menu_session_load1");
+		eventbox_button_menu_preferences1 = (Gtk.EventBox) builder.GetObject ("eventbox_button_menu_preferences1");
+		eventbox_button_menu_help1 = (Gtk.EventBox) builder.GetObject ("eventbox_button_menu_help1");
+		eventbox_button_menu_news1 = (Gtk.EventBox) builder.GetObject ("eventbox_button_menu_news1");
+		eventbox_button_menu_exit1 = (Gtk.EventBox) builder.GetObject ("eventbox_button_menu_exit1");
+		eventbox_button_contacts_person_change = (Gtk.EventBox) builder.GetObject ("eventbox_button_contacts_person_change");
+		eventbox_button_encoder_person_change = (Gtk.EventBox) builder.GetObject ("eventbox_button_encoder_person_change");
+		eventbox_button_networks_contacts_guest = (Gtk.EventBox) builder.GetObject ("eventbox_button_networks_contacts_guest");
+		eventbox_button_networks_encoder_guest = (Gtk.EventBox) builder.GetObject ("eventbox_button_networks_encoder_guest");
+		check_menu_session1 = (Gtk.CheckButton) builder.GetObject ("check_menu_session1");
+		button_menu_preferences1 = (Gtk.Button) builder.GetObject ("button_menu_preferences1");
+		button_menu_news1 = (Gtk.Button) builder.GetObject ("button_menu_news1");
+		vbox_menu_session1 = (Gtk.VBox) builder.GetObject ("vbox_menu_session1");
+		alignment_menu_session_options1 = (Gtk.Alignment) builder.GetObject ("alignment_menu_session_options1");
+
+		image_menu_folders1 = (Gtk.Image) builder.GetObject ("image_menu_folders1");
+		image_session_new1 = (Gtk.Image) builder.GetObject ("image_session_new1");
+		image_session_load1 = (Gtk.Image) builder.GetObject ("image_session_load1");
+		image_session_more1 = (Gtk.Image) builder.GetObject ("image_session_more1");
+		image_menu_preferences1 = (Gtk.Image) builder.GetObject ("image_menu_preferences1");
+		image_menu_help1 = (Gtk.Image) builder.GetObject ("image_menu_help1");
+		image_menu_news1 = (Gtk.Image) builder.GetObject ("image_menu_news1");
+		image_menu_quit1 = (Gtk.Image) builder.GetObject ("image_menu_quit1");
+		button_menu_guiTest1 = (Gtk.Button) builder.GetObject ("button_menu_guiTest1");
+
+		viewport_image_logo_icon = (Gtk.Viewport) builder.GetObject ("viewport_image_logo_icon");
+		//hbox_top_contacts = (Gtk.HBox) builder.GetObject ("hbox_top_contacts");
+	}
 }

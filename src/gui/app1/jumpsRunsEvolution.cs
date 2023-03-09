@@ -15,13 +15,13 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2021   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2004-2023   Xavier de Blas <xaviblas@gmail.com>
  */
 
 
 using System;
 using Gtk;
-using Glade;
+//using Glade;
 using Mono.Unix;
 
 public partial class ChronoJumpWindow 
@@ -30,13 +30,26 @@ public partial class ChronoJumpWindow
 	   ---- jumpsEvolution ----
 	   */
 
-	[Widget] Gtk.DrawingArea drawingarea_jumps_evolution;
-	[Widget] Gtk.Image image_tab_jumps_evolution;
-	[Widget] Gtk.Image image_jumps_evolution_save;
-	[Widget] Gtk.HBox hbox_combo_select_jumps_evolution;
-	[Widget] Gtk.ComboBox combo_select_jumps_evolution;
-	[Widget] Gtk.Button button_jumps_evolution_save_image;
-	[Widget] Gtk.CheckButton check_jumps_evolution_only_best_in_session;
+	// at glade ---->
+	Gtk.DrawingArea drawingarea_jumps_evolution;
+	Gtk.Image image_tab_jumps_evolution;
+	Gtk.Image image_jumps_evolution_save;
+	Gtk.HBox hbox_combo_select_jumps_evolution;
+	Gtk.Button button_jumps_evolution_save_image;
+	Gtk.CheckButton check_jumps_evolution_only_best_in_session;
+
+	Gtk.DrawingArea drawingarea_runs_evolution;
+	Gtk.Image image_tab_runs_evolution;
+	Gtk.Image image_runs_evolution_save;
+	Gtk.Image image_runs_evolution_analyze_image_save;
+	Gtk.HBox hbox_combo_select_runs_evolution;
+	Gtk.HBox hbox_combo_select_runs_evolution_distance;
+	Gtk.Button button_runs_evolution_save_image;
+	Gtk.CheckButton check_runs_evolution_only_best_in_session;
+	Gtk.CheckButton check_runs_evolution_show_time;
+	// <---- at glade
+
+	Gtk.ComboBoxText combo_select_jumps_evolution;
 
 	JumpsEvolution jumpsEvolution;
 	JumpsEvolutionGraph jumpsEvolutionGraph;
@@ -58,7 +71,7 @@ public partial class ChronoJumpWindow
 	}
 	private void on_combo_select_jumps_evolution_changed(object o, EventArgs args)
 	{
-		//ComboBox combo = o as ComboBox;
+		//ComboBoxText combo = o as ComboboxText;
 		if (o == null)
 			return;
 
@@ -131,7 +144,7 @@ public partial class ChronoJumpWindow
 			button_jumps_evolution_save_image.Sensitive = true;
 		}
 	}
-	private void on_drawingarea_jumps_evolution_expose_event (object o, ExposeEventArgs args) 
+	private void on_drawingarea_jumps_evolution_draw (object o, Gtk.DrawnArgs args) 
 	{
 		jumpsEvolutionDo(false); //do not calculate data
 		//data is calculated on switch page (at notebook_capture_analyze) or on change person
@@ -177,21 +190,11 @@ public partial class ChronoJumpWindow
 	   ---- runsEvolution ----
 	   */
 
-	[Widget] Gtk.DrawingArea drawingarea_runs_evolution;
-	[Widget] Gtk.Image image_tab_runs_evolution;
-	[Widget] Gtk.Image image_runs_evolution_save;
-	[Widget] Gtk.Image image_runs_evolution_analyze_image_save;
-	[Widget] Gtk.HBox hbox_combo_select_runs_evolution;
-	[Widget] Gtk.ComboBox combo_select_runs_evolution;
-	[Widget] Gtk.HBox hbox_combo_select_runs_evolution_distance;
-	[Widget] Gtk.ComboBox combo_select_runs_evolution_distance;
-	[Widget] Gtk.Button button_runs_evolution_save_image;
-	[Widget] Gtk.CheckButton check_runs_evolution_only_best_in_session;
-	[Widget] Gtk.CheckButton check_runs_evolution_show_time;
-
 	RunsEvolution runsEvolution;
 	RunsEvolutionGraph runsEvolutionGraph;
 	CjComboSelectRuns comboSelectRunsEvolution;
+	Gtk.ComboBoxText combo_select_runs_evolution;
+	Gtk.ComboBoxText combo_select_runs_evolution_distance;
 
 	// combo (start)
 	private void createComboSelectRunsEvolution(bool create)
@@ -209,7 +212,7 @@ public partial class ChronoJumpWindow
 	}
 	private void on_combo_select_runs_evolution_changed(object o, EventArgs args)
 	{
-		//ComboBox combo = o as ComboBox;
+		//ComboBoxText combo = o as ComboboxText;
 		if (o == null)
 			return;
 
@@ -221,7 +224,7 @@ public partial class ChronoJumpWindow
 	private bool combo_select_runs_evolution_distance_follow_signals;
 	private void createComboSelectRunsEvolutionDistance()
 	{
-		combo_select_runs_evolution_distance = ComboBox.NewText();
+		combo_select_runs_evolution_distance = new ComboBoxText();
 		//UtilGtk.ComboUpdate (combo_select_runs_evolution_distance, Catalog.GetString("All"));
 		//combo_select_runs_evolution_distance.Active = 0;
 		hbox_combo_select_runs_evolution_distance.PackStart(combo_select_runs_evolution_distance, true, true, 0);
@@ -239,7 +242,7 @@ public partial class ChronoJumpWindow
 		if(! combo_select_runs_evolution_distance_follow_signals)
 			return;
 
-		//ComboBox combo = o as ComboBox;
+		//ComboBoxText combo = o as ComboboxText;
 		if (o == null)
 			return;
 
@@ -298,7 +301,7 @@ public partial class ChronoJumpWindow
 			runsEvolution.distanceAtCombo = distanceAtCombo;
 			runsEvolution.Calculate(currentPerson.UniqueID, runType, check_runs_evolution_only_best_in_session.Active);
 
-			// 3 modify the distances combo, but only if exercise change or on creation of runsEvolution (first expose_event)
+			// 3 modify the distances combo, but only if exercise change or on creation of runsEvolution (first expose_event (draw))
 			if(exerciseChanged || runsEvolutionJustCreated)
 			{
 				if(runsEvolution.distance_l.Count > 0)
@@ -343,7 +346,7 @@ public partial class ChronoJumpWindow
 		}
 		LogB.Information("runsEvolutionDo: ended!");
 	}
-	private void on_drawingarea_runs_evolution_expose_event (object o, ExposeEventArgs args)
+	private void on_drawingarea_runs_evolution_draw (object o, Gtk.DrawnArgs args)
 	{
 		runsEvolutionDo(false, false); //do not calculate data
 		//data is calculated on switch page (at notebook_capture_analyze) or on change person
@@ -384,4 +387,23 @@ public partial class ChronoJumpWindow
 		new DialogMessage(Constants.MessageTypes.INFO, myString);
 	}
 
+	private void connectWidgetsJumpsRunsEvolution (Gtk.Builder builder)
+	{
+		drawingarea_jumps_evolution = (Gtk.DrawingArea) builder.GetObject ("drawingarea_jumps_evolution");
+		image_tab_jumps_evolution = (Gtk.Image) builder.GetObject ("image_tab_jumps_evolution");
+		image_jumps_evolution_save = (Gtk.Image) builder.GetObject ("image_jumps_evolution_save");
+		hbox_combo_select_jumps_evolution = (Gtk.HBox) builder.GetObject ("hbox_combo_select_jumps_evolution");
+		button_jumps_evolution_save_image = (Gtk.Button) builder.GetObject ("button_jumps_evolution_save_image");
+		check_jumps_evolution_only_best_in_session = (Gtk.CheckButton) builder.GetObject ("check_jumps_evolution_only_best_in_session");
+
+		drawingarea_runs_evolution = (Gtk.DrawingArea) builder.GetObject ("drawingarea_runs_evolution");
+		image_tab_runs_evolution = (Gtk.Image) builder.GetObject ("image_tab_runs_evolution");
+		image_runs_evolution_save = (Gtk.Image) builder.GetObject ("image_runs_evolution_save");
+		image_runs_evolution_analyze_image_save = (Gtk.Image) builder.GetObject ("image_runs_evolution_analyze_image_save");
+		hbox_combo_select_runs_evolution = (Gtk.HBox) builder.GetObject ("hbox_combo_select_runs_evolution");
+		hbox_combo_select_runs_evolution_distance = (Gtk.HBox) builder.GetObject ("hbox_combo_select_runs_evolution_distance");
+		button_runs_evolution_save_image = (Gtk.Button) builder.GetObject ("button_runs_evolution_save_image");
+		check_runs_evolution_only_best_in_session = (Gtk.CheckButton) builder.GetObject ("check_runs_evolution_only_best_in_session");
+		check_runs_evolution_show_time = (Gtk.CheckButton) builder.GetObject ("check_runs_evolution_show_time");
+	}
 }

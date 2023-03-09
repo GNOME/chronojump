@@ -15,19 +15,19 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2019-2020   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2019-2023   Xavier de Blas <xaviblas@gmail.com> 
  */
 
 using System;
 using Gtk;
-using Glade;
+//using Glade;
 
 public partial class ChronoJumpWindow 
 {
-	[Widget] Gtk.Frame frame_exhibition;
-	[Widget] Gtk.SpinButton spin_exhibition_school;
-	[Widget] Gtk.SpinButton spin_exhibition_group;
-	[Widget] Gtk.SpinButton spin_exhibition_id;
+	Gtk.Frame frame_exhibition;
+	Gtk.SpinButton spin_exhibition_school;
+	Gtk.SpinButton spin_exhibition_group;
+	Gtk.SpinButton spin_exhibition_id;
 
 	private void exhibitionGuiAtStart(ExhibitionTest.testTypes exhibitionStationType)
 	{
@@ -183,4 +183,12 @@ public partial class ChronoJumpWindow
 				currentPerson.UniqueID, tt, result);
 	}
 
+
+	private void connectWidgetsExhibition (Gtk.Builder builder)
+	{
+		frame_exhibition = (Gtk.Frame) builder.GetObject ("frame_exhibition");
+		spin_exhibition_school = (Gtk.SpinButton) builder.GetObject ("spin_exhibition_school");
+		spin_exhibition_group = (Gtk.SpinButton) builder.GetObject ("spin_exhibition_group");
+		spin_exhibition_id = (Gtk.SpinButton) builder.GetObject ("spin_exhibition_id");
+	}
 }

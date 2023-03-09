@@ -15,12 +15,12 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2017   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2004-2023   Xavier de Blas <xaviblas@gmail.com> 
  */
 
 using System;
 using Gtk;
-using Glade;
+//using Glade;
 using System.Text; //StringBuilder
 using System.Collections; //ArrayList
 
@@ -31,18 +31,18 @@ using Mono.Unix;
 
 public partial class ChronoJumpWindow 
 {
-	[Widget] Gtk.RadioButton extra_window_radio_multichronopic_start;
-	[Widget] Gtk.RadioButton extra_window_radio_multichronopic_run_analysis;
+	Gtk.RadioButton extra_window_radio_multichronopic_start;
+	Gtk.RadioButton extra_window_radio_multichronopic_run_analysis;
 
-	[Widget] Gtk.Label extra_window_label_multichronopic_need_two;
-	[Widget] Gtk.Button button_run_analysis_help;
+	Gtk.Label extra_window_label_multichronopic_need_two;
+	Gtk.Button button_run_analysis_help;
 
-	[Widget] Gtk.CheckButton extra_window_check_multichronopic_sync;
-	[Widget] Gtk.CheckButton extra_window_check_multichronopic_delete_first;
+	Gtk.CheckButton extra_window_check_multichronopic_sync;
+	Gtk.CheckButton extra_window_check_multichronopic_delete_first;
 
 	//run analysis
-	[Widget] Gtk.HBox extra_window_hbox_run_analysis_total_distance;
-	[Widget] Gtk.SpinButton extra_window_spin_run_analysis_distance;
+	Gtk.HBox extra_window_hbox_run_analysis_total_distance;
+	Gtk.SpinButton extra_window_spin_run_analysis_distance;
 	
 	int extra_window_multichronopic_distance = 1000; //1000cm: 10m
 
@@ -114,6 +114,22 @@ public partial class ChronoJumpWindow
 				Catalog.GetString("First Chronopic should be connected to photocells.\nSecond Chronopic to platforms.") + "\n");
 	}
 
+
+	private void connectWidgetsMultiChronopic (Gtk.Builder builder)
+	{
+		extra_window_radio_multichronopic_start = (Gtk.RadioButton) builder.GetObject ("extra_window_radio_multichronopic_start");
+		extra_window_radio_multichronopic_run_analysis = (Gtk.RadioButton) builder.GetObject ("extra_window_radio_multichronopic_run_analysis");
+
+		extra_window_label_multichronopic_need_two = (Gtk.Label) builder.GetObject ("extra_window_label_multichronopic_need_two");
+		button_run_analysis_help = (Gtk.Button) builder.GetObject ("button_run_analysis_help");
+
+		extra_window_check_multichronopic_sync = (Gtk.CheckButton) builder.GetObject ("extra_window_check_multichronopic_sync");
+		extra_window_check_multichronopic_delete_first = (Gtk.CheckButton) builder.GetObject ("extra_window_check_multichronopic_delete_first");
+
+		//run analysis
+		extra_window_hbox_run_analysis_total_distance = (Gtk.HBox) builder.GetObject ("extra_window_hbox_run_analysis_total_distance");
+		extra_window_spin_run_analysis_distance = (Gtk.SpinButton) builder.GetObject ("extra_window_spin_run_analysis_distance");
+	}
 }
 
 //--------------------------------------------------------
@@ -124,11 +140,18 @@ public class EditMultiChronopicWindow : EditEventWindow
 {
 	static EditMultiChronopicWindow EditMultiChronopicWindowBox;
 
-	EditMultiChronopicWindow (Gtk.Window parent) {
+	EditMultiChronopicWindow (Gtk.Window parent)
+	{
+		/*
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "edit_event.glade", "edit_event", "chronojump");
 		gladeXML.Autoconnect(this);
-		this.parent 	= parent;
+		*/
+		Gtk.Builder builder = new Gtk.Builder (null, Util.GetGladePath () + "edit_event.glade", null);
+		connectWidgetsEditEvent (builder);
+		builder.Autoconnect (this);
+
+		this.parent = parent;
 		
 		//put an icon to window
 		UtilGtk.IconWindow(edit_event);

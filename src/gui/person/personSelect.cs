@@ -15,46 +15,46 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2020   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2004-2023   Xavier de Blas <xaviblas@gmail.com> 
  */
 
 using System;
 using Gtk;
 using Gdk;
-using Glade;
+//using Glade;
 using System.Collections; //ArrayList
 using System.Collections.Generic; //List
 using System.IO; 
 
 public class PersonSelectWindow 
 {
-	[Widget] Gtk.Window person_select_window;
-	[Widget] Gtk.Notebook notebook;
-	[Widget] Gtk.ScrolledWindow scrolled1;
-	[Widget] Gtk.Viewport viewport1;
-	[Widget] Gtk.Viewport viewport_person_name;
-	[Widget] Gtk.Table table1;
-	[Widget] Gtk.Button button_edit;
-	[Widget] Gtk.Button button_show_all_events;
-	[Widget] Gtk.Button button_delete;
-	//[Widget] Gtk.VBox vbox_button_delete_confirm;
-	[Widget] Gtk.Label label_selected_person_name;
-	//[Widget] Gtk.Label label_confirm;
-	[Widget] Gtk.Button button_manage_persons;
-	[Widget] Gtk.Image image_manage_persons;
-	[Widget] Gtk.Image image_person_new;
-	[Widget] Gtk.Image image_persons_new_plus;
-	[Widget] Gtk.Image image_person_load;
-	[Widget] Gtk.Image image_persons_open_plus;
-	[Widget] Gtk.Image image_person_edit;
-	[Widget] Gtk.Image image_all_persons_events;
-	[Widget] Gtk.Image image_person_delete;
-	[Widget] Gtk.Image image_manage_persons_cancel;
-	[Widget] Gtk.VBox vbox_corner_controls;
-	[Widget] Gtk.Image image_close;
-	[Widget] Gtk.Label label_manage_persons;
-	[Widget] Gtk.Label label_delete_person;
-	[Widget] Gtk.CheckButton check_show_images;
+	Gtk.Window person_select_window;
+	Gtk.Notebook notebook;
+	Gtk.ScrolledWindow scrolled1;
+	Gtk.Viewport viewport1;
+	Gtk.Viewport viewport_person_name;
+	Gtk.Table table1;
+	Gtk.Button button_edit;
+	Gtk.Button button_show_all_events;
+	Gtk.Button button_delete;
+	//Gtk.VBox vbox_button_delete_confirm;
+	Gtk.Label label_selected_person_name;
+	//Gtk.Label label_confirm;
+	Gtk.Button button_manage_persons;
+	Gtk.Image image_manage_persons;
+	Gtk.Image image_person_new;
+	Gtk.Image image_persons_new_plus;
+	Gtk.Image image_person_load;
+	Gtk.Image image_persons_open_plus;
+	Gtk.Image image_person_edit;
+	Gtk.Image image_all_persons_events;
+	Gtk.Image image_person_delete;
+	Gtk.Image image_manage_persons_cancel;
+	Gtk.VBox vbox_corner_controls;
+	Gtk.Image image_close;
+	Gtk.Label label_manage_persons;
+	Gtk.Label label_delete_person;
+	Gtk.CheckButton check_show_images;
 	
 	static PersonSelectWindow PersonSelectWindowBox;
 	
@@ -79,9 +79,14 @@ public class PersonSelectWindow
 	
 	PersonSelectWindow (Gtk.Window parent, bool raspberry, bool lowHeight)
 	{
+		/*
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "person_select_window.glade", "person_select_window", "chronojump");
 		gladeXML.Autoconnect(this);
+		*/
+		Gtk.Builder builder = new Gtk.Builder (null, Util.GetGladePath () + "person_select_window.glade", null);
+		connectWidgets (builder);
+		builder.Autoconnect (this);
 		
 		int slidebarSize = 20;
 		if(raspberry)
@@ -473,6 +478,37 @@ public class PersonSelectWindow
 		args.RetVal = true;
 		close_window();
 	}
+
+	private void connectWidgets (Gtk.Builder builder)
+	{
+		person_select_window = (Gtk.Window) builder.GetObject ("person_select_window");
+		notebook = (Gtk.Notebook) builder.GetObject ("notebook");
+		scrolled1 = (Gtk.ScrolledWindow) builder.GetObject ("scrolled1");
+		viewport1 = (Gtk.Viewport) builder.GetObject ("viewport1");
+		viewport_person_name = (Gtk.Viewport) builder.GetObject ("viewport_person_name");
+		table1 = (Gtk.Table) builder.GetObject ("table1");
+		button_edit = (Gtk.Button) builder.GetObject ("button_edit");
+		button_show_all_events = (Gtk.Button) builder.GetObject ("button_show_all_events");
+		button_delete = (Gtk.Button) builder.GetObject ("button_delete");
+		//vbox_button_delete_confirm = (Gtk.VBox) builder.GetObject ("vbox_button_delete_confirm");
+		label_selected_person_name = (Gtk.Label) builder.GetObject ("label_selected_person_name");
+		//label_confirm = (Gtk.Label) builder.GetObject ("label_confirm");
+		button_manage_persons = (Gtk.Button) builder.GetObject ("button_manage_persons");
+		image_manage_persons = (Gtk.Image) builder.GetObject ("image_manage_persons");
+		image_person_new = (Gtk.Image) builder.GetObject ("image_person_new");
+		image_persons_new_plus = (Gtk.Image) builder.GetObject ("image_persons_new_plus");
+		image_person_load = (Gtk.Image) builder.GetObject ("image_person_load");
+		image_persons_open_plus = (Gtk.Image) builder.GetObject ("image_persons_open_plus");
+		image_person_edit = (Gtk.Image) builder.GetObject ("image_person_edit");
+		image_all_persons_events = (Gtk.Image) builder.GetObject ("image_all_persons_events");
+		image_person_delete = (Gtk.Image) builder.GetObject ("image_person_delete");
+		image_manage_persons_cancel = (Gtk.Image) builder.GetObject ("image_manage_persons_cancel");
+		vbox_corner_controls = (Gtk.VBox) builder.GetObject ("vbox_corner_controls");
+		image_close = (Gtk.Image) builder.GetObject ("image_close");
+		label_manage_persons = (Gtk.Label) builder.GetObject ("label_manage_persons");
+		label_delete_person = (Gtk.Label) builder.GetObject ("label_delete_person");
+		check_show_images = (Gtk.CheckButton) builder.GetObject ("check_show_images");
+	}
 }
 
 //used by PersonSelectWindow
@@ -584,8 +620,8 @@ public class PersonPhotoButton
 		viewport.Add(label_name);
 		viewport.Show();
 
-		vbox.PackStart(image); 				//0
-		vbox.PackStart(label_id); 			//1
+		vbox.PackStart(image, false, false, 0); 				//0
+		vbox.PackStart(label_id, false, false, 0); 			//1
 		vbox.PackEnd(viewport, false, false, 1); 	//2 (contains label_name)
 
 		vbox.Show();

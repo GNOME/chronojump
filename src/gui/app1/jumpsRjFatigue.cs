@@ -22,28 +22,30 @@
 
 using System;
 using Gtk;
-using Glade;
+//using Glade;
 using Mono.Unix;
 using System.Collections.Generic; //List<T> 
 
 public partial class ChronoJumpWindow 
 {
-	[Widget] Gtk.DrawingArea drawingarea_jumps_rj_fatigue;
-	[Widget] Gtk.Button button_jumps_rj_fatigue_save_image;
-	[Widget] Gtk.Image image_jumps_rj_fatigue_save;
-	[Widget] Gtk.Image image_jumps_rj_fatigue_image_save;
+	// at glade ---->
+	Gtk.DrawingArea drawingarea_jumps_rj_fatigue;
+	Gtk.Button button_jumps_rj_fatigue_save_image;
+	Gtk.Image image_jumps_rj_fatigue_save;
+	Gtk.Image image_jumps_rj_fatigue_image_save;
 
-	[Widget] Gtk.HBox hbox_combo_select_jumps_rj_fatigue;
-	[Widget] Gtk.ComboBox combo_select_jumps_rj_fatigue;
+	Gtk.HBox hbox_combo_select_jumps_rj_fatigue;
 
-	[Widget] Gtk.HBox hbox_combo_select_jumps_rj_fatigue_num;
-	[Widget] Gtk.ComboBox combo_select_jumps_rj_fatigue_num;
+	Gtk.HBox hbox_combo_select_jumps_rj_fatigue_num;
 
-	[Widget] Gtk.RadioButton radio_jumps_rj_fatigue_heights;
-	[Widget] Gtk.RadioButton radio_jumps_rj_fatigue_tv_tc;
-	[Widget] Gtk.RadioButton radio_jumps_rj_fatigue_rsi;
+	Gtk.RadioButton radio_jumps_rj_fatigue_heights;
+	Gtk.RadioButton radio_jumps_rj_fatigue_tv_tc;
+	Gtk.RadioButton radio_jumps_rj_fatigue_rsi;
+	Gtk.ComboBoxText combo_jumps_rj_fatigue_divide_in;
+	// <---- at glade
 
-	[Widget] Gtk.ComboBox combo_jumps_rj_fatigue_divide_in;
+	Gtk.ComboBoxText combo_select_jumps_rj_fatigue;
+	Gtk.ComboBoxText combo_select_jumps_rj_fatigue_num;
 
 	JumpsRjFatigue jumpsRjFatigue;
 	JumpsRjFatigueGraph jumpsRjFatigueGraph;
@@ -66,7 +68,7 @@ public partial class ChronoJumpWindow
 	}
 	private void on_combo_select_jumps_rj_fatigue_changed (object o, EventArgs args)
 	{
-		//ComboBox combo = o as ComboBox;
+		//ComboBoxText combo = o as ComboboxText;
 		if (o == null)
 			return;
 
@@ -94,7 +96,7 @@ public partial class ChronoJumpWindow
 	}
 	private void on_combo_select_jumps_rj_fatigue_num_changed (object o, EventArgs args)
 	{
-		//ComboBox combo = o as ComboBox;
+		//ComboBoxText combo = o as ComboboxText;
 		if (o == null)
 			return;
 
@@ -211,7 +213,7 @@ public partial class ChronoJumpWindow
 		}
 	}
 
-	private void on_drawingarea_jumps_rj_fatigue_expose_event (object o, ExposeEventArgs args)
+	private void on_drawingarea_jumps_rj_fatigue_draw (object o, Gtk.DrawnArgs args)
 	{
 		//createComboSelectJumpsRjFatigueNum (false);
 		jumpsRjFatigueDo(false);
@@ -252,4 +254,20 @@ public partial class ChronoJumpWindow
 		new DialogMessage(Constants.MessageTypes.INFO, myString);
 	}
 
+	private void connectWidgetsJumpsRjFatigue (Gtk.Builder builder)
+	{
+		drawingarea_jumps_rj_fatigue = (Gtk.DrawingArea) builder.GetObject ("drawingarea_jumps_rj_fatigue");
+		button_jumps_rj_fatigue_save_image = (Gtk.Button) builder.GetObject ("button_jumps_rj_fatigue_save_image");
+		image_jumps_rj_fatigue_save = (Gtk.Image) builder.GetObject ("image_jumps_rj_fatigue_save");
+		image_jumps_rj_fatigue_image_save = (Gtk.Image) builder.GetObject ("image_jumps_rj_fatigue_image_save");
+
+		hbox_combo_select_jumps_rj_fatigue = (Gtk.HBox) builder.GetObject ("hbox_combo_select_jumps_rj_fatigue");
+
+		hbox_combo_select_jumps_rj_fatigue_num = (Gtk.HBox) builder.GetObject ("hbox_combo_select_jumps_rj_fatigue_num");
+
+		radio_jumps_rj_fatigue_heights = (Gtk.RadioButton) builder.GetObject ("radio_jumps_rj_fatigue_heights");
+		radio_jumps_rj_fatigue_tv_tc = (Gtk.RadioButton) builder.GetObject ("radio_jumps_rj_fatigue_tv_tc");
+		radio_jumps_rj_fatigue_rsi = (Gtk.RadioButton) builder.GetObject ("radio_jumps_rj_fatigue_rsi");
+		combo_jumps_rj_fatigue_divide_in = (Gtk.ComboBoxText) builder.GetObject ("combo_jumps_rj_fatigue_divide_in");
+	}
 }

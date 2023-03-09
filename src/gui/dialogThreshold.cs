@@ -15,47 +15,52 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2016-2020   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2016-2023   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
 using Gtk;
 using Gdk;
-using Glade;
 using Mono.Unix;
 
 public class DialogThreshold
 {
-	[Widget] Gtk.Dialog dialog_threshold;
+	Gtk.Dialog dialog_threshold;
 
-	[Widget] Gtk.Notebook notebook;
-	[Widget] Gtk.TextView textview_about;
-	[Widget] Gtk.TextView textview_jumps;
-	[Widget] Gtk.TextView textview_races;
-	[Widget] Gtk.TextView textview_other;
-	[Widget] Gtk.RadioButton radio_jumps;
-	[Widget] Gtk.RadioButton radio_races;
-	[Widget] Gtk.RadioButton radio_other;
+	Gtk.Notebook notebook;
+	Gtk.TextView textview_about;
+	Gtk.TextView textview_jumps;
+	Gtk.TextView textview_races;
+	Gtk.TextView textview_other;
+	Gtk.RadioButton radio_jumps;
+	Gtk.RadioButton radio_races;
+	Gtk.RadioButton radio_other;
 
-	[Widget] Gtk.Label label_threshold_name;
-	[Widget] Gtk.Label label_threshold_value;
-	[Widget] Gtk.HScale hscale_threshold;
+	Gtk.Label label_threshold_name;
+
+	Gtk.Label label_threshold_value;
+	Gtk.HScale hscale_threshold;
 
 	//just for the colors
-	[Widget] Gtk.Label label_about;
-	[Widget] Gtk.Label label_radio_jumps;
-	[Widget] Gtk.Label label_radio_races;
-	[Widget] Gtk.Label label_radio_other;
+	Gtk.Label label_about;
+	Gtk.Label label_radio_jumps;
+	Gtk.Label label_radio_races;
+	Gtk.Label label_radio_other;
 
 	private int thresholdCurrent;
 	public Button FakeButtonClose;
 
 	public DialogThreshold (Constants.Modes m, int thresholdCurrent)
 	{
+		/*
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "dialog_threshold.glade", "dialog_threshold", null);
 		gladeXML.Autoconnect(this);
-		
+		*/
+		Gtk.Builder builder = new Gtk.Builder (null, Util.GetGladePath () + "dialog_threshold.glade", null);
+		connectWidgets (builder);
+		builder.Autoconnect(this);
+
 		//put an icon to window
 		UtilGtk.IconWindow(dialog_threshold);
 
@@ -176,5 +181,26 @@ public class DialogThreshold
 	public int ThresholdCurrent
 	{
 		get { return thresholdCurrent;	}
+	}
+
+	//:'<,'>s/Gtk.\(.*\) \(.*\);/\2 = (Gtk.\1) builder.GetObject ("\2");
+	private void connectWidgets (Gtk.Builder builder)
+	{
+		dialog_threshold = (Gtk.Dialog) builder.GetObject ("dialog_threshold");
+		notebook = (Gtk.Notebook) builder.GetObject ("notebook");
+		textview_about = (Gtk.TextView) builder.GetObject ("textview_about");
+		textview_jumps = (Gtk.TextView) builder.GetObject ("textview_jumps");
+		textview_races = (Gtk.TextView) builder.GetObject ("textview_races");
+		textview_other = (Gtk.TextView) builder.GetObject ("textview_other");
+		radio_jumps = (Gtk.RadioButton) builder.GetObject ("radio_jumps");
+		radio_races = (Gtk.RadioButton) builder.GetObject ("radio_races");
+		radio_other = (Gtk.RadioButton) builder.GetObject ("radio_other");
+		label_threshold_name = (Gtk.Label) builder.GetObject ("label_threshold_name");
+		label_threshold_value = (Gtk.Label) builder.GetObject ("label_threshold_value");
+		hscale_threshold = (Gtk.HScale) builder.GetObject ("hscale_threshold");
+		label_about = (Gtk.Label) builder.GetObject ("label_about");
+		label_radio_jumps = (Gtk.Label) builder.GetObject ("label_radio_jumps");
+		label_radio_races = (Gtk.Label) builder.GetObject ("label_radio_races");
+		label_radio_other = (Gtk.Label) builder.GetObject ("label_radio_other");
 	}
 }

@@ -20,7 +20,7 @@
 
 using System;
 using Gtk;
-using Glade;
+//using Glade;
 using System.Text; //StringBuilder
 using Mono.Unix;
 
@@ -33,57 +33,74 @@ using Mono.Unix;
 public partial class ChronoJumpWindow
 {
 	//options jumps
-	[Widget] Gtk.Button button_combo_jumps_exercise_capture_left;
-	[Widget] Gtk.Button button_combo_jumps_exercise_capture_right;
-	[Widget] Gtk.Button button_jump_type_delete_simple;
-	[Widget] Gtk.SpinButton extra_window_jumps_spinbutton_weight;
-	[Widget] Gtk.HBox extra_window_jumps_simple_hbox_start_inside;
-	[Widget] Gtk.Box extra_window_jumps_hbox_fall;
-	[Widget] Gtk.CheckButton extra_window_jumps_check_dj_fall_calculate;
-	[Widget] Gtk.Label extra_window_jumps_label_dj_start_inside;
-	[Widget] Gtk.Label extra_window_jumps_label_dj_start_outside;
-	[Widget] Gtk.Image extra_window_jumps_image_fall;
-	[Widget] Gtk.Image extra_window_jumps_image_weight;
-	[Widget] Gtk.SpinButton extra_window_jumps_spinbutton_fall;
-	[Widget] Gtk.Table table_extra_window_jumps_weight;
-	[Widget] Gtk.RadioButton extra_window_jumps_radiobutton_kg;
-	[Widget] Gtk.RadioButton extra_window_jumps_radiobutton_weight;
-	//[Widget] Gtk.Label extra_window_jumps_label_weight;
-	[Widget] Gtk.CheckButton extra_window_jumps_check_dj_arms;
+	Gtk.Button button_combo_jumps_exercise_capture_left;
+	Gtk.Button button_combo_jumps_exercise_capture_right;
+	Gtk.Button button_jump_type_delete_simple;
+	Gtk.SpinButton extra_window_jumps_spinbutton_weight;
+	Gtk.HBox extra_window_jumps_simple_hbox_start_inside;
+	Gtk.Box extra_window_jumps_hbox_fall;
+	Gtk.CheckButton extra_window_jumps_check_dj_fall_calculate;
+	Gtk.Label extra_window_jumps_label_dj_start_inside;
+	Gtk.Label extra_window_jumps_label_dj_start_outside;
+	Gtk.Image extra_window_jumps_image_fall;
+	Gtk.Image extra_window_jumps_image_weight;
+	Gtk.SpinButton extra_window_jumps_spinbutton_fall;
+	Gtk.Table table_extra_window_jumps_weight;
+	Gtk.RadioButton extra_window_jumps_radiobutton_kg;
+	Gtk.RadioButton extra_window_jumps_radiobutton_weight;
+	//Gtk.Label extra_window_jumps_label_weight;
+	Gtk.CheckButton extra_window_jumps_check_dj_arms;
 
 	//show weight on kg when percent is selected (SJl, CMJl, ABKl)
-	[Widget] Gtk.Label label_extra_window_jumps_radiobutton_weight_percent_as_kg;
-	[Widget] Gtk.Label label_extra_window_jumps_rj_radiobutton_weight_percent_as_kg;
+	Gtk.Label label_extra_window_jumps_radiobutton_weight_percent_as_kg;
+	Gtk.Label label_extra_window_jumps_rj_radiobutton_weight_percent_as_kg;
 
 	//slCMJ	
-	[Widget] Gtk.Table table_extra_window_jumps_single_leg_radios;
-	[Widget] Gtk.RadioButton extra_window_jumps_radiobutton_single_leg_mode_vertical;
-	[Widget] Gtk.RadioButton extra_window_jumps_radiobutton_single_leg_mode_horizontal;
-	[Widget] Gtk.RadioButton extra_window_jumps_radiobutton_single_leg_dominance_this_limb;
-	[Widget] Gtk.RadioButton extra_window_jumps_radiobutton_single_leg_dominance_opposite;
-	[Widget] Gtk.RadioButton extra_window_jumps_radiobutton_single_leg_fall_this_limb;
-	[Widget] Gtk.RadioButton extra_window_jumps_radiobutton_single_leg_fall_opposite;
-	[Widget] Gtk.SpinButton extra_window_jumps_spin_single_leg_distance;
-	[Widget] Gtk.SpinButton extra_window_jumps_spin_single_leg_angle;
+	Gtk.Table table_extra_window_jumps_single_leg_radios;
+	Gtk.RadioButton extra_window_jumps_radiobutton_single_leg_mode_vertical;
+	Gtk.RadioButton extra_window_jumps_radiobutton_single_leg_mode_horizontal;
+	Gtk.RadioButton extra_window_jumps_radiobutton_single_leg_dominance_this_limb;
+	Gtk.RadioButton extra_window_jumps_radiobutton_single_leg_dominance_opposite;
+	Gtk.RadioButton extra_window_jumps_radiobutton_single_leg_fall_this_limb;
+	Gtk.RadioButton extra_window_jumps_radiobutton_single_leg_fall_opposite;
+	Gtk.SpinButton extra_window_jumps_spin_single_leg_distance;
+	Gtk.SpinButton extra_window_jumps_spin_single_leg_angle;
 	
 	//options jumps_rj
-	[Widget] Gtk.Button button_combo_jumps_rj_exercise_capture_left;
-	[Widget] Gtk.Button button_combo_jumps_rj_exercise_capture_right;
-	[Widget] Gtk.Button button_jump_type_delete_reactive;
-	[Widget] Gtk.Label extra_window_jumps_rj_label_limit;
-	[Widget] Gtk.SpinButton extra_window_jumps_rj_spinbutton_limit;
-	[Widget] Gtk.Label extra_window_jumps_rj_label_limit_units;
-	[Widget] Gtk.SpinButton extra_window_jumps_rj_spinbutton_weight;
-	[Widget] Gtk.SpinButton extra_window_jumps_rj_spinbutton_fall;
-	[Widget] Gtk.RadioButton extra_window_jumps_rj_radiobutton_kg;
-	[Widget] Gtk.RadioButton extra_window_jumps_rj_radiobutton_weight;
-	[Widget] Gtk.Table table_extra_window_jumps_rj_weight;
-	[Widget] Gtk.HBox hbox_extra_window_jumps_rj_hbox_fall;
-	[Widget] Gtk.Image extra_window_jumps_rj_image_fall;
-	[Widget] Gtk.Image extra_window_jumps_rj_image_weight;
-	[Widget] Gtk.Label extra_window_jumps_label_rj_start_inside;
-	[Widget] Gtk.Label extra_window_jumps_label_rj_start_outside;
-	[Widget] Gtk.CheckButton checkbutton_allow_finish_rj_after_time;
+	Gtk.Button button_combo_jumps_rj_exercise_capture_left;
+	Gtk.Button button_combo_jumps_rj_exercise_capture_right;
+	Gtk.Button button_jump_type_delete_reactive;
+	Gtk.Label extra_window_jumps_rj_label_limit;
+	Gtk.SpinButton extra_window_jumps_rj_spinbutton_limit;
+	Gtk.Label extra_window_jumps_rj_label_limit_units;
+	Gtk.SpinButton extra_window_jumps_rj_spinbutton_weight;
+	Gtk.SpinButton extra_window_jumps_rj_spinbutton_fall;
+	Gtk.RadioButton extra_window_jumps_rj_radiobutton_kg;
+	Gtk.RadioButton extra_window_jumps_rj_radiobutton_weight;
+	Gtk.Table table_extra_window_jumps_rj_weight;
+	Gtk.HBox hbox_extra_window_jumps_rj_hbox_fall;
+	Gtk.Image extra_window_jumps_rj_image_fall;
+	Gtk.Image extra_window_jumps_rj_image_weight;
+	Gtk.Label extra_window_jumps_label_rj_start_inside;
+	Gtk.Label extra_window_jumps_label_rj_start_outside;
+	Gtk.CheckButton checkbutton_allow_finish_rj_after_time;
+
+	Gtk.Button button_jumps_extra_weight_minus_10;
+	Gtk.Button button_jumps_extra_weight_minus_1;
+	Gtk.Button button_jumps_extra_weight_plus_1;
+	Gtk.Button button_jumps_extra_weight_plus_10;
+	Gtk.Button button_jumps_rj_extra_weight_minus_10;
+	Gtk.Button button_jumps_rj_extra_weight_minus_1;
+	Gtk.Button button_jumps_rj_extra_weight_plus_1;
+	Gtk.Button button_jumps_rj_extra_weight_plus_10;
+	Gtk.Button button_jumps_extra_fall_minus_10;
+	Gtk.Button button_jumps_extra_fall_minus_1;
+	Gtk.Button button_jumps_extra_fall_plus_1;
+	Gtk.Button button_jumps_extra_fall_plus_10;
+	Gtk.Button button_jumps_rj_extra_fall_minus_10;
+	Gtk.Button button_jumps_rj_extra_fall_minus_1;
+	Gtk.Button button_jumps_rj_extra_fall_plus_1;
+	Gtk.Button button_jumps_rj_extra_fall_plus_10;
 
 	
 	//for RunAnalysis
@@ -616,23 +633,6 @@ public partial class ChronoJumpWindow
 		label_extra_window_jumps_rj_radiobutton_weight_percent_as_kg.Visible = true;
 	}
 
-	[Widget] Gtk.Button button_jumps_extra_weight_minus_10;
-	[Widget] Gtk.Button button_jumps_extra_weight_minus_1;
-	[Widget] Gtk.Button button_jumps_extra_weight_plus_1;
-	[Widget] Gtk.Button button_jumps_extra_weight_plus_10;
-	[Widget] Gtk.Button button_jumps_rj_extra_weight_minus_10;
-	[Widget] Gtk.Button button_jumps_rj_extra_weight_minus_1;
-	[Widget] Gtk.Button button_jumps_rj_extra_weight_plus_1;
-	[Widget] Gtk.Button button_jumps_rj_extra_weight_plus_10;
-	[Widget] Gtk.Button button_jumps_extra_fall_minus_10;
-	[Widget] Gtk.Button button_jumps_extra_fall_minus_1;
-	[Widget] Gtk.Button button_jumps_extra_fall_plus_1;
-	[Widget] Gtk.Button button_jumps_extra_fall_plus_10;
-	[Widget] Gtk.Button button_jumps_rj_extra_fall_minus_10;
-	[Widget] Gtk.Button button_jumps_rj_extra_fall_minus_1;
-	[Widget] Gtk.Button button_jumps_rj_extra_fall_plus_1;
-	[Widget] Gtk.Button button_jumps_rj_extra_fall_plus_10;
-
 	private void on_button_jumps_params_accelerators_clicked (object o, EventArgs args)
 	{
 		//jumps simple, weight
@@ -817,6 +817,76 @@ public partial class ChronoJumpWindow
 
 	// <---- save jumps simple image end ----
 
+	private void connectWidgetsJump (Gtk.Builder builder)
+	{
+		//options jumps
+		button_combo_jumps_exercise_capture_left = (Gtk.Button) builder.GetObject ("button_combo_jumps_exercise_capture_left");
+		button_combo_jumps_exercise_capture_right = (Gtk.Button) builder.GetObject ("button_combo_jumps_exercise_capture_right");
+		button_jump_type_delete_simple = (Gtk.Button) builder.GetObject ("button_jump_type_delete_simple");
+		extra_window_jumps_spinbutton_weight = (Gtk.SpinButton) builder.GetObject ("extra_window_jumps_spinbutton_weight");
+		extra_window_jumps_simple_hbox_start_inside = (Gtk.HBox) builder.GetObject ("extra_window_jumps_simple_hbox_start_inside");
+		extra_window_jumps_hbox_fall = (Gtk.Box) builder.GetObject ("extra_window_jumps_hbox_fall");
+		extra_window_jumps_check_dj_fall_calculate = (Gtk.CheckButton) builder.GetObject ("extra_window_jumps_check_dj_fall_calculate");
+		extra_window_jumps_label_dj_start_inside = (Gtk.Label) builder.GetObject ("extra_window_jumps_label_dj_start_inside");
+		extra_window_jumps_label_dj_start_outside = (Gtk.Label) builder.GetObject ("extra_window_jumps_label_dj_start_outside");
+		extra_window_jumps_image_fall = (Gtk.Image) builder.GetObject ("extra_window_jumps_image_fall");
+		extra_window_jumps_image_weight = (Gtk.Image) builder.GetObject ("extra_window_jumps_image_weight");
+		extra_window_jumps_spinbutton_fall = (Gtk.SpinButton) builder.GetObject ("extra_window_jumps_spinbutton_fall");
+		table_extra_window_jumps_weight = (Gtk.Table) builder.GetObject ("table_extra_window_jumps_weight");
+		extra_window_jumps_radiobutton_kg = (Gtk.RadioButton) builder.GetObject ("extra_window_jumps_radiobutton_kg");
+		extra_window_jumps_radiobutton_weight = (Gtk.RadioButton) builder.GetObject ("extra_window_jumps_radiobutton_weight");
+		//extra_window_jumps_label_weight = (Gtk.Label) builder.GetObject ("extra_window_jumps_label_weight");
+		extra_window_jumps_check_dj_arms = (Gtk.CheckButton) builder.GetObject ("extra_window_jumps_check_dj_arms");
+
+		//show weight on kg when percent is selected (SJl, CMJl, ABKl)
+		label_extra_window_jumps_radiobutton_weight_percent_as_kg = (Gtk.Label) builder.GetObject ("label_extra_window_jumps_radiobutton_weight_percent_as_kg");
+		label_extra_window_jumps_rj_radiobutton_weight_percent_as_kg = (Gtk.Label) builder.GetObject ("label_extra_window_jumps_rj_radiobutton_weight_percent_as_kg");
+
+		//slCMJ	
+		table_extra_window_jumps_single_leg_radios = (Gtk.Table) builder.GetObject ("table_extra_window_jumps_single_leg_radios");
+		extra_window_jumps_radiobutton_single_leg_mode_vertical = (Gtk.RadioButton) builder.GetObject ("extra_window_jumps_radiobutton_single_leg_mode_vertical");
+		extra_window_jumps_radiobutton_single_leg_mode_horizontal = (Gtk.RadioButton) builder.GetObject ("extra_window_jumps_radiobutton_single_leg_mode_horizontal");
+		extra_window_jumps_radiobutton_single_leg_dominance_this_limb = (Gtk.RadioButton) builder.GetObject ("extra_window_jumps_radiobutton_single_leg_dominance_this_limb");
+		extra_window_jumps_radiobutton_single_leg_dominance_opposite = (Gtk.RadioButton) builder.GetObject ("extra_window_jumps_radiobutton_single_leg_dominance_opposite");
+		extra_window_jumps_radiobutton_single_leg_fall_this_limb = (Gtk.RadioButton) builder.GetObject ("extra_window_jumps_radiobutton_single_leg_fall_this_limb");
+		extra_window_jumps_radiobutton_single_leg_fall_opposite = (Gtk.RadioButton) builder.GetObject ("extra_window_jumps_radiobutton_single_leg_fall_opposite");
+		extra_window_jumps_spin_single_leg_distance = (Gtk.SpinButton) builder.GetObject ("extra_window_jumps_spin_single_leg_distance");
+		extra_window_jumps_spin_single_leg_angle = (Gtk.SpinButton) builder.GetObject ("extra_window_jumps_spin_single_leg_angle");
+
+		//options jumps_rj
+		button_combo_jumps_rj_exercise_capture_left = (Gtk.Button) builder.GetObject ("button_combo_jumps_rj_exercise_capture_left");
+		button_combo_jumps_rj_exercise_capture_right = (Gtk.Button) builder.GetObject ("button_combo_jumps_rj_exercise_capture_right");
+		button_jump_type_delete_reactive = (Gtk.Button) builder.GetObject ("button_jump_type_delete_reactive");
+		extra_window_jumps_rj_label_limit = (Gtk.Label) builder.GetObject ("extra_window_jumps_rj_label_limit");
+		extra_window_jumps_rj_spinbutton_limit = (Gtk.SpinButton) builder.GetObject ("extra_window_jumps_rj_spinbutton_limit");
+		extra_window_jumps_rj_label_limit_units = (Gtk.Label) builder.GetObject ("extra_window_jumps_rj_label_limit_units");
+		extra_window_jumps_rj_spinbutton_weight = (Gtk.SpinButton) builder.GetObject ("extra_window_jumps_rj_spinbutton_weight");
+		extra_window_jumps_rj_spinbutton_fall = (Gtk.SpinButton) builder.GetObject ("extra_window_jumps_rj_spinbutton_fall");
+		extra_window_jumps_rj_radiobutton_kg = (Gtk.RadioButton) builder.GetObject ("extra_window_jumps_rj_radiobutton_kg");
+		extra_window_jumps_rj_radiobutton_weight = (Gtk.RadioButton) builder.GetObject ("extra_window_jumps_rj_radiobutton_weight");
+		table_extra_window_jumps_rj_weight = (Gtk.Table) builder.GetObject ("table_extra_window_jumps_rj_weight");
+		hbox_extra_window_jumps_rj_hbox_fall = (Gtk.HBox) builder.GetObject ("hbox_extra_window_jumps_rj_hbox_fall");
+		extra_window_jumps_rj_image_fall = (Gtk.Image) builder.GetObject ("extra_window_jumps_rj_image_fall");
+		extra_window_jumps_rj_image_weight = (Gtk.Image) builder.GetObject ("extra_window_jumps_rj_image_weight");
+		extra_window_jumps_label_rj_start_inside = (Gtk.Label) builder.GetObject ("extra_window_jumps_label_rj_start_inside");
+		extra_window_jumps_label_rj_start_outside = (Gtk.Label) builder.GetObject ("extra_window_jumps_label_rj_start_outside");
+		checkbutton_allow_finish_rj_after_time = (Gtk.CheckButton) builder.GetObject ("checkbutton_allow_finish_rj_after_time");
+
+		button_jumps_extra_weight_minus_10 = (Gtk.Button) builder.GetObject ("button_jumps_extra_weight_minus_10");
+		button_jumps_extra_weight_minus_1 = (Gtk.Button) builder.GetObject ("button_jumps_extra_weight_minus_1");
+		button_jumps_extra_weight_plus_1 = (Gtk.Button) builder.GetObject ("button_jumps_extra_weight_plus_1");
+		button_jumps_extra_weight_plus_10 = (Gtk.Button) builder.GetObject ("button_jumps_extra_weight_plus_10");
+		button_jumps_rj_extra_weight_minus_10 = (Gtk.Button) builder.GetObject ("button_jumps_rj_extra_weight_minus_10");
+		button_jumps_rj_extra_weight_minus_1 = (Gtk.Button) builder.GetObject ("button_jumps_rj_extra_weight_minus_1");
+		button_jumps_rj_extra_weight_plus_1 = (Gtk.Button) builder.GetObject ("button_jumps_rj_extra_weight_plus_1");
+		button_jumps_rj_extra_weight_plus_10 = (Gtk.Button) builder.GetObject ("button_jumps_rj_extra_weight_plus_10");
+		button_jumps_extra_fall_minus_10 = (Gtk.Button) builder.GetObject ("button_jumps_extra_fall_minus_10");
+		button_jumps_extra_fall_minus_1 = (Gtk.Button) builder.GetObject ("button_jumps_extra_fall_minus_1");
+		button_jumps_extra_fall_plus_1 = (Gtk.Button) builder.GetObject ("button_jumps_extra_fall_plus_1");
+		button_jumps_extra_fall_plus_10 = (Gtk.Button) builder.GetObject ("button_jumps_extra_fall_plus_10");
+		button_jumps_rj_extra_fall_minus_10 = (Gtk.Button) builder.GetObject ("button_jumps_rj_extra_fall_minus_10");
+		button_jumps_rj_extra_fall_minus_1 = (Gtk.Button) builder.GetObject ("button_jumps_rj_extra_fall_minus_1");
+		button_jumps_rj_extra_fall_plus_1 = (Gtk.Button) builder.GetObject ("button_jumps_rj_extra_fall_plus_1");
+		button_jumps_rj_extra_fall_plus_10 = (Gtk.Button) builder.GetObject ("button_jumps_rj_extra_fall_plus_10");
+	}
 }
-
-

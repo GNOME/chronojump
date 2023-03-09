@@ -15,43 +15,45 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2022   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2004-2023   Xavier de Blas <xaviblas@gmail.com>
  */
 
 
 using System;
 using Gtk;
-using Glade;
+//using Glade;
 using Gdk;
 using Mono.Unix;
 
 public partial class ChronoJumpWindow 
 {
-	[Widget] Gtk.Frame frame_contacts_exercise;
-	[Widget] Gtk.Button button_combo_select_contacts_top_left;
-	[Widget] Gtk.Button button_combo_select_contacts_top_right;
-	[Widget] Gtk.Button button_contacts_exercise;
-	[Widget] Gtk.Frame frame_image_test;
-	[Widget] Gtk.Label label_contacts_exercise_selected_name;
-	[Widget] Gtk.Image image_contacts_exercise_selected_options1;
-	[Widget] Gtk.Image image_contacts_exercise_selected_options2;
-	[Widget] Gtk.Image image_contacts_exercise_selected_options3;
-	[Widget] Gtk.Label label_contacts_exercise_selected_options1;
-	[Widget] Gtk.Label label_contacts_exercise_selected_options2;
-	[Widget] Gtk.Label label_contacts_exercise_selected_options3;
-	[Widget] Gtk.HBox hbox_contacts_exercise_actions;
-	[Widget] Gtk.Button button_contacts_exercise_actions_edit_do;
-	[Widget] Gtk.Button button_contacts_exercise_actions_add_do;
-	[Widget] Gtk.Label label_contacts_exercise_error;
+	// at glade ---->
+	Gtk.Frame frame_contacts_exercise;
+	Gtk.Button button_combo_select_contacts_top_left;
+	Gtk.Button button_combo_select_contacts_top_right;
+	Gtk.Button button_contacts_exercise;
+	Gtk.Frame frame_image_test;
+	Gtk.Label label_contacts_exercise_selected_name;
+	Gtk.Image image_contacts_exercise_selected_options1;
+	Gtk.Image image_contacts_exercise_selected_options2;
+	Gtk.Image image_contacts_exercise_selected_options3;
+	Gtk.Label label_contacts_exercise_selected_options1;
+	Gtk.Label label_contacts_exercise_selected_options2;
+	Gtk.Label label_contacts_exercise_selected_options3;
+	Gtk.HBox hbox_contacts_exercise_actions;
+	Gtk.Button button_contacts_exercise_actions_edit_do;
+	Gtk.Button button_contacts_exercise_actions_add_do;
+	Gtk.Label label_contacts_exercise_error;
+	// <---- at glade
 
-	private void update_combo_select_contacts_top_using_combo (Gtk.ComboBox cb)
+	private void update_combo_select_contacts_top_using_combo (Gtk.ComboBoxText cb)
 	{
 		if(combo_select_contacts_top == null)
 			return;
 
 		comboSelectContactsTopNoFollow = true;
 
-		UtilGtk.ComboUpdate(combo_select_contacts_top, UtilGtk.ComboGetValues (cb), "");
+		UtilGtk.ComboUpdate (combo_select_contacts_top, UtilGtk.ComboGetValues (cb), "");
 		combo_select_contacts_top.Active = cb.Active;
 
 		comboSelectContactsTopNoFollow = false;
@@ -457,6 +459,26 @@ public partial class ChronoJumpWindow
 
 	// <---- end of manage exercise edit/add from the app1.glade ----
 
+
+	private void connectWidgetsContactsExercise (Gtk.Builder builder)
+	{
+		frame_contacts_exercise = (Gtk.Frame) builder.GetObject ("frame_contacts_exercise");
+		button_combo_select_contacts_top_left = (Gtk.Button) builder.GetObject ("button_combo_select_contacts_top_left");
+		button_combo_select_contacts_top_right = (Gtk.Button) builder.GetObject ("button_combo_select_contacts_top_right");
+		button_contacts_exercise = (Gtk.Button) builder.GetObject ("button_contacts_exercise");
+		frame_image_test = (Gtk.Frame) builder.GetObject ("frame_image_test");
+		label_contacts_exercise_selected_name = (Gtk.Label) builder.GetObject ("label_contacts_exercise_selected_name");
+		image_contacts_exercise_selected_options1 = (Gtk.Image) builder.GetObject ("image_contacts_exercise_selected_options1");
+		image_contacts_exercise_selected_options2 = (Gtk.Image) builder.GetObject ("image_contacts_exercise_selected_options2");
+		image_contacts_exercise_selected_options3 = (Gtk.Image) builder.GetObject ("image_contacts_exercise_selected_options3");
+		label_contacts_exercise_selected_options1 = (Gtk.Label) builder.GetObject ("label_contacts_exercise_selected_options1");
+		label_contacts_exercise_selected_options2 = (Gtk.Label) builder.GetObject ("label_contacts_exercise_selected_options2");
+		label_contacts_exercise_selected_options3 = (Gtk.Label) builder.GetObject ("label_contacts_exercise_selected_options3");
+		hbox_contacts_exercise_actions = (Gtk.HBox) builder.GetObject ("hbox_contacts_exercise_actions");
+		button_contacts_exercise_actions_edit_do = (Gtk.Button) builder.GetObject ("button_contacts_exercise_actions_edit_do");
+		button_contacts_exercise_actions_add_do = (Gtk.Button) builder.GetObject ("button_contacts_exercise_actions_add_do");
+		label_contacts_exercise_error = (Gtk.Label) builder.GetObject ("label_contacts_exercise_error");
+	}
 }
 
 public class ContactsCaptureDisplay : BooleansInt

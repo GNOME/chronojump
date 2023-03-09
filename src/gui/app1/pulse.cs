@@ -15,12 +15,12 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2019   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2004-2023   Xavier de Blas <xaviblas@gmail.com> 
  */
 
 using System;
 using Gtk;
-using Glade;
+//using Glade;
 using System.Text; //StringBuilder
 
 using Mono.Unix;
@@ -29,15 +29,14 @@ using Mono.Unix;
 
 public partial class ChronoJumpWindow 
 {
-	[Widget] Gtk.RadioButton extra_window_radio_pulses_custom;
-	[Widget] Gtk.RadioButton extra_window_radio_pulses_free;
-	
-	[Widget] Gtk.VBox vbox_extra_window_pulses;
-	[Widget] Gtk.SpinButton extra_window_pulses_spinbutton_pulse_step;
-	[Widget] Gtk.SpinButton extra_window_pulses_spinbutton_ppm;
-	[Widget] Gtk.SpinButton extra_window_pulses_spinbutton_total_pulses;
-	[Widget] Gtk.CheckButton extra_window_pulses_checkbutton_unlimited;
-	[Widget] Gtk.HBox extra_window_pulses_hbox_total_pulses;
+	Gtk.RadioButton extra_window_radio_pulses_custom;
+	Gtk.RadioButton extra_window_radio_pulses_free;
+	Gtk.VBox vbox_extra_window_pulses;
+	Gtk.SpinButton extra_window_pulses_spinbutton_pulse_step;
+	Gtk.SpinButton extra_window_pulses_spinbutton_ppm;
+	Gtk.SpinButton extra_window_pulses_spinbutton_total_pulses;
+	Gtk.CheckButton extra_window_pulses_checkbutton_unlimited;
+	Gtk.HBox extra_window_pulses_hbox_total_pulses;
 	
 
 	double extra_window_pulseStep = 1.000;
@@ -95,6 +94,17 @@ public partial class ChronoJumpWindow
 			extra_window_pulses_spinbutton_pulse_step.Value = 60 / 
 				(double) extra_window_pulses_spinbutton_ppm.Value;
 	}
-	
+
+	private void connectWidgetsPulse (Gtk.Builder builder)
+	{
+		extra_window_radio_pulses_custom = (Gtk.RadioButton) builder.GetObject ("extra_window_radio_pulses_custom");
+		extra_window_radio_pulses_free = (Gtk.RadioButton) builder.GetObject ("extra_window_radio_pulses_free");
+		vbox_extra_window_pulses = (Gtk.VBox) builder.GetObject ("vbox_extra_window_pulses");
+		extra_window_pulses_spinbutton_pulse_step = (Gtk.SpinButton) builder.GetObject ("extra_window_pulses_spinbutton_pulse_step");
+		extra_window_pulses_spinbutton_ppm = (Gtk.SpinButton) builder.GetObject ("extra_window_pulses_spinbutton_ppm");
+		extra_window_pulses_spinbutton_total_pulses = (Gtk.SpinButton) builder.GetObject ("extra_window_pulses_spinbutton_total_pulses");
+		extra_window_pulses_checkbutton_unlimited = (Gtk.CheckButton) builder.GetObject ("extra_window_pulses_checkbutton_unlimited");
+		extra_window_pulses_hbox_total_pulses = (Gtk.HBox) builder.GetObject ("extra_window_pulses_hbox_total_pulses");
+	}	
 }
 

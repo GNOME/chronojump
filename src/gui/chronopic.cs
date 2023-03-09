@@ -22,7 +22,7 @@
 using System;
 using Gtk;
 using Gdk;
-using Glade;
+//using Glade;
 using System.IO.Ports;
 using Mono.Unix;
 using System.Threading;

@@ -15,21 +15,21 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2022   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2004-2023   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
 using Gtk;
-using Glade;
+//using Glade;
 
 public partial class ChronoJumpWindow
 {
-	[Widget] Gtk.VBox app1s_vbox_delete_question;
-	[Widget] Gtk.Label app1s_label_delete_session_confirm_name;
-	[Widget] Gtk.HButtonBox app1s_hbuttonbox_delete_accept_cancel;
-	[Widget] Gtk.Label app1s_label_delete_cannot;
-	[Widget] Gtk.Label app1s_label_delete_done;
-	[Widget] Gtk.Button app1s_button_delete_close;
+	Gtk.VBox app1s_vbox_delete_question;
+	Gtk.Label app1s_label_delete_session_confirm_name;
+	Gtk.HButtonBox app1s_hbuttonbox_delete_accept_cancel;
+	Gtk.Label app1s_label_delete_cannot;
+	Gtk.Label app1s_label_delete_done;
+	Gtk.Button app1s_button_delete_close;
 
 	private bool deleteSessionCalledFromLoad;
 	private Session tempDeletingSession;
@@ -119,5 +119,15 @@ public partial class ChronoJumpWindow
 			app1s_recreateTreeView("deleted a session coming from load session");
 		} else
 			app1s_notebook.CurrentPage = app1s_PAGE_MODES;
+	}
+
+	private void connectWidgetsSessionDelete (Gtk.Builder builder)
+	{
+		app1s_vbox_delete_question = (Gtk.VBox) builder.GetObject ("app1s_vbox_delete_question");
+		app1s_label_delete_session_confirm_name = (Gtk.Label) builder.GetObject ("app1s_label_delete_session_confirm_name");
+		app1s_hbuttonbox_delete_accept_cancel = (Gtk.HButtonBox) builder.GetObject ("app1s_hbuttonbox_delete_accept_cancel");
+		app1s_label_delete_cannot = (Gtk.Label) builder.GetObject ("app1s_label_delete_cannot");
+		app1s_label_delete_done = (Gtk.Label) builder.GetObject ("app1s_label_delete_done");
+		app1s_button_delete_close = (Gtk.Button) builder.GetObject ("app1s_button_delete_close");
 	}
 }

@@ -15,49 +15,48 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2017   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2004-2023   Xavier de Blas <xaviblas@gmail.com> 
  */
 
 using System;
 using Gtk;
 using Gdk;
-using Glade;
+//using Glade;
 using GLib; //for Value
 using System.Collections; //ArrayList
 using Mono.Unix;
 
 
-public class ReportWindow {
+public class ReportWindow
+{
+	Gtk.Window report_window;
+	Gtk.TreeView treeview1;
+
+	Gtk.Label label_header;
+	Gtk.Label label_general;
+	Gtk.Label label_statistics;
+
+	Gtk.CheckButton cb_session_data;
+	Gtk.CheckButton cb_jumpers;
+	Gtk.CheckButton cb_jumps_simple;
+	Gtk.CheckButton cb_jumps_reactive;
+	Gtk.CheckButton cb_jumps_reactive_with_subjumps;
+	Gtk.CheckButton cb_runs_simple;
+	Gtk.CheckButton cb_runs_interval;
+	Gtk.CheckButton cb_runs_interval_with_subruns;
+	Gtk.CheckButton cb_reaction_times;
+	Gtk.CheckButton cb_pulses;
+	Gtk.Image image_report_win_graph;
+	Gtk.Image image_report_win_report;
+	Gtk.Image image_report_delete;
 	
+	Gtk.VButtonBox right_buttons;
 	
+	GenericWindow genericWin;
+
 	TreeStore store;
 	bool selected;
 
-	[Widget] Gtk.Window report_window;
-	[Widget] Gtk.TreeView treeview1;
-
-	[Widget] Gtk.Label label_header;
-	[Widget] Gtk.Label label_general;
-	[Widget] Gtk.Label label_statistics;
-
-	[Widget] Gtk.CheckButton cb_session_data;
-	[Widget] Gtk.CheckButton cb_jumpers;
-	[Widget] Gtk.CheckButton cb_jumps_simple;
-	[Widget] Gtk.CheckButton cb_jumps_reactive;
-	[Widget] Gtk.CheckButton cb_jumps_reactive_with_subjumps;
-	[Widget] Gtk.CheckButton cb_runs_simple;
-	[Widget] Gtk.CheckButton cb_runs_interval;
-	[Widget] Gtk.CheckButton cb_runs_interval_with_subruns;
-	[Widget] Gtk.CheckButton cb_reaction_times;
-	[Widget] Gtk.CheckButton cb_pulses;
-	[Widget] Gtk.Image image_report_win_graph;
-	[Widget] Gtk.Image image_report_win_report;
-	[Widget] Gtk.Image image_report_delete;
-	
-	[Widget] Gtk.VButtonBox right_buttons;
-	
-	GenericWindow genericWin;
-	
 	static ReportWindow ReportWindowBox;
 
 	//private int sessionID;
@@ -68,10 +67,17 @@ public class ReportWindow {
 	private ReportWindow () {
 	}
 
-	ReportWindow (Gtk.Window parent, Report report ) {
+	ReportWindow (Gtk.Window parent, Report report )
+	{
+		/*
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "report_window.glade", "report_window", "chronojump");
 		gladeXML.Autoconnect(this);
+		*/
+		Gtk.Builder builder = new Gtk.Builder (null, Util.GetGladePath () + "report_window.glade", null);
+		connectWidgets (builder);
+		builder.Autoconnect (this);
+
 		report_window.Parent = parent;
 		
 		//put an icon to window
@@ -248,7 +254,7 @@ public class ReportWindow {
 	private void onSelectionEntry (object o, EventArgs args)
 	{
 		//TreeView tv = (TreeView) o;
-		TreeModel model;
+		ITreeModel model;
 		TreeIter iter;
 		selected = false;
 
@@ -262,7 +268,7 @@ public class ReportWindow {
 	private void on_button_up_clicked (object o, EventArgs args) {
 		if(selected)
 		{
-			TreeModel model;
+			ITreeModel model;
 			TreeIter iter_pre; //iter_old
 			TreeIter iter_post; //iter new_ordered
 			TreePath path;
@@ -282,7 +288,7 @@ public class ReportWindow {
 	private void on_button_down_clicked (object o, EventArgs args) {
 		if(selected)
 		{
-			TreeModel model;
+			ITreeModel model;
 			TreeIter iter_pre; //iter_old
 			TreeIter iter_post; //iter new_ordered
 			TreePath path;
@@ -302,7 +308,7 @@ public class ReportWindow {
 	private void on_button_graph_clicked (object o, EventArgs args) {
 		if(selected)
 		{
-			TreeModel model;
+			ITreeModel model;
 			TreeIter iter1; 
 
 			if (treeview1.Selection.GetSelected (out model, out iter1)) {
@@ -354,7 +360,7 @@ public class ReportWindow {
 		string comment = "";
 		if(selected)
 		{
-			TreeModel model;
+			ITreeModel model;
 			TreeIter iter1; 
 
 			if (treeview1.Selection.GetSelected (out model, out iter1)) {
@@ -377,7 +383,7 @@ public class ReportWindow {
 		
 		if(selected)
 		{
-			TreeModel model;
+			ITreeModel model;
 			TreeIter iter1; 
 
 			if (treeview1.Selection.GetSelected (out model, out iter1)) {
@@ -389,7 +395,7 @@ public class ReportWindow {
 	private void on_button_delete_clicked (object o, EventArgs args) {
 		if(selected)
 		{
-			TreeModel model;
+			ITreeModel model;
 			TreeIter iter1; 
 
 			if (treeview1.Selection.GetSelected (out model, out iter1)) {
@@ -490,6 +496,32 @@ public class ReportWindow {
 		recordData();
 	
 		report.PrepareFile();
+	}
+
+	private void connectWidgets (Gtk.Builder builder)
+	{
+		report_window = (Gtk.Window) builder.GetObject ("report_window");
+		treeview1 = (Gtk.TreeView) builder.GetObject ("treeview1");
+
+		label_header = (Gtk.Label) builder.GetObject ("label_header");
+		label_general = (Gtk.Label) builder.GetObject ("label_general");
+		label_statistics = (Gtk.Label) builder.GetObject ("label_statistics");
+
+		cb_session_data = (Gtk.CheckButton) builder.GetObject ("cb_session_data");
+		cb_jumpers = (Gtk.CheckButton) builder.GetObject ("cb_jumpers");
+		cb_jumps_simple = (Gtk.CheckButton) builder.GetObject ("cb_jumps_simple");
+		cb_jumps_reactive = (Gtk.CheckButton) builder.GetObject ("cb_jumps_reactive");
+		cb_jumps_reactive_with_subjumps = (Gtk.CheckButton) builder.GetObject ("cb_jumps_reactive_with_subjumps");
+		cb_runs_simple = (Gtk.CheckButton) builder.GetObject ("cb_runs_simple");
+		cb_runs_interval = (Gtk.CheckButton) builder.GetObject ("cb_runs_interval");
+		cb_runs_interval_with_subruns = (Gtk.CheckButton) builder.GetObject ("cb_runs_interval_with_subruns");
+		cb_reaction_times = (Gtk.CheckButton) builder.GetObject ("cb_reaction_times");
+		cb_pulses = (Gtk.CheckButton) builder.GetObject ("cb_pulses");
+		image_report_win_graph = (Gtk.Image) builder.GetObject ("image_report_win_graph");
+		image_report_win_report = (Gtk.Image) builder.GetObject ("image_report_win_report");
+		image_report_delete = (Gtk.Image) builder.GetObject ("image_report_delete");
+
+		right_buttons = (Gtk.VButtonBox) builder.GetObject ("right_buttons");
 	}
 }
 

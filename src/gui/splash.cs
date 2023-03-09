@@ -15,30 +15,32 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2020   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2004-2023   Xavier de Blas <xaviblas@gmail.com> 
  */
 
 using System;
 using System.IO;
 using Gtk;
 using Gdk;
-using Glade;
+//using Glade;
 using Mono.Unix;
 
 public class SplashWindow
 {
-	[Widget] Gtk.Window splash_window;
-	[Widget] Gtk.Image image_logo;
-	[Widget] Gtk.ProgressBar progressbarVersion;
-	[Widget] Gtk.ProgressBar progressbarRate;
-	[Widget] Gtk.ProgressBar progressbarSubRate;
-	[Widget] Gtk.Label myLabel;
-	[Widget] Gtk.Button button_close;
+	Gtk.Window splash_window;
+	Gtk.Image image_logo;
+	Gtk.ProgressBar progressbarVersion;
+	Gtk.ProgressBar progressbarRate;
+	Gtk.ProgressBar progressbarSubRate;
+	Gtk.Label myLabel;
+	Gtk.Button button_close;
 
-	[Widget] Gtk.Button button_open_database_folder;
-	[Widget] Gtk.Button button_open_docs_folder;
+	Gtk.Button button_open_database_folder;
+	Gtk.Button button_open_docs_folder;
 
-	[Widget] Gtk.Button fakeButtonClose;
+	Gtk.Button fakeButtonClose;
+
+
 	public bool FakeButtonCreated = false;
 	//string progVersion = "";
 
@@ -46,9 +48,14 @@ public class SplashWindow
 
 	public SplashWindow ()
 	{
+		/*
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "splash_window.glade", "splash_window", "chronojump");
 		gladeXML.Autoconnect(this);
+		*/
+		Gtk.Builder builder = new Gtk.Builder (null, Util.GetGladePath () + "splash_window.glade", null);
+		connectWidgets (builder);
+		builder.Autoconnect (this);
 		
 		//put an icon to window
 		UtilGtk.IconWindow(splash_window);
@@ -217,4 +224,19 @@ public class SplashWindow
 		get { return fakeButtonClose; }
 	}
 
+	private void connectWidgets (Gtk.Builder builder)
+	{
+		splash_window = (Gtk.Window) builder.GetObject ("splash_window");
+		image_logo = (Gtk.Image) builder.GetObject ("image_logo");
+		progressbarVersion = (Gtk.ProgressBar) builder.GetObject ("progressbarVersion");
+		progressbarRate = (Gtk.ProgressBar) builder.GetObject ("progressbarRate");
+		progressbarSubRate = (Gtk.ProgressBar) builder.GetObject ("progressbarSubRate");
+		myLabel = (Gtk.Label) builder.GetObject ("myLabel");
+		button_close = (Gtk.Button) builder.GetObject ("button_close");
+
+		button_open_database_folder = (Gtk.Button) builder.GetObject ("button_open_database_folder");
+		button_open_docs_folder = (Gtk.Button) builder.GetObject ("button_open_docs_folder");
+
+		fakeButtonClose = (Gtk.Button) builder.GetObject ("fakeButtonClose");
+	}
 }

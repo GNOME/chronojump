@@ -15,68 +15,71 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2014-2017   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2014-2023   Xavier de Blas <xaviblas@gmail.com> 
  */
 
 using System;
 using Gtk;
 using Gdk;
-using Glade;
+//using Glade;
 using System.Collections; //ArrayList
 using System.Collections.Generic; //List<T>
 using Mono.Unix;
 
 public class ExecuteAutoWindow
 {
-	[Widget] Gtk.Window execute_auto;
-	[Widget] Gtk.Notebook notebook_main;
-	[Widget] Gtk.Button button_cancel;
-	[Widget] Gtk.Button button_next;
+	// at glade ---->
+	Gtk.Window execute_auto;
+	Gtk.Notebook notebook_main;
+	Gtk.Button button_cancel;
+	Gtk.Button button_next;
 
 	//1st tab
-	[Widget] Gtk.RadioButton radio_load;
-	[Widget] Gtk.RadioButton radio_new;
-	[Widget] Gtk.Notebook notebook_load_or_new;
-	[Widget] Gtk.TreeView treeview_load;
-	[Widget] Gtk.RadioButton radio_by_persons;
-	[Widget] Gtk.RadioButton radio_by_tests;
-	[Widget] Gtk.RadioButton radio_by_sets;
-	[Widget] Gtk.Image image_auto_by_persons;
-	[Widget] Gtk.Image image_auto_by_tests;
-	[Widget] Gtk.Image image_auto_by_sets;
-	[Widget] Gtk.Label label_persons_info;
-	[Widget] Gtk.Label label_tests_info;
-	[Widget] Gtk.Label label_series_info;
+	Gtk.RadioButton radio_load;
+	Gtk.RadioButton radio_new;
+	Gtk.Notebook notebook_load_or_new;
+	Gtk.TreeView treeview_load;
+	Gtk.RadioButton radio_by_persons;
+	Gtk.RadioButton radio_by_tests;
+	Gtk.RadioButton radio_by_sets;
+	Gtk.Image image_auto_by_persons;
+	Gtk.Image image_auto_by_tests;
+	Gtk.Image image_auto_by_sets;
+	Gtk.Label label_persons_info;
+	Gtk.Label label_tests_info;
+	Gtk.Label label_series_info;
 	
 	//2nd tab
-	[Widget] Gtk.Box hbox_combo_select;
-	[Widget] Gtk.ComboBox combo_select;
-	[Widget] Gtk.Button button_add1;
-	[Widget] Gtk.Button button_add2;
-	[Widget] Gtk.Button button_add3;
-	[Widget] Gtk.Label label_serie1;
-	[Widget] Gtk.Label label_serie2;
-	[Widget] Gtk.Label label_serie3;
-	[Widget] Gtk.ScrolledWindow scrolled_win_serie2;
-	[Widget] Gtk.ScrolledWindow scrolled_win_serie3;
-	[Widget] Gtk.TreeView treeview_serie1;
-	[Widget] Gtk.TreeView treeview_serie2;
-	[Widget] Gtk.TreeView treeview_serie3;
+	Gtk.Box hbox_combo_select;
+	Gtk.Button button_add1;
+	Gtk.Button button_add2;
+	Gtk.Button button_add3;
+	Gtk.Label label_serie1;
+	Gtk.Label label_serie2;
+	Gtk.Label label_serie3;
+	Gtk.ScrolledWindow scrolled_win_serie2;
+	Gtk.ScrolledWindow scrolled_win_serie3;
+	Gtk.TreeView treeview_serie1;
+	Gtk.TreeView treeview_serie2;
+	Gtk.TreeView treeview_serie3;
 	
-	[Widget] Gtk.Box vbox_save;
-	[Widget] Gtk.Entry entry_save_name;
-	[Widget] Gtk.Entry entry_save_description;
-	[Widget] Gtk.Button button_save;
+	Gtk.Box vbox_save;
+	Gtk.Entry entry_save_name;
+	Gtk.Entry entry_save_description;
+	Gtk.Button button_save;
 	
 	//3rd tab
-	[Widget] Gtk.TreeView treeview_result;
+	Gtk.TreeView treeview_result;
 
 	TreeStore store_load;
 	TreeStore store_serie1;
 	TreeStore store_serie2;
 	TreeStore store_serie3;
 	TreeStore store_result;
+	// <---- at glade
 	
+	Gtk.ComboBoxText combo_select;
+
 	static ExecuteAutoWindow ExecuteAutoWindowBox;
 	int sessionID;
 
@@ -86,10 +89,17 @@ public class ExecuteAutoWindow
 
 	public Gtk.Button FakeButtonAccept; //to return orderedData
 	
-	public ExecuteAutoWindow (Gtk.Window parent) {
+	public ExecuteAutoWindow (Gtk.Window parent)
+	{
+		/*
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "execute_auto.glade", "execute_auto", null);
 		gladeXML.Autoconnect(this);
+		*/
+		Gtk.Builder builder = new Gtk.Builder (null, Util.GetGladePath () + "execute_auto.glade", null);
+		connectWidgets (builder);
+		builder.Autoconnect (this);
+
 		execute_auto.Parent = parent;
 		
 		//put an icon to window
@@ -207,7 +217,7 @@ public class ExecuteAutoWindow
 	
 	private void onLoadSelectionEntry (object o, EventArgs args)
 	{
-		TreeModel model;
+		ITreeModel model;
 		TreeIter iter;
 
 		if (((TreeSelection)o).GetSelected(out model, out iter)) {
@@ -217,7 +227,7 @@ public class ExecuteAutoWindow
 
 	void on_load_row_double_clicked (object o, Gtk.RowActivatedArgs args)
 	{
-		TreeModel model;
+		ITreeModel model;
 		TreeIter iter;
 
 		if (treeview_load.Selection.GetSelected (out model, out iter)) {
@@ -256,7 +266,7 @@ public class ExecuteAutoWindow
 	}
 
 	private void loadDo () {
-		TreeModel model;
+		ITreeModel model;
 		TreeIter iter;
 		
 		if (treeview_load.Selection.GetSelected (out model, out iter)) {
@@ -323,7 +333,7 @@ public class ExecuteAutoWindow
 	ArrayList selectArray;
 	
 	private void createComboSelect() {
-		combo_select = ComboBox.NewText ();
+		combo_select = new ComboBoxText ();
 
 		selectArray = new ArrayList(jumpTypes.Length);
 		string [] jumpNamesToCombo = new String [jumpTypes.Length];
@@ -573,6 +583,50 @@ public class ExecuteAutoWindow
 		ExecuteAutoWindowBox = null;
 	}
 	
+	private void connectWidgets (Gtk.Builder builder)
+	{
+		execute_auto = (Gtk.Window) builder.GetObject ("execute_auto");
+		notebook_main = (Gtk.Notebook) builder.GetObject ("notebook_main");
+		button_cancel = (Gtk.Button) builder.GetObject ("button_cancel");
+		button_next = (Gtk.Button) builder.GetObject ("button_next");
+
+		//1st tab
+		radio_load = (Gtk.RadioButton) builder.GetObject ("radio_load");
+		radio_new = (Gtk.RadioButton) builder.GetObject ("radio_new");
+		notebook_load_or_new = (Gtk.Notebook) builder.GetObject ("notebook_load_or_new");
+		treeview_load = (Gtk.TreeView) builder.GetObject ("treeview_load");
+		radio_by_persons = (Gtk.RadioButton) builder.GetObject ("radio_by_persons");
+		radio_by_tests = (Gtk.RadioButton) builder.GetObject ("radio_by_tests");
+		radio_by_sets = (Gtk.RadioButton) builder.GetObject ("radio_by_sets");
+		image_auto_by_persons = (Gtk.Image) builder.GetObject ("image_auto_by_persons");
+		image_auto_by_tests = (Gtk.Image) builder.GetObject ("image_auto_by_tests");
+		image_auto_by_sets = (Gtk.Image) builder.GetObject ("image_auto_by_sets");
+		label_persons_info = (Gtk.Label) builder.GetObject ("label_persons_info");
+		label_tests_info = (Gtk.Label) builder.GetObject ("label_tests_info");
+		label_series_info = (Gtk.Label) builder.GetObject ("label_series_info");
+
+		//2nd tab
+		hbox_combo_select = (Gtk.Box) builder.GetObject ("hbox_combo_select");
+		button_add1 = (Gtk.Button) builder.GetObject ("button_add1");
+		button_add2 = (Gtk.Button) builder.GetObject ("button_add2");
+		button_add3 = (Gtk.Button) builder.GetObject ("button_add3");
+		label_serie1 = (Gtk.Label) builder.GetObject ("label_serie1");
+		label_serie2 = (Gtk.Label) builder.GetObject ("label_serie2");
+		label_serie3 = (Gtk.Label) builder.GetObject ("label_serie3");
+		scrolled_win_serie2 = (Gtk.ScrolledWindow) builder.GetObject ("scrolled_win_serie2");
+		scrolled_win_serie3 = (Gtk.ScrolledWindow) builder.GetObject ("scrolled_win_serie3");
+		treeview_serie1 = (Gtk.TreeView) builder.GetObject ("treeview_serie1");
+		treeview_serie2 = (Gtk.TreeView) builder.GetObject ("treeview_serie2");
+		treeview_serie3 = (Gtk.TreeView) builder.GetObject ("treeview_serie3");
+
+		vbox_save = (Gtk.Box) builder.GetObject ("vbox_save");
+		entry_save_name = (Gtk.Entry) builder.GetObject ("entry_save_name");
+		entry_save_description = (Gtk.Entry) builder.GetObject ("entry_save_description");
+		button_save = (Gtk.Button) builder.GetObject ("button_save");
+
+		//3rd tab
+		treeview_result = (Gtk.TreeView) builder.GetObject ("treeview_result");
+	}
 }
 
 

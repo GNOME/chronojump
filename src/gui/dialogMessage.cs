@@ -15,26 +15,26 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2017   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2004-2023   Xavier de Blas <xaviblas@gmail.com> 
  */
 
 using System;
 using Gdk;
 using Gtk;
-using Glade;
 
 public class DialogMessage
 {
-	[Widget] Gtk.Dialog dialog_message;
-	[Widget] Gtk.ScrolledWindow scrolledwindow_by_software;
-	[Widget] Gtk.Label label_message;
+	Gtk.Dialog dialog_message;
+	Gtk.ScrolledWindow scrolledwindow_by_software;
+	Gtk.Label label_message;
 
-	[Widget] Gtk.Image image_warning;
-	[Widget] Gtk.Image image_info;
-	[Widget] Gtk.Image image_help;
-	[Widget] Gtk.Image image_inspect;
+	Gtk.Image image_warning;
+	Gtk.Image image_info;
+	Gtk.Image image_help;
+	Gtk.Image image_inspect;
 
-	[Widget] Gtk.Button button_go;
+	Gtk.Button button_go;
+
 	public bool Visible;
 	private string button_go_link = "";
 
@@ -65,9 +65,14 @@ public class DialogMessage
 	{
 		LogB.Information("Dialog message: " + message);
 
+		/*
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "dialog_message.glade", "dialog_message", "chronojump");
 		gladeXML.Autoconnect(this);
+		*/
+		Gtk.Builder builder = new Gtk.Builder (null, Util.GetGladePath () + "dialog_message.glade", null);
+		connectWidgets (builder);
+		builder.Autoconnect (this);
 
 		button_go.Visible = false;
 		button_go_link = "";
@@ -158,5 +163,17 @@ public class DialogMessage
 	{
 		Visible = false;
 		dialog_message.Destroy ();
+	}
+
+	private void connectWidgets (Gtk.Builder builder)
+	{
+		dialog_message = (Gtk.Dialog) builder.GetObject ("dialog_message");
+		scrolledwindow_by_software = (Gtk.ScrolledWindow) builder.GetObject ("scrolledwindow_by_software");
+		label_message = (Gtk.Label) builder.GetObject ("label_message");
+		image_warning = (Gtk.Image) builder.GetObject ("image_warning");
+		image_info = (Gtk.Image) builder.GetObject ("image_info");
+		image_help = (Gtk.Image) builder.GetObject ("image_help");
+		image_inspect = (Gtk.Image) builder.GetObject ("image_inspect");
+		button_go = (Gtk.Button) builder.GetObject ("button_go");
 	}
 }

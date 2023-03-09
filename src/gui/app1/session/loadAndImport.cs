@@ -21,7 +21,7 @@
 using System;
 using System.IO;
 using Gtk;
-using Glade;
+//using Glade;
 using GLib; //for Value
 using System.Text; //StringBuilder
 using System.Collections.Generic; //List<T>
@@ -33,6 +33,22 @@ using Mono.Unix;
 
 public partial class ChronoJumpWindow
 {
+	// at glade ---->
+	Gtk.HBox app1s_hbox_frame_load;
+	Gtk.HBox app1s_hbox_frame_import;
+	Gtk.Image image_session_load3_blue;
+	Gtk.Image image_session_import1_blue;
+	Gtk.Image image_session_load3_yellow;
+	Gtk.Image image_session_import1_yellow;
+	Gtk.Label app1s_label_load;
+	Gtk.Label app1s_label_import;
+	Gtk.ScrolledWindow scrolledwin_session_load;
+	Gtk.CheckButton app1s_check_filter_by_sensor;
+	Gtk.HBox app1s_hbox_combo_tags;
+	// <---- at glade
+
+	Gtk.ComboBoxText app1s_combo_tags;
+
 	private enum app1s_windowType
 	{
 		LOAD_SESSION,
@@ -43,19 +59,6 @@ public partial class ChronoJumpWindow
 	private string app1s_selected;
 	private string app1s_import_file_path;
 
-	[Widget] Gtk.HBox app1s_hbox_frame_load;
-	[Widget] Gtk.HBox app1s_hbox_frame_import;
-	[Widget] Gtk.Image image_session_load3_blue;
-	[Widget] Gtk.Image image_session_import1_blue;
-	[Widget] Gtk.Image image_session_load3_yellow;
-	[Widget] Gtk.Image image_session_import1_yellow;
-	[Widget] Gtk.Label app1s_label_load;
-	[Widget] Gtk.Label app1s_label_import;
-	[Widget] Gtk.ScrolledWindow scrolledwin_session_load;
-
-	[Widget] Gtk.CheckButton app1s_check_filter_by_sensor;
-	[Widget] Gtk.HBox app1s_hbox_combo_tags;
-	[Widget] Gtk.ComboBox app1s_combo_tags;
 	CjComboGeneric app1sComboTags;
 
 	/*
@@ -253,19 +256,19 @@ public partial class ChronoJumpWindow
 		return s;
 	}
 
-	private static int app1s_dateColumnCompare (TreeModel model, TreeIter iter1, TreeIter iter2)
+	private static int app1s_dateColumnCompare (ITreeModel model, TreeIter iter1, TreeIter iter2)
 	{
 		var dt1String = (model.GetValue(iter1, 1).ToString());
 		var dt2String = (model.GetValue(iter2, 1).ToString());
 
-		DateTime dt1;
-		DateTime dt2;
+		System.DateTime dt1;
+		System.DateTime dt2;
 
-		var converted1 = DateTime.TryParse(dt1String, out dt1);
-		var converted2 = DateTime.TryParse(dt2String, out dt2);
+		var converted1 = System.DateTime.TryParse(dt1String, out dt1);
+		var converted2 = System.DateTime.TryParse(dt2String, out dt2);
 
 		if(converted1 && converted2)
-			return DateTime.Compare(dt1, dt2);
+			return System.DateTime.Compare(dt1, dt2);
 		else
 			return 0;
 	}
@@ -758,7 +761,7 @@ public partial class ChronoJumpWindow
 	
 	private void app1s_onSelectionEntry (object o, EventArgs args)
 	{
-		TreeModel model;
+		ITreeModel model;
 		TreeIter iter;
 		app1s_selected = "-1";
 
@@ -780,7 +783,7 @@ public partial class ChronoJumpWindow
 
 	//TODO: do not need to be public ? maybe for import
 	public int app1s_CurrentSessionId() {
-		TreeModel model;
+		ITreeModel model;
 		TreeIter iter;
 
 		if (app1s_treeview_session_load.Selection.GetSelected (out model, out iter)) {
@@ -790,7 +793,7 @@ public partial class ChronoJumpWindow
 		return -1;
 	}
 	private string app1s_CurrentSessionName() {
-		TreeModel model;
+		ITreeModel model;
 		TreeIter iter;
 
 		if (app1s_treeview_session_load.Selection.GetSelected (out model, out iter)) {
@@ -943,7 +946,7 @@ public partial class ChronoJumpWindow
 	void app1s_on_row_double_clicked (object o, Gtk.RowActivatedArgs args)
 	{
 		TreeView tv = (TreeView) o;
-		TreeModel model;
+		ITreeModel model;
 		TreeIter iter;
 
 		LogB.Information("double! type: " + app1s_type.ToString());
@@ -1076,6 +1079,21 @@ public partial class ChronoJumpWindow
 	{
 		set { app1s_button_load = value; }
 		get { return app1s_button_load; }
+	}
+
+	private void connectWidgetsSessionLoadAndImport (Gtk.Builder builder)
+	{
+		app1s_hbox_frame_load = (Gtk.HBox) builder.GetObject ("app1s_hbox_frame_load");
+		app1s_hbox_frame_import = (Gtk.HBox) builder.GetObject ("app1s_hbox_frame_import");
+		image_session_load3_blue = (Gtk.Image) builder.GetObject ("image_session_load3_blue");
+		image_session_import1_blue = (Gtk.Image) builder.GetObject ("image_session_import1_blue");
+		image_session_load3_yellow = (Gtk.Image) builder.GetObject ("image_session_load3_yellow");
+		image_session_import1_yellow = (Gtk.Image) builder.GetObject ("image_session_import1_yellow");
+		app1s_label_load = (Gtk.Label) builder.GetObject ("app1s_label_load");
+		app1s_label_import = (Gtk.Label) builder.GetObject ("app1s_label_import");
+		scrolledwin_session_load = (Gtk.ScrolledWindow) builder.GetObject ("scrolledwin_session_load");
+		app1s_check_filter_by_sensor = (Gtk.CheckButton) builder.GetObject ("app1s_check_filter_by_sensor");
+		app1s_hbox_combo_tags = (Gtk.HBox) builder.GetObject ("app1s_hbox_combo_tags");
 	}
 }
 

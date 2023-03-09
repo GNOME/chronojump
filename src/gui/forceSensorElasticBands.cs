@@ -15,59 +15,59 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2020   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2004-2023   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
 using Gdk;
 using Gtk;
-using Glade;
+//using Glade;
 using GLib; //for Value
 using System.Collections.Generic; //List<T>
 using Mono.Unix;
 
 public class ForceSensorElasticBandsWindow
 {
-	[Widget] Gtk.Window force_sensor_elastic_bands;
-	[Widget] Gtk.Label label_header;
-	//[Widget] Gtk.ScrolledWindow scrolled_window_treeview;
-	[Widget] Gtk.TreeView treeview;
-	[Widget] Gtk.Notebook notebook;
+	Gtk.Window force_sensor_elastic_bands;
+	Gtk.Label label_header;
+	//Gtk.ScrolledWindow scrolled_window_treeview;
+	Gtk.TreeView treeview;
+	Gtk.Notebook notebook;
 
 	//fist tab "add/edit"
-	[Widget] Gtk.Image image_add;
-	[Widget] Gtk.Image image_edit;
-	[Widget] Gtk.Image image_delete;
-	[Widget] Gtk.Image image_save;
-	[Widget] Gtk.Image image_cancel;
-	[Widget] Gtk.Button button_edit_save;
-	[Widget] Gtk.CheckButton check_active_view;
-	[Widget] Gtk.CheckButton check_active_edit;
-	[Widget] Gtk.HBox hbox_active_view;
-	[Widget] Gtk.HBox hbox_active_edit;
-	[Widget] Gtk.SpinButton spin_active_units_view;
-	[Widget] Gtk.SpinButton spin_active_units_edit;
-	[Widget] Gtk.SpinButton spin_stiffness_view;
-	[Widget] Gtk.SpinButton spin_stiffness_edit;
-	[Widget] Gtk.Label label_stiffness_of_each_fixture_view;
-	[Widget] Gtk.Label label_stiffness_of_each_fixture_edit;
-	[Widget] Gtk.Label label_total_stiffness_value;
-	[Widget] Gtk.Frame frame_in_use;
-	[Widget] Gtk.Label label_edit_or_add;
-	[Widget] Gtk.Entry entry_brand;
-	[Widget] Gtk.Entry entry_color;
-	[Widget] Gtk.Entry entry_comments;
+	Gtk.Image image_add;
+	Gtk.Image image_edit;
+	Gtk.Image image_delete;
+	Gtk.Image image_save;
+	Gtk.Image image_cancel;
+	Gtk.Button button_edit_save;
+	Gtk.CheckButton check_active_view;
+	Gtk.CheckButton check_active_edit;
+	Gtk.HBox hbox_active_view;
+	Gtk.HBox hbox_active_edit;
+	Gtk.SpinButton spin_active_units_view;
+	Gtk.SpinButton spin_active_units_edit;
+	Gtk.SpinButton spin_stiffness_view;
+	Gtk.SpinButton spin_stiffness_edit;
+	Gtk.Label label_stiffness_of_each_fixture_view;
+	Gtk.Label label_stiffness_of_each_fixture_edit;
+	Gtk.Label label_total_stiffness_value;
+	Gtk.Frame frame_in_use;
+	Gtk.Label label_edit_or_add;
+	Gtk.Entry entry_brand;
+	Gtk.Entry entry_color;
+	Gtk.Entry entry_comments;
 
 	//second tab "delete confirm"
-	[Widget] Gtk.Image image_delete_confirm;
-	[Widget] Gtk.Image image_cancel_delete;
-	//[Widget] Gtk.TreeView treeview_delete;
-	[Widget] Gtk.TextView textview_delete;
+	Gtk.Image image_delete_confirm;
+	Gtk.Image image_cancel_delete;
+	//Gtk.TreeView treeview_delete;
+	Gtk.TextView textview_delete;
 
-	[Widget] Gtk.Image image_close;
-	//[Widget] Gtk.Button button_close;
+	Gtk.Image image_close;
+	//Gtk.Button button_close;
 
-	[Widget] Gtk.Button fakeButton_stiffness_changed;
+	Gtk.Button fakeButton_stiffness_changed;
 
 	private TreeStore store;
 
@@ -82,9 +82,14 @@ public class ForceSensorElasticBandsWindow
 
 	public ForceSensorElasticBandsWindow ()
 	{
+		/*
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "force_sensor_elastic_bands.glade", "force_sensor_elastic_bands", "chronojump");
 		gladeXML.Autoconnect(this);
+		*/
+		Gtk.Builder builder = new Gtk.Builder (null, Util.GetGladePath () + "force_sensor_elastic_bands.glade", null);
+		connectWidgets (builder);
+		builder.Autoconnect (this);
 
 		Pixbuf pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_add.png");
@@ -144,7 +149,7 @@ public class ForceSensorElasticBandsWindow
 		ForceSensorElasticBand fseb = new ForceSensorElasticBand();
 
 		TreeIter iter = new TreeIter();
-		TreeModel myModel = treeview.Model;
+		ITreeModel myModel = treeview.Model;
 		if (treeview.Selection.GetSelected (out myModel, out iter))
 		{
 			fseb = getForceSensorElasticBand(iter);
@@ -271,7 +276,7 @@ public class ForceSensorElasticBandsWindow
 	private void on_treeview_cursor_changed (object o, EventArgs args) 
 	{
 		TreeIter iter = new TreeIter();
-		TreeModel myModel = treeview.Model;
+		ITreeModel myModel = treeview.Model;
 		if (treeview.Selection.GetSelected (out myModel, out iter))
 		{
 			currentMode = modes.EDITING;
@@ -285,7 +290,7 @@ public class ForceSensorElasticBandsWindow
 	private int getSelectedID()
 	{
 		TreeIter iter = new TreeIter();
-		TreeModel model = treeview.Model;
+		ITreeModel model = treeview.Model;
 		if (treeview.Selection.GetSelected (out model, out iter))
 			return Convert.ToInt32(model.GetValue(iter, 0).ToString());
 
@@ -461,7 +466,7 @@ public class ForceSensorElasticBandsWindow
 	private void updateFixtures()
 	{
 		TreeIter iter = new TreeIter();
-		TreeModel model = treeview.Model;
+		ITreeModel model = treeview.Model;
 		int active = 0;
 		if (treeview.Selection.GetSelected (out model, out iter))
 			if(check_active_view.Active)
@@ -518,6 +523,51 @@ public class ForceSensorElasticBandsWindow
 	{
 		get { return fakeButton_stiffness_changed; }
 	}
+
+	private void connectWidgets (Gtk.Builder builder)
+	{
+		force_sensor_elastic_bands = (Gtk.Window) builder.GetObject ("force_sensor_elastic_bands");
+		label_header = (Gtk.Label) builder.GetObject ("label_header");
+		//scrolled_window_treeview = (Gtk.ScrolledWindow) builder.GetObject ("scrolled_window_treeview");
+		treeview = (Gtk.TreeView) builder.GetObject ("treeview");
+		notebook = (Gtk.Notebook) builder.GetObject ("notebook");
+
+		//fist tab "add/edit"
+		image_add = (Gtk.Image) builder.GetObject ("image_add");
+		image_edit = (Gtk.Image) builder.GetObject ("image_edit");
+		image_delete = (Gtk.Image) builder.GetObject ("image_delete");
+		image_save = (Gtk.Image) builder.GetObject ("image_save");
+		image_cancel = (Gtk.Image) builder.GetObject ("image_cancel");
+		button_edit_save = (Gtk.Button) builder.GetObject ("button_edit_save");
+		check_active_view = (Gtk.CheckButton) builder.GetObject ("check_active_view");
+		check_active_edit = (Gtk.CheckButton) builder.GetObject ("check_active_edit");
+		hbox_active_view = (Gtk.HBox) builder.GetObject ("hbox_active_view");
+		hbox_active_edit = (Gtk.HBox) builder.GetObject ("hbox_active_edit");
+		spin_active_units_view = (Gtk.SpinButton) builder.GetObject ("spin_active_units_view");
+		spin_active_units_edit = (Gtk.SpinButton) builder.GetObject ("spin_active_units_edit");
+		spin_stiffness_view = (Gtk.SpinButton) builder.GetObject ("spin_stiffness_view");
+		spin_stiffness_edit = (Gtk.SpinButton) builder.GetObject ("spin_stiffness_edit");
+		label_stiffness_of_each_fixture_view = (Gtk.Label) builder.GetObject ("label_stiffness_of_each_fixture_view");
+		label_stiffness_of_each_fixture_edit = (Gtk.Label) builder.GetObject ("label_stiffness_of_each_fixture_edit");
+		label_total_stiffness_value = (Gtk.Label) builder.GetObject ("label_total_stiffness_value");
+		frame_in_use = (Gtk.Frame) builder.GetObject ("frame_in_use");
+		label_edit_or_add = (Gtk.Label) builder.GetObject ("label_edit_or_add");
+		entry_brand = (Gtk.Entry) builder.GetObject ("entry_brand");
+		entry_color = (Gtk.Entry) builder.GetObject ("entry_color");
+		entry_comments = (Gtk.Entry) builder.GetObject ("entry_comments");
+
+		//second tab "delete confirm"
+		image_delete_confirm = (Gtk.Image) builder.GetObject ("image_delete_confirm");
+		image_cancel_delete = (Gtk.Image) builder.GetObject ("image_cancel_delete");
+		//treeview_delete = (Gtk.TreeView) builder.GetObject ("treeview_delete");
+		textview_delete = (Gtk.TextView) builder.GetObject ("textview_delete");
+
+		image_close = (Gtk.Image) builder.GetObject ("image_close");
+		//button_close = (Gtk.Button) builder.GetObject ("button_close");
+
+		fakeButton_stiffness_changed = (Gtk.Button) builder.GetObject ("fakeButton_stiffness_changed");
+	}
+
 
 	~ForceSensorElasticBandsWindow() {}
 	

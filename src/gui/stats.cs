@@ -15,101 +15,103 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2020   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2004-2023   Xavier de Blas <xaviblas@gmail.com> 
  */
 
 using System;
 using Gtk;
 using Gdk;
-using Glade;
+//using Glade;
 using GLib; //for Value
 using System.Text; //StringBuilder
 using System.Collections; //ArrayList
 using Mono.Unix;
 
 
-public partial class ChronoJumpWindow {
+public partial class ChronoJumpWindow
+{
+	// at glade ---->
+	Gtk.Notebook notebook_stats_sup;
+	Gtk.Box vbox_stats;
+	Gtk.TreeView treeview_stats;
+	Gtk.Box vbox_stats_type;
+	Gtk.Box hbox_combo_stats_stat_type;
+	Gtk.Box hbox_combo_stats_stat_subtype;
+	Gtk.Box hbox_combo_stats_stat_apply_to;
+	Gtk.Box hbox_mark_and_enunciate;
+	Gtk.Frame frame_graph_and_report;
+	Gtk.Label label_apply_to;
+	Gtk.CheckButton checkbutton_stats_sex;
+	Gtk.Button button_stats;
 	
+	Gtk.RadioButton radiobutton_current_session;
+	Gtk.RadioButton radiobutton_selected_sessions;
+	Gtk.Button button_stats_select_sessions;
+	Gtk.RadioButton radiobutton_stats_jumps_all;
+	Gtk.RadioButton radiobutton_stats_jumps_limit;
+	Gtk.SpinButton spin_stats_jumps_limit;
+	Gtk.RadioButton radiobutton_stats_jumps_person_bests;
+	Gtk.SpinButton spin_stats_jumps_person_bests;
+	Gtk.RadioButton radiobutton_stats_jumps_person_average;
+	Gtk.Button button_graph;
+	Gtk.Button button_add_to_report;
+	
+	Gtk.TextView textview_enunciate;
+	Gtk.ScrolledWindow scrolledwindow_enunciate;
+	Gtk.CheckButton checkbutton_show_enunciate;
+	
+	Gtk.Notebook notebook_stats_win_options;
+	Gtk.CheckButton checkbutton_mark_consecutives;
+	Gtk.SpinButton spinbutton_mark_consecutives;
+	Gtk.Box hbox_subtraction_between_1;
+	Gtk.Box hbox_subtraction_between_2;
+	
+	Gtk.Box hbox_combo_select_checkboxes;
+	
+	Gtk.Image image_stats_win_graph;
+	Gtk.Image image_stats_win_graph1;
+	Gtk.Image image_stats_win_graph3;
+	Gtk.Image image_stats_win_report_open;
+		
+	Gtk.Box hbox_graph_options;
+	
+	Gtk.Box hbox_combo_graph_type;
+	Gtk.Box hbox_stats_variables;
+	Gtk.Box hbox_combo_graph_var_x;
+	Gtk.Box hbox_combo_graph_var_y;
+	Gtk.Box hbox_combo_graph_palette;
+	Gtk.CheckButton checkbutton_transposed;
+	Gtk.Label label_line;
+	Gtk.SpinButton spin_line;
+
+	Gtk.Box hbox_combo_graph_width;
+	Gtk.Box hbox_combo_graph_height;
+	Gtk.Label label_graph_legend;
+	Gtk.Box hbox_combo_graph_legend;
+	
+	Gtk.SpinButton spin_graph_margin_b; //bottom
+	Gtk.SpinButton spin_graph_margin_l; //left
+	Gtk.SpinButton spin_graph_margin_t; //top
+	Gtk.SpinButton spin_graph_margin_r; //right
+	Gtk.SpinButton spin_graph_x_cex_axis; //font size of x axis
+	Gtk.Label label_stats_x_axis;
+	// <---- at glade
+
+	Gtk.ComboBoxText combo_stats_stat_type;
+	Gtk.ComboBoxText combo_stats_stat_subtype;
+	Gtk.ComboBoxText combo_stats_stat_apply_to;
+	Gtk.ComboBoxText combo_subtraction_between_1;
+	Gtk.ComboBoxText combo_subtraction_between_2;
+	Gtk.ComboBoxText combo_select_checkboxes;
+	Gtk.ComboBoxText combo_graph_type;
+	Gtk.ComboBoxText combo_graph_var_x;
+	Gtk.ComboBoxText combo_graph_var_y;
+	Gtk.ComboBoxText combo_graph_palette;
+	Gtk.ComboBoxText combo_graph_width;
+	Gtk.ComboBoxText combo_graph_height;
+	Gtk.ComboBoxText combo_graph_legend;
+
 	SessionSelectStatsWindow sessionSelectStatsWin;
-
-	[Widget] Gtk.Notebook notebook_stats_sup;
-	[Widget] Gtk.Box vbox_stats;
-	[Widget] Gtk.TreeView treeview_stats;
-	[Widget] Gtk.Box vbox_stats_type;
-	[Widget] Gtk.Box hbox_combo_stats_stat_type;
-	[Widget] Gtk.Box hbox_combo_stats_stat_subtype;
-	[Widget] Gtk.Box hbox_combo_stats_stat_apply_to;
-	[Widget] Gtk.ComboBox combo_stats_stat_type;
-	[Widget] Gtk.ComboBox combo_stats_stat_subtype;
-	[Widget] Gtk.ComboBox combo_stats_stat_apply_to;
-	[Widget] Gtk.Box hbox_mark_and_enunciate;
-	[Widget] Gtk.Frame frame_graph_and_report;
-	[Widget] Gtk.Label label_apply_to;
-	[Widget] Gtk.CheckButton checkbutton_stats_sex;
-	[Widget] Gtk.Button button_stats;
-	
-	[Widget] Gtk.RadioButton radiobutton_current_session;
-	[Widget] Gtk.RadioButton radiobutton_selected_sessions;
-	[Widget] Gtk.Button button_stats_select_sessions;
-	[Widget] Gtk.RadioButton radiobutton_stats_jumps_all;
-	[Widget] Gtk.RadioButton radiobutton_stats_jumps_limit;
-	[Widget] Gtk.SpinButton spin_stats_jumps_limit;
-	[Widget] Gtk.RadioButton radiobutton_stats_jumps_person_bests;
-	[Widget] Gtk.SpinButton spin_stats_jumps_person_bests;
-	[Widget] Gtk.RadioButton radiobutton_stats_jumps_person_average;
-	[Widget] Gtk.Button button_graph;
-	[Widget] Gtk.Button button_add_to_report;
-	
-	[Widget] Gtk.TextView textview_enunciate;
-	[Widget] Gtk.ScrolledWindow scrolledwindow_enunciate;
-	[Widget] Gtk.CheckButton checkbutton_show_enunciate;
-	
-	[Widget] Gtk.Notebook notebook_stats_win_options;
-	[Widget] Gtk.CheckButton checkbutton_mark_consecutives;
-	[Widget] Gtk.SpinButton spinbutton_mark_consecutives;
-	[Widget] Gtk.Box hbox_subtraction_between_1;
-	[Widget] Gtk.Box hbox_subtraction_between_2;
-	[Widget] Gtk.ComboBox combo_subtraction_between_1;
-	[Widget] Gtk.ComboBox combo_subtraction_between_2;
-	
-	[Widget] Gtk.Box hbox_combo_select_checkboxes;
-	[Widget] Gtk.ComboBox combo_select_checkboxes;
-	
-	[Widget] Gtk.Image image_stats_win_graph;
-	[Widget] Gtk.Image image_stats_win_graph1;
-	[Widget] Gtk.Image image_stats_win_graph3;
-	[Widget] Gtk.Image image_stats_win_report_open;
-		
-	[Widget] Gtk.Box hbox_graph_options;
-	
-	[Widget] Gtk.Box hbox_combo_graph_type;
-	[Widget] Gtk.Box hbox_stats_variables;
-	[Widget] Gtk.Box hbox_combo_graph_var_x;
-	[Widget] Gtk.Box hbox_combo_graph_var_y;
-	[Widget] Gtk.Box hbox_combo_graph_palette;
-	[Widget] Gtk.ComboBox combo_graph_type;
-	[Widget] Gtk.ComboBox combo_graph_var_x;
-	[Widget] Gtk.ComboBox combo_graph_var_y;
-	[Widget] Gtk.ComboBox combo_graph_palette;
-	[Widget] Gtk.CheckButton checkbutton_transposed;
-	[Widget] Gtk.Label label_line;
-	[Widget] Gtk.SpinButton spin_line;
-
-	[Widget] Gtk.Box hbox_combo_graph_width;
-	[Widget] Gtk.Box hbox_combo_graph_height;
-	[Widget] Gtk.ComboBox combo_graph_width;
-	[Widget] Gtk.ComboBox combo_graph_height;
-	[Widget] Gtk.Label label_graph_legend;
-	[Widget] Gtk.Box hbox_combo_graph_legend;
-	[Widget] Gtk.ComboBox combo_graph_legend;
-	
-	[Widget] Gtk.SpinButton spin_graph_margin_b; //bottom
-	[Widget] Gtk.SpinButton spin_graph_margin_l; //left
-	[Widget] Gtk.SpinButton spin_graph_margin_t; //top
-	[Widget] Gtk.SpinButton spin_graph_margin_r; //right
-	[Widget] Gtk.SpinButton spin_graph_x_cex_axis; //font size of x axis
-		
-	[Widget] Gtk.Label label_stats_x_axis;
 
 	bool statsColumnsToRemove = false;
 	//selected sessions
@@ -319,7 +321,7 @@ public partial class ChronoJumpWindow {
 	}
 	
 	private void createComboStatsType() {
-		combo_stats_stat_type = ComboBox.NewText ();
+		combo_stats_stat_type = new ComboBoxText ();
 				
 		string [] str = new string [2];
 		str[0] = comboStatsTypeOptions[0];
@@ -335,7 +337,7 @@ public partial class ChronoJumpWindow {
 	}
 	
 	private void createComboStatsSubType() {
-		combo_stats_stat_subtype = ComboBox.NewText ();
+		combo_stats_stat_subtype = new ComboBoxText ();
 		
 		combo_stats_stat_subtype.Changed += new EventHandler (on_combo_stats_stat_subtype_changed);
 
@@ -345,7 +347,7 @@ public partial class ChronoJumpWindow {
 	}
 
 	private void createComboStatsApplyTo() {
-		combo_stats_stat_apply_to = ComboBox.NewText ();
+		combo_stats_stat_apply_to = new ComboBoxText ();
 		
 		combo_stats_stat_apply_to.Changed += new EventHandler (on_combo_stats_stat_apply_to_changed);
 
@@ -355,13 +357,13 @@ public partial class ChronoJumpWindow {
 	}
 	
 	private void createComboStatsSubtractionBetweenTests() {
-		combo_subtraction_between_1 = ComboBox.NewText ();
+		combo_subtraction_between_1 = new ComboBoxText ();
 		combo_subtraction_between_1.Changed += new EventHandler (on_combo_subtraction_between_1_or_2_changed);
 		hbox_subtraction_between_1.PackStart(combo_subtraction_between_1, true, true, 0);
 		hbox_subtraction_between_1.ShowAll();
 		combo_subtraction_between_1.Sensitive = true;
 		
-		combo_subtraction_between_2 = ComboBox.NewText ();
+		combo_subtraction_between_2 = new ComboBoxText ();
 		combo_subtraction_between_2.Changed += new EventHandler (on_combo_subtraction_between_1_or_2_changed);
 		hbox_subtraction_between_2.PackStart(combo_subtraction_between_2, true, true, 0);
 		hbox_subtraction_between_2.ShowAll();
@@ -369,7 +371,7 @@ public partial class ChronoJumpWindow {
 	}
 
 	private void createComboSelectCheckboxes() {
-		combo_select_checkboxes = ComboBox.NewText ();
+		combo_select_checkboxes = new ComboBoxText ();
 		UtilGtk.ComboUpdate(combo_select_checkboxes, comboCheckboxesOptions, "");
 		
 		//combo_select_checkboxes.DisableActivate ();
@@ -381,7 +383,7 @@ public partial class ChronoJumpWindow {
 	}
 	
 	private void createComboGraphType() {
-		combo_graph_type = ComboBox.NewText ();
+		combo_graph_type = new ComboBoxText ();
 		UtilGtk.ComboUpdate(combo_graph_type, Constants.GraphTypes, "");
 		combo_graph_type.Active=0;
 		
@@ -393,14 +395,14 @@ public partial class ChronoJumpWindow {
 	}
 
 	private void createComboGraphVars() {
-		combo_graph_var_x = ComboBox.NewText ();
+		combo_graph_var_x = new ComboBoxText ();
 		UtilGtk.ComboUpdate(combo_graph_var_x, UtilGtk.GetCols(treeview_stats, 2), ""); //2 for not getting the checkbox and the text column
 		combo_graph_var_x.Active=0;
 		hbox_combo_graph_var_x.PackStart(combo_graph_var_x, true, true, 0);
 		hbox_combo_graph_var_x.ShowAll();
 		combo_graph_var_x.Sensitive = true;
 		
-		combo_graph_var_y = ComboBox.NewText ();
+		combo_graph_var_y = new ComboBoxText ();
 		UtilGtk.ComboUpdate(combo_graph_var_y, UtilGtk.GetCols(treeview_stats, 2), "");
 		combo_graph_var_y.Active=0;
 		hbox_combo_graph_var_y.PackStart(combo_graph_var_y, true, true, 0);
@@ -409,7 +411,7 @@ public partial class ChronoJumpWindow {
 	}
 	
 	private void createComboGraphPalette() {
-		combo_graph_palette = ComboBox.NewText ();
+		combo_graph_palette = new ComboBoxText ();
 		UtilGtk.ComboUpdate(combo_graph_palette, Constants.GraphPalettes, "");
 		combo_graph_palette.Active=0;
 		
@@ -419,7 +421,7 @@ public partial class ChronoJumpWindow {
 	}
 
 	private void createComboGraphSize() {
-		combo_graph_width = ComboBox.NewText ();
+		combo_graph_width = new ComboBoxText ();
 		UtilGtk.ComboUpdate(combo_graph_width, comboGraphSizeOptions, "");
 		combo_graph_width.Active=2; //500
 		
@@ -427,7 +429,7 @@ public partial class ChronoJumpWindow {
 		hbox_combo_graph_width.ShowAll();
 		combo_graph_width.Sensitive = true;
 		
-		combo_graph_height = ComboBox.NewText ();
+		combo_graph_height = new ComboBoxText ();
 		UtilGtk.ComboUpdate(combo_graph_height, comboGraphSizeOptions, "");
 		combo_graph_height.Active=2; //500
 		
@@ -437,7 +439,7 @@ public partial class ChronoJumpWindow {
 	}
 	
 	private void createComboGraphLegend() {
-		combo_graph_legend = ComboBox.NewText ();
+		combo_graph_legend = new ComboBoxText ();
 		UtilGtk.ComboUpdate(combo_graph_legend, comboGraphLegendOptions, "");
 		combo_graph_legend.Active=0;
 		
@@ -1350,5 +1352,72 @@ public partial class ChronoJumpWindow {
 		reportWin = ReportWindow.Show(app1, report);
 	}
 
+	private void connectWidgetsStats (Gtk.Builder builder)
+	{
+		notebook_stats_sup = (Gtk.Notebook) builder.GetObject ("notebook_stats_sup");
+		vbox_stats = (Gtk.Box) builder.GetObject ("vbox_stats");
+		treeview_stats = (Gtk.TreeView) builder.GetObject ("treeview_stats");
+		vbox_stats_type = (Gtk.Box) builder.GetObject ("vbox_stats_type");
+		hbox_combo_stats_stat_type = (Gtk.Box) builder.GetObject ("hbox_combo_stats_stat_type");
+		hbox_combo_stats_stat_subtype = (Gtk.Box) builder.GetObject ("hbox_combo_stats_stat_subtype");
+		hbox_combo_stats_stat_apply_to = (Gtk.Box) builder.GetObject ("hbox_combo_stats_stat_apply_to");
+		hbox_mark_and_enunciate = (Gtk.Box) builder.GetObject ("hbox_mark_and_enunciate");
+		frame_graph_and_report = (Gtk.Frame) builder.GetObject ("frame_graph_and_report");
+		label_apply_to = (Gtk.Label) builder.GetObject ("label_apply_to");
+		checkbutton_stats_sex = (Gtk.CheckButton) builder.GetObject ("checkbutton_stats_sex");
+		button_stats = (Gtk.Button) builder.GetObject ("button_stats");
+
+		radiobutton_current_session = (Gtk.RadioButton) builder.GetObject ("radiobutton_current_session");
+		radiobutton_selected_sessions = (Gtk.RadioButton) builder.GetObject ("radiobutton_selected_sessions");
+		button_stats_select_sessions = (Gtk.Button) builder.GetObject ("button_stats_select_sessions");
+		radiobutton_stats_jumps_all = (Gtk.RadioButton) builder.GetObject ("radiobutton_stats_jumps_all");
+		radiobutton_stats_jumps_limit = (Gtk.RadioButton) builder.GetObject ("radiobutton_stats_jumps_limit");
+		spin_stats_jumps_limit = (Gtk.SpinButton) builder.GetObject ("spin_stats_jumps_limit");
+		radiobutton_stats_jumps_person_bests = (Gtk.RadioButton) builder.GetObject ("radiobutton_stats_jumps_person_bests");
+		spin_stats_jumps_person_bests = (Gtk.SpinButton) builder.GetObject ("spin_stats_jumps_person_bests");
+		radiobutton_stats_jumps_person_average = (Gtk.RadioButton) builder.GetObject ("radiobutton_stats_jumps_person_average");
+		button_graph = (Gtk.Button) builder.GetObject ("button_graph");
+		button_add_to_report = (Gtk.Button) builder.GetObject ("button_add_to_report");
+
+		textview_enunciate = (Gtk.TextView) builder.GetObject ("textview_enunciate");
+		scrolledwindow_enunciate = (Gtk.ScrolledWindow) builder.GetObject ("scrolledwindow_enunciate");
+		checkbutton_show_enunciate = (Gtk.CheckButton) builder.GetObject ("checkbutton_show_enunciate");
+
+		notebook_stats_win_options = (Gtk.Notebook) builder.GetObject ("notebook_stats_win_options");
+		checkbutton_mark_consecutives = (Gtk.CheckButton) builder.GetObject ("checkbutton_mark_consecutives");
+		spinbutton_mark_consecutives = (Gtk.SpinButton) builder.GetObject ("spinbutton_mark_consecutives");
+		hbox_subtraction_between_1 = (Gtk.Box) builder.GetObject ("hbox_subtraction_between_1");
+		hbox_subtraction_between_2 = (Gtk.Box) builder.GetObject ("hbox_subtraction_between_2");
+
+		hbox_combo_select_checkboxes = (Gtk.Box) builder.GetObject ("hbox_combo_select_checkboxes");
+
+		image_stats_win_graph = (Gtk.Image) builder.GetObject ("image_stats_win_graph");
+		image_stats_win_graph1 = (Gtk.Image) builder.GetObject ("image_stats_win_graph1");
+		image_stats_win_graph3 = (Gtk.Image) builder.GetObject ("image_stats_win_graph3");
+		image_stats_win_report_open = (Gtk.Image) builder.GetObject ("image_stats_win_report_open");
+
+		hbox_graph_options = (Gtk.Box) builder.GetObject ("hbox_graph_options");
+
+		hbox_combo_graph_type = (Gtk.Box) builder.GetObject ("hbox_combo_graph_type");
+		hbox_stats_variables = (Gtk.Box) builder.GetObject ("hbox_stats_variables");
+		hbox_combo_graph_var_x = (Gtk.Box) builder.GetObject ("hbox_combo_graph_var_x");
+		hbox_combo_graph_var_y = (Gtk.Box) builder.GetObject ("hbox_combo_graph_var_y");
+		hbox_combo_graph_palette = (Gtk.Box) builder.GetObject ("hbox_combo_graph_palette");
+		checkbutton_transposed = (Gtk.CheckButton) builder.GetObject ("checkbutton_transposed");
+		label_line = (Gtk.Label) builder.GetObject ("label_line");
+		spin_line = (Gtk.SpinButton) builder.GetObject ("spin_line");
+
+		hbox_combo_graph_width = (Gtk.Box) builder.GetObject ("hbox_combo_graph_width");
+		hbox_combo_graph_height = (Gtk.Box) builder.GetObject ("hbox_combo_graph_height");
+		label_graph_legend = (Gtk.Label) builder.GetObject ("label_graph_legend");
+		hbox_combo_graph_legend = (Gtk.Box) builder.GetObject ("hbox_combo_graph_legend");
+
+		spin_graph_margin_b = (Gtk.SpinButton) builder.GetObject ("spin_graph_margin_b"); //bottom
+		spin_graph_margin_l = (Gtk.SpinButton) builder.GetObject ("spin_graph_margin_l"); //left
+		spin_graph_margin_t = (Gtk.SpinButton) builder.GetObject ("spin_graph_margin_t"); //top
+		spin_graph_margin_r = (Gtk.SpinButton) builder.GetObject ("spin_graph_margin_r"); //right
+		spin_graph_x_cex_axis = (Gtk.SpinButton) builder.GetObject ("spin_graph_x_cex_axis"); //font size of x axis
+		label_stats_x_axis = (Gtk.Label) builder.GetObject ("label_stats_x_axis");
+	}
 }
 

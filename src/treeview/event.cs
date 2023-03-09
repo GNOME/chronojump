@@ -200,7 +200,7 @@ public class TreeViewEvent
 
 	public void SelectHeaderLine() {
 		TreeIter iter = new TreeIter();
-		TreeModel myModel = treeview.Model;
+		ITreeModel myModel = treeview.Model;
 		if (treeview.Selection.GetSelected (out myModel, out iter)) {
 			string pathString = store.GetPath(iter).ToString();
 			string [] myStrFull = pathString.Split(new char[] {':'});
@@ -215,7 +215,7 @@ public class TreeViewEvent
 	{
 		LogB.Information ("Called TreeViewEvent.Update ()");
 		TreeIter iter = new TreeIter();
-		TreeModel myModel = treeview.Model;
+		ITreeModel myModel = treeview.Model;
 		if (treeview.Selection.GetSelected (out myModel, out iter))
 		{
 			//this doesn't work on windows gtk-sharp 2.10 (works on 2.12)
@@ -490,7 +490,7 @@ public class TreeViewEvent
 	public int EventSelectedID {
 		get {
 			TreeIter iter = new TreeIter();
-			TreeModel myModel = treeview.Model;
+			ITreeModel myModel = treeview.Model;
 			if (treeview.Selection.GetSelected (out myModel, out iter)) {
 				return Convert.ToInt32 ( treeview.Model.GetValue(iter, eventIDColumn) );
 			} else {

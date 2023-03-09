@@ -15,40 +15,41 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2020   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2004-2023   Xavier de Blas <xaviblas@gmail.com> 
  */
 
 using System;
 using Gtk;
-using Glade;
+//using Glade;
 using System.Collections; //ArrayList
 using System.Collections.Generic; //List
 using Mono.Unix;
 
 
 //load person
-public class PersonRecuperateWindow {
-	
-	[Widget] protected Gtk.Window person_recuperate;
+public class PersonRecuperateWindow
+{
+	protected Gtk.Window person_recuperate;
 
-	[Widget] protected Gtk.Label label_top;
-	[Widget] protected Gtk.Label label_from_session;
-	[Widget] protected Gtk.Label label_check;
-	[Widget] protected Gtk.Label label_filter;
-	[Widget] protected Gtk.Label label_feedback;
+	protected Gtk.Label label_top;
+	protected Gtk.Label label_from_session;
+	protected Gtk.Label label_check;
+	protected Gtk.Label label_filter;
+	protected Gtk.Label label_feedback;
 	
-	[Widget] protected Gtk.CheckButton checkbutton_sorted_by_creation_date;
+	protected Gtk.CheckButton checkbutton_sorted_by_creation_date;
+	
+	protected Gtk.TreeView treeview_person_recuperate;
+	protected Gtk.Button button_recuperate;
+	protected Gtk.Entry entry_search_filter;
+	
+	protected Gtk.Box hbox_from_session_hide; //used in person recuperate multiple (hided in current class)
+	protected Gtk.Box hbox_combo_select_checkboxes_hide; //used in person recuperate multiple (hided in current class)
+	protected Gtk.Box hbox_search_filter_hide; //used in person recuperateWindow (hided in inherited class)
 	
 	protected TreeStore store;
 	protected string selected;
-	[Widget] protected Gtk.TreeView treeview_person_recuperate;
-	[Widget] protected Gtk.Button button_recuperate;
-	[Widget] protected Gtk.Entry entry_search_filter;
-	
-	[Widget] protected Gtk.Box hbox_from_session_hide; //used in person recuperate multiple (hided in current class)
-	[Widget] protected Gtk.Box hbox_combo_select_checkboxes_hide; //used in person recuperate multiple (hided in current class)
-	[Widget] protected Gtk.Box hbox_search_filter_hide; //used in person recuperateWindow (hided in inherited class)
-	
+
 	static PersonRecuperateWindow PersonRecuperateWindowBox;
 
 	protected Gtk.Window parent;
@@ -66,10 +67,17 @@ public class PersonRecuperateWindow {
 	protected PersonRecuperateWindow () {
 	}
 
-	PersonRecuperateWindow (Gtk.Window parent, Session currentSession) {
+	PersonRecuperateWindow (Gtk.Window parent, Session currentSession)
+	{
+		/*
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "person_recuperate.glade", "person_recuperate", null);
 		gladeXML.Autoconnect(this);
+		*/
+		Gtk.Builder builder = new Gtk.Builder (null, Util.GetGladePath () + "person_recuperate.glade", null);
+		connectWidgets (builder);
+		builder.Autoconnect (this);
+
 		this.parent = parent;
 		
 		//put an icon to window
@@ -137,7 +145,7 @@ public class PersonRecuperateWindow {
 
 /*	
 	//cannot be double
-	public int heightColumnCompare (TreeModel model, TreeIter iter1, TreeIter iter2)     {
+	public int heightColumnCompare (ITreeModel model, TreeIter iter1, TreeIter iter2)     {
 		double val1 = 0;
 		double val2 = 0;
 		val1 = Convert.ToDouble(model.GetValue(iter1, firstColumn + 3));
@@ -147,7 +155,7 @@ public class PersonRecuperateWindow {
 	}
 
 	//cannot be double
-	public int weightColumnCompare (TreeModel model, TreeIter iter1, TreeIter iter2)     {
+	public int weightColumnCompare (ITreeModel model, TreeIter iter1, TreeIter iter2)     {
 		double val1 = 0;
 		double val2 = 0;
 		val1 = Convert.ToDouble(model.GetValue(iter1, firstColumn + 4));
@@ -204,7 +212,7 @@ public class PersonRecuperateWindow {
 
 	protected virtual void onSelectionEntry (object o, EventArgs args)
 	{
-		TreeModel model;
+		ITreeModel model;
 		TreeIter iter;
 		selected = "-1";
 
@@ -240,7 +248,7 @@ public class PersonRecuperateWindow {
 	protected virtual void on_row_double_clicked (object o, Gtk.RowActivatedArgs args)
 	{
 		TreeView tv = (TreeView) o;
-		TreeModel model;
+		ITreeModel model;
 		TreeIter iter;
 
 		if (tv.Selection.GetSelected (out model, out iter)) {
@@ -297,18 +305,36 @@ public class PersonRecuperateWindow {
 		get { return currentPersonSession; }
 	}
 
+
+	protected void connectWidgets (Gtk.Builder builder)
+	{
+		person_recuperate = (Gtk.Window) builder.GetObject ("person_recuperate");
+		label_top = (Gtk.Label) builder.GetObject ("label_top");
+		label_from_session = (Gtk.Label) builder.GetObject ("label_from_session");
+		label_check = (Gtk.Label) builder.GetObject ("label_check");
+		label_filter = (Gtk.Label) builder.GetObject ("label_filter");
+		label_feedback = (Gtk.Label) builder.GetObject ("label_feedback");
+		checkbutton_sorted_by_creation_date = (Gtk.CheckButton) builder.GetObject ("checkbutton_sorted_by_creation_date");
+		treeview_person_recuperate = (Gtk.TreeView) builder.GetObject ("treeview_person_recuperate");
+		button_recuperate = (Gtk.Button) builder.GetObject ("button_recuperate");
+		entry_search_filter = (Gtk.Entry) builder.GetObject ("entry_search_filter");
+		hbox_from_session_hide = (Gtk.Box) builder.GetObject ("hbox_from_session_hide"); //used in person recuperate multiple (hided in current class)
+		hbox_combo_select_checkboxes_hide = (Gtk.Box) builder.GetObject ("hbox_combo_select_checkboxes_hide"); //used in person recuperate multiple (hided in current class)
+		hbox_search_filter_hide = (Gtk.Box) builder.GetObject ("hbox_search_filter_hide"); //used in person recuperateWindow (hided in inherited class)
+	}
+
 }
 
 
 //load person
 public class PersonsRecuperateFromOtherSessionWindow : PersonRecuperateWindow 
 {
-	static PersonsRecuperateFromOtherSessionWindow PersonsRecuperateFromOtherSessionWindowBox;
+	Gtk.Box hbox_combo_sessions;
+	Gtk.ComboBoxText combo_sessions;
+	protected Gtk.Box hbox_combo_select_checkboxes;
+	protected Gtk.ComboBoxText combo_select_checkboxes;
 	
-	[Widget] Gtk.Box hbox_combo_sessions;
-	[Widget] Gtk.ComboBox combo_sessions;
-	[Widget] protected Gtk.Box hbox_combo_select_checkboxes;
-	[Widget] protected Gtk.ComboBox combo_select_checkboxes;
+	static PersonsRecuperateFromOtherSessionWindow PersonsRecuperateFromOtherSessionWindowBox;
 	
 	
 	protected static string [] comboCheckboxesOptions = {
@@ -321,9 +347,16 @@ public class PersonsRecuperateFromOtherSessionWindow : PersonRecuperateWindow
 	}
 
 	PersonsRecuperateFromOtherSessionWindow (Gtk.Window parent, Session currentSession) {
+		/*
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "person_recuperate.glade", "person_recuperate", null);
 		gladeXML.Autoconnect(this);
+		*/
+		Gtk.Builder builder = new Gtk.Builder (null, Util.GetGladePath () + "person_recuperate.glade", null);
+		connectWidgets (builder);
+		connectWidgetsFromOtherSession (builder);
+		builder.Autoconnect (this);
+
 		this.parent = parent;
 		
 		//put an icon to window
@@ -390,7 +423,7 @@ public class PersonsRecuperateFromOtherSessionWindow : PersonRecuperateWindow
 	}
 	
 	private void createComboSessions() {
-		combo_sessions = ComboBox.NewText();
+		combo_sessions = new ComboBoxText();
 
 		bool commentsDisable = true;
 		int sessionIdDisable = currentSession.UniqueID; //for not showing current session on the list
@@ -424,7 +457,7 @@ public class PersonsRecuperateFromOtherSessionWindow : PersonRecuperateWindow
 	}
 	
 	protected void createComboSelectCheckboxes() {
-		combo_select_checkboxes = ComboBox.NewText ();
+		combo_select_checkboxes = new ComboBoxText ();
 		UtilGtk.ComboUpdate(combo_select_checkboxes, comboCheckboxesOptions, "");
 		
 		//combo_select_checkboxes.DisableActivate ();
@@ -655,6 +688,14 @@ public class PersonsRecuperateFromOtherSessionWindow : PersonRecuperateWindow
 			PersonsRecuperateFromOtherSessionWindowBox = null;
 	}
 
+	protected void connectWidgetsFromOtherSession (Gtk.Builder builder)
+	{
+		hbox_combo_sessions = (Gtk.Box) builder.GetObject ("hbox_combo_sessions");
+		combo_sessions = (Gtk.ComboBoxText) builder.GetObject ("combo_sessions");
+		hbox_combo_select_checkboxes = (Gtk.Box) builder.GetObject ("hbox_combo_select_checkboxes");
+		combo_select_checkboxes = (Gtk.ComboBoxText) builder.GetObject ("combo_select_checkboxes");
+	}
+
 }
 
 
@@ -662,19 +703,28 @@ public class PersonsRecuperateFromOtherSessionWindow : PersonRecuperateWindow
 //inherits from PersonRecuperateFromOtherSession because uses same window
 public class PersonNotUploadWindow : PersonsRecuperateFromOtherSessionWindow 
 {
+	Gtk.Button button_go_forward;
+	Gtk.Button button_close;
+
 	static PersonNotUploadWindow PersonNotUploadWindowBox;
 	ArrayList initiallyUnchecked;
 	
-	[Widget] Gtk.Button button_go_forward;
-	[Widget] Gtk.Button button_close;
-
 	private int sessionID;
 	public new Gtk.Button fakeButtonDone;
 	
-	PersonNotUploadWindow (Gtk.Window parent, int sessionID) {
+	PersonNotUploadWindow (Gtk.Window parent, int sessionID)
+	{
+		/*
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "person_recuperate.glade", "person_recuperate", null);
 		gladeXML.Autoconnect(this);
+		*/
+		Gtk.Builder builder = new Gtk.Builder (null, Util.GetGladePath () + "person_recuperate.glade", null);
+		connectWidgets (builder);
+		connectWidgetsFromOtherSession (builder);
+		connectWidgetsNotUpload (builder);
+		builder.Autoconnect (this);
+
 		this.parent = parent;
 		
 		//put an icon to window
@@ -817,5 +867,10 @@ public class PersonNotUploadWindow : PersonsRecuperateFromOtherSessionWindow
 		get { return fakeButtonDone; }
 	}
 
+	private void connectWidgetsNotUpload (Gtk.Builder builder)
+	{
+		button_go_forward = (Gtk.Button) builder.GetObject ("button_go_forward");
+		button_close = (Gtk.Button) builder.GetObject ("button_close");
+	}
 }
 

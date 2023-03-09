@@ -21,7 +21,7 @@
 using System;
 using System.IO;
 using Gtk;
-using Glade;
+//using Glade;
 using Mono.Unix;
 
 //here using app1s_ , "s" means session
@@ -29,185 +29,187 @@ using Mono.Unix;
 
 public partial class ChronoJumpWindow
 {
-	[Widget] Gtk.Notebook app1s_notebook;
+	// at glade ---->
+	Gtk.Notebook app1s_notebook;
 
 	//notebook tab 0
-	[Widget] Gtk.Frame frame_session_more_this_session;
-	[Widget] Gtk.Label label_session_more_session_name;
-	[Widget] Gtk.Button button_menu_session_export;
-	[Widget] Gtk.EventBox app1s_eventbox_button_close0;
-	[Widget] Gtk.Image image_session_more_window_blue;
-	[Widget] Gtk.Image image_session_more_window_yellow;
+	Gtk.Frame frame_session_more_this_session;
+	Gtk.Label label_session_more_session_name;
+	Gtk.Button button_menu_session_export;
+	Gtk.EventBox app1s_eventbox_button_close0;
+	Gtk.Image image_session_more_window_blue;
+	Gtk.Image image_session_more_window_yellow;
 
 	//notebook tab 1
-	[Widget] Gtk.RadioButton app1s_radio_import_new_session;
-	[Widget] Gtk.RadioButton app1s_radio_import_current_session;
-	[Widget] Gtk.Image app1s_image_open_database;
-	[Widget] Gtk.Label app1s_label_open_database_file;
-	[Widget] Gtk.Button app1s_button_select_file_import_same_database;
-	[Widget] Gtk.EventBox app1s_eventbox_button_cancel1;
+	Gtk.RadioButton app1s_radio_import_new_session;
+	Gtk.RadioButton app1s_radio_import_current_session;
+	Gtk.Image app1s_image_open_database;
+	Gtk.Label app1s_label_open_database_file;
+	Gtk.Button app1s_button_select_file_import_same_database;
+	Gtk.EventBox app1s_eventbox_button_cancel1;
 
 	//notebook tab 2
-	[Widget] Gtk.TreeView app1s_treeview_session_load;
-	[Widget] Gtk.Button app1s_button_edit;
-	[Widget] Gtk.Button app1s_button_delete;
-	[Widget] Gtk.Button app1s_button_load;
-	[Widget] Gtk.Button app1s_button_import;
-	[Widget] Gtk.Image app1s_image_edit;
-	[Widget] Gtk.Image app1s_image_delete;
-	[Widget] Gtk.Image app1s_image_cancel;
-	[Widget] Gtk.Image app1s_image_load;
-	[Widget] Gtk.Image app1s_image_import;
-	[Widget] Gtk.Entry app1s_entry_search_filter;
-	[Widget] Gtk.HBox app1s_hbox_tags;
-	[Widget] Gtk.Button app1s_button_manage_tags;
-	[Widget] Gtk.CheckButton app1s_checkbutton_show_data_persons;
-	[Widget] Gtk.CheckButton app1s_checkbutton_show_data_jumps;
-	[Widget] Gtk.CheckButton app1s_checkbutton_show_data_runs;
-	[Widget] Gtk.CheckButton app1s_checkbutton_show_data_isometric;
-	[Widget] Gtk.CheckButton app1s_checkbutton_show_data_elastic;
-	[Widget] Gtk.CheckButton app1s_checkbutton_show_data_weights;
-	[Widget] Gtk.CheckButton app1s_checkbutton_show_data_inertial;
-	[Widget] Gtk.Viewport app1s_viewport_checkbutton_show_data_jumps;
-	[Widget] Gtk.Viewport app1s_viewport_checkbutton_show_data_runs;
-	[Widget] Gtk.Viewport app1s_viewport_checkbutton_show_data_isometric;
-	[Widget] Gtk.Viewport app1s_viewport_checkbutton_show_data_elastic;
-	[Widget] Gtk.Viewport app1s_viewport_checkbutton_show_data_weights;
-	[Widget] Gtk.Viewport app1s_viewport_checkbutton_show_data_inertial;
+	Gtk.TreeView app1s_treeview_session_load;
+	Gtk.Button app1s_button_edit;
+	Gtk.Button app1s_button_delete;
+	Gtk.Button app1s_button_load;
+	Gtk.Button app1s_button_import;
+	Gtk.Image app1s_image_edit;
+	Gtk.Image app1s_image_delete;
+	Gtk.Image app1s_image_cancel;
+	Gtk.Image app1s_image_load;
+	Gtk.Image app1s_image_import;
+	Gtk.Entry app1s_entry_search_filter;
+	Gtk.HBox app1s_hbox_tags;
+	Gtk.Button app1s_button_manage_tags;
+	Gtk.CheckButton app1s_checkbutton_show_data_persons;
+	Gtk.CheckButton app1s_checkbutton_show_data_jumps;
+	Gtk.CheckButton app1s_checkbutton_show_data_runs;
+	Gtk.CheckButton app1s_checkbutton_show_data_isometric;
+	Gtk.CheckButton app1s_checkbutton_show_data_elastic;
+	Gtk.CheckButton app1s_checkbutton_show_data_weights;
+	Gtk.CheckButton app1s_checkbutton_show_data_inertial;
+	Gtk.Viewport app1s_viewport_checkbutton_show_data_jumps;
+	Gtk.Viewport app1s_viewport_checkbutton_show_data_runs;
+	Gtk.Viewport app1s_viewport_checkbutton_show_data_isometric;
+	Gtk.Viewport app1s_viewport_checkbutton_show_data_elastic;
+	Gtk.Viewport app1s_viewport_checkbutton_show_data_weights;
+	Gtk.Viewport app1s_viewport_checkbutton_show_data_inertial;
 
-	//[Widget] Gtk.CheckButton app1s_checkbutton_show_data_rt;
-	//[Widget] Gtk.CheckButton app1s_checkbutton_show_data_other;
-	[Widget] Gtk.Image app1s_image_show_data_persons;
-	[Widget] Gtk.Image app1s_image_show_data_jumps;
-	[Widget] Gtk.Image app1s_image_show_data_runs;
-	[Widget] Gtk.Image app1s_image_show_data_isometric;
-	[Widget] Gtk.Image app1s_image_show_data_elastic;
-	[Widget] Gtk.Image app1s_image_show_data_encoder_grav;
-	[Widget] Gtk.Image app1s_image_show_data_encoder_inertial;
+	//Gtk.CheckButton app1s_checkbutton_show_data_rt;
+	//Gtk.CheckButton app1s_checkbutton_show_data_other;
+	Gtk.Image app1s_image_show_data_persons;
+	Gtk.Image app1s_image_show_data_jumps;
+	Gtk.Image app1s_image_show_data_runs;
+	Gtk.Image app1s_image_show_data_isometric;
+	Gtk.Image app1s_image_show_data_elastic;
+	Gtk.Image app1s_image_show_data_encoder_grav;
+	Gtk.Image app1s_image_show_data_encoder_inertial;
 
-	[Widget] Gtk.Label app1s_file_path_import;
-	[Widget] Gtk.Notebook app1s_notebook_load_button_animation;
-	[Widget] Gtk.HButtonBox app1s_hbuttonbox_page2_import;
-	[Widget] Gtk.EventBox app1s_eventbox_button_edit;
-	[Widget] Gtk.EventBox app1s_eventbox_button_delete;
-	[Widget] Gtk.EventBox app1s_eventbox_button_cancel;
-	[Widget] Gtk.EventBox app1s_eventbox_button_load;
-	[Widget] Gtk.EventBox app1s_eventbox_button_back;
-	[Widget] Gtk.EventBox app1s_eventbox_button_import;
-	[Widget] Gtk.Image image_app1s_button_cancel1;
-	[Widget] Gtk.Image image_app1s_button_back;
+	Gtk.Label app1s_file_path_import;
+	Gtk.Notebook app1s_notebook_load_button_animation;
+	Gtk.HButtonBox app1s_hbuttonbox_page2_import;
+	Gtk.EventBox app1s_eventbox_button_edit;
+	Gtk.EventBox app1s_eventbox_button_delete;
+	Gtk.EventBox app1s_eventbox_button_cancel;
+	Gtk.EventBox app1s_eventbox_button_load;
+	Gtk.EventBox app1s_eventbox_button_back;
+	Gtk.EventBox app1s_eventbox_button_import;
+	Gtk.Image image_app1s_button_cancel1;
+	Gtk.Image image_app1s_button_back;
 
 	//notebook tab 3
-	[Widget] Gtk.Label app1s_label_import_session_name;
-	[Widget] Gtk.Label app1s_label_import_file;
-	[Widget] Gtk.EventBox app1s_eventbox_button_import_confirm_back;
-	[Widget] Gtk.EventBox app1s_eventbox_button_import_confirm_accept;
+	Gtk.Label app1s_label_import_session_name;
+	Gtk.Label app1s_label_import_file;
+	Gtk.EventBox app1s_eventbox_button_import_confirm_back;
+	Gtk.EventBox app1s_eventbox_button_import_confirm_accept;
 
 	//notebook tab 4
-	[Widget] Gtk.ProgressBar app1s_progressbarImport;
-	[Widget] Gtk.HBox app1s_hbox_import_done_at_new_session;
-	[Widget] Gtk.Label app1s_label_import_done_at_current_session;
-	[Widget] Gtk.ScrolledWindow app1s_scrolledwindow_import_error;
-	[Widget] Gtk.TextView app1s_textview_import_error;
-	[Widget] Gtk.Image app1s_image_import1;
-	[Widget] Gtk.HButtonBox app1s_hbuttonbox_page4;
-	[Widget] Gtk.EventBox app1s_eventbox_button_import_close;
-	[Widget] Gtk.EventBox app1s_eventbox_button_import_again;
+	Gtk.ProgressBar app1s_progressbarImport;
+	Gtk.HBox app1s_hbox_import_done_at_new_session;
+	Gtk.Label app1s_label_import_done_at_current_session;
+	Gtk.ScrolledWindow app1s_scrolledwindow_import_error;
+	Gtk.TextView app1s_textview_import_error;
+	Gtk.Image app1s_image_import1;
+	Gtk.HButtonBox app1s_hbuttonbox_page4;
+	Gtk.EventBox app1s_eventbox_button_import_close;
+	Gtk.EventBox app1s_eventbox_button_import_again;
 
 	//notebook tab 5
-	[Widget] Gtk.EventBox app1s_eventbox_button_delete_close;
-	[Widget] Gtk.Image image_app1s_button_delete_cancel;
-	[Widget] Gtk.Image image_app1s_button_delete_accept;
-	[Widget] Gtk.Image image_app1s_button_delete_close;
+	Gtk.EventBox app1s_eventbox_button_delete_close;
+	Gtk.Image image_app1s_button_delete_cancel;
+	Gtk.Image image_app1s_button_delete_accept;
+	Gtk.Image image_app1s_button_delete_close;
 
 	//notebook tab 6 (add/edit)
-	[Widget] Gtk.Notebook app1sae_notebook_add_edit;
-	[Widget] Gtk.Entry app1sae_entry_name;
-	[Widget] Gtk.Entry app1sae_entry_place;
-	[Widget] Gtk.HBox hbox_session_add;
-	[Widget] Gtk.HBox hbox_session_more_edit;
-	[Widget] Gtk.TextView app1sae_textview_tags;
-	[Widget] Gtk.Label app1sae_label_name;
-	[Widget] Gtk.Label app1sae_label_date;
-	[Widget] Gtk.Image image_session_new_blue;
-	[Widget] Gtk.Image image_session_new_yellow;
-	[Widget] Gtk.Image image_sport_undefined;
-	[Widget] Gtk.Image image_speciallity_undefined;
-	[Widget] Gtk.Image image_level_undefined;
-	[Widget] Gtk.RadioButton app1sae_radiobutton_diff_sports;
-	[Widget] Gtk.RadioButton app1sae_radiobutton_same_sport;
-	[Widget] Gtk.RadioButton app1sae_radiobutton_diff_speciallities;
-	[Widget] Gtk.RadioButton app1sae_radiobutton_same_speciallity;
-	[Widget] Gtk.RadioButton app1sae_radiobutton_diff_levels;
-	[Widget] Gtk.RadioButton app1sae_radiobutton_same_level;
-	[Widget] Gtk.Box app1sae_hbox_sports;
-	[Widget] Gtk.Box app1sae_hbox_combo_sports;
-	[Widget] Gtk.ComboBox app1sae_combo_sports;
-	[Widget] Gtk.Box app1sae_vbox_speciallity;
-	[Widget] Gtk.Label app1sae_label_speciallity;
-	[Widget] Gtk.Box app1sae_hbox_speciallities;
-	[Widget] Gtk.Box app1sae_hbox_combo_speciallities;
-	[Widget] Gtk.ComboBox app1sae_combo_speciallities;
-	[Widget] Gtk.Box app1sae_vbox_level;
-	[Widget] Gtk.Label app1sae_label_level;
-	[Widget] Gtk.Box app1sae_hbox_levels;
-	[Widget] Gtk.Box app1sae_hbox_combo_levels;
-	[Widget] Gtk.ComboBox app1sae_combo_levels;
-	[Widget] Gtk.TextView app1sae_textview_comments;
-	[Widget] Gtk.Button app1sae_button_accept;
-	[Widget] Gtk.Image image_app1sae_button_cancel;
-	[Widget] Gtk.Image image_app1sae_button_accept;
+	Gtk.Notebook app1sae_notebook_add_edit;
+	Gtk.Entry app1sae_entry_name;
+	Gtk.Entry app1sae_entry_place;
+	Gtk.HBox hbox_session_add;
+	Gtk.HBox hbox_session_more_edit;
+	Gtk.TextView app1sae_textview_tags;
+	Gtk.Label app1sae_label_name;
+	Gtk.Label app1sae_label_date;
+	Gtk.Image image_session_new_blue;
+	Gtk.Image image_session_new_yellow;
+	Gtk.Image image_sport_undefined;
+	Gtk.Image image_speciallity_undefined;
+	Gtk.Image image_level_undefined;
+	Gtk.RadioButton app1sae_radiobutton_diff_sports;
+	Gtk.RadioButton app1sae_radiobutton_same_sport;
+	Gtk.RadioButton app1sae_radiobutton_diff_speciallities;
+	Gtk.RadioButton app1sae_radiobutton_same_speciallity;
+	Gtk.RadioButton app1sae_radiobutton_diff_levels;
+	Gtk.RadioButton app1sae_radiobutton_same_level;
+	Gtk.Box app1sae_hbox_sports;
+	Gtk.Box app1sae_hbox_combo_sports;
+	Gtk.Box app1sae_vbox_speciallity;
+	Gtk.Label app1sae_label_speciallity;
+	Gtk.Box app1sae_hbox_speciallities;
+	Gtk.Box app1sae_hbox_combo_speciallities;
+	Gtk.Box app1sae_vbox_level;
+	Gtk.Label app1sae_label_level;
+	Gtk.Box app1sae_hbox_levels;
+	Gtk.Box app1sae_hbox_combo_levels;
+	Gtk.TextView app1sae_textview_comments;
+	Gtk.Button app1sae_button_accept;
+	Gtk.Image image_app1sae_button_cancel;
+	Gtk.Image image_app1sae_button_accept;
 
 	//notebook tab 7 (backup)
-	[Widget] Gtk.Notebook notebook_session_backup;
-	[Widget] Gtk.Label label_backup_why;
-	[Widget] Gtk.CheckButton app1s_check_backup_include_logs;
-	[Widget] Gtk.CheckButton app1s_check_backup_include_config;
-	[Widget] Gtk.Label app1s_label_backup_estimated_size;
-	[Widget] Gtk.Button app1s_button_backup_select;
-	[Widget] Gtk.Button app1s_button_backup_start;
-	[Widget] Gtk.Button app1s_button_backup_cancel_close;
-	[Widget] Gtk.Label app1s_label_backup_cancel_close;
-	[Widget] Gtk.EventBox app1s_eventbox_button_backup_cancel_close;
-	[Widget] Gtk.Image image_app1s_button_backup_cancel_close;
-	[Widget] Gtk.Image app1s_image_button_backup_select;
-	[Widget] Gtk.Label app1s_label_backup_destination;
-	[Widget] Gtk.HBox app1s_hbox_backup_doing;
-	[Widget] Gtk.Label app1s_label_backup_progress;
-	[Widget] Gtk.ProgressBar app1s_pulsebarBackupActivity;
-	[Widget] Gtk.ProgressBar app1s_pulsebarBackupDirs;
-	[Widget] Gtk.ProgressBar app1s_pulsebarBackupSecondDirs;
-	[Widget] Gtk.Button app1s_button_delete_old_incomplete;
-	[Widget] Gtk.Button app1s_button_old_backups_delete_do;
-	[Widget] Gtk.Label app1s_label_old_backups_delete_done;
-	[Widget] Gtk.Button app1s_button_backup_scheduled_remind_next_time;
-	[Widget] Gtk.Button app1s_button_backup_scheduled_remind_30d;
-	[Widget] Gtk.Button app1s_button_backup_scheduled_remind_60d;
-	[Widget] Gtk.Button app1s_button_backup_scheduled_remind_90d;
-	[Widget] Gtk.Label app1s_label_remind_feedback;
+	Gtk.Notebook notebook_session_backup;
+	Gtk.Label label_backup_why;
+	Gtk.CheckButton app1s_check_backup_include_logs;
+	Gtk.CheckButton app1s_check_backup_include_config;
+	Gtk.Label app1s_label_backup_estimated_size;
+	Gtk.Button app1s_button_backup_select;
+	Gtk.Button app1s_button_backup_start;
+	Gtk.Button app1s_button_backup_cancel_close;
+	Gtk.Label app1s_label_backup_cancel_close;
+	Gtk.EventBox app1s_eventbox_button_backup_cancel_close;
+	Gtk.Image image_app1s_button_backup_cancel_close;
+	Gtk.Image app1s_image_button_backup_select;
+	Gtk.Label app1s_label_backup_destination;
+	Gtk.HBox app1s_hbox_backup_doing;
+	Gtk.Label app1s_label_backup_progress;
+	Gtk.ProgressBar app1s_pulsebarBackupActivity;
+	Gtk.ProgressBar app1s_pulsebarBackupDirs;
+	Gtk.ProgressBar app1s_pulsebarBackupSecondDirs;
+	Gtk.Button app1s_button_delete_old_incomplete;
+	Gtk.Button app1s_button_old_backups_delete_do;
+	Gtk.Label app1s_label_old_backups_delete_done;
+	Gtk.Button app1s_button_backup_scheduled_remind_next_time;
+	Gtk.Button app1s_button_backup_scheduled_remind_30d;
+	Gtk.Button app1s_button_backup_scheduled_remind_60d;
+	Gtk.Button app1s_button_backup_scheduled_remind_90d;
+	Gtk.Label app1s_label_remind_feedback;
 
 	//notebook tab 8 (export)
-	[Widget] Gtk.Button app1s_button_export_select;
-	[Widget] Gtk.Button app1s_button_export_start;
-	[Widget] Gtk.Button app1s_button_export_cancel;
-	[Widget] Gtk.Button app1s_button_export_close;
-	[Widget] Gtk.EventBox app1s_eventbox_button_export_cancel;
-	[Widget] Gtk.EventBox app1s_eventbox_button_export_close;
-	[Widget] Gtk.Image app1s_image_button_export_select;
-	[Widget] Gtk.Label app1s_label_export_destination;
-	[Widget] Gtk.Label app1s_label_export_progress;
-	[Widget] Gtk.Image image_app1s_button_export_cancel;
-	[Widget] Gtk.Image image_app1s_button_export_close;
-	[Widget] Gtk.ProgressBar app1s_pulsebarExportActivity;
+	Gtk.Button app1s_button_export_select;
+	Gtk.Button app1s_button_export_start;
+	Gtk.Button app1s_button_export_cancel;
+	Gtk.Button app1s_button_export_close;
+	Gtk.EventBox app1s_eventbox_button_export_cancel;
+	Gtk.EventBox app1s_eventbox_button_export_close;
+	Gtk.Image app1s_image_button_export_select;
+	Gtk.Label app1s_label_export_destination;
+	Gtk.Label app1s_label_export_progress;
+	Gtk.Image image_app1s_button_export_cancel;
+	Gtk.Image image_app1s_button_export_close;
+	Gtk.ProgressBar app1s_pulsebarExportActivity;
 
 	//notebook tab 9 (view_data_folder)
-	[Widget] Gtk.Label app1s_label_view_data_folder_mode_name;
-	[Widget] Gtk.Label app1s_label_view_data_folder_session;
-	[Widget] Gtk.Button button_view_data_folder_specific;
-	[Widget] Gtk.Label app1s_label_view_data_folder_specific_no_data;
-	[Widget] Gtk.EventBox app1s_eventbox_button_view_data_folder_close;
-	[Widget] Gtk.Image image_app1s_button_view_data_folder_close;
+	Gtk.Label app1s_label_view_data_folder_mode_name;
+	Gtk.Label app1s_label_view_data_folder_session;
+	Gtk.Button button_view_data_folder_specific;
+	Gtk.Label app1s_label_view_data_folder_specific_no_data;
+	Gtk.EventBox app1s_eventbox_button_view_data_folder_close;
+	Gtk.Image image_app1s_button_view_data_folder_close;
+	// <---- at glade
 
+	Gtk.ComboBoxText app1sae_combo_sports;
+	Gtk.ComboBoxText app1sae_combo_speciallities;
+	Gtk.ComboBoxText app1sae_combo_levels;
 
 	const int app1s_PAGE_MODES = 0;
 	const int app1s_PAGE_IMPORT_START = 1;
@@ -354,4 +356,182 @@ public partial class ChronoJumpWindow
 		app1s_notebook.CurrentPage = app1s_PAGE_MODES;
 	}
 
+	private void connectWidgetsSessionMain (Gtk.Builder builder)
+	{
+		app1s_notebook = (Gtk.Notebook) builder.GetObject ("app1s_notebook");
+
+		//notebook tab 0
+		frame_session_more_this_session = (Gtk.Frame) builder.GetObject ("frame_session_more_this_session");
+		label_session_more_session_name = (Gtk.Label) builder.GetObject ("label_session_more_session_name");
+		button_menu_session_export = (Gtk.Button) builder.GetObject ("button_menu_session_export");
+		app1s_eventbox_button_close0 = (Gtk.EventBox) builder.GetObject ("app1s_eventbox_button_close0");
+		image_session_more_window_blue = (Gtk.Image) builder.GetObject ("image_session_more_window_blue");
+		image_session_more_window_yellow = (Gtk.Image) builder.GetObject ("image_session_more_window_yellow");
+
+		//notebook tab 1
+		app1s_radio_import_new_session = (Gtk.RadioButton) builder.GetObject ("app1s_radio_import_new_session");
+		app1s_radio_import_current_session = (Gtk.RadioButton) builder.GetObject ("app1s_radio_import_current_session");
+		app1s_image_open_database = (Gtk.Image) builder.GetObject ("app1s_image_open_database");
+		app1s_label_open_database_file = (Gtk.Label) builder.GetObject ("app1s_label_open_database_file");
+		app1s_button_select_file_import_same_database = (Gtk.Button) builder.GetObject ("app1s_button_select_file_import_same_database");
+		app1s_eventbox_button_cancel1 = (Gtk.EventBox) builder.GetObject ("app1s_eventbox_button_cancel1");
+
+		//notebook tab 2
+		app1s_treeview_session_load = (Gtk.TreeView) builder.GetObject ("app1s_treeview_session_load");
+		app1s_button_edit = (Gtk.Button) builder.GetObject ("app1s_button_edit");
+		app1s_button_delete = (Gtk.Button) builder.GetObject ("app1s_button_delete");
+		app1s_button_load = (Gtk.Button) builder.GetObject ("app1s_button_load");
+		app1s_button_import = (Gtk.Button) builder.GetObject ("app1s_button_import");
+		app1s_image_edit = (Gtk.Image) builder.GetObject ("app1s_image_edit");
+		app1s_image_delete = (Gtk.Image) builder.GetObject ("app1s_image_delete");
+		app1s_image_cancel = (Gtk.Image) builder.GetObject ("app1s_image_cancel");
+		app1s_image_load = (Gtk.Image) builder.GetObject ("app1s_image_load");
+		app1s_image_import = (Gtk.Image) builder.GetObject ("app1s_image_import");
+		app1s_entry_search_filter = (Gtk.Entry) builder.GetObject ("app1s_entry_search_filter");
+		app1s_hbox_tags = (Gtk.HBox) builder.GetObject ("app1s_hbox_tags");
+		app1s_button_manage_tags = (Gtk.Button) builder.GetObject ("app1s_button_manage_tags");
+		app1s_checkbutton_show_data_persons = (Gtk.CheckButton) builder.GetObject ("app1s_checkbutton_show_data_persons");
+		app1s_checkbutton_show_data_jumps = (Gtk.CheckButton) builder.GetObject ("app1s_checkbutton_show_data_jumps");
+		app1s_checkbutton_show_data_runs = (Gtk.CheckButton) builder.GetObject ("app1s_checkbutton_show_data_runs");
+		app1s_checkbutton_show_data_isometric = (Gtk.CheckButton) builder.GetObject ("app1s_checkbutton_show_data_isometric");
+		app1s_checkbutton_show_data_elastic = (Gtk.CheckButton) builder.GetObject ("app1s_checkbutton_show_data_elastic");
+		app1s_checkbutton_show_data_weights = (Gtk.CheckButton) builder.GetObject ("app1s_checkbutton_show_data_weights");
+		app1s_checkbutton_show_data_inertial = (Gtk.CheckButton) builder.GetObject ("app1s_checkbutton_show_data_inertial");
+		app1s_viewport_checkbutton_show_data_jumps = (Gtk.Viewport) builder.GetObject ("app1s_viewport_checkbutton_show_data_jumps");
+		app1s_viewport_checkbutton_show_data_runs = (Gtk.Viewport) builder.GetObject ("app1s_viewport_checkbutton_show_data_runs");
+		app1s_viewport_checkbutton_show_data_isometric = (Gtk.Viewport) builder.GetObject ("app1s_viewport_checkbutton_show_data_isometric");
+		app1s_viewport_checkbutton_show_data_elastic = (Gtk.Viewport) builder.GetObject ("app1s_viewport_checkbutton_show_data_elastic");
+		app1s_viewport_checkbutton_show_data_weights = (Gtk.Viewport) builder.GetObject ("app1s_viewport_checkbutton_show_data_weights");
+		app1s_viewport_checkbutton_show_data_inertial = (Gtk.Viewport) builder.GetObject ("app1s_viewport_checkbutton_show_data_inertial");
+
+		//app1s_checkbutton_show_data_rt = (Gtk.CheckButton) builder.GetObject ("app1s_checkbutton_show_data_rt");
+		//app1s_checkbutton_show_data_other = (Gtk.CheckButton) builder.GetObject ("app1s_checkbutton_show_data_other");
+		app1s_image_show_data_persons = (Gtk.Image) builder.GetObject ("app1s_image_show_data_persons");
+		app1s_image_show_data_jumps = (Gtk.Image) builder.GetObject ("app1s_image_show_data_jumps");
+		app1s_image_show_data_runs = (Gtk.Image) builder.GetObject ("app1s_image_show_data_runs");
+		app1s_image_show_data_isometric = (Gtk.Image) builder.GetObject ("app1s_image_show_data_isometric");
+		app1s_image_show_data_elastic = (Gtk.Image) builder.GetObject ("app1s_image_show_data_elastic");
+		app1s_image_show_data_encoder_grav = (Gtk.Image) builder.GetObject ("app1s_image_show_data_encoder_grav");
+		app1s_image_show_data_encoder_inertial = (Gtk.Image) builder.GetObject ("app1s_image_show_data_encoder_inertial");
+
+		app1s_file_path_import = (Gtk.Label) builder.GetObject ("app1s_file_path_import");
+		app1s_notebook_load_button_animation = (Gtk.Notebook) builder.GetObject ("app1s_notebook_load_button_animation");
+		app1s_hbuttonbox_page2_import = (Gtk.HButtonBox) builder.GetObject ("app1s_hbuttonbox_page2_import");
+		app1s_eventbox_button_edit = (Gtk.EventBox) builder.GetObject ("app1s_eventbox_button_edit");
+		app1s_eventbox_button_delete = (Gtk.EventBox) builder.GetObject ("app1s_eventbox_button_delete");
+		app1s_eventbox_button_cancel = (Gtk.EventBox) builder.GetObject ("app1s_eventbox_button_cancel");
+		app1s_eventbox_button_load = (Gtk.EventBox) builder.GetObject ("app1s_eventbox_button_load");
+		app1s_eventbox_button_back = (Gtk.EventBox) builder.GetObject ("app1s_eventbox_button_back");
+		app1s_eventbox_button_import = (Gtk.EventBox) builder.GetObject ("app1s_eventbox_button_import");
+		image_app1s_button_cancel1 = (Gtk.Image) builder.GetObject ("image_app1s_button_cancel1");
+		image_app1s_button_back = (Gtk.Image) builder.GetObject ("image_app1s_button_back");
+
+		//notebook tab 3
+		app1s_label_import_session_name = (Gtk.Label) builder.GetObject ("app1s_label_import_session_name");
+		app1s_label_import_file = (Gtk.Label) builder.GetObject ("app1s_label_import_file");
+		app1s_eventbox_button_import_confirm_back = (Gtk.EventBox) builder.GetObject ("app1s_eventbox_button_import_confirm_back");
+		app1s_eventbox_button_import_confirm_accept = (Gtk.EventBox) builder.GetObject ("app1s_eventbox_button_import_confirm_accept");
+
+		//notebook tab 4
+		app1s_progressbarImport = (Gtk.ProgressBar) builder.GetObject ("app1s_progressbarImport");
+		app1s_hbox_import_done_at_new_session = (Gtk.HBox) builder.GetObject ("app1s_hbox_import_done_at_new_session");
+		app1s_label_import_done_at_current_session = (Gtk.Label) builder.GetObject ("app1s_label_import_done_at_current_session");
+		app1s_scrolledwindow_import_error = (Gtk.ScrolledWindow) builder.GetObject ("app1s_scrolledwindow_import_error");
+		app1s_textview_import_error = (Gtk.TextView) builder.GetObject ("app1s_textview_import_error");
+		app1s_image_import1 = (Gtk.Image) builder.GetObject ("app1s_image_import1");
+		app1s_hbuttonbox_page4 = (Gtk.HButtonBox) builder.GetObject ("app1s_hbuttonbox_page4");
+		app1s_eventbox_button_import_close = (Gtk.EventBox) builder.GetObject ("app1s_eventbox_button_import_close");
+		app1s_eventbox_button_import_again = (Gtk.EventBox) builder.GetObject ("app1s_eventbox_button_import_again");
+
+		//notebook tab 5
+		app1s_eventbox_button_delete_close = (Gtk.EventBox) builder.GetObject ("app1s_eventbox_button_delete_close");
+		image_app1s_button_delete_cancel = (Gtk.Image) builder.GetObject ("image_app1s_button_delete_cancel");
+		image_app1s_button_delete_accept = (Gtk.Image) builder.GetObject ("image_app1s_button_delete_accept");
+		image_app1s_button_delete_close = (Gtk.Image) builder.GetObject ("image_app1s_button_delete_close");
+
+		//notebook tab 6 (add/edit)
+		app1sae_notebook_add_edit = (Gtk.Notebook) builder.GetObject ("app1sae_notebook_add_edit");
+		app1sae_entry_name = (Gtk.Entry) builder.GetObject ("app1sae_entry_name");
+		app1sae_entry_place = (Gtk.Entry) builder.GetObject ("app1sae_entry_place");
+		hbox_session_add = (Gtk.HBox) builder.GetObject ("hbox_session_add");
+		hbox_session_more_edit = (Gtk.HBox) builder.GetObject ("hbox_session_more_edit");
+		app1sae_textview_tags = (Gtk.TextView) builder.GetObject ("app1sae_textview_tags");
+		app1sae_label_name = (Gtk.Label) builder.GetObject ("app1sae_label_name");
+		app1sae_label_date = (Gtk.Label) builder.GetObject ("app1sae_label_date");
+		image_session_new_blue = (Gtk.Image) builder.GetObject ("image_session_new_blue");
+		image_session_new_yellow = (Gtk.Image) builder.GetObject ("image_session_new_yellow");
+		image_sport_undefined = (Gtk.Image) builder.GetObject ("image_sport_undefined");
+		image_speciallity_undefined = (Gtk.Image) builder.GetObject ("image_speciallity_undefined");
+		image_level_undefined = (Gtk.Image) builder.GetObject ("image_level_undefined");
+		app1sae_radiobutton_diff_sports = (Gtk.RadioButton) builder.GetObject ("app1sae_radiobutton_diff_sports");
+		app1sae_radiobutton_same_sport = (Gtk.RadioButton) builder.GetObject ("app1sae_radiobutton_same_sport");
+		app1sae_radiobutton_diff_speciallities = (Gtk.RadioButton) builder.GetObject ("app1sae_radiobutton_diff_speciallities");
+		app1sae_radiobutton_same_speciallity = (Gtk.RadioButton) builder.GetObject ("app1sae_radiobutton_same_speciallity");
+		app1sae_radiobutton_diff_levels = (Gtk.RadioButton) builder.GetObject ("app1sae_radiobutton_diff_levels");
+		app1sae_radiobutton_same_level = (Gtk.RadioButton) builder.GetObject ("app1sae_radiobutton_same_level");
+		app1sae_hbox_sports = (Gtk.Box) builder.GetObject ("app1sae_hbox_sports");
+		app1sae_hbox_combo_sports = (Gtk.Box) builder.GetObject ("app1sae_hbox_combo_sports");
+		app1sae_vbox_speciallity = (Gtk.Box) builder.GetObject ("app1sae_vbox_speciallity");
+		app1sae_label_speciallity = (Gtk.Label) builder.GetObject ("app1sae_label_speciallity");
+		app1sae_hbox_speciallities = (Gtk.Box) builder.GetObject ("app1sae_hbox_speciallities");
+		app1sae_hbox_combo_speciallities = (Gtk.Box) builder.GetObject ("app1sae_hbox_combo_speciallities");
+		app1sae_vbox_level = (Gtk.Box) builder.GetObject ("app1sae_vbox_level");
+		app1sae_label_level = (Gtk.Label) builder.GetObject ("app1sae_label_level");
+		app1sae_hbox_levels = (Gtk.Box) builder.GetObject ("app1sae_hbox_levels");
+		app1sae_hbox_combo_levels = (Gtk.Box) builder.GetObject ("app1sae_hbox_combo_levels");
+		app1sae_textview_comments = (Gtk.TextView) builder.GetObject ("app1sae_textview_comments");
+		app1sae_button_accept = (Gtk.Button) builder.GetObject ("app1sae_button_accept");
+		image_app1sae_button_cancel = (Gtk.Image) builder.GetObject ("image_app1sae_button_cancel");
+		image_app1sae_button_accept = (Gtk.Image) builder.GetObject ("image_app1sae_button_accept");
+
+		//notebook tab 7 (backup)
+		notebook_session_backup = (Gtk.Notebook) builder.GetObject ("notebook_session_backup");
+		label_backup_why = (Gtk.Label) builder.GetObject ("label_backup_why");
+		app1s_check_backup_include_logs = (Gtk.CheckButton) builder.GetObject ("app1s_check_backup_include_logs");
+		app1s_check_backup_include_config = (Gtk.CheckButton) builder.GetObject ("app1s_check_backup_include_config");
+		app1s_label_backup_estimated_size = (Gtk.Label) builder.GetObject ("app1s_label_backup_estimated_size");
+		app1s_button_backup_select = (Gtk.Button) builder.GetObject ("app1s_button_backup_select");
+		app1s_button_backup_start = (Gtk.Button) builder.GetObject ("app1s_button_backup_start");
+		app1s_button_backup_cancel_close = (Gtk.Button) builder.GetObject ("app1s_button_backup_cancel_close");
+		app1s_label_backup_cancel_close = (Gtk.Label) builder.GetObject ("app1s_label_backup_cancel_close");
+		app1s_eventbox_button_backup_cancel_close = (Gtk.EventBox) builder.GetObject ("app1s_eventbox_button_backup_cancel_close");
+		image_app1s_button_backup_cancel_close = (Gtk.Image) builder.GetObject ("image_app1s_button_backup_cancel_close");
+		app1s_image_button_backup_select = (Gtk.Image) builder.GetObject ("app1s_image_button_backup_select");
+		app1s_label_backup_destination = (Gtk.Label) builder.GetObject ("app1s_label_backup_destination");
+		app1s_hbox_backup_doing = (Gtk.HBox) builder.GetObject ("app1s_hbox_backup_doing");
+		app1s_label_backup_progress = (Gtk.Label) builder.GetObject ("app1s_label_backup_progress");
+		app1s_pulsebarBackupActivity = (Gtk.ProgressBar) builder.GetObject ("app1s_pulsebarBackupActivity");
+		app1s_pulsebarBackupDirs = (Gtk.ProgressBar) builder.GetObject ("app1s_pulsebarBackupDirs");
+		app1s_pulsebarBackupSecondDirs = (Gtk.ProgressBar) builder.GetObject ("app1s_pulsebarBackupSecondDirs");
+		app1s_button_delete_old_incomplete = (Gtk.Button) builder.GetObject ("app1s_button_delete_old_incomplete");
+		app1s_button_old_backups_delete_do = (Gtk.Button) builder.GetObject ("app1s_button_old_backups_delete_do");
+		app1s_label_old_backups_delete_done = (Gtk.Label) builder.GetObject ("app1s_label_old_backups_delete_done");
+		app1s_button_backup_scheduled_remind_next_time = (Gtk.Button) builder.GetObject ("app1s_button_backup_scheduled_remind_next_time");
+		app1s_button_backup_scheduled_remind_30d = (Gtk.Button) builder.GetObject ("app1s_button_backup_scheduled_remind_30d");
+		app1s_button_backup_scheduled_remind_60d = (Gtk.Button) builder.GetObject ("app1s_button_backup_scheduled_remind_60d");
+		app1s_button_backup_scheduled_remind_90d = (Gtk.Button) builder.GetObject ("app1s_button_backup_scheduled_remind_90d");
+		app1s_label_remind_feedback = (Gtk.Label) builder.GetObject ("app1s_label_remind_feedback");
+
+		//notebook tab 8 (export)
+		app1s_button_export_select = (Gtk.Button) builder.GetObject ("app1s_button_export_select");
+		app1s_button_export_start = (Gtk.Button) builder.GetObject ("app1s_button_export_start");
+		app1s_button_export_cancel = (Gtk.Button) builder.GetObject ("app1s_button_export_cancel");
+		app1s_button_export_close = (Gtk.Button) builder.GetObject ("app1s_button_export_close");
+		app1s_eventbox_button_export_cancel = (Gtk.EventBox) builder.GetObject ("app1s_eventbox_button_export_cancel");
+		app1s_eventbox_button_export_close = (Gtk.EventBox) builder.GetObject ("app1s_eventbox_button_export_close");
+		app1s_image_button_export_select = (Gtk.Image) builder.GetObject ("app1s_image_button_export_select");
+		app1s_label_export_destination = (Gtk.Label) builder.GetObject ("app1s_label_export_destination");
+		app1s_label_export_progress = (Gtk.Label) builder.GetObject ("app1s_label_export_progress");
+		image_app1s_button_export_cancel = (Gtk.Image) builder.GetObject ("image_app1s_button_export_cancel");
+		image_app1s_button_export_close = (Gtk.Image) builder.GetObject ("image_app1s_button_export_close");
+		app1s_pulsebarExportActivity = (Gtk.ProgressBar) builder.GetObject ("app1s_pulsebarExportActivity");
+
+		//notebook tab 9 (view_data_folder)
+		app1s_label_view_data_folder_mode_name = (Gtk.Label) builder.GetObject ("app1s_label_view_data_folder_mode_name");
+		app1s_label_view_data_folder_session = (Gtk.Label) builder.GetObject ("app1s_label_view_data_folder_session");
+		button_view_data_folder_specific = (Gtk.Button) builder.GetObject ("button_view_data_folder_specific");
+		app1s_label_view_data_folder_specific_no_data = (Gtk.Label) builder.GetObject ("app1s_label_view_data_folder_specific_no_data");
+		app1s_eventbox_button_view_data_folder_close = (Gtk.EventBox) builder.GetObject ("app1s_eventbox_button_view_data_folder_close");
+		image_app1s_button_view_data_folder_close = (Gtk.Image) builder.GetObject ("image_app1s_button_view_data_folder_close");
+	}
 }

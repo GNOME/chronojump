@@ -23,13 +23,12 @@ using System.Data;
 using System.IO;
 using System.Collections; //ArrayList
 using Gtk;
-using Glade;
+//using Glade;
 using Mono.Unix;
 
 
 public class Report : ExportSession
 {
-
 	private int sessionID;
 	public bool ShowCurrentSessionData;
 	public bool ShowCurrentSessionJumpers;

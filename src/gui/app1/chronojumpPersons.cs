@@ -23,7 +23,7 @@
 using System;
 using Gtk;
 using Gdk;
-using Glade;
+//using Glade;
 using System.Collections.Generic; //List
 using System.IO; //"File" things
 using System.Collections; //ArrayList
@@ -31,11 +31,11 @@ using Mono.Unix;
 
 public partial class ChronoJumpWindow
 {
-	[Widget] Gtk.Alignment alignment_session_persons;
-	[Widget] Gtk.EventBox eventbox_button_person_close;
-	[Widget] Gtk.Image image_person_manage_blue;
-	[Widget] Gtk.Image image_person_manage_yellow;
-	[Widget] Gtk.Button button_person_merge;
+	Gtk.Alignment alignment_session_persons;
+	Gtk.EventBox eventbox_button_person_close;
+	Gtk.Image image_person_manage_blue;
+	Gtk.Image image_person_manage_yellow;
+	Gtk.Button button_person_merge;
 
 	private void showPersonsOnTop (bool onTop)
 	{
@@ -535,4 +535,12 @@ public partial class ChronoJumpWindow
 		hpaned_contacts_main.Position += 10;
 	}
 
+	private void connectWidgetsPersons (Gtk.Builder builder)
+	{
+		alignment_session_persons = (Gtk.Alignment) builder.GetObject ("alignment_session_persons");
+		eventbox_button_person_close = (Gtk.EventBox) builder.GetObject ("eventbox_button_person_close");
+		image_person_manage_blue = (Gtk.Image) builder.GetObject ("image_person_manage_blue");
+		image_person_manage_yellow = (Gtk.Image) builder.GetObject ("image_person_manage_yellow");
+		button_person_merge = (Gtk.Button) builder.GetObject ("button_person_merge");
+	}
 }

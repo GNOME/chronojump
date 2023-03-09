@@ -15,28 +15,33 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2017   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2004-2023   Xavier de Blas <xaviblas@gmail.com> 
  */
 
 using System;
 using Gtk;
 using Gdk;
-using Glade;
+//using Glade;
 using System.IO; 
 
 public class DialogImageTest
 {
-	[Widget] Gtk.Dialog dialog_image_test;
-	[Widget] Gtk.Image image_test;
-	[Widget] Gtk.Label label_name_description;
-	[Widget] Gtk.Label label_long_description;
-	[Widget] Gtk.ScrolledWindow scrolledwindow28;
+	 Gtk.Dialog dialog_image_test;
+	 Gtk.Image image_test;
+	 Gtk.Label label_name_description;
+	 Gtk.Label label_long_description;
+	 Gtk.ScrolledWindow scrolledwindow28;
 
 	public DialogImageTest (EventType myEventType)
 	{
+		/*
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "dialog_image_test.glade", "dialog_image_test", null);
 		gladeXML.Autoconnect(this);
+		*/
+		Gtk.Builder builder = new Gtk.Builder (null, Util.GetGladePath () + "dialog_image_test.glade", null);
+		connectWidgets (builder);
+		builder.Autoconnect (this);
 		
 		//put an icon to window
 		UtilGtk.IconWindow(dialog_image_test);
@@ -78,9 +83,14 @@ public class DialogImageTest
 			return;
 		}
 
+		/*
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "dialog_image_test.glade", "dialog_image_test", "chronojump");
 		gladeXML.Autoconnect(this);
+		*/
+		Gtk.Builder builder = new Gtk.Builder (null, Util.GetGladePath () + "dialog_image_test.glade", null);
+		connectWidgets (builder);
+		builder.Autoconnect (this);
 		
 		dialog_image_test.Title = title;
 		label_name_description.Visible = false;
@@ -120,5 +130,14 @@ public class DialogImageTest
 
 	private void on_delete_event (object o, DeleteEventArgs args) {
 		dialog_image_test.Destroy ();
+	}
+
+	private void connectWidgets (Gtk.Builder builder)
+	{
+		 dialog_image_test = (Gtk.Dialog) builder.GetObject ("dialog_image_test");
+		 image_test = (Gtk.Image) builder.GetObject ("image_test");
+		 label_name_description = (Gtk.Label) builder.GetObject ("label_name_description");
+		 label_long_description = (Gtk.Label) builder.GetObject ("label_long_description");
+		 scrolledwindow28 = (Gtk.ScrolledWindow) builder.GetObject ("scrolledwindow28");
 	}
 }

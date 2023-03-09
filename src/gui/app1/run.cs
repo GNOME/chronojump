@@ -20,7 +20,7 @@
 
 using System;
 using Gtk;
-using Glade;
+//using Glade;
 using System.Text; //StringBuilder
 using Mono.Unix;
 
@@ -33,25 +33,25 @@ using Mono.Unix;
 public partial class ChronoJumpWindow
 {
 	//options runs
-	[Widget] Gtk.Button button_combo_runs_exercise_capture_left;
-	[Widget] Gtk.Button button_combo_runs_exercise_capture_right;
-	[Widget] Gtk.Button button_run_type_delete_simple;
-	[Widget] Gtk.CheckButton check_run_simple_with_reaction_time;
-	[Widget] Gtk.Button button_runs_simple_track_distance;
-	[Widget] Gtk.Label label_runs_simple_track_distance_value;
-	[Widget] Gtk.Label label_runs_simple_track_distance_units;
+	Gtk.Button button_combo_runs_exercise_capture_left;
+	Gtk.Button button_combo_runs_exercise_capture_right;
+	Gtk.Button button_run_type_delete_simple;
+	Gtk.CheckButton check_run_simple_with_reaction_time;
+	Gtk.Button button_runs_simple_track_distance;
+	Gtk.Label label_runs_simple_track_distance_value;
+	Gtk.Label label_runs_simple_track_distance_units;
 
 	//options runs interval
-	[Widget] Gtk.Button button_combo_runs_interval_exercise_capture_left;
-	[Widget] Gtk.Button button_combo_runs_interval_exercise_capture_right;
-	[Widget] Gtk.Button button_run_type_delete_interval;
-	[Widget] Gtk.Button button_runs_interval_track_distance;
-	[Widget] Gtk.Label label_runs_interval_track_distance_value;
-	//[Widget] Gtk.Label label_runs_interval_track_distance_units; //always "m"
-	[Widget] Gtk.Label extra_window_runs_interval_label_limit;
-	[Widget] Gtk.SpinButton extra_window_runs_interval_spinbutton_limit;
-	[Widget] Gtk.Label extra_window_runs_interval_label_limit_units;
-	[Widget] Gtk.CheckButton check_run_interval_with_reaction_time;
+	Gtk.Button button_combo_runs_interval_exercise_capture_left;
+	Gtk.Button button_combo_runs_interval_exercise_capture_right;
+	Gtk.Button button_run_type_delete_interval;
+	Gtk.Button button_runs_interval_track_distance;
+	Gtk.Label label_runs_interval_track_distance_value;
+	//Gtk.Label label_runs_interval_track_distance_units; //always "m"
+	Gtk.Label extra_window_runs_interval_label_limit;
+	Gtk.SpinButton extra_window_runs_interval_spinbutton_limit;
+	Gtk.Label extra_window_runs_interval_label_limit_units;
+	Gtk.CheckButton check_run_interval_with_reaction_time;
 	
 
 	double extra_window_runs_distance = 100;
@@ -514,6 +514,29 @@ public partial class ChronoJumpWindow
 
 	// <---- save runs simple image end ----
 
+	private void connectWidgetsRun (Gtk.Builder builder)
+	{
+		//options runs
+		button_combo_runs_exercise_capture_left = (Gtk.Button) builder.GetObject ("button_combo_runs_exercise_capture_left");
+		button_combo_runs_exercise_capture_right = (Gtk.Button) builder.GetObject ("button_combo_runs_exercise_capture_right");
+		button_run_type_delete_simple = (Gtk.Button) builder.GetObject ("button_run_type_delete_simple");
+		check_run_simple_with_reaction_time = (Gtk.CheckButton) builder.GetObject ("check_run_simple_with_reaction_time");
+		button_runs_simple_track_distance = (Gtk.Button) builder.GetObject ("button_runs_simple_track_distance");
+		label_runs_simple_track_distance_value = (Gtk.Label) builder.GetObject ("label_runs_simple_track_distance_value");
+		label_runs_simple_track_distance_units = (Gtk.Label) builder.GetObject ("label_runs_simple_track_distance_units");
+
+		//options runs interval
+		button_combo_runs_interval_exercise_capture_left = (Gtk.Button) builder.GetObject ("button_combo_runs_interval_exercise_capture_left");
+		button_combo_runs_interval_exercise_capture_right = (Gtk.Button) builder.GetObject ("button_combo_runs_interval_exercise_capture_right");
+		button_run_type_delete_interval = (Gtk.Button) builder.GetObject ("button_run_type_delete_interval");
+		button_runs_interval_track_distance = (Gtk.Button) builder.GetObject ("button_runs_interval_track_distance");
+		label_runs_interval_track_distance_value = (Gtk.Label) builder.GetObject ("label_runs_interval_track_distance_value");
+		//label_runs_interval_track_distance_units = (Gtk.Label) builder.GetObject ("label_runs_interval_track_distance_units"); //always "m"
+		extra_window_runs_interval_label_limit = (Gtk.Label) builder.GetObject ("extra_window_runs_interval_label_limit");
+		extra_window_runs_interval_spinbutton_limit = (Gtk.SpinButton) builder.GetObject ("extra_window_runs_interval_spinbutton_limit");
+		extra_window_runs_interval_label_limit_units = (Gtk.Label) builder.GetObject ("extra_window_runs_interval_label_limit_units");
+		check_run_interval_with_reaction_time = (Gtk.CheckButton) builder.GetObject ("check_run_interval_with_reaction_time");
+	}
 }
 
 

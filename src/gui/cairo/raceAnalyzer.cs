@@ -101,7 +101,7 @@ public class CairoGraphRaceAnalyzer : CairoXY
 	{
 		if(doSendingList (font, points_list, forceRedraw, plotType, blackLine, smoothLineWindow,
 					triggerList, timeAtEnoughAccelOrTrigger0, timeAtEnoughAccelMark, minAccel))
-			endGraphDisposing(g, surface, area.GdkWindow);
+			endGraphDisposing(g, surface, area.Window);
 	}
 
 	//return true if graph is inited (to dispose it)

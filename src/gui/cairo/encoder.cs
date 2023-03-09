@@ -57,7 +57,7 @@ public class CairoGraphEncoderSignal : CairoXY
 			bool forceRedraw, PlotTypes plotType)
 	{
 		if(doSendingList (font, isInertial, points_list, points_list_inertial, forceRedraw, plotType))
-			endGraphDisposing(g, surface, area.GdkWindow);
+			endGraphDisposing(g, surface, area.Window);
 	}
 
 	//return true if graph is inited (to dispose it)

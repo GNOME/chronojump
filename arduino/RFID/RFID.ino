@@ -1,6 +1,8 @@
 #include <SPI.h>    //Load SPI on Arduino IDE
 #include <RFID.h>   //Load RC522_RFID library (Paul Kourany)
- 
+
+String version = "RFID-0.1";
+
 #define SS_PIN 10   // Declare SDA pin on Arduino
 #define RST_PIN 9   // Declare RST pin on Arduino
 RFID rfid(SS_PIN, RST_PIN);   //Start RFID object
@@ -39,7 +41,10 @@ void serialEvent()
 			if (inputString.startsWith("Chronojump RFID"))
 			{
 				Serial.println("YES Chronojump RFID");
-			}
+			} else if(inputString = "get_version:")
+      {
+        Serial.println(version);
+      }
 			inputString = "";
 		}
 	}

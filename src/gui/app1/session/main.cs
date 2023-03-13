@@ -238,23 +238,40 @@ public partial class ChronoJumpWindow
 
 	private void app1s_eventboxes_paint()
 	{
-		UtilGtk.EventBoxColorBackgroundActive (app1s_eventbox_button_close0, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
-		UtilGtk.EventBoxColorBackgroundActive (app1s_eventbox_button_cancel1, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
-		UtilGtk.EventBoxColorBackgroundActive (app1s_eventbox_button_edit, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
-		UtilGtk.EventBoxColorBackgroundActive (app1s_eventbox_button_delete, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
-		UtilGtk.EventBoxColorBackgroundActive (app1s_eventbox_button_cancel, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
-		UtilGtk.EventBoxColorBackgroundActive (app1s_eventbox_button_load, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
-		UtilGtk.EventBoxColorBackgroundActive (app1s_eventbox_button_back, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
-		UtilGtk.EventBoxColorBackgroundActive (app1s_eventbox_button_import_confirm_back, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
-		UtilGtk.EventBoxColorBackgroundActive (app1s_eventbox_button_import_confirm_accept, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
-		UtilGtk.EventBoxColorBackgroundActive (app1s_eventbox_button_import, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
-		UtilGtk.EventBoxColorBackgroundActive (app1s_eventbox_button_import_close, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
-		UtilGtk.EventBoxColorBackgroundActive (app1s_eventbox_button_import_again, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
-		UtilGtk.EventBoxColorBackgroundActive (app1s_eventbox_button_delete_close, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
-		UtilGtk.EventBoxColorBackgroundActive (app1s_eventbox_button_backup_cancel_close, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
-		UtilGtk.EventBoxColorBackgroundActive (app1s_eventbox_button_export_cancel, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
-		UtilGtk.EventBoxColorBackgroundActive (app1s_eventbox_button_export_close, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
-		UtilGtk.EventBoxColorBackgroundActive (app1s_eventbox_button_view_data_folder_close, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
+		UtilGtk.EventBoxColorBackgroundActive (app1s_eventbox_button_close0,
+				UtilGtk.Colors.YELLOW, UtilGtk.Colors.YELLOW_LIGHT);
+		UtilGtk.EventBoxColorBackgroundActive (app1s_eventbox_button_cancel1,
+				UtilGtk.Colors.YELLOW, UtilGtk.Colors.YELLOW_LIGHT);
+		UtilGtk.EventBoxColorBackgroundActive (app1s_eventbox_button_edit,
+				UtilGtk.Colors.YELLOW, UtilGtk.Colors.YELLOW_LIGHT);
+		UtilGtk.EventBoxColorBackgroundActive (app1s_eventbox_button_delete,
+				UtilGtk.Colors.YELLOW, UtilGtk.Colors.YELLOW_LIGHT);
+		UtilGtk.EventBoxColorBackgroundActive (app1s_eventbox_button_cancel,
+				UtilGtk.Colors.YELLOW, UtilGtk.Colors.YELLOW_LIGHT);
+		UtilGtk.EventBoxColorBackgroundActive (app1s_eventbox_button_load,
+				UtilGtk.Colors.YELLOW, UtilGtk.Colors.YELLOW_LIGHT);
+		UtilGtk.EventBoxColorBackgroundActive (app1s_eventbox_button_back,
+				UtilGtk.Colors.YELLOW, UtilGtk.Colors.YELLOW_LIGHT);
+		UtilGtk.EventBoxColorBackgroundActive (app1s_eventbox_button_import_confirm_back,
+				UtilGtk.Colors.YELLOW, UtilGtk.Colors.YELLOW_LIGHT);
+		UtilGtk.EventBoxColorBackgroundActive (app1s_eventbox_button_import_confirm_accept,
+				UtilGtk.Colors.YELLOW, UtilGtk.Colors.YELLOW_LIGHT);
+		UtilGtk.EventBoxColorBackgroundActive (app1s_eventbox_button_import,
+				UtilGtk.Colors.YELLOW, UtilGtk.Colors.YELLOW_LIGHT);
+		UtilGtk.EventBoxColorBackgroundActive (app1s_eventbox_button_import_close,
+				UtilGtk.Colors.YELLOW, UtilGtk.Colors.YELLOW_LIGHT);
+		UtilGtk.EventBoxColorBackgroundActive (app1s_eventbox_button_import_again,
+				UtilGtk.Colors.YELLOW, UtilGtk.Colors.YELLOW_LIGHT);
+		UtilGtk.EventBoxColorBackgroundActive (app1s_eventbox_button_delete_close,
+				UtilGtk.Colors.YELLOW, UtilGtk.Colors.YELLOW_LIGHT);
+		UtilGtk.EventBoxColorBackgroundActive (app1s_eventbox_button_backup_cancel_close,
+				UtilGtk.Colors.YELLOW, UtilGtk.Colors.YELLOW_LIGHT);
+		UtilGtk.EventBoxColorBackgroundActive (app1s_eventbox_button_export_cancel,
+				UtilGtk.Colors.YELLOW, UtilGtk.Colors.YELLOW_LIGHT);
+		UtilGtk.EventBoxColorBackgroundActive (app1s_eventbox_button_export_close,
+				UtilGtk.Colors.YELLOW, UtilGtk.Colors.YELLOW_LIGHT);
+		UtilGtk.EventBoxColorBackgroundActive (app1s_eventbox_button_view_data_folder_close,
+				UtilGtk.Colors.YELLOW, UtilGtk.Colors.YELLOW_LIGHT);
 	}
 
 	private void app1s_label_session_set_name()

@@ -111,7 +111,7 @@ public class PersonShowAllEventsWindow
 	}
 	
 	static public PersonShowAllEventsWindow Show (Gtk.Window parent,
-			int currentSessionID, Person currentPerson, bool allowChangePerson, Gdk.Color colorBackground)
+			int currentSessionID, Person currentPerson, bool allowChangePerson, Gdk.RGBA colorBackground)
 	{
 		if (PersonShowAllEventsWindowBox == null) {
 			PersonShowAllEventsWindowBox = new PersonShowAllEventsWindow (parent, currentSessionID, currentPerson);

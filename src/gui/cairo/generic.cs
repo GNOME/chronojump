@@ -116,10 +116,11 @@ public abstract class CairoGeneric
 	{
 		return new Cairo.Color(red/256.0, green/256.0, blue/256.0);
 	}
-	//protected Cairo.Color colorFromGdk(Gdk.Color color)
-	public static Cairo.Color colorFromGdk(Gdk.Color color)
+	//0 - 1
+	//if does not work, check CairoUtil.PaintDrawingArea
+	public static Cairo.Color colorFromRGBA (Gdk.RGBA color)
 	{
-		return new Cairo.Color(color.Red/65536.0, color.Green/65536.0, color.Blue/65536.0);
+		return new Cairo.Color(color.Red, color.Green, color.Blue);
 	}
 
 	//not abstract because on radial they are not defined

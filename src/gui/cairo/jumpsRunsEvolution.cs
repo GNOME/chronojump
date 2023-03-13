@@ -155,7 +155,7 @@ public class JumpsEvolutionGraph : EvolutionGraph
 		this.title = title;
 		this.jumpType = jumpType;
 		this.date = date;
-		this.colorBackground = colorFromGdk(Config.ColorBackground); //but note if we are using system colors, this will not match
+		this.colorBackground = colorFromRGBA(Config.ColorBackground); //but note if we are using system colors, this will not match
 
 		xVariable = dateStr;
 		yVariable = heightStr;
@@ -208,7 +208,7 @@ public class RunsEvolutionGraph : EvolutionGraph
 		this.title = title;
 		this.runType = runType;
 		this.date = date;
-		this.colorBackground = colorFromGdk(Config.ColorBackground); //but note if we are using system colors, this will not match
+		this.colorBackground = colorFromRGBA(Config.ColorBackground); //but note if we are using system colors, this will not match
 
 		xVariable = dateStr;
 		if(showTime)
@@ -288,7 +288,7 @@ public class JumpsAsymmetryGraph : EvolutionGraph //to inherit paintGridDatetime
 		this.index = index;
 		this.formula = formula;
 		this.date = date;
-		this.colorBackground = colorFromGdk(Config.ColorBackground); //but note if we are using system colors, this will not match
+		this.colorBackground = colorFromRGBA(Config.ColorBackground); //but note if we are using system colors, this will not match
 
 		xVariable = dateStr;
 		yVariable = "Index";

@@ -157,7 +157,8 @@ public partial class ChronoJumpWindow
 
 		clearProgressBars();
 	
-		event_execute_eventbox_pulse_time.ModifyBg(Gtk.StateType.Normal, UtilGtk.BLUE_PLOTS); //only one serie in pulse, leave blue
+		event_execute_eventbox_pulse_time.OverrideBackgroundColor (Gtk.StateFlags.Normal,
+				UtilGtk.GetRGBA (UtilGtk.Colors.BLUE_PLOTS)); //only one serie in pulse, leave blue
 	}
 	private ExecutingGraphData event_execute_prepareForTest () 
 	{
@@ -2547,7 +2548,7 @@ public class CairoPaintBarplotPreEncoder : CairoPaintBarsPre
 		saved_l = new List<int>();
 
 		//Gdk colors from (soon deleted) encoderGraphDoPlot()
-		Gdk.Color colorPhase = new Gdk.Color();
+		RGBA colorPhase = new RGBA ();
 
 		//final color of the bar
 		Cairo.Color colorBar = new Cairo.Color();
@@ -2715,14 +2716,14 @@ public class CairoPaintBarplotPreEncoder : CairoPaintBarsPre
 
 			if ( ! discarded && ( myColor == UtilGtk.ColorGood || (pegbe.mainVariableHigher != -1 && mainVariableValue >= pegbe.mainVariableHigher) ) )
 			{
-				colorPhase = UtilGtk.GREEN_PLOTS;
+				colorPhase = UtilGtk.GetRGBA (UtilGtk.Colors.GREEN_PLOTS);
 				//play sound if value is high, volumeOn == true, is last value, capturing
 				if (pegbe.volumeOn && count == data.Count -1 && pegbe.capturing)
 					Util.PlaySound (Constants.SoundTypes.GOOD, preferences.volumeOn, preferences.gstreamer);
 			}
 			else if ( ! discarded && ( myColor == UtilGtk.ColorBad || (pegbe.mainVariableLower != -1 && mainVariableValue <= pegbe.mainVariableLower) ) )
 			{
-				colorPhase = UtilGtk.RED_PLOTS;
+				colorPhase = UtilGtk.GetRGBA (UtilGtk.Colors.RED_PLOTS);
 				//play sound if value is low, volumeOn == true, is last value, capturing
 				if (pegbe.volumeOn && count == data.Count -1 && pegbe.capturing)
 					Util.PlaySound (Constants.SoundTypes.BAD, pegbe.volumeOn, pegbe.gstreamer);
@@ -2734,10 +2735,10 @@ public class CairoPaintBarplotPreEncoder : CairoPaintBarsPre
 				 * AssignColorAutomatic will return ColorGray
 				 * this helps to distinguins the phase that we want
 				 */
-				colorPhase = UtilGtk.GRAY;
+				colorPhase = UtilGtk.GetRGBA (UtilGtk.Colors.GRAY);
 			}
 			else
-				colorPhase = UtilGtk.BLUE_LIGHT;
+				colorPhase = UtilGtk.GetRGBA (UtilGtk.Colors.BLUE_LIGHT);
 
 			//know if ecc or con to paint with dark or light pen
 			if (pegbe.eccon == "ec" || pegbe.eccon == "ecS")
@@ -2747,16 +2748,16 @@ public class CairoPaintBarplotPreEncoder : CairoPaintBarsPre
 				//on inertial if discardFirstN , they have to be gray
 				if( pegbe.hasInertia && pegbe.discardFirstN > 0 &&
 						((pegbe.eccon == "c" && count < pegbe.discardFirstN) || (pegbe.eccon != "c" && count < pegbe.discardFirstN * 2)) )
-					colorBar = CairoGeneric.colorFromGdk(UtilGtk.GRAY);
+					colorBar = CairoGeneric.colorFromRGBA (UtilGtk.GetRGBA (UtilGtk.Colors.GRAY));
 				else {
-					colorBar = CairoGeneric.colorFromGdk(colorPhase);
+					colorBar = CairoGeneric.colorFromRGBA (colorPhase);
 				}
 			} else {
 				if( pegbe.hasInertia && pegbe.discardFirstN > 0 &&
 						((pegbe.eccon == "c" && count < pegbe.discardFirstN) || (pegbe.eccon != "c" && count < pegbe.discardFirstN * 2)) )
-					colorBar = CairoGeneric.colorFromGdk(UtilGtk.GRAY);
+					colorBar = CairoGeneric.colorFromRGBA (UtilGtk.GetRGBA (UtilGtk.Colors.GRAY));
 				else
-					colorBar = CairoGeneric.colorFromGdk(colorPhase);
+					colorBar = CairoGeneric.colorFromRGBA (colorPhase);
 			}
 
 			// 3) add data in barA_l, barB_l, names_l and color lists
@@ -2828,7 +2829,7 @@ public class CairoPaintBarplotPreEncoder : CairoPaintBarsPre
 		if (pegbe.eccon != "c" && ! Util.IsEven(pegbe.data9Variables.Count))
 		{
 			barB_l.Add(null);
-			colorMain_l.Add(CairoGeneric.colorFromGdk(UtilGtk.GRAY)); //this color will not be shown is just to match barB_l with colorMain_l
+			colorMain_l.Add(CairoGeneric.colorFromRGBA (UtilGtk.GetRGBA (UtilGtk.Colors.GRAY))); //this color will not be shown is just to match barB_l with colorMain_l
 		}
 	}
 

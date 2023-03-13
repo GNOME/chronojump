@@ -27,8 +27,15 @@ public class Config
 {
 	//to avoid passing this info to all the windows and dialogs, just read it here
 	public static bool UseSystemColor; //do nothing at all
-	public static Gdk.Color ColorBackground;
+
+	//stored in DB
+	public static Gdk.RGBA ColorBackground;
+
+	//not stored in DB (but incluced here to not have to calculate it all the time)
 	public static bool ColorBackgroundIsDark;
+	public static Gdk.RGBA ColorBackgroundShifted;
+	public static bool ColorBackgroundShiftedIsDark;
+
 	public static string LastDBFullPathStatic = ""; //works even with spaces in name
 
 	public enum SessionModeEnum { STANDARD, UNIQUE, MONTHLY }

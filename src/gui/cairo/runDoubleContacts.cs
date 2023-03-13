@@ -77,7 +77,7 @@ public class CairoRunDoubleContacts : CairoGeneric
 		g.SelectFontFace(font, Cairo.FontSlant.Normal, Cairo.FontWeight.Normal);
 		g.SetFontSize(textHeight);
 
-		colorBackground = colorFromGdk(Config.ColorBackground);
+		colorBackground = colorFromRGBA(Config.ColorBackground);
 
 		black = colorFromRGB(0,0,0);
 		//gray = colorFromRGB(99,99,99); //gray99

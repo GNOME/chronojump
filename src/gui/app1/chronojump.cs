@@ -408,6 +408,10 @@ public partial class ChronoJumpWindow
 	Gtk.Label label_selector_menu_2_2_2_title;
 	Gtk.Label label_selector_menu_2_2_2_desc;
 	Gtk.Alignment align_label_selector_menu_2_2_2_desc;
+
+//	Gtk.Viewport viewport29;
+	Gtk.VBox vbox_manage_persons;
+	Gtk.HBox hbox167;
 	// <---- at glade
 
 	Random rand;
@@ -637,7 +641,7 @@ public partial class ChronoJumpWindow
 		changeTestImage("", "", "LOGO");
 	
 		//white bg
-		eventbox_image_test.ModifyBg(StateType.Normal, UtilGtk.WHITE);
+		eventbox_image_test.OverrideBackgroundColor (StateFlags.Normal, UtilGtk.GetRGBA (UtilGtk.Colors.WHITE));
 	
 		//new DialogMessage(Constants.MessageTypes.INFO, UtilGtk.ScreenHeightFitted(false).ToString() );
 		//UtilGtk.ResizeIfNeeded(stats_window);
@@ -661,8 +665,6 @@ public partial class ChronoJumpWindow
 		loadPreferencesAtStart ();
 
 		Config.UseSystemColor = preferences.colorBackgroundOsColor;
-		Config.ColorBackground = preferences.colorBackground;
-		Config.ColorBackgroundIsDark = UtilGtk.ColorIsDark(preferences.colorBackground);
 
 		checkbutton_video_contacts.Visible = true;
 
@@ -711,36 +713,67 @@ public partial class ChronoJumpWindow
 		initForceSensor ();
 		initRunEncoder ();
 
-		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_person_close, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
-		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_show_modes_contacts, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
-		UtilGtk.EventBoxColorBackgroundActive (eventbox_change_modes_contacts_jumps_simple, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
-		UtilGtk.EventBoxColorBackgroundActive (eventbox_change_modes_contacts_jumps_reactive, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
-		UtilGtk.EventBoxColorBackgroundActive (eventbox_change_modes_contacts_runs_simple, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
-		UtilGtk.EventBoxColorBackgroundActive (eventbox_change_modes_contacts_runs_intervallic, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
-		UtilGtk.EventBoxColorBackgroundActive (eventbox_change_modes_contacts_isometric, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
-		UtilGtk.EventBoxColorBackgroundActive (eventbox_change_modes_contacts_elastic, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
-		UtilGtk.EventBoxColorBackgroundActive (eventbox_change_modes_contacts_runs_encoder, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
-		UtilGtk.EventBoxColorBackgroundActive (eventbox_change_modes_encoder_gravitatory, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
-		UtilGtk.EventBoxColorBackgroundActive (eventbox_change_modes_encoder_inertial, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
-		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_show_modes_encoder, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
-		UtilGtk.EventBoxColorBackgroundActive (eventbox_radio_mode_contacts_capture, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
-		UtilGtk.EventBoxColorBackgroundActive (eventbox_radio_mode_contacts_analyze, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
-		UtilGtk.EventBoxColorBackgroundActive (eventbox_radio_mode_encoder_capture_small, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
-		UtilGtk.EventBoxColorBackgroundActive (eventbox_radio_mode_encoder_analyze_small, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
-		UtilGtk.EventBoxColorBackgroundActive (eventbox_radio_mode_pulses_small, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
-		UtilGtk.EventBoxColorBackgroundActive (eventbox_radio_mode_multi_chronopic_small, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
-		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_open_chronojump, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
-		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_help_close, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
-		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_news_close, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
-		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_micro_discover_cancel_close, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
-		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_exit_cancel, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
-		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_exit_confirm, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
-		UtilGtk.EventBoxColorBackgroundActive (eventbox_radio_menu_2_2_2_jumps, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
-		UtilGtk.EventBoxColorBackgroundActive (eventbox_radio_menu_2_2_2_races, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
-		UtilGtk.EventBoxColorBackgroundActive (eventbox_radio_menu_2_2_2_isometric, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
-		UtilGtk.EventBoxColorBackgroundActive (eventbox_radio_menu_2_2_2_elastic, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
-		UtilGtk.EventBoxColorBackgroundActive (eventbox_radio_menu_2_2_2_weights, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
-		UtilGtk.EventBoxColorBackgroundActive (eventbox_radio_menu_2_2_2_inertial, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
+		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_person_close,
+				UtilGtk.Colors.YELLOW, UtilGtk.Colors.YELLOW_LIGHT);
+		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_show_modes_contacts,
+				UtilGtk.Colors.YELLOW, UtilGtk.Colors.YELLOW_LIGHT);
+		UtilGtk.EventBoxColorBackgroundActive (eventbox_change_modes_contacts_jumps_simple,
+				UtilGtk.Colors.YELLOW, UtilGtk.Colors.YELLOW_LIGHT);
+		UtilGtk.EventBoxColorBackgroundActive (eventbox_change_modes_contacts_jumps_reactive,
+				UtilGtk.Colors.YELLOW, UtilGtk.Colors.YELLOW_LIGHT);
+		UtilGtk.EventBoxColorBackgroundActive (eventbox_change_modes_contacts_runs_simple,
+				UtilGtk.Colors.YELLOW, UtilGtk.Colors.YELLOW_LIGHT);
+		UtilGtk.EventBoxColorBackgroundActive (eventbox_change_modes_contacts_runs_intervallic,
+				UtilGtk.Colors.YELLOW, UtilGtk.Colors.YELLOW_LIGHT);
+		UtilGtk.EventBoxColorBackgroundActive (eventbox_change_modes_contacts_isometric,
+				UtilGtk.Colors.YELLOW, UtilGtk.Colors.YELLOW_LIGHT);
+		UtilGtk.EventBoxColorBackgroundActive (eventbox_change_modes_contacts_elastic,
+				UtilGtk.Colors.YELLOW, UtilGtk.Colors.YELLOW_LIGHT);
+		UtilGtk.EventBoxColorBackgroundActive (eventbox_change_modes_contacts_runs_encoder,
+				UtilGtk.Colors.YELLOW, UtilGtk.Colors.YELLOW_LIGHT);
+		UtilGtk.EventBoxColorBackgroundActive (eventbox_change_modes_encoder_gravitatory,
+				UtilGtk.Colors.YELLOW, UtilGtk.Colors.YELLOW_LIGHT);
+		UtilGtk.EventBoxColorBackgroundActive (eventbox_change_modes_encoder_inertial,
+				UtilGtk.Colors.YELLOW, UtilGtk.Colors.YELLOW_LIGHT);
+		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_show_modes_encoder,
+				UtilGtk.Colors.YELLOW, UtilGtk.Colors.YELLOW_LIGHT);
+		UtilGtk.EventBoxColorBackgroundActive (eventbox_radio_mode_contacts_capture,
+				UtilGtk.Colors.YELLOW, UtilGtk.Colors.YELLOW_LIGHT);
+		UtilGtk.EventBoxColorBackgroundActive (eventbox_radio_mode_contacts_analyze,
+				UtilGtk.Colors.YELLOW, UtilGtk.Colors.YELLOW_LIGHT);
+		UtilGtk.EventBoxColorBackgroundActive (eventbox_radio_mode_encoder_capture_small,
+				UtilGtk.Colors.YELLOW, UtilGtk.Colors.YELLOW_LIGHT);
+		UtilGtk.EventBoxColorBackgroundActive (eventbox_radio_mode_encoder_analyze_small,
+				UtilGtk.Colors.YELLOW, UtilGtk.Colors.YELLOW_LIGHT);
+		UtilGtk.EventBoxColorBackgroundActive (eventbox_radio_mode_pulses_small,
+				UtilGtk.Colors.YELLOW, UtilGtk.Colors.YELLOW_LIGHT);
+		UtilGtk.EventBoxColorBackgroundActive (eventbox_radio_mode_multi_chronopic_small,
+				UtilGtk.Colors.YELLOW, UtilGtk.Colors.YELLOW_LIGHT);
+		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_open_chronojump,
+				UtilGtk.Colors.YELLOW, UtilGtk.Colors.YELLOW_LIGHT);
+		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_help_close,
+				UtilGtk.Colors.YELLOW, UtilGtk.Colors.YELLOW_LIGHT);
+		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_news_close,
+				UtilGtk.Colors.YELLOW, UtilGtk.Colors.YELLOW_LIGHT);
+		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_micro_discover_cancel_close,
+				UtilGtk.Colors.YELLOW, UtilGtk.Colors.YELLOW_LIGHT);
+		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_exit_cancel,
+				UtilGtk.Colors.YELLOW, UtilGtk.Colors.YELLOW_LIGHT);
+		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_exit_confirm,
+				UtilGtk.Colors.YELLOW, UtilGtk.Colors.YELLOW_LIGHT);
+		UtilGtk.EventBoxColorBackgroundActive (eventbox_radio_menu_2_2_2_jumps,
+				UtilGtk.Colors.YELLOW, UtilGtk.Colors.YELLOW_LIGHT);
+		UtilGtk.EventBoxColorBackgroundActive (eventbox_radio_menu_2_2_2_races,
+				UtilGtk.Colors.YELLOW, UtilGtk.Colors.YELLOW_LIGHT);
+		UtilGtk.EventBoxColorBackgroundActive (eventbox_radio_menu_2_2_2_isometric,
+				UtilGtk.Colors.YELLOW, UtilGtk.Colors.YELLOW_LIGHT);
+		UtilGtk.EventBoxColorBackgroundActive (eventbox_radio_menu_2_2_2_elastic,
+				UtilGtk.Colors.YELLOW, UtilGtk.Colors.YELLOW_LIGHT);
+		UtilGtk.EventBoxColorBackgroundActive (eventbox_radio_menu_2_2_2_weights,
+				UtilGtk.Colors.YELLOW, UtilGtk.Colors.YELLOW_LIGHT);
+		UtilGtk.EventBoxColorBackgroundActive (eventbox_radio_menu_2_2_2_inertial,
+				UtilGtk.Colors.YELLOW, UtilGtk.Colors.YELLOW_LIGHT);
+
 		app1s_eventboxes_paint();
 
 		createComboSelectJumps(true);
@@ -1017,6 +1050,19 @@ public partial class ChronoJumpWindow
 			UtilGtk.ContrastLabelsVBox (Config.ColorBackgroundIsDark, vbox_help);
 			UtilGtk.ContrastLabelsVBox (Config.ColorBackgroundIsDark, vbox_micro_discover);
 			UtilGtk.ContrastLabelsVBox (Config.ColorBackgroundIsDark, vbox_person);
+
+			//TODO: clean code using Config Shifted/IsDark variables
+			UtilGtk.WidgetColor (hbox167, UtilGtk.GetColorShifted(Config.ColorBackground,
+					! UtilGtk.ColorIsDark(Config.ColorBackground)));
+			UtilGtk.ContrastLabelsHBox (UtilGtk.ColorIsDark(
+						UtilGtk.GetColorShifted(Config.ColorBackground,
+							! UtilGtk.ColorIsDark(Config.ColorBackground))), hbox167);
+
+			UtilGtk.WidgetColor (notebook_capture_analyze, UtilGtk.GetColorShifted(Config.ColorBackground,
+					! UtilGtk.ColorIsDark(Config.ColorBackground)));
+			UtilGtk.ContrastLabelsNotebook (UtilGtk.ColorIsDark(
+						UtilGtk.GetColorShifted(Config.ColorBackground,
+							! UtilGtk.ColorIsDark(Config.ColorBackground))), notebook_capture_analyze);
 
 			if(Config.ColorBackgroundIsDark)
 				image_chronopic_connect_encoder2.Pixbuf =
@@ -3463,8 +3509,12 @@ public partial class ChronoJumpWindow
 			LogB.Information("catched at on_preferences_accepted ()");
 		}
 
-		Config.ColorBackground = preferences.colorBackground;
-		Config.ColorBackgroundIsDark = UtilGtk.ColorIsDark(preferences.colorBackground);
+		/*
+		LogB.Information ("Config.ColorBackground RGB");
+		LogB.Information (Config.ColorBackground.Red.ToString());
+		LogB.Information (Config.ColorBackground.Green.ToString());
+		LogB.Information (Config.ColorBackground.Blue.ToString());
+		*/
 
 		//repaint labels that are on the background
 		//TODO: only if color changed or personWinHide
@@ -9288,6 +9338,10 @@ LogB.Debug("mc finished 5");
 		label_selector_menu_2_2_2_title = (Gtk.Label) builder.GetObject ("label_selector_menu_2_2_2_title");
 		label_selector_menu_2_2_2_desc = (Gtk.Label) builder.GetObject ("label_selector_menu_2_2_2_desc");
 		align_label_selector_menu_2_2_2_desc = (Gtk.Alignment) builder.GetObject ("align_label_selector_menu_2_2_2_desc");
+
+		//viewport29 = (Gtk.Viewport) builder.GetObject ("viewport29");
+		vbox_manage_persons = (Gtk.VBox) builder.GetObject ("vbox_manage_persons");
+		hbox167 = (Gtk.HBox) builder.GetObject ("hbox167");
 	}
 
 }

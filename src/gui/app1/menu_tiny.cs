@@ -21,6 +21,7 @@
 //this file has methods of ChronoJumpWindow related to manage menu_tiny
 
 using System;
+using Gdk;
 using Gtk;
 //using Glade;
 //using System.Collections.Generic; //List
@@ -131,33 +132,46 @@ public partial class ChronoJumpWindow
 	{
 		if(! Config.UseSystemColor)
 		{
-			Gdk.Color color = UtilGtk.ColorParse(preferences.colorBackgroundString);
+			RGBA color = UtilGtk.ColorParse (preferences.colorBackgroundString);
 
-			UtilGtk.WindowColor(app1, color);
-			UtilGtk.ViewportColor(viewport_send_log, color);
-			UtilGtk.ViewportColor(viewport_exit_confirm, color);
-			UtilGtk.ViewportColor(viewport_social_network_poll, color);
-			UtilGtk.ViewportColor(viewport_rest_time_contacts, color);
-			UtilGtk.ViewportColor(viewport_rest_time_encoder, color);
+			UtilGtk.WindowColor (app1, color);
+			UtilGtk.ViewportColor (viewport_send_log, color);
+			UtilGtk.ViewportColor (viewport_exit_confirm, color);
+			UtilGtk.ViewportColor (viewport_social_network_poll, color);
+			UtilGtk.ViewportColor (viewport_rest_time_contacts, color);
+			UtilGtk.ViewportColor (viewport_rest_time_encoder, color);
 		}
 
-		UtilGtk.ViewportColor(viewport_image_logo_icon, UtilGtk.BLUE_CHRONOJUMP);
+		UtilGtk.ViewportColor (viewport_image_logo_icon, UtilGtk.Colors.BLUE_CHRONOJUMP);
 
-		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_menu_database, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
-		UtilGtk.EventBoxColorBackgroundActive (eventbox_check_menu_session1, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
-		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_menu_preferences1, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
-		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_menu_help1, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
-		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_menu_news1, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
-		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_menu_exit1, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
+		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_menu_database,
+				UtilGtk.Colors.YELLOW, UtilGtk.Colors.YELLOW_LIGHT);
+		UtilGtk.EventBoxColorBackgroundActive (eventbox_check_menu_session1,
+				UtilGtk.Colors.YELLOW, UtilGtk.Colors.YELLOW_LIGHT);
+		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_menu_preferences1,
+				UtilGtk.Colors.YELLOW, UtilGtk.Colors.YELLOW_LIGHT);
+		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_menu_help1,
+				UtilGtk.Colors.YELLOW, UtilGtk.Colors.YELLOW_LIGHT);
+		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_menu_news1,
+				UtilGtk.Colors.YELLOW, UtilGtk.Colors.YELLOW_LIGHT);
+		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_menu_exit1,
+				UtilGtk.Colors.YELLOW, UtilGtk.Colors.YELLOW_LIGHT);
 
-		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_menu_session_new1, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
-		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_menu_session_load1, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
-		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_menu_session_more1, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
+		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_menu_session_new1,
+				UtilGtk.Colors.YELLOW, UtilGtk.Colors.YELLOW_LIGHT);
+		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_menu_session_load1,
+				UtilGtk.Colors.YELLOW, UtilGtk.Colors.YELLOW_LIGHT);
+		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_menu_session_more1,
+				UtilGtk.Colors.YELLOW, UtilGtk.Colors.YELLOW_LIGHT);
 
-		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_contacts_person_change, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
-		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_encoder_person_change, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
-		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_networks_contacts_guest, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
-		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_networks_encoder_guest, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
+		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_contacts_person_change,
+				UtilGtk.Colors.YELLOW, UtilGtk.Colors.YELLOW_LIGHT);
+		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_encoder_person_change,
+				UtilGtk.Colors.YELLOW, UtilGtk.Colors.YELLOW_LIGHT);
+		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_networks_contacts_guest,
+				UtilGtk.Colors.YELLOW, UtilGtk.Colors.YELLOW_LIGHT);
+		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_networks_encoder_guest,
+				UtilGtk.Colors.YELLOW, UtilGtk.Colors.YELLOW_LIGHT);
 	}
 
 

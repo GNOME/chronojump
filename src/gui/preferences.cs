@@ -290,7 +290,7 @@ public class PreferencesWindow
 	
 	static PreferencesWindow PreferencesWindowBox;
 
-	private Gdk.Color colorBackground;
+	private RGBA colorBackground;
 
 	private UtilAll.OperatingSystems operatingSystem;
 	private Preferences preferences; //stored to update SQL if anything changed
@@ -817,8 +817,9 @@ public class PreferencesWindow
 		}
 
 		PreferencesWindowBox.colorBackground = UtilGtk.ColorParse(preferences.colorBackgroundString);
+		PreferencesWindowBox.paintColorChronojump ();
 		PreferencesWindowBox.paintColorDrawingAreaAndBg (PreferencesWindowBox.colorBackground);
-		UtilGtk.PaintColorDrawingArea(PreferencesWindowBox.drawingarea_background_color_chronojump_blue, UtilGtk.BLUE_CHRONOJUMP);
+
 
 		//tabs selection widgets
 		PreferencesWindowBox.image_view_more_tabs_close.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_close.png");
@@ -847,12 +848,14 @@ public class PreferencesWindow
 		preferences.colorBackgroundString = Preferences.PreferencesChange(
 				false,
 				SqlitePreferences.ColorBackground, preferences.colorBackgroundString,
-				UtilGtk.ColorToColorString(colorBackground)); //this does the reverse of Gdk.Color.Parse on UtilGtk.ColorParse()
+				UtilGtk.ColorToHex (colorBackground)); //this does the reverse of Gdk.Color.Parse on UtilGtk.ColorParse()
 		preferences.colorBackgroundOsColor = Preferences.PreferencesChange(
 				false,
 				SqlitePreferences.ColorBackgroundOsColor, preferences.colorBackgroundOsColor,
 				false);
-		preferences.colorBackgroundIsDark = UtilGtk.ColorIsDark(colorBackground);
+
+		changeConfigColors ();
+		paintColorDrawingAreaAndBg(colorBackground);
 	}
 	private void on_radio_color_chronojump_blue_toggled (object o, EventArgs args)
 	{
@@ -869,7 +872,10 @@ public class PreferencesWindow
 				false,
 				SqlitePreferences.ColorBackgroundOsColor, preferences.colorBackgroundOsColor,
 				false);
-		preferences.colorBackgroundIsDark = true;
+
+		colorBackground = UtilGtk.ColorParse (preferences.colorBackgroundString);
+		changeConfigColors ();
+		paintColorDrawingAreaAndBg(colorBackground);
 	}
 	private void on_radio_color_os_toggled (object o, EventArgs args)
 	{
@@ -884,7 +890,9 @@ public class PreferencesWindow
 				false,
 				SqlitePreferences.ColorBackgroundOsColor, preferences.colorBackgroundOsColor,
 				true);
-		preferences.colorBackgroundIsDark = false; //is not important as it is not going to be used
+
+		changeConfigColors ();
+		paintColorDrawingAreaAndBg(colorBackground);
 	}
 
 	private void on_button_color_choose_clicked(object o, EventArgs args)
@@ -892,37 +900,41 @@ public class PreferencesWindow
 		using (ColorSelectionDialog colorSelectionDialog = new ColorSelectionDialog (Catalog.GetString("Select color")))
 		{
 			colorSelectionDialog.TransientFor = preferences_win;
-			colorSelectionDialog.ColorSelection.CurrentColor = colorBackground;
+			colorSelectionDialog.ColorSelection.CurrentRgba = colorBackground;
 			colorSelectionDialog.ColorSelection.HasPalette = true;
 
 			if (colorSelectionDialog.Run () == (int) ResponseType.Ok)
 			{
 				// A) changes on preferences gui
-				colorBackground = colorSelectionDialog.ColorSelection.CurrentColor;
-				paintColorDrawingAreaAndBg(colorBackground);
-
-				/*
-				LogB.Information(string.Format("color: red {0}, green {1}, blue {2}",
-							colorBackground.Red, colorBackground.Green, colorBackground.Blue));
-				LogB.Information(string.Format("color: red {0}, green {1}, blue {2}",
-							colorBackground.Red/256.0, colorBackground.Green/256.0, colorBackground.Blue/256.0));
-				*/
-				LogB.Information("color to string: " + UtilGtk.ColorToColorString(colorBackground));
+				colorBackground = colorSelectionDialog.ColorSelection.CurrentRgba;
 
 				// B) changes on preferences object and SqlitePreferences
 				preferences.colorBackgroundString = Preferences.PreferencesChange(
 						false,
 						SqlitePreferences.ColorBackground, preferences.colorBackgroundString,
-						UtilGtk.ColorToColorString(colorBackground)); //this does the reverse of Gdk.Color.Parse on UtilGtk.ColorParse()
+						UtilGtk.ColorToHex (colorBackground)); //this does the reverse of Gdk.Color.Parse on UtilGtk.ColorParse()
 				preferences.colorBackgroundOsColor = Preferences.PreferencesChange(
 						false,
 						SqlitePreferences.ColorBackgroundOsColor, preferences.colorBackgroundOsColor,
 						false);
-				preferences.colorBackgroundIsDark = UtilGtk.ColorIsDark(colorBackground);
+
+				changeConfigColors ();
+				paintColorDrawingAreaAndBg(colorBackground);
 			}
 
 			colorSelectionDialog.Hide ();
 		}
+	}
+
+	private void changeConfigColors ()
+	{
+		Config.ColorBackground = preferences.colorBackground;
+		Config.ColorBackgroundIsDark = UtilGtk.ColorIsDark (preferences.colorBackground);
+
+		//shifted
+		Config.ColorBackgroundShifted = UtilGtk.GetColorShifted (Config.ColorBackground,
+				! Config.ColorBackgroundIsDark);
+		Config.ColorBackgroundShiftedIsDark = UtilGtk.ColorIsDark (Config.ColorBackgroundShifted);
 	}
 
 	private void on_check_session_autoload_at_start_toggled (object o, EventArgs args)
@@ -2099,11 +2111,57 @@ public class PreferencesWindow
 	// <---- end of help
 
 
-	private void paintColorDrawingAreaAndBg (Gdk.Color color)
+	RGBA colorDrawingArea;
+	private void paintColorDrawingAreaAndBg (RGBA color)
 	{
-		UtilGtk.PaintColorDrawingArea(drawingarea_background_color, color);
+		//UtilGtk.PaintColorDrawingArea (drawingarea_background_color, color);
+		colorDrawingArea = color;
+		drawingarea_background_color.QueueDraw ();
+
 		if(! preferences.colorBackgroundOsColor)
-			UtilGtk.WindowColor(preferences_win, color);
+		{
+			//window
+			UtilGtk.WindowColor (preferences_win, color);
+
+			//notebook
+			UtilGtk.WidgetColor (notebook, Config.ColorBackgroundShifted);
+			UtilGtk.ContrastLabelsNotebook (Config.ColorBackgroundShiftedIsDark, notebook);
+
+			for (int i = 0; i < notebook.NPages; i ++)
+			{
+				Gtk.Widget w = notebook.GetTabLabel (notebook.GetNthPage(i));
+				if (w.GetType() == typeof(Gtk.Label))
+					UtilGtk.ContrastLabelsLabel (Config.ColorBackgroundShiftedIsDark, (Gtk.Label) w);
+				else if (w.GetType() == typeof(Gtk.HBox))
+					UtilGtk.ContrastLabelsHBox (Config.ColorBackgroundShiftedIsDark, (Gtk.HBox) w);
+			}
+		}
+	}
+
+	private void on_drawingarea_background_color_draw (object o, Gtk.DrawnArgs args)
+	{
+		DrawingArea da = (DrawingArea) o;
+		Cairo.Context cr = args.Cr;
+
+		CairoUtil.PaintDrawingArea (da, cr, colorDrawingArea);
+	}
+
+	private void paintColorChronojump ()
+	{
+		drawingarea_background_color_chronojump_blue.QueueDraw ();
+	}
+	private void on_drawingarea_background_color_chronojump_blue_draw (object o, Gtk.DrawnArgs args)
+	{
+		DrawingArea da = (DrawingArea) o;
+		Cairo.Context cr = args.Cr;
+
+		/*
+		LogB.Information ("going to paint in BLUE_CHRONOJUMP");
+		LogB.Information (UtilGtk.GetRGBA (UtilGtk.Colors.BLUE_CHRONOJUMP).Red.ToString());
+		LogB.Information (UtilGtk.GetRGBA (UtilGtk.Colors.BLUE_CHRONOJUMP).Green.ToString());
+		LogB.Information (UtilGtk.GetRGBA (UtilGtk.Colors.BLUE_CHRONOJUMP).Blue.ToString());
+		*/
+		CairoUtil.PaintDrawingArea (da, cr, UtilGtk.GetRGBA (UtilGtk.Colors.BLUE_CHRONOJUMP));
 	}
 
 

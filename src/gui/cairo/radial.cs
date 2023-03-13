@@ -77,7 +77,7 @@ public class CairoRadial : CairoGeneric
 
 		black = colorFromRGB(0,0,0);
 		gray = colorFromRGB(99,99,99); //gray99
-		colorArrow = colorFromGdk(Config.ColorBackground);
+		colorArrow = colorFromRGBA(Config.ColorBackground);
 
 		g.SetSourceColor(black);
 		minSide = graphWidth;

@@ -39,7 +39,6 @@ public class Preferences
 	public MenuTypes menuType;			//unused on 2.1.3
 
 	public string colorBackgroundString; //"" means system color (do not do nothing)
-	public bool colorBackgroundIsDark; //this is assigned when colorBackgroundString changes. And this is used by the rest of the program. Not stored on SQL.
 	public bool colorBackgroundOsColor;
 	public bool logoAnimatedShow;
 	public enum FontTypes { Courier, Helvetica};
@@ -558,7 +557,7 @@ public class Preferences
 		return sNew;
 	}
 
-	public Gdk.Color colorBackground
+	public Gdk.RGBA colorBackground
 	{
 		get { return UtilGtk.ColorParse(colorBackgroundString); }
 	}

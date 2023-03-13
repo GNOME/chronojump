@@ -74,7 +74,7 @@ public class JumpsWeightFVProfileGraph : CairoXY
 		this.date = date;
 		this.showFullGraph = showFullGraph;
 		this.errorMessage = errorMessage;
-		this.colorBackground = colorFromGdk(Config.ColorBackground); //but note if we are using system colors, this will not match
+		this.colorBackground = colorFromRGBA(Config.ColorBackground); //but note if we are using system colors, this will not match
 
 		//outerMargin = 50; //blank space outside the axis
 		leftMargin = 50;

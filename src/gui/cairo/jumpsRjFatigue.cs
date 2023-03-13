@@ -59,7 +59,7 @@ public class JumpsRjFatigueGraph : CairoXY
 		this.jumpType = jumpType;
 		this.date = date;
 		this.divideIn = divideIn;
-		this.colorBackground = colorFromGdk(Config.ColorBackground); //but note if we are using system colors, this will not match
+		this.colorBackground = colorFromRGBA(Config.ColorBackground); //but note if we are using system colors, this will not match
 
 		xVariable = countStr;
 		xUnits = "";

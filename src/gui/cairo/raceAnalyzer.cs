@@ -62,7 +62,7 @@ public class CairoGraphRaceAnalyzer : CairoXY
 //		this.load = load;
 		this.area = area;
 		this.title = title;
-		this.colorBackground = colorFromGdk(Config.ColorBackground); //but note if we are using system colors, this will not match
+		this.colorBackground = colorFromRGBA(Config.ColorBackground); //but note if we are using system colors, this will not match
 
 		xVariable = timeStr;
 		this.yVariable = yVariable;

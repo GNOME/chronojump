@@ -529,6 +529,7 @@ public class UtilGtk
 	 * > col2rgb(colors()[554])
 	 */
 	public static Gdk.Color WHITE = new Gdk.Color(0xff,0xff,0xff);
+
 	public static Gdk.Color BLACK = new Gdk.Color(0x00,0x00,0x00);
 	public static Gdk.Color GRAY = new Gdk.Color(0x66,0x66,0x66);
 	public static Gdk.Color GRAY_LIGHT = new Gdk.Color(0x99,0x99,0x99);
@@ -560,85 +561,131 @@ public class UtilGtk
 	public static string ColorNothing = "";
 	public static string ColorGray = "gray";
 
+	public enum Colors {
+		BLACK, BLUE_CHRONOJUMP, BLUE_LIGHT, BLUE_PLOTS, GREEN_PLOTS,
+		GRAY, RED_PLOTS, YELLOW, YELLOW_LIGHT, WHITE }
 
-	public static Gdk.Color SELECTED = GetBackgroundColorSelected();
+	public static RGBA GetRGBA (Colors colname)
+	{
+		RGBA color = new RGBA ();
 
-	public static bool ColorIsDark(Gdk.Color color)
+		if (colname == Colors.BLACK)
+			color.Parse ("#000000");
+		else if (colname == Colors.BLUE_CHRONOJUMP)
+			color.Parse ("#0e1e46");
+		else if (colname == Colors.BLUE_LIGHT)
+			color.Parse ("#004bee");
+		else if (colname == Colors.BLUE_PLOTS)
+			color.Parse ("#0000c8");
+		else if (colname == Colors.GREEN_PLOTS)
+			color.Parse ("#00c800");
+		else if (colname == Colors.GRAY)
+			color.Parse ("#666666");
+		else if (colname == Colors.RED_PLOTS)
+			color.Parse ("#c80000");
+		else if (colname == Colors.YELLOW)
+			color.Parse ("#ffcc01");
+		else if (colname == Colors.YELLOW_LIGHT)
+			color.Parse ("#f3de8c");
+		else if (colname == Colors.WHITE)
+			color.Parse ("#ffffff");
+
+		return color;
+	}
+
+	public static bool ColorIsDark (RGBA color)
 	{
 		//LogB.Information(string.Format("color red: {0}, green: {1}, blue: {2}", color.Red, color.Green, color.Blue));
 		//3 components come in ushort (0-65535)
 		//return (color.Red + color.Green + color.Blue < 3 * 65535 / 2.0);
 
 		//https://stackoverflow.com/questions/3942878/how-to-decide-font-color-in-white-or-black-depending-on-background-color
-		return (color.Red * 0.299 + color.Green * 0.587 + color.Blue * 0.114 < 186 * 256);
+		//return (color.Red * 0.299 + color.Green * 0.587 + color.Blue * 0.114 < 186 * 256); //each one is 0,255
+		//changed from 186 to 150. Because have eg (rgb 256) 90,205,242 is (rgb 0-1) .35,.8,.95, in the formula= 175, and it's pretty clear
+		return (color.Red * 256 * 0.299 + color.Green * 256 * 0.587 + color.Blue * 256 * 0.114 < 150);
 	}
-	public static bool ColorIsDark(string colorString)
+	public static bool ColorIsDark (string colorString)
 	{
 		return ColorIsDark(ColorParse(colorString));
 	}
 
 
 	//darker or clearer
-	public static Gdk.Color GetColorShifted (Gdk.Color color, bool darker)
+	public static RGBA GetColorShifted (RGBA color, bool darker)
 	{
+		LogB.Information(string.Format("colshifted start: red {0}, green {1}, blue {2}",
+					color.Red, color.Green, color.Blue));
+		RGBA colShifted = new RGBA ();
 		if(darker)
-			return new Gdk.Color(
-					(byte) Convert.ToDouble(.25 * color.Red),
-					(byte) Convert.ToDouble(.25 * color.Green),
-					(byte) Convert.ToDouble(.25 * color.Blue) );
-		else
-			return new Gdk.Color(
-					(byte) Convert.ToDouble(.25 * (65535 - color.Red)),
-					(byte) Convert.ToDouble(.25 * (65535 - color.Green)),
-					(byte) Convert.ToDouble(.25 * (65535 - color.Blue)) );
+		{
+			colShifted.Red = color.Red -.25;
+			colShifted.Green = color.Green -.25;
+			colShifted.Blue = color.Blue -.25;
+		} else {
+			colShifted.Red = color.Red +.25;
+			colShifted.Green = color.Green +.25;
+			colShifted.Blue = color.Blue +.25;
+		}
+		LogB.Information(string.Format("colshifted end: red {0}, green {1}, blue {2}",
+					colShifted.Red, colShifted.Green, colShifted.Blue));
+		colShifted.Alpha = 1; //required
+
+		return colShifted;
 	}
 
 	//if color is too white or too yellow, it will not be ok
-	public static bool ColorIsOkWithLogoTransparent (Gdk.Color color)
+	public static bool ColorIsOkWithLogoTransparent (RGBA color)
 	{
-		return ( ! colorIsQuiteClear(color) && ! colorIsYellow(color) );
+		return ( ! colorIsQuiteClear (color) && ! colorIsYellow (color) );
 	}
 
 	//if is very clear it does not show ok the yellow of Boscosystem letters (also if it is clear blue)
-	private static bool colorIsQuiteClear (Gdk.Color color)
+	private static bool colorIsQuiteClear (RGBA color)
 	{
-		return (color.Red > 150 * 256 && color.Green > 150 * 256  && color.Blue > 150 * 256);
+		return (color.Red * 256 > 150 && color.Green * 256 > 150 && color.Blue * 256 > 150);
 	}
 
 	//yellow is red + green
-	private static bool colorIsYellow (Gdk.Color color)
+	private static bool colorIsYellow (RGBA color)
 	{
-		return (color.Red > 200 * 256 && color.Green > 200 * 256 && color.Blue < 50 * 256);
+		return (color.Red * 256 > 200 && color.Green * 256 > 200 && color.Blue * 256 < 50);
 	}
 
+	/*
 	public static Gdk.Color GetBackgroundColorSelected() {
 		Gtk.Style regularLabel = Gtk.Rc.GetStyle (new Gtk.Label());
 
 		return regularLabel.Background (StateType.Selected);
 	}
+	*/
 
-	public static void ColorsMenuLabel(Gtk.Viewport v, Gtk.Label l) {
-		l.ModifyFg(StateType.Active, v.Style.Foreground(StateType.Selected));
-		l.ModifyFg(StateType.Prelight, v.Style.Foreground(StateType.Selected));
+	public static void ColorsMenuLabel (Gtk.Viewport v, Gtk.Label l)
+	{
+		l.OverrideColor (StateFlags.Active, v.StyleContext.GetColor (StateFlags.Selected));
+		l.OverrideColor (StateFlags.Prelight, v.StyleContext.GetColor (StateFlags.Selected));
 	}
 	
-	public static void ColorsTestLabel(Gtk.Viewport v, Gtk.Label l) {
-		l.ModifyFg(StateType.Active, v.Style.Foreground(StateType.Selected));
-		l.ModifyFg(StateType.Prelight, v.Style.Foreground(StateType.Selected));
+	public static void ColorsTestLabel (Gtk.Viewport v, Gtk.Label l)
+	{
+		l.OverrideColor (StateFlags.Active, v.StyleContext.GetColor (StateFlags.Selected));
+		l.OverrideColor (StateFlags.Prelight, v.StyleContext.GetColor (StateFlags.Selected));
 	}
 	
-	public static void ColorsRadio(Gtk.Viewport v, Gtk.RadioButton r) {
-		r.ModifyBg(StateType.Active, v.Style.Background(StateType.Selected));
-		r.ModifyBg(StateType.Prelight, v.Style.Background(StateType.Selected));
+	public static void ColorsRadio (Gtk.Viewport v, Gtk.RadioButton r)
+	{
+		r.OverrideColor (StateFlags.Active, v.StyleContext.GetColor (StateFlags.Selected));
+		r.OverrideColor (StateFlags.Prelight, v.StyleContext.GetColor (StateFlags.Selected));
 	}
 
-	public static void ColorsCheckbox(Gtk.Viewport v, Gtk.CheckButton c) {
-		c.ModifyBg(StateType.Active, v.Style.Background(StateType.Selected));
-		c.ModifyBg(StateType.Prelight, v.Style.Background(StateType.Selected));
+	public static void ColorsCheckbox (Gtk.Viewport v, Gtk.CheckButton c)
+	{
+		c.OverrideColor (StateFlags.Active, v.StyleContext.GetColor (StateFlags.Selected));
+		c.OverrideColor (StateFlags.Prelight, v.StyleContext.GetColor (StateFlags.Selected));
 	}
 	
 	
-	public static void ColorsCheckOnlyPrelight(Gtk.CheckButton c) {
+	public static void ColorsCheckOnlyPrelight (Gtk.CheckButton c)
+	{
 		//c.ModifyBg(StateType.Normal, WHITE);
 		//c.ModifyBg(StateType.Active, WHITE);
 		//c.ModifyBg(StateType.Prelight, BLUE_CLEAR);
@@ -647,79 +694,112 @@ public class UtilGtk
 		//c.ModifyBg(StateType.Prelight, c.Style.Background(StateType.Selected));
 	}
 
-	public static void ColorsTreeView(Gtk.Viewport v, Gtk.TreeView tv) {
-		tv.ModifyBg(StateType.Active, v.Style.Background(StateType.Selected));
-		tv.ModifyBg(StateType.Prelight, v.Style.Background(StateType.Selected));
+	public static void ColorsTreeView(Gtk.Viewport v, Gtk.TreeView tv)
+	{
+		tv.OverrideColor (StateFlags.Active, v.StyleContext.GetColor (StateFlags.Selected));
+		tv.OverrideColor (StateFlags.Prelight, v.StyleContext.GetColor (StateFlags.Selected));
 	}
 	
 
-	private static Gdk.Color chronopicViewportDefaultBg;
-	private static Gdk.Color chronopicLabelsDefaultFg;
+	private static RGBA chronopicViewportDefaultBg;
+	private static RGBA chronopicLabelsDefaultFg;
 
-	public static void DeviceColors(Gtk.Viewport v, bool connected)
+	public static void DeviceColors (Gtk.Viewport v, bool connected)
 	{
-		if(! v.Style.Background(StateType.Normal).Equal(v.Style.Background(StateType.Selected)))
-			chronopicViewportDefaultBg = v.Style.Background(StateType.Normal);
+		//if(! (v.StyleContext.GetBackgroundColor (StateFlags.Normal)).Equal(v.StyleContext.GetBackgroundColor (StateFlags.Selected)))
+		RGBA a = v.StyleContext.GetBackgroundColor (StateFlags.Normal);
+		RGBA b = v.StyleContext.GetBackgroundColor (StateFlags.Selected);
+		if(! a.Equals (b))
+			chronopicViewportDefaultBg = v.StyleContext.GetBackgroundColor (StateFlags.Normal);
 
 		if(connected) {
 			//v.ModifyBg(StateType.Normal, chronopicViewportDefaultBg);
-			v.ModifyBg(StateType.Normal, WHITE);
+			v.OverrideBackgroundColor (StateFlags.Normal, UtilGtk.GetRGBA (UtilGtk.Colors.WHITE));
 		} else {
 			//v.ModifyBg(StateType.Normal, BLUE);
-			v.ModifyBg(StateType.Normal, v.Style.Background(StateType.Selected));
+			v.OverrideBackgroundColor (StateFlags.Normal, v.StyleContext.GetBackgroundColor (StateFlags.Selected));
 		}
 	}
 
-	public static void WindowColor(Gtk.Window w, Gdk.Color color)
+	public static void WindowColor (Gtk.Window w, Colors color)
 	{
-		w.ModifyBg(StateType.Normal, color);
+		w.OverrideBackgroundColor (StateFlags.Normal, GetRGBA (color));
+	}
+	public static void WindowColor (Gtk.Window w, RGBA color)
+	{
+		w.OverrideBackgroundColor (StateFlags.Normal, color);
 	}
 
-	public static void DialogColor(Gtk.Dialog d, Gdk.Color color)
+	public static void DialogColor (Gtk.Dialog d, RGBA color)
 	{
-		d.ModifyBg(StateType.Normal, color);
+		d.OverrideBackgroundColor (StateFlags.Normal, color);
 	}
 
-	public static void ViewportColor(Gtk.Viewport v, Gdk.Color color)
+	public static void ViewportColor (Gtk.Viewport v, Colors color)
 	{
-		v.ModifyBg(StateType.Normal, color);
+		v.OverrideBackgroundColor (StateFlags.Normal, GetRGBA (color));
 	}
-	public static void ViewportColorDefault(Gtk.Viewport v)
+	public static void ViewportColor (Gtk.Viewport v, RGBA color)
+	{
+		v.OverrideBackgroundColor (StateFlags.Normal, color);
+	}
+
+	public static void WidgetColor (Gtk.Widget w, RGBA color)
+	{
+		w.OverrideBackgroundColor (StateFlags.Normal, color);
+	}
+
+	//does not work in gtk3
+	public static void ViewportColorDefault (Gtk.Viewport v)
 	{
 		//v.ModifyBg(StateType.Normal); //resets to the default color
 
 		//create a new viewport and get the color
 		Gtk.Viewport vTemp = new Gtk.Viewport();
-		Gdk.Color colorViewportDefault = vTemp.Style.Background(StateType.Normal);
+		/*
+		Gdk.Color colorViewportDefault = vTemp.StyleContext.GetBackgroundColor (StateFlags.Normal);
 
 		//assign the color to our requested viewport
 		v.ModifyBg(StateType.Normal, colorViewportDefault); //resets to the default color
+		*/
+		v.OverrideBackgroundColor (StateFlags.Normal, vTemp.StyleContext.GetBackgroundColor (StateFlags.Normal));
+
+		RGBA newColor = vTemp.StyleContext.GetBackgroundColor (StateFlags.Normal);
+		LogB.Information(string.Format("newColor end: red {0}, green {1}, blue {2}",
+					newColor.Red, newColor.Green, newColor.Blue)); //bad: 0,0,0
 	}
 
-	public static void ChronopicColors(Gtk.Viewport v, Gtk.Label l1, Gtk.Label l2, bool connected) {
+	public static void ChronopicColors (Gtk.Viewport v, Gtk.Label l1, Gtk.Label l2, bool connected)
+	{
 		//if(! v.Style.Background(StateType.Normal).Equal(BLUE))
-		if(! v.Style.Background(StateType.Normal).Equal(v.Style.Background(StateType.Selected)))
-			chronopicViewportDefaultBg = v.Style.Background(StateType.Normal);
-		if(! l1.Style.Foreground(StateType.Normal).Equal(WHITE))
-			chronopicLabelsDefaultFg = l1.Style.Foreground(StateType.Normal);
+		//if(! v.StyleContext.GetBackgroundColor (StateFlags.Normal).Equal(v.StyleContext.GetBackgroundColor (StateFlags.Selected)))
+		RGBA a = v.StyleContext.GetBackgroundColor (StateFlags.Normal);
+		RGBA b = v.StyleContext.GetBackgroundColor (StateFlags.Selected);
+		if(! a.Equals (b))
+			chronopicViewportDefaultBg = v.StyleContext.GetBackgroundColor (StateFlags.Normal);
+		
+		//if(! l1.StyleContext.GetColor (StateFlags.Normal).Equal(UtilGtk.Colors.WHITE))
+		RGBA c = l1.StyleContext.GetColor (StateFlags.Normal);
+		if(! c.Equals (GetRGBA (Colors.WHITE)))
+			chronopicLabelsDefaultFg = l1.StyleContext.GetColor (StateFlags.Normal);
 
 		if(connected) {
-			v.ModifyBg(StateType.Normal, chronopicViewportDefaultBg);
-			l1.ModifyFg(StateType.Normal, chronopicLabelsDefaultFg);
-			l2.ModifyFg(StateType.Normal, chronopicLabelsDefaultFg);
+			v.OverrideBackgroundColor (StateFlags.Normal, chronopicViewportDefaultBg);
+			l1.OverrideColor (StateFlags.Normal, chronopicLabelsDefaultFg);
+			l2.OverrideColor (StateFlags.Normal, chronopicLabelsDefaultFg);
 		} else {
-			//v.ModifyBg(StateType.Normal, BLUE);
-			v.ModifyBg(StateType.Normal, v.Style.Background(StateType.Selected));
-			l1.ModifyFg(StateType.Normal, WHITE);
-			l2.ModifyFg(StateType.Normal, WHITE);
+			//v.OverrideBackgroundColor (StateFlags.Normal, BLUE);
+			v.OverrideBackgroundColor (StateFlags.Normal, v.StyleContext.GetBackgroundColor (StateFlags.Selected));
+			l1.OverrideColor (StateFlags.Normal, GetRGBA (Colors.WHITE));
+			l2.OverrideColor (StateFlags.Normal, GetRGBA (Colors.WHITE));
 		}
 	}
 
 	//changes of colors without widgets that are in a EventBox
-	public static void EventBoxColorBackgroundActive (Gtk.EventBox e, Gdk.Color colorActive, Gdk.Color colorPrelight)
+	public static void EventBoxColorBackgroundActive (Gtk.EventBox e, Colors colorActive, Colors colorPrelight)
 	{
-		e.ModifyBg(StateType.Active, colorActive);
-		e.ModifyBg(StateType.Prelight, colorPrelight);
+		e.OverrideColor (StateFlags.Active, GetRGBA (colorActive));
+		e.OverrideColor (StateFlags.Prelight, GetRGBA (colorPrelight));
 	}
 
 	public static void ContrastLabelsHBox (bool bgDark, Gtk.HBox hbox)
@@ -769,7 +849,9 @@ public class UtilGtk
 				w.GetType() == typeof(Gtk.Notebook) ||
 				w.GetType() == typeof(Gtk.Frame) ||
 				w.GetType() == typeof(Gtk.CheckButton) ||
-				w.GetType() == typeof(Gtk.RadioButton)
+				w.GetType() == typeof(Gtk.RadioButton) ||
+				w.GetType() == typeof(Gtk.ScrolledWindow) ||
+				w.GetType() == typeof(Gtk.Viewport)
 			);
 	}
 
@@ -777,34 +859,14 @@ public class UtilGtk
 	{
 		if(bgDark)
 		{
-			l.ModifyFg(StateType.Normal, YELLOW_LIGHT);
-			l.ModifyFg(StateType.Active, YELLOW_LIGHT); //needed for CheckButton and RadioButton
+			//l.OverrideColor (StateFlags.Normal, GetRGBA (Colors.YELLOW_LIGHT));
+			//l.OverrideColor (StateFlags.Active, GetRGBA (Colors.YELLOW_LIGHT)); //needed for CheckButton and RadioButton
+			l.OverrideColor (StateFlags.Normal, GetRGBA (Colors.WHITE));
+			l.OverrideColor (StateFlags.Active, GetRGBA (Colors.WHITE)); //needed for CheckButton and RadioButton
 		} else {
-			l.ModifyFg(StateType.Normal, BLACK);
-			//l.ModifyFg(StateType.Active, BLACK);
+			l.OverrideColor (StateFlags.Normal, GetRGBA (Colors.BLACK));
+			//l.OverrideColor (StateFlags.Active, GetRGBA (Colors.BLACK));
 		}
-	}
-
-	public static string IdentifyPixelColor(uint col)
-	{
-		if(col == 16777215)
-			return "WHITE";
-		else if(col == 11722734)
-			return "LIGHT_BLUE_PLOTS"; //force sensor feedback rectangle and path
-		else if(col == 6710886)
-			return "GRAY"; //lines on force sensor capture
-		else
-			return "other";
-	}
-	public static bool IdentifyPixelColorIsInPath(uint col)
-	{
-		/*
-		rgb to decimal and viceversa:
-		https://convertingcolors.com/rgb-color-238_0_0.html?search=rgb(238,0,0)
-		https://convertingcolors.com/decimal-color-15597568.html
-		*/
-		return (col == 11722734); //LIGHT_BLUE_PLOTS
-		//return (col == 15597568); //RED_LIGHT
 	}
 
 
@@ -949,46 +1011,31 @@ public class UtilGtk
 	 */
 
 	//color string like "#0e1e46" for Chronojump blue
-	public static Gdk.Color ColorParse(string colorString)
+	public static RGBA ColorParse (string colorString)
 	{
-		Gdk.Color color = new Gdk.Color();
-		Gdk.Color.Parse(colorString, ref color);
+		RGBA color = new RGBA ();
+		color.Parse (colorString);
 		return color;
 	}
 	//reverse of previous method
-	public static string ColorToColorString (Gdk.Color color)
+	public static string ColorToHex (RGBA color)
 	{
-		string str = color.ToString(); //returns this: rgb:8b8b/6969/1414 or this: rgb:ffff/a5a5/0 (if blue is 0)
-		LogB.Information("str at ColorToColorString: " + str);
-		Match match = Regex.Match(str, @"rgb:(\w+)/(\w+)/(\w+)");
-		LogB.Information("ColorToColorString match groups: " + match.Groups.Count.ToString());
-		if(match.Groups.Count == 4)
-		{
-			return string.Format("#{0}{1}{2}", colHexTwoChars(match.Groups[1].Value),
-					colHexTwoChars(match.Groups[2].Value), colHexTwoChars(match.Groups[3].Value));
-		} else
+		var match = Regex.Matches (color.ToString (), @"\d+");
+		StringBuilder hexaString = new StringBuilder("#");
+
+		if (match.Count == 0)
 			return "#0e1e46"; //default if there are problems
-	}
-	private static string colHexTwoChars(string colorString)
-	{
-		if(colorString.Length == 1) //if "0" return "00"
-			return colorString + colorString;
-		if(colorString.Length == 2) //if "ce" return "ce"
-			return colorString;
-		if(colorString.Length == 3) //if "e0e" return "0e" (like the Chronojump blue)
-			return colorString.Substring(1,2);
-		if(colorString.Length == 4) //if "cece" return "ce")
-			return colorString.Substring(0,2);
 
-		return colorString;
+		//this discards the alpha (if exists)
+		for(int i = 0; i <= 2; i++)
+		{
+			int value = Int32.Parse (match[i].Value);
+			hexaString.Append (value.ToString ("X2")); //X2 to ensure a FF0000 is not written FF00
+		}
+
+		return hexaString.ToString();
 	}
 
-	public static void PaintColorDrawingArea(Gtk.DrawingArea da, Gdk.Color color)
-	{
-		da.ModifyBg(StateType.Normal, color);
-	}
-
-	
 	/*
 	 *
 	 * IMAGE

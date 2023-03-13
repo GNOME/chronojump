@@ -36,7 +36,7 @@ public class CairoGraphEncoderSignal : CairoXY
 	{
 		this.area = area;
 		this.title = title;
-		this.colorBackground = colorFromGdk(Config.ColorBackground); //but note if we are using system colors, this will not match
+		this.colorBackground = colorFromRGBA (Config.ColorBackground); //but note if we are using system colors, this will not match
 		
 		//doing = false;
 		points_list_painted = 0;

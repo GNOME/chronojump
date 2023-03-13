@@ -156,7 +156,7 @@ public class PersonSelectWindow
 		image_close.Pixbuf = pixbuf;
 	}
 	
-	static public PersonSelectWindow Show (Gtk.Window parent, ArrayList persons, Person currentPerson, Gdk.Color colorBackground, bool raspberry, bool lowHeight, bool showImages)
+	static public PersonSelectWindow Show (Gtk.Window parent, ArrayList persons, Person currentPerson, RGBA colorBackground, bool raspberry, bool lowHeight, bool showImages)
 	{
 		if (PersonSelectWindowBox == null) {
 			PersonSelectWindowBox = new PersonSelectWindow (parent, raspberry, lowHeight);
@@ -333,7 +333,7 @@ public class PersonSelectWindow
 		if(SelectedPerson == null)
 			viewport_person_name.Visible = false;
 		else {
-			UtilGtk.ViewportColor(viewport_person_name, UtilGtk.YELLOW);
+			UtilGtk.ViewportColor(viewport_person_name, UtilGtk.Colors.YELLOW);
 			viewport_person_name.Visible = true;
 		}
 	}
@@ -561,7 +561,7 @@ public class PersonPhotoButton
 		Gtk.Viewport viewport = (Gtk.Viewport) box_elements.GetValue(2); //the name
 
 		if(select)
-			UtilGtk.ViewportColor(viewport, UtilGtk.YELLOW);
+			UtilGtk.ViewportColor(viewport, UtilGtk.Colors.YELLOW);
 		else
 			UtilGtk.ViewportColorDefault(viewport);
 

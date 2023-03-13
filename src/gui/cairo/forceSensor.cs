@@ -41,7 +41,7 @@ public abstract class CairoGraphForceSensor : CairoXY
 	{
 		this.area = area;
 		this.title = title;
-		this.colorBackground = colorFromGdk(Config.ColorBackground); //but note if we are using system colors, this will not match
+		this.colorBackground = colorFromRGBA(Config.ColorBackground); //but note if we are using system colors, this will not match
 
 		points_l_painted = 0;
 

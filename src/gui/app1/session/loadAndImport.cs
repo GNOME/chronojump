@@ -141,12 +141,12 @@ public partial class ChronoJumpWindow
 		app1s_checkbutton_show_data_weights.Active = (current_mode == Constants.Modes.POWERGRAVITATORY);
 		app1s_checkbutton_show_data_inertial.Active = (current_mode == Constants.Modes.POWERINERTIAL);
 
-		UtilGtk.ViewportColor (app1s_viewport_checkbutton_show_data_jumps, UtilGtk.YELLOW);
-		UtilGtk.ViewportColor (app1s_viewport_checkbutton_show_data_runs, UtilGtk.YELLOW);
-		UtilGtk.ViewportColor (app1s_viewport_checkbutton_show_data_isometric, UtilGtk.YELLOW);
-		UtilGtk.ViewportColor (app1s_viewport_checkbutton_show_data_elastic, UtilGtk.YELLOW);
-		UtilGtk.ViewportColor (app1s_viewport_checkbutton_show_data_weights, UtilGtk.YELLOW);
-		UtilGtk.ViewportColor (app1s_viewport_checkbutton_show_data_inertial, UtilGtk.YELLOW);
+		UtilGtk.ViewportColor (app1s_viewport_checkbutton_show_data_jumps, UtilGtk.Colors.YELLOW);
+		UtilGtk.ViewportColor (app1s_viewport_checkbutton_show_data_runs, UtilGtk.Colors.YELLOW);
+		UtilGtk.ViewportColor (app1s_viewport_checkbutton_show_data_isometric, UtilGtk.Colors.YELLOW);
+		UtilGtk.ViewportColor (app1s_viewport_checkbutton_show_data_elastic, UtilGtk.Colors.YELLOW);
+		UtilGtk.ViewportColor (app1s_viewport_checkbutton_show_data_weights, UtilGtk.Colors.YELLOW);
+		UtilGtk.ViewportColor (app1s_viewport_checkbutton_show_data_inertial, UtilGtk.Colors.YELLOW);
 
 		sessionLoadWinSignals = true;
 

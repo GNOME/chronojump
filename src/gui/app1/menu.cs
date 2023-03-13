@@ -244,25 +244,36 @@ public partial class ChronoJumpWindow
 
 		if(! Config.UseSystemColor)
 		{
-			Gdk.Color color = UtilGtk.ColorParse(preferences.colorBackgroundString);
+			RGBA color = UtilGtk.ColorParse (preferences.colorBackgroundString);
 
-			UtilGtk.WindowColor(app1, color);
-			UtilGtk.ViewportColor(viewport_send_log, color);
-			UtilGtk.ViewportColor(viewport_exit_confirm, color);
-			UtilGtk.ViewportColor(viewport_social_network_poll, color);
+			UtilGtk.WindowColor (app1, color);
+			UtilGtk.ViewportColor (viewport_send_log, color);
+			UtilGtk.ViewportColor (viewport_exit_confirm, color);
+			UtilGtk.ViewportColor (viewport_social_network_poll, color);
 		}
 
-		UtilGtk.EventBoxColorBackgroundActive (eventbox_check_menu_session, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
-		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_menu_session_new, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
-		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_menu_session_load, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
-		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_menu_session_more, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
-		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_menu_preferences, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
-		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_menu_help, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
-		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_menu_news, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
-		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_menu_exit, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
-		UtilGtk.EventBoxColorBackgroundActive (eventbox_check_manage_persons, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
-		UtilGtk.EventBoxColorBackgroundActive (eventbox_persons_up, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
-		UtilGtk.EventBoxColorBackgroundActive (eventbox_persons_down, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
+		UtilGtk.EventBoxColorBackgroundActive (eventbox_check_menu_session,
+				UtilGtk.Colors.YELLOW, UtilGtk.Colors.YELLOW_LIGHT);
+		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_menu_session_new,
+				UtilGtk.Colors.YELLOW, UtilGtk.Colors.YELLOW_LIGHT);
+		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_menu_session_load,
+				UtilGtk.Colors.YELLOW, UtilGtk.Colors.YELLOW_LIGHT);
+		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_menu_session_more,
+				UtilGtk.Colors.YELLOW, UtilGtk.Colors.YELLOW_LIGHT);
+		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_menu_preferences,
+				UtilGtk.Colors.YELLOW, UtilGtk.Colors.YELLOW_LIGHT);
+		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_menu_help,
+				UtilGtk.Colors.YELLOW, UtilGtk.Colors.YELLOW_LIGHT);
+		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_menu_news,
+				UtilGtk.Colors.YELLOW, UtilGtk.Colors.YELLOW_LIGHT);
+		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_menu_exit,
+				UtilGtk.Colors.YELLOW, UtilGtk.Colors.YELLOW_LIGHT);
+		UtilGtk.EventBoxColorBackgroundActive (eventbox_check_manage_persons,
+				UtilGtk.Colors.YELLOW, UtilGtk.Colors.YELLOW_LIGHT);
+		UtilGtk.EventBoxColorBackgroundActive (eventbox_persons_up,
+				UtilGtk.Colors.YELLOW, UtilGtk.Colors.YELLOW_LIGHT);
+		UtilGtk.EventBoxColorBackgroundActive (eventbox_persons_down,
+				UtilGtk.Colors.YELLOW, UtilGtk.Colors.YELLOW_LIGHT);
 	}
 
 	private void menuShowVerticalArrow (bool selected, Gtk.Arrow a_up, Gtk.Arrow a_down)

@@ -136,7 +136,7 @@ public class PersonMergeWindow
 
 	static public PersonMergeWindow Show (Gtk.Window parent,
 			int sessionID, Person currentPerson,
-			Gdk.Color colorBackground)
+			RGBA colorBackground)
 	{
 		if (PersonMergeWindowBox == null) {
 			PersonMergeWindowBox = new PersonMergeWindow (parent, sessionID, currentPerson);

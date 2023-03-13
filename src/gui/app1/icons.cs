@@ -285,14 +285,17 @@ public partial class ChronoJumpWindow
 	{
 		Pixbuf pixbuf;
 
-		viewport_chronojump_logo.ModifyBg(StateType.Normal, new Gdk.Color(0x0e,0x1e,0x46));
+		viewport_chronojump_logo.OverrideBackgroundColor (StateFlags.Normal,
+				UtilGtk.GetRGBA (UtilGtk.Colors.BLUE_CHRONOJUMP));
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameLogoTransparent);
 		image_chronojump_logo.Pixbuf = pixbuf;
 
 		//hide label_version_hidden
-		label_version_hidden.ModifyFg(StateType.Normal, new Gdk.Color(0x0e,0x1e,0x46));
+		label_version_hidden.OverrideColor (StateFlags.Normal,
+				UtilGtk.GetRGBA (UtilGtk.Colors.BLUE_CHRONOJUMP));
 		//show label_version on white
-		label_version.ModifyFg(StateType.Normal, new Gdk.Color(0xff,0xff,0xff));
+		label_version.OverrideColor (StateFlags.Normal,
+				UtilGtk.GetRGBA (UtilGtk.Colors.WHITE));
 
 		//change colors of tests mode
 

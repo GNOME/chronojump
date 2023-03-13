@@ -1181,7 +1181,7 @@ public class CairoBars1Series : CairoBars
 		this.paintAxis = paintAxis;
 		this.paintGrid = paintGrid;
 
-		this.colorSerieA = colorFromGdk(Config.ColorBackground); //but note if we are using system colors, this will not match
+		this.colorSerieA = colorFromRGBA (Config.ColorBackground); //but note if we are using system colors, this will not match
 		spaceBetweenBars = true;
 	}
 
@@ -1407,9 +1407,9 @@ public class CairoBarsNHSeries : CairoBars
 		this.paintAxis = paintAxis;
 		this.paintGrid = paintGrid;
 
-		colorSerieA = colorFromGdk(UtilGtk.GetColorShifted(Config.ColorBackground,
+		colorSerieA = colorFromRGBA (UtilGtk.GetColorShifted(Config.ColorBackground,
 					! UtilGtk.ColorIsDark(Config.ColorBackground)));
-		colorSerieB = colorFromGdk(Config.ColorBackground); //but note if we are using system colors, this will not match
+		colorSerieB = colorFromRGBA (Config.ColorBackground); //but note if we are using system colors, this will not match
 	}
 
 	protected override void topMarginSet ()

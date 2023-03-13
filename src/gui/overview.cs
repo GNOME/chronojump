@@ -232,7 +232,7 @@ public class EncoderOverviewWindow : OverviewWindow
 
 		//manage window color
 		if(! Config.UseSystemColor)
-			UtilGtk.WindowColor(overview_win, Config.ColorBackground);
+			UtilGtk.WindowColor (overview_win, Config.ColorBackground);
 	}
 
 	//if personIDAtStart == -1, there is not currentPerson
@@ -374,7 +374,7 @@ public class ForceSensorOverviewWindow : OverviewWindow
 
 		//manage window color
 		if(! Config.UseSystemColor)
-			UtilGtk.WindowColor(overview_win, Config.ColorBackground);
+			UtilGtk.WindowColor (overview_win, Config.ColorBackground);
 	}
 
 	//if personIDAtStart == -1, there is not currentPerson
@@ -445,7 +445,7 @@ public class RunEncoderOverviewWindow : OverviewWindow
 
 		//manage window color
 		if(! Config.UseSystemColor)
-			UtilGtk.WindowColor(overview_win, Config.ColorBackground);
+			UtilGtk.WindowColor (overview_win, Config.ColorBackground);
 	}
 
 	//if personIDAtStart == -1, there is not currentPerson

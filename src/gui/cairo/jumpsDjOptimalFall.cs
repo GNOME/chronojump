@@ -60,7 +60,7 @@ public class JumpsDjOptimalFallGraph : CairoXY
 		this.title = title;
 		this.jumpType = jumpType;
 		this.date = date;
-		this.colorBackground = colorFromGdk(Config.ColorBackground); //but note if we are using system colors, this will not match
+		this.colorBackground = colorFromRGBA(Config.ColorBackground); //but note if we are using system colors, this will not match
 
 		xVariable = fallStr;
 		yVariable = heightStr;

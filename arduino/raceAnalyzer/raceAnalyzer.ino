@@ -4,7 +4,7 @@
 
 
 #include <Wire.h>
-#include <Adafruit_ADS1015.h>
+#include <Adafruit_ADS1015.h>   //Works with version 1.x, 2.0 don't
 #include <EEPROM.h>
 #include <MsTimer2.h>
 

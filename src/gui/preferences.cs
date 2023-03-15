@@ -52,8 +52,8 @@ public class PreferencesWindow
 	//view more tabs
 	Gtk.CheckButton check_view_jumps;
 	Gtk.CheckButton check_view_runs;
-	Gtk.CheckButton check_view_encoder;
-	Gtk.CheckButton check_view_force_sensor;
+	Gtk.CheckButton check_view_weights_inertial;
+	Gtk.CheckButton check_view_isometric_elastic;
 	Gtk.CheckButton check_view_race_analyzer;
 	//tabs selection widgets
 	Gtk.Image image_view_more_tabs_close;
@@ -308,8 +308,8 @@ public class PreferencesWindow
 
 	const int JUMPSPAGE = 2;
 	const int RUNSPAGE = 3;
-	const int ENCODERPAGE = 4;
-	const int FORCESENSORPAGE = 5;
+	const int WEIGHTSINERTIALPAGE = 4;
+	const int ISOMETRICELASTICPAGE = 5;
 
 	static private WebcamDeviceList wd_list;
 	private WebcamFfmpegSupportedModes wfsm;
@@ -372,13 +372,13 @@ public class PreferencesWindow
 			PreferencesWindowBox.check_view_runs.Active = false;
 		} if(menu_mode != Constants.Modes.POWERGRAVITATORY && menu_mode != Constants.Modes.POWERINERTIAL)
 		{
-			PreferencesWindowBox.notebook.GetNthPage(ENCODERPAGE).Hide();
-			PreferencesWindowBox.check_view_encoder.Active = false;
+			PreferencesWindowBox.notebook.GetNthPage(WEIGHTSINERTIALPAGE).Hide();
+			PreferencesWindowBox.check_view_weights_inertial.Active = false;
 		}
 		if(! Constants.ModeIsFORCESENSOR (menu_mode))
 		{
-			PreferencesWindowBox.notebook.GetNthPage(FORCESENSORPAGE).Hide();
-			PreferencesWindowBox.check_view_force_sensor.Active = false;
+			PreferencesWindowBox.notebook.GetNthPage(ISOMETRICELASTICPAGE).Hide();
+			PreferencesWindowBox.check_view_isometric_elastic.Active = false;
 		}
 
 		PreferencesWindowBox.preferences = preferences;
@@ -2055,13 +2055,13 @@ public class PreferencesWindow
 	{
 		tabShowHide(check_view_runs.Active, RUNSPAGE);
 	}
-	private void on_check_view_encoder_clicked (object o,EventArgs args)
+	private void on_check_view_weights_inertial_clicked (object o,EventArgs args)
 	{
-		tabShowHide(check_view_encoder.Active, ENCODERPAGE);
+		tabShowHide(check_view_weights_inertial.Active, WEIGHTSINERTIALPAGE);
 	}
-	private void on_check_view_force_sensor_clicked (object o,EventArgs args)
+	private void on_check_view_isometric_elastic_clicked (object o,EventArgs args)
 	{
-		tabShowHide(check_view_force_sensor.Active, FORCESENSORPAGE);
+		tabShowHide(check_view_isometric_elastic.Active, ISOMETRICELASTICPAGE);
 	}
 
 	private void tabShowHide (bool active, int page)
@@ -2913,8 +2913,8 @@ public class PreferencesWindow
 		//view more tabs
 		check_view_jumps = (Gtk.CheckButton) builder.GetObject ("check_view_jumps");
 		check_view_runs = (Gtk.CheckButton) builder.GetObject ("check_view_runs");
-		check_view_encoder = (Gtk.CheckButton) builder.GetObject ("check_view_encoder");
-		check_view_force_sensor = (Gtk.CheckButton) builder.GetObject ("check_view_force_sensor");
+		check_view_weights_inertial = (Gtk.CheckButton) builder.GetObject ("check_view_weights_inertial");
+		check_view_isometric_elastic = (Gtk.CheckButton) builder.GetObject ("check_view_isometric_elastic");
 		check_view_race_analyzer = (Gtk.CheckButton) builder.GetObject ("check_view_race_analyzer");
 		//tabs selection widgets
 		image_view_more_tabs_close = (Gtk.Image) builder.GetObject ("image_view_more_tabs_close");

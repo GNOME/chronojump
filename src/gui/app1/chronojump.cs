@@ -68,6 +68,7 @@ public partial class ChronoJumpWindow
 	Gtk.HBox hbox_message_permissions_at_boot;
 	Gtk.Label label_message_permissions_at_boot;
 	Gtk.HBox hbox_message_camera_at_boot;
+	Gtk.HBox hbox_start_window_sub;
 
 	Gtk.Button button_show_modes_contacts;
 	Gtk.HBox hbox_change_modes_contacts;
@@ -217,6 +218,8 @@ public partial class ChronoJumpWindow
 	Gtk.Box hbox_other_pulses;
 	
 	//menu person
+	Gtk.VBox vbox_persons;
+	//Gtk.Alignment alignment44;
 	Gtk.Button button_persons_up;
 	Gtk.Button button_persons_down;
 
@@ -411,7 +414,7 @@ public partial class ChronoJumpWindow
 
 //	Gtk.Viewport viewport29;
 	Gtk.VBox vbox_manage_persons;
-	Gtk.HBox hbox167;
+	Gtk.HBox hbox_frame_persons_top;
 	// <---- at glade
 
 	Random rand;
@@ -1051,18 +1054,38 @@ public partial class ChronoJumpWindow
 			UtilGtk.ContrastLabelsVBox (Config.ColorBackgroundIsDark, vbox_micro_discover);
 			UtilGtk.ContrastLabelsVBox (Config.ColorBackgroundIsDark, vbox_person);
 
-			//TODO: clean code using Config Shifted/IsDark variables
-			UtilGtk.WidgetColor (hbox167, UtilGtk.GetColorShifted(Config.ColorBackground,
-					! UtilGtk.ColorIsDark(Config.ColorBackground)));
-			UtilGtk.ContrastLabelsHBox (UtilGtk.ColorIsDark(
-						UtilGtk.GetColorShifted(Config.ColorBackground,
-							! UtilGtk.ColorIsDark(Config.ColorBackground))), hbox167);
+			/*
+			//notebook_sup
+			UtilGtk.WidgetColor (notebook_sup, Config.ColorBackgroundShifted);
+			UtilGtk.ContrastLabelsNotebook (Config.ColorBackgroundShiftedIsDark, notebook_sup);
+			*/
+			//start (modes)
+			UtilGtk.WidgetColor (hbox_start_window_sub, Config.ColorBackgroundShifted);
+			UtilGtk.ContrastLabelsHBox (Config.ColorBackgroundShiftedIsDark, hbox_start_window_sub);
+			UtilGtk.WidgetColor (notebook_menu_2_2_2, Config.ColorBackgroundShifted);
+			UtilGtk.ContrastLabelsNotebook (Config.ColorBackgroundShiftedIsDark, notebook_menu_2_2_2);
 
-			UtilGtk.WidgetColor (notebook_capture_analyze, UtilGtk.GetColorShifted(Config.ColorBackground,
-					! UtilGtk.ColorIsDark(Config.ColorBackground)));
-			UtilGtk.ContrastLabelsNotebook (UtilGtk.ColorIsDark(
-						UtilGtk.GetColorShifted(Config.ColorBackground,
-							! UtilGtk.ColorIsDark(Config.ColorBackground))), notebook_capture_analyze);
+			//notebook_capture_analyze
+//			UtilGtk.WidgetColor (notebook_capture_analyze, Config.ColorBackgroundShifted);
+//			UtilGtk.ContrastLabelsNotebook (Config.ColorBackgroundShiftedIsDark, notebook_capture_analyze);
+//			UtilGtk.ContrastLabelsNotebook (Config.ColorBackgroundShiftedIsDark, notebook_contacts_execute_or);
+			UtilGtk.WidgetColor (notebook_capture_analyze, Config.ColorBackgroundShifted);
+			UtilGtk.ContrastLabelsNotebook (Config.ColorBackgroundShiftedIsDark, notebook_capture_analyze);
+
+			//notebook_encoder_sup
+			UtilGtk.WidgetColor (notebook_encoder_sup, Config.ColorBackgroundShifted);
+			UtilGtk.ContrastLabelsNotebook (Config.ColorBackgroundShiftedIsDark, notebook_encoder_sup);
+
+			//persons (main)
+			//UtilGtk.WidgetColor (vbox_persons, Config.ColorBackgroundShifted);
+			//UtilGtk.ContrastLabelsVBox (Config.ColorBackgroundShiftedIsDark, vbox_persons);
+			//UtilGtk.WidgetColor (alignment44, Config.ColorBackgroundShifted);
+			//UtilGtk.ContrastLabelsWidget (Config.ColorBackgroundShiftedIsDark, alignment44);
+
+			//persons (main)
+			UtilGtk.WidgetColor (hbox_frame_persons_top, Config.ColorBackgroundShifted);
+			UtilGtk.ContrastLabelsHBox (Config.ColorBackgroundShiftedIsDark, hbox_frame_persons_top);
+
 
 			if(Config.ColorBackgroundIsDark)
 				image_chronopic_connect_encoder2.Pixbuf =
@@ -3520,6 +3543,7 @@ public partial class ChronoJumpWindow
 		//TODO: only if color changed or personWinHide
 		Config.UseSystemColor = preferences.colorBackgroundOsColor;
 		doLabelsContrast(configChronojump.PersonWinHide);
+
 
 		if(myTreeViewPersons != null)
 			myTreeViewPersons.RestSecondsMark = get_configured_rest_time_in_seconds();
@@ -8998,6 +9022,7 @@ LogB.Debug("mc finished 5");
 		hbox_message_permissions_at_boot = (Gtk.HBox) builder.GetObject ("hbox_message_permissions_at_boot");
 		label_message_permissions_at_boot = (Gtk.Label) builder.GetObject ("label_message_permissions_at_boot");
 		hbox_message_camera_at_boot = (Gtk.HBox) builder.GetObject ("hbox_message_camera_at_boot");
+		hbox_start_window_sub = (Gtk.HBox) builder.GetObject ("hbox_start_window_sub");
 
 		button_show_modes_contacts = (Gtk.Button) builder.GetObject ("button_show_modes_contacts");
 		hbox_change_modes_contacts = (Gtk.HBox) builder.GetObject ("hbox_change_modes_contacts");
@@ -9147,6 +9172,8 @@ LogB.Debug("mc finished 5");
 		hbox_other_pulses = (Gtk.Box) builder.GetObject ("hbox_other_pulses");
 
 		//menu person
+		vbox_persons = (Gtk.VBox) builder.GetObject ("vbox_persons");
+		//alignment44 = (Gtk.Alignment) builder.GetObject ("alignment44");
 		button_persons_up = (Gtk.Button) builder.GetObject ("button_persons_up");
 		button_persons_down = (Gtk.Button) builder.GetObject ("button_persons_down");
 
@@ -9341,7 +9368,7 @@ LogB.Debug("mc finished 5");
 
 		//viewport29 = (Gtk.Viewport) builder.GetObject ("viewport29");
 		vbox_manage_persons = (Gtk.VBox) builder.GetObject ("vbox_manage_persons");
-		hbox167 = (Gtk.HBox) builder.GetObject ("hbox167");
+		hbox_frame_persons_top = (Gtk.HBox) builder.GetObject ("hbox_frame_persons_top");
 	}
 
 }

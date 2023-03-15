@@ -822,6 +822,7 @@ public class UtilGtk
 	{
 		contrastLabelsContainer (bgDark, (Gtk.Container) notebook);
 
+		//the labels
 		for (int i = 0; i < notebook.NPages; i ++)
 		{
 			Gtk.Widget w = notebook.GetTabLabel (notebook.GetNthPage(i));
@@ -834,6 +835,10 @@ public class UtilGtk
 	public static void ContrastLabelsFrame (bool bgDark, Gtk.Frame frame)
 	{
 		contrastLabelsContainer (bgDark, (Gtk.Container) frame);
+	}
+	public static void ContrastLabelsWidget (bool bgDark, Gtk.Widget w)
+	{
+		contrastLabelsContainer (bgDark, (Gtk.Container) w);
 	}
 
 	private static void contrastLabelsContainer (bool bgDark, Gtk.Container container)
@@ -862,12 +867,15 @@ public class UtilGtk
 				w.GetType() == typeof(Gtk.Table) ||
 				w.GetType() == typeof(Gtk.Notebook) ||
 				w.GetType() == typeof(Gtk.Frame) ||
-				w.GetType() == typeof(Gtk.CheckButton) ||
-				w.GetType() == typeof(Gtk.RadioButton) ||
+				w.GetType() == typeof(Gtk.CheckButton) ||  //nice if there is a label inside, bad if there is a button with label
+				w.GetType() == typeof(Gtk.RadioButton) || //same as above
 				w.GetType() == typeof(Gtk.ScrolledWindow) ||
 				w.GetType() == typeof(Gtk.Viewport) ||
 				w.GetType() == typeof(Gtk.VButtonBox) ||
-				w.GetType() == typeof(Gtk.HButtonBox)
+				w.GetType() == typeof(Gtk.HButtonBox) ||
+				w.GetType() == typeof(Gtk.Alignment) ||
+				w.GetType() == typeof(Gtk.VPaned) ||
+				w.GetType() == typeof(Gtk.HPaned)
 			);
 	}
 

@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/chronojump/issues\n"
 "POT-Creation-Date: 2023-03-15 11:46+0000\n"
-"PO-Revision-Date: 2023-03-15 14:06+0100\n"
+"PO-Revision-Date: 2023-03-15 14:08+0100\n"
 "Last-Translator: Ekaterine Papava <papava.e@gtu.ge>\n"
 "Language-Team: Georgian <(nothing)>\n"
 "Language: ka\n"
@@ -3481,7 +3481,6 @@ msgid "Vertices"
 msgstr "წვეროები"
 
 #: ../glade/feedback.glade.h:69 ../glade/preferences_win.glade.h:56
-#, fuzzy
 msgid "Recommended:"
 msgstr "რეკომენდებულია:"
 
@@ -4177,7 +4176,6 @@ msgid "Fix if found two or more contacts in"
 msgstr ""
 
 #: ../glade/preferences_win.glade.h:48
-#, fuzzy
 msgid "300"
 msgstr "300"
 
@@ -4206,7 +4204,6 @@ msgid "Minimum acceleration"
 msgstr ""
 
 #: ../glade/preferences_win.glade.h:55
-#, fuzzy
 msgid "10,0"
 msgstr "10,0"
 
@@ -4405,7 +4402,6 @@ msgid "Zoom out"
 msgstr "დაპატარავება"
 
 #: ../glade/preferences_win.glade.h:117
-#, fuzzy
 msgid "100"
 msgstr "100"
 

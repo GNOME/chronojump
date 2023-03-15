@@ -830,6 +830,8 @@ public class UtilGtk
 				UtilGtk.ContrastLabelsLabel (Config.ColorBackgroundShiftedIsDark, (Gtk.Label) w);
 			else if (w.GetType() == typeof(Gtk.Box))
 				UtilGtk.ContrastLabelsBox (Config.ColorBackgroundShiftedIsDark, (Gtk.Box) w);
+			else if (w.GetType() == typeof(Gtk.HBox))
+				UtilGtk.ContrastLabelsHBox (Config.ColorBackgroundShiftedIsDark, (Gtk.HBox) w);
 		}
 	}
 	public static void ContrastLabelsFrame (bool bgDark, Gtk.Frame frame)

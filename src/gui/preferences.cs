@@ -808,6 +808,7 @@ public class PreferencesWindow
 		else //if(preferences.importerPythonVersion == Preferences.pythonVersionEnum.Python3)
 			PreferencesWindowBox.radio_python_3.Active = true;
 
+		PreferencesWindowBox.colorChoosedLastDefined = false;
 		if(preferences.colorBackgroundOsColor) {
 			PreferencesWindowBox.radio_color_os.Active = true;
 			PreferencesWindowBox.button_color_choose.Sensitive = false;
@@ -820,13 +821,17 @@ public class PreferencesWindow
 			PreferencesWindowBox.button_color_choose.Sensitive = false;
 		}
 		else {
+			PreferencesWindowBox.colorChoosedLast = preferences.colorBackground;
+			PreferencesWindowBox.colorChoosedLastDefined = true;
+
 			PreferencesWindowBox.radio_color_custom.Active = true;
 			PreferencesWindowBox.button_color_choose.Sensitive = true;
 		}
 
 		PreferencesWindowBox.colorBackground = UtilGtk.ColorParse(preferences.colorBackgroundString);
 		PreferencesWindowBox.paintColorChronojump ();
-		PreferencesWindowBox.paintColorDrawingAreaAndBg (PreferencesWindowBox.colorBackground);
+		PreferencesWindowBox.paintDrawingArea (PreferencesWindowBox.colorBackground);
+		PreferencesWindowBox.paintBg (PreferencesWindowBox.colorBackground);
 
 
 		//tabs selection widgets
@@ -852,6 +857,12 @@ public class PreferencesWindow
 		button_color_choose.Sensitive = true;
 		label_radio_color_os_needs_restart.Visible = false;
 
+		if (colorChoosedLastDefined)
+		{
+			colorBackground = colorChoosedLast;
+			Config.SetColors (colorBackground);
+		}
+
 		// B) changes on preferences object and SqlitePreferences
 		preferences.colorBackgroundString = Preferences.PreferencesChange(
 				false,
@@ -862,8 +873,8 @@ public class PreferencesWindow
 				SqlitePreferences.ColorBackgroundOsColor, preferences.colorBackgroundOsColor,
 				false);
 
-		Config.SetColors (preferences.colorBackground);
-		paintColorDrawingAreaAndBg(colorBackground);
+		Config.SetColors (colorBackground);
+		paintBg (colorBackground);
 	}
 	private void on_radio_color_chronojump_blue_toggled (object o, EventArgs args)
 	{
@@ -883,7 +894,7 @@ public class PreferencesWindow
 
 		colorBackground = UtilGtk.ColorParse (preferences.colorBackgroundString);
 		Config.SetColors (preferences.colorBackground);
-		paintColorDrawingAreaAndBg(colorBackground);
+		paintBg (colorBackground);
 	}
 	private void on_radio_color_os_toggled (object o, EventArgs args)
 	{
@@ -900,9 +911,11 @@ public class PreferencesWindow
 				true);
 
 		Config.SetColors (preferences.colorBackground);
-		paintColorDrawingAreaAndBg(colorBackground);
+		paintBg (colorBackground);
 	}
 
+	RGBA colorChoosedLast; //to have stored color chosen color from click to color chosen, chronojump, color chosen
+	bool colorChoosedLastDefined;
 	private void on_button_color_choose_clicked(object o, EventArgs args)
 	{
 		using (ColorSelectionDialog colorSelectionDialog = new ColorSelectionDialog (Catalog.GetString("Select color")))
@@ -926,8 +939,12 @@ public class PreferencesWindow
 						SqlitePreferences.ColorBackgroundOsColor, preferences.colorBackgroundOsColor,
 						false);
 
-				Config.SetColors (preferences.colorBackground);
-				paintColorDrawingAreaAndBg(colorBackground);
+				colorChoosedLast = colorBackground;
+				colorChoosedLastDefined = true;
+
+				Config.SetColors (colorBackground);
+				paintDrawingArea (colorBackground);
+				paintBg (colorBackground);
 			}
 
 			colorSelectionDialog.Hide ();
@@ -2103,45 +2120,48 @@ public class PreferencesWindow
 
 
 	RGBA colorDrawingArea;
-	private void paintColorDrawingAreaAndBg (RGBA color)
+	private void paintDrawingArea (RGBA color)
 	{
 		//UtilGtk.PaintColorDrawingArea (drawingarea_background_color, color);
 		colorDrawingArea = color;
 		drawingarea_background_color.QueueDraw ();
+	}
 
-		if(! preferences.colorBackgroundOsColor)
-		{
-			//window
-			UtilGtk.WindowColor (preferences_win, color);
+	private void paintBg (RGBA color)
+	{
+		if(preferences.colorBackgroundOsColor)
+			return;
 
-			//notebook_top
-			UtilGtk.WidgetColor (notebook_top, Config.ColorBackgroundShifted);
-			UtilGtk.ContrastLabelsNotebook (Config.ColorBackgroundShiftedIsDark, notebook_top);
+		//window
+		UtilGtk.WindowColor (preferences_win, color);
 
-			//notebook
-			UtilGtk.WidgetColor (notebook, Config.ColorBackgroundShifted);
-			UtilGtk.ContrastLabelsNotebook (Config.ColorBackgroundShiftedIsDark, notebook);
+		//notebook_top
+		UtilGtk.WidgetColor (notebook_top, Config.ColorBackgroundShifted);
+		UtilGtk.ContrastLabelsNotebook (Config.ColorBackgroundShiftedIsDark, notebook_top);
 
-			//notebook_races
-			UtilGtk.WidgetColor (notebook_races, Config.ColorBackgroundShifted);
-			UtilGtk.ContrastLabelsNotebook (Config.ColorBackgroundShiftedIsDark, notebook_races);
+		//notebook
+		UtilGtk.WidgetColor (notebook, Config.ColorBackgroundShifted);
+		UtilGtk.ContrastLabelsNotebook (Config.ColorBackgroundShiftedIsDark, notebook);
 
-			//notebook_races_double_contacts
-			UtilGtk.WidgetColor (notebook_races_double_contacts, Config.ColorBackgroundShifted);
-			UtilGtk.ContrastLabelsNotebook (Config.ColorBackgroundShiftedIsDark, notebook_races_double_contacts);
+		//notebook_races
+		UtilGtk.WidgetColor (notebook_races, Config.ColorBackgroundShifted);
+		UtilGtk.ContrastLabelsNotebook (Config.ColorBackgroundShiftedIsDark, notebook_races);
 
-			//notebook_force_sensor
-			UtilGtk.WidgetColor (notebook_force_sensor, Config.ColorBackgroundShifted);
-			UtilGtk.ContrastLabelsNotebook (Config.ColorBackgroundShiftedIsDark, notebook_force_sensor);
+		//notebook_races_double_contacts
+		UtilGtk.WidgetColor (notebook_races_double_contacts, Config.ColorBackgroundShifted);
+		UtilGtk.ContrastLabelsNotebook (Config.ColorBackgroundShiftedIsDark, notebook_races_double_contacts);
 
-			//notebook_encoder
-			UtilGtk.WidgetColor (notebook_encoder, Config.ColorBackgroundShifted);
-			UtilGtk.ContrastLabelsNotebook (Config.ColorBackgroundShiftedIsDark, notebook_encoder);
+		//notebook_force_sensor
+		UtilGtk.WidgetColor (notebook_force_sensor, Config.ColorBackgroundShifted);
+		UtilGtk.ContrastLabelsNotebook (Config.ColorBackgroundShiftedIsDark, notebook_force_sensor);
 
-			//notebook_multimedia
-			UtilGtk.WidgetColor (notebook_multimedia, Config.ColorBackgroundShifted);
-			UtilGtk.ContrastLabelsNotebook (Config.ColorBackgroundShiftedIsDark, notebook_multimedia);
-		}
+		//notebook_encoder
+		UtilGtk.WidgetColor (notebook_encoder, Config.ColorBackgroundShifted);
+		UtilGtk.ContrastLabelsNotebook (Config.ColorBackgroundShiftedIsDark, notebook_encoder);
+
+		//notebook_multimedia
+		UtilGtk.WidgetColor (notebook_multimedia, Config.ColorBackgroundShifted);
+		UtilGtk.ContrastLabelsNotebook (Config.ColorBackgroundShiftedIsDark, notebook_multimedia);
 	}
 
 	private void on_drawingarea_background_color_draw (object o, Gtk.DrawnArgs args)

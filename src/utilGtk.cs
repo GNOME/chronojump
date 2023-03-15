@@ -817,6 +817,15 @@ public class UtilGtk
 	public static void ContrastLabelsNotebook (bool bgDark, Gtk.Notebook notebook)
 	{
 		contrastLabelsContainer (bgDark, (Gtk.Container) notebook);
+
+		for (int i = 0; i < notebook.NPages; i ++)
+		{
+			Gtk.Widget w = notebook.GetTabLabel (notebook.GetNthPage(i));
+			if (w.GetType() == typeof(Gtk.Label))
+				UtilGtk.ContrastLabelsLabel (Config.ColorBackgroundShiftedIsDark, (Gtk.Label) w);
+			else if (w.GetType() == typeof(Gtk.HBox))
+				UtilGtk.ContrastLabelsHBox (Config.ColorBackgroundShiftedIsDark, (Gtk.HBox) w);
+		}
 	}
 	public static void ContrastLabelsFrame (bool bgDark, Gtk.Frame frame)
 	{
@@ -843,7 +852,8 @@ public class UtilGtk
 
 	private static bool isContainer(Gtk.Widget w)
 	{
-		return ( w.GetType() == typeof(Gtk.HBox) ||
+		return ( w.GetType() == typeof(Gtk.Box) ||
+				w.GetType() == typeof(Gtk.HBox) ||
 				w.GetType() == typeof(Gtk.VBox) ||
 				w.GetType() == typeof(Gtk.Table) ||
 				w.GetType() == typeof(Gtk.Notebook) ||
@@ -851,7 +861,9 @@ public class UtilGtk
 				w.GetType() == typeof(Gtk.CheckButton) ||
 				w.GetType() == typeof(Gtk.RadioButton) ||
 				w.GetType() == typeof(Gtk.ScrolledWindow) ||
-				w.GetType() == typeof(Gtk.Viewport)
+				w.GetType() == typeof(Gtk.Viewport) ||
+				w.GetType() == typeof(Gtk.VButtonBox) ||
+				w.GetType() == typeof(Gtk.HButtonBox)
 			);
 	}
 

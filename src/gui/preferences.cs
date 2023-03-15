@@ -117,6 +117,7 @@ public class PreferencesWindow
 	Gtk.RadioButton radio_do_not_use_heights_on_jump_indexes;
 			
 	//runs tab	
+	Gtk.Notebook notebook_races;
 	Gtk.Image image_run_speed_start_help;
 	Gtk.RadioButton radio_speed_ms;
 	Gtk.RadioButton radio_speed_km;
@@ -309,7 +310,6 @@ public class PreferencesWindow
 	const int RUNSPAGE = 3;
 	const int ENCODERPAGE = 4;
 	const int FORCESENSORPAGE = 5;
-	const int RUNENCODERPAGE = 6;
 
 	static private WebcamDeviceList wd_list;
 	private WebcamFfmpegSupportedModes wfsm;
@@ -361,22 +361,24 @@ public class PreferencesWindow
 		}
 		PreferencesWindowBox.frame_networks.Visible = compujump;
 
-		if(menu_mode !=	Constants.Modes.JUMPSSIMPLE && menu_mode != Constants.Modes.JUMPSREACTIVE) {
+		if(menu_mode !=	Constants.Modes.JUMPSSIMPLE && menu_mode != Constants.Modes.JUMPSREACTIVE)
+		{
 			PreferencesWindowBox.notebook.GetNthPage(JUMPSPAGE).Hide();
 			PreferencesWindowBox.check_view_jumps.Active = false;
-		} if(menu_mode != Constants.Modes.RUNSSIMPLE && menu_mode != Constants.Modes.RUNSINTERVALLIC) {
+		} if(menu_mode != Constants.Modes.RUNSSIMPLE && menu_mode != Constants.Modes.RUNSINTERVALLIC &&
+				menu_mode != Constants.Modes.RUNSENCODER)
+		{
 			PreferencesWindowBox.notebook.GetNthPage(RUNSPAGE).Hide();
 			PreferencesWindowBox.check_view_runs.Active = false;
-		} if(menu_mode != Constants.Modes.POWERGRAVITATORY && menu_mode != Constants.Modes.POWERINERTIAL) {
+		} if(menu_mode != Constants.Modes.POWERGRAVITATORY && menu_mode != Constants.Modes.POWERINERTIAL)
+		{
 			PreferencesWindowBox.notebook.GetNthPage(ENCODERPAGE).Hide();
 			PreferencesWindowBox.check_view_encoder.Active = false;
 		}
-		if(! Constants.ModeIsFORCESENSOR (menu_mode)) {
+		if(! Constants.ModeIsFORCESENSOR (menu_mode))
+		{
 			PreferencesWindowBox.notebook.GetNthPage(FORCESENSORPAGE).Hide();
 			PreferencesWindowBox.check_view_force_sensor.Active = false;
-		} if(menu_mode != Constants.Modes.RUNSENCODER) {
-			PreferencesWindowBox.notebook.GetNthPage(RUNENCODERPAGE).Hide();
-			PreferencesWindowBox.check_view_race_analyzer.Active = false;
 		}
 
 		PreferencesWindowBox.preferences = preferences;
@@ -607,10 +609,16 @@ public class PreferencesWindow
 		PreferencesWindowBox.image_encoder_capture_cut_by_triggers_help.Pixbuf = pixbuf;
 		PreferencesWindowBox.image_encoder_inertial_analyze_eq_mass_help.Pixbuf = pixbuf;
 
-		if(menu_mode ==	Constants.Modes.RUNSSIMPLE)
-			PreferencesWindowBox.notebook_races_double_contacts.CurrentPage = 0;
-		else if(menu_mode == Constants.Modes.RUNSINTERVALLIC)
-			PreferencesWindowBox.notebook_races_double_contacts.CurrentPage = 1;
+		if (menu_mode == Constants.Modes.RUNSSIMPLE || menu_mode == Constants.Modes.RUNSINTERVALLIC)
+		{
+			PreferencesWindowBox.notebook_races.CurrentPage = 0;
+
+			if(menu_mode ==	Constants.Modes.RUNSSIMPLE)
+				PreferencesWindowBox.notebook_races_double_contacts.CurrentPage = 0;
+			else if(menu_mode == Constants.Modes.RUNSINTERVALLIC)
+				PreferencesWindowBox.notebook_races_double_contacts.CurrentPage = 1;
+		} else if (menu_mode == Constants.Modes.RUNSENCODER)
+			PreferencesWindowBox.notebook_races.CurrentPage = 1;
 
 		PreferencesWindowBox.checkbutton_runs_prevent_double_contact.Active = 
 			(preferences.runDoubleContactsMode != Constants.DoubleContact.NONE);
@@ -2055,10 +2063,6 @@ public class PreferencesWindow
 	{
 		tabShowHide(check_view_force_sensor.Active, FORCESENSORPAGE);
 	}
-	private void on_check_view_race_analyzer_clicked (object o,EventArgs args)
-	{
-		tabShowHide(check_view_race_analyzer.Active, RUNENCODERPAGE);
-	}
 
 	private void tabShowHide (bool active, int page)
 	{
@@ -2117,6 +2121,10 @@ public class PreferencesWindow
 			//notebook
 			UtilGtk.WidgetColor (notebook, Config.ColorBackgroundShifted);
 			UtilGtk.ContrastLabelsNotebook (Config.ColorBackgroundShiftedIsDark, notebook);
+
+			//notebook_races
+			UtilGtk.WidgetColor (notebook_races, Config.ColorBackgroundShifted);
+			UtilGtk.ContrastLabelsNotebook (Config.ColorBackgroundShiftedIsDark, notebook_races);
 
 			//notebook_races_double_contacts
 			UtilGtk.WidgetColor (notebook_races_double_contacts, Config.ColorBackgroundShifted);
@@ -2970,6 +2978,7 @@ public class PreferencesWindow
 		radio_do_not_use_heights_on_jump_indexes = (Gtk.RadioButton) builder.GetObject ("radio_do_not_use_heights_on_jump_indexes");
 
 		//runs tab	
+		notebook_races = (Gtk.Notebook) builder.GetObject ("notebook_races");
 		image_run_speed_start_help = (Gtk.Image) builder.GetObject ("image_run_speed_start_help");
 		radio_speed_ms = (Gtk.RadioButton) builder.GetObject ("radio_speed_ms");
 		radio_speed_km = (Gtk.RadioButton) builder.GetObject ("radio_speed_km");

@@ -891,6 +891,8 @@ public partial class ChronoJumpWindow
 							currentEventExecute.PrepareEventGraphJumpReactiveRealtimeCaptureObject.type,
 							currentPerson.Name,
 							preferences.volumeOn, preferences.gstreamer, feedbackWin);
+
+					event_execute_drawingarea_realtime_capture_cairo.QueueDraw ();
 				}
 				break;
 			case EventType.Types.RUN:
@@ -911,6 +913,7 @@ public partial class ChronoJumpWindow
 							currentEventExecute.PrepareEventGraphRunIntervalRealtimeCaptureObject.photocell_l,
 							currentEventExecute.PrepareEventGraphRunIntervalRealtimeCaptureObject.type,
 							currentPerson.Name);
+					event_execute_drawingarea_realtime_capture_cairo.QueueDraw ();
 				}
 				break;
 		}

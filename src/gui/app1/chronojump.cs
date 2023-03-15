@@ -1864,6 +1864,7 @@ public partial class ChronoJumpWindow
 				selectedJumpRj.TvString, selectedJumpRj.TcString,
 				selectedJumpRj.Type, selectedJumpRj.Description, //Description is personName
 				preferences.volumeOn, preferences.gstreamer, feedbackWin);
+		event_execute_drawingarea_realtime_capture_cairo.QueueDraw ();
 	}
 
 	private void treeviewJumpsRjContextMenu(JumpRj myJump) {
@@ -2093,6 +2094,7 @@ public partial class ChronoJumpWindow
 				selectedRunIntervalType.DistancesString,
 				selectedRunInterval.Photocell_l,
 				selectedRunInterval.Type, selectedRunInterval.Description); //Description is personName
+		event_execute_drawingarea_realtime_capture_cairo.QueueDraw ();
 	}
 
 	private void treeviewRunsIntervalContextMenu(RunInterval myRun) {

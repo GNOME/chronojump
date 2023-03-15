@@ -142,7 +142,7 @@ public class PreferencesWindow
 	Gtk.Image image_encoder_inertial2;
 	Gtk.Image image_encoder_triggers;
 	Gtk.CheckButton checkbutton_encoder_capture_inertial_discard_first_n;
-	Gtk.HBox hbox_encoder_capture_inertial_discard_first_n;
+	Gtk.Box box_encoder_capture_inertial_discard_first_n;
 	Gtk.SpinButton spin_encoder_capture_inertial_discard_first_n;
 	Gtk.SpinButton spin_encoder_capture_show_only_some_bars;
 	Gtk.RadioButton radio_encoder_capture_show_all_bars;
@@ -181,6 +181,7 @@ public class PreferencesWindow
 	Gtk.RadioButton radio_encoder_1RM_weighted3;
 
 	//forceSensor tab
+	Gtk.Notebook notebook_force_sensor;
 	Gtk.SpinButton spin_force_sensor_capture_width_graph_seconds;
 	Gtk.RadioButton radio_force_sensor_capture_zoom_out;
 	Gtk.RadioButton radio_force_sensor_capture_scroll;
@@ -657,11 +658,11 @@ public class PreferencesWindow
 		if(preferences.encoderCaptureInertialDiscardFirstN > 0) {
 			PreferencesWindowBox.checkbutton_encoder_capture_inertial_discard_first_n.Active = true;
 			PreferencesWindowBox.spin_encoder_capture_inertial_discard_first_n.Value = preferences.encoderCaptureInertialDiscardFirstN;
-			PreferencesWindowBox.hbox_encoder_capture_inertial_discard_first_n.Visible = true;
+			PreferencesWindowBox.box_encoder_capture_inertial_discard_first_n.Visible = true;
 		} else {
 			PreferencesWindowBox.checkbutton_encoder_capture_inertial_discard_first_n.Active = false;
 			PreferencesWindowBox.spin_encoder_capture_inertial_discard_first_n.Value = 3;
-			PreferencesWindowBox.hbox_encoder_capture_inertial_discard_first_n.Visible = false;
+			PreferencesWindowBox.box_encoder_capture_inertial_discard_first_n.Visible = false;
 		}
 
 		if(preferences.encoderCaptureShowNRepetitions < 0) {
@@ -1302,7 +1303,7 @@ public class PreferencesWindow
 	private void on_checkbutton_encoder_capture_inertial_discard_first_n_toggled (object o, EventArgs args)
 	{
 		// A) changes on preferences gui
-		hbox_encoder_capture_inertial_discard_first_n.Visible = (checkbutton_encoder_capture_inertial_discard_first_n.Active);
+		box_encoder_capture_inertial_discard_first_n.Visible = (checkbutton_encoder_capture_inertial_discard_first_n.Active);
 
 		// B) changes on preferences object and SqlitePreferences
 		changeEncoderInertialDiscardFirstNOnPreferencesAndDB ();
@@ -2112,18 +2113,25 @@ public class PreferencesWindow
 			//window
 			UtilGtk.WindowColor (preferences_win, color);
 
+			//notebook_top
+			UtilGtk.WidgetColor (notebook_top, Config.ColorBackgroundShifted);
+			UtilGtk.ContrastLabelsNotebook (Config.ColorBackgroundShiftedIsDark, notebook_top);
+
 			//notebook
 			UtilGtk.WidgetColor (notebook, Config.ColorBackgroundShifted);
 			UtilGtk.ContrastLabelsNotebook (Config.ColorBackgroundShiftedIsDark, notebook);
 
-			for (int i = 0; i < notebook.NPages; i ++)
-			{
-				Gtk.Widget w = notebook.GetTabLabel (notebook.GetNthPage(i));
-				if (w.GetType() == typeof(Gtk.Label))
-					UtilGtk.ContrastLabelsLabel (Config.ColorBackgroundShiftedIsDark, (Gtk.Label) w);
-				else if (w.GetType() == typeof(Gtk.HBox))
-					UtilGtk.ContrastLabelsHBox (Config.ColorBackgroundShiftedIsDark, (Gtk.HBox) w);
-			}
+			//notebook_races_double_contacts
+			UtilGtk.WidgetColor (notebook_races_double_contacts, Config.ColorBackgroundShifted);
+			UtilGtk.ContrastLabelsNotebook (Config.ColorBackgroundShiftedIsDark, notebook_races_double_contacts);
+
+			//notebook_force_sensor
+			UtilGtk.WidgetColor (notebook_force_sensor, Config.ColorBackgroundShifted);
+			UtilGtk.ContrastLabelsNotebook (Config.ColorBackgroundShiftedIsDark, notebook_force_sensor);
+
+			//notebook_multimedia
+			UtilGtk.WidgetColor (notebook_multimedia, Config.ColorBackgroundShifted);
+			UtilGtk.ContrastLabelsNotebook (Config.ColorBackgroundShiftedIsDark, notebook_multimedia);
 		}
 	}
 
@@ -2986,7 +2994,7 @@ public class PreferencesWindow
 		image_encoder_inertial2 = (Gtk.Image) builder.GetObject ("image_encoder_inertial2");
 		image_encoder_triggers = (Gtk.Image) builder.GetObject ("image_encoder_triggers");
 		checkbutton_encoder_capture_inertial_discard_first_n = (Gtk.CheckButton) builder.GetObject ("checkbutton_encoder_capture_inertial_discard_first_n");
-		hbox_encoder_capture_inertial_discard_first_n = (Gtk.HBox) builder.GetObject ("hbox_encoder_capture_inertial_discard_first_n");
+		box_encoder_capture_inertial_discard_first_n = (Gtk.Box) builder.GetObject ("box_encoder_capture_inertial_discard_first_n");
 		spin_encoder_capture_inertial_discard_first_n = (Gtk.SpinButton) builder.GetObject ("spin_encoder_capture_inertial_discard_first_n");
 		spin_encoder_capture_show_only_some_bars = (Gtk.SpinButton) builder.GetObject ("spin_encoder_capture_show_only_some_bars");
 		radio_encoder_capture_show_all_bars = (Gtk.RadioButton) builder.GetObject ("radio_encoder_capture_show_all_bars");
@@ -3025,6 +3033,7 @@ public class PreferencesWindow
 		radio_encoder_1RM_weighted3 = (Gtk.RadioButton) builder.GetObject ("radio_encoder_1RM_weighted3");
 
 		//forceSensor tab
+		notebook_force_sensor = (Gtk.Notebook) builder.GetObject ("notebook_force_sensor");
 		spin_force_sensor_capture_width_graph_seconds = (Gtk.SpinButton) builder.GetObject ("spin_force_sensor_capture_width_graph_seconds");
 		radio_force_sensor_capture_zoom_out = (Gtk.RadioButton) builder.GetObject ("radio_force_sensor_capture_zoom_out");
 		radio_force_sensor_capture_scroll = (Gtk.RadioButton) builder.GetObject ("radio_force_sensor_capture_scroll");

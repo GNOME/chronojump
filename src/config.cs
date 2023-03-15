@@ -28,14 +28,6 @@ public class Config
 	//to avoid passing this info to all the windows and dialogs, just read it here
 	public static bool UseSystemColor; //do nothing at all
 
-	//stored in DB
-	public static Gdk.RGBA ColorBackground;
-
-	//not stored in DB (but incluced here to not have to calculate it all the time)
-	public static bool ColorBackgroundIsDark;
-	public static Gdk.RGBA ColorBackgroundShifted;
-	public static bool ColorBackgroundShiftedIsDark;
-
 	public static string LastDBFullPathStatic = ""; //works even with spaces in name
 
 	public enum SessionModeEnum { STANDARD, UNIQUE, MONTHLY }
@@ -77,6 +69,15 @@ public class Config
 	 * public string ExhibitionServerURL = "";
 	 * public int ExhibitionStationID = -1;
 	 */
+
+	//stored in DB
+	private static Gdk.RGBA colorBackground;
+
+	//not stored in DB (but incluced here to not have to calculate it all the time)
+	private static bool colorBackgroundIsDark;
+	private static Gdk.RGBA colorBackgroundShifted;
+	private static bool colorBackgroundShiftedIsDark;
+
 
 	public Config()
 	{
@@ -175,6 +176,14 @@ public class Config
 		}
 	}
 
+	public static void SetColors (Gdk.RGBA color)
+	{
+		colorBackground = color;
+		colorBackgroundIsDark = UtilGtk.ColorIsDark (color);
+		colorBackgroundShifted = UtilGtk.GetColorShifted (color, ! colorBackgroundIsDark);
+		colorBackgroundShiftedIsDark = UtilGtk.ColorIsDark (colorBackgroundShifted);
+	}
+
 	//p is currentPerson
 	public bool CompujumpUserIsAdmin(Person p)
 	{
@@ -263,6 +272,23 @@ public class Config
 					SessionMode, PlaySoundsFromFile, Exhibition, Raspberry,
 					LowHeight, LowCPU, GuiTest, CanOpenExternalDB,
 					ExternalDBDefaultPath, LastDBFullPath));
+	}
+
+	public static Gdk.RGBA ColorBackground
+	{
+		get { return colorBackground; }
+	}
+	public static bool ColorBackgroundIsDark
+	{
+		get { return colorBackgroundIsDark; }
+	}
+	public static Gdk.RGBA ColorBackgroundShifted
+	{
+		get { return colorBackgroundShifted; }
+	}
+	public static bool ColorBackgroundShiftedIsDark
+	{
+		get { return colorBackgroundShiftedIsDark; }
 	}
 
 	~Config() {}

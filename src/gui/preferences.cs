@@ -854,7 +854,7 @@ public class PreferencesWindow
 				SqlitePreferences.ColorBackgroundOsColor, preferences.colorBackgroundOsColor,
 				false);
 
-		changeConfigColors ();
+		Config.SetColors (preferences.colorBackground);
 		paintColorDrawingAreaAndBg(colorBackground);
 	}
 	private void on_radio_color_chronojump_blue_toggled (object o, EventArgs args)
@@ -874,7 +874,7 @@ public class PreferencesWindow
 				false);
 
 		colorBackground = UtilGtk.ColorParse (preferences.colorBackgroundString);
-		changeConfigColors ();
+		Config.SetColors (preferences.colorBackground);
 		paintColorDrawingAreaAndBg(colorBackground);
 	}
 	private void on_radio_color_os_toggled (object o, EventArgs args)
@@ -891,7 +891,7 @@ public class PreferencesWindow
 				SqlitePreferences.ColorBackgroundOsColor, preferences.colorBackgroundOsColor,
 				true);
 
-		changeConfigColors ();
+		Config.SetColors (preferences.colorBackground);
 		paintColorDrawingAreaAndBg(colorBackground);
 	}
 
@@ -918,23 +918,12 @@ public class PreferencesWindow
 						SqlitePreferences.ColorBackgroundOsColor, preferences.colorBackgroundOsColor,
 						false);
 
-				changeConfigColors ();
+				Config.SetColors (preferences.colorBackground);
 				paintColorDrawingAreaAndBg(colorBackground);
 			}
 
 			colorSelectionDialog.Hide ();
 		}
-	}
-
-	private void changeConfigColors ()
-	{
-		Config.ColorBackground = preferences.colorBackground;
-		Config.ColorBackgroundIsDark = UtilGtk.ColorIsDark (preferences.colorBackground);
-
-		//shifted
-		Config.ColorBackgroundShifted = UtilGtk.GetColorShifted (Config.ColorBackground,
-				! Config.ColorBackgroundIsDark);
-		Config.ColorBackgroundShiftedIsDark = UtilGtk.ColorIsDark (Config.ColorBackgroundShifted);
 	}
 
 	private void on_check_session_autoload_at_start_toggled (object o, EventArgs args)

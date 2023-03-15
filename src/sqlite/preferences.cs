@@ -520,14 +520,7 @@ class SqlitePreferences : Sqlite
 			else if(reader[0].ToString() == ColorBackground)
 			{
 				preferences.colorBackgroundString = reader[1].ToString();
-
-				Config.ColorBackground = preferences.colorBackground;
-				Config.ColorBackgroundIsDark = UtilGtk.ColorIsDark (preferences.colorBackground);
-
-				//shifted
-				Config.ColorBackgroundShifted = UtilGtk.GetColorShifted (Config.ColorBackground,
-						! Config.ColorBackgroundIsDark);
-				Config.ColorBackgroundShiftedIsDark = UtilGtk.ColorIsDark (Config.ColorBackgroundShifted);
+				Config.SetColors (preferences.colorBackground);
 			}
 			else if(reader[0].ToString() == ColorBackgroundOsColor)
 				preferences.colorBackgroundOsColor = reader[1].ToString() == "True";

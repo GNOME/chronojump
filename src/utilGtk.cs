@@ -802,6 +802,10 @@ public class UtilGtk
 		e.OverrideColor (StateFlags.Prelight, GetRGBA (colorPrelight));
 	}
 
+	public static void ContrastLabelsBox (bool bgDark, Gtk.Box box)
+	{
+		contrastLabelsContainer (bgDark, (Gtk.Container) box);
+	}
 	public static void ContrastLabelsHBox (bool bgDark, Gtk.HBox hbox)
 	{
 		contrastLabelsContainer (bgDark, (Gtk.Container) hbox);
@@ -823,8 +827,8 @@ public class UtilGtk
 			Gtk.Widget w = notebook.GetTabLabel (notebook.GetNthPage(i));
 			if (w.GetType() == typeof(Gtk.Label))
 				UtilGtk.ContrastLabelsLabel (Config.ColorBackgroundShiftedIsDark, (Gtk.Label) w);
-			else if (w.GetType() == typeof(Gtk.HBox))
-				UtilGtk.ContrastLabelsHBox (Config.ColorBackgroundShiftedIsDark, (Gtk.HBox) w);
+			else if (w.GetType() == typeof(Gtk.Box))
+				UtilGtk.ContrastLabelsBox (Config.ColorBackgroundShiftedIsDark, (Gtk.Box) w);
 		}
 	}
 	public static void ContrastLabelsFrame (bool bgDark, Gtk.Frame frame)

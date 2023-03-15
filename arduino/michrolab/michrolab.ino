@@ -275,8 +275,17 @@ const int chipSelect = 6;
 #define TFT_MISO    12
 #define TFT_SCLK    13
 
+/*Buttons used in two buttons Teensy4.0 version
 const unsigned int redButtonPin = 5;
 const unsigned int blueButtonPin = 4;
+*/
+
+//Buttons used in multidirectional buttons Teensy4.0 version
+const unsigned int redButtonPin = 23;   //aDirectionPin
+const unsigned int blueButtonPin = 19;  //bDirectionPin
+//const unsigned int dDirectionPin = 18;
+//const unsigned int cDirectionPin = 21;
+//const unsigned int cenDirectionPin = 22;
 #endif
 
 #ifdef teensy_3_2
@@ -482,7 +491,7 @@ void setup() {
 #endif
 
 #ifdef teensy_4_0
-  tft.setRotation(3);
+  tft.setRotation(1);
 #endif
 
   dirName = createNewDir();

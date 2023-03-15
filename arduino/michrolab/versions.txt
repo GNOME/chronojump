@@ -1,3 +1,7 @@
+Michrolav 0.2
+ ---------------------
+ Added multidirectional buttons. Diferent pins
+
 MiChroLab 0.1
  ---------------------
  -Menu structure to access diferent functions

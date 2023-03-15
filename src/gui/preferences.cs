@@ -132,7 +132,9 @@ public class PreferencesWindow
 	Gtk.CheckButton checkbutton_runs_i_prevent_double_contact;
 	Gtk.SpinButton spinbutton_runs_i_prevent_double_contact;
 	
-	//encoder capture tab
+	//encoder tab
+	Gtk.Notebook notebook_encoder;
+	//capture
 	Gtk.SpinButton spin_encoder_capture_time;
 	Gtk.CheckButton check_encoder_capture_inactivity_end_time;
 	Gtk.HBox hbox_encoder_capture_inactivity_time;
@@ -164,8 +166,7 @@ public class PreferencesWindow
 	Gtk.RadioButton radio_encoder_rep_criteria_inertial_ecc_con;
 	Gtk.RadioButton radio_encoder_rep_criteria_inertial_ecc;
 	Gtk.RadioButton radio_encoder_rep_criteria_inertial_con;
-
-	//encoder other tab
+	//analyze
 	Gtk.CheckButton checkbutton_encoder_propulsive;
 	Gtk.RadioButton radio_encoder_work_kcal;
 	Gtk.RadioButton radio_encoder_work_joules;
@@ -306,10 +307,9 @@ public class PreferencesWindow
 
 	const int JUMPSPAGE = 2;
 	const int RUNSPAGE = 3;
-	const int ENCODERCAPTUREPAGE = 4;
-	const int ENCODEROTHERPAGE = 5;
-	const int FORCESENSORPAGE = 6;
-	const int RUNENCODERPAGE = 7;
+	const int ENCODERPAGE = 4;
+	const int FORCESENSORPAGE = 5;
+	const int RUNENCODERPAGE = 6;
 
 	static private WebcamDeviceList wd_list;
 	private WebcamFfmpegSupportedModes wfsm;
@@ -368,8 +368,7 @@ public class PreferencesWindow
 			PreferencesWindowBox.notebook.GetNthPage(RUNSPAGE).Hide();
 			PreferencesWindowBox.check_view_runs.Active = false;
 		} if(menu_mode != Constants.Modes.POWERGRAVITATORY && menu_mode != Constants.Modes.POWERINERTIAL) {
-			PreferencesWindowBox.notebook.GetNthPage(ENCODERCAPTUREPAGE).Hide();
-			PreferencesWindowBox.notebook.GetNthPage(ENCODEROTHERPAGE).Hide();
+			PreferencesWindowBox.notebook.GetNthPage(ENCODERPAGE).Hide();
 			PreferencesWindowBox.check_view_encoder.Active = false;
 		}
 		if(! Constants.ModeIsFORCESENSOR (menu_mode)) {
@@ -2050,9 +2049,7 @@ public class PreferencesWindow
 	}
 	private void on_check_view_encoder_clicked (object o,EventArgs args)
 	{
-		//on this order to be active the capture page (it is the first one, nw)
-		tabShowHide(check_view_encoder.Active, ENCODEROTHERPAGE);
-		tabShowHide(check_view_encoder.Active, ENCODERCAPTUREPAGE);
+		tabShowHide(check_view_encoder.Active, ENCODERPAGE);
 	}
 	private void on_check_view_force_sensor_clicked (object o,EventArgs args)
 	{
@@ -2128,6 +2125,10 @@ public class PreferencesWindow
 			//notebook_force_sensor
 			UtilGtk.WidgetColor (notebook_force_sensor, Config.ColorBackgroundShifted);
 			UtilGtk.ContrastLabelsNotebook (Config.ColorBackgroundShiftedIsDark, notebook_force_sensor);
+
+			//notebook_encoder
+			UtilGtk.WidgetColor (notebook_encoder, Config.ColorBackgroundShifted);
+			UtilGtk.ContrastLabelsNotebook (Config.ColorBackgroundShiftedIsDark, notebook_encoder);
 
 			//notebook_multimedia
 			UtilGtk.WidgetColor (notebook_multimedia, Config.ColorBackgroundShifted);
@@ -2984,7 +2985,9 @@ public class PreferencesWindow
 		checkbutton_runs_i_prevent_double_contact = (Gtk.CheckButton) builder.GetObject ("checkbutton_runs_i_prevent_double_contact");
 		spinbutton_runs_i_prevent_double_contact = (Gtk.SpinButton) builder.GetObject ("spinbutton_runs_i_prevent_double_contact");
 
-		//encoder capture tab
+		//encoder tab
+		notebook_encoder = (Gtk.Notebook) builder.GetObject ("notebook_encoder");
+		//capture
 		spin_encoder_capture_time = (Gtk.SpinButton) builder.GetObject ("spin_encoder_capture_time");
 		check_encoder_capture_inactivity_end_time = (Gtk.CheckButton) builder.GetObject ("check_encoder_capture_inactivity_end_time");
 		hbox_encoder_capture_inactivity_time = (Gtk.HBox) builder.GetObject ("hbox_encoder_capture_inactivity_time");
@@ -3016,8 +3019,7 @@ public class PreferencesWindow
 		radio_encoder_rep_criteria_inertial_ecc_con = (Gtk.RadioButton) builder.GetObject ("radio_encoder_rep_criteria_inertial_ecc_con");
 		radio_encoder_rep_criteria_inertial_ecc = (Gtk.RadioButton) builder.GetObject ("radio_encoder_rep_criteria_inertial_ecc");
 		radio_encoder_rep_criteria_inertial_con = (Gtk.RadioButton) builder.GetObject ("radio_encoder_rep_criteria_inertial_con");
-
-		//encoder other tab
+		//analyze
 		checkbutton_encoder_propulsive = (Gtk.CheckButton) builder.GetObject ("checkbutton_encoder_propulsive");
 		radio_encoder_work_kcal = (Gtk.RadioButton) builder.GetObject ("radio_encoder_work_kcal");
 		radio_encoder_work_joules = (Gtk.RadioButton) builder.GetObject ("radio_encoder_work_joules");

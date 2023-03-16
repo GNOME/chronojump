@@ -262,6 +262,7 @@ public class PreferencesWindow
 		
 	//advanced tab
 	Gtk.CheckButton checkbutton_ask_deletion;
+	Gtk.Box box_combo_decimals;
 	Gtk.CheckButton checkbutton_mute_logs;
 	Gtk.RadioButton radio_export_latin;
 	Gtk.RadioButton radio_export_non_latin;
@@ -278,7 +279,6 @@ public class PreferencesWindow
 
 	Gtk.Button button_close;
 	Gtk.Image image_button_close;
-	Gtk.ComboBoxText combo_decimals;
 	// <---- at glade
 
 
@@ -287,6 +287,7 @@ public class PreferencesWindow
 	Gtk.ComboBoxText combo_camera_resolution;
 	Gtk.ComboBoxText combo_camera_framerate;
 	Gtk.ComboBoxText combo_language;
+	Gtk.ComboBoxText combo_decimals;
 
 	public Gtk.Button FakeButtonConfigurationImported;
 	public Gtk.Button FakeButtonDebugModeStart;
@@ -516,9 +517,7 @@ public class PreferencesWindow
 		PreferencesWindowBox.hbox_camera_stop_after_seconds.Visible = (preferences.videoStopAfter > 0);
 		PreferencesWindowBox.check_camera_stop_after.Active = (preferences.videoStopAfter > 0);
 
-		string [] decs = {"1", "2", "3"};
-		PreferencesWindowBox.combo_decimals.Active = UtilGtk.ComboMakeActive(
-				decs, preferences.digitsNumber.ToString());
+		PreferencesWindowBox.createComboDecimals ();
 
 		if(preferences.showPower)
 			PreferencesWindowBox.checkbutton_power.Active = true; 
@@ -1991,6 +1990,9 @@ public class PreferencesWindow
 
 	private void on_combo_decimals_changed (object o, EventArgs args)
 	{
+		if (UtilGtk.ComboGetActive (combo_decimals) == "")
+			return;
+
 		// B) changes on preferences object and SqlitePreferences
 		if (preferences.digitsNumber != Convert.ToInt32(UtilGtk.ComboGetActive(combo_decimals))) {
 			SqlitePreferences.Update ("digitsNumber", UtilGtk.ComboGetActive(combo_decimals), false);
@@ -2616,6 +2618,20 @@ public class PreferencesWindow
 		hbox_combo_language.ShowAll();
 	}
 
+	private void createComboDecimals ()
+	{
+		string [] decs = {"1", "2", "3"};
+		combo_decimals = new ComboBoxText ();
+
+		UtilGtk.ComboUpdate (combo_decimals, decs, "");
+		combo_decimals.Active = UtilGtk.ComboMakeActive (
+				decs, preferences.digitsNumber.ToString ());
+		combo_decimals.Changed += new EventHandler (on_combo_decimals_changed);
+
+		box_combo_decimals.PackStart (combo_decimals, false, false, 0);
+		box_combo_decimals.ShowAll ();
+	}
+
 	//from Longomatch ;)
 	//(C) Andoni Morales Alastruey
 	bool hbox_language_signalOn = false;
@@ -3143,6 +3159,7 @@ public class PreferencesWindow
 
 		//advanced tab
 		checkbutton_ask_deletion = (Gtk.CheckButton) builder.GetObject ("checkbutton_ask_deletion");
+		box_combo_decimals = (Gtk.Box) builder.GetObject ("box_combo_decimals");
 		checkbutton_mute_logs = (Gtk.CheckButton) builder.GetObject ("checkbutton_mute_logs");
 		radio_export_latin = (Gtk.RadioButton) builder.GetObject ("radio_export_latin");
 		radio_export_non_latin = (Gtk.RadioButton) builder.GetObject ("radio_export_non_latin");

@@ -7189,20 +7189,11 @@ It starts before and arrives there with some speed.</property>
                                   </packing>
                                 </child>
                                 <child>
-                                  <object class="GtkComboBoxText" id="combo_decimals">
+                                  <object class="GtkBox" id="box_combo_decimals">
                                     <property name="visible">True</property>
                                     <property name="can-focus">False</property>
-                                    <items>
-                                      <item>1</item>
-                                      <item>2</item>
-                                      <item>3</item>
-                                    </items>
-                                    <signal name="changed" handler="on_combo_decimals_changed" swapped="no"/>
                                     <child>
-                                      <object class="GtkCellRendererText" id="renderer1"/>
-                                      <attributes>
-                                        <attribute name="text">0</attribute>
-                                      </attributes>
+                                      <placeholder/>
                                     </child>
                                   </object>
                                   <packing>

@@ -430,8 +430,11 @@ public class EncoderConfigurationWindow
 		reset_hbox_list_d (1);
 	}
 
-	private void on_combo_d_num_changed (object o, EventArgs args) {
-		reset_hbox_list_d(Convert.ToInt32(UtilGtk.ComboGetActive(combo_d_num)));
+	private void on_combo_d_num_changed (object o, EventArgs args)
+	{
+		//LogB.Information ("on_combo_d_num_changed: " + UtilGtk.ComboGetActive(combo_d_num));
+		if (UtilGtk.ComboGetActive (combo_d_num) != "")
+			reset_hbox_list_d (Convert.ToInt32 (UtilGtk.ComboGetActive (combo_d_num)));
 	}
 	
 	void reset_hbox_list_d (int colsNum) 

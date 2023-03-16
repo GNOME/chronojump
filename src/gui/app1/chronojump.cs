@@ -213,6 +213,7 @@ public partial class ChronoJumpWindow
 	Gtk.Box box_session_import_current;
 	Gtk.Box box_session_import_confirm;
 	Gtk.Box box_session_backup;
+	Gtk.Box box_session_data_folder;
 
 //	Gtk.Box hbox_combo_pulses;
 	Gtk.VBox vbox_jumps;
@@ -1126,6 +1127,9 @@ public partial class ChronoJumpWindow
 			UtilGtk.WidgetColor (box_session_backup, Config.ColorBackgroundShifted);
 			UtilGtk.ContrastLabelsBox (Config.ColorBackgroundShiftedIsDark, box_session_backup);
 
+			//session (data_folder)
+			UtilGtk.WidgetColor (box_session_data_folder, Config.ColorBackgroundShifted);
+			UtilGtk.ContrastLabelsBox (Config.ColorBackgroundShiftedIsDark, box_session_data_folder);
 
 
 			if(Config.ColorBackgroundIsDark)
@@ -9210,6 +9214,7 @@ LogB.Debug("mc finished 5");
 		box_session_import_current = (Gtk.Box) builder.GetObject ("box_session_import_current");
 		box_session_import_confirm = (Gtk.Box) builder.GetObject ("box_session_import_confirm");
 		box_session_backup = (Gtk.Box) builder.GetObject ("box_session_backup");
+		box_session_data_folder = (Gtk.Box) builder.GetObject ("box_session_data_folder");
 
 		//	hbox_combo_pulses = (Gtk.Box) builder.GetObject ("hbox_combo_pulses");
 		vbox_jumps = (Gtk.VBox) builder.GetObject ("vbox_jumps");

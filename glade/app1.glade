@@ -50867,10 +50867,10 @@ Since Chronojump 2.1.3, backups contain the complete data.</property>
                                                         <property name="label-yalign">1</property>
                                                         <property name="shadow-type">in</property>
                                                         <child>
-                                                          <object class="GtkViewport" id="viewport19">
+                                                          <object class="GtkBox" id="box_help">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
-                                                            <property name="border-width">4</property>
+                                                            <property name="orientation">vertical</property>
                                                             <child>
                                                             <object class="GtkVBox" id="vbox226">
                                                             <property name="visible">True</property>
@@ -51010,6 +51010,11 @@ Since Chronojump 2.1.3, backups contain the complete data.</property>
                                                             </packing>
                                                             </child>
                                                             </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
                                                             </child>
                                                           </object>
                                                         </child>

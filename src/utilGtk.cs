@@ -850,12 +850,6 @@ public class UtilGtk
 			if(w.GetType() == typeof(Gtk.Label))
 				ContrastLabelsLabel (bgDark, (Gtk.Label) w);
 
-			else if(w.GetType() == typeof(Gtk.Alignment))
-			{
-				Gtk.Widget child = ((Gtk.Alignment) w).Child;
-				if(isContainer(child))
-					contrastLabelsContainer (bgDark, (Gtk.Container) child);
-			}
 			else if(isContainer(w))
 				contrastLabelsContainer (bgDark, (Gtk.Container) w);
 		}

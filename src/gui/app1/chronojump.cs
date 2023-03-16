@@ -208,6 +208,9 @@ public partial class ChronoJumpWindow
 	Gtk.Box box_session_more;
 	Gtk.Box box_session_delete;
 	Gtk.Box box_session_export;
+	Gtk.Box box_session_import;
+	Gtk.Box box_session_import_current;
+	Gtk.Box box_session_import_confirm;
 
 //	Gtk.Box hbox_combo_pulses;
 	Gtk.VBox vbox_jumps;
@@ -1104,6 +1107,14 @@ public partial class ChronoJumpWindow
 			//session (export)
 			UtilGtk.WidgetColor (box_session_export, Config.ColorBackgroundShifted);
 			UtilGtk.ContrastLabelsBox (Config.ColorBackgroundShiftedIsDark, box_session_export);
+
+			//session (import)
+			UtilGtk.WidgetColor (box_session_import, Config.ColorBackgroundShifted);
+			UtilGtk.ContrastLabelsBox (Config.ColorBackgroundShiftedIsDark, box_session_import);
+			UtilGtk.WidgetColor (box_session_import_current, Config.ColorBackgroundShifted);
+			UtilGtk.ContrastLabelsBox (Config.ColorBackgroundShiftedIsDark, box_session_import_current);
+			UtilGtk.WidgetColor (box_session_import_confirm, Config.ColorBackgroundShifted);
+			UtilGtk.ContrastLabelsBox (Config.ColorBackgroundShiftedIsDark, box_session_import_confirm);
 
 
 
@@ -9184,6 +9195,9 @@ LogB.Debug("mc finished 5");
 		box_session_more = (Gtk.Box) builder.GetObject ("box_session_more");
 		box_session_delete = (Gtk.Box) builder.GetObject ("box_session_delete");
 		box_session_export = (Gtk.Box) builder.GetObject ("box_session_export");
+		box_session_import = (Gtk.Box) builder.GetObject ("box_session_import");
+		box_session_import_current = (Gtk.Box) builder.GetObject ("box_session_import_current");
+		box_session_import_confirm = (Gtk.Box) builder.GetObject ("box_session_import_confirm");
 
 		//	hbox_combo_pulses = (Gtk.Box) builder.GetObject ("hbox_combo_pulses");
 		vbox_jumps = (Gtk.VBox) builder.GetObject ("vbox_jumps");

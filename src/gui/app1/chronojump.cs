@@ -206,6 +206,7 @@ public partial class ChronoJumpWindow
 	Gtk.Image image_line_person_max;
 	Gtk.Image image_line_person_max_all_sessions;
 	Gtk.Box box_session_more;
+	Gtk.Box box_session_load_or_import;
 	Gtk.Box box_session_delete;
 	Gtk.Box box_session_export;
 	Gtk.Box box_session_import;
@@ -1096,6 +1097,10 @@ public partial class ChronoJumpWindow
 			//session (more)
 			UtilGtk.WidgetColor (box_session_more, Config.ColorBackgroundShifted);
 			UtilGtk.ContrastLabelsBox (Config.ColorBackgroundShiftedIsDark, box_session_more);
+
+			//session (load_or_import)
+			UtilGtk.WidgetColor (box_session_load_or_import, Config.ColorBackgroundShifted);
+			UtilGtk.ContrastLabelsBox (Config.ColorBackgroundShiftedIsDark, box_session_load_or_import);
 
 			//session (add/edit)
 			UtilGtk.WidgetColor (app1sae_notebook_add_edit, Config.ColorBackgroundShifted);
@@ -9198,6 +9203,7 @@ LogB.Debug("mc finished 5");
 		image_line_person_max = (Gtk.Image) builder.GetObject ("image_line_person_max");
 		image_line_person_max_all_sessions = (Gtk.Image) builder.GetObject ("image_line_person_max_all_sessions");
 		box_session_more = (Gtk.Box) builder.GetObject ("box_session_more");
+		box_session_load_or_import = (Gtk.Box) builder.GetObject ("box_session_load_or_import");
 		box_session_delete = (Gtk.Box) builder.GetObject ("box_session_delete");
 		box_session_export = (Gtk.Box) builder.GetObject ("box_session_export");
 		box_session_import = (Gtk.Box) builder.GetObject ("box_session_import");

@@ -45346,10 +45346,10 @@ then click this button.</property>
                                                     <property name="label-yalign">1</property>
                                                     <property name="shadow-type">in</property>
                                                     <child>
-                                                      <object class="GtkViewport" id="viewport17">
+                                                      <object class="GtkBox" id="box_session_load_or_import">
                                                         <property name="visible">True</property>
                                                         <property name="can-focus">False</property>
-                                                        <property name="border-width">4</property>
+                                                        <property name="orientation">vertical</property>
                                                         <child>
                                                           <object class="GtkVBox" id="vbox183">
                                                             <property name="visible">True</property>
@@ -45951,9 +45951,6 @@ then click this button.</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="enable-search">False</property>
                                                             <signal name="row-activated" handler="app1s_on_row_double_clicked" swapped="no"/>
-                                                            <child internal-child="selection">
-                                                            <object class="GtkTreeSelection"/>
-                                                            </child>
                                                             </object>
                                                             </child>
                                                             </object>
@@ -45964,6 +45961,11 @@ then click this button.</property>
                                                             </packing>
                                                             </child>
                                                           </object>
+                                                          <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">0</property>
+                                                          </packing>
                                                         </child>
                                                       </object>
                                                     </child>

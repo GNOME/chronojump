@@ -56,7 +56,7 @@ public partial class ChronoJumpWindow
 	Gtk.Button button_graph;
 	Gtk.Button button_add_to_report;
 	
-	Gtk.TextView textview_enunciate;
+	Gtk.Label label_enunciate;
 	Gtk.ScrolledWindow scrolledwindow_enunciate;
 	Gtk.CheckButton checkbutton_show_enunciate;
 	
@@ -518,7 +518,8 @@ public partial class ChronoJumpWindow
 		spin_graph_x_cex_axis.Value = 0.8;
 	}
 
-	private void on_combo_select_checkboxes_changed(object o, EventArgs args) {
+	private void on_combo_select_checkboxes_changed(object o, EventArgs args)
+	{
 		string myText = UtilGtk.ComboGetActive(combo_select_checkboxes);
 			
 		if (myText != "" & myText != Catalog.GetString("Selected")) {
@@ -558,7 +559,7 @@ public partial class ChronoJumpWindow
 			frame_graph_and_report.Sensitive = ! show;
 		}
 	}
-	
+
 	private void updateComboStats() {
 		string [] nullOptions = { "-" };
 		
@@ -940,11 +941,7 @@ public partial class ChronoJumpWindow
 			LogB.Warning("Do markedRows stuff later");
 		}
 
-		//show enunciate of the stat in textview_enunciate
-		TextBuffer tb = new TextBuffer (new TextTagTable());
-		tb.Text = myStatType.Enunciate;
-		textview_enunciate.Buffer = tb;
-		tb.Text = myStatType.Enunciate;
+		label_enunciate.Text = myStatType.Enunciate;
 		
 		//show/hide persons selector on comboCheckboxesOptions
 		if(! graph) {
@@ -1022,10 +1019,10 @@ public partial class ChronoJumpWindow
 	
 	private void on_checkbutton_show_enunciate_clicked(object o, EventArgs args) {
 		if (checkbutton_show_enunciate.Active) {
-			textview_enunciate.Show();
+			label_enunciate.Show();
 			scrolledwindow_enunciate.Show();
 		} else {
-			textview_enunciate.Hide();
+			label_enunciate.Hide();
 			scrolledwindow_enunciate.Hide();
 		}
 	}
@@ -1379,7 +1376,7 @@ public partial class ChronoJumpWindow
 		button_graph = (Gtk.Button) builder.GetObject ("button_graph");
 		button_add_to_report = (Gtk.Button) builder.GetObject ("button_add_to_report");
 
-		textview_enunciate = (Gtk.TextView) builder.GetObject ("textview_enunciate");
+		label_enunciate = (Gtk.Label) builder.GetObject ("label_enunciate");
 		scrolledwindow_enunciate = (Gtk.ScrolledWindow) builder.GetObject ("scrolledwindow_enunciate");
 		checkbutton_show_enunciate = (Gtk.CheckButton) builder.GetObject ("checkbutton_show_enunciate");
 

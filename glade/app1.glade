@@ -51166,17 +51166,12 @@ Since Chronojump 2.1.3, backups contain the complete data.</property>
                                                         <property name="can-focus">False</property>
                                                         <property name="spacing">20</property>
                                                         <child>
-                                                          <object class="GtkFrame" id="frame28">
+                                                          <object class="GtkFrame" id="frame_news_downloading">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
                                                             <property name="label-xalign">0</property>
                                                             <property name="label-yalign">1</property>
                                                             <property name="shadow-type">in</property>
-                                                            <child>
-                                                            <object class="GtkViewport" id="viewport21">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="border-width">4</property>
                                                             <child>
                                                             <object class="GtkVBox" id="vbox245">
                                                             <property name="visible">True</property>
@@ -51205,8 +51200,6 @@ Since Chronojump 2.1.3, backups contain the complete data.</property>
                                                             <property name="fill">True</property>
                                                             <property name="position">1</property>
                                                             </packing>
-                                                            </child>
-                                                            </object>
                                                             </child>
                                                             </object>
                                                             </child>
@@ -51421,9 +51414,8 @@ Since Chronojump 2.1.3, backups contain the complete data.</property>
                                                           <object class="GtkViewport" id="viewport16">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
-                                                            <property name="border-width">4</property>
                                                             <child>
-                                                            <object class="GtkVBox" id="vbox148">
+                                                            <object class="GtkVBox" id="vbox_news2">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
                                                             <child>

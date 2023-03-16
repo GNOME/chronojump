@@ -940,6 +940,17 @@ public partial class ChronoJumpWindow
 			if(! check_menu_session.Active)
 				check_menu_session.Click(); //have sesion menu opened
 
+		initialize_menu_or_menu_tiny();
+
+		testNewStuff();
+
+		//show before destroying/hiding app1 to see if this fixes rare problems of exiting/not showing app1
+		LogB.Information("Showing app1");
+		app1.Show();
+
+		//ensure chronopicRegisterWindow is shown after (on top of) app1
+		app1Shown = true;
+
 		//in networks starting mode is always the defined on chronojump_config CompujumpStationMode
 		if (! configChronojump.Compujump)
 		{
@@ -959,17 +970,6 @@ public partial class ChronoJumpWindow
 			else if (preferences.lastMode != Constants.Modes.UNDEFINED)
 				current_mode = preferences.lastMode; //needed for show_start_page () below
 		}
-
-		initialize_menu_or_menu_tiny();
-
-		testNewStuff();
-
-		//show before destroying/hiding app1 to see if this fixes rare problems of exiting/not showing app1
-		LogB.Information("Showing app1");
-		app1.Show();
-
-		//ensure chronopicRegisterWindow is shown after (on top of) app1
-		app1Shown = true;
 
 		//done after app1.Show in order to be able to gather the colors
 		doLabelsContrast(configChronojump.PersonWinHide);

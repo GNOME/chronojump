@@ -760,12 +760,24 @@ class SqlitePreferences : Sqlite
 				preferences.runDoubleContactsMode = (Constants.DoubleContact) 
 					Enum.Parse(typeof(Constants.DoubleContact), reader[1].ToString()); 
 			else if(reader[0].ToString() == "runDoubleContactsMS")
-				preferences.runDoubleContactsMS = Convert.ToInt32(reader[1].ToString());
+			{
+				int ms = Convert.ToInt32(reader[1].ToString());
+				if (ms < 10) //if 0 on races then first two tracks are the same
+					ms = 10;
+
+				preferences.runDoubleContactsMS = ms;
+			}
 			else if(reader[0].ToString() == "runIDoubleContactsMode")
 				preferences.runIDoubleContactsMode = (Constants.DoubleContact) 
 					Enum.Parse(typeof(Constants.DoubleContact), reader[1].ToString()); 
 			else if(reader[0].ToString() == "runIDoubleContactsMS")
-				preferences.runIDoubleContactsMS = Convert.ToInt32(reader[1].ToString());
+			{
+				int ms = Convert.ToInt32(reader[1].ToString());
+				if (ms < 10) //if 0 on races then first two tracks are the same
+					ms = 10;
+
+				preferences.runIDoubleContactsMS = ms;
+			}
 			else if(reader[0].ToString() == "thresholdJumps")
 				preferences.thresholdJumps = Convert.ToInt32(reader[1].ToString());
 			else if(reader[0].ToString() == "thresholdRuns")

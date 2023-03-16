@@ -863,6 +863,7 @@ public class UtilGtk
 				w.GetType() == typeof(Gtk.Table) ||
 				w.GetType() == typeof(Gtk.Notebook) ||
 				w.GetType() == typeof(Gtk.Frame) ||
+				w.GetType() == typeof(Gtk.AspectFrame) ||
 				(w.GetType() == typeof(Gtk.CheckButton) && ((Gtk.CheckButton) w).DrawIndicator) ||  //check contrast if there is a label inside but not a button with a label
 				(w.GetType() == typeof(Gtk.RadioButton) && ((Gtk.RadioButton) w).DrawIndicator) || //same as above
 				w.GetType() == typeof(Gtk.ScrolledWindow) ||

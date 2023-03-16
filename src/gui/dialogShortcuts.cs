@@ -27,6 +27,7 @@ public class DialogShortcuts
 {
 	Gtk.Dialog dialog_shortcuts;
 	Gtk.Image image_button_close;
+	Gtk.Notebook notebook;
 
 	//images on capture tab
 	Gtk.Image image_enc_grav_1;
@@ -74,7 +75,11 @@ public class DialogShortcuts
 
 		//manage window color
 		if(! Config.UseSystemColor)
+		{
 			UtilGtk.DialogColor(dialog_shortcuts, Config.ColorBackground);
+			UtilGtk.WidgetColor (notebook, Config.ColorBackgroundShifted);
+			UtilGtk.ContrastLabelsNotebook (Config.ColorBackgroundShiftedIsDark, notebook);
+		}
 
 		/*
 		 * on 2.0 mac will also use ctrl until we find the way to use command
@@ -155,6 +160,7 @@ public class DialogShortcuts
 	{
 		dialog_shortcuts = (Gtk.Dialog) builder.GetObject ("dialog_shortcuts");
 		image_button_close = (Gtk.Image) builder.GetObject ("image_button_close");
+		notebook = (Gtk.Notebook) builder.GetObject ("notebook");
 		image_enc_grav_1 = (Gtk.Image) builder.GetObject ("image_enc_grav_1");
 		image_enc_inert_1 = (Gtk.Image) builder.GetObject ("image_enc_inert_1");
 		image_fs_1 = (Gtk.Image) builder.GetObject ("image_fs_1");

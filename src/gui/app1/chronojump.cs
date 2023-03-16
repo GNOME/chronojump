@@ -205,6 +205,7 @@ public partial class ChronoJumpWindow
 	Gtk.Image image_line_person_avg;
 	Gtk.Image image_line_person_max;
 	Gtk.Image image_line_person_max_all_sessions;
+
 	Gtk.Box box_session_more;
 	Gtk.Box box_session_load_or_import;
 	Gtk.Box box_session_delete;
@@ -214,6 +215,7 @@ public partial class ChronoJumpWindow
 	Gtk.Box box_session_import_confirm;
 	Gtk.Box box_session_backup;
 	Gtk.Box box_session_data_folder;
+	Gtk.Box box_help;
 
 //	Gtk.Box hbox_combo_pulses;
 	Gtk.VBox vbox_jumps;
@@ -1130,6 +1132,10 @@ public partial class ChronoJumpWindow
 			//session (data_folder)
 			UtilGtk.WidgetColor (box_session_data_folder, Config.ColorBackgroundShifted);
 			UtilGtk.ContrastLabelsBox (Config.ColorBackgroundShiftedIsDark, box_session_data_folder);
+
+			//help
+			UtilGtk.WidgetColor (box_help, Config.ColorBackgroundShifted);
+			UtilGtk.ContrastLabelsBox (Config.ColorBackgroundShiftedIsDark, box_help);
 
 
 			if(Config.ColorBackgroundIsDark)
@@ -9206,6 +9212,7 @@ LogB.Debug("mc finished 5");
 		image_line_person_avg = (Gtk.Image) builder.GetObject ("image_line_person_avg");
 		image_line_person_max = (Gtk.Image) builder.GetObject ("image_line_person_max");
 		image_line_person_max_all_sessions = (Gtk.Image) builder.GetObject ("image_line_person_max_all_sessions");
+
 		box_session_more = (Gtk.Box) builder.GetObject ("box_session_more");
 		box_session_load_or_import = (Gtk.Box) builder.GetObject ("box_session_load_or_import");
 		box_session_delete = (Gtk.Box) builder.GetObject ("box_session_delete");
@@ -9215,6 +9222,7 @@ LogB.Debug("mc finished 5");
 		box_session_import_confirm = (Gtk.Box) builder.GetObject ("box_session_import_confirm");
 		box_session_backup = (Gtk.Box) builder.GetObject ("box_session_backup");
 		box_session_data_folder = (Gtk.Box) builder.GetObject ("box_session_data_folder");
+		box_help = (Gtk.Box) builder.GetObject ("box_help");
 
 		//	hbox_combo_pulses = (Gtk.Box) builder.GetObject ("hbox_combo_pulses");
 		vbox_jumps = (Gtk.VBox) builder.GetObject ("vbox_jumps");

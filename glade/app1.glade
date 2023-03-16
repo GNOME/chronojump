@@ -18966,16 +18966,9 @@
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <object class="GtkTextView" id="textview_enunciate">
+                                                            <object class="GtkLabel" id="label_enunciate">
                                                             <property name="visible">True</property>
-                                                            <property name="can-focus">True</property>
-                                                            <property name="has-tooltip">True</property>
-                                                            <property name="tooltip-text" translatable="yes">statistic's description</property>
-                                                            <property name="editable">False</property>
-                                                            <property name="wrap-mode">word</property>
-                                                            <property name="cursor-visible">False</property>
-                                                            <property name="overwrite">True</property>
-                                                            <property name="accepts-tab">False</property>
+                                                            <property name="can-focus">False</property>
                                                             </object>
                                                             <packing>
                                                             <property name="expand">True</property>
@@ -21772,6 +21765,9 @@ Concentric</property>
                                                             <property name="left-attach">3</property>
                                                             <property name="right-attach">4</property>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>
@@ -25782,6 +25778,9 @@ Concentric</property>
                                                             <property name="x-options"/>
                                                             <property name="y-options">GTK_SHRINK</property>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>
@@ -43592,6 +43591,9 @@ then click this button.</property>
                                                             <child>
                                                             <placeholder/>
                                                             </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
                                                             </object>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -45951,6 +45953,9 @@ then click this button.</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="enable-search">False</property>
                                                             <signal name="row-activated" handler="app1s_on_row_double_clicked" swapped="no"/>
+                                                            <child internal-child="selection">
+                                                            <object class="GtkTreeSelection"/>
+                                                            </child>
                                                             </object>
                                                             </child>
                                                             </object>
@@ -51913,6 +51918,9 @@ Since Chronojump 2.1.3, backups contain the complete data.</property>
                                                             <property name="can-focus">False</property>
                                                             <property name="column-spacing">10</property>
                                                             <property name="row-spacing">10</property>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
                                                             <child>
                                                             <placeholder/>
                                                             </child>

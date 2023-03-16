@@ -205,6 +205,7 @@ public partial class ChronoJumpWindow
 	Gtk.Image image_line_person_avg;
 	Gtk.Image image_line_person_max;
 	Gtk.Image image_line_person_max_all_sessions;
+	Gtk.Box box_session_more;
 
 //	Gtk.Box hbox_combo_pulses;
 	Gtk.VBox vbox_jumps;
@@ -1085,6 +1086,10 @@ public partial class ChronoJumpWindow
 			//persons (main)
 			UtilGtk.WidgetColor (hbox_frame_persons_top, Config.ColorBackgroundShifted);
 			UtilGtk.ContrastLabelsHBox (Config.ColorBackgroundShiftedIsDark, hbox_frame_persons_top);
+
+			//session (more)
+			UtilGtk.WidgetColor (box_session_more, Config.ColorBackgroundShifted);
+			UtilGtk.ContrastLabelsBox (Config.ColorBackgroundShiftedIsDark, box_session_more);
 
 
 			if(Config.ColorBackgroundIsDark)
@@ -9161,6 +9166,7 @@ LogB.Debug("mc finished 5");
 		image_line_person_avg = (Gtk.Image) builder.GetObject ("image_line_person_avg");
 		image_line_person_max = (Gtk.Image) builder.GetObject ("image_line_person_max");
 		image_line_person_max_all_sessions = (Gtk.Image) builder.GetObject ("image_line_person_max_all_sessions");
+		box_session_more = (Gtk.Box) builder.GetObject ("box_session_more");
 
 		//	hbox_combo_pulses = (Gtk.Box) builder.GetObject ("hbox_combo_pulses");
 		vbox_jumps = (Gtk.VBox) builder.GetObject ("vbox_jumps");

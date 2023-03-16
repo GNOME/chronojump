@@ -206,6 +206,7 @@ public partial class ChronoJumpWindow
 	Gtk.Image image_line_person_max;
 	Gtk.Image image_line_person_max_all_sessions;
 
+	//to GTK3 colorize
 	Gtk.Box box_session_more;
 	Gtk.Box box_session_load_or_import;
 	Gtk.Box box_session_delete;
@@ -216,6 +217,8 @@ public partial class ChronoJumpWindow
 	Gtk.Box box_session_backup;
 	Gtk.Box box_session_data_folder;
 	Gtk.Box box_help;
+	Gtk.VBox vbox_news2;
+	Gtk.Frame frame_news_downloading;
 
 //	Gtk.Box hbox_combo_pulses;
 	Gtk.VBox vbox_jumps;
@@ -1137,6 +1140,11 @@ public partial class ChronoJumpWindow
 			UtilGtk.WidgetColor (box_help, Config.ColorBackgroundShifted);
 			UtilGtk.ContrastLabelsBox (Config.ColorBackgroundShiftedIsDark, box_help);
 
+			//news
+			UtilGtk.WidgetColor (vbox_news2, Config.ColorBackgroundShifted);
+			UtilGtk.ContrastLabelsVBox (Config.ColorBackgroundShiftedIsDark, vbox_news2);
+			UtilGtk.WidgetColor (frame_news_downloading, Config.ColorBackgroundShifted);
+			UtilGtk.ContrastLabelsFrame (Config.ColorBackgroundShiftedIsDark, frame_news_downloading);
 
 			if(Config.ColorBackgroundIsDark)
 				image_chronopic_connect_encoder2.Pixbuf =
@@ -9223,6 +9231,8 @@ LogB.Debug("mc finished 5");
 		box_session_backup = (Gtk.Box) builder.GetObject ("box_session_backup");
 		box_session_data_folder = (Gtk.Box) builder.GetObject ("box_session_data_folder");
 		box_help = (Gtk.Box) builder.GetObject ("box_help");
+		vbox_news2 = (Gtk.VBox) builder.GetObject ("vbox_news2");
+		frame_news_downloading = (Gtk.Frame) builder.GetObject ("frame_news_downloading");
 
 		//	hbox_combo_pulses = (Gtk.Box) builder.GetObject ("hbox_combo_pulses");
 		vbox_jumps = (Gtk.VBox) builder.GetObject ("vbox_jumps");

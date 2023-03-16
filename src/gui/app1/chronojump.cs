@@ -206,6 +206,7 @@ public partial class ChronoJumpWindow
 	Gtk.Image image_line_person_max;
 	Gtk.Image image_line_person_max_all_sessions;
 	Gtk.Box box_session_more;
+	Gtk.Box box_session_delete;
 
 //	Gtk.Box hbox_combo_pulses;
 	Gtk.VBox vbox_jumps;
@@ -1094,6 +1095,12 @@ public partial class ChronoJumpWindow
 			//session (add/edit)
 			UtilGtk.WidgetColor (app1sae_notebook_add_edit, Config.ColorBackgroundShifted);
 			UtilGtk.ContrastLabelsNotebook (Config.ColorBackgroundShiftedIsDark, app1sae_notebook_add_edit);
+
+			//session (delete)
+			UtilGtk.WidgetColor (box_session_delete, Config.ColorBackgroundShifted);
+			UtilGtk.ContrastLabelsBox (Config.ColorBackgroundShiftedIsDark, box_session_delete);
+
+
 
 
 			if(Config.ColorBackgroundIsDark)
@@ -9171,6 +9178,7 @@ LogB.Debug("mc finished 5");
 		image_line_person_max = (Gtk.Image) builder.GetObject ("image_line_person_max");
 		image_line_person_max_all_sessions = (Gtk.Image) builder.GetObject ("image_line_person_max_all_sessions");
 		box_session_more = (Gtk.Box) builder.GetObject ("box_session_more");
+		box_session_delete = (Gtk.Box) builder.GetObject ("box_session_delete");
 
 		//	hbox_combo_pulses = (Gtk.Box) builder.GetObject ("hbox_combo_pulses");
 		vbox_jumps = (Gtk.VBox) builder.GetObject ("vbox_jumps");

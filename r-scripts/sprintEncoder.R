@@ -1034,7 +1034,7 @@ testEncoderCJ <- function(filename, filenameInstantaneous, testLength, isSprint,
 
 	exportRow = NULL
 
-        if (! sprintRawDynamics$longEnough)
+        if (! sprintRawDynamics$longEnough || sprintRawDynamics$problems == TRUE)
 	{
 		print("Couldn't calculate the sprint model")
 		#TODO: here we have to be able to do:

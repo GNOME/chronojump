@@ -44115,7 +44115,7 @@ then click this button.</property>
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
                                                             <property name="border-width">10</property>
-                                                            <property name="spacing">6</property>
+                                                            <property name="spacing">12</property>
                                                             <child>
                                                             <object class="GtkFrame" id="frame_session_more_this_session">
                                                             <property name="visible">True</property>
@@ -44945,10 +44945,10 @@ then click this button.</property>
                                                         <property name="label-yalign">1</property>
                                                         <property name="shadow-type">in</property>
                                                         <child>
-                                                          <object class="GtkViewport" id="viewport1">
+                                                          <object class="GtkBox" id="box_session_import">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
-                                                            <property name="border-width">4</property>
+                                                            <property name="orientation">vertical</property>
                                                             <child>
                                                             <object class="GtkVBox" id="vbox175">
                                                             <property name="visible">True</property>
@@ -45014,6 +45014,7 @@ then click this button.</property>
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="receives-default">False</property>
+                                                            <property name="xalign">0</property>
                                                             <property name="active">True</property>
                                                             <property name="draw-indicator">True</property>
                                                             </object>
@@ -45029,6 +45030,7 @@ then click this button.</property>
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="receives-default">False</property>
+                                                            <property name="xalign">0</property>
                                                             <property name="draw-indicator">True</property>
                                                             <property name="group">app1s_radio_import_new_session</property>
                                                             </object>
@@ -45134,6 +45136,11 @@ then click this button.</property>
                                                             </packing>
                                                             </child>
                                                             </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
                                                             </child>
                                                           </object>
                                                         </child>
@@ -46564,10 +46571,10 @@ then click this button.</property>
                                                         <property name="label-yalign">1</property>
                                                         <property name="shadow-type">in</property>
                                                         <child>
-                                                          <object class="GtkViewport" id="viewport9">
+                                                          <object class="GtkBox" id="box_session_import_current">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
-                                                            <property name="border-width">4</property>
+                                                            <property name="orientation">vertical</property>
                                                             <child>
                                                             <object class="GtkVBox" id="vbox179">
                                                             <property name="visible">True</property>
@@ -46583,7 +46590,7 @@ then click this button.</property>
                                                             </object>
                                                             <packing>
                                                             <property name="expand">False</property>
-                                                            <property name="fill">False</property>
+                                                            <property name="fill">True</property>
                                                             <property name="position">0</property>
                                                             </packing>
                                                             </child>
@@ -46695,6 +46702,7 @@ then click this button.</property>
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
                                                             <property name="label" translatable="yes">Will be imported into the current session.</property>
+                                                            <property name="xalign">0</property>
                                                             </object>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -46704,6 +46712,11 @@ then click this button.</property>
                                                             </packing>
                                                             </child>
                                                             </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
                                                             </child>
                                                           </object>
                                                         </child>
@@ -46908,10 +46921,10 @@ then click this button.</property>
                                                         <property name="label-yalign">1</property>
                                                         <property name="shadow-type">in</property>
                                                         <child>
-                                                          <object class="GtkViewport" id="viewport7">
+                                                          <object class="GtkBox" id="box_session_import_confirm">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
-                                                            <property name="border-width">4</property>
+                                                            <property name="orientation">vertical</property>
                                                             <child>
                                                             <object class="GtkVBox" id="vbox178">
                                                             <property name="visible">True</property>
@@ -47015,6 +47028,11 @@ then click this button.</property>
                                                             </packing>
                                                             </child>
                                                             </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
                                                             </child>
                                                           </object>
                                                         </child>

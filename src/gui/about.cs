@@ -28,6 +28,7 @@ public class About
 	 Gtk.Image image_logo;
 	 Gtk.Label dialog_about_label_chronojump;
 	 Gtk.Label dialog_about_label_version;
+	 Gtk.Notebook notebook;
 	 Gtk.Image image_button_close;
 	
 	 Gtk.Label dialog_about_label_developers_software;
@@ -81,6 +82,9 @@ public class About
 			UtilGtk.DialogColor(dialog_about, Config.ColorBackground);
 			UtilGtk.ContrastLabelsLabel(Config.ColorBackgroundIsDark, dialog_about_label_chronojump);
 			UtilGtk.ContrastLabelsLabel(Config.ColorBackgroundIsDark, dialog_about_label_version);
+
+			UtilGtk.WidgetColor (notebook, Config.ColorBackgroundShifted);
+			UtilGtk.ContrastLabelsNotebook (Config.ColorBackgroundShiftedIsDark, notebook);
 		}
 		
 		//put authors
@@ -122,6 +126,7 @@ public class About
 		image_logo = (Gtk.Image) builder.GetObject ("image_logo");
 		dialog_about_label_chronojump = (Gtk.Label) builder.GetObject ("dialog_about_label_chronojump");
 		dialog_about_label_version = (Gtk.Label) builder.GetObject ("dialog_about_label_version");
+		notebook = (Gtk.Notebook) builder.GetObject ("notebook");
 		image_button_close = (Gtk.Image) builder.GetObject ("image_button_close");
 		dialog_about_label_developers_software = (Gtk.Label) builder.GetObject ("dialog_about_label_developers_software");
 		dialog_about_label_developers_networks = (Gtk.Label) builder.GetObject ("dialog_about_label_developers_networks");

@@ -306,7 +306,7 @@ public class ChronoJump
 		//print version of chronojump
 		progVersion = BuildInfo.chronojumpVersion;
 
-		LogB.Information("Chronojump version: {0}", progVersion);
+		LogB.Information("Chronojump version: ", progVersion);
 
 		//to store user videos and photos
 		Util.CreateMultimediaDirsIfNeeded();

@@ -47266,10 +47266,10 @@ then click this button.</property>
                                                         <property name="label-yalign">1</property>
                                                         <property name="shadow-type">in</property>
                                                         <child>
-                                                          <object class="GtkViewport" id="viewport10">
+                                                          <object class="GtkBox" id="box_session_delete">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
-                                                            <property name="border-width">4</property>
+                                                            <property name="orientation">vertical</property>
                                                             <child>
                                                             <object class="GtkVBox" id="vbox198">
                                                             <property name="visible">True</property>
@@ -47516,6 +47516,11 @@ then click this button.</property>
                                                             </packing>
                                                             </child>
                                                             </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
                                                             </child>
                                                           </object>
                                                         </child>

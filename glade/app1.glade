@@ -21872,6 +21872,9 @@ Concentric</property>
                                                             <child>
                                                             <placeholder/>
                                                             </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
                                                             </object>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -25779,6 +25782,9 @@ Concentric</property>
                                                             <property name="x-options"/>
                                                             <property name="y-options">GTK_SHRINK</property>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>
@@ -43583,6 +43589,9 @@ then click this button.</property>
                                                             <child>
                                                             <placeholder/>
                                                             </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
                                                             </object>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -44259,107 +44268,6 @@ then click this button.</property>
                                                             <property name="can-focus">False</property>
                                                             <property name="spacing">16</property>
                                                             <child>
-                                                            <object class="GtkVBox" id="vbox219">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="spacing">4</property>
-                                                            <child>
-                                                            <object class="GtkButton" id="button_session_export">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">True</property>
-                                                            <property name="can-default">True</property>
-                                                            <property name="receives-default">True</property>
-                                                            <property name="has-tooltip">True</property>
-                                                            <property name="relief">half</property>
-                                                            <signal name="clicked" handler="on_export_session_accepted" swapped="no"/>
-                                                            <child>
-                                                            <object class="GtkEventBox" id="eventbox_button_menu_session_export">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <child>
-                                                            <object class="GtkHBox" id="hbox408">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="spacing">4</property>
-                                                            <child>
-                                                            <object class="GtkHBox" id="hbox392">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="spacing">2</property>
-                                                            <child>
-                                                            <object class="GtkImage" id="image_session_export_csv">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="stock">gtk-open</property>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">True</property>
-                                                            <property name="fill">True</property>
-                                                            <property name="position">0</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
-                                                            <object class="GtkImage" id="image_session_export_csv1">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="stock">gtk-open</property>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="position">1</property>
-                                                            </packing>
-                                                            </child>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="position">0</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
-                                                            <object class="GtkLabel" id="label_session_overview4">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="label" translatable="yes">Export to CSV</property>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">True</property>
-                                                            <property name="fill">True</property>
-                                                            <property name="position">1</property>
-                                                            </packing>
-                                                            </child>
-                                                            </object>
-                                                            </child>
-                                                            </object>
-                                                            </child>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="position">0</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
-                                                            <object class="GtkLabel" id="label465">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="label" translatable="yes">Jumps and races with photocells</property>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="position">1</property>
-                                                            </packing>
-                                                            </child>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">True</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="position">0</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
                                                             <object class="GtkVBox" id="vbox196">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
@@ -44446,7 +44354,7 @@ then click this button.</property>
                                                             <object class="GtkLabel" id="label544">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
-                                                            <property name="label" translatable="yes">Export to another database</property>
+                                                            <property name="label" translatable="yes">Export to another Chronojump</property>
                                                             </object>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -44458,6 +44366,107 @@ then click this button.</property>
                                                             <packing>
                                                             <property name="expand">True</property>
                                                             <property name="fill">True</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkVBox" id="vbox219">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="spacing">4</property>
+                                                            <child>
+                                                            <object class="GtkButton" id="button_session_export">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">True</property>
+                                                            <property name="can-default">True</property>
+                                                            <property name="receives-default">True</property>
+                                                            <property name="has-tooltip">True</property>
+                                                            <property name="relief">half</property>
+                                                            <signal name="clicked" handler="on_export_session_accepted" swapped="no"/>
+                                                            <child>
+                                                            <object class="GtkEventBox" id="eventbox_button_menu_session_export">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <child>
+                                                            <object class="GtkHBox" id="hbox408">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="spacing">4</property>
+                                                            <child>
+                                                            <object class="GtkHBox" id="hbox392">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="spacing">2</property>
+                                                            <child>
+                                                            <object class="GtkImage" id="image_session_export_csv">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="stock">gtk-open</property>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkImage" id="image_session_export_csv1">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="stock">gtk-open</property>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkLabel" id="label_session_overview4">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="label" translatable="yes">Export to CSV</property>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            </object>
+                                                            </child>
+                                                            </object>
+                                                            </child>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkLabel" id="label465">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="label" translatable="yes">Only jumps and races with photocells</property>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">False</property>
                                                             <property name="position">1</property>
                                                             </packing>
                                                             </child>
@@ -51869,6 +51878,9 @@ Since Chronojump 2.1.3, backups contain the complete data.</property>
                                                             <property name="can-focus">False</property>
                                                             <property name="column-spacing">10</property>
                                                             <property name="row-spacing">10</property>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
                                                             <child>
                                                             <placeholder/>
                                                             </child>

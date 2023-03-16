@@ -1091,6 +1091,10 @@ public partial class ChronoJumpWindow
 			UtilGtk.WidgetColor (box_session_more, Config.ColorBackgroundShifted);
 			UtilGtk.ContrastLabelsBox (Config.ColorBackgroundShiftedIsDark, box_session_more);
 
+			//session (add/edit)
+			UtilGtk.WidgetColor (app1sae_notebook_add_edit, Config.ColorBackgroundShifted);
+			UtilGtk.ContrastLabelsNotebook (Config.ColorBackgroundShiftedIsDark, app1sae_notebook_add_edit);
+
 
 			if(Config.ColorBackgroundIsDark)
 				image_chronopic_connect_encoder2.Pixbuf =

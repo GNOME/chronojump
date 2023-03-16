@@ -123,6 +123,55 @@
     <property name="step-increment">1</property>
     <property name="page-increment">10</property>
   </object>
+  <object class="GtkAdjustment" id="adjustment3">
+    <property name="lower">10</property>
+    <property name="upper">3000</property>
+    <property name="value">300</property>
+    <property name="step-increment">10</property>
+    <property name="page-increment">1000</property>
+  </object>
+  <object class="GtkAdjustment" id="adjustment4">
+    <property name="lower">10</property>
+    <property name="upper">3000</property>
+    <property name="value">300</property>
+    <property name="step-increment">10</property>
+    <property name="page-increment">1000</property>
+  </object>
+  <object class="GtkAdjustment" id="adjustment5">
+    <property name="lower">5</property>
+    <property name="upper">3600</property>
+    <property name="value">60</property>
+    <property name="step-increment">1</property>
+    <property name="page-increment">10</property>
+  </object>
+  <object class="GtkAdjustment" id="adjustment6">
+    <property name="lower">1</property>
+    <property name="upper">60</property>
+    <property name="value">3</property>
+    <property name="step-increment">1</property>
+    <property name="page-increment">10</property>
+  </object>
+  <object class="GtkAdjustment" id="adjustment7">
+    <property name="lower">1</property>
+    <property name="upper">9</property>
+    <property name="value">3</property>
+    <property name="step-increment">1</property>
+    <property name="page-increment">10</property>
+  </object>
+  <object class="GtkAdjustment" id="adjustment8">
+    <property name="lower">1</property>
+    <property name="upper">30</property>
+    <property name="value">10</property>
+    <property name="step-increment">1</property>
+    <property name="page-increment">10</property>
+  </object>
+  <object class="GtkAdjustment" id="adjustment9">
+    <property name="lower">8</property>
+    <property name="upper">25</property>
+    <property name="value">14</property>
+    <property name="step-increment">1</property>
+    <property name="page-increment">10</property>
+  </object>
   <object class="GtkWindow" id="preferences_win">
     <property name="width-request">700</property>
     <property name="can-focus">False</property>
@@ -1713,6 +1762,7 @@ It starts before and arrives there with some speed.</property>
                                             <property name="visible">True</property>
                                             <property name="can-focus">True</property>
                                             <property name="receives-default">False</property>
+                                            <property name="xalign">0</property>
                                             <property name="active">True</property>
                                             <property name="draw-indicator">True</property>
                                             <signal name="toggled" handler="on_radio_runs_speed_start_arrival_leaving_toggled" swapped="no"/>
@@ -1729,6 +1779,7 @@ It starts before and arrives there with some speed.</property>
                                             <property name="visible">True</property>
                                             <property name="can-focus">True</property>
                                             <property name="receives-default">False</property>
+                                            <property name="xalign">0</property>
                                             <property name="draw-indicator">True</property>
                                             <property name="group">radio_runs_speed_start_arrival</property>
                                             <signal name="toggled" handler="on_radio_runs_speed_start_arrival_leaving_toggled" swapped="no"/>
@@ -8522,53 +8573,6 @@ version:</property>
         </child>
       </object>
     </child>
-  </object>
-  <object class="GtkAdjustment" id="adjustment3">
-    <property name="upper">3000</property>
-    <property name="value">300</property>
-    <property name="step-increment">10</property>
-    <property name="page-increment">1000</property>
-  </object>
-  <object class="GtkAdjustment" id="adjustment4">
-    <property name="upper">3000</property>
-    <property name="value">300</property>
-    <property name="step-increment">10</property>
-    <property name="page-increment">1000</property>
-  </object>
-  <object class="GtkAdjustment" id="adjustment5">
-    <property name="lower">5</property>
-    <property name="upper">3600</property>
-    <property name="value">60</property>
-    <property name="step-increment">1</property>
-    <property name="page-increment">10</property>
-  </object>
-  <object class="GtkAdjustment" id="adjustment6">
-    <property name="lower">1</property>
-    <property name="upper">60</property>
-    <property name="value">3</property>
-    <property name="step-increment">1</property>
-    <property name="page-increment">10</property>
-  </object>
-  <object class="GtkAdjustment" id="adjustment7">
-    <property name="lower">1</property>
-    <property name="upper">9</property>
-    <property name="value">3</property>
-    <property name="step-increment">1</property>
-    <property name="page-increment">10</property>
-  </object>
-  <object class="GtkAdjustment" id="adjustment8">
-    <property name="lower">1</property>
-    <property name="upper">30</property>
-    <property name="value">10</property>
-    <property name="step-increment">1</property>
-    <property name="page-increment">10</property>
-  </object>
-  <object class="GtkAdjustment" id="adjustment9">
-    <property name="lower">8</property>
-    <property name="upper">25</property>
-    <property name="value">14</property>
-    <property name="step-increment">1</property>
-    <property name="page-increment">10</property>
   </object>
   <object class="GtkListStore" id="model1">
     <columns>

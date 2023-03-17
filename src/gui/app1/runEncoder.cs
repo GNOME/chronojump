@@ -117,8 +117,10 @@ public partial class ChronoJumpWindow
 	Gtk.SpinButton spin_race_encoder_exercise_v_segment_size_cm_37;
 	Gtk.SpinButton spin_race_encoder_exercise_v_segment_size_cm_38;
 	Gtk.SpinButton spin_race_encoder_exercise_v_segment_size_cm_39;
-	Gtk.ComboBoxText combo_race_analyzer_device;
+	Gtk.Box box_combo_race_analyzer_device;
 	// <---- at glade
+
+	Gtk.ComboBoxText combo_race_analyzer_device;
 
 	int race_analyzer_distance;
 	//int race_analyzer_angle;
@@ -178,6 +180,7 @@ public partial class ChronoJumpWindow
 		hscale_race_analyzer_capture_smooth_graphs.Visible = false;
 		label_race_analyzer_capture_smooth_graphs.Text = "";
 
+		createRaceAnalyzerDeviceCombo ();
 		createRunEncoderExerciseCombo();
 		createRunEncoderAnalyzeCombos();
 		setRunEncoderAnalyzeWidgets();
@@ -1969,6 +1972,16 @@ public partial class ChronoJumpWindow
 	}
 	*/
 
+	private void createRaceAnalyzerDeviceCombo ()
+	{
+		combo_race_analyzer_device = UtilGtk.CreateComboBoxText (
+				box_combo_race_analyzer_device,
+				new List<string> { RunEncoder.DevicesStringMANUAL, RunEncoder.DevicesStringRESISTED },
+				RunEncoder.DevicesStringMANUAL);
+
+		combo_race_analyzer_device.Changed += new EventHandler (on_combo_race_analyzer_device_changed);
+	}
+
 	// -------------------------------- exercise stuff --------------------
 
 
@@ -2691,6 +2704,6 @@ public partial class ChronoJumpWindow
 		spin_race_encoder_exercise_v_segment_size_cm_37 = (Gtk.SpinButton) builder.GetObject ("spin_race_encoder_exercise_v_segment_size_cm_37");
 		spin_race_encoder_exercise_v_segment_size_cm_38 = (Gtk.SpinButton) builder.GetObject ("spin_race_encoder_exercise_v_segment_size_cm_38");
 		spin_race_encoder_exercise_v_segment_size_cm_39 = (Gtk.SpinButton) builder.GetObject ("spin_race_encoder_exercise_v_segment_size_cm_39");
-		combo_race_analyzer_device = (Gtk.ComboBoxText) builder.GetObject ("combo_race_analyzer_device");
+		box_combo_race_analyzer_device = (Gtk.Box) builder.GetObject ("box_combo_race_analyzer_device");
 	}
 }

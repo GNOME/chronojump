@@ -15495,16 +15495,11 @@
                                                             <object class="GtkHBox" id="hbox161">
                                                             <property name="can-focus">False</property>
                                                             <child>
-                                                            <object class="GtkComboBoxText" id="combo_race_analyzer_device">
+                                                            <object class="GtkBox" id="box_combo_race_analyzer_device">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
-                                                            <property name="active">0</property>
-                                                            <signal name="changed" handler="on_combo_race_analyzer_device_changed" swapped="no"/>
                                                             <child>
-                                                            <object class="GtkCellRendererText" id="renderer2"/>
-                                                            <attributes>
-                                                            <attribute name="text">0</attribute>
-                                                            </attributes>
+                                                            <placeholder/>
                                                             </child>
                                                             </object>
                                                             <packing>

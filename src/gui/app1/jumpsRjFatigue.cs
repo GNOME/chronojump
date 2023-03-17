@@ -35,17 +35,17 @@ public partial class ChronoJumpWindow
 	Gtk.Image image_jumps_rj_fatigue_image_save;
 
 	Gtk.HBox hbox_combo_select_jumps_rj_fatigue;
-
 	Gtk.HBox hbox_combo_select_jumps_rj_fatigue_num;
+	Gtk.Box box_combo_jumps_rj_fatigue_divide_in;
 
 	Gtk.RadioButton radio_jumps_rj_fatigue_heights;
 	Gtk.RadioButton radio_jumps_rj_fatigue_tv_tc;
 	Gtk.RadioButton radio_jumps_rj_fatigue_rsi;
-	Gtk.ComboBoxText combo_jumps_rj_fatigue_divide_in;
 	// <---- at glade
 
 	Gtk.ComboBoxText combo_select_jumps_rj_fatigue;
 	Gtk.ComboBoxText combo_select_jumps_rj_fatigue_num;
+	Gtk.ComboBoxText combo_jumps_rj_fatigue_divide_in;
 
 	JumpsRjFatigue jumpsRjFatigue;
 	JumpsRjFatigueGraph jumpsRjFatigueGraph;
@@ -101,6 +101,16 @@ public partial class ChronoJumpWindow
 			return;
 
 		jumpsRjFatigueDo(true);
+	}
+
+	private void createCombo_combo_jumps_rj_fatigue_divide_in ()
+	{
+		combo_jumps_rj_fatigue_divide_in = UtilGtk.CreateComboBoxText (
+				box_combo_jumps_rj_fatigue_divide_in,
+				new List<string> { "2", "3", "4" },
+				"");
+
+		combo_jumps_rj_fatigue_divide_in.Changed += new EventHandler (on_combo_jumps_rj_fatigue_divide_in_changed);
 	}
 
 	// combo comboSelectJumpsRjFatigueNum (end)
@@ -211,6 +221,7 @@ public partial class ChronoJumpWindow
 
 			button_jumps_rj_fatigue_save_image.Sensitive = true;
 		}
+		drawingarea_jumps_rj_fatigue.QueueDraw ();
 	}
 
 	private void on_drawingarea_jumps_rj_fatigue_draw (object o, Gtk.DrawnArgs args)
@@ -262,12 +273,11 @@ public partial class ChronoJumpWindow
 		image_jumps_rj_fatigue_image_save = (Gtk.Image) builder.GetObject ("image_jumps_rj_fatigue_image_save");
 
 		hbox_combo_select_jumps_rj_fatigue = (Gtk.HBox) builder.GetObject ("hbox_combo_select_jumps_rj_fatigue");
-
 		hbox_combo_select_jumps_rj_fatigue_num = (Gtk.HBox) builder.GetObject ("hbox_combo_select_jumps_rj_fatigue_num");
+		box_combo_jumps_rj_fatigue_divide_in = (Gtk.Box) builder.GetObject ("box_combo_jumps_rj_fatigue_divide_in");
 
 		radio_jumps_rj_fatigue_heights = (Gtk.RadioButton) builder.GetObject ("radio_jumps_rj_fatigue_heights");
 		radio_jumps_rj_fatigue_tv_tc = (Gtk.RadioButton) builder.GetObject ("radio_jumps_rj_fatigue_tv_tc");
 		radio_jumps_rj_fatigue_rsi = (Gtk.RadioButton) builder.GetObject ("radio_jumps_rj_fatigue_rsi");
-		combo_jumps_rj_fatigue_divide_in = (Gtk.ComboBoxText) builder.GetObject ("combo_jumps_rj_fatigue_divide_in");
 	}
 }

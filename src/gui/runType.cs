@@ -24,6 +24,7 @@ using Gtk;
 using GLib; //for Value
 using System.Text; //StringBuilder
 using System.Collections; //ArrayList
+using System.Collections.Generic; //List<T>
 using Mono.Unix;
 
 
@@ -76,9 +77,10 @@ public class RunTypeAddWindow
 	Gtk.Entry dd7;
 	Gtk.Entry dd8;
 	Gtk.Entry dd9;
-	Gtk.ComboBoxText combo_distance_different_tracks;
+	Gtk.Box box_combo_distance_different_tracks;
 	// <---- at glade
 
+	Gtk.ComboBoxText combo_distance_different_tracks;
 
 	static RunTypeAddWindow RunTypeAddWindowBox;
 
@@ -168,7 +170,13 @@ public class RunTypeAddWindow
 		dd8 = new Gtk.Entry(); 	dd8.Changed += new EventHandler(on_entries_required_changed);
 		dd9 = new Gtk.Entry(); 	dd9.Changed += new EventHandler(on_entries_required_changed);
 	
-		combo_distance_different_tracks.Active = 0;
+		combo_distance_different_tracks = UtilGtk.CreateComboBoxText (
+				box_combo_distance_different_tracks,
+				new List<string> { "2", "3", "4", "5", "6", "7", "8", "9", "10" },
+				"");
+		combo_distance_different_tracks.Changed += new EventHandler (on_combo_distance_different_tracks_changed);
+
+
 		reset_hbox_distance_variable (2);
 
 		System.Globalization.NumberFormatInfo localeInfo = new System.Globalization.NumberFormatInfo();
@@ -523,7 +531,7 @@ public class RunTypeAddWindow
 		dd7 = (Gtk.Entry) builder.GetObject ("dd7");
 		dd8 = (Gtk.Entry) builder.GetObject ("dd8");
 		dd9 = (Gtk.Entry) builder.GetObject ("dd9");
-		combo_distance_different_tracks = (Gtk.ComboBoxText) builder.GetObject ("combo_distance_different_tracks");
+		box_combo_distance_different_tracks = (Gtk.Box) builder.GetObject ("box_combo_distance_different_tracks");
 	}
 }
 

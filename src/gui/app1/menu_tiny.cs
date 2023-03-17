@@ -135,11 +135,14 @@ public partial class ChronoJumpWindow
 			RGBA color = UtilGtk.ColorParse (preferences.colorBackgroundString);
 
 			UtilGtk.WindowColor (app1, color);
-			UtilGtk.ViewportColor (viewport_send_log, color);
 			UtilGtk.ViewportColor (viewport_exit_confirm, color);
 			UtilGtk.ViewportColor (viewport_social_network_poll, color);
 			UtilGtk.ViewportColor (viewport_rest_time_contacts, color);
 			UtilGtk.ViewportColor (viewport_rest_time_encoder, color);
+
+			UtilGtk.WidgetColor (vbox_send_log, Config.ColorBackground);
+			UtilGtk.WidgetColor (frame_send_log, Config.ColorBackgroundShifted);
+			UtilGtk.ContrastLabelsFrame (Config.ColorBackgroundShiftedIsDark, frame_send_log);
 		}
 
 		UtilGtk.ViewportColor (viewport_image_logo_icon, UtilGtk.Colors.BLUE_CHRONOJUMP);

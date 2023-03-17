@@ -27,6 +27,7 @@ using Mono.Unix;
 
 public partial class ChronoJumpWindow
 {
+	// at glade ---->
 	//--- send log ----
 	Gtk.Box hbox_send_log;
 	Gtk.TextView textview_send_log;
@@ -44,6 +45,8 @@ public partial class ChronoJumpWindow
 	Gtk.Image image_button_open_chronojump;
 	Gtk.Image image_button_open_chronojump1;
 	Gtk.TextView textview_send_log_message;
+	Gtk.VBox vbox_send_log;
+	Gtk.Frame frame_send_log;
 
 	//--- send poll ----
 	Gtk.Label label_social_network_poll_question;
@@ -63,6 +66,7 @@ public partial class ChronoJumpWindow
 	Gtk.Image image_social_network_poll_send_yes;
 	Gtk.Image image_social_network_poll_send_no;
 	Gtk.Label label_social_network_poll_message;
+	// <---- at glade
 
 
 	//-----------------
@@ -312,6 +316,8 @@ public partial class ChronoJumpWindow
 		image_button_open_chronojump = (Gtk.Image) builder.GetObject ("image_button_open_chronojump");
 		image_button_open_chronojump1 = (Gtk.Image) builder.GetObject ("image_button_open_chronojump1");
 		textview_send_log_message = (Gtk.TextView) builder.GetObject ("textview_send_log_message");
+		vbox_send_log = (Gtk.VBox) builder.GetObject ("vbox_send_log");
+		frame_send_log = (Gtk.Frame) builder.GetObject ("frame_send_log");
 
 		//--- send poll ----
 		label_social_network_poll_question = (Gtk.Label) builder.GetObject ("label_social_network_poll_question");

@@ -4291,22 +4291,7 @@
                                                       </packing>
                                                     </child>
                                                     <child>
-                                                      <object class="GtkComboBoxText" id="combo_gui_tests">
-                                                        <property name="visible">True</property>
-                                                        <property name="can-focus">False</property>
-                                                        <property name="active">1</property>
-                                                        <child>
-                                                          <object class="GtkCellRendererText" id="renderer1"/>
-                                                          <attributes>
-                                                            <attribute name="text">0</attribute>
-                                                          </attributes>
-                                                        </child>
-                                                      </object>
-                                                      <packing>
-                                                        <property name="expand">False</property>
-                                                        <property name="fill">False</property>
-                                                        <property name="position">1</property>
-                                                      </packing>
+                                                      <placeholder/>
                                                     </child>
                                                     <child>
                                                       <object class="GtkButton" id="button_gui_tests">
@@ -14243,13 +14228,16 @@
                                                             <property name="can-focus">False</property>
                                                             <property name="spacing">20</property>
                                                             <child>
-                                                            <object class="GtkComboBoxText" id="combo_force_sensor_capture_options">
+                                                            <object class="GtkBox" id="box_combo_force_sensor_capture_options">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
                                                             </object>
                                                             <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
                                                             <property name="position">0</property>
                                                             </packing>
                                                             </child>
@@ -21874,6 +21862,9 @@ Concentric</property>
                                                             <child>
                                                             <placeholder/>
                                                             </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
                                                             </object>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -25781,6 +25772,9 @@ Concentric</property>
                                                             <property name="x-options"/>
                                                             <property name="y-options">GTK_SHRINK</property>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>
@@ -43603,6 +43597,9 @@ then click this button.</property>
                                                             <child>
                                                             <placeholder/>
                                                             </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
                                                             </object>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -51927,6 +51924,9 @@ Since Chronojump 2.1.3, backups contain the complete data.</property>
                                                             <property name="can-focus">False</property>
                                                             <property name="column-spacing">10</property>
                                                             <property name="row-spacing">10</property>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
                                                             <child>
                                                             <placeholder/>
                                                             </child>

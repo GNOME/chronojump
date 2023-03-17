@@ -62,8 +62,10 @@ public partial class ChronoJumpWindow
 	Gtk.Button button_force_sensor_exercise_edit;
 	Gtk.Button button_force_sensor_exercise_delete;
 	Gtk.Label force_sensor_adjust_label_message;
-	Gtk.ComboBoxText combo_force_sensor_capture_options;
+	Gtk.Box box_combo_force_sensor_capture_options;
 	// <---- at glade
+
+	Gtk.ComboBoxText combo_force_sensor_capture_options;
 
 	ForceSensorExerciseWindow forceSensorExerciseWin;
 	ForceSensorElasticBandsWindow forceSensorElasticBandsWin;
@@ -137,8 +139,8 @@ public partial class ChronoJumpWindow
 		//change radio and will change also notebook:
 		radio_force_sensor_analyze_individual_current_set.Active = true;
 
-		createForceExerciseCombo();
 		createComboForceSensorCaptureOptions();
+		createForceExerciseCombo();
 		createForceAnalyzeCombos();
 		setForceDurationRadios();
 		setRFDValues();
@@ -2670,8 +2672,10 @@ LogB.Information(" fs R ");
 
 	private void createComboForceSensorCaptureOptions()
 	{
-		UtilGtk.ComboUpdate(combo_force_sensor_capture_options, ForceSensor.CaptureOptionsList());
-		combo_force_sensor_capture_options.Active = 0;
+		combo_force_sensor_capture_options = UtilGtk.CreateComboBoxText (
+				box_combo_force_sensor_capture_options,
+				ForceSensor.CaptureOptionsList (),
+				"");
 	}
 
 	// -------------------------------- exercise stuff --------------------
@@ -3154,6 +3158,6 @@ LogB.Information(" fs R ");
 		button_force_sensor_exercise_edit = (Gtk.Button) builder.GetObject ("button_force_sensor_exercise_edit");
 		button_force_sensor_exercise_delete = (Gtk.Button) builder.GetObject ("button_force_sensor_exercise_delete");
 		force_sensor_adjust_label_message = (Gtk.Label) builder.GetObject ("force_sensor_adjust_label_message");
-		combo_force_sensor_capture_options = (Gtk.ComboBoxText) builder.GetObject ("combo_force_sensor_capture_options");
+		box_combo_force_sensor_capture_options = (Gtk.Box) builder.GetObject ("box_combo_force_sensor_capture_options");
 	}
 }

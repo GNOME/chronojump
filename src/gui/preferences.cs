@@ -2620,16 +2620,12 @@ public class PreferencesWindow
 
 	private void createComboDecimals ()
 	{
-		string [] decs = {"1", "2", "3"};
-		combo_decimals = new ComboBoxText ();
+		combo_decimals = UtilGtk.CreateComboBoxText (
+				box_combo_decimals,
+				new List<string> { "1", "2", "3" },
+				preferences.digitsNumber.ToString () );
 
-		UtilGtk.ComboUpdate (combo_decimals, decs, "");
-		combo_decimals.Active = UtilGtk.ComboMakeActive (
-				decs, preferences.digitsNumber.ToString ());
 		combo_decimals.Changed += new EventHandler (on_combo_decimals_changed);
-
-		box_combo_decimals.PackStart (combo_decimals, false, false, 0);
-		box_combo_decimals.ShowAll ();
 	}
 
 	//from Longomatch ;)

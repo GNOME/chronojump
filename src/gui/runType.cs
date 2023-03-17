@@ -36,6 +36,7 @@ public class RunTypeAddWindow
 {
 	// at glade ---->
 	Gtk.Window run_type_add;
+	Gtk.Frame frame;
 	Gtk.Button button_accept;
 	Gtk.Entry entry_name;
 	
@@ -111,6 +112,8 @@ public class RunTypeAddWindow
 		if(! Config.UseSystemColor) {
 			UtilGtk.WindowColor(run_type_add, Config.ColorBackground);
 			UtilGtk.ContrastLabelsLabel(Config.ColorBackgroundIsDark, label_header);
+			UtilGtk.WidgetColor (frame, Config.ColorBackgroundShifted);
+			UtilGtk.ContrastLabelsFrame (Config.ColorBackgroundShiftedIsDark, frame);
 		}
 	}
 	
@@ -489,6 +492,7 @@ public class RunTypeAddWindow
 	private void connectWidgets (Gtk.Builder builder)
 	{
 		run_type_add = (Gtk.Window) builder.GetObject ("run_type_add");
+		frame = (Gtk.Frame) builder.GetObject ("frame");
 		button_accept = (Gtk.Button) builder.GetObject ("button_accept");
 		entry_name = (Gtk.Entry) builder.GetObject ("entry_name");
 

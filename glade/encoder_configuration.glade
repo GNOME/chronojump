@@ -1,87 +1,75 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Generated with glade 3.38.2 -->
 <interface>
+  <requires lib="gtk+" version="3.0"/>
   <object class="GtkAdjustment" id="adjustment1">
-    <property name="value">3.9999999999999996</property>
     <property name="lower">0.5</property>
     <property name="upper">80</property>
-    <property name="step_increment">0.01</property>
-    <property name="page_increment">10</property>
-    <property name="page_size">0</property>
+    <property name="value">3.9999999999999996</property>
+    <property name="step-increment">0.01</property>
+    <property name="page-increment">10</property>
   </object>
   <object class="GtkAdjustment" id="adjustment10">
-    <property name="value">20</property>
     <property name="lower">1</property>
     <property name="upper">100</property>
-    <property name="step_increment">1</property>
-    <property name="page_increment">10</property>
-    <property name="page_size">0</property>
+    <property name="value">20</property>
+    <property name="step-increment">1</property>
+    <property name="page-increment">10</property>
   </object>
   <object class="GtkAdjustment" id="adjustment2">
-    <property name="value">4</property>
-    <property name="lower">0</property>
     <property name="upper">80</property>
-    <property name="step_increment">0.01</property>
-    <property name="page_increment">10</property>
-    <property name="page_size">0</property>
+    <property name="value">4</property>
+    <property name="step-increment">0.01</property>
+    <property name="page-increment">10</property>
   </object>
   <object class="GtkAdjustment" id="adjustment3">
-    <property name="value">15</property>
-    <property name="lower">0</property>
     <property name="upper">90</property>
-    <property name="step_increment">1</property>
-    <property name="page_increment">10</property>
-    <property name="page_size">0</property>
+    <property name="value">15</property>
+    <property name="step-increment">1</property>
+    <property name="page-increment">10</property>
   </object>
   <object class="GtkAdjustment" id="adjustment4">
-    <property name="value">90</property>
-    <property name="lower">0</property>
     <property name="upper">90</property>
-    <property name="step_increment">1</property>
-    <property name="page_increment">10</property>
-    <property name="page_size">0</property>
+    <property name="value">90</property>
+    <property name="step-increment">1</property>
+    <property name="page-increment">10</property>
   </object>
   <object class="GtkAdjustment" id="adjustment5">
-    <property name="value">30</property>
-    <property name="lower">0</property>
     <property name="upper">5000</property>
-    <property name="step_increment">1</property>
-    <property name="page_increment">10</property>
-    <property name="page_size">0</property>
+    <property name="value">30</property>
+    <property name="step-increment">1</property>
+    <property name="page-increment">10</property>
   </object>
   <object class="GtkAdjustment" id="adjustment6">
-    <property name="value">30</property>
-    <property name="lower">0</property>
     <property name="upper">4000</property>
-    <property name="step_increment">1</property>
-    <property name="page_increment">10</property>
-    <property name="page_size">0</property>
+    <property name="value">30</property>
+    <property name="step-increment">1</property>
+    <property name="page-increment">10</property>
   </object>
   <object class="GtkAdjustment" id="adjustment7">
-    <property name="value">15</property>
     <property name="lower">1</property>
     <property name="upper">200</property>
-    <property name="step_increment">0.10000000000000001</property>
-    <property name="page_increment">10</property>
-    <property name="page_size">0</property>
+    <property name="value">15</property>
+    <property name="step-increment">0.10</property>
+    <property name="page-increment">10</property>
   </object>
   <object class="GtkAdjustment" id="adjustment8">
-    <property name="value">30</property>
     <property name="lower">10</property>
     <property name="upper">4000</property>
-    <property name="step_increment">1</property>
-    <property name="page_increment">10</property>
-    <property name="page_size">0</property>
+    <property name="value">30</property>
+    <property name="step-increment">1</property>
+    <property name="page-increment">10</property>
   </object>
   <object class="GtkAdjustment" id="adjustment9">
-    <property name="value">15</property>
     <property name="lower">1</property>
     <property name="upper">200</property>
-    <property name="step_increment">0.10000000000000001</property>
-    <property name="page_increment">10</property>
-    <property name="page_size">0</property>
+    <property name="value">15</property>
+    <property name="step-increment">0.10</property>
+    <property name="page-increment">10</property>
   </object>
   <object class="GtkListStore" id="model1">
     <columns>
+      <!-- column-name gchararray -->
       <column type="gchararray"/>
     </columns>
     <data>
@@ -119,6 +107,7 @@
   </object>
   <object class="GtkListStore" id="model2">
     <columns>
+      <!-- column-name gchararray -->
       <column type="gchararray"/>
     </columns>
     <data>
@@ -145,39 +134,36 @@
   <object class="GtkTextBuffer" id="textbuffer1">
     <property name="text">Put a weight near the top and "sided". Record pendulum movement with encoder.</property>
   </object>
-  <!-- interface-requires gtk+ 3.0 -->
-  <!-- interface-naming-policy toplevel-contextual -->
   <object class="GtkWindow" id="encoder_configuration">
-    <property name="can_focus">False</property>
-    <property name="border_width">12</property>
+    <property name="can-focus">False</property>
+    <property name="border-width">12</property>
     <property name="modal">True</property>
-    <property name="type_hint">dialog</property>
-    <signal name="delete_event" handler="on_delete_event" swapped="no"/>
+    <property name="type-hint">dialog</property>
+    <signal name="delete-event" handler="on_delete_event" swapped="no"/>
     <child>
       <object class="GtkHBox" id="hbox1">
         <property name="visible">True</property>
-        <property name="can_focus">False</property>
+        <property name="can-focus">False</property>
         <property name="spacing">15</property>
         <child>
           <object class="GtkVBox" id="vbox_select_encoder">
             <property name="visible">True</property>
-            <property name="can_focus">False</property>
+            <property name="can-focus">False</property>
             <property name="spacing">12</property>
             <child>
               <object class="GtkHButtonBox" id="hbuttonbox_top">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="layout_style">edge</property>
+                <property name="can-focus">False</property>
                 <child>
                   <object class="GtkVBox" id="vbox5">
                     <property name="visible">True</property>
-                    <property name="can_focus">False</property>
+                    <property name="can-focus">False</property>
                     <child>
                       <object class="GtkImage" id="image_encoder_linear">
-                        <property name="width_request">80</property>
-                        <property name="height_request">80</property>
+                        <property name="width-request">80</property>
+                        <property name="height-request">80</property>
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
+                        <property name="can-focus">False</property>
                         <property name="stock">gtk-missing-image</property>
                       </object>
                       <packing>
@@ -189,19 +175,19 @@
                     <child>
                       <object class="GtkHBox" id="hbox2">
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
+                        <property name="can-focus">False</property>
                         <child>
                           <object class="GtkRadioButton" id="radio_linear">
                             <property name="visible">True</property>
-                            <property name="can_focus">True</property>
-                            <property name="receives_default">False</property>
+                            <property name="can-focus">True</property>
+                            <property name="receives-default">False</property>
                             <property name="active">True</property>
-                            <property name="draw_indicator">True</property>
+                            <property name="draw-indicator">True</property>
                             <signal name="toggled" handler="on_radio_encoder_type_linear_toggled" swapped="no"/>
                             <child>
                               <object class="GtkLabel" id="label_radio_linear">
                                 <property name="visible">True</property>
-                                <property name="can_focus">False</property>
+                                <property name="can-focus">False</property>
                                 <property name="label" translatable="yes">Linear</property>
                               </object>
                             </child>
@@ -230,14 +216,14 @@
                 <child>
                   <object class="GtkVBox" id="vbox6">
                     <property name="visible">True</property>
-                    <property name="can_focus">False</property>
+                    <property name="can-focus">False</property>
                     <property name="spacing">6</property>
                     <child>
                       <object class="GtkImage" id="image_encoder_rotary_friction">
-                        <property name="width_request">80</property>
-                        <property name="height_request">80</property>
+                        <property name="width-request">80</property>
+                        <property name="height-request">80</property>
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
+                        <property name="can-focus">False</property>
                         <property name="stock">gtk-missing-image</property>
                       </object>
                       <packing>
@@ -249,24 +235,24 @@
                     <child>
                       <object class="GtkHBox" id="hbox3">
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
+                        <property name="can-focus">False</property>
                         <child>
                           <object class="GtkVBox" id="vbox4">
                             <property name="visible">True</property>
-                            <property name="can_focus">False</property>
+                            <property name="can-focus">False</property>
                             <property name="spacing">2</property>
                             <child>
                               <object class="GtkRadioButton" id="radio_rotary_friction">
                                 <property name="visible">True</property>
-                                <property name="can_focus">True</property>
-                                <property name="receives_default">False</property>
-                                <property name="draw_indicator">True</property>
+                                <property name="can-focus">True</property>
+                                <property name="receives-default">False</property>
+                                <property name="draw-indicator">True</property>
                                 <property name="group">radio_linear</property>
                                 <signal name="toggled" handler="on_radio_encoder_type_rotary_friction_toggled" swapped="no"/>
                                 <child>
                                   <object class="GtkLabel" id="label_radio_rotary_friction">
                                     <property name="visible">True</property>
-                                    <property name="can_focus">False</property>
+                                    <property name="can-focus">False</property>
                                     <property name="label" translatable="yes">Rotary friction</property>
                                   </object>
                                 </child>
@@ -279,14 +265,14 @@
                             </child>
                             <child>
                               <object class="GtkCheckButton" id="check_rotary_friction_inertia_on_axis">
-                                <property name="can_focus">True</property>
-                                <property name="receives_default">False</property>
-                                <property name="draw_indicator">True</property>
+                                <property name="can-focus">True</property>
+                                <property name="receives-default">False</property>
+                                <property name="draw-indicator">True</property>
                                 <signal name="toggled" handler="on_check_rotary_friction_inertia_on_axis_toggled" swapped="no"/>
                                 <child>
                                   <object class="GtkLabel" id="label_check_rotary_friction_inertia_on_axis">
                                     <property name="visible">True</property>
-                                    <property name="can_focus">False</property>
+                                    <property name="can-focus">False</property>
                                     <property name="label" translatable="yes">Connected to axis</property>
                                   </object>
                                 </child>
@@ -321,13 +307,13 @@
                 <child>
                   <object class="GtkVBox" id="vbox7">
                     <property name="visible">True</property>
-                    <property name="can_focus">False</property>
+                    <property name="can-focus">False</property>
                     <child>
                       <object class="GtkImage" id="image_encoder_rotary_axis">
-                        <property name="width_request">80</property>
-                        <property name="height_request">80</property>
+                        <property name="width-request">80</property>
+                        <property name="height-request">80</property>
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
+                        <property name="can-focus">False</property>
                         <property name="stock">gtk-missing-image</property>
                       </object>
                       <packing>
@@ -339,19 +325,19 @@
                     <child>
                       <object class="GtkHBox" id="hbox4">
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
+                        <property name="can-focus">False</property>
                         <child>
                           <object class="GtkRadioButton" id="radio_rotary_axis">
                             <property name="visible">True</property>
-                            <property name="can_focus">True</property>
-                            <property name="receives_default">False</property>
-                            <property name="draw_indicator">True</property>
+                            <property name="can-focus">True</property>
+                            <property name="receives-default">False</property>
+                            <property name="draw-indicator">True</property>
                             <property name="group">radio_linear</property>
                             <signal name="toggled" handler="on_radio_encoder_type_rotary_axis_toggled" swapped="no"/>
                             <child>
                               <object class="GtkLabel" id="label_radio_rotary_axis">
                                 <property name="visible">True</property>
-                                <property name="can_focus">False</property>
+                                <property name="can-focus">False</property>
                                 <property name="label" translatable="yes">Rotary axis</property>
                               </object>
                             </child>
@@ -380,22 +366,22 @@
                 <child>
                   <object class="GtkVBox" id="vbox9">
                     <property name="visible">True</property>
-                    <property name="can_focus">False</property>
+                    <property name="can-focus">False</property>
                     <child>
                       <object class="GtkButton" id="button_manage_show">
-                        <property name="height_request">80</property>
+                        <property name="height-request">80</property>
                         <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="receives_default">True</property>
+                        <property name="can-focus">True</property>
+                        <property name="receives-default">True</property>
                         <signal name="clicked" handler="on_button_manage_show_clicked" swapped="no"/>
                         <child>
                           <object class="GtkVBox" id="vbox1">
                             <property name="visible">True</property>
-                            <property name="can_focus">False</property>
+                            <property name="can-focus">False</property>
                             <child>
                               <object class="GtkLabel" id="label24">
                                 <property name="visible">True</property>
-                                <property name="can_focus">False</property>
+                                <property name="can-focus">False</property>
                                 <property name="label" translatable="yes">Manage</property>
                               </object>
                               <packing>
@@ -407,7 +393,7 @@
                             <child>
                               <object class="GtkImage" id="image4">
                                 <property name="visible">True</property>
-                                <property name="can_focus">False</property>
+                                <property name="can-focus">False</property>
                                 <property name="stock">gtk-go-forward</property>
                               </object>
                               <packing>
@@ -442,37 +428,37 @@
             <child>
               <object class="GtkVBox" id="vbox2">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
+                <property name="can-focus">False</property>
                 <property name="spacing">12</property>
                 <child>
                   <object class="GtkHBox" id="hbox5">
                     <property name="visible">True</property>
-                    <property name="can_focus">False</property>
+                    <property name="can-focus">False</property>
                     <property name="spacing">8</property>
                     <child>
                       <object class="GtkVBox" id="vbox3">
-                        <property name="width_request">300</property>
-                        <property name="height_request">200</property>
+                        <property name="width-request">300</property>
+                        <property name="height-request">200</property>
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
+                        <property name="can-focus">False</property>
                         <property name="spacing">8</property>
                         <child>
                           <object class="GtkHBox" id="hbox6">
                             <property name="visible">True</property>
-                            <property name="can_focus">False</property>
+                            <property name="can-focus">False</property>
                             <child>
                               <object class="GtkHBox" id="hbox7">
                                 <property name="visible">True</property>
-                                <property name="can_focus">False</property>
+                                <property name="can-focus">False</property>
                                 <child>
                                   <object class="GtkHBox" id="hbox11">
                                     <property name="visible">True</property>
-                                    <property name="can_focus">False</property>
+                                    <property name="can-focus">False</property>
                                     <property name="spacing">10</property>
                                     <child>
                                       <object class="GtkLabel" id="label_selected">
                                         <property name="visible">True</property>
-                                        <property name="can_focus">False</property>
+                                        <property name="can-focus">False</property>
                                         <property name="label" translatable="yes">Selected:</property>
                                       </object>
                                       <packing>
@@ -485,21 +471,21 @@
                                     <child>
                                       <object class="GtkButton" id="button_previous">
                                         <property name="visible">True</property>
-                                        <property name="can_focus">True</property>
-                                        <property name="receives_default">False</property>
+                                        <property name="can-focus">True</property>
+                                        <property name="receives-default">False</property>
                                         <property name="xalign">0</property>
                                         <signal name="clicked" handler="on_button_previous_clicked" swapped="no"/>
                                         <child>
                                           <object class="GtkAlignment" id="alignment2">
                                             <property name="visible">True</property>
-                                            <property name="can_focus">False</property>
+                                            <property name="can-focus">False</property>
                                             <property name="xalign">0</property>
                                             <child>
                                               <object class="GtkImage" id="image2988">
                                                 <property name="visible">True</property>
-                                                <property name="can_focus">False</property>
+                                                <property name="can-focus">False</property>
                                                 <property name="stock">gtk-media-previous</property>
-                                                <property name="icon-size">3</property>
+                                                <property name="icon_size">3</property>
                                               </object>
                                             </child>
                                           </object>
@@ -514,7 +500,7 @@
                                     <child>
                                       <object class="GtkLabel" id="label_count">
                                         <property name="visible">True</property>
-                                        <property name="can_focus">False</property>
+                                        <property name="can-focus">False</property>
                                       </object>
                                       <packing>
                                         <property name="expand">False</property>
@@ -525,21 +511,21 @@
                                     <child>
                                       <object class="GtkButton" id="button_next">
                                         <property name="visible">True</property>
-                                        <property name="can_focus">True</property>
-                                        <property name="receives_default">False</property>
+                                        <property name="can-focus">True</property>
+                                        <property name="receives-default">False</property>
                                         <property name="xalign">0</property>
                                         <signal name="clicked" handler="on_button_next_clicked" swapped="no"/>
                                         <child>
                                           <object class="GtkAlignment" id="alignment4">
                                             <property name="visible">True</property>
-                                            <property name="can_focus">False</property>
+                                            <property name="can-focus">False</property>
                                             <property name="xalign">0</property>
                                             <child>
                                               <object class="GtkImage" id="image1">
                                                 <property name="visible">True</property>
-                                                <property name="can_focus">False</property>
+                                                <property name="can-focus">False</property>
                                                 <property name="stock">gtk-media-next</property>
-                                                <property name="icon-size">3</property>
+                                                <property name="icon_size">3</property>
                                               </object>
                                             </child>
                                           </object>
@@ -575,39 +561,37 @@
                         <child>
                           <object class="GtkFrame" id="frame3">
                             <property name="visible">True</property>
-                            <property name="can_focus">False</property>
-                            <property name="label_xalign">0</property>
-                            <property name="label_yalign">1</property>
-                            <property name="shadow_type">in</property>
+                            <property name="can-focus">False</property>
+                            <property name="label-xalign">0</property>
+                            <property name="label-yalign">1</property>
+                            <property name="shadow-type">in</property>
                             <child>
                               <object class="GtkScrolledWindow" id="scrolledwindow1">
                                 <property name="visible">True</property>
-                                <property name="can_focus">True</property>
-                                <property name="border_width">4</property>
-                                <property name="hscrollbar_policy">automatic</property>
-                                <property name="vscrollbar_policy">automatic</property>
+                                <property name="can-focus">True</property>
+                                <property name="border-width">4</property>
                                 <child>
                                   <object class="GtkViewport" id="viewport_options">
                                     <property name="visible">True</property>
-                                    <property name="can_focus">False</property>
-                                    <property name="shadow_type">none</property>
+                                    <property name="can-focus">False</property>
+                                    <property name="shadow-type">none</property>
                                     <child>
                                       <object class="GtkVBox" id="vbox8">
                                         <property name="visible">True</property>
-                                        <property name="can_focus">False</property>
-                                        <property name="border_width">6</property>
+                                        <property name="can-focus">False</property>
+                                        <property name="border-width">6</property>
                                         <property name="spacing">8</property>
                                         <child>
                                           <object class="GtkHBox" id="hbox_d">
-                                            <property name="can_focus">False</property>
+                                            <property name="can-focus">False</property>
                                             <property name="spacing">8</property>
                                             <child>
                                               <object class="GtkLabel" id="label2">
-                                                <property name="width_request">20</property>
+                                                <property name="width-request">20</property>
                                                 <property name="visible">True</property>
-                                                <property name="can_focus">False</property>
-                                                <property name="xalign">0</property>
+                                                <property name="can-focus">False</property>
                                                 <property name="label">d</property>
+                                                <property name="xalign">0</property>
                                               </object>
                                               <packing>
                                                 <property name="expand">False</property>
@@ -618,18 +602,17 @@
                                             <child>
                                               <object class="GtkSpinButton" id="spin_d">
                                                 <property name="visible">True</property>
-                                                <property name="can_focus">True</property>
-                                                <property name="invisible_char">&#x25CF;</property>
-                                                <property name="primary_icon_activatable">False</property>
-                                                <property name="secondary_icon_activatable">False</property>
-                                                <property name="primary_icon_sensitive">True</property>
-                                                <property name="secondary_icon_sensitive">True</property>
+                                                <property name="can-focus">True</property>
+                                                <property name="invisible-char">●</property>
+                                                <property name="width-chars">5</property>
+                                                <property name="primary-icon-activatable">False</property>
+                                                <property name="secondary-icon-activatable">False</property>
                                                 <property name="adjustment">adjustment1</property>
-                                                <property name="climb_rate">1</property>
+                                                <property name="climb-rate">1</property>
                                                 <property name="digits">2</property>
-                                                <property name="snap_to_ticks">True</property>
+                                                <property name="snap-to-ticks">True</property>
                                                 <property name="numeric">True</property>
-                                                <property name="update_policy">if-valid</property>
+                                                <property name="update-policy">if-valid</property>
                                               </object>
                                               <packing>
                                                 <property name="expand">False</property>
@@ -640,7 +623,7 @@
                                             <child>
                                               <object class="GtkLabel" id="label6">
                                                 <property name="visible">True</property>
-                                                <property name="can_focus">False</property>
+                                                <property name="can-focus">False</property>
                                                 <property name="label">cm</property>
                                               </object>
                                               <packing>
@@ -659,21 +642,21 @@
                                         <child>
                                           <object class="GtkAlignment" id="alignment1">
                                             <property name="visible">True</property>
-                                            <property name="can_focus">False</property>
+                                            <property name="can-focus">False</property>
                                             <child>
                                               <object class="GtkVBox" id="vbox_d">
                                                 <property name="visible">True</property>
-                                                <property name="can_focus">False</property>
+                                                <property name="can-focus">False</property>
                                                 <property name="spacing">10</property>
                                                 <child>
                                                   <object class="GtkHBox" id="hbox10">
                                                     <property name="visible">True</property>
-                                                    <property name="can_focus">False</property>
+                                                    <property name="can-focus">False</property>
                                                     <property name="spacing">8</property>
                                                     <child>
                                                       <object class="GtkLabel" id="label3">
                                                         <property name="visible">True</property>
-                                                        <property name="can_focus">False</property>
+                                                        <property name="can-focus">False</property>
                                                         <property name="label" translatable="yes">Number of anchorages</property>
                                                       </object>
                                                       <packing>
@@ -683,16 +666,11 @@
                                                       </packing>
                                                     </child>
                                                     <child>
-                                                      <object class="GtkComboBoxText" id="combo_d_num">
+                                                      <object class="GtkBox" id="box_combo_d_num">
                                                         <property name="visible">True</property>
-                                                        <property name="can_focus">False</property>
-                                                        <signal name="changed" handler="on_combo_d_num_changed" swapped="no"/>
-                                                        <property name="model">model1</property>
+                                                        <property name="can-focus">False</property>
                                                         <child>
-                                                          <object class="GtkCellRendererText" id="renderer1"/>
-                                                          <attributes>
-                                                            <attribute name="text">0</attribute>
-                                                          </attributes>
+                                                          <placeholder/>
                                                         </child>
                                                       </object>
                                                       <packing>
@@ -711,12 +689,12 @@
                                                 <child>
                                                   <object class="GtkLabel" id="label22">
                                                     <property name="visible">True</property>
-                                                    <property name="can_focus">False</property>
+                                                    <property name="can-focus">False</property>
                                                     <property name="tooltip-text" translatable="yes">Average diameter (cm) of the cone or axis where the rope is wrapped on each anchorage.</property>
-                                                    <property name="xalign">0</property>
                                                     <property name="label" translatable="yes">Average diameter (cm) of the cone or axis where the rope is wrapped on each anchorage.</property>
                                                     <property name="ellipsize">end</property>
-                                                    <property name="max_width_chars">18</property>
+                                                    <property name="max-width-chars">18</property>
+                                                    <property name="xalign">0</property>
                                                   </object>
                                                   <packing>
                                                     <property name="expand">False</property>
@@ -727,12 +705,12 @@
                                                 <child>
                                                   <object class="GtkAlignment" id="alignment5">
                                                     <property name="visible">True</property>
-                                                    <property name="can_focus">False</property>
-                                                    <property name="left_padding">12</property>
+                                                    <property name="can-focus">False</property>
+                                                    <property name="left-padding">12</property>
                                                     <child>
                                                       <object class="GtkHBox" id="hbox_list_d">
                                                         <property name="visible">True</property>
-                                                        <property name="can_focus">False</property>
+                                                        <property name="can-focus">False</property>
                                                         <property name="spacing">4</property>
                                                         <child>
                                                           <placeholder/>
@@ -757,15 +735,15 @@
                                         </child>
                                         <child>
                                           <object class="GtkHBox" id="hbox_D">
-                                            <property name="can_focus">False</property>
+                                            <property name="can-focus">False</property>
                                             <property name="spacing">8</property>
                                             <child>
                                               <object class="GtkLabel" id="label4">
-                                                <property name="width_request">20</property>
+                                                <property name="width-request">20</property>
                                                 <property name="visible">True</property>
-                                                <property name="can_focus">False</property>
-                                                <property name="xalign">0</property>
+                                                <property name="can-focus">False</property>
                                                 <property name="label">D</property>
+                                                <property name="xalign">0</property>
                                               </object>
                                               <packing>
                                                 <property name="expand">False</property>
@@ -776,18 +754,17 @@
                                             <child>
                                               <object class="GtkSpinButton" id="spin_D">
                                                 <property name="visible">True</property>
-                                                <property name="can_focus">True</property>
-                                                <property name="invisible_char">&#x25CF;</property>
-                                                <property name="primary_icon_activatable">False</property>
-                                                <property name="secondary_icon_activatable">False</property>
-                                                <property name="primary_icon_sensitive">True</property>
-                                                <property name="secondary_icon_sensitive">True</property>
+                                                <property name="can-focus">True</property>
+                                                <property name="invisible-char">●</property>
+                                                <property name="width-chars">5</property>
+                                                <property name="primary-icon-activatable">False</property>
+                                                <property name="secondary-icon-activatable">False</property>
                                                 <property name="adjustment">adjustment2</property>
-                                                <property name="climb_rate">1</property>
+                                                <property name="climb-rate">1</property>
                                                 <property name="digits">2</property>
-                                                <property name="snap_to_ticks">True</property>
+                                                <property name="snap-to-ticks">True</property>
                                                 <property name="numeric">True</property>
-                                                <property name="update_policy">if-valid</property>
+                                                <property name="update-policy">if-valid</property>
                                               </object>
                                               <packing>
                                                 <property name="expand">False</property>
@@ -798,7 +775,7 @@
                                             <child>
                                               <object class="GtkLabel" id="label7">
                                                 <property name="visible">True</property>
-                                                <property name="can_focus">False</property>
+                                                <property name="can-focus">False</property>
                                                 <property name="label">cm</property>
                                               </object>
                                               <packing>
@@ -816,14 +793,14 @@
                                         </child>
                                         <child>
                                           <object class="GtkHBox" id="hbox_angle_push">
-                                            <property name="can_focus">False</property>
+                                            <property name="can-focus">False</property>
                                             <property name="spacing">8</property>
                                             <child>
                                               <object class="GtkLabel" id="label5">
                                                 <property name="visible">True</property>
-                                                <property name="can_focus">False</property>
-                                                <property name="xalign">0</property>
+                                                <property name="can-focus">False</property>
                                                 <property name="label" translatable="yes">Push angle</property>
+                                                <property name="xalign">0</property>
                                               </object>
                                               <packing>
                                                 <property name="expand">False</property>
@@ -834,17 +811,16 @@
                                             <child>
                                               <object class="GtkSpinButton" id="spin_angle_push">
                                                 <property name="visible">True</property>
-                                                <property name="can_focus">True</property>
-                                                <property name="invisible_char">&#x25CF;</property>
-                                                <property name="primary_icon_activatable">False</property>
-                                                <property name="secondary_icon_activatable">False</property>
-                                                <property name="primary_icon_sensitive">True</property>
-                                                <property name="secondary_icon_sensitive">True</property>
+                                                <property name="can-focus">True</property>
+                                                <property name="invisible-char">●</property>
+                                                <property name="width-chars">5</property>
+                                                <property name="primary-icon-activatable">False</property>
+                                                <property name="secondary-icon-activatable">False</property>
                                                 <property name="adjustment">adjustment3</property>
-                                                <property name="climb_rate">1</property>
-                                                <property name="snap_to_ticks">True</property>
+                                                <property name="climb-rate">1</property>
+                                                <property name="snap-to-ticks">True</property>
                                                 <property name="numeric">True</property>
-                                                <property name="update_policy">if-valid</property>
+                                                <property name="update-policy">if-valid</property>
                                               </object>
                                               <packing>
                                                 <property name="expand">False</property>
@@ -855,8 +831,8 @@
                                             <child>
                                               <object class="GtkLabel" id="label8">
                                                 <property name="visible">True</property>
-                                                <property name="can_focus">False</property>
-                                                <property name="label">&#xBA;</property>
+                                                <property name="can-focus">False</property>
+                                                <property name="label">º</property>
                                               </object>
                                               <packing>
                                                 <property name="expand">False</property>
@@ -873,14 +849,14 @@
                                         </child>
                                         <child>
                                           <object class="GtkHBox" id="hbox_angle_weight">
-                                            <property name="can_focus">False</property>
+                                            <property name="can-focus">False</property>
                                             <property name="spacing">8</property>
                                             <child>
                                               <object class="GtkLabel" id="label18">
                                                 <property name="visible">True</property>
-                                                <property name="can_focus">False</property>
-                                                <property name="xalign">0</property>
+                                                <property name="can-focus">False</property>
                                                 <property name="label" translatable="yes">Weight angle</property>
+                                                <property name="xalign">0</property>
                                               </object>
                                               <packing>
                                                 <property name="expand">False</property>
@@ -891,17 +867,16 @@
                                             <child>
                                               <object class="GtkSpinButton" id="spin_angle_weight">
                                                 <property name="visible">True</property>
-                                                <property name="can_focus">True</property>
-                                                <property name="invisible_char">&#x25CF;</property>
-                                                <property name="primary_icon_activatable">False</property>
-                                                <property name="secondary_icon_activatable">False</property>
-                                                <property name="primary_icon_sensitive">True</property>
-                                                <property name="secondary_icon_sensitive">True</property>
+                                                <property name="can-focus">True</property>
+                                                <property name="invisible-char">●</property>
+                                                <property name="width-chars">5</property>
+                                                <property name="primary-icon-activatable">False</property>
+                                                <property name="secondary-icon-activatable">False</property>
                                                 <property name="adjustment">adjustment4</property>
-                                                <property name="climb_rate">1</property>
-                                                <property name="snap_to_ticks">True</property>
+                                                <property name="climb-rate">1</property>
+                                                <property name="snap-to-ticks">True</property>
                                                 <property name="numeric">True</property>
-                                                <property name="update_policy">if-valid</property>
+                                                <property name="update-policy">if-valid</property>
                                               </object>
                                               <packing>
                                                 <property name="expand">False</property>
@@ -912,8 +887,8 @@
                                             <child>
                                               <object class="GtkLabel" id="label19">
                                                 <property name="visible">True</property>
-                                                <property name="can_focus">False</property>
-                                                <property name="label">&#xBA;</property>
+                                                <property name="can-focus">False</property>
+                                                <property name="label">º</property>
                                               </object>
                                               <packing>
                                                 <property name="expand">False</property>
@@ -930,15 +905,15 @@
                                         </child>
                                         <child>
                                           <object class="GtkHBox" id="hbox_inertia">
-                                            <property name="can_focus">False</property>
+                                            <property name="can-focus">False</property>
                                             <property name="spacing">4</property>
                                             <child>
                                               <object class="GtkLabel" id="label9">
                                                 <property name="visible">True</property>
-                                                <property name="can_focus">False</property>
+                                                <property name="can-focus">False</property>
                                                 <property name="tooltip-text" translatable="yes">Inertia momentum without extra weight</property>
-                                                <property name="xalign">0</property>
                                                 <property name="label" translatable="yes">Inertia M.</property>
+                                                <property name="xalign">0</property>
                                               </object>
                                               <packing>
                                                 <property name="expand">False</property>
@@ -949,18 +924,16 @@
                                             <child>
                                               <object class="GtkSpinButton" id="spin_inertia_machine">
                                                 <property name="visible">True</property>
-                                                <property name="can_focus">True</property>
-                                                <property name="has_tooltip">True</property>
+                                                <property name="can-focus">True</property>
+                                                <property name="has-tooltip">True</property>
                                                 <property name="tooltip-text">Inertia momentum without extra weight</property>
-                                                <property name="invisible_char">&#x25CF;</property>
-                                                <property name="invisible_char_set">True</property>
-                                                <property name="primary_icon_activatable">False</property>
-                                                <property name="secondary_icon_activatable">False</property>
-                                                <property name="primary_icon_sensitive">True</property>
-                                                <property name="secondary_icon_sensitive">True</property>
+                                                <property name="invisible-char">●</property>
+                                                <property name="width-chars">7</property>
+                                                <property name="primary-icon-activatable">False</property>
+                                                <property name="secondary-icon-activatable">False</property>
                                                 <property name="adjustment">adjustment5</property>
-                                                <property name="climb_rate">1</property>
-                                                <property name="snap_to_ticks">True</property>
+                                                <property name="climb-rate">1</property>
+                                                <property name="snap-to-ticks">True</property>
                                                 <property name="numeric">True</property>
                                               </object>
                                               <packing>
@@ -972,7 +945,7 @@
                                             <child>
                                               <object class="GtkLabel" id="label20">
                                                 <property name="visible">True</property>
-                                                <property name="can_focus">False</property>
+                                                <property name="can-focus">False</property>
                                                 <property name="label">Kg*cm^2</property>
                                               </object>
                                               <packing>
@@ -990,14 +963,14 @@
                                         </child>
                                         <child>
                                           <object class="GtkHBox" id="hbox_inertia_mass">
-                                            <property name="can_focus">False</property>
+                                            <property name="can-focus">False</property>
                                             <property name="spacing">4</property>
                                             <child>
                                               <object class="GtkLabel" id="label31">
                                                 <property name="visible">True</property>
-                                                <property name="can_focus">False</property>
-                                                <property name="xalign">0</property>
+                                                <property name="can-focus">False</property>
                                                 <property name="label" translatable="yes">Mass of each extra load</property>
+                                                <property name="xalign">0</property>
                                               </object>
                                               <packing>
                                                 <property name="expand">False</property>
@@ -1008,19 +981,17 @@
                                             <child>
                                               <object class="GtkSpinButton" id="spin_inertia_mass">
                                                 <property name="visible">True</property>
-                                                <property name="can_focus">True</property>
-                                                <property name="has_tooltip">True</property>
-                                                <property name="invisible_char">&#x25CF;</property>
-                                                <property name="invisible_char_set">True</property>
-                                                <property name="primary_icon_activatable">False</property>
-                                                <property name="secondary_icon_activatable">False</property>
-                                                <property name="primary_icon_sensitive">True</property>
-                                                <property name="secondary_icon_sensitive">True</property>
+                                                <property name="can-focus">True</property>
+                                                <property name="has-tooltip">True</property>
+                                                <property name="invisible-char">●</property>
+                                                <property name="width-chars">7</property>
+                                                <property name="primary-icon-activatable">False</property>
+                                                <property name="secondary-icon-activatable">False</property>
                                                 <property name="adjustment">adjustment6</property>
-                                                <property name="climb_rate">1</property>
-                                                <property name="snap_to_ticks">True</property>
+                                                <property name="climb-rate">1</property>
+                                                <property name="snap-to-ticks">True</property>
                                                 <property name="numeric">True</property>
-                                                <property name="update_policy">if-valid</property>
+                                                <property name="update-policy">if-valid</property>
                                               </object>
                                               <packing>
                                                 <property name="expand">False</property>
@@ -1031,7 +1002,7 @@
                                             <child>
                                               <object class="GtkLabel" id="label32">
                                                 <property name="visible">True</property>
-                                                <property name="can_focus">False</property>
+                                                <property name="can-focus">False</property>
                                                 <property name="label">g</property>
                                               </object>
                                               <packing>
@@ -1049,16 +1020,16 @@
                                         </child>
                                         <child>
                                           <object class="GtkHBox" id="hbox_inertia_length">
-                                            <property name="can_focus">False</property>
+                                            <property name="can-focus">False</property>
                                             <property name="tooltip-text" translatable="yes">Distance from the center of the axis
 to the center of the loads.</property>
                                             <property name="spacing">4</property>
                                             <child>
                                               <object class="GtkLabel" id="label23">
                                                 <property name="visible">True</property>
-                                                <property name="can_focus">False</property>
-                                                <property name="xalign">0</property>
+                                                <property name="can-focus">False</property>
                                                 <property name="label" translatable="yes">Distance: center-loads</property>
+                                                <property name="xalign">0</property>
                                               </object>
                                               <packing>
                                                 <property name="expand">False</property>
@@ -1069,19 +1040,18 @@ to the center of the loads.</property>
                                             <child>
                                               <object class="GtkSpinButton" id="spin_inertia_length">
                                                 <property name="visible">True</property>
-                                                <property name="can_focus">True</property>
-                                                <property name="has_tooltip">True</property>
-                                                <property name="invisible_char">&#x25CF;</property>
-                                                <property name="primary_icon_activatable">False</property>
-                                                <property name="secondary_icon_activatable">False</property>
-                                                <property name="primary_icon_sensitive">True</property>
-                                                <property name="secondary_icon_sensitive">True</property>
+                                                <property name="can-focus">True</property>
+                                                <property name="has-tooltip">True</property>
+                                                <property name="invisible-char">●</property>
+                                                <property name="width-chars">5</property>
+                                                <property name="primary-icon-activatable">False</property>
+                                                <property name="secondary-icon-activatable">False</property>
                                                 <property name="adjustment">adjustment7</property>
-                                                <property name="climb_rate">1</property>
+                                                <property name="climb-rate">1</property>
                                                 <property name="digits">1</property>
-                                                <property name="snap_to_ticks">True</property>
+                                                <property name="snap-to-ticks">True</property>
                                                 <property name="numeric">True</property>
-                                                <property name="update_policy">if-valid</property>
+                                                <property name="update-policy">if-valid</property>
                                               </object>
                                               <packing>
                                                 <property name="expand">False</property>
@@ -1092,7 +1062,7 @@ to the center of the loads.</property>
                                             <child>
                                               <object class="GtkLabel" id="label29">
                                                 <property name="visible">True</property>
-                                                <property name="can_focus">False</property>
+                                                <property name="can-focus">False</property>
                                                 <property name="label">cm</property>
                                               </object>
                                               <packing>
@@ -1110,16 +1080,16 @@ to the center of the loads.</property>
                                         </child>
                                         <child>
                                           <object class="GtkHBox" id="hbox_gearedUp">
-                                            <property name="can_focus">False</property>
+                                            <property name="can-focus">False</property>
                                             <property name="spacing">8</property>
                                             <child>
                                               <object class="GtkLabel" id="label40">
                                                 <property name="visible">True</property>
-                                                <property name="can_focus">False</property>
+                                                <property name="can-focus">False</property>
                                                 <property name="tooltip-text" translatable="yes">Machine speed / Person speed ratio.
 Eg. value = 2, means person does twice force at half speed.</property>
-                                                <property name="xalign">0</property>
                                                 <property name="label" translatable="yes">Force multiplier</property>
+                                                <property name="xalign">0</property>
                                               </object>
                                               <packing>
                                                 <property name="expand">False</property>
@@ -1128,15 +1098,11 @@ Eg. value = 2, means person does twice force at half speed.</property>
                                               </packing>
                                             </child>
                                             <child>
-                                              <object class="GtkComboBoxText" id="combo_gearedUp">
+                                              <object class="GtkBox" id="box_combo_gearedUp">
                                                 <property name="visible">True</property>
-                                                <property name="can_focus">False</property>
-                                                <property name="model">model2</property>
+                                                <property name="can-focus">False</property>
                                                 <child>
-                                                  <object class="GtkCellRendererText" id="renderer2"/>
-                                                  <attributes>
-                                                    <attribute name="text">0</attribute>
-                                                  </attributes>
+                                                  <placeholder/>
                                                 </child>
                                               </object>
                                               <packing>
@@ -1158,7 +1124,7 @@ Eg. value = 2, means person does twice force at half speed.</property>
                                 </child>
                               </object>
                             </child>
-                            <child type="label">
+                            <child type="label_item">
                               <placeholder/>
                             </child>
                           </object>
@@ -1177,9 +1143,9 @@ Eg. value = 2, means person does twice force at half speed.</property>
                     </child>
                     <child>
                       <object class="GtkImage" id="image_encoder_configuration">
-                        <property name="height_request">200</property>
+                        <property name="height-request">200</property>
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
+                        <property name="can-focus">False</property>
                         <property name="xalign">1</property>
                         <property name="yalign">0</property>
                         <property name="stock">gtk-missing-image</property>
@@ -1187,7 +1153,7 @@ Eg. value = 2, means person does twice force at half speed.</property>
                       <packing>
                         <property name="expand">False</property>
                         <property name="fill">False</property>
-                        <property name="pack_type">end</property>
+                        <property name="pack-type">end</property>
                         <property name="position">1</property>
                       </packing>
                     </child>
@@ -1201,38 +1167,36 @@ Eg. value = 2, means person does twice force at half speed.</property>
                 <child>
                   <object class="GtkHBox" id="hbox8">
                     <property name="visible">True</property>
-                    <property name="can_focus">False</property>
+                    <property name="can-focus">False</property>
                     <property name="spacing">16</property>
                     <child>
                       <object class="GtkFrame" id="frame4">
-                        <property name="height_request">80</property>
+                        <property name="height-request">80</property>
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="label_xalign">0</property>
-                        <property name="label_yalign">1</property>
-                        <property name="shadow_type">in</property>
+                        <property name="can-focus">False</property>
+                        <property name="label-xalign">0</property>
+                        <property name="label-yalign">1</property>
+                        <property name="shadow-type">in</property>
                         <child>
                           <object class="GtkScrolledWindow" id="scrolledwindow2">
                             <property name="visible">True</property>
-                            <property name="can_focus">True</property>
-                            <property name="border_width">4</property>
-                            <property name="hscrollbar_policy">automatic</property>
-                            <property name="vscrollbar_policy">automatic</property>
+                            <property name="can-focus">True</property>
+                            <property name="border-width">4</property>
                             <child>
                               <object class="GtkTextView" id="textview">
                                 <property name="visible">True</property>
                                 <property name="sensitive">False</property>
-                                <property name="can_focus">False</property>
-                                <property name="border_width">6</property>
+                                <property name="can-focus">False</property>
+                                <property name="border-width">6</property>
                                 <property name="editable">False</property>
-                                <property name="wrap_mode">word</property>
-                                <property name="cursor_visible">False</property>
-                                <property name="accepts_tab">False</property>
+                                <property name="wrap-mode">word</property>
+                                <property name="cursor-visible">False</property>
+                                <property name="accepts-tab">False</property>
                               </object>
                             </child>
                           </object>
                         </child>
-                        <child type="label">
+                        <child type="label_item">
                           <placeholder/>
                         </child>
                       </object>
@@ -1245,13 +1209,13 @@ Eg. value = 2, means person does twice force at half speed.</property>
                     <child>
                       <object class="GtkVBox" id="vbox_inertia_calcule">
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
+                        <property name="can-focus">False</property>
                         <property name="spacing">16</property>
                         <child>
                           <object class="GtkButton" id="button_encoder_capture_inertial_accuracy">
                             <property name="label" translatable="yes">Accuracy</property>
-                            <property name="can_focus">True</property>
-                            <property name="receives_default">True</property>
+                            <property name="can-focus">True</property>
+                            <property name="receives-default">True</property>
                             <signal name="clicked" handler="on_button_encoder_capture_inertial_accuracy_clicked" swapped="no"/>
                           </object>
                           <packing>
@@ -1263,20 +1227,20 @@ Eg. value = 2, means person does twice force at half speed.</property>
                         <child>
                           <object class="GtkButton" id="button_encoder_capture_inertial_show">
                             <property name="visible">True</property>
-                            <property name="can_focus">True</property>
-                            <property name="receives_default">True</property>
-                            <property name="has_tooltip">True</property>
+                            <property name="can-focus">True</property>
+                            <property name="receives-default">True</property>
+                            <property name="has-tooltip">True</property>
                             <property name="tooltip-text" translatable="yes">Calculate inertial momentum</property>
                             <signal name="clicked" handler="on_button_encoder_capture_inertial_show_clicked" swapped="no"/>
                             <child>
                               <object class="GtkHBox" id="hbox12">
                                 <property name="visible">True</property>
-                                <property name="can_focus">False</property>
+                                <property name="can-focus">False</property>
                                 <property name="spacing">10</property>
                                 <child>
                                   <object class="GtkLabel" id="label14">
                                     <property name="visible">True</property>
-                                    <property name="can_focus">False</property>
+                                    <property name="can-focus">False</property>
                                     <property name="label" translatable="yes">Calculate IM</property>
                                   </object>
                                   <packing>
@@ -1288,7 +1252,7 @@ Eg. value = 2, means person does twice force at half speed.</property>
                                 <child>
                                   <object class="GtkImage" id="image2">
                                     <property name="visible">True</property>
-                                    <property name="can_focus">False</property>
+                                    <property name="can-focus">False</property>
                                     <property name="stock">gtk-go-forward</property>
                                   </object>
                                   <packing>
@@ -1303,7 +1267,7 @@ Eg. value = 2, means person does twice force at half speed.</property>
                           <packing>
                             <property name="expand">False</property>
                             <property name="fill">False</property>
-                            <property name="pack_type">end</property>
+                            <property name="pack-type">end</property>
                             <property name="position">1</property>
                           </packing>
                         </child>
@@ -1332,15 +1296,15 @@ Eg. value = 2, means person does twice force at half speed.</property>
             <child>
               <object class="GtkHButtonBox" id="hbuttonbox1">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="layout_style">spread</property>
+                <property name="can-focus">False</property>
+                <property name="layout-style">spread</property>
                 <child>
                   <object class="GtkButton" id="button_close">
                     <property name="label">gtk-close</property>
                     <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">True</property>
-                    <property name="use_stock">True</property>
+                    <property name="can-focus">True</property>
+                    <property name="receives-default">True</property>
+                    <property name="use-stock">True</property>
                     <signal name="clicked" handler="on_button_close_clicked" swapped="no"/>
                     <accelerator key="Escape" signal="clicked"/>
                   </object>
@@ -1354,7 +1318,7 @@ Eg. value = 2, means person does twice force at half speed.</property>
               <packing>
                 <property name="expand">False</property>
                 <property name="fill">False</property>
-                <property name="pack_type">end</property>
+                <property name="pack-type">end</property>
                 <property name="position">2</property>
               </packing>
             </child>
@@ -1368,44 +1332,45 @@ Eg. value = 2, means person does twice force at half speed.</property>
         <child>
           <object class="GtkFrame" id="frame_notebook_side">
             <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <property name="label_xalign">0</property>
-            <property name="label_yalign">1</property>
-            <property name="shadow_type">in</property>
+            <property name="can-focus">False</property>
+            <property name="label-xalign">0</property>
+            <property name="label-yalign">1</property>
+            <property name="shadow-type">in</property>
             <child>
               <object class="GtkNotebook" id="notebook_side">
                 <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="border_width">4</property>
-                <property name="show_tabs">False</property>
+                <property name="can-focus">True</property>
+                <property name="border-width">4</property>
+                <property name="show-tabs">False</property>
+                <property name="show-border">False</property>
                 <child>
                   <object class="GtkVBox" id="vbox12">
                     <property name="visible">True</property>
-                    <property name="can_focus">False</property>
+                    <property name="can-focus">False</property>
                     <property name="spacing">12</property>
                     <child>
                       <object class="GtkFrame" id="frame2">
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="label_xalign">0</property>
-                        <property name="label_yalign">0.69999998807907104</property>
-                        <property name="shadow_type">out</property>
+                        <property name="can-focus">False</property>
+                        <property name="label-xalign">0</property>
+                        <property name="label-yalign">0.699999988079071</property>
+                        <property name="shadow-type">out</property>
                         <child>
                           <object class="GtkHBox" id="hbox15">
                             <property name="visible">True</property>
-                            <property name="can_focus">False</property>
-                            <property name="border_width">6</property>
+                            <property name="can-focus">False</property>
+                            <property name="border-width">6</property>
                             <child>
                               <object class="GtkButton" id="button_import">
                                 <property name="visible">True</property>
-                                <property name="can_focus">True</property>
-                                <property name="receives_default">True</property>
+                                <property name="can-focus">True</property>
+                                <property name="receives-default">True</property>
                                 <property name="tooltip-text" translatable="yes">Import</property>
                                 <signal name="clicked" handler="on_button_import_clicked" swapped="no"/>
                                 <child>
                                   <object class="GtkImage" id="image_import">
                                     <property name="visible">True</property>
-                                    <property name="can_focus">False</property>
+                                    <property name="can-focus">False</property>
                                     <property name="stock">gtk-missing-image</property>
                                   </object>
                                 </child>
@@ -1419,14 +1384,14 @@ Eg. value = 2, means person does twice force at half speed.</property>
                             <child>
                               <object class="GtkButton" id="button_export">
                                 <property name="visible">True</property>
-                                <property name="can_focus">True</property>
-                                <property name="receives_default">True</property>
+                                <property name="can-focus">True</property>
+                                <property name="receives-default">True</property>
                                 <property name="tooltip-text" translatable="yes">Export</property>
                                 <signal name="clicked" handler="on_button_export_clicked" swapped="no"/>
                                 <child>
                                   <object class="GtkImage" id="image_export">
                                     <property name="visible">True</property>
-                                    <property name="can_focus">False</property>
+                                    <property name="can-focus">False</property>
                                     <property name="stock">gtk-missing-image</property>
                                   </object>
                                 </child>
@@ -1442,14 +1407,14 @@ Eg. value = 2, means person does twice force at half speed.</property>
                         <child type="label">
                           <object class="GtkHBox" id="hbox9">
                             <property name="visible">True</property>
-                            <property name="can_focus">False</property>
+                            <property name="can-focus">False</property>
                             <property name="spacing">6</property>
                             <child>
                               <object class="GtkLabel" id="label27">
                                 <property name="visible">True</property>
-                                <property name="can_focus">False</property>
+                                <property name="can-focus">False</property>
                                 <property name="label" translatable="yes">Import</property>
-                                <property name="use_markup">True</property>
+                                <property name="use-markup">True</property>
                               </object>
                               <packing>
                                 <property name="expand">True</property>
@@ -1460,7 +1425,7 @@ Eg. value = 2, means person does twice force at half speed.</property>
                             <child>
                               <object class="GtkLabel" id="label34">
                                 <property name="visible">True</property>
-                                <property name="can_focus">False</property>
+                                <property name="can-focus">False</property>
                                 <property name="label">/</property>
                               </object>
                               <packing>
@@ -1472,9 +1437,9 @@ Eg. value = 2, means person does twice force at half speed.</property>
                             <child>
                               <object class="GtkLabel" id="label37">
                                 <property name="visible">True</property>
-                                <property name="can_focus">False</property>
+                                <property name="can-focus">False</property>
                                 <property name="label" translatable="yes">Export</property>
-                                <property name="use_markup">True</property>
+                                <property name="use-markup">True</property>
                               </object>
                               <packing>
                                 <property name="expand">True</property>
@@ -1494,21 +1459,24 @@ Eg. value = 2, means person does twice force at half speed.</property>
                     <child>
                       <object class="GtkAlignment" id="alignment6">
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
+                        <property name="can-focus">False</property>
                         <child>
                           <object class="GtkVBox" id="vbox11">
                             <property name="visible">True</property>
-                            <property name="can_focus">False</property>
+                            <property name="can-focus">False</property>
                             <property name="spacing">6</property>
                             <child>
                               <object class="GtkScrolledWindow" id="scr_treeview_select">
                                 <property name="visible">True</property>
-                                <property name="can_focus">True</property>
-                                <property name="shadow_type">in</property>
+                                <property name="can-focus">True</property>
+                                <property name="shadow-type">in</property>
                                 <child>
                                   <object class="GtkTreeView" id="treeview_select">
                                     <property name="visible">True</property>
-                                    <property name="can_focus">True</property>
+                                    <property name="can-focus">True</property>
+                                    <child internal-child="selection">
+                                      <object class="GtkTreeSelection"/>
+                                    </child>
                                   </object>
                                 </child>
                               </object>
@@ -1521,25 +1489,25 @@ Eg. value = 2, means person does twice force at half speed.</property>
                             <child>
                               <object class="GtkNotebook" id="notebook_actions">
                                 <property name="visible">True</property>
-                                <property name="can_focus">True</property>
-                                <property name="show_tabs">False</property>
-                                <property name="show_border">False</property>
+                                <property name="can-focus">True</property>
+                                <property name="show-tabs">False</property>
+                                <property name="show-border">False</property>
                                 <child>
                                   <object class="GtkVBox" id="vbox10">
                                     <property name="visible">True</property>
-                                    <property name="can_focus">False</property>
+                                    <property name="can-focus">False</property>
                                     <property name="spacing">6</property>
                                     <child>
                                       <object class="GtkVBox" id="vbox16">
                                         <property name="visible">True</property>
-                                        <property name="can_focus">False</property>
+                                        <property name="can-focus">False</property>
                                         <property name="spacing">4</property>
                                         <child>
                                           <object class="GtkLabel" id="label33">
                                             <property name="visible">True</property>
-                                            <property name="can_focus">False</property>
-                                            <property name="xalign">0</property>
+                                            <property name="can-focus">False</property>
                                             <property name="label" translatable="yes">Selected:</property>
+                                            <property name="xalign">0</property>
                                           </object>
                                           <packing>
                                             <property name="expand">False</property>
@@ -1550,7 +1518,7 @@ Eg. value = 2, means person does twice force at half speed.</property>
                                         <child>
                                           <object class="GtkLabel" id="label_side_selected">
                                             <property name="visible">True</property>
-                                            <property name="can_focus">False</property>
+                                            <property name="can-focus">False</property>
                                             <property name="xalign">0</property>
                                           </object>
                                           <packing>
@@ -1569,25 +1537,25 @@ Eg. value = 2, means person does twice force at half speed.</property>
                                     <child>
                                       <object class="GtkVButtonBox" id="vbuttonbox1">
                                         <property name="visible">True</property>
-                                        <property name="can_focus">False</property>
-                                        <property name="border_width">2</property>
+                                        <property name="can-focus">False</property>
+                                        <property name="border-width">2</property>
                                         <property name="spacing">6</property>
                                         <child>
                                           <object class="GtkButton" id="button_edit">
                                             <property name="visible">True</property>
-                                            <property name="can_focus">True</property>
-                                            <property name="receives_default">True</property>
+                                            <property name="can-focus">True</property>
+                                            <property name="receives-default">True</property>
                                             <property name="tooltip-text" translatable="yes">Edit</property>
                                             <signal name="clicked" handler="on_button_side_action_clicked" swapped="no"/>
                                             <child>
                                               <object class="GtkHBox" id="hbox16">
                                                 <property name="visible">True</property>
-                                                <property name="can_focus">False</property>
+                                                <property name="can-focus">False</property>
                                                 <property name="spacing">4</property>
                                                 <child>
                                                   <object class="GtkImage" id="image_edit">
                                                     <property name="visible">True</property>
-                                                    <property name="can_focus">False</property>
+                                                    <property name="can-focus">False</property>
                                                     <property name="stock">gtk-new</property>
                                                   </object>
                                                   <packing>
@@ -1599,7 +1567,7 @@ Eg. value = 2, means person does twice force at half speed.</property>
                                                 <child>
                                                   <object class="GtkLabel" id="label1">
                                                     <property name="visible">True</property>
-                                                    <property name="can_focus">False</property>
+                                                    <property name="can-focus">False</property>
                                                     <property name="label" translatable="yes">Edit</property>
                                                   </object>
                                                   <packing>
@@ -1619,19 +1587,19 @@ Eg. value = 2, means person does twice force at half speed.</property>
                                         </child>
                                         <child>
                                           <object class="GtkButton" id="button_add">
-                                            <property name="can_focus">True</property>
-                                            <property name="receives_default">True</property>
+                                            <property name="can-focus">True</property>
+                                            <property name="receives-default">True</property>
                                             <property name="tooltip-text" translatable="yes">Add</property>
                                             <signal name="clicked" handler="on_button_side_action_clicked" swapped="no"/>
                                             <child>
                                               <object class="GtkHBox" id="hbox17">
                                                 <property name="visible">True</property>
-                                                <property name="can_focus">False</property>
+                                                <property name="can-focus">False</property>
                                                 <property name="spacing">4</property>
                                                 <child>
                                                   <object class="GtkImage" id="image_add">
                                                     <property name="visible">True</property>
-                                                    <property name="can_focus">False</property>
+                                                    <property name="can-focus">False</property>
                                                     <property name="stock">gtk-new</property>
                                                   </object>
                                                   <packing>
@@ -1643,7 +1611,7 @@ Eg. value = 2, means person does twice force at half speed.</property>
                                                 <child>
                                                   <object class="GtkLabel" id="label41">
                                                     <property name="visible">True</property>
-                                                    <property name="can_focus">False</property>
+                                                    <property name="can-focus">False</property>
                                                     <property name="label" translatable="yes">Add new</property>
                                                   </object>
                                                   <packing>
@@ -1664,19 +1632,19 @@ Eg. value = 2, means person does twice force at half speed.</property>
                                         <child>
                                           <object class="GtkButton" id="button_duplicate">
                                             <property name="visible">True</property>
-                                            <property name="can_focus">True</property>
-                                            <property name="receives_default">True</property>
+                                            <property name="can-focus">True</property>
+                                            <property name="receives-default">True</property>
                                             <property name="tooltip-text" translatable="yes">Duplicate</property>
                                             <signal name="clicked" handler="on_button_side_action_clicked" swapped="no"/>
                                             <child>
                                               <object class="GtkHBox" id="hbox18">
                                                 <property name="visible">True</property>
-                                                <property name="can_focus">False</property>
+                                                <property name="can-focus">False</property>
                                                 <property name="spacing">4</property>
                                                 <child>
                                                   <object class="GtkImage" id="image_duplicate">
                                                     <property name="visible">True</property>
-                                                    <property name="can_focus">False</property>
+                                                    <property name="can-focus">False</property>
                                                     <property name="stock">gtk-new</property>
                                                   </object>
                                                   <packing>
@@ -1688,7 +1656,7 @@ Eg. value = 2, means person does twice force at half speed.</property>
                                                 <child>
                                                   <object class="GtkLabel" id="label42">
                                                     <property name="visible">True</property>
-                                                    <property name="can_focus">False</property>
+                                                    <property name="can-focus">False</property>
                                                     <property name="label" translatable="yes">Duplicate</property>
                                                   </object>
                                                   <packing>
@@ -1709,21 +1677,21 @@ Eg. value = 2, means person does twice force at half speed.</property>
                                         <child>
                                           <object class="GtkButton" id="button_delete">
                                             <property name="visible">True</property>
-                                            <property name="can_focus">True</property>
-                                            <property name="receives_default">True</property>
+                                            <property name="can-focus">True</property>
+                                            <property name="receives-default">True</property>
                                             <property name="tooltip-text" translatable="yes">Delete</property>
                                             <signal name="clicked" handler="on_button_side_action_clicked" swapped="no"/>
                                             <child>
                                               <object class="GtkHBox" id="hbox19">
                                                 <property name="visible">True</property>
-                                                <property name="can_focus">False</property>
+                                                <property name="can-focus">False</property>
                                                 <property name="spacing">4</property>
                                                 <child>
                                                   <object class="GtkImage" id="image_delete">
                                                     <property name="visible">True</property>
-                                                    <property name="can_focus">False</property>
+                                                    <property name="can-focus">False</property>
                                                     <property name="stock">gtk-missing-image</property>
-                                                    <property name="icon-size">2</property>
+                                                    <property name="icon_size">2</property>
                                                   </object>
                                                   <packing>
                                                     <property name="expand">False</property>
@@ -1734,7 +1702,7 @@ Eg. value = 2, means person does twice force at half speed.</property>
                                                 <child>
                                                   <object class="GtkLabel" id="label43">
                                                     <property name="visible">True</property>
-                                                    <property name="can_focus">False</property>
+                                                    <property name="can-focus">False</property>
                                                     <property name="label" translatable="yes">Delete</property>
                                                   </object>
                                                   <packing>
@@ -1749,7 +1717,7 @@ Eg. value = 2, means person does twice force at half speed.</property>
                                           <packing>
                                             <property name="expand">False</property>
                                             <property name="fill">False</property>
-                                            <property name="pack_type">end</property>
+                                            <property name="pack-type">end</property>
                                             <property name="position">3</property>
                                           </packing>
                                         </child>
@@ -1765,37 +1733,37 @@ Eg. value = 2, means person does twice force at half speed.</property>
                                 <child type="tab">
                                   <object class="GtkLabel" id="label21">
                                     <property name="visible">True</property>
-                                    <property name="can_focus">False</property>
+                                    <property name="can-focus">False</property>
                                     <property name="label">buttons</property>
                                   </object>
                                   <packing>
-                                    <property name="tab_fill">False</property>
+                                    <property name="tab-fill">False</property>
                                   </packing>
                                 </child>
                                 <child>
                                   <object class="GtkFrame" id="frame5">
                                     <property name="visible">True</property>
-                                    <property name="can_focus">False</property>
-                                    <property name="label_xalign">0</property>
-                                    <property name="label_yalign">0.69999998807907104</property>
-                                    <property name="shadow_type">out</property>
+                                    <property name="can-focus">False</property>
+                                    <property name="label-xalign">0</property>
+                                    <property name="label-yalign">0.699999988079071</property>
+                                    <property name="shadow-type">out</property>
                                     <child>
                                       <object class="GtkVBox" id="vbox13">
                                         <property name="visible">True</property>
-                                        <property name="can_focus">False</property>
-                                        <property name="border_width">8</property>
+                                        <property name="can-focus">False</property>
+                                        <property name="border-width">8</property>
                                         <property name="spacing">6</property>
                                         <child>
                                           <object class="GtkVBox" id="vbox14">
                                             <property name="visible">True</property>
-                                            <property name="can_focus">False</property>
+                                            <property name="can-focus">False</property>
                                             <property name="spacing">2</property>
                                             <child>
                                               <object class="GtkLabel" id="label35">
                                                 <property name="visible">True</property>
-                                                <property name="can_focus">False</property>
-                                                <property name="xalign">0</property>
+                                                <property name="can-focus">False</property>
                                                 <property name="label" translatable="yes">Name</property>
+                                                <property name="xalign">0</property>
                                               </object>
                                               <packing>
                                                 <property name="expand">True</property>
@@ -1806,13 +1774,10 @@ Eg. value = 2, means person does twice force at half speed.</property>
                                             <child>
                                               <object class="GtkEntry" id="entry_save_name">
                                                 <property name="visible">True</property>
-                                                <property name="can_focus">True</property>
-                                                <property name="invisible_char">&#x25CF;</property>
-                                                <property name="invisible_char_set">True</property>
-                                                <property name="primary_icon_activatable">False</property>
-                                                <property name="secondary_icon_activatable">False</property>
-                                                <property name="primary_icon_sensitive">True</property>
-                                                <property name="secondary_icon_sensitive">True</property>
+                                                <property name="can-focus">True</property>
+                                                <property name="invisible-char">●</property>
+                                                <property name="primary-icon-activatable">False</property>
+                                                <property name="secondary-icon-activatable">False</property>
                                                 <signal name="changed" handler="on_entry_save_name_changed" swapped="no"/>
                                               </object>
                                               <packing>
@@ -1831,14 +1796,14 @@ Eg. value = 2, means person does twice force at half speed.</property>
                                         <child>
                                           <object class="GtkVBox" id="vbox15">
                                             <property name="visible">True</property>
-                                            <property name="can_focus">False</property>
+                                            <property name="can-focus">False</property>
                                             <property name="spacing">2</property>
                                             <child>
                                               <object class="GtkLabel" id="label36">
                                                 <property name="visible">True</property>
-                                                <property name="can_focus">False</property>
-                                                <property name="xalign">0</property>
+                                                <property name="can-focus">False</property>
                                                 <property name="label" translatable="yes">Description</property>
+                                                <property name="xalign">0</property>
                                               </object>
                                               <packing>
                                                 <property name="expand">True</property>
@@ -1849,13 +1814,10 @@ Eg. value = 2, means person does twice force at half speed.</property>
                                             <child>
                                               <object class="GtkEntry" id="entry_save_description">
                                                 <property name="visible">True</property>
-                                                <property name="can_focus">True</property>
-                                                <property name="invisible_char">&#x25CF;</property>
-                                                <property name="invisible_char_set">True</property>
-                                                <property name="primary_icon_activatable">False</property>
-                                                <property name="secondary_icon_activatable">False</property>
-                                                <property name="primary_icon_sensitive">True</property>
-                                                <property name="secondary_icon_sensitive">True</property>
+                                                <property name="can-focus">True</property>
+                                                <property name="invisible-char">●</property>
+                                                <property name="primary-icon-activatable">False</property>
+                                                <property name="secondary-icon-activatable">False</property>
                                                 <signal name="changed" handler="on_entry_save_description_changed" swapped="no"/>
                                               </object>
                                               <packing>
@@ -1874,23 +1836,23 @@ Eg. value = 2, means person does twice force at half speed.</property>
                                         <child>
                                           <object class="GtkHButtonBox" id="hbuttonbox2">
                                             <property name="visible">True</property>
-                                            <property name="can_focus">False</property>
+                                            <property name="can-focus">False</property>
                                             <property name="spacing">16</property>
                                             <child>
                                               <object class="GtkButton" id="button_cancel">
                                                 <property name="visible">True</property>
-                                                <property name="can_focus">True</property>
-                                                <property name="receives_default">True</property>
+                                                <property name="can-focus">True</property>
+                                                <property name="receives-default">True</property>
                                                 <signal name="clicked" handler="on_button_cancel_clicked" swapped="no"/>
                                                 <child>
                                                   <object class="GtkHBox" id="hbox13">
                                                     <property name="visible">True</property>
-                                                    <property name="can_focus">False</property>
+                                                    <property name="can-focus">False</property>
                                                     <property name="spacing">4</property>
                                                     <child>
                                                       <object class="GtkImage" id="image_cancel">
                                                         <property name="visible">True</property>
-                                                        <property name="can_focus">False</property>
+                                                        <property name="can-focus">False</property>
                                                         <property name="stock">gtk-missing-image</property>
                                                       </object>
                                                       <packing>
@@ -1902,7 +1864,7 @@ Eg. value = 2, means person does twice force at half speed.</property>
                                                     <child>
                                                       <object class="GtkLabel" id="label47">
                                                         <property name="visible">True</property>
-                                                        <property name="can_focus">False</property>
+                                                        <property name="can-focus">False</property>
                                                         <property name="label" translatable="yes">Cancel</property>
                                                       </object>
                                                       <packing>
@@ -1923,18 +1885,18 @@ Eg. value = 2, means person does twice force at half speed.</property>
                                             <child>
                                               <object class="GtkButton" id="button_accept">
                                                 <property name="visible">True</property>
-                                                <property name="can_focus">True</property>
-                                                <property name="receives_default">True</property>
+                                                <property name="can-focus">True</property>
+                                                <property name="receives-default">True</property>
                                                 <signal name="clicked" handler="on_button_accept_clicked" swapped="no"/>
                                                 <child>
                                                   <object class="GtkHBox" id="hbox20">
                                                     <property name="visible">True</property>
-                                                    <property name="can_focus">False</property>
+                                                    <property name="can-focus">False</property>
                                                     <property name="spacing">4</property>
                                                     <child>
                                                       <object class="GtkImage" id="image_accept">
                                                         <property name="visible">True</property>
-                                                        <property name="can_focus">False</property>
+                                                        <property name="can-focus">False</property>
                                                         <property name="stock">gtk-missing-image</property>
                                                       </object>
                                                       <packing>
@@ -1946,7 +1908,7 @@ Eg. value = 2, means person does twice force at half speed.</property>
                                                     <child>
                                                       <object class="GtkLabel" id="label48">
                                                         <property name="visible">True</property>
-                                                        <property name="can_focus">False</property>
+                                                        <property name="can-focus">False</property>
                                                         <property name="label" translatable="yes">Accept</property>
                                                       </object>
                                                       <packing>
@@ -1976,39 +1938,45 @@ Eg. value = 2, means person does twice force at half speed.</property>
                                     <child type="label">
                                       <object class="GtkLabel" id="label_side_action">
                                         <property name="visible">True</property>
-                                        <property name="can_focus">False</property>
-                                        <property name="use_markup">True</property>
+                                        <property name="can-focus">False</property>
+                                        <property name="use-markup">True</property>
                                       </object>
                                     </child>
                                   </object>
+                                  <packing>
+                                    <property name="position">1</property>
+                                  </packing>
                                 </child>
                                 <child type="tab">
                                   <object class="GtkLabel" id="label44">
                                     <property name="visible">True</property>
-                                    <property name="can_focus">False</property>
+                                    <property name="can-focus">False</property>
                                     <property name="label">edit,add,duplicate</property>
                                   </object>
                                   <packing>
                                     <property name="position">1</property>
-                                    <property name="tab_fill">False</property>
+                                    <property name="tab-fill">False</property>
                                   </packing>
                                 </child>
                                 <child>
                                   <object class="GtkLabel" id="label46">
                                     <property name="visible">True</property>
-                                    <property name="can_focus">False</property>
+                                    <property name="can-focus">False</property>
                                     <property name="label">TODO</property>
                                   </object>
+                                  <packing>
+                                    <property name="position">2</property>
+                                  </packing>
                                 </child>
                                 <child type="tab">
                                   <object class="GtkLabel" id="label45">
                                     <property name="visible">True</property>
-                                    <property name="can_focus">False</property>
+                                    <property name="can-focus">False</property>
                                     <property name="label">delete</property>
                                   </object>
                                   <packing>
                                     <property name="position">2</property>
-                                    <property name="tab_fill">False</property>
+                                    <property name="tab-fill">False</property>
                                   </packing>
                                 </child>
                               </object>
@@ -2032,22 +2000,22 @@ Eg. value = 2, means person does twice force at half speed.</property>
                 <child type="tab">
                   <object class="GtkLabel" id="label25">
                     <property name="visible">True</property>
-                    <property name="can_focus">False</property>
+                    <property name="can-focus">False</property>
                     <property name="label">page 1</property>
                   </object>
                   <packing>
-                    <property name="tab_fill">False</property>
+                    <property name="tab-fill">False</property>
                   </packing>
                 </child>
                 <child>
                   <object class="GtkVBox" id="vbox_calcule_im">
                     <property name="visible">True</property>
-                    <property name="can_focus">False</property>
+                    <property name="can-focus">False</property>
                     <property name="spacing">8</property>
                     <child>
                       <object class="GtkLabel" id="label15">
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
+                        <property name="can-focus">False</property>
                         <property name="label" translatable="yes">Calculate IM</property>
                       </object>
                       <packing>
@@ -2059,7 +2027,7 @@ Eg. value = 2, means person does twice force at half speed.</property>
                     <child>
                       <object class="GtkImage" id="image_encoder_calcule_im">
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
+                        <property name="can-focus">False</property>
                         <property name="stock">gtk-missing-image</property>
                       </object>
                       <packing>
@@ -2070,15 +2038,15 @@ Eg. value = 2, means person does twice force at half speed.</property>
                     </child>
                     <child>
                       <object class="GtkTextView" id="textview_calcule_im">
-                        <property name="width_request">180</property>
+                        <property name="width-request">180</property>
                         <property name="visible">True</property>
                         <property name="sensitive">False</property>
-                        <property name="can_focus">False</property>
+                        <property name="can-focus">False</property>
                         <property name="editable">False</property>
-                        <property name="wrap_mode">word</property>
-                        <property name="cursor_visible">False</property>
-                        <property name="accepts_tab">False</property>
+                        <property name="wrap-mode">word</property>
+                        <property name="cursor-visible">False</property>
                         <property name="buffer">textbuffer1</property>
+                        <property name="accepts-tab">False</property>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -2089,157 +2057,154 @@ Eg. value = 2, means person does twice force at half speed.</property>
                     <child>
                       <object class="GtkTable" id="table1">
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="n_rows">3</property>
-                        <property name="n_columns">3</property>
-                        <property name="column_spacing">6</property>
-                        <property name="row_spacing">6</property>
+                        <property name="can-focus">False</property>
+                        <property name="n-rows">3</property>
+                        <property name="n-columns">3</property>
+                        <property name="column-spacing">6</property>
+                        <property name="row-spacing">6</property>
                         <child>
                           <object class="GtkLabel" id="label10">
                             <property name="visible">True</property>
-                            <property name="can_focus">False</property>
-                            <property name="xalign">0</property>
+                            <property name="can-focus">False</property>
                             <property name="label">Weight</property>
+                            <property name="xalign">0</property>
                           </object>
                           <packing>
-                            <property name="x_options">GTK_FILL</property>
+                            <property name="x-options">GTK_FILL</property>
                           </packing>
                         </child>
                         <child>
                           <object class="GtkLabel" id="label12">
                             <property name="visible">True</property>
-                            <property name="can_focus">False</property>
-                            <property name="xalign">0</property>
+                            <property name="can-focus">False</property>
                             <property name="label">Distance</property>
+                            <property name="xalign">0</property>
                           </object>
                           <packing>
-                            <property name="top_attach">1</property>
-                            <property name="bottom_attach">2</property>
-                            <property name="x_options">GTK_FILL</property>
+                            <property name="top-attach">1</property>
+                            <property name="bottom-attach">2</property>
+                            <property name="x-options">GTK_FILL</property>
                           </packing>
                         </child>
                         <child>
                           <object class="GtkLabel" id="label16">
-                            <property name="can_focus">False</property>
-                            <property name="xalign">0</property>
+                            <property name="can-focus">False</property>
                             <property name="label">Duration</property>
+                            <property name="xalign">0</property>
                           </object>
                           <packing>
-                            <property name="top_attach">2</property>
-                            <property name="bottom_attach">3</property>
-                            <property name="x_options">GTK_FILL</property>
+                            <property name="top-attach">2</property>
+                            <property name="bottom-attach">3</property>
+                            <property name="x-options">GTK_FILL</property>
                           </packing>
                         </child>
                         <child>
                           <object class="GtkSpinButton" id="spin_im_weight_calcule">
                             <property name="visible">True</property>
-                            <property name="can_focus">True</property>
-                            <property name="invisible_char">&#x25CF;</property>
-                            <property name="primary_icon_activatable">False</property>
-                            <property name="secondary_icon_activatable">False</property>
-                            <property name="primary_icon_sensitive">True</property>
-                            <property name="secondary_icon_sensitive">True</property>
+                            <property name="can-focus">True</property>
+                            <property name="invisible-char">●</property>
+                            <property name="width-chars">5</property>
+                            <property name="primary-icon-activatable">False</property>
+                            <property name="secondary-icon-activatable">False</property>
                             <property name="adjustment">adjustment8</property>
-                            <property name="climb_rate">1</property>
-                            <property name="snap_to_ticks">True</property>
+                            <property name="climb-rate">1</property>
+                            <property name="snap-to-ticks">True</property>
                             <property name="numeric">True</property>
-                            <property name="update_policy">if-valid</property>
+                            <property name="update-policy">if-valid</property>
                           </object>
                           <packing>
-                            <property name="left_attach">1</property>
-                            <property name="right_attach">2</property>
-                            <property name="x_options">GTK_FILL</property>
+                            <property name="left-attach">1</property>
+                            <property name="right-attach">2</property>
+                            <property name="x-options">GTK_FILL</property>
                           </packing>
                         </child>
                         <child>
                           <object class="GtkSpinButton" id="spin_im_length_calcule">
                             <property name="visible">True</property>
-                            <property name="can_focus">True</property>
-                            <property name="invisible_char">&#x25CF;</property>
-                            <property name="primary_icon_activatable">False</property>
-                            <property name="secondary_icon_activatable">False</property>
-                            <property name="primary_icon_sensitive">True</property>
-                            <property name="secondary_icon_sensitive">True</property>
+                            <property name="can-focus">True</property>
+                            <property name="invisible-char">●</property>
+                            <property name="width-chars">5</property>
+                            <property name="primary-icon-activatable">False</property>
+                            <property name="secondary-icon-activatable">False</property>
                             <property name="adjustment">adjustment9</property>
-                            <property name="climb_rate">1</property>
+                            <property name="climb-rate">1</property>
                             <property name="digits">1</property>
-                            <property name="snap_to_ticks">True</property>
+                            <property name="snap-to-ticks">True</property>
                             <property name="numeric">True</property>
-                            <property name="update_policy">if-valid</property>
+                            <property name="update-policy">if-valid</property>
                           </object>
                           <packing>
-                            <property name="left_attach">1</property>
-                            <property name="right_attach">2</property>
-                            <property name="top_attach">1</property>
-                            <property name="bottom_attach">2</property>
-                            <property name="x_options">GTK_FILL</property>
+                            <property name="left-attach">1</property>
+                            <property name="right-attach">2</property>
+                            <property name="top-attach">1</property>
+                            <property name="bottom-attach">2</property>
+                            <property name="x-options">GTK_FILL</property>
                           </packing>
                         </child>
                         <child>
                           <object class="GtkSpinButton" id="spin_im_duration_calcule">
-                            <property name="can_focus">True</property>
-                            <property name="invisible_char">&#x25CF;</property>
-                            <property name="primary_icon_activatable">False</property>
-                            <property name="secondary_icon_activatable">False</property>
-                            <property name="primary_icon_sensitive">True</property>
-                            <property name="secondary_icon_sensitive">True</property>
+                            <property name="can-focus">True</property>
+                            <property name="invisible-char">●</property>
+                            <property name="width-chars">5</property>
+                            <property name="primary-icon-activatable">False</property>
+                            <property name="secondary-icon-activatable">False</property>
                             <property name="adjustment">adjustment10</property>
-                            <property name="climb_rate">1</property>
-                            <property name="snap_to_ticks">True</property>
+                            <property name="climb-rate">1</property>
+                            <property name="snap-to-ticks">True</property>
                             <property name="numeric">True</property>
-                            <property name="update_policy">if-valid</property>
+                            <property name="update-policy">if-valid</property>
                           </object>
                           <packing>
-                            <property name="left_attach">1</property>
-                            <property name="right_attach">2</property>
-                            <property name="top_attach">2</property>
-                            <property name="bottom_attach">3</property>
-                            <property name="x_options">GTK_FILL</property>
+                            <property name="left-attach">1</property>
+                            <property name="right-attach">2</property>
+                            <property name="top-attach">2</property>
+                            <property name="bottom-attach">3</property>
+                            <property name="x-options">GTK_FILL</property>
                           </packing>
                         </child>
                         <child>
                           <object class="GtkLabel" id="label11">
                             <property name="visible">True</property>
-                            <property name="can_focus">False</property>
+                            <property name="can-focus">False</property>
                             <property name="tooltip-text" translatable="yes">grams</property>
-                            <property name="xalign">0</property>
                             <property name="label">g</property>
+                            <property name="xalign">0</property>
                           </object>
                           <packing>
-                            <property name="left_attach">2</property>
-                            <property name="right_attach">3</property>
-                            <property name="x_options">GTK_FILL</property>
+                            <property name="left-attach">2</property>
+                            <property name="right-attach">3</property>
+                            <property name="x-options">GTK_FILL</property>
                           </packing>
                         </child>
                         <child>
                           <object class="GtkLabel" id="label13">
                             <property name="visible">True</property>
-                            <property name="can_focus">False</property>
+                            <property name="can-focus">False</property>
                             <property name="tooltip-text" translatable="yes">grams</property>
-                            <property name="xalign">0</property>
                             <property name="label">cm</property>
+                            <property name="xalign">0</property>
                           </object>
                           <packing>
-                            <property name="left_attach">2</property>
-                            <property name="right_attach">3</property>
-                            <property name="top_attach">1</property>
-                            <property name="bottom_attach">2</property>
-                            <property name="x_options">GTK_FILL</property>
+                            <property name="left-attach">2</property>
+                            <property name="right-attach">3</property>
+                            <property name="top-attach">1</property>
+                            <property name="bottom-attach">2</property>
+                            <property name="x-options">GTK_FILL</property>
                           </packing>
                         </child>
                         <child>
                           <object class="GtkLabel" id="label17">
-                            <property name="can_focus">False</property>
+                            <property name="can-focus">False</property>
                             <property name="tooltip-text" translatable="yes">grams</property>
-                            <property name="xalign">0</property>
                             <property name="label">s</property>
+                            <property name="xalign">0</property>
                           </object>
                           <packing>
-                            <property name="left_attach">2</property>
-                            <property name="right_attach">3</property>
-                            <property name="top_attach">2</property>
-                            <property name="bottom_attach">3</property>
-                            <property name="x_options">GTK_FILL</property>
+                            <property name="left-attach">2</property>
+                            <property name="right-attach">3</property>
+                            <property name="top-attach">2</property>
+                            <property name="bottom-attach">3</property>
+                            <property name="x-options">GTK_FILL</property>
                           </packing>
                         </child>
                       </object>
@@ -2252,24 +2217,24 @@ Eg. value = 2, means person does twice force at half speed.</property>
                     <child>
                       <object class="GtkHBox" id="hbox14">
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
+                        <property name="can-focus">False</property>
                         <property name="spacing">6</property>
                         <child>
                           <object class="GtkButton" id="button_encoder_capture_inertial_do">
                             <property name="visible">True</property>
-                            <property name="can_focus">True</property>
-                            <property name="receives_default">True</property>
-                            <property name="has_tooltip">True</property>
+                            <property name="can-focus">True</property>
+                            <property name="receives-default">True</property>
+                            <property name="has-tooltip">True</property>
                             <signal name="clicked" handler="on_button_encoder_capture_inertial_do_clicked" swapped="no"/>
                             <child>
                               <object class="GtkHBox" id="hbox85">
                                 <property name="visible">True</property>
-                                <property name="can_focus">False</property>
+                                <property name="can-focus">False</property>
                                 <property name="spacing">6</property>
                                 <child>
                                   <object class="GtkImage" id="image10">
                                     <property name="visible">True</property>
-                                    <property name="can_focus">False</property>
+                                    <property name="can-focus">False</property>
                                     <property name="stock">gtk-apply</property>
                                   </object>
                                   <packing>
@@ -2281,7 +2246,7 @@ Eg. value = 2, means person does twice force at half speed.</property>
                                 <child>
                                   <object class="GtkLabel" id="label_button_encoder_capture_inertial_do">
                                     <property name="visible">True</property>
-                                    <property name="can_focus">False</property>
+                                    <property name="can-focus">False</property>
                                     <property name="label" translatable="yes">Capture</property>
                                   </object>
                                   <packing>
@@ -2302,14 +2267,14 @@ Eg. value = 2, means person does twice force at half speed.</property>
                         <child>
                           <object class="GtkButton" id="button_encoder_capture_inertial_cancel">
                             <property name="visible">True</property>
-                            <property name="can_focus">True</property>
-                            <property name="receives_default">True</property>
-                            <property name="has_tooltip">True</property>
+                            <property name="can-focus">True</property>
+                            <property name="receives-default">True</property>
+                            <property name="has-tooltip">True</property>
                             <signal name="clicked" handler="on_button_encoder_capture_inertial_cancel_clicked" swapped="no"/>
                             <child>
                               <object class="GtkImage" id="image_capture_cancel">
                                 <property name="visible">True</property>
-                                <property name="can_focus">False</property>
+                                <property name="can-focus">False</property>
                                 <property name="stock">gtk-missing-image</property>
                               </object>
                             </child>
@@ -2330,9 +2295,9 @@ Eg. value = 2, means person does twice force at half speed.</property>
                     <child>
                       <object class="GtkLabel" id="label_capture_time">
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="xalign">0</property>
+                        <property name="can-focus">False</property>
                         <property name="wrap">True</property>
+                        <property name="xalign">0</property>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -2342,50 +2307,50 @@ Eg. value = 2, means person does twice force at half speed.</property>
                     </child>
                     <child>
                       <object class="GtkTable" id="table_angle_oscillations">
-                        <property name="can_focus">False</property>
-                        <property name="n_rows">2</property>
-                        <property name="n_columns">2</property>
-                        <property name="column_spacing">2</property>
-                        <property name="row_spacing">2</property>
+                        <property name="can-focus">False</property>
+                        <property name="n-rows">2</property>
+                        <property name="n-columns">2</property>
+                        <property name="column-spacing">2</property>
+                        <property name="row-spacing">2</property>
                         <child>
                           <object class="GtkLabel" id="label38">
                             <property name="visible">True</property>
-                            <property name="can_focus">False</property>
+                            <property name="can-focus">False</property>
                             <property name="label" translatable="yes">Angle</property>
                           </object>
                         </child>
                         <child>
                           <object class="GtkLabel" id="label39">
                             <property name="visible">True</property>
-                            <property name="can_focus">False</property>
+                            <property name="can-focus">False</property>
                             <property name="label" translatable="yes">Oscillations</property>
                           </object>
                           <packing>
-                            <property name="left_attach">1</property>
-                            <property name="right_attach">2</property>
+                            <property name="left-attach">1</property>
+                            <property name="right-attach">2</property>
                           </packing>
                         </child>
                         <child>
                           <object class="GtkLabel" id="label_im_calc_angle">
                             <property name="visible">True</property>
-                            <property name="can_focus">False</property>
-                            <property name="width_chars">6</property>
+                            <property name="can-focus">False</property>
+                            <property name="width-chars">6</property>
                           </object>
                           <packing>
-                            <property name="top_attach">1</property>
-                            <property name="bottom_attach">2</property>
+                            <property name="top-attach">1</property>
+                            <property name="bottom-attach">2</property>
                           </packing>
                         </child>
                         <child>
                           <object class="GtkLabel" id="label_im_calc_oscillations">
                             <property name="visible">True</property>
-                            <property name="can_focus">False</property>
+                            <property name="can-focus">False</property>
                           </object>
                           <packing>
-                            <property name="left_attach">1</property>
-                            <property name="right_attach">2</property>
-                            <property name="top_attach">1</property>
-                            <property name="bottom_attach">2</property>
+                            <property name="left-attach">1</property>
+                            <property name="right-attach">2</property>
+                            <property name="top-attach">1</property>
+                            <property name="bottom-attach">2</property>
                           </packing>
                         </child>
                       </object>
@@ -2398,7 +2363,7 @@ Eg. value = 2, means person does twice force at half speed.</property>
                     <child>
                       <object class="GtkLabel" id="label_im_feedback">
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
+                        <property name="can-focus">False</property>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -2408,44 +2373,44 @@ Eg. value = 2, means person does twice force at half speed.</property>
                     </child>
                     <child>
                       <object class="GtkTable" id="table_im_machine_result">
-                        <property name="can_focus">False</property>
-                        <property name="n_columns">3</property>
-                        <property name="column_spacing">6</property>
-                        <property name="row_spacing">6</property>
+                        <property name="can-focus">False</property>
+                        <property name="n-columns">3</property>
+                        <property name="column-spacing">6</property>
+                        <property name="row-spacing">6</property>
                         <child>
                           <object class="GtkLabel" id="label28">
                             <property name="visible">True</property>
-                            <property name="can_focus">False</property>
+                            <property name="can-focus">False</property>
                             <property name="tooltip-text" translatable="yes">Number of weights</property>
-                            <property name="xalign">0</property>
                             <property name="label">IM machine</property>
+                            <property name="xalign">0</property>
                           </object>
                           <packing>
-                            <property name="x_options">GTK_FILL</property>
+                            <property name="x-options">GTK_FILL</property>
                           </packing>
                         </child>
                         <child>
                           <object class="GtkLabel" id="label30">
                             <property name="visible">True</property>
-                            <property name="can_focus">False</property>
+                            <property name="can-focus">False</property>
                             <property name="tooltip-text" translatable="yes">Number of weights</property>
-                            <property name="xalign">0</property>
                             <property name="label">Kg*cm^2</property>
+                            <property name="xalign">0</property>
                           </object>
                           <packing>
-                            <property name="left_attach">2</property>
-                            <property name="right_attach">3</property>
-                            <property name="x_options">GTK_FILL</property>
+                            <property name="left-attach">2</property>
+                            <property name="right-attach">3</property>
+                            <property name="x-options">GTK_FILL</property>
                           </packing>
                         </child>
                         <child>
                           <object class="GtkLabel" id="label_im_result_disc">
                             <property name="visible">True</property>
-                            <property name="can_focus">False</property>
+                            <property name="can-focus">False</property>
                           </object>
                           <packing>
-                            <property name="left_attach">1</property>
-                            <property name="right_attach">2</property>
+                            <property name="left-attach">1</property>
+                            <property name="right-attach">2</property>
                           </packing>
                         </child>
                       </object>
@@ -2456,21 +2421,24 @@ Eg. value = 2, means person does twice force at half speed.</property>
                       </packing>
                     </child>
                   </object>
+                  <packing>
+                    <property name="position">1</property>
+                  </packing>
                 </child>
                 <child type="tab">
                   <object class="GtkLabel" id="label26">
                     <property name="visible">True</property>
-                    <property name="can_focus">False</property>
+                    <property name="can-focus">False</property>
                     <property name="label">page 2</property>
                   </object>
                   <packing>
                     <property name="position">1</property>
-                    <property name="tab_fill">False</property>
+                    <property name="tab-fill">False</property>
                   </packing>
                 </child>
               </object>
             </child>
-            <child type="label">
+            <child type="label_item">
               <placeholder/>
             </child>
           </object>

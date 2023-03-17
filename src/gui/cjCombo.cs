@@ -370,6 +370,18 @@ public class CjComboGeneric : CjCombo
 		package();
 	}
 
+	//unused, for this use maybe better use UtilGtk.CreateComboBoxText ()
+	public CjComboGeneric (Gtk.ComboBoxText combo, Gtk.HBox hbox_combo, List<object> l_types)
+	{
+		this.combo = combo;
+		this.hbox = hbox_combo;
+		this.l_types = l_types;
+
+		create();
+		Fill();
+		package();
+	}
+
 	//select does nothing, use the L_types accessor on base class
 	/*
 	protected override void select()

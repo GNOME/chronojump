@@ -43,6 +43,22 @@ public class UtilGtk
 	 *
 	 */
 
+	public static Gtk.ComboBoxText CreateComboBoxText (Gtk.Box box, List<string> values_l, string activeStr)
+	{
+		Gtk.ComboBoxText combo = new ComboBoxText ();
+
+		ComboUpdate (combo, values_l);
+		if (activeStr == "")
+			combo.Active = 0;
+		else
+			combo.Active = ComboMakeActive (combo, activeStr);
+
+		box.PackStart (combo, false, false, 0);
+		box.ShowAll ();
+
+		return combo;
+	}
+
 	public static Gtk.ComboBoxText ComboSelectPrevious (ComboBoxText myCombo)
 	{
 		int newPosition = myCombo.Active -1;

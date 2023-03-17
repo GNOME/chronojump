@@ -134,11 +134,15 @@ public class EncoderConfigurationWindow
 	Gtk.Table table_angle_oscillations;
 	Gtk.Table table_im_machine_result;
 
+	Gtk.Box box_combo_d_num;
+	Gtk.Box box_combo_gearedUp;
+
 	Gtk.Button button_close;
-	Gtk.ComboBoxText combo_d_num;
-	Gtk.ComboBoxText combo_gearedUp;
 	// <---- at glade
 	
+
+	Gtk.ComboBoxText combo_d_num;
+	Gtk.ComboBoxText combo_gearedUp;
 
 	static EncoderConfigurationWindow EncoderConfigurationWindowBox;
 	
@@ -219,6 +223,8 @@ public class EncoderConfigurationWindow
 
 		EncoderConfigurationWindowBox.encoder_configuration.Title = title;
 
+		EncoderConfigurationWindowBox.createCombos ();
+
 		EncoderConfigurationWindowBox.encoderGI = encoderGI;
 		EncoderConfigurationWindowBox.updateGUIFromEncoderConfiguration(econfSO.encoderConfiguration);
 		EncoderConfigurationWindowBox.main_gui_anchorage_str = anchorage_str;
@@ -245,6 +251,12 @@ public class EncoderConfigurationWindow
 			UtilGtk.ContrastLabelsLabel(Config.ColorBackgroundIsDark, EncoderConfigurationWindowBox.label_check_rotary_friction_inertia_on_axis);
 			UtilGtk.ContrastLabelsLabel(Config.ColorBackgroundIsDark, EncoderConfigurationWindowBox.label_selected);
 			UtilGtk.ContrastLabelsLabel(Config.ColorBackgroundIsDark, EncoderConfigurationWindowBox.label_count);
+
+			UtilGtk.WidgetColor (EncoderConfigurationWindowBox.vbox_select_encoder, Config.ColorBackgroundShifted);
+			UtilGtk.ContrastLabelsWidget (Config.ColorBackgroundShiftedIsDark, EncoderConfigurationWindowBox.vbox_select_encoder);
+			UtilGtk.WidgetColor (EncoderConfigurationWindowBox.frame_notebook_side, Config.ColorBackgroundShifted);
+			UtilGtk.ContrastLabelsWidget (Config.ColorBackgroundShiftedIsDark, EncoderConfigurationWindowBox.frame_notebook_side);
+
 		}
 
 		EncoderConfigurationWindowBox.encoder_configuration.Show ();
@@ -719,6 +731,25 @@ public class EncoderConfigurationWindow
 
 			EncoderConfigurationWindowBox.updateGUIFromEncoderConfiguration(econfSO.encoderConfiguration);
 		}
+	}
+
+	void createCombos ()
+	{
+		if (combo_d_num == null)
+		{
+			combo_d_num = UtilGtk.CreateComboBoxText (
+					box_combo_d_num,
+					new List<string> { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" },
+					"");
+
+			combo_d_num.Changed += new EventHandler (on_combo_d_num_changed);
+		}
+
+		if (combo_gearedUp == null)
+			combo_gearedUp = UtilGtk.CreateComboBoxText (
+					box_combo_gearedUp,
+					new List<string> { "4", "3", "2", "1/2", "1/3", "1/4" },
+					"");
 	}
 
 	void on_entry_save_name_changed	(object o, EventArgs args)
@@ -1297,8 +1328,9 @@ public class EncoderConfigurationWindow
 		table_angle_oscillations = (Gtk.Table) builder.GetObject ("table_angle_oscillations");
 		table_im_machine_result = (Gtk.Table) builder.GetObject ("table_im_machine_result");
 
+		box_combo_d_num = (Gtk.Box) builder.GetObject ("box_combo_d_num");
+		box_combo_gearedUp = (Gtk.Box) builder.GetObject ("box_combo_gearedUp");
+
 		button_close = (Gtk.Button) builder.GetObject ("button_close");
-		combo_d_num = (Gtk.ComboBoxText) builder.GetObject ("combo_d_num");
-		combo_gearedUp = (Gtk.ComboBoxText) builder.GetObject ("combo_gearedUp");
 	}
 }

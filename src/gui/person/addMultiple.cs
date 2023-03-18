@@ -183,7 +183,13 @@ public class PersonAddMultipleWindow
 
 		//manage window color
 		if(! Config.UseSystemColor)
+		{
 			UtilGtk.WindowColor(person_multiple_infinite, Config.ColorBackground);
+
+			UtilGtk.WidgetColor (notebook, Config.ColorBackgroundShifted);
+
+			UtilGtk.ContrastLabelsWidget (Config.ColorBackgroundShiftedIsDark, notebook);
+		}
 	
 		fakeButtonDone = new Gtk.Button();
 		person_multiple_infinite.Parent = parent;
@@ -545,6 +551,9 @@ public class PersonAddMultipleWindow
 			rows = array.Count;
 			createEmptyTable (useHeightCol, useLegsLengthCol, useHipsHeightCol);
 			fillTableFromCSV (array, useHeightCol, useLegsLengthCol, useHipsHeightCol);
+
+			if(! Config.UseSystemColor)
+				UtilGtk.ContrastLabelsWidget (Config.ColorBackgroundShiftedIsDark, table_main);
 		} 
 
 		//Don't forget to call Destroy() or the FileChooserDialog window won't get closed.
@@ -562,6 +571,8 @@ public class PersonAddMultipleWindow
 		bool useHipsHeightCol = check_hipsHeight.Active;
 
 		createEmptyTable (useHeightCol, useLegsLengthCol, useHipsHeightCol);
+		if(! Config.UseSystemColor)
+			UtilGtk.ContrastLabelsWidget (Config.ColorBackgroundShiftedIsDark, table_main);
 	}
 
 	List<Gtk.Label> error_label_in_session_l;
@@ -889,13 +900,13 @@ public class PersonAddMultipleWindow
 				{
 					error_label_in_session_l[pame.id].Visible = true;
 					error_label_in_session_l[pame.id].Justify = Justification.Center;
-					error_label_in_session_l[pame.id].Wrap = true;
+					error_label_in_session_l[pame.id].Wrap = false;
 				}
 				else if (pame.errorType == PersonAddMultipleError.ErrorType.INDB)
 				{
 					error_label_in_db_l[pame.id].Visible = true;
 					error_label_in_db_l[pame.id].Justify = Justification.Center;
-					error_label_in_db_l[pame.id].Wrap = true;
+					error_label_in_db_l[pame.id].Wrap = false;
 				}
 
 				error_check_use_stored_l[pame.id].Visible = true;

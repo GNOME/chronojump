@@ -64,6 +64,7 @@ public partial class ChronoJumpWindow
 	Gtk.SpinButton spin_force_rfd_duration_percent;
 
 	//analyze options
+	Gtk.Notebook notebook_force_sensor_rfd_options;
 	Gtk.HBox hbox_force_sensor_analyze_top_modes;
 //	Gtk.HBox hbox_force_sensor_analyze_automatic_options;
 //	Gtk.Notebook notebook_force_analyze_automatic;
@@ -1881,6 +1882,7 @@ public partial class ChronoJumpWindow
 		spin_force_rfd_duration_percent = (Gtk.SpinButton) builder.GetObject ("spin_force_rfd_duration_percent");
 
 		//analyze options
+		notebook_force_sensor_rfd_options = (Gtk.Notebook) builder.GetObject ("notebook_force_sensor_rfd_options");
 		hbox_force_sensor_analyze_top_modes = (Gtk.HBox) builder.GetObject ("hbox_force_sensor_analyze_top_modes");
 		//	hbox_force_sensor_analyze_automatic_options = (Gtk.HBox) builder.GetObject ("hbox_force_sensor_analyze_automatic_options");
 		//	notebook_force_analyze_automatic = (Gtk.Notebook) builder.GetObject ("notebook_force_analyze_automatic");

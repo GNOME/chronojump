@@ -1086,6 +1086,10 @@ public partial class ChronoJumpWindow
 			UtilGtk.WidgetColor (notebook_capture_analyze, Config.ColorBackgroundShifted);
 			UtilGtk.ContrastLabelsNotebook (Config.ColorBackgroundShiftedIsDark, notebook_capture_analyze);
 
+			//notebook_force_sensor_rfd_options
+			UtilGtk.WidgetColor (notebook_force_sensor_rfd_options, Config.ColorBackgroundShifted);
+			UtilGtk.ContrastLabelsNotebook (Config.ColorBackgroundShiftedIsDark, notebook_force_sensor_rfd_options);
+
 			//notebook_encoder_sup
 			UtilGtk.WidgetColor (notebook_encoder_sup, Config.ColorBackgroundShifted);
 			UtilGtk.ContrastLabelsNotebook (Config.ColorBackgroundShiftedIsDark, notebook_encoder_sup);

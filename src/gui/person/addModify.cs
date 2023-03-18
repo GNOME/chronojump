@@ -39,6 +39,7 @@ public class PersonAddModifyWindow
 	Gtk.TextView textview_ps_comments;
 
 	Gtk.Frame frame_main;
+	Gtk.Notebook notebook_main;
 	Gtk.HButtonBox hbuttonbox_main;
 	Gtk.HBox hbox_units;
 	Gtk.VBox vbox_error;
@@ -182,6 +183,12 @@ public class PersonAddModifyWindow
 		{
 			UtilGtk.WindowColor(person_win, Config.ColorBackground);
 			UtilGtk.ContrastLabelsLabel(Config.ColorBackgroundIsDark, label_error);
+
+			UtilGtk.WidgetColor (frame_main, Config.ColorBackgroundShifted);
+			UtilGtk.ContrastLabelsFrame (Config.ColorBackgroundShiftedIsDark, frame_main);
+
+			UtilGtk.WidgetColor (notebook_main, Config.ColorBackgroundShifted);
+			UtilGtk.ContrastLabelsNotebook (Config.ColorBackgroundShiftedIsDark, notebook_main);
 		}
 
 		person_win.Parent = parent;
@@ -1351,6 +1358,7 @@ public class PersonAddModifyWindow
 		textview_ps_comments = (Gtk.TextView) builder.GetObject ("textview_ps_comments");
 
 		frame_main = (Gtk.Frame) builder.GetObject ("frame_main");
+		notebook_main = (Gtk.Notebook) builder.GetObject ("notebook_main");
 		hbuttonbox_main = (Gtk.HButtonBox) builder.GetObject ("hbuttonbox_main");
 		hbox_units = (Gtk.HBox) builder.GetObject ("hbox_units");
 		vbox_error = (Gtk.VBox) builder.GetObject ("vbox_error");

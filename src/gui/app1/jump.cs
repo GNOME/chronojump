@@ -374,7 +374,9 @@ public partial class ChronoJumpWindow
 				personStr, typeTemp, preferences.digitsNumber);
 
 		cairoPaintBarsPre.StoreEventGraphJumps (eventGraph);
-		PrepareJumpSimpleGraph(cairoPaintBarsPre.eventGraphJumpsStored, false);
+
+		//PrepareJumpSimpleGraph(cairoPaintBarsPre.eventGraphJumpsStored, false); //do not need, draw event will graph it:
+		event_execute_drawingarea_cairo.QueueDraw ();
 	}
 	private void updateGraphJumpsReactive ()
 	{
@@ -412,7 +414,8 @@ public partial class ChronoJumpWindow
 				personStr, typeTemp, preferences.digitsNumber);
 
 		cairoPaintBarsPre.StoreEventGraphJumpsRj (eventGraph);
-		PrepareJumpReactiveGraph (cairoPaintBarsPre.eventGraphJumpsRjStored, false);
+		//PrepareJumpReactiveGraph (cairoPaintBarsPre.eventGraphJumpsRjStored, false); //do not need, draw event will graph it:
+		event_execute_drawingarea_cairo.QueueDraw ();
 	}
 	
 	private void extra_window_jumps_rj_initialize(JumpType myJumpType) 

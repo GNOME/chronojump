@@ -1171,7 +1171,7 @@ public abstract class CairoPaintBarsPre
 		}
 
 		paintSpecific ();
-		darea.QueueDraw ();
+		//darea.QueueDraw (); this makes the memory increase a lot! Just call queue when it is needed!
 	}
 
 	protected virtual string testsNotFound ()

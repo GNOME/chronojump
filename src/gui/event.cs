@@ -159,6 +159,15 @@ public class EditEventWindow
 		return EditEventWindowBox;
 	}
 
+	protected void colorize ()
+	{
+		if(! Config.UseSystemColor)
+		{
+			UtilGtk.WindowColor (edit_event, Config.ColorBackground);
+			UtilGtk.ContrastLabelsWidget (Config.ColorBackgroundIsDark, edit_event);
+		}
+	}
+
 	protected virtual void initializeValues () {
 		typeOfTest = Constants.TestTypes.JUMP;
 		showType = true;

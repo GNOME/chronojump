@@ -100,6 +100,13 @@ public class ExecuteAutoWindow
 		connectWidgets (builder);
 		builder.Autoconnect (this);
 
+		//manage window color
+		if(! Config.UseSystemColor)
+		{
+			UtilGtk.WindowColor (execute_auto, Config.ColorBackground);
+			UtilGtk.ContrastLabelsNotebook (Config.ColorBackgroundIsDark, notebook_main);
+		}
+
 		execute_auto.Parent = parent;
 		
 		//put an icon to window

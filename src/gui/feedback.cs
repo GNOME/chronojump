@@ -303,7 +303,15 @@ public class FeedbackWindow
 		{
 			//manage window color
 			if(! Config.UseSystemColor)
+			{
 				UtilGtk.WindowColor(FeedbackWindowBox.feedback, Config.ColorBackground);
+
+				UtilGtk.WidgetColor (notebook_main, Config.ColorBackgroundShifted);
+				UtilGtk.ContrastLabelsNotebook (Config.ColorBackgroundShiftedIsDark, notebook_main);
+
+				UtilGtk.WidgetColor (notebook_encoder_conditions, Config.ColorBackgroundShifted);
+				UtilGtk.ContrastLabelsNotebook (Config.ColorBackgroundShiftedIsDark, notebook_encoder_conditions);
+			}
 
 			FeedbackWindowBox.feedback.Show ();
 		}

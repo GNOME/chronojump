@@ -218,7 +218,8 @@ public partial class ChronoJumpWindow
 				personStr, typeTemp, preferences.digitsNumber);
 
 		cairoPaintBarsPre.StoreEventGraphRuns (eventGraph);
-		PrepareRunSimpleGraph(cairoPaintBarsPre.eventGraphRunsStored, false);
+		//PrepareRunSimpleGraph(cairoPaintBarsPre.eventGraphRunsStored, false); //do not need, draw event will graph it:
+		event_execute_drawingarea_cairo.QueueDraw ();
 
 		cairoManageRunDoubleContacts = new CairoManageRunDoubleContacts (
 				event_execute_drawingarea_run_simple_double_contacts, preferences.fontType.ToString() );
@@ -258,7 +259,8 @@ public partial class ChronoJumpWindow
 				personStr, typeTemp, preferences.digitsNumber);
 
 		cairoPaintBarsPre.StoreEventGraphRunsInterval (eventGraph);
-		PrepareRunIntervalGraph (cairoPaintBarsPre.eventGraphRunsIntervalStored, false);
+		//PrepareRunIntervalGraph (cairoPaintBarsPre.eventGraphRunsIntervalStored, false); //do not need, draw event will graph it:
+		event_execute_drawingarea_cairo.QueueDraw ();
 
 		cairoManageRunDoubleContacts = new CairoManageRunDoubleContacts (
 				event_execute_drawingarea_run_simple_double_contacts, preferences.fontType.ToString() );

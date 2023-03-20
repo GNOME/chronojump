@@ -302,6 +302,7 @@ public partial class ChronoJumpWindow
 	Gtk.VBox vbox_micro_discover;
 	Gtk.Label label_micro_discover_title;
 	Gtk.Label label_micro_discover_not_found;
+	Gtk.Frame frame_micro_discover;
 	Gtk.Table table_micro_discover;
 	Gtk.HBox hbox_contacts_detect_and_execute;
 	Gtk.HBox hbox_encoder_detect_and_execute;
@@ -1143,6 +1144,10 @@ public partial class ChronoJumpWindow
 			//help
 			UtilGtk.WidgetColor (box_help, Config.ColorBackgroundShifted);
 			UtilGtk.ContrastLabelsBox (Config.ColorBackgroundShiftedIsDark, box_help);
+
+			//micro discover
+			UtilGtk.WidgetColor (frame_micro_discover, Config.ColorBackgroundShifted);
+			//UtilGtk.ContrastLabelsFrame (Config.ColorBackgroundShiftedIsDark, frame_micro_discover); //done on table_micro_discover later on creation
 
 			//news
 			UtilGtk.WidgetColor (vbox_news2, Config.ColorBackgroundShifted);
@@ -4891,6 +4896,9 @@ public partial class ChronoJumpWindow
 			image_button_micro_discover_cancel_close,
 			label_button_micro_discover_cancel_close,
 			Constants.ModeIcon (current_mode));
+			
+		if(! Config.UseSystemColor)
+			UtilGtk.ContrastLabelsTable (Config.ColorBackgroundShiftedIsDark, table_micro_discover);
 
 		discoverWin.FakeButtonClose.Clicked += new EventHandler (on_discoverWindow_closed);
 	}
@@ -9320,6 +9328,7 @@ LogB.Debug("mc finished 5");
 		vbox_micro_discover = (Gtk.VBox) builder.GetObject ("vbox_micro_discover");
 		label_micro_discover_title = (Gtk.Label) builder.GetObject ("label_micro_discover_title");
 		label_micro_discover_not_found = (Gtk.Label) builder.GetObject ("label_micro_discover_not_found");
+		frame_micro_discover = (Gtk.Frame) builder.GetObject ("frame_micro_discover");
 		table_micro_discover = (Gtk.Table) builder.GetObject ("table_micro_discover");
 		hbox_contacts_detect_and_execute = (Gtk.HBox) builder.GetObject ("hbox_contacts_detect_and_execute");
 		hbox_encoder_detect_and_execute = (Gtk.HBox) builder.GetObject ("hbox_encoder_detect_and_execute");

@@ -99,11 +99,12 @@
           </packing>
         </child>
         <child>
-          <object class="GtkNotebook" id="notebook1">
+          <object class="GtkFrame" id="frame_data">
             <property name="visible">True</property>
-            <property name="can-focus">True</property>
-            <property name="border-width">4</property>
-            <property name="show-tabs">False</property>
+            <property name="can-focus">False</property>
+            <property name="label-xalign">0</property>
+            <property name="label-yalign">1</property>
+            <property name="shadow-type">out</property>
             <child>
               <object class="GtkVBox" id="vbox_data">
                 <property name="visible">True</property>
@@ -610,7 +611,7 @@
                 </child>
               </object>
             </child>
-            <child type="tab">
+            <child type="label_item">
               <placeholder/>
             </child>
           </object>

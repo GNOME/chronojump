@@ -36,6 +36,7 @@ public class GenericWindow
 	Gtk.Label label_header;
 	Gtk.Box hbox_error;
 	Gtk.Label label_error;
+	Gtk.Frame frame_data;
 	Gtk.Entry entry;
 	
 	Gtk.Box hbox_spin_int;
@@ -156,6 +157,7 @@ public class GenericWindow
 			UtilGtk.ContrastLabelsLabel (Config.ColorBackgroundIsDark, hbox_combo_label);
 			UtilGtk.ContrastLabelsLabel (Config.ColorBackgroundIsDark, label_comment);
 			UtilGtk.ContrastLabelsLabel (Config.ColorBackgroundIsDark, label_treeviewload_row);
+			UtilGtk.ContrastLabelsFrame (Config.ColorBackgroundShiftedIsDark, frame_data);
 		}
 		
 		generic_window.Resizable = false;
@@ -1235,6 +1237,7 @@ public class GenericWindow
 		label_header = (Gtk.Label) builder.GetObject ("label_header");
 		hbox_error = (Gtk.Box) builder.GetObject ("hbox_error");
 		label_error = (Gtk.Label) builder.GetObject ("label_error");
+		frame_data = (Gtk.Frame) builder.GetObject ("frame_data");
 		entry = (Gtk.Entry) builder.GetObject ("entry");
 
 		hbox_spin_int = (Gtk.Box) builder.GetObject ("hbox_spin_int");

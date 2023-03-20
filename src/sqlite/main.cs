@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2022   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2004-2023   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -3118,7 +3118,7 @@ class Sqlite
 			{
 				LogB.SQL("Inserted default exercises of forceSensor and raceAnalyzer if empty");
 
-				ArrayList exercises = SqliteForceSensorExercise.Select(true, -1, -1, true);
+				ArrayList exercises = SqliteForceSensorExercise.Select(true, -1, -1, true, "");
 				if(exercises == null || exercises.Count == 0)
 					SqliteForceSensorExercise.insertDefault();
 

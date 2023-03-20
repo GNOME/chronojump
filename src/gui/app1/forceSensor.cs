@@ -39,6 +39,7 @@ public partial class ChronoJumpWindow
 	Gtk.Button button_combo_force_sensor_exercise_capture_left;
 	Gtk.Button button_combo_force_sensor_exercise_capture_right;
 	Gtk.HBox hbox_force_capture_buttons;
+	Gtk.Entry force_sensor_exercise_filter;
 	Gtk.HBox hbox_combo_force_sensor_exercise;
 	Gtk.Frame frame_force_sensor_elastic;
 	Gtk.Button button_stiffness_detect;
@@ -1143,7 +1144,7 @@ public partial class ChronoJumpWindow
 	private void assignCurrentForceSensorExercise()
 	{
 		currentForceSensorExercise = (ForceSensorExercise) SqliteForceSensorExercise.Select (
-                                false, getExerciseIDFromAnyCombo(combo_force_sensor_exercise, forceSensorComboExercisesString, false), -1, false)[0];
+                                false, getExerciseIDFromAnyCombo(combo_force_sensor_exercise, forceSensorComboExercisesString, false), -1, false, "")[0];
 	}
 
 	private void forceSensorCaptureDo()
@@ -2683,6 +2684,11 @@ LogB.Information(" fs R ");
 
 	string [] forceSensorComboExercisesString; //id:name (no translations, use user language)
 
+	private void on_force_sensor_exercise_filter_changed (object o, EventArgs args)
+	{
+		updateForceExerciseCombo ();
+	}
+
 	//called on initForceSensor (just one time)
 	private void createForceExerciseCombo ()
 	{
@@ -2752,7 +2758,7 @@ LogB.Information(" fs R ");
 
 		ArrayList array = SqliteForceSensorExercise.Select (
                                 false, getExerciseIDFromAnyCombo(
-					combo_force_sensor_exercise, forceSensorComboExercisesString, false), -1, false );
+					combo_force_sensor_exercise, forceSensorComboExercisesString, false), -1, false, "");
 
 		if(array.Count == 0)
 		{
@@ -2808,7 +2814,8 @@ LogB.Information(" fs R ");
 	{
 		int elastic = ForceSensor.GetElasticIntFromMode (current_mode);
 
-		ArrayList forceSensorExercises = SqliteForceSensorExercise.Select (false, -1, elastic, false);
+		ArrayList forceSensorExercises = SqliteForceSensorExercise.Select (false, -1, elastic, false,
+				force_sensor_exercise_filter.Text.ToString ());
 		if(forceSensorExercises.Count == 0)
 		{
 			forceSensorComboExercisesString = new String [0];
@@ -2860,7 +2867,7 @@ LogB.Information(" fs R ");
 		}
 
 		ForceSensorExercise ex = (ForceSensorExercise) SqliteForceSensorExercise.Select (
-                                false, getExerciseIDFromAnyCombo(combo_force_sensor_exercise, forceSensorComboExercisesString, false), -1, false)[0];
+                                false, getExerciseIDFromAnyCombo(combo_force_sensor_exercise, forceSensorComboExercisesString, false), -1, false, "")[0];
 
 		LogB.Information("selected exercise: " + ex.ToString());
 
@@ -2922,7 +2929,7 @@ LogB.Information(" fs R ");
 		}
 
 		ForceSensorExercise ex = (ForceSensorExercise) SqliteForceSensorExercise.Select (
-                                false, getExerciseIDFromAnyCombo(combo_force_sensor_exercise, forceSensorComboExercisesString, false), -1, false)[0];
+                                false, getExerciseIDFromAnyCombo(combo_force_sensor_exercise, forceSensorComboExercisesString, false), -1, false, "")[0];
 
 		//1st find if there are sets with this exercise
 		ArrayList array = SqliteForceSensor.SelectRowsOfAnExercise(false, ex.UniqueID);
@@ -3135,6 +3142,7 @@ LogB.Information(" fs R ");
 		button_combo_force_sensor_exercise_capture_left = (Gtk.Button) builder.GetObject ("button_combo_force_sensor_exercise_capture_left");
 		button_combo_force_sensor_exercise_capture_right = (Gtk.Button) builder.GetObject ("button_combo_force_sensor_exercise_capture_right");
 		hbox_force_capture_buttons = (Gtk.HBox) builder.GetObject ("hbox_force_capture_buttons");
+		force_sensor_exercise_filter = (Gtk.Entry) builder.GetObject ("force_sensor_exercise_filter");
 		hbox_combo_force_sensor_exercise = (Gtk.HBox) builder.GetObject ("hbox_combo_force_sensor_exercise");
 		frame_force_sensor_elastic = (Gtk.Frame) builder.GetObject ("frame_force_sensor_elastic");
 		button_stiffness_detect = (Gtk.Button) builder.GetObject ("button_stiffness_detect");

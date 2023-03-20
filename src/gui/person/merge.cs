@@ -117,6 +117,9 @@ public class PersonMergeWindow
 		if(! Config.UseSystemColor)
 		{
 			UtilGtk.WindowColor(person_merge, Config.ColorBackground);
+
+			UtilGtk.WidgetColor (notebook, Config.ColorBackgroundShifted);
+			UtilGtk.ContrastLabelsNotebook (Config.ColorBackgroundShiftedIsDark, notebook);
 		}
 
 		image_button_cancel.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_cancel.png");
@@ -332,6 +335,9 @@ public class PersonMergeWindow
 
 		table_diffs.ShowAll ();
 		//scrolledWin.ShowAll ();
+	
+		if(! Config.UseSystemColor)
+			UtilGtk.ContrastLabelsWidget (Config.ColorBackgroundShiftedIsDark, table_diffs);
 	}
 
 	//each personSession row has first a combined row with session title

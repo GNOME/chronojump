@@ -164,6 +164,9 @@ public class ForceSensorExerciseWindow
 			UtilGtk.ContrastLabelsLabel (Config.ColorBackgroundIsDark, label_error);
 			UtilGtk.ContrastLabelsLabel (Config.ColorBackgroundIsDark, label_radio_desc_examples_desc);
 			UtilGtk.ContrastLabelsLabel (Config.ColorBackgroundIsDark, label_radio_desc_examples_examples);
+
+			UtilGtk.WidgetColor (notebook_main, Config.ColorBackgroundShifted);
+			UtilGtk.ContrastLabelsNotebook (Config.ColorBackgroundShiftedIsDark, notebook_main);
 		}
 
 		force_sensor_exercise.Resizable = false;

@@ -850,6 +850,21 @@ public class UtilGtk
 				UtilGtk.ContrastLabelsHBox (Config.ColorBackgroundShiftedIsDark, (Gtk.HBox) w);
 		}
 	}
+	/*
+	 * Treeview is not colorized yet as we do not found a way to colorize headers using gtk 3.0
+	public static void ContrastLabelsTreeView (bool bgDark, Gtk.TreeView tv)
+	{
+		//contrastLabelsContainer (bgDark, (Gtk.Container) tv);
+
+		foreach(Gtk.TreeViewColumn c in tv)
+		{
+			UtilGtk.WidgetColor (c.Widget, Config.ColorBackgroundShifted);
+			UtilGtk.ContrastLabelsWidget (Config.ColorBackgroundShiftedIsDark, c.Widget);
+			//contrastLabelsContainer (bgDark, (Gtk.Container) c);
+		}
+	}
+	*/
+
 	public static void ContrastLabelsFrame (bool bgDark, Gtk.Frame frame)
 	{
 		contrastLabelsContainer (bgDark, (Gtk.Container) frame);

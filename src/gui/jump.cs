@@ -35,6 +35,7 @@ using Mono.Unix;
 public class EditJumpWindow : EditEventWindow
 {
 	private Gtk.Frame frame_jumps_single_leg;
+	private Gtk.Box box_jumps_single_leg;
 	private Gtk.RadioButton jumps_radiobutton_single_leg_mode_vertical;
 	private Gtk.RadioButton jumps_radiobutton_single_leg_mode_horizontal;
 	private Gtk.RadioButton jumps_radiobutton_single_leg_mode_lateral;
@@ -91,6 +92,10 @@ public class EditJumpWindow : EditEventWindow
 		EditJumpWindowBox.pDN = pDN;
 		
 		EditJumpWindowBox.sessionID = myEvent.SessionID;
+
+		EditJumpWindowBox.colorize();
+		UtilGtk.WidgetColor (EditJumpWindowBox.box_jumps_single_leg, Config.ColorBackgroundShifted);
+		UtilGtk.ContrastLabelsBox (Config.ColorBackgroundShiftedIsDark, EditJumpWindowBox.box_jumps_single_leg);
 
 		EditJumpWindowBox.initializeValues();
 
@@ -450,6 +455,7 @@ public class EditJumpWindow : EditEventWindow
 	private void connectWidgetsEditJump (Gtk.Builder builder)
 	{
 		frame_jumps_single_leg = (Gtk.Frame) builder.GetObject ("frame_jumps_single_leg");
+		box_jumps_single_leg = (Gtk.Box) builder.GetObject ("box_jumps_single_leg");
 		jumps_radiobutton_single_leg_mode_vertical = (Gtk.RadioButton) builder.GetObject ("jumps_radiobutton_single_leg_mode_vertical");
 		jumps_radiobutton_single_leg_mode_horizontal = (Gtk.RadioButton) builder.GetObject ("jumps_radiobutton_single_leg_mode_horizontal");
 		jumps_radiobutton_single_leg_mode_lateral = (Gtk.RadioButton) builder.GetObject ("jumps_radiobutton_single_leg_mode_lateral");
@@ -505,6 +511,8 @@ public class EditJumpRjWindow : EditJumpWindow
 		EditJumpRjWindowBox.pDN = pDN;
 		
 		EditJumpRjWindowBox.sessionID = myEvent.SessionID;
+
+		EditJumpRjWindowBox.colorize();
 
 		EditJumpRjWindowBox.initializeValues();
 

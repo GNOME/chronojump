@@ -67,7 +67,9 @@ public class EditRunWindow : EditEventWindow
 
 		EditRunWindowBox.metersSecondsPreferred = metersSecondsPreferred;
 		EditRunWindowBox.pDN = pDN;
-		
+
+		EditRunWindowBox.colorize();
+
 		EditRunWindowBox.initializeValues();
 		
 		EditRunWindowBox.fillDialog (myEvent);
@@ -291,13 +293,18 @@ public class EditRunIntervalWindow : EditRunWindow
 
 		EditRunIntervalWindowBox.metersSecondsPreferred = metersSecondsPreferred;
 		EditRunIntervalWindowBox.pDN = pDN;
-		
+
+		EditRunIntervalWindowBox.colorize();
+
 		EditRunIntervalWindowBox.initializeValues();
 
 		if(myEvent.Type == "MTGUG") {
 			EditRunIntervalWindowBox.notebook_mtgug.Show();
 			EditRunIntervalWindowBox.entry_description.Sensitive = false;
 			EditRunIntervalWindowBox.fill_mtgug(myEvent.Description);
+
+			UtilGtk.WidgetColor (EditRunIntervalWindowBox.notebook_mtgug, Config.ColorBackgroundShifted);
+			UtilGtk.ContrastLabelsNotebook (Config.ColorBackgroundIsDark, EditRunIntervalWindowBox.notebook_mtgug);
 		} else {
 			EditRunIntervalWindowBox.notebook_mtgug.Hide();
 			EditRunIntervalWindowBox.entry_description.Sensitive = true;

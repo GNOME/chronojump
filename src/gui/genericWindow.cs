@@ -157,6 +157,8 @@ public class GenericWindow
 			UtilGtk.ContrastLabelsLabel (Config.ColorBackgroundIsDark, hbox_combo_label);
 			UtilGtk.ContrastLabelsLabel (Config.ColorBackgroundIsDark, label_comment);
 			UtilGtk.ContrastLabelsLabel (Config.ColorBackgroundIsDark, label_treeviewload_row);
+
+			UtilGtk.WidgetColor (frame_data, Config.ColorBackgroundShifted);
 			UtilGtk.ContrastLabelsFrame (Config.ColorBackgroundShiftedIsDark, frame_data);
 		}
 		

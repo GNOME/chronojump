@@ -29,6 +29,7 @@ using Mono.Unix;
 public class ForceSensorElasticBandsWindow
 {
 	Gtk.Window force_sensor_elastic_bands;
+	Gtk.Frame frame_main;
 	Gtk.Label label_header;
 	//Gtk.ScrolledWindow scrolled_window_treeview;
 	Gtk.TreeView treeview;
@@ -139,7 +140,11 @@ public class ForceSensorElasticBandsWindow
 
 		//manage window color
 		if(! Config.UseSystemColor)
+		{
 			UtilGtk.WindowColor(force_sensor_elastic_bands, Config.ColorBackground);
+			UtilGtk.WidgetColor (frame_main, Config.ColorBackgroundShifted);
+			UtilGtk.ContrastLabelsFrame (Config.ColorBackgroundShiftedIsDark, frame_main);
+		}
 	
 		setTreeview();
 	}
@@ -527,6 +532,7 @@ public class ForceSensorElasticBandsWindow
 	private void connectWidgets (Gtk.Builder builder)
 	{
 		force_sensor_elastic_bands = (Gtk.Window) builder.GetObject ("force_sensor_elastic_bands");
+		frame_main = (Gtk.Frame) builder.GetObject ("frame_main");
 		label_header = (Gtk.Label) builder.GetObject ("label_header");
 		//scrolled_window_treeview = (Gtk.ScrolledWindow) builder.GetObject ("scrolled_window_treeview");
 		treeview = (Gtk.TreeView) builder.GetObject ("treeview");

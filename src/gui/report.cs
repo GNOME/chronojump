@@ -31,6 +31,10 @@ public class ReportWindow
 {
 	Gtk.Window report_window;
 	Gtk.TreeView treeview1;
+//	Gtk.Frame frame_general;
+//	Gtk.Frame frame_statistics;
+	Gtk.VBox vbox_general;
+	Gtk.HBox hbox_statistics;
 
 	Gtk.Label label_header;
 	Gtk.Label label_general;
@@ -133,6 +137,19 @@ public class ReportWindow
 			UtilGtk.ContrastLabelsLabel(Config.ColorBackgroundIsDark, ReportWindowBox.label_header);
 			UtilGtk.ContrastLabelsLabel(Config.ColorBackgroundIsDark, ReportWindowBox.label_general);
 			UtilGtk.ContrastLabelsLabel(Config.ColorBackgroundIsDark, ReportWindowBox.label_statistics);
+
+			/*
+			UtilGtk.WidgetColor (ReportWindowBox.frame_general, Config.ColorBackgroundShifted);
+			UtilGtk.ContrastLabelsFrame (Config.ColorBackgroundShiftedIsDark, ReportWindowBox.frame_general);
+
+			UtilGtk.WidgetColor (ReportWindowBox.frame_statistics, Config.ColorBackgroundShifted);
+			UtilGtk.ContrastLabelsFrame (Config.ColorBackgroundShiftedIsDark, ReportWindowBox.frame_statistics);
+			*/
+			
+			UtilGtk.WidgetColor (ReportWindowBox.vbox_general, Config.ColorBackgroundShifted);
+			UtilGtk.ContrastLabelsVBox (Config.ColorBackgroundShiftedIsDark, ReportWindowBox.vbox_general);
+			UtilGtk.WidgetColor (ReportWindowBox.hbox_statistics, Config.ColorBackgroundShifted);
+			UtilGtk.ContrastLabelsHBox (Config.ColorBackgroundShiftedIsDark, ReportWindowBox.hbox_statistics);
 		}
 
 		return ReportWindowBox;
@@ -502,6 +519,10 @@ public class ReportWindow
 	{
 		report_window = (Gtk.Window) builder.GetObject ("report_window");
 		treeview1 = (Gtk.TreeView) builder.GetObject ("treeview1");
+//		frame_general = (Gtk.Frame) builder.GetObject ("frame_general");
+//		frame_statistics = (Gtk.Frame) builder.GetObject ("frame_statistics");
+		vbox_general = (Gtk.VBox) builder.GetObject ("vbox_general");
+		hbox_statistics = (Gtk.HBox) builder.GetObject ("hbox_statistics");
 
 		label_header = (Gtk.Label) builder.GetObject ("label_header");
 		label_general = (Gtk.Label) builder.GetObject ("label_general");

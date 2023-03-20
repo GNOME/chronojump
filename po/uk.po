@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: chronojump master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/chronojump/issues\n"
-"POT-Creation-Date: 2023-03-16 16:16+0000\n"
-"PO-Revision-Date: 2023-03-16 19:24+0200\n"
+"POT-Creation-Date: 2023-03-20 11:10+0000\n"
+"PO-Revision-Date: 2023-03-20 14:15+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -32,7 +32,7 @@ msgstr "База даних"
 
 #: ../glade/app1.glade.h:3 ../glade/report_window.glade.h:9
 #: ../src/exportSession.cs:209 ../src/gui/app1/encoder.cs:5786
-#: ../src/gui/app1/forceSensor.cs:2949 ../src/gui/app1/runEncoder.cs:2351
+#: ../src/gui/app1/forceSensor.cs:2953 ../src/gui/app1/runEncoder.cs:2364
 #: ../src/gui/app1/session/backup.cs:170 ../src/report.cs:140
 msgid "Session"
 msgstr "Сеанс"
@@ -45,8 +45,8 @@ msgstr "Новий сеанс"
 msgid "Load session"
 msgstr "Завантажити сеанс"
 
-#: ../glade/app1.glade.h:6 ../src/gui/preferences.cs:331
-#: ../src/gui/preferences.cs:2102 ../src/gui/preferences.cs:2113
+#: ../glade/app1.glade.h:6 ../src/gui/preferences.cs:332
+#: ../src/gui/preferences.cs:2104 ../src/gui/preferences.cs:2115
 msgid "Preferences"
 msgstr "Параметри"
 
@@ -73,9 +73,9 @@ msgid "New"
 msgstr "Створити"
 
 #: ../glade/app1.glade.h:12 ../glade/person_recuperate.glade.h:7
-#: ../src/gui/app1/encoder.cs:1813 ../src/gui/app1/forceSensor.cs:1769
-#: ../src/gui/app1/forceSensor.cs:1800 ../src/gui/app1/runEncoder.cs:978
-#: ../src/gui/app1/runEncoder.cs:1009 ../src/gui/person/addMultiple.cs:388
+#: ../src/gui/app1/encoder.cs:1813 ../src/gui/app1/forceSensor.cs:1771
+#: ../src/gui/app1/forceSensor.cs:1802 ../src/gui/app1/runEncoder.cs:981
+#: ../src/gui/app1/runEncoder.cs:1012 ../src/gui/person/addMultiple.cs:394
 msgid "Load"
 msgstr "Завантажити"
 
@@ -112,7 +112,7 @@ msgstr "Режими"
 
 #: ../glade/app1.glade.h:20 ../glade/dialog_threshold.glade.h:3
 #: ../glade/preferences_win.glade.h:39 ../glade/report_window.glade.h:10
-#: ../src/exportSession.cs:434 ../src/gui/app1/chronojump.cs:5711
+#: ../src/exportSession.cs:434 ../src/gui/app1/chronojump.cs:5723
 #: ../src/gui/jump.cs:1344 ../src/gui/jump.cs:1399 ../src/gui/jump.cs:1449
 #: ../src/sqlite/speciallity.cs:174 ../src/stats/rjAVGSD.cs:36
 #: ../src/stats/rjPotencyBosco.cs:35
@@ -125,15 +125,15 @@ msgid "Races"
 msgstr "Дистанції"
 
 #: ../glade/app1.glade.h:22 ../glade/preferences_win.glade.h:119
-#: ../src/gui/app1/chronojump.cs:3244
+#: ../src/gui/app1/chronojump.cs:3253
 #: ../src/gui/app1/session/loadAndImport.cs:332
 #: ../src/gui/person/showAllEvents.cs:244
 msgid "Isometric"
 msgstr "Ізометричний"
 
 #: ../glade/app1.glade.h:23 ../glade/force_sensor_exercise.glade.h:12
-#: ../glade/preferences_win.glade.h:120 ../src/gui/app1/chronojump.cs:3246
-#: ../src/gui/app1/forceSensor.cs:1750
+#: ../glade/preferences_win.glade.h:120 ../src/gui/app1/chronojump.cs:3255
+#: ../src/gui/app1/forceSensor.cs:1752
 #: ../src/gui/app1/session/loadAndImport.cs:334
 #: ../src/gui/forceSensorExercise.cs:503 ../src/gui/person/showAllEvents.cs:245
 msgid "Elastic"
@@ -147,7 +147,7 @@ msgstr "Вага"
 
 #: ../glade/app1.glade.h:25 ../glade/preferences_win.glade.h:66
 #: ../src/gui/app1/session/loadAndImport.cs:340
-#: ../src/gui/encoderConfiguration.cs:218 ../src/gui/overview.cs:263
+#: ../src/gui/encoderConfiguration.cs:222 ../src/gui/overview.cs:263
 #: ../src/gui/person/showAllEvents.cs:249
 msgid "Inertial"
 msgstr "Інерційний"
@@ -202,7 +202,7 @@ msgid "Analyze"
 msgstr "Проаналізувати"
 
 #: ../glade/app1.glade.h:37 ../glade/report_window.glade.h:16
-#: ../src/exportSession.cs:227 ../src/gui/app1/chronojump.cs:6403
+#: ../src/exportSession.cs:227 ../src/gui/app1/chronojump.cs:6415
 #: ../src/report.cs:183
 msgid "Pulses"
 msgstr "Дані пульсу"
@@ -214,8 +214,8 @@ msgstr "MultiChronopic"
 #. column where the uniqueID of event will be (and will be hidden)
 #: ../glade/app1.glade.h:39 ../glade/edit_event.glade.h:6
 #: ../src/gui/app1/encoder.cs:1203 ../src/gui/app1/encoder.cs:5785
-#: ../src/gui/app1/forceSensor.cs:2948 ../src/gui/app1/runEncoder.cs:2350
-#: ../src/gui/executeAuto.cs:515 ../src/gui/overview.cs:98
+#: ../src/gui/app1/forceSensor.cs:2952 ../src/gui/app1/runEncoder.cs:2363
+#: ../src/gui/executeAuto.cs:522 ../src/gui/overview.cs:98
 #: ../src/gui/overview.cs:294 ../src/gui/overview.cs:303
 #: ../src/stats/runIntervallic.cs:64 ../src/treeview/multiChronopic.cs:30
 #: ../src/treeview/pulse.cs:46 ../src/treeview/reactionTime.cs:30
@@ -237,9 +237,9 @@ msgstr "Налаштувати вправу"
 
 #: ../glade/app1.glade.h:43 ../src/gui/app1/encoder.cs:1204
 #: ../src/gui/app1/encoder.cs:1765 ../src/gui/app1/encoder.cs:5765
-#: ../src/gui/app1/forceSensor.cs:1748 ../src/gui/app1/forceSensor.cs:2868
-#: ../src/gui/app1/forceSensor.cs:2883 ../src/gui/app1/runEncoder.cs:960
-#: ../src/gui/app1/runEncoder.cs:2330
+#: ../src/gui/app1/forceSensor.cs:1750 ../src/gui/app1/forceSensor.cs:2872
+#: ../src/gui/app1/forceSensor.cs:2887 ../src/gui/app1/runEncoder.cs:963
+#: ../src/gui/app1/runEncoder.cs:2343
 #: ../src/gui/encoderSelectRepetitions.cs:222
 #: ../src/gui/encoderTreeviews.cs:614 ../src/gui/overview.cs:100
 #: ../src/gui/overview.cs:297 ../src/gui/overview.cs:306
@@ -281,13 +281,13 @@ msgstr "Відгуки"
 msgid "Delete last test."
 msgstr "Вилучити останній тест."
 
-#: ../glade/app1.glade.h:52 ../src/gui/app1/chronojump.cs:5210
+#: ../glade/app1.glade.h:52 ../src/gui/app1/chronojump.cs:5222
 #: ../src/gui/app1/encoder.cs:1363 ../src/gui/app1/encoder.cs:7496
 msgid "Save comment"
 msgstr "Зберегти коментар"
 
 #: ../glade/app1.glade.h:53 ../glade/edit_event.glade.h:23
-#: ../src/gui/app1/forceSensor.cs:472 ../src/gui/encoderTreeviews.cs:73
+#: ../src/gui/app1/forceSensor.cs:474 ../src/gui/encoderTreeviews.cs:73
 #: ../src/gui/encoderTreeviews.cs:627
 msgid "Start"
 msgstr "Початок"
@@ -350,16 +350,16 @@ msgstr "Скасувати тест"
 #: ../src/gui/app1/encoder.cs:2748 ../src/gui/app1/session/backup.cs:79
 #: ../src/gui/app1/session/backup.cs:233 ../src/gui/app1/session/backup.cs:448
 #: ../src/gui/app1/session/export.cs:77 ../src/gui/chronopicRegister.cs:183
-#: ../src/gui/encoderConfiguration.cs:741
-#: ../src/gui/encoderConfiguration.cs:798 ../src/gui/networks.cs:417
-#: ../src/gui/person/addModify.cs:371 ../src/gui/person/addMultiple.cs:204
-#: ../src/gui/person/addMultiple.cs:219 ../src/gui/person/addMultiple.cs:387
-#: ../src/gui/preferences.cs:2759
+#: ../src/gui/encoderConfiguration.cs:775
+#: ../src/gui/encoderConfiguration.cs:832 ../src/gui/networks.cs:417
+#: ../src/gui/person/addModify.cs:378 ../src/gui/person/addMultiple.cs:210
+#: ../src/gui/person/addMultiple.cs:225 ../src/gui/person/addMultiple.cs:393
+#: ../src/gui/preferences.cs:2771
 msgid "Cancel"
 msgstr "Скасувати"
 
-#: ../glade/app1.glade.h:67 ../src/gui/app1/chronojump.cs:5414
-#: ../src/gui/app1/chronojump.cs:5860 ../src/gui/app1/chronojump.cs:6227
+#: ../glade/app1.glade.h:67 ../src/gui/app1/chronojump.cs:5426
+#: ../src/gui/app1/chronojump.cs:5872 ../src/gui/app1/chronojump.cs:6239
 #: ../src/gui/app1/jump.cs:350 ../src/gui/app1/jump.cs:391
 #: ../src/gui/app1/reactionTime.cs:98 ../src/gui/app1/run.cs:190
 #: ../src/gui/app1/run.cs:237
@@ -371,8 +371,8 @@ msgstr "Фази"
 #: ../src/exportSession.cs:600 ../src/exportSession.cs:756
 #: ../src/exportSession.cs:817 ../src/exportSession.cs:902
 #: ../src/forceSensor.cs:1910 ../src/gui/cairo/xy.cs:105
-#: ../src/gui/eventExecute.cs:1521 ../src/gui/eventExecute.cs:1657
-#: ../src/gui/eventExecute.cs:2061 ../src/gui/pulse.cs:232
+#: ../src/gui/eventExecute.cs:1522 ../src/gui/eventExecute.cs:1658
+#: ../src/gui/eventExecute.cs:2062 ../src/gui/pulse.cs:232
 #: ../src/stats/rjPotencyBosco.cs:36 ../src/stats/runSimple.cs:53
 #: ../src/treeview/multiChronopic.cs:55 ../src/treeview/multiChronopic.cs:63
 #: ../src/treeview/multiChronopic.cs:71 ../src/treeview/pulse.cs:47
@@ -385,8 +385,8 @@ msgid "Jump distance"
 msgstr "Відстань стрибка"
 
 #: ../glade/app1.glade.h:70 ../glade/edit_event.glade.h:19
-#: ../src/gui/person/addMultiple.cs:602 ../src/gui/person/addMultiple.cs:603
-#: ../src/gui/person/addMultiple.cs:604
+#: ../src/gui/person/addMultiple.cs:613 ../src/gui/person/addMultiple.cs:614
+#: ../src/gui/person/addMultiple.cs:615
 msgid "cm"
 msgstr "см"
 
@@ -504,8 +504,8 @@ msgstr "Останній пульс"
 #. don't plot AVG row on multisession
 #: ../glade/app1.glade.h:97 ../src/exportSession.cs:537
 #: ../src/exportSession.cs:704 ../src/exportSession.cs:822
-#: ../src/exportSession.cs:924 ../src/gui/eventExecute.cs:1659
-#: ../src/gui/eventExecute.cs:1660 ../src/stats/graphs/djIndex.cs:111
+#: ../src/exportSession.cs:924 ../src/gui/eventExecute.cs:1660
+#: ../src/gui/eventExecute.cs:1661 ../src/stats/graphs/djIndex.cs:111
 #: ../src/stats/graphs/djPower.cs:116 ../src/stats/graphs/djQ.cs:111
 #: ../src/stats/graphs/fv.cs:109 ../src/stats/graphs/fv.cs:149
 #: ../src/stats/graphs/global.cs:108 ../src/stats/graphs/global.cs:165
@@ -536,11 +536,11 @@ msgstr "Змінити масштаб (z)"
 msgid "Edit selected (e)"
 msgstr "Редагувати позначене (e)"
 
-#: ../glade/app1.glade.h:100 ../src/gui/app1/chronojump.cs:1837
-#: ../src/gui/app1/chronojump.cs:1956 ../src/gui/app1/chronojump.cs:2055
-#: ../src/gui/app1/chronojump.cs:2186 ../src/gui/app1/chronojump.cs:2277
-#: ../src/gui/app1/chronojump.cs:2376 ../src/gui/app1/chronojump.cs:2488
-#: ../src/gui/executeAuto.cs:248
+#: ../glade/app1.glade.h:100 ../src/gui/app1/chronojump.cs:1846
+#: ../src/gui/app1/chronojump.cs:1965 ../src/gui/app1/chronojump.cs:2064
+#: ../src/gui/app1/chronojump.cs:2195 ../src/gui/app1/chronojump.cs:2286
+#: ../src/gui/app1/chronojump.cs:2385 ../src/gui/app1/chronojump.cs:2497
+#: ../src/gui/executeAuto.cs:255
 msgid "Delete selected"
 msgstr "Вилучити позначене"
 
@@ -590,7 +590,7 @@ msgstr "Мін:"
 msgid "Best second:"
 msgstr "Найкраща секунда:"
 
-#: ../glade/app1.glade.h:112 ../src/gui/app1/chronojump.cs:3248
+#: ../glade/app1.glade.h:112 ../src/gui/app1/chronojump.cs:3257
 #: ../src/gui/app1/reactionTime.cs:53
 msgid "Reaction time"
 msgstr "Час реакції"
@@ -599,7 +599,7 @@ msgstr "Час реакції"
 msgid "Pulse"
 msgstr "Пульс"
 
-#: ../glade/app1.glade.h:114 ../src/gui/executeAuto.cs:516
+#: ../glade/app1.glade.h:114 ../src/gui/executeAuto.cs:523
 msgid "Test"
 msgstr "Тест"
 
@@ -639,7 +639,7 @@ msgstr "Редагувати тип вправи"
 #: ../glade/encoder_configuration.glade.h:25
 #: ../glade/force_sensor_elastic_bands.glade.h:11
 #: ../glade/generic_window.glade.h:9 ../glade/person_select_window.glade.h:16
-#: ../src/gui/app1/chronojump.cs:1682
+#: ../src/gui/app1/chronojump.cs:1691
 msgid "Edit"
 msgstr "Змінити"
 
@@ -677,9 +677,9 @@ msgstr "Вільний"
 
 #. A) changes on preferences gui
 #: ../glade/app1.glade.h:132 ../glade/preferences_win.glade.h:4
-#: ../src/gui/app1/pulse.cs:63 ../src/gui/preferences.cs:1849
-#: ../src/gui/preferences.cs:1851 ../src/gui/preferences.cs:1869
-#: ../src/gui/preferences.cs:2534 ../src/gui/preferences.cs:2542
+#: ../src/gui/app1/pulse.cs:63 ../src/gui/preferences.cs:1848
+#: ../src/gui/preferences.cs:1850 ../src/gui/preferences.cs:1868
+#: ../src/gui/preferences.cs:2536 ../src/gui/preferences.cs:2544
 msgid "Custom"
 msgstr "Нетиповий"
 
@@ -722,7 +722,7 @@ msgid "Start outside"
 msgstr "Почати ззовні"
 
 #: ../glade/app1.glade.h:143 ../glade/edit_event.glade.h:3
-#: ../src/gui/eventExecute.cs:1517
+#: ../src/gui/eventExecute.cs:1518
 msgid "Falling height"
 msgstr "Висота падіння"
 
@@ -821,7 +821,7 @@ msgid "Right"
 msgstr "Права"
 
 #. show now
-#: ../glade/app1.glade.h:161 ../src/gui/app1/forceSensor.cs:459
+#: ../glade/app1.glade.h:161 ../src/gui/app1/forceSensor.cs:461
 msgid "Detect stiffness of one band/tube"
 msgstr "Визначити жорсткість однієї смужки/трубки"
 
@@ -834,30 +834,30 @@ msgstr "Проєкція напруженої сили"
 msgid "Lights"
 msgstr "Освітлення"
 
-#: ../glade/app1.glade.h:164 ../src/gui/app1/chronojump.cs:6242
+#: ../glade/app1.glade.h:164 ../src/gui/app1/chronojump.cs:6254
 msgid "red"
 msgstr "червоний"
 
-#: ../glade/app1.glade.h:165 ../src/gui/app1/chronojump.cs:6246
+#: ../glade/app1.glade.h:165 ../src/gui/app1/chronojump.cs:6258
 msgid "yellow"
 msgstr "жовтий"
 
-#: ../glade/app1.glade.h:166 ../src/gui/app1/chronojump.cs:6250
+#: ../glade/app1.glade.h:166 ../src/gui/app1/chronojump.cs:6262
 msgid "green"
 msgstr "зелений"
 
-#: ../glade/app1.glade.h:167 ../src/gui/app1/chronojump.cs:6254
+#: ../glade/app1.glade.h:167 ../src/gui/app1/chronojump.cs:6266
 msgid "buzzer"
 msgstr "гудок"
 
 #: ../glade/app1.glade.h:168 ../glade/feedback.glade.h:66
-#: ../src/gui/feedback.cs:1054
+#: ../src/gui/feedback.cs:1062
 msgid "Minimum"
 msgstr "Мінімум"
 
 #: ../glade/app1.glade.h:169 ../glade/feedback.glade.h:67
 #: ../src/encoder.cs:2521 ../src/forceSensor.cs:1983
-#: ../src/gui/feedback.cs:1054
+#: ../src/gui/feedback.cs:1062
 msgid "Maximum"
 msgstr "Максимум"
 
@@ -919,11 +919,11 @@ msgstr "Загальна відстань"
 #. Catalog.GetString("Device"),
 #: ../glade/app1.glade.h:182 ../glade/edit_event.glade.h:10
 #: ../glade/run_type_add.glade.h:16 ../src/constants.cs:1486
-#: ../src/exportSession.cs:599 ../src/gui/app1/runEncoder.cs:962
-#: ../src/gui/app1/runEncoder.cs:2448 ../src/gui/cairo/radial.cs:153
+#: ../src/exportSession.cs:599 ../src/gui/app1/runEncoder.cs:965
+#: ../src/gui/app1/runEncoder.cs:2461 ../src/gui/cairo/radial.cs:153
 #: ../src/gui/cairo/radial.cs:180 ../src/gui/cairo/xy.cs:106
 #: ../src/gui/encoderTreeviews.cs:75 ../src/gui/encoderTreeviews.cs:629
-#: ../src/gui/run.cs:1095 ../src/gui/run.cs:1292 ../src/gui/runType.cs:146
+#: ../src/gui/run.cs:1095 ../src/gui/run.cs:1292 ../src/gui/runType.cs:151
 #: ../src/stats/runSimple.cs:53 ../src/treeview/run.cs:57
 msgid "Distance"
 msgstr "Відстань"
@@ -949,7 +949,7 @@ msgstr "запустити кодувальник"
 #: ../src/exportSession.cs:246 ../src/exportSession.cs:261
 #: ../src/gui/app1/session/loadAndImport.cs:302
 #: ../src/gui/app1/session/tagSessionSelect.cs:118
-#: ../src/gui/encoderConfiguration.cs:645 ../src/gui/executeAuto.cs:200
+#: ../src/gui/encoderConfiguration.cs:660 ../src/gui/executeAuto.cs:207
 #: ../src/gui/jump.cs:1082 ../src/gui/jump.cs:1306
 #: ../src/gui/person/recuperate.cs:134 ../src/gui/run.cs:1094
 #: ../src/gui/run.cs:1291 ../src/gui/server.cs:167
@@ -969,7 +969,7 @@ msgstr "Назва"
 #: ../src/exportSession.cs:438 ../src/exportSession.cs:603
 #: ../src/exportSession.cs:661 ../src/exportSession.cs:757
 #: ../src/exportSession.cs:799 ../src/exportSession.cs:859
-#: ../src/gui/encoderConfiguration.cs:646 ../src/gui/executeAuto.cs:202
+#: ../src/gui/encoderConfiguration.cs:661 ../src/gui/executeAuto.cs:209
 #: ../src/gui/jump.cs:1085 ../src/gui/jump.cs:1311
 #: ../src/gui/person/recuperate.cs:137 ../src/gui/run.cs:1096
 #: ../src/gui/run.cs:1295 ../src/runType.cs:196 ../src/runType.cs:230
@@ -1012,12 +1012,12 @@ msgstr "Зберегти"
 #: ../glade/person_select_window.glade.h:21
 #: ../glade/preferences_win.glade.h:184 ../src/gui/app1/encoder.cs:1249
 #: ../src/gui/app1/encoder.cs:1814 ../src/gui/app1/encoder.cs:5772
-#: ../src/gui/app1/forceSensor.cs:1801 ../src/gui/app1/forceSensor.cs:2935
-#: ../src/gui/app1/runEncoder.cs:1010 ../src/gui/app1/runEncoder.cs:2337
+#: ../src/gui/app1/forceSensor.cs:1803 ../src/gui/app1/forceSensor.cs:2939
+#: ../src/gui/app1/runEncoder.cs:1013 ../src/gui/app1/runEncoder.cs:2350
 #: ../src/gui/app1/session/backup.cs:194 ../src/gui/app1/session/backup.cs:408
 #: ../src/gui/app1/session/backup.cs:460 ../src/gui/chronopicRegister.cs:204
 #: ../src/gui/chronopicRegister.cs:365 ../src/gui/chronopicRegister.cs:776
-#: ../src/gui/encoderSelectRepetitions.cs:289 ../src/gui/executeAuto.cs:316
+#: ../src/gui/encoderSelectRepetitions.cs:289 ../src/gui/executeAuto.cs:323
 #: ../src/gui/genericWindow.cs:980
 msgid "Close"
 msgstr "Закрити"
@@ -1157,7 +1157,7 @@ msgstr "Показати опис"
 
 #: ../glade/app1.glade.h:227 ../glade/force_sensor_exercise.glade.h:32
 #: ../glade/report_window.glade.h:14 ../src/constants.cs:308
-#: ../src/gui/app1/chronojump.cs:3250
+#: ../src/gui/app1/chronojump.cs:3259
 msgid "Other"
 msgstr "Інше"
 
@@ -1218,8 +1218,8 @@ msgstr "Ширина"
 #: ../glade/person_multiple_infinite.glade.h:20
 #: ../glade/preferences_win.glade.h:139 ../src/exportSession.cs:264
 #: ../src/exportSession.cs:325 ../src/exportSession.cs:527
-#: ../src/gui/cairo/xy.cs:97 ../src/gui/eventExecute.cs:1513
-#: ../src/gui/person/addMultiple.cs:601 ../src/stats/djIndex.cs:33
+#: ../src/gui/cairo/xy.cs:97 ../src/gui/eventExecute.cs:1514
+#: ../src/gui/person/addMultiple.cs:612 ../src/stats/djIndex.cs:33
 #: ../src/stats/djPower.cs:33 ../src/stats/djQ.cs:33 ../src/stats/potency.cs:63
 #: ../src/stats/sjCmjAbk.cs:53 ../src/stats/sjCmjAbkPlus.cs:63
 #: ../src/treeview/jump.cs:33 ../src/treeview/multiChronopic.cs:230
@@ -1493,8 +1493,8 @@ msgid "TF"
 msgstr "ЧП"
 
 #: ../glade/app1.glade.h:304 ../glade/edit_event.glade.h:9
-#: ../src/gui/eventExecute.cs:1525 ../src/gui/eventExecute.cs:1659
-#: ../src/gui/eventExecute.cs:2064
+#: ../src/gui/eventExecute.cs:1526 ../src/gui/eventExecute.cs:1660
+#: ../src/gui/eventExecute.cs:2065
 msgid "Contact time"
 msgstr "Час контакту"
 
@@ -1605,9 +1605,9 @@ msgstr "Різниця"
 #: ../glade/app1.glade.h:328 ../glade/edit_event.glade.h:12
 #: ../glade/feedback.glade.h:32 ../src/constants.cs:1480 ../src/encoder.cs:2489
 #: ../src/exportSession.cs:601 ../src/forceSensor.cs:1916
-#: ../src/gui/app1/runEncoder.cs:2485 ../src/gui/cairo/radial.cs:147
-#: ../src/gui/cairo/xy.cs:100 ../src/gui/eventExecute.cs:1794
-#: ../src/gui/eventExecute.cs:1900 ../src/gui/eventExecute.cs:2231
+#: ../src/gui/app1/runEncoder.cs:2498 ../src/gui/cairo/radial.cs:147
+#: ../src/gui/cairo/xy.cs:100 ../src/gui/eventExecute.cs:1795
+#: ../src/gui/eventExecute.cs:1901 ../src/gui/eventExecute.cs:2232
 #: ../src/gui/overview.cs:312 ../src/stats/runIntervallic.cs:65
 #: ../src/stats/runIntervallic.cs:70 ../src/stats/runIntervallic.cs:74
 #: ../src/stats/runSimple.cs:52 ../src/treeview/run.cs:51
@@ -1625,7 +1625,7 @@ msgstr "Прискорення"
 #: ../src/encoder.cs:2492 ../src/exportSession.cs:326
 #: ../src/exportSession.cs:529 ../src/forceSensor.cs:1918
 #: ../src/gui/cairo/xy.cs:103 ../src/gui/overview.cs:311
-#: ../src/gui/preferences.cs:2201 ../src/stats/djPower.cs:32
+#: ../src/gui/preferences.cs:2203 ../src/stats/djPower.cs:32
 #: ../src/treeview/jump.cs:34
 msgid "Power"
 msgstr "Потужність"
@@ -1633,7 +1633,7 @@ msgstr "Потужність"
 #. impulse
 #: ../glade/app1.glade.h:331 ../src/constants.cs:1516
 #: ../src/gui/encoderTreeviews.cs:88 ../src/gui/encoderTreeviews.cs:642
-#: ../src/gui/eventExecute.cs:2895
+#: ../src/gui/eventExecute.cs:2896
 msgid "Impulse"
 msgstr "Імпульс"
 
@@ -1646,8 +1646,8 @@ msgid "Export data from A to B"
 msgstr "Експортувати дані з A до B"
 
 #: ../glade/app1.glade.h:334 ../glade/force_sensor_exercise.glade.h:38
-#: ../glade/person_merge.glade.h:8 ../src/gui/person/addMultiple.cs:377
-#: ../src/gui/person/addMultiple.cs:556
+#: ../glade/person_merge.glade.h:8 ../src/gui/person/addMultiple.cs:383
+#: ../src/gui/person/addMultiple.cs:565
 msgid "Back"
 msgstr "Назад"
 
@@ -1804,7 +1804,7 @@ msgstr "Стовпчики"
 msgid "Signal"
 msgstr "Сигнал"
 
-#: ../glade/app1.glade.h:374 ../src/gui/app1/chronojump.cs:4344
+#: ../glade/app1.glade.h:374 ../src/gui/app1/chronojump.cs:4353
 msgid "Select at least one"
 msgstr "Виберіть принаймні один варіант"
 
@@ -1813,7 +1813,7 @@ msgid "v,p,f are averages of propulsive phase."
 msgstr "v,p,f є середніми за поступальною фазою."
 
 #: ../glade/app1.glade.h:376 ../src/gui/app1/encoder.cs:1764
-#: ../src/gui/app1/forceSensor.cs:1747 ../src/gui/app1/runEncoder.cs:959
+#: ../src/gui/app1/forceSensor.cs:1749 ../src/gui/app1/runEncoder.cs:962
 msgid "Set"
 msgstr "Набір"
 
@@ -1862,7 +1862,7 @@ msgstr "Калібрувати знову"
 
 #. notebook_encoder_capture_extra_mass.CurrentPage = 0;
 #. TODO: show also info on the top
-#: ../glade/app1.glade.h:384 ../src/gui/app1/chronojump.cs:4052
+#: ../glade/app1.glade.h:384 ../src/gui/app1/chronojump.cs:4061
 msgid "Configure gravitatory encoder"
 msgstr "Налаштувати гравітаційний кодувальник"
 
@@ -1888,7 +1888,7 @@ msgid "Phase"
 msgstr "Фаза"
 
 #: ../glade/app1.glade.h:390 ../src/constants.cs:1510
-#: ../src/gui/app1/encoder.cs:1766 ../src/gui/app1/forceSensor.cs:1752
+#: ../src/gui/app1/encoder.cs:1766 ../src/gui/app1/forceSensor.cs:1754
 #: ../src/gui/encoderTreeviews.cs:615
 msgid "Laterality"
 msgstr "Латеральність"
@@ -1965,7 +1965,7 @@ msgid "Type:"
 msgstr "Тип:"
 
 #: ../glade/app1.glade.h:405 ../glade/preferences_win.glade.h:70
-#: ../src/gui/encoderConfiguration.cs:216 ../src/gui/overview.cs:261
+#: ../src/gui/encoderConfiguration.cs:220 ../src/gui/overview.cs:261
 msgid "Gravitatory"
 msgstr "Гравітаційний"
 
@@ -2171,12 +2171,10 @@ msgid "Export session"
 msgstr "Експортувати сеанс"
 
 #: ../glade/app1.glade.h:455
-#| msgid "Export to another database"
 msgid "Export to another Chronojump"
 msgstr "Експортувати до іншої Chronojump"
 
 #: ../glade/app1.glade.h:456
-#| msgid "Jumps and races with photocells"
 msgid "Only jumps and races with photocells"
 msgstr "Лише стрибки і дистанції із фотодатчиками"
 
@@ -2229,7 +2227,7 @@ msgid "Open database file"
 msgstr "Відкрити файл бази даних"
 
 #: ../glade/app1.glade.h:469 ../glade/encoder_configuration.glade.h:23
-#: ../src/gui/preferences.cs:2760
+#: ../src/gui/preferences.cs:2772
 msgid "Import"
 msgstr "Імпортувати"
 
@@ -2280,9 +2278,9 @@ msgstr "Буде імпортовано до поточного сеансу."
 
 #: ../glade/app1.glade.h:481 ../glade/encoder_configuration.glade.h:33
 #: ../glade/generic_window.glade.h:11 ../src/gui/app1/encoder.cs:2452
-#: ../src/gui/app1/encoder.cs:2749 ../src/gui/encoderConfiguration.cs:742
-#: ../src/gui/encoderConfiguration.cs:799 ../src/gui/executeAuto.cs:555
-#: ../src/gui/person/addModify.cs:372
+#: ../src/gui/app1/encoder.cs:2749 ../src/gui/encoderConfiguration.cs:776
+#: ../src/gui/encoderConfiguration.cs:833 ../src/gui/executeAuto.cs:562
+#: ../src/gui/person/addModify.cs:379
 msgid "Accept"
 msgstr "Прийняти"
 
@@ -2329,8 +2327,8 @@ msgstr "Місце"
 #. tv.AppendColumn ( Catalog.GetString ("Date"), new CellRendererText(), "text", count++);
 #: ../glade/app1.glade.h:491 ../src/exportSession.cs:248
 #: ../src/gui/app1/encoder.cs:1770 ../src/gui/app1/encoder.cs:5786
-#: ../src/gui/app1/forceSensor.cs:1755 ../src/gui/app1/forceSensor.cs:2949
-#: ../src/gui/app1/runEncoder.cs:963 ../src/gui/app1/runEncoder.cs:2351
+#: ../src/gui/app1/forceSensor.cs:1757 ../src/gui/app1/forceSensor.cs:2953
+#: ../src/gui/app1/runEncoder.cs:966 ../src/gui/app1/runEncoder.cs:2364
 #: ../src/gui/app1/session/loadAndImport.cs:297 ../src/gui/cairo/xy.cs:104
 #: ../src/gui/encoderSelectRepetitions.cs:230
 #: ../src/gui/person/showAllEvents.cs:236 ../src/gui/session/selectStats.cs:86
@@ -2372,7 +2370,7 @@ msgstr "Дані сеансу"
 
 #: ../glade/app1.glade.h:496 ../glade/person_win.glade.h:33
 #: ../src/exportSession.cs:265 ../src/gui/app1/session/loadAndImport.cs:318
-#: ../src/gui/person/addMultiple.cs:774
+#: ../src/gui/person/addMultiple.cs:785
 msgid "Sport"
 msgstr "Спорт"
 
@@ -2390,7 +2388,7 @@ msgstr "Додати новий спорт"
 
 #: ../glade/app1.glade.h:500 ../glade/person_win.glade.h:34
 #: ../src/exportSession.cs:265 ../src/gui/app1/session/loadAndImport.cs:319
-#: ../src/gui/person/addMultiple.cs:776
+#: ../src/gui/person/addMultiple.cs:787
 msgid "Specialty"
 msgstr "Спеціалізація"
 
@@ -2400,7 +2398,7 @@ msgstr "Інші спеціалізації"
 
 #: ../glade/app1.glade.h:502 ../glade/person_win.glade.h:35
 #: ../src/exportSession.cs:266 ../src/gui/app1/session/loadAndImport.cs:320
-#: ../src/gui/person/addMultiple.cs:778
+#: ../src/gui/person/addMultiple.cs:789
 msgid "Level"
 msgstr "Рівень"
 
@@ -2572,7 +2570,7 @@ msgid "Create new person"
 msgstr "Створити запис особи"
 
 #: ../glade/app1.glade.h:543 ../glade/person_select_window.glade.h:3
-#: ../glade/person_win.glade.h:1 ../src/gui/person/addModify.cs:262
+#: ../glade/person_win.glade.h:1 ../src/gui/person/addModify.cs:269
 msgid "New person"
 msgstr "Нова особа"
 
@@ -2613,7 +2611,7 @@ msgstr "Показати усі тести для будь-якої особи"
 
 #. this strings will be used on merge persons code. Now are here just to be translated in the meantime.
 #: ../glade/app1.glade.h:552 ../glade/person_merge.glade.h:1
-#: ../src/gui/person/addModify.cs:161
+#: ../src/gui/person/addModify.cs:162
 msgid "Merge with another person"
 msgstr "Об'єднати із іншою особою"
 
@@ -2842,8 +2840,8 @@ msgstr "Про порігAbout threshold"
 msgid "Other tests"
 msgstr "Інші тести"
 
-#: ../glade/edit_event.glade.h:2 ../src/gui/eventExecute.cs:1526
-#: ../src/gui/eventExecute.cs:1660 ../src/gui/eventExecute.cs:2065
+#: ../glade/edit_event.glade.h:2 ../src/gui/eventExecute.cs:1527
+#: ../src/gui/eventExecute.cs:1661 ../src/gui/eventExecute.cs:2066
 msgid "Flight time"
 msgstr "Час польоту"
 
@@ -2891,7 +2889,7 @@ msgstr "м"
 msgid "m/s"
 msgstr "м/с"
 
-#: ../glade/edit_event.glade.h:22 ../src/gui/person/addMultiple.cs:600
+#: ../glade/edit_event.glade.h:22 ../src/gui/person/addMultiple.cs:611
 msgid "Kg"
 msgstr "кг"
 
@@ -3132,7 +3130,7 @@ msgid "Add new"
 msgstr "Додати нову"
 
 #: ../glade/encoder_configuration.glade.h:28
-#: ../src/gui/encoderConfiguration.cs:969
+#: ../src/gui/encoderConfiguration.cs:1003
 msgid "Duplicate"
 msgstr "Здублювати"
 
@@ -3193,8 +3191,8 @@ msgid "Select your Chronometer"
 msgstr "Виберіть ваш хронометр"
 
 #: ../glade/evaluator_window.glade.h:14 ../src/constants.cs:196
-#: ../src/constants.cs:197 ../src/gui/person/addModify.cs:697
-#: ../src/gui/person/addModify.cs:739
+#: ../src/constants.cs:197 ../src/gui/person/addModify.cs:704
+#: ../src/gui/person/addModify.cs:746
 msgid "Undefined"
 msgstr "Не визначено"
 
@@ -3276,29 +3274,39 @@ msgid "By sets"
 msgstr "За наборами"
 
 #: ../glade/execute_auto.glade.h:8
+#| msgid ""
+#| "First person perform all the tests,\n"
+#| "second person perform all the tests &#x2026;"
 msgid ""
 "First person perform all the tests,\n"
-"second person perform all the tests &#x2026;"
+"second person perform all the tests …"
 msgstr ""
 "Перша особа виконала усі тести,\n"
-"друга особа виконала усі тести&#x2026;"
+"друга особа виконала усі тести…"
 
 #: ../glade/execute_auto.glade.h:10
+#| msgid ""
+#| "All the persons perform first test,\n"
+#| "all the persons perform second test &#x2026;"
 msgid ""
 "All the persons perform first test,\n"
-"all the persons perform second test &#x2026;"
+"all the persons perform second test …"
 msgstr ""
 "Усі особи виконали перший тест,\n"
-"усі особи виконали другий тест&#x2026;"
+"усі особи виконали другий тест…"
 
 #: ../glade/execute_auto.glade.h:12
+#| msgid ""
+#| "All the persons perform first set,\n"
+#| "all the persons perform second set &#x2026;\n"
+#| "One set can contain several tests."
 msgid ""
 "All the persons perform first set,\n"
-"all the persons perform second set &#x2026;\n"
+"all the persons perform second set …\n"
 "One set can contain several tests."
 msgstr ""
 "Усі особи виконали перший тест,\n"
-"усі особи виконали другий набір&#x2026;\n"
+"усі особи виконали другий набір…\n"
 "Один набір може містити декілька тестів."
 
 #: ../glade/execute_auto.glade.h:16
@@ -3463,7 +3471,7 @@ msgstr "Відгук — вручну"
 msgid "Show rhythm while capturing"
 msgstr "Показувати ритм під час захоплення"
 
-#: ../glade/feedback.glade.h:41 ../src/gui/feedback.cs:928
+#: ../glade/feedback.glade.h:41 ../src/gui/feedback.cs:936
 msgid "Use clusters"
 msgstr "Використовувати групи"
 
@@ -3580,7 +3588,7 @@ msgstr "Додати нову еластичну стрічку/трубу"
 #: ../glade/force_sensor_elastic_bands.glade.h:6
 #: ../glade/preferences_win.glade.h:28 ../src/exportSession.cs:327
 #: ../src/exportSession.cs:530 ../src/gui/forceSensorElasticBands.cs:215
-#: ../src/gui/preferences.cs:2204 ../src/treeview/jump.cs:35
+#: ../src/gui/preferences.cs:2206 ../src/treeview/jump.cs:35
 msgid "Stiffness"
 msgstr "Жорсткість"
 
@@ -3648,7 +3656,7 @@ msgstr "Лише для пружного режиму"
 msgid "What force do you want to show?"
 msgstr "Яку силу ви хочете показати?"
 
-#: ../glade/force_sensor_exercise.glade.h:9 ../src/gui/app1/forceSensor.cs:1753
+#: ../glade/force_sensor_exercise.glade.h:9 ../src/gui/app1/forceSensor.cs:1755
 #: ../src/gui/forceSensorExercise.cs:499
 msgid "Raw data"
 msgstr "Необроблені дані"
@@ -3725,7 +3733,7 @@ msgstr "Разом"
 msgid "Separated"
 msgstr "Окремо"
 
-#: ../glade/force_sensor_exercise.glade.h:35 ../src/gui/preferences.cs:2102
+#: ../glade/force_sensor_exercise.glade.h:35 ../src/gui/preferences.cs:2104
 msgid "Help:"
 msgstr "Довідка:"
 
@@ -3746,7 +3754,7 @@ msgid "button"
 msgstr "кнопка"
 
 #: ../glade/generic_window.glade.h:6 ../src/gui/app1/encoder.cs:1772
-#: ../src/gui/app1/forceSensor.cs:1757 ../src/gui/app1/runEncoder.cs:965
+#: ../src/gui/app1/forceSensor.cs:1759 ../src/gui/app1/runEncoder.cs:968
 #: ../src/gui/encoderSelectRepetitions.cs:231 ../src/gui/report.cs:162
 msgid "Comment"
 msgstr "Коментар"
@@ -3820,7 +3828,7 @@ msgstr "Відскік може починатися всередині плат
 
 #. not shown, unused
 #: ../glade/overview.glade.h:2 ../src/gui/app1/encoder.cs:5785
-#: ../src/gui/app1/forceSensor.cs:2948 ../src/gui/app1/runEncoder.cs:2350
+#: ../src/gui/app1/forceSensor.cs:2952 ../src/gui/app1/runEncoder.cs:2363
 #: ../src/gui/app1/session/loadAndImport.cs:337
 #: ../src/gui/app1/session/loadAndImport.cs:341 ../src/gui/overview.cs:101
 #: ../src/gui/overview.cs:301 ../src/gui/person/showAllEvents.cs:247
@@ -3865,7 +3873,7 @@ msgid "Add multiple persons"
 msgstr "Додати декілька осіб"
 
 #: ../glade/person_multiple_infinite.glade.h:3 ../glade/person_win.glade.h:2
-#: ../src/gui/person/addMultiple.cs:597
+#: ../src/gui/person/addMultiple.cs:608
 msgid "Full name"
 msgstr "Повне ім'я"
 
@@ -3882,12 +3890,12 @@ msgid "Person's height"
 msgstr "Висота особи"
 
 #: ../glade/person_multiple_infinite.glade.h:7 ../glade/person_win.glade.h:21
-#: ../src/gui/person/addMultiple.cs:794
+#: ../src/gui/person/addMultiple.cs:805
 msgid "Leg length"
 msgstr "Довжина ноги"
 
 #: ../glade/person_multiple_infinite.glade.h:8 ../glade/person_win.glade.h:23
-#: ../src/gui/person/addMultiple.cs:799
+#: ../src/gui/person/addMultiple.cs:810
 msgid "Hips height on SJ flexion"
 msgstr "Висота стегна при згинанні SJ"
 
@@ -3928,7 +3936,7 @@ msgstr "Назва стовпчика не має значення. Важлив
 #: ../glade/person_multiple_infinite.glade.h:19 ../glade/person_win.glade.h:9
 #: ../src/constants.cs:1491 ../src/exportSession.cs:264
 #: ../src/exportSession.cs:306 ../src/exportSession.cs:407
-#: ../src/gui/person/addMultiple.cs:599 ../src/stats/djPower.cs:37
+#: ../src/gui/person/addMultiple.cs:610 ../src/stats/djPower.cs:37
 msgid "Weight"
 msgstr "Вага"
 
@@ -3986,7 +3994,7 @@ msgstr "Показати усі тести для особи"
 
 #: ../glade/person_win.glade.h:3 ../src/exportSession.cs:262
 #: ../src/gui/overview.cs:99 ../src/gui/overview.cs:295
-#: ../src/gui/overview.cs:304 ../src/gui/person/addMultiple.cs:598
+#: ../src/gui/overview.cs:304 ../src/gui/person/addMultiple.cs:609
 #: ../src/gui/person/recuperate.cs:135
 msgid "Sex"
 msgstr "Стать"
@@ -4190,7 +4198,7 @@ msgstr "DjIndex"
 msgid "Initial speed"
 msgstr "Початкова швидкість"
 
-#: ../glade/preferences_win.glade.h:29 ../src/gui/preferences.cs:2207
+#: ../glade/preferences_win.glade.h:29 ../src/gui/preferences.cs:2209
 msgid "Variables to show at reactive jumps:"
 msgstr "Змінні, які слід показувати для реактивних стрибків:"
 
@@ -4226,7 +4234,7 @@ msgstr "Використовувати час польоту"
 msgid "Speed units:"
 msgstr "Одиниці швидкості:"
 
-#: ../glade/preferences_win.glade.h:41 ../src/gui/preferences.cs:2659
+#: ../glade/preferences_win.glade.h:41 ../src/gui/preferences.cs:2671
 msgid ""
 "\"Speed start\" means when athlete does not start with \"contact\" on the "
 "first platform or photocell.\n"
@@ -4294,7 +4302,7 @@ msgstr "10"
 msgid "Detection"
 msgstr "Виявлення"
 
-#: ../glade/preferences_win.glade.h:59 ../src/gui/app1/chronojump.cs:3238
+#: ../glade/preferences_win.glade.h:59 ../src/gui/app1/chronojump.cs:3247
 #: ../src/gui/app1/session/loadAndImport.cs:329
 #: ../src/gui/person/showAllEvents.cs:243
 msgid "Race analyzer"
@@ -4409,7 +4417,7 @@ msgstr "На інерційних машинах цей варіант не ви
 #. work and impulse are in separate string variables because maybe we will select to show one or the other
 #. work
 #: ../glade/preferences_win.glade.h:93 ../src/gui/encoderTreeviews.cs:65
-#: ../src/gui/encoderTreeviews.cs:605 ../src/gui/eventExecute.cs:2888
+#: ../src/gui/encoderTreeviews.cs:605 ../src/gui/eventExecute.cs:2889
 msgid "Work"
 msgstr "Робота"
 
@@ -4427,7 +4435,7 @@ msgstr "Змінна X для показу графіків інерційног
 
 #. inertial
 #: ../glade/preferences_win.glade.h:97 ../src/gui/encoderTreeviews.cs:623
-#: ../src/gui/preferences.cs:2807
+#: ../src/gui/preferences.cs:2819
 msgid "Equivalent mass"
 msgstr "Еквівалентна маса"
 
@@ -4595,7 +4603,7 @@ msgid "<b>Advanced</b>"
 msgstr "<b>Додатково</b>"
 
 #: ../glade/preferences_win.glade.h:154 ../src/gui/app1/encoder.cs:1771
-#: ../src/gui/app1/forceSensor.cs:1756 ../src/gui/app1/runEncoder.cs:964
+#: ../src/gui/app1/forceSensor.cs:1758 ../src/gui/app1/runEncoder.cs:967
 msgid "Video"
 msgstr "Відео"
 
@@ -5486,9 +5494,9 @@ msgstr "Тести <b>імітуватимуться</b>, доки не буде
 #: ../src/exportSession.cs:440 ../src/exportSession.cs:604
 #: ../src/exportSession.cs:662 ../src/exportSession.cs:758
 #: ../src/exportSession.cs:800 ../src/exportSession.cs:860
-#: ../src/gui/eventExecute.cs:127 ../src/gui/eventExecute.cs:1429
-#: ../src/gui/eventExecute.cs:1549 ../src/gui/eventExecute.cs:1682
-#: ../src/gui/eventExecute.cs:1816 ../src/gui/eventExecute.cs:1923
+#: ../src/gui/eventExecute.cs:127 ../src/gui/eventExecute.cs:1430
+#: ../src/gui/eventExecute.cs:1550 ../src/gui/eventExecute.cs:1683
+#: ../src/gui/eventExecute.cs:1817 ../src/gui/eventExecute.cs:1924
 msgid "Simulated"
 msgstr "Імітовано"
 
@@ -6096,7 +6104,7 @@ msgstr[2] "Відкинуто {0} наборів через те, що вони 
 msgstr[3] "Відкинуто один набір через те, що він є надто коротким."
 
 #: ../src/exportFiles/exportFiles.cs:170 ../src/gui/app1/session/export.cs:185
-#: ../src/gui/encoderConfiguration.cs:837
+#: ../src/gui/encoderConfiguration.cs:871
 msgid "Cancelled."
 msgstr "Скасовано."
 
@@ -6143,7 +6151,7 @@ msgstr "Зберегти звіт як…"
 msgid "Export session in format "
 msgstr "Експортувати сеанс у форматі"
 
-#: ../src/exportSession.cs:106 ../src/gui/encoderConfiguration.cs:816
+#: ../src/exportSession.cs:106 ../src/gui/encoderConfiguration.cs:850
 msgid "Are you sure you want to overwrite file: "
 msgstr "Ви справді хочете перезаписати файл: "
 
@@ -6157,18 +6165,18 @@ msgstr "Не вдалося експортувати до файла {0} "
 #: ../src/gui/app1/encoder.cs:2846 ../src/gui/app1/encoder.cs:2854
 #: ../src/gui/app1/encoder.cs:2861 ../src/gui/app1/encoder.cs:2868
 #: ../src/gui/app1/encoder.cs:2876 ../src/gui/app1/encoder.cs:2883
-#: ../src/gui/app1/forceSensor.cs:2543 ../src/gui/app1/forceSensor.cs:2555
-#: ../src/gui/app1/forceSensor.cs:2577 ../src/gui/app1/jump.cs:814
+#: ../src/gui/app1/forceSensor.cs:2545 ../src/gui/app1/forceSensor.cs:2557
+#: ../src/gui/app1/forceSensor.cs:2579 ../src/gui/app1/jump.cs:814
 #: ../src/gui/app1/jumpsAsymmetry.cs:278
 #: ../src/gui/app1/jumpsDjOptimalFall.cs:145
 #: ../src/gui/app1/jumpsRunsEvolution.cs:184
 #: ../src/gui/app1/jumpsRunsEvolution.cs:386
-#: ../src/gui/app1/jumpsProfile.cs:112 ../src/gui/app1/jumpsRjFatigue.cs:253
+#: ../src/gui/app1/jumpsProfile.cs:112 ../src/gui/app1/jumpsRjFatigue.cs:264
 #: ../src/gui/app1/jumpsWeightFVProfile.cs:206 ../src/gui/app1/run.cs:511
 #: ../src/gui/app1/runEncoderAnalyze.cs:258
-#: ../src/gui/app1/runEncoderAnalyze.cs:308 ../src/gui/app1/runEncoder.cs:2607
-#: ../src/gui/encoderConfiguration.cs:824
-#: ../src/gui/encoderConfiguration.cs:851 ../src/gui/sprint.cs:323
+#: ../src/gui/app1/runEncoderAnalyze.cs:308 ../src/gui/app1/runEncoder.cs:2620
+#: ../src/gui/encoderConfiguration.cs:858
+#: ../src/gui/encoderConfiguration.cs:885 ../src/gui/sprint.cs:323
 #: ../src/gui/sprint.cs:363
 #, csharp-format
 msgid "Saved to {0}"
@@ -6203,7 +6211,7 @@ msgid "SessionID"
 msgstr "Ід. сеансу"
 
 #: ../src/exportSession.cs:261 ../src/gui/app1/encoder.cs:1763
-#: ../src/gui/app1/forceSensor.cs:1746 ../src/gui/app1/runEncoder.cs:958
+#: ../src/gui/app1/forceSensor.cs:1748 ../src/gui/app1/runEncoder.cs:961
 #: ../src/gui/convertWeight.cs:112 ../src/gui/encoderSelectRepetitions.cs:219
 #: ../src/gui/encoderSelectRepetitions.cs:438
 #: ../src/gui/encoderSelectRepetitions.cs:611
@@ -6325,7 +6333,7 @@ msgstr "Середня швидкість"
 msgid "Distance interval"
 msgstr "Інтервал відстані"
 
-#: ../src/exportSession.cs:658 ../src/gui/app1/chronojump.cs:6008
+#: ../src/exportSession.cs:658 ../src/gui/app1/chronojump.cs:6020
 #: ../src/gui/run.cs:1326 ../src/gui/run.cs:1394 ../src/gui/run.cs:1446
 msgid "Laps"
 msgstr "Кола"
@@ -6383,25 +6391,25 @@ msgstr "Статистика"
 msgid "Sample"
 msgstr "Вибірка"
 
-#: ../src/gui/app1/chronojump.cs:1312
+#: ../src/gui/app1/chronojump.cs:1321
 #, csharp-format
 msgid "Chronojump database version file: {0}"
 msgstr "Файл версії бази даних Chronojump: {0}"
 
-#: ../src/gui/app1/chronojump.cs:1367
+#: ../src/gui/app1/chronojump.cs:1376
 msgid "Preferences loaded"
 msgstr "Завантажені налаштування"
 
-#: ../src/gui/app1/chronojump.cs:1656
+#: ../src/gui/app1/chronojump.cs:1665
 #, csharp-format
 msgid "Sprints of {0}"
 msgstr "Спринти {0}"
 
-#: ../src/gui/app1/chronojump.cs:1686
+#: ../src/gui/app1/chronojump.cs:1695
 msgid "Show all tests of"
 msgstr "Показати усі тести"
 
-#: ../src/gui/app1/chronojump.cs:1693
+#: ../src/gui/app1/chronojump.cs:1702
 #, csharp-format
 msgid "Delete {0} from this session"
 msgstr "Вилучити {0} з цього сеансу"
@@ -6483,20 +6491,20 @@ msgstr "Вилучити {0} з цього сеансу"
 #. myItem.Sensitive = false;
 #. myMenu.Attach( myItem, 0, 1, 0, 1 );
 #.
-#: ../src/gui/app1/chronojump.cs:1830 ../src/gui/app1/chronojump.cs:1945
-#: ../src/gui/app1/chronojump.cs:2048 ../src/gui/app1/chronojump.cs:2175
-#: ../src/gui/app1/chronojump.cs:2270 ../src/gui/app1/chronojump.cs:2365
-#: ../src/gui/app1/chronojump.cs:2475 ../src/gui/encoderConfiguration.cs:941
+#: ../src/gui/app1/chronojump.cs:1839 ../src/gui/app1/chronojump.cs:1954
+#: ../src/gui/app1/chronojump.cs:2057 ../src/gui/app1/chronojump.cs:2184
+#: ../src/gui/app1/chronojump.cs:2279 ../src/gui/app1/chronojump.cs:2374
+#: ../src/gui/app1/chronojump.cs:2484 ../src/gui/encoderConfiguration.cs:975
 #: ../src/gui/forceSensorElasticBands.cs:283
 msgid "Edit selected"
 msgstr "Редагувати позначене"
 
-#: ../src/gui/app1/chronojump.cs:1949 ../src/gui/app1/chronojump.cs:2179
-#: ../src/gui/app1/chronojump.cs:2369
+#: ../src/gui/app1/chronojump.cs:1958 ../src/gui/app1/chronojump.cs:2188
+#: ../src/gui/app1/chronojump.cs:2378
 msgid "Repair selected"
 msgstr "Відновити позначене"
 
-#: ../src/gui/app1/chronojump.cs:3111
+#: ../src/gui/app1/chronojump.cs:3120
 #, csharp-format
 msgid ""
 "Could not delete file:\n"
@@ -6505,137 +6513,137 @@ msgstr ""
 "Не вдалося вилучити файл:\n"
 "{0}"
 
-#: ../src/gui/app1/chronojump.cs:3230 ../src/gui/app1/encoder.cs:2367
+#: ../src/gui/app1/chronojump.cs:3239 ../src/gui/app1/encoder.cs:2367
 #: ../src/gui/app1/session/loadAndImport.cs:323
 msgid "Jumps simple"
 msgstr "Прості стрибки"
 
-#: ../src/gui/app1/chronojump.cs:3232 ../src/gui/app1/encoder.cs:2369
+#: ../src/gui/app1/chronojump.cs:3241 ../src/gui/app1/encoder.cs:2369
 msgid "Jumps multiple"
 msgstr "Кратні стрибки"
 
-#: ../src/gui/app1/chronojump.cs:3234 ../src/gui/app1/encoder.cs:2371
+#: ../src/gui/app1/chronojump.cs:3243 ../src/gui/app1/encoder.cs:2371
 #: ../src/gui/app1/session/loadAndImport.cs:327
 msgid "Races simple"
 msgstr "Забіги просто"
 
-#: ../src/gui/app1/chronojump.cs:3236 ../src/gui/app1/encoder.cs:2373
+#: ../src/gui/app1/chronojump.cs:3245 ../src/gui/app1/encoder.cs:2373
 msgid "Races intervallic"
 msgstr "Забіги інтервально"
 
-#: ../src/gui/app1/chronojump.cs:3240
+#: ../src/gui/app1/chronojump.cs:3249
 msgid "Encoder (gravitatory)"
 msgstr "Кодувальник (гравітаційний)"
 
-#: ../src/gui/app1/chronojump.cs:3242
+#: ../src/gui/app1/chronojump.cs:3251
 msgid "Encoder (inertial)"
 msgstr "Кодувальник (інерційний)"
 
 #. reportWin is still not created, not need to Fill again
 #. feedback (more in 1st session created)
-#: ../src/gui/app1/chronojump.cs:3298
+#: ../src/gui/app1/chronojump.cs:3307
 msgid "Session created, now add or load persons."
 msgstr "Створено сеанс, тепер додайте або завантажте записи осіб."
 
 #. notebook_encoder_capture_extra_mass.CurrentPage = 1;
 #. TODO: show also info on the top
-#: ../src/gui/app1/chronojump.cs:4093
+#: ../src/gui/app1/chronojump.cs:4102
 msgid "Configure inertial encoder"
 msgstr "Налаштувати інерційний кодувальник"
 
-#: ../src/gui/app1/chronojump.cs:4312 ../src/gui/app1/chronojump.cs:4320
+#: ../src/gui/app1/chronojump.cs:4321 ../src/gui/app1/chronojump.cs:4329
 msgid "Sorry, R software is not installed."
 msgstr "Вибачте, не встановлено пакунки R."
 
-#: ../src/gui/app1/chronojump.cs:4313 ../src/gui/app1/encoder.cs:7414
+#: ../src/gui/app1/chronojump.cs:4322 ../src/gui/app1/encoder.cs:7414
 #: ../src/stats/main.cs:1517
 msgid "Please, install it from here:"
 msgstr "Будь ласка, встановіть його звідси:"
 
-#: ../src/gui/app1/chronojump.cs:4325
+#: ../src/gui/app1/chronojump.cs:4334
 #, csharp-format
 msgid "Sorry, {0} software is not installed."
 msgstr "Вибачте, не встановлено {0}."
 
 #
-#: ../src/gui/app1/chronojump.cs:4653
+#: ../src/gui/app1/chronojump.cs:4662
 msgid "Measured by a contact platform"
 msgstr "Виміряно за допомогою кодувальника"
 
-#: ../src/gui/app1/chronojump.cs:4668
+#: ../src/gui/app1/chronojump.cs:4677
 msgid "Isometric force exercises measured by a force sensor"
 msgstr "Вправи з ізометричним зусиллям, виміряно динамометром"
 
-#: ../src/gui/app1/chronojump.cs:4674
+#: ../src/gui/app1/chronojump.cs:4683
 msgid "Elastic force exercises measured by a force sensor"
 msgstr "Вправи з пружним зусиллям, виміряно динамометром"
 
-#: ../src/gui/app1/chronojump.cs:4680
+#: ../src/gui/app1/chronojump.cs:4689
 msgid "Speed/power exercises displacing weights measured by an encoder"
 msgstr ""
 "Вправи на швидкість/потужність із переміщенням ваги, виміряно кодувальником"
 
-#: ../src/gui/app1/chronojump.cs:4686
+#: ../src/gui/app1/chronojump.cs:4695
 msgid ""
 "Speed/power exercises rotating an inertial machine and measured by an encoder"
 msgstr ""
 "Вправи на швидкість/потужність із обертанням на інерційній машині та "
 "вимірюванням кодувальником"
 
-#: ../src/gui/app1/chronojump.cs:4881
+#: ../src/gui/app1/chronojump.cs:4890
 #, csharp-format
 msgid "Compatible with: <b>{0}</b>"
 msgstr "Сумісне з <b>{0}</b>"
 
-#: ../src/gui/app1/chronojump.cs:5012 ../src/gui/chronopicRegister.cs:740
+#: ../src/gui/app1/chronojump.cs:5024 ../src/gui/chronopicRegister.cs:740
 msgid "Device not found"
 msgstr "Пристрій не знайдено"
 
-#: ../src/gui/app1/chronojump.cs:5147
+#: ../src/gui/app1/chronojump.cs:5159
 msgid "Sorry, RSA tests cannot be simulated."
 msgstr "Вибачте, тести RSA не можна імітувати."
 
-#: ../src/gui/app1/chronojump.cs:5226 ../src/gui/app1/encoder.cs:1376
+#: ../src/gui/app1/chronojump.cs:5238 ../src/gui/app1/encoder.cs:1376
 msgid "Saved comment."
 msgstr "Збережено коментар."
 
-#: ../src/gui/app1/chronojump.cs:6689
+#: ../src/gui/app1/chronojump.cs:6701
 msgid "Changes"
 msgstr "Зміни"
 
-#: ../src/gui/app1/chronojump.cs:7160 ../src/gui/app1/chronojump.cs:7176
+#: ../src/gui/app1/chronojump.cs:7172 ../src/gui/app1/chronojump.cs:7188
 msgid "Do you want to delete this jump?"
 msgstr "Хочете вилучити цей стрибок?"
 
-#: ../src/gui/app1/chronojump.cs:7258 ../src/gui/app1/chronojump.cs:7276
+#: ../src/gui/app1/chronojump.cs:7270 ../src/gui/app1/chronojump.cs:7288
 msgid "Do you want to delete this race?"
 msgstr "Хочете вилучити цей забіг?"
 
-#: ../src/gui/app1/chronojump.cs:7426
+#: ../src/gui/app1/chronojump.cs:7438
 msgid "Do you want to delete this test?"
 msgstr "Хочете вилучити цей тест?"
 
-#: ../src/gui/app1/chronojump.cs:7490
+#: ../src/gui/app1/chronojump.cs:7502
 msgid "Added simple jump type."
 msgstr "Додано простий тип стрибків."
 
-#: ../src/gui/app1/chronojump.cs:7500
+#: ../src/gui/app1/chronojump.cs:7512
 msgid "Added reactive jump type."
 msgstr "Додано реактивний тип стрибків."
 
-#: ../src/gui/app1/chronojump.cs:7531
+#: ../src/gui/app1/chronojump.cs:7543
 msgid "Added simple race type."
 msgstr "Додано простий тип забігів."
 
-#: ../src/gui/app1/chronojump.cs:7540
+#: ../src/gui/app1/chronojump.cs:7552
 msgid "Added intervallic race type."
 msgstr "Додано інтервальний тип забігів."
 
-#: ../src/gui/app1/chronojump.cs:8159
+#: ../src/gui/app1/chronojump.cs:8171
 msgid "translator-credits"
 msgstr "Юрій Чорноіван <yurchor@ukr.net>, 2020"
 
-#: ../src/gui/app1/chronojump.cs:9041
+#: ../src/gui/app1/chronojump.cs:9053
 msgid "Done for testing purposes. Chronojump will exit badly"
 msgstr ""
 "Створено з метою тестування. Chronojump завершить роботу у нештатному режимі"
@@ -6668,10 +6676,10 @@ msgid "Calibrated"
 msgstr "Калібровано"
 
 #: ../src/gui/app1/encoder.cs:974 ../src/gui/app1/encoder.cs:5496
-#: ../src/gui/app1/encoder.cs:5754 ../src/gui/app1/forceSensor.cs:340
-#: ../src/gui/app1/forceSensor.cs:2854 ../src/gui/app1/forceSensor.cs:2916
-#: ../src/gui/app1/runEncoder.cs:348 ../src/gui/app1/runEncoder.cs:2077
-#: ../src/gui/app1/runEncoder.cs:2316
+#: ../src/gui/app1/encoder.cs:5754 ../src/gui/app1/forceSensor.cs:342
+#: ../src/gui/app1/forceSensor.cs:2858 ../src/gui/app1/forceSensor.cs:2920
+#: ../src/gui/app1/runEncoder.cs:351 ../src/gui/app1/runEncoder.cs:2090
+#: ../src/gui/app1/runEncoder.cs:2329
 msgid "Need to create/select an exercise."
 msgstr "Слід створити або вибрати вправу."
 
@@ -6729,14 +6737,14 @@ msgid "Contraction"
 msgstr "Стискання"
 
 #. don't show now
-#: ../src/gui/app1/encoder.cs:1786 ../src/gui/app1/forceSensor.cs:1770
-#: ../src/gui/app1/runEncoder.cs:979
+#: ../src/gui/app1/encoder.cs:1786 ../src/gui/app1/forceSensor.cs:1772
+#: ../src/gui/app1/runEncoder.cs:982
 #, csharp-format
 msgid "Select set of athlete {0} on this session."
 msgstr "Виберіть набір атлета {0} на цей сеанс."
 
-#: ../src/gui/app1/encoder.cs:1788 ../src/gui/app1/forceSensor.cs:1773
-#: ../src/gui/app1/runEncoder.cs:982
+#: ../src/gui/app1/encoder.cs:1788 ../src/gui/app1/forceSensor.cs:1775
+#: ../src/gui/app1/runEncoder.cs:985
 msgid "If you want to edit or delete a row, right click on it."
 msgstr ""
 "Якщо ви хочете редагувати або вилучити рядок, клацніть на ньому правою "
@@ -6744,8 +6752,8 @@ msgstr ""
 
 #. genericWin.SetComboLabel(Catalog.GetString("Change the owner of selected set") +
 #. " (" + Catalog.GetString("code") + ":" + Catalog.GetString("name") + ")");
-#: ../src/gui/app1/encoder.cs:1803 ../src/gui/app1/forceSensor.cs:1789
-#: ../src/gui/app1/runEncoder.cs:998
+#: ../src/gui/app1/encoder.cs:1803 ../src/gui/app1/forceSensor.cs:1791
+#: ../src/gui/app1/runEncoder.cs:1001
 msgid "Change person"
 msgstr "Змінити особу"
 
@@ -6779,8 +6787,8 @@ msgid "Unnamed"
 msgstr "Без назви"
 
 #: ../src/gui/app1/encoder.cs:2048 ../src/gui/app1/encoder.cs:2928
-#: ../src/gui/app1/forceSensor.cs:2027 ../src/gui/app1/forceSensor.cs:2064
-#: ../src/gui/app1/runEncoder.cs:1340 ../src/gui/app1/runEncoder.cs:1377
+#: ../src/gui/app1/forceSensor.cs:2029 ../src/gui/app1/forceSensor.cs:2066
+#: ../src/gui/app1/runEncoder.cs:1343 ../src/gui/app1/runEncoder.cs:1380
 msgid "Are you sure you want to delete this set?"
 msgstr "Ви справді хочете вилучити цей набір?"
 
@@ -6803,10 +6811,10 @@ msgstr "Ви справді хочете перезаписати:"
 
 #: ../src/gui/app1/encoder.cs:2682 ../src/gui/app1/encoder.cs:2824
 #: ../src/gui/app1/encoder.cs:5164 ../src/gui/app1/encoder.cs:5188
-#: ../src/gui/app1/encoder.cs:5276 ../src/gui/app1/forceSensor.cs:2535
-#: ../src/gui/app1/forceSensor.cs:2569 ../src/gui/app1/runEncoderAnalyze.cs:249
-#: ../src/gui/app1/runEncoderAnalyze.cs:299 ../src/gui/app1/runEncoder.cs:2599
-#: ../src/gui/encoderConfiguration.cs:831 ../src/gui/person/addModify.cs:402
+#: ../src/gui/app1/encoder.cs:5276 ../src/gui/app1/forceSensor.cs:2537
+#: ../src/gui/app1/forceSensor.cs:2571 ../src/gui/app1/runEncoderAnalyze.cs:249
+#: ../src/gui/app1/runEncoderAnalyze.cs:299 ../src/gui/app1/runEncoder.cs:2612
+#: ../src/gui/encoderConfiguration.cs:865 ../src/gui/person/addModify.cs:409
 #: ../src/gui/sprint.cs:314 ../src/gui/sprint.cs:354
 #, csharp-format
 msgid "Cannot save file {0} "
@@ -6822,7 +6830,7 @@ msgid "Set deleted"
 msgstr "Набір вилучено"
 
 #: ../src/gui/app1/encoder.cs:3116 ../src/gui/encoderTreeviews.cs:192
-#: ../src/gui/executeAuto.cs:463
+#: ../src/gui/executeAuto.cs:470
 msgid "Saved"
 msgstr "Збережено"
 
@@ -7043,36 +7051,36 @@ msgstr "Цю вправу використано для інерційних н�
 msgid "This exercise has been used on gravitatory sets."
 msgstr "Цю вправу використано для гравітаційних наборів."
 
-#: ../src/gui/app1/encoder.cs:5666 ../src/gui/app1/runEncoder.cs:2249
+#: ../src/gui/app1/encoder.cs:5666 ../src/gui/app1/runEncoder.cs:2262
 #: ../src/gui/forceSensorExercise.cs:789
 msgid "Error: Missing name of exercise."
 msgstr "Помилка: не вказано назви вправи."
 
 #. if we add, check that this name does not exists
 #: ../src/gui/app1/encoder.cs:5672 ../src/gui/app1/encoder.cs:5687
-#: ../src/gui/app1/runEncoder.cs:2255 ../src/gui/app1/runEncoder.cs:2265
+#: ../src/gui/app1/runEncoder.cs:2268 ../src/gui/app1/runEncoder.cs:2278
 #: ../src/gui/forceSensorExercise.cs:796 ../src/gui/forceSensorExercise.cs:806
 #, csharp-format
 msgid "Error: An exercise named '{0}' already exists."
 msgstr "Помилка: запис вправи із назвою «{0}» вже існує."
 
-#: ../src/gui/app1/encoder.cs:5766 ../src/gui/app1/forceSensor.cs:2929
-#: ../src/gui/app1/runEncoder.cs:2331
+#: ../src/gui/app1/encoder.cs:5766 ../src/gui/app1/forceSensor.cs:2933
+#: ../src/gui/app1/runEncoder.cs:2344
 msgid "Exercise name:"
 msgstr "Назва вправи:"
 
-#: ../src/gui/app1/encoder.cs:5776 ../src/gui/app1/forceSensor.cs:2939
-#: ../src/gui/app1/runEncoder.cs:2341
+#: ../src/gui/app1/encoder.cs:5776 ../src/gui/app1/forceSensor.cs:2943
+#: ../src/gui/app1/runEncoder.cs:2354
 msgid "Sorry, this exercise cannot be deleted until these tests are deleted:"
 msgstr ""
 "Вибачте, запис вправи не можна вилучити, аж доки не буде вилучено ці тести:"
 
-#: ../src/gui/app1/encoder.cs:5802 ../src/gui/app1/forceSensor.cs:2961
-#: ../src/gui/app1/runEncoder.cs:2363
+#: ../src/gui/app1/encoder.cs:5802 ../src/gui/app1/forceSensor.cs:2965
+#: ../src/gui/app1/runEncoder.cs:2376
 msgid "Exercise deleted."
 msgstr "Вправу вилучено."
 
-#: ../src/gui/app1/encoder.cs:6281 ../src/gui/encoderConfiguration.cs:1061
+#: ../src/gui/app1/encoder.cs:6281 ../src/gui/encoderConfiguration.cs:1095
 msgid "Capturing"
 msgstr "Захоплення"
 
@@ -7120,7 +7128,7 @@ msgstr "Можливо, R не встановлено."
 
 #. signal is raised and managed in gui/encoder.cs
 #: ../src/gui/app1/encoder.cs:7421 ../src/gui/app1/encoder.cs:7662
-#: ../src/gui/chronopicRegister.cs:354 ../src/gui/encoderConfiguration.cs:1119
+#: ../src/gui/chronopicRegister.cs:354 ../src/gui/encoderConfiguration.cs:1153
 msgid "Cancelled"
 msgstr "Скасовано"
 
@@ -7132,123 +7140,123 @@ msgstr "Завершено"
 msgid "Set corrected. string was not fully extended at the beginning."
 msgstr "Набір виправлено. Рядок не було повністю розгорнуто до початку."
 
-#: ../src/gui/app1/forceSensor.cs:130
+#: ../src/gui/app1/forceSensor.cs:132
 msgid "Force sensor is not detected!"
 msgstr "Не виявлено датчика сили!"
 
-#: ../src/gui/app1/forceSensor.cs:131 ../src/gui/app1/runEncoder.cs:163
+#: ../src/gui/app1/forceSensor.cs:133 ../src/gui/app1/runEncoder.cs:165
 msgid "Plug cable and click on 'device' button."
 msgstr "З'єднайте кабель і натисніть кнопку «Пристрій»."
 
-#: ../src/gui/app1/forceSensor.cs:351 ../src/gui/app1/forceSensor.cs:2106
+#: ../src/gui/app1/forceSensor.cs:353 ../src/gui/app1/forceSensor.cs:2108
 msgid "Need to configure fixture to know stiffness of this elastic exercise."
 msgstr ""
 "Слід налаштувати закріплення, щоб визначити жорсткість у цій вправі із "
 "пружним знаряддям."
 
-#: ../src/gui/app1/forceSensor.cs:462
+#: ../src/gui/app1/forceSensor.cs:464
 msgid "Legend:"
 msgstr "Умовні позначення:"
 
-#: ../src/gui/app1/forceSensor.cs:463
+#: ../src/gui/app1/forceSensor.cs:465
 msgid "Length without tension"
 msgstr "Довжина без натягування"
 
-#: ../src/gui/app1/forceSensor.cs:464
+#: ../src/gui/app1/forceSensor.cs:466
 msgid "Minimum working distance"
 msgstr "Мінімальна робоча відстань"
 
-#: ../src/gui/app1/forceSensor.cs:465
+#: ../src/gui/app1/forceSensor.cs:467
 msgid "Maximum working distance"
 msgstr "Максимальна робоча відстань"
 
-#: ../src/gui/app1/forceSensor.cs:665
+#: ../src/gui/app1/forceSensor.cs:667
 msgid "Taring will start in …"
 msgstr "Тарування розпочнеться за…"
 
-#: ../src/gui/app1/forceSensor.cs:675
+#: ../src/gui/app1/forceSensor.cs:677
 msgid "Taring …"
 msgstr "Тарування…"
 
-#: ../src/gui/app1/forceSensor.cs:704 ../src/gui/app1/forceSensor.cs:771
+#: ../src/gui/app1/forceSensor.cs:706 ../src/gui/app1/forceSensor.cs:773
 msgid "Checking …"
 msgstr "Перевірка…"
 
-#: ../src/gui/app1/forceSensor.cs:731
+#: ../src/gui/app1/forceSensor.cs:733
 msgid "Calibrating will start in …"
 msgstr "Калібрування розпочнеться за…"
 
-#: ../src/gui/app1/forceSensor.cs:742
+#: ../src/gui/app1/forceSensor.cs:744
 msgid "Calibrating …"
 msgstr "Калібрування…"
 
-#: ../src/gui/app1/forceSensor.cs:794
+#: ../src/gui/app1/forceSensor.cs:796
 msgid "Version of the firmware:"
 msgstr "Версія мікропрограми:"
 
-#: ../src/gui/app1/forceSensor.cs:804 ../src/gui/app1/forceSensor.cs:831
+#: ../src/gui/app1/forceSensor.cs:806 ../src/gui/app1/forceSensor.cs:833
 msgid "Checking version …"
 msgstr "Перевіряємо версію…"
 
 #. 1 send tare command
-#: ../src/gui/app1/forceSensor.cs:900 ../src/gui/app1/forceSensor.cs:1155
+#: ../src/gui/app1/forceSensor.cs:902 ../src/gui/app1/forceSensor.cs:1157
 msgid "Preparing capture …"
 msgstr "Готуємося до захоплення…"
 
-#: ../src/gui/app1/forceSensor.cs:952 ../src/gui/app1/forceSensor.cs:1383
+#: ../src/gui/app1/forceSensor.cs:954 ../src/gui/app1/forceSensor.cs:1385
 msgid "Ending capture …"
 msgstr "Завершуємо захоплення…"
 
-#: ../src/gui/app1/forceSensor.cs:978
+#: ../src/gui/app1/forceSensor.cs:980
 msgid "Checking transmission format …"
 msgstr "Перевіряємо формат передавання…"
 
-#: ../src/gui/app1/forceSensor.cs:1019
+#: ../src/gui/app1/forceSensor.cs:1021
 msgid "The tare will soon begin"
 msgstr "Невдовзі розпочнеться тарування"
 
-#: ../src/gui/app1/forceSensor.cs:1021
+#: ../src/gui/app1/forceSensor.cs:1023
 msgid "Please, wait …"
 msgstr "Будь ласка, зачекайте…"
 
-#: ../src/gui/app1/forceSensor.cs:1228
+#: ../src/gui/app1/forceSensor.cs:1230
 msgid "Taring; …"
 msgstr "Тарування…"
 
-#: ../src/gui/app1/forceSensor.cs:1592
+#: ../src/gui/app1/forceSensor.cs:1594
 #, csharp-format
 msgid "Error. Force too big: {0} N"
 msgstr "Помилка. Надто велике зусилля: {0} Н"
 
-#: ../src/gui/app1/forceSensor.cs:1593
+#: ../src/gui/app1/forceSensor.cs:1595
 msgid "Bad calibration or too much force for this sensor."
 msgstr "Помилкове калібрування або надто велике зусилля для цього датчика."
 
-#: ../src/gui/app1/forceSensor.cs:1594
+#: ../src/gui/app1/forceSensor.cs:1596
 msgid "Stopped."
 msgstr "Зупинено."
 
-#: ../src/gui/app1/forceSensor.cs:1751
+#: ../src/gui/app1/forceSensor.cs:1753
 msgid "Capture option"
 msgstr "Параметр захоплення"
 
-#: ../src/gui/app1/forceSensor.cs:1753
+#: ../src/gui/app1/forceSensor.cs:1755
 msgid "Max force"
 msgstr "Максимальна сила"
 
-#: ../src/gui/app1/forceSensor.cs:1754
+#: ../src/gui/app1/forceSensor.cs:1756
 #, csharp-format
 msgid "Max AVG Force in {0} s"
 msgstr "Максимальна середня сила за {0} с"
 
-#: ../src/gui/app1/forceSensor.cs:1870
+#: ../src/gui/app1/forceSensor.cs:1872
 msgid ""
 "Loaded set used elastic bands removed from database or with changed values."
 msgstr ""
 "У завантаженому наборі використано пружні стрічки, які було вилучено з бази "
 "даних, або стрічки зі зміненими значеннями."
 
-#: ../src/gui/app1/forceSensor.cs:1871
+#: ../src/gui/app1/forceSensor.cs:1873
 msgid ""
 "Stiffness calculation is correct but stiffness configuration window will not "
 "be able to match elastic bands and total stiffness."
@@ -7257,49 +7265,49 @@ msgstr ""
 "відповідатиме пружним стрічкам та загальній жорсткості."
 
 #. event_execute_label_message.Text = "Loaded: " + Util.GetLastPartOfPath(filechooser.Filename);
-#: ../src/gui/app1/forceSensor.cs:1910 ../src/gui/app1/runEncoder.cs:1033
+#: ../src/gui/app1/forceSensor.cs:1912 ../src/gui/app1/runEncoder.cs:1036
 msgid "Loaded:"
 msgstr "Завантажено:"
 
-#: ../src/gui/app1/forceSensor.cs:2226
+#: ../src/gui/app1/forceSensor.cs:2228
 msgid "Error doing graph."
 msgstr "Помилка під час створення графіка."
 
-#: ../src/gui/app1/forceSensor.cs:2227
+#: ../src/gui/app1/forceSensor.cs:2229
 msgid "Probably not sustained force."
 msgstr "Ймовірно, сила не є неперервною."
 
-#: ../src/gui/app1/forceSensor.cs:2593
+#: ../src/gui/app1/forceSensor.cs:2595
 msgid "If you want to calibrate, please tare first."
 msgstr ""
 "Якщо хочете виконати калібрування, будь ласка, спочатку виконайте занулення "
 "шкали."
 
-#: ../src/gui/app1/forceSensor.cs:2863 ../src/gui/app1/forceSensor.cs:2878
+#: ../src/gui/app1/forceSensor.cs:2867 ../src/gui/app1/forceSensor.cs:2882
 msgid "Isometric exercise"
 msgstr "Ізометрична вправа"
 
-#: ../src/gui/app1/forceSensor.cs:2865 ../src/gui/app1/forceSensor.cs:2880
+#: ../src/gui/app1/forceSensor.cs:2869 ../src/gui/app1/forceSensor.cs:2884
 msgid "Elastic exercise"
 msgstr "Пружна вправа"
 
-#: ../src/gui/app1/forceSensor.cs:2928
+#: ../src/gui/app1/forceSensor.cs:2932
 msgid "Delete exercise"
 msgstr "Вилучити вправу"
 
-#: ../src/gui/app1/forceSensor.cs:2990
+#: ../src/gui/app1/forceSensor.cs:2994
 msgid "Stiffness configuration"
 msgstr "Налаштування жорсткості"
 
-#: ../src/gui/app1/forceSensor.cs:2990
+#: ../src/gui/app1/forceSensor.cs:2994
 msgid "Configure attached elastic bands/tubes"
 msgstr "Налаштувати з'єднані пружні стрічки або трубки"
 
-#: ../src/gui/app1/forceSensor.cs:3002
+#: ../src/gui/app1/forceSensor.cs:3006
 msgid "Configure bands/tubes"
 msgstr "Налаштувати стрічки або трубки"
 
-#: ../src/gui/app1/forceSensor.cs:3005
+#: ../src/gui/app1/forceSensor.cs:3009
 msgid "Stiffness:"
 msgstr "Жорсткість:"
 
@@ -7335,11 +7343,11 @@ msgstr "Відстань у міліметрах"
 msgid "Track distance"
 msgstr "Довжина доріжки"
 
-#: ../src/gui/app1/runEncoder.cs:354 ../src/gui/sprint.cs:236
+#: ../src/gui/app1/runEncoder.cs:357 ../src/gui/sprint.cs:236
 msgid "Error, weight of the person cannot be 0"
 msgstr "Помилка, вага особи не може дорівнювати 0"
 
-#: ../src/gui/app1/runEncoder.cs:2137
+#: ../src/gui/app1/runEncoder.cs:2150
 msgid ""
 "In a sprint exercise, maximum acceleration is performed at the beginning and "
 "maximum sustained speed at a later time."
@@ -7347,40 +7355,40 @@ msgstr ""
 "У вправі спринту, максимальне прискорення досягається на початку, а "
 "максимальна підтримувана швидкість досягається пізніше."
 
-#: ../src/gui/app1/runEncoder.cs:2144
+#: ../src/gui/app1/runEncoder.cs:2157
 msgid "Default angle of this exercise."
 msgstr "Типовий кут для цієї вправи."
 
-#: ../src/gui/app1/runEncoder.cs:2145
+#: ../src/gui/app1/runEncoder.cs:2158
 msgid "90 means go vertically up."
 msgstr "90 означає «вертикально вгору»."
 
-#: ../src/gui/app1/runEncoder.cs:2146
+#: ../src/gui/app1/runEncoder.cs:2159
 msgid "-90 means go vertically down."
 msgstr "-90 означає «вертикально вниз»."
 
-#: ../src/gui/app1/runEncoder.cs:2147
+#: ../src/gui/app1/runEncoder.cs:2160
 #, csharp-format
 msgid "Possible range goes from {0} to {1}."
 msgstr "Можливий діапазон від {0} до {1}."
 
-#: ../src/gui/app1/runEncoder.cs:2525
+#: ../src/gui/app1/runEncoder.cs:2538
 msgid "Accel"
 msgstr "Прискорення"
 
-#: ../src/gui/app1/session/addEdit.cs:605 ../src/gui/person/addModify.cs:848
+#: ../src/gui/app1/session/addEdit.cs:605 ../src/gui/person/addModify.cs:855
 msgid "Select session date"
 msgstr "Виберіть дату сеансу"
 
-#: ../src/gui/app1/session/addEdit.cs:618 ../src/gui/person/addModify.cs:994
+#: ../src/gui/app1/session/addEdit.cs:618 ../src/gui/person/addModify.cs:1001
 msgid "Add sport"
 msgstr "Додати вид спорту"
 
-#: ../src/gui/app1/session/addEdit.cs:619 ../src/gui/person/addModify.cs:995
+#: ../src/gui/app1/session/addEdit.cs:619 ../src/gui/person/addModify.cs:1002
 msgid "Add new sport to database"
 msgstr "Додати до бази даних новий вид спорту"
 
-#: ../src/gui/app1/session/addEdit.cs:634 ../src/gui/person/addModify.cs:1010
+#: ../src/gui/app1/session/addEdit.cs:634 ../src/gui/person/addModify.cs:1017
 #, csharp-format
 msgid "Sorry, this sport '{0}' already exists in database"
 msgstr "Вибачте, цей запис виду спорту «{0}» вже існує у базі даних"
@@ -7481,8 +7489,8 @@ msgid "Races interval"
 msgstr "Інтервал між забігами"
 
 #: ../src/gui/app1/session/loadAndImport.cs:458
-#: ../src/gui/encoderConfiguration.cs:784 ../src/gui/person/addMultiple.cs:514
-#: ../src/gui/preferences.cs:2782
+#: ../src/gui/encoderConfiguration.cs:818 ../src/gui/person/addMultiple.cs:520
+#: ../src/gui/preferences.cs:2794
 msgid "Error importing data."
 msgstr "Помилка під час імпорту даних."
 
@@ -7587,9 +7595,9 @@ msgid "Race type:"
 msgstr "Тип підходу:"
 
 #: ../src/gui/cairo/xy.cs:590 ../src/gui/cairo/xy.cs:596
-#: ../src/gui/person/addMultiple.cs:596 ../src/gui/preferences.cs:2728
-#: ../src/gui/preferences.cs:2735 ../src/gui/preferences.cs:2750
-#: ../src/gui/preferences.cs:2781 ../src/gui/sprint.cs:223
+#: ../src/gui/person/addMultiple.cs:607 ../src/gui/preferences.cs:2740
+#: ../src/gui/preferences.cs:2747 ../src/gui/preferences.cs:2762
+#: ../src/gui/preferences.cs:2793 ../src/gui/sprint.cs:223
 msgid "Error"
 msgstr "Помилка"
 
@@ -7799,18 +7807,18 @@ msgstr ""
 msgid "Depending on the test, user could change values."
 msgstr "Залежно від тесту, користувач між змінити значення."
 
-#: ../src/gui/encoderConfiguration.cs:214
+#: ../src/gui/encoderConfiguration.cs:218
 msgid "Select encoder configuration"
 msgstr "Виберіть налаштування кодувальника"
 
-#: ../src/gui/encoderConfiguration.cs:566
+#: ../src/gui/encoderConfiguration.cs:581
 msgid ""
 "Calculation of dynamic variables like power in conical machines is not very "
 "accurate because current method is not using the variation of the cone "
 "diameter as a variable."
 msgstr ""
 
-#: ../src/gui/encoderConfiguration.cs:567
+#: ../src/gui/encoderConfiguration.cs:582
 msgid ""
 "Future versions will include a better way to calculate this. Sorry for the "
 "inconvenience."
@@ -7818,32 +7826,32 @@ msgstr ""
 "У майбутніх версіях буде передбачено якісніший спосіб обчислення. Вибачте за "
 "незручності."
 
-#: ../src/gui/encoderConfiguration.cs:738
+#: ../src/gui/encoderConfiguration.cs:772
 msgid "Select file to import"
 msgstr "Виберіть файл для імпортування"
 
-#: ../src/gui/encoderConfiguration.cs:759
+#: ../src/gui/encoderConfiguration.cs:793
 msgid "Chronojump is currently in gravitory mode."
 msgstr "Chronojump зараз працює у гравітаційному режимі."
 
-#: ../src/gui/encoderConfiguration.cs:760
+#: ../src/gui/encoderConfiguration.cs:794
 msgid "Selected configuration is inertial."
 msgstr "Вибрані налаштування є інерційними."
 
-#: ../src/gui/encoderConfiguration.cs:761
+#: ../src/gui/encoderConfiguration.cs:795
 msgid "If you still want to import it, change to inertial mode."
 msgstr ""
 "Якщо ви все ще хочете імпортувати їх, перемкніть програму в інерційний режим."
 
-#: ../src/gui/encoderConfiguration.cs:764
+#: ../src/gui/encoderConfiguration.cs:798
 msgid "Chronojump is currently in inertial mode."
 msgstr "Chronojump зараз працює у інерційному режимі."
 
-#: ../src/gui/encoderConfiguration.cs:765
+#: ../src/gui/encoderConfiguration.cs:799
 msgid "Selected configuration is gravitatory."
 msgstr "Вибрані налаштування є гравітаційними."
 
-#: ../src/gui/encoderConfiguration.cs:766
+#: ../src/gui/encoderConfiguration.cs:800
 msgid "If you still want to import it, change to gravitatory mode."
 msgstr ""
 "Якщо ви все ще хочете імпортувати їх, перемкніть програму у гравітаційний "
@@ -7857,27 +7865,27 @@ msgstr ""
 #. to be entered as null and not repeat the uniqueID
 #. add a suffix
 #. add more suffixes until name is unique
-#: ../src/gui/encoderConfiguration.cs:771
-#: ../src/gui/encoderConfiguration.cs:888
-#: ../src/gui/encoderConfiguration.cs:977
-#: ../src/gui/encoderConfiguration.cs:979
+#: ../src/gui/encoderConfiguration.cs:805
+#: ../src/gui/encoderConfiguration.cs:922
+#: ../src/gui/encoderConfiguration.cs:1011
+#: ../src/gui/encoderConfiguration.cs:1013
 msgid "copy"
 msgstr "копія"
 
-#: ../src/gui/encoderConfiguration.cs:795
+#: ../src/gui/encoderConfiguration.cs:829
 msgid "Export to file"
 msgstr "Експортувати до файла"
 
-#: ../src/gui/encoderConfiguration.cs:1002
+#: ../src/gui/encoderConfiguration.cs:1036
 msgid "Sorry, cannot delete all rows."
 msgstr "Вибачте, не можна вилучати усі рядки."
 
-#: ../src/gui/encoderConfiguration.cs:1081
+#: ../src/gui/encoderConfiguration.cs:1115
 #, csharp-format
 msgid "Max time: {0} s."
 msgstr "Макс. час: {0} с."
 
-#: ../src/gui/encoderConfiguration.cs:1082
+#: ../src/gui/encoderConfiguration.cs:1116
 #, csharp-format
 msgid "Ends at inactivity during {0} s."
 msgstr "Завершення, якщо немає активності протягом {0} с."
@@ -7985,51 +7993,51 @@ msgstr "будь ласка, спочатку змініть або вилучт
 msgid "Are you sure you want to delete this test type?"
 msgstr "Ви справді хочете вилучити цей тип тестів?"
 
-#: ../src/gui/eventExecute.cs:1181
+#: ../src/gui/eventExecute.cs:1182
 #, csharp-format
 msgid "{0} has not made any {1} test in this session."
 msgstr "{0} не виконано жодного тесту {1} протягом цього сеансу."
 
-#: ../src/gui/eventExecute.cs:1184
+#: ../src/gui/eventExecute.cs:1185
 #, csharp-format
 msgid "{0} has not made any test in this session."
 msgstr "{0} не виконано жодного тесту протягом цього сеансу."
 
-#: ../src/gui/eventExecute.cs:1188
+#: ../src/gui/eventExecute.cs:1189
 #, csharp-format
 msgid "There are no {0} tests in this session."
 msgstr "Протягом цього сеансу тестів {0} немає."
 
-#: ../src/gui/eventExecute.cs:1191
+#: ../src/gui/eventExecute.cs:1192
 msgid "No tests in this session."
 msgstr "Протягом цього сеансу тестів немає."
 
-#: ../src/gui/eventExecute.cs:1518
+#: ../src/gui/eventExecute.cs:1519
 msgid "Jump height"
 msgstr "Висота стрибка"
 
-#: ../src/gui/eventExecute.cs:2013 ../src/gui/eventExecute.cs:2148
+#: ../src/gui/eventExecute.cs:2014 ../src/gui/eventExecute.cs:2149
 msgid "Last test:"
 msgstr "Останній тест:"
 
-#: ../src/gui/eventExecute.cs:2015
+#: ../src/gui/eventExecute.cs:2016
 msgid "Viewing:"
 msgstr "Перегляд:"
 
-#: ../src/gui/eventExecute.cs:2864
+#: ../src/gui/eventExecute.cs:2865
 msgid "saved"
 msgstr "збережено"
 
-#: ../src/gui/executeAuto.cs:201
+#: ../src/gui/executeAuto.cs:208
 msgid "Mode"
 msgstr "Режим"
 
-#: ../src/gui/executeAuto.cs:466
+#: ../src/gui/executeAuto.cs:473
 #, csharp-format
 msgid "Sorry, this sequence '{0}' already exists in database"
 msgstr "Вибачте, ця послідовність «{0}» вже існує у базі даних"
 
-#: ../src/gui/executeAuto.cs:512
+#: ../src/gui/executeAuto.cs:519
 msgid "Serie"
 msgstr "Послідовність"
 
@@ -8037,19 +8045,19 @@ msgstr "Послідовність"
 msgid "Protocol"
 msgstr "Протокол"
 
-#: ../src/gui/feedback.cs:587 ../src/gui/preferences.cs:2427
+#: ../src/gui/feedback.cs:595 ../src/gui/preferences.cs:2429
 msgid "Sound working"
 msgstr "Звук працює"
 
-#: ../src/gui/feedback.cs:589 ../src/gui/preferences.cs:2429
+#: ../src/gui/feedback.cs:597 ../src/gui/preferences.cs:2431
 msgid "Sound not working"
 msgstr "Звук не працює"
 
-#: ../src/gui/feedback.cs:594
+#: ../src/gui/feedback.cs:602
 msgid "You need to activate sounds in preferences / multimedia."
 msgstr "Вам слід увімкнути звуки у розділі «Налаштування -> Звук та відео»."
 
-#: ../src/gui/feedback.cs:930
+#: ../src/gui/feedback.cs:938
 msgid ""
 "Use clusters in order to group repetitions inside a set separated by rest "
 "time."
@@ -8057,7 +8065,7 @@ msgstr ""
 "Використати кластери з метою групування повторень у наборі, відокремленому "
 "часом відпочинку."
 
-#: ../src/gui/feedback.cs:932
+#: ../src/gui/feedback.cs:940
 msgid ""
 "Set will end when user press Finish or Cancel or when there's no change in "
 "the encoder during this time:\n"
@@ -8452,65 +8460,65 @@ msgstr "Примусовий огляд датчиків"
 msgid "Race analyzer overview"
 msgstr "Огляд аналізатора дистанцій"
 
-#: ../src/gui/person/addModify.cs:162 ../src/gui/person/merge.cs:207
+#: ../src/gui/person/addModify.cs:163 ../src/gui/person/merge.cs:210
 #, csharp-format
 msgid "Merge persons '{0}' with '{1}' in all sessions."
 msgstr "Об'єднати записи особи «{0}» із записом особи «{1}» в усіх сеансах."
 
-#: ../src/gui/person/addModify.cs:163 ../src/gui/person/merge.cs:208
+#: ../src/gui/person/addModify.cs:164 ../src/gui/person/merge.cs:211
 #, csharp-format
 msgid "All tests of person '{0}' will be assigned to person '{1}'."
 msgstr "Усі тести особи «{0}» буде пов'язано із особою «{1}»."
 
 #. Are you sure?
-#: ../src/gui/person/addModify.cs:165
+#: ../src/gui/person/addModify.cs:166
 msgid "Please, choose person's parameters."
 msgstr "Будь ласка, виберіть параметри особи"
 
-#: ../src/gui/person/addModify.cs:166
+#: ../src/gui/person/addModify.cs:167
 #, csharp-format
 msgid "Please, choose person's parameters at session {0}."
 msgstr "Будь ласка, виберіть параметри особи у сеансі {0}."
 
-#: ../src/gui/person/addModify.cs:265
+#: ../src/gui/person/addModify.cs:272
 msgid "Edit person"
 msgstr "Редагувати особу"
 
-#: ../src/gui/person/addModify.cs:368
+#: ../src/gui/person/addModify.cs:375
 msgid "Select file"
 msgstr "Вибір файла"
 
-#: ../src/gui/person/addModify.cs:1047
+#: ../src/gui/person/addModify.cs:1054
 msgid "Please, write the name of the person."
 msgstr "Будь ласка, впишіть назву особи."
 
-#: ../src/gui/person/addModify.cs:1050 ../src/gui/person/addModify.cs:1052
+#: ../src/gui/person/addModify.cs:1057 ../src/gui/person/addModify.cs:1059
 msgid "Please, complete the weight of the person."
 msgstr "Будь ласка, вкажіть вагу особи."
 
-#: ../src/gui/person/addModify.cs:1082
+#: ../src/gui/person/addModify.cs:1089
 #, csharp-format
 msgid "Person: '{0}' exists. Please, use another name."
 msgstr "Особа: існує «{0}». Будь ласка, вкажіть інше ім'я."
 
-#: ../src/gui/person/addModify.cs:1085
+#: ../src/gui/person/addModify.cs:1092
 msgid "Or load this person from another session using this button:"
 msgstr ""
 "Або завантажте цей запис особи з іншого сеансу за допомогою цієї кнопки:"
 
-#: ../src/gui/person/addMultiple.cs:247 ../src/gui/person/addMultiple.cs:312
+#: ../src/gui/person/addMultiple.cs:253 ../src/gui/person/addMultiple.cs:318
 msgid "CSV file has headers"
 msgstr "У файлі CSV є заголовки"
 
-#: ../src/gui/person/addMultiple.cs:248 ../src/gui/person/addMultiple.cs:343
+#: ../src/gui/person/addMultiple.cs:254 ../src/gui/person/addMultiple.cs:349
 msgid "Full name in one column"
 msgstr "Ім'я повністю у першому стовпчику"
 
-#: ../src/gui/person/addMultiple.cs:318
+#: ../src/gui/person/addMultiple.cs:324
 msgid "CSV file does not have headers"
 msgstr "У файлі CSV немає заголовків"
 
-#: ../src/gui/person/addMultiple.cs:327
+#: ../src/gui/person/addMultiple.cs:333
 msgid ""
 "To differentiate between male and female,\n"
 "use the values 1/0, or m/f, or M/F on the genre column."
@@ -8518,29 +8526,29 @@ msgstr ""
 "Щоб поділити результати чоловіків і жінок,\n"
 "скористайтеся значеннями 1/0, m/f або M/F у стовпчику статі."
 
-#: ../src/gui/person/addMultiple.cs:328
+#: ../src/gui/person/addMultiple.cs:334
 msgid "Save the spreadsheet as CSV (Comma Separated Values)."
 msgstr ""
 "Зберегти електронну таблицю у форматі CSV (відокремлених комами значень)."
 
-#: ../src/gui/person/addMultiple.cs:330
+#: ../src/gui/person/addMultiple.cs:336
 #, csharp-format
 msgid "Expected column separator character is '{0}'"
 msgstr "Очікуваний символ роздільника стовпчиків — «{0}»"
 
-#: ../src/gui/person/addMultiple.cs:331
+#: ../src/gui/person/addMultiple.cs:337
 msgid "You can change this on Preferences / Language."
 msgstr "Змінити це можна за допомогою пункту Параметри -> Мова."
 
-#: ../src/gui/person/addMultiple.cs:347
+#: ../src/gui/person/addMultiple.cs:353
 msgid "Full name in two columns"
 msgstr "Ім'я повністю у двох стовпчиках"
 
-#: ../src/gui/person/addMultiple.cs:384
+#: ../src/gui/person/addMultiple.cs:390
 msgid "Select CSV file"
 msgstr "Виберіть файл CSV"
 
-#: ../src/gui/person/addMultiple.cs:406
+#: ../src/gui/person/addMultiple.cs:412
 msgid ""
 "Maybe this file is opened by an SpreadSheet software like Excel. Please, "
 "close that program."
@@ -8548,12 +8556,12 @@ msgstr ""
 "Можливо, цей файл відкрито у електронних таблицях, наприклад Excel. Будь "
 "ласка, закрийте цю програму."
 
-#: ../src/gui/person/addMultiple.cs:516
+#: ../src/gui/person/addMultiple.cs:522
 msgid "Seems there's a header row and you have not marked it."
 msgstr "Здається у таблиці є рядок заголовків і ви його не позначили."
 
 #. errors
-#: ../src/gui/person/addMultiple.cs:667
+#: ../src/gui/person/addMultiple.cs:678
 msgid ""
 "Name already\n"
 "in session"
@@ -8561,7 +8569,7 @@ msgstr ""
 "Ім'я вже є\n"
 "у сеансі"
 
-#: ../src/gui/person/addMultiple.cs:668
+#: ../src/gui/person/addMultiple.cs:679
 msgid ""
 "Name already\n"
 "in database"
@@ -8569,28 +8577,28 @@ msgstr ""
 "Ім'я вже є\n"
 "у базі даних"
 
-#: ../src/gui/person/addMultiple.cs:670
+#: ../src/gui/person/addMultiple.cs:681
 msgid "Repeated name"
 msgstr "Повторення імені"
 
-#: ../src/gui/person/addMultiple.cs:671
+#: ../src/gui/person/addMultiple.cs:682
 msgid "No weight"
 msgstr "Немає ваги"
 
-#: ../src/gui/person/addMultiple.cs:782
+#: ../src/gui/person/addMultiple.cs:793
 msgid "Persons will be created with default session values"
 msgstr "Особ буде створено із типовими значеннями сеансу"
 
-#: ../src/gui/person/merge.cs:317
+#: ../src/gui/person/merge.cs:320
 msgid "Differences between persons"
 msgstr "Різниця між особами"
 
-#: ../src/gui/person/merge.cs:325
+#: ../src/gui/person/merge.cs:328
 msgid "Differences in session"
 msgstr "Різниці у сеансах"
 
-#: ../src/gui/person/merge.cs:351 ../src/gui/person/merge.cs:352
-#: ../src/gui/person/merge.cs:368 ../src/gui/person/merge.cs:369
+#: ../src/gui/person/merge.cs:357 ../src/gui/person/merge.cs:358
+#: ../src/gui/person/merge.cs:374 ../src/gui/person/merge.cs:375
 msgid "Use these values"
 msgstr "Використати ці значення"
 
@@ -8659,64 +8667,64 @@ msgstr ""
 "Інтервал\n"
 "між забігами"
 
-#: ../src/gui/preferences.cs:921
+#: ../src/gui/preferences.cs:920
 msgid "Select color"
 msgstr "Вибір кольору"
 
-#: ../src/gui/preferences.cs:1747
+#: ../src/gui/preferences.cs:1746
 #, csharp-format
 msgid "{0} pps is equivalent to a resolution of {1} cm."
 msgstr "{0} імпульсів за секунду рівнозначні роздільності у {1} см."
 
-#: ../src/gui/preferences.cs:1750
+#: ../src/gui/preferences.cs:1749
 #, csharp-format
 msgid "{0} pps allows to record up to {1} m/s."
 msgstr "{0} імпульсів за секунду надає змогу записувати дані до {1} м/с."
 
-#: ../src/gui/preferences.cs:2208
+#: ../src/gui/preferences.cs:2210
 msgid ""
 "In jumps like Dj, Dja you can select to show the heights of the jumps or the "
 "times."
 msgstr ""
 
-#: ../src/gui/preferences.cs:2209
+#: ../src/gui/preferences.cs:2211
 msgid ""
 "But keep in mind that if you display reactive jumps with other jumps (like "
 "CMJ, ABK), then heights will be shown."
 msgstr ""
 
-#: ../src/gui/preferences.cs:2219
+#: ../src/gui/preferences.cs:2221
 msgid "If active, repetitions will be cut from set using triggers."
 msgstr ""
 "Якщо позначено, повторення буде вирізано із набору за допомогою тригерів."
 
-#: ../src/gui/preferences.cs:2220
+#: ../src/gui/preferences.cs:2222
 msgid ""
 "Trigger signal will be produced by a button connected to the Chronopic."
 msgstr "Сигнал тригера буде створено кнопкою, яку з'єднано із Chronopic."
 
-#: ../src/gui/preferences.cs:2221
+#: ../src/gui/preferences.cs:2223
 msgid "This will be only used on gravitatory mode, concentric contraction."
 msgstr ""
 "Це буде використано лише у гравітаційному режимі, концентричне стискання."
 
-#: ../src/gui/preferences.cs:2222
+#: ../src/gui/preferences.cs:2224
 msgid ""
 "If \"Cut by triggers\" is inactive, repetitions will be cut automatically "
 "(default behaviour),"
 msgstr ""
 
-#: ../src/gui/preferences.cs:2223
+#: ../src/gui/preferences.cs:2225
 msgid ""
 "but pressing trigger button while capturing will plot vertical lines during "
 "analyze instant graphs."
 msgstr ""
 
-#: ../src/gui/preferences.cs:2224
+#: ../src/gui/preferences.cs:2226
 msgid "Encoder Chronopics have trigger functionality since 2017."
 msgstr "Кодувальник Chronopics має можливість перемикача з 2017 року."
 
-#: ../src/gui/preferences.cs:2225
+#: ../src/gui/preferences.cs:2227
 msgid ""
 "You can check if your encoder Chronopic accepts triggers pressing test "
 "button."
@@ -8724,58 +8732,58 @@ msgstr ""
 "Ви можете перевірити, чи приймає ваш кодувальник Chronopic перемикачі, "
 "натисканням кнопки перевірки."
 
-#: ../src/gui/preferences.cs:2226
+#: ../src/gui/preferences.cs:2228
 msgid ""
 "Your Chronopic is ready for triggers if the green light at the side of "
 "Chronopic test button changes it's state on pressing this button."
 msgstr ""
 
-#: ../src/gui/preferences.cs:2227
+#: ../src/gui/preferences.cs:2229
 msgid ""
 "At Chronojump website there's a hand push button for using triggers with "
 "ease."
 msgstr ""
 "На сайті Chronojump є ручна кнопка для спрощення користування перемикачами."
 
-#: ../src/gui/preferences.cs:2557 ../src/gui/preferences.cs:2558
-#: ../src/gui/preferences.cs:2588 ../src/gui/preferences.cs:2599
+#: ../src/gui/preferences.cs:2559 ../src/gui/preferences.cs:2560
+#: ../src/gui/preferences.cs:2590 ../src/gui/preferences.cs:2601
 msgid "Not running"
 msgstr "Не запущено"
 
 #. runningFfmpeg = true;
 #. runningFfplay = true;
-#: ../src/gui/preferences.cs:2569 ../src/gui/preferences.cs:2576
+#: ../src/gui/preferences.cs:2571 ../src/gui/preferences.cs:2578
 msgid "Running"
 msgstr "Запущено"
 
-#: ../src/gui/preferences.cs:2657
+#: ../src/gui/preferences.cs:2669
 msgid "Race measurement"
 msgstr "Вимірювання забігу"
 
-#: ../src/gui/preferences.cs:2729
+#: ../src/gui/preferences.cs:2741
 msgid "Cannot create directory."
 msgstr "Не вдалося створити каталог."
 
-#: ../src/gui/preferences.cs:2756
+#: ../src/gui/preferences.cs:2768
 msgid "Import configuration file"
 msgstr "Імпортування файла налаштувань"
 
-#: ../src/gui/preferences.cs:2789
+#: ../src/gui/preferences.cs:2801
 msgid "Successfully imported."
 msgstr "Успішно імпортовано."
 
-#: ../src/gui/preferences.cs:2795
+#: ../src/gui/preferences.cs:2807
 msgid "End capture by inactivity"
 msgstr "Завершувати захоплення, якщо не буде активності"
 
-#: ../src/gui/preferences.cs:2796
+#: ../src/gui/preferences.cs:2808
 msgid ""
 "If a repetition has been found, test will end at selected inactivity seconds."
 msgstr ""
 "Якщо було знайдено повторення, тест завершиться за вибраної тривалості "
 "бездіяльності у секундах."
 
-#: ../src/gui/preferences.cs:2797
+#: ../src/gui/preferences.cs:2809
 msgid ""
 "If a repetition has not been found, test will end at selected inactivity "
 "seconds (x2)."
@@ -8783,11 +8791,11 @@ msgstr ""
 "Якщо було не знайдено повторення, тест завершиться за вибраної тривалості "
 "бездіяльності у секундах (x2)."
 
-#: ../src/gui/preferences.cs:2798
+#: ../src/gui/preferences.cs:2810
 msgid "This will let the person to have more time to start movement."
 msgstr "Це надасть людині більше часу на те, щоб розпочати рух."
 
-#: ../src/gui/preferences.cs:2799
+#: ../src/gui/preferences.cs:2811
 msgid ""
 "On inertial, to avoid never ending capture because cone is slowly moving at "
 "the end, this criteria is added:"
@@ -8795,7 +8803,7 @@ msgstr ""
 "Для інерційних для запобігання завершенню захоплення даних через те, що "
 "конус повільно рухається наприкінці, додано такий критерій:"
 
-#: ../src/gui/preferences.cs:2800
+#: ../src/gui/preferences.cs:2812
 msgid ""
 "If passed the double of configured inactivity seconds since last phase, "
 "capture will end."
@@ -8803,7 +8811,7 @@ msgstr ""
 "Якщо мине подвійний час налаштованої бездіяльності у секундах з момент "
 "останньої фази, отримання даних буде припинено."
 
-#: ../src/gui/preferences.cs:2810
+#: ../src/gui/preferences.cs:2822
 msgid ""
 "The equivalent mass is a measure of the resistance of a body to change its "
 "linear or rotary velocity."
@@ -8811,20 +8819,20 @@ msgstr ""
 "Еквівалентна маса — міра опору тіла зміні його лінійної або обертальної "
 "швидкості."
 
-#: ../src/gui/preferences.cs:2811
+#: ../src/gui/preferences.cs:2823
 msgid ""
 "From the point of view of a person pulling from a rope, the situation in the "
 "image is equivalent to a rotary inertial machine."
 msgstr ""
 
-#: ../src/gui/preferences.cs:2812
+#: ../src/gui/preferences.cs:2824
 msgid ""
 "The equivalent mass takes in account the different configurations of a "
 "inertial machine (diameters, inertia momentum, extra weights and force "
 "multipliers)."
 msgstr ""
 
-#: ../src/gui/preferences.cs:2813
+#: ../src/gui/preferences.cs:2825
 msgid ""
 "This way it is possible to compare the resistance of diferent configurations "
 "on diferent machines."
@@ -8920,58 +8928,58 @@ msgstr "Час кола"
 msgid "Not defined"
 msgstr "Не визначено"
 
-#: ../src/gui/runType.cs:176
+#: ../src/gui/runType.cs:187
 #, csharp-format
 msgid "(decimal separator: '{0}')"
 msgstr "(десятковий роздільник: «{0}»)"
 
-#: ../src/gui/runType.cs:220
+#: ../src/gui/runType.cs:231
 #, csharp-format
 msgid "Race type: '{0}' exists. Please, use another name"
 msgstr "Тип підходу: «{0}» вже існує. Будь ласка, скористайтеся іншою назвою"
 
-#: ../src/gui/runType.cs:404
+#: ../src/gui/runType.cs:415
 msgid "On RSA tests, rest time counts as a \"lap\"."
 msgstr ""
 
-#: ../src/gui/runType.cs:405
+#: ../src/gui/runType.cs:416
 msgid ""
 "You should write the time in seconds after a capital 'R' (meaning \"Rest\")."
 msgstr ""
 "Вам слід вписати час у секундах після великої літери «R» (означає «Rest/"
 "Відпочинок»)."
 
-#: ../src/gui/runType.cs:406
+#: ../src/gui/runType.cs:417
 msgid "Eg. Aziz et al. (2000) test repeats 8 times the following sequence:"
 msgstr ""
 "Наприклад, у тесті Aziz et al. (2000) 8 разів повторюється така "
 "послідовність:"
 
-#: ../src/gui/runType.cs:407
+#: ../src/gui/runType.cs:418
 msgid "Run 40 meters, rest 30 seconds."
 msgstr "Пробіжіть 40 метрів, відпочиньте 30 секунд."
 
-#: ../src/gui/runType.cs:408
+#: ../src/gui/runType.cs:419
 msgid "Will be limited by laps with a fixed value of 16"
 msgstr "Буде обмежено колами із фіксованим значенням 16"
 
-#: ../src/gui/runType.cs:409
+#: ../src/gui/runType.cs:420
 msgid "because there are 16 laps:"
 msgstr "оскільки маємо 16 кіл:"
 
-#: ../src/gui/runType.cs:410
+#: ../src/gui/runType.cs:421
 msgid "2 different laps: ('Run' and 'rest') x 8 times"
 msgstr "2 різних кола: («забіг» і «відпочинок») x 8 разів"
 
-#: ../src/gui/runType.cs:411
+#: ../src/gui/runType.cs:422
 msgid "And the 'distance' of each different lap will be:"
 msgstr "І «відстань» для кожного кола буде:"
 
-#: ../src/gui/sendLogAndPoll.cs:136
+#: ../src/gui/sendLogAndPoll.cs:140
 msgid "Thanks"
 msgstr "Подяки"
 
-#: ../src/gui/sendLogAndPoll.cs:143
+#: ../src/gui/sendLogAndPoll.cs:147
 msgid "Try again"
 msgstr "Спробувати ще раз"
 

@@ -34,309 +34,294 @@
             <property name="label_yalign">1</property>
             <property name="shadow_type">in</property>
             <child>
-              <object class="GtkViewport" id="viewport1">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="border_width">4</property>
-                <child>
-                  <object class="GtkScrolledWindow" id="scrolledwindow1">
-                    <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="hscrollbar_policy">never</property>
-                    <property name="vscrollbar_policy">never</property>
-                    <child>
-                      <object class="GtkVBox" id="vbox108">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="border_width">4</property>
-                        <child>
-                          <object class="GtkLabel" id="label175">
-                            <property name="visible">True</property>
-                            <property name="can_focus">False</property>
-                            <property name="xalign">0</property>
-                            <property name="ypad">6</property>
-                            <property name="label" translatable="yes">show &#x2026;</property>
-                          </object>
-                          <packing>
-                            <property name="expand">False</property>
-                            <property name="fill">False</property>
-                            <property name="position">0</property>
-                          </packing>
-                        </child>
-                        <child>
-                          <object class="GtkTable" id="table24">
-                            <property name="visible">True</property>
-                            <property name="can_focus">False</property>
-                            <property name="n_rows">4</property>
-                            <property name="n_columns">4</property>
-                            <property name="column_spacing">4</property>
-                            <property name="row_spacing">12</property>
-                            <child>
-                              <placeholder/>
-                            </child>
-                            <child>
-                              <object class="GtkCheckButton" id="cb_jumps_simple">
-                                <property name="label" translatable="yes">Simple</property>
-                                <property name="visible">True</property>
-                                <property name="can_focus">True</property>
-                                <property name="receives_default">False</property>
-                                <property name="use_underline">True</property>
-                                <property name="draw_indicator">True</property>
-                              </object>
-                              <packing>
-                                <property name="left_attach">1</property>
-                                <property name="right_attach">2</property>
-                                <property name="top_attach">1</property>
-                                <property name="bottom_attach">2</property>
-                                <property name="x_options">GTK_FILL</property>
-                                <property name="y_options"/>
-                              </packing>
-                            </child>
-                            <child>
-                              <object class="GtkCheckButton" id="cb_jumps_reactive">
-                                <property name="label" translatable="yes">Reactive</property>
-                                <property name="visible">True</property>
-                                <property name="can_focus">True</property>
-                                <property name="receives_default">False</property>
-                                <property name="use_underline">True</property>
-                                <property name="draw_indicator">True</property>
-                                <signal name="clicked" handler="on_cb_jumps_reactive_clicked" swapped="no"/>
-                              </object>
-                              <packing>
-                                <property name="left_attach">2</property>
-                                <property name="right_attach">3</property>
-                                <property name="top_attach">1</property>
-                                <property name="bottom_attach">2</property>
-                                <property name="x_options">GTK_FILL</property>
-                                <property name="y_options"/>
-                              </packing>
-                            </child>
-                            <child>
-                              <object class="GtkCheckButton" id="cb_runs_interval">
-                                <property name="label" translatable="yes">Intervallic</property>
-                                <property name="visible">True</property>
-                                <property name="can_focus">True</property>
-                                <property name="receives_default">False</property>
-                                <property name="use_underline">True</property>
-                                <property name="draw_indicator">True</property>
-                                <signal name="clicked" handler="on_cb_runs_interval_clicked" swapped="no"/>
-                              </object>
-                              <packing>
-                                <property name="left_attach">2</property>
-                                <property name="right_attach">3</property>
-                                <property name="top_attach">2</property>
-                                <property name="bottom_attach">3</property>
-                                <property name="x_options">GTK_FILL</property>
-                                <property name="y_options"/>
-                              </packing>
-                            </child>
-                            <child>
-                              <object class="GtkCheckButton" id="cb_runs_interval_with_subruns">
-                                <property name="label" translatable="yes">Include laps</property>
-                                <property name="visible">True</property>
-                                <property name="can_focus">True</property>
-                                <property name="receives_default">False</property>
-                                <property name="use_underline">True</property>
-                                <property name="draw_indicator">True</property>
-                              </object>
-                              <packing>
-                                <property name="left_attach">3</property>
-                                <property name="right_attach">4</property>
-                                <property name="top_attach">2</property>
-                                <property name="bottom_attach">3</property>
-                                <property name="x_options">GTK_FILL</property>
-                                <property name="y_options"/>
-                              </packing>
-                            </child>
-                            <child>
-                              <object class="GtkCheckButton" id="cb_jumps_reactive_with_subjumps">
-                                <property name="label" translatable="yes">Include individual</property>
-                                <property name="visible">True</property>
-                                <property name="can_focus">True</property>
-                                <property name="receives_default">False</property>
-                                <property name="use_underline">True</property>
-                                <property name="draw_indicator">True</property>
-                              </object>
-                              <packing>
-                                <property name="left_attach">3</property>
-                                <property name="right_attach">4</property>
-                                <property name="top_attach">1</property>
-                                <property name="bottom_attach">2</property>
-                                <property name="x_options">GTK_FILL</property>
-                                <property name="y_options"/>
-                              </packing>
-                            </child>
-                            <child>
-                              <placeholder/>
-                            </child>
-                            <child>
-                              <object class="GtkCheckButton" id="cb_runs_simple">
-                                <property name="label" translatable="yes">Simple</property>
-                                <property name="visible">True</property>
-                                <property name="can_focus">True</property>
-                                <property name="receives_default">False</property>
-                                <property name="use_underline">True</property>
-                                <property name="draw_indicator">True</property>
-                              </object>
-                              <packing>
-                                <property name="left_attach">1</property>
-                                <property name="right_attach">2</property>
-                                <property name="top_attach">2</property>
-                                <property name="bottom_attach">3</property>
-                                <property name="x_options">GTK_FILL</property>
-                                <property name="y_options"/>
-                              </packing>
-                            </child>
-                            <child>
-                              <object class="GtkLabel" id="label468">
-                                <property name="visible">True</property>
-                                <property name="can_focus">False</property>
-                                <property name="xalign">0</property>
-                                <property name="label" translatable="yes">Session</property>
-                              </object>
-                              <packing>
-                                <property name="x_options">GTK_FILL</property>
-                                <property name="y_options"/>
-                              </packing>
-                            </child>
-                            <child>
-                              <object class="GtkLabel" id="label470">
-                                <property name="visible">True</property>
-                                <property name="can_focus">False</property>
-                                <property name="xalign">0</property>
-                                <property name="label" translatable="yes">Jumps</property>
-                              </object>
-                              <packing>
-                                <property name="top_attach">1</property>
-                                <property name="bottom_attach">2</property>
-                                <property name="x_options">GTK_FILL</property>
-                                <property name="y_options"/>
-                              </packing>
-                            </child>
-                            <child>
-                              <object class="GtkLabel" id="label471">
-                                <property name="visible">True</property>
-                                <property name="can_focus">False</property>
-                                <property name="xalign">0</property>
-                                <property name="label" translatable="yes">Races</property>
-                              </object>
-                              <packing>
-                                <property name="top_attach">2</property>
-                                <property name="bottom_attach">3</property>
-                                <property name="x_options">GTK_FILL</property>
-                                <property name="y_options"/>
-                              </packing>
-                            </child>
-                            <child>
-                              <object class="GtkCheckButton" id="cb_session_data">
-                                <property name="label" translatable="yes">Data</property>
-                                <property name="visible">True</property>
-                                <property name="can_focus">True</property>
-                                <property name="receives_default">False</property>
-                                <property name="use_underline">True</property>
-                                <property name="draw_indicator">True</property>
-                              </object>
-                              <packing>
-                                <property name="left_attach">1</property>
-                                <property name="right_attach">2</property>
-                                <property name="x_options">GTK_FILL</property>
-                                <property name="y_options"/>
-                              </packing>
-                            </child>
-                            <child>
-                              <object class="GtkCheckButton" id="cb_jumpers">
-                                <property name="label" translatable="yes">Persons</property>
-                                <property name="visible">True</property>
-                                <property name="can_focus">True</property>
-                                <property name="receives_default">False</property>
-                                <property name="use_underline">True</property>
-                                <property name="draw_indicator">True</property>
-                              </object>
-                              <packing>
-                                <property name="left_attach">2</property>
-                                <property name="right_attach">3</property>
-                                <property name="x_options">GTK_FILL</property>
-                                <property name="y_options"/>
-                              </packing>
-                            </child>
-                            <child>
-                              <object class="GtkLabel" id="label472">
-                                <property name="visible">True</property>
-                                <property name="can_focus">False</property>
-                                <property name="xalign">0</property>
-                                <property name="label" translatable="yes">Other</property>
-                              </object>
-                              <packing>
-                                <property name="top_attach">3</property>
-                                <property name="bottom_attach">4</property>
-                                <property name="x_options">GTK_FILL</property>
-                                <property name="y_options"/>
-                              </packing>
-                            </child>
-                            <child>
-                              <object class="GtkCheckButton" id="cb_reaction_times">
-                                <property name="label" translatable="yes">Reaction times</property>
-                                <property name="visible">True</property>
-                                <property name="can_focus">True</property>
-                                <property name="receives_default">False</property>
-                                <property name="use_underline">True</property>
-                                <property name="draw_indicator">True</property>
-                              </object>
-                              <packing>
-                                <property name="left_attach">1</property>
-                                <property name="right_attach">2</property>
-                                <property name="top_attach">3</property>
-                                <property name="bottom_attach">4</property>
-                                <property name="x_options">GTK_FILL</property>
-                                <property name="y_options"/>
-                              </packing>
-                            </child>
-                            <child>
-                              <object class="GtkCheckButton" id="cb_pulses">
-                                <property name="label" translatable="yes">Pulses</property>
-                                <property name="visible">True</property>
-                                <property name="can_focus">True</property>
-                                <property name="receives_default">False</property>
-                                <property name="use_underline">True</property>
-                                <property name="draw_indicator">True</property>
-                              </object>
-                              <packing>
-                                <property name="left_attach">2</property>
-                                <property name="right_attach">3</property>
-                                <property name="top_attach">3</property>
-                                <property name="bottom_attach">4</property>
-                                <property name="x_options">GTK_FILL</property>
-                                <property name="y_options"/>
-                              </packing>
-                            </child>
-                          </object>
-                          <packing>
-                            <property name="expand">True</property>
-                            <property name="fill">True</property>
-                            <property name="position">1</property>
-                          </packing>
-                        </child>
-                      </object>
-                    </child>
-                  </object>
-                </child>
-              </object>
-            </child>
-            <child type="label">
-              <object class="GtkLabel" id="label_general">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="label" translatable="yes">general data</property>
-                <property name="use_markup">True</property>
-              </object>
-            </child>
-          </object>
-          <packing>
-            <property name="expand">True</property>
-            <property name="fill">True</property>
-            <property name="position">1</property>
-          </packing>
-        </child>
+		    <object class="GtkVBox" id="vbox108">
+			    <property name="visible">True</property>
+			    <property name="can_focus">False</property>
+			    <property name="border_width">4</property>
+			    <child>
+				    <object class="GtkLabel" id="label175">
+					    <property name="visible">True</property>
+					    <property name="can_focus">False</property>
+					    <property name="xalign">0</property>
+					    <property name="ypad">6</property>
+					    <property name="label" translatable="yes">show &#x2026;</property>
+				    </object>
+				    <packing>
+					    <property name="expand">False</property>
+					    <property name="fill">False</property>
+					    <property name="position">0</property>
+				    </packing>
+			    </child>
+			    <child>
+				    <object class="GtkTable" id="table24">
+					    <property name="visible">True</property>
+					    <property name="can_focus">False</property>
+					    <property name="n_rows">4</property>
+					    <property name="n_columns">4</property>
+					    <property name="column_spacing">4</property>
+					    <property name="row_spacing">12</property>
+					    <child>
+						    <placeholder/>
+					    </child>
+					    <child>
+						    <object class="GtkCheckButton" id="cb_jumps_simple">
+							    <property name="label" translatable="yes">Simple</property>
+							    <property name="visible">True</property>
+							    <property name="can_focus">True</property>
+							    <property name="receives_default">False</property>
+							    <property name="use_underline">True</property>
+							    <property name="draw_indicator">True</property>
+						    </object>
+						    <packing>
+							    <property name="left_attach">1</property>
+							    <property name="right_attach">2</property>
+							    <property name="top_attach">1</property>
+							    <property name="bottom_attach">2</property>
+							    <property name="x_options">GTK_FILL</property>
+							    <property name="y_options"/>
+						    </packing>
+					    </child>
+					    <child>
+						    <object class="GtkCheckButton" id="cb_jumps_reactive">
+							    <property name="label" translatable="yes">Reactive</property>
+							    <property name="visible">True</property>
+							    <property name="can_focus">True</property>
+							    <property name="receives_default">False</property>
+							    <property name="use_underline">True</property>
+							    <property name="draw_indicator">True</property>
+							    <signal name="clicked" handler="on_cb_jumps_reactive_clicked" swapped="no"/>
+						    </object>
+						    <packing>
+							    <property name="left_attach">2</property>
+							    <property name="right_attach">3</property>
+							    <property name="top_attach">1</property>
+							    <property name="bottom_attach">2</property>
+							    <property name="x_options">GTK_FILL</property>
+							    <property name="y_options"/>
+						    </packing>
+					    </child>
+					    <child>
+						    <object class="GtkCheckButton" id="cb_runs_interval">
+							    <property name="label" translatable="yes">Intervallic</property>
+							    <property name="visible">True</property>
+							    <property name="can_focus">True</property>
+							    <property name="receives_default">False</property>
+							    <property name="use_underline">True</property>
+							    <property name="draw_indicator">True</property>
+							    <signal name="clicked" handler="on_cb_runs_interval_clicked" swapped="no"/>
+						    </object>
+						    <packing>
+							    <property name="left_attach">2</property>
+							    <property name="right_attach">3</property>
+							    <property name="top_attach">2</property>
+							    <property name="bottom_attach">3</property>
+							    <property name="x_options">GTK_FILL</property>
+							    <property name="y_options"/>
+						    </packing>
+					    </child>
+					    <child>
+						    <object class="GtkCheckButton" id="cb_runs_interval_with_subruns">
+							    <property name="label" translatable="yes">Include laps</property>
+							    <property name="visible">True</property>
+							    <property name="can_focus">True</property>
+							    <property name="receives_default">False</property>
+							    <property name="use_underline">True</property>
+							    <property name="draw_indicator">True</property>
+						    </object>
+						    <packing>
+							    <property name="left_attach">3</property>
+							    <property name="right_attach">4</property>
+							    <property name="top_attach">2</property>
+							    <property name="bottom_attach">3</property>
+							    <property name="x_options">GTK_FILL</property>
+							    <property name="y_options"/>
+						    </packing>
+					    </child>
+					    <child>
+						    <object class="GtkCheckButton" id="cb_jumps_reactive_with_subjumps">
+							    <property name="label" translatable="yes">Include individual</property>
+							    <property name="visible">True</property>
+							    <property name="can_focus">True</property>
+							    <property name="receives_default">False</property>
+							    <property name="use_underline">True</property>
+							    <property name="draw_indicator">True</property>
+						    </object>
+						    <packing>
+							    <property name="left_attach">3</property>
+							    <property name="right_attach">4</property>
+							    <property name="top_attach">1</property>
+							    <property name="bottom_attach">2</property>
+							    <property name="x_options">GTK_FILL</property>
+							    <property name="y_options"/>
+						    </packing>
+					    </child>
+					    <child>
+						    <placeholder/>
+					    </child>
+					    <child>
+						    <object class="GtkCheckButton" id="cb_runs_simple">
+							    <property name="label" translatable="yes">Simple</property>
+							    <property name="visible">True</property>
+							    <property name="can_focus">True</property>
+							    <property name="receives_default">False</property>
+							    <property name="use_underline">True</property>
+							    <property name="draw_indicator">True</property>
+						    </object>
+						    <packing>
+							    <property name="left_attach">1</property>
+							    <property name="right_attach">2</property>
+							    <property name="top_attach">2</property>
+							    <property name="bottom_attach">3</property>
+							    <property name="x_options">GTK_FILL</property>
+							    <property name="y_options"/>
+						    </packing>
+					    </child>
+					    <child>
+						    <object class="GtkLabel" id="label468">
+							    <property name="visible">True</property>
+							    <property name="can_focus">False</property>
+							    <property name="xalign">0</property>
+							    <property name="label" translatable="yes">Session</property>
+						    </object>
+						    <packing>
+							    <property name="x_options">GTK_FILL</property>
+							    <property name="y_options"/>
+						    </packing>
+					    </child>
+					    <child>
+						    <object class="GtkLabel" id="label470">
+							    <property name="visible">True</property>
+							    <property name="can_focus">False</property>
+							    <property name="xalign">0</property>
+							    <property name="label" translatable="yes">Jumps</property>
+						    </object>
+						    <packing>
+							    <property name="top_attach">1</property>
+							    <property name="bottom_attach">2</property>
+							    <property name="x_options">GTK_FILL</property>
+							    <property name="y_options"/>
+						    </packing>
+					    </child>
+					    <child>
+						    <object class="GtkLabel" id="label471">
+							    <property name="visible">True</property>
+							    <property name="can_focus">False</property>
+							    <property name="xalign">0</property>
+							    <property name="label" translatable="yes">Races</property>
+						    </object>
+						    <packing>
+							    <property name="top_attach">2</property>
+							    <property name="bottom_attach">3</property>
+							    <property name="x_options">GTK_FILL</property>
+							    <property name="y_options"/>
+						    </packing>
+					    </child>
+					    <child>
+						    <object class="GtkCheckButton" id="cb_session_data">
+							    <property name="label" translatable="yes">Data</property>
+							    <property name="visible">True</property>
+							    <property name="can_focus">True</property>
+							    <property name="receives_default">False</property>
+							    <property name="use_underline">True</property>
+							    <property name="draw_indicator">True</property>
+						    </object>
+						    <packing>
+							    <property name="left_attach">1</property>
+							    <property name="right_attach">2</property>
+							    <property name="x_options">GTK_FILL</property>
+							    <property name="y_options"/>
+						    </packing>
+					    </child>
+					    <child>
+						    <object class="GtkCheckButton" id="cb_jumpers">
+							    <property name="label" translatable="yes">Persons</property>
+							    <property name="visible">True</property>
+							    <property name="can_focus">True</property>
+							    <property name="receives_default">False</property>
+							    <property name="use_underline">True</property>
+							    <property name="draw_indicator">True</property>
+						    </object>
+						    <packing>
+							    <property name="left_attach">2</property>
+							    <property name="right_attach">3</property>
+							    <property name="x_options">GTK_FILL</property>
+							    <property name="y_options"/>
+						    </packing>
+					    </child>
+					    <child>
+						    <object class="GtkLabel" id="label472">
+							    <property name="visible">True</property>
+							    <property name="can_focus">False</property>
+							    <property name="xalign">0</property>
+							    <property name="label" translatable="yes">Other</property>
+						    </object>
+						    <packing>
+							    <property name="top_attach">3</property>
+							    <property name="bottom_attach">4</property>
+							    <property name="x_options">GTK_FILL</property>
+							    <property name="y_options"/>
+						    </packing>
+					    </child>
+					    <child>
+						    <object class="GtkCheckButton" id="cb_reaction_times">
+							    <property name="label" translatable="yes">Reaction times</property>
+							    <property name="visible">True</property>
+							    <property name="can_focus">True</property>
+							    <property name="receives_default">False</property>
+							    <property name="use_underline">True</property>
+							    <property name="draw_indicator">True</property>
+						    </object>
+						    <packing>
+							    <property name="left_attach">1</property>
+							    <property name="right_attach">2</property>
+							    <property name="top_attach">3</property>
+							    <property name="bottom_attach">4</property>
+							    <property name="x_options">GTK_FILL</property>
+							    <property name="y_options"/>
+						    </packing>
+					    </child>
+					    <child>
+						    <object class="GtkCheckButton" id="cb_pulses">
+							    <property name="label" translatable="yes">Pulses</property>
+							    <property name="visible">True</property>
+							    <property name="can_focus">True</property>
+							    <property name="receives_default">False</property>
+							    <property name="use_underline">True</property>
+							    <property name="draw_indicator">True</property>
+						    </object>
+						    <packing>
+							    <property name="left_attach">2</property>
+							    <property name="right_attach">3</property>
+							    <property name="top_attach">3</property>
+							    <property name="bottom_attach">4</property>
+							    <property name="x_options">GTK_FILL</property>
+							    <property name="y_options"/>
+						    </packing>
+					    </child>
+				    </object>
+				    <packing>
+					    <property name="expand">True</property>
+					    <property name="fill">True</property>
+					    <property name="position">1</property>
+				    </packing>
+			    </child>
+		    </object>
+	    </child>
+	    <child type="label">
+		    <object class="GtkLabel" id="label_general">
+			    <property name="visible">True</property>
+			    <property name="can_focus">False</property>
+			    <property name="label" translatable="yes">general data</property>
+			    <property name="use_markup">True</property>
+		    </object>
+	    </child>
+    </object>
+    <packing>
+	    <property name="expand">True</property>
+	    <property name="fill">True</property>
+	    <property name="position">1</property>
+    </packing>
+  </child>
         <child>
           <object class="GtkFrame" id="frame12">
             <property name="visible">True</property>

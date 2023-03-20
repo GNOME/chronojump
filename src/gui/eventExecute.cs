@@ -1170,7 +1170,8 @@ public abstract class CairoPaintBarsPre
 			return;
 		}
 
-		paintSpecific();
+		paintSpecific ();
+		darea.QueueDraw ();
 	}
 
 	protected virtual string testsNotFound ()

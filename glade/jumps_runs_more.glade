@@ -1,55 +1,57 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Generated with glade 3.38.2 -->
 <interface>
-  <!-- interface-requires gtk+ 3.0 -->
-  <!-- interface-naming-policy toplevel-contextual -->
+  <requires lib="gtk+" version="3.0"/>
   <object class="GtkWindow" id="jumps_runs_more">
-    <property name="width_request">500</property>
-    <property name="height_request">350</property>
+    <property name="width-request">500</property>
+    <property name="height-request">350</property>
     <property name="visible">True</property>
-    <property name="can_focus">False</property>
-    <property name="border_width">10</property>
+    <property name="can-focus">False</property>
+    <property name="border-width">10</property>
     <property name="title" translatable="yes">All tests</property>
     <property name="modal">True</property>
-    <property name="type_hint">dialog</property>
-    <signal name="delete_event" handler="on_jumps_runs_more_delete_event" swapped="no"/>
+    <property name="type-hint">dialog</property>
+    <signal name="delete-event" handler="on_jumps_runs_more_delete_event" swapped="no"/>
     <child>
       <object class="GtkVBox" id="vbox26">
         <property name="visible">True</property>
-        <property name="can_focus">False</property>
+        <property name="can-focus">False</property>
         <property name="spacing">10</property>
         <child>
           <object class="GtkNotebook" id="notebook">
             <property name="visible">True</property>
-            <property name="can_focus">True</property>
-            <property name="show_tabs">False</property>
+            <property name="can-focus">True</property>
+            <property name="show-tabs">False</property>
             <child>
               <object class="GtkVBox" id="vbox1">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
+                <property name="can-focus">False</property>
                 <property name="spacing">12</property>
                 <child>
                   <object class="GtkFrame" id="frame1">
                     <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="label_xalign">0</property>
-                    <property name="label_yalign">1</property>
-                    <property name="shadow_type">in</property>
+                    <property name="can-focus">False</property>
+                    <property name="label-xalign">0</property>
+                    <property name="label-yalign">1</property>
+                    <property name="shadow-type">in</property>
                     <child>
                       <object class="GtkScrolledWindow" id="scrolledwindow12">
                         <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="border_width">4</property>
+                        <property name="can-focus">True</property>
                         <child>
                           <object class="GtkTreeView" id="treeview_more">
                             <property name="visible">True</property>
-                            <property name="can_focus">True</property>
-                            <property name="enable_search">False</property>
-                            <signal name="row_activated" handler="on_row_double_clicked" swapped="no"/>
+                            <property name="can-focus">True</property>
+                            <property name="enable-search">False</property>
+                            <signal name="row-activated" handler="on_row_double_clicked" swapped="no"/>
+                            <child internal-child="selection">
+                              <object class="GtkTreeSelection"/>
+                            </child>
                           </object>
                         </child>
                       </object>
                     </child>
-                    <child type="label">
+                    <child type="label_item">
                       <placeholder/>
                     </child>
                   </object>
@@ -62,16 +64,16 @@
                 <child>
                   <object class="GtkHButtonBox" id="hbuttonbox16">
                     <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="layout_style">spread</property>
+                    <property name="can-focus">False</property>
+                    <property name="layout-style">spread</property>
                     <child>
                       <object class="GtkButton" id="button_cancel">
                         <property name="label">gtk-cancel</property>
                         <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="can_default">True</property>
-                        <property name="receives_default">False</property>
-                        <property name="use_stock">True</property>
+                        <property name="can-focus">True</property>
+                        <property name="can-default">True</property>
+                        <property name="receives-default">False</property>
+                        <property name="use-stock">True</property>
                         <signal name="clicked" handler="on_button_cancel_clicked" swapped="no"/>
                         <accelerator key="Escape" signal="clicked"/>
                       </object>
@@ -85,10 +87,10 @@
                       <object class="GtkButton" id="button_accept">
                         <property name="label">gtk-ok</property>
                         <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="can_default">True</property>
-                        <property name="receives_default">False</property>
-                        <property name="use_stock">True</property>
+                        <property name="can-focus">True</property>
+                        <property name="can-default">True</property>
+                        <property name="receives-default">False</property>
+                        <property name="use-stock">True</property>
                         <signal name="clicked" handler="on_button_accept_clicked" swapped="no"/>
                       </object>
                       <packing>
@@ -101,10 +103,10 @@
                       <object class="GtkButton" id="button_close">
                         <property name="label">gtk-close</property>
                         <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="can_default">True</property>
-                        <property name="receives_default">True</property>
-                        <property name="use_stock">True</property>
+                        <property name="can-focus">True</property>
+                        <property name="can-default">True</property>
+                        <property name="receives-default">True</property>
+                        <property name="use-stock">True</property>
                         <signal name="clicked" handler="on_button_cancel_clicked" swapped="no"/>
                         <accelerator key="Escape" signal="clicked"/>
                       </object>
@@ -117,18 +119,18 @@
                     <child>
                       <object class="GtkButton" id="button_delete_type">
                         <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="can_default">True</property>
-                        <property name="receives_default">True</property>
+                        <property name="can-focus">True</property>
+                        <property name="can-default">True</property>
+                        <property name="receives-default">True</property>
                         <signal name="clicked" handler="on_button_delete_type_clicked" swapped="no"/>
                         <child>
                           <object class="GtkHBox" id="hbox1">
                             <property name="visible">True</property>
-                            <property name="can_focus">False</property>
+                            <property name="can-focus">False</property>
                             <child>
                               <object class="GtkImage" id="image_delete">
                                 <property name="visible">True</property>
-                                <property name="can_focus">False</property>
+                                <property name="can-focus">False</property>
                                 <property name="stock">gtk-delete</property>
                               </object>
                               <packing>
@@ -140,7 +142,7 @@
                             <child>
                               <object class="GtkLabel" id="label_delete_type">
                                 <property name="visible">True</property>
-                                <property name="can_focus">False</property>
+                                <property name="can-focus">False</property>
                                 <property name="label" translatable="yes">Delete type</property>
                               </object>
                               <packing>
@@ -170,27 +172,27 @@
             <child type="tab">
               <object class="GtkLabel" id="label1">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
+                <property name="can-focus">False</property>
                 <property name="label">tests</property>
               </object>
               <packing>
-                <property name="tab_fill">False</property>
+                <property name="tab-fill">False</property>
               </packing>
             </child>
             <child>
               <object class="GtkVBox" id="vbox2">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
+                <property name="can-focus">False</property>
                 <property name="spacing">12</property>
                 <child>
                   <object class="GtkVBox" id="vbox4">
                     <property name="visible">True</property>
-                    <property name="can_focus">False</property>
+                    <property name="can-focus">False</property>
                     <property name="spacing">16</property>
                     <child>
                       <object class="GtkLabel" id="label_delete_confirm">
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
+                        <property name="can-focus">False</property>
                         <property name="yalign">0</property>
                       </object>
                       <packing>
@@ -202,7 +204,7 @@
                     <child>
                       <object class="GtkLabel" id="label_delete_confirm_name">
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
+                        <property name="can-focus">False</property>
                         <property name="yalign">0</property>
                       </object>
                       <packing>
@@ -214,22 +216,22 @@
                     <child>
                       <object class="GtkHButtonBox" id="hbuttonbox3">
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
+                        <property name="can-focus">False</property>
                         <child>
                           <object class="GtkButton" id="button_delete_confirm_accept">
                             <property name="visible">True</property>
-                            <property name="can_focus">True</property>
-                            <property name="can_default">True</property>
-                            <property name="receives_default">False</property>
+                            <property name="can-focus">True</property>
+                            <property name="can-default">True</property>
+                            <property name="receives-default">False</property>
                             <signal name="clicked" handler="on_button_delete_confirm_accept_clicked" swapped="no"/>
                             <child>
                               <object class="GtkHBox" id="hbox2">
                                 <property name="visible">True</property>
-                                <property name="can_focus">False</property>
+                                <property name="can-focus">False</property>
                                 <child>
                                   <object class="GtkImage" id="image_delete1">
                                     <property name="visible">True</property>
-                                    <property name="can_focus">False</property>
+                                    <property name="can-focus">False</property>
                                     <property name="stock">gtk-delete</property>
                                   </object>
                                   <packing>
@@ -241,7 +243,7 @@
                                 <child>
                                   <object class="GtkLabel" id="label_delete_type1">
                                     <property name="visible">True</property>
-                                    <property name="can_focus">False</property>
+                                    <property name="can-focus">False</property>
                                     <property name="label" translatable="yes">Delete</property>
                                   </object>
                                   <packing>
@@ -278,16 +280,16 @@
                 <child>
                   <object class="GtkHButtonBox" id="hbuttonbox1">
                     <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="layout_style">spread</property>
+                    <property name="can-focus">False</property>
+                    <property name="layout-style">spread</property>
                     <child>
                       <object class="GtkButton" id="button_delete_confirm_cancel">
                         <property name="label">gtk-cancel</property>
                         <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="can_default">True</property>
-                        <property name="receives_default">False</property>
-                        <property name="use_stock">True</property>
+                        <property name="can-focus">True</property>
+                        <property name="can-default">True</property>
+                        <property name="receives-default">False</property>
+                        <property name="use-stock">True</property>
                         <signal name="clicked" handler="on_button_delete_confirm_cancel_clicked" swapped="no"/>
                         <accelerator key="Escape" signal="clicked"/>
                       </object>
@@ -305,27 +307,30 @@
                   </packing>
                 </child>
               </object>
+              <packing>
+                <property name="position">1</property>
+              </packing>
             </child>
             <child type="tab">
               <object class="GtkLabel" id="label2">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
+                <property name="can-focus">False</property>
                 <property name="label">delete confirm</property>
               </object>
               <packing>
                 <property name="position">1</property>
-                <property name="tab_fill">False</property>
+                <property name="tab-fill">False</property>
               </packing>
             </child>
             <child>
               <object class="GtkVBox" id="vbox3">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
+                <property name="can-focus">False</property>
                 <property name="spacing">12</property>
                 <child>
                   <object class="GtkLabel" id="label_delete_cannot">
                     <property name="visible">True</property>
-                    <property name="can_focus">False</property>
+                    <property name="can-focus">False</property>
                     <property name="yalign">0</property>
                   </object>
                   <packing>
@@ -338,15 +343,15 @@
                 <child>
                   <object class="GtkHButtonBox" id="hbuttonbox2">
                     <property name="visible">True</property>
-                    <property name="can_focus">False</property>
+                    <property name="can-focus">False</property>
                     <child>
                       <object class="GtkButton" id="button_close1">
                         <property name="label">gtk-close</property>
                         <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="can_default">True</property>
-                        <property name="receives_default">True</property>
-                        <property name="use_stock">True</property>
+                        <property name="can-focus">True</property>
+                        <property name="can-default">True</property>
+                        <property name="receives-default">True</property>
+                        <property name="use-stock">True</property>
                         <signal name="clicked" handler="on_button_cancel_clicked" swapped="no"/>
                         <accelerator key="Escape" signal="clicked"/>
                       </object>
@@ -364,16 +369,19 @@
                   </packing>
                 </child>
               </object>
+              <packing>
+                <property name="position">2</property>
+              </packing>
             </child>
             <child type="tab">
               <object class="GtkLabel" id="label3">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
+                <property name="can-focus">False</property>
                 <property name="label">delete cannot</property>
               </object>
               <packing>
                 <property name="position">2</property>
-                <property name="tab_fill">False</property>
+                <property name="tab-fill">False</property>
               </packing>
             </child>
           </object>

@@ -503,7 +503,7 @@ void setup() {
 
   tft.fillScreen(BLACK);
 
-  Serial.println("Microlab-" + version);
+  Serial.println("MicroLab-" + version);
 
   drawMenuBackground();
   backMenu();
@@ -661,8 +661,7 @@ void serialEvent() {
   } else if (commandString == "end_capture") {
     endLoadCellCapture();
   } else if (commandString == "get_version") {
-    //get_version();
-    Serial.println("Force_Sensor-0.5");
+    get_version();
   } else if (commandString == "get_calibration_factor") {
     get_calibration_factor();
   } else if (commandString == "set_calibration_factor") {
@@ -870,6 +869,7 @@ void set_calibration_factor(String inputString)
 
 void calibrate(String inputString)
 {
+  scale.power_up();
   //Reading the argument of the command. Located within the ":" and the ";"
   String weightString = get_command_argument(inputString);
   float weight = weightString.toFloat();
@@ -882,13 +882,16 @@ void calibrate(String inputString)
   EEPROM.put(calibrationAddress, calibration_factor);
   Serial.print("Calibrating OK:");
   Serial.println(calibration_factor);
+  scale.power_down();
 }
 
 void tare()
 {
+  scale.power_up();
   printTftText(currentMenu[currentMenuIndex].description, 12, 100, BLACK);
   printTftText("Taring...", 120, 100);
   scale.tare(50); //Reset the scale to 0 using the mean of 255 raw values
+  Serial.println(scale.get_offset());
   EEPROM.put(tareAddress, scale.get_offset());
   printTftText("Taring...", 120, 100, BLACK);
   printTftText("Tared", 120, 100);
@@ -899,6 +902,7 @@ void tare()
   delay(300);
   printTftText("Tared", 120, 100, BLACK);
   showMenuEntry(currentMenuIndex);
+  scale.power_down();
 }
 
 /*

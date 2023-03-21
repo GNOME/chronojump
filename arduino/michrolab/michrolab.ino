@@ -479,7 +479,7 @@ void setup() {
   }
 
   EEPROM.get(groupAddress, group);
-  if (group == 65535) {
+  if (group == 65535 || group == -1) {
     group = 0;
     EEPROM.put(groupAddress, 0);
   }

@@ -56,6 +56,7 @@ public class Config
 
 	public bool Exhibition; //like YOMO. does not have rfid capture, user autologout management, and automatic configuration of gui
 	public ExhibitionTest.testTypes ExhibitionStationType;
+	public bool FTDIalways; //for ChromeOS where we ID_VENDOR is not returned on call udevadm
 	public bool Raspberry;
 	public bool LowHeight; //devices with less than 500 px vertical, like Odroid Go Super
 	public bool LowCPU; //workaround to not show realtime graph on force sensor capture (until its optimized)
@@ -150,6 +151,8 @@ public class Config
 					else if(parts[0] == "ExhibitionStationID" && parts[1] != "" && Util.IsNumber(parts[1], false))
 						ExhibitionStationID = Convert.ToInt32(parts[1]);
 						*/
+					else if(parts[0] == "FTDIalways" && Util.StringToBool(parts[1]))
+						FTDIalways = true;
 					else if(parts[0] == "Raspberry" && Util.StringToBool(parts[1])) //Raspberry: small screens, could be networks or not. They are usually disconnected by cable removal, so do not show send log at start
 						Raspberry = true;
 					else if(parts[0] == "LowHeight" && Util.StringToBool(parts[1]))
@@ -264,12 +267,12 @@ public class Config
 		return (string.Format (
 					"Compujump = {0}, CompujumpDjango = {1}, CompujumpHideTaskDone = {2}, CompujumpServerURL = {3}, " +
 					"CompujumpStationID = {4}, CompujumpAdminID = {5}, compujumpAdminEmail = {6}, CompujumpStationMode = {7}, " +
-					"SessionMode = {8}, PlaySoundsFromFile = {9}, Exhibition = {10}, Raspberry = {11}, " +
-					"LowHeight = {12}, LowCPU = {13}, GuiTest = {14}, CanOpenExternalDB = {15}, " +
-					"ExternalDBDefaultPath = {16}, LastDBFullPath = {17}",
+					"SessionMode = {8}, PlaySoundsFromFile = {9}, Exhibition = {10}, FTDIalways = {11}, Raspberry = {12}, " +
+					"LowHeight = {13}, LowCPU = {14}, GuiTest = {15}, CanOpenExternalDB = {16}, " +
+					"ExternalDBDefaultPath = {17}, LastDBFullPath = {18}",
 					Compujump, CompujumpDjango, CompujumpHideTaskDone, CompujumpServerURL,
 					CompujumpStationID, CompujumpAdminID, CompujumpAdminEmail, CompujumpStationMode,
-					SessionMode, PlaySoundsFromFile, Exhibition, Raspberry,
+					SessionMode, PlaySoundsFromFile, Exhibition, FTDIalways, Raspberry,
 					LowHeight, LowCPU, GuiTest, CanOpenExternalDB,
 					ExternalDBDefaultPath, LastDBFullPath));
 	}

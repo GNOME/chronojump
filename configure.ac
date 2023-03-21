@@ -132,10 +132,6 @@ build/Makefile
 build/m4/Makefile
 build/m4/shave/shave
 build/m4/shave/shave-libtool
-chronopic-firmware/Makefile
-chronopic-firmware/chronopic-firmwarecord/Makefile
-chronopic-firmware/chronopic-firmwarecord/libIris/Makefile
-chronopic-firmware/chronopic-firmwarecord/chronopic-firmwarecord
 chronopic-tests/Makefile
 binariesMac/Makefile
 src/Makefile
@@ -152,9 +148,6 @@ src/chronojump.desktop
 src/Mini/chronojump_mini
 win32/chronojump_innosetup.iss
 win32/Makefile
-data/Makefile
-data/theme/Makefile
-data/icons/Makefile
 ])
 
 AC_CONFIG_FILES([deb-pkg.sh], [chmod +x deb-pkg.sh])

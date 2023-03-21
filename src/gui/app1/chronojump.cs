@@ -8719,7 +8719,7 @@ LogB.Debug("mc finished 5");
 			cp2016.SerialPortsCloseIfNeeded(false);
 
 		ChronopicRegisterSelectOS cros = new ChronopicRegisterSelectOS();
-		chronopicRegister = cros.Do(configChronojump.Compujump, showRunWirelessDevice);
+		chronopicRegister = cros.Do(configChronojump.Compujump, showRunWirelessDevice, configChronojump.FTDIalways);
 		
 		/*
 		 * If Chronopic has been disconnected on OSX, port gets blocked
@@ -8731,7 +8731,7 @@ LogB.Debug("mc finished 5");
 		{
 			cp2016.SerialPortsCloseIfNeeded(true);
 			Thread.Sleep(250);
-			chronopicRegister = cros.Do(configChronojump.Compujump, showRunWirelessDevice);
+			chronopicRegister = cros.Do(configChronojump.Compujump, showRunWirelessDevice, false);
 		}
 
 

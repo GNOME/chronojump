@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016-2022  Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2016-2023  Xavier de Blas <xaviblas@gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -182,14 +182,14 @@ public class ChronopicRegisterSelectOS
 	public ChronopicRegisterSelectOS() {
 	}
 
-	public ChronopicRegister Do(bool compujump, bool showRunWireless)
+	public ChronopicRegister Do (bool compujump, bool showRunWireless, bool FTDIalways)
 	{
 		if(UtilAll.GetOSEnum() == UtilAll.OperatingSystems.LINUX)
-			return new ChronopicRegisterLinux(compujump, showRunWireless);
+			return new ChronopicRegisterLinux (compujump, showRunWireless, FTDIalways);
 		else if(UtilAll.GetOSEnum() == UtilAll.OperatingSystems.MACOSX)
-			return new ChronopicRegisterMac(compujump, showRunWireless);
+			return new ChronopicRegisterMac (compujump, showRunWireless);
 		else // WINDOWS
-			return new ChronopicRegisterWindows(compujump, showRunWireless);
+			return new ChronopicRegisterWindows (compujump, showRunWireless);
 	}
 }
 
@@ -486,8 +486,12 @@ public abstract class ChronopicRegister
 
 public class ChronopicRegisterLinux : ChronopicRegister
 {
-	public ChronopicRegisterLinux (bool compujump, bool showRunWireless)
+	private bool FTDIalways;
+
+	public ChronopicRegisterLinux (bool compujump, bool showRunWireless, bool FTDIalways)
 	{
+		this.FTDIalways = FTDIalways;
+
 		process(compujump, showRunWireless);
 	}
 
@@ -529,6 +533,9 @@ public class ChronopicRegisterLinux : ChronopicRegister
 				crp.SerialNumber = strFull[1];
 			}
 		}
+		if (FTDIalways)
+			crp.FTDI = true;
+
 		return crp;
 	}
 }

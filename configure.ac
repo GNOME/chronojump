@@ -132,7 +132,6 @@ build/Makefile
 build/m4/Makefile
 build/m4/shave/shave
 build/m4/shave/shave-libtool
-chronopic-tests/Makefile
 binariesMac/Makefile
 src/Makefile
 src/Mini/Makefile

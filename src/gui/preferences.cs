@@ -295,6 +295,7 @@ public class PreferencesWindow
 	static PreferencesWindow PreferencesWindowBox;
 
 	private RGBA colorBackground;
+	private bool signalsNoFollow;
 
 	private UtilAll.OperatingSystems operatingSystem;
 	private Preferences preferences; //stored to update SQL if anything changed
@@ -395,6 +396,9 @@ public class PreferencesWindow
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_rest.png");
 		PreferencesWindowBox.image_rest.Pixbuf = pixbuf;
 
+		//to avoid changing the sqlite and gui undecorated mode when activating maximized
+		PreferencesWindowBox.signalsNoFollow = true;
+
 		if(preferences.maximized == Preferences.MaximizedTypes.NO)
 		{
 			PreferencesWindowBox.check_appearance_maximized.Active = false;
@@ -408,6 +412,8 @@ public class PreferencesWindow
 			PreferencesWindowBox.check_appearance_maximized_undecorated.Active =
 				(preferences.maximized == Preferences.MaximizedTypes.YESUNDECORATED);
 		}
+
+		PreferencesWindowBox.signalsNoFollow = false;
 
 		if(preferences.personWinHide)
 			PreferencesWindowBox.check_appearance_person_win_hide.Active = true;
@@ -1038,6 +1044,9 @@ public class PreferencesWindow
 
 	private void on_check_appearance_maximized_toggled (object obj, EventArgs args)
 	{
+		if (signalsNoFollow)
+			return;
+
 		// A) changes on preferences gui
 		alignment_undecorated.Visible = check_appearance_maximized.Active;
 		label_recommended_undecorated.Visible = check_appearance_maximized.Active;
@@ -1053,6 +1062,9 @@ public class PreferencesWindow
 
 	private void on_check_appearance_maximized_undecorated_toggled (object obj, EventArgs args)
 	{
+		if (signalsNoFollow)
+			return;
+
 		// B) changes on preferences object and SqlitePreferences
 		Preferences.MaximizedTypes maximizedTypeFromGUI = get_maximized_from_gui();
 		if(preferences.maximized != maximizedTypeFromGUI)

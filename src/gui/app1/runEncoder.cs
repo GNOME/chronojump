@@ -391,11 +391,9 @@ public partial class ChronoJumpWindow
 					currentPersonSession.Weight, //but note if person changes (but graph will be hopefully erased), this will change also take care on exports
 					Convert.ToInt32(race_analyzer_spinbutton_angle.Value));
 
-		updateRaceAnalyzerCapturePositionTime(true);
-		updateRaceAnalyzerCaptureSpeedTime(true);
-		updateRaceAnalyzerCaptureAccelTime(true);
-		//if graphs are not updated with the line, use this that will fire ExposeEvent:
-		//drawingarea_race_analyzer_capture_position_time.QueueDraw(); and the others
+		drawingarea_race_analyzer_capture_position_time.QueueDraw ();
+		drawingarea_race_analyzer_capture_speed_time.QueueDraw ();
+		drawingarea_race_analyzer_capture_accel_time.QueueDraw ();
 
 		if (chronopicRegister.GetSelectedForMode (current_mode).Port == "")
 		{
@@ -1237,9 +1235,9 @@ public partial class ChronoJumpWindow
 
 			cairoRadial.GraphSpeedMaxAndDistance(reCGSD.RunEncoderCaptureSpeedMax, reCGSD.RunEncoderCaptureDistance);
 
-			updateRaceAnalyzerCapturePositionTime(true);
-			updateRaceAnalyzerCaptureSpeedTime(true);
-			updateRaceAnalyzerCaptureAccelTime(true);
+			drawingarea_race_analyzer_capture_position_time.QueueDraw ();
+			drawingarea_race_analyzer_capture_speed_time.QueueDraw ();
+			drawingarea_race_analyzer_capture_accel_time.QueueDraw ();
 		}
 
 		//debug reCGSD.SegmentCalcs
@@ -1775,9 +1773,9 @@ public partial class ChronoJumpWindow
 						forceSensorDoGraphAI();
 					 */
 
-					updateRaceAnalyzerCapturePositionTime(true);
-					updateRaceAnalyzerCaptureSpeedTime(true);
-					updateRaceAnalyzerCaptureAccelTime(true);
+					drawingarea_race_analyzer_capture_position_time.QueueDraw ();
+					drawingarea_race_analyzer_capture_speed_time.QueueDraw ();
+					drawingarea_race_analyzer_capture_accel_time.QueueDraw ();
 				}
 				LogB.Information(" re C finish 2");
 			} else if(runEncoderProcessCancel || runEncoderProcessError)
@@ -1855,13 +1853,25 @@ public partial class ChronoJumpWindow
 			event_execute_label_message.Text = runEncoderPulseMessage;
 
 			if(cairoRadial != null && reCGSD != null)
-				cairoRadial.GraphSpeedAndDistance(reCGSD.RunEncoderCaptureSpeed, reCGSD.RunEncoderCaptureDistance);
+			{
+				//cairoRadial.GraphSpeedAndDistance(reCGSD.RunEncoderCaptureSpeed, reCGSD.RunEncoderCaptureDistance);
+				if(radio_race_analyzer_capture_view_simple.Active)
+					drawingarea_race_analyzer_capture_velocimeter_topleft.QueueDraw ();
+				else
+					drawingarea_race_analyzer_capture_velocimeter_bottom.QueueDraw ();
+			}
 
 			//TODO: activate again when there's a real time update (not repaint all) method
 			//false: it will not be redrawn if there are no new points
+			/*
 			updateRaceAnalyzerCapturePositionTime(false);
 			updateRaceAnalyzerCaptureSpeedTime(false);
 			updateRaceAnalyzerCaptureAccelTime(false);
+			*/
+			//TODO: this should be false
+			drawingarea_race_analyzer_capture_position_time.QueueDraw ();
+			drawingarea_race_analyzer_capture_speed_time.QueueDraw ();
+			drawingarea_race_analyzer_capture_accel_time.QueueDraw ();
 
 			if(runEncoderPulseMessage == capturingMessage)
 				event_execute_button_finish.Sensitive = true;
@@ -2569,9 +2579,9 @@ public partial class ChronoJumpWindow
 		if (reCGSD != null)
 			reCGSD.SegmentsRedoWithSmoothing (smooth);
 
-		updateRaceAnalyzerCapturePositionTime(true);
-		updateRaceAnalyzerCaptureSpeedTime(true);
-		updateRaceAnalyzerCaptureAccelTime(true);
+		drawingarea_race_analyzer_capture_position_time.QueueDraw ();
+		drawingarea_race_analyzer_capture_speed_time.QueueDraw ();
+		drawingarea_race_analyzer_capture_accel_time.QueueDraw ();
 	}
 
 	private int getSmoothFrom_gui_at_race_analyzer_capture_smooth_graphs ()
@@ -2593,9 +2603,9 @@ public partial class ChronoJumpWindow
 		if (reCGSD != null)
 			reCGSD.SegmentsRedoWithSmoothing (smooth);
 
-		updateRaceAnalyzerCapturePositionTime(true);
-		updateRaceAnalyzerCaptureSpeedTime(true);
-		updateRaceAnalyzerCaptureAccelTime(true);
+		drawingarea_race_analyzer_capture_position_time.QueueDraw ();
+		drawingarea_race_analyzer_capture_speed_time.QueueDraw ();
+		drawingarea_race_analyzer_capture_accel_time.QueueDraw ();
 	}
 
 	private void on_button_race_analyzer_capture_save_image_clicked (object o, EventArgs args)

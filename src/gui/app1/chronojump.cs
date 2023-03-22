@@ -8422,9 +8422,9 @@ LogB.Debug("mc finished 5");
 		}
 		else if(m == Constants.Modes.RUNSENCODER)
 		{
-			updateRaceAnalyzerCapturePositionTime(true);
-			updateRaceAnalyzerCaptureSpeedTime(true);
-			updateRaceAnalyzerCaptureAccelTime(true);
+			drawingarea_race_analyzer_capture_position_time.QueueDraw ();
+			drawingarea_race_analyzer_capture_speed_time.QueueDraw ();
+			drawingarea_race_analyzer_capture_accel_time.QueueDraw ();
 		}
 	}
 

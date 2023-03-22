@@ -1716,7 +1716,8 @@ LogB.Information(" fs J ");
 			if(configChronojump.LowCPU)
 				event_execute_label_message.Text = "Disabled real time graph on this device";
 			else {
-				updateForceSensorCaptureSignalCairo (false);
+				//updateForceSensorCaptureSignalCairo (false); //TODO: if this is commented, then RAM does not increase
+				force_capture_drawingarea_cairo.QueueDraw (); //much better, but note that memory and CPU usage also increase. When Chronojump is closed all memory is returned. Check where is the leak
 			}
 LogB.Information(" fs Q ");
 		}

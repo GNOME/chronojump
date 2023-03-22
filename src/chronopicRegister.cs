@@ -254,9 +254,10 @@ public abstract class ChronopicRegister
 		/*
 		   special case for the massively repeated A50285BI
 		   on compujump there is no problem as there will be rfid (maybe bad number),
-		   but the rest of the devices (right now: contact platform, photocells or encoder) all Chronopic (ftdi ok)
+		   but the rest of the devices (right now: contact platform, photocells or encoder) all Chronopic (ftdi ok).
+		   Also special case for devices without SerialNumber, eg on Chromebook udevadm does not return the Serial id, so is returned as ""
 		   */
-		if (crp.SerialNumber == SerialNumberNotUnique && ! compujump)
+		if ( (crp.SerialNumber == SerialNumberNotUnique || crp.SerialNumber == "") && ! compujump)
 		{
 			crpl.Add (crp, false); //only add to the current list
 			return;

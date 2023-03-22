@@ -8334,7 +8334,7 @@ LogB.Debug("mc finished 5");
 							preferences.encoderCaptureShowNRepetitions,
 							preferences.volumeOn,
 							preferences.gstreamer);
-					prepareEncoderBarplotCairo (true);
+					encoder_capture_curves_bars_drawingarea_cairo.QueueDraw ();
 				} else {
 					//UtilGtk.ErasePaint(encoder_capture_curves_bars_drawingarea, encoder_capture_curves_bars_pixmap);
 					//TODO: do it on Cairo

@@ -74,9 +74,15 @@ public abstract class CairoGeneric
 
 		if(surface != null)
 		{
-			surface.Dispose(); //dispose surface here when all the attached stuff has been disposed
-			//hardDisposeSurface(surface); //aixo diu 1
+			//surface.Dispose(); //dispose surface here when all the attached stuff has been disposed
+			hardDisposeSurface (surface);
 		}
+
+		/*
+		GC.Collect();
+		GC.WaitForPendingFinalizers();
+		LogB.Information ("Memory: " + (GC.GetTotalMemory(true) / 1024) + " KB");
+		*/
 	}
 	protected void endGraphDisposing(Cairo.Context g)
 	{
@@ -88,11 +94,14 @@ public abstract class CairoGeneric
 	   https://www.debugcn.com/en/article/59607062.html
 	   but unused, the problem was finishing the DoSendingList with a return without a previous endGraphDisposing
 	   fixed forcing it: see raceAnalyzer and encoder
+	   */
+	//https://stackoverflow.com/a/38276263
+	//needed on GTK3 because surface.Dispose seems do nothing. The memory grows fast.
 	private static void hardDisposeSurface (Surface surface)
 	{
 		var handle = surface.Handle;
 		long refCount = surface.ReferenceCount;
-		LogB.Information("hardDisposeSurface refCount pre: " + refCount.ToString());
+		//LogB.Information("hardDisposeSurface refCount pre: " + refCount.ToString());
 		surface.Dispose ();
 		refCount--;
 		if (refCount <= 0)
@@ -109,7 +118,6 @@ public abstract class CairoGeneric
 			LogB.Information("catched on hardDisposeSurface");
 		}
 	}
-	*/
 
 	//0 - 255
 	protected static Cairo.Color colorFromRGB(int red, int green, int blue)

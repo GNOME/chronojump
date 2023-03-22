@@ -6085,7 +6085,7 @@ public partial class ChronoJumpWindow
 					preferences.encoderCaptureShowNRepetitions,
 					preferences.volumeOn,
 					preferences.gstreamer);
-			prepareEncoderBarplotCairo (true);
+			encoder_capture_curves_bars_drawingarea_cairo.QueueDraw ();
 		}
 	}
 
@@ -6120,7 +6120,10 @@ public partial class ChronoJumpWindow
 
 		LogB.Information("on_encoder_capture_curves_bars_drawingarea_cairo_draw B");
 		if(prepareEventGraphBarplotEncoder != null)
-			prepareEncoderBarplotCairo (false); //just redraw the graph
+		{
+			//prepareEncoderBarplotCairo (false); //just redraw the graph
+			prepareEncoderBarplotCairo (true); //TODO: check if true or false
+		}
 	}
 
 	private void prepareEncoderBarplotCairo (bool calculateAll)
@@ -6912,7 +6915,7 @@ public partial class ChronoJumpWindow
 						preferences.encoderCaptureShowNRepetitions,
 						preferences.volumeOn,
 						preferences.gstreamer);
-				prepareEncoderBarplotCairo (true);
+				encoder_capture_curves_bars_drawingarea_cairo.QueueDraw ();
 
 				needToRefreshTreeviewCapture = false;
 			}
@@ -7494,7 +7497,7 @@ public partial class ChronoJumpWindow
 						preferences.encoderCaptureShowNRepetitions,
 						preferences.volumeOn,
 						preferences.gstreamer);
-				prepareEncoderBarplotCairo (true);
+				encoder_capture_curves_bars_drawingarea_cairo.QueueDraw ();
 
 				button_encoder_signal_save_comment.Label = Catalog.GetString("Save comment");
 				button_encoder_signal_save_comment.Sensitive = false;

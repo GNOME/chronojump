@@ -6141,7 +6141,8 @@ public partial class ChronoJumpWindow
 
 	public void on_encoder_capture_signal_drawingarea_cairo_draw (object o, Gtk.DrawnArgs args)
 	{
-		updateEncoderCaptureSignalCairo (current_mode == Constants.Modes.POWERINERTIAL, true);
+		//updateEncoderCaptureSignalCairo (current_mode == Constants.Modes.POWERINERTIAL, true);
+		updateEncoderCaptureSignalCairo (current_mode == Constants.Modes.POWERINERTIAL, false); //TODO: recheck if true or false
 	}
 	private void updateEncoderCaptureSignalCairo (bool inertial, bool forceRedraw)
 	{
@@ -6851,10 +6852,12 @@ public partial class ChronoJumpWindow
 
 			if(encoderConfigurationCurrent.has_inertia) {
 				updateEncoderCaptureGraphPaintData (UpdateEncoderPaintModes.INERTIAL);
-				updateEncoderCaptureSignalCairo (true, false); //inertial, forceRedraw
+				//updateEncoderCaptureSignalCairo (true, false); //inertial, forceRedraw
+				encoder_capture_signal_drawingarea_cairo.QueueDraw ();
 			} else {
 				updateEncoderCaptureGraphPaintData (UpdateEncoderPaintModes.GRAVITATORY);
-				updateEncoderCaptureSignalCairo (false, false);
+				//updateEncoderCaptureSignalCairo (false, false);
+				encoder_capture_signal_drawingarea_cairo.QueueDraw ();
 			}
 
 			if(needToRefreshTreeviewCapture) 

@@ -971,7 +971,7 @@ tryNLS <- function(data){
                         # model = nls(speed ~ Vmax*(1-exp(-K*(time + T0))), data,
                         #             start = list(Vmax = max(data[,"speed"]), K = 1, T0 = 0.2), control=nls.control(warnOnly=TRUE))
                         model = nls(position ~ Vmax*(time + T0 + (1/K)*exp(-K*(time + T0))) -Vmax/K + P0, data
-                                    , start = list(K = 0.81, Vmax = 10, T0 = 0.2, P0 = 0.1), control=nls.control(warnOnly=TRUE))
+                                    , start = list(K = 0.81, Vmax = 10, T0 = 0.2, P0 = 0.1), control=nls.control(warnOnly=TRUE, maxiter = 100))
                         print("model:")
                         print(model)
                         print(model$convInfo)

@@ -1037,10 +1037,13 @@ testEncoderCJ <- function(filename, filenameInstantaneous, testLength, isSprint,
         if (! sprintRawDynamics$longEnough || sprintRawDynamics$problems == TRUE)
 	{
 		print("Couldn't calculate the sprint model")
+
+
 		#TODO: here we have to be able to do:
 		#exportRow = exportSprintRawPrepareRow(sprintRawDynamics, splitPositionAll, op$decimalCharAtExport == ",")
 		#so the first returns of getSprintFromEncoder should return Mass, hheight, temperature, Vw, rawVmax, rawAmax, rasFmax, rawPmax
 
+		exportRow = exportSprintRawPrepareRow(sprintRawDynamics, splitPositionAll, op$decimalCharAtExport == ",") # Test this
 		return(exportRow)
 	}
 

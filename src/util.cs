@@ -2072,6 +2072,22 @@ public class Util
 
 		return str;
 	}
+	public static string ListStringToString (List<string> l, string separator)
+	{
+		if (l == null || l.Count == 0)
+			return "";
+
+		string str = "";
+		string sepDo = "";
+
+		foreach (string s in l)
+		{
+			str += sepDo + s;
+			sepDo = separator;
+		}
+
+		return str;
+	}
 	public static string [] ArrayListToString (ArrayList myArrayList) {
 		//if myArrayList is not defined, return with an empty string
 		try { 
@@ -2165,6 +2181,14 @@ public class Util
 	public static bool FoundInListDouble(List<double> l, double d) {
 		foreach (double d2 in l)
 			if(d2 == d)
+				return true;
+
+		return false;
+	}
+	public static bool FoundInListString (List<string> l, string s)
+	{
+		foreach (string l2 in l)
+			if(l2 == s)
 				return true;
 
 		return false;

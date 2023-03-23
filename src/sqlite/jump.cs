@@ -276,6 +276,60 @@ class SqliteJump : Sqlite
 	  return jmp_l;
 	}
 
+	public static List<string> SelectJumpsTypeInSession (bool dbconOpened, int sID)
+	{
+		if(!dbconOpened)
+			Sqlite.Open(); //  -------------------->
+
+		List<string> list = new List<string> ();
+		dbcmd.CommandText = "SELECT DISTINCT (type) FROM jump WHERE sessionID = " + sID + " ORDER BY type";
+
+		SqliteDataReader reader;
+		reader = dbcmd.ExecuteReader();
+
+		while (reader.Read())
+			list.Add (reader[0].ToString ());
+
+		reader.Close ();
+		if(!dbconOpened)
+			Sqlite.Close(); // <--------------------
+
+		return list;
+	}
+
+	//called once for each jumpType
+	public static List<SqliteStruct.IntTypeDoubleDouble> SelectJumpsToCSVExport (bool dbconOpened, int sID, string jumpType)
+	{
+		if(!dbconOpened)
+			Sqlite.Open(); //  -------------------->
+
+		List<SqliteStruct.IntTypeDoubleDouble> list = new List<SqliteStruct.IntTypeDoubleDouble> ();
+
+		dbcmd.CommandText = "SELECT personID, type, AVG (tv), MAX (tv) FROM jump" +
+			" WHERE sessionID = " + sID +
+			" AND type = '" + jumpType + "'" +
+			" GROUP BY personID ORDER BY personID";
+		LogB.SQL(dbcmd.CommandText.ToString());
+
+		SqliteDataReader reader;
+		reader = dbcmd.ExecuteReader();
+
+		//read personname and 2 cols for each test
+		while (reader.Read())
+			list.Add (new SqliteStruct.IntTypeDoubleDouble (
+						Convert.ToInt32 (reader[0].ToString ()),
+						reader[1].ToString (),
+						Convert.ToDouble (Util.ChangeDecimalSeparator (reader[2].ToString ())),
+						Convert.ToDouble (Util.ChangeDecimalSeparator (reader[3].ToString ()))
+						));
+
+		reader.Close ();
+		if(!dbconOpened)
+			Sqlite.Close(); // <--------------------
+
+		return list;
+	}
+
 	/* returns:
 	   2022-09-20|CMJ|0.427596
 	   2022-09-20|SJ|0.456648

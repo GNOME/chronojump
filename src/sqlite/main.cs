@@ -4918,6 +4918,37 @@ public class SqliteStruct
 		}
 	};
 
+	public struct IntTypeDoubleDouble
+	{
+		public int personID;
+		public string type;
+		public double avg;
+		public double max;
+
+		public IntTypeDoubleDouble (int personID, string type, double avg, double max)
+		{
+			this.personID = personID;
+			this.type = type;
+			this.avg = avg;
+			this.max = max;
+		}
+
+		public static IntTypeDoubleDouble FindRowFromPersonID (List<IntTypeDoubleDouble> l, int personID)
+		{
+			foreach (IntTypeDoubleDouble idd in l)
+				if (idd.personID == personID)
+					return idd;
+
+			return new IntTypeDoubleDouble (-1, "", 0, 0);
+		}
+
+		//debug
+		public override string ToString ()
+		{
+			return string.Format ("{0}, {1}: {2}, {3}", personID, type, avg, max);
+		}
+	}
+
 	public struct IntegerText
 	{
 		public int integer;

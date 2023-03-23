@@ -24,11 +24,14 @@ using System.IO; 	//TextWriter
 using System.Xml;	//XmlTextWriter
 using Gtk;		//FileSelection widget
 using System.Collections; //ArrayList
+using System.Collections.Generic; //List
 using Mono.Unix;
 
 public class ExportSession
 {
 	protected ArrayList myPersonsAndPS;
+	List<string> jumpTypes_l;
+	protected List<List<SqliteStruct.IntTypeDoubleDouble>> jumps_ll;
 	protected string [] myJumps;
 	protected string [] myJumpsRj;
 	protected string [] myRuns;
@@ -181,7 +184,12 @@ public class ExportSession
 
 		//Leave SQL opened in all this process
 		Sqlite.Open(); // ------------------------------
-		
+
+		jumpTypes_l = SqliteJump.SelectJumpsTypeInSession (true, mySession.UniqueID);
+		jumps_ll = new List<List<SqliteStruct.IntTypeDoubleDouble>> ();
+		foreach (string type in jumpTypes_l)
+			jumps_ll.Add (SqliteJump.SelectJumpsToCSVExport (true, mySession.UniqueID, type));
+
 		myJumps= SqliteJump.SelectJumpsSA (true, mySession.UniqueID, -1, "", "",
 				Sqlite.Orders_by.DEFAULT, 0);
 
@@ -199,9 +207,16 @@ public class ExportSession
 		Sqlite.Close(); // ------------------------------
 	}
 
-	protected virtual void printTitles(string title) {
+	protected virtual void printTitles(string title)
+	{
 		writer.WriteLine("");
 		writer.WriteLine("**** " + title + " ****");
+	}
+
+	protected virtual void printSubTitles (string subtitle)
+	{
+		writer.WriteLine("");
+		writer.WriteLine("** " + subtitle + " **");
 	}
 
 	protected virtual void printData ()
@@ -309,83 +324,135 @@ public class ExportSession
 		else
 			weightName += " Kg";
 
-		if(myJumps.Length > 0) {
-			printTitles(title); 
+		if(myJumps.Length > 0 || jumps_ll.Count > 0)
+			printTitles(title);
 
-			ArrayList myData = new ArrayList(1);
-			myData.Add( "\n" + 
-					Catalog.GetString("Person ID") + ":" +
-					Catalog.GetString("Person name") + ":" +
-					Catalog.GetString("jump ID") + ":" + 
-					Catalog.GetString("Type") + ":" + 
-					Catalog.GetString("TC") + ":" + 
-					Catalog.GetString("TF") + ":" + 
-					Catalog.GetString("Fall") + ":" + 
-					weightName + ":" + 
-					Catalog.GetString("Height") + ":" +
-					Catalog.GetString("Power") + ":" +
-					Catalog.GetString("Stiffness") + ":" +
-					Catalog.GetString("Initial Speed") + ":" +
-					"RSI" + ":" +
-					Catalog.GetString("Datetime") + ":" +
-					Catalog.GetString("Description") + ":" +
-					//Catalog.GetString("Angle") + ":" +
-					Catalog.GetString("Simulated") 
-				  );
+		if (jumps_ll.Count > 0)
+		{
+			printJumpsAvgMaxTable (true, dec);
+			printJumpsAvgMaxTable (false, dec);
+		}
 
+		if(myJumps.Length > 0)
+			printJumpsFullData (dec, weightName);
+	}
 
-			foreach (string jumpString in myJumps) {
-				string [] myStr = jumpString.Split(new char[] {':'});
-			
+	private void printJumpsAvgMaxTable (bool avgOrMax, int dec)
+	{
+		if (avgOrMax)
+			printSubTitles (Catalog.GetString ("Height averages"));
+		else
+			printSubTitles (Catalog.GetString ("Height maximums"));
 
-				//find weight of person and extra weight
-				int papsPosition = PersonAndPSUtil.Find(myPersonsAndPS, 
-						Convert.ToInt32(myStr[2])); //personID
+		ArrayList myData = new ArrayList(1);
+		myData.Add (
+				Catalog.GetString ("Person ID") + ":" +
+				Catalog.GetString ("Person name") + ":" +
+				Util.ListStringToString (jumpTypes_l, ":")
+			  );
 
-				if(papsPosition == -1) {
-					LogB.Error("PersonsAndPSUtil don't found person:", myStr[2]);
-					return;
-				}
+		foreach (PersonAndPS paps in myPersonsAndPS)
+		{
+			string str = paps.p.UniqueID + ":" + paps.p.Name + ":";
 
-				double personWeight = ((PersonAndPS) myPersonsAndPS[papsPosition]).ps.Weight;
-				double extraWeightInKg = Util.WeightFromPercentToKg(
-							Convert.ToDouble(myStr[8]), 
-							personWeight);
+			foreach (List<SqliteStruct.IntTypeDoubleDouble> jumps_l in jumps_ll)
+			{
+				SqliteStruct.IntTypeDoubleDouble idd =
+					SqliteStruct.IntTypeDoubleDouble.FindRowFromPersonID (
+							jumps_l, paps.p.UniqueID);
 
-				string extraWeightPrint = "";
-				if(preferences.weightStatsPercent)
-					extraWeightPrint = myStr[8];
+				if (idd.personID < 0)
+					str += " :";
 				else
-					extraWeightPrint = extraWeightInKg.ToString();
-				
-				//end of find weight of person and extra weight
-		
-				double fall = Convert.ToDouble(myStr[7]);
-				double tc = Convert.ToDouble(myStr[6]);
-				double tf = Convert.ToDouble(myStr[5]);
+				{
+					if (avgOrMax)
+						str += string.Format ("{0}:", Util.TrimDecimals (idd.avg, dec));
+					else
+						str += string.Format ("{0}:", Util.TrimDecimals (idd.max, dec));
+				}
+			}
+			myData.Add (str);
+		}
 
-				myData.Add (	
-						myStr[2] + ":" +  myStr[0] + ":" +  	//person.UniqueID, person.Name
-						myStr[1] + ":" +  			//jump.uniqueID
-						myStr[4] + ":" +  Util.TrimDecimals(myStr[6], dec) + ":" + 	//jump.type, jump.tc
-						Util.TrimDecimals(myStr[5], dec) + ":" +  Util.TrimDecimals(myStr[7], dec) + ":" + 	//jump.tv, jump.fall
-						Util.TrimDecimals(extraWeightPrint, dec) + ":" +
-						Util.TrimDecimals(Util.GetHeightInCentimeters(myStr[5]), dec) + ":" +  
-						Util.TrimDecimals(getPower(tc, tf, personWeight, extraWeightInKg, fall), dec) + ":" +
-						Util.TrimDecimals(Util.GetStiffness(personWeight, extraWeightInKg, tf, tc), dec) + ":" +
-						Util.TrimDecimals(Jump.GetInitialSpeed(myStr[5], preferences.metersSecondsPreferred), dec) + ":" +  //true: m/s
-						Util.TrimDecimals(UtilAll.DivideSafe(Util.GetHeightInMeters(tf), tc), dec) + ":" +
-						myStr[12] + ":" +	//jump.datetime
-						Util.RemoveNewLine(myStr[9], true) + ":" +	//jump.description
-						//Util.TrimDecimals(myStr[10],dec) + ":" +	//jump.angle
-						Util.SimulatedTestNoYes(Convert.ToInt32(myStr[11]))		//jump.simulated
-						
-					   );
+		writeData(myData);
+		writeData("VERTICAL-SPACE");
+	}
+
+	private void printJumpsFullData (int dec, string weightName)
+	{
+		ArrayList myData = new ArrayList(1);
+		myData.Add( "\n" + 
+				Catalog.GetString("Person ID") + ":" +
+				Catalog.GetString("Person name") + ":" +
+				Catalog.GetString("jump ID") + ":" + 
+				Catalog.GetString("Type") + ":" + 
+				Catalog.GetString("TC") + ":" + 
+				Catalog.GetString("TF") + ":" + 
+				Catalog.GetString("Fall") + ":" + 
+				weightName + ":" + 
+				Catalog.GetString("Height") + ":" +
+				Catalog.GetString("Power") + ":" +
+				Catalog.GetString("Stiffness") + ":" +
+				Catalog.GetString("Initial Speed") + ":" +
+				"RSI" + ":" +
+				Catalog.GetString("Datetime") + ":" +
+				Catalog.GetString("Description") + ":" +
+				//Catalog.GetString("Angle") + ":" +
+				Catalog.GetString("Simulated") 
+			  );
+
+
+		foreach (string jumpString in myJumps) {
+			string [] myStr = jumpString.Split(new char[] {':'});
+
+
+			//find weight of person and extra weight
+			int papsPosition = PersonAndPSUtil.Find(myPersonsAndPS, 
+					Convert.ToInt32(myStr[2])); //personID
+
+			if(papsPosition == -1) {
+				LogB.Error("PersonsAndPSUtil don't found person:", myStr[2]);
+				return;
 			}
 
-			writeData(myData);
-			writeData("VERTICAL-SPACE");
+			double personWeight = ((PersonAndPS) myPersonsAndPS[papsPosition]).ps.Weight;
+			double extraWeightInKg = Util.WeightFromPercentToKg(
+					Convert.ToDouble(myStr[8]), 
+					personWeight);
+
+			string extraWeightPrint = "";
+			if(preferences.weightStatsPercent)
+				extraWeightPrint = myStr[8];
+			else
+				extraWeightPrint = extraWeightInKg.ToString();
+
+			//end of find weight of person and extra weight
+
+			double fall = Convert.ToDouble(myStr[7]);
+			double tc = Convert.ToDouble(myStr[6]);
+			double tf = Convert.ToDouble(myStr[5]);
+
+			myData.Add (	
+					myStr[2] + ":" +  myStr[0] + ":" +  	//person.UniqueID, person.Name
+					myStr[1] + ":" +  			//jump.uniqueID
+					myStr[4] + ":" +  Util.TrimDecimals(myStr[6], dec) + ":" + 	//jump.type, jump.tc
+					Util.TrimDecimals(myStr[5], dec) + ":" +  Util.TrimDecimals(myStr[7], dec) + ":" + 	//jump.tv, jump.fall
+					Util.TrimDecimals(extraWeightPrint, dec) + ":" +
+					Util.TrimDecimals(Util.GetHeightInCentimeters(myStr[5]), dec) + ":" +  
+					Util.TrimDecimals(getPower(tc, tf, personWeight, extraWeightInKg, fall), dec) + ":" +
+					Util.TrimDecimals(Util.GetStiffness(personWeight, extraWeightInKg, tf, tc), dec) + ":" +
+					Util.TrimDecimals(Jump.GetInitialSpeed(myStr[5], preferences.metersSecondsPreferred), dec) + ":" +  //true: m/s
+					Util.TrimDecimals(UtilAll.DivideSafe(Util.GetHeightInMeters(tf), tc), dec) + ":" +
+					myStr[12] + ":" +	//jump.datetime
+					Util.RemoveNewLine(myStr[9], true) + ":" +	//jump.description
+					//Util.TrimDecimals(myStr[10],dec) + ":" +	//jump.angle
+					Util.SimulatedTestNoYes(Convert.ToInt32(myStr[11]))		//jump.simulated
+
+				   );
 		}
+
+		writeData(myData);
+		writeData("VERTICAL-SPACE");
 	}
 
 	protected void printJumpsRj(bool showSubjumps, string title)

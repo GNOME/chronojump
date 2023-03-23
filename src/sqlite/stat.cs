@@ -881,8 +881,8 @@ LogB.SQL(intervalSpeeds);
 		string j1value = "j1.tv";
 		string j2value = "j2.tv";
 		if(useHeights) {
-			j1value = "j1.tv * j1.tv * 1.226";
-			j2value = "j2.tv * j2.tv * 1.226";
+			j1value = "j1.tv * j1.tv * 1.22625";
+			j2value = "j2.tv * j2.tv * 1.22625";
 		}
 		
 		//*1.0 for having double division
@@ -1396,13 +1396,13 @@ LogB.SQL(intervalSpeeds);
 
 		//select personID and each index (using IDDoubleLists)
 		IDDoubleList listFMax = fillIDDoubleList( 
-				"SELECT personID, MAX(jump.tv * jump.tv * 1.226) " +
+				"SELECT personID, MAX(jump.tv * jump.tv * 1.22625) " +
 				" FROM jump " +
 				" WHERE type == \"SJl\" AND jump.weight == 100 " +
 				" AND sessionID == " + sessionID + " GROUP BY personID");
 	
 		IDDoubleList listFExpl = fillIDDoubleList( 
-				"SELECT j1.personID, MAX(j1.tv * j1.tv * 1.226) - MAX(j2.tv * j2.tv * 1.226) AS myIndex " +
+				"SELECT j1.personID, MAX(j1.tv * j1.tv * 1.22625) - MAX(j2.tv * j2.tv * 1.22625) AS myIndex " +
 				" FROM jump AS j1, jump AS j2 " +
 				" WHERE j1.type == \"SJ\" AND j2.type == \"SJl\" AND j2.weight=100 " +
 				" AND j1.personID == j2.personID " +
@@ -1410,7 +1410,7 @@ LogB.SQL(intervalSpeeds);
 				" GROUP BY j1.personID");
 
 		IDDoubleList listCElast = fillIDDoubleList( 
-				"SELECT j1.personID, MAX(j1.tv * j1.tv * 1.226) - MAX(j2.tv * j2.tv * 1.226) AS myIndex " +
+				"SELECT j1.personID, MAX(j1.tv * j1.tv * 1.22625) - MAX(j2.tv * j2.tv * 1.22625) AS myIndex " +
 				" FROM jump AS j1, jump AS j2 " +
 				" WHERE j1.type == \"CMJ\" AND j2.type == \"SJ\" " +
 				" AND j1.personID == j2.personID " +
@@ -1418,7 +1418,7 @@ LogB.SQL(intervalSpeeds);
 				" GROUP BY j1.personID");
 	
 		IDDoubleList listCArms = fillIDDoubleList( 
-				"SELECT j1.personID, MAX(j1.tv * j1.tv * 1.226) - MAX(j2.tv * j2.tv * 1.226) AS myIndex " +
+				"SELECT j1.personID, MAX(j1.tv * j1.tv * 1.22625) - MAX(j2.tv * j2.tv * 1.22625) AS myIndex " +
 				" FROM jump AS j1, jump AS j2 " +
 				" WHERE j1.type == \"ABK\" AND j2.type == \"CMJ\" " +
 				" AND j1.personID == j2.personID " +
@@ -1426,7 +1426,7 @@ LogB.SQL(intervalSpeeds);
 				" GROUP BY j1.personID");
 
 		IDDoubleList listFReact = fillIDDoubleList( 
-				"SELECT personID, MAX(jump.tv * jump.tv * 1.226) " +
+				"SELECT personID, MAX(jump.tv * jump.tv * 1.22625) " +
 				" FROM jump WHERE type == \"DJa\" " +
 				" AND sessionID == " + sessionID + " GROUP BY personID");
 	

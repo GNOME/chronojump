@@ -107,12 +107,12 @@ public class Jump : Event
 		*/
 
 		//new method (proposal by Xavier Padullés)
-		//Calcule the potential energies before (mass * g * fallHeight) and after the jump (mass * g * tv^2 * 1.226)
+		//Calcule the potential energies before (mass * g * fallHeight) and after the jump (mass * g * tv^2 * 1.22625)
 		//and divide by the time during force is applied
 		double g = 9.81;
 		fallHeight = fallHeight / 100.0; //cm -> m
 
-		return mass * g * ( fallHeight + 1.226 * Math.Pow(tf,2) ) / (Double)tc;
+		return mass * g * ( fallHeight + 1.22625 * Math.Pow(tf,2) ) / (Double)tc;
 	}
 
 	//only Lewis now

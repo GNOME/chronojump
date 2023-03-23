@@ -398,31 +398,31 @@ class SqliteJump : Sqlite
 		Sqlite.Open();
 		
 		double sj = selectDouble( 
-				"SELECT MAX(tv * tv * 1.226) " +
+				"SELECT MAX(tv * tv * 1.22625) " +
 				" FROM jump " +
 				" WHERE type = \"SJ\" " +
 				" AND personID = " + personID + " AND sessionID = " + sessionID);
 		
 		double sjl = selectDouble( 
-				"SELECT MAX(tv * tv * 1.226) " +
+				"SELECT MAX(tv * tv * 1.22625) " +
 				" FROM jump " +
 				" WHERE type = \"SJl\" AND jump.weight = 100 " +
 				" AND personID = " + personID + " AND sessionID = " + sessionID);
 		
 		double cmj = selectDouble( 
-				"SELECT MAX(tv * tv * 1.226) " +
+				"SELECT MAX(tv * tv * 1.22625) " +
 				" FROM jump " +
 				" WHERE type = \"CMJ\" " +
 				" AND personID = " + personID + " AND sessionID = " + sessionID);
 		
 		double abk = selectDouble( 
-				"SELECT MAX(tv * tv * 1.226) " +
+				"SELECT MAX(tv * tv * 1.22625) " +
 				" FROM jump " +
 				" WHERE type = \"ABK\" " +
 				" AND personID = " + personID + " AND sessionID = " + sessionID);
 		
 		double dja = selectDouble( 
-				"SELECT MAX(tv * tv * 1.226) " +
+				"SELECT MAX(tv * tv * 1.22625) " +
 				" FROM jump " +
 				" WHERE type = \"DJa\" " +
 				" AND personID = " + personID + " AND sessionID = " + sessionID);

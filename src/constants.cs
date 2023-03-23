@@ -108,10 +108,10 @@ public class Constants
 	//formulas
 	public static string DjIndexFormula = "Dj Index: (tv-tc)/tc *100)";
 	public static string QIndexFormula = "Q index: (tv/tc)";
-	public static string DjPowerFormula = "Dj Power: mass*g*(fallHeight+1.226*(tv^2)) / tc";
+	public static string DjPowerFormula = "Dj Power: mass*g*(fallHeight+1.22625*(tv^2)) / tc";
 	public static string DjIndexFormulaOnly = "(tv-tc)*100/(tc*1.0)"; //*1.0 for having double division
 	public static string QIndexFormulaOnly = "tv/(tc*1.0)"; //*1.0 for having double division
-	public static string DjPowerFormulaOnly = PersonSessionTable + ".weight * 9.81 * (fall/100.0 + 1.226 * (tv*tv)) / tc *1.0";
+	public static string DjPowerFormulaOnly = PersonSessionTable + ".weight * 9.81 * (fall/100.0 + 1.22625 * (tv*tv)) / tc *1.0";
 
 	public static string ChronojumpProfileStr()
 	{
@@ -983,9 +983,9 @@ public class Constants
 			Catalog.GetString("Calculate the potential energies on fall and after the jump.") + "\n" +
 			Catalog.GetString("Divide them by time during force is applied.") +
 			"\n\n" +
-			//P = mass * g * ( fallHeight + 1.226 * Math.Pow(tf,2) ) / (Double)tt;
+			//P = mass * g * ( fallHeight + 1.22625 * Math.Pow(tf,2) ) / (Double)tt;
 			"P = " + Catalog.GetString("mass") + " * g * ( " +
-			Catalog.GetString("falling height") + " + 1.226 * " + Catalog.GetString("flight time") + " ^ 2 ) / " +
+			Catalog.GetString("falling height") + " + 1.22625 * " + Catalog.GetString("flight time") + " ^ 2 ) / " +
 			Catalog.GetString("contact time") +
 			"\n\n" +
 			Catalog.GetString("Jumps without TC: Lewis Peak Power 1974 (W)") +

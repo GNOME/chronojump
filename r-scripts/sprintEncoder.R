@@ -97,12 +97,7 @@ getSprintFromEncoder <- function(filename, testLength, isSprint, Mass, Temperatu
         elapsedTime = diff(totalTime)      #The elapsed time between each sample
         #raceAnalyzer = raceAnalyzer[2:length(raceAnalyzer)]
         #totalTime = totalTime[1:length(totalTime)]
-        
-        #The encoder can be used with both loose ends of the rope. This means that the encoder can rotate
-        #in both directions. We consider always the speed as positive.
-        if(mean(raceAnalyzer$displacement) < 0)
-                raceAnalyzer$displacement = -raceAnalyzer$displacement
-        
+
         #TODO: measure metersPerPulse several times to have an accurate value
 	metersPerPulse = NULL
 	if(device == "MANUAL")                 #manual race analyzer - Hand device
@@ -112,6 +107,15 @@ getSprintFromEncoder <- function(filename, testLength, isSprint, Mass, Temperatu
 
         raceAnalyzer$displacement = raceAnalyzer$displacement * metersPerPulse
         position = cumsum(raceAnalyzer$displacement)
+        
+        #The encoder can be used with both loose ends of the rope. This means that the encoder can rotate
+        #in both directions. We consider always the speed as positive.
+        if(mean(position) < 0)
+        {
+                raceAnalyzer$displacement = -raceAnalyzer$displacement
+                position = -position
+        }
+        
         speed = raceAnalyzer$displacement[2:length(raceAnalyzer$displacement)] / elapsedTime
         speed = c(0,speed)
         

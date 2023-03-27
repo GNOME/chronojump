@@ -2834,7 +2834,7 @@ public class PreferencesWindow
 				Catalog.GetString("The equivalent mass is a measure of the resistance of a body to change its linear or rotary velocity.") + "\n" +
 				Catalog.GetString("From the point of view of a person pulling from a rope, the situation in the image is equivalent to a rotary inertial machine.") + "\n" +
 				Catalog.GetString("The equivalent mass takes in account the different configurations of a inertial machine (diameters, inertia momentum, extra weights and force multipliers).") + "\n" +
-				Catalog.GetString("This way it is possible to compare the resistance of diferent configurations on diferent machines.")
+				Catalog.GetString("This way it is possible to compare the resistance of diferent configurations on diferent machines."), -1, -1
 				);
 	}
 

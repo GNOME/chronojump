@@ -760,7 +760,7 @@ public class ForceSensorExerciseWindow
 				Catalog.GetString("Projection of exerted force"),
 				Util.GetImagePath(false) + "force_exerted_projected.png",
 				DialogImageTest.ArchiveType.ASSEMBLY,
-				""
+				"", -1, -1
 				);
 	}
 

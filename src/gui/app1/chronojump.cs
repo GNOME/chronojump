@@ -5284,7 +5284,8 @@ public partial class ChronoJumpWindow
 			notebook_results_data.CurrentPage = 2;
 	}
 
-	private void changeTestImage(string eventTypeString, string eventName, string fileNameString) {
+	private void changeTestImage(string eventTypeString, string eventName, string fileNameString)
+	{
 		Pixbuf pixbuf; //main image
 		Pixbuf pixbufZoom; //icon of zoom image (if shown can have two different images)
 
@@ -5317,6 +5318,20 @@ public partial class ChronoJumpWindow
 			break;
 		}
 		image_test.Pixbuf = pixbuf;
+	}
+	//2023 exercise images are now on multimedia folder, and can be added, edited, ...
+	private void changeTestImage (int exerciseID)
+	{
+		ExerciseImage ei = new ExerciseImage (current_mode, exerciseID);
+		if (ei.GetURL (true) == "")
+		{
+			image_test.Pixbuf = new Pixbuf (null, Util.GetImagePath(true) + "no_image.png");
+			button_image_test_zoom.Hide ();
+		} else
+		{
+			image_test.Pixbuf = UtilGtk.OpenPixbufSafe (ei.GetURL (true), image_test.Pixbuf);
+			button_image_test_zoom.Show ();
+		}
 	}
 
 	private bool eventTypeHasLongDescription (string eventTypeString, string eventName) {

@@ -1076,6 +1076,8 @@ public partial class ChronoJumpWindow
 		image_pulses_zoom.Pixbuf = pixbuf;
 		image_multi_chronopic_zoom.Pixbuf = pixbuf;
 		image_force_sensor_ai_zoom_out.Pixbuf = new Pixbuf(null, Util.GetImagePath(false) + "zoom_out.png");
+
+		image_test_add_edit.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_attachment.png");
 	}
 
 

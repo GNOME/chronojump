@@ -147,32 +147,41 @@ public class ExerciseImage
 			this.type = types.encoder;
 	}
 
+	// public methods
+
 	//images enter as ".jpg" or ".png"
-	public string GetURL (bool small)
+	public string GetUrlIfExists (bool small)
 	{
-		string url = Path.Combine (getDir (type, small), uniqueID.ToString () + ".jpg");
+		string url = getUrlJpg (small);
 		if (File.Exists (url))
 			return url;
 
-		url = Path.Combine (getDir (type, small), uniqueID.ToString () + ".png");
+		url = getUrlPng (small);
 		if (File.Exists (url))
 			return url;
 
 		return "";
 	}
 
-	private static string getDir (types type, bool small)
+	public void CopyImageToLocal (string urlOrigin)
 	{
-		string url = Path.Combine(
-				Util.GetLocalDataDir (false), "multimedia", "exercises");
+		deleteFileIfNeeded ();
 
-		if (type == types.all)
-			return url;
-		else {
-			if (small)
-				return Path.Combine (url, type.ToString (), "small");
-			else
-				return Path.Combine (url, type.ToString ());
+		if (UtilMultimedia.GetImageType (urlOrigin) == UtilMultimedia.ImageTypes.JPEG)
+		{
+			File.Copy (urlOrigin, getUrlJpg (false));
+			System.Threading.Thread.Sleep (250);
+			UtilMultimedia.LoadAndResizeImage (
+					getUrlJpg (false),
+					getUrlJpg (true), 150, -1); //-1: maintain aspect ratio
+		}
+		else if (UtilMultimedia.GetImageType (urlOrigin) == UtilMultimedia.ImageTypes.PNG)
+		{
+			File.Copy (urlOrigin, getUrlPng (false));
+			System.Threading.Thread.Sleep (250);
+			UtilMultimedia.LoadAndResizeImage (
+					getUrlPng (false),
+					getUrlPng (true), 150, -1); //-1: maintain aspect ratio
 		}
 	}
 
@@ -190,5 +199,45 @@ public class ExerciseImage
 			}
 	}
 
+	// private methods
+
+	private static string getDir (types type, bool small)
+	{
+		string url = Path.Combine(
+				Util.GetLocalDataDir (false), "multimedia", "exercises");
+
+		if (type == types.all)
+			return url;
+		else {
+			if (small)
+				return Path.Combine (url, type.ToString (), "small");
+			else
+				return Path.Combine (url, type.ToString ());
+		}
+	}
+
+	private string getUrlJpg (bool small)
+	{
+		return Path.Combine (getDir (type, small), uniqueID.ToString () + ".jpg");
+	}
+	private string getUrlPng (bool small)
+	{
+		return Path.Combine (getDir (type, small), uniqueID.ToString () + ".png");
+	}
+
+	private void deleteFileIfNeeded ()
+	{
+		if (File.Exists (getUrlJpg (false)))
+			File.Delete (getUrlJpg (false));
+
+		if (File.Exists (getUrlJpg (true)))
+			File.Delete (getUrlJpg (true));
+
+		if (File.Exists (getUrlPng (false)))
+			File.Delete (getUrlPng (false));
+
+		if (File.Exists (getUrlPng (true)))
+			File.Delete (getUrlPng (true));
+	}
 
 }

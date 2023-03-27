@@ -353,6 +353,8 @@ public partial class ChronoJumpWindow
 	Gtk.Image image_test;
 	Gtk.Button button_image_test_zoom;
 	Gtk.Image image_test_zoom;
+	Gtk.Button button_image_test_add_edit;
+	Gtk.Image image_test_add_edit;
 	Gtk.Button button_delete_last_test;
 	Gtk.Button button_inspect_last_test_run_simple;
 	Gtk.Button button_inspect_last_test_run_intervallic;
@@ -5323,13 +5325,13 @@ public partial class ChronoJumpWindow
 	private void changeTestImage (int exerciseID)
 	{
 		ExerciseImage ei = new ExerciseImage (current_mode, exerciseID);
-		if (ei.GetURL (true) == "")
+		if (ei.GetUrlIfExists (true) == "")
 		{
 			image_test.Pixbuf = new Pixbuf (null, Util.GetImagePath(true) + "no_image.png");
 			button_image_test_zoom.Hide ();
 		} else
 		{
-			image_test.Pixbuf = UtilGtk.OpenPixbufSafe (ei.GetURL (true), image_test.Pixbuf);
+			image_test.Pixbuf = UtilGtk.OpenPixbufSafe (ei.GetUrlIfExists (true), image_test.Pixbuf);
 			button_image_test_zoom.Show ();
 		}
 	}
@@ -9394,6 +9396,8 @@ LogB.Debug("mc finished 5");
 		image_test = (Gtk.Image) builder.GetObject ("image_test");
 		button_image_test_zoom = (Gtk.Button) builder.GetObject ("button_image_test_zoom");
 		image_test_zoom = (Gtk.Image) builder.GetObject ("image_test_zoom");
+		button_image_test_add_edit = (Gtk.Button) builder.GetObject ("button_image_test_add_edit");
+		image_test_add_edit = (Gtk.Image) builder.GetObject ("image_test_add_edit");
 		button_delete_last_test = (Gtk.Button) builder.GetObject ("button_delete_last_test");
 		button_inspect_last_test_run_simple = (Gtk.Button) builder.GetObject ("button_inspect_last_test_run_simple");
 		button_inspect_last_test_run_intervallic = (Gtk.Button) builder.GetObject ("button_inspect_last_test_run_intervallic");

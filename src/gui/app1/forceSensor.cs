@@ -2794,6 +2794,8 @@ LogB.Information(" fs R ");
 		button_combo_select_contacts_top_right.Sensitive = ! UtilGtk.ComboSelectedIsLast(combo_force_sensor_exercise);
 
 		setLabelContactsExerciseSelected(Catalog.GetString(fse.Name));
+		changeTestImage (fse.UniqueID);
+
 		combo_force_sensor_button_sensitive_exercise(true);
 
 		if(fse.ForceResultant) {

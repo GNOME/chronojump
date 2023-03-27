@@ -73,6 +73,9 @@ public partial class ChronoJumpWindow
 		//do not show the image on runEncoder
 		frame_image_test.Visible = current_mode != Constants.Modes.RUNSENCODER;
 
+		//right now only can add/edit exercise images on forceSensor
+		button_image_test_add_edit.Visible = Constants.ModeIsFORCESENSOR (current_mode);
+
 		frame_run_encoder_exercise.Visible = false; //TODO: implement more modes in the future
 
 		button_contacts_exercise_close_and_capture.Sensitive = myTreeViewPersons.IsThereAnyRecord();
@@ -119,8 +122,8 @@ public partial class ChronoJumpWindow
                                 false, getExerciseIDFromAnyCombo (combo_force_sensor_exercise, forceSensorComboExercisesString, false), -1, false, "")[0];
 
 		ExerciseImage ei = new ExerciseImage (current_mode, ex.UniqueID);
-		if (ei.GetURL (false) != "")
-			new DialogImageTest (UtilGtk.ComboGetActive (combo_force_sensor_exercise), ei.GetURL (false),
+		if (ei.GetUrlIfExists (false) != "")
+			new DialogImageTest (UtilGtk.ComboGetActive (combo_force_sensor_exercise), ei.GetUrlIfExists (false),
 					DialogImageTest.ArchiveType.FILE, "", app1.Allocation.Width, app1.Allocation.Height);
 	}
 
@@ -155,6 +158,49 @@ public partial class ChronoJumpWindow
 			new DialogImageTest("", Util.GetImagePath(false) + "jump_dj_inside.png", DialogImageTest.ArchiveType.ASSEMBLY);
 		else
 			new DialogImageTest(myType);
+	}
+
+	private void on_button_image_test_add_edit_clicked (object o, EventArgs args)
+	{
+		Gtk.FileChooserDialog fc =
+			new Gtk.FileChooserDialog(Catalog.GetString("Select an image"),
+					null,
+					FileChooserAction.Open,
+					Catalog.GetString("Cancel"), ResponseType.Cancel,
+					Catalog.GetString("Select"), ResponseType.Accept
+					);
+
+		fc.Filter = new FileFilter();
+		fc.Filter.AddPattern("*.jpeg");
+		fc.Filter.AddPattern("*.JPEG");
+		fc.Filter.AddPattern("*.jpg");
+		fc.Filter.AddPattern("*.JPG");
+		fc.Filter.AddPattern("*.png");
+		fc.Filter.AddPattern("*.PNG");
+
+		if (fc.Run() == (int)ResponseType.Accept)
+		{
+			LogB.Warning ("Copying image ...");
+			ForceSensorExercise ex = (ForceSensorExercise) SqliteForceSensorExercise.Select (
+					false, getExerciseIDFromAnyCombo (combo_force_sensor_exercise, forceSensorComboExercisesString, false), -1, false, "")[0];
+
+			ExerciseImage ei = new ExerciseImage (current_mode, ex.UniqueID);
+			ei.CopyImageToLocal (fc.Filename);
+			changeTestImage (ex.UniqueID);
+
+			/*
+			try {
+				//File.Copy (fc.Filename)...
+			} catch {
+				LogB.Warning("Catched, maybe is used by another program");
+				fc.Destroy();
+				return;
+			}
+			*/
+		}
+
+		//Don't forget to call Destroy() or the FileChooserDialog window won't get closed.
+		fc.Destroy();
 	}
 
 	private void setLabelContactsExerciseSelected(Constants.Modes m)

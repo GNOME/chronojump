@@ -71,7 +71,7 @@ public partial class ChronoJumpWindow
 		hbox_top_person.Sensitive = false;
 
 		//do not show the image on runEncoder
-		frame_image_test.Visible = (! Constants.ModeIsFORCESENSOR (current_mode) && current_mode != Constants.Modes.RUNSENCODER);
+		frame_image_test.Visible = current_mode != Constants.Modes.RUNSENCODER;
 
 		frame_run_encoder_exercise.Visible = false; //TODO: implement more modes in the future
 
@@ -102,8 +102,29 @@ public partial class ChronoJumpWindow
 		on_button_contacts_recalculate_clicked(o, args);
 	}
 
+	private void on_button_image_test_zoom_clicked (object o, EventArgs args)
+	{
+		if (Constants.ModeIsFORCESENSOR (current_mode))
+			image_test_zoomByFiles ();
+		else
+			image_test_zoomByAssemblies ();
+	}
 
-	private void on_button_image_test_zoom_clicked(object o, EventArgs args)
+	private void image_test_zoomByFiles () //right now only on: Constants.ModeIsFORCESENSOR (current_mode)
+	{
+		if(UtilGtk.ComboGetActive (combo_force_sensor_exercise) == "")
+			return;
+
+		ForceSensorExercise ex = (ForceSensorExercise) SqliteForceSensorExercise.Select (
+                                false, getExerciseIDFromAnyCombo (combo_force_sensor_exercise, forceSensorComboExercisesString, false), -1, false, "")[0];
+
+		ExerciseImage ei = new ExerciseImage (current_mode, ex.UniqueID);
+		if (ei.GetURL (false) != "")
+			new DialogImageTest (UtilGtk.ComboGetActive (combo_force_sensor_exercise), ei.GetURL (false),
+					DialogImageTest.ArchiveType.FILE, "", app1.Allocation.Width, app1.Allocation.Height);
+	}
+
+	private void image_test_zoomByAssemblies ()
 	{
 		EventType myType;
 		if(current_mode == Constants.Modes.JUMPSSIMPLE)

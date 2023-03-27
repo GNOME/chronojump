@@ -15,10 +15,11 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Copyright (C) 2004-2022   Xavier de Blas <xaviblas@gmail.com>
+ *  Copyright (C) 2004-2023   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
+using System.IO; //"File" things
 
 public class EventType 
 {
@@ -113,3 +114,81 @@ public class EventType
 
 }
 
+public class ExerciseImage
+{
+	//private Constants.Modes mode;
+	private int uniqueID;
+	private types type;
+
+	private enum types {
+		all, jump, jumpMultiple, run, runInterval, raceAnalyzer, forceSensor, encoder
+	}
+
+
+	// constructor
+	public ExerciseImage (Constants.Modes mode, int uniqueID)
+	{
+		//this.mode = mode;
+		this.uniqueID = uniqueID;
+
+		if (mode == Constants.Modes.JUMPSSIMPLE)
+			this.type = types.jump;
+		else if (mode == Constants.Modes.JUMPSREACTIVE)
+			this.type = types.jumpMultiple;
+		else if (mode == Constants.Modes.RUNSSIMPLE)
+			this.type = types.run;
+		else if (mode == Constants.Modes.RUNSINTERVALLIC)
+			this.type = types.runInterval;
+		else if (mode == Constants.Modes.RUNSENCODER)
+			this.type = types.raceAnalyzer;
+		else if (Constants.ModeIsFORCESENSOR (mode))
+			this.type = types.forceSensor;
+		else if (Constants.ModeIsENCODER (mode))
+			this.type = types.encoder;
+	}
+
+	//images enter as ".jpg" or ".png"
+	public string GetURL (bool small)
+	{
+		string url = Path.Combine (getDir (type, small), uniqueID.ToString () + ".jpg");
+		if (File.Exists (url))
+			return url;
+
+		url = Path.Combine (getDir (type, small), uniqueID.ToString () + ".png");
+		if (File.Exists (url))
+			return url;
+
+		return "";
+	}
+
+	private static string getDir (types type, bool small)
+	{
+		string url = Path.Combine(
+				Util.GetLocalDataDir (false), "multimedia", "exercises");
+
+		if (type == types.all)
+			return url;
+		else {
+			if (small)
+				return Path.Combine (url, type.ToString (), "small");
+			else
+				return Path.Combine (url, type.ToString ());
+		}
+	}
+
+	//TODO: remember to do this on import
+	public static void CreateDirsIfNeeded ()
+	{
+		foreach (types type in Enum.GetValues (typeof (types)))
+			foreach (bool small in new [] { false, true })
+			{
+				string dir = getDir (type, small);
+				if( ! Directory.Exists (dir)) {
+					Directory.CreateDirectory (dir);
+					LogB.Information ("created dir:", dir);
+				}
+			}
+	}
+
+
+}

@@ -62,8 +62,7 @@ public class DialogImageTest
 			image_test.Pixbuf = pixbuf;
 		}
 
-		dialog_image_test.WidthRequest = 640;
-		dialog_image_test.HeightRequest = 480;
+		dialog_image_test.SetSizeRequest (640, 480);
 	}
 
 	public enum ArchiveType { FILE, ASSEMBLY }
@@ -72,10 +71,10 @@ public class DialogImageTest
 
 	public DialogImageTest (string title, string imagePath, ArchiveType archiveType)
 	{
-		new DialogImageTest (title, imagePath, archiveType, "");
+		new DialogImageTest (title, imagePath, archiveType, "", -1, -1);
 	}
 
-	public DialogImageTest (string title, string imagePath, ArchiveType archiveType, string longText)
+	public DialogImageTest (string title, string imagePath, ArchiveType archiveType, string longText, int maxWidth, int maxHeight)
 	{
 		if(archiveType == ArchiveType.FILE && ! File.Exists(imagePath))
 		{
@@ -121,7 +120,10 @@ public class DialogImageTest
 			dialog_image_test.WidthRequest = pixbuf.Width + 40; //allocate vertical scrollbar if needed
 		}
 
-		dialog_image_test.HeightRequest = pixbuf.Height + 85; //allocate button close
+		if (maxHeight > 0 && pixbuf.Height > maxHeight)
+			dialog_image_test.HeightRequest = maxHeight;
+		else
+			dialog_image_test.HeightRequest = pixbuf.Height + 85; //allocate button close
 	}
 				
 	public void on_close_button_clicked (object obj, EventArgs args) {

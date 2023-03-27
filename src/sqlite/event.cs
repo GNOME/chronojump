@@ -31,7 +31,10 @@ class SqliteEvent : Sqlite
 	 */
 
 	/* 
-	 * in the future this will not exist, and graphs will be in jumpType, runType, ... tables
+	 * NO: in the future this will not exist, and graphs will be in jumpType, runType, ... tables
+	 *
+	 * Yes: Since 2.3.1 graphs of exercises will be on multimedia/exercises/(jump/uniqueID , forceSensor/uniqueID, ...)
+	 * managed on ExerciseImage class
 	 */
 
 	protected internal static void createGraphLinkTable()

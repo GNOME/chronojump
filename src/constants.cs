@@ -1084,9 +1084,7 @@ public class Constants
 	{
 		if(mode == Constants.Modes.RUNSENCODER)
 			return "raceAnalyzer";
-		else if(mode == Constants.Modes.POWERGRAVITATORY)
-			return "encoder";
-		else if(mode == Constants.Modes.POWERINERTIAL)
+		else if (ModeIsENCODER (mode))
 			return "encoder";
 		else if(ModeIsFORCESENSOR (mode))
 			return "forceSensor";

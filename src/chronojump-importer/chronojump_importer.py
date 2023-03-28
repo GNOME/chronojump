@@ -15,6 +15,12 @@ logging.basicConfig(level=logging.INFO)
 DEBUGTOFILE = False
 debugFile = ""
 
+
+""" Yes, dirty but no time to something better """
+g_sourceBaseDirectory = ""
+g_destinationBaseDirectory = ""
+
+
 """
 /*
  * This file is part of ChronoJump
@@ -311,7 +317,35 @@ class Database:
 
             row.set('new_uniqueID', new_id)
 
+            if table.name == "ForceSensorExercise":
+                self.copyExerciseImages ("forceSensor", str(row.get('uniqueID')), str(new_id))
+
         self._print_summary(table)
+
+    @staticmethod
+    def copyExerciseImages (exImageDir, oldIdStr, newIdStr):
+        # to use the global variable on this function
+        global g_sourceBaseDirectory
+        global g_destinationBaseDirectory
+
+        imageOriginPath = os.path.join (g_sourceBaseDirectory, "multimedia", "exercises", exImageDir, oldIdStr)
+        imageDestinationPath = os.path.join (g_destinationBaseDirectory, "multimedia", "exercises", exImageDir, newIdStr)
+
+        if os.path.exists (imageOriginPath + ".png"):
+            shutil.copy (imageOriginPath + ".png", imageDestinationPath + ".png")
+
+        if os.path.exists (imageOriginPath + ".jpg"):
+            shutil.copy (imageOriginPath + ".jpg", imageDestinationPath + ".jpg")
+
+        # same for small
+        imageOriginPath = os.path.join (g_sourceBaseDirectory, "multimedia", "exercises", exImageDir, "small", oldIdStr)
+        imageDestinationPath = os.path.join (g_destinationBaseDirectory, "multimedia", "exercises", exImageDir, "small", newIdStr)
+
+        if os.path.exists (imageOriginPath + ".png"):
+            shutil.copy (imageOriginPath + ".png", imageDestinationPath + ".png")
+
+        if os.path.exists (imageOriginPath + ".jpg"):
+            shutil.copy (imageOriginPath + ".jpg", imageDestinationPath + ".jpg")
 
     @staticmethod
     def increment_suffix(value):
@@ -1078,6 +1112,20 @@ def process_command_line():
             elif args.debug_to_file != "":
                 DEBUGTOFILE = True
                 debugFile = open(args.debug_to_file, 'w')
+
+            # to use the global variable on this function
+            global g_sourceBaseDirectory
+            global g_destinationBaseDirectory
+
+            g_sourceBaseDirectory = source_base_directory
+            g_sourceBaseDirectory = os.path.abspath (g_sourceBaseDirectory)
+            if(DEBUGTOFILE):
+                debugFile.write("g_sourceBaseDirectory: " + g_sourceBaseDirectory + "\n")
+
+            g_destinationBaseDirectory = os.path.join (args.destination, "..", "..")
+            g_destinationBaseDirectory = os.path.abspath (g_destinationBaseDirectory)
+            if(DEBUGTOFILE):
+                debugFile.write("g_destinationBaseDirectory: " + g_destinationBaseDirectory + "\n")
 
             importer = ImportSession(args.source, args.destination, source_base_directory, args.source_temp_directory)
 

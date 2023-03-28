@@ -631,7 +631,7 @@ public partial class ChronoJumpWindow
 			menus_sensitive_import_not_danger(true);
 			notebook_supSetOldPage();
 			if (notebook_sup.CurrentPage == Convert.ToInt32(notebook_sup_pages.START))
-				new ChronojumpLogo (notebook_chronojump_logo, drawingarea_chronojump_logo, preferences.logoAnimatedShow);
+				new ChronojumpLogo (notebook_chronojump_logo, drawingarea_chronojump_logo, false);//preferences.logoAnimatedShow);
 		}
 	}
 }

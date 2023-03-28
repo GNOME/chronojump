@@ -533,10 +533,6 @@ public partial class ChronoJumpWindow
 		showEncoderAnalyzeTriggerTab(false);
 		LogB.Information("after play 6");
 
-		vbox_encoder_signal_comment.SetSizeRequest (button_encoder_signal_save_comment.SizeRequest().Width, -1);
-		notebook_encoder_signal_comment_rhythm_and_triggers.SetSizeRequest
-			(button_encoder_signal_save_comment.SizeRequest().Width, -1);
-
 		followSignals = false;
 		check_encoder_capture_bars.Active = preferences.encoderCaptureShowOnlyBars.ShowBars;
 		check_encoder_capture_table.Active = preferences.encoderCaptureShowOnlyBars.ShowTable;
@@ -6495,8 +6491,8 @@ public partial class ChronoJumpWindow
 
 					//analyze tab
 					label_encoder_load_signal_at_analyze.Visible = false;
-					encoder_pulsebar_load_signal_at_analyze.SetSizeRequest (
-						label_encoder_load_signal_at_analyze.SizeRequest().Width, -1);
+					//encoder_pulsebar_load_signal_at_analyze.SetSizeRequest (
+					//	label_encoder_load_signal_at_analyze.SizeRequest().Width, -1);
 					encoder_pulsebar_load_signal_at_analyze.Fraction = 0;
 					encoder_pulsebar_load_signal_at_analyze.Visible = true;
 

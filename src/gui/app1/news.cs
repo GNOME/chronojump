@@ -166,15 +166,23 @@ public partial class ChronoJumpWindow
 		notebook_news.Page = 1;
 
 		//align with sidebar
+		hbox_news_languages.Show ();
+		GLib.Timeout.Add (100, new GLib.TimeoutHandler(alignTopNews));
+	}
+
+	private bool alignTopNews ()
+	{
 		if(preferences.personWinHide)
 			alignment_above_news.TopPadding = (uint) (alignment_menu_tiny.TopPadding
-					- hbox_news_languages.SizeRequest().Height
+					- UtilGtk.WidgetHeight (hbox_news_languages)
 					-1); //alignment_news_languages.BottomPadding
 		else
 			alignment_above_news.TopPadding = (uint) (alignment_session_persons.TopPadding
-					+ hbox_above_frame_session.SizeRequest().Height
-					- hbox_news_languages.SizeRequest().Height
+					+ UtilGtk.WidgetHeight (hbox_above_frame_session)
+					- UtilGtk.WidgetHeight (hbox_news_languages)
 					-1); //alignment_news_languages.BottomPadding
+
+		return false;
 	}
 
 	private void news_setup_gui(int currentPos)

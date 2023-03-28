@@ -33542,11 +33542,34 @@ Concentric</property>
                                                             <property name="can-focus">False</property>
                                                             <property name="spacing">8</property>
                                                             <child>
+                                                            <object class="GtkBox">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="orientation">vertical</property>
+                                                            <property name="spacing">2</property>
+                                                            <child>
+                                                            <object class="GtkLabel" id="encoder_pulsebar_capture_label">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
                                                             <object class="GtkProgressBar" id="encoder_pulsebar_capture">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
                                                             <property name="pulse-step">0.05</property>
-                                                            <property name="show-text">True</property>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
                                                             </object>
                                                             <packing>
                                                             <property name="expand">True</property>

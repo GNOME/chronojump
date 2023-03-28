@@ -106,6 +106,7 @@ public partial class ChronoJumpWindow
 	Gtk.Viewport viewport_image_encoder_capture;
 	Gtk.Image image_encoder_capture;
 	Gtk.ProgressBar encoder_pulsebar_capture;
+	Gtk.Label encoder_pulsebar_capture_label;
 	Gtk.ProgressBar encoder_pulsebar_rhythm_eccon;
 	Gtk.Label label_encoder_rhythm_rest;
 	Gtk.Image image_encoder_rhythm_alert;
@@ -470,7 +471,7 @@ public partial class ChronoJumpWindow
 	private void initEncoder ()
 	{
 		encoder_pulsebar_capture.Fraction = 1;
-		encoder_pulsebar_capture.Text = "";
+		encoder_pulsebar_capture_label.Text = "";
 		encoder_pulsebar_load_signal.Fraction = 1;
 		encoder_pulsebar_load_signal.Text = "";
 		encoder_pulsebar_load_signal_at_analyze.Fraction = 1;
@@ -1313,7 +1314,7 @@ public partial class ChronoJumpWindow
 		       if(File.Exists(UtilEncoder.GetEncoderDataTempFileName()))
 			       encoderThreadStart(action);
 		       else
-			       encoder_pulsebar_capture.Text = Catalog.GetString("Missing data.");
+			       encoder_pulsebar_capture_label.Text = Catalog.GetString("Missing data.");
 		}
 	}
 
@@ -2217,7 +2218,7 @@ public partial class ChronoJumpWindow
 				);
 		encoderRProcAnalyze.StartOrContinue(encoderStruct);
 
-		//encoder_pulsebar_capture.Text = string.Format(Catalog.GetString(
+		//encoder_pulsebar_capture_label.Text = string.Format(Catalog.GetString(
 		//			"Exported to {0}."), UtilEncoder.GetEncoderExportTempFileName());
 	}
 
@@ -2942,7 +2943,7 @@ public partial class ChronoJumpWindow
 	
 		removeSignalFromGuiBecauseDeletedOrCancelled();
 
-		encoder_pulsebar_capture.Text = Catalog.GetString("Set deleted");
+		encoder_pulsebar_capture_label.Text = Catalog.GetString("Set deleted");
 		textview_encoder_signal_comment.Buffer.Text = "";
 	}
 	void removeSignalFromGuiBecauseDeletedOrCancelled() 
@@ -6232,7 +6233,7 @@ public partial class ChronoJumpWindow
 
 		else if(action == encoderActions.CAPTURE || action == encoderActions.CAPTURE_IM)
 		{
-			//encoder_pulsebar_capture.Text = Catalog.GetString("Please, wait.");
+			//encoder_pulsebar_capture_label.Text = Catalog.GetString("Please, wait.");
 			LogB.Information("encoderThreadStart begins");
 				
 			if(action == encoderActions.CAPTURE) {
@@ -7054,7 +7055,7 @@ public partial class ChronoJumpWindow
 	private void updatePulsebar (encoderActions action) 
 	{
 		if(action == encoderActions.CAPTURE && preferences.encoderCaptureInfinite) {
-			encoder_pulsebar_capture.Text = "";
+			encoder_pulsebar_capture_label.Text = "";
 			encoder_pulsebar_capture.Pulse();
 			return;
 		}
@@ -7067,12 +7068,12 @@ public partial class ChronoJumpWindow
 
 			encoder_pulsebar_capture.Fraction = UtilAll.DivideSafeFraction(
 					(selectedTime - eCapture.Countdown), selectedTime);
-			encoder_pulsebar_capture.Text = eCapture.Countdown + " s";
+			encoder_pulsebar_capture_label.Text = eCapture.Countdown + " s";
 
 			if(encoderCaptureStopwatch.Elapsed.TotalSeconds >= 3 && eCapture.Countdown == preferences.encoderCaptureTime)
 			{
-				//encoder_pulsebar_capture.Text = "Chronopic seems not properly connected to encoder");
-				encoder_pulsebar_capture.Text = "Plug encoder into Chronopic"; //TODO: improve this and finish capture with problems
+				//encoder_pulsebar_capture_label.Text = "Chronopic seems not properly connected to encoder");
+				encoder_pulsebar_capture_label.Text = "Plug encoder into Chronopic"; //TODO: improve this and finish capture with problems
 			}
 
 			return;
@@ -7135,7 +7136,7 @@ public partial class ChronoJumpWindow
 				else
 					encoder_pulsebar_capture.Fraction = UtilAll.DivideSafeFraction(fraction, 6);
 
-				encoder_pulsebar_capture.Text = contents;
+				encoder_pulsebar_capture_label.Text = contents;
 			}
 			else if(action == encoderActions.LOAD)
 			{
@@ -7424,12 +7425,12 @@ public partial class ChronoJumpWindow
 					if(action == encoderActions.CAPTURE_IM)
 						encoder_configuration_win.Button_encoder_capture_inertial_do_ended(0,"Cancelled");
 					else
-						encoder_pulsebar_capture.Text = Catalog.GetString("Cancelled");
+						encoder_pulsebar_capture_label.Text = Catalog.GetString("Cancelled");
 				}
 			}
 			else if(action == encoderActions.CAPTURE && encoderProcessFinish)
 			{
-				encoder_pulsebar_capture.Text = Catalog.GetString("Finished");
+				encoder_pulsebar_capture_label.Text = Catalog.GetString("Finished");
 				updateEncoderAnalyzeExercisesPre();
 			} 
 			else if(action == encoderActions.CURVES || action == encoderActions.CURVES_AC || action == encoderActions.LOAD) 
@@ -7515,7 +7516,7 @@ public partial class ChronoJumpWindow
 							preferences.encoderAutoSaveCurve == Constants.EncoderAutoSaveCurve.FROM4TOPENULTIMATE) )
 						needToAutoSaveCurve = true;
 
-					encoder_pulsebar_capture.Text = encoderSaveSignalOrCurve(false, "signal", 0); //this updates encoderSignalUniqueID
+					encoder_pulsebar_capture_label.Text = encoderSaveSignalOrCurve(false, "signal", 0); //this updates encoderSignalUniqueID
 
 					if(needToAutoSaveCurve)
 					{
@@ -7562,7 +7563,7 @@ public partial class ChronoJumpWindow
 					}
 
 				} else { //action == encoderActions.LOAD
-					encoder_pulsebar_capture.Text = "";
+					encoder_pulsebar_capture_label.Text = "";
 					manageButton_button_encoder_capture_curves_save (false);
 				}
 		
@@ -8058,6 +8059,7 @@ public partial class ChronoJumpWindow
 		viewport_image_encoder_capture = (Gtk.Viewport) builder.GetObject ("viewport_image_encoder_capture");
 		image_encoder_capture = (Gtk.Image) builder.GetObject ("image_encoder_capture");
 		encoder_pulsebar_capture = (Gtk.ProgressBar) builder.GetObject ("encoder_pulsebar_capture");
+		encoder_pulsebar_capture_label = (Gtk.Label) builder.GetObject ("encoder_pulsebar_capture_label");
 		encoder_pulsebar_rhythm_eccon = (Gtk.ProgressBar) builder.GetObject ("encoder_pulsebar_rhythm_eccon");
 		label_encoder_rhythm_rest = (Gtk.Label) builder.GetObject ("label_encoder_rhythm_rest");
 		image_encoder_rhythm_alert = (Gtk.Image) builder.GetObject ("image_encoder_rhythm_alert");

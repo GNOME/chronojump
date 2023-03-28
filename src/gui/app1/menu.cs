@@ -59,13 +59,14 @@ public partial class ChronoJumpWindow
 
 	Gtk.CheckButton check_menu_session;
 	Gtk.CheckButton check_manage_persons;
-	Gtk.Button button_menu_help;
+	//Gtk.Button button_menu_help;
 	Gtk.Button button_menu_news;
 	Gtk.VButtonBox vbuttonbox_menu_session;
 	//Gtk.Alignment alignment_menu_person_options;
 	Gtk.Label label_session_at_frame_session;
 	Gtk.Label label_persons_at_frame_persons;
 
+	/*
 	Gtk.Button button_menu_session_new;
 	Gtk.Button button_menu_session_load;
 	Gtk.Button button_menu_session_more;
@@ -74,6 +75,7 @@ public partial class ChronoJumpWindow
 	Gtk.Button button_menu_help_documents;
 	Gtk.Button button_menu_help_shortcuts;
 	Gtk.Button button_menu_help_about;
+	*/
 	Gtk.Button button_menu_guiTest;
 	Gtk.HBox hbox_prefs_help_news_exit;
 
@@ -155,6 +157,7 @@ public partial class ChronoJumpWindow
 		//2 (1 seems not needed)
 		//this is done to ensure hidden buttons will be shown (because also submenu items seems to have Allocation=1)
 		//if we need it, pass also the other buttons but without the +16
+		/* commented at gtk3
 		List <int> l = new List<int>();
 
 		//menus
@@ -171,6 +174,7 @@ public partial class ChronoJumpWindow
 		l.Add(button_menu_help_documents.SizeRequest().Width + 16);
 		l.Add(button_menu_help_shortcuts.SizeRequest().Width + 16);
 		l.Add(button_menu_help_about.SizeRequest().Width + 16);
+		*/
 
 		//int maxWidth = getMenuButtonsMaxWidth(l) + 4 + 6; //4, 6 are alignments spaces.
 
@@ -214,7 +218,8 @@ public partial class ChronoJumpWindow
 	private bool menuTopAlign()
 	{
 		uint alignTop = (uint) (notebook_capture_analyze.Allocation.Y
-				-hbox_above_frame_session.SizeRequest().Height);
+				//-hbox_above_frame_session.SizeRequest().Height);
+				- UtilGtk.WidgetHeight (hbox_above_frame_session));
 
 		alignment_session_persons.TopPadding = alignTop;
 		alignment_vbox_session_load_or_import_select.TopPadding = alignTop;
@@ -422,13 +427,14 @@ public partial class ChronoJumpWindow
 
 		check_menu_session = (Gtk.CheckButton) builder.GetObject ("check_menu_session");
 		check_manage_persons = (Gtk.CheckButton) builder.GetObject ("check_manage_persons");
-		button_menu_help = (Gtk.Button) builder.GetObject ("button_menu_help");
+		//button_menu_help = (Gtk.Button) builder.GetObject ("button_menu_help");
 		button_menu_news = (Gtk.Button) builder.GetObject ("button_menu_news");
 		vbuttonbox_menu_session = (Gtk.VButtonBox) builder.GetObject ("vbuttonbox_menu_session");
 		//alignment_menu_person_options = (Gtk.Alignment) builder.GetObject ("alignment_menu_person_options");
 		label_session_at_frame_session = (Gtk.Label) builder.GetObject ("label_session_at_frame_session");
 		label_persons_at_frame_persons = (Gtk.Label) builder.GetObject ("label_persons_at_frame_persons");
 
+		/*
 		button_menu_session_new = (Gtk.Button) builder.GetObject ("button_menu_session_new");
 		button_menu_session_load = (Gtk.Button) builder.GetObject ("button_menu_session_load");
 		button_menu_session_more = (Gtk.Button) builder.GetObject ("button_menu_session_more");
@@ -437,6 +443,7 @@ public partial class ChronoJumpWindow
 		button_menu_help_documents = (Gtk.Button) builder.GetObject ("button_menu_help_documents");
 		button_menu_help_shortcuts = (Gtk.Button) builder.GetObject ("button_menu_help_shortcuts");
 		button_menu_help_about = (Gtk.Button) builder.GetObject ("button_menu_help_about");
+		*/
 		button_menu_guiTest = (Gtk.Button) builder.GetObject ("button_menu_guiTest");
 		hbox_prefs_help_news_exit = (Gtk.HBox) builder.GetObject ("hbox_prefs_help_news_exit");
 

@@ -132,14 +132,17 @@ public class DialogMessage
 		label_message.Show();
 		dialog_message.Show();
 
-		if(UtilAll.GetOSEnum() == UtilAll.OperatingSystems.MACOSX)
-			GLib.Timeout.Add(200, new GLib.TimeoutHandler(resizeDialogForMac));
+		//if(UtilAll.GetOSEnum() == UtilAll.OperatingSystems.MACOSX)
+		//	GLib.Timeout.Add(200, new GLib.TimeoutHandler(resizeDialogForMac));
 	}
 
 	/*
 	   on some macs, the label is not shown correctly, seems not a problem of frame or scrollerwin
 	   after resizing a bit (by user) is shown correctly, so resize here.
 	   */
+	/*
+	 * deactivated on gtk3
+	 *
 	private bool resizeDialogForMac ()
 	{
 		dialog_message.SetSizeRequest(
@@ -148,6 +151,7 @@ public class DialogMessage
 
 		return false;
 	}
+	*/
 
 	public void on_button_go_clicked (object obj, EventArgs args)
 	{

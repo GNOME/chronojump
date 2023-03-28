@@ -2968,6 +2968,9 @@ LogB.Information(" fs R ");
 		} else {
 			//forceSensor table has not records of this exercise. Delete exercise
 			SqliteForceSensorExercise.Delete(false, ex.UniqueID);
+			//delete the image (if any)
+			ExerciseImage ei = new ExerciseImage (current_mode, ex.UniqueID);
+			ei.DeleteImage ();
 
 			fillForceSensorExerciseCombo("");
 			combo_force_sensor_exercise.Active = 0;

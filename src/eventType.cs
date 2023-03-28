@@ -185,6 +185,12 @@ public class ExerciseImage
 		}
 	}
 
+	//used when delete local exercise
+	public void DeleteImage ()
+	{
+		deleteFileIfNeeded ();
+	}
+
 	//TODO: remember to do this on import
 	public static void CreateDirsIfNeeded ()
 	{

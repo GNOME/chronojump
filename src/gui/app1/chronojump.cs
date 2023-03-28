@@ -3688,7 +3688,7 @@ public partial class ChronoJumpWindow
 			tempSessionName = currentSession.Name;
 
 		setApp1Title(tempSessionName, Constants.Modes.UNDEFINED);
-		new ChronojumpLogo (notebook_chronojump_logo, drawingarea_chronojump_logo, preferences.logoAnimatedShow);
+		new ChronojumpLogo (notebook_chronojump_logo, drawingarea_chronojump_logo, false);//preferences.logoAnimatedShow);
 	}
 
 	private void on_button_show_modes_clicked (object o, EventArgs args)

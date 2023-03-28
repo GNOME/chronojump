@@ -232,7 +232,7 @@ public partial class ChronoJumpWindow
 	Gtk.Box hbox_other_pulses;
 	
 	//menu person
-	Gtk.VBox vbox_persons;
+	//Gtk.VBox vbox_persons;
 	//Gtk.Alignment alignment44;
 	Gtk.Button button_persons_up;
 	Gtk.Button button_persons_down;
@@ -430,7 +430,7 @@ public partial class ChronoJumpWindow
 	Gtk.Alignment align_label_selector_menu_2_2_2_desc;
 
 //	Gtk.Viewport viewport29;
-	Gtk.VBox vbox_manage_persons;
+	//Gtk.VBox vbox_manage_persons;
 	Gtk.HBox hbox_frame_persons_top;
 	// <---- at glade
 
@@ -9275,7 +9275,7 @@ LogB.Debug("mc finished 5");
 		hbox_other_pulses = (Gtk.Box) builder.GetObject ("hbox_other_pulses");
 
 		//menu person
-		vbox_persons = (Gtk.VBox) builder.GetObject ("vbox_persons");
+		//vbox_persons = (Gtk.VBox) builder.GetObject ("vbox_persons");
 		//alignment44 = (Gtk.Alignment) builder.GetObject ("alignment44");
 		button_persons_up = (Gtk.Button) builder.GetObject ("button_persons_up");
 		button_persons_down = (Gtk.Button) builder.GetObject ("button_persons_down");
@@ -9473,7 +9473,7 @@ LogB.Debug("mc finished 5");
 		align_label_selector_menu_2_2_2_desc = (Gtk.Alignment) builder.GetObject ("align_label_selector_menu_2_2_2_desc");
 
 		//viewport29 = (Gtk.Viewport) builder.GetObject ("viewport29");
-		vbox_manage_persons = (Gtk.VBox) builder.GetObject ("vbox_manage_persons");
+		//vbox_manage_persons = (Gtk.VBox) builder.GetObject ("vbox_manage_persons");
 		hbox_frame_persons_top = (Gtk.HBox) builder.GetObject ("hbox_frame_persons_top");
 	}
 

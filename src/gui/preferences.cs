@@ -54,7 +54,6 @@ public class PreferencesWindow
 	Gtk.CheckButton check_view_runs;
 	Gtk.CheckButton check_view_weights_inertial;
 	Gtk.CheckButton check_view_isometric_elastic;
-	Gtk.CheckButton check_view_race_analyzer;
 	//tabs selection widgets
 	Gtk.Image image_view_more_tabs_close;
 	Gtk.Label label_mandatory_tabs;
@@ -2959,7 +2958,6 @@ public class PreferencesWindow
 		check_view_runs = (Gtk.CheckButton) builder.GetObject ("check_view_runs");
 		check_view_weights_inertial = (Gtk.CheckButton) builder.GetObject ("check_view_weights_inertial");
 		check_view_isometric_elastic = (Gtk.CheckButton) builder.GetObject ("check_view_isometric_elastic");
-		check_view_race_analyzer = (Gtk.CheckButton) builder.GetObject ("check_view_race_analyzer");
 		//tabs selection widgets
 		image_view_more_tabs_close = (Gtk.Image) builder.GetObject ("image_view_more_tabs_close");
 		label_mandatory_tabs = (Gtk.Label) builder.GetObject ("label_mandatory_tabs");

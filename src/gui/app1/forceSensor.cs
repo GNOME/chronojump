@@ -2757,11 +2757,10 @@ LogB.Information(" fs R ");
 		comboSelectContactsTopNoFollow = false;
 		//<---- two combobox are linked
 
-		ArrayList array = SqliteForceSensorExercise.Select (
-                                false, getExerciseIDFromAnyCombo(
-					combo_force_sensor_exercise, forceSensorComboExercisesString, false), -1, false, "");
+		int exID = getExerciseIDFromAnyCombo (combo_force_sensor_exercise, forceSensorComboExercisesString, false);
+		ArrayList array = SqliteForceSensorExercise.Select (false, exID, -1, false, "");
 
-		if(array.Count == 0)
+		if(array.Count == 0 || exID < 0)
 		{
 			label_button_force_sensor_stiffness.Text = "0";
 			image_button_force_sensor_stiffness_problem.Visible = true;
@@ -2859,6 +2858,7 @@ LogB.Information(" fs R ");
 	{
 		button_force_sensor_exercise_edit.Sensitive = exerciseSelected;
 		button_force_sensor_exercise_delete.Sensitive = exerciseSelected;
+		button_image_test_add_edit.Sensitive = exerciseSelected;
 	}
 
 	void on_button_force_sensor_exercise_edit_clicked (object o, EventArgs args)

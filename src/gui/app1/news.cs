@@ -44,8 +44,8 @@ public partial class ChronoJumpWindow
 	Gtk.Label label_news_open_error;
         Gtk.Image image_news;
         Gtk.Image image_news_close;
+        Gtk.Button button_news_close;
 	Gtk.Alignment alignment_above_news; //to align vertically with sidebar
-	Gtk.HBox hbox_news_languages; //to align vertically with sidebar
 
 	//Pixbuf image_news_pixbuf;
 	private int currentNewsPos;
@@ -166,7 +166,6 @@ public partial class ChronoJumpWindow
 		notebook_news.Page = 1;
 
 		//align with sidebar
-		hbox_news_languages.Show ();
 		GLib.Timeout.Add (100, new GLib.TimeoutHandler(alignTopNews));
 	}
 
@@ -174,12 +173,12 @@ public partial class ChronoJumpWindow
 	{
 		if(preferences.personWinHide)
 			alignment_above_news.TopPadding = (uint) (alignment_menu_tiny.TopPadding
-					- UtilGtk.WidgetHeight (hbox_news_languages)
+					- UtilGtk.WidgetHeight (button_news_close)
 					-1); //alignment_news_languages.BottomPadding
 		else
 			alignment_above_news.TopPadding = (uint) (alignment_session_persons.TopPadding
 					+ UtilGtk.WidgetHeight (hbox_above_frame_session)
-					- UtilGtk.WidgetHeight (hbox_news_languages)
+					- UtilGtk.WidgetHeight (button_news_close)
 					-1); //alignment_news_languages.BottomPadding
 
 		return false;
@@ -348,7 +347,7 @@ public partial class ChronoJumpWindow
 		label_news_open_error = (Gtk.Label) builder.GetObject ("label_news_open_error");
 		image_news = (Gtk.Image) builder.GetObject ("image_news");
 		image_news_close = (Gtk.Image) builder.GetObject ("image_news_close");
+		button_news_close = (Gtk.Button) builder.GetObject ("button_news_close");
 		alignment_above_news = (Gtk.Alignment) builder.GetObject ("alignment_above_news"); //to align vertically with sidebar
-		hbox_news_languages = (Gtk.HBox) builder.GetObject ("hbox_news_languages"); //to align vertically with sidebar
 	}
 }

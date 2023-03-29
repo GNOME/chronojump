@@ -67,7 +67,7 @@ tar -zxvf chronojump-2.3.0-258-g837bb4ffb.tar.gz
 cd chronojump-2.3.0-258-g837bb4ffb
 ./configure
 make
-checkinstall --pkgname="Chronojump" --pkgversion="2.3.0-258" --maintainer="Xavier de Blas" --pkglicense="GPL2" --requires="libgtk3.0-cil,libmono-sqlite4.0-cil,libmono-posix4.0-cil,libmono-system-json4.0-cil,r-base" --install=no
+checkinstall --pkgname="Chronojump" --pkgversion="2.3.0-258" --maintainer="Xavier de Blas" --pkglicense="GPL2" --requires="libgtk3.0-cil,libmono-sqlite4.0-cil,libmono-posix4.0-cil,libmono-system-json4.0-cil,r-base,ffmpeg" --install=no
 
 When asking for the description put the English lines on README.md (but without the blank lines)
 

@@ -592,7 +592,8 @@ RESOURCES = \
 	../images/md/folders_manage_blue.png,folders_manage_blue.png \
 	../images/md/folders_yellow.png,image_folders_yellow.png \
 	../images/md/folders_backup_blue.png,image_db_backup.png \
-	../images/md/help_blue.png,image_help.png \
+	../images/md/help_blue.png,image_help_blue.png \
+	../images/md/help_yellow.png,image_help_yellow.png \
 	../images/md/store_blue.png,image_store_blue.png \
 	../images/md/store_yellow.png,image_store_yellow.png \
 	../images/md/store_blue_news.png,image_store_has_new_products.png \

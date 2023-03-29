@@ -1174,6 +1174,7 @@ public partial class ChronoJumpWindow
 			image_session_import1_blue.Visible = false;
 			image_person_manage_blue.Visible = false;
 			image_news_blue.Visible = false;
+			image_help_blue.Visible = false;
 
 			image_session_new_yellow.Visible = true;
 			image_session_load3_yellow.Visible = true;
@@ -1181,6 +1182,7 @@ public partial class ChronoJumpWindow
 			image_session_import1_yellow.Visible = true;
 			image_person_manage_yellow.Visible = true;
 			image_news_yellow.Visible = true;
+			image_help_yellow.Visible = true;
 		} else {
 			image_session_new_blue.Visible = true;
 			image_session_load3_blue.Visible = true;
@@ -1188,6 +1190,7 @@ public partial class ChronoJumpWindow
 			image_session_import1_blue.Visible = true;
 			image_person_manage_blue.Visible = true;
 			image_news_blue.Visible = true;
+			image_help_blue.Visible = true;
 
 			image_session_new_yellow.Visible = false;
 			image_session_load3_yellow.Visible = false;
@@ -1195,6 +1198,7 @@ public partial class ChronoJumpWindow
 			image_session_import1_yellow.Visible = false;
 			image_person_manage_yellow.Visible = false;
 			image_news_yellow.Visible = false;
+			image_help_yellow.Visible = false;
 		}
 		UtilGtk.ContrastLabelsLabel (Config.ColorBackgroundIsDark, label_news_frame);
 	}

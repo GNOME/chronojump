@@ -4701,6 +4701,14 @@ public partial class ChronoJumpWindow
 		event_execute_label_message.Text = "";
 		menus_and_mode_sensitive (false);
 
+		if(encoderThreadBG != null && encoderThreadBG.IsAlive)
+		{
+			stopCapturingInertialBG();
+
+			//to have time on Windows to really have sp port closed and be able to read on chronopicRegister and/or discoverWin
+			System.Threading.Thread.Sleep (1000);
+		}
+
 		chronopicRegisterUpdate (false);
 
 		label_micro_discover_title.Text = string.Format (Catalog.GetString (

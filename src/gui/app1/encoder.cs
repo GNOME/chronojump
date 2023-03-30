@@ -6744,6 +6744,9 @@ public partial class ChronoJumpWindow
 				label_wait.Text = string.Format("Exercise will start in {0} seconds.", 3 - elapsed);
 		}
 
+		if (eCaptureInertialBG == null)
+			return false;
+
 		int newValue = eCaptureInertialBG.AngleNow;
 		if(eCaptureInertialBG.Phase == EncoderCaptureInertialBackground.Phases.ATCALIBRATEDPOINT)
 		{

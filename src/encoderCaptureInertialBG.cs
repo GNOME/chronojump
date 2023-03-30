@@ -70,6 +70,8 @@ public class EncoderCaptureInertialBackground
 		else {
 			sp.Open();
 			LogB.Information("sp opened");
+
+			flush ();
 		}
 
 		int byteReaded;
@@ -134,6 +136,37 @@ public class EncoderCaptureInertialBackground
 	private int readByte()
 	{
 		return sp.ReadByte();
+	}
+
+	/*
+	 * methods copied from chronopic.cs
+	 * it solves bad calibration at first inertial capture on windows
+	 */
+	private void flush()
+	{
+		LogB.Information("going to flush");
+
+		//try, catch done because mono-1.2.3 throws an exception when there's a timeout
+		//http://bugzilla.gnome.org/show_bug.cgi?id=420520
+		bool success = false;
+		//AbortFlush = false;
+		do{
+			try {
+				for (int i = 0; i < 10; i ++)
+					LogB.Information (sp.ReadByte ().ToString ());
+
+				success = true;
+				LogB.Debug(" flushed ");
+			} catch {
+				LogB.Warning(" catchedTimeOut at flushing ");
+			}
+
+		} while(! success);/* && ! AbortFlush);
+		if(AbortFlush) {
+			LogB.Information("Abort flush");
+		} */
+
+		LogB.Information("flushed");
 	}
 
 	private bool simulatedGoingUp = false;

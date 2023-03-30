@@ -5790,482 +5790,92 @@ It starts before and arrives there with some speed.</property>
                           </packing>
                         </child>
                         <child>
-                          <object class="GtkScrolledWindow" id="scrolledwindow4">
+                          <object class="GtkNotebook" id="notebook_multimedia_video">
                             <property name="visible">True</property>
                             <property name="can-focus">True</property>
-                            <property name="border-width">4</property>
+                            <property name="show-tabs">False</property>
+                            <property name="show-border">False</property>
                             <child>
-                              <object class="GtkViewport" id="viewport6">
+                              <object class="GtkBox">
                                 <property name="visible">True</property>
                                 <property name="can-focus">False</property>
+                                <property name="orientation">vertical</property>
                                 <child>
-                                  <object class="GtkVBox" id="vbox26">
+                                  <object class="GtkBox">
                                     <property name="visible">True</property>
                                     <property name="can-focus">False</property>
-                                    <property name="border-width">8</property>
-                                    <property name="spacing">12</property>
                                     <child>
-                                      <object class="GtkHBox" id="hbox46">
+                                      <object class="GtkButton" id="button_check_video_devices">
+                                        <property name="label" translatable="yes">Check devices</property>
                                         <property name="visible">True</property>
-                                        <property name="can-focus">False</property>
-                                        <property name="spacing">16</property>
-                                        <child>
-                                          <object class="GtkLabel" id="label93">
-                                            <property name="visible">True</property>
-                                            <property name="can-focus">False</property>
-                                            <property name="label">1)</property>
-                                          </object>
-                                          <packing>
-                                            <property name="expand">False</property>
-                                            <property name="fill">False</property>
-                                            <property name="position">0</property>
-                                          </packing>
-                                        </child>
-                                        <child>
-                                          <object class="GtkLabel" id="label62">
-                                            <property name="visible">True</property>
-                                            <property name="can-focus">False</property>
-                                            <property name="label" translatable="yes">Select camera</property>
-                                            <property name="xalign">0</property>
-                                          </object>
-                                          <packing>
-                                            <property name="expand">False</property>
-                                            <property name="fill">False</property>
-                                            <property name="position">1</property>
-                                          </packing>
-                                        </child>
-                                        <child>
-                                          <object class="GtkHBox" id="hbox_combo_camera">
-                                            <property name="visible">True</property>
-                                            <property name="can-focus">False</property>
-                                            <child>
-                                              <placeholder/>
-                                            </child>
-                                          </object>
-                                          <packing>
-                                            <property name="expand">False</property>
-                                            <property name="fill">False</property>
-                                            <property name="position">2</property>
-                                          </packing>
-                                        </child>
-                                        <child>
-                                          <object class="GtkLabel" id="label_camera_error">
-                                            <property name="can-focus">False</property>
-                                          </object>
-                                          <packing>
-                                            <property name="expand">False</property>
-                                            <property name="fill">False</property>
-                                            <property name="position">3</property>
-                                          </packing>
-                                        </child>
+                                        <property name="can-focus">True</property>
+                                        <property name="receives-default">True</property>
+                                        <signal name="clicked" handler="on_button_check_video_devices_clicked" swapped="no"/>
                                       </object>
                                       <packing>
-                                        <property name="expand">False</property>
+                                        <property name="expand">True</property>
                                         <property name="fill">False</property>
                                         <property name="position">0</property>
                                       </packing>
                                     </child>
+                                  </object>
+                                  <packing>
+                                    <property name="expand">False</property>
+                                    <property name="fill">True</property>
+                                    <property name="padding">20</property>
+                                    <property name="position">0</property>
+                                  </packing>
+                                </child>
+                              </object>
+                            </child>
+                            <child type="tab">
+                              <object class="GtkLabel">
+                                <property name="visible">True</property>
+                                <property name="can-focus">False</property>
+                                <property name="label">page 1</property>
+                              </object>
+                              <packing>
+                                <property name="tab-fill">False</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkScrolledWindow" id="scrolledwindow4">
+                                <property name="visible">True</property>
+                                <property name="can-focus">True</property>
+                                <property name="border-width">4</property>
+                                <child>
+                                  <object class="GtkViewport" id="viewport6">
+                                    <property name="visible">True</property>
+                                    <property name="can-focus">False</property>
                                     <child>
-                                      <object class="GtkHBox" id="hbox_camera_resolution_framerate">
+                                      <object class="GtkVBox" id="vbox26">
                                         <property name="visible">True</property>
                                         <property name="can-focus">False</property>
-                                        <property name="spacing">20</property>
+                                        <property name="border-width">8</property>
+                                        <property name="spacing">12</property>
                                         <child>
-                                          <object class="GtkTable" id="table5">
+                                          <object class="GtkHBox" id="hbox46">
                                             <property name="visible">True</property>
                                             <property name="can-focus">False</property>
-                                            <property name="n-rows">4</property>
-                                            <property name="n-columns">5</property>
-                                            <property name="column-spacing">12</property>
-                                            <property name="row-spacing">12</property>
+                                            <property name="spacing">16</property>
                                             <child>
-                                              <placeholder/>
-                                            </child>
-                                            <child>
-                                              <object class="GtkLabel" id="label76">
+                                              <object class="GtkLabel" id="label93">
                                                 <property name="visible">True</property>
                                                 <property name="can-focus">False</property>
-                                                <property name="label" translatable="yes">Resolution</property>
-                                                <property name="xalign">0</property>
+                                                <property name="label">1)</property>
                                               </object>
                                               <packing>
-                                                <property name="left-attach">1</property>
-                                                <property name="right-attach">2</property>
-                                                <property name="top-attach">2</property>
-                                                <property name="bottom-attach">3</property>
-                                                <property name="x-options">GTK_FILL</property>
-                                              </packing>
-                                            </child>
-                                            <child>
-                                              <object class="GtkLabel" id="label78">
-                                                <property name="visible">True</property>
-                                                <property name="can-focus">False</property>
-                                                <property name="label" translatable="yes">Framerate</property>
-                                                <property name="xalign">0</property>
-                                              </object>
-                                              <packing>
-                                                <property name="left-attach">1</property>
-                                                <property name="right-attach">2</property>
-                                                <property name="top-attach">3</property>
-                                                <property name="bottom-attach">4</property>
-                                                <property name="x-options">GTK_FILL</property>
-                                              </packing>
-                                            </child>
-                                            <child>
-                                              <object class="GtkHBox" id="hbox_combo_camera_resolution">
-                                                <property name="visible">True</property>
-                                                <property name="can-focus">False</property>
-                                                <child>
-                                                  <placeholder/>
-                                                </child>
-                                              </object>
-                                              <packing>
-                                                <property name="left-attach">3</property>
-                                                <property name="right-attach">4</property>
-                                                <property name="top-attach">2</property>
-                                                <property name="bottom-attach">3</property>
-                                                <property name="x-options">GTK_FILL</property>
-                                              </packing>
-                                            </child>
-                                            <child>
-                                              <object class="GtkHBox" id="hbox_combo_camera_framerate">
-                                                <property name="visible">True</property>
-                                                <property name="can-focus">False</property>
-                                                <child>
-                                                  <placeholder/>
-                                                </child>
-                                              </object>
-                                              <packing>
-                                                <property name="left-attach">3</property>
-                                                <property name="right-attach">4</property>
-                                                <property name="top-attach">3</property>
-                                                <property name="bottom-attach">4</property>
-                                                <property name="x-options">GTK_FILL</property>
-                                              </packing>
-                                            </child>
-                                            <child>
-                                              <object class="GtkHBox" id="hbox_camera_resolution_custom">
-                                                <property name="can-focus">False</property>
-                                                <property name="spacing">6</property>
-                                                <child>
-                                                  <object class="GtkSpinButton" id="spin_camera_resolution_custom_width">
-                                                    <property name="visible">True</property>
-                                                    <property name="can-focus">True</property>
-                                                    <property name="has-tooltip">True</property>
-                                                    <property name="tooltip-text" translatable="yes">Width</property>
-                                                    <property name="invisible-char">●</property>
-                                                    <property name="primary-icon-activatable">False</property>
-                                                    <property name="secondary-icon-activatable">False</property>
-                                                    <property name="adjustment">adjustment22</property>
-                                                    <property name="climb-rate">1</property>
-                                                    <property name="snap-to-ticks">True</property>
-                                                    <property name="numeric">True</property>
-                                                  </object>
-                                                  <packing>
-                                                    <property name="expand">False</property>
-                                                    <property name="fill">False</property>
-                                                    <property name="position">0</property>
-                                                  </packing>
-                                                </child>
-                                                <child>
-                                                  <object class="GtkLabel" id="label84">
-                                                    <property name="visible">True</property>
-                                                    <property name="can-focus">False</property>
-                                                    <property name="label">x</property>
-                                                  </object>
-                                                  <packing>
-                                                    <property name="expand">False</property>
-                                                    <property name="fill">False</property>
-                                                    <property name="position">1</property>
-                                                  </packing>
-                                                </child>
-                                                <child>
-                                                  <object class="GtkSpinButton" id="spin_camera_resolution_custom_height">
-                                                    <property name="visible">True</property>
-                                                    <property name="can-focus">True</property>
-                                                    <property name="has-tooltip">True</property>
-                                                    <property name="tooltip-text" translatable="yes">Height</property>
-                                                    <property name="invisible-char">●</property>
-                                                    <property name="width-chars">5</property>
-                                                    <property name="primary-icon-activatable">False</property>
-                                                    <property name="secondary-icon-activatable">False</property>
-                                                    <property name="adjustment">adjustment23</property>
-                                                    <property name="climb-rate">1</property>
-                                                    <property name="snap-to-ticks">True</property>
-                                                    <property name="numeric">True</property>
-                                                  </object>
-                                                  <packing>
-                                                    <property name="expand">False</property>
-                                                    <property name="fill">False</property>
-                                                    <property name="position">2</property>
-                                                  </packing>
-                                                </child>
-                                              </object>
-                                              <packing>
-                                                <property name="left-attach">4</property>
-                                                <property name="right-attach">5</property>
-                                                <property name="top-attach">2</property>
-                                                <property name="bottom-attach">3</property>
-                                                <property name="x-options"/>
-                                              </packing>
-                                            </child>
-                                            <child>
-                                              <object class="GtkHBox" id="hbox_camera_framerate_custom">
-                                                <property name="can-focus">False</property>
-                                                <property name="spacing">6</property>
-                                                <child>
-                                                  <object class="GtkSpinButton" id="spin_camera_framerate_custom">
-                                                    <property name="visible">True</property>
-                                                    <property name="can-focus">True</property>
-                                                    <property name="has-tooltip">True</property>
-                                                    <property name="tooltip-text" translatable="yes">Framerate</property>
-                                                    <property name="invisible-char">●</property>
-                                                    <property name="width-chars">5</property>
-                                                    <property name="primary-icon-activatable">False</property>
-                                                    <property name="secondary-icon-activatable">False</property>
-                                                    <property name="adjustment">adjustment24</property>
-                                                    <property name="climb-rate">1</property>
-                                                    <property name="snap-to-ticks">True</property>
-                                                    <property name="numeric">True</property>
-                                                  </object>
-                                                  <packing>
-                                                    <property name="expand">False</property>
-                                                    <property name="fill">False</property>
-                                                    <property name="position">0</property>
-                                                  </packing>
-                                                </child>
-                                                <child>
-                                                  <object class="GtkLabel" id="label85">
-                                                    <property name="visible">True</property>
-                                                    <property name="can-focus">False</property>
-                                                    <property name="label">.</property>
-                                                  </object>
-                                                  <packing>
-                                                    <property name="expand">False</property>
-                                                    <property name="fill">False</property>
-                                                    <property name="position">1</property>
-                                                  </packing>
-                                                </child>
-                                                <child>
-                                                  <object class="GtkEntry" id="entry_camera_framerate_custom_decimals">
-                                                    <property name="visible">True</property>
-                                                    <property name="can-focus">True</property>
-                                                    <property name="invisible-char">●</property>
-                                                    <property name="width-chars">7</property>
-                                                    <property name="text">0</property>
-                                                    <property name="primary-icon-activatable">False</property>
-                                                    <property name="secondary-icon-activatable">False</property>
-                                                  </object>
-                                                  <packing>
-                                                    <property name="expand">True</property>
-                                                    <property name="fill">True</property>
-                                                    <property name="position">2</property>
-                                                  </packing>
-                                                </child>
-                                              </object>
-                                              <packing>
-                                                <property name="left-attach">4</property>
-                                                <property name="right-attach">5</property>
-                                                <property name="top-attach">3</property>
-                                                <property name="bottom-attach">4</property>
-                                                <property name="x-options">GTK_FILL</property>
-                                              </packing>
-                                            </child>
-                                            <child>
-                                              <placeholder/>
-                                            </child>
-                                            <child>
-                                              <object class="GtkLabel" id="label_camera_pixel_format">
-                                                <property name="visible">True</property>
-                                                <property name="can-focus">False</property>
-                                                <property name="tooltip-text" translatable="yes">Pixel format</property>
-                                                <property name="label" translatable="yes" comments="Substantive">Format</property>
-                                                <property name="xalign">0</property>
-                                              </object>
-                                              <packing>
-                                                <property name="left-attach">1</property>
-                                                <property name="right-attach">2</property>
-                                                <property name="top-attach">1</property>
-                                                <property name="bottom-attach">2</property>
-                                                <property name="x-options">GTK_FILL</property>
-                                              </packing>
-                                            </child>
-                                            <child>
-                                              <object class="GtkHBox" id="hbox_combo_camera_pixel_format">
-                                                <property name="visible">True</property>
-                                                <property name="can-focus">False</property>
-                                                <child>
-                                                  <placeholder/>
-                                                </child>
-                                              </object>
-                                              <packing>
-                                                <property name="left-attach">3</property>
-                                                <property name="right-attach">4</property>
-                                                <property name="top-attach">1</property>
-                                                <property name="bottom-attach">2</property>
-                                                <property name="x-options">GTK_FILL</property>
-                                              </packing>
-                                            </child>
-                                            <child>
-                                              <placeholder/>
-                                            </child>
-                                            <child>
-                                              <object class="GtkLabel" id="label95">
-                                                <property name="visible">True</property>
-                                                <property name="can-focus">False</property>
-                                                <property name="label">3)</property>
-                                              </object>
-                                              <packing>
-                                                <property name="top-attach">1</property>
-                                                <property name="bottom-attach">2</property>
-                                              </packing>
-                                            </child>
-                                            <child>
-                                              <object class="GtkLabel" id="label97">
-                                                <property name="visible">True</property>
-                                                <property name="can-focus">False</property>
-                                                <property name="label">4)</property>
-                                              </object>
-                                              <packing>
-                                                <property name="top-attach">2</property>
-                                                <property name="bottom-attach">3</property>
-                                              </packing>
-                                            </child>
-                                            <child>
-                                              <object class="GtkLabel" id="label98">
-                                                <property name="visible">True</property>
-                                                <property name="can-focus">False</property>
-                                                <property name="label">5)</property>
-                                              </object>
-                                              <packing>
-                                                <property name="top-attach">3</property>
-                                                <property name="bottom-attach">4</property>
-                                              </packing>
-                                            </child>
-                                            <child>
-                                              <object class="GtkLabel" id="label_camera_pixel_format_current">
-                                                <property name="can-focus">False</property>
-                                              </object>
-                                              <packing>
-                                                <property name="left-attach">2</property>
-                                                <property name="right-attach">3</property>
-                                                <property name="top-attach">1</property>
-                                                <property name="bottom-attach">2</property>
-                                              </packing>
-                                            </child>
-                                            <child>
-                                              <object class="GtkLabel" id="label_camera_resolution_current">
-                                                <property name="can-focus">False</property>
-                                              </object>
-                                              <packing>
-                                                <property name="left-attach">2</property>
-                                                <property name="right-attach">3</property>
-                                                <property name="top-attach">2</property>
-                                                <property name="bottom-attach">3</property>
-                                              </packing>
-                                            </child>
-                                            <child>
-                                              <object class="GtkLabel" id="label_camera_framerate_current">
-                                                <property name="can-focus">False</property>
-                                                <property name="xalign">0</property>
-                                              </object>
-                                              <packing>
-                                                <property name="left-attach">2</property>
-                                                <property name="right-attach">3</property>
-                                                <property name="top-attach">3</property>
-                                                <property name="bottom-attach">4</property>
-                                              </packing>
-                                            </child>
-                                            <child>
-                                              <placeholder/>
-                                            </child>
-                                            <child>
-                                              <object class="GtkLabel" id="label94">
-                                                <property name="visible">True</property>
-                                                <property name="can-focus">False</property>
-                                                <property name="label">2)</property>
-                                              </object>
-                                            </child>
-                                            <child>
-                                              <object class="GtkButton" id="button_video_get_supported_modes">
-                                                <property name="visible">True</property>
-                                                <property name="can-focus">True</property>
-                                                <property name="receives-default">True</property>
-                                                <signal name="clicked" handler="on_button_video_get_supported_modes_clicked" swapped="no"/>
-                                                <child>
-                                                  <object class="GtkLabel" id="label86">
-                                                    <property name="visible">True</property>
-                                                    <property name="can-focus">False</property>
-                                                    <property name="label" translatable="yes">Configure</property>
-                                                  </object>
-                                                </child>
-                                              </object>
-                                              <packing>
-                                                <property name="left-attach">1</property>
-                                                <property name="right-attach">2</property>
-                                              </packing>
-                                            </child>
-                                          </object>
-                                          <packing>
-                                            <property name="expand">False</property>
-                                            <property name="fill">False</property>
-                                            <property name="position">0</property>
-                                          </packing>
-                                        </child>
-                                        <child>
-                                          <object class="GtkVBox" id="vbox30">
-                                            <property name="visible">True</property>
-                                            <property name="can-focus">False</property>
-                                            <property name="spacing">12</property>
-                                            <child>
-                                              <object class="GtkButton" id="button_video_preview">
-                                                <property name="visible">True</property>
-                                                <property name="sensitive">False</property>
-                                                <property name="can-focus">True</property>
-                                                <property name="receives-default">True</property>
-                                                <property name="tooltip-text" translatable="yes">Preview video</property>
-                                                <signal name="clicked" handler="on_button_video_preview_clicked" swapped="no"/>
-                                                <child>
-                                                  <object class="GtkVBox" id="vbox37">
-                                                    <property name="visible">True</property>
-                                                    <property name="can-focus">False</property>
-                                                    <property name="spacing">8</property>
-                                                    <child>
-                                                      <object class="GtkImage" id="image_video_preview">
-                                                        <property name="visible">True</property>
-                                                        <property name="can-focus">False</property>
-                                                        <property name="stock">gtk-missing-image</property>
-                                                      </object>
-                                                      <packing>
-                                                        <property name="expand">False</property>
-                                                        <property name="fill">True</property>
-                                                        <property name="position">0</property>
-                                                      </packing>
-                                                    </child>
-                                                    <child>
-                                                      <object class="GtkLabel" id="label392">
-                                                        <property name="visible">True</property>
-                                                        <property name="can-focus">False</property>
-                                                        <property name="label" translatable="yes">Preview</property>
-                                                      </object>
-                                                      <packing>
-                                                        <property name="expand">False</property>
-                                                        <property name="fill">True</property>
-                                                        <property name="position">1</property>
-                                                      </packing>
-                                                    </child>
-                                                  </object>
-                                                </child>
-                                              </object>
-                                              <packing>
-                                                <property name="expand">True</property>
+                                                <property name="expand">False</property>
                                                 <property name="fill">False</property>
                                                 <property name="position">0</property>
                                               </packing>
                                             </child>
                                             <child>
-                                              <object class="GtkLabel" id="label_video_preview_error">
+                                              <object class="GtkLabel" id="label62">
+                                                <property name="visible">True</property>
                                                 <property name="can-focus">False</property>
+                                                <property name="label" translatable="yes">Select camera</property>
+                                                <property name="xalign">0</property>
                                               </object>
                                               <packing>
                                                 <property name="expand">False</property>
@@ -6273,80 +5883,525 @@ It starts before and arrives there with some speed.</property>
                                                 <property name="position">1</property>
                                               </packing>
                                             </child>
+                                            <child>
+                                              <object class="GtkHBox" id="hbox_combo_camera">
+                                                <property name="visible">True</property>
+                                                <property name="can-focus">False</property>
+                                                <child>
+                                                  <placeholder/>
+                                                </child>
+                                              </object>
+                                              <packing>
+                                                <property name="expand">False</property>
+                                                <property name="fill">False</property>
+                                                <property name="position">2</property>
+                                              </packing>
+                                            </child>
+                                            <child>
+                                              <object class="GtkLabel" id="label_camera_error">
+                                                <property name="can-focus">False</property>
+                                              </object>
+                                              <packing>
+                                                <property name="expand">False</property>
+                                                <property name="fill">False</property>
+                                                <property name="position">3</property>
+                                              </packing>
+                                            </child>
                                           </object>
                                           <packing>
-                                            <property name="expand">True</property>
+                                            <property name="expand">False</property>
+                                            <property name="fill">False</property>
+                                            <property name="position">0</property>
+                                          </packing>
+                                        </child>
+                                        <child>
+                                          <object class="GtkHBox" id="hbox_camera_resolution_framerate">
+                                            <property name="visible">True</property>
+                                            <property name="can-focus">False</property>
+                                            <property name="spacing">20</property>
+                                            <child>
+                                              <object class="GtkTable" id="table5">
+                                                <property name="visible">True</property>
+                                                <property name="can-focus">False</property>
+                                                <property name="n-rows">4</property>
+                                                <property name="n-columns">5</property>
+                                                <property name="column-spacing">12</property>
+                                                <property name="row-spacing">12</property>
+                                                <child>
+                                                  <placeholder/>
+                                                </child>
+                                                <child>
+                                                  <object class="GtkLabel" id="label76">
+                                                    <property name="visible">True</property>
+                                                    <property name="can-focus">False</property>
+                                                    <property name="label" translatable="yes">Resolution</property>
+                                                    <property name="xalign">0</property>
+                                                  </object>
+                                                  <packing>
+                                                    <property name="left-attach">1</property>
+                                                    <property name="right-attach">2</property>
+                                                    <property name="top-attach">2</property>
+                                                    <property name="bottom-attach">3</property>
+                                                    <property name="x-options">GTK_FILL</property>
+                                                  </packing>
+                                                </child>
+                                                <child>
+                                                  <object class="GtkLabel" id="label78">
+                                                    <property name="visible">True</property>
+                                                    <property name="can-focus">False</property>
+                                                    <property name="label" translatable="yes">Framerate</property>
+                                                    <property name="xalign">0</property>
+                                                  </object>
+                                                  <packing>
+                                                    <property name="left-attach">1</property>
+                                                    <property name="right-attach">2</property>
+                                                    <property name="top-attach">3</property>
+                                                    <property name="bottom-attach">4</property>
+                                                    <property name="x-options">GTK_FILL</property>
+                                                  </packing>
+                                                </child>
+                                                <child>
+                                                  <object class="GtkHBox" id="hbox_combo_camera_resolution">
+                                                    <property name="visible">True</property>
+                                                    <property name="can-focus">False</property>
+                                                    <child>
+                                                      <placeholder/>
+                                                    </child>
+                                                  </object>
+                                                  <packing>
+                                                    <property name="left-attach">3</property>
+                                                    <property name="right-attach">4</property>
+                                                    <property name="top-attach">2</property>
+                                                    <property name="bottom-attach">3</property>
+                                                    <property name="x-options">GTK_FILL</property>
+                                                  </packing>
+                                                </child>
+                                                <child>
+                                                  <object class="GtkHBox" id="hbox_combo_camera_framerate">
+                                                    <property name="visible">True</property>
+                                                    <property name="can-focus">False</property>
+                                                    <child>
+                                                      <placeholder/>
+                                                    </child>
+                                                  </object>
+                                                  <packing>
+                                                    <property name="left-attach">3</property>
+                                                    <property name="right-attach">4</property>
+                                                    <property name="top-attach">3</property>
+                                                    <property name="bottom-attach">4</property>
+                                                    <property name="x-options">GTK_FILL</property>
+                                                  </packing>
+                                                </child>
+                                                <child>
+                                                  <object class="GtkHBox" id="hbox_camera_resolution_custom">
+                                                    <property name="can-focus">False</property>
+                                                    <property name="spacing">6</property>
+                                                    <child>
+                                                      <object class="GtkSpinButton" id="spin_camera_resolution_custom_width">
+                                                        <property name="visible">True</property>
+                                                        <property name="can-focus">True</property>
+                                                        <property name="has-tooltip">True</property>
+                                                        <property name="tooltip-text" translatable="yes">Width</property>
+                                                        <property name="invisible-char">●</property>
+                                                        <property name="text" translatable="yes">800</property>
+                                                        <property name="primary-icon-activatable">False</property>
+                                                        <property name="secondary-icon-activatable">False</property>
+                                                        <property name="adjustment">adjustment22</property>
+                                                        <property name="climb-rate">1</property>
+                                                        <property name="snap-to-ticks">True</property>
+                                                        <property name="numeric">True</property>
+                                                        <property name="value">800</property>
+                                                      </object>
+                                                      <packing>
+                                                        <property name="expand">False</property>
+                                                        <property name="fill">False</property>
+                                                        <property name="position">0</property>
+                                                      </packing>
+                                                    </child>
+                                                    <child>
+                                                      <object class="GtkLabel" id="label84">
+                                                        <property name="visible">True</property>
+                                                        <property name="can-focus">False</property>
+                                                        <property name="label">x</property>
+                                                      </object>
+                                                      <packing>
+                                                        <property name="expand">False</property>
+                                                        <property name="fill">False</property>
+                                                        <property name="position">1</property>
+                                                      </packing>
+                                                    </child>
+                                                    <child>
+                                                      <object class="GtkSpinButton" id="spin_camera_resolution_custom_height">
+                                                        <property name="visible">True</property>
+                                                        <property name="can-focus">True</property>
+                                                        <property name="has-tooltip">True</property>
+                                                        <property name="tooltip-text" translatable="yes">Height</property>
+                                                        <property name="invisible-char">●</property>
+                                                        <property name="width-chars">5</property>
+                                                        <property name="text" translatable="yes">599</property>
+                                                        <property name="primary-icon-activatable">False</property>
+                                                        <property name="secondary-icon-activatable">False</property>
+                                                        <property name="adjustment">adjustment23</property>
+                                                        <property name="climb-rate">1</property>
+                                                        <property name="snap-to-ticks">True</property>
+                                                        <property name="numeric">True</property>
+                                                        <property name="value">599</property>
+                                                      </object>
+                                                      <packing>
+                                                        <property name="expand">False</property>
+                                                        <property name="fill">False</property>
+                                                        <property name="position">2</property>
+                                                      </packing>
+                                                    </child>
+                                                  </object>
+                                                  <packing>
+                                                    <property name="left-attach">4</property>
+                                                    <property name="right-attach">5</property>
+                                                    <property name="top-attach">2</property>
+                                                    <property name="bottom-attach">3</property>
+                                                    <property name="x-options"/>
+                                                  </packing>
+                                                </child>
+                                                <child>
+                                                  <object class="GtkHBox" id="hbox_camera_framerate_custom">
+                                                    <property name="can-focus">False</property>
+                                                    <property name="spacing">6</property>
+                                                    <child>
+                                                      <object class="GtkSpinButton" id="spin_camera_framerate_custom">
+                                                        <property name="visible">True</property>
+                                                        <property name="can-focus">True</property>
+                                                        <property name="has-tooltip">True</property>
+                                                        <property name="tooltip-text" translatable="yes">Framerate</property>
+                                                        <property name="invisible-char">●</property>
+                                                        <property name="width-chars">5</property>
+                                                        <property name="text" translatable="yes">100</property>
+                                                        <property name="primary-icon-activatable">False</property>
+                                                        <property name="secondary-icon-activatable">False</property>
+                                                        <property name="adjustment">adjustment24</property>
+                                                        <property name="climb-rate">1</property>
+                                                        <property name="snap-to-ticks">True</property>
+                                                        <property name="numeric">True</property>
+                                                        <property name="value">100</property>
+                                                      </object>
+                                                      <packing>
+                                                        <property name="expand">False</property>
+                                                        <property name="fill">False</property>
+                                                        <property name="position">0</property>
+                                                      </packing>
+                                                    </child>
+                                                    <child>
+                                                      <object class="GtkLabel" id="label85">
+                                                        <property name="visible">True</property>
+                                                        <property name="can-focus">False</property>
+                                                        <property name="label">.</property>
+                                                      </object>
+                                                      <packing>
+                                                        <property name="expand">False</property>
+                                                        <property name="fill">False</property>
+                                                        <property name="position">1</property>
+                                                      </packing>
+                                                    </child>
+                                                    <child>
+                                                      <object class="GtkEntry" id="entry_camera_framerate_custom_decimals">
+                                                        <property name="visible">True</property>
+                                                        <property name="can-focus">True</property>
+                                                        <property name="invisible-char">●</property>
+                                                        <property name="width-chars">7</property>
+                                                        <property name="text">0</property>
+                                                        <property name="primary-icon-activatable">False</property>
+                                                        <property name="secondary-icon-activatable">False</property>
+                                                      </object>
+                                                      <packing>
+                                                        <property name="expand">True</property>
+                                                        <property name="fill">True</property>
+                                                        <property name="position">2</property>
+                                                      </packing>
+                                                    </child>
+                                                  </object>
+                                                  <packing>
+                                                    <property name="left-attach">4</property>
+                                                    <property name="right-attach">5</property>
+                                                    <property name="top-attach">3</property>
+                                                    <property name="bottom-attach">4</property>
+                                                    <property name="x-options">GTK_FILL</property>
+                                                  </packing>
+                                                </child>
+                                                <child>
+                                                  <placeholder/>
+                                                </child>
+                                                <child>
+                                                  <object class="GtkLabel" id="label_camera_pixel_format">
+                                                    <property name="visible">True</property>
+                                                    <property name="can-focus">False</property>
+                                                    <property name="tooltip-text" translatable="yes">Pixel format</property>
+                                                    <property name="label" translatable="yes" comments="Substantive">Format</property>
+                                                    <property name="xalign">0</property>
+                                                  </object>
+                                                  <packing>
+                                                    <property name="left-attach">1</property>
+                                                    <property name="right-attach">2</property>
+                                                    <property name="top-attach">1</property>
+                                                    <property name="bottom-attach">2</property>
+                                                    <property name="x-options">GTK_FILL</property>
+                                                  </packing>
+                                                </child>
+                                                <child>
+                                                  <object class="GtkHBox" id="hbox_combo_camera_pixel_format">
+                                                    <property name="visible">True</property>
+                                                    <property name="can-focus">False</property>
+                                                    <child>
+                                                      <placeholder/>
+                                                    </child>
+                                                  </object>
+                                                  <packing>
+                                                    <property name="left-attach">3</property>
+                                                    <property name="right-attach">4</property>
+                                                    <property name="top-attach">1</property>
+                                                    <property name="bottom-attach">2</property>
+                                                    <property name="x-options">GTK_FILL</property>
+                                                  </packing>
+                                                </child>
+                                                <child>
+                                                  <placeholder/>
+                                                </child>
+                                                <child>
+                                                  <object class="GtkLabel" id="label95">
+                                                    <property name="visible">True</property>
+                                                    <property name="can-focus">False</property>
+                                                    <property name="label">3)</property>
+                                                  </object>
+                                                  <packing>
+                                                    <property name="top-attach">1</property>
+                                                    <property name="bottom-attach">2</property>
+                                                  </packing>
+                                                </child>
+                                                <child>
+                                                  <object class="GtkLabel" id="label97">
+                                                    <property name="visible">True</property>
+                                                    <property name="can-focus">False</property>
+                                                    <property name="label">4)</property>
+                                                  </object>
+                                                  <packing>
+                                                    <property name="top-attach">2</property>
+                                                    <property name="bottom-attach">3</property>
+                                                  </packing>
+                                                </child>
+                                                <child>
+                                                  <object class="GtkLabel" id="label98">
+                                                    <property name="visible">True</property>
+                                                    <property name="can-focus">False</property>
+                                                    <property name="label">5)</property>
+                                                  </object>
+                                                  <packing>
+                                                    <property name="top-attach">3</property>
+                                                    <property name="bottom-attach">4</property>
+                                                  </packing>
+                                                </child>
+                                                <child>
+                                                  <object class="GtkLabel" id="label_camera_pixel_format_current">
+                                                    <property name="can-focus">False</property>
+                                                  </object>
+                                                  <packing>
+                                                    <property name="left-attach">2</property>
+                                                    <property name="right-attach">3</property>
+                                                    <property name="top-attach">1</property>
+                                                    <property name="bottom-attach">2</property>
+                                                  </packing>
+                                                </child>
+                                                <child>
+                                                  <object class="GtkLabel" id="label_camera_resolution_current">
+                                                    <property name="can-focus">False</property>
+                                                  </object>
+                                                  <packing>
+                                                    <property name="left-attach">2</property>
+                                                    <property name="right-attach">3</property>
+                                                    <property name="top-attach">2</property>
+                                                    <property name="bottom-attach">3</property>
+                                                  </packing>
+                                                </child>
+                                                <child>
+                                                  <object class="GtkLabel" id="label_camera_framerate_current">
+                                                    <property name="can-focus">False</property>
+                                                    <property name="xalign">0</property>
+                                                  </object>
+                                                  <packing>
+                                                    <property name="left-attach">2</property>
+                                                    <property name="right-attach">3</property>
+                                                    <property name="top-attach">3</property>
+                                                    <property name="bottom-attach">4</property>
+                                                  </packing>
+                                                </child>
+                                                <child>
+                                                  <placeholder/>
+                                                </child>
+                                                <child>
+                                                  <object class="GtkLabel" id="label94">
+                                                    <property name="visible">True</property>
+                                                    <property name="can-focus">False</property>
+                                                    <property name="label">2)</property>
+                                                  </object>
+                                                </child>
+                                                <child>
+                                                  <object class="GtkButton" id="button_video_get_supported_modes">
+                                                    <property name="visible">True</property>
+                                                    <property name="can-focus">True</property>
+                                                    <property name="receives-default">True</property>
+                                                    <signal name="clicked" handler="on_button_video_get_supported_modes_clicked" swapped="no"/>
+                                                    <child>
+                                                      <object class="GtkLabel" id="label86">
+                                                        <property name="visible">True</property>
+                                                        <property name="can-focus">False</property>
+                                                        <property name="label" translatable="yes">Configure</property>
+                                                      </object>
+                                                    </child>
+                                                  </object>
+                                                  <packing>
+                                                    <property name="left-attach">1</property>
+                                                    <property name="right-attach">2</property>
+                                                  </packing>
+                                                </child>
+                                              </object>
+                                              <packing>
+                                                <property name="expand">False</property>
+                                                <property name="fill">False</property>
+                                                <property name="position">0</property>
+                                              </packing>
+                                            </child>
+                                            <child>
+                                              <object class="GtkVBox" id="vbox30">
+                                                <property name="visible">True</property>
+                                                <property name="can-focus">False</property>
+                                                <property name="spacing">12</property>
+                                                <child>
+                                                  <object class="GtkButton" id="button_video_preview">
+                                                    <property name="visible">True</property>
+                                                    <property name="sensitive">False</property>
+                                                    <property name="can-focus">True</property>
+                                                    <property name="receives-default">True</property>
+                                                    <property name="tooltip-text" translatable="yes">Preview video</property>
+                                                    <signal name="clicked" handler="on_button_video_preview_clicked" swapped="no"/>
+                                                    <child>
+                                                      <object class="GtkVBox" id="vbox37">
+                                                        <property name="visible">True</property>
+                                                        <property name="can-focus">False</property>
+                                                        <property name="spacing">8</property>
+                                                        <child>
+                                                          <object class="GtkImage" id="image_video_preview">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="stock">gtk-missing-image</property>
+                                                          </object>
+                                                          <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">0</property>
+                                                          </packing>
+                                                        </child>
+                                                        <child>
+                                                          <object class="GtkLabel" id="label392">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="label" translatable="yes">Preview</property>
+                                                          </object>
+                                                          <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">1</property>
+                                                          </packing>
+                                                        </child>
+                                                      </object>
+                                                    </child>
+                                                  </object>
+                                                  <packing>
+                                                    <property name="expand">True</property>
+                                                    <property name="fill">False</property>
+                                                    <property name="position">0</property>
+                                                  </packing>
+                                                </child>
+                                                <child>
+                                                  <object class="GtkLabel" id="label_video_preview_error">
+                                                    <property name="can-focus">False</property>
+                                                  </object>
+                                                  <packing>
+                                                    <property name="expand">False</property>
+                                                    <property name="fill">False</property>
+                                                    <property name="position">1</property>
+                                                  </packing>
+                                                </child>
+                                              </object>
+                                              <packing>
+                                                <property name="expand">True</property>
+                                                <property name="fill">False</property>
+                                                <property name="position">1</property>
+                                              </packing>
+                                            </child>
+                                          </object>
+                                          <packing>
+                                            <property name="expand">False</property>
                                             <property name="fill">False</property>
                                             <property name="position">1</property>
                                           </packing>
                                         </child>
-                                      </object>
-                                      <packing>
-                                        <property name="expand">False</property>
-                                        <property name="fill">False</property>
-                                        <property name="position">1</property>
-                                      </packing>
-                                    </child>
-                                    <child>
-                                      <object class="GtkAlignment" id="alignment8">
-                                        <property name="visible">True</property>
-                                        <property name="can-focus">False</property>
-                                        <property name="top-padding">10</property>
                                         <child>
-                                          <object class="GtkLabel" id="label_webcam_windows">
+                                          <object class="GtkAlignment" id="alignment8">
+                                            <property name="visible">True</property>
                                             <property name="can-focus">False</property>
-                                            <property name="label" translatable="yes">On Windows at least Windows 7 is required.</property>
-                                          </object>
-                                        </child>
-                                      </object>
-                                      <packing>
-                                        <property name="expand">True</property>
-                                        <property name="fill">True</property>
-                                        <property name="position">2</property>
-                                      </packing>
-                                    </child>
-                                    <child>
-                                      <object class="GtkCheckButton" id="check_camera_advanced">
-                                        <property name="label" translatable="yes">Show advanced controls</property>
-                                        <property name="visible">True</property>
-                                        <property name="can-focus">True</property>
-                                        <property name="receives-default">False</property>
-                                        <property name="draw-indicator">True</property>
-                                        <signal name="toggled" handler="on_check_camera_advanced_toggled" swapped="no"/>
-                                      </object>
-                                      <packing>
-                                        <property name="expand">False</property>
-                                        <property name="fill">False</property>
-                                        <property name="position">3</property>
-                                      </packing>
-                                    </child>
-                                    <child>
-                                      <object class="GtkAlignment" id="alignment13">
-                                        <property name="visible">True</property>
-                                        <property name="can-focus">False</property>
-                                        <property name="left-padding">20</property>
-                                        <child>
-                                          <object class="GtkFrame" id="frame_camera_advanced">
-                                            <property name="can-focus">False</property>
-                                            <property name="label-xalign">0</property>
-                                            <property name="shadow-type">in</property>
+                                            <property name="top-padding">10</property>
                                             <child>
-                                              <object class="GtkAlignment" id="alignment19">
-                                                <property name="visible">True</property>
+                                              <object class="GtkLabel" id="label_webcam_windows">
                                                 <property name="can-focus">False</property>
-                                                <property name="left-padding">12</property>
+                                                <property name="label" translatable="yes">On Windows at least Windows 7 is required.</property>
+                                              </object>
+                                            </child>
+                                          </object>
+                                          <packing>
+                                            <property name="expand">True</property>
+                                            <property name="fill">True</property>
+                                            <property name="position">2</property>
+                                          </packing>
+                                        </child>
+                                        <child>
+                                          <object class="GtkCheckButton" id="check_camera_advanced">
+                                            <property name="label" translatable="yes">Show advanced controls</property>
+                                            <property name="visible">True</property>
+                                            <property name="can-focus">True</property>
+                                            <property name="receives-default">False</property>
+                                            <property name="draw-indicator">True</property>
+                                            <signal name="toggled" handler="on_check_camera_advanced_toggled" swapped="no"/>
+                                          </object>
+                                          <packing>
+                                            <property name="expand">False</property>
+                                            <property name="fill">False</property>
+                                            <property name="position">3</property>
+                                          </packing>
+                                        </child>
+                                        <child>
+                                          <object class="GtkAlignment" id="alignment13">
+                                            <property name="visible">True</property>
+                                            <property name="can-focus">False</property>
+                                            <property name="left-padding">20</property>
+                                            <child>
+                                              <object class="GtkFrame" id="frame_camera_advanced">
+                                                <property name="can-focus">False</property>
+                                                <property name="label-xalign">0</property>
+                                                <property name="shadow-type">in</property>
                                                 <child>
-                                                  <object class="GtkVBox" id="vbox33">
+                                                  <object class="GtkAlignment" id="alignment19">
                                                     <property name="visible">True</property>
                                                     <property name="can-focus">False</property>
+                                                    <property name="left-padding">12</property>
                                                     <child>
-                                                      <object class="GtkHBox" id="hbox21">
+                                                      <object class="GtkVBox" id="vbox33">
                                                         <property name="visible">True</property>
                                                         <property name="can-focus">False</property>
-                                                        <property name="border-width">8</property>
-                                                        <property name="spacing">20</property>
                                                         <child>
-                                                          <object class="GtkButton" id="button_video_check_ffmpeg_ffplay_running">
+                                                          <object class="GtkHBox" id="hbox21">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="border-width">8</property>
+                                                            <property name="spacing">20</property>
+                                                            <child>
+                                                            <object class="GtkButton" id="button_video_check_ffmpeg_ffplay_running">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="receives-default">True</property>
@@ -6358,15 +6413,15 @@ It starts before and arrives there with some speed.</property>
                                                             <property name="label" translatable="yes">Check if camera is running</property>
                                                             </object>
                                                             </child>
-                                                          </object>
-                                                          <packing>
+                                                            </object>
+                                                            <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">False</property>
                                                             <property name="position">0</property>
-                                                          </packing>
-                                                        </child>
-                                                        <child>
-                                                          <object class="GtkTable" id="table_video_advanced_actions">
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkTable" id="table_video_advanced_actions">
                                                             <property name="can-focus">False</property>
                                                             <property name="n-rows">2</property>
                                                             <property name="n-columns">3</property>
@@ -6440,38 +6495,38 @@ It starts before and arrives there with some speed.</property>
                                                             <property name="bottom-attach">2</property>
                                                             </packing>
                                                             </child>
-                                                          </object>
-                                                          <packing>
+                                                            </object>
+                                                            <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">False</property>
                                                             <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                          </object>
+                                                          <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">0</property>
                                                           </packing>
                                                         </child>
-                                                      </object>
-                                                      <packing>
-                                                        <property name="expand">True</property>
-                                                        <property name="fill">True</property>
-                                                        <property name="position">0</property>
-                                                      </packing>
-                                                    </child>
-                                                    <child>
-                                                      <object class="GtkLabel" id="label_camera_check_running">
-                                                        <property name="visible">True</property>
-                                                        <property name="can-focus">False</property>
-                                                      </object>
-                                                      <packing>
-                                                        <property name="expand">True</property>
-                                                        <property name="fill">True</property>
-                                                        <property name="position">1</property>
-                                                      </packing>
-                                                    </child>
-                                                    <child>
-                                                      <object class="GtkVBox" id="vbox_camera_stop_after_all">
-                                                        <property name="visible">True</property>
-                                                        <property name="can-focus">False</property>
-                                                        <property name="spacing">8</property>
                                                         <child>
-                                                          <object class="GtkHBox" id="hbox33">
+                                                          <object class="GtkLabel" id="label_camera_check_running">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                          </object>
+                                                          <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">1</property>
+                                                          </packing>
+                                                        </child>
+                                                        <child>
+                                                          <object class="GtkVBox" id="vbox_camera_stop_after_all">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="spacing">8</property>
+                                                            <child>
+                                                            <object class="GtkHBox" id="hbox33">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
                                                             <property name="spacing">12</property>
@@ -6503,12 +6558,14 @@ It starts before and arrives there with some speed.</property>
                                                             <property name="tooltip-text" translatable="yes">Recording time</property>
                                                             <property name="invisible-char">●</property>
                                                             <property name="width-chars">1</property>
+                                                            <property name="text" translatable="yes">2</property>
                                                             <property name="primary-icon-activatable">False</property>
                                                             <property name="secondary-icon-activatable">False</property>
                                                             <property name="adjustment">adjustment25</property>
                                                             <property name="climb-rate">1</property>
                                                             <property name="snap-to-ticks">True</property>
                                                             <property name="numeric">True</property>
+                                                            <property name="value">2</property>
                                                             <signal name="value-changed" handler="on_spin_camera_stop_after_value_changed" swapped="no"/>
                                                             </object>
                                                             <packing>
@@ -6536,15 +6593,15 @@ It starts before and arrives there with some speed.</property>
                                                             <property name="position">1</property>
                                                             </packing>
                                                             </child>
-                                                          </object>
-                                                          <packing>
+                                                            </object>
+                                                            <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">False</property>
                                                             <property name="position">0</property>
-                                                          </packing>
-                                                        </child>
-                                                        <child>
-                                                          <object class="GtkAlignment" id="alignment20">
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkAlignment" id="alignment20">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
                                                             <property name="left-padding">20</property>
@@ -6568,44 +6625,60 @@ It starts before and arrives there with some speed.</property>
                                                             </child>
                                                             </object>
                                                             </child>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
                                                           </object>
                                                           <packing>
                                                             <property name="expand">True</property>
                                                             <property name="fill">True</property>
-                                                            <property name="position">1</property>
+                                                            <property name="position">2</property>
                                                           </packing>
                                                         </child>
                                                       </object>
-                                                      <packing>
-                                                        <property name="expand">True</property>
-                                                        <property name="fill">True</property>
-                                                        <property name="position">2</property>
-                                                      </packing>
                                                     </child>
+                                                  </object>
+                                                </child>
+                                                <child type="label">
+                                                  <object class="GtkLabel" id="label61">
+                                                    <property name="visible">True</property>
+                                                    <property name="can-focus">False</property>
+                                                    <property name="label" translatable="yes">&lt;b&gt;Advanced&lt;/b&gt;</property>
+                                                    <property name="use-markup">True</property>
                                                   </object>
                                                 </child>
                                               </object>
                                             </child>
-                                            <child type="label">
-                                              <object class="GtkLabel" id="label61">
-                                                <property name="visible">True</property>
-                                                <property name="can-focus">False</property>
-                                                <property name="label" translatable="yes">&lt;b&gt;Advanced&lt;/b&gt;</property>
-                                                <property name="use-markup">True</property>
-                                              </object>
-                                            </child>
                                           </object>
+                                          <packing>
+                                            <property name="expand">False</property>
+                                            <property name="fill">False</property>
+                                            <property name="position">4</property>
+                                          </packing>
                                         </child>
                                       </object>
-                                      <packing>
-                                        <property name="expand">False</property>
-                                        <property name="fill">False</property>
-                                        <property name="position">4</property>
-                                      </packing>
                                     </child>
                                   </object>
                                 </child>
                               </object>
+                              <packing>
+                                <property name="position">1</property>
+                              </packing>
+                            </child>
+                            <child type="tab">
+                              <object class="GtkLabel">
+                                <property name="visible">True</property>
+                                <property name="can-focus">False</property>
+                                <property name="label">page 2</property>
+                              </object>
+                              <packing>
+                                <property name="position">1</property>
+                                <property name="tab-fill">False</property>
+                              </packing>
                             </child>
                           </object>
                           <packing>

@@ -5332,6 +5332,8 @@ public partial class ChronoJumpWindow
 		} else
 		{
 			image_test.Pixbuf = UtilGtk.OpenPixbufSafe (ei.GetUrlIfExists (true), image_test.Pixbuf);
+
+			image_test_zoom.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameZoomInIcon);
 			button_image_test_zoom.Show ();
 		}
 	}

@@ -250,6 +250,7 @@ public class PreferencesWindow
 	Gtk.Button button_video_ffmpeg_kill;
 	Gtk.Button button_video_ffplay_kill;
 	Gtk.Label label_camera_check_running;
+	Gtk.Notebook notebook_multimedia_video;
 
 	//language tab
 	Gtk.Box hbox_combo_language;
@@ -506,9 +507,7 @@ public class PreferencesWindow
 
 		PreferencesWindowBox.label_test_sound_result.Text = "";
 
-		wd_list = UtilMultimedia.GetVideoDevices();
-		PreferencesWindowBox.createComboCamera(preferences.videoDevice,
-				preferences.videoDevicePixelFormat, preferences.videoDeviceResolution, preferences.videoDeviceFramerate);
+		PreferencesWindowBox.notebook_multimedia_video.CurrentPage = 0; //show only check_devices button
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "audio.png");
 		PreferencesWindowBox.image_multimedia_audio.Pixbuf = pixbuf;
@@ -2444,6 +2443,21 @@ public class PreferencesWindow
 		Util.TestSound = false;
 	}
 
+	private void on_button_check_video_devices_clicked (object o, EventArgs args)
+	{
+		try {
+			wd_list = UtilMultimedia.GetVideoDevices();
+		} catch {
+			new DialogMessage (Constants.MessageTypes.WARNING,
+					Catalog.GetString ("Error. Could not check video devices."));
+			return;
+		}
+
+		notebook_multimedia_video.CurrentPage = 1;
+		PreferencesWindowBox.createComboCamera(preferences.videoDevice,
+				preferences.videoDevicePixelFormat, preferences.videoDeviceResolution, preferences.videoDeviceFramerate);
+	}
+
 	//for mac and maybe windows, because in Linux it founds a default mode and it works
 	private void on_button_video_get_supported_modes_clicked (object o, EventArgs args)
 	{
@@ -3154,6 +3168,7 @@ public class PreferencesWindow
 		button_video_ffmpeg_kill = (Gtk.Button) builder.GetObject ("button_video_ffmpeg_kill");
 		button_video_ffplay_kill = (Gtk.Button) builder.GetObject ("button_video_ffplay_kill");
 		label_camera_check_running = (Gtk.Label) builder.GetObject ("label_camera_check_running");
+		notebook_multimedia_video = (Gtk.Notebook) builder.GetObject ("notebook_multimedia_video");
 
 		//language tab
 		hbox_combo_language = (Gtk.Box) builder.GetObject ("hbox_combo_language");

@@ -571,6 +571,7 @@ RESOURCES = \
 	../images/md/test_inspect_blue_1x.png,image_test_inspect.png \
 	../images/md/zoom_in.png,zoom_in.png \
 	../images/md/zoom_out.png,zoom_out.png \
+	../images/md/zoom_in_with_text.png,zoom_in_with_text.png \
 	../images/md/portrait_search_blue.png,portrait_zoom.png \
 	../images/md/trigger_2x.png,image_encoder_triggers.png \
 	../images/md/trigger_no_2x.png,image_encoder_triggers_no.png \
@@ -626,8 +627,6 @@ RESOURCES = \
 	../images/md/race_encoder_yellow_1x.png,race_encoder_icon_yellow.png \
 	../images/gtk-apply.png,gtk-apply.png \
 	../images/gtk-cancel.png,gtk-cancel.png \
-	../images/gtk-zoom-in.png,gtk-zoom-in.png \
-	../images/gtk-zoom-in-with-text.png,gtk-zoom-in-with-text.png \
 	../images/gtk-new-1.png,gtk-new-1.png \
 	../images/gtk-new-plus.png,gtk-new-plus.png \
 	../images/gtk-open.png,gtk-open.png \

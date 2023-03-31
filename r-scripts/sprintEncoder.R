@@ -1042,12 +1042,12 @@ testEncoderCJ <- function(filename, filenameInstantaneous, testLength, isSprint,
 	{
 		print("Couldn't calculate the sprint model")
 
-
 		#TODO: here we have to be able to do:
 		#exportRow = exportSprintRawPrepareRow(sprintRawDynamics, splitPositionAll, op$decimalCharAtExport == ",")
 		#so the first returns of getSprintFromEncoder should return Mass, hheight, temperature, Vw, rawVmax, rawAmax, rasFmax, rawPmax
+		#so, all the returns on getSprintFromEncoder should return also those 8 values, but eg the rawVmax have to be calculated using the trimmingSamples or not depending on if trimmingSamples have been successfully created
+		#chech carefully the behaviour on each of the returns, and have the lists merged in order to not have to build the list 4 times
 
-		exportRow = exportSprintRawPrepareRow(sprintRawDynamics, splitPositionAll, op$decimalCharAtExport == ",") # Test this
 		return(exportRow)
 	}
 

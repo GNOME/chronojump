@@ -220,8 +220,15 @@ drawSprintFromPhotocells <- function(sprintFittedDynamics, splitTimes, positions
         
         # Plotting average speed
         par(mar = c(7, 4, 5, 7.5))
+        
+        barColors = "grey"
+        for(i in 2:length(avg.speeds)) {
+                if (avg.speeds[i] - avg.speeds[i-1] < 0) barColors = c(barColors, "red")
+                else barColors = c("grey", barColors)
+        }
         barplot(height = avg.speeds, width = diff(splitTimes), space = 0,
                 ylim = c(0, max(c(avg.speeds, sprintFittedDynamics$Vmax) + 1)), xlim = xlims,
+                col = barColors,
                 main=title,
                 #sub = substitute(v(t) == Vmax*(1-e^(-K*t)), list(Vmax="Vmax", K="K")),
                 xlab="Time[s]", ylab="Velocity[m/s]",

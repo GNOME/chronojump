@@ -40,7 +40,7 @@ public partial class ChronoJumpWindow
 	Gtk.Button button_runs_simple_track_distance;
 	Gtk.Label label_runs_simple_track_distance_value;
 	Gtk.Label label_runs_simple_track_distance_units;
-
+			
 	//options runs interval
 	Gtk.Button button_combo_runs_interval_exercise_capture_left;
 	Gtk.Button button_combo_runs_interval_exercise_capture_right;
@@ -48,15 +48,17 @@ public partial class ChronoJumpWindow
 	Gtk.Button button_runs_interval_track_distance;
 	Gtk.Label label_runs_interval_track_distance_value;
 	//Gtk.Label label_runs_interval_track_distance_units; //always "m"
-	Gtk.Label extra_window_runs_interval_label_limit;
-	Gtk.SpinButton extra_window_runs_interval_spinbutton_limit;
-	Gtk.Label extra_window_runs_interval_label_limit_units;
+	Gtk.HBox hbox_runs_limited_by_tracks;
+	Gtk.HBox hbox_runs_limited_by_time;
+	Gtk.SpinButton extra_window_runs_interval_spinbutton_limit_tracks;
+	Gtk.SpinButton extra_window_runs_interval_spinbutton_limit_time;
 	Gtk.CheckButton check_run_interval_with_reaction_time;
 	
 
-	double extra_window_runs_distance = 100;
-	double extra_window_runs_interval_distance = 100;
-	double extra_window_runs_interval_limit = 10;
+	double extra_window_runs_distance = 10;
+	double extra_window_runs_interval_distance = 10;
+	double extra_window_runs_interval_limit_tracks = 3;
+	double extra_window_runs_interval_limit_time = 10;
 
 	private RunType previousRunType; //used on More to turnback if cancel or delete event is pressed
 	private RunType previousRunIntervalType; //used on More to turnback if cancel or delete event is pressed
@@ -282,29 +284,35 @@ public partial class ChronoJumpWindow
 			extra_window_showDistanceData(myRunType, false, false);	//visible, sensitive
 		}
 
-		if(! myRunType.Unlimited) {
-			string tracksName = Catalog.GetString("laps");
-			string secondsName = Catalog.GetString("seconds");
-			if(myRunType.TracksLimited) 
-				extra_window_runs_interval_label_limit_units.Text = tracksName;
-			else 
-				extra_window_runs_interval_label_limit_units.Text = secondsName;
-			
-			if(myRunType.FixedValue > 0) {
-				extra_window_runs_interval_spinbutton_limit.Value = myRunType.FixedValue;
-				extra_window_showLimitData(true, false);	//visible, sensitive
+		if(! myRunType.Unlimited)
+		{
+			if(myRunType.FixedValue > 0)
+			{
+				if(myRunType.TracksLimited)
+					extra_window_runs_interval_spinbutton_limit_tracks.Value = myRunType.FixedValue;
+				else
+					extra_window_runs_interval_spinbutton_limit_time.Value = myRunType.FixedValue;
+
+				extra_window_showLimitData (myRunType.TracksLimited, true, false);	//visible, sensitive
 			} else {
-				extra_window_runs_interval_spinbutton_limit.Value = extra_window_runs_interval_limit;
+				extra_window_runs_interval_spinbutton_limit_tracks.Value = extra_window_runs_interval_limit_tracks;
+				extra_window_runs_interval_spinbutton_limit_time.Value = extra_window_runs_interval_limit_time;
 
 				//set minimum value == 1
 				double min; double max;
-				extra_window_runs_interval_spinbutton_limit.GetRange(out min, out max);
-				extra_window_runs_interval_spinbutton_limit.SetRange(1, max);
+				if (myRunType.TracksLimited)
+				{
+					extra_window_runs_interval_spinbutton_limit_tracks.GetRange(out min, out max);
+					extra_window_runs_interval_spinbutton_limit_tracks.SetRange(1, max);
+				} else {
+					extra_window_runs_interval_spinbutton_limit_time.GetRange(out min, out max);
+					extra_window_runs_interval_spinbutton_limit_time.SetRange(1, max);
+				}
 				
-				extra_window_showLimitData(true, true);	//visible, sensitive
+				extra_window_showLimitData (myRunType.TracksLimited, true, true);	//visible, sensitive
 			}
 		} else {
-			extra_window_showLimitData(false, false);	//visible, sensitive
+			extra_window_showLimitData (myRunType.TracksLimited, false, false);	//visible, sensitive
 		}
 
 		button_run_type_delete_interval.Sensitive = ! myRunType.IsPredefined;
@@ -374,14 +382,22 @@ public partial class ChronoJumpWindow
 		}
 	}
 	
-	private void extra_window_showLimitData (bool show, bool sensitive ) {
-		extra_window_runs_interval_label_limit.Visible = show;
-		extra_window_runs_interval_spinbutton_limit.Visible = show;
-		extra_window_runs_interval_label_limit_units.Visible = show;
-		
-		extra_window_runs_interval_label_limit.Sensitive = sensitive;
-		extra_window_runs_interval_spinbutton_limit.Sensitive = sensitive;
-		extra_window_runs_interval_label_limit_units.Sensitive = sensitive;
+	private void extra_window_showLimitData (bool tracksLimited, bool show, bool sensitive )
+	{
+		if (tracksLimited)
+		{
+			hbox_runs_limited_by_time.Visible = false;
+
+			hbox_runs_limited_by_tracks.Visible = show;
+			extra_window_runs_interval_spinbutton_limit_tracks.Sensitive = sensitive;
+		}
+		else
+		{
+			hbox_runs_limited_by_tracks.Visible = false;
+
+			hbox_runs_limited_by_time.Visible = show;
+			extra_window_runs_interval_spinbutton_limit_time.Sensitive = sensitive;
+		}
 	}
 
 	private void on_extra_window_runs_interval_spinbutton_limit_value_changed (object o, EventArgs args)
@@ -534,9 +550,10 @@ public partial class ChronoJumpWindow
 		button_runs_interval_track_distance = (Gtk.Button) builder.GetObject ("button_runs_interval_track_distance");
 		label_runs_interval_track_distance_value = (Gtk.Label) builder.GetObject ("label_runs_interval_track_distance_value");
 		//label_runs_interval_track_distance_units = (Gtk.Label) builder.GetObject ("label_runs_interval_track_distance_units"); //always "m"
-		extra_window_runs_interval_label_limit = (Gtk.Label) builder.GetObject ("extra_window_runs_interval_label_limit");
-		extra_window_runs_interval_spinbutton_limit = (Gtk.SpinButton) builder.GetObject ("extra_window_runs_interval_spinbutton_limit");
-		extra_window_runs_interval_label_limit_units = (Gtk.Label) builder.GetObject ("extra_window_runs_interval_label_limit_units");
+		hbox_runs_limited_by_tracks = (Gtk.HBox) builder.GetObject ("hbox_runs_limited_by_tracks");
+		hbox_runs_limited_by_time = (Gtk.HBox) builder.GetObject ("hbox_runs_limited_by_time");
+		extra_window_runs_interval_spinbutton_limit_tracks = (Gtk.SpinButton) builder.GetObject ("extra_window_runs_interval_spinbutton_limit_tracks");
+		extra_window_runs_interval_spinbutton_limit_time = (Gtk.SpinButton) builder.GetObject ("extra_window_runs_interval_spinbutton_limit_time");
 		check_run_interval_with_reaction_time = (Gtk.CheckButton) builder.GetObject ("check_run_interval_with_reaction_time");
 	}
 }

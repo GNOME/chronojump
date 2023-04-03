@@ -5172,7 +5172,8 @@ public partial class ChronoJumpWindow
 
 			//extra_window_runs_interval_distance = (double) extra_window_runs_interval_spinbutton_distance.Value;
 			extra_window_runs_interval_distance = Convert.ToDouble(label_runs_interval_track_distance_value.Text);
-			extra_window_runs_interval_limit = extra_window_runs_interval_spinbutton_limit.Value;
+			extra_window_runs_interval_limit_tracks = extra_window_runs_interval_spinbutton_limit_tracks.Value;
+			extra_window_runs_interval_limit_time = extra_window_runs_interval_spinbutton_limit_time.Value;
 			
 			on_run_interval_activate(canCaptureC, wireless);
 		}
@@ -6015,7 +6016,10 @@ public partial class ChronoJumpWindow
 			if(currentRunIntervalType.FixedValue > 0) {
 				progressbarLimit = currentRunIntervalType.FixedValue;
 			} else {
-				progressbarLimit = extra_window_runs_interval_limit;
+				if (currentRunIntervalType.TracksLimited)
+					progressbarLimit = extra_window_runs_interval_limit_tracks;
+				else
+					progressbarLimit = extra_window_runs_interval_limit_time;
 			}
 		}
 

@@ -402,12 +402,16 @@ public partial class ChronoJumpWindow
 		LogB.Information("TT3");
 		if( ! ((RunType) currentEventType).Unlimited )
 		{
-			name = extra_window_runs_interval_spinbutton_limit.Value.ToString();
+			name = "";
 
 			if( ((RunType) currentEventType).TracksLimited )
+			{
+				name = extra_window_runs_interval_spinbutton_limit_tracks.Value.ToString();
 				name += " " + Catalog.GetString("laps");
-			else
+			} else {
+				name = extra_window_runs_interval_spinbutton_limit_time.Value.ToString();
 				name += " s";
+			}
 
 			label_contacts_exercise_selected_options2.Text = name;
 			image_contacts_exercise_selected_options2.Visible = false; //TODO: change to true when have the image;

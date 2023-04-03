@@ -157,11 +157,6 @@ cp Chrono...dmg /ftp/pub/gnome/binaries/mac/chronojump
 remember cp and no mv, because "mv always maintains the SELinux context of a specific file whereas cp does not"
 https://discourse.gnome.org/t/signal-ftp-sync-removed-on-master-gnome-org/13239/7
 
-cd /ftp/pub/gnome/binaries/mac/chronojump
-chmod 644 ...dmg
-signal-ftp-sync
-wait 5'
-
 windows stuff
 ------------
 
@@ -209,11 +204,6 @@ ssh xaviblas@master.gnome.org
 cp Chrono...exe /ftp/pub/gnome/binaries/win32/chronojump
 remember cp and no mv, because "mv always maintains the SELinux context of a specific file whereas cp does not"
 https://discourse.gnome.org/t/signal-ftp-sync-removed-on-master-gnome-org/13239/7
-
-cd /ftp/pub/gnome/binaries/win32/chronojump
-chmod 755 Chrono...exe
-signal-ftp-sync
-wait 5'
 
 Wordpress
 ---------

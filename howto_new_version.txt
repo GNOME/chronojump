@@ -39,7 +39,12 @@ Linux stuff
 sh autogen.sh
 make dist
 
-scp "chronojump-$VERSION.tar.gz" xaviblas@master.gnome.org:.
+If it is a sub-version, like chronojump-2.3.0-31-gf819edfc8.tar.gz
+rename: chronojump-2.3.0_31.tar.gz
+file-roller it to rename its internal directory to: hronojump-2.3.0-31.tar.gz
+Not: the file is with '_' and the internal dir is with '-'
+
+scp filename xaviblas@master.gnome.org:.
 ssh xaviblas@master.gnome.org
 ftpadmin install (filename)
 

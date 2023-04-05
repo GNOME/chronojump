@@ -27,11 +27,26 @@ public class JumpsAsymmetry
 	private List<PointF> point_l; //to cairo points graph
 	protected List<DateTime> dates_l; //used on button press to know day date instead of date as double
 
+	private double mouseX;
+	private double mouseY;
+
 	//constructor
 	public JumpsAsymmetry ()
 	{
+		MouseReset ();
 	}
-	
+
+	public void MouseReset ()
+	{
+		mouseX = -1;
+		mouseY = -1;
+	}
+	public void MouseSet (double mouseX, double mouseY)
+	{
+		this.mouseX = mouseX;
+		this.mouseY = mouseY;
+	}
+
 	public void Calculate (int personID, int sessionID, bool bilateral, bool means,
 			string jumpBilateralStr, string j1Str, string j2Str)
 	{
@@ -117,6 +132,14 @@ public class JumpsAsymmetry
 	public List<DateTime> Dates_l
 	{
 		get { return dates_l; }
+	}
+	public double MouseX
+	{
+		get { return mouseX; }
+	}
+	public double MouseY
+	{
+		get { return mouseY; }
 	}
 
 }

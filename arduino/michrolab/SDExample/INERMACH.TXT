@@ -1,0 +1,4 @@
+#id, name, description, diameters, gearedDown
+0,Prosquat,Squat machine of Proinertial,3,1
+1,Eccotek,Conical machine of Byomedic,9.27_7.8_6.17_4.7,1
+2,Cubic,Custom machine with cubic structure,2,1

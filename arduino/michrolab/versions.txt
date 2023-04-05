@@ -1,0 +1,29 @@
+MiChroLab 0.1
+ ---------------------
+ -Menu structure to access diferent functions
+ -Optimization of the graph. I only redraw needed parts
+ -Y axes resized when screen is exceeded
+ -Force measurement from the load cell
+ -Speed measurement from the encoder
+ -Power measurement from load cel+encoder
+ -Speed measurement in inertial machines
+ -Tared force measurement
+ -Force steadiness measurements
+ -Tare function in system menu
+ -Calibration function in system menu
+ -Set the force goal for steadiness in system menu
+ -Set the Concentric/Eccentric changing point in system menu
+ -Measurements saved in SD organized by session folders
+ -Measurements saved as P[PersonID]S[SetID]-[TypeOfMeasure].txt
+ -Persons ID, Name, Weight andb Height can be read from persons.txt file. csv separated by ","
+ -Force sensor communication with Chronojump
+ -Ready for using in Teensy4.0
+ 
+ SportAnalizer 1.0
+ ---------------------
+ First version presented by Xavier Cano.
+ The source code of this version is in https://github.com/XaviCanoFerrer/Sport_Analyzer
+-It allows to see raw data of the encoder or the lead force.
+-It saves both data sensors in the SD file
+-Pressing right button the sensor shown is changed
+-Pressing the left button the set ID saved in the SD is incremented

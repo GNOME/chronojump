@@ -1,0 +1,5 @@
+3,0,Blancaneus ,1,Free,1.127649R
+5,0,Blancaneus ,1,Free,0.732403R
+7,0,Blancaneus ,1,Free,0.590520R
+9,0,Blancaneus ,1,Free,0.707550R
+11,0,Blancaneus ,1,Free,0.405278R

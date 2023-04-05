@@ -1,0 +1,96 @@
+#Examples of serial port commands
+# [command]:  or [command]:[parameters];
+
+    ## Generic ##
+
+get_version:                                //Gets the version of the firmware.
+listDir:                                    //Shows the files and directory structure in the SD
+getFile:ML0002G9/S02P01-F.TXT               //Sends the content of the file to the Serial port
+
+## Persons management ##
+
+getGroup:                                   //Shows the current group. Up to 10 groups (0 to 9)
+setGroup:9;                                 //Sets the current group.
+
+#addPerson:id,name,surname,heigh,weight;
+addPerson:16,mona,Chita,160,65               //Adds a person to the persons list in memory. Not saved to SD.
+addPerson:17,Peter,Pan,160,65;
+addPerson:18,Marieta,de l'ull viu,160,65;
+addPerson:19,Reis,d'orient,160,65;
+getPersons                                  //Shows the list of the persons of this group.
+savePersons                                 //Copies the list of persons from memory to the SD.
+deletePersons                               //Deletes from memory the persons list.
+
+    ## Jumps ##
+
+readExercisesFile:jumps;                    //Reads the JUMPTYPES.TXT and adds each row as a jump type
+deleteJumpTypes:                            //Deletes the jump types in memory. It doesn't delete from SD
+
+#addJumpType:id,name,jumpLimit,timeLimit,hardLimnit,bodyWeightPercent,fall,startIn;
+addJumpType:24,RJ(5j),5,0,0,0,0,0;          //Adds a jump type to the memory. It doesn't delete from SD
+
+getJumpTypes:                               //Shows the list of all jump types in memory
+saveJumpTypes:                              //Copy all the jump types from memory to the SD
+
+    ## Gravitatory ##
+
+readExercisesFile:gravitatory;              //Reads the GRAVTYPES.TXT and adds each row as a gravitatory exercise type
+deleteGravitatoryTypes:                     //Delete gravitatory exercise types in memory. It doesn't delete from SD
+
+#addGravitatoryType:id,name,description,percentBodyWeight,speed1RM;
+addGravitatoryType:5,Bench Press,Typical Bench press with a barbell,0,0.185;        //Adds a gravitatory exercise type. It doesn't save it to SD
+
+getGravitatoryTypes:                        //Shows the gravitatory exercises types
+saveGravitatoryTypes:                       //Saves the gravitatory exercises types to the GRAVTYPES.TXT file in the SD
+
+    ## Inertial ##
+
+readExercisesFile:inertial;                 //Reads the INERTYPES.TXT and adds each row as a inertial exercise type
+deleteInertialTypes:                        //Delete inertial exercise types in memory. It doesn't delete from SD
+
+#addInertialType:id,name,description,percentBodyWeight;
+addInertialType:0,Pull,Pulling with one hand,0.0;        //Adds a inertial exercise type. It doesn't save it to SD
+
+getInertialTypes:                        //Shows the inertial exercises types
+saveInertialTypes:                       //Saves the inertial exercises types to the INERTYPES.TXT file in the SD
+
+    ## Force sensosr ##
+
+start_capture:                              //Starts the acquiring process. TODO: Change to an specific command
+end_capture:                                //Ends the acquiring process
+get_calibration_factor:                     //Shows the factor to convert voltage 10 bits reading (0-1024) to force (Newton)
+set_calibration_factor:                     //Sets the factor to convert voltage 10 bits reading (0-1024) to force (Newton)
+calibrate:32;                               //Starts the process to calculate the calibration factor with the load in kg
+get_tare:                                   //Shows the voltage reading that corresponds to the null force
+set_tare:                                   //Sets the voltage reading that corresponds to the null force
+tare:                                       //Starts the process to calculate the voltage reading corresponding to the null force
+get_transmission_format:                    //Shows how the information is transmitted (binary or text)
+
+#addForceType:id,name,description,percentBodyWeight,angle,tare
+addForceType:12,Lateral movement,Lateral movement attached to a rubber band or elastic element,100.0,0,0;       //Adds a force sensor exercise. It doesn't save to SD
+getForceTypes:                              //Shows a list of force sensor exercises                             
+deleteForceTypes:                           //Delete force sensor exercise types in memory. It doesn't delete from SD
+saveForceTypes                              //Saves the force sensor exercises list to the SD          
+
+    ## Inertial machines ##
+
+#addInertialMachine:id,name,description,diameters,gearedDown;
+addInertialMachine:0,Prosquat,Squat machine of Proinertial,3,1;
+addInertialMachine:1,Eccotek,Conical machine of Byomedic,9.27_7.8_6.17_4.7,1;
+addInertialMachine:2,Cubic,Custom machine with cubic structure,2,1;
+
+readInertialMachinesFile:
+saveInertialMachines:
+
+    ## RaceAnalyzer  ##
+
+startRaceAnalyzerCapture:                   //Starts aquiring data of RaceAnalyzer
+endRaceAnalyzerCapture:                     //Stops aquiring data of RaceAnalyzer
+set_pps:                                    //Pending
+get_pps:                                    //Pending
+    
+#addRaceAnalyzerType:id,name,description
+addRaceAnalyzerType:9,30m Sprint,Running 30m as fast as possible;       //Adds a RaceAnalyzer exercise. It doesn't save to SD
+getRaceAnalyzerTypes:                              //Shows a list of RaceAnalyzer exercises                             
+deleteRaceAnalyzerTypes:                           //Delete RaceAnalyzer exercise types in memory. It doesn't delete from SD
+saveRaceAnalyzerTypes                              //Saves the RaceAnalyzer exercises list to the SD   

@@ -1,0 +1,1 @@
+12,Lateral movement,Lateral movement attached to a rubber band or elastic element,100.00,0.00,0

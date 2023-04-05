@@ -36,6 +36,11 @@ make
 
 if date is not ok in the virtual system, do not reboot. Change date on Date & Time window.
 
+gtk3:
+brew install gtk+3
+nuget install GdkSharp -Version 3.0.0 (but installs GLibSharp 3.22.24.10)
+nuget list | grep -i glib  #does not show it, but exists on: /Users/chronojump/.nuget/packages/glibsharp
+
 -------------------------------------------------------------------
 WINDOWS
 -------------------------------------------------------------------

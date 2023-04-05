@@ -29,6 +29,9 @@ public abstract class JumpsRunsEvolution
 	protected List<DateTime> dates_l; //used on button press to know day date instead of date as double
 	protected LeastSquaresLine ls;
 
+	protected double mouseX;
+	protected double mouseY;
+
 	public abstract void Calculate(int personID, string type, bool onlyBestInSession);
 
 	protected void getLeastSquaresLine () //straight line
@@ -53,6 +56,17 @@ public abstract class JumpsRunsEvolution
 		return maxValue;
 	}
 
+	public void MouseReset ()
+	{
+		mouseX = -1;
+		mouseY = -1;
+	}
+	public void MouseSet (double mouseX, double mouseY)
+	{
+		this.mouseX = mouseX;
+		this.mouseY = mouseY;
+	}
+
 	public List<PointF> Point_l
 	{
 		get { return point_l; }
@@ -70,6 +84,14 @@ public abstract class JumpsRunsEvolution
 	public double Intercept
 	{
 		get { return ls.Intercept; }
+	}
+	public double MouseX
+	{
+		get { return mouseX; }
+	}
+	public double MouseY
+	{
+		get { return mouseY; }
 	}
 }
 

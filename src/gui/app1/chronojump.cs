@@ -1637,7 +1637,10 @@ public partial class ChronoJumpWindow
 				drawingarea_jumps_asymmetry.QueueDraw ();
 			}
 			else if(notebook_analyze.CurrentPage == Convert.ToInt32(notebook_analyze_pages.JUMPSEVOLUTION))
-				jumpsEvolutionDo(true); //calculate data
+			{
+				jumpsEvolutionCalculateData ();
+				drawingarea_jumps_evolution.QueueDraw ();
+			}
 		}
 		else if(current_mode == Constants.Modes.JUMPSREACTIVE)
 		{
@@ -1660,7 +1663,10 @@ public partial class ChronoJumpWindow
 			updateGraphRunsSimple();
 
 			if(notebook_analyze.CurrentPage == Convert.ToInt32(notebook_analyze_pages.RUNSEVOLUTION))
-				runsEvolutionDo(true, true); //calculate data
+			{
+				runsEvolutionCalculateData (true);
+				drawingarea_runs_evolution.QueueDraw ();
+			}
 		}
 		else if(current_mode == Constants.Modes.RUNSINTERVALLIC)
 		{
@@ -8511,7 +8517,8 @@ LogB.Debug("mc finished 5");
 				if(radio_mode_contacts_jumps_evolution.Active)
 				{
 					notebook_analyze.CurrentPage = Convert.ToInt32(notebook_analyze_pages.JUMPSEVOLUTION);
-					jumpsEvolutionDo(true);
+					jumpsEvolutionCalculateData ();
+					drawingarea_jumps_evolution.QueueDraw ();
 				}
 			}
 			else if (current_mode == Constants.Modes.JUMPSREACTIVE)
@@ -8534,7 +8541,8 @@ LogB.Debug("mc finished 5");
 				if(radio_mode_contacts_runs_evolution.Active)
 				{
 					notebook_analyze.CurrentPage = Convert.ToInt32(notebook_analyze_pages.RUNSEVOLUTION);
-					runsEvolutionDo(true, true);
+					runsEvolutionCalculateData (true);
+					drawingarea_runs_evolution.QueueDraw ();
 				}
 			}
 		}
@@ -8586,7 +8594,8 @@ LogB.Debug("mc finished 5");
 		if(radio_mode_contacts_jumps_evolution.Active)
 		{
 			notebook_analyze.CurrentPage = Convert.ToInt32(notebook_analyze_pages.JUMPSEVOLUTION);
-			jumpsEvolutionDo(true);
+			jumpsEvolutionCalculateData ();
+			drawingarea_jumps_evolution.QueueDraw ();
 		}
 	}
 	private void on_radio_mode_contacts_advanced_toggled (object o, EventArgs args)
@@ -8607,7 +8616,8 @@ LogB.Debug("mc finished 5");
 		if(radio_mode_contacts_runs_evolution.Active)
 		{
 			notebook_analyze.CurrentPage = Convert.ToInt32(notebook_analyze_pages.RUNSEVOLUTION);
-			runsEvolutionDo(true, true);
+			runsEvolutionCalculateData (true);
+			drawingarea_runs_evolution.QueueDraw ();
 		}
 	}
 	private void on_radio_mode_contacts_sprint_toggled (object o, EventArgs args)

@@ -1256,6 +1256,10 @@ start <- function(op)
 		{
 			names = names(exportRow) #exportRow is a list, get the names
 			exportRow = unlist(exportRow) #convert to a vector
+			print ("names: ")
+			print (names)
+			print ("exportRow: ")
+			print (exportRow)
 
 			exportRowDF = data.frame(dataFiles$title[i], dataFiles$datetime[i]) #create dataframe for this row with some columns
 			#add exportRow data (this way we solve problems of adding strings with numbers without converting the numbers to strings

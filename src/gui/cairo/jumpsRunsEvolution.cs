@@ -277,7 +277,8 @@ public class JumpsAsymmetryGraph : EvolutionGraph //to inherit paintGridDatetime
 			double slope, double intercept,
 			DrawingArea area,
 			string personName, string index, string formula,
-			string date, bool showTime, bool metersSecondsPreferred)
+			string date, bool showTime, bool metersSecondsPreferred,
+			double mouseX, double mouseY)
 	{
 		this.point_l = point_l;
 		this.dates_l = dates_l;
@@ -289,6 +290,8 @@ public class JumpsAsymmetryGraph : EvolutionGraph //to inherit paintGridDatetime
 		this.formula = formula;
 		this.date = date;
 		this.colorBackground = colorFromRGBA(Config.ColorBackground); //but note if we are using system colors, this will not match
+		this.mouseX = mouseX;
+		this.mouseY = mouseY;
 
 		xVariable = dateStr;
 		yVariable = "Index";
@@ -297,8 +300,6 @@ public class JumpsAsymmetryGraph : EvolutionGraph //to inherit paintGridDatetime
 		yUnits = "";
 
 		area.AddEvents((int) Gdk.EventMask.ButtonPressMask); //to have mouse clicks
-		mouseX = -1;
-		mouseY = -1;
 	}
 
 	//on jumpsAsymmetry is overrided and only prints time

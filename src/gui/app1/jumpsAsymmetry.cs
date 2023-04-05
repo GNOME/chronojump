@@ -93,41 +93,69 @@ public partial class ChronoJumpWindow
 		combo_select_jumps_asymmetry_bilateral.Visible = true;
 		label_jumps_asymmetry_bilateral.Visible = true;
 
-		jumpsAsymmetryDo (true);
+		jumpsAsymmetryCalculateData ();
+		drawingarea_jumps_asymmetry.QueueDraw ();
 	}
 	private void on_radio_jumps_asymmetry_asymmetry_toggled (object o, EventArgs args)
 	{
 		combo_select_jumps_asymmetry_bilateral.Visible = false;
 		label_jumps_asymmetry_bilateral.Visible = false;
 
-		jumpsAsymmetryDo (true);
+		jumpsAsymmetryCalculateData ();
+		drawingarea_jumps_asymmetry.QueueDraw ();
 	}
 
 	private void on_radio_jumps_asymmetry_use_means_toggled (object o, EventArgs args)
 	{
-		jumpsAsymmetryDo (true);
+		jumpsAsymmetryCalculateData ();
+		drawingarea_jumps_asymmetry.QueueDraw ();
 	}
 	private void on_radio_jumps_asymmetry_use_maximums_toggled (object o, EventArgs args)
 	{
-		jumpsAsymmetryDo (true);
+		jumpsAsymmetryCalculateData ();
+		drawingarea_jumps_asymmetry.QueueDraw ();
 	}
 
 	private void on_combo_select_jumps_asymmetry_bilateral_changed (object o, EventArgs args)
 	{
-		jumpsAsymmetryDo (true);
+		jumpsAsymmetryCalculateData ();
+		drawingarea_jumps_asymmetry.QueueDraw ();
 	}
 	private void on_combo_select_jumps_asymmetry_1_changed (object o, EventArgs args)
 	{
-		jumpsAsymmetryDo (true);
+		jumpsAsymmetryCalculateData ();
+		drawingarea_jumps_asymmetry.QueueDraw ();
 	}
 	private void on_combo_select_jumps_asymmetry_2_changed (object o, EventArgs args)
 	{
-		jumpsAsymmetryDo (true);
+		jumpsAsymmetryCalculateData ();
+		drawingarea_jumps_asymmetry.QueueDraw ();
 	}
 
 	JumpsAsymmetryGraph jumpsAsymmetryGraph;
 
-	private void jumpsAsymmetryDo (bool calculateData)
+	private void jumpsAsymmetryCalculateData ()
+	{
+		if (currentPerson == null || currentSession == null ||
+				drawingarea_jumps_asymmetry == null || drawingarea_jumps_asymmetry.Window == null) //it happens at start on click on analyze
+			return;
+
+		if (jumpsAsymmetry == null)
+			jumpsAsymmetry = new JumpsAsymmetry();
+
+		jumpsAsymmetry.MouseReset ();
+		jumpsAsymmetry.Calculate (
+				currentPerson.UniqueID, currentSession.UniqueID,
+				radio_jumps_asymmetry_bilateral.Active,
+				radio_jumps_asymmetry_use_means.Active,
+				UtilGtk.ComboGetActive (combo_select_jumps_asymmetry_bilateral),
+				UtilGtk.ComboGetActive (combo_select_jumps_asymmetry_1),
+				UtilGtk.ComboGetActive (combo_select_jumps_asymmetry_2)
+				);
+	}
+
+	//called just by QueueDraw
+	private void jumpsAsymmetryPlot ()
 	{
 		button_jumps_asymmetry_save_image.Sensitive = false;
 
@@ -138,24 +166,12 @@ public partial class ChronoJumpWindow
 			return;
 		}
 
-		if (jumpsAsymmetry == null) {
-			jumpsAsymmetry = new JumpsAsymmetry();
-			calculateData = true;
-		}
+		if (jumpsAsymmetry == null)
+			jumpsAsymmetryCalculateData ();
 
 		string jumpBilateral = UtilGtk.ComboGetActive (combo_select_jumps_asymmetry_bilateral);
 		string jumpAsymmetry1 = UtilGtk.ComboGetActive (combo_select_jumps_asymmetry_1);
 		string jumpAsymmetry2 = UtilGtk.ComboGetActive (combo_select_jumps_asymmetry_2);
-
-		if(calculateData)
-			jumpsAsymmetry.Calculate (
-					currentPerson.UniqueID, currentSession.UniqueID,
-					radio_jumps_asymmetry_bilateral.Active,
-					radio_jumps_asymmetry_use_means.Active,
-					jumpBilateral,
-					jumpAsymmetry1,
-					jumpAsymmetry2
-					);
 
 		string index = Catalog.GetString ("Bilateral deficit");
 		string formula = string.Format ("{0} - ({1} + {2})",
@@ -227,7 +243,9 @@ public partial class ChronoJumpWindow
 						0,
 						drawingarea_jumps_asymmetry,
 						currentPerson.Name, index, formula,
-						currentSession.DateShort, false, true);
+						currentSession.DateShort, false, true,
+						jumpsAsymmetry.MouseX,
+						jumpsAsymmetry.MouseY);
 				jumpsAsymmetryGraph.Do (preferences.fontType.ToString());
 			}
 
@@ -246,12 +264,14 @@ public partial class ChronoJumpWindow
 		LogB.Information("Button press done!");
 
 		//redo the graph to delete previous rectangles of previous mouse clicks
-		jumpsAsymmetryGraph.PassMouseXY (args.Event.X, args.Event.Y);
-		jumpsAsymmetryGraph.Do (preferences.fontType.ToString());
+		if (jumpsAsymmetry != null)
+			jumpsAsymmetry.MouseSet (args.Event.X, args.Event.Y);
+
+		drawingarea_jumps_asymmetry.QueueDraw ();
 	}
 	private void on_drawingarea_jumps_asymmetry_draw (object o, Gtk.DrawnArgs args)
 	{
-		jumpsAsymmetryDo (false); //do not calculate data
+		jumpsAsymmetryPlot ();
 		//data is calculated on switch page (at notebook_capture_analyze) or on change person
 	}
 

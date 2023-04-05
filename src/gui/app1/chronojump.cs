@@ -1632,7 +1632,10 @@ public partial class ChronoJumpWindow
 			else if(notebook_analyze.CurrentPage == Convert.ToInt32(notebook_analyze_pages.JUMPSWEIGHTFVPROFILE))
 				jumpsWeightFVProfileDo(true); //calculate data
 			else if(notebook_analyze.CurrentPage == Convert.ToInt32(notebook_analyze_pages.JUMPSASYMMETRY))
-				jumpsAsymmetryDo(true); //calculate data
+			{
+				jumpsAsymmetryCalculateData ();
+				drawingarea_jumps_asymmetry.QueueDraw ();
+			}
 			else if(notebook_analyze.CurrentPage == Convert.ToInt32(notebook_analyze_pages.JUMPSEVOLUTION))
 				jumpsEvolutionDo(true); //calculate data
 		}
@@ -8501,7 +8504,8 @@ LogB.Debug("mc finished 5");
 				if(radio_mode_contacts_jumps_asymmetry.Active)
 				{
 					notebook_analyze.CurrentPage = Convert.ToInt32(notebook_analyze_pages.JUMPSASYMMETRY);
-					jumpsAsymmetryDo(true);
+					jumpsAsymmetryCalculateData ();
+					drawingarea_jumps_asymmetry.QueueDraw ();
 				}
 
 				if(radio_mode_contacts_jumps_evolution.Active)
@@ -8573,7 +8577,8 @@ LogB.Debug("mc finished 5");
 		if (radio_mode_contacts_jumps_asymmetry.Active)
 		{
 			notebook_analyze.CurrentPage = Convert.ToInt32(notebook_analyze_pages.JUMPSASYMMETRY);
-			jumpsAsymmetryDo(true);
+			jumpsAsymmetryCalculateData ();
+			drawingarea_jumps_asymmetry.QueueDraw ();
 		}
 	}
 	private void on_radio_mode_contacts_jumps_evolution_toggled (object o, EventArgs args)

@@ -53,8 +53,6 @@ Show the changes of the named stash:
     git stash show -p stash@{1}
     git stash show -p 1
 
-
-
 download from git repo
 
     git pull --rebase
@@ -67,6 +65,11 @@ Recuperate last stash
 Or can use autostash:
 https://cscheng.info/2017/01/26/git-tip-autostash-with-git-pull-rebase.html
 
+if there is a merge problem on git stash pop https://stackoverflow.com/a/27382210
+
+    resolve conflicts (search ====)
+    git restore --staged .
+    git stash drop
 
 ## Common use
 
@@ -178,3 +181,5 @@ Find ======     Solve the problems (HEAD) is what there is on git repo
 If you want to abort a merge done on a git stash pop (discarding the stashed stuff)
 
 	git reset --merge
+
+if the problem is on git stash pop see "merge problem on git stash pop" above

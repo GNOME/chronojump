@@ -145,7 +145,8 @@ public class JumpsEvolutionGraph : EvolutionGraph
 	public JumpsEvolutionGraph (
 			List<PointF> point_l, List<DateTime> dates_l,
 			double slope, double intercept,
-			DrawingArea area, string title, string jumpType, string date)
+			DrawingArea area, string title, string jumpType, string date,
+			double mouseX, double mouseY)
 	{
 		this.point_l = point_l;
 		this.dates_l = dates_l;
@@ -156,6 +157,8 @@ public class JumpsEvolutionGraph : EvolutionGraph
 		this.jumpType = jumpType;
 		this.date = date;
 		this.colorBackground = colorFromRGBA(Config.ColorBackground); //but note if we are using system colors, this will not match
+		this.mouseX = mouseX;
+		this.mouseY = mouseY;
 
 		xVariable = dateStr;
 		yVariable = heightStr;
@@ -163,8 +166,6 @@ public class JumpsEvolutionGraph : EvolutionGraph
 		yUnits = "cm";
 
 		area.AddEvents((int) Gdk.EventMask.ButtonPressMask); //to have mouse clicks
-		mouseX = -1;
-		mouseY = -1;
 	}
 
 	protected override void writeTitle()
@@ -198,7 +199,8 @@ public class RunsEvolutionGraph : EvolutionGraph
 			List<PointF> point_l, List<DateTime> dates_l,
 			double slope, double intercept,
 			DrawingArea area, string title, string runType, string date,
-			bool showTime, bool metersSecondsPreferred)
+			bool showTime, bool metersSecondsPreferred,
+			double mouseX, double mouseY)
 	{
 		this.point_l = point_l;
 		this.dates_l = dates_l;
@@ -209,6 +211,8 @@ public class RunsEvolutionGraph : EvolutionGraph
 		this.runType = runType;
 		this.date = date;
 		this.colorBackground = colorFromRGBA(Config.ColorBackground); //but note if we are using system colors, this will not match
+		this.mouseX = mouseX;
+		this.mouseY = mouseY;
 
 		xVariable = dateStr;
 		if(showTime)
@@ -227,8 +231,6 @@ public class RunsEvolutionGraph : EvolutionGraph
 		}
 
 		area.AddEvents((int) Gdk.EventMask.ButtonPressMask); //to have mouse clicks
-		mouseX = -1;
-		mouseY = -1;
 	}
 
 	protected override void writeTitle()

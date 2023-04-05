@@ -75,19 +75,39 @@ public partial class ChronoJumpWindow
 		if (o == null)
 			return;
 
-		jumpsEvolutionDo(true);
+		jumpsEvolutionCalculateData ();
+		drawingarea_jumps_evolution.QueueDraw ();
 	}
 	// combo (end)
 
 	private void on_check_jumps_evolution_only_best_in_session_clicked (object o, EventArgs args)
 	{
-		jumpsEvolutionDo(true);
+		jumpsEvolutionCalculateData ();
+		drawingarea_jumps_evolution.QueueDraw ();
 
 		SqlitePreferences.Update(SqlitePreferences.JumpsEvolutionOnlyBestInSession,
 				check_jumps_evolution_only_best_in_session.Active, false);
 	}
 
-	private void jumpsEvolutionDo (bool calculateData)
+	private void jumpsEvolutionCalculateData ()
+	{
+		// 1) exit, if problems
+		if(currentPerson == null || currentSession == null ||
+				drawingarea_jumps_evolution == null || drawingarea_jumps_evolution.Window == null) //it happens at start on click on analyze
+			return;
+
+		// 2) create jumpsEvolution, if needed
+		if(jumpsEvolution == null)
+			jumpsEvolution = new JumpsEvolution();
+
+		string jumpType = comboSelectJumpsEvolution.GetSelectedNameEnglish();
+
+		jumpsEvolution.MouseReset ();
+		jumpsEvolution.Calculate(currentPerson.UniqueID, jumpType, check_jumps_evolution_only_best_in_session.Active);
+	}
+
+	//called just by QueueDraw
+	private void jumpsEvolutionPlot ()
 	{
 		// 1) exit, if problems
 		if(currentPerson == null || currentSession == null ||
@@ -98,10 +118,8 @@ public partial class ChronoJumpWindow
 		}
 
 		// 2) create jumpsEvolution, if needed
-		if(jumpsEvolution == null) {
-			jumpsEvolution = new JumpsEvolution();
-			calculateData = true;
-		}
+		if(jumpsEvolution == null)
+			jumpsEvolutionCalculateData ();
 
 		// 3) get jump type
 		string jumpType = comboSelectJumpsEvolution.GetSelectedNameEnglish();
@@ -115,10 +133,6 @@ public partial class ChronoJumpWindow
 			button_jumps_evolution_save_image.Sensitive = false;
 			return;
 		}
-
-		// 5) calculateData
-		if(calculateData)
-			jumpsEvolution.Calculate(currentPerson.UniqueID, jumpType, check_jumps_evolution_only_best_in_session.Active);
 
 		// 6) exit if no points, or do the graph
 		if(jumpsEvolution.Point_l.Count == 0)
@@ -138,7 +152,9 @@ public partial class ChronoJumpWindow
 					jumpsEvolution.Slope,
 					jumpsEvolution.Intercept,
 					drawingarea_jumps_evolution,
-					currentPerson.Name, jumpType, currentSession.DateShort);
+					currentPerson.Name, jumpType, currentSession.DateShort,
+					jumpsEvolution.MouseX,
+					jumpsEvolution.MouseY);
 			jumpsEvolutionGraph.Do(preferences.fontType.ToString());
 
 			button_jumps_evolution_save_image.Sensitive = true;
@@ -146,7 +162,7 @@ public partial class ChronoJumpWindow
 	}
 	private void on_drawingarea_jumps_evolution_draw (object o, Gtk.DrawnArgs args) 
 	{
-		jumpsEvolutionDo(false); //do not calculate data
+		jumpsEvolutionPlot ();
 		//data is calculated on switch page (at notebook_capture_analyze) or on change person
 	}
 
@@ -160,8 +176,10 @@ public partial class ChronoJumpWindow
 		LogB.Information("Button press done!");
 
 		//redo the graph to delete previous rectangles of previous mouse clicks
-		jumpsEvolutionGraph.PassMouseXY (args.Event.X, args.Event.Y);
-		jumpsEvolutionGraph.Do (preferences.fontType.ToString());
+		if (jumpsEvolution != null)
+			jumpsEvolution.MouseSet (args.Event.X, args.Event.Y);
+
+		drawingarea_jumps_evolution.QueueDraw ();
 	}
 
 	private void on_button_jumps_evolution_save_image_clicked (object o, EventArgs args)
@@ -216,7 +234,8 @@ public partial class ChronoJumpWindow
 		if (o == null)
 			return;
 
-		runsEvolutionDo(true, true);
+		runsEvolutionCalculateData (true);
+		drawingarea_runs_evolution.QueueDraw ();
 	}
 	// combo (end)
 
@@ -246,81 +265,95 @@ public partial class ChronoJumpWindow
 		if (o == null)
 			return;
 
-		runsEvolutionDo(false, true);
+		runsEvolutionCalculateData (false);
+		drawingarea_runs_evolution.QueueDraw ();
 	}
 	// combo (end)
 
 	private void on_check_runs_evolution_only_best_in_session_clicked (object o, EventArgs args)
 	{
-		runsEvolutionDo(false, true);
+		runsEvolutionCalculateData (false);
+		drawingarea_runs_evolution.QueueDraw ();
 
 		SqlitePreferences.Update(SqlitePreferences.RunsEvolutionOnlyBestInSession,
 				check_runs_evolution_only_best_in_session.Active, false);
 	}
 	private void on_check_runs_evolution_show_time_clicked (object o, EventArgs args)
 	{
-		runsEvolutionDo(false, true);
+		runsEvolutionCalculateData (false);
+		drawingarea_runs_evolution.QueueDraw ();
 
 		SqlitePreferences.Update(SqlitePreferences.RunsEvolutionShowTime,
 				check_runs_evolution_show_time.Active, false);
 	}
 
 	//if exerciseChanged, distances can change
-	private void runsEvolutionDo (bool exerciseChanged, bool calculateData)
+	private void runsEvolutionCalculateData (bool exerciseChanged)
 	{
-		LogB.Information("runsEvolutionDo, calculateData: " + calculateData.ToString());
+		if(currentPerson == null || currentSession == null ||
+				drawingarea_runs_evolution == null || drawingarea_runs_evolution.Window == null) //it happens at start on click on analyze
+			return;
+
+		bool runsEvolutionJustCreated = false;
+		if(runsEvolution == null)
+		{
+			runsEvolution = new RunsEvolution();
+			runsEvolutionJustCreated = true;
+		}
+
+		runsEvolution.PassParameters(check_runs_evolution_show_time.Active, preferences.metersSecondsPreferred);
+
+		string runType = comboSelectRunsEvolution.GetSelectedNameEnglish();
+
+		// 1 get distance on the combo
+		double distanceAtCombo = -1;
+		if(exerciseChanged)
+			distanceAtCombo = -1; //changing exercise will always select ----
+		else if(combo_select_runs_evolution_distance != null && Util.IsNumber(UtilGtk.ComboGetActive(combo_select_runs_evolution_distance), true))
+			distanceAtCombo = Convert.ToDouble(UtilGtk.ComboGetActive(combo_select_runs_evolution_distance));
+
+		// 2 calculate (using distance)
+		runsEvolution.distanceAtCombo = distanceAtCombo;
+		runsEvolution.MouseReset ();
+		runsEvolution.Calculate(currentPerson.UniqueID, runType, check_runs_evolution_only_best_in_session.Active);
+
+		// 3 modify the distances combo, but only if exercise change or on creation of runsEvolution (first expose_event (draw))
+		if(exerciseChanged || runsEvolutionJustCreated)
+		{
+			if(runsEvolution.distance_l.Count > 0)
+			{
+				if(runsEvolution.distance_l.Count > 1)
+					runsEvolution.distance_l.Insert(0, "----");
+
+				combo_select_runs_evolution_distance_follow_signals = false;
+
+				UtilGtk.ComboUpdate(combo_select_runs_evolution_distance, runsEvolution.distance_l);
+
+				combo_select_runs_evolution_distance.Active = 0;
+				combo_select_runs_evolution_distance.Visible = true;
+
+				combo_select_runs_evolution_distance_follow_signals = true;
+			} else
+				combo_select_runs_evolution_distance.Visible = false;
+		}
+	}
+
+	//called just by QueueDraw
+	private void runsEvolutionPlot ()
+	{
+		LogB.Information("runsEvolutionPlot");
 		if(currentPerson == null || currentSession == null ||
 				drawingarea_runs_evolution == null || drawingarea_runs_evolution.Window == null) //it happens at start on click on analyze
 		{
 			button_runs_evolution_save_image.Sensitive = false;
-			LogB.Information("runsEvolutionDo: exit early");
+			LogB.Information("runsEvolutionPlot: exit early");
 			return;
 		}
 
-		bool runsEvolutionJustCreated = false;
-		if(runsEvolution == null) {
-			runsEvolution = new RunsEvolution();
-			calculateData = true;
-			runsEvolutionJustCreated = true;
-		}
+		if(runsEvolution == null)
+			runsEvolutionCalculateData (true);
 
 		string runType = comboSelectRunsEvolution.GetSelectedNameEnglish();
-
-		if(calculateData)
-		{
-			runsEvolution.PassParameters(check_runs_evolution_show_time.Active, preferences.metersSecondsPreferred);
-
-			// 1 get distance on the combo
-			double distanceAtCombo = -1;
-			if(exerciseChanged)
-				distanceAtCombo = -1; //changing exercise will always select ----
-			else if(combo_select_runs_evolution_distance != null && Util.IsNumber(UtilGtk.ComboGetActive(combo_select_runs_evolution_distance), true))
-				distanceAtCombo = Convert.ToDouble(UtilGtk.ComboGetActive(combo_select_runs_evolution_distance));
-
-			// 2 calculate (using distance)
-			runsEvolution.distanceAtCombo = distanceAtCombo;
-			runsEvolution.Calculate(currentPerson.UniqueID, runType, check_runs_evolution_only_best_in_session.Active);
-
-			// 3 modify the distances combo, but only if exercise change or on creation of runsEvolution (first expose_event (draw))
-			if(exerciseChanged || runsEvolutionJustCreated)
-			{
-				if(runsEvolution.distance_l.Count > 0)
-				{
-					if(runsEvolution.distance_l.Count > 1)
-						runsEvolution.distance_l.Insert(0, "----");
-
-					combo_select_runs_evolution_distance_follow_signals = false;
-
-					UtilGtk.ComboUpdate(combo_select_runs_evolution_distance, runsEvolution.distance_l);
-
-					combo_select_runs_evolution_distance.Active = 0;
-					combo_select_runs_evolution_distance.Visible = true;
-
-					combo_select_runs_evolution_distance_follow_signals = true;
-				} else
-					combo_select_runs_evolution_distance.Visible = false;
-			}
-		}
 
 		if(runsEvolution.Point_l.Count == 0)
 		{
@@ -339,16 +372,18 @@ public partial class ChronoJumpWindow
 					drawingarea_runs_evolution,
 					currentPerson.Name, runType, currentSession.DateShort,
 					check_runs_evolution_show_time.Active,
-					preferences.metersSecondsPreferred);
+					preferences.metersSecondsPreferred,
+					runsEvolution.MouseX,
+					runsEvolution.MouseY);
 			runsEvolutionGraph.Do(preferences.fontType.ToString());
 
 			button_runs_evolution_save_image.Sensitive = true;
 		}
-		LogB.Information("runsEvolutionDo: ended!");
+		LogB.Information("runsEvolutionPlot: ended!");
 	}
 	private void on_drawingarea_runs_evolution_draw (object o, Gtk.DrawnArgs args)
 	{
-		runsEvolutionDo(false, false); //do not calculate data
+		runsEvolutionPlot ();
 		//data is calculated on switch page (at notebook_capture_analyze) or on change person
 	}
 
@@ -362,8 +397,10 @@ public partial class ChronoJumpWindow
 		LogB.Information("Button press done!");
 
 		//redo the graph to delete previous rectangles of previous mouse clicks
-		runsEvolutionGraph.PassMouseXY (args.Event.X, args.Event.Y);
-		runsEvolutionGraph.Do (preferences.fontType.ToString());
+		if (runsEvolution != null)
+			runsEvolution.MouseSet (args.Event.X, args.Event.Y);
+
+		drawingarea_runs_evolution.QueueDraw ();
 	}
 
 	private void on_button_runs_evolution_save_image_clicked (object o, EventArgs args)

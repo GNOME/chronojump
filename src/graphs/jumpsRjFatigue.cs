@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Copyright (C) 2022   Xavier de Blas <xaviblas@gmail.com>
+ *  Copyright (C) 2022-2023   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -23,32 +23,17 @@ using System.Collections.Generic; //List
 
 //TODO: very similar to JumpsDjOptimalFall, jumpsEvolution, refactorize if needed
 
-public class JumpsRjFatigue
+public class JumpsRjFatigue : Graphs
 {
-	private List<PointF> point_l;
 	private List<double> tc_l;
 	private List<double> tv_l;
 	LeastSquaresLine ls;
 	public enum Statistic { HEIGHTS, Q, RSI } //RSI is jump height (m)/ contact time (s)
 
-	private double mouseX;
-	private double mouseY;
-
 	//constructor
 	public JumpsRjFatigue()
 	{
 		MouseReset ();
-	}
-
-	public void MouseReset ()
-	{
-		mouseX = -1;
-		mouseY = -1;
-	}
-	public void MouseSet (double mouseX, double mouseY)
-	{
-		this.mouseX = mouseX;
-		this.mouseY = mouseY;
 	}
 
 	public void Calculate (int uniqueID, Statistic statistic)
@@ -93,11 +78,6 @@ public class JumpsRjFatigue
 		return maxValue;
 	}
 
-	public List<PointF> Point_l
-	{
-		get { return point_l; }
-	}
-
 	public List<double> Tc_l
 	{
 		get { return tc_l; }
@@ -115,14 +95,5 @@ public class JumpsRjFatigue
 	public double Intercept
 	{
 		get { return ls.Intercept; }
-	}
-
-	public double MouseX
-	{
-		get { return mouseX; }
-	}
-	public double MouseY
-	{
-		get { return mouseY; }
 	}
 }

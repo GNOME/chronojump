@@ -254,15 +254,15 @@ SOURCES = \
 	treeview/reactionTime.cs\
 	treeview/multiChronopic.cs\
 	trigger.cs\
-	util.cs\
-	utilAll.cs\
-	utilCSV.cs\
-	utilDate.cs\
-	utilEncoder.cs\
-	utilGtk.cs\
-	utilLanguage.cs\
-	utilMath.cs\
-	utilMultimedia.cs\
+	util/util.cs\
+	util/all.cs\
+	util/csv.cs\
+	util/date.cs\
+	util/encoder.cs\
+	util/gtk.cs\
+	util/language.cs\
+	util/math.cs\
+	util/multimedia.cs\
 	constants.cs\
 	commandLineEncoder.cs\
 	report.cs\

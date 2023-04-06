@@ -8,6 +8,20 @@ SOURCES = \
 	graphs/jumpsAsymmetry.cs\
 	graphs/jumpsRunsEvolution.cs\
 	graphs/jumpsRjFatigue.cs\
+	graphs/cairo/bars.cs\
+	graphs/cairo/encoder.cs\
+	graphs/cairo/forceSensor.cs\
+	graphs/cairo/generic.cs\
+	graphs/cairo/jumpsDjOptimalFall.cs\
+	graphs/cairo/jumpsRunsEvolution.cs\
+	graphs/cairo/jumpsProfile.cs\
+	graphs/cairo/jumpsRjFatigue.cs\
+	graphs/cairo/jumpsWeightFVProfile.cs\
+	graphs/cairo/raceAnalyzer.cs\
+	graphs/cairo/radial.cs\
+	graphs/cairo/runDoubleContacts.cs\
+	graphs/cairo/util.cs\
+	graphs/cairo/xy.cs\
 	gui/app1/chronojump.cs\
 	gui/app1/chronojumpLogo.cs\
 	gui/app1/chronojumpPersons.cs\
@@ -39,20 +53,6 @@ SOURCES = \
 	gui/app1/runEncoder.cs\
 	gui/app1/runEncoderAnalyze.cs\
 	gui/app1/shortcuts.cs\
-	gui/cairo/bars.cs\
-	gui/cairo/encoder.cs\
-	gui/cairo/forceSensor.cs\
-	gui/cairo/generic.cs\
-	gui/cairo/jumpsDjOptimalFall.cs\
-	gui/cairo/jumpsRunsEvolution.cs\
-	gui/cairo/jumpsProfile.cs\
-	gui/cairo/jumpsRjFatigue.cs\
-	gui/cairo/jumpsWeightFVProfile.cs\
-	gui/cairo/raceAnalyzer.cs\
-	gui/cairo/radial.cs\
-	gui/cairo/runDoubleContacts.cs\
-	gui/cairo/util.cs\
-	gui/cairo/xy.cs\
 	gui/chronojumpImporter.cs\
 	gui/chronopic.cs\
 	gui/chronopicRegister.cs\

@@ -19902,7 +19902,7 @@ on current Chronojump version.</property>
                                                         <property name="visible">True</property>
                                                         <property name="can-focus">False</property>
                                                         <child>
-                                                          <object class="GtkNotebook" id="notebook1">
+                                                          <object class="GtkNotebook" id="notebook_jumps_profile">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="tab-pos">bottom</property>
@@ -21894,6 +21894,9 @@ Concentric</property>
                                                             <property name="left-attach">3</property>
                                                             <property name="right-attach">4</property>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>
@@ -25942,6 +25945,9 @@ Concentric</property>
                                                             <property name="x-options"/>
                                                             <property name="y-options">GTK_SHRINK</property>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>
@@ -43861,6 +43867,9 @@ then click this button.</property>
                                                             <child>
                                                             <placeholder/>
                                                             </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
                                                             </object>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -52226,6 +52235,9 @@ Since Chronojump 2.1.3, backups contain the complete data.</property>
                                                             <property name="can-focus">False</property>
                                                             <property name="column-spacing">10</property>
                                                             <property name="row-spacing">10</property>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
                                                             <child>
                                                             <placeholder/>
                                                             </child>

@@ -32,6 +32,7 @@ public partial class ChronoJumpWindow
 	Gtk.Image image_jumps_profile_save;
 	Gtk.Button button_jumps_profile_save_image;
 
+	Gtk.Notebook notebook_jumps_profile;
 	Gtk.HBox hbox_jumps_profile_jumps_done;
 	Gtk.Image image_jumps_profile_sj_yes;
 	Gtk.Image image_jumps_profile_sj_no;
@@ -128,6 +129,7 @@ public partial class ChronoJumpWindow
 		image_jumps_profile_save = (Gtk.Image) builder.GetObject ("image_jumps_profile_save");
 		button_jumps_profile_save_image = (Gtk.Button) builder.GetObject ("button_jumps_profile_save_image");
 
+		notebook_jumps_profile = (Gtk.Notebook) builder.GetObject ("notebook_jumps_profile");
 		hbox_jumps_profile_jumps_done = (Gtk.HBox) builder.GetObject ("hbox_jumps_profile_jumps_done");
 		image_jumps_profile_sj_yes = (Gtk.Image) builder.GetObject ("image_jumps_profile_sj_yes");
 		image_jumps_profile_sj_no = (Gtk.Image) builder.GetObject ("image_jumps_profile_sj_no");

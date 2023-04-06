@@ -37,6 +37,7 @@ public class JumpsWeightFVProfile
 	//constructor
 	public JumpsWeightFVProfile()
 	{
+		point_l = new List<PointF>();
 	}
 	
 	public void Calculate (int personID, int sessionID, double personWeight, double trochanterToe, double trochanterFloorOnFlexion, bool onlyBestInWeight)

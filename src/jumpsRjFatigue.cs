@@ -31,11 +31,26 @@ public class JumpsRjFatigue
 	LeastSquaresLine ls;
 	public enum Statistic { HEIGHTS, Q, RSI } //RSI is jump height (m)/ contact time (s)
 
+	private double mouseX;
+	private double mouseY;
+
 	//constructor
 	public JumpsRjFatigue()
 	{
+		MouseReset ();
 	}
-	
+
+	public void MouseReset ()
+	{
+		mouseX = -1;
+		mouseY = -1;
+	}
+	public void MouseSet (double mouseX, double mouseY)
+	{
+		this.mouseX = mouseX;
+		this.mouseY = mouseY;
+	}
+
 	public void Calculate (int uniqueID, Statistic statistic)
 	{
 		//1 get data
@@ -100,5 +115,14 @@ public class JumpsRjFatigue
 	public double Intercept
 	{
 		get { return ls.Intercept; }
+	}
+
+	public double MouseX
+	{
+		get { return mouseX; }
+	}
+	public double MouseY
+	{
+		get { return mouseY; }
 	}
 }

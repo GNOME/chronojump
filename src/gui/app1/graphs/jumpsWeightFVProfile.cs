@@ -64,19 +64,44 @@ public partial class ChronoJumpWindow
 			return;
 
 		jumpsWeightFVProfileDo(true);
+		drawingarea_jumps_weight_fv_profile.QueueDraw ();
 		*/
 	}
 	// combo (end)
 
-	private void jumpsWeightFVProfileDo (bool calculateData)
+	private void jumpsWeightFVProfileCalculate ()
+	{
+		if(jumpsWeightFVProfile == null)
+			jumpsWeightFVProfile = new JumpsWeightFVProfile();
+
+		if(currentPerson == null || currentPersonSession == null || currentSession == null ||
+				drawingarea_jumps_weight_fv_profile == null || drawingarea_jumps_weight_fv_profile.Window == null) //it happens at start on click on analyze
+			return;
+
+		if(currentPersonSession.TrochanterToe == Constants.TrochanterToeUndefinedID ||
+				currentPersonSession.TrochanterFloorOnFlexion == Constants.TrochanterFloorOnFlexionUndefinedID)
+			return;
+		else if(currentPersonSession.TrochanterToe <= currentPersonSession.TrochanterFloorOnFlexion)
+			return;
+
+		//jumpsWeightFVProfile.MouseReset ();
+		jumpsWeightFVProfile.Calculate (currentPerson.UniqueID, currentSession.UniqueID,
+				currentPersonSession.Weight,
+				currentPersonSession.TrochanterToe,
+				currentPersonSession.TrochanterFloorOnFlexion,
+				check_jumps_weight_fv_profile_only_best_in_weight.Active);
+	}
+
+	//called just by QueueDraw
+	private void jumpsWeightFVProfilePlot()
 	{
 		button_jumps_weight_fv_profile_save_image.Sensitive = false;
 
 		if(currentPerson == null || currentPersonSession == null || currentSession == null ||
 				drawingarea_jumps_weight_fv_profile == null || drawingarea_jumps_weight_fv_profile.Window == null) //it happens at start on click on analyze
 			return;
-		
-		if(currentPersonSession.TrochanterToe == Constants.TrochanterToeUndefinedID || 
+
+		if(currentPersonSession.TrochanterToe == Constants.TrochanterToeUndefinedID ||
 				currentPersonSession.TrochanterFloorOnFlexion == Constants.TrochanterFloorOnFlexionUndefinedID)
 		{
 			//constructor for showing blank screen with a message
@@ -94,20 +119,11 @@ public partial class ChronoJumpWindow
 			return;
 		}
 
-		if(jumpsWeightFVProfile == null) {
-			jumpsWeightFVProfile = new JumpsWeightFVProfile();
-			calculateData = true;
-		}
+		if(jumpsWeightFVProfile == null)
+			jumpsWeightFVProfileCalculate ();
 
 		//string jumpType = UtilGtk.ComboGetActive(combo_select_jumps_weight_fv_profile);
 		//string jumpType = "SJl";
-
-		if(calculateData)
-			jumpsWeightFVProfile.Calculate(currentPerson.UniqueID, currentSession.UniqueID,
-					currentPersonSession.Weight,
-					currentPersonSession.TrochanterToe,
-					currentPersonSession.TrochanterFloorOnFlexion,
-					check_jumps_weight_fv_profile_only_best_in_weight.Active);
 
 		if(jumpsWeightFVProfile.Point_l.Count == 0) {
 			//constructor for showing blank screen with a message
@@ -140,13 +156,14 @@ public partial class ChronoJumpWindow
 	}
 	private void on_drawingarea_jumps_weight_fv_profile_draw (object o, Gtk.DrawnArgs args) 
 	{
-		jumpsWeightFVProfileDo(false); //do not calculate data
+		jumpsWeightFVProfilePlot ();
 		//data is calculated on switch page (at notebook_capture_analyze) or on change person
 	}
 
 	private void on_check_jumps_weight_fv_profile_only_best_in_weight_clicked (object o, EventArgs args)
 	{
-		jumpsWeightFVProfileDo (true);
+		jumpsWeightFVProfileCalculate ();
+		drawingarea_jumps_weight_fv_profile.QueueDraw ();
 
 		SqlitePreferences.Update(SqlitePreferences.JumpsFVProfileOnlyBestInWeight,
 				check_jumps_weight_fv_profile_only_best_in_weight.Active, false);
@@ -156,7 +173,7 @@ public partial class ChronoJumpWindow
 	{
 		if(radio_jumps_weight_fv_profile_show_full_graph.Active)
 		{
-			jumpsWeightFVProfileDo (false);
+			drawingarea_jumps_weight_fv_profile.QueueDraw ();
 
 			SqlitePreferences.Update(SqlitePreferences.JumpsFVProfileShowFullGraph,
 					radio_jumps_weight_fv_profile_show_full_graph.Active, false);
@@ -166,7 +183,7 @@ public partial class ChronoJumpWindow
 	{
 		if(radio_jumps_weight_fv_profile_zoom_to_points.Active)
 		{
-			jumpsWeightFVProfileDo (false);
+			drawingarea_jumps_weight_fv_profile.QueueDraw ();
 
 			SqlitePreferences.Update(SqlitePreferences.JumpsFVProfileShowFullGraph,
 					radio_jumps_weight_fv_profile_show_full_graph.Active, false);

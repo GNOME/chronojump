@@ -58,6 +58,7 @@ src/forceSensor.cs
 src/graphs/cairo/jumpsWeightFVProfile.cs
 src/graphs/cairo/radial.cs
 src/graphs/cairo/xy.cs
+src/graphs/jumpsProfile.cs
 src/gui/app1/chronojump.cs
 src/gui/app1/chronojumpPersons.cs
 src/gui/app1/contactsExercise.cs
@@ -125,7 +126,6 @@ src/gui/webcam.cs
 src/json/compujump.cs
 src/json/compujumpOther.cs
 src/json/json.cs
-src/jumpsProfile.cs
 src/jumpType.cs
 src/Mini/chronojump_mini.cs
 src/networks.cs

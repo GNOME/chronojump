@@ -1638,7 +1638,10 @@ public partial class ChronoJumpWindow
 				drawingarea_jumps_dj_optimal_fall.QueueDraw ();
 			}
 			else if(notebook_analyze.CurrentPage == Convert.ToInt32(notebook_analyze_pages.JUMPSWEIGHTFVPROFILE))
-				jumpsWeightFVProfileDo(true); //calculate data
+			{
+				jumpsWeightFVProfileCalculate ();
+				drawingarea_jumps_weight_fv_profile.QueueDraw ();
+			}
 			else if(notebook_analyze.CurrentPage == Convert.ToInt32(notebook_analyze_pages.JUMPSASYMMETRY))
 			{
 				jumpsAsymmetryCalculate ();
@@ -8514,7 +8517,8 @@ LogB.Debug("mc finished 5");
 				if(radio_mode_contacts_jumps_weight_fv_profile.Active)
 				{
 					notebook_analyze.CurrentPage = Convert.ToInt32(notebook_analyze_pages.JUMPSWEIGHTFVPROFILE);
-					jumpsWeightFVProfileDo(true);
+					jumpsWeightFVProfileCalculate ();
+					drawingarea_jumps_weight_fv_profile.QueueDraw ();
 				}
 
 				if(radio_mode_contacts_jumps_asymmetry.Active)
@@ -8589,7 +8593,8 @@ LogB.Debug("mc finished 5");
 		if(radio_mode_contacts_jumps_weight_fv_profile.Active)
 		{
 			notebook_analyze.CurrentPage = Convert.ToInt32(notebook_analyze_pages.JUMPSWEIGHTFVPROFILE);
-			jumpsWeightFVProfileDo(true);
+			jumpsWeightFVProfileCalculate ();
+			drawingarea_jumps_weight_fv_profile.QueueDraw ();
 		}
 	}
 	private void on_radio_mode_contacts_jumps_asymmetry_toggled (object o, EventArgs args)

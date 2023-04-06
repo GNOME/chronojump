@@ -7553,7 +7553,7 @@ msgstr "Segur que voleu esborrar aquesta etiqueta?"
 
 #: ../src/gui/cairo/jumpsWeightFVProfile.cs:119
 msgid "Need to fill person's leg parameters."
-msgstr "Cal introduir la longitud de la cama del subjecte."
+msgstr "Cal introduir els paràmetres de la cama del subjecte."
 
 #: ../src/gui/cairo/jumpsWeightFVProfile.cs:121
 msgid "Person's leg parameters are incorrect."

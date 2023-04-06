@@ -100,7 +100,8 @@ public partial class ChronoJumpWindow
 		if (o == null)
 			return;
 
-		jumpsRjFatigueDo(true);
+		jumpsRjFatigueCalculate ();
+		drawingarea_jumps_rj_fatigue.QueueDraw ();
 	}
 
 	private void createCombo_combo_jumps_rj_fatigue_divide_in ()
@@ -117,23 +118,32 @@ public partial class ChronoJumpWindow
 
 	private void on_radio_jumps_rj_fatigue_heights_toggled (object o, EventArgs args)
 	{
-		if(radio_jumps_rj_fatigue_heights.Active)
-			jumpsRjFatigueDo(true);
+		if(! radio_jumps_rj_fatigue_heights.Active)
+			return;
+
+		jumpsRjFatigueCalculate ();
+		drawingarea_jumps_rj_fatigue.QueueDraw ();
 	}
 	private void on_radio_jumps_rj_fatigue_tv_tc_toggled (object o, EventArgs args)
 	{
-		if(radio_jumps_rj_fatigue_tv_tc.Active)
-			jumpsRjFatigueDo(true);
+		if(! radio_jumps_rj_fatigue_tv_tc.Active)
+			return;
+
+		jumpsRjFatigueCalculate ();
+		drawingarea_jumps_rj_fatigue.QueueDraw ();
 	}
 	private void on_radio_jumps_rj_fatigue_rsi_toggled (object o, EventArgs args)
 	{
-		if(radio_jumps_rj_fatigue_rsi.Active)
-			jumpsRjFatigueDo(true);
+		if(! radio_jumps_rj_fatigue_rsi.Active)
+			return;
+
+		jumpsRjFatigueCalculate ();
+		drawingarea_jumps_rj_fatigue.QueueDraw ();
 	}
 
 	private void on_combo_jumps_rj_fatigue_divide_in_changed (object o, EventArgs args)
 	{
-		jumpsRjFatigueDo(false);
+		drawingarea_jumps_rj_fatigue.QueueDraw ();
 	}
 
 	private List<object> jumpsRjFatigueSelectJumpsOfType ()
@@ -157,7 +167,29 @@ public partial class ChronoJumpWindow
 		return types;
 	}
 
-	private void jumpsRjFatigueDo (bool calculateData)
+	private void jumpsRjFatigueCalculate ()
+	{
+		if(currentPerson == null || currentSession == null ||
+				drawingarea_jumps_rj_fatigue == null || drawingarea_jumps_rj_fatigue.Window == null || //it happens at start on click on analyze
+				comboSelectJumpsRjFatigueNum.GetSelectedId() < 0)
+			return;
+
+		if(jumpsRjFatigue == null)
+			jumpsRjFatigue = new JumpsRjFatigue();
+
+		jumpsRjFatigue.MouseReset ();
+
+		JumpsRjFatigue.Statistic statistic = JumpsRjFatigue.Statistic.HEIGHTS;
+		if(radio_jumps_rj_fatigue_tv_tc.Active)
+			statistic = JumpsRjFatigue.Statistic.Q;
+		else if(radio_jumps_rj_fatigue_rsi.Active)
+			statistic = JumpsRjFatigue.Statistic.RSI;
+
+		jumpsRjFatigue.Calculate (comboSelectJumpsRjFatigueNum.GetSelectedId(), statistic);
+	}
+
+	//called just by QueueDraw
+	private void jumpsRjFatiguePlot ()
 	{
 		if(currentPerson == null || currentSession == null ||
 				drawingarea_jumps_rj_fatigue == null || drawingarea_jumps_rj_fatigue.Window == null || //it happens at start on click on analyze
@@ -170,10 +202,8 @@ public partial class ChronoJumpWindow
 			return;
 		}
 
-		if(jumpsRjFatigue == null) {
-			jumpsRjFatigue = new JumpsRjFatigue();
-			calculateData = true;
-		}
+		if(jumpsRjFatigue == null)
+			jumpsRjFatigueCalculate ();
 
 		string jumpType = comboSelectJumpsRjFatigue.GetSelectedNameEnglish();
 
@@ -182,10 +212,6 @@ public partial class ChronoJumpWindow
 			statistic = JumpsRjFatigue.Statistic.Q;
 		else if(radio_jumps_rj_fatigue_rsi.Active)
 			statistic = JumpsRjFatigue.Statistic.RSI;
-
-		if(calculateData)
-			jumpsRjFatigue.Calculate(comboSelectJumpsRjFatigueNum.GetSelectedId(),
-					statistic);
 
 		if(jumpsRjFatigue.Point_l.Count == 0)
 		{
@@ -216,18 +242,19 @@ public partial class ChronoJumpWindow
 					currentPerson.Name, jumpType,
 					jumpDateStr,
 					statistic,
-					divideIn);
+					divideIn,
+					jumpsRjFatigue.MouseX,
+					jumpsRjFatigue.MouseY);
 			jumpsRjFatigueGraph.Do(preferences.fontType.ToString());
 
 			button_jumps_rj_fatigue_save_image.Sensitive = true;
 		}
-		drawingarea_jumps_rj_fatigue.QueueDraw ();
 	}
 
 	private void on_drawingarea_jumps_rj_fatigue_draw (object o, Gtk.DrawnArgs args)
 	{
 		//createComboSelectJumpsRjFatigueNum (false);
-		jumpsRjFatigueDo(false);
+		jumpsRjFatiguePlot ();
 		//data is calculated on switch page (at notebook_capture_analyze) or on change person
 	}
 
@@ -240,8 +267,10 @@ public partial class ChronoJumpWindow
 		LogB.Information("Button press done!");
 
 		//redo the graph to delete previous rectangles of previous mouse clicks
-		jumpsRjFatigueGraph.PassMouseXY (args.Event.X, args.Event.Y);
-		jumpsRjFatigueGraph.Do (preferences.fontType.ToString());
+		if (jumpsRjFatigue != null)
+			jumpsRjFatigue.MouseSet (args.Event.X, args.Event.Y);
+
+		drawingarea_jumps_rj_fatigue.QueueDraw ();
 	}
 
 	private void on_button_jumps_rj_fatigue_save_image_clicked (object o, EventArgs args)

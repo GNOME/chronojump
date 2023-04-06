@@ -43,11 +43,14 @@ public class JumpsRjFatigueGraph : CairoXY
 
 		endGraphDisposing(g, surface, area.Window);
 	}
+
+	//regular constructor
 	public JumpsRjFatigueGraph (
 			List<double> tc_l, List<double> tv_l,
 			List<PointF> point_l, double slope, double intercept,
 			DrawingArea area, string title, string jumpType, string date,
-			JumpsRjFatigue.Statistic statistic, int divideIn)
+			JumpsRjFatigue.Statistic statistic, int divideIn,
+			double mouseX, double mouseY)
 	{
 		this.tc_l = tc_l;
 		this.tv_l = tv_l;
@@ -60,6 +63,8 @@ public class JumpsRjFatigueGraph : CairoXY
 		this.date = date;
 		this.divideIn = divideIn;
 		this.colorBackground = colorFromRGBA(Config.ColorBackground); //but note if we are using system colors, this will not match
+		this.mouseX = mouseX;
+		this.mouseY = mouseY;
 
 		xVariable = countStr;
 		xUnits = "";

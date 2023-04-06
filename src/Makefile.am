@@ -5,6 +5,9 @@ TARGET = exe
 LINK = $(REF_DEP_CHRONOJUMP)
 
 SOURCES = \
+	graphs/jumpsAsymmetry.cs\
+	graphs/jumpsRunsEvolution.cs\
+	graphs/jumpsRjFatigue.cs\
 	gui/app1/chronojump.cs\
 	gui/app1/chronojumpLogo.cs\
 	gui/app1/chronojumpPersons.cs\
@@ -218,11 +221,8 @@ SOURCES = \
 	json/compujumpOther.cs\
 	json/exhibitions.cs\
 	jump.cs\
-	jumpsAsymmetry.cs\
 	jumpsProfile.cs\
 	jumpsDjOptimalFall.cs\
-	jumpsRunsEvolution.cs\
-	jumpsRjFatigue.cs\
 	jumpsWeightFVProfile.cs\
 	jumpType.cs\
 	networks.cs\

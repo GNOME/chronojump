@@ -93,7 +93,7 @@ public partial class ChronoJumpWindow
 		combo_select_jumps_asymmetry_bilateral.Visible = true;
 		label_jumps_asymmetry_bilateral.Visible = true;
 
-		jumpsAsymmetryCalculateData ();
+		jumpsAsymmetryCalculate ();
 		drawingarea_jumps_asymmetry.QueueDraw ();
 	}
 	private void on_radio_jumps_asymmetry_asymmetry_toggled (object o, EventArgs args)
@@ -101,40 +101,40 @@ public partial class ChronoJumpWindow
 		combo_select_jumps_asymmetry_bilateral.Visible = false;
 		label_jumps_asymmetry_bilateral.Visible = false;
 
-		jumpsAsymmetryCalculateData ();
+		jumpsAsymmetryCalculate ();
 		drawingarea_jumps_asymmetry.QueueDraw ();
 	}
 
 	private void on_radio_jumps_asymmetry_use_means_toggled (object o, EventArgs args)
 	{
-		jumpsAsymmetryCalculateData ();
+		jumpsAsymmetryCalculate ();
 		drawingarea_jumps_asymmetry.QueueDraw ();
 	}
 	private void on_radio_jumps_asymmetry_use_maximums_toggled (object o, EventArgs args)
 	{
-		jumpsAsymmetryCalculateData ();
+		jumpsAsymmetryCalculate ();
 		drawingarea_jumps_asymmetry.QueueDraw ();
 	}
 
 	private void on_combo_select_jumps_asymmetry_bilateral_changed (object o, EventArgs args)
 	{
-		jumpsAsymmetryCalculateData ();
+		jumpsAsymmetryCalculate ();
 		drawingarea_jumps_asymmetry.QueueDraw ();
 	}
 	private void on_combo_select_jumps_asymmetry_1_changed (object o, EventArgs args)
 	{
-		jumpsAsymmetryCalculateData ();
+		jumpsAsymmetryCalculate ();
 		drawingarea_jumps_asymmetry.QueueDraw ();
 	}
 	private void on_combo_select_jumps_asymmetry_2_changed (object o, EventArgs args)
 	{
-		jumpsAsymmetryCalculateData ();
+		jumpsAsymmetryCalculate ();
 		drawingarea_jumps_asymmetry.QueueDraw ();
 	}
 
 	JumpsAsymmetryGraph jumpsAsymmetryGraph;
 
-	private void jumpsAsymmetryCalculateData ()
+	private void jumpsAsymmetryCalculate ()
 	{
 		if (currentPerson == null || currentSession == null ||
 				drawingarea_jumps_asymmetry == null || drawingarea_jumps_asymmetry.Window == null) //it happens at start on click on analyze
@@ -167,7 +167,7 @@ public partial class ChronoJumpWindow
 		}
 
 		if (jumpsAsymmetry == null)
-			jumpsAsymmetryCalculateData ();
+			jumpsAsymmetryCalculate ();
 
 		string jumpBilateral = UtilGtk.ComboGetActive (combo_select_jumps_asymmetry_bilateral);
 		string jumpAsymmetry1 = UtilGtk.ComboGetActive (combo_select_jumps_asymmetry_1);

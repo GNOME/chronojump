@@ -7,8 +7,9 @@ LINK = $(REF_DEP_CHRONOJUMP)
 SOURCES = \
 	graphs/graphs.cs\
 	graphs/jumpsAsymmetry.cs\
-	graphs/jumpsRunsEvolution.cs\
+	graphs/jumpsDjOptimalFall.cs\
 	graphs/jumpsRjFatigue.cs\
+	graphs/jumpsRunsEvolution.cs\
 	graphs/cairo/bars.cs\
 	graphs/cairo/encoder.cs\
 	graphs/cairo/forceSensor.cs\
@@ -223,7 +224,6 @@ SOURCES = \
 	json/exhibitions.cs\
 	jump.cs\
 	jumpsProfile.cs\
-	jumpsDjOptimalFall.cs\
 	jumpsWeightFVProfile.cs\
 	jumpType.cs\
 	networks.cs\

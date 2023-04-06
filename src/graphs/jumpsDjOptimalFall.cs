@@ -15,15 +15,15 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Copyright (C) 2019-2020   Xavier de Blas <xaviblas@gmail.com>, Jordi Rodeiro <jordirodeiro@gmail.com>
+ *  Copyright (C) 2019-2023   Xavier de Blas <xaviblas@gmail.com>
+ *  Copyright (C) 2020 Jordi Rodeiro <jordirodeiro@gmail.com>
  */
 
 using System;
 using System.Collections.Generic; //List
 
-public class JumpsDjOptimalFall
+public class JumpsDjOptimalFall : Graphs
 {
-	private List<PointF> point_l;
 	LeastSquaresParabole ls;
 
 	//constructor
@@ -70,11 +70,6 @@ public class JumpsDjOptimalFall
 		}
 
 		return maxValue;
-	}
-
-	public List<PointF> Point_l
-	{
-		get { return point_l; }
 	}
 
 	public double[] Coefs

@@ -84,8 +84,6 @@ public class JumpsRjFatigueGraph : CairoXY
 		}
 
 		area.AddEvents((int) Gdk.EventMask.ButtonPressMask); //to have mouse clicks
-		mouseX = -1;
-		mouseY = -1;
 	}
 
 	public override void Do(string font)

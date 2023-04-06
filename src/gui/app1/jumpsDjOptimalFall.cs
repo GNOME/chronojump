@@ -60,11 +60,26 @@ public partial class ChronoJumpWindow
 		if (o == null)
 			return;
 
-		jumpsDjOptimalFallDo(true);
+		jumpsDjOptimalFallCalculate ();
+		drawingarea_jumps_dj_optimal_fall.QueueDraw ();
 	}
 	// combo (end)
 
-	private void jumpsDjOptimalFallDo (bool calculateData)
+	private void jumpsDjOptimalFallCalculate ()
+	{
+		if(currentPerson == null || currentSession == null ||
+				drawingarea_jumps_dj_optimal_fall == null || drawingarea_jumps_dj_optimal_fall.Window == null) //it happens at start on click on analyze
+			return;
+
+		if(jumpsDjOptimalFall == null)
+			jumpsDjOptimalFall = new JumpsDjOptimalFall();
+
+		string jumpType = UtilGtk.ComboGetActive(combo_select_jumps_dj_optimal_fall);
+		jumpsDjOptimalFall.Calculate (currentPerson.UniqueID, currentSession.UniqueID, jumpType);
+	}
+
+	//called just by QueueDraw
+	private void jumpsDjOptimalFallPlot ()
 	{
 		if(currentPerson == null || currentSession == null ||
 				drawingarea_jumps_dj_optimal_fall == null || drawingarea_jumps_dj_optimal_fall.Window == null) //it happens at start on click on analyze
@@ -73,15 +88,10 @@ public partial class ChronoJumpWindow
 			return;
 		}
 
-		if(jumpsDjOptimalFall == null) {
-			jumpsDjOptimalFall = new JumpsDjOptimalFall();
-			calculateData = true;
-		}
+		if(jumpsDjOptimalFall == null)
+			jumpsDjOptimalFallCalculate ();
 
 		string jumpType = UtilGtk.ComboGetActive(combo_select_jumps_dj_optimal_fall);
-
-		if(calculateData)
-			jumpsDjOptimalFall.Calculate(currentPerson.UniqueID, currentSession.UniqueID, jumpType);
 
 		if(jumpsDjOptimalFall.Point_l.Count == 0)
 		{
@@ -100,7 +110,9 @@ public partial class ChronoJumpWindow
 					jumpsDjOptimalFall.XatMaxY, //model
 					jumpsDjOptimalFall.GetMaxValue(),
 					drawingarea_jumps_dj_optimal_fall,
-					currentPerson.Name, jumpType, currentSession.DateShort);
+					currentPerson.Name, jumpType, currentSession.DateShort,
+					jumpsDjOptimalFall.MouseX,
+					jumpsDjOptimalFall.MouseY);
 			jumpsDjOptimalFallGraph.Do(preferences.fontType.ToString());
 
 			button_jumps_dj_optimal_fall_save_image.Sensitive = true;
@@ -108,7 +120,7 @@ public partial class ChronoJumpWindow
 	}
 	private void on_drawingarea_jumps_dj_optimal_fall_cairo_draw (object o, Gtk.DrawnArgs args) 
 	{
-		jumpsDjOptimalFallDo(false); //do not calculate data
+		jumpsDjOptimalFallPlot ();
 		//data is calculated on switch page (at notebook_capture_analyze) or on change person
 	}
 
@@ -121,8 +133,10 @@ public partial class ChronoJumpWindow
 		LogB.Information("Button press done!");
 
 		//redo the graph to delete previous rectangles of previous mouse clicks
-		jumpsDjOptimalFallGraph.PassMouseXY (args.Event.X, args.Event.Y);
-		jumpsDjOptimalFallGraph.Do (preferences.fontType.ToString());
+		if (jumpsDjOptimalFall != null)
+			jumpsDjOptimalFall.MouseSet (args.Event.X, args.Event.Y);
+
+		drawingarea_jumps_dj_optimal_fall.QueueDraw ();
 	}
 
 	private void on_button_jumps_dj_optimal_fall_save_image_clicked (object o, EventArgs args)

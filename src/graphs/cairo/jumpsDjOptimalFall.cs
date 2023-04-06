@@ -49,7 +49,8 @@ public class JumpsDjOptimalFallGraph : CairoXY
 			double xAtMMaxY, //x at Model MaxY
 			double pointsMaxValue,
 			DrawingArea area,
-			string title, string jumpType, string date)
+			string title, string jumpType, string date,
+			double mouseX, double mouseY)
 	{
 		this.point_l = point_l;
 		this.coefs = coefs;
@@ -61,6 +62,8 @@ public class JumpsDjOptimalFallGraph : CairoXY
 		this.jumpType = jumpType;
 		this.date = date;
 		this.colorBackground = colorFromRGBA(Config.ColorBackground); //but note if we are using system colors, this will not match
+		this.mouseX = mouseX;
+		this.mouseY = mouseY;
 
 		xVariable = fallStr;
 		yVariable = heightStr;
@@ -68,8 +71,6 @@ public class JumpsDjOptimalFallGraph : CairoXY
 		yUnits = "cm";
 
 		area.AddEvents((int) Gdk.EventMask.ButtonPressMask); //to have mouse clicks
-		mouseX = -1;
-		mouseY = -1;
 	}
 
 	public override void Do (string font)

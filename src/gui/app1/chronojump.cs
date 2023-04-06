@@ -1628,7 +1628,10 @@ public partial class ChronoJumpWindow
 			if(notebook_analyze.CurrentPage == Convert.ToInt32(notebook_analyze_pages.JUMPSPROFILE))
 				jumpsProfileDo(true); //calculate data
 			else if(notebook_analyze.CurrentPage == Convert.ToInt32(notebook_analyze_pages.JUMPSDJOPTIMALFALL))
-				jumpsDjOptimalFallDo(true); //calculate data
+			{
+				jumpsDjOptimalFallCalculate ();
+				drawingarea_jumps_dj_optimal_fall.QueueDraw ();
+			}
 			else if(notebook_analyze.CurrentPage == Convert.ToInt32(notebook_analyze_pages.JUMPSWEIGHTFVPROFILE))
 				jumpsWeightFVProfileDo(true); //calculate data
 			else if(notebook_analyze.CurrentPage == Convert.ToInt32(notebook_analyze_pages.JUMPSASYMMETRY))
@@ -8498,7 +8501,8 @@ LogB.Debug("mc finished 5");
 				if(radio_mode_contacts_jumps_dj_optimal_fall.Active)
 				{
 					notebook_analyze.CurrentPage = Convert.ToInt32(notebook_analyze_pages.JUMPSDJOPTIMALFALL);
-					jumpsDjOptimalFallDo(true);
+					jumpsDjOptimalFallCalculate ();
+					drawingarea_jumps_dj_optimal_fall.QueueDraw ();
 				}
 
 				if(radio_mode_contacts_jumps_weight_fv_profile.Active)
@@ -8569,7 +8573,8 @@ LogB.Debug("mc finished 5");
 		if(radio_mode_contacts_jumps_dj_optimal_fall.Active)
 		{
 			notebook_analyze.CurrentPage = Convert.ToInt32(notebook_analyze_pages.JUMPSDJOPTIMALFALL);
-			jumpsDjOptimalFallDo(true);
+			jumpsDjOptimalFallCalculate ();
+			drawingarea_jumps_dj_optimal_fall.QueueDraw ();
 		}
 	}
 	private void on_radio_mode_contacts_jumps_weight_fv_profile_toggled (object o, EventArgs args)

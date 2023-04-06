@@ -55,6 +55,9 @@ src/exportFiles/exportFiles.cs
 src/exportFiles/fs.cs
 src/exportSession.cs
 src/forceSensor.cs
+src/graphs/cairo/jumpsWeightFVProfile.cs
+src/graphs/cairo/radial.cs
+src/graphs/cairo/xy.cs
 src/gui/app1/chronojump.cs
 src/gui/app1/chronojumpPersons.cs
 src/gui/app1/contactsExercise.cs
@@ -80,9 +83,6 @@ src/gui/app1/session/loadAndImport.cs
 src/gui/app1/session/main.cs
 src/gui/app1/session/tagSessionSelect.cs
 src/gui/app1/shortcuts.cs
-src/gui/cairo/jumpsWeightFVProfile.cs
-src/gui/cairo/radial.cs
-src/gui/cairo/xy.cs
 src/gui/chronopic.cs
 src/gui/chronopicRegister.cs
 src/gui/confirm.cs

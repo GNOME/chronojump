@@ -29,16 +29,16 @@ SOURCES = \
 	gui/app1/chronojumpPersons.cs\
 	gui/app1/encoder.cs\
 	gui/app1/icons.cs\
-	gui/app1/jumpsAsymmetry.cs\
-	gui/app1/jumpsProfile.cs\
-	gui/app1/jumpsDjOptimalFall.cs\
-	gui/app1/jumpsRunsEvolution.cs\
-	gui/app1/jumpsRjFatigue.cs\
-	gui/app1/jumpsWeightFVProfile.cs\
 	gui/app1/contactsExercise.cs\
 	gui/app1/forceSensor.cs\
 	gui/app1/forceSensorAnalyze.cs\
 	gui/app1/news.cs\
+	gui/app1/graphs/jumpsAsymmetry.cs\
+	gui/app1/graphs/jumpsProfile.cs\
+	gui/app1/graphs/jumpsDjOptimalFall.cs\
+	gui/app1/graphs/jumpsRunsEvolution.cs\
+	gui/app1/graphs/jumpsRjFatigue.cs\
+	gui/app1/graphs/jumpsWeightFVProfile.cs\
 	gui/app1/session/delete.cs\
 	gui/app1/session/addEdit.cs\
 	gui/app1/session/backup.cs\

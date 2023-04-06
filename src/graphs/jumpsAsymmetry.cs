@@ -15,36 +15,21 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Copyright (C) 2022   Xavier de Blas <xaviblas@gmail.com>
+ *  Copyright (C) 2022-2023   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
 using System.Collections.Generic; //List
 
-public class JumpsAsymmetry
+public class JumpsAsymmetry : Graphs
 {
 	private List<JumpsAsymmetryDay> jad_l;
-	private List<PointF> point_l; //to cairo points graph
 	protected List<DateTime> dates_l; //used on button press to know day date instead of date as double
-
-	private double mouseX;
-	private double mouseY;
 
 	//constructor
 	public JumpsAsymmetry ()
 	{
 		MouseReset ();
-	}
-
-	public void MouseReset ()
-	{
-		mouseX = -1;
-		mouseY = -1;
-	}
-	public void MouseSet (double mouseX, double mouseY)
-	{
-		this.mouseX = mouseX;
-		this.mouseY = mouseY;
 	}
 
 	public void Calculate (int personID, int sessionID, bool bilateral, bool means,
@@ -125,21 +110,9 @@ public class JumpsAsymmetry
 	{
 		get { return jad_l; }
 	}
-	public List<PointF> Point_l
-	{
-		get { return point_l; }
-	}
 	public List<DateTime> Dates_l
 	{
 		get { return dates_l; }
-	}
-	public double MouseX
-	{
-		get { return mouseX; }
-	}
-	public double MouseY
-	{
-		get { return mouseY; }
 	}
 
 }

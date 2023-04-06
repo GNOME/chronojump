@@ -75,21 +75,21 @@ public partial class ChronoJumpWindow
 		if (o == null)
 			return;
 
-		jumpsEvolutionCalculateData ();
+		jumpsEvolutionCalculate ();
 		drawingarea_jumps_evolution.QueueDraw ();
 	}
 	// combo (end)
 
 	private void on_check_jumps_evolution_only_best_in_session_clicked (object o, EventArgs args)
 	{
-		jumpsEvolutionCalculateData ();
+		jumpsEvolutionCalculate ();
 		drawingarea_jumps_evolution.QueueDraw ();
 
 		SqlitePreferences.Update(SqlitePreferences.JumpsEvolutionOnlyBestInSession,
 				check_jumps_evolution_only_best_in_session.Active, false);
 	}
 
-	private void jumpsEvolutionCalculateData ()
+	private void jumpsEvolutionCalculate ()
 	{
 		// 1) exit, if problems
 		if(currentPerson == null || currentSession == null ||
@@ -119,7 +119,7 @@ public partial class ChronoJumpWindow
 
 		// 2) create jumpsEvolution, if needed
 		if(jumpsEvolution == null)
-			jumpsEvolutionCalculateData ();
+			jumpsEvolutionCalculate ();
 
 		// 3) get jump type
 		string jumpType = comboSelectJumpsEvolution.GetSelectedNameEnglish();
@@ -234,7 +234,7 @@ public partial class ChronoJumpWindow
 		if (o == null)
 			return;
 
-		runsEvolutionCalculateData (true);
+		runsEvolutionCalculate (true);
 		drawingarea_runs_evolution.QueueDraw ();
 	}
 	// combo (end)
@@ -265,14 +265,14 @@ public partial class ChronoJumpWindow
 		if (o == null)
 			return;
 
-		runsEvolutionCalculateData (false);
+		runsEvolutionCalculate (false);
 		drawingarea_runs_evolution.QueueDraw ();
 	}
 	// combo (end)
 
 	private void on_check_runs_evolution_only_best_in_session_clicked (object o, EventArgs args)
 	{
-		runsEvolutionCalculateData (false);
+		runsEvolutionCalculate (false);
 		drawingarea_runs_evolution.QueueDraw ();
 
 		SqlitePreferences.Update(SqlitePreferences.RunsEvolutionOnlyBestInSession,
@@ -280,7 +280,7 @@ public partial class ChronoJumpWindow
 	}
 	private void on_check_runs_evolution_show_time_clicked (object o, EventArgs args)
 	{
-		runsEvolutionCalculateData (false);
+		runsEvolutionCalculate (false);
 		drawingarea_runs_evolution.QueueDraw ();
 
 		SqlitePreferences.Update(SqlitePreferences.RunsEvolutionShowTime,
@@ -288,7 +288,7 @@ public partial class ChronoJumpWindow
 	}
 
 	//if exerciseChanged, distances can change
-	private void runsEvolutionCalculateData (bool exerciseChanged)
+	private void runsEvolutionCalculate (bool exerciseChanged)
 	{
 		if(currentPerson == null || currentSession == null ||
 				drawingarea_runs_evolution == null || drawingarea_runs_evolution.Window == null) //it happens at start on click on analyze
@@ -351,7 +351,7 @@ public partial class ChronoJumpWindow
 		}
 
 		if(runsEvolution == null)
-			runsEvolutionCalculateData (true);
+			runsEvolutionCalculate (true);
 
 		string runType = comboSelectRunsEvolution.GetSelectedNameEnglish();
 

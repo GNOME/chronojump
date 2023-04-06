@@ -1636,12 +1636,12 @@ public partial class ChronoJumpWindow
 				jumpsWeightFVProfileDo(true); //calculate data
 			else if(notebook_analyze.CurrentPage == Convert.ToInt32(notebook_analyze_pages.JUMPSASYMMETRY))
 			{
-				jumpsAsymmetryCalculateData ();
+				jumpsAsymmetryCalculate ();
 				drawingarea_jumps_asymmetry.QueueDraw ();
 			}
 			else if(notebook_analyze.CurrentPage == Convert.ToInt32(notebook_analyze_pages.JUMPSEVOLUTION))
 			{
-				jumpsEvolutionCalculateData ();
+				jumpsEvolutionCalculate ();
 				drawingarea_jumps_evolution.QueueDraw ();
 			}
 		}
@@ -1667,7 +1667,7 @@ public partial class ChronoJumpWindow
 
 			if(notebook_analyze.CurrentPage == Convert.ToInt32(notebook_analyze_pages.RUNSEVOLUTION))
 			{
-				runsEvolutionCalculateData (true);
+				runsEvolutionCalculate (true);
 				drawingarea_runs_evolution.QueueDraw ();
 			}
 		}
@@ -8514,14 +8514,14 @@ LogB.Debug("mc finished 5");
 				if(radio_mode_contacts_jumps_asymmetry.Active)
 				{
 					notebook_analyze.CurrentPage = Convert.ToInt32(notebook_analyze_pages.JUMPSASYMMETRY);
-					jumpsAsymmetryCalculateData ();
+					jumpsAsymmetryCalculate ();
 					drawingarea_jumps_asymmetry.QueueDraw ();
 				}
 
 				if(radio_mode_contacts_jumps_evolution.Active)
 				{
 					notebook_analyze.CurrentPage = Convert.ToInt32(notebook_analyze_pages.JUMPSEVOLUTION);
-					jumpsEvolutionCalculateData ();
+					jumpsEvolutionCalculate ();
 					drawingarea_jumps_evolution.QueueDraw ();
 				}
 			}
@@ -8545,7 +8545,7 @@ LogB.Debug("mc finished 5");
 				if(radio_mode_contacts_runs_evolution.Active)
 				{
 					notebook_analyze.CurrentPage = Convert.ToInt32(notebook_analyze_pages.RUNSEVOLUTION);
-					runsEvolutionCalculateData (true);
+					runsEvolutionCalculate (true);
 					drawingarea_runs_evolution.QueueDraw ();
 				}
 			}
@@ -8590,7 +8590,7 @@ LogB.Debug("mc finished 5");
 		if (radio_mode_contacts_jumps_asymmetry.Active)
 		{
 			notebook_analyze.CurrentPage = Convert.ToInt32(notebook_analyze_pages.JUMPSASYMMETRY);
-			jumpsAsymmetryCalculateData ();
+			jumpsAsymmetryCalculate ();
 			drawingarea_jumps_asymmetry.QueueDraw ();
 		}
 	}
@@ -8599,7 +8599,7 @@ LogB.Debug("mc finished 5");
 		if(radio_mode_contacts_jumps_evolution.Active)
 		{
 			notebook_analyze.CurrentPage = Convert.ToInt32(notebook_analyze_pages.JUMPSEVOLUTION);
-			jumpsEvolutionCalculateData ();
+			jumpsEvolutionCalculate ();
 			drawingarea_jumps_evolution.QueueDraw ();
 		}
 	}
@@ -8621,7 +8621,7 @@ LogB.Debug("mc finished 5");
 		if(radio_mode_contacts_runs_evolution.Active)
 		{
 			notebook_analyze.CurrentPage = Convert.ToInt32(notebook_analyze_pages.RUNSEVOLUTION);
-			runsEvolutionCalculateData (true);
+			runsEvolutionCalculate (true);
 			drawingarea_runs_evolution.QueueDraw ();
 		}
 	}

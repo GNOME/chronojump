@@ -47,7 +47,39 @@ public partial class ChronoJumpWindow
 
 	JumpsProfile jumpsProfile;
 
-	private void jumpsProfileDo (bool calculateData)
+	private void jumpsProfileCalculate ()
+	{
+		if(currentPerson == null || currentSession == null ||
+				drawingarea_jumps_profile == null || drawingarea_jumps_profile.Window == null) //it happens at start on click on analyze
+			return;
+
+		if(jumpsProfile == null)
+			jumpsProfile = new JumpsProfile();
+
+		//jumpsProfile.MouseReset ();
+
+		jumpsProfile.Calculate(currentPerson.UniqueID, currentSession.UniqueID);
+
+		if(jumpsProfile.AllJumpsDone)
+		{
+			hbox_jumps_profile_jumps_done.Visible = false;
+			//button_jumps_profile_save_image.Sensitive = true;
+		} else {
+			hbox_jumps_profile_jumps_done.Visible = true;
+			JumpsProfileGraph.ShowDoneJumps(jumpsProfile.JumpsDone,
+					image_jumps_profile_sj_yes, image_jumps_profile_sj_no,
+					image_jumps_profile_sjl_yes, image_jumps_profile_sjl_no,
+					image_jumps_profile_cmj_yes, image_jumps_profile_cmj_no,
+					image_jumps_profile_abk_yes, image_jumps_profile_abk_no,
+					image_jumps_profile_dja_yes, image_jumps_profile_dja_no
+					);
+			//button_jumps_profile_save_image.Sensitive = false;
+		}
+		button_jumps_profile_save_image.Sensitive = true; //allow to save image without having all 5 indexes
+	}
+
+	//called just by QueueDraw
+	private void jumpsProfilePlot ()
 	{
 		if(currentPerson == null || currentSession == null ||
 				drawingarea_jumps_profile == null || drawingarea_jumps_profile.Window == null) //it happens at start on click on analyze
@@ -55,40 +87,16 @@ public partial class ChronoJumpWindow
 			button_jumps_profile_save_image.Sensitive = false;
 			return;
 		}
-		
-		if(jumpsProfile == null) {
-			jumpsProfile = new JumpsProfile();
-			calculateData = true;
-		}
 
-		if(calculateData)
-		{
-			jumpsProfile.Calculate(currentPerson.UniqueID, currentSession.UniqueID);
+		if(jumpsProfile == null)
+			jumpsProfileCalculate ();
 
-			if(jumpsProfile.AllJumpsDone)
-			{
-				hbox_jumps_profile_jumps_done.Visible = false;
-				//button_jumps_profile_save_image.Sensitive = true;
-			} else {
-				hbox_jumps_profile_jumps_done.Visible = true;
-				JumpsProfileGraph.ShowDoneJumps(jumpsProfile.JumpsDone,
-						image_jumps_profile_sj_yes, image_jumps_profile_sj_no,
-						image_jumps_profile_sjl_yes, image_jumps_profile_sjl_no,
-						image_jumps_profile_cmj_yes, image_jumps_profile_cmj_no,
-						image_jumps_profile_abk_yes, image_jumps_profile_abk_no,
-						image_jumps_profile_dja_yes, image_jumps_profile_dja_no
-						);
-				//button_jumps_profile_save_image.Sensitive = false;
-			}
-			button_jumps_profile_save_image.Sensitive = true; //allow to save image without having all 5 indexes
-		}
-
-		JumpsProfileGraph.Do(jumpsProfile.JumpsDone, jumpsProfile.GetIndexes(), drawingarea_jumps_profile,
+		JumpsProfileGraph.Do (jumpsProfile.JumpsDone, jumpsProfile.GetIndexes(), drawingarea_jumps_profile,
 				currentPerson.Name, currentSession.DateShort, preferences.fontType.ToString());
 	}
 	private void on_drawingarea_jumps_profile_cairo_draw (object o, Gtk.DrawnArgs args) 
 	{
-		jumpsProfileDo(false); //do not calculate data
+		jumpsProfilePlot ();
 		//data is calculated on switch page (at notebook_capture_analyze) or on change person
 	}
 

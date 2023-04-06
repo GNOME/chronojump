@@ -1626,7 +1626,10 @@ public partial class ChronoJumpWindow
 						(currentJumpType.HasWeight && extra_window_jumps_radiobutton_weight.Active));
 
 			if(notebook_analyze.CurrentPage == Convert.ToInt32(notebook_analyze_pages.JUMPSPROFILE))
-				jumpsProfileDo(true); //calculate data
+			{
+				jumpsProfileCalculate ();
+				drawingarea_jumps_profile.QueueDraw ();
+			}
 			else if(notebook_analyze.CurrentPage == Convert.ToInt32(notebook_analyze_pages.JUMPSDJOPTIMALFALL))
 			{
 				jumpsDjOptimalFallCalculate ();
@@ -8495,7 +8498,8 @@ LogB.Debug("mc finished 5");
 				if(radio_mode_contacts_jumps_profile.Active)
 				{
 					notebook_analyze.CurrentPage = Convert.ToInt32(notebook_analyze_pages.JUMPSPROFILE);
-					jumpsProfileDo(true);
+					jumpsProfileCalculate ();
+					drawingarea_jumps_profile.QueueDraw ();
 				}
 
 				if(radio_mode_contacts_jumps_dj_optimal_fall.Active)
@@ -8565,7 +8569,8 @@ LogB.Debug("mc finished 5");
 		if(radio_mode_contacts_jumps_profile.Active)
 		{
 			notebook_analyze.CurrentPage = Convert.ToInt32(notebook_analyze_pages.JUMPSPROFILE);
-			jumpsProfileDo(true);
+			jumpsProfileCalculate ();
+			drawingarea_jumps_profile.QueueDraw ();
 		}
 	}
 	private void on_radio_mode_contacts_jumps_dj_optimal_fall_toggled (object o, EventArgs args)

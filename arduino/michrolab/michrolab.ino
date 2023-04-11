@@ -918,6 +918,7 @@ void set_calibration_factor(String inputString)
 
 void calibrate(String inputString)
 {
+  scale.power_up();
   //Reading the argument of the command. Located within the ":" and the ";"
   String weightString = get_command_argument(inputString);
   float weight = weightString.toFloat();
@@ -927,6 +928,7 @@ void calibrate(String inputString)
   //offsetted_data / calibration_factor
   float calibration_factor = offsetted_data / weight / 9.81; //We want to return Newtons.
   scale.set_scale(calibration_factor);
+  scale.power_down();
   EEPROM.put(calibrationAddress, calibration_factor);
   Serial.print("Calibrating OK:");
   Serial.println(calibration_factor);
@@ -934,6 +936,7 @@ void calibrate(String inputString)
 
 void tare()
 {
+  scale.power_up();
   printTftText(currentMenu[currentMenuIndex].description, 12, 100, BLACK);
   printTftText("Taring...", 120, 100);
   scale.tare(50); //Reset the scale to 0 using the mean of 255 raw values
@@ -947,6 +950,7 @@ void tare()
   delay(300);
   printTftText("Tared", 120, 100, BLACK);
   showMenuEntry(currentMenuIndex);
+  scale.power_down();
 }
 
 /*
@@ -1215,10 +1219,6 @@ void captureRaw()
     //redrawAxes(tft, graphX, graphY, graphW, graphH, xMin, xMax, graphMin, graphMax, yDivSize, "", "", "", WHITE, BLACK, BLACK, BLACK, BLACK, BLACK, resized);
     graphMax = newGraphMax;
     graphMin = newGraphMin;
-    //    Serial.println("Y scale changed. Y limits:");
-    //    Serial.print(graphMin);
-    //    Serial.print(",\t");
-    //    Serial.println(graphMax);
     yDivSize = (graphMax - graphMin) / yDivN;
     if (resized) {
       for (int i = xMin; i < xGraph; i++)

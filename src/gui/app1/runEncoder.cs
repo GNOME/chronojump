@@ -1819,7 +1819,7 @@ public partial class ChronoJumpWindow
 			if(! preferences.muteLogs)
 				LogB.Information("muteLogs INactive. Logs active active again");
 
-			if(reCGSD != null)
+			if(reCGSD != null && cairoRadial != null)
 				cairoRadial.GraphSpeedMaxAndDistance(reCGSD.RunEncoderCaptureSpeedMax, reCGSD.RunEncoderCaptureDistance);
 
 			/*

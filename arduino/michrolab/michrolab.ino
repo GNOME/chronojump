@@ -275,7 +275,7 @@ bool PcControlled = false;
 long tareValue = 0;
 
 // Display variables
-const int chipSelect = 6;
+const int SD_CS = 6;
 
 
 #ifdef teensy_4_0
@@ -457,7 +457,7 @@ void setup() {
   // See if the card is present and can be initialized:
   //TODO. Open a dialog with advertising of this situation
 
-  while (!SD.begin(chipSelect))
+  while (!SD.begin(SD_CS))
   {
     tft.fillScreen(BLACK);
     Serial.println("Card failed, or not present");

@@ -148,9 +148,9 @@ public partial class ChronoJumpWindow
 				currentPerson.UniqueID, currentSession.UniqueID,
 				radio_jumps_asymmetry_bilateral.Active,
 				radio_jumps_asymmetry_use_means.Active,
-				UtilGtk.ComboGetActive (combo_select_jumps_asymmetry_bilateral),
-				UtilGtk.ComboGetActive (combo_select_jumps_asymmetry_1),
-				UtilGtk.ComboGetActive (combo_select_jumps_asymmetry_2)
+				comboSelectJumpsAsymmetryBilateral.GetSelectedNameEnglish (),
+				comboSelectJumpsAsymmetry1.GetSelectedNameEnglish (),
+				comboSelectJumpsAsymmetry2.GetSelectedNameEnglish ()
 				);
 	}
 
@@ -169,9 +169,9 @@ public partial class ChronoJumpWindow
 		if (jumpsAsymmetry == null)
 			jumpsAsymmetryCalculate ();
 
-		string jumpBilateral = UtilGtk.ComboGetActive (combo_select_jumps_asymmetry_bilateral);
-		string jumpAsymmetry1 = UtilGtk.ComboGetActive (combo_select_jumps_asymmetry_1);
-		string jumpAsymmetry2 = UtilGtk.ComboGetActive (combo_select_jumps_asymmetry_2);
+		string jumpBilateral = comboSelectJumpsAsymmetryBilateral.GetSelectedNameEnglish ();
+		string jumpAsymmetry1 = comboSelectJumpsAsymmetry1.GetSelectedNameEnglish ();
+		string jumpAsymmetry2 = comboSelectJumpsAsymmetry2.GetSelectedNameEnglish ();
 
 		string index = Catalog.GetString ("Bilateral deficit");
 		string formula = string.Format ("{0} - ({1} + {2})",

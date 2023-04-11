@@ -102,7 +102,7 @@ public abstract class EvolutionGraph : CairoXY
 
 			for(int month = monthStep; month <= 12-monthStep; month += monthStep)
 			{
-				LogB.Information(string.Format("year-month: {0}-{1}", year, month));
+				//LogB.Information(string.Format("year-month: {0}-{1}", year, month));
 				xtemp = Convert.ToInt32(calculatePaintX(year + month/12.0));
 				if(xtemp < leftMargin || xtemp > graphWidth - rightMargin)
 					continue;

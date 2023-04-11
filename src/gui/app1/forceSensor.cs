@@ -1554,7 +1554,7 @@ LogB.Information(" fs C ");
 					sensitiveLastTestButtons(true);
 					contactsShowCaptureDoingButtons(false);
 
-					forceSensorDoSignalGraphPlot (forceSensorGraphEnum.CAIRO);
+					forceSensorDoSignalGraphPlot ();
 
 					//do not calculate RFD until analyze button there is clicked
 					//forceSensorDoRFDGraph();
@@ -2252,8 +2252,7 @@ LogB.Information(" fs R ");
 	void forceSensorDoSignalGraph()
 	{
 		forceSensorDoSignalGraphReadFile (getForceSensorCaptureOptions());
-		//forceSensorDoSignalGraphPlot (forceSensorGraphEnum.BOTH);
-		forceSensorDoSignalGraphPlot (forceSensorGraphEnum.CAIRO);
+		forceSensorDoSignalGraphPlot ();
 	}
 	void forceSensorDoSignalGraphReadFile(ForceSensor.CaptureOptions fsco)
 	{
@@ -2484,11 +2483,9 @@ LogB.Information(" fs R ");
 		}
 	}
 
-	private enum forceSensorGraphEnum { GTK, CAIRO, BOTH };
-	private void forceSensorDoSignalGraphPlot (forceSensorGraphEnum fsge)
+	private void forceSensorDoSignalGraphPlot ()
 	{
-		if (fsge != forceSensorGraphEnum.GTK)
-			forceSensorDoSignalGraphPlotCairo ();
+		force_capture_drawingarea_cairo.QueueDraw ();
 
 		label_force_sensor_value.Text = string.Format("{0:0.##} N", forceSensorValues.ValueLast);
 		label_force_sensor_value_max.Text = string.Format("{0:0.##} N", forceSensorValues.Max);
@@ -2496,11 +2493,6 @@ LogB.Information(" fs R ");
 		label_force_sensor_value_best_second.Text = string.Format("{0:0.##} N", forceSensorValues.BestSecond);
 		button_force_sensor_image_save_signal.Sensitive = true;
 		button_force_sensor_analyze_analyze.Sensitive = true;
-	}
-
-	private void forceSensorDoSignalGraphPlotCairo ()
-	{
-		updateForceSensorCaptureSignalCairo (true);
 	}
 
 	static List<PointF> paintPointsInterpolateCairo_l;

@@ -54,9 +54,9 @@ public partial class ChronoJumpWindow
 	Gtk.HBox hbox_race_analyzer_capture_tab_result_views;
 	Gtk.RadioButton radio_race_analyzer_capture_view_simple;
 	Gtk.RadioButton radio_race_analyzer_capture_view_complete;
-	Gtk.Alignment alignment_drawingarea_race_analyzer_capture_velocimeter_topleft;
+	//Gtk.Alignment alignment_drawingarea_race_analyzer_capture_velocimeter_topleft;
 	Gtk.Alignment alignment_hbox_race_analyzer_capture_bottom;
-	Gtk.DrawingArea drawingarea_race_analyzer_capture_velocimeter_topleft;
+	//Gtk.DrawingArea drawingarea_race_analyzer_capture_velocimeter_topleft;
 	Gtk.DrawingArea drawingarea_race_analyzer_capture_velocimeter_bottom;
 	Gtk.DrawingArea drawingarea_race_analyzer_capture_position_time;
 	Gtk.DrawingArea drawingarea_race_analyzer_capture_speed_time;
@@ -193,12 +193,12 @@ public partial class ChronoJumpWindow
 	{
 		if(radio_race_analyzer_capture_view_simple.Active)
 		{
-			alignment_drawingarea_race_analyzer_capture_velocimeter_topleft.Visible = true;
+			//alignment_drawingarea_race_analyzer_capture_velocimeter_topleft.Visible = true;
 			alignment_hbox_race_analyzer_capture_bottom.Visible = false;
 			cairoRadial = null;
-			drawingarea_race_analyzer_capture_velocimeter_topleft.QueueDraw(); //will fire ExposeEvent
+			//drawingarea_race_analyzer_capture_velocimeter_topleft.QueueDraw(); //will fire ExposeEvent
 		} else {
-			alignment_drawingarea_race_analyzer_capture_velocimeter_topleft.Visible = false;
+			//alignment_drawingarea_race_analyzer_capture_velocimeter_topleft.Visible = false;
 			alignment_hbox_race_analyzer_capture_bottom.Visible = true;
 			cairoRadial = null;
 			drawingarea_race_analyzer_capture_velocimeter_bottom.QueueDraw(); //will fire ExposeEvent
@@ -439,9 +439,10 @@ public partial class ChronoJumpWindow
 		//a) radial
 		runEncoderShouldShowCaptureGraphsWithData = false;
 
+		/*
 		if(radio_race_analyzer_capture_view_simple.Active)
 			drawingarea_race_analyzer_capture_velocimeter_topleft.QueueDraw(); //will fire ExposeEvent
-		else
+		else */
 			drawingarea_race_analyzer_capture_velocimeter_bottom.QueueDraw(); //will fire ExposeEvent
 
 		//b) scatterplots
@@ -1227,9 +1228,10 @@ public partial class ChronoJumpWindow
 		{
 			if(cairoRadial == null)
 			{
+				/*
 				if(radio_race_analyzer_capture_view_simple.Active)
 					cairoRadial = new CairoRadial(drawingarea_race_analyzer_capture_velocimeter_topleft, preferences.fontType.ToString());
-				else
+				else */
 					cairoRadial = new CairoRadial(drawingarea_race_analyzer_capture_velocimeter_bottom, preferences.fontType.ToString());
 			}
 
@@ -1855,9 +1857,10 @@ public partial class ChronoJumpWindow
 			if(cairoRadial != null && reCGSD != null)
 			{
 				//cairoRadial.GraphSpeedAndDistance(reCGSD.RunEncoderCaptureSpeed, reCGSD.RunEncoderCaptureDistance);
+				/*
 				if(radio_race_analyzer_capture_view_simple.Active)
 					drawingarea_race_analyzer_capture_velocimeter_topleft.QueueDraw ();
-				else
+				else */
 					drawingarea_race_analyzer_capture_velocimeter_bottom.QueueDraw ();
 			}
 
@@ -2392,9 +2395,10 @@ public partial class ChronoJumpWindow
 	private void on_drawingarea_race_analyzer_capture_velocimeter_cairo_draw (object o, Gtk.DrawnArgs args)
 	{
 		Gtk.DrawingArea da;
+		/*
 		if (o == (object) drawingarea_race_analyzer_capture_velocimeter_topleft)
 			da = drawingarea_race_analyzer_capture_velocimeter_topleft;
-		else if (o == (object) drawingarea_race_analyzer_capture_velocimeter_bottom)
+		else */ if (o == (object) drawingarea_race_analyzer_capture_velocimeter_bottom)
 			da = drawingarea_race_analyzer_capture_velocimeter_bottom;
 		else
 			return;
@@ -2651,9 +2655,9 @@ public partial class ChronoJumpWindow
 		hbox_race_analyzer_capture_tab_result_views = (Gtk.HBox) builder.GetObject ("hbox_race_analyzer_capture_tab_result_views");
 		radio_race_analyzer_capture_view_simple = (Gtk.RadioButton) builder.GetObject ("radio_race_analyzer_capture_view_simple");
 		radio_race_analyzer_capture_view_complete = (Gtk.RadioButton) builder.GetObject ("radio_race_analyzer_capture_view_complete");
-		alignment_drawingarea_race_analyzer_capture_velocimeter_topleft = (Gtk.Alignment) builder.GetObject ("alignment_drawingarea_race_analyzer_capture_velocimeter_topleft");
+		//alignment_drawingarea_race_analyzer_capture_velocimeter_topleft = (Gtk.Alignment) builder.GetObject ("alignment_drawingarea_race_analyzer_capture_velocimeter_topleft");
 		alignment_hbox_race_analyzer_capture_bottom = (Gtk.Alignment) builder.GetObject ("alignment_hbox_race_analyzer_capture_bottom");
-		drawingarea_race_analyzer_capture_velocimeter_topleft = (Gtk.DrawingArea) builder.GetObject ("drawingarea_race_analyzer_capture_velocimeter_topleft");
+		//drawingarea_race_analyzer_capture_velocimeter_topleft = (Gtk.DrawingArea) builder.GetObject ("drawingarea_race_analyzer_capture_velocimeter_topleft");
 		drawingarea_race_analyzer_capture_velocimeter_bottom = (Gtk.DrawingArea) builder.GetObject ("drawingarea_race_analyzer_capture_velocimeter_bottom");
 		drawingarea_race_analyzer_capture_position_time = (Gtk.DrawingArea) builder.GetObject ("drawingarea_race_analyzer_capture_position_time");
 		drawingarea_race_analyzer_capture_speed_time = (Gtk.DrawingArea) builder.GetObject ("drawingarea_race_analyzer_capture_speed_time");

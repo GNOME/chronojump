@@ -301,10 +301,10 @@ const unsigned int leftButtonPin = 17; //<--
 
 //NEW PROTOTYPE
 const unsigned int cenButtonPin = 0; //Accept 
-const unsigned int downButtonPin = 5; //Cancel or go to previous menu
+const unsigned int downButtonPin = 5; // ↓ Cancel or go to previous menu
 const unsigned int rightButtonPin = 1; //--> //down when vertical menu //++
 const unsigned int leftButtonPin = 4; //<-- //--
-const unsigned int upButtonPin = 21; //Used when items are placed vertically
+const unsigned int upButtonPin = 21; // ↑ Used when items are placed vertically
 
 #endif
 
@@ -2068,7 +2068,7 @@ String createNewDir()
 
   file.close();
   
-  File lastDir = SD.open(lastDirName);
+  File lastDir = SD.open(lastDirName.c_str());
   file = lastDir.openNextFile();
   //The dir is not empty or the group is not the same, create a new dir
   if (file || lastDirName.substring(7) != String(group)) {
@@ -2417,7 +2417,7 @@ void sendFile(String fullFileName)
     Serial.println("File not found");
     return;
   } 
-  File file = SD.open(fullFileName, FILE_READ);
+  File file = SD.open(fullFileName.c_str(), FILE_READ);
   //Serial.println(file.name());
   unsigned long int fileSize = file.size();
   unsigned long int pos = 0;

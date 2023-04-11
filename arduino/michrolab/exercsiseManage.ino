@@ -282,7 +282,7 @@ void readExercisesFile(exerciseType mode)
     file = "ERTYPE.TXT";
   }
 
-  File  exercisesFile = SD.open(file);
+  File  exercisesFile = SD.open(file.c_str());
 
   if (exercisesFile)
   {

@@ -1,7 +1,8 @@
 void savePersonsList()
 {
-  SD.remove("GROUP" + String(group) + ".TXT");
-  File personsFile = SD.open("GROUP" + String(group) + ".TXT", FILE_WRITE);
+  String file = "GROUP" + String(group) + ".TXT";
+  SD.remove(file.c_str());
+  File personsFile = SD.open(file.c_str(), FILE_WRITE);
 
   if(personsFile) Serial.println("File created");
   else Serial.println("Error creating file");

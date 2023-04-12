@@ -52,12 +52,10 @@ void backMenu(void)
 //Erases screen and draw the left and right buttons in the upper part of screen
 void drawMenuBackground() {
   tft.fillScreen(BLACK);
-  tft.fillRoundRect(0, 0, 30, 50, 10, WHITE);
-  tft.fillRoundRect(290, 0, 30, 50, 10, WHITE);
-  tft.setCursor(30, 20);
-    
-  drawLeftButton("Prev", WHITE, RED);
-  drawRightButton("Next", WHITE, BLUE);
+  tft.writeRect(0, 20, 25, 25, (uint16_t*)left);
+  tft.writeRect(295, 20, 25, 25, (uint16_t*)right);
+  tft.writeRect(145, 215, 25, 25, (uint16_t*)center);
+  printTftText("Enter",143, 210, WHITE, 1);
 }
 
 //Set the currentMenu to systemMenu and shows it
@@ -88,8 +86,6 @@ void showSystemEntry(unsigned int currentMenuIndex)
 {
   tft.fillRect(30, 0, 260, 50, BLACK);
   printTftText(currentMenu[currentMenuIndex].title, 40, 20, WHITE, 3);
-  drawLeftButton("Prev", WHITE, RED);
-  drawRightButton("Next", WHITE, BLUE);
   //This erases the last index description
   rightButton.update();
   leftButton.update();
@@ -112,8 +108,6 @@ void showMenuEntry(unsigned int currentMenuIndex)
 {
   tft.fillRect(30, 0, 260, 50, BLACK);
   printTftText(currentMenu[currentMenuIndex].title, 40, 20, WHITE, 3);
-  drawLeftButton("Prev", WHITE, RED);
-  drawRightButton("Next", WHITE, BLUE);
   //This erases the last index description
   rightButton.update();
   leftButton.update();  

@@ -197,7 +197,7 @@ menuEntry mainMenu[10] = {
   //  { "Drop Jumps", "Jumps with a previous\nfalling height (previous\njump or fixed height)\nShows bars with the heightof jumps", &dropJumpsCapture},
   { "Raw Force", "Shows standard graph of\nthe force and the summary of the set.\n(Maximum Force, RFD and\nImpulse)", &startLoadCellCapture},
   { "Lin. Velocity", "Show bars of linear velocity", &startGravitEncoderCapture },
-  { "Inert. Velocity", "Show a bars of the velocity of the person in inertial machines", &startInertEncoderCapture },
+  { "Iner. Velocity", "Show bars of the velocity of the person in inertial machines", &startInertEncoderCapture },
   { "RaceAnalyzer", "Measure speed with a raceAnalyzer", &startRaceAnalyzerCapture},
   { "RawPower", "Measure Force and Speed\nat the same time.\nOnly power is shown in thegraph", &startPowerCapture},
   //{ "Tared Force", "Offset the force before\nmeasuring it.\nUseful to substract body\nweight.", &startTareCapture},
@@ -274,10 +274,18 @@ bool PcControlled = false;
 
 long tareValue = 0;
 
-// Display variables
+//Images of the multidirectional switch
+#include "IMGS/left.c"
+#include "IMGS/right.c"
+#include "IMGS/up.c"
+#include "IMGS/down.c"
+#include "IMGS/all.c"
+#include "IMGS/center.c"
+
+// Pin config of the SD reader
 const int SD_CS = 6;
 
-
+//Pin config of the TFT
 #ifdef teensy_4_0
 #define TFT_DC      20  // TFT display/command pin
 #define TFT_CS      10  //TFT select pin
@@ -346,6 +354,8 @@ ILI9341_t3 tft = ILI9341_t3(TFT_CS, TFT_DC, TFT_RST, TFT_MOSI, TFT_SCLK, TFT_MIS
 #define WHITE     0xFFFF
 #define BLACK     0x0000
 #define CJCOLOR   0X1109
+
+#define BUFFPIXEL 125  //Used for bmp
 
 //Don't plot all the samples. values plotted every plotPeriod samples
 int plotPeriod = 10;
@@ -536,15 +546,6 @@ void setup() {
   tft.fillScreen(BLACK);
 
   Serial.println("Microlab-" + version);
-
-  /*
-  //Draw chronojump 
-  // Draw the bitmap:
-  // drawBitmap(x position, y position, bitmap data, bitmap width, bitmap height, color)
-  tft.drawBitmap(0, 0, logo, 320, 240, WHITE);
-  delay(2000);
-  tft.fillScreen(BLACK);
-  */
   
   drawMenuBackground();
   backMenu();

@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="210mm"
+   height="297mm"
+   viewBox="0 0 210 297"
+   version="1.1"
+   id="svg5"
+   inkscape:export-filename="/home/xpadulles/Baixades/left.png"
+   inkscape:export-xdpi="6.3484459"
+   inkscape:export-ydpi="6.3484459"
+   inkscape:version="1.1.2 (0a00cf5339, 2022-02-04)"
+   sodipodi:docname="multiSwitch.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview7"
+     pagecolor="#aaaaaa"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="true"
+     inkscape:document-units="mm"
+     showgrid="false"
+     showguides="true"
+     inkscape:guide-bbox="true"
+     inkscape:zoom="1.1224747"
+     inkscape:cx="251.2306"
+     inkscape:cy="450.34421"
+     inkscape:window-width="1920"
+     inkscape:window-height="1007"
+     inkscape:window-x="1920"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1"
+     inkscape:snap-object-midpoints="true">
+    <sodipodi:guide
+       position="80.444317,222.07452"
+       orientation="1,0"
+       id="guide1351" />
+    <sodipodi:guide
+       position="48.655556,190.28577"
+       orientation="0,-1"
+       id="guide1537" />
+  </sodipodi:namedview>
+  <defs
+     id="defs2">
+    <marker
+       style="overflow:visible;"
+       id="Arrow2Lend"
+       refX="0.0"
+       refY="0.0"
+       orient="auto"
+       inkscape:stockid="Arrow2Lend"
+       inkscape:isstock="true">
+      <path
+         transform="scale(1.1) rotate(180) translate(1,0)"
+         d="M 8.7185878,4.0337352 L -2.2072895,0.016013256 L 8.7185884,-4.0017078 C 6.9730900,-1.6296469 6.9831476,1.6157441 8.7185878,4.0337352 z "
+         style="stroke:context-stroke;fill-rule:evenodd;fill:context-stroke;stroke-width:0.62500000;stroke-linejoin:round;"
+         id="path1783" />
+    </marker>
+    <marker
+       style="overflow:visible;"
+       id="Arrow1Mend"
+       refX="0.0"
+       refY="0.0"
+       orient="auto"
+       inkscape:stockid="Arrow1Mend"
+       inkscape:isstock="true">
+      <path
+         transform="scale(0.4) rotate(180) translate(10,0)"
+         style="fill-rule:evenodd;fill:context-stroke;stroke:context-stroke;stroke-width:1.0pt;"
+         d="M 0.0,0.0 L 5.0,-5.0 L -12.5,0.0 L 5.0,5.0 L 0.0,0.0 z "
+         id="path1771" />
+    </marker>
+    <marker
+       style="overflow:visible;"
+       id="Arrow1Lend"
+       refX="0.0"
+       refY="0.0"
+       orient="auto"
+       inkscape:stockid="Arrow1Lend"
+       inkscape:isstock="true">
+      <path
+         transform="scale(0.8) rotate(180) translate(12.5,0)"
+         style="fill-rule:evenodd;fill:context-stroke;stroke:context-stroke;stroke-width:1.0pt;"
+         d="M 0.0,0.0 L 5.0,-5.0 L -12.5,0.0 L 5.0,5.0 L 0.0,0.0 z "
+         id="path1765" />
+    </marker>
+    <marker
+       style="overflow:visible"
+       id="Arrow2Lend-3"
+       refX="0"
+       refY="0"
+       orient="auto"
+       inkscape:stockid="Arrow2Lend"
+       inkscape:isstock="true">
+      <path
+         transform="matrix(-1.1,0,0,-1.1,-1.1,0)"
+         d="M 8.7185878,4.0337352 -2.2072895,0.01601326 8.7185884,-4.0017078 c -1.7454984,2.3720609 -1.7354408,5.6174519 -6e-7,8.035443 z"
+         style="fill:context-stroke;fill-rule:evenodd;stroke:context-stroke;stroke-width:0.625;stroke-linejoin:round"
+         id="path1783-6" />
+    </marker>
+    <marker
+       style="overflow:visible"
+       id="Arrow2Lend-3-5"
+       refX="0"
+       refY="0"
+       orient="auto"
+       inkscape:stockid="Arrow2Lend"
+       inkscape:isstock="true">
+      <path
+         transform="matrix(-1.1,0,0,-1.1,-1.1,0)"
+         d="M 8.7185878,4.0337352 -2.2072895,0.01601326 8.7185884,-4.0017078 c -1.7454984,2.3720609 -1.7354408,5.6174519 -6e-7,8.035443 z"
+         style="fill:context-stroke;fill-rule:evenodd;stroke:context-stroke;stroke-width:0.625;stroke-linejoin:round"
+         id="path1783-6-3" />
+    </marker>
+    <marker
+       style="overflow:visible"
+       id="Arrow2Lend-3-5-6"
+       refX="0"
+       refY="0"
+       orient="auto"
+       inkscape:stockid="Arrow2Lend"
+       inkscape:isstock="true">
+      <path
+         transform="matrix(-1.1,0,0,-1.1,-1.1,0)"
+         d="M 8.7185878,4.0337352 -2.2072895,0.01601326 8.7185884,-4.0017078 c -1.7454984,2.3720609 -1.7354408,5.6174519 -6e-7,8.035443 z"
+         style="fill:context-stroke;fill-rule:evenodd;stroke:context-stroke;stroke-width:0.625;stroke-linejoin:round"
+         id="path1783-6-3-2" />
+    </marker>
+  </defs>
+  <g
+     inkscape:label="Capa 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <rect
+       style="fill:#000001;fill-opacity:1;stroke:#000001;stroke-width:2.48463;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect4660"
+       width="97.515373"
+       height="97.515366"
+       x="-155.24329"
+       y="31.482485"
+       inkscape:export-filename="/home/xpadulles/Baixades/down.png"
+       inkscape:export-xdpi="6.3226366"
+       inkscape:export-ydpi="6.3226366"
+       transform="rotate(-90)" />
+    <path
+       style="fill:#666666;fill-opacity:1;stroke:#666666;stroke-width:2.7227;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#Arrow2Lend-3)"
+       d="M 80.215678,106.91866 H 34.767238"
+       id="path1572-7"
+       inkscape:export-filename="/home/xpadulles/Baixades/down.png"
+       inkscape:export-xdpi="6.3226366"
+       inkscape:export-ydpi="6.3226366" />
+    <path
+       style="fill:none;fill-opacity:1;stroke:#ff0000;stroke-width:2.72236;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#Arrow2Lend-3-5)"
+       d="M 80.215678,106.91866 V 152.3674"
+       id="path1572-7-5"
+       inkscape:export-filename="/home/xpadulles/Baixades/down.png"
+       inkscape:export-xdpi="6.3226366"
+       inkscape:export-ydpi="6.3226366" />
+    <path
+       style="fill:#666666;fill-opacity:1;stroke:#666666;stroke-width:2.7227;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#Arrow2Lend-3-5-6)"
+       d="M 80.215678,106.91866 H 125.66414"
+       id="path1572-7-5-9"
+       inkscape:export-filename="/home/xpadulles/Baixades/down.png"
+       inkscape:export-xdpi="6.3226366"
+       inkscape:export-ydpi="6.3226366" />
+    <path
+       style="fill:#666666;fill-opacity:1;stroke:#666666;stroke-width:2.7227;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#Arrow2Lend)"
+       d="M 80.215678,106.91866 V 61.469915"
+       id="path1572"
+       inkscape:export-filename="/home/xpadulles/Baixades/down.png"
+       inkscape:export-xdpi="6.3226366"
+       inkscape:export-ydpi="6.3226366" />
+    <ellipse
+       style="fill:#666666;fill-opacity:1;stroke:#666666;stroke-width:6.92664;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="path1866"
+       cx="-106.91867"
+       cy="80.215683"
+       inkscape:export-filename="/home/xpadulles/Baixades/down.png"
+       inkscape:export-xdpi="6.3226366"
+       inkscape:export-ydpi="6.3226366"
+       rx="9.925312"
+       ry="9.9252472"
+       transform="rotate(-90)" />
+  </g>
+</svg>

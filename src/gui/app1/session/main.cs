@@ -183,6 +183,9 @@ public partial class ChronoJumpWindow
 	Gtk.Button app1s_button_backup_scheduled_remind_60d;
 	Gtk.Button app1s_button_backup_scheduled_remind_90d;
 	Gtk.Label app1s_label_remind_feedback;
+	Gtk.Alignment app1s_alignment_copyToCloud;
+	Gtk.Button app1s_button_copyToCloud;
+	Gtk.ProgressBar app1s_progressbar_copyToCloud;
 
 	//notebook tab 8 (export)
 	Gtk.Button app1s_button_export_select;
@@ -528,6 +531,9 @@ public partial class ChronoJumpWindow
 		app1s_button_backup_scheduled_remind_60d = (Gtk.Button) builder.GetObject ("app1s_button_backup_scheduled_remind_60d");
 		app1s_button_backup_scheduled_remind_90d = (Gtk.Button) builder.GetObject ("app1s_button_backup_scheduled_remind_90d");
 		app1s_label_remind_feedback = (Gtk.Label) builder.GetObject ("app1s_label_remind_feedback");
+		app1s_alignment_copyToCloud = (Gtk.Alignment) builder.GetObject ("app1s_alignment_copyToCloud");
+		app1s_button_copyToCloud = (Gtk.Button) builder.GetObject ("app1s_button_copyToCloud");
+		app1s_progressbar_copyToCloud = (Gtk.ProgressBar) builder.GetObject ("app1s_progressbar_copyToCloud");
 
 		//notebook tab 8 (export)
 		app1s_button_export_select = (Gtk.Button) builder.GetObject ("app1s_button_export_select");

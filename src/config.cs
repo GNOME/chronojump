@@ -64,6 +64,7 @@ public class Config
 	public bool CanOpenExternalDB;
 	public string ExternalDBDefaultPath = ""; //on chronojump-networks admin to replace GetLocalDataDir (), think if Import has to be disabled
 	public string LastDBFullPath = ""; //on chronojump-networks admin to replace GetLocalDataDir (), think if Import has to be disabled
+	public string CopyToCloudFullPath = "";
 
 	/*
 	 * unused because the default serverURL chronojump.org is ok:
@@ -174,6 +175,8 @@ public class Config
 						LastDBFullPathStatic = parts[1]; //called from Util.GetLocalDataDir
 						 */
 					}
+					else if(parts[0] == "CopyToCloudFullPath" && parts[1] != "")
+						CopyToCloudFullPath = parts[1]; //works even with spaces on name
 				} while(true);
 			}
 		}

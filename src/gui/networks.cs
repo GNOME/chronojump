@@ -316,6 +316,9 @@ public partial class ChronoJumpWindow
 				databaseChange ();
 		}
 
+		if (configChronojump.CopyToCloudFullPath != "")
+			app1s_alignment_copyToCloud.Visible = true;
+
 		configDo();
 	}
 	private void RFIDStart()

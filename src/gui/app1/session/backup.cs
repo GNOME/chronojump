@@ -460,9 +460,6 @@ public partial class ChronoJumpWindow
 		app1s_label_backup_cancel_close.Text = Catalog.GetString("Close");
 	}
 
-	/*
-	 * deprecated since 1.6.0. Use backup method below
-	*/
 	static long app1s_copyRecursiveElapsedMs;
 	static long app1s_copyCompressElapsedMs;
 
@@ -471,7 +468,7 @@ public partial class ChronoJumpWindow
 	//static int app1s_backupMainDirsDone;
 	private void app1s_copyRecursive()
 	{
-		app1s_copyRecursiveCopy ();
+		app1s_copyRecursiveCopy (app1s_tmpCopy);
 
 		System.Threading.Thread.Sleep (250);
 		if (! app1s_copyRecursiveSuccess)
@@ -481,7 +478,7 @@ public partial class ChronoJumpWindow
 		//do not need to delete tmp folder
 	}
 
-	private void app1s_copyRecursiveCopy ()
+	private void app1s_copyRecursiveCopy (string destination)
 	{
 		app1s_copyRecursiveElapsedMs = 0;
 		Stopwatch sw = new Stopwatch();
@@ -489,7 +486,7 @@ public partial class ChronoJumpWindow
 
 		app1s_copyRecursiveSuccess = app1s_uc.CopyFilesRecursively(
 				new DirectoryInfo(Util.GetLocalDataDir(false)),
-				new DirectoryInfo (app1s_tmpCopy), 0);
+				new DirectoryInfo (destination), 0);
 
 		sw.Stop();
 		app1s_copyRecursiveElapsedMs = sw.ElapsedMilliseconds;
@@ -633,5 +630,98 @@ public partial class ChronoJumpWindow
 			if (notebook_sup.CurrentPage == Convert.ToInt32(notebook_sup_pages.START))
 				new ChronojumpLogo (notebook_chronojump_logo, drawingarea_chronojump_logo, false);//preferences.logoAnimatedShow);
 		}
+	}
+
+	/*
+	 * -----------------------------------------------------------------------------
+	 * copy to cloud, copies to a dir that will be synced on cloud
+	 * and readed on another computer (just to view, analysis with openExternalDB.
+	 * Works ike backup but overwriting and not compressing (and with fewer widgets)
+	 * -----------------------------------------------------------------------------
+	 */
+	private string copyToCloudButtonLabel = "";
+
+	private void on_app1s_button_copyToCloud_clicked (object o, EventArgs args)
+	{
+		copyToCloud_start ();
+	}
+
+	private void copyToCloud_start ()
+	{
+		LogB.Information ("Going to copy to: " + configChronojump.CopyToCloudFullPath);
+		copyToCloudButtonLabel = app1s_button_copyToCloud.Label;
+
+		try {
+			app1s_uc = new UtilCopy (-1, false, false); //all sessions, no logs, no config
+
+			app1s_button_copyToCloud.Label = "Copying …";
+			app1s_button_copyToCloud.Sensitive = false;
+			app1s_progressbar_copyToCloud.Fraction = 0;
+
+			app1s_threadBackup = new Thread (new ThreadStart (app1s_copyToCloud));
+			GLib.Idle.Add (new GLib.IdleHandler (app1s_CopyToCloudPulseGTK));
+
+			//app1s_backup_doing_sensitive_start_end(true);
+
+			LogB.ThreadStart();
+			app1s_threadBackup.Start();
+		}
+		catch {
+			string myString = string.Format (Catalog.GetString("Cannot copy to {0} "),
+					configChronojump.CopyToCloudFullPath);
+			new DialogMessage(Constants.MessageTypes.WARNING, myString);
+		}
+	}
+
+	private void app1s_copyToCloud ()
+	{
+		// 1 delete and create dir
+		Directory.Delete (configChronojump.CopyToCloudFullPath, true);
+		System.Threading.Thread.Sleep (100); //to ensure dir is deleted
+
+		Directory.CreateDirectory (configChronojump.CopyToCloudFullPath);
+		System.Threading.Thread.Sleep (1000); //to ensure dir is created
+
+		// 2 do the copy
+		app1s_copyRecursiveCopy (configChronojump.CopyToCloudFullPath);
+	}
+
+	private bool app1s_CopyToCloudPulseGTK ()
+	{
+		if ( ! app1s_threadBackup.IsAlive )
+		{
+			LogB.ThreadEnding();
+			app1s_CopyToCloudPulseEnd();
+
+			LogB.ThreadEnded();
+
+			if (! app1s_copyRecursiveSuccess)
+				return false;
+
+			return false;
+		}
+
+		app1s_button_copyToCloud.Label = "Copying …";
+		app1s_progressbar_copyToCloud.Fraction = UtilAll.DivideSafeFraction (app1s_uc.BackupMainDirsCount, 6);
+		//6 for: database, encoder, forceSensor, logs, multimedia, raceAnalyzer
+
+		Thread.Sleep (30);
+		//LogB.Debug(app1s_threadBackup.ThreadState.ToString());
+		return true;
+	}
+	private void app1s_CopyToCloudPulseEnd ()
+	{
+		app1s_button_copyToCloud.Label = "Done!";
+
+		GLib.Timeout.Add (2000, new GLib.TimeoutHandler (app1s_CopyToCloudPulseEnd2));
+	}
+	private bool app1s_CopyToCloudPulseEnd2 ()
+	{
+		//restore the "Copy to cloud", and make button sensitive
+		app1s_button_copyToCloud.Label = copyToCloudButtonLabel;
+		app1s_button_copyToCloud.Sensitive = true;
+		app1s_progressbar_copyToCloud.Fraction = 0;
+
+		return false;
 	}
 }

@@ -601,6 +601,92 @@ LogB.Information (string.Format ("encoderDisplacement: {0}, runEncoderCaptureDis
 }
 
 /*
+ * This class purpose is test if capture, capture/smooth, load, load/smooth calculations are the same
+ */
+public class RunEncoderCaptureGetSpeedAndDisplacementTest
+{
+	int row;
+
+	//constructor
+	public RunEncoderCaptureGetSpeedAndDisplacementTest ()
+	{
+		row = 1; //skip headers
+	}
+
+	//for capture
+	public bool ExistsMoreSamples ()
+	{
+		return (row < testData_l.Count -1);
+	}
+
+	//for capture
+	public List<int> GetNextSample ()
+	{
+		List<int> binaryReaded = Util.SQLStringToListInt (testData_l[row ++], ";");
+		binaryReaded.Add (0); //add byte for encoder or RCA (encoder is 0)
+
+		return binaryReaded;
+	}
+
+	//this is on r-scripts/tests/raceAnalyzerCaptureLoadSmoothTests/datal.csv
+	private List<string> testData_l = new List<string> () {
+"Pulses;Time(useconds);Force(N)",
+"10;3087688;0",
+"10;3435324;0",
+"10;3611232;0",
+"10;3706648;0",
+"10;3853520;0",
+"10;4035360;0",
+"10;4249500;0",
+"10;4379580;0",
+"10;4498052;0",
+"10;4584480;0",
+"10;4659708;0",
+"10;4716288;0",
+"10;4776368;0",
+"10;4821548;0",
+"10;4874180;0",
+"10;4934736;0",
+"10;5005572;0",
+"10;5064548;0",
+"10;5109952;0",
+"10;5164884;0",
+"10;5220724;0",
+"10;5280340;0",
+"10;5342240;0",
+"10;5385416;0",
+"10;5437424;0",
+"10;5495412;0",
+"10;5552908;0",
+"10;5615584;0",
+"10;5653116;0",
+"10;5693476;0",
+"10;5739008;0",
+"10;5780668;0",
+"10;5820604;0",
+"10;5864928;0",
+"10;5909096;0",
+"10;5943924;0",
+"10;5981216;0",
+"10;6022012;0",
+"10;6070708;0",
+"10;6119172;0",
+"10;6175256;0",
+"10;6230636;0",
+"10;6284932;0",
+"10;6352144;0",
+"10;6445352;0",
+"10;6647580;0"
+	};
+
+	//for load
+	public List<string> TestData_l
+	{
+		get { return testData_l; }
+	}
+}
+
+/*
    first we had TwoListsOfDoubles SegmentDistTime_2l
    but as we want to implement (accel, F, P) avg on each track, we use this new class
    */

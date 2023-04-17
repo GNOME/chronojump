@@ -35,6 +35,8 @@ using Mono.Unix;
 
 public partial class ChronoJumpWindow 
 {
+	private bool debugForceTest = false;
+
 	// at glade ---->
 	//Gtk.CheckMenuItem menuitem_check_race_encoder_capture_simulate;
 
@@ -615,6 +617,8 @@ public partial class ChronoJumpWindow
 	//non GTK on this method
 	private void runEncoderCaptureDo()
 	{
+RunEncoderCaptureGetSpeedAndDisplacementTest recgsdt = new RunEncoderCaptureGetSpeedAndDisplacementTest ();
+
 		LogB.Information("runEncoderCaptureDo 0");
 
 		if(! portREOpened)
@@ -739,7 +743,21 @@ public partial class ChronoJumpWindow
 			}
 
 			//time (4 bytes: long at Arduino, uint at c-sharp), force (2 bytes: uint)
-			List<int> binaryReaded = readBinaryRunEncoderValues();
+			List<int> binaryReaded;
+
+			if (debugForceTest)
+			{
+				if (! recgsdt.ExistsMoreSamples ())
+				{
+					runEncoderProcessFinish = true;
+					continue;
+				}
+				else
+					binaryReaded = recgsdt.GetNextSample ();
+			}
+			else
+				binaryReaded = readBinaryRunEncoderValues();
+
 			reCGSD.PassCapturedRow (binaryReaded);
 			if(reCGSD.Calcule() && reCGSD.EncoderDisplacement != 0) //this 0s are triggers without displacement
 			{
@@ -1053,6 +1071,13 @@ public partial class ChronoJumpWindow
 
 		List<string> contents = Util.ReadFileAsStringList(re.FullURL);
 		LogB.Information("FullURL: " + re.FullURL);
+
+		if (debugForceTest)
+		{
+			RunEncoderCaptureGetSpeedAndDisplacementTest recgsdt = new RunEncoderCaptureGetSpeedAndDisplacementTest ();
+			contents = recgsdt.TestData_l;
+		}
+
 		if(contents.Count < 3)
 		{
 			new DialogMessage(Constants.MessageTypes.WARNING, Constants.FileEmptyStr());

@@ -55,7 +55,7 @@ public class Config
 	public enum OpEnum {
 		Compujump, CompujumpDjango, CompujumpServerURL, CompujumpStationID, CompujumpStationMode, //networks (main options)
 		CompujumpHideTasksDone, CompujumpAdminID, CompujumpAdminEmail, //networks (other)
-		CanOpenExternalDB, ExternalDBDefaultPath, LastDBFullPath, CopyToCloudFullPath, //external DB, cloud
+		CanOpenExternalDB, ExternalDBDefaultPath, LastDBFullPath, CopyToCloudFullPath, CopyToCloudOnExit, //external DB, cloud
 		SessionMode, FTDIalways, Raspberry, LowHeight, LowCPU, GuiTest, //other
 		Exhibition, ExhibitionStationType, PlaySoundsFromFile //outdated or not working
 	};
@@ -102,6 +102,9 @@ public class Config
 	}
 	public string CopyToCloudFullPath {
 		get { return configList.GetString (OpEnum.CopyToCloudFullPath); }
+	}
+	public bool CopyToCloudOnExit {
+		get { return configList.GetBool (OpEnum.CopyToCloudOnExit); }
 	}
 
 	// other
@@ -477,6 +480,8 @@ public class ConfigList
 					"On chronojump-networks admin to replace GetLocalDataDir (), think if Import has to be disabled. Works even with spaces on name."));
 		list.Add (new ConfigOptionString (Config.OpEnum.CopyToCloudFullPath,
 					"The path where all the data will be copied (uncompressed) to be synced with the cloud service."));
+		list.Add (new ConfigOptionBool (Config.OpEnum.CopyToCloudOnExit,
+					"If CopyToCloudFullPath is defined, then on Chronojump exit the copy will be done automatically."));
 
 		// other
 		list.Add (new ConfigOptionEnum (Config.OpEnum.SessionMode,

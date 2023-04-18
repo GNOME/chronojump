@@ -71,7 +71,9 @@ public partial class ChronoJumpWindow
 	Gtk.Button button_menu_session_load;
 	Gtk.Button button_menu_session_more;
 	Gtk.Button button_menu_preferences;
+	*/
 	Gtk.Button button_menu_exit;
+	/*
 	Gtk.Button button_menu_help_documents;
 	Gtk.Button button_menu_help_shortcuts;
 	Gtk.Button button_menu_help_about;
@@ -439,7 +441,9 @@ public partial class ChronoJumpWindow
 		button_menu_session_load = (Gtk.Button) builder.GetObject ("button_menu_session_load");
 		button_menu_session_more = (Gtk.Button) builder.GetObject ("button_menu_session_more");
 		button_menu_preferences = (Gtk.Button) builder.GetObject ("button_menu_preferences");
+		*/
 		button_menu_exit = (Gtk.Button) builder.GetObject ("button_menu_exit");
+		/*
 		button_menu_help_documents = (Gtk.Button) builder.GetObject ("button_menu_help_documents");
 		button_menu_help_shortcuts = (Gtk.Button) builder.GetObject ("button_menu_help_shortcuts");
 		button_menu_help_about = (Gtk.Button) builder.GetObject ("button_menu_help_about");

@@ -3036,7 +3036,8 @@ public partial class ChronoJumpWindow
 	}
 
 
-	private void on_quit1_activate (object o, EventArgs args) {
+	private void on_quit1_activate (object o, EventArgs args)
+	{
 		/*
 		if(chronopicCancelledTimes > 0 && UtilAll.IsWindows()) {
 			confirmWinJumpRun = ConfirmWindowJumpRun.Show( 
@@ -3051,8 +3052,18 @@ public partial class ChronoJumpWindow
 		bool needConfirmOnExit = false;
 		if(needConfirmOnExit)
 			notebook_start.CurrentPage = Convert.ToInt32(notebook_start_pages.EXITCONFIRM);
-		else
-			on_quit2_activate(new object(), new EventArgs());
+		else if (configChronojump.CopyToCloudOnExit && configChronojump.CopyToCloudFullPath != "")
+		{
+			//to not allow double click on copyToCloud and exit
+			//box_prefs_help_news_exit.Sensitive = false; not because it does not show the progressbars if unsensitive
+			app1s_button_copyToCloud.Sensitive = false;
+			button_menu_exit.Sensitive = false;
+			vbox_menu_tiny_menu.Sensitive = false;
+
+			if (! exitChronojumpAfterCopyToCloudStarted) //to not doing n times on double click delete event
+				on_copyToCloud_when_exit ();
+		} else
+			on_quit2_activate ();
 	}
 
 	private void on_button_exit_cancel_clicked (object o, EventArgs args)
@@ -3061,10 +3072,10 @@ public partial class ChronoJumpWindow
 	}
 	private void on_button_exit_confirm_clicked (object o, EventArgs args)
 	{
-		on_quit2_activate(new object(), new EventArgs());
+		on_quit2_activate ();
 	}
 
-	private void on_quit2_activate (object o, EventArgs args)
+	private void on_quit2_activate ()
 	{
 		LogB.Information("Bye!");
 

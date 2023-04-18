@@ -640,9 +640,21 @@ public partial class ChronoJumpWindow
 	 * -----------------------------------------------------------------------------
 	 */
 	private string copyToCloudButtonLabel = "";
+	private bool exitChronojumpAfterCopyToCloud;
+	private bool exitChronojumpAfterCopyToCloudStarted; //to avoid doing it again if person double click on delete event
 
 	private void on_app1s_button_copyToCloud_clicked (object o, EventArgs args)
 	{
+		exitChronojumpAfterCopyToCloud = false;
+
+		copyToCloud_start ();
+	}
+	private void on_copyToCloud_when_exit ()
+	{
+		LogB.Information ("Copying to cloud before exiting");
+		exitChronojumpAfterCopyToCloud = true;
+		exitChronojumpAfterCopyToCloudStarted = true;
+
 		copyToCloud_start ();
 	}
 
@@ -699,10 +711,17 @@ public partial class ChronoJumpWindow
 			if (! app1s_copyRecursiveSuccess)
 				return false;
 
+			if (exitChronojumpAfterCopyToCloud)
+				on_quit2_activate ();
+
 			return false;
 		}
 
-		app1s_button_copyToCloud.Label = "Copying …";
+		if (exitChronojumpAfterCopyToCloud)
+			app1s_button_copyToCloud.Label = "Copying & exit …";
+		else
+			app1s_button_copyToCloud.Label = "Copying …";
+
 		app1s_progressbar_copyToCloud_dirs.Fraction = UtilAll.DivideSafeFraction (app1s_uc.BackupMainDirsCount, 6);
 		app1s_progressbar_copyToCloud_subDirs.Fraction =
 			UtilAll.DivideSafeFraction(app1s_uc.BackupSecondDirsCount, app1s_uc.BackupSecondDirsLength);

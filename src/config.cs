@@ -354,7 +354,7 @@ public class ConfigList
 			if (name.ToString () == co.Name)
 			{
 				if (co.Defined)
-					return (bool) (co.ValuePrint ());
+					return (co.ValuePrint ().ToString () == "True");
 				else
 					return (bool) co.DefaultValue;
 			}
@@ -380,7 +380,6 @@ public class ConfigList
 	{
 		foreach (ConfigOption co in list)
 		{
-			LogB.Information (string.Format ("At GetEnum: name: {0}, co.Name: {1}", name, co.Name));
 			if (name.ToString () == co.Name)
 			{
 				if (co.Defined)
@@ -420,7 +419,6 @@ public class ConfigList
 		string strTitle = "List of correctly defined config options:";
 		string strValues = "";
 
-		bool found = false;
 		foreach (ConfigOption co in list)
 			if (co.Defined)
 				strValues += "\n" + co.PrintNameValue ();
@@ -612,7 +610,7 @@ public class ConfigOptionBool : ConfigOption
 
 	public override object ValuePrint ()
 	{
-		return (object) (theValue.ToString() == "TRUE");
+		return (object) theValue.ToString();
 	}
 }
 

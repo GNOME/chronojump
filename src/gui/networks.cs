@@ -131,7 +131,7 @@ public partial class ChronoJumpWindow
 	private void configInitRead()
 	{
 		configChronojump.Read ();
-		LogB.Information("readed config: " + configChronojump.ToString ());
+		LogB.Information("readed config: " + configChronojump.PrintDefined ());
 
 		if(configChronojump.CompujumpStationMode != Constants.Modes.UNDEFINED)
 		{

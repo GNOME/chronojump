@@ -15,12 +15,13 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2022   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2004-2023   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
 using System.IO;
 using System.IO.Ports;
+using System.Collections.Generic;
 
 
 public class Config
@@ -29,6 +30,12 @@ public class Config
 	public static bool UseSystemColor; //do nothing at all
 
 	public static string LastDBFullPathStatic = ""; //works even with spaces in name
+	/*
+	   About LastDBFullPath and LastDBFullPathStatic:
+	   At Read, DataDirStatic is assigned later to not be active on chronojump.cs,
+	   start when gui is started, to not mess with runningFileName and others
+	   LastDBFullPathStatic = parts[1]; //called from Util.GetLocalDataDir
+	   */
 
 	public enum SessionModeEnum { STANDARD, UNIQUE, MONTHLY }
 
@@ -41,30 +48,96 @@ public class Config
 	public bool EncoderUpdateTreeViewWhileCapturing = true; //user can change the 3 show checkboxes, so have it true to be updated
 	public bool PersonWinHide;
 	public bool EncoderAnalyzeHide;
-	public SessionModeEnum SessionMode;
-	public bool Compujump;
-	public bool CompujumpDjango;
-	public string CompujumpServerURL = "";
-	public bool CompujumpHideTaskDone = false;
-
-	public int CompujumpStationID = -1;
-	public int CompujumpAdminID = -1; //undefined
-	public string CompujumpAdminEmail = ""; //undefined
-	public Constants.Modes CompujumpStationMode = Constants.Modes.UNDEFINED;
 	public string RunScriptOnExit;
-	public bool PlaySoundsFromFile;
 
-	public bool Exhibition; //like YOMO. does not have rfid capture, user autologout management, and automatic configuration of gui
-	public ExhibitionTest.testTypes ExhibitionStationType;
-	public bool FTDIalways; //for ChromeOS where we ID_VENDOR is not returned on call udevadm
-	public bool Raspberry;
-	public bool LowHeight; //devices with less than 500 px vertical, like Odroid Go Super
-	public bool LowCPU; //workaround to not show realtime graph on force sensor capture (until its optimized)
-	public bool GuiTest;
-	public bool CanOpenExternalDB;
-	public string ExternalDBDefaultPath = ""; //on chronojump-networks admin to replace GetLocalDataDir (), think if Import has to be disabled
-	public string LastDBFullPath = ""; //on chronojump-networks admin to replace GetLocalDataDir (), think if Import has to be disabled
-	public string CopyToCloudFullPath = "";
+
+	//remember to change the fill method if this list grows
+	public enum OpEnum {
+		Compujump, CompujumpDjango, CompujumpServerURL, CompujumpStationID, CompujumpStationMode, //networks (main options)
+		CompujumpHideTasksDone, CompujumpAdminID, CompujumpAdminEmail, //networks (other)
+		CanOpenExternalDB, ExternalDBDefaultPath, LastDBFullPath, CopyToCloudFullPath, //external DB, cloud
+		SessionMode, FTDIalways, Raspberry, LowHeight, LowCPU, GuiTest, //other
+		Exhibition, ExhibitionStationType, PlaySoundsFromFile //outdated or not working
+	};
+
+	// networks (main options)
+	public bool Compujump {
+		get { return configList.GetBool (OpEnum.Compujump); }
+	}
+	public bool CompujumpDjango {
+		get { return configList.GetBool (OpEnum.CompujumpDjango); }
+	}
+	public string CompujumpServerURL {
+		get { return configList.GetString (OpEnum.CompujumpServerURL); }
+	}
+	public int CompujumpStationID {
+		get { return configList.GetInt (OpEnum.CompujumpStationID); }
+	}
+	public Constants.Modes CompujumpStationMode {
+		get { return (Constants.Modes) Enum.Parse (typeof (Constants.Modes),
+				configList.GetEnum (OpEnum.CompujumpStationMode)); }
+	}
+
+	// networks (other)
+	public bool CompujumpHideTaskDone {
+		get { return configList.GetBool (OpEnum.CompujumpHideTasksDone); }
+	}
+	public int CompujumpAdminID {
+		get { return configList.GetInt (OpEnum.CompujumpAdminID); }
+	}
+	public string CompujumpAdminEmail {
+		get { return configList.GetString (OpEnum.CompujumpAdminEmail); }
+	}
+
+	// external DB, cloud
+	public bool CanOpenExternalDB {
+		get { return configList.GetBool (OpEnum.CanOpenExternalDB); }
+	}
+	public string ExternalDBDefaultPath {
+		get { return configList.GetString (OpEnum.ExternalDBDefaultPath); }
+	}
+	public string LastDBFullPath {
+		get { return configList.GetString (OpEnum.LastDBFullPath); }
+		set { configList.SetValue (OpEnum.LastDBFullPath.ToString (), value); }
+	}
+	public string CopyToCloudFullPath {
+		get { return configList.GetString (OpEnum.CopyToCloudFullPath); }
+	}
+
+	// other
+	public SessionModeEnum SessionMode {
+		get { return (SessionModeEnum) Enum.Parse (typeof (SessionModeEnum),
+				configList.GetEnum (OpEnum.SessionMode)); }
+	}
+	public bool FTDIalways {
+		get { return configList.GetBool (OpEnum.FTDIalways); }
+	}
+	public bool Raspberry {
+		get { return configList.GetBool (OpEnum.Raspberry); }
+	}
+	public bool LowHeight {
+		get { return configList.GetBool (OpEnum.LowHeight); }
+	}
+	public bool LowCPU {
+		get { return configList.GetBool (OpEnum.LowCPU); }
+	}
+	public bool GuiTest {
+		get { return configList.GetBool (OpEnum.GuiTest); }
+	}
+
+	// outdated or not working
+	public bool Exhibition {
+		get { return configList.GetBool (OpEnum.Exhibition); }
+	}
+	public ExhibitionTest.testTypes ExhibitionStationType
+	{
+		get { return (ExhibitionTest.testTypes) Enum.Parse (typeof (ExhibitionTest.testTypes),
+				configList.GetEnum (OpEnum.ExhibitionStationType)); }
+	}
+	public bool PlaySoundsFromFile
+	{
+		get { return configList.GetBool (OpEnum.PlaySoundsFromFile); }
+	}
 
 	/*
 	 * unused because the default serverURL chronojump.org is ok:
@@ -80,6 +153,7 @@ public class Config
 	private static Gdk.RGBA colorBackgroundShifted;
 	private static bool colorBackgroundShiftedIsDark;
 
+	private ConfigList configList;
 
 	public Config()
 	{
@@ -98,6 +172,8 @@ public class Config
 		Compujump = false;
 		RunScriptOnExit = "";
 		*/
+
+		configList = new ConfigList ();
 	}
 
 	public void Read()
@@ -119,67 +195,20 @@ public class Config
 					if(parts.Length != 2)
 						continue;
 
-					if(parts[0] == "Compujump" && Util.StringToBool(parts[1])) //Compujump is related to networks (usually the big screens)
-						Compujump = true;
-					else if(parts[0] == "CompujumpDjango" && Util.StringToBool(parts[1]))
-						CompujumpDjango = true;
-					else if(parts[0] == "CompujumpHideTaskDone" && Util.StringToBool(parts[1]))
-						CompujumpHideTaskDone = true;
-					else if(parts[0] == "CompujumpServerURL" && parts[1] != "")
-						CompujumpServerURL = parts[1];
-					else if(parts[0] == "CompujumpStationID" && parts[1] != "" && Util.IsNumber(parts[1], false))
-						CompujumpStationID = Convert.ToInt32(parts[1]);
-					else if(parts[0] == "CompujumpAdminID" && parts[1] != "" && Util.IsNumber(parts[1], false))
-						CompujumpAdminID = Convert.ToInt32(parts[1]);
-					else if(parts[0] == "CompujumpAdminEmail" && parts[1] != "")
-						CompujumpAdminEmail = parts[1];
-					else if(parts[0] == "CompujumpStationMode" && Enum.IsDefined(typeof(Constants.Modes), parts[1]))
-						CompujumpStationMode = (Constants.Modes)
-							Enum.Parse(typeof(Constants.Modes), parts[1]);
-					else if(parts[0] == "SessionMode" && Enum.IsDefined(typeof(SessionModeEnum), parts[1]))
-						SessionMode = (SessionModeEnum) 
-							Enum.Parse(typeof(SessionModeEnum), parts[1]);
-					else if(parts[0] == "PlaySoundsFromFile" && Util.StringToBool(parts[1]))
-						PlaySoundsFromFile = true;
-					else if(parts[0] == "Exhibition" && Util.StringToBool(parts[1]))
-						Exhibition = true;
-					else if(parts[0] == "ExhibitionStationType" && Enum.IsDefined(typeof(ExhibitionTest.testTypes), parts[1]))
-						ExhibitionStationType = (ExhibitionTest.testTypes)
-							Enum.Parse(typeof(ExhibitionTest.testTypes), parts[1]);
-					/*
-					else if(parts[0] == "ExhibitionServerURL" && parts[1] != "")
-						ExhibitionServerURL = parts[1];
-					else if(parts[0] == "ExhibitionStationID" && parts[1] != "" && Util.IsNumber(parts[1], false))
-						ExhibitionStationID = Convert.ToInt32(parts[1]);
-						*/
-					else if(parts[0] == "FTDIalways" && Util.StringToBool(parts[1]))
-						FTDIalways = true;
-					else if(parts[0] == "Raspberry" && Util.StringToBool(parts[1])) //Raspberry: small screens, could be networks or not. They are usually disconnected by cable removal, so do not show send log at start
-						Raspberry = true;
-					else if(parts[0] == "LowHeight" && Util.StringToBool(parts[1]))
-						LowHeight = true;
-					else if(parts[0] == "LowCPU" && Util.StringToBool(parts[1]))
-						LowCPU = true;
-					else if(parts[0] == "GuiTest" && Util.StringToBool(parts[1]))
-						GuiTest = true;
-					else if(parts[0] == "CanOpenExternalDB" && Util.StringToBool(parts[1]))
-						CanOpenExternalDB = true;
-					else if(parts[0] == "ExternalDBDefaultPath" && parts[1] != "")
-						ExternalDBDefaultPath = parts[1]; //works even with spaces on name
-					else if(parts[0] == "LastDBFullPath" && parts[1] != "")
-					{
-						LastDBFullPath = parts[1]; //works even with spaces on name
-						/*
-						   DataDirStatic is assigned later to not be active on chronojump.cs,
-						   start when gui is started, to not mess with runningFileName and others
-						LastDBFullPathStatic = parts[1]; //called from Util.GetLocalDataDir
-						 */
-					}
-					else if(parts[0] == "CopyToCloudFullPath" && parts[1] != "")
-						CopyToCloudFullPath = parts[1]; //works even with spaces on name
-				} while(true);
+					configList.SetValue (parts[0], parts [1]); //TODO: parse parts[0] enum and pass it
+				} while (true);
 			}
 		}
+	}
+
+	public string PrintAll ()
+	{
+		return configList.PrintAll ();
+	}
+
+	public string PrintDefined ()
+	{
+		return configList.PrintDefined ();
 	}
 
 	public static void SetColors (Gdk.RGBA color)
@@ -265,21 +294,6 @@ public class Config
 		}
 	}
 
-	public override string ToString() 
-	{
-		return (string.Format (
-					"Compujump = {0}, CompujumpDjango = {1}, CompujumpHideTaskDone = {2}, CompujumpServerURL = {3}, " +
-					"CompujumpStationID = {4}, CompujumpAdminID = {5}, compujumpAdminEmail = {6}, CompujumpStationMode = {7}, " +
-					"SessionMode = {8}, PlaySoundsFromFile = {9}, Exhibition = {10}, FTDIalways = {11}, Raspberry = {12}, " +
-					"LowHeight = {13}, LowCPU = {14}, GuiTest = {15}, CanOpenExternalDB = {16}, " +
-					"ExternalDBDefaultPath = {17}, LastDBFullPath = {18}",
-					Compujump, CompujumpDjango, CompujumpHideTaskDone, CompujumpServerURL,
-					CompujumpStationID, CompujumpAdminID, CompujumpAdminEmail, CompujumpStationMode,
-					SessionMode, PlaySoundsFromFile, Exhibition, FTDIalways, Raspberry,
-					LowHeight, LowCPU, GuiTest, CanOpenExternalDB,
-					ExternalDBDefaultPath, LastDBFullPath));
-	}
-
 	public static Gdk.RGBA ColorBackground
 	{
 		get { return colorBackground; }
@@ -298,4 +312,386 @@ public class Config
 	}
 
 	~Config() {}
+}
+
+// this class contains the list of config options (can define any option and list all or defined)
+public class ConfigList
+{
+	public List<ConfigOption> list;
+
+	// constructor
+	public ConfigList ()
+	{
+		create ();
+		fill ();
+	}
+
+	// public methods
+	public void SetValue (string name, string theValue)
+	{
+		foreach (ConfigOption co in list)
+			if (name == co.Name && co.ValueCorrectForThisType (theValue))
+				co.SetValue (theValue);
+	}
+
+	public int GetInt (Config.OpEnum name)
+	{
+		foreach (ConfigOption co in list)
+			if (name.ToString () == co.Name)
+			{
+				if (co.Defined)
+					return Convert.ToInt32 (co.ValuePrint ());
+				else
+					return Convert.ToInt32 (co.DefaultValue);
+			}
+
+		return -1;
+	}
+
+	public bool GetBool (Config.OpEnum name)
+	{
+		foreach (ConfigOption co in list)
+			if (name.ToString () == co.Name)
+			{
+				if (co.Defined)
+					return (bool) (co.ValuePrint ());
+				else
+					return (bool) co.DefaultValue;
+			}
+
+		return false;
+	}
+
+	public string GetString (Config.OpEnum name)
+	{
+		foreach (ConfigOption co in list)
+			if (name.ToString () == co.Name)
+			{
+				if (co.Defined)
+					return (string) (co.ValuePrint ());
+				else
+					return (string) co.DefaultValue;
+			}
+
+		return "";
+	}
+
+	public string GetEnum (Config.OpEnum name) //get as string and parse on the caller
+	{
+		foreach (ConfigOption co in list)
+		{
+			LogB.Information (string.Format ("At GetEnum: name: {0}, co.Name: {1}", name, co.Name));
+			if (name.ToString () == co.Name)
+			{
+				if (co.Defined)
+				{
+					//this does not work
+					//return (string) (co.ValuePrint ()); //this does not work
+					//this works
+					string str = co.ValuePrint ().ToString ();
+					return str;
+				}
+				else
+				{
+					//this does not work
+					//return (string) co.DefaultValue;
+					//this works
+					string str = co.DefaultValue.ToString ();
+					return str;
+				}
+			}
+		}
+
+		return "";
+	}
+
+	public string PrintAll ()
+	{
+		string str = "List of possible config options:";
+		foreach (ConfigOption co in list)
+			str += "\n" + co.ToString ();
+		str += "\n\nNote to define need to write option=theOption (without spaces) at chronojump_config.txt";
+
+		return str;
+	}
+
+	public string PrintDefined () //correctly found on chronojump_config.txt
+	{
+		string strTitle = "List of correctly defined config options:";
+		string strValues = "";
+
+		bool found = false;
+		foreach (ConfigOption co in list)
+			if (co.Defined)
+				strValues += "\n" + co.PrintNameValue ();
+
+		if (strValues == "")
+			strValues = "\n(none)";
+
+		return strTitle + strValues;
+	}
+
+	// private methods
+	private void create ()
+	{
+		list = new List<ConfigOption> ();
+	}
+
+	private void fill ()
+	{
+		// 1 prepare the enum strings
+		string constantsModesEnumStr = "";
+		string sep = "";
+		foreach (Constants.Modes m in Enum.GetValues(typeof(Constants.Modes)))
+		{
+			constantsModesEnumStr += string.Format ("{0}'{1}'", sep, m);
+			sep = ", ";
+		}
+
+		// 2 fill the list
+		// networks (main options)
+		list.Add (new ConfigOptionBool (Config.OpEnum.Compujump,
+					"Is this a Networks station?"));
+		list.Add (new ConfigOptionBool (Config.OpEnum.CompujumpDjango,
+					"Is this a Networks station using Django?"));
+		list.Add (new ConfigOptionString  (Config.OpEnum.CompujumpServerURL,
+					"At Networks, the URL of the server (take care if http or https)."));
+		list.Add (new ConfigOptionInt (Config.OpEnum.CompujumpStationID,
+					"At Networks, the ID of a capture station."));
+		list.Add (new ConfigOptionEnum (Config.OpEnum.CompujumpStationMode,
+					string.Format ("At Networks, the Mode of a capture station, can be any of: {0} (except the UNDEFINED)", constantsModesEnumStr),
+					ConfigOptionEnum.WhichEnum.Constants_Modes));
+
+		// networks (other)
+		list.Add (new ConfigOptionBool (Config.OpEnum.CompujumpHideTasksDone,
+					"At Networks, whena task is done hide it on the client."));
+		list.Add (new ConfigOptionInt (Config.OpEnum.CompujumpAdminID,
+					"At Networks, the ID of admin station."));
+		list.Add (new ConfigOptionString (Config.OpEnum.CompujumpAdminEmail,
+					"At Networks, email of admin station (to send email of the graph, maybe does not work with current code)."));
+
+		// externalDB, cloud
+		list.Add (new ConfigOptionBool (Config.OpEnum.CanOpenExternalDB,
+					"A choose DB button will be visible and will check: ExternalDBDefaultPath, LastDBFullPath"));
+		list.Add (new ConfigOptionString (Config.OpEnum.ExternalDBDefaultPath,
+					"On chronojump-networks admin to replace GetLocalDataDir (), think if Import has to be disabled. Works even with spaces on name."));
+		list.Add (new ConfigOptionString (Config.OpEnum.LastDBFullPath,
+					"On chronojump-networks admin to replace GetLocalDataDir (), think if Import has to be disabled. Works even with spaces on name."));
+		list.Add (new ConfigOptionString (Config.OpEnum.CopyToCloudFullPath,
+					"The path where all the data will be copied (uncompressed) to be synced with the cloud service."));
+
+		// other
+		list.Add (new ConfigOptionEnum (Config.OpEnum.SessionMode,
+					"STANDARD (default), or UNIQUE or MONTHLY",
+					ConfigOptionEnum.WhichEnum.Config_SessionModeEnum));
+		list.Add (new ConfigOptionBool (Config.OpEnum.FTDIalways,
+					"For ChromeOS where we ID_VENDOR is not returned on call udevadm"));
+		list.Add (new ConfigOptionBool (Config.OpEnum.Raspberry,
+					"Some graphical configs for Raspberry (not really updated). Raspberry: small screens, could be networks or not. They are usually disconnected by cable removal, so do not show send log at start"));
+		list.Add (new ConfigOptionBool (Config.OpEnum.LowHeight,
+					"Devices with less than 500 px vertical, like Odroid Go Super"));
+		list.Add (new ConfigOptionBool (Config.OpEnum.LowCPU,
+					"Workaround to not show realtime graph on force sensor capture (until its optimized)"));
+		list.Add (new ConfigOptionBool (Config.OpEnum.GuiTest,
+					"To perform tests with the GUI (untested with current code)."));
+
+		// outdated or not working
+		list.Add (new ConfigOptionBool (Config.OpEnum.Exhibition,
+					"To shows like YOMO. Does not have rfid capture, user autologout management, and automatic configuration of gui. Maybe does not work ok with current code."));
+		list.Add (new ConfigOptionEnum (Config.OpEnum.ExhibitionStationType,
+					"JUMP, RUN, INERTIAL, FORCE_ROPE, FORCE_SHOT",
+					ConfigOptionEnum.WhichEnum.ExhibitionTest_testTypes));
+		list.Add (new ConfigOptionBool (Config.OpEnum.PlaySoundsFromFile,
+					"For an spectacle with encoder. surely does not work ok with current code."));
+	}
+}
+
+//this class is the abstract of any of the options
+public abstract class ConfigOption
+{
+	protected string name;
+	protected object theValue;
+	protected object defaultValue;
+	protected string explanation;
+	protected string typeStr;
+	protected bool defined;
+
+	// public methods
+	public abstract bool ValueCorrectForThisType (string theValue);
+
+	public abstract void SetValue (string theValue);
+
+	public abstract object ValuePrint ();
+
+	public override string ToString ()
+	{
+		return (string.Format ("- {0}: {1} ({2}, default: {3})", name, explanation, typeStr, defaultValue));
+	}
+
+	public string PrintNameValue ()
+	{
+		return (string.Format ("- {0}: {1}", name, theValue));
+	}
+
+	// protected methods
+	protected void init (string name, string explanation)
+	{
+		this.name = name;
+		this.explanation = explanation;
+		this.defined = false;
+	}
+
+	// accessors
+	public string Name {
+		get { return name; }
+	}
+
+	public object TheValue {
+		get { return theValue; }
+	}
+
+	public object DefaultValue {
+		get { return defaultValue; }
+	}
+
+	public bool Defined {
+		get { return defined; }
+	}
+}
+
+public class ConfigOptionInt : ConfigOption
+{
+	// constructor
+	public ConfigOptionInt (Config.OpEnum name, string explanation)
+	{
+		init (name.ToString (), explanation);
+		this.typeStr = "INT";
+		this.defaultValue = -1;
+	}
+
+	//public overriden
+	public override bool ValueCorrectForThisType (string theValue)
+	{
+		return (Util.IsNumber (theValue, false));
+	}
+
+	public override void SetValue (string theValue)
+	{
+		this.theValue = Convert.ToInt32 (theValue);
+		defined = true;
+	}
+
+	public override object ValuePrint ()
+	{
+		return (object) Convert.ToInt32 (theValue);
+	}
+}
+
+public class ConfigOptionBool : ConfigOption
+{
+	// constructor
+	public ConfigOptionBool (Config.OpEnum name, string explanation)
+	{
+		init (name.ToString (), explanation);
+		this.typeStr = "BOOL";
+		this.theValue = false;
+		this.defaultValue = false;
+	}
+
+	//public overriden
+	public override bool ValueCorrectForThisType (string theValue)
+	{
+		return (theValue == "TRUE" || theValue == "FALSE");
+	}
+
+	public override void SetValue (string theValue)
+	{
+		this.theValue = (theValue == "TRUE");
+		defined = true;
+	}
+
+	public override object ValuePrint ()
+	{
+		return (object) (theValue.ToString() == "TRUE");
+	}
+}
+
+public class ConfigOptionString : ConfigOption
+{
+	// constructor
+	public ConfigOptionString (Config.OpEnum name, string explanation)
+	{
+		init (name.ToString (), explanation);
+		this.typeStr = "STRING";
+		this.defaultValue = "";
+	}
+
+	//public overriden
+	public override bool ValueCorrectForThisType (string theValue)
+	{
+		return true;
+	}
+
+	public override void SetValue (string theValue)
+	{
+		this.theValue = theValue;
+		defined = true;
+	}
+
+	public override object ValuePrint ()
+	{
+		return (object) theValue;
+	}
+}
+
+public class ConfigOptionEnum : ConfigOption
+{
+	public enum WhichEnum { Config_SessionModeEnum, Constants_Modes, ExhibitionTest_testTypes }
+	private WhichEnum which;
+
+	// constructor
+	public ConfigOptionEnum (Config.OpEnum name, string explanation, WhichEnum which)
+	{
+		init (name.ToString (), explanation);
+		this.typeStr = "ENUM";
+
+		if (which == WhichEnum.Config_SessionModeEnum)
+			this.defaultValue = Config.SessionModeEnum.STANDARD;
+		else if (which == WhichEnum.Constants_Modes)
+			this.defaultValue = Constants.Modes.UNDEFINED;
+		else if (which == WhichEnum.ExhibitionTest_testTypes)
+			this.defaultValue = ExhibitionTest.testTypes.JUMP;
+
+		this.which = which;
+	}
+
+	//public overriden
+	public override bool ValueCorrectForThisType (string theValue)
+	{
+		if (which == WhichEnum.Config_SessionModeEnum)
+			return Enum.IsDefined (typeof(Config.SessionModeEnum), theValue);
+		else if (which == WhichEnum.Constants_Modes)
+			return Enum.IsDefined (typeof(Constants.Modes), theValue);
+		else if (which == WhichEnum.ExhibitionTest_testTypes)
+			return Enum.IsDefined (typeof(ExhibitionTest.testTypes), theValue);
+
+		return false;
+	}
+
+	public override void SetValue (string theValue)
+	{
+		if (which == WhichEnum.Config_SessionModeEnum)
+			this.theValue = (Config.SessionModeEnum) Enum.Parse(typeof(Config.SessionModeEnum), theValue);
+		else if (which == WhichEnum.Constants_Modes)
+			this.theValue = (Constants.Modes) Enum.Parse(typeof(Constants.Modes), theValue);
+		else if (which == WhichEnum.ExhibitionTest_testTypes)
+			this.theValue = (ExhibitionTest.testTypes) Enum.Parse(typeof(ExhibitionTest.testTypes), theValue);
+
+		defined = true;
+	}
+
+	public override object ValuePrint ()
+	{
+		return (object) theValue.ToString ();
+	}
 }

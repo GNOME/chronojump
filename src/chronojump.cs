@@ -69,8 +69,17 @@ public class ChronoJump
 
 		//show version on console and exit before the starting logs
 		//note version, version2 args are available since: 2.2.0-112-ga4eaadcbc
-		if(args.Length > 0 && (args[0] == "version" || args[0] == "version2"))
+		if(args.Length > 0 && args[0] != "printAll")
 		{
+			string helpMessage = "Execute 'chronojump' or 'chronojump option'" +
+				"\nOptions:" +
+				"\n- version: Version of the software and the DB" +
+				"\n- version2: Version of the software" +
+				"\n- configAll: All possible options on chronojump_config.txt" +
+				"\n- configDefined: Correctly defined options on chronojump_config.txt" +
+				"\n- printAll: execute Chronojump printing all threads at the same time (only for some debug purposes)" +
+				"\n- help: this help";
+
 			if(args[0] == "version")
 			{
 				Console.WriteLine("Chronojump version: " + BuildInfo.chronojumpVersion);
@@ -91,9 +100,26 @@ public class ChronoJump
 				} else
 					Console.WriteLine("Cannot check DB version, chronojump.db not found on: " + System.IO.Path.Combine(Util.GetDatabaseDir()));
 			}
-			else // (args[0] == "version2")
+			else if (args[0] == "version2")
 			{
 				Console.WriteLine(BuildInfo.chronojumpVersion.ToString());
+			}
+			else if (args[0] == "configAll" || args[0] == "configDefined")
+			{
+				Config cc = new Config();
+				cc.Read ();
+
+				if (args[0] == "configAll")
+					Console.WriteLine (cc.PrintAll ());
+				else if (args[0] == "configDefined")
+					Console.WriteLine (cc.PrintDefined ());
+			}
+			else if (args[0] == "help")
+			{
+				Console.WriteLine (helpMessage);
+			} else {
+				Console.WriteLine (string.Format ("Option incorrect: {0}", args[0]));
+				Console.WriteLine (helpMessage);
 			}
 
 			return;
@@ -253,7 +279,6 @@ public class ChronoJump
 
 	public ChronoJump (string [] args) 
 	{
-		
 		Application.Init();
 
 		//start threading to show splash window
@@ -284,7 +309,8 @@ public class ChronoJump
 	protected void sqliteThings ()
 	{
 		configChronojump = new Config();
-		configChronojump.Read();
+		configChronojump.Read ();
+		configChronojump.PrintDefined ();
 
 		bool badExit = checkIfChronojumpExitAbnormally();
 		if(badExit) {

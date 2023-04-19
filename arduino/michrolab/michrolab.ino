@@ -181,8 +181,7 @@ double graphMax = measuredMax;
 
 float bars[10] = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
 
-
-const unsigned int rcaPin = 16;
+const unsigned int rcaPin = 7;
 volatile bool rcaState = LOW;
 bool lastRcaState = LOW;         //The previous state of the RCA
 

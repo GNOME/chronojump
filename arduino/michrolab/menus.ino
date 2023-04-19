@@ -311,13 +311,13 @@ bool yesNoDialog(String message, float x, float y, int fontSize)
   uint16_t textBackRect[w * h];
   tft.readRect(x, y, w, h, textBackRect);
 
-  uint16_t redBackRect[78 * 32];
-  tft.readRect(242, 210, 78, 32, redBackRect);
-  drawLeftButton("Yes");
-
-  uint16_t blueBackRect[78 * 32];
-  tft.readRect(0, 210, 78, 32, blueBackRect);
+  uint16_t redBackRect[78 * 36];
+  tft.readRect(242, 206, 78, 36, redBackRect);
   drawRightButton("No");
+
+  uint16_t blueBackRect[78 * 36];
+  tft.readRect(0, 206, 78, 36, blueBackRect);
+  drawLeftButton("Yes");
 
   printTftText(message, x, y, RED);
   leftButton.update();
@@ -328,8 +328,8 @@ bool yesNoDialog(String message, float x, float y, int fontSize)
   }
   printTftText(message, x, y, BLACK);
   tft.writeRect(x, y, w, h, textBackRect);
-  tft.writeRect(242, 210, 78, 32, redBackRect);
-  tft.writeRect(0, 210, 78, 32, redBackRect);
+  tft.writeRect(242, 206, 78, 36, redBackRect);
+  tft.writeRect(0, 206, 78, 36, blueBackRect);
   answer = leftButton.fell();
   leftButton.update();
   rightButton.update();

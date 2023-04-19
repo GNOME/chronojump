@@ -193,7 +193,7 @@ unsigned int submenu = 0;           //submenus state
 functionPointer FArray[3] = {&fakeFunction, &fakeFunction, &fakeFunction};
 
 menuEntry mainMenu[10] = {
-  { "Jumps", "Shows bars with the jumps height", &jumpsCapture},
+  { "Jumps", "Shows bars with the jumps height", &jumpCapture},
   //  { "Drop Jumps", "Jumps with a previous\nfalling height (previous\njump or fixed height)\nShows bars with the heightof jumps", &dropJumpsCapture},
   { "Raw Force", "Shows standard graph of\nthe force and the summary of the set.\n(Maximum Force, RFD and\nImpulse)", &startLoadCellCapture},
   { "Lin. Velocity", "Show bars of linear velocity", &startGravitEncoderCapture },
@@ -1734,7 +1734,7 @@ void showPowerResults()
   drawMenuBackground();
 }
 
-void jumpsCapture()
+void jumpCapture()
 {
   attachInterrupt(rcaPin, changedRCA, CHANGE);
   if (totalJumpTypes == 0) readExercisesFile(jumps);

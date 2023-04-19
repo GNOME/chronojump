@@ -50,7 +50,7 @@ void startSteadiness(void);
 void end_steadiness();
 
 //Reads from the RCA to calculate jump heights
-void startJumpsCapture();
+void jumpCapture();
 
 //Measuring the selected sensors as well as plotting raw data and saving to SD
 //It also manage the buttons pressed

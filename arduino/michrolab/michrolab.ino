@@ -1791,24 +1791,19 @@ void jumpCapture()
   while ( !cenButton.fell())
   {
     while (capturing && !cenButton.fell())
-    {
+    {      
       //Person has changed
-      leftButton.update();
-      if ( cenButton.fell() ) {
+      if ( rightButton.fell() ) {
         currentPerson = (currentPerson + 1) % totalPersons;
-        Serial.println((currentPerson + 1) % totalPersons);
-        updatePersonJump(totalJumps);
-        waitingFirstPhase = true;
-        totalJumps = 0;
-        totalTestTime = 0;
-        testTime.end();
-        totalTime = 0;
-        timeEnded = false;
       }
-      else if ( leftButton.fell() ) {
+      
+      //Person has changed
+      if ( leftButton.fell() ) {
         currentPerson = (currentPerson - 1 + totalPersons) % totalPersons;
-        Serial.println((currentPerson - 1 + totalPersons) % totalPersons);
-        Serial.println((currentPerson - 1) % totalPersons);                
+      }
+
+      if ( rightButton.fell() || leftButton.fell() ) {
+        delay(50);
         updatePersonJump(totalJumps);
         waitingFirstPhase = true;
         totalJumps = 0;
@@ -1817,8 +1812,7 @@ void jumpCapture()
         totalTime = 0;
         timeEnded = false;
       }
-      leftButton.update();
-
+      
       //There's been a change in the mat state. Landing or taking off.
       if (rcaFlag)
       {
@@ -1950,6 +1944,7 @@ void jumpCapture()
       }
       cenButton.update();
       rightButton.update();
+      leftButton.update();
     }
     //The current test has ended
     Serial.println();

@@ -128,31 +128,34 @@ void showMenuEntry(unsigned int currentMenuIndex)
   printTftText(currentMenu[currentMenuIndex].description, 12, 100);
 }
 
-void drawRightButton(String label) { drawRightButton(label, WHITE, RED); }
-void drawRightButton(String label, uint16_t tColor) { drawRightButton(label, tColor, RED); }
-void drawRightButton(String label, uint16_t tColor, uint16_t bColor)
+void drawRightButton(void) { drawRightButton(295, 212, "", WHITE, BLACK); }
+void drawRightButton(String label) {drawRightButton(295, 206, label, WHITE, BLACK); }
+void drawRightButton(String label, uint16_t tColor) {drawRightButton(295, 206, label, tColor, BLACK); }
+void drawRightButton(String label, uint16_t tColor, uint16_t bColor) {drawRightButton(295, 206, label, tColor, bColor); }
+void drawRightButton(int x, int y) { drawRightButton(x, y, "", WHITE, BLACK); }
+void drawRightButton(int x, int y, String label) { drawRightButton(x, y, label, WHITE, BLACK); }
+void drawRightButton(int x, int y, String label, uint16_t tColor) { drawRightButton(x, y, label, tColor, BLACK); }
+void drawRightButton(int x, int y, String label, uint16_t tColor, uint16_t bColor)
 {
-  //Red button
-  tft.setTextSize(2);
-  tft.fillRect(242, 210, 78, 32, bColor);
-  //Half of the width of the label: label.length * 6 * textSize / 2
-  //Middle of the button = 142 + width/2 = 281
-  tft.setCursor(281 - label.length() * 6 , 218);
-  tft.setTextColor(tColor);
-  tft.print(label);
+  tft.writeRect(x, y, 25, 25, (uint16_t*)right);
+  if (label.length() > 0) {
+    printTftText(label, x-1, y+6, tColor, 2, true);
+    }
 }
 
-
-void drawLeftButton(String label) { drawLeftButton(label, WHITE, BLUE); }
-void drawLeftButton(String label, uint16_t tColor) { drawLeftButton(label, tColor, BLUE); }
-void drawLeftButton(String label, uint16_t tColor, uint16_t bColor)
+void drawLeftButton(void) { drawLeftButton(0, 206, "", WHITE, BLACK); }
+void drawLeftButton(String label) {drawLeftButton(0, 206, label, WHITE, BLACK); }
+void drawLeftButton(String label, uint16_t tColor) {drawLeftButton(0, 206, label, tColor, BLACK); }
+void drawLeftButton(String label, uint16_t tColor, uint16_t bColor) {drawLeftButton(0, 206, label, tColor, bColor); }
+void drawLeftButton(int x, int y) { drawLeftButton(x, y, "", WHITE, BLACK); }
+void drawLeftButton(int x, int y, String label) { drawLeftButton(x, y, label, WHITE, BLACK); }
+void drawLeftButton(int x, int y, String label, uint16_t tColor) { drawLeftButton(x, y, label, tColor, BLACK); }
+void drawLeftButton(int x, int y, String label, uint16_t tColor, uint16_t bColor)
 {
-  //Red button
-  tft.setTextSize(2);
-  tft.fillRect(0, 210, 78, 32, bColor);
-  tft.setCursor(39 - label.length() * 12 / 2 , 218);
-  tft.setTextColor(tColor);
-  tft.print(label);
+  tft.writeRect(x, y, 25, 25, (uint16_t*)left);
+  if (label.length() > 0) {
+    printTftText(label, x + 26, y+6, tColor, 2);
+  }
 }
 
 //Dialog for selecting float value

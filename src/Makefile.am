@@ -449,6 +449,8 @@ RESOURCES = \
 	../images/infrared.jpg,infrared.jpg \
 	../images/mini/infrared.jpg,mini/infrared.jpg \
 	../images/md/start-24-blue.png,start.png \
+	../images/md/cloud_blue.png,cloud_blue.png \
+	../images/md/cloud_yellow.png,cloud_yellow.png \
 	../images/md/notifications_blue_1x.png,stock_bell.png \
 	../images/md/notifications_active_blue_1x.png,stock_bell_active.png \
 	../images/md/notifications_none_blue_1x.png,stock_bell_none.png \

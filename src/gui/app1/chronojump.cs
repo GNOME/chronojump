@@ -1059,13 +1059,11 @@ public partial class ChronoJumpWindow
 			}
 
 			Pixbuf pixbuf;
-			pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_folders.png");
-			if(Config.ColorBackgroundIsDark)
-				pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_folders_yellow.png");
 
-			pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_person.png");
+			pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "cloud_blue.png");
 			if(Config.ColorBackgroundIsDark)
-				pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_person_yellow.png");
+				pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "cloud_yellow.png");
+			image_cloud.Pixbuf = pixbuf;
 
 			pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_no_photo.png");
 			if(Config.ColorBackgroundIsDark)

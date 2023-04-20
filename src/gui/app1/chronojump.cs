@@ -584,6 +584,9 @@ public partial class ChronoJumpWindow
 
 	bool app1Shown = false;
 	bool needToShowChronopicRegisterWindow;
+	private bool showSocialNetworkPoll;
+	private SplashWindow splashWin;
+	private bool showSendLog;
 
 	public ChronoJumpWindow(string progVersion, string progName, string runningFileName, SplashWindow splashWin,
 			bool showSendLog, string sendLogMessage, string topMessage, bool showCameraStop)
@@ -591,6 +594,8 @@ public partial class ChronoJumpWindow
 		this.progVersion = progVersion;
 		this.progName = progName;
 		this.runningFileName = runningFileName;
+		this.splashWin = splashWin;
+		this.showSendLog = showSendLog;
 
 		//record GetOsEnum on variables to not call it all the time
 		operatingSystem = UtilAll.GetOSEnum();
@@ -693,7 +698,7 @@ public partial class ChronoJumpWindow
 			hbox_message_permissions_at_boot.Visible = true;
 		}
 
-		bool showSocialNetworkPoll = (preferences.socialNetworkDatetime == "");
+		showSocialNetworkPoll = (preferences.socialNetworkDatetime == "");
 		//show send log if needed or other messages
 		if (showSendLog)
 		{
@@ -886,7 +891,11 @@ public partial class ChronoJumpWindow
 
 		LogB.Information("Calling configInitRead from gui / ChronojumpWindow");
 		configInitRead();
+	}
 
+	//separated because on cloud, copy to temp has a thread and we want to ensure this is called when copy is done and database is changed
+	private void ChronojumpWindowCont ()
+	{
 		//presentationInit();
 
 		videoCaptureInitialize();

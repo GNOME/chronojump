@@ -320,6 +320,7 @@ public partial class ChronoJumpWindow
 			app1s_alignment_copyToCloud.Visible = true;
 
 		configDo();
+		ChronojumpWindowCont ();
 	}
 	private void RFIDStart()
 	{

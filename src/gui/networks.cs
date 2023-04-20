@@ -313,17 +313,18 @@ public partial class ChronoJumpWindow
 		storedCloudDir = "";
 		if (configChronojump.ReadFromCloudMainPath != "" || configChronojump.CanOpenExternalDB)
 		{
-			//TODO: show if cloud (temp) || externalDB
+			box_above_frame_database.Visible = true;
 			frame_database.Visible = true;
 			button_menu_database.Visible = true;
 			box_copy_from_cloud_progressbars.Visible = (configChronojump.ReadFromCloudMainPath != "");
+			image_cloud.Visible = (configChronojump.ReadFromCloudMainPath != "");
 
 			if (configChronojump.LastDBFullPath != "")
 			{
 				if (configChronojump.ReadFromCloudMainPath != "")
 				{
 					databaseCloudCopyToTemp (true); //at boot
-					return; //followin code is not going to be executed, will be called when copying thread is finished
+					return; //following code is not going to be executed, will be called when copying thread is finished
 				}
 
 				if (configChronojump.ReadFromCloudMainPath != "" || configChronojump.CanOpenExternalDB)
@@ -603,6 +604,7 @@ public partial class ChronoJumpWindow
 
 	private void configInitFromPreferences()
 	{
+		LogB.Information ("at configInitFromPreferences, configChronojump null? " + (configChronojump == null).ToString ());
 		if(configChronojump == null)
 			configChronojump = new Config();
 

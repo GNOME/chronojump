@@ -62,6 +62,15 @@ public class Config
 		Exhibition, ExhibitionStationType, PlaySoundsFromFile //outdated or not working
 	};
 
+	//to display the configAll list nicely
+	public static string OpEnum1stNetworksMain = OpEnum.Compujump.ToString ();
+	public static string OpEnum1stNetworksOther = OpEnum.CompujumpHideTasksDone.ToString ();
+	public static string OpEnum1stCloud = OpEnum.CopyToCloudFullPath.ToString ();
+	public static string OpEnum1stExternalDB = OpEnum.CanOpenExternalDB.ToString ();
+	public static string OpEnum1stCloudAndExternalDB = OpEnum.LastDBFullPath.ToString ();
+	public static string OpEnum1stOther = OpEnum.SessionMode.ToString ();
+	public static string OpEnum1stOutdated = OpEnum.Exhibition.ToString ();
+
 	// networks (main options)
 	public bool Compujump {
 		get { return configList.GetBool (OpEnum.Compujump); }
@@ -420,9 +429,26 @@ public class ConfigList
 	{
 		string str = "List of possible config options:";
 		foreach (ConfigOption co in list)
+		{
+			if (co.Name == Config.OpEnum1stNetworksMain)
+				str += "\n\nNetworks main:";
+			else if (co.Name == Config.OpEnum1stNetworksOther)
+				str += "\n\nNetworks other:";
+			else if (co.Name == Config.OpEnum1stCloud)
+				str += "\n\nCloud:";
+			else if (co.Name == Config.OpEnum1stExternalDB)
+				str += "\n\nExternalDB:";
+			else if (co.Name == Config.OpEnum1stCloudAndExternalDB)
+				str += "\n\nCloud & externalDB:";
+			else if (co.Name == Config.OpEnum1stOther)
+				str += "\n\nOther:";
+			else if (co.Name == Config.OpEnum1stOutdated)
+				str += "\n\nOutdated:";
+
 			str += "\n" + co.ToString ();
-		str += "\n\nNote to define need to write option=theOption (without spaces) at chronojump_config.txt";
-		str += "\n\nCanOpenExternalDB and ReadFromCloudMainPath only one can be active. Because they do the same: show the database button, but on reading from cloud it  will do a copy to tmp and operate with this copy.";
+		}
+		str += "\n\nNote to define need to write option=theOption (without spaces) (paths without quotes (at least on Linux)) at chronojump_config.txt";
+		str += "\n\nCanOpenExternalDB and ReadFromCloudMainPath only one can be active (if both are, cloud will be used). Because they do the same: show the database button, but on reading from cloud it will do a copy to tmp and operate with this copy.";
 		str += "\n\nThis options are here and not in Sqlite DB because here are more easily changed on configure networks devices (just change a .txt),\n" +
 			"also there is more convenient when related to some machines: eg. a LowHeight will display the gui in a way, but on change to its DB from other machine, we would not to see in LowHeight.";
 

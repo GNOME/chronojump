@@ -307,17 +307,32 @@ public partial class ChronoJumpWindow
 			SqliteJson.UploadExhibitionTestsPending();
 		}
 
-		if (configChronojump.CanOpenExternalDB)
-		{
-			frame_database.Visible = true;
-			button_menu_database.Visible = true;
-
-			if (configChronojump.LastDBFullPath != "")
-				databaseChange ();
-		}
-
 		if (configChronojump.CopyToCloudFullPath != "")
 			app1s_alignment_copyToCloud.Visible = true;
+
+		storedCloudDir = "";
+		if (configChronojump.ReadFromCloudMainPath != "" || configChronojump.CanOpenExternalDB)
+		{
+			//TODO: show if cloud (temp) || externalDB
+			frame_database.Visible = true;
+			button_menu_database.Visible = true;
+			box_copy_from_cloud_progressbars.Visible = (configChronojump.ReadFromCloudMainPath != "");
+
+			if (configChronojump.LastDBFullPath != "")
+			{
+				if (configChronojump.ReadFromCloudMainPath != "")
+				{
+					databaseCloudCopyToTemp (true); //at boot
+					return; //followin code is not going to be executed, will be called when copying thread is finished
+				}
+
+				if (configChronojump.ReadFromCloudMainPath != "" || configChronojump.CanOpenExternalDB)
+				{
+					storedCloudDir = configChronojump.LastDBFullPath;
+					databaseChange ();
+				}
+			}
+		}
 
 		configDo();
 		ChronojumpWindowCont ();
@@ -387,6 +402,20 @@ public partial class ChronoJumpWindow
 		rfidProcessCancel = true;
 	}
 
+	/*
+	 * this controls what is going to be done at en the copying thread
+	 * true: at chronojump boot
+	 * false: at click on open database
+	 */
+	static bool databaseCloudCopyToTempModeAtBoot;
+
+	private void databaseCloudCopyToTemp (bool atBoot)
+	{
+		databaseCloudCopyToTempModeAtBoot = atBoot;
+
+		copyFromCloudToTemp_pre ();
+	}
+
 	// updateConfigFile only if selected a new db by user: on_button_database_change_clicked ()
 	private void databaseChange ()
 	{
@@ -403,8 +432,11 @@ public partial class ChronoJumpWindow
 		//this updated if needed:
 		Sqlite.ConvertToLastChronojumpDBVersion ();
 
-		label_current_database.Text = "<b>" + Util.GetLastPartOfPath (
-				configChronojump.LastDBFullPath) + "</b>";
+		string databaseDirName = configChronojump.LastDBFullPath;
+		if (storedCloudDir != "")
+			databaseDirName = storedCloudDir;
+
+		label_current_database.Text = "<b>" + Util.GetLastPartOfPath (databaseDirName) + "</b>";
 
 		label_current_database.UseMarkup = true;
 		label_current_database.TooltipText = configChronojump.LastDBFullPath;
@@ -413,6 +445,7 @@ public partial class ChronoJumpWindow
 	}
 
 	Gtk.FileChooserDialog database_fc;
+	private string storedCloudDir;
 	private void on_button_database_change_clicked (object o, EventArgs args)
 	{
 		database_fc = new Gtk.FileChooserDialog("Select folder:",
@@ -422,7 +455,9 @@ public partial class ChronoJumpWindow
 				Catalog.GetString("Select"),ResponseType.Accept
 				);
 
-		if (configChronojump.ExternalDBDefaultPath != "")
+		if (configChronojump.ReadFromCloudMainPath != "")
+			database_fc.SetCurrentFolder (configChronojump.ReadFromCloudMainPath);
+		else if (configChronojump.ExternalDBDefaultPath != "")
 			database_fc.SetCurrentFolder (configChronojump.ExternalDBDefaultPath);
 
 		if (database_fc.Run() == (int)ResponseType.Accept)
@@ -433,13 +468,27 @@ public partial class ChronoJumpWindow
 				new DialogMessage (Constants.MessageTypes.WARNING,
 						"Error: Need to select a folder that has a \"database\" folder inside an a \"chronojump.db\" file inside.");
 			} else {
-				// 2) reassing configChronojump.LastDBFullPath
-				configChronojump.LastDBFullPath = database_fc.Filename;
-
-				// 3) update config file (taking care of being default config file)
+				// 2) update config file (taking care of being default config file)
 				configChronojump.UpdateFieldEnsuringDefaultConfigFile ("LastDBFullPath", database_fc.Filename);
 
-				// 4) change database
+				// 3) reassign configChronojump.LastDBFullPath
+				configChronojump.LastDBFullPath = database_fc.Filename;
+				storedCloudDir = "";
+
+				// 4) if on cloud, copy to tmp, LastDBFullPath will be at temp (needed for Chronojump)
+				if (configChronojump.ReadFromCloudMainPath != "")
+				{
+					storedCloudDir = database_fc.Filename;
+					databaseCloudCopyToTemp (false); //not at boot
+
+					database_fc.Hide ();
+					//Don't forget to call Destroy() or the FileChooserDialog window won't get closed.
+					database_fc.Destroy();
+
+					return; //followin code is not going to be executed, will be called when copying thread is finished
+				}
+
+				// 5) change database
 				databaseChange ();
 			}
 		}

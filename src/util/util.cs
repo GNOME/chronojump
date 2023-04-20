@@ -1033,6 +1033,10 @@ public class Util
 		return Path.Combine(Path.GetTempPath(), "ChronojumpImportDir");
 	}
 
+	public static string GetCloudReadTempDir ()
+	{
+		return Path.Combine(Path.GetTempPath(), "ChronojumpCloudRead");
+	}
 	/*
 	   when exporting a session the 7z filename will be the same than the folder inside
 	   and this is imported correctly on 2.3.0,

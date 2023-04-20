@@ -468,7 +468,7 @@ public partial class ChronoJumpWindow
 	//static int app1s_backupMainDirsDone;
 	private void app1s_copyRecursive()
 	{
-		app1s_copyRecursiveCopy (app1s_tmpCopy);
+		app1s_copyRecursiveCopy (Util.GetLocalDataDir(false), app1s_tmpCopy);
 
 		System.Threading.Thread.Sleep (250);
 		if (! app1s_copyRecursiveSuccess)
@@ -478,14 +478,15 @@ public partial class ChronoJumpWindow
 		//do not need to delete tmp folder
 	}
 
-	private void app1s_copyRecursiveCopy (string destination)
+	private void app1s_copyRecursiveCopy (string origin, string destination)
 	{
 		app1s_copyRecursiveElapsedMs = 0;
 		Stopwatch sw = new Stopwatch();
 		sw.Start();
 
+		LogB.Information (string.Format ("Going to copy from {0} to {1}", origin, destination));
 		app1s_copyRecursiveSuccess = app1s_uc.CopyFilesRecursively(
-				new DirectoryInfo(Util.GetLocalDataDir(false)),
+				new DirectoryInfo (origin),
 				new DirectoryInfo (destination), 0);
 
 		sw.Stop();
@@ -636,7 +637,7 @@ public partial class ChronoJumpWindow
 	 * -----------------------------------------------------------------------------
 	 * copy to cloud, copies to a dir that will be synced on cloud
 	 * and readed on another computer (just to view, analysis with openExternalDB.
-	 * Works ike backup but overwriting and not compressing (and with fewer widgets)
+	 * Works like backup but overwriting and not compressing (and with fewer widgets)
 	 * -----------------------------------------------------------------------------
 	 */
 	private string copyToCloudButtonLabel = "";
@@ -660,7 +661,7 @@ public partial class ChronoJumpWindow
 
 	private void copyToCloud_start ()
 	{
-		LogB.Information ("Going to copy to: " + configChronojump.CopyToCloudFullPath);
+		LogB.Information ("Copy to Cloud, Going to copy to: " + configChronojump.CopyToCloudFullPath);
 		copyToCloudButtonLabel = app1s_button_copyToCloud.Label;
 
 		try {
@@ -671,7 +672,7 @@ public partial class ChronoJumpWindow
 			app1s_progressbar_copyToCloud_dirs.Fraction = 0;
 			app1s_progressbar_copyToCloud_subDirs.Fraction = 0;
 
-			app1s_threadBackup = new Thread (new ThreadStart (app1s_copyToCloud));
+			app1s_threadBackup = new Thread (new ThreadStart (app1s_copyToCloudDo));
 			GLib.Idle.Add (new GLib.IdleHandler (app1s_CopyToCloudPulseGTK));
 
 			//app1s_backup_doing_sensitive_start_end(true);
@@ -686,17 +687,19 @@ public partial class ChronoJumpWindow
 		}
 	}
 
-	private void app1s_copyToCloud ()
+	private void app1s_copyToCloudDo ()
 	{
 		// 1 delete and create dir
-		Directory.Delete (configChronojump.CopyToCloudFullPath, true);
+		if (Directory.Exists (configChronojump.CopyToCloudFullPath))
+			Directory.Delete (configChronojump.CopyToCloudFullPath, true);
+
 		System.Threading.Thread.Sleep (100); //to ensure dir is deleted
 
 		Directory.CreateDirectory (configChronojump.CopyToCloudFullPath);
 		System.Threading.Thread.Sleep (1000); //to ensure dir is created
 
 		// 2 do the copy
-		app1s_copyRecursiveCopy (configChronojump.CopyToCloudFullPath);
+		app1s_copyRecursiveCopy (Util.GetLocalDataDir(false), configChronojump.CopyToCloudFullPath);
 	}
 
 	private bool app1s_CopyToCloudPulseGTK ()
@@ -747,6 +750,113 @@ public partial class ChronoJumpWindow
 
 		app1s_progressbar_copyToCloud_dirs.Fraction = 0;
 		app1s_progressbar_copyToCloud_subDirs.Fraction = 0;
+
+		return false;
+	}
+
+	/*
+	 * -----------------------------------------------------------------------------
+	 * copy from cloud, copies to tmp before opening to not have cloud sync problems with the DB that is being updated on other machine
+	 * Works like backup but overwriting and not compressing (and with fewer widgets)
+	 * -----------------------------------------------------------------------------
+	 */
+	private void copyFromCloudToTemp_pre ()
+	{
+		LogB.Information ("Copy from Cloud, Going to copy to: " + Util.GetCloudReadTempDir ());
+
+		try {
+			app1s_uc = new UtilCopy (-1, false, false); //all sessions, no logs, no config
+
+			app1s_progressbar_copyFromCloud_dirs.Fraction = 0;
+			app1s_progressbar_copyFromCloud_subDirs.Fraction = 0;
+
+			app1s_threadBackup = new Thread (new ThreadStart (app1s_copyFromCloudDo));
+			GLib.Idle.Add (new GLib.IdleHandler (app1s_CopyFromCloudPulseGTK));
+
+			//app1s_backup_doing_sensitive_start_end(true);
+
+			LogB.ThreadStart();
+			app1s_threadBackup.Start();
+		}
+		catch {
+			string myString = string.Format (Catalog.GetString("Cannot copy to {0} "),
+					Util.GetCloudReadTempDir ());
+			new DialogMessage(Constants.MessageTypes.WARNING, myString);
+		}
+	}
+
+	private void app1s_copyFromCloudDo ()
+	{
+		LogB.Information ("app1s_copyFromCloudDo 0");
+		// 1 delete and create dir
+		if (Directory.Exists (Util.GetCloudReadTempDir ()))
+		{
+			LogB.Information ("app1s_copyFromCloudDo 1");
+			Directory.Delete (Util.GetCloudReadTempDir (), true);
+		}
+
+		System.Threading.Thread.Sleep (100); //to ensure dir is deleted
+
+			LogB.Information ("app1s_copyFromCloudDo 2");
+		Directory.CreateDirectory (Util.GetCloudReadTempDir ());
+		System.Threading.Thread.Sleep (1000); //to ensure dir is created
+
+			LogB.Information ("app1s_copyFromCloudDo 3");
+		// 2 do the copy
+		app1s_copyRecursiveCopy (configChronojump.LastDBFullPath, Util.GetCloudReadTempDir ());
+			LogB.Information ("app1s_copyFromCloudDo 4");
+	}
+
+	private bool app1s_CopyFromCloudPulseGTK ()
+	{
+		if ( ! app1s_threadBackup.IsAlive )
+		{
+			LogB.ThreadEnding();
+			app1s_CopyFromCloudPulseEnd();
+
+			LogB.ThreadEnded();
+
+			if (! app1s_copyRecursiveSuccess)
+				return false;
+
+			return false;
+		}
+
+		app1s_progressbar_copyFromCloud_dirs.Fraction = UtilAll.DivideSafeFraction (app1s_uc.BackupMainDirsCount, 6);
+		app1s_progressbar_copyFromCloud_subDirs.Fraction =
+			UtilAll.DivideSafeFraction(app1s_uc.BackupSecondDirsCount, app1s_uc.BackupSecondDirsLength);
+		//6 for: database, encoder, forceSensor, logs, multimedia, raceAnalyzer
+
+		Thread.Sleep (30);
+		//LogB.Debug(app1s_threadBackup.ThreadState.ToString());
+		return true;
+	}
+	private void app1s_CopyFromCloudPulseEnd ()
+	{
+		app1s_progressbar_copyFromCloud_dirs.Fraction = 1;
+		app1s_progressbar_copyFromCloud_subDirs.Fraction = 1;
+
+		GLib.Timeout.Add (2000, new GLib.TimeoutHandler (app1s_CopyFromCloudPulseEnd2));
+
+		// copy to cloud called at start Chronojump ...
+		if (databaseCloudCopyToTempModeAtBoot)
+		{
+			if (configChronojump.ReadFromCloudMainPath != "" || configChronojump.CanOpenExternalDB)
+				databaseChange ();
+
+			configDo ();
+			ChronojumpWindowCont ();
+		}
+		else //... or at click on change database
+		{
+			configChronojump.LastDBFullPath = Util.GetCloudReadTempDir ();
+			databaseChange ();
+		}
+	}
+	private bool app1s_CopyFromCloudPulseEnd2 ()
+	{
+		app1s_progressbar_copyFromCloud_dirs.Fraction = 0;
+		app1s_progressbar_copyFromCloud_subDirs.Fraction = 0;
 
 		return false;
 	}

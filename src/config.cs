@@ -55,7 +55,9 @@ public class Config
 	public enum OpEnum {
 		Compujump, CompujumpDjango, CompujumpServerURL, CompujumpStationID, CompujumpStationMode, //networks (main options)
 		CompujumpHideTasksDone, CompujumpAdminID, CompujumpAdminEmail, //networks (other)
-		CanOpenExternalDB, ExternalDBDefaultPath, LastDBFullPath, CopyToCloudFullPath, CopyToCloudOnExit, //external DB, cloud
+		CopyToCloudFullPath, CopyToCloudOnExit, ReadFromCloudMainPath, //cloud
+		CanOpenExternalDB, ExternalDBDefaultPath, //externalDB
+		LastDBFullPath, //cloud & externalDB
 		SessionMode, FTDIalways, Raspberry, LowHeight, LowCPU, GuiTest, //other
 		Exhibition, ExhibitionStationType, PlaySoundsFromFile //outdated or not working
 	};
@@ -89,22 +91,29 @@ public class Config
 		get { return configList.GetString (OpEnum.CompujumpAdminEmail); }
 	}
 
-	// external DB, cloud
+	// cloud
+	public string CopyToCloudFullPath {
+		get { return configList.GetString (OpEnum.CopyToCloudFullPath); }
+	}
+	public bool CopyToCloudOnExit {
+		get { return configList.GetBool (OpEnum.CopyToCloudOnExit); }
+	}
+	public string ReadFromCloudMainPath {
+		get { return configList.GetString (OpEnum.ReadFromCloudMainPath); }
+	}
+
+	// external DB
 	public bool CanOpenExternalDB {
 		get { return configList.GetBool (OpEnum.CanOpenExternalDB); }
 	}
 	public string ExternalDBDefaultPath {
 		get { return configList.GetString (OpEnum.ExternalDBDefaultPath); }
 	}
+
+	// cloud & externalDB
 	public string LastDBFullPath {
 		get { return configList.GetString (OpEnum.LastDBFullPath); }
 		set { configList.SetValue (OpEnum.LastDBFullPath.ToString (), value); }
-	}
-	public string CopyToCloudFullPath {
-		get { return configList.GetString (OpEnum.CopyToCloudFullPath); }
-	}
-	public bool CopyToCloudOnExit {
-		get { return configList.GetBool (OpEnum.CopyToCloudOnExit); }
 	}
 
 	// other
@@ -413,6 +422,9 @@ public class ConfigList
 		foreach (ConfigOption co in list)
 			str += "\n" + co.ToString ();
 		str += "\n\nNote to define need to write option=theOption (without spaces) at chronojump_config.txt";
+		str += "\n\nCanOpenExternalDB and ReadFromCloudMainPath only one can be active. Because they do the same: show the database button, but on reading from cloud it  will do a copy to tmp and operate with this copy.";
+		str += "\n\nThis options are here and not in Sqlite DB because here are more easily changed on configure networks devices (just change a .txt),\n" +
+			"also there is more convenient when related to some machines: eg. a LowHeight will display the gui in a way, but on change to its DB from other machine, we would not to see in LowHeight.";
 
 		return str;
 	}
@@ -471,17 +483,23 @@ public class ConfigList
 		list.Add (new ConfigOptionString (Config.OpEnum.CompujumpAdminEmail,
 					"At Networks, email of admin station (to send email of the graph, maybe does not work with current code)."));
 
-		// externalDB, cloud
-		list.Add (new ConfigOptionBool (Config.OpEnum.CanOpenExternalDB,
-					"A choose DB button will be visible and will check: ExternalDBDefaultPath, LastDBFullPath"));
-		list.Add (new ConfigOptionString (Config.OpEnum.ExternalDBDefaultPath,
-					"On chronojump-networks admin to replace GetLocalDataDir (), think if Import has to be disabled. Works even with spaces on name."));
-		list.Add (new ConfigOptionString (Config.OpEnum.LastDBFullPath,
-					"On chronojump-networks admin to replace GetLocalDataDir (), think if Import has to be disabled. Works even with spaces on name."));
+		// cloud
 		list.Add (new ConfigOptionString (Config.OpEnum.CopyToCloudFullPath,
 					"The path where all the data will be copied (uncompressed) to be synced with the cloud service."));
 		list.Add (new ConfigOptionBool (Config.OpEnum.CopyToCloudOnExit,
 					"If CopyToCloudFullPath is defined, then on Chronojump exit the copy will be done automatically."));
+		list.Add (new ConfigOptionString (Config.OpEnum.ReadFromCloudMainPath,
+					"The path to open cloud DBs (each one will be copied to temp on open). If this active, CanOpenExternalDB will be discarded."));
+
+		// externalDB
+		list.Add (new ConfigOptionBool (Config.OpEnum.CanOpenExternalDB,
+					"A choose DB button will be visible and will check: ExternalDBDefaultPath, LastDBFullPath"));
+		list.Add (new ConfigOptionString (Config.OpEnum.ExternalDBDefaultPath,
+					"On chronojump-networks admin to replace GetLocalDataDir (), think if Import has to be disabled. Works even with spaces on name."));
+
+		// cloud & externalDB
+		list.Add (new ConfigOptionString (Config.OpEnum.LastDBFullPath,
+					"Last path used, Chronojump will open it automatically if not empty and (ReadFromCloudMainPath or CanOpenExternalDB)."));
 
 		// other
 		list.Add (new ConfigOptionEnum (Config.OpEnum.SessionMode,

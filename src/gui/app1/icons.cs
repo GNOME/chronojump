@@ -1064,10 +1064,12 @@ public partial class ChronoJumpWindow
 		pixbuf = new Pixbuf(null, Util.GetImagePath(false) + "left.png");
 		image_hscale_force_sensor_ai_a_pre.Pixbuf = pixbuf;
 		image_hscale_force_sensor_ai_b_pre.Pixbuf = pixbuf;
+		image_presentation_left.Pixbuf = pixbuf;
 
 		pixbuf = new Pixbuf(null, Util.GetImagePath(false) + "right.png");
 		image_hscale_force_sensor_ai_a_post.Pixbuf = pixbuf;
 		image_hscale_force_sensor_ai_b_post.Pixbuf = pixbuf;
+		image_presentation_right.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf(null, Util.GetImagePath(false) + "right_cut.png");
 		image_hscale_force_sensor_ai_a_post_1s.Pixbuf = pixbuf;
 		image_hscale_force_sensor_ai_b_post_1s.Pixbuf = pixbuf;

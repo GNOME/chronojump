@@ -980,6 +980,9 @@ public class Util
 		return Path.Combine (GetLocalDataDir (false) +  Path.DirectorySeparatorChar + "eCapSimSignal.txt");
 	}
 
+	public static string GetPresentationFileName() {
+		return Path.Combine (GetLocalDataDir (false) +  Path.DirectorySeparatorChar + Constants.FileNamePresentation);
+	}
 
 	//url and videoURL stored path is relative to be able to move data between computers
 	//then SELECT: makes it abolute (addURLpath)

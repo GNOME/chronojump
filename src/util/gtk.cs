@@ -67,6 +67,16 @@ public class UtilGtk
 
 		return myCombo;
 	}
+	public static Gtk.ComboBoxText ComboSelectPrevious (ComboBoxText myCombo, out bool isFirst)
+	{
+		int newPosition = myCombo.Active -1;
+		if (newPosition >= 0)
+			myCombo.Active = newPosition;
+
+		isFirst = (myCombo.Active == 0);
+		return myCombo;
+	}
+
 	public static Gtk.ComboBoxText ComboSelectNext (ComboBoxText myCombo, out bool isLast)
 	{
 		int total = ComboCount (myCombo);

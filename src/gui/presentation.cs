@@ -15,28 +15,85 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2020   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2004-2023   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
-using System.IO; 
 using Gtk;
-using Gdk;
-//using Glade;
-using System.Collections;
-using System.Threading;
-using Mono.Unix;
+using System.Collections.Generic;
 
+public partial class ChronoJumpWindow
+{
+	// at glade ---->
+	Gtk.Box box_presentation;
+	Gtk.Box box_combo_presentation;
+	Gtk.Button button_presentation_left;
+	Gtk.Button button_presentation_right;
+	Gtk.Image image_presentation_left;
+	Gtk.Image image_presentation_right;
+	// <---- at glade
+
+	Gtk.ComboBoxText combo_presentation;
+	List<string> presentation_l;
+
+	private void connectWidgetsPresentation (Gtk.Builder builder)
+	{
+		box_presentation = (Gtk.Box) builder.GetObject ("box_presentation");
+		box_combo_presentation = (Gtk.Box) builder.GetObject ("box_combo_presentation");
+		button_presentation_left = (Gtk.Button) builder.GetObject ("button_presentation_left");
+		button_presentation_right = (Gtk.Button) builder.GetObject ("button_presentation_right");
+		image_presentation_left = (Gtk.Image) builder.GetObject ("image_presentation_left");
+		image_presentation_right = (Gtk.Image) builder.GetObject ("image_presentation_right");
+	}
+
+	private void presentationPrepare ()
+	{
+		//List<string> presentation_l = new List<string> () { "hola", "bon dia", "adéu" };
+		presentation_l = Util.ReadFileAsStringList (Util.GetPresentationFileName());
+		if (presentation_l == null)
+			return;
+
+		combo_presentation = UtilGtk.CreateComboBoxText (box_combo_presentation, presentation_l, presentation_l[0]);
+
+		button_presentation_left.Sensitive = false;
+		box_presentation.Visible = true;
+	}
+
+	private void on_button_presentation_left_clicked (object o, EventArgs args)
+	{
+		bool isFirst;
+		combo_presentation = UtilGtk.ComboSelectPrevious (combo_presentation, out isFirst);
+
+		button_presentation_left.Sensitive = ! isFirst;
+		button_presentation_right.Sensitive = true;
+	}
+
+	private void on_button_presentation_right_clicked (object o, EventArgs args)
+	{
+		bool isLast;
+		combo_presentation = UtilGtk.ComboSelectNext (combo_presentation, out isLast);
+
+		button_presentation_left.Sensitive = true;
+		button_presentation_right.Sensitive = ! isLast;
+	}
+}
+
+/* Old webkit code used on my thesis presentation
+
+//using System.IO;
+//using System.Threading;
+//using Mono.Unix;
+//using Gdk;
+//using Glade;
+//using System.Collections;
 //using WebKit;
 
 public partial class ChronoJumpWindow 
 {
-	/*
 	//presentation
 	[Widget] Gtk.Box vbox_presentation;
 	[Widget] Gtk.Image image_presentation_logo;
 	[Widget] Gtk.Label label_presentation_current;
-	*/
 
 	//static WebKit.WebView presentation;
 
@@ -50,7 +107,6 @@ public partial class ChronoJumpWindow
 	private void presentationInit() {
 		//button_presentation_restore_screen.Sensitive = false;
 
-		/*
 		 * needs webKit
 		 *
 		presentation = new WebKit.WebView();
@@ -61,18 +117,15 @@ public partial class ChronoJumpWindow
 		presentation.ShowAll();
 	
 		presentationInitialized = true;
-		*/
 	}
 	
 	void on_button_presentation_screen_clicked (object o, EventArgs args) {
-	/*
 		Gtk.Button button = (Gtk.Button) o;
 
 		vbox_persons.Visible =	( button != button_presentation_fullscreen);
 		notebook_sup.ShowTabs =	( button != button_presentation_fullscreen);
 		//button_presentation_fullscreen.Sensitive =	( button != button_presentation_fullscreen);
 		//button_presentation_restore_screen.Sensitive =	( button == button_presentation_fullscreen);
-	*/
 	}
 
 	void on_button_presentation_reload_clicked (object o, EventArgs args) 
@@ -125,11 +178,9 @@ public partial class ChronoJumpWindow
 	}
 
 	void updatePresentationLabel() {
-		/*
 		label_presentation_current.Text = 
 			(presentation_slide_current +1).ToString() + " / " + 
 			(presentation_slide_max +1).ToString();
-			*/
 	}
 	
 	private void loadInitialPresentation()
@@ -144,11 +195,9 @@ public partial class ChronoJumpWindow
 	}
 
 	private static void presentationOpenStatic(string url) {
-		/*
 		 * needs WebKit
 		 *
 		presentation.Open(url);
-		*/
 	}
-	
 }
+*/

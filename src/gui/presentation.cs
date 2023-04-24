@@ -129,7 +129,8 @@ public class PresentationSlideList
 		if (contents_l == null || contents_l.Count == 0)
 			return false;
 
-		int count = 1;
+		int countItems = 0;
+		int countSubitems = 0;
 		foreach (string line in contents_l)
 		{
 			if (line == null)
@@ -150,7 +151,15 @@ public class PresentationSlideList
 						LogB.Information ("Added action: " + pa.ToString ());
 					}
 				}
-			ps.AddText (parts[0], count ++);
+
+			if (parts[0].StartsWith ("  "))
+				countSubitems ++;
+			else {
+				countSubitems = 0;
+				countItems ++;
+			}
+
+			ps.AddText (parts[0], countItems, countSubitems);
 
 			list.Add (ps);
 		}
@@ -211,13 +220,17 @@ public class PresentationSlide
 	}
 
 	//adds also enumeration and maybe action mark
-	public void AddText (string text, int num)
+	public void AddText (string text, int countItems, int countSubitems)
 	{
 		string actionsStr = "";
 		if (HasActions ())
 			actionsStr = " (*)";
 
-		this.text = string.Format ("{0}. {1}{2}", num, text, actionsStr);
+		if (countSubitems == 0)
+			this.text = string.Format ("{0}. {1}{2}", countItems, text, actionsStr);
+		else
+			this.text = string.Format ("  {0}.{1}. {2}{3}",
+					countItems, countSubitems, text.Substring(2), actionsStr); //removes 2 first chars
 	}
 
 	//debug

@@ -56,9 +56,18 @@ public partial class ChronoJumpWindow
 				box_combo_presentation,
 				presentationSL.GetPrintingStrings (),
 				presentationSL.GetPrintingStrings ()[0]);
+		combo_presentation.Changed += new EventHandler (on_combo_presentation_changed);
 
 		button_presentation_left.Sensitive = false;
 		box_presentation.Visible = true;
+	}
+
+	private void on_combo_presentation_changed (object o, EventArgs args)
+	{
+		button_presentation_left.Sensitive = (combo_presentation.Active > 0);
+		button_presentation_right.Sensitive = ! UtilGtk.ComboSelectedIsLast (combo_presentation);
+
+		processPresentationActionsIfNeeded (combo_presentation.Active);
 	}
 
 	private void on_button_presentation_left_clicked (object o, EventArgs args)

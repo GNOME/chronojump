@@ -642,6 +642,7 @@ public partial class ChronoJumpWindow
 		connectWidgetsStats (builder);
 		connectWidgetsTrigger (builder);
 		connectWidgetsWebcam (builder);
+		connectWidgetsPresentation (builder);
 		builder.Autoconnect (this);
 
 		//put an icon to window
@@ -1288,6 +1289,7 @@ public partial class ChronoJumpWindow
 		//MovingAverage.TestCalculate();
 
 		//TestObjectsDifferences.Test ();
+		presentationPrepare ();
 	}
 
 

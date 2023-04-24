@@ -758,6 +758,12 @@ public partial class ChronoJumpWindow
 		return UtilGtk.TreeviewSelectRowWithID(
 				app1s_treeview_session_load, app1s_store, 0, searchedID, true);
 	}
+
+	public bool app1s_SelectRowByName (string searchedName)
+	{
+		return UtilGtk.TreeviewSelectRowWithName (
+				app1s_treeview_session_load, app1s_store, 2, searchedName, true); //0 id, 1 date, 2 name
+	}
 	
 	private void app1s_onSelectionEntry (object o, EventArgs args)
 	{

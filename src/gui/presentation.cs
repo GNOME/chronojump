@@ -120,6 +120,7 @@ public class PresentationSlideList
 		if (contents_l == null || contents_l.Count == 0)
 			return false;
 
+		int count = 1;
 		foreach (string line in contents_l)
 		{
 			if (line == null)
@@ -140,7 +141,7 @@ public class PresentationSlideList
 						LogB.Information ("Added action: " + pa.ToString ());
 					}
 				}
-			ps.AddTextAndMaybeActionMark (parts[0]);
+			ps.AddText (parts[0], count ++);
 
 			list.Add (ps);
 		}
@@ -200,12 +201,14 @@ public class PresentationSlide
 		return action_l;
 	}
 
-	public void AddTextAndMaybeActionMark (string text)
+	//adds also enumeration and maybe action mark
+	public void AddText (string text, int num)
 	{
+		string actionsStr = "";
 		if (HasActions ())
-			this.text = text + " (*)";
-		else
-			this.text = text;
+			actionsStr = " (*)";
+
+		this.text = string.Format ("{0}. {1}{2}", num, text, actionsStr);
 	}
 
 	//debug

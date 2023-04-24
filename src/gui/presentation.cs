@@ -88,8 +88,19 @@ public partial class ChronoJumpWindow
 			return;
 
 		foreach (PresentationAction pa in pa_l)
+		{
 			if (pa.ae == PresentationAction.ActionEnum.LoadSessionByName && pa.parameter != "")
-				chronojumpWindowTestsLoadSessionByName (pa.parameter);
+			{
+				//do not do using guiTests because threads can cause that possible posterior SelectPersonByName happens when treeview_persons is still not updated
+				//chronojumpWindowTestsLoadSessionByName (pa.parameter);
+
+				currentSession = SqliteSession.SelectByName (pa.parameter);
+				on_load_session_accepted();
+				sensitiveGuiYesSession();
+			}
+			else if (pa.ae == PresentationAction.ActionEnum.SelectPersonByName && pa.parameter != "")
+				chronojumpWindowTestsSelectPersonByName (pa.parameter);
+		}
 	}
 }
 
@@ -117,7 +128,8 @@ public class PresentationSlideList
 				continue;
 
 			string [] parts = line.Split (new string[] {":::"}, StringSplitOptions.None);
-			PresentationSlide ps = new PresentationSlide (parts [0]);
+
+			PresentationSlide ps = new PresentationSlide ();
 			if (parts.Length > 1)
 				for (int i = 1; i < parts.Length; i ++)
 				{
@@ -128,6 +140,7 @@ public class PresentationSlideList
 						LogB.Information ("Added action: " + pa.ToString ());
 					}
 				}
+			ps.AddTextAndMaybeActionMark (parts[0]);
 
 			list.Add (ps);
 		}
@@ -167,9 +180,8 @@ public class PresentationSlide
 	public string text;
 	public List<PresentationAction> action_l;
 
-	public PresentationSlide (string text)
+	public PresentationSlide ()
 	{
-		this.text = text;
 		action_l = new List<PresentationAction> ();
 	}
 
@@ -188,6 +200,14 @@ public class PresentationSlide
 		return action_l;
 	}
 
+	public void AddTextAndMaybeActionMark (string text)
+	{
+		if (HasActions ())
+			this.text = text + " (*)";
+		else
+			this.text = text;
+	}
+
 	//debug
 	public override string ToString ()
 	{
@@ -203,7 +223,7 @@ public class PresentationSlide
 //TODO: move this class to src/presentation.cs
 public class PresentationAction
 {
-	public enum ActionEnum { LoadSessionByName };
+	public enum ActionEnum { LoadSessionByName, SelectPersonByName };
 
 	public ActionEnum ae;
 	public string parameter;

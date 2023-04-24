@@ -544,6 +544,18 @@ public partial class ChronoJumpWindow
 		LogB.TestEnd("chronojumpWindowTestsChronopicContactReal");
 	}
 			
+	private bool chronojumpWindowTestsSelectPersonByName (string name)
+	{
+		Person p = SqlitePerson.SelectByName (false, name);
+		LogB.Information ("chronojumpWindowTestsSelectPersonByName person: " + p.ToString ());
+		if (p.UniqueID < 0)
+			return false;
+
+		selectRowTreeView_persons (treeview_persons,
+				myTreeViewPersons.FindRow (p.UniqueID));
+
+		return true;
+	}
 	private bool chronojumpWindowTestsSelectPerson(int count)
 	{
 		LogB.TestStart("chronojumpWindowTestsSelectPerson");

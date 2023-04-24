@@ -53,17 +53,18 @@ public class UtilGtk
 	}
 	public static Gtk.ComboBox ComboSelectNext(ComboBox myCombo, out bool isLast)
 	{
+		int total = ComboCount (myCombo);
+
 		TreeIter iter;
 		myCombo.Model.GetIterFirst(out iter);
 		int current = myCombo.Active;
 		int count = 0;
-		isLast = false;
 		do {
 			if(count > current)
 			{
 				myCombo.Active = count;
-				isLast = false;
 
+				isLast = (count == total -1);
 				return myCombo;
 			}
 			count ++;

@@ -263,9 +263,22 @@ public class PresentationAction
 		if (parts.Length != 2)
 			return false;
 
+		if (! actionExists (parts[0]))
+			return false;
+
 		ae = (ActionEnum) Enum.Parse (typeof (ActionEnum), parts[0]);
 		parameter = parts[1];
 		return true;
+	}
+
+	private bool actionExists (string str)
+	{
+		string [] enums = Enum.GetNames(typeof(ActionEnum));
+		foreach (string e in enums)
+			if (str == e)
+				return true;
+
+		return false;
 	}
 
 	//debug

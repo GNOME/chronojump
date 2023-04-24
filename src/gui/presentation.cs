@@ -193,11 +193,25 @@ public class PresentationSlideList
 
 //TODO: move this class to src/presentation.cs
 /*
-   an slide can be a line on chronojump_presentation.txt like these:
-This is the first slide
-Second slide loading a session:::LoadSessionByName;Galga+Trigger
-Third slide
-*/
+Example of chronojump_presentation.txt
+#Exemple de presentació, # i línies en blanc no es processen
+#Si es vol posar accions, cal separar cada lína amb :::
+#Cada acció tindrà dos parts separades per :
+#Les accions disponibles ara mateix són: Mode, LoadSessionByName, SelectPersonByName
+#Els Modes són: JUMPSSIMPLE, JUMPSREACTIVE, RUNSSIMPLE, RUNSINTERVALLIC, RUNSENCODER, POWERGRAVITATORY, POWERINERTIAL, FORCESENSORISOMETRIC, FORCESENSORELASTIC
+
+
+Aquest és el primer punt
+i aquest el segon
+Un tercer punt amb 2 accions:::LoadSessionByName:Galga+Trigger:::Mode:FORCESENSORISOMETRIC
+Carrega Tutorial i William:::LoadSessionByName:Tutorial:::SelectPersonByName:William
+Aquest seria el 5è
+  Seria el 5.1
+  Seria el 5.2
+Seria el sisè amb el Carmelo:::SelectPersonByName:Carmelo:::Mode:POWERGRAVITATORY
+  Té un subpunt
+Últim punt
+ */
 public class PresentationSlide
 {
 	public string text;
@@ -263,7 +277,7 @@ public class PresentationAction
 
 	public bool Assign (string str)
 	{
-		string [] parts = str.Split (new char[] {';'});
+		string [] parts = str.Split (new char[] {':'});
 		if (parts.Length != 2)
 			return false;
 

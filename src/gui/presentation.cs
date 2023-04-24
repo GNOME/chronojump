@@ -34,7 +34,7 @@ public partial class ChronoJumpWindow
 	// <---- at glade
 
 	Gtk.ComboBoxText combo_presentation;
-	List<string> presentation_l;
+	PresentationSlideList presentationSL;
 
 	private void connectWidgetsPresentation (Gtk.Builder builder)
 	{
@@ -48,12 +48,14 @@ public partial class ChronoJumpWindow
 
 	private void presentationPrepare ()
 	{
-		//List<string> presentation_l = new List<string> () { "hola", "bon dia", "adéu" };
-		presentation_l = Util.ReadFileAsStringList (Util.GetPresentationFileName());
-		if (presentation_l == null)
+		presentationSL = new PresentationSlideList ();
+		if (! presentationSL.Read ())
 			return;
 
-		combo_presentation = UtilGtk.CreateComboBoxText (box_combo_presentation, presentation_l, presentation_l[0]);
+		combo_presentation = UtilGtk.CreateComboBoxText (
+				box_combo_presentation,
+				presentationSL.GetPrintingStrings (),
+				presentationSL.GetPrintingStrings ()[0]);
 
 		button_presentation_left.Sensitive = false;
 		box_presentation.Visible = true;
@@ -63,18 +65,168 @@ public partial class ChronoJumpWindow
 	{
 		bool isFirst;
 		combo_presentation = UtilGtk.ComboSelectPrevious (combo_presentation, out isFirst);
-
 		button_presentation_left.Sensitive = ! isFirst;
 		button_presentation_right.Sensitive = true;
+
+		processPresentationActionsIfNeeded (combo_presentation.Active);
 	}
 
 	private void on_button_presentation_right_clicked (object o, EventArgs args)
 	{
 		bool isLast;
 		combo_presentation = UtilGtk.ComboSelectNext (combo_presentation, out isLast);
-
 		button_presentation_left.Sensitive = true;
 		button_presentation_right.Sensitive = ! isLast;
+
+		processPresentationActionsIfNeeded (combo_presentation.Active);
+	}
+
+	public void processPresentationActionsIfNeeded (int activePos)
+	{
+		List<PresentationAction> pa_l = presentationSL.GetActionsOfThisSlide (activePos);
+		if (pa_l.Count == 0)
+			return;
+
+		foreach (PresentationAction pa in pa_l)
+			if (pa.ae == PresentationAction.ActionEnum.LoadSessionByName && pa.parameter != "")
+				chronojumpWindowTestsLoadSessionByName (pa.parameter);
+	}
+}
+
+//TODO: move this class to src/presentation.cs
+public class PresentationSlideList
+{
+	List<PresentationSlide> list;
+
+	public PresentationSlideList ()
+	{
+		list = new List<PresentationSlide> ();
+	}
+
+	public bool Read()
+	{
+		List<string> contents_l = Util.ReadFileAsStringList (Util.GetPresentationFileName());
+		if (contents_l == null || contents_l.Count == 0)
+			return false;
+
+		foreach (string line in contents_l)
+		{
+			if (line == null)
+				break;
+			if (line == "" || line[0] == '#')
+				continue;
+
+			string [] parts = line.Split (new string[] {":::"}, StringSplitOptions.None);
+			PresentationSlide ps = new PresentationSlide (parts [0]);
+			if (parts.Length > 1)
+				for (int i = 1; i < parts.Length; i ++)
+				{
+					PresentationAction pa = new PresentationAction ();
+					if (pa.Assign (parts[i]))
+					{
+						ps.AddAction (pa);
+						LogB.Information ("Added action: " + pa.ToString ());
+					}
+				}
+
+			list.Add (ps);
+		}
+		return true;
+	}
+
+	public List<string> GetPrintingStrings ()
+	{
+		List<string> string_l = new List<string> ();
+		foreach (PresentationSlide ps in list)
+			string_l.Add (ps.text);
+
+		return string_l;
+	}
+
+	public List<PresentationAction> GetActionsOfThisSlide (int activePos)
+	{
+		List<PresentationAction> pa_l = new List<PresentationAction> ();
+
+		PresentationSlide ps = list [activePos];
+		if (ps.HasActions ())
+			pa_l = ps.GetActions ();
+
+		return pa_l;
+	}
+}
+
+//TODO: move this class to src/presentation.cs
+/*
+   an slide can be a line on chronojump_presentation.txt like these:
+This is the first slide
+Second slide loading a session:::LoadSessionByName;Galga+Trigger
+Third slide
+*/
+public class PresentationSlide
+{
+	public string text;
+	public List<PresentationAction> action_l;
+
+	public PresentationSlide (string text)
+	{
+		this.text = text;
+		action_l = new List<PresentationAction> ();
+	}
+
+	public void AddAction (PresentationAction pa)
+	{
+		action_l.Add (pa);
+	}
+
+	public bool HasActions ()
+	{
+		return (action_l != null && action_l.Count > 0);
+	}
+
+	public List<PresentationAction> GetActions ()
+	{
+		return action_l;
+	}
+
+	//debug
+	public override string ToString ()
+	{
+		string str = "Text: " + text;
+		if (action_l.Count > 0)
+			foreach (PresentationAction pa in action_l)
+				str += "\n" + pa.ToString ();
+
+		return str;
+	}
+}
+
+//TODO: move this class to src/presentation.cs
+public class PresentationAction
+{
+	public enum ActionEnum { LoadSessionByName };
+
+	public ActionEnum ae;
+	public string parameter;
+
+	public PresentationAction ()
+	{
+	}
+
+	public bool Assign (string str)
+	{
+		string [] parts = str.Split (new char[] {';'});
+		if (parts.Length != 2)
+			return false;
+
+		ae = (ActionEnum) Enum.Parse (typeof (ActionEnum), parts[0]);
+		parameter = parts[1];
+		return true;
+	}
+
+	//debug
+	public override string ToString ()
+	{
+		return string.Format ("Action: {0}, Parameter: {1}", ae, parameter);
 	}
 }
 

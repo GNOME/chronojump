@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2020   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2004-2023   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -496,8 +496,25 @@ public partial class ChronoJumpWindow
 		}
 
 		app1s_Button_load.Click();
-		
+
 		LogB.TestEnd("chronojumpWindowTestsLoadSession");
+	}
+
+	private void chronojumpWindowTestsLoadSessionByName (string name)
+	{
+		LogB.TestStart("chronojumpWindowTestsLoadSessionByName");
+
+		on_open_activate(new Object(), new EventArgs());
+		bool exists = app1s_SelectRowByName (name);
+		if(! exists) {
+			testsActive = false;
+			new DialogMessage(Constants.MessageTypes.WARNING, "Warning, This session name does not exists");
+			return;
+		}
+
+		app1s_Button_load.Click();
+
+		LogB.TestEnd("chronojumpWindowTestsLoadSessionByName");
 	}
 
 	private void chronojumpWindowTestsChronopicContactReal()

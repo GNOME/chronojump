@@ -98,7 +98,11 @@ public partial class ChronoJumpWindow
 
 		foreach (PresentationAction pa in pa_l)
 		{
-			if (pa.ae == PresentationAction.ActionEnum.LoadSessionByName && pa.parameter != "")
+			if (pa.ae == PresentationAction.ActionEnum.Mode && pa.parameter != "")
+			{
+				changeModeCheckRadios ((Constants.Modes) Enum.Parse (typeof (Constants.Modes), pa.parameter));
+			}
+			else if (pa.ae == PresentationAction.ActionEnum.LoadSessionByName && pa.parameter != "")
 			{
 				//do not do using guiTests because threads can cause that possible posterior SelectPersonByName happens when treeview_persons is still not updated
 				//chronojumpWindowTestsLoadSessionByName (pa.parameter);
@@ -248,7 +252,7 @@ public class PresentationSlide
 //TODO: move this class to src/presentation.cs
 public class PresentationAction
 {
-	public enum ActionEnum { LoadSessionByName, SelectPersonByName };
+	public enum ActionEnum { LoadSessionByName, SelectPersonByName, Mode };
 
 	public ActionEnum ae;
 	public string parameter;
@@ -268,12 +272,29 @@ public class PresentationAction
 
 		ae = (ActionEnum) Enum.Parse (typeof (ActionEnum), parts[0]);
 		parameter = parts[1];
+
+		if (ae == ActionEnum.Mode && ! modeExists (parameter))
+			return false;
+
 		return true;
 	}
 
 	private bool actionExists (string str)
 	{
 		string [] enums = Enum.GetNames(typeof(ActionEnum));
+		foreach (string e in enums)
+			if (str == e)
+				return true;
+
+		return false;
+	}
+
+	private bool modeExists (string str)
+	{
+		if (str == Constants.Modes.UNDEFINED.ToString ())
+			return false;
+
+		string [] enums = Enum.GetNames(typeof(Constants.Modes));
 		foreach (string e in enums)
 			if (str == e)
 				return true;

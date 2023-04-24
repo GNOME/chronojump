@@ -38,6 +38,7 @@
 #include "Encoder.h"
 #include "SD.h"
 #include "elapsedMillis.h"
+#include "TimeLib.h"
 #include "michrolab.h"
 
 //Version number //it always need to start with: "MiChroLab-"
@@ -46,6 +47,9 @@ String version = "0.1";
 
 //#define teensy_3_2
 #define teensy_4_0
+
+//Real time clock stuff
+//time_t RTCTime; //TODO: Check if it is necessary
 
 //Encoder variables
 const unsigned int encoderAPin = 8;
@@ -462,6 +466,9 @@ String fileBuffer;        //Text mode
 String textList[7] = {"First", "Second", "Thirth", "Fourth", "Fifth", "Sixtth", "Seventh"} ;
 
 void setup() {
+
+  //Real time clock sync with the temp clock
+  setSyncProvider(getTeensy3Time);
   //Attention: some SD cards fails to initalize after uploading the firmware
   // See if the card is present and can be initialized:
   //TODO. Open a dialog with advertising of this situation
@@ -792,6 +799,10 @@ void serialEvent() {
     startRaceAnalyzerCapture();
   } else if (commandString == "endRaceAnalyzerCapture") {
     endRaceAnalyzerCapture();
+  } else if (commandString == "getRtcTime") {
+    getRtcTime();
+  } else if (commandString == "setRtcTime") {
+    setRtcTime(parameters);
   } else {
     Serial.println("Not a valid command");
   }
@@ -2422,6 +2433,34 @@ void sendFile(String fullFileName)
     pos++;
   }
   file.close();
+}
+
+void getRtcTime()
+{
+  Serial.print(hour());
+  Serial.print(":");
+  Serial.print(minute());
+  Serial.print(":");
+  Serial.print(second());
+  Serial.print(" ");
+  Serial.print(year());
+  Serial.print("/");
+  Serial.print(month());
+  Serial.print("/");
+  Serial.print(day());
+  Serial.println();
+}
+
+//Sets the time of Teensy RTC. Seconds since 1970/1/1 0h:0m:0s
+void setRtcTime(String time)
+{
+  setTime( (time_t)time.toInt() );
+  Serial.print("tine set to: ");
+  getRtcTime();
+}
+
+time_t getTeensy3Time() {
+  return Teensy3Clock.get();
 }
 
 /*

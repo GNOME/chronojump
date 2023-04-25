@@ -74,20 +74,18 @@ public partial class ChronoJumpWindow
 	{
 		bool isFirst;
 		combo_presentation = UtilGtk.ComboSelectPrevious (combo_presentation, out isFirst);
+
 		button_presentation_left.Sensitive = ! isFirst;
 		button_presentation_right.Sensitive = true;
-
-		processPresentationActionsIfNeeded (combo_presentation.Active);
 	}
 
 	private void on_button_presentation_right_clicked (object o, EventArgs args)
 	{
 		bool isLast;
 		combo_presentation = UtilGtk.ComboSelectNext (combo_presentation, out isLast);
+
 		button_presentation_left.Sensitive = true;
 		button_presentation_right.Sensitive = ! isLast;
-
-		processPresentationActionsIfNeeded (combo_presentation.Active);
 	}
 
 	public void processPresentationActionsIfNeeded (int activePos)

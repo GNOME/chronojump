@@ -97,9 +97,7 @@ public partial class ChronoJumpWindow
 		foreach (PresentationAction pa in pa_l)
 		{
 			if (pa.ae == PresentationAction.ActionEnum.Mode && pa.parameter != "")
-			{
 				changeModeCheckRadios ((Constants.Modes) Enum.Parse (typeof (Constants.Modes), pa.parameter));
-			}
 			else if (pa.ae == PresentationAction.ActionEnum.LoadSessionByName && pa.parameter != "")
 			{
 				//do not do using guiTests because threads can cause that possible posterior SelectPersonByName happens when treeview_persons is still not updated
@@ -111,6 +109,8 @@ public partial class ChronoJumpWindow
 			}
 			else if (pa.ae == PresentationAction.ActionEnum.SelectPersonByName && pa.parameter != "")
 				chronojumpWindowTestsSelectPersonByName (pa.parameter);
+			else if (pa.ae == PresentationAction.ActionEnum.LoadImage && pa.parameter != "")
+				new DialogImageTest ("", pa.parameter, DialogImageTest.ArchiveType.FILE, "", 0, 0);
 		}
 	}
 }
@@ -196,7 +196,7 @@ Example of chronojump_presentation.txt
 #Exemple de presentació, # i línies en blanc no es processen
 #Si es vol posar accions, cal separar cada lína amb :::
 #Cada acció tindrà dos parts separades per :
-#Les accions disponibles ara mateix són: Mode, LoadSessionByName, SelectPersonByName
+#Les accions disponibles ara mateix són: Mode, LoadSessionByName, SelectPersonByName, LoadImage
 #Els Modes són: JUMPSSIMPLE, JUMPSREACTIVE, RUNSSIMPLE, RUNSINTERVALLIC, RUNSENCODER, POWERGRAVITATORY, POWERINERTIAL, FORCESENSORISOMETRIC, FORCESENSORELASTIC
 
 
@@ -205,7 +205,7 @@ i aquest el segon
 Un tercer punt amb 2 accions:::LoadSessionByName:Galga+Trigger:::Mode:FORCESENSORISOMETRIC
 Carrega Tutorial i William:::LoadSessionByName:Tutorial:::SelectPersonByName:William
 Aquest seria el 5è
-  Seria el 5.1
+  Seria el 5.1 que fa loadImage:::LoadImage:/home/xavier/Imatges/tarde.png
   Seria el 5.2
 Seria el sisè amb el Carmelo:::SelectPersonByName:Carmelo:::Mode:POWERGRAVITATORY
   Té un subpunt
@@ -280,7 +280,7 @@ public class PresentationSlide
 //TODO: move this class to src/presentation.cs
 public class PresentationAction
 {
-	public enum ActionEnum { LoadSessionByName, SelectPersonByName, Mode };
+	public enum ActionEnum { LoadSessionByName, SelectPersonByName, Mode, LoadImage };
 
 	public ActionEnum ae;
 	public string parameter;

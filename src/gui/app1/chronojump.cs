@@ -1167,6 +1167,10 @@ public partial class ChronoJumpWindow
 			UtilGtk.WidgetColor (frame_news_downloading, Config.ColorBackgroundShifted);
 			UtilGtk.ContrastLabelsFrame (Config.ColorBackgroundShiftedIsDark, frame_news_downloading);
 
+			//presentation
+			UtilGtk.ContrastLabelsLabel (Config.ColorBackgroundIsDark, label_presentation_subtitle);
+
+
 			if(Config.ColorBackgroundIsDark)
 				image_chronopic_connect_encoder2.Pixbuf =
 					new Pixbuf (null, Util.GetImagePath(false) + "image_chronopic_connect_yellow.png");

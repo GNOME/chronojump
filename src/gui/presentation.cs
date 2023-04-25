@@ -31,26 +31,19 @@ public partial class ChronoJumpWindow
 	Gtk.Button button_presentation_right;
 	Gtk.Image image_presentation_left;
 	Gtk.Image image_presentation_right;
+	Gtk.Label label_presentation_subtitle;
 	// <---- at glade
 
 	Gtk.ComboBoxText combo_presentation;
 	PresentationSlideList presentationSL;
-
-	private void connectWidgetsPresentation (Gtk.Builder builder)
-	{
-		box_presentation = (Gtk.Box) builder.GetObject ("box_presentation");
-		box_combo_presentation = (Gtk.Box) builder.GetObject ("box_combo_presentation");
-		button_presentation_left = (Gtk.Button) builder.GetObject ("button_presentation_left");
-		button_presentation_right = (Gtk.Button) builder.GetObject ("button_presentation_right");
-		image_presentation_left = (Gtk.Image) builder.GetObject ("image_presentation_left");
-		image_presentation_right = (Gtk.Image) builder.GetObject ("image_presentation_right");
-	}
 
 	private void presentationPrepare ()
 	{
 		presentationSL = new PresentationSlideList ();
 		if (! presentationSL.Read ())
 			return;
+
+		label_presentation_subtitle.Visible = presentationSL.HasSubtitles;
 
 		combo_presentation = UtilGtk.CreateComboBoxText (
 				box_combo_presentation,
@@ -90,13 +83,17 @@ public partial class ChronoJumpWindow
 
 	public void processPresentationActionsIfNeeded (int activePos)
 	{
+		label_presentation_subtitle.Text = "";
+
 		List<PresentationAction> pa_l = presentationSL.GetActionsOfThisSlide (activePos);
 		if (pa_l.Count == 0)
 			return;
 
 		foreach (PresentationAction pa in pa_l)
 		{
-			if (pa.ae == PresentationAction.ActionEnum.Mode && pa.parameter != "")
+			if (pa.ae == PresentationAction.ActionEnum.Sub && pa.parameter != "")
+				label_presentation_subtitle.Text = pa.parameter;
+			else if (pa.ae == PresentationAction.ActionEnum.Mode && pa.parameter != "")
 				changeModeCheckRadios ((Constants.Modes) Enum.Parse (typeof (Constants.Modes), pa.parameter));
 			else if (pa.ae == PresentationAction.ActionEnum.LoadSessionByName && pa.parameter != "")
 			{
@@ -113,16 +110,29 @@ public partial class ChronoJumpWindow
 				new DialogImageTest ("", pa.parameter, DialogImageTest.ArchiveType.FILE, "", 0, 0);
 		}
 	}
+
+	private void connectWidgetsPresentation (Gtk.Builder builder)
+	{
+		box_presentation = (Gtk.Box) builder.GetObject ("box_presentation");
+		box_combo_presentation = (Gtk.Box) builder.GetObject ("box_combo_presentation");
+		button_presentation_left = (Gtk.Button) builder.GetObject ("button_presentation_left");
+		button_presentation_right = (Gtk.Button) builder.GetObject ("button_presentation_right");
+		image_presentation_left = (Gtk.Image) builder.GetObject ("image_presentation_left");
+		image_presentation_right = (Gtk.Image) builder.GetObject ("image_presentation_right");
+		label_presentation_subtitle = (Gtk.Label) builder.GetObject ("label_presentation_subtitle");
+	}
 }
 
 //TODO: move this class to src/presentation.cs
 public class PresentationSlideList
 {
-	List<PresentationSlide> list;
+	private List<PresentationSlide> list;
+	private bool hasSubtitles; //if any slide has subtitles
 
 	public PresentationSlideList ()
 	{
 		list = new List<PresentationSlide> ();
+		hasSubtitles = false;
 	}
 
 	public bool Read()
@@ -151,6 +161,12 @@ public class PresentationSlideList
 					{
 						ps.AddAction (pa);
 						LogB.Information ("Added action: " + pa.ToString ());
+
+						if (pa.ActionIsSub ())
+						{
+							LogB.Information ("Action is sub");
+							hasSubtitles = true;
+						}
 					} else
 						ps.AddError ();
 				}
@@ -188,6 +204,10 @@ public class PresentationSlideList
 
 		return pa_l;
 	}
+
+	public bool HasSubtitles {
+		get { return hasSubtitles; }
+	}
 }
 
 //TODO: move this class to src/presentation.cs
@@ -201,12 +221,12 @@ Example of chronojump_presentation.txt
 
 
 Aquest és el primer punt
-i aquest el segon
+i aquest el segon que té subtítol:::Sub:El meu subtítol explicatiu.
 Un tercer punt amb 2 accions:::LoadSessionByName:Galga+Trigger:::Mode:FORCESENSORISOMETRIC
 Carrega Tutorial i William:::LoadSessionByName:Tutorial:::SelectPersonByName:William
 Aquest seria el 5è
   Seria el 5.1 que fa loadImage:::LoadImage:/home/xavier/Imatges/tarde.png
-  Seria el 5.2
+  Seria el 5.2:::Sub:Subtítol de la 5.2
 Seria el sisè amb el Carmelo:::SelectPersonByName:Carmelo:::Mode:POWERGRAVITATORY
   Té un subpunt
 Últim punt
@@ -215,11 +235,15 @@ public class PresentationSlide
 {
 	public string text;
 	public List<PresentationAction> action_l;
+
+	private string subtitle;
 	private bool errorInSomeAction; //note at Read time we cannot find here if the errors is in the parameter (like person does not exists in session)
 
 	public PresentationSlide ()
 	{
 		action_l = new List<PresentationAction> ();
+
+		subtitle = "";
 		errorInSomeAction = false;
 	}
 
@@ -228,9 +252,23 @@ public class PresentationSlide
 		action_l.Add (pa);
 	}
 
+	//to process diferent actions (including subtitle)
 	public bool HasActions ()
 	{
 		return (action_l != null && action_l.Count > 0);
+	}
+
+	//to print (*) if there is any action (subtitle does not count)
+	public bool HasActionsNotCountingSubtitle ()
+	{
+		if (! HasActions ())
+			return false;
+
+		foreach (PresentationAction pa in action_l)
+			if (pa.ae != PresentationAction.ActionEnum.Sub)
+				return true;
+
+		return false;
 	}
 
 	public List<PresentationAction> GetActions ()
@@ -242,7 +280,7 @@ public class PresentationSlide
 	public void AddText (string text, int countItems, int countSubitems)
 	{
 		string actionsStr = "";
-		if (HasActions ())
+		if (HasActionsNotCountingSubtitle ())
 			actionsStr = " (*)";
 
 		string actionErrorStr = "";
@@ -275,12 +313,19 @@ public class PresentationSlide
 
 		return str;
 	}
+
+	public string Subtitle
+	{
+		set { subtitle = value; }
+		get { return subtitle; }
+	}
 }
 
 //TODO: move this class to src/presentation.cs
 public class PresentationAction
 {
-	public enum ActionEnum { LoadSessionByName, SelectPersonByName, Mode, LoadImage };
+	//note Sub is an special action because it just displays the subitle, but it will not show the (*)
+	public enum ActionEnum { Sub, LoadSessionByName, SelectPersonByName, Mode, LoadImage };
 
 	public ActionEnum ae;
 	public string parameter;
@@ -305,6 +350,11 @@ public class PresentationAction
 			return false;
 
 		return true;
+	}
+
+	public bool ActionIsSub ()
+	{
+		return (ae == ActionEnum.Sub);
 	}
 
 	private bool actionExists (string str)

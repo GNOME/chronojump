@@ -43,7 +43,7 @@ String version = "Force_Sensor-0.5";
 int tareAddress = 0;
 int calibrationAddress = 4;
 
-HX711 scale(DOUT, CLK);
+HX711 scale;
 
 //Data comming from the cell after resting the offset weight
 float offsetted_data = 0;
@@ -70,6 +70,7 @@ bool lastRcaState = rcaState;
 
 void setup() {
   Serial.begin(115200);
+  scale.begin(DOUT, CLK);
 
   long tare = 0;
   EEPROM.get(tareAddress, tare);

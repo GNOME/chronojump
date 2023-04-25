@@ -1,0 +1,60 @@
+#NIRS_RM_D1, 1er subjecte, 1a sèrie, marcar només la 1a repetició
+
+#estadístiques de sessio (! singleFile) 
+#d <- scan ("/tmp/chronojump_enc_curve_1.txt", sep=",")
+d <- scan ("curve1.txt", sep=",")
+
+png ("por-sesion-previo.png", width=1920, height=1080)
+par (mar=c(5,4,4,2))
+plot (cumsum(d), main="Corte ecc/con como sesión previo a corrección", sub="Corte Ecc/Con en la media del valor más bajo.", xlab="Tiempo (ms)", ylab="Posición", type="l")
+abline (v=868)
+abline (v=870+1278)
+mtext ("Ecc", side=3, at=868/2)
+mtext ("Con", side=3, at=870+(1278/2))
+dev.off ()
+
+#provant amb el findCurvesNew
+
+#source("/home/xavier/informatica/progs_meus/chronojump/encoder/graph.R")
+d <- d[!is.na(d)] #if data file ends with comma. Last character will be an NA. remove it
+#print (d)
+#findCurvesNew (d, "ecS", FALSE, -1)
+
+#no xuta pq no hi ha baixade del concentric després, per tant faig:
+#d2=c(d, rep(-1,30))
+#findCurvesNew (d, "ecS", FALSE, -1)
+#findCurvesNew (d, "ecS", FALSE, 20)
+
+
+#però donen també el ecc/con a meitat del valor més baix, provant ara el reduceCurveBySpeed
+
+source("/home/xavier/informatica/progs_meus/chronojump/encoder/util.R")
+CROSSVALIDATESMOOTH = FALSE
+reduceCurveBySpeed ("ecS", 870, -293, d[870:(870+1278)], .7) #dona 1455 2149 -292
+
+#pintar-ho:
+
+png ("por-sesion-post.png", width=1920, height=1080)
+par (mar=c(5,4,4,5))
+plot (cumsum(d), main="Corte ecc/con como sesión corregidos", sub="Corte Ecc/Con separado y usando los cortes de la velocidad con 0.", xlab="Tiempo (ms)", ylab="Posición", type="l")
+abline (v=868)
+mtext ("Ecc", side=3, at=868/2)
+mtext ("Con", side=3, at=1454+(694/2))
+
+#speed com ho està fent el reduceCurveBySpeed (agafant a partir de 870)
+speed <- getSpeed(d[870:(870+1278)], .7)
+speed.ext <- extrema(speed$y)
+par(new=T)
+speed$x = speed$x + 870
+plot (speed, col="green", xlim=c(1, 870+length(speed$y)), xlab="", ylab="", axes=F, type="l")
+axis (4, col="green")
+mtext ("Velocidad", side=4, line=2)
+abline (h=0)
+abline (v=1454) #per què aquí?
+segments (x0=as.vector(speed.ext$cross + 870), y0=-.1, x1=as.vector(speed.ext$cross + 870), y1=.1, col="green")
+
+dev.off ()
+
+#estadístiques de sèrie (singleFile) 
+
+

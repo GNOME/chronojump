@@ -91,23 +91,23 @@ public partial class ChronoJumpWindow
 
 		foreach (PresentationAction pa in pa_l)
 		{
-			if (pa.ae == PresentationAction.ActionEnum.Sub && pa.parameter != "")
-				label_presentation_subtitle.Text = pa.parameter;
-			else if (pa.ae == PresentationAction.ActionEnum.Mode && pa.parameter != "")
-				changeModeCheckRadios ((Constants.Modes) Enum.Parse (typeof (Constants.Modes), pa.parameter));
-			else if (pa.ae == PresentationAction.ActionEnum.LoadSessionByName && pa.parameter != "")
+			if (pa.Ae == PresentationAction.ActionEnum.Sub && pa.Parameter != "")
+				label_presentation_subtitle.Text = pa.Parameter;
+			else if (pa.Ae == PresentationAction.ActionEnum.Mode && pa.Parameter != "")
+				changeModeCheckRadios ((Constants.Modes) Enum.Parse (typeof (Constants.Modes), pa.Parameter));
+			else if (pa.Ae == PresentationAction.ActionEnum.LoadSessionByName && pa.Parameter != "")
 			{
 				//do not do using guiTests because threads can cause that possible posterior SelectPersonByName happens when treeview_persons is still not updated
-				//chronojumpWindowTestsLoadSessionByName (pa.parameter);
+				//chronojumpWindowTestsLoadSessionByName (pa.Parameter);
 
-				currentSession = SqliteSession.SelectByName (pa.parameter);
+				currentSession = SqliteSession.SelectByName (pa.Parameter);
 				on_load_session_accepted();
 				sensitiveGuiYesSession();
 			}
-			else if (pa.ae == PresentationAction.ActionEnum.SelectPersonByName && pa.parameter != "")
-				chronojumpWindowTestsSelectPersonByName (pa.parameter);
-			else if (pa.ae == PresentationAction.ActionEnum.LoadImage && pa.parameter != "")
-				new DialogImageTest ("", pa.parameter, DialogImageTest.ArchiveType.FILE, "", 0, 0);
+			else if (pa.Ae == PresentationAction.ActionEnum.SelectPersonByName && pa.Parameter != "")
+				chronojumpWindowTestsSelectPersonByName (pa.Parameter);
+			else if (pa.Ae == PresentationAction.ActionEnum.LoadImage && pa.Parameter != "")
+				new DialogImageTest ("", pa.Parameter, DialogImageTest.ArchiveType.FILE, "", 0, 0);
 		}
 	}
 
@@ -189,7 +189,7 @@ public class PresentationSlideList
 	{
 		List<string> string_l = new List<string> ();
 		foreach (PresentationSlide ps in list)
-			string_l.Add (ps.text);
+			string_l.Add (ps.Text);
 
 		return string_l;
 	}
@@ -233,9 +233,8 @@ Seria el sisè amb el Carmelo:::SelectPersonByName:Carmelo:::Mode:POWERGRAVITATO
  */
 public class PresentationSlide
 {
-	public string text;
-	public List<PresentationAction> action_l;
-
+	private string text;
+	private List<PresentationAction> action_l;
 	private string subtitle;
 	private bool errorInSomeAction; //note at Read time we cannot find here if the errors is in the parameter (like person does not exists in session)
 
@@ -265,7 +264,7 @@ public class PresentationSlide
 			return false;
 
 		foreach (PresentationAction pa in action_l)
-			if (pa.ae != PresentationAction.ActionEnum.Sub)
+			if (pa.Ae != PresentationAction.ActionEnum.Sub)
 				return true;
 
 		return false;
@@ -314,6 +313,11 @@ public class PresentationSlide
 		return str;
 	}
 
+	public string Text
+	{
+		get { return text; }
+	}
+
 	public string Subtitle
 	{
 		set { subtitle = value; }
@@ -327,8 +331,8 @@ public class PresentationAction
 	//note Sub is an special action because it just displays the subitle, but it will not show the (*)
 	public enum ActionEnum { Sub, LoadSessionByName, SelectPersonByName, Mode, LoadImage };
 
-	public ActionEnum ae;
-	public string parameter;
+	private ActionEnum ae;
+	private string parameter;
 
 	public PresentationAction ()
 	{
@@ -384,6 +388,15 @@ public class PresentationAction
 	public override string ToString ()
 	{
 		return string.Format ("Action: {0}, Parameter: {1}", ae, parameter);
+	}
+
+	public ActionEnum Ae
+	{
+		get { return ae; }
+	}
+	public string Parameter
+	{
+		get { return parameter; }
 	}
 }
 

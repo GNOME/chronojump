@@ -153,7 +153,8 @@ public class PresentationSlideList
 					{
 						ps.AddAction (pa);
 						LogB.Information ("Added action: " + pa.ToString ());
-					}
+					} else
+						ps.AddError ();
 				}
 
 			if (parts[0].StartsWith ("  "))
@@ -216,10 +217,12 @@ public class PresentationSlide
 {
 	public string text;
 	public List<PresentationAction> action_l;
+	private bool errorInSomeAction; //note at Read time we cannot find here if the errors is in the parameter (like person does not exists in session)
 
 	public PresentationSlide ()
 	{
 		action_l = new List<PresentationAction> ();
+		errorInSomeAction = false;
 	}
 
 	public void AddAction (PresentationAction pa)
@@ -244,11 +247,24 @@ public class PresentationSlide
 		if (HasActions ())
 			actionsStr = " (*)";
 
+		string actionErrorStr = "";
+		if (errorInSomeAction)
+		{
+			LogB.Information ("hasErrorsInActions");
+			actionErrorStr = " (!)";
+		}
+
 		if (countSubitems == 0)
-			this.text = string.Format ("{0}. {1}{2}", countItems, text, actionsStr);
+			this.text = string.Format ("{0}. {1}{2}{3}", countItems, text, actionsStr, actionErrorStr);
 		else
-			this.text = string.Format ("  {0}.{1}. {2}{3}",
-					countItems, countSubitems, text.Substring(2), actionsStr); //removes 2 first chars
+			this.text = string.Format ("  {0}.{1}. {2}{3}{4}",
+					countItems, countSubitems, text.Substring(2), //removes 2 first chars
+					actionsStr, actionErrorStr);
+	}
+
+	public void AddError ()
+	{
+		errorInSomeAction = true;
 	}
 
 	//debug

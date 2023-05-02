@@ -144,11 +144,14 @@ If any problem:
 use gitg
 
 
-### Do a patch with unstaged changes (like a backup)
+### Create a patch with unstaged changes (like a backup)
 
     git diff > chronojump.patch
 https://stackoverflow.com/a/15438863
 
+### Apply a patch
+
+git apply -v chronojump.patch
 
 ### Mark current change as stable (or testing)
 

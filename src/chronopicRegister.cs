@@ -526,10 +526,13 @@ public class ChronopicRegisterLinux : ChronopicRegister
 
 		foreach (string lineOut in result.stdout.Split('\n'))
 		{
-			if (lineOut.Contains("ID_VENDOR=")) {
+			if (lineOut.Contains ("ID_VENDOR=") || lineOut.Contains ("ID_USB_VENDOR=")) //note before 2020 may 3 udevadm returned the first and now the second
+			{
 				string [] strFull = lineOut.Split(new char[] {'='});
 				crp.FTDI = (strFull[1] == "FTDI");
-			} else if (lineOut.Contains("ID_SERIAL_SHORT=")) {
+			}
+			else if (lineOut.Contains ("ID_SERIAL_SHORT=") || lineOut.Contains ("ID_USB_SERIAL_SHORT=")) //note before 2020 may 3 udevadm returned the first and now the second
+			{
 				string [] strFull = lineOut.Split(new char[] {'='});
 				crp.SerialNumber = strFull[1];
 			}

@@ -665,28 +665,30 @@ paint <- function(displacement, eccon, xmin, xmax, xrange, yrange, knRanges, pai
                 print(c("eccon",eccon))
                 print(c("time1",time1))
                 print(c("time2",time2))
-                crossMinRow=which(speed.ext$cross[,1] > time1 & speed.ext$cross[,1] < time2)
+                crossMinRows = which(speed.ext$cross[,1] > time1 & speed.ext$cross[,1] < time2) #can be 1 or more
                 
-                isometricUse = TRUE
+		isometricUse = TRUE
                 #TODO: con-ecc is opposite
                 
                 print("at paint")
                 
-                if(isometricUse) {
+                if(isometricUse && length(crossMinRows) > 1) #if isometricUse && more than 1 zero cross
+		{
                         print("at isometricUse")
                         print("speed.ext$cross")
                         print(speed.ext$cross)
-                        print("crossMinRow")
-                        print(crossMinRow)
-                        print("speed.ext$cross[crossMinRow,1]")
-                        print(speed.ext$cross[crossMinRow,1])
-                        eccentric=1:min(speed.ext$cross[crossMinRow,1])
-                        isometric=min(speed.ext$cross[crossMinRow,1]+1):max(speed.ext$cross[crossMinRow,2])
-                        concentric=max(speed.ext$cross[crossMinRow,2]+1):length(displacement)
+                        print("crossMinRows")
+                        print(crossMinRows)
+                        print("speed.ext$cross[crossMinRows,1]")
+                        print(speed.ext$cross[crossMinRows,1])
+
+	                eccentric = 1:min(speed.ext$cross[crossMinRows,1])
+			concentric = max(speed.ext$cross[crossMinRows,2]):length(displacement)
+			if (min(concentric) > max(eccentric))
+				isometric = (max(eccentric)+1):(min(concentric)-1)
                 } else {
-                        eccentric=1:mean(speed.ext$cross[crossMinRow,1])
-                        #isometric=mean(speed.ext$cross[crossMinRow,1]+1);mean(speed.ext$cross[crossMinRow,2])
-                        concentric=mean(speed.ext$cross[crossMinRow,2]+1):length(displacement)
+			eccentric = 1:mean(speed.ext$cross[crossMinRows,1])
+			concentric = mean(speed.ext$cross[crossMinRows,2]+1):length(displacement)
                 }
                 
                 if(draw && paintMode != "superpose")

@@ -79,10 +79,12 @@ plot (cumsum(d), main="Corte ecc/con usando getStableConcentricStart y predictSt
 abline (v=posMin)
 abline (v=posMin+dConShouldStart, col="red")
 
-dCon2 <- reduceCurveByPredictStartEnd (dCon, "c", minHeight)
-abline (v=posMin+573, col="blue") #the 573 is printed on reduceCurveByPredictStartEnd
+dConReduced_l <- reduceCurveByPredictStartEnd (dCon, "c", minHeight)
+abline (v=posMin+dConReduced_l$startPos, col="blue")
+mtext ("con start", side=3, at=posMin+dConReduced_l$startPos)
+abline (v=posMin+dConReduced_l$endPos, col="blue")
+mtext ("con end", side=3, at=posMin+dConReduced_l$endPos)
 
-#plot (cumsum(dCon), main="Concéntrico después de getStableConcentricStart y predictStartEnd", xlab="Tiempo (ms)", ylab="Posición", type="l")
 dev.off ()
 
 

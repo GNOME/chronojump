@@ -55,6 +55,34 @@ segments (x0=as.vector(speed.ext$cross + 870), y0=-.1, x1=as.vector(speed.ext$cr
 
 dev.off ()
 
-#estadístiques de sèrie (singleFile) 
+
+#fix the con start by using reduceCurveByPredictStartEnd (that also uses getStableConcentric/EccentricStart)
+#és un rotllo pq la depressió que hi ha a final del ecc és el que agafarà aquest mètode
+# la línia ___ està just 1 mm per sota de la ------
+#  ecc                           con
+# \                                /
+#  \                              /
+#   \                            /
+#    \____-----------------------
+#     Aixo
+# See graph on getStableConcentricStart
+
+minHeight <- 20
+position <- cumsum (d)
+posMin <- mean (which (position == min (position)))
+
+png ("por-sesion-post-2023.png", width=1920, height=1080)
+
+dCon <- d[posMin:length(d)]
+dConShouldStart <- getStableConcentricStart (dCon, minHeight)
+plot (cumsum(d), main="Corte ecc/con usando getStableConcentricStart y predictStartEnd", sub="red: getStableConcentricStart, blue: predictStartEnd", xlab="Tiempo (ms)", ylab="Posición", type="l")
+abline (v=posMin)
+abline (v=posMin+dConShouldStart, col="red")
+
+dCon2 <- reduceCurveByPredictStartEnd (dCon, "c", minHeight)
+abline (v=posMin+573, col="blue") #the 573 is printed on reduceCurveByPredictStartEnd
+
+#plot (cumsum(dCon), main="Concéntrico después de getStableConcentricStart y predictStartEnd", xlab="Tiempo (ms)", ylab="Posición", type="l")
+dev.off ()
 
 

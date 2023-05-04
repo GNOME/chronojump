@@ -448,6 +448,161 @@ getMass <- function(mass, gearedDown, angle) {
 	return ( ( mass / gearedDown ) * sin( angle * pi / 180 ) )
 }
 
+# 2023 getStableConcentricStart && reduceCurveByPredictStartEnd
+#
+# The initial / final zeros affect a lot to the power. reduceCurveBySpeed depends on this initial zeros, and some parts of the program like analysis set and analysis session sometimes have different number of zeros affecting the result.
+# This functions deletes initial zeros (as we do not know if movement started)
+# And calculates where the initial zero should be from a regression from right to left
+# And reconstruct the displacement
+# Check tests/fixEccConCutOnNotSingleFile/getCurveStartEnd.R
+# Check tests/fixEccConCutOnNotSingleFile/fixEccConCutOnNotSingleFile.R
+
+#######################################
+#  getStableConcentricStart ----> #####
+#######################################
+
+# i is the position we are searching if has n zeros at left
+hasNZerosAtLeft <- function (displacement, i, n)
+{
+	if (i <= n)
+		return (FALSE)
+
+	for (j in seq(i-1, i-n))
+		if (displacement[j] != 0)
+			return (FALSE)
+
+	return (TRUE)
+}
+
+# line ___ it is 1 mm below the line ------
+#                            con
+#                              /
+#                             t
+#                            /
+# ____----------------------s
+# this function finds s that has at least 10 ms of stability at left
+# t is the minHeight needed for being a repetition
+# Need to consider also that from s to top has to be >= minHeight
+getStableConcentricStart <- function (displacement, minHeight)
+{
+	position <- cumsum (displacement)
+
+	if (max (position) < minHeight)
+		return (1)
+
+	t <- min (which (position >= minHeight))
+
+	nZerosAtLeft <- 30
+	if (t - nZerosAtLeft <= 1)
+		return (1)
+
+	for (j in seq (t, nZerosAtLeft))
+		if (position[j] < position[t] &&
+		    hasNZerosAtLeft (displacement, j, nZerosAtLeft) &&
+		    max(position) - position[j] >= minHeight)
+			return (j)
+
+	if (foundPos == 1)
+		return (1)
+}
+
+getStableEccentricStart <- function (displacement, minHeight)
+{
+	return (getStableConcentricStart (-1 * displacement, minHeight))
+}
+
+#######################################
+#  <---- getStableConcentricStart #####
+#######################################
+
+
+#########################################
+# reduceCurveByPredictStartEnd ----> ####
+#########################################
+
+getPositionSplineLeft <- function (position)
+{
+	x <- 1:length(position)
+	weights <- 1-(position/20)
+	weights[weights <= 0.05] <- 0.05
+
+	return (smooth.spline (x, position, w=weights))
+}
+# get spline by decreasing weights
+getPositionSplineRight <- function (position)
+{
+	x <- 1:length(position)
+	posTemp = abs(position-(max(position)))
+	weights <- 1 - posTemp/20
+	weights[weights <= 0.05] <- 0.05
+
+	return (smooth.spline (x, position, w=weights))
+}
+
+# predict left start
+predictNeededZerosAtLeft <- function (positionSplineLeft)
+{
+	xPre <- seq(from=-50, to=0, length.out=400)
+	prediction <- predict(positionSplineLeft, x = xPre)
+	pos <- max(which(abs(prediction$y) == min(abs(prediction$y))))
+
+	return (c(prediction$x[pos], prediction$y[pos]))
+}
+
+# predict right end
+predictNeededZerosAtRight <- function (positionSplineRight, position, maxx)
+{
+	xPre <- seq(from=maxx, to=maxx+50, length.out=400)
+	prediction <- predict(positionSplineRight, x = xPre)
+	predictionYStored <- prediction$y
+	prediction$y <- abs(prediction$y - (max(position)+1))
+	pos <- min(which(abs(prediction$y) == min(abs(prediction$y))))
+
+	return (c(prediction$x[pos], predictionYStored[pos]))
+}
+
+
+# This should work for all eccons, check tests/fixEccConCutOnNotSingleFile/getCurveStartEnd.R
+reduceCurveByPredictStartEnd <- function (displacement, eccon, minHeight)
+{
+	# 1 cut by getStableConcentricStart, getStableEccentricStart
+	startByStability <- 1
+	if (eccon == "c")
+		startByStability <- getStableConcentricStart (displacement, minHeight)
+	else if (eccon == "e")
+		startByStability <- getStableEccentricStart (displacement, minHeight)
+	#TODO: eccon == "ec"
+		
+	if (startByStability > 1)
+		displacement <- displacement [startByStability:length(displacement)]
+
+	# 2 delete initial/final zeros
+	firstInitialNonZero <- min(which(displacement != 0))
+	lastFinalNonZero <- max(which(displacement != 0))
+
+	displacement <- displacement[firstInitialNonZero:lastFinalNonZero]
+	position <- cumsum (displacement)
+
+	# 3 get needed zeros at start/end
+	x <- 1:length(position)
+	positionSplineLeft <- getPositionSplineLeft (position)
+	positionSplineRight <- getPositionSplineRight (position)
+
+	pointCrossY0 <- predictNeededZerosAtLeft (positionSplineLeft)
+	zerosAtLeft <- abs(round(pointCrossY0[1], 0))
+
+	pointCrossMaxYPlus1 <- predictNeededZerosAtRight (positionSplineRight, position, max(x))
+	zerosAtRight <- round(pointCrossMaxYPlus1[1], 0) - length(position)
+
+	# 4 return the reconstructed curve
+	print (paste ("start moved to: ", startByStability + (firstInitialNonZero -1) - zerosAtLeft))
+	return (c(rep(0, zerosAtLeft), displacement, rep(0, zerosAtRight)))
+}
+
+#########################################
+# <---- reduceCurveByPredictStartEnd ####
+#########################################
+
 
 #used in alls eccons
 reduceCurveBySpeed <- function(eccon, startT, startH, displacement, smoothingOneC) 

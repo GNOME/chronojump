@@ -482,7 +482,7 @@ hasNZerosAtLeft <- function (displacement, i, n)
 # ____----------------------s
 # this function finds s that has at least 10 ms of stability at left
 # t is the minHeight needed for being a repetition
-# Need to consider also that from s to top has to be >= minHeight
+# Considers also that from s to top has to be >= minHeight
 getStableConcentricStart <- function (displacement, minHeight)
 {
 	position <- cumsum (displacement)
@@ -595,8 +595,12 @@ reduceCurveByPredictStartEnd <- function (displacement, eccon, minHeight)
 	zerosAtRight <- round(pointCrossMaxYPlus1[1], 0) - length(position)
 
 	# 4 return the reconstructed curve
-	print (paste ("start moved to: ", startByStability + (firstInitialNonZero -1) - zerosAtLeft))
-	return (c(rep(0, zerosAtLeft), displacement, rep(0, zerosAtRight)))
+	#print (paste ("start moved to: ", startByStability + (firstInitialNonZero -1) - zerosAtLeft))
+	return (list (
+		      curve = c(rep(0, zerosAtLeft), displacement, rep(0, zerosAtRight)),
+		      startPos = startByStability + firstInitialNonZero - zerosAtLeft,
+		      endPos = startByStability + lastFinalNonZero + zerosAtRight
+		    ))
 }
 
 #########################################

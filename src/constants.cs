@@ -1143,7 +1143,7 @@ public class Constants
 	public static string ROSX = "/Library/Frameworks/R.framework/Resources/R";
 	public static string RScriptOSX = "/Library/Frameworks/R.framework/Resources/Rscript";
 
-	public static string RmacDownload = "https://cran.rediris.es/bin/macosx/R-3.6.3.nn.pkg";
+	public static string RmacDownload = "https://cran-archive.r-project.org/bin/macosx/el-capitan/base/R-3.6.3.nn.pkg";
 	
 	//public static string EncoderScriptCapturePythonLinux = "pyserial_pyper.py";
 	//public static string EncoderScriptCapturePythonWindows = "pyserial_pyper_windows.exe";

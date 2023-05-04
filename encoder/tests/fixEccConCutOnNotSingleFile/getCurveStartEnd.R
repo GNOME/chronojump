@@ -76,6 +76,9 @@ predictNeededZerosAtRight <- function (positionSplineRight, position, maxx)
 
 process <- function (displacement, title, imageTitle, graph, startIsCon)
 {
+	#TODO: note here the getStableConcentricStart is not being applied, is just a test done before adding that function
+	#fixEccConCutOnNotSingleFile.R is more updated implementing both
+
 	firstInitialNonZero <- min(which(displacement != 0))
 	lastFinalNonZero <- max(which(displacement != 0))
 

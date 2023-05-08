@@ -5251,7 +5251,7 @@
                                                 <property name="visible">True</property>
                                                 <property name="can-focus">True</property>
                                                 <property name="invisible-char">●</property>
-                                                <property name="width-chars">5</property>
+                                                <property name="width-chars">7</property>
                                                 <property name="primary-icon-activatable">False</property>
                                                 <property name="secondary-icon-activatable">False</property>
                                                 <property name="adjustment">adjustment37</property>
@@ -5307,7 +5307,7 @@
                                                 <property name="visible">True</property>
                                                 <property name="can-focus">True</property>
                                                 <property name="invisible-char">●</property>
-                                                <property name="width-chars">5</property>
+                                                <property name="width-chars">7</property>
                                                 <property name="primary-icon-activatable">False</property>
                                                 <property name="secondary-icon-activatable">False</property>
                                                 <property name="adjustment">adjustment38</property>

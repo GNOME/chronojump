@@ -293,11 +293,11 @@ public class DiscoverWindow
 			if (discoverMatchCurrentMode (crp.Type))
 			{
 				b.Sensitive = true;
-				b.Label = "Use this!";
+				b.Label = Catalog.GetString ("Use this!");
 			} else
 			{
 				b.Sensitive = false;
-				b.Label = "NC";
+				b.Label = Catalog.GetString ("NC");
 				box_micro_discover_nc.Visible = true;
 			}
 
@@ -353,10 +353,10 @@ public class DiscoverWindow
 				{
 					(progressbar_microNotDiscovered_l[i]).Text = ChronopicRegisterPort.TypePrint(microDiscover.Discovered_l[i]);
 					button_microNotDiscovered_l[i].Sensitive = true;
-					button_microNotDiscovered_l[i].Label = "Use this!";
+					button_microNotDiscovered_l[i].Label = Catalog.GetString ("Use this!");
 					button_microNotDiscovered_l[i].Clicked += new EventHandler(on_discover_use_this_clicked);
 				} else {
-					button_microNotDiscovered_l[i].Label = "NC";
+					button_microNotDiscovered_l[i].Label = Catalog.GetString ("NC");
 					box_micro_discover_nc.Visible = true;
 				}
 			}

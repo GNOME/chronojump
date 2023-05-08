@@ -30,7 +30,7 @@ public class Person
 {
 	private int uniqueID;
 	private string name;
-	private string sex; // "M" (male) , "F" (female) (Constants.M, Constants.F)
+	private string sex; // "-" (Unspecified), "M" (male) , "F" (female) (Constants.SexU, Constants.SexM, Constants.SexF)
 	private DateTime dateBorn;
 	private int race;
 	private int countryID;
@@ -53,7 +53,7 @@ public class Person
 	{
 		this.uniqueID = uniqueID;
 		this.name = name;
-		this.sex = "M";
+		this.sex = Constants.SexU;
 		this.dateBorn = DateTime.Now;
 		this.race = Constants.RaceUndefinedID;
 		this.countryID = Constants.CountryUndefinedID; //1

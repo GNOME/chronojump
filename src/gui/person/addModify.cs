@@ -32,8 +32,9 @@ public class PersonAddModifyWindow
 	Gtk.RadioButton radio_metric;
 	Gtk.RadioButton radio_imperial;
 	Gtk.Entry entry1;
-	Gtk.RadioButton radiobutton_man;
-	Gtk.RadioButton radiobutton_woman;
+	Gtk.RadioButton radiobutton_sex_u;
+	Gtk.RadioButton radiobutton_sex_m;
+	Gtk.RadioButton radiobutton_sex_f;
 	Gtk.Entry entry_club_id;
 	Gtk.TextView textview_description;
 	Gtk.TextView textview_ps_comments;
@@ -144,7 +145,7 @@ public class PersonAddModifyWindow
 	private string videoDeviceResolution;
 	private string videoDeviceFramerate;
 	private PersonSession currentPersonSession;
-	private string sex = Constants.M;
+	private string sex = Constants.SexU;
 	private double weightIniMetric;
 	int pDN;
 	//Gtk.CheckButton app1_checkbutton_video_contacts;
@@ -536,17 +537,22 @@ public class PersonAddModifyWindow
 		*/
 		button_accept.Sensitive = true;
 	}
-		
-	void on_radiobutton_man_toggled (object o, EventArgs args)
+
+	void on_radiobutton_sex_u_toggled (object o, EventArgs args)
 	{
-		sex = Constants.M;
+		sex = Constants.SexU;
 	}
 	
-	void on_radiobutton_woman_toggled (object o, EventArgs args)
+	void on_radiobutton_sex_m_toggled (object o, EventArgs args)
 	{
-		sex = Constants.F;
+		sex = Constants.SexM;
 	}
 	
+	void on_radiobutton_sex_f_toggled (object o, EventArgs args)
+	{
+		sex = Constants.SexF;
+	}
+
 	static public PersonAddModifyWindow Show (Gtk.Window parent, 
 			Session mySession, Person currentPerson, int pDN, 
 			//Gtk.CheckButton app1_checkbutton_video, bool showCapturePhoto,
@@ -735,11 +741,12 @@ public class PersonAddModifyWindow
 			//PERSON STUFF
 			entry1.Text = currentPerson.Name;
 			entry_club_id.Text = currentPerson.Future2;
-			if (currentPerson.Sex == Constants.M) {
-				radiobutton_man.Active = true;
-			} else {
-				radiobutton_woman.Active = true;
-			}
+			if (currentPerson.Sex == Constants.SexU)
+				radiobutton_sex_u.Active = true;
+			else if (currentPerson.Sex == Constants.SexM)
+				radiobutton_sex_m.Active = true;
+			else 	//(currentPerson.Sex == Constants.SexF)
+				radiobutton_sex_f.Active = true;
 
 			dateTime = currentPerson.DateBorn;
 			if(dateTime == DateTime.MinValue)
@@ -1351,8 +1358,9 @@ public class PersonAddModifyWindow
 		radio_metric = (Gtk.RadioButton) builder.GetObject ("radio_metric");
 		radio_imperial = (Gtk.RadioButton) builder.GetObject ("radio_imperial");
 		entry1 = (Gtk.Entry) builder.GetObject ("entry1");
-		radiobutton_man = (Gtk.RadioButton) builder.GetObject ("radiobutton_man");
-		radiobutton_woman = (Gtk.RadioButton) builder.GetObject ("radiobutton_woman");
+		radiobutton_sex_u = (Gtk.RadioButton) builder.GetObject ("radiobutton_sex_u");
+		radiobutton_sex_m = (Gtk.RadioButton) builder.GetObject ("radiobutton_sex_m");
+		radiobutton_sex_f = (Gtk.RadioButton) builder.GetObject ("radiobutton_sex_f");
 		entry_club_id = (Gtk.Entry) builder.GetObject ("entry_club_id");
 		textview_description = (Gtk.TextView) builder.GetObject ("textview_description");
 		textview_ps_comments = (Gtk.TextView) builder.GetObject ("textview_ps_comments");

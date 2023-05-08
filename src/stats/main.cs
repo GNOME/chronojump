@@ -264,7 +264,7 @@ public class Stat
 					if(isNotAVGOrSD(iter)) {
 						string nameAndSex = (string) store.GetValue (iter, 1);
 						string [] stringFull = nameAndSex.Split(new char[] {'.'});
-						if(stringFull.Length > 1 && stringFull[1].StartsWith("M")) {
+						if(stringFull.Length > 1 && stringFull[1].StartsWith (Constants.SexM)) {
 							store.SetValue (iter, 0, true);
 							addRowToMarkedRows(treeview.Model.GetPath(iter).ToString());
 						} else {
@@ -278,7 +278,7 @@ public class Stat
 					if(isNotAVGOrSD(iter)) {
 						string nameAndSex = (string) store.GetValue (iter, 1);
 						string [] stringFull = nameAndSex.Split(new char[] {'.'});
-						if(stringFull.Length > 1 && stringFull[1].StartsWith("F")) {
+						if(stringFull.Length > 1 && stringFull[1].StartsWith (Constants.SexF)) {
 							store.SetValue (iter, 0, true);
 							addRowToMarkedRows(treeview.Model.GetPath(iter).ToString());
 						} else {

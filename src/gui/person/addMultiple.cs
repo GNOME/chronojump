@@ -29,17 +29,17 @@ using Mono.Unix;
 public class PersonAddMultipleTable
 {
 	public string name;
-	public bool maleOrFemale;
+	public string sex;
 	public double weight;
 	public double height;
 	public double legsLength;
 	public double hipsHeight;
 
-	public PersonAddMultipleTable (string name, bool maleOrFemale, double weight,
+	public PersonAddMultipleTable (string name, string sex, double weight,
 			double height, double legsLength, double hipsHeight)
 	{
 		this.name = name;
-		this.maleOrFemale = maleOrFemale;
+		this.sex = sex;
 		this.weight = weight;
 		this.height = height;
 		this.legsLength = legsLength;
@@ -147,6 +147,7 @@ public class PersonAddMultipleWindow
 
 	//use this to read/write table
 	ArrayList entries;
+	ArrayList radiosU;
 	ArrayList radiosM;
 	ArrayList radiosF;
 	ArrayList spinsWeight;
@@ -330,7 +331,11 @@ public class PersonAddMultipleWindow
 
 	private void textviewUpdate ()
 	{
-		string s1 = Catalog.GetString ("To differentiate between male and female,\nuse the values 1/0, or m/f, or M/F on the genre column.") + "\n\n" +
+		string s1 = Catalog.GetString ("To differentiate between male and female,\nuse any of these on the sex column:") +
+			"\n - " + Catalog.GetString ("Unspecified/Unknown:") + " (U, u, -)" +
+			"\n - " + Catalog.GetString ("Male:") + " (M, m, 1)" +
+			"\n - " + Catalog.GetString ("Female:") + " (F, f, 0)" +
+			"\n\n" +
 			Catalog.GetString ("Save the spreadsheet as CSV (Comma Separated Values).");
 		string s2 = string.Format (Catalog.GetString(
 					"Expected column separator character is '{0}'"), columnDelimiter) +
@@ -454,7 +459,7 @@ public class PersonAddMultipleWindow
 				{
 					string fullname = "";
 					string onlyname = "";
-					bool maleOrFemale = true;
+					string sex = Constants.SexU;
 					double weight = 0;
 					double height = 0;
 					double legsLength = 0;
@@ -479,8 +484,12 @@ public class PersonAddMultipleWindow
 						}
 						else if(col == 1 && ! name1Col)
 							fullname = onlyname + " " + str;
-						else if (col == genreCol && (str == "0" || str == "f" || str == "F")) 	//female symbols
-							maleOrFemale = false;
+						else if (col == genreCol && (str == "-" || str == Constants.SexU.ToLower() || str == Constants.SexU))
+							sex = Constants.SexU;
+						else if (col == genreCol && (str == "1" || str == Constants.SexM.ToLower() || str == Constants.SexM))
+							sex = Constants.SexM;
+						else if (col == genreCol && (str == "0" || str == Constants.SexF.ToLower() || str == Constants.SexF))
+							sex = Constants.SexF;
 						else if (col == weightCol)
 						{
 							try {
@@ -535,7 +544,7 @@ public class PersonAddMultipleWindow
 					//if headers are active do not add first row
 					if( ! (headersActive && row == 0) ) {
 						PersonAddMultipleTable pamt = new PersonAddMultipleTable (
-								Util.MakeValidSQL(fullname), maleOrFemale, weight,
+								Util.MakeValidSQL(fullname), sex, weight,
 								height, legsLength, hipsHeight);
 
 						array.Add(pamt);
@@ -597,6 +606,7 @@ public class PersonAddMultipleWindow
 		error_label_no_weight_l = new List<Gtk.Label>();
 
 		entries = new ArrayList();
+		radiosU = new ArrayList();
 		radiosM = new ArrayList();
 		radiosF = new ArrayList();
 		spinsWeight = new ArrayList();
@@ -729,18 +739,22 @@ public class PersonAddMultipleWindow
 			myEntry.Show();
 			entries.Add(myEntry);
 
+			Gtk.RadioButton myRadioU = new Gtk.RadioButton (Catalog.GetString (Constants.SexU));
+			myRadioU.Show ();
+			radiosU.Add (myRadioU);
 			
-			Gtk.RadioButton myRadioM = new Gtk.RadioButton(Catalog.GetString(Constants.M));
-			myRadioM.Show();
-			radiosM.Add(myRadioM);
+			Gtk.RadioButton myRadioM = new Gtk.RadioButton (myRadioU, Catalog.GetString (Constants.SexM));
+			myRadioM.Show ();
+			radiosM.Add (myRadioM);
 			
-			Gtk.RadioButton myRadioF = new Gtk.RadioButton(myRadioM, Catalog.GetString(Constants.F));
-			myRadioF.Show();
-			radiosF.Add(myRadioF);
+			Gtk.RadioButton myRadioF = new Gtk.RadioButton (myRadioU, Catalog.GetString (Constants.SexF));
+			myRadioF.Show ();
+			radiosF.Add (myRadioF);
 			
 			Gtk.HBox sexBox = new HBox();
-			sexBox.PackStart(myRadioM, false, false, 4);
-			sexBox.PackStart(myRadioF, false, false, 4);
+			sexBox.PackStart(myRadioU, false, false, 2);
+			sexBox.PackStart(myRadioM, false, false, 2);
+			sexBox.PackStart(myRadioF, false, false, 2);
 			sexBox.Show();
 			table_main.Attach (sexBox, (uint) x, (uint) ++x, (uint) count, (uint) count +1,
 					Gtk.AttachOptions.Shrink, Gtk.AttachOptions.Shrink, padding, padding);
@@ -835,8 +849,9 @@ public class PersonAddMultipleWindow
 		foreach (PersonAddMultipleTable pamt in array)
 		{
 			((Gtk.Entry) entries[i]).Text = pamt.name;
-			((Gtk.RadioButton) radiosM[i]).Active = pamt.maleOrFemale;
-			((Gtk.RadioButton) radiosF[i]).Active = ! pamt.maleOrFemale;
+			((Gtk.RadioButton) radiosU[i]).Active = (pamt.sex == Constants.SexU);
+			((Gtk.RadioButton) radiosM[i]).Active = (pamt.sex == Constants.SexM);
+			((Gtk.RadioButton) radiosF[i]).Active = (pamt.sex == Constants.SexF);
 			LogB.Information("going to weight");
 			((Gtk.SpinButton) spinsWeight[i]).Value = pamt.weight;
 
@@ -1038,8 +1053,11 @@ public class PersonAddMultipleWindow
 		for (int i = rows -1; i >= 0; i --) 
 			if(((Gtk.Entry)entries[i]).Text.ToString().Length > 0) 
 			{
-				sex = Constants.F;
-				if(((Gtk.RadioButton)radiosM[i]).Active) { sex = Constants.M; }
+				sex = Constants.SexU;
+				if (((Gtk.RadioButton) radiosM[i]).Active)
+					sex = Constants.SexM;
+				else if (((Gtk.RadioButton) radiosF[i]).Active)
+					sex = Constants.SexF;
 
 				PersonSession psExisting = new PersonSession ();
 				bool createPerson = true;

@@ -3964,10 +3964,12 @@ class Sqlite
 		string strWhere  = " WHERE " + tableName + ".type = \"" + test + "\"";
 
 		string strSex = "";
-		if(sex == Constants.MaleID) 
-			strSex = " AND " + tp + ".sex == \"" + Constants.M + "\"";
-		else if (sex == Constants.FemaleID) 
-			strSex = " AND " + tp + ".sex == \"" + Constants.F + "\"";
+		if(sex == Constants.SexUID)
+			strSex = " AND " + tp + ".sex == \"" + Constants.SexM + "\"";
+		else if(sex == Constants.SexMID)
+			strSex = " AND " + tp + ".sex == \"" + Constants.SexM + "\"";
+		else if (sex == Constants.SexFID)
+			strSex = " AND " + tp + ".sex == \"" + Constants.SexF + "\"";
 
 		string strAge = "";
 		string strEval = "";

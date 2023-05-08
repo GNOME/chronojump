@@ -222,13 +222,15 @@ public class Constants
 	public const string UndefinedDefault = "Undefined";
 	public const string Any = "Any";
 
-	public const string M = "M";
-	public const string F = "F";
+	public const string SexU = "U";
+	public const string SexM = "M";
+	public const string SexF = "F";
 	public const string Males = "Males";
 	public const string Females = "Females";
-	public const int AnyID = -1;
-	public const int MaleID = 1;
-	public const int FemaleID = 0;
+	public const int SexUID = -2;
+	public const int SexMID = 1;
+	public const int SexFID = 0;
+	public const int AnyID = -1; //not only related to sex
 
 	//person & personSession stuff
 	public const string Name = "name";

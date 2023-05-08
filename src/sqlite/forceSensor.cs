@@ -364,7 +364,7 @@ class SqliteForceSensor : Sqlite
 					if(unknownPersonID == -1)
 					{
 						LogB.Information("going to insert person Unknown");
-						Person pUnknown = new Person (Catalog.GetString("Unknown"), "M", DateTime.Now,
+						Person pUnknown = new Person (Catalog.GetString("Unknown"), Constants.SexU, DateTime.Now,
 								Constants.RaceUndefinedID,
 								Constants.CountryUndefinedID,
 								"", "", "", //description; future1: rfid; future2: clubID

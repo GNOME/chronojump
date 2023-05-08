@@ -41,7 +41,7 @@ class SqlitePerson : Sqlite
 			"CREATE TABLE " + tableName + " ( " +
 			"uniqueID INTEGER PRIMARY KEY, " +
 			"name TEXT, " +
-			"sex TEXT, " +
+			"sex TEXT, " + //since May 2023 can be -,F,M (first one is Unspecified)
 			"dateborn TEXT, " + //YYYY-MM-DD since db 0.72
 			"race INT, " + 
 			"countryID INT, " + 

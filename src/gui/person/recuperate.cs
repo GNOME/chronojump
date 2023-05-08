@@ -187,12 +187,14 @@ public class PersonRecuperateWindow
 
 	protected string getCorrectSex (string sex) 
 	{
-		if (sex == Constants.M) return  Catalog.GetString("Man");
-		//this "F" is in spanish, change in the future to "W"
-		else if (sex == Constants.F) return  Catalog.GetString ("Woman");
-		else { 
+		if (sex == Constants.SexU)
+			return Catalog.GetString ("Unspecified");
+		else if (sex == Constants.SexM)
+			return Catalog.GetString ("Man");
+		else if (sex == Constants.SexF)
+			return Catalog.GetString ("Woman");
+		else
 			return ""; //PersonsRecuperateFromOtherSessionWindow should pass a "" for ALL PERSONS
-		}
 	}
 	
 	protected void on_entry_search_filter_changed (object o, EventArgs args) {

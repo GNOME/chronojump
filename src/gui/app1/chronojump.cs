@@ -304,6 +304,8 @@ public partial class ChronoJumpWindow
 	Gtk.Label label_micro_discover_not_found;
 	Gtk.Frame frame_micro_discover;
 	Gtk.Table table_micro_discover;
+	Gtk.Box box_micro_discover_nc;
+	Gtk.Label label_micro_discover_nc_current_mode;
 	Gtk.HBox hbox_contacts_detect_and_execute;
 	Gtk.HBox hbox_encoder_detect_and_execute;
 	Gtk.Button button_contacts_detect;
@@ -4915,10 +4917,13 @@ public partial class ChronoJumpWindow
 		label_micro_discover_title.Text = string.Format (Catalog.GetString (
 					"Compatible with: <b>{0}</b>"), Constants.ModePrint (current_mode));
 		label_micro_discover_title.UseMarkup = true;
+		box_micro_discover_nc.Visible = false;
+		label_micro_discover_nc_current_mode.Text = Constants.ModePrint (current_mode);
 
 		discoverWin = new DiscoverWindow (current_mode, chronopicRegister,
 			label_micro_discover_not_found,
 			table_micro_discover,
+			box_micro_discover_nc,
 			image_button_micro_discover_cancel_close,
 			label_button_micro_discover_cancel_close,
 			Constants.ModeIcon (current_mode));
@@ -9389,6 +9394,8 @@ LogB.Debug("mc finished 5");
 		label_micro_discover_not_found = (Gtk.Label) builder.GetObject ("label_micro_discover_not_found");
 		frame_micro_discover = (Gtk.Frame) builder.GetObject ("frame_micro_discover");
 		table_micro_discover = (Gtk.Table) builder.GetObject ("table_micro_discover");
+		box_micro_discover_nc = (Gtk.Box) builder.GetObject ("box_micro_discover_nc");
+		label_micro_discover_nc_current_mode = (Gtk.Label) builder.GetObject ("label_micro_discover_nc_current_mode");
 		hbox_contacts_detect_and_execute = (Gtk.HBox) builder.GetObject ("hbox_contacts_detect_and_execute");
 		hbox_encoder_detect_and_execute = (Gtk.HBox) builder.GetObject ("hbox_encoder_detect_and_execute");
 		button_contacts_detect = (Gtk.Button) builder.GetObject ("button_contacts_detect");

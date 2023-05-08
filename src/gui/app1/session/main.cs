@@ -304,7 +304,7 @@ public partial class ChronoJumpWindow
 						Catalog.GetString("Error. Cannot open directory.") + "\n\n" + dir);
 		}
 		else {
-			app1s_label_view_data_folder_mode_name.Text = "<b>" + modePrint (current_mode) + "</b>";
+			app1s_label_view_data_folder_mode_name.Text = "<b>" + Constants.ModePrint (current_mode) + "</b>";
 			app1s_label_view_data_folder_mode_name.UseMarkup = true;
 
 			app1s_label_view_data_folder_session.Text = string.Format("({0}) <b>{1}</b>",

@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Copyright (C) 2004-2022   Xavier de Blas <xaviblas@gmail.com>
+ *  Copyright (C) 2004-2023   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -1089,6 +1089,34 @@ public class Constants
 			return "encoder";
 		else if(ModeIsFORCESENSOR (mode))
 			return "forceSensor";
+		else
+			return ""; //should never happen
+	}
+
+	public static string ModePrint (Constants.Modes mode)
+	{
+		if(mode == Constants.Modes.JUMPSSIMPLE)
+			return Catalog.GetString("Jumps simple");
+		else if(mode == Constants.Modes.JUMPSREACTIVE)
+			return Catalog.GetString("Jumps multiple");
+		else if(mode == Constants.Modes.RUNSSIMPLE)
+			return Catalog.GetString("Races simple");
+		else if(mode == Constants.Modes.RUNSINTERVALLIC)
+			return Catalog.GetString("Races intervallic");
+		else if(mode == Constants.Modes.RUNSENCODER)
+			return Catalog.GetString("Race analyzer");
+		else if(mode == Constants.Modes.POWERGRAVITATORY)
+			return Catalog.GetString("Encoder (gravitatory)");
+		else if(mode == Constants.Modes.POWERINERTIAL)
+			return Catalog.GetString("Encoder (inertial)");
+		else if(mode == Constants.Modes.FORCESENSORISOMETRIC)
+			return Catalog.GetString("Isometric");
+		else if(mode == Constants.Modes.FORCESENSORELASTIC)
+			return Catalog.GetString("Elastic");
+		else if(mode == Constants.Modes.RT)
+			return Catalog.GetString("Reaction time");
+		else if(mode == Constants.Modes.OTHER)
+			return Catalog.GetString("Other");
 		else
 			return ""; //should never happen
 	}

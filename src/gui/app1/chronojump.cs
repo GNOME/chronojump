@@ -3272,7 +3272,7 @@ public partial class ChronoJumpWindow
 
 		if(mode != Constants.Modes.UNDEFINED)
 		{
-			string modeStr = modePrint (mode);
+			string modeStr = Constants.ModePrint (mode);
 			if(modeStr != "")
 				title += " - " + modeStr;
 		}
@@ -3281,34 +3281,6 @@ public partial class ChronoJumpWindow
 			title += " - DEBUG MODE";
 
 		app1.Title = title;
-	}
-
-	private string modePrint (Constants.Modes mode)
-	{
-		if(mode == Constants.Modes.JUMPSSIMPLE)
-			return Catalog.GetString("Jumps simple");
-		else if(mode == Constants.Modes.JUMPSREACTIVE)
-			return Catalog.GetString("Jumps multiple");
-		else if(mode == Constants.Modes.RUNSSIMPLE)
-			return Catalog.GetString("Races simple");
-		else if(mode == Constants.Modes.RUNSINTERVALLIC)
-			return Catalog.GetString("Races intervallic");
-		else if(mode == Constants.Modes.RUNSENCODER)
-			return Catalog.GetString("Race analyzer");
-		else if(mode == Constants.Modes.POWERGRAVITATORY)
-			return Catalog.GetString("Encoder (gravitatory)");
-		else if(mode == Constants.Modes.POWERINERTIAL)
-			return Catalog.GetString("Encoder (inertial)");
-		else if(mode == Constants.Modes.FORCESENSORISOMETRIC)
-			return Catalog.GetString("Isometric");
-		else if(mode == Constants.Modes.FORCESENSORELASTIC)
-			return Catalog.GetString("Elastic");
-		else if(mode == Constants.Modes.RT)
-			return Catalog.GetString("Reaction time");
-		else if(mode == Constants.Modes.OTHER)
-			return Catalog.GetString("Other");
-		else
-			return ""; //should never happen
 	}
 
 	private void on_new_session_accepted ()
@@ -4941,7 +4913,7 @@ public partial class ChronoJumpWindow
 		chronopicRegisterUpdate (false);
 
 		label_micro_discover_title.Text = string.Format (Catalog.GetString (
-					"Compatible with: <b>{0}</b>"), modePrint(current_mode));
+					"Compatible with: <b>{0}</b>"), Constants.ModePrint (current_mode));
 		label_micro_discover_title.UseMarkup = true;
 
 		discoverWin = new DiscoverWindow (current_mode, chronopicRegister,

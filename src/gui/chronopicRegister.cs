@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Copyright (C) 2016-2022   Xavier de Blas <xaviblas@gmail.com>
+ *  Copyright (C) 2016-2023   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -134,6 +134,7 @@ public class DiscoverWindow
 	private Constants.Modes current_mode;
 	private ChronopicRegister chronopicRegister;
 	private Gtk.Table table_micro_discover;
+	private Gtk.Box box_micro_discover_nc;
 	private Gtk.Image image_button_micro_discover_cancel_close;
 	private Gtk.Label label_button_micro_discover_cancel_close;
 	private Gtk.Image image_discover_mode;
@@ -143,6 +144,7 @@ public class DiscoverWindow
 	public DiscoverWindow (Constants.Modes current_mode, ChronopicRegister chronopicRegister,
 			Gtk.Label label_micro_discover_not_found,
 			Gtk.Table table_micro_discover,
+			Gtk.Box box_micro_discover_nc,
 			Gtk.Image image_button_micro_discover_cancel_close,
 			Gtk.Label label_button_micro_discover_cancel_close,
 			string iconModeStr
@@ -151,6 +153,7 @@ public class DiscoverWindow
 		this.current_mode = current_mode;
 		this.chronopicRegister = chronopicRegister;
 		this.table_micro_discover = table_micro_discover;
+		this.box_micro_discover_nc = box_micro_discover_nc;
 		this.image_button_micro_discover_cancel_close = image_button_micro_discover_cancel_close;
 		this.label_button_micro_discover_cancel_close = label_button_micro_discover_cancel_close;
 
@@ -280,19 +283,30 @@ public class DiscoverWindow
 
 		Gtk.HBox hbox = new Gtk.HBox (false, 6);
 		Gtk.Image image = new Gtk.Image (new Pixbuf (null, Util.GetImagePath(false) + "image_done_blue.png"));
-		Gtk.Label label = new Gtk.Label ("Use this!");
+		Gtk.Label label = new Gtk.Label ("");
 		hbox.PackStart (image, false, false, 0);
 		hbox.PackStart (label, false, false, 0);
 		Gtk.Button b = new Gtk.Button (hbox);
 
 		if (alreadyDiscovered)
 		{
-			b.Sensitive = discoverMatchCurrentMode (crp.Type);
+			if (discoverMatchCurrentMode (crp.Type))
+			{
+				b.Sensitive = true;
+				b.Label = "Use this!";
+			} else
+			{
+				b.Sensitive = false;
+				b.Label = "NC";
+				box_micro_discover_nc.Visible = true;
+			}
+
 			button_microAlreadyDiscovered_l.Add (b);
 			portAlreadyDiscovered_l.Add (crp);
 			b.Clicked += new EventHandler (on_discover_use_this_clicked);
 		} else {
 			b.Sensitive = false;
+			b.Label = "----";
 			button_microNotDiscovered_l.Add (b);
 		}
 
@@ -333,11 +347,18 @@ public class DiscoverWindow
 				pb.Pulse ();
 			}
 
-			if (i < microDiscover.Discovered_l.Count && discoverMatchCurrentMode (microDiscover.Discovered_l[i]))
+			if (i < microDiscover.Discovered_l.Count)
 			{
-				(progressbar_microNotDiscovered_l[i]).Text = ChronopicRegisterPort.TypePrint(microDiscover.Discovered_l[i]);
-				button_microNotDiscovered_l[i].Sensitive = true;
-				button_microNotDiscovered_l[i].Clicked += new EventHandler(on_discover_use_this_clicked);
+				if (discoverMatchCurrentMode (microDiscover.Discovered_l[i]))
+				{
+					(progressbar_microNotDiscovered_l[i]).Text = ChronopicRegisterPort.TypePrint(microDiscover.Discovered_l[i]);
+					button_microNotDiscovered_l[i].Sensitive = true;
+					button_microNotDiscovered_l[i].Label = "Use this!";
+					button_microNotDiscovered_l[i].Clicked += new EventHandler(on_discover_use_this_clicked);
+				} else {
+					button_microNotDiscovered_l[i].Label = "NC";
+					box_micro_discover_nc.Visible = true;
+				}
 			}
 		}
 

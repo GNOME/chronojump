@@ -17,3 +17,22 @@ save:
 
 then open in R
 a=scan("myfile.txt")
+
+
+If you want to check better eg what graph.R is doing, just do:
+
+Do the graph with Chronojump, some files will be created like: Roptions, /tmp/chronojump-encoder-graph-input-multi.csv, chronojump_enc_curve_1.txt
+at encoder folder call R
+
+source ("util.R")
+source ("graphSmoothingEC.R")
+source ("graph.R")
+optionsFile = "/tmp/Roptions.txt"
+options <- scan(optionsFile, comment.char="#", what=character(), sep="\n")
+English = unlist(strsplit(options[29], "\\;"))
+Translated = unlist(strsplit(options[30], "\\;"))
+
+doProcess (options)
+
+(see the displacementSingleFileDebug_l variable)
+(see the displacementNoSingleFileDebu_l variable)

@@ -131,7 +131,13 @@ public class Config
 				configList.GetEnum (OpEnum.SessionMode)); }
 	}
 	public bool FTDIalways {
-		get { return configList.GetBool (OpEnum.FTDIalways); }
+		get {
+			// 1 automatically check if is a chromeOS
+			if (UtilAll.GetOSEnum () == UtilAll.OperatingSystems.LINUX && UtilAll.IsChromeOS ())
+				return true;
+
+			// 2 if not check this config option, but maybe will disappear one day
+			return configList.GetBool (OpEnum.FTDIalways); }
 	}
 	public bool Raspberry {
 		get { return configList.GetBool (OpEnum.Raspberry); }

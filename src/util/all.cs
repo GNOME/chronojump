@@ -99,7 +99,13 @@ public class UtilAll
 				return OperatingSystems.WINDOWS;
 		}
 	}
-	
+
+	//check if a Linux is a ChromeOS
+	public static bool IsChromeOS ()
+	{
+		return (File.Exists ("/dev/.cros_milestone"));
+
+	}
 
 	/*
 	public static string GetApplicationDataDir() {

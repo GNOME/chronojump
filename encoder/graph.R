@@ -3056,7 +3056,7 @@ doProcess <- function(options)
                         singleCurveNum <- -1
                         if(op$Analysis == "single" && op$Jump > 0)
                                 singleCurveNum <- op$Jump
-                        SmoothingsEC <- findSmoothingsEC(singleFile, displacement, curves, singleCurveNum, op$Eccon, op$SmoothingOneC,
+                        SmoothingsEC <- findSmoothingsEC(singleFile, displacement, curves, singleCurveNum, op$Eccon, op$SmoothingOneC, op$MinHeight,
                                                          NULL, NULL, NULL, NULL) #this row is only needed for singleFile (signal)
                 }
                 
@@ -3171,7 +3171,7 @@ doProcess <- function(options)
 			if(op$Analysis == "single" && op$Jump > 0)
 				singleCurveNum <- op$Jump
 			SmoothingsEC <- findSmoothingsEC(
-				singleFile, displacement, curves, singleCurveNum, op$Eccon, op$SmoothingOneC,
+				singleFile, displacement, curves, singleCurveNum, op$Eccon, op$SmoothingOneC, op$MinHeight,
 				op$EncoderConfigurationName, op$diameter, op$inertiaMomentum, op$gearedDown
 			) #second row is needed for singleFile (signal)
 		#}

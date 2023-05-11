@@ -221,7 +221,7 @@ doProcess <- function(options)
 			displacement = getDisplacement(TRUE, op$EncoderConfigurationName, displacement, op$diameter, op$diameterExt, op$gearedDown)
 		}
 		
-		#cut curve by reduceCurveBySpeed ---->
+		#cut curve by reduceCurveByPredictStartEnd ---->
 
 		start = NULL
 		end = NULL
@@ -230,13 +230,28 @@ doProcess <- function(options)
 			start = 1
 			end = length(displacement)
 		} else {
-			reduceTemp = reduceCurveBySpeed(op$Eccon,
-							1, 0, #startT, startH
-							displacement, #displacement
-							op$SmoothingOneC #SmoothingOneC
-							)
-			start = reduceTemp[1]
-			end = reduceTemp[2]
+			if (op$Eccon == "c" || op$Eccon == "e")
+			{
+				reducedCurve_l <- reduceCurveByPredictStartEnd (displacement,
+										op$Eccon, op$MinHeight)
+
+				start <- reducedCurve_l$startPos
+				end <- reducedCurve_l$endPos
+			}
+			else if (op$Eccon == "ec")
+			{
+				positionTemp <- cumsum(displacement)
+
+				changeEccCon <- mean(which(positionTemp) == min(positionTemp))
+
+				ecS_ecc_l <- reduceCurveByPredictStartEnd (displacement[1:changeEccCon],
+									   "e", op$MinHeight)
+				ecS_con_l <- reduceCurveByPredictStartEnd (displacement[changeEccCon:length(displacement)],
+									   "c", op$MinHeight)
+
+				start <- ecS_ecc_l$startPos
+				end <- ecS_con_l$endPos
+			}
 		}
 
 		#reduceCurveBySpeed reduces the curve. Then startInSet has to change:

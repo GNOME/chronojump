@@ -65,6 +65,33 @@
 #
 
 debugOld = FALSE #this will be deprecated and DEBUG will be used
+displacementDebug <<- NULL # just to debug
+curvesDebug <<- NULL
+ecconDebug <<- NULL
+singleFileDebug <<- NULL
+
+displacementCurvesDebug <- function (plot)
+{
+	filename = paste (DebugFileName, "-singleFile", singleFileDebug, "-", ecconDebug, sep="")
+	if (plot)
+	{
+		plot (cumsum(displacementDebug))
+		abline (v=curvesDebug[,1], col="red")
+		abline (v=curvesDebug[,2], col="blue")
+	}
+
+	if (file.exists (filename))
+		file.remove (filename)
+
+        write (paste("Eccon", ecconDebug), filename, append=TRUE)
+	write ("\ndisplacement", filename, append=TRUE)
+	write (displacementDebug, filename, ncolumns=20, append=TRUE, sep=",")
+	for (i in 1:length (curvesDebug[,1]))
+	{
+		write (paste("\ncurve:",rownames(curvesDebug[i,])), filename, append=TRUE)
+		write (displacementDebug[curvesDebug[i,1]:curvesDebug[i,2]], filename, ncolumns=20, append=TRUE, sep=",")
+	}
+}
 
 #concentric, eccentric-concentric, repetitions of eccentric-concentric
 #currently only used "c" and "ec". no need of ec-rep because c and ec are repetitive
@@ -3215,9 +3242,14 @@ doProcess <- function(options)
         
         print("Creating (op$FeedbackFileBase)5.txt with touch method...")
         file.create(paste(op$FeedbackFileBase,"5.txt",sep=""))
-        #print(curves)
-        
-        
+        print(curves)
+
+	#set debug global optionw
+	displacementDebug <<- displacement
+	curvesDebug <<- curves
+	ecconDebug <<- op$Eccon
+	singleFileDebug <<- singleFile
+
         if(op$Analysis == "single" || op$Analysis == "singleAllSet")
         {
                 showPosition <- (op$AnalysisVariables[1] == "Position")

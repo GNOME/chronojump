@@ -357,7 +357,7 @@ findDistanceAbsoluteEC <- function(position)
 #}
 getSpeed <- function(displacement, smoothing)
 {
-	#x vector should contain at least 4 different values
+	#x vector should contain at least 4 different values (at positionSpline)
 	if(length(displacement) < 4)
 		return(list(y=rep(0,length(displacement))))
 
@@ -434,6 +434,19 @@ smoothSplineSafe <- function(a,b)
 			)
 	return (out)
 }
+smoothSplineWeightedSafe <- function(a, b, weights)
+{
+	out <- tryCatch(
+			{
+				smooth.spline(a, b, w=weights)
+			},
+			error=function(cond) {
+				message(cond)
+				return(NULL)
+			}
+			)
+	return (out)
+}
 
 #gearedDown is positive, normally 2
 #this is not used on inertial machines
@@ -502,8 +515,7 @@ getStableConcentricStart <- function (displacement, minHeight)
 		    max(position) - position[j] >= minHeight)
 			return (j)
 
-	if (foundPos == 1)
-		return (1)
+	return (1)
 }
 
 getStableEccentricStart <- function (displacement, minHeight)
@@ -522,21 +534,27 @@ getStableEccentricStart <- function (displacement, minHeight)
 
 getPositionSplineLeft <- function (position)
 {
+	if (length(unique(position)) < 4)
+		return (NULL)
+
 	x <- 1:length(position)
 	weights <- 1-(position/20)
 	weights[weights <= 0.05] <- 0.05
 
-	return (smooth.spline (x, position, w=weights))
+	return (smoothSplineWeightedSafe (x, position, weights))
 }
 # get spline by decreasing weights
 getPositionSplineRight <- function (position)
 {
+	if (length(unique(position)) < 4)
+		return (NULL)
+
 	x <- 1:length(position)
 	posTemp = abs(position-(max(position)))
 	weights <- 1 - posTemp/20
 	weights[weights <= 0.05] <- 0.05
 
-	return (smooth.spline (x, position, w=weights))
+	return (smoothSplineWeightedSafe (x, position, weights))
 }
 
 # predict left start
@@ -565,6 +583,9 @@ predictNeededZerosAtRight <- function (positionSplineRight, position, maxx)
 # This should work for all eccons, check tests/fixEccConCutOnNotSingleFile/getCurveStartEnd.R
 reduceCurveByPredictStartEnd <- function (displacement, eccon, minHeight)
 {
+	print ("reduceCurveByPredictStartEnd start")
+	displacementLengthStored <- length (displacement)
+
 	# 1 cut by getStableConcentricStart, getStableEccentricStart
 	startByStability <- 1
 	if (eccon == "c")
@@ -580,6 +601,18 @@ reduceCurveByPredictStartEnd <- function (displacement, eccon, minHeight)
 	firstInitialNonZero <- min(which(displacement != 0))
 	lastFinalNonZero <- max(which(displacement != 0))
 
+	if (is.infinite (firstInitialNonZero))
+		firstInitialNonZero <- 1
+	if (is.infinite (lastFinalNonZero))
+		lastFinalNonZero <- 1
+
+	if (firstInitialNonZero >= lastFinalNonZero)
+		return (list (
+			      curve = displacement,
+			      startPos = 1,
+			      endPos = length (displacement)
+			      ))
+
 	displacement <- displacement[firstInitialNonZero:lastFinalNonZero]
 	position <- cumsum (displacement)
 
@@ -588,18 +621,37 @@ reduceCurveByPredictStartEnd <- function (displacement, eccon, minHeight)
 	positionSplineLeft <- getPositionSplineLeft (position)
 	positionSplineRight <- getPositionSplineRight (position)
 
-	pointCrossY0 <- predictNeededZerosAtLeft (positionSplineLeft)
-	zerosAtLeft <- abs(round(pointCrossY0[1], 0))
+	zerosAtLeft <- 0
+	if (! is.null (positionSplineLeft))
+	{
+		pointCrossY0 <- predictNeededZerosAtLeft (positionSplineLeft)
+		zerosAtLeft <- abs(round(pointCrossY0[1], 0))
+	}
 
-	pointCrossMaxYPlus1 <- predictNeededZerosAtRight (positionSplineRight, position, max(x))
-	zerosAtRight <- round(pointCrossMaxYPlus1[1], 0) - length(position)
+	zerosAtRight <- 0
+	if (! is.null (positionSplineRight))
+	{
+		pointCrossMaxYPlus1 <- predictNeededZerosAtRight (positionSplineRight, position, max(x))
+		zerosAtRight <- round(pointCrossMaxYPlus1[1], 0) - length(position)
+	}
 
+	startPos <- startByStability + firstInitialNonZero - zerosAtLeft
+	if (startPos < 1)
+		startPos <- 1
+
+	endPos <- startByStability + lastFinalNonZero + zerosAtRight
+	if (endPos < 1)
+		endPos <- 1
+	if (endPos > displacementLengthStored)
+		endPos <- displacementLengthStored
+
+	print ("reduceCurveByPredictStartEnd end")
 	# 4 return the reconstructed curve
 	#print (paste ("start moved to: ", startByStability + (firstInitialNonZero -1) - zerosAtLeft))
 	return (list (
 		      curve = c(rep(0, zerosAtLeft), displacement, rep(0, zerosAtRight)),
-		      startPos = startByStability + firstInitialNonZero - zerosAtLeft,
-		      endPos = startByStability + lastFinalNonZero + zerosAtRight
+		      startPos = startPos,
+		      endPos = endPos
 		    ))
 }
 

@@ -531,13 +531,13 @@ canJump <- function(encoderConfigurationName)
 }
 
 paint <- function(displacement, eccon, xmin, xmax, xrange, yrange, knRanges, paintMode, nrep, highlight,
-                  startX, startH, smoothingOneEC, smoothingOneC, massBody, massExtra, 
+                  startX, startH, smoothingOneEC, smoothingOneC, massBody, massExtra, minHeight,
                   encoderConfigurationName,diameter,diameterExt,anglePush,angleWeight,inertiaMomentum,gearedDown,laterality, #encoderConfiguration stuff
                   title, subtitle, draw, width, showLabels, marShrink, showAxes, legend,
                   Analysis, isPropulsive, inertialType, exercisePercentBodyWeight,
                   showPosition, showSpeed, showAccel, showForce, showPower,
 		  triggersOnList #will be empty if cutByTriggers
-) {
+		  ) {
         
         meanSpeedE = 0
         meanSpeedC = 0
@@ -630,7 +630,7 @@ paint <- function(displacement, eccon, xmin, xmax, xrange, yrange, knRanges, pai
 			#                if(superpose)
 			#                        colNormal="gray30"
 			yValues = position[startX:length(position)]-min(position[startX:length(position)])
-			#                if(highlight==FALSE) {
+			#                if(highlight==FALSE)
 			plot(startX:length(position),yValues,type="l",xlim=xlim,ylim=ylim,
 			     xlab="",ylab="",col=colPosition,lty=ltyPosition,lwd=2,axes=F)
 
@@ -649,10 +649,7 @@ paint <- function(displacement, eccon, xmin, xmax, xrange, yrange, knRanges, pai
         print(c("smoothing at paint=",smoothing))
         #speed
         speed <- getSpeed(displacement, smoothing)
-        
-        #show extrema values in speed
-        speed.ext=extrema(speed$y)
-        
+
         #accel (calculated here to use it on fixing inertialECstart and before plot speed
         accel <- getAcceleration(speed)
         #speed comes in mm/ms when derivate to accel its mm/ms^2 to convert it to m/s^2 need to *1000 because it's quadratic
@@ -660,10 +657,7 @@ paint <- function(displacement, eccon, xmin, xmax, xrange, yrange, knRanges, pai
         
 	xlim=xrange
         if(xlim[1]=="undefined") { xlim=c(1,length(displacement)) }
-        
-        #if(draw & !superpose) 
-        #	segments(x0=speed.ext$maxindex,y0=0,x1=speed.ext$maxindex,y1=speed$y[speed.ext$maxindex],col=cols[1])
-        
+
         #declare variables:
         eccentric=NULL
         isometric=NULL
@@ -671,19 +665,16 @@ paint <- function(displacement, eccon, xmin, xmax, xrange, yrange, knRanges, pai
         
         if(eccon=="c") {
                 concentric=1:length(displacement)
+		con_l <- reduceCurveByPredictStartEnd (concentric, "c", minHeight)
+		concentric <- con_l$curve
         } else {	#"ec", "ce". Eccons "ecS" and "ceS" are not painted
-                print("EXTREMA")
-                #abline(v=speed.ext$maxindex,lty=3,col="yellow");
-                #abline(v=speed.ext$minindex,lty=3,col="magenta")
-                print(speed.ext)
-                
                 time1 = 0
                 time2 = 0
                 if(eccon=="ec") {
                         time1 = max(which(speed$y == min(speed$y)))
                         time2 = min(which(speed$y == max(speed$y)))
                         labelsXeXc = c("Xe","Xc")
-                } else { #(eccon=="ce")
+                } else { #(eccon=="ce") #unused
                         time1 = max(which(speed$y == max(speed$y)))
                         time2 = min(which(speed$y == min(speed$y)))
                         labelsXeXc = c("Xc","Xe")
@@ -692,32 +683,25 @@ paint <- function(displacement, eccon, xmin, xmax, xrange, yrange, knRanges, pai
                 print(c("eccon",eccon))
                 print(c("time1",time1))
                 print(c("time2",time2))
-                crossMinRows = which(speed.ext$cross[,1] > time1 & speed.ext$cross[,1] < time2) #can be 1 or more
+                #crossMinRows = which(speed.ext$cross[,1] > time1 & speed.ext$cross[,1] < time2) #can be 1 or more
                 
-		isometricUse = TRUE
                 #TODO: con-ecc is opposite
                 
-                print("at paint")
-                
-                if(isometricUse && length(crossMinRows) > 1) #if isometricUse && more than 1 zero cross
-		{
-                        print("at isometricUse")
-                        print("speed.ext$cross")
-                        print(speed.ext$cross)
-                        print("crossMinRows")
-                        print(crossMinRows)
-                        print("speed.ext$cross[crossMinRows,1]")
-                        print(speed.ext$cross[crossMinRows,1])
+		print("at paint")
 
-	                eccentric = 1:min(speed.ext$cross[crossMinRows,1])
-			concentric = max(speed.ext$cross[crossMinRows,2]):length(displacement)
-			if (min(concentric) > max(eccentric))
-				isometric = (max(eccentric)+1):(min(concentric)-1)
-                } else {
-			eccentric = 1:mean(speed.ext$cross[crossMinRows,1])
-			concentric = mean(speed.ext$cross[crossMinRows,2]+1):length(displacement)
-                }
-                
+		positionTemp <- cumsum(displacement)
+		changeEccCon <- mean(which(positionTemp == min(positionTemp)))
+
+		ecc_l <- reduceCurveByPredictStartEnd (displacement[1:changeEccCon],
+						       "e", minHeight)
+		con_l <- reduceCurveByPredictStartEnd (displacement[changeEccCon:length(displacement)],
+						       "c", minHeight)
+
+		eccentric = ecc_l$startPos:ecc_l$endPos
+		concentric = (changeEccCon + con_l$startPos -1):(changeEccCon + con_l$endPos -1)
+		if (ecc_l$endPos < changeEccCon || con_l$startPos > changeEccCon)
+			isometric = ecc_l$endPos:(changeEccCon + con_l$startPos -1)
+
                 if(draw && paintMode != "superpose")
 		{
                         abline(v=max(eccentric),col=cols[1])
@@ -3381,7 +3365,7 @@ doProcess <- function(options)
 				triggersOnList = op$TriggersOnList;
 
                         paint(displacement, repOp$eccon, myStart, myEnd, "undefined","undefined","undefined",op$Analysis,1,FALSE,
-                              1,curves[op$Jump,3],SmoothingsEC[smoothingPos],op$SmoothingOneC,repOp$massBody,repOp$massExtra,
+                              1,curves[op$Jump,3],SmoothingsEC[smoothingPos],op$SmoothingOneC,repOp$massBody,repOp$massExtra, op$MinHeight,
                               repOp$econfName,repOp$diameter,repOp$diameterExt,repOp$anglePush,repOp$angleWeight,repOp$inertiaM,repOp$gearedDown,"", #laterality
                               paste(op$Title, " ", op$Analysis, " ", repOp$eccon, ". ", myCurveStr, sep=""),
                               "", #subtitle
@@ -3670,7 +3654,7 @@ doProcess <- function(options)
 				triggersOnList = op$TriggersOnList;
 
                         paint(displacement, repOp$eccon, curves[i,1],curves[i,2],xrange,yrange,knRanges,op$Analysis,i,FALSE,
-                              1,curves[i,3],SmoothingsEC[i],op$SmoothingOneC,repOp$massBody,repOp$massExtra,
+                              1,curves[i,3],SmoothingsEC[i],op$SmoothingOneC,repOp$massBody,repOp$massExtra, op$MinHeight,
                               repOp$econfName,repOp$diameter,repOp$diameterExt,repOp$anglePush,repOp$angleWeight,repOp$inertiaM,repOp$gearedDown,"", #laterality
                               myTitle,mySubtitle,
                               TRUE,	#draw
@@ -3767,7 +3751,7 @@ doProcess <- function(options)
 			#TODO: highlight can ve used asking user if want to highlight any repetition, and this will be lwd=2 or 3
 
 			paint(displacement, repOp$eccon, curves[i,1],curves[i,2],xrange,yrange,knRanges, op$Analysis, rownames(curves)[i], FALSE,
-			      1,curves[i,3],SmoothingsEC[i],op$SmoothingOneC,repOp$massBody,repOp$massExtra,
+			      1,curves[i,3],SmoothingsEC[i],op$SmoothingOneC,repOp$massBody,repOp$massExtra, op$MinHeight,
 			      repOp$econfName,repOp$diameter,repOp$diameterExt,repOp$anglePush,repOp$angleWeight,repOp$inertiaM,repOp$gearedDown,repOp$laterality,
 			      myTitle, "", #title, subtitle
 			      TRUE,	#draw

@@ -2877,7 +2877,7 @@ doProcess <- function(options)
                 inputMultiData=read.csv(file=op$File,sep=",",stringsAsFactors=F)
                 
                 displacement = NULL
-                count = 1
+                count = 0 #count of the readed values (each ms there is a value)
                 start = NULL; end = NULL; startH = NULL
                 status = NULL; id = NULL; exerciseName = NULL; massBody = NULL; massExtra = NULL
                 dateTime = NULL; myEccon = NULL
@@ -2943,30 +2943,77 @@ doProcess <- function(options)
                         
                         dataTempPhase=dataTempFile
                         processTimes = 1
-                        changePos = 0
-                        #if this curve is ecc-con and we want separated, divide the curve in two
-                        if(as.vector(inputMultiData$eccon[i]) != "c" & (op$Eccon=="ecS" || op$Eccon=="ceS") ) {
-                                changePos = mean(which(cumsum(dataTempFile) == min(cumsum(dataTempFile))))
-                                processTimes = 2
+			ecS_ecc_l = NULL
+			ecS_con_l = NULL
+			c_con_l = NULL
+			startPos = 0
+			endPos = 0
+
+			if (as.vector(inputMultiData$eccon[i]) == "c")
+			{
+				c_con_l <- reduceCurveByPredictStartEnd (dataTempFile, "c", op$MinHeight)
+
+				startPos <- c_con_l$startPos
+				endPos <- c_con_l$endPos
+			}
+			else {
+				#note if the row on inputMultiData is !c, the criteria of ec or ecS is in Roptions.txt
+				if (op$Eccon == "ec")
+				{
+					positionTemp <- cumsum(dataTempFile)
+					changeEccCon <- mean(which(positionTemp == min(positionTemp)))
+
+					ecc_l <- reduceCurveByPredictStartEnd (dataTempFile[1:changeEccCon],
+									       "e", op$MinHeight)
+					con_l <- reduceCurveByPredictStartEnd (dataTempFile[changeEccCon:length(dataTempFile)],
+									       "c", op$MinHeight)
+
+					startPos <- ecc_l$startPos
+					endPos <- changeEccCon + con_l$endPos -1
+				}
+				else #(op$Eccon=="ecS" || op$Eccon=="ceS") )
+				{
+					#if this curve is ecc-con and we want separated, divide the curve in two
+					processTimes = 2
+
+					#2023 May 4. Set the end of ecc and start of con at center of depression, and let reduce fix them
+					endEcc = mean(which(cumsum(dataTempFile) == min(cumsum(dataTempFile))))
+					startCon = mean(which(cumsum(dataTempFile) == min(cumsum(dataTempFile))))
+
+					ecS_ecc_l <- reduceCurveByPredictStartEnd (dataTempFile[1:endEcc],
+										   "e", op$MinHeight)
+					ecS_con_l <- reduceCurveByPredictStartEnd (dataTempFile[startCon:length(dataTempFile)],
+										   "c", op$MinHeight)
+				}
                         }
-                        for(j in 1:processTimes) {
-                                if(processTimes == 2) {
+
+			for(j in 1:processTimes)
+			{
+				if(processTimes == 2)
+				{
                                         if(j == 1) {
-                                                dataTempPhase=dataTempFile[1:changePos]
+						startPos <- ecS_ecc_l$startPos
+						endPos <- ecS_ecc_l$endPos
+						dataTempPhase <- dataTempFile[1:endEcc]
                                         } else {
-                                                #IMP: 
-                                                #note that following line without the parentheses on changePos+1
-                                                #gives different data.
-                                                #never forget parentheses to operate inside the brackets
-                                                dataTempPhase=dataTempFile[(changePos+1):length(dataTempFile)]
+						startPos <- ecS_con_l$startPos
+						endPos <- ecS_con_l$endPos
+						dataTempPhase <- dataTempFile[startCon:length(dataTempFile)]
+
                                                 newLines=newLines+1
                                         }
                                 }
                                 displacement = c(displacement, dataTempPhase)
                                 id[(i+newLines)] = countLines
-                                start[(i+newLines)] = count
-                                end[(i+newLines)] = length(dataTempPhase) + count -1
-                                startH[(i+newLines)] = 0
+
+				start[(i+newLines)] = count + startPos
+				end[(i+newLines)] = count + endPos
+				startH[(i+newLines)] = 0; #TODO check this on e
+
+				#print ("assigned startPos and endPos")
+				#print ("count, startPos, endPos, start[(i+newLines)], end[(i+newLines)]")
+				#print (c(count, startPos, endPos, start[(i+newLines)], end[(i+newLines)]))
+
                                 exerciseName[(i+newLines)] = as.vector(inputMultiData$exerciseName[i])
                                 
                                 #mass[(i+newLines)] = inputMultiData$mass[i]
@@ -3006,7 +3053,7 @@ doProcess <- function(options)
                                         }
                                         countLines = countLines + 1
                                 }
-                                
+
                                 seriesName[(i+newLines)] = as.vector(inputMultiData$seriesName[i])
                                 
                                 laterality[(i+newLines)] = as.vector(inputMultiData$laterality[i])
@@ -3014,7 +3061,7 @@ doProcess <- function(options)
                                 count = count + length(dataTempPhase)
                         }
                         write(paste("***",i,"***",sep=""), stderr())
-                }		
+                }
                 
                 #position=cumsum(displacement)
                 
@@ -3061,7 +3108,10 @@ doProcess <- function(options)
                 }
                 
                 print(c("SmoothingsEC:",SmoothingsEC))
-        } else {	#singleFile == TRUE reads a signal file
+        }
+	else
+	{	#singleFile == TRUE reads a signal file
+
                 displacement <- scan(file=op$File,sep=",")
                 #if data file ends with comma. Last character will be an NA. remove it
                 #this removes all NAs
@@ -3122,7 +3172,7 @@ doProcess <- function(options)
                 n=length(curves[,1])
                 quitIfNoData(curvesPlot, n, curves, op$OutputData1, op$MinHeight)
                 
-                print("curves before reduceCurveBySpeed")
+                print("curves before reducing")
                 print(curves)
                 
                 #reduceCurveBySpeed, don't do in inertial because it doesn't do a good right adjust on changing phase
@@ -3131,24 +3181,64 @@ doProcess <- function(options)
                 
                 for(i in 1:n)
                 {
+			reducedCurve_l = NULL
+
 			#reduceCurveBySpeed only when ! cutBytriggers
 			if(! cutByTriggers(op))
                         {
-                                reduceTemp = reduceCurveBySpeed(op$Eccon,
-                                                                curves[i,1], curves[i,3], #startT, startH
-                                                                displacement[curves[i,1]:curves[i,2]], #displacement
-                                                                op$SmoothingOneC
-                                )
-                                
-                                #reduceCurveBySpeed, on inertial doesn't do a good right adjust on changing phase,
-                                #it adds a value at right, and this value is a descending value that can produce a high acceleration there
-                                #delete that value
-                                if( isInertial(op$EncoderConfigurationName))
-                                        reduceTemp[2] = reduceTemp[2] -1
-                                
-                                curves[i,1] = reduceTemp[1]
-                                curves[i,2] = reduceTemp[2]
-                                curves[i,3] = reduceTemp[3]
+				displacementTemp = displacement[curves[i,1]:curves[i,2]]
+				#print ("displacementTemp")
+				#print (displacementTemp)
+
+				print (op$Eccon)
+				if (op$Eccon == "c" || op$Eccon == "e")
+				{
+					reducedCurve_l <- reduceCurveByPredictStartEnd (displacementTemp,
+											op$Eccon, op$MinHeight)
+
+					#1st assign end because start will also change
+					curves[i,2] <- curves[i,1] + (reducedCurve_l$endPos -1)
+					curves[i,1] <- curves[i,1] + (reducedCurve_l$startPos -1)
+
+					#curves[i,3] <- position[reducedCurve_l$startPos] - position [curves[i,1]]
+					#TODO: fix above line
+					curves[i,3] <- 0
+				}
+				else if (op$Eccon == "ecS")
+				{
+					reducedCurve_l <- NULL
+					if (position[curves[i,1]] < position[curves[i,2]])
+						reducedCurve_l <- reduceCurveByPredictStartEnd (displacementTemp,
+												"c", op$MinHeight)
+					else
+						reducedCurve_l <- reduceCurveByPredictStartEnd (displacementTemp,
+												"e", op$MinHeight)
+
+					#1st assign end because start will also change
+					curves[i,2] <- curves[i,1] + (reducedCurve_l$endPos -1)
+					curves[i,1] <- curves[i,1] + (reducedCurve_l$startPos -1)
+
+					#curves[i,3] <- position[reducedCurve_l$startPos] - position [curves[i,1]]
+					#TODO: fix above line
+					curves[i,3] <- 0
+				}
+				else if (op$Eccon == "ec")
+				{
+					positionTemp <- cumsum(displacementTemp)
+					changeEccCon <- mean(which(positionTemp == min(positionTemp)))
+
+					ecc_l <- reduceCurveByPredictStartEnd (displacementTemp[1:changeEccCon],
+										   "e", op$MinHeight)
+					con_l <- reduceCurveByPredictStartEnd (displacementTemp[changeEccCon:length(displacementTemp)],
+										   "c", op$MinHeight)
+
+					#1st assign end because start will also change
+					curves[i,2] <- curves[i,1] + (con_l$endPos -1) + (changeEccCon -1)
+					curves[i,1] <- curves[i,1] + (ecc_l$startPos -1)
+					#curves[i,3] <- position (curves[i,3] - ecc_l$startPos)
+					#TODO: fix above line
+					curves[i,3] <- 0
+				}
                         }
                         
                         myPosition = cumsum(displacement[curves[i,1]:curves[i,2]])

@@ -518,9 +518,47 @@ getStableConcentricStart <- function (displacement, minHeight)
 	return (1)
 }
 
+# reverse vertically and getStableConcentricStart
+# to find A, convert, find B, A == B
+#    FROM                TO
+#                         ----
+#                        /
+#                       /
+# 0 -A-\            -B-/
+#       \
+#        \
+#         ----
 getStableEccentricStart <- function (displacement, minHeight)
 {
 	return (getStableConcentricStart (-1 * displacement, minHeight))
+}
+
+# reverse horizontally, getStableConcentricStart, and then horizontally reverse the value again
+# and vertically to have the - as +
+# to find A, convert, find B, A = length - B
+#    FROM                TO
+#                         --
+#                        /
+#                       /
+# 0 --\            -B--/
+#      \
+#       \
+#        -A--
+getStableEccentricEnd <- function (displacement, minHeight)
+{
+	return (length (displacement) - getStableConcentricStart (-1 * rev (displacement), minHeight))
+}
+
+# reverse horizontally, getStableConcentricStart
+# to find A, convert (simply reverse horizontally) , find B, A = length - B
+#    FROM                 TO
+#          -A-             ----
+#         /               /
+#        /               /
+# 0 ----/            -B-/
+getStableConcentricEnd <- function (displacement, minHeight)
+{
+	return (length (displacement) - getStableConcentricStart (rev (displacement), minHeight))
 }
 
 #######################################

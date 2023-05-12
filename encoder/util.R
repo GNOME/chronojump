@@ -819,7 +819,7 @@ assignRepOptions <- function(
 #eccModesStartOnGround is default mode for calculations on e, ec starting when person lands,
 #	but on single analysis instant array, disable it in order to see the full repetition
 #	also think what to do on export CSV
-kinematicsF <- function(displacement, repOp, smoothingOneEC, smoothingOneC, g, isPropulsive, eccModesStartOnGround)
+kinematicsF <- function(displacement, repOp, smoothingOneEC, smoothingOneC, g, isPropulsive, eccModesStartOnGround, minHeight)
 {
 	print("at kinematicsF")
 
@@ -845,7 +845,8 @@ kinematicsF <- function(displacement, repOp, smoothingOneEC, smoothingOneC, g, i
 
 	#search propulsiveEnd
 	if(isPropulsive) {
-		if(repOp$eccon=="c") {
+		if(repOp$eccon=="c")
+		{
 			concentric=1:length(displacement)
 			
 			maxSpeedT <- min(which(speed$y == max(speed$y)))
@@ -854,11 +855,15 @@ kinematicsF <- function(displacement, repOp, smoothingOneEC, smoothingOneC, g, i
 			propulsiveEnd = findPropulsiveEnd(accel$y, concentric, maxSpeedTInConcentric,
 							  repOp$econfName, repOp$anglePush, repOp$angleWeight, 
 							  repOp$massBody, repOp$massExtra, repOp$exPercentBodyWeight)
-		} else if(repOp$eccon=="ec") {
-			phases=findECPhases(displacement,speed$y)
-			eccentric = phases$eccentric
-			isometric = phases$isometric
-			concentric = phases$concentric
+			print ("propulsiveEnd");
+			print (propulsiveEnd);
+		}
+		else if(repOp$eccon=="ec")
+		{
+			phases_l <- findECPhases (displacement, minHeight)
+			eccentric <- phases_l$eccentric
+			isometric <- phases_l$isometric
+			concentric <- phases_l$concentric
 	
 			#temporary fix problem of found MinSpeedEnd at right
 
@@ -904,8 +909,8 @@ kinematicsF <- function(displacement, repOp, smoothingOneEC, smoothingOneC, g, i
 			if(repOp$eccon == "e")
 				eccentric = 1:length(displacement)
 			else {  #(repOp$eccon=="ec")
-				phases=findECPhases(displacement,speed$y)
-				eccentric = phases$eccentric
+				phases_l <- findECPhases (displacement, minHeight)
+				eccentric <- phases_l$eccentric
 			}
 		}
 		
@@ -959,54 +964,31 @@ kinematicsF <- function(displacement, repOp, smoothingOneEC, smoothingOneC, g, i
 		    ))
 }
 
-findECPhases <- function(displacement,speed)
+# 2023 code using reduceCurveByPredictStartEnd
+# returning values eccentric[1] and concentric[length(concentric)] can be uses to know start and end of full ec
+findECPhases <- function (displacement, minHeight)
 {
-	if(length(speed) == 1)
-		return(list(
-			    eccentric=0,
-			    isometric=0,
-			    concentric=0))
+	eccentric <- 0
+	isometric <- 0
+	concentric <- 0
 
-	speed.ext=extrema(speed)
-	
-	#In all the extrema minindex values, search which range (row) has the min values,
-	#and in this range search last value
-	searchMinSpeedEnd = max(which(speed == min(speed)))
-	
-	#In all the extrema maxindex values, search which range (row) has the max values,
-	#and in this range search first value
-	searchMaxSpeedIni = min(which(speed == max(speed)))
-	
-	#find the cross between both
-	crossMinRow=which(speed.ext$cross[,1] > searchMinSpeedEnd & speed.ext$cross[,1] < searchMaxSpeedIni)
-	
-	eccentric = 0
-	isometric = 0
-	concentric = 0
+	position <- cumsum (displacement)
+	changeEccCon <- mean (which (position == min (position)))
 
-	#temporary fix problem of found MinSpeedEnd at right
-	if(searchMinSpeedEnd > searchMaxSpeedIni)
-		return(list(
-			    eccentric=0,
-			    isometric=0,
-			    concentric=0))
+	ecc_l <- reduceCurveByPredictStartEnd (displacement[1:changeEccCon],
+					       "e", minHeight)
+	con_l <- reduceCurveByPredictStartEnd (displacement[changeEccCon:length(displacement)],
+					       "c", minHeight)
 
+	eccentric <- ecc_l$startPos:ecc_l$endPos
+	concentric <- (changeEccCon + con_l$startPos -1):(changeEccCon + con_l$endPos -1)
+	if (ecc_l$endPos < changeEccCon || con_l$startPos > changeEccCon)
+		isometric <- ecc_l$endPos:(changeEccCon + con_l$startPos -1)
 
-	isometricUse = TRUE
-
-	if(isometricUse) {
-		eccentric=1:min(speed.ext$cross[crossMinRow,1])
-		isometric=min(speed.ext$cross[crossMinRow,1]+1):max(speed.ext$cross[crossMinRow,2])
-		concentric=max(speed.ext$cross[crossMinRow,2]+1):length(displacement)
-	} else {
-		eccentric=1:mean(speed.ext$cross[crossMinRow,1])
-		#isometric=mean(speed.ext$cross[crossMinRow,1]+1):mean(speed.ext$cross[crossMinRow,2])
-		concentric=mean(speed.ext$cross[crossMinRow,2]+1):length(displacement)
-	}
-	return(list(
-		eccentric=eccentric,
-		isometric=isometric,
-		concentric=concentric))
+	return (list (
+		eccentric = eccentric,
+		isometric = isometric,
+		concentric = concentric))
 }
 
 findPropulsiveEnd <- function(accel, concentric, maxSpeedTInConcentric,
@@ -1702,6 +1684,11 @@ cvPar <- function(x, y, parRange, cvProp = 0.8) {
 }
 
 #----------- end spar with crossvalidation -------------
+
+last <- function (vect)
+{
+	return (vect[length (vect)])
+}
 
 #----------- Begin debug file output -------------
 #http://stackoverflow.com/a/34996874

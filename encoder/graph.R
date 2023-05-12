@@ -489,7 +489,7 @@ startCurvesPlot <- function(position, title)
 kinematicRanges <- function(singleFile, displacement, curves,
                             massBody, massExtra, exercisePercentBodyWeight,
                             encoderConfigurationName,diameter,diameterExt,anglePush,angleWeight,inertiaMomentum,gearedDown,
-                            smoothingsEC, smoothingOneC, g, eccon, isPropulsive) {
+                            smoothingsEC, smoothingOneC, g, eccon, isPropulsive, minHeight) {
         
         n=length(curves[,1])
         maxSpeedy=0; maxAccely=0; maxForce=0; maxPower=0
@@ -503,8 +503,9 @@ kinematicRanges <- function(singleFile, displacement, curves,
                         "") #laterality 
                 
                 kn <- kinematicsF(displacement[curves[i,1]:curves[i,2]],
-                                  repOp, smoothingsEC[i], smoothingOneC, g, isPropulsive, TRUE)
-                
+                                  repOp, smoothingsEC[i], smoothingOneC, g, isPropulsive, TRUE,
+				  minHeight)
+
                 if(max(abs(kn$speedy)) > maxSpeedy)
                         maxSpeedy = max(abs(kn$speedy))
                 if(max(abs(kn$accely)) > maxAccely)
@@ -3388,7 +3389,8 @@ doProcess <- function(options)
                                           #SmoothingsEC[smoothingPos], op$SmoothingOneC, g, isPropulsive)
                                           SmoothingsEC[smoothingPos], op$SmoothingOneC, g, 
                                           FALSE,	#create array of data with all curve and not only propulsive phase
-                                          FALSE		#show all the repetition, not only ground phase on ecc
+                                          FALSE,		#show all the repetition, not only ground phase on ecc
+					  op$MinHeight
                         ) 
                         
                         #smoothing for displacement
@@ -3633,7 +3635,7 @@ doProcess <- function(options)
                                          op$EncoderConfigurationName,op$diameter,op$diameterExt,
                                          op$anglePush,op$angleWeight,op$inertiaMomentum,op$gearedDown,
                                          SmoothingsEC, op$SmoothingOneC, 
-                                         g, op$Eccon, isPropulsive)
+                                         g, op$Eccon, isPropulsive, op$MinHeight)
                 
                 for(i in 1:n) {
                         repOp <- assignRepOptions(
@@ -3722,7 +3724,7 @@ doProcess <- function(options)
 					 op$EncoderConfigurationName,op$diameter,op$diameterExt,
 					 op$anglePush,op$angleWeight,op$inertiaMomentum,op$gearedDown,
 					 SmoothingsEC, op$SmoothingOneC,
-					 g, op$Eccon, isPropulsive)
+					 g, op$Eccon, isPropulsive, op$MinHeight)
 
 		#check if there are different values of laterality
 		lateralityDifferent = checkLateralityDifferent(curves)
@@ -3851,7 +3853,7 @@ doProcess <- function(options)
                                             #myInertiaMomentum,myGearedDown,
                                             repOpSeparated,
                                             SmoothingsEC[i],op$SmoothingOneC, 
-                                            g, isPropulsive, TRUE),
+                                            g, isPropulsive, TRUE, op$MinHeight),
                                 repOp$massBody, repOp$massExtra, repOp$laterality, repOp$inertiaM, repOp$diameter, repOp$gearedDown
                         )))
                 }
@@ -4233,7 +4235,8 @@ doProcess <- function(options)
                         
                         kn <- kinematicsF(displacement[curves[i,1]:curves[i,2]],
                                           repOp, SmoothingsEC[i], op$SmoothingOneC, g, isPropulsive,
-                                          FALSE		#show all the repetition, not only ground phase on ecc
+                                          FALSE,		#show all the repetition, not only ground phase on ecc
+					  op$MinHeight
                         )
                         
                         #fill with NAs in order to have the same length

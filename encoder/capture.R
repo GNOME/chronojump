@@ -80,7 +80,7 @@ calcule <- function(displacement, op, curveNum, startInSet)
 						 op$EncoderConfigurationName, op$diameter, op$diameterExt, 
 						 op$anglePush, op$angleWeight, op$inertiaMomentum, op$gearedDown,
 						 ""), #laterality 
-				SmoothingsEC, op$SmoothingOneC, g, isPropulsive, TRUE)
+				SmoothingsEC, op$SmoothingOneC, g, isPropulsive, TRUE, op$MinHeight)
 
 	paf = data.frame()
 	myLaterality = "" #TODO
@@ -240,17 +240,9 @@ doProcess <- function(options)
 			}
 			else if (op$Eccon == "ec")
 			{
-				positionTemp <- cumsum(displacement)
-
-				changeEccCon <- mean(which(positionTemp) == min(positionTemp))
-
-				ecS_ecc_l <- reduceCurveByPredictStartEnd (displacement[1:changeEccCon],
-									   "e", op$MinHeight)
-				ecS_con_l <- reduceCurveByPredictStartEnd (displacement[changeEccCon:length(displacement)],
-									   "c", op$MinHeight)
-
-				start <- ecS_ecc_l$startPos
-				end <- ecS_con_l$endPos
+				phases_l <- findECPhases (displacement, op$MinHeight)
+				start <- phases_l$eccentric[1]
+				end <- last(phases_l$concentric)
 			}
 		}
 

@@ -230,20 +230,17 @@ doProcess <- function(options)
 			start = 1
 			end = length(displacement)
 		} else {
-			if (op$Eccon == "c" || op$Eccon == "e")
-			{
-				reducedCurve_l <- reduceCurveByPredictStartEnd (displacement,
-										op$Eccon, op$MinHeight)
+			reducedCurve_l <- reduceCurveByPredictStartEnd (displacement,
+									op$Eccon, op$MinHeight) #works on c, e, ec
+			#if (op$Eccon == "ec")
+			#{
+				#phases_l <- findECPhases (displacement, op$MinHeight)
+				#start <- phases_l$eccentric[1]
+				#end <- last(phases_l$concentric)
+			#}
 
-				start <- reducedCurve_l$startPos
-				end <- reducedCurve_l$endPos
-			}
-			else if (op$Eccon == "ec")
-			{
-				phases_l <- findECPhases (displacement, op$MinHeight)
-				start <- phases_l$eccentric[1]
-				end <- last(phases_l$concentric)
-			}
+			start <- reducedCurve_l$startPos
+			end <- reducedCurve_l$endPos
 		}
 
 		#reduceCurveBySpeed reduces the curve. Then startInSet has to change:

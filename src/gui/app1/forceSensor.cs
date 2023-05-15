@@ -2463,6 +2463,8 @@ LogB.Information(" fs R ");
 				showLastSeconds,
 				minY, maxY,
 				rectangleN, rectangleRange,
+				new GetMaxAvgInWindow (cairoGraphForceSensorSignalPoints_l_copy,
+					0, cairoGraphForceSensorSignalPoints_l_copy.Count -1, 1), //1s
 				triggerListForceSensor_copy,
 				forceRedraw, CairoXY.PlotTypes.LINES);
 

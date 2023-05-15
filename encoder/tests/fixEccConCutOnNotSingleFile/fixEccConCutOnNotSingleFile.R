@@ -88,3 +88,34 @@ mtext ("con end", side=3, at=posMin+dConReduced_l$endPos)
 dev.off ()
 
 
+#test with user "un u de csv" 1st ecc-con ecS load file on capture tab, later try also "ec" like paint
+d <- scan("curve_ec.txt", sep=",")
+d <- d[!is.na(d)] #if data file ends with comma. Last character will be an NA. remove it
+curves <- findCurvesNew (d, "ecS", FALSE, 20)
+
+plot (cumsum (d), type="l")
+abline (v=curves[,1], col="red")
+abline (v=curves[,2], col="blue")
+
+i <- 1 #1st curve, it is an e
+dTemp = d[curves[i,1]:curves[i,2]]
+reducedCurve_l <- reduceCurveByPredictStartEnd (dTemp, "e", 20)
+print (reducedCurve_l)
+
+#fixing the end
+
+#test with "una dona de csv"
+d <- scan("curve_ec2.txt", sep=",")
+d <- d[!is.na(d)] #if data file ends with comma. Last character will be an NA. remove it
+curves <- findCurvesNew (d, "c", FALSE, 20)
+
+plot (cumsum (d), type="l")
+abline (v=curves[,1], col="red")
+abline (v=curves[,2], col="blue")
+
+i <- 1 #1st curve, it is a "c"
+dTemp = d[curves[i,1]:curves[i,2]]
+reducedCurve_l <- reduceCurveByPredictStartEnd (dTemp, "c", 20)
+print (reducedCurve_l)
+
+

@@ -1059,9 +1059,9 @@ public partial class ChronoJumpWindow
 		{
 			if (fsAI.Gmaiw.Error == "")
 			{
-				fMaxAvgSampleStart = fsAI.Gmaiw.AvgMaxSampleStart;
-				fMaxAvgSampleEnd = fsAI.Gmaiw.AvgMaxSampleEnd;
-				fsMaxAvgForce = fsAI.Gmaiw.AvgMax;
+				fMaxAvgSampleStart = fsAI.Gmaiw.MaxSampleStart;
+				fMaxAvgSampleEnd = fsAI.Gmaiw.MaxSampleEnd;
+				fsMaxAvgForce = fsAI.Gmaiw.Max;
 			}
 
 			reps_l = fsAI.ForceSensorRepetition_l;
@@ -1601,7 +1601,7 @@ public partial class ChronoJumpWindow
 				label_force_sensor_ai_force_max.Text = Math.Round(fsAI.ForceMAX, 1).ToString();
 
 				if(fsAI.Gmaiw.Error == "")
-					label_force_sensor_ai_max_avg_in_window_values.Text = Math.Round(fsAI.Gmaiw.AvgMax, 1).ToString();
+					label_force_sensor_ai_max_avg_in_window_values.Text = Math.Round(fsAI.Gmaiw.Max, 1).ToString();
 				else
 					label_force_sensor_ai_max_avg_in_window_values.Text = "----";
 			} else {

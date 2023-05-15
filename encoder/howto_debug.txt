@@ -51,5 +51,9 @@ d  = d[!is.na(d)]
 debug (reduceCurveByPredictStartEnd)
 reduceCurveByPredictStartEnd (d, "ec", 20)
 
-#then you can press n for seeing NEXT line of code and print (variable) to print the value, note if a you see var <- "my var", this is going to be assigned on next step
+#then you can press
+n for seeing NEXT line of code and print (variable) to print the value, note if a you see var <- "my var", this is going to be assigned on next step
+c to continue until end
+Q to quit debug (but strangely continues to being associated)
+ls () will show the local objects in the debug function, and you can print them writing the variable and enter or using print (variable) if they are named n, c, Q
 

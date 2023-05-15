@@ -668,40 +668,15 @@ paint <- function(displacement, eccon, xmin, xmax, xrange, yrange, knRanges, pai
                 concentric=1:length(displacement)
 		con_l <- reduceCurveByPredictStartEnd (concentric, "c", minHeight)
 		concentric <- con_l$curve
-        } else {	#"ec", "ce". Eccons "ecS" and "ceS" are not painted
-                time1 = 0
-                time2 = 0
-                if(eccon=="ec") {
-                        time1 = max(which(speed$y == min(speed$y)))
-                        time2 = min(which(speed$y == max(speed$y)))
-                        labelsXeXc = c("Xe","Xc")
-                } else { #(eccon=="ce") #unused
-                        time1 = max(which(speed$y == max(speed$y)))
-                        time2 = min(which(speed$y == min(speed$y)))
-                        labelsXeXc = c("Xc","Xe")
-                }
+        } else
+	{	#"ec", "ce". Eccons "ecS" and "ceS" are not painted
+		labelsXeXc = c("Xe","Xc") # on unused eccon == ce: labelsXeXc = c("Xc","Xe")
                 
                 print(c("eccon",eccon))
-                print(c("time1",time1))
-                print(c("time2",time2))
-                #crossMinRows = which(speed.ext$cross[,1] > time1 & speed.ext$cross[,1] < time2) #can be 1 or more
-                
-                #TODO: con-ecc is opposite
-                
-		print("at paint")
-
-		positionTemp <- cumsum(displacement)
-		changeEccCon <- mean(which(positionTemp == min(positionTemp)))
-
-		ecc_l <- reduceCurveByPredictStartEnd (displacement[1:changeEccCon],
-						       "e", minHeight)
-		con_l <- reduceCurveByPredictStartEnd (displacement[changeEccCon:length(displacement)],
-						       "c", minHeight)
-
-		eccentric = ecc_l$startPos:ecc_l$endPos
-		concentric = (changeEccCon + con_l$startPos -1):(changeEccCon + con_l$endPos -1)
-		if (ecc_l$endPos < changeEccCon || con_l$startPos > changeEccCon)
-			isometric = ecc_l$endPos:(changeEccCon + con_l$startPos -1)
+		phases_l <- findECPhases (displacement, minHeight)
+		eccentric <- phases_l$eccentric
+		isometric <- phases_l$isometric
+		concentric <- phases_l$concentric
 
                 if(draw && paintMode != "superpose")
 		{

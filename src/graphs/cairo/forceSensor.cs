@@ -446,7 +446,7 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 			}
 
 			if (miw.Error == "")
-				paintMaxAvgInWindow (miw.AvgMaxSampleStart, miw.AvgMaxSampleEnd, miw.AvgMax, points_l);
+				paintMaxAvgInWindow (miw.MaxSampleStart, miw.MaxSampleEnd, miw.Max, points_l);
 
 			g.LineWidth = 2;
 			plotRealPoints(plotType, points_l, startAt, false); //fast (but the difference is very low)

@@ -1431,7 +1431,7 @@ public partial class ChronoJumpWindow
 				0, cairoGraphForceSensorSignalPoints_l.Count -1, 1); //1s
 
 		if (miw.Error == "")
-			maxAvgForce1s = miw.AvgMax;
+			maxAvgForce1s = miw.Max;
 
 		return maxAvgForce1s;
 	}

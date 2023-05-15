@@ -761,16 +761,61 @@ public class VariabilityAndAccuracy
 	}
 }
 
-// TODO: manage if X is micros or millis
-public class GetMaxAvgInWindow
+public abstract class GetMaxValueInWindow
 {
-	private double avgMax;
-	private int avgMaxSampleStart;
-	private int avgMaxSampleEnd;
-	private string error;
+	protected double max;
+	protected int maxSampleStart;
+	protected int maxSampleEnd;
+	protected string error;
+
+	protected List<PointF> p_l;
+	protected int countA;
+	protected int countB;
+	protected double windowSeconds;
+
+	protected bool parametersBad ()
+	{
+		return (p_l == null || countA < 0 || countB < 0 || countA >= p_l.Count || countB >= p_l.Count);
+	}
+
+	protected bool dataTooShort ()
+	{
+		return (p_l[countB].X - p_l[countA].X <= 1000000 * windowSeconds);
+	}
+
+	protected abstract void calculate ();
+
+	public double Max
+	{
+		get { return max; }
+	}
+
+	public int MaxSampleStart
+	{
+		get { return maxSampleStart; }
+	}
+
+	public int MaxSampleEnd
+	{
+		get { return maxSampleEnd; }
+	}
+	public string Error
+	{
+		get { return error; }
+	}
+}
+
+// TODO: manage if X is micros or millis
+public class GetMaxAvgInWindow : GetMaxValueInWindow
+{
 
 	public GetMaxAvgInWindow (List<PointF> p_l, int countA, int countB, double windowSeconds)
 	{
+		this.p_l = p_l;
+		this.countA = countA;
+		this.countB = countB;
+		this.windowSeconds = windowSeconds;
+
 		LogB.Information ("GetMaxAvgInWindow start");
 
 		/* TODO: manage this
@@ -791,7 +836,7 @@ public class GetMaxAvgInWindow
 		LogB.Information (string.Format ("p_l.Count: {0}, countA: {1}, countB: {2}, windowSeconds: {3}",
 					p_l.Count, countA, countB, windowSeconds));
 
-		if (p_l == null || countA < 0 || countB < 0 || countA >= p_l.Count || countB >= p_l.Count)
+		if (parametersBad ())
 		{
 			error = string.Format ("p_l.Count: {0}, countA: {1}, countB: {2}, windowSeconds: {3}",
 					p_l.Count, countA, countB, windowSeconds);
@@ -799,22 +844,33 @@ public class GetMaxAvgInWindow
 		}
 
 		// 2) check if countB - countA fits in window time
-		double timeA = p_l[countA].X;
-
-		if(p_l[countB].X - timeA <= 1000000 * windowSeconds)
+		if (dataTooShort ())
 		{
-			avgMax = 0;
-			avgMaxSampleStart = countA; //there is an error, this will not be used
-			avgMaxSampleEnd = countA; //there is an error, this will not be used
+			max = 0;
+			maxSampleStart = countA; //there is an error, this will not be used
+			maxSampleEnd = countA; //there is an error, this will not be used
 			error = "Need more time";
 			return;
 		}
 
-		avgMax = 0;
-		avgMaxSampleStart = countA; 	//sample where avgMax starts (to draw a line)
-		avgMaxSampleEnd = countA; 	//sample where avgMax starts (to draw a line)
+		calculate ();
+
+		/*
+		// 5) store data to not calculate it again if data is the same
+		calculatedForceMaxAvgInWindow = new CalculatedForceMaxAvgInWindow (
+				countA, countB, windowSeconds, max, maxSampleStart, maxSampleEnd);
+				*/
+		LogB.Information ("GetMaxAvgInWindow done!");
+	}
+
+	protected override void calculate ()
+	{
+		max = 0;
+		maxSampleStart = countA; 	//sample where avgMax starts (to draw a line)
+		maxSampleEnd = countA; 	//sample where avgMax starts (to draw a line)
 		error = "";
 
+		double timeA = p_l[countA].X;
 		double sum = 0;
 		int count = 0;
 
@@ -826,10 +882,10 @@ public class GetMaxAvgInWindow
 			sum += p_l[i].Y;
 			count ++;
 		}
-		avgMax = sum / count;
-		avgMaxSampleEnd = countA + count;
+		max = sum / count;
+		maxSampleEnd = countA + count;
 
-		LogB.Information(string.Format("avgMax 1st for: {0}", avgMax));
+		LogB.Information(string.Format("avgMax 1st for: {0}", max));
 		//note "count" has the window size in samples
 
 		// 4) continue until the end (countB)
@@ -839,43 +895,16 @@ public class GetMaxAvgInWindow
 			sum += p_l[j].Y;
 
 			double avg = sum / count;
-			if(avg > avgMax)
+			if(avg > max)
 			{
-				avgMax = avg;
-				avgMaxSampleStart = j - count;
-				avgMaxSampleEnd = j;
+				max = avg;
+				maxSampleStart = j - count;
+				maxSampleEnd = j;
 			}
 		}
 
 		LogB.Information(string.Format("Average max force in {0} seconds: {1}, started at sample range: {2}:{3}",
-					windowSeconds, avgMax, avgMaxSampleStart, avgMaxSampleEnd));
-
-		/*
-		// 5) store data to not calculate it again if data is the same
-		calculatedForceMaxAvgInWindow = new CalculatedForceMaxAvgInWindow (
-				countA, countB, windowSeconds, avgMax, avgMaxSampleStart, avgMaxSampleEnd);
-				*/
-		LogB.Information ("GetMaxAvgInWindow done!");
-	}
-
-	public double AvgMax
-	{
-		get { return avgMax; }
-	}
-
-	public int AvgMaxSampleStart
-	{
-		get { return avgMaxSampleStart; }
-	}
-
-	public int AvgMaxSampleEnd
-	{
-		get { return avgMaxSampleEnd; }
-	}
-
-	public string Error
-	{
-		get { return error; }
+					windowSeconds, max, maxSampleStart, maxSampleEnd));
 	}
 }
 

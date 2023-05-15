@@ -241,9 +241,9 @@ public class ForceSensorExport : ExportFiles
 					bool success = fsAI.CalculateRangeParams(repConcentricSampleStart, rep.sampleEnd,
 							forceSensorAnalyzeMaxAVGInWindowSeconds);
 					if(success) {
-						maxAvgForceInWindow = fsAI.Gmaiw.AvgMax;
-						maxAvgForceInWindowSampleStart = fsAI.Gmaiw.AvgMaxSampleStart;
-						maxAvgForceInWindowSampleEnd = fsAI.Gmaiw.AvgMaxSampleEnd;
+						maxAvgForceInWindow = fsAI.Gmaiw.Max;
+						maxAvgForceInWindowSampleStart = fsAI.Gmaiw.MaxSampleStart;
+						maxAvgForceInWindowSampleEnd = fsAI.Gmaiw.MaxSampleEnd;
 					}
 
 					if(! addedSet) {
@@ -300,9 +300,9 @@ public class ForceSensorExport : ExportFiles
 				bool success = fsAI.CalculateRangeParams(sampleA, sampleB,
 						forceSensorAnalyzeMaxAVGInWindowSeconds);
 				if(success) {
-					maxAvgForceInWindow = fsAI.Gmaiw.AvgMax;
-					maxAvgForceInWindowSampleStart = fsAI.Gmaiw.AvgMaxSampleStart;
-					maxAvgForceInWindowSampleEnd = fsAI.Gmaiw.AvgMaxSampleEnd;
+					maxAvgForceInWindow = fsAI.Gmaiw.Max;
+					maxAvgForceInWindowSampleStart = fsAI.Gmaiw.MaxSampleStart;
+					maxAvgForceInWindowSampleEnd = fsAI.Gmaiw.MaxSampleEnd;
 				}
 
 				if(! addedSet) {

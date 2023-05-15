@@ -493,33 +493,46 @@ hasNZerosAtLeft <- function (displacement, i, n)
 #                             t
 #                            /
 # ____----------------------s
-# this function finds s that has at least 10 ms of stability at left
+# this function finds s that has at least 30 ms of stability at left
 # t is the minHeight needed for being a repetition
 # Considers also that from s to top has to be >= minHeight
 getStableConcentricStart <- function (displacement, minHeight)
 {
+	#displacementDebug <<- displacement #TODO just to debug, comment this
+
+	print (paste ("getStableConcentricStart 1, minHeight = ", minHeight))
+
 	position <- cumsum (displacement)
+
+	print ("displacement")
+	print (displacement)
+	print ("position")
+	print (position)
 
 	if (max (position) < minHeight)
 		return (1)
 
 	t <- min (which (position >= minHeight))
 
+	print ("getStableConcentricStart 2")
 	nZerosAtLeft <- 30
 	if (t - nZerosAtLeft <= 1)
 		return (1)
 
+	print ("getStableConcentricStart 3")
 	for (j in seq (t, nZerosAtLeft))
 		if (position[j] < position[t] &&
 		    hasNZerosAtLeft (displacement, j, nZerosAtLeft) &&
 		    max(position) - position[j] >= minHeight)
 			return (j)
 
+	print ("getStableConcentricStart 4")
 	return (1)
 }
 
 # reverse vertically and getStableConcentricStart
 # to find A, convert, find B, A == B
+# FROM 0,0,0,-1,-1,-2, ...  TO: 0,0,0,1,1,2, ...
 #    FROM                TO
 #                         ----
 #                        /
@@ -536,6 +549,7 @@ getStableEccentricStart <- function (displacement, minHeight)
 # reverse horizontally, getStableConcentricStart, and then horizontally reverse the value again
 # and vertically to have the - as +
 # to find A, convert, find B, A = length - B
+# FROM 0,0,0,-1,-1,-2, ...  TO: 0,0,0,1,1,2, ...
 #    FROM                TO
 #                         --
 #                        /
@@ -598,8 +612,8 @@ getPositionSplineRight <- function (position)
 # predict left start
 predictNeededZerosAtLeft <- function (positionSplineLeft)
 {
-	xPre <- seq(from=-50, to=0, length.out=400)
-	prediction <- predict(positionSplineLeft, x = xPre)
+	xPredict <- seq(from=-50, to=0, length.out=400) #get x from (0) to 50 left
+	prediction <- predict(positionSplineLeft, x = xPredict)
 	pos <- max(which(abs(prediction$y) == min(abs(prediction$y))))
 
 	return (c(prediction$x[pos], prediction$y[pos]))
@@ -608,8 +622,8 @@ predictNeededZerosAtLeft <- function (positionSplineLeft)
 # predict right end
 predictNeededZerosAtRight <- function (positionSplineRight, position, maxx)
 {
-	xPre <- seq(from=maxx, to=maxx+50, length.out=400)
-	prediction <- predict(positionSplineRight, x = xPre)
+	xPredict <- seq(from=maxx, to=maxx+50, length.out=400) #get x from max(x) to 50 right
+	prediction <- predict(positionSplineRight, x = xPredict)
 	predictionYStored <- prediction$y
 	prediction$y <- abs(prediction$y - (max(position)+1))
 	pos <- min(which(abs(prediction$y) == min(abs(prediction$y))))
@@ -626,14 +640,26 @@ reduceCurveByPredictStartEnd <- function (displacement, eccon, minHeight)
 
 	# 1 cut by getStableConcentricStart, getStableEccentricStart
 	startByStability <- 1
+	endByStability <- length (displacement)
+
 	if (eccon == "c")
+	{
 		startByStability <- getStableConcentricStart (displacement, minHeight)
+		endByStability <- getStableConcentricEnd (displacement, minHeight)
+	}
 	else if (eccon == "e")
+	{
 		startByStability <- getStableEccentricStart (displacement, minHeight)
-	#TODO: eccon == "ec"
-		
-	if (startByStability > 1)
-		displacement <- displacement [startByStability:length(displacement)]
+		endByStability <- getStableEccentricEnd (displacement, minHeight)
+	}
+	else if (eccon == "ec")
+	{
+		startByStability <- getStableEccentricStart (displacement, minHeight)
+		endByStability <- getStableConcentricEnd (displacement, minHeight)
+	}
+
+	displacement <- displacement [startByStability:endByStability]
+
 
 	# 2 delete initial/final zeros
 	firstInitialNonZero <- min(which(displacement != 0))
@@ -642,7 +668,7 @@ reduceCurveByPredictStartEnd <- function (displacement, eccon, minHeight)
 	if (is.infinite (firstInitialNonZero))
 		firstInitialNonZero <- 1
 	if (is.infinite (lastFinalNonZero))
-		lastFinalNonZero <- 1
+		lastFinalNonZero <- length(displacement)
 
 	if (firstInitialNonZero >= lastFinalNonZero)
 		return (list (

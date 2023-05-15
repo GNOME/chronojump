@@ -43,3 +43,13 @@ doProcess (options)
 displacementCurvesDebug (TRUE)
 
 # Note warnings sometimes continue appearing even when code has changed and source has done, is best to close/open terminal console
+
+#using debug is very useful, eg:
+
+d <- scan ("tests/fixEccConCutOnNotSingleFile/curve1.txt", sep = ",")
+d  = d[!is.na(d)]
+debug (reduceCurveByPredictStartEnd)
+reduceCurveByPredictStartEnd (d, "ec", 20)
+
+#then you can press n for seeing NEXT line of code and print (variable) to print the value, note if a you see var <- "my var", this is going to be assigned on next step
+

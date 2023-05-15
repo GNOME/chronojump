@@ -192,6 +192,22 @@ public abstract class CairoGraphForceSensor : CairoXY
 		plotRealPoints (plotType, p_l, startAt, false); //fast (but the difference is very low)
 	}
 
+	protected void paintMaxAvgInWindow (int start, int end, double force, List<PointF> points_l)
+	{
+		g.LineWidth = 4;
+		double yPx = calculatePaintY (force);
+
+		CairoUtil.PaintSegment (g, black,
+				calculatePaintX (points_l[start].X), yPx,
+				calculatePaintX (points_l[end].X), yPx);
+		CairoUtil.PaintSegment (g, black,
+				calculatePaintX (points_l[start].X), yPx-10,
+				calculatePaintX (points_l[start].X), yPx+10);
+		CairoUtil.PaintSegment (g, black,
+				calculatePaintX (points_l[end].X), yPx-10,
+				calculatePaintX (points_l[end].X), yPx+10);
+	}
+
 	protected override void writeTitle()
 	{
 	}
@@ -203,6 +219,7 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 	private int accuracySamplesBad;
 	private Cairo.Color colorPathBlue = colorFromRGB (178,223,238);
 	private int startAt;
+	private GetMaxAvgInWindow miw;
 
 	//regular constructor
 	public CairoGraphForceSensorSignal (DrawingArea area, string title, int pathLineWidthInN)
@@ -224,6 +241,7 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 			bool capturing, bool showAccuracy, int showLastSeconds,
 			int minDisplayFNegative, int minDisplayFPositive,
 			int rectangleN, int rectangleRange,
+			GetMaxAvgInWindow miw,
 			TriggerList triggerList,
 			bool forceRedraw, PlotTypes plotType)
 	{
@@ -234,6 +252,7 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 		this.points_l_interpolated_path = points_l_interpolated_path;
 		this.interpolatedMin = interpolatedMin;
 		this.interpolatedMax = interpolatedMax;
+		this.miw = miw;
 
 		rightMargin = 40;
 		if (pointsDispl_l != null && pointsDispl_l.Count > 0)
@@ -424,10 +443,12 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 							accuracyText, g, alignTypes.CENTER);
 					g.SetFontSize (textHeight);
 				}
-
-				g.LineWidth = 2;
 			}
 
+			if (miw.Error == "")
+				paintMaxAvgInWindow (miw.AvgMaxSampleStart, miw.AvgMaxSampleEnd, miw.AvgMax, points_l);
+
+			g.LineWidth = 2;
 			plotRealPoints(plotType, points_l, startAt, false); //fast (but the difference is very low)
 
 			if(calculatePaintX (xAtMaxY) > leftMargin)
@@ -741,20 +762,8 @@ public class CairoGraphForceSensorAI : CairoGraphForceSensor
 
 			// paint the f max avg in x seconds
 			if ( points_l != null && fMaxAvgSampleEnd >= 0 && points_l.Count > fMaxAvgSampleEnd)
-			{
-				g.LineWidth = 4;
-				double yPx = calculatePaintY (fMaxAvgForce);
+				paintMaxAvgInWindow (fMaxAvgSampleStart, fMaxAvgSampleEnd, fMaxAvgForce, points_l);
 
-				CairoUtil.PaintSegment (g, black,
-						calculatePaintX (points_l[fMaxAvgSampleStart].X), yPx,
-						calculatePaintX (points_l[fMaxAvgSampleEnd].X), yPx);
-				CairoUtil.PaintSegment (g, black,
-						calculatePaintX (points_l[fMaxAvgSampleStart].X), yPx-10,
-						calculatePaintX (points_l[fMaxAvgSampleStart].X), yPx+10);
-				CairoUtil.PaintSegment (g, black,
-						calculatePaintX (points_l[fMaxAvgSampleEnd].X), yPx-10,
-						calculatePaintX (points_l[fMaxAvgSampleEnd].X), yPx+10);
-			}
 			g.LineWidth = 2;
 
 			// paint max, min circles

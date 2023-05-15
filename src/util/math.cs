@@ -808,7 +808,6 @@ public abstract class GetMaxValueInWindow
 // TODO: manage if X is micros or millis
 public class GetMaxAvgInWindow : GetMaxValueInWindow
 {
-
 	public GetMaxAvgInWindow (List<PointF> p_l, int countA, int countB, double windowSeconds)
 	{
 		this.p_l = p_l;
@@ -867,7 +866,7 @@ public class GetMaxAvgInWindow : GetMaxValueInWindow
 	{
 		max = 0;
 		maxSampleStart = countA; 	//sample where avgMax starts (to draw a line)
-		maxSampleEnd = countA; 	//sample where avgMax starts (to draw a line)
+		maxSampleEnd = countA; 	 	//sample where avgMax ends (to draw a line)
 		error = "";
 
 		double timeA = p_l[countA].X;
@@ -875,6 +874,7 @@ public class GetMaxAvgInWindow : GetMaxValueInWindow
 		int count = 0;
 
 		//note if countB - countA < 1s then can have higher values than all the set
+		//TODO: can be more accurate with public static bool PassedSampleIsCloserToCriteria (check GetBestRFDInWindow)
 		// 3) get the first second (or whatever in windowSeconds)
 		int i;
 		for(i = countA; i <= countB && p_l[i].X - timeA <= 1000000 * windowSeconds; i ++)
@@ -905,6 +905,76 @@ public class GetMaxAvgInWindow : GetMaxValueInWindow
 
 		LogB.Information(string.Format("Average max force in {0} seconds: {1}, started at sample range: {2}:{3}",
 					windowSeconds, max, maxSampleStart, maxSampleEnd));
+	}
+}
+
+public class GetBestRFDInWindow : GetMaxValueInWindow
+{
+	public GetBestRFDInWindow (List<PointF> p_l, int countA, int countB, double windowSeconds)
+	{
+		this.p_l = p_l;
+		this.countA = countA;
+		this.countB = countB;
+		this.windowSeconds = windowSeconds;
+
+		if (parametersBad ())
+		{
+			error = string.Format ("p_l.Count: {0}, countA: {1}, countB: {2}, windowSeconds: {3}",
+					p_l.Count, countA, countB, windowSeconds);
+			return;
+		}
+
+		// 2) check if countB - countA fits in window time
+		if (dataTooShort ())
+		{
+			error = "Need more time";
+			return;
+		}
+
+		calculate ();
+	}
+
+	protected override void calculate ()
+	{
+		max = 0;
+		maxSampleStart = countA; 	//sample where best RFD starts (to draw a line)
+		maxSampleEnd = countA; 		//sample where best RFD ends (to draw a line)
+		error = "too short for calcule";
+
+		for (int i = countA; i < countB; i ++)
+		{
+			int j = findSampleAtWindowSeconds (i);
+			if (j < 0)
+				return;
+
+			error = ""; //not show the error mark
+			double temp = ForceCalcs.GetRFD (p_l, j, i);
+			if (temp > max)
+			{
+				max = temp;
+				maxSampleStart = i;
+				maxSampleEnd = j;
+			}
+		}
+	}
+
+	// return -1 if sampleEnd is out of array
+	private int findSampleAtWindowSeconds (int sampleStart)
+	{
+		double timeStart = p_l[sampleStart].X;
+		for (int i = sampleStart; i < p_l.Count; i ++)
+			if (p_l[i].X - timeStart >= 1000000 * windowSeconds)
+			{
+				if (MathUtil.PassedSampleIsCloserToCriteria (
+							p_l[i].X - timeStart,
+							p_l[i-1].X - timeStart,
+							1000000 * windowSeconds))
+					return i-1;
+				else
+					return i;
+			}
+
+		return -1;
 	}
 }
 
@@ -1162,7 +1232,7 @@ public static class MathUtil
 	public static bool PassedSampleIsCloserToCriteria (
 			double criteriaPassedValue, double previousToCriteriaValue, double numToCompare)
 	{
-		LogB.Information(string.Format("Compare: {0} and {1} with: {2}", criteriaPassedValue, previousToCriteriaValue, numToCompare));
+		//LogB.Information(string.Format("Compare: {0} and {1} with: {2}", criteriaPassedValue, previousToCriteriaValue, numToCompare));
 		return ( Math.Abs(criteriaPassedValue - numToCompare) <= Math.Abs(previousToCriteriaValue - numToCompare) );
 	}
 

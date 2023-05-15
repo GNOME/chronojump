@@ -220,6 +220,7 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 	private Cairo.Color colorPathBlue = colorFromRGB (178,223,238);
 	private int startAt;
 	private GetMaxAvgInWindow miw;
+	private GetBestRFDInWindow briw;
 
 	//regular constructor
 	public CairoGraphForceSensorSignal (DrawingArea area, string title, int pathLineWidthInN)
@@ -242,6 +243,7 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 			int minDisplayFNegative, int minDisplayFPositive,
 			int rectangleN, int rectangleRange,
 			GetMaxAvgInWindow miw,
+			GetBestRFDInWindow briw,
 			TriggerList triggerList,
 			bool forceRedraw, PlotTypes plotType)
 	{
@@ -253,6 +255,7 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 		this.interpolatedMin = interpolatedMin;
 		this.interpolatedMax = interpolatedMax;
 		this.miw = miw;
+		this.briw = briw;
 
 		rightMargin = 40;
 		if (pointsDispl_l != null && pointsDispl_l.Count > 0)
@@ -447,6 +450,15 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 
 			if (miw.Error == "")
 				paintMaxAvgInWindow (miw.MaxSampleStart, miw.MaxSampleEnd, miw.Max, points_l);
+			if (briw.Error == "")
+			{
+				CairoUtil.PaintSegment (g, black,
+						calculatePaintX (points_l[briw.MaxSampleStart].X),
+						calculatePaintY (points_l[briw.MaxSampleStart].Y),
+						calculatePaintX (points_l[briw.MaxSampleEnd].X),
+						calculatePaintY (points_l[briw.MaxSampleEnd].Y));
+				//LogB.Information ("GetBestRFDInWindow: " + briw.ToString ());
+			}
 
 			g.LineWidth = 2;
 			plotRealPoints(plotType, points_l, startAt, false); //fast (but the difference is very low)

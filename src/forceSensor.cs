@@ -1827,6 +1827,7 @@ public class ForceSensorAnalyzeInstant
 	 * Calculates RFD in a point using previous and next point
 	 */
 //TODO: fer que es vagi recordant el max en un rang determinat pq no s'hagi de tornar a calcular
+// Note the method: GetBestRFDInWindow is different because it checks if it fits in a second
 	public double LastRFDMax;
 	public int LastRFDMaxCount;
 	public void CalculateMaxRFDInRange(int countA, int countB)

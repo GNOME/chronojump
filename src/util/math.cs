@@ -785,6 +785,13 @@ public abstract class GetMaxValueInWindow
 
 	protected abstract void calculate ();
 
+	//just to debug
+	public override string ToString ()
+	{
+		return string.Format ("start: {0}, end: {1}, max: {2}, error: {3}",
+				maxSampleStart, maxSampleEnd, max, error);
+	}
+
 	public double Max
 	{
 		get { return max; }

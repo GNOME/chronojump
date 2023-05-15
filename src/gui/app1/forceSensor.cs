@@ -2465,8 +2465,11 @@ LogB.Information(" fs R ");
 				rectangleN, rectangleRange,
 				new GetMaxAvgInWindow (cairoGraphForceSensorSignalPoints_l_copy,
 					0, cairoGraphForceSensorSignalPoints_l_copy.Count -1, 1), //1s
+				new GetBestRFDInWindow (cairoGraphForceSensorSignalPoints_l_copy,
+					0, cairoGraphForceSensorSignalPoints_l_copy.Count -1, 0.05), //50 ms
 				triggerListForceSensor_copy,
 				forceRedraw, CairoXY.PlotTypes.LINES);
+
 
 		//LogB.Information ("updateForceSensorCaptureSignalCairo 5");
 		if (currentForceSensor.UniqueID >= 0 && forceSensorValues != null)

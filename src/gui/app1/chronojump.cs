@@ -3719,6 +3719,7 @@ public partial class ChronoJumpWindow
 					radio_mode_contacts_analyze_buttons_visible (m);
 			} else {
 				notebooks_change(m);
+				button_contacts_bells.Sensitive = true;
 				on_extra_window_jumps_rj_test_changed(new object(), new EventArgs());
 
 				event_graph_label_graph_test.Visible = false;

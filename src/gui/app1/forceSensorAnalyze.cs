@@ -1054,6 +1054,8 @@ public partial class ChronoJumpWindow
 		int fMaxAvgSampleStart = -1;
 		int fMaxAvgSampleEnd = -1;
 		double fsMaxAvgForce = -1;
+		GetBestRFDInWindow briw = new GetBestRFDInWindow (new List<PointF>(), 0, 0, 1);
+
 		List<ForceSensorRepetition> reps_l = new List<ForceSensorRepetition> ();
 		if (fsAI != null)
 		{
@@ -1067,6 +1069,8 @@ public partial class ChronoJumpWindow
 			reps_l = fsAI.ForceSensorRepetition_l;
 			if(forceSensorZoomApplied)
 				reps_l = forceSensorRepetition_lZoomAppliedCairo;
+
+			briw = fsAI.Briw;
 		}
 
 		int hscaleSampleStart = Convert.ToInt32 (hscale_force_sensor_ai_a.Value);
@@ -1099,6 +1103,7 @@ public partial class ChronoJumpWindow
 				sendPointsDispl_l, sendPointsSpeed_l, sendPointsPower_l,
 				minY, maxY,
 				rectangleN, rectangleRange,
+				briw,
 				triggerListForceSensor,
 				hscaleSampleStart, hscaleSampleEnd, forceSensorZoomApplied,
 				fMaxAvgSampleStart, fMaxAvgSampleEnd, fsMaxAvgForce,

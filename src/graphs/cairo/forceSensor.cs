@@ -36,6 +36,7 @@ public abstract class CairoGraphForceSensor : CairoXY
 	protected List<PointF> points_l_interpolated_path;
 	protected int interpolatedMin;
 	protected int interpolatedMax;
+	//protected bool oneSerie; //on elastic is false: more than 1 serie
 
 	protected void initForceSensor (DrawingArea area, string title)
 	{
@@ -194,7 +195,12 @@ public abstract class CairoGraphForceSensor : CairoXY
 
 	protected void paintMaxAvgInWindow (int start, int end, double force, List<PointF> points_l)
 	{
-		g.LineWidth = 4;
+		/* unused, maybe show in other way
+		if (oneSerie)
+			g.LineWidth = 2;
+		else */
+			g.LineWidth = 4;
+
 		double yPx = calculatePaintY (force);
 
 		CairoUtil.PaintSegment (g, black,
@@ -256,6 +262,11 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 		this.interpolatedMax = interpolatedMax;
 		this.miw = miw;
 		this.briw = briw;
+		/*
+		this.oneSerie = ( (pointsDispl_l == null || pointsDispl_l.Count == 0) &&
+				(pointsSpeed_l == null || pointsSpeed_l.Count == 0) &&
+				(pointsPower_l == null || pointsPower_l.Count == 0) );
+				*/
 
 		rightMargin = 40;
 		if (pointsDispl_l != null && pointsDispl_l.Count > 0)
@@ -450,17 +461,20 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 
 			if (miw.Error == "")
 				paintMaxAvgInWindow (miw.MaxSampleStart, miw.MaxSampleEnd, miw.Max, points_l);
+
 			if (briw.Error == "")
 			{
-				CairoUtil.PaintSegment (g, black,
-						calculatePaintX (points_l[briw.MaxSampleStart].X),
-						calculatePaintY (points_l[briw.MaxSampleStart].Y),
-						calculatePaintX (points_l[briw.MaxSampleEnd].X),
-						calculatePaintY (points_l[briw.MaxSampleEnd].Y));
-				//LogB.Information ("GetBestRFDInWindow: " + briw.ToString ());
+				g.LineWidth = 2;
+				drawCircle (calculatePaintX (points_l[briw.MaxSampleStart].X), calculatePaintY (points_l[briw.MaxSampleStart].Y), 8, black, false);
+				drawCircle (calculatePaintX (points_l[briw.MaxSampleEnd].X), calculatePaintY (points_l[briw.MaxSampleEnd].Y), 8, black, false);
+
+				List<PointF> briwP_l = new List<PointF> ();
+				briwP_l.Add (new PointF (points_l[briw.MaxSampleStart].X, points_l[briw.MaxSampleStart].Y));
+				briwP_l.Add (new PointF (points_l[briw.MaxSampleEnd].X, points_l[briw.MaxSampleEnd].Y));
+
+				preparePredictedLine (briwP_l);
 			}
 
-			g.LineWidth = 2;
 			plotRealPoints(plotType, points_l, startAt, false); //fast (but the difference is very low)
 
 			if(calculatePaintX (xAtMaxY) > leftMargin)
@@ -544,6 +558,11 @@ public class CairoGraphForceSensorAI : CairoGraphForceSensor
 		this.points_l_interpolated_path = new List<PointF> ();
 
 		this.exercise = exercise;
+		/*
+		this.oneSerie = ( (pointsDispl_l == null || pointsDispl_l.Count == 0) &&
+				(pointsSpeed_l == null || pointsSpeed_l.Count == 0) &&
+				(pointsPower_l == null || pointsPower_l.Count == 0) );
+				*/
 
 		repMouseLimits = new RepetitionMouseLimitsWithSamples ();
 		area.AddEvents((int) Gdk.EventMask.ButtonPressMask); //to have mouse clicks

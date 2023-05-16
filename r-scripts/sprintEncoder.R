@@ -780,7 +780,7 @@ getTrimmingSamples <- function(totalTime, position, speed, accel, testLength, st
         
         #Detecting when reaches the whole length of the test
         endSample = which.min(abs(position - testLength))
-        if(position[endSample] < testLength)
+        if(position[endSample] < testLength && length(position) > endSample)
                 endSample = endSample +1
         return(list(start = startSample, end = endSample, errorInStart = !startingSample ))
 }
@@ -788,7 +788,6 @@ getTrimmingSamples <- function(totalTime, position, speed, accel, testLength, st
 #Getting the mean values of the dynamics in each split
 getSplits <- function(time, rawPosition, rawForce, rawPower, startSample, endSample, testLength, splitLength, splitVariableCm)
 {
-        endSample = endSample + startSample
         # Vector with the positions that separates the splits 
         splitPositions_v = NULL
         
@@ -869,15 +868,15 @@ getSplits <- function(time, rawPosition, rawForce, rawPower, startSample, endSam
                 splitEndSample = which.min(abs(rawPosition - last(splitPositions_v)))
                 
                 #The last Sample of the split must be, at least, the next sample after the desired position
-                if (last(splitPositions_v) - rawPosition[splitEndSample] > 0 ) {
+                if (last(splitPositions_v) - rawPosition[splitEndSample] > 0  && length(time) > splitEndSample) {
                     splitEndSample = splitEndSample + 1
                 }
                 
-                # print(paste("splitStartSample:", splitStartSample, ":->", time[splitStartSample]))
-                # print(paste("splitEndSample:", splitEndSample, ":->", time[splitEndSample]))
-                
-                splitTimes_v = c(splitTimes_v, interpolateXAtY(X = time[splitStartSample:splitEndSample+1],
-                                                               Y = rawPosition[splitStartSample:(splitEndSample+1)],
+                print(paste("splitStartSample:", splitStartSample, ":->", time[splitStartSample]))
+                print(paste("splitEndSample:", splitEndSample, ":->", time[splitEndSample]))
+
+                splitTimes_v = c(splitTimes_v, interpolateXAtY(X = time[splitStartSample:splitEndSample],
+                                                               Y = rawPosition[splitStartSample:splitEndSample],
                                                                desiredY = last(splitPositions_v)))
                 
                 # print("splitTimes_v:")

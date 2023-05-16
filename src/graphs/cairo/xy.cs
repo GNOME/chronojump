@@ -389,6 +389,20 @@ public abstract class CairoXY : CairoGeneric
 		return string.Format("{0} ({1})", variable, units);
 	}
 
+	protected void preparePredictedLine (List<PointF> p_l)
+	{
+		LeastSquaresLine ls = new LeastSquaresLine();
+		ls.Calculate (p_l);
+		if (ls.SlopeIsNaN ())
+			return;
+
+		g.Save ();
+		g.LineWidth = 1;
+		g.SetDash (new double[]{4, 2}, 0);
+		plotPredictedLine (predictedLineTypes.STRAIGHT, predictedLineCrossMargins.CROSS, ls.Slope, ls.Intercept);
+		g.Restore ();
+	}
+
 	protected enum predictedLineTypes { STRAIGHT, PARABOLE }
 	protected enum predictedLineCrossMargins { TOUCH, CROSS, DONOTTOUCH }
 	protected void plotPredictedLine(predictedLineTypes plt, predictedLineCrossMargins crossMarginType)

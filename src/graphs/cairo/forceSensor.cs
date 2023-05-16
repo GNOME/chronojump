@@ -471,7 +471,6 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 				List<PointF> briwP_l = new List<PointF> ();
 				briwP_l.Add (new PointF (points_l[briw.MaxSampleStart].X, points_l[briw.MaxSampleStart].Y));
 				briwP_l.Add (new PointF (points_l[briw.MaxSampleEnd].X, points_l[briw.MaxSampleEnd].Y));
-
 				preparePredictedLine (briwP_l);
 			}
 
@@ -531,6 +530,7 @@ public class CairoGraphForceSensorAI : CairoGraphForceSensor
 	private ForceSensorExercise exercise;
 	private RepetitionMouseLimitsWithSamples repMouseLimits;
 	private int startAt;
+	private GetBestRFDInWindow briw;
 
 	//regular constructor
 	public CairoGraphForceSensorAI (DrawingArea area, string title)
@@ -545,6 +545,7 @@ public class CairoGraphForceSensorAI : CairoGraphForceSensor
 			List<PointF> pointsDispl_l, List<PointF> pointsSpeed_l, List<PointF> pointsPower_l,
 			int minDisplayFNegative, int minDisplayFPositive,
 			int rectangleN, int rectangleRange,
+			GetBestRFDInWindow briw,
 			TriggerList triggerList,
 			int hscaleSampleA, int hscaleSampleB, bool zoomed,
 			int fMaxAvgSampleStart, int fMaxAvgSampleEnd, double fMaxAvgForce,
@@ -558,6 +559,7 @@ public class CairoGraphForceSensorAI : CairoGraphForceSensor
 		this.points_l_interpolated_path = new List<PointF> ();
 
 		this.exercise = exercise;
+		this.briw = briw;
 		/*
 		this.oneSerie = ( (pointsDispl_l == null || pointsDispl_l.Count == 0) &&
 				(pointsSpeed_l == null || pointsSpeed_l.Count == 0) &&
@@ -794,6 +796,18 @@ public class CairoGraphForceSensorAI : CairoGraphForceSensor
 			// paint the f max avg in x seconds
 			if ( points_l != null && fMaxAvgSampleEnd >= 0 && points_l.Count > fMaxAvgSampleEnd)
 				paintMaxAvgInWindow (fMaxAvgSampleStart, fMaxAvgSampleEnd, fMaxAvgForce, points_l);
+
+			if (briw.Error == "")
+			{
+				g.LineWidth = 2;
+				drawCircle (calculatePaintX (points_l[briw.MaxSampleStart].X), calculatePaintY (points_l[briw.MaxSampleStart].Y), 8, black, false);
+				drawCircle (calculatePaintX (points_l[briw.MaxSampleEnd].X), calculatePaintY (points_l[briw.MaxSampleEnd].Y), 8, black, false);
+
+				List<PointF> briwP_l = new List<PointF> ();
+				briwP_l.Add (new PointF (points_l[briw.MaxSampleStart].X, points_l[briw.MaxSampleStart].Y));
+				briwP_l.Add (new PointF (points_l[briw.MaxSampleEnd].X, points_l[briw.MaxSampleEnd].Y));
+				preparePredictedLine (briwP_l);
+			}
 
 			g.LineWidth = 2;
 

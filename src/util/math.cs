@@ -800,11 +800,13 @@ public abstract class GetMaxValueInWindow
 	public int MaxSampleStart
 	{
 		get { return maxSampleStart; }
+		set { maxSampleStart = value; }
 	}
 
 	public int MaxSampleEnd
 	{
 		get { return maxSampleEnd; }
+		set { maxSampleEnd = value; }
 	}
 	public string Error
 	{

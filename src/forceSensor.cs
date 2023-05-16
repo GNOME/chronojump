@@ -1598,6 +1598,7 @@ public class ForceSensorAnalyzeInstant
 	public double PowerMAX;
 
 	private GetMaxAvgInWindow gmaiw;
+	private GetBestRFDInWindow briw;
 	private VariabilityAndAccuracy vaa;
 
 	//for elastic
@@ -1802,6 +1803,14 @@ public class ForceSensorAnalyzeInstant
 
 		ForceCalcs.GetAverageAndMaxForce (p_l, countA, countB, out ForceAVG, out ForceMAX);
 		gmaiw = new GetMaxAvgInWindow (p_l, countA, countB, maxAVGInWindowSeconds);
+
+		List<PointF> pAB_l = new List<PointF>();
+		for (int i = countA; i <= countB; i ++)
+			pAB_l.Add (p_l[i]);
+
+		briw = new GetBestRFDInWindow (pAB_l, 0, pAB_l.Count -1, 0.05); //50 ms
+		briw.MaxSampleStart += countA;
+		briw.MaxSampleEnd += countA;
 
 		if(CalculedElasticPSAP)
 		{
@@ -2019,6 +2028,11 @@ public class ForceSensorAnalyzeInstant
 	public GetMaxAvgInWindow Gmaiw
 	{
 		get { return gmaiw; }
+	}
+
+	public GetBestRFDInWindow Briw
+	{
+		get { return briw; }
 	}
 
 	public VariabilityAndAccuracy Vaa

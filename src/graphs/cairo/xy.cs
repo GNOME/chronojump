@@ -399,7 +399,7 @@ public abstract class CairoXY : CairoGeneric
 		g.Save ();
 		g.LineWidth = 1;
 		g.SetDash (new double[]{4, 2}, 0);
-		plotPredictedLine (predictedLineTypes.STRAIGHT, predictedLineCrossMargins.CROSS, ls.Slope, ls.Intercept);
+		plotPredictedLine2023 (ls.Slope, ls.Intercept);
 		g.Restore ();
 	}
 
@@ -409,7 +409,9 @@ public abstract class CairoXY : CairoGeneric
 	{
 		plotPredictedLine(plt, crossMarginType, slope, intercept);
 	}
-	protected void plotPredictedLine(predictedLineTypes plt, predictedLineCrossMargins crossMarginType, double slope, double intercept)
+
+	// For new code use the plotPredictedLine2023 (at least when is straight line)
+	protected void plotPredictedLine (predictedLineTypes plt, predictedLineCrossMargins crossMarginType, double slope, double intercept)
 	{
 		bool firstValue = false;
 		double range = absoluteMaxX - minX;
@@ -421,6 +423,7 @@ public abstract class CairoXY : CairoGeneric
 		LogB.Information(string.Format("minX: {0}, absoluteMaxX: {1}, range: {2}, xStart: {3}; xEnd: {4}", minX, absoluteMaxX, range, xStart, xEnd));
 		//TODO: instead of doing this procedure for a straight line,
 		//just find the two points where the line gets out of the graph and draw a line between them
+		//done in plotPredictedLine2023
 
 		for(double x = xStart; x < xEnd; x += (xEnd - xStart)/1000)
 		{
@@ -476,6 +479,24 @@ public abstract class CairoXY : CairoGeneric
 		}
 		g.Stroke ();
 	}
+	//use this method (at least for straight lines)
+	protected void plotPredictedLine2023 (double slope, double intercept)
+	{
+		// y = slope * x + intercept
+		// x = (y - intercept) / slope
+		// find when point where line cross vertical margins
+
+		double yTopReal = calculateRealY (topMargin);
+		double xTopGraph = calculatePaintX ((yTopReal - intercept) / slope);
+
+		double yBottomReal = calculateRealY (graphHeight - bottomMargin);
+		double xBottomGraph = calculatePaintX ((yBottomReal - intercept) / slope);
+
+		g.MoveTo (xTopGraph, topMargin);
+		g.LineTo (xBottomGraph, graphHeight - bottomMargin);
+		g.Stroke ();
+	}
+
 
 	public enum PlotTypes { POINTS, LINES, POINTSLINES }
 

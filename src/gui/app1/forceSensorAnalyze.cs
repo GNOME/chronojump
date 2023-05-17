@@ -200,6 +200,7 @@ public partial class ChronoJumpWindow
 	Gtk.Label label_force_sensor_ai_rfd_average;
 	Gtk.Label label_force_sensor_ai_rfd_max;
 	Gtk.Label label_force_sensor_ai_max_avg_in_window_values;
+	Gtk.Label label_force_sensor_ai_best_rfd_in_window_values;
 
 	Gtk.ComboBoxText combo_force_1_function;
 	Gtk.ComboBoxText combo_force_2_function;
@@ -1609,10 +1610,16 @@ public partial class ChronoJumpWindow
 					label_force_sensor_ai_max_avg_in_window_values.Text = Math.Round(fsAI.Gmaiw.Max, 1).ToString();
 				else
 					label_force_sensor_ai_max_avg_in_window_values.Text = "----";
+
+				if(fsAI.Briw.Error == "")
+					label_force_sensor_ai_best_rfd_in_window_values.Text = Math.Round(fsAI.Briw.Max, 1).ToString();
+				else
+					label_force_sensor_ai_best_rfd_in_window_values.Text = "----";
 			} else {
 				label_force_sensor_ai_force_average.Text = "";
 				label_force_sensor_ai_force_max.Text = "";
 				label_force_sensor_ai_max_avg_in_window_values.Text = "";
+				label_force_sensor_ai_best_rfd_in_window_values.Text = "";
 			}
 		}
 
@@ -2023,6 +2030,7 @@ public partial class ChronoJumpWindow
 		label_force_sensor_ai_rfd_average = (Gtk.Label) builder.GetObject ("label_force_sensor_ai_rfd_average");
 		label_force_sensor_ai_rfd_max = (Gtk.Label) builder.GetObject ("label_force_sensor_ai_rfd_max");
 		label_force_sensor_ai_max_avg_in_window_values = (Gtk.Label) builder.GetObject ("label_force_sensor_ai_max_avg_in_window_values");
+		label_force_sensor_ai_best_rfd_in_window_values = (Gtk.Label) builder.GetObject ("label_force_sensor_ai_best_rfd_in_window_values");
 
 		combo_force_1_function = (Gtk.ComboBoxText) builder.GetObject ("combo_force_1_function");
 		combo_force_2_function = (Gtk.ComboBoxText) builder.GetObject ("combo_force_2_function");

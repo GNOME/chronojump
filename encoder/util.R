@@ -487,46 +487,83 @@ hasNZerosAtLeft <- function (displacement, i, n)
 	return (TRUE)
 }
 
+zerosAtLeft <- function (displacement, i)
+{
+	zeros <- 0
+	if (i == 1)
+		return (0)
+
+	for (j in seq(i-1, 1))
+	{
+		if (displacement [j] == 0)
+			zeros <- zeros +1
+		else
+			return (zeros)
+	}
+
+	return (zeros)
+}
+
 # line ___ it is 1 mm below the line ------
 #                            con
 #                              /
 #                             t
 #                            /
-# ____----------------------s
+#                        ---s
+#                  -----s
+# ____------------S
 # this function finds s that has at least 30 ms of stability at left
 # t is the minHeight needed for being a repetition
-# Considers also that from s to top has to be >= minHeight
+# Considers also that from s,iS to top has to be >= minHeight
+# in the graph s,S have 30 zeros or more at left
+# S is the point below t that has more zeros at left
+#
+# for an exemple of this working do:
+# d <- scan("curve1.txt", sep=",")
+# d <- d[!is.na(d)]
+# plot (cumsum (d), type="l")
+# abline (v = getStableConcentricStart(d, 20))
+# abline (v = reduceCurveByPredictStartEnd (d, "c", 20)$startPos, col="red")
 getStableConcentricStart <- function (displacement, minHeight)
 {
 	#displacementDebug <<- displacement #TODO just to debug, comment this
-
-	print (paste ("getStableConcentricStart 1, minHeight = ", minHeight))
-
 	position <- cumsum (displacement)
-
-	print ("displacement")
-	print (displacement)
-	print ("position")
-	print (position)
 
 	if (max (position) < minHeight)
 		return (1)
 
 	t <- min (which (position >= minHeight))
 
-	print ("getStableConcentricStart 2")
 	nZerosAtLeft <- 30
 	if (t - nZerosAtLeft <= 1)
 		return (1)
 
-	print ("getStableConcentricStart 3")
+	storedSample <- -1
 	for (j in seq (t, nZerosAtLeft))
 		if (position[j] < position[t] &&
 		    hasNZerosAtLeft (displacement, j, nZerosAtLeft) &&
 		    max(position) - position[j] >= minHeight)
-			return (j)
+		{
+			if (storedSample < 0)
+			{
+				storedSample <- j
+				#storedHeight <- position[j]
+				storedNZerosAtLeft <- zerosAtLeft (displacement, j)
+			} else
+			{
+				zerosAtLeft = zerosAtLeft (displacement, j)
+				if (zerosAtLeft > storedNZerosAtLeft)
+				{
+					storedSample <- j
+					#storedHeight <- position[j]
+					storedNZerosAtLeft <- zerosAtLeft
+				}
+			}
+		}
 
-	print ("getStableConcentricStart 4")
+	if (storedSample > 0)
+		return (storedSample)
+
 	return (1)
 }
 
@@ -633,6 +670,7 @@ predictNeededZerosAtRight <- function (positionSplineRight, position, maxx)
 
 
 # This should work for all eccons, check tests/fixEccConCutOnNotSingleFile/getCurveStartEnd.R
+# and the example on getStableConcentricStart
 reduceCurveByPredictStartEnd <- function (displacement, eccon, minHeight)
 {
 	print ("reduceCurveByPredictStartEnd start")

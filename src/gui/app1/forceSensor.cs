@@ -55,7 +55,7 @@ public partial class ChronoJumpWindow
 	Gtk.Label label_force_sensor_value;
 	Gtk.Label label_force_sensor_value_min;
 	Gtk.Label label_force_sensor_value_best_second;
-	Gtk.VBox vbox_force_sensor_capture_best_second;
+	Gtk.Label label_force_sensor_value_rfd;
 	//Gtk.VScale vscale_force_sensor;
 	Gtk.SpinButton spin_force_sensor_calibration_kg_value;
 	Gtk.Button button_force_sensor_image_save_signal;
@@ -389,7 +389,6 @@ public partial class ChronoJumpWindow
 			sensitiveLastTestButtons(false);
 			contactsShowCaptureDoingButtons(true);
 			image_force_sensor_graph.Sensitive = false; //unsensitivize the RFD image (can contain info of previous data)
-			vbox_force_sensor_capture_best_second.Visible = false;
 
 			//textview_force_sensor_capture_comment.Buffer.Text = "";
 			textview_contacts_signal_comment.Buffer.Text = "";
@@ -558,6 +557,7 @@ public partial class ChronoJumpWindow
 		label_force_sensor_value.Text = "";
 		label_force_sensor_value_min.Text = "";
 		label_force_sensor_value_best_second.Text = "";
+		label_force_sensor_value_rfd.Text = "";
 
 		if (radio_force_sensor_analyze_individual_current_session.Active)
 		{
@@ -611,10 +611,11 @@ public partial class ChronoJumpWindow
 			if(forceSensorOtherMode == forceSensorOtherModeEnum.STIFFNESS_DETECT &&
 					forceSensorValues != null)
 			{
-				label_force_sensor_value_max.Text = string.Format("{0:0.##} N", forceSensorValues.Max);
-				label_force_sensor_value_min.Text = string.Format("{0:0.##} N", forceSensorValues.Min);
-				label_force_sensor_value.Text = string.Format("{0:0.##} N", forceSensorValues.ValueLast);
-				label_force_sensor_value_best_second.Text = string.Format("{0:0.##} N", forceSensorValues.BestSecond);
+				label_force_sensor_value_max.Text = string.Format("{0:0.##}", forceSensorValues.Max);
+				label_force_sensor_value_min.Text = string.Format("{0:0.##}", forceSensorValues.Min);
+				label_force_sensor_value.Text = string.Format("{0:0.##}", forceSensorValues.ValueLast);
+				label_force_sensor_value_best_second.Text = string.Format("{0:0.##}", forceSensorValues.BestSecond);
+				label_force_sensor_value_rfd.Text = string.Format("{0:0.##}", forceSensorValues.BestRFD);
 			}
 		}
 		else
@@ -924,10 +925,11 @@ public partial class ChronoJumpWindow
 		forceSensorOtherMessageShowSeconds = secondsEnum.DESC;
 
 		forceSensorValues = new ForceSensorValues();
-		label_force_sensor_value_max.Text = "0 N";
-		label_force_sensor_value.Text = "0 N";
-		label_force_sensor_value_min.Text = "0 N";
-		label_force_sensor_value_best_second.Text = "0 N";
+		label_force_sensor_value_max.Text = "0";
+		label_force_sensor_value.Text = "0";
+		label_force_sensor_value_min.Text = "0";
+		label_force_sensor_value_best_second.Text = "0";
+		label_force_sensor_value_rfd.Text = "0";
 
 		int count = 0;
 		do {
@@ -1043,10 +1045,11 @@ public partial class ChronoJumpWindow
 		forceTooBigMark = false;
 		forceTooBigValue = 0;
 		//vscale_force_sensor.Value = 0;
-		label_force_sensor_value_max.Text = "0 N";
-		label_force_sensor_value.Text = "0 N";
-		label_force_sensor_value_min.Text = "0 N";
-		label_force_sensor_value_best_second.Text = "0 N";
+		label_force_sensor_value_max.Text = "0";
+		label_force_sensor_value.Text = "0";
+		label_force_sensor_value_min.Text = "0";
+		label_force_sensor_value_best_second.Text = "0";
+		label_force_sensor_value_rfd.Text = "0";
 		label_force_sensor_analyze.Text = "";
 		label_force_sensor_analyze.Visible = false;
 
@@ -1416,6 +1419,7 @@ public partial class ChronoJumpWindow
 			Util.FileDelete(fileName);
 		else {
 			forceSensorValues.BestSecond = getMaxAvgForce1s ();
+			//forceSensorValues.BestRFD = getBestAvgRFD ();
 
 			//call graph
 			File.Copy(fileName, UtilEncoder.GetmifCSVFileName(), true); //can be overwritten
@@ -1632,7 +1636,6 @@ LogB.Information(" fs D ");
 
 			//finish, cancel: sensitive = false
 			hideButtons();
-			vbox_force_sensor_capture_best_second.Visible = true;
 
 			restTime.AddOrModify(currentPerson.UniqueID, currentPerson.Name, true);
 			updateRestTimes();
@@ -1658,10 +1661,11 @@ LogB.Information(" fs G ");
 			if( ! (currentForceSensorExercise.TareBeforeCaptureAndForceResultant && ! forceCaptureStartMark) )
 			{
 
-				label_force_sensor_value_max.Text = string.Format("{0:0.##} N", forceSensorValues.Max);
-				label_force_sensor_value_min.Text = string.Format("{0:0.##} N", forceSensorValues.Min);
-				label_force_sensor_value.Text = string.Format("{0:0.##} N", forceSensorValues.ValueLast);
-				label_force_sensor_value_best_second.Text = string.Format("{0:0.##} N", forceSensorValues.BestSecond);
+				label_force_sensor_value_max.Text = string.Format("{0:0.##}", forceSensorValues.Max);
+				label_force_sensor_value_min.Text = string.Format("{0:0.##}", forceSensorValues.Min);
+				label_force_sensor_value.Text = string.Format("{0:0.##}", forceSensorValues.ValueLast);
+				label_force_sensor_value_best_second.Text = string.Format("{0:0.##}", forceSensorValues.BestSecond);
+				label_force_sensor_value_rfd.Text = string.Format("{0:0.##}", forceSensorValues.BestRFD);
 
 
 				LogB.Information(" fs H ");
@@ -2141,6 +2145,7 @@ LogB.Information(" fs R ");
 
 		forceSensorValues.BestSecond = getMaxAvgForce1s ();
 		currentForceSensor.MaxAvgForce1s = forceSensorValues.BestSecond;
+		//forceSensorValues.BestRFD = getBestAvgRFD ();
 
 		currentForceSensor.UpdateSQL(false);
 
@@ -2339,6 +2344,7 @@ LogB.Information(" fs R ");
 		}
 
 		forceSensorValues.BestSecond = getMaxAvgForce1s ();
+		//forceSensorValues.BestRFD = getBestAvgRFD ();
 	}
 
 	CairoGraphForceSensorSignal cairoGraphForceSensorSignal;
@@ -2450,6 +2456,24 @@ LogB.Information(" fs R ");
 			maxY = 0;
 		}
 
+		GetMaxAvgInWindow gmiw = new GetMaxAvgInWindow (cairoGraphForceSensorSignalPoints_l_copy,
+				0, cairoGraphForceSensorSignalPoints_l_copy.Count -1, 1); //1s
+		if (cairoGraphForceSensorSignalPoints_l_copy.Count > 0 && gmiw.Error == "")
+		{
+			label_force_sensor_value_best_second.Text = string.Format("{0:0.##}", gmiw.Max);
+			if (forceSensorValues != null)
+				forceSensorValues.BestSecond = gmiw.Max;
+		}
+
+		GetBestRFDInWindow briw = new GetBestRFDInWindow (cairoGraphForceSensorSignalPoints_l_copy,
+				0, cairoGraphForceSensorSignalPoints_l_copy.Count -1, 0.05); //50 ms
+		if (cairoGraphForceSensorSignalPoints_l_copy.Count > 0 && briw.Error == "")
+		{
+			label_force_sensor_value_rfd.Text = string.Format("{0:0.##}", briw.Max);
+			if (forceSensorValues != null)
+				forceSensorValues.BestRFD = briw.Max;
+		}
+
 		//LogB.Information ("updateForceSensorCaptureSignalCairo 4");
 		cairoGraphForceSensorSignal.DoSendingList (
 				preferences.fontType.ToString(),
@@ -2463,21 +2487,19 @@ LogB.Information(" fs R ");
 				showLastSeconds,
 				minY, maxY,
 				rectangleN, rectangleRange,
-				new GetMaxAvgInWindow (cairoGraphForceSensorSignalPoints_l_copy,
-					0, cairoGraphForceSensorSignalPoints_l_copy.Count -1, 1), //1s
-				new GetBestRFDInWindow (cairoGraphForceSensorSignalPoints_l_copy,
-					0, cairoGraphForceSensorSignalPoints_l_copy.Count -1, 0.05), //50 ms
+				gmiw,
+				briw,
 				triggerListForceSensor_copy,
 				forceRedraw, CairoXY.PlotTypes.LINES);
-
 
 		//LogB.Information ("updateForceSensorCaptureSignalCairo 5");
 		if (currentForceSensor.UniqueID >= 0 && forceSensorValues != null)
 		{
-			label_force_sensor_value.Text = string.Format("{0:0.##} N", forceSensorValues.ValueLast);
-			label_force_sensor_value_max.Text = string.Format("{0:0.##} N", forceSensorValues.Max);
-			label_force_sensor_value_min.Text = string.Format("{0:0.##} N", forceSensorValues.Min);
-			label_force_sensor_value_best_second.Text = string.Format("{0:0.##} N", forceSensorValues.BestSecond);
+			label_force_sensor_value.Text = string.Format("{0:0.##}", forceSensorValues.ValueLast);
+			label_force_sensor_value_max.Text = string.Format("{0:0.##}", forceSensorValues.Max);
+			label_force_sensor_value_min.Text = string.Format("{0:0.##}", forceSensorValues.Min);
+			label_force_sensor_value_best_second.Text = string.Format("{0:0.##}", forceSensorValues.BestSecond);
+			label_force_sensor_value_rfd.Text = string.Format("{0:0.##}", forceSensorValues.BestRFD);
 		}
 
 		if (currentForceSensor.UniqueID >= 0)
@@ -2492,10 +2514,11 @@ LogB.Information(" fs R ");
 	{
 		force_capture_drawingarea_cairo.QueueDraw ();
 
-		label_force_sensor_value.Text = string.Format("{0:0.##} N", forceSensorValues.ValueLast);
-		label_force_sensor_value_max.Text = string.Format("{0:0.##} N", forceSensorValues.Max);
-		label_force_sensor_value_min.Text = string.Format("{0:0.##} N", forceSensorValues.Min);
-		label_force_sensor_value_best_second.Text = string.Format("{0:0.##} N", forceSensorValues.BestSecond);
+		label_force_sensor_value.Text = string.Format("{0:0.##}", forceSensorValues.ValueLast);
+		label_force_sensor_value_max.Text = string.Format("{0:0.##}", forceSensorValues.Max);
+		label_force_sensor_value_min.Text = string.Format("{0:0.##}", forceSensorValues.Min);
+		label_force_sensor_value_best_second.Text = string.Format("{0:0.##}", forceSensorValues.BestSecond);
+		label_force_sensor_value_best_second.Text = string.Format("{0:0.##}", forceSensorValues.BestRFD);
 		button_force_sensor_image_save_signal.Sensitive = true;
 		button_force_sensor_analyze_analyze.Sensitive = true;
 	}
@@ -3161,7 +3184,7 @@ LogB.Information(" fs R ");
 		label_force_sensor_value = (Gtk.Label) builder.GetObject ("label_force_sensor_value");
 		label_force_sensor_value_min = (Gtk.Label) builder.GetObject ("label_force_sensor_value_min");
 		label_force_sensor_value_best_second = (Gtk.Label) builder.GetObject ("label_force_sensor_value_best_second");
-		vbox_force_sensor_capture_best_second = (Gtk.VBox) builder.GetObject ("vbox_force_sensor_capture_best_second");
+		label_force_sensor_value_rfd = (Gtk.Label) builder.GetObject ("label_force_sensor_value_rfd");
 		//vscale_force_sensor = (Gtk.VScale) builder.GetObject ("vscale_force_sensor");
 		spin_force_sensor_calibration_kg_value = (Gtk.SpinButton) builder.GetObject ("spin_force_sensor_calibration_kg_value");
 		button_force_sensor_image_save_signal = (Gtk.Button) builder.GetObject ("button_force_sensor_image_save_signal");

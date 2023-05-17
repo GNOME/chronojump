@@ -902,6 +902,7 @@ public class UtilGtk
 		return ( w.GetType() == typeof(Gtk.Box) ||
 				w.GetType() == typeof(Gtk.HBox) ||
 				w.GetType() == typeof(Gtk.VBox) ||
+				w.GetType() == typeof(Gtk.Grid) ||
 				w.GetType() == typeof(Gtk.Table) ||
 				w.GetType() == typeof(Gtk.Notebook) ||
 				w.GetType() == typeof(Gtk.Frame) ||

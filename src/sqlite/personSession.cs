@@ -376,7 +376,7 @@ class SqlitePersonSession : Sqlite
 	}
 	
 	//use this in the future:
-	public static List<PersonSession> SelectPersonSessionList (int personID, int sessionID)
+	public static List<PersonSession> SelectPersonSessionList (bool dbconOpened, int personID, int sessionID)
 	{
 		string tps = Constants.PersonSessionTable;
 
@@ -400,11 +400,13 @@ class SqlitePersonSession : Sqlite
 				andStr = " AND ";
 		}
 
-		Sqlite.Open();
+		openIfNeeded (dbconOpened);
+
 		dbcmd.CommandText = "SELECT " + tps + ".*" +
 			" FROM " + tps +
 			whereStr + personIDStr +
-			andStr + sessionIDStr;
+			andStr + sessionIDStr +
+			" ORDER BY sessionID"; //used on DeletePersonSessionsDuplicatedOnMerge ()
 
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
@@ -430,7 +432,8 @@ class SqlitePersonSession : Sqlite
 			list.Add(ps);
 		}
 		reader.Close();
-		Sqlite.Close();
+		closeIfNeeded (dbconOpened);
+
 		return list;
 	}
 
@@ -554,6 +557,10 @@ class SqlitePersonSession : Sqlite
 		Sqlite.Close();
 	}
 
+	/*
+	 * this is called from gui/person/merge to delete two different personSessions on same session
+	 * and also called from DeletePersonSessionsDuplicatedOnMerge to delete two equal personSessions on same session
+	 */
 	public static void DeletePersonSessionOnMerge (bool dbconOpened, int uniqueID)
 	{
 		// 1) delete from DB
@@ -565,6 +572,21 @@ class SqlitePersonSession : Sqlite
 		dbcmd.ExecuteNonQuery ();
 
 		closeIfNeeded (dbconOpened);
+	}
+
+	// on sessions where there are no differences in session we also need to delete the repeated personSession if any
+	public static void DeletePersonSessionsDuplicatedOnMerge (bool dbconOpened, int personID)
+	{
+		List<PersonSession> ps_l = SelectPersonSessionList (dbconOpened, personID, -1); //comes sorted by sessionID
+
+		int lastSessionID = -1;
+		foreach (PersonSession ps in ps_l)
+		{
+			if (ps.SessionID == lastSessionID)
+				DeletePersonSessionOnMerge (dbconOpened, ps.UniqueID);
+
+			lastSessionID = ps.SessionID;
+		}
 	}
 
 	public static bool PersonExistsInAnyPS (bool dbconOpened, int personID)

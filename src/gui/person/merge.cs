@@ -259,8 +259,8 @@ public class PersonMergeWindow
 
 		// 3) personSession
 		//select the personSessions where currentPerson and mergePerson are
-		List<PersonSession> psCurrentPerson_l = SqlitePersonSession.SelectPersonSessionList (currentPerson.UniqueID, -1);
-		List<PersonSession> psMergePerson_l = SqlitePersonSession.SelectPersonSessionList (personToMergeID, -1);
+		List<PersonSession> psCurrentPerson_l = SqlitePersonSession.SelectPersonSessionList (false, currentPerson.UniqueID, -1);
+		List<PersonSession> psMergePerson_l = SqlitePersonSession.SelectPersonSessionList (false, personToMergeID, -1);
 
 		//Diffs on each session, the top list is each session
 		psDiffAllSessions_l = new List<List<ClassVariance.Struct>> ();
@@ -402,8 +402,8 @@ public class PersonMergeWindow
 
 			if (cvs.Prop == "name")
 			{
-				lPersonVarA.Text = "<b>" + lPersonVarA.Text + "</b>";
-				lPersonVarB.Text = "<b>" + lPersonVarB.Text + "</b>";
+				lPersonVarA.Text = "'<b>" + lPersonVarA.Text + "</b>'";
+				lPersonVarB.Text = "'<b>" + lPersonVarB.Text + "</b>'";
 				lPersonVarA.UseMarkup = true;
 				lPersonVarB.UseMarkup = true;
 			}
@@ -479,7 +479,7 @@ public class PersonMergeWindow
 			currentPerson = personToMerge;
 		}
 
-		// 2) changes in personSession table for each of the sessions where are diffs between bot ps
+		// 2) changes in personSession table for each of the sessions where are diffs between both ps
 		count = 0;
 		PersonSession ps = new PersonSession ();
 		foreach (Gtk.RadioButton psR in psRadiosA_l)
@@ -523,6 +523,9 @@ public class PersonMergeWindow
                         true, Constants.PersonSessionTable, "personID",
                         personIDdiscarded.ToString (), personIDselected.ToString (),
                         "", "");
+
+		// 3.b) on sessions where there are no differences in session we also need to delete the repeated personSession if any. We need this because 2) only manages sessions where personSession is different
+		SqlitePersonSession.DeletePersonSessionsDuplicatedOnMerge (true, personIDselected);
 
 		// 4) If personSession does not exist for current session, create it
 		ps = SqlitePersonSession.Select (true, personIDselected, sessionID);

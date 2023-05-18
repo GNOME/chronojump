@@ -64,6 +64,36 @@ class SqlitePreferences : Sqlite
 	public const string RunsEvolutionShowTime = "runsEvolutionShowTime";
 	public const string ShowJumpRSI = "showJumpRSI";
 
+	public const string JumpsRjFeedbackShowBestTvTc = "jumpsRjFeedbackShowBestTvTc";
+	public const string JumpsRjFeedbackShowWorstTvTc = "jumpsRjFeedbackShowWorstTvTc";
+	public const string JumpsRjFeedbackHeightGreaterActive = "jumpsRjFeedbackHeightGreaterActive";
+	public const string JumpsRjFeedbackHeightLowerActive = "jumpsRjFeedbackHeightLowerActive";
+	public const string JumpsRjFeedbackTvGreaterActive = "jumpsRjFeedbackTvGreaterActive";
+	public const string JumpsRjFeedbackTvLowerActive = "jumpsRjFeedbackTvLowerActive";
+	public const string JumpsRjFeedbackTcGreaterActive = "jumpsRjFeedbackTcGreaterActive";
+	public const string JumpsRjFeedbackTcLowerActive = "jumpsRjFeedbackTcLowerActive";
+	public const string JumpsRjFeedbackTvTcGreaterActive = "jumpsRjFeedbackTvTcGreaterActive";
+	public const string JumpsRjFeedbackTvTcLowerActive = "jumpsRjFeedbackTvTcLowerActive";
+	public const string JumpsRjFeedbackHeightGreater = "jumpsRjFeedbackHeightGreater";
+	public const string JumpsRjFeedbackHeightLower = "jumpsRjFeedbackHeightLower";
+	public const string JumpsRjFeedbackTvGreater = "jumpsRjFeedbackTvGreater";
+	public const string JumpsRjFeedbackTvLower = "jumpsRjFeedbackTvLower";
+	public const string JumpsRjFeedbackTcGreater = "jumpsRjFeedbackTcGreater";
+	public const string JumpsRjFeedbackTcLower = "jumpsRjFeedbackTcLower";
+	public const string JumpsRjFeedbackTvTcGreater = "jumpsRjFeedbackTvTcGreater";
+	public const string JumpsRjFeedbackTvTcLower = "jumpsRjFeedbackTvTcLower";
+
+	public const string RunsIFeedbackShowBest = "runsIFeedbackShowBest"; //will be time or speed
+	public const string RunsIFeedbackShowWorst = "runsIFeedbackShowWorst"; //will be time or speed
+	public const string RunsIFeedbackTimeGreaterActive = "runsIFeedbackTimeGreaterActive";
+	public const string RunsIFeedbackTimeLowerActive = "runsIFeedbackTimeLowerActive";
+	public const string RunsIFeedbackSpeedGreaterActive = "runsIFeedbackSpeedGreaterActive";
+	public const string RunsIFeedbackSpeedLowerActive = "runsIFeedbackSpeedLowerActive";
+	public const string RunsIFeedbackTimeGreater = "runsIFeedbackTimeGreater";
+	public const string RunsIFeedbackTimeLower = "runsIFeedbackTimeLower";
+	public const string RunsIFeedbackSpeedGreater = "runsIFeedbackSpeedGreater";
+	public const string RunsIFeedbackSpeedLower = "runsIFeedbackSpeedLower";
+
 	//encoder
 	public const string EncoderCaptureInfinite = "encoderCaptureInfinite";
 	public const string EncoderExerciseIDGravitatory = "encoderExerciseIDGravitatory";
@@ -412,6 +442,7 @@ class SqlitePreferences : Sqlite
 				//removed on 1.37
 				//Insert ("encoderConfiguration", new EncoderConfiguration().ToStringOutput(EncoderConfiguration.Outputs.SQL), dbcmdTr);
 
+				insertJumpsRjRunsIFeedback2_45 (dbcmdTr); 	//2_45 migration
 			}
 			tr.Commit();
 		}
@@ -433,6 +464,39 @@ class SqlitePreferences : Sqlite
 		LogB.SQL(mycmd.CommandText.ToString());
 		mycmd.ExecuteNonQuery();
 		//Sqlite.Close();
+	}
+
+	protected internal static void insertJumpsRjRunsIFeedback2_45 (SqliteCommand dbcmdTr)
+	{
+		Insert (JumpsRjFeedbackShowBestTvTc, "True", dbcmdTr);
+		Insert (JumpsRjFeedbackShowWorstTvTc, "True", dbcmdTr);
+		Insert (JumpsRjFeedbackHeightGreaterActive, "False", dbcmdTr);
+		Insert (JumpsRjFeedbackHeightLowerActive, "False", dbcmdTr);
+		Insert (JumpsRjFeedbackTvGreaterActive, "False", dbcmdTr);
+		Insert (JumpsRjFeedbackTvLowerActive, "False", dbcmdTr);
+		Insert (JumpsRjFeedbackTcGreaterActive, "False", dbcmdTr);
+		Insert (JumpsRjFeedbackTcLowerActive, "False", dbcmdTr);
+		Insert (JumpsRjFeedbackTvTcGreaterActive, "False", dbcmdTr);
+		Insert (JumpsRjFeedbackTvTcLowerActive, "False", dbcmdTr);
+		Insert (JumpsRjFeedbackHeightGreater, "45", dbcmdTr);
+		Insert (JumpsRjFeedbackHeightLower, "20", dbcmdTr);
+		Insert (JumpsRjFeedbackTvGreater, ".5", dbcmdTr);
+		Insert (JumpsRjFeedbackTvLower, ".2", dbcmdTr);
+		Insert (JumpsRjFeedbackTcGreater, ".5", dbcmdTr);
+		Insert (JumpsRjFeedbackTcLower, ".3", dbcmdTr);
+		Insert (JumpsRjFeedbackTvTcGreater, "3", dbcmdTr);
+		Insert (JumpsRjFeedbackTvTcLower, "1", dbcmdTr);
+
+		Insert (RunsIFeedbackShowBest, "True", dbcmdTr);
+		Insert (RunsIFeedbackShowWorst, "True", dbcmdTr);
+		Insert (RunsIFeedbackTimeGreaterActive, "False", dbcmdTr);
+		Insert (RunsIFeedbackTimeLowerActive, "False", dbcmdTr);
+		Insert (RunsIFeedbackSpeedGreaterActive, "False", dbcmdTr);
+		Insert (RunsIFeedbackSpeedLowerActive, "False", dbcmdTr);
+		Insert (RunsIFeedbackTimeGreater, "20", dbcmdTr);
+		Insert (RunsIFeedbackTimeLower, "10", dbcmdTr);
+		Insert (RunsIFeedbackSpeedGreater, "8", dbcmdTr);
+		Insert (RunsIFeedbackSpeedLower, "3", dbcmdTr);
 	}
 
 	public static void Update(string myName, bool myValue, bool dbconOpened)
@@ -612,6 +676,77 @@ class SqlitePreferences : Sqlite
 				preferences.runsEvolutionOnlyBestInSession = reader[1].ToString() == "True";
 			else if(reader[0].ToString() == RunsEvolutionShowTime)
 				preferences.runsEvolutionShowTime = reader[1].ToString() == "True";
+			else if (reader[0].ToString () == JumpsRjFeedbackShowBestTvTc)
+				preferences.jumpsRjFeedbackShowBestTvTc = reader[1].ToString() == "True";
+			else if (reader[0].ToString () == JumpsRjFeedbackShowWorstTvTc)
+				preferences.jumpsRjFeedbackShowWorstTvTc = reader[1].ToString() == "True";
+			else if (reader[0].ToString () == JumpsRjFeedbackHeightGreaterActive)
+				preferences.jumpsRjFeedbackHeightGreaterActive = reader[1].ToString() == "True";
+			else if (reader[0].ToString () == JumpsRjFeedbackHeightLowerActive)
+				preferences.jumpsRjFeedbackHeightLowerActive = reader[1].ToString() == "True";
+			else if (reader[0].ToString () == JumpsRjFeedbackTvGreaterActive)
+				preferences.jumpsRjFeedbackTvGreaterActive = reader[1].ToString() == "True";
+			else if (reader[0].ToString () == JumpsRjFeedbackTvLowerActive)
+				preferences.jumpsRjFeedbackTvLowerActive = reader[1].ToString() == "True";
+			else if (reader[0].ToString () == JumpsRjFeedbackTcGreaterActive)
+				preferences.jumpsRjFeedbackTcGreaterActive = reader[1].ToString() == "True";
+			else if (reader[0].ToString () == JumpsRjFeedbackTcLowerActive)
+				preferences.jumpsRjFeedbackTcLowerActive = reader[1].ToString() == "True";
+			else if (reader[0].ToString () == JumpsRjFeedbackTvTcGreaterActive)
+				preferences.jumpsRjFeedbackTvTcGreaterActive = reader[1].ToString() == "True";
+			else if (reader[0].ToString () == JumpsRjFeedbackTvTcLowerActive)
+				preferences.jumpsRjFeedbackTvTcLowerActive = reader[1].ToString() == "True";
+			else if (reader[0].ToString () == JumpsRjFeedbackHeightGreater)
+				preferences.jumpsRjFeedbackHeightGreater = Convert.ToDouble (
+						Util.ChangeDecimalSeparator(reader[1].ToString()));
+			else if (reader[0].ToString () == JumpsRjFeedbackHeightLower)
+				preferences.jumpsRjFeedbackHeightLower = Convert.ToDouble (
+						Util.ChangeDecimalSeparator(reader[1].ToString()));
+			else if (reader[0].ToString () == JumpsRjFeedbackTvGreater)
+				preferences.jumpsRjFeedbackTvGreater = Convert.ToDouble (
+						Util.ChangeDecimalSeparator(reader[1].ToString()));
+			else if (reader[0].ToString () == JumpsRjFeedbackTvLower)
+				preferences.jumpsRjFeedbackTvLower = Convert.ToDouble (
+						Util.ChangeDecimalSeparator(reader[1].ToString()));
+			else if (reader[0].ToString () == JumpsRjFeedbackTcGreater)
+				preferences.jumpsRjFeedbackTcGreater = Convert.ToDouble (
+						Util.ChangeDecimalSeparator(reader[1].ToString()));
+			else if (reader[0].ToString () == JumpsRjFeedbackTcLower)
+				preferences.jumpsRjFeedbackTcLower = Convert.ToDouble (
+						Util.ChangeDecimalSeparator(reader[1].ToString()));
+			else if (reader[0].ToString () == JumpsRjFeedbackTvTcGreater)
+				preferences.jumpsRjFeedbackTvTcGreater = Convert.ToDouble (
+						Util.ChangeDecimalSeparator(reader[1].ToString()));
+			else if (reader[0].ToString () == JumpsRjFeedbackTvTcLower)
+				preferences.jumpsRjFeedbackTvTcLower = Convert.ToDouble (
+						Util.ChangeDecimalSeparator(reader[1].ToString()));
+
+			//runsI
+			else if (reader[0].ToString () == RunsIFeedbackShowBest)
+				preferences.runsIFeedbackShowBest = reader[1].ToString() == "True";
+			else if (reader[0].ToString () == RunsIFeedbackShowWorst)
+				preferences.runsIFeedbackShowWorst = reader[1].ToString() == "True";
+			else if (reader[0].ToString () == RunsIFeedbackTimeGreaterActive)
+				preferences.runsIFeedbackTimeGreaterActive = reader[1].ToString() == "True";
+			else if (reader[0].ToString () == RunsIFeedbackTimeLowerActive)
+				preferences.runsIFeedbackTimeLowerActive = reader[1].ToString() == "True";
+			else if (reader[0].ToString () == RunsIFeedbackSpeedGreaterActive)
+				preferences.runsIFeedbackSpeedGreaterActive = reader[1].ToString() == "True";
+			else if (reader[0].ToString () == RunsIFeedbackSpeedLowerActive)
+				preferences.runsIFeedbackSpeedLowerActive = reader[1].ToString() == "True";
+			else if (reader[0].ToString () == RunsIFeedbackTimeGreater)
+				preferences.runsIFeedbackTimeGreater = Convert.ToDouble (
+						Util.ChangeDecimalSeparator(reader[1].ToString()));
+			else if (reader[0].ToString () == RunsIFeedbackTimeLower)
+				preferences.runsIFeedbackTimeLower = Convert.ToDouble (
+						Util.ChangeDecimalSeparator(reader[1].ToString()));
+			else if (reader[0].ToString () == RunsIFeedbackSpeedGreater)
+				preferences.runsIFeedbackSpeedGreater = Convert.ToDouble (
+						Util.ChangeDecimalSeparator(reader[1].ToString()));
+			else if (reader[0].ToString () == RunsIFeedbackSpeedLower)
+				preferences.runsIFeedbackSpeedLower = Convert.ToDouble (
+						Util.ChangeDecimalSeparator(reader[1].ToString()));
+
 			//encoder capture
 			else if(reader[0].ToString() == "encoderCaptureTime")
 				preferences.encoderCaptureTime = Convert.ToInt32(reader[1].ToString());

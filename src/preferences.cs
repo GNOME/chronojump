@@ -143,6 +143,38 @@ public class Preferences
 	public bool RGraphsTranslate;
 	public bool useHeightsOnJumpIndexes;
 
+	//jumpsRjFeedback
+	public bool jumpsRjFeedbackShowBestTvTc;
+	public bool jumpsRjFeedbackShowWorstTvTc;
+	public bool jumpsRjFeedbackHeightGreaterActive;
+	public bool jumpsRjFeedbackHeightLowerActive;
+	public bool jumpsRjFeedbackTvGreaterActive;
+	public bool jumpsRjFeedbackTvLowerActive;
+	public bool jumpsRjFeedbackTcGreaterActive;
+	public bool jumpsRjFeedbackTcLowerActive;
+	public bool jumpsRjFeedbackTvTcGreaterActive;
+	public bool jumpsRjFeedbackTvTcLowerActive;
+	public double jumpsRjFeedbackHeightGreater;
+	public double jumpsRjFeedbackHeightLower;
+	public double jumpsRjFeedbackTvGreater;
+	public double jumpsRjFeedbackTvLower;
+	public double jumpsRjFeedbackTcGreater;
+	public double jumpsRjFeedbackTcLower;
+	public double jumpsRjFeedbackTvTcGreater;
+	public double jumpsRjFeedbackTvTcLower;
+
+	//runsIFeedback
+	public bool runsIFeedbackShowBest;
+	public bool runsIFeedbackShowWorst;
+	public bool runsIFeedbackTimeGreaterActive;
+	public bool runsIFeedbackTimeLowerActive;
+	public bool runsIFeedbackSpeedGreaterActive;
+	public bool runsIFeedbackSpeedLowerActive;
+	public double runsIFeedbackTimeGreater;
+	public double runsIFeedbackTimeLower;
+	public double runsIFeedbackSpeedGreater;
+	public double runsIFeedbackSpeedLower;
+
 	//forceSensor
 	public int forceSensorCaptureWidthSeconds;
 	public bool forceSensorCaptureScroll;

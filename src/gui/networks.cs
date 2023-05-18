@@ -724,7 +724,7 @@ public partial class ChronoJumpWindow
 			Session s = SqliteSession.SelectByName(yearLastMonthStr);
 
 			//import all persons from last session
-			List<PersonSession> personSessions = SqlitePersonSession.SelectPersonSessionList(-1, s.UniqueID);
+			List<PersonSession> personSessions = SqlitePersonSession.SelectPersonSessionList(false, -1, s.UniqueID);
 
 			//convert all personSessions to currentSession
 			//and nullify UniqueID in order to be inserted incrementally by SQL

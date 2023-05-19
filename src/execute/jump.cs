@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2020   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2004-2023   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -662,6 +662,7 @@ public class JumpRjExecute : JumpExecute
 	private bool allowFinishAfterTime;
 	//this will be a flag for finishing if allowFinishAfterTime is true
 	private bool shouldFinishAtNextFall = true;
+	private FeedbackJumpsRj feedbackJumpsRj;
 
 	private string angleString = "-1";
 	
@@ -674,7 +675,7 @@ public class JumpRjExecute : JumpExecute
 			double limitAsDouble, bool jumpsLimited, 
 			Chronopic cp, int pDN, bool allowFinishAfterTime,
 			bool volumeOn, Preferences.GstreamerTypes gstreamer,
-			bool metersSecondsPreferred, FeedbackWindow feedbackWin,
+			bool metersSecondsPreferred, FeedbackJumpsRj feedbackJumpsRj,
 			double progressbarLimit, ExecutingGraphData egd,
 			Gtk.Image image_jump_execute_air, Gtk.Image image_jump_execute_land,
 			bool upload, int uploadStationId, bool django //upload: configChronojump.Compujump && upload (contacts) button active
@@ -707,7 +708,7 @@ public class JumpRjExecute : JumpExecute
 		this.volumeOn = volumeOn;
 		this.gstreamer = gstreamer;
 		this.metersSecondsPreferred = metersSecondsPreferred;
-		this.feedbackWin = feedbackWin;
+		this.feedbackJumpsRj = feedbackJumpsRj;
 		this.progressbarLimit = progressbarLimit;
 		this.egd = egd;
 	
@@ -888,6 +889,11 @@ public class JumpRjExecute : JumpExecute
 						{
 							lastTc = timestamp/1000.0;
 							
+							if (feedbackJumpsRj.TcGreen (lastTc))
+								Util.PlaySound(Constants.SoundTypes.GOOD, volumeOn, gstreamer);
+							else if (feedbackJumpsRj.TcRed (lastTc))
+								Util.PlaySound(Constants.SoundTypes.BAD, volumeOn, gstreamer);
+
 							if(tcCount > 0) { equal = "="; }
 							tcString = tcString + equal + lastTc.ToString();
 
@@ -897,7 +903,12 @@ public class JumpRjExecute : JumpExecute
 						} else {
 							//tcCount > tvCount 
 							lastTv = timestamp/1000.0;
-							
+
+							if (feedbackJumpsRj.TvGreen (lastTv))
+								Util.PlaySound(Constants.SoundTypes.GOOD, volumeOn, gstreamer);
+							else if (feedbackJumpsRj.TvRed (lastTv))
+								Util.PlaySound(Constants.SoundTypes.BAD, volumeOn, gstreamer);
+
 							if(tvCount > 0) { equal = "="; }
 							tvString = tvString + equal + lastTv.ToString();
 							

@@ -147,18 +147,18 @@ public class Preferences
 	public bool jumpsRjFeedbackShowWorstTvTc;
 	public bool jumpsRjFeedbackHeightGreaterActive;
 	public bool jumpsRjFeedbackHeightLowerActive;
-	public bool jumpsRjFeedbackTvGreaterActive;
-	public bool jumpsRjFeedbackTvLowerActive;
-	public bool jumpsRjFeedbackTcGreaterActive;
-	public bool jumpsRjFeedbackTcLowerActive;
+	public bool jumpsRjFeedbackTvGreaterActive; 	//implemented
+	public bool jumpsRjFeedbackTvLowerActive; 	//implemented
+	public bool jumpsRjFeedbackTcGreaterActive; 	//implemented
+	public bool jumpsRjFeedbackTcLowerActive; 	//implemented
 	public bool jumpsRjFeedbackTvTcGreaterActive;
 	public bool jumpsRjFeedbackTvTcLowerActive;
 	public double jumpsRjFeedbackHeightGreater;
 	public double jumpsRjFeedbackHeightLower;
-	public double jumpsRjFeedbackTvGreater;
-	public double jumpsRjFeedbackTvLower;
-	public double jumpsRjFeedbackTcGreater;
-	public double jumpsRjFeedbackTcLower;
+	public double jumpsRjFeedbackTvGreater; 	//implemented
+	public double jumpsRjFeedbackTvLower; 		//implemented
+	public double jumpsRjFeedbackTcGreater; 	//implemented
+	public double jumpsRjFeedbackTcLower; 		//implemented
 	public double jumpsRjFeedbackTvTcGreater;
 	public double jumpsRjFeedbackTvTcLower;
 

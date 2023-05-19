@@ -589,8 +589,8 @@ public class UtilGtk
 	public static string ColorGray = "gray";
 
 	public enum Colors {
-		BLACK, BLUE_CHRONOJUMP, BLUE_LIGHT, BLUE_PLOTS, GREEN_PLOTS,
-		GRAY, RED_PLOTS, YELLOW, YELLOW_LIGHT, WHITE }
+		BLACK, BLUE_CHRONOJUMP, BLUE_LIGHT, BLUE_PLOTS, GREEN_PLOTS, GREEN_DARK,
+		GRAY, RED_PLOTS, RED_DARK, YELLOW, YELLOW_LIGHT, WHITE }
 
 	public static RGBA GetRGBA (Colors colname)
 	{
@@ -606,10 +606,14 @@ public class UtilGtk
 			color.Parse ("#0000c8");
 		else if (colname == Colors.GREEN_PLOTS)
 			color.Parse ("#00c800");
+		else if (colname == Colors.GREEN_DARK)
+			color.Parse ("#008c00");
 		else if (colname == Colors.GRAY)
 			color.Parse ("#666666");
 		else if (colname == Colors.RED_PLOTS)
 			color.Parse ("#c80000");
+		else if (colname == Colors.RED_DARK)
+			color.Parse ("#8c0000");
 		else if (colname == Colors.YELLOW)
 			color.Parse ("#ffcc01");
 		else if (colname == Colors.YELLOW_LIGHT)

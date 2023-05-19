@@ -58,11 +58,31 @@ public class FeedbackJumpsRj : Feedback
 		setBarColors ();
 	}
 
+	public bool TvGreen (double tv)
+	{
+		return (preferences.jumpsRjFeedbackTvGreaterActive && tv >= preferences.jumpsRjFeedbackTvGreater);
+	}
+
+	public bool TvRed (double tv)
+	{
+		return (preferences.jumpsRjFeedbackTvLowerActive && tv <= preferences.jumpsRjFeedbackTvLower);
+	}
+
+	public bool TcGreen (double tc)
+	{
+		return (preferences.jumpsRjFeedbackTcLowerActive && tc <= preferences.jumpsRjFeedbackTcLower);
+	}
+
+	public bool TcRed (double tc)
+	{
+		return (preferences.jumpsRjFeedbackTcGreaterActive && tc >= preferences.jumpsRjFeedbackTcGreater);
+	}
+
 	public Cairo.Color AssignColorMain (double tv)
 	{
-		if (preferences.jumpsRjFeedbackTvGreaterActive && tv >= preferences.jumpsRjFeedbackTvGreater)
+		if (TvGreen (tv))
 			return (mainGreen);
-		else if (preferences.jumpsRjFeedbackTvLowerActive && tv <= preferences.jumpsRjFeedbackTvLower)
+		else if (TvRed (tv))
 			return (mainRed);
 		else
 			return (CairoGeneric.colorFromRGBA (Config.ColorBackground));
@@ -70,9 +90,9 @@ public class FeedbackJumpsRj : Feedback
 
 	public Cairo.Color AssignColorSecondary (double tc)
 	{
-		if (preferences.jumpsRjFeedbackTcLowerActive && tc <= preferences.jumpsRjFeedbackTcLower)
+		if (TcGreen (tc))
 			return (secondaryGreen);
-		else if (preferences.jumpsRjFeedbackTcGreaterActive && tc >= preferences.jumpsRjFeedbackTcGreater)
+		else if (TcRed (tc))
 			return (secondaryRed);
 		else
 			return (CairoGeneric.colorFromRGBA (UtilGtk.GetColorShifted

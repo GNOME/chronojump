@@ -545,6 +545,7 @@ public partial class ChronoJumpWindow
 	ConfirmWindowJumpRun confirmWinJumpRun;	//for deleting jumps and RJ jumps (and runs)
 	ReportWindow reportWin;
 	FeedbackJumpsRj feedbackJumpsRj;
+	FeedbackRunsInterval feedbackRunsI;
 	FeedbackEncoder feedbackEncoder;
 	FeedbackWindow feedbackWin;
 	GenericWindow genericWin;
@@ -829,6 +830,7 @@ public partial class ChronoJumpWindow
 		createComboSessionLoadTags(true);
 
 		feedbackJumpsRj = new FeedbackJumpsRj (preferences);
+		feedbackRunsI = new FeedbackRunsInterval (preferences);
 		feedbackEncoder = new FeedbackEncoder (preferences);
 		feedbackWin = FeedbackWindow.Create();
 		//to have objects ok to be able to be readed before viewing the feedbackWin
@@ -2206,7 +2208,7 @@ public partial class ChronoJumpWindow
 				selectedRunInterval.DistanceInterval,
 				selectedRunIntervalType.DistancesString,
 				selectedRunInterval.Photocell_l,
-				selectedRunInterval.Type, selectedRunInterval.Description); //Description is personName
+				selectedRunInterval.Type, selectedRunInterval.Description, feedbackRunsI); //Description is personName
 		event_execute_drawingarea_realtime_capture_cairo.QueueDraw ();
 	}
 
@@ -5795,7 +5797,7 @@ public partial class ChronoJumpWindow
 				checkbutton_allow_finish_rj_after_time.Active,
 				preferences.volumeOn, preferences.gstreamer,
 				preferences.metersSecondsPreferred,
-				feedbackWin, progressbarLimit, egd,
+				feedbackJumpsRj, progressbarLimit, egd,
 				image_jump_execute_air, image_jump_execute_land,
 				(configChronojump.Compujump && check_contacts_networks_upload.Active),
 				configChronojump.CompujumpStationID, configChronojump.CompujumpDjango);
@@ -6095,7 +6097,7 @@ public partial class ChronoJumpWindow
 				cp2016.CP, photocellWirelessCapture, wirelessPort, wirelessBauds,
 				preferences.digitsNumber, preferences.metersSecondsPreferred,
 				preferences.volumeOn, preferences.gstreamer,
-				feedbackWin,
+				feedbackRunsI,
 				progressbarLimit, egd,
 				preferences.runIDoubleContactsMode,
 				preferences.runIDoubleContactsMS,

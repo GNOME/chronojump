@@ -167,8 +167,17 @@ public class JumpsRjFatigueGraph : CairoXY
 				sum += p.Y;
 
 			partAverage_l.Add (sum / l.Count);
-			paintHorizSegment (l[0].X, l[l.Count -1].X, sum / l.Count,
-					(done + 1).ToString (), l.Count == 1);
+
+			/*
+			 * an user had:
+			 * tc_l: 5,51;0,34;0,16;0,21;0,43
+			 * tv_l: 0,38;0,44;0,59;0,35;0,37
+			 * totalTime: 8,777864, partRange: 4,388932
+			 * so first part has no jumps making l.Count -1 fail
+			 */
+			if (l.Count > 0)
+				paintHorizSegment (l[0].X, l[l.Count -1].X, sum / l.Count,
+						(done + 1).ToString (), l.Count == 1);
 
 			writeTextAtRight (ypos++,
 					string.Format ("Mean {0}: {1}",
@@ -244,7 +253,7 @@ public class JumpsRjFatigueGraph : CairoXY
 	{
 		//LogB.Information ("splitListByTime start");
 		//LogB.Information (string.Format ("tc_l.Count: {0}, tv_l.Count: {1}, p_l.Count: {2}, parts: {3}",
-		//i			tc_l.Count, tv_l.Count, p_l.Count, parts));
+		//			tc_l.Count, tv_l.Count, p_l.Count, parts));
 
 		var l_l = new List<List<PointF>>();
 
@@ -269,6 +278,7 @@ public class JumpsRjFatigueGraph : CairoXY
 		double timeAccu = 0;
 		List<PointF> pointsThisPart_l = new List<PointF>();
 
+		//LogB.Information (string.Format ("totalTime: {0}, partRange: {1}", totalTime, partRange));
 		for (int j = 0; j < tc_l.Count ; j ++)
 		{
 			double tcFixed = tc_l[j]; //fix -1 tc on start in jumps

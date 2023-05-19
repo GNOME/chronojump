@@ -165,14 +165,14 @@ public class Preferences
 	//runsIFeedback
 	public bool runsIFeedbackShowBest;
 	public bool runsIFeedbackShowWorst;
-	public bool runsIFeedbackTimeGreaterActive;
-	public bool runsIFeedbackTimeLowerActive;
-	public bool runsIFeedbackSpeedGreaterActive;
-	public bool runsIFeedbackSpeedLowerActive;
-	public double runsIFeedbackTimeGreater;
-	public double runsIFeedbackTimeLower;
-	public double runsIFeedbackSpeedGreater;
-	public double runsIFeedbackSpeedLower;
+	public bool runsIFeedbackTimeGreaterActive; 	//implemented
+	public bool runsIFeedbackTimeLowerActive; 	//implemented
+	public bool runsIFeedbackSpeedGreaterActive; 	//implemented
+	public bool runsIFeedbackSpeedLowerActive; 	//implemented
+	public double runsIFeedbackTimeGreater; 	//implemented
+	public double runsIFeedbackTimeLower; 		//implemented
+	public double runsIFeedbackSpeedGreater; 	//implemented
+	public double runsIFeedbackSpeedLower; 		//implemented
 
 	//forceSensor
 	public int forceSensorCaptureWidthSeconds;

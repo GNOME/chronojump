@@ -544,7 +544,8 @@ public partial class ChronoJumpWindow
 	
 	ConfirmWindowJumpRun confirmWinJumpRun;	//for deleting jumps and RJ jumps (and runs)
 	ReportWindow reportWin;
-	FeedbackEncoder feedback;
+	FeedbackJumpsRj feedbackJumpsRj;
+	FeedbackEncoder feedbackEncoder;
 	FeedbackWindow feedbackWin;
 	GenericWindow genericWin;
 		
@@ -827,9 +828,12 @@ public partial class ChronoJumpWindow
 
 		createComboSessionLoadTags(true);
 
-		feedback = new FeedbackEncoder (preferences);
+		feedbackJumpsRj = new FeedbackJumpsRj (preferences);
+		feedbackEncoder = new FeedbackEncoder (preferences);
 		feedbackWin = FeedbackWindow.Create();
 		//to have objects ok to be able to be readed before viewing the feedbackWin
+		feedbackWin.View(Constants.BellModes.JUMPS, preferences, encoderRhythm, false); //not viewWindow
+		feedbackWin.View(Constants.BellModes.RUNS, preferences, encoderRhythm, false); //not viewWindow
 		feedbackWin.View(Constants.BellModes.ENCODERGRAVITATORY, preferences, encoderRhythm, false); //not viewWindow
 		feedbackWin.View(Constants.BellModes.FORCESENSOR, preferences, encoderRhythm, false); //not viewWindow
 		feedbackWin.View(Constants.BellModes.RUNSENCODER, preferences, encoderRhythm, false); //not viewWindow
@@ -1972,7 +1976,7 @@ public partial class ChronoJumpWindow
 		PrepareJumpReactiveRealtimeCaptureGraph (selectedJumpRj.tvLast, selectedJumpRj.tcLast,
 				selectedJumpRj.TvString, selectedJumpRj.TcString,
 				selectedJumpRj.Type, selectedJumpRj.Description, //Description is personName
-				preferences.volumeOn, preferences.gstreamer, feedbackWin);
+				preferences.volumeOn, preferences.gstreamer, feedbackJumpsRj);
 		event_execute_drawingarea_realtime_capture_cairo.QueueDraw ();
 	}
 
@@ -8260,6 +8264,64 @@ LogB.Debug("mc finished 5");
 				pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "stock_bell_none.png");
 
 			image_contacts_bell.Pixbuf = pixbuf;
+
+			if(m == Constants.Modes.JUMPSREACTIVE)
+			{
+				// 2) Update SQL and preferences object
+				Sqlite.Open(); // ------>
+
+				preferences.jumpsRjFeedbackTvGreaterActive = Preferences.PreferencesChange(
+						true,
+						SqlitePreferences.JumpsRjFeedbackTvGreaterActive,
+						preferences.jumpsRjFeedbackTvGreaterActive,
+						feedbackWin.JumpsRjFeedbackTvGreaterActive);
+
+				preferences.jumpsRjFeedbackTvLowerActive = Preferences.PreferencesChange(
+						true,
+						SqlitePreferences.JumpsRjFeedbackTvLowerActive,
+						preferences.jumpsRjFeedbackTvLowerActive,
+						feedbackWin.JumpsRjFeedbackTvLowerActive);
+
+				preferences.jumpsRjFeedbackTcGreaterActive = Preferences.PreferencesChange(
+						true,
+						SqlitePreferences.JumpsRjFeedbackTcGreaterActive,
+						preferences.jumpsRjFeedbackTcGreaterActive,
+						feedbackWin.JumpsRjFeedbackTcGreaterActive);
+
+				preferences.jumpsRjFeedbackTcLowerActive = Preferences.PreferencesChange(
+						true,
+						SqlitePreferences.JumpsRjFeedbackTcLowerActive,
+						preferences.jumpsRjFeedbackTcLowerActive,
+						feedbackWin.JumpsRjFeedbackTcLowerActive);
+
+				preferences.jumpsRjFeedbackTvGreater = Preferences.PreferencesChange(
+						true,
+						SqlitePreferences.JumpsRjFeedbackTvGreater,
+						preferences.jumpsRjFeedbackTvGreater,
+						feedbackWin.JumpsRjFeedbackTvGreater);
+
+				preferences.jumpsRjFeedbackTvLower = Preferences.PreferencesChange(
+						true,
+						SqlitePreferences.JumpsRjFeedbackTvLower,
+						preferences.jumpsRjFeedbackTvLower,
+						feedbackWin.JumpsRjFeedbackTvLower);
+
+				preferences.jumpsRjFeedbackTcGreater = Preferences.PreferencesChange(
+						true,
+						SqlitePreferences.JumpsRjFeedbackTcGreater,
+						preferences.jumpsRjFeedbackTcGreater,
+						feedbackWin.JumpsRjFeedbackTcGreater);
+
+				preferences.jumpsRjFeedbackTcLower = Preferences.PreferencesChange(
+						true,
+						SqlitePreferences.JumpsRjFeedbackTcLower,
+						preferences.jumpsRjFeedbackTcLower,
+						feedbackWin.JumpsRjFeedbackTcLower);
+
+				Sqlite.Close(); // <------
+
+				event_execute_drawingarea_realtime_capture_cairo.QueueDraw ();
+			}
 		}
 		else if (Constants.ModeIsENCODER (m))
 		{
@@ -8272,7 +8334,7 @@ LogB.Debug("mc finished 5");
 			image_encoder_bell.Pixbuf = pixbuf;
 
 			// 2) Update SQL and preferences object
-			Sqlite.Open();
+			Sqlite.Open(); // ------>
 
 			//mainVariable
 			Constants.EncoderVariablesCapture mainVariable = Constants.SetEncoderVariablesCapture(
@@ -8349,7 +8411,7 @@ LogB.Debug("mc finished 5");
 					preferences.encoderCaptureShowLoss,
 					feedbackWin.EncoderCaptureShowLoss);
 
-			Sqlite.Close();
+			Sqlite.Close(); // <------
 
 			// 3) Update treeview and graphs
 
@@ -8375,7 +8437,7 @@ LogB.Debug("mc finished 5");
 							secondaryVariableStr, preferences.encoderCaptureShowLoss,
 							false, //not capturing
 							findEccon(true),
-							feedback,
+							feedbackEncoder,
 							encoderConfigurationCurrent.has_inertia,
 							configChronojump.PlaySoundsFromFile,
 							captureCurvesBarsData,

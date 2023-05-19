@@ -6070,7 +6070,7 @@ public partial class ChronoJumpWindow
 					secondaryVariable, preferences.encoderCaptureShowLoss,
 					false, //not capturing
 					findEccon(true),
-					feedback,
+					feedbackEncoder,
 					encoderConfigurationCurrent.has_inertia,
 					configChronojump.PlaySoundsFromFile,
 					captureCurvesBarsData,
@@ -6903,7 +6903,7 @@ public partial class ChronoJumpWindow
 						secondaryVariable, preferences.encoderCaptureShowLoss,
 						true, //capturing
 						findEccon(true),
-						feedback,
+						feedbackEncoder,
 						encoderConfigurationCurrent.has_inertia,
 						configChronojump.PlaySoundsFromFile,
 						captureCurvesBarsData,
@@ -7485,7 +7485,7 @@ public partial class ChronoJumpWindow
 						secondaryVariable, preferences.encoderCaptureShowLoss,
 						false, //not capturing
 						findEccon(true),
-						feedback,
+						feedbackEncoder,
 						encoderConfigurationCurrent.has_inertia,
 						configChronojump.PlaySoundsFromFile,
 						captureCurvesBarsData,

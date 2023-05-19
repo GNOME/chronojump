@@ -15,10 +15,71 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2022   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2023   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
+
+public abstract class Feedback
+{
+	protected Cairo.Color mainGreen;
+	protected Cairo.Color secondaryGreen;
+	protected Cairo.Color mainRed;
+	protected Cairo.Color secondaryRed;
+	protected Preferences preferences;
+
+	protected void setBarColors ()
+	{
+		//green
+		mainGreen = CairoGeneric.colorFromRGBA (UtilGtk.GetRGBA (UtilGtk.Colors.GREEN_DARK));
+		secondaryGreen = CairoGeneric.colorFromRGBA (UtilGtk.GetRGBA (UtilGtk.Colors.GREEN_PLOTS));
+		if (! UtilGtk.ColorIsDark (Config.ColorBackground))
+		{
+			mainGreen = CairoGeneric.colorFromRGBA (UtilGtk.GetRGBA (UtilGtk.Colors.GREEN_PLOTS));
+			secondaryGreen = CairoGeneric.colorFromRGBA (UtilGtk.GetRGBA (UtilGtk.Colors.GREEN_DARK));
+		}
+
+		//red
+		mainRed = CairoGeneric.colorFromRGBA (UtilGtk.GetRGBA (UtilGtk.Colors.RED_DARK));
+		secondaryRed = CairoGeneric.colorFromRGBA (UtilGtk.GetRGBA (UtilGtk.Colors.RED_PLOTS));
+		if (! UtilGtk.ColorIsDark (Config.ColorBackground))
+		{
+			mainRed = CairoGeneric.colorFromRGBA (UtilGtk.GetRGBA (UtilGtk.Colors.RED_PLOTS));
+			secondaryRed = CairoGeneric.colorFromRGBA (UtilGtk.GetRGBA (UtilGtk.Colors.RED_DARK));
+		}
+	}
+}
+
+public class FeedbackJumpsRj : Feedback
+{
+	public FeedbackJumpsRj (Preferences preferences)
+	{
+		this.preferences = preferences; //TODO: check if this has to be updated also on other public calls
+		setBarColors ();
+	}
+
+	public Cairo.Color AssignColorMain (double tv)
+	{
+		if (preferences.jumpsRjFeedbackTvGreaterActive && tv >= preferences.jumpsRjFeedbackTvGreater)
+			return (mainGreen);
+		else if (preferences.jumpsRjFeedbackTvLowerActive && tv <= preferences.jumpsRjFeedbackTvLower)
+			return (mainRed);
+		else
+			return (CairoGeneric.colorFromRGBA (Config.ColorBackground));
+	}
+
+	public Cairo.Color AssignColorSecondary (double tc)
+	{
+		if (preferences.jumpsRjFeedbackTcLowerActive && tc <= preferences.jumpsRjFeedbackTcLower)
+			return (secondaryGreen);
+		else if (preferences.jumpsRjFeedbackTcGreaterActive && tc >= preferences.jumpsRjFeedbackTcGreater)
+			return (secondaryRed);
+		else
+			return (CairoGeneric.colorFromRGBA (UtilGtk.GetColorShifted
+						(Config.ColorBackground, ! UtilGtk.ColorIsDark (Config.ColorBackground))));
+	}
+}
+//TODO: FeedbackRunsInterval
 
 /* This class manages feedback colors in encoder
    this behaviour was done previously on gui/feedback

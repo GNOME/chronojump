@@ -297,14 +297,13 @@ public partial class ChronoJumpWindow
 							currentEventExecute.PrepareEventGraphJumpReactiveRealtimeCaptureObject.tcString,
 							currentEventExecute.PrepareEventGraphJumpReactiveRealtimeCaptureObject.type,
 							currentPerson.Name,
-							preferences.volumeOn, preferences.gstreamer, feedbackWin);
-
+							preferences.volumeOn, preferences.gstreamer, feedbackJumpsRj);
 			}
 			else if(selectedJumpRj != null)
 				PrepareJumpReactiveRealtimeCaptureGraph (selectedJumpRj.tvLast, selectedJumpRj.tcLast,
 						selectedJumpRj.TvString, selectedJumpRj.TcString,
 						selectedJumpRj.Type, selectedJumpRj.Description, //Description is person.Name
-						preferences.volumeOn, preferences.gstreamer, feedbackWin);
+						preferences.volumeOn, preferences.gstreamer, feedbackJumpsRj);
 		} else if (current_mode == Constants.Modes.RUNSINTERVALLIC)
 		{
 			if(currentEventExecute != null && currentEventExecute.IsThreadRunning())
@@ -520,7 +519,7 @@ public partial class ChronoJumpWindow
 
 	public void PrepareJumpReactiveRealtimeCaptureGraph (double lastTv, double lastTc, string tvString, string tcString,
 			string type, string personName,
-			bool volumeOn, Preferences.GstreamerTypes gstreamer, FeedbackWindow feedbackWin)
+			bool volumeOn, Preferences.GstreamerTypes gstreamer, FeedbackJumpsRj feedbackJumpsRj)
 	{
 		if(currentPerson == null)
 			return;
@@ -536,7 +535,7 @@ public partial class ChronoJumpWindow
 				event_execute_drawingarea_realtime_capture_cairo, preferences.fontType.ToString(), current_mode,
 				personName, type, preferences.digitsNumber,// preferences.heightPreferred,
 				//lastTv, lastTc,
-				tvString, tcString, isLastCaptured);
+				tvString, tcString, isLastCaptured, feedbackJumpsRj);
 
 		// B) Paint cairo graph
 		//cairoPaintBarsPreRealTime.UseHeights = useHeights;
@@ -890,7 +889,7 @@ public partial class ChronoJumpWindow
 							currentEventExecute.PrepareEventGraphJumpReactiveRealtimeCaptureObject.tcString,
 							currentEventExecute.PrepareEventGraphJumpReactiveRealtimeCaptureObject.type,
 							currentPerson.Name,
-							preferences.volumeOn, preferences.gstreamer, feedbackWin);
+							preferences.volumeOn, preferences.gstreamer, feedbackJumpsRj);
 
 					event_execute_drawingarea_realtime_capture_cairo.QueueDraw ();
 				}
@@ -1995,6 +1994,9 @@ public class CairoPaintBarsPreJumpReactiveRealtimeCapture : CairoPaintBarsPre
 	//private double lastTc;
 	private List<double> tv_l;
 	private List<double> tc_l;
+	private List<Cairo.Color> colorMain_l;
+	private List<Cairo.Color> colorSecondary_l;
+	private FeedbackJumpsRj feedbackJumpsRj;
 
 	//just blank the screen
 	public CairoPaintBarsPreJumpReactiveRealtimeCapture (DrawingArea darea, string fontStr)
@@ -2007,9 +2009,12 @@ public class CairoPaintBarsPreJumpReactiveRealtimeCapture : CairoPaintBarsPre
 	public CairoPaintBarsPreJumpReactiveRealtimeCapture (DrawingArea darea, string fontStr,
 			Constants.Modes mode, string personName, string testName, int pDN,// bool heightPreferred,
 			//double lastTv, double lastTc,
-			string tvString, string tcString, bool isLastCaptured)
+			string tvString, string tcString, bool isLastCaptured,
+			FeedbackJumpsRj feedbackJumpsRj)
 	{
 		initialize (darea, fontStr, mode, personName, testName, pDN);
+		this.feedbackJumpsRj = feedbackJumpsRj;
+
 		if(isLastCaptured)
 			this.title = Catalog.GetString("Last test:") + " " + generateTitle();
 		else
@@ -2032,6 +2037,9 @@ public class CairoPaintBarsPreJumpReactiveRealtimeCapture : CairoPaintBarsPre
 		foreach(string tc in tcFull)
 			if(Util.IsNumber(tc, true))
 				tc_l.Add(Convert.ToDouble(tc));
+
+		colorMain_l = new List<Cairo.Color>();
+		colorSecondary_l = new List<Cairo.Color>();
 	}
 
 	/*
@@ -2095,6 +2103,9 @@ public class CairoPaintBarsPreJumpReactiveRealtimeCapture : CairoPaintBarsPre
 			//get min (only of tv)
 			if(tv < min)
 				min = tv;
+
+			colorMain_l.Add (feedbackJumpsRj.AssignColorMain (tv));
+			colorSecondary_l.Add (feedbackJumpsRj.AssignColorSecondary (tc));
 		}
 
 		cb.PassGuidesData (new CairoBarsGuideManage(
@@ -2111,7 +2122,7 @@ public class CairoPaintBarsPreJumpReactiveRealtimeCapture : CairoPaintBarsPre
 		barsSecondary_ll.Add(pointA_l);
 
 		cb.PassData2Series (pointB_l, barsSecondary_ll, false,
-				new List<Cairo.Color>(), new List<Cairo.Color>(), names_l,
+				colorMain_l, colorSecondary_l, names_l,
 				"", false,
 				-1, 14, 8, title);
 		cb.GraphDo();

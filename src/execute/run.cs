@@ -950,6 +950,7 @@ public class RunIntervalExecute : RunExecute
 							
 	private bool RSABellDone;
 	private string equal;
+	private FeedbackRunsInterval feedbackRunsI;
 	//private int countForSavingTempTable;
 
 	//private Chronopic cp;
@@ -963,7 +964,7 @@ public class RunIntervalExecute : RunExecute
 			string wirelessPort, int wirelessBauds,
 			int pDN, bool metersSecondsPreferred,
 			bool volumeOn, Preferences.GstreamerTypes gstreamer,
-			FeedbackWindow feedbackWin,
+			FeedbackRunsInterval feedbackRunsI,
 			double progressbarLimit, ExecutingGraphData egd ,
 			Constants.DoubleContact checkDoubleContactMode, int checkDoubleContactTime, 
 			bool speedStartArrival, bool measureReactionTime,
@@ -1008,7 +1009,7 @@ public class RunIntervalExecute : RunExecute
 		this.pDN = pDN;
 		this.volumeOn = volumeOn;
 		this.gstreamer = gstreamer;
-		this.feedbackWin = feedbackWin;
+		this.feedbackRunsI = feedbackRunsI;
 		this.progressbarLimit = progressbarLimit;
 		this.egd = egd;
 		this.checkDoubleContactMode = checkDoubleContactMode;

@@ -59,13 +59,18 @@ public class FeedbackWindow
 	//Gtk.SpinButton spinbutton_tf_tc_lower;
 
 	/* runs */	
-	Gtk.Box hbox_run_conditions;
-	Gtk.CheckButton checkbutton_run_time_best;
-	Gtk.CheckButton checkbutton_run_time_worst;
+	Gtk.Box hbox_run_conditions_speed;
+	Gtk.Box hbox_run_conditions_time;
+	//Gtk.CheckButton checkbutton_run_time_best;
+	//Gtk.CheckButton checkbutton_run_time_worst;
 	
+	Gtk.CheckButton checkbutton_speed_greater;
+	Gtk.CheckButton checkbutton_speed_lower;
 	Gtk.CheckButton checkbutton_time_greater;
 	Gtk.CheckButton checkbutton_time_lower;
 
+	Gtk.SpinButton spinbutton_speed_greater;
+	Gtk.SpinButton spinbutton_speed_lower;
 	Gtk.SpinButton spinbutton_time_greater;
 	Gtk.SpinButton spinbutton_time_lower;
 
@@ -129,6 +134,7 @@ public class FeedbackWindow
 	Gtk.Image image_repetitive_tf_greater;
 	Gtk.Image image_repetitive_tc_lower;
 	Gtk.Image image_repetitive_tf_tc_greater;
+	Gtk.Image image_repetitive_speed_lower;
 	Gtk.Image image_repetitive_time_lower;
 	Gtk.Image image_repetitive_encoder_automatic_greater;
 	Gtk.Image image_encoder_height_higher;
@@ -146,6 +152,7 @@ public class FeedbackWindow
 	Gtk.Image image_repetitive_tf_lower;
 	Gtk.Image image_repetitive_tc_greater;
 	Gtk.Image image_repetitive_tf_tc_lower;
+	Gtk.Image image_repetitive_speed_greater;
 	Gtk.Image image_repetitive_time_greater;
 	Gtk.Image image_repetitive_encoder_automatic_lower;
 	Gtk.Image image_encoder_height_lower;
@@ -286,6 +293,14 @@ public class FeedbackWindow
 				preferences.jumpsRjFeedbackTvLower,
 				preferences.jumpsRjFeedbackTcGreater,
 				preferences.jumpsRjFeedbackTcLower,
+				preferences.runsIFeedbackTimeGreaterActive,
+				preferences.runsIFeedbackTimeLowerActive,
+				preferences.runsIFeedbackSpeedGreaterActive,
+				preferences.runsIFeedbackSpeedLowerActive,
+				preferences.runsIFeedbackTimeGreater,
+				preferences.runsIFeedbackTimeLower,
+				preferences.runsIFeedbackSpeedGreater,
+				preferences.runsIFeedbackSpeedLower,
 				preferences.encoderCaptureMainVariable, preferences.encoderCaptureSecondaryVariable,
 				preferences.encoderCaptureSecondaryVariableShow,
 				preferences.encoderCaptureInertialEccOverloadMode,
@@ -337,6 +352,14 @@ public class FeedbackWindow
 			double jumpsRjFeedbackTvLower,
 			double jumpsRjFeedbackTcGreater,
 			double jumpsRjFeedbackTcLower,
+			bool runsIFeedbackTimeGreaterActive,
+			bool runsIFeedbackTimeLowerActive,
+			bool runsIFeedbackSpeedGreaterActive,
+			bool runsIFeedbackSpeedLowerActive,
+			double runsIFeedbackTimeGreater,
+			double runsIFeedbackTimeLower,
+			double runsIFeedbackSpeedGreater,
+			double runsIFeedbackSpeedLower,
 			Constants.EncoderVariablesCapture encoderMainVariable,
 			Constants.EncoderVariablesCapture encoderSecondaryVariable,
 			bool encoderSecondaryVariableShow,
@@ -363,7 +386,8 @@ public class FeedbackWindow
 		hbox_jump_best_worst.Hide();
 		hbox_run_best_worst.Hide();
 		hbox_jump_conditions.Hide();
-		hbox_run_conditions.Hide();
+		hbox_run_conditions_speed.Hide();
+		hbox_run_conditions_time.Hide();
 
 		notebook_main.GetNthPage(JUMPSRUNSPAGE).Hide();
 		notebook_main.GetNthPage(ENCODERAUTOPAGE).Hide();
@@ -393,7 +417,17 @@ public class FeedbackWindow
 			else if(bellMode == Constants.BellModes.RUNS)
 			{
 				hbox_run_best_worst.Show();
-				hbox_run_conditions.Show();
+				hbox_run_conditions_speed.Show();
+				hbox_run_conditions_time.Show();
+
+				checkbutton_time_greater.Active =  runsIFeedbackTimeGreaterActive;
+				checkbutton_time_lower.Active =  runsIFeedbackTimeLowerActive;
+				checkbutton_speed_greater.Active =  runsIFeedbackSpeedGreaterActive;
+				checkbutton_speed_lower.Active =  runsIFeedbackSpeedLowerActive;
+				spinbutton_time_greater.Value =  runsIFeedbackTimeGreater;
+				spinbutton_time_lower.Value =  runsIFeedbackTimeLower;
+				spinbutton_speed_greater.Value =  runsIFeedbackSpeedGreater;
+				spinbutton_speed_lower.Value =  runsIFeedbackSpeedLower;
 			}
 
 			notebook_main.GetNthPage(JUMPSRUNSPAGE).Show();
@@ -569,6 +603,7 @@ public class FeedbackWindow
 		image_repetitive_tf_greater.Pixbuf = pixbuf;
 		image_repetitive_tc_lower.Pixbuf = pixbuf;
 		image_repetitive_tf_tc_greater.Pixbuf = pixbuf;
+		image_repetitive_speed_lower.Pixbuf = pixbuf;
 		image_repetitive_time_lower.Pixbuf = pixbuf;
 		image_repetitive_encoder_automatic_greater.Pixbuf = pixbuf;
 		image_encoder_height_higher.Pixbuf = pixbuf;
@@ -587,6 +622,7 @@ public class FeedbackWindow
 		image_repetitive_tf_lower.Pixbuf = pixbuf;
 		image_repetitive_tc_greater.Pixbuf = pixbuf;
 		image_repetitive_tf_tc_lower.Pixbuf = pixbuf;
+		image_repetitive_speed_greater.Pixbuf = pixbuf;
 		image_repetitive_time_greater.Pixbuf = pixbuf;
 		image_repetitive_encoder_automatic_lower.Pixbuf = pixbuf;
 		image_encoder_height_lower.Pixbuf = pixbuf;
@@ -648,15 +684,20 @@ public class FeedbackWindow
 	{
 		if(bellMode == Constants.BellModes.JUMPS)
 		{
-			if(checkbutton_height_greater.Active || checkbutton_height_lower.Active ||
+			if (
+					//checkbutton_height_greater.Active || checkbutton_height_lower.Active ||
 					checkbutton_tf_greater.Active || checkbutton_tf_lower.Active ||
-					checkbutton_tc_lower.Active || checkbutton_tc_greater.Active ||
-					checkbutton_tf_tc_greater.Active || checkbutton_tf_tc_lower.Active)
+					checkbutton_tc_lower.Active || checkbutton_tc_greater.Active //||
+					//checkbutton_tf_tc_greater.Active || checkbutton_tf_tc_lower.Active
+					)
 				return true;
 		}
 		else if(bellMode == Constants.BellModes.RUNS)
 		{
-			if(checkbutton_time_lower.Active || checkbutton_time_greater.Active)
+			if (
+					//checkbutton_time_lower.Active || checkbutton_time_greater.Active ||
+					checkbutton_speed_greater.Active || checkbutton_speed_lower.Active ||
+					checkbutton_time_greater.Active || checkbutton_time_lower.Active)
 				return true;
 		}
 		else if (bellMode == Constants.BellModes.ENCODERGRAVITATORY || bellMode == Constants.BellModes.ENCODERINERTIAL)
@@ -727,6 +768,12 @@ public class FeedbackWindow
 	}
 
 	/*runs*/
+	void on_spinbutton_speed_greater_value_changed (object o, EventArgs args) {
+		checkbutton_speed_greater.Active = true;
+	}
+	void on_spinbutton_speed_lower_value_changed (object o, EventArgs args) {
+		checkbutton_speed_lower.Active = true;
+	}
 	void on_spinbutton_time_greater_value_changed (object o, EventArgs args) {
 		checkbutton_time_greater.Active = true;
 	}
@@ -1195,24 +1242,38 @@ public class FeedbackWindow
 	*/
 
 	/* RUNS */
+	/*
 	public bool RunTimeBest {
 		get { return checkbutton_run_time_best.Active; }
 	}
 	public bool RunTimeWorst {
 		get { return checkbutton_run_time_worst.Active; }
 	}
+	*/
 
-	public bool RunTimeGreater {
+	public bool RunsIFeedbackSpeedGreaterActive {
+		get { return checkbutton_speed_greater.Active; }
+	}
+	public bool RunsIFeedbackSpeedLowerActive {
+		get { return checkbutton_speed_lower.Active; }
+	}
+	public double RunsIFeedbackSpeedGreater {
+		get { return Convert.ToDouble(spinbutton_speed_greater.Value); }
+	}
+	public double RunsIFeedbackSpeedLower {
+		get { return Convert.ToDouble(spinbutton_speed_lower.Value); }
+	}
+
+	public bool RunsIFeedbackTimeGreaterActive {
 		get { return checkbutton_time_greater.Active; }
 	}
-	public bool RunTimeLower {
+	public bool RunsIFeedbackTimeLowerActive {
 		get { return checkbutton_time_lower.Active; }
 	}
-
-	public double RunTimeGreaterValue {
+	public double RunsIFeedbackTimeGreater {
 		get { return Convert.ToDouble(spinbutton_time_greater.Value); }
 	}
-	public double RunTimeLowerValue {
+	public double RunsIFeedbackTimeLower {
 		get { return Convert.ToDouble(spinbutton_time_lower.Value); }
 	}
 
@@ -1460,13 +1521,18 @@ public class FeedbackWindow
 		//spinbutton_tf_tc_lower = (Gtk.SpinButton) builder.GetObject ("spinbutton_tf_tc_lower");
 
 		/* runs */	
-		hbox_run_conditions = (Gtk.Box) builder.GetObject ("hbox_run_conditions");
-		checkbutton_run_time_best = (Gtk.CheckButton) builder.GetObject ("checkbutton_run_time_best");
-		checkbutton_run_time_worst = (Gtk.CheckButton) builder.GetObject ("checkbutton_run_time_worst");
+		hbox_run_conditions_speed = (Gtk.Box) builder.GetObject ("hbox_run_conditions_speed");
+		hbox_run_conditions_time = (Gtk.Box) builder.GetObject ("hbox_run_conditions_time");
+		//checkbutton_run_time_best = (Gtk.CheckButton) builder.GetObject ("checkbutton_run_time_best");
+		//checkbutton_run_time_worst = (Gtk.CheckButton) builder.GetObject ("checkbutton_run_time_worst");
+
+		checkbutton_speed_greater = (Gtk.CheckButton) builder.GetObject ("checkbutton_speed_greater");
+		checkbutton_speed_lower = (Gtk.CheckButton) builder.GetObject ("checkbutton_speed_lower");
+		spinbutton_speed_greater = (Gtk.SpinButton) builder.GetObject ("spinbutton_speed_greater");
+		spinbutton_speed_lower = (Gtk.SpinButton) builder.GetObject ("spinbutton_speed_lower");
 
 		checkbutton_time_greater = (Gtk.CheckButton) builder.GetObject ("checkbutton_time_greater");
 		checkbutton_time_lower = (Gtk.CheckButton) builder.GetObject ("checkbutton_time_lower");
-
 		spinbutton_time_greater = (Gtk.SpinButton) builder.GetObject ("spinbutton_time_greater");
 		spinbutton_time_lower = (Gtk.SpinButton) builder.GetObject ("spinbutton_time_lower");
 
@@ -1530,6 +1596,7 @@ public class FeedbackWindow
 		image_repetitive_tf_greater = (Gtk.Image) builder.GetObject ("image_repetitive_tf_greater");
 		image_repetitive_tc_lower = (Gtk.Image) builder.GetObject ("image_repetitive_tc_lower");
 		image_repetitive_tf_tc_greater = (Gtk.Image) builder.GetObject ("image_repetitive_tf_tc_greater");
+		image_repetitive_speed_lower = (Gtk.Image) builder.GetObject ("image_repetitive_speed_lower");
 		image_repetitive_time_lower = (Gtk.Image) builder.GetObject ("image_repetitive_time_lower");
 		image_repetitive_encoder_automatic_greater = (Gtk.Image) builder.GetObject ("image_repetitive_encoder_automatic_greater");
 		image_encoder_height_higher = (Gtk.Image) builder.GetObject ("image_encoder_height_higher");
@@ -1547,6 +1614,7 @@ public class FeedbackWindow
 		image_repetitive_tf_lower = (Gtk.Image) builder.GetObject ("image_repetitive_tf_lower");
 		image_repetitive_tc_greater = (Gtk.Image) builder.GetObject ("image_repetitive_tc_greater");
 		image_repetitive_tf_tc_lower = (Gtk.Image) builder.GetObject ("image_repetitive_tf_tc_lower");
+		image_repetitive_speed_greater = (Gtk.Image) builder.GetObject ("image_repetitive_speed_greater");
 		image_repetitive_time_greater = (Gtk.Image) builder.GetObject ("image_repetitive_time_greater");
 		image_repetitive_encoder_automatic_lower = (Gtk.Image) builder.GetObject ("image_repetitive_encoder_automatic_lower");
 		image_encoder_height_lower = (Gtk.Image) builder.GetObject ("image_encoder_height_lower");

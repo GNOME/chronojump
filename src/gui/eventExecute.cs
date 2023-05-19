@@ -315,7 +315,7 @@ public partial class ChronoJumpWindow
 							currentEventExecute.PrepareEventGraphRunIntervalRealtimeCaptureObject.distancesString,
 							currentEventExecute.PrepareEventGraphRunIntervalRealtimeCaptureObject.photocell_l,
 							currentEventExecute.PrepareEventGraphRunIntervalRealtimeCaptureObject.type,
-							currentPerson.Name);
+							currentPerson.Name, feedbackRunsI);
 			}
 			else if(selectedRunInterval != null)
 			{
@@ -325,7 +325,7 @@ public partial class ChronoJumpWindow
 						selectedRunInterval.DistanceInterval,
 						selectedRunIntervalType.DistancesString,
 						selectedRunInterval.Photocell_l,
-						selectedRunInterval.Type, selectedRunInterval.Description); //Description is person.Name
+						selectedRunInterval.Type, selectedRunInterval.Description, feedbackRunsI); //Description is person.Name
 			}
 		}
 	}
@@ -650,7 +650,7 @@ public partial class ChronoJumpWindow
 
 	public void PrepareRunIntervalRealtimeCaptureGraph (string timesString,
 			double distanceInterval, string distancesString,
-			List<int> photocell_l, string type, string personName)
+			List<int> photocell_l, string type, string personName, FeedbackRunsInterval feedbackRunsI)
 	{
 		if(currentPerson == null)
 			return;
@@ -667,7 +667,7 @@ public partial class ChronoJumpWindow
 				personName, type, preferences.digitsNumber,// preferences.heightPreferred,
 				check_runI_realtime_rel_abs.Active,
 				timesString, distanceInterval, distancesString,
-				photocell_l, isLastCaptured);
+				photocell_l, isLastCaptured, feedbackRunsI);
 
 		// B) Paint cairo graph
 		//cairoPaintBarsPreRealTime.UseHeights = useHeights;
@@ -911,7 +911,7 @@ public partial class ChronoJumpWindow
 							currentEventExecute.PrepareEventGraphRunIntervalRealtimeCaptureObject.distancesString,
 							currentEventExecute.PrepareEventGraphRunIntervalRealtimeCaptureObject.photocell_l,
 							currentEventExecute.PrepareEventGraphRunIntervalRealtimeCaptureObject.type,
-							currentPerson.Name);
+							currentPerson.Name, feedbackRunsI);
 					event_execute_drawingarea_realtime_capture_cairo.QueueDraw ();
 				}
 				break;
@@ -2140,6 +2140,8 @@ public class CairoPaintBarsPreRunIntervalRealtimeCapture : CairoPaintBarsPre
 	private List<double> time_l;
 	private List<double> speed_l;
 	private List<int> photocell_l;
+	private List<Cairo.Color> colorMain_l;
+	private FeedbackRunsInterval feedbackRunsI;
 
 	//just blank the screen
 	public CairoPaintBarsPreRunIntervalRealtimeCapture (DrawingArea darea, string fontStr)
@@ -2153,9 +2155,11 @@ public class CairoPaintBarsPreRunIntervalRealtimeCapture : CairoPaintBarsPre
 			string timesString,
 			double distanceInterval, //know each track distance according to this or distancesString
 			string distancesString,
-			List<int> photocell_l, bool isLastCaptured)
+			List<int> photocell_l, bool isLastCaptured, FeedbackRunsInterval feedbackRunsI)
 	{
 		initialize (darea, fontStr, mode, personName, testName, pDN);
+		this.feedbackRunsI = feedbackRunsI;
+
 		if(isLastCaptured)
 			this.title = Catalog.GetString("Last test:") + " " + generateTitle();
 		else
@@ -2210,6 +2214,8 @@ public class CairoPaintBarsPreRunIntervalRealtimeCapture : CairoPaintBarsPre
 		foreach (double speed in speed_l)
 			LogB.Information(speed.ToString());
 		*/
+
+		colorMain_l = new List<Cairo.Color>();
 	}
 
 	/*
@@ -2285,6 +2291,8 @@ public class CairoPaintBarsPreRunIntervalRealtimeCapture : CairoPaintBarsPre
 
 			if(speed < min)		//get min
 				min = speed;
+
+			colorMain_l.Add (feedbackRunsI.AssignColorMain (speed, time));
 		}
 
 		cb.PassGuidesData (new CairoBarsGuideManage(
@@ -2303,7 +2311,7 @@ public class CairoPaintBarsPreRunIntervalRealtimeCapture : CairoPaintBarsPre
 		cb.SpaceBetweenBars = false;
 
 		cb.PassData1Serie (point_l,
-				new List<Cairo.Color>(), names_l,
+				colorMain_l, names_l,
 				-1, 14, 22, title); //22 because there are two rows
 		cb.GraphDo();
 	}

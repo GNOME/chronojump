@@ -79,7 +79,45 @@ public class FeedbackJumpsRj : Feedback
 						(Config.ColorBackground, ! UtilGtk.ColorIsDark (Config.ColorBackground))));
 	}
 }
-//TODO: FeedbackRunsInterval
+
+public class FeedbackRunsInterval : Feedback
+{
+	public FeedbackRunsInterval (Preferences preferences)
+	{
+		this.preferences = preferences; //TODO: check if this has to be updated also on other public calls
+		setBarColors ();
+	}
+
+	public Cairo.Color AssignColorMain (double speed, double time)
+	{
+		if (green (speed, time))
+			return (mainGreen);
+		else if (red (speed, time))
+			return (mainRed);
+		else
+			return (CairoGeneric.colorFromRGBA (Config.ColorBackground));
+	}
+
+	private bool green (double speed, double time)
+	{
+		if (preferences.runsIFeedbackSpeedGreaterActive && speed >= preferences.runsIFeedbackSpeedGreater)
+			return (true);
+		else if (preferences.runsIFeedbackTimeLowerActive && time <= preferences.runsIFeedbackTimeLower)
+			return (true);
+
+		return false;
+	}
+
+	private bool red (double speed, double time)
+	{
+		if (preferences.runsIFeedbackSpeedLowerActive && speed <= preferences.runsIFeedbackSpeedLower)
+			return (true);
+		else if (preferences.runsIFeedbackTimeGreaterActive && time >= preferences.runsIFeedbackTimeGreater)
+			return (true);
+
+		return false;
+	}
+}
 
 /* This class manages feedback colors in encoder
    this behaviour was done previously on gui/feedback

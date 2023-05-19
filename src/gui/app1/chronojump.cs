@@ -8265,11 +8265,12 @@ LogB.Debug("mc finished 5");
 
 			image_contacts_bell.Pixbuf = pixbuf;
 
+			// 2) Update SQL and preferences object
+			Sqlite.Open(); // ------>
+
 			if(m == Constants.Modes.JUMPSREACTIVE)
 			{
-				// 2) Update SQL and preferences object
-				Sqlite.Open(); // ------>
-
+				// .*Active (boolean) prefs
 				preferences.jumpsRjFeedbackTvGreaterActive = Preferences.PreferencesChange(
 						true,
 						SqlitePreferences.JumpsRjFeedbackTvGreaterActive,
@@ -8294,6 +8295,7 @@ LogB.Debug("mc finished 5");
 						preferences.jumpsRjFeedbackTcLowerActive,
 						feedbackWin.JumpsRjFeedbackTcLowerActive);
 
+				// (double) prefs
 				preferences.jumpsRjFeedbackTvGreater = Preferences.PreferencesChange(
 						true,
 						SqlitePreferences.JumpsRjFeedbackTvGreater,
@@ -8317,11 +8319,63 @@ LogB.Debug("mc finished 5");
 						SqlitePreferences.JumpsRjFeedbackTcLower,
 						preferences.jumpsRjFeedbackTcLower,
 						feedbackWin.JumpsRjFeedbackTcLower);
-
-				Sqlite.Close(); // <------
-
-				event_execute_drawingarea_realtime_capture_cairo.QueueDraw ();
 			}
+			else if(m == Constants.Modes.RUNSINTERVALLIC)
+			{
+				// .*Active (boolean) prefs
+				preferences.runsIFeedbackSpeedGreaterActive = Preferences.PreferencesChange(
+						true,
+						SqlitePreferences.RunsIFeedbackSpeedGreaterActive,
+						preferences.runsIFeedbackSpeedGreaterActive,
+						feedbackWin.RunsIFeedbackSpeedGreaterActive);
+
+				preferences.runsIFeedbackSpeedLowerActive = Preferences.PreferencesChange(
+						true,
+						SqlitePreferences.RunsIFeedbackSpeedLowerActive,
+						preferences.runsIFeedbackSpeedLowerActive,
+						feedbackWin.RunsIFeedbackSpeedLowerActive);
+
+				preferences.runsIFeedbackTimeGreaterActive = Preferences.PreferencesChange(
+						true,
+						SqlitePreferences.RunsIFeedbackTimeGreaterActive,
+						preferences.runsIFeedbackTimeGreaterActive,
+						feedbackWin.RunsIFeedbackTimeGreaterActive);
+
+				preferences.runsIFeedbackTimeLowerActive = Preferences.PreferencesChange(
+						true,
+						SqlitePreferences.RunsIFeedbackTimeLowerActive,
+						preferences.runsIFeedbackTimeLowerActive,
+						feedbackWin.RunsIFeedbackTimeLowerActive);
+
+				// (double) prefs
+				preferences.runsIFeedbackSpeedGreater = Preferences.PreferencesChange(
+						true,
+						SqlitePreferences.RunsIFeedbackSpeedGreater,
+						preferences.runsIFeedbackSpeedGreater,
+						feedbackWin.RunsIFeedbackSpeedGreater);
+
+				preferences.runsIFeedbackSpeedLower = Preferences.PreferencesChange(
+						true,
+						SqlitePreferences.RunsIFeedbackSpeedLower,
+						preferences.runsIFeedbackSpeedLower,
+						feedbackWin.RunsIFeedbackSpeedLower);
+
+				preferences.runsIFeedbackTimeGreater = Preferences.PreferencesChange(
+						true,
+						SqlitePreferences.RunsIFeedbackTimeGreater,
+						preferences.runsIFeedbackTimeGreater,
+						feedbackWin.RunsIFeedbackTimeGreater);
+
+				preferences.runsIFeedbackTimeLower = Preferences.PreferencesChange(
+						true,
+						SqlitePreferences.RunsIFeedbackTimeLower,
+						preferences.runsIFeedbackTimeLower,
+						feedbackWin.RunsIFeedbackTimeLower);
+			}
+
+			Sqlite.Close(); // <------
+
+			event_execute_drawingarea_realtime_capture_cairo.QueueDraw ();
 		}
 		else if (Constants.ModeIsENCODER (m))
 		{

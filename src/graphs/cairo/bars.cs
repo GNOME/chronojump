@@ -335,7 +335,7 @@ public abstract class CairoBars : CairoGeneric
 
 		graphWidth = Convert.ToInt32(area.Allocation.Width * widthPercent1);
 		graphHeight = area.Allocation.Height;
-		LogB.Information(string.Format("graphWidth: {0}, graphHeight: {1}", graphWidth, graphHeight));
+		//LogB.Information(string.Format("graphWidth: {0}, graphHeight: {1}", graphWidth, graphHeight));
 
 		g.SetSourceRGB(0,0,0);
 		g.LineWidth = lineWidthDefault;
@@ -778,8 +778,10 @@ public abstract class CairoBars : CairoGeneric
 	{
 		g.SetFontSize(fontHeight);
 		Cairo.TextExtents te = g.TextExtents("A");
+		/*
 		LogB.Information(string.Format("GetBottomMarginForText, maxRows: {0}, fontHeight: {1}, result: {2}",
 					maxRows, fontHeight, Convert.ToInt32(1.3 * te.Height * maxRows)));
+					*/
 
 		return Convert.ToInt32(1.3 * te.Height * maxRows);
 	}
@@ -1247,7 +1249,7 @@ public class CairoBars1Series : CairoBars
 		double distanceBetweenCols = barWidth * spaceBetweenBarsRatio;
 
 		resultFontHeight = getBarsResultFontHeight (barWidth*1.20); //*1.2 because there is space at left and right
-		LogB.Information("resultFontHeight: " + resultFontHeight.ToString());
+		//LogB.Information("resultFontHeight: " + resultFontHeight.ToString());
 
 		//debug
 		/*
@@ -1255,9 +1257,11 @@ public class CairoBars1Series : CairoBars
 		for(int j=0; j < inBarNums_l.Count; j ++)
 			LogB.Information(inBarNums_l[j].ToString());
 			*/
+		/*
 		LogB.Information("edgeBarNums_l:");
 		for(int j=0; j < edgeBarNums_l.Count; j ++)
 			LogB.Information(edgeBarNums_l[j].ToString());
+			*/
 
 		for(int i = 0; i < barMain_l.Count; i ++)
 		{
@@ -1292,7 +1296,7 @@ public class CairoBars1Series : CairoBars
 					0, fontHeightForBottomNames,
 					names_l[i], g, alignTypes.CENTER,
 					Util.FoundInListInt(saved_l, i));
-			LogB.Information("names_l[i]: " + names_l[i]);
+			//LogB.Information("names_l[i]: " + names_l[i]);
 
 			barsXCenter_l.Add(x + barWidth/2);
 		}
@@ -1318,7 +1322,7 @@ public class CairoBars1Series : CairoBars
 	public override void GraphDo ()
 	{
 		LogB.Information("at CairoBars1Series.Do");
-		LogB.Information(string.Format("bottomMargin pre: {0}, marginForBottomNames: {1}", bottomMargin, marginForBottomNames));
+		//LogB.Information(string.Format("bottomMargin pre: {0}, marginForBottomNames: {1}", bottomMargin, marginForBottomNames));
 		bottomMargin += marginForBottomNames;
 
                 findMaximums();

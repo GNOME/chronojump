@@ -1294,7 +1294,7 @@ public abstract class CairoPaintBarsPre
 			}
 		}
 
-		LogB.Information("longestWord: " + longestWord);
+		//LogB.Information("longestWord: " + longestWord);
 		//return longestWordSize;
 		return longestWord;
 	}

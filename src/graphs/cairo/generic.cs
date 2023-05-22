@@ -436,6 +436,7 @@ public abstract class CairoGeneric
 	private static Tuple<double, double, double> getGridStepAndBoundaries (decimal min, decimal max, int stepCount)
 	{
 		// Minimal increment to avoid round extreme values to be on the edge of the chart
+		LogB.Information (string.Format ("max: {0}, min: {1}", max, min)); //atencio pq el proper potser peta i caldria posar try/catch i retornar Tupla en blanc si cal
 		decimal epsilon = (max - min) / 1e6m;
 		max += epsilon;
 		min -= epsilon;

@@ -5035,7 +5035,8 @@ public partial class ChronoJumpWindow
 
 			on_button_execute_test_acceptedPre_start_camera(WebcamStartedTestStart.CHRONOPIC);
 			return;
-		}
+		} else
+			cp2016.StoredWireless = false;
 
 		if (current_mode == Constants.Modes.JUMPSSIMPLE || current_mode == Constants.Modes.JUMPSREACTIVE ||
 				current_mode == Constants.Modes.RUNSSIMPLE || current_mode == Constants.Modes.RUNSINTERVALLIC)
@@ -5512,10 +5513,22 @@ public partial class ChronoJumpWindow
 			currentEventExecute.SimulateInitValues(rand);
 
 		contactsShowCaptureDoingButtons(true);
-		if( currentJumpType.StartIn ) 
-			currentEventExecute.Manage();
+
+		bool managedOk = true;
+		if (currentJumpType.StartIn)
+			managedOk = currentEventExecute.Manage();
 		else 
-			currentEventExecute.ManageFall();
+			managedOk = currentEventExecute.ManageFall();
+
+		if (! managedOk) {
+			if (currentEventExecute.ChronopicDisconnected)
+			{
+				chronopicDisconnectedWhileExecuting ();
+				contactsShowCaptureDoingButtons (false);
+				on_test_finished_can_touch_gtk (new object (), new EventArgs ());
+			}
+			return;
+		}
 
 		thisJumpIsSimple = true; //used by: on_event_execute_update_graph_in_progress_clicked
 		currentEventExecute.FakeButtonUpdateGraph.Clicked += 
@@ -5592,6 +5605,8 @@ public partial class ChronoJumpWindow
 		LogB.Error("DISCONNECTED gui/cj");
 		//createChronopicWindow(true, "");
 		//chronopicWin.Connected = false;
+
+		button_detect_show_hide (true);
 	}
 
 	private void on_test_finished_can_touch_gtk (object o, EventArgs args)
@@ -5808,7 +5823,16 @@ public partial class ChronoJumpWindow
 			currentEventExecute.SimulateInitValues(rand);
 		
 		contactsShowCaptureDoingButtons(true);
-		currentEventExecute.Manage();
+		if (! currentEventExecute.Manage())
+		{
+			if (currentEventExecute.ChronopicDisconnected)
+			{
+				chronopicDisconnectedWhileExecuting ();
+				contactsShowCaptureDoingButtons (false);
+				on_test_finished_can_touch_gtk (new object (), new EventArgs ());
+			}
+			return;
+		}
 
 		thisJumpIsSimple = false; //used by: on_event_execute_update_graph_in_progress_clicked
 		currentEventExecute.FakeButtonUpdateGraph.Clicked += 
@@ -5963,7 +5987,16 @@ public partial class ChronoJumpWindow
 			currentEventExecute.SimulateInitValues(rand);
 
 		contactsShowCaptureDoingButtons(true);
-		currentEventExecute.Manage();
+		if (! currentEventExecute.Manage())
+		{
+			if (currentEventExecute.ChronopicDisconnected)
+			{
+				chronopicDisconnectedWhileExecuting ();
+				contactsShowCaptureDoingButtons (false);
+				on_test_finished_can_touch_gtk (new object (), new EventArgs ());
+			}
+			return;
+		}
 
 		thisRunIsSimple = true; //used by: on_event_execute_update_graph_in_progress_clicked
 		currentEventExecute.FakeButtonUpdateGraph.Clicked += 
@@ -6108,12 +6141,22 @@ public partial class ChronoJumpWindow
 				label_run_execute_photocell_code
 				);
 
+		LogB.Information("run interval accepted 7");
 		//suitable for limited by tracks and time
 		if(! canCaptureC && ! wireless)
 			currentEventExecute.SimulateInitValues(rand);
 
 		contactsShowCaptureDoingButtons(true);
-		currentEventExecute.Manage();
+		if (! currentEventExecute.Manage())
+		{
+			if (currentEventExecute.ChronopicDisconnected)
+			{
+				chronopicDisconnectedWhileExecuting ();
+				contactsShowCaptureDoingButtons (false);
+				on_test_finished_can_touch_gtk (new object (), new EventArgs ());
+			}
+			return;
+		}
 
 		thisRunIsSimple = false; //used by: on_event_execute_update_graph_in_progress_clicked
 		currentEventExecute.FakeButtonUpdateGraph.Clicked += 

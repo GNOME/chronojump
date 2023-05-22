@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2022   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2004-2023   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -164,7 +164,7 @@ public class RunExecute : EventExecute
 
 	}
 	
-	public override void Manage()
+	public override bool Manage()
 	{
 		LogB.Debug("MANAGE!!!!");
 
@@ -176,7 +176,11 @@ public class RunExecute : EventExecute
 		//	manageIniWireless();
 		//else
 		if(! wireless)
-			manageIniNotWireless();
+			if (! manageIniNotWireless())
+			{
+				chronopicDisconnected = true;
+				return false;
+			}
 
 		//prepare jump for being cancelled if desired
 		cancel = false;
@@ -187,6 +191,7 @@ public class RunExecute : EventExecute
 
 		LogB.ThreadStart();
 		thread.Start();
+		return true;
 	}
 
 	private void manageIniWireless()
@@ -220,7 +225,7 @@ public class RunExecute : EventExecute
 		*/
 	}
 
-	private void manageIniNotWireless()
+	private bool manageIniNotWireless()
 	{
 		if (simulated)
 			platformState = Chronopic.Plataforma.ON;
@@ -252,7 +257,7 @@ public class RunExecute : EventExecute
 		}
 		else { //UNKNOW (Chronopic disconnected, port changed, ...)
 			chronopicHasBeenDisconnected();
-			return;
+			return false;
 		}
 
 		if (simulated) {
@@ -276,6 +281,8 @@ public class RunExecute : EventExecute
 				platformState = Chronopic.Plataforma.ON;
 			}
 		}
+
+		return true;
 	}
 
 	protected void timestampDCInitValues()
@@ -332,9 +339,12 @@ LogB.Information("going to call photocellWirelessCapture.CaptureStart ()");
 			runPhase = runPhases.START_WIRELESS_UNKNOWN;
 			//photocellWirelessCapture = new PhotocellWirelessCapture(wirelessPort);
 			photocellWirelessCapture.Reset ();
-			photocellWirelessCapture.CaptureStart ();
-
-			manageIniWireless();
+			if (! photocellWirelessCapture.CaptureStart ())
+			{
+				chronopicDisconnected = true;
+				cancel = true; //problem reading line (capturing)
+			} else
+				manageIniWireless();
 		}
 
 		bool firstFromChronopicReceived = false;
@@ -343,7 +353,10 @@ LogB.Information("going to call photocellWirelessCapture.CaptureStart ()");
 			if (wireless)
 			{
 				if(! photocellWirelessCapture.CaptureLine())
+				{
+					chronopicDisconnected = true;
 					cancel = true; //problem reading line (capturing)
+				}
 
 				ok = false;
 				if(photocellWirelessCapture.CanRead())
@@ -373,7 +386,7 @@ LogB.Information("going to call photocellWirelessCapture.CaptureStart ()");
 				ok = true;
 			else 
 				ok = cp.Read_event(out timestamp, out platformState);
-			
+
 			if (ok && ! cancel && ! finish)
 			{
 //				LogB.Information("waitEvent 7");

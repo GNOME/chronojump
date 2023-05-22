@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2022   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2004-2023   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -137,7 +137,7 @@ public class EventExecute
 	protected bool finish;
 	
 	//if chronopic is disconnected by user, port changes, ...
-	protected bool chronopicDisconnected;
+	protected static bool chronopicDisconnected;
 	
 	// multi Chronopic stuff
 	protected int chronopics; 
@@ -198,8 +198,9 @@ public class EventExecute
 	}
 	
 	//public virtual void Manage(object o, EventArgs args)
-	public virtual void Manage()
+	public virtual bool Manage()
 	{
+		return true;
 	}
 	
 	//for calling it again after a confirmWindow says that you have to be in or out the platform
@@ -209,8 +210,9 @@ public class EventExecute
 		Manage();
 	}
 	
-	public virtual void ManageFall()
+	public virtual bool ManageFall()
 	{
+		return true;
 	}
 	
 
@@ -239,6 +241,9 @@ public class EventExecute
 			else if (this.GetType ().Equals (typeof (RunExecute)) ||
 					this.GetType ().Equals (typeof (RunIntervalExecute)))
 				runChangeImageForceHide();
+
+			if (chronopicDisconnected)
+				chronopicHasBeenDisconnected ();
 
 			fakeButtonThreadDyed.Click();
 
@@ -598,12 +603,16 @@ public class EventExecute
 	protected void chronopicHasBeenDisconnected ()
 	{
 		chronopicDisconnected = true;
+		/*
 		ErrorWindow errorWin;		
 		errorWin = ErrorWindow.Show( 
 				Catalog.GetString("Chronopic seems disconnected."));
+				*/
+		new DialogMessage (Constants.MessageTypes.WARNING, Catalog.GetString("Chronopic seems disconnected."));
 
 		Util.PlaySound(Constants.SoundTypes.BAD, volumeOn, gstreamer);
-		errorWin.Button_accept.Clicked += new EventHandler(cancel_event_before_start);
+		//errorWin.Button_accept.Clicked += new EventHandler(cancel_event_before_start);
+		cancel_event_before_start (new object (), new EventArgs ());
 	}
 	
 	public virtual bool MultiChronopicRunAUsedCP2() {

@@ -104,7 +104,7 @@ public class PulseExecute : EventExecute
 		simulatedCurrentTimeIntervalsAreContact = true;
 	}
 	
-	public override void Manage()
+	public override bool Manage()
 	{
 		bool success = false;
 		
@@ -143,7 +143,7 @@ public class PulseExecute : EventExecute
 		}
 		else { //UNKNOW (Chronopic disconnected, port changed, ...)
 			chronopicHasBeenDisconnected();
-			return;
+			return false;
 		}
 
 		if(success) {
@@ -172,6 +172,8 @@ public class PulseExecute : EventExecute
 			LogB.ThreadStart(); 
 			thread.Start(); 
 		}
+
+		return true;
 	}
 	
 	protected override void waitEvent ()

@@ -148,7 +148,7 @@ public class JumpExecute : EventExecute
 		}
 	}
 	
-	public override void Manage()
+	public override bool Manage()
 	{
 		LogB.Information("Jumps Manage!");
 		//boolean to know if chronopic has been disconnected	
@@ -209,10 +209,14 @@ public class JumpExecute : EventExecute
 			jumpChangeImageDo (platformState);
 
 			chronopicHasBeenDisconnected();
+
+			return false;
 		}
+
+		return true;
 	}
 
-	public override void ManageFall()
+	public override bool ManageFall()
 	{
 		LogB.Information ("Jumps ManageFall!, fall: ", fall.ToString ());
 
@@ -238,7 +242,7 @@ public class JumpExecute : EventExecute
 			jumpChangeImageDo (platformState);
 
 			chronopicHasBeenDisconnected();
-			return;
+			return false;
 		}
 		
 		//if we are outside
@@ -304,6 +308,8 @@ public class JumpExecute : EventExecute
 			//if confirmWin.Button_cancel is pressed return
 			confirmWin.Button_cancel.Clicked += new EventHandler(cancel_event_before_start);
 		}
+
+		return true;
 	}
 	
 	//for calling it again after a confirmWindow says that you have to be in or out the platform
@@ -735,7 +741,7 @@ public class JumpRjExecute : JumpExecute
 		eventDone = new JumpRj();
 	}
 
-	public override void Manage()
+	public override bool Manage()
 	{
 		//boolean to know if chronopic has been disconnected	
 		chronopicDisconnected = false;
@@ -755,7 +761,7 @@ public class JumpRjExecute : JumpExecute
 			loggedState = States.ON;
 		else { //UNKNOW (Chronopic disconnected, port changed, ...)
 			chronopicHasBeenDisconnected();
-			return;
+			return false;
 		}
 
 		jumpChangeImageDo (platformState);
@@ -826,6 +832,7 @@ public class JumpRjExecute : JumpExecute
 			LogB.ThreadStart(); 
 			thread.Start(); 
 		}
+		return true;
 	}
 	
 	protected override void waitEvent ()

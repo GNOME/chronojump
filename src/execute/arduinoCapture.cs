@@ -13,7 +13,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  *
- * Copyright (C) 2022  Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2022-2023  Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -277,13 +277,29 @@ public abstract class MicroComms
 		return (success);
 	}
 
-	protected void flush ()
+	protected bool flush ()
 	{
+		LogB.Information ("micro not opened on flush");
+		if (! micro.Opened)
+			return false;
+
 		string str = "";
-		if (micro.BytesToRead ())
+
+		bool bytesToRead = false;
+		try {
+			bytesToRead = micro.BytesToRead ();
+		}
+		catch (System.IO.IOException)
+		{
+			LogB.Information ("Catched on flush");
+			return false;
+		}
+
+		if (bytesToRead)
 			str = micro.ReadExisting ();
 
 		LogB.Information(string.Format("flushed: |{0}|", str));
+		return true;
 	}
 
 	public bool Cancel {
@@ -390,7 +406,18 @@ public class PhotocellWirelessCapture: ArduinoCapture
 		//LogB.Information(string.Format("arduinoCapture portName: {0}, bauds: {1}", portName, bauds));
 
 		//empty the port before new capture
-		flush();
+		/*
+		 * note a detected device if usb cable gets disconnected, then micro.Opened above is true,
+		 * so previous to 22 may 2023 comes here and crashes. Now flush has a try/catch and returns a boolean,
+		 * and CaptureStart return also is managed on execute/run.cs
+		 */
+		if (! flush())
+		{
+			LogB.Information ("device has been disconnected");
+			micro.ClosePort ();
+			return false;
+		}
+
 
 		/*
 		   disabled start_capture
@@ -407,8 +434,18 @@ public class PhotocellWirelessCapture: ArduinoCapture
 	{
 		string str = "";
 
-		if(! readLine (out str))
+		/*
+		 * if at CaptureStart device is disconnected,
+		 * micro gets closed there and here it shoud not readLine
+		 */
+		if (! micro.Opened)
 			return false;
+
+		if(! readLine (out str))
+		{
+			micro.ClosePort ();
+			return false;
+		}
 
 		//LogB.Information("bucle capture call process line");
 		PhotocellWirelessEvent pwe = new PhotocellWirelessEvent();

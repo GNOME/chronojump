@@ -196,7 +196,7 @@ public class MultiChronopicExecute : EventExecute
 	*/
 			
 
-	public override void Manage()
+	public override bool Manage()
 	{
 		//boolean to know if chronopic has been disconnected	
 		chronopicDisconnected = false;
@@ -212,7 +212,7 @@ public class MultiChronopicExecute : EventExecute
 				cp1StartedIn = false;
 			} else { //UNKNOW (Chronopic disconnected, port changed, ...)
 				chronopicHasBeenDisconnected();
-				return;
+				return false;
 			}
 		
 			//prepare jump for being cancelled if desired
@@ -232,7 +232,7 @@ public class MultiChronopicExecute : EventExecute
 					cp2StartedIn = false;
 				} else { //UNKNOW (Chronopic disconnected, port changed, ...)
 					chronopicHasBeenDisconnected();
-					return;
+					return false;
 				}
 			
 				if(chronopics > 2) {
@@ -246,7 +246,7 @@ public class MultiChronopicExecute : EventExecute
 						cp3StartedIn = false;
 					} else { //UNKNOW (Chronopic disconnected, port changed, ...)
 						chronopicHasBeenDisconnected();
-						return;
+						return false;
 					}
 
 					if(chronopics > 3) {
@@ -260,7 +260,7 @@ public class MultiChronopicExecute : EventExecute
 							cp4StartedIn = false;
 						} else { //UNKNOW (Chronopic disconnected, port changed, ...)
 							chronopicHasBeenDisconnected();
-							return;
+							return false;
 						}
 					}
 				}
@@ -331,6 +331,7 @@ public class MultiChronopicExecute : EventExecute
 				}
 			}
 		}
+		return true;
 	}
 
 	protected void waitEventPre () { waitEvent(cp, platformState, loggedState, out cp1InStr, out cp1OutStr, 1); }

@@ -91,7 +91,7 @@ public class ReactionTimeExecute : EventExecute
 		simulatedCurrentTimeIntervalsAreContact = false;
 	}
 	
-	public override void Manage()
+	public override bool Manage()
 	{
 		//boolean to know if chronopic has been disconnected	
 		chronopicDisconnected = false;
@@ -155,7 +155,9 @@ public class ReactionTimeExecute : EventExecute
 		}
 		else { //UNKNOW (Chronopic disconnected, port changed, ...) platformStart == some error
 			chronopicHasBeenDisconnected();
+			return false;
 		}
+		return true;
 	}
 
 	public override void Manage2() 

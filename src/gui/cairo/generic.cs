@@ -156,12 +156,15 @@ public abstract class CairoGeneric
 	protected enum gridTypes { BOTH, HORIZONTALLINES, VERTICALLINES }
 	protected void paintGridNiceAutoValues (Cairo.Context g, double minX, double maxX, double minY, double maxY, int seps, gridTypes gridType, int fontH)
 	{
-		var gridXTuple = getGridStepAndBoundaries ((decimal) minX, (decimal) maxX, seps);
-		var gridYTuple = getGridStepAndBoundaries ((decimal) minY, (decimal) maxY, seps);
+		bool errorX;
+		bool errorY;
+
+		var gridXTuple = getGridStepAndBoundaries ((decimal) minX, (decimal) maxX, seps, out errorX);
+		var gridYTuple = getGridStepAndBoundaries ((decimal) minY, (decimal) maxY, seps, out errorY);
 
 		g.Save();
 		g.SetDash(new double[]{1, 2}, 0);
-		if(gridType != gridTypes.HORIZONTALLINES)
+		if (! errorX && (gridType == gridTypes.BOTH || gridType == gridTypes.VERTICALLINES))
 			for(double i = gridXTuple.Item1; i <= gridXTuple.Item2 ; i += gridXTuple.Item3)
 			{
 				int xtemp = Convert.ToInt32(calculatePaintX(i));
@@ -171,7 +174,7 @@ public abstract class CairoGeneric
 				paintVerticalGridLine(g, xtemp, Util.TrimDecimals(i, 2), fontH);
 			}
 
-		if(gridType != gridTypes.VERTICALLINES)
+		if (! errorY && (gridType == gridTypes.BOTH || gridType == gridTypes.HORIZONTALLINES || gridType == gridTypes.HORIZONTALLINESATRIGHT))
 			for(double i = gridYTuple.Item1; i <= gridYTuple.Item2 ; i += gridYTuple.Item3)
 			{
 				int ytemp = Convert.ToInt32(calculatePaintY(i));
@@ -180,6 +183,7 @@ public abstract class CairoGeneric
 
 				paintHorizontalGridLine(g, ytemp, Util.TrimDecimals(i, 2), fontH);
 			}
+
 		g.Stroke ();
 		g.Restore();
 	}
@@ -391,7 +395,7 @@ public abstract class CairoGeneric
 	 * thanks to: Andrew
 	 */
 	//private static Tuple<decimal, decimal, decimal> getGridStepAndBoundaries (decimal min, decimal max, int stepCount)
-	private static Tuple<double, double, double> getGridStepAndBoundaries (decimal min, decimal max, int stepCount)
+	private static Tuple<double, double, double> getGridStepAndBoundaries (decimal min, decimal max, int stepCount, out bool error)
 	{
 		// Minimal increment to avoid round extreme values to be on the edge of the chart
 		decimal epsilon = (max - min) / 1e6m;
@@ -409,6 +413,13 @@ public abstract class CairoGeneric
 		// Or use these if you prefer:  { 1, 2, 5, 10 };
 
 		// Normalize rough step to find the normalized one that fits best
+		double stepPowerDouble = (double)Math.Pow(10, -Math.Floor(Math.Log10((double)Math.Abs(roughStep))));
+		if (MathUtil.DecimalTooShortOrLarge (stepPowerDouble))
+		{
+			error = true;
+			return new Tuple<double, double, double>(0, 0, 0);
+		}
+
 		decimal stepPower = (decimal)Math.Pow(10, -Math.Floor(Math.Log10((double)Math.Abs(roughStep))));
 		var normalizedStep = roughStep * stepPower;
 
@@ -424,6 +435,7 @@ public abstract class CairoGeneric
 		decimal scaleMax = Math.Ceiling(max / step) * step;
 		decimal scaleMin = Math.Floor(min / step) * step;
 
+		error = false;
 		//return new Tuple<decimal, decimal, decimal>(scaleMin, scaleMax, step);
 		return new Tuple<double, double, double>(Convert.ToDouble(scaleMin), Convert.ToDouble(scaleMax), Convert.ToDouble(step));
 	}

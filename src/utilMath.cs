@@ -658,6 +658,10 @@ public static class MathUtil
 		return UtilAll.DivideSafe(d, max);
 	}
 
+	public static bool DecimalTooShortOrLarge (double d)
+	{
+		return (d < (double)decimal.MinValue || d > (double)decimal.MaxValue);
+	}
 }
 
 public class InterpolateSignal

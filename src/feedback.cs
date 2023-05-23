@@ -108,17 +108,7 @@ public class FeedbackRunsInterval : Feedback
 		setBarColors ();
 	}
 
-	public Cairo.Color AssignColorMain (double speed, double time)
-	{
-		if (green (speed, time))
-			return (mainGreen);
-		else if (red (speed, time))
-			return (mainRed);
-		else
-			return (CairoGeneric.colorFromRGBA (Config.ColorBackground));
-	}
-
-	private bool green (double speed, double time)
+	public bool Green (double speed, double time)
 	{
 		if (preferences.runsIFeedbackSpeedGreaterActive && speed >= preferences.runsIFeedbackSpeedGreater)
 			return (true);
@@ -128,7 +118,7 @@ public class FeedbackRunsInterval : Feedback
 		return false;
 	}
 
-	private bool red (double speed, double time)
+	public bool Red (double speed, double time)
 	{
 		if (preferences.runsIFeedbackSpeedLowerActive && speed <= preferences.runsIFeedbackSpeedLower)
 			return (true);
@@ -136,6 +126,16 @@ public class FeedbackRunsInterval : Feedback
 			return (true);
 
 		return false;
+	}
+
+	public Cairo.Color AssignColorMain (double speed, double time)
+	{
+		if (Green (speed, time))
+			return (mainGreen);
+		else if (Red (speed, time))
+			return (mainRed);
+		else
+			return (CairoGeneric.colorFromRGBA (Config.ColorBackground));
 	}
 }
 

@@ -1613,7 +1613,7 @@ public class CairoPaintBarsPreJumpSimple : CairoPaintBarsPre
 			cb.PassData2Series (pointB_l, barsSecondary_ll, false,
 					new List<Cairo.Color>(), new List<Cairo.Color>(), names_l,
 					"", false,
-					-1, fontHeightForBottomNames, bottomMargin, title);
+					-1, fontHeightForBottomNames, bottomMargin, title, -1);
 		} else if (showBarA) //takeOff, takeOffWeight
 			cb.PassData1Serie (pointA_l,
 					new List<Cairo.Color>(), names_l,
@@ -1759,7 +1759,7 @@ public class CairoPaintBarsPreJumpReactive : CairoPaintBarsPre
 		cb.PassData2Series (pointB_l, barsSecondary_ll, false,
 				new List<Cairo.Color>(), new List<Cairo.Color>(), names_l,
 				"", false,
-				-1, fontHeightForBottomNames, bottomMargin, title);
+				-1, fontHeightForBottomNames, bottomMargin, title, -1);
 		cb.GraphDo();
 	}
 }
@@ -1997,6 +1997,7 @@ public class CairoPaintBarsPreJumpReactiveRealtimeCapture : CairoPaintBarsPre
 	private List<Cairo.Color> colorMain_l;
 	private List<Cairo.Color> colorSecondary_l;
 	private FeedbackJumpsRj feedbackJumpsRj;
+	private int bestJump;
 
 	//just blank the screen
 	public CairoPaintBarsPreJumpReactiveRealtimeCapture (DrawingArea darea, string fontStr)
@@ -2037,6 +2038,16 @@ public class CairoPaintBarsPreJumpReactiveRealtimeCapture : CairoPaintBarsPre
 		foreach(string tc in tcFull)
 			if(Util.IsNumber(tc, true))
 				tc_l.Add(Convert.ToDouble(tc));
+
+		bestJump = -1;
+		double bestJumpValues = 0;
+		if (feedbackJumpsRj.EmphasizeBestTvTc)
+			for (int i = 0; i < tc_l.Count; i ++)
+				if (tc_l[i] > 0 && (bestJump == -1 || tv_l[i] / tc_l[i] > bestJumpValues))
+				{
+					bestJumpValues = tv_l[i] / tc_l[i];
+					bestJump = i;
+				}
 
 		colorMain_l = new List<Cairo.Color>();
 		colorSecondary_l = new List<Cairo.Color>();
@@ -2124,7 +2135,7 @@ public class CairoPaintBarsPreJumpReactiveRealtimeCapture : CairoPaintBarsPre
 		cb.PassData2Series (pointB_l, barsSecondary_ll, false,
 				colorMain_l, colorSecondary_l, names_l,
 				"", false,
-				-1, 14, 8, title);
+				-1, 14, 8, title, bestJump);
 		cb.GraphDo();
 	}
 }
@@ -2986,7 +2997,7 @@ public class CairoPaintBarplotPreEncoder : CairoPaintBarsPre
 					colorMain_l, colorSecondary_l, names_l,
 					"Ecc",// "Con",
 					false,
-					preferences.encoderCaptureBarplotFontSize, 14, 8, "");
+					preferences.encoderCaptureBarplotFontSize, 14, 8, "", -1);
 		}
 
 		cb.GraphDo();

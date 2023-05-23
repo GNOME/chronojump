@@ -41,6 +41,7 @@ public abstract class CairoBars : CairoGeneric
 
 	protected string titleStr;
 	protected int bestValue;
+	protected int worstValue;
 	//3 encoder title variales
 	protected string lossStr; //loss in grey
 	protected string workStr;
@@ -307,7 +308,7 @@ public abstract class CairoBars : CairoGeneric
 			string labelBarMain,// string labelBarSecondary,
 			bool labelRotateInFirstBar,
 			int fontHeightAboveBar, int fontHeightForBottomNames, int marginForBottomNames,
-			string titleStr, int bestValue)
+			string titleStr, int bestValue, int worstValue)
 	{
 		//defined in CairoBarsNHSeries
 	}
@@ -705,7 +706,7 @@ public abstract class CairoBars : CairoGeneric
 	protected static void drawRoundedRectangle (bool bottomFlat,
 			double x, double y, double width, double height, 
 			double radius, Cairo.Context g, Cairo.Color color,
-			bool emphasize)
+			bool bestValue, bool worstValue)
 	{
 		g.Save ();
 
@@ -740,15 +741,22 @@ public abstract class CairoBars : CairoGeneric
 		g.SetSourceRGB(color.R, color.G, color.B);
 		g.FillPreserve ();
 
-		if (emphasize)
+		if (bestValue)
 		{
 			g.SetSourceRGB (1,.8,0); //yellow
 			g.LineWidth = 4;
-		} else
+		}
+		else if (worstValue)
+		{
+			g.SetSourceRGB (.28,.14,.06); //brownish
+			g.LineWidth = 4;
+		}
+		else
 		{
 			g.SetSourceRGB(0, 0, 0);
 			g.LineWidth = 1;
 		}
+
 		g.Stroke ();
 		g.Restore ();
 	}
@@ -1288,7 +1296,7 @@ public class CairoBars1Series : CairoBars
 			if(colorMain_l != null && colorMain_l.Count == barMain_l.Count)
 				barColor = colorMain_l[i];
 
-			drawRoundedRectangle (true, x, y, barWidth, graphHeight -y -bottomMargin, 4, g, barColor, false);
+			drawRoundedRectangle (true, x, y, barWidth, graphHeight -y -bottomMargin, 4, g, barColor, false, false);
 			resultOnBars_l.Add(new Point3F(x + barWidth/2, y, p.Y));
 			mouseLimits.AddInPos (i, x, x+barWidth);
 
@@ -1679,7 +1687,7 @@ public class CairoBarsNHSeries : CairoBars
 					if(colorSecondary_l != null && colorSecondary_l.Count == barSecondary_ll[j].Count)
 						barColor = colorSecondary_l[i];
 
-					drawRoundedRectangle (true, x + adjustX, y, barWidth, graphHeight -y -bottomMargin, 4, g, barColor, i == bestValue);
+					drawRoundedRectangle (true, x + adjustX, y, barWidth, graphHeight -y -bottomMargin, 4, g, barColor, i == bestValue, i == worstValue);
 					resultOnBarsThisIteration_l.Add(new Point3F(x + adjustX + barWidth/2, y-4, pS.Y));
 					//to print line variable if needed
 					//barsXCenter_l.Add(x + adjustX + barWidth/2);
@@ -1729,7 +1737,7 @@ public class CairoBarsNHSeries : CairoBars
 				if(colorMain_l != null && colorMain_l.Count == barMain_l.Count)
 					barColor = colorMain_l[i];
 
-				drawRoundedRectangle (true, x+adjustX, y, barWidth, graphHeight -y -bottomMargin, 4, g, barColor, i == bestValue);
+				drawRoundedRectangle (true, x+adjustX, y, barWidth, graphHeight -y -bottomMargin, 4, g, barColor, i == bestValue, i == worstValue);
 				resultOnBarsThisIteration_l.Add(new Point3F(x + adjustX + barWidth/2, y, pB.Y));
 				//add for the secondary and for the main bar, no problem both will work
 				mouseLimits.AddInPos (mouseLimitsPos2ndBar, x+adjustX, x+adjustX+barWidth);
@@ -1783,7 +1791,7 @@ public class CairoBarsNHSeries : CairoBars
 			string labelBarMain,// string labelBarSecondary,
 			bool labelRotateInFirstBar,
 			int fontHeightAboveBar, int fontHeightForBottomNames, int marginForBottomNames,
-			string titleStr, int bestValue)
+			string titleStr, int bestValue, int worstValue)
 	{
 		this.barSecondary_ll = barSecondary_ll;
 		this.barMain_l = barMain_l;
@@ -1801,6 +1809,7 @@ public class CairoBarsNHSeries : CairoBars
 			this.titleStr = titleStr;
 
 		this.bestValue = bestValue;
+		this.worstValue = worstValue;
 	}
 
 	public override void GraphDo ()

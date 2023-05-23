@@ -103,6 +103,10 @@ public class FeedbackJumpsRj : Feedback
 	{
 		get { return true; }
 	}
+	public bool EmphasizeWorstTvTc
+	{
+		get { return true; }
+	}
 }
 
 public class FeedbackRunsInterval : Feedback

@@ -496,8 +496,16 @@ LogB.Information("going to call photocellWirelessCapture.CaptureStart ()");
 						 * other double contacts that will come just after
 						 * depending on biggest tc
 						 */
+						/*
+						 * but until 23 may 2023 this timestamp is also finally accounted on first track (in photocells, not in Wichro),
+						 * when start in contact and when start before but contact time has to be discarded
+						 * so better store 0
+						 *
 						runDC.DoneTC(timestamp, false, photocell);
 						runPTL.AddTC(photocell, timestamp);
+						*/
+						runDC.DoneTC(0, false, photocell);
+						runPTL.AddTC(photocell, 0);
 
 						feedbackMessage = "";
 						needShowFeedbackMessage = true;

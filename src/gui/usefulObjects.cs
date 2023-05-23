@@ -637,7 +637,7 @@ public class RepetitionMouseLimits
 	{
 		PointStartEnd p = new PointStartEnd(current ++, start, end);
 		list.Add(p);
-		LogB.Information("Mouse added: " + p.ToString());
+		//LogB.Information("Mouse added: " + p.ToString());
 	}
 
 	//used on CairoBars because bars go from right to left, so we force the pos here
@@ -645,7 +645,7 @@ public class RepetitionMouseLimits
 	{
 		PointStartEnd p = new PointStartEnd(pos, start, end);
 		list.Add(p);
-		LogB.Information("Mouse added: " + p.ToString());
+		//LogB.Information("Mouse added: " + p.ToString());
 	}
 
 	public int FindBarInPixel (double pixel)

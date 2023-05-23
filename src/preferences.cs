@@ -143,8 +143,8 @@ public class Preferences
 	public bool useHeightsOnJumpIndexes;
 
 	//jumpsRjFeedback
-	public bool jumpsRjFeedbackShowBestTvTc;
-	public bool jumpsRjFeedbackShowWorstTvTc;
+	public bool jumpsRjFeedbackShowBestTvTc;	//implemented
+	public bool jumpsRjFeedbackShowWorstTvTc; 	//implemented
 	public bool jumpsRjFeedbackHeightGreaterActive;
 	public bool jumpsRjFeedbackHeightLowerActive;
 	public bool jumpsRjFeedbackTvGreaterActive; 	//implemented

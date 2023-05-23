@@ -101,11 +101,11 @@ public class FeedbackJumpsRj : Feedback
 
 	public bool EmphasizeBestTvTc
 	{
-		get { return true; }
+		get { return preferences.jumpsRjFeedbackShowBestTvTc; }
 	}
 	public bool EmphasizeWorstTvTc
 	{
-		get { return true; }
+		get { return preferences.jumpsRjFeedbackShowWorstTvTc; }
 	}
 }
 

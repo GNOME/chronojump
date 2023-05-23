@@ -37,8 +37,8 @@ public class FeedbackWindow
 	
 	/* jumps */	
 	Gtk.Box hbox_jump_conditions;
-	//Gtk.CheckButton checkbutton_jump_tf_tc_best;
-	//Gtk.CheckButton checkbutton_jump_tf_tc_worst;
+	Gtk.CheckButton checkbutton_jump_tf_tc_best;
+	Gtk.CheckButton checkbutton_jump_tf_tc_worst;
 
 	Gtk.CheckButton checkbutton_height_greater;
 	Gtk.CheckButton checkbutton_height_lower;
@@ -285,6 +285,8 @@ public class FeedbackWindow
 		}
 		FeedbackWindowBox.update_checkbuttons_encoder_automatic = true;
 		FeedbackWindowBox.showWidgets (bellMode,
+				preferences.jumpsRjFeedbackShowBestTvTc,
+				preferences.jumpsRjFeedbackShowWorstTvTc,
 				preferences.jumpsRjFeedbackTvGreaterActive,
 				preferences.jumpsRjFeedbackTvLowerActive,
 				preferences.jumpsRjFeedbackTcGreaterActive,
@@ -344,6 +346,8 @@ public class FeedbackWindow
 	}
 
 	void showWidgets (Constants.BellModes bellMode,
+			bool jumpsRjFeedbackShowBestTvTc,
+			bool jumpsRjFeedbackShowWorstTvTc,
 			bool jumpsRjFeedbackTvGreaterActive,
 			bool jumpsRjFeedbackTvLowerActive,
 			bool jumpsRjFeedbackTcGreaterActive,
@@ -405,6 +409,8 @@ public class FeedbackWindow
 				hbox_jump_best_worst.Show();
 				hbox_jump_conditions.Show();
 
+				checkbutton_jump_tf_tc_best.Active = jumpsRjFeedbackShowBestTvTc;
+				checkbutton_jump_tf_tc_worst.Active = jumpsRjFeedbackShowWorstTvTc;
 
 				//1st the spinbuttons and then the checkbuttons because spinbutton changes make checkbuttons active
 				spinbutton_tf_greater.Value = jumpsRjFeedbackTvGreater;
@@ -691,6 +697,7 @@ public class FeedbackWindow
 		{
 			if (
 					//checkbutton_height_greater.Active || checkbutton_height_lower.Active ||
+					checkbutton_jump_tf_tc_best.Active || checkbutton_jump_tf_tc_worst.Active || 
 					checkbutton_tf_greater.Active || checkbutton_tf_lower.Active ||
 					checkbutton_tc_lower.Active || checkbutton_tc_greater.Active //||
 					//checkbutton_tf_tc_greater.Active || checkbutton_tf_tc_lower.Active
@@ -1177,14 +1184,14 @@ public class FeedbackWindow
 
 	/* JUMPS */
 
-	/*
-	public bool TfTcBest {
+	public bool JumpsRjFeedbackShowBestTvTc {
 		get { return checkbutton_jump_tf_tc_best.Active; }
 	}
-	public bool TfTcWorst {
+	public bool JumpsRjFeedbackShowWorstTvTc {
 		get { return checkbutton_jump_tf_tc_worst.Active; }
 	}
 
+	/*
 	public bool HeightGreater {
 		get { return checkbutton_height_greater.Active; }
 	}
@@ -1504,8 +1511,8 @@ public class FeedbackWindow
 
 		/* jumps */	
 		hbox_jump_conditions = (Gtk.Box) builder.GetObject ("hbox_jump_conditions");
-		//checkbutton_jump_tf_tc_best = (Gtk.CheckButton) builder.GetObject ("checkbutton_jump_tf_tc_best");
-		//checkbutton_jump_tf_tc_worst = (Gtk.CheckButton) builder.GetObject ("checkbutton_jump_tf_tc_worst");
+		checkbutton_jump_tf_tc_best = (Gtk.CheckButton) builder.GetObject ("checkbutton_jump_tf_tc_best");
+		checkbutton_jump_tf_tc_worst = (Gtk.CheckButton) builder.GetObject ("checkbutton_jump_tf_tc_worst");
 
 		checkbutton_height_greater = (Gtk.CheckButton) builder.GetObject ("checkbutton_height_greater");
 		checkbutton_height_lower = (Gtk.CheckButton) builder.GetObject ("checkbutton_height_lower");

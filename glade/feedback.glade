@@ -300,6 +300,7 @@
                 <property name="spacing">20</property>
                 <child>
                   <object class="GtkFrame" id="frame_best_and_worst">
+                    <property name="visible">True</property>
                     <property name="can-focus">False</property>
                     <property name="label-xalign">0</property>
                     <property name="shadow-type">out</property>
@@ -325,7 +326,6 @@
                                     <property name="visible">True</property>
                                     <property name="can-focus">True</property>
                                     <property name="receives-default">False</property>
-                                    <property name="active">True</property>
                                     <property name="draw-indicator">True</property>
                                     <child>
                                       <object class="GtkAlignment" id="alignment76">
@@ -378,7 +378,6 @@
                                     <property name="visible">True</property>
                                     <property name="can-focus">True</property>
                                     <property name="receives-default">False</property>
-                                    <property name="active">True</property>
                                     <property name="draw-indicator">True</property>
                                     <child>
                                       <object class="GtkAlignment" id="alignment77">
@@ -443,7 +442,6 @@
                                     <property name="visible">True</property>
                                     <property name="can-focus">True</property>
                                     <property name="receives-default">False</property>
-                                    <property name="active">True</property>
                                     <property name="draw-indicator">True</property>
                                     <child>
                                       <object class="GtkAlignment" id="alignment101">
@@ -496,7 +494,6 @@
                                     <property name="visible">True</property>
                                     <property name="can-focus">True</property>
                                     <property name="receives-default">False</property>
-                                    <property name="active">True</property>
                                     <property name="draw-indicator">True</property>
                                     <child>
                                       <object class="GtkAlignment" id="alignment102">

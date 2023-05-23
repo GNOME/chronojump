@@ -8316,6 +8316,18 @@ LogB.Debug("mc finished 5");
 			if(m == Constants.Modes.JUMPSREACTIVE)
 			{
 				// .*Active (boolean) prefs
+				preferences.jumpsRjFeedbackShowBestTvTc = Preferences.PreferencesChange(
+						true,
+						SqlitePreferences.JumpsRjFeedbackShowBestTvTc,
+						preferences.jumpsRjFeedbackShowBestTvTc,
+						feedbackWin.JumpsRjFeedbackShowBestTvTc);
+
+				preferences.jumpsRjFeedbackShowWorstTvTc = Preferences.PreferencesChange(
+						true,
+						SqlitePreferences.JumpsRjFeedbackShowWorstTvTc,
+						preferences.jumpsRjFeedbackShowWorstTvTc,
+						feedbackWin.JumpsRjFeedbackShowWorstTvTc);
+
 				preferences.jumpsRjFeedbackTvGreaterActive = Preferences.PreferencesChange(
 						true,
 						SqlitePreferences.JumpsRjFeedbackTvGreaterActive,

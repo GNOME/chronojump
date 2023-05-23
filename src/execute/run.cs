@@ -330,10 +330,10 @@ public class RunExecute : EventExecute
 				checkDoubleContactTime
 				);
 
-LogB.Information("going to call photocellWirelessCapture.CaptureStart ()");
 		//PhotocellWirelessCapture pwc = null;
 		if(wireless)
 		{
+			LogB.Information("going to call photocellWirelessCapture.CaptureStart ()");
 			feedbackMessage = Catalog.GetString("Please, wait!");
 			needShowFeedbackMessage = true;
 			runPhase = runPhases.START_WIRELESS_UNKNOWN;
@@ -953,7 +953,6 @@ LogB.Information("going to call photocellWirelessCapture.CaptureStart ()");
 
 public class RunIntervalExecute : RunExecute
 {
-	double distanceTotal;
 	double timeTotal;
 	double distanceInterval;
 
@@ -1180,7 +1179,16 @@ public class RunIntervalExecute : RunExecute
 			}
 		}
 
-		distanceTotal = Util.GetRunITotalDistance(distanceInterval, distancesString, tracks);
+		double distancePre = Util.GetRunITotalDistance (distanceInterval, distancesString, tracks -1);
+		double distancePost = Util.GetRunITotalDistance (distanceInterval, distancesString, tracks);
+		double distance = distancePost - distancePre;
+		//LogB.Information (string.Format ("distancePre: {0}, distancePost: {1}, distance : {2}, speed: {3}, time: {4}",
+		//	distancePre, distancePost, distance, distance/trackTime,trackTime));
+
+		if (feedbackRunsI.Green (UtilAll.DivideSafe (distance, trackTime), trackTime))
+			Util.PlaySound (Constants.SoundTypes.GOOD, volumeOn, gstreamer);
+		else if (feedbackRunsI.Red (UtilAll.DivideSafe (distance, trackTime), trackTime))
+			Util.PlaySound (Constants.SoundTypes.BAD, volumeOn, gstreamer);
 
 		//update graph
 		PrepareEventGraphRunIntervalRealtimeCaptureObject = new PrepareEventGraphRunIntervalRealtimeCapture (
@@ -1314,7 +1322,7 @@ public class RunIntervalExecute : RunExecute
 				
 	protected void writeRunInterval(bool tempTable)
 	{
-		int tracksHere = 0; //different than globakl tracks variable
+		int tracksHere = 0; //different than global tracks variable
 		string limitString = "";
 
 		//if user clicked in finish earlier
@@ -1367,7 +1375,7 @@ public class RunIntervalExecute : RunExecute
 			}
 		}
 
-		distanceTotal = Util.GetRunITotalDistance(distanceInterval, distancesString, tracksHere);
+		double distanceTotal = Util.GetRunITotalDistance(distanceInterval, distancesString, tracksHere);
 		timeTotal = Util.GetTotalTime(intervalTimesString); 
 		
 

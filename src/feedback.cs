@@ -98,6 +98,11 @@ public class FeedbackJumpsRj : Feedback
 			return (CairoGeneric.colorFromRGBA (UtilGtk.GetColorShifted
 						(Config.ColorBackground, ! UtilGtk.ColorIsDark (Config.ColorBackground))));
 	}
+
+	public bool EmphasizeBestTvTc
+	{
+		get { return true; }
+	}
 }
 
 public class FeedbackRunsInterval : Feedback

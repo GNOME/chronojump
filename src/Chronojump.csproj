@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<OutputType>Exe</OutputType>
+		<TargetFramework>net7.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+		<StartupObject>ChronoJump</StartupObject>
+	</PropertyGroup>
+	<ItemGroup>
+		<PackageReference Include="GtkSharp" Version="3.24.24.95" />
+		<PackageReference Include="System.Data.SQLite" Version="1.0.117" />
+		<PackageReference Include="System.IO.Ports" Version="7.0.0" />
+		<PackageReference Include="System.Json" Version="4.7.1" />
+	</ItemGroup>
+	<ItemGroup>
+		<Compile Remove="gui\old\chronojumpServerOld.cs" />
+		<Compile Remove="gui\old\presentationWebkit.cs" />
+		<Compile Remove="gui\old\dialogServerStats.cs" />
+		<Compile Remove="gui\old\eventGraphConfigure.cs" />
+		<Compile Remove="gui\old\queryServer.cs" />
+		<Compile Remove="gui\old\helpPorts.cs" />
+		<Compile Remove="gui\old\chronopicWizard.cs" />
+		<Compile Remove="old\server.cs" />
+		<Compile Remove="platform.cs" />
+	</ItemGroup>
+	<ItemGroup>
+		<EmbeddedResource Include="..\glade\*.glade">
+			<Link>glade\%(Filename)%(Extension)</Link>
+			<LogicalName>%(Filename)%(Extension)</LogicalName>
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</EmbeddedResource>
+		<EmbeddedResource Include="..\images\*.png">
+			<Link>images\%(Filename)%(Extension)</Link>
+			<LogicalName>%(Filename)%(Extension)</LogicalName>
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</EmbeddedResource>
+		<EmbeddedResource Include="..\images\*.jpg">
+			<Link>images\%(Filename)%(Extension)</Link>
+			<LogicalName>%(Filename)%(Extension)</LogicalName>
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</EmbeddedResource>
+	</ItemGroup>
+</Project>

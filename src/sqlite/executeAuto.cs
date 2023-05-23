@@ -23,7 +23,7 @@ using System.Data;
 using System.IO;
 using System.Collections; //ArrayList
 using System.Collections.Generic; //List<T>
-using Mono.Data.Sqlite;
+using System.Data.SQLite;
 
 class SqliteExecuteAuto : Sqlite
 {
@@ -134,7 +134,7 @@ class SqliteExecuteAuto : Sqlite
 		dbcmd.CommandText = "SELECT * from " + Constants.ExecuteAutoTable + whereStr; 
 		LogB.SQL(dbcmd.CommandText.ToString());
 
-		SqliteDataReader reader;
+		SQLiteDataReader reader;
 		reader = dbcmd.ExecuteReader();
 		
 		List<ExecuteAutoSQL> sequences = new List<ExecuteAutoSQL>();

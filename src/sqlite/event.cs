@@ -19,7 +19,7 @@
  */
 
 using System;
-using Mono.Data.Sqlite;
+using System.Data.SQLite;
 
 
 /* this class has some initializations used for all events */
@@ -57,7 +57,7 @@ class SqliteEvent : Sqlite
 		return GraphLinkInsert(tableName, eventName, graphFileName, dbconOpened, dbcmd);
 	}
 	//Called from initialize jump, jumpRj
-	public static int GraphLinkInsert(string tableName, string eventName, string graphFileName, bool dbconOpened, SqliteCommand mycmd)
+	public static int GraphLinkInsert(string tableName, string eventName, string graphFileName, bool dbconOpened, SQLiteCommand mycmd)
 	{
 		if(! dbconOpened) {
 			Sqlite.Open();
@@ -89,7 +89,7 @@ class SqliteEvent : Sqlite
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
-		SqliteDataReader reader;
+		SQLiteDataReader reader;
 		reader = dbcmd.ExecuteReader();
 
 		string returnString = "";	

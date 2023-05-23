@@ -22,7 +22,7 @@ using System;
 using System.Data;
 using System.IO;
 using System.Collections; //ArrayList
-using Mono.Data.Sqlite;
+using System.Data.SQLite;
 
 
 class SqlitePulseType : Sqlite
@@ -93,7 +93,7 @@ class SqlitePulseType : Sqlite
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
-		SqliteDataReader reader;
+		SQLiteDataReader reader;
 		reader = dbcmd.ExecuteReader();
 
 		ArrayList myArray = new ArrayList(2);
@@ -148,7 +148,7 @@ class SqlitePulseType : Sqlite
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
-		SqliteDataReader reader;
+		SQLiteDataReader reader;
 		reader = dbcmd.ExecuteReader();
 
 		PulseType myPulseType = new PulseType();

@@ -23,7 +23,7 @@ using System;
 using System.Data;
 using System.IO;
 using System.Collections; //ArrayList
-using Mono.Data.Sqlite;
+using System.Data.SQLite;
 using Mono.Unix;
 
 
@@ -47,9 +47,9 @@ class SqliteSport : Sqlite
 		conversionSubRateTotal = sportsChronojump.Length;
 		conversionSubRate = 0;
 
-		using(SqliteTransaction tr = dbcon.BeginTransaction())
+		using(SQLiteTransaction tr = dbcon.BeginTransaction())
 		{
-			using (SqliteCommand dbcmdTr = dbcon.CreateCommand())
+			using (SQLiteCommand dbcmdTr = dbcon.CreateCommand())
 			{
 				dbcmdTr.Transaction = tr;
 	
@@ -74,7 +74,7 @@ class SqliteSport : Sqlite
 
 	}
 	//Called from initialize
-	public static int Insert(bool dbconOpened, SqliteCommand mycmd, string uniqueID, string name, bool userDefined, bool hasSpeciallities, string graphLink)
+	public static int Insert(bool dbconOpened, SQLiteCommand mycmd, string uniqueID, string name, bool userDefined, bool hasSpeciallities, string graphLink)
 	{
 		if(! dbconOpened)
 			Sqlite.Open();
@@ -113,7 +113,7 @@ class SqliteSport : Sqlite
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
-		SqliteDataReader reader;
+		SQLiteDataReader reader;
 		reader = dbcmd.ExecuteReader();
 
 		Sport mySport = null;
@@ -157,7 +157,7 @@ class SqliteSport : Sqlite
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
-		SqliteDataReader reader;
+		SQLiteDataReader reader;
 		reader = dbcmd.ExecuteReader();
 		reader.Read();
 		int myID = Convert.ToInt32(reader[0]);
@@ -171,7 +171,7 @@ class SqliteSport : Sqlite
 	public static string [] SelectAll() 
 	{
 		Sqlite.Open();
-		SqliteDataReader reader;
+		SQLiteDataReader reader;
 		ArrayList myArray = new ArrayList(2);
 		int count = 0;
 

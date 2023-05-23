@@ -22,14 +22,13 @@ using System;
 using System.Data;
 using System.IO;
 using System.Collections; //ArrayList
-using Mono.Data.Sqlite;
 using Mono.Unix;
 using System.Collections.Generic;
-
+using System.Data.SQLite;
 
 public class SqliteSessionSwitcher
 {
-	/** SqliteSessionSwitcher implements two methods that SqliteSesion class had (SelectAllSessionsTesstCount and Select).
+    /** SqliteSessionSwitcher implements two methods that SqliteSesion class had (SelectAllSessionsTesstCount and Select).
  	* These methods are used by SessionLoadWindow and depending on the parameters passed to the
 	* SqliteSessionSwitcher constructor:
 	* -it might use the static methods of SqliteSession (so it will access the main chronojump.db file)
@@ -42,114 +41,115 @@ public class SqliteSessionSwitcher
 	* on import we want to hide simulated, because we do not want to see that session
 	* on export we want to show it to delete it and all its tests
 	*/
-	private string databasePath;
-	private DatabaseType type;
-	public enum DatabaseType
-	{
-		DEFAULT,
-		IMPORT,
-		EXPORT
-	};
-	
-	public SqliteSessionSwitcher(DatabaseType type, string databasePath)
-	{
-		this.type = type;
-		this.databasePath = databasePath;
-	}
+    private string databasePath;
+    private DatabaseType type;
+    public enum DatabaseType
+    {
+        DEFAULT,
+        IMPORT,
+        EXPORT
+    };
 
-	public List<SessionTestsCount> SelectAllSessionsTestsCount (string filterName)
-	{
-		if (type == DatabaseType.DEFAULT)
-		{
-			return SqliteSession.SelectAllSessionsTestsCount (filterName);
-		}
-		else
-		{
-			SqliteGeneral sqliteGeneral = new SqliteGeneral(databasePath);
-			if (! sqliteGeneral.IsOpened)
-				return new List<SessionTestsCount> ();
+    public SqliteSessionSwitcher(DatabaseType type, string databasePath)
+    {
+        this.type = type;
+        this.databasePath = databasePath;
+    }
 
-			SqliteConnection dbcon = sqliteGeneral.connection;
+    public List<SessionTestsCount> SelectAllSessionsTestsCount(string filterName)
+    {
+        if (type == DatabaseType.DEFAULT)
+        {
+            return SqliteSession.SelectAllSessionsTestsCount(filterName);
+        }
+        else
+        {
+            SqliteGeneral sqliteGeneral = new SqliteGeneral(databasePath);
+            if (!sqliteGeneral.IsOpened)
+                return new List<SessionTestsCount>();
 
-			List<SessionTestsCount> allSessions_l = SqliteSession.SelectAllSessionsTestsCount (filterName, dbcon);
-			/*
+            SQLiteConnection dbcon = sqliteGeneral.connection;
+
+            List<SessionTestsCount> allSessions_l = SqliteSession.SelectAllSessionsTestsCount(filterName, dbcon);
+            /*
 			   does not help to be able to export/compress the used chronojump.db
 			sqliteGeneral.CloseConnection ();
 			sqliteGeneral = null;
 			*/
 
-			// on IMPORT, filtered sessions will contain all sessions but not the "SIMULATED"
-			List<SessionTestsCount> stc_l = new List<SessionTestsCount> ();
-			foreach(SessionTestsCount stc in allSessions_l)
-			{
-				if (type == DatabaseType.IMPORT && stc.sessionParams.Name == "SIMULATED")
-					continue;
+            // on IMPORT, filtered sessions will contain all sessions but not the "SIMULATED"
+            List<SessionTestsCount> stc_l = new List<SessionTestsCount>();
+            foreach (SessionTestsCount stc in allSessions_l)
+            {
+                if (type == DatabaseType.IMPORT && stc.sessionParams.Name == "SIMULATED")
+                    continue;
 
-				stc_l.Add (stc);
-			}
+                stc_l.Add(stc);
+            }
 
-			return stc_l;
-		}
-	}
+            return stc_l;
+        }
+    }
 
-	public Session Select(string myUniqueID)
-	{
-		if (type == DatabaseType.DEFAULT)
-		{
-			return SqliteSession.Select (myUniqueID);
-		}
-		else
-		{
-			// This code could be refactored from existing code in SqliteSession::Select()
+    public Session Select(string myUniqueID)
+    {
+        if (type == DatabaseType.DEFAULT)
+        {
+            return SqliteSession.Select(myUniqueID);
+        }
+        else
+        {
+            // This code could be refactored from existing code in SqliteSession::Select()
 
-			SqliteGeneral sqliteGeneral = new SqliteGeneral(databasePath);
-			SqliteCommand dbcommand = sqliteGeneral.command();
+            SqliteGeneral sqliteGeneral = new SqliteGeneral(databasePath);
+            SQLiteCommand dbcommand = sqliteGeneral.command();
 
-			dbcommand.CommandText = "SELECT * FROM Session WHERE uniqueID == @myUniqueID";
-			dbcommand.Parameters.Add (new SqliteParameter ("@myUniqueID", myUniqueID));
+            dbcommand.CommandText = "SELECT * FROM Session WHERE uniqueID == @myUniqueID";
+            dbcommand.Parameters.Add(new SQLiteParameter("@myUniqueID", myUniqueID));
 
-			SqliteDataReader reader = dbcommand.ExecuteReader ();
+            SQLiteDataReader reader = dbcommand.ExecuteReader();
 
-			// Copied from a non-callable (yet) static method: SqliteSession::Select()
-			string [] values = new string[9];
+            // Copied from a non-callable (yet) static method: SqliteSession::Select()
+            string[] values = new string[9];
 
-			while(reader.Read()) {
-				values[0] = reader[0].ToString(); 
-				values[1] = reader[1].ToString(); 
-				values[2] = reader[2].ToString();
-				values[3] = reader[3].ToString();
-				values[4] = reader[4].ToString();
-				values[5] = reader[5].ToString();
-				values[6] = reader[6].ToString();
-				values[7] = reader[7].ToString();
-				values[8] = reader[8].ToString();
-			}
-			reader.Close();
+            while (reader.Read())
+            {
+                values[0] = reader[0].ToString();
+                values[1] = reader[1].ToString();
+                values[2] = reader[2].ToString();
+                values[3] = reader[3].ToString();
+                values[4] = reader[4].ToString();
+                values[5] = reader[5].ToString();
+                values[6] = reader[6].ToString();
+                values[7] = reader[7].ToString();
+                values[8] = reader[8].ToString();
+            }
+            reader.Close();
 
-			Session mySession = new Session(values[0], 
-			                                values[1], values[2], UtilDate.FromSql(values[3]), 
-			                                Convert.ToInt32(values[4]), Convert.ToInt32(values[5]), Convert.ToInt32(values[6]), 
-			                                values[7], Convert.ToInt32(values[8]) );
+            Session mySession = new Session(values[0],
+                                            values[1], values[2], UtilDate.FromSql(values[3]),
+                                            Convert.ToInt32(values[4]), Convert.ToInt32(values[5]), Convert.ToInt32(values[6]),
+                                            values[7], Convert.ToInt32(values[8]));
 
-			return mySession;
-		}
-	}
+            return mySession;
+        }
+    }
 
-	//for export session
-	//TODO; at the moment use the above string[] SelectAllSessionsTestsCount (string filterName)
-	/*
+    //for export session
+    //TODO; at the moment use the above string[] SelectAllSessionsTestsCount (string filterName)
+    /*
 	public List<Session> SelectAll()
 	{
 	}
 	*/
 
-	public void DeleteAllStuff(string sessionID)
-	{
-		SqliteGeneral sqliteGeneral = new SqliteGeneral(databasePath);
-		SqliteConnection dbcon = sqliteGeneral.connection;
+    public void DeleteAllStuff(string sessionID)
+    {
+        SqliteGeneral sqliteGeneral = new SqliteGeneral(databasePath);
+        SQLiteConnection dbcon = sqliteGeneral.connection;
 
-		SqliteSession.DeleteAllStuff (sessionID, dbcon);
-	}
+        SqliteSession.DeleteAllStuff(sessionID, dbcon);
+    }
 }
 
 class SqliteSession : Sqlite
@@ -496,7 +496,7 @@ class SqliteSession : Sqlite
 		 * and we make a GROUP BY selection, this sessions doesn't appear as results
 		 * in the near future, learn better sqlite for solving this in a nicer way
 		 * */
-		/* another solution is not show nothing about jumpers and jumps, but show a button of "details"
+        /* another solution is not show nothing about jumpers and jumps, but show a button of "details"
 		 * this will open a new window showing this values.
 		 * this solution it's more "lighter" for people who have  abig DB
 		 * */
@@ -835,434 +835,438 @@ class SqliteSession : Sqlite
 		return 0;
 	}
 
+    //called from gui/event.cs for doing the graph
+    //we need to know the avg of events of a type (SJ, CMJ, free (pulse).. of a person, or of all persons on the session
+    //from 2.0 type can be "" so all types
+    public static double SelectMAXEventsOfAType(bool dbconOpened, int sessionID, int personID,
+            string table, string type, string valueToSelect)
+    {
+        return selectEventsOfAType(dbconOpened, sessionID, personID,
+                table, type, valueToSelect, "MAX_AVG_MIN")[0];
+    }
+    public static double SelectAVGEventsOfAType(bool dbconOpened, int sessionID, int personID,
+            string table, string type, string valueToSelect)
+    {
+        return selectEventsOfAType(dbconOpened, sessionID, personID,
+                table, type, valueToSelect, "MAX_AVG_MIN")[1];
+    }
+    public static double SelectMINEventsOfAType(bool dbconOpened, int sessionID, int personID,
+            string table, string type, string valueToSelect)
+    {
+        return selectEventsOfAType(dbconOpened, sessionID, personID,
+                table, type, valueToSelect, "MAX_AVG_MIN")[2];
+    }
 
-	//called from gui/event.cs for doing the graph
-	//we need to know the avg of events of a type (SJ, CMJ, free (pulse).. of a person, or of all persons on the session
-	//from 2.0 type can be "" so all types
-	public static double SelectMAXEventsOfAType(bool dbconOpened, int sessionID, int personID,
-			string table, string type, string valueToSelect)
-	{
-		return selectEventsOfAType(dbconOpened, sessionID, personID,
-				table, type, valueToSelect, "MAX_AVG_MIN")[0];
-	}
-	public static double SelectAVGEventsOfAType(bool dbconOpened, int sessionID, int personID,
-			string table, string type, string valueToSelect)
-	{
-		return selectEventsOfAType(dbconOpened, sessionID, personID,
-				table, type, valueToSelect, "MAX_AVG_MIN")[1];
-	}
-	public static double SelectMINEventsOfAType(bool dbconOpened, int sessionID, int personID,
-			string table, string type, string valueToSelect)
-	{
-		return selectEventsOfAType(dbconOpened, sessionID, personID,
-				table, type, valueToSelect, "MAX_AVG_MIN")[2];
-	}
+    //to have the three in one call, much better, use this in new code
+    public static List<double> Select_MAX_AVG_MIN_EventsOfAType(bool dbconOpened, int sessionID, int personID,
+            string table, string type, string valueToSelect)
+    {
+        return selectEventsOfAType(dbconOpened, sessionID, personID,
+                table, type, valueToSelect, "MAX_AVG_MIN");
+    }
 
-	//to have the three in one call, much better, use this in new code
-	public static List<double> Select_MAX_AVG_MIN_EventsOfAType(bool dbconOpened, int sessionID, int personID,
-			string table, string type, string valueToSelect)
-	{
-		return selectEventsOfAType(dbconOpened, sessionID, personID,
-				table, type, valueToSelect, "MAX_AVG_MIN");
-	}
+    private static List<double> selectEventsOfAType(bool dbconOpened, int sessionID, int personID,
+            string table, string type, string valueToSelect, string statistic)
+    {
+        if (!dbconOpened)
+            Sqlite.Open();
 
-	private static List<double> selectEventsOfAType(bool dbconOpened, int sessionID, int personID,
-			string table, string type, string valueToSelect, string statistic) 
-	{
-		if(!dbconOpened)
-			Sqlite.Open();
+        string connector = " WHERE "; //WHERE or AND
 
-		string connector = " WHERE "; //WHERE or AND
-		
-		string sessionIDString = "";
-		if(sessionID != -1)
-		{
-			sessionIDString = connector + "sessionID = " + sessionID;
-			connector = " AND ";
-		}
+        string sessionIDString = "";
+        if (sessionID != -1)
+        {
+            sessionIDString = connector + "sessionID = " + sessionID;
+            connector = " AND ";
+        }
 
-		string personIDString = "";
-		if(personID != -1)
-		{
-			personIDString = connector + "personID = " + personID;
-			connector = " AND ";
-		}
+        string personIDString = "";
+        if (personID != -1)
+        {
+            personIDString = connector + "personID = " + personID;
+            connector = " AND ";
+        }
 
-		string typeString = "";
-		if(type != "")
-		{
-			typeString = connector + "type = \"" + type + "\"";
-			connector = " AND ";
-		}
+        string typeString = "";
+        if (type != "")
+        {
+            typeString = connector + "type = \"" + type + "\"";
+            connector = " AND ";
+        }
 
-		string selectString = statistic + "(" + valueToSelect + ")";
-		if(statistic == "MAX_AVG_MIN")
-			selectString = "MAX (" + valueToSelect + "), " +
-				"AVG (" + valueToSelect + "), " +
-				"MIN (" + valueToSelect + ")";
-		
-		dbcmd.CommandText = "SELECT " + selectString +
-			" FROM " + table +				
-			sessionIDString +
-			personIDString + 
-			typeString;
-		
-		LogB.SQL(dbcmd.CommandText.ToString());
-		dbcmd.ExecuteNonQuery();
+        string selectString = statistic + "(" + valueToSelect + ")";
+        if (statistic == "MAX_AVG_MIN")
+            selectString = "MAX (" + valueToSelect + "), " +
+                "AVG (" + valueToSelect + "), " +
+                "MIN (" + valueToSelect + ")";
 
-		SqliteDataReader reader;
-		reader = dbcmd.ExecuteReader();
+        dbcmd.CommandText = "SELECT " + selectString +
+            " FROM " + table +
+            sessionIDString +
+            personIDString +
+            typeString;
 
-		List<double> return_l = new List<double>();
-		while(reader.Read()) {
-			return_l.Add(Convert.ToDouble(Util.ChangeDecimalSeparator(reader[0].ToString())));
-			return_l.Add(Convert.ToDouble(Util.ChangeDecimalSeparator(reader[1].ToString())));
-			return_l.Add(Convert.ToDouble(Util.ChangeDecimalSeparator(reader[2].ToString())));
-		}
-		reader.Close();
-		
-		if(!dbconOpened)
-			Sqlite.Close();
+        LogB.SQL(dbcmd.CommandText.ToString());
+        dbcmd.ExecuteNonQuery();
 
-		if(return_l.Count == 0)
-		{
-			return_l.Add(0);
-			return_l.Add(0);
-			return_l.Add(0);
-		}
-		return return_l;
-	}
+        SQLiteDataReader reader;
+        reader = dbcmd.ExecuteReader();
 
-	// It's used by export and receives a specific database
-	// we want to delete all stuff of unwanted sessions
-	public static void DeleteAllStuff(string sessionID, SqliteConnection dbcon)
-	{
-		Sqlite.Open();
+        List<double> return_l = new List<double>();
+        while (reader.Read())
+        {
+            return_l.Add(Convert.ToDouble(Util.ChangeDecimalSeparator(reader[0].ToString())));
+            return_l.Add(Convert.ToDouble(Util.ChangeDecimalSeparator(reader[1].ToString())));
+            return_l.Add(Convert.ToDouble(Util.ChangeDecimalSeparator(reader[2].ToString())));
+        }
+        reader.Close();
 
-		deleteAllStuffDo (sessionID, dbcon, true);
+        if (!dbconOpened)
+            Sqlite.Close();
 
-		Sqlite.Close();
-	}
-	
-	// This is the usual chronojump's call (default database)
-	public static void DeleteAllStuff(string sessionID)
-	{
-		Sqlite.Open();
+        if (return_l.Count == 0)
+        {
+            return_l.Add(0);
+            return_l.Add(0);
+            return_l.Add(0);
+        }
+        return return_l;
+    }
 
-		deleteAllStuffDo (sessionID, dbcon, false);
+    // It's used by export and receives a specific database
+    // we want to delete all stuff of unwanted sessions
+    public static void DeleteAllStuff(string sessionID, SQLiteConnection dbcon)
+    {
+        Sqlite.Open();
 
-		Sqlite.Close();
-	}
+        deleteAllStuffDo(sessionID, dbcon, true);
 
-	private static void deleteAllStuffDo (string sessionID, SqliteConnection dbcon, bool export)
-	{
-		LogB.Information("DeleteAllStuffDo 0");
-		dbcmd = dbcon.CreateCommand();
+        Sqlite.Close();
+    }
 
-		// 1) delete the session
-		dbcmd.CommandText = "Delete FROM " + Constants.SessionTable + " WHERE uniqueID == " + sessionID;
-		dbcmd.ExecuteNonQuery();
-		
-		// 2) delete relations (existance) within persons and sessions in this session
-		dbcmd.CommandText = "Delete FROM " + Constants.PersonSessionTable + " WHERE sessionID == " + sessionID;
-		dbcmd.ExecuteNonQuery();
+    // This is the usual chronojump's call (default database)
+    public static void DeleteAllStuff(string sessionID)
+    {
+        Sqlite.Open();
 
-		LogB.Information("DeleteAllStuffDo 1");
-		//TODO: take care on export to do that but passing dbcon
-		if(! export)
-			Sqlite.deleteOrphanedPersons();
-		LogB.Information("DeleteAllStuffDo 2");
-		
-		// 3) delete tests without files
+        deleteAllStuffDo(sessionID, dbcon, false);
 
-		//delete simple jumps
-		dbcmd.CommandText = "Delete FROM " + Constants.JumpTable + " WHERE sessionID == " + sessionID;
-		dbcmd.ExecuteNonQuery();
-		
-		//delete repetitive jumps
-		dbcmd.CommandText = "Delete FROM " + Constants.JumpRjTable + " WHERE sessionID == " + sessionID;
-		dbcmd.ExecuteNonQuery();
-		
-		//delete simple runs
-		dbcmd.CommandText = "Delete FROM " + Constants.RunTable + " WHERE sessionID == " + sessionID;
-		dbcmd.ExecuteNonQuery();
-		
-		//delete intervallic runs
-		dbcmd.CommandText = "Delete FROM " + Constants.RunIntervalTable + " WHERE sessionID == " + sessionID;
-		dbcmd.ExecuteNonQuery();
-		
-		//delete reaction times
-		dbcmd.CommandText = "Delete FROM " + Constants.ReactionTimeTable + " WHERE sessionID == " + sessionID;
-		dbcmd.ExecuteNonQuery();
-		
-		//delete pulses
-		dbcmd.CommandText = "Delete FROM " + Constants.PulseTable + " WHERE sessionID == " + sessionID;
-		dbcmd.ExecuteNonQuery();
-		
-		//delete multiChronopic
-		dbcmd.CommandText = "Delete FROM " + Constants.MultiChronopicTable + " WHERE sessionID == " + sessionID;
-		dbcmd.ExecuteNonQuery();
-		
-		// 4) delete from encoder start ------>
+        Sqlite.Close();
+    }
 
-		/*
+    private static void deleteAllStuffDo(string sessionID, SQLiteConnection dbcon, bool export)
+    {
+        LogB.Information("DeleteAllStuffDo 0");
+        dbcmd = dbcon.CreateCommand();
+
+        // 1) delete the session
+        dbcmd.CommandText = "Delete FROM " + Constants.SessionTable + " WHERE uniqueID == " + sessionID;
+        dbcmd.ExecuteNonQuery();
+
+        // 2) delete relations (existance) within persons and sessions in this session
+        dbcmd.CommandText = "Delete FROM " + Constants.PersonSessionTable + " WHERE sessionID == " + sessionID;
+        dbcmd.ExecuteNonQuery();
+
+        LogB.Information("DeleteAllStuffDo 1");
+        //TODO: take care on export to do that but passing dbcon
+        if (!export)
+            Sqlite.deleteOrphanedPersons();
+        LogB.Information("DeleteAllStuffDo 2");
+
+        // 3) delete tests without files
+
+        //delete simple jumps
+        dbcmd.CommandText = "Delete FROM " + Constants.JumpTable + " WHERE sessionID == " + sessionID;
+        dbcmd.ExecuteNonQuery();
+
+        //delete repetitive jumps
+        dbcmd.CommandText = "Delete FROM " + Constants.JumpRjTable + " WHERE sessionID == " + sessionID;
+        dbcmd.ExecuteNonQuery();
+
+        //delete simple runs
+        dbcmd.CommandText = "Delete FROM " + Constants.RunTable + " WHERE sessionID == " + sessionID;
+        dbcmd.ExecuteNonQuery();
+
+        //delete intervallic runs
+        dbcmd.CommandText = "Delete FROM " + Constants.RunIntervalTable + " WHERE sessionID == " + sessionID;
+        dbcmd.ExecuteNonQuery();
+
+        //delete reaction times
+        dbcmd.CommandText = "Delete FROM " + Constants.ReactionTimeTable + " WHERE sessionID == " + sessionID;
+        dbcmd.ExecuteNonQuery();
+
+        //delete pulses
+        dbcmd.CommandText = "Delete FROM " + Constants.PulseTable + " WHERE sessionID == " + sessionID;
+        dbcmd.ExecuteNonQuery();
+
+        //delete multiChronopic
+        dbcmd.CommandText = "Delete FROM " + Constants.MultiChronopicTable + " WHERE sessionID == " + sessionID;
+        dbcmd.ExecuteNonQuery();
+
+        // 4) delete from encoder start ------>
+
+        /*
 		 * on export we only want to delete SQL stuff, because files of other sessions will not be copied
 		 * but note we use dbcmd, if we want to call some other SQL method, we need to take care to pass dbcon or dbcmd
 		 */
 
-		SqliteDataReader reader;
-		if(export)
-		{
-			// 1 get all the encoder signals of that session
-			dbcmd.CommandText = "SELECT uniqueID FROM " + Constants.EncoderTable +
-				" WHERE signalOrCurve = \"signal\"" +
-				" AND sessionID = " + sessionID;
+        SQLiteDataReader reader;
+        if (export)
+        {
+            // 1 get all the encoder signals of that session
+            dbcmd.CommandText = "SELECT uniqueID FROM " + Constants.EncoderTable +
+                " WHERE signalOrCurve = \"signal\"" +
+                " AND sessionID = " + sessionID;
 
-			reader = dbcmd.ExecuteReader();
-			List<string> signal_l = new List<string>();
+            reader = dbcmd.ExecuteReader();
+            List<string> signal_l = new List<string>();
 
-			// 2 delete all the EncoderSignalCurves (relation with signal and curves) of that signals, and also triggers
-			while(reader.Read())
-				signal_l.Add(reader[0].ToString());
+            // 2 delete all the EncoderSignalCurves (relation with signal and curves) of that signals, and also triggers
+            while (reader.Read())
+                signal_l.Add(reader[0].ToString());
 
-			reader.Close();
+            reader.Close();
 
-			foreach(string signal in signal_l)
-			{
-				dbcmd.CommandText = "Delete FROM " + Constants.EncoderSignalCurveTable +
-					" WHERE signalID = " + signal;
-				dbcmd.ExecuteNonQuery();
+            foreach (string signal in signal_l)
+            {
+                dbcmd.CommandText = "Delete FROM " + Constants.EncoderSignalCurveTable +
+                    " WHERE signalID = " + signal;
+                dbcmd.ExecuteNonQuery();
 
-				// delete related triggers
-				//SqliteTrigger.DeleteByModeID(true, Convert.ToInt32(signal));
-				//to export we have to do it with the dbcmd:
-				dbcmd.CommandText = "Delete FROM " + Constants.TriggerTable +
-					" WHERE mode = \"" + Trigger.Modes.ENCODER.ToString() +
-					"\" AND modeID = " + Convert.ToInt32(signal);
-				LogB.SQL(dbcmd.CommandText.ToString());
-				dbcmd.ExecuteNonQuery();
-			}
+                // delete related triggers
+                //SqliteTrigger.DeleteByModeID(true, Convert.ToInt32(signal));
+                //to export we have to do it with the dbcmd:
+                dbcmd.CommandText = "Delete FROM " + Constants.TriggerTable +
+                    " WHERE mode = \"" + Trigger.Modes.ENCODER.ToString() +
+                    "\" AND modeID = " + Convert.ToInt32(signal);
+                LogB.SQL(dbcmd.CommandText.ToString());
+                dbcmd.ExecuteNonQuery();
+            }
 
-			// 3 delete all encoder table stuff (signals and curves)
-			dbcmd.CommandText = "Delete FROM " + Constants.EncoderTable + " WHERE sessionID = " + sessionID;
-			dbcmd.ExecuteNonQuery();
-		} else
-		{
-			//signals
-			ArrayList encoderArray = SqliteEncoder.Select(
-					true, -1, -1, Convert.ToInt32(sessionID), Constants.EncoderGI.ALL,
-					-1, "signal", EncoderSQL.Eccons.ALL, "",
-					false, true, false);
+            // 3 delete all encoder table stuff (signals and curves)
+            dbcmd.CommandText = "Delete FROM " + Constants.EncoderTable + " WHERE sessionID = " + sessionID;
+            dbcmd.ExecuteNonQuery();
+        }
+        else
+        {
+            //signals
+            ArrayList encoderArray = SqliteEncoder.Select(
+                    true, -1, -1, Convert.ToInt32(sessionID), Constants.EncoderGI.ALL,
+                    -1, "signal", EncoderSQL.Eccons.ALL, "",
+                    false, true, false);
 
-			foreach(EncoderSQL eSQL in encoderArray) {
-				Util.FileDelete(eSQL.GetFullURL(false));	//signal, don't convertPathToR
-				if(eSQL.videoURL != "")
-					Util.FileDelete(eSQL.videoURL);		//video
-				Sqlite.Delete(true, Constants.EncoderTable, Convert.ToInt32(eSQL.uniqueID));
-			}
+            foreach (EncoderSQL eSQL in encoderArray)
+            {
+                Util.FileDelete(eSQL.GetFullURL(false));    //signal, don't convertPathToR
+                if (eSQL.videoURL != "")
+                    Util.FileDelete(eSQL.videoURL);     //video
+                Sqlite.Delete(true, Constants.EncoderTable, Convert.ToInt32(eSQL.uniqueID));
+            }
 
-			//curves
-			encoderArray = SqliteEncoder.Select(
-					true, -1, -1, Convert.ToInt32(sessionID), Constants.EncoderGI.ALL,
-					-1, "curve",  EncoderSQL.Eccons.ALL, "",
-					false, true, true);
+            //curves
+            encoderArray = SqliteEncoder.Select(
+                    true, -1, -1, Convert.ToInt32(sessionID), Constants.EncoderGI.ALL,
+                    -1, "curve", EncoderSQL.Eccons.ALL, "",
+                    false, true, true);
 
-			foreach(EncoderSQL eSQL in encoderArray) {
-				Util.FileDelete(eSQL.GetFullURL(false));	//don't convertPathToR
-				/* commented: curve has no video
+            foreach (EncoderSQL eSQL in encoderArray)
+            {
+                Util.FileDelete(eSQL.GetFullURL(false));    //don't convertPathToR
+                /* commented: curve has no video
 				   if(eSQL.videoURL != "")
 				   Util.FileDelete(eSQL.videoURL);
 				   */
-				Sqlite.Delete(true, Constants.EncoderTable, Convert.ToInt32(eSQL.uniqueID));
-				SqliteEncoder.DeleteSignalCurveWithCurveID(true, Convert.ToInt32(eSQL.uniqueID));
+                Sqlite.Delete(true, Constants.EncoderTable, Convert.ToInt32(eSQL.uniqueID));
+                SqliteEncoder.DeleteSignalCurveWithCurveID(true, Convert.ToInt32(eSQL.uniqueID));
 
-				//delete related triggers
-				SqliteTrigger.DeleteByModeID(true, Trigger.Modes.ENCODER, Convert.ToInt32(eSQL.uniqueID));
-			}
-		}
-		
-		//<------- delete from encoder end
+                //delete related triggers
+                SqliteTrigger.DeleteByModeID(true, Trigger.Modes.ENCODER, Convert.ToInt32(eSQL.uniqueID));
+            }
+        }
 
-		// 5) delete forceSensor start ----->
+        //<------- delete from encoder end
 
-		// delete triggers
-		//List<ForceSensor> fs_l = SqliteForceSensor.Select (true, -1, -1, Convert.ToInt32(sessionID)); //this will not work on export because we cannot use this dbcmd
-		dbcmd.CommandText = "SELECT uniqueID FROM " + Constants.ForceSensorTable +
-				" WHERE sessionID = " + sessionID;
+        // 5) delete forceSensor start ----->
 
-		reader = dbcmd.ExecuteReader();
-		List<int> uniqueID_l = new List<int>();
-		while(reader.Read())
-			uniqueID_l.Add(Convert.ToInt32(reader[0].ToString()));
+        // delete triggers
+        //List<ForceSensor> fs_l = SqliteForceSensor.Select (true, -1, -1, Convert.ToInt32(sessionID)); //this will not work on export because we cannot use this dbcmd
+        dbcmd.CommandText = "SELECT uniqueID FROM " + Constants.ForceSensorTable +
+                " WHERE sessionID = " + sessionID;
 
-		reader.Close();
+        reader = dbcmd.ExecuteReader();
+        List<int> uniqueID_l = new List<int>();
+        while (reader.Read())
+            uniqueID_l.Add(Convert.ToInt32(reader[0].ToString()));
 
-		foreach(int id in uniqueID_l)
-		{
-			//delete related triggers
-			//SqliteTrigger.DeleteByModeID(true, Convert.ToInt32(fs.UniqueID));
-			//to export we have to do it with the dbcmd:
-			dbcmd.CommandText = "Delete FROM " + Constants.TriggerTable +
-				" WHERE mode = \"" + Trigger.Modes.FORCESENSOR.ToString() +
-				"\" AND modeID = " + id;
-			LogB.SQL(dbcmd.CommandText.ToString());
-			dbcmd.ExecuteNonQuery();
-		}
+        reader.Close();
 
-		// delete forceSensor sets
-		dbcmd.CommandText = "Delete FROM " + Constants.ForceSensorTable + " WHERE sessionID = " + sessionID;
-		dbcmd.ExecuteNonQuery();
+        foreach (int id in uniqueID_l)
+        {
+            //delete related triggers
+            //SqliteTrigger.DeleteByModeID(true, Convert.ToInt32(fs.UniqueID));
+            //to export we have to do it with the dbcmd:
+            dbcmd.CommandText = "Delete FROM " + Constants.TriggerTable +
+                " WHERE mode = \"" + Trigger.Modes.FORCESENSOR.ToString() +
+                "\" AND modeID = " + id;
+            LogB.SQL(dbcmd.CommandText.ToString());
+            dbcmd.ExecuteNonQuery();
+        }
 
-		System.IO.DirectoryInfo folderSession;
-		//on export we only want to delete SQL stuff, because files of other sessions will not be copied
-		if(! export)
-		{
-			folderSession = new System.IO.DirectoryInfo(
-					Util.GetForceSensorSessionDir(Convert.ToInt32(sessionID)));
+        // delete forceSensor sets
+        dbcmd.CommandText = "Delete FROM " + Constants.ForceSensorTable + " WHERE sessionID = " + sessionID;
+        dbcmd.ExecuteNonQuery();
 
-			if(folderSession.Exists)
-				foreach (FileInfo file in folderSession.GetFiles())
-					Util.FileDelete(file.Name);
-		}
+        System.IO.DirectoryInfo folderSession;
+        //on export we only want to delete SQL stuff, because files of other sessions will not be copied
+        if (!export)
+        {
+            folderSession = new System.IO.DirectoryInfo(
+                    Util.GetForceSensorSessionDir(Convert.ToInt32(sessionID)));
 
-		// <----- delete forceSensor end
+            if (folderSession.Exists)
+                foreach (FileInfo file in folderSession.GetFiles())
+                    Util.FileDelete(file.Name);
+        }
 
-		// 6) delete runEncoder start ----->
+        // <----- delete forceSensor end
 
-		// delete triggers
-		//ArrayList re_array = SqliteRunEncoder.Select (true, -1, -1, Convert.ToInt32(sessionID));  //this will not work on export because we cannot use this dbcmd
-		dbcmd.CommandText = "SELECT uniqueID FROM " + Constants.RunEncoderTable +
-				" WHERE sessionID = " + sessionID;
+        // 6) delete runEncoder start ----->
 
-		reader = dbcmd.ExecuteReader();
-		uniqueID_l = new List<int>();
-		while(reader.Read())
-			uniqueID_l.Add(Convert.ToInt32(reader[0].ToString()));
+        // delete triggers
+        //ArrayList re_array = SqliteRunEncoder.Select (true, -1, -1, Convert.ToInt32(sessionID));  //this will not work on export because we cannot use this dbcmd
+        dbcmd.CommandText = "SELECT uniqueID FROM " + Constants.RunEncoderTable +
+                " WHERE sessionID = " + sessionID;
 
-		reader.Close();
+        reader = dbcmd.ExecuteReader();
+        uniqueID_l = new List<int>();
+        while (reader.Read())
+            uniqueID_l.Add(Convert.ToInt32(reader[0].ToString()));
 
-		foreach(int id in uniqueID_l)
-		{
-			//delete related triggers
-			//SqliteTrigger.DeleteByModeID(true, Convert.ToInt32(re.UniqueID));
-			//to export we have to do it with the dbcmd:
-			dbcmd.CommandText = "Delete FROM " + Constants.TriggerTable +
-				" WHERE mode = \"" + Trigger.Modes.RACEANALYZER.ToString() +
-				"\" AND modeID = " + id;
-			LogB.SQL(dbcmd.CommandText.ToString());
-			dbcmd.ExecuteNonQuery();
-		}
+        reader.Close();
 
-		// delete runEncoder sets
-		dbcmd.CommandText = "Delete FROM " + Constants.RunEncoderTable + " WHERE sessionID = " + sessionID;
-		dbcmd.ExecuteNonQuery();
+        foreach (int id in uniqueID_l)
+        {
+            //delete related triggers
+            //SqliteTrigger.DeleteByModeID(true, Convert.ToInt32(re.UniqueID));
+            //to export we have to do it with the dbcmd:
+            dbcmd.CommandText = "Delete FROM " + Constants.TriggerTable +
+                " WHERE mode = \"" + Trigger.Modes.RACEANALYZER.ToString() +
+                "\" AND modeID = " + id;
+            LogB.SQL(dbcmd.CommandText.ToString());
+            dbcmd.ExecuteNonQuery();
+        }
 
-		//on export we only want to delete SQL stuff, because files of other sessions will not be copied
-		if(! export)
-		{
-			folderSession = new System.IO.DirectoryInfo(
-					Util.GetRunEncoderSessionDir(Convert.ToInt32(sessionID)));
+        // delete runEncoder sets
+        dbcmd.CommandText = "Delete FROM " + Constants.RunEncoderTable + " WHERE sessionID = " + sessionID;
+        dbcmd.ExecuteNonQuery();
 
-			if(folderSession.Exists)
-				foreach (FileInfo file in folderSession.GetFiles())
-					Util.FileDelete(file.Name);
-		}
+        //on export we only want to delete SQL stuff, because files of other sessions will not be copied
+        if (!export)
+        {
+            folderSession = new System.IO.DirectoryInfo(
+                    Util.GetRunEncoderSessionDir(Convert.ToInt32(sessionID)));
 
-		// <----- delete runEncoder end
+            if (folderSession.Exists)
+                foreach (FileInfo file in folderSession.GetFiles())
+                    Util.FileDelete(file.Name);
+        }
 
-		// 7) delete videos
-		//on export we only want to delete SQL stuff, because files of other sessions will not be copied
-		if(! export)
-		{
-			folderSession = new System.IO.DirectoryInfo(
-					Util.GetVideoSessionDir (Convert.ToInt32(sessionID)));
+        // <----- delete runEncoder end
 
-			if(folderSession.Exists)
-				foreach (FileInfo file in folderSession.GetFiles())
-					Util.FileDelete(file.Name);
-		}
-	}
+        // 7) delete videos
+        //on export we only want to delete SQL stuff, because files of other sessions will not be copied
+        if (!export)
+        {
+            folderSession = new System.IO.DirectoryInfo(
+                    Util.GetVideoSessionDir(Convert.ToInt32(sessionID)));
+
+            if (folderSession.Exists)
+                foreach (FileInfo file in folderSession.GetFiles())
+                    Util.FileDelete(file.Name);
+        }
+    }
 
 }
 
 class SqliteServerSession : SqliteSession
 {
-	public SqliteServerSession() {
-	}
-	
-	protected override void createTable(string tableName)
-	{
-		string serverSpecificString = 
-			", evaluatorID INT " +
-			", evaluatorCJVersion TEXT " + 
-			", evaluatorOS TEXT " +
-			", uploadedDate TEXT " + //YYYY-MM-DD since db 0.72	
-			", uploadingState INT ";
+    public SqliteServerSession()
+    {
+    }
 
-		dbcmd.CommandText = 
-			"CREATE TABLE " + tableName + " ( " +
-			"uniqueID INTEGER PRIMARY KEY, " +
-			"name TEXT, " +
-			"place TEXT, " +
-			"date TEXT, " +	//YYYY-MM-DD since db 0.72		
-			"personsSportID INT, " + 
-			"personsSpeciallityID INT, " + 
-			"personsPractice INT, " + //also called "level"
-			"comments TEXT, " +
-			"serverUniqueID INT " +
-			serverSpecificString + 
-			" ) ";
-		dbcmd.ExecuteNonQuery();
-	}
-	
-	public static int Insert(bool dbconOpened, string tableName, string name, string place, DateTime date, int personsSportID, int personsSpeciallityID, int personsPractice, string comments, int serverUniqueID, int evaluatorID, string evaluatorCJVersion, string evaluatorOS, DateTime uploadedDate, int uploadingState)
-	{
-		if(! dbconOpened)
-			Sqlite.Open();
+    protected override void createTable(string tableName)
+    {
+        string serverSpecificString =
+            ", evaluatorID INT " +
+            ", evaluatorCJVersion TEXT " +
+            ", evaluatorOS TEXT " +
+            ", uploadedDate TEXT " + //YYYY-MM-DD since db 0.72	
+            ", uploadingState INT ";
 
-		//(uniqueID == "-1")
-		//	uniqueID = "NULL";
-		string uniqueID = "NULL";
+        dbcmd.CommandText =
+            "CREATE TABLE " + tableName + " ( " +
+            "uniqueID INTEGER PRIMARY KEY, " +
+            "name TEXT, " +
+            "place TEXT, " +
+            "date TEXT, " + //YYYY-MM-DD since db 0.72		
+            "personsSportID INT, " +
+            "personsSpeciallityID INT, " +
+            "personsPractice INT, " + //also called "level"
+            "comments TEXT, " +
+            "serverUniqueID INT " +
+            serverSpecificString +
+            " ) ";
+        dbcmd.ExecuteNonQuery();
+    }
 
-		dbcmd.CommandText = "INSERT INTO " + tableName + " (uniqueID, name, place, date, personsSportID, personsSpeciallityID, personsPractice, comments, serverUniqueID, evaluatorID, evaluatorCJVersion, evaluatorOS, uploadedDate, uploadingState)" +
-			" VALUES (" + uniqueID + ", \""
-			+ name + "\", \"" + place + "\", \"" + UtilDate.ToSql(date) + "\", " + 
-			personsSportID + ", " + personsSpeciallityID + ", " + 
-			personsPractice + ", \"" + comments + "\", " +
-			serverUniqueID + ", " + evaluatorID + ", \"" +
-			evaluatorCJVersion + "\", \"" + evaluatorOS + "\", \"" +
-			UtilDate.ToSql(uploadedDate) + "\", " + uploadingState +
-			")" ;
-		LogB.SQL(dbcmd.CommandText.ToString());
-		dbcmd.ExecuteNonQuery();
+    public static int Insert(bool dbconOpened, string tableName, string name, string place, DateTime date, int personsSportID, int personsSpeciallityID, int personsPractice, string comments, int serverUniqueID, int evaluatorID, string evaluatorCJVersion, string evaluatorOS, DateTime uploadedDate, int uploadingState)
+    {
+        if (!dbconOpened)
+            Sqlite.Open();
 
-		//int myLast = dbcon.LastInsertRowId;
-		//http://stackoverflow.com/questions/4341178/getting-the-last-insert-id-with-sqlite-net-in-c
-		string myString = @"select last_insert_rowid()";
-		dbcmd.CommandText = myString;
-		int myLast = Convert.ToInt32(dbcmd.ExecuteScalar()); // Need to type-cast since `ExecuteScalar` returns an object.
-		
-		if(! dbconOpened)
-			Sqlite.Close();
+        //(uniqueID == "-1")
+        //	uniqueID = "NULL";
+        string uniqueID = "NULL";
 
-		return myLast;
-	}
-	
-	//updating local session when it gets uploaded
-	public static void UpdateUploadingState(int uniqueID, int state)
-	{
-		//if(!dbconOpened)
-			Sqlite.Open();
+        dbcmd.CommandText = "INSERT INTO " + tableName + " (uniqueID, name, place, date, personsSportID, personsSpeciallityID, personsPractice, comments, serverUniqueID, evaluatorID, evaluatorCJVersion, evaluatorOS, uploadedDate, uploadingState)" +
+            " VALUES (" + uniqueID + ", \""
+            + name + "\", \"" + place + "\", \"" + UtilDate.ToSql(date) + "\", " +
+            personsSportID + ", " + personsSpeciallityID + ", " +
+            personsPractice + ", \"" + comments + "\", " +
+            serverUniqueID + ", " + evaluatorID + ", \"" +
+            evaluatorCJVersion + "\", \"" + evaluatorOS + "\", \"" +
+            UtilDate.ToSql(uploadedDate) + "\", " + uploadingState +
+            ")";
+        LogB.SQL(dbcmd.CommandText.ToString());
+        dbcmd.ExecuteNonQuery();
 
-		dbcmd.CommandText = "UPDATE " + Constants.SessionTable + " SET uploadingState = " + state + 
-			" WHERE uniqueID == " + uniqueID ;
-		LogB.SQL(dbcmd.CommandText.ToString());
-		dbcmd.ExecuteNonQuery();
+        //int myLast = dbcon.LastInsertRowId;
+        //http://stackoverflow.com/questions/4341178/getting-the-last-insert-id-with-sqlite-net-in-c
+        string myString = @"select last_insert_rowid()";
+        dbcmd.CommandText = myString;
+        int myLast = Convert.ToInt32(dbcmd.ExecuteScalar()); // Need to type-cast since `ExecuteScalar` returns an object.
 
-		//if(!dbconOpened)
-			Sqlite.Close();
-	}
+        if (!dbconOpened)
+            Sqlite.Close();
 
-	
-	~SqliteServerSession() {}
+        return myLast;
+    }
+
+    //updating local session when it gets uploaded
+    public static void UpdateUploadingState(int uniqueID, int state)
+    {
+        //if(!dbconOpened)
+        Sqlite.Open();
+
+        dbcmd.CommandText = "UPDATE " + Constants.SessionTable + " SET uploadingState = " + state +
+            " WHERE uniqueID == " + uniqueID;
+        LogB.SQL(dbcmd.CommandText.ToString());
+        dbcmd.ExecuteNonQuery();
+
+        //if(!dbconOpened)
+        Sqlite.Close();
+    }
+
+
+    ~SqliteServerSession() { }
 }

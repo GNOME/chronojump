@@ -23,7 +23,7 @@ using System.Data;
 using System.IO;
 using System.Collections; //ArrayList
 using System.Collections.Generic; //List<T>
-using Mono.Data.Sqlite;
+using System.Data.SQLite;
 
 
 class SqliteRunType : Sqlite
@@ -80,9 +80,9 @@ class SqliteRunType : Sqlite
 		conversionSubRateTotal = iniRunTypes.Length;
 		conversionSubRate = 0;
 
-		using(SqliteTransaction tr = dbcon.BeginTransaction())
+		using(SQLiteTransaction tr = dbcon.BeginTransaction())
 		{
-			using (SqliteCommand dbcmdTr = dbcon.CreateCommand())
+			using (SQLiteCommand dbcmdTr = dbcon.CreateCommand())
 			{
 				dbcmdTr.Transaction = tr;
 
@@ -115,7 +115,7 @@ class SqliteRunType : Sqlite
 		return Insert(t, tableName, dbconOpened, dbcmd);
 	}
 	//Called from initialize
-	public static int Insert(RunType t, string tableName, bool dbconOpened, SqliteCommand mycmd)
+	public static int Insert(RunType t, string tableName, bool dbconOpened, SQLiteCommand mycmd)
 	{
 		//string [] myStr = myRun.Split(new char[] {':'});
 		if(! dbconOpened) {
@@ -156,7 +156,7 @@ class SqliteRunType : Sqlite
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
-		SqliteDataReader reader;
+		SQLiteDataReader reader;
 		reader = dbcmd.ExecuteReader();
 
 		RunType myRunType = new RunType();
@@ -193,7 +193,7 @@ class SqliteRunType : Sqlite
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
-		SqliteDataReader reader;
+		SQLiteDataReader reader;
 		reader = dbcmd.ExecuteReader();
 
 		List<object> types = new List<object>();
@@ -240,7 +240,7 @@ class SqliteRunType : Sqlite
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
-		SqliteDataReader reader;
+		SQLiteDataReader reader;
 		reader = dbcmd.ExecuteReader();
 
 		ArrayList myArray = new ArrayList(2);
@@ -293,7 +293,7 @@ class SqliteRunType : Sqlite
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
-		SqliteDataReader reader;
+		SQLiteDataReader reader;
 		reader = dbcmd.ExecuteReader();
 
 		double distance = 0;
@@ -306,9 +306,9 @@ class SqliteRunType : Sqlite
 	}
 	
 	public static void AddGraphLinksRunSimple() {
-		using(SqliteTransaction tr = dbcon.BeginTransaction())
+		using(SQLiteTransaction tr = dbcon.BeginTransaction())
 		{
-			using (SqliteCommand dbcmdTr = dbcon.CreateCommand())
+			using (SQLiteCommand dbcmdTr = dbcon.CreateCommand())
 			{
 				dbcmdTr.Transaction = tr;
 
@@ -324,9 +324,9 @@ class SqliteRunType : Sqlite
 	}
 
 	public static void AddGraphLinksRunSimpleAgility() {
-		using(SqliteTransaction tr = dbcon.BeginTransaction())
+		using(SQLiteTransaction tr = dbcon.BeginTransaction())
 		{
-			using (SqliteCommand dbcmdTr = dbcon.CreateCommand())
+			using (SQLiteCommand dbcmdTr = dbcon.CreateCommand())
 			{
 				dbcmdTr.Transaction = tr;
 
@@ -406,9 +406,9 @@ class SqliteRunIntervalType : SqliteRunType
 			"Agility-3L3R:-1:1:2:0:Turn left three times and turn right three times:24.14-24.14"
 		};
 		
-		using(SqliteTransaction tr = dbcon.BeginTransaction())
+		using(SQLiteTransaction tr = dbcon.BeginTransaction())
 		{
-			using (SqliteCommand dbcmdTr = dbcon.CreateCommand())
+			using (SQLiteCommand dbcmdTr = dbcon.CreateCommand())
 			{
 				dbcmdTr.Transaction = tr;
 
@@ -451,9 +451,9 @@ class SqliteRunIntervalType : SqliteRunType
 			"RSA Wadley 20, R17 x 12:-1:1:24:0:RSA Wadley and Le Rossignol 1998:20-R17",
 			"RSA Wragg 34.2, R25 x 7:-1:1:14:0:RSA Wragg et al. 2000:34.2-R25"
 		};
-		using(SqliteTransaction tr = dbcon.BeginTransaction())
+		using(SQLiteTransaction tr = dbcon.BeginTransaction())
 		{
-			using (SqliteCommand dbcmdTr = dbcon.CreateCommand())
+			using (SQLiteCommand dbcmdTr = dbcon.CreateCommand())
 			{
 				dbcmdTr.Transaction = tr;
 
@@ -483,7 +483,7 @@ class SqliteRunIntervalType : SqliteRunType
 		return Insert(t, tableName, dbconOpened, dbcmd);
 	}
 	//Called from initialize
-	public static new int Insert(RunType t, string tableName, bool dbconOpened, SqliteCommand mycmd)
+	public static new int Insert(RunType t, string tableName, bool dbconOpened, SQLiteCommand mycmd)
 	{
 		//done here for not having twho Sqlite.Opened
 		//double distance = t.Distance;
@@ -522,7 +522,7 @@ class SqliteRunIntervalType : SqliteRunType
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
-		SqliteDataReader reader;
+		SQLiteDataReader reader;
 		reader = dbcmd.ExecuteReader();
 
 		List<object> types = new List<object>();
@@ -567,7 +567,7 @@ class SqliteRunIntervalType : SqliteRunType
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
-		SqliteDataReader reader;
+		SQLiteDataReader reader;
 		reader = dbcmd.ExecuteReader();
 
 		ArrayList myArray = new ArrayList(2);
@@ -624,7 +624,7 @@ class SqliteRunIntervalType : SqliteRunType
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
-		SqliteDataReader reader;
+		SQLiteDataReader reader;
 		reader = dbcmd.ExecuteReader();
 
 		RunType myRunType = new RunType();
@@ -654,9 +654,9 @@ class SqliteRunIntervalType : SqliteRunType
 	}
 
 	public static void AddGraphLinksRunInterval() {
-		using(SqliteTransaction tr = dbcon.BeginTransaction())
+		using(SQLiteTransaction tr = dbcon.BeginTransaction())
 		{
-			using (SqliteCommand dbcmdTr = dbcon.CreateCommand())
+			using (SQLiteCommand dbcmdTr = dbcon.CreateCommand())
 			{
 				dbcmdTr.Transaction = tr;
 

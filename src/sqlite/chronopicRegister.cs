@@ -21,7 +21,7 @@
 using System;
 //using System.Data;
 using System.Collections.Generic; //List<T>
-using Mono.Data.Sqlite;
+using System.Data.Sqlite;
 
 class SqliteChronopicRegister : Sqlite
 {
@@ -54,7 +54,7 @@ class SqliteChronopicRegister : Sqlite
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		
-		SqliteDataReader reader = dbcmd.ExecuteReader();
+		SQLiteDataReader reader = dbcmd.ExecuteReader();
 	
 		List<ChronopicRegisterPort> l = new List<ChronopicRegisterPort>();
 		while(reader.Read()) {
@@ -87,7 +87,7 @@ class SqliteChronopicRegister : Sqlite
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
-		SqliteDataReader reader = dbcmd.ExecuteReader();
+		SQLiteDataReader reader = dbcmd.ExecuteReader();
 
 		bool found = false;
 		if (reader.Read ())

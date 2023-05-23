@@ -22,7 +22,7 @@ using System;
 using System.Data;
 using System.IO;
 using System.Collections; //ArrayList
-using Mono.Data.Sqlite;
+using System.Data.SQLite;
 using Mono.Unix;
 using System.Collections.Generic; //List<T>
 
@@ -102,7 +102,7 @@ class SqlitePersonSession : Sqlite
 		//LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
-		SqliteDataReader reader;
+		SQLiteDataReader reader;
 		reader = dbcmd.ExecuteReader();
 		
 		double myReturn = 0;
@@ -129,7 +129,7 @@ class SqlitePersonSession : Sqlite
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
-		SqliteDataReader reader;
+		SQLiteDataReader reader;
 		reader = dbcmd.ExecuteReader();
 		
 		double myReturn = 0;
@@ -187,7 +187,7 @@ class SqlitePersonSession : Sqlite
 			" AND sessionID == " + mySessionID ; 
 		LogB.SQL(dbcmd.CommandText.ToString());
 		
-		SqliteDataReader reader;
+		SQLiteDataReader reader;
 		reader = dbcmd.ExecuteReader();
 	
 		bool exists = new bool();
@@ -231,7 +231,7 @@ class SqlitePersonSession : Sqlite
 		
 		LogB.SQL(dbcmd.CommandText.ToString());
 		
-		SqliteDataReader reader;
+		SQLiteDataReader reader;
 		reader = dbcmd.ExecuteReader();
 	
 		PersonSession ps = new PersonSession();
@@ -280,7 +280,7 @@ class SqlitePersonSession : Sqlite
 			" ORDER BY upper(" + tp + ".name)";
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
-		SqliteDataReader reader;
+		SQLiteDataReader reader;
 		reader = dbcmd.ExecuteReader();
 
 		List<Person> person_l = new List<Person>();
@@ -333,7 +333,7 @@ class SqlitePersonSession : Sqlite
 			" ORDER BY upper(" + tp + ".name)";
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
-		SqliteDataReader reader;
+		SQLiteDataReader reader;
 		reader = dbcmd.ExecuteReader();
 
 		ArrayList myArray = new ArrayList(1);
@@ -410,7 +410,7 @@ class SqlitePersonSession : Sqlite
 
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
-		SqliteDataReader reader;
+		SQLiteDataReader reader;
 		reader = dbcmd.ExecuteReader();
 
 		List<PersonSession> list = new List<PersonSession>();
@@ -598,7 +598,7 @@ class SqlitePersonSession : Sqlite
 			" WHERE personID == " + personID;
 		//LogB.SQL(dbcmd.CommandText.ToString());
 		
-		SqliteDataReader reader;
+		SQLiteDataReader reader;
 		reader = dbcmd.ExecuteReader();
 	
 		bool exists = new bool();
@@ -650,9 +650,9 @@ class SqlitePersonSessionTransaction : Sqlite
 		LogB.SQL("Starting transaction");
 		Sqlite.Open();
 
-		using(SqliteTransaction tr = dbcon.BeginTransaction())
+		using(SQLiteTransaction tr = dbcon.BeginTransaction())
 		{
-			using (SqliteCommand dbcmdTr = dbcon.CreateCommand())
+			using (SQLiteCommand dbcmdTr = dbcon.CreateCommand())
 			{
 				dbcmdTr.Transaction = tr;
 				

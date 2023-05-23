@@ -31,77 +31,77 @@ using Mono.Unix;
 
 public class JsonExhibitions : Json
 {
-	public JsonExhibitions()
-	{
-		ResultMessage = "";
-	}
+    public JsonExhibitions()
+    {
+        ResultMessage = "";
+    }
 
-	//table created with:
-	//CREATE TABLE exhibitionTest(dt TIMESTAMP DEFAULT CURRENT_TIMESTAMP, schoolID INT NOT NULL, groupID INT NOT NULL, personID INT NOT NULL, testType CHAR(10), result DOUBLE);
-	public bool UploadExhibitionTest(ExhibitionTest et)
-	{
-		// Create a request using a URL that can receive a post.
-		if (! createWebRequest(requestType.AUTHENTICATED, "/api/v1/client/uploadExhibitionTestData"))
-			return false;
+    //table created with:
+    //CREATE TABLE exhibitionTest(dt TIMESTAMP DEFAULT CURRENT_TIMESTAMP, schoolID INT NOT NULL, groupID INT NOT NULL, personID INT NOT NULL, testType CHAR(10), result DOUBLE);
+    public bool UploadExhibitionTest(ExhibitionTest et)
+    {
+        // Create a request using a URL that can receive a post.
+        if (!createWebRequest(requestType.AUTHENTICATED, "/api/v1/client/uploadExhibitionTestData"))
+            return false;
 
-		// Set the Method property of the request to POST.
-		request.Method = "POST";
+        // Set the Method property of the request to POST.
+        request.Method = "POST";
 
-		// Set the ContentType property of the WebRequest.
-		request.ContentType = "application/json; Charset=UTF-8"; //but this is not enough, see this line:
-		//exerciseName = Util.RemoveAccents(exerciseName);
+        // Set the ContentType property of the WebRequest.
+        request.ContentType = "application/json; Charset=UTF-8"; //but this is not enough, see this line:
+                                                                 //exerciseName = Util.RemoveAccents(exerciseName);
 
-		// Creates the json object
-		JsonObject json = new JsonObject();
+        // Creates the json object
+        JsonObject json = new JsonObject();
 
-		json.Add("schoolID", et.schoolID);
-		json.Add("groupID", et.groupID);
-		json.Add("personID", et.personID);
-		json.Add("testType", et.testType.ToString());
-		json.Add("result", et.resultToJson);
+        json.Add("schoolID", et.schoolID);
+        json.Add("groupID", et.groupID);
+        json.Add("personID", et.personID);
+        json.Add("testType", et.testType.ToString());
+        json.Add("result", et.resultToJson);
 
-		// Converts it to a String
-		String js = json.ToString();
+        // Converts it to a String
+        String js = json.ToString();
 
-		// Writes the json object into the request dataStream
-		Stream dataStream;
-		if(! getWebRequestStream (request, out dataStream, "Could not upload exhibition test data (A)."))
-			return false;
+        // Writes the json object into the request dataStream
+        Stream dataStream;
+        if (!getWebRequestStream(request, out dataStream, "Could not upload exhibition test data (A)."))
+            return false;
 
-		dataStream.Write (Encoding.UTF8.GetBytes(js), 0, js.Length);
+        dataStream.Write(Encoding.UTF8.GetBytes(js), 0, js.Length);
 
-		dataStream.Close ();
+        dataStream.Close();
 
-		// Get the response.
-		WebResponse response;
-		if(! getWebResponse (request, out response, "Could not upload exhibition test data (B)."))
-			return false;
+        // Get the response.
+        WebResponse response;
+        if (!getWebResponse(request, out response, "Could not upload exhibition test data (B)."))
+            return false;
 
-		// Display the status (will be 202, CREATED)
-		Console.WriteLine (((HttpWebResponse)response).StatusDescription);
+        // Display the status (will be 202, CREATED)
+        Console.WriteLine(((HttpWebResponse)response).StatusDescription);
 
-		// Clean up the streams.
-		dataStream.Close ();
-		response.Close ();
+        // Clean up the streams.
+        dataStream.Close();
+        response.Close();
 
-		this.ResultMessage = "Exhibition test data sent.";
-		return true;
-	}
+        this.ResultMessage = "Exhibition test data sent.";
+        return true;
+    }
 
-	~JsonExhibitions() {}
+    ~JsonExhibitions() { }
 }
 
 
 //eg. YOMO
 public class ExhibitionTest
 {
-	public int schoolID;
-	public int groupID;
-	public int personID;
-	public enum testTypes { JUMP, RUN, INERTIAL, FORCE_ROPE, FORCE_SHOT };
-	public testTypes testType;
-	public double result;
-	/* result is:
+    public int schoolID;
+    public int groupID;
+    public int personID;
+    public enum testTypes { JUMP, RUN, INERTIAL, FORCE_ROPE, FORCE_SHOT };
+    public testTypes testType;
+    public double result;
+    /* result is:
 	 * 	on jumps is height
 	 * 	on runs is maximum speed ?
 	 * 	on pull rope is maximum force
@@ -109,29 +109,30 @@ public class ExhibitionTest
 	 * 	on inertial is mean power of the maximum repetiton
 	 */
 
-	public ExhibitionTest(int schoolID, int groupID, int personID, testTypes testType, double result)
-	{
-		this.schoolID = schoolID;
-		this.groupID = groupID;
-		this.personID = personID;
-		this.testType = testType;
-		this.result = result;
-	}
+    public ExhibitionTest(int schoolID, int groupID, int personID, testTypes testType, double result)
+    {
+        this.schoolID = schoolID;
+        this.groupID = groupID;
+        this.personID = personID;
+        this.testType = testType;
+        this.result = result;
+    }
 
-	public string ToSQLTempInsertString()
-	{
-		return
-			schoolID.ToString() + ", " +
-			groupID.ToString() + ", " +
-			personID.ToString() + ", \"" +
-			testType.ToString() + "\", " +
-			resultToJson;
-	}
+    public string ToSQLTempInsertString()
+    {
+        return
+            schoolID.ToString() + ", " +
+            groupID.ToString() + ", " +
+            personID.ToString() + ", \"" +
+            testType.ToString() + "\", " +
+            resultToJson;
+    }
 
-	//convert to decimal point and str
-	public string resultToJson {
-		get { return Util.ConvertToPoint(result); }
-	}
+    //convert to decimal point and str
+    public string resultToJson
+    {
+        get { return Util.ConvertToPoint(result); }
+    }
 
-	~ExhibitionTest() {}
+    ~ExhibitionTest() { }
 }

@@ -23,7 +23,7 @@ using System.Data;
 using System.IO;
 using System.Collections; //ArrayList
 using System.Collections.Generic; //List<T>
-using Mono.Data.Sqlite;
+using System.Data.SQLite;
 
 
 class SqliteJumpRj : SqliteJump
@@ -153,7 +153,7 @@ class SqliteJumpRj : SqliteJump
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
-		SqliteDataReader reader;
+		SQLiteDataReader reader;
 		reader = dbcmd.ExecuteReader();
 
 		List<JumpRj> jmpRj_l = DataReaderToJumpRj(reader, session_l, person_l, personNameInComment);
@@ -208,7 +208,7 @@ class SqliteJumpRj : SqliteJump
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
-		SqliteDataReader reader;
+		SQLiteDataReader reader;
 		reader = dbcmd.ExecuteReader();
 
 		ArrayList myArray = new ArrayList(2);
@@ -275,7 +275,7 @@ class SqliteJumpRj : SqliteJump
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
-		SqliteDataReader reader;
+		SQLiteDataReader reader;
 		reader = dbcmd.ExecuteReader();
 		reader.Read();
 
@@ -290,7 +290,7 @@ class SqliteJumpRj : SqliteJump
 		return myJump;
 	}
 
-	private static List<JumpRj> DataReaderToJumpRj (SqliteDataReader reader, List<Session> session_l,
+	private static List<JumpRj> DataReaderToJumpRj (SQLiteDataReader reader, List<Session> session_l,
 			List<Person> person_l, bool personNameInComment)
 	{
 	  List<JumpRj> jmp_l = new List<JumpRj>();
@@ -377,7 +377,7 @@ class SqliteJumpRj : SqliteJump
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
-		SqliteDataReader reader;
+		SQLiteDataReader reader;
 		reader = dbcmd.ExecuteReader();
 		reader.Read();
 

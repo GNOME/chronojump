@@ -22,7 +22,7 @@ using System;
 using System.Data;
 using System.IO;
 using System.Collections; //ArrayList
-using Mono.Data.Sqlite;
+using System.Data.SQLite;
 
 class SqlitePersonSessionNotUpload : Sqlite
 {
@@ -52,7 +52,7 @@ class SqlitePersonSessionNotUpload : Sqlite
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
-		SqliteDataReader reader;
+		SQLiteDataReader reader;
 		reader = dbcmd.ExecuteReader();
 
 		ArrayList myArray = new ArrayList(1);

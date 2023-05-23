@@ -30,7 +30,7 @@ using System.Diagnostics; //Process
 using System.Collections; //ArrayList
 
 using System.Runtime.InteropServices;
-
+using Chronojump;
 
 public class ChronoJump 
 {
@@ -67,6 +67,8 @@ public class ChronoJump
 		//record GetOsEnum on variables to not call it all the time
 		operatingSystem = UtilAll.GetOSEnum();
 		Util.operatingSystem = operatingSystem;
+
+		NativeLibraryResolver.Init("/opt/homebrew/lib/");
 
 		//show version on console and exit before the starting logs
 		//note version, version2 args are available since: 2.2.0-112-ga4eaadcbc

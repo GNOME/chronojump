@@ -23,7 +23,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic; //List<T>
 using System.IO; //DirectoryInfo
-using Mono.Data.Sqlite;
+using System.Data.SQLite;
 using System.Text.RegularExpressions; //Regex
 
 class SqliteRunEncoder : Sqlite
@@ -153,7 +153,7 @@ class SqliteRunEncoder : Sqlite
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
-		SqliteDataReader reader;
+		SQLiteDataReader reader;
 		reader = dbcmd.ExecuteReader();
 
 		List<RunEncoder> list = new List<RunEncoder>();
@@ -202,7 +202,7 @@ class SqliteRunEncoder : Sqlite
 
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
-		SqliteDataReader reader;
+		SQLiteDataReader reader;
 		reader = dbcmd.ExecuteReader();
 
 		ArrayList array = new ArrayList();
@@ -238,7 +238,7 @@ class SqliteRunEncoder : Sqlite
 
 		LogB.SQL(dbcmd.CommandText.ToString());
 
-		SqliteDataReader reader;
+		SQLiteDataReader reader;
 		reader = dbcmd.ExecuteReader();
 
 		ArrayList array = new ArrayList();
@@ -460,7 +460,7 @@ class SqliteRunEncoderExercise : Sqlite
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
-		SqliteDataReader reader;
+		SQLiteDataReader reader;
 		reader = dbcmd.ExecuteReader();
 
 		List<RunEncoderExercise> list = new List<RunEncoderExercise>();

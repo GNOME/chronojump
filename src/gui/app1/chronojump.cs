@@ -833,13 +833,8 @@ public partial class ChronoJumpWindow
 		feedbackRunsI = new FeedbackRunsInterval (preferences);
 		feedbackEncoder = new FeedbackEncoder (preferences);
 		feedbackWin = FeedbackWindow.Create();
-		//to have objects ok to be able to be readed before viewing the feedbackWin
-		feedbackWin.View(Constants.BellModes.JUMPS, preferences, encoderRhythm, false); //not viewWindow
-		feedbackWin.View(Constants.BellModes.RUNS, preferences, encoderRhythm, false); //not viewWindow
-		feedbackWin.View(Constants.BellModes.ENCODERGRAVITATORY, preferences, encoderRhythm, false); //not viewWindow
-		feedbackWin.View(Constants.BellModes.FORCESENSOR, preferences, encoderRhythm, false); //not viewWindow
-		feedbackWin.View(Constants.BellModes.RUNSENCODER, preferences, encoderRhythm, false); //not viewWindow
 		feedbackWin.FakeButtonClose.Clicked += new EventHandler(on_feedback_closed);
+		//to have objects ok to be able to be readed before viewing the feedbackWin
 
 		on_extra_window_multichronopic_test_changed(new object(), new EventArgs());
 		on_extra_window_pulses_test_changed(new object(), new EventArgs());
@@ -3972,6 +3967,7 @@ public partial class ChronoJumpWindow
 				radio_mode_contacts_capture.Active = true;
 				*/
 
+			feedbackWin.View(Constants.BellModes.JUMPS, preferences, encoderRhythm, false); //not viewWindow
 			if(radio_mode_contacts_analyze.Active)
 				radio_mode_contacts_analyze_buttons_visible (m);
 		}
@@ -4037,6 +4033,7 @@ public partial class ChronoJumpWindow
 					radio_mode_contacts_analyze_buttons_visible (m);
 			}
 
+			feedbackWin.View(Constants.BellModes.RUNS, preferences, encoderRhythm, false); //not viewWindow
 			createComboSelectContactsTop ();
 			label_contacts_exercise_selected_name.Visible = false;
 			hbox_combo_select_contacts_top_with_arrows.Visible = true; //this will be unneded
@@ -4148,6 +4145,8 @@ public partial class ChronoJumpWindow
 				notebook_encoder_top.Page = 1;
 				image_encoder_exercise.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_inertia.png");
 			}
+
+			feedbackWin.View(Constants.BellModes.ENCODERGRAVITATORY, preferences, encoderRhythm, false); //not viewWindow
 			encoderConfigurationGUIUpdate();
 			encoderGuiChangesAfterEncoderConfigurationWin(true);
 			if(changed) {
@@ -4206,6 +4205,7 @@ public partial class ChronoJumpWindow
 			on_combo_force_sensor_exercise_changed (new object(), new EventArgs ());
 			//setLabelContactsExerciseSelectedOptionsForceSensor();
 
+			feedbackWin.View(Constants.BellModes.FORCESENSOR, preferences, encoderRhythm, false); //not viewWindow
 			label_contacts_exercise_selected_options_visible (false);
 			image_top_laterality_contacts.Visible = true;
 			setForceSensorLateralityPixbuf();
@@ -4243,6 +4243,7 @@ public partial class ChronoJumpWindow
 			label_contacts_exercise_selected_options_visible (false);
 			image_top_laterality_contacts.Visible = false;
 
+			feedbackWin.View(Constants.BellModes.RUNSENCODER, preferences, encoderRhythm, false); //not viewWindow
 			createComboSelectContactsTop ();
 			label_contacts_exercise_selected_name.Visible = false;
 			hbox_combo_select_contacts_top_with_arrows.Visible = true; //this will be unneded
@@ -6141,7 +6142,6 @@ public partial class ChronoJumpWindow
 				label_run_execute_photocell_code
 				);
 
-		LogB.Information("run interval accepted 7");
 		//suitable for limited by tracks and time
 		if(! canCaptureC && ! wireless)
 			currentEventExecute.SimulateInitValues(rand);

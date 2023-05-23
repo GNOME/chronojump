@@ -405,14 +405,17 @@ public class FeedbackWindow
 				hbox_jump_best_worst.Show();
 				hbox_jump_conditions.Show();
 
-				checkbutton_tf_greater.Active = jumpsRjFeedbackTvGreaterActive;
-				checkbutton_tf_lower.Active = jumpsRjFeedbackTvLowerActive;
-				checkbutton_tc_greater.Active = jumpsRjFeedbackTcGreaterActive;
-				checkbutton_tc_lower.Active = jumpsRjFeedbackTcLowerActive;
+
+				//1st the spinbuttons and then the checkbuttons because spinbutton changes make checkbuttons active
 				spinbutton_tf_greater.Value = jumpsRjFeedbackTvGreater;
 				spinbutton_tf_lower.Value = jumpsRjFeedbackTvLower;
 				spinbutton_tc_greater.Value = jumpsRjFeedbackTcGreater;
 				spinbutton_tc_lower.Value = jumpsRjFeedbackTcLower;
+
+				checkbutton_tf_greater.Active = jumpsRjFeedbackTvGreaterActive;
+				checkbutton_tf_lower.Active = jumpsRjFeedbackTvLowerActive;
+				checkbutton_tc_greater.Active = jumpsRjFeedbackTcGreaterActive;
+				checkbutton_tc_lower.Active = jumpsRjFeedbackTcLowerActive;
 			}
 			else if(bellMode == Constants.BellModes.RUNS)
 			{
@@ -420,14 +423,15 @@ public class FeedbackWindow
 				hbox_run_conditions_speed.Show();
 				hbox_run_conditions_time.Show();
 
-				checkbutton_time_greater.Active =  runsIFeedbackTimeGreaterActive;
-				checkbutton_time_lower.Active =  runsIFeedbackTimeLowerActive;
-				checkbutton_speed_greater.Active =  runsIFeedbackSpeedGreaterActive;
-				checkbutton_speed_lower.Active =  runsIFeedbackSpeedLowerActive;
+				//1st the spinbuttons and then the checkbuttons because spinbutton changes make checkbuttons active
 				spinbutton_time_greater.Value =  runsIFeedbackTimeGreater;
 				spinbutton_time_lower.Value =  runsIFeedbackTimeLower;
 				spinbutton_speed_greater.Value =  runsIFeedbackSpeedGreater;
 				spinbutton_speed_lower.Value =  runsIFeedbackSpeedLower;
+				checkbutton_time_greater.Active =  runsIFeedbackTimeGreaterActive;
+				checkbutton_time_lower.Active =  runsIFeedbackTimeLowerActive;
+				checkbutton_speed_greater.Active =  runsIFeedbackSpeedGreaterActive;
+				checkbutton_speed_lower.Active =  runsIFeedbackSpeedLowerActive;
 			}
 
 			notebook_main.GetNthPage(JUMPSRUNSPAGE).Show();
@@ -490,6 +494,7 @@ public class FeedbackWindow
 			}
 
 			//the change on spinbuttons here will not have to provoque changes on checkbuttons
+			//another solution is do 1st the spinbuttons and then the checkbuttons
 			update_checkbuttons_encoder_automatic = false;
 			checkbutton_encoder_automatic_greater.Active = encoderCaptureMainVariableGreaterActive;
 			spinbutton_encoder_automatic_greater.Value = encoderCaptureMainVariableGreaterValue;

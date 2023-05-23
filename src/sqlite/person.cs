@@ -22,7 +22,7 @@ using System;
 using System.Data;
 using System.IO;
 using System.Collections; //ArrayList
-using Mono.Data.Sqlite;
+using System.Data.SQLite;
 
 
 class SqlitePerson : Sqlite
@@ -112,7 +112,7 @@ class SqlitePerson : Sqlite
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
-		SqliteDataReader reader;
+		SQLiteDataReader reader;
 		reader = dbcmd.ExecuteReader();
 		
 		Person p = new Person(-1);
@@ -149,7 +149,7 @@ class SqlitePerson : Sqlite
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
-		SqliteDataReader reader;
+		SQLiteDataReader reader;
 		reader = dbcmd.ExecuteReader();
 		
 		string myReturn = "";
@@ -167,7 +167,7 @@ class SqlitePerson : Sqlite
 		Sqlite.Open();
 		dbcmd.CommandText = "SELECT uniqueID, name FROM " + Constants.PersonTable; 
 		
-		SqliteDataReader reader;
+		SQLiteDataReader reader;
 		reader = dbcmd.ExecuteReader();
 
 		ArrayList myArray = new ArrayList(1);
@@ -204,7 +204,7 @@ class SqlitePerson : Sqlite
 			" AND " + tp + ".uniqueID == " + tps + ".personID "; 
 		LogB.SQL(dbcmd.CommandText.ToString());
 		
-		SqliteDataReader reader;
+		SQLiteDataReader reader;
 		reader = dbcmd.ExecuteReader();
 
 		ArrayList arrayExcept = new ArrayList(2);
@@ -243,7 +243,7 @@ class SqlitePerson : Sqlite
 		}
 		LogB.SQL(dbcmd.CommandText.ToString());
 		
-		SqliteDataReader reader2;
+		SQLiteDataReader reader2;
 		reader2 = dbcmd.ExecuteReader();
 
 		ArrayList arrayReturn = new ArrayList(2);
@@ -291,7 +291,7 @@ finishForeach:
 
 	public static ArrayList SelectAllPersonEvents (int personID)
 	{
-		SqliteDataReader reader;
+		SQLiteDataReader reader;
 		ArrayList arraySessions = new ArrayList(2);
 		ArrayList arrayJumps = new ArrayList(2);
 		ArrayList arrayJumpsRj = new ArrayList(2);
@@ -640,7 +640,7 @@ finishForeach:
 			" AND uniqueID != " + uniqueID ;
 		LogB.SQL(dbcmd.CommandText.ToString());
 		
-		SqliteDataReader reader;
+		SQLiteDataReader reader;
 		reader = dbcmd.ExecuteReader();
 	
 		bool exists = new bool();

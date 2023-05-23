@@ -80,3 +80,6 @@ chronojump-*.tar.gz
 #MacOS package
 package/macos/Chronojump.app/Contents/Home
 package/macos/Chronojump.app/Contents/Info.plist
+
+#MacOS files
+.DS_Store

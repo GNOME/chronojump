@@ -21,7 +21,7 @@
 using System;
 using System.Data;
 using System.Collections.Generic; //List<T>
-using Mono.Data.Sqlite;
+using System.Data.SQLite;
 
 
 class SqliteEncoderConfiguration : Sqlite
@@ -239,7 +239,7 @@ class SqliteEncoderConfiguration : Sqlite
 		dbcmd.ExecuteNonQuery();
 
 		List<EncoderConfigurationSQLObject> list = new List<EncoderConfigurationSQLObject>();
-		SqliteDataReader reader;
+		SQLiteDataReader reader;
 		reader = dbcmd.ExecuteReader();
 		while(reader.Read())
 		{
@@ -277,7 +277,7 @@ class SqliteEncoderConfiguration : Sqlite
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		
-		SqliteDataReader reader;
+		SQLiteDataReader reader;
 		reader = dbcmd.ExecuteReader();
 
 		EncoderConfigurationSQLObject econfSO = new EncoderConfigurationSQLObject();
@@ -328,7 +328,7 @@ class SqliteEncoderConfiguration : Sqlite
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
-		SqliteDataReader reader;
+		SQLiteDataReader reader;
 		reader = dbcmd.ExecuteReader();
 
 		EncoderConfigurationSQLObject econfSO = new EncoderConfigurationSQLObject();
@@ -361,7 +361,7 @@ class SqliteEncoderConfiguration : Sqlite
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
-		SqliteDataReader reader;
+		SQLiteDataReader reader;
 		reader = dbcmd.ExecuteReader();
 
 		EncoderConfigurationSQLObject econfSO = new EncoderConfigurationSQLObject();

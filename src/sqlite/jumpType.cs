@@ -23,7 +23,7 @@ using System.Data;
 using System.IO;
 using System.Collections; //ArrayList
 using System.Collections.Generic; //List<T>
-using Mono.Data.Sqlite;
+using System.Data.SQLite;
 
 
 class SqliteJumpType : Sqlite
@@ -71,9 +71,9 @@ class SqliteJumpType : Sqlite
 		conversionSubRateTotal = iniJumpTypes.Length;
 		conversionSubRate = 0;
 
-		using(SqliteTransaction tr = dbcon.BeginTransaction())
+		using(SQLiteTransaction tr = dbcon.BeginTransaction())
 		{
-			using (SqliteCommand dbcmdTr = dbcon.CreateCommand())
+			using (SQLiteCommand dbcmdTr = dbcon.CreateCommand())
 			{
 				dbcmdTr.Transaction = tr;
 	
@@ -92,9 +92,9 @@ class SqliteJumpType : Sqlite
 	//don't put the full description because if the user changes language, description will be in old lang
 	//description will be on src/jumpType
 	public static void AddGraphLinks() {
-		using(SqliteTransaction tr = dbcon.BeginTransaction())
+		using(SQLiteTransaction tr = dbcon.BeginTransaction())
 		{
-			using (SqliteCommand dbcmdTr = dbcon.CreateCommand())
+			using (SQLiteCommand dbcmdTr = dbcon.CreateCommand())
 			{
 				dbcmdTr.Transaction = tr;
 
@@ -152,9 +152,9 @@ class SqliteJumpType : Sqlite
 			//"RunAnalysis:0:0:1:-1:Run between two photocells recording contact and flight times in contact platform/s. Until finish button is clicked."
 		};
 
-		using(SqliteTransaction tr = dbcon.BeginTransaction())
+		using(SQLiteTransaction tr = dbcon.BeginTransaction())
 		{
-			using (SqliteCommand dbcmdTr = dbcon.CreateCommand())
+			using (SQLiteCommand dbcmdTr = dbcon.CreateCommand())
 			{
 				dbcmdTr.Transaction = tr;
 
@@ -169,9 +169,9 @@ class SqliteJumpType : Sqlite
 	}
 
 	public static void AddGraphLinksRj() {
-		using(SqliteTransaction tr = dbcon.BeginTransaction())
+		using(SQLiteTransaction tr = dbcon.BeginTransaction())
 		{
-			using (SqliteCommand dbcmdTr = dbcon.CreateCommand())
+			using (SQLiteCommand dbcmdTr = dbcon.CreateCommand())
 			{
 				dbcmdTr.Transaction = tr;
 				
@@ -200,7 +200,7 @@ class SqliteJumpType : Sqlite
 		JumpTypeInsert (uniqueID, myJump, dbconOpened, dbcmd);
 	}
 	//Called from initialize
-	public static void JumpTypeInsert (int uniqueID, string myJump, bool dbconOpened, SqliteCommand mycmd)
+	public static void JumpTypeInsert (int uniqueID, string myJump, bool dbconOpened, SQLiteCommand mycmd)
 	{
 		string [] myStr = myJump.Split(new char[] {':'});
 		if(! dbconOpened) {
@@ -235,7 +235,7 @@ class SqliteJumpType : Sqlite
 		JumpRjTypeInsert (uniqueID, myJump, dbconOpened, dbcmd);
 	}
 	//Called from initialize
-	public static void JumpRjTypeInsert (int uniqueID, string myJump, bool dbconOpened, SqliteCommand mycmd)
+	public static void JumpRjTypeInsert (int uniqueID, string myJump, bool dbconOpened, SQLiteCommand mycmd)
 	{
 		string [] myStr = myJump.Split(new char[] {':'});
 		if(! dbconOpened) {
@@ -284,7 +284,7 @@ class SqliteJumpType : Sqlite
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
-		SqliteDataReader reader;
+		SQLiteDataReader reader;
 		reader = dbcmd.ExecuteReader();
 
 		List<object> types = new List<object>();
@@ -340,7 +340,7 @@ class SqliteJumpType : Sqlite
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
-		SqliteDataReader reader;
+		SQLiteDataReader reader;
 		reader = dbcmd.ExecuteReader();
 
 		ArrayList myArray = new ArrayList(2);
@@ -397,7 +397,7 @@ class SqliteJumpType : Sqlite
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
-		SqliteDataReader reader;
+		SQLiteDataReader reader;
 		reader = dbcmd.ExecuteReader();
 
 		List<object> types = new List<object>();
@@ -441,7 +441,7 @@ class SqliteJumpType : Sqlite
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
-		SqliteDataReader reader;
+		SQLiteDataReader reader;
 		reader = dbcmd.ExecuteReader();
 
 		ArrayList myArray = new ArrayList(2);
@@ -496,7 +496,7 @@ class SqliteJumpType : Sqlite
 		
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
-		SqliteDataReader reader;
+		SQLiteDataReader reader;
 		reader = dbcmd.ExecuteReader();
 
 		JumpType myJumpType = new JumpType();
@@ -530,7 +530,7 @@ class SqliteJumpType : Sqlite
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
-		SqliteDataReader reader;
+		SQLiteDataReader reader;
 		reader = dbcmd.ExecuteReader();
 
 		JumpType myJumpType = new JumpType();
@@ -573,7 +573,7 @@ class SqliteJumpType : Sqlite
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
-		SqliteDataReader reader;
+		SQLiteDataReader reader;
 		reader = dbcmd.ExecuteReader();
 
 		bool hasWeight = false;
@@ -601,7 +601,7 @@ class SqliteJumpType : Sqlite
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
-		SqliteDataReader reader;
+		SQLiteDataReader reader;
 		reader = dbcmd.ExecuteReader();
 
 		bool hasFall = true;
@@ -625,7 +625,7 @@ class SqliteJumpType : Sqlite
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
-		SqliteDataReader reader;
+		SQLiteDataReader reader;
 		reader = dbcmd.ExecuteReader();
 
 		bool unlimited = false;
@@ -699,7 +699,7 @@ class SqliteJumpType : Sqlite
 
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
-		SqliteDataReader reader;
+		SQLiteDataReader reader;
 		reader = dbcmd.ExecuteReader();
 
 		LastJumpSimpleTypeParams ljstp = new LastJumpSimpleTypeParams(name);
@@ -782,7 +782,7 @@ class SqliteJumpType : Sqlite
 
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
-		SqliteDataReader reader;
+		SQLiteDataReader reader;
 		reader = dbcmd.ExecuteReader();
 
 		LastJumpRjTypeParams ljrtp = new LastJumpRjTypeParams(name);

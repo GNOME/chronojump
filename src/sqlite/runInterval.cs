@@ -23,7 +23,7 @@ using System.Data;
 using System.IO;
 using System.Collections; //ArrayList
 using System.Collections.Generic; //List
-using Mono.Data.Sqlite;
+using System.Data.SQLite;
 
 
 class SqliteRunInterval : SqliteRun
@@ -112,7 +112,7 @@ class SqliteRunInterval : SqliteRun
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
-		SqliteDataReader reader;
+		SQLiteDataReader reader;
 		reader = dbcmd.ExecuteReader();
 
 		List<RunInterval> ri_l = new List<RunInterval>();
@@ -188,7 +188,7 @@ class SqliteRunInterval : SqliteRun
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
-		SqliteDataReader reader;
+		SQLiteDataReader reader;
 		reader = dbcmd.ExecuteReader();
 
 		ArrayList myArray = new ArrayList(2);
@@ -251,7 +251,7 @@ class SqliteRunInterval : SqliteRun
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
-		SqliteDataReader reader;
+		SQLiteDataReader reader;
 		reader = dbcmd.ExecuteReader();
 		reader.Read();
 

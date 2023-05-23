@@ -23,7 +23,7 @@ using System.Data;
 using System.IO;
 using System.Collections; //ArrayList
 using System.Collections.Generic; //List<T>
-using Mono.Data.Sqlite;
+using System.Data.Sqlite;
 
 
 class SqliteJump : Sqlite
@@ -152,7 +152,7 @@ class SqliteJump : Sqlite
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
-		SqliteDataReader reader;
+		SQLiteDataReader reader;
 		reader = dbcmd.ExecuteReader();
 
 		ArrayList myArray = new ArrayList(2);
@@ -261,7 +261,7 @@ class SqliteJump : Sqlite
 	  LogB.SQL(dbcmd.CommandText.ToString());
 	  dbcmd.ExecuteNonQuery();
 
-	  SqliteDataReader reader;
+	  SQLiteDataReader reader;
 	  reader = dbcmd.ExecuteReader();
 
 	  List<Jump> jmp_l = DataReaderToJump (reader, session_l, person_l, personNameInComment);
@@ -292,7 +292,7 @@ class SqliteJump : Sqlite
 			personIDStr + " ORDER BY type";
 		LogB.SQL(dbcmd.CommandText.ToString());
 
-		SqliteDataReader reader;
+		SQLiteDataReader reader;
 		reader = dbcmd.ExecuteReader();
 
 		while (reader.Read())
@@ -324,7 +324,7 @@ class SqliteJump : Sqlite
 			" GROUP BY personID ORDER BY personID";
 		LogB.SQL(dbcmd.CommandText.ToString());
 
-		SqliteDataReader reader;
+		SQLiteDataReader reader;
 		reader = dbcmd.ExecuteReader();
 
 		//read personname and 2 cols for each test
@@ -375,7 +375,7 @@ class SqliteJump : Sqlite
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
-		SqliteDataReader reader;
+		SQLiteDataReader reader;
 		reader = dbcmd.ExecuteReader();
 
 		//note DB 2.41 forces all old jump, jumpRj, run, runI to have datetime
@@ -402,7 +402,7 @@ class SqliteJump : Sqlite
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
-		SqliteDataReader reader;
+		SQLiteDataReader reader;
 		reader = dbcmd.ExecuteReader();
 		reader.Read();
 
@@ -445,7 +445,7 @@ class SqliteJump : Sqlite
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
-		SqliteDataReader reader;
+		SQLiteDataReader reader;
 		reader = dbcmd.ExecuteReader();
 		reader.Read();
 		
@@ -505,11 +505,11 @@ class SqliteJump : Sqlite
 		return l;
 	}
 
-	private static List<Jump> DataReaderToJump (SqliteDataReader reader, List<Session> session_l)
+	private static List<Jump> DataReaderToJump (SQLiteDataReader reader, List<Session> session_l)
 	{
 		return DataReaderToJump (reader, session_l, new List<Person> (), false);
 	}
-	private static List<Jump> DataReaderToJump (SqliteDataReader reader, List<Session> session_l,
+	private static List<Jump> DataReaderToJump (SQLiteDataReader reader, List<Session> session_l,
 			List<Person> person_l, bool personNameInComment)
 	{
 	  List<Jump> jmp_l = new List<Jump>();
@@ -592,7 +592,7 @@ class SqliteJump : Sqlite
 	  LogB.SQL(dbcmd.CommandText.ToString());
 	  dbcmd.ExecuteNonQuery();
 
-	  SqliteDataReader reader;
+	  SQLiteDataReader reader;
 	  reader = dbcmd.ExecuteReader();
 
 	  List<Jump> jmp_l = DataReaderToJump (reader, session_l);
@@ -640,7 +640,7 @@ class SqliteJump : Sqlite
 	  LogB.SQL(dbcmd.CommandText.ToString());
 	  dbcmd.ExecuteNonQuery();
 
-	  SqliteDataReader reader;
+	  SQLiteDataReader reader;
 	  reader = dbcmd.ExecuteReader();
 
 	  List<Jump> jmp_l = DataReaderToJump (reader, session_l);

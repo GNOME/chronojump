@@ -23,7 +23,7 @@ using System.Data;
 using System.IO; //"File" things. TextWriter
 using System.Collections; //ArrayList
 using System.Collections.Generic; //List
-using Mono.Data.Sqlite;
+using System.Data.Sqlite;
 using System.Diagnostics; 	//for launching other process
 using System.Text.RegularExpressions; //Match
 
@@ -31,7 +31,7 @@ using Mono.Unix;
 
 class SqliteGeneral
 {
-	private SqliteConnection dbcon;
+	private SQLiteConnection dbcon;
 	private bool isOpened;
 	public SqliteGeneral(string databasePath)
 	{
@@ -40,7 +40,7 @@ class SqliteGeneral
 		if (!File.Exists (databasePath)) {
 			return;
 		}
-		dbcon = new SqliteConnection ();
+		dbcon = new SQLiteConnection ();
 		string connectionString = "version = 3; Data source = " + databasePath;
 		dbcon.ConnectionString = connectionString;
 		try {
@@ -72,7 +72,7 @@ class SqliteGeneral
 		}
 	}
 
-	public SqliteConnection connection
+	public SQLiteConnection connection
 	{
 		get
 		{
@@ -80,17 +80,17 @@ class SqliteGeneral
 		}
 	}
 
-	public SqliteCommand command()
+	public SQLiteCommand command()
 	{
-		SqliteCommand dbcmd = dbcon.CreateCommand();
+		SQLiteCommand dbcmd = dbcon.CreateCommand();
 		return dbcmd;
 	}
 }
 
 class Sqlite
 {
-	protected static SqliteConnection dbcon;
-	protected static SqliteCommand dbcmd;
+	protected static SQLiteConnection dbcon;
+	protected static SQLiteCommand dbcmd;
 
 	//since we use installJammer (chronojump 0.7)	
 	//database was on c:\.chronojump\ or in ~/.chronojump
@@ -233,7 +233,7 @@ class Sqlite
 
 		bool defaultDBLocation = true;
 
-		dbcon = new SqliteConnection();
+		dbcon = new SQLiteConnection();
 
 		/*
 		 * the Open() helps to know it threre are problems with path and sqlite
@@ -286,7 +286,7 @@ class Sqlite
 		try{
 			LogB.SQL(string.Format("Trying database in ... " + connectionString));
 
-		//dbcon = new SqliteConnection();
+		//dbcon = new SQLiteConnection();
 			*/
 		/*
 			dbcon.ConnectionString = connectionString;
@@ -296,7 +296,7 @@ class Sqlite
 			try {
 				LogB.SQL(string.Format("Trying database in ... " + connectionStringTemp));
 
-		//dbcon = new SqliteConnection();
+		//dbcon = new SQLiteConnection();
 				dbcon.ConnectionString = connectionStringTemp;
 				dbcmd = dbcon.CreateCommand();
 			} catch { 
@@ -378,7 +378,7 @@ class Sqlite
 			File.Delete(sqlFileBlank);
 		}
 
-		dbcon = new SqliteConnection();
+		dbcon = new SQLiteConnection();
 		dbcon.ConnectionString = connectionStringBlank;
 		dbcmd = dbcon.CreateCommand();
 
@@ -501,7 +501,7 @@ class Sqlite
 		/*
 		 *it says:
 		 Unhandled Exception: System.NotSupportedException: Only Sqlite Version 3 is supported at this time
-		   at Mono.Data.Sqlite.SqliteConnection.Open () [0x00000]
+		   at Mono.Data.Sqlite.SQLiteConnection.Open () [0x00000]
 		 *
 		Sqlite.Close();
 		connectionString = "version=2; URI=file:" + sqlFile;
@@ -3204,9 +3204,9 @@ class Sqlite
 							renameColumnLinuxOrMac (Constants.ForceSensorTable, "maxForceRAW", "maxForceRaw");
 						else
 						{
-							using(SqliteTransaction tr = dbcon.BeginTransaction())
+							using(SQLiteTransaction tr = dbcon.BeginTransaction())
 							{
-								using (SqliteCommand dbcmdTr = dbcon.CreateCommand())
+								using (SQLiteCommand dbcmdTr = dbcon.CreateCommand())
 								{
 									dbcmdTr.Transaction = tr;
 
@@ -3797,7 +3797,7 @@ class Sqlite
 		dbcmd.CommandText = "SELECT name FROM sqlite_master WHERE type=\"table\" AND name=\"" + tableName + "\"";
 		LogB.SQL(dbcmd.CommandText.ToString());
 
-		SqliteDataReader reader;
+		SQLiteDataReader reader;
 		reader = dbcmd.ExecuteReader();
 
 		bool exists = false;
@@ -3824,7 +3824,7 @@ class Sqlite
 
 		LogB.SQL(dbcmd.CommandText.ToString());
 
-		SqliteDataReader reader;
+		SQLiteDataReader reader;
 		reader = dbcmd.ExecuteReader();
 
 		bool exists = false;
@@ -3866,7 +3866,7 @@ class Sqlite
 			" WHERE LOWER(name) == LOWER(\"" + findName + "\")" ;
 		LogB.SQL(dbcmd.CommandText.ToString());
 		
-		SqliteDataReader reader;
+		SQLiteDataReader reader;
 		reader = dbcmd.ExecuteReader();
 	
 		int id = -1;
@@ -3892,7 +3892,7 @@ class Sqlite
 				" GROUP BY name HAVING count > 1";
 		LogB.SQL(dbcmd.CommandText.ToString());
 
-		SqliteDataReader reader;
+		SQLiteDataReader reader;
 		reader = dbcmd.ExecuteReader();
 		List<string> namesConflicting_l = new List<string>();
 		while(reader.Read())
@@ -4048,8 +4048,8 @@ class Sqlite
 		dbcmd.CommandText = "SELECT MAX(uniqueID) FROM " + tableName;
 		LogB.SQL(dbcmd.CommandText.ToString());
 		
-		//SqliteDataReader reader;
-		SqliteDataReader reader;
+		//SQLiteDataReader reader;
+		SQLiteDataReader reader;
 		reader = dbcmd.ExecuteReader();
 	
 		int exists = 0;
@@ -4157,7 +4157,7 @@ class Sqlite
 		/* person table */
 
 		dbcmd.CommandText = "SELECT uniqueID, dateBorn FROM person";
-		SqliteDataReader reader;
+		SQLiteDataReader reader;
 		reader = dbcmd.ExecuteReader();
 		ArrayList myArray = new ArrayList(1);
 		while(reader.Read()) 
@@ -4246,7 +4246,7 @@ class Sqlite
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		
-		SqliteDataReader reader;
+		SQLiteDataReader reader;
 		reader = dbcmd.ExecuteReader();
 		ArrayList myArray = new ArrayList(1);
 
@@ -4270,7 +4270,7 @@ class Sqlite
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		
-		SqliteDataReader reader;
+		SQLiteDataReader reader;
 		reader = dbcmd.ExecuteReader();
 		ArrayList myArray = new ArrayList(1);
 
@@ -4356,7 +4356,7 @@ class Sqlite
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
-		SqliteDataReader reader;
+		SQLiteDataReader reader;
 		reader = dbcmd.ExecuteReader();
 
 		List<SqliteStruct.IntegerText> list = new List<SqliteStruct.IntegerText> ();
@@ -4368,9 +4368,9 @@ class Sqlite
 		reader.Close ();
 
 		//update as transaction
-		using (SqliteTransaction tr = dbcon.BeginTransaction())
+		using (SQLiteTransaction tr = dbcon.BeginTransaction())
 		{
-			using (SqliteCommand dbcmdTr = dbcon.CreateCommand())
+			using (SQLiteCommand dbcmdTr = dbcon.CreateCommand())
 			{
 				dbcmdTr.Transaction = tr;
 
@@ -4408,7 +4408,7 @@ class Sqlite
 		dbcmd.CommandText = "SELECT * " + 
 			"FROM " + tableName + " ORDER BY uniqueID"; 
 		LogB.SQL(dbcmd.CommandText.ToString());
-		SqliteDataReader reader;
+		SQLiteDataReader reader;
 		reader = dbcmd.ExecuteReader();
 
 		while(reader.Read()) {
@@ -4571,7 +4571,7 @@ LogB.SQL("5" + tableName);
 		ArrayList myArray = new ArrayList(2);
 		dbcmd.CommandText = "SELECT * " + 
 			"FROM " + tableName + " ORDER BY uniqueID"; 
-		SqliteDataReader reader;
+		SQLiteDataReader reader;
 		reader = dbcmd.ExecuteReader();
 		LogB.SQL(dbcmd.CommandText.ToString());
 
@@ -4628,7 +4628,7 @@ LogB.SQL("5" + tableName);
 		Sqlite.dropTable(Constants.ConvertTempTable);
 	}
 
-	protected static string [] DataReaderToStringArray (SqliteDataReader reader, int columns) {
+	protected static string [] DataReaderToStringArray (SQLiteDataReader reader, int columns) {
 		string [] myReaderStr = new String[columns];
 		for (int i=0; i < columns; i ++)
 			myReaderStr[i] = reader[i].ToString();
@@ -4642,7 +4642,7 @@ LogB.SQL("5" + tableName);
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
-		SqliteDataReader reader = dbcmd.ExecuteReader();
+		SQLiteDataReader reader = dbcmd.ExecuteReader();
 
 		IDNameList list = new IDNameList();
 		while(reader.Read()) {
@@ -4664,7 +4664,7 @@ LogB.SQL("5" + tableName);
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
-		SqliteDataReader reader = dbcmd.ExecuteReader();
+		SQLiteDataReader reader = dbcmd.ExecuteReader();
 
 		IDDoubleList list = new IDDoubleList();
 		while(reader.Read()) {
@@ -4694,7 +4694,7 @@ LogB.SQL("5" + tableName);
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
-		SqliteDataReader reader;
+		SQLiteDataReader reader;
 		reader = dbcmd.ExecuteReader();
 		
 		double result = 0;
@@ -4715,7 +4715,7 @@ LogB.SQL("5" + tableName);
 		dbcmd.CommandText = "SELECT MAX(" + column + ") FROM " + tableName ;
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
-		SqliteDataReader reader;
+		SQLiteDataReader reader;
 		reader = dbcmd.ExecuteReader();
 		
 		int myReturn = 0;
@@ -4737,7 +4737,7 @@ LogB.SQL("5" + tableName);
 		dbcmd.CommandText = "SELECT COUNT(*) FROM " + tableName ;
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
-		SqliteDataReader reader;
+		SQLiteDataReader reader;
 		reader = dbcmd.ExecuteReader();
 		
 		int myReturn = 0;
@@ -4758,7 +4758,7 @@ LogB.SQL("5" + tableName);
 			" WHERE " + condition + " " + operand + " " + myValue;
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
-		SqliteDataReader reader;
+		SQLiteDataReader reader;
 		reader = dbcmd.ExecuteReader();
 		
 		int myReturn = 0;
@@ -4906,7 +4906,7 @@ LogB.SQL("5" + tableName);
 	
 	public static void ConnectServer()
 	{
-		dbcon = new SqliteConnection();
+		dbcon = new SQLiteConnection();
 		dbcon.ConnectionString = connectionStringServer;
 		dbcmd = dbcon.CreateCommand();
 	}

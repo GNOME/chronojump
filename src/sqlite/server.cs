@@ -22,7 +22,7 @@ using System;
 using System.Data;
 using System.IO;
 using System.Collections; //ArrayList
-using Mono.Data.Sqlite;
+using System.Data.SQLite;
 
 using Mono.Unix; //Catalog
 
@@ -165,7 +165,7 @@ class SqliteServer : Sqlite
 		dbcmd.CommandText = "SELECT * FROM " + Constants.ServerEvaluatorTable + " WHERE uniqueID == " + myUniqueID ; 
 		LogB.SQL(dbcmd.CommandText.ToString());
 		
-		SqliteDataReader reader;
+		SQLiteDataReader reader;
 		reader = dbcmd.ExecuteReader();
 	
 		ServerEvaluator myEval = new ServerEvaluator();
@@ -202,7 +202,7 @@ class SqliteServer : Sqlite
 		        " GROUP BY " + Constants.ServerEvaluatorTable + ".uniqueID";
 		LogB.SQL(dbcmd.CommandText.ToString());
 		
-		SqliteDataReader reader;
+		SQLiteDataReader reader;
 		reader = dbcmd.ExecuteReader();
 	
 		ArrayList evals = new ArrayList();
@@ -222,7 +222,7 @@ class SqliteServer : Sqlite
 		dbcmd.CommandText = str; 
 		LogB.SQL(dbcmd.CommandText.ToString());
 		
-		SqliteDataReader reader;
+		SQLiteDataReader reader;
 		reader = dbcmd.ExecuteReader();
 	
 		string myReturn = "0:";

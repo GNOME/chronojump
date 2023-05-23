@@ -21,9 +21,8 @@
 using System;
 using System.Data;
 using System.IO;
-using Mono.Data.Sqlite;
 using System.Collections; //ArrayList
-
+using System.Data.SQLite;
 
 class SqlitePreferences : Sqlite
 {
@@ -199,9 +198,9 @@ class SqlitePreferences : Sqlite
 	
 	protected internal static void initializeTable(string databaseVersion, bool creatingBlankDatabase)
 	{
-		using(SqliteTransaction tr = dbcon.BeginTransaction())
+		using(SQLiteTransaction tr = dbcon.BeginTransaction())
 		{
-			using (SqliteCommand dbcmdTr = dbcon.CreateCommand())
+			using (SQLiteCommand dbcmdTr = dbcon.CreateCommand())
 			{
 				dbcmdTr.Transaction = tr;
 
@@ -461,7 +460,7 @@ class SqlitePreferences : Sqlite
 		Insert(myName, myValue, dbcmd);
 	}
 	//Called from initialize
-	public static void Insert(string myName, string myValue, SqliteCommand mycmd)
+	public static void Insert(string myName, string myValue, SQLiteCommand mycmd)
 	{
 		//Sqlite.Open();
 		mycmd.CommandText = "INSERT INTO " + Constants.PreferencesTable + 
@@ -472,7 +471,7 @@ class SqlitePreferences : Sqlite
 		//Sqlite.Close();
 	}
 
-	protected internal static void insertJumpsRjRunsIFeedback2_45 (SqliteCommand dbcmdTr)
+	protected internal static void insertJumpsRjRunsIFeedback2_45 (SQLiteCommand dbcmdTr)
 	{
 		Insert (JumpsRjFeedbackShowBestTvTc, "True", dbcmdTr);
 		Insert (JumpsRjFeedbackShowWorstTvTc, "True", dbcmdTr);
@@ -505,7 +504,7 @@ class SqlitePreferences : Sqlite
 		Insert (RunsIFeedbackSpeedLower, "3", dbcmdTr);
 	}
 
-	protected internal static void insertJumpsRjRunsIFeedback2_46 (SqliteCommand dbcmdTr)
+	protected internal static void insertJumpsRjRunsIFeedback2_46 (SQLiteCommand dbcmdTr)
 	{
 		Insert (RunsIFeedbackShowBestSpeed, "True", dbcmdTr); //speed
 		Insert (RunsIFeedbackShowWorstSpeed, "True", dbcmdTr); //speed
@@ -546,8 +545,8 @@ class SqlitePreferences : Sqlite
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		
-		//SqliteDataReader reader;
-		SqliteDataReader reader;
+		//SQLiteDataReader reader;
+		SQLiteDataReader reader;
 		reader = dbcmd.ExecuteReader();
 
 		string myReturn = "0";
@@ -572,7 +571,7 @@ class SqlitePreferences : Sqlite
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		
-		SqliteDataReader reader;
+		SQLiteDataReader reader;
 		reader = dbcmd.ExecuteReader();
 
 		Preferences preferences = new Preferences();

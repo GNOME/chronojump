@@ -21,7 +21,7 @@
 using System;
 //using System.Data;
 using System.Collections.Generic; //List<T>
-using Mono.Data.Sqlite;
+using System.Data.SQLite;
 
 class SqliteTrigger : Sqlite
 {
@@ -61,7 +61,7 @@ class SqliteTrigger : Sqlite
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		
-		SqliteDataReader reader = dbcmd.ExecuteReader();
+		SQLiteDataReader reader = dbcmd.ExecuteReader();
 	
 		List<Trigger> l = new List<Trigger>();
 		while(reader.Read()) {

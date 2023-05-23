@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 25.0.1705.4
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chronojump", "Chronojump.csproj", "{96C1DD6B-BBE9-4BC9-BCA3-A16D79C3D384}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{96C1DD6B-BBE9-4BC9-BCA3-A16D79C3D384}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{96C1DD6B-BBE9-4BC9-BCA3-A16D79C3D384}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{96C1DD6B-BBE9-4BC9-BCA3-A16D79C3D384}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{96C1DD6B-BBE9-4BC9-BCA3-A16D79C3D384}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {98420990-BAD6-4F79-AEE2-6DB5962F3920}
+	EndGlobalSection
+EndGlobal

@@ -144,7 +144,7 @@ class Sqlite
 	/*
 	 * Important, change this if there's any update to database
 	 */
-	static string lastChronojumpDatabaseVersion = "2.45";
+	static string lastChronojumpDatabaseVersion = "2.46";
 
 	public Sqlite()
 	{
@@ -3348,6 +3348,14 @@ class Sqlite
 
 				currentVersion = updateVersion("2.45");
 			}
+			if(currentVersion == "2.45")
+			{
+				LogB.SQL("Added two missing RunsI feedback variables: RunsIFeedbackShowBestSpeed, RunsIFeedbackShowWorstSpeed");
+
+				SqlitePreferences.insertJumpsRjRunsIFeedback2_46 (dbcmd);
+
+				currentVersion = updateVersion("2.46");
+			}
 
 			/*
 			if(currentVersion == "1.79")
@@ -3569,6 +3577,7 @@ class Sqlite
 		//changes [from - to - desc]
 //just testing: 1.79 - 1.80 Converted DB to 1.80 Created table ForceSensorElasticBandGlue and moved stiffnessString records there
 
+		//2.45 - 2.46 Converted DB to 2.46 Added two missing RunsI feedback variables: RunsIFeedbackShowBestSpeed, RunsIFeedbackShowWorstSpeed
 		//2.44 - 2.45 Converted DB to 2.45 Added JumpsRj, RunsI feedback variables
 		//2.43 - 2.44 Converted DB to 2.44 Converted all encoder.future(1|2|3) from , to .
 		//2.42 - 2.43 Converted DB to 2.43 Inserted into preferences: lastPersonID

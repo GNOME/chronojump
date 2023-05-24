@@ -163,8 +163,10 @@ public class Preferences
 	public double jumpsRjFeedbackTvTcLower;
 
 	//runsIFeedback
-	public bool runsIFeedbackShowBest;
-	public bool runsIFeedbackShowWorst;
+	public bool runsIFeedbackShowBestSpeed; //speed
+	public bool runsIFeedbackShowWorstSpeed; //speed
+	public bool runsIFeedbackShowBest; //time
+	public bool runsIFeedbackShowWorst; //time
 	public bool runsIFeedbackTimeGreaterActive; 	//implemented
 	public bool runsIFeedbackTimeLowerActive; 	//implemented
 	public bool runsIFeedbackSpeedGreaterActive; 	//implemented

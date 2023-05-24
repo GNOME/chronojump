@@ -146,6 +146,23 @@ public class FeedbackRunsInterval : Feedback
 		else
 			return (CairoGeneric.colorFromRGBA (Config.ColorBackground));
 	}
+
+	public bool EmphasizeBestSpeed
+	{
+		get { return preferences.runsIFeedbackShowBestSpeed; }
+	}
+	public bool EmphasizeWorstSpeed
+	{
+		get { return preferences.runsIFeedbackShowWorstSpeed; }
+	}
+	public bool EmphasizeBestTime
+	{
+		get { return preferences.runsIFeedbackShowBest; }
+	}
+	public bool EmphasizeWorstTime
+	{
+		get { return preferences.runsIFeedbackShowWorst; }
+	}
 }
 
 /* This class manages feedback colors in encoder

@@ -232,7 +232,7 @@ public partial class ChronoJumpWindow
 
 				cb.PassData1Serie (point_l,
 						new List<Cairo.Color>(), names_l,
-						-1, 14, 10, "hola");
+						-1, 14, 10, "hola", new List<int> (), new List<int> ());
 				cb.GraphDo();
 			} else {
 				//regular constructor

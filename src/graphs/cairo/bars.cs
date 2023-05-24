@@ -40,8 +40,8 @@ public abstract class CairoBars : CairoGeneric
 	protected bool paintGrid; //if paint grid, then paint a rectangle below resultOnBar (on encoder: false)
 
 	protected string titleStr;
-	protected int bestValue;
-	protected int worstValue;
+	protected List<int> best_l;
+	protected List<int> worst_l;
 	//3 encoder title variales
 	protected string lossStr; //loss in grey
 	protected string workStr;
@@ -298,7 +298,7 @@ public abstract class CairoBars : CairoGeneric
 	public virtual void PassData1Serie (List<PointF> barMain_l,
 			List<Cairo.Color> colorMain_l, List<string> names_l,
 			int fontHeightAboveBar, int fontHeightForBottomNames, int marginForBottomNames,
-			string titleStr)
+			string titleStr, List<int> best_l, List<int> worst_l)
 	{
 		//defined in CairoBars1Series
 	}
@@ -308,7 +308,7 @@ public abstract class CairoBars : CairoGeneric
 			string labelBarMain,// string labelBarSecondary,
 			bool labelRotateInFirstBar,
 			int fontHeightAboveBar, int fontHeightForBottomNames, int marginForBottomNames,
-			string titleStr, int bestValue, int worstValue)
+			string titleStr, List<int> best_l, List<int> worst_l)
 	{
 		//defined in CairoBarsNHSeries
 	}
@@ -1296,7 +1296,9 @@ public class CairoBars1Series : CairoBars
 			if(colorMain_l != null && colorMain_l.Count == barMain_l.Count)
 				barColor = colorMain_l[i];
 
-			drawRoundedRectangle (true, x, y, barWidth, graphHeight -y -bottomMargin, 4, g, barColor, false, false);
+			drawRoundedRectangle (true, x, y, barWidth, graphHeight -y -bottomMargin, 4, g, barColor,
+					Util.FoundInListInt (best_l, i),
+					Util.FoundInListInt (worst_l, i));
 			resultOnBars_l.Add(new Point3F(x + barWidth/2, y, p.Y));
 			mouseLimits.AddInPos (i, x, x+barWidth);
 
@@ -1324,7 +1326,7 @@ public class CairoBars1Series : CairoBars
 	public override void PassData1Serie (List<PointF> barMain_l,
 			List<Cairo.Color> colorMain_l, List<string> names_l,
 			int fontHeightAboveBar, int fontHeightForBottomNames, int marginForBottomNames,
-			string titleStr)
+			string titleStr, List<int> best_l, List<int> worst_l)
 	{
 		this.barMain_l = barMain_l;
 		this.colorMain_l = colorMain_l;
@@ -1335,6 +1337,9 @@ public class CairoBars1Series : CairoBars
 
 		if(! encoderTitle)
 			this.titleStr = titleStr;
+
+		this.best_l = best_l;
+		this.worst_l = worst_l;
 	}
 
 	public override void GraphDo ()
@@ -1687,7 +1692,9 @@ public class CairoBarsNHSeries : CairoBars
 					if(colorSecondary_l != null && colorSecondary_l.Count == barSecondary_ll[j].Count)
 						barColor = colorSecondary_l[i];
 
-					drawRoundedRectangle (true, x + adjustX, y, barWidth, graphHeight -y -bottomMargin, 4, g, barColor, i == bestValue, i == worstValue);
+					drawRoundedRectangle (true, x + adjustX, y, barWidth, graphHeight -y -bottomMargin, 4, g, barColor,
+							Util.FoundInListInt (best_l, i),
+							Util.FoundInListInt (worst_l, i));
 					resultOnBarsThisIteration_l.Add(new Point3F(x + adjustX + barWidth/2, y-4, pS.Y));
 					//to print line variable if needed
 					//barsXCenter_l.Add(x + adjustX + barWidth/2);
@@ -1737,7 +1744,9 @@ public class CairoBarsNHSeries : CairoBars
 				if(colorMain_l != null && colorMain_l.Count == barMain_l.Count)
 					barColor = colorMain_l[i];
 
-				drawRoundedRectangle (true, x+adjustX, y, barWidth, graphHeight -y -bottomMargin, 4, g, barColor, i == bestValue, i == worstValue);
+				drawRoundedRectangle (true, x+adjustX, y, barWidth, graphHeight -y -bottomMargin, 4, g, barColor,
+						Util.FoundInListInt (best_l, i),
+						Util.FoundInListInt (worst_l, i));
 				resultOnBarsThisIteration_l.Add(new Point3F(x + adjustX + barWidth/2, y, pB.Y));
 				//add for the secondary and for the main bar, no problem both will work
 				mouseLimits.AddInPos (mouseLimitsPos2ndBar, x+adjustX, x+adjustX+barWidth);
@@ -1791,7 +1800,7 @@ public class CairoBarsNHSeries : CairoBars
 			string labelBarMain,// string labelBarSecondary,
 			bool labelRotateInFirstBar,
 			int fontHeightAboveBar, int fontHeightForBottomNames, int marginForBottomNames,
-			string titleStr, int bestValue, int worstValue)
+			string titleStr, List<int> best_l, List<int> worst_l)
 	{
 		this.barSecondary_ll = barSecondary_ll;
 		this.barMain_l = barMain_l;
@@ -1808,8 +1817,8 @@ public class CairoBarsNHSeries : CairoBars
 		if(! encoderTitle)
 			this.titleStr = titleStr;
 
-		this.bestValue = bestValue;
-		this.worstValue = worstValue;
+		this.best_l = best_l;
+		this.worst_l = worst_l;
 	}
 
 	public override void GraphDo ()

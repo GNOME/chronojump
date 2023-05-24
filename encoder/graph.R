@@ -2920,16 +2920,10 @@ doProcess <- function(options)
 				#note if the row on inputMultiData is !c, the criteria of ec or ecS is in Roptions.txt
 				if (op$Eccon == "ec")
 				{
-					positionTemp <- cumsum(dataTempFile)
-					changeEccCon <- mean(which(positionTemp == min(positionTemp)))
-
-					ecc_l <- reduceCurveByPredictStartEnd (dataTempFile[1:changeEccCon],
-									       "e", op$MinHeight)
-					con_l <- reduceCurveByPredictStartEnd (dataTempFile[changeEccCon:length(dataTempFile)],
-									       "c", op$MinHeight)
-
-					startPos <- ecc_l$startPos
-					endPos <- changeEccCon + con_l$endPos -1
+					reducedCurve_l <- reduceCurveByPredictStartEnd (dataTempFile,
+											op$Eccon, op$MinHeight)
+					startPos <- reducedCurve_l$startPos
+					endPos <- reducedCurve_l$endPos
 				}
 				else #(op$Eccon=="ecS" || op$Eccon=="ceS") )
 				{

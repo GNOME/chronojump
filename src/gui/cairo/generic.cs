@@ -153,7 +153,7 @@ public abstract class CairoGeneric
 	}
 
 	//TODO: fix if min == max (crashes)
-	protected enum gridTypes { BOTH, HORIZONTALLINES, VERTICALLINES }
+	protected enum gridTypes { BOTH, HORIZONTALLINES, HORIZONTALLINESATRIGHT, VERTICALLINES }
 	protected void paintGridNiceAutoValues (Cairo.Context g, double minX, double maxX, double minY, double maxY, int seps, gridTypes gridType, int fontH)
 	{
 		bool errorX;

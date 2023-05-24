@@ -1613,15 +1613,18 @@ public class CairoPaintBarsPreJumpSimple : CairoPaintBarsPre
 			cb.PassData2Series (pointB_l, barsSecondary_ll, false,
 					new List<Cairo.Color>(), new List<Cairo.Color>(), names_l,
 					"", false,
-					-1, fontHeightForBottomNames, bottomMargin, title, -1, -1);
+					-1, fontHeightForBottomNames, bottomMargin, title,
+					new List<int> (), new List<int> ());
 		} else if (showBarA) //takeOff, takeOffWeight
 			cb.PassData1Serie (pointA_l,
 					new List<Cairo.Color>(), names_l,
-					-1, fontHeightForBottomNames, bottomMargin, title);
+					-1, fontHeightForBottomNames, bottomMargin, title,
+					new List<int> (), new List<int> ());
 		else //rest of the jumps: sj, cmj, ..
 			cb.PassData1Serie (pointB_l,
 					new List<Cairo.Color>(), names_l,
-					-1, fontHeightForBottomNames, bottomMargin, title);
+					-1, fontHeightForBottomNames, bottomMargin, title,
+					new List<int> (), new List<int> ());
 
 		cb.GraphDo();
 	}
@@ -1759,7 +1762,8 @@ public class CairoPaintBarsPreJumpReactive : CairoPaintBarsPre
 		cb.PassData2Series (pointB_l, barsSecondary_ll, false,
 				new List<Cairo.Color>(), new List<Cairo.Color>(), names_l,
 				"", false,
-				-1, fontHeightForBottomNames, bottomMargin, title, -1, -1);
+				-1, fontHeightForBottomNames, bottomMargin, title,
+				new List<int> (), new List<int> ());
 		cb.GraphDo();
 	}
 }
@@ -1865,7 +1869,8 @@ public class CairoPaintBarsPreRunSimple : CairoPaintBarsPre
 
 		cb.PassData1Serie (point_l,
 				new List<Cairo.Color>(), names_l,
-				-1, fontHeightForBottomNames, bottomMargin, title);
+				-1, fontHeightForBottomNames, bottomMargin, title,
+				new List<int> (), new List<int> ());
 		cb.GraphDo();
 	}
 }
@@ -1982,7 +1987,8 @@ public class CairoPaintBarsPreRunInterval : CairoPaintBarsPre
 
 		cb.PassData1Serie (point_l,
 				new List<Cairo.Color>(), names_l,
-				-1, fontHeightForBottomNames, bottomMargin, title);
+				-1, fontHeightForBottomNames, bottomMargin, title,
+				new List<int> (), new List<int> ());
 		cb.GraphDo();
 	}
 }
@@ -1997,8 +2003,11 @@ public class CairoPaintBarsPreJumpReactiveRealtimeCapture : CairoPaintBarsPre
 	private List<Cairo.Color> colorMain_l;
 	private List<Cairo.Color> colorSecondary_l;
 	private FeedbackJumpsRj feedbackJumpsRj;
-	private int bestJump;
-	private int worstJump;
+
+	// these are lists because on Runs best speed and best time can be sent,
+	// and in the future maybe there are other criterias eg. for encoder
+	private List<int> best_l;
+	private List<int> worst_l;
 
 	//just blank the screen
 	public CairoPaintBarsPreJumpReactiveRealtimeCapture (DrawingArea darea, string fontStr)
@@ -2040,30 +2049,39 @@ public class CairoPaintBarsPreJumpReactiveRealtimeCapture : CairoPaintBarsPre
 			if(Util.IsNumber(tc, true))
 				tc_l.Add(Convert.ToDouble(tc));
 
-		//get best tv/tc jump
-		bestJump = -1;
-		double bestJumpValues = 0;
 		if (feedbackJumpsRj.EmphasizeBestTvTc)
-			for (int i = 0; i < tc_l.Count; i ++)
-				if (tc_l[i] > 0 && (bestJump == -1 || tv_l[i] / tc_l[i] > bestJumpValues))
-				{
-					bestJumpValues = tv_l[i] / tc_l[i];
-					bestJump = i;
-				}
+			best_l = getBestWorstList (true);
+		else
+			best_l = new List<int> ();
 
-		//get worst tv/tc jump
-		worstJump = -1;
-		double worstJumpValues = 0;
 		if (feedbackJumpsRj.EmphasizeWorstTvTc)
-			for (int i = 0; i < tc_l.Count; i ++)
-				if (tc_l[i] > 0 && (worstJump == -1 || tv_l[i] / tc_l[i] < worstJumpValues))
-				{
-					worstJumpValues = tv_l[i] / tc_l[i];
-					worstJump = i;
-				}
+			worst_l = getBestWorstList (false);
+		else
+			worst_l = new List<int> ();
 
 		colorMain_l = new List<Cairo.Color>();
 		colorSecondary_l = new List<Cairo.Color>();
+	}
+
+	private List<int> getBestWorstList (bool best)
+	{
+		int jump = -1;
+		double jumpValue = 0;
+		for (int i = 0; i < tc_l.Count; i ++)
+			if (tc_l[i] > 0 &&
+					( jump == -1 ||
+					  (best && tv_l[i] / tc_l[i] > jumpValue) ||
+					  (! best && tv_l[i] / tc_l[i] < jumpValue) ) )
+			{
+				jumpValue = tv_l[i] / tc_l[i];
+				jump = i;
+			}
+
+		List<int> l = new List<int> ();
+		if (jump >= 0)
+			l.Add (jump);
+
+		return l;
 	}
 
 	/*
@@ -2148,7 +2166,7 @@ public class CairoPaintBarsPreJumpReactiveRealtimeCapture : CairoPaintBarsPre
 		cb.PassData2Series (pointB_l, barsSecondary_ll, false,
 				colorMain_l, colorSecondary_l, names_l,
 				"", false,
-				-1, 14, 8, title, bestJump, worstJump);
+				-1, 14, 8, title, best_l, worst_l);
 		cb.GraphDo();
 	}
 }
@@ -2166,6 +2184,11 @@ public class CairoPaintBarsPreRunIntervalRealtimeCapture : CairoPaintBarsPre
 	private List<int> photocell_l;
 	private List<Cairo.Color> colorMain_l;
 	private FeedbackRunsInterval feedbackRunsI;
+
+	// these are lists because on Runs best speed and best time can be sent,
+	// and in the future maybe there are other criterias eg. for encoder
+	private List<int> best_l;
+	private List<int> worst_l;
 
 	//just blank the screen
 	public CairoPaintBarsPreRunIntervalRealtimeCapture (DrawingArea darea, string fontStr)
@@ -2239,9 +2262,40 @@ public class CairoPaintBarsPreRunIntervalRealtimeCapture : CairoPaintBarsPre
 			LogB.Information(speed.ToString());
 		*/
 
+		best_l = new List<int> ();
+		if (feedbackRunsI.EmphasizeBestSpeed)
+			best_l = getBestWorstList (best_l, speed_l, true);
+		if (feedbackRunsI.EmphasizeBestTime)
+			best_l = getBestWorstList (best_l, time_l, false);
+
+		worst_l = new List<int> ();
+		if (feedbackRunsI.EmphasizeWorstSpeed)
+			worst_l = getBestWorstList (worst_l, speed_l, false);
+		if (feedbackRunsI.EmphasizeWorstTime)
+			worst_l = getBestWorstList (worst_l, time_l, true);
+
 		colorMain_l = new List<Cairo.Color>();
 	}
 
+	private List<int> getBestWorstList (List<int> return_l, List<double> find_l, bool higher)
+	{
+		int run = -1;
+		double runValue = 0;
+		for (int i = 0; i < find_l.Count; i ++)
+			if (find_l[i] > 0 &&
+					( run == -1 ||
+					  (higher && find_l[i] > runValue) ||
+					  (! higher && find_l[i] < runValue) ) )
+			{
+				runValue = find_l[i];
+				run = i;
+			}
+
+		if (run >= 0)
+			return_l.Add (run);
+
+		return return_l;
+	}
 	/*
 	public override void StoreEventGraphJumpReactiveCapture (PrepareEventGraphJumpReactiveRealtimeCapture eventGraph)
 	{
@@ -2336,7 +2390,8 @@ public class CairoPaintBarsPreRunIntervalRealtimeCapture : CairoPaintBarsPre
 
 		cb.PassData1Serie (point_l,
 				colorMain_l, names_l,
-				-1, 14, 22, title); //22 because there are two rows
+				-1, 14, 22, title, //22 because there are two rows
+				best_l, worst_l);
 		cb.GraphDo();
 	}
 }
@@ -3001,7 +3056,8 @@ public class CairoPaintBarplotPreEncoder : CairoPaintBarsPre
 		if(pegbe.eccon == "c")
 			cb.PassData1Serie (barA_l,
 					colorMain_l, names_l,
-					preferences.encoderCaptureBarplotFontSize, 14, 8, "");
+					preferences.encoderCaptureBarplotFontSize, 14, 8, "",
+					new List<int> (), new List<int> ());
 		else {
 			List<List<PointF>> barsSecondary_ll = new List<List<PointF>>();
 			barsSecondary_ll.Add(barA_l);
@@ -3010,7 +3066,8 @@ public class CairoPaintBarplotPreEncoder : CairoPaintBarsPre
 					colorMain_l, colorSecondary_l, names_l,
 					"Ecc",// "Con",
 					false,
-					preferences.encoderCaptureBarplotFontSize, 14, 8, "", -1, -1);
+					preferences.encoderCaptureBarplotFontSize, 14, 8, "",
+					new List<int> (), new List<int> ());
 		}
 
 		cb.GraphDo();

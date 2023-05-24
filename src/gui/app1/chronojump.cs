@@ -8380,6 +8380,30 @@ LogB.Debug("mc finished 5");
 			else if(m == Constants.Modes.RUNSINTERVALLIC)
 			{
 				// .*Active (boolean) prefs
+				preferences.runsIFeedbackShowBestSpeed = Preferences.PreferencesChange(
+						true,
+						SqlitePreferences.RunsIFeedbackShowBestSpeed,
+						preferences.runsIFeedbackShowBestSpeed,
+						feedbackWin.RunsIFeedbackSpeedBestActive);
+
+				preferences.runsIFeedbackShowWorstSpeed = Preferences.PreferencesChange(
+						true,
+						SqlitePreferences.RunsIFeedbackShowWorstSpeed,
+						preferences.runsIFeedbackShowWorstSpeed,
+						feedbackWin.RunsIFeedbackSpeedWorstActive);
+
+				preferences.runsIFeedbackShowBest = Preferences.PreferencesChange(
+						true,
+						SqlitePreferences.RunsIFeedbackShowBest,
+						preferences.runsIFeedbackShowBest,
+						feedbackWin.RunsIFeedbackTimeBestActive);
+
+				preferences.runsIFeedbackShowWorst = Preferences.PreferencesChange(
+						true,
+						SqlitePreferences.RunsIFeedbackShowWorst,
+						preferences.runsIFeedbackShowWorst,
+						feedbackWin.RunsIFeedbackTimeWorstActive);
+
 				preferences.runsIFeedbackSpeedGreaterActive = Preferences.PreferencesChange(
 						true,
 						SqlitePreferences.RunsIFeedbackSpeedGreaterActive,

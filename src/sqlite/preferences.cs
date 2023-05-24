@@ -83,8 +83,10 @@ class SqlitePreferences : Sqlite
 	public const string JumpsRjFeedbackTvTcGreater = "jumpsRjFeedbackTvTcGreater";
 	public const string JumpsRjFeedbackTvTcLower = "jumpsRjFeedbackTvTcLower";
 
-	public const string RunsIFeedbackShowBest = "runsIFeedbackShowBest"; //will be time or speed
-	public const string RunsIFeedbackShowWorst = "runsIFeedbackShowWorst"; //will be time or speed
+	public const string RunsIFeedbackShowBestSpeed = "runsIFeedbackShowBestSpeed"; //speed
+	public const string RunsIFeedbackShowWorstSpeed = "runsIFeedbackShowWorstSpeed"; //speed
+	public const string RunsIFeedbackShowBest = "runsIFeedbackShowBest"; //time
+	public const string RunsIFeedbackShowWorst = "runsIFeedbackShowWorst"; //time
 	public const string RunsIFeedbackTimeGreaterActive = "runsIFeedbackTimeGreaterActive";
 	public const string RunsIFeedbackTimeLowerActive = "runsIFeedbackTimeLowerActive";
 	public const string RunsIFeedbackSpeedGreaterActive = "runsIFeedbackSpeedGreaterActive";
@@ -443,6 +445,7 @@ class SqlitePreferences : Sqlite
 				//Insert ("encoderConfiguration", new EncoderConfiguration().ToStringOutput(EncoderConfiguration.Outputs.SQL), dbcmdTr);
 
 				insertJumpsRjRunsIFeedback2_45 (dbcmdTr); 	//2_45 migration
+				insertJumpsRjRunsIFeedback2_46 (dbcmdTr); 	//2_46 migration
 			}
 			tr.Commit();
 		}
@@ -487,8 +490,8 @@ class SqlitePreferences : Sqlite
 		Insert (JumpsRjFeedbackTvTcGreater, "3", dbcmdTr);
 		Insert (JumpsRjFeedbackTvTcLower, "1", dbcmdTr);
 
-		Insert (RunsIFeedbackShowBest, "True", dbcmdTr);
-		Insert (RunsIFeedbackShowWorst, "True", dbcmdTr);
+		Insert (RunsIFeedbackShowBest, "False", dbcmdTr); //time
+		Insert (RunsIFeedbackShowWorst, "False", dbcmdTr); //time
 		Insert (RunsIFeedbackTimeGreaterActive, "False", dbcmdTr);
 		Insert (RunsIFeedbackTimeLowerActive, "False", dbcmdTr);
 		Insert (RunsIFeedbackSpeedGreaterActive, "False", dbcmdTr);
@@ -497,6 +500,12 @@ class SqlitePreferences : Sqlite
 		Insert (RunsIFeedbackTimeLower, "10", dbcmdTr);
 		Insert (RunsIFeedbackSpeedGreater, "8", dbcmdTr);
 		Insert (RunsIFeedbackSpeedLower, "3", dbcmdTr);
+	}
+
+	protected internal static void insertJumpsRjRunsIFeedback2_46 (SqliteCommand dbcmdTr)
+	{
+		Insert (RunsIFeedbackShowBestSpeed, "True", dbcmdTr); //speed
+		Insert (RunsIFeedbackShowWorstSpeed, "True", dbcmdTr); //speed
 	}
 
 	public static void Update(string myName, bool myValue, bool dbconOpened)
@@ -722,9 +731,13 @@ class SqlitePreferences : Sqlite
 						Util.ChangeDecimalSeparator(reader[1].ToString()));
 
 			//runsI
-			else if (reader[0].ToString () == RunsIFeedbackShowBest)
+			else if (reader[0].ToString () == RunsIFeedbackShowBestSpeed) //speed
+				preferences.runsIFeedbackShowBestSpeed = reader[1].ToString() == "True";
+			else if (reader[0].ToString () == RunsIFeedbackShowWorstSpeed) //speed
+				preferences.runsIFeedbackShowWorstSpeed = reader[1].ToString() == "True";
+			else if (reader[0].ToString () == RunsIFeedbackShowBest) //time
 				preferences.runsIFeedbackShowBest = reader[1].ToString() == "True";
-			else if (reader[0].ToString () == RunsIFeedbackShowWorst)
+			else if (reader[0].ToString () == RunsIFeedbackShowWorst) //time
 				preferences.runsIFeedbackShowWorst = reader[1].ToString() == "True";
 			else if (reader[0].ToString () == RunsIFeedbackTimeGreaterActive)
 				preferences.runsIFeedbackTimeGreaterActive = reader[1].ToString() == "True";

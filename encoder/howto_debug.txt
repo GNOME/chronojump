@@ -57,3 +57,54 @@ c to continue until end
 Q to quit debug (but strangely continues to being associated)
 ls () will show the local objects in the debug function, and you can print them writing the variable and enter or using print (variable) if they are named n, c, Q
 
+
+Example of usage:
+-----------------
+Chronojump session borrame3 person provaEnc
+
+A)
+Analyze currentSession Select repetition (2) (2023-05-25 10:44:43)
+mode: bars ecS
+Click on Analyze
+on a terminal:
+
+- paste the 1st time code
+- paste the each time code
+
+result:
+"curves before pafGenerate"
+   start  end startH   exerciseName massBody massExtra            dateTime
+2e     1  899      0 Press de Banca       50        70 2023-05-25 10:44:43
+2c   907 2016      0 Press de Banca       50        70 2023-05-25 10:44:43
+   myEccon seriesName percentBodyWeight econfName econfd econfD econfAnglePush
+2e       e   provaEnc                 0    LINEAR     -1     -1             -1
+2c       c   provaEnc                 0    LINEAR     -1     -1             -1
+
+889 - 1 = 898
+2016 - 907 = 1109
+
+B)
+Now load that set and analyze current set, bars, ecS, click on analyze
+on a terminal paste the each time codde
+
+result:
+"curves before pafGenerate"
+  startStored endStored startHStored
+1      1002.5    1900.5            0
+2      2123.5    3017.5            0
+3      3095.0    4128.0            0
+4      4317.5    5250.5            0
+
+we care about 1 and 2
+1900.5 - 1002.5 = 898
+3017.5 -2123.5 = 894
+
+1109 != 894
+
+check displacementDebug curvesDebug with:
+displacementCurvesDebug(TRUE)
+see images: fixEccConCutOnNotSingleFile/current-set.png fixEccConCutOnNotSingleFile/current-session.png
+the problem is on current-session.png (! singleFile)
+
+continue investigating on graph.R: print ("continue investigating here!")
+

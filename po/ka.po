@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/chronojump/issues\n"
-"POT-Creation-Date: 2023-05-19 11:29+0000\n"
-"PO-Revision-Date: 2023-05-20 05:19+0200\n"
+"POT-Creation-Date: 2023-05-24 12:12+0000\n"
+"PO-Revision-Date: 2023-05-25 05:16+0200\n"
 "Last-Translator: Ekaterine Papava <papava.e@gtu.ge>\n"
 "Language-Team: Georgian <(nothing)>\n"
 "Language: ka\n"
@@ -111,7 +111,7 @@ msgstr "რეჟიმები"
 
 #: ../glade/app1.glade.h:20 ../glade/dialog_threshold.glade.h:3
 #: ../glade/preferences_win.glade.h:39 ../glade/report_window.glade.h:10
-#: ../src/exportSession.cs:501 ../src/gui/app1/chronojump.cs:5777
+#: ../src/exportSession.cs:501 ../src/gui/app1/chronojump.cs:5795
 #: ../src/gui/jump.cs:1352 ../src/gui/jump.cs:1407 ../src/gui/jump.cs:1457
 #: ../src/sqlite/speciallity.cs:174 ../src/stats/rjAVGSD.cs:36
 #: ../src/stats/rjPotencyBosco.cs:35
@@ -200,7 +200,7 @@ msgid "Analyze"
 msgstr "&ანალიზი"
 
 #: ../glade/app1.glade.h:37 ../glade/report_window.glade.h:16
-#: ../src/exportSession.cs:242 ../src/gui/app1/chronojump.cs:6472
+#: ../src/exportSession.cs:242 ../src/gui/app1/chronojump.cs:6517
 #: ../src/report.cs:183
 msgid "Pulses"
 msgstr "პულსი"
@@ -271,7 +271,7 @@ msgstr "მორგება"
 msgid "Overview of this session"
 msgstr "სესის მიმოხილვა"
 
-#: ../glade/app1.glade.h:50 ../glade/feedback.glade.h:17
+#: ../glade/app1.glade.h:50 ../glade/feedback.glade.h:19
 msgid "Feedback"
 msgstr "უკუკავშირი"
 
@@ -279,7 +279,7 @@ msgstr "უკუკავშირი"
 msgid "Delete last test."
 msgstr "ბოლო ტესტის წასლა."
 
-#: ../glade/app1.glade.h:52 ../src/gui/app1/chronojump.cs:5259
+#: ../glade/app1.glade.h:52 ../src/gui/app1/chronojump.cs:5263
 #: ../src/gui/app1/encoder.cs:1360 ../src/gui/app1/encoder.cs:7502
 msgid "Save comment"
 msgstr "კომენტარის შენახვა"
@@ -295,7 +295,7 @@ msgid "Start automatic mode"
 msgstr "ავტომატური რეჟიმის გაშვება"
 
 #: ../glade/app1.glade.h:55 ../glade/execute_auto.glade.h:4
-#: ../glade/feedback.glade.h:53 ../glade/preferences_win.glade.h:186
+#: ../glade/feedback.glade.h:55 ../glade/preferences_win.glade.h:186
 msgid "page 1"
 msgstr "გვერდი 1"
 
@@ -320,7 +320,7 @@ msgid "End automatic mode"
 msgstr "ავტომატური რეჟიმის დასრულება"
 
 #: ../glade/app1.glade.h:61 ../glade/execute_auto.glade.h:15
-#: ../glade/feedback.glade.h:54 ../glade/preferences_win.glade.h:189
+#: ../glade/feedback.glade.h:56 ../glade/preferences_win.glade.h:189
 msgid "page 2"
 msgstr "გვერდი 2"
 
@@ -356,8 +356,8 @@ msgstr "ტესტის გაუქმება"
 msgid "Cancel"
 msgstr "გაუქმება"
 
-#: ../glade/app1.glade.h:67 ../src/gui/app1/chronojump.cs:5480
-#: ../src/gui/app1/chronojump.cs:5926 ../src/gui/app1/chronojump.cs:6296
+#: ../glade/app1.glade.h:67 ../src/gui/app1/chronojump.cs:5484
+#: ../src/gui/app1/chronojump.cs:5953 ../src/gui/app1/chronojump.cs:6341
 #: ../src/gui/app1/jump.cs:350 ../src/gui/app1/jump.cs:393
 #: ../src/gui/app1/reactionTime.cs:98 ../src/gui/app1/run.cs:192
 #: ../src/gui/app1/run.cs:240
@@ -369,8 +369,8 @@ msgstr "ფაზები"
 #: ../src/exportSession.cs:667 ../src/exportSession.cs:823
 #: ../src/exportSession.cs:884 ../src/exportSession.cs:969
 #: ../src/forceSensor.cs:1922 ../src/graphs/cairo/xy.cs:105
-#: ../src/gui/eventExecute.cs:1521 ../src/gui/eventExecute.cs:1657
-#: ../src/gui/eventExecute.cs:2070 ../src/gui/pulse.cs:232
+#: ../src/gui/eventExecute.cs:1521 ../src/gui/eventExecute.cs:1660
+#: ../src/gui/eventExecute.cs:2112 ../src/gui/pulse.cs:232
 #: ../src/stats/rjPotencyBosco.cs:36 ../src/stats/runSimple.cs:53
 #: ../src/treeview/multiChronopic.cs:55 ../src/treeview/multiChronopic.cs:63
 #: ../src/treeview/multiChronopic.cs:71 ../src/treeview/pulse.cs:47
@@ -502,8 +502,8 @@ msgstr "ბოლო პულსი"
 #. don't plot AVG row on multisession
 #: ../glade/app1.glade.h:97 ../src/exportSession.cs:604
 #: ../src/exportSession.cs:771 ../src/exportSession.cs:889
-#: ../src/exportSession.cs:991 ../src/gui/eventExecute.cs:1659
-#: ../src/gui/eventExecute.cs:1660 ../src/stats/graphs/djIndex.cs:111
+#: ../src/exportSession.cs:991 ../src/gui/eventExecute.cs:1662
+#: ../src/gui/eventExecute.cs:1663 ../src/stats/graphs/djIndex.cs:111
 #: ../src/stats/graphs/djPower.cs:116 ../src/stats/graphs/djQ.cs:111
 #: ../src/stats/graphs/fv.cs:109 ../src/stats/graphs/fv.cs:149
 #: ../src/stats/graphs/global.cs:108 ../src/stats/graphs/global.cs:165
@@ -534,10 +534,10 @@ msgstr "მასშტაბირების შეცვლა (z)"
 msgid "Edit selected (e)"
 msgstr "მონიშნულის ჩასწორება (e)"
 
-#: ../glade/app1.glade.h:100 ../src/gui/app1/chronojump.cs:1891
-#: ../src/gui/app1/chronojump.cs:2010 ../src/gui/app1/chronojump.cs:2109
-#: ../src/gui/app1/chronojump.cs:2240 ../src/gui/app1/chronojump.cs:2331
-#: ../src/gui/app1/chronojump.cs:2430 ../src/gui/app1/chronojump.cs:2542
+#: ../glade/app1.glade.h:100 ../src/gui/app1/chronojump.cs:1888
+#: ../src/gui/app1/chronojump.cs:2007 ../src/gui/app1/chronojump.cs:2106
+#: ../src/gui/app1/chronojump.cs:2237 ../src/gui/app1/chronojump.cs:2328
+#: ../src/gui/app1/chronojump.cs:2427 ../src/gui/app1/chronojump.cs:2539
 #: ../src/gui/executeAuto.cs:255
 msgid "Delete selected"
 msgstr "მონიშნულის წაშლა"
@@ -572,9 +572,9 @@ msgstr ""
 msgid "Race Intervallic"
 msgstr ""
 
-#: ../glade/app1.glade.h:108 ../glade/feedback.glade.h:70
+#: ../glade/app1.glade.h:108 ../glade/feedback.glade.h:72
 #: ../src/encoder.cs:2521 ../src/forceSensor.cs:1995
-#: ../src/gui/feedback.cs:1134
+#: ../src/gui/feedback.cs:1165
 msgid "Maximum"
 msgstr "მაქსიმუმი"
 
@@ -582,8 +582,8 @@ msgstr "მაქსიმუმი"
 msgid "Current"
 msgstr "მიმდინარე"
 
-#: ../glade/app1.glade.h:110 ../glade/feedback.glade.h:69
-#: ../src/gui/feedback.cs:1134
+#: ../glade/app1.glade.h:110 ../glade/feedback.glade.h:71
+#: ../src/gui/feedback.cs:1165
 msgid "Minimum"
 msgstr "მინიმუმი"
 
@@ -648,7 +648,7 @@ msgstr "სავარჯიშოს ტიპის ჩასწორებ�
 #: ../glade/encoder_configuration.glade.h:25
 #: ../glade/force_sensor_elastic_bands.glade.h:11
 #: ../glade/generic_window.glade.h:9 ../glade/person_select_window.glade.h:16
-#: ../src/gui/app1/chronojump.cs:1736
+#: ../src/gui/app1/chronojump.cs:1733
 msgid "Edit"
 msgstr "რედაქტირება"
 
@@ -826,7 +826,7 @@ msgstr "10"
 
 #. update the totaltime label
 #: ../glade/app1.glade.h:163 ../glade/edit_event.glade.h:18
-#: ../glade/feedback.glade.h:48 ../src/gui/app1/jump.cs:432
+#: ../glade/feedback.glade.h:50 ../src/gui/app1/jump.cs:432
 #: ../src/gui/jump.cs:671 ../src/gui/jump.cs:774 ../src/gui/jump.cs:798
 #: ../src/gui/jump.cs:932 ../src/gui/pulse.cs:185 ../src/gui/pulse.cs:264
 #: ../src/gui/pulse.cs:370 ../src/gui/run.cs:747 ../src/gui/run.cs:836
@@ -860,19 +860,19 @@ msgstr ""
 msgid "Lights"
 msgstr "განათებები"
 
-#: ../glade/app1.glade.h:169 ../src/gui/app1/chronojump.cs:6311
+#: ../glade/app1.glade.h:169 ../src/gui/app1/chronojump.cs:6356
 msgid "red"
 msgstr "წითელი"
 
-#: ../glade/app1.glade.h:170 ../src/gui/app1/chronojump.cs:6315
+#: ../glade/app1.glade.h:170 ../src/gui/app1/chronojump.cs:6360
 msgid "yellow"
 msgstr "ყვითელი"
 
-#: ../glade/app1.glade.h:171 ../src/gui/app1/chronojump.cs:6319
+#: ../glade/app1.glade.h:171 ../src/gui/app1/chronojump.cs:6364
 msgid "green"
 msgstr "მწვანე"
 
-#: ../glade/app1.glade.h:172 ../src/gui/app1/chronojump.cs:6323
+#: ../glade/app1.glade.h:172 ../src/gui/app1/chronojump.cs:6368
 msgid "buzzer"
 msgstr ""
 
@@ -1136,11 +1136,11 @@ msgstr "ზღვარი"
 
 #: ../glade/app1.glade.h:223
 msgid "Person's average"
-msgstr ""
+msgstr "პიროვნების საშუალო"
 
 #: ../glade/app1.glade.h:224
 msgid "Person's bests"
-msgstr ""
+msgstr "პიროვნების საუკეთესო მაჩვენებლები"
 
 #: ../glade/app1.glade.h:225 ../glade/person_select_window.glade.h:18
 msgid "Show tests"
@@ -1213,7 +1213,7 @@ msgstr "ანგარიშის ფანჯრის ნახვა"
 msgid "Width"
 msgstr "სიგანე"
 
-#: ../glade/app1.glade.h:242 ../glade/feedback.glade.h:10
+#: ../glade/app1.glade.h:242 ../glade/feedback.glade.h:12
 #: ../glade/person_multiple_infinite.glade.h:21
 #: ../glade/preferences_win.glade.h:141 ../src/exportSession.cs:279
 #: ../src/exportSession.cs:393 ../src/exportSession.cs:594
@@ -1229,7 +1229,7 @@ msgstr "სიმაღლე"
 msgid "Width of the line"
 msgstr "ხაზის სიგანე"
 
-#: ../glade/app1.glade.h:244 ../glade/feedback.glade.h:71
+#: ../glade/app1.glade.h:244 ../glade/feedback.glade.h:73
 msgid "Line width"
 msgstr "ხაზის სიგანე"
 
@@ -1281,7 +1281,7 @@ msgstr "გრაფიკის ჩვენება"
 
 #: ../glade/app1.glade.h:257
 msgid "<b>Maximum Force</b>"
-msgstr ""
+msgstr "<b>მაქს.ძალა</b>"
 
 #: ../glade/app1.glade.h:258
 msgid "<b>Explosive Force</b>"
@@ -1458,7 +1458,7 @@ msgstr "ჩვენება"
 
 #. cols: 4, 6, 8, ...
 #. cols: 3, 5, 7, ...
-#: ../glade/app1.glade.h:304 ../glade/feedback.glade.h:8
+#: ../glade/app1.glade.h:304 ../glade/feedback.glade.h:10
 #: ../src/exportSession.cs:390 ../src/exportSession.cs:593
 #: ../src/graphs/cairo/xy.cs:107 ../src/gui/convertWeight.cs:120
 #: ../src/gui/jump.cs:748 ../src/stats/djIndex.cs:34 ../src/stats/djPower.cs:34
@@ -1471,12 +1471,12 @@ msgid "TF"
 msgstr "TF"
 
 #: ../glade/app1.glade.h:305 ../glade/edit_event.glade.h:9
-#: ../src/gui/eventExecute.cs:1525 ../src/gui/eventExecute.cs:1659
-#: ../src/gui/eventExecute.cs:2073
+#: ../src/gui/eventExecute.cs:1525 ../src/gui/eventExecute.cs:1662
+#: ../src/gui/eventExecute.cs:2115
 msgid "Contact time"
-msgstr ""
+msgstr "საკონტაქტო დრო"
 
-#: ../glade/app1.glade.h:306 ../glade/feedback.glade.h:9
+#: ../glade/app1.glade.h:306 ../glade/feedback.glade.h:11
 #: ../src/exportSession.cs:389 ../src/exportSession.cs:592
 #: ../src/graphs/cairo/xy.cs:108 ../src/gui/convertWeight.cs:128
 #: ../src/gui/jump.cs:739 ../src/stats/djIndex.cs:35 ../src/stats/djPower.cs:35
@@ -1564,7 +1564,7 @@ msgstr "RFD-ის პარამეტრები"
 msgid "RFD Model"
 msgstr "RFD-ის მოდელი"
 
-#: ../glade/app1.glade.h:326 ../glade/feedback.glade.h:38
+#: ../glade/app1.glade.h:326 ../glade/feedback.glade.h:40
 #: ../src/constants.cs:1511 ../src/encoder.cs:2491 ../src/forceSensor.cs:1923
 #: ../src/graphs/cairo/xy.cs:102 ../src/gui/overview.cs:313
 msgid "Force"
@@ -1581,11 +1581,11 @@ msgid "Difference"
 msgstr "სხვაობა"
 
 #: ../glade/app1.glade.h:329 ../glade/edit_event.glade.h:12
-#: ../glade/feedback.glade.h:35 ../src/constants.cs:1509 ../src/encoder.cs:2489
+#: ../glade/feedback.glade.h:37 ../src/constants.cs:1509 ../src/encoder.cs:2489
 #: ../src/exportSession.cs:668 ../src/forceSensor.cs:1928
 #: ../src/graphs/cairo/radial.cs:147 ../src/graphs/cairo/xy.cs:100
-#: ../src/gui/app1/runEncoder.cs:2537 ../src/gui/eventExecute.cs:1794
-#: ../src/gui/eventExecute.cs:1900 ../src/gui/eventExecute.cs:2249
+#: ../src/gui/app1/runEncoder.cs:2537 ../src/gui/eventExecute.cs:1798
+#: ../src/gui/eventExecute.cs:1905 ../src/gui/eventExecute.cs:2327
 #: ../src/gui/overview.cs:312 ../src/stats/runIntervallic.cs:65
 #: ../src/stats/runIntervallic.cs:70 ../src/stats/runIntervallic.cs:74
 #: ../src/stats/runSimple.cs:52 ../src/treeview/run.cs:51
@@ -1593,13 +1593,13 @@ msgstr "სხვაობა"
 msgid "Speed"
 msgstr "სიჩქარე"
 
-#: ../glade/app1.glade.h:330 ../glade/feedback.glade.h:77
+#: ../glade/app1.glade.h:330 ../glade/feedback.glade.h:79
 #: ../src/encoder.cs:2490 ../src/forceSensor.cs:1929
 #: ../src/graphs/cairo/xy.cs:101
 msgid "Acceleration"
 msgstr "აპარატურული აჩქარება"
 
-#: ../glade/app1.glade.h:331 ../glade/feedback.glade.h:41
+#: ../glade/app1.glade.h:331 ../glade/feedback.glade.h:43
 #: ../glade/preferences_win.glade.h:26 ../src/constants.cs:1512
 #: ../src/encoder.cs:2492 ../src/exportSession.cs:394
 #: ../src/exportSession.cs:596 ../src/forceSensor.cs:1930
@@ -1612,7 +1612,7 @@ msgstr "კვება"
 #. impulse
 #: ../glade/app1.glade.h:332 ../src/constants.cs:1545
 #: ../src/gui/encoderTreeviews.cs:88 ../src/gui/encoderTreeviews.cs:642
-#: ../src/gui/eventExecute.cs:2915
+#: ../src/gui/eventExecute.cs:2994
 msgid "Impulse"
 msgstr "იმპულსი"
 
@@ -1688,7 +1688,7 @@ msgstr "-ში"
 msgid "Until"
 msgstr "დასასრულის დრო"
 
-#: ../glade/app1.glade.h:352 ../glade/feedback.glade.h:61
+#: ../glade/app1.glade.h:352 ../glade/feedback.glade.h:63
 msgid "Back to default values"
 msgstr "ნაგულისხმებ მნიშვნელობებზე დაბრუნება"
 
@@ -1724,7 +1724,7 @@ msgstr "გამოთვლები"
 msgid "Contacts (platform or photocell)"
 msgstr ""
 
-#: ../glade/app1.glade.h:361 ../src/execute/run.cs:330
+#: ../glade/app1.glade.h:361 ../src/execute/run.cs:337
 #: ../src/gui/networks.cs:828
 msgid "Please, wait!"
 msgstr "გთხოვთ, მოითმინოთ!"
@@ -1759,7 +1759,7 @@ msgid "Adaptive rhythm"
 msgstr "შეგუებადი რითმი"
 
 #: ../glade/app1.glade.h:369 ../src/gui/app1/encoder.cs:6373
-#: ../src/gui/feedback.cs:265
+#: ../src/gui/feedback.cs:269
 msgid "Rhythm"
 msgstr "რიტმი"
 
@@ -1783,9 +1783,9 @@ msgstr "მართკუთხედები"
 msgid "Signal"
 msgstr "სიგნალი"
 
-#: ../glade/app1.glade.h:375 ../src/gui/app1/chronojump.cs:4378
+#: ../glade/app1.glade.h:375 ../src/gui/app1/chronojump.cs:4381
 msgid "Select at least one"
-msgstr ""
+msgstr "აირჩიეთ ერთი მაინც"
 
 #: ../glade/app1.glade.h:376
 msgid "v,p,f are averages of propulsive phase."
@@ -1839,7 +1839,7 @@ msgstr "თავიდან კალიბრაცია"
 
 #. notebook_encoder_capture_extra_mass.CurrentPage = 0;
 #. TODO: show also info on the top
-#: ../glade/app1.glade.h:385 ../src/gui/app1/chronojump.cs:4090
+#: ../glade/app1.glade.h:385 ../src/gui/app1/chronojump.cs:4089
 msgid "Configure gravitatory encoder"
 msgstr ""
 
@@ -1854,7 +1854,7 @@ msgstr ""
 
 #: ../glade/app1.glade.h:388
 msgid "Add new exercise"
-msgstr ""
+msgstr "ახალი ვარჯიშის დამატება"
 
 #: ../glade/app1.glade.h:389
 msgid "Eccentric-Concentric"
@@ -2043,7 +2043,7 @@ msgstr ""
 msgid "Show impulse"
 msgstr "იმპულსის ჩვენება"
 
-#: ../glade/app1.glade.h:431 ../glade/feedback.glade.h:67
+#: ../glade/app1.glade.h:431 ../glade/feedback.glade.h:69
 #: ../src/constants.cs:1518
 msgid "Range"
 msgstr "დიაპაზონი"
@@ -2054,7 +2054,7 @@ msgstr ""
 
 #: ../glade/app1.glade.h:433 ../src/gui/app1/encoder.cs:4424
 msgid "Single repetition"
-msgstr ""
+msgstr "ერთჯერადი გამეორება"
 
 #: ../glade/app1.glade.h:434
 msgid "Show position"
@@ -2066,7 +2066,7 @@ msgstr "სიჩქარის ჩვენება"
 
 #: ../glade/app1.glade.h:436
 msgid "Show acceleration"
-msgstr ""
+msgstr "აჩქარების ჩვენება"
 
 #: ../glade/app1.glade.h:437
 msgid "Show force"
@@ -2074,7 +2074,7 @@ msgstr "ძალის ჩვენება"
 
 #: ../glade/app1.glade.h:438
 msgid "Show power"
-msgstr ""
+msgstr "ძალის ჩვენება"
 
 #: ../glade/app1.glade.h:439
 msgid "Repetition number"
@@ -2404,11 +2404,11 @@ msgstr ""
 
 #: ../glade/app1.glade.h:509
 msgid "Select destination"
-msgstr ""
+msgstr "აირჩიეთ სამიზნე"
 
 #: ../glade/app1.glade.h:510
 msgid "Start backup"
-msgstr ""
+msgstr "მარქაფის დაწყება"
 
 #: ../glade/app1.glade.h:511
 msgid "Directory"
@@ -2821,7 +2821,7 @@ msgid "Other tests"
 msgstr "სხვა ტესტები"
 
 #: ../glade/edit_event.glade.h:2 ../src/gui/eventExecute.cs:1526
-#: ../src/gui/eventExecute.cs:1660 ../src/gui/eventExecute.cs:2074
+#: ../src/gui/eventExecute.cs:1663 ../src/gui/eventExecute.cs:2116
 msgid "Flight time"
 msgstr "ფრენის დრო"
 
@@ -3296,231 +3296,239 @@ msgid "show worst TF / TC"
 msgstr ""
 
 #: ../glade/feedback.glade.h:4
+msgid "show best speed"
+msgstr "საუკეთესო სიჩქარის ჩვენება"
+
+#: ../glade/feedback.glade.h:5
+msgid "show worst speed"
+msgstr "ყველაზე ცუდი სიჩქარის ჩვენება"
+
+#: ../glade/feedback.glade.h:6
 msgid "show best time"
 msgstr "საუკეთესო დროის ჩვენება"
 
-#: ../glade/feedback.glade.h:5
+#: ../glade/feedback.glade.h:7
 msgid "show worst time"
 msgstr ""
 
-#: ../glade/feedback.glade.h:6
+#: ../glade/feedback.glade.h:8
 msgid "Best and worst values"
 msgstr "საუკეთესო და ყველაზე ცუდი მნიშვნელობები"
 
-#: ../glade/feedback.glade.h:7
+#: ../glade/feedback.glade.h:9
 msgid "Bell good"
 msgstr ""
 
-#: ../glade/feedback.glade.h:11
+#: ../glade/feedback.glade.h:13
 msgid "Bell bad"
 msgstr ""
 
-#: ../glade/feedback.glade.h:12
+#: ../glade/feedback.glade.h:14
 msgid "<b>Speed</b> (m/s)"
 msgstr "<b>სიჩქარე</b> (მ/წმ)"
 
-#: ../glade/feedback.glade.h:13
+#: ../glade/feedback.glade.h:15
 msgid "11,0"
 msgstr ""
 
-#: ../glade/feedback.glade.h:14
+#: ../glade/feedback.glade.h:16
 msgid "39,0"
 msgstr ""
 
-#: ../glade/feedback.glade.h:15
+#: ../glade/feedback.glade.h:17
 msgid "<b>Time</b> (s)"
 msgstr "<b>დრო</b> (წმ)"
 
-#: ../glade/feedback.glade.h:16
+#: ../glade/feedback.glade.h:18
 msgid "Conditions"
 msgstr "პირობები"
 
-#: ../glade/feedback.glade.h:18
+#: ../glade/feedback.glade.h:20
 msgid "Main variable"
 msgstr "მთავარი ცვლადი"
 
-#: ../glade/feedback.glade.h:19
+#: ../glade/feedback.glade.h:21
 msgid "Feedback relative to the maximum repetition of …"
 msgstr ""
 
-#: ../glade/feedback.glade.h:20
+#: ../glade/feedback.glade.h:22
 msgid "this set"
 msgstr "ეს სეტი"
 
-#: ../glade/feedback.glade.h:21
+#: ../glade/feedback.glade.h:23
 msgid "historical of this person on same exercise and encoder configuration"
 msgstr ""
 
-#: ../glade/feedback.glade.h:22
+#: ../glade/feedback.glade.h:24
 msgid "On eccentric-concentric have feedback …"
 msgstr ""
 
-#: ../glade/feedback.glade.h:23
+#: ../glade/feedback.glade.h:25
 msgid "on both phases"
 msgstr ""
 
-#: ../glade/feedback.glade.h:24
+#: ../glade/feedback.glade.h:26
 msgid "on eccentric"
 msgstr ""
 
-#: ../glade/feedback.glade.h:25
+#: ../glade/feedback.glade.h:27
 msgid "on concentric"
 msgstr ""
 
-#: ../glade/feedback.glade.h:26
+#: ../glade/feedback.glade.h:28
 msgid "Show eccentric overload on inertial"
 msgstr ""
 
-#: ../glade/feedback.glade.h:27
+#: ../glade/feedback.glade.h:29
 msgid "Show also percentage"
 msgstr ""
 
 #. Loss means: while capturing, person will experiment fatigue and the repetitions will start being worse in terms of speed or power or whatever is configured as Main variable. So if repetitions are getting worse in speed, is shown as "loss" of speed.
-#: ../glade/feedback.glade.h:29
+#: ../glade/feedback.glade.h:31
 msgid "Show loss"
 msgstr ""
 
-#: ../glade/feedback.glade.h:30
+#: ../glade/feedback.glade.h:32
 msgid "Show secondary variable"
 msgstr ""
 
-#: ../glade/feedback.glade.h:31
+#: ../glade/feedback.glade.h:33
 msgid "Feedback - Automatic"
 msgstr ""
 
-#: ../glade/feedback.glade.h:32
+#: ../glade/feedback.glade.h:34
 msgid "<b>Height</b> (cm)"
 msgstr "<b>სიმაღლე</b> (სმ)"
 
-#: ../glade/feedback.glade.h:33
+#: ../glade/feedback.glade.h:35
 msgid "<b>Mean speed</b> (m/s)"
 msgstr "<b>საშუალო სიჩქარე</b> (მ/წმ)"
 
-#: ../glade/feedback.glade.h:34
+#: ../glade/feedback.glade.h:36
 msgid "<b>Max speed</b> (m/s)"
 msgstr "<b>მაქსიმალური სიჩქარე</b> (მ/წმ)"
 
-#: ../glade/feedback.glade.h:36
+#: ../glade/feedback.glade.h:38
 msgid "<b>Mean force</b> (N)"
 msgstr "<b>საშუალო ძალა</b> (ნ)"
 
-#: ../glade/feedback.glade.h:37
+#: ../glade/feedback.glade.h:39
 msgid "<b>Max force</b> (N)"
 msgstr "<b>მაქს ძალა</b> (ნ)"
 
-#: ../glade/feedback.glade.h:39
+#: ../glade/feedback.glade.h:41
 msgid "<b>Mean power</b> (W)"
 msgstr "<b>საშუალო სიმძლავრე</b> (ვტ)"
 
-#: ../glade/feedback.glade.h:40
+#: ../glade/feedback.glade.h:42
 msgid "<b>Peak power</b> (W)"
 msgstr "<b>პიკური სიმძლავრე</b> (ვტ)"
 
-#: ../glade/feedback.glade.h:42
+#: ../glade/feedback.glade.h:44
 msgid "Feedback - Manual"
 msgstr "კავშირი - ხელით"
 
-#: ../glade/feedback.glade.h:43
+#: ../glade/feedback.glade.h:45
 msgid "Show rhythm while capturing"
 msgstr ""
 
-#: ../glade/feedback.glade.h:44 ../src/gui/feedback.cs:1008
+#: ../glade/feedback.glade.h:46 ../src/gui/feedback.cs:1039
 msgid "Use clusters"
 msgstr "კლასტერების გამოყენება"
 
-#: ../glade/feedback.glade.h:45
+#: ../glade/feedback.glade.h:47
 msgid "Duration of eccentric phase"
 msgstr ""
 
-#: ../glade/feedback.glade.h:46
+#: ../glade/feedback.glade.h:48
 msgid "Duration of concentric phase"
 msgstr ""
 
-#: ../glade/feedback.glade.h:47
+#: ../glade/feedback.glade.h:49
 msgid "Total duration"
 msgstr "ჯამური ხანგრძლივობა"
 
-#: ../glade/feedback.glade.h:49
+#: ../glade/feedback.glade.h:51
 msgid "Rest between repetitions"
 msgstr ""
 
-#: ../glade/feedback.glade.h:50
+#: ../glade/feedback.glade.h:52
 msgid "Rhythm of the repetition"
 msgstr ""
 
-#: ../glade/feedback.glade.h:51
+#: ../glade/feedback.glade.h:53
 msgid "Rhythm by phases"
 msgstr ""
 
-#: ../glade/feedback.glade.h:52
+#: ../glade/feedback.glade.h:54
 msgid "Duration of repetition"
 msgstr ""
 
-#: ../glade/feedback.glade.h:55
+#: ../glade/feedback.glade.h:57
 msgid "Configure rhythm"
 msgstr ""
 
-#: ../glade/feedback.glade.h:56
+#: ../glade/feedback.glade.h:58
 msgid "Repetitions in cluster"
 msgstr ""
 
-#: ../glade/feedback.glade.h:57
+#: ../glade/feedback.glade.h:59
 msgid "Rest between clusters"
 msgstr ""
 
-#: ../glade/feedback.glade.h:58
+#: ../glade/feedback.glade.h:60
 msgid "On encoder (gravitatory mode) rest starts …"
 msgstr ""
 
-#: ../glade/feedback.glade.h:59
+#: ../glade/feedback.glade.h:61
 msgid "after eccentric"
 msgstr ""
 
-#: ../glade/feedback.glade.h:60
+#: ../glade/feedback.glade.h:62
 msgid "after concentric"
 msgstr ""
 
-#: ../glade/feedback.glade.h:62
+#: ../glade/feedback.glade.h:64
 msgid "Do not show feedback"
 msgstr ""
 
-#: ../glade/feedback.glade.h:63
+#: ../glade/feedback.glade.h:65
 msgid "Show rectangle"
 msgstr ""
 
-#: ../glade/feedback.glade.h:64
+#: ../glade/feedback.glade.h:66
 msgid "Show path"
 msgstr "ბილიკის ცვენება"
 
-#: ../glade/feedback.glade.h:65
+#: ../glade/feedback.glade.h:67
 msgid "at"
 msgstr ""
 
-#: ../glade/feedback.glade.h:66
+#: ../glade/feedback.glade.h:68
 msgid "range"
 msgstr "დიაპაზონი"
 
-#: ../glade/feedback.glade.h:68
+#: ../glade/feedback.glade.h:70
 msgid "Vertices"
 msgstr "წვეროები"
 
-#: ../glade/feedback.glade.h:72 ../glade/preferences_win.glade.h:56
+#: ../glade/feedback.glade.h:74 ../glade/preferences_win.glade.h:56
 msgid "Recommended:"
 msgstr "რეკომენდებულია:"
 
-#: ../glade/feedback.glade.h:73 ../glade/preferences_win.glade.h:132
+#: ../glade/feedback.glade.h:75 ../glade/preferences_win.glade.h:132
 msgid "Test \"Good\" bell"
 msgstr ""
 
-#: ../glade/feedback.glade.h:74
+#: ../glade/feedback.glade.h:76
 msgid "Test \"Bad\" bell"
 msgstr ""
 
-#: ../glade/feedback.glade.h:75
+#: ../glade/feedback.glade.h:77
 msgid "Test bells"
 msgstr ""
 
-#: ../glade/feedback.glade.h:76
+#: ../glade/feedback.glade.h:78
 msgid "Main variable on speed/time graph"
 msgstr ""
 
@@ -4360,7 +4368,7 @@ msgstr ""
 #. work and impulse are in separate string variables because maybe we will select to show one or the other
 #. work
 #: ../glade/preferences_win.glade.h:93 ../src/gui/encoderTreeviews.cs:65
-#: ../src/gui/encoderTreeviews.cs:605 ../src/gui/eventExecute.cs:2908
+#: ../src/gui/encoderTreeviews.cs:605 ../src/gui/eventExecute.cs:2987
 msgid "Work"
 msgstr "სამუშაო"
 
@@ -5420,8 +5428,8 @@ msgstr ""
 #: ../src/exportSession.cs:729 ../src/exportSession.cs:825
 #: ../src/exportSession.cs:867 ../src/exportSession.cs:927
 #: ../src/gui/eventExecute.cs:127 ../src/gui/eventExecute.cs:1429
-#: ../src/gui/eventExecute.cs:1549 ../src/gui/eventExecute.cs:1682
-#: ../src/gui/eventExecute.cs:1816 ../src/gui/eventExecute.cs:1923
+#: ../src/gui/eventExecute.cs:1549 ../src/gui/eventExecute.cs:1685
+#: ../src/gui/eventExecute.cs:1820 ../src/gui/eventExecute.cs:1928
 msgid "Simulated"
 msgstr ""
 
@@ -5874,35 +5882,40 @@ msgstr ""
 msgid "Resting {0} s"
 msgstr ""
 
-#: ../src/execute/event.cs:604
+#.
+#. ErrorWindow errorWin;
+#. errorWin = ErrorWindow.Show(
+#. Catalog.GetString("Chronopic seems disconnected."));
+#.
+#: ../src/execute/event.cs:611
 msgid "Chronopic seems disconnected."
 msgstr ""
 
 #. done here before thread starts
-#: ../src/execute/jump.cs:168 ../src/execute/jump.cs:255
-#: ../src/execute/jump.cs:770
+#: ../src/execute/jump.cs:168 ../src/execute/jump.cs:259
+#: ../src/execute/jump.cs:777
 msgid "You are IN, JUMP when prepared!"
 msgstr ""
 
-#: ../src/execute/jump.cs:197 ../src/execute/jump.cs:295
-#: ../src/execute/jump.cs:777
+#: ../src/execute/jump.cs:197 ../src/execute/jump.cs:299
+#: ../src/execute/jump.cs:784
 msgid ""
 "You are OUT, please enter the platform, prepare for jump and press the "
 "'accept' button"
 msgstr ""
 
-#: ../src/execute/jump.cs:252 ../src/execute/jump.cs:765
+#: ../src/execute/jump.cs:256 ../src/execute/jump.cs:772
 msgid "You are OUT, JUMP when prepared!"
 msgstr ""
 
-#: ../src/execute/jump.cs:293 ../src/execute/jump.cs:775
+#: ../src/execute/jump.cs:297 ../src/execute/jump.cs:782
 msgid "You are IN, please leave the platform, and press the 'accept' button"
 msgstr ""
 
 #. commented because it was assigned but never used
 #. limited = limitString; //define limited because it's checked in treeviewJump, and possibly it's not the initial defined time (specially when allowFinishRjAfterTime is true)
 #. leave the initial selected time into description/comments:
-#: ../src/execute/jump.cs:1131 ../src/execute/jump.cs:1151
+#: ../src/execute/jump.cs:1149 ../src/execute/jump.cs:1169
 #, csharp-format
 msgid "Initially selected {0} seconds"
 msgstr ""
@@ -5916,19 +5929,19 @@ msgstr "პლატფორმა"
 msgid "There's contact in {0}. Please leave."
 msgstr ""
 
-#: ../src/execute/multiChronopic.cs:362
+#: ../src/execute/multiChronopic.cs:363
 msgid "Press and maintain Test button in all Chronopics simultaneously."
 msgstr ""
 
-#: ../src/execute/multiChronopic.cs:389
+#: ../src/execute/multiChronopic.cs:390
 msgid "Release Test button in all Chronopics simultaneously."
 msgstr ""
 
-#: ../src/execute/multiChronopic.cs:394
+#: ../src/execute/multiChronopic.cs:395
 msgid "Synchronization done."
 msgstr ""
 
-#: ../src/execute/multiChronopic.cs:395
+#: ../src/execute/multiChronopic.cs:396
 msgid "Test starts now."
 msgstr ""
 
@@ -5960,39 +5973,39 @@ msgstr ""
 msgid "You are OUT, come inside and press the 'accept' button"
 msgstr ""
 
-#: ../src/execute/run.cs:200
+#: ../src/execute/run.cs:205
 msgid "RUN when prepared!"
 msgstr ""
 
-#: ../src/execute/run.cs:235
+#: ../src/execute/run.cs:240
 msgid "You are IN, RUN when prepared!"
 msgstr ""
 
-#: ../src/execute/run.cs:244
+#: ../src/execute/run.cs:249
 msgid "You are OUT, RUN when prepared!"
 msgstr ""
 
-#: ../src/execute/run.cs:902
+#: ../src/execute/run.cs:923
 msgid "Included on race time"
 msgstr ""
 
-#: ../src/execute/run.cs:903
+#: ../src/execute/run.cs:924
 msgid "Not included on race time"
 msgstr ""
 
-#: ../src/execute/run.cs:1023
+#: ../src/execute/run.cs:1044
 msgid "Included on race time of first track"
 msgstr ""
 
-#: ../src/execute/run.cs:1024
+#: ../src/execute/run.cs:1045
 msgid "Not included on race time of first track"
 msgstr ""
 
-#: ../src/execute/run.cs:1190
+#: ../src/execute/run.cs:1220
 msgid "Go!"
 msgstr "წავიდა!"
 
-#: ../src/execute/run.cs:1193
+#: ../src/execute/run.cs:1223
 #, csharp-format
 msgid "Wait 1 second."
 msgid_plural "Wait {0} seconds."
@@ -6002,7 +6015,7 @@ msgstr[1] ""
 #. this dialog can make crash the software because the non-gui part calls it
 #. new DialogMessage(Constants.MessageTypes.WARNING,
 #. Catalog.GetString("Race will not be recorded, 1st lap is out of time"));
-#: ../src/execute/run.cs:1318
+#: ../src/execute/run.cs:1348
 msgid "Race will not be recorded. Out of time."
 msgstr ""
 
@@ -6255,7 +6268,7 @@ msgstr ""
 msgid "Distance interval"
 msgstr ""
 
-#: ../src/exportSession.cs:725 ../src/gui/app1/chronojump.cs:6077
+#: ../src/exportSession.cs:725 ../src/gui/app1/chronojump.cs:6113
 #: ../src/gui/run.cs:1333 ../src/gui/run.cs:1401 ../src/gui/run.cs:1453
 msgid "Laps"
 msgstr "წრე"
@@ -6409,25 +6422,25 @@ msgstr ""
 msgid "Negative index: {0} is higher than {1}"
 msgstr ""
 
-#: ../src/gui/app1/chronojump.cs:1348
+#: ../src/gui/app1/chronojump.cs:1345
 #, csharp-format
 msgid "Chronojump database version file: {0}"
 msgstr ""
 
-#: ../src/gui/app1/chronojump.cs:1403
+#: ../src/gui/app1/chronojump.cs:1400
 msgid "Preferences loaded"
 msgstr ""
 
-#: ../src/gui/app1/chronojump.cs:1710
+#: ../src/gui/app1/chronojump.cs:1707
 #, csharp-format
 msgid "Sprints of {0}"
 msgstr ""
 
-#: ../src/gui/app1/chronojump.cs:1740
+#: ../src/gui/app1/chronojump.cs:1737
 msgid "Show all tests of"
 msgstr ""
 
-#: ../src/gui/app1/chronojump.cs:1747
+#: ../src/gui/app1/chronojump.cs:1744
 #, csharp-format
 msgid "Delete {0} from this session"
 msgstr ""
@@ -6509,20 +6522,20 @@ msgstr ""
 #. myItem.Sensitive = false;
 #. myMenu.Attach( myItem, 0, 1, 0, 1 );
 #.
-#: ../src/gui/app1/chronojump.cs:1884 ../src/gui/app1/chronojump.cs:1999
-#: ../src/gui/app1/chronojump.cs:2102 ../src/gui/app1/chronojump.cs:2229
-#: ../src/gui/app1/chronojump.cs:2324 ../src/gui/app1/chronojump.cs:2419
-#: ../src/gui/app1/chronojump.cs:2529 ../src/gui/encoderConfiguration.cs:975
+#: ../src/gui/app1/chronojump.cs:1881 ../src/gui/app1/chronojump.cs:1996
+#: ../src/gui/app1/chronojump.cs:2099 ../src/gui/app1/chronojump.cs:2226
+#: ../src/gui/app1/chronojump.cs:2321 ../src/gui/app1/chronojump.cs:2416
+#: ../src/gui/app1/chronojump.cs:2526 ../src/gui/encoderConfiguration.cs:975
 #: ../src/gui/forceSensorElasticBands.cs:288
 msgid "Edit selected"
 msgstr ""
 
-#: ../src/gui/app1/chronojump.cs:2003 ../src/gui/app1/chronojump.cs:2233
-#: ../src/gui/app1/chronojump.cs:2423
+#: ../src/gui/app1/chronojump.cs:2000 ../src/gui/app1/chronojump.cs:2230
+#: ../src/gui/app1/chronojump.cs:2420
 msgid "Repair selected"
 msgstr ""
 
-#: ../src/gui/app1/chronojump.cs:3176
+#: ../src/gui/app1/chronojump.cs:3173
 #, csharp-format
 msgid ""
 "Could not delete file:\n"
@@ -6531,105 +6544,105 @@ msgstr ""
 
 #. reportWin is still not created, not need to Fill again
 #. feedback (more in 1st session created)
-#: ../src/gui/app1/chronojump.cs:3335
+#: ../src/gui/app1/chronojump.cs:3332
 msgid "Session created, now add or load persons."
 msgstr ""
 
 #. notebook_encoder_capture_extra_mass.CurrentPage = 1;
 #. TODO: show also info on the top
-#: ../src/gui/app1/chronojump.cs:4131
+#: ../src/gui/app1/chronojump.cs:4130
 msgid "Configure inertial encoder"
 msgstr ""
 
-#: ../src/gui/app1/chronojump.cs:4346 ../src/gui/app1/chronojump.cs:4354
+#: ../src/gui/app1/chronojump.cs:4349 ../src/gui/app1/chronojump.cs:4357
 msgid "Sorry, R software is not installed."
 msgstr ""
 
-#: ../src/gui/app1/chronojump.cs:4347 ../src/gui/app1/encoder.cs:7420
+#: ../src/gui/app1/chronojump.cs:4350 ../src/gui/app1/encoder.cs:7420
 #: ../src/stats/main.cs:1517
 msgid "Please, install it from here:"
 msgstr ""
 
-#: ../src/gui/app1/chronojump.cs:4359
+#: ../src/gui/app1/chronojump.cs:4362
 #, csharp-format
 msgid "Sorry, {0} software is not installed."
 msgstr ""
 
-#: ../src/gui/app1/chronojump.cs:4687
+#: ../src/gui/app1/chronojump.cs:4690
 msgid "Measured by a contact platform"
 msgstr ""
 
-#: ../src/gui/app1/chronojump.cs:4702
+#: ../src/gui/app1/chronojump.cs:4705
 msgid "Isometric force exercises measured by a force sensor"
 msgstr ""
 
-#: ../src/gui/app1/chronojump.cs:4708
+#: ../src/gui/app1/chronojump.cs:4711
 msgid "Elastic force exercises measured by a force sensor"
 msgstr ""
 
-#: ../src/gui/app1/chronojump.cs:4714
+#: ../src/gui/app1/chronojump.cs:4717
 msgid "Speed/power exercises displacing weights measured by an encoder"
 msgstr ""
 
-#: ../src/gui/app1/chronojump.cs:4720
+#: ../src/gui/app1/chronojump.cs:4723
 msgid ""
 "Speed/power exercises rotating an inertial machine and measured by an encoder"
 msgstr ""
 
-#: ../src/gui/app1/chronojump.cs:4923
+#: ../src/gui/app1/chronojump.cs:4926
 #, csharp-format
 msgid "Compatible with: <b>{0}</b>"
 msgstr ""
 
-#: ../src/gui/app1/chronojump.cs:5060 ../src/gui/chronopicRegister.cs:761
+#: ../src/gui/app1/chronojump.cs:5064 ../src/gui/chronopicRegister.cs:761
 msgid "Device not found"
 msgstr "მოწყობილობა ნაპოვნი არაა"
 
-#: ../src/gui/app1/chronojump.cs:5195
+#: ../src/gui/app1/chronojump.cs:5199
 msgid "Sorry, RSA tests cannot be simulated."
 msgstr ""
 
-#: ../src/gui/app1/chronojump.cs:5275 ../src/gui/app1/encoder.cs:1373
+#: ../src/gui/app1/chronojump.cs:5279 ../src/gui/app1/encoder.cs:1373
 msgid "Saved comment."
 msgstr ""
 
-#: ../src/gui/app1/chronojump.cs:6758
+#: ../src/gui/app1/chronojump.cs:6803
 msgid "Changes"
 msgstr "ცვლილებები"
 
-#: ../src/gui/app1/chronojump.cs:7229 ../src/gui/app1/chronojump.cs:7245
+#: ../src/gui/app1/chronojump.cs:7274 ../src/gui/app1/chronojump.cs:7290
 msgid "Do you want to delete this jump?"
 msgstr ""
 
-#: ../src/gui/app1/chronojump.cs:7327 ../src/gui/app1/chronojump.cs:7345
+#: ../src/gui/app1/chronojump.cs:7372 ../src/gui/app1/chronojump.cs:7390
 msgid "Do you want to delete this race?"
 msgstr ""
 
-#: ../src/gui/app1/chronojump.cs:7495
+#: ../src/gui/app1/chronojump.cs:7540
 msgid "Do you want to delete this test?"
 msgstr ""
 
-#: ../src/gui/app1/chronojump.cs:7559
+#: ../src/gui/app1/chronojump.cs:7604
 msgid "Added simple jump type."
 msgstr ""
 
-#: ../src/gui/app1/chronojump.cs:7569
+#: ../src/gui/app1/chronojump.cs:7614
 msgid "Added reactive jump type."
 msgstr ""
 
-#: ../src/gui/app1/chronojump.cs:7600
+#: ../src/gui/app1/chronojump.cs:7645
 msgid "Added simple race type."
 msgstr ""
 
-#: ../src/gui/app1/chronojump.cs:7609
+#: ../src/gui/app1/chronojump.cs:7654
 msgid "Added intervallic race type."
 msgstr ""
 
-#: ../src/gui/app1/chronojump.cs:8228
+#: ../src/gui/app1/chronojump.cs:8273
 msgid "translator-credits"
 msgstr "თემური დოღონაძე"
 
-#: ../src/gui/app1/chronojump.cs:9180
+#: ../src/gui/app1/chronojump.cs:9315
 msgid "Done for testing purposes. Chronojump will exit badly"
 msgstr ""
 
@@ -7850,15 +7863,15 @@ msgstr ""
 msgid "Jump height"
 msgstr ""
 
-#: ../src/gui/eventExecute.cs:2019 ../src/gui/eventExecute.cs:2164
+#: ../src/gui/eventExecute.cs:2030 ../src/gui/eventExecute.cs:2211
 msgid "Last test:"
 msgstr ""
 
-#: ../src/gui/eventExecute.cs:2021
+#: ../src/gui/eventExecute.cs:2032
 msgid "Viewing:"
 msgstr ""
 
-#: ../src/gui/eventExecute.cs:2884
+#: ../src/gui/eventExecute.cs:2963
 msgid "saved"
 msgstr ""
 
@@ -7875,29 +7888,29 @@ msgstr ""
 msgid "Serie"
 msgstr ""
 
-#: ../src/gui/feedback.cs:265 ../src/runType.cs:162
+#: ../src/gui/feedback.cs:269 ../src/runType.cs:162
 msgid "Protocol"
 msgstr "პროტოკოლი"
 
-#: ../src/gui/feedback.cs:656 ../src/gui/preferences.cs:2439
+#: ../src/gui/feedback.cs:685 ../src/gui/preferences.cs:2439
 msgid "Sound working"
 msgstr ""
 
-#: ../src/gui/feedback.cs:658 ../src/gui/preferences.cs:2441
+#: ../src/gui/feedback.cs:687 ../src/gui/preferences.cs:2441
 msgid "Sound not working"
 msgstr ""
 
-#: ../src/gui/feedback.cs:663
+#: ../src/gui/feedback.cs:692
 msgid "You need to activate sounds in preferences / multimedia."
 msgstr ""
 
-#: ../src/gui/feedback.cs:1010
+#: ../src/gui/feedback.cs:1041
 msgid ""
 "Use clusters in order to group repetitions inside a set separated by rest "
 "time."
 msgstr ""
 
-#: ../src/gui/feedback.cs:1012
+#: ../src/gui/feedback.cs:1043
 msgid ""
 "Set will end when user press Finish or Cancel or when there's no change in "
 "the encoder during this time:\n"

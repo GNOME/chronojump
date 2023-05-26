@@ -358,7 +358,7 @@ findDistanceAbsoluteEC <- function(position)
 getSpeed <- function(displacement, smoothing)
 {
 	#x vector should contain at least 4 different values (at positionSpline)
-	if(length(displacement) < 4)
+	if (length (unique (cumsum (displacement))) < 4)
 		return(list(y=rep(0,length(displacement))))
 
 	#no change affected by encoderConfiguration

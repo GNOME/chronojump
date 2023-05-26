@@ -29,20 +29,23 @@ source ("util.R")
 source ("graphSmoothingEC.R")
 source ("graph.R")
 optionsFile = "/tmp/Roptions.txt"
-options <- scan(optionsFile, comment.char="#", what=character(), sep="\n")
-DebugFileName <- paste(options[5], "/chronojump-debug.txt", sep="")
-English = unlist(strsplit(options[29], "\\;"))
-Translated = unlist(strsplit(options[30], "\\;"))
+optionsCj <- scan(optionsFile, comment.char="#", what=character(), sep="\n")
+DebugFileName <- paste(optionsCj[5], "/chronojump-debug.txt", sep="")
+English = unlist(strsplit(optionsCj[29], "\\;"))
+Translated = unlist(strsplit(optionsCj[30], "\\;"))
 Debug <- TRUE
 
 # each time you do an analyze on Chronojump (and Roptions.txt changed)
-options <- scan(optionsFile, comment.char="#", what=character(), sep="\n")
-doProcess (options)
+optionsCj <- scan(optionsFile, comment.char="#", what=character(), sep="\n")
+doProcess (optionsCj)
 
 # plot displacement curves graph and write files in order to compare them with vim
 displacementCurvesDebug (TRUE)
 
-# Note warnings sometimes continue appearing even when code has changed and source has done, is best to close/open terminal console
+# About Warning: Note warnings sometimes continue appearing even when code has changed and source has done, is best to close/open terminal console
+# using optionsCj variable above instead of options in order to be able to turn warnings into errors with:
+options (warn = 2)
+
 
 #using debug is very useful, eg:
 
@@ -106,5 +109,13 @@ displacementCurvesDebug(TRUE)
 see images: fixEccConCutOnNotSingleFile/current-set.png fixEccConCutOnNotSingleFile/current-session.png
 the problem is on current-session.png (! singleFile)
 
-continue investigating on graph.R: print ("continue investigating here!")
+finally (with some prints) we found that on ! singleFile the passed minHeight was always -1
+we changed it on C# to send the value regarding to weights or inertial (preferences.encoderCaptureMinHeightGravitatory, preferences.encoderCaptureMinHeightInertial)
+and now 2c is 1123 and 2016.
+2016 - 1123 = 893.
+893 == 894
 
+now all the values on C# analyze table are almost the same except mean power. Check propulsive end.
+at the moment I have propulsive FALSE on preferences
+
+Found the 2nd bug, pafGenerate was called with repOp$eccon instead of repOpSeparated$eccon making the mean power to be abs

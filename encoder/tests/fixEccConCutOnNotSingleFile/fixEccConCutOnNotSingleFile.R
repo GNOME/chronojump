@@ -118,4 +118,21 @@ dTemp = d[curves[i,1]:curves[i,2]]
 reducedCurve_l <- reduceCurveByPredictStartEnd (dTemp, "c", 20)
 print (reducedCurve_l)
 
+#test with borrame3 borra5 18:02:16 rep 11 as current session
+d <- scan("curve_ec3.txt", sep=",")
+d <- d[!is.na(d)] #if data file ends with comma. Last character will be an NA. remove it
 
+dataTempPhase <- d
+endEcc = mean(which(cumsum(dataTempFile) == min(cumsum(dataTempFile))))
+startCon = mean(which(cumsum(dataTempFile) == min(cumsum(dataTempFile))))
+
+ecS_ecc_l <- reduceCurveByPredictStartEnd (dataTempFile[1:endEcc],
+					   "e", op$MinHeight)
+ecS_con_l <- reduceCurveByPredictStartEnd (dataTempFile[startCon:length(dataTempFile)],
+					   "c", op$MinHeight)
+start = NULL
+end = NULL
+start [[1]] = ecS_ecc_l$startPos
+end [[1]] = ecS_ecc_l$endPos
+start [[2]] = endEcc + ecS_con_l$startPos
+end [[2]] = endEcc + ecS_con_l$endPos

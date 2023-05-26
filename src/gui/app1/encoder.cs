@@ -3753,7 +3753,7 @@ public partial class ChronoJumpWindow
 
 			//-1 because data will be different on any curve
 			ep = new EncoderParams(
-					-1, 
+					preferences.EncoderCaptureMinHeight (current_mode == Constants.Modes.POWERINERTIAL),
 					-1, 		//exercisePercentBodyWeight
 					"-1",		//massBody
 					"-1",		//massExtra

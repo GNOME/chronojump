@@ -43,7 +43,7 @@ findSmoothingsECGetPowerI <- function(displacement, encoderConfigurationName, di
 #	return(smodel)
 #
 #}
-findSmoothingsECYPoints <- function(eccentric.concentric, conStart, conEnd, x, maxPowerConAtCon, 
+findSmoothingsECYPoints <- function(eccentric.concentric, conStart, conEnd, x, maxPowerConAtCon,
 		       encoderConfigurationName, diameter, massTotal, inertiaMomentum, gearedDown)
 {
 	y <- NULL 
@@ -133,11 +133,12 @@ findSmoothingsEC <- function(singleFile, displacement, curves, singleCurveNum, e
 				conStart <- changeEccCon + con_l$startPos -1
 				conEnd <- changeEccCon + con_l$endPos -1
 
-				concentric=displacement[(curves[i,1]+conStart):(curves[i,1]+conEnd)]
+				concentric=displacement[(curves[i,1] -1 +conStart):(curves[i,1] -1 +conEnd)]
 				#note that eccentric.concentric could also be reduced to have data more similar to final ec graph
 			
 				# 3 get max power concentric at concentric phase with current smoothing
-				if(length(unique(concentric)) < 4 ) {
+				if (length (unique (cumsum (concentric))) < 4)
+				{
 					smoothings[i] = smoothingOneC
 					next
 				}
@@ -165,15 +166,14 @@ findSmoothingsEC <- function(singleFile, displacement, curves, singleCurveNum, e
 				
 				maxPowerConAtCon <- max(powerTemp)
 
-				#2 get max power concentric (y) at eccentric-concentric phase with current smoothing of an interval of possible smoothings (x)
-				
+				# 4 get max power concentric (y) at eccentric-concentric phase with current smoothing of an interval of possible smoothings (x)
+
 				x <- seq(from = as.numeric(smoothingOneC), 
 						    to = as.numeric(smoothingOneC)/4, 
 						    length.out = 8)
-				y <- findSmoothingsECYPoints(eccentric.concentric, conStart, conEnd, x, maxPowerConAtCon, 
+				y <- findSmoothingsECYPoints(eccentric.concentric, conStart, conEnd, x, maxPowerConAtCon,
 						myEncoderConfigurationName, myDiameter, 100, myInertiaMomentum, myGearedDown)
-				#write(paste("x, y", x, y), stderr())
-
+				write(paste("findSmoothinsECYPoints: x, y", x, y), stderr())
 
 				#write("smooth.spline x (a)", stderr())	
 				#write(x, stderr())
@@ -196,7 +196,7 @@ findSmoothingsEC <- function(singleFile, displacement, curves, singleCurveNum, e
 				smoothingOneEC <- predict(smodel, maxPowerConAtCon)$y
 				write(paste("smoothingOneEC", smoothingOneEC), stderr())
 					
-				#check how it worked
+				# 4.1 check how it worked
 
 				if(length(unique(eccentric.concentric)) < 4 ) {
 					smoothings[i] = smoothingOneEC
@@ -234,7 +234,7 @@ findSmoothingsEC <- function(singleFile, displacement, curves, singleCurveNum, e
 					 from = xUpperValue, 
 					 to = xLowerValue,
 					 length.out = 8)
-				y <- findSmoothingsECYPoints(eccentric.concentric, conStart, conEnd, x, maxPowerConAtCon, 
+				y <- findSmoothingsECYPoints(eccentric.concentric, conStart, conEnd, x, maxPowerConAtCon,
 						myEncoderConfigurationName, myDiameter, 100, myInertiaMomentum, myGearedDown)
 				
 			

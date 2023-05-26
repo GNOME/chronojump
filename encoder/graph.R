@@ -3731,7 +3731,7 @@ doProcess <- function(options)
                         }
                         
                         paf = rbind(paf,(pafGenerate(
-                                repOp$eccon,
+                                repOpSeparated$eccon,
                                 kinematicsF(displacement[curves[i,1]:curves[i,2]], 
                                             #myMassBody, myMassExtra, myExPercentBodyWeight,
                                             #myEncoderConfigurationName,myDiameter,myDiameterExt,myAnglePush,myAngleWeight,

@@ -1624,7 +1624,7 @@ public partial class ChronoJumpWindow
 	//not called on current_set
 	void prepareAnalyzeRepetitions () 
 	{
-		if(currentPerson == null)
+		if(currentPerson == null || currentSession == null)
 			return;
 
 		if(radio_encoder_analyze_individual_current_session.Active) 

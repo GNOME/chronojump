@@ -19,11 +19,14 @@
 
 
 #config params
-#originalDir = "/home/xavier/chronojump_YOYO_JSB_2023-03-31_08-50-18/encoder/5/data/signal"
-originalDir = "/home/xavier/chronojump_Protocolo\ YoYo\ JSB_2023-03-29_18-30-31/encoder/2/data/signal/"
-convertedDir = "/home/xavier/informatica/progs_meus/chronojump/encoder/tests/fixInertial/convertedDir"
-graph = TRUE
 
+originalDir = "originalDir"
+
+#this has to be full path:
+convertedDir = "/home/xavier/informatica/progs_meus/chronojump/encoder/tests/fixInertial/convertedDir"
+
+graph = TRUE
+#graph = FALSE
 
 source ("util.R")
 doProcess (originalDir, convertedDir, graph)

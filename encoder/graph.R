@@ -75,7 +75,7 @@ displacementCurvesDebug <- function (plot)
 	filename = paste (DebugFileName, "-singleFile", singleFileDebug, "-", ecconDebug, sep="")
 	if (plot)
 	{
-		plot (cumsum(displacementDebug))
+		plot (cumsum(displacementDebug), type="l")
 		abline (v=curvesDebug[,1], col="red")
 		abline (v=curvesDebug[,2], col="blue")
 	}
@@ -3141,10 +3141,6 @@ doProcess <- function(options)
 			if(! cutByTriggers(op))
                         {
 				displacementTemp = displacement[curves[i,1]:curves[i,2]]
-				#print ("displacementTemp")
-				#print (displacementTemp)
-
-				print (op$Eccon)
 				if (op$Eccon == "c" || op$Eccon == "e")
 				{
 					reducedCurve_l <- reduceCurveByPredictStartEnd (displacementTemp,
@@ -3178,17 +3174,11 @@ doProcess <- function(options)
 				}
 				else if (op$Eccon == "ec")
 				{
-					positionTemp <- cumsum(displacementTemp)
-					changeEccCon <- mean(which(positionTemp == min(positionTemp)))
+					reducedCurve_l <- reduceCurveByPredictStartEnd (displacementTemp,
+											op$Eccon, op$MinHeight)
 
-					ecc_l <- reduceCurveByPredictStartEnd (displacementTemp[1:changeEccCon],
-										   "e", op$MinHeight)
-					con_l <- reduceCurveByPredictStartEnd (displacementTemp[changeEccCon:length(displacementTemp)],
-										   "c", op$MinHeight)
-
-					#1st assign end because start will also change
-					curves[i,2] <- curves[i,1] + (con_l$endPos -1) + (changeEccCon -1)
-					curves[i,1] <- curves[i,1] + (ecc_l$startPos -1)
+					curves[i,2] <- curves[i,1] + (reducedCurve_l$endPos -1)
+					curves[i,1] <- curves[i,1] + (reducedCurve_l$startPos -1)
 					#curves[i,3] <- position (curves[i,3] - ecc_l$startPos)
 					#TODO: fix above line
 					curves[i,3] <- 0
@@ -3587,7 +3577,8 @@ doProcess <- function(options)
                 write("done!", stderr())
         }
         
-        if(op$Analysis=="side" || op$Analysis=="sideShareX") {
+        if(op$Analysis=="side" || op$Analysis=="sideShareX")
+	{
                 #comparar 6 salts, falta que xlim i ylim sigui el mateix
                 par(mfrow=find.mfrow(n))
                 
@@ -3646,7 +3637,8 @@ doProcess <- function(options)
                 par(mfrow=c(1,1))
         }
 
-	if(op$Analysis=="superpose") {	#TODO: fix on ec startH
+	if(op$Analysis=="superpose")
+	{	#TODO: fix on ec startH
         #		#falta fer un graf amb les 6 curves sobreposades i les curves de potencia (per exemple) sobrepossades
         #		#fer que acabin al mateix punt encara que no iniciin en el mateix
         #		#arreglar que els eixos de l'esq han de seguir un ylim,
@@ -3813,7 +3805,7 @@ doProcess <- function(options)
                                 else
                                         repOpSeparated$eccon = "e"
                         }
-                        
+
                         paf = rbind(paf,(pafGenerate(
                                 repOpSeparated$eccon,
                                 kinematicsF(displacement[curves[i,1]:curves[i,2]], 

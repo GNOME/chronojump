@@ -105,8 +105,6 @@ findSmoothingsEC <- function(singleFile, displacement, curves, singleCurveNum, e
 	} else {
 		#on every curve...
 		for(i in 1:n) {
-			write(paste("***",i,"***",sep=""), stderr())
-
 			#maybe the global eccon == "ec" or "ce" but the individual eccon of each curve is "c", then just do the same as above
 			if( (singleFile && eccon == "c") || (! singleFile && curves[i,8] == "c") )
 				smoothings[i] = 0
@@ -135,7 +133,7 @@ findSmoothingsEC <- function(singleFile, displacement, curves, singleCurveNum, e
 
 				concentric=displacement[(curves[i,1] -1 +conStart):(curves[i,1] -1 +conEnd)]
 				#note that eccentric.concentric could also be reduced to have data more similar to final ec graph
-			
+
 				# 3 get max power concentric at concentric phase with current smoothing
 				if (length (unique (cumsum (concentric))) < 4)
 				{

@@ -511,10 +511,11 @@ zerosAtLeft <- function (displacement, i)
 #                            /
 #                        ---s
 #                  -----s
-# ____------------S
+#      -----------S
+#-----s
 # this function finds s that has at least 30 ms of stability at left
 # t is the minHeight needed for being a repetition
-# Considers also that from s,iS to top has to be >= minHeight
+# Considers also that from s,S to top has to be >= minHeight
 # in the graph s,S have 30 zeros or more at left
 # S is the point below t that has more zeros at left
 #
@@ -620,54 +621,164 @@ getStableConcentricEnd <- function (displacement, minHeight)
 #########################################
 # reduceCurveByPredictStartEnd ----> ####
 #########################################
-
-getPositionSplineLeft <- function (position)
-{
-	if (length(unique(position)) < 4)
-		return (NULL)
-
-	x <- 1:length(position)
-	weights <- 1-(position/20)
-	weights[weights <= 0.05] <- 0.05
-
-	return (smoothSplineWeightedSafe (x, position, weights))
-}
+#
+# discarded method because spline sometimes gives strange curvature changes like:
+#       /
+#      /
+#   /\/
+#  /
+#--
+#
+#getPositionSplineLeft <- function (position)
+#{
+#	if (length(unique(position)) < 4)
+#		return (NULL)
+#
+#	x <- 1:length(position)
+##	weights <- 1-(position/40)
+##	print ("position/20")
+##	print (position/20)
+#	weights <- rep (1, length(position))
+#	weights[weights <= 0.05] <- 0.05
+#	print ("weights")
+#	print (weights)
+#
+#	return (smoothSplineWeightedSafe (x, position, weights))
+#}
 # get spline by decreasing weights
-getPositionSplineRight <- function (position)
+#getPositionSplineRight <- function (position)
+#{
+#	if (length(unique(position)) < 4)
+#		return (NULL)
+#
+#	x <- 1:length(position)
+#	posTemp = abs(position-(max(position)))
+#	weights <- 1 - posTemp/20
+#	weights[weights <= 0.05] <- 0.05
+#
+#	return (smoothSplineWeightedSafe (x, position, weights))
+#}
+
+## predict left start
+#predictNeededZerosAtLeft <- function (positionSplineLeft)
+#{
+#	xPredict <- seq(from=-50, to=0, length.out=400) #get x from (0) to 50 left
+#	prediction <- predict(positionSplineLeft, x = xPredict)
+#	print ("prediction")
+#	print (prediction)
+#	pos <- max(which(abs(prediction$y) == min(abs(prediction$y))))
+#
+#	return (c(prediction$x[pos], prediction$y[pos]))
+#}
+#
+## predict right end
+#predictNeededZerosAtRight <- function (positionSplineRight, position, maxx)
+#{
+#	xPredict <- seq(from=maxx, to=maxx+50, length.out=400) #get x from max(x) to 50 right
+#	prediction <- predict(positionSplineRight, x = xPredict)
+#	predictionYStored <- prediction$y
+#	prediction$y <- abs(prediction$y - (max(position)+1))
+#	pos <- min(which(abs(prediction$y) == min(abs(prediction$y))))
+#
+#	return (c(prediction$x[pos], predictionYStored[pos]))
+#}
+
+getParabole <- function(x, y)
 {
-	if (length(unique(position)) < 4)
-		return (NULL)
+	fit = lm(y ~ x + I(x^2))
 
-	x <- 1:length(position)
-	posTemp = abs(position-(max(position)))
-	weights <- 1 - posTemp/20
-	weights[weights <= 0.05] <- 0.05
+        coef.a <- fit$coefficient[3] #the quadratic component
+        coef.b <- fit$coefficient[2]
+        coef.c <- fit$coefficient[1]
 
-	return (smoothSplineWeightedSafe (x, position, weights))
+	#print (c("coefs a,b,c", coef.a, coef.b, coef.c))
+	return (list (
+		      a = as.numeric (coef.a),
+		      b = as.numeric (coef.b),
+		      c = as.numeric (coef.c)
+		      ))
+}
+getXatY <- function (x, y, yDesired)
+{
+	coefs_l <- getParabole (x,y)
+	a <- coefs_l$a
+	b <- coefs_l$b
+	c <- coefs_l$c
+
+	# generic
+	# y = ax2 + bx + c
+	# x <- (-b +- sqrt(b2 -4ac)) / 2a
+	# 
+	# yDesired = ax2 + bx + c
+	# 0 = ax2 + bx + c - yDesired
+	# C = c - yDesired
+	# x <- (-b +- sqrt(b2 -4aC)) / 2a
+
+	C <- c - yDesired
+
+	#return ( (-b + sqrt (b^2 - 4 * a * C)) / (2 * a) ) #this will be at right (we do not want it)
+	return ( (-b - sqrt (b^2 - 4 * a * C)) / (2 * a) )
 }
 
-# predict left start
-predictNeededZerosAtLeft <- function (positionSplineLeft)
+predictNeededZerosAtLeft <- function (displacement)
 {
-	xPredict <- seq(from=-50, to=0, length.out=400) #get x from (0) to 50 left
-	prediction <- predict(positionSplineLeft, x = xPredict)
-	pos <- max(which(abs(prediction$y) == min(abs(prediction$y))))
+	# 1 find the first 3 values
+	firstThreeNonZeroPos <- head (which (displacement [2:length(displacement)] != 0), n = 3)
 
-	return (c(prediction$x[pos], prediction$y[pos]))
+	# if there are less than 3 values, just return the number of initial zeros (the same will be used)
+	if (length (firstThreeNonZeroPos) < 3)
+		return (firstThreeNonZeroPos[1])
+
+	position <- cumsum (displacement)
+
+	# 2 try to find the x at min (position) -1
+	xAtDesiredY <- getXatY (firstThreeNonZeroPos, cumsum(position)[firstThreeNonZeroPos], min(position) -1)
+
+	# if is.nan, the parabole does not pass by the point, we can increase the number of values or just return the num of initial zeros
+	if (is.nan (xAtDesiredY) || xAtDesiredY < 0)
+		return (firstThreeNonZeroPos[1])
+
+	# 3 detected num of initial zeros
+	return (round (xAtDesiredY, 0))
 }
 
-# predict right end
-predictNeededZerosAtRight <- function (positionSplineRight, position, maxx)
-{
-	xPredict <- seq(from=maxx, to=maxx+50, length.out=400) #get x from max(x) to 50 right
-	prediction <- predict(positionSplineRight, x = xPredict)
-	predictionYStored <- prediction$y
-	prediction$y <- abs(prediction$y - (max(position)+1))
-	pos <- min(which(abs(prediction$y) == min(abs(prediction$y))))
-
-	return (c(prediction$x[pos], predictionYStored[pos]))
-}
-
+# do not this because trying to find this:
+#                /
+#               /
+#           __ /
+#          .
+#
+# what we find this this:
+#                /
+#          __   /
+#            \./
+#
+#predictNeededZerosAtLeftIterating <- function (displacement)
+#{
+#	position <- cumsum (displacement)
+#
+#	for (i in 3:20)
+#	{
+#		# 1 find the first i values
+#		firstNonZeroPos <- head (which (displacement [2:length(displacement)] != 0), n = i)
+#
+#		# if there are less than i values, just return the number of initial zeros (the same will be used)
+#		if (length (firstNonZeroPos) < i)
+#			return (firstNonZeroPos[1])
+#
+#		# 2 try to find the x at min (position) -1
+#		xAtDesiredY <- getXatY (firstNonZeroPos, position[firstNonZeroPos], min(position) -1)
+#
+#		# if is.nan, the parabole does not pass by the point, we can increase the number of values or just return the num of initial zeros
+#		if (! is.nan (xAtDesiredY))
+#		{
+#			print (paste ("found", xAtDesiredY, "for i =", i))
+#			return (xAtDesiredY)
+#		}
+#	}
+#
+#	return (firstNonZeroPos[1])
+#}
 
 # This should work for all eccons, check tests/fixEccConCutOnNotSingleFile/getCurveStartEnd.R
 # and the example on getStableConcentricStart
@@ -716,32 +827,35 @@ reduceCurveByPredictStartEnd <- function (displacement, eccon, minHeight)
 			      ))
 
 	displacement <- displacement[firstInitialNonZero:lastFinalNonZero]
+
 	position <- cumsum (displacement)
 
-	# 3 get needed zeros at start/end
-	x <- 1:length(position)
-	positionSplineLeft <- getPositionSplineLeft (position)
-	positionSplineRight <- getPositionSplineRight (position)
-
 	zerosAtLeft <- 0
-	if (! is.null (positionSplineLeft))
-	{
-		pointCrossY0 <- predictNeededZerosAtLeft (positionSplineLeft)
-		zerosAtLeft <- abs(round(pointCrossY0[1], 0))
-	}
-
 	zerosAtRight <- 0
-	if (! is.null (positionSplineRight))
+
+	if (eccon == "c")
 	{
-		pointCrossMaxYPlus1 <- predictNeededZerosAtRight (positionSplineRight, position, max(x))
-		zerosAtRight <- round(pointCrossMaxYPlus1[1], 0) - length(position)
+		zerosAtLeft <- predictNeededZerosAtLeft (displacement)
+		zerosAtRight <- predictNeededZerosAtLeft (rev (displacement))
+	}
+	else if (eccon == "e")
+	{
+		zerosAtLeft <- predictNeededZerosAtLeft (-1 * displacement)
+		zerosAtRight <- predictNeededZerosAtLeft (rev (-1 * displacement))
+	}
+	else if (eccon == "ec")
+	{
+		zerosAtLeft <- predictNeededZerosAtLeft (-1 * displacement)
+		zerosAtRight <- predictNeededZerosAtLeft (rev (displacement))
 	}
 
-	startPos <- startByStability + firstInitialNonZero - zerosAtLeft
+	print (c("zerosAtLeft, zerosAtRight", zerosAtLeft, zerosAtRight))
+
+	startPos <- startByStability + firstInitialNonZero-1 - zerosAtLeft
 	if (startPos < 1)
 		startPos <- 1
 
-	endPos <- startByStability + lastFinalNonZero + zerosAtRight
+	endPos <- startByStability + firstInitialNonZero-1 + lastFinalNonZero + zerosAtRight
 	if (endPos < 1)
 		endPos <- 1
 	if (endPos > displacementLengthStored)

@@ -312,6 +312,14 @@ public partial class ChronoJumpWindow
 			frame_database.Visible = true;
 			button_menu_database.Visible = true;
 
+			// if directory on LastDBFullPath does not exists, update field
+			if (configChronojump.LastDBFullPath != "" && ! Util.DirectoryExists (configChronojump.LastDBFullPath))
+			{
+				configChronojump.UpdateField ("LastDBFullPath", ""); 	//update file
+				configChronojump.LastDBFullPath = "";			//update variable
+			}
+
+			// if LastDBFullPath exists, use it
 			if (configChronojump.LastDBFullPath != "")
 				databaseChange ();
 		}

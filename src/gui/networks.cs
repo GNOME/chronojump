@@ -319,6 +319,14 @@ public partial class ChronoJumpWindow
 			box_copy_from_cloud_progressbars.Visible = (configChronojump.ReadFromCloudMainPath != "");
 			image_cloud.Visible = (configChronojump.ReadFromCloudMainPath != "");
 
+			// if directory on LastDBFullPath does not exists, update field
+			if (configChronojump.LastDBFullPath != "" && ! Util.DirectoryExists (configChronojump.LastDBFullPath))
+			{
+				configChronojump.UpdateField ("LastDBFullPath", ""); 	//update file
+				configChronojump.LastDBFullPath = "";			//update variable
+			}
+
+			// if LastDBFullPath exists, use it
 			if (configChronojump.LastDBFullPath != "")
 			{
 				if (configChronojump.ReadFromCloudMainPath != "")

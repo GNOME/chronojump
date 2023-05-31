@@ -22639,6 +22639,9 @@ Concentric</property>
                                                             <child>
                                                             <placeholder/>
                                                             </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
                                                             </object>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -26543,6 +26546,9 @@ Concentric</property>
                                                             <property name="x-options"/>
                                                             <property name="y-options">GTK_SHRINK</property>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>
@@ -34346,11 +34352,8 @@ Concentric</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <object class="GtkProgressBar" id="encoder_pulsebar_load_signal">
-                                                            <property name="width-request">60</property>
+                                                            <object class="GtkSpinner" id="encoder_spinner_load_signal">
                                                             <property name="can-focus">False</property>
-                                                            <property name="pulse-step">0.10000000149</property>
-                                                            <property name="show-text">True</property>
                                                             </object>
                                                             <packing>
                                                             <property name="expand">True</property>
@@ -41456,6 +41459,9 @@ then click this button.</property>
                                                             <property name="x-options"/>
                                                             <property name="y-options"/>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>
@@ -52990,6 +52996,9 @@ Since Chronojump 2.1.3, backups contain the complete data.</property>
                                                             <property name="can-focus">False</property>
                                                             <property name="column-spacing">10</property>
                                                             <property name="row-spacing">10</property>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
                                                             <child>
                                                             <placeholder/>
                                                             </child>

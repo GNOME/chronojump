@@ -327,7 +327,7 @@ public partial class ChronoJumpWindow
 	Gtk.Notebook notebook_encoder_analyze;
 	Gtk.Image image_encoder_analyze;
 	Gtk.ProgressBar encoder_pulsebar_analyze;
-	Gtk.ProgressBar encoder_pulsebar_load_signal;
+	Gtk.Spinner encoder_spinner_load_signal;
 	Gtk.ProgressBar encoder_pulsebar_load_signal_at_analyze;
 	Gtk.Label label_encoder_load_signal_at_analyze;
 	
@@ -472,8 +472,6 @@ public partial class ChronoJumpWindow
 	{
 		encoder_pulsebar_capture.Fraction = 1;
 		encoder_pulsebar_capture_label.Text = "";
-		encoder_pulsebar_load_signal.Fraction = 1;
-		encoder_pulsebar_load_signal.Text = "";
 		encoder_pulsebar_load_signal_at_analyze.Fraction = 1;
 		encoder_pulsebar_load_signal_at_analyze.Text = "";
 		encoder_pulsebar_analyze.Fraction = 1;
@@ -6486,8 +6484,8 @@ public partial class ChronoJumpWindow
 				{
 					//capture tab
 					button_encoder_load_signal.Visible =  false;
-					encoder_pulsebar_load_signal.Fraction = 0;
-					encoder_pulsebar_load_signal.Visible = true;
+					encoder_spinner_load_signal.Visible = true;
+					encoder_spinner_load_signal.Start ();
 
 					//analyze tab
 					label_encoder_load_signal_at_analyze.Visible = false;
@@ -7012,7 +7010,8 @@ public partial class ChronoJumpWindow
 
 			//capture tab
 			button_encoder_load_signal.Visible =  true;
-			encoder_pulsebar_load_signal.Visible = false;
+			encoder_spinner_load_signal.Stop ();
+			encoder_spinner_load_signal.Visible = false;
 
 			//analyze tab
 			label_encoder_load_signal_at_analyze.Visible = true;
@@ -7139,13 +7138,10 @@ public partial class ChronoJumpWindow
 			}
 			else if(action == encoderActions.LOAD)
 			{
-				if(fraction <= 0) {
-					encoder_pulsebar_load_signal.Pulse();
+				if(fraction <= 0)
 					encoder_pulsebar_load_signal_at_analyze.Pulse();
-				} else {
-					encoder_pulsebar_load_signal.Fraction = UtilAll.DivideSafeFraction(fraction, 6);
+				else
 					encoder_pulsebar_load_signal_at_analyze.Fraction = UtilAll.DivideSafeFraction(fraction, 6);
-				}
 			} else {
 				if(fraction == -1)
 					encoder_pulsebar_analyze.Pulse();
@@ -8279,7 +8275,7 @@ public partial class ChronoJumpWindow
 		notebook_encoder_analyze = (Gtk.Notebook) builder.GetObject ("notebook_encoder_analyze");
 		image_encoder_analyze = (Gtk.Image) builder.GetObject ("image_encoder_analyze");
 		encoder_pulsebar_analyze = (Gtk.ProgressBar) builder.GetObject ("encoder_pulsebar_analyze");
-		encoder_pulsebar_load_signal = (Gtk.ProgressBar) builder.GetObject ("encoder_pulsebar_load_signal");
+		encoder_spinner_load_signal = (Gtk.Spinner) builder.GetObject ("encoder_spinner_load_signal");
 		encoder_pulsebar_load_signal_at_analyze = (Gtk.ProgressBar) builder.GetObject ("encoder_pulsebar_load_signal_at_analyze");
 		label_encoder_load_signal_at_analyze = (Gtk.Label) builder.GetObject ("label_encoder_load_signal_at_analyze");
 

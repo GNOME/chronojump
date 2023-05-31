@@ -46,7 +46,6 @@ displacementCurvesDebug (TRUE)
 # using optionsCj variable above instead of options in order to be able to turn warnings into errors with:
 options (warn = 2)
 
-
 #using debug is very useful, eg:
 
 d <- scan ("tests/fixEccConCutOnNotSingleFile/curve1.txt", sep = ",")
@@ -119,3 +118,106 @@ now all the values on C# analyze table are almost the same except mean power. Ch
 at the moment I have propulsive FALSE on preferences
 
 Found the 2nd bug, pafGenerate was called with repOp$eccon instead of repOpSeparated$eccon making the mean power to be abs
+
+
+Another example:
+----------------
+source ("util.R")
+source ("graphSmoothingEC.R")
+source ("graph.R")
+
+displacement <- scan ("tests/fixEccConCutOnNotSingleFile/three_curves.txt", sep=",") #session borrame3, person prova enc ec (serie 3)
+displacement <- displacement[!is.na(displacement)]
+position=cumsum(displacement)
+
+op = NULL
+op$EncoderConfigurationName="LINEAR"
+op$Eccon = 20
+op$MinHeight = 20
+
+curves <- findCurvesNew(displacement, op$Eccon,
+		isInertial(op$EncoderConfigurationName), op$MinHeight)
+
+plot(cumsum(displacement), type="l")
+abline(v=curves$startStored, col="red")
+abline(v=curves$endStored, col="blue")
+
+curvesSaved = curves #save this curves right now for debugging
+
+curvesHeight = NULL
+n=length(curves[,1])
+for(i in 1:n)
+{
+	reducedCurve_l = NULL
+	displacementTemp = displacement[curves[i,1]:curves[i,2]]
+				
+	#else if (op$Eccon == "ecS")
+	#{
+		reducedCurve_l <- NULL
+			if (position[curves[i,1]] < position[curves[i,2]])
+				reducedCurve_l <- reduceCurveByPredictStartEnd (displacementTemp,
+						"c", op$MinHeight)
+			else
+				reducedCurve_l <- reduceCurveByPredictStartEnd (displacementTemp,
+						"e", op$MinHeight)
+
+#1st assign end because start will also change
+					curves[i,2] <- curves[i,1] + (reducedCurve_l$endPos -1)
+					curves[i,1] <- curves[i,1] + (reducedCurve_l$startPos -1)
+
+#curves[i,3] <- position[reducedCurve_l$startPos] - position [curves[i,1]]
+#TODO: fix above line
+					curves[i,3] <- 0
+	#}
+                        
+	myPosition = cumsum(displacement[curves[i,1]:curves[i,2]])
+	curvesHeight[i] = max(myPosition) - min(myPosition)
+}
+print("curves after reduceCurveBySpeed")
+print(curves)
+
+abline(v=curves$startStored, col="orange")
+abline(v=curves$endStored, col="cyan")
+
+#let's check better the ecc end of 3rd curve using the curvesSaved
+displacementTemp = displacement[curvesSaved[5,1]:curvesSaved[5,2]]
+plot(cumsum(displacementTemp), type="l")
+reducedCurve_l <- reduceCurveByPredictStartEnd (displacementTemp,
+		"e", op$MinHeight)
+
+positionTemp = cumsum(displacementTemp)
+points(reducedCurve_l$startPos, positionTemp[reducedCurve_l$startPos], cex=4)
+points(reducedCurve_l$endPos, positionTemp[reducedCurve_l$endPos], cex=4)
+
+#abline(v=reducedCurve_l$endPos) #this should go 1 pixel below and then some pixels to the right, because below to the right there is a bigger sequence of 0s than in this height
+
+
+
+# see for the last e
+displacementTemp = displacement[curvesSaved[5,1]:curvesSaved[5,2]]
+plot(cumsum(displacementTemp), type="l")
+reducedCurve_l <- reduceCurveByPredictStartEnd (displacementTemp,
+		"e", op$MinHeight)
+# zerosAtLeft, zerosAtRight, 98, 24
+
+# see how it works if e is converted to c
+displacementTemp <- -1 * displacementTemp
+plot(cumsum(displacementTemp), type="l")
+reducedCurve_l <- reduceCurveByPredictStartEnd (displacementTemp,
+		"c", op$MinHeight)
+# zerosAtLeft, zerosAtRight, 98, 24
+
+# see for the ec curve
+displacementTemp = displacement[curvesSaved[5,1]:curvesSaved[6,2]]
+plot(cumsum(displacementTemp), type="l")
+reducedCurve_l <- reduceCurveByPredictStartEnd (displacementTemp,
+		"ec", op$MinHeight)
+# zerosAtLeft, zerosAtRight, 98, 5
+
+# see last c
+displacementTemp = displacement[curvesSaved[6,1]:curvesSaved[6,2]]
+plot(cumsum(displacementTemp), type="l")
+reducedCurve_l <- reduceCurveByPredictStartEnd (displacementTemp,
+		"c", op$MinHeight)
+# zerosAtLeft, zerosAtRight, 19, 5
+

@@ -2706,18 +2706,30 @@
                         <property name="can-focus">False</property>
                         <property name="spacing">20</property>
                         <child>
-                          <object class="GtkFrame" id="frame_manage_persons">
+                          <object class="GtkBox">
                             <property name="visible">True</property>
                             <property name="can-focus">False</property>
-                            <property name="border-width">12</property>
-                            <property name="label-xalign">0</property>
-                            <property name="label-yalign">1</property>
-                            <property name="shadow-type">in</property>
+                            <property name="orientation">vertical</property>
                             <child>
-                              <object class="GtkViewport" id="viewport2">
+                              <object class="GtkLabel" id="label_manage_persons">
                                 <property name="visible">True</property>
                                 <property name="can-focus">False</property>
-                                <property name="border-width">4</property>
+                                <property name="label" translatable="yes">Manage persons</property>
+                                <property name="use-markup">True</property>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">0</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkFrame" id="frame_manage_persons">
+                                <property name="visible">True</property>
+                                <property name="can-focus">False</property>
+                                <property name="label-xalign">0</property>
+                                <property name="label-yalign">1</property>
+                                <property name="shadow-type">in</property>
                                 <child>
                                   <object class="GtkAlignment" id="alignment1">
                                     <property name="visible">True</property>
@@ -2730,12 +2742,12 @@
                                       <object class="GtkVBox" id="vbox_manage_persons">
                                         <property name="visible">True</property>
                                         <property name="can-focus">False</property>
-                                        <property name="spacing">12</property>
+                                        <property name="spacing">16</property>
                                         <child>
                                           <object class="GtkVBox" id="vbox83">
                                             <property name="visible">True</property>
                                             <property name="can-focus">False</property>
-                                            <property name="spacing">2</property>
+                                            <property name="spacing">4</property>
                                             <child>
                                               <object class="GtkLabel" id="label153">
                                                 <property name="visible">True</property>
@@ -2866,7 +2878,7 @@
                                           <object class="GtkVBox" id="vbox87">
                                             <property name="visible">True</property>
                                             <property name="can-focus">False</property>
-                                            <property name="spacing">2</property>
+                                            <property name="spacing">4</property>
                                             <child>
                                               <object class="GtkLabel" id="label156">
                                                 <property name="visible">True</property>
@@ -2997,15 +3009,15 @@
                                     </child>
                                   </object>
                                 </child>
+                                <child type="label_item">
+                                  <placeholder/>
+                                </child>
                               </object>
-                            </child>
-                            <child type="label">
-                              <object class="GtkLabel" id="label_manage_persons">
-                                <property name="visible">True</property>
-                                <property name="can-focus">False</property>
-                                <property name="label" translatable="yes">Manage persons</property>
-                                <property name="use-markup">True</property>
-                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">1</property>
+                              </packing>
                             </child>
                           </object>
                           <packing>
@@ -3135,10 +3147,10 @@
                               <object class="GtkAlignment">
                                 <property name="visible">True</property>
                                 <property name="can-focus">False</property>
-                                <property name="top-padding">20</property>
-                                <property name="bottom-padding">20</property>
-                                <property name="left-padding">20</property>
-                                <property name="right-padding">20</property>
+                                <property name="top-padding">16</property>
+                                <property name="bottom-padding">16</property>
+                                <property name="left-padding">16</property>
+                                <property name="right-padding">16</property>
                                 <child>
                                   <object class="GtkVBox" id="vbox_button_delete_confirm">
                                     <property name="visible">True</property>

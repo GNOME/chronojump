@@ -116,6 +116,9 @@ public class PersonSelectWindow
 			UtilGtk.ContrastLabelsLabel(Config.ColorBackgroundIsDark, label_delete_person);
 			UtilGtk.ContrastLabelsVBox(Config.ColorBackgroundIsDark, vbox_corner_controls);
 
+			UtilGtk.ContrastLabelsLabel(Config.ColorBackgroundIsDark, label_manage_persons);
+			UtilGtk.WidgetColor (frame_manage_persons, Config.ColorBackgroundShifted);
+			UtilGtk.ContrastLabelsFrame (Config.ColorBackgroundShiftedIsDark, frame_manage_persons);
 
 			UtilGtk.ContrastLabelsLabel(Config.ColorBackgroundIsDark, label_delete_person);
 			UtilGtk.WidgetColor (frame_delete_person_confirm, Config.ColorBackgroundShifted);

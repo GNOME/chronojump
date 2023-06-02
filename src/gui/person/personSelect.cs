@@ -231,6 +231,8 @@ public class PersonSelectWindow
 
 		if(! person_select_window.Visible)
 			person_select_window.Visible = true;
+
+		GLib.Timeout.Add (25, new GLib.TimeoutHandler (resizeWindowToBeCorrectlyUpdated));
 	}
 
 	private void on_check_show_images_toggled (object o, EventArgs args)
@@ -311,14 +313,17 @@ public class PersonSelectWindow
 			}
 		}
 
-		//table1.ShowAll();
-		GLib.Timeout.Add (150, new GLib.TimeoutHandler (table1ShowAll));
+		table1.ShowAll();
 	}
 
 	//to ensure table is shown after being updated without button strange glitches
-	private bool table1ShowAll ()
+	//this glitches were found after creating a person, and after select show/hide images
+	private bool resizeWindowToBeCorrectlyUpdated ()
 	{
-		table1.ShowAll();
+		person_select_window.SetSizeRequest(
+                                person_select_window.SizeRequest().Width + 3,
+                                person_select_window.SizeRequest().Height + 3);
+
 		return false;
 	}
 	
@@ -616,8 +621,9 @@ public class PersonPhotoButton
 	{
 		Gtk.VBox vbox = new Gtk.VBox();
 
+		// need to create image even on no images to manage correctly the getButtonBoxElements ()
 		Gtk.Image image = new Gtk.Image();
-		addUserPhotoIfExists(image);
+		addUserPhotoIfExists (image);
 		if(showImage)
 			image.HeightRequest = 150;
 		image.Visible = showImage;

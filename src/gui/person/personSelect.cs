@@ -25,6 +25,7 @@ using Gdk;
 using System.Collections; //ArrayList
 using System.Collections.Generic; //List
 using System.IO; 
+using Mono.Unix;
 
 public class PersonSelectWindow 
 {
@@ -131,8 +132,6 @@ public class PersonSelectWindow
 
 		label_manage_persons.Text = "<b>" + label_manage_persons.Text + "</b>";
 		label_manage_persons.UseMarkup = true;
-		label_delete_person.Text = "<b>" + label_delete_person.Text + "</b>";
-		label_delete_person.UseMarkup = true;
 
 		person_select_window.Parent = parent;
 		
@@ -457,7 +456,12 @@ public class PersonSelectWindow
 	private void button_delete_confirm_focus(bool doFocus, bool sensitivePersonButtons)
 	{
 		if(doFocus)
+		{
 			notebook.CurrentPage = 2;
+			label_delete_person.Text = "<b>" + string.Format (
+					Catalog.GetString ("Delete person '{0}' from this session"), SelectedPerson.Name) + "</b>";
+			label_delete_person.UseMarkup = true;
+		}
 		else
 			notebook.CurrentPage = 0;
 

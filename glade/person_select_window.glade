@@ -512,7 +512,6 @@
                           <object class="GtkLabel" id="label_delete_person">
                             <property name="visible">True</property>
                             <property name="can-focus">False</property>
-                            <property name="label" translatable="yes">Delete person from this session</property>
                           </object>
                           <packing>
                             <property name="expand">True</property>

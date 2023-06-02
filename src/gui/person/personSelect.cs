@@ -30,7 +30,6 @@ public class PersonSelectWindow
 {
 	Gtk.Window person_select_window;
 	Gtk.Notebook notebook;
-	Gtk.ScrolledWindow scrolled1;
 	Gtk.Viewport viewport1;
 	Gtk.Viewport viewport_person_name;
 	Gtk.Table table1;
@@ -55,6 +54,8 @@ public class PersonSelectWindow
 	Gtk.Label label_manage_persons;
 	Gtk.Label label_delete_person;
 	Gtk.CheckButton check_show_images;
+	Gtk.Frame frame_main;
+	Gtk.ScrolledWindow scrolled_main;
 	Gtk.Frame frame_manage_persons;
 	Gtk.Frame frame_delete_person_confirm;
 
@@ -94,7 +95,7 @@ public class PersonSelectWindow
 		if(raspberry)
 			slidebarSize = 40;
 
-		scrolled1.WidthRequest = 150 * 4 + 8 * 2 + 12 * 2 + slidebarSize; //150 is button width, 8 is padding left and right (4+4), 12 the left and right of scrolled1
+		scrolled_main.WidthRequest = 150 * 4 + 8 * 2 + 12 * 2 + slidebarSize; //150 is button width, 8 is padding left and right (4+4), 12 the left and right of scrolled_main
 		//if showImages (2 columns) will be 308*2 + 4 * 2 + 12 * 2
 
 		int rowsShown = 3;
@@ -102,7 +103,7 @@ public class PersonSelectWindow
 			rowsShown = 2;
 
 		//there's no side slidebar for going horizontal, but the last +10 is to have a bit of space for the widget
-		scrolled1.HeightRequest = 170 * rowsShown + 8 * 2 + 12 * 2; //170 is button height, 8 is padding top botton (4+4), 12 the top and bottom of scrolled1
+		scrolled_main.HeightRequest = 170 * rowsShown + 8 * 2 + 12 * 2; //170 is button height, 8 is padding top botton (4+4), 12 the top and bottom of scrolled_main
 
 		//put an icon to window
 		UtilGtk.IconWindow(person_select_window);
@@ -115,6 +116,9 @@ public class PersonSelectWindow
 			UtilGtk.ContrastLabelsLabel(Config.ColorBackgroundIsDark, label_manage_persons);
 			UtilGtk.ContrastLabelsLabel(Config.ColorBackgroundIsDark, label_delete_person);
 			UtilGtk.ContrastLabelsVBox(Config.ColorBackgroundIsDark, vbox_corner_controls);
+
+			UtilGtk.WidgetColor (frame_main, Config.ColorBackgroundShifted);
+			UtilGtk.ContrastLabelsFrame (Config.ColorBackgroundShiftedIsDark, frame_main);
 
 			UtilGtk.ContrastLabelsLabel(Config.ColorBackgroundIsDark, label_manage_persons);
 			UtilGtk.WidgetColor (frame_manage_persons, Config.ColorBackgroundShifted);
@@ -501,7 +505,6 @@ public class PersonSelectWindow
 	{
 		person_select_window = (Gtk.Window) builder.GetObject ("person_select_window");
 		notebook = (Gtk.Notebook) builder.GetObject ("notebook");
-		scrolled1 = (Gtk.ScrolledWindow) builder.GetObject ("scrolled1");
 		viewport1 = (Gtk.Viewport) builder.GetObject ("viewport1");
 		viewport_person_name = (Gtk.Viewport) builder.GetObject ("viewport_person_name");
 		table1 = (Gtk.Table) builder.GetObject ("table1");
@@ -526,6 +529,8 @@ public class PersonSelectWindow
 		label_manage_persons = (Gtk.Label) builder.GetObject ("label_manage_persons");
 		label_delete_person = (Gtk.Label) builder.GetObject ("label_delete_person");
 		check_show_images = (Gtk.CheckButton) builder.GetObject ("check_show_images");
+		frame_main = (Gtk.Frame) builder.GetObject ("frame_main");
+		scrolled_main = (Gtk.ScrolledWindow) builder.GetObject ("scrolled_main");
 		frame_manage_persons = (Gtk.Frame) builder.GetObject ("frame_manage_persons");
 		frame_delete_person_confirm = (Gtk.Frame) builder.GetObject ("frame_delete_person_confirm");
 	}

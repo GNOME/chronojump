@@ -297,7 +297,15 @@ public class PersonSelectWindow
 			}
 		}
 
+		//table1.ShowAll();
+		GLib.Timeout.Add (150, new GLib.TimeoutHandler (table1ShowAll));
+	}
+
+	//to ensure table is shown after being updated without button strange glitches
+	private bool table1ShowAll ()
+	{
 		table1.ShowAll();
+		return false;
 	}
 	
 	private void on_button_portrait_clicked (object o, EventArgs args)

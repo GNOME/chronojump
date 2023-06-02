@@ -22,14 +22,14 @@
             <property name="show-tabs">False</property>
             <property name="show-border">False</property>
             <child>
-              <object class="GtkFrame" id="frame2">
+              <object class="GtkFrame" id="frame_main">
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
                 <property name="label-xalign">0</property>
                 <property name="label-yalign">1</property>
                 <property name="shadow-type">in</property>
                 <child>
-                  <object class="GtkScrolledWindow" id="scrolled1">
+                  <object class="GtkScrolledWindow" id="scrolled_main">
                     <property name="visible">True</property>
                     <property name="can-focus">True</property>
                     <property name="border-width">4</property>

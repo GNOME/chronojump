@@ -55,7 +55,9 @@ public class PersonSelectWindow
 	Gtk.Label label_manage_persons;
 	Gtk.Label label_delete_person;
 	Gtk.CheckButton check_show_images;
-	
+	Gtk.Frame frame_manage_persons;
+	Gtk.Frame frame_delete_person_confirm;
+
 	static PersonSelectWindow PersonSelectWindowBox;
 	
 	private ArrayList persons;
@@ -113,6 +115,11 @@ public class PersonSelectWindow
 			UtilGtk.ContrastLabelsLabel(Config.ColorBackgroundIsDark, label_manage_persons);
 			UtilGtk.ContrastLabelsLabel(Config.ColorBackgroundIsDark, label_delete_person);
 			UtilGtk.ContrastLabelsVBox(Config.ColorBackgroundIsDark, vbox_corner_controls);
+
+
+			UtilGtk.ContrastLabelsLabel(Config.ColorBackgroundIsDark, label_delete_person);
+			UtilGtk.WidgetColor (frame_delete_person_confirm, Config.ColorBackgroundShifted);
+			UtilGtk.ContrastLabelsFrame (Config.ColorBackgroundShiftedIsDark, frame_delete_person_confirm);
 		}
 
 		label_manage_persons.Text = "<b>" + label_manage_persons.Text + "</b>";
@@ -516,6 +523,8 @@ public class PersonSelectWindow
 		label_manage_persons = (Gtk.Label) builder.GetObject ("label_manage_persons");
 		label_delete_person = (Gtk.Label) builder.GetObject ("label_delete_person");
 		check_show_images = (Gtk.CheckButton) builder.GetObject ("check_show_images");
+		frame_manage_persons = (Gtk.Frame) builder.GetObject ("frame_manage_persons");
+		frame_delete_person_confirm = (Gtk.Frame) builder.GetObject ("frame_delete_person_confirm");
 	}
 }
 

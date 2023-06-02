@@ -32,7 +32,7 @@ public class PersonSelectWindow
 	Gtk.Notebook notebook;
 	Gtk.Viewport viewport1;
 	Gtk.Viewport viewport_person_name;
-	Gtk.Table table1;
+	Gtk.Grid grid_main;
 	Gtk.Button button_edit;
 	Gtk.Button button_show_all_events;
 	Gtk.Button button_delete;
@@ -194,7 +194,7 @@ public class PersonSelectWindow
 			PersonSelectWindowBox.columns = 2;
 		}
 
-		PersonSelectWindowBox.createTable();
+		PersonSelectWindowBox.createGrid();
 
 		PersonSelectWindowBox.person_select_window.Show ();
 
@@ -215,14 +215,14 @@ public class PersonSelectWindow
 
 		notebook.CurrentPage = 0;
 
-		LogB.Debug("Removing table");
-		table1.Visible = false;
-		removeTable();
+		LogB.Debug("Removing grid");
+		grid_main.Visible = false;
+		removeGrid();
 
-		LogB.Debug("Recreating table");
-		createTable();
-		table1.Visible = true;
-		table1.Sensitive = true;
+		LogB.Debug("Recreating grid");
+		createGrid();
+		grid_main.Visible = true;
+		grid_main.Sensitive = true;
 		button_manage_persons.Sensitive = true;
 		vbox_corner_controls.Sensitive = true;
 
@@ -231,8 +231,6 @@ public class PersonSelectWindow
 
 		if(! person_select_window.Visible)
 			person_select_window.Visible = true;
-
-		GLib.Timeout.Add (25, new GLib.TimeoutHandler (resizeWindowToBeCorrectlyUpdated));
 	}
 
 	private void on_check_show_images_toggled (object o, EventArgs args)
@@ -250,14 +248,14 @@ public class PersonSelectWindow
 		Update(persons);
 	}
 
-	private void removeTable() 
+	private void removeGrid ()
 	{
-		Array buttons = table1.Children;
+		Array buttons = grid_main.Children;
 		foreach(Gtk.Button b in buttons)
-			table1.Remove(b);
+			grid_main.Remove(b);
 	}
 
-	private void createTable() 
+	private void createGrid ()
 	{
 		LogB.Debug("Persons count" + persons.Count.ToString());
 		uint padding = 4;	
@@ -306,27 +304,14 @@ public class PersonSelectWindow
 				b.Clicked += new EventHandler(on_button_portrait_clicked);
 				b.CanFocus=true;
 				
-				table1.Attach (b, (uint) col_i, (uint) col_i +1, (uint) row_i, (uint) row_i +1, 
-						Gtk.AttachOptions.Fill, 
-						Gtk.AttachOptions.Fill, 
-						padding, padding);
+				grid_main.Attach (b, col_i, row_i,
+						1, 1); //The number of columns/rowsthat child will span.
 			}
 		}
 
-		table1.ShowAll();
+		grid_main.ShowAll();
 	}
 
-	//to ensure table is shown after being updated without button strange glitches
-	//this glitches were found after creating a person, and after select show/hide images
-	private bool resizeWindowToBeCorrectlyUpdated ()
-	{
-		person_select_window.SetSizeRequest(
-                                person_select_window.SizeRequest().Width + 3,
-                                person_select_window.SizeRequest().Height + 3);
-
-		return false;
-	}
-	
 	private void on_button_portrait_clicked (object o, EventArgs args)
 	{
 		LogB.Information("Clicked");
@@ -477,7 +462,7 @@ public class PersonSelectWindow
 			notebook.CurrentPage = 0;
 
 		//vbox_button_delete_confirm.Visible = doFocus;
-		table1.Sensitive = ! doFocus;
+		grid_main.Sensitive = ! doFocus;
 		button_manage_persons.Sensitive = ! doFocus;
 		vbox_corner_controls.Sensitive = ! doFocus;
 
@@ -512,7 +497,7 @@ public class PersonSelectWindow
 		notebook = (Gtk.Notebook) builder.GetObject ("notebook");
 		viewport1 = (Gtk.Viewport) builder.GetObject ("viewport1");
 		viewport_person_name = (Gtk.Viewport) builder.GetObject ("viewport_person_name");
-		table1 = (Gtk.Table) builder.GetObject ("table1");
+		grid_main = (Gtk.Grid) builder.GetObject ("grid_main");
 		button_edit = (Gtk.Button) builder.GetObject ("button_edit");
 		button_show_all_events = (Gtk.Button) builder.GetObject ("button_show_all_events");
 		button_delete = (Gtk.Button) builder.GetObject ("button_delete");

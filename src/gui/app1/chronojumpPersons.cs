@@ -97,6 +97,12 @@ public partial class ChronoJumpWindow
 		LogB.Information("recuperate person");
 		personRecuperateWin = PersonRecuperateWindow.Show(app1, currentSession, preferences.digitsNumber);
 		personRecuperateWin.FakeButtonDone.Clicked += new EventHandler(on_recuperate_person_accepted);
+
+		if (person_load_single_called_from_person_select_window)
+		{
+			personRecuperateWin.FakeButtonCancel.Clicked -= new EventHandler (on_button_top_person_clicked);
+			personRecuperateWin.FakeButtonCancel.Clicked += new EventHandler (on_button_top_person_clicked);
+		}
 	}
 
 	private void on_recuperate_person_accepted (object o, EventArgs args) {
@@ -127,13 +133,21 @@ public partial class ChronoJumpWindow
 		person_load_multiple();
 	}
 
-	private void person_load_multiple () {
+	private void person_load_multiple ()
+	{
 		LogB.Information("recuperate persons from other session");
 		personsRecuperateFromOtherSessionWin = PersonsRecuperateFromOtherSessionWindow.Show(app1, currentSession);
 		personsRecuperateFromOtherSessionWin.FakeButtonDone.Clicked += new EventHandler(on_recuperate_persons_from_session_accepted);
+
+		if (person_load_multiple_called_from_person_select_window)
+		{
+			personsRecuperateFromOtherSessionWin.FakeButtonCancel.Clicked -= new EventHandler (on_button_top_person_clicked);
+			personsRecuperateFromOtherSessionWin.FakeButtonCancel.Clicked += new EventHandler (on_button_top_person_clicked);
+		}
 	}
 	
-	private void on_recuperate_persons_from_session_accepted (object o, EventArgs args) {
+	private void on_recuperate_persons_from_session_accepted (object o, EventArgs args)
+	{
 		currentPerson = personsRecuperateFromOtherSessionWin.CurrentPerson;
 		currentPersonSession = personsRecuperateFromOtherSessionWin.CurrentPersonSession;
 		label_person_change();
@@ -174,6 +188,12 @@ public partial class ChronoJumpWindow
 		
 		personAddModifyWin.FakeButtonAccept.Clicked -= new EventHandler(on_person_add_single_accepted);
 		personAddModifyWin.FakeButtonAccept.Clicked += new EventHandler(on_person_add_single_accepted);
+
+		if (person_add_single_called_from_person_select_window)
+		{
+			personAddModifyWin.FakeButtonCancel.Clicked -= new EventHandler (on_button_top_person_clicked);
+			personAddModifyWin.FakeButtonCancel.Clicked += new EventHandler (on_button_top_person_clicked);
+		}
 	}
 
 	/*
@@ -256,6 +276,12 @@ public partial class ChronoJumpWindow
 		personAddMultipleWin = PersonAddMultipleWindow.Show(app1, currentSession, preferences.CSVColumnDelimiter);
 		personAddMultipleWin.FakeButtonDone.Clicked -= new EventHandler(on_person_add_multiple_accepted);
 		personAddMultipleWin.FakeButtonDone.Clicked += new EventHandler(on_person_add_multiple_accepted);
+
+		if (person_add_multiple_called_from_person_select_window)
+		{
+			personAddMultipleWin.FakeButtonCancel.Clicked -= new EventHandler (on_button_top_person_clicked);
+			personAddMultipleWin.FakeButtonCancel.Clicked += new EventHandler (on_button_top_person_clicked);
+		}
 	}
 	
 	private void on_person_add_multiple_accepted (object o, EventArgs args)
@@ -303,6 +329,12 @@ public partial class ChronoJumpWindow
 				configChronojump.Compujump, preferences.units == Preferences.UnitsEnum.METRIC
 				); 
 		personAddModifyWin.FakeButtonAccept.Clicked += new EventHandler(on_edit_current_person_accepted);
+
+		if (person_edit_single_called_from_person_select_window)
+		{
+			personAddModifyWin.FakeButtonCancel.Clicked -= new EventHandler (on_button_top_person_clicked);
+			personAddModifyWin.FakeButtonCancel.Clicked += new EventHandler (on_button_top_person_clicked);
+		}
 	}
 	
 	private void on_edit_current_person_accepted (object o, EventArgs args) {

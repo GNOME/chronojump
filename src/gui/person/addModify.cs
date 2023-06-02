@@ -112,7 +112,8 @@ public class PersonAddModifyWindow
 	Gtk.ComboBoxText combo_countries;
 
 	//used for connect ok gui/chronojump.cs, PersonRecuperate, PersonRecuperateFromOtherSession,this class, gui/convertWeight.cs
-	public Gtk.Button fakeButtonAccept;
+	private Gtk.Button fakeButtonAccept;
+	private Gtk.Button fakeButtonCancel;
 	
 	static ConvertWeightWindow convertWeightWin;
 	
@@ -262,6 +263,7 @@ public class PersonAddModifyWindow
 			button_zoom.Sensitive = false;
 
 		fakeButtonAccept = new Gtk.Button();
+		fakeButtonCancel = new Gtk.Button();
 
 		entry1.CanFocus = true;
 		entry1.IsFocus = true;
@@ -1307,6 +1309,8 @@ public class PersonAddModifyWindow
 	
 	void on_button_cancel_clicked (object o, EventArgs args)
 	{
+		fakeButtonCancel.Click (); //managed if persons in top win
+
 		if(webcam != null && webcam.Running)
 			webcam.ExitCamera();
 
@@ -1317,6 +1321,8 @@ public class PersonAddModifyWindow
 	//void on_person_modify_delete_event (object o, EventArgs args)
 	void on_person_win_delete_event (object o, DeleteEventArgs args)
 	{
+		fakeButtonCancel.Click (); //managed if persons in top win
+
 		if(webcam != null && webcam.Running)
 			webcam.ExitCamera();
 
@@ -1334,6 +1340,10 @@ public class PersonAddModifyWindow
 		get { return fakeButtonAccept; }
 	}
 	
+	public Button FakeButtonCancel
+	{
+		get { return fakeButtonCancel; }
+	}
 
 	public Person CurrentPerson {
 		get { return currentPerson; }

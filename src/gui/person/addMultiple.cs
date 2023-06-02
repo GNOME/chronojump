@@ -159,6 +159,7 @@ public class PersonAddMultipleWindow
 	int rows;
 	
 	private Gtk.Button fakeButtonDone;
+	private Gtk.Button fakeButtonCancel;
 	
 	static PersonAddMultipleWindow PersonAddMultipleWindowBox;
 
@@ -193,6 +194,7 @@ public class PersonAddMultipleWindow
 		}
 	
 		fakeButtonDone = new Gtk.Button();
+		fakeButtonCancel = new Gtk.Button();
 		person_multiple_infinite.Parent = parent;
 		this.currentSession = currentSession;
 		this.columnDelimiter = columnDelimiter;
@@ -219,6 +221,8 @@ public class PersonAddMultipleWindow
 	{
 		if (notebook.CurrentPage == Convert.ToInt32 (notebookPages.MAINOPTIONS))
 		{
+			fakeButtonCancel.Click (); //managed if persons in top win
+
 			PersonAddMultipleWindowBox.person_multiple_infinite.Hide();
 			PersonAddMultipleWindowBox = null;
 		} else {
@@ -230,6 +234,8 @@ public class PersonAddMultipleWindow
 	
 	void on_delete_event (object o, DeleteEventArgs args)
 	{
+		fakeButtonCancel.Click (); //managed if persons in top win
+
 		PersonAddMultipleWindowBox.person_multiple_infinite.Hide();
 		PersonAddMultipleWindowBox = null;
 	}
@@ -1151,6 +1157,11 @@ public class PersonAddMultipleWindow
 	public Button FakeButtonDone
 	{
 		get { return fakeButtonDone; }
+	}
+
+	public Button FakeButtonCancel
+	{
+		get { return fakeButtonCancel; }
 	}
 
 	public Person CurrentPerson

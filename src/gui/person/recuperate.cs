@@ -62,7 +62,8 @@ public class PersonRecuperateWindow
 	protected int firstColumn = 0;
 	protected int pDN;
 	
-	public Gtk.Button fakeButtonDone;
+	protected Gtk.Button fakeButtonDone;
+	protected Gtk.Button fakeButtonCancel;
 
 	protected PersonRecuperateWindow () {
 	}
@@ -97,6 +98,7 @@ public class PersonRecuperateWindow
 		this.currentSession = currentSession;
 		
 		fakeButtonDone = new Gtk.Button();
+		fakeButtonCancel = new Gtk.Button();
 	
 		//no posible to recuperate until one person is selected
 		button_recuperate.Sensitive = false;
@@ -237,12 +239,16 @@ public class PersonRecuperateWindow
 	
 	protected virtual void on_button_close_clicked (object o, EventArgs args)
 	{
+		fakeButtonCancel.Click (); //managed if persons in top win
+
 		PersonRecuperateWindowBox.person_recuperate.Hide();
 		PersonRecuperateWindowBox = null;
 	}
 	
 	protected virtual void on_person_recuperate_delete_event (object o, DeleteEventArgs args)
 	{
+		fakeButtonCancel.Click (); //managed if persons in top win
+
 		PersonRecuperateWindowBox.person_recuperate.Hide();
 		PersonRecuperateWindowBox = null;
 	}
@@ -297,6 +303,11 @@ public class PersonRecuperateWindow
 	{
 		set { fakeButtonDone = value; }
 		get { return fakeButtonDone; }
+	}
+
+	public Button FakeButtonCancel
+	{
+		get { return fakeButtonCancel; }
 	}
 
 	
@@ -384,7 +395,8 @@ public class PersonsRecuperateFromOtherSessionWindow : PersonRecuperateWindow
 		this.currentSession = currentSession;
 		
 		fakeButtonDone = new Gtk.Button();
-	
+		fakeButtonCancel = new Gtk.Button();
+
 		firstColumn = 1;
 	
 		createComboSessions();
@@ -562,6 +574,8 @@ public class PersonsRecuperateFromOtherSessionWindow : PersonRecuperateWindow
 	
 	protected override void on_button_close_clicked (object o, EventArgs args)
 	{
+		fakeButtonCancel.Click (); //managed if persons in top win
+
 		PersonsRecuperateFromOtherSessionWindowBox.person_recuperate.Hide();
 		PersonsRecuperateFromOtherSessionWindowBox = null;
 	}

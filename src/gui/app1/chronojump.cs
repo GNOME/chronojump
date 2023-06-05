@@ -1407,7 +1407,13 @@ public partial class ChronoJumpWindow
 
 	private void personChanged()
 	{
+		LogB.Information ("personChanged start ---->");
 		sensitiveLastTestButtons(false);
+
+		if (currentPerson == null)
+			LogB.Information ("currentPerson == null" + (currentPerson == null).ToString ());
+		else
+			LogB.Information ("currentPerson: " + currentPerson.ToString ());
 
 		label_current_person.Text = currentPerson.Name;
 
@@ -1485,6 +1491,8 @@ public partial class ChronoJumpWindow
 			forceSensorPersonChanged();
 		else if(current_mode == Constants.Modes.RUNSENCODER)
 			runEncoderPersonChanged();
+
+		LogB.Information ("<---- personChanged end");
 	}
 
 	private void treeviewPersonsContextMenu(Person myPerson) {

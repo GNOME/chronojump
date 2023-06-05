@@ -68,7 +68,7 @@ public class GraphDjPower : StatDjPower
 			serieFall = new GraphSerie();
 			serieWeight = new GraphSerie();
 				
-			serieIndex.Title = translateYesNo("Dj Index");
+			serieIndex.Title = translateYesNo("Power");
 			serieHeight.Title = translateYesNo("Height");
 			serieTc.Title = translateYesNo("TC");
 			serieTv.Title = translateYesNo("TF");

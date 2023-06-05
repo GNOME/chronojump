@@ -193,7 +193,16 @@ public class PersonSelectWindow
 			PersonSelectWindowBox.columns = 2;
 		}
 
+
+		/*
+		 * this fixes not being updated ppb viewport and label when starting with images
+		 * even that this does not actually do nothing, seems a gtk3 bug
+		 * even removing the viewport inside the button and having just the label, it is also not updated without calling this first
+		 */
+		PersonSelectWindowBox.removeGrid();
+
 		PersonSelectWindowBox.createGrid();
+
 
 		PersonSelectWindowBox.person_select_window.Show ();
 

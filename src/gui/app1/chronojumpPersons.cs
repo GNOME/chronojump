@@ -519,17 +519,28 @@ public partial class ChronoJumpWindow
 
 	private void on_button_top_person_delete_person(object o, EventArgs args)
 	{
+		LogB.Information ("called on_button_top_person_delete_person");
 		currentPerson = personSelectWin.SelectedPerson;
-		personChanged();
-		
+
 		//without confirm, because it's already confirmed on PersonSelect
 		on_delete_current_person_from_session_accepted (o, args);
-				
+
 		ArrayList myPersons = SqlitePersonSession.SelectCurrentSessionPersons(
 				currentSession.UniqueID, 
 				false); //means: do not returnPersonAndPSlist
 		personSelectWin.Update(myPersons, currentPerson);
+
+		if (personSelectWin.SelectedPerson == null)
+			LogB.Information ("personSelectWin.SelectedPerson == null");
+		else
+			LogB.Information ("selected person is now: " + personSelectWin.SelectedPerson.ToString ());
+
+		if (currentPerson == null)
+			LogB.Information ("currentPerson == null");
+		else
+			LogB.Information (currentPerson.ToString ());
 	}
+
 	private void on_button_top_person_show_images (object o, EventArgs args)
 	{
 		preferences.personSelectWinImages = Preferences.PreferencesChange (false, SqlitePreferences.PersonSelectWinImages, false, true);

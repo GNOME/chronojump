@@ -78,7 +78,7 @@ public class PersonMergeWindow
 	Gtk.Image image_button_back;
 	Gtk.Image image_button_accept;
 	Gtk.Image image_button_merge;
-	Gtk.Table table_diffs;
+	Gtk.Grid grid_diffs;
 	// <---- at glade
 
 	Gtk.ComboBoxText combo_persons;
@@ -89,7 +89,6 @@ public class PersonMergeWindow
 	private int sessionID;
 	private Person currentPerson;
 	private Person personToMerge;
-	private uint padding = 2;
 
 	List<ClassVariance.Struct> pDiff_l;
 	List<List<ClassVariance.Struct>> psDiffAllSessions_l;
@@ -309,14 +308,16 @@ public class PersonMergeWindow
 
 	private void createTable ()
 	{
-		if (table_diffs != null && table_diffs.Children.Length > 0)
-			foreach (Gtk.Widget w in table_diffs.Children)
-				table_diffs.Remove (w);
+		if (grid_diffs != null && grid_diffs.Children.Length > 0)
+			foreach (Gtk.Widget w in grid_diffs.Children)
+				grid_diffs.Remove (w);
 
 		//TODO: care if some of the lists are null
 
 		//person
-		uint row = 0;
+		int row = 0;
+		grid_diffs.ColumnSpacing = 4;
+		grid_diffs.RowSpacing = 4;
 		createTitleRow ("\n", "\n " + Catalog.GetString("Differences between persons"), row ++);
 		createPersonRadiosRow (row ++);
 		row = createRowsForDiff (pDiff_l, row);
@@ -333,25 +334,27 @@ public class PersonMergeWindow
 			row = createRowsForDiff (cvs_l, row);
 		}
 
-		table_diffs.ShowAll ();
+		grid_diffs.ShowAll ();
 		//scrolledWin.ShowAll ();
 	
 		if(! Config.UseSystemColor)
-			UtilGtk.ContrastLabelsWidget (Config.ColorBackgroundShiftedIsDark, table_diffs);
+			UtilGtk.ContrastLabelsWidget (Config.ColorBackgroundShiftedIsDark, grid_diffs);
 	}
 
 	//each personSession row has first a combined row with session title
-	private void createTitleRow (string firstCol, string col2_3, uint row)
+	private void createTitleRow (string firstCol, string col2_3, int row)
 	{
 		Gtk.Label l1 = new Gtk.Label (firstCol);
-		table_diffs.Attach (l1, 0, 1, row, row+1, Gtk.AttachOptions.Expand, Gtk.AttachOptions.Fill, padding, padding);
+		grid_diffs.Attach (l1, 0, row, 1, 1);
+		l1.Hexpand = true;
 
 		Gtk.Label l2_3 = new Gtk.Label (col2_3);
 		l2_3.UseMarkup = true;
-		table_diffs.Attach (l2_3, 1, 3, row, row+1, Gtk.AttachOptions.Expand, Gtk.AttachOptions.Fill, padding, padding);
+		grid_diffs.Attach (l2_3, 1, row, 2, 1);
+		l2_3.Hexpand = true;
 	}
 
-	private void createPersonRadiosRow (uint row)
+	private void createPersonRadiosRow (int row)
 	{
 		Gtk.Label l = new Gtk.Label ("");
 		pRadioA = new Gtk.RadioButton (Catalog.GetString ("Use these values"));
@@ -363,12 +366,12 @@ public class PersonMergeWindow
 		hboxA.PackStart (pRadioA, true, false, 0);
 		hboxB.PackStart (pRadioB, true, false, 0);
 
-		table_diffs.Attach (l, 0, 1, row, row+1, Gtk.AttachOptions.Fill, Gtk.AttachOptions.Fill, padding, padding);
-		table_diffs.Attach (hboxA, 1, 2, row, row+1, Gtk.AttachOptions.Fill, Gtk.AttachOptions.Fill, padding, padding);
-		table_diffs.Attach (hboxB, 2, 3, row, row+1, Gtk.AttachOptions.Fill, Gtk.AttachOptions.Fill, padding, padding);
+		grid_diffs.Attach (l, 0, row, 1, 1);
+		grid_diffs.Attach (hboxA, 1, row, 1, 1);
+		grid_diffs.Attach (hboxB, 2, row, 1, 1);
 	}
 
-	private void createPersonSessionRadiosRow (uint row)
+	private void createPersonSessionRadiosRow (int row)
 	{
 		Gtk.Label l = new Gtk.Label ("");
 		Gtk.RadioButton radioA = new Gtk.RadioButton (Catalog.GetString ("Use these values"));
@@ -380,15 +383,15 @@ public class PersonMergeWindow
 		hboxA.PackStart (radioA, true, false, 0);
 		hboxB.PackStart (radioB, true, false, 0);
 
-		table_diffs.Attach (l, 0, 1, row, row+1, Gtk.AttachOptions.Fill, Gtk.AttachOptions.Fill, padding, padding);
-		table_diffs.Attach (hboxA, 1, 2, row, row+1, Gtk.AttachOptions.Fill, Gtk.AttachOptions.Fill, padding, padding);
-		table_diffs.Attach (hboxB, 2, 3, row, row+1, Gtk.AttachOptions.Fill, Gtk.AttachOptions.Fill, padding, padding);
+		grid_diffs.Attach (l, 0, row, 1, 1);
+		grid_diffs.Attach (hboxA, 1, row, 1, 1);
+		grid_diffs.Attach (hboxB, 2, row, 1, 1);
 
 		psRadiosA_l.Add (radioA);
 		//psRadiosB_l.Add (radioB);
 	}
 
-	private uint createRowsForDiff (List<ClassVariance.Struct> cvs_l, uint row)
+	private int createRowsForDiff (List<ClassVariance.Struct> cvs_l, int row)
 	{
 		foreach (ClassVariance.Struct cvs in cvs_l)
 		{
@@ -408,9 +411,9 @@ public class PersonMergeWindow
 				lPersonVarB.UseMarkup = true;
 			}
 
-			table_diffs.Attach (lPersonProp, 0, 1, row, row+1, Gtk.AttachOptions.Fill, Gtk.AttachOptions.Fill, padding, padding);
-			table_diffs.Attach (lPersonVarA, 1, 2, row, row+1, Gtk.AttachOptions.Fill, Gtk.AttachOptions.Fill, padding, padding);
-			table_diffs.Attach (lPersonVarB, 2, 3, row, row+1, Gtk.AttachOptions.Fill, Gtk.AttachOptions.Fill, padding, padding);
+			grid_diffs.Attach (lPersonProp, 0, row, 1, 1);
+			grid_diffs.Attach (lPersonVarA, 1, row, 1, 1);
+			grid_diffs.Attach (lPersonVarB, 2, row, 1, 1);
 			row ++;
 		}
 
@@ -622,6 +625,6 @@ public class PersonMergeWindow
 		image_button_back = (Gtk.Image) builder.GetObject ("image_button_back");
 		image_button_accept = (Gtk.Image) builder.GetObject ("image_button_accept");
 		image_button_merge = (Gtk.Image) builder.GetObject ("image_button_merge");
-		table_diffs = (Gtk.Table) builder.GetObject ("table_diffs");
+		grid_diffs = (Gtk.Grid) builder.GetObject ("grid_diffs");
 	}
 }

@@ -371,28 +371,10 @@
                             <property name="visible">True</property>
                             <property name="can-focus">False</property>
                             <child>
-                              <object class="GtkTable" id="table_diffs">
+                              <!-- n-columns=3 n-rows=1 -->
+                              <object class="GtkGrid" id="grid_diffs">
                                 <property name="visible">True</property>
                                 <property name="can-focus">False</property>
-                                <property name="n-columns">3</property>
-                                <child>
-                                  <placeholder/>
-                                </child>
-                                <child>
-                                  <placeholder/>
-                                </child>
-                                <child>
-                                  <placeholder/>
-                                </child>
-                                <child>
-                                  <placeholder/>
-                                </child>
-                                <child>
-                                  <placeholder/>
-                                </child>
-                                <child>
-                                  <placeholder/>
-                                </child>
                                 <child>
                                   <placeholder/>
                                 </child>

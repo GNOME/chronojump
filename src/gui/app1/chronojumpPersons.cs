@@ -467,6 +467,11 @@ public partial class ChronoJumpWindow
 		personSelectWin.FakeButtonLoadPersonMultiple.Clicked += new EventHandler(on_button_top_person_load_person_multiple);
 		personSelectWin.FakeButtonEditPerson.Clicked += new EventHandler(on_button_top_person_edit_person);
 		personSelectWin.FakeButtonPersonShowAllEvents.Clicked += new EventHandler(on_button_top_person_show_all_events);
+
+		personSelectWin.FakeButtonPersonMerge.Clicked -= new EventHandler(on_button_top_person_merge);
+		personSelectWin.FakeButtonPersonMerge.Clicked += new EventHandler(on_button_top_person_merge);
+
+		personSelectWin.FakeButtonDeletePerson.Clicked -= new EventHandler(on_button_top_person_delete_person);
 		personSelectWin.FakeButtonDeletePerson.Clicked += new EventHandler(on_button_top_person_delete_person);
 		personSelectWin.FakeButtonShowImages.Clicked += new EventHandler(on_button_top_person_show_images);
 		personSelectWin.FakeButtonHideImages.Clicked += new EventHandler(on_button_top_person_hide_images);
@@ -500,6 +505,7 @@ public partial class ChronoJumpWindow
 		person_edit_single_called_from_person_select_window = true;
 		person_edit_single();
 	}
+
 	private void on_button_top_person_show_all_events (object o, EventArgs args)
 	{
 		personShowAllEventsWin = PersonShowAllEventsWindow.Show(app1,
@@ -515,6 +521,21 @@ public partial class ChronoJumpWindow
 				currentSession.UniqueID,
 				false); //means: do not returnPersonAndPSlist
 		personSelectWin.Update(myPersons);
+	}
+
+	bool person_merge_called_from_person_select_window;
+	private void on_button_top_person_merge (object o, EventArgs args)
+	{
+		LogB.Information ("called on_button_top_person_merge");
+		//assign currentPerson, ... but if there is a problem, just reshow the top_person window
+		if (! assignPersonFromTopWindow ())
+		{
+			on_button_top_person_clicked (o, args);
+			return;
+		}
+
+		person_merge_called_from_person_select_window = true;
+		person_merge_do ();
 	}
 
 	private void on_button_top_person_delete_person(object o, EventArgs args)
@@ -553,12 +574,16 @@ public partial class ChronoJumpWindow
 	private void on_button_top_person_change_done(object o, EventArgs args)
 	{
 		vbox_menu_tiny.Sensitive = true;
+		assignPersonFromTopWindow ();
+	}
 
+	private bool assignPersonFromTopWindow ()
+	{
 		if(personSelectWin.SelectedPerson == null)
-			return;
+			return false;
 
 		if(currentPerson.UniqueID == personSelectWin.SelectedPerson.UniqueID)
-			return;
+			return true; //no need to do the rest of the method
 
 		currentPerson = personSelectWin.SelectedPerson; 
 		currentPersonSession = SqlitePersonSession.Select(currentPerson.UniqueID, currentSession.UniqueID);
@@ -566,8 +591,8 @@ public partial class ChronoJumpWindow
 
 		personChanged();
 		myTreeViewPersons.SelectRowByUniqueID(currentPerson.UniqueID);
+		return true;
 	}
-
 
 	private void on_button_persons_raspberry_left_clicked(object o, EventArgs args)
 	{

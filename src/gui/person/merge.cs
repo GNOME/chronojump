@@ -33,12 +33,25 @@ public partial class ChronoJumpWindow
 		if (currentPerson == null || currentPersonSession == null)
 			return;
 
+		person_merge_called_from_person_select_window = false;
+		person_merge_do ();
+	}
+
+	private void person_merge_do ()
+	{
 		personMergeWin = PersonMergeWindow.Show (app1,
                                 currentSession.UniqueID, currentPerson, preferences.colorBackground);
 
 		personMergeWin.FakeButtonDone.Clicked -= new EventHandler (on_button_person_merge_done);
 		personMergeWin.FakeButtonDone.Clicked += new EventHandler (on_button_person_merge_done);
+
+		if (person_merge_called_from_person_select_window)
+		{
+			personMergeWin.FakeButtonCancel.Clicked -= new EventHandler (on_button_top_person_clicked);
+			personMergeWin.FakeButtonCancel.Clicked += new EventHandler (on_button_top_person_clicked);
+		}
 	}
+
 	private void on_button_person_merge_done (object o, EventArgs args)
 	{
 		personMergeWin.FakeButtonDone.Clicked -= new EventHandler (on_button_person_merge_done);
@@ -50,6 +63,18 @@ public partial class ChronoJumpWindow
 		resetAllTreeViews(true, true, true); //fillTests, resetPersons, fillPersons
 
 		personMergeWin.HideAndNull ();
+
+		if (person_merge_called_from_person_select_window)
+		{
+			//recreate list
+			ArrayList myPersons = SqlitePersonSession.SelectCurrentSessionPersons(
+					currentSession.UniqueID,
+					false); //means: do not returnPersonAndPSlist
+			personSelectWin.Update(myPersons);
+
+			//show personTop window again
+			on_button_top_person_clicked (o, args);
+		}
 	}
 }
 
@@ -82,7 +107,8 @@ public class PersonMergeWindow
 	// <---- at glade
 
 	Gtk.ComboBoxText combo_persons;
-	public Gtk.Button fakeButtonDone;
+	private Gtk.Button fakeButtonDone;
+	private Gtk.Button fakeButtonCancel;
 
 	static PersonMergeWindow PersonMergeWindowBox;
 
@@ -131,6 +157,7 @@ public class PersonMergeWindow
 		this.currentPerson = currentPerson;
 
 		fakeButtonDone = new Gtk.Button();
+		fakeButtonCancel = new Gtk.Button();
 
 		label_person_name.Text = currentPerson.Name;
 		createComboPersons(sessionID, currentPerson.UniqueID.ToString(), currentPerson.Name);
@@ -422,6 +449,8 @@ public class PersonMergeWindow
 
 	private void on_button_close_clicked (object o, EventArgs args)
 	{
+		fakeButtonCancel.Click();
+
 		PersonMergeWindowBox.person_merge.Hide();
 		PersonMergeWindowBox = null;
 	}
@@ -578,6 +607,8 @@ public class PersonMergeWindow
 
 	private void on_delete_event (object o, DeleteEventArgs args)
 	{
+		fakeButtonCancel.Click();
+
 		PersonMergeWindowBox.person_merge.Hide();
 		PersonMergeWindowBox = null;
 	}
@@ -591,6 +622,11 @@ public class PersonMergeWindow
 	public Button FakeButtonDone
 	{
 		get { return fakeButtonDone; }
+	}
+
+	public Button FakeButtonCancel
+	{
+		get { return fakeButtonCancel; }
 	}
 
 	public Person CurrentPerson

@@ -1577,6 +1577,25 @@ public class Util
 		return false;
 	}
 
+	/*
+	 * To avoid crash on file copy on windows when the file is already opened by another application
+	 * eg. export a csv, excel opens it, export again and crash to Chronojump
+	 * for overwiting a file "owned" by spreadsheet software on a defective operating system
+	 * note the "above" catch on gui/app1/encoder checkFile does not catch this, maybe because thread are involved, so return false here and then Config.ErrorInExport will be true;
+	 */
+	public static bool FileCopySafe (string origin, string destination, bool overwrite)
+	{
+		try {
+			File.Copy (origin, destination, overwrite);
+		} catch {
+			LogB.Information (string.Format ("Catched on File Copy from: {0}, to: {1}, overwrite: {2}",
+						origin, destination, overwrite));
+			return false;
+		}
+
+		return true;
+	}
+
 	public static bool FileMove(string path, string filenameOrigin, string filenameDestination)
 	{
 		LogB.Information(string.Format("Going to move: {0} to {1}",

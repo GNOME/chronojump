@@ -31,6 +31,11 @@ public class Config
 	public static bool ColorBackgroundIsDark;
 	public static string LastDBFullPathStatic = ""; //works even with spaces in name
 
+
+	//use this bool because on Windows some File.Copy problems are not catched on gui/app1/encoder.cs checkFile
+	//eg when writing to a file "owned" by another application
+	public static bool ErrorInExport;
+
 	public enum SessionModeEnum { STANDARD, UNIQUE, MONTHLY }
 
 	public Preferences.MaximizedTypes Maximized;

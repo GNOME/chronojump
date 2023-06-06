@@ -461,11 +461,22 @@ public partial class ChronoJumpWindow
 
 		personSelectWin = PersonSelectWindow.Show(app1, myPersons, currentPerson, preferences.colorBackground,
 				configChronojump.Raspberry, configChronojump.LowHeight, preferences.personSelectWinImages);
+		personSelectWin.FakeButtonAddPerson.Clicked -= new EventHandler(on_button_top_person_add_person);
 		personSelectWin.FakeButtonAddPerson.Clicked += new EventHandler(on_button_top_person_add_person);
+
+		personSelectWin.FakeButtonAddPersonMultiple.Clicked -= new EventHandler(on_button_top_person_add_person_multiple);
 		personSelectWin.FakeButtonAddPersonMultiple.Clicked += new EventHandler(on_button_top_person_add_person_multiple);
+
+		personSelectWin.FakeButtonLoadPerson.Clicked -= new EventHandler(on_button_top_person_load_person);
 		personSelectWin.FakeButtonLoadPerson.Clicked += new EventHandler(on_button_top_person_load_person);
+
+		personSelectWin.FakeButtonLoadPersonMultiple.Clicked -= new EventHandler(on_button_top_person_load_person_multiple);
 		personSelectWin.FakeButtonLoadPersonMultiple.Clicked += new EventHandler(on_button_top_person_load_person_multiple);
+
+		personSelectWin.FakeButtonEditPerson.Clicked -= new EventHandler(on_button_top_person_edit_person);
 		personSelectWin.FakeButtonEditPerson.Clicked += new EventHandler(on_button_top_person_edit_person);
+
+		personSelectWin.FakeButtonPersonShowAllEvents.Clicked -= new EventHandler(on_button_top_person_show_all_events);
 		personSelectWin.FakeButtonPersonShowAllEvents.Clicked += new EventHandler(on_button_top_person_show_all_events);
 
 		personSelectWin.FakeButtonPersonMerge.Clicked -= new EventHandler(on_button_top_person_merge);
@@ -473,8 +484,14 @@ public partial class ChronoJumpWindow
 
 		personSelectWin.FakeButtonDeletePerson.Clicked -= new EventHandler(on_button_top_person_delete_person);
 		personSelectWin.FakeButtonDeletePerson.Clicked += new EventHandler(on_button_top_person_delete_person);
+
+		personSelectWin.FakeButtonShowImages.Clicked -= new EventHandler(on_button_top_person_show_images);
 		personSelectWin.FakeButtonShowImages.Clicked += new EventHandler(on_button_top_person_show_images);
+
+		personSelectWin.FakeButtonHideImages.Clicked -= new EventHandler(on_button_top_person_hide_images);
 		personSelectWin.FakeButtonHideImages.Clicked += new EventHandler(on_button_top_person_hide_images);
+
+		personSelectWin.FakeButtonDone.Clicked -= new EventHandler(on_button_top_person_change_done); //on window close, and on double click (it also closes the window)
 		personSelectWin.FakeButtonDone.Clicked += new EventHandler(on_button_top_person_change_done); //on window close, and on double click (it also closes the window)
 	}
 	private void on_button_top_person_add_person(object o, EventArgs args)

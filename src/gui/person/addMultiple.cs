@@ -137,7 +137,7 @@ public class PersonAddMultipleWindow
 
 	Gtk.TextView textview;
 	//Gtk.ScrolledWindow scrolledwindow;
-	Gtk.Table table_main;
+	Gtk.Grid grid_main;
 	Gtk.Label label_message;
 	Gtk.Label label_columns_order;
 	
@@ -564,11 +564,11 @@ public class PersonAddMultipleWindow
 			file.Close(); 
 
 			rows = array.Count;
-			createEmptyTable (useHeightCol, useLegsLengthCol, useHipsHeightCol);
-			fillTableFromCSV (array, useHeightCol, useLegsLengthCol, useHipsHeightCol);
+			createEmptyGrid (useHeightCol, useLegsLengthCol, useHipsHeightCol);
+			fillGridFromCSV (array, useHeightCol, useLegsLengthCol, useHipsHeightCol);
 
 			if(! Config.UseSystemColor)
-				UtilGtk.ContrastLabelsWidget (Config.ColorBackgroundShiftedIsDark, table_main);
+				UtilGtk.ContrastLabelsWidget (Config.ColorBackgroundShiftedIsDark, grid_main);
 		} 
 
 		//Don't forget to call Destroy() or the FileChooserDialog window won't get closed.
@@ -585,9 +585,9 @@ public class PersonAddMultipleWindow
 		bool useLegsLengthCol = check_legsLength.Active;
 		bool useHipsHeightCol = check_hipsHeight.Active;
 
-		createEmptyTable (useHeightCol, useLegsLengthCol, useHipsHeightCol);
+		createEmptyGrid (useHeightCol, useLegsLengthCol, useHipsHeightCol);
 		if(! Config.UseSystemColor)
-			UtilGtk.ContrastLabelsWidget (Config.ColorBackgroundShiftedIsDark, table_main);
+			UtilGtk.ContrastLabelsWidget (Config.ColorBackgroundShiftedIsDark, grid_main);
 	}
 
 	List<Gtk.Label> error_label_in_session_l;
@@ -599,10 +599,10 @@ public class PersonAddMultipleWindow
 
 	List<PersonAddMultipleError> pame_l;
 
-	void createEmptyTable (bool useHeightCol, bool useLegsLengthCol, bool useHipsHeightCol)
+	void createEmptyGrid (bool useHeightCol, bool useLegsLengthCol, bool useHipsHeightCol)
 	{
-		if (table_main != null && table_main.Children.Length > 0)
-			UtilGtk.RemoveChildren (table_main);
+		if (grid_main != null && grid_main.Children.Length > 0)
+			UtilGtk.RemoveChildren (grid_main);
 
 		//initialize error lists
 		error_label_in_session_l = new List<Gtk.Label>();
@@ -659,26 +659,20 @@ public class PersonAddMultipleWindow
 		if (useHipsHeightCol)
 			hipsHeightLabel.Show();
 	
-		uint padding = 4;	
+		grid_main.ColumnSpacing = 4;
+		grid_main.RowSpacing = 4;
 
 		int x = 1; //id col 0, errors col1, fullname col (2)
-		table_main.Attach (errorColumnLabel, (uint) x, (uint) ++x, 0, 1,
-				Gtk.AttachOptions.Shrink | Gtk.AttachOptions.Shrink , Gtk.AttachOptions.Shrink, padding, padding);
-		table_main.Attach (nameLabel, (uint) x, (uint) ++x, 0, 1,
-				Gtk.AttachOptions.Fill | Gtk.AttachOptions.Expand , Gtk.AttachOptions.Shrink, padding, padding);
-		table_main.Attach (sexLabel, (uint) x, (uint) ++x, 0, 1,
-				Gtk.AttachOptions.Shrink, Gtk.AttachOptions.Shrink, padding, padding);
-		table_main.Attach (weightLabel, (uint) x, (uint) ++x, 0, 1,
-				Gtk.AttachOptions.Shrink, Gtk.AttachOptions.Shrink, padding, padding);
+		grid_main.Attach (errorColumnLabel, x++, 0, 1, 1);
+		grid_main.Attach (nameLabel, x++, 0, 1, 1);
+		grid_main.Attach (sexLabel, x++, 0, 1, 1);
+		grid_main.Attach (weightLabel, x++, 0, 1, 1);
 		if (useHeightCol)
-			table_main.Attach (heightLabel, (uint) x, (uint) ++x, 0, 1,
-					Gtk.AttachOptions.Shrink, Gtk.AttachOptions.Shrink, padding, padding);
+			grid_main.Attach (heightLabel, x++, 0, 1, 1);
 		if (useLegsLengthCol)
-			table_main.Attach (legsLengthLabel, (uint) x, (uint) ++x, 0, 1,
-					Gtk.AttachOptions.Shrink, Gtk.AttachOptions.Shrink, padding, padding);
+			grid_main.Attach (legsLengthLabel, x++, 0, 1, 1);
 		if (useHipsHeightCol)
-			table_main.Attach (hipsHeightLabel, (uint) x, (uint) ++x, 0, 1,
-					Gtk.AttachOptions.Shrink, Gtk.AttachOptions.Shrink, padding, padding);
+			grid_main.Attach (hipsHeightLabel, x++, 0, 1, 1);
 
 		for (int count=1; count <= rows; count ++)
 		{
@@ -687,8 +681,7 @@ public class PersonAddMultipleWindow
 			//id (count)
 			Gtk.Label myLabel = new Gtk.Label((count).ToString());
 			myLabel.Show();
-			table_main.Attach (myLabel, (uint) x, (uint) ++x, (uint) count, (uint) count +1,
-					Gtk.AttachOptions.Shrink, Gtk.AttachOptions.Shrink, padding, padding);
+			grid_main.Attach (myLabel, x++, count, 1, 1);
 
 			//errors
 			Gtk.Label error_label_in_session = new Gtk.Label (Catalog.GetString ("Name already\nin session"));
@@ -735,12 +728,10 @@ public class PersonAddMultipleWindow
 			idError.PackStart (error_label_no_weight, false, false, 0);
 			idError.Show();
 
-			table_main.Attach (idError, (uint) x, (uint) ++x, (uint) count, (uint) count +1,
-					Gtk.AttachOptions.Shrink, Gtk.AttachOptions.Shrink, padding, padding);
+			grid_main.Attach (idError, x++, count, 1, 1);
 
 			Gtk.Entry myEntry = new Gtk.Entry();
-			table_main.Attach (myEntry, (uint) x, (uint) ++x, (uint) count, (uint) count +1,
-					Gtk.AttachOptions.Fill | Gtk.AttachOptions.Expand , Gtk.AttachOptions.Shrink, padding, padding);
+			grid_main.Attach (myEntry, x++, count, 1, 1);
 			myEntry.Changed += on_entry_changed;
 			myEntry.Show();
 			entries.Add(myEntry);
@@ -762,21 +753,18 @@ public class PersonAddMultipleWindow
 			sexBox.PackStart(myRadioM, false, false, 2);
 			sexBox.PackStart(myRadioF, false, false, 2);
 			sexBox.Show();
-			table_main.Attach (sexBox, (uint) x, (uint) ++x, (uint) count, (uint) count +1,
-					Gtk.AttachOptions.Shrink, Gtk.AttachOptions.Shrink, padding, padding);
+			grid_main.Attach (sexBox, x++, count, 1, 1);
 
 
 			Gtk.SpinButton mySpinWeight = new Gtk.SpinButton(0, 300, .1);
-			table_main.Attach (mySpinWeight, (uint) x, (uint) ++x, (uint) count, (uint) count +1,
-					Gtk.AttachOptions.Shrink, Gtk.AttachOptions.Shrink, padding, padding);
+			grid_main.Attach (mySpinWeight, x++, count, 1, 1);
 			mySpinWeight.Show();
 			spinsWeight.Add (mySpinWeight);
 
 			if (useHeightCol)
 			{
 				Gtk.SpinButton mySpinHeight = new Gtk.SpinButton(0, 250, .1);
-				table_main.Attach (mySpinHeight, (uint) x, (uint) ++x, (uint) count, (uint) count +1,
-						Gtk.AttachOptions.Shrink, Gtk.AttachOptions.Shrink, padding, padding);
+				grid_main.Attach (mySpinHeight, x++, count, 1, 1);
 				mySpinHeight.Show();
 				spinsHeight.Add (mySpinHeight);
 			}
@@ -784,8 +772,7 @@ public class PersonAddMultipleWindow
 			if (useLegsLengthCol)
 			{
 				Gtk.SpinButton mySpinLegsLength = new Gtk.SpinButton(0, 150, .1);
-				table_main.Attach (mySpinLegsLength, (uint) x, (uint) ++x, (uint) count, (uint) count +1,
-						Gtk.AttachOptions.Shrink, Gtk.AttachOptions.Shrink, padding, padding);
+				grid_main.Attach (mySpinLegsLength, x++, count, 1, 1);
 				mySpinLegsLength.Show();
 				spinsLegsLength.Add (mySpinLegsLength);
 			}
@@ -793,8 +780,7 @@ public class PersonAddMultipleWindow
 			if (useHipsHeightCol)
 			{
 				Gtk.SpinButton mySpinHipsHeight = new Gtk.SpinButton(0, 150, .1);
-				table_main.Attach (mySpinHipsHeight, (uint) x, (uint) ++x, (uint) count, (uint) count +1,
-						Gtk.AttachOptions.Shrink, Gtk.AttachOptions.Shrink, padding, padding);
+				grid_main.Attach (mySpinHipsHeight, x++, count, 1, 1);
 				mySpinHipsHeight.Show();
 				spinsHipsHeight.Add (mySpinHipsHeight);
 			}
@@ -833,8 +819,8 @@ public class PersonAddMultipleWindow
 		} else
 			hbox_h1_h2_help.Visible = false;
 
-		table_main.Show();
-		table_main.Visible = true;
+		grid_main.Show();
+		grid_main.Visible = true;
 		notebook.CurrentPage = Convert.ToInt32 (notebookPages.TABLEMANUALLY);
 
 		button_accept.Sensitive = true;
@@ -849,7 +835,7 @@ public class PersonAddMultipleWindow
 		entry.Text = Util.MakeValidSQL(entry.Text);
 	}
 
-	void fillTableFromCSV (ArrayList array, bool useHeightCol, bool useLegsLengthCol, bool useHipsHeightCol)
+	void fillGridFromCSV (ArrayList array, bool useHeightCol, bool useLegsLengthCol, bool useHipsHeightCol)
 	{
 		int i = 0;
 		foreach (PersonAddMultipleTable pamt in array)
@@ -1237,7 +1223,7 @@ public class PersonAddMultipleWindow
 		textview = (Gtk.TextView) builder.GetObject ("textview");
 
 		//scrolledwindow = (Gtk.ScrolledWindow) builder.GetObject ("scrolledwindow");
-		table_main = (Gtk.Table) builder.GetObject ("table_main");
+		grid_main = (Gtk.Grid) builder.GetObject ("grid_main");
 		label_message = (Gtk.Label) builder.GetObject ("label_message");
 		label_columns_order = (Gtk.Label) builder.GetObject ("label_columns_order");
 

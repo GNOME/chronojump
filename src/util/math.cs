@@ -720,7 +720,7 @@ public class VariabilityAndAccuracy
 		*/
 
 		List<PointF> pTest_l = createTestData ();
-		Calculate (pTest_l, 0, nums.Count -1, 0, Preferences.VariabilityMethodEnum.CV, 0);
+		Calculate (pTest_l, 0, pTest_l.Count -1, 0, Preferences.VariabilityMethodEnum.CV, 0);
 		LogB.Information("cv: " + variability);
 	}
 

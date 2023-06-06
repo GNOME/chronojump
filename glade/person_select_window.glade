@@ -659,7 +659,7 @@
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
                     <property name="border-width">2</property>
-                    <property name="spacing">10</property>
+                    <property name="spacing">6</property>
                     <child>
                       <object class="GtkVBox" id="vbox13">
                         <property name="visible">True</property>
@@ -795,6 +795,53 @@
                       </packing>
                     </child>
                     <child>
+                      <object class="GtkButton" id="button_merge">
+                        <property name="visible">True</property>
+                        <property name="sensitive">False</property>
+                        <property name="can-focus">True</property>
+                        <property name="receives-default">True</property>
+                        <property name="tooltip-text" translatable="yes">Merge with another person</property>
+                        <signal name="clicked" handler="on_button_merge_clicked" swapped="no"/>
+                        <child>
+                          <object class="GtkVBox" id="vbox8">
+                            <property name="visible">True</property>
+                            <property name="can-focus">False</property>
+                            <property name="spacing">4</property>
+                            <child>
+                              <object class="GtkImage" id="image_merge">
+                                <property name="visible">True</property>
+                                <property name="can-focus">False</property>
+                                <property name="stock">gtk-missing-image</property>
+                                <property name="icon_size">3</property>
+                              </object>
+                              <packing>
+                                <property name="expand">True</property>
+                                <property name="fill">True</property>
+                                <property name="position">0</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkLabel" id="label1">
+                                <property name="visible">True</property>
+                                <property name="can-focus">False</property>
+                                <property name="label" translatable="yes">Merge</property>
+                              </object>
+                              <packing>
+                                <property name="expand">True</property>
+                                <property name="fill">True</property>
+                                <property name="position">1</property>
+                              </packing>
+                            </child>
+                          </object>
+                        </child>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">False</property>
+                        <property name="position">3</property>
+                      </packing>
+                    </child>
+                    <child>
                       <object class="GtkButton" id="button_delete">
                         <property name="visible">True</property>
                         <property name="sensitive">False</property>
@@ -837,7 +884,7 @@
                       <packing>
                         <property name="expand">False</property>
                         <property name="fill">False</property>
-                        <property name="position">3</property>
+                        <property name="position">4</property>
                       </packing>
                     </child>
                   </object>

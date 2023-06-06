@@ -36,6 +36,7 @@ public class PersonSelectWindow
 	Gtk.Grid grid_main;
 	Gtk.Button button_edit;
 	Gtk.Button button_show_all_events;
+	Gtk.Button button_merge;
 	Gtk.Button button_delete;
 	//Gtk.VBox vbox_button_delete_confirm;
 	Gtk.Label label_selected_person_name;
@@ -48,6 +49,7 @@ public class PersonSelectWindow
 	Gtk.Image image_persons_open_plus;
 	Gtk.Image image_person_edit;
 	Gtk.Image image_all_persons_events;
+	Gtk.Image image_merge;
 	Gtk.Image image_person_delete;
 	Gtk.Image image_manage_persons_cancel;
 	Gtk.VBox vbox_corner_controls;
@@ -71,6 +73,7 @@ public class PersonSelectWindow
 	public Gtk.Button FakeButtonLoadPersonMultiple;
 	public Gtk.Button FakeButtonEditPerson;
 	public Gtk.Button FakeButtonPersonShowAllEvents;
+	public Gtk.Button FakeButtonPersonMerge;
 	public Gtk.Button FakeButtonDeletePerson;
 	public Gtk.Button FakeButtonShowImages;
 	public Gtk.Button FakeButtonHideImages;
@@ -141,6 +144,7 @@ public class PersonSelectWindow
 		FakeButtonLoadPersonMultiple = new Gtk.Button();
 		FakeButtonEditPerson = new Gtk.Button();
 		FakeButtonPersonShowAllEvents = new Gtk.Button();
+		FakeButtonPersonMerge = new Gtk.Button();
 		FakeButtonDeletePerson = new Gtk.Button();
 		FakeButtonShowImages = new Gtk.Button();
 		FakeButtonHideImages = new Gtk.Button();
@@ -161,6 +165,8 @@ public class PersonSelectWindow
 		image_person_edit.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_visibility.png");
 		image_all_persons_events.Pixbuf = pixbuf;
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "merge.png");
+		image_merge.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "stock_delete.png");
 		image_person_delete.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_cancel.png");
@@ -374,6 +380,7 @@ public class PersonSelectWindow
 	{
 		button_edit.Sensitive = sensitive;
 		button_show_all_events.Sensitive = sensitive;
+		button_merge.Sensitive = sensitive;
 		button_delete.Sensitive = sensitive;
 	}
 
@@ -423,6 +430,11 @@ public class PersonSelectWindow
 	private void on_button_show_all_events_clicked (object o, EventArgs args) {
 		person_select_window.Visible = false;
 		FakeButtonPersonShowAllEvents.Click();
+	}
+
+	private void on_button_merge_clicked (object o, EventArgs args) {
+		person_select_window.Visible = false;
+		FakeButtonPersonMerge.Click();
 	}
 
 	private void on_button_up_clicked (object o, EventArgs args)
@@ -515,6 +527,7 @@ public class PersonSelectWindow
 		grid_main = (Gtk.Grid) builder.GetObject ("grid_main");
 		button_edit = (Gtk.Button) builder.GetObject ("button_edit");
 		button_show_all_events = (Gtk.Button) builder.GetObject ("button_show_all_events");
+		button_merge = (Gtk.Button) builder.GetObject ("button_merge");
 		button_delete = (Gtk.Button) builder.GetObject ("button_delete");
 		//vbox_button_delete_confirm = (Gtk.VBox) builder.GetObject ("vbox_button_delete_confirm");
 		label_selected_person_name = (Gtk.Label) builder.GetObject ("label_selected_person_name");
@@ -527,6 +540,7 @@ public class PersonSelectWindow
 		image_persons_open_plus = (Gtk.Image) builder.GetObject ("image_persons_open_plus");
 		image_person_edit = (Gtk.Image) builder.GetObject ("image_person_edit");
 		image_all_persons_events = (Gtk.Image) builder.GetObject ("image_all_persons_events");
+		image_merge = (Gtk.Image) builder.GetObject ("image_merge");
 		image_person_delete = (Gtk.Image) builder.GetObject ("image_person_delete");
 		image_manage_persons_cancel = (Gtk.Image) builder.GetObject ("image_manage_persons_cancel");
 		vbox_corner_controls = (Gtk.VBox) builder.GetObject ("vbox_corner_controls");

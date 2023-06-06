@@ -1775,10 +1775,13 @@ public partial class ChronoJumpWindow
 			label_force_sensor_ai_variability_method.Text = "RMSSD";
 		else if(preferences.forceSensorVariabilityMethod == Preferences.VariabilityMethodEnum.CVRMSSD)
 			label_force_sensor_ai_variability_method.Text = "cvRMSSD";
+		else if(preferences.forceSensorVariabilityMethod == Preferences.VariabilityMethodEnum.CV)
+			label_force_sensor_ai_variability_method.Text = "CV";
 		else
 			label_force_sensor_ai_variability_method.Text = "Old method";
 
-		if(preferences.forceSensorVariabilityMethod == Preferences.VariabilityMethodEnum.CVRMSSD)
+		if(preferences.forceSensorVariabilityMethod == Preferences.VariabilityMethodEnum.CVRMSSD ||
+				preferences.forceSensorVariabilityMethod == Preferences.VariabilityMethodEnum.CV)
 			label_force_sensor_ai_variability_units.Text = "%";
 		else
 			label_force_sensor_ai_variability_units.Text = "N";

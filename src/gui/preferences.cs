@@ -193,6 +193,7 @@ public class PreferencesWindow
 	Gtk.SpinButton spin_force_sensor_graphs_line_width;
 	Gtk.RadioButton radio_force_sensor_variability_rmssd;
 	Gtk.RadioButton radio_force_sensor_variability_cvrmssd;
+	Gtk.RadioButton radio_force_sensor_variability_cv;
 	Gtk.RadioButton radio_force_sensor_variability_old;
 	Gtk.HBox hbox_force_sensor_lag;
 	Gtk.SpinButton spin_force_sensor_variability_lag;
@@ -772,6 +773,10 @@ public class PreferencesWindow
 		{
 			PreferencesWindowBox.radio_force_sensor_variability_cvrmssd.Active = true;
 			PreferencesWindowBox.hbox_force_sensor_lag.Visible = true;
+		} else if(preferences.forceSensorVariabilityMethod == Preferences.VariabilityMethodEnum.CV)
+		{
+			PreferencesWindowBox.radio_force_sensor_variability_cv.Active = true;
+			PreferencesWindowBox.hbox_force_sensor_lag.Visible = false;
 		} else {
 			PreferencesWindowBox.radio_force_sensor_variability_old.Active = true;
 			PreferencesWindowBox.hbox_force_sensor_lag.Visible = false;
@@ -1674,6 +1679,8 @@ public class PreferencesWindow
 			hbox_force_sensor_lag.Visible = true;
 		else if (o == (object) radio_force_sensor_variability_cvrmssd)
 			hbox_force_sensor_lag.Visible = true;
+		else if (o == (object) radio_force_sensor_variability_cv)
+			hbox_force_sensor_lag.Visible = false;
 		else // (o == (object) radio_force_sensor_variability_old)
 			hbox_force_sensor_lag.Visible = false;
 
@@ -1689,6 +1696,12 @@ public class PreferencesWindow
 		{
 			SqlitePreferences.Update(SqlitePreferences.ForceSensorVariabilityMethod, Preferences.VariabilityMethodEnum.CVRMSSD.ToString(), false);
 			preferences.forceSensorVariabilityMethod = Preferences.VariabilityMethodEnum.CVRMSSD;
+		}
+		else if(PreferencesWindowBox.radio_force_sensor_variability_cv.Active &&
+				preferences.forceSensorVariabilityMethod != Preferences.VariabilityMethodEnum.CV)
+		{
+			SqlitePreferences.Update(SqlitePreferences.ForceSensorVariabilityMethod, Preferences.VariabilityMethodEnum.CV.ToString(), false);
+			preferences.forceSensorVariabilityMethod = Preferences.VariabilityMethodEnum.CV;
 		}
 		else if(PreferencesWindowBox.radio_force_sensor_variability_old.Active &&
 				preferences.forceSensorVariabilityMethod != Preferences.VariabilityMethodEnum.CHRONOJUMP_OLD)
@@ -3111,6 +3124,7 @@ public class PreferencesWindow
 		spin_force_sensor_graphs_line_width = (Gtk.SpinButton) builder.GetObject ("spin_force_sensor_graphs_line_width");
 		radio_force_sensor_variability_rmssd = (Gtk.RadioButton) builder.GetObject ("radio_force_sensor_variability_rmssd");
 		radio_force_sensor_variability_cvrmssd = (Gtk.RadioButton) builder.GetObject ("radio_force_sensor_variability_cvrmssd");
+		radio_force_sensor_variability_cv = (Gtk.RadioButton) builder.GetObject ("radio_force_sensor_variability_cv");
 		radio_force_sensor_variability_old = (Gtk.RadioButton) builder.GetObject ("radio_force_sensor_variability_old");
 		hbox_force_sensor_lag = (Gtk.HBox) builder.GetObject ("hbox_force_sensor_lag");
 		spin_force_sensor_variability_lag = (Gtk.SpinButton) builder.GetObject ("spin_force_sensor_variability_lag");

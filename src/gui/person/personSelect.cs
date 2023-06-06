@@ -266,7 +266,9 @@ public class PersonSelectWindow
 	private void createGrid ()
 	{
 		LogB.Debug("Persons count" + persons.Count.ToString());
-		uint padding = 4;	
+
+		grid_main.ColumnSpacing = 4;
+		grid_main.RowSpacing = 4;
 		uint cols = columns; //each row has 4 columns
 		uint rows = Convert.ToUInt32(Math.Floor(persons.Count / (1.0 * cols) ) +1);
 		int count = 0;

@@ -183,7 +183,7 @@ public class Preferences
 	public double forceSensorElasticConMinDispl;
 	public int forceSensorNotElasticEccMinForce;
 	public int forceSensorNotElasticConMinForce;
-	public enum VariabilityMethodEnum { CHRONOJUMP_OLD, RMSSD, CVRMSSD };
+	public enum VariabilityMethodEnum { CHRONOJUMP_OLD, CV, RMSSD, CVRMSSD };
 	public VariabilityMethodEnum forceSensorVariabilityMethod;
 	public int forceSensorVariabilityLag;
 	public double forceSensorAnalyzeABSliderIncrement;

@@ -606,6 +606,8 @@ public class VariabilityAndAccuracy
 		// 2) get variability
 		if(variabilityMethod == Preferences.VariabilityMethodEnum.CHRONOJUMP_OLD)
 			variability = getVariabilityOldMethod (countA, countB, numSamples);
+		else if(variabilityMethod == Preferences.VariabilityMethodEnum.CV)
+			variability = getVariabilityCV (countA, countB, numSamples);
 		else
 			variability = getVariabilityRMSSDCVRMSSD (variabilityMethod, lag, countA, countB, numSamples);
 
@@ -647,6 +649,24 @@ public class VariabilityAndAccuracy
 		return 100 * UtilAll.DivideSafe (rmssd, mean);
 	}
 
+	private double getVariabilityCV (int countA, int countB, int numSamples)
+	{
+		// 1) get average
+		double sum = 0;
+		for(int i = countA; i <= countB; i ++)
+			sum += p_l[i].Y;
+
+		double avg = sum / numSamples;
+
+		// 2) calculate SD
+		sum = 0;
+		for (int i = countA; i <= countB; i ++)
+			sum += Math.Abs (Math.Pow (p_l[i].Y - avg, 2));
+		double sd = Math.Sqrt (UtilAll.DivideSafe (sum, numSamples -1)); //-1 because is sample and not population sd
+
+		return 100 * UtilAll.DivideSafe (sd, avg);
+	}
+
 	private double getVariabilityOldMethod (int countA, int countB, int numSamples)
 	{
 		// 1) get average
@@ -664,6 +684,16 @@ public class VariabilityAndAccuracy
 		return UtilAll.DivideSafe (sum, numSamples);
 	}
 
+	private List<PointF> createTestData ()
+	{
+		List<PointF> pTest_l = new List<PointF> ();
+		List <double> nums = new List<double> {21, 45, 75, 54, 5.5, 545.5, 44, 17, 8, -15, -12.8, -15.9, -11.5, -2, 5.3};
+		for (int i = 0; i < nums.Count; i ++)
+			pTest_l.Add (new PointF (i+1, nums[i]));
+
+		return pTest_l;
+	}
+
 	public void TestVariabilityCVRMSSD (int lag)
 	{
 		/*
@@ -674,15 +704,24 @@ public class VariabilityAndAccuracy
 		   [1] 234.2467
 		*/
 
-		List<PointF> pTest_l = new List<PointF> ();
-		List <double> nums = new List<double> {21, 45, 75, 54, 5.5, 545.5, 44, 17, 8, -15, -12.8, -15.9, -11.5, -2, 5.3};
-		for (int i = 0; i < nums.Count; i ++)
-			pTest_l.Add (new PointF (i+1, nums[i]));
-
-		Calculate (pTest_l, 0, nums.Count -1,
-				20, Preferences.VariabilityMethodEnum.CVRMSSD, lag);
-
+		List<PointF> pTest_l = createTestData ();
+		Calculate (pTest_l, 0, pTest_l.Count -1, 20, Preferences.VariabilityMethodEnum.CVRMSSD, lag);
 		LogB.Information("cvRMSSD: " + variability);
+	}
+
+	public void TestVariabilityCV ()
+	{
+		/*
+		   R test:
+		   library("REAT")
+		   > x <- c(21, 45, 75, 54, 5.5, 545.5, 44, 17, 8, -15, -12.8, -15.9, -11.5, -2, 5.3)
+		   > 100 * cv (x)
+		   [1] 274.4306
+		*/
+
+		List<PointF> pTest_l = createTestData ();
+		Calculate (pTest_l, 0, nums.Count -1, 0, Preferences.VariabilityMethodEnum.CV, 0);
+		LogB.Information("cv: " + variability);
 	}
 
 	public void TestVariabilityRMSSDAndCVRMSSD ()

@@ -1277,6 +1277,7 @@ public partial class ChronoJumpWindow
 		VariabilityAndAccuracy vaa = new VariabilityAndAccuracy ();
 		vaa.TestVariabilityCVRMSSD (1); //lag
 		vaa.TestVariabilityCVRMSSD (2); //lag
+		vaa.TestVariabilityCV ();
 		*/
 
 		//InterpolateSignal.TestInterpolateBetween();

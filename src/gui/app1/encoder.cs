@@ -2477,6 +2477,8 @@ public partial class ChronoJumpWindow
 			}
 
 			try {
+				Config.ErrorInExport = false;
+
 				if(File.Exists(exportFileName))
 				{
 					LogB.Information(string.Format(
@@ -2653,6 +2655,7 @@ public partial class ChronoJumpWindow
 
 					//show message, but not in long processes managed by a thread
 					if(
+							! Config.ErrorInExport &&
 							checkFileOp != Constants.CheckFileOp.RUNS_SPRINT_EXPORT_INDIVIDUAL_CURRENT_SESSION_NO_IMAGES &&
 							checkFileOp != Constants.CheckFileOp.RUNS_SPRINT_EXPORT_INDIVIDUAL_ALL_SESSIONS_NO_IMAGES &&
 							checkFileOp != Constants.CheckFileOp.RUNS_SPRINT_EXPORT_GROUPAL_CURRENT_SESSION_NO_IMAGES &&
@@ -2672,6 +2675,13 @@ public partial class ChronoJumpWindow
 						new DialogMessage(Constants.MessageTypes.INFO, myString);
 					}
 				}
+
+				if (Config.ErrorInExport)
+					new DialogMessage (Constants.MessageTypes.WARNING,
+							string.Format (Catalog.GetString ("Cannot save file {0}"), exportFileName) +
+							"\n\n" + Catalog.GetString ("Possible causes:") +
+							"\n- " + Catalog.GetString ("The disk may be full.") +
+							"\n- " + Catalog.GetString ("The file may already be open in another application."));
 			} catch {
 				string myString = string.Format(
 						Catalog.GetString("Cannot save file {0} "), exportFileName);
@@ -2837,6 +2847,9 @@ public partial class ChronoJumpWindow
 	private void on_overwrite_file_export_all_curves_accepted(object o, EventArgs args)
 	{
 		on_button_encoder_export_all_curves_file_selected (exportFileName);
+
+		if (Config.ErrorInExport)
+			return;
 
 		string myString = string.Format(Catalog.GetString("Saved to {0}"), 
 				exportFileName) + Constants.GetSpreadsheetString(preferences.CSVExportDecimalSeparator);

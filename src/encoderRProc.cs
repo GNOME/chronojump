@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Copyright (C) 2004-2020   Xavier de Blas <xaviblas@gmail.com> 
+ *  Copyright (C) 2004-2023   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -501,8 +501,9 @@ public class EncoderRProcAnalyze : EncoderRProc
 		//wait first this status mark that is created when file is fully exported
 		while ( ! Util.FileExists(UtilEncoder.GetEncoderStatusTempBaseFileName() + "6.txt") ) 
 			;
-		//copy the file
-		File.Copy(es.OutputData1, ExportFileName, true);
+
+		if (! Util.FileCopySafe (es.OutputData1, ExportFileName, true))
+			Config.ErrorInExport = true;
 	}
 	
 	

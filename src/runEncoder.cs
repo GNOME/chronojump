@@ -781,6 +781,21 @@ public class RunEncoderSegmentCalcs
 		}
 	}
 
+	//debug
+	public override string ToString ()
+	{
+		string str = "Debug SegmentCalcs:";
+		str += "\ntimeStart_l:\n\t" + Util.ListDoubleToString (timeStart_l, 3, "; ");
+		str += "\ntimeEnd_l:\n\t" + Util.ListDoubleToString (timeEnd_l, 3, "; ");
+		str += "\ndist_l:\n\t" + Util.ListDoubleToString (dist_l, 3, "; ");
+		str += "\nspeedCont_l:\n\t" + Util.ListDoubleToString (speedCont_l, 3, "; ");
+		str += "\naccel_l:\n\t" + Util.ListDoubleToString (accel_l, 3, "; ");
+		str += "\nforce_l:\n\t" + Util.ListDoubleToString (force_l, 3, "; ");
+		str += "\npower_l:\n\t" + Util.ListDoubleToString (power_l, 3, "; ");
+;
+		return str;
+	}
+
 	public List<double> Dist_l {
 		get { return dist_l; }
 	}

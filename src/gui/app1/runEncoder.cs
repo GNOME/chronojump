@@ -1269,16 +1269,7 @@ RunEncoderCaptureGetSpeedAndDisplacementTest recgsdt = new RunEncoderCaptureGetS
 
 		//debug reCGSD.SegmentCalcs
 		if (reCGSD != null && reCGSD.SegmentCalcs != null)
-		{
-			LogB.Information ("segmentCalcs:");
-			LogB.Information ("- TimeStart_l: " + Util.ListDoubleToString (reCGSD.SegmentCalcs.TimeStart_l, 3, ";"));
-			LogB.Information ("- TimeEnd_l: " + Util.ListDoubleToString (reCGSD.SegmentCalcs.TimeEnd_l, 3, ";"));
-			LogB.Information ("- Dist_l: " + Util.ListDoubleToString (reCGSD.SegmentCalcs.Dist_l, 3, ";"));
-			LogB.Information ("- SpeedCont_l: " + Util.ListDoubleToString (reCGSD.SegmentCalcs.SpeedCont_l, 3, ";"));
-			LogB.Information ("- Accel_l: " + Util.ListDoubleToString (reCGSD.SegmentCalcs.Accel_l, 3, ";"));
-			LogB.Information ("- Force_l: " + Util.ListDoubleToString (reCGSD.SegmentCalcs.Force_l, 3, ";"));
-			LogB.Information ("- Power_l: " + Util.ListDoubleToString (reCGSD.SegmentCalcs.Power_l, 3, ";"));
-		}
+			LogB.Information (reCGSD.SegmentCalcs.ToString ());
 
 		// <---- capture tab graphs end ----
 

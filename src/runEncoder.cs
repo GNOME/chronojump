@@ -784,14 +784,24 @@ public class RunEncoderSegmentCalcs
 	//debug
 	public override string ToString ()
 	{
+		//1st do a copy of all lists in order to not crash on printing a list that is growing in other thread
+		List<double> timeStart_l_copy = timeStart_l;
+		List<double> timeEnd_l_copy = timeEnd_l;
+		List<double> dist_l_copy = dist_l;
+		List<double> speedCont_l_copy = speedCont_l;
+		List<double> accel_l_copy = accel_l;
+		List<double> force_l_copy = force_l;
+		List<double> power_l_copy = power_l;
+
+		//2nd print the data
 		string str = "Debug SegmentCalcs:";
-		str += "\ntimeStart_l:\n\t" + Util.ListDoubleToString (timeStart_l, 3, "; ");
-		str += "\ntimeEnd_l:\n\t" + Util.ListDoubleToString (timeEnd_l, 3, "; ");
-		str += "\ndist_l:\n\t" + Util.ListDoubleToString (dist_l, 3, "; ");
-		str += "\nspeedCont_l:\n\t" + Util.ListDoubleToString (speedCont_l, 3, "; ");
-		str += "\naccel_l:\n\t" + Util.ListDoubleToString (accel_l, 3, "; ");
-		str += "\nforce_l:\n\t" + Util.ListDoubleToString (force_l, 3, "; ");
-		str += "\npower_l:\n\t" + Util.ListDoubleToString (power_l, 3, "; ");
+		str += "\ntimeStart_l:\n\t" + Util.ListDoubleToString (timeStart_l_copy, 3, "; ");
+		str += "\ntimeEnd_l:\n\t" + Util.ListDoubleToString (timeEnd_l_copy, 3, "; ");
+		str += "\ndist_l:\n\t" + Util.ListDoubleToString (dist_l_copy, 3, "; ");
+		str += "\nspeedCont_l:\n\t" + Util.ListDoubleToString (speedCont_l_copy, 3, "; ");
+		str += "\naccel_l:\n\t" + Util.ListDoubleToString (accel_l_copy, 3, "; ");
+		str += "\nforce_l:\n\t" + Util.ListDoubleToString (force_l_copy, 3, "; ");
+		str += "\npower_l:\n\t" + Util.ListDoubleToString (power_l_copy, 3, "; ");
 ;
 		return str;
 	}

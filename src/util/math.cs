@@ -97,6 +97,22 @@ public class PointF
 			return sample + 1;
 	}
 
+	//just to debug
+	public static string PrintList (string title, List<PointF> p_l, string sep)
+	{
+		string str = "";
+		if (title != "")
+			str += title + "\n";
+
+		string sepDo = "";
+		foreach (PointF p in p_l)
+		{
+			str += sepDo + p.ToString ();
+			sepDo = sep;
+		}
+
+		return str;
+	}
 }
 
 //nice to have an X, Y and a value (Z)

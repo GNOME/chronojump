@@ -577,14 +577,21 @@ public abstract class CairoXY : CairoGeneric
 			g.Stroke (); 	//can this be done at the end?
 
 			//lastPointPainted ++;
-
-			/*
-			//print X, Y of each point
-			printText(xgraph, graphHeight - Convert.ToInt32(bottomMargin/2), 0, textHeight, Util.TrimDecimals(p.X, 2), g, true);
-			printText(Convert.ToInt32(leftMargin/2), ygraph, 0, textHeight, Util.TrimDecimals(p.Y, 2), g, true);
-			*/
-//		}
 		}
+
+		bool debug = false;
+		if (debug) 	//print X, Y of each point
+		{
+			for(int i = startAt; i < points_list.Count; i ++)
+			{
+				PointF p = points_list[i];
+				double xgraph = calculatePaintX (p.X);
+				double ygraph = calculatePaintY (p.Y);
+				printText (xgraph, ygraph -graphHeight/20, 0, textHeight,
+						string.Format ("({0};{1})", Util.TrimDecimals (p.X, 4), Util.TrimDecimals (p.Y, 4)), g, alignTypes.CENTER);
+			}
+		}
+
 		//getMinMaxXDrawable(graphWidth, absoluteMaxX, minX, totalMargins, totalMargins);
 	}
 

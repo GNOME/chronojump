@@ -242,11 +242,12 @@ public class CairoGraphRaceAnalyzer : CairoXY
 
 						for(int i = 0 ; i < segmentCalcs.Count ; i ++)
 						{
-							/* debug
+							// debug
+							/*
 							   LogB.Information(string.Format("dist: {0} ; timeStart {1} ; timeEnd: {2} ; speed: {3} : accel: {4} ; force: {5}: power: {6}",
 										   segmentCalcs.Dist_l[i], segmentCalcs.TimeStart_l[i]/1000000.0, segmentCalcs.TimeEnd_l[i]/1000000.0,
 							   segmentCalcs.SpeedCont_l[i], segmentCalcs.Accel_l[i], segmentCalcs.Force_l[i], segmentCalcs.Power_l[i] ));
-							 */
+							   */
 
 							double powerProp = MathUtil.GetProportion (data_l[i], data_l, true);
 							double xStart = calculatePaintX (segmentCalcs.TimeStart_l[i]/1000000.0);

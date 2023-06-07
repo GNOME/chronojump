@@ -759,7 +759,7 @@ RunEncoderCaptureGetSpeedAndDisplacementTest recgsdt = new RunEncoderCaptureGetS
 				binaryReaded = readBinaryRunEncoderValues();
 
 			reCGSD.PassCapturedRow (binaryReaded);
-			if(reCGSD.Calcule() && reCGSD.EncoderDisplacement != 0) //this 0s are triggers without displacement
+			if(reCGSD.Calcule(true) && reCGSD.EncoderDisplacement != 0) //this 0s are triggers without displacement
 			{
 				//distance/time
 				cairoGraphRaceAnalyzerPoints_dt_l.Add(new PointF(
@@ -786,7 +786,7 @@ RunEncoderCaptureGetSpeedAndDisplacementTest recgsdt = new RunEncoderCaptureGetS
 
 						//at load to shift times to the left
 						//at capture to draw a vertical line
-						reCGSD.SetTimeAtEnoughAccelMark (binaryReaded);
+						reCGSD.SetTimeAtEnoughAccelMark (binaryReaded, reCGSD.RunEncoderCaptureSpeed);
 					}
 
 					//accel/time
@@ -1108,7 +1108,6 @@ RunEncoderCaptureGetSpeedAndDisplacementTest recgsdt = new RunEncoderCaptureGetS
 
 		// ---- capture tab graphs start ---->
 
-		int count = 0;
 		reCGSD = new RunEncoderCaptureGetSpeedAndDisplacement(
 				currentRunEncoderExercise.SegmentCm, currentRunEncoderExercise.SegmentVariableCm,
 				currentPersonSession.Weight, //but note if person changes (but graph will be hopefully erased), this will change also take care on exports
@@ -1133,17 +1132,18 @@ RunEncoderCaptureGetSpeedAndDisplacementTest recgsdt = new RunEncoderCaptureGetS
 		bool signalShifted = false; //shifted on trigger0 or accel >= minAccel, whatever is first
 		string rowPre = "";
 
+		bool firstRow = true;
 		//store data on cairoGraphRaceAnalyzerPoints_dt_l, ...st_l, ...at_l
 		foreach(string row in contents)
 		{
-			if(count < 3) //is this useful at all? because the timePre will be also -1 on the 4th row
+			if (firstRow) //is this useful at all? because the timePre will be also -1 on the 4th row
 			{
-				count ++;
+				firstRow = false;
 				continue;
 			}
 
 			if(reCGSD.PassLoadedRow (row))
-				reCGSD.Calcule();
+				reCGSD.Calcule(false);
 
 			speedPre2 = speedPre;
 			timePre2 = timePre;
@@ -1162,7 +1162,7 @@ RunEncoderCaptureGetSpeedAndDisplacementTest recgsdt = new RunEncoderCaptureGetS
 				accel = UtilAll.DivideSafe(reCGSD.RunEncoderCaptureSpeed - speedPre2,
 								UtilAll.DivideSafe(reCGSD.Time, 1000000) - timePre2);
 
-				//LogB.Information (string.Format ("accel: {0} (count {1})", accel, count));
+				//LogB.Information (string.Format ("accel: {0}", accel));
 
 				int timeNow = 0;
 				string [] cells = row.Split(new char[] {';'});
@@ -1208,11 +1208,13 @@ RunEncoderCaptureGetSpeedAndDisplacementTest recgsdt = new RunEncoderCaptureGetS
 
 						reCGSD.SetTimeAtEnoughAccelOrTrigger0 (shiftTo);
 
+						LogB.Information ("load_set shiftNow with row: " + row);
 						if (reCGSD.PassLoadedRow (row))
 							reCGSD.CalculeSpeedAt0Shifted (rowPre, row);
 						//LogB.Information(string.Format("after row runEncoderCaptureSpeed: {0}", reCGSD.RunEncoderCaptureSpeed));
 
 						signalShifted = true;
+						timePre = 0;
 					}
 				} else {
 					/*
@@ -1267,9 +1269,11 @@ RunEncoderCaptureGetSpeedAndDisplacementTest recgsdt = new RunEncoderCaptureGetS
 			drawingarea_race_analyzer_capture_accel_time.QueueDraw ();
 		}
 
+		/*
 		//debug reCGSD.SegmentCalcs
 		if (reCGSD != null && reCGSD.SegmentCalcs != null)
 			LogB.Information (reCGSD.SegmentCalcs.ToString ());
+			*/
 
 		// <---- capture tab graphs end ----
 
@@ -2509,6 +2513,14 @@ RunEncoderCaptureGetSpeedAndDisplacementTest recgsdt = new RunEncoderCaptureGetS
 			isSprint = true;
 
 		RunEncoderSegmentCalcs segmentCalcs = new RunEncoderSegmentCalcs ();
+
+		/*
+		LogB.Information (string.Format ("currentRunEncoderExercise != null: {0}, reCGSD != null: {1}",
+					(currentRunEncoderExercise != null), (reCGSD != null)));
+		if (reCGSD != null)
+			LogB.Information (string.Format ("reCGSD.SegmentCalcs != null: {0}", (reCGSD.SegmentCalcs != null)));
+			*/
+
 		if(currentRunEncoderExercise != null && //currentRunEncoderExercise.SegmentCm > 0 &&
 				reCGSD != null && reCGSD.SegmentCalcs != null)
 			segmentCalcs = reCGSD.SegmentCalcs;

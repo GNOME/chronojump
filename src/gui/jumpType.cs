@@ -40,7 +40,7 @@ public class JumpTypeAddWindow
 
 	Gtk.Label label_header;
 	Gtk.Label label_main_options;
-	Gtk.Table table_main_options;
+	Gtk.Grid grid_main_options;
 
 	Gtk.RadioButton radiobutton_simple;
 	Gtk.RadioButton radiobutton_repetitive;
@@ -144,7 +144,7 @@ public class JumpTypeAddWindow
 
 		//if simple don't show nothing
 		label_main_options.Visible = ! simple;
-		table_main_options.Visible = ! simple;
+		grid_main_options.Visible = ! simple;
 
 		textview_description.Buffer.Changed += new EventHandler(descriptionChanged);
 		descriptionChanging = false;
@@ -331,7 +331,7 @@ public class JumpTypeAddWindow
 
 		label_header = (Gtk.Label) builder.GetObject ("label_header");
 		label_main_options = (Gtk.Label) builder.GetObject ("label_main_options");
-		table_main_options = (Gtk.Table) builder.GetObject ("table_main_options");
+		grid_main_options = (Gtk.Grid) builder.GetObject ("grid_main_options");
 
 		radiobutton_simple = (Gtk.RadioButton) builder.GetObject ("radiobutton_simple");
 		radiobutton_repetitive = (Gtk.RadioButton) builder.GetObject ("radiobutton_repetitive");

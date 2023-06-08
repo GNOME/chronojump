@@ -142,7 +142,7 @@ public partial class ChronoJumpWindow
 	Gtk.HBox hbox_force_sensor_ai_accel;
 	Gtk.HBox hbox_force_sensor_ai_power;
 
-	Gtk.Table table_force_sensor_ai_impulse_variability_and_feedback;
+	Gtk.Grid grid_force_sensor_ai_impulse_variability_and_feedback;
 	Gtk.Label label_force_sensor_ai_feedback;
 	Gtk.HBox hbox_force_sensor_ai_feedback;
 	Gtk.Label label_force_sensor_ai_impulse_values;
@@ -1769,7 +1769,7 @@ public partial class ChronoJumpWindow
 			label_force_sensor_ai_rfd_max.Text = "";
 		}
 
-		table_force_sensor_ai_impulse_variability_and_feedback.Visible = (countA != countB);
+		grid_force_sensor_ai_impulse_variability_and_feedback.Visible = (countA != countB);
 
 		if(preferences.forceSensorVariabilityMethod == Preferences.VariabilityMethodEnum.RMSSD)
 			label_force_sensor_ai_variability_method.Text = "RMSSD";
@@ -1975,7 +1975,7 @@ public partial class ChronoJumpWindow
 		hbox_force_sensor_ai_accel = (Gtk.HBox) builder.GetObject ("hbox_force_sensor_ai_accel");
 		hbox_force_sensor_ai_power = (Gtk.HBox) builder.GetObject ("hbox_force_sensor_ai_power");
 
-		table_force_sensor_ai_impulse_variability_and_feedback = (Gtk.Table) builder.GetObject ("table_force_sensor_ai_impulse_variability_and_feedback");
+		grid_force_sensor_ai_impulse_variability_and_feedback = (Gtk.Grid) builder.GetObject ("grid_force_sensor_ai_impulse_variability_and_feedback");
 		label_force_sensor_ai_feedback = (Gtk.Label) builder.GetObject ("label_force_sensor_ai_feedback");
 		hbox_force_sensor_ai_feedback = (Gtk.HBox) builder.GetObject ("hbox_force_sensor_ai_feedback");
 		label_force_sensor_ai_impulse_values = (Gtk.Label) builder.GetObject ("label_force_sensor_ai_impulse_values");

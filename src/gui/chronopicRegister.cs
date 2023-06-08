@@ -597,7 +597,7 @@ public class ChronopicRegisterWindow
 		chronopic_register_win.Add(vbox_top);
 	}
 
-	Gtk.Table table_main;
+	Gtk.Grid grid_main;
 
 	private List<Gtk.Image> list_images;
 	private List<Gtk.Label> list_labels_selected;
@@ -605,7 +605,7 @@ public class ChronopicRegisterWindow
 	private List<Gtk.Button> list_buttons_left;
 	private List<Gtk.Button> list_buttons_right;
 
-	private void createTable ()
+	private void createGrid ()
 	{
 		int rows = listConnected.Count;
 
@@ -618,12 +618,12 @@ public class ChronopicRegisterWindow
 		label_device_title.Show();
 		label_type_title.Show();
 
-		table_main = new Gtk.Table((uint) rows +1, 2, false); //not homogeneous
-		table_main.ColumnSpacing = 20;
-		table_main.RowSpacing = 12;
+		grid_main = new Gtk.Grid();
+		grid_main.ColumnSpacing = 20;
+		grid_main.RowSpacing = 12;
 
-		table_main.Attach (label_device_title, (uint) 1, (uint) 2, 0, 1);
-		table_main.Attach (label_type_title, (uint) 2, (uint) 3, 0, 1);
+		grid_main.Attach (label_device_title, 1, 0, 1, 1);
+		grid_main.Attach (label_type_title, 2, 0, 1, 1);
 
 		list_buttons_left = new List<Gtk.Button>();
 		list_images = new List<Gtk.Image>();
@@ -635,7 +635,7 @@ public class ChronopicRegisterWindow
 		{
 			string deviceStr = listConnected[count -1].SerialNumber + "\n\n" + listConnected[count -1].Port;
 			Gtk.Label label_device = new Gtk.Label(deviceStr);
-			table_main.Attach (label_device, (uint) 1, (uint) 2, (uint) count, (uint) count +1);
+			grid_main.Attach (label_device, 1, count, 1, 1);
 			label_device.Show();
 
 			Gtk.HBox hbox_type = new Gtk.HBox(false, 6);
@@ -682,7 +682,7 @@ public class ChronopicRegisterWindow
 			//vbox.Add(label_type);
 			vbox.Add(hbox_label_to_align);
 
-			table_main.Attach (vbox, (uint) 2, (uint) 3, (uint) count, (uint) count +1);
+			grid_main.Attach (vbox, 2, count, 1, 1);
 
 			list_buttons_left.Add(button_left);
 			list_images.Add(image);
@@ -690,7 +690,7 @@ public class ChronopicRegisterWindow
 			list_labels_type.Add(label_type);
 			list_buttons_right.Add(button_right);
 		}
-		table_main.Show();
+		grid_main.Show();
 	}
 
 	private void list_labels_selected_show()
@@ -722,9 +722,9 @@ public class ChronopicRegisterWindow
 		//table
 		if(connectedCount > 0)
 		{
-			createTable();
+			createGrid();
 			Gtk.VBox vboxTV = new Gtk.VBox(false, 10);
-			vboxTV.Add(table_main);
+			vboxTV.Add(grid_main);
 			vbox_main.Add(vboxTV);
 		}
 	}

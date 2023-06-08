@@ -1504,8 +1504,6 @@ RunEncoderCaptureGetSpeedAndDisplacementTest recgsdt = new RunEncoderCaptureGetS
 		int imageWidth = UtilGtk.WidgetWidth(viewport_run_encoder_graph);
 		int imageHeight = UtilGtk.WidgetHeight(viewport_run_encoder_graph);
 
-		string title = Util.ChangeSpaceAndMinusForUnderscore(currentPerson.Name) + "-" +
-			Util.ChangeSpaceAndMinusForUnderscore(UtilGtk.ComboGetActive(combo_run_encoder_exercise));
 
 		//create graph
 		RunEncoderGraph reg = new RunEncoderGraph(
@@ -1516,7 +1514,8 @@ RunEncoderCaptureGetSpeedAndDisplacementTest recgsdt = new RunEncoderCaptureGetS
 				race_analyzer_temperature,
 				race_analyzer_device,
 				currentRunEncoderExercise, //TODO: do not let capture if there's no exercise
-				title,
+				Util.ChangeSpaceAndMinusForUnderscore(currentPerson.Name),
+				Util.ChangeSpaceAndMinusForUnderscore(UtilGtk.ComboGetActive(combo_run_encoder_exercise)),
 				currentRunEncoder.DateTimePublic,
 				preferences.runEncoderMinAccel,
 				Preferences.RunEncoderShouldPlotVariable(Preferences.RunEncoderPlotVariables.RAWACCEL),

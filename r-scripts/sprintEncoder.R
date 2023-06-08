@@ -49,29 +49,31 @@ assignOptions <- function(options) {
                 device  	= options[11],
 		splitLength	= as.numeric(options[12]), #fixed, in meters
 		splitVariableCm = as.numeric(unlist(strsplit(options[13], "\\;"))), #vector of different split distances in cm
-                title 	 	= options[14],
-                datetime 	= options[15],
-startAccel 	= as.numeric(options[16]),
-#                startAccel 	= 40,
-                plotRawAccel 	= as.logical(options[17]),
-                plotFittedAccel = as.logical(options[18]),
-                plotRawForce 	= as.logical(options[19]),
-                plotFittedForce = as.logical(options[20]),
-                plotRawPower 	= as.logical(options[21]),
-                plotFittedPower = as.logical(options[22]),
-		triggersOnList  = as.numeric(unlist(strsplit(options[23], "\\;"))),
-		triggersOffList  = as.numeric(unlist(strsplit(options[24], "\\;"))),
-		singleOrMultiple = options[25],
-		decimalCharAtExport = options[26],
-		includeImagesOnExport = options[27],
-		includeInstantaneousOnExport = options[28]
+                personName 	= options[14],		# used on export rows
+		testName 	= options[15], 		# used for export rows
+                datetime 	= options[16],
+		startAccel 	= as.numeric(options[17]),
+		#startAccel 	= 40,
+                plotRawAccel 	= as.logical(options[18]),
+                plotFittedAccel = as.logical(options[19]),
+                plotRawForce 	= as.logical(options[20]),
+                plotFittedForce = as.logical(options[21]),
+                plotRawPower 	= as.logical(options[22]),
+                plotFittedPower = as.logical(options[23]),
+		triggersOnList  = as.numeric(unlist(strsplit(options[24], "\\;"))),
+		triggersOffList  = as.numeric(unlist(strsplit(options[25], "\\;"))),
+		singleOrMultiple = options[26],
+		decimalCharAtExport = options[27],
+		includeImagesOnExport = options[28],
+		includeInstantaneousOnExport = options[29]
         ))
 }
 
 #-------------- assign options -------------
 op <- assignOptions(options)
 
-op$title = fixTitleAndOtherStrings(op$title)
+op$personName = fixTitleAndOtherStrings(op$personName)
+op$testName = fixTitleAndOtherStrings(op$testName)
 op$datetime = fixDatetime(op$datetime)
 
 #this returns sprintRawDynamics
@@ -347,7 +349,8 @@ getSprintFromEncoder <- function(filename, testLength, isSprint, Mass, Temperatu
 }
 
 plotSprintFromEncoder <- function(sprintRawDynamics, sprintFittedDynamics, isSprint,
-				  title = "Test graph",
+				  personName = "Person",
+				  testName = "Test",
 				  subtitle = "",
 				  triggersOn = "",
 				  triggersOff = "",
@@ -441,6 +444,8 @@ plotSprintFromEncoder <- function(sprintRawDynamics, sprintFittedDynamics, isSpr
 	#print (xlimits)
         print("sprintRawDynamics$rawSpeed")
         print(sprintRawDynamics$rawSpeed)
+	title <- paste (personName, "-", testName)
+
         if(plotRawMeanSpeed)
         {
                 print("In plotSrintFromEncoder, sprintRawDynamics$meanSpeed:")
@@ -1024,7 +1029,7 @@ tryNLS <- function(data){
 }
 
 testEncoderCJ <- function(filename, filenameInstantaneous, testLength, isSprint, splitLength, splitVariableCm, splitPositionAll,
-		mass, personHeight, tempC, device, title, datetime, startAccel, triggersOn, triggersOff)
+		mass, personHeight, tempC, device, personName, testName, datetime, startAccel, triggersOn, triggersOff)
 {
         sprintRawDynamics = getSprintFromEncoder(filename, testLength, isSprint, mass, tempC, personHeight, Vw = 0,
 			device = device, startAccel, splitLength, splitVariableCm)
@@ -1068,7 +1073,7 @@ testEncoderCJ <- function(filename, filenameInstantaneous, testLength, isSprint,
                 sprintFittedDynamics = getDynamicsFromSprint(K = sprintRawDynamics$K, Vmax = sprintRawDynamics$Vmax, Mass = mass, T0 = sprintRawDynamics$T0, Temperature = tempC, Height = personHeight)
                 print(paste("K =",sprintFittedDynamics$K.fitted, "Vmax =", sprintFittedDynamics$Vmax.fitted))
                 plotSprintFromEncoder(sprintRawDynamic = sprintRawDynamics, sprintFittedDynamics = sprintFittedDynamics, isSprint,
-                                      title,
+                                      personName, testName,
                                       datetime, 	#subtitle
 				      triggersOn = triggersOn,
 				      triggersOff = triggersOff,
@@ -1087,7 +1092,7 @@ testEncoderCJ <- function(filename, filenameInstantaneous, testLength, isSprint,
                                       plotStartDetection = TRUE)
 	} else {
                 plotSprintFromEncoder(sprintRawDynamic = sprintRawDynamics, sprintFittedDynamics = NULL, isSprint,
-                                      title,
+                                      personName, testName,
                                       datetime, 	#subtitle
 				      triggersOn = triggersOn,
 				      triggersOff = triggersOff,
@@ -1184,7 +1189,7 @@ start <- function(op)
 		prepareGraph(op$os, pngFile, op$graphWidth, op$graphHeight)
 		exportRow = testEncoderCJ(op$filename, "", op$testLength, op$isSprint, op$splitLength, op$splitVariableCm, NULL,
 					  op$mass, op$personHeight, op$tempC,
-					  op$device, op$title, op$datetime, op$startAccel,
+					  op$device, op$personName, op$testName, op$datetime, op$startAccel,
 					  op$triggersOnList, op$triggersOffList)
 		exportSprintDynamicsWriteRow (exportRow)
 		endGraph()
@@ -1244,7 +1249,10 @@ start <- function(op)
 				as.numeric(unlist(strsplit(as.character(dataFiles$splitVariableCm[i]), "\\,"))), #as.character() because -1 (no triggers) is readed as a number and then the strsplit fails
 				splitPositionAll,
 				dataFiles$mass[i], dataFiles$personHeight[i], dataFiles$tempC[i],
-				dataFiles$device[i], dataFiles$title[i], dataFiles$datetime[i],	op$startAccel,
+				dataFiles$device[i],
+				dataFiles$personName[i],
+				dataFiles$testName[i],
+				dataFiles$datetime[i],	op$startAccel,
 				as.numeric(unlist(strsplit(as.character(dataFiles$triggersOn[i]), "\\,"))), #as.character() because -1 (no triggers) is readed as a number and then the strsplit fails
 				as.numeric(unlist(strsplit(as.character(dataFiles$triggersOff[i]), "\\,")))
 		)
@@ -1260,7 +1268,7 @@ start <- function(op)
 			print ("exportRow: ")
 			print (exportRow)
 
-			exportRowDF = data.frame(dataFiles$title[i], dataFiles$datetime[i]) #create dataframe for this row with some columns
+			exportRowDF = data.frame(dataFiles$personName[i], dataFiles$testName[i], dataFiles$datetime[i]) #create dataframe for this row with some columns
 			#add exportRow data (this way we solve problems of adding strings with numbers without converting the numbers to strings
 			#(to control if we print them as , or .)
 			for(j in 1:length(exportRow))
@@ -1272,7 +1280,7 @@ start <- function(op)
 				exportRowDF = cbind(exportRowDF, paste(i, ".csv", sep=""))
 
 			#write the correct names of the row dataframe
-			namesDF = c("Title","Datetime",names,"comments")
+			namesDF = c("Person","Test","Datetime",names,"comments")
 			if(op$includeImagesOnExport)
 				namesDF = c(namesDF, "Image")
 			if(op$includeInstantaneousOnExport)

@@ -5564,7 +5564,7 @@ public partial class ChronoJumpWindow
 					currentJump.Description += " 0 90";
 					
 					//unsensitive slCMJ options 
-					table_extra_window_jumps_single_leg_radios.Sensitive = false;
+					grid_extra_window_jumps_single_leg_radios.Sensitive = false;
 					//but show the input cm
 					notebook_contacts_capture_doing_wait.CurrentPage = 2;
 				}

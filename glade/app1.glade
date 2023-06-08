@@ -13640,22 +13640,21 @@
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <object class="GtkTable" id="table_extra_window_jumps_single_leg_radios">
+                                                            <!-- n-columns=2 n-rows=3 -->
+                                                            <object class="GtkGrid" id="grid_extra_window_jumps_single_leg_radios">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
-                                                            <property name="n-rows">3</property>
-                                                            <property name="n-columns">2</property>
-                                                            <property name="column-spacing">10</property>
                                                             <property name="row-spacing">10</property>
+                                                            <property name="column-spacing">10</property>
                                                             <child>
                                                             <object class="GtkLabel" id="label100">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
                                                             <property name="label" translatable="yes">Dominance</property>
-                                                            <property name="xalign">0</property>
                                                             </object>
                                                             <packing>
-                                                            <property name="x-options">GTK_FILL</property>
+                                                            <property name="left-attach">0</property>
+                                                            <property name="top-attach">0</property>
                                                             </packing>
                                                             </child>
                                                             <child>
@@ -13663,12 +13662,10 @@
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
                                                             <property name="label" translatable="yes">Type</property>
-                                                            <property name="xalign">0</property>
                                                             </object>
                                                             <packing>
+                                                            <property name="left-attach">0</property>
                                                             <property name="top-attach">1</property>
-                                                            <property name="bottom-attach">2</property>
-                                                            <property name="x-options">GTK_FILL</property>
                                                             </packing>
                                                             </child>
                                                             <child>
@@ -13676,12 +13673,10 @@
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
                                                             <property name="label" translatable="yes">Fall</property>
-                                                            <property name="xalign">0</property>
                                                             </object>
                                                             <packing>
+                                                            <property name="left-attach">0</property>
                                                             <property name="top-attach">2</property>
-                                                            <property name="bottom-attach">3</property>
-                                                            <property name="x-options">GTK_FILL</property>
                                                             </packing>
                                                             </child>
                                                             <child>
@@ -13712,7 +13707,7 @@
                                                             <property name="can-focus">True</property>
                                                             <property name="receives-default">False</property>
                                                             <property name="tooltip-text" translatable="yes">This limb</property>
-                                                            <property name="xalign">0</property>
+                                                            <property name="xalign">0.5</property>
                                                             <property name="draw-indicator">False</property>
                                                             <property name="group">extra_window_jumps_radiobutton_single_leg_dominance_unknown</property>
                                                             </object>
@@ -13740,8 +13735,7 @@
                                                             </object>
                                                             <packing>
                                                             <property name="left-attach">1</property>
-                                                            <property name="right-attach">2</property>
-                                                            <property name="x-options">GTK_FILL</property>
+                                                            <property name="top-attach">0</property>
                                                             </packing>
                                                             </child>
                                                             <child>
@@ -13797,10 +13791,7 @@
                                                             </object>
                                                             <packing>
                                                             <property name="left-attach">1</property>
-                                                            <property name="right-attach">2</property>
                                                             <property name="top-attach">1</property>
-                                                            <property name="bottom-attach">2</property>
-                                                            <property name="x-options">GTK_FILL</property>
                                                             </packing>
                                                             </child>
                                                             <child>
@@ -13830,7 +13821,7 @@
                                                             <property name="can-focus">True</property>
                                                             <property name="receives-default">False</property>
                                                             <property name="tooltip-text" translatable="yes">This limb</property>
-                                                            <property name="xalign">0</property>
+                                                            <property name="xalign">0.5</property>
                                                             <property name="draw-indicator">False</property>
                                                             <property name="group">extra_window_jumps_radiobutton_single_leg_fall_both</property>
                                                             </object>
@@ -13858,17 +13849,13 @@
                                                             </object>
                                                             <packing>
                                                             <property name="left-attach">1</property>
-                                                            <property name="right-attach">2</property>
                                                             <property name="top-attach">2</property>
-                                                            <property name="bottom-attach">3</property>
-                                                            <property name="x-options">GTK_FILL</property>
                                                             </packing>
                                                             </child>
                                                             </object>
                                                             <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">False</property>
-                                                            <property name="padding">5</property>
                                                             <property name="position">3</property>
                                                             </packing>
                                                             </child>

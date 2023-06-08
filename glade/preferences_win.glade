@@ -6439,18 +6439,22 @@ It starts before and arrives there with some speed.</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <object class="GtkTable" id="table_video_advanced_actions">
+                                                            <!-- n-columns=3 n-rows=2 -->
+                                                            <object class="GtkGrid" id="grid_video_advanced_actions">
+                                                            <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
-                                                            <property name="n-rows">2</property>
-                                                            <property name="n-columns">3</property>
-                                                            <property name="column-spacing">12</property>
                                                             <property name="row-spacing">8</property>
+                                                            <property name="column-spacing">12</property>
                                                             <child>
                                                             <object class="GtkLabel" id="label90">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
                                                             <property name="label" translatable="yes">Capture</property>
                                                             </object>
+                                                            <packing>
+                                                            <property name="left-attach">0</property>
+                                                            <property name="top-attach">0</property>
+                                                            </packing>
                                                             </child>
                                                             <child>
                                                             <object class="GtkLabel" id="label91">
@@ -6459,8 +6463,8 @@ It starts before and arrives there with some speed.</property>
                                                             <property name="label" translatable="yes">Play</property>
                                                             </object>
                                                             <packing>
+                                                            <property name="left-attach">0</property>
                                                             <property name="top-attach">1</property>
-                                                            <property name="bottom-attach">2</property>
                                                             </packing>
                                                             </child>
                                                             <child>
@@ -6470,7 +6474,7 @@ It starts before and arrives there with some speed.</property>
                                                             </object>
                                                             <packing>
                                                             <property name="left-attach">1</property>
-                                                            <property name="right-attach">2</property>
+                                                            <property name="top-attach">0</property>
                                                             </packing>
                                                             </child>
                                                             <child>
@@ -6480,9 +6484,7 @@ It starts before and arrives there with some speed.</property>
                                                             </object>
                                                             <packing>
                                                             <property name="left-attach">1</property>
-                                                            <property name="right-attach">2</property>
                                                             <property name="top-attach">1</property>
-                                                            <property name="bottom-attach">2</property>
                                                             </packing>
                                                             </child>
                                                             <child>
@@ -6495,7 +6497,7 @@ It starts before and arrives there with some speed.</property>
                                                             </object>
                                                             <packing>
                                                             <property name="left-attach">2</property>
-                                                            <property name="right-attach">3</property>
+                                                            <property name="top-attach">0</property>
                                                             </packing>
                                                             </child>
                                                             <child>
@@ -6508,9 +6510,7 @@ It starts before and arrives there with some speed.</property>
                                                             </object>
                                                             <packing>
                                                             <property name="left-attach">2</property>
-                                                            <property name="right-attach">3</property>
                                                             <property name="top-attach">1</property>
-                                                            <property name="bottom-attach">2</property>
                                                             </packing>
                                                             </child>
                                                             </object>

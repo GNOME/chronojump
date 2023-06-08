@@ -303,7 +303,7 @@ public partial class ChronoJumpWindow
 	Gtk.Label label_micro_discover_title;
 	Gtk.Label label_micro_discover_not_found;
 	Gtk.Frame frame_micro_discover;
-	Gtk.Table table_micro_discover;
+	Gtk.Grid grid_micro_discover;
 	Gtk.Box box_micro_discover_nc;
 	Gtk.Label label_micro_discover_nc_current_mode;
 	Gtk.HBox hbox_contacts_detect_and_execute;
@@ -1162,7 +1162,7 @@ public partial class ChronoJumpWindow
 
 			//micro discover
 			UtilGtk.WidgetColor (frame_micro_discover, Config.ColorBackgroundShifted);
-			//UtilGtk.ContrastLabelsFrame (Config.ColorBackgroundShiftedIsDark, frame_micro_discover); //done on table_micro_discover later on creation
+			//UtilGtk.ContrastLabelsFrame (Config.ColorBackgroundShiftedIsDark, frame_micro_discover); //done on grid_micro_discover later on creation
 
 			//news
 			UtilGtk.WidgetColor (vbox_news2, Config.ColorBackgroundShifted);
@@ -4939,14 +4939,14 @@ public partial class ChronoJumpWindow
 
 		discoverWin = new DiscoverWindow (current_mode, chronopicRegister,
 			label_micro_discover_not_found,
-			table_micro_discover,
+			grid_micro_discover,
 			box_micro_discover_nc,
 			image_button_micro_discover_cancel_close,
 			label_button_micro_discover_cancel_close,
 			Constants.ModeIcon (current_mode));
 			
 		if(! Config.UseSystemColor)
-			UtilGtk.ContrastLabelsTable (Config.ColorBackgroundShiftedIsDark, table_micro_discover);
+			UtilGtk.ContrastLabelsGrid (Config.ColorBackgroundShiftedIsDark, grid_micro_discover);
 
 		discoverWin.FakeButtonClose.Clicked += new EventHandler (on_discoverWindow_closed);
 	}
@@ -9600,7 +9600,7 @@ LogB.Debug("mc finished 5");
 		label_micro_discover_title = (Gtk.Label) builder.GetObject ("label_micro_discover_title");
 		label_micro_discover_not_found = (Gtk.Label) builder.GetObject ("label_micro_discover_not_found");
 		frame_micro_discover = (Gtk.Frame) builder.GetObject ("frame_micro_discover");
-		table_micro_discover = (Gtk.Table) builder.GetObject ("table_micro_discover");
+		grid_micro_discover = (Gtk.Grid) builder.GetObject ("grid_micro_discover");
 		box_micro_discover_nc = (Gtk.Box) builder.GetObject ("box_micro_discover_nc");
 		label_micro_discover_nc_current_mode = (Gtk.Label) builder.GetObject ("label_micro_discover_nc_current_mode");
 		hbox_contacts_detect_and_execute = (Gtk.HBox) builder.GetObject ("hbox_contacts_detect_and_execute");

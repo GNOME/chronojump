@@ -1109,6 +1109,8 @@ public partial class ChronoJumpWindow
 			//notebook_encoder_sup
 			UtilGtk.WidgetColor (notebook_encoder_sup, Config.ColorBackgroundShifted);
 			UtilGtk.ContrastLabelsNotebook (Config.ColorBackgroundShiftedIsDark, notebook_encoder_sup);
+			//but all the labels inside the grid grid_encoder_analyze_instant have a white bg, so should call
+			UtilGtk.ContrastLabelsGrid (false, grid_encoder_analyze_instant);
 
 			//persons (main)
 			//UtilGtk.WidgetColor (vbox_persons, Config.ColorBackgroundShifted);

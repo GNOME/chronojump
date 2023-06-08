@@ -214,7 +214,9 @@ public partial class ChronoJumpWindow
 	Gtk.Label label_encoder_user_curves_all_num;
 
 	Gtk.VBox vbox_encoder_analyze_instant;
-	Gtk.Table table_encoder_analyze_instant;
+	Gtk.Grid grid_encoder_analyze_instant;
+	Gtk.Box grid_encoder_analyze_instant_box_hscale_a;
+	Gtk.Box grid_encoder_analyze_instant_box_hscale_b;
 	Gtk.HScale hscale_encoder_analyze_a;
 	Gtk.CheckButton checkbutton_encoder_analyze_b;
 	Gtk.HScale hscale_encoder_analyze_b;
@@ -6534,7 +6536,7 @@ public partial class ChronoJumpWindow
 				image_encoder_height = 100; //Not crash R with a png height of -1 or "figure margins too large"
 
 			if(encoderSelectedAnalysis == "single" || encoderSelectedAnalysis == "singleAllSet")
-				image_encoder_height -= UtilGtk.WidgetHeight(table_encoder_analyze_instant); //to allow hslides and table
+				image_encoder_height -= UtilGtk.WidgetHeight(grid_encoder_analyze_instant); //to allow hslides and table
 
 			encoder_pulsebar_analyze.Text = Catalog.GetString("Please, wait.");
 			encoderRProcAnalyze.status = EncoderRProc.Status.WAITING;
@@ -8175,7 +8177,11 @@ public partial class ChronoJumpWindow
 		label_encoder_user_curves_all_num = (Gtk.Label) builder.GetObject ("label_encoder_user_curves_all_num");
 
 		vbox_encoder_analyze_instant = (Gtk.VBox) builder.GetObject ("vbox_encoder_analyze_instant");
-		table_encoder_analyze_instant = (Gtk.Table) builder.GetObject ("table_encoder_analyze_instant");
+		grid_encoder_analyze_instant = (Gtk.Grid) builder.GetObject ("grid_encoder_analyze_instant");
+		grid_encoder_analyze_instant_box_hscale_a = (Gtk.Box) builder.GetObject ("grid_encoder_analyze_instant_box_hscale_a");
+		grid_encoder_analyze_instant_box_hscale_b = (Gtk.Box) builder.GetObject ("grid_encoder_analyze_instant_box_hscale_b");
+		grid_encoder_analyze_instant_box_hscale_a.Hexpand = true;
+		grid_encoder_analyze_instant_box_hscale_b.Hexpand = true;
 		hscale_encoder_analyze_a = (Gtk.HScale) builder.GetObject ("hscale_encoder_analyze_a");
 		checkbutton_encoder_analyze_b = (Gtk.CheckButton) builder.GetObject ("checkbutton_encoder_analyze_b");
 		hscale_encoder_analyze_b = (Gtk.HScale) builder.GetObject ("hscale_encoder_analyze_b");

@@ -1036,8 +1036,8 @@ public partial class ChronoJumpWindow
 			{
 				UtilGtk.ContrastLabelsHBox (Config.ColorBackgroundIsDark, hbox_top_person);
 				UtilGtk.ContrastLabelsHBox (Config.ColorBackgroundIsDark, hbox_top_person_encoder);
-				UtilGtk.ContrastLabelsTable (Config.ColorBackgroundIsDark, table_rest_time_contacts);
-				UtilGtk.ContrastLabelsTable (Config.ColorBackgroundIsDark, table_rest_time_encoder);
+				UtilGtk.ContrastLabelsGrid (Config.ColorBackgroundIsDark, grid_rest_time_contacts);
+				UtilGtk.ContrastLabelsGrid (Config.ColorBackgroundIsDark, grid_rest_time_encoder);
 			}
 
 			if(! Config.UseSystemColor && Config.ColorBackgroundIsDark)

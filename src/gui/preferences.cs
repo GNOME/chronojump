@@ -245,7 +245,7 @@ public class PreferencesWindow
 	//Gtk.VBox vbox_camera_stop_after;
 	Gtk.HBox hbox_camera_stop_after_seconds;
 	Gtk.SpinButton spin_camera_stop_after;
-	Gtk.Table table_video_advanced_actions;
+	Gtk.Grid grid_video_advanced_actions;
 	Gtk.Label label_video_check_ffmpeg_running;
 	Gtk.Label label_video_check_ffplay_running;
 	Gtk.Button button_video_ffmpeg_kill;
@@ -2617,7 +2617,7 @@ public class PreferencesWindow
 			button_video_ffplay_kill.Visible = true;
 		}
 
-		table_video_advanced_actions.Visible = true;
+		grid_video_advanced_actions.Visible = true;
 	}
 
 	private void on_button_video_ffmpeg_kill_clicked (object o, EventArgs args)
@@ -3176,7 +3176,7 @@ public class PreferencesWindow
 		//vbox_camera_stop_after = (Gtk.VBox) builder.GetObject ("vbox_camera_stop_after");
 		hbox_camera_stop_after_seconds = (Gtk.HBox) builder.GetObject ("hbox_camera_stop_after_seconds");
 		spin_camera_stop_after = (Gtk.SpinButton) builder.GetObject ("spin_camera_stop_after");
-		table_video_advanced_actions = (Gtk.Table) builder.GetObject ("table_video_advanced_actions");
+		grid_video_advanced_actions = (Gtk.Grid) builder.GetObject ("grid_video_advanced_actions");
 		label_video_check_ffmpeg_running = (Gtk.Label) builder.GetObject ("label_video_check_ffmpeg_running");
 		label_video_check_ffplay_running = (Gtk.Label) builder.GetObject ("label_video_check_ffplay_running");
 		button_video_ffmpeg_kill = (Gtk.Button) builder.GetObject ("button_video_ffmpeg_kill");

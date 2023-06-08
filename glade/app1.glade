@@ -5331,11 +5331,10 @@
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
                                                             <child>
-                                                            <object class="GtkTable" id="table_rest_time_contacts">
+                                                            <!-- n-columns=5 n-rows=2 -->
+                                                            <object class="GtkGrid" id="grid_rest_time_contacts">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
-                                                            <property name="n-rows">2</property>
-                                                            <property name="n-columns">5</property>
                                                             <property name="column-spacing">12</property>
                                                             <child>
                                                             <object class="GtkLabel" id="label_contacts_rest_time_1_name">
@@ -5343,8 +5342,8 @@
                                                             <property name="can-focus">False</property>
                                                             </object>
                                                             <packing>
-                                                            <property name="x-options">GTK_FILL</property>
-                                                            <property name="y-options"/>
+                                                            <property name="left-attach">0</property>
+                                                            <property name="top-attach">0</property>
                                                             </packing>
                                                             </child>
                                                             <child>
@@ -5354,9 +5353,7 @@
                                                             </object>
                                                             <packing>
                                                             <property name="left-attach">1</property>
-                                                            <property name="right-attach">2</property>
-                                                            <property name="x-options">GTK_FILL</property>
-                                                            <property name="y-options"/>
+                                                            <property name="top-attach">0</property>
                                                             </packing>
                                                             </child>
                                                             <child>
@@ -5366,9 +5363,7 @@
                                                             </object>
                                                             <packing>
                                                             <property name="left-attach">2</property>
-                                                            <property name="right-attach">3</property>
-                                                            <property name="x-options">GTK_FILL</property>
-                                                            <property name="y-options"/>
+                                                            <property name="top-attach">0</property>
                                                             </packing>
                                                             </child>
                                                             <child>
@@ -5378,9 +5373,7 @@
                                                             </object>
                                                             <packing>
                                                             <property name="left-attach">3</property>
-                                                            <property name="right-attach">4</property>
-                                                            <property name="x-options">GTK_FILL</property>
-                                                            <property name="y-options"/>
+                                                            <property name="top-attach">0</property>
                                                             </packing>
                                                             </child>
                                                             <child>
@@ -5390,9 +5383,7 @@
                                                             </object>
                                                             <packing>
                                                             <property name="left-attach">4</property>
-                                                            <property name="right-attach">5</property>
-                                                            <property name="x-options">GTK_FILL</property>
-                                                            <property name="y-options"/>
+                                                            <property name="top-attach">0</property>
                                                             </packing>
                                                             </child>
                                                             <child>
@@ -5401,10 +5392,8 @@
                                                             <property name="can-focus">False</property>
                                                             </object>
                                                             <packing>
+                                                            <property name="left-attach">0</property>
                                                             <property name="top-attach">1</property>
-                                                            <property name="bottom-attach">2</property>
-                                                            <property name="x-options">GTK_FILL</property>
-                                                            <property name="y-options"/>
                                                             </packing>
                                                             </child>
                                                             <child>
@@ -5414,11 +5403,7 @@
                                                             </object>
                                                             <packing>
                                                             <property name="left-attach">1</property>
-                                                            <property name="right-attach">2</property>
                                                             <property name="top-attach">1</property>
-                                                            <property name="bottom-attach">2</property>
-                                                            <property name="x-options">GTK_FILL</property>
-                                                            <property name="y-options"/>
                                                             </packing>
                                                             </child>
                                                             <child>
@@ -5428,11 +5413,7 @@
                                                             </object>
                                                             <packing>
                                                             <property name="left-attach">2</property>
-                                                            <property name="right-attach">3</property>
                                                             <property name="top-attach">1</property>
-                                                            <property name="bottom-attach">2</property>
-                                                            <property name="x-options">GTK_FILL</property>
-                                                            <property name="y-options"/>
                                                             </packing>
                                                             </child>
                                                             <child>
@@ -5442,11 +5423,7 @@
                                                             </object>
                                                             <packing>
                                                             <property name="left-attach">3</property>
-                                                            <property name="right-attach">4</property>
                                                             <property name="top-attach">1</property>
-                                                            <property name="bottom-attach">2</property>
-                                                            <property name="x-options">GTK_FILL</property>
-                                                            <property name="y-options"/>
                                                             </packing>
                                                             </child>
                                                             <child>
@@ -5456,11 +5433,7 @@
                                                             </object>
                                                             <packing>
                                                             <property name="left-attach">4</property>
-                                                            <property name="right-attach">5</property>
                                                             <property name="top-attach">1</property>
-                                                            <property name="bottom-attach">2</property>
-                                                            <property name="x-options">GTK_FILL</property>
-                                                            <property name="y-options"/>
                                                             </packing>
                                                             </child>
                                                             </object>
@@ -22625,6 +22598,9 @@ Concentric</property>
                                                             <child>
                                                             <placeholder/>
                                                             </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
                                                             </object>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -26529,6 +26505,9 @@ Concentric</property>
                                                             <property name="x-options"/>
                                                             <property name="y-options">GTK_SHRINK</property>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>
@@ -33318,11 +33297,10 @@ Concentric</property>
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
                                                             <child>
-                                                            <object class="GtkTable" id="table_rest_time_encoder">
+                                                            <!-- n-columns=5 n-rows=2 -->
+                                                            <object class="GtkGrid" id="grid_rest_time_encoder">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
-                                                            <property name="n-rows">2</property>
-                                                            <property name="n-columns">5</property>
                                                             <property name="column-spacing">12</property>
                                                             <child>
                                                             <object class="GtkLabel" id="label_encoder_rest_time_1_name">
@@ -33330,8 +33308,8 @@ Concentric</property>
                                                             <property name="can-focus">False</property>
                                                             </object>
                                                             <packing>
-                                                            <property name="x-options">GTK_FILL</property>
-                                                            <property name="y-options"/>
+                                                            <property name="left-attach">0</property>
+                                                            <property name="top-attach">0</property>
                                                             </packing>
                                                             </child>
                                                             <child>
@@ -33341,9 +33319,7 @@ Concentric</property>
                                                             </object>
                                                             <packing>
                                                             <property name="left-attach">1</property>
-                                                            <property name="right-attach">2</property>
-                                                            <property name="x-options">GTK_FILL</property>
-                                                            <property name="y-options"/>
+                                                            <property name="top-attach">0</property>
                                                             </packing>
                                                             </child>
                                                             <child>
@@ -33353,9 +33329,7 @@ Concentric</property>
                                                             </object>
                                                             <packing>
                                                             <property name="left-attach">2</property>
-                                                            <property name="right-attach">3</property>
-                                                            <property name="x-options">GTK_FILL</property>
-                                                            <property name="y-options"/>
+                                                            <property name="top-attach">0</property>
                                                             </packing>
                                                             </child>
                                                             <child>
@@ -33365,9 +33339,7 @@ Concentric</property>
                                                             </object>
                                                             <packing>
                                                             <property name="left-attach">3</property>
-                                                            <property name="right-attach">4</property>
-                                                            <property name="x-options">GTK_FILL</property>
-                                                            <property name="y-options"/>
+                                                            <property name="top-attach">0</property>
                                                             </packing>
                                                             </child>
                                                             <child>
@@ -33377,9 +33349,7 @@ Concentric</property>
                                                             </object>
                                                             <packing>
                                                             <property name="left-attach">4</property>
-                                                            <property name="right-attach">5</property>
-                                                            <property name="x-options">GTK_FILL</property>
-                                                            <property name="y-options"/>
+                                                            <property name="top-attach">0</property>
                                                             </packing>
                                                             </child>
                                                             <child>
@@ -33388,10 +33358,8 @@ Concentric</property>
                                                             <property name="can-focus">False</property>
                                                             </object>
                                                             <packing>
+                                                            <property name="left-attach">0</property>
                                                             <property name="top-attach">1</property>
-                                                            <property name="bottom-attach">2</property>
-                                                            <property name="x-options">GTK_FILL</property>
-                                                            <property name="y-options"/>
                                                             </packing>
                                                             </child>
                                                             <child>
@@ -33401,11 +33369,7 @@ Concentric</property>
                                                             </object>
                                                             <packing>
                                                             <property name="left-attach">1</property>
-                                                            <property name="right-attach">2</property>
                                                             <property name="top-attach">1</property>
-                                                            <property name="bottom-attach">2</property>
-                                                            <property name="x-options">GTK_FILL</property>
-                                                            <property name="y-options"/>
                                                             </packing>
                                                             </child>
                                                             <child>
@@ -33415,11 +33379,7 @@ Concentric</property>
                                                             </object>
                                                             <packing>
                                                             <property name="left-attach">2</property>
-                                                            <property name="right-attach">3</property>
                                                             <property name="top-attach">1</property>
-                                                            <property name="bottom-attach">2</property>
-                                                            <property name="x-options">GTK_FILL</property>
-                                                            <property name="y-options"/>
                                                             </packing>
                                                             </child>
                                                             <child>
@@ -33429,11 +33389,7 @@ Concentric</property>
                                                             </object>
                                                             <packing>
                                                             <property name="left-attach">3</property>
-                                                            <property name="right-attach">4</property>
                                                             <property name="top-attach">1</property>
-                                                            <property name="bottom-attach">2</property>
-                                                            <property name="x-options">GTK_FILL</property>
-                                                            <property name="y-options"/>
                                                             </packing>
                                                             </child>
                                                             <child>
@@ -33443,11 +33399,7 @@ Concentric</property>
                                                             </object>
                                                             <packing>
                                                             <property name="left-attach">4</property>
-                                                            <property name="right-attach">5</property>
                                                             <property name="top-attach">1</property>
-                                                            <property name="bottom-attach">2</property>
-                                                            <property name="x-options">GTK_FILL</property>
-                                                            <property name="y-options"/>
                                                             </packing>
                                                             </child>
                                                             </object>

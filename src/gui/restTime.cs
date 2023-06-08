@@ -36,7 +36,7 @@ public partial class ChronoJumpWindow
 	Gtk.Image image_contacts_rest_time_clear_yellow;
 	Gtk.ScrolledWindow scrolled_rest_time_contacts;
 	Gtk.Viewport viewport_rest_time_contacts;
-	Gtk.Table table_rest_time_contacts;
+	Gtk.Grid grid_rest_time_contacts;
 	Gtk.Button button_scrolled_rest_time_contacts_left;
 	Gtk.Button button_scrolled_rest_time_contacts_right;
 
@@ -58,7 +58,7 @@ public partial class ChronoJumpWindow
 	Gtk.Image image_encoder_rest_time_clear_yellow;
 	Gtk.ScrolledWindow scrolled_rest_time_encoder;
 	Gtk.Viewport viewport_rest_time_encoder;
-	Gtk.Table table_rest_time_encoder;
+	Gtk.Grid grid_rest_time_encoder;
 	Gtk.Button button_scrolled_rest_time_encoder_left;
 	Gtk.Button button_scrolled_rest_time_encoder_right;
 
@@ -246,7 +246,7 @@ public partial class ChronoJumpWindow
 		image_contacts_rest_time_clear_yellow = (Gtk.Image) builder.GetObject ("image_contacts_rest_time_clear_yellow");
 		scrolled_rest_time_contacts = (Gtk.ScrolledWindow) builder.GetObject ("scrolled_rest_time_contacts");
 		viewport_rest_time_contacts = (Gtk.Viewport) builder.GetObject ("viewport_rest_time_contacts");
-		table_rest_time_contacts = (Gtk.Table) builder.GetObject ("table_rest_time_contacts");
+		grid_rest_time_contacts = (Gtk.Grid) builder.GetObject ("grid_rest_time_contacts");
 		button_scrolled_rest_time_contacts_left = (Gtk.Button) builder.GetObject ("button_scrolled_rest_time_contacts_left");
 		button_scrolled_rest_time_contacts_right = (Gtk.Button) builder.GetObject ("button_scrolled_rest_time_contacts_right");
 
@@ -268,7 +268,7 @@ public partial class ChronoJumpWindow
 		image_encoder_rest_time_clear_yellow = (Gtk.Image) builder.GetObject ("image_encoder_rest_time_clear_yellow");
 		scrolled_rest_time_encoder = (Gtk.ScrolledWindow) builder.GetObject ("scrolled_rest_time_encoder");
 		viewport_rest_time_encoder = (Gtk.Viewport) builder.GetObject ("viewport_rest_time_encoder");
-		table_rest_time_encoder = (Gtk.Table) builder.GetObject ("table_rest_time_encoder");
+		grid_rest_time_encoder = (Gtk.Grid) builder.GetObject ("grid_rest_time_encoder");
 		button_scrolled_rest_time_encoder_left = (Gtk.Button) builder.GetObject ("button_scrolled_rest_time_encoder_left");
 		button_scrolled_rest_time_encoder_right = (Gtk.Button) builder.GetObject ("button_scrolled_rest_time_encoder_right");
 

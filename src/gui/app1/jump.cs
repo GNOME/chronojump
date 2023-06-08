@@ -56,7 +56,7 @@ public partial class ChronoJumpWindow
 	Gtk.Label label_extra_window_jumps_rj_radiobutton_weight_percent_as_kg;
 
 	//slCMJ	
-	Gtk.Table table_extra_window_jumps_single_leg_radios;
+	Gtk.Grid grid_extra_window_jumps_single_leg_radios;
 	Gtk.RadioButton extra_window_jumps_radiobutton_single_leg_mode_vertical;
 	Gtk.RadioButton extra_window_jumps_radiobutton_single_leg_mode_horizontal;
 	Gtk.RadioButton extra_window_jumps_radiobutton_single_leg_dominance_this_limb;
@@ -601,7 +601,7 @@ public partial class ChronoJumpWindow
 	}
 	
 	private void extra_window_showSingleLegStuff(bool show) {
-		table_extra_window_jumps_single_leg_radios.Visible = show;
+		grid_extra_window_jumps_single_leg_radios.Visible = show;
 	}
 			
 	private void on_extra_window_jumps_radiobutton_kg_toggled (object o, EventArgs args)
@@ -794,7 +794,7 @@ public partial class ChronoJumpWindow
 		myTreeViewJumps.Update(currentJump);
 		
 		//sensitive slCMJ options 
-		table_extra_window_jumps_single_leg_radios.Sensitive = true;
+		grid_extra_window_jumps_single_leg_radios.Sensitive = true;
 
 		//hide slCMJ distance stuff and show button execute test again
 		notebook_contacts_capture_doing_wait.CurrentPage = 0;
@@ -846,7 +846,7 @@ public partial class ChronoJumpWindow
 		label_extra_window_jumps_rj_radiobutton_weight_percent_as_kg = (Gtk.Label) builder.GetObject ("label_extra_window_jumps_rj_radiobutton_weight_percent_as_kg");
 
 		//slCMJ	
-		table_extra_window_jumps_single_leg_radios = (Gtk.Table) builder.GetObject ("table_extra_window_jumps_single_leg_radios");
+		grid_extra_window_jumps_single_leg_radios = (Gtk.Grid) builder.GetObject ("grid_extra_window_jumps_single_leg_radios");
 		extra_window_jumps_radiobutton_single_leg_mode_vertical = (Gtk.RadioButton) builder.GetObject ("extra_window_jumps_radiobutton_single_leg_mode_vertical");
 		extra_window_jumps_radiobutton_single_leg_mode_horizontal = (Gtk.RadioButton) builder.GetObject ("extra_window_jumps_radiobutton_single_leg_mode_horizontal");
 		extra_window_jumps_radiobutton_single_leg_dominance_this_limb = (Gtk.RadioButton) builder.GetObject ("extra_window_jumps_radiobutton_single_leg_dominance_this_limb");

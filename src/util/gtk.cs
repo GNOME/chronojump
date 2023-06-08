@@ -849,6 +849,10 @@ public class UtilGtk
 	{
 		contrastLabelsContainer (bgDark, (Gtk.Container) table);
 	}
+	public static void ContrastLabelsGrid (bool bgDark, Gtk.Grid grid)
+	{
+		contrastLabelsContainer (bgDark, (Gtk.Container) grid);
+	}
 	public static void ContrastLabelsNotebook (bool bgDark, Gtk.Notebook notebook)
 	{
 		contrastLabelsContainer (bgDark, (Gtk.Container) notebook);

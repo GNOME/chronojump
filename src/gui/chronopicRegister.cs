@@ -133,7 +133,7 @@ public class DiscoverWindow
 
 	private Constants.Modes current_mode;
 	private ChronopicRegister chronopicRegister;
-	private Gtk.Table table_micro_discover;
+	private Gtk.Grid grid_micro_discover;
 	private Gtk.Box box_micro_discover_nc;
 	private Gtk.Image image_button_micro_discover_cancel_close;
 	private Gtk.Label label_button_micro_discover_cancel_close;
@@ -143,7 +143,7 @@ public class DiscoverWindow
 
 	public DiscoverWindow (Constants.Modes current_mode, ChronopicRegister chronopicRegister,
 			Gtk.Label label_micro_discover_not_found,
-			Gtk.Table table_micro_discover,
+			Gtk.Grid grid_micro_discover,
 			Gtk.Box box_micro_discover_nc,
 			Gtk.Image image_button_micro_discover_cancel_close,
 			Gtk.Label label_button_micro_discover_cancel_close,
@@ -152,7 +152,7 @@ public class DiscoverWindow
 	{
 		this.current_mode = current_mode;
 		this.chronopicRegister = chronopicRegister;
-		this.table_micro_discover = table_micro_discover;
+		this.grid_micro_discover = grid_micro_discover;
 		this.box_micro_discover_nc = box_micro_discover_nc;
 		this.image_button_micro_discover_cancel_close = image_button_micro_discover_cancel_close;
 		this.label_button_micro_discover_cancel_close = label_button_micro_discover_cancel_close;
@@ -190,14 +190,14 @@ public class DiscoverWindow
 			microDiscover = new MicroDiscover (notDiscovered_l);
 
 			label_micro_discover_not_found.Visible = false;
-			setup_table_micro_discover_l (alreadyDiscovered_l, notDiscovered_l);
+			setup_grid_micro_discover_l (alreadyDiscovered_l, notDiscovered_l);
 			discoverCloseAfterCancel = false;
 
 			discoverThread = new Thread (new ThreadStart (discoverDo));
 			GLib.Idle.Add (new GLib.IdleHandler (pulseDiscoverGTK));
 			discoverThread.Start();
 		} else {
-			UtilGtk.RemoveChildren (table_micro_discover);
+			UtilGtk.RemoveChildren (grid_micro_discover);
 
 			label_micro_discover_not_found.Text = Catalog.GetString ("Device not found.");
 			label_micro_discover_not_found.Visible = true;
@@ -212,16 +212,15 @@ public class DiscoverWindow
 
 
 
-	private void setup_table_micro_discover_l (
+	private void setup_grid_micro_discover_l (
 			List<ChronopicRegisterPort> alreadyDiscovered_l,
 			List<ChronopicRegisterPort> notDiscovered_l)
 	{
 		// 1) delete widgets of previous calls
-		UtilGtk.RemoveChildren (table_micro_discover);
+		UtilGtk.RemoveChildren (grid_micro_discover);
 
-		table_micro_discover.Resize ((uint) (alreadyDiscovered_l.Count + notDiscovered_l.Count), 3);
-		table_micro_discover.ColumnSpacing = 20;
-		table_micro_discover.RowSpacing = 14;
+		grid_micro_discover.ColumnSpacing = 20;
+		grid_micro_discover.RowSpacing = 14;
 
 		// 2) create the lists of widgets to be able to access later
 		progressbar_microNotDiscovered_l = new List<Gtk.ProgressBar> ();
@@ -241,10 +240,8 @@ public class DiscoverWindow
 		hbox_l1.PackStart (l1, false, false, 0);
 		hbox_l1.PackStart (image_discover_mode, false, false, 0);
 
-		table_micro_discover.Attach (l0, (uint) 0, (uint) 1, (uint) 0, (uint) 1,
-				AttachOptions.Shrink, AttachOptions.Shrink, 0, 0);
-		table_micro_discover.Attach (hbox_l1, (uint) 1, (uint) 2, (uint) 0, (uint) 1,
-				AttachOptions.Shrink, AttachOptions.Shrink, 0, 0);
+		grid_micro_discover.Attach (l0, 0, 0, 1, 1);
+		grid_micro_discover.Attach (hbox_l1, 1, 0, 1, 1);
 
 		// 3b) create a row for each device
 		for (int i = 0; i < alreadyDiscovered_l.Count; i ++)
@@ -252,7 +249,7 @@ public class DiscoverWindow
 		for (int i = 0; i < notDiscovered_l.Count; i ++)
 			setup_row_micro_discover_l (notDiscovered_l [i], i + 1 + alreadyDiscovered_l.Count, false);
 
-		table_micro_discover.ShowAll();
+		grid_micro_discover.ShowAll();
 	}
 
 	private void setup_row_micro_discover_l (ChronopicRegisterPort crp, int i, bool alreadyDiscovered)
@@ -263,21 +260,18 @@ public class DiscoverWindow
 
 		Gtk.Label l = new Gtk.Label (string.Format("{0}\n{1}",
 					portNameShort, Util.RemoveCenterCharsOnLongString (crp.SerialNumber, 12)));
-		table_micro_discover.Attach (l, (uint) 0, (uint) 1, (uint) i, (uint) i+1, //left, right, top, bottom
-				AttachOptions.Shrink, AttachOptions.Shrink, 0, 0);
+		grid_micro_discover.Attach (l, 0, i, 1, 1);
 
 		if (alreadyDiscovered)
 		{
 			Gtk.Label l2 = new Gtk.Label (ChronopicRegisterPort.TypePrint (crp.Type));
-			table_micro_discover.Attach (l2, (uint) 1, (uint) 2, (uint) i, (uint) i+1,
-					AttachOptions.Shrink, AttachOptions.Shrink, 0, 0);
+			grid_micro_discover.Attach (l2, 1, i, 1, 1);
 		} else {
 			Gtk.ProgressBar pb = new Gtk.ProgressBar ();
 			pb.Text = "----"; //to have height
 			pb.SetSizeRequest (125, -1);
 			progressbar_microNotDiscovered_l.Add (pb);
-			table_micro_discover.Attach (pb, (uint) 1, (uint) 2, (uint) i, (uint) i+1,
-					AttachOptions.Shrink, AttachOptions.Shrink, 0, 0);
+			grid_micro_discover.Attach (pb, 1, i, 1, 1);
 		}
 
 
@@ -310,8 +304,7 @@ public class DiscoverWindow
 			button_microNotDiscovered_l.Add (b);
 		}
 
-		table_micro_discover.Attach (b, (uint) 2, (uint) 3, (uint) i, (uint) i+1,
-				AttachOptions.Shrink, AttachOptions.Shrink, 0, 0);
+		grid_micro_discover.Attach (b, 2, i, 1, 1);
 	}
 
 	private void discoverDo ()

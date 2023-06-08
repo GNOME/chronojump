@@ -38587,13 +38587,12 @@ then click this button.</property>
                                                       </packing>
                                                     </child>
                                                     <child>
-                                                      <object class="GtkTable" id="table_encoder_analyze_options">
+                                                      <!-- n-columns=2 n-rows=2 -->
+                                                      <object class="GtkGrid" id="grid_encoder_analyze_options">
                                                         <property name="visible">True</property>
                                                         <property name="can-focus">False</property>
-                                                        <property name="n-rows">2</property>
-                                                        <property name="n-columns">2</property>
-                                                        <property name="column-spacing">12</property>
                                                         <property name="row-spacing">8</property>
+                                                        <property name="column-spacing">12</property>
                                                         <child>
                                                           <object class="GtkLabel" id="label87">
                                                             <property name="visible">True</property>
@@ -38602,7 +38601,31 @@ then click this button.</property>
                                                             <property name="xalign">0</property>
                                                           </object>
                                                           <packing>
-                                                            <property name="x-options">GTK_FILL</property>
+                                                            <property name="left-attach">0</property>
+                                                            <property name="top-attach">0</property>
+                                                          </packing>
+                                                        </child>
+                                                        <child>
+                                                          <object class="GtkVBox" id="vbox45">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <child>
+                                                            <object class="GtkLabel" id="label72">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="label" translatable="yes">Options:</property>
+                                                            <property name="xalign">0</property>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                          </object>
+                                                          <packing>
+                                                            <property name="left-attach">0</property>
+                                                            <property name="top-attach">1</property>
                                                           </packing>
                                                         </child>
                                                         <child>
@@ -39142,31 +39165,7 @@ then click this button.</property>
                                                           </object>
                                                           <packing>
                                                             <property name="left-attach">1</property>
-                                                            <property name="right-attach">2</property>
-                                                          </packing>
-                                                        </child>
-                                                        <child>
-                                                          <object class="GtkVBox" id="vbox45">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <child>
-                                                            <object class="GtkLabel" id="label72">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="label" translatable="yes">Options:</property>
-                                                            <property name="xalign">0</property>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">True</property>
-                                                            <property name="fill">True</property>
-                                                            <property name="position">0</property>
-                                                            </packing>
-                                                            </child>
-                                                          </object>
-                                                          <packing>
-                                                            <property name="top-attach">1</property>
-                                                            <property name="bottom-attach">2</property>
-                                                            <property name="x-options">GTK_FILL</property>
+                                                            <property name="top-attach">0</property>
                                                           </packing>
                                                         </child>
                                                         <child>
@@ -39992,9 +39991,7 @@ then click this button.</property>
                                                           </object>
                                                           <packing>
                                                             <property name="left-attach">1</property>
-                                                            <property name="right-attach">2</property>
                                                             <property name="top-attach">1</property>
-                                                            <property name="bottom-attach">2</property>
                                                           </packing>
                                                         </child>
                                                       </object>

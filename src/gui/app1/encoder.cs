@@ -197,7 +197,7 @@ public partial class ChronoJumpWindow
 	Gtk.CheckButton checkbutton_encoder_analyze_side_share_x;
 
 	Gtk.Frame frame_encoder_analyze_options;
-	Gtk.Table table_encoder_analyze_options;
+	Gtk.Grid grid_encoder_analyze_options;
 	Gtk.Image image_encoder_analyze_show_SAFE_position;
 	Gtk.Image image_encoder_analyze_show_SAFE_speed;
 	Gtk.Image image_encoder_analyze_show_SAFE_accel;
@@ -4401,7 +4401,7 @@ public partial class ChronoJumpWindow
 	{
 		frame_encoder_analyze_options.Visible = ! s;
 
-		table_encoder_analyze_options.Sensitive = s;
+		grid_encoder_analyze_options.Sensitive = s;
 		frame_persons.Sensitive = s;
 		menus_and_mode_sensitive(s);
 		hbox_encoder_sup_capture_analyze_two_buttons.Sensitive = s;
@@ -8158,7 +8158,7 @@ public partial class ChronoJumpWindow
 		checkbutton_encoder_analyze_side_share_x = (Gtk.CheckButton) builder.GetObject ("checkbutton_encoder_analyze_side_share_x");
 
 		frame_encoder_analyze_options = (Gtk.Frame) builder.GetObject ("frame_encoder_analyze_options");
-		table_encoder_analyze_options = (Gtk.Table) builder.GetObject ("table_encoder_analyze_options");
+		grid_encoder_analyze_options = (Gtk.Grid) builder.GetObject ("grid_encoder_analyze_options");
 		image_encoder_analyze_show_SAFE_position = (Gtk.Image) builder.GetObject ("image_encoder_analyze_show_SAFE_position");
 		image_encoder_analyze_show_SAFE_speed = (Gtk.Image) builder.GetObject ("image_encoder_analyze_show_SAFE_speed");
 		image_encoder_analyze_show_SAFE_accel = (Gtk.Image) builder.GetObject ("image_encoder_analyze_show_SAFE_accel");

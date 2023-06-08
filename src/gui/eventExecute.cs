@@ -64,17 +64,18 @@ public partial class ChronoJumpWindow
 	Gtk.Button event_execute_button_cancel;
 	Gtk.Button event_execute_button_finish;
 
-	Gtk.Table event_execute_table_pulse;
-	Gtk.Table event_execute_table_pulse_values;
+	//removed on gtk3 migration as pulses are not used since some years
+	//Gtk.Table event_execute_table_pulse;
+	//Gtk.Table event_execute_table_pulse_values;
 	
 //	Gtk.Alignment align_check_vbox_contacts_graph_legend;
 //	Gtk.CheckButton check_vbox_contacts_graph_legend;
 //	Gtk.VBox vbox_contacts_graph_legend;
 
 	//for the color change in the background of the cell label
-	Gtk.EventBox event_execute_eventbox_pulse_time;
-	Gtk.Label event_execute_label_pulse_now;
-	Gtk.Label event_execute_label_pulse_avg;
+	//Gtk.EventBox event_execute_eventbox_pulse_time;
+	//Gtk.Label event_execute_label_pulse_now;
+	//Gtk.Label event_execute_label_pulse_avg;
 
 	Gtk.Notebook notebook_results_data;
 
@@ -157,8 +158,8 @@ public partial class ChronoJumpWindow
 
 		clearProgressBars();
 	
-		event_execute_eventbox_pulse_time.OverrideBackgroundColor (Gtk.StateFlags.Normal,
-				UtilGtk.GetRGBA (UtilGtk.Colors.BLUE_PLOTS)); //only one serie in pulse, leave blue
+		//event_execute_eventbox_pulse_time.OverrideBackgroundColor (Gtk.StateFlags.Normal,
+		//		UtilGtk.GetRGBA (UtilGtk.Colors.BLUE_PLOTS)); //only one serie in pulse, leave blue
 	}
 	private ExecutingGraphData event_execute_prepareForTest () 
 	{
@@ -183,8 +184,8 @@ public partial class ChronoJumpWindow
 	private void eventExecuteHideAllTables() 
 	{
 		//hide pulse info
-		event_execute_table_pulse.Hide();
-		event_execute_table_pulse_values.Hide();
+		//event_execute_table_pulse.Hide();
+		//event_execute_table_pulse_values.Hide();
 	}
 	
 	private void showJumpSimpleLabels() 
@@ -254,12 +255,12 @@ public partial class ChronoJumpWindow
 		//vbox_contacts_graph_legend.Visible = false;
 
 		//show pulse info
-		event_execute_table_pulse.Show();
-		event_execute_table_pulse_values.Show();
+		//event_execute_table_pulse.Show();
+		//event_execute_table_pulse_values.Show();
 
 		//initializeLabels
-		event_execute_label_pulse_now.Text = "";
-		event_execute_label_pulse_avg.Text = "";
+		//event_execute_label_pulse_now.Text = "";
+		//event_execute_label_pulse_avg.Text = "";
 
 		notebook_results_data.Visible = true;
 		notebook_results_data.CurrentPage = 2;
@@ -1014,17 +1015,17 @@ public partial class ChronoJumpWindow
 		event_execute_button_cancel = (Gtk.Button) builder.GetObject ("event_execute_button_cancel");
 		event_execute_button_finish = (Gtk.Button) builder.GetObject ("event_execute_button_finish");
 
-		event_execute_table_pulse = (Gtk.Table) builder.GetObject ("event_execute_table_pulse");
-		event_execute_table_pulse_values = (Gtk.Table) builder.GetObject ("event_execute_table_pulse_values");
+		//event_execute_table_pulse = (Gtk.Table) builder.GetObject ("event_execute_table_pulse");
+		//event_execute_table_pulse_values = (Gtk.Table) builder.GetObject ("event_execute_table_pulse_values");
 
 		//	align_check_vbox_contacts_graph_legend = (Gtk.Alignment) builder.GetObject ("align_check_vbox_contacts_graph_legend");
 		//	check_vbox_contacts_graph_legend = (Gtk.CheckButton) builder.GetObject ("check_vbox_contacts_graph_legend");
 		//	vbox_contacts_graph_legend = (Gtk.VBox) builder.GetObject ("vbox_contacts_graph_legend");
 
 		//for the color change in the background of the cell label
-		event_execute_eventbox_pulse_time = (Gtk.EventBox) builder.GetObject ("event_execute_eventbox_pulse_time");
-		event_execute_label_pulse_now = (Gtk.Label) builder.GetObject ("event_execute_label_pulse_now");
-		event_execute_label_pulse_avg = (Gtk.Label) builder.GetObject ("event_execute_label_pulse_avg");
+		//event_execute_eventbox_pulse_time = (Gtk.EventBox) builder.GetObject ("event_execute_eventbox_pulse_time");
+		//event_execute_label_pulse_now = (Gtk.Label) builder.GetObject ("event_execute_label_pulse_now");
+		//event_execute_label_pulse_avg = (Gtk.Label) builder.GetObject ("event_execute_label_pulse_avg");
 
 		notebook_results_data = (Gtk.Notebook) builder.GetObject ("notebook_results_data");
 

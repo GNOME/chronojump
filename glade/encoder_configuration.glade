@@ -2242,18 +2242,22 @@ Eg. value = 2, means person does twice force at half speed.</property>
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkTable" id="table_angle_oscillations">
+                      <!-- n-columns=2 n-rows=2 -->
+                      <object class="GtkGrid" id="grid_angle_oscillations">
+                        <property name="visible">True</property>
                         <property name="can-focus">False</property>
-                        <property name="n-rows">2</property>
-                        <property name="n-columns">2</property>
-                        <property name="column-spacing">2</property>
                         <property name="row-spacing">2</property>
+                        <property name="column-spacing">2</property>
                         <child>
                           <object class="GtkLabel" id="label38">
                             <property name="visible">True</property>
                             <property name="can-focus">False</property>
                             <property name="label" translatable="yes">Angle</property>
                           </object>
+                          <packing>
+                            <property name="left-attach">0</property>
+                            <property name="top-attach">0</property>
+                          </packing>
                         </child>
                         <child>
                           <object class="GtkLabel" id="label39">
@@ -2263,7 +2267,7 @@ Eg. value = 2, means person does twice force at half speed.</property>
                           </object>
                           <packing>
                             <property name="left-attach">1</property>
-                            <property name="right-attach">2</property>
+                            <property name="top-attach">0</property>
                           </packing>
                         </child>
                         <child>
@@ -2273,8 +2277,8 @@ Eg. value = 2, means person does twice force at half speed.</property>
                             <property name="width-chars">6</property>
                           </object>
                           <packing>
+                            <property name="left-attach">0</property>
                             <property name="top-attach">1</property>
-                            <property name="bottom-attach">2</property>
                           </packing>
                         </child>
                         <child>
@@ -2284,9 +2288,7 @@ Eg. value = 2, means person does twice force at half speed.</property>
                           </object>
                           <packing>
                             <property name="left-attach">1</property>
-                            <property name="right-attach">2</property>
                             <property name="top-attach">1</property>
-                            <property name="bottom-attach">2</property>
                           </packing>
                         </child>
                       </object>
@@ -2297,22 +2299,10 @@ Eg. value = 2, means person does twice force at half speed.</property>
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkLabel" id="label_im_feedback">
+                      <object class="GtkBox" id="box_im_machine_result">
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
-                      </object>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">False</property>
-                        <property name="position">7</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkTable" id="table_im_machine_result">
-                        <property name="can-focus">False</property>
-                        <property name="n-columns">3</property>
-                        <property name="column-spacing">6</property>
-                        <property name="row-spacing">6</property>
+                        <property name="spacing">6</property>
                         <child>
                           <object class="GtkLabel" id="label28">
                             <property name="visible">True</property>
@@ -2322,7 +2312,20 @@ Eg. value = 2, means person does twice force at half speed.</property>
                             <property name="xalign">0</property>
                           </object>
                           <packing>
-                            <property name="x-options">GTK_FILL</property>
+                            <property name="expand">False</property>
+                            <property name="fill">True</property>
+                            <property name="position">0</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkLabel" id="label_im_result_disc">
+                            <property name="visible">True</property>
+                            <property name="can-focus">False</property>
+                          </object>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">True</property>
+                            <property name="position">1</property>
                           </packing>
                         </child>
                         <child>
@@ -2334,21 +2337,22 @@ Eg. value = 2, means person does twice force at half speed.</property>
                             <property name="xalign">0</property>
                           </object>
                           <packing>
-                            <property name="left-attach">2</property>
-                            <property name="right-attach">3</property>
-                            <property name="x-options">GTK_FILL</property>
+                            <property name="expand">False</property>
+                            <property name="fill">True</property>
+                            <property name="position">2</property>
                           </packing>
                         </child>
-                        <child>
-                          <object class="GtkLabel" id="label_im_result_disc">
-                            <property name="visible">True</property>
-                            <property name="can-focus">False</property>
-                          </object>
-                          <packing>
-                            <property name="left-attach">1</property>
-                            <property name="right-attach">2</property>
-                          </packing>
-                        </child>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">False</property>
+                        <property name="position">7</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkLabel" id="label_im_feedback">
+                        <property name="visible">True</property>
+                        <property name="can-focus">False</property>
                       </object>
                       <packing>
                         <property name="expand">False</property>

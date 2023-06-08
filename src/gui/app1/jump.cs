@@ -77,7 +77,7 @@ public partial class ChronoJumpWindow
 	Gtk.SpinButton extra_window_jumps_rj_spinbutton_fall;
 	Gtk.RadioButton extra_window_jumps_rj_radiobutton_kg;
 	Gtk.RadioButton extra_window_jumps_rj_radiobutton_weight;
-	Gtk.Table table_extra_window_jumps_rj_weight;
+	Gtk.Grid grid_extra_window_jumps_rj_weight;
 	Gtk.HBox hbox_extra_window_jumps_rj_hbox_fall;
 	Gtk.Image extra_window_jumps_rj_image_fall;
 	Gtk.Image extra_window_jumps_rj_image_weight;
@@ -565,7 +565,7 @@ public partial class ChronoJumpWindow
 	
 	private void extra_window_showWeightData (JumpType myJumpType, bool show) {
 		if(myJumpType.IsRepetitive) {
-			table_extra_window_jumps_rj_weight.Visible = show;
+			grid_extra_window_jumps_rj_weight.Visible = show;
 			update_label_extra_window_jumps_rj_radiobutton_weight_percent_as_kg(show);
 		} else {
 			grid_extra_window_jumps_weight.Visible = show;
@@ -867,7 +867,7 @@ public partial class ChronoJumpWindow
 		extra_window_jumps_rj_spinbutton_fall = (Gtk.SpinButton) builder.GetObject ("extra_window_jumps_rj_spinbutton_fall");
 		extra_window_jumps_rj_radiobutton_kg = (Gtk.RadioButton) builder.GetObject ("extra_window_jumps_rj_radiobutton_kg");
 		extra_window_jumps_rj_radiobutton_weight = (Gtk.RadioButton) builder.GetObject ("extra_window_jumps_rj_radiobutton_weight");
-		table_extra_window_jumps_rj_weight = (Gtk.Table) builder.GetObject ("table_extra_window_jumps_rj_weight");
+		grid_extra_window_jumps_rj_weight = (Gtk.Grid) builder.GetObject ("grid_extra_window_jumps_rj_weight");
 		hbox_extra_window_jumps_rj_hbox_fall = (Gtk.HBox) builder.GetObject ("hbox_extra_window_jumps_rj_hbox_fall");
 		extra_window_jumps_rj_image_fall = (Gtk.Image) builder.GetObject ("extra_window_jumps_rj_image_fall");
 		extra_window_jumps_rj_image_weight = (Gtk.Image) builder.GetObject ("extra_window_jumps_rj_image_weight");

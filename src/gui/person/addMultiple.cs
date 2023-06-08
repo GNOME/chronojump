@@ -110,7 +110,6 @@ public class PersonAddMultipleWindow
 	Gtk.Label label_h1_legsLength;
 	Gtk.Label label_h2_hipsHeight;
 
-	//Gtk.Table table_example;
 	//show/hide headers and make them bold
 	Gtk.Label label_t_fullname;
 	Gtk.Label label_t_name;
@@ -1195,7 +1194,6 @@ public class PersonAddMultipleWindow
 		label_h1_legsLength = (Gtk.Label) builder.GetObject ("label_h1_legsLength");
 		label_h2_hipsHeight = (Gtk.Label) builder.GetObject ("label_h2_hipsHeight");
 
-		//table_example = (Gtk.Table) builder.GetObject ("table_example");
 		//show/hide headers and make them bold
 		label_t_fullname = (Gtk.Label) builder.GetObject ("label_t_fullname");
 		label_t_name = (Gtk.Label) builder.GetObject ("label_t_name");

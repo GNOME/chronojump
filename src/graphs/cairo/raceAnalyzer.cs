@@ -189,6 +189,8 @@ public class CairoGraphRaceAnalyzer : CairoXY
 							paintVerticalGridLine(g, Convert.ToInt32(xGraph), xTextBottom, textHeight-3);
 						else
 							paintVerticalGridLineTopBottom (g, Convert.ToInt32(xGraph), xTextTop, xTextBottom, textHeight-3);
+
+						//LogB.Information (segmentCalcs.ToString ());  //debug
 					}
 					g.Stroke ();
 					g.Restore();
@@ -294,6 +296,7 @@ public class CairoGraphRaceAnalyzer : CairoXY
 				g.SetSourceColor (gray99);
 
 			plotRealPoints(plotType, points_list, points_list_painted, false); //not fast. TODO: maybe use fast if is really faster
+			//plotRealPoints(PlotTypes.POINTSLINES, points_list, points_list_painted, false); //not fast. TODO: maybe use fast if is really faster //to debug
 
 			if(! blackLine)
 				g.SetSourceRGB (0,0,0);

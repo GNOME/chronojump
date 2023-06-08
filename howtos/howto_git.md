@@ -37,6 +37,7 @@ Check if there are stashed things
 Perform an stash of your current code
 
     git stash
+    git stash push -m "stashedWithSomeName"
 
 More stash list options https://stackoverflow.com/a/10726185
 

@@ -168,11 +168,7 @@ public class RunEncoderExport : ExportFiles
 			if(! found)
 				continue;
 
-			// 4) create the export row
-			string title = Util.ChangeSpaceAndMinusForUnderscore(p.Name) + "-" +
-				Util.ChangeSpaceAndMinusForUnderscore(reEx.Name);
-
-			// 5) copy file to tmp to be readed by R
+			// 4) create the export row & copy file to tmp to be readed by R
 			string reFullURLMoved = Path.Combine(getTempSourceFilesDir(), (count ++).ToString() + ".csv");
 			File.Copy(re.FullURL, reFullURLMoved, true); //can be overwritten
 
@@ -182,7 +178,10 @@ public class RunEncoderExport : ExportFiles
 					ps.Weight, ps.Height,
 					re.Device,
 					re.Temperature, re.Distance,
-					reEx, title, re.DateTimePublic,
+					reEx,
+					Util.ChangeSpaceAndMinusForUnderscore(p.Name),
+					Util.ChangeSpaceAndMinusForUnderscore(reEx.Name),
+					re.DateTimePublic,
 					triggerListOfLists[element],
 					re.Comments
 					);

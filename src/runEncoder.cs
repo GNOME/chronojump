@@ -1022,7 +1022,8 @@ public class RunEncoderGraphExport
 	private double tempC;
 	private int testLength;
 	private RunEncoderExercise exercise;
-	private string title;
+	private string personName;
+	private string testName;
 	private string datetime;
 	private TriggerList triggerList;
 	private string comments;
@@ -1033,7 +1034,10 @@ public class RunEncoderGraphExport
 			double mass, double personHeight,
 			RunEncoder.Devices device,
 			double tempC, int testLength,
-			RunEncoderExercise exercise, string title, string datetime,
+			RunEncoderExercise exercise,
+			string personName,
+			string testName,
+			string datetime,
 			TriggerList triggerList,
 			string comments)
 	{
@@ -1045,7 +1049,8 @@ public class RunEncoderGraphExport
 		this.tempC = tempC;
 		this.testLength = testLength;
 		this.exercise = exercise;
-		this.title = title;
+		this.personName = personName;
+		this.testName = testName;
 		this.datetime = datetime;
 		this.comments = comments;
 		this.triggerList = triggerList;
@@ -1076,7 +1081,8 @@ public class RunEncoderGraphExport
 			Util.BoolToRBool(exercise.IsSprint) + ";" +
 			segmentM + ";" + //fixed segments (m)
 			segmentVariableCm + ";" + //variable segments (cm)
-			title + ";" +
+			personName + ";" +
+			testName + ";" +
 			datetime + ";" +
 			printTriggers(TriggerList.Type3.ON) + ";" +
 			printTriggers(TriggerList.Type3.OFF) + ";" +
@@ -1093,7 +1099,8 @@ public class RunEncoderGraphExport
 		return "fullURL;mass;personHeight;device;tempC;testLength;isSprint;" +
 			"splitLength;" + //segmentCm on C#, splitLength on R
 			"splitVariableCm;" +
-			"title;datetime;triggersOn;triggersOff;comments";
+			"personName;testName;" +
+			"datetime;triggersOn;triggersOff;comments";
 	}
 
 	public RunEncoderExercise Exercise
@@ -1110,7 +1117,8 @@ public class RunEncoderGraph
 	private double tempC;
 	private RunEncoder.Devices device;
 	private RunEncoderExercise rex;
-	private string title;
+	private string personName;
+	private string testName;
 	private string datetime;
 	private double startAccel;
 	private bool plotRawAccel;
@@ -1127,7 +1135,9 @@ public class RunEncoderGraph
 	private void assignGenericParams(
 			int testLength, double mass, double personHeight, double tempC, RunEncoder.Devices device,
 			RunEncoderExercise rex,
-			string title, string datetime, double startAccel,
+			string personName,
+			string testName,
+			string datetime, double startAccel,
 			bool plotRawAccel, bool plotFittedAccel,
 			bool plotRawForce, bool plotFittedForce,
 			bool plotRawPower, bool plotFittedPower,
@@ -1139,7 +1149,8 @@ public class RunEncoderGraph
 		this.tempC = tempC;
 		this.device = device;
 		this.rex = rex;
-		this.title = title;
+		this.personName = personName;
+		this.testName = testName;
 		this.datetime = datetime;
 		this.startAccel = startAccel;
 		this.plotRawAccel = plotRawAccel;
@@ -1155,7 +1166,9 @@ public class RunEncoderGraph
 	public RunEncoderGraph(
 			int testLength, double mass, double personHeight, double tempC, RunEncoder.Devices device,
 			RunEncoderExercise rex,
-			string title, string datetime, double startAccel,
+			string personName,
+			string testName,
+			string datetime, double startAccel,
 			bool plotRawAccel, bool plotFittedAccel,
 			bool plotRawForce, bool plotFittedForce,
 			bool plotRawPower, bool plotFittedPower,
@@ -1164,7 +1177,9 @@ public class RunEncoderGraph
 		assignGenericParams(
 				testLength, mass, personHeight, tempC, device,
 				rex,
-				title, datetime, startAccel,
+				personName,
+				testName,
+				datetime, startAccel,
 				plotRawAccel, plotFittedAccel,
 				plotRawForce, plotFittedForce,
 				plotRawPower, plotFittedPower,
@@ -1190,7 +1205,7 @@ public class RunEncoderGraph
 		assignGenericParams(
 				0, 0, 0, 0, RunEncoder.Devices.MANUAL, //TODO do not pass to assignParams
 				new RunEncoderExercise(), //TODO do not pass to assignParams
-				"----", "----", startAccel, //TODO do not pass to assignParams
+				"----", "----", "----", startAccel, //TODO do not pass to assignParams
 				plotRawAccel, plotFittedAccel,
 				plotRawForce, plotFittedForce,
 				plotRawPower, plotFittedPower,
@@ -1244,7 +1259,8 @@ public class RunEncoderGraph
 			"#device\n" + 			device.ToString() + "\n" + //unused on multiple
 			"#segmentM\n" + 		segmentM + "\n" + 		//unused on multiple
 			"#segmentVariableCm\n" + 	segmentVariableCm + "\n" + 		//unused on multiple
-			"#title\n" + 			title + "\n" + 		//unused on multiple
+			"#personName\n" + 		personName + "\n" + 		//unused on multiple
+			"#testName\n" + 		testName + "\n" + 		//unused on multiple
 			"#datetime\n" + 		datetime + "\n" + 	//unused on multiple
 			"#startAccel\n" + 		Util.ConvertToPoint(startAccel) + "\n" +
 			"#plotRawAccel\n" + 		Util.BoolToRBool(plotRawAccel) + "\n" +

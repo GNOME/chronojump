@@ -146,7 +146,8 @@ getSplitsForPrepareRow <- function (splitTime, splitMeanSpeed, splitMeanForce, s
 		oldSplitPosition = 0
 		for (i in 1:length(splitPosition))
 		{
-			dist = paste(oldSplitPosition, "Y", splitPosition[i], sep="")
+			#use "to" and not "-" because R would convert the "-" to "."
+			dist = paste(oldSplitPosition, "to", splitPosition[i], sep="")
 			if(decimalIsComma)
 			{
 				nameVector = c(nameVector, gsub("\\.",",",paste(splitPosition[i], timeVector, sep="")))
@@ -188,7 +189,8 @@ getSplitsForPrepareRow <- function (splitTime, splitMeanSpeed, splitMeanForce, s
 		oldSplitPosition = 0
 		for (i in 1:length(splitPositionAll))
 		{
-			dist = paste(oldSplitPosition, "Y", splitPositionAll[i], sep="")
+			#use "to" and not "-" because R would convert the "-" to "."
+			dist = paste(oldSplitPosition, "to", splitPositionAll[i], sep="")
 			if(decimalIsComma)
 			{
 				nameVector = c(nameVector, gsub("\\.",",",paste(splitPositionAll[i], timeVector, sep="")))

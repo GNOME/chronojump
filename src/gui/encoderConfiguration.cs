@@ -131,8 +131,8 @@ public class EncoderConfigurationWindow
 	Gtk.Label label_capture_time;
 	Gtk.Label label_im_calc_angle;
 	Gtk.Label label_im_calc_oscillations;
-	Gtk.Table table_angle_oscillations;
-	Gtk.Table table_im_machine_result;
+	Gtk.Grid grid_angle_oscillations;
+	Gtk.Box box_im_machine_result;
 
 	Gtk.Box box_combo_d_num;
 	Gtk.Box box_combo_gearedUp;
@@ -1089,8 +1089,8 @@ public class EncoderConfigurationWindow
 		button_encoder_capture_inertial_cancel.Sensitive = true;
 		//button_encoder_capture_inertial_finish.Sensitive = true;
 
-		table_angle_oscillations.Visible = true;
-		table_im_machine_result.Visible = false;
+		grid_angle_oscillations.Visible = true;
+		box_im_machine_result.Visible = false;
 
 		label_im_feedback.Text = "<b>" + Catalog.GetString("Capturing") + "</b>";
 		label_im_feedback.UseMarkup = true; 
@@ -1138,8 +1138,8 @@ public class EncoderConfigurationWindow
 			//as int now
 			label_im_result_disc.Text = Convert.ToInt32(imResult).ToString();
 			spin_inertia_machine.Value = imResult;
-			table_angle_oscillations.Visible = false;
-			table_im_machine_result.Visible = true;
+			grid_angle_oscillations.Visible = false;
+			box_im_machine_result.Visible = true;
 		}
 
 		label_im_feedback.Text = "<b>" + message + "</b>";
@@ -1325,8 +1325,8 @@ public class EncoderConfigurationWindow
 		label_capture_time = (Gtk.Label) builder.GetObject ("label_capture_time");
 		label_im_calc_angle = (Gtk.Label) builder.GetObject ("label_im_calc_angle");
 		label_im_calc_oscillations = (Gtk.Label) builder.GetObject ("label_im_calc_oscillations");
-		table_angle_oscillations = (Gtk.Table) builder.GetObject ("table_angle_oscillations");
-		table_im_machine_result = (Gtk.Table) builder.GetObject ("table_im_machine_result");
+		grid_angle_oscillations = (Gtk.Grid) builder.GetObject ("grid_angle_oscillations");
+		box_im_machine_result = (Gtk.Box) builder.GetObject ("box_im_machine_result");
 
 		box_combo_d_num = (Gtk.Box) builder.GetObject ("box_combo_d_num");
 		box_combo_gearedUp = (Gtk.Box) builder.GetObject ("box_combo_gearedUp");

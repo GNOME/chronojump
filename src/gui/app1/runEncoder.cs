@@ -1596,9 +1596,13 @@ RunEncoderCaptureGetSpeedAndDisplacementTest recgsdt = new RunEncoderCaptureGetS
 				for (int i = 26; i < cells.Length; i ++) //Attention!: take care with this 26 if in the future add more columns before dist/times
 				{
 					//each string comes as "X0Y25.5m_Speed" convert to 0-25.5 m\nSpeed or 0-25,5 m/nSpeed
+					//since 2023 Jun 8 it comes as: "X0to25.5m_Speed" convert to 0-25.5 m\nSpeed or 0-25,5 m/nSpeed
+					//We need the X because R cannot start column name with a number
+					//We need the "to" because if we use a -, R converts the - to .
+					//We use a "to" because when R prints the spreadsheet directly is better that than eg. an Y
 					string temp = Util.RemoveChar (cells[i], '"', false);
-					temp = Util.RemoveChar (temp, 'X', false);
-					temp = Util.ChangeChars (temp, "Y", "-");
+					temp = Util.RemoveChar (temp, 'X', false); //X is needed because R cannot start column name with a number
+					temp = Util.ChangeChars (temp, "to", "-");
 					temp = Util.ChangeDecimalSeparator (temp);
 					temp = Util.ChangeChars (temp, "_", "\n");
 

@@ -2,9 +2,9 @@ deploy:
 	python deploy_win32.py
 	cp -r deps/* dist/
 	
-	rm dist/FTD2XX_NET_v1.0.14/Readme.chronojump.txt
-	mv dist/FTD2XX_NET_v1.0.14/* dist/bin
-	rmdir dist/FTD2XX_NET_v1.0.14
+	rm dist/FTD2XX_NET_v1.2.0/Readme.chronojump.txt
+	mv dist/FTD2XX_NET_v1.2.0/* dist/bin
+	rmdir dist/FTD2XX_NET_v1.2.0
 
 	python ../src/chronojump-importer/py2exec_chronojump_importer.py py2exe -d "dist/bin/chronojump-importer"
 	python ../encoder/setup-pyserial_pyper_windows.py install

@@ -1,4 +1,4 @@
-Copyright © 2007-2012 Future Technology Devices International Limited
+Copyright © 2007-2013 Future Technology Devices International Limited
 
 FTDI FTD2XX_NET.dll may be used only in conjunction with products based on FTDI parts.
 

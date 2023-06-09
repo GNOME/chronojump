@@ -1710,8 +1710,10 @@ LogB.Information(" fs C ");
 						" " + Catalog.GetString ("Stopped.");
 				else if (forceProcessCancel)
 					event_execute_label_message.Text = "Cancelled.";
-				else
+				else {
 					event_execute_label_message.Text = forceSensorNotConnectedString;
+					button_detect_show_hide (true); // show the detect big button
+				}
 
 				button_force_sensor_image_save_signal.Sensitive = false;
 				button_force_sensor_analyze_analyze.Sensitive = false;

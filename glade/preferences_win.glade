@@ -7418,7 +7418,7 @@ version:</property>
                                               </packing>
                                             </child>
                                             <child>
-                                              <object class="GtkButton" id="button3">
+                                              <object class="GtkButton" id="button_debug_mode">
                                                 <property name="label" translatable="yes">Enter debug mode</property>
                                                 <property name="visible">True</property>
                                                 <property name="can-focus">True</property>

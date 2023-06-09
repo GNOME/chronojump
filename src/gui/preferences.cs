@@ -274,6 +274,7 @@ public class PreferencesWindow
 	Gtk.Label label_progVersion;
 	Gtk.Frame frame_networks;
 	Gtk.CheckButton check_networks_devices;
+	Gtk.Button button_debug_mode;
 
 	Gtk.RadioButton radio_python_2;
 	Gtk.RadioButton radio_python_3;
@@ -579,6 +580,8 @@ public class PreferencesWindow
 			PreferencesWindowBox.checkbutton_mute_logs.Active = true;
 		else
 			PreferencesWindowBox.checkbutton_mute_logs.Active = false;
+
+		PreferencesWindowBox.button_debug_mode.Sensitive = ! preferences.debugMode;
 
 		if(preferences.weightStatsPercent)  
 			PreferencesWindowBox.radio_weight_percent.Active = true; 
@@ -2909,8 +2912,10 @@ public class PreferencesWindow
 	// <---- end SQL stress tests ----
 
 
-	private void on_debug_mode_clicked (object o, EventArgs args) {
+	private void on_debug_mode_clicked (object o, EventArgs args)
+	{
 		//will be managed from gui/chronojump.cs
+		button_debug_mode.Sensitive = false;
 		FakeButtonDebugModeStart.Click();
 	}
 	public void DebugActivated() {
@@ -3205,6 +3210,7 @@ public class PreferencesWindow
 		label_progVersion = (Gtk.Label) builder.GetObject ("label_progVersion");
 		frame_networks = (Gtk.Frame) builder.GetObject ("frame_networks");
 		check_networks_devices = (Gtk.CheckButton) builder.GetObject ("check_networks_devices");
+		button_debug_mode = (Gtk.Button) builder.GetObject ("button_debug_mode");
 
 		radio_python_2 = (Gtk.RadioButton) builder.GetObject ("radio_python_2");
 		radio_python_3 = (Gtk.RadioButton) builder.GetObject ("radio_python_3");

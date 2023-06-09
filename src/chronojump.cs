@@ -54,6 +54,7 @@ public class ChronoJump
 	bool creatingDB = false; //on creation and on update always refresh labels
 	bool updatingDB = false;
 	private static string baseDirectory;
+	private static bool debugModeAtStart;
 
 
 #if OSTYPE_WINDOWS
@@ -69,7 +70,7 @@ public class ChronoJump
 
 		//show version on console and exit before the starting logs
 		//note version, version2 args are available since: 2.2.0-112-ga4eaadcbc
-		if(args.Length > 0 && args[0] != "printAll")
+		if(args.Length > 0 && args[0] != "printAll" && args[0] != "debug")
 		{
 			string helpMessage = "Execute 'chronojump' or 'chronojump option'" +
 				"\nOptions:" +
@@ -77,8 +78,13 @@ public class ChronoJump
 				"\n- version2: Version of the software" +
 				"\n- configAll: All possible options on chronojump_config.txt" +
 				"\n- configDefined: Correctly defined options on chronojump_config.txt" +
-				"\n- printAll: execute Chronojump printing all threads at the same time (only for some debug purposes)" +
-				"\n- help: this help";
+				"\n- printAll: (*)" +
+				"\n- debug: (*)" +
+				"\n- help: this help" +
+				"\n\n(*) printAll and debug are only for debug purposes." +
+				"\nprintAll prints all threads at the same time (and is normal that it shows an error on Chronojump exit)" +
+				"\ndebug ensures logs are printed while capturing on encoder, forceSensor, raceAnalyzer and while using the python importer." +
+				"\ndebug will call also printAll, but if you want to know errors on Chronojump start is better to use printAll because it will act from the beginning.";
 
 			if(args[0] == "version")
 			{
@@ -138,6 +144,8 @@ public class ChronoJump
 		LogB.Debugging = true; //now LogB.Debug will be shown. Also there will be thread info on Warning, Error, Information
 		if(args.Length > 0 && args[0] == "printAll")
 			LogB.PrintAllThreads = true;
+		if(args.Length > 0 && args[0] == "debug")
+			debugModeAtStart = true;
 
 		var envPath = Environment.GetEnvironmentVariable ("PATH");
 		var rBinPath = "";
@@ -639,7 +647,8 @@ public class ChronoJump
 
 		bool showCameraStop = (ExecuteProcess.IsRunning3 (-1, WebcamFfmpeg.GetExecutableCapture(operatingSystem)));
 
-		new ChronoJumpWindow(progVersion, progName, runningFileName, splashWin, sendLog, messageToShowOnBoot, topMessage, showCameraStop);
+		new ChronoJumpWindow(progVersion, progName, runningFileName, splashWin,
+				sendLog, messageToShowOnBoot, topMessage, showCameraStop, debugModeAtStart);
 	}
 
 	private bool linuxUserHasPermissions ()

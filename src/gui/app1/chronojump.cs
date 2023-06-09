@@ -593,7 +593,7 @@ public partial class ChronoJumpWindow
 	private bool showSendLog;
 
 	public ChronoJumpWindow(string progVersion, string progName, string runningFileName, SplashWindow splashWin,
-			bool showSendLog, string sendLogMessage, string topMessage, bool showCameraStop)
+			bool showSendLog, string sendLogMessage, string topMessage, bool showCameraStop, bool debugModeAtStart)
 	{
 		this.progVersion = progVersion;
 		this.progName = progName;
@@ -895,6 +895,9 @@ public partial class ChronoJumpWindow
 
 		LogB.Information("Calling configInitRead from gui / ChronojumpWindow");
 		configInitRead();
+
+		if (debugModeAtStart)
+			on_preferences_debug_mode_start (new object (), new EventArgs ());
 	}
 
 	//separated because on cloud, copy to temp has a thread and we want to ensure this is called when copy is done and database is changed
@@ -8176,7 +8179,8 @@ LogB.Debug("mc finished 5");
 
 		//menuitem_check_race_encoder_capture_simulate.Visible = true;
 
-		preferencesWin.DebugActivated();
+		if (preferencesWin != null) //as on_preferences_debug_mode_start is called also on start with "debug" param
+			preferencesWin.DebugActivated();
 
 		if(currentSession == null)
 			setApp1Title("", current_mode);

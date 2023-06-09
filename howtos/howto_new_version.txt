@@ -36,17 +36,17 @@ See also howto_git.md "Cherry branches and new versions"
 
 Linux stuff
 ------------
-sh autogen.sh
-make dist
+#sh autogen.sh
+#make dist
 
-If it is a sub-version, like chronojump-2.3.0-31-gf819edfc8.tar.gz
-rename: chronojump-2.3.0_31.tar.gz
-file-roller it to rename its internal directory to: hronojump-2.3.0-31.tar.gz
-Not: the file is with '_' and the internal dir is with '-'
+#If it is a sub-version, like chronojump-2.3.0-31-gf819edfc8.tar.gz
+#rename: chronojump-2.3.0_31.tar.gz
+#file-roller it to rename its internal directory to: hronojump-2.3.0-31.tar.gz
+#Note: the file is with '_' and the internal dir is with '-'
 
-scp filename xaviblas@master.gnome.org:.
-ssh xaviblas@master.gnome.org
-ftpadmin install (filename)
+#scp filename xaviblas@master.gnome.org:.
+#ssh xaviblas@master.gnome.org
+#ftpadmin install (filename)
 
 #with branching:
 #Go back to master:
@@ -67,14 +67,23 @@ ftpadmin install (filename)
 
 DEB) create deb package (2023)
 
+sh autogen.sh
 make dist
-tar -zxvf chronojump-2.3.0-258-g837bb4ffb.tar.gz
-cd chronojump-2.3.0-258-g837bb4ffb
+
+VERSIONCODE=2.3.0-525
+VERSIONFULL=2.3.0-525-gf445d7141
+
+tar -zxvf chronojump-$VERSIONFULL.tar.gz
+cd chronojump-$VERSIONFULL
 ./configure
 make
-checkinstall --pkgname="Chronojump" --pkgversion="2.3.0-258" --maintainer="Xavier de Blas" --pkglicense="GPL2" --requires="libgtk3.0-cil,libmono-sqlite4.0-cil,libmono-posix4.0-cil,libmono-system-json4.0-cil,r-base,ffmpeg,p7zip-full" --install=no
+checkinstall --pkgname="Chronojump" --pkgversion="$VERSIONCODE" --maintainer="Xavier de Blas" --pkglicense="GPL2" --requires="libgtk3.0-cil,libmono-sqlite4.0-cil,libmono-posix4.0-cil,libmono-system-json4.0-cil,r-base,ffmpeg,p7zip-full" --install=no
 
 When asking for the description put the English lines on README.md (but without the blank lines)
+
+Upload to master.gnome.org
+cp thefile /ftp/pub/gnome/binaries/linux/chronojump/
+#remember cp ant not mv !
 
 DEB) create deb package (OLD)
 

@@ -114,6 +114,10 @@ If any problem:
     git add thefile
     git commit
 
+If problem is big or better not apply that cherry:
+
+    git cherry-pick abort
+
 ### Cherry branches and new versions
 
 - All commits are in master

@@ -708,6 +708,7 @@ public partial class ChronoJumpWindow
 		bool enoughAccelFound = false; //accel has been > preferences.runEncoderMinAccel (default 10ms^2)
 
 		int rowsCount = 0;
+		int bytesToRead = 0;
 		while(! runEncoderProcessFinish && ! runEncoderProcessCancel && ! runEncoderProcessError)
 		{
 			/*
@@ -723,6 +724,14 @@ public partial class ChronoJumpWindow
 			 * that allow to continue in the loop when there is no data
 			 * and then the while above will end with the runEncoderProcessFinish condition
 			 */
+
+			try {
+				bytesToRead = portRE.BytesToRead;
+			} catch {
+				LogB.Information ("catched on raceAnalyzer BytesToRead. Disconnected on the middle of the capture");
+				runEncoderProcessError = true;
+				continue; //to go to exit bucle in order to close writer and delete file
+			}
 
 			if (portRE.BytesToRead == 0)
 			{
@@ -803,39 +812,43 @@ public partial class ChronoJumpWindow
 
 		LogB.Information(string.Format("FINISHED WITH conditions: {0}-{1}-{2}",
 						runEncoderProcessFinish, runEncoderProcessCancel, runEncoderProcessError));
-		LogB.Information("Calling end_capture");
-		if(! runEncoderSendCommand("end_capture:", "Ending capture ...", "Catched ending capture"))
+
+		if (! runEncoderProcessError)
 		{
-			runEncoderProcessError = true;
-			capturingRunEncoder = arduinoCaptureStatus.STOP;
-			Util.FileDelete(fileName);
-			return;
-		}
-
-		LogB.Information("Waiting end_capture");
-		do {
-			Thread.Sleep(10);
-			try {
-				str = portRE.ReadLine();
-
-				/*
-				 * we will discard everything at the moment finish is pressed
-				 * to read correctly as txt the "Capture ended" string
-				 * note this can make the rowsCount differ
-				 */
-			} catch {
-				LogB.Information("Caught waiting end_capture feedback");
+			LogB.Information("Calling end_capture");
+			if(! runEncoderSendCommand("end_capture:", "Ending capture ...", "Catched ending capture"))
+			{
+				runEncoderProcessError = true;
+				capturingRunEncoder = arduinoCaptureStatus.STOP;
+				Util.FileDelete(fileName);
+				return;
 			}
-			LogB.Information("waiting \"Capture ended\" string: " + str);
-		}
-		while(! str.Contains("Capture ended")); //TODO: read after ':' the number of "rows" sent
-		LogB.Information("Success: received end_capture");
 
-		string [] strEnded = str.Split(new char[] {':'});
-		if(strEnded.Length == 2 && Util.IsNumber(strEnded[1], false))
-		{
-			LogB.Information(string.Format("Read {0} rows, sent {1} rows, match: {2}",
-						rowsCount, strEnded[1], rowsCount == Convert.ToInt32(strEnded[1]) ));
+			LogB.Information("Waiting end_capture");
+			do {
+				Thread.Sleep(10);
+				try {
+					str = portRE.ReadLine();
+
+					/*
+					 * we will discard everything at the moment finish is pressed
+					 * to read correctly as txt the "Capture ended" string
+					 * note this can make the rowsCount differ
+					 */
+				} catch {
+					LogB.Information("Caught waiting end_capture feedback");
+				}
+				LogB.Information("waiting \"Capture ended\" string: " + str);
+			}
+			while(! str.Contains("Capture ended")); //TODO: read after ':' the number of "rows" sent
+			LogB.Information("Success: received end_capture");
+
+			string [] strEnded = str.Split(new char[] {':'});
+			if(strEnded.Length == 2 && Util.IsNumber(strEnded[1], false))
+			{
+				LogB.Information(string.Format("Read {0} rows, sent {1} rows, match: {2}",
+							rowsCount, strEnded[1], rowsCount == Convert.ToInt32(strEnded[1]) ));
+			}
 		}
 
 		writer.Flush();

@@ -1319,6 +1319,12 @@ public partial class ChronoJumpWindow
 		double forceTared = 0;
 		if(currentForceSensorExercise.TareBeforeCaptureAndForceResultant)
 		{
+			/*
+			 * do not do this, sound ends really late
+			Util.PlaySound (Constants.SoundTypes.CAN_START, preferences.volumeOn, preferences.gstreamer);
+			Thread.Sleep (2000); //to allow sound to be played
+			*/
+
 			forceSensorOtherMessage = Catalog.GetString ("Taring; …");
 			LogB.Information("Taring starts");
 			int taringSample = 0;
@@ -1355,6 +1361,7 @@ public partial class ChronoJumpWindow
 		str = "";
 		int firstTime = 0;
 		forceCaptureStartMark = true;
+		Util.PlaySound (Constants.SoundTypes.CAN_START, preferences.volumeOn, preferences.gstreamer);
 
 		//LogB.Information("pre bucle");
 		//LogB.Information(string.Format("forceProcessFinish: {0}, forceProcessCancel: {1}, forceProcessError: {2}", forceProcessFinish, forceProcessCancel, forceProcessError));
@@ -1688,6 +1695,9 @@ LogB.Information(" fs C ");
 				}
 			} else if(forceProcessCancel || forceProcessError)
 			{
+				if (forceProcessError)
+					Util.PlaySound (Constants.SoundTypes.BAD, preferences.volumeOn, preferences.gstreamer);
+
 				//stop the camera (and do not save)
 				webcamEnd (Constants.TestTypes.FORCESENSOR, -1);
 				sensitiveLastTestButtons(false);

@@ -951,8 +951,16 @@ class SqlitePreferences : Sqlite
 			else if(reader[0].ToString() == ForceSensorGraphsLineWidth)
 				preferences.forceSensorGraphsLineWidth = Convert.ToInt32(reader[1].ToString());
 			else if(reader[0].ToString() == ForceSensorVariabilityMethod)
+			{
+				//fix for 2.3.0cherry to manage reading a VariabilityMethod CV (coming from master)
+				string valFixed = reader[1].ToString ();
+				if (valFixed == "CV")
+					valFixed = "CVRMSSD";
+
 				preferences.forceSensorVariabilityMethod = (Preferences.VariabilityMethodEnum)
-					Enum.Parse(typeof(Preferences.VariabilityMethodEnum), reader[1].ToString());
+					//Enum.Parse(typeof(Preferences.VariabilityMethodEnum), reader[1].ToString());
+					Enum.Parse(typeof(Preferences.VariabilityMethodEnum), valFixed);
+			}
 			else if(reader[0].ToString() == ForceSensorVariabilityLag)
 				preferences.forceSensorVariabilityLag = Convert.ToInt32(reader[1].ToString());
 			else if(reader[0].ToString() == ForceSensorCaptureFeedbackActive)

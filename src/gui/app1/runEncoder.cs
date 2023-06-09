@@ -682,6 +682,8 @@ RunEncoderCaptureGetSpeedAndDisplacementTest recgsdt = new RunEncoderCaptureGetS
 				pps = Convert.ToInt32(strPPS[1]);
 		}
 
+		Util.PlaySound (Constants.SoundTypes.CAN_START, preferences.volumeOn, preferences.gstreamer);
+
 		runEncoderPulseMessage = capturingMessage;
 
 		//forceCaptureStartMark = true;
@@ -1806,6 +1808,10 @@ RunEncoderCaptureGetSpeedAndDisplacementTest recgsdt = new RunEncoderCaptureGetS
 			} else if(runEncoderProcessCancel || runEncoderProcessError)
 			{
 				LogB.Information(" re C cancel ");
+
+				if (runEncoderProcessError)
+					Util.PlaySound (Constants.SoundTypes.BAD, preferences.volumeOn, preferences.gstreamer);
+
 				//stop the camera (and do not save)
 				webcamEnd (Constants.TestTypes.RACEANALYZER, -1);
 				sensitiveLastTestButtons(false);

@@ -31,7 +31,7 @@ public class CairoGraphRaceAnalyzer : CairoXY
 	   at load if 1st value of triggerList is lower than minAccel,
 	   shift points and triggerList to sample before of 1st trigger
 	   */
-	private bool setExists;
+	private bool setExists; //only used to show no data on load (at speed/time)
 //	private bool load;
 
 	int points_list_painted;
@@ -50,7 +50,7 @@ public class CairoGraphRaceAnalyzer : CairoXY
 	//regular constructor
 	public CairoGraphRaceAnalyzer (
 //			bool load,
-			bool setExists, //if capture or load: setExists (currentRunEncoder != null)
+			bool setExists,
 			DrawingArea area, string title,
 			string yVariable, string yUnits,
 			bool isSprint, bool plotMaxMark,

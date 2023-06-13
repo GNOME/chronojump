@@ -165,6 +165,11 @@ public partial class ChronoJumpWindow
 
 	Gtk.HBox hbox_force_sensor_analyze_ai_sliders_and_buttons;
 	Gtk.DrawingArea force_sensor_ai_drawingarea_cairo;
+	Gtk.RadioButton radio_force_sensor_ai_ab;
+	Gtk.RadioButton radio_force_sensor_ai_cd;
+	Gtk.Label label_force_sensor_ai_ac;
+	Gtk.Label label_force_sensor_ai_bd;
+	Gtk.Label label_force_sensor_ai_zoom_abcd;
 	Gtk.HScale hscale_force_sensor_ai_a;
 	Gtk.HScale hscale_force_sensor_ai_b;
 	Gtk.Label label_force_sensor_ai_time_a;
@@ -1201,6 +1206,24 @@ public partial class ChronoJumpWindow
 		return fsAIRepetitionMouseLimitsCairo.FindBarInPixel (pixel);
 	}
 
+	private void on_radio_force_sensor_ai_abcd_toggled (object o, EventArgs args)
+	{
+		if (o == null || ! ((Gtk.RadioButton) o).Active)
+			return;
+
+		if ((Gtk.RadioButton) o == radio_force_sensor_ai_ab)
+		{
+			label_force_sensor_ai_ac.Text = "A";
+			label_force_sensor_ai_bd.Text = "B";
+			label_force_sensor_ai_zoom_abcd.Text = "[A-B]";
+		}
+		else if ((Gtk.RadioButton) o == radio_force_sensor_ai_cd)
+		{
+			label_force_sensor_ai_ac.Text = "C";
+			label_force_sensor_ai_bd.Text = "D";
+			label_force_sensor_ai_zoom_abcd.Text = "[C-D]";
+		}
+	}
 
 	bool forceSensorHScalesDoNotFollow = false;
 	//to know change of slider in order to apply on the other slider if chained
@@ -1954,6 +1977,11 @@ public partial class ChronoJumpWindow
 
 		hbox_force_sensor_analyze_ai_sliders_and_buttons = (Gtk.HBox) builder.GetObject ("hbox_force_sensor_analyze_ai_sliders_and_buttons");
 		force_sensor_ai_drawingarea_cairo = (Gtk.DrawingArea) builder.GetObject ("force_sensor_ai_drawingarea_cairo");
+		radio_force_sensor_ai_ab = (Gtk.RadioButton) builder.GetObject ("radio_force_sensor_ai_ab");
+		radio_force_sensor_ai_cd = (Gtk.RadioButton) builder.GetObject ("radio_force_sensor_ai_cd");
+		label_force_sensor_ai_ac = (Gtk.Label) builder.GetObject ("label_force_sensor_ai_ac");
+		label_force_sensor_ai_bd = (Gtk.Label) builder.GetObject ("label_force_sensor_ai_bd");
+		label_force_sensor_ai_zoom_abcd = (Gtk.Label) builder.GetObject ("label_force_sensor_ai_zoom_abcd");
 		hscale_force_sensor_ai_a = (Gtk.HScale) builder.GetObject ("hscale_force_sensor_ai_a");
 		hscale_force_sensor_ai_b = (Gtk.HScale) builder.GetObject ("hscale_force_sensor_ai_b");
 		label_force_sensor_ai_time_a = (Gtk.Label) builder.GetObject ("label_force_sensor_ai_time_a");

@@ -1068,9 +1068,10 @@ public partial class ChronoJumpWindow
 		else
 			spCairoFESend = spCairoFE;
 
-		//minimum Y display from -50 to 50
-		int minY = -50;
-		int maxY = +50;
+		double tempMinY = PointF.GetMinY (spCairoFESend.Force_l);
+		double tempMaxY = PointF.GetMaxY (spCairoFESend.Force_l);
+		int minY = Convert.ToInt32 (tempMinY -.05 *(tempMaxY - tempMinY));
+		int maxY = Convert.ToInt32 (tempMinY +.05 *(tempMaxY - tempMinY));
 		if (spCairoFESend.Displ_l != null && spCairoFESend.Displ_l.Count > 0)
 		{
 			minY = 0;

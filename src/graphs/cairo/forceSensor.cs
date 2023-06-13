@@ -242,8 +242,7 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 
 	//separated in two methods to ensure endGraphDisposing on any return of the other method
 	public void DoSendingList (string font,
-			List<PointF> points_l,
-			List<PointF> pointsDispl_l, List<PointF> pointsSpeed_l, List<PointF> pointsPower_l,
+			SignalPointsCairoForceElastic spCairoFE,
 			List<PointF> points_l_interpolated_path, int interpolatedMin, int interpolatedMax,
 			bool capturing, bool showAccuracy, int showLastSeconds,
 			int minDisplayFNegative, int minDisplayFPositive,
@@ -269,24 +268,24 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 				*/
 
 		rightMargin = 40;
-		if (pointsDispl_l != null && pointsDispl_l.Count > 0)
+		if (spCairoFE.Displ_l != null && spCairoFE.Displ_l.Count > 0)
 			rightMargin = 150;
 
-		if (doSendingList (font, points_l,
+		if (doSendingList (font, spCairoFE.Force_l,
 					capturing, showAccuracy, showLastSeconds,
 					triggerList,
 					forceRedraw, plotType))
 		{
-			if (pointsDispl_l != null && pointsDispl_l.Count > 0)
-				paintAnotherSerie (pointsDispl_l, startAt, plotType, bluePlots, 0,
+			if (spCairoFE.Displ_l != null && spCairoFE.Displ_l.Count > 0)
+				paintAnotherSerie (spCairoFE.Displ_l, startAt, plotType, bluePlots, 0,
 						true, distanceStr, "m");
 
-			if (pointsSpeed_l != null && pointsSpeed_l.Count > 0)
-				paintAnotherSerie (pointsSpeed_l, startAt, plotType, green, 50,
+			if (spCairoFE.Speed_l != null && spCairoFE.Speed_l.Count > 0)
+				paintAnotherSerie (spCairoFE.Speed_l, startAt, plotType, green, 50,
 						false, speedStr, "m/s");
 
-			if (pointsPower_l != null && pointsPower_l.Count > 0)
-				paintAnotherSerie (pointsPower_l, startAt, plotType, red, 100,
+			if (spCairoFE.Power_l != null && spCairoFE.Power_l.Count > 0)
+				paintAnotherSerie (spCairoFE.Power_l, startAt, plotType, red, 100,
 						true, powerStr, "W");
 
 			endGraphDisposing(g, surface, area.Window);
@@ -541,8 +540,7 @@ public class CairoGraphForceSensorAI : CairoGraphForceSensor
 	//separated in two methods to ensure endGraphDisposing on any return of the other method
 	public RepetitionMouseLimitsWithSamples DoSendingList (
 			string font,
-			List<PointF> points_l,
-			List<PointF> pointsDispl_l, List<PointF> pointsSpeed_l, List<PointF> pointsPower_l,
+			SignalPointsCairoForceElastic spCairoFE,
 			int minDisplayFNegative, int minDisplayFPositive,
 			int rectangleN, int rectangleRange,
 			GetBestRFDInWindow briw,
@@ -570,26 +568,26 @@ public class CairoGraphForceSensorAI : CairoGraphForceSensor
 		area.AddEvents((int) Gdk.EventMask.ButtonPressMask); //to have mouse clicks
 
 		rightMargin = 40;
-		if (pointsDispl_l != null && pointsDispl_l.Count > 0)
+		if (spCairoFE.Displ_l != null && spCairoFE.Displ_l.Count > 0)
 			rightMargin = 150;
 
-		if (doSendingList (font, points_l,
+		if (doSendingList (font, spCairoFE.Force_l,
 					triggerList,
 					hscaleSampleA, hscaleSampleB, zoomed,
 					fMaxAvgSampleStart, fMaxAvgSampleEnd, fMaxAvgForce,
 					exercise, reps_l,
 					forceRedraw, plotType))
 		{
-			if (pointsDispl_l != null && pointsDispl_l.Count > 0)
-				paintAnotherSerie (pointsDispl_l, startAt, plotType, bluePlots, 0,
+			if (spCairoFE.Displ_l != null && spCairoFE.Displ_l.Count > 0)
+				paintAnotherSerie (spCairoFE.Displ_l, startAt, plotType, bluePlots, 0,
 						true, distanceStr, "m");
 
-			if (pointsSpeed_l != null && pointsSpeed_l.Count > 0)
-				paintAnotherSerie (pointsSpeed_l, startAt, plotType, green, 50,
+			if (spCairoFE.Speed_l != null && spCairoFE.Speed_l.Count > 0)
+				paintAnotherSerie (spCairoFE.Speed_l, startAt, plotType, green, 50,
 						false, speedStr, "m/s");
 
-			if (pointsPower_l != null && pointsPower_l.Count > 0)
-				paintAnotherSerie (pointsPower_l, startAt, plotType, red, 100,
+			if (spCairoFE.Power_l != null && spCairoFE.Power_l.Count > 0)
+				paintAnotherSerie (spCairoFE.Power_l, startAt, plotType, red, 100,
 						true, powerStr, "W");
 
 			endGraphDisposing(g, surface, area.Window);

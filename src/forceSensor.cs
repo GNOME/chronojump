@@ -2043,6 +2043,59 @@ public class ForceSensorAnalyzeInstant
 	}
 }
 
+public class SignalPointsCairo
+{
+	public List<PointF> Force_l;
+
+	public SignalPointsCairo ()
+	{
+		Force_l = new List<PointF> ();
+	}
+}
+
+public class SignalPointsCairoForceElastic : SignalPointsCairo
+{
+	public List<PointF> Displ_l;
+	public List<PointF> Speed_l;
+	public List<PointF> Accel_l;
+	public List<PointF> Power_l;
+
+	// regular constructor
+	public SignalPointsCairoForceElastic ()
+	{
+		Force_l = new List<PointF> ();
+		Displ_l = new List<PointF> ();
+		Speed_l = new List<PointF> ();
+		Accel_l = new List<PointF> ();
+		Power_l = new List<PointF> ();
+	}
+
+	// constructor for:
+	// - capture to send to graph a copy of the capturing set (and avoid thread problems), a, b is the full set
+	// - zoom being a and b the aBeforeZoom and bBeforeZoom, for copying an area from the full set
+	public SignalPointsCairoForceElastic (SignalPointsCairoForceElastic spfe, int a, int b)
+	{
+		Force_l = new List<PointF> ();
+		Displ_l = new List<PointF> ();
+		Speed_l = new List<PointF> ();
+		Accel_l = new List<PointF> ();
+		Power_l = new List<PointF> ();
+
+		for (int i = a; i <= b; i ++)
+		{
+			Force_l.Add (spfe.Force_l[i]);
+			if (spfe.Displ_l != null && spfe.Displ_l.Count > 0)
+				Displ_l.Add (spfe.Displ_l[i]);
+			if (spfe.Speed_l != null && spfe.Speed_l.Count > 0)
+				Speed_l.Add (spfe.Speed_l[i]);
+			if (spfe.Accel_l != null && spfe.Accel_l.Count > 0)
+				Accel_l.Add (spfe.Accel_l[i]);
+			if (spfe.Power_l != null && spfe.Power_l.Count > 0)
+				Power_l.Add (spfe.Power_l[i]);
+		}
+	}
+}
+
 //we need this class because we started using forcesensor without database (only text files)
 public class ForceSensorLoadTryToAssignPersonAndMore
 {

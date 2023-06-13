@@ -97,6 +97,32 @@ public class PointF
 			return sample + 1;
 	}
 
+	public static double GetMaxY (List<PointF> p_l)
+	{
+		double maxY = 0;
+		if (p_l == null || p_l.Count == 0)
+			return maxY;
+
+		for (int i = 0; i < p_l.Count ; i ++)
+			if (i == 0 || p_l[i].Y > maxY)
+				maxY = p_l[i].Y;
+
+		return maxY;
+	}
+
+	public static double GetMinY (List<PointF> p_l)
+	{
+		double minY = 0;
+		if (p_l == null || p_l.Count == 0)
+			return minY;
+
+		for (int i = 0; i < p_l.Count ; i ++)
+			if (i == 0 || p_l[i].Y < minY)
+				minY = p_l[i].Y;
+
+		return minY;
+	}
+
 	//just to debug
 	public static string PrintList (string title, List<PointF> p_l, string sep)
 	{

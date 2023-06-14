@@ -164,6 +164,18 @@
     <property name="step-increment">1</property>
     <property name="page-increment">10</property>
   </object>
+  <object class="GtkAdjustment" id="adjustment123">
+    <property name="lower">1</property>
+    <property name="upper">300</property>
+    <property name="step-increment">1</property>
+    <property name="page-increment">10</property>
+  </object>
+  <object class="GtkAdjustment" id="adjustment124">
+    <property name="lower">1</property>
+    <property name="upper">300</property>
+    <property name="step-increment">1</property>
+    <property name="page-increment">10</property>
+  </object>
   <object class="GtkAdjustment" id="adjustment13">
     <property name="upper">200</property>
     <property name="value">20</property>
@@ -22604,6 +22616,9 @@ Concentric</property>
                                                             <child>
                                                             <placeholder/>
                                                             </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
                                                             </object>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -25039,82 +25054,6 @@ Concentric</property>
                                                             <placeholder/>
                                                             </child>
                                                             <child>
-                                                            <object class="GtkHBox" id="hbox_force_sensor_ai_a">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <child>
-                                                            <object class="GtkLabel" id="label_force_sensor_ai_ac">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="label">A</property>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="position">0</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
-                                                            <object class="GtkHScale" id="hscale_force_sensor_ai_a">
-                                                            <property name="width-request">70</property>
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">True</property>
-                                                            <property name="adjustment">adjustment81</property>
-                                                            <property name="digits">0</property>
-                                                            <property name="draw-value">False</property>
-                                                            <signal name="value-changed" handler="on_hscale_force_sensor_ai_a_value_changed" swapped="no"/>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">True</property>
-                                                            <property name="fill">True</property>
-                                                            <property name="position">1</property>
-                                                            </packing>
-                                                            </child>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="y-options"/>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
-                                                            <object class="GtkHBox" id="hbox_force_sensor_ai_b">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <child>
-                                                            <object class="GtkLabel" id="label_force_sensor_ai_bd">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="label">B</property>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="position">0</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
-                                                            <object class="GtkHScale" id="hscale_force_sensor_ai_b">
-                                                            <property name="width-request">70</property>
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">True</property>
-                                                            <property name="adjustment">adjustment82</property>
-                                                            <property name="digits">0</property>
-                                                            <property name="draw-value">False</property>
-                                                            <signal name="value-changed" handler="on_hscale_force_sensor_ai_b_value_changed" swapped="no"/>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">True</property>
-                                                            <property name="fill">True</property>
-                                                            <property name="position">1</property>
-                                                            </packing>
-                                                            </child>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="left-attach">1</property>
-                                                            <property name="right-attach">2</property>
-                                                            <property name="y-options"/>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
                                                             <object class="GtkHBox" id="hbox_force_sensor_ai_a_buttons">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
@@ -25652,6 +25591,180 @@ Concentric</property>
                                                             <property name="left-attach">2</property>
                                                             <property name="right-attach">3</property>
                                                             <property name="x-options"/>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkBox">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <child>
+                                                            <object class="GtkHBox" id="box_force_sensor_ai_a">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <child>
+                                                            <object class="GtkLabel" id="label_force_sensor_ai_a">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="label">A</property>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkHScale" id="hscale_force_sensor_ai_a">
+                                                            <property name="width-request">70</property>
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">True</property>
+                                                            <property name="adjustment">adjustment81</property>
+                                                            <property name="digits">0</property>
+                                                            <property name="draw-value">False</property>
+                                                            <signal name="value-changed" handler="on_hscale_force_sensor_ai_value_changed" swapped="no"/>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkHBox" id="box_force_sensor_ai_c">
+                                                            <property name="can-focus">False</property>
+                                                            <child>
+                                                            <object class="GtkLabel" id="label_force_sensor_ai_c">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="label">C</property>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkHScale" id="hscale_force_sensor_ai_c">
+                                                            <property name="width-request">70</property>
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">True</property>
+                                                            <property name="adjustment">adjustment123</property>
+                                                            <property name="digits">0</property>
+                                                            <property name="draw-value">False</property>
+                                                            <signal name="value-changed" handler="on_hscale_force_sensor_ai_value_changed" swapped="no"/>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="y-options"/>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkBox">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <child>
+                                                            <object class="GtkHBox" id="box_force_sensor_ai_b">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <child>
+                                                            <object class="GtkLabel" id="label_force_sensor_ai_bd">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="label">B</property>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkHScale" id="hscale_force_sensor_ai_b">
+                                                            <property name="width-request">70</property>
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">True</property>
+                                                            <property name="adjustment">adjustment82</property>
+                                                            <property name="digits">0</property>
+                                                            <property name="draw-value">False</property>
+                                                            <signal name="value-changed" handler="on_hscale_force_sensor_ai_value_changed" swapped="no"/>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkHBox" id="box_force_sensor_ai_d">
+                                                            <property name="can-focus">False</property>
+                                                            <child>
+                                                            <object class="GtkLabel" id="label_force_sensor_ai_d">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="label">D</property>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkHScale" id="hscale_force_sensor_ai_d">
+                                                            <property name="width-request">70</property>
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">True</property>
+                                                            <property name="adjustment">adjustment124</property>
+                                                            <property name="digits">0</property>
+                                                            <property name="draw-value">False</property>
+                                                            <signal name="value-changed" handler="on_hscale_force_sensor_ai_value_changed" swapped="no"/>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="left-attach">1</property>
+                                                            <property name="right-attach">2</property>
+                                                            <property name="y-options"/>
                                                             </packing>
                                                             </child>
                                                             </object>
@@ -28241,6 +28354,9 @@ Concentric</property>
                                                             <child>
                                                             <placeholder/>
                                                             </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
                                                             </object>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -28606,6 +28722,41 @@ Concentric</property>
                                                             <property name="position">1</property>
                                                             </packing>
                                                             </child>
+                                                            <child>
+                                                            <object class="GtkBox">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="orientation">vertical</property>
+                                                            <property name="spacing">6</property>
+                                                            <child>
+                                                            <object class="GtkLabel" id="label_force_sensor_ai_time_c">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkLabel" id="label_force_sensor_ai_time_d">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">2</property>
+                                                            </packing>
+                                                            </child>
                                                             </object>
                                                             </child>
                                                             </object>
@@ -28615,6 +28766,26 @@ Concentric</property>
                                                             <property name="expand">False</property>
                                                             <property name="fill">True</property>
                                                             <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkScrolledWindow">
+                                                            <property name="can-focus">True</property>
+                                                            <property name="shadow-type">in</property>
+                                                            <child>
+                                                            <object class="GtkTreeView" id="treeview_force_sensor_ai">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">True</property>
+                                                            <child internal-child="selection">
+                                                            <object class="GtkTreeSelection"/>
+                                                            </child>
+                                                            </object>
+                                                            </child>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">2</property>
                                                             </packing>
                                                             </child>
                                                             </object>

@@ -81,9 +81,9 @@ public static class CairoUtil
 	}
 
 	public static void PaintVerticalLinesAndRectangle (
-			Cairo.Context g, int graphHeight, double xposA, double xposB, bool posBuse, int topRect, int bottomRect)
+			Cairo.Context g, int graphHeight, string letterStart, double xposA, string letterEnd, double xposB, bool posBuse, int topRect, int bottomRect, Cairo.Color color)
 	{
-		paintVerticalLinesAndRectangleDo (g, graphHeight, xposA, xposB, posBuse, topRect, bottomRect);
+		paintVerticalLinesAndRectangleDo (g, graphHeight, letterStart, xposA, letterEnd, xposB, posBuse, topRect, bottomRect, color);
 	}
 
 	public static void PaintVerticalLinesAndRectangle (
@@ -91,7 +91,8 @@ public static class CairoUtil
 	{
 		using (Cairo.Context g = Gdk.CairoHelper.Create (darea.Window)) 
 		{
-			paintVerticalLinesAndRectangleDo (g, darea.Allocation.Height, xposA, xposB, posBuse, topRect, bottomRect);
+			Cairo.Color yellowTransp = new Cairo.Color (0.9, 0.9, 0.01, .15);
+			paintVerticalLinesAndRectangleDo (g, darea.Allocation.Height, "A", xposA, "B", xposB, posBuse, topRect, bottomRect, yellowTransp);
 			g.Stroke();
 			g.GetTarget ().Dispose ();
 		}
@@ -106,7 +107,8 @@ public static class CairoUtil
 
 			g.Paint();
 
-			paintVerticalLinesAndRectangleDo (g, darea.Allocation.Height, xposA, xposB, posBuse, topRect, bottomRect);
+			Cairo.Color yellowTransp = new Cairo.Color (0.9, 0.9, 0.01, .15);
+			paintVerticalLinesAndRectangleDo (g, darea.Allocation.Height, "A", xposA, "B", xposB, posBuse, topRect, bottomRect, yellowTransp);
 			g.Stroke();
 			g.GetTarget ().Dispose ();
 		}
@@ -128,21 +130,19 @@ public static class CairoUtil
 	 * private methods
 	 */
 
-	private static void paintVerticalLinesAndRectangleDo (Cairo.Context g, int height, double xposA, double xposB, bool posBuse, int topRect, int bottomRect)
+	private static void paintVerticalLinesAndRectangleDo (Cairo.Context g, int height, string letterStart, double xposA, string letterEnd, double xposB, bool posBuse, int topRect, int bottomRect, Cairo.Color color)
 	{
 		//add rectangle
 		g.SetSourceRGBA(0.906, 0.745, 0.098, 1); //Chronojump yellow
 
-		paintVerticalLine(g, xposA, height, "A");
+		paintVerticalLine(g, xposA, height +2, letterStart);
 
 		if(posBuse && xposA != xposB)
 		{
-			paintVerticalLine(g, xposB, height, "B");
-
-			//g.SetSourceRGBA(0.906, 0.745, 0.098, .5); //Chronojump yellow, half transp
-			g.SetSourceRGBA(0.9, 0.9, 0.01, .15); //More yellow and very transp
+			paintVerticalLine(g, xposB, height +2, letterEnd);
 
 			//create rectangle
+			g.SetSourceColor (color);
 			double min = Math.Min(xposA, xposB) +1;
 			double max = Math.Max(xposA, xposB) -1;
 			if(min < max)

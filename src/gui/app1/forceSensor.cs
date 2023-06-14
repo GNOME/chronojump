@@ -506,7 +506,8 @@ public partial class ChronoJumpWindow
 		 * but first makes no graph when resize,
 		 * and second does not allow the graph to be done on going to RFD automatic and return
 		 */
-		fsAI = null;
+		fsAI_AB = null;
+		fsAI_CD = null;
 		lastForceSensorFullPath = null;
 
 		button_contacts_exercise_close_and_recalculate.Sensitive = false;

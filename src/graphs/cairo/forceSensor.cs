@@ -529,7 +529,6 @@ public class CairoGraphForceSensorAI : CairoGraphForceSensor
 	private ForceSensorExercise exercise;
 	private RepetitionMouseLimitsWithSamples repMouseLimits;
 	private int startAt;
-	private GetBestRFDInWindow briw;
 
 	//regular constructor
 	public CairoGraphForceSensorAI (DrawingArea area, string title)
@@ -543,12 +542,12 @@ public class CairoGraphForceSensorAI : CairoGraphForceSensor
 			SignalPointsCairoForceElastic spCairoFE,
 			int minDisplayFNegative, int minDisplayFPositive,
 			int rectangleN, int rectangleRange,
-			GetBestRFDInWindow briw,
+			List<GetBestRFDInWindow> briw_l,
 			TriggerList triggerList,
 			int hscaleSampleA, int hscaleSampleB,
 			int hscaleSampleC, int hscaleSampleD,
 			bool zoomed,
-			int fMaxAvgSampleStart, int fMaxAvgSampleEnd, double fMaxAvgForce,
+			List<GetMaxAvgInWindow> gmaiw_l,
 			ForceSensorExercise exercise, List<ForceSensorRepetition> reps_l,
 			bool forceRedraw, PlotTypes plotType)
 	{
@@ -559,7 +558,6 @@ public class CairoGraphForceSensorAI : CairoGraphForceSensor
 		this.points_l_interpolated_path = new List<PointF> ();
 
 		this.exercise = exercise;
-		this.briw = briw;
 		/*
 		this.oneSerie = ( (pointsDispl_l == null || pointsDispl_l.Count == 0) &&
 				(pointsSpeed_l == null || pointsSpeed_l.Count == 0) &&
@@ -578,7 +576,8 @@ public class CairoGraphForceSensorAI : CairoGraphForceSensor
 					hscaleSampleA, hscaleSampleB,
 					hscaleSampleC, hscaleSampleD,
 					zoomed,
-					fMaxAvgSampleStart, fMaxAvgSampleEnd, fMaxAvgForce,
+					briw_l,
+					gmaiw_l,
 					exercise, reps_l,
 					forceRedraw, plotType))
 		{
@@ -608,7 +607,8 @@ public class CairoGraphForceSensorAI : CairoGraphForceSensor
 			int hscaleSampleA, int hscaleSampleB,
 			int hscaleSampleC, int hscaleSampleD,
 			bool zoomed,
-			int fMaxAvgSampleStart, int fMaxAvgSampleEnd, double fMaxAvgForce,
+			List<GetBestRFDInWindow> briw_l,
+			List<GetMaxAvgInWindow> gmaiw_l,
 			ForceSensorExercise exercise, List<ForceSensorRepetition> reps_l,
 			bool forceRedraw, PlotTypes plotType)
 	{
@@ -679,7 +679,7 @@ public class CairoGraphForceSensorAI : CairoGraphForceSensor
 				CairoUtil.PaintVerticalLinesAndRectangle (g, graphHeight,
 						"A", calculatePaintX (points_l[hscaleSampleA].X),
 						"B", calculatePaintX (points_l[hscaleSampleB].X),
-						true, 15, 0, yellowTransp);
+						true, 15, 0, yellow, yellowTransp);
 
 			// paint the CD rectangle
 			if (hscaleSampleC >= 0 && hscaleSampleD >= 0 &&
@@ -688,7 +688,7 @@ public class CairoGraphForceSensorAI : CairoGraphForceSensor
 				CairoUtil.PaintVerticalLinesAndRectangle (g, graphHeight,
 						"C", calculatePaintX (points_l[hscaleSampleC].X),
 						"D", calculatePaintX (points_l[hscaleSampleD].X),
-						true, 15, 0, greenTransp);
+						true, 15, 0, green, greenTransp);
 
 			// paint the repetition lines and codes
 			if (reps_l.Count > 0)
@@ -807,19 +807,26 @@ public class CairoGraphForceSensorAI : CairoGraphForceSensor
 			}
 
 			// paint the f max avg in x seconds
-			if ( points_l != null && fMaxAvgSampleEnd >= 0 && points_l.Count > fMaxAvgSampleEnd)
-				paintMaxAvgInWindow (fMaxAvgSampleStart, fMaxAvgSampleEnd, fMaxAvgForce, points_l);
-
-			if (briw.Error == "")
+			foreach (GetMaxAvgInWindow gmaiw in gmaiw_l)
 			{
-				g.LineWidth = 2;
-				drawCircle (calculatePaintX (points_l[briw.MaxSampleStart].X), calculatePaintY (points_l[briw.MaxSampleStart].Y), 8, black, false);
-				drawCircle (calculatePaintX (points_l[briw.MaxSampleEnd].X), calculatePaintY (points_l[briw.MaxSampleEnd].Y), 8, black, false);
+				LogB.Information ("gmaiw: " + gmaiw.ToString ());
+				if ( points_l != null && gmaiw.MaxSampleEnd >= 0 && points_l.Count > gmaiw.MaxSampleEnd)
+					paintMaxAvgInWindow (gmaiw.MaxSampleStart, gmaiw.MaxSampleEnd, gmaiw.Max, points_l);
+			}
 
-				List<PointF> briwP_l = new List<PointF> ();
-				briwP_l.Add (new PointF (points_l[briw.MaxSampleStart].X, points_l[briw.MaxSampleStart].Y));
-				briwP_l.Add (new PointF (points_l[briw.MaxSampleEnd].X, points_l[briw.MaxSampleEnd].Y));
-				preparePredictedLine (briwP_l);
+			foreach (GetBestRFDInWindow briw in briw_l)
+			{
+				if (briw.Error == "")
+				{
+					g.LineWidth = 2;
+					drawCircle (calculatePaintX (points_l[briw.MaxSampleStart].X), calculatePaintY (points_l[briw.MaxSampleStart].Y), 8, black, false);
+					drawCircle (calculatePaintX (points_l[briw.MaxSampleEnd].X), calculatePaintY (points_l[briw.MaxSampleEnd].Y), 8, black, false);
+
+					List<PointF> briwP_l = new List<PointF> ();
+					briwP_l.Add (new PointF (points_l[briw.MaxSampleStart].X, points_l[briw.MaxSampleStart].Y));
+					briwP_l.Add (new PointF (points_l[briw.MaxSampleEnd].X, points_l[briw.MaxSampleEnd].Y));
+					preparePredictedLine (briwP_l);
+				}
 			}
 
 			g.LineWidth = 2;

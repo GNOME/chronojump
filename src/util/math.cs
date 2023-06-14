@@ -876,6 +876,7 @@ public abstract class GetMaxValueInWindow
 	public double Max
 	{
 		get { return max; }
+		set { max = value; }
 	}
 
 	public int MaxSampleStart
@@ -898,6 +899,14 @@ public abstract class GetMaxValueInWindow
 // TODO: manage if X is micros or millis
 public class GetMaxAvgInWindow : GetMaxValueInWindow
 {
+	//when there is no fsAI || gmaiw.Error (used on updateForceSensorAICairo)
+	public GetMaxAvgInWindow ()
+	{
+		maxSampleStart = -1;
+		maxSampleEnd = -1;
+		max = -1;
+	}
+
 	public GetMaxAvgInWindow (List<PointF> p_l, int countA, int countB, double windowSeconds)
 	{
 		this.p_l = p_l;

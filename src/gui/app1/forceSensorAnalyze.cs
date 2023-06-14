@@ -1333,6 +1333,8 @@ public partial class ChronoJumpWindow
 			label_force_sensor_ai_zoom_abcd.Text = "[C-D]";
 			UtilGtk.ViewportColor (viewport_force_sensor_analyze_hscales, UtilGtk.Colors.GREEN_LIGHT);
 		}
+
+		forceSensorAnalyzeGeneralButtonHscaleZoomSensitiveness();
 	}
 
 	private Gtk.HScale getHScaleABCD (bool left)
@@ -1575,11 +1577,13 @@ public partial class ChronoJumpWindow
 	}
 	private void on_button_hscale_force_sensor_ai_a_pre_clicked (object o, EventArgs args)
 	{
-		getHScaleABCD (true).Value -= 1;
+		HScale hs = getHScaleABCD (true);
+		hs.Value -= 1;
 	}
 	private void on_button_hscale_force_sensor_ai_a_post_clicked (object o, EventArgs args)
 	{
-		getHScaleABCD (true).Value += 1;
+		HScale hs = getHScaleABCD (true);
+		hs.Value += 1;
 	}
 	private void on_button_hscale_force_sensor_ai_a_last_clicked (object o, EventArgs args)
 	{
@@ -1596,11 +1600,13 @@ public partial class ChronoJumpWindow
 	}
 	private void on_button_hscale_force_sensor_ai_b_pre_clicked (object o, EventArgs args)
 	{
-		getHScaleABCD (false).Value = -1;
+		HScale hs = getHScaleABCD (false);
+		hs.Value -= 1;
 	}
 	private void on_button_hscale_force_sensor_ai_b_post_clicked (object o, EventArgs args)
 	{
-		getHScaleABCD (false).Value = +1;
+		HScale hs = getHScaleABCD (false);
+		hs.Value += 1;
 	}
 
 	private void on_button_hscale_force_sensor_ai_b_last_clicked (object o, EventArgs args)

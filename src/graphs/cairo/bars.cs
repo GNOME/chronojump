@@ -77,7 +77,7 @@ public abstract class CairoBars : CairoGeneric
 	protected Cairo.Color blue;
 	//protected Cairo.Color blueChronojump;
 	//protected Cairo.Color bluePlots;
-	protected Cairo.Color yellow;
+	//protected Cairo.Color yellow;
 
 	protected RepetitionMouseLimits mouseLimits;
 	protected List<int> id_l; //to pass the uniqueID of some test, eg: RunInterval executions and then find it using mouseLimits

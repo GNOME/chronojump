@@ -25363,6 +25363,7 @@ Concentric</property>
                                                             <packing>
                                                             <property name="top-attach">1</property>
                                                             <property name="bottom-attach">2</property>
+                                                            <property name="x-padding">12</property>
                                                             </packing>
                                                             </child>
                                                             <child>
@@ -25573,6 +25574,7 @@ Concentric</property>
                                                             <property name="right-attach">2</property>
                                                             <property name="top-attach">1</property>
                                                             <property name="bottom-attach">2</property>
+                                                            <property name="x-padding">12</property>
                                                             </packing>
                                                             </child>
                                                             <child>

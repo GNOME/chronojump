@@ -549,9 +549,13 @@ public partial class ChronoJumpWindow
 		//put scales to 0,0
 		hscale_force_sensor_ai_a.SetRange(0, 0);
 		hscale_force_sensor_ai_b.SetRange(0, 0);
+		hscale_force_sensor_ai_c.SetRange(0, 0);
+		hscale_force_sensor_ai_d.SetRange(0, 0);
 		//set them to 0, because if not is set to 1 by a GTK error
 		hscale_force_sensor_ai_a.Value = 0;
 		hscale_force_sensor_ai_b.Value = 0;
+		hscale_force_sensor_ai_c.Value = 0;
+		hscale_force_sensor_ai_d.Value = 0;
 
 		label_force_sensor_value_max.Text = "";
 		label_force_sensor_value.Text = "";
@@ -2198,12 +2202,26 @@ LogB.Information(" fs R ");
 		//else
 		//	title = Util.RemoveChar(title, '_');
 
-		int sampleA = Convert.ToInt32(hscale_force_sensor_ai_a.Value);
-		int sampleB = Convert.ToInt32(hscale_force_sensor_ai_b.Value);
+		int sampleA;
+		int sampleB;
+		if (radio_force_sensor_ai_ab.Active)
+		{
+			sampleA = Convert.ToInt32(hscale_force_sensor_ai_a.Value);
+			sampleB = Convert.ToInt32(hscale_force_sensor_ai_b.Value);
+		} else {
+			sampleA = Convert.ToInt32(hscale_force_sensor_ai_c.Value);
+			sampleB = Convert.ToInt32(hscale_force_sensor_ai_d.Value);
+		}
 		if(forceSensorZoomApplied)
 		{
-			sampleA += hscale_force_sensor_ai_a_BeforeZoom;
-			sampleB += hscale_force_sensor_ai_b_BeforeZoom;
+			if (radio_force_sensor_ai_ab.Active)
+			{
+				sampleA += hscale_force_sensor_ai_a_BeforeZoom;
+				sampleB += hscale_force_sensor_ai_b_BeforeZoom;
+			} else {
+				sampleA += hscale_force_sensor_ai_c_BeforeZoom;
+				sampleB += hscale_force_sensor_ai_d_BeforeZoom;
+			}
 		}
 
 

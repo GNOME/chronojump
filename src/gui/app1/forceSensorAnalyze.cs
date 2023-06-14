@@ -1562,10 +1562,10 @@ public partial class ChronoJumpWindow
 		button_hscale_force_sensor_ai_b_pre.Sensitive = hsRight.Value > 0;
 
 		ForceSensorAnalyzeInstant fsAI = getCorrectfsAI ();
-		button_hscale_force_sensor_ai_a_last.Sensitive = hsLeft.Value < fsAI.GetLength() -1;
-		button_hscale_force_sensor_ai_a_post.Sensitive = hsLeft.Value < fsAI.GetLength() -1;
-		button_hscale_force_sensor_ai_b_last.Sensitive = hsRight.Value < fsAI.GetLength() -1;
-		button_hscale_force_sensor_ai_b_post.Sensitive = hsRight.Value < fsAI.GetLength() -1;
+		button_hscale_force_sensor_ai_a_last.Sensitive = (fsAI != null && hsLeft.Value < fsAI.GetLength() -1);
+		button_hscale_force_sensor_ai_a_post.Sensitive = (fsAI != null && hsLeft.Value < fsAI.GetLength() -1);
+		button_hscale_force_sensor_ai_b_last.Sensitive = (fsAI != null && hsRight.Value < fsAI.GetLength() -1);
+		button_hscale_force_sensor_ai_b_post.Sensitive = (fsAI != null && hsRight.Value < fsAI.GetLength() -1);
 
 		//diff have to be more than one pixel
 		check_force_sensor_ai_zoom.Sensitive = (Math.Abs(hsLeft.Value - hsRight.Value) > 1);

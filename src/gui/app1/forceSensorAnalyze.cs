@@ -167,11 +167,15 @@ public partial class ChronoJumpWindow
 	Gtk.DrawingArea force_sensor_ai_drawingarea_cairo;
 	Gtk.RadioButton radio_force_sensor_ai_ab;
 	Gtk.RadioButton radio_force_sensor_ai_cd;
-	Gtk.Label label_force_sensor_ai_ac;
-	Gtk.Label label_force_sensor_ai_bd;
+	Gtk.Box box_force_sensor_ai_a;
+	Gtk.Box box_force_sensor_ai_b;
+	Gtk.Box box_force_sensor_ai_c;
+	Gtk.Box box_force_sensor_ai_d;
 	Gtk.Label label_force_sensor_ai_zoom_abcd;
 	Gtk.HScale hscale_force_sensor_ai_a;
 	Gtk.HScale hscale_force_sensor_ai_b;
+	Gtk.HScale hscale_force_sensor_ai_c;
+	Gtk.HScale hscale_force_sensor_ai_d;
 	Gtk.Label label_force_sensor_ai_time_a;
 	Gtk.Label label_force_sensor_ai_force_a;
 	Gtk.Label label_force_sensor_ai_rfd_a;
@@ -206,6 +210,8 @@ public partial class ChronoJumpWindow
 	Gtk.Label label_force_sensor_ai_rfd_max;
 	Gtk.Label label_force_sensor_ai_max_avg_in_window_values;
 	Gtk.Label label_force_sensor_ai_best_rfd_in_window_values;
+	Gtk.Label label_force_sensor_ai_time_c; //temporary until treeview
+	Gtk.Label label_force_sensor_ai_time_d; //temporary until treeview
 
 	Gtk.ComboBoxText combo_force_1_function;
 	Gtk.ComboBoxText combo_force_2_function;
@@ -922,7 +928,7 @@ public partial class ChronoJumpWindow
 					Constants.DirectoryCannotOpenStr() + "\n\n" + forceSensorExport.ExportURL);
 	}
 
-	private void forceSensorDoGraphAI(bool windowResizedAndZoom)
+	private void forceSensorDoGraphAI(bool windowResizedAndZoom) //TODO: note true is never sent
 	{
 		if(lastForceSensorFullPath == null || lastForceSensorFullPath == "")
 			return;
@@ -930,21 +936,44 @@ public partial class ChronoJumpWindow
 		int zoomFrameA = -1; //means no zoom
 		int zoomFrameB = -1; //means no zoom
 
+		Gtk.HScale hsLeft;
+		Gtk.HScale hsRight;
+		if (radio_force_sensor_ai_ab.Active)
+		{
+			hsLeft = hscale_force_sensor_ai_a;
+			hsRight = hscale_force_sensor_ai_b;
+		} else
+		{
+			hsLeft = hscale_force_sensor_ai_c;
+			hsRight = hscale_force_sensor_ai_d;
+		}
+
 		if(windowResizedAndZoom)
 		{
-			//like this works but cannot calculate the RFD of A,B
-			zoomFrameA = hscale_force_sensor_ai_a_BeforeZoom;
-			zoomFrameB = hscale_force_sensor_ai_b_BeforeZoom;
-			//zoomFrameA = hscale_force_sensor_ai_a_BeforeZoom -1;
-			//zoomFrameB = hscale_force_sensor_ai_b_BeforeZoom +1;
+			if (radio_force_sensor_ai_ab.Active)
+			{
+				//like this works but cannot calculate the RFD of A,B
+				zoomFrameA = hscale_force_sensor_ai_a_BeforeZoom;
+				zoomFrameB = hscale_force_sensor_ai_b_BeforeZoom;
+				//zoomFrameA = hscale_force_sensor_ai_a_BeforeZoom -1;
+				//zoomFrameB = hscale_force_sensor_ai_b_BeforeZoom +1;
+			} else
+			{
+				zoomFrameA = hscale_force_sensor_ai_c_BeforeZoom;
+				zoomFrameB = hscale_force_sensor_ai_d_BeforeZoom;
+			}
 		}
-		else if(forceSensorZoomApplied &&
+		else if ( forceSensorZoomApplied && (
+				(radio_force_sensor_ai_ab.Active &&
 				Util.IsNumber(label_force_sensor_ai_time_a.Text, true) &&
-				Util.IsNumber(label_force_sensor_ai_time_b.Text, true))
+				Util.IsNumber(label_force_sensor_ai_time_b.Text, true)) ||
+				(! radio_force_sensor_ai_ab.Active &&
+				Util.IsNumber(label_force_sensor_ai_time_c.Text, true) &&
+				Util.IsNumber(label_force_sensor_ai_time_d.Text, true)) ))
 		{
 			//invert hscales if needed
-			int firstValue = Convert.ToInt32(hscale_force_sensor_ai_a.Value);
-			int secondValue = Convert.ToInt32(hscale_force_sensor_ai_b.Value);
+			int firstValue = Convert.ToInt32 (hsLeft.Value);
+			int secondValue = Convert.ToInt32 (hsRight.Value);
 			//LogB.Information(string.Format("firstValue: {0}, secondValue: {1}", firstValue, secondValue));
 
 			//note that is almost impossible in the ui, but just in case...
@@ -997,22 +1026,36 @@ public partial class ChronoJumpWindow
 		*/
 		hscale_force_sensor_ai_a.Value = 0;
 		hscale_force_sensor_ai_b.Value = 0;
+		hscale_force_sensor_ai_c.Value = 0;
+		hscale_force_sensor_ai_d.Value = 0;
 
 		//ranges should have max value the number of the lines of csv file minus the header
-		hscale_force_sensor_ai_a.SetRange(0, fsAI.GetLength() -1);
-		hscale_force_sensor_ai_b.SetRange(0, fsAI.GetLength() -1);
+		//this applies to the four hscales
+		hscale_force_sensor_ai_a.SetRange (0, fsAI.GetLength() -1);
+		hscale_force_sensor_ai_b.SetRange (0, fsAI.GetLength() -1);
+		hscale_force_sensor_ai_c.SetRange (0, fsAI.GetLength() -1);
+		hscale_force_sensor_ai_d.SetRange (0, fsAI.GetLength() -1);
 		//set them to 0, because if not is set to 1 by a GTK error
 		hscale_force_sensor_ai_a.Value = 0;
 		hscale_force_sensor_ai_b.Value = 0;
+		hscale_force_sensor_ai_c.Value = 0;
+		hscale_force_sensor_ai_d.Value = 0;
 
 		LogB.Information(string.Format("hscale_force_sensor_ai_time_a,b,ab ranges: 0, {0}", fsAI.GetLength() -1));
 
 		//on zoom put hscale B at the right
 		if(zoomFrameB >= 0)
-			hscale_force_sensor_ai_b.Value = fsAI.GetLength() -1;
+		{
+			hsRight.Value = fsAI.GetLength() -1;
+			LogB.Information ("hsRight.Value: " + hsRight.Value.ToString ());
+			LogB.Information ("hscale_force_sensor_ai_b.Value: " + hscale_force_sensor_ai_b.Value.ToString ());
+		}
 
 		//to update values
-		on_hscale_force_sensor_ai_a_value_changed (new object (), new EventArgs ());
+		if (radio_force_sensor_ai_ab.Active)
+			on_hscale_force_sensor_ai_value_changed (hscale_force_sensor_ai_a, new EventArgs ());
+		else
+			on_hscale_force_sensor_ai_value_changed (hscale_force_sensor_ai_c, new EventArgs ());
 
 		manage_force_sensor_ai_table_visibilities();
 	}
@@ -1062,8 +1105,10 @@ public partial class ChronoJumpWindow
 			briw = fsAI.Briw;
 		}
 
-		int hscaleSampleStart = Convert.ToInt32 (hscale_force_sensor_ai_a.Value);
-		int hscaleSampleEnd = Convert.ToInt32 (hscale_force_sensor_ai_b.Value);
+		int hscaleABSampleStart = Convert.ToInt32 (hscale_force_sensor_ai_a.Value);
+		int hscaleABSampleEnd = Convert.ToInt32 (hscale_force_sensor_ai_b.Value);
+		int hscaleCDSampleStart = Convert.ToInt32 (hscale_force_sensor_ai_c.Value);
+		int hscaleCDSampleEnd = Convert.ToInt32 (hscale_force_sensor_ai_d.Value);
 
 		// no need of copy because this graph is done on load or at end of capture (points_list does not grow in other thread
 		// spCairoFESend is not a copy, is just to choose between zoomed or not
@@ -1090,7 +1135,9 @@ public partial class ChronoJumpWindow
 				rectangleN, rectangleRange,
 				briw,
 				triggerListForceSensor,
-				hscaleSampleStart, hscaleSampleEnd, forceSensorZoomApplied,
+				hscaleABSampleStart, hscaleABSampleEnd,
+				hscaleCDSampleStart, hscaleCDSampleEnd,
+				forceSensorZoomApplied,
 				fMaxAvgSampleStart, fMaxAvgSampleEnd, fsMaxAvgForce,
 				currentForceSensorExercise, reps_l,
 				forceRedraw, CairoXY.PlotTypes.LINES);
@@ -1116,8 +1163,15 @@ public partial class ChronoJumpWindow
 		if(repetition < 0)
 			return;
 
-		hscale_force_sensor_ai_a.Value = fsAIRepetitionMouseLimitsCairo.GetSampleStartOfARep (repetition);
-		hscale_force_sensor_ai_b.Value = fsAIRepetitionMouseLimitsCairo.GetSampleEndOfARep (repetition);
+		if (radio_force_sensor_ai_ab.Active)
+		{
+			hscale_force_sensor_ai_a.Value = fsAIRepetitionMouseLimitsCairo.GetSampleStartOfARep (repetition);
+			hscale_force_sensor_ai_b.Value = fsAIRepetitionMouseLimitsCairo.GetSampleEndOfARep (repetition);
+		} else
+		{
+			hscale_force_sensor_ai_c.Value = fsAIRepetitionMouseLimitsCairo.GetSampleStartOfARep (repetition);
+			hscale_force_sensor_ai_d.Value = fsAIRepetitionMouseLimitsCairo.GetSampleEndOfARep (repetition);
+		}
 	}
 
 	private bool forceSensorZoomApplied;
@@ -1132,6 +1186,10 @@ public partial class ChronoJumpWindow
 	private int hscale_force_sensor_ai_a_AtZoom = 0;
 	private int hscale_force_sensor_ai_b_BeforeZoom = 0;
 	private int hscale_force_sensor_ai_b_AtZoom = 0;
+	private int hscale_force_sensor_ai_c_BeforeZoom = 0;
+	private int hscale_force_sensor_ai_c_AtZoom = 0;
+	private int hscale_force_sensor_ai_d_BeforeZoom = 0;
+	private int hscale_force_sensor_ai_d_AtZoom = 0;
 
 	//private double hscale_force_sensor_ai_a_BeforeZoomTimeMS = 0; //to calculate triggers
 
@@ -1145,11 +1203,21 @@ public partial class ChronoJumpWindow
 			forceSensorZoomApplied = true;
 
 			//store hscale a to help return to position on unzoom
-			hscale_force_sensor_ai_a_BeforeZoom = Convert.ToInt32(hscale_force_sensor_ai_a.Value);
-			hscale_force_sensor_ai_b_BeforeZoom = Convert.ToInt32(hscale_force_sensor_ai_b.Value);
+			if (radio_force_sensor_ai_ab.Active)
+			{
+				hscale_force_sensor_ai_a_BeforeZoom = Convert.ToInt32(hscale_force_sensor_ai_a.Value);
+				hscale_force_sensor_ai_b_BeforeZoom = Convert.ToInt32(hscale_force_sensor_ai_b.Value);
 
-			spCairoFEZoom = new SignalPointsCairoForceElastic (spCairoFE,
-					hscale_force_sensor_ai_a_BeforeZoom, hscale_force_sensor_ai_b_BeforeZoom);
+				spCairoFEZoom = new SignalPointsCairoForceElastic (spCairoFE,
+						hscale_force_sensor_ai_a_BeforeZoom, hscale_force_sensor_ai_b_BeforeZoom);
+			} else
+			{
+				hscale_force_sensor_ai_c_BeforeZoom = Convert.ToInt32(hscale_force_sensor_ai_c.Value);
+				hscale_force_sensor_ai_d_BeforeZoom = Convert.ToInt32(hscale_force_sensor_ai_d.Value);
+
+				spCairoFEZoom = new SignalPointsCairoForceElastic (spCairoFE,
+						hscale_force_sensor_ai_c_BeforeZoom, hscale_force_sensor_ai_d_BeforeZoom);
+			}
 
 			//cairo
 			forceSensorRepetition_lZoomAppliedCairo = new List<ForceSensorRepetition> ();
@@ -1174,13 +1242,27 @@ public partial class ChronoJumpWindow
 		} else {
 			forceSensorZoomApplied = false;
 
-			hscale_force_sensor_ai_a_AtZoom = Convert.ToInt32(hscale_force_sensor_ai_a.Value);
-			hscale_force_sensor_ai_b_AtZoom = Convert.ToInt32(hscale_force_sensor_ai_b.Value);
+			if (radio_force_sensor_ai_ab.Active)
+			{
+				hscale_force_sensor_ai_a_AtZoom = Convert.ToInt32(hscale_force_sensor_ai_a.Value);
+				hscale_force_sensor_ai_b_AtZoom = Convert.ToInt32(hscale_force_sensor_ai_b.Value);
+			} else
+			{
+				hscale_force_sensor_ai_c_AtZoom = Convert.ToInt32(hscale_force_sensor_ai_c.Value);
+				hscale_force_sensor_ai_d_AtZoom = Convert.ToInt32(hscale_force_sensor_ai_d.Value);
+			}
 
 			forceSensorDoGraphAI(false);
 
-			hscale_force_sensor_ai_a.Value = hscale_force_sensor_ai_a_BeforeZoom + (hscale_force_sensor_ai_a_AtZoom);
-			hscale_force_sensor_ai_b.Value = hscale_force_sensor_ai_a_BeforeZoom + (hscale_force_sensor_ai_b_AtZoom);
+			if (radio_force_sensor_ai_ab.Active)
+			{
+				hscale_force_sensor_ai_a.Value = hscale_force_sensor_ai_a_BeforeZoom + (hscale_force_sensor_ai_a_AtZoom);
+				hscale_force_sensor_ai_b.Value = hscale_force_sensor_ai_a_BeforeZoom + (hscale_force_sensor_ai_b_AtZoom);
+			} else
+			{
+				hscale_force_sensor_ai_c.Value = hscale_force_sensor_ai_c_BeforeZoom + (hscale_force_sensor_ai_c_AtZoom);
+				hscale_force_sensor_ai_d.Value = hscale_force_sensor_ai_d_BeforeZoom + (hscale_force_sensor_ai_d_AtZoom);
+			}
 
 			image_force_sensor_ai_zoom.Visible = true;
 			image_force_sensor_ai_zoom_out.Visible = false;
@@ -1213,15 +1295,37 @@ public partial class ChronoJumpWindow
 
 		if ((Gtk.RadioButton) o == radio_force_sensor_ai_ab)
 		{
-			label_force_sensor_ai_ac.Text = "A";
-			label_force_sensor_ai_bd.Text = "B";
+			box_force_sensor_ai_a.Visible = true;
+			box_force_sensor_ai_b.Visible = true;
+			box_force_sensor_ai_c.Visible = false;
+			box_force_sensor_ai_d.Visible = false;
 			label_force_sensor_ai_zoom_abcd.Text = "[A-B]";
 		}
 		else if ((Gtk.RadioButton) o == radio_force_sensor_ai_cd)
 		{
-			label_force_sensor_ai_ac.Text = "C";
-			label_force_sensor_ai_bd.Text = "D";
+			box_force_sensor_ai_a.Visible = false;
+			box_force_sensor_ai_b.Visible = false;
+			box_force_sensor_ai_c.Visible = true;
+			box_force_sensor_ai_d.Visible = true;
 			label_force_sensor_ai_zoom_abcd.Text = "[C-D]";
+		}
+	}
+
+	//TODO: use this on more places
+	private Gtk.HScale getHScaleABCD (bool left)
+	{
+		if (radio_force_sensor_ai_ab.Active)
+		{
+			if (left)
+				return hscale_force_sensor_ai_a;
+			else
+				return hscale_force_sensor_ai_b;
+		} else
+		{
+			if (left)
+				return hscale_force_sensor_ai_c;
+			else
+				return hscale_force_sensor_ai_d;
 		}
 	}
 
@@ -1229,37 +1333,125 @@ public partial class ChronoJumpWindow
 	//to know change of slider in order to apply on the other slider if chained
 	int force_sensor_last_a = 1;
 	int force_sensor_last_b = 1;
+	int force_sensor_last_c = 1;
+	int force_sensor_last_d = 1;
 
-	private void on_hscale_force_sensor_ai_a_value_changed (object o, EventArgs args)
+	private void on_hscale_force_sensor_ai_value_changed (object o, EventArgs args)
 	{
+		LogB.Information ("on_hscale_force_sensor_ai_value_changed");
 		if(fsAI == null || fsAI.GetLength() == 0)
 			return;
 
-		int diffWithPrevious = Convert.ToInt32(hscale_force_sensor_ai_a.Value) - force_sensor_last_a;
+		Gtk.HScale hs = (Gtk.HScale) o;
+
+		// 1. set some variables to make this function work for the four hscales
+		bool isAB; //false AC
+		bool isLeft; //A or C
+		Gtk.HScale hsRelated ; //if A then B, if D then C
+		int last;
+		string hscaleToDebug;
+
+		if (hs == hscale_force_sensor_ai_a)
+		{
+			isAB = true; //false AC
+			isLeft = true; //A or C
+			hsRelated = hscale_force_sensor_ai_b; //if A then B, if D then C
+			last = force_sensor_last_a;
+			hscaleToDebug = "--- hscale_a ---";
+		}
+		else if (hs == hscale_force_sensor_ai_b)
+		{
+			isAB = true;
+			isLeft = false;
+			hsRelated = hscale_force_sensor_ai_a;
+			last = force_sensor_last_b;
+			hscaleToDebug = "--- hscale_b ---";
+		}
+		else if (hs == hscale_force_sensor_ai_c)
+		{
+			isAB = false;
+			isLeft = true;
+			hsRelated = hscale_force_sensor_ai_d;
+			last = force_sensor_last_c;
+			hscaleToDebug = "--- hscale_c ---";
+		}
+		else //if (hs == hscale_force_sensor_ai_d)
+		{
+			isAB = false;
+			isLeft = false;
+			hsRelated = hscale_force_sensor_ai_c;
+			last = force_sensor_last_d;
+			hscaleToDebug = "--- hscale_d ---";
+		}
+
+		int diffWithPrevious = Convert.ToInt32 (hs.Value) - last;
 
 		//if chained and moving a to the right makes b higher than 1, do not move
-		if(check_force_sensor_ai_chained.Active &&
-				Convert.ToInt32(hscale_force_sensor_ai_b.Value) + diffWithPrevious >= fsAI.GetLength() -1)
+		if (check_force_sensor_ai_chained.Active)
 		{
-			hscale_force_sensor_ai_a.Value = force_sensor_last_a;
+			if (
+					(isAB && isLeft && Convert.ToInt32 (hsRelated.Value) + diffWithPrevious >= fsAI.GetLength() -1) ||
+					(isAB && ! isLeft && Convert.ToInt32 (hsRelated.Value) + diffWithPrevious <= 0) ||
+					(! isAB && isLeft && Convert.ToInt32 (hsRelated.Value) + diffWithPrevious >= fsAI.GetLength() -1) ||
+					(! isAB && ! isLeft && Convert.ToInt32 (hsRelated.Value) + diffWithPrevious <= 0) )
+			{
+				hs.Value = last;
+				return;
+			}
+		}
+		LogB.Information (string.Format ("on_hscale_force_sensor_ai_value_changed {0} 2", hscaleToDebug));
+
+		//do not allow A or C to be higher than B or D (fix multiple possible problems)
+		if (isLeft && hs.Value > hsRelated.Value)
+			hsRelated.Value = hs.Value;
+		else if (! isLeft && hs.Value < hsRelated.Value)
+			hs.Value = hsRelated.Value;
+
+		//fix possible boundaries problem that could happen when there is really few data
+		int count = Convert.ToInt32 (hs.Value);
+		int countRelated = Convert.ToInt32 (hsRelated.Value);
+		if (
+				(count > 0 && count > fsAI.GetLength() -1) ||
+				(countRelated > 0 && countRelated > fsAI.GetLength() -1) )
+		{
+			LogB.Information (string.Format ("hscale_force_sensor outside of boundaries (isAB: {0}, isLeft: {1}, count: {2}, countRelated: {3}, fsAI.GetLength (): {4})",
+						isAB, isLeft, count, countRelated, fsAI.GetLength ()));
 			return;
 		}
+		LogB.Information (string.Format ("on_hscale_force_sensor_ai_value_changed {0} 3", hscaleToDebug));
 
-		//do not allow A to be higher than B (fix multiple possible problems)
-		if(hscale_force_sensor_ai_a.Value > hscale_force_sensor_ai_b.Value)
-			hscale_force_sensor_ai_b.Value = hscale_force_sensor_ai_a.Value;
-
-		int count = Convert.ToInt32(hscale_force_sensor_ai_a.Value);
-		if(count > 0 && count > fsAI.GetLength() -1)
+		//TODO: update bottom labels or treeview (make it work also for C-D
+		if (isAB)
 		{
-			//it could happen when there is really little data
-			LogB.Information("hscale_force_sensor_ai_a outside of boundaries");
-			return;
+			if (isLeft)
+			{
+				label_force_sensor_ai_time_a.Text = Math.Round(fsAI.GetTimeMS(count), 1).ToString();
+				label_force_sensor_ai_force_a.Text = Math.Round(fsAI.GetForceAtCount(count), 1).ToString();
+				label_force_sensor_ai_time_b.Text = Math.Round(fsAI.GetTimeMS(countRelated), 1).ToString();
+				label_force_sensor_ai_force_b.Text = Math.Round(fsAI.GetForceAtCount(countRelated), 1).ToString();
+			} else
+			{
+				label_force_sensor_ai_time_a.Text = Math.Round(fsAI.GetTimeMS(countRelated), 1).ToString();
+				label_force_sensor_ai_force_a.Text = Math.Round(fsAI.GetForceAtCount(countRelated), 1).ToString();
+				label_force_sensor_ai_time_b.Text = Math.Round(fsAI.GetTimeMS(count), 1).ToString();
+				label_force_sensor_ai_force_b.Text = Math.Round(fsAI.GetForceAtCount(count), 1).ToString();
+			}
+		} else
+		{
+			if (isLeft)
+			{
+				label_force_sensor_ai_time_c.Text = Math.Round(fsAI.GetTimeMS(count), 1).ToString();
+				label_force_sensor_ai_time_d.Text = Math.Round(fsAI.GetTimeMS(countRelated), 1).ToString();
+				//TODO: forces
+			} else {
+				label_force_sensor_ai_time_c.Text = Math.Round(fsAI.GetTimeMS(countRelated), 1).ToString();
+				label_force_sensor_ai_time_d.Text = Math.Round(fsAI.GetTimeMS(count), 1).ToString();
+				//TODO: forces
+			}
 		}
+		LogB.Information (string.Format ("on_hscale_force_sensor_ai_value_changed {0} 4", hscaleToDebug));
 
-		label_force_sensor_ai_time_a.Text = Math.Round(fsAI.GetTimeMS(count), 1).ToString();
-		label_force_sensor_ai_force_a.Text = Math.Round(fsAI.GetForceAtCount(count), 1).ToString();
-
+		//TODO: update this for all and doing a treeview
 		if(fsAI.CalculedElasticPSAP)
 		{
 			label_force_sensor_ai_position_a.Text = Math.Round(fsAI.Position_l[count], 3).ToString();
@@ -1278,95 +1470,38 @@ public partial class ChronoJumpWindow
 		else
 			label_force_sensor_ai_rfd_a.Text = "";
 
-		force_sensor_last_a = Convert.ToInt32(hscale_force_sensor_ai_a.Value);
 
-		if(forceSensorHScalesDoNotFollow)
+		LogB.Information (string.Format ("on_hscale_force_sensor_ai_value_changed {0} 5", hscaleToDebug));
+		// update force_sensor_last_a, ...
+		if (hs == hscale_force_sensor_ai_a)
+			force_sensor_last_a = Convert.ToInt32 (hs.Value);
+		else if (hs == hscale_force_sensor_ai_b)
+			force_sensor_last_b = Convert.ToInt32 (hs.Value);
+		else if (hs == hscale_force_sensor_ai_c)
+			force_sensor_last_c = Convert.ToInt32 (hs.Value);
+		else if (hs == hscale_force_sensor_ai_d)
+			force_sensor_last_d = Convert.ToInt32 (hs.Value);
+
+		LogB.Information (string.Format ("on_hscale_force_sensor_ai_value_changed {0} 6", hscaleToDebug));
+		if (forceSensorHScalesDoNotFollow)
 		{
 			forceSensorHScalesDoNotFollow = false;
 			return;
 		}
 
-		//if chained move also B
-		if(check_force_sensor_ai_chained.Active)
+		LogB.Information (string.Format ("on_hscale_force_sensor_ai_value_changed {0} 7", hscaleToDebug));
+		//if chained move also the related
+		if (check_force_sensor_ai_chained.Active)
 		{
 			forceSensorHScalesDoNotFollow = true;
-			hscale_force_sensor_ai_b.Value = hscale_force_sensor_ai_b.Value + diffWithPrevious;
+			hsRelated.Value = hsRelated.Value + diffWithPrevious;
 			forceSensorHScalesDoNotFollow = false;
 		}
 
 		force_sensor_analyze_instant_calculate_params();
-
 		forceSensorAnalyzeGeneralButtonHscaleZoomSensitiveness();
 		force_sensor_ai_drawingarea_cairo.QueueDraw(); //will fire ExposeEvent
-	}
-	private void on_hscale_force_sensor_ai_b_value_changed (object o, EventArgs args)
-	{
-		if(fsAI == null || fsAI.GetLength() == 0)
-			return;
-
-		int diffWithPrevious = Convert.ToInt32(hscale_force_sensor_ai_b.Value) - force_sensor_last_b;
-
-		//if chained and moving b to the left makes a lower than 0, do not move
-		if(check_force_sensor_ai_chained.Active &&
-				Convert.ToInt32(hscale_force_sensor_ai_a.Value) + diffWithPrevious <= 0)
-		{
-			hscale_force_sensor_ai_b.Value = force_sensor_last_b;
-			return;
-		}
-
-		//do not allow B to be lower than A (fix multiple possible problems)
-		if(hscale_force_sensor_ai_b.Value < hscale_force_sensor_ai_a.Value)
-			hscale_force_sensor_ai_a.Value = hscale_force_sensor_ai_b.Value;
-
-		int count = Convert.ToInt32(hscale_force_sensor_ai_b.Value);
-		if(count > 0 && count > fsAI.GetLength() -1)
-		{
-			//it could happen when there is really little data
-			LogB.Information("hscale_force_sensor_ai_b outside of boundaries");
-			return;
-		}
-
-		label_force_sensor_ai_time_b.Text = Math.Round(fsAI.GetTimeMS(count), 1).ToString();
-		label_force_sensor_ai_force_b.Text = Math.Round(fsAI.GetForceAtCount(count), 1).ToString();
-
-		if(fsAI.CalculedElasticPSAP)
-		{
-			label_force_sensor_ai_position_b.Text = Math.Round(fsAI.Position_l[count], 3).ToString();
-			label_force_sensor_ai_speed_b.Text = Math.Round(fsAI.Speed_l[count], 3).ToString();
-			label_force_sensor_ai_accel_b.Text = Math.Round(fsAI.Accel_l[count], 3).ToString();
-			label_force_sensor_ai_power_b.Text = Math.Round(fsAI.Power_l[count], 3).ToString();
-		} else {
-			label_force_sensor_ai_position_b.Text = "";
-			label_force_sensor_ai_speed_b.Text = "";
-			label_force_sensor_ai_accel_b.Text = "";
-			label_force_sensor_ai_power_b.Text = "";
-		}
-
-		if(count > 0 && count < fsAI.GetLength() -1)
-			label_force_sensor_ai_rfd_b.Text = Math.Round(fsAI.CalculateRFD(count -1, count +1), 1).ToString();
-		else
-			label_force_sensor_ai_rfd_b.Text = "";
-
-		force_sensor_last_b = Convert.ToInt32(hscale_force_sensor_ai_b.Value);
-
-		if(forceSensorHScalesDoNotFollow)
-		{
-			forceSensorHScalesDoNotFollow = false;
-			return;
-		}
-
-		//if chained move also A
-		if(check_force_sensor_ai_chained.Active)
-		{
-			forceSensorHScalesDoNotFollow = true;
-			hscale_force_sensor_ai_a.Value = hscale_force_sensor_ai_a.Value + diffWithPrevious;
-			forceSensorHScalesDoNotFollow = false;
-		}
-
-		force_sensor_analyze_instant_calculate_params();
-
-		forceSensorAnalyzeGeneralButtonHscaleZoomSensitiveness();
-		force_sensor_ai_drawingarea_cairo.QueueDraw(); //will fire ExposeEvent
+		LogB.Information (string.Format ("on_hscale_force_sensor_ai_value_changed {0} 8", hscaleToDebug));
 	}
 
 	private void on_check_force_sensor_ai_chained_clicked (object o, EventArgs args)
@@ -1377,51 +1512,84 @@ public partial class ChronoJumpWindow
 
 	private void forceSensorAnalyzeGeneralButtonHscaleZoomSensitiveness()
 	{
-		button_hscale_force_sensor_ai_a_first.Sensitive = hscale_force_sensor_ai_a.Value > 0;
-		button_hscale_force_sensor_ai_a_pre.Sensitive = hscale_force_sensor_ai_a.Value > 0;
-		button_hscale_force_sensor_ai_b_first.Sensitive = hscale_force_sensor_ai_b.Value > 0;
-		button_hscale_force_sensor_ai_b_pre.Sensitive = hscale_force_sensor_ai_b.Value > 0;
+		Gtk.HScale hsLeft;
+		Gtk.HScale hsRight;
+		if (radio_force_sensor_ai_ab.Active)
+		{
+			hsLeft = hscale_force_sensor_ai_a;
+			hsRight = hscale_force_sensor_ai_b;
+		} else
+		{
+			hsLeft = hscale_force_sensor_ai_c;
+			hsRight = hscale_force_sensor_ai_d;
+		}
 
-		button_hscale_force_sensor_ai_a_last.Sensitive = hscale_force_sensor_ai_a.Value < fsAI.GetLength() -1;
-		button_hscale_force_sensor_ai_a_post.Sensitive = hscale_force_sensor_ai_a.Value < fsAI.GetLength() -1;
-		button_hscale_force_sensor_ai_b_last.Sensitive = hscale_force_sensor_ai_b.Value < fsAI.GetLength() -1;
-		button_hscale_force_sensor_ai_b_post.Sensitive = hscale_force_sensor_ai_b.Value < fsAI.GetLength() -1;
+		button_hscale_force_sensor_ai_a_first.Sensitive = hsLeft.Value > 0;
+		button_hscale_force_sensor_ai_a_pre.Sensitive = hsLeft.Value > 0;
+		button_hscale_force_sensor_ai_b_first.Sensitive = hsRight.Value > 0;
+		button_hscale_force_sensor_ai_b_pre.Sensitive = hsRight.Value > 0;
+
+		button_hscale_force_sensor_ai_a_last.Sensitive = hsLeft.Value < fsAI.GetLength() -1;
+		button_hscale_force_sensor_ai_a_post.Sensitive = hsLeft.Value < fsAI.GetLength() -1;
+		button_hscale_force_sensor_ai_b_last.Sensitive = hsRight.Value < fsAI.GetLength() -1;
+		button_hscale_force_sensor_ai_b_post.Sensitive = hsRight.Value < fsAI.GetLength() -1;
 
 		//diff have to be more than one pixel
-		check_force_sensor_ai_zoom.Sensitive = (Math.Abs(hscale_force_sensor_ai_a.Value - hscale_force_sensor_ai_b.Value) > 1);
+		check_force_sensor_ai_zoom.Sensitive = (Math.Abs(hsLeft.Value - hsRight.Value) > 1);
 	}
 
 	private void on_button_hscale_force_sensor_ai_a_first_clicked (object o, EventArgs args)
 	{
-		hscale_force_sensor_ai_a.Value = 0;
+		if (radio_force_sensor_ai_ab.Active)
+			hscale_force_sensor_ai_a.Value = 0;
+		else
+			hscale_force_sensor_ai_c.Value = 0;
 	}
 	private void on_button_hscale_force_sensor_ai_a_pre_clicked (object o, EventArgs args)
 	{
-		hscale_force_sensor_ai_a.Value -= 1;
+		if (radio_force_sensor_ai_ab.Active)
+			hscale_force_sensor_ai_a.Value -= 1;
+		else
+			hscale_force_sensor_ai_c.Value -= 1;
 	}
 	private void on_button_hscale_force_sensor_ai_a_post_clicked (object o, EventArgs args)
 	{
-		hscale_force_sensor_ai_a.Value += 1;
+		if (radio_force_sensor_ai_ab.Active)
+			hscale_force_sensor_ai_a.Value += 1;
+		else
+			hscale_force_sensor_ai_c.Value += 1;
 	}
 	private void on_button_hscale_force_sensor_ai_a_last_clicked (object o, EventArgs args)
 	{
 		if(fsAI == null || fsAI.GetLength() < 2)
 			return;
 
-		hscale_force_sensor_ai_a.Value = fsAI.GetLength() -1;
+		if (radio_force_sensor_ai_ab.Active)
+			hscale_force_sensor_ai_a.Value = fsAI.GetLength() -1;
+		else
+			hscale_force_sensor_ai_c.Value = fsAI.GetLength() -1;
 	}
 
 	private void on_button_hscale_force_sensor_ai_b_first_clicked (object o, EventArgs args)
 	{
-		hscale_force_sensor_ai_b.Value = 0;
+		if (radio_force_sensor_ai_ab.Active)
+			hscale_force_sensor_ai_b.Value = 0;
+		else
+			hscale_force_sensor_ai_d.Value = 0;
 	}
 	private void on_button_hscale_force_sensor_ai_b_pre_clicked (object o, EventArgs args)
 	{
-		hscale_force_sensor_ai_b.Value -= 1;
+		if (radio_force_sensor_ai_ab.Active)
+			hscale_force_sensor_ai_b.Value -= 1;
+		else
+			hscale_force_sensor_ai_d.Value -= 1;
 	}
 	private void on_button_hscale_force_sensor_ai_b_post_clicked (object o, EventArgs args)
 	{
-		hscale_force_sensor_ai_b.Value += 1;
+		if (radio_force_sensor_ai_ab.Active)
+			hscale_force_sensor_ai_b.Value += 1;
+		else
+			hscale_force_sensor_ai_d.Value += 1;
 	}
 
 	private void on_button_hscale_force_sensor_ai_b_last_clicked (object o, EventArgs args)
@@ -1429,7 +1597,10 @@ public partial class ChronoJumpWindow
 		if(fsAI == null || fsAI.GetLength() < 2)
 			return;
 
-		hscale_force_sensor_ai_b.Value = fsAI.GetLength() -1;
+		if (radio_force_sensor_ai_ab.Active)
+			hscale_force_sensor_ai_b.Value = fsAI.GetLength() -1;
+		else
+			hscale_force_sensor_ai_d.Value = fsAI.GetLength() -1;
 	}
 
 	private void on_button_hscale_force_sensor_ai_a_pre_1s_clicked (object o, EventArgs args)
@@ -1437,7 +1608,8 @@ public partial class ChronoJumpWindow
 		if(fsAI == null || fsAI.GetLength() == 0)
 			return;
 
-		int startA = Convert.ToInt32(hscale_force_sensor_ai_a.Value);
+		Gtk.HScale hs = getHScaleABCD (true);
+		int startA = Convert.ToInt32 (hs.Value);
 		double startAMs = fsAI.GetTimeMS(startA);
 		for(int i = startA; i > 0; i --)
 		{
@@ -1448,9 +1620,9 @@ public partial class ChronoJumpWindow
 				if(MathUtil.PassedSampleIsCloserToCriteria (
 						startAMs - fsAI.GetTimeMS(i), startAMs - fsAI.GetTimeMS(i+1),
 						preferences.forceSensorAnalyzeABSliderIncrement * 1000))
-					hscale_force_sensor_ai_a.Value += (i - startA);
+					hs.Value += (i - startA);
 				else
-					hscale_force_sensor_ai_a.Value += (i+1 - startA);
+					hs.Value += (i+1 - startA);
 
 				return;
 			}
@@ -1461,7 +1633,8 @@ public partial class ChronoJumpWindow
 		if(fsAI == null || fsAI.GetLength() == 0)
 			return;
 
-		int startA = Convert.ToInt32(hscale_force_sensor_ai_a.Value);
+		Gtk.HScale hs = getHScaleABCD (true);
+		int startA = Convert.ToInt32(hs.Value);
 		double startAMs = fsAI.GetTimeMS(startA);
 		for(int i = startA; i < fsAI.GetLength() -1; i ++)
 		{
@@ -1471,9 +1644,9 @@ public partial class ChronoJumpWindow
 				if(MathUtil.PassedSampleIsCloserToCriteria (
 						fsAI.GetTimeMS(i) - startAMs, fsAI.GetTimeMS(i-1) - startAMs,
 						preferences.forceSensorAnalyzeABSliderIncrement * 1000))
-					hscale_force_sensor_ai_a.Value += (i - startA);
+					hs.Value += (i - startA);
 				else
-					hscale_force_sensor_ai_a.Value += (i-1 - startA);
+					hs.Value += (i-1 - startA);
 
 				return;
 			}
@@ -1485,7 +1658,8 @@ public partial class ChronoJumpWindow
 		if(fsAI == null || fsAI.GetLength() == 0)
 			return;
 
-		int startB = Convert.ToInt32(hscale_force_sensor_ai_b.Value);
+		Gtk.HScale hs = getHScaleABCD (false);
+		int startB = Convert.ToInt32(hs.Value);
 		double startBMs = fsAI.GetTimeMS(startB);
 		for(int i = startB; i > 0; i --)
 		{
@@ -1495,9 +1669,9 @@ public partial class ChronoJumpWindow
 				if(MathUtil.PassedSampleIsCloserToCriteria (
 						startBMs - fsAI.GetTimeMS(i), startBMs - fsAI.GetTimeMS(i+1),
 						preferences.forceSensorAnalyzeABSliderIncrement * 1000))
-					hscale_force_sensor_ai_b.Value += (i - startB);
+					hs.Value += (i - startB);
 				else
-					hscale_force_sensor_ai_b.Value += (i+1 - startB);
+					hs.Value += (i+1 - startB);
 
 				return;
 			}
@@ -1508,7 +1682,8 @@ public partial class ChronoJumpWindow
 		if(fsAI == null || fsAI.GetLength() == 0)
 			return;
 
-		int startB = Convert.ToInt32(hscale_force_sensor_ai_b.Value);
+		Gtk.HScale hs = getHScaleABCD (false);
+		int startB = Convert.ToInt32(hs.Value);
 		double startBMs = fsAI.GetTimeMS(startB);
 		for(int i = startB; i < fsAI.GetLength() -1; i ++)
 		{
@@ -1518,9 +1693,9 @@ public partial class ChronoJumpWindow
 				if(MathUtil.PassedSampleIsCloserToCriteria (
 						fsAI.GetTimeMS(i) - startBMs, fsAI.GetTimeMS(i-1) - startBMs,
 						preferences.forceSensorAnalyzeABSliderIncrement * 1000))
-					hscale_force_sensor_ai_b.Value += (i - startB);
+					hs.Value += (i - startB);
 				else
-					hscale_force_sensor_ai_b.Value += (i-1 - startB);
+					hs.Value += (i-1 - startB);
 
 				return;
 			}
@@ -1561,6 +1736,7 @@ public partial class ChronoJumpWindow
 			button_force_sensor_analyze_AB_save.Visible = false;
 	}
 
+	// TODO: have all this as treevew, for AB and another for CD
 	private void force_sensor_analyze_instant_calculate_params()
 	{
 		int countA = Convert.ToInt32 (hscale_force_sensor_ai_a.Value);
@@ -1822,23 +1998,25 @@ public partial class ChronoJumpWindow
 	}
 	void on_button_force_sensor_save_AB_file_selected (string selectedFileName)
 	{
-		fsAI.ExportToCSV(getLowestForceSensorABScale(), getHighestForceSensorABScale(),
+		fsAI.ExportToCSV(
+				getLowestForceSensorScale (getHScaleABCD (true), getHScaleABCD (false)),
+				getHighestForceSensorScale (getHScaleABCD (true), getHScaleABCD (false)),
 				selectedFileName, preferences.CSVExportDecimalSeparator);
 	}
 
-	private int getLowestForceSensorABScale()
+	private int getLowestForceSensorScale (Gtk.HScale hsLeft, Gtk.HScale hsRight)
 	{
-		if(Convert.ToInt32(hscale_force_sensor_ai_a.Value) <= Convert.ToInt32(hscale_force_sensor_ai_b.Value))
-			return Convert.ToInt32(hscale_force_sensor_ai_a.Value);
+		if(Convert.ToInt32(hsLeft.Value) <= Convert.ToInt32(hsRight.Value))
+			return Convert.ToInt32(hsLeft.Value);
 		else
-			return Convert.ToInt32(hscale_force_sensor_ai_b.Value);
+			return Convert.ToInt32(hsRight.Value);
 	}
-	private int getHighestForceSensorABScale()
+	private int getHighestForceSensorScale (Gtk.HScale hsLeft, Gtk.HScale hsRight)
 	{
-		if(Convert.ToInt32(hscale_force_sensor_ai_a.Value) <= Convert.ToInt32(hscale_force_sensor_ai_b.Value))
-			return Convert.ToInt32(hscale_force_sensor_ai_b.Value);
+		if(Convert.ToInt32(hsLeft.Value) <= Convert.ToInt32(hsRight.Value))
+			return Convert.ToInt32(hsRight.Value);
 		else
-			return Convert.ToInt32(hscale_force_sensor_ai_a.Value);
+			return Convert.ToInt32(hsLeft.Value);
 	}
 
 	private void connectWidgetsForceSensorAnalyze (Gtk.Builder builder)
@@ -1979,11 +2157,15 @@ public partial class ChronoJumpWindow
 		force_sensor_ai_drawingarea_cairo = (Gtk.DrawingArea) builder.GetObject ("force_sensor_ai_drawingarea_cairo");
 		radio_force_sensor_ai_ab = (Gtk.RadioButton) builder.GetObject ("radio_force_sensor_ai_ab");
 		radio_force_sensor_ai_cd = (Gtk.RadioButton) builder.GetObject ("radio_force_sensor_ai_cd");
-		label_force_sensor_ai_ac = (Gtk.Label) builder.GetObject ("label_force_sensor_ai_ac");
-		label_force_sensor_ai_bd = (Gtk.Label) builder.GetObject ("label_force_sensor_ai_bd");
+		box_force_sensor_ai_a = (Gtk.Box) builder.GetObject ("box_force_sensor_ai_a");
+		box_force_sensor_ai_b = (Gtk.Box) builder.GetObject ("box_force_sensor_ai_b");
+		box_force_sensor_ai_c = (Gtk.Box) builder.GetObject ("box_force_sensor_ai_c");
+		box_force_sensor_ai_d = (Gtk.Box) builder.GetObject ("box_force_sensor_ai_d");
 		label_force_sensor_ai_zoom_abcd = (Gtk.Label) builder.GetObject ("label_force_sensor_ai_zoom_abcd");
 		hscale_force_sensor_ai_a = (Gtk.HScale) builder.GetObject ("hscale_force_sensor_ai_a");
 		hscale_force_sensor_ai_b = (Gtk.HScale) builder.GetObject ("hscale_force_sensor_ai_b");
+		hscale_force_sensor_ai_c = (Gtk.HScale) builder.GetObject ("hscale_force_sensor_ai_c");
+		hscale_force_sensor_ai_d = (Gtk.HScale) builder.GetObject ("hscale_force_sensor_ai_d");
 		label_force_sensor_ai_time_a = (Gtk.Label) builder.GetObject ("label_force_sensor_ai_time_a");
 		label_force_sensor_ai_force_a = (Gtk.Label) builder.GetObject ("label_force_sensor_ai_force_a");
 		label_force_sensor_ai_rfd_a = (Gtk.Label) builder.GetObject ("label_force_sensor_ai_rfd_a");
@@ -2018,6 +2200,8 @@ public partial class ChronoJumpWindow
 		label_force_sensor_ai_rfd_max = (Gtk.Label) builder.GetObject ("label_force_sensor_ai_rfd_max");
 		label_force_sensor_ai_max_avg_in_window_values = (Gtk.Label) builder.GetObject ("label_force_sensor_ai_max_avg_in_window_values");
 		label_force_sensor_ai_best_rfd_in_window_values = (Gtk.Label) builder.GetObject ("label_force_sensor_ai_best_rfd_in_window_values");
+		label_force_sensor_ai_time_c = (Gtk.Label) builder.GetObject ("label_force_sensor_ai_time_c");
+		label_force_sensor_ai_time_d = (Gtk.Label) builder.GetObject ("label_force_sensor_ai_time_d");
 
 		combo_force_1_function = (Gtk.ComboBoxText) builder.GetObject ("combo_force_1_function");
 		combo_force_2_function = (Gtk.ComboBoxText) builder.GetObject ("combo_force_2_function");

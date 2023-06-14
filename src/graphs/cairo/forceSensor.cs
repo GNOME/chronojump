@@ -545,7 +545,9 @@ public class CairoGraphForceSensorAI : CairoGraphForceSensor
 			int rectangleN, int rectangleRange,
 			GetBestRFDInWindow briw,
 			TriggerList triggerList,
-			int hscaleSampleA, int hscaleSampleB, bool zoomed,
+			int hscaleSampleA, int hscaleSampleB,
+			int hscaleSampleC, int hscaleSampleD,
+			bool zoomed,
 			int fMaxAvgSampleStart, int fMaxAvgSampleEnd, double fMaxAvgForce,
 			ForceSensorExercise exercise, List<ForceSensorRepetition> reps_l,
 			bool forceRedraw, PlotTypes plotType)
@@ -573,7 +575,9 @@ public class CairoGraphForceSensorAI : CairoGraphForceSensor
 
 		if (doSendingList (font, spCairoFE.Force_l,
 					triggerList,
-					hscaleSampleA, hscaleSampleB, zoomed,
+					hscaleSampleA, hscaleSampleB,
+					hscaleSampleC, hscaleSampleD,
+					zoomed,
 					fMaxAvgSampleStart, fMaxAvgSampleEnd, fMaxAvgForce,
 					exercise, reps_l,
 					forceRedraw, plotType))
@@ -601,7 +605,9 @@ public class CairoGraphForceSensorAI : CairoGraphForceSensor
 	private bool doSendingList (string font,
 			List<PointF> points_l,
 			TriggerList triggerList,
-			int hscaleSampleA, int hscaleSampleB, bool zoomed,
+			int hscaleSampleA, int hscaleSampleB,
+			int hscaleSampleC, int hscaleSampleD,
+			bool zoomed,
 			int fMaxAvgSampleStart, int fMaxAvgSampleEnd, double fMaxAvgForce,
 			ForceSensorExercise exercise, List<ForceSensorRepetition> reps_l,
 			bool forceRedraw, PlotTypes plotType)
@@ -671,9 +677,18 @@ public class CairoGraphForceSensorAI : CairoGraphForceSensor
 			if (hscaleSampleA >= 0 && hscaleSampleB >= 0 &&
 					points_l.Count > hscaleSampleA && points_l.Count > hscaleSampleB)
 				CairoUtil.PaintVerticalLinesAndRectangle (g, graphHeight,
-						calculatePaintX (points_l[hscaleSampleA].X),
-						calculatePaintX (points_l[hscaleSampleB].X),
-						true, 15, 0);
+						"A", calculatePaintX (points_l[hscaleSampleA].X),
+						"B", calculatePaintX (points_l[hscaleSampleB].X),
+						true, 15, 0, yellowTransp);
+
+			// paint the CD rectangle
+			if (hscaleSampleC >= 0 && hscaleSampleD >= 0 &&
+					points_l.Count > hscaleSampleC && points_l.Count > hscaleSampleD
+					&& (hscaleSampleC != hscaleSampleA || hscaleSampleD != hscaleSampleB))
+				CairoUtil.PaintVerticalLinesAndRectangle (g, graphHeight,
+						"C", calculatePaintX (points_l[hscaleSampleC].X),
+						"D", calculatePaintX (points_l[hscaleSampleD].X),
+						true, 15, 0, greenTransp);
 
 			// paint the repetition lines and codes
 			if (reps_l.Count > 0)

@@ -165,6 +165,9 @@ public partial class ChronoJumpWindow
 
 	Gtk.HBox hbox_force_sensor_analyze_ai_sliders_and_buttons;
 	Gtk.DrawingArea force_sensor_ai_drawingarea_cairo;
+	Gtk.Viewport viewport_force_sensor_analyze_hscales;
+	Gtk.Viewport viewport_radio_force_sensor_ai_ab;
+	Gtk.Viewport viewport_radio_force_sensor_ai_cd;
 	Gtk.RadioButton radio_force_sensor_ai_ab;
 	Gtk.RadioButton radio_force_sensor_ai_cd;
 	Gtk.Box box_force_sensor_ai_a;
@@ -1318,6 +1321,7 @@ public partial class ChronoJumpWindow
 			box_force_sensor_ai_c.Visible = false;
 			box_force_sensor_ai_d.Visible = false;
 			label_force_sensor_ai_zoom_abcd.Text = "[A-B]";
+			UtilGtk.ViewportColor (viewport_force_sensor_analyze_hscales, UtilGtk.Colors.YELLOW_LIGHT);
 		}
 		else if ((Gtk.RadioButton) o == radio_force_sensor_ai_cd)
 		{
@@ -1326,6 +1330,7 @@ public partial class ChronoJumpWindow
 			box_force_sensor_ai_c.Visible = true;
 			box_force_sensor_ai_d.Visible = true;
 			label_force_sensor_ai_zoom_abcd.Text = "[C-D]";
+			UtilGtk.ViewportColor (viewport_force_sensor_analyze_hscales, UtilGtk.Colors.GREEN_LIGHT);
 		}
 	}
 
@@ -2167,6 +2172,9 @@ public partial class ChronoJumpWindow
 
 		hbox_force_sensor_analyze_ai_sliders_and_buttons = (Gtk.HBox) builder.GetObject ("hbox_force_sensor_analyze_ai_sliders_and_buttons");
 		force_sensor_ai_drawingarea_cairo = (Gtk.DrawingArea) builder.GetObject ("force_sensor_ai_drawingarea_cairo");
+		viewport_force_sensor_analyze_hscales = (Gtk.Viewport) builder.GetObject ("viewport_force_sensor_analyze_hscales");
+		viewport_radio_force_sensor_ai_ab = (Gtk.Viewport) builder.GetObject ("viewport_radio_force_sensor_ai_ab");
+		viewport_radio_force_sensor_ai_cd = (Gtk.Viewport) builder.GetObject ("viewport_radio_force_sensor_ai_cd");
 		radio_force_sensor_ai_ab = (Gtk.RadioButton) builder.GetObject ("radio_force_sensor_ai_ab");
 		radio_force_sensor_ai_cd = (Gtk.RadioButton) builder.GetObject ("radio_force_sensor_ai_cd");
 		box_force_sensor_ai_a = (Gtk.Box) builder.GetObject ("box_force_sensor_ai_a");

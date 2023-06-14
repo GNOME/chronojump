@@ -936,17 +936,8 @@ public partial class ChronoJumpWindow
 		int zoomFrameA = -1; //means no zoom
 		int zoomFrameB = -1; //means no zoom
 
-		Gtk.HScale hsLeft;
-		Gtk.HScale hsRight;
-		if (radio_force_sensor_ai_ab.Active)
-		{
-			hsLeft = hscale_force_sensor_ai_a;
-			hsRight = hscale_force_sensor_ai_b;
-		} else
-		{
-			hsLeft = hscale_force_sensor_ai_c;
-			hsRight = hscale_force_sensor_ai_d;
-		}
+		Gtk.HScale hsLeft = getHScaleABCD (true);
+		Gtk.HScale hsRight = getHScaleABCD (false);
 
 		if(windowResizedAndZoom)
 		{
@@ -1311,7 +1302,6 @@ public partial class ChronoJumpWindow
 		}
 	}
 
-	//TODO: use this on more places
 	private Gtk.HScale getHScaleABCD (bool left)
 	{
 		if (radio_force_sensor_ai_ab.Active)
@@ -1512,17 +1502,8 @@ public partial class ChronoJumpWindow
 
 	private void forceSensorAnalyzeGeneralButtonHscaleZoomSensitiveness()
 	{
-		Gtk.HScale hsLeft;
-		Gtk.HScale hsRight;
-		if (radio_force_sensor_ai_ab.Active)
-		{
-			hsLeft = hscale_force_sensor_ai_a;
-			hsRight = hscale_force_sensor_ai_b;
-		} else
-		{
-			hsLeft = hscale_force_sensor_ai_c;
-			hsRight = hscale_force_sensor_ai_d;
-		}
+		Gtk.HScale hsLeft = getHScaleABCD (true);
+		Gtk.HScale hsRight = getHScaleABCD (false);
 
 		button_hscale_force_sensor_ai_a_first.Sensitive = hsLeft.Value > 0;
 		button_hscale_force_sensor_ai_a_pre.Sensitive = hsLeft.Value > 0;
@@ -1540,56 +1521,35 @@ public partial class ChronoJumpWindow
 
 	private void on_button_hscale_force_sensor_ai_a_first_clicked (object o, EventArgs args)
 	{
-		if (radio_force_sensor_ai_ab.Active)
-			hscale_force_sensor_ai_a.Value = 0;
-		else
-			hscale_force_sensor_ai_c.Value = 0;
+		getHScaleABCD (true).Value = 0;
 	}
 	private void on_button_hscale_force_sensor_ai_a_pre_clicked (object o, EventArgs args)
 	{
-		if (radio_force_sensor_ai_ab.Active)
-			hscale_force_sensor_ai_a.Value -= 1;
-		else
-			hscale_force_sensor_ai_c.Value -= 1;
+		getHScaleABCD (true).Value -= 1;
 	}
 	private void on_button_hscale_force_sensor_ai_a_post_clicked (object o, EventArgs args)
 	{
-		if (radio_force_sensor_ai_ab.Active)
-			hscale_force_sensor_ai_a.Value += 1;
-		else
-			hscale_force_sensor_ai_c.Value += 1;
+		getHScaleABCD (true).Value += 1;
 	}
 	private void on_button_hscale_force_sensor_ai_a_last_clicked (object o, EventArgs args)
 	{
 		if(fsAI == null || fsAI.GetLength() < 2)
 			return;
 
-		if (radio_force_sensor_ai_ab.Active)
-			hscale_force_sensor_ai_a.Value = fsAI.GetLength() -1;
-		else
-			hscale_force_sensor_ai_c.Value = fsAI.GetLength() -1;
+		getHScaleABCD (true).Value = fsAI.GetLength() -1;
 	}
 
 	private void on_button_hscale_force_sensor_ai_b_first_clicked (object o, EventArgs args)
 	{
-		if (radio_force_sensor_ai_ab.Active)
-			hscale_force_sensor_ai_b.Value = 0;
-		else
-			hscale_force_sensor_ai_d.Value = 0;
+		getHScaleABCD (false).Value = 0;
 	}
 	private void on_button_hscale_force_sensor_ai_b_pre_clicked (object o, EventArgs args)
 	{
-		if (radio_force_sensor_ai_ab.Active)
-			hscale_force_sensor_ai_b.Value -= 1;
-		else
-			hscale_force_sensor_ai_d.Value -= 1;
+		getHScaleABCD (false).Value = -1;
 	}
 	private void on_button_hscale_force_sensor_ai_b_post_clicked (object o, EventArgs args)
 	{
-		if (radio_force_sensor_ai_ab.Active)
-			hscale_force_sensor_ai_b.Value += 1;
-		else
-			hscale_force_sensor_ai_d.Value += 1;
+		getHScaleABCD (false).Value = +1;
 	}
 
 	private void on_button_hscale_force_sensor_ai_b_last_clicked (object o, EventArgs args)
@@ -1597,10 +1557,7 @@ public partial class ChronoJumpWindow
 		if(fsAI == null || fsAI.GetLength() < 2)
 			return;
 
-		if (radio_force_sensor_ai_ab.Active)
-			hscale_force_sensor_ai_b.Value = fsAI.GetLength() -1;
-		else
-			hscale_force_sensor_ai_d.Value = fsAI.GetLength() -1;
+		getHScaleABCD (false).Value = fsAI.GetLength() -1;
 	}
 
 	private void on_button_hscale_force_sensor_ai_a_pre_1s_clicked (object o, EventArgs args)

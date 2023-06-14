@@ -52,6 +52,7 @@ public partial class ChronoJumpWindow
 	Gtk.Button button_force_sensor_image_save_rfd_manual;
 	//Gtk.ScrolledWindow scrolledwindow_force_sensor_ai;
 	Gtk.Button button_force_sensor_analyze_AB_save;
+	Gtk.Button button_force_sensor_analyze_CD_save;
 	Gtk.CheckButton check_force_sensor_ai_chained;
 	Gtk.CheckButton check_force_sensor_ai_zoom;
 
@@ -1743,10 +1744,15 @@ public partial class ChronoJumpWindow
 		label_force_sensor_ai_power_average.Visible = visibleElastic;
 		label_force_sensor_ai_power_max.Visible = visibleElastic;
 
-		if(visible && canDoForceSensorAnalyzeAB())
+		if (visible && canDoForceSensorAnalyzeAB ())
 			button_force_sensor_analyze_AB_save.Visible = true;
 		else
 			button_force_sensor_analyze_AB_save.Visible = false;
+
+		if (visible && canDoForceSensorAnalyzeCD ())
+			button_force_sensor_analyze_CD_save.Visible = true;
+		else
+			button_force_sensor_analyze_CD_save.Visible = false;
 	}
 
 	// TODO: have all this as treevew, for AB and another for CD
@@ -1990,30 +1996,49 @@ public partial class ChronoJumpWindow
 				label_force_sensor_ai_time_diff.Text != null &&
 				Util.IsNumber(label_force_sensor_ai_time_diff.Text, true) );
 	}
+	private bool canDoForceSensorAnalyzeCD()
+	{
+		return (Util.FileExists(lastForceSensorFullPath) );/*&& TODO:
+				label_force_sensor_ai_time_diff.Visible &&
+				label_force_sensor_ai_time_diff.Text != null &&
+				Util.IsNumber(label_force_sensor_ai_time_diff.Text, true) );*/
+	}
 
 	private void on_button_force_sensor_analyze_AB_save_clicked (object o, EventArgs args)
 	{
 		if (label_force_sensor_ai_time_a.Text == label_force_sensor_ai_time_b.Text)
 		{
-			new DialogMessage(Constants.MessageTypes.WARNING, "A and B cannot be the same");
+			new DialogMessage (Constants.MessageTypes.WARNING, "A and B cannot be the same");
 			return;
 		}
 
-		if (canDoForceSensorAnalyzeAB())
-			checkFile(Constants.CheckFileOp.FORCESENSOR_ANALYZE_SAVE_AB);
-		else {
-			new DialogMessage(Constants.MessageTypes.WARNING, Constants.FileNotFoundStr());
+		if (canDoForceSensorAnalyzeAB ())
+			checkFile (Constants.CheckFileOp.FORCESENSOR_ANALYZE_SAVE_AB);
+		else
+			new DialogMessage (Constants.MessageTypes.WARNING, Constants.FileNotFoundStr());
+	}
+	private void on_button_force_sensor_analyze_CD_save_clicked (object o, EventArgs args)
+	{
+		if (label_force_sensor_ai_time_c.Text == label_force_sensor_ai_time_d.Text)
+		{
+			new DialogMessage (Constants.MessageTypes.WARNING, "C and D cannot be the same");
 			return;
 		}
+
+		if (canDoForceSensorAnalyzeCD ())
+			checkFile (Constants.CheckFileOp.FORCESENSOR_ANALYZE_SAVE_CD);
+		else
+			new DialogMessage (Constants.MessageTypes.WARNING, Constants.FileNotFoundStr());
 	}
-	void on_button_force_sensor_save_AB_file_selected (string selectedFileName)
+
+	private void on_button_force_sensor_save_AB_file_selected (string selectedFileName)
 	{
 		fsAI_AB.ExportToCSV(
 				getLowestForceSensorScale (hscale_force_sensor_ai_a, hscale_force_sensor_ai_b),
 				getHighestForceSensorScale (hscale_force_sensor_ai_a, hscale_force_sensor_ai_b),
 				selectedFileName, preferences.CSVExportDecimalSeparator);
 	}
-	void on_button_force_sensor_save_CD_file_selected (string selectedFileName)
+	private void on_button_force_sensor_save_CD_file_selected (string selectedFileName)
 	{
 		fsAI_CD.ExportToCSV(
 				getLowestForceSensorScale (hscale_force_sensor_ai_c, hscale_force_sensor_ai_d),
@@ -2059,6 +2084,7 @@ public partial class ChronoJumpWindow
 		button_force_sensor_image_save_rfd_manual = (Gtk.Button) builder.GetObject ("button_force_sensor_image_save_rfd_manual");
 		//scrolledwindow_force_sensor_ai = (Gtk.ScrolledWindow) builder.GetObject ("scrolledwindow_force_sensor_ai");
 		button_force_sensor_analyze_AB_save = (Gtk.Button) builder.GetObject ("button_force_sensor_analyze_AB_save");
+		button_force_sensor_analyze_CD_save = (Gtk.Button) builder.GetObject ("button_force_sensor_analyze_CD_save");
 		check_force_sensor_ai_chained = (Gtk.CheckButton) builder.GetObject ("check_force_sensor_ai_chained");
 		check_force_sensor_ai_zoom = (Gtk.CheckButton) builder.GetObject ("check_force_sensor_ai_zoom");
 

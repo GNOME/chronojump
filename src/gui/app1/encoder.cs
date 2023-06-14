@@ -2326,7 +2326,8 @@ public partial class ChronoJumpWindow
 				checkFileOp == Constants.CheckFileOp.FORCESENSOR_SAVE_IMAGE_SIGNAL ||
 				checkFileOp == Constants.CheckFileOp.FORCESENSOR_SAVE_IMAGE_RFD_AUTO ||
 				checkFileOp == Constants.CheckFileOp.FORCESENSOR_SAVE_IMAGE_RFD_MANUAL ||
-				checkFileOp == Constants.CheckFileOp.FORCESENSOR_ANALYZE_SAVE_AB )
+				checkFileOp == Constants.CheckFileOp.FORCESENSOR_ANALYZE_SAVE_AB ||
+				checkFileOp == Constants.CheckFileOp.FORCESENSOR_ANALYZE_SAVE_CD )
 		{
 			string exName = Util.RemoveBackSlash (Util.RemoveSlash (currentForceSensorExercise.Name));
 
@@ -2410,6 +2411,8 @@ public partial class ChronoJumpWindow
 			nameString += "_encoder_repetition_export.csv";
 		else if(checkFileOp == Constants.CheckFileOp.FORCESENSOR_ANALYZE_SAVE_AB)
 			nameString += "_forcesensor_analyze_AB_export.csv";
+		else if(checkFileOp == Constants.CheckFileOp.FORCESENSOR_ANALYZE_SAVE_CD)
+			nameString += "_forcesensor_analyze_CD_export.csv";
 		else if(
 				checkFileOp == Constants.CheckFileOp.RUNS_SPRINT_EXPORT_INDIVIDUAL_CURRENT_SESSION_NO_IMAGES ||
 				checkFileOp == Constants.CheckFileOp.RUNS_SPRINT_EXPORT_INDIVIDUAL_ALL_SESSIONS_NO_IMAGES ||
@@ -2457,6 +2460,7 @@ public partial class ChronoJumpWindow
 			if(checkFileOp == Constants.CheckFileOp.ENCODER_CAPTURE_EXPORT_ALL ||
 					checkFileOp == Constants.CheckFileOp.ENCODER_ANALYZE_SAVE_AB ||
 					checkFileOp == Constants.CheckFileOp.FORCESENSOR_ANALYZE_SAVE_AB ||
+					checkFileOp == Constants.CheckFileOp.FORCESENSOR_ANALYZE_SAVE_CD ||
 					checkFileOp == Constants.CheckFileOp.RUNS_SPRINT_SAVE_TABLE ||
 					checkFileOp == Constants.CheckFileOp.RUNS_SPRINT_EXPORT_INDIVIDUAL_CURRENT_SESSION_NO_IMAGES ||
 					checkFileOp == Constants.CheckFileOp.RUNS_SPRINT_EXPORT_INDIVIDUAL_ALL_SESSIONS_NO_IMAGES ||
@@ -2559,6 +2563,9 @@ public partial class ChronoJumpWindow
 					else if(checkFileOp == Constants.CheckFileOp.FORCESENSOR_ANALYZE_SAVE_AB)
 						confirmWin.Button_accept.Clicked +=
 							new EventHandler(on_overwrite_file_forcesensor_save_AB_accepted);
+					else if(checkFileOp == Constants.CheckFileOp.FORCESENSOR_ANALYZE_SAVE_CD)
+						confirmWin.Button_accept.Clicked +=
+							new EventHandler(on_overwrite_file_forcesensor_save_CD_accepted);
 					else if(
 							checkFileOp == Constants.CheckFileOp.RUNS_SPRINT_EXPORT_INDIVIDUAL_CURRENT_SESSION_NO_IMAGES ||
 							checkFileOp == Constants.CheckFileOp.RUNS_SPRINT_EXPORT_INDIVIDUAL_ALL_SESSIONS_NO_IMAGES ||
@@ -2633,6 +2640,8 @@ public partial class ChronoJumpWindow
 						on_button_forcesensor_save_image_rfd_manual_file_selected (exportFileName);
 					else if(checkFileOp == Constants.CheckFileOp.FORCESENSOR_ANALYZE_SAVE_AB)
 						on_button_force_sensor_save_AB_file_selected (exportFileName);
+					else if(checkFileOp == Constants.CheckFileOp.FORCESENSOR_ANALYZE_SAVE_CD)
+						on_button_force_sensor_save_CD_file_selected (exportFileName);
 					else if(
 							checkFileOp == Constants.CheckFileOp.RUNS_SPRINT_EXPORT_INDIVIDUAL_CURRENT_SESSION_NO_IMAGES ||
 							checkFileOp == Constants.CheckFileOp.RUNS_SPRINT_EXPORT_INDIVIDUAL_ALL_SESSIONS_NO_IMAGES ||
@@ -2672,7 +2681,8 @@ public partial class ChronoJumpWindow
 								exportFileName);
 						if(checkFileOp == Constants.CheckFileOp.ENCODER_CAPTURE_EXPORT_ALL ||
 								checkFileOp == Constants.CheckFileOp.ENCODER_ANALYZE_SAVE_AB ||
-								checkFileOp == Constants.CheckFileOp.FORCESENSOR_ANALYZE_SAVE_AB)
+								checkFileOp == Constants.CheckFileOp.FORCESENSOR_ANALYZE_SAVE_AB ||
+								checkFileOp == Constants.CheckFileOp.FORCESENSOR_ANALYZE_SAVE_CD)
 							myString += Constants.GetSpreadsheetString(preferences.CSVExportDecimalSeparator);
 						new DialogMessage(Constants.MessageTypes.INFO, myString);
 					}
@@ -2889,6 +2899,14 @@ public partial class ChronoJumpWindow
 	private void on_overwrite_file_forcesensor_save_AB_accepted(object o, EventArgs args)
 	{
 		on_button_force_sensor_save_AB_file_selected (exportFileName);
+
+		string myString = string.Format(Catalog.GetString("Saved to {0}"),
+				exportFileName) + Constants.GetSpreadsheetString(preferences.CSVExportDecimalSeparator);
+		new DialogMessage(Constants.MessageTypes.INFO, myString);
+	}
+	private void on_overwrite_file_forcesensor_save_CD_accepted(object o, EventArgs args)
+	{
+		on_button_force_sensor_save_CD_file_selected (exportFileName);
 
 		string myString = string.Format(Catalog.GetString("Saved to {0}"),
 				exportFileName) + Constants.GetSpreadsheetString(preferences.CSVExportDecimalSeparator);

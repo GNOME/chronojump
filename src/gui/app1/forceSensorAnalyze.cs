@@ -180,6 +180,8 @@ public partial class ChronoJumpWindow
 	Gtk.HScale hscale_force_sensor_ai_b;
 	Gtk.HScale hscale_force_sensor_ai_c;
 	Gtk.HScale hscale_force_sensor_ai_d;
+	Gtk.TreeView treeview_force_sensor_ai_AB;
+	Gtk.TreeView treeview_force_sensor_ai_CD;
 	Gtk.Label label_force_sensor_ai_time_a;
 	Gtk.Label label_force_sensor_ai_force_a;
 	Gtk.Label label_force_sensor_ai_rfd_a;
@@ -1458,30 +1460,56 @@ public partial class ChronoJumpWindow
 		//TODO: update bottom labels or treeview (make it work also for C-D
 		if (isAB)
 		{
+			tvFS_ab.ResetTreeview ();
 			if (isLeft)
 			{
 				label_force_sensor_ai_time_a.Text = Math.Round(fsAI.GetTimeMS(count), 1).ToString();
 				label_force_sensor_ai_force_a.Text = Math.Round(fsAI.GetForceAtCount(count), 1).ToString();
 				label_force_sensor_ai_time_b.Text = Math.Round(fsAI.GetTimeMS(countRelated), 1).ToString();
 				label_force_sensor_ai_force_b.Text = Math.Round(fsAI.GetForceAtCount(countRelated), 1).ToString();
+
+				tvFS_ab.FillTimeForce (
+						fsAI.GetTimeMS (count),
+						fsAI.GetForceAtCount (count),
+						fsAI.GetTimeMS (countRelated),
+						fsAI.GetForceAtCount (countRelated));
 			} else
 			{
 				label_force_sensor_ai_time_a.Text = Math.Round(fsAI.GetTimeMS(countRelated), 1).ToString();
 				label_force_sensor_ai_force_a.Text = Math.Round(fsAI.GetForceAtCount(countRelated), 1).ToString();
 				label_force_sensor_ai_time_b.Text = Math.Round(fsAI.GetTimeMS(count), 1).ToString();
 				label_force_sensor_ai_force_b.Text = Math.Round(fsAI.GetForceAtCount(count), 1).ToString();
+
+				tvFS_ab.FillTimeForce (
+						fsAI.GetTimeMS (countRelated),
+						fsAI.GetForceAtCount (countRelated),
+						fsAI.GetTimeMS (count),
+						fsAI.GetForceAtCount (count));
 			}
 		} else
 		{
+			tvFS_cd.ResetTreeview ();
 			if (isLeft)
 			{
 				label_force_sensor_ai_time_c.Text = Math.Round(fsAI.GetTimeMS(count), 1).ToString();
 				label_force_sensor_ai_time_d.Text = Math.Round(fsAI.GetTimeMS(countRelated), 1).ToString();
 				//TODO: forces
+
+				tvFS_cd.FillTimeForce (
+						fsAI.GetTimeMS (count),
+						fsAI.GetForceAtCount (count),
+						fsAI.GetTimeMS (countRelated),
+						fsAI.GetForceAtCount (countRelated));
 			} else {
 				label_force_sensor_ai_time_c.Text = Math.Round(fsAI.GetTimeMS(countRelated), 1).ToString();
 				label_force_sensor_ai_time_d.Text = Math.Round(fsAI.GetTimeMS(count), 1).ToString();
 				//TODO: forces
+
+				tvFS_cd.FillTimeForce (
+						fsAI.GetTimeMS (countRelated),
+						fsAI.GetForceAtCount (countRelated),
+						fsAI.GetTimeMS (count),
+						fsAI.GetForceAtCount (count));
 			}
 		}
 		//LogB.Information (string.Format ("on_hscale_force_sensor_ai_value_changed {0} 4", hscaleToDebug));
@@ -2218,6 +2246,8 @@ public partial class ChronoJumpWindow
 		hscale_force_sensor_ai_b = (Gtk.HScale) builder.GetObject ("hscale_force_sensor_ai_b");
 		hscale_force_sensor_ai_c = (Gtk.HScale) builder.GetObject ("hscale_force_sensor_ai_c");
 		hscale_force_sensor_ai_d = (Gtk.HScale) builder.GetObject ("hscale_force_sensor_ai_d");
+		treeview_force_sensor_ai_AB = (Gtk.TreeView) builder.GetObject ("treeview_force_sensor_ai_AB");
+		treeview_force_sensor_ai_CD = (Gtk.TreeView) builder.GetObject ("treeview_force_sensor_ai_CD");
 		label_force_sensor_ai_time_a = (Gtk.Label) builder.GetObject ("label_force_sensor_ai_time_a");
 		label_force_sensor_ai_force_a = (Gtk.Label) builder.GetObject ("label_force_sensor_ai_force_a");
 		label_force_sensor_ai_rfd_a = (Gtk.Label) builder.GetObject ("label_force_sensor_ai_rfd_a");
@@ -2265,5 +2295,77 @@ public partial class ChronoJumpWindow
 		combo_force_3_type = (Gtk.ComboBoxText) builder.GetObject ("combo_force_3_type");
 		combo_force_4_type = (Gtk.ComboBoxText) builder.GetObject ("combo_force_4_type");
 		combo_force_impulse_type = (Gtk.ComboBoxText) builder.GetObject ("combo_force_impulse_type");
+	}
+}
+
+// 1 for AB and another for CD:
+// tvFS_ab for treeview_force_sensor_ai_AB
+// tvFS_cd for treeview_force_sensor_ai_CD
+public class TreeviewFSAnalyze
+{
+	private TreeStore store;
+	private Gtk.TreeView tv;
+	private string letterStart;
+	private string letterEnd;
+
+	private string [] columnsString = new String [] {
+		"",
+		Catalog.GetString ("Time") + " (ms)",
+		Catalog.GetString ("Force") + " (N)",
+		"RFD" + " (N/s)"
+	};
+
+	public TreeviewFSAnalyze (Gtk.TreeView tv, string letterStart, string letterEnd)
+	{
+		this.tv = tv;
+		this.letterStart = letterStart;
+		this.letterEnd = letterEnd;
+
+		tv.HeadersClickable = false;
+		createTreeview ();
+	}
+
+	private void createTreeview ()
+	{
+		store = UtilGtk.GetStore (columnsString.Length);
+		tv.Model = store;
+		prepareHeaders (columnsString);
+	}
+
+	private void prepareHeaders(string [] columnsString)
+	{
+		tv.HeadersVisible = true;
+		int i = 0;
+		foreach (string myCol in columnsString)
+			UtilGtk.CreateCols (tv, store, myCol, i++, true);
+	}
+
+	public void ResetTreeview ()
+	{
+		tv = UtilGtk.RemoveColumns (tv);
+		createTreeview ();
+	}
+
+	public void FillTimeForce (double timeStart, double forceStart, double timeEnd, double forceEnd)
+	{
+		string [] str = new String [4];
+		int i = 0;
+		str[i++] = letterStart;
+		str[i++] = Math.Round (timeStart, 1).ToString ();
+		str[i++] = Math.Round (forceStart, 1).ToString ();
+		str[i++] = "";
+		store.AppendValues (str);
+
+		i = 0;
+		str[i++] = letterEnd;
+		str[i++] = Math.Round (timeEnd, 1).ToString ();
+		str[i++] = Math.Round (forceEnd, 1).ToString ();
+		str[i++] = "";
+		store.AppendValues (str);
+	}
+
+	public void FillTreeview ()
+	{
+		//TODO
 	}
 }

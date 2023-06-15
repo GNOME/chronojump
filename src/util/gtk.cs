@@ -313,9 +313,19 @@ public class UtilGtk
 	 *
 	 */
 
+	public static Gtk.TreeStore GetStore (int columns)
+	{
+		//prepares the TreeStore for required columns
+		Type [] types = new Type [columns];
+		for (int i=0; i < columns; i++)
+			types[i] = typeof (string);
+
+		return new TreeStore(types);
+	}
 
 	public static void CreateCols (Gtk.TreeView tv, Gtk.TreeStore store, 
-			string name, int verticalPos, bool visible) {
+			string name, int verticalPos, bool visible)
+	{
 		Gtk.TreeViewColumn myCol = new Gtk.TreeViewColumn (name, new CellRendererText(), "text", verticalPos);
 		myCol.SortColumnId = verticalPos;
 		myCol.SortIndicator = true;

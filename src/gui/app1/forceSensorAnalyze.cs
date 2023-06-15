@@ -1817,8 +1817,8 @@ public partial class ChronoJumpWindow
 		if(success) {
 			label_force_sensor_ai_time_diff.Text = Math.Round(timeB - timeA, 1).ToString();
 			label_force_sensor_ai_force_diff.Text = Math.Round(forceB - forceA, 1).ToString();
-
-			tvFS.PassTimeDiff (timeB - timeA);
+			tvFS.TimeDiff = timeB - timeA;
+			tvFS.ForceDiff = forceB - forceA;
 
 			if(countA != countB) {
 				label_force_sensor_ai_force_average.Text = Math.Round(fsAI.ForceAVG, 1).ToString();
@@ -1839,6 +1839,9 @@ public partial class ChronoJumpWindow
 				label_force_sensor_ai_max_avg_in_window_values.Text = "";
 				label_force_sensor_ai_best_rfd_in_window_values.Text = "";
 			}
+		} else {
+			tvFS.TimeDiff = 0;
+			tvFS.ForceDiff = 0;
 		}
 
 		/*
@@ -1923,7 +1926,15 @@ public partial class ChronoJumpWindow
 			double powerA = fsAI.Power_l[countA];
 			double powerB = fsAI.Power_l[countB];
 			label_force_sensor_ai_power_diff.Text = Math.Round(powerB - powerA, 3).ToString();
+
+			tvFS.PassElasticDiffs (
+					Math.Round(positionB - positionA, 3).ToString(),
+					Math.Round(speedB - speedA, 3).ToString(),
+					Math.Round(accelB - accelA, 3).ToString(),
+					Math.Round(powerB - powerA, 3).ToString());
 		}
+		else
+			tvFS.PassElasticDiffs ("", "", "", "");
 
 		/*
 		//print the repetitions stuff
@@ -1948,6 +1959,7 @@ public partial class ChronoJumpWindow
 			rfdBDefined = true;
 		}
 
+		/* no need (I think) because it is already on on_hscale_force_sensor_ai_value_changed
 		if(rfdADefined)
 			label_force_sensor_ai_rfd_a.Text = rfdA.ToString();
 		else
@@ -1957,6 +1969,7 @@ public partial class ChronoJumpWindow
 			label_force_sensor_ai_rfd_b.Text = rfdB.ToString();
 		else
 			label_force_sensor_ai_rfd_b.Text = "";
+			*/
 
 		if(rfdADefined && rfdBDefined && countA != countB)
 		{
@@ -1970,9 +1983,11 @@ public partial class ChronoJumpWindow
 
 			// 1) diff
 			label_force_sensor_ai_rfd_diff.Text = Math.Round(rfdB - rfdA, 1).ToString();
+			tvFS.RfdDiff = rfdB - rfdA;
 
 			// 2) Average:
 			label_force_sensor_ai_rfd_average.Text = Math.Round(fsAI.CalculateRFD(countA, countB), 1).ToString();
+			tvFS.RfdAvg = Math.Round(fsAI.CalculateRFD(countA, countB), 1).ToString();
 
 			// 3) max
 			fsAI.CalculateMaxRFDInRange(countA, countB);
@@ -1981,10 +1996,14 @@ public partial class ChronoJumpWindow
 			//LogB.Information(string.Format("fsAI.LastRFDMaxCount: {0}", fsAI.LastRFDMaxCount));
 
 			label_force_sensor_ai_rfd_max.Text = Math.Round(fsAI.LastRFDMax, 1).ToString();
+			tvFS.RfdMax = Math.Round(fsAI.LastRFDMax, 1).ToString();
 		} else {
 			label_force_sensor_ai_rfd_diff.Text = "0";
 			label_force_sensor_ai_rfd_average.Text = "";
 			label_force_sensor_ai_rfd_max.Text = "";
+			tvFS.RfdDiff = 0;
+			tvFS.RfdAvg = "";
+			tvFS.RfdMax = "";
 		}
 
 		grid_force_sensor_ai_impulse_variability_and_feedback.Visible = (countA != countB);
@@ -2338,6 +2357,18 @@ public class TreeviewFSAnalyze
 
 	//row 3
 	protected double timeDiff;
+	protected double forceDiff;
+	protected double rfdDiff;
+
+	//row 4
+	protected double timeAvg;
+	//protected string forceAvg;
+	protected string rfdAvg;
+
+	//row 5
+	protected double timeMax;
+	//protected string forceMax;
+	protected string rfdMax;
 
 	public TreeviewFSAnalyze () //needed to inherit
 	{
@@ -2399,13 +2430,10 @@ public class TreeviewFSAnalyze
 
 	public virtual void PassRow1or2Elastic (bool isLeft, string position, string speed, string accel, string power)
 	{
-		LogB.Information ("PassRow1or2Elastic base");
 	}
 
-	//just testing
-	public void PassTimeDiff (double time)
+	public virtual void PassElasticDiffs (string position, string speed, string accel, string power)
 	{
-		this.timeDiff = time;
 	}
 
 	public virtual void FillTreeview ()
@@ -2428,9 +2456,54 @@ public class TreeviewFSAnalyze
 		i = 0;
 		str[i++] = Catalog.GetString ("Difference");
 		str[i++] = Math.Round (timeDiff, 1).ToString ();
-		str[i++] = "";
-		str[i++] = "";
+		str[i++] = Math.Round (forceDiff, 1).ToString ();
+		str[i++] = Math.Round (rfdDiff, 1).ToString ();
 		store.AppendValues (str);
+
+		i = 0;
+		str[i++] = Catalog.GetString ("Average");
+		str[i++] = ""; //Math.Round (timeAvg, 1).ToString ();
+		str[i++] = ""; //Math.Round (forceAvg, 1).ToString ();
+		str[i++] = rfdAvg;
+		store.AppendValues (str);
+
+		i = 0;
+		str[i++] = Catalog.GetString ("Maximum");
+		str[i++] = ""; //Math.Round (timeMax, 1).ToString ();
+		str[i++] = ""; //Math.Round (forceMax, 1).ToString ();
+		str[i++] = rfdMax;
+		store.AppendValues (str);
+	}
+
+	// this accessors help to pass variables once are calculated on force_sensor_analyze_instant_calculate_params
+	public double TimeDiff {
+		set { timeDiff = value; }
+	}
+	public double ForceDiff {
+		set { forceDiff = value; }
+	}
+	public double RfdDiff {
+		set { rfdDiff = value; }
+	}
+
+	//public double TimeAvg {
+	//	set { timeAvg = value; }
+	//}
+	//public double ForceAvg {
+	//	set { forceAvg = value; }
+	//}
+	public string RfdAvg {
+		set { rfdAvg = value; }
+	}
+
+	//public double TimeMax {
+	//	set { timeMax = value; }
+	//}
+	//public double ForceMax {
+	//	set { forceMax = value; }
+	//}
+	public string RfdMax {
+		set { rfdMax = value; }
 	}
 }
 
@@ -2447,6 +2520,12 @@ public class TreeviewFSAnalyzeElastic : TreeviewFSAnalyze
 	private string speedEnd;
 	private string accelEnd;
 	private string powerEnd;
+
+	//row 3
+	private string positionDiff;
+	private string speedDiff;
+	private string accelDiff;
+	private string powerDiff;
 
 
 	public TreeviewFSAnalyzeElastic (Gtk.TreeView tv, string letterStart, string letterEnd)
@@ -2474,7 +2553,6 @@ public class TreeviewFSAnalyzeElastic : TreeviewFSAnalyze
 	//some are string because it is easier to know if missing data, because doble could be 0.00000001 ...
 	public override void PassRow1or2Elastic (bool isLeft, string position, string speed, string accel, string power)
 	{
-		LogB.Information ("PassRow1or2Elastic child");
 		if (isLeft)
 		{
 			this.positionStart = position;
@@ -2487,6 +2565,14 @@ public class TreeviewFSAnalyzeElastic : TreeviewFSAnalyze
 			this.accelEnd = accel;
 			this.powerEnd = power;
 		}
+	}
+
+	public override void PassElasticDiffs (string position, string speed, string accel, string power)
+	{
+		this.positionDiff = position;
+		this.speedDiff = speed;
+		this.accelDiff = position;
+		this.powerDiff = position;
 	}
 
 	public override void FillTreeview ()
@@ -2517,12 +2603,12 @@ public class TreeviewFSAnalyzeElastic : TreeviewFSAnalyze
 		i = 0;
 		str[i++] = Catalog.GetString ("Difference");
 		str[i++] = Math.Round (timeDiff, 1).ToString ();
+		str[i++] = Math.Round (forceDiff, 1).ToString ();
 		str[i++] = "";
-		str[i++] = "";
-		str[i++] = "";
-		str[i++] = "";
-		str[i++] = "";
-		str[i++] = "";
+		str[i++] = positionDiff;
+		str[i++] = speedDiff;
+		str[i++] = accelDiff;
+		str[i++] = powerDiff;
 		store.AppendValues (str);
 	}
 }

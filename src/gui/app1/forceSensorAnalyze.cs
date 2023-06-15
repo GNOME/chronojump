@@ -1390,9 +1390,11 @@ public partial class ChronoJumpWindow
 		Gtk.HScale hsRelated ; //if A then B, if D then C
 		int last;
 		string hscaleToDebug;
+		TreeviewFSAnalyze tvFS;
 
 		if (hs == hscale_force_sensor_ai_a)
 		{
+			tvFS = tvFS_ab;
 			isAB = true; //false AC
 			isLeft = true; //A or C
 			hsRelated = hscale_force_sensor_ai_b; //if A then B, if D then C
@@ -1401,6 +1403,7 @@ public partial class ChronoJumpWindow
 		}
 		else if (hs == hscale_force_sensor_ai_b)
 		{
+			tvFS = tvFS_ab;
 			isAB = true;
 			isLeft = false;
 			hsRelated = hscale_force_sensor_ai_a;
@@ -1409,6 +1412,7 @@ public partial class ChronoJumpWindow
 		}
 		else if (hs == hscale_force_sensor_ai_c)
 		{
+			tvFS = tvFS_cd;
 			isAB = false;
 			isLeft = true;
 			hsRelated = hscale_force_sensor_ai_d;
@@ -1417,6 +1421,7 @@ public partial class ChronoJumpWindow
 		}
 		else //if (hs == hscale_force_sensor_ai_d)
 		{
+			tvFS = tvFS_cd;
 			isAB = false;
 			isLeft = false;
 			hsRelated = hscale_force_sensor_ai_c;
@@ -1468,6 +1473,29 @@ public partial class ChronoJumpWindow
 			countRight = count;
 		}
 
+		string rfd = "";
+		if(count > 0 && count < fsAI.GetLength() -1)
+			rfd = Math.Round(fsAI.CalculateRFD(count -1, count +1), 1).ToString();
+
+		string position = "";
+		string speed = "";
+		string accel = "";
+		string power = "";
+		LogB.Information ("at hscales fsAI.CalculedElasticPSAP: " + fsAI.CalculedElasticPSAP.ToString ());
+		if(fsAI.CalculedElasticPSAP)
+		{
+			position = Math.Round (fsAI.Position_l[count], 3).ToString();
+			speed = Math.Round (fsAI.Speed_l[count], 3).ToString();
+			accel = Math.Round (fsAI.Accel_l[count], 3).ToString();
+			power = Math.Round (fsAI.Power_l[count], 3).ToString();
+		}
+
+		tvFS.ResetTreeview ();
+		tvFS.PassRow1or2 (isLeft, fsAI.GetTimeMS (count), fsAI.GetForceAtCount (count), rfd);
+		if (current_mode == Constants.Modes.FORCESENSORELASTIC)
+			tvFS.PassRow1or2Elastic (isLeft, position, speed, accel, power);
+
+		//TODO: this will be updated when tvFS is fully implemented, but note label_force_sensor_ai_time_a and others are at the moment needed on other parts of the code
 		if (isAB)
 		{
 			if (isLeft)
@@ -1483,12 +1511,6 @@ public partial class ChronoJumpWindow
 				label_force_sensor_ai_time_b.Text = Math.Round(fsAI.GetTimeMS(count), 1).ToString();
 				label_force_sensor_ai_force_b.Text = Math.Round(fsAI.GetForceAtCount(count), 1).ToString();
 			}
-			tvFS_ab.ResetTreeview ();
-			tvFS_ab.FillTimeForce (
-					fsAI.GetTimeMS (countLeft),
-					fsAI.GetForceAtCount (countLeft),
-					fsAI.GetTimeMS (countRight),
-					fsAI.GetForceAtCount (countRight));
 		} else
 		{
 			if (isLeft)
@@ -1501,12 +1523,6 @@ public partial class ChronoJumpWindow
 				label_force_sensor_ai_time_d.Text = Math.Round(fsAI.GetTimeMS(count), 1).ToString();
 				//TODO: forces
 			}
-			tvFS_cd.ResetTreeview ();
-			tvFS_cd.FillTimeForce (
-					fsAI.GetTimeMS (countLeft),
-					fsAI.GetForceAtCount (countLeft),
-					fsAI.GetTimeMS (countRight),
-					fsAI.GetForceAtCount (countRight));
 		}
 		//LogB.Information (string.Format ("on_hscale_force_sensor_ai_value_changed {0} 4", hscaleToDebug));
 
@@ -1545,6 +1561,8 @@ public partial class ChronoJumpWindow
 		if (forceSensorHScalesDoNotFollow)
 		{
 			forceSensorHScalesDoNotFollow = false;
+			tvFS.FillTreeview ();
+
 			return;
 		}
 
@@ -1557,12 +1575,11 @@ public partial class ChronoJumpWindow
 			forceSensorHScalesDoNotFollow = false;
 		}
 
-		force_sensor_analyze_instant_calculate_params (fsAI_AB,
-				Convert.ToInt32 (hscale_force_sensor_ai_a.Value),
-				Convert.ToInt32 (hscale_force_sensor_ai_b.Value));
-		force_sensor_analyze_instant_calculate_params (fsAI_CD,
-				Convert.ToInt32 (hscale_force_sensor_ai_c.Value),
-				Convert.ToInt32 (hscale_force_sensor_ai_d.Value));
+		force_sensor_analyze_instant_calculate_params (fsAI, tvFS,
+				Convert.ToInt32 (getHScaleABCD (true).Value),
+				Convert.ToInt32 (getHScaleABCD (false).Value) );
+
+		tvFS.FillTreeview ();
 
 		forceSensorAnalyzeGeneralButtonHscaleZoomSensitiveness();
 		force_sensor_ai_drawingarea_cairo.QueueDraw(); //will fire ExposeEvent
@@ -1785,13 +1802,11 @@ public partial class ChronoJumpWindow
 			button_force_sensor_analyze_CD_save.Visible = false;
 	}
 
-	// TODO: have all this as treevew, for AB and another for CD
-	private void force_sensor_analyze_instant_calculate_params (ForceSensorAnalyzeInstant fsAI, int countA, int countB)
+	private void force_sensor_analyze_instant_calculate_params (
+			ForceSensorAnalyzeInstant fsAI, TreeviewFSAnalyze tvFS,	int countA, int countB)
 	{
-		//avoid problems of GTK misreading of hscale on a notebook change or load file
 		if (countA < 0 || countA > fsAI.GetLength() -1 || countB < 0 || countB > fsAI.GetLength() -1)
 			return;
-
 
 		//old method
 		double timeA = fsAI.GetTimeMS(countA);
@@ -1802,6 +1817,8 @@ public partial class ChronoJumpWindow
 		if(success) {
 			label_force_sensor_ai_time_diff.Text = Math.Round(timeB - timeA, 1).ToString();
 			label_force_sensor_ai_force_diff.Text = Math.Round(forceB - forceA, 1).ToString();
+
+			tvFS.PassTimeDiff (timeB - timeA);
 
 			if(countA != countB) {
 				label_force_sensor_ai_force_average.Text = Math.Round(fsAI.ForceAVG, 1).ToString();
@@ -2299,17 +2316,32 @@ public partial class ChronoJumpWindow
 // tvFS_cd for treeview_force_sensor_ai_CD
 public class TreeviewFSAnalyze
 {
-	private TreeStore store;
-	private Gtk.TreeView tv;
-	private string letterStart;
-	private string letterEnd;
+	protected TreeStore store;
+	protected Gtk.TreeView tv;
+	protected string [] columnsString;
 
-	private string [] columnsString = new String [] {
-		"",
-		Catalog.GetString ("Time") + " (ms)",
-		Catalog.GetString ("Force") + " (N)",
-		"RFD" + " (N/s)"
-	};
+	//row 1
+	protected string letterStart;
+	protected double timeStart;
+	protected double forceStart;
+	protected string rfdStart;
+
+	//row 2
+	protected string letterEnd;
+	protected double timeEnd;
+	protected double forceEnd;
+	protected string rfdEnd;
+	private string positionEnd;
+	private string speedEnd;
+	private string accelEnd;
+	private string powerEnd;
+
+	//row 3
+	protected double timeDiff;
+
+	public TreeviewFSAnalyze () //needed to inherit
+	{
+	}
 
 	public TreeviewFSAnalyze (Gtk.TreeView tv, string letterStart, string letterEnd)
 	{
@@ -2317,18 +2349,26 @@ public class TreeviewFSAnalyze
 		this.letterStart = letterStart;
 		this.letterEnd = letterEnd;
 
+		columnsString = new String [] {
+			"",
+			Catalog.GetString ("Time") + " (ms)",
+			Catalog.GetString ("Force") + " (N)",
+			"RFD" + " (N/s)"
+		};
+
 		tv.HeadersClickable = false;
 		createTreeview ();
 	}
 
-	private void createTreeview ()
+	protected void createTreeview ()
 	{
+		tv = UtilGtk.RemoveColumns (tv);
 		store = UtilGtk.GetStore (columnsString.Length);
 		tv.Model = store;
 		prepareHeaders (columnsString);
 	}
 
-	private void prepareHeaders(string [] columnsString)
+	protected void prepareHeaders(string [] columnsString)
 	{
 		tv.HeadersVisible = true;
 		int i = 0;
@@ -2342,26 +2382,147 @@ public class TreeviewFSAnalyze
 		createTreeview ();
 	}
 
-	public void FillTimeForce (double timeStart, double forceStart, double timeEnd, double forceEnd)
+	//some are string because it is easier to know if missing data, because doble could be 0.00000001 ...
+	public void PassRow1or2 (bool isLeft, double time, double force, string rfd)
+	{
+		if (isLeft)
+		{
+			this.timeStart = time;
+			this.forceStart = force;
+			this.rfdStart = rfd;
+		} else {
+			this.timeEnd = time;
+			this.forceEnd = force;
+			this.rfdEnd = rfd;
+		}
+	}
+
+	public virtual void PassRow1or2Elastic (bool isLeft, string position, string speed, string accel, string power)
+	{
+		LogB.Information ("PassRow1or2Elastic base");
+	}
+
+	//just testing
+	public void PassTimeDiff (double time)
+	{
+		this.timeDiff = time;
+	}
+
+	public virtual void FillTreeview ()
 	{
 		string [] str = new String [4];
 		int i = 0;
 		str[i++] = letterStart;
 		str[i++] = Math.Round (timeStart, 1).ToString ();
 		str[i++] = Math.Round (forceStart, 1).ToString ();
-		str[i++] = "";
+		str[i++] = rfdStart;
 		store.AppendValues (str);
 
 		i = 0;
 		str[i++] = letterEnd;
 		str[i++] = Math.Round (timeEnd, 1).ToString ();
 		str[i++] = Math.Round (forceEnd, 1).ToString ();
+		str[i++] = rfdEnd;
+		store.AppendValues (str);
+
+		i = 0;
+		str[i++] = Catalog.GetString ("Difference");
+		str[i++] = Math.Round (timeDiff, 1).ToString ();
+		str[i++] = "";
 		str[i++] = "";
 		store.AppendValues (str);
 	}
+}
 
-	public void FillTreeview ()
+public class TreeviewFSAnalyzeElastic : TreeviewFSAnalyze
+{
+	//row 1
+	private string positionStart;
+	private string speedStart;
+	private string accelStart;
+	private string powerStart;
+
+	//row 2
+	private string positionEnd;
+	private string speedEnd;
+	private string accelEnd;
+	private string powerEnd;
+
+
+	public TreeviewFSAnalyzeElastic (Gtk.TreeView tv, string letterStart, string letterEnd)
 	{
-		//TODO
+		this.tv = tv;
+		this.letterStart = letterStart;
+		this.letterEnd = letterEnd;
+
+		//elastic has units below to not loose a lot of horizontal space
+		columnsString = new String [] {
+			"",
+			Catalog.GetString ("Time") + "\n(ms)",
+			Catalog.GetString ("Force") + "\n(N)",
+			"RFD" + "\n(N/s)",
+			Catalog.GetString ("Position") + "\n(m)",
+			Catalog.GetString ("Speed") + "\n(m/s)",
+			Catalog.GetString ("Acceleration") + "\n(m/s^2)",
+			Catalog.GetString ("Power") + "\n(W)"
+		};
+
+		tv.HeadersClickable = false;
+		createTreeview ();
+	}
+
+	//some are string because it is easier to know if missing data, because doble could be 0.00000001 ...
+	public override void PassRow1or2Elastic (bool isLeft, string position, string speed, string accel, string power)
+	{
+		LogB.Information ("PassRow1or2Elastic child");
+		if (isLeft)
+		{
+			this.positionStart = position;
+			this.speedStart = speed;
+			this.accelStart = accel;
+			this.powerStart = power;
+		} else {
+			this.positionEnd = position;
+			this.speedEnd = speed;
+			this.accelEnd = accel;
+			this.powerEnd = power;
+		}
+	}
+
+	public override void FillTreeview ()
+	{
+		string [] str = new String [8];
+		int i = 0;
+		str[i++] = letterStart;
+		str[i++] = Math.Round (timeStart, 1).ToString ();
+		str[i++] = Math.Round (forceStart, 1).ToString ();
+		str[i++] = rfdStart;
+		str[i++] = positionStart;
+		str[i++] = speedStart;
+		str[i++] = accelStart;
+		str[i++] = powerStart;
+		store.AppendValues (str);
+
+		i = 0;
+		str[i++] = letterEnd;
+		str[i++] = Math.Round (timeEnd, 1).ToString ();
+		str[i++] = Math.Round (forceEnd, 1).ToString ();
+		str[i++] = rfdEnd;
+		str[i++] = positionEnd;
+		str[i++] = speedEnd;
+		str[i++] = accelEnd;
+		str[i++] = powerEnd;
+		store.AppendValues (str);
+
+		i = 0;
+		str[i++] = Catalog.GetString ("Difference");
+		str[i++] = Math.Round (timeDiff, 1).ToString ();
+		str[i++] = "";
+		str[i++] = "";
+		str[i++] = "";
+		str[i++] = "";
+		str[i++] = "";
+		str[i++] = "";
+		store.AppendValues (str);
 	}
 }

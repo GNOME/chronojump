@@ -28898,10 +28898,9 @@ Concentric</property>
                                                             </child>
                                                             <child>
                                                             <object class="GtkScrolledWindow">
-                                                            <property name="height-request">75</property>
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">True</property>
-                                                            <property name="shadow-type">in</property>
+                                                            <property name="vscrollbar-policy">never</property>
                                                             <child>
                                                             <object class="GtkViewport">
                                                             <property name="visible">True</property>

@@ -1098,7 +1098,7 @@ public partial class ChronoJumpWindow
 		{
 			if (fsAI != null)
 			{
-				if (fsAI.Gmaiw.Error == "")
+				if (fsAI.Gmaiw != null && fsAI.Gmaiw.Error == "")
 					gmaiw_l.Add (fsAI.Gmaiw);
 				else
 					gmaiw_l.Add (new GetMaxAvgInWindow ());
@@ -1111,7 +1111,10 @@ public partial class ChronoJumpWindow
 						reps_l = forceSensorRepetition_lZoomAppliedCairo;
 				}
 
-				briw_l.Add (fsAI.Briw);
+				if (fsAI.Briw == null)
+					briw_l.Add (new GetBestRFDInWindow (new List<PointF>(), 0, 0, 1));
+				else
+					briw_l.Add (fsAI.Briw);
 			}
 			else {
 				gmaiw_l.Add (new GetMaxAvgInWindow ());

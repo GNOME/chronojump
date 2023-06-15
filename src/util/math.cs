@@ -905,6 +905,7 @@ public class GetMaxAvgInWindow : GetMaxValueInWindow
 		maxSampleStart = -1;
 		maxSampleEnd = -1;
 		max = -1;
+		error = "null";
 	}
 
 	public GetMaxAvgInWindow (List<PointF> p_l, int countA, int countB, double windowSeconds)

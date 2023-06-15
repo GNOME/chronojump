@@ -147,8 +147,6 @@ public partial class ChronoJumpWindow
 		UtilGtk.ViewportColor (viewport_radio_force_sensor_ai_ab, UtilGtk.Colors.YELLOW_LIGHT);
 		UtilGtk.ViewportColor (viewport_radio_force_sensor_ai_cd, UtilGtk.Colors.GREEN_LIGHT);
 		UtilGtk.ViewportColor (viewport_force_sensor_analyze_hscales, UtilGtk.Colors.YELLOW_LIGHT);
-		tvFS_ab = new TreeviewFSAnalyze (treeview_force_sensor_ai_AB, "A", "B");
-		tvFS_cd = new TreeviewFSAnalyze (treeview_force_sensor_ai_CD, "C", "D");
 		createForceAnalyzeCombos();
 		setForceDurationRadios();
 		setRFDValues();

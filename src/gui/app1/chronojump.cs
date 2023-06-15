@@ -4179,6 +4179,15 @@ public partial class ChronoJumpWindow
 			notebooks_change(m);
 
 			blankForceSensorInterface();
+			if (m == Constants.Modes.FORCESENSORISOMETRIC)
+			{
+				tvFS_ab = new TreeviewFSAnalyze (treeview_force_sensor_ai_AB, "A", "B");
+				tvFS_cd = new TreeviewFSAnalyze (treeview_force_sensor_ai_CD, "C", "D");
+			} else //if (m == Constants.Modes.FORCESENSORELASTIC)
+			{
+				tvFS_ab = new TreeviewFSAnalyzeElastic (treeview_force_sensor_ai_AB, "A", "B");
+				tvFS_cd = new TreeviewFSAnalyzeElastic (treeview_force_sensor_ai_CD, "C", "D");
+			}
 
 			//we need combo_select_contacts_top before updateForceExerciseCombo
 			createComboSelectContactsTop ();

@@ -1735,7 +1735,7 @@ public class ForceSensorAnalyzeInstant
 
 		forces = forceSensorDynamics.GetForces();
 
-		// 6 get caculated data
+		// 6 get calculated data
 
 		CalculedElasticPSAP = false;
 		if(forceSensorDynamics.CalculedElasticPSAP)

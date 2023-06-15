@@ -1457,60 +1457,53 @@ public partial class ChronoJumpWindow
 		}
 		//LogB.Information (string.Format ("on_hscale_force_sensor_ai_value_changed {0} 3", hscaleToDebug));
 
-		//TODO: update bottom labels or treeview (make it work also for C-D
+		int countLeft = count;
+		int countRight = countRelated;
+		if (! isLeft)
+		{
+			countLeft = countRelated;
+			countRight = count;
+		}
+
 		if (isAB)
 		{
-			tvFS_ab.ResetTreeview ();
 			if (isLeft)
 			{
 				label_force_sensor_ai_time_a.Text = Math.Round(fsAI.GetTimeMS(count), 1).ToString();
 				label_force_sensor_ai_force_a.Text = Math.Round(fsAI.GetForceAtCount(count), 1).ToString();
 				label_force_sensor_ai_time_b.Text = Math.Round(fsAI.GetTimeMS(countRelated), 1).ToString();
 				label_force_sensor_ai_force_b.Text = Math.Round(fsAI.GetForceAtCount(countRelated), 1).ToString();
-
-				tvFS_ab.FillTimeForce (
-						fsAI.GetTimeMS (count),
-						fsAI.GetForceAtCount (count),
-						fsAI.GetTimeMS (countRelated),
-						fsAI.GetForceAtCount (countRelated));
 			} else
 			{
 				label_force_sensor_ai_time_a.Text = Math.Round(fsAI.GetTimeMS(countRelated), 1).ToString();
 				label_force_sensor_ai_force_a.Text = Math.Round(fsAI.GetForceAtCount(countRelated), 1).ToString();
 				label_force_sensor_ai_time_b.Text = Math.Round(fsAI.GetTimeMS(count), 1).ToString();
 				label_force_sensor_ai_force_b.Text = Math.Round(fsAI.GetForceAtCount(count), 1).ToString();
-
-				tvFS_ab.FillTimeForce (
-						fsAI.GetTimeMS (countRelated),
-						fsAI.GetForceAtCount (countRelated),
-						fsAI.GetTimeMS (count),
-						fsAI.GetForceAtCount (count));
 			}
+			tvFS_ab.ResetTreeview ();
+			tvFS_ab.FillTimeForce (
+					fsAI.GetTimeMS (countLeft),
+					fsAI.GetForceAtCount (countLeft),
+					fsAI.GetTimeMS (countRight),
+					fsAI.GetForceAtCount (countRight));
 		} else
 		{
-			tvFS_cd.ResetTreeview ();
 			if (isLeft)
 			{
 				label_force_sensor_ai_time_c.Text = Math.Round(fsAI.GetTimeMS(count), 1).ToString();
 				label_force_sensor_ai_time_d.Text = Math.Round(fsAI.GetTimeMS(countRelated), 1).ToString();
 				//TODO: forces
-
-				tvFS_cd.FillTimeForce (
-						fsAI.GetTimeMS (count),
-						fsAI.GetForceAtCount (count),
-						fsAI.GetTimeMS (countRelated),
-						fsAI.GetForceAtCount (countRelated));
 			} else {
 				label_force_sensor_ai_time_c.Text = Math.Round(fsAI.GetTimeMS(countRelated), 1).ToString();
 				label_force_sensor_ai_time_d.Text = Math.Round(fsAI.GetTimeMS(count), 1).ToString();
 				//TODO: forces
-
-				tvFS_cd.FillTimeForce (
-						fsAI.GetTimeMS (countRelated),
-						fsAI.GetForceAtCount (countRelated),
-						fsAI.GetTimeMS (count),
-						fsAI.GetForceAtCount (count));
 			}
+			tvFS_cd.ResetTreeview ();
+			tvFS_cd.FillTimeForce (
+					fsAI.GetTimeMS (countLeft),
+					fsAI.GetForceAtCount (countLeft),
+					fsAI.GetTimeMS (countRight),
+					fsAI.GetForceAtCount (countRight));
 		}
 		//LogB.Information (string.Format ("on_hscale_force_sensor_ai_value_changed {0} 4", hscaleToDebug));
 

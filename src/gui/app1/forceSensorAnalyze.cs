@@ -1561,6 +1561,7 @@ public partial class ChronoJumpWindow
 		if (forceSensorHScalesDoNotFollow)
 		{
 			forceSensorHScalesDoNotFollow = false;
+			tvFS.ResetTreeview (); //To avoid duplicated rows on chained A,B
 			tvFS.FillTreeview ();
 
 			return;
@@ -1579,6 +1580,7 @@ public partial class ChronoJumpWindow
 				Convert.ToInt32 (getHScaleABCD (true).Value),
 				Convert.ToInt32 (getHScaleABCD (false).Value) );
 
+		tvFS.ResetTreeview (); //To avoid duplicated rows on chained A,B
 		tvFS.FillTreeview ();
 
 		forceSensorAnalyzeGeneralButtonHscaleZoomSensitiveness();
@@ -2436,43 +2438,85 @@ public class TreeviewFSAnalyze
 	{
 	}
 
+	protected virtual string [] getTreeviewStr ()
+	{
+		return new String [4];
+	}
+
 	public virtual void FillTreeview ()
 	{
-		string [] str = new String [4];
-		int i = 0;
+		string [] str = getTreeviewStr ();
+		store.AppendValues (fillTreeViewStart (str, 0));
+		store.AppendValues (fillTreeViewEnd (str, 0));
+		store.AppendValues (fillTreeViewDiff (str, 0));
+		store.AppendValues (fillTreeViewAvg (str, 0));
+		store.AppendValues (fillTreeViewMax (str, 0));
+	}
+
+	private string [] fillTreeViewStart (string [] str, int i)
+	{
 		str[i++] = letterStart;
 		str[i++] = Math.Round (timeStart, 1).ToString ();
 		str[i++] = Math.Round (forceStart, 1).ToString ();
 		str[i++] = rfdStart;
-		store.AppendValues (str);
+		return fillTreeViewStartElastic (str, i);
+	}
 
-		i = 0;
+	private string [] fillTreeViewEnd (string [] str, int i)
+	{
 		str[i++] = letterEnd;
 		str[i++] = Math.Round (timeEnd, 1).ToString ();
 		str[i++] = Math.Round (forceEnd, 1).ToString ();
 		str[i++] = rfdEnd;
-		store.AppendValues (str);
+		return fillTreeViewEndElastic (str, i);
+	}
 
-		i = 0;
+	private string [] fillTreeViewDiff (string [] str, int i)
+	{
 		str[i++] = Catalog.GetString ("Difference");
 		str[i++] = Math.Round (timeDiff, 1).ToString ();
 		str[i++] = Math.Round (forceDiff, 1).ToString ();
 		str[i++] = Math.Round (rfdDiff, 1).ToString ();
-		store.AppendValues (str);
+		return fillTreeViewDiffElastic (str, i);
+	}
 
-		i = 0;
+	private string [] fillTreeViewAvg (string [] str, int i)
+	{
 		str[i++] = Catalog.GetString ("Average");
 		str[i++] = ""; //Math.Round (timeAvg, 1).ToString ();
 		str[i++] = ""; //Math.Round (forceAvg, 1).ToString ();
 		str[i++] = rfdAvg;
-		store.AppendValues (str);
+		return fillTreeViewAvgElastic (str, i);
+	}
 
-		i = 0;
+	private string [] fillTreeViewMax (string [] str, int i)
+	{
 		str[i++] = Catalog.GetString ("Maximum");
 		str[i++] = ""; //Math.Round (timeMax, 1).ToString ();
 		str[i++] = ""; //Math.Round (forceMax, 1).ToString ();
 		str[i++] = rfdMax;
-		store.AppendValues (str);
+		return fillTreeViewMaxElastic (str, i);
+	}
+
+	protected virtual string [] fillTreeViewStartElastic (string [] str, int i)
+	{
+		return str;
+	}
+	protected virtual string [] fillTreeViewEndElastic (string [] str, int i)
+	{
+		return str;
+	}
+	protected virtual string [] fillTreeViewDiffElastic (string [] str, int i)
+	{
+		return str;
+	}
+	protected virtual string [] fillTreeViewAvgElastic (string [] str, int i)
+	{
+		return str;
+	}
+	protected virtual string [] fillTreeViewMaxElastic (string [] str, int i)
+	{
+		return str;
 	}
 
 	// this accessors help to pass variables once are calculated on force_sensor_analyze_instant_calculate_params
@@ -2575,40 +2619,51 @@ public class TreeviewFSAnalyzeElastic : TreeviewFSAnalyze
 		this.powerDiff = position;
 	}
 
-	public override void FillTreeview ()
+	protected override string [] getTreeviewStr ()
 	{
-		string [] str = new String [8];
-		int i = 0;
-		str[i++] = letterStart;
-		str[i++] = Math.Round (timeStart, 1).ToString ();
-		str[i++] = Math.Round (forceStart, 1).ToString ();
-		str[i++] = rfdStart;
+		return new String [8];
+	}
+
+	protected override string [] fillTreeViewStartElastic (string [] str, int i)
+	{
 		str[i++] = positionStart;
 		str[i++] = speedStart;
 		str[i++] = accelStart;
 		str[i++] = powerStart;
-		store.AppendValues (str);
-
-		i = 0;
-		str[i++] = letterEnd;
-		str[i++] = Math.Round (timeEnd, 1).ToString ();
-		str[i++] = Math.Round (forceEnd, 1).ToString ();
-		str[i++] = rfdEnd;
+		return str;
+	}
+	protected override string [] fillTreeViewEndElastic (string [] str, int i)
+	{
 		str[i++] = positionEnd;
 		str[i++] = speedEnd;
 		str[i++] = accelEnd;
 		str[i++] = powerEnd;
-		store.AppendValues (str);
-
-		i = 0;
-		str[i++] = Catalog.GetString ("Difference");
-		str[i++] = Math.Round (timeDiff, 1).ToString ();
-		str[i++] = Math.Round (forceDiff, 1).ToString ();
-		str[i++] = "";
+		return str;
+	}
+	protected override string [] fillTreeViewDiffElastic (string [] str, int i)
+	{
 		str[i++] = positionDiff;
 		str[i++] = speedDiff;
 		str[i++] = accelDiff;
 		str[i++] = powerDiff;
-		store.AppendValues (str);
+		return str;
+	}
+	protected override string [] fillTreeViewAvgElastic (string [] str, int i)
+	{
+		//TODO
+		str[i++] = "";
+		str[i++] = "";
+		str[i++] = "";
+		str[i++] = "";
+		return str;
+	}
+	protected override string [] fillTreeViewMaxElastic (string [] str, int i)
+	{
+		//TODO
+		str[i++] = "";
+		str[i++] = "";
+		str[i++] = "";
+		str[i++] = "";
+		return str;
 	}
 }

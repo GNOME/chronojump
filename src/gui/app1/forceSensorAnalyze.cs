@@ -138,11 +138,6 @@ public partial class ChronoJumpWindow
 	Gtk.Button button_hscale_force_sensor_ai_b_post;
 	Gtk.Button button_hscale_force_sensor_ai_b_last;
 
-	Gtk.HBox hbox_force_sensor_ai_position;
-	Gtk.HBox hbox_force_sensor_ai_speed;
-	Gtk.HBox hbox_force_sensor_ai_accel;
-	Gtk.HBox hbox_force_sensor_ai_power;
-
 	Gtk.Grid grid_force_sensor_ai_impulse_variability_and_feedback;
 	Gtk.Label label_force_sensor_ai_feedback;
 	Gtk.HBox hbox_force_sensor_ai_feedback;
@@ -182,42 +177,8 @@ public partial class ChronoJumpWindow
 	Gtk.HScale hscale_force_sensor_ai_d;
 	Gtk.TreeView treeview_force_sensor_ai_AB;
 	Gtk.TreeView treeview_force_sensor_ai_CD;
-	Gtk.Label label_force_sensor_ai_time_a;
-	Gtk.Label label_force_sensor_ai_force_a;
-	Gtk.Label label_force_sensor_ai_rfd_a;
-	Gtk.Label label_force_sensor_ai_position_a;
-	Gtk.Label label_force_sensor_ai_speed_a;
-	Gtk.Label label_force_sensor_ai_accel_a;
-	Gtk.Label label_force_sensor_ai_power_a;
-	//Gtk.HBox hbox_buttons_scale_force_sensor_ai_b;
-	Gtk.Label label_force_sensor_ai_position_b;
-	Gtk.Label label_force_sensor_ai_position_diff;
-	Gtk.Label label_force_sensor_ai_speed_b;
-	Gtk.Label label_force_sensor_ai_speed_diff;
-	Gtk.Label label_force_sensor_ai_speed_average;
-	Gtk.Label label_force_sensor_ai_speed_max;
-	Gtk.Label label_force_sensor_ai_accel_b;
-	Gtk.Label label_force_sensor_ai_accel_diff;
-	Gtk.Label label_force_sensor_ai_accel_average;
-	Gtk.Label label_force_sensor_ai_accel_max;
-	Gtk.Label label_force_sensor_ai_power_b;
-	Gtk.Label label_force_sensor_ai_power_diff;
-	Gtk.Label label_force_sensor_ai_power_average;
-	Gtk.Label label_force_sensor_ai_power_max;
-	Gtk.Label label_force_sensor_ai_time_b;
-	Gtk.Label label_force_sensor_ai_time_diff;
-	Gtk.Label label_force_sensor_ai_force_b;
-	Gtk.Label label_force_sensor_ai_force_diff;
-	Gtk.Label label_force_sensor_ai_force_average;
-	Gtk.Label label_force_sensor_ai_force_max;
-	Gtk.Label label_force_sensor_ai_rfd_b;
-	Gtk.Label label_force_sensor_ai_rfd_diff;
-	Gtk.Label label_force_sensor_ai_rfd_average;
-	Gtk.Label label_force_sensor_ai_rfd_max;
 	Gtk.Label label_force_sensor_ai_max_avg_in_window_values;
 	Gtk.Label label_force_sensor_ai_best_rfd_in_window_values;
-	Gtk.Label label_force_sensor_ai_time_c; //temporary until treeview
-	Gtk.Label label_force_sensor_ai_time_d; //temporary until treeview
 
 	Gtk.ComboBoxText combo_force_1_function;
 	Gtk.ComboBoxText combo_force_2_function;
@@ -1502,56 +1463,7 @@ public partial class ChronoJumpWindow
 		if (current_mode == Constants.Modes.FORCESENSORELASTIC)
 			tvFS.PassRow1or2Elastic (isLeft, position, speed, accel, power);
 
-		if (isAB)
-		{
-			if (isLeft)
-			{
-				label_force_sensor_ai_time_a.Text = Math.Round(fsAI.GetTimeMS(count), 1).ToString();
-				label_force_sensor_ai_force_a.Text = Math.Round(fsAI.GetForceAtCount(count), 1).ToString();
-				label_force_sensor_ai_time_b.Text = Math.Round(fsAI.GetTimeMS(countRelated), 1).ToString();
-				label_force_sensor_ai_force_b.Text = Math.Round(fsAI.GetForceAtCount(countRelated), 1).ToString();
-			} else
-			{
-				label_force_sensor_ai_time_a.Text = Math.Round(fsAI.GetTimeMS(countRelated), 1).ToString();
-				label_force_sensor_ai_force_a.Text = Math.Round(fsAI.GetForceAtCount(countRelated), 1).ToString();
-				label_force_sensor_ai_time_b.Text = Math.Round(fsAI.GetTimeMS(count), 1).ToString();
-				label_force_sensor_ai_force_b.Text = Math.Round(fsAI.GetForceAtCount(count), 1).ToString();
-			}
-		} else
-		{
-			if (isLeft)
-			{
-				label_force_sensor_ai_time_c.Text = Math.Round(fsAI.GetTimeMS(count), 1).ToString();
-				label_force_sensor_ai_time_d.Text = Math.Round(fsAI.GetTimeMS(countRelated), 1).ToString();
-				//TODO: forces
-			} else {
-				label_force_sensor_ai_time_c.Text = Math.Round(fsAI.GetTimeMS(countRelated), 1).ToString();
-				label_force_sensor_ai_time_d.Text = Math.Round(fsAI.GetTimeMS(count), 1).ToString();
-				//TODO: forces
-			}
-		}
 		//LogB.Information (string.Format ("on_hscale_force_sensor_ai_value_changed {0} 4", hscaleToDebug));
-
-		//TODO: update this for all and doing a treeview
-		if(fsAI.CalculedElasticPSAP)
-		{
-			label_force_sensor_ai_position_a.Text = Math.Round(fsAI.Position_l[count], 3).ToString();
-			label_force_sensor_ai_speed_a.Text = Math.Round(fsAI.Speed_l[count], 3).ToString();
-			label_force_sensor_ai_accel_a.Text = Math.Round(fsAI.Accel_l[count], 3).ToString();
-			label_force_sensor_ai_power_a.Text = Math.Round(fsAI.Power_l[count], 3).ToString();
-		} else {
-			label_force_sensor_ai_position_a.Text = "";
-			label_force_sensor_ai_speed_a.Text = "";
-			label_force_sensor_ai_accel_a.Text = "";
-			label_force_sensor_ai_power_a.Text = "";
-		}
-
-		if(count > 0 && count < fsAI.GetLength() -1)
-			label_force_sensor_ai_rfd_a.Text = Math.Round(fsAI.CalculateRFD(count -1, count +1), 1).ToString();
-		else
-			label_force_sensor_ai_rfd_a.Text = "";
-
-
 		//LogB.Information (string.Format ("on_hscale_force_sensor_ai_value_changed {0} 5", hscaleToDebug));
 		// update force_sensor_last_a, ...
 		if (hs == hscale_force_sensor_ai_a)
@@ -1781,28 +1693,6 @@ public partial class ChronoJumpWindow
 		ForceSensorAnalyzeInstant fsAI = getCorrectfsAI ();
 		bool visibleElastic = (visible && fsAI.CalculedElasticPSAP);
 
-		hbox_force_sensor_ai_position.Visible = visibleElastic;
-		hbox_force_sensor_ai_speed.Visible = visibleElastic;
-		hbox_force_sensor_ai_accel.Visible = visibleElastic;
-		hbox_force_sensor_ai_power.Visible = visibleElastic;
-
-		label_force_sensor_ai_position_b.Visible = visibleElastic;
-		label_force_sensor_ai_position_diff.Visible = visibleElastic;
-		label_force_sensor_ai_speed_b.Visible = visibleElastic;
-		label_force_sensor_ai_speed_diff.Visible = visibleElastic;
-		label_force_sensor_ai_speed_average.Visible = visibleElastic;
-		label_force_sensor_ai_speed_max.Visible = visibleElastic;
-
-		label_force_sensor_ai_accel_b.Visible = visibleElastic;
-		label_force_sensor_ai_accel_diff.Visible = visibleElastic;
-		label_force_sensor_ai_accel_average.Visible = visibleElastic;
-		label_force_sensor_ai_accel_max.Visible = visibleElastic;
-
-		label_force_sensor_ai_power_b.Visible = visibleElastic;
-		label_force_sensor_ai_power_diff.Visible = visibleElastic;
-		label_force_sensor_ai_power_average.Visible = visibleElastic;
-		label_force_sensor_ai_power_max.Visible = visibleElastic;
-
 		if (visible && canDoForceSensorAnalyzeAB ())
 			button_force_sensor_analyze_AB_save.Visible = true;
 		else
@@ -1829,14 +1719,10 @@ public partial class ChronoJumpWindow
 		double forceB = fsAI.GetForceAtCount(countB);
 		bool success = fsAI.CalculateRangeParams(countA, countB, preferences.forceSensorAnalyzeMaxAVGInWindow);
 		if(success) {
-			label_force_sensor_ai_time_diff.Text = Math.Round(timeB - timeA, 1).ToString();
-			label_force_sensor_ai_force_diff.Text = Math.Round(forceB - forceA, 1).ToString();
 			tvFS.TimeDiff = Math.Round(timeB - timeA, 1).ToString();
 			tvFS.ForceDiff = forceB - forceA;
 
 			if(countA != countB) {
-				label_force_sensor_ai_force_average.Text = Math.Round(fsAI.ForceAVG, 1).ToString();
-				label_force_sensor_ai_force_max.Text = Math.Round(fsAI.ForceMAX, 1).ToString();
 				tvFS.ForceAvg = Math.Round(fsAI.ForceAVG, 1).ToString();
 				tvFS.ForceMax = Math.Round(fsAI.ForceMAX, 1).ToString();
 
@@ -1850,8 +1736,6 @@ public partial class ChronoJumpWindow
 				else
 					label_force_sensor_ai_best_rfd_in_window_values.Text = "----";
 			} else {
-				label_force_sensor_ai_force_average.Text = "";
-				label_force_sensor_ai_force_max.Text = "";
 				tvFS.ForceAvg = "";
 				tvFS.ForceMax = "";
 				label_force_sensor_ai_max_avg_in_window_values.Text = "";
@@ -1915,23 +1799,14 @@ public partial class ChronoJumpWindow
 		{
 			double positionA = fsAI.Position_l[countA];
 			double positionB = fsAI.Position_l[countB];
-			label_force_sensor_ai_position_diff.Text = Math.Round(positionB - positionA, 3).ToString();
 
 			//LogB.Information ("fcr position_diff = " + Math.Round (cairoGraphForceSensorSignalPointsDispl_l[countB].Y - cairoGraphForceSensorSignalPointsDispl_l[countA].Y, 3).ToString());
 
 			double speedA = fsAI.Speed_l[countA];
 			double speedB = fsAI.Speed_l[countB];
-			label_force_sensor_ai_speed_diff.Text = Math.Round(speedB - speedA, 3).ToString();
 			//LogB.Information ("fcr speed_diff = " + Math.Round (cairoGraphForceSensorSignalPointsSpeed_l[countB].Y - cairoGraphForceSensorSignalPointsSpeed_l[countA].Y, 3).ToString());
 
 			if(countA != countB) {
-				label_force_sensor_ai_speed_average.Text = Math.Round(fsAI.SpeedAVG, 3).ToString();
-				label_force_sensor_ai_speed_max.Text = Math.Round(fsAI.SpeedMAX, 3).ToString();
-				label_force_sensor_ai_accel_average.Text = Math.Round(fsAI.AccelAVG, 3).ToString();
-				label_force_sensor_ai_accel_max.Text = Math.Round(fsAI.AccelMAX, 3).ToString();
-				label_force_sensor_ai_power_average.Text = Math.Round(fsAI.PowerAVG, 3).ToString();
-				label_force_sensor_ai_power_max.Text = Math.Round(fsAI.PowerMAX, 3).ToString();
-
 				tvFS.PassElasticAvgs (
 						Math.Round(fsAI.SpeedAVG, 3).ToString(),
 						Math.Round(fsAI.AccelAVG, 3).ToString(),
@@ -1941,24 +1816,14 @@ public partial class ChronoJumpWindow
 						Math.Round(fsAI.AccelMAX, 3).ToString(),
 						Math.Round(fsAI.PowerMAX, 3).ToString());
 			} else {
-				label_force_sensor_ai_speed_average.Text = "";
-				label_force_sensor_ai_speed_max.Text = "";
-				label_force_sensor_ai_accel_average.Text = "";
-				label_force_sensor_ai_accel_max.Text = "";
-				label_force_sensor_ai_power_average.Text = "";
-				label_force_sensor_ai_power_max.Text = "";
-
 				tvFS.PassElasticAvgs ("", "", "");
 				tvFS.PassElasticMaxs ("", "", "");
 			}
 
 			double accelA = fsAI.Accel_l[countA];
 			double accelB = fsAI.Accel_l[countB];
-			label_force_sensor_ai_accel_diff.Text = Math.Round(accelB - accelA, 3).ToString();
-
 			double powerA = fsAI.Power_l[countA];
 			double powerB = fsAI.Power_l[countB];
-			label_force_sensor_ai_power_diff.Text = Math.Round(powerB - powerA, 3).ToString();
 
 			tvFS.PassElasticDiffs (
 					Math.Round(positionB - positionA, 3).ToString(),
@@ -2015,11 +1880,9 @@ public partial class ChronoJumpWindow
 			}
 
 			// 1) diff
-			label_force_sensor_ai_rfd_diff.Text = Math.Round(rfdB - rfdA, 1).ToString();
 			tvFS.RfdDiff = rfdB - rfdA;
 
 			// 2) Average:
-			label_force_sensor_ai_rfd_average.Text = Math.Round(fsAI.CalculateRFD(countA, countB), 1).ToString();
 			tvFS.RfdAvg = Math.Round(fsAI.CalculateRFD(countA, countB), 1).ToString();
 
 			// 3) max
@@ -2028,12 +1891,8 @@ public partial class ChronoJumpWindow
 			//LogB.Information(string.Format("fsAI.LastRFDMax: {0}", fsAI.LastRFDMax));
 			//LogB.Information(string.Format("fsAI.LastRFDMaxCount: {0}", fsAI.LastRFDMaxCount));
 
-			label_force_sensor_ai_rfd_max.Text = Math.Round(fsAI.LastRFDMax, 1).ToString();
 			tvFS.RfdMax = Math.Round(fsAI.LastRFDMax, 1).ToString();
 		} else {
-			label_force_sensor_ai_rfd_diff.Text = "0";
-			label_force_sensor_ai_rfd_average.Text = "";
-			label_force_sensor_ai_rfd_max.Text = "";
 			tvFS.RfdDiff = 0;
 			tvFS.RfdAvg = "";
 			tvFS.RfdMax = "";
@@ -2263,11 +2122,6 @@ public partial class ChronoJumpWindow
 		button_hscale_force_sensor_ai_b_post = (Gtk.Button) builder.GetObject ("button_hscale_force_sensor_ai_b_post");
 		button_hscale_force_sensor_ai_b_last = (Gtk.Button) builder.GetObject ("button_hscale_force_sensor_ai_b_last");
 
-		hbox_force_sensor_ai_position = (Gtk.HBox) builder.GetObject ("hbox_force_sensor_ai_position");
-		hbox_force_sensor_ai_speed = (Gtk.HBox) builder.GetObject ("hbox_force_sensor_ai_speed");
-		hbox_force_sensor_ai_accel = (Gtk.HBox) builder.GetObject ("hbox_force_sensor_ai_accel");
-		hbox_force_sensor_ai_power = (Gtk.HBox) builder.GetObject ("hbox_force_sensor_ai_power");
-
 		grid_force_sensor_ai_impulse_variability_and_feedback = (Gtk.Grid) builder.GetObject ("grid_force_sensor_ai_impulse_variability_and_feedback");
 		label_force_sensor_ai_feedback = (Gtk.Label) builder.GetObject ("label_force_sensor_ai_feedback");
 		hbox_force_sensor_ai_feedback = (Gtk.HBox) builder.GetObject ("hbox_force_sensor_ai_feedback");
@@ -2307,42 +2161,8 @@ public partial class ChronoJumpWindow
 		hscale_force_sensor_ai_d = (Gtk.HScale) builder.GetObject ("hscale_force_sensor_ai_d");
 		treeview_force_sensor_ai_AB = (Gtk.TreeView) builder.GetObject ("treeview_force_sensor_ai_AB");
 		treeview_force_sensor_ai_CD = (Gtk.TreeView) builder.GetObject ("treeview_force_sensor_ai_CD");
-		label_force_sensor_ai_time_a = (Gtk.Label) builder.GetObject ("label_force_sensor_ai_time_a");
-		label_force_sensor_ai_force_a = (Gtk.Label) builder.GetObject ("label_force_sensor_ai_force_a");
-		label_force_sensor_ai_rfd_a = (Gtk.Label) builder.GetObject ("label_force_sensor_ai_rfd_a");
-		label_force_sensor_ai_position_a = (Gtk.Label) builder.GetObject ("label_force_sensor_ai_position_a");
-		label_force_sensor_ai_speed_a = (Gtk.Label) builder.GetObject ("label_force_sensor_ai_speed_a");
-		label_force_sensor_ai_accel_a = (Gtk.Label) builder.GetObject ("label_force_sensor_ai_accel_a");
-		label_force_sensor_ai_power_a = (Gtk.Label) builder.GetObject ("label_force_sensor_ai_power_a");
-		//hbox_buttons_scale_force_sensor_ai_b = (Gtk.HBox) builder.GetObject ("hbox_buttons_scale_force_sensor_ai_b");
-		label_force_sensor_ai_position_b = (Gtk.Label) builder.GetObject ("label_force_sensor_ai_position_b");
-		label_force_sensor_ai_position_diff = (Gtk.Label) builder.GetObject ("label_force_sensor_ai_position_diff");
-		label_force_sensor_ai_speed_b = (Gtk.Label) builder.GetObject ("label_force_sensor_ai_speed_b");
-		label_force_sensor_ai_speed_diff = (Gtk.Label) builder.GetObject ("label_force_sensor_ai_speed_diff");
-		label_force_sensor_ai_speed_average = (Gtk.Label) builder.GetObject ("label_force_sensor_ai_speed_average");
-		label_force_sensor_ai_speed_max = (Gtk.Label) builder.GetObject ("label_force_sensor_ai_speed_max");
-		label_force_sensor_ai_accel_b = (Gtk.Label) builder.GetObject ("label_force_sensor_ai_accel_b");
-		label_force_sensor_ai_accel_diff = (Gtk.Label) builder.GetObject ("label_force_sensor_ai_accel_diff");
-		label_force_sensor_ai_accel_average = (Gtk.Label) builder.GetObject ("label_force_sensor_ai_accel_average");
-		label_force_sensor_ai_accel_max = (Gtk.Label) builder.GetObject ("label_force_sensor_ai_accel_max");
-		label_force_sensor_ai_power_b = (Gtk.Label) builder.GetObject ("label_force_sensor_ai_power_b");
-		label_force_sensor_ai_power_diff = (Gtk.Label) builder.GetObject ("label_force_sensor_ai_power_diff");
-		label_force_sensor_ai_power_average = (Gtk.Label) builder.GetObject ("label_force_sensor_ai_power_average");
-		label_force_sensor_ai_power_max = (Gtk.Label) builder.GetObject ("label_force_sensor_ai_power_max");
-		label_force_sensor_ai_time_b = (Gtk.Label) builder.GetObject ("label_force_sensor_ai_time_b");
-		label_force_sensor_ai_time_diff = (Gtk.Label) builder.GetObject ("label_force_sensor_ai_time_diff");
-		label_force_sensor_ai_force_b = (Gtk.Label) builder.GetObject ("label_force_sensor_ai_force_b");
-		label_force_sensor_ai_force_diff = (Gtk.Label) builder.GetObject ("label_force_sensor_ai_force_diff");
-		label_force_sensor_ai_force_average = (Gtk.Label) builder.GetObject ("label_force_sensor_ai_force_average");
-		label_force_sensor_ai_force_max = (Gtk.Label) builder.GetObject ("label_force_sensor_ai_force_max");
-		label_force_sensor_ai_rfd_b = (Gtk.Label) builder.GetObject ("label_force_sensor_ai_rfd_b");
-		label_force_sensor_ai_rfd_diff = (Gtk.Label) builder.GetObject ("label_force_sensor_ai_rfd_diff");
-		label_force_sensor_ai_rfd_average = (Gtk.Label) builder.GetObject ("label_force_sensor_ai_rfd_average");
-		label_force_sensor_ai_rfd_max = (Gtk.Label) builder.GetObject ("label_force_sensor_ai_rfd_max");
 		label_force_sensor_ai_max_avg_in_window_values = (Gtk.Label) builder.GetObject ("label_force_sensor_ai_max_avg_in_window_values");
 		label_force_sensor_ai_best_rfd_in_window_values = (Gtk.Label) builder.GetObject ("label_force_sensor_ai_best_rfd_in_window_values");
-		label_force_sensor_ai_time_c = (Gtk.Label) builder.GetObject ("label_force_sensor_ai_time_c");
-		label_force_sensor_ai_time_d = (Gtk.Label) builder.GetObject ("label_force_sensor_ai_time_d");
 
 		combo_force_1_function = (Gtk.ComboBoxText) builder.GetObject ("combo_force_1_function");
 		combo_force_2_function = (Gtk.ComboBoxText) builder.GetObject ("combo_force_2_function");

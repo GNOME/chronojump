@@ -1838,6 +1838,8 @@ public partial class ChronoJumpWindow
 			if(countA != countB) {
 				label_force_sensor_ai_force_average.Text = Math.Round(fsAI.ForceAVG, 1).ToString();
 				label_force_sensor_ai_force_max.Text = Math.Round(fsAI.ForceMAX, 1).ToString();
+				tvFS.ForceAvg = Math.Round(fsAI.ForceAVG, 1).ToString();
+				tvFS.ForceMax = Math.Round(fsAI.ForceMAX, 1).ToString();
 
 				if(fsAI.Gmaiw.Error == "")
 					label_force_sensor_ai_max_avg_in_window_values.Text = Math.Round(fsAI.Gmaiw.Max, 1).ToString();
@@ -1851,6 +1853,8 @@ public partial class ChronoJumpWindow
 			} else {
 				label_force_sensor_ai_force_average.Text = "";
 				label_force_sensor_ai_force_max.Text = "";
+				tvFS.ForceAvg = "";
+				tvFS.ForceMax = "";
 				label_force_sensor_ai_max_avg_in_window_values.Text = "";
 				label_force_sensor_ai_best_rfd_in_window_values.Text = "";
 			}
@@ -1928,6 +1932,15 @@ public partial class ChronoJumpWindow
 				label_force_sensor_ai_accel_max.Text = Math.Round(fsAI.AccelMAX, 3).ToString();
 				label_force_sensor_ai_power_average.Text = Math.Round(fsAI.PowerAVG, 3).ToString();
 				label_force_sensor_ai_power_max.Text = Math.Round(fsAI.PowerMAX, 3).ToString();
+
+				tvFS.PassElasticAvgs (
+						Math.Round(fsAI.SpeedAVG, 3).ToString(),
+						Math.Round(fsAI.AccelAVG, 3).ToString(),
+						Math.Round(fsAI.PowerAVG, 3).ToString());
+				tvFS.PassElasticMaxs (
+						Math.Round(fsAI.SpeedMAX, 3).ToString(),
+						Math.Round(fsAI.AccelMAX, 3).ToString(),
+						Math.Round(fsAI.PowerMAX, 3).ToString());
 			} else {
 				label_force_sensor_ai_speed_average.Text = "";
 				label_force_sensor_ai_speed_max.Text = "";
@@ -1935,6 +1948,9 @@ public partial class ChronoJumpWindow
 				label_force_sensor_ai_accel_max.Text = "";
 				label_force_sensor_ai_power_average.Text = "";
 				label_force_sensor_ai_power_max.Text = "";
+
+				tvFS.PassElasticAvgs ("", "", "");
+				tvFS.PassElasticMaxs ("", "", "");
 			}
 
 			double accelA = fsAI.Accel_l[countA];
@@ -2379,13 +2395,11 @@ public class TreeviewFSAnalyze
 	protected double rfdDiff;
 
 	//row 4
-	protected double timeAvg;
-	//protected string forceAvg;
+	protected string forceAvg;
 	protected string rfdAvg;
 
 	//row 5
-	protected double timeMax;
-	//protected string forceMax;
+	protected string forceMax;
 	protected string rfdMax;
 
 	public TreeviewFSAnalyze () //needed to inherit
@@ -2453,6 +2467,12 @@ public class TreeviewFSAnalyze
 	public virtual void PassElasticDiffs (string position, string speed, string accel, string power)
 	{
 	}
+	public virtual void PassElasticAvgs (string speed, string accel, string power)
+	{
+	}
+	public virtual void PassElasticMaxs (string speed, string accel, string power)
+	{
+	}
 
 	protected virtual string [] getTreeviewStr ()
 	{
@@ -2499,8 +2519,8 @@ public class TreeviewFSAnalyze
 	private string [] fillTreeViewAvg (string [] str, int i)
 	{
 		str[i++] = Catalog.GetString ("Average");
-		str[i++] = ""; //Math.Round (timeAvg, 1).ToString ();
-		str[i++] = ""; //Math.Round (forceAvg, 1).ToString ();
+		str[i++] = ""; // no time avg
+		str[i++] = forceAvg;
 		str[i++] = rfdAvg;
 		return fillTreeViewAvgElastic (str, i);
 	}
@@ -2508,8 +2528,8 @@ public class TreeviewFSAnalyze
 	private string [] fillTreeViewMax (string [] str, int i)
 	{
 		str[i++] = Catalog.GetString ("Maximum");
-		str[i++] = ""; //Math.Round (timeMax, 1).ToString ();
-		str[i++] = ""; //Math.Round (forceMax, 1).ToString ();
+		str[i++] = ""; // no time max
+		str[i++] = forceMax;
 		str[i++] = rfdMax;
 		return fillTreeViewMaxElastic (str, i);
 	}
@@ -2546,27 +2566,22 @@ public class TreeviewFSAnalyze
 		set { rfdDiff = value; }
 	}
 
-	//public double TimeAvg {
-	//	set { timeAvg = value; }
-	//}
-	//public double ForceAvg {
-	//	set { forceAvg = value; }
-	//}
+	public string ForceAvg {
+		set { forceAvg = value; }
+	}
 	public string RfdAvg {
 		set { rfdAvg = value; }
 	}
 
-	//public double TimeMax {
-	//	set { timeMax = value; }
-	//}
-	//public double ForceMax {
-	//	set { forceMax = value; }
-	//}
+	public string ForceMax {
+		set { forceMax = value; }
+	}
 	public string RfdMax {
 		set { rfdMax = value; }
 	}
 }
 
+//TODO: move this to another file once the new Windows compilation is working
 public class TreeviewFSAnalyzeElastic : TreeviewFSAnalyze
 {
 	//row 1
@@ -2587,6 +2602,15 @@ public class TreeviewFSAnalyzeElastic : TreeviewFSAnalyze
 	private string accelDiff;
 	private string powerDiff;
 
+	//row 4
+	private string speedAvg;
+	private string accelAvg;
+	private string powerAvg;
+
+	//row 5
+	private string speedMax;
+	private string accelMax;
+	private string powerMax;
 
 	public TreeviewFSAnalyzeElastic (Gtk.TreeView tv, string letterStart, string letterEnd)
 	{
@@ -2631,8 +2655,22 @@ public class TreeviewFSAnalyzeElastic : TreeviewFSAnalyze
 	{
 		this.positionDiff = position;
 		this.speedDiff = speed;
-		this.accelDiff = position;
-		this.powerDiff = position;
+		this.accelDiff = accel;
+		this.powerDiff = power;
+	}
+
+	public override void PassElasticAvgs (string speed, string accel, string power)
+	{
+		this.speedAvg = speed;
+		this.accelAvg = accel;
+		this.powerAvg = power;
+	}
+
+	public override void PassElasticMaxs (string speed, string accel, string power)
+	{
+		this.speedMax = speed;
+		this.accelMax = accel;
+		this.powerMax = power;
 	}
 
 	protected override string [] getTreeviewStr ()
@@ -2666,20 +2704,18 @@ public class TreeviewFSAnalyzeElastic : TreeviewFSAnalyze
 	}
 	protected override string [] fillTreeViewAvgElastic (string [] str, int i)
 	{
-		//TODO
-		str[i++] = "";
-		str[i++] = "";
-		str[i++] = "";
-		str[i++] = "";
+		str[i++] = ""; // no position average
+		str[i++] = speedAvg;
+		str[i++] = accelAvg;
+		str[i++] = powerAvg;
 		return str;
 	}
 	protected override string [] fillTreeViewMaxElastic (string [] str, int i)
 	{
-		//TODO
-		str[i++] = "";
-		str[i++] = "";
-		str[i++] = "";
-		str[i++] = "";
+		str[i++] = ""; // no position max
+		str[i++] = speedMax;
+		str[i++] = accelMax;
+		str[i++] = powerMax;
 		return str;
 	}
 }

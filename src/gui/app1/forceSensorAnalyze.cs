@@ -1007,6 +1007,7 @@ public partial class ChronoJumpWindow
 
 		//LogB.Information(string.Format("creating fsAI with zoomFrameA: {0}, zoomFrameB: {1}", zoomFrameA, zoomFrameB));
 		fsAI_AB = new ForceSensorAnalyzeInstant(
+				"AB",
 				lastForceSensorFullPath,
 				zoomFrameA, zoomFrameB,
 				currentForceSensorExercise, currentPersonSession.Weight,
@@ -1014,6 +1015,7 @@ public partial class ChronoJumpWindow
 				eccMinDispl, conMinDispl
 				);
 		fsAI_CD = new ForceSensorAnalyzeInstant(
+				"CD",
 				lastForceSensorFullPath,
 				zoomFrameA, zoomFrameB, //TODO: check zoomz for CD
 				currentForceSensorExercise, currentPersonSession.Weight,

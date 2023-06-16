@@ -1617,14 +1617,17 @@ public class ForceSensorAnalyzeInstant
 	private List<PointF> p_l;
 //	private List<PointF> pDist_l;
 
+	private string idStr; //just to identify it
 	private ForceSensorExercise fse;
 
 	public ForceSensorAnalyzeInstant(
+			string idStr,
 			string file,
 			int startSample, int endSample,
 			ForceSensorExercise fse, double personWeight, ForceSensor.CaptureOptions fsco, double stiffness,
 			double eccMinDisplacement, double conMinDisplacement)
 	{
+		this.idStr = idStr;
 		this.fse = fse;
 
 		readFile(file, startSample, endSample, personWeight, fsco, stiffness, eccMinDisplacement, conMinDisplacement);
@@ -2025,6 +2028,11 @@ public class ForceSensorAnalyzeInstant
 				Util.DoubleToCSV(Power_l[i], 3, sepString);
 
 		return str;
+	}
+
+	public string IdStr //to debug
+	{
+		get { return idStr; }
 	}
 
 	public GetMaxAvgInWindow Gmaiw

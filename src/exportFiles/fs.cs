@@ -192,6 +192,7 @@ public class ForceSensorExport : ExportFiles
 
 			// 4) create fsAI (includes the repetitions)
 			ForceSensorAnalyzeInstant fsAI = new ForceSensorAnalyzeInstant(
+					"",
 					fs.FullURL,
 					-1, -1,
 					fsEx, ps.Weight,

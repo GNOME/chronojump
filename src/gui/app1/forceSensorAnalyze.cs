@@ -1383,9 +1383,14 @@ public partial class ChronoJumpWindow
 
 		if(fsAI == null || fsAI.GetLength() == 0)
 			return;
-
 		Gtk.HScale hs = (Gtk.HScale) o;
 
+		hscale_force_sensor_ai_value_changed_do (fsAI, hs);
+	}
+
+	//can be convinient to call it directly
+	private void hscale_force_sensor_ai_value_changed_do (ForceSensorAnalyzeInstant fsAI, HScale hs)
+	{
 		// 1. set some variables to make this function work for the four hscales
 		bool isAB; //false AC
 		bool isLeft; //A or C
@@ -1578,9 +1583,13 @@ public partial class ChronoJumpWindow
 			forceSensorHScalesDoNotFollow = false;
 		}
 
-		force_sensor_analyze_instant_calculate_params (fsAI, tvFS,
-				Convert.ToInt32 (getHScaleABCD (true).Value),
-				Convert.ToInt32 (getHScaleABCD (false).Value) );
+		//need to do both to ensure at unzoom params are calculated for AB and CD
+		force_sensor_analyze_instant_calculate_params (fsAI_AB, tvFS_ab,
+				Convert.ToInt32 (hscale_force_sensor_ai_a.Value),
+				Convert.ToInt32 (hscale_force_sensor_ai_b.Value));
+		force_sensor_analyze_instant_calculate_params (fsAI_CD, tvFS_cd,
+				Convert.ToInt32 (hscale_force_sensor_ai_c.Value),
+				Convert.ToInt32 (hscale_force_sensor_ai_d.Value));
 
 		tvFS.ResetTreeview (); //To avoid duplicated rows on chained A,B
 		tvFS.FillTreeview ();
@@ -1809,9 +1818,11 @@ public partial class ChronoJumpWindow
 	private void force_sensor_analyze_instant_calculate_params (
 			ForceSensorAnalyzeInstant fsAI, TreeviewFSAnalyze tvFS,	int countA, int countB)
 	{
+		//LogB.Information (string.Format ("before CalculateRangeParams 0 with fsAI.IdStr: {0}", fsAI.IdStr));
 		if (countA < 0 || countA > fsAI.GetLength() -1 || countB < 0 || countB > fsAI.GetLength() -1)
 			return;
 
+		//LogB.Information (string.Format ("before CalculateRangeParams 1 with fsAI.IdStr: {0}", fsAI.IdStr));
 		//old method
 		double timeA = fsAI.GetTimeMS(countA);
 		double timeB = fsAI.GetTimeMS(countB);
@@ -1847,6 +1858,9 @@ public partial class ChronoJumpWindow
 			tvFS.TimeDiff = 0;
 			tvFS.ForceDiff = 0;
 		}
+
+		//LogB.Information (string.Format ("after CalculateRangeParams fsAI.IdStr: {0}, fsAI.Briw: {1}",
+		//			fsAI.IdStr, fsAI.Briw));
 
 		/*
 		//new method

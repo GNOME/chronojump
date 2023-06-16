@@ -963,11 +963,11 @@ public partial class ChronoJumpWindow
 		}
 		else if ( forceSensorZoomApplied && (
 				(radio_force_sensor_ai_ab.Active &&
-				Util.IsNumber(label_force_sensor_ai_time_a.Text, true) &&
-				Util.IsNumber(label_force_sensor_ai_time_b.Text, true)) ||
+				Util.IsNumber (tvFS_AB.TimeStart, true) &&
+				Util.IsNumber (tvFS_AB.TimeEnd, true)) ||
 				(! radio_force_sensor_ai_ab.Active &&
-				Util.IsNumber(label_force_sensor_ai_time_c.Text, true) &&
-				Util.IsNumber(label_force_sensor_ai_time_d.Text, true)) ))
+				Util.IsNumber (tvFS_CD.TimeStart, true) &&
+				Util.IsNumber (tvFS_CD.TimeEnd, true)) ))
 		{
 			//invert hscales if needed
 			int firstValue = Convert.ToInt32 (hsLeft.Value);
@@ -1498,11 +1498,10 @@ public partial class ChronoJumpWindow
 		}
 
 		tvFS.ResetTreeview ();
-		tvFS.PassRow1or2 (isLeft, fsAI.GetTimeMS (count), fsAI.GetForceAtCount (count), rfd);
+		tvFS.PassRow1or2 (isLeft, Math.Round(fsAI.GetTimeMS(count), 1).ToString(), fsAI.GetForceAtCount (count), rfd);
 		if (current_mode == Constants.Modes.FORCESENSORELASTIC)
 			tvFS.PassRow1or2Elastic (isLeft, position, speed, accel, power);
 
-		//TODO: this will be updated when tvFS is fully implemented, but note label_force_sensor_ai_time_a and others are at the moment needed on other parts of the code
 		if (isAB)
 		{
 			if (isLeft)
@@ -1832,7 +1831,7 @@ public partial class ChronoJumpWindow
 		if(success) {
 			label_force_sensor_ai_time_diff.Text = Math.Round(timeB - timeA, 1).ToString();
 			label_force_sensor_ai_force_diff.Text = Math.Round(forceB - forceA, 1).ToString();
-			tvFS.TimeDiff = timeB - timeA;
+			tvFS.TimeDiff = Math.Round(timeB - timeA, 1).ToString();
 			tvFS.ForceDiff = forceB - forceA;
 
 			if(countA != countB) {
@@ -1859,7 +1858,7 @@ public partial class ChronoJumpWindow
 				label_force_sensor_ai_best_rfd_in_window_values.Text = "";
 			}
 		} else {
-			tvFS.TimeDiff = 0;
+			tvFS.TimeDiff = "";
 			tvFS.ForceDiff = 0;
 		}
 
@@ -2091,22 +2090,16 @@ public partial class ChronoJumpWindow
 
 	private bool canDoForceSensorAnalyzeAB()
 	{
-		return (Util.FileExists(lastForceSensorFullPath) &&
-				label_force_sensor_ai_time_diff.Visible &&
-				label_force_sensor_ai_time_diff.Text != null &&
-				Util.IsNumber(label_force_sensor_ai_time_diff.Text, true) );
+		return (Util.FileExists(lastForceSensorFullPath) && Util.IsNumber (tvFS_AB.TimeDiff, true));
 	}
 	private bool canDoForceSensorAnalyzeCD()
 	{
-		return (Util.FileExists(lastForceSensorFullPath) );/*&& TODO:
-				label_force_sensor_ai_time_diff.Visible &&
-				label_force_sensor_ai_time_diff.Text != null &&
-				Util.IsNumber(label_force_sensor_ai_time_diff.Text, true) );*/
+		return (Util.FileExists(lastForceSensorFullPath) && Util.IsNumber (tvFS_CD.TimeDiff, true));
 	}
 
 	private void on_button_force_sensor_analyze_AB_save_clicked (object o, EventArgs args)
 	{
-		if (label_force_sensor_ai_time_a.Text == label_force_sensor_ai_time_b.Text)
+		if (tvFS_AB.TimeStart == tvFS_AB.TimeEnd)
 		{
 			new DialogMessage (Constants.MessageTypes.WARNING, "A and B cannot be the same");
 			return;
@@ -2119,7 +2112,7 @@ public partial class ChronoJumpWindow
 	}
 	private void on_button_force_sensor_analyze_CD_save_clicked (object o, EventArgs args)
 	{
-		if (label_force_sensor_ai_time_c.Text == label_force_sensor_ai_time_d.Text)
+		if (tvFS_CD.TimeStart == tvFS_CD.TimeEnd)
 		{
 			new DialogMessage (Constants.MessageTypes.WARNING, "C and D cannot be the same");
 			return;
@@ -2375,13 +2368,13 @@ public class TreeviewFSAnalyze
 
 	//row 1
 	protected string letterStart;
-	protected double timeStart;
+	protected string timeStart;
 	protected double forceStart;
 	protected string rfdStart;
 
 	//row 2
 	protected string letterEnd;
-	protected double timeEnd;
+	protected string timeEnd;
 	protected double forceEnd;
 	protected string rfdEnd;
 	private string positionEnd;
@@ -2390,7 +2383,7 @@ public class TreeviewFSAnalyze
 	private string powerEnd;
 
 	//row 3
-	protected double timeDiff;
+	protected string timeDiff;
 	protected double forceDiff;
 	protected double rfdDiff;
 
@@ -2446,7 +2439,7 @@ public class TreeviewFSAnalyze
 	}
 
 	//some are string because it is easier to know if missing data, because doble could be 0.00000001 ...
-	public void PassRow1or2 (bool isLeft, double time, double force, string rfd)
+	public void PassRow1or2 (bool isLeft, string time, double force, string rfd)
 	{
 		if (isLeft)
 		{
@@ -2492,7 +2485,7 @@ public class TreeviewFSAnalyze
 	private string [] fillTreeViewStart (string [] str, int i)
 	{
 		str[i++] = letterStart;
-		str[i++] = Math.Round (timeStart, 1).ToString ();
+		str[i++] = timeStart;
 		str[i++] = Math.Round (forceStart, 1).ToString ();
 		str[i++] = rfdStart;
 		return fillTreeViewStartElastic (str, i);
@@ -2501,7 +2494,7 @@ public class TreeviewFSAnalyze
 	private string [] fillTreeViewEnd (string [] str, int i)
 	{
 		str[i++] = letterEnd;
-		str[i++] = Math.Round (timeEnd, 1).ToString ();
+		str[i++] = timeEnd;
 		str[i++] = Math.Round (forceEnd, 1).ToString ();
 		str[i++] = rfdEnd;
 		return fillTreeViewEndElastic (str, i);
@@ -2510,7 +2503,7 @@ public class TreeviewFSAnalyze
 	private string [] fillTreeViewDiff (string [] str, int i)
 	{
 		str[i++] = Catalog.GetString ("Difference");
-		str[i++] = Math.Round (timeDiff, 1).ToString ();
+		str[i++] = timeDiff;
 		str[i++] = Math.Round (forceDiff, 1).ToString ();
 		str[i++] = Math.Round (rfdDiff, 1).ToString ();
 		return fillTreeViewDiffElastic (str, i);
@@ -2555,8 +2548,16 @@ public class TreeviewFSAnalyze
 		return str;
 	}
 
+	public string TimeStart {
+		get { return timeStart; }
+	}
+	public string TimeEnd {
+		get { return timeEnd; }
+	}
+
 	// this accessors help to pass variables once are calculated on force_sensor_analyze_instant_calculate_params
-	public double TimeDiff {
+	public string TimeDiff {
+		get { return timeDiff; }
 		set { timeDiff = value; }
 	}
 	public double ForceDiff {

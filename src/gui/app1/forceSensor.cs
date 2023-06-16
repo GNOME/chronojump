@@ -134,8 +134,8 @@ public partial class ChronoJumpWindow
 		Catalog.GetString("Plug cable and click on 'device' button.");
 
 
-	TreeviewFSAnalyze tvFS_ab;
-	TreeviewFSAnalyze tvFS_cd;
+	TreeviewFSAnalyze tvFS_AB;
+	TreeviewFSAnalyze tvFS_CD;
 	private void initForceSensor ()
 	{
 		//notebook_force_sensor_analyze_top.CurrentPage = Convert.ToInt32(notebook_force_sensor_analyze_top_pages.CURRENTSETSIGNAL);

@@ -1401,7 +1401,7 @@ public partial class ChronoJumpWindow
 
 		if (hs == hscale_force_sensor_ai_a)
 		{
-			tvFS = tvFS_ab;
+			tvFS = tvFS_AB;
 			isAB = true; //false AC
 			isLeft = true; //A or C
 			hsRelated = hscale_force_sensor_ai_b; //if A then B, if D then C
@@ -1410,7 +1410,7 @@ public partial class ChronoJumpWindow
 		}
 		else if (hs == hscale_force_sensor_ai_b)
 		{
-			tvFS = tvFS_ab;
+			tvFS = tvFS_AB;
 			isAB = true;
 			isLeft = false;
 			hsRelated = hscale_force_sensor_ai_a;
@@ -1419,7 +1419,7 @@ public partial class ChronoJumpWindow
 		}
 		else if (hs == hscale_force_sensor_ai_c)
 		{
-			tvFS = tvFS_cd;
+			tvFS = tvFS_CD;
 			isAB = false;
 			isLeft = true;
 			hsRelated = hscale_force_sensor_ai_d;
@@ -1428,7 +1428,7 @@ public partial class ChronoJumpWindow
 		}
 		else //if (hs == hscale_force_sensor_ai_d)
 		{
-			tvFS = tvFS_cd;
+			tvFS = tvFS_CD;
 			isAB = false;
 			isLeft = false;
 			hsRelated = hscale_force_sensor_ai_c;
@@ -1584,10 +1584,10 @@ public partial class ChronoJumpWindow
 		}
 
 		//need to do both to ensure at unzoom params are calculated for AB and CD
-		force_sensor_analyze_instant_calculate_params (fsAI_AB, tvFS_ab,
+		force_sensor_analyze_instant_calculate_params (fsAI_AB, tvFS_AB,
 				Convert.ToInt32 (hscale_force_sensor_ai_a.Value),
 				Convert.ToInt32 (hscale_force_sensor_ai_b.Value));
-		force_sensor_analyze_instant_calculate_params (fsAI_CD, tvFS_cd,
+		force_sensor_analyze_instant_calculate_params (fsAI_CD, tvFS_CD,
 				Convert.ToInt32 (hscale_force_sensor_ai_c.Value),
 				Convert.ToInt32 (hscale_force_sensor_ai_d.Value));
 
@@ -2349,8 +2349,8 @@ public partial class ChronoJumpWindow
 }
 
 // 1 for AB and another for CD:
-// tvFS_ab for treeview_force_sensor_ai_AB
-// tvFS_cd for treeview_force_sensor_ai_CD
+// tvFS_AB for treeview_force_sensor_ai_AB
+// tvFS_CD for treeview_force_sensor_ai_CD
 public class TreeviewFSAnalyze
 {
 	protected TreeStore store;

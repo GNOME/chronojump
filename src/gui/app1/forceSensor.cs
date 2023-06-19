@@ -58,6 +58,13 @@ public partial class ChronoJumpWindow
 	Gtk.Label label_force_sensor_value_rfd;
 	//Gtk.VScale vscale_force_sensor;
 	Gtk.SpinButton spin_force_sensor_calibration_kg_value;
+	Gtk.Box box_force_sensor_capture_magnitudes;
+	Gtk.CheckButton check_force_sensor_capture_show_distance;
+	Gtk.CheckButton check_force_sensor_capture_show_speed;
+	Gtk.CheckButton check_force_sensor_capture_show_power;
+	Gtk.Image image_force_sensor_capture_show_distance;
+	Gtk.Image image_force_sensor_capture_show_speed;
+	Gtk.Image image_force_sensor_capture_show_power;
 	Gtk.Button button_force_sensor_image_save_signal;
 	Gtk.DrawingArea force_capture_drawingarea_cairo;
 	Gtk.Button button_force_sensor_exercise_edit;
@@ -365,6 +372,7 @@ public partial class ChronoJumpWindow
 					return;
 				}
 			}
+			box_force_sensor_capture_magnitudes.Visible = currentForceSensorExercise.ComputeAsElastic;
 		}
 
 		if (chronopicRegister.GetSelectedForMode (current_mode).Port == "")
@@ -583,6 +591,7 @@ public partial class ChronoJumpWindow
 		label_force_sensor_export_result.Text = "";
 		button_force_sensor_export_result_open.Visible = false;
 		event_execute_label_message.Text = "";
+		box_force_sensor_capture_magnitudes.Visible = false;
 	}
 
 	private bool pulseGTKForceSensorOther ()
@@ -1903,6 +1912,7 @@ LogB.Information(" fs R ");
 			label_button_force_sensor_stiffness.Text = "0";
 			frame_force_sensor_elastic.Visible = false;
 		}
+		box_force_sensor_capture_magnitudes.Visible = currentForceSensorExercise.ComputeAsElastic;
 
 		//triggers
 		triggerListForceSensor = new TriggerList(
@@ -2133,6 +2143,7 @@ LogB.Information(" fs R ");
 				return;
 			}
 		}
+		box_force_sensor_capture_magnitudes.Visible = currentForceSensorExercise.ComputeAsElastic;
 
 		//update SQL with exercise, captureOptions, laterality, comments
 		currentForceSensor.ExerciseID = currentForceSensorExercise.UniqueID;
@@ -2380,6 +2391,11 @@ LogB.Information(" fs R ");
 	SignalPointsCairoForceElastic spCairoFEZoom;
 	bool cairoGraphForceSensorSignalPointsShowAccuracy;
 
+	private void on_check_force_sensor_capture_show_magnitudes (object o, EventArgs args)
+	{
+		force_capture_drawingarea_cairo.QueueDraw ();
+	}
+
 	public void on_force_capture_drawingarea_cairo_draw (object o, Gtk.DrawnArgs args)
 	{
 		updateForceSensorCaptureSignalCairo (true);
@@ -2471,6 +2487,9 @@ LogB.Information(" fs R ");
 		cairoGraphForceSensorSignal.DoSendingList (
 				preferences.fontType.ToString(),
 				spCairoFECopy,
+				check_force_sensor_capture_show_distance.Active,
+				check_force_sensor_capture_show_speed.Active,
+				check_force_sensor_capture_show_power.Active,
 				paintPointsInterpolateCairo_l_copy, preferences.forceSensorFeedbackPathMin, preferences.forceSensorFeedbackPathMax,
 				(forceCaptureThread != null && forceCaptureThread.IsAlive),
 				cairoGraphForceSensorSignalPointsShowAccuracy,
@@ -3177,6 +3196,13 @@ LogB.Information(" fs R ");
 		label_force_sensor_value_rfd = (Gtk.Label) builder.GetObject ("label_force_sensor_value_rfd");
 		//vscale_force_sensor = (Gtk.VScale) builder.GetObject ("vscale_force_sensor");
 		spin_force_sensor_calibration_kg_value = (Gtk.SpinButton) builder.GetObject ("spin_force_sensor_calibration_kg_value");
+		box_force_sensor_capture_magnitudes = (Gtk.Box) builder.GetObject ("box_force_sensor_capture_magnitudes");
+		check_force_sensor_capture_show_distance = (Gtk.CheckButton) builder.GetObject ("check_force_sensor_capture_show_distance");
+		check_force_sensor_capture_show_speed = (Gtk.CheckButton) builder.GetObject ("check_force_sensor_capture_show_speed");
+		check_force_sensor_capture_show_power = (Gtk.CheckButton) builder.GetObject ("check_force_sensor_capture_show_power");
+		image_force_sensor_capture_show_distance = (Gtk.Image) builder.GetObject ("image_force_sensor_capture_show_distance");
+		image_force_sensor_capture_show_speed = (Gtk.Image) builder.GetObject ("image_force_sensor_capture_show_speed");
+		image_force_sensor_capture_show_power = (Gtk.Image) builder.GetObject ("image_force_sensor_capture_show_power");
 		button_force_sensor_image_save_signal = (Gtk.Button) builder.GetObject ("button_force_sensor_image_save_signal");
 		force_capture_drawingarea_cairo = (Gtk.DrawingArea) builder.GetObject ("force_capture_drawingarea_cairo");
 		button_force_sensor_exercise_edit = (Gtk.Button) builder.GetObject ("button_force_sensor_exercise_edit");

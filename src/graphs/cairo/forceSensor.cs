@@ -554,6 +554,7 @@ public class CairoGraphForceSensorAI : CairoGraphForceSensor
 	public RepetitionMouseLimitsWithSamples DoSendingList (
 			string font,
 			SignalPointsCairoForceElastic spCairoFE,
+			bool showDistance, bool showSpeed, bool showPower,
 			int minDisplayFNegative, int minDisplayFPositive,
 			int rectangleN, int rectangleRange,
 			List<GetBestRFDInWindow> briw_l,
@@ -583,7 +584,9 @@ public class CairoGraphForceSensorAI : CairoGraphForceSensor
 
 		rightMargin = 40;
 		if (spCairoFE.Displ_l != null && spCairoFE.Displ_l.Count > 0)
-			rightMargin = 150;
+			rightMargin = Util.BoolToInt (showDistance) * 50 +
+				Util.BoolToInt (showSpeed) * 50 +
+				Util.BoolToInt (showPower) * 50;
 
 		if (doSendingList (font, spCairoFE.Force_l,
 					triggerList,
@@ -595,22 +598,27 @@ public class CairoGraphForceSensorAI : CairoGraphForceSensor
 					exercise, reps_l,
 					forceRedraw, plotType))
 		{
-			if (spCairoFE.Displ_l != null && spCairoFE.Displ_l.Count > 0)
+			int atX = 0;
+			bool atTop = true;
+			if (showDistance && spCairoFE.Displ_l != null && spCairoFE.Displ_l.Count > 0)
 			{
-				paintAnotherSerie (spCairoFE.Displ_l, startAt, plotType, bluePlots, 0,
-						true, distanceStr, "m");
+				paintAnotherSerie (spCairoFE.Displ_l, startAt, plotType, bluePlots, (atX ++)*50,
+						atTop, distanceStr, "m");
+				atTop = ! atTop;
 			}
 
-			if (spCairoFE.Speed_l != null && spCairoFE.Speed_l.Count > 0)
+			if (showSpeed && spCairoFE.Speed_l != null && spCairoFE.Speed_l.Count > 0)
 			{
-				paintAnotherSerie (spCairoFE.Speed_l, startAt, plotType, green, 50,
-						false, speedStr, "m/s");
+				paintAnotherSerie (spCairoFE.Speed_l, startAt, plotType, green, (atX ++)*50,
+						atTop, speedStr, "m/s");
+				atTop = ! atTop;
 			}
 
-			if (spCairoFE.Power_l != null && spCairoFE.Power_l.Count > 0)
+			if (showPower && spCairoFE.Power_l != null && spCairoFE.Power_l.Count > 0)
 			{
-				paintAnotherSerie (spCairoFE.Power_l, startAt, plotType, red, 100,
-						true, powerStr, "W");
+				paintAnotherSerie (spCairoFE.Power_l, startAt, plotType, red, (atX ++)*50,
+						atTop, powerStr, "W");
+				atTop = ! atTop;
 			}
 
 			endGraphDisposing(g, surface, area.Window);

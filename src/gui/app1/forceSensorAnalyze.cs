@@ -149,6 +149,13 @@ public partial class ChronoJumpWindow
 	Gtk.Button button_force_sensor_export_result_open;
 
 	Gtk.HBox hbox_force_sensor_analyze_ai_sliders_and_buttons;
+	Gtk.Box box_force_sensor_analyze_magnitudes;
+	Gtk.CheckButton check_force_sensor_analyze_show_distance;
+	Gtk.CheckButton check_force_sensor_analyze_show_speed;
+	Gtk.CheckButton check_force_sensor_analyze_show_power;
+	Gtk.Image image_force_sensor_analyze_show_distance;
+	Gtk.Image image_force_sensor_analyze_show_speed;
+	Gtk.Image image_force_sensor_analyze_show_power;
 	Gtk.DrawingArea force_sensor_ai_drawingarea_cairo;
 	Gtk.Viewport viewport_force_sensor_analyze_hscales;
 	Gtk.Viewport viewport_radio_force_sensor_ai_ab;
@@ -1016,6 +1023,26 @@ public partial class ChronoJumpWindow
 		manage_force_sensor_ai_table_visibilities();
 	}
 
+	private void on_check_force_sensor_analyze_show_magnitudes (object o, EventArgs args)
+	{
+		if (fsMagnitudesSignalsNoFollow)
+			return;
+
+		force_sensor_ai_drawingarea_cairo.QueueDraw ();
+
+		//sync with capture magnitudes
+		fsMagnitudesSignalsNoFollow = true;
+
+		if (check_force_sensor_analyze_show_distance.Active != check_force_sensor_capture_show_distance.Active)
+			check_force_sensor_capture_show_distance.Active = check_force_sensor_analyze_show_distance.Active;
+		if (check_force_sensor_analyze_show_speed.Active != check_force_sensor_capture_show_speed.Active)
+			check_force_sensor_capture_show_speed.Active = check_force_sensor_analyze_show_speed.Active;
+		if (check_force_sensor_analyze_show_power.Active != check_force_sensor_capture_show_power.Active)
+			check_force_sensor_capture_show_power.Active = check_force_sensor_analyze_show_power.Active;
+
+		fsMagnitudesSignalsNoFollow = false;
+	}
+
 	CairoGraphForceSensorAI cairoGraphForceSensorAI;
 	public void on_force_sensor_ai_drawingarea_cairo_draw (object o, Gtk.DrawnArgs args)
 	{
@@ -1101,6 +1128,9 @@ public partial class ChronoJumpWindow
 		fsAIRepetitionMouseLimitsCairo = cairoGraphForceSensorAI.DoSendingList (
 				preferences.fontType.ToString(),
 				spCairoFESend, //now send this, in the future send List of this to superpose curves
+				check_force_sensor_analyze_show_distance.Active,
+				check_force_sensor_analyze_show_speed.Active,
+				check_force_sensor_analyze_show_power.Active,
 				minY, maxY,
 				rectangleN, rectangleRange,
 				briw_l,
@@ -2107,6 +2137,13 @@ public partial class ChronoJumpWindow
 
 		hbox_force_sensor_analyze_ai_sliders_and_buttons = (Gtk.HBox) builder.GetObject ("hbox_force_sensor_analyze_ai_sliders_and_buttons");
 		force_sensor_ai_drawingarea_cairo = (Gtk.DrawingArea) builder.GetObject ("force_sensor_ai_drawingarea_cairo");
+		box_force_sensor_analyze_magnitudes = (Gtk.Box) builder.GetObject ("box_force_sensor_analyze_magnitudes");
+		check_force_sensor_analyze_show_distance = (Gtk.CheckButton) builder.GetObject ("check_force_sensor_analyze_show_distance");
+		check_force_sensor_analyze_show_speed = (Gtk.CheckButton) builder.GetObject ("check_force_sensor_analyze_show_speed");
+		check_force_sensor_analyze_show_power = (Gtk.CheckButton) builder.GetObject ("check_force_sensor_analyze_show_power");
+		image_force_sensor_analyze_show_distance = (Gtk.Image) builder.GetObject ("image_force_sensor_analyze_show_distance");
+		image_force_sensor_analyze_show_speed = (Gtk.Image) builder.GetObject ("image_force_sensor_analyze_show_speed");
+		image_force_sensor_analyze_show_power = (Gtk.Image) builder.GetObject ("image_force_sensor_analyze_show_power");
 		viewport_force_sensor_analyze_hscales = (Gtk.Viewport) builder.GetObject ("viewport_force_sensor_analyze_hscales");
 		viewport_radio_force_sensor_ai_ab = (Gtk.Viewport) builder.GetObject ("viewport_radio_force_sensor_ai_ab");
 		viewport_radio_force_sensor_ai_cd = (Gtk.Viewport) builder.GetObject ("viewport_radio_force_sensor_ai_cd");

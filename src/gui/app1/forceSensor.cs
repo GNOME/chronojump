@@ -373,6 +373,7 @@ public partial class ChronoJumpWindow
 				}
 			}
 			box_force_sensor_capture_magnitudes.Visible = currentForceSensorExercise.ComputeAsElastic;
+			box_force_sensor_analyze_magnitudes.Visible = currentForceSensorExercise.ComputeAsElastic;
 		}
 
 		if (chronopicRegister.GetSelectedForMode (current_mode).Port == "")
@@ -592,6 +593,7 @@ public partial class ChronoJumpWindow
 		button_force_sensor_export_result_open.Visible = false;
 		event_execute_label_message.Text = "";
 		box_force_sensor_capture_magnitudes.Visible = false;
+		box_force_sensor_analyze_magnitudes.Visible = false;
 	}
 
 	private bool pulseGTKForceSensorOther ()
@@ -1913,6 +1915,7 @@ LogB.Information(" fs R ");
 			frame_force_sensor_elastic.Visible = false;
 		}
 		box_force_sensor_capture_magnitudes.Visible = currentForceSensorExercise.ComputeAsElastic;
+		box_force_sensor_analyze_magnitudes.Visible = currentForceSensorExercise.ComputeAsElastic;
 
 		//triggers
 		triggerListForceSensor = new TriggerList(
@@ -2144,6 +2147,7 @@ LogB.Information(" fs R ");
 			}
 		}
 		box_force_sensor_capture_magnitudes.Visible = currentForceSensorExercise.ComputeAsElastic;
+		box_force_sensor_analyze_magnitudes.Visible = currentForceSensorExercise.ComputeAsElastic;
 
 		//update SQL with exercise, captureOptions, laterality, comments
 		currentForceSensor.ExerciseID = currentForceSensorExercise.UniqueID;
@@ -2391,9 +2395,25 @@ LogB.Information(" fs R ");
 	SignalPointsCairoForceElastic spCairoFEZoom;
 	bool cairoGraphForceSensorSignalPointsShowAccuracy;
 
+	bool fsMagnitudesSignalsNoFollow;
 	private void on_check_force_sensor_capture_show_magnitudes (object o, EventArgs args)
 	{
+		if (fsMagnitudesSignalsNoFollow)
+			return;
+
 		force_capture_drawingarea_cairo.QueueDraw ();
+
+		//sync with analyze magnitudes
+		fsMagnitudesSignalsNoFollow = true;
+
+		if (check_force_sensor_analyze_show_distance.Active != check_force_sensor_capture_show_distance.Active)
+			check_force_sensor_analyze_show_distance.Active = check_force_sensor_capture_show_distance.Active;
+		if (check_force_sensor_analyze_show_speed.Active != check_force_sensor_capture_show_speed.Active)
+			check_force_sensor_analyze_show_speed.Active = check_force_sensor_capture_show_speed.Active;
+		if (check_force_sensor_analyze_show_power.Active != check_force_sensor_capture_show_power.Active)
+			check_force_sensor_analyze_show_power.Active = check_force_sensor_capture_show_power.Active;
+
+		fsMagnitudesSignalsNoFollow = false;
 	}
 
 	public void on_force_capture_drawingarea_cairo_draw (object o, Gtk.DrawnArgs args)

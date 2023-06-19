@@ -2177,15 +2177,42 @@ public partial class ChronoJumpWindow
 	}
 }
 
-// 1 for AB and another for CD:
-// tvFS_AB for treeview_force_sensor_ai_AB
-// tvFS_CD for treeview_force_sensor_ai_CD
-public class TreeviewFSAnalyze
+
+public abstract class TreeviewFSAbstract
 {
 	protected TreeStore store;
 	protected Gtk.TreeView tv;
 	protected string [] columnsString;
 
+	protected void createTreeview ()
+	{
+		tv = UtilGtk.RemoveColumns (tv);
+		store = UtilGtk.GetStore (columnsString.Length);
+		tv.Model = store;
+		prepareHeaders (columnsString);
+	}
+
+	protected void prepareHeaders(string [] columnsString)
+	{
+		tv.HeadersVisible = true;
+		int i = 0;
+		foreach (string myCol in columnsString)
+			UtilGtk.CreateCols (tv, store, myCol, i++, true);
+	}
+
+	public void ResetTreeview ()
+	{
+		tv = UtilGtk.RemoveColumns (tv);
+		createTreeview ();
+	}
+
+}
+
+// 1 for AB and another for CD:
+// tvFS_AB for treeview_force_sensor_ai_AB
+// tvFS_CD for treeview_force_sensor_ai_CD
+public class TreeviewFSAnalyze : TreeviewFSAbstract
+{
 	//row 1
 	protected string letterStart;
 	protected string timeStart;
@@ -2233,28 +2260,6 @@ public class TreeviewFSAnalyze
 		};
 
 		tv.HeadersClickable = false;
-		createTreeview ();
-	}
-
-	protected void createTreeview ()
-	{
-		tv = UtilGtk.RemoveColumns (tv);
-		store = UtilGtk.GetStore (columnsString.Length);
-		tv.Model = store;
-		prepareHeaders (columnsString);
-	}
-
-	protected void prepareHeaders(string [] columnsString)
-	{
-		tv.HeadersVisible = true;
-		int i = 0;
-		foreach (string myCol in columnsString)
-			UtilGtk.CreateCols (tv, store, myCol, i++, true);
-	}
-
-	public void ResetTreeview ()
-	{
-		tv = UtilGtk.RemoveColumns (tv);
 		createTreeview ();
 	}
 

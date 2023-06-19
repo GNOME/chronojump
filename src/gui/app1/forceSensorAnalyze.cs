@@ -50,7 +50,6 @@ public partial class ChronoJumpWindow
 	Gtk.Viewport viewport_force_sensor_graph;
 	Gtk.Button button_force_sensor_image_save_rfd_auto;
 	Gtk.Button button_force_sensor_image_save_rfd_manual;
-	//Gtk.ScrolledWindow scrolledwindow_force_sensor_ai;
 	Gtk.Button button_force_sensor_analyze_AB_save;
 	Gtk.Button button_force_sensor_analyze_CD_save;
 	Gtk.CheckButton check_force_sensor_ai_chained;
@@ -138,16 +137,6 @@ public partial class ChronoJumpWindow
 	Gtk.Button button_hscale_force_sensor_ai_b_post;
 	Gtk.Button button_hscale_force_sensor_ai_b_last;
 
-	Gtk.Grid grid_force_sensor_ai_impulse_variability_and_feedback;
-	Gtk.Label label_force_sensor_ai_feedback;
-	Gtk.HBox hbox_force_sensor_ai_feedback;
-	Gtk.Label label_force_sensor_ai_impulse_values;
-	Gtk.Label label_force_sensor_ai_variability_values;
-	Gtk.Label label_force_sensor_ai_feedback_values;
-	Gtk.Label label_force_sensor_ai_variability_method;
-	Gtk.Label label_force_sensor_ai_variability_units;
-	Gtk.Label label_force_sensor_ai_max_avg_in_window;
-
 	Gtk.Notebook notebook_force_sensor_export;
 	Gtk.Label label_force_sensor_export_data;
 	Gtk.HBox hbox_force_sensor_export_images;
@@ -177,8 +166,7 @@ public partial class ChronoJumpWindow
 	Gtk.HScale hscale_force_sensor_ai_d;
 	Gtk.TreeView treeview_force_sensor_ai_AB;
 	Gtk.TreeView treeview_force_sensor_ai_CD;
-	Gtk.Label label_force_sensor_ai_max_avg_in_window_values;
-	Gtk.Label label_force_sensor_ai_best_rfd_in_window_values;
+	Gtk.TreeView treeview_force_sensor_ai_other;
 
 	Gtk.ComboBoxText combo_force_1_function;
 	Gtk.ComboBoxText combo_force_2_function;
@@ -655,7 +643,7 @@ public partial class ChronoJumpWindow
 	}
 	private void setForceSensorAnalyzeMaxAVGInWindow()
 	{
-		label_force_sensor_ai_max_avg_in_window.Text = string.Format("Max AVG Force in {0} s",
+		tvFS_other.MaxAvgInWindowName = string.Format("Max AVG Force in {0} s",
 				preferences.forceSensorAnalyzeMaxAVGInWindow);
 	}
 
@@ -1495,10 +1483,10 @@ public partial class ChronoJumpWindow
 		}
 
 		//need to do both to ensure at unzoom params are calculated for AB and CD
-		force_sensor_analyze_instant_calculate_params (fsAI_AB, tvFS_AB,
+		force_sensor_analyze_instant_calculate_params (fsAI_AB, tvFS_AB, true,
 				Convert.ToInt32 (hscale_force_sensor_ai_a.Value),
 				Convert.ToInt32 (hscale_force_sensor_ai_b.Value));
-		force_sensor_analyze_instant_calculate_params (fsAI_CD, tvFS_CD,
+		force_sensor_analyze_instant_calculate_params (fsAI_CD, tvFS_CD, false,
 				Convert.ToInt32 (hscale_force_sensor_ai_c.Value),
 				Convert.ToInt32 (hscale_force_sensor_ai_d.Value));
 
@@ -1705,7 +1693,7 @@ public partial class ChronoJumpWindow
 	}
 
 	private void force_sensor_analyze_instant_calculate_params (
-			ForceSensorAnalyzeInstant fsAI, TreeviewFSAnalyze tvFS,	int countA, int countB)
+			ForceSensorAnalyzeInstant fsAI, TreeviewFSAnalyze tvFS,	bool isAB, int countA, int countB)
 	{
 		//LogB.Information (string.Format ("before CalculateRangeParams 0 with fsAI.IdStr: {0}", fsAI.IdStr));
 		if (countA < 0 || countA > fsAI.GetLength() -1 || countB < 0 || countB > fsAI.GetLength() -1)
@@ -1727,19 +1715,19 @@ public partial class ChronoJumpWindow
 				tvFS.ForceMax = Math.Round(fsAI.ForceMAX, 1).ToString();
 
 				if(fsAI.Gmaiw.Error == "")
-					label_force_sensor_ai_max_avg_in_window_values.Text = Math.Round(fsAI.Gmaiw.Max, 1).ToString();
+					tvFS_other.SetMaxAvgInWindow (Math.Round(fsAI.Gmaiw.Max, 1).ToString(), isAB);
 				else
-					label_force_sensor_ai_max_avg_in_window_values.Text = "----";
+					tvFS_other.SetMaxAvgInWindow ("----", isAB);
 
 				if(fsAI.Briw.Error == "")
-					label_force_sensor_ai_best_rfd_in_window_values.Text = Math.Round(fsAI.Briw.Max, 1).ToString();
+					tvFS_other.SetBestRFDInWindow (Math.Round(fsAI.Briw.Max, 1).ToString(), isAB);
 				else
-					label_force_sensor_ai_best_rfd_in_window_values.Text = "----";
+					tvFS_other.SetBestRFDInWindow ("----", isAB);
 			} else {
 				tvFS.ForceAvg = "";
 				tvFS.ForceMax = "";
-				label_force_sensor_ai_max_avg_in_window_values.Text = "";
-				label_force_sensor_ai_best_rfd_in_window_values.Text = "";
+				tvFS_other.SetMaxAvgInWindow ("", isAB);
+				tvFS_other.SetBestRFDInWindow ("", isAB);
 			}
 		} else {
 			tvFS.TimeDiff = "";
@@ -1898,22 +1886,7 @@ public partial class ChronoJumpWindow
 			tvFS.RfdMax = "";
 		}
 
-		grid_force_sensor_ai_impulse_variability_and_feedback.Visible = (countA != countB);
-
-		if(preferences.forceSensorVariabilityMethod == Preferences.VariabilityMethodEnum.RMSSD)
-			label_force_sensor_ai_variability_method.Text = "RMSSD";
-		else if(preferences.forceSensorVariabilityMethod == Preferences.VariabilityMethodEnum.CVRMSSD)
-			label_force_sensor_ai_variability_method.Text = "cvRMSSD";
-		else if(preferences.forceSensorVariabilityMethod == Preferences.VariabilityMethodEnum.CV)
-			label_force_sensor_ai_variability_method.Text = "CV";
-		else
-			label_force_sensor_ai_variability_method.Text = "Old method";
-
-		if(preferences.forceSensorVariabilityMethod == Preferences.VariabilityMethodEnum.CVRMSSD ||
-				preferences.forceSensorVariabilityMethod == Preferences.VariabilityMethodEnum.CV)
-			label_force_sensor_ai_variability_units.Text = "%";
-		else
-			label_force_sensor_ai_variability_units.Text = "N";
+		tvFS_other.VariabilityMethod = preferences.forceSensorVariabilityMethod.ToString ();
 
 		if(countA != countB)
 		{
@@ -1921,8 +1894,7 @@ public partial class ChronoJumpWindow
 			//label_force_sensor_ai_impulse_values.Text = Math.Round (ForceCalcs.GetImpulse (
 			//			p_l, countA, countB), 1).ToString();
 			//	again this should be on fsAI:
-			label_force_sensor_ai_impulse_values.Text = Math.Round (fsAI.CalculateImpulse (
-						countA, countB), 1).ToString();
+			tvFS_other.SetImpulse (Math.Round (fsAI.CalculateImpulse (countA, countB), 1).ToString(), isAB);
 
 			// 11) calculate variability
 			int feedbackF = preferences.forceSensorCaptureFeedbackAt;
@@ -1931,20 +1903,19 @@ public partial class ChronoJumpWindow
 					preferences.forceSensorVariabilityMethod, preferences.forceSensorVariabilityLag);
 			LogB.Information (string.Format ("vaa variability: {0}, feedbackDiff: {1}", fsAI.Vaa.Variability, fsAI.Vaa.FeedbackDiff));
 
-			label_force_sensor_ai_variability_values.Text = Math.Round (fsAI.Vaa.Variability, 3).ToString();
+			tvFS_other.SetVariability (Math.Round (fsAI.Vaa.Variability, 3).ToString(), isAB);
 
 			// 12) calculate Accuracy (Feedback difference)
 			//if(preferences.forceSensorCaptureFeedbackActive && feedbackF > 0)
 			if(preferences.forceSensorCaptureFeedbackActive == Preferences.ForceSensorCaptureFeedbackActiveEnum.RECTANGLE && feedbackF > 0)
-			{
-				label_force_sensor_ai_feedback_values.Text = Math.Round (fsAI.Vaa.FeedbackDiff, 3).ToString();
-				label_force_sensor_ai_feedback.Visible = true;
-				hbox_force_sensor_ai_feedback.Visible = true;
-			} else {
-				label_force_sensor_ai_feedback.Visible = false;
-				hbox_force_sensor_ai_feedback.Visible = false;
-			}
+				tvFS_other.SetFeedback (Math.Round (fsAI.Vaa.FeedbackDiff, 3).ToString(), isAB);
+			else
+				tvFS_other.SetFeedback ("", isAB);
 		}
+
+		setForceSensorAnalyzeMaxAVGInWindow();
+		tvFS_other.ResetTreeview ();
+		tvFS_other.Fill ();
 	}
 
 	private bool canDoForceSensorAnalyzeAB()
@@ -2034,7 +2005,6 @@ public partial class ChronoJumpWindow
 		viewport_force_sensor_graph = (Gtk.Viewport) builder.GetObject ("viewport_force_sensor_graph");
 		button_force_sensor_image_save_rfd_auto = (Gtk.Button) builder.GetObject ("button_force_sensor_image_save_rfd_auto");
 		button_force_sensor_image_save_rfd_manual = (Gtk.Button) builder.GetObject ("button_force_sensor_image_save_rfd_manual");
-		//scrolledwindow_force_sensor_ai = (Gtk.ScrolledWindow) builder.GetObject ("scrolledwindow_force_sensor_ai");
 		button_force_sensor_analyze_AB_save = (Gtk.Button) builder.GetObject ("button_force_sensor_analyze_AB_save");
 		button_force_sensor_analyze_CD_save = (Gtk.Button) builder.GetObject ("button_force_sensor_analyze_CD_save");
 		check_force_sensor_ai_chained = (Gtk.CheckButton) builder.GetObject ("check_force_sensor_ai_chained");
@@ -2122,16 +2092,6 @@ public partial class ChronoJumpWindow
 		button_hscale_force_sensor_ai_b_post = (Gtk.Button) builder.GetObject ("button_hscale_force_sensor_ai_b_post");
 		button_hscale_force_sensor_ai_b_last = (Gtk.Button) builder.GetObject ("button_hscale_force_sensor_ai_b_last");
 
-		grid_force_sensor_ai_impulse_variability_and_feedback = (Gtk.Grid) builder.GetObject ("grid_force_sensor_ai_impulse_variability_and_feedback");
-		label_force_sensor_ai_feedback = (Gtk.Label) builder.GetObject ("label_force_sensor_ai_feedback");
-		hbox_force_sensor_ai_feedback = (Gtk.HBox) builder.GetObject ("hbox_force_sensor_ai_feedback");
-		label_force_sensor_ai_impulse_values = (Gtk.Label) builder.GetObject ("label_force_sensor_ai_impulse_values");
-		label_force_sensor_ai_variability_values = (Gtk.Label) builder.GetObject ("label_force_sensor_ai_variability_values");
-		label_force_sensor_ai_feedback_values = (Gtk.Label) builder.GetObject ("label_force_sensor_ai_feedback_values");
-		label_force_sensor_ai_variability_method = (Gtk.Label) builder.GetObject ("label_force_sensor_ai_variability_method");
-		label_force_sensor_ai_variability_units = (Gtk.Label) builder.GetObject ("label_force_sensor_ai_variability_units");
-		label_force_sensor_ai_max_avg_in_window = (Gtk.Label) builder.GetObject ("label_force_sensor_ai_max_avg_in_window");
-
 		notebook_force_sensor_export = (Gtk.Notebook) builder.GetObject ("notebook_force_sensor_export");
 		label_force_sensor_export_data = (Gtk.Label) builder.GetObject ("label_force_sensor_export_data");
 		hbox_force_sensor_export_images = (Gtk.HBox) builder.GetObject ("hbox_force_sensor_export_images");
@@ -2161,8 +2121,7 @@ public partial class ChronoJumpWindow
 		hscale_force_sensor_ai_d = (Gtk.HScale) builder.GetObject ("hscale_force_sensor_ai_d");
 		treeview_force_sensor_ai_AB = (Gtk.TreeView) builder.GetObject ("treeview_force_sensor_ai_AB");
 		treeview_force_sensor_ai_CD = (Gtk.TreeView) builder.GetObject ("treeview_force_sensor_ai_CD");
-		label_force_sensor_ai_max_avg_in_window_values = (Gtk.Label) builder.GetObject ("label_force_sensor_ai_max_avg_in_window_values");
-		label_force_sensor_ai_best_rfd_in_window_values = (Gtk.Label) builder.GetObject ("label_force_sensor_ai_best_rfd_in_window_values");
+		treeview_force_sensor_ai_other = (Gtk.TreeView) builder.GetObject ("treeview_force_sensor_ai_other");
 
 		combo_force_1_function = (Gtk.ComboBoxText) builder.GetObject ("combo_force_1_function");
 		combo_force_2_function = (Gtk.ComboBoxText) builder.GetObject ("combo_force_2_function");
@@ -2190,6 +2149,7 @@ public abstract class TreeviewFSAbstract
 		store = UtilGtk.GetStore (columnsString.Length);
 		tv.Model = store;
 		prepareHeaders (columnsString);
+		tv.HeadersClickable = false;
 	}
 
 	protected void prepareHeaders(string [] columnsString)
@@ -2202,7 +2162,9 @@ public abstract class TreeviewFSAbstract
 
 	public void ResetTreeview ()
 	{
-		tv = UtilGtk.RemoveColumns (tv);
+		if (tv != null)
+			tv = UtilGtk.RemoveColumns (tv);
+
 		createTreeview ();
 	}
 
@@ -2259,7 +2221,6 @@ public class TreeviewFSAnalyze : TreeviewFSAbstract
 			"RFD" + " (N/s)"
 		};
 
-		tv.HeadersClickable = false;
 		createTreeview ();
 	}
 
@@ -2456,7 +2417,6 @@ public class TreeviewFSAnalyzeElastic : TreeviewFSAnalyze
 			Catalog.GetString ("Power") + "\n(W)"
 		};
 
-		tv.HeadersClickable = false;
 		createTreeview ();
 	}
 
@@ -2543,5 +2503,129 @@ public class TreeviewFSAnalyzeElastic : TreeviewFSAnalyze
 		str[i++] = accelMax;
 		str[i++] = powerMax;
 		return str;
+	}
+}
+
+public class TreeviewFSAnalyzeOther : TreeviewFSAbstract
+{
+	//values
+	private string impulseAB;
+	private string impulseCD;
+
+	private string variabilityAB;
+	private string variabilityCD;
+
+	private string feedbackAB;
+	private string feedbackCD;
+
+	private string maxAvgInWindowAB;
+	private string maxAvgInWindowCD;
+
+	private string bestRFDInWindowAB;
+	private string bestRFDInWindowCD;
+
+	//1st column names
+	private string variabilityMethod;
+	private string variabilityUnits;
+
+	private string maxAvgInWindowName;
+
+	public TreeviewFSAnalyzeOther (Gtk.TreeView tv)
+	{
+		this.tv = tv;
+
+		columnsString = new String [] {
+			"",
+			"A-B",
+			"C-D"
+		};
+
+		createTreeview ();
+	}
+
+	public void Fill ()
+	{
+		store.AppendValues (new String [] {
+				Catalog.GetString ("Impulse"),
+				impulseAB + " N*s",
+				impulseCD + " N*s",
+				} );
+		store.AppendValues (new String [] {
+				Catalog.GetString ("Variability") + " (" + variabilityMethod + ")",
+				variabilityAB + " " + variabilityUnits,
+				variabilityCD + " " + variabilityUnits,
+				} );
+		store.AppendValues (new String [] {
+				Catalog.GetString ("Feedback"),
+				feedbackAB + " N",
+				feedbackCD + " N",
+				} );
+		store.AppendValues (new String [] {
+				maxAvgInWindowName,
+				maxAvgInWindowAB + " N",
+				maxAvgInWindowCD + " N",
+				} );
+		store.AppendValues (new String [] {
+				Catalog.GetString ("Best RFD") + " (50 ms avg)",
+				bestRFDInWindowAB + " N/s",
+				bestRFDInWindowCD + " N/s",
+				} );
+	}
+
+	//values
+
+	public void SetImpulse (string s, bool ab)
+	{
+		if (ab)
+			impulseAB = s;
+		else
+			impulseCD = s;
+	}
+
+	public void SetVariability (string s, bool ab)
+	{
+		if (ab)
+			variabilityAB = s;
+		else
+			variabilityCD = s;
+	}
+
+	public void SetFeedback (string s, bool ab)
+	{
+		if (ab)
+			feedbackAB = s;
+		else
+			feedbackCD = s;
+	}
+
+	public void SetMaxAvgInWindow (string s, bool ab)
+	{
+		if (ab)
+			maxAvgInWindowAB = s;
+		else
+			maxAvgInWindowCD = s;
+	}
+
+	public void SetBestRFDInWindow (string s, bool ab)
+	{
+		if (ab)
+			bestRFDInWindowAB = s;
+		else
+			bestRFDInWindowCD = s;
+	}
+
+	public string VariabilityMethod {
+		set {
+			variabilityMethod = value;
+			if (value == Preferences.VariabilityMethodEnum.CVRMSSD.ToString () || value == Preferences.VariabilityMethodEnum.CV.ToString ())
+				variabilityUnits = "%";
+			else
+				variabilityUnits = "N";
+		}
+	}
+
+	//1st column names
+	public string MaxAvgInWindowName {
+		set { maxAvgInWindowName = value; }
 	}
 }

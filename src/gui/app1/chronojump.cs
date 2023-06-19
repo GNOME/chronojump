@@ -4188,6 +4188,7 @@ public partial class ChronoJumpWindow
 				tvFS_AB = new TreeviewFSAnalyzeElastic (treeview_force_sensor_ai_AB, "A", "B");
 				tvFS_CD = new TreeviewFSAnalyzeElastic (treeview_force_sensor_ai_CD, "C", "D");
 			}
+			tvFS_other = new TreeviewFSAnalyzeOther (treeview_force_sensor_ai_other);
 
 			//we need combo_select_contacts_top before updateForceExerciseCombo
 			createComboSelectContactsTop ();

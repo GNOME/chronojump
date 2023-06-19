@@ -136,6 +136,8 @@ public partial class ChronoJumpWindow
 
 	TreeviewFSAnalyze tvFS_AB;
 	TreeviewFSAnalyze tvFS_CD;
+	TreeviewFSAnalyzeOther tvFS_other;
+
 	private void initForceSensor ()
 	{
 		//notebook_force_sensor_analyze_top.CurrentPage = Convert.ToInt32(notebook_force_sensor_analyze_top_pages.CURRENTSETSIGNAL);
@@ -152,6 +154,9 @@ public partial class ChronoJumpWindow
 		setRFDValues();
 		setImpulseValue();
 		setForceSensorAnalyzeABSliderIncrements();
+
+		if (tvFS_other == null)
+			tvFS_other = new TreeviewFSAnalyzeOther (treeview_force_sensor_ai_other);
 		setForceSensorAnalyzeMaxAVGInWindow();
 
 		spinbutton_force_sensor_export_image_width.Value = preferences.exportGraphWidth;

@@ -2030,7 +2030,7 @@ public class ForceSensorAnalyzeInstant
 		return str;
 	}
 
-	public string IdStr //to debug
+	public string IdStr
 	{
 		get { return idStr; }
 	}

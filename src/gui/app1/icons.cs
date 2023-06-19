@@ -1019,9 +1019,11 @@ public partial class ChronoJumpWindow
 		image_encoder_analyze_position.Pixbuf = pixbuf;
 		image_encoder_analyze_show_SAFE_position.Pixbuf = pixbuf;
 		image_force_sensor_capture_show_distance.Pixbuf = pixbuf;
+		image_force_sensor_analyze_show_distance.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameEncoderAnalyzeSpeedIcon);
 		image_encoder_analyze_speed.Pixbuf = pixbuf;
 		image_force_sensor_capture_show_speed.Pixbuf = pixbuf;
+		image_force_sensor_analyze_show_speed.Pixbuf = pixbuf;
 		image_encoder_analyze_show_SAFE_speed.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameEncoderAnalyzeAccelIcon);
 		image_encoder_analyze_accel.Pixbuf = pixbuf;
@@ -1033,6 +1035,7 @@ public partial class ChronoJumpWindow
 		image_encoder_analyze_power.Pixbuf = pixbuf;
 		image_encoder_analyze_show_SAFE_power.Pixbuf = pixbuf;
 		image_force_sensor_capture_show_power.Pixbuf = pixbuf;
+		image_force_sensor_analyze_show_power.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameEncoderAnalyzeMeanIcon);
 		image_encoder_analyze_mean.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameEncoderAnalyzeMaxIcon);

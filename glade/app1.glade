@@ -9621,7 +9621,7 @@
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
                                                             <property name="orientation">vertical</property>
-                                                            <property name="spacing">6</property>
+                                                            <property name="spacing">2</property>
                                                             <child>
                                                             <object class="GtkCheckButton" id="check_force_sensor_capture_show_distance">
                                                             <property name="visible">True</property>
@@ -26049,6 +26049,11 @@ Concentric</property>
                                                             <property name="can-focus">False</property>
                                                             <property name="spacing">8</property>
                                                             <child>
+                                                            <object class="GtkBox">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="spacing">8</property>
+                                                            <child>
                                                             <object class="GtkDrawingArea" id="force_sensor_ai_drawingarea_cairo">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
@@ -26062,26 +26067,30 @@ Concentric</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <object class="GtkScrolledWindow">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">True</property>
-                                                            <property name="vscrollbar-policy">never</property>
-                                                            <child>
-                                                            <object class="GtkViewport">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <child>
                                                             <object class="GtkBox">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
-                                                            <property name="spacing">8</property>
+                                                            <property name="orientation">vertical</property>
+                                                            <property name="spacing">6</property>
                                                             <child>
-                                                            <object class="GtkTreeView" id="treeview_force_sensor_ai_AB">
+                                                            <object class="GtkBox" id="box_force_sensor_analyze_magnitudes">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="orientation">vertical</property>
+                                                            <property name="spacing">2</property>
+                                                            <child>
+                                                            <object class="GtkCheckButton" id="check_force_sensor_analyze_show_distance">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">True</property>
-                                                            <property name="headers-clickable">False</property>
-                                                            <child internal-child="selection">
-                                                            <object class="GtkTreeSelection"/>
+                                                            <property name="receives-default">False</property>
+                                                            <property name="draw-indicator">False</property>
+                                                            <signal name="clicked" handler="on_check_force_sensor_analyze_show_magnitudes" swapped="no"/>
+                                                            <child>
+                                                            <object class="GtkImage" id="image_force_sensor_analyze_show_distance">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="stock">gtk-missing-image</property>
+                                                            </object>
                                                             </child>
                                                             </object>
                                                             <packing>
@@ -26091,11 +26100,18 @@ Concentric</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <object class="GtkTreeView" id="treeview_force_sensor_ai_CD">
+                                                            <object class="GtkCheckButton" id="check_force_sensor_analyze_show_speed">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">True</property>
-                                                            <child internal-child="selection">
-                                                            <object class="GtkTreeSelection"/>
+                                                            <property name="receives-default">False</property>
+                                                            <property name="draw-indicator">False</property>
+                                                            <signal name="clicked" handler="on_check_force_sensor_analyze_show_magnitudes" swapped="no"/>
+                                                            <child>
+                                                            <object class="GtkImage" id="image_force_sensor_analyze_show_speed">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="stock">gtk-missing-image</property>
+                                                            </object>
                                                             </child>
                                                             </object>
                                                             <packing>
@@ -26105,11 +26121,18 @@ Concentric</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <object class="GtkTreeView" id="treeview_force_sensor_ai_other">
+                                                            <object class="GtkCheckButton" id="check_force_sensor_analyze_show_power">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">True</property>
-                                                            <child internal-child="selection">
-                                                            <object class="GtkTreeSelection"/>
+                                                            <property name="receives-default">False</property>
+                                                            <property name="draw-indicator">False</property>
+                                                            <signal name="clicked" handler="on_check_force_sensor_analyze_show_magnitudes" swapped="no"/>
+                                                            <child>
+                                                            <object class="GtkImage" id="image_force_sensor_analyze_show_power">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="stock">gtk-missing-image</property>
+                                                            </object>
                                                             </child>
                                                             </object>
                                                             <packing>
@@ -26119,34 +26142,12 @@ Concentric</property>
                                                             </packing>
                                                             </child>
                                                             </object>
-                                                            </child>
-                                                            </object>
-                                                            </child>
-                                                            </object>
                                                             <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">False</property>
-                                                            <property name="position">1</property>
-                                                            </packing>
-                                                            </child>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">True</property>
-                                                            <property name="fill">True</property>
                                                             <property name="position">0</property>
                                                             </packing>
                                                             </child>
-                                                            <child>
-                                                            <object class="GtkAlignment">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="yalign">1</property>
-                                                            <property name="yscale">0</property>
-                                                            <child>
-                                                            <object class="GtkVBox" id="vbox124">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="spacing">8</property>
                                                             <child>
                                                             <object class="GtkButton" id="button_force_sensor_image_save_rfd_manual">
                                                             <property name="visible">True</property>
@@ -26189,9 +26190,99 @@ Concentric</property>
                                                             <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">False</property>
+                                                            <property name="pack-type">end</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
                                                             <property name="position">0</property>
                                                             </packing>
                                                             </child>
+                                                            <child>
+                                                            <object class="GtkBox">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="spacing">8</property>
+                                                            <child>
+                                                            <object class="GtkScrolledWindow">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">True</property>
+                                                            <property name="vscrollbar-policy">never</property>
+                                                            <child>
+                                                            <object class="GtkViewport">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <child>
+                                                            <object class="GtkBox">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="spacing">8</property>
+                                                            <child>
+                                                            <object class="GtkTreeView" id="treeview_force_sensor_ai_AB">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">True</property>
+                                                            <property name="headers-clickable">False</property>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkTreeView" id="treeview_force_sensor_ai_CD">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">True</property>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkTreeView" id="treeview_force_sensor_ai_other">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">True</property>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">2</property>
+                                                            </packing>
+                                                            </child>
+                                                            </object>
+                                                            </child>
+                                                            </object>
+                                                            </child>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkAlignment">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="yalign">1</property>
+                                                            <property name="yscale">0</property>
+                                                            <child>
+                                                            <object class="GtkVBox" id="vbox124">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="spacing">8</property>
                                                             <child>
                                                             <object class="GtkButton" id="button_force_sensor_analyze_AB_save">
                                                             <property name="can-focus">True</property>
@@ -26233,7 +26324,7 @@ Concentric</property>
                                                             <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">True</property>
-                                                            <property name="position">1</property>
+                                                            <property name="position">0</property>
                                                             </packing>
                                                             </child>
                                                             <child>
@@ -26277,7 +26368,7 @@ Concentric</property>
                                                             <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">True</property>
-                                                            <property name="position">2</property>
+                                                            <property name="position">1</property>
                                                             </packing>
                                                             </child>
                                                             </object>
@@ -26285,8 +26376,22 @@ Concentric</property>
                                                             </object>
                                                             <packing>
                                                             <property name="expand">False</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
                                                             <property name="fill">False</property>
                                                             <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">0</property>
                                                             </packing>
                                                             </child>
                                                             </object>

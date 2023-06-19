@@ -1723,15 +1723,17 @@ public partial class ChronoJumpWindow
 					tvFS_other.SetBestRFDInWindow (Math.Round(fsAI.Briw.Max, 1).ToString(), isAB);
 				else
 					tvFS_other.SetBestRFDInWindow ("----", isAB);
+
+				tvFS_other.ShowColumn (true, isAB);
 			} else {
 				tvFS.ForceAvg = "";
 				tvFS.ForceMax = "";
-				tvFS_other.SetMaxAvgInWindow ("", isAB);
-				tvFS_other.SetBestRFDInWindow ("", isAB);
+				tvFS_other.ShowColumn (false, isAB);
 			}
 		} else {
 			tvFS.TimeDiff = "";
 			tvFS.ForceDiff = 0;
+			tvFS_other.ShowColumn (false, isAB);
 		}
 
 		//LogB.Information (string.Format ("after CalculateRangeParams fsAI.IdStr: {0}, fsAI.Briw: {1}",
@@ -2146,10 +2148,16 @@ public abstract class TreeviewFSAbstract
 	protected void createTreeview ()
 	{
 		tv = UtilGtk.RemoveColumns (tv);
+		columnsString = setColumnsString ();
 		store = UtilGtk.GetStore (columnsString.Length);
 		tv.Model = store;
 		prepareHeaders (columnsString);
 		tv.HeadersClickable = false;
+	}
+
+	protected virtual string [] setColumnsString ()
+	{
+		return new string [] {};
 	}
 
 	protected void prepareHeaders(string [] columnsString)
@@ -2214,14 +2222,18 @@ public class TreeviewFSAnalyze : TreeviewFSAbstract
 		this.letterStart = letterStart;
 		this.letterEnd = letterEnd;
 
-		columnsString = new String [] {
+
+		createTreeview ();
+	}
+
+	protected override string [] setColumnsString ()
+	{
+		return new String [] {
 			"",
 			Catalog.GetString ("Time") + " (ms)",
 			Catalog.GetString ("Force") + " (N)",
 			"RFD" + " (N/s)"
 		};
-
-		createTreeview ();
 	}
 
 	//some are string because it is easier to know if missing data, because doble could be 0.00000001 ...
@@ -2405,8 +2417,13 @@ public class TreeviewFSAnalyzeElastic : TreeviewFSAnalyze
 		this.letterStart = letterStart;
 		this.letterEnd = letterEnd;
 
+		createTreeview ();
+	}
+
+	protected override string [] setColumnsString ()
+	{
 		//elastic has units below to not loose a lot of horizontal space
-		columnsString = new String [] {
+		return new String [] {
 			"",
 			Catalog.GetString ("Time") + "\n(ms)",
 			Catalog.GetString ("Force") + "\n(N)",
@@ -2416,8 +2433,6 @@ public class TreeviewFSAnalyzeElastic : TreeviewFSAnalyze
 			Catalog.GetString ("Acceleration") + "\n(m/s^2)",
 			Catalog.GetString ("Power") + "\n(W)"
 		};
-
-		createTreeview ();
 	}
 
 	//some are string because it is easier to know if missing data, because doble could be 0.00000001 ...
@@ -2508,6 +2523,9 @@ public class TreeviewFSAnalyzeElastic : TreeviewFSAnalyze
 
 public class TreeviewFSAnalyzeOther : TreeviewFSAbstract
 {
+	private bool showColumnAB;
+	private bool showColumnCD;
+
 	//values
 	private string impulseAB;
 	private string impulseCD;
@@ -2534,42 +2552,116 @@ public class TreeviewFSAnalyzeOther : TreeviewFSAbstract
 	{
 		this.tv = tv;
 
-		columnsString = new String [] {
-			"",
-			"A-B",
-			"C-D"
-		};
+		if (!showColumnAB && ! showColumnCD)
+		{
+			tv.Visible = false;
+			return;
+		}
 
 		createTreeview ();
 	}
 
+	protected override string [] setColumnsString ()
+	{
+		if (showColumnAB && showColumnCD)
+			return new String [] { "", "A-B", "C-D" };
+		else if (showColumnAB)
+			return new String [] { "", "A-B", };
+		else if (showColumnCD)
+			return new String [] { "", "C-D" };
+		else
+			return new String [] { "" };
+	}
+
 	public void Fill ()
 	{
-		store.AppendValues (new String [] {
-				Catalog.GetString ("Impulse"),
-				impulseAB + " N*s",
-				impulseCD + " N*s",
-				} );
-		store.AppendValues (new String [] {
+		if (! showColumnAB && ! showColumnCD)
+		{
+			tv.Visible = false;
+			return;
+		}
+
+		store.AppendValues (fillImpulse ());
+		store.AppendValues (fillVariability ());
+		store.AppendValues (fillFeedback ());
+		store.AppendValues (fillMaxAvgInWindow ());
+		store.AppendValues (fillBestRFDInWindow ());
+
+		tv.Visible = true;
+	}
+
+	private string [] fillImpulse ()
+	{
+		if (showColumnAB && showColumnCD)
+			return new String [] { Catalog.GetString ("Impulse"), impulseAB + " N*s", impulseCD + " N*s" };
+		else if (showColumnAB)
+			return new String [] { Catalog.GetString ("Impulse"), impulseAB + " N*s" };
+		else //if (showColumnCD)
+			return new String [] { Catalog.GetString ("Impulse"), impulseCD + " N*s" };
+	}
+
+	private string [] fillVariability ()
+	{
+		if (showColumnAB && showColumnCD)
+			return new String [] {
 				Catalog.GetString ("Variability") + " (" + variabilityMethod + ")",
-				variabilityAB + " " + variabilityUnits,
-				variabilityCD + " " + variabilityUnits,
-				} );
-		store.AppendValues (new String [] {
-				Catalog.GetString ("Feedback"),
-				feedbackAB + " N",
-				feedbackCD + " N",
-				} );
-		store.AppendValues (new String [] {
-				maxAvgInWindowName,
-				maxAvgInWindowAB + " N",
-				maxAvgInWindowCD + " N",
-				} );
-		store.AppendValues (new String [] {
-				Catalog.GetString ("Best RFD") + " (50 ms avg)",
-				bestRFDInWindowAB + " N/s",
-				bestRFDInWindowCD + " N/s",
-				} );
+					variabilityAB + " " + variabilityUnits,
+					variabilityCD + " " + variabilityUnits,
+			};
+		else if (showColumnAB)
+			return new String [] {
+				Catalog.GetString ("Variability") + " (" + variabilityMethod + ")",
+					variabilityAB + " " + variabilityUnits
+			};
+		else //if (showColumnCD)
+			return new String [] {
+				Catalog.GetString ("Variability") + " (" + variabilityMethod + ")",
+					variabilityCD + " " + variabilityUnits
+			};
+	}
+
+	private string [] fillFeedback ()
+	{
+		if (showColumnAB && showColumnCD)
+			return new String [] { Catalog.GetString ("Feedback"), feedbackAB + " N", feedbackCD + " N" };
+		else if (showColumnAB)
+			return new String [] { Catalog.GetString ("Feedback"), feedbackAB + " N"};
+		else //if (showColumnCD)
+			return new String [] { Catalog.GetString ("Feedback"), feedbackCD + " N" };
+	}
+
+	private string [] fillMaxAvgInWindow ()
+	{
+		if (showColumnAB && showColumnCD)
+			return new String [] { maxAvgInWindowName, maxAvgInWindowAB + " N", maxAvgInWindowCD + " N" };
+		else if (showColumnAB)
+			return new String [] { maxAvgInWindowName, maxAvgInWindowAB + " N" };
+		else //if (showColumnCD)
+			return new String [] { maxAvgInWindowName, maxAvgInWindowCD + " N" };
+	}
+
+	private string [] fillBestRFDInWindow ()
+	{
+		if (showColumnAB && showColumnCD)
+			return new String [] { Catalog.GetString ("Best RFD") + " (50 ms avg)",
+				bestRFDInWindowAB + " N/s", bestRFDInWindowCD + " N/s",
+			};
+		else if (showColumnAB)
+			return new String [] { Catalog.GetString ("Best RFD") + " (50 ms avg)",
+				bestRFDInWindowAB + " N/s"
+			};
+		else //if (showColumnCD)
+			return new String [] { Catalog.GetString ("Best RFD") + " (50 ms avg)",
+				bestRFDInWindowCD + " N/s"
+			};
+	}
+
+	public void ShowColumn (bool show, bool ab)
+	{
+		if (ab)
+			showColumnAB = show;
+		else
+			showColumnCD = show;
 	}
 
 	//values

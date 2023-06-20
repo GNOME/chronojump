@@ -44,6 +44,7 @@ public partial class ChronoJumpWindow
 	Gtk.Notebook notebook_force_sensor_analyze_top;
 	Gtk.HBox hbox_force_general_analysis;
 	Gtk.Button button_force_sensor_analyze_load;
+	Gtk.Box box_buttons_force_sensor_analyze_load_unchained;
 	Gtk.Button button_force_sensor_analyze_analyze;
 	Gtk.Label label_force_sensor_analyze;
 	Gtk.Image image_force_sensor_graph;
@@ -52,7 +53,7 @@ public partial class ChronoJumpWindow
 	Gtk.Button button_force_sensor_image_save_rfd_manual;
 	Gtk.Button button_force_sensor_analyze_AB_save;
 	Gtk.Button button_force_sensor_analyze_CD_save;
-	Gtk.CheckButton check_force_sensor_ai_chained;
+	Gtk.CheckButton check_force_sensor_ai_chained_hscales;
 	Gtk.CheckButton check_force_sensor_ai_zoom;
 
 	Gtk.RadioButton radio_force_rfd_search_optimized_ab;
@@ -162,6 +163,8 @@ public partial class ChronoJumpWindow
 	Gtk.Viewport viewport_radio_force_sensor_ai_cd;
 	Gtk.RadioButton radio_force_sensor_ai_ab;
 	Gtk.RadioButton radio_force_sensor_ai_cd;
+	Gtk.CheckButton check_force_sensor_ai_chained_load_link;
+	Gtk.Image image_force_sensor_ai_chained_load_link;
 	Gtk.Box box_force_sensor_ai_a;
 	Gtk.Box box_force_sensor_ai_b;
 	Gtk.Box box_force_sensor_ai_c;
@@ -1351,6 +1354,20 @@ public partial class ChronoJumpWindow
 			return fsAI_CD;
 	}
 
+	private void on_check_force_sensor_ai_chained_load_link_clicked (object o, EventArgs args)
+	{
+		if (check_force_sensor_ai_chained_load_link.Active)
+		{
+			image_force_sensor_ai_chained_load_link.Pixbuf = new Pixbuf(null, Util.GetImagePath(false) + "link_vertical.png");
+			button_force_sensor_analyze_load.Visible = true;
+			box_buttons_force_sensor_analyze_load_unchained.Visible = false;
+		} else {
+			image_force_sensor_ai_chained_load_link.Pixbuf = new Pixbuf(null, Util.GetImagePath(false) + "link_vertical_off.png");
+			button_force_sensor_analyze_load.Visible = false;
+			box_buttons_force_sensor_analyze_load_unchained.Visible = true;
+		}
+	}
+
 	bool forceSensorHScalesDoNotFollow = false;
 	//to know change of slider in order to apply on the other slider if chained
 	int force_sensor_last_a = 1;
@@ -1421,7 +1438,7 @@ public partial class ChronoJumpWindow
 		int diffWithPrevious = Convert.ToInt32 (hs.Value) - last;
 
 		//if chained and moving a to the right makes b higher than 1, do not move
-		if (check_force_sensor_ai_chained.Active)
+		if (check_force_sensor_ai_chained_hscales.Active)
 		{
 			if (
 					(isAB && isLeft && Convert.ToInt32 (hsRelated.Value) + diffWithPrevious >= fsAI.GetLength() -1) ||
@@ -1508,7 +1525,7 @@ public partial class ChronoJumpWindow
 
 		//LogB.Information (string.Format ("on_hscale_force_sensor_ai_value_changed {0} 7", hscaleToDebug));
 		//if chained move also the related
-		if (check_force_sensor_ai_chained.Active)
+		if (check_force_sensor_ai_chained_hscales.Active)
 		{
 			forceSensorHScalesDoNotFollow = true;
 			hsRelated.Value = hsRelated.Value + diffWithPrevious;
@@ -1531,10 +1548,10 @@ public partial class ChronoJumpWindow
 		LogB.Information (string.Format ("on_hscale_force_sensor_ai_value_changed {0} 8", hscaleToDebug));
 	}
 
-	private void on_check_force_sensor_ai_chained_clicked (object o, EventArgs args)
+	private void on_check_force_sensor_ai_chained_hscales_clicked (object o, EventArgs args)
 	{
-		image_force_sensor_ai_chained_link.Visible = check_force_sensor_ai_chained.Active;
-		image_force_sensor_ai_chained_link_off.Visible = ! check_force_sensor_ai_chained.Active;
+		image_force_sensor_ai_chained_hscales_link.Visible = check_force_sensor_ai_chained_hscales.Active;
+		image_force_sensor_ai_chained_hscales_link_off.Visible = ! check_force_sensor_ai_chained_hscales.Active;
 	}
 
 	private void forceSensorAnalyzeGeneralButtonHscaleZoomSensitiveness()
@@ -2034,6 +2051,7 @@ public partial class ChronoJumpWindow
 		notebook_force_sensor_analyze_top = (Gtk.Notebook) builder.GetObject ("notebook_force_sensor_analyze_top");
 		hbox_force_general_analysis = (Gtk.HBox) builder.GetObject ("hbox_force_general_analysis");
 		button_force_sensor_analyze_load = (Gtk.Button) builder.GetObject ("button_force_sensor_analyze_load");
+		box_buttons_force_sensor_analyze_load_unchained = (Gtk.Box) builder.GetObject ("box_buttons_force_sensor_analyze_load_unchained");
 		button_force_sensor_analyze_analyze = (Gtk.Button) builder.GetObject ("button_force_sensor_analyze_analyze");
 		label_force_sensor_analyze = (Gtk.Label) builder.GetObject ("label_force_sensor_analyze");
 		image_force_sensor_graph = (Gtk.Image) builder.GetObject ("image_force_sensor_graph");
@@ -2042,7 +2060,7 @@ public partial class ChronoJumpWindow
 		button_force_sensor_image_save_rfd_manual = (Gtk.Button) builder.GetObject ("button_force_sensor_image_save_rfd_manual");
 		button_force_sensor_analyze_AB_save = (Gtk.Button) builder.GetObject ("button_force_sensor_analyze_AB_save");
 		button_force_sensor_analyze_CD_save = (Gtk.Button) builder.GetObject ("button_force_sensor_analyze_CD_save");
-		check_force_sensor_ai_chained = (Gtk.CheckButton) builder.GetObject ("check_force_sensor_ai_chained");
+		check_force_sensor_ai_chained_hscales = (Gtk.CheckButton) builder.GetObject ("check_force_sensor_ai_chained_hscales");
 		check_force_sensor_ai_zoom = (Gtk.CheckButton) builder.GetObject ("check_force_sensor_ai_zoom");
 
 		radio_force_rfd_search_optimized_ab = (Gtk.RadioButton) builder.GetObject ("radio_force_rfd_search_optimized_ab");
@@ -2152,6 +2170,8 @@ public partial class ChronoJumpWindow
 		viewport_radio_force_sensor_ai_cd = (Gtk.Viewport) builder.GetObject ("viewport_radio_force_sensor_ai_cd");
 		radio_force_sensor_ai_ab = (Gtk.RadioButton) builder.GetObject ("radio_force_sensor_ai_ab");
 		radio_force_sensor_ai_cd = (Gtk.RadioButton) builder.GetObject ("radio_force_sensor_ai_cd");
+		check_force_sensor_ai_chained_load_link = (Gtk.CheckButton) builder.GetObject ("check_force_sensor_ai_chained_load_link");
+		image_force_sensor_ai_chained_load_link = (Gtk.Image) builder.GetObject ("image_force_sensor_ai_chained_load_link");
 		box_force_sensor_ai_a = (Gtk.Box) builder.GetObject ("box_force_sensor_ai_a");
 		box_force_sensor_ai_b = (Gtk.Box) builder.GetObject ("box_force_sensor_ai_b");
 		box_force_sensor_ai_c = (Gtk.Box) builder.GetObject ("box_force_sensor_ai_c");

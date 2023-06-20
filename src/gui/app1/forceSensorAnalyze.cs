@@ -716,6 +716,7 @@ public partial class ChronoJumpWindow
 		notebook_force_sensor_analyze_top.CurrentPage = Convert.ToInt32(notebook_force_sensor_analyze_top_pages.CURRENTSETSIGNAL);
 		label_force_sensor_export_result.Text = "";
 		button_force_sensor_export_result_open.Visible = false;
+		button_force_sensor_analyze_analyze.Visible = true;
 	}
 	private void on_radio_force_sensor_analyze_individual_session_current_or_all_toggled (object o, EventArgs args)
 	{
@@ -729,6 +730,7 @@ public partial class ChronoJumpWindow
 		notebook_force_sensor_analyze_top.CurrentPage = Convert.ToInt32(notebook_force_sensor_analyze_top_pages.CURRENTSESSION);
 		label_force_sensor_export_result.Text = "";
 		button_force_sensor_export_result_open.Visible = false;
+		button_force_sensor_analyze_analyze.Visible = false;
 	}
 	private void on_radio_force_sensor_analyze_groupal_current_session_toggled (object o, EventArgs args)
 	{
@@ -739,6 +741,7 @@ public partial class ChronoJumpWindow
 		notebook_force_sensor_analyze_top.CurrentPage = Convert.ToInt32(notebook_force_sensor_analyze_top_pages.CURRENTSESSION);
 		label_force_sensor_export_result.Text = "";
 		button_force_sensor_export_result_open.Visible = false;
+		button_force_sensor_analyze_analyze.Visible = false;
 	}
 
 	//everything except the current set

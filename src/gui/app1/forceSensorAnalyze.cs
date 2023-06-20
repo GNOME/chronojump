@@ -43,8 +43,8 @@ public partial class ChronoJumpWindow
 
 	Gtk.Notebook notebook_force_sensor_analyze_top;
 	Gtk.HBox hbox_force_general_analysis;
-	Gtk.Button button_force_sensor_analyze_load;
-	Gtk.Box box_buttons_force_sensor_analyze_load_unchained;
+	Gtk.Button button_force_sensor_analyze_load_ab;
+	Gtk.Button button_force_sensor_analyze_load_cd;
 	Gtk.Button button_force_sensor_analyze_analyze;
 	Gtk.Label label_force_sensor_analyze;
 	Gtk.Image image_force_sensor_graph;
@@ -203,7 +203,8 @@ public partial class ChronoJumpWindow
 	private void forceSensorAnalyzeOptionsSensitivity(bool s) //s for sensitive. When show options frame is ! s
 	{
 		button_force_sensor_analyze_options.Sensitive = s;
-		button_force_sensor_analyze_load.Sensitive = s;
+		button_force_sensor_analyze_load_ab.Sensitive = s;
+		button_force_sensor_analyze_load_cd.Sensitive = s;
 
 		if(s)
 			button_force_sensor_analyze_analyze.Sensitive = button_force_sensor_analyze_analyze_was_sensitive;
@@ -715,7 +716,6 @@ public partial class ChronoJumpWindow
 
 	private void on_radio_force_sensor_analyze_individual_current_set_toggled (object o, EventArgs args)
 	{
-		button_force_sensor_analyze_load.Visible = true;
 		notebook_force_sensor_analyze_top.CurrentPage = Convert.ToInt32(notebook_force_sensor_analyze_top_pages.CURRENTSETSIGNAL);
 		label_force_sensor_export_result.Text = "";
 		button_force_sensor_export_result_open.Visible = false;
@@ -723,8 +723,6 @@ public partial class ChronoJumpWindow
 	}
 	private void on_radio_force_sensor_analyze_individual_session_current_or_all_toggled (object o, EventArgs args)
 	{
-		button_force_sensor_analyze_load.Visible = false;
-
 		if(currentPerson != null)
 			label_force_sensor_export_data.Text = currentPerson.Name;
 		else
@@ -737,8 +735,6 @@ public partial class ChronoJumpWindow
 	}
 	private void on_radio_force_sensor_analyze_groupal_current_session_toggled (object o, EventArgs args)
 	{
-		button_force_sensor_analyze_load.Visible = false;
-
 		label_force_sensor_export_data.Text = currentSession.Name;
 
 		notebook_force_sensor_analyze_top.CurrentPage = Convert.ToInt32(notebook_force_sensor_analyze_top_pages.CURRENTSESSION);
@@ -1315,6 +1311,8 @@ public partial class ChronoJumpWindow
 			box_force_sensor_ai_d.Visible = false;
 			label_force_sensor_ai_zoom_abcd.Text = "[A-B]";
 			UtilGtk.ViewportColor (viewport_force_sensor_analyze_hscales, UtilGtk.Colors.YELLOW_LIGHT);
+			button_force_sensor_analyze_load_ab.Visible = true;
+			button_force_sensor_analyze_load_cd.Visible = false;
 		}
 		else if ((Gtk.RadioButton) o == radio_force_sensor_ai_cd)
 		{
@@ -1324,6 +1322,8 @@ public partial class ChronoJumpWindow
 			box_force_sensor_ai_d.Visible = true;
 			label_force_sensor_ai_zoom_abcd.Text = "[C-D]";
 			UtilGtk.ViewportColor (viewport_force_sensor_analyze_hscales, UtilGtk.Colors.GREEN_LIGHT);
+			button_force_sensor_analyze_load_ab.Visible = false;
+			button_force_sensor_analyze_load_cd.Visible = true;
 		}
 
 		forceSensorAnalyzeGeneralButtonHscaleZoomSensitiveness();
@@ -1359,12 +1359,8 @@ public partial class ChronoJumpWindow
 		if (check_force_sensor_ai_chained_load_link.Active)
 		{
 			image_force_sensor_ai_chained_load_link.Pixbuf = new Pixbuf(null, Util.GetImagePath(false) + "link_vertical.png");
-			button_force_sensor_analyze_load.Visible = true;
-			box_buttons_force_sensor_analyze_load_unchained.Visible = false;
 		} else {
 			image_force_sensor_ai_chained_load_link.Pixbuf = new Pixbuf(null, Util.GetImagePath(false) + "link_vertical_off.png");
-			button_force_sensor_analyze_load.Visible = false;
-			box_buttons_force_sensor_analyze_load_unchained.Visible = true;
 		}
 	}
 
@@ -2050,8 +2046,8 @@ public partial class ChronoJumpWindow
 
 		notebook_force_sensor_analyze_top = (Gtk.Notebook) builder.GetObject ("notebook_force_sensor_analyze_top");
 		hbox_force_general_analysis = (Gtk.HBox) builder.GetObject ("hbox_force_general_analysis");
-		button_force_sensor_analyze_load = (Gtk.Button) builder.GetObject ("button_force_sensor_analyze_load");
-		box_buttons_force_sensor_analyze_load_unchained = (Gtk.Box) builder.GetObject ("box_buttons_force_sensor_analyze_load_unchained");
+		button_force_sensor_analyze_load_ab = (Gtk.Button) builder.GetObject ("button_force_sensor_analyze_load_ab");
+		button_force_sensor_analyze_load_cd = (Gtk.Button) builder.GetObject ("button_force_sensor_analyze_load_cd");
 		button_force_sensor_analyze_analyze = (Gtk.Button) builder.GetObject ("button_force_sensor_analyze_analyze");
 		label_force_sensor_analyze = (Gtk.Label) builder.GetObject ("label_force_sensor_analyze");
 		image_force_sensor_graph = (Gtk.Image) builder.GetObject ("image_force_sensor_graph");

@@ -2639,7 +2639,12 @@ public class TreeviewFSAnalyzeOther : TreeviewFSAbstract
 
 		store.AppendValues (fillImpulse ());
 		store.AppendValues (fillVariability ());
-		store.AppendValues (fillFeedback ());
+
+		if (
+				(feedbackAB != null && feedbackAB != "") ||
+				(feedbackCD != null && feedbackCD != "") )
+			store.AppendValues (fillFeedback ());
+
 		store.AppendValues (fillMaxAvgInWindow ());
 		store.AppendValues (fillBestRFDInWindow ());
 

@@ -130,12 +130,16 @@ public partial class ChronoJumpWindow
 
 	Gtk.Button button_hscale_force_sensor_ai_a_first;
 	Gtk.Button button_hscale_force_sensor_ai_a_pre;
+	Gtk.Button button_hscale_force_sensor_ai_a_pre_1s;
 	Gtk.Button button_hscale_force_sensor_ai_a_post;
+	Gtk.Button button_hscale_force_sensor_ai_a_post_1s;
 	Gtk.Button button_hscale_force_sensor_ai_a_last;
 
 	Gtk.Button button_hscale_force_sensor_ai_b_first;
 	Gtk.Button button_hscale_force_sensor_ai_b_pre;
+	Gtk.Button button_hscale_force_sensor_ai_b_pre_1s;
 	Gtk.Button button_hscale_force_sensor_ai_b_post;
+	Gtk.Button button_hscale_force_sensor_ai_b_post_1s;
 	Gtk.Button button_hscale_force_sensor_ai_b_last;
 
 	Gtk.Notebook notebook_force_sensor_export;
@@ -1557,13 +1561,17 @@ public partial class ChronoJumpWindow
 
 		button_hscale_force_sensor_ai_a_first.Sensitive = hsLeft.Value > 0;
 		button_hscale_force_sensor_ai_a_pre.Sensitive = hsLeft.Value > 0;
+		button_hscale_force_sensor_ai_a_pre_1s.Sensitive = hsLeft.Value > 0;
 		button_hscale_force_sensor_ai_b_first.Sensitive = hsRight.Value > 0;
 		button_hscale_force_sensor_ai_b_pre.Sensitive = hsRight.Value > 0;
+		button_hscale_force_sensor_ai_b_pre_1s.Sensitive = hsRight.Value > 0;
 
 		ForceSensorAnalyzeInstant fsAI = getCorrectfsAI ();
 		button_hscale_force_sensor_ai_a_last.Sensitive = (fsAI != null && hsLeft.Value < fsAI.GetLength() -1);
+		button_hscale_force_sensor_ai_a_post_1s.Sensitive = (fsAI != null && hsLeft.Value < fsAI.GetLength() -1);
 		button_hscale_force_sensor_ai_a_post.Sensitive = (fsAI != null && hsLeft.Value < fsAI.GetLength() -1);
 		button_hscale_force_sensor_ai_b_last.Sensitive = (fsAI != null && hsRight.Value < fsAI.GetLength() -1);
+		button_hscale_force_sensor_ai_b_post_1s.Sensitive = (fsAI != null && hsRight.Value < fsAI.GetLength() -1);
 		button_hscale_force_sensor_ai_b_post.Sensitive = (fsAI != null && hsRight.Value < fsAI.GetLength() -1);
 
 		//diff have to be more than one pixel
@@ -2133,12 +2141,16 @@ public partial class ChronoJumpWindow
 
 		button_hscale_force_sensor_ai_a_first = (Gtk.Button) builder.GetObject ("button_hscale_force_sensor_ai_a_first");
 		button_hscale_force_sensor_ai_a_pre = (Gtk.Button) builder.GetObject ("button_hscale_force_sensor_ai_a_pre");
+		button_hscale_force_sensor_ai_a_pre_1s = (Gtk.Button) builder.GetObject ("button_hscale_force_sensor_ai_a_pre_1s");
 		button_hscale_force_sensor_ai_a_post = (Gtk.Button) builder.GetObject ("button_hscale_force_sensor_ai_a_post");
+		button_hscale_force_sensor_ai_a_post_1s = (Gtk.Button) builder.GetObject ("button_hscale_force_sensor_ai_a_post_1s");
 		button_hscale_force_sensor_ai_a_last = (Gtk.Button) builder.GetObject ("button_hscale_force_sensor_ai_a_last");
 
 		button_hscale_force_sensor_ai_b_first = (Gtk.Button) builder.GetObject ("button_hscale_force_sensor_ai_b_first");
 		button_hscale_force_sensor_ai_b_pre = (Gtk.Button) builder.GetObject ("button_hscale_force_sensor_ai_b_pre");
+		button_hscale_force_sensor_ai_b_pre_1s = (Gtk.Button) builder.GetObject ("button_hscale_force_sensor_ai_b_pre_1s");
 		button_hscale_force_sensor_ai_b_post = (Gtk.Button) builder.GetObject ("button_hscale_force_sensor_ai_b_post");
+		button_hscale_force_sensor_ai_b_post_1s = (Gtk.Button) builder.GetObject ("button_hscale_force_sensor_ai_b_post_1s");
 		button_hscale_force_sensor_ai_b_last = (Gtk.Button) builder.GetObject ("button_hscale_force_sensor_ai_b_last");
 
 		notebook_force_sensor_export = (Gtk.Notebook) builder.GetObject ("notebook_force_sensor_export");

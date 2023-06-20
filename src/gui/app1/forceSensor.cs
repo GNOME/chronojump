@@ -165,6 +165,7 @@ public partial class ChronoJumpWindow
 		toggle_force_sensor_ai_chained_load_link.Active = true;
 		on_toggle_force_sensor_ai_chained_load_link_toggled (new object (), new EventArgs ());
 
+		forceSensorAnalyzeGeneralButtonHscaleZoomSensitiveness();
 		if (tvFS_other == null)
 			tvFS_other = new TreeviewFSAnalyzeOther (treeview_force_sensor_ai_other);
 		setForceSensorAnalyzeMaxAVGInWindow();
@@ -579,6 +580,7 @@ public partial class ChronoJumpWindow
 		hscale_force_sensor_ai_b.Value = 0;
 		hscale_force_sensor_ai_c.Value = 0;
 		hscale_force_sensor_ai_d.Value = 0;
+		forceSensorAnalyzeGeneralButtonHscaleZoomSensitiveness();
 
 		label_force_sensor_value_max.Text = "";
 		label_force_sensor_value.Text = "";

@@ -7346,7 +7346,7 @@ msgstr "Fuerza máxima"
 #: ../src/gui/app1/forceSensor.cs:1751
 #, csharp-format
 msgid "Max AVG Force in {0} s"
-msgstr "Fuerza media máxima en {0} ms"
+msgstr "Fuerza media máxima en {0} s"
 
 #: ../src/gui/app1/forceSensor.cs:1867
 msgid ""

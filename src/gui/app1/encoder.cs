@@ -1779,10 +1779,9 @@ public partial class ChronoJumpWindow
 		a2.Add(Constants.GenericWindowShow.COMBO); a2.Add(true); a2.Add("");
 		bigArray.Add(a2);
 		
-		genericWin = GenericWindow.Show(Catalog.GetString("Load set"), false,	//don't show now
+		genericWin = GenericWindow.Show (Catalog.GetString("Load set"), false,	//don't show now
 				string.Format(Catalog.GetString("Select set of athlete {0} on this session."), 
-					currentPerson.Name) + "\n" + 
-				Catalog.GetString("If you want to edit or delete a row, right click on it."), bigArray);
+					currentPerson.Name), bigArray);
 
 		genericWin.SetTreeview(columnsString, false, dataPrint, new ArrayList(), GenericWindow.EditActions.EDITPLAYDELETE, true);
 

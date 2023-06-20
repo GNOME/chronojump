@@ -190,6 +190,8 @@ public partial class ChronoJumpWindow
 	//Gtk.Image image_selector_start_force_sensor;
 	Gtk.Image image_force_sensor_adjust_help;
 	Gtk.Image image_force_sensor_analyze_load;
+	Gtk.Image image_force_sensor_analyze_load_ab;
+	Gtk.Image image_force_sensor_analyze_load_cd;
 	Gtk.Image image_force_sensor_tare;
 	Gtk.Image image_force_sensor_calibrate;
 	Gtk.Image image_force_sensor_capture_adjust;
@@ -209,8 +211,8 @@ public partial class ChronoJumpWindow
 	Gtk.Image image_force_sensor_laterality_r;
 	Gtk.Image image_force_sensor_laterality_l;
 	Gtk.Image image_force_sensor_export_cancel;
-	Gtk.Image image_force_sensor_ai_chained_link;
-	Gtk.Image image_force_sensor_ai_chained_link_off;
+	Gtk.Image image_force_sensor_ai_chained_hscales_link;
+	Gtk.Image image_force_sensor_ai_chained_hscales_link_off;
 	Gtk.Image image_force_sensor_ai_zoom;
 	Gtk.Image image_force_sensor_ai_zoom_out;
 	Gtk.Image image_button_force_sensor_analyze_back_to_signal;
@@ -544,6 +546,8 @@ public partial class ChronoJumpWindow
 		image_encoder_capture_open1.Pixbuf = pixbuf;
 		image_contacts_capture_load.Pixbuf = pixbuf;
 		image_force_sensor_analyze_load.Pixbuf = pixbuf;
+		image_force_sensor_analyze_load_ab.Pixbuf = pixbuf;
+		image_force_sensor_analyze_load_cd.Pixbuf = pixbuf;
 		image_run_encoder_analyze_load.Pixbuf = pixbuf;
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "zero.png");
@@ -1084,8 +1088,13 @@ public partial class ChronoJumpWindow
 		image_hscale_force_sensor_ai_a_last.Pixbuf = pixbuf;
 		image_hscale_force_sensor_ai_b_last.Pixbuf = pixbuf;
 
-		image_force_sensor_ai_chained_link.Pixbuf = new Pixbuf(null, Util.GetImagePath(false) + "link.png"); 
-		image_force_sensor_ai_chained_link_off.Pixbuf = new Pixbuf(null, Util.GetImagePath(false) + "link_off.png"); 
+		pixbuf = new Pixbuf(null, Util.GetImagePath(false) + "link.png");
+		image_force_sensor_ai_chained_hscales_link.Pixbuf = pixbuf;
+		pixbuf = new Pixbuf(null, Util.GetImagePath(false) + "link_off.png");
+		image_force_sensor_ai_chained_hscales_link_off.Pixbuf = pixbuf;
+
+		pixbuf = new Pixbuf(null, Util.GetImagePath(false) + "link_vertical.png");
+		image_force_sensor_ai_chained_load_link.Pixbuf = pixbuf;
 
 		pixbuf = new Pixbuf(null, Util.GetImagePath(false) + "zoom_in.png");
 		image_force_sensor_ai_zoom.Pixbuf = pixbuf;
@@ -1268,6 +1277,8 @@ public partial class ChronoJumpWindow
 		//image_selector_start_force_sensor = (Gtk.Image) builder.GetObject ("image_selector_start_force_sensor");
 		image_force_sensor_adjust_help = (Gtk.Image) builder.GetObject ("image_force_sensor_adjust_help");
 		image_force_sensor_analyze_load = (Gtk.Image) builder.GetObject ("image_force_sensor_analyze_load");
+		image_force_sensor_analyze_load_ab = (Gtk.Image) builder.GetObject ("image_force_sensor_analyze_load_ab");
+		image_force_sensor_analyze_load_cd = (Gtk.Image) builder.GetObject ("image_force_sensor_analyze_load_cd");
 		image_force_sensor_tare = (Gtk.Image) builder.GetObject ("image_force_sensor_tare");
 		image_force_sensor_calibrate = (Gtk.Image) builder.GetObject ("image_force_sensor_calibrate");
 		image_force_sensor_capture_adjust = (Gtk.Image) builder.GetObject ("image_force_sensor_capture_adjust");
@@ -1287,8 +1298,8 @@ public partial class ChronoJumpWindow
 		image_force_sensor_laterality_r = (Gtk.Image) builder.GetObject ("image_force_sensor_laterality_r");
 		image_force_sensor_laterality_l = (Gtk.Image) builder.GetObject ("image_force_sensor_laterality_l");
 		image_force_sensor_export_cancel = (Gtk.Image) builder.GetObject ("image_force_sensor_export_cancel");
-		image_force_sensor_ai_chained_link = (Gtk.Image) builder.GetObject ("image_force_sensor_ai_chained_link");
-		image_force_sensor_ai_chained_link_off = (Gtk.Image) builder.GetObject ("image_force_sensor_ai_chained_link_off");
+		image_force_sensor_ai_chained_hscales_link = (Gtk.Image) builder.GetObject ("image_force_sensor_ai_chained_hscales_link");
+		image_force_sensor_ai_chained_hscales_link_off = (Gtk.Image) builder.GetObject ("image_force_sensor_ai_chained_hscales_link_off");
 		image_force_sensor_ai_zoom = (Gtk.Image) builder.GetObject ("image_force_sensor_ai_zoom");
 		image_force_sensor_ai_zoom_out = (Gtk.Image) builder.GetObject ("image_force_sensor_ai_zoom_out");
 		image_button_force_sensor_analyze_back_to_signal = (Gtk.Image) builder.GetObject ("image_button_force_sensor_analyze_back_to_signal");

@@ -450,7 +450,8 @@ public partial class ChronoJumpWindow
 		hbox_force_capture_buttons.Sensitive = sensitive;
 		frame_contacts_exercise.Sensitive = sensitive;
 		button_execute_test.Sensitive = sensitive;
-		button_force_sensor_analyze_load.Sensitive = sensitive;
+		button_force_sensor_analyze_load_ab.Sensitive = sensitive;
+		button_force_sensor_analyze_load_cd.Sensitive = sensitive;
 		hbox_contacts_camera.Sensitive = sensitive;
 
 		//other gui buttons

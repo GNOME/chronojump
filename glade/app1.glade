@@ -25102,6 +25102,7 @@ Concentric</property>
                                                             <property name="can-focus">False</property>
                                                             <property name="orientation">vertical</property>
                                                             <property name="spacing">4</property>
+                                                            <property name="homogeneous">True</property>
                                                             <child>
                                                             <object class="GtkBox">
                                                             <property name="visible">True</property>
@@ -25262,18 +25263,18 @@ Concentric</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <object class="GtkAlignment">
+                                                            <object class="GtkBox">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
-                                                            <property name="yscale">0</property>
+                                                            <property name="orientation">vertical</property>
                                                             <child>
-                                                            <object class="GtkCheckButton" id="check_force_sensor_ai_chained_load_link">
+                                                            <object class="GtkToggleButton" id="toggle_force_sensor_ai_chained_load_link">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">True</property>
-                                                            <property name="receives-default">False</property>
+                                                            <property name="receives-default">True</property>
+                                                            <property name="relief">none</property>
                                                             <property name="active">True</property>
-                                                            <property name="draw-indicator">False</property>
-                                                            <signal name="clicked" handler="on_check_force_sensor_ai_chained_load_link_clicked" swapped="no"/>
+                                                            <signal name="toggled" handler="on_toggle_force_sensor_ai_chained_load_link_toggled" swapped="no"/>
                                                             <child>
                                                             <object class="GtkImage" id="image_force_sensor_ai_chained_load_link">
                                                             <property name="visible">True</property>
@@ -25282,11 +25283,16 @@ Concentric</property>
                                                             </object>
                                                             </child>
                                                             </object>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
                                                             </child>
                                                             </object>
                                                             <packing>
                                                             <property name="expand">False</property>
-                                                            <property name="fill">False</property>
+                                                            <property name="fill">True</property>
                                                             <property name="position">1</property>
                                                             </packing>
                                                             </child>

@@ -163,7 +163,7 @@ public partial class ChronoJumpWindow
 	Gtk.Viewport viewport_radio_force_sensor_ai_cd;
 	Gtk.RadioButton radio_force_sensor_ai_ab;
 	Gtk.RadioButton radio_force_sensor_ai_cd;
-	Gtk.CheckButton check_force_sensor_ai_chained_load_link;
+	Gtk.ToggleButton toggle_force_sensor_ai_chained_load_link;
 	Gtk.Image image_force_sensor_ai_chained_load_link;
 	Gtk.Box box_force_sensor_ai_a;
 	Gtk.Box box_force_sensor_ai_b;
@@ -1354,9 +1354,9 @@ public partial class ChronoJumpWindow
 			return fsAI_CD;
 	}
 
-	private void on_check_force_sensor_ai_chained_load_link_clicked (object o, EventArgs args)
+	private void on_toggle_force_sensor_ai_chained_load_link_toggled (object o, EventArgs args)
 	{
-		if (check_force_sensor_ai_chained_load_link.Active)
+		if (toggle_force_sensor_ai_chained_load_link.Active)
 		{
 			image_force_sensor_ai_chained_load_link.Pixbuf = new Pixbuf(null, Util.GetImagePath(false) + "link_vertical.png");
 		} else {
@@ -2166,7 +2166,7 @@ public partial class ChronoJumpWindow
 		viewport_radio_force_sensor_ai_cd = (Gtk.Viewport) builder.GetObject ("viewport_radio_force_sensor_ai_cd");
 		radio_force_sensor_ai_ab = (Gtk.RadioButton) builder.GetObject ("radio_force_sensor_ai_ab");
 		radio_force_sensor_ai_cd = (Gtk.RadioButton) builder.GetObject ("radio_force_sensor_ai_cd");
-		check_force_sensor_ai_chained_load_link = (Gtk.CheckButton) builder.GetObject ("check_force_sensor_ai_chained_load_link");
+		toggle_force_sensor_ai_chained_load_link = (Gtk.ToggleButton) builder.GetObject ("toggle_force_sensor_ai_chained_load_link");
 		image_force_sensor_ai_chained_load_link = (Gtk.Image) builder.GetObject ("image_force_sensor_ai_chained_load_link");
 		box_force_sensor_ai_a = (Gtk.Box) builder.GetObject ("box_force_sensor_ai_a");
 		box_force_sensor_ai_b = (Gtk.Box) builder.GetObject ("box_force_sensor_ai_b");

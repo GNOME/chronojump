@@ -143,6 +143,7 @@ public class PresentationSlideList
 
 		int countItems = 0;
 		int countSubitems = 0;
+		int countSubSubitems = 0;
 		foreach (string line in contents_l)
 		{
 			if (line == null)
@@ -171,14 +172,19 @@ public class PresentationSlideList
 						ps.AddError ();
 				}
 
-			if (parts[0].StartsWith ("  "))
+			if (parts[0].StartsWith ("    "))
+				countSubSubitems ++;
+			else if (parts[0].StartsWith ("  "))
+			{
+				countSubSubitems = 0;
 				countSubitems ++;
-			else {
+			} else {
+				countSubSubitems = 0;
 				countSubitems = 0;
 				countItems ++;
 			}
 
-			ps.AddText (parts[0], countItems, countSubitems);
+			ps.AddText (parts[0], countItems, countSubitems, countSubSubitems);
 
 			list.Add (ps);
 		}
@@ -276,7 +282,7 @@ public class PresentationSlide
 	}
 
 	//adds also enumeration and maybe action mark
-	public void AddText (string text, int countItems, int countSubitems)
+	public void AddText (string text, int countItems, int countSubitems, int countSubSubitems)
 	{
 		string actionsStr = "";
 		if (HasActionsNotCountingSubtitle ())
@@ -291,9 +297,13 @@ public class PresentationSlide
 
 		if (countSubitems == 0)
 			this.text = string.Format ("{0}. {1}{2}{3}", countItems, text, actionsStr, actionErrorStr);
-		else
-			this.text = string.Format ("  {0}.{1}. {2}{3}{4}",
+		else if (countSubSubitems == 0)
+			this.text = string.Format ("    {0}.{1}. {2}{3}{4}",
 					countItems, countSubitems, text.Substring(2), //removes 2 first chars
+					actionsStr, actionErrorStr);
+		else
+			this.text = string.Format ("        {0}.{1}.{2}. {3}{4}{5}",
+					countItems, countSubitems, countSubSubitems, text.Substring(4), //removes 4 first chars
 					actionsStr, actionErrorStr);
 	}
 

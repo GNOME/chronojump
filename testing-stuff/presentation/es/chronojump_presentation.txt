@@ -1,0 +1,48 @@
+Chronojump
+  Equipo, asociación
+  Software / Hardware libre
+  P. extrema
+Saltos (P. contactos):::Mode:JUMPSSIMPLE
+  Cualquier test
+  Captura instantánea
+  Análisis automatizados:::LoadSessionByName:Tutorial:::SelectPersonByName:Yuri
+    Perfil de saltos
+    Altura óptima de caída
+    Perfil FV
+    Asimetría
+    Fatiga en RJ:::Mode:JUMPSREACTIVE:::LoadSessionByName:CAR - Velocistes:::SelectPersonByName:ZUNINO VUJICHICH, MARTINA
+Carreras
+  WICHRO:::Mode:RUNSINTERVALLIC
+    Cualquier test
+    Fácil aliniación
+    modelización de sprints:::SelectPersonByName:ALVAREZ DOMINGUEZ, ERIC
+  Race Analyzer:::Mode:RUNSENCODER:::SelectPersonByName:POL CORDERO
+    Carreras en línea recta
+    Water world
+    Fácil montaje
+    Ejemplo de exportación de sesión
+Isométrico / Elástic (sensor de fuerza):::Mode:FORCESENSORISOMETRIC:::LoadSessionByName:Test Pilot_15-02-2023
+  Max, X, X max:::SelectPersonByName:1er Pilot nom ocult
+  RFD, T, K, modelo
+  Feedback
+  Vibraciones (Neck Force Frontal):::SelectPersonByName:2n Pilot nom ocult
+  Ejercicios
+  Accesorios
+    ForHealth
+    ABD/ADD, 90:20, Nord H.
+    Algómetro
+    Gomas (elastic world):::Mode:FORCESENSORELASTIC:::LoadSessionByName:Demo Fisio URV:::SelectPersonByName:Biel Arilla
+Pesos / Inercial (encoder):::Mode:POWERGRAVITATORY:::LoadSessionByName:Ergo 2022 matí
+  Ejercicios: % peso corporal, config. máquina
+  Feedback / Ritmo
+  Fase propulsiva
+  Carga ideal:::SelectPersonByName:Marc Balagué Arnau
+  Núm repeticiones ideal (60 Kg):::SelectPersonByName:Ismael Akbulut Vico
+  Compartiva ambas piernas:::LoadImage:/home/xavier/Documents/chronojump-no-git/presentacions-2023-en-endavant/encoder/imatges-dades-encoder/Franciso_2014-12-3_superpose.png
+  FV, FVP
+  Máquinas inerciales:::Mode:POWERINERTIAL
+    Tipos
+    Trabajo excéntrico
+Integración con cámara (WIP)
+Investigación
+Networks / cloud

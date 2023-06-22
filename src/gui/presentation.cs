@@ -26,6 +26,7 @@ public partial class ChronoJumpWindow
 {
 	// at glade ---->
 	Gtk.Box box_presentation;
+	Gtk.Viewport viewport_presentation;
 	Gtk.Box box_combo_presentation;
 	Gtk.Button button_presentation_left;
 	Gtk.Button button_presentation_right;
@@ -51,6 +52,7 @@ public partial class ChronoJumpWindow
 				presentationSL.GetPrintingStrings ()[0]);
 		combo_presentation.Changed += new EventHandler (on_combo_presentation_changed);
 
+		processPresentationActionsIfNeeded (combo_presentation.Active); //to process an action on 1st slide
 		button_presentation_left.Sensitive = false;
 		box_presentation.Visible = true;
 	}
@@ -108,12 +110,15 @@ public partial class ChronoJumpWindow
 				chronojumpWindowTestsSelectPersonByName (pa.Parameter);
 			else if (pa.Ae == PresentationAction.ActionEnum.LoadImage && pa.Parameter != "")
 				new DialogImageTest ("", pa.Parameter, DialogImageTest.ArchiveType.FILE, "", 0, 0);
+			else if (pa.Ae == PresentationAction.ActionEnum.Color && pa.Parameter != "")
+				UtilGtk.ViewportColor (viewport_presentation, UtilGtk.ColorParse (pa.Parameter));
 		}
 	}
 
 	private void connectWidgetsPresentation (Gtk.Builder builder)
 	{
 		box_presentation = (Gtk.Box) builder.GetObject ("box_presentation");
+		viewport_presentation = (Gtk.Viewport) builder.GetObject ("viewport_presentation");
 		box_combo_presentation = (Gtk.Box) builder.GetObject ("box_combo_presentation");
 		button_presentation_left = (Gtk.Button) builder.GetObject ("button_presentation_left");
 		button_presentation_right = (Gtk.Button) builder.GetObject ("button_presentation_right");
@@ -233,6 +238,7 @@ Carrega Tutorial i William:::LoadSessionByName:Tutorial:::SelectPersonByName:Wil
 Aquest seria el 5è
   Seria el 5.1 que fa loadImage:::LoadImage:/home/xavier/Imatges/tarde.png
   Seria el 5.2:::Sub:Subtítol de la 5.2
+    Seria el 5.2.1
 Seria el sisè amb el Carmelo:::SelectPersonByName:Carmelo:::Mode:POWERGRAVITATORY
   Té un subpunt
 Últim punt
@@ -264,13 +270,13 @@ public class PresentationSlide
 	}
 
 	//to print (*) if there is any action (subtitle does not count)
-	public bool HasActionsNotCountingSubtitle ()
+	public bool HasActionsThatNeedsAsterisk ()
 	{
 		if (! HasActions ())
 			return false;
 
 		foreach (PresentationAction pa in action_l)
-			if (pa.Ae != PresentationAction.ActionEnum.Sub)
+			if (pa.Ae != PresentationAction.ActionEnum.Sub && pa.Ae != PresentationAction.ActionEnum.Color)
 				return true;
 
 		return false;
@@ -285,7 +291,7 @@ public class PresentationSlide
 	public void AddText (string text, int countItems, int countSubitems, int countSubSubitems)
 	{
 		string actionsStr = "";
-		if (HasActionsNotCountingSubtitle ())
+		if (HasActionsThatNeedsAsterisk ())
 			actionsStr = " (*)";
 
 		string actionErrorStr = "";
@@ -338,8 +344,8 @@ public class PresentationSlide
 //TODO: move this class to src/presentation.cs
 public class PresentationAction
 {
-	//note Sub is an special action because it just displays the subitle, but it will not show the (*)
-	public enum ActionEnum { Sub, LoadSessionByName, SelectPersonByName, Mode, LoadImage };
+	//note Sub and Color are special actions because they just displays the subtitle/change color, but it will not show the (*)
+	public enum ActionEnum { Sub, LoadSessionByName, SelectPersonByName, Mode, LoadImage, Color };
 
 	private ActionEnum ae;
 	private string parameter;

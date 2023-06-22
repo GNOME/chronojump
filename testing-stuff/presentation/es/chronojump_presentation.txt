@@ -1,6 +1,6 @@
-Chronojump
+Chronojump:::Color:#ffcc33
   Equipo, asociación
-  Software / Hardware libre
+  Software / Hardware libre:::Color:#ff0000
   P. extrema
 Saltos (P. contactos):::Mode:JUMPSSIMPLE
   Cualquier test
@@ -10,7 +10,7 @@ Saltos (P. contactos):::Mode:JUMPSSIMPLE
     Altura óptima de caída
     Perfil FV
     Asimetría
-    Fatiga en RJ:::Mode:JUMPSREACTIVE:::LoadSessionByName:CAR - Velocistes:::SelectPersonByName:ZUNINO VUJICHICH, MARTINA
+    Fatiga en RJ:::Mode:JUMPSREACTIVE:::LoadSessionByName:RSI demo
 Carreras
   WICHRO:::Mode:RUNSINTERVALLIC
     Cualquier test

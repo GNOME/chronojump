@@ -984,6 +984,11 @@ public class Util
 		return Path.Combine (GetLocalDataDir (false) +  Path.DirectorySeparatorChar + Constants.FileNamePresentation);
 	}
 
+	//used when presentation contains a filename and need to get full url
+	public static string GetPresentationFileName (string filename) {
+		return Path.Combine (GetLocalDataDir (false) +  Path.DirectorySeparatorChar + filename);
+	}
+
 	//url and videoURL stored path is relative to be able to move data between computers
 	//then SELECT: makes it abolute (addURLpath)
 	//INSERT and UPDATE: makes it relative (removeURLpath)

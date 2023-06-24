@@ -19,6 +19,7 @@
  */
 
 using System;
+using System.IO; 		//File
 using Gtk;
 using System.Collections.Generic;
 
@@ -146,6 +147,28 @@ public class PresentationSlideList
 		if (contents_l == null || contents_l.Count == 0)
 			return false;
 
+		// 1) find if it has to redirect to another file using:
+		// file:filename
+		foreach (string line in contents_l)
+		{
+			if (line == null)
+				break;
+			if (line == "" || line[0] == '#')
+				continue;
+
+			string [] parts = line.Split (new char[] {':'});
+			if (parts.Length == 2 && parts[0].ToLower () == "file")
+			{
+				//open that file if parts[1] has the full path
+				if (File.Exists (parts[1]))
+					contents_l = Util.ReadFileAsStringList (parts[1]);
+				//open that file if parts[1] is just the filename (getting the url of datadir
+				else if (File.Exists (Util.GetPresentationFileName(parts[1])))
+					contents_l = Util.ReadFileAsStringList (Util.GetPresentationFileName(parts[1]));
+			}
+		}
+
+		// 2) read the presentation file
 		int countItems = 0;
 		int countSubitems = 0;
 		int countSubSubitems = 0;
@@ -222,8 +245,15 @@ public class PresentationSlideList
 }
 
 //TODO: move this class to src/presentation.cs
+
 /*
-Example of chronojump_presentation.txt
+presentation.txt can have this syntax
+#File:presentation_all.txt
+File:presentation_force.txt
+*/
+
+/*
+Example of presentation.txt or the file that is linked above
 #Exemple de presentació, # i línies en blanc no es processen
 #Si es vol posar accions, cal separar cada lína amb :::
 #Cada acció tindrà dos parts separades per :

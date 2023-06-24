@@ -1,0 +1,15 @@
+Chronojump: Equipo, asociación, P. extrema
+Productos: ... Sensor de fuerza
+Fuerza
+  Max, X, X max
+  RFD, T, K, modelo
+  Feedback
+  Vibraciones
+Ejercicios
+Accesorios
+  ForHealth
+  ABD/ADD, 90:20, Nord H.
+  Algómetro
+  Gomas (elastic world)
+Investigación
+Networks / cloud

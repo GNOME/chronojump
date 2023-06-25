@@ -42,7 +42,7 @@ public partial class ChronoJumpWindow
 	private void presentationPrepare ()
 	{
 		presentationSL = new PresentationSlideList ();
-		if (! presentationSL.Read ())
+		if (! presentationSL.Read () || presentationSL.Count () == 0)
 			return;
 
 		label_presentation_subtitle.Visible = presentationSL.HasSubtitles;
@@ -237,6 +237,11 @@ public class PresentationSlideList
 			pa_l = ps.GetActions ();
 
 		return pa_l;
+	}
+
+	public int Count ()
+	{
+		return list.Count;
 	}
 
 	public bool HasSubtitles {

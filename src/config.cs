@@ -26,6 +26,8 @@ using System.Collections.Generic;
 
 public class Config
 {
+	public static bool SimulatedCapture; //readed from commandline
+
 	//to avoid passing this info to all the windows and dialogs, just read it here
 	public static bool UseSystemColor; //do nothing at all
 

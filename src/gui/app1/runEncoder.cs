@@ -141,7 +141,6 @@ public partial class ChronoJumpWindow
 	private RunEncoder currentRunEncoder;
 	private RunEncoderExercise currentRunEncoderExercise;
 	DateTime runEncoderTimeStartCapture;
-	bool runEncoderCaptureSimulated;
 	string runEncoderFirmwareVersion;
 
 	static string lastRunEncoderFile = "";
@@ -570,9 +569,6 @@ public partial class ChronoJumpWindow
 		usbDisconnectedLastTime = 0;
 		contactsShowCaptureDoingButtons(true);
 
-		//runEncoderCaptureSimulated = menuitem_check_race_encoder_capture_simulate.Active; //TODO: show this in some way on 2.0
-		runEncoderCaptureSimulated = false; //note that on simulated we need to click finish not so late
-
 		/*
 		//initialize
 		forceSensorValues = new ForceSensorValues();
@@ -648,8 +644,8 @@ RunEncoderCaptureGetSpeedAndDisplacementTest recgsdt = new RunEncoderCaptureGetS
 		}
 
 		string command = "start_capture:";
-		if(runEncoderCaptureSimulated)
-			command = "start_simulation:";
+		if (Config.SimulatedCapture)
+			command = "start_simulation:"; //needs the Arduino
 
 		if(! runEncoderSendCommand(command, "Initializing", "Catched run encoder capturing"))
 		{
@@ -1750,7 +1746,7 @@ RunEncoderCaptureGetSpeedAndDisplacementTest recgsdt = new RunEncoderCaptureGetS
 					event_execute_label_message.Text = "Saved." + captureEndedMessage;
 					if(currentPersonSession.Height == 0)
 						event_execute_label_message.Text += " " + "Person height is 0!";
-					if(runEncoderCaptureSimulated)
+					if (Config.SimulatedCapture)
 						event_execute_label_message.Text += " SIMULATED TEST!";
 
 					currentRunEncoder = new RunEncoder(-1, currentPerson.UniqueID, currentSession.UniqueID,

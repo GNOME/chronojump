@@ -70,7 +70,7 @@ public class ChronoJump
 
 		//show version on console and exit before the starting logs
 		//note version, version2 args are available since: 2.2.0-112-ga4eaadcbc
-		if(args.Length > 0 && args[0] != "printAll" && args[0] != "debug")
+		if(args.Length > 0 && args[0] != "simulatedCapture" && args[0] != "printAll" && args[0] != "debug")
 		{
 			string helpMessage = "Execute 'chronojump' or 'chronojump option'" +
 				"\nOptions:" +
@@ -78,6 +78,7 @@ public class ChronoJump
 				"\n- version2: Version of the software" +
 				"\n- configAll: All possible options on chronojump_config.txt" +
 				"\n- configDefined: Correctly defined options on chronojump_config.txt" +
+				"\n- simulatedCapture: Capture is simulated (working on forceSensor and Race Analyzer (needs Arduino))" +
 				"\n- printAll: (*)" +
 				"\n- debug: (*)" +
 				"\n- help: this help" +
@@ -142,10 +143,15 @@ public class ChronoJump
 		//1.4.10
 		Log.Start();
 		LogB.Debugging = true; //now LogB.Debug will be shown. Also there will be thread info on Warning, Error, Information
-		if(args.Length > 0 && args[0] == "printAll")
-			LogB.PrintAllThreads = true;
-		if(args.Length > 0 && args[0] == "debug")
-			debugModeAtStart = true;
+		if(args.Length > 0)
+		{
+			if (args[0] == "simulatedCapture")
+				Config.SimulatedCapture = true;
+			else if (args[0] == "printAll")
+				LogB.PrintAllThreads = true;
+			else if (args[0] == "debug")
+				debugModeAtStart = true;
+		}
 
 		var envPath = Environment.GetEnvironmentVariable ("PATH");
 		var rBinPath = "";

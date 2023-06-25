@@ -380,7 +380,7 @@ public partial class ChronoJumpWindow
 			box_force_sensor_analyze_magnitudes.Visible = currentForceSensorExercise.ComputeAsElastic;
 		}
 
-		if (chronopicRegister.GetSelectedForMode (current_mode).Port == "")
+		if (! Config.SimulatedCapture && chronopicRegister.GetSelectedForMode (current_mode).Port == "")
 		{
 			event_execute_label_message.Text = forceSensorNotConnectedString;
 			return;
@@ -1047,7 +1047,7 @@ public partial class ChronoJumpWindow
 	//Attention: no GTK here!!
 	private void forceSensorCapturePre_noGTK()
 	{
-		if(! portFSOpened)
+		if(!Config.SimulatedCapture && ! portFSOpened)
 			if(! forceSensorConnect())
 				return;
 
@@ -1185,7 +1185,7 @@ public partial class ChronoJumpWindow
 
 		lastChangedTime = 0;
 
-		if(! forceSensorSendCommand("start_capture:", Catalog.GetString ("Preparing capture …"), "Catched force capturing"))
+		if(! Config.SimulatedCapture && ! forceSensorSendCommand("start_capture:", Catalog.GetString ("Preparing capture …"), "Catched force capturing"))
 		{
 			LogB.Information("fs Error 1");
 			forceProcessError = true;
@@ -1197,7 +1197,10 @@ public partial class ChronoJumpWindow
 		do {
 			Thread.Sleep(100); //sleep to let arduino start reading
 			try {
-				str = portFS.ReadLine();
+				if (Config.SimulatedCapture)
+					str = "Starting capture";
+				else
+					str = portFS.ReadLine();
 			} catch {
 				LogB.Information("fs Error 2");
 				forceProcessError = true;
@@ -1243,12 +1246,16 @@ public partial class ChronoJumpWindow
 //		bool forceSensorBinary = forceSensorBinaryCapture();
 
 		bool readTriggers = false;
-		double versionDouble = Convert.ToDouble(Util.ChangeDecimalSeparator(forceSensorFirmwareVersion));
-		if(versionDouble >= Convert.ToDouble(Util.ChangeDecimalSeparator("0.5"))) //from 0.5 versions have trigger
-			readTriggers = true;
 
-		LogB.Information("forceSensor versionDouble: " + versionDouble.ToString());
-		//LogB.Information("> 0.5" + (versionDouble >= Convert.ToDouble(Util.ChangeDecimalSeparator("0.5"))).ToString());
+		if (! Config.SimulatedCapture)
+		{
+			double versionDouble = Convert.ToDouble(Util.ChangeDecimalSeparator(forceSensorFirmwareVersion));
+			if(versionDouble >= Convert.ToDouble(Util.ChangeDecimalSeparator("0.5"))) //from 0.5 versions have trigger
+				readTriggers = true;
+
+			LogB.Information("forceSensor versionDouble: " + versionDouble.ToString());
+			//LogB.Information("> 0.5" + (versionDouble >= Convert.ToDouble(Util.ChangeDecimalSeparator("0.5"))).ToString());
+		}
 
 		/*
 		   tare+capture does a tare here in the software
@@ -1302,6 +1309,12 @@ public partial class ChronoJumpWindow
 		forceCaptureStartMark = true;
 		Util.PlaySound (Constants.SoundTypes.CAN_START, preferences.volumeOn, preferences.gstreamer);
 
+		//simulated stuff
+		int simulatedSamples = 0;
+		double simulatedForce = 0;
+		bool simulatedForceGoingPositive = true; //to have random values with less probable change of sign (less spikes)
+		Random simulatedForceRandom = new Random ();
+
 		//LogB.Information("pre bucle");
 		//LogB.Information(string.Format("forceProcessFinish: {0}, forceProcessCancel: {1}, forceProcessError: {2}", forceProcessFinish, forceProcessCancel, forceProcessError));
 		while(! forceProcessFinish && ! forceProcessCancel && ! forceProcessKill && ! forceProcessError)
@@ -1322,11 +1335,26 @@ public partial class ChronoJumpWindow
 				force = binaryReaded[1]; //note right now we are only reading 1st sensor
 			}
 			else {
-				str = portFS.ReadLine();
-				//LogB.Information ("forceSensor captured str: " + str);
-				if(! forceSensorProcessCapturedLine(str, out time, out force,
-							readTriggers, out triggerCode))
-					continue;
+				if (Config.SimulatedCapture)
+				{
+					Thread.Sleep(6); //6.25 ms 	// 160 Hz -> 1/160 -> 0,00625
+					time = Convert.ToInt32 (6.25 * 1000 * simulatedSamples ++);
+					double forceChange = (simulatedForceRandom.NextDouble () *3) -1.5;
+					if (simulatedForceGoingPositive)
+						forceChange += .5;
+					else
+						forceChange -= .5;
+
+					simulatedForce += forceChange;
+					force = simulatedForce;
+					simulatedForceGoingPositive = (forceChange >= 0);
+				} else {
+					str = portFS.ReadLine();
+					//LogB.Information ("forceSensor captured str: " + str);
+					if(! forceSensorProcessCapturedLine(str, out time, out force,
+								readTriggers, out triggerCode))
+						continue;
+				}
 			}
 
 			if(currentForceSensorExercise.TareBeforeCaptureAndForceResultant && forceTared != 0)
@@ -1419,7 +1447,7 @@ public partial class ChronoJumpWindow
 		else {
 			//LogB.Information(string.Format("forceProcessFinish: {0}, forceProcessCancel: {1}, forceProcessError: {2}", forceProcessFinish, forceProcessCancel, forceProcessError));
 			LogB.Information("Calling end_capture");
-			if(! forceSensorSendCommand("end_capture:", Catalog.GetString ("Ending capture …"), "Catched ending capture"))
+			if (! Config.SimulatedCapture && ! forceSensorSendCommand("end_capture:", Catalog.GetString ("Ending capture …"), "Catched ending capture"))
 			{
 				forceProcessError = true;
 				LogB.Information("fs Error 3");
@@ -1432,7 +1460,10 @@ public partial class ChronoJumpWindow
 			do {
 				Thread.Sleep(10);
 				try {
-					str = portFS.ReadLine();
+					if (Config.SimulatedCapture)
+						str = "Capture ended";
+					else
+						str = portFS.ReadLine();
 				} catch {
 					LogB.Information("Catched waiting end_capture feedback");
 				}

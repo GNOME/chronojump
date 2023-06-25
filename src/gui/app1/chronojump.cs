@@ -3905,6 +3905,8 @@ public partial class ChronoJumpWindow
 		//show button_detect depending on selected or not
 		button_detect_show_hide (chronopicRegister.GetSelectedForMode (m).Port == "");
 
+		if (Constants.ModeIsFORCESENSOR (m) && Config.SimulatedCapture)
+			button_detect_show_hide (false);
 
 		//blank exercise options: useful for changing from jumps or runs to forceSensor, runEncoder, reaction time, other
 		label_contacts_exercise_selected_name.Visible = true; //will not be visible when all the contacts_top combo is implemented
@@ -5020,7 +5022,7 @@ public partial class ChronoJumpWindow
 			 * force sensor is not FTDI
 			 */
 
-			if (chronopicRegister.GetSelectedForMode (current_mode).Port == "")
+			if (! Config.SimulatedCapture && chronopicRegister.GetSelectedForMode (current_mode).Port == "")
 				on_button_detect_clicked (o, args); //open discover win
 			else
 				on_buttons_force_sensor_clicked (button_execute_test, new EventArgs ());

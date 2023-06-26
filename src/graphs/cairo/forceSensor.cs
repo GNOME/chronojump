@@ -227,6 +227,7 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 	private int startAt;
 	private GetMaxAvgInWindow miw;
 	private GetBestRFDInWindow briw;
+	private Questionnaire questionnaire;
 
 	//regular constructor
 	public CairoGraphForceSensorSignal (DrawingArea area, string title, int pathLineWidthInN)
@@ -251,6 +252,7 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 			GetMaxAvgInWindow miw,
 			GetBestRFDInWindow briw,
 			TriggerList triggerList,
+			Questionnaire questionnaire,
 			bool forceRedraw, PlotTypes plotType)
 	{
 		this.minDisplayFNegative = minDisplayFNegative;
@@ -262,6 +264,7 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 		this.interpolatedMax = interpolatedMax;
 		this.miw = miw;
 		this.briw = briw;
+		this.questionnaire = questionnaire;
 		/*
 		this.oneSerie = ( (pointsDispl_l == null || pointsDispl_l.Count == 0) &&
 				(pointsSpeed_l == null || pointsSpeed_l.Count == 0) &&
@@ -366,8 +369,22 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 		pointsRadius = 1;
 
 		startAt = 0;
+		int marginRightInSeconds = 0;
+
+		bool questionnaireDo = false;
+		if (questionnaire != null)
+			questionnaireDo = true;
+
+		//on worm, have it on 3 s
+		/*
+		if (showAccuracy && points_l_interpolated_path != null && points_l_interpolated_path.Count > 0 && showLastSeconds >= 10)
+			marginRightInSeconds = 3; //TODO: or a 1/3 of showLastSeconds TODO: on worm first we need to fix interpolatedPath to be 3s longer
+			*/
+		if (questionnaireDo && showLastSeconds > 3)
+			marginRightInSeconds = Convert.ToInt32 (.66 * showLastSeconds); //show in left third of image (to have time/space to answer)
+
 		if (showLastSeconds > 0 && points_l.Count > 1)
-			startAt = configureTimeWindow (points_l, showLastSeconds);
+			startAt = configureTimeWindow (points_l, showLastSeconds, marginRightInSeconds);
 
 		// paint points and maybe interpolated path
 		if(maxValuesChanged || forceRedraw || points_l.Count != points_l_painted)
@@ -426,6 +443,60 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 							accuracySamplesBad ++; //but need to check the rest of the sample points, not only last
 					}
 				}
+			}
+
+			if (questionnaireDo)
+			{
+				double lastTimeX = points_l[points_l.Count -1].X;
+				double barRange = (graphHeight - topMargin - bottomMargin) /30;
+				List <double> y_l = new List<double> ();
+				for (int i = 0; i < 6; i ++)
+					y_l.Add (topMargin + (i * ((graphHeight -topMargin - bottomMargin)/5)));
+
+				for (int i = 0; i < 6; i ++)
+					LogB.Information (string.Format ("i: {0}, y_l[i]: {1}", i, y_l[i]));
+
+				QuestionAnswers qa = questionnaire.GetQAByMicros (lastTimeX);
+
+				g.SetFontSize (textHeight +8);
+				g.SetSourceRGB(0, 0, 0); //black
+				printText (graphWidth/2 -leftMargin, topMargin/2, 0, textHeight +4,
+						qa.question, g, alignTypes.CENTER);
+
+				List<string> answers_l = qa.TopBottom_l;
+				double answerX = questionnaire.GetAnswerXrel (lastTimeX) *
+					(graphWidth - leftMargin - rightMargin) + leftMargin;
+				for (int i = 0; i < 5; i ++)
+				{
+					string text = "NSNC";
+					if (i > 0)
+						text = answers_l[i-1];
+
+					printText (answerX - barRange, (y_l[i] + y_l[i+1])/2, 0, textHeight +4,
+							text, g, alignTypes.RIGHT);
+				}
+
+				//horizontal bars
+				g.SetSourceRGB(1, 0, 0); //red
+				double lineLeftX = questionnaire.GetLineStartXrel (lastTimeX) *
+					(graphWidth - leftMargin - rightMargin) + leftMargin;
+				for (int i = 1; i < 5; i ++)
+				{
+					g.Rectangle (lineLeftX, y_l[i] - barRange/2, answerX - lineLeftX, barRange);
+					g.Fill();
+				}
+
+				//vertical bars
+				List<Cairo.Color> answerColor_l = questionnaire.GetAnswerColor (lastTimeX, qa);
+				for (int i = 1; i < 5; i ++)
+				{
+					g.SetSourceColor (answerColor_l[i]);
+					g.Rectangle (answerX -barRange/2, y_l[i] + barRange/2, barRange/2, y_l[i+1] - y_l[i] - barRange);
+					g.Fill();
+				}
+
+				g.SetSourceRGB(0, 0, 0); //black
+				g.SetFontSize (textHeight);
 			}
 
 			if (rectangleRange > 0 && showAccuracy)
@@ -506,7 +577,7 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 	}
 
 	//for signals like forceSensor where points_l.X is time in microseconds and there is not a sample for each second (like encoder)
-	private int configureTimeWindow (List<PointF> points_l, int seconds)
+	private int configureTimeWindow (List<PointF> points_l, int seconds, int rightMarginSeconds)
 	{
 //LogB.Information ("configureTimeWindow 0");
 		//double firstTime = points_l[0].X; //micros
@@ -521,12 +592,12 @@ LogB.Information (points_l[points_l.Count-1].X.ToString());
 		double lastTime = points_l[points_l.Count -1].X; //micros
 		//LogB.Information (string.Format ("firstTime: {0}, lastTime: {1}, elapsed: {2}", firstTime, lastTime, lastTime - firstTime));
 
-		absoluteMaxX = lastTime;
+		absoluteMaxX = lastTime + rightMarginSeconds * 1000000;
 		if (absoluteMaxX < seconds * 1000000)
 			absoluteMaxX = seconds * 1000000;
 
 //LogB.Information ("configureTimeWindow 2");
-		int startAt = PointF.FindSampleAtTimeToEnd (points_l, seconds * 1000000); //s to ms
+		int startAt = PointF.FindSampleAtTimeToEnd (points_l, (seconds -rightMarginSeconds) * 1000000); //s to ms
 //LogB.Information ("configureTimeWindow 3");
 		minX = points_l[startAt].X;
 //LogB.Information ("configureTimeWindow 4");
@@ -898,4 +969,118 @@ public class CairoGraphForceSensorAI : CairoGraphForceSensor
 		printText (xposNumber, 6, 0, Convert.ToInt32 (te.Height), text, g, alignTypes.CENTER);
 	}
 
+}
+
+public class Questionnaire
+{
+	private Cairo.Color red = new Cairo.Color (1, 0, 0, 1);
+	private Cairo.Color green = new Cairo.Color (0, 1, 0, 1);
+	private Cairo.Color transp = new Cairo.Color (0, 0, 0, 0);
+
+	public List<QuestionAnswers> qa_l = new List<QuestionAnswers> () {
+		new QuestionAnswers ("Year of 1st Chronojump version", "2004", "2008", "2012", "2016"),
+		new QuestionAnswers ("Name of wireless photocells", "WICHRO", "RUN+", "PhotoProto", "TopGear"),
+		new QuestionAnswers ("Chronojump products are made in ...", "Barcelona", "Helsinki", "New York", "Munich")
+	};
+
+	public QuestionAnswers GetQAByMicros (double micros)
+	{
+		double seconds = micros / 1000000;
+		if (seconds < 10)
+			return qa_l[0];
+		else if (seconds < 20)
+			return qa_l[1];
+		else if (seconds < 30)
+			return qa_l[2];
+		else //if (seconds < 40) //TODO: fix this
+			return qa_l[0];
+	}
+
+	public double GetLineStartXrel (double micros)
+	{
+		double xrel = GetAnswerXrel (micros) -.3;
+		if (xrel < 0)
+			xrel = 0;
+
+		return xrel;
+	}
+	public double GetAnswerXrel (double micros)
+	{
+		double seconds = micros / 1000000;
+		if (seconds >= 10 && seconds < 20)
+			seconds -= 10;
+		else if (seconds >= 20 && seconds < 30)
+			seconds -= 20;
+		else if (seconds >= 30 && seconds < 40)
+			seconds -= 30;
+
+		return 1 - seconds/10;
+	}
+
+	public List<Cairo.Color> GetAnswerColor (double micros, QuestionAnswers qa)
+	{
+		double xrel = GetAnswerXrel (micros) -.3;
+		if (xrel < 0)
+			xrel = 0;
+
+		if (xrel > .3)
+			return new List<Cairo.Color> { transp, transp, transp, transp, transp };
+
+		List<Cairo.Color> color_l = new List<Cairo.Color> ();
+		color_l.Add (transp);
+		foreach (string answer in qa.TopBottom_l)
+		{
+			if (qa.AnswerIsCorrect (answer))
+				color_l.Add (green);
+			else
+				color_l.Add (red);
+		}
+		return color_l;
+	}
+}
+
+public class QuestionAnswers
+{
+	public List<string> TopBottom_l;
+	public int CorrectPos;
+	public string question;
+
+	private string aCorrect;
+	private string aBad1;
+	private string aBad2;
+	private string aBad3;
+
+	private static Random rng = new Random();
+
+	public QuestionAnswers (string question, string aCorrect, string aBad1, string aBad2, string aBad3)
+	{
+		this.question = question;
+		this.aCorrect = aCorrect;
+		this.aBad1 = aBad1;
+		this.aBad2 = aBad2;
+		this.aBad3 = aBad3;
+
+		TopBottom_l = new List<string> () { aCorrect, aBad1, aBad2, aBad3 };
+		TopBottom_l = Randomize (TopBottom_l);
+		CorrectPos = Util.FindOnListString (TopBottom_l, aCorrect);
+	}
+
+	// https://stackoverflow.com/a/273666
+	public static List<T> Randomize<T>(List<T> list)
+	{
+		List<T> randomizedList = new List<T>();
+		Random rnd = new Random();
+		while (list.Count > 0)
+		{
+			int index = rnd.Next(0, list.Count); //pick a random item from the master list
+			randomizedList.Add(list[index]); //place it at the end of the randomized list
+			list.RemoveAt(index);
+		}
+		return randomizedList;
+	}
+
+	public bool AnswerIsCorrect (string answer)
+	{
+		return (answer == aCorrect);
+	}
 }

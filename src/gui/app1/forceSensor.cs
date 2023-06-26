@@ -1177,6 +1177,7 @@ public partial class ChronoJumpWindow
                                 false, getExerciseIDFromAnyCombo(combo_force_sensor_exercise, forceSensorComboExercisesString, false), -1, false, "")[0];
 	}
 
+	private Questionnaire questionnaire;
 	private void forceSensorCaptureDo()
 	{
 		//precaution
@@ -1314,6 +1315,9 @@ public partial class ChronoJumpWindow
 		double simulatedForce = 0;
 		bool simulatedForceGoingPositive = true; //to have random values with less probable change of sign (less spikes)
 		Random simulatedForceRandom = new Random ();
+
+		//questionnaire
+		questionnaire = new Questionnaire ();
 
 		//LogB.Information("pre bucle");
 		//LogB.Information(string.Format("forceProcessFinish: {0}, forceProcessCancel: {1}, forceProcessError: {2}", forceProcessFinish, forceProcessCancel, forceProcessError));
@@ -2556,6 +2560,7 @@ LogB.Information(" fs R ");
 				gmiw,
 				briw,
 				triggerListForceSensor_copy,
+				questionnaire,
 				forceRedraw, CairoXY.PlotTypes.LINES);
 
 		//LogB.Information ("updateForceSensorCaptureSignalCairo 5");

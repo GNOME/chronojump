@@ -2458,6 +2458,14 @@ public class Util
 		return foundString;
 	}
 
+	public static int FindOnListString (List<string> str_l, string searched)
+	{
+		for (int i = 0; i < str_l.Count; i ++)
+			if(str_l[i] == searched)
+				return i;
+
+		return 0;
+	}
 
 
 	/*

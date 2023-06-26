@@ -78,14 +78,15 @@ public class ChronoJump
 				"\n- version2: Version of the software" +
 				"\n- configAll: All possible options on chronojump_config.txt" +
 				"\n- configDefined: Correctly defined options on chronojump_config.txt" +
-				"\n- simulatedCapture: Capture is simulated (working on forceSensor and Race Analyzer (needs Arduino))" +
+				"\n- simulatedCapture (**): Capture is simulated (working on forceSensor and Race Analyzer (needs Arduino))" +
 				"\n- printAll: (*)" +
 				"\n- debug: (*)" +
 				"\n- help: this help" +
 				"\n\n(*) printAll and debug are only for debug purposes." +
 				"\nprintAll prints all threads at the same time (and is normal that it shows an error on Chronojump exit)" +
 				"\ndebug ensures logs are printed while capturing on encoder, forceSensor, raceAnalyzer and while using the python importer." +
-				"\ndebug will call also printAll, but if you want to know errors on Chronojump start is better to use printAll because it will act from the beginning.";
+				"\ndebug will call also printAll, but if you want to know errors on Chronojump start is better to use printAll because it will act from the beginning." +
+				"\n(**) simulatedCapture can be combined with printAll or debug, passing simulatedCapture as 1st parameter and the other as 2nd";
 
 			if(args[0] == "version")
 			{
@@ -145,11 +146,12 @@ public class ChronoJump
 		LogB.Debugging = true; //now LogB.Debug will be shown. Also there will be thread info on Warning, Error, Information
 		if(args.Length > 0)
 		{
+			//note this allows to call: 'chronojump simulatedCapture debug'
 			if (args[0] == "simulatedCapture")
 				Config.SimulatedCapture = true;
-			else if (args[0] == "printAll")
+			if (args[0] == "printAll" || (args.Length > 1 && args[1] == "printAll"))
 				LogB.PrintAllThreads = true;
-			else if (args[0] == "debug")
+			else if (args[0] == "debug" || (args.Length > 1 && args[1] == "debug"))
 				debugModeAtStart = true;
 		}
 

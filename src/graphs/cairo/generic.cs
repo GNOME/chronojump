@@ -164,6 +164,15 @@ public abstract class CairoGeneric
 		g.ShowText(text);
 	}
 
+	//to see if right aligned text crosses leftMargin
+	protected bool textRightAlignedFitsOnLeft (double x, string text, Cairo.Context g, int marginX)
+	{
+		Cairo.TextExtents te;
+		te = g.TextExtents(text);
+
+		return (x - te.Width > marginX);
+	}
+
 	//TODO: fix if min == max (crashes)
 	protected enum gridTypes { BOTH, HORIZONTALLINES, HORIZONTALLINESATRIGHT, VERTICALLINES }
 	protected void paintGridNiceAutoValues (Cairo.Context g, double minX, double maxX, double minY, double maxY, int seps, gridTypes gridType, int shiftRight, int fontH)

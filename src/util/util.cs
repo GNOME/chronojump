@@ -2232,6 +2232,20 @@ public class Util
 		return a;
 	}
 
+	// https://stackoverflow.com/a/273666
+	public static List<T> ListRandomize<T>(List<T> list)
+	{
+		List<T> randomizedList = new List<T>();
+		Random rnd = new Random();
+		while (list.Count > 0)
+		{
+			int index = rnd.Next(0, list.Count); //pick a random item from the master list
+			randomizedList.Add(list[index]); //place it at the end of the randomized list
+			list.RemoveAt(index);
+		}
+		return randomizedList;
+	}
+
 	public static void TestSortDoublesListstring()
 	{
 		List<string> numbers_l = new List<string>() { "3", "99", "135", "45", "75", "17", "88", "5" }; //ints

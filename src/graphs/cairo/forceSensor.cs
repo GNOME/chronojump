@@ -446,90 +446,7 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 			}
 
 			if (questionnaireDo)
-			{
-				QRectangleManage rectangleM = new QRectangleManage ();
-
-				double lastTimeX = points_l[points_l.Count -1].X;
-				double barRange = (graphHeight - topMargin - bottomMargin) /30;
-				List <double> y_l = new List<double> ();
-				for (int i = 0; i < 6; i ++)
-					y_l.Add (topMargin + (i * ((graphHeight -topMargin - bottomMargin)/5)));
-
-				for (int i = 0; i < 6; i ++)
-					LogB.Information (string.Format ("i: {0}, y_l[i]: {1}", i, y_l[i]));
-
-				QuestionAnswers qa = questionnaire.GetQAByMicros (lastTimeX);
-
-				g.SetFontSize (textHeight +8);
-				g.SetSourceRGB(0, 0, 0); //black
-				printText (graphWidth/2 -leftMargin, topMargin/2, 0, textHeight +4,
-						qa.question, g, alignTypes.CENTER);
-
-				List<string> answers_l = qa.TopBottom_l;
-				double answerX = questionnaire.GetAnswerXrel (lastTimeX) *
-					(graphWidth - leftMargin - rightMargin) + leftMargin;
-				for (int i = 0; i < 5; i ++)
-				{
-					string text = "NSNC";
-					if (i > 0)
-						text = answers_l[i-1];
-
-					if (textRightAlignedFitsOnLeft (answerX - barRange, text, g, leftMargin))
-						printText (answerX - barRange, (y_l[i] + y_l[i+1])/2, 0, textHeight +4,
-								text, g, alignTypes.RIGHT);
-				}
-
-				//horizontal bars
-				g.SetSourceRGB(1, 0, 0); //red
-				double lineLeftX = questionnaire.GetLineStartXrel (lastTimeX) *
-					(graphWidth - leftMargin - rightMargin) + leftMargin;
-				for (int i = 1; i < 5; i ++)
-				{
-					g.Rectangle (lineLeftX, y_l[i] - barRange/2, answerX - lineLeftX, barRange);
-					g.Fill();
-
-					rectangleM.Add (new QRectangle (false, lineLeftX, y_l[i] - barRange/2, answerX - lineLeftX, barRange));
-				}
-
-				//vertical bars
-				List<Cairo.Color> answerColor_l = questionnaire.GetAnswerColor (lastTimeX, qa);
-				for (int i = 1; i < 5; i ++)
-				{
-					g.SetSourceColor (answerColor_l[i]);
-					g.Rectangle (answerX -barRange/2, y_l[i] + barRange/2, barRange/2, y_l[i+1] - y_l[i] - barRange);
-					g.Fill();
-
-					if (answerColor_l[i].R == Questionnaire.red.R &&
-							answerColor_l[i].G == Questionnaire.red.G &&
-							answerColor_l[i].B == Questionnaire.red.B)
-						rectangleM.Add (new QRectangle (false, answerX -barRange/2, y_l[i] + barRange/2, barRange/2, y_l[i+1] - y_l[i] - barRange));
-					else
-						rectangleM.Add (new QRectangle (true, answerX -barRange/2, y_l[i] + barRange/2, barRange/2, y_l[i+1] - y_l[i] - barRange));
-				}
-
-				g.SetSourceRGB(0, 0, 0); //black
-
-				if (rectangleM.IsRed (
-						calculatePaintX (points_l[points_l.Count -1].X),
-						calculatePaintY (points_l[points_l.Count -1].Y) ))
-				{
-					g.SetSourceColor (red);
-					g.LineWidth = 20;
-					g.Rectangle (0, 0, graphWidth, graphHeight);
-					g.Stroke();
-					g.LineWidth = 1;
-
-					questionnaire.Points --;
-				}
-				else if (rectangleM.IsGreen (
-						calculatePaintX (points_l[points_l.Count -1].X),
-						calculatePaintY (points_l[points_l.Count -1].Y) ))
-					questionnaire.Points ++;
-
-				printText (graphWidth -rightMargin -innerMargin, topMargin/2, 0, textHeight +4,
-						"Points: " + questionnaire.Points.ToString (), g, alignTypes.RIGHT);
-				g.SetFontSize (textHeight);
-			}
+				questionnairePlot (points_l[points_l.Count -1]);
 
 			if (rectangleRange > 0 && showAccuracy)
 			{
@@ -618,32 +535,102 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 	//for signals like forceSensor where points_l.X is time in microseconds and there is not a sample for each second (like encoder)
 	private int configureTimeWindow (List<PointF> points_l, int seconds, int rightMarginSeconds)
 	{
-//LogB.Information ("configureTimeWindow 0");
-		//double firstTime = points_l[0].X; //micros
-
-		/*
-LogB.Information ("points_l.Count");
-LogB.Information (points_l.Count.ToString());
-LogB.Information ("points_l[points_l.Count-1].X");
-LogB.Information (points_l[points_l.Count-1].X.ToString());
-*/
-
 		double lastTime = points_l[points_l.Count -1].X; //micros
-		//LogB.Information (string.Format ("firstTime: {0}, lastTime: {1}, elapsed: {2}", firstTime, lastTime, lastTime - firstTime));
 
 		absoluteMaxX = lastTime + rightMarginSeconds * 1000000;
 		if (absoluteMaxX < seconds * 1000000)
 			absoluteMaxX = seconds * 1000000;
 
-//LogB.Information ("configureTimeWindow 2");
 		int startAt = PointF.FindSampleAtTimeToEnd (points_l, (seconds -rightMarginSeconds) * 1000000); //s to ms
-//LogB.Information ("configureTimeWindow 3");
 		minX = points_l[startAt].X;
-//LogB.Information ("configureTimeWindow 4");
 
 		return startAt;
 	}
 
+	private void questionnairePlot (PointF lastPoint)
+	{
+		QRectangleManage rectangleM = new QRectangleManage ();
+
+		double barRange = (graphHeight - topMargin - bottomMargin) /30;
+		List <double> y_l = new List<double> ();
+		for (int i = 0; i < 6; i ++)
+			y_l.Add (topMargin + (i * ((graphHeight -topMargin - bottomMargin)/5)));
+
+		for (int i = 0; i < 6; i ++)
+			LogB.Information (string.Format ("i: {0}, y_l[i]: {1}", i, y_l[i]));
+
+		QuestionAnswers qa = questionnaire.GetQAByMicros (lastPoint.X);
+
+		g.SetFontSize (textHeight +8);
+		g.SetSourceRGB(0, 0, 0); //black
+		printText (graphWidth/2 -leftMargin, topMargin/2, 0, textHeight +4,
+				qa.question, g, alignTypes.CENTER);
+
+		List<string> answers_l = qa.TopBottom_l;
+		double answerX = questionnaire.GetAnswerXrel (lastPoint.X) *
+			(graphWidth - leftMargin - rightMargin) + leftMargin;
+		for (int i = 0; i < 5; i ++)
+		{
+			string text = "NSNC";
+			if (i > 0)
+				text = answers_l[i-1];
+
+			if (textRightAlignedFitsOnLeft (answerX - barRange, text, g, leftMargin))
+				printText (answerX - barRange, (y_l[i] + y_l[i+1])/2, 0, textHeight +4,
+						text, g, alignTypes.RIGHT);
+		}
+
+		//horizontal bars
+		g.SetSourceRGB(1, 0, 0); //red
+		double lineLeftX = questionnaire.GetLineStartXrel (lastPoint.X) *
+			(graphWidth - leftMargin - rightMargin) + leftMargin;
+		for (int i = 1; i < 5; i ++)
+		{
+			g.Rectangle (lineLeftX, y_l[i] - barRange/2, answerX - lineLeftX, barRange);
+			g.Fill();
+
+			rectangleM.Add (new QRectangle (false, lineLeftX, y_l[i] - barRange/2, answerX - lineLeftX, barRange));
+		}
+
+		//vertical bars
+		List<Cairo.Color> answerColor_l = questionnaire.GetAnswerColor (lastPoint.X, qa);
+		for (int i = 1; i < 5; i ++)
+		{
+			g.SetSourceColor (answerColor_l[i]);
+			g.Rectangle (answerX -barRange/2, y_l[i] + barRange/2, barRange/2, y_l[i+1] - y_l[i] - barRange);
+			g.Fill();
+
+			if (answerColor_l[i].R == Questionnaire.red.R &&
+					answerColor_l[i].G == Questionnaire.red.G &&
+					answerColor_l[i].B == Questionnaire.red.B)
+				rectangleM.Add (new QRectangle (false, answerX -barRange/2, y_l[i] + barRange/2, barRange/2, y_l[i+1] - y_l[i] - barRange));
+			else
+				rectangleM.Add (new QRectangle (true, answerX -barRange/2, y_l[i] + barRange/2, barRange/2, y_l[i+1] - y_l[i] - barRange));
+		}
+
+		g.SetSourceRGB(0, 0, 0); //black
+
+		if (rectangleM.IsRed (
+					calculatePaintX (lastPoint.X),
+					calculatePaintY (lastPoint.Y) ))
+		{
+			g.SetSourceColor (red);
+			g.LineWidth = 20;
+			g.Rectangle (0, 0, graphWidth, graphHeight);
+			g.Stroke();
+			g.LineWidth = 1;
+
+			questionnaire.Points --;
+		}
+		else if (rectangleM.IsGreen (
+					calculatePaintX (lastPoint.X),
+					calculatePaintY (lastPoint.Y) ))
+			questionnaire.Points ++;
+
+		printText (graphWidth -rightMargin -innerMargin, topMargin/2, 0, textHeight +4,
+				"Points: " + questionnaire.Points.ToString (), g, alignTypes.RIGHT);
+		g.SetFontSize (textHeight);
+	}
 }
 
 public class CairoGraphForceSensorAI : CairoGraphForceSensor

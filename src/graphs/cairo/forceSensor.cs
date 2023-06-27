@@ -447,7 +447,7 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 
 			if (questionnaireDo)
 			{
-				RedRectangleManage redRectangleM = new RedRectangleManage ();
+				QRectangleManage rectangleM = new QRectangleManage ();
 
 				double lastTimeX = points_l[points_l.Count -1].X;
 				double barRange = (graphHeight - topMargin - bottomMargin) /30;
@@ -487,7 +487,7 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 					g.Rectangle (lineLeftX, y_l[i] - barRange/2, answerX - lineLeftX, barRange);
 					g.Fill();
 
-					redRectangleM.Add (new RedRectangle (lineLeftX, y_l[i] - barRange/2, answerX - lineLeftX, barRange));
+					rectangleM.Add (new QRectangle (false, lineLeftX, y_l[i] - barRange/2, answerX - lineLeftX, barRange));
 				}
 
 				//vertical bars
@@ -501,13 +501,14 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 					if (answerColor_l[i].R == Questionnaire.red.R &&
 							answerColor_l[i].G == Questionnaire.red.G &&
 							answerColor_l[i].B == Questionnaire.red.B)
-						redRectangleM.Add (new RedRectangle (answerX -barRange/2, y_l[i] + barRange/2, barRange/2, y_l[i+1] - y_l[i] - barRange));
+						rectangleM.Add (new QRectangle (false, answerX -barRange/2, y_l[i] + barRange/2, barRange/2, y_l[i+1] - y_l[i] - barRange));
+					else
+						rectangleM.Add (new QRectangle (true, answerX -barRange/2, y_l[i] + barRange/2, barRange/2, y_l[i+1] - y_l[i] - barRange));
 				}
 
 				g.SetSourceRGB(0, 0, 0); //black
-				g.SetFontSize (textHeight);
 
-				if (redRectangleM.IsRed (
+				if (rectangleM.IsRed (
 						calculatePaintX (points_l[points_l.Count -1].X),
 						calculatePaintY (points_l[points_l.Count -1].Y) ))
 				{
@@ -516,8 +517,17 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 					g.Rectangle (0, 0, graphWidth, graphHeight);
 					g.Stroke();
 					g.LineWidth = 1;
-				}
 
+					questionnaire.Points --;
+				}
+				else if (rectangleM.IsGreen (
+						calculatePaintX (points_l[points_l.Count -1].X),
+						calculatePaintY (points_l[points_l.Count -1].Y) ))
+					questionnaire.Points ++;
+
+				printText (graphWidth -rightMargin -innerMargin, topMargin/2, 0, textHeight +4,
+						"Points: " + questionnaire.Points.ToString (), g, alignTypes.RIGHT);
+				g.SetFontSize (textHeight);
 			}
 
 			if (rectangleRange > 0 && showAccuracy)
@@ -580,6 +590,9 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 			}
 
 			plotRealPoints(plotType, points_l, startAt, false); //fast (but the difference is very low)
+			if (questionnaireDo)
+				drawCircle (calculatePaintX (points_l[points_l.Count -1].X),
+							calculatePaintY (points_l[points_l.Count -1].Y), 6, bluePlots, true);
 
 			if(calculatePaintX (xAtMaxY) > leftMargin)
 				drawCircle (calculatePaintX (xAtMaxY), calculatePaintY (yAtMaxY), 8, red, false);
@@ -994,6 +1007,8 @@ public class CairoGraphForceSensorAI : CairoGraphForceSensor
 
 public class Questionnaire
 {
+	public int Points;
+
 	public static Cairo.Color red = new Cairo.Color (1, 0, 0, 1);
 	private Cairo.Color green = new Cairo.Color (0, 1, 0, 1);
 	private Cairo.Color transp = new Cairo.Color (0, 0, 0, 0);
@@ -1003,6 +1018,11 @@ public class Questionnaire
 		new QuestionAnswers ("Name of wireless photocells", "WICHRO", "RUN+", "PhotoProto", "TopGear"),
 		new QuestionAnswers ("Chronojump products are made in ...", "Barcelona", "Helsinki", "New York", "Munich")
 	};
+
+	public Questionnaire ()
+	{
+		Points = 0;
+	}
 
 	public QuestionAnswers GetQAByMicros (double micros)
 	{
@@ -1106,39 +1126,51 @@ public class QuestionAnswers
 	}
 }
 
-public class RedRectangleManage
+public class QRectangleManage
 {
-	private List<RedRectangle> redRectangle_l;
+	private List<QRectangle> rectangle_l;
 
-	public RedRectangleManage ()
+	public QRectangleManage ()
 	{
-		redRectangle_l = new List<RedRectangle> ();
+		rectangle_l = new List<QRectangle> ();
 	}
 
-	public void Add (RedRectangle r)
+	public void Add (QRectangle r)
 	{
-		redRectangle_l.Add (r);
+		rectangle_l.Add (r);
 	}
 
 	public bool IsRed (double x, double y)
 	{
-		foreach (RedRectangle r in redRectangle_l)
-			if (r.x <= x && r.x2 >= x &&
+		foreach (QRectangle r in rectangle_l)
+			if (! r.good && r.x <= x && r.x2 >= x &&
+					r.y <= y && r.y2 >= y)
+				return true;
+
+		return false;
+	}
+
+	public bool IsGreen (double x, double y)
+	{
+		foreach (QRectangle r in rectangle_l)
+			if (r.good && r.x <= x && r.x2 >= x &&
 					r.y <= y && r.y2 >= y)
 				return true;
 
 		return false;
 	}
 }
-public class RedRectangle
+public class QRectangle
 {
+	public bool good; //true: green, false: red
 	public double x;
 	public double y;
 	public double x2;
 	public double y2;
 
-	public RedRectangle (double x, double y, double width, double height)
+	public QRectangle (bool good, double x, double y, double width, double height)
 	{
+		this.good = good;
 		this.x = x;
 		this.y = y;
 		this.x2 = x + width;

@@ -474,8 +474,9 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 					if (i > 0)
 						text = answers_l[i-1];
 
-					printText (answerX - barRange, (y_l[i] + y_l[i+1])/2, 0, textHeight +4,
-							text, g, alignTypes.RIGHT);
+					if (textRightAlignedFitsOnLeft (answerX - barRange, text, g, leftMargin))
+						printText (answerX - barRange, (y_l[i] + y_l[i+1])/2, 0, textHeight +4,
+								text, g, alignTypes.RIGHT);
 				}
 
 				//horizontal bars
@@ -574,10 +575,10 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 				}
 			}
 
-			if (miw.Error == "")
+			if (! questionnaireDo && miw.Error == "")
 				paintMaxAvgInWindow (miw.MaxSampleStart, miw.MaxSampleEnd, miw.Max, points_l);
 
-			if (briw.Error == "")
+			if (! questionnaireDo && briw.Error == "")
 			{
 				g.LineWidth = 2;
 				drawCircle (calculatePaintX (points_l[briw.MaxSampleStart].X), calculatePaintY (points_l[briw.MaxSampleStart].Y), 8, black, false);
@@ -589,16 +590,20 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 				preparePredictedLine (briwP_l);
 			}
 
-			plotRealPoints(plotType, points_l, startAt, false); //fast (but the difference is very low)
+			if (! questionnaireDo)
+			{
+				plotRealPoints(plotType, points_l, startAt, false); //fast (but the difference is very low)
+
+				if(calculatePaintX (xAtMaxY) > leftMargin)
+					drawCircle (calculatePaintX (xAtMaxY), calculatePaintY (yAtMaxY), 8, red, false);
+
+				if(calculatePaintX (xAtMinY) > leftMargin)
+					drawCircle (calculatePaintX (xAtMinY), calculatePaintY (yAtMinY), 8, red, false);
+			}
+
 			if (questionnaireDo)
 				drawCircle (calculatePaintX (points_l[points_l.Count -1].X),
 							calculatePaintY (points_l[points_l.Count -1].Y), 6, bluePlots, true);
-
-			if(calculatePaintX (xAtMaxY) > leftMargin)
-				drawCircle (calculatePaintX (xAtMaxY), calculatePaintY (yAtMaxY), 8, red, false);
-
-			if(calculatePaintX (xAtMinY) > leftMargin)
-				drawCircle (calculatePaintX (xAtMinY), calculatePaintY (yAtMinY), 8, red, false);
 
 			points_l_painted = points_l.Count;
 		}
@@ -1016,7 +1021,14 @@ public class Questionnaire
 	public List<QuestionAnswers> qa_l = new List<QuestionAnswers> () {
 		new QuestionAnswers ("Year of 1st Chronojump version", "2004", "2008", "2012", "2016"),
 		new QuestionAnswers ("Name of wireless photocells", "WICHRO", "RUN+", "PhotoProto", "TopGear"),
-		new QuestionAnswers ("Chronojump products are made in ...", "Barcelona", "Helsinki", "New York", "Munich")
+		new QuestionAnswers ("Chronojump products are made in ...", "Barcelona", "Helsinki", "New York", "Munich"),
+		new QuestionAnswers ("Which jumps are used to calculate elasticity?", "CMJ / SJ", "CMJ / ABK", "ABK / DJ", "SJ / ABK"),
+		new QuestionAnswers ("Name of the microcontroller for jumps and races with photocells?", "Chronopic", "Clock fast", "Arduino", "Double step"),
+		new QuestionAnswers ("q6", "q6 ok", "q6 bad1", "q6 bad2", "q6 bad 3"),
+		new QuestionAnswers ("q7", "q7 ok", "q7 bad1", "q7 bad2", "q7 bad 3"),
+		new QuestionAnswers ("q8", "q8 ok", "q8 bad1", "q8 bad2", "q8 bad 3"),
+		new QuestionAnswers ("q9", "q9 ok", "q9 bad1", "q9 bad2", "q9 bad 3"),
+		new QuestionAnswers ("q10", "q10 ok", "q10 bad1", "q10 bad2", "q10 bad 3")
 	};
 
 	public Questionnaire ()
@@ -1027,14 +1039,15 @@ public class Questionnaire
 	public QuestionAnswers GetQAByMicros (double micros)
 	{
 		double seconds = micros / 1000000;
+
+		//TODO: fix this
+		if (seconds > 100)
+			seconds = 0;
+
 		if (seconds < 10)
 			return qa_l[0];
-		else if (seconds < 20)
-			return qa_l[1];
-		else if (seconds < 30)
-			return qa_l[2];
-		else //if (seconds < 40) //TODO: fix this
-			return qa_l[0];
+		else
+			return qa_l[Convert.ToInt32(Math.Floor(seconds/10))];
 	}
 
 	public double GetLineStartXrel (double micros)
@@ -1048,14 +1061,15 @@ public class Questionnaire
 	public double GetAnswerXrel (double micros)
 	{
 		double seconds = micros / 1000000;
-		if (seconds >= 10 && seconds < 20)
-			seconds -= 10;
-		else if (seconds >= 20 && seconds < 30)
-			seconds -= 20;
-		else if (seconds >= 30 && seconds < 40)
-			seconds -= 30;
 
-		return 1 - seconds/10;
+		//TODO: fix this
+		if (seconds > 100)
+			seconds = 0;
+
+		if (seconds < 10)
+			return 1 - seconds/10;
+		else
+			return 1 - (seconds % 10)/10;
 	}
 
 	public List<Cairo.Color> GetAnswerColor (double micros, QuestionAnswers qa)

@@ -1317,7 +1317,10 @@ public partial class ChronoJumpWindow
 		Random simulatedForceRandom = new Random ();
 
 		//questionnaire
-		questionnaire = new Questionnaire ();
+		if (preferences.forceSensorCaptureFeedbackActive == Preferences.ForceSensorCaptureFeedbackActiveEnum.QUESTIONNAIRE)
+			questionnaire = new Questionnaire ();
+		else
+			questionnaire = null;
 
 		//LogB.Information("pre bucle");
 		//LogB.Information(string.Format("forceProcessFinish: {0}, forceProcessCancel: {1}, forceProcessError: {2}", forceProcessFinish, forceProcessCancel, forceProcessError));
@@ -2560,7 +2563,7 @@ LogB.Information(" fs R ");
 				gmiw,
 				briw,
 				triggerListForceSensor_copy,
-				questionnaire,
+				questionnaire, preferences.forceSensorFeedbackQuestionnaireMin, preferences.forceSensorFeedbackQuestionnaireMax,
 				forceRedraw, CairoXY.PlotTypes.LINES);
 
 		//LogB.Information ("updateForceSensorCaptureSignalCairo 5");

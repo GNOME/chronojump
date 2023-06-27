@@ -195,6 +195,7 @@ public class FeedbackWindow
 	Gtk.RadioButton radio_force_sensor_capture_feedback_no;
 	Gtk.RadioButton radio_force_sensor_capture_feedback_show_rectangle;
 	Gtk.RadioButton radio_force_sensor_capture_feedback_show_path;
+	Gtk.RadioButton radio_force_sensor_capture_feedback_show_questionnaire;
 	//rectangle
 	Gtk.SpinButton spin_force_sensor_capture_feedback_rectangle_at;
 	Gtk.SpinButton spin_force_sensor_capture_feedback_rectangle_range;
@@ -205,6 +206,9 @@ public class FeedbackWindow
 	Gtk.SpinButton spin_force_sensor_capture_feedback_path_master_seconds;
 	Gtk.SpinButton spin_force_sensor_capture_feedback_path_line_width; //N
 	Gtk.Label label_force_sensor_path_recommended;
+	//questionnaire
+	Gtk.SpinButton spin_force_sensor_capture_feedback_questionnaire_max;
+	Gtk.SpinButton spin_force_sensor_capture_feedback_questionnaire_min;
 
 	//runsEncoder
 	Gtk.RadioButton radio_run_encoder_power;
@@ -329,7 +333,9 @@ public class FeedbackWindow
 				preferences.forceSensorFeedbackPathMin,
 				preferences.forceSensorFeedbackPathMasters,
 				preferences.forceSensorFeedbackPathMasterSeconds,
-				preferences.forceSensorFeedbackPathLineWidth
+				preferences.forceSensorFeedbackPathLineWidth,
+				preferences.forceSensorFeedbackQuestionnaireMax,
+				preferences.forceSensorFeedbackQuestionnaireMin
 				);
 
 		if(viewWindow)
@@ -396,7 +402,9 @@ public class FeedbackWindow
 			int forceSensorFeedbackPathMin,
 			int forceSensorFeedbackPathMasters,
 			int forceSensorFeedbackPathMasterSeconds,
-			int forceSensorFeedbackPathLineWidth
+			int forceSensorFeedbackPathLineWidth,
+			int forceSensorFeedbackQuestionnaireMax,
+			int forceSensorFeedbackQuestionnaireMin
 				)
 	{
 		hbox_jump_best_worst.Hide();
@@ -544,9 +552,16 @@ public class FeedbackWindow
 			{
 				radio_force_sensor_capture_feedback_show_rectangle.Active = true;
 				notebook_force_sensor_feedback.Page = 1;
-			} else {
+			}
+			else if(forceSensorCaptureFeedbackActive == Preferences.ForceSensorCaptureFeedbackActiveEnum.PATH)
+			{
 				radio_force_sensor_capture_feedback_show_path.Active = true;
 				notebook_force_sensor_feedback.Page = 2;
+			}
+			else //if(forceSensorCaptureFeedbackActive == Preferences.ForceSensorCaptureFeedbackActiveEnum.QUESTIONNAIRE)
+			{
+				radio_force_sensor_capture_feedback_show_questionnaire.Active = true;
+				notebook_force_sensor_feedback.Page = 3;
 			}
 
 			//rectangle widgets
@@ -560,6 +575,10 @@ public class FeedbackWindow
 			spin_force_sensor_capture_feedback_path_master_seconds.Value = forceSensorFeedbackPathMasterSeconds;
 			spin_force_sensor_capture_feedback_path_line_width.Value = forceSensorFeedbackPathLineWidth;
 			setForceSensorPathRecommendedLabel();
+
+			//questionnaire widgets
+			spin_force_sensor_capture_feedback_questionnaire_max.Value = forceSensorFeedbackQuestionnaireMax;
+			spin_force_sensor_capture_feedback_questionnaire_min.Value = forceSensorFeedbackQuestionnaireMin;
 
 			notebook_main.GetNthPage(FORCESENSORPAGE).Show();
 		}
@@ -1134,13 +1153,19 @@ public class FeedbackWindow
 	{
 		notebook_force_sensor_feedback.Page = 2;
 	}
+	private void on_radio_force_sensor_capture_feedback_show_questionnaire_toggled (object o, EventArgs args)
+	{
+		notebook_force_sensor_feedback.Page = 3;
+	}
 
 	public Preferences.ForceSensorCaptureFeedbackActiveEnum GetForceSensorFeedback {
 		get {
-			if(radio_force_sensor_capture_feedback_show_rectangle.Active)
+			if (radio_force_sensor_capture_feedback_show_rectangle.Active)
 				return Preferences.ForceSensorCaptureFeedbackActiveEnum.RECTANGLE;
-			else if(radio_force_sensor_capture_feedback_show_path.Active)
+			else if (radio_force_sensor_capture_feedback_show_path.Active)
 				return Preferences.ForceSensorCaptureFeedbackActiveEnum.PATH;
+			else if (radio_force_sensor_capture_feedback_show_questionnaire.Active)
+				return Preferences.ForceSensorCaptureFeedbackActiveEnum.QUESTIONNAIRE;
 			else //if(radio_force_sensor_capture_feedback_no.Active)
 				return Preferences.ForceSensorCaptureFeedbackActiveEnum.NO;
 		}
@@ -1181,9 +1206,11 @@ public class FeedbackWindow
 		setForceSensorPathRecommendedLabel();
 	}
 
+	/*
 	public bool GetForceSensorFeedbackPathActive {
 		get { return radio_force_sensor_capture_feedback_show_path.Active; }
 	}
+	*/
 	public int GetForceSensorFeedbackPathMax {
 		get { return Convert.ToInt32(spin_force_sensor_capture_feedback_path_max.Value); }
 	}
@@ -1200,6 +1227,14 @@ public class FeedbackWindow
 		get { return Convert.ToInt32(spin_force_sensor_capture_feedback_path_line_width.Value); } //N
 	}
 
+	// force sensor feedback questionnaire
+
+	public int GetForceSensorFeedbackQuestionnaireMax {
+		get { return Convert.ToInt32(spin_force_sensor_capture_feedback_questionnaire_max.Value); }
+	}
+	public int GetForceSensorFeedbackQuestionnaireMin {
+		get { return Convert.ToInt32(spin_force_sensor_capture_feedback_questionnaire_min.Value); }
+	}
 
 	/* JUMPS */
 
@@ -1692,6 +1727,7 @@ public class FeedbackWindow
 		radio_force_sensor_capture_feedback_no = (Gtk.RadioButton) builder.GetObject ("radio_force_sensor_capture_feedback_no");
 		radio_force_sensor_capture_feedback_show_rectangle = (Gtk.RadioButton) builder.GetObject ("radio_force_sensor_capture_feedback_show_rectangle");
 		radio_force_sensor_capture_feedback_show_path = (Gtk.RadioButton) builder.GetObject ("radio_force_sensor_capture_feedback_show_path");
+		radio_force_sensor_capture_feedback_show_questionnaire = (Gtk.RadioButton) builder.GetObject ("radio_force_sensor_capture_feedback_show_questionnaire");
 		//rectangle
 		spin_force_sensor_capture_feedback_rectangle_at = (Gtk.SpinButton) builder.GetObject ("spin_force_sensor_capture_feedback_rectangle_at");
 		spin_force_sensor_capture_feedback_rectangle_range = (Gtk.SpinButton) builder.GetObject ("spin_force_sensor_capture_feedback_rectangle_range");
@@ -1702,6 +1738,9 @@ public class FeedbackWindow
 		spin_force_sensor_capture_feedback_path_master_seconds = (Gtk.SpinButton) builder.GetObject ("spin_force_sensor_capture_feedback_path_master_seconds");
 		spin_force_sensor_capture_feedback_path_line_width = (Gtk.SpinButton) builder.GetObject ("spin_force_sensor_capture_feedback_path_line_width"); //N
 		label_force_sensor_path_recommended = (Gtk.Label) builder.GetObject ("label_force_sensor_path_recommended");
+		//questionnaire
+		spin_force_sensor_capture_feedback_questionnaire_max = (Gtk.SpinButton) builder.GetObject ("spin_force_sensor_capture_feedback_questionnaire_max");
+		spin_force_sensor_capture_feedback_questionnaire_min = (Gtk.SpinButton) builder.GetObject ("spin_force_sensor_capture_feedback_questionnaire_min");
 
 		//runsEncoder
 		radio_run_encoder_power = (Gtk.RadioButton) builder.GetObject ("radio_run_encoder_power");

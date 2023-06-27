@@ -240,6 +240,17 @@
     <property name="step-increment">0.5</property>
     <property name="page-increment">1</property>
   </object>
+  <object class="GtkAdjustment" id="adjustment42">
+    <property name="lower">-9999</property>
+    <property name="upper">9999</property>
+    <property name="step-increment">1</property>
+    <property name="page-increment">10</property>
+  </object>
+  <object class="GtkAdjustment" id="adjustment43">
+    <property name="upper">9999</property>
+    <property name="step-increment">1</property>
+    <property name="page-increment">10</property>
+  </object>
   <object class="GtkAdjustment" id="adjustment5">
     <property name="lower">0.10</property>
     <property name="upper">1</property>
@@ -5188,10 +5199,11 @@
                 <property name="border-width">14</property>
                 <property name="spacing">20</property>
                 <child>
-                  <object class="GtkHBox" id="hbox55">
+                  <object class="GtkBox">
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
-                    <property name="spacing">20</property>
+                    <property name="orientation">vertical</property>
+                    <property name="spacing">10</property>
                     <child>
                       <object class="GtkRadioButton" id="radio_force_sensor_capture_feedback_no">
                         <property name="label" translatable="yes">Do not show feedback</property>
@@ -5209,36 +5221,65 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkRadioButton" id="radio_force_sensor_capture_feedback_show_rectangle">
-                        <property name="label" translatable="yes">Show rectangle</property>
+                      <object class="GtkHBox" id="hbox55">
                         <property name="visible">True</property>
-                        <property name="can-focus">True</property>
-                        <property name="receives-default">False</property>
-                        <property name="active">True</property>
-                        <property name="draw-indicator">True</property>
-                        <property name="group">radio_force_sensor_capture_feedback_no</property>
-                        <signal name="toggled" handler="on_radio_force_sensor_capture_feedback_show_rectangle_toggled" swapped="no"/>
+                        <property name="can-focus">False</property>
+                        <property name="spacing">20</property>
+                        <child>
+                          <object class="GtkRadioButton" id="radio_force_sensor_capture_feedback_show_rectangle">
+                            <property name="label" translatable="yes">Rectangle</property>
+                            <property name="visible">True</property>
+                            <property name="can-focus">True</property>
+                            <property name="receives-default">False</property>
+                            <property name="active">True</property>
+                            <property name="draw-indicator">True</property>
+                            <property name="group">radio_force_sensor_capture_feedback_no</property>
+                            <signal name="toggled" handler="on_radio_force_sensor_capture_feedback_show_rectangle_toggled" swapped="no"/>
+                          </object>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">False</property>
+                            <property name="position">0</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkRadioButton" id="radio_force_sensor_capture_feedback_show_path">
+                            <property name="label" translatable="yes">Path</property>
+                            <property name="visible">True</property>
+                            <property name="can-focus">True</property>
+                            <property name="receives-default">False</property>
+                            <property name="draw-indicator">True</property>
+                            <property name="group">radio_force_sensor_capture_feedback_no</property>
+                            <signal name="toggled" handler="on_radio_force_sensor_capture_feedback_show_path_toggled" swapped="no"/>
+                          </object>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">False</property>
+                            <property name="position">1</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkRadioButton" id="radio_force_sensor_capture_feedback_show_questionnaire">
+                            <property name="label" translatable="yes">Questionnaire</property>
+                            <property name="visible">True</property>
+                            <property name="can-focus">True</property>
+                            <property name="receives-default">False</property>
+                            <property name="active">True</property>
+                            <property name="draw-indicator">True</property>
+                            <property name="group">radio_force_sensor_capture_feedback_no</property>
+                            <signal name="toggled" handler="on_radio_force_sensor_capture_feedback_show_questionnaire_toggled" swapped="no"/>
+                          </object>
+                          <packing>
+                            <property name="expand">True</property>
+                            <property name="fill">True</property>
+                            <property name="position">2</property>
+                          </packing>
+                        </child>
                       </object>
                       <packing>
                         <property name="expand">False</property>
-                        <property name="fill">False</property>
+                        <property name="fill">True</property>
                         <property name="position">1</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkRadioButton" id="radio_force_sensor_capture_feedback_show_path">
-                        <property name="label" translatable="yes">Show path</property>
-                        <property name="visible">True</property>
-                        <property name="can-focus">True</property>
-                        <property name="receives-default">False</property>
-                        <property name="draw-indicator">True</property>
-                        <property name="group">radio_force_sensor_capture_feedback_no</property>
-                        <signal name="toggled" handler="on_radio_force_sensor_capture_feedback_show_path_toggled" swapped="no"/>
-                      </object>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">False</property>
-                        <property name="position">2</property>
                       </packing>
                     </child>
                   </object>
@@ -5880,6 +5921,204 @@
                       </object>
                       <packing>
                         <property name="position">2</property>
+                        <property name="tab-fill">False</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkFrame" id="frame1">
+                        <property name="visible">True</property>
+                        <property name="can-focus">False</property>
+                        <property name="label-xalign">0</property>
+                        <property name="label-yalign">0.699999988079071</property>
+                        <property name="shadow-type">out</property>
+                        <child>
+                          <object class="GtkAlignment" id="alignment34">
+                            <property name="visible">True</property>
+                            <property name="can-focus">False</property>
+                            <property name="top-padding">8</property>
+                            <property name="bottom-padding">8</property>
+                            <property name="left-padding">8</property>
+                            <property name="right-padding">8</property>
+                            <child>
+                              <object class="GtkVBox" id="vbox_force_sensor_capture_feedback_path1">
+                                <property name="visible">True</property>
+                                <property name="can-focus">False</property>
+                                <property name="spacing">12</property>
+                                <child>
+                                  <object class="GtkBox">
+                                    <property name="visible">True</property>
+                                    <property name="can-focus">False</property>
+                                    <property name="spacing">20</property>
+                                    <child>
+                                      <object class="GtkLabel" id="label84">
+                                        <property name="visible">True</property>
+                                        <property name="can-focus">False</property>
+                                        <property name="label" translatable="yes">Range</property>
+                                        <property name="xalign">0</property>
+                                      </object>
+                                      <packing>
+                                        <property name="expand">False</property>
+                                        <property name="fill">True</property>
+                                        <property name="position">0</property>
+                                      </packing>
+                                    </child>
+                                    <child>
+                                      <object class="GtkHBox" id="hbox73">
+                                        <property name="visible">True</property>
+                                        <property name="can-focus">False</property>
+                                        <property name="spacing">12</property>
+                                        <child>
+                                          <object class="GtkHBox" id="hbox74">
+                                            <property name="visible">True</property>
+                                            <property name="can-focus">False</property>
+                                            <property name="spacing">4</property>
+                                            <child>
+                                              <object class="GtkLabel" id="label89">
+                                                <property name="visible">True</property>
+                                                <property name="can-focus">False</property>
+                                                <property name="label" translatable="yes">Minimum</property>
+                                              </object>
+                                              <packing>
+                                                <property name="expand">False</property>
+                                                <property name="fill">True</property>
+                                                <property name="position">0</property>
+                                              </packing>
+                                            </child>
+                                            <child>
+                                              <object class="GtkSpinButton" id="spin_force_sensor_capture_feedback_questionnaire_min">
+                                                <property name="visible">True</property>
+                                                <property name="can-focus">True</property>
+                                                <property name="invisible-char">●</property>
+                                                <property name="width-chars">7</property>
+                                                <property name="text" translatable="yes">0</property>
+                                                <property name="primary-icon-activatable">False</property>
+                                                <property name="secondary-icon-activatable">False</property>
+                                                <property name="adjustment">adjustment42</property>
+                                                <property name="climb-rate">1</property>
+                                                <property name="numeric">True</property>
+                                              </object>
+                                              <packing>
+                                                <property name="expand">False</property>
+                                                <property name="fill">False</property>
+                                                <property name="position">1</property>
+                                              </packing>
+                                            </child>
+                                            <child>
+                                              <object class="GtkLabel" id="label90">
+                                                <property name="visible">True</property>
+                                                <property name="can-focus">False</property>
+                                                <property name="label">N</property>
+                                                <property name="xalign">0</property>
+                                              </object>
+                                              <packing>
+                                                <property name="expand">False</property>
+                                                <property name="fill">False</property>
+                                                <property name="position">2</property>
+                                              </packing>
+                                            </child>
+                                          </object>
+                                          <packing>
+                                            <property name="expand">False</property>
+                                            <property name="fill">False</property>
+                                            <property name="position">0</property>
+                                          </packing>
+                                        </child>
+                                        <child>
+                                          <object class="GtkHBox" id="hbox75">
+                                            <property name="visible">True</property>
+                                            <property name="can-focus">False</property>
+                                            <property name="spacing">4</property>
+                                            <child>
+                                              <object class="GtkLabel" id="label91">
+                                                <property name="visible">True</property>
+                                                <property name="can-focus">False</property>
+                                                <property name="label" translatable="yes">Maximum</property>
+                                              </object>
+                                              <packing>
+                                                <property name="expand">False</property>
+                                                <property name="fill">True</property>
+                                                <property name="position">0</property>
+                                              </packing>
+                                            </child>
+                                            <child>
+                                              <object class="GtkSpinButton" id="spin_force_sensor_capture_feedback_questionnaire_max">
+                                                <property name="visible">True</property>
+                                                <property name="can-focus">True</property>
+                                                <property name="invisible-char">●</property>
+                                                <property name="width-chars">7</property>
+                                                <property name="text" translatable="yes">100</property>
+                                                <property name="primary-icon-activatable">False</property>
+                                                <property name="secondary-icon-activatable">False</property>
+                                                <property name="adjustment">adjustment43</property>
+                                                <property name="climb-rate">1</property>
+                                                <property name="numeric">True</property>
+                                                <property name="value">100</property>
+                                              </object>
+                                              <packing>
+                                                <property name="expand">False</property>
+                                                <property name="fill">False</property>
+                                                <property name="position">1</property>
+                                              </packing>
+                                            </child>
+                                            <child>
+                                              <object class="GtkLabel" id="label92">
+                                                <property name="visible">True</property>
+                                                <property name="can-focus">False</property>
+                                                <property name="label">N</property>
+                                                <property name="xalign">0</property>
+                                              </object>
+                                              <packing>
+                                                <property name="expand">False</property>
+                                                <property name="fill">False</property>
+                                                <property name="position">2</property>
+                                              </packing>
+                                            </child>
+                                          </object>
+                                          <packing>
+                                            <property name="expand">True</property>
+                                            <property name="fill">True</property>
+                                            <property name="position">1</property>
+                                          </packing>
+                                        </child>
+                                      </object>
+                                      <packing>
+                                        <property name="expand">False</property>
+                                        <property name="fill">True</property>
+                                        <property name="position">1</property>
+                                      </packing>
+                                    </child>
+                                  </object>
+                                  <packing>
+                                    <property name="expand">False</property>
+                                    <property name="fill">False</property>
+                                    <property name="position">0</property>
+                                  </packing>
+                                </child>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                        <child type="label">
+                          <object class="GtkLabel" id="label96">
+                            <property name="visible">True</property>
+                            <property name="can-focus">False</property>
+                            <property name="label" translatable="yes">Show questionnaire</property>
+                            <property name="use-markup">True</property>
+                          </object>
+                        </child>
+                      </object>
+                      <packing>
+                        <property name="position">3</property>
+                      </packing>
+                    </child>
+                    <child type="tab">
+                      <object class="GtkLabel">
+                        <property name="visible">True</property>
+                        <property name="can-focus">False</property>
+                        <property name="label">questionnaire</property>
+                      </object>
+                      <packing>
+                        <property name="position">3</property>
                         <property name="tab-fill">False</property>
                       </packing>
                     </child>

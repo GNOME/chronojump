@@ -8696,6 +8696,22 @@ LogB.Debug("mc finished 5");
 					preferences.forceSensorFeedbackPathLineWidth = feedbackPathLineWidth;
 				}
 			}
+			else if(feedbackActive == Preferences.ForceSensorCaptureFeedbackActiveEnum.QUESTIONNAIRE)
+			{
+				int feedbackQuestionnaireMax = feedbackWin.GetForceSensorFeedbackQuestionnaireMax;
+				if(preferences.forceSensorFeedbackQuestionnaireMax != feedbackQuestionnaireMax)
+				{
+					//SqlitePreferences.Update(SqlitePreferences.ForceSensorFeedbackQuestionnaireMax, feedbackQuestionnaireMax.ToString(), false); //TODO
+					preferences.forceSensorFeedbackQuestionnaireMax = feedbackQuestionnaireMax;
+				}
+
+				int feedbackQuestionnaireMin = feedbackWin.GetForceSensorFeedbackQuestionnaireMin;
+				if(preferences.forceSensorFeedbackQuestionnaireMin != feedbackQuestionnaireMin)
+				{
+					//SqlitePreferences.Update(SqlitePreferences.ForceSensorFeedbackQuestionnaireMin, feedbackQuestionnaireMin.ToString(), false); //TODO
+					preferences.forceSensorFeedbackQuestionnaireMin = feedbackQuestionnaireMin;
+				}
+			}
 		}
 		else if(m == Constants.Modes.RUNSENCODER)
 		{

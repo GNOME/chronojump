@@ -165,6 +165,9 @@ class SqlitePreferences : Sqlite
 	public const string ForceSensorFeedbackPathMasters = "forceSensorFeedbackPathMasters";
 	public const string ForceSensorFeedbackPathMasterSeconds = "forceSensorFeedbackPathMasterSeconds";
 	public const string ForceSensorFeedbackPathLineWidth = "forceSensorFeedbackPathLineWidth";
+	//questionnaire TODO: implement this
+	public const string ForceSensorFeedbackQuestionnaireMax = "forceSensorFeedbackQuestionnaireMax";
+	public const string ForceSensorFeedbackQuestionnaireMin = "forceSensorFeedbackQuestionnaireMin";
 
 	//runEncoder
 	public const string RunEncoderMinAccel = "runEncoderMinAccel";

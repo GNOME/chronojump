@@ -368,7 +368,6 @@ void start_capture()
   bool rcaState = digitalRead(rcaPin);
   data.sensor = 0;
   digitalWrite(13, rcaState);
-  procesSample = true;
   capturing = true;
   encoderDisplacement = 0;
   procesSample = true;

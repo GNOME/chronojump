@@ -55,6 +55,48 @@ public static class CairoUtil
 		dst_surface.WriteToPng (destination);
 	}
 
+	/*
+	 * 3 colors give the same value, better just know the red areas with RedRectangle or find the distance to worm head
+	public static void GetColorOfAPixel (Cairo.ImageSurface surface, int posX, int posY)
+	{
+		ImageSurface OutputImage = new ImageSurface (Format.RGB24, 1, 1);
+		//ImageSurface OutputImage = new ImageSurface (Format.RGB24, 3, 3);
+		//ImageSurface OutputImage = new ImageSurface (Format.ARGB32, 1, 1);
+		using (Cairo.Context cr = new Cairo.Context(OutputImage)) {
+			cr.SetSource (surface, -posX, -posY);
+			cr.Paint ();
+			*/
+			/*
+			//just test if this is of this colour
+			cr.SetSourceRGB (1,0,0);
+			cr.MoveTo (0, 0);
+			cr.LineTo (2, 0);
+			cr.Stroke ();
+			*/
+			/*
+			OutputImage.Flush ();
+
+			string s = "surface data: ";
+			byte [] data = OutputImage.Data;
+			int i = 0;
+			string sep = " ";
+			foreach (byte d in data)
+			{
+				s += sep + d.ToString ();
+				i ++;
+				if (i == 3)
+				{
+					sep = ", ";
+					i = 0;
+				}
+				else
+					sep = " ";
+			}
+			LogB.Information (s);
+		}
+	}
+	*/
+
 	public static void PaintDrawingArea (DrawingArea da, Context g, RGBA color)
 	{
 		int width = da.Allocation.Width;

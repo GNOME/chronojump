@@ -1092,7 +1092,6 @@ public class QuestionAnswers
 	private string aBad2;
 	private string aBad3;
 
-	private static Random rng = new Random();
 
 	public QuestionAnswers (string question, string aCorrect, string aBad1, string aBad2, string aBad3)
 	{
@@ -1103,22 +1102,8 @@ public class QuestionAnswers
 		this.aBad3 = aBad3;
 
 		TopBottom_l = new List<string> () { aCorrect, aBad1, aBad2, aBad3 };
-		TopBottom_l = Randomize (TopBottom_l);
+		TopBottom_l = Util.ListRandomize (TopBottom_l);
 		CorrectPos = Util.FindOnListString (TopBottom_l, aCorrect);
-	}
-
-	// https://stackoverflow.com/a/273666
-	public static List<T> Randomize<T>(List<T> list)
-	{
-		List<T> randomizedList = new List<T>();
-		Random rnd = new Random();
-		while (list.Count > 0)
-		{
-			int index = rnd.Next(0, list.Count); //pick a random item from the master list
-			randomizedList.Add(list[index]); //place it at the end of the randomized list
-			list.RemoveAt(index);
-		}
-		return randomizedList;
 	}
 
 	public bool AnswerIsCorrect (string answer)

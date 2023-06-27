@@ -549,6 +549,10 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 
 	private void questionnairePlot (PointF lastPoint)
 	{
+		//10 questions, do not plot more than 100 seconds
+		if (lastPoint.X / 1000000 >= 100)
+			return;
+
 		QRectangleManage rectangleM = new QRectangleManage ();
 
 		double barRange = (graphHeight - topMargin - bottomMargin) /30;
@@ -561,10 +565,13 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 
 		QuestionAnswers qa = questionnaire.GetQAByMicros (lastPoint.X);
 
+		// write the question
 		g.SetFontSize (textHeight +8);
 		g.SetSourceRGB(0, 0, 0); //black
 		printText (graphWidth/2 -leftMargin, topMargin/2, 0, textHeight +4,
-				qa.question, g, alignTypes.CENTER);
+				string.Format ("{0}/{1} {2}",
+					questionnaire.GetQNumByMicros (lastPoint.X), questionnaire.N, qa.question),
+				g, alignTypes.CENTER);
 
 		List<string> answers_l = qa.TopBottom_l;
 		double answerX = questionnaire.GetAnswerXrel (lastPoint.X) *
@@ -999,27 +1006,31 @@ public class CairoGraphForceSensorAI : CairoGraphForceSensor
 
 public class Questionnaire
 {
+	public int N; //number of questions;
 	public int Points;
 
 	public static Cairo.Color red = new Cairo.Color (1, 0, 0, 1);
 	private Cairo.Color green = new Cairo.Color (0, 1, 0, 1);
 	private Cairo.Color transp = new Cairo.Color (0, 0, 0, 0);
 
-	public List<QuestionAnswers> qa_l = new List<QuestionAnswers> () {
+	private List<QuestionAnswers> qa_l = new List<QuestionAnswers> () {
 		new QuestionAnswers ("Year of 1st Chronojump version", "2004", "2008", "2012", "2016"),
 		new QuestionAnswers ("Name of wireless photocells", "WICHRO", "RUN+", "PhotoProto", "TopGear"),
 		new QuestionAnswers ("Chronojump products are made in ...", "Barcelona", "Helsinki", "New York", "Munich"),
 		new QuestionAnswers ("Which jumps are used to calculate elasticity?", "CMJ / SJ", "CMJ / ABK", "ABK / DJ", "SJ / ABK"),
 		new QuestionAnswers ("Name of the microcontroller for jumps and races with photocells?", "Chronopic", "Clock fast", "Arduino", "Double step"),
-		new QuestionAnswers ("q6", "q6 ok", "q6 bad1", "q6 bad2", "q6 bad 3"),
-		new QuestionAnswers ("q7", "q7 ok", "q7 bad1", "q7 bad2", "q7 bad 3"),
-		new QuestionAnswers ("q8", "q8 ok", "q8 bad1", "q8 bad2", "q8 bad 3"),
-		new QuestionAnswers ("q9", "q9 ok", "q9 bad1", "q9 bad2", "q9 bad 3"),
-		new QuestionAnswers ("q10", "q10 ok", "q10 bad1", "q10 bad2", "q10 bad 3")
+		new QuestionAnswers ("Race to measure left and right turns?", "3L3R", "Margaria", "505", "100 m hurdles"),
+		new QuestionAnswers ("Biggest contact platform", "A1", "A2", "A3", "A4"),
+		new QuestionAnswers ("Name of 1st version on 2031", "3.1.0", "2.31", "2.3.1", "23.1"),
+		new QuestionAnswers ("Max distance of Race Analyzer", "100 m", "5 m", "10 m", "30 m"),
+		new QuestionAnswers ("Sample frequency of our encoder", "1 kHz", "1 Hz", "10 Hz", "100 Hz")
 	};
+	private List<QuestionAnswers> qaRandom_l;
 
 	public Questionnaire ()
 	{
+		qaRandom_l = Util.ListRandomize (qa_l);
+		N = qaRandom_l.Count;
 		Points = 0;
 	}
 
@@ -1032,9 +1043,24 @@ public class Questionnaire
 			seconds = 0;
 
 		if (seconds < 10)
-			return qa_l[0];
+			return qaRandom_l[0];
 		else
-			return qa_l[Convert.ToInt32(Math.Floor(seconds/10))];
+			return qaRandom_l[Convert.ToInt32(Math.Floor(seconds/10))];
+	}
+
+	//just to track the number of questions
+	public int GetQNumByMicros (double micros)
+	{
+		double seconds = micros / 1000000;
+
+		//TODO: fix this
+		if (seconds > 100)
+			seconds = 0;
+
+		if (seconds < 10)
+			return 0 + 1;
+		else
+			return Convert.ToInt32(Math.Floor(seconds/10)) + 1;
 	}
 
 	public double GetLineStartXrel (double micros)

@@ -328,7 +328,7 @@ public class Preferences
 	public int forceSensorMIFDurationPercent;
 
 	//forceSensor feedback
-	public enum ForceSensorCaptureFeedbackActiveEnum { NO, RECTANGLE, PATH };
+	public enum ForceSensorCaptureFeedbackActiveEnum { NO, RECTANGLE, PATH, QUESTIONNAIRE };
 	//rectangle
 	public ForceSensorCaptureFeedbackActiveEnum forceSensorCaptureFeedbackActive;
 	public int forceSensorCaptureFeedbackAt;
@@ -339,6 +339,9 @@ public class Preferences
 	public int forceSensorFeedbackPathMasters;
 	public int forceSensorFeedbackPathMasterSeconds;
 	public int forceSensorFeedbackPathLineWidth;
+	//questionnaire
+	public int forceSensorFeedbackQuestionnaireMax;
+	public int forceSensorFeedbackQuestionnaireMin;
 
 
 	public int encoderCaptureTimeIM = 180; //hardcoded 3 minutes.

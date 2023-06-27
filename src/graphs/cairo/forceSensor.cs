@@ -91,6 +91,8 @@ public abstract class CairoGraphForceSensor : CairoXY
 			if  (calculatePathWidth ()/2 > rightMargin)
 				rightMargin = Convert.ToInt32 (Math.Ceiling (calculatePathWidth ()/2));
 		}
+
+		//questionnaire is only done at CairoGraphForceSensorSignal
 	}
 
 	protected double calculatePathWidth ()
@@ -228,6 +230,8 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 	private GetMaxAvgInWindow miw;
 	private GetBestRFDInWindow briw;
 	private Questionnaire questionnaire;
+	private int questionnaireMinY;
+	private int questionnaireMaxY;
 
 	//regular constructor
 	public CairoGraphForceSensorSignal (DrawingArea area, string title, int pathLineWidthInN)
@@ -252,7 +256,7 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 			GetMaxAvgInWindow miw,
 			GetBestRFDInWindow briw,
 			TriggerList triggerList,
-			Questionnaire questionnaire,
+			Questionnaire questionnaire, int questionnaireMinY, int questionnaireMaxY,
 			bool forceRedraw, PlotTypes plotType)
 	{
 		this.minDisplayFNegative = minDisplayFNegative;
@@ -265,6 +269,8 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 		this.miw = miw;
 		this.briw = briw;
 		this.questionnaire = questionnaire;
+		this.questionnaireMinY = questionnaireMinY;
+		this.questionnaireMaxY = questionnaireMaxY;
 		/*
 		this.oneSerie = ( (pointsDispl_l == null || pointsDispl_l.Count == 0) &&
 				(pointsSpeed_l == null || pointsSpeed_l.Count == 0) &&
@@ -325,6 +331,14 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 			//LogB.Information(string.Format("minY: {0}, maxY: {1}", minY, maxY));
 
 			fixMaximums ();
+
+			if (questionnaire != null)
+			{
+				if (questionnaireMinY < minY)
+					minY = questionnaireMinY;
+				if (questionnaireMaxY > absoluteMaxY)
+					absoluteMaxY = questionnaireMaxY;
+			}
 		}
 
 		bool graphInited = false;
@@ -560,16 +574,13 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 		for (int i = 0; i < 6; i ++)
 			y_l.Add (topMargin + (i * ((graphHeight -topMargin - bottomMargin)/5)));
 
-		for (int i = 0; i < 6; i ++)
-			LogB.Information (string.Format ("i: {0}, y_l[i]: {1}", i, y_l[i]));
-
 		QuestionAnswers qa = questionnaire.GetQAByMicros (lastPoint.X);
 
 		// write the question
 		g.SetFontSize (textHeight +8);
 		g.SetSourceRGB(0, 0, 0); //black
 		printText (graphWidth/2 -leftMargin, topMargin/2, 0, textHeight +4,
-				string.Format ("{0}/{1} {2}",
+				string.Format ("({0}/{1}) {2}",
 					questionnaire.GetQNumByMicros (lastPoint.X), questionnaire.N, qa.question),
 				g, alignTypes.CENTER);
 
@@ -1114,18 +1125,11 @@ public class QuestionAnswers
 	public string question;
 
 	private string aCorrect;
-	private string aBad1;
-	private string aBad2;
-	private string aBad3;
-
 
 	public QuestionAnswers (string question, string aCorrect, string aBad1, string aBad2, string aBad3)
 	{
 		this.question = question;
 		this.aCorrect = aCorrect;
-		this.aBad1 = aBad1;
-		this.aBad2 = aBad2;
-		this.aBad3 = aBad3;
 
 		TopBottom_l = new List<string> () { aCorrect, aBad1, aBad2, aBad3 };
 		TopBottom_l = Util.ListRandomize (TopBottom_l);

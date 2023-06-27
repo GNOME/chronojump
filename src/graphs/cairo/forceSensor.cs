@@ -501,7 +501,7 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 					if (answerColor_l[i].R == Questionnaire.red.R &&
 							answerColor_l[i].G == Questionnaire.red.G &&
 							answerColor_l[i].B == Questionnaire.red.B)
-						redRectangleM.Add (new RedRectangle (lineLeftX, y_l[i] - barRange/2, answerX - lineLeftX, barRange));
+						redRectangleM.Add (new RedRectangle (answerX -barRange/2, y_l[i] + barRange/2, barRange/2, y_l[i+1] - y_l[i] - barRange));
 				}
 
 				g.SetSourceRGB(0, 0, 0); //black

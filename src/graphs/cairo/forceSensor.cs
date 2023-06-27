@@ -447,6 +447,8 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 
 			if (questionnaireDo)
 			{
+				RedRectangleManage redRectangleM = new RedRectangleManage ();
+
 				double lastTimeX = points_l[points_l.Count -1].X;
 				double barRange = (graphHeight - topMargin - bottomMargin) /30;
 				List <double> y_l = new List<double> ();
@@ -484,6 +486,8 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 				{
 					g.Rectangle (lineLeftX, y_l[i] - barRange/2, answerX - lineLeftX, barRange);
 					g.Fill();
+
+					redRectangleM.Add (new RedRectangle (lineLeftX, y_l[i] - barRange/2, answerX - lineLeftX, barRange));
 				}
 
 				//vertical bars
@@ -493,10 +497,27 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 					g.SetSourceColor (answerColor_l[i]);
 					g.Rectangle (answerX -barRange/2, y_l[i] + barRange/2, barRange/2, y_l[i+1] - y_l[i] - barRange);
 					g.Fill();
+
+					if (answerColor_l[i].R == Questionnaire.red.R &&
+							answerColor_l[i].G == Questionnaire.red.G &&
+							answerColor_l[i].B == Questionnaire.red.B)
+						redRectangleM.Add (new RedRectangle (lineLeftX, y_l[i] - barRange/2, answerX - lineLeftX, barRange));
 				}
 
 				g.SetSourceRGB(0, 0, 0); //black
 				g.SetFontSize (textHeight);
+
+				if (redRectangleM.IsRed (
+						calculatePaintX (points_l[points_l.Count -1].X),
+						calculatePaintY (points_l[points_l.Count -1].Y) ))
+				{
+					g.SetSourceColor (red);
+					g.LineWidth = 20;
+					g.Rectangle (0, 0, graphWidth, graphHeight);
+					g.Stroke();
+					g.LineWidth = 1;
+				}
+
 			}
 
 			if (rectangleRange > 0 && showAccuracy)
@@ -973,7 +994,7 @@ public class CairoGraphForceSensorAI : CairoGraphForceSensor
 
 public class Questionnaire
 {
-	private Cairo.Color red = new Cairo.Color (1, 0, 0, 1);
+	public static Cairo.Color red = new Cairo.Color (1, 0, 0, 1);
 	private Cairo.Color green = new Cairo.Color (0, 1, 0, 1);
 	private Cairo.Color transp = new Cairo.Color (0, 0, 0, 0);
 
@@ -1082,5 +1103,45 @@ public class QuestionAnswers
 	public bool AnswerIsCorrect (string answer)
 	{
 		return (answer == aCorrect);
+	}
+}
+
+public class RedRectangleManage
+{
+	private List<RedRectangle> redRectangle_l;
+
+	public RedRectangleManage ()
+	{
+		redRectangle_l = new List<RedRectangle> ();
+	}
+
+	public void Add (RedRectangle r)
+	{
+		redRectangle_l.Add (r);
+	}
+
+	public bool IsRed (double x, double y)
+	{
+		foreach (RedRectangle r in redRectangle_l)
+			if (r.x <= x && r.x2 >= x &&
+					r.y <= y && r.y2 >= y)
+				return true;
+
+		return false;
+	}
+}
+public class RedRectangle
+{
+	public double x;
+	public double y;
+	public double x2;
+	public double y2;
+
+	public RedRectangle (double x, double y, double width, double height)
+	{
+		this.x = x;
+		this.y = y;
+		this.x2 = x + width;
+		this.y2 = y + height;
 	}
 }

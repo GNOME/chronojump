@@ -45,6 +45,27 @@ public class UtilCSV
 		}
 		LogB.Information("READED CSV");
 	}
+
+	public static List<List<string>> ReadAsListListString (string filename, char delimiter)
+	{
+		List<List<string>> rows_ll = new List<List<string>> ();
+
+		List<string> columns = new List<string>();
+		using (var reader = new CsvFileReader (filename))
+		{
+			reader.ChangeDelimiter (delimiter);
+			while (reader.ReadRow(columns))
+			{
+				List<string> row_l = new List<string> ();
+				foreach(string str in columns)
+					row_l.Add (str);
+
+				rows_ll.Add (row_l);
+			}
+		}
+
+		return rows_ll;
+	}
 }
 
 /// <summary>

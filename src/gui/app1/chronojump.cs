@@ -8711,6 +8711,13 @@ LogB.Debug("mc finished 5");
 					//SqlitePreferences.Update(SqlitePreferences.ForceSensorFeedbackQuestionnaireMin, feedbackQuestionnaireMin.ToString(), false); //TODO
 					preferences.forceSensorFeedbackQuestionnaireMin = feedbackQuestionnaireMin;
 				}
+
+				int feedbackQuestionnaireN = feedbackWin.GetForceSensorFeedbackQuestionnaireN;
+				if(preferences.forceSensorFeedbackQuestionnaireN != feedbackQuestionnaireN)
+				{
+					//SqlitePreferences.Update(SqlitePreferences.ForceSensorFeedbackQuestionnaireN, feedbackQuestionnaireN.ToString(), false); //TODO
+					preferences.forceSensorFeedbackQuestionnaireN = feedbackQuestionnaireN;
+				}
 			}
 		}
 		else if(m == Constants.Modes.RUNSENCODER)

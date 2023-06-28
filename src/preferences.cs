@@ -340,8 +340,9 @@ public class Preferences
 	public int forceSensorFeedbackPathMasterSeconds;
 	public int forceSensorFeedbackPathLineWidth;
 	//questionnaire
-	public int forceSensorFeedbackQuestionnaireMax;
-	public int forceSensorFeedbackQuestionnaireMin;
+	public int forceSensorFeedbackQuestionnaireMax = 100;
+	public int forceSensorFeedbackQuestionnaireMin = 0;
+	public int forceSensorFeedbackQuestionnaireN = 10;
 
 
 	public int encoderCaptureTimeIM = 180; //hardcoded 3 minutes.

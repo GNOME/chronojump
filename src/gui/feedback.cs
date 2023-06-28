@@ -210,6 +210,7 @@ public class FeedbackWindow
 	//questionnaire
 	Gtk.SpinButton spin_force_sensor_capture_feedback_questionnaire_max;
 	Gtk.SpinButton spin_force_sensor_capture_feedback_questionnaire_min;
+	Gtk.SpinButton spin_force_sensor_capture_feedback_questionnaire_n;
 
 	//runsEncoder
 	Gtk.RadioButton radio_run_encoder_power;
@@ -336,7 +337,8 @@ public class FeedbackWindow
 				preferences.forceSensorFeedbackPathMasterSeconds,
 				preferences.forceSensorFeedbackPathLineWidth,
 				preferences.forceSensorFeedbackQuestionnaireMax,
-				preferences.forceSensorFeedbackQuestionnaireMin
+				preferences.forceSensorFeedbackQuestionnaireMin,
+				preferences.forceSensorFeedbackQuestionnaireN
 				);
 
 		if(viewWindow)
@@ -405,7 +407,8 @@ public class FeedbackWindow
 			int forceSensorFeedbackPathMasterSeconds,
 			int forceSensorFeedbackPathLineWidth,
 			int forceSensorFeedbackQuestionnaireMax,
-			int forceSensorFeedbackQuestionnaireMin
+			int forceSensorFeedbackQuestionnaireMin,
+			int forceSensorFeedbackQuestionnaireN
 				)
 	{
 		hbox_jump_best_worst.Hide();
@@ -587,6 +590,7 @@ public class FeedbackWindow
 			//questionnaire widgets
 			spin_force_sensor_capture_feedback_questionnaire_max.Value = forceSensorFeedbackQuestionnaireMax;
 			spin_force_sensor_capture_feedback_questionnaire_min.Value = forceSensorFeedbackQuestionnaireMin;
+			spin_force_sensor_capture_feedback_questionnaire_n.Value = forceSensorFeedbackQuestionnaireN;
 
 			notebook_main.GetNthPage(FORCESENSORPAGE).Show();
 		}
@@ -1258,6 +1262,9 @@ public class FeedbackWindow
 	public int GetForceSensorFeedbackQuestionnaireMin {
 		get { return Convert.ToInt32(spin_force_sensor_capture_feedback_questionnaire_min.Value); }
 	}
+	public int GetForceSensorFeedbackQuestionnaireN {
+		get { return Convert.ToInt32(spin_force_sensor_capture_feedback_questionnaire_n.Value); }
+	}
 
 	/* JUMPS */
 
@@ -1765,6 +1772,7 @@ public class FeedbackWindow
 		//questionnaire
 		spin_force_sensor_capture_feedback_questionnaire_max = (Gtk.SpinButton) builder.GetObject ("spin_force_sensor_capture_feedback_questionnaire_max");
 		spin_force_sensor_capture_feedback_questionnaire_min = (Gtk.SpinButton) builder.GetObject ("spin_force_sensor_capture_feedback_questionnaire_min");
+		spin_force_sensor_capture_feedback_questionnaire_n = (Gtk.SpinButton) builder.GetObject ("spin_force_sensor_capture_feedback_questionnaire_n");
 
 		//runsEncoder
 		radio_run_encoder_power = (Gtk.RadioButton) builder.GetObject ("radio_run_encoder_power");

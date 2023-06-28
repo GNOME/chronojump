@@ -563,9 +563,20 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 
 	private void questionnairePlot (PointF lastPoint)
 	{
-		//10 questions, do not plot more than 100 seconds
-		if (lastPoint.X / 1000000 >= 100)
+		g.SetFontSize (textHeight +8);
+		g.SetSourceRGB(0, 0, 0); //black
+
+		// 10 questions, do not plot more than 100 seconds
+		// or (if less than 10 questions, do not plot more than those)
+		if (lastPoint.X / 1000000 >= 100 || lastPoint.X / 1000000 >= questionnaire.N * 10)
+		{
+			printText ((graphWidth -getMargins (Directions.LR))/2 +getMargins (Directions.L),
+					.33 * graphHeight, 0, textHeight +4,
+					string.Format ("Finished! {0} points", questionnaire.Points), g, alignTypes.CENTER);
+			g.SetFontSize (textHeight);
+
 			return;
+		}
 
 		QRectangleManage rectangleM = new QRectangleManage ();
 
@@ -577,8 +588,6 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 		QuestionAnswers qa = questionnaire.GetQAByMicros (lastPoint.X);
 
 		// write the question
-		g.SetFontSize (textHeight +8);
-		g.SetSourceRGB(0, 0, 0); //black
 		printText (graphWidth/2 -leftMargin, topMargin/2, 0, textHeight +4,
 				string.Format ("({0}/{1}) {2}",
 					questionnaire.GetQNumByMicros (lastPoint.X), questionnaire.N, qa.question),

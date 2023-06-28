@@ -213,7 +213,8 @@ public class FeedbackWindow
 	Gtk.SpinButton spin_force_sensor_capture_feedback_questionnaire_n;
 	Gtk.RadioButton radio_force_sensor_capture_feedback_questionnaire_default;
 	Gtk.RadioButton radio_force_sensor_capture_feedback_questionnaire_load;
-	Gtk.Button button_force_sensor_capture_feedback_questionnaire_load;
+	Gtk.Image image_force_sensor_capture_feedback_questionnaire_load_info;
+	Gtk.Box buttons_force_sensor_capture_feedback_questionnaire_load;
 	Gtk.Label label_force_sensor_capture_feedback_questionnaire_load_success;
 
 	//runsEncoder
@@ -602,10 +603,10 @@ public class FeedbackWindow
 			if (forceSensorFeedbackQuestionnaireFile == null || forceSensorFeedbackQuestionnaireFile == "")
 			{
 				radio_force_sensor_capture_feedback_questionnaire_default.Active = true;
-				button_force_sensor_capture_feedback_questionnaire_load.Sensitive = false;
+				buttons_force_sensor_capture_feedback_questionnaire_load.Sensitive = false;
 			} else {
 				radio_force_sensor_capture_feedback_questionnaire_load.Active = true;
-				button_force_sensor_capture_feedback_questionnaire_load.Sensitive = true;
+				buttons_force_sensor_capture_feedback_questionnaire_load.Sensitive = true;
 			}
 			label_force_sensor_capture_feedback_questionnaire_load_success.Text = "";
 
@@ -713,6 +714,7 @@ public class FeedbackWindow
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_info.png");
 		image_clusters_info.Pixbuf = pixbuf;
+		image_force_sensor_capture_feedback_questionnaire_load_info.Pixbuf = pixbuf;
 	}
 
 	void on_button_test_clicked (object o, EventArgs args)
@@ -1275,7 +1277,20 @@ public class FeedbackWindow
 
 	public void on_radio_force_sensor_capture_feedback_questionnaire_default_load_toggled (object o, EventArgs args)
 	{
-		button_force_sensor_capture_feedback_questionnaire_load.Sensitive = ! radio_force_sensor_capture_feedback_questionnaire_default.Active;
+		buttons_force_sensor_capture_feedback_questionnaire_load.Sensitive = ! radio_force_sensor_capture_feedback_questionnaire_default.Active;
+	}
+
+	public void on_button_force_sensor_capture_feedback_questionnaire_load_info_clicked (object o, EventArgs args)
+	{
+		new DialogMessage (Constants.MessageTypes.INFO,
+				"Rules:" +
+				"\n- " + "File is a csv." +
+				"\n- " + "First row are column headers." +
+				"\n- " + "Columns are separated by , or ;" +
+				"\n- " + "First column is the question." +
+				"\n- " + "Second column is the correct answer." +
+				"\n- " + "Third, fourth and fith columns are the bad answers." +
+				"\n\n Questions and answers are going to be randomized.");
 	}
 
 	public void on_button_force_sensor_capture_feedback_questionnaire_load_clicked (object o, EventArgs args)
@@ -1289,6 +1304,7 @@ public class FeedbackWindow
 
 		fc.Filter = new FileFilter();
 		fc.Filter.AddPattern("*.csv");
+		fc.Filter.AddPattern("*.CSV");
 
 		if (fc.Run() == (int)ResponseType.Accept)
 		{
@@ -1838,7 +1854,8 @@ public class FeedbackWindow
 		spin_force_sensor_capture_feedback_questionnaire_n = (Gtk.SpinButton) builder.GetObject ("spin_force_sensor_capture_feedback_questionnaire_n");
 		radio_force_sensor_capture_feedback_questionnaire_default = (Gtk.RadioButton) builder.GetObject ("radio_force_sensor_capture_feedback_questionnaire_default");
 		radio_force_sensor_capture_feedback_questionnaire_load = (Gtk.RadioButton) builder.GetObject ("radio_force_sensor_capture_feedback_questionnaire_load");
-		button_force_sensor_capture_feedback_questionnaire_load = (Gtk.Button) builder.GetObject ("button_force_sensor_capture_feedback_questionnaire_load");
+		image_force_sensor_capture_feedback_questionnaire_load_info = (Gtk.Image) builder.GetObject ("image_force_sensor_capture_feedback_questionnaire_load_info");
+		buttons_force_sensor_capture_feedback_questionnaire_load = (Gtk.Box) builder.GetObject ("buttons_force_sensor_capture_feedback_questionnaire_load");
 		label_force_sensor_capture_feedback_questionnaire_load_success = (Gtk.Label) builder.GetObject ("label_force_sensor_capture_feedback_questionnaire_load_success");
 
 		//runsEncoder

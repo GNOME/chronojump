@@ -6127,29 +6127,62 @@
                                           </packing>
                                         </child>
                                         <child>
-                                          <object class="GtkButton" id="button_force_sensor_capture_feedback_questionnaire_load">
-                                            <property name="label" translatable="yes">Load</property>
+                                          <object class="GtkBox" id="buttons_force_sensor_capture_feedback_questionnaire_load">
                                             <property name="visible">True</property>
                                             <property name="sensitive">False</property>
-                                            <property name="can-focus">True</property>
-                                            <property name="receives-default">True</property>
-                                            <signal name="clicked" handler="on_button_force_sensor_capture_feedback_questionnaire_load_clicked" swapped="no"/>
+                                            <property name="can-focus">False</property>
+                                            <property name="spacing">6</property>
+                                            <child>
+                                              <object class="GtkButton" id="button_force_sensor_capture_feedback_questionnaire_load_info">
+                                                <property name="visible">True</property>
+                                                <property name="can-focus">True</property>
+                                                <property name="receives-default">True</property>
+                                                <signal name="clicked" handler="on_button_force_sensor_capture_feedback_questionnaire_load_info_clicked" swapped="no"/>
+                                                <child>
+                                                  <object class="GtkImage" id="image_force_sensor_capture_feedback_questionnaire_load_info">
+                                                    <property name="visible">True</property>
+                                                    <property name="can-focus">False</property>
+                                                    <property name="stock">gtk-info</property>
+                                                    <property name="icon_size">2</property>
+                                                  </object>
+                                                </child>
+                                              </object>
+                                              <packing>
+                                                <property name="expand">False</property>
+                                                <property name="fill">True</property>
+                                                <property name="position">0</property>
+                                              </packing>
+                                            </child>
+                                            <child>
+                                              <object class="GtkButton" id="button_force_sensor_capture_feedback_questionnaire_load">
+                                                <property name="label" translatable="yes">Load</property>
+                                                <property name="visible">True</property>
+                                                <property name="can-focus">True</property>
+                                                <property name="receives-default">True</property>
+                                                <signal name="clicked" handler="on_button_force_sensor_capture_feedback_questionnaire_load_clicked" swapped="no"/>
+                                              </object>
+                                              <packing>
+                                                <property name="expand">False</property>
+                                                <property name="fill">True</property>
+                                                <property name="position">1</property>
+                                              </packing>
+                                            </child>
+                                            <child>
+                                              <object class="GtkLabel" id="label_force_sensor_capture_feedback_questionnaire_load_success">
+                                                <property name="visible">True</property>
+                                                <property name="can-focus">False</property>
+                                              </object>
+                                              <packing>
+                                                <property name="expand">False</property>
+                                                <property name="fill">True</property>
+                                                <property name="position">2</property>
+                                              </packing>
+                                            </child>
                                           </object>
                                           <packing>
                                             <property name="expand">False</property>
                                             <property name="fill">True</property>
                                             <property name="position">1</property>
-                                          </packing>
-                                        </child>
-                                        <child>
-                                          <object class="GtkLabel" id="label_force_sensor_capture_feedback_questionnaire_load_success">
-                                            <property name="visible">True</property>
-                                            <property name="can-focus">False</property>
-                                          </object>
-                                          <packing>
-                                            <property name="expand">False</property>
-                                            <property name="fill">True</property>
-                                            <property name="position">2</property>
                                           </packing>
                                         </child>
                                       </object>

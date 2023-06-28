@@ -1264,7 +1264,7 @@ public partial class ChronoJumpWindow
 		   that will affect other normal captures
 		   */
 		double forceTared = 0;
-		if(currentForceSensorExercise.TareBeforeCaptureAndForceResultant)
+		if (! Config.SimulatedCapture && currentForceSensorExercise.TareBeforeCaptureAndForceResultant)
 		{
 			/*
 			 * do not do this, sound ends really late

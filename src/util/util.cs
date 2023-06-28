@@ -2246,6 +2246,15 @@ public class Util
 		return randomizedList;
 	}
 
+	public static List<T> ListGetFirstN<T> (List<T> original_l, int firstN)
+	{
+		List<T> cutted_l = new List<T>();
+		for (int i = 0; i < firstN; i ++)
+			cutted_l.Add (original_l[i]);
+
+		return cutted_l;
+	}
+
 	public static void TestSortDoublesListstring()
 	{
 		List<string> numbers_l = new List<string>() { "3", "99", "135", "45", "75", "17", "88", "5" }; //ints

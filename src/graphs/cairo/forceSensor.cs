@@ -1049,7 +1049,15 @@ public class Questionnaire
 
 	public Questionnaire ()
 	{
+		// randomize questions
 		qaRandom_l = Util.ListRandomize (qa_l);
+
+		// if questions < 10 no problem, it will end before
+
+		// if questions > 10 , cut to 10
+		if (qaRandom_l.Count > 10)
+			qaRandom_l = Util.ListGetFirstN (qaRandom_l, 10);
+
 		N = qaRandom_l.Count;
 		Points = 0;
 	}

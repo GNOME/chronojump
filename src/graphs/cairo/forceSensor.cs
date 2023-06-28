@@ -1048,9 +1048,17 @@ public class Questionnaire
 	};
 	private List<QuestionAnswers> qaRandom_l;
 
-	public Questionnaire (int n)
+	public Questionnaire (int n, string filename)
 	{
 		this.n = n;
+
+		// read questions file if needed
+		if (filename != null && filename != "")
+		{
+			List<QuestionAnswers> qaLoading_l = getQuestionsFromFile (filename);
+			if (qaLoading_l != null)
+				qa_l = qaLoading_l;
+		}
 
 		// randomize questions
 		qaRandom_l = Util.ListRandomize (qa_l);
@@ -1062,6 +1070,29 @@ public class Questionnaire
 			qaRandom_l = Util.ListGetFirstN (qaRandom_l, n);
 
 		Points = 0;
+	}
+
+	public bool FileIsOk (string filename)
+	{
+		return (getQuestionsFromFile (filename) != null);
+	}
+
+	private List<QuestionAnswers> getQuestionsFromFile (string filename)
+	{
+		List<List<string>> rows_ll = UtilCSV.ReadAsListListString (filename, ';');
+		if (rows_ll.Count == 0 || rows_ll[0].Count != 5)
+		{
+			rows_ll = UtilCSV.ReadAsListListString (filename, ',');
+
+			if (rows_ll.Count == 0 || rows_ll[0].Count != 5)
+				return null;
+		}
+
+		List<QuestionAnswers> list = new List<QuestionAnswers> ();
+		foreach (List<string> row_l in rows_ll)
+			list.Add (new QuestionAnswers(row_l[0], row_l[1], row_l[2], row_l[3], row_l[4]));
+
+		return list;
 	}
 
 	public QuestionAnswers GetQAByMicros (double micros)

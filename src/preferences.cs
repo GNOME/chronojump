@@ -343,7 +343,7 @@ public class Preferences
 	public int forceSensorFeedbackQuestionnaireMax = 100;
 	public int forceSensorFeedbackQuestionnaireMin = 0;
 	public int forceSensorFeedbackQuestionnaireN = 10;
-
+	public string forceSensorFeedbackQuestionnaireFile = ""; //if default will be blank
 
 	public int encoderCaptureTimeIM = 180; //hardcoded 3 minutes.
 

@@ -834,6 +834,8 @@ public partial class ChronoJumpWindow
 		feedbackEncoder = new FeedbackEncoder (preferences);
 		feedbackWin = FeedbackWindow.Create();
 		feedbackWin.FakeButtonClose.Clicked += new EventHandler(on_feedback_closed);
+		feedbackWin.FakeButtonQuestionnaireLoad.Clicked -= new EventHandler(on_feedback_questionnaire_load);
+		feedbackWin.FakeButtonQuestionnaireLoad.Clicked += new EventHandler(on_feedback_questionnaire_load);
 		//to have objects ok to be able to be readed before viewing the feedbackWin
 
 		on_extra_window_multichronopic_test_changed(new object(), new EventArgs());
@@ -8718,6 +8720,15 @@ LogB.Debug("mc finished 5");
 					//SqlitePreferences.Update(SqlitePreferences.ForceSensorFeedbackQuestionnaireN, feedbackQuestionnaireN.ToString(), false); //TODO
 					preferences.forceSensorFeedbackQuestionnaireN = feedbackQuestionnaireN;
 				}
+
+				string feedbackQuestionnaireFile = "";
+				if (! feedbackWin.GetForceSensorFeedbackQuestionnaireDefaultOrFile)
+					feedbackQuestionnaireFile = feedbackWin.GetForceSensorFeedbackQuestionnaireFile;
+				if(preferences.forceSensorFeedbackQuestionnaireFile != feedbackQuestionnaireFile)
+				{
+					//SqlitePreferences.Update(SqlitePreferences.ForceSensorFeedbackQuestionnaireFile, feedbackQuestionnaireFile.ToString(), false); //TODO
+					preferences.forceSensorFeedbackQuestionnaireFile = feedbackQuestionnaireFile;
+				}
 			}
 		}
 		else if(m == Constants.Modes.RUNSENCODER)
@@ -8726,6 +8737,16 @@ LogB.Debug("mc finished 5");
 			drawingarea_race_analyzer_capture_speed_time.QueueDraw ();
 			drawingarea_race_analyzer_capture_accel_time.QueueDraw ();
 		}
+	}
+
+	private void on_feedback_questionnaire_load (object o, EventArgs args)
+	{
+		if (questionnaire == null)
+			questionnaire = new Questionnaire (preferences.forceSensorFeedbackQuestionnaireN,
+					feedbackWin.GetForceSensorFeedbackQuestionnaireFile);
+
+		feedbackWin.button_force_sensor_capture_feedback_questionnaire_load_analyzed (
+				questionnaire.FileIsOk (feedbackWin.GetForceSensorFeedbackQuestionnaireFile));
 	}
 
 	private void on_radio_mode_contacts_capture_toggled (object o, EventArgs args)

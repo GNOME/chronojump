@@ -211,6 +211,10 @@ public class FeedbackWindow
 	Gtk.SpinButton spin_force_sensor_capture_feedback_questionnaire_max;
 	Gtk.SpinButton spin_force_sensor_capture_feedback_questionnaire_min;
 	Gtk.SpinButton spin_force_sensor_capture_feedback_questionnaire_n;
+	Gtk.RadioButton radio_force_sensor_capture_feedback_questionnaire_default;
+	Gtk.RadioButton radio_force_sensor_capture_feedback_questionnaire_load;
+	Gtk.Button button_force_sensor_capture_feedback_questionnaire_load;
+	Gtk.Label label_force_sensor_capture_feedback_questionnaire_load_success;
 
 	//runsEncoder
 	Gtk.RadioButton radio_run_encoder_power;
@@ -232,6 +236,7 @@ public class FeedbackWindow
 	const int RUNSENCODERPAGE = 6;
 
 	public Gtk.Button FakeButtonClose;
+	public Gtk.Button FakeButtonQuestionnaireLoad;
 
 	//static bool volumeOn;
 	bool volumeOn;
@@ -241,6 +246,7 @@ public class FeedbackWindow
 	private double bestSetValueCaptureMainVariable;
 	private double bestSetValueAutomaticFeedback;
 	private bool update_checkbuttons_encoder_automatic;
+	private string forceSensorFeedbackQuestionnaireFile;
 	
 	static FeedbackWindow FeedbackWindowBox;
 		
@@ -262,6 +268,7 @@ public class FeedbackWindow
 		UtilGtk.IconWindow(feedback);
 		
 		FakeButtonClose = new Gtk.Button();
+		FakeButtonQuestionnaireLoad = new Gtk.Button();
 		
 		//createComboEncoderAutomaticVariable();
 		createComboEncoderMainAndSecondaryVariables();
@@ -360,6 +367,7 @@ public class FeedbackWindow
 
 		FeedbackWindowBox.volumeOn = preferences.volumeOn;
 		FeedbackWindowBox.gstreamer = preferences.gstreamer;
+		FeedbackWindowBox.forceSensorFeedbackQuestionnaireFile = forceSensorFeedbackQuestionnaireFile;
 	}
 
 	void showWidgets (Constants.BellModes bellMode,
@@ -591,6 +599,15 @@ public class FeedbackWindow
 			spin_force_sensor_capture_feedback_questionnaire_max.Value = forceSensorFeedbackQuestionnaireMax;
 			spin_force_sensor_capture_feedback_questionnaire_min.Value = forceSensorFeedbackQuestionnaireMin;
 			spin_force_sensor_capture_feedback_questionnaire_n.Value = forceSensorFeedbackQuestionnaireN;
+			if (forceSensorFeedbackQuestionnaireFile == null || forceSensorFeedbackQuestionnaireFile == "")
+			{
+				radio_force_sensor_capture_feedback_questionnaire_default.Active = true;
+				button_force_sensor_capture_feedback_questionnaire_load.Sensitive = false;
+			} else {
+				radio_force_sensor_capture_feedback_questionnaire_load.Active = true;
+				button_force_sensor_capture_feedback_questionnaire_load.Sensitive = true;
+			}
+			label_force_sensor_capture_feedback_questionnaire_load_success.Text = "";
 
 			notebook_main.GetNthPage(FORCESENSORPAGE).Show();
 		}
@@ -1256,6 +1273,46 @@ public class FeedbackWindow
 
 	// force sensor feedback questionnaire
 
+	public void on_radio_force_sensor_capture_feedback_questionnaire_default_load_toggled (object o, EventArgs args)
+	{
+		button_force_sensor_capture_feedback_questionnaire_load.Sensitive = ! radio_force_sensor_capture_feedback_questionnaire_default.Active;
+	}
+
+	public void on_button_force_sensor_capture_feedback_questionnaire_load_clicked (object o, EventArgs args)
+	{
+		Gtk.FileChooserDialog fc = new Gtk.FileChooserDialog(Catalog.GetString("Load file"),
+				feedback,
+				FileChooserAction.Open,
+				Catalog.GetString("Cancel"),ResponseType.Cancel,
+				Catalog.GetString("Load"),ResponseType.Accept
+				);
+
+		fc.Filter = new FileFilter();
+		fc.Filter.AddPattern("*.csv");
+
+		if (fc.Run() == (int)ResponseType.Accept)
+		{
+			try {
+				forceSensorFeedbackQuestionnaireFile = fc.Filename;
+				FakeButtonQuestionnaireLoad.Click ();
+			} catch {
+				LogB.Warning("Cannot be loaded");
+			}
+		}
+		//Don't forget to call Destroy() or the FileChooserDialog window won't get closed.
+		fc.Destroy();
+	}
+
+	public void button_force_sensor_capture_feedback_questionnaire_load_analyzed (bool ok)
+	{
+		if (ok)
+			label_force_sensor_capture_feedback_questionnaire_load_success.Text = Catalog.GetString ("Loaded");
+		else {
+			label_force_sensor_capture_feedback_questionnaire_load_success.Text = Catalog.GetString ("Error. File not compatible.");
+			forceSensorFeedbackQuestionnaireFile = "";
+		}
+	}
+
 	public int GetForceSensorFeedbackQuestionnaireMax {
 		get { return Convert.ToInt32(spin_force_sensor_capture_feedback_questionnaire_max.Value); }
 	}
@@ -1264,6 +1321,12 @@ public class FeedbackWindow
 	}
 	public int GetForceSensorFeedbackQuestionnaireN {
 		get { return Convert.ToInt32(spin_force_sensor_capture_feedback_questionnaire_n.Value); }
+	}
+	public bool GetForceSensorFeedbackQuestionnaireDefaultOrFile {
+		get { return radio_force_sensor_capture_feedback_questionnaire_default.Active; }
+	}
+	public string GetForceSensorFeedbackQuestionnaireFile {
+		get { return forceSensorFeedbackQuestionnaireFile; }
 	}
 
 	/* JUMPS */
@@ -1773,6 +1836,10 @@ public class FeedbackWindow
 		spin_force_sensor_capture_feedback_questionnaire_max = (Gtk.SpinButton) builder.GetObject ("spin_force_sensor_capture_feedback_questionnaire_max");
 		spin_force_sensor_capture_feedback_questionnaire_min = (Gtk.SpinButton) builder.GetObject ("spin_force_sensor_capture_feedback_questionnaire_min");
 		spin_force_sensor_capture_feedback_questionnaire_n = (Gtk.SpinButton) builder.GetObject ("spin_force_sensor_capture_feedback_questionnaire_n");
+		radio_force_sensor_capture_feedback_questionnaire_default = (Gtk.RadioButton) builder.GetObject ("radio_force_sensor_capture_feedback_questionnaire_default");
+		radio_force_sensor_capture_feedback_questionnaire_load = (Gtk.RadioButton) builder.GetObject ("radio_force_sensor_capture_feedback_questionnaire_load");
+		button_force_sensor_capture_feedback_questionnaire_load = (Gtk.Button) builder.GetObject ("button_force_sensor_capture_feedback_questionnaire_load");
+		label_force_sensor_capture_feedback_questionnaire_load_success = (Gtk.Label) builder.GetObject ("label_force_sensor_capture_feedback_questionnaire_load_success");
 
 		//runsEncoder
 		radio_run_encoder_power = (Gtk.RadioButton) builder.GetObject ("radio_run_encoder_power");

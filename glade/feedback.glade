@@ -5205,26 +5205,36 @@
                     <property name="orientation">vertical</property>
                     <property name="spacing">10</property>
                     <child>
-                      <object class="GtkRadioButton" id="radio_force_sensor_capture_feedback_no">
+                      <object class="GtkCheckButton" id="check_force_sensor_capture_feedback_no">
                         <property name="label" translatable="yes">Do not show feedback</property>
                         <property name="visible">True</property>
                         <property name="can-focus">True</property>
                         <property name="receives-default">False</property>
-                        <property name="active">True</property>
                         <property name="draw-indicator">True</property>
-                        <signal name="toggled" handler="on_radio_force_sensor_capture_feedback_no_toggled" swapped="no"/>
+                        <signal name="toggled" handler="on_check_force_sensor_capture_feedback_no_toggled" swapped="no"/>
                       </object>
                       <packing>
                         <property name="expand">False</property>
-                        <property name="fill">False</property>
+                        <property name="fill">True</property>
                         <property name="position">0</property>
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkHBox" id="hbox55">
-                        <property name="visible">True</property>
+                      <object class="GtkHBox" id="box_force_sensor_capture_feedback_show">
                         <property name="can-focus">False</property>
                         <property name="spacing">20</property>
+                        <child>
+                          <object class="GtkLabel">
+                            <property name="visible">True</property>
+                            <property name="can-focus">False</property>
+                            <property name="label" translatable="yes">Show</property>
+                          </object>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">False</property>
+                            <property name="position">0</property>
+                          </packing>
+                        </child>
                         <child>
                           <object class="GtkRadioButton" id="radio_force_sensor_capture_feedback_show_rectangle">
                             <property name="label" translatable="yes">Rectangle</property>
@@ -5233,13 +5243,12 @@
                             <property name="receives-default">False</property>
                             <property name="active">True</property>
                             <property name="draw-indicator">True</property>
-                            <property name="group">radio_force_sensor_capture_feedback_no</property>
                             <signal name="toggled" handler="on_radio_force_sensor_capture_feedback_show_rectangle_toggled" swapped="no"/>
                           </object>
                           <packing>
                             <property name="expand">False</property>
                             <property name="fill">False</property>
-                            <property name="position">0</property>
+                            <property name="position">1</property>
                           </packing>
                         </child>
                         <child>
@@ -5249,13 +5258,13 @@
                             <property name="can-focus">True</property>
                             <property name="receives-default">False</property>
                             <property name="draw-indicator">True</property>
-                            <property name="group">radio_force_sensor_capture_feedback_no</property>
+                            <property name="group">radio_force_sensor_capture_feedback_show_rectangle</property>
                             <signal name="toggled" handler="on_radio_force_sensor_capture_feedback_show_path_toggled" swapped="no"/>
                           </object>
                           <packing>
                             <property name="expand">False</property>
                             <property name="fill">False</property>
-                            <property name="position">1</property>
+                            <property name="position">2</property>
                           </packing>
                         </child>
                         <child>
@@ -5266,13 +5275,13 @@
                             <property name="receives-default">False</property>
                             <property name="active">True</property>
                             <property name="draw-indicator">True</property>
-                            <property name="group">radio_force_sensor_capture_feedback_no</property>
+                            <property name="group">radio_force_sensor_capture_feedback_show_rectangle</property>
                             <signal name="toggled" handler="on_radio_force_sensor_capture_feedback_show_questionnaire_toggled" swapped="no"/>
                           </object>
                           <packing>
-                            <property name="expand">True</property>
-                            <property name="fill">True</property>
-                            <property name="position">2</property>
+                            <property name="expand">False</property>
+                            <property name="fill">False</property>
+                            <property name="position">3</property>
                           </packing>
                         </child>
                       </object>
@@ -5296,38 +5305,12 @@
                     <property name="show-tabs">False</property>
                     <property name="show-border">False</property>
                     <child>
-                      <object class="GtkVBox" id="vbox21">
-                        <property name="visible">True</property>
-                        <property name="can-focus">False</property>
-                        <child>
-                          <object class="GtkHSeparator" id="hseparator1">
-                            <property name="visible">True</property>
-                            <property name="can-focus">False</property>
-                          </object>
-                          <packing>
-                            <property name="expand">False</property>
-                            <property name="fill">True</property>
-                            <property name="position">0</property>
-                          </packing>
-                        </child>
-                      </object>
-                    </child>
-                    <child type="tab">
-                      <object class="GtkLabel" id="label70">
-                        <property name="visible">True</property>
-                        <property name="can-focus">False</property>
-                        <property name="label">do not show</property>
-                      </object>
-                      <packing>
-                        <property name="tab-fill">False</property>
-                      </packing>
-                    </child>
-                    <child>
                       <object class="GtkFrame" id="frame3">
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
                         <property name="label-xalign">0</property>
-                        <property name="shadow-type">none</property>
+                        <property name="label-yalign">1</property>
+                        <property name="shadow-type">out</property>
                         <child>
                           <object class="GtkAlignment" id="alignment19">
                             <property name="visible">True</property>
@@ -5464,9 +5447,6 @@
                           </object>
                         </child>
                       </object>
-                      <packing>
-                        <property name="position">1</property>
-                      </packing>
                     </child>
                     <child type="tab">
                       <object class="GtkLabel" id="label68">
@@ -5475,7 +5455,6 @@
                         <property name="label">rectangle</property>
                       </object>
                       <packing>
-                        <property name="position">1</property>
                         <property name="tab-fill">False</property>
                       </packing>
                     </child>
@@ -5910,7 +5889,7 @@
                         </child>
                       </object>
                       <packing>
-                        <property name="position">2</property>
+                        <property name="position">1</property>
                       </packing>
                     </child>
                     <child type="tab">
@@ -5920,7 +5899,7 @@
                         <property name="label">path</property>
                       </object>
                       <packing>
-                        <property name="position">2</property>
+                        <property name="position">1</property>
                         <property name="tab-fill">False</property>
                       </packing>
                     </child>
@@ -6108,7 +6087,7 @@
                         </child>
                       </object>
                       <packing>
-                        <property name="position">3</property>
+                        <property name="position">2</property>
                       </packing>
                     </child>
                     <child type="tab">
@@ -6118,7 +6097,7 @@
                         <property name="label">questionnaire</property>
                       </object>
                       <packing>
-                        <property name="position">3</property>
+                        <property name="position">2</property>
                         <property name="tab-fill">False</property>
                       </packing>
                     </child>

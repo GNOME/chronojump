@@ -164,6 +164,15 @@ public class TriggerList
 	{
 		return l;
 	}
+	public List<Trigger> GetListReversed()
+	{
+		List<Trigger> rev_l = new List<Trigger> ();
+		for (int i = l.Count -1; i >= 0; i --)
+			rev_l.Add (l[i]);
+
+		return rev_l;
+	}
+
 	public Trigger GetTrigger (int i)
 	{
 		return l[i];

@@ -972,8 +972,16 @@ class SqlitePreferences : Sqlite
 				else if(reader[1].ToString() == "True")
 					preferences.forceSensorCaptureFeedbackActive = Preferences.ForceSensorCaptureFeedbackActiveEnum.RECTANGLE;
 				else
+				{
+					//fix for 2.3.0cherry to manage reading a QUESTIONNAIRE (coming from master)
+					string valFixed = reader[1].ToString ();
+					if (valFixed == "QUESTIONNAIRE")
+						valFixed = "NO";
+
 					preferences.forceSensorCaptureFeedbackActive = (Preferences.ForceSensorCaptureFeedbackActiveEnum)
-						Enum.Parse(typeof(Preferences.ForceSensorCaptureFeedbackActiveEnum), reader[1].ToString());
+						//Enum.Parse(typeof(Preferences.ForceSensorCaptureFeedbackActiveEnum), reader[1].ToString());
+						Enum.Parse(typeof(Preferences.ForceSensorCaptureFeedbackActiveEnum), valFixed);
+				}
 			}
 			else if(reader[0].ToString() == ForceSensorCaptureFeedbackAt)
 				preferences.forceSensorCaptureFeedbackAt = Convert.ToInt32(reader[1].ToString());

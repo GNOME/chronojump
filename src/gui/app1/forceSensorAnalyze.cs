@@ -1021,6 +1021,7 @@ public partial class ChronoJumpWindow
 		}
 
 		//to update values
+		LogB.Information ("calling to move hscale from forceSensorDoGraphAI ()");
 		if (radio_force_sensor_ai_ab.Active)
 			on_hscale_force_sensor_ai_value_changed (hscale_force_sensor_ai_a, new EventArgs ());
 		else
@@ -1382,7 +1383,73 @@ public partial class ChronoJumpWindow
 
 		if(fsAI == null || fsAI.GetLength() == 0)
 			return;
+
 		Gtk.HScale hs = (Gtk.HScale) o;
+
+		if (check_force_sensor_ai_chained_hscales.Active)
+		{
+			bool isLeft; //A or C
+			Gtk.HScale hsRelated ; //if A then B, if D then C
+			int last;
+			int previousDiffWithRelated;
+			if (hs == hscale_force_sensor_ai_a)
+			{
+				isLeft = true; //A or C
+				hsRelated = hscale_force_sensor_ai_b; //if A then B, if D then C
+				last = force_sensor_last_a;
+				previousDiffWithRelated = force_sensor_last_b - force_sensor_last_a;
+			}
+			else if (hs == hscale_force_sensor_ai_b)
+			{
+				isLeft = false;
+				hsRelated = hscale_force_sensor_ai_a;
+				last = force_sensor_last_b;
+				previousDiffWithRelated = force_sensor_last_b - force_sensor_last_a;
+			}
+			else if (hs == hscale_force_sensor_ai_c)
+			{
+				isLeft = true;
+				hsRelated = hscale_force_sensor_ai_d;
+				last = force_sensor_last_c;
+				previousDiffWithRelated = force_sensor_last_d - force_sensor_last_c;
+			}
+			else //if (hs == hscale_force_sensor_ai_d)
+			{
+				isLeft = false;
+				hsRelated = hscale_force_sensor_ai_c;
+				last = force_sensor_last_d;
+				previousDiffWithRelated = force_sensor_last_d - force_sensor_last_c;
+			}
+
+			if (! forceSensorHScalesDoNotFollow)
+			{
+				forceSensorHScalesDoNotFollow = true;
+				int diffWithPrevious = Convert.ToInt32 (hs.Value) - last;
+				if (isLeft && Convert.ToInt32 (hsRelated.Value) + diffWithPrevious >= fsAI.GetLength() -1)
+				{
+					hsRelated.Value = fsAI.GetLength () -1;
+					hs.Value = hsRelated.Value - previousDiffWithRelated;
+				}
+				else if (! isLeft && Convert.ToInt32 (hsRelated.Value) + diffWithPrevious <= 0)
+				{
+					hsRelated.Value = 0;
+					hs.Value = hsRelated.Value + previousDiffWithRelated;
+				}
+				else
+					hsRelated.Value += diffWithPrevious;
+
+				forceSensorHScalesDoNotFollow = false;
+			}
+
+			if (hs == hscale_force_sensor_ai_a)
+				force_sensor_last_b = Convert.ToInt32 (hsRelated.Value);
+			else if (hs == hscale_force_sensor_ai_b)
+				force_sensor_last_a = Convert.ToInt32 (hsRelated.Value);
+			else if (hs == hscale_force_sensor_ai_c)
+				force_sensor_last_d = Convert.ToInt32 (hsRelated.Value);
+			else if (hs == hscale_force_sensor_ai_d)
+				force_sensor_last_c = Convert.ToInt32 (hsRelated.Value);
+		}
 
 		hscale_force_sensor_ai_value_changed_do (fsAI, hs);
 	}
@@ -1391,66 +1458,50 @@ public partial class ChronoJumpWindow
 	private void hscale_force_sensor_ai_value_changed_do (ForceSensorAnalyzeInstant fsAI, HScale hs)
 	{
 		// 1. set some variables to make this function work for the four hscales
-		bool isAB; //false AC
 		bool isLeft; //A or C
 		Gtk.HScale hsRelated ; //if A then B, if D then C
-		int last;
 		string hscaleToDebug;
 		TreeviewFSAnalyze tvFS;
 
 		if (hs == hscale_force_sensor_ai_a)
 		{
 			tvFS = tvFS_AB;
-			isAB = true; //false AC
 			isLeft = true; //A or C
 			hsRelated = hscale_force_sensor_ai_b; //if A then B, if D then C
-			last = force_sensor_last_a;
 			hscaleToDebug = "--- hscale_a ---";
 		}
 		else if (hs == hscale_force_sensor_ai_b)
 		{
 			tvFS = tvFS_AB;
-			isAB = true;
 			isLeft = false;
 			hsRelated = hscale_force_sensor_ai_a;
-			last = force_sensor_last_b;
 			hscaleToDebug = "--- hscale_b ---";
 		}
 		else if (hs == hscale_force_sensor_ai_c)
 		{
 			tvFS = tvFS_CD;
-			isAB = false;
 			isLeft = true;
 			hsRelated = hscale_force_sensor_ai_d;
-			last = force_sensor_last_c;
 			hscaleToDebug = "--- hscale_c ---";
 		}
 		else //if (hs == hscale_force_sensor_ai_d)
 		{
 			tvFS = tvFS_CD;
-			isAB = false;
 			isLeft = false;
 			hsRelated = hscale_force_sensor_ai_c;
-			last = force_sensor_last_d;
 			hscaleToDebug = "--- hscale_d ---";
 		}
 
-		int diffWithPrevious = Convert.ToInt32 (hs.Value) - last;
+		/*
+		LogB.Information (string.Format ("on_hscale_force_sensor_ai_value_changed {0} 0", hscaleToDebug));
+		LogB.Information ("hscales at start: ");
+		LogB.Information ("hscales a: " + hscale_force_sensor_ai_a.Value.ToString ());
+		LogB.Information ("hscales b: " + hscale_force_sensor_ai_b.Value.ToString ());
+		LogB.Information ("hscales c: " + hscale_force_sensor_ai_c.Value.ToString ());
+		LogB.Information ("hscales d: " + hscale_force_sensor_ai_d.Value.ToString ());
+		*/
 
-		//if chained and moving a to the right makes b higher than 1, do not move
-		if (check_force_sensor_ai_chained_hscales.Active)
-		{
-			if (
-					(isAB && isLeft && Convert.ToInt32 (hsRelated.Value) + diffWithPrevious >= fsAI.GetLength() -1) ||
-					(isAB && ! isLeft && Convert.ToInt32 (hsRelated.Value) + diffWithPrevious <= 0) ||
-					(! isAB && isLeft && Convert.ToInt32 (hsRelated.Value) + diffWithPrevious >= fsAI.GetLength() -1) ||
-					(! isAB && ! isLeft && Convert.ToInt32 (hsRelated.Value) + diffWithPrevious <= 0) )
-			{
-				hs.Value = last;
-				return;
-			}
-		}
-		//LogB.Information (string.Format ("on_hscale_force_sensor_ai_value_changed {0} 2", hscaleToDebug));
+		//LogB.Information (string.Format ("on_hscale_force_sensor_ai_value_changed {0} 1", hscaleToDebug));
 
 		//do not allow A or C to be higher than B or D (fix multiple possible problems)
 		if (isLeft && hs.Value > hsRelated.Value)
@@ -1465,19 +1516,11 @@ public partial class ChronoJumpWindow
 				(count > 0 && count > fsAI.GetLength() -1) ||
 				(countRelated > 0 && countRelated > fsAI.GetLength() -1) )
 		{
-			LogB.Information (string.Format ("hscale_force_sensor outside of boundaries (isAB: {0}, isLeft: {1}, count: {2}, countRelated: {3}, fsAI.GetLength (): {4})",
-						isAB, isLeft, count, countRelated, fsAI.GetLength ()));
+			LogB.Information (string.Format ("hscale_force_sensor outside of boundaries (isLeft: {0}, count: {1}, countRelated: {2}, fsAI.GetLength (): {3})",
+						isLeft, count, countRelated, fsAI.GetLength ()));
 			return;
 		}
-		//LogB.Information (string.Format ("on_hscale_force_sensor_ai_value_changed {0} 3", hscaleToDebug));
-
-		int countLeft = count;
-		int countRight = countRelated;
-		if (! isLeft)
-		{
-			countLeft = countRelated;
-			countRight = count;
-		}
+		LogB.Information (string.Format ("on_hscale_force_sensor_ai_value_changed {0} 2", hscaleToDebug));
 
 		string rfd = "";
 		if(count > 0 && count < fsAI.GetLength() -1)
@@ -1501,8 +1544,7 @@ public partial class ChronoJumpWindow
 		if (current_mode == Constants.Modes.FORCESENSORELASTIC)
 			tvFS.PassRow1or2Elastic (isLeft, position, speed, accel, power);
 
-		//LogB.Information (string.Format ("on_hscale_force_sensor_ai_value_changed {0} 4", hscaleToDebug));
-		//LogB.Information (string.Format ("on_hscale_force_sensor_ai_value_changed {0} 5", hscaleToDebug));
+		//LogB.Information (string.Format ("on_hscale_force_sensor_ai_value_changed {0} 3", hscaleToDebug));
 		// update force_sensor_last_a, ...
 		if (hs == hscale_force_sensor_ai_a)
 			force_sensor_last_a = Convert.ToInt32 (hs.Value);
@@ -1521,15 +1563,6 @@ public partial class ChronoJumpWindow
 			tvFS.FillTreeview ();
 
 			return;
-		}
-
-		//LogB.Information (string.Format ("on_hscale_force_sensor_ai_value_changed {0} 7", hscaleToDebug));
-		//if chained move also the related
-		if (check_force_sensor_ai_chained_hscales.Active)
-		{
-			forceSensorHScalesDoNotFollow = true;
-			hsRelated.Value = hsRelated.Value + diffWithPrevious;
-			forceSensorHScalesDoNotFollow = false;
 		}
 
 		//need to do both to ensure at unzoom params are calculated for AB and CD
@@ -1732,8 +1765,8 @@ public partial class ChronoJumpWindow
 	{
 		bool visible = true;//checkbutton_force_sensor_ai_b.Active;
 
-		ForceSensorAnalyzeInstant fsAI = getCorrectfsAI ();
-		bool visibleElastic = (visible && fsAI.CalculedElasticPSAP);
+		//ForceSensorAnalyzeInstant fsAI = getCorrectfsAI ();
+		//bool visibleElastic = (visible && fsAI.CalculedElasticPSAP);
 
 		if (visible && canDoForceSensorAnalyzeAB ())
 			button_force_sensor_analyze_AB_save.Visible = true;
@@ -2262,10 +2295,6 @@ public class TreeviewFSAnalyze : TreeviewFSAbstract
 	protected string timeEnd;
 	protected double forceEnd;
 	protected string rfdEnd;
-	private string positionEnd;
-	private string speedEnd;
-	private string accelEnd;
-	private string powerEnd;
 
 	//row 3
 	protected string timeDiff;

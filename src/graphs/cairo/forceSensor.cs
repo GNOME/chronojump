@@ -154,7 +154,7 @@ public abstract class CairoGraphForceSensor : CairoXY
 		g.LineWidth = 1;
 		int bucleStartPoints = points_l.Count -2; //to start searching points for each trigger since last one
 
-		foreach (Trigger trigger in triggerList.GetList())
+		foreach (Trigger trigger in triggerList.GetListReversed())
 		{
 			for (int i = bucleStartPoints; i >= 0; i --)
 			{

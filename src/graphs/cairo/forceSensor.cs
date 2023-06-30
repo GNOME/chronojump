@@ -435,16 +435,7 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 				paintMaxAvgInWindow (miw.MaxSampleStart, miw.MaxSampleEnd, miw.Max, points_l);
 
 			if (! questionnaireDo && briw.Error == "")
-			{
-				g.LineWidth = 2;
-				drawCircle (calculatePaintX (points_l[briw.MaxSampleStart].X), calculatePaintY (points_l[briw.MaxSampleStart].Y), 8, black, false);
-				drawCircle (calculatePaintX (points_l[briw.MaxSampleEnd].X), calculatePaintY (points_l[briw.MaxSampleEnd].Y), 8, black, false);
-
-				List<PointF> briwP_l = new List<PointF> ();
-				briwP_l.Add (new PointF (points_l[briw.MaxSampleStart].X, points_l[briw.MaxSampleStart].Y));
-				briwP_l.Add (new PointF (points_l[briw.MaxSampleEnd].X, points_l[briw.MaxSampleEnd].Y));
-				preparePredictedLine (briwP_l);
-			}
+				briwPlot (points_l);
 
 			if (! questionnaireDo)
 			{
@@ -528,6 +519,18 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 		}
 
 		return str;
+	}
+
+	private void briwPlot (List<PointF> points_l)
+	{
+		g.LineWidth = 2;
+		drawCircle (calculatePaintX (points_l[briw.MaxSampleStart].X), calculatePaintY (points_l[briw.MaxSampleStart].Y), 8, black, false);
+		drawCircle (calculatePaintX (points_l[briw.MaxSampleEnd].X), calculatePaintY (points_l[briw.MaxSampleEnd].Y), 8, black, false);
+
+		List<PointF> briwP_l = new List<PointF> ();
+		briwP_l.Add (new PointF (points_l[briw.MaxSampleStart].X, points_l[briw.MaxSampleStart].Y));
+		briwP_l.Add (new PointF (points_l[briw.MaxSampleEnd].X, points_l[briw.MaxSampleEnd].Y));
+		preparePredictedLine (briwP_l);
 	}
 
 	private void accuracyRectanglePlot (string accuracyText)

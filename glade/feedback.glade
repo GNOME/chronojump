@@ -5217,6 +5217,7 @@
                         <property name="visible">True</property>
                         <property name="can-focus">True</property>
                         <property name="receives-default">False</property>
+                        <property name="xalign">0</property>
                         <property name="draw-indicator">True</property>
                         <signal name="toggled" handler="on_check_force_sensor_capture_feedback_no_toggled" swapped="no"/>
                       </object>
@@ -5229,7 +5230,7 @@
                     <child>
                       <object class="GtkHBox" id="box_force_sensor_capture_feedback_show">
                         <property name="can-focus">False</property>
-                        <property name="spacing">20</property>
+                        <property name="spacing">12</property>
                         <child>
                           <object class="GtkLabel">
                             <property name="visible">True</property>
@@ -5275,6 +5276,23 @@
                           </packing>
                         </child>
                         <child>
+                          <object class="GtkRadioButton" id="radio_force_sensor_capture_feedback_show_asteroids">
+                            <property name="label" translatable="yes">Asteroids</property>
+                            <property name="visible">True</property>
+                            <property name="can-focus">True</property>
+                            <property name="receives-default">False</property>
+                            <property name="active">True</property>
+                            <property name="draw-indicator">True</property>
+                            <property name="group">radio_force_sensor_capture_feedback_show_rectangle</property>
+                            <signal name="toggled" handler="on_radio_force_sensor_capture_feedback_show_asteroids_toggled" swapped="no"/>
+                          </object>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">False</property>
+                            <property name="position">3</property>
+                          </packing>
+                        </child>
+                        <child>
                           <object class="GtkRadioButton" id="radio_force_sensor_capture_feedback_show_questionnaire">
                             <property name="label" translatable="yes">Questionnaire</property>
                             <property name="visible">True</property>
@@ -5288,7 +5306,7 @@
                           <packing>
                             <property name="expand">False</property>
                             <property name="fill">False</property>
-                            <property name="position">3</property>
+                            <property name="position">4</property>
                           </packing>
                         </child>
                       </object>
@@ -5449,7 +5467,7 @@
                           <object class="GtkLabel" id="label74">
                             <property name="visible">True</property>
                             <property name="can-focus">False</property>
-                            <property name="label" translatable="yes">Show rectangle</property>
+                            <property name="label" translatable="yes">Rectangle</property>
                             <property name="use-markup">True</property>
                           </object>
                         </child>
@@ -5890,7 +5908,7 @@
                           <object class="GtkLabel" id="label58">
                             <property name="visible">True</property>
                             <property name="can-focus">False</property>
-                            <property name="label" translatable="yes">Show path</property>
+                            <property name="label" translatable="yes">Path</property>
                             <property name="use-markup">True</property>
                           </object>
                         </child>
@@ -5907,6 +5925,50 @@
                       </object>
                       <packing>
                         <property name="position">1</property>
+                        <property name="tab-fill">False</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkFrame" id="frame4">
+                        <property name="visible">True</property>
+                        <property name="can-focus">False</property>
+                        <property name="label-xalign">0</property>
+                        <property name="label-yalign">1</property>
+                        <property name="shadow-type">out</property>
+                        <child>
+                          <object class="GtkAlignment" id="alignment35">
+                            <property name="visible">True</property>
+                            <property name="can-focus">False</property>
+                            <property name="top-padding">8</property>
+                            <property name="bottom-padding">8</property>
+                            <property name="left-padding">8</property>
+                            <property name="right-padding">8</property>
+                            <child>
+                              <placeholder/>
+                            </child>
+                          </object>
+                        </child>
+                        <child type="label">
+                          <object class="GtkLabel" id="label88">
+                            <property name="visible">True</property>
+                            <property name="can-focus">False</property>
+                            <property name="label" translatable="yes">Asteroids</property>
+                            <property name="use-markup">True</property>
+                          </object>
+                        </child>
+                      </object>
+                      <packing>
+                        <property name="position">2</property>
+                      </packing>
+                    </child>
+                    <child type="tab">
+                      <object class="GtkLabel">
+                        <property name="visible">True</property>
+                        <property name="can-focus">False</property>
+                        <property name="label">asteroids</property>
+                      </object>
+                      <packing>
+                        <property name="position">2</property>
                         <property name="tab-fill">False</property>
                       </packing>
                     </child>
@@ -6246,13 +6308,13 @@
                           <object class="GtkLabel" id="label96">
                             <property name="visible">True</property>
                             <property name="can-focus">False</property>
-                            <property name="label" translatable="yes">Show questionnaire</property>
+                            <property name="label" translatable="yes">Questionnaire</property>
                             <property name="use-markup">True</property>
                           </object>
                         </child>
                       </object>
                       <packing>
-                        <property name="position">2</property>
+                        <property name="position">3</property>
                       </packing>
                     </child>
                     <child type="tab">
@@ -6262,7 +6324,7 @@
                         <property name="label">questionnaire</property>
                       </object>
                       <packing>
-                        <property name="position">2</property>
+                        <property name="position">3</property>
                         <property name="tab-fill">False</property>
                       </packing>
                     </child>

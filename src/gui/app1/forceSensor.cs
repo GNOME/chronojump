@@ -2470,26 +2470,23 @@ LogB.Information(" fs R ");
 		updateForceSensorCaptureSignalCairo (true);
 	}
 
-	private bool asteroidsDo = false; //TODO: read preferences
-
 	private void updateForceSensorCaptureSignalCairo (bool forceRedraw)
 	{
 		//LogB.Information ("updateForceSensorCaptureSignalCairo 0");
 		if (cairoGraphForceSensorSignal == null)
 		{
-			if (asteroidsDo)
+			if (preferences.forceSensorCaptureFeedbackActive ==
+					Preferences.ForceSensorCaptureFeedbackActiveEnum.ASTEROIDS)
 				cairoGraphForceSensorSignal = new CairoGraphForceSensorSignalAsteroids (
 						force_capture_drawingarea_cairo, "title");
-			else {
-				if (preferences.forceSensorCaptureFeedbackActive ==
-						Preferences.ForceSensorCaptureFeedbackActiveEnum.QUESTIONNAIRE)
-					cairoGraphForceSensorSignal = new CairoGraphForceSensorSignalQuestionnaire (
-							force_capture_drawingarea_cairo, "title");
-				else
-					cairoGraphForceSensorSignal = new CairoGraphForceSensorSignal (
-							force_capture_drawingarea_cairo, "title",
-							preferences.forceSensorFeedbackPathLineWidth);
-			}
+			else if (preferences.forceSensorCaptureFeedbackActive ==
+					Preferences.ForceSensorCaptureFeedbackActiveEnum.QUESTIONNAIRE)
+				cairoGraphForceSensorSignal = new CairoGraphForceSensorSignalQuestionnaire (
+						force_capture_drawingarea_cairo, "title");
+			else
+				cairoGraphForceSensorSignal = new CairoGraphForceSensorSignal (
+						force_capture_drawingarea_cairo, "title",
+						preferences.forceSensorFeedbackPathLineWidth);
 		}
 
 		//LogB.Information ("updateForceSensorCaptureSignalCairo 1");
@@ -2566,7 +2563,7 @@ LogB.Information(" fs R ");
 				forceSensorValues.BestRFD = briw.Max;
 		}
 
-		if (asteroidsDo)
+		if (preferences.forceSensorCaptureFeedbackActive == Preferences.ForceSensorCaptureFeedbackActiveEnum.ASTEROIDS)
 			cairoGraphForceSensorSignal.PassAsteroids = asteroids;
 		else if (preferences.forceSensorCaptureFeedbackActive == Preferences.ForceSensorCaptureFeedbackActiveEnum.QUESTIONNAIRE)
 		{

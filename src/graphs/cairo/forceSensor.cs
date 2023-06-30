@@ -597,6 +597,36 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 	}
 }
 
+public class CairoGraphForceSensorSignalAsteroids : CairoGraphForceSensorSignal
+{
+	public CairoGraphForceSensorSignalAsteroids (DrawingArea area, string title)
+	{
+		initForceSensor (area, title);
+	}
+
+	protected override void plotSpecific ()
+	{
+		asteroidsPlot (points_l[points_l.Count -1], startAt);
+
+		drawCircle (calculatePaintX (points_l[points_l.Count -1].X),
+				calculatePaintY (points_l[points_l.Count -1].Y), 6, bluePlots, true);
+	}
+
+	private void asteroidsPlot (PointF startAtPoint, int startAt)
+	{
+		List<Asteroid> aPaintable_l = asteroids.GetAllPaintable (startAtPoint.X, marginRightInSeconds);
+		foreach (Asteroid a in aPaintable_l)
+		{
+			drawCircle (
+					graphWidth - (a.GetTimeNowProportion (startAtPoint.X, marginRightInSeconds) *
+					(graphWidth -getMargins (Directions.LR)) + getMargins (Directions.L)),
+					calculatePaintY (a.GetYNow (startAtPoint.X, marginRightInSeconds)),
+					a.Size, a.Color, true);
+		}
+
+	}
+}
+
 public class CairoGraphForceSensorSignalQuestionnaire : CairoGraphForceSensorSignal
 {
 	public CairoGraphForceSensorSignalQuestionnaire (DrawingArea area, string title)
@@ -711,36 +741,6 @@ public class CairoGraphForceSensorSignalQuestionnaire : CairoGraphForceSensorSig
 	}
 
 
-}
-
-public class CairoGraphForceSensorSignalAsteroids : CairoGraphForceSensorSignal
-{
-	public CairoGraphForceSensorSignalAsteroids (DrawingArea area, string title)
-	{
-		initForceSensor (area, title);
-
-		drawCircle (calculatePaintX (points_l[points_l.Count -1].X),
-				calculatePaintY (points_l[points_l.Count -1].Y), 6, bluePlots, true);
-	}
-
-	protected override void plotSpecific ()
-	{
-		asteroidsPlot (points_l[points_l.Count -1], startAt);
-	}
-
-	private void asteroidsPlot (PointF startAtPoint, int startAt)
-	{
-		List<Asteroid> aPaintable_l = asteroids.GetAllPaintable (startAtPoint.X, marginRightInSeconds);
-		foreach (Asteroid a in aPaintable_l)
-		{
-			drawCircle (
-					graphWidth - (a.GetTimeNowProportion (startAtPoint.X, marginRightInSeconds) *
-					(graphWidth -getMargins (Directions.LR)) + getMargins (Directions.L)),
-					calculatePaintY (a.GetYNow (startAtPoint.X, marginRightInSeconds)),
-					a.Size, a.Color, true);
-		}
-
-	}
 }
 
 public class CairoGraphForceSensorAI : CairoGraphForceSensor

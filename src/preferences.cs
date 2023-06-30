@@ -328,7 +328,7 @@ public class Preferences
 	public int forceSensorMIFDurationPercent;
 
 	//forceSensor feedback
-	public enum ForceSensorCaptureFeedbackActiveEnum { NO, RECTANGLE, PATH, QUESTIONNAIRE };
+	public enum ForceSensorCaptureFeedbackActiveEnum { NO, RECTANGLE, PATH, ASTEROIDS, QUESTIONNAIRE };
 	//rectangle
 	public ForceSensorCaptureFeedbackActiveEnum forceSensorCaptureFeedbackActive;
 	public int forceSensorCaptureFeedbackAt;

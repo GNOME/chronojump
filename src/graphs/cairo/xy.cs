@@ -54,7 +54,8 @@ public abstract class CairoXY : CairoGeneric
 	protected string jumpType;
 	protected string runType;
 	protected string date;
-	protected Cairo.Color colorBackground;
+	protected Cairo.Color colorBackground; //on Chronojump (not bg of the cairo graph)
+	protected Cairo.Color colorCairoBackground = new Cairo.Color (1, 1, 1, 1);
 
 	protected Cairo.Context g;
 	protected int pointsRadius = 6;
@@ -81,7 +82,7 @@ public abstract class CairoXY : CairoGeneric
 
 	protected Cairo.Color black;
 	protected Cairo.Color gray99;
-	//Cairo.Color white;
+	protected Cairo.Color white;
 	//Cairo.Color blue;
 	protected Cairo.Color bluePlots;
 
@@ -165,7 +166,8 @@ public abstract class CairoXY : CairoGeneric
 		if(clearDrawingArea)
 		{
 			//2 clear DrawingArea (context) (paint in white)
-			g.SetSourceRGB(1,1,1);
+			//g.SetSourceRGB(1,1,1);
+			g.SetSourceColor (colorCairoBackground);
 			g.Paint();
 		}
 
@@ -181,7 +183,7 @@ public abstract class CairoXY : CairoGeneric
 
 		black = colorFromRGB(0,0,0);
 		gray99 = colorFromRGB(99,99,99);
-		//white = colorFromRGB(255,255,255);
+		white = new Cairo.Color (1, 1, 1, 1);
 		//blue = colorFromRGB(178, 223, 238); //lightblue
 		bluePlots = colorFromRGB(0, 0, 200);
 

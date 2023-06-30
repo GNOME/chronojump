@@ -339,6 +339,8 @@ public class Preferences
 	public int forceSensorFeedbackPathMasters;
 	public int forceSensorFeedbackPathMasterSeconds;
 	public int forceSensorFeedbackPathLineWidth;
+	//asteroiods
+	public bool forceSensorFeedbackAsteroidsDark = true;
 	//questionnaire
 	public int forceSensorFeedbackQuestionnaireMax = 100;
 	public int forceSensorFeedbackQuestionnaireMin = 0;

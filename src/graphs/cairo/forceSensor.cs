@@ -359,6 +359,11 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 				(points_l != null && points_l.Count != points_l_painted)
 				)
 		{
+			if (asteroids != null && asteroids.Dark)
+				colorCairoBackground = new Cairo.Color (.005, .005, .05, 1);
+			else
+				colorCairoBackground = new Cairo.Color (1, 1, 1, 1);
+
 			initGraph (font, 1, (maxValuesChanged || forceRedraw) );
 			graphInited = true;
 			points_l_painted = 0;
@@ -432,10 +437,14 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 		if (rectangleRange > 0)
 			paintRectangle (rectangleN, rectangleRange);
 
+		if (asteroids != null && asteroids.Dark)
+			g.SetSourceColor (white);
+
 		if (points_l.Count > 2) //to ensure minX != maxX
 			paintGrid (gridTypes.BOTH, true, 0);
 
 		paintAxis();
+		g.SetSourceColor (black);
 
 		accuracyNowIn = true;
 		colorHead = colorPathBlue;
@@ -609,7 +618,7 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 public class CairoGraphForceSensorSignalAsteroids : CairoGraphForceSensorSignal
 {
 	private const int playerRadius = 6;
-	private double lastShot;
+	//private double lastShot;
 	private double lastPointUp; //each s 1 point up
 
 	public CairoGraphForceSensorSignalAsteroids (DrawingArea area, string title)
@@ -624,8 +633,12 @@ public class CairoGraphForceSensorSignalAsteroids : CairoGraphForceSensorSignal
 
 		asteroidsPlot (points_l[points_l.Count -1], startAt);
 
+		Cairo.Color playerColor = bluePlots;
+		if (asteroids.Dark)
+			playerColor = yellow;
+
 		drawCircle (calculatePaintX (points_l[points_l.Count -1].X),
-				calculatePaintY (points_l[points_l.Count -1].Y), playerRadius, bluePlots, true);
+				calculatePaintY (points_l[points_l.Count -1].Y), playerRadius, playerColor, true);
 	}
 
 	private void asteroidsPlot (PointF startAtPoint, int startAt)
@@ -660,7 +673,11 @@ public class CairoGraphForceSensorSignalAsteroids : CairoGraphForceSensorSignal
 
 		// print points
 		g.SetFontSize (textHeight +8);
-		g.SetSourceRGB(0, 0, 0); //black
+
+		if (asteroids.Dark)
+			g.SetSourceColor (white);
+		else
+			g.SetSourceColor (black);
 
 		printText (graphWidth -rightMargin -innerMargin, topMargin/2, 0, textHeight +4,
 				"Points: " + asteroids.Points.ToString (), g, alignTypes.RIGHT);
@@ -1388,12 +1405,15 @@ public class QRectangle
 public class Asteroids
 {
 	public int Points;
+	public bool Dark;
 
 	private List<Asteroid> asteroid_l;
 	private Random random = new Random();
 
-	public Asteroids ()
+	public Asteroids (bool Dark)
 	{
+		this.Dark = Dark;
+
 		Points = 0;
 		asteroid_l = new List<Asteroid> ();
 
@@ -1431,7 +1451,7 @@ public class Asteroids
 		do {
 			color = new Cairo.Color (random.NextDouble (), random.NextDouble (), random.NextDouble (),
 					(double) random.Next (5,10)/10); //alpha: .5-1
-		} while (! CairoUtil.ColorIsDark (color));
+		} while (Dark == CairoUtil.ColorIsDark (color));
 
 		return color;
 	}

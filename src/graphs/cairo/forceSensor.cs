@@ -455,14 +455,14 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 			accuracyPathPlot (accuracyText,
 					points_l.Count, points_l_interpolated_path, plotType);
 
-		if (questionnaire == null && miw.Error == "")
-			paintMaxAvgInWindow (miw.MaxSampleStart, miw.MaxSampleEnd, miw.Max, points_l);
-
-		if (questionnaire == null && briw.Error == "")
-			briwPlot (points_l);
-
-		if (questionnaire == null)
+		if (questionnaire == null && asteroids == null)
 		{
+			if (miw.Error == "")
+				paintMaxAvgInWindow (miw.MaxSampleStart, miw.MaxSampleEnd, miw.Max, points_l);
+
+			if (briw.Error == "")
+				briwPlot (points_l);
+
 			plotRealPoints(plotType, points_l, startAt, false); //fast (but the difference is very low)
 
 			if(calculatePaintX (xAtMaxY) > leftMargin)
@@ -491,7 +491,7 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 					 rectangleN - rectangleRange/2 <= points_l[points_l.Count -1].Y);
 			} else {
 				//compare last point painted with circle at right
-				double error = getDistance2D (calculatePaintX (points_l[points_l.Count -1].X),
+				double error = CairoUtil.GetDistance2D (calculatePaintX (points_l[points_l.Count -1].X),
 						calculatePaintY (points_l[points_l.Count -1].Y),
 						calculatePaintX (points_l_interpolated_path[points_l_interpolated_path.Count -1].X),
 						calculatePaintY (points_l_interpolated_path[points_l_interpolated_path.Count -1].Y));
@@ -582,6 +582,15 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 		}
 	}
 
+	protected void crashedPaint ()
+	{
+		g.SetSourceColor (red);
+		g.LineWidth = 20;
+		g.Rectangle (0, 0, graphWidth, graphHeight);
+		g.Stroke();
+		g.LineWidth = 1;
+	}
+
 	public Asteroids PassAsteroids {
 		set { asteroids = value; }
 	}
@@ -599,6 +608,8 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 
 public class CairoGraphForceSensorSignalAsteroids : CairoGraphForceSensorSignal
 {
+	private const int playerRadius = 6;
+
 	public CairoGraphForceSensorSignalAsteroids (DrawingArea area, string title)
 	{
 		initForceSensor (area, title);
@@ -609,7 +620,7 @@ public class CairoGraphForceSensorSignalAsteroids : CairoGraphForceSensorSignal
 		asteroidsPlot (points_l[points_l.Count -1], startAt);
 
 		drawCircle (calculatePaintX (points_l[points_l.Count -1].X),
-				calculatePaintY (points_l[points_l.Count -1].Y), 6, bluePlots, true);
+				calculatePaintY (points_l[points_l.Count -1].Y), playerRadius, bluePlots, true);
 	}
 
 	private void asteroidsPlot (PointF startAtPoint, int startAt)
@@ -617,14 +628,24 @@ public class CairoGraphForceSensorSignalAsteroids : CairoGraphForceSensorSignal
 		List<Asteroid> aPaintable_l = asteroids.GetAllPaintable (startAtPoint.X, marginRightInSeconds);
 		foreach (Asteroid a in aPaintable_l)
 		{
-			drawCircle (
-					graphWidth - (a.GetTimeNowProportion (startAtPoint.X, marginRightInSeconds) *
-					(graphWidth -getMargins (Directions.LR)) + getMargins (Directions.L)),
-					calculatePaintY (a.GetYNow (startAtPoint.X, marginRightInSeconds)),
-					a.Size, a.Color, true);
-		}
+			double ax = graphWidth - (a.GetTimeNowProportion (startAtPoint.X, marginRightInSeconds) *
+					(graphWidth -getMargins (Directions.LR)) + getMargins (Directions.L));
+			double ay = calculatePaintY (a.GetYNow (startAtPoint.X, marginRightInSeconds));
 
+			drawCircle (ax, ay, a.Size, a.Color, true);
+
+			if (asteroids.Crashed (ax, ay, a.Size,
+					calculatePaintX (points_l[points_l.Count -1].X),
+					calculatePaintY (points_l[points_l.Count -1].Y),
+					playerRadius))
+			{
+				crashedPaint ();
+				//TODO: update points, and add points by seconds without crash
+			}
+
+		}
 	}
+
 }
 
 public class CairoGraphForceSensorSignalQuestionnaire : CairoGraphForceSensorSignal
@@ -722,12 +743,7 @@ public class CairoGraphForceSensorSignalQuestionnaire : CairoGraphForceSensorSig
 					calculatePaintX (lastPoint.X),
 					calculatePaintY (lastPoint.Y) ))
 		{
-			g.SetSourceColor (red);
-			g.LineWidth = 20;
-			g.Rectangle (0, 0, graphWidth, graphHeight);
-			g.Stroke();
-			g.LineWidth = 1;
-
+			crashedPaint ();
 			questionnaire.Points --;
 		}
 		else if (rectangleM.IsGreen (
@@ -1333,11 +1349,14 @@ public class QRectangle
 
 public class Asteroids
 {
+	public int Points;
+
 	private List<Asteroid> asteroid_l;
 	private Random random = new Random();
 
 	public Asteroids ()
 	{
+		Points = 0;
 		asteroid_l = new List<Asteroid> ();
 
 		for (int i = 0; i < 100; i ++)
@@ -1361,6 +1380,11 @@ public class Asteroids
 				aPaintable_l.Add (a);
 
 		return aPaintable_l;
+	}
+
+	public bool Crashed (double asteroidX, double asteroidY, int asteroidSize, double playerX, double playerY, int playerRadius)
+	{
+		return (CairoUtil.GetDistance2D (asteroidX, asteroidY, playerX, playerY) < asteroidSize + playerRadius);
 	}
 
 	private Cairo.Color createAsteroidColor ()

@@ -341,6 +341,7 @@ public class Preferences
 	public int forceSensorFeedbackPathLineWidth;
 	//asteroiods
 	public bool forceSensorFeedbackAsteroidsDark = true;
+	public int forceSensorFeedbackAsteroidsFrequency = 1;
 	//questionnaire
 	public int forceSensorFeedbackQuestionnaireMax = 100;
 	public int forceSensorFeedbackQuestionnaireMin = 0;

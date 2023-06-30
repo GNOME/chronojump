@@ -1410,14 +1410,15 @@ public class Asteroids
 	private List<Asteroid> asteroid_l;
 	private Random random = new Random();
 
-	public Asteroids (bool Dark)
+	public Asteroids (bool Dark, int frequency)
 	{
 		this.Dark = Dark;
 
 		Points = 0;
 		asteroid_l = new List<Asteroid> ();
+		int plotSeconds = 100;
 
-		for (int i = 0; i < 100; i ++)
+		for (int i = 0; i < frequency * plotSeconds; i ++)
 		{
 			int xStart = random.Next (5*1000000, 100*1000000);
 			int usLife = random.Next (3*100000, 15*1000000);

@@ -232,6 +232,7 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 	private Questionnaire questionnaire;
 	private int questionnaireMinY;
 	private int questionnaireMaxY;
+	private Asteroids asteroids;
 
 	//regular constructor
 	public CairoGraphForceSensorSignal (DrawingArea area, string title, int pathLineWidthInN)
@@ -257,6 +258,7 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 			GetBestRFDInWindow briw,
 			TriggerList triggerList,
 			Questionnaire questionnaire, int questionnaireMinY, int questionnaireMaxY,
+			Asteroids asteroids,
 			bool forceRedraw, PlotTypes plotType)
 	{
 		this.minDisplayFNegative = minDisplayFNegative;
@@ -271,6 +273,7 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 		this.questionnaire = questionnaire;
 		this.questionnaireMinY = questionnaireMinY;
 		this.questionnaireMaxY = questionnaireMaxY;
+		this.asteroids = asteroids;
 		/*
 		this.oneSerie = ( (pointsDispl_l == null || pointsDispl_l.Count == 0) &&
 				(pointsSpeed_l == null || pointsSpeed_l.Count == 0) &&
@@ -394,7 +397,7 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 		if (showAccuracy && points_l_interpolated_path != null && points_l_interpolated_path.Count > 0 && showLastSeconds >= 10)
 			marginRightInSeconds = 3; //TODO: or a 1/3 of showLastSeconds TODO: on worm first we need to fix interpolatedPath to be 3s longer
 			*/
-		if (questionnaireDo && showLastSeconds > 3)
+		if (questionnaireDo && showLastSeconds > 3) //this works also for asteroids
 			marginRightInSeconds = Convert.ToInt32 (.66 * showLastSeconds); //show in left third of image (to have time/space to answer)
 
 		if (showLastSeconds > 0 && points_l.Count > 1)
@@ -461,6 +464,8 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 
 			if (questionnaireDo)
 				questionnairePlot (points_l[points_l.Count -1]);
+
+			asteroidsPlot (points_l[points_l.Count -1], startAt, marginRightInSeconds);
 
 			if (rectangleRange > 0 && showAccuracy)
 			{
@@ -657,6 +662,20 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 		printText (graphWidth -rightMargin -innerMargin, topMargin/2, 0, textHeight +4,
 				"Points: " + questionnaire.Points.ToString (), g, alignTypes.RIGHT);
 		g.SetFontSize (textHeight);
+	}
+
+	private void asteroidsPlot (PointF startAtPoint, int startAt, int marginRightInSeconds)
+	{
+		List<Asteroid> aPaintable_l = asteroids.GetAllPaintable (startAtPoint.X, marginRightInSeconds);
+		foreach (Asteroid a in aPaintable_l)
+		{
+			drawCircle (
+					graphWidth - (a.GetTimeNowProportion (startAtPoint.X, marginRightInSeconds) *
+					(graphWidth -getMargins (Directions.LR)) + getMargins (Directions.L)),
+					calculatePaintY (a.GetYNow (startAtPoint.X, marginRightInSeconds)),
+					a.Size, a.Color, true);
+		}
+
 	}
 }
 
@@ -1245,5 +1264,111 @@ public class QRectangle
 		this.y = y;
 		this.x2 = x + width;
 		this.y2 = y + height;
+	}
+}
+
+public class Asteroids
+{
+	private List<Asteroid> asteroid_l;
+	private Random random = new Random();
+
+	public Asteroids ()
+	{
+		asteroid_l = new List<Asteroid> ();
+
+		for (int i = 0; i < 100; i ++)
+		{
+			int xStart = random.Next (5*1000000, 100*1000000);
+			int usLife = random.Next (3*100000, 15*1000000);
+			asteroid_l.Add (new Asteroid (
+						xStart, random.Next (-100, 200), // y (force)
+						usLife, random.Next (-100, 200), // y (force)
+						random.Next (20, 100), // size
+						createAsteroidColor ()
+						));
+		}
+	}
+
+	public List<Asteroid> GetAllPaintable (double startAtPointX, int marginRightInSeconds)
+	{
+		List<Asteroid> aPaintable_l = new List<Asteroid> ();
+		foreach (Asteroid a in asteroid_l)
+			if (a.NeedToShow (startAtPointX, marginRightInSeconds))
+				aPaintable_l.Add (a);
+
+		return aPaintable_l;
+	}
+
+	private Cairo.Color createAsteroidColor ()
+	{
+		Cairo.Color color;
+		do {
+			color = new Cairo.Color (random.NextDouble (), random.NextDouble (), random.NextDouble (),
+					(double) random.Next (5,10)/10); //alpha: .5-1
+		} while (! CairoUtil.ColorIsDark (color));
+
+		return color;
+	}
+
+}
+
+public class Asteroid
+{
+	private int xStart; //time. When screen right is this time it will start
+	private int yStart; //force
+	private int usLife; //time
+	private int yEnd; //force
+	private int size;
+	private Cairo.Color color;
+
+	public Asteroid (int xStart, int yStart, int usLife, int yEnd, int size, Cairo.Color color)
+	{
+		this.xStart = xStart;
+		this.yStart = yStart;
+		this.usLife = usLife;
+		this.yEnd = yEnd;
+		this.size = size;
+		this.color = color;
+	}
+
+	public bool NeedToShow (double graphUsStart, int graphSecondsAtRight)
+	{
+		int graphUsAtRight = graphSecondsAtRight * 1000000;
+		double graphUsTotalAtRight = graphUsStart + graphUsAtRight;
+
+		if (xStart > graphUsTotalAtRight)
+			return false;
+		if (xStart + usLife < graphUsTotalAtRight)
+			return false;
+
+		return true;
+	}
+
+	public double GetTimeNowProportion (double graphUsStart, int graphSecondsAtRight)
+	{
+		int graphUsAtRight = graphSecondsAtRight * 1000000;
+		double graphUsTotalAtRight = graphUsStart + graphUsAtRight;
+
+		return UtilAll.DivideSafe (graphUsTotalAtRight - xStart, usLife);
+	}
+
+	public double GetYNow (double graphUsStart, int graphSecondsAtRight)
+	{
+		double lifeProportion = GetTimeNowProportion (graphUsStart, graphSecondsAtRight);
+		return lifeProportion * (yEnd - yStart) + yStart;
+	}
+
+	public override string ToString ()
+	{
+		return string.Format ("({0},{1}) ({2},{3}) size: {4} color: ({5},{6},{7} {8})",
+				xStart, yStart, xStart+usLife, yEnd, size, color.R, color.G, color.B, color.A);
+	}
+
+	public int Size {
+		get { return size; }
+	}
+
+	public Cairo.Color Color {
+		get { return color; }
 	}
 }

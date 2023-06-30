@@ -158,6 +158,12 @@ public static class CairoUtil
 		}
 	}
 
+	//same as util.cs ColorIsDark
+	public static bool ColorIsDark (Cairo.Color color)
+	{
+		return (color.R * 256 * 0.299 + color.G * 256 * 0.587 + color.B * 256 * 0.114 < 150);
+	}
+
 	public static void Blank (
 		Gtk.DrawingArea darea)
 	{

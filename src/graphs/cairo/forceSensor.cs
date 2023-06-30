@@ -417,7 +417,7 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 			if (showAccuracy &&
 					(rectangleRange > 0 ||
 					 (points_l_interpolated_path != null && points_l_interpolated_path.Count > 0)))
-				accuracyText = accuracyPlot (points_l, capturing);
+				accuracyText = accuracyCalcule (points_l, capturing);
 
 			if (questionnaireDo)
 				questionnairePlot (points_l[points_l.Count -1]);
@@ -426,48 +426,10 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 			asteroidsPlot (points_l[points_l.Count -1], startAt, marginRightInSeconds);
 
 			if (rectangleRange > 0 && showAccuracy)
-			{
-				g.SetSourceColor (black);
-
-				g.SetFontSize (textHeight +4);
-				printText (graphWidth/2, leftMargin, 0, textHeight +4,
-						accuracyText, g, alignTypes.CENTER);
-				g.SetFontSize (textHeight);
-
-				g.LineWidth = 2;
-			}
+				accuracyRectanglePlot (accuracyText);
 			else if (points_l_interpolated_path != null && points_l_interpolated_path.Count > 0)
-			{
-				g.LineWidth = calculatePathWidth ();
-				g.SetSourceColor (colorPathBlue);
-
-				//make the line start at startAt +1 (if possible) and draw cicle at left (startAt) to have nice rounding at left.
-				int startAt_theLine = startAt;
-				if (points_l.Count -1 > startAt)
-					startAt_theLine = startAt +1;
-
-				plotRealPoints(plotType, points_l_interpolated_path, startAt_theLine, false); //fast (but the difference is very low)
-
-				//circle at left
-				drawCircle (calculatePaintX (points_l_interpolated_path[startAt].X),
-						calculatePaintY (points_l_interpolated_path[startAt].Y),
-						g.LineWidth/2, colorPathBlue, true);
-
-				//circle at right
-				drawCircle (calculatePaintX (points_l_interpolated_path[points_l_interpolated_path.Count -1].X),
-						calculatePaintY (points_l_interpolated_path[points_l_interpolated_path.Count -1].Y),
-						g.LineWidth/2, colorHead, true);
-
-				g.SetSourceColor (black);
-
-				if (showAccuracy)
-				{
-					g.SetFontSize (textHeight +4);
-					printText (graphWidth/2, leftMargin, 0, textHeight +4,
-							accuracyText, g, alignTypes.CENTER);
-					g.SetFontSize (textHeight);
-				}
-			}
+				accuracyPathPlot (showAccuracy, accuracyText,
+						points_l.Count, points_l_interpolated_path, plotType);
 
 			if (! questionnaireDo && miw.Error == "")
 				paintMaxAvgInWindow (miw.MaxSampleStart, miw.MaxSampleEnd, miw.Max, points_l);
@@ -524,12 +486,12 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 		return startAt;
 	}
 
-	private string accuracyPlot (List<PointF> points_l, bool capturing)
+	private string accuracyCalcule (List<PointF> points_l, bool capturing)
 	{
-		string accuracyText;
+		string str;
 		if (points_l[points_l.Count -1].X < 5000000)
 		{
-			accuracyText = string.Format ("Accuracy calculation starts in {0} s",
+			str = string.Format ("Accuracy calculation starts in {0} s",
 					Convert.ToInt32 (UtilAll.DivideSafe(5000000 - points_l[points_l.Count -1].X, 1000000)));
 		}
 		else {
@@ -549,7 +511,7 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 					accuracyNowIn = false;
 			}
 
-			accuracyText = string.Format ("Accuracy {0} %", Util.TrimDecimals (100 * UtilAll.DivideSafe (accuracySamplesGood, (accuracySamplesGood + accuracySamplesBad)), 1));
+			str = string.Format ("Accuracy {0} %", Util.TrimDecimals (100 * UtilAll.DivideSafe (accuracySamplesGood, (accuracySamplesGood + accuracySamplesBad)), 1));
 
 			if (accuracyNowIn)
 			{
@@ -565,7 +527,53 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 			}
 		}
 
-		return accuracyText;
+		return str;
+	}
+
+	private void accuracyRectanglePlot (string accuracyText)
+	{
+		g.SetSourceColor (black);
+
+		g.SetFontSize (textHeight +4);
+		printText (graphWidth/2, leftMargin, 0, textHeight +4,
+				accuracyText, g, alignTypes.CENTER);
+		g.SetFontSize (textHeight);
+
+		g.LineWidth = 2;
+	}
+
+	private void accuracyPathPlot (bool showAccuracy, string accuracyText,
+			int points_lCount,  List<PointF> points_l_interpolated_path, PlotTypes plotType)
+	{
+		g.LineWidth = calculatePathWidth ();
+		g.SetSourceColor (colorPathBlue);
+
+		//make the line start at startAt +1 (if possible) and draw cicle at left (startAt) to have nice rounding at left.
+		int startAt_theLine = startAt;
+		if (points_lCount -1 > startAt)
+			startAt_theLine = startAt +1;
+
+		plotRealPoints(plotType, points_l_interpolated_path, startAt_theLine, false); //fast (but the difference is very low)
+
+		//circle at left
+		drawCircle (calculatePaintX (points_l_interpolated_path[startAt].X),
+				calculatePaintY (points_l_interpolated_path[startAt].Y),
+				g.LineWidth/2, colorPathBlue, true);
+
+		//circle at right
+		drawCircle (calculatePaintX (points_l_interpolated_path[points_l_interpolated_path.Count -1].X),
+				calculatePaintY (points_l_interpolated_path[points_l_interpolated_path.Count -1].Y),
+				g.LineWidth/2, colorHead, true);
+
+		g.SetSourceColor (black);
+
+		if (showAccuracy)
+		{
+			g.SetFontSize (textHeight +4);
+			printText (graphWidth/2, leftMargin, 0, textHeight +4,
+					accuracyText, g, alignTypes.CENTER);
+			g.SetFontSize (textHeight);
+		}
 	}
 
 	private void questionnairePlot (PointF lastPoint)

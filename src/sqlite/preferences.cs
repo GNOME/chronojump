@@ -973,9 +973,9 @@ class SqlitePreferences : Sqlite
 					preferences.forceSensorCaptureFeedbackActive = Preferences.ForceSensorCaptureFeedbackActiveEnum.RECTANGLE;
 				else
 				{
-					//fix for 2.3.0cherry to manage reading a QUESTIONNAIRE (coming from master)
+					//fix for 2.3.0cherry to manage reading a ASTEROIDS or QUESTIONNAIRE (coming from master)
 					string valFixed = reader[1].ToString ();
-					if (valFixed == "QUESTIONNAIRE")
+					if (valFixed == "ASTEROIDS" || valFixed == "QUESTIONNAIRE")
 						valFixed = "NO";
 
 					preferences.forceSensorCaptureFeedbackActive = (Preferences.ForceSensorCaptureFeedbackActiveEnum)

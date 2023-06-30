@@ -8703,8 +8703,15 @@ LogB.Debug("mc finished 5");
 				bool forceSensorFeedbackAsteroidsDark = feedbackWin.GetForceSensorFeedbackAsteroidsDark;
 				if(preferences.forceSensorFeedbackAsteroidsDark != forceSensorFeedbackAsteroidsDark)
 				{
-					//SqlitePreferences.Update(SqlitePreferences.ForceSensorFeedbackPathLineWidth, forceSensorFeedbackAsteroidsDark.ToString(), false); //TODO
+					//SqlitePreferences.Update(SqlitePreferences.ForceSensorFeedbackAsteroidsDark, forceSensorFeedbackAsteroidsDark.ToString(), false); //TODO
 					preferences.forceSensorFeedbackAsteroidsDark = forceSensorFeedbackAsteroidsDark;
+				}
+
+				int forceSensorFeedbackAsteroidsFrequency = feedbackWin.GetForceSensorFeedbackAsteroidsFrequency;
+				if(preferences.forceSensorFeedbackAsteroidsFrequency != forceSensorFeedbackAsteroidsFrequency)
+				{
+					//SqlitePreferences.Update(SqlitePreferences.ForceSensorFeedbackAsteroidsFrequency, forceSensorFeedbackAsteroidsFrequency.ToString(), false); //TODO
+					preferences.forceSensorFeedbackAsteroidsFrequency = forceSensorFeedbackAsteroidsFrequency;
 				}
 			}
 			else if(feedbackActive == Preferences.ForceSensorCaptureFeedbackActiveEnum.QUESTIONNAIRE)

@@ -1325,7 +1325,8 @@ public partial class ChronoJumpWindow
 		else
 			questionnaire = null;
 
-		asteroids = new Asteroids (preferences.forceSensorFeedbackAsteroidsDark);
+		asteroids = new Asteroids (preferences.forceSensorFeedbackAsteroidsDark,
+				preferences.forceSensorFeedbackAsteroidsFrequency);
 
 		//LogB.Information("pre bucle");
 		//LogB.Information(string.Format("forceProcessFinish: {0}, forceProcessCancel: {1}, forceProcessError: {2}", forceProcessFinish, forceProcessCancel, forceProcessError));

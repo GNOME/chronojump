@@ -223,6 +223,8 @@ public abstract class CairoGraphForceSensor : CairoXY
 
 public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 {
+	private bool capturing;
+	private bool showAccuracy;
 	private int accuracySamplesGood;
 	private int accuracySamplesBad;
 	private Cairo.Color colorPathBlue = colorFromRGB (178,223,238);
@@ -236,6 +238,7 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 
 	private bool accuracyNowIn;
 	private Cairo.Color colorHead;
+	private int marginRightInSeconds;
 
 	//regular constructor
 	public CairoGraphForceSensorSignal (DrawingArea area, string title, int pathLineWidthInN)
@@ -264,6 +267,8 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 			Asteroids asteroids,
 			bool forceRedraw, PlotTypes plotType)
 	{
+		this.capturing = capturing;
+		this.showAccuracy = showAccuracy;
 		this.minDisplayFNegative = minDisplayFNegative;
 		this.minDisplayFPositive = minDisplayFPositive;
 		this.rectangleN = rectangleN;
@@ -289,10 +294,8 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 				Util.BoolToInt (showSpeed) * 50 +
 				Util.BoolToInt (showPower) * 50;
 
-		if (doSendingList (font, spCairoFE.Force_l,
-					capturing, showAccuracy, showLastSeconds,
-					triggerList,
-					forceRedraw, plotType))
+		if (doSendingList (font, spCairoFE.Force_l, showLastSeconds,
+					triggerList, forceRedraw, plotType))
 		{
 			int atX = 0;
 			bool atTop = true;
@@ -323,11 +326,8 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 
 	//similar to encoder method but calling configureTimeWindow and using minDisplayF(Negative/Positive)
 	//return true if graph is inited (to dispose it)
-	private bool doSendingList (string font,
-			List<PointF> points_l,
-			bool capturing, bool showAccuracy, int showLastSeconds,
-			TriggerList triggerList,
-			bool forceRedraw, PlotTypes plotType)
+	private bool doSendingList (string font, List<PointF> points_l, int showLastSeconds,
+			TriggerList triggerList, bool forceRedraw, PlotTypes plotType)
 	{
 		bool maxValuesChanged = false;
 
@@ -381,7 +381,7 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 		pointsRadius = 1;
 
 		startAt = 0;
-		int marginRightInSeconds = 0;
+		marginRightInSeconds = 0;
 
 		bool questionnaireDo = false;
 		if (questionnaire != null)
@@ -400,60 +400,7 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 
 		// paint points and maybe interpolated path
 		if(maxValuesChanged || forceRedraw || points_l.Count != points_l_painted)
-		{
-			if (rectangleRange > 0)
-				paintRectangle (rectangleN, rectangleRange);
-
-			if (points_l.Count > 2) //to ensure minX != maxX
-				paintGrid (gridTypes.BOTH, true, 0);
-
-			paintAxis();
-
-			accuracyNowIn = true;
-			colorHead = colorPathBlue;
-
-			//calculate the accuracy on rectangle and path
-			string accuracyText = "";
-			if (showAccuracy &&
-					(rectangleRange > 0 ||
-					 (points_l_interpolated_path != null && points_l_interpolated_path.Count > 0)))
-				accuracyText = accuracyCalcule (points_l, capturing);
-
-			if (questionnaireDo)
-				questionnairePlot (points_l[points_l.Count -1]);
-
-			//TODO: only if asteroids
-			asteroidsPlot (points_l[points_l.Count -1], startAt, marginRightInSeconds);
-
-			if (rectangleRange > 0 && showAccuracy)
-				accuracyRectanglePlot (accuracyText);
-			else if (points_l_interpolated_path != null && points_l_interpolated_path.Count > 0)
-				accuracyPathPlot (showAccuracy, accuracyText,
-						points_l.Count, points_l_interpolated_path, plotType);
-
-			if (! questionnaireDo && miw.Error == "")
-				paintMaxAvgInWindow (miw.MaxSampleStart, miw.MaxSampleEnd, miw.Max, points_l);
-
-			if (! questionnaireDo && briw.Error == "")
-				briwPlot (points_l);
-
-			if (! questionnaireDo)
-			{
-				plotRealPoints(plotType, points_l, startAt, false); //fast (but the difference is very low)
-
-				if(calculatePaintX (xAtMaxY) > leftMargin)
-					drawCircle (calculatePaintX (xAtMaxY), calculatePaintY (yAtMaxY), 8, red, false);
-
-				if(calculatePaintX (xAtMinY) > leftMargin)
-					drawCircle (calculatePaintX (xAtMinY), calculatePaintY (yAtMinY), 8, red, false);
-			}
-
-			if (questionnaireDo)
-				drawCircle (calculatePaintX (points_l[points_l.Count -1].X),
-							calculatePaintY (points_l[points_l.Count -1].Y), 6, bluePlots, true);
-
-			points_l_painted = points_l.Count;
-		}
+			doPlot (points_l, questionnaireDo, plotType);
 
 		// paint triggers
 		if (points_l != null && points_l.Count > 3 && graphInited && triggerList != null && triggerList.Count() > 0)
@@ -477,7 +424,63 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 		return startAt;
 	}
 
-	private string accuracyCalcule (List<PointF> points_l, bool capturing)
+	private void doPlot (List<PointF> points_l, bool questionnaireDo, PlotTypes plotType)
+	{
+		if (rectangleRange > 0)
+			paintRectangle (rectangleN, rectangleRange);
+
+		if (points_l.Count > 2) //to ensure minX != maxX
+			paintGrid (gridTypes.BOTH, true, 0);
+
+		paintAxis();
+
+		accuracyNowIn = true;
+		colorHead = colorPathBlue;
+
+		//calculate the accuracy on rectangle and path
+		string accuracyText = "";
+		if (showAccuracy &&
+				(rectangleRange > 0 ||
+				 (points_l_interpolated_path != null && points_l_interpolated_path.Count > 0)))
+			accuracyText = accuracyCalcule (points_l);
+
+		if (questionnaireDo)
+			questionnairePlot (points_l[points_l.Count -1]);
+
+		//TODO: only if asteroids
+		asteroidsPlot (points_l[points_l.Count -1], startAt);
+
+		if (rectangleRange > 0 && showAccuracy)
+			accuracyRectanglePlot (accuracyText);
+		else if (points_l_interpolated_path != null && points_l_interpolated_path.Count > 0)
+			accuracyPathPlot (accuracyText,
+					points_l.Count, points_l_interpolated_path, plotType);
+
+		if (! questionnaireDo && miw.Error == "")
+			paintMaxAvgInWindow (miw.MaxSampleStart, miw.MaxSampleEnd, miw.Max, points_l);
+
+		if (! questionnaireDo && briw.Error == "")
+			briwPlot (points_l);
+
+		if (! questionnaireDo)
+		{
+			plotRealPoints(plotType, points_l, startAt, false); //fast (but the difference is very low)
+
+			if(calculatePaintX (xAtMaxY) > leftMargin)
+				drawCircle (calculatePaintX (xAtMaxY), calculatePaintY (yAtMaxY), 8, red, false);
+
+			if(calculatePaintX (xAtMinY) > leftMargin)
+				drawCircle (calculatePaintX (xAtMinY), calculatePaintY (yAtMinY), 8, red, false);
+		}
+
+		if (questionnaireDo)
+			drawCircle (calculatePaintX (points_l[points_l.Count -1].X),
+					calculatePaintY (points_l[points_l.Count -1].Y), 6, bluePlots, true);
+
+		points_l_painted = points_l.Count;
+	}
+
+	private string accuracyCalcule (List<PointF> points_l)
 	{
 		string str;
 		if (points_l[points_l.Count -1].X < 5000000)
@@ -545,7 +548,7 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 		g.LineWidth = 2;
 	}
 
-	private void accuracyPathPlot (bool showAccuracy, string accuracyText,
+	private void accuracyPathPlot (string accuracyText,
 			int points_lCount,  List<PointF> points_l_interpolated_path, PlotTypes plotType)
 	{
 		g.LineWidth = calculatePathWidth ();
@@ -677,7 +680,7 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 		g.SetFontSize (textHeight);
 	}
 
-	private void asteroidsPlot (PointF startAtPoint, int startAt, int marginRightInSeconds)
+	private void asteroidsPlot (PointF startAtPoint, int startAt)
 	{
 		List<Asteroid> aPaintable_l = asteroids.GetAllPaintable (startAtPoint.X, marginRightInSeconds);
 		foreach (Asteroid a in aPaintable_l)

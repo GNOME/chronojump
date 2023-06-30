@@ -234,6 +234,9 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 	private int questionnaireMaxY;
 	private Asteroids asteroids;
 
+	private bool accuracyNowIn;
+	private Cairo.Color colorHead;
+
 	//regular constructor
 	public CairoGraphForceSensorSignal (DrawingArea area, string title, int pathLineWidthInN)
 	{
@@ -354,14 +357,6 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 			points_l_painted = 0;
 		}
 
-		//do not draw axis at the moment (and it is not in 0Y right now)
-		//if(maxValuesChanged || forceRedraw)
-		//	paintAxis();
-
-		//LogB.Information (string.Format ("doSendingList B points_l == null: {0}", (points_l == null)));
-		//if (points_l != null)
-		//	LogB.Information (string.Format ("doSendingList C points_l.Count: {0}", points_l.Count));
-
 		if( points_l == null || points_l.Count == 0)
 		{
 			if (! graphInited)
@@ -414,57 +409,20 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 
 			paintAxis();
 
-			bool accuracyNowIn = true;
-			Cairo.Color colorHead = colorPathBlue;
+			accuracyNowIn = true;
+			colorHead = colorPathBlue;
 
 			//calculate the accuracy on rectangle and path
 			string accuracyText = "";
 			if (showAccuracy &&
 					(rectangleRange > 0 ||
 					 (points_l_interpolated_path != null && points_l_interpolated_path.Count > 0)))
-			{
-				if (points_l[points_l.Count -1].X < 5000000)
-				{
-					accuracyText = string.Format ("Accuracy calculation starts in {0} s",
-							Convert.ToInt32 (UtilAll.DivideSafe(5000000 - points_l[points_l.Count -1].X, 1000000)));
-				}
-				else {
-					if (rectangleRange > 0)
-					{
-						accuracyNowIn =
-							(rectangleN + rectangleRange/2 >= points_l[points_l.Count -1].Y &&
-							rectangleN - rectangleRange/2 <= points_l[points_l.Count -1].Y);
-					} else {
-						//compare last point painted with circle at right
-						double error = getDistance2D (calculatePaintX (points_l[points_l.Count -1].X),
-								calculatePaintY (points_l[points_l.Count -1].Y),
-								calculatePaintX (points_l_interpolated_path[points_l_interpolated_path.Count -1].X),
-								calculatePaintY (points_l_interpolated_path[points_l_interpolated_path.Count -1].Y));
-
-						if (error > calculatePathWidth ()/2)
-							accuracyNowIn = false;
-					}
-
-					accuracyText = string.Format ("Accuracy {0} %", Util.TrimDecimals (100 * UtilAll.DivideSafe (accuracySamplesGood, (accuracySamplesGood + accuracySamplesBad)), 1));
-
-					if (accuracyNowIn)
-					{
-						//avoid to change the results on a resize after capture
-						if (capturing)
-							accuracySamplesGood ++; //but need to check the rest of the sample points, not only last
-					} else
-					{
-						colorHead = colorFromRGB (238, 0, 0);
-
-						if (capturing)
-							accuracySamplesBad ++; //but need to check the rest of the sample points, not only last
-					}
-				}
-			}
+				accuracyText = accuracyPlot (points_l, capturing);
 
 			if (questionnaireDo)
 				questionnairePlot (points_l[points_l.Count -1]);
 
+			//TODO: only if asteroids
 			asteroidsPlot (points_l[points_l.Count -1], startAt, marginRightInSeconds);
 
 			if (rectangleRange > 0 && showAccuracy)
@@ -564,6 +522,50 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 		minX = points_l[startAt].X;
 
 		return startAt;
+	}
+
+	private string accuracyPlot (List<PointF> points_l, bool capturing)
+	{
+		string accuracyText;
+		if (points_l[points_l.Count -1].X < 5000000)
+		{
+			accuracyText = string.Format ("Accuracy calculation starts in {0} s",
+					Convert.ToInt32 (UtilAll.DivideSafe(5000000 - points_l[points_l.Count -1].X, 1000000)));
+		}
+		else {
+			if (rectangleRange > 0)
+			{
+				accuracyNowIn =
+					(rectangleN + rectangleRange/2 >= points_l[points_l.Count -1].Y &&
+					 rectangleN - rectangleRange/2 <= points_l[points_l.Count -1].Y);
+			} else {
+				//compare last point painted with circle at right
+				double error = getDistance2D (calculatePaintX (points_l[points_l.Count -1].X),
+						calculatePaintY (points_l[points_l.Count -1].Y),
+						calculatePaintX (points_l_interpolated_path[points_l_interpolated_path.Count -1].X),
+						calculatePaintY (points_l_interpolated_path[points_l_interpolated_path.Count -1].Y));
+
+				if (error > calculatePathWidth ()/2)
+					accuracyNowIn = false;
+			}
+
+			accuracyText = string.Format ("Accuracy {0} %", Util.TrimDecimals (100 * UtilAll.DivideSafe (accuracySamplesGood, (accuracySamplesGood + accuracySamplesBad)), 1));
+
+			if (accuracyNowIn)
+			{
+				//avoid to change the results on a resize after capture
+				if (capturing)
+					accuracySamplesGood ++; //but need to check the rest of the sample points, not only last
+			} else
+			{
+				colorHead = colorFromRGB (238, 0, 0);
+
+				if (capturing)
+					accuracySamplesBad ++; //but need to check the rest of the sample points, not only last
+			}
+		}
+
+		return accuracyText;
 	}
 
 	private void questionnairePlot (PointF lastPoint)

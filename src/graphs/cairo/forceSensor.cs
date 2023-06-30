@@ -225,8 +225,16 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 {
 	protected List<PointF> points_l;
 	protected int startAt;
-	protected Asteroids asteroids;
 	protected int marginRightInSeconds;
+
+	//questionnaire
+	protected Questionnaire questionnaire;
+	protected int questionnaireMinY;
+	protected int questionnaireMaxY;
+
+	//asteroids
+	protected Asteroids asteroids;
+
 
 	private bool capturing;
 	private bool showAccuracy;
@@ -235,9 +243,6 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 	private Cairo.Color colorPathBlue = colorFromRGB (178,223,238);
 	private GetMaxAvgInWindow miw;
 	private GetBestRFDInWindow briw;
-	private Questionnaire questionnaire;
-	private int questionnaireMinY;
-	private int questionnaireMaxY;
 
 	private bool accuracyNowIn;
 	private Cairo.Color colorHead;
@@ -270,7 +275,6 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 			GetMaxAvgInWindow miw,
 			GetBestRFDInWindow briw,
 			TriggerList triggerList,
-			Questionnaire questionnaire, int questionnaireMinY, int questionnaireMaxY,
 			bool forceRedraw, PlotTypes plotType)
 	{
 		this.points_l = spCairoFE.Force_l;
@@ -285,9 +289,6 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 		this.interpolatedMax = interpolatedMax;
 		this.miw = miw;
 		this.briw = briw;
-		this.questionnaire = questionnaire;
-		this.questionnaireMinY = questionnaireMinY;
-		this.questionnaireMaxY = questionnaireMaxY;
 
 		/*
 		this.oneSerie = ( (pointsDispl_l == null || pointsDispl_l.Count == 0) &&
@@ -389,16 +390,12 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 		startAt = 0;
 		marginRightInSeconds = 0;
 
-		bool questionnaireDo = false;
-		if (questionnaire != null)
-			questionnaireDo = true;
-
 		//on worm, have it on 3 s
 		/*
 		if (showAccuracy && points_l_interpolated_path != null && points_l_interpolated_path.Count > 0 && showLastSeconds >= 10)
 			marginRightInSeconds = 3; //TODO: or a 1/3 of showLastSeconds TODO: on worm first we need to fix interpolatedPath to be 3s longer
 			*/
-		if (questionnaireDo && showLastSeconds > 3) //this works also for asteroids
+		if ( (asteroids != null || questionnaire != null) && showLastSeconds > 3) //this works also for asteroids
 			marginRightInSeconds = Convert.ToInt32 (.66 * showLastSeconds); //show in left third of image (to have time/space to answer)
 
 		if (showLastSeconds > 0 && points_l.Count > 1)
@@ -406,7 +403,7 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 
 		// paint points and maybe interpolated path
 		if(maxValuesChanged || forceRedraw || points_l.Count != points_l_painted)
-			doPlot (questionnaireDo, plotType);
+			doPlot (plotType);
 
 		// paint triggers
 		if (points_l != null && points_l.Count > 3 && graphInited && triggerList != null && triggerList.Count() > 0)
@@ -430,7 +427,7 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 		return startAt;
 	}
 
-	private void doPlot (bool questionnaireDo, PlotTypes plotType)
+	private void doPlot (PlotTypes plotType)
 	{
 		if (rectangleRange > 0)
 			paintRectangle (rectangleN, rectangleRange);
@@ -450,9 +447,6 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 				 (points_l_interpolated_path != null && points_l_interpolated_path.Count > 0)))
 			accuracyText = accuracyCalcule (points_l);
 
-		if (questionnaireDo)
-			questionnairePlot (points_l[points_l.Count -1]);
-
 		plotSpecific (); //right now only asteroids
 
 		if (rectangleRange > 0 && showAccuracy)
@@ -461,13 +455,13 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 			accuracyPathPlot (accuracyText,
 					points_l.Count, points_l_interpolated_path, plotType);
 
-		if (! questionnaireDo && miw.Error == "")
+		if (questionnaire == null && miw.Error == "")
 			paintMaxAvgInWindow (miw.MaxSampleStart, miw.MaxSampleEnd, miw.Max, points_l);
 
-		if (! questionnaireDo && briw.Error == "")
+		if (questionnaire == null && briw.Error == "")
 			briwPlot (points_l);
 
-		if (! questionnaireDo)
+		if (questionnaire == null)
 		{
 			plotRealPoints(plotType, points_l, startAt, false); //fast (but the difference is very low)
 
@@ -477,10 +471,6 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 			if(calculatePaintX (xAtMinY) > leftMargin)
 				drawCircle (calculatePaintX (xAtMinY), calculatePaintY (yAtMinY), 8, red, false);
 		}
-
-		if (questionnaireDo)
-			drawCircle (calculatePaintX (points_l[points_l.Count -1].X),
-					calculatePaintY (points_l[points_l.Count -1].Y), 6, bluePlots, true);
 
 		points_l_painted = points_l.Count;
 	}
@@ -592,6 +582,36 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 		}
 	}
 
+	public Asteroids PassAsteroids {
+		set { asteroids = value; }
+	}
+
+	public Questionnaire PassQuestionnaire {
+		set { questionnaire = value; }
+	}
+	public int QuestionnaireMinY {
+		set { questionnaireMinY = value; }
+	}
+	public int QuestionnaireMaxY {
+		set { questionnaireMaxY = value; }
+	}
+}
+
+public class CairoGraphForceSensorSignalQuestionnaire : CairoGraphForceSensorSignal
+{
+	public CairoGraphForceSensorSignalQuestionnaire (DrawingArea area, string title)
+	{
+		initForceSensor (area, title);
+	}
+
+	protected override void plotSpecific ()
+	{
+		questionnairePlot (points_l[points_l.Count -1]);
+
+		drawCircle (calculatePaintX (points_l[points_l.Count -1].X),
+				calculatePaintY (points_l[points_l.Count -1].Y), 6, bluePlots, true);
+	}
+
 	private void questionnairePlot (PointF lastPoint)
 	{
 		g.SetFontSize (textHeight +8);
@@ -690,9 +710,7 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 		g.SetFontSize (textHeight);
 	}
 
-	public Asteroids PassAsteroids {
-		set { asteroids = value; }
-	}
+
 }
 
 public class CairoGraphForceSensorSignalAsteroids : CairoGraphForceSensorSignal
@@ -700,6 +718,9 @@ public class CairoGraphForceSensorSignalAsteroids : CairoGraphForceSensorSignal
 	public CairoGraphForceSensorSignalAsteroids (DrawingArea area, string title)
 	{
 		initForceSensor (area, title);
+
+		drawCircle (calculatePaintX (points_l[points_l.Count -1].X),
+				calculatePaintY (points_l[points_l.Count -1].Y), 6, bluePlots, true);
 	}
 
 	protected override void plotSpecific ()

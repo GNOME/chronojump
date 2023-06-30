@@ -2470,20 +2470,26 @@ LogB.Information(" fs R ");
 		updateForceSensorCaptureSignalCairo (true);
 	}
 
-	private bool asteroidsDo = true; //TODO: read preferences
+	private bool asteroidsDo = false; //TODO: read preferences
 
 	private void updateForceSensorCaptureSignalCairo (bool forceRedraw)
 	{
 		//LogB.Information ("updateForceSensorCaptureSignalCairo 0");
 		if (cairoGraphForceSensorSignal == null)
 		{
-			if (! asteroidsDo)
-				cairoGraphForceSensorSignal = new CairoGraphForceSensorSignal (
-						force_capture_drawingarea_cairo, "title",
-						preferences.forceSensorFeedbackPathLineWidth);
-			else
+			if (asteroidsDo)
 				cairoGraphForceSensorSignal = new CairoGraphForceSensorSignalAsteroids (
 						force_capture_drawingarea_cairo, "title");
+			else {
+				if (preferences.forceSensorCaptureFeedbackActive ==
+						Preferences.ForceSensorCaptureFeedbackActiveEnum.QUESTIONNAIRE)
+					cairoGraphForceSensorSignal = new CairoGraphForceSensorSignalQuestionnaire (
+							force_capture_drawingarea_cairo, "title");
+				else
+					cairoGraphForceSensorSignal = new CairoGraphForceSensorSignal (
+							force_capture_drawingarea_cairo, "title",
+							preferences.forceSensorFeedbackPathLineWidth);
+			}
 		}
 
 		//LogB.Information ("updateForceSensorCaptureSignalCairo 1");
@@ -2562,6 +2568,12 @@ LogB.Information(" fs R ");
 
 		if (asteroidsDo)
 			cairoGraphForceSensorSignal.PassAsteroids = asteroids;
+		else if (preferences.forceSensorCaptureFeedbackActive == Preferences.ForceSensorCaptureFeedbackActiveEnum.QUESTIONNAIRE)
+		{
+			cairoGraphForceSensorSignal.PassQuestionnaire = questionnaire;
+			cairoGraphForceSensorSignal.QuestionnaireMinY = preferences.forceSensorFeedbackQuestionnaireMin;
+			cairoGraphForceSensorSignal.QuestionnaireMaxY = preferences.forceSensorFeedbackQuestionnaireMax;
+		}
 
 		//LogB.Information ("updateForceSensorCaptureSignalCairo 4");
 		cairoGraphForceSensorSignal.DoSendingList (
@@ -2579,7 +2591,6 @@ LogB.Information(" fs R ");
 				gmiw,
 				briw,
 				triggerListForceSensor_copy,
-				questionnaire, preferences.forceSensorFeedbackQuestionnaireMin, preferences.forceSensorFeedbackQuestionnaireMax,
 				forceRedraw, CairoXY.PlotTypes.LINES);
 
 		//LogB.Information ("updateForceSensorCaptureSignalCairo 5");

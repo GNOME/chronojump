@@ -223,22 +223,29 @@ public abstract class CairoGraphForceSensor : CairoXY
 
 public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 {
+	protected List<PointF> points_l;
+	protected int startAt;
+	protected Asteroids asteroids;
+	protected int marginRightInSeconds;
+
 	private bool capturing;
 	private bool showAccuracy;
 	private int accuracySamplesGood;
 	private int accuracySamplesBad;
 	private Cairo.Color colorPathBlue = colorFromRGB (178,223,238);
-	private int startAt;
 	private GetMaxAvgInWindow miw;
 	private GetBestRFDInWindow briw;
 	private Questionnaire questionnaire;
 	private int questionnaireMinY;
 	private int questionnaireMaxY;
-	private Asteroids asteroids;
 
 	private bool accuracyNowIn;
 	private Cairo.Color colorHead;
-	private int marginRightInSeconds;
+
+	//constructor to inherit
+	public CairoGraphForceSensorSignal ()
+	{
+	}
 
 	//regular constructor
 	public CairoGraphForceSensorSignal (DrawingArea area, string title, int pathLineWidthInN)
@@ -264,9 +271,9 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 			GetBestRFDInWindow briw,
 			TriggerList triggerList,
 			Questionnaire questionnaire, int questionnaireMinY, int questionnaireMaxY,
-			Asteroids asteroids,
 			bool forceRedraw, PlotTypes plotType)
 	{
+		this.points_l = spCairoFE.Force_l;
 		this.capturing = capturing;
 		this.showAccuracy = showAccuracy;
 		this.minDisplayFNegative = minDisplayFNegative;
@@ -281,7 +288,7 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 		this.questionnaire = questionnaire;
 		this.questionnaireMinY = questionnaireMinY;
 		this.questionnaireMaxY = questionnaireMaxY;
-		this.asteroids = asteroids;
+
 		/*
 		this.oneSerie = ( (pointsDispl_l == null || pointsDispl_l.Count == 0) &&
 				(pointsSpeed_l == null || pointsSpeed_l.Count == 0) &&
@@ -294,8 +301,7 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 				Util.BoolToInt (showSpeed) * 50 +
 				Util.BoolToInt (showPower) * 50;
 
-		if (doSendingList (font, spCairoFE.Force_l, showLastSeconds,
-					triggerList, forceRedraw, plotType))
+		if (doSendingList (font, showLastSeconds, triggerList, forceRedraw, plotType))
 		{
 			int atX = 0;
 			bool atTop = true;
@@ -326,7 +332,7 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 
 	//similar to encoder method but calling configureTimeWindow and using minDisplayF(Negative/Positive)
 	//return true if graph is inited (to dispose it)
-	private bool doSendingList (string font, List<PointF> points_l, int showLastSeconds,
+	private bool doSendingList (string font, int showLastSeconds,
 			TriggerList triggerList, bool forceRedraw, PlotTypes plotType)
 	{
 		bool maxValuesChanged = false;
@@ -396,11 +402,11 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 			marginRightInSeconds = Convert.ToInt32 (.66 * showLastSeconds); //show in left third of image (to have time/space to answer)
 
 		if (showLastSeconds > 0 && points_l.Count > 1)
-			startAt = configureTimeWindow (points_l, showLastSeconds, marginRightInSeconds);
+			startAt = configureTimeWindow (showLastSeconds, marginRightInSeconds);
 
 		// paint points and maybe interpolated path
 		if(maxValuesChanged || forceRedraw || points_l.Count != points_l_painted)
-			doPlot (points_l, questionnaireDo, plotType);
+			doPlot (questionnaireDo, plotType);
 
 		// paint triggers
 		if (points_l != null && points_l.Count > 3 && graphInited && triggerList != null && triggerList.Count() > 0)
@@ -410,7 +416,7 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 	}
 
 	//for signals like forceSensor where points_l.X is time in microseconds and there is not a sample for each second (like encoder)
-	private int configureTimeWindow (List<PointF> points_l, int seconds, int rightMarginSeconds)
+	private int configureTimeWindow (int seconds, int rightMarginSeconds)
 	{
 		double lastTime = points_l[points_l.Count -1].X; //micros
 
@@ -424,7 +430,7 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 		return startAt;
 	}
 
-	private void doPlot (List<PointF> points_l, bool questionnaireDo, PlotTypes plotType)
+	private void doPlot (bool questionnaireDo, PlotTypes plotType)
 	{
 		if (rectangleRange > 0)
 			paintRectangle (rectangleN, rectangleRange);
@@ -447,8 +453,7 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 		if (questionnaireDo)
 			questionnairePlot (points_l[points_l.Count -1]);
 
-		//TODO: only if asteroids
-		asteroidsPlot (points_l[points_l.Count -1], startAt);
+		plotSpecific (); //right now only asteroids
 
 		if (rectangleRange > 0 && showAccuracy)
 			accuracyRectanglePlot (accuracyText);
@@ -522,6 +527,11 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 		}
 
 		return str;
+	}
+
+	protected virtual void plotSpecific ()
+	{
+		//do nothing
 	}
 
 	private void briwPlot (List<PointF> points_l)
@@ -678,6 +688,23 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 		printText (graphWidth -rightMargin -innerMargin, topMargin/2, 0, textHeight +4,
 				"Points: " + questionnaire.Points.ToString (), g, alignTypes.RIGHT);
 		g.SetFontSize (textHeight);
+	}
+
+	public Asteroids PassAsteroids {
+		set { asteroids = value; }
+	}
+}
+
+public class CairoGraphForceSensorSignalAsteroids : CairoGraphForceSensorSignal
+{
+	public CairoGraphForceSensorSignalAsteroids (DrawingArea area, string title)
+	{
+		initForceSensor (area, title);
+	}
+
+	protected override void plotSpecific ()
+	{
+		asteroidsPlot (points_l[points_l.Count -1], startAt);
 	}
 
 	private void asteroidsPlot (PointF startAtPoint, int startAt)

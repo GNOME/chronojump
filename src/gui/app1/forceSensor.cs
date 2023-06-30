@@ -2469,14 +2469,22 @@ LogB.Information(" fs R ");
 	{
 		updateForceSensorCaptureSignalCairo (true);
 	}
+
+	private bool asteroidsDo = true; //TODO: read preferences
+
 	private void updateForceSensorCaptureSignalCairo (bool forceRedraw)
 	{
 		//LogB.Information ("updateForceSensorCaptureSignalCairo 0");
 		if (cairoGraphForceSensorSignal == null)
-			cairoGraphForceSensorSignal = new CairoGraphForceSensorSignal (
-					force_capture_drawingarea_cairo, "title",
-					preferences.forceSensorFeedbackPathLineWidth
-					);
+		{
+			if (! asteroidsDo)
+				cairoGraphForceSensorSignal = new CairoGraphForceSensorSignal (
+						force_capture_drawingarea_cairo, "title",
+						preferences.forceSensorFeedbackPathLineWidth);
+			else
+				cairoGraphForceSensorSignal = new CairoGraphForceSensorSignalAsteroids (
+						force_capture_drawingarea_cairo, "title");
+		}
 
 		//LogB.Information ("updateForceSensorCaptureSignalCairo 1");
 
@@ -2552,6 +2560,9 @@ LogB.Information(" fs R ");
 				forceSensorValues.BestRFD = briw.Max;
 		}
 
+		if (asteroidsDo)
+			cairoGraphForceSensorSignal.PassAsteroids = asteroids;
+
 		//LogB.Information ("updateForceSensorCaptureSignalCairo 4");
 		cairoGraphForceSensorSignal.DoSendingList (
 				preferences.fontType.ToString(),
@@ -2569,7 +2580,6 @@ LogB.Information(" fs R ");
 				briw,
 				triggerListForceSensor_copy,
 				questionnaire, preferences.forceSensorFeedbackQuestionnaireMin, preferences.forceSensorFeedbackQuestionnaireMax,
-				asteroids,
 				forceRedraw, CairoXY.PlotTypes.LINES);
 
 		//LogB.Information ("updateForceSensorCaptureSignalCairo 5");

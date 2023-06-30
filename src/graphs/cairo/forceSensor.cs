@@ -226,6 +226,7 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 	protected List<PointF> points_l;
 	protected int startAt;
 	protected int marginRightInSeconds;
+	protected bool capturing;
 
 	//questionnaire
 	protected Questionnaire questionnaire;
@@ -236,7 +237,6 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 	protected Asteroids asteroids;
 
 
-	private bool capturing;
 	private bool showAccuracy;
 	private int accuracySamplesGood;
 	private int accuracySamplesBad;
@@ -609,6 +609,8 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 public class CairoGraphForceSensorSignalAsteroids : CairoGraphForceSensorSignal
 {
 	private const int playerRadius = 6;
+	private double lastShot;
+	private double lastPointUp; //each s 1 point up
 
 	public CairoGraphForceSensorSignalAsteroids (DrawingArea area, string title)
 	{
@@ -617,6 +619,9 @@ public class CairoGraphForceSensorSignalAsteroids : CairoGraphForceSensorSignal
 
 	protected override void plotSpecific ()
 	{
+		if (! capturing)
+			return;
+
 		asteroidsPlot (points_l[points_l.Count -1], startAt);
 
 		drawCircle (calculatePaintX (points_l[points_l.Count -1].X),
@@ -625,6 +630,7 @@ public class CairoGraphForceSensorSignalAsteroids : CairoGraphForceSensorSignal
 
 	private void asteroidsPlot (PointF startAtPoint, int startAt)
 	{
+		// paint asteroids and manage crashes
 		List<Asteroid> aPaintable_l = asteroids.GetAllPaintable (startAtPoint.X, marginRightInSeconds);
 		foreach (Asteroid a in aPaintable_l)
 		{
@@ -640,10 +646,42 @@ public class CairoGraphForceSensorSignalAsteroids : CairoGraphForceSensorSignal
 					playerRadius))
 			{
 				crashedPaint ();
-				//TODO: update points, and add points by seconds without crash
+				a.Destroy ();
+				asteroids.Points -= 10;
 			}
-
 		}
+
+		//add 1 point each s
+		if (points_l[points_l.Count -1].X >= lastPointUp + 1000000)
+		{
+			asteroids.Points ++;
+			lastPointUp = points_l[points_l.Count -1].X;
+		}
+
+		// print points
+		g.SetFontSize (textHeight +8);
+		g.SetSourceRGB(0, 0, 0); //black
+
+		printText (graphWidth -rightMargin -innerMargin, topMargin/2, 0, textHeight +4,
+				"Points: " + asteroids.Points.ToString (), g, alignTypes.RIGHT);
+
+		g.SetFontSize (textHeight);
+
+		/*
+		//shoot each second WIP
+		if (points_l.Count > 3 && points_l[points_l.Count -1].X >= lastShot + 1000000)
+		{
+			List<PointF> shotPoints_l = new List<PointF> ();
+			shotPoints_l.Add (points_l[points_l.Count -3]);
+			shotPoints_l.Add (points_l[points_l.Count -1]);
+
+			g.SetSourceColor (black);
+			preparePredictedLine (shotPoints_l);
+
+			lastShot = points_l[points_l.Count -1].X;
+		}
+		*/
+
 	}
 
 }
@@ -1408,6 +1446,7 @@ public class Asteroid
 	private int yEnd; //force
 	private int size;
 	private Cairo.Color color;
+	private bool alive;
 
 	public Asteroid (int xStart, int yStart, int usLife, int yEnd, int size, Cairo.Color color)
 	{
@@ -1417,10 +1456,15 @@ public class Asteroid
 		this.yEnd = yEnd;
 		this.size = size;
 		this.color = color;
+
+		this.alive = true;
 	}
 
 	public bool NeedToShow (double graphUsStart, int graphSecondsAtRight)
 	{
+		if (! alive)
+			return false;
+
 		int graphUsAtRight = graphSecondsAtRight * 1000000;
 		double graphUsTotalAtRight = graphUsStart + graphUsAtRight;
 
@@ -1444,6 +1488,11 @@ public class Asteroid
 	{
 		double lifeProportion = GetTimeNowProportion (graphUsStart, graphSecondsAtRight);
 		return lifeProportion * (yEnd - yStart) + yStart;
+	}
+
+	public void Destroy ()
+	{
+		alive = false;
 	}
 
 	public override string ToString ()

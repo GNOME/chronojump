@@ -1178,6 +1178,8 @@ public partial class ChronoJumpWindow
 	}
 
 	private Questionnaire questionnaire;
+	private Asteroids asteroids;
+
 	private void forceSensorCaptureDo()
 	{
 		//precaution
@@ -1322,6 +1324,8 @@ public partial class ChronoJumpWindow
 					preferences.forceSensorFeedbackQuestionnaireFile);
 		else
 			questionnaire = null;
+
+		asteroids = new Asteroids ();
 
 		//LogB.Information("pre bucle");
 		//LogB.Information(string.Format("forceProcessFinish: {0}, forceProcessCancel: {1}, forceProcessError: {2}", forceProcessFinish, forceProcessCancel, forceProcessError));
@@ -2565,6 +2569,7 @@ LogB.Information(" fs R ");
 				briw,
 				triggerListForceSensor_copy,
 				questionnaire, preferences.forceSensorFeedbackQuestionnaireMin, preferences.forceSensorFeedbackQuestionnaireMax,
+				asteroids,
 				forceRedraw, CairoXY.PlotTypes.LINES);
 
 		//LogB.Information ("updateForceSensorCaptureSignalCairo 5");

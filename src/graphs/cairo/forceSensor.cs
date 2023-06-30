@@ -1488,9 +1488,11 @@ public class Asteroid
 		int graphUsAtRight = graphSecondsAtRight * 1000000;
 		double graphUsTotalAtRight = graphUsStart + graphUsAtRight;
 
-		if (xStart > graphUsTotalAtRight)
+		// the 3000000 is for having a bit of margin to easily consider radius
+		// to not have asteroids appear/disappear on sides when center arrives to that limits
+		if (xStart - 3000000 > graphUsTotalAtRight)
 			return false;
-		if (xStart + usLife < graphUsTotalAtRight)
+		if (xStart + usLife + 3000000 < graphUsTotalAtRight)
 			return false;
 
 		return true;

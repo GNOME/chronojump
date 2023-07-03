@@ -8774,6 +8774,20 @@ LogB.Debug("mc finished 5");
 			}
 			else if(feedbackActive == Preferences.ForceSensorCaptureFeedbackActiveEnum.ASTEROIDS)
 			{
+				int feedbackAsteroidsMax = feedbackWin.GetForceSensorFeedbackAsteroidsMax;
+				if(preferences.forceSensorFeedbackAsteroidsMax != feedbackAsteroidsMax)
+				{
+					//SqlitePreferences.Update(SqlitePreferences.ForceSensorFeedbackAsteroidsMax, feedbackAsteroidsMax.ToString(), false); //TODO
+					preferences.forceSensorFeedbackAsteroidsMax = feedbackAsteroidsMax;
+				}
+
+				int feedbackAsteroidsMin = feedbackWin.GetForceSensorFeedbackAsteroidsMin;
+				if(preferences.forceSensorFeedbackAsteroidsMin != feedbackAsteroidsMin)
+				{
+					//SqlitePreferences.Update(SqlitePreferences.ForceSensorFeedbackAsteroidsMin, feedbackAsteroidsMin.ToString(), false); //TODO
+					preferences.forceSensorFeedbackAsteroidsMin = feedbackAsteroidsMin;
+				}
+
 				bool forceSensorFeedbackAsteroidsDark = feedbackWin.GetForceSensorFeedbackAsteroidsDark;
 				if(preferences.forceSensorFeedbackAsteroidsDark != forceSensorFeedbackAsteroidsDark)
 				{

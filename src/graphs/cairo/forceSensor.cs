@@ -249,7 +249,6 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 	//asteroids
 	protected Asteroids asteroids;
 
-
 	private bool showAccuracy;
 	private int accuracySamplesGood;
 	private int accuracySamplesBad;
@@ -364,6 +363,12 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 					minY = questionnaireMinY;
 				if (questionnaireMaxY > absoluteMaxY)
 					absoluteMaxY = questionnaireMaxY;
+			} else if (asteroids != null)
+			{
+				if (asteroids.MinY < minY)
+					minY = asteroids.MinY;
+				if (asteroids.MaxY > absoluteMaxY)
+					absoluteMaxY = asteroids.MaxY;
 			}
 		}
 
@@ -1432,17 +1437,20 @@ public class Asteroids
 {
 	public int Points;
 	public bool Dark;
+	public int MaxY;
+	public int MinY;
 
 	private List<Asteroid> asteroid_l;
 	private List<Shot> shot_l;
 	private Random random = new Random();
-
 	private Cairo.Color gray = new Cairo.Color (.5, .5, .5, 1);
 	private Cairo.Color white = new Cairo.Color (1, 1, 1, 1);
 
-	public Asteroids (bool Dark, int frequency)
+	public Asteroids (int maxY, int minY, bool Dark, int frequency)
 	{
 		this.Dark = Dark;
+		this.MaxY = maxY;
+		this.MinY = minY;
 
 		Points = 0;
 		asteroid_l = new List<Asteroid> ();
@@ -1454,8 +1462,8 @@ public class Asteroids
 			int xStart = random.Next (5*1000000, 100*1000000);
 			int usLife = random.Next (3*100000, 15*1000000);
 			asteroid_l.Add (new Asteroid (
-						xStart, random.Next (-100, 200), // y (force)
-						usLife, random.Next (-100, 200), // y (force)
+						xStart, random.Next (minY, maxY), // y (force)
+						usLife, random.Next (minY, maxY), // y (force)
 						random.Next (20, 100), // size
 						createAsteroidColor ()
 						));

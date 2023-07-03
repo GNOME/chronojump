@@ -209,6 +209,8 @@ public class FeedbackWindow
 	Gtk.SpinButton spin_force_sensor_capture_feedback_path_line_width; //N
 	Gtk.Label label_force_sensor_path_recommended;
 	//asteroids
+	Gtk.SpinButton spin_force_sensor_capture_feedback_asteroids_max;
+	Gtk.SpinButton spin_force_sensor_capture_feedback_asteroids_min;
 	Gtk.CheckButton check_force_sensor_capture_feedback_asteroids_dark;
 	Gtk.SpinButton spin_force_sensor_capture_feedback_asteroids_frequency;
 	//questionnaire
@@ -348,6 +350,8 @@ public class FeedbackWindow
 				preferences.forceSensorFeedbackPathMasters,
 				preferences.forceSensorFeedbackPathMasterSeconds,
 				preferences.forceSensorFeedbackPathLineWidth,
+				preferences.forceSensorFeedbackAsteroidsMax,
+				preferences.forceSensorFeedbackAsteroidsMin,
 				preferences.forceSensorFeedbackAsteroidsDark,
 				preferences.forceSensorFeedbackAsteroidsFrequency,
 				preferences.forceSensorFeedbackQuestionnaireMax,
@@ -421,6 +425,8 @@ public class FeedbackWindow
 			int forceSensorFeedbackPathMasters,
 			int forceSensorFeedbackPathMasterSeconds,
 			int forceSensorFeedbackPathLineWidth,
+			int forceSensorFeedbackAsteroidsMax,
+			int forceSensorFeedbackAsteroidsMin,
 			bool forceSensorFeedbackAsteroidsDark,
 			int forceSensorFeedbackAsteroidsFrequency,
 			int forceSensorFeedbackQuestionnaireMax,
@@ -612,6 +618,8 @@ public class FeedbackWindow
 			setForceSensorPathRecommendedLabel();
 
 			//asteroids widgets
+			spin_force_sensor_capture_feedback_asteroids_max.Value = forceSensorFeedbackAsteroidsMax;
+			spin_force_sensor_capture_feedback_asteroids_min.Value = forceSensorFeedbackAsteroidsMin;
 			check_force_sensor_capture_feedback_asteroids_dark.Active = forceSensorFeedbackAsteroidsDark;
 			spin_force_sensor_capture_feedback_asteroids_frequency.Value = forceSensorFeedbackAsteroidsFrequency;
 
@@ -1356,6 +1364,12 @@ public class FeedbackWindow
 		}
 	}
 
+	public int GetForceSensorFeedbackAsteroidsMax {
+		get { return Convert.ToInt32(spin_force_sensor_capture_feedback_asteroids_max.Value); }
+	}
+	public int GetForceSensorFeedbackAsteroidsMin {
+		get { return Convert.ToInt32(spin_force_sensor_capture_feedback_asteroids_min.Value); }
+	}
 	public bool GetForceSensorFeedbackAsteroidsDark {
 		get { return check_force_sensor_capture_feedback_asteroids_dark.Active; }
 	}
@@ -1884,6 +1898,8 @@ public class FeedbackWindow
 		spin_force_sensor_capture_feedback_path_line_width = (Gtk.SpinButton) builder.GetObject ("spin_force_sensor_capture_feedback_path_line_width"); //N
 		label_force_sensor_path_recommended = (Gtk.Label) builder.GetObject ("label_force_sensor_path_recommended");
 		//asteroids
+		spin_force_sensor_capture_feedback_asteroids_max = (Gtk.SpinButton) builder.GetObject ("spin_force_sensor_capture_feedback_asteroids_max");
+		spin_force_sensor_capture_feedback_asteroids_min = (Gtk.SpinButton) builder.GetObject ("spin_force_sensor_capture_feedback_asteroids_min");
 		check_force_sensor_capture_feedback_asteroids_dark = (Gtk.CheckButton) builder.GetObject ("check_force_sensor_capture_feedback_asteroids_dark");
 		spin_force_sensor_capture_feedback_asteroids_frequency = (Gtk.SpinButton) builder.GetObject ("spin_force_sensor_capture_feedback_asteroids_frequency");
 		//questionnaire

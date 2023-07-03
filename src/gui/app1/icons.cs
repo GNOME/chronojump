@@ -33,6 +33,8 @@ public partial class ChronoJumpWindow
 	//Gtk.Image image_home1;
 	//Gtk.Image image_minimize;
 	//Gtk.Image image_minimize1;
+	Gtk.Image image_fullscreen;
+	Gtk.Image image_fullscreen_exit;
 	Gtk.Image image_session_delete;
 	Gtk.Image app1s_image_button_close;
 	Gtk.Image image_db_backup;
@@ -94,6 +96,8 @@ public partial class ChronoJumpWindow
 	Gtk.Image image_logo_contacts_transp;
 	Gtk.Image image_logo_encoder;
 	Gtk.Image image_logo_encoder_transp;
+	Gtk.Image fullscreen_image_logo;
+	Gtk.Image fullscreen_image_logo_transp;
 
 	Gtk.Image image_selector_start_jumps1;
 	Gtk.Image image_selector_start_runs1;
@@ -326,6 +330,8 @@ public partial class ChronoJumpWindow
 		//pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_minimize.png");
 		//image_minimize.Pixbuf = pixbuf;
 		//image_minimize1.Pixbuf = pixbuf;
+		image_fullscreen.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_fullscreen.png");
+		image_fullscreen_exit.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_fullscreen_exit.png");
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_quit.png");
 		image_menu_quit.Pixbuf = pixbuf;
@@ -656,10 +662,12 @@ public partial class ChronoJumpWindow
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameLogo); //44 px height
 		image_logo_contacts.Pixbuf = pixbuf;
 		image_logo_encoder.Pixbuf = pixbuf;
+		fullscreen_image_logo.Pixbuf = pixbuf;
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameLogoTransparent40h); //40 px heigh
 		image_logo_contacts_transp.Pixbuf = pixbuf;
 		image_logo_encoder_transp.Pixbuf = pixbuf;
+		fullscreen_image_logo_transp.Pixbuf = pixbuf;
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameIcon);
 		image_logo_icon.Pixbuf = pixbuf;
@@ -803,6 +811,7 @@ public partial class ChronoJumpWindow
 		image_force_sensor_exercise_delete.Pixbuf = pixbuf;
 		image_run_encoder_exercise_delete.Pixbuf = pixbuf;
 		image_button_cancel.Pixbuf = pixbuf;
+		image_button_cancel1.Pixbuf = pixbuf;
 		image_encoder_capture_cancel.Pixbuf = pixbuf;
 		image_encoder_signal_delete.Pixbuf = pixbuf;
 		app1s_image_delete.Pixbuf = pixbuf;
@@ -953,6 +962,7 @@ public partial class ChronoJumpWindow
 		//pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "finish.png"); //gnome (white)
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "floppy.png");
 		image_button_finish.Pixbuf = pixbuf;
+		image_button_finish1.Pixbuf = pixbuf;
 		image_encoder_capture_finish.Pixbuf = pixbuf;
 
 		//pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "gtk-cancel.png"); //high contrast (black)
@@ -1118,6 +1128,8 @@ public partial class ChronoJumpWindow
 		//image_home1 = (Gtk.Image) builder.GetObject ("image_home1");
 		//image_minimize = (Gtk.Image) builder.GetObject ("image_minimize");
 		//image_minimize1 = (Gtk.Image) builder.GetObject ("image_minimize1");
+		image_fullscreen = (Gtk.Image) builder.GetObject ("image_fullscreen");
+		image_fullscreen_exit = (Gtk.Image) builder.GetObject ("image_fullscreen_exit");
 		image_session_delete = (Gtk.Image) builder.GetObject ("image_session_delete");
 		app1s_image_button_close = (Gtk.Image) builder.GetObject ("app1s_image_button_close");
 		image_db_backup = (Gtk.Image) builder.GetObject ("image_db_backup");
@@ -1179,6 +1191,8 @@ public partial class ChronoJumpWindow
 		image_logo_contacts_transp = (Gtk.Image) builder.GetObject ("image_logo_contacts_transp");
 		image_logo_encoder = (Gtk.Image) builder.GetObject ("image_logo_encoder");
 		image_logo_encoder_transp = (Gtk.Image) builder.GetObject ("image_logo_encoder_transp");
+		fullscreen_image_logo = (Gtk.Image) builder.GetObject ("fullscreen_image_logo");
+		fullscreen_image_logo_transp = (Gtk.Image) builder.GetObject ("fullscreen_image_logo_transp");
 
 		image_selector_start_jumps1 = (Gtk.Image) builder.GetObject ("image_selector_start_jumps1");
 		image_selector_start_runs1 = (Gtk.Image) builder.GetObject ("image_selector_start_runs1");

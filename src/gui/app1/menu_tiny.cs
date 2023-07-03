@@ -93,6 +93,9 @@ public partial class ChronoJumpWindow
 		image_logo_contacts.Visible = false;
 		image_logo_encoder_transp.Visible = false;
 		image_logo_encoder.Visible = false;
+		//TODO: check this
+		fullscreen_image_logo.Visible = false;
+		fullscreen_image_logo_transp.Visible = false;
 
 		if(! Config.UseSystemColor && UtilGtk.ColorIsOkWithLogoTransparent (UtilGtk.ColorParse(preferences.colorBackgroundString)))
 		{

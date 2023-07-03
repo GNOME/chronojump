@@ -166,11 +166,15 @@ public partial class ChronoJumpWindow
 
 	//contact tests execute buttons
 	Gtk.Image image_button_finish;
+	Gtk.Image image_button_finish1;
 	Gtk.Image image_button_cancel; //needed this specially because theme cancel sometimes seems "record"
+	Gtk.Image image_button_cancel1;
 	//encoder tests execute buttons
 	//Gtk.Image image_encoder_capture_execute;
 	Gtk.Image image_encoder_capture_finish;
 	Gtk.Image image_encoder_capture_cancel;
+	Gtk.Button fullscreen_button_fullscreen;
+	Gtk.Button fullscreen_button_fullscreen_exit;
 
 	Gtk.Frame frame_contacts_graph_table;
 	Gtk.HPaned hpaned_contacts_graph_table;
@@ -559,7 +563,7 @@ public partial class ChronoJumpWindow
 	private UtilAll.OperatingSystems operatingSystem;
 	private string progVersion;
 	private string progName;
-	private enum notebook_start_pages { PROGRAM, SENDLOG, EXITCONFIRM, SOCIALNETWORKPOLL }
+	private enum notebook_start_pages { PROGRAM, SENDLOG, EXITCONFIRM, SOCIALNETWORKPOLL, FULLSCREENCAPTURE }
 	private enum notebook_sup_pages { START, CONTACTS, ENCODER, SESSION, NETWORKSPROBLEMS, HELP, NEWS, MICRODISCOVER, PERSON }
 	private enum notebook_contacts_execute_or_pages { EXECUTE, INSTRUCTIONS, FORCESENSORADJUST, RACEINSPECTOR }
 	private enum notebook_analyze_pages { STATISTICS, JUMPSPROFILE, JUMPSDJOPTIMALFALL, JUMPSWEIGHTFVPROFILE, JUMPSASYMMETRY, JUMPSEVOLUTION, JUMPSRJFATIGUE,
@@ -3910,6 +3914,8 @@ public partial class ChronoJumpWindow
 		if (Constants.ModeIsFORCESENSOR (m) && Config.SimulatedCapture)
 			button_detect_show_hide (false);
 
+		fullscreen_button_fullscreen.Visible = false;
+
 		//blank exercise options: useful for changing from jumps or runs to forceSensor, runEncoder, reaction time, other
 		label_contacts_exercise_selected_name.Visible = true; //will not be visible when all the contacts_top combo is implemented
 		label_contacts_exercise_selected_options_blank ();
@@ -4237,6 +4243,7 @@ public partial class ChronoJumpWindow
 			label_contacts_exercise_selected_options_visible (false);
 			image_top_laterality_contacts.Visible = true;
 			setForceSensorLateralityPixbuf();
+			fullscreen_button_fullscreen.Visible = true;
 		}
 		else if(m == Constants.Modes.RUNSENCODER)
 		{
@@ -5009,10 +5016,43 @@ public partial class ChronoJumpWindow
 	}
 
 
+
+	/*
+	   <---------------- fullscreen stuff --------
+	   */
+
+	private void on_fullscreeen_finish (object o, EventArgs args)
+	{
+		notebook_start.CurrentPage = Convert.ToInt32 (notebook_start_pages.PROGRAM);
+		//if (Constants.ModeIsENCODER (current_mode))
+		//	on_button_encoder_capture_finish_clicked (o, args);
+		//else
+			on_finish_clicked (o, args);
+	}
+
+	private void on_fullscreeen_cancel (object o, EventArgs args)
+	{
+		notebook_start.CurrentPage = Convert.ToInt32 (notebook_start_pages.PROGRAM);
+		//if (Constants.ModeIsENCODER (current_mode))
+		//	on_button_encoder_cancel_clicked (o, args);
+		//else
+			on_cancel_clicked (o, args);
+	}
+
+	private void on_fullscreen_button_fullscreen_clicked (object o, EventArgs args)
+	{
+		notebook_start.CurrentPage = Convert.ToInt32 (notebook_start_pages.FULLSCREENCAPTURE);
+	}
+
+	private void on_fullscreen_button_fullscreen_exit_clicked (object o, EventArgs args)
+	{
+		notebook_start.CurrentPage = Convert.ToInt32 (notebook_start_pages.PROGRAM);
+	}
+
+
 	/*
 	   <---------------- end of discover / detect devices --------
 	   */
-
 
 
 	private void on_button_execute_test_clicked (object o, EventArgs args)
@@ -9542,11 +9582,15 @@ LogB.Debug("mc finished 5");
 
 		//contact tests execute buttons
 		image_button_finish = (Gtk.Image) builder.GetObject ("image_button_finish");
+		image_button_finish1 = (Gtk.Image) builder.GetObject ("image_button_finish1");
 		image_button_cancel = (Gtk.Image) builder.GetObject ("image_button_cancel"); //needed this specially because theme cancel sometimes seems "record"
+		image_button_cancel1 = (Gtk.Image) builder.GetObject ("image_button_cancel1");
 		//encoder tests execute buttons
 		//image_encoder_capture_execute = (Gtk.Image) builder.GetObject ("image_encoder_capture_execute");
 		image_encoder_capture_finish = (Gtk.Image) builder.GetObject ("image_encoder_capture_finish");
 		image_encoder_capture_cancel = (Gtk.Image) builder.GetObject ("image_encoder_capture_cancel");
+		fullscreen_button_fullscreen = (Gtk.Button) builder.GetObject ("fullscreen_button_fullscreen");
+		fullscreen_button_fullscreen_exit = (Gtk.Button) builder.GetObject ("fullscreen_button_fullscreen_exit");
 
 		frame_contacts_graph_table = (Gtk.Frame) builder.GetObject ("frame_contacts_graph_table");
 		hpaned_contacts_graph_table = (Gtk.HPaned) builder.GetObject ("hpaned_contacts_graph_table");

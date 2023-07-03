@@ -609,7 +609,7 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 		}
 	}
 
-	protected void crashedPaint ()
+	protected void crashedPaintOutRectangle ()
 	{
 		g.SetSourceColor (red);
 		g.LineWidth = 20;
@@ -635,7 +635,6 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 
 public class CairoGraphForceSensorSignalAsteroids : CairoGraphForceSensorSignal
 {
-	private const int playerRadius = 6;
 	private double lastShot;
 	private double lastPointUp; //each s 1 point up
 
@@ -650,13 +649,6 @@ public class CairoGraphForceSensorSignalAsteroids : CairoGraphForceSensorSignal
 			return;
 
 		asteroidsPlot (points_l[points_l.Count -1], startAt);
-
-		Cairo.Color playerColor = bluePlots;
-		if (asteroids.Dark)
-			playerColor = yellow;
-
-		drawCircle (calculatePaintX (points_l[points_l.Count -1].X),
-				calculatePaintY (points_l[points_l.Count -1].Y), playerRadius, playerColor, true);
 	}
 
 	private void asteroidsPlot (PointF startAtPoint, int startAt)
@@ -672,12 +664,12 @@ public class CairoGraphForceSensorSignalAsteroids : CairoGraphForceSensorSignal
 
 			drawCircle (ax, ay, a.Size, a.Color, true);
 
-			if (asteroids.CrashedWithPlayer (ax, ay, a.Size,
+			if (asteroids.DoesAsteroidCrashedWithPlayer (ax, ay, a.Size,
 					calculatePaintX (points_l[points_l.Count -1].X),
-					calculatePaintY (points_l[points_l.Count -1].Y),
-					playerRadius))
+					calculatePaintY (points_l[points_l.Count -1].Y)))
 			{
-				crashedPaint ();
+				asteroids.AsteroidCrashedWithPlayerSetTime (points_l[points_l.Count -1].X);
+				//crashedPaintOutRectangle ();
 				a.Destroy ();
 				asteroids.Points -= 20;
 			}
@@ -730,8 +722,11 @@ public class CairoGraphForceSensorSignalAsteroids : CairoGraphForceSensorSignal
 			lastShot = points_l[points_l.Count -1].X;
 		}
 
+		asteroids.PaintShip (
+				calculatePaintX (points_l[points_l.Count -1].X),
+				calculatePaintY (points_l[points_l.Count -1].Y),
+				points_l[points_l.Count -1].X, g);
 	}
-
 }
 
 public class CairoGraphForceSensorSignalQuestionnaire : CairoGraphForceSensorSignal
@@ -829,7 +824,7 @@ public class CairoGraphForceSensorSignalQuestionnaire : CairoGraphForceSensorSig
 					calculatePaintX (lastPoint.X),
 					calculatePaintY (lastPoint.Y) ))
 		{
-			crashedPaint ();
+			crashedPaintOutRectangle ();
 			questionnaire.Points --;
 		}
 		else if (rectangleM.IsGreen (
@@ -1443,8 +1438,15 @@ public class Asteroids
 	private List<Asteroid> asteroid_l;
 	private List<Shot> shot_l;
 	private Random random = new Random();
+
+	private const int playerRadius = 6;
+	private Cairo.Color bluePlots = new Cairo.Color (0, 0, .78, 1);
 	private Cairo.Color gray = new Cairo.Color (.5, .5, .5, 1);
 	private Cairo.Color white = new Cairo.Color (1, 1, 1, 1);
+	private Cairo.Color yellow = new Cairo.Color (0.906, 0.745, 0.098, 1);
+	private Cairo.Color redDark = new Cairo.Color (0.55, 0, 0, 1);
+
+	private double lastCrash; //to paint ship in red for half second
 
 	public Asteroids (int maxY, int minY, bool Dark, int frequency)
 	{
@@ -1453,6 +1455,7 @@ public class Asteroids
 		this.MinY = minY;
 
 		Points = 0;
+		lastCrash = -1; //to not start in red
 		asteroid_l = new List<Asteroid> ();
 		shot_l = new List<Shot> ();
 		int plotSeconds = 100;
@@ -1480,9 +1483,14 @@ public class Asteroids
 		return aPaintable_l;
 	}
 
-	public bool CrashedWithPlayer (double asteroidX, double asteroidY, int asteroidSize, double playerX, double playerY, int playerRadius)
+	public bool DoesAsteroidCrashedWithPlayer (double asteroidX, double asteroidY, int asteroidSize, double playerX, double playerY)
 	{
 		return (CairoUtil.GetDistance2D (asteroidX, asteroidY, playerX, playerY) < asteroidSize + playerRadius);
+	}
+
+	public void AsteroidCrashedWithPlayerSetTime (double timeNow)
+	{
+		lastCrash = timeNow;
 	}
 
 	public void Shot (PointF p)
@@ -1498,6 +1506,19 @@ public class Asteroids
 				sPaintable_l.Add (s);
 
 		return sPaintable_l;
+	}
+
+	public void PaintShip (double x, double y, double timeNow, Context g)
+	{
+		Cairo.Color playerColor = bluePlots;
+		if (Dark)
+			playerColor = yellow;
+
+		//after a crash show ship half red for .5 seconds
+		if (lastCrash > 0 && timeNow - lastCrash < 500000)
+			playerColor = redDark;
+
+		CairoUtil.DrawCircle (g, x, y, playerRadius, playerColor, true);
 	}
 
 	public void PaintShot (Shot s, double sx, double sy, double timeNow, Context g)

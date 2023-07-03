@@ -110,6 +110,19 @@ public static class CairoUtil
 		g.Dispose();
 	}
 
+	//same as graphs/cairo/xy.cs
+	public static void DrawCircle (Cairo.Context g, double x, double y, double radio, Cairo.Color color, bool filled)
+	{
+		g.MoveTo(x +radio, y);
+		g.Arc(x, y, radio, 0.0, 2.0 * Math.PI); //full circle
+		g.SetSourceColor(color);
+
+		if (filled)
+			g.Fill();
+
+		g.Stroke();
+	}
+
 	public static void PaintSegment (Cairo.Context g, Cairo.Color color, double x1, double y1, double x2, double y2)
 	{
 		g.SetSourceColor (color);

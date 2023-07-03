@@ -177,6 +177,7 @@ public partial class ChronoJumpWindow
 	//Gtk.Button fullscreen_button_fullscreen_exit;
 	Gtk.Label fullscreen_label_person;
 	Gtk.Label fullscreen_label_exercise;
+	Gtk.Label fullscreen_label_message;
 	Gtk.DrawingArea fullscreen_capture_drawingarea_cairo;
 
 	Gtk.Frame frame_contacts_graph_table;
@@ -1190,6 +1191,7 @@ public partial class ChronoJumpWindow
 			//fulscreen
 			UtilGtk.ContrastLabelsLabel (Config.ColorBackgroundIsDark, fullscreen_label_person);
 			UtilGtk.ContrastLabelsLabel (Config.ColorBackgroundIsDark, fullscreen_label_exercise);
+			UtilGtk.ContrastLabelsLabel (Config.ColorBackgroundIsDark, fullscreen_label_message);
 
 
 			if(Config.ColorBackgroundIsDark)
@@ -9642,6 +9644,7 @@ LogB.Debug("mc finished 5");
 		//fullscreen_button_fullscreen_exit = (Gtk.Button) builder.GetObject ("fullscreen_button_fullscreen_exit");
 		fullscreen_label_person = (Gtk.Label) builder.GetObject ("fullscreen_label_person");
 		fullscreen_label_exercise = (Gtk.Label) builder.GetObject ("fullscreen_label_exercise");
+		fullscreen_label_message = (Gtk.Label) builder.GetObject ("fullscreen_label_message");
 		fullscreen_capture_drawingarea_cairo = (Gtk.DrawingArea) builder.GetObject ("fullscreen_capture_drawingarea_cairo");
 
 		frame_contacts_graph_table = (Gtk.Frame) builder.GetObject ("frame_contacts_graph_table");

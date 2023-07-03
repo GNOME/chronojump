@@ -474,7 +474,7 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 				 (points_l_interpolated_path != null && points_l_interpolated_path.Count > 0)))
 			accuracyText = accuracyCalcule (points_l);
 
-		plotSpecific (); //right now only asteroids
+		plotSpecific (); //right now only asteroids and questionnaire
 
 		if (rectangleRange > 0 && showAccuracy)
 			accuracyRectanglePlot (accuracyText);
@@ -651,24 +651,23 @@ public class CairoGraphForceSensorSignalAsteroids : CairoGraphForceSensorSignal
 		asteroidsPlot (points_l[points_l.Count -1], startAt);
 	}
 
-	private void asteroidsPlot (PointF startAtPoint, int startAt)
+	private void asteroidsPlot (PointF lastPoint, int startAt)
 	{
 		// paint asteroids and manage crashes
-		List<Asteroid> aPaintable_l = asteroids.GetAllAsteroidsPaintable (startAtPoint.X, marginRightInSeconds);
+		List<Asteroid> aPaintable_l = asteroids.GetAllAsteroidsPaintable (lastPoint.X, marginRightInSeconds);
 		List<Point3F> aPainted_l = new List <Point3F> ();
 		foreach (Asteroid a in aPaintable_l)
 		{
-			double ax = graphWidth - (a.GetTimeNowProportion (startAtPoint.X, marginRightInSeconds) *
+			double ax = graphWidth - (a.GetTimeNowProportion (lastPoint.X, marginRightInSeconds) *
 					(graphWidth -getMargins (Directions.LR)) + getMargins (Directions.L));
-			double ay = calculatePaintY (a.GetYNow (startAtPoint.X, marginRightInSeconds));
+			double ay = calculatePaintY (a.GetYNow (lastPoint.X, marginRightInSeconds));
 
 			drawCircle (ax, ay, a.Size, a.Color, true);
 
 			if (asteroids.DoesAsteroidCrashedWithPlayer (ax, ay, a.Size,
-					calculatePaintX (points_l[points_l.Count -1].X),
-					calculatePaintY (points_l[points_l.Count -1].Y)))
+					calculatePaintX (lastPoint.X), calculatePaintY (lastPoint.Y)))
 			{
-				asteroids.AsteroidCrashedWithPlayerSetTime (points_l[points_l.Count -1].X);
+				asteroids.AsteroidCrashedWithPlayerSetTime (lastPoint.X);
 				//crashedPaintOutRectangle ();
 				a.Destroy ();
 				asteroids.Points -= 20;
@@ -678,11 +677,10 @@ public class CairoGraphForceSensorSignalAsteroids : CairoGraphForceSensorSignal
 		}
 
 		//manage shots
-		//foreach (Shot s in asteroids.GetAllShotsPaintable (startAtPoint.X, marginRightInSeconds))
-		foreach (Shot s in asteroids.GetAllShotsPaintable (points_l[points_l.Count -1].X, startAtPoint.X, marginRightInSeconds))
+		foreach (Shot s in asteroids.GetAllShotsPaintable (lastPoint.X))
 		{
 			//maybe do this in previous bucle
-			double sx = calculatePaintX (s.GetXNow (points_l[points_l.Count -1].X));
+			double sx = calculatePaintX (s.GetXNow (lastPoint.X));
 			double sy = calculatePaintY (s.Ystart);
 			//LogB.Information (string.Format ("shot: {0}, {1}", sx, sy));
 
@@ -691,14 +689,14 @@ public class CairoGraphForceSensorSignalAsteroids : CairoGraphForceSensorSignal
 				asteroids.Points += 5;
 				s.Alive = false;
 			} else
-				asteroids.PaintShot (s, sx, sy, points_l[points_l.Count -1].X, g);
+				asteroids.PaintShot (s, sx, sy, lastPoint.X, g);
 		}
 
 		//add 1 point each s
-		if (points_l[points_l.Count -1].X >= lastPointUp + 1000000)
+		if (lastPoint.X >= lastPointUp + 1000000)
 		{
 			asteroids.Points ++;
-			lastPointUp = points_l[points_l.Count -1].X;
+			lastPointUp = lastPoint.X;
 		}
 
 		// print points
@@ -714,18 +712,14 @@ public class CairoGraphForceSensorSignalAsteroids : CairoGraphForceSensorSignal
 
 		g.SetFontSize (textHeight);
 
-		if (points_l.Count > 3 && points_l[points_l.Count -1].X >= lastShot + 1000000)
+		if (points_l.Count > 3 && lastPoint.X >= lastShot + 1000000)
 		{
 			//create new shot
-			asteroids.Shot (points_l[points_l.Count -1]);
-
-			lastShot = points_l[points_l.Count -1].X;
+			asteroids.Shot (lastPoint);
+			lastShot = lastPoint.X;
 		}
 
-		asteroids.PaintShip (
-				calculatePaintX (points_l[points_l.Count -1].X),
-				calculatePaintY (points_l[points_l.Count -1].Y),
-				points_l[points_l.Count -1].X, g);
+		asteroids.PaintShip (calculatePaintX (lastPoint.X), calculatePaintY (lastPoint.Y), lastPoint.X, g);
 	}
 }
 
@@ -1438,15 +1432,15 @@ public class Asteroids
 	private List<Asteroid> asteroid_l;
 	private List<Shot> shot_l;
 	private Random random = new Random();
+	private double lastCrash; //to paint ship in red for half second
 
 	private const int playerRadius = 6;
+	private const int million = 1000000;
 	private Cairo.Color bluePlots = new Cairo.Color (0, 0, .78, 1);
 	private Cairo.Color gray = new Cairo.Color (.5, .5, .5, 1);
 	private Cairo.Color white = new Cairo.Color (1, 1, 1, 1);
 	private Cairo.Color yellow = new Cairo.Color (0.906, 0.745, 0.098, 1);
 	private Cairo.Color redDark = new Cairo.Color (0.55, 0, 0, 1);
-
-	private double lastCrash; //to paint ship in red for half second
 
 	public Asteroids (int maxY, int minY, bool Dark, int frequency)
 	{
@@ -1462,8 +1456,8 @@ public class Asteroids
 
 		for (int i = 0; i < frequency * plotSeconds; i ++)
 		{
-			int xStart = random.Next (5*1000000, 100*1000000);
-			int usLife = random.Next (3*100000, 15*1000000);
+			int xStart = random.Next (5*million, 100*million);
+			int usLife = random.Next (3*100000, 15*million);
 			asteroid_l.Add (new Asteroid (
 						xStart, random.Next (minY, maxY), // y (force)
 						usLife, random.Next (minY, maxY), // y (force)
@@ -1498,7 +1492,7 @@ public class Asteroids
 		shot_l.Add (new Shot (p));
 	}
 
-	public List<Shot> GetAllShotsPaintable (double timeNow, double startAtPointX, int marginRightInSeconds)
+	public List<Shot> GetAllShotsPaintable (double timeNow)
 	{
 		List<Shot> sPaintable_l = new List<Shot> ();
 		foreach (Shot s in shot_l)
@@ -1515,7 +1509,7 @@ public class Asteroids
 			playerColor = yellow;
 
 		//after a crash show ship half red for .5 seconds
-		if (lastCrash > 0 && timeNow - lastCrash < 500000)
+		if (lastCrash > 0 && timeNow - lastCrash < .5*million)
 			playerColor = redDark;
 
 		CairoUtil.DrawCircle (g, x, y, playerRadius, playerColor, true);
@@ -1576,6 +1570,7 @@ public class Asteroid
 	private int size;
 	private Cairo.Color color;
 	private bool alive;
+	private const int million = 1000000;
 
 	public Asteroid (int xStart, int yStart, int usLife, int yEnd, int size, Cairo.Color color)
 	{
@@ -1594,7 +1589,7 @@ public class Asteroid
 		if (! alive)
 			return false;
 
-		int graphUsAtRight = graphSecondsAtRight * 1000000;
+		int graphUsAtRight = graphSecondsAtRight * million;
 		double graphUsTotalAtRight = graphUsStart + graphUsAtRight;
 
 		// the 3000000 is for having a bit of margin to easily consider radius
@@ -1609,7 +1604,7 @@ public class Asteroid
 
 	public double GetTimeNowProportion (double graphUsStart, int graphSecondsAtRight)
 	{
-		int graphUsAtRight = graphSecondsAtRight * 1000000;
+		int graphUsAtRight = graphSecondsAtRight * million;
 		double graphUsTotalAtRight = graphUsStart + graphUsAtRight;
 
 		return UtilAll.DivideSafe (graphUsTotalAtRight - xStart, usLife);
@@ -1649,10 +1644,11 @@ public class Shot
 	private const int life = 3; //will not arrive to end of screen (and not kill something that still we have not seen)
 	private const int speed = 3; //relative to ship //note if this change, life will need to change
 	private const int size = 2;
-	private bool alive;
+	private const int million = 1000000;
 
 	private int xStart; //time when started
 	private int yStart;
+	private bool alive;
 
 	public Shot (PointF p)
 	{
@@ -1666,7 +1662,7 @@ public class Shot
 		if (! alive)
 			return false;
 
-		if (timeNow - xStart > 1000000 * life)
+		if (timeNow - xStart > million * life)
 		       return false;
 
 		return true;
@@ -1680,7 +1676,7 @@ public class Shot
 	// will be shown on gray
 	public bool LifeIsEnding (double timeNow)
 	{
-		if (timeNow - xStart > 1000000 * .75 * life && timeNow - xStart <= 1000000 * life)
+		if (timeNow - xStart > million * .75 * life && timeNow - xStart <= million * life)
 		       return true;
 
 		return false;

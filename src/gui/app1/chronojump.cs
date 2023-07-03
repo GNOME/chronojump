@@ -174,7 +174,7 @@ public partial class ChronoJumpWindow
 	Gtk.Image image_encoder_capture_finish;
 	Gtk.Image image_encoder_capture_cancel;
 	Gtk.Button fullscreen_button_fullscreen;
-	Gtk.Button fullscreen_button_fullscreen_exit;
+	//Gtk.Button fullscreen_button_fullscreen_exit;
 	Gtk.Label fullscreen_label_person;
 	Gtk.Label fullscreen_label_exercise;
 	Gtk.DrawingArea fullscreen_capture_drawingarea_cairo;
@@ -9624,7 +9624,7 @@ LogB.Debug("mc finished 5");
 		image_encoder_capture_finish = (Gtk.Image) builder.GetObject ("image_encoder_capture_finish");
 		image_encoder_capture_cancel = (Gtk.Image) builder.GetObject ("image_encoder_capture_cancel");
 		fullscreen_button_fullscreen = (Gtk.Button) builder.GetObject ("fullscreen_button_fullscreen");
-		fullscreen_button_fullscreen_exit = (Gtk.Button) builder.GetObject ("fullscreen_button_fullscreen_exit");
+		//fullscreen_button_fullscreen_exit = (Gtk.Button) builder.GetObject ("fullscreen_button_fullscreen_exit");
 		fullscreen_label_person = (Gtk.Label) builder.GetObject ("fullscreen_label_person");
 		fullscreen_label_exercise = (Gtk.Label) builder.GetObject ("fullscreen_label_exercise");
 		fullscreen_capture_drawingarea_cairo = (Gtk.DrawingArea) builder.GetObject ("fullscreen_capture_drawingarea_cairo");

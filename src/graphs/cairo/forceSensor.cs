@@ -631,7 +631,7 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 public class CairoGraphForceSensorSignalAsteroids : CairoGraphForceSensorSignal
 {
 	private const int playerRadius = 6;
-	//private double lastShot;
+	private double lastShot;
 	private double lastPointUp; //each s 1 point up
 
 	public CairoGraphForceSensorSignalAsteroids (DrawingArea area, string title)
@@ -657,7 +657,8 @@ public class CairoGraphForceSensorSignalAsteroids : CairoGraphForceSensorSignal
 	private void asteroidsPlot (PointF startAtPoint, int startAt)
 	{
 		// paint asteroids and manage crashes
-		List<Asteroid> aPaintable_l = asteroids.GetAllPaintable (startAtPoint.X, marginRightInSeconds);
+		List<Asteroid> aPaintable_l = asteroids.GetAllAsteroidsPaintable (startAtPoint.X, marginRightInSeconds);
+		List<Point3F> aPainted_l = new List <Point3F> ();
 		foreach (Asteroid a in aPaintable_l)
 		{
 			double ax = graphWidth - (a.GetTimeNowProportion (startAtPoint.X, marginRightInSeconds) *
@@ -666,15 +667,34 @@ public class CairoGraphForceSensorSignalAsteroids : CairoGraphForceSensorSignal
 
 			drawCircle (ax, ay, a.Size, a.Color, true);
 
-			if (asteroids.Crashed (ax, ay, a.Size,
+			if (asteroids.CrashedWithPlayer (ax, ay, a.Size,
 					calculatePaintX (points_l[points_l.Count -1].X),
 					calculatePaintY (points_l[points_l.Count -1].Y),
 					playerRadius))
 			{
 				crashedPaint ();
 				a.Destroy ();
-				asteroids.Points -= 10;
+				asteroids.Points -= 20;
 			}
+
+			aPainted_l.Add (new Point3F (ax, ay, a.Size));
+		}
+
+		//manage shots
+		//foreach (Shot s in asteroids.GetAllShotsPaintable (startAtPoint.X, marginRightInSeconds))
+		foreach (Shot s in asteroids.GetAllShotsPaintable (points_l[points_l.Count -1].X, startAtPoint.X, marginRightInSeconds))
+		{
+			//maybe do this in previous bucle
+			double sx = calculatePaintX (s.GetXNow (points_l[points_l.Count -1].X));
+			double sy = calculatePaintY (s.Ystart);
+			//LogB.Information (string.Format ("shot: {0}, {1}", sx, sy));
+
+			if (asteroids.ShotCrashedWithAsteroid (sx, sy, s.Size, aPaintable_l, aPainted_l))
+			{
+				asteroids.Points += 5;
+				s.Alive = false;
+			} else
+				asteroids.PaintShot (s, sx, sy, points_l[points_l.Count -1].X, g);
 		}
 
 		//add 1 point each s
@@ -697,20 +717,13 @@ public class CairoGraphForceSensorSignalAsteroids : CairoGraphForceSensorSignal
 
 		g.SetFontSize (textHeight);
 
-		/*
-		//shoot each second WIP
 		if (points_l.Count > 3 && points_l[points_l.Count -1].X >= lastShot + 1000000)
 		{
-			List<PointF> shotPoints_l = new List<PointF> ();
-			shotPoints_l.Add (points_l[points_l.Count -3]);
-			shotPoints_l.Add (points_l[points_l.Count -1]);
-
-			g.SetSourceColor (black);
-			preparePredictedLine (shotPoints_l);
+			//create new shot
+			asteroids.Shot (points_l[points_l.Count -1]);
 
 			lastShot = points_l[points_l.Count -1].X;
 		}
-		*/
 
 	}
 
@@ -1421,7 +1434,11 @@ public class Asteroids
 	public bool Dark;
 
 	private List<Asteroid> asteroid_l;
+	private List<Shot> shot_l;
 	private Random random = new Random();
+
+	private Cairo.Color gray = new Cairo.Color (.5, .5, .5, 1);
+	private Cairo.Color white = new Cairo.Color (1, 1, 1, 1);
 
 	public Asteroids (bool Dark, int frequency)
 	{
@@ -1429,6 +1446,7 @@ public class Asteroids
 
 		Points = 0;
 		asteroid_l = new List<Asteroid> ();
+		shot_l = new List<Shot> ();
 		int plotSeconds = 100;
 
 		for (int i = 0; i < frequency * plotSeconds; i ++)
@@ -1444,7 +1462,7 @@ public class Asteroids
 		}
 	}
 
-	public List<Asteroid> GetAllPaintable (double startAtPointX, int marginRightInSeconds)
+	public List<Asteroid> GetAllAsteroidsPaintable (double startAtPointX, int marginRightInSeconds)
 	{
 		List<Asteroid> aPaintable_l = new List<Asteroid> ();
 		foreach (Asteroid a in asteroid_l)
@@ -1454,9 +1472,57 @@ public class Asteroids
 		return aPaintable_l;
 	}
 
-	public bool Crashed (double asteroidX, double asteroidY, int asteroidSize, double playerX, double playerY, int playerRadius)
+	public bool CrashedWithPlayer (double asteroidX, double asteroidY, int asteroidSize, double playerX, double playerY, int playerRadius)
 	{
 		return (CairoUtil.GetDistance2D (asteroidX, asteroidY, playerX, playerY) < asteroidSize + playerRadius);
+	}
+
+	public void Shot (PointF p)
+	{
+		shot_l.Add (new Shot (p));
+	}
+
+	public List<Shot> GetAllShotsPaintable (double timeNow, double startAtPointX, int marginRightInSeconds)
+	{
+		List<Shot> sPaintable_l = new List<Shot> ();
+		foreach (Shot s in shot_l)
+			if (s.NeedToShow (timeNow))
+				sPaintable_l.Add (s);
+
+		return sPaintable_l;
+	}
+
+	public void PaintShot (Shot s, double sx, double sy, double timeNow, Context g)
+	{
+		Cairo.Color color = white;
+		if (s.LifeIsEnding (timeNow))
+			color = gray;
+
+		g.Save ();
+		g.LineWidth = 2;
+		g.SetSourceColor (color);
+		g.MoveTo (sx -3, sy);
+		g.LineTo (sx +3, sy);
+		g.Stroke ();
+		g.Restore ();
+
+		//drawCircle (sx, sy, s.Size, color, true);
+	}
+
+	public bool ShotCrashedWithAsteroid (double sx, double sy, int size,
+			List<Asteroid> asteroid_l, List<Point3F> asteroidXYZ_l)
+	{
+		for (int i = 0; i < asteroidXYZ_l.Count; i ++)
+		{
+			Point3F aXYZ = asteroidXYZ_l[i];
+			if (CairoUtil.GetDistance2D (aXYZ.X, aXYZ.Y, sx, sy) < aXYZ.Z + size)
+			{
+				asteroid_l[i].Alive = false;
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	private Cairo.Color createAsteroidColor ()
@@ -1543,5 +1609,61 @@ public class Asteroid
 
 	public Cairo.Color Color {
 		get { return color; }
+	}
+	public bool Alive {
+		set { alive = value; }
+	}
+}
+
+public class Shot
+{
+	private const int life = 3; //will not arrive to end of screen (and not kill something that still we have not seen)
+	private const int speed = 3; //relative to ship //note if this change, life will need to change
+	private const int size = 2;
+	private bool alive;
+
+	private int xStart; //time when started
+	private int yStart;
+
+	public Shot (PointF p)
+	{
+		this.xStart = Convert.ToInt32 (p.X); //TODO: to the right of the "ship"
+		this.yStart = Convert.ToInt32 (p.Y);
+		this.alive = true;
+	}
+
+	public bool NeedToShow (double timeNow)
+	{
+		if (! alive)
+			return false;
+
+		if (timeNow - xStart > 1000000 * life)
+		       return false;
+
+		return true;
+	}
+
+	public double GetXNow (double timeNow)
+	{
+		return xStart + speed * (timeNow - xStart);
+	}
+
+	// will be shown on gray
+	public bool LifeIsEnding (double timeNow)
+	{
+		if (timeNow - xStart > 1000000 * .75 * life && timeNow - xStart <= 1000000 * life)
+		       return true;
+
+		return false;
+	}
+
+	public int Ystart {
+		get { return yStart; }
+	}
+	public int Size {
+		get { return size; }
+	}
+	public bool Alive {
+		set { alive = value; }
 	}
 }

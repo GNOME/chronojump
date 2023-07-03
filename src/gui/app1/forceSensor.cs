@@ -2487,6 +2487,8 @@ LogB.Information(" fs R ");
 
 	private void updateForceSensorCaptureSignalCairo (bool forceRedraw)
 	{
+		bool capturing = (forceCaptureThread != null && forceCaptureThread.IsAlive);
+
 		//LogB.Information ("updateForceSensorCaptureSignalCairo 0");
 		if (cairoGraphForceSensorSignal == null)
 		{
@@ -2502,6 +2504,15 @@ LogB.Information(" fs R ");
 				cairoGraphForceSensorSignal = new CairoGraphForceSensorSignal (
 						force_capture_drawingarea_cairo, "title",
 						preferences.forceSensorFeedbackPathLineWidth);
+		}
+		else if (! capturing &&
+				(cairoGraphForceSensorSignal.GetType ().Equals (typeof (CairoGraphForceSensorSignalAsteroids)) ||
+				 cairoGraphForceSensorSignal.GetType ().Equals (typeof (CairoGraphForceSensorSignalQuestionnaire))))
+		{
+			//while ! capture do not show asteroids/questionnaire
+			cairoGraphForceSensorSignal = new CairoGraphForceSensorSignal (
+					force_capture_drawingarea_cairo, "title",
+					preferences.forceSensorFeedbackPathLineWidth);
 		}
 
 		//LogB.Information ("updateForceSensorCaptureSignalCairo 1");
@@ -2578,9 +2589,9 @@ LogB.Information(" fs R ");
 				forceSensorValues.BestRFD = briw.Max;
 		}
 
-		if (preferences.forceSensorCaptureFeedbackActive == Preferences.ForceSensorCaptureFeedbackActiveEnum.ASTEROIDS)
+		if (capturing && preferences.forceSensorCaptureFeedbackActive == Preferences.ForceSensorCaptureFeedbackActiveEnum.ASTEROIDS)
 			cairoGraphForceSensorSignal.PassAsteroids = asteroids;
-		else if (preferences.forceSensorCaptureFeedbackActive == Preferences.ForceSensorCaptureFeedbackActiveEnum.QUESTIONNAIRE)
+		else if (capturing && preferences.forceSensorCaptureFeedbackActive == Preferences.ForceSensorCaptureFeedbackActiveEnum.QUESTIONNAIRE)
 		{
 			cairoGraphForceSensorSignal.PassQuestionnaire = questionnaire;
 			cairoGraphForceSensorSignal.QuestionnaireMinY = preferences.forceSensorFeedbackQuestionnaireMin;
@@ -2605,7 +2616,7 @@ LogB.Information(" fs R ");
 				check_force_sensor_capture_show_speed.Active,
 				check_force_sensor_capture_show_power.Active,
 				paintPointsInterpolateCairo_l_copy, preferences.forceSensorFeedbackPathMin, preferences.forceSensorFeedbackPathMax,
-				(forceCaptureThread != null && forceCaptureThread.IsAlive),
+				capturing,
 				cairoGraphForceSensorSignalPointsShowAccuracy,
 				showLastSeconds,
 				minY, maxY,

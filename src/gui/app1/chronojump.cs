@@ -8064,6 +8064,7 @@ LogB.Debug("mc finished 5");
 			notebook_results.CurrentPage = 4;
 
 			event_execute_button_finish.Sensitive = false;
+			fullscreen_button_fullscreen.Sensitive = false;
 		} else if(mode == Constants.Modes.RT)
 		{
 			notebook_execute.CurrentPage = 5;

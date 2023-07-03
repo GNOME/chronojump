@@ -518,7 +518,8 @@ RESOURCES = \
 	../images/md/create_new_folder_blue_2x.png,folder_new_big.png \
 	../images/md/create_new_folder_blue_1x.png,folder_new.png \
 	../images/md/create_new_folder_yellow_1x.png,folder_new_yellow.png \
-	../images/md/fullscreen_exit_blue_1x.png,image_minimize.png \
+	../images/md/fullscreen_blue_1x.png,image_fullscreen.png \
+	../images/md/fullscreen_exit_blue_1x.png,image_fullscreen_exit.png \
 	../images/md/folder_open_blue_2x.png,folder_open_big.png \
 	../images/md/folder_open_blue_1x.png,folder_open.png \
 	../images/md/folder_open_yellow_1x.png,folder_open_yellow.png \

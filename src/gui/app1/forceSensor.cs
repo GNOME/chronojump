@@ -1070,6 +1070,7 @@ public partial class ChronoJumpWindow
 		button_execute_test.Sensitive = false;
 		event_execute_button_finish.Sensitive = true;
 		event_execute_button_cancel.Sensitive = true;
+		fullscreen_button_fullscreen.Sensitive = true;
 		button_force_sensor_image_save_signal.Sensitive = false;
 		button_force_sensor_analyze_analyze.Sensitive = false;
 		forceCaptureStartMark = false;

@@ -175,6 +175,9 @@ public partial class ChronoJumpWindow
 	Gtk.Image image_encoder_capture_cancel;
 	Gtk.Button fullscreen_button_fullscreen;
 	Gtk.Button fullscreen_button_fullscreen_exit;
+	Gtk.Label fullscreen_label_person;
+	Gtk.Label fullscreen_label_exercise;
+	Gtk.DrawingArea fullscreen_capture_drawingarea_cairo;
 
 	Gtk.Frame frame_contacts_graph_table;
 	Gtk.HPaned hpaned_contacts_graph_table;
@@ -1183,6 +1186,10 @@ public partial class ChronoJumpWindow
 
 			//presentation
 			UtilGtk.ContrastLabelsLabel (Config.ColorBackgroundIsDark, label_presentation_subtitle);
+
+			//fulscreen
+			UtilGtk.ContrastLabelsLabel (Config.ColorBackgroundIsDark, fullscreen_label_person);
+			UtilGtk.ContrastLabelsLabel (Config.ColorBackgroundIsDark, fullscreen_label_exercise);
 
 
 			if(Config.ColorBackgroundIsDark)
@@ -5023,7 +5030,8 @@ public partial class ChronoJumpWindow
 
 	private void on_fullscreeen_finish (object o, EventArgs args)
 	{
-		notebook_start.CurrentPage = Convert.ToInt32 (notebook_start_pages.PROGRAM);
+		on_fullscreen_button_fullscreen_exit_clicked (o, args);
+
 		//if (Constants.ModeIsENCODER (current_mode))
 		//	on_button_encoder_capture_finish_clicked (o, args);
 		//else
@@ -5032,23 +5040,49 @@ public partial class ChronoJumpWindow
 
 	private void on_fullscreeen_cancel (object o, EventArgs args)
 	{
-		notebook_start.CurrentPage = Convert.ToInt32 (notebook_start_pages.PROGRAM);
+		on_fullscreen_button_fullscreen_exit_clicked (o, args);
+
 		//if (Constants.ModeIsENCODER (current_mode))
 		//	on_button_encoder_cancel_clicked (o, args);
 		//else
 			on_cancel_clicked (o, args);
 	}
 
+	private enum fullScreenChangeEnum { DONOTHING, CHANGETOFULL, CHANGETONORMAL };
+	private fullScreenChangeEnum fullScreenChange = fullScreenChangeEnum.DONOTHING;
+
 	private void on_fullscreen_button_fullscreen_clicked (object o, EventArgs args)
 	{
 		notebook_start.CurrentPage = Convert.ToInt32 (notebook_start_pages.FULLSCREENCAPTURE);
+
+		if (Constants.ModeIsFORCESENSOR (current_mode) && cairoGraphForceSensorSignal != null)
+			fullScreenChange = fullScreenChangeEnum.CHANGETOFULL;
+
+		if (currentPerson != null)
+			fullscreen_label_person.Text = currentPerson.Name;
+
+		if (Constants.ModeIsFORCESENSOR (current_mode))
+		{
+			if (currentForceSensorExercise != null)
+				fullscreen_label_exercise.Text = currentForceSensorExercise.Name;
+		}
 	}
 
 	private void on_fullscreen_button_fullscreen_exit_clicked (object o, EventArgs args)
 	{
 		notebook_start.CurrentPage = Convert.ToInt32 (notebook_start_pages.PROGRAM);
+
+		if (Constants.ModeIsFORCESENSOR (current_mode) && cairoGraphForceSensorSignal != null)
+			fullScreenChange = fullScreenChangeEnum.CHANGETONORMAL;
 	}
 
+	private void on_fullscreen_capture_drawingarea_cairo_draw (object o, DrawnArgs args)
+	{
+		if (! Constants.ModeIsFORCESENSOR (current_mode))
+			return;
+
+		updateForceSensorCaptureSignalCairo (true);
+	}
 
 	/*
 	   <---------------- end of discover / detect devices --------
@@ -9591,6 +9625,9 @@ LogB.Debug("mc finished 5");
 		image_encoder_capture_cancel = (Gtk.Image) builder.GetObject ("image_encoder_capture_cancel");
 		fullscreen_button_fullscreen = (Gtk.Button) builder.GetObject ("fullscreen_button_fullscreen");
 		fullscreen_button_fullscreen_exit = (Gtk.Button) builder.GetObject ("fullscreen_button_fullscreen_exit");
+		fullscreen_label_person = (Gtk.Label) builder.GetObject ("fullscreen_label_person");
+		fullscreen_label_exercise = (Gtk.Label) builder.GetObject ("fullscreen_label_exercise");
+		fullscreen_capture_drawingarea_cairo = (Gtk.DrawingArea) builder.GetObject ("fullscreen_capture_drawingarea_cairo");
 
 		frame_contacts_graph_table = (Gtk.Frame) builder.GetObject ("frame_contacts_graph_table");
 		hpaned_contacts_graph_table = (Gtk.HPaned) builder.GetObject ("hpaned_contacts_graph_table");

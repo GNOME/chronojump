@@ -1803,7 +1803,11 @@ LogB.Information(" fs J ");
 				event_execute_label_message.Text = "Disabled real time graph on this device";
 			else {
 				//updateForceSensorCaptureSignalCairo (false); //TODO: if this is commented, then RAM does not increase
-				force_capture_drawingarea_cairo.QueueDraw (); //much better, but note that memory and CPU usage also increase. When Chronojump is closed all memory is returned. Check where is the leak
+				//much better like the folowing lines, but note that memory and CPU usage also increase. When Chronojump is closed all memory is returned. Check where is the leak. Leak happens in X11 (not in Wayland)
+				if (notebook_start.CurrentPage == Convert.ToInt32 (notebook_start_pages.FULLSCREENCAPTURE))
+					fullscreen_capture_drawingarea_cairo.QueueDraw ();
+				else
+					force_capture_drawingarea_cairo.QueueDraw ();
 			}
 LogB.Information(" fs Q ");
 		}
@@ -2571,6 +2575,16 @@ LogB.Information(" fs R ");
 			cairoGraphForceSensorSignal.PassQuestionnaire = questionnaire;
 			cairoGraphForceSensorSignal.QuestionnaireMinY = preferences.forceSensorFeedbackQuestionnaireMin;
 			cairoGraphForceSensorSignal.QuestionnaireMaxY = preferences.forceSensorFeedbackQuestionnaireMax;
+		}
+
+		if (fullScreenChange != fullScreenChangeEnum.DONOTHING)
+		{
+			if (fullScreenChange == fullScreenChangeEnum.CHANGETOFULL)
+				cairoGraphForceSensorSignal.ChangeDrawingArea (fullscreen_capture_drawingarea_cairo);
+			else //if (fullScreenChange == fullScreenChangeEnum.CHANGETONORMAL)
+				cairoGraphForceSensorSignal.ChangeDrawingArea (force_capture_drawingarea_cairo);
+
+			fullScreenChange = fullScreenChangeEnum.DONOTHING;
 		}
 
 		//LogB.Information ("updateForceSensorCaptureSignalCairo 4");

@@ -1108,6 +1108,9 @@ public partial class ChronoJumpWindow
 		event_execute_ButtonCancel.Clicked -= new EventHandler(on_cancel_clicked);
 		event_execute_ButtonCancel.Clicked += new EventHandler(on_cancel_clicked);
 
+		if (fullscreenLastCapture)
+			fullscreen_button_fullscreen.Click ();
+
 		cairoGraphForceSensorSignalPointsShowAccuracy = true;
 		forceCaptureThread = new Thread(new ThreadStart(forceSensorCaptureDo));
 		GLib.Idle.Add (new GLib.IdleHandler (pulseGTKForceSensorCapture));
@@ -2490,19 +2493,26 @@ LogB.Information(" fs R ");
 		bool capturing = (forceCaptureThread != null && forceCaptureThread.IsAlive);
 
 		//LogB.Information ("updateForceSensorCaptureSignalCairo 0");
-		if (cairoGraphForceSensorSignal == null)
+		if (cairoGraphForceSensorSignal == null || fullScreenChange == fullScreenChangeEnum.CHANGETOFULL)
 		{
+			Gtk.DrawingArea da = force_capture_drawingarea_cairo;
+			if (fullScreenChange == fullScreenChangeEnum.CHANGETOFULL)
+			{
+				da = fullscreen_capture_drawingarea_cairo;
+				fullScreenChange = fullScreenChangeEnum.DONOTHING;
+			}
+
 			if (preferences.forceSensorCaptureFeedbackActive ==
 					Preferences.ForceSensorCaptureFeedbackActiveEnum.ASTEROIDS)
 				cairoGraphForceSensorSignal = new CairoGraphForceSensorSignalAsteroids (
-						force_capture_drawingarea_cairo, "title");
+						da, "title");
 			else if (preferences.forceSensorCaptureFeedbackActive ==
 					Preferences.ForceSensorCaptureFeedbackActiveEnum.QUESTIONNAIRE)
 				cairoGraphForceSensorSignal = new CairoGraphForceSensorSignalQuestionnaire (
-						force_capture_drawingarea_cairo, "title");
+						da, "title");
 			else
 				cairoGraphForceSensorSignal = new CairoGraphForceSensorSignal (
-						force_capture_drawingarea_cairo, "title",
+						da, "title",
 						preferences.forceSensorFeedbackPathLineWidth);
 		}
 		else if (! capturing &&

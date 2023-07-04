@@ -1456,7 +1456,7 @@ public class Asteroids
 
 		for (int i = 0; i < frequency * plotSeconds; i ++)
 		{
-			int xStart = random.Next (5*million, 100*million);
+			int xStart = random.Next (7*million, 100*million);
 			int usLife = random.Next (3*100000, 15*million);
 			asteroid_l.Add (new Asteroid (
 						xStart, random.Next (minY, maxY), // y (force)

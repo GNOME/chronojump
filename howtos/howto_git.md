@@ -54,6 +54,12 @@ Show the changes of the named stash:
     git stash show -p stash@{1}
     git stash show -p 1
 
+Delete last stash (warning: no confirmation), or any stash, or all
+
+    git stash drop
+    git stash drop stash@{1}
+    git stash clear
+
 download from git repo
 
     git pull --rebase

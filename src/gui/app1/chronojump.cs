@@ -171,6 +171,8 @@ public partial class ChronoJumpWindow
 	Gtk.Image image_button_cancel1;
 	//encoder tests execute buttons
 	//Gtk.Image image_encoder_capture_execute;
+	Gtk.Button fullscreen_capture_button_finish;
+	Gtk.Button fullscreen_capture_button_cancel;
 	Gtk.Image image_encoder_capture_finish;
 	Gtk.Image image_encoder_capture_cancel;
 	Gtk.Button fullscreen_button_fullscreen;
@@ -4823,6 +4825,12 @@ public partial class ChronoJumpWindow
 
 	private void on_cancel_clicked (object o, EventArgs args) 
 	{
+		Button buttonClicked = o as Button;
+		if (o == null)
+			return;
+
+		fullscreenLastCapture = (buttonClicked == fullscreen_capture_button_cancel);
+
 		event_execute_ButtonCancel.Clicked -= new EventHandler(on_cancel_clicked);
 
 		if(capturingForce == arduinoCaptureStatus.STARTING || capturingForce == arduinoCaptureStatus.CAPTURING)
@@ -4864,6 +4872,12 @@ public partial class ChronoJumpWindow
 
 	private void on_finish_clicked (object o, EventArgs args) 
 	{
+		Button buttonClicked = o as Button;
+		if (o == null)
+			return;
+
+		fullscreenLastCapture = (buttonClicked == fullscreen_capture_button_finish);
+
 		//to avoid doble finish or cancel while finishing
 		hideButtons();
 
@@ -5030,6 +5044,10 @@ public partial class ChronoJumpWindow
 	   <---------------- fullscreen stuff --------
 	   */
 
+	private enum fullScreenChangeEnum { DONOTHING, CHANGETOFULL, CHANGETONORMAL };
+	private fullScreenChangeEnum fullScreenChange = fullScreenChangeEnum.DONOTHING;
+	private bool fullscreenLastCapture;
+
 	private void on_fullscreeen_finish (object o, EventArgs args)
 	{
 		on_fullscreen_button_fullscreen_exit_clicked (o, args);
@@ -5050,21 +5068,17 @@ public partial class ChronoJumpWindow
 			on_cancel_clicked (o, args);
 	}
 
-	private enum fullScreenChangeEnum { DONOTHING, CHANGETOFULL, CHANGETONORMAL };
-	private fullScreenChangeEnum fullScreenChange = fullScreenChangeEnum.DONOTHING;
-
 	private void on_fullscreen_button_fullscreen_clicked (object o, EventArgs args)
 	{
 		notebook_start.CurrentPage = Convert.ToInt32 (notebook_start_pages.FULLSCREENCAPTURE);
 
-		if (Constants.ModeIsFORCESENSOR (current_mode) && cairoGraphForceSensorSignal != null)
-			fullScreenChange = fullScreenChangeEnum.CHANGETOFULL;
-
-		if (currentPerson != null)
-			fullscreen_label_person.Text = currentPerson.Name;
-
 		if (Constants.ModeIsFORCESENSOR (current_mode))
 		{
+			fullScreenChange = fullScreenChangeEnum.CHANGETOFULL;
+
+			if (currentPerson != null)
+				fullscreen_label_person.Text = currentPerson.Name;
+
 			if (currentForceSensorExercise != null)
 				fullscreen_label_exercise.Text = currentForceSensorExercise.Name;
 		}
@@ -5074,7 +5088,7 @@ public partial class ChronoJumpWindow
 	{
 		notebook_start.CurrentPage = Convert.ToInt32 (notebook_start_pages.PROGRAM);
 
-		if (Constants.ModeIsFORCESENSOR (current_mode) && cairoGraphForceSensorSignal != null)
+		if (Constants.ModeIsFORCESENSOR (current_mode))
 			fullScreenChange = fullScreenChangeEnum.CHANGETONORMAL;
 	}
 
@@ -9638,6 +9652,8 @@ LogB.Debug("mc finished 5");
 		image_button_cancel1 = (Gtk.Image) builder.GetObject ("image_button_cancel1");
 		//encoder tests execute buttons
 		//image_encoder_capture_execute = (Gtk.Image) builder.GetObject ("image_encoder_capture_execute");
+		fullscreen_capture_button_finish = (Gtk.Button) builder.GetObject ("fullscreen_capture_button_finish");
+		fullscreen_capture_button_cancel = (Gtk.Button) builder.GetObject ("fullscreen_capture_button_cancel");
 		image_encoder_capture_finish = (Gtk.Image) builder.GetObject ("image_encoder_capture_finish");
 		image_encoder_capture_cancel = (Gtk.Image) builder.GetObject ("image_encoder_capture_cancel");
 		fullscreen_button_fullscreen = (Gtk.Button) builder.GetObject ("fullscreen_button_fullscreen");

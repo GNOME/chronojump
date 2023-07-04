@@ -740,9 +740,11 @@ public class CairoGraphForceSensorSignalQuestionnaire : CairoGraphForceSensorSig
 
 	private void questionnairePlot (PointF lastPoint)
 	{
-		g.SetFontSize (textHeight +8);
+		int textHeightHere = textHeight + 8;
+		g.SetFontSize (textHeightHere);
 		g.SetSourceRGB(0, 0, 0); //black
 
+		// 1) manage finish
 		// 10 questions, do not plot more than 100 seconds
 		// or (if less than 10 questions, do not plot more than those)
 		if (lastPoint.X / 1000000 >= 100 || lastPoint.X / 1000000 >= questionnaire.N * 10)
@@ -755,6 +757,7 @@ public class CairoGraphForceSensorSignalQuestionnaire : CairoGraphForceSensorSig
 			return;
 		}
 
+		// 2) get bars position
 		QRectangleManage rectangleM = new QRectangleManage ();
 
 		double barRange = (graphHeight - topMargin - bottomMargin) /30;
@@ -764,12 +767,22 @@ public class CairoGraphForceSensorSignalQuestionnaire : CairoGraphForceSensorSig
 
 		QuestionAnswers qa = questionnaire.GetQAByMicros (lastPoint.X);
 
-		// write the question
-		printText (graphWidth/2 -leftMargin, topMargin/2, 0, textHeight +4,
-				string.Format ("({0}/{1}) {2}",
-					questionnaire.GetQNumByMicros (lastPoint.X), questionnaire.N, qa.question),
-				g, alignTypes.CENTER);
+		// 3) write the question (ensure it horizontally fits)
+		string questionText = string.Format ("({0}/{1}) {2}",
+				questionnaire.GetQNumByMicros (lastPoint.X), questionnaire.N, qa.question);
 
+		int textHeightReduced = textHeightHere;
+		if (! textFits (questionText, g, graphWidth -leftMargin -rightMargin -70)) //75 for the messages "Force (N)" and "Points: xx" message
+			textHeightReduced = findFontThatFits (textHeightHere, questionText, g, graphWidth -leftMargin -rightMargin -75);
+		if (textHeightReduced >= 2)
+		{
+			g.SetFontSize (textHeightReduced);
+			printText (graphWidth/2 -leftMargin, topMargin/2, 0, textHeightReduced,
+					questionText, g, alignTypes.CENTER);
+		}
+		g.SetFontSize (textHeightHere);
+
+		// 4) write the answers (ensure they horizontally fit)
 		List<string> answers_l = qa.TopBottom_l;
 		double answerX = questionnaire.GetAnswerXrel (lastPoint.X) *
 			(graphWidth - leftMargin - rightMargin) + leftMargin;
@@ -779,12 +792,20 @@ public class CairoGraphForceSensorSignalQuestionnaire : CairoGraphForceSensorSig
 			if (i > 0)
 				text = answers_l[i-1];
 
-			if (textRightAlignedFitsOnLeft (answerX - barRange, text, g, leftMargin))
+			textHeightReduced = textHeightHere;
+			if (! textRightAlignedFitsOnLeft (answerX - barRange, text, g, leftMargin))
+				textHeightReduced = findFontThatFitsOnLeft (textHeightHere, answerX - barRange, text, g, leftMargin);
+
+			if (textHeightReduced >= 4)
+			{
+				g.SetFontSize (textHeightReduced);
 				printText (answerX - barRange, (y_l[i] + y_l[i+1])/2, 0, textHeight +4,
 						text, g, alignTypes.RIGHT);
+			}
+			g.SetFontSize (textHeightHere);
 		}
 
-		//horizontal bars
+		// 5) plot horizontal bars
 		g.SetSourceRGB(1, 0, 0); //red
 		double lineLeftX = questionnaire.GetLineStartXrel (lastPoint.X) *
 			(graphWidth - leftMargin - rightMargin) + leftMargin;
@@ -796,7 +817,7 @@ public class CairoGraphForceSensorSignalQuestionnaire : CairoGraphForceSensorSig
 			rectangleM.Add (new QRectangle (false, lineLeftX, y_l[i] - barRange/2, answerX - lineLeftX, barRange));
 		}
 
-		//vertical bars
+		// 6) plot vertical bars
 		List<Cairo.Color> answerColor_l = questionnaire.GetAnswerColor (lastPoint.X, qa);
 		for (int i = 1; i < 5; i ++)
 		{
@@ -814,6 +835,7 @@ public class CairoGraphForceSensorSignalQuestionnaire : CairoGraphForceSensorSig
 
 		g.SetSourceRGB(0, 0, 0); //black
 
+		// 7 manage crash and points
 		if (rectangleM.IsRed (
 					calculatePaintX (lastPoint.X),
 					calculatePaintY (lastPoint.Y) ))
@@ -826,7 +848,8 @@ public class CairoGraphForceSensorSignalQuestionnaire : CairoGraphForceSensorSig
 					calculatePaintY (lastPoint.Y) ))
 			questionnaire.Points ++;
 
-		printText (graphWidth -rightMargin -innerMargin, topMargin/2, 0, textHeight +4,
+		g.SetFontSize (textHeightHere);
+		printText (graphWidth -rightMargin, topMargin/2, 0, textHeight +4,
 				"Points: " + questionnaire.Points.ToString (), g, alignTypes.RIGHT);
 		g.SetFontSize (textHeight);
 	}

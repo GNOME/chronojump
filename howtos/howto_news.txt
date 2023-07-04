@@ -1,9 +1,30 @@
 At securitytesting
 1- put the image on securitytesting.chronojump.org /opt/srv/chronojump/static_news/latest_products
 
-At chronojump.org
-2- access mysql on chronojump.org (b6...)
+At chronojump.org server:
+2- on chronojump.org mysql -u root -p
+(check /etc/chronojump.conf)
 3- use chronojump
-4- insert into news values (NULL, 0, 0, "WICHRO: Wireless Race Kit", "WICHRO: Kit de carreras wireless", "https://chronojump.org/product/wichro-races-kit/", "https://chronojump.org/es/product/kit-carreras-wichro/", "- Easy alignment\n- Double beam\n- High power\n- Expandable battery\n- Allows any sprint or agility test\n- Coding channels & individually coded", "- Fácil de alinear\n- Doble haz\n- Alta potencia\n- Batería expandible\n- Permite cualquier test de sprint o agilidad\n- Canales de codificación y codificada individualmente", "http://static.chronojump.org/latest_products/wichro-athletics_400w.png");
-5- change chronojump_news_datetime at /etc/chronojump.conf
-6- systemctl restart gunicorn
+
+4- INSERT INT news VALUES (NULL, 0, 0, "WICHRO: Wireless Race Kit", "WICHRO: Kit de carreras wireless", "https://chronojump.org/product/wichro-races-kit/", "https://chronojump.org/es/product/kit-carreras-wichro/", "- Easy alignment\n- Double beam\n- High power\n- Expandable battery\n- Allows any sprint or agility test\n- Coding channels & individually coded", "- Fácil de alinear\n- Doble haz\n- Alta potencia\n- Batería expandible\n- Permite cualquier test de sprint o agilidad\n- Canales de codificación y codificada individualmente", "http://static.chronojump.org/latest_products/wichro-athletics_400w.png");
+
+4- INSERT INTO news VALUES (NULL, 0, 0, "ForHealth Kit: Force sensor for quick testing in clinical context.", "Kit ForHealth: Sensor de fuerza para medir rápidamente en contextos clínicos.", "https://chronojump.org/product/forhealth-kit/", "https://chronojump.org/es/product/kit-forhealth/", "This device allows the evaluator to measure quickly most of the muscular groups.\nHolding it in the different body parts will permit the evaluated person to perform the maximum force in order to measure it in real time.", "Dispositivo que permite al evaluador medir rápidamente la mayoría de grupos musculares.\nSosteniéndolo en las distintas partes del cuerpo permite a la persona evaluada ejercer la máxima fuerza por tal de medirla en tiempo real.", "http://static.chronojump.org/latest_products/forhealth_400w.jpg");
+
+note fields are:
++-----------------+-----------+------+-----+---------+----------------+
+| Field           | Type      | Null | Key | Default | Extra          |
++-----------------+-----------+------+-----+---------+----------------+
+| code            | int(11)   | NO   | PRI | NULL    | auto_increment |
+| category        | int(11)   | YES  |     | NULL    |                |
+| version         | int(11)   | YES  |     | NULL    |                |
+| titleEn         | char(255) | YES  |     | NULL    |                |
+| titleEs         | char(255) | YES  |     | NULL    |                |
+| linkEn          | char(255) | YES  |     | NULL    |                |
+| linkEs          | char(255) | YES  |     | NULL    |                |
+| descriptionEn   | char(255) | YES  |     | NULL    |                |
+| descriptionEs   | char(255) | YES  |     | NULL    |                |
+| linkServerImage | char(255) | YES  |     | NULL    |                |
++-----------------+-----------+------+-----+---------+----------------+
+
+5- as root: change chronojump_news_datetime at /etc/chronojump.conf
+6- as root: systemctl restart gunicorn

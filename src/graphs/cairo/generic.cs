@@ -164,13 +164,57 @@ public abstract class CairoGeneric
 		g.ShowText(text);
 	}
 
+	// fitting on an horizontal space
+	protected bool textFits (string text, Cairo.Context g, int widthToFit)
+	{
+		Cairo.TextExtents te;
+		te = g.TextExtents(text);
+
+		LogB.Information (string.Format ("textFits, te.Width: {0}, widthToFit: {1}",
+			te.Width, widthToFit));
+
+		return (te.Width < widthToFit);
+	}
+	//if <= 0 not found
+	protected int findFontThatFits (int textHeight, string text, Cairo.Context g, int widthToFit)
+	{
+		int textHeightReduced = textHeight;
+		do {
+			textHeightReduced -= 2;
+			if (textHeightReduced <= 0)
+				return 0;
+
+			g.SetFontSize (textHeightReduced);
+		} while (! textFits (text, g, widthToFit));
+
+		return textHeightReduced;
+	}
+
+	// fitting at left (alignTypes.RIGHT)
 	//to see if right aligned text crosses leftMargin
 	protected bool textRightAlignedFitsOnLeft (double x, string text, Cairo.Context g, int marginX)
 	{
 		Cairo.TextExtents te;
 		te = g.TextExtents(text);
 
+		LogB.Information (string.Format ("textRightAlignedFitsOnLeft, x: {0}, te.Width: {1}, marginX: {2}",
+			x, te.Width, marginX));
+
 		return (x - te.Width > marginX);
+	}
+	//if <= 0 not found
+	protected int findFontThatFitsOnLeft (int textHeight, double x, string text, Cairo.Context g, int marginX)
+	{
+		int textHeightReduced = textHeight;
+		do {
+			textHeightReduced -= 2;
+			if (textHeightReduced <= 0)
+				return 0;
+
+			g.SetFontSize (textHeightReduced);
+		} while (! textRightAlignedFitsOnLeft (x, text, g, marginX));
+
+		return textHeightReduced;
 	}
 
 	//TODO: fix if min == max (crashes)

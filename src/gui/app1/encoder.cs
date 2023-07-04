@@ -2981,6 +2981,7 @@ public partial class ChronoJumpWindow
 		cairoPaintBarsPre = new CairoPaintBarplotPreEncoder (
 				encoder_capture_curves_bars_drawingarea_cairo,
 				preferences.fontType.ToString());
+		prepareEventGraphBarplotEncoder = null; //to avoid is repainted again, and sound be repeated;
 
 		encoderButtonsSensitive(encoderSensEnum.DONENOSIGNAL);
 		
@@ -5879,6 +5880,7 @@ public partial class ChronoJumpWindow
 		cairoPaintBarsPre = new CairoPaintBarplotPreEncoder (
 			encoder_capture_curves_bars_drawingarea_cairo,
 			preferences.fontType.ToString());
+		prepareEventGraphBarplotEncoder = null; //to avoid is repainted again, and sound be repeated;
 
 		image_encoder_capture.Sensitive = false;
 		image_encoder_analyze.Sensitive = false;
@@ -6376,6 +6378,7 @@ public partial class ChronoJumpWindow
 					cairoPaintBarsPre = new CairoPaintBarplotPreEncoder (
 							encoder_capture_curves_bars_drawingarea_cairo,
 							preferences.fontType.ToString());
+					prepareEventGraphBarplotEncoder = null; //to avoid is repainted again, and sound be repeated;
 
 					// 4) this notebook has capture (signal plotting), and curves (shows R graph)
 					if(notebook_encoder_capture.CurrentPage == 0 )

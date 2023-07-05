@@ -364,6 +364,7 @@ public partial class ChronoJumpWindow
 		image_menu_help.Pixbuf = pixbuf;
 		image_menu_help1.Pixbuf = pixbuf;
 		image_help_blue.Pixbuf = pixbuf;
+		image_jumps_profile_sjl_help.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_help_yellow.png");
 		image_help_yellow.Pixbuf = pixbuf;
 

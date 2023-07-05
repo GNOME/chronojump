@@ -44,6 +44,7 @@ public partial class ChronoJumpWindow
 	Gtk.Image image_jumps_profile_abk_no;
 	Gtk.Image image_jumps_profile_dja_yes;
 	Gtk.Image image_jumps_profile_dja_no;
+	Gtk.Image image_jumps_profile_sjl_help;
 
 
 	JumpsProfile jumpsProfile;
@@ -122,6 +123,11 @@ public partial class ChronoJumpWindow
 		new DialogMessage(Constants.MessageTypes.INFO, myString);
 	}
 
+	private void on_button_jumps_profile_sjl_help_clicked (object o, EventArgs args)
+	{
+		new DialogMessage (Constants.MessageTypes.INFO, Catalog.GetString ("Need at least one SJl jump with 100% body weight or two SJl jumps with different weights."));
+	}
+
 	private void connectWidgetsJumpsProfile (Gtk.Builder builder)
 	{
 		drawingarea_jumps_profile = (Gtk.DrawingArea) builder.GetObject ("drawingarea_jumps_profile");
@@ -141,5 +147,6 @@ public partial class ChronoJumpWindow
 		image_jumps_profile_abk_no = (Gtk.Image) builder.GetObject ("image_jumps_profile_abk_no");
 		image_jumps_profile_dja_yes = (Gtk.Image) builder.GetObject ("image_jumps_profile_dja_yes");
 		image_jumps_profile_dja_no = (Gtk.Image) builder.GetObject ("image_jumps_profile_dja_no");
+		image_jumps_profile_sjl_help = (Gtk.Image) builder.GetObject ("image_jumps_profile_sjl_help");
 	}
 }

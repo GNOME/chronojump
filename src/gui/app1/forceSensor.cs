@@ -1070,7 +1070,7 @@ public partial class ChronoJumpWindow
 		button_execute_test.Sensitive = false;
 		event_execute_button_finish.Sensitive = true;
 		event_execute_button_cancel.Sensitive = true;
-		fullscreen_button_fullscreen.Sensitive = true;
+		fullscreen_button_fullscreen_contacts.Sensitive = true;
 		button_force_sensor_image_save_signal.Sensitive = false;
 		button_force_sensor_analyze_analyze.Sensitive = false;
 		forceCaptureStartMark = false;
@@ -1109,7 +1109,7 @@ public partial class ChronoJumpWindow
 		event_execute_ButtonCancel.Clicked += new EventHandler(on_cancel_clicked);
 
 		if (fullscreenLastCapture)
-			fullscreen_button_fullscreen.Click ();
+			fullscreen_button_fullscreen_contacts.Click ();
 
 		cairoGraphForceSensorSignalPointsShowAccuracy = true;
 		forceCaptureThread = new Thread(new ThreadStart(forceSensorCaptureDo));

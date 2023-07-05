@@ -68,7 +68,7 @@ public partial class ChronoJumpWindow
 			//button_jumps_profile_save_image.Sensitive = true;
 		} else {
 			hbox_jumps_profile_jumps_done.Visible = true;
-			JumpsProfileGraph.ShowDoneJumps(jumpsProfile.JumpsDone,
+			JumpsProfileGraph.ShowDoneJumps (jumpsProfile.JumpsDone,
 					image_jumps_profile_sj_yes, image_jumps_profile_sj_no,
 					image_jumps_profile_sjl_yes, image_jumps_profile_sjl_no,
 					image_jumps_profile_cmj_yes, image_jumps_profile_cmj_no,
@@ -93,7 +93,8 @@ public partial class ChronoJumpWindow
 		if(jumpsProfile == null)
 			jumpsProfileCalculate ();
 
-		JumpsProfileGraph.Do (jumpsProfile.JumpsDone, jumpsProfile.GetIndexes(), drawingarea_jumps_profile,
+		JumpsProfileGraph.Do (jumpsProfile.JumpsDone, jumpsProfile.ErrorSJl,
+				jumpsProfile.GetIndexes(), drawingarea_jumps_profile,
 				currentPerson.Name, currentSession.DateShort, preferences.fontType.ToString());
 	}
 	private void on_drawingarea_jumps_profile_cairo_draw (object o, Gtk.DrawnArgs args) 

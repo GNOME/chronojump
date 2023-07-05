@@ -478,6 +478,12 @@ public class LeastSquaresParabole
 		}
 	}
 
+	public double CalculateYAtSomeX (double x)
+	{
+		//check first CalculatedCoef and Parabole type if needed
+		return Coef[2] * Math.Pow (x, 2) + Coef[1] * x + Coef[0];
+	}
+
 	//this is the X where maxY is found
 	private void calculateXAtMaxY()
 	{

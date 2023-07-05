@@ -2161,7 +2161,15 @@ public class Util
 
 		return myArrayList;
 	}
-	
+
+	public static List<int> AddToListIntIfNotExist (List<int> l, int i) {
+		bool found = FoundInListInt(l, i);
+		if(! found)
+			l.Add(i);
+
+		return l;
+	}
+
 	public static List<double> AddToListDoubleIfNotExist(List<double> l, double d) {
 	 	bool found = FoundInListDouble(l, d);
 		if(!found)
@@ -2306,6 +2314,18 @@ public class Util
 		return secondArrayList;
 	}
 */
+	public static string DoubleArrayToString (double [] doublesArray, int decs, string separator)
+	{
+		string str = "";
+		string sep = "";
+		foreach (double d in doublesArray)
+		{
+			str += sep + TrimDecimals (d, decs);
+			sep = separator;
+		}
+		return str;
+	}
+
 	public static string StringArrayToString (string [] myFullString, string separator) {
 		string uniqueString = "";
 		bool firstValue = true;

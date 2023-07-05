@@ -175,7 +175,7 @@ public partial class ChronoJumpWindow
 	Gtk.Button fullscreen_capture_button_cancel;
 	Gtk.Image image_encoder_capture_finish;
 	Gtk.Image image_encoder_capture_cancel;
-	Gtk.Button fullscreen_button_fullscreen;
+	Gtk.Button fullscreen_button_fullscreen_contacts;
 	//Gtk.Button fullscreen_button_fullscreen_exit;
 	Gtk.Label fullscreen_label_person;
 	Gtk.Label fullscreen_label_exercise;
@@ -3925,7 +3925,7 @@ public partial class ChronoJumpWindow
 		if (Constants.ModeIsFORCESENSOR (m) && Config.SimulatedCapture)
 			button_detect_show_hide (false);
 
-		fullscreen_button_fullscreen.Visible = false;
+		fullscreen_button_fullscreen_contacts.Visible = false;
 
 		//blank exercise options: useful for changing from jumps or runs to forceSensor, runEncoder, reaction time, other
 		label_contacts_exercise_selected_name.Visible = true; //will not be visible when all the contacts_top combo is implemented
@@ -4254,7 +4254,7 @@ public partial class ChronoJumpWindow
 			label_contacts_exercise_selected_options_visible (false);
 			image_top_laterality_contacts.Visible = true;
 			setForceSensorLateralityPixbuf();
-			fullscreen_button_fullscreen.Visible = true;
+			fullscreen_button_fullscreen_contacts.Visible = true;
 		}
 		else if(m == Constants.Modes.RUNSENCODER)
 		{
@@ -8080,7 +8080,7 @@ LogB.Debug("mc finished 5");
 			notebook_results.CurrentPage = 4;
 
 			event_execute_button_finish.Sensitive = false;
-			fullscreen_button_fullscreen.Sensitive = false;
+			fullscreen_button_fullscreen_contacts.Sensitive = false;
 		} else if(mode == Constants.Modes.RT)
 		{
 			notebook_execute.CurrentPage = 5;
@@ -9656,7 +9656,7 @@ LogB.Debug("mc finished 5");
 		fullscreen_capture_button_cancel = (Gtk.Button) builder.GetObject ("fullscreen_capture_button_cancel");
 		image_encoder_capture_finish = (Gtk.Image) builder.GetObject ("image_encoder_capture_finish");
 		image_encoder_capture_cancel = (Gtk.Image) builder.GetObject ("image_encoder_capture_cancel");
-		fullscreen_button_fullscreen = (Gtk.Button) builder.GetObject ("fullscreen_button_fullscreen");
+		fullscreen_button_fullscreen_contacts = (Gtk.Button) builder.GetObject ("fullscreen_button_fullscreen_contacts");
 		//fullscreen_button_fullscreen_exit = (Gtk.Button) builder.GetObject ("fullscreen_button_fullscreen_exit");
 		fullscreen_label_person = (Gtk.Label) builder.GetObject ("fullscreen_label_person");
 		fullscreen_label_exercise = (Gtk.Label) builder.GetObject ("fullscreen_label_exercise");

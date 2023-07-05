@@ -141,7 +141,7 @@ public partial class ChronoJumpWindow
 		//finish not sensitive for all events. 
 		//Later reactive, interval and pulse will sensitive it when a subevent is done
 		event_execute_button_finish.Sensitive = false;
-		fullscreen_button_fullscreen.Sensitive = false;
+		fullscreen_button_fullscreen_contacts.Sensitive = false;
 
 		if(event_execute_tableName == Constants.JumpTable) {
 			showJumpSimpleLabels();
@@ -810,7 +810,7 @@ public partial class ChronoJumpWindow
 	private void hideButtons() {
 		event_execute_button_cancel.Sensitive = false;
 		event_execute_button_finish.Sensitive = false;
-		fullscreen_button_fullscreen.Sensitive = false;
+		fullscreen_button_fullscreen_contacts.Sensitive = false;
 	}
 
 

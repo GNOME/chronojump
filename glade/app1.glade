@@ -7010,7 +7010,7 @@
                                                             <property name="orientation">vertical</property>
                                                             <property name="spacing">4</property>
                                                             <child>
-                                                            <object class="GtkButton" id="fullscreen_button_fullscreen">
+                                                            <object class="GtkButton" id="fullscreen_button_fullscreen_contacts">
                                                             <property name="can-focus">True</property>
                                                             <property name="can-default">True</property>
                                                             <property name="receives-default">True</property>
@@ -22586,6 +22586,9 @@ Concentric</property>
                                                             <property name="left-attach">3</property>
                                                             <property name="right-attach">4</property>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>

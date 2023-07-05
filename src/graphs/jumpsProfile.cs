@@ -114,15 +114,22 @@ public class JumpsProfileIndex
 
 public class JumpsProfile
 {
+	public enum YesNo { YES, NO }
+	public List<YesNo> JumpsDone;
+	public bool AllJumpsDone;
+	public string ErrorSJl;
+
 	private JumpsProfileIndex jpi0;
 	private JumpsProfileIndex jpi1;
 	private JumpsProfileIndex jpi2;
 	private JumpsProfileIndex jpi3;
 	private JumpsProfileIndex jpi4;
 
-	public enum YesNo { YES, NO }
-	public List<YesNo> JumpsDone;
-	public bool AllJumpsDone;
+	//sjl calc related
+	private enum SJLEnum { SJL100EXISTS, SJL100CALCNEEDTWOSJLDIFFW, SJL100CALCNEEDSJ,
+		SJL100CALCPROBLEMS, SJL100CALCNEGATIVE, SJL100CALCOK }
+	private SJLEnum sjlEnum;
+	private double initialSpeedAt100PercentWeight;
 
 	public JumpsProfile() {
 	}
@@ -136,6 +143,18 @@ public class JumpsProfile
 		double cmj = l[2];
 		double abk = l[3];
 		double dja = l[4];
+
+		ErrorSJl = "";
+		if (sjl > 0)
+			sjlEnum = SJLEnum.SJL100EXISTS;
+		else {
+			initialSpeedAt100PercentWeight = 0;
+			sjlEnum = calculateSjl100 (personID, sessionID, sj);
+
+			if (sjlEnum == SJLEnum.SJL100CALCOK)
+				sjl = UtilAll.DivideSafe (2 * initialSpeedAt100PercentWeight, 9.81);
+		}
+		LogB.Information ("sjlEnum = " + sjlEnum.ToString ());
 		
 		double maxJump = MathUtil.GetMax (new List<double> { sj, sjl, cmj, abk, dja});
 
@@ -146,6 +165,55 @@ public class JumpsProfile
 		jpi4 = new JumpsProfileIndex(JumpsProfileIndex.Types.FREACT, "DJa", "ABK", dja, abk, maxJump);
 
 		fillListJumpsDone(sj, sjl, cmj, abk, dja);
+	}
+
+	private SJLEnum calculateSjl100 (int personID, int sessionID, double sj)
+	{
+		initialSpeedAt100PercentWeight = 0;
+
+		// 1) get data from Sqlite
+		List<Jump> sjSjl_l = SqliteJump.SelectJumpsWeightFVProfile (personID, sessionID, false);
+
+		// 2) check if we have two different weight SJL
+		List<double> differentWeights_l = new List<double> ();
+		foreach (Jump j in sjSjl_l)
+			if (j.Type == "SJl")
+				differentWeights_l = Util.AddToListDoubleIfNotExist (differentWeights_l, j.WeightPercent);
+
+		if (differentWeights_l.Count < 2)
+			return SJLEnum.SJL100CALCNEEDTWOSJLDIFFW; //With this we can show the red ball
+
+		// 3) check there is SJ
+		if (sj == 0)
+			return SJLEnum.SJL100CALCNEEDSJ;
+
+		// 4) prepare the points
+		List<PointF> point_l = new List<PointF>();
+		foreach(Jump j in sjSjl_l)
+			point_l.Add (new PointF (j.WeightPercent, Jump.GetInitialSpeed (j.Tv, true) ));
+
+		LeastSquaresParabole lsp = new LeastSquaresParabole ();
+		lsp.Calculate (point_l);
+
+		// 5) check parabole is ok
+		LogB.Information ("Parabole: " + lsp.ParaboleType);
+		if (! lsp.CalculatedCoef || lsp.ParaboleType != LeastSquaresParabole.ParaboleTypes.CONVEX)
+			return SJLEnum.SJL100CALCPROBLEMS;
+
+		LogB.Information ("coefs: " + Util.DoubleArrayToString (lsp.Coef, 4, "; "));
+
+		LogB.Information ("Parabole: " + lsp.ParaboleType);
+		// 6) calculate initial speed
+		initialSpeedAt100PercentWeight = lsp.CalculateYAtSomeX (100);
+		LogB.Information (string.Format ("calculateYAtSomeX = {0}", initialSpeedAt100PercentWeight));
+
+		if (initialSpeedAt100PercentWeight <= 0)
+		{
+			initialSpeedAt100PercentWeight = 0;
+			return SJLEnum.SJL100CALCNEGATIVE;
+		}
+
+		return SJLEnum.SJL100CALCOK;
 	}
 
 	public List<JumpsProfileIndex> GetIndexes()
@@ -164,7 +232,24 @@ public class JumpsProfile
 		AllJumpsDone = true;
 		JumpsDone = new List<YesNo>();
 		JumpsDone.Add(fillJump(sj));
-		JumpsDone.Add(fillJump(sjl));
+
+		LogB.Information ("at fillListJumpsDone sjl: " + sjl.ToString ());
+		if (sjl > 0)
+			JumpsDone.Add(fillJump(sjl));
+		else if (sjlEnum == SJLEnum.SJL100CALCNEEDSJ) //mark sjl 100 exists but not all jumps done (it would be also false because previously there is no sj)
+		{
+			JumpsDone.Add (YesNo.YES);
+			AllJumpsDone = false;
+		} else {
+			//any calc problem like sjl negative or parabole problems
+			JumpsDone.Add (YesNo.NO);
+			AllJumpsDone = false;
+
+			if (sjlEnum == SJLEnum.SJL100CALCNEGATIVE)
+				ErrorSJl = Catalog.GetString ("Cannot predict SJl at 100% body weight. Jump height would be negative.");
+			else
+				ErrorSJl = Catalog.GetString ("Problems calculating SJl at 100% body weight.");
+		}
 		JumpsDone.Add(fillJump(cmj));
 		JumpsDone.Add(fillJump(abk));
 		JumpsDone.Add(fillJump(dja));

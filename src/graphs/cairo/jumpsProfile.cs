@@ -53,7 +53,9 @@ public static class JumpsProfileGraph
 		}
 	}
 
-	public static void Do (List<JumpsProfile.YesNo> jumpsDone, List<JumpsProfileIndex> l_jpi, DrawingArea area,
+	public static void Do (List<JumpsProfile.YesNo> jumpsDone,
+			string errorSJl,
+			List<JumpsProfileIndex> l_jpi, DrawingArea area,
 			string title, string date, string font)
 	{
 		//LogB.Information(string.Format("is area null: {0}", (area == null)));
@@ -77,7 +79,11 @@ public static class JumpsProfileGraph
 			{
 				g.SetSourceRGB(0,0,0);
 				g.SetFontSize(16);
+
 				printText(100, 100, 24, textHeight, Constants.JumpsProfileNeededJumpsStr(), g, false);
+				if (errorSJl != "")
+					printText(100, 140, 24, textHeight, errorSJl, g, false);
+
 				g.GetTarget().Dispose ();
 				g.Dispose ();
 				return;

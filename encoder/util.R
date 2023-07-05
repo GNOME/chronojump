@@ -679,10 +679,19 @@ reduceCurveByPredictStartEnd <- function (displacement, eccon, minHeight)
 	print (c("zerosAtLeft, zerosAtRight", zerosAtLeft, zerosAtRight))
 
 	startPos <- startByStability + firstInitialNonZero-1 - zerosAtLeft
+	endPos <- startByStability + firstInitialNonZero-1 + lastFinalNonZero + zerosAtRight
+
+	#if the displacement is all 0s then startPos is na. For this reason there are is.na checks
+	if (is.na (startPos) || is.na (endPos))
+		return (list (
+			      curve = displacement,
+			      startPos = 1,
+			      endPos = length (displacement)
+			      ))
+
 	if (startPos < 1)
 		startPos <- 1
 
-	endPos <- startByStability + firstInitialNonZero-1 + lastFinalNonZero + zerosAtRight
 	if (endPos < 1)
 		endPos <- 1
 	if (endPos > displacementLengthStored)

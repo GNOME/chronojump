@@ -1036,6 +1036,8 @@ public partial class ChronoJumpWindow
 
 		needToCallPrepareEncoderGraphs = false;
 		encoderProcessFinish = false;
+		CairoPaintBarplotPreEncoder.RepetitionsPlayed_l = new List<int> ();
+
 		encoderThreadStart(encoderActions.CAPTURE);
 
 		textview_encoder_signal_comment.Buffer.Text = "";

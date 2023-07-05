@@ -3489,6 +3489,10 @@ public class CairoManageRunDoubleContacts
 
 public class CairoPaintBarplotPreEncoder : CairoPaintBarsPre
 {
+	// without this, while capturing, if screen is minimized/maximized, or any redraw sounds are played again!
+	// This is emptied at capture start
+	public static List<int> RepetitionsPlayed_l = new List<int> ();
+
 	private PrepareEventGraphBarplotEncoder pegbe;
 	private Preferences preferences;
 
@@ -3838,15 +3842,21 @@ public class CairoPaintBarplotPreEncoder : CairoPaintBarsPre
 			{
 				colorPhase = UtilGtk.GREEN_PLOTS;
 				//play sound if value is high, volumeOn == true, is last value, capturing
-				if (pegbe.volumeOn && count == data.Count -1 && pegbe.capturing)
+				if (pegbe.volumeOn && count == data.Count -1 && pegbe.capturing && ! Util.FoundInListInt (RepetitionsPlayed_l, count))
+				{
 					Util.PlaySound (Constants.SoundTypes.GOOD, preferences.volumeOn, preferences.gstreamer);
+					RepetitionsPlayed_l.Add (count);
+				}
 			}
 			else if ( ! discarded && ( myColor == UtilGtk.ColorBad || (pegbe.mainVariableLower != -1 && mainVariableValue <= pegbe.mainVariableLower) ) )
 			{
 				colorPhase = UtilGtk.RED_PLOTS;
 				//play sound if value is low, volumeOn == true, is last value, capturing
-				if (pegbe.volumeOn && count == data.Count -1 && pegbe.capturing)
+				if (pegbe.volumeOn && count == data.Count -1 && pegbe.capturing && ! Util.FoundInListInt (RepetitionsPlayed_l, count))
+				{
 					Util.PlaySound (Constants.SoundTypes.BAD, pegbe.volumeOn, pegbe.gstreamer);
+					RepetitionsPlayed_l.Add (count);
+				}
 			}
 			else if(myColor == UtilGtk.ColorGray)
 			{

@@ -176,6 +176,7 @@ public class FeedbackWindow
 	Gtk.Notebook notebook_duration_repetition;
 	Gtk.Frame frame_clusters;
 	Gtk.Frame frame_rhythm;
+	Gtk.Box box_check_rhythm_use_clusters;
 	Gtk.CheckButton check_rhythm_use_clusters;
 	Gtk.SpinButton spin_rhythm_rep;
 	Gtk.SpinButton spin_rhythm_ecc;
@@ -1071,6 +1072,16 @@ public class FeedbackWindow
 	private void on_check_rhythm_active_toggled (object o, EventArgs args)
 	{
 		frame_rhythm.Visible = check_rhythm_active.Active;
+
+		if (check_rhythm_active.Active)
+		{
+			box_check_rhythm_use_clusters.Sensitive = true;
+		} else {
+			box_check_rhythm_use_clusters.Sensitive = false;
+			check_rhythm_use_clusters.Active = false;
+			frame_clusters.Visible = false;
+		}
+
 		should_show_vbox_rhythm_rest_after();
 	}
 
@@ -1166,10 +1177,13 @@ public class FeedbackWindow
 		else
 			check_rhythm_rest_reps.Active = true;
 
-		if(encoderRhythm.UseClusters()) {
-			check_rhythm_use_clusters.Active = true;
-			frame_clusters.Visible = true;
+		if (check_rhythm_active.Active)
+		{
+			box_check_rhythm_use_clusters.Sensitive = true;
+			check_rhythm_use_clusters.Active = (encoderRhythm.UseClusters ());
+			frame_clusters.Visible = (encoderRhythm.UseClusters ());
 		} else {
+			box_check_rhythm_use_clusters.Sensitive = false;
 			check_rhythm_use_clusters.Active = false;
 			frame_clusters.Visible = false;
 		}
@@ -1866,6 +1880,7 @@ public class FeedbackWindow
 		notebook_duration_repetition = (Gtk.Notebook) builder.GetObject ("notebook_duration_repetition");
 		frame_clusters = (Gtk.Frame) builder.GetObject ("frame_clusters");
 		frame_rhythm = (Gtk.Frame) builder.GetObject ("frame_rhythm");
+		box_check_rhythm_use_clusters = (Gtk.Box) builder.GetObject ("box_check_rhythm_use_clusters");
 		check_rhythm_use_clusters = (Gtk.CheckButton) builder.GetObject ("check_rhythm_use_clusters");
 		spin_rhythm_rep = (Gtk.SpinButton) builder.GetObject ("spin_rhythm_rep");
 		spin_rhythm_ecc = (Gtk.SpinButton) builder.GetObject ("spin_rhythm_ecc");

@@ -1071,6 +1071,7 @@ public class FeedbackWindow
 	private void on_check_rhythm_active_toggled (object o, EventArgs args)
 	{
 		frame_rhythm.Visible = check_rhythm_active.Active;
+		should_show_vbox_rhythm_rest_after();
 	}
 
 	private void on_radio_rhythm_together_toggled (object o, EventArgs args)
@@ -1091,7 +1092,7 @@ public class FeedbackWindow
 	private void should_show_vbox_rhythm_rest_after()
 	{
 		vbox_rhythm_rest_after.Visible = ( check_rhythm_use_clusters.Active ||
-				( check_rhythm_rest_reps.Active && radio_rhythm_separated.Active ) );
+				(check_rhythm_active.Active && check_rhythm_rest_reps.Active && radio_rhythm_separated.Active) );
 	}
 
 	private void on_check_rhythm_rest_reps_toggled (object o, EventArgs args)

@@ -109,7 +109,6 @@ public partial class ChronoJumpWindow
 	Gtk.Label encoder_pulsebar_capture_label;
 	Gtk.ProgressBar encoder_pulsebar_rhythm_eccon;
 	Gtk.Label label_encoder_rhythm_rest;
-	Gtk.Image image_encoder_rhythm_alert;
 	Gtk.Label label_rhythm;
 	Gtk.VBox vbox_encoder_signal_comment;
 	Gtk.Notebook notebook_encoder_signal_comment_rhythm_and_triggers;
@@ -6413,8 +6412,6 @@ public partial class ChronoJumpWindow
 					encoder_pulsebar_rhythm_eccon.Visible = false;
 				}
 
-				image_encoder_rhythm_alert.Visible = false;
-
 				//triggers only work on gravitatory, concentric
 				Preferences.TriggerTypes reallyCutByTriggers = Preferences.TriggerTypes.NO_TRIGGERS;
 
@@ -8094,7 +8091,6 @@ public partial class ChronoJumpWindow
 		encoder_pulsebar_capture_label = (Gtk.Label) builder.GetObject ("encoder_pulsebar_capture_label");
 		encoder_pulsebar_rhythm_eccon = (Gtk.ProgressBar) builder.GetObject ("encoder_pulsebar_rhythm_eccon");
 		label_encoder_rhythm_rest = (Gtk.Label) builder.GetObject ("label_encoder_rhythm_rest");
-		image_encoder_rhythm_alert = (Gtk.Image) builder.GetObject ("image_encoder_rhythm_alert");
 		label_rhythm = (Gtk.Label) builder.GetObject ("label_rhythm");
 		vbox_encoder_signal_comment = (Gtk.VBox) builder.GetObject ("vbox_encoder_signal_comment");
 		notebook_encoder_signal_comment_rhythm_and_triggers = (Gtk.Notebook) builder.GetObject ("notebook_encoder_signal_comment_rhythm_and_triggers");

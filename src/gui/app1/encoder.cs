@@ -1347,6 +1347,17 @@ public partial class ChronoJumpWindow
 		eCapture.Finish();
 		encoderProcessFinish = true;
 	}
+	//finish without pressing finish button. store fullScreenLastCapture variable
+	private void on_encoder_capture_finish_by_time (object o, EventArgs args)
+	{
+		if (notebook_start.CurrentPage == Convert.ToInt32 (notebook_start_pages.FULLSCREENCAPTURE))
+		{
+			fullscreenLastCapture = true;
+			fullscreen_button_fullscreen_exit.Click ();
+		} else
+			fullscreenLastCapture = false;
+	}
+
 	void on_button_encoder_capture_finish_cont_clicked (object o, EventArgs args) 
 	{
 		encoderProcessFinishContMode = true;
@@ -6369,6 +6380,9 @@ public partial class ChronoJumpWindow
 					eCapture = new EncoderCaptureInertial();
 				} else
 					eCapture = new EncoderCaptureGravitatory();
+
+				eCapture.FakeFinishByTime.Clicked -= new EventHandler (on_encoder_capture_finish_by_time);
+				eCapture.FakeFinishByTime.Clicked += new EventHandler (on_encoder_capture_finish_by_time);
 
 
 				int recordingTime = preferences.encoderCaptureTime;

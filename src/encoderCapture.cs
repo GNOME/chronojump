@@ -89,6 +89,7 @@ public abstract class EncoderCapture
 
 	protected static SerialPort sp;
 	private Random rand;
+	public Gtk.Button FakeFinishByTime; //finish without pressing finish button. store fullScreenLastCapture variable
 	protected bool finish;
 	protected bool capturingInertialBG;
 	protected bool encoderConfigurationIsInverted;
@@ -409,6 +410,7 @@ public abstract class EncoderCapture
 						(restClustersSeconds == 0 || consecutiveZeros > restClustersSeconds * 1500)
 				  )
 				{
+					FakeFinishByTime.Click ();
 					finish = true;
 					LogB.Information("SHOULD FINISH");
 				}
@@ -884,6 +886,7 @@ public class EncoderCaptureGravitatory : EncoderCapture
 {
 	public EncoderCaptureGravitatory() 
 	{
+		FakeFinishByTime = new Gtk.Button ();
 	}
 
 	protected override void initSpecific()
@@ -902,6 +905,7 @@ public class EncoderCaptureInertial : EncoderCapture
 {
 	public EncoderCaptureInertial() 
 	{
+		FakeFinishByTime = new Gtk.Button ();
 	}
 
 	protected override void initSpecific()
@@ -963,6 +967,7 @@ public class EncoderCaptureIMCalc : EncoderCapture
 
 	public EncoderCaptureIMCalc() 
 	{
+		FakeFinishByTime = new Gtk.Button (); //just in case
 	}
 
 	protected override void initSpecific()

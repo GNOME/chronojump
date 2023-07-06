@@ -192,6 +192,17 @@ public abstract class CairoXY : CairoGeneric
 		predictedPointDone = false;
 	}
 
+	//on fullscreen/fullscreen exit
+	public void ChangeDrawingArea (DrawingArea area)
+	{
+		//dispose if we are in the middle of the graph (using another DrawingAreas)
+		//cannot happen because we change the drawing area
+		//endGraphDisposing(g, surface, area.Window);
+
+		//set the are for the next drawings
+		this.area = area;
+	}
+
 	//showFullGraph means that has to plot both axis at 0 and maximums have to be f0,v0
 	//used by default on jumpsWeightFVProfile
 	//called from almost all methods

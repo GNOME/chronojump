@@ -1322,6 +1322,12 @@ public partial class ChronoJumpWindow
 	
 	void on_button_encoder_cancel_clicked (object o, EventArgs args) 
 	{
+		Button buttonClicked = o as Button;
+		if (o == null)
+			return;
+
+		fullscreenLastCapture = (buttonClicked == fullscreen_capture_button_cancel);
+
 		eCapture.Cancel();
 	}
 
@@ -1332,6 +1338,12 @@ public partial class ChronoJumpWindow
 
 	void on_button_encoder_capture_finish_clicked (object o, EventArgs args) 
 	{
+		Button buttonClicked = o as Button;
+		if (o == null)
+			return;
+
+		fullscreenLastCapture = (buttonClicked == fullscreen_capture_button_finish);
+
 		eCapture.Finish();
 		encoderProcessFinish = true;
 	}
@@ -6007,6 +6019,7 @@ public partial class ChronoJumpWindow
 			(Util.IntToBool(table[6]) && ! radio_encoder_analyze_individual_current_set.Active);
 		
 		button_encoder_capture_cancel.Sensitive = Util.IntToBool(table[7]);
+		fullscreen_button_fullscreen_encoder.Sensitive = Util.IntToBool(table[7]);
 		
 		button_encoder_capture_finish.Sensitive = Util.IntToBool(table[8]);
 		button_encoder_capture_finish_cont.Sensitive = Util.IntToBool(table[8]);
@@ -6119,7 +6132,11 @@ public partial class ChronoJumpWindow
 					preferences.encoderCaptureShowNRepetitions,
 					preferences.volumeOn,
 					preferences.gstreamer);
-			encoder_capture_curves_bars_drawingarea_cairo.QueueDraw ();
+
+			if (notebook_start.CurrentPage == Convert.ToInt32 (notebook_start_pages.FULLSCREENCAPTURE))
+				fullscreen_capture_drawingarea_cairo.QueueDraw ();
+			else
+				encoder_capture_curves_bars_drawingarea_cairo.QueueDraw ();
 		}
 	}
 
@@ -6153,6 +6170,8 @@ public partial class ChronoJumpWindow
 //			return;
 
 		LogB.Information("on_encoder_capture_curves_bars_drawingarea_cairo_draw B");
+
+		//note this is the same than on_fullscreen_capture_drawingarea_cairo_draw ()
 		if(prepareEventGraphBarplotEncoder != null)
 		{
 			//prepareEncoderBarplotCairo (false); //just redraw the graph
@@ -6166,10 +6185,13 @@ public partial class ChronoJumpWindow
 		if(currentPerson == null)
 			return;
 
+		Gtk.DrawingArea da = encoder_capture_curves_bars_drawingarea_cairo;
+		if (notebook_start.CurrentPage == Convert.ToInt32 (notebook_start_pages.FULLSCREENCAPTURE))
+			da = fullscreen_capture_drawingarea_cairo;
+
 		if(cairoPaintBarsPre == null || calculateAll)
 			cairoPaintBarsPre = new CairoPaintBarplotPreEncoder (
-					preferences,
-					encoder_capture_curves_bars_drawingarea_cairo, preferences.fontType.ToString(),
+					preferences, da, preferences.fontType.ToString(),
 					currentPerson.Name, "", 3,
 					prepareEventGraphBarplotEncoder);
 
@@ -6434,6 +6456,9 @@ public partial class ChronoJumpWindow
 				//to know if there are connection problems between chronopic and encoder
 				encoderCaptureStopwatch = new Stopwatch();
 				encoderCaptureStopwatch.Start();
+
+				if (fullscreenLastCapture)
+					fullscreen_button_fullscreen_encoder.Click ();
 
 				encoderThread = new Thread(new ThreadStart(encoderDoCaptureCsharp));
 				GLib.Idle.Add (new GLib.IdleHandler (pulseGTKEncoderCaptureAndCurves));
@@ -6948,7 +6973,11 @@ public partial class ChronoJumpWindow
 						preferences.encoderCaptureShowNRepetitions,
 						preferences.volumeOn,
 						preferences.gstreamer);
-				encoder_capture_curves_bars_drawingarea_cairo.QueueDraw ();
+
+				if (notebook_start.CurrentPage == Convert.ToInt32 (notebook_start_pages.FULLSCREENCAPTURE))
+					fullscreen_capture_drawingarea_cairo.QueueDraw ();
+				else
+					encoder_capture_curves_bars_drawingarea_cairo.QueueDraw ();
 
 				needToRefreshTreeviewCapture = false;
 			}
@@ -6974,6 +7003,7 @@ public partial class ChronoJumpWindow
 			button_encoder_capture_cancel.Sensitive = false;
 			button_encoder_capture_finish.Sensitive = false;
 			button_encoder_capture_finish_cont.Sensitive = false;
+			fullscreen_button_fullscreen_encoder.Sensitive = false;
 
 			capturingCsharp = encoderCaptureProcess.STOPPED;
 
@@ -7539,6 +7569,8 @@ public partial class ChronoJumpWindow
 						preferences.encoderCaptureShowNRepetitions,
 						preferences.volumeOn,
 						preferences.gstreamer);
+
+				//no need in fullscreen because it will be closed
 				encoder_capture_curves_bars_drawingarea_cairo.QueueDraw ();
 
 				button_encoder_signal_save_comment.Label = Catalog.GetString("Save comment");

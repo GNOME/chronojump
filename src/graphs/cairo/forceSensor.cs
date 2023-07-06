@@ -39,18 +39,6 @@ public abstract class CairoGraphForceSensor : CairoXY
 	//protected bool oneSerie; //on elastic is false: more than 1 serie
 
 
-	//on fullscreen/fullscreen exit
-	public void ChangeDrawingArea (DrawingArea area)
-	{
-		//dispose if we are in the middle of the graph (using another DrawingAreas)
-		//cannot happen because we change the drawing area
-		//endGraphDisposing(g, surface, area.Window);
-
-		//set the are for the next drawings
-		this.area = area;
-	}
-
-
 	protected void initForceSensor (DrawingArea area, string title)
 	{
 		this.area = area;

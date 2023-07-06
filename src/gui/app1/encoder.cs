@@ -79,7 +79,7 @@ public partial class ChronoJumpWindow
 	Gtk.VBox vbox_inertial_instructions;
 	
 	Gtk.Box hbox_encoder_capture_wait;
-	Gtk.Box vbox_encoder_capture_doing;
+	Gtk.Box box_encoder_capture_doing;
 	Gtk.VScale vscale_encoder_capture_inertial_angle_now;
 	Gtk.VBox vbox_angle_now;
 	Gtk.Label label_encoder_capture_inertial_angle_now;
@@ -6585,7 +6585,7 @@ public partial class ChronoJumpWindow
 	//while capturing, some buttons are hidden, others are shown
 	void encoderShowCaptureDoingButtons(bool show) {
 		hbox_encoder_capture_wait.Visible = ! show;
-		vbox_encoder_capture_doing.Visible = show;
+		box_encoder_capture_doing.Visible = show;
 
 		button_encoder_capture_cancel.Visible = ! preferences.encoderCaptureInfinite;
 		button_encoder_capture_finish.Visible = ! preferences.encoderCaptureInfinite;
@@ -8064,7 +8064,7 @@ public partial class ChronoJumpWindow
 		vbox_inertial_instructions = (Gtk.VBox) builder.GetObject ("vbox_inertial_instructions");
 
 		hbox_encoder_capture_wait = (Gtk.Box) builder.GetObject ("hbox_encoder_capture_wait");
-		vbox_encoder_capture_doing = (Gtk.Box) builder.GetObject ("vbox_encoder_capture_doing");
+		box_encoder_capture_doing = (Gtk.Box) builder.GetObject ("box_encoder_capture_doing");
 		vscale_encoder_capture_inertial_angle_now = (Gtk.VScale) builder.GetObject ("vscale_encoder_capture_inertial_angle_now");
 		vbox_angle_now = (Gtk.VBox) builder.GetObject ("vbox_angle_now");
 		label_encoder_capture_inertial_angle_now = (Gtk.Label) builder.GetObject ("label_encoder_capture_inertial_angle_now");

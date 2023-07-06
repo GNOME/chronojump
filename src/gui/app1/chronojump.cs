@@ -176,6 +176,7 @@ public partial class ChronoJumpWindow
 	Gtk.Image image_encoder_capture_finish;
 	Gtk.Image image_encoder_capture_cancel;
 	Gtk.Button fullscreen_button_fullscreen_contacts;
+	Gtk.Button fullscreen_button_fullscreen_encoder;
 	//Gtk.Button fullscreen_button_fullscreen_exit;
 	Gtk.Label fullscreen_label_person;
 	Gtk.Label fullscreen_label_exercise;
@@ -5052,9 +5053,9 @@ public partial class ChronoJumpWindow
 	{
 		on_fullscreen_button_fullscreen_exit_clicked (o, args);
 
-		//if (Constants.ModeIsENCODER (current_mode))
-		//	on_button_encoder_capture_finish_clicked (o, args);
-		//else
+		if (Constants.ModeIsENCODER (current_mode))
+			on_button_encoder_capture_finish_clicked (o, args);
+		else
 			on_finish_clicked (o, args);
 	}
 
@@ -5062,9 +5063,9 @@ public partial class ChronoJumpWindow
 	{
 		on_fullscreen_button_fullscreen_exit_clicked (o, args);
 
-		//if (Constants.ModeIsENCODER (current_mode))
-		//	on_button_encoder_cancel_clicked (o, args);
-		//else
+		if (Constants.ModeIsENCODER (current_mode))
+			on_button_encoder_cancel_clicked (o, args);
+		else
 			on_cancel_clicked (o, args);
 	}
 
@@ -5072,15 +5073,17 @@ public partial class ChronoJumpWindow
 	{
 		notebook_start.CurrentPage = Convert.ToInt32 (notebook_start_pages.FULLSCREENCAPTURE);
 
-		if (Constants.ModeIsFORCESENSOR (current_mode))
+		if (Constants.ModeIsFORCESENSOR (current_mode) || Constants.ModeIsENCODER (current_mode))
 		{
 			fullScreenChange = fullScreenChangeEnum.CHANGETOFULL;
 
 			if (currentPerson != null)
 				fullscreen_label_person.Text = currentPerson.Name;
 
-			if (currentForceSensorExercise != null)
+			if (Constants.ModeIsFORCESENSOR (current_mode) && currentForceSensorExercise != null)
 				fullscreen_label_exercise.Text = currentForceSensorExercise.Name;
+			else if (Constants.ModeIsENCODER (current_mode))
+				fullscreen_label_exercise.Text = label_encoder_top_exercise.Text;
 		}
 	}
 
@@ -5088,16 +5091,17 @@ public partial class ChronoJumpWindow
 	{
 		notebook_start.CurrentPage = Convert.ToInt32 (notebook_start_pages.PROGRAM);
 
-		if (Constants.ModeIsFORCESENSOR (current_mode))
+		//if (Constants.ModeIsFORCESENSOR (current_mode))
 			fullScreenChange = fullScreenChangeEnum.CHANGETONORMAL;
 	}
 
 	private void on_fullscreen_capture_drawingarea_cairo_draw (object o, DrawnArgs args)
 	{
-		if (! Constants.ModeIsFORCESENSOR (current_mode))
-			return;
-
-		updateForceSensorCaptureSignalCairo (true);
+		if (Constants.ModeIsFORCESENSOR (current_mode))
+			updateForceSensorCaptureSignalCairo (true);
+		else if (Constants.ModeIsENCODER (current_mode))
+			if (prepareEventGraphBarplotEncoder != null)
+				prepareEncoderBarplotCairo (true);
 	}
 
 	/*
@@ -9657,6 +9661,7 @@ LogB.Debug("mc finished 5");
 		image_encoder_capture_finish = (Gtk.Image) builder.GetObject ("image_encoder_capture_finish");
 		image_encoder_capture_cancel = (Gtk.Image) builder.GetObject ("image_encoder_capture_cancel");
 		fullscreen_button_fullscreen_contacts = (Gtk.Button) builder.GetObject ("fullscreen_button_fullscreen_contacts");
+		fullscreen_button_fullscreen_encoder = (Gtk.Button) builder.GetObject ("fullscreen_button_fullscreen_encoder");
 		//fullscreen_button_fullscreen_exit = (Gtk.Button) builder.GetObject ("fullscreen_button_fullscreen_exit");
 		fullscreen_label_person = (Gtk.Label) builder.GetObject ("fullscreen_label_person");
 		fullscreen_label_exercise = (Gtk.Label) builder.GetObject ("fullscreen_label_exercise");

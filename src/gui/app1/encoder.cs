@@ -107,11 +107,15 @@ public partial class ChronoJumpWindow
 	Gtk.Image image_encoder_capture;
 	Gtk.ProgressBar encoder_pulsebar_capture;
 	Gtk.Label encoder_pulsebar_capture_label;
+	Gtk.Box box_encoder_capture_rhythm;
+	Gtk.Box box_encoder_capture_rhythm_doing;
+	Gtk.Box box_encoder_capture_rhythm_rest;
 	Gtk.ProgressBar encoder_pulsebar_rhythm_eccon;
 	Gtk.Label label_encoder_rhythm_rest;
 	Gtk.Label label_rhythm;
+	Gtk.Label label_rhythm_rep;
 	Gtk.VBox vbox_encoder_signal_comment;
-	Gtk.Notebook notebook_encoder_signal_comment_rhythm_and_triggers;
+	Gtk.Notebook notebook_encoder_signal_comment_and_triggers;
 	Gtk.TextView textview_encoder_signal_comment;
 	//Gtk.Frame frame_encoder_signal_comment;
 	Gtk.Button button_encoder_signal_save_comment;
@@ -6419,13 +6423,10 @@ public partial class ChronoJumpWindow
 						currentEncoderGI == Constants.EncoderGI.GRAVITATORY && eCapture.Eccon == "c")
 				{
 					reallyCutByTriggers = preferences.encoderCaptureCutByTriggers;
-					notebook_encoder_signal_comment_rhythm_and_triggers.Page = 2;
-				} else if(encoderRhythm.ActiveRhythm || encoderRhythm.UseClusters())
-				{
-					notebook_encoder_signal_comment_rhythm_and_triggers.Page = 1;
-					image_encoder_rhythm_rest.Visible = encoderRhythm.UseRest();
+					notebook_encoder_signal_comment_and_triggers.Page = 1;
 				}
 
+				box_encoder_capture_rhythm.Visible = (encoderRhythm.ActiveRhythm || encoderRhythm.UseClusters());
 				encoderRProcCapture.CutByTriggers = reallyCutByTriggers;
 				encoderClusterRestActive = false;
 				encoderClusterLastRestSoundWasOnRep = -1; //to know which rep we are resting, to not repeat a rest in the same rep
@@ -6864,7 +6865,7 @@ public partial class ChronoJumpWindow
 
 			finishPulsebar(encoderActions.CURVES_AC);
 
-			notebook_encoder_signal_comment_rhythm_and_triggers.Page = 0;
+			notebook_encoder_signal_comment_and_triggers.Page = 0;
 
 			if(encoderProcessCancel) {
 				//stop video and will NOT be stored
@@ -7200,10 +7201,10 @@ public partial class ChronoJumpWindow
 		{
 			if(! encoderRhythmExecute.FirstPhaseDone)
 			{
+				box_encoder_capture_rhythm_doing.Visible = true;
+				box_encoder_capture_rhythm_rest.Visible = false;
 				encoder_pulsebar_rhythm_eccon.Fraction = 0;
-				label_encoder_rhythm_rest.Text = "";
-				image_encoder_rhythm_rest.Visible = false;
-				encoder_pulsebar_rhythm_eccon.Text = "Waiting 1st phase";
+				label_rhythm_rep.Text = "...";
 				return;
 			} else {
 				if(encoderRhythmExecute.CurrentPhase != encoderRhythmExecute.LastPhase)// &&
@@ -7218,10 +7219,18 @@ public partial class ChronoJumpWindow
 			}
 
 			encoderRhythmExecute.CalculateFractionsAndText();
-			encoder_pulsebar_rhythm_eccon.Fraction = encoderRhythmExecute.Fraction;
-			encoder_pulsebar_rhythm_eccon.Text = encoderRhythmExecute.TextRepetition;
-			label_encoder_rhythm_rest.Text = encoderRhythmExecute.TextRest;
-			image_encoder_rhythm_rest.Visible = encoderRhythmExecute.TextRest != "";
+
+			if (encoderRhythmExecute.TextRest == "")
+			{
+				box_encoder_capture_rhythm_doing.Visible = true;
+				box_encoder_capture_rhythm_rest.Visible = false;
+				encoder_pulsebar_rhythm_eccon.Fraction = encoderRhythmExecute.Fraction;
+				label_rhythm_rep.Text = encoderRhythmExecute.TextRepetition;
+			} else {
+				box_encoder_capture_rhythm_doing.Visible = false;
+				box_encoder_capture_rhythm_rest.Visible = true;
+				label_encoder_rhythm_rest.Text = encoderRhythmExecute.TextRest;
+			}
 		}
 		else if(encoderRhythm.UseClusters())
 		{
@@ -7230,8 +7239,8 @@ public partial class ChronoJumpWindow
 			if(! encoderRhythmExecute.FirstPhaseDone)
 			{
 				encoder_pulsebar_rhythm_eccon.Fraction = 0;
-				label_encoder_rhythm_rest.Text = "";
-				image_encoder_rhythm_rest.Visible = false;
+				box_encoder_capture_rhythm_doing.Visible = true;
+				box_encoder_capture_rhythm_rest.Visible = false;
 				return;
 			}
 
@@ -7260,7 +7269,8 @@ public partial class ChronoJumpWindow
 				if(! encoderRhythmExecute.ClusterRestDoing() && encoderClusterLastRestSoundWasOnRep != repsDone)
 				{
 					encoderRhythmExecute.ClusterRestStart();
-					image_encoder_rhythm_rest.Visible = true;
+					box_encoder_capture_rhythm_doing.Visible = false;
+					box_encoder_capture_rhythm_rest.Visible = true;
 					Util.PlaySound(Constants.SoundTypes.CAN_START, preferences.volumeOn, preferences.gstreamer);
 					encoderClusterLastRestSoundWasOnRep = repsDone;
 					encoderClusterRestActive = true;
@@ -7276,11 +7286,13 @@ public partial class ChronoJumpWindow
 					encoderClusterRestActive = false;
 					Util.PlaySound(Constants.SoundTypes.CAN_START, preferences.volumeOn, preferences.gstreamer);
 					encoderRhythmExecute.ClusterRestStop();
-					image_encoder_rhythm_rest.Visible = false;
-					label_encoder_rhythm_rest.Text = "";
+					box_encoder_capture_rhythm_doing.Visible = true;
+					box_encoder_capture_rhythm_rest.Visible = false;
 				} else {
 					string restStr = encoderRhythmExecute.ClusterRestSecondsStr();
 					label_encoder_rhythm_rest.Text = restStr;
+					box_encoder_capture_rhythm_doing.Visible = false;
+					box_encoder_capture_rhythm_rest.Visible = true;
 				}
 			}
 		}
@@ -8089,11 +8101,15 @@ public partial class ChronoJumpWindow
 		image_encoder_capture = (Gtk.Image) builder.GetObject ("image_encoder_capture");
 		encoder_pulsebar_capture = (Gtk.ProgressBar) builder.GetObject ("encoder_pulsebar_capture");
 		encoder_pulsebar_capture_label = (Gtk.Label) builder.GetObject ("encoder_pulsebar_capture_label");
+		box_encoder_capture_rhythm = (Gtk.Box) builder.GetObject ("box_encoder_capture_rhythm");
+		box_encoder_capture_rhythm_doing = (Gtk.Box) builder.GetObject ("box_encoder_capture_rhythm_doing");
+		box_encoder_capture_rhythm_rest = (Gtk.Box) builder.GetObject ("box_encoder_capture_rhythm_rest");
 		encoder_pulsebar_rhythm_eccon = (Gtk.ProgressBar) builder.GetObject ("encoder_pulsebar_rhythm_eccon");
 		label_encoder_rhythm_rest = (Gtk.Label) builder.GetObject ("label_encoder_rhythm_rest");
 		label_rhythm = (Gtk.Label) builder.GetObject ("label_rhythm");
+		label_rhythm_rep = (Gtk.Label) builder.GetObject ("label_rhythm_rep");
 		vbox_encoder_signal_comment = (Gtk.VBox) builder.GetObject ("vbox_encoder_signal_comment");
-		notebook_encoder_signal_comment_rhythm_and_triggers = (Gtk.Notebook) builder.GetObject ("notebook_encoder_signal_comment_rhythm_and_triggers");
+		notebook_encoder_signal_comment_and_triggers = (Gtk.Notebook) builder.GetObject ("notebook_encoder_signal_comment_and_triggers");
 		textview_encoder_signal_comment = (Gtk.TextView) builder.GetObject ("textview_encoder_signal_comment");
 		//frame_encoder_signal_comment = (Gtk.Frame) builder.GetObject ("frame_encoder_signal_comment");
 		button_encoder_signal_save_comment = (Gtk.Button) builder.GetObject ("button_encoder_signal_save_comment");

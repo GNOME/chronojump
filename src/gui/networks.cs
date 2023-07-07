@@ -635,17 +635,10 @@ public partial class ChronoJumpWindow
 		 * But note this has to be executed only if it has changed!!
 		 */
 
-		//only change maximizez status on start
+		// config only change maximized status on start
 		if( ! maximizeWindowAtStartDone )
 		{
-			if(configChronojump.Maximized == Preferences.MaximizedTypes.NO)
-			{
-				app1.Unmaximize();
-				app1.Decorated = true;
-			} else {
-				app1.Decorated = (configChronojump.Maximized != Preferences.MaximizedTypes.YESUNDECORATED);
-				app1.Maximize();
-			}
+			maximizeOrNot (true);  //from config
 			maximizeWindowAtStartDone = true;
 		}
 
@@ -761,6 +754,33 @@ public partial class ChronoJumpWindow
 
 		label_rfid_wait.Visible = false;
 		label_rfid_encoder_wait.Visible = false;
+	}
+
+	private void maximizeOrNot (bool fromConfig)
+	{
+		if (fromConfig)
+		{
+			if(configChronojump.Maximized == Preferences.MaximizedTypes.NO)
+			{
+				app1.Unmaximize();
+				app1.Decorated = true;
+			} else {
+				app1.Decorated = (configChronojump.Maximized != Preferences.MaximizedTypes.YESUNDECORATED);
+				app1.Maximize();
+			}
+		} else //fromPreferences
+		{
+			if (preferences.maximized == Preferences.MaximizedTypes.NO)
+			{
+				app1.Unmaximize();
+				app1.Decorated = true;
+			} else
+			{
+				app1.Decorated = (preferences.maximized == Preferences.MaximizedTypes.YES);
+				app1.Maximize();
+			}
+		}
+
 	}
 
 	private bool needToCreateMonthlySession(string yearMonthStr)

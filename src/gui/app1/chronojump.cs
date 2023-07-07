@@ -178,6 +178,7 @@ public partial class ChronoJumpWindow
 	Gtk.Button fullscreen_button_fullscreen_contacts;
 	Gtk.Button fullscreen_button_fullscreen_encoder;
 	Gtk.Button fullscreen_button_fullscreen_exit;
+	Gtk.ProgressBar fullscreen_capture_progressbar;
 	Gtk.Label fullscreen_label_person;
 	Gtk.Label fullscreen_label_exercise;
 	Gtk.Label fullscreen_label_message;
@@ -5096,6 +5097,9 @@ public partial class ChronoJumpWindow
 				fullscreen_label_exercise.Text = currentForceSensorExercise.Name;
 			else if (Constants.ModeIsENCODER (current_mode))
 				fullscreen_label_exercise.Text = label_encoder_top_exercise.Text;
+
+			fullscreen_label_message.Text = "";
+			fullscreen_capture_progressbar.Visible = Constants.ModeIsENCODER (current_mode);
 		}
 	}
 
@@ -9677,6 +9681,7 @@ LogB.Debug("mc finished 5");
 		fullscreen_button_fullscreen_contacts = (Gtk.Button) builder.GetObject ("fullscreen_button_fullscreen_contacts");
 		fullscreen_button_fullscreen_encoder = (Gtk.Button) builder.GetObject ("fullscreen_button_fullscreen_encoder");
 		fullscreen_button_fullscreen_exit = (Gtk.Button) builder.GetObject ("fullscreen_button_fullscreen_exit");
+		fullscreen_capture_progressbar = (Gtk.ProgressBar) builder.GetObject ("fullscreen_capture_progressbar");
 		fullscreen_label_person = (Gtk.Label) builder.GetObject ("fullscreen_label_person");
 		fullscreen_label_exercise = (Gtk.Label) builder.GetObject ("fullscreen_label_exercise");
 		fullscreen_label_message = (Gtk.Label) builder.GetObject ("fullscreen_label_message");

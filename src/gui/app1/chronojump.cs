@@ -171,10 +171,11 @@ public partial class ChronoJumpWindow
 	Gtk.Image image_button_cancel1;
 	//encoder tests execute buttons
 	//Gtk.Image image_encoder_capture_execute;
+	
+	Gtk.Box fullscreen_capture_box_buttons_finish_cancel;
 	Gtk.Button fullscreen_capture_button_finish;
 	Gtk.Button fullscreen_capture_button_cancel;
-	Gtk.Image image_encoder_capture_finish;
-	Gtk.Image image_encoder_capture_cancel;
+	Gtk.Button fullscreen_button_encoder_capture_finish_cont;
 	Gtk.Button fullscreen_button_fullscreen_contacts;
 	Gtk.Button fullscreen_button_fullscreen_encoder;
 	Gtk.Button fullscreen_button_fullscreen_exit;
@@ -5069,6 +5070,13 @@ public partial class ChronoJumpWindow
 			on_finish_clicked (o, args);
 	}
 
+	private void on_fullscreen_button_encoder_capture_finish_cont_clicked (object o, EventArgs args)
+	{
+		on_fullscreen_button_fullscreen_exit_clicked (o, args);
+		encoderProcessFinishContMode = true;
+		on_button_encoder_capture_finish_clicked (o, args); //note this o will be checked
+	}
+
 	private void on_fullscreeen_cancel (object o, EventArgs args)
 	{
 		on_fullscreen_button_fullscreen_exit_clicked (o, args);
@@ -9674,10 +9682,10 @@ LogB.Debug("mc finished 5");
 		image_button_cancel1 = (Gtk.Image) builder.GetObject ("image_button_cancel1");
 		//encoder tests execute buttons
 		//image_encoder_capture_execute = (Gtk.Image) builder.GetObject ("image_encoder_capture_execute");
+		fullscreen_capture_box_buttons_finish_cancel = (Gtk.Box) builder.GetObject ("fullscreen_capture_box_buttons_finish_cancel");
 		fullscreen_capture_button_finish = (Gtk.Button) builder.GetObject ("fullscreen_capture_button_finish");
 		fullscreen_capture_button_cancel = (Gtk.Button) builder.GetObject ("fullscreen_capture_button_cancel");
-		image_encoder_capture_finish = (Gtk.Image) builder.GetObject ("image_encoder_capture_finish");
-		image_encoder_capture_cancel = (Gtk.Image) builder.GetObject ("image_encoder_capture_cancel");
+		fullscreen_button_encoder_capture_finish_cont = (Gtk.Button) builder.GetObject ("fullscreen_button_encoder_capture_finish_cont");
 		fullscreen_button_fullscreen_contacts = (Gtk.Button) builder.GetObject ("fullscreen_button_fullscreen_contacts");
 		fullscreen_button_fullscreen_encoder = (Gtk.Button) builder.GetObject ("fullscreen_button_fullscreen_encoder");
 		fullscreen_button_fullscreen_exit = (Gtk.Button) builder.GetObject ("fullscreen_button_fullscreen_exit");

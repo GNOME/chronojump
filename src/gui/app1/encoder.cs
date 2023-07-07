@@ -1344,7 +1344,8 @@ public partial class ChronoJumpWindow
 		if (o == null)
 			return;
 
-		fullscreenLastCapture = (buttonClicked == fullscreen_capture_button_finish);
+		fullscreenLastCapture = (buttonClicked == fullscreen_capture_button_finish ||
+				buttonClicked == fullscreen_button_encoder_capture_finish_cont);
 
 		eCapture.Finish();
 		encoderProcessFinish = true;
@@ -1355,7 +1356,10 @@ public partial class ChronoJumpWindow
 		if (notebook_start.CurrentPage == Convert.ToInt32 (notebook_start_pages.FULLSCREENCAPTURE))
 		{
 			fullscreenLastCapture = true;
-			fullscreen_button_fullscreen_exit.Click ();
+
+			//exit fullscreen except if we are on capture infinite
+			if (! preferences.encoderCaptureInfinite)
+				fullscreen_button_fullscreen_exit.Click ();
 		} else
 			fullscreenLastCapture = false;
 	}

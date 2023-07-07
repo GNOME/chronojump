@@ -7132,6 +7132,7 @@ public partial class ChronoJumpWindow
 		if(action == encoderActions.CAPTURE && preferences.encoderCaptureInfinite) {
 			encoder_pulsebar_capture_label.Text = "";
 			encoder_pulsebar_capture.Pulse();
+			fullscreen_label_message.Text = "";
 			return;
 		}
 
@@ -7144,11 +7145,13 @@ public partial class ChronoJumpWindow
 			encoder_pulsebar_capture.Fraction = UtilAll.DivideSafeFraction(
 					(selectedTime - eCapture.Countdown), selectedTime);
 			encoder_pulsebar_capture_label.Text = eCapture.Countdown + " s";
+			fullscreen_label_message.Text = eCapture.Countdown + " s";
 
 			if(encoderCaptureStopwatch.Elapsed.TotalSeconds >= 3 && eCapture.Countdown == preferences.encoderCaptureTime)
 			{
 				//encoder_pulsebar_capture_label.Text = "Chronopic seems not properly connected to encoder");
 				encoder_pulsebar_capture_label.Text = "Plug encoder into Chronopic"; //TODO: improve this and finish capture with problems
+				fullscreen_label_message.Text = "Plug encoder into Chronopic"; //TODO: improve this and finish capture with problems
 			}
 
 			return;
@@ -7507,13 +7510,16 @@ public partial class ChronoJumpWindow
 				} else {
 					if(action == encoderActions.CAPTURE_IM)
 						encoder_configuration_win.Button_encoder_capture_inertial_do_ended(0,"Cancelled");
-					else
+					else {
 						encoder_pulsebar_capture_label.Text = Catalog.GetString("Cancelled");
+						fullscreen_label_message.Text = Catalog.GetString("Cancelled");
+					}
 				}
 			}
 			else if(action == encoderActions.CAPTURE && encoderProcessFinish)
 			{
 				encoder_pulsebar_capture_label.Text = Catalog.GetString("Finished");
+				fullscreen_label_message.Text = Catalog.GetString("Finished");
 				updateEncoderAnalyzeExercisesPre();
 			} 
 			else if(action == encoderActions.CURVES || action == encoderActions.CURVES_AC || action == encoderActions.LOAD) 
@@ -7602,6 +7608,7 @@ public partial class ChronoJumpWindow
 						needToAutoSaveCurve = true;
 
 					encoder_pulsebar_capture_label.Text = encoderSaveSignalOrCurve(false, "signal", 0); //this updates encoderSignalUniqueID
+					fullscreen_label_message.Text = encoderSaveSignalOrCurve(false, "signal", 0); //this updates encoderSignalUniqueID
 
 					if(needToAutoSaveCurve)
 					{

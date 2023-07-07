@@ -815,7 +815,6 @@ public partial class ChronoJumpWindow
 		image_run_encoder_exercise_delete.Pixbuf = pixbuf;
 		image_button_cancel.Pixbuf = pixbuf;
 		image_button_cancel1.Pixbuf = pixbuf;
-		image_encoder_capture_cancel.Pixbuf = pixbuf;
 		image_encoder_signal_delete.Pixbuf = pixbuf;
 		app1s_image_delete.Pixbuf = pixbuf;
 
@@ -966,11 +965,9 @@ public partial class ChronoJumpWindow
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "floppy.png");
 		image_button_finish.Pixbuf = pixbuf;
 		image_button_finish1.Pixbuf = pixbuf;
-		image_encoder_capture_finish.Pixbuf = pixbuf;
 
 		//pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "gtk-cancel.png"); //high contrast (black)
 		//image_button_cancel.Pixbuf = pixbuf;
-		//image_encoder_capture_cancel.Pixbuf = pixbuf;
 		// <--- end of execute tests
 
 

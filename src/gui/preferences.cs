@@ -291,6 +291,7 @@ public class PreferencesWindow
 	Gtk.ComboBoxText combo_language;
 	Gtk.ComboBoxText combo_decimals;
 
+	public Gtk.Button FakeButtonMaximizeChanges;
 	public Gtk.Button FakeButtonConfigurationImported;
 	public Gtk.Button FakeButtonDebugModeStart;
 	
@@ -338,6 +339,7 @@ public class PreferencesWindow
 		//databaseURL = Util.GetDatabaseDir() + System.IO.Path.DirectorySeparatorChar  + "chronojump.db";
 		//databaseTempURL = Util.GetDatabaseTempDir() + System.IO.Path.DirectorySeparatorChar  + "chronojump.db";
 		
+		FakeButtonMaximizeChanges = new Gtk.Button ();
 		FakeButtonConfigurationImported = new Gtk.Button();
 		FakeButtonDebugModeStart = new Gtk.Button();
 	}
@@ -1063,6 +1065,7 @@ public class PreferencesWindow
 		{
 			SqlitePreferences.Update ("maximized", maximizedTypeFromGUI.ToString(), false);
 			preferences.maximized = maximizedTypeFromGUI;
+			FakeButtonMaximizeChanges.Click ();
 		}
 	}
 
@@ -1077,6 +1080,7 @@ public class PreferencesWindow
 		{
 			SqlitePreferences.Update ("maximized", maximizedTypeFromGUI.ToString(), false);
 			preferences.maximized = maximizedTypeFromGUI;
+			FakeButtonMaximizeChanges.Click ();
 		}
 	}
 

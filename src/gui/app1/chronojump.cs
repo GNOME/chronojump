@@ -3572,11 +3572,20 @@ public partial class ChronoJumpWindow
 		else
 			preferencesWin = PreferencesWindow.Show(preferences, current_mode, configChronojump.Compujump, progVersion);
 
+		preferencesWin.FakeButtonMaximizeChanges.Clicked -= new EventHandler (on_preferences_maximize_changes);
+		preferencesWin.FakeButtonMaximizeChanges.Clicked += new EventHandler (on_preferences_maximize_changes);
+		preferencesWin.FakeButtonConfigurationImported.Clicked += new EventHandler(on_preferences_import_configuration);
 		preferencesWin.FakeButtonConfigurationImported.Clicked += new EventHandler(on_preferences_import_configuration);
 		preferencesWin.FakeButtonDebugModeStart.Clicked += new EventHandler(on_preferences_debug_mode_start);
 		preferencesWin.Button_close.Clicked += new EventHandler(on_preferences_closed);
 	}
 		
+	private void on_preferences_maximize_changes (object o, EventArgs args)
+	{
+		preferences = preferencesWin.GetPreferences;
+		maximizeOrNot (false); //fromPreferences
+	}
+
 	private void on_preferences_import_configuration (object o, EventArgs args)
 	{
 		/*

@@ -1314,8 +1314,10 @@ public partial class ChronoJumpWindow
 			//load does not save the curve 
 		       if(File.Exists(UtilEncoder.GetEncoderDataTempFileName()))
 			       encoderThreadStart(action);
-		       else
+		       else {
 			       encoder_pulsebar_capture_label.Text = Catalog.GetString("Missing data.");
+			       fullscreen_label_message.Text = Catalog.GetString("Missing data.");
+		       }
 		}
 	}
 
@@ -6423,6 +6425,7 @@ public partial class ChronoJumpWindow
 					if(notebook_encoder_capture.CurrentPage == 0 )
 						notebook_encoder_capture.NextPage();
 					encoder_pulsebar_capture.Fraction = 1;
+					fullscreen_capture_progressbar.Fraction = 1;
 
 					return;
 				}
@@ -7133,6 +7136,7 @@ public partial class ChronoJumpWindow
 			encoder_pulsebar_capture_label.Text = "";
 			encoder_pulsebar_capture.Pulse();
 			fullscreen_label_message.Text = "";
+			fullscreen_capture_progressbar.Pulse();
 			return;
 		}
 
@@ -7145,6 +7149,8 @@ public partial class ChronoJumpWindow
 			encoder_pulsebar_capture.Fraction = UtilAll.DivideSafeFraction(
 					(selectedTime - eCapture.Countdown), selectedTime);
 			encoder_pulsebar_capture_label.Text = eCapture.Countdown + " s";
+			fullscreen_capture_progressbar.Fraction = UtilAll.DivideSafeFraction(
+					(selectedTime - eCapture.Countdown), selectedTime);
 			fullscreen_label_message.Text = eCapture.Countdown + " s";
 
 			if(encoderCaptureStopwatch.Elapsed.TotalSeconds >= 3 && eCapture.Countdown == preferences.encoderCaptureTime)
@@ -7499,6 +7505,7 @@ public partial class ChronoJumpWindow
 				if(notebook_encoder_capture.CurrentPage == 0 )
 					notebook_encoder_capture.NextPage();
 				encoder_pulsebar_capture.Fraction = 1;
+				fullscreen_capture_progressbar.Fraction = 1;
 			
 				if(encoderProcessProblems) {
 					new DialogMessage(Constants.MessageTypes.WARNING, 
@@ -7722,6 +7729,7 @@ public partial class ChronoJumpWindow
 			}
 			
 			encoder_pulsebar_capture.Fraction = 1;
+			fullscreen_capture_progressbar.Fraction = 1;
 			//analyze_image_save only has not to be sensitive now because capture graph will be saved
 			image_encoder_analyze.Sensitive = false;
 			vbox_encoder_analyze_instant.Visible = false; //play with Visible instead of Sensitive because with Sensitive the pixmap is fully shown

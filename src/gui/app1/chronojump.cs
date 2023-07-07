@@ -3932,7 +3932,7 @@ public partial class ChronoJumpWindow
 		//show button_detect depending on selected or not
 		button_detect_show_hide (chronopicRegister.GetSelectedForMode (m).Port == "");
 
-		if (Constants.ModeIsFORCESENSOR (m) && Config.SimulatedCapture)
+		if ( Config.SimulatedCapture && (Constants.ModeIsFORCESENSOR (m) || Constants.ModeIsENCODER (m)) )
 			button_detect_show_hide (false);
 
 		fullscreen_button_fullscreen_contacts.Visible = false;

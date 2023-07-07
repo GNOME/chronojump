@@ -78,7 +78,7 @@ public class ChronoJump
 				"\n- version2: Version of the software" +
 				"\n- configAll: All possible options on chronojump_config.txt" +
 				"\n- configDefined: Correctly defined options on chronojump_config.txt" +
-				"\n- simulatedCapture (**): Capture is simulated (working on forceSensor and Race Analyzer (needs Arduino))" +
+				"\n- simulatedCapture (**): Capture is simulated. Working on encoder, forceSensor, and Race Analyzer (in Race Analyzer needs Arduino)" +
 				"\n- printAll: (*)" +
 				"\n- debug: (*)" +
 				"\n- help: this help" +

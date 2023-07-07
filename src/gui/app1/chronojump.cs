@@ -5080,6 +5080,9 @@ public partial class ChronoJumpWindow
 
 	private void on_fullscreen_button_fullscreen_clicked (object o, EventArgs args)
 	{
+		app1.Decorated = false;
+		app1.Maximize ();
+
 		notebook_start.CurrentPage = Convert.ToInt32 (notebook_start_pages.FULLSCREENCAPTURE);
 
 		if (Constants.ModeIsFORCESENSOR (current_mode) || Constants.ModeIsENCODER (current_mode))
@@ -5098,6 +5101,8 @@ public partial class ChronoJumpWindow
 
 	private void on_fullscreen_button_fullscreen_exit_clicked (object o, EventArgs args)
 	{
+		maximizeOrNot (false); //use preferences
+
 		notebook_start.CurrentPage = Convert.ToInt32 (notebook_start_pages.PROGRAM);
 
 		//if (Constants.ModeIsFORCESENSOR (current_mode))

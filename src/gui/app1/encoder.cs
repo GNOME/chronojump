@@ -764,7 +764,7 @@ public partial class ChronoJumpWindow
 
 	bool canCaptureEncoder()
 	{
-		if(currentSession.Name == Constants.SessionSimulatedName && testsActive)
+		if (Config.SimulatedCapture)
 			return true;
 
 		chronopicRegisterUpdate(false);
@@ -977,7 +977,7 @@ public partial class ChronoJumpWindow
 
 		saveEncoderExerciseOptionsToPreferences();
 
-		if (chronopicRegister.GetSelectedForMode (current_mode).Port == "")
+		if (! Config.SimulatedCapture && chronopicRegister.GetSelectedForMode (current_mode).Port == "")
 			on_button_detect_clicked (o, args); //open discover win
 		else
 			on_button_encoder_capture_clicked_do (true);
@@ -1009,7 +1009,7 @@ public partial class ChronoJumpWindow
 				return;
 				*/
 			chronopicRegister.ListSelectedForAllModes (); //debug
-			if (chronopicRegister.GetSelectedForMode (current_mode).Port == "")
+			if (! Config.SimulatedCapture && chronopicRegister.GetSelectedForMode (current_mode).Port == "")
 			{
 				if (! configChronojump.Compujump)
 					on_button_detect_clicked (new object (), new EventArgs ()); //open discover win
@@ -3525,9 +3525,7 @@ public partial class ChronoJumpWindow
 	//I suppose reading gtk is ok, changing will be the problem
 	private void encoderDoCaptureBG ()
 	{
-		eCaptureInertialBG.CaptureBG(
-			currentSession.Name == Constants.SessionSimulatedName && testsActive
-			);
+		eCaptureInertialBG.CaptureBG (Config.SimulatedCapture);
 	}
 
 	private void stopCapturingInertialBG()
@@ -3558,7 +3556,7 @@ public partial class ChronoJumpWindow
 		Thread.Sleep(50);	
 		
 		//on simulated sleep more to ensure data is written to disc
-		if(currentSession.Name == Constants.SessionSimulatedName && testsActive)
+		if (Config.SimulatedCapture)
 			Thread.Sleep(1500);
 
 		LogB.Debug("Going to stop");		
@@ -6280,7 +6278,7 @@ public partial class ChronoJumpWindow
 			calledCaptureInertial = false;
 			timeCalibrated = DateTime.Now;
 
-			if(currentSession.Name == Constants.SessionSimulatedName && testsActive)
+			if (Config.SimulatedCapture)
 				eCaptureInertialBG = new EncoderCaptureInertialBackground("");
 			else
 				eCaptureInertialBG = new EncoderCaptureInertialBackground(
@@ -6390,7 +6388,7 @@ public partial class ChronoJumpWindow
 					encoderProcessFinishContMode = false; //will be true when finish button is pressed
 
 				string portName = "";
-				if( ! (currentSession.Name == Constants.SessionSimulatedName && testsActive))
+				if (! Config.SimulatedCapture)
 					portName = chronopicRegister.ConnectedOfType(ChronopicRegisterPort.Types.ENCODER).Port;
 
 				bool success = eCapture.InitGlobal(
@@ -6403,7 +6401,7 @@ public partial class ChronoJumpWindow
 						encoderConfigurationCurrent.IsInverted (),
 						//configChronojump.EncoderCaptureShowOnlyBars,
 						false, //false to show all, and let user change this at any moment
-						currentSession.Name == Constants.SessionSimulatedName && testsActive);
+						Config.SimulatedCapture);
 				if(! success)
 				{
 					new DialogMessage(Constants.MessageTypes.WARNING,
@@ -6434,7 +6432,7 @@ public partial class ChronoJumpWindow
 					eCaptureInertialBG.StoreData = true;
 					eCapture.InitCalibrated(eCaptureInertialBG.AngleNow);
 
-					if(currentSession.Name == Constants.SessionSimulatedName && testsActive)
+					if (Config.SimulatedCapture)
 						eCaptureInertialBG.SimulatedReset();
 				}
 

@@ -216,6 +216,7 @@ public class FeedbackWindow
 	Gtk.SpinButton spin_force_sensor_capture_feedback_asteroids_min;
 	Gtk.CheckButton check_force_sensor_capture_feedback_asteroids_dark;
 	Gtk.SpinButton spin_force_sensor_capture_feedback_asteroids_frequency;
+	Gtk.SpinButton spin_force_sensor_capture_feedback_shots_frequency;
 	Gtk.Label label_feedback_asteroids_min_units;
 	Gtk.Label label_feedback_asteroids_max_units;
 	//questionnaire
@@ -360,6 +361,7 @@ public class FeedbackWindow
 				preferences.forceSensorFeedbackAsteroidsMin,
 				preferences.forceSensorFeedbackAsteroidsDark,
 				preferences.forceSensorFeedbackAsteroidsFrequency,
+				preferences.forceSensorFeedbackShotsFrequency,
 				preferences.forceSensorFeedbackQuestionnaireMax,
 				preferences.forceSensorFeedbackQuestionnaireMin,
 				preferences.forceSensorFeedbackQuestionnaireN
@@ -436,6 +438,7 @@ public class FeedbackWindow
 			int forceSensorFeedbackAsteroidsMin,
 			bool forceSensorFeedbackAsteroidsDark,
 			int forceSensorFeedbackAsteroidsFrequency,
+			int forceSensorFeedbackShotsFrequency,
 			int forceSensorFeedbackQuestionnaireMax,
 			int forceSensorFeedbackQuestionnaireMin,
 			int forceSensorFeedbackQuestionnaireN
@@ -638,6 +641,7 @@ public class FeedbackWindow
 			spin_force_sensor_capture_feedback_asteroids_min.Value = forceSensorFeedbackAsteroidsMin;
 			check_force_sensor_capture_feedback_asteroids_dark.Active = forceSensorFeedbackAsteroidsDark;
 			spin_force_sensor_capture_feedback_asteroids_frequency.Value = forceSensorFeedbackAsteroidsFrequency;
+			spin_force_sensor_capture_feedback_shots_frequency.Value = forceSensorFeedbackShotsFrequency;
 
 			//questionnaire widgets
 			spin_force_sensor_capture_feedback_questionnaire_max.Value = forceSensorFeedbackQuestionnaireMax;
@@ -1420,6 +1424,9 @@ public class FeedbackWindow
 	public int GetForceSensorFeedbackAsteroidsFrequency {
 		get { return Convert.ToInt32 (spin_force_sensor_capture_feedback_asteroids_frequency.Value); }
 	}
+	public int GetForceSensorFeedbackShotsFrequency {
+		get { return Convert.ToInt32 (spin_force_sensor_capture_feedback_shots_frequency.Value); }
+	}
 
 	public int GetForceSensorFeedbackQuestionnaireMax {
 		get { return Convert.ToInt32(spin_force_sensor_capture_feedback_questionnaire_max.Value); }
@@ -1949,6 +1956,7 @@ public class FeedbackWindow
 		spin_force_sensor_capture_feedback_asteroids_min = (Gtk.SpinButton) builder.GetObject ("spin_force_sensor_capture_feedback_asteroids_min");
 		check_force_sensor_capture_feedback_asteroids_dark = (Gtk.CheckButton) builder.GetObject ("check_force_sensor_capture_feedback_asteroids_dark");
 		spin_force_sensor_capture_feedback_asteroids_frequency = (Gtk.SpinButton) builder.GetObject ("spin_force_sensor_capture_feedback_asteroids_frequency");
+		spin_force_sensor_capture_feedback_shots_frequency = (Gtk.SpinButton) builder.GetObject ("spin_force_sensor_capture_feedback_shots_frequency");
 		label_feedback_asteroids_min_units = (Gtk.Label) builder.GetObject ("label_feedback_asteroids_min_units");
 		label_feedback_asteroids_max_units = (Gtk.Label) builder.GetObject ("label_feedback_asteroids_max_units");
 		//questionnaire

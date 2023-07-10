@@ -1359,6 +1359,7 @@ public class Asteroids
 	public bool Dark;
 	public int MaxY;
 	public int MinY;
+	public int ShotsFrequency;
 
 	private List<Asteroid> asteroid_l;
 	private List<Shot> shot_l;
@@ -1374,11 +1375,12 @@ public class Asteroids
 	private Cairo.Color yellow = new Cairo.Color (0.906, 0.745, 0.098, 1);
 	private Cairo.Color redDark = new Cairo.Color (0.55, 0, 0, 1);
 
-	public Asteroids (int maxY, int minY, bool Dark, int frequency, bool micros)
+	public Asteroids (int maxY, int minY, bool Dark, int asteroidsFrequency, int shotsFrequency, bool micros)
 	{
 		this.Dark = Dark;
 		this.MaxY = maxY;
 		this.MinY = minY;
+		this.ShotsFrequency = shotsFrequency;
 		this.micros = micros;
 
 		if (micros)
@@ -1392,7 +1394,7 @@ public class Asteroids
 		shot_l = new List<Shot> ();
 		int plotSeconds = 100;
 
-		for (int i = 0; i < frequency * plotSeconds; i ++)
+		for (int i = 0; i < asteroidsFrequency * plotSeconds; i ++)
 		{
 			int xStart = random.Next (7*multiplier, 100*multiplier);
 			int usLife = random.Next (3*multiplier/10, 15*multiplier);

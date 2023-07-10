@@ -345,6 +345,7 @@ public class Preferences
 	public int forceSensorFeedbackAsteroidsMin = 0;
 	public bool forceSensorFeedbackAsteroidsDark = true;
 	public int forceSensorFeedbackAsteroidsFrequency = 1;
+	public int forceSensorFeedbackShotsFrequency = 1;
 	//questionnaire
 	public int forceSensorFeedbackQuestionnaireMax = 100;
 	public int forceSensorFeedbackQuestionnaireMin = 0;

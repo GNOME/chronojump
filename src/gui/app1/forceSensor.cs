@@ -1334,6 +1334,7 @@ public partial class ChronoJumpWindow
 				preferences.forceSensorFeedbackAsteroidsMin,
 				preferences.forceSensorFeedbackAsteroidsDark,
 				preferences.forceSensorFeedbackAsteroidsFrequency,
+				preferences.forceSensorFeedbackShotsFrequency,
 				true); //micros
 
 		//LogB.Information("pre bucle");

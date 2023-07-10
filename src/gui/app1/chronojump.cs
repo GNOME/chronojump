@@ -3263,6 +3263,9 @@ public partial class ChronoJumpWindow
 		if (currentPerson != null && currentPerson.UniqueID > 0)
 			SqlitePreferences.Update (SqlitePreferences.LastPersonID, currentPerson.UniqueID.ToString (), false);
 
+		//if user maximizes (not using preferences window), the sqlite variable gets not updated, update here on exit
+		SqlitePreferences.Update ("maximized", preferences.maximized.ToString(), false);
+
 		LogB.Information("Bye3!");
 
 		//TODO: if camera is opened close it! Note that this is intended to kill a remaining ffmpeg process
@@ -5059,6 +5062,7 @@ public partial class ChronoJumpWindow
 	private enum fullScreenChangeEnum { DONOTHING, CHANGETOFULL, CHANGETONORMAL };
 	private fullScreenChangeEnum fullScreenChange = fullScreenChangeEnum.DONOTHING;
 	private bool fullscreenLastCapture;
+	private bool fullscreenCaptureSignalsNoFollow = false;
 
 	private void on_fullscreeen_finish (object o, EventArgs args)
 	{
@@ -5089,6 +5093,7 @@ public partial class ChronoJumpWindow
 
 	private void on_fullscreen_button_fullscreen_clicked (object o, EventArgs args)
 	{
+		fullscreenCaptureSignalsNoFollow = true;
 		app1.Decorated = false;
 		app1.Maximize ();
 
@@ -5114,6 +5119,7 @@ public partial class ChronoJumpWindow
 	private void on_fullscreen_button_fullscreen_exit_clicked (object o, EventArgs args)
 	{
 		maximizeOrNot (false); //use preferences
+		fullscreenCaptureSignalsNoFollow = false;
 
 		notebook_start.CurrentPage = Convert.ToInt32 (notebook_start_pages.PROGRAM);
 
@@ -5128,6 +5134,40 @@ public partial class ChronoJumpWindow
 		else if (Constants.ModeIsENCODER (current_mode))
 			if (prepareEventGraphBarplotEncoder != null)
 				prepareEncoderBarplotCairo (true);
+	}
+
+	/*
+	 * If the window is maximized or fullscreen does not get stored, so we need to catch this event
+	 * With this and the GetSize we have everything. GetSize returns the size of the unmaximized win.
+	 * All this is needed for returning to previous after finishing fullscreen on capture
+	 */
+	private void on_app1_window_state_event (object o, WindowStateEventArgs args)
+	{
+		LogB.Information ("on_app1_window_state_event");
+
+		//on fullscreen capture we do not want to record the status of the window
+		if (fullscreenCaptureSignalsNoFollow)
+			return;
+
+		//these numbers are related to: https://docs.gtk.org/gdk3/flags.WindowState.html
+		//LogB.Information (args.Event.NewWindowState.ToString ());
+
+		//This works: says "Maximized"
+		//LogB.Information ("Maximized? " + (args.Event.NewWindowState & Gdk.WindowState.Maximized).ToString ());
+		if ( (args.Event.NewWindowState & Gdk.WindowState.Maximized).ToString () == "Maximized")
+		{
+			LogB.Information ("Maximized!");
+			if (app1.Decorated)
+				preferences.maximized = Preferences.MaximizedTypes.YES;
+			else
+				preferences.maximized = Preferences.MaximizedTypes.YESUNDECORATED;
+		} else {
+			preferences.maximized = Preferences.MaximizedTypes.NO;
+		}
+
+		//this does not work, at least on Linux/Gnome:
+		if ( (args.Event.NewWindowState & Gdk.WindowState.Fullscreen).ToString () == "Fullscreen")
+			LogB.Information ("Fullscreen!");
 	}
 
 	/*

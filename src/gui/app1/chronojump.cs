@@ -5113,6 +5113,15 @@ public partial class ChronoJumpWindow
 
 			fullscreen_label_message.Text = "";
 			fullscreen_capture_progressbar.Visible = Constants.ModeIsENCODER (current_mode);
+
+			if (Constants.ModeIsENCODER (current_mode) && preferences.encoderCaptureInfinite)
+			{
+				fullscreen_button_encoder_capture_finish_cont.Visible = true;
+				fullscreen_capture_box_buttons_finish_cancel.Visible = false;
+			} else {
+				fullscreen_button_encoder_capture_finish_cont.Visible = false;
+				fullscreen_capture_box_buttons_finish_cancel.Visible = true;
+			}
 		}
 	}
 

@@ -1041,6 +1041,14 @@ public partial class ChronoJumpWindow
 		encoderProcessFinish = false;
 		CairoPaintBarplotPreEncoder.RepetitionsPlayed_l = new List<int> ();
 
+		if (preferences.encoderFeedbackAsteroidsActive)
+			asteroids = new Asteroids (
+					preferences.forceSensorFeedbackAsteroidsMax * 10, //cm to mm
+					preferences.forceSensorFeedbackAsteroidsMin * 10, //cm to mm
+					preferences.forceSensorFeedbackAsteroidsDark,
+					preferences.forceSensorFeedbackAsteroidsFrequency,
+					false); //not micros (encoder goes in millis)
+
 		encoderThreadStart(encoderActions.CAPTURE);
 
 		textview_encoder_signal_comment.Buffer.Text = "";
@@ -6224,8 +6232,17 @@ public partial class ChronoJumpWindow
 			return;
 
 		if(cairoGraphEncoderSignal == null)
-			cairoGraphEncoderSignal = new CairoGraphEncoderSignal (
-				encoder_capture_signal_drawingarea_cairo, "title");
+		{
+			if (preferences.encoderFeedbackAsteroidsActive)
+				cairoGraphEncoderSignal = new CairoGraphEncoderSignalAsteroids (
+						encoder_capture_signal_drawingarea_cairo, "title", false);
+			else
+				cairoGraphEncoderSignal = new CairoGraphEncoderSignal (
+						encoder_capture_signal_drawingarea_cairo, "title");
+		}
+
+		if (preferences.encoderFeedbackAsteroidsActive)
+			cairoGraphEncoderSignal.PassAsteroids = asteroids;
 
 		cairoGraphEncoderSignal.DoSendingList (preferences.fontType.ToString(), inertial,
 				cairoGraphEncoderSignalPoints_l, cairoGraphEncoderSignalInertialPoints_l,
@@ -7039,7 +7056,8 @@ public partial class ChronoJumpWindow
 				compujumpAutologout.EndCapturingEncoder();
 		}
 			
-		Thread.Sleep (50);
+		//Thread.Sleep (50);
+		Thread.Sleep (25); //better for asteroids
 
 		return true;
 	}

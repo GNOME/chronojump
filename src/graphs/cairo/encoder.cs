@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Copyright (C) 2022   Xavier de Blas <xaviblas@gmail.com>
+ *  Copyright (C) 2023   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -26,21 +26,48 @@ using Cairo;
 
 public class CairoGraphEncoderSignal : CairoXY
 {
+	protected List<PointF> points_l;
+	protected List<PointF> points_l_inertial;
+	protected int startAt;
+	protected int marginRightInSeconds;
+
 	//TODO: check if this two are doing anything
-	private int points_list_painted;
-	private int points_list_inertial_painted;
+	private int points_l_painted;
+	private int points_l_inertial_painted;
 	//private bool doing;
 
-	//regular constructor
+	// to inherit
+	public CairoGraphEncoderSignal ()
+	{
+	}
+
+	// regular constructor
 	public CairoGraphEncoderSignal (DrawingArea area, string title)
+	{
+		initEncoder (area, title);
+	}
+
+	// separated in two methods to ensure endGraphDisposing on any return of the other method
+	public override void DoSendingList (string font, bool isInertial,
+			List<PointF> points_l, List<PointF> points_l_inertial,
+			bool forceRedraw, PlotTypes plotType)
+	{
+		this.points_l = points_l;
+		this.points_l_inertial = points_l_inertial;
+
+		if(doSendingList (font, isInertial, forceRedraw, plotType))
+			endGraphDisposing(g, surface, area.Window);
+	}
+
+	protected void initEncoder (DrawingArea area, string title)
 	{
 		this.area = area;
 		this.title = title;
 		this.colorBackground = colorFromRGBA (Config.ColorBackground); //but note if we are using system colors, this will not match
 		
 		//doing = false;
-		points_list_painted = 0;
-		points_list_inertial_painted = 0;
+		points_l_painted = 0;
+		points_l_inertial_painted = 0;
 
 		//need to be small because graphHeight could be 100,
 		//if margins are big then calculatePaintY could give us reverse results
@@ -51,19 +78,8 @@ public class CairoGraphEncoderSignal : CairoXY
 		innerMargin = 0;
 	}
 
-	//separated in two methods to ensure endGraphDisposing on any return of the other method
-	public override void DoSendingList (string font, bool isInertial,
-			List<PointF> points_list, List<PointF> points_list_inertial,
-			bool forceRedraw, PlotTypes plotType)
-	{
-		if(doSendingList (font, isInertial, points_list, points_list_inertial, forceRedraw, plotType))
-			endGraphDisposing(g, surface, area.Window);
-	}
-
 	//return true if graph is inited (to dispose it)
-	private bool doSendingList (string font, bool isInertial,
-			List<PointF> points_list, List<PointF> points_list_inertial,
-			bool forceRedraw, PlotTypes plotType)
+	private bool doSendingList (string font, bool isInertial, bool forceRedraw, PlotTypes plotType)
 	{
 //		if(doing)
 //			return false;
@@ -71,12 +87,12 @@ public class CairoGraphEncoderSignal : CairoXY
 		//doing = true;
 		bool maxValuesChanged = false;
 
-		if(points_list != null)
+		if(points_l != null)
 		{
-			maxValuesChanged = findPointMaximums(false, points_list);
-			if(isInertial && points_list_inertial != null)
+			maxValuesChanged = findPointMaximums(false, points_l);
+			if(isInertial && points_l_inertial != null)
 			{
-				bool maxValuesChangedInertial = findPointMaximums(false, points_list_inertial);
+				bool maxValuesChangedInertial = findPointMaximums(false, points_l_inertial);
 				if(! maxValuesChanged && maxValuesChangedInertial)
 					maxValuesChanged = true;
 			}
@@ -87,26 +103,39 @@ public class CairoGraphEncoderSignal : CairoXY
 				maxY = 100; //to be able to graph at start when all the points are 0
 			if(isInertial && minY > -100)
 				minY = -100;
+
+			if (asteroids != null)
+			{
+				if (asteroids.MinY < minY)
+					minY = asteroids.MinY;
+				if (asteroids.MaxY > absoluteMaxY)
+					absoluteMaxY = asteroids.MaxY;
+			}
 		}
 
 		bool graphInited = false;
 		if( maxValuesChanged || forceRedraw ||
-				(points_list != null && points_list.Count != points_list_painted) ||
-				(points_list_inertial != null && points_list_inertial.Count != points_list_inertial_painted)
+				(points_l != null && points_l.Count != points_l_painted) ||
+				(points_l_inertial != null && points_l_inertial.Count != points_l_inertial_painted)
 				)
 		{
+			if (asteroids != null && asteroids.Dark)
+				colorCairoBackground = new Cairo.Color (.005, .005, .05, 1);
+			else
+				colorCairoBackground = new Cairo.Color (1, 1, 1, 1);
+
 			initGraph( font, 1, (maxValuesChanged || forceRedraw) );
 			graphInited = true;
-			points_list_painted = 0;
-			points_list_inertial_painted = 0;
+			points_l_painted = 0;
+			points_l_inertial_painted = 0;
 		}
 
 		//do not draw axis at the moment (and it is not in 0Y right now)
 		//if(maxValuesChanged || forceRedraw)
 		//	paintAxis();
 
-		if( points_list == null || points_list.Count == 0 ||
-				(isInertial && (points_list_inertial == null || points_list_inertial.Count == 0)) )
+		if( points_l == null || points_l.Count == 0 ||
+				(isInertial && (points_l_inertial == null || points_l_inertial.Count == 0)) )
 			return graphInited;
 
 		//fix an eventual crash on g.LineWidth below
@@ -124,52 +153,97 @@ public class CairoGraphEncoderSignal : CairoXY
 
 		//display this milliseconds on screen, when is higher, scroll
 		int msWidth = 10000;
+		marginRightInSeconds = 10;
 		if(absoluteMaxX < msWidth)
 			absoluteMaxX = msWidth;
 
-		int startAt = 0;
-		if(points_list.Count - msWidth > 0)
+		startAt = 0;
+		if(points_l.Count - msWidth > 0)
 		{
-			startAt = points_list.Count - msWidth;
-			minX = points_list[startAt].X;
+			startAt = points_l.Count - msWidth;
+			minX = points_l[startAt].X;
 		}
+		if (asteroids != null)
+			startAt = configureTimeWindow (points_l, 10, 7, 1000);
 
-		if(maxValuesChanged || forceRedraw || points_list.Count != points_list_painted)
+		if(maxValuesChanged || forceRedraw || points_l.Count != points_l_painted)
 		{
+			plotSpecific ();
+
 			//on inertial draw person on 3 px, disk on 1
 			if(isInertial)
 				g.LineWidth = 2;
 
 			/*
-			ChronoDebug cDebug = new ChronoDebug("ChronoDebug plotRealPoints for n points: " + (points_list.Count - startAt).ToString());
+			ChronoDebug cDebug = new ChronoDebug("ChronoDebug plotRealPoints for n points: " + (points_l.Count - startAt).ToString());
 			cDebug.Start();
 			cDebug.Add("calling fast op");
 			*/
 
-			plotRealPoints(plotType, points_list, startAt, true); //fast (but the difference is very low)
+			plotRealPoints(plotType, points_l, startAt, true); //fast (but the difference is very low)
 
 			/*
 			cDebug.Add("calling slow op");
-			plotRealPoints(plotType, points_list, startAt, false); //slow?
+			plotRealPoints(plotType, points_l, startAt, false); //slow?
 			cDebug.StopAndPrint();
 			*/
 
-			points_list_painted = points_list.Count;
+			points_l_painted = points_l.Count;
 		}
 
 		if( isInertial &&
-				(maxValuesChanged || forceRedraw || points_list_inertial.Count != points_list_inertial_painted) )
+				(maxValuesChanged || forceRedraw || points_l_inertial.Count != points_l_inertial_painted) )
 		{
 			g.LineWidth = 1;
-			plotRealPoints(plotType, points_list_inertial, startAt, true); //fast
-			points_list_inertial_painted = points_list_inertial.Count;
+			plotRealPoints(plotType, points_l_inertial, startAt, true); //fast
+			points_l_inertial_painted = points_l_inertial.Count;
 		}
 
 		//doing = false;
 		return true;
 	}
 
+	protected virtual void plotSpecific ()
+	{
+		//do nothing
+	}
+
 	protected override void writeTitle()
 	{
+	}
+
+	public Asteroids PassAsteroids {
+		set { asteroids = value; }
+	}
+}
+
+// almost the same than: CairoGraphForceSensorSignalAsteroids
+public class CairoGraphEncoderSignalAsteroids : CairoGraphEncoderSignal
+{
+	private double lastShot;
+	private double lastPointUp;
+	private int multiplier;
+
+	public CairoGraphEncoderSignalAsteroids (DrawingArea area, string title, bool micros)
+	{
+		initEncoder (area, title);
+		if (micros)
+			multiplier = 1000000; //forceSensor
+		else
+			multiplier = 1000; //encoder
+
+		lastShot = 0;
+		lastPointUp = 0; //each s 1 point up
+	}
+
+	protected override void plotSpecific ()
+	{
+		/* do not need as at end of capture and load, an R image is loaded
+		if (! capturing)
+			return;
+			*/
+
+		asteroidsPlot (points_l[points_l.Count -1], startAt, multiplier,
+				marginRightInSeconds, points_l, ref lastShot, ref lastPointUp);
 	}
 }

@@ -123,6 +123,7 @@ public class FeedbackWindow
 	Gtk.SpinButton spinbutton_encoder_power_lower;
 	Gtk.SpinButton spinbutton_encoder_peakpower_lower;
 
+	Gtk.CheckButton check_encoder_show_asteroids;
 
 	Gtk.Button button_test_good;
 	//Gtk.Button button_test_bad;
@@ -192,7 +193,8 @@ public class FeedbackWindow
 	Gtk.CheckButton check_rhythm_rest_reps;
 
 	//forceSensor
-	Gtk.Notebook notebook_force_sensor_feedback;
+	Gtk.Box box_forceSensor_feedback;
+	Gtk.Notebook notebook_capture_feedback;
 	Gtk.Box box_force_sensor_capture_feedback_show;
 	Gtk.CheckButton check_force_sensor_capture_feedback_no;
 	Gtk.RadioButton radio_force_sensor_capture_feedback_show_rectangle;
@@ -214,6 +216,8 @@ public class FeedbackWindow
 	Gtk.SpinButton spin_force_sensor_capture_feedback_asteroids_min;
 	Gtk.CheckButton check_force_sensor_capture_feedback_asteroids_dark;
 	Gtk.SpinButton spin_force_sensor_capture_feedback_asteroids_frequency;
+	Gtk.Label label_feedback_asteroids_min_units;
+	Gtk.Label label_feedback_asteroids_max_units;
 	//questionnaire
 	Gtk.SpinButton spin_force_sensor_capture_feedback_questionnaire_max;
 	Gtk.SpinButton spin_force_sensor_capture_feedback_questionnaire_min;
@@ -239,7 +243,7 @@ public class FeedbackWindow
 	const int ENCODERAUTOPAGE = 1;
 	const int ENCODERMANUALPAGE = 2;
 	const int ENCODERRHYTHMPAGE = 3;
-	const int FORCESENSORPAGE = 4;
+	const int FORCESENSORANDENCODERASTEROIDSPAGE = 4;
 	const int TESTBELLSPAGE = 5;
 	const int RUNSENCODERPAGE = 6;
 
@@ -343,6 +347,7 @@ public class FeedbackWindow
 				preferences.encoderCaptureFeedbackEccon,
 				preferences.encoderCaptureShowLoss,
 				encoderRhythm,
+				preferences.encoderFeedbackAsteroidsActive,
 				preferences.forceSensorCaptureFeedbackActive,
 				preferences.forceSensorCaptureFeedbackAt,
 				preferences.forceSensorCaptureFeedbackRange,
@@ -417,6 +422,7 @@ public class FeedbackWindow
 			Preferences.EncoderPhasesEnum encoderCaptureFeedbackEccon,
 			bool encoderCaptureShowLoss,
 			EncoderRhythm encoderRhythm,
+			bool encoderFeedbackAsteroidsActive,
 			//bool forceSensorCaptureFeedbackActive,
 			Preferences.ForceSensorCaptureFeedbackActiveEnum forceSensorCaptureFeedbackActive,
 			int forceSensorCaptureFeedbackAt,
@@ -445,7 +451,7 @@ public class FeedbackWindow
 		notebook_main.GetNthPage(ENCODERAUTOPAGE).Hide();
 		notebook_main.GetNthPage(ENCODERMANUALPAGE).Hide();
 		notebook_main.GetNthPage(ENCODERRHYTHMPAGE).Hide();
-		notebook_main.GetNthPage(FORCESENSORPAGE).Hide();
+		notebook_main.GetNthPage(FORCESENSORANDENCODERASTEROIDSPAGE).Hide();
 		notebook_main.GetNthPage(TESTBELLSPAGE).Hide();
 		notebook_main.GetNthPage(RUNSENCODERPAGE).Hide();
 		notebook_main.ShowTabs = false;
@@ -560,9 +566,18 @@ public class FeedbackWindow
 			spinbutton_encoder_automatic_lower.Value = encoderCaptureMainVariableLowerValue;
 			update_checkbuttons_encoder_automatic = true;
 
+			box_forceSensor_feedback.Visible = false;
+			check_encoder_show_asteroids.Visible = true;
+			check_encoder_show_asteroids.Active = encoderFeedbackAsteroidsActive;
+			notebook_capture_feedback.Visible = encoderFeedbackAsteroidsActive;
+			notebook_capture_feedback.Page = 2; //asteroids
+			label_feedback_asteroids_min_units.Text = "cm";
+			label_feedback_asteroids_max_units.Text = "cm";
+
 			notebook_main.GetNthPage(ENCODERAUTOPAGE).Show();
 			notebook_main.GetNthPage(ENCODERMANUALPAGE).Show();
 			notebook_main.GetNthPage(ENCODERRHYTHMPAGE).Show();
+			notebook_main.GetNthPage(FORCESENSORANDENCODERASTEROIDSPAGE).Show();
 			notebook_main.GetNthPage(TESTBELLSPAGE).Show();
 			notebook_main.CurrentPage = ENCODERAUTOPAGE;
 			notebook_main.ShowTabs = true;
@@ -575,35 +590,35 @@ public class FeedbackWindow
 			{
 				check_force_sensor_capture_feedback_no.Active = true;
 				box_force_sensor_capture_feedback_show.Visible = false;
-				notebook_force_sensor_feedback.Visible = false;
+				notebook_capture_feedback.Visible = false;
 			}
 			else if(forceSensorCaptureFeedbackActive == Preferences.ForceSensorCaptureFeedbackActiveEnum.RECTANGLE)
 			{
 				radio_force_sensor_capture_feedback_show_rectangle.Active = true;
 				box_force_sensor_capture_feedback_show.Visible = true;
-				notebook_force_sensor_feedback.Visible = true;
-				notebook_force_sensor_feedback.Page = 0;
+				notebook_capture_feedback.Visible = true;
+				notebook_capture_feedback.Page = 0;
 			}
 			else if(forceSensorCaptureFeedbackActive == Preferences.ForceSensorCaptureFeedbackActiveEnum.PATH)
 			{
 				radio_force_sensor_capture_feedback_show_path.Active = true;
 				box_force_sensor_capture_feedback_show.Visible = true;
-				notebook_force_sensor_feedback.Visible = true;
-				notebook_force_sensor_feedback.Page = 1;
+				notebook_capture_feedback.Visible = true;
+				notebook_capture_feedback.Page = 1;
 			}
 			else if(forceSensorCaptureFeedbackActive == Preferences.ForceSensorCaptureFeedbackActiveEnum.ASTEROIDS)
 			{
 				radio_force_sensor_capture_feedback_show_asteroids.Active = true;
 				box_force_sensor_capture_feedback_show.Visible = true;
-				notebook_force_sensor_feedback.Visible = true;
-				notebook_force_sensor_feedback.Page = 2;
+				notebook_capture_feedback.Visible = true;
+				notebook_capture_feedback.Page = 2;
 			}
 			else //if(forceSensorCaptureFeedbackActive == Preferences.ForceSensorCaptureFeedbackActiveEnum.QUESTIONNAIRE)
 			{
 				radio_force_sensor_capture_feedback_show_questionnaire.Active = true;
 				box_force_sensor_capture_feedback_show.Visible = true;
-				notebook_force_sensor_feedback.Visible = true;
-				notebook_force_sensor_feedback.Page = 3;
+				notebook_capture_feedback.Visible = true;
+				notebook_capture_feedback.Page = 3;
 			}
 
 			//rectangle widgets
@@ -638,7 +653,12 @@ public class FeedbackWindow
 			}
 			label_force_sensor_capture_feedback_questionnaire_load_success.Text = "";
 
-			notebook_main.GetNthPage(FORCESENSORPAGE).Show();
+			box_forceSensor_feedback.Visible = true;
+			check_encoder_show_asteroids.Visible = false;
+			label_feedback_asteroids_min_units.Text = "N";
+			label_feedback_asteroids_max_units.Text = "N";
+
+			notebook_main.GetNthPage(FORCESENSORANDENCODERASTEROIDSPAGE).Show();
 		}
 		else if(bellMode == Constants.BellModes.RUNSENCODER)
 		{
@@ -696,6 +716,11 @@ public class FeedbackWindow
 		check_encoder_inertial_ecc_overload_percent.Visible = check_encoder_inertial_ecc_overload.Active;
 		if(! check_encoder_inertial_ecc_overload.Active)
 			check_encoder_inertial_ecc_overload_percent.Active = false;
+	}
+
+	private void on_check_encoder_show_asteroids_clicked (object o, EventArgs args)
+	{
+		notebook_capture_feedback.Visible = check_encoder_show_asteroids.Active;
 	}
 
 	private void putNonStandardIcons() {
@@ -1212,6 +1237,10 @@ public class FeedbackWindow
 				reps_cluster, restClusters);
 	}
 
+	public bool GetEncoderFeedbackAsteroidsActive {
+		get { return check_encoder_show_asteroids.Active; }
+	}
+
 	/* FORCESENSOR */
 
 	private void on_check_force_sensor_capture_feedback_no_toggled (object o, EventArgs args)
@@ -1219,37 +1248,37 @@ public class FeedbackWindow
 		if (check_force_sensor_capture_feedback_no.Active)
 		{
 			box_force_sensor_capture_feedback_show.Visible = false;
-			notebook_force_sensor_feedback.Visible = false;
+			notebook_capture_feedback.Visible = false;
 		} else {
 			box_force_sensor_capture_feedback_show.Visible = true;
-			notebook_force_sensor_feedback.Visible = true;
+			notebook_capture_feedback.Visible = true;
 
 			if (radio_force_sensor_capture_feedback_show_rectangle.Active)
-				notebook_force_sensor_feedback.Page = 0;
+				notebook_capture_feedback.Page = 0;
 			else if (radio_force_sensor_capture_feedback_show_path.Active)
-				notebook_force_sensor_feedback.Page = 1;
+				notebook_capture_feedback.Page = 1;
 			else if (radio_force_sensor_capture_feedback_show_asteroids.Active)
-				notebook_force_sensor_feedback.Page = 2;
+				notebook_capture_feedback.Page = 2;
 			else //if (radio_force_sensor_capture_feedback_show_questionnaire.Active)
-				notebook_force_sensor_feedback.Page = 3;
+				notebook_capture_feedback.Page = 3;
 		}
 	}
 
 	private void on_radio_force_sensor_capture_feedback_show_rectangle_toggled (object o, EventArgs args)
 	{
-		notebook_force_sensor_feedback.Page = 0;
+		notebook_capture_feedback.Page = 0;
 	}
 	private void on_radio_force_sensor_capture_feedback_show_path_toggled (object o, EventArgs args)
 	{
-		notebook_force_sensor_feedback.Page = 1;
+		notebook_capture_feedback.Page = 1;
 	}
 	private void on_radio_force_sensor_capture_feedback_show_asteroids_toggled (object o, EventArgs args)
 	{
-		notebook_force_sensor_feedback.Page = 2;
+		notebook_capture_feedback.Page = 2;
 	}
 	private void on_radio_force_sensor_capture_feedback_show_questionnaire_toggled (object o, EventArgs args)
 	{
-		notebook_force_sensor_feedback.Page = 3;
+		notebook_capture_feedback.Page = 3;
 	}
 
 	public Preferences.ForceSensorCaptureFeedbackActiveEnum GetForceSensorFeedback {
@@ -1827,6 +1856,7 @@ public class FeedbackWindow
 		spinbutton_encoder_power_lower = (Gtk.SpinButton) builder.GetObject ("spinbutton_encoder_power_lower");
 		spinbutton_encoder_peakpower_lower = (Gtk.SpinButton) builder.GetObject ("spinbutton_encoder_peakpower_lower");
 
+		check_encoder_show_asteroids = (Gtk.CheckButton) builder.GetObject ("check_encoder_show_asteroids");
 
 		button_test_good = (Gtk.Button) builder.GetObject ("button_test_good");
 		//button_test_bad = (Gtk.Button) builder.GetObject ("button_test_bad");
@@ -1896,7 +1926,8 @@ public class FeedbackWindow
 		check_rhythm_rest_reps = (Gtk.CheckButton) builder.GetObject ("check_rhythm_rest_reps");
 
 		//forceSensor
-		notebook_force_sensor_feedback = (Gtk.Notebook) builder.GetObject ("notebook_force_sensor_feedback");
+		box_forceSensor_feedback = (Gtk.Box) builder.GetObject ("box_forceSensor_feedback");
+		notebook_capture_feedback = (Gtk.Notebook) builder.GetObject ("notebook_capture_feedback");
 		box_force_sensor_capture_feedback_show = (Gtk.Box) builder.GetObject ("box_force_sensor_capture_feedback_show");
 		check_force_sensor_capture_feedback_no = (Gtk.CheckButton) builder.GetObject ("check_force_sensor_capture_feedback_no");
 		radio_force_sensor_capture_feedback_show_rectangle = (Gtk.RadioButton) builder.GetObject ("radio_force_sensor_capture_feedback_show_rectangle");
@@ -1918,6 +1949,8 @@ public class FeedbackWindow
 		spin_force_sensor_capture_feedback_asteroids_min = (Gtk.SpinButton) builder.GetObject ("spin_force_sensor_capture_feedback_asteroids_min");
 		check_force_sensor_capture_feedback_asteroids_dark = (Gtk.CheckButton) builder.GetObject ("check_force_sensor_capture_feedback_asteroids_dark");
 		spin_force_sensor_capture_feedback_asteroids_frequency = (Gtk.SpinButton) builder.GetObject ("spin_force_sensor_capture_feedback_asteroids_frequency");
+		label_feedback_asteroids_min_units = (Gtk.Label) builder.GetObject ("label_feedback_asteroids_min_units");
+		label_feedback_asteroids_max_units = (Gtk.Label) builder.GetObject ("label_feedback_asteroids_max_units");
 		//questionnaire
 		spin_force_sensor_capture_feedback_questionnaire_max = (Gtk.SpinButton) builder.GetObject ("spin_force_sensor_capture_feedback_questionnaire_max");
 		spin_force_sensor_capture_feedback_questionnaire_min = (Gtk.SpinButton) builder.GetObject ("spin_force_sensor_capture_feedback_questionnaire_min");

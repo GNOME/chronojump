@@ -8745,6 +8745,13 @@ LogB.Debug("mc finished 5");
 					preferences.encoderCaptureShowLoss,
 					feedbackWin.EncoderCaptureShowLoss);
 
+			bool encoderFeedbackAsteroidsActive = feedbackWin.GetEncoderFeedbackAsteroidsActive;
+			if(preferences.encoderFeedbackAsteroidsActive != encoderFeedbackAsteroidsActive)
+			{
+				//SqlitePreferences.Update(SqlitePreferences.ForceSensorFeedbackAsteroidsDark, encoderFeedbackAsteroidsActive.ToString(), false); //TODO
+				preferences.encoderFeedbackAsteroidsActive = encoderFeedbackAsteroidsActive;
+			}
+
 			Sqlite.Close(); // <------
 
 			// 3) Update treeview and graphs
@@ -8766,6 +8773,7 @@ LogB.Debug("mc finished 5");
 					//plotCurvesGraphDoPlot(mainVariableStr, mainVariableHigher, mainVariableLower,
 
 					//Cairo
+					LogB.Information ("Called prepareEventGraphBarplotEncoder at on_feedback_closed Plot capturing: false");
 					prepareEventGraphBarplotEncoder = new PrepareEventGraphBarplotEncoder (
 							mainVariableStr, mainVariableHigher, mainVariableLower,
 							secondaryVariableStr, preferences.encoderCaptureShowLoss,
@@ -8868,36 +8876,6 @@ LogB.Debug("mc finished 5");
 					preferences.forceSensorFeedbackPathLineWidth = feedbackPathLineWidth;
 				}
 			}
-			else if(feedbackActive == Preferences.ForceSensorCaptureFeedbackActiveEnum.ASTEROIDS)
-			{
-				int feedbackAsteroidsMax = feedbackWin.GetForceSensorFeedbackAsteroidsMax;
-				if(preferences.forceSensorFeedbackAsteroidsMax != feedbackAsteroidsMax)
-				{
-					//SqlitePreferences.Update(SqlitePreferences.ForceSensorFeedbackAsteroidsMax, feedbackAsteroidsMax.ToString(), false); //TODO
-					preferences.forceSensorFeedbackAsteroidsMax = feedbackAsteroidsMax;
-				}
-
-				int feedbackAsteroidsMin = feedbackWin.GetForceSensorFeedbackAsteroidsMin;
-				if(preferences.forceSensorFeedbackAsteroidsMin != feedbackAsteroidsMin)
-				{
-					//SqlitePreferences.Update(SqlitePreferences.ForceSensorFeedbackAsteroidsMin, feedbackAsteroidsMin.ToString(), false); //TODO
-					preferences.forceSensorFeedbackAsteroidsMin = feedbackAsteroidsMin;
-				}
-
-				bool forceSensorFeedbackAsteroidsDark = feedbackWin.GetForceSensorFeedbackAsteroidsDark;
-				if(preferences.forceSensorFeedbackAsteroidsDark != forceSensorFeedbackAsteroidsDark)
-				{
-					//SqlitePreferences.Update(SqlitePreferences.ForceSensorFeedbackAsteroidsDark, forceSensorFeedbackAsteroidsDark.ToString(), false); //TODO
-					preferences.forceSensorFeedbackAsteroidsDark = forceSensorFeedbackAsteroidsDark;
-				}
-
-				int forceSensorFeedbackAsteroidsFrequency = feedbackWin.GetForceSensorFeedbackAsteroidsFrequency;
-				if(preferences.forceSensorFeedbackAsteroidsFrequency != forceSensorFeedbackAsteroidsFrequency)
-				{
-					//SqlitePreferences.Update(SqlitePreferences.ForceSensorFeedbackAsteroidsFrequency, forceSensorFeedbackAsteroidsFrequency.ToString(), false); //TODO
-					preferences.forceSensorFeedbackAsteroidsFrequency = forceSensorFeedbackAsteroidsFrequency;
-				}
-			}
 			else if(feedbackActive == Preferences.ForceSensorCaptureFeedbackActiveEnum.QUESTIONNAIRE)
 			{
 				int feedbackQuestionnaireMax = feedbackWin.GetForceSensorFeedbackQuestionnaireMax;
@@ -8936,6 +8914,40 @@ LogB.Debug("mc finished 5");
 			drawingarea_race_analyzer_capture_position_time.QueueDraw ();
 			drawingarea_race_analyzer_capture_speed_time.QueueDraw ();
 			drawingarea_race_analyzer_capture_accel_time.QueueDraw ();
+		}
+
+		//asteroids is for forceSensor and for encoder
+		if ( (Constants.ModeIsENCODER (m) && preferences.encoderFeedbackAsteroidsActive) ||
+				(Constants.ModeIsFORCESENSOR (m) &&
+				 preferences.forceSensorCaptureFeedbackActive == Preferences.ForceSensorCaptureFeedbackActiveEnum.ASTEROIDS) )
+		{
+			int feedbackAsteroidsMax = feedbackWin.GetForceSensorFeedbackAsteroidsMax;
+			if(preferences.forceSensorFeedbackAsteroidsMax != feedbackAsteroidsMax)
+			{
+				//SqlitePreferences.Update(SqlitePreferences.ForceSensorFeedbackAsteroidsMax, feedbackAsteroidsMax.ToString(), false); //TODO
+				preferences.forceSensorFeedbackAsteroidsMax = feedbackAsteroidsMax;
+			}
+
+			int feedbackAsteroidsMin = feedbackWin.GetForceSensorFeedbackAsteroidsMin;
+			if(preferences.forceSensorFeedbackAsteroidsMin != feedbackAsteroidsMin)
+			{
+				//SqlitePreferences.Update(SqlitePreferences.ForceSensorFeedbackAsteroidsMin, feedbackAsteroidsMin.ToString(), false); //TODO
+				preferences.forceSensorFeedbackAsteroidsMin = feedbackAsteroidsMin;
+			}
+
+			bool forceSensorFeedbackAsteroidsDark = feedbackWin.GetForceSensorFeedbackAsteroidsDark;
+			if(preferences.forceSensorFeedbackAsteroidsDark != forceSensorFeedbackAsteroidsDark)
+			{
+				//SqlitePreferences.Update(SqlitePreferences.ForceSensorFeedbackAsteroidsDark, forceSensorFeedbackAsteroidsDark.ToString(), false); //TODO
+				preferences.forceSensorFeedbackAsteroidsDark = forceSensorFeedbackAsteroidsDark;
+			}
+
+			int forceSensorFeedbackAsteroidsFrequency = feedbackWin.GetForceSensorFeedbackAsteroidsFrequency;
+			if(preferences.forceSensorFeedbackAsteroidsFrequency != forceSensorFeedbackAsteroidsFrequency)
+			{
+				//SqlitePreferences.Update(SqlitePreferences.ForceSensorFeedbackAsteroidsFrequency, forceSensorFeedbackAsteroidsFrequency.ToString(), false); //TODO
+				preferences.forceSensorFeedbackAsteroidsFrequency = forceSensorFeedbackAsteroidsFrequency;
+			}
 		}
 	}
 

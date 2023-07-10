@@ -314,6 +314,7 @@ public class Preferences
 	public enum EncoderPhasesEnum { BOTH, ECC, CON}
 	public EncoderPhasesEnum encoderCaptureFeedbackEccon;
 	public bool encoderCaptureShowLoss;
+	public bool encoderFeedbackAsteroidsActive;
 
 	//forceSensor
 	public string forceSensorTareDateTime;
@@ -339,7 +340,7 @@ public class Preferences
 	public int forceSensorFeedbackPathMasters;
 	public int forceSensorFeedbackPathMasterSeconds;
 	public int forceSensorFeedbackPathLineWidth;
-	//asteroiods
+	//asteroiods (TODO: as they are used also for encoder, remove "forceSensor")
 	public int forceSensorFeedbackAsteroidsMax = 100;
 	public int forceSensorFeedbackAsteroidsMin = 0;
 	public bool forceSensorFeedbackAsteroidsDark = true;

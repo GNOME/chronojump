@@ -1047,6 +1047,7 @@ public partial class ChronoJumpWindow
 					preferences.forceSensorFeedbackAsteroidsMin * 10, //cm to mm
 					preferences.forceSensorFeedbackAsteroidsDark,
 					preferences.forceSensorFeedbackAsteroidsFrequency,
+					preferences.forceSensorFeedbackShotsFrequency,
 					false); //not micros (encoder goes in millis)
 
 		encoderThreadStart(encoderActions.CAPTURE);

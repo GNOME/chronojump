@@ -984,7 +984,7 @@ public abstract class CairoXY : CairoGeneric
 
 		g.SetFontSize (textHeight);
 
-		if (points_l.Count > 3 && lastPoint.X >= lastShot + multiplier)
+		if (points_l.Count > 3 && lastPoint.X >= lastShot + UtilAll.DivideSafe (multiplier, asteroids.ShotsFrequency))
 		{
 			//create new shot
 			asteroids.Shot (lastPoint);

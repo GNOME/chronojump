@@ -8916,7 +8916,7 @@ LogB.Debug("mc finished 5");
 			drawingarea_race_analyzer_capture_accel_time.QueueDraw ();
 		}
 
-		//asteroids is for forceSensor and for encoder
+		//asteroids is for forceSensor and for encoder. TODO: So better remove the "forceSensor"
 		if ( (Constants.ModeIsENCODER (m) && preferences.encoderFeedbackAsteroidsActive) ||
 				(Constants.ModeIsFORCESENSOR (m) &&
 				 preferences.forceSensorCaptureFeedbackActive == Preferences.ForceSensorCaptureFeedbackActiveEnum.ASTEROIDS) )
@@ -8947,6 +8947,13 @@ LogB.Debug("mc finished 5");
 			{
 				//SqlitePreferences.Update(SqlitePreferences.ForceSensorFeedbackAsteroidsFrequency, forceSensorFeedbackAsteroidsFrequency.ToString(), false); //TODO
 				preferences.forceSensorFeedbackAsteroidsFrequency = forceSensorFeedbackAsteroidsFrequency;
+			}
+
+			int forceSensorFeedbackShotsFrequency = feedbackWin.GetForceSensorFeedbackShotsFrequency;
+			if(preferences.forceSensorFeedbackShotsFrequency != forceSensorFeedbackShotsFrequency)
+			{
+				//SqlitePreferences.Update(SqlitePreferences.ForceSensorFeedbackShotsFrequency, forceSensorFeedbackShotsFrequency.ToString(), false); //TODO
+				preferences.forceSensorFeedbackShotsFrequency = forceSensorFeedbackShotsFrequency;
 			}
 		}
 	}

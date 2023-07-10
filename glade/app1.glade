@@ -809,6 +809,7 @@
     <property name="default-width">800</property>
     <property name="default-height">480</property>
     <signal name="delete-event" handler="on_delete_event" swapped="no"/>
+    <signal name="window-state-event" handler="on_app1_window_state_event" swapped="no"/>
     <child>
       <object class="GtkVBox" id="vbox69">
         <property name="visible">True</property>
@@ -22622,6 +22623,9 @@ Concentric</property>
                                                             <property name="left-attach">3</property>
                                                             <property name="right-attach">4</property>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>

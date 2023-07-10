@@ -407,7 +407,7 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 			marginRightInSeconds = Convert.ToInt32 (.66 * showLastSeconds); //show in left third of image (to have time/space to answer)
 
 		if (showLastSeconds > 0 && points_l.Count > 1)
-			startAt = configureTimeWindow (showLastSeconds, marginRightInSeconds);
+			startAt = configureTimeWindow (points_l, showLastSeconds, marginRightInSeconds, 1000000);
 
 		// paint points and maybe interpolated path
 		if(maxValuesChanged || forceRedraw || points_l.Count != points_l_painted)
@@ -418,21 +418,6 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 			paintTriggers (points_l, triggerList);
 
 		return true;
-	}
-
-	//for signals like forceSensor where points_l.X is time in microseconds and there is not a sample for each second (like encoder)
-	private int configureTimeWindow (int seconds, int rightMarginSeconds)
-	{
-		double lastTime = points_l[points_l.Count -1].X; //micros
-
-		absoluteMaxX = lastTime + rightMarginSeconds * 1000000;
-		if (absoluteMaxX < seconds * 1000000)
-			absoluteMaxX = seconds * 1000000;
-
-		int startAt = PointF.FindSampleAtTimeToEnd (points_l, (seconds -rightMarginSeconds) * 1000000); //s to micros
-		minX = points_l[startAt].X;
-
-		return startAt;
 	}
 
 	private void doPlot (PlotTypes plotType)

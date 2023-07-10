@@ -903,6 +903,22 @@ public abstract class CairoXY : CairoGeneric
 		g.Stroke();
 	}
 
+	// Thought for signals like forceSensor where points_l.X is time in microseconds and there is not a sample for each second
+	// but it is also used on encoder
+	protected int configureTimeWindow (List<PointF> points_l, int seconds, int rightMarginSeconds, int multiplier)
+	{
+		double lastTime = points_l[points_l.Count -1].X;
+
+		absoluteMaxX = lastTime + rightMarginSeconds * multiplier;
+		if (absoluteMaxX < seconds * multiplier)
+			absoluteMaxX = seconds * multiplier;
+
+		int startAt = PointF.FindSampleAtTimeToEnd (points_l, (seconds -rightMarginSeconds) * multiplier);
+		minX = points_l[startAt].X;
+
+		return startAt;
+	}
+
 	protected Asteroids asteroids;
 
 	//to be able to call from forceSensor and from encoder

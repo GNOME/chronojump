@@ -903,4 +903,78 @@ public abstract class CairoXY : CairoGeneric
 		g.Stroke();
 	}
 
+	protected Asteroids asteroids;
+
+	//to be able to call from forceSensor and from encoder
+	protected void asteroidsPlot (PointF lastPoint, int startAt, int multiplier,
+			int marginRightInSeconds, List<PointF> points_l, ref double lastShot, ref double lastPointUp)
+	{
+		// paint asteroids and manage crashes
+		List<Asteroid> aPaintable_l = asteroids.GetAllAsteroidsPaintable (lastPoint.X, marginRightInSeconds);
+		List<Point3F> aPainted_l = new List <Point3F> ();
+		foreach (Asteroid a in aPaintable_l)
+		{
+			double ax = graphWidth - (a.GetTimeNowProportion (lastPoint.X, marginRightInSeconds) *
+					(graphWidth -getMargins (Directions.LR)) + getMargins (Directions.L));
+			double ay = calculatePaintY (a.GetYNow (lastPoint.X, marginRightInSeconds));
+
+			drawCircle (ax, ay, a.Size, a.Color, true);
+
+			if (asteroids.DoesAsteroidCrashedWithPlayer (ax, ay, a.Size,
+					calculatePaintX (lastPoint.X), calculatePaintY (lastPoint.Y)))
+			{
+				asteroids.AsteroidCrashedWithPlayerSetTime (lastPoint.X);
+				//crashedPaintOutRectangle ();
+				a.Destroy ();
+				asteroids.Points -= 20;
+			}
+
+			aPainted_l.Add (new Point3F (ax, ay, a.Size));
+		}
+
+		//manage shots
+		foreach (Shot s in asteroids.GetAllShotsPaintable (lastPoint.X))
+		{
+			//maybe do this in previous bucle
+			double sx = calculatePaintX (s.GetXNow (lastPoint.X));
+			double sy = calculatePaintY (s.Ystart);
+			//LogB.Information (string.Format ("shot: {0}, {1}", sx, sy));
+
+			if (asteroids.ShotCrashedWithAsteroid (sx, sy, s.Size, aPaintable_l, aPainted_l))
+			{
+				asteroids.Points += 5;
+				s.Alive = false;
+			} else
+				asteroids.PaintShot (s, sx, sy, lastPoint.X, g);
+		}
+
+		//add 1 point each s
+		if (lastPoint.X >= lastPointUp + multiplier)
+		{
+			asteroids.Points ++;
+			lastPointUp = lastPoint.X;
+		}
+
+		// print points
+		g.SetFontSize (textHeight +8);
+
+		if (asteroids.Dark)
+			g.SetSourceColor (white);
+		else
+			g.SetSourceColor (black);
+
+		printText (graphWidth -rightMargin -innerMargin, topMargin/2, 0, textHeight +4,
+				"Points: " + asteroids.Points.ToString (), g, alignTypes.RIGHT);
+
+		g.SetFontSize (textHeight);
+
+		if (points_l.Count > 3 && lastPoint.X >= lastShot + multiplier)
+		{
+			//create new shot
+			asteroids.Shot (lastPoint);
+			lastShot = lastPoint.X;
+		}
+
+		asteroids.PaintShip (calculatePaintX (lastPoint.X), calculatePaintY (lastPoint.Y), lastPoint.X, g);
+	}
 }

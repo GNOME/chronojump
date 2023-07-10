@@ -1333,7 +1333,8 @@ public partial class ChronoJumpWindow
 				preferences.forceSensorFeedbackAsteroidsMax,
 				preferences.forceSensorFeedbackAsteroidsMin,
 				preferences.forceSensorFeedbackAsteroidsDark,
-				preferences.forceSensorFeedbackAsteroidsFrequency);
+				preferences.forceSensorFeedbackAsteroidsFrequency,
+				true); //micros
 
 		//LogB.Information("pre bucle");
 		//LogB.Information(string.Format("forceProcessFinish: {0}, forceProcessCancel: {1}, forceProcessError: {2}", forceProcessFinish, forceProcessCancel, forceProcessError));
@@ -2505,7 +2506,7 @@ LogB.Information(" fs R ");
 			if (preferences.forceSensorCaptureFeedbackActive ==
 					Preferences.ForceSensorCaptureFeedbackActiveEnum.ASTEROIDS)
 				cairoGraphForceSensorSignal = new CairoGraphForceSensorSignalAsteroids (
-						da, "title");
+						da, "title", true);
 			else if (preferences.forceSensorCaptureFeedbackActive ==
 					Preferences.ForceSensorCaptureFeedbackActiveEnum.QUESTIONNAIRE)
 				cairoGraphForceSensorSignal = new CairoGraphForceSensorSignalQuestionnaire (

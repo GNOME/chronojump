@@ -6238,10 +6238,12 @@ public partial class ChronoJumpWindow
 		{
 			if (preferences.encoderFeedbackAsteroidsActive)
 				cairoGraphEncoderSignal = new CairoGraphEncoderSignalAsteroids (
-						encoder_capture_signal_drawingarea_cairo, "title");
+						encoder_capture_signal_drawingarea_cairo, "title",
+						preferences.signalDirectionHorizontal);
 			else
 				cairoGraphEncoderSignal = new CairoGraphEncoderSignal (
-						encoder_capture_signal_drawingarea_cairo, "title");
+						encoder_capture_signal_drawingarea_cairo, "title",
+						preferences.signalDirectionHorizontal);
 		}
 
 		if (preferences.encoderFeedbackAsteroidsActive)

@@ -2507,7 +2507,7 @@ LogB.Information(" fs R ");
 			if (preferences.forceSensorCaptureFeedbackActive ==
 					Preferences.ForceSensorCaptureFeedbackActiveEnum.ASTEROIDS)
 				cairoGraphForceSensorSignal = new CairoGraphForceSensorSignalAsteroids (
-						da, "title", true);
+						da, "title");
 			else if (preferences.forceSensorCaptureFeedbackActive ==
 					Preferences.ForceSensorCaptureFeedbackActiveEnum.QUESTIONNAIRE)
 				cairoGraphForceSensorSignal = new CairoGraphForceSensorSignalQuestionnaire (

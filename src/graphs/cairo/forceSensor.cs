@@ -609,13 +609,10 @@ public class CairoGraphForceSensorSignalAsteroids : CairoGraphForceSensorSignal
 	private double lastPointUp; //each s 1 point up
 	private int multiplier;
 
-	public CairoGraphForceSensorSignalAsteroids (DrawingArea area, string title, bool micros)
+	public CairoGraphForceSensorSignalAsteroids (DrawingArea area, string title)
 	{
 		initForceSensor (area, title);
-		if (micros)
-			multiplier = 1000000; //forceSensor
-		else
-			multiplier = 1000; //encoder
+		multiplier = 1000000; //forceSensor
 
 		lastShot = 0;
 		lastPointUp = 0; //each s 1 point up

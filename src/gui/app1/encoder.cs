@@ -6238,7 +6238,7 @@ public partial class ChronoJumpWindow
 		{
 			if (preferences.encoderFeedbackAsteroidsActive)
 				cairoGraphEncoderSignal = new CairoGraphEncoderSignalAsteroids (
-						encoder_capture_signal_drawingarea_cairo, "title", false);
+						encoder_capture_signal_drawingarea_cairo, "title");
 			else
 				cairoGraphEncoderSignal = new CairoGraphEncoderSignal (
 						encoder_capture_signal_drawingarea_cairo, "title");

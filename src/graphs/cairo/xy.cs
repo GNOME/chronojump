@@ -923,16 +923,31 @@ public abstract class CairoXY : CairoGeneric
 
 	//to be able to call from forceSensor and from encoder
 	protected void asteroidsPlot (PointF lastPoint, int startAt, int multiplier,
-			int marginRightInSeconds, List<PointF> points_l, ref double lastShot, ref double lastPointUp)
+			int marginRightInSeconds, List<PointF> points_l, bool horizontal,
+			ref double lastShot, ref double lastPointUp)
 	{
 		// paint asteroids and manage crashes
-		List<Asteroid> aPaintable_l = asteroids.GetAllAsteroidsPaintable (lastPoint.X, marginRightInSeconds);
+		List<Asteroid> aPaintable_l;
+		if (horizontal)
+			aPaintable_l = asteroids.GetAllAsteroidsPaintable (lastPoint.X, marginRightInSeconds);
+		else
+			aPaintable_l = asteroids.GetAllAsteroidsPaintable (lastPoint.Y, marginRightInSeconds);
+
 		List<Point3F> aPainted_l = new List <Point3F> ();
+		double ax;
+		double ay;
 		foreach (Asteroid a in aPaintable_l)
 		{
-			double ax = graphWidth - (a.GetTimeNowProportion (lastPoint.X, marginRightInSeconds) *
-					(graphWidth -getMargins (Directions.LR)) + getMargins (Directions.L));
-			double ay = calculatePaintY (a.GetYNow (lastPoint.X, marginRightInSeconds));
+			if (horizontal)
+			{
+				ax = graphWidth - (a.GetTimeNowProportion (lastPoint.X, marginRightInSeconds) *
+						(graphWidth -getMargins (Directions.LR)) + getMargins (Directions.L));
+				ay = calculatePaintY (a.GetYNow (lastPoint.X, marginRightInSeconds));
+			} else {
+				ax = calculatePaintX (a.GetYNow (lastPoint.Y, marginRightInSeconds));
+				ay = a.GetTimeNowProportion (lastPoint.Y, marginRightInSeconds) *
+						(graphHeight -getMargins (Directions.BT)) + getMargins (Directions.T);
+			}
 
 			drawCircle (ax, ay, a.Size, a.Color, true);
 
@@ -948,7 +963,7 @@ public abstract class CairoXY : CairoGeneric
 			aPainted_l.Add (new Point3F (ax, ay, a.Size));
 		}
 
-		//manage shots
+		//manage shots //TODO in vertical
 		foreach (Shot s in asteroids.GetAllShotsPaintable (lastPoint.X))
 		{
 			//maybe do this in previous bucle

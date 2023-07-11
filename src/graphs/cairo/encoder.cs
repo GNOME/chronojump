@@ -119,10 +119,18 @@ public class CairoGraphEncoderSignal : CairoXY
 
 			if (asteroids != null)
 			{
-				if (asteroids.MinY < minY)
-					minY = asteroids.MinY;
-				if (asteroids.MaxY > absoluteMaxY)
-					absoluteMaxY = asteroids.MaxY;
+				if (horizontal)
+				{
+					if (asteroids.MinY < minY)
+						minY = asteroids.MinY;
+					if (asteroids.MaxY > absoluteMaxY)
+						absoluteMaxY = asteroids.MaxY;
+				} else {
+					if (asteroids.MinY < minX)
+						minX = asteroids.MinY;
+					if (asteroids.MaxY > absoluteMaxX)
+						absoluteMaxX = asteroids.MaxY;
+				}
 			}
 		}
 
@@ -259,6 +267,7 @@ public class CairoGraphEncoderSignalAsteroids : CairoGraphEncoderSignal
 			*/
 
 		asteroidsPlot (points_l[points_l.Count -1], startAt, multiplier,
-				marginRightInSeconds, points_l, ref lastShot, ref lastPointUp);
+				marginRightInSeconds, points_l, horizontal,
+				ref lastShot, ref lastPointUp);
 	}
 }

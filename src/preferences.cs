@@ -351,6 +351,8 @@ public class Preferences
 	public int forceSensorFeedbackQuestionnaireMin = 0;
 	public int forceSensorFeedbackQuestionnaireN = 10;
 	public string forceSensorFeedbackQuestionnaireFile = ""; //if default will be blank
+	//signal direction
+	public bool signalDirectionHorizontal = true;
 
 	public int encoderCaptureTimeIM = 180; //hardcoded 3 minutes.
 

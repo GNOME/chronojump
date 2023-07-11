@@ -244,7 +244,7 @@ public class FeedbackWindow
 	const int ENCODERAUTOPAGE = 1;
 	const int ENCODERMANUALPAGE = 2;
 	const int ENCODERRHYTHMPAGE = 3;
-	const int FORCESENSORANDENCODERASTEROIDSPAGE = 4;
+	const int SIGNALPAGE = 4;
 	const int TESTBELLSPAGE = 5;
 	const int RUNSENCODERPAGE = 6;
 
@@ -454,7 +454,7 @@ public class FeedbackWindow
 		notebook_main.GetNthPage(ENCODERAUTOPAGE).Hide();
 		notebook_main.GetNthPage(ENCODERMANUALPAGE).Hide();
 		notebook_main.GetNthPage(ENCODERRHYTHMPAGE).Hide();
-		notebook_main.GetNthPage(FORCESENSORANDENCODERASTEROIDSPAGE).Hide();
+		notebook_main.GetNthPage(SIGNALPAGE).Hide();
 		notebook_main.GetNthPage(TESTBELLSPAGE).Hide();
 		notebook_main.GetNthPage(RUNSENCODERPAGE).Hide();
 		notebook_main.ShowTabs = false;
@@ -580,7 +580,7 @@ public class FeedbackWindow
 			notebook_main.GetNthPage(ENCODERAUTOPAGE).Show();
 			notebook_main.GetNthPage(ENCODERMANUALPAGE).Show();
 			notebook_main.GetNthPage(ENCODERRHYTHMPAGE).Show();
-			notebook_main.GetNthPage(FORCESENSORANDENCODERASTEROIDSPAGE).Show();
+			notebook_main.GetNthPage(SIGNALPAGE).Show();
 			notebook_main.GetNthPage(TESTBELLSPAGE).Show();
 			notebook_main.CurrentPage = ENCODERAUTOPAGE;
 			notebook_main.ShowTabs = true;
@@ -662,7 +662,7 @@ public class FeedbackWindow
 			label_feedback_asteroids_min_units.Text = "N";
 			label_feedback_asteroids_max_units.Text = "N";
 
-			notebook_main.GetNthPage(FORCESENSORANDENCODERASTEROIDSPAGE).Show();
+			notebook_main.GetNthPage(SIGNALPAGE).Show();
 		}
 		else if(bellMode == Constants.BellModes.RUNSENCODER)
 		{

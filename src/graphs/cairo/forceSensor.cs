@@ -624,7 +624,9 @@ public class CairoGraphForceSensorSignalAsteroids : CairoGraphForceSensorSignal
 			return;
 
 		asteroidsPlot (points_l[points_l.Count -1], startAt, multiplier,
-				marginRightInSeconds, points_l, ref lastShot, ref lastPointUp);
+				//marginRightInSeconds, points_l, horizontal,
+				marginRightInSeconds, points_l, true,
+				ref lastShot, ref lastPointUp);
 	}
 }
 
@@ -1368,7 +1370,7 @@ public class Asteroids
 	private int multiplier;
 	private Cairo.Color bluePlots = new Cairo.Color (0, 0, .78, 1);
 	private Cairo.Color gray = new Cairo.Color (.5, .5, .5, 1);
-	private Cairo.Color white = new Cairo.Color (1, 1, 1, 1);
+	//private Cairo.Color white = new Cairo.Color (1, 1, 1, 1);
 	private Cairo.Color yellow = new Cairo.Color (0.906, 0.745, 0.098, 1);
 	private Cairo.Color redDark = new Cairo.Color (0.55, 0, 0, 1);
 
@@ -1403,6 +1405,13 @@ public class Asteroids
 						micros
 						));
 		}
+
+		/*
+		//debug with just one
+		asteroid_l.Add (new Asteroid (10 * multiplier, -50, 5 * multiplier, +50,
+					50, createAsteroidColor (), micros));
+					*/
+
 	}
 
 	public List<Asteroid> GetAllAsteroidsPaintable (double startAtPointX, int marginRightInSeconds)

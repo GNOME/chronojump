@@ -22873,6 +22873,12 @@ Concentric</property>
                                                             <child>
                                                             <placeholder/>
                                                             </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
                                                             </object>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -33319,6 +33325,11 @@ Concentric</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="position">200</property>
                                                             <child>
+                                                            <object class="GtkPaned">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">True</property>
+                                                            <property name="vexpand">True</property>
+                                                            <child>
                                                             <object class="GtkAlignment" id="alignment_encoder_capture_curves_bars_drawingarea">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
@@ -33417,6 +33428,26 @@ Concentric</property>
                                                             </packing>
                                                             </child>
                                                             <child>
+                                                            <object class="GtkBox" id="box_encoder_capture_signal_vertical">
+                                                            <property name="can-focus">False</property>
+                                                            <property name="hexpand">True</property>
+                                                            <property name="vexpand">True</property>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="resize">True</property>
+                                                            <property name="shrink">False</property>
+                                                            </packing>
+                                                            </child>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="resize">True</property>
+                                                            <property name="shrink">False</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
                                                             <object class="GtkHPaned" id="hpaned1">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">True</property>
@@ -33496,9 +33527,14 @@ Concentric</property>
                                                             </packing>
                                                             </child>
                                                             <child>
+                                                            <object class="GtkBox" id="box_encoder_capture_signal_horizontal">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <child>
                                                             <object class="GtkAlignment" id="alignment_encoder_capture_signal">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
+                                                            <property name="hexpand">True</property>
                                                             <property name="top-padding">4</property>
                                                             <property name="left-padding">4</property>
                                                             <child>
@@ -33628,6 +33664,13 @@ Concentric</property>
                                                             </packing>
                                                             </child>
                                                             </object>
+                                                            </child>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
                                                             </child>
                                                             </object>
                                                             <packing>

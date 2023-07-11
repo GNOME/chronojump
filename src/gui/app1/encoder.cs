@@ -341,6 +341,8 @@ public partial class ChronoJumpWindow
 	Gtk.TreeView treeview_encoder_analyze_curves;
 	Gtk.SpinButton spin_encoder_capture_curves_best_n;
 
+	Gtk.Box box_encoder_capture_signal_horizontal;
+	Gtk.Box box_encoder_capture_signal_vertical;
 	Gtk.DrawingArea encoder_capture_signal_drawingarea_cairo;
 	Gtk.DrawingArea encoder_capture_curves_bars_drawingarea_cairo;
 	Gtk.DrawingArea drawingarea_encoder_analyze_instant;
@@ -1437,9 +1439,7 @@ public partial class ChronoJumpWindow
 		hbox_encoder_capture_show_need_one.Visible =
 			! (check_encoder_capture_bars.Active || check_encoder_capture_table.Active || check_encoder_capture_signal.Active);
 
-		if(check_encoder_capture_bars.Active && ! check_encoder_capture_table.Active &&
-				! check_encoder_capture_signal.Active)
-			GLib.Timeout.Add(50, new GLib.TimeoutHandler(encoderBarsHeight));
+		fixEncoderCaptureWidgetsGeometry ();
 
 		/*
 		   update the preferences variable
@@ -1451,7 +1451,19 @@ public partial class ChronoJumpWindow
 				check_encoder_capture_table.Active,
 				check_encoder_capture_bars.Active);
 	}
-	private bool encoderBarsHeight () //done later in order to have table and/or signal hidden
+
+	private void fixEncoderCaptureWidgetsGeometry ()
+	{
+		//if(check_encoder_capture_bars.Active && ! check_encoder_capture_table.Active &&
+		//		! check_encoder_capture_signal.Active)
+
+		if (! check_encoder_capture_table.Active &&
+				(preferences.signalDirectionHorizontal && ! check_encoder_capture_signal.Active) ||
+				! preferences.signalDirectionHorizontal )
+			GLib.Timeout.Add (50, new GLib.TimeoutHandler (encoder1stRowAllHeight));
+	}
+
+	private bool encoder1stRowAllHeight () //done later in order to have table and/or signal hidden
 	{
 		vpaned_encoder_main.Position = vpaned_encoder_main.MaxPosition;
 		return false;
@@ -8423,6 +8435,8 @@ public partial class ChronoJumpWindow
 		treeview_encoder_analyze_curves = (Gtk.TreeView) builder.GetObject ("treeview_encoder_analyze_curves");
 		spin_encoder_capture_curves_best_n = (Gtk.SpinButton) builder.GetObject ("spin_encoder_capture_curves_best_n");
 
+		box_encoder_capture_signal_horizontal = (Gtk.Box) builder.GetObject ("box_encoder_capture_signal_horizontal");
+		box_encoder_capture_signal_vertical = (Gtk.Box) builder.GetObject ("box_encoder_capture_signal_vertical");
 		encoder_capture_signal_drawingarea_cairo = (Gtk.DrawingArea) builder.GetObject ("encoder_capture_signal_drawingarea_cairo");
 		encoder_capture_curves_bars_drawingarea_cairo = (Gtk.DrawingArea) builder.GetObject ("encoder_capture_curves_bars_drawingarea_cairo");
 		drawingarea_encoder_analyze_instant = (Gtk.DrawingArea) builder.GetObject ("drawingarea_encoder_analyze_instant");

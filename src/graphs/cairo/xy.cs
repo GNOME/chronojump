@@ -926,26 +926,25 @@ public abstract class CairoXY : CairoGeneric
 			int marginRightInSeconds, List<PointF> points_l, bool horizontal,
 			ref double lastShot, ref double lastPointUp)
 	{
+		double lastPointDate = lastPoint.X;
+		if (! horizontal)
+			lastPointDate = lastPoint.Y;
+
 		// paint asteroids and manage crashes
-		List<Asteroid> aPaintable_l;
-		if (horizontal)
-			aPaintable_l = asteroids.GetAllAsteroidsPaintable (lastPoint.X, marginRightInSeconds);
-		else
-			aPaintable_l = asteroids.GetAllAsteroidsPaintable (lastPoint.Y, marginRightInSeconds);
+		List<Asteroid> aPaintable_l = asteroids.GetAllAsteroidsPaintable (lastPointDate, marginRightInSeconds);
 
 		List<Point3F> aPainted_l = new List <Point3F> ();
-		double ax;
-		double ay;
+		double ax, ay;
 		foreach (Asteroid a in aPaintable_l)
 		{
 			if (horizontal)
 			{
-				ax = graphWidth - (a.GetTimeNowProportion (lastPoint.X, marginRightInSeconds) *
+				ax = graphWidth - (a.GetTimeNowProportion (lastPointDate, marginRightInSeconds) *
 						(graphWidth -getMargins (Directions.LR)) + getMargins (Directions.L));
-				ay = calculatePaintY (a.GetYNow (lastPoint.X, marginRightInSeconds));
+				ay = calculatePaintY (a.GetYNow (lastPointDate, marginRightInSeconds));
 			} else {
-				ax = calculatePaintX (a.GetYNow (lastPoint.Y, marginRightInSeconds));
-				ay = a.GetTimeNowProportion (lastPoint.Y, marginRightInSeconds) *
+				ax = calculatePaintX (a.GetYNow (lastPointDate, marginRightInSeconds));
+				ay = a.GetTimeNowProportion (lastPointDate, marginRightInSeconds) *
 						(graphHeight -getMargins (Directions.BT)) + getMargins (Directions.T);
 			}
 
@@ -955,7 +954,6 @@ public abstract class CairoXY : CairoGeneric
 					calculatePaintX (lastPoint.X), calculatePaintY (lastPoint.Y)))
 			{
 				asteroids.AsteroidCrashedWithPlayerSetTime (lastPoint.X);
-				//crashedPaintOutRectangle ();
 				a.Destroy ();
 				asteroids.Points -= 20;
 			}
@@ -963,12 +961,18 @@ public abstract class CairoXY : CairoGeneric
 			aPainted_l.Add (new Point3F (ax, ay, a.Size));
 		}
 
-		//manage shots //TODO in vertical
-		foreach (Shot s in asteroids.GetAllShotsPaintable (lastPoint.X))
+		double sx, sy;
+		//manage shots
+		foreach (Shot s in asteroids.GetAllShotsPaintable (lastPointDate))
 		{
-			//maybe do this in previous bucle
-			double sx = calculatePaintX (s.GetXNow (lastPoint.X));
-			double sy = calculatePaintY (s.Ystart);
+			if (horizontal)
+			{
+				sx = calculatePaintX (s.GetXNow (lastPointDate));
+				sy = calculatePaintY (s.Ystart);
+			} else {
+				sx = calculatePaintX (s.Ystart);
+				sy = calculatePaintY (s.GetXNow (lastPointDate));
+			}
 			//LogB.Information (string.Format ("shot: {0}, {1}", sx, sy));
 
 			if (asteroids.ShotCrashedWithAsteroid (sx, sy, s.Size, aPaintable_l, aPainted_l))
@@ -976,14 +980,14 @@ public abstract class CairoXY : CairoGeneric
 				asteroids.Points += 5;
 				s.Alive = false;
 			} else
-				asteroids.PaintShot (s, sx, sy, lastPoint.X, g);
+				asteroids.PaintShot (s, sx, sy, lastPoint.X, horizontal, g);
 		}
 
 		//add 1 point each s
-		if (lastPoint.X >= lastPointUp + multiplier)
+		if (lastPointDate >= lastPointUp + multiplier)
 		{
 			asteroids.Points ++;
-			lastPointUp = lastPoint.X;
+			lastPointUp = lastPointDate;
 		}
 
 		// print points
@@ -999,11 +1003,15 @@ public abstract class CairoXY : CairoGeneric
 
 		g.SetFontSize (textHeight);
 
-		if (points_l.Count > 3 && lastPoint.X >= lastShot + UtilAll.DivideSafe (multiplier, asteroids.ShotsFrequency))
+		if (points_l.Count > 3 && lastPointDate >= lastShot + UtilAll.DivideSafe (multiplier, asteroids.ShotsFrequency))
 		{
 			//create new shot
-			asteroids.Shot (lastPoint);
-			lastShot = lastPoint.X;
+			if (horizontal)
+				asteroids.Shot (lastPoint);
+			else
+				asteroids.Shot (new PointF (lastPoint.Y, lastPoint.X));
+
+			lastShot = lastPointDate;
 		}
 
 		asteroids.PaintShip (calculatePaintX (lastPoint.X), calculatePaintY (lastPoint.Y), lastPoint.X, g);

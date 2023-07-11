@@ -1462,7 +1462,7 @@ public class Asteroids
 		CairoUtil.DrawCircle (g, x, y, playerRadius, playerColor, true);
 	}
 
-	public void PaintShot (Shot s, double sx, double sy, double timeNow, Context g)
+	public void PaintShot (Shot s, double sx, double sy, double timeNow, bool horizontal, Context g)
 	{
 		Cairo.Color color = bluePlots;
 		if (Dark)
@@ -1473,8 +1473,15 @@ public class Asteroids
 		g.Save ();
 		g.LineWidth = 2;
 		g.SetSourceColor (color);
-		g.MoveTo (sx -3, sy);
-		g.LineTo (sx +3, sy);
+
+		if (horizontal) {
+			g.MoveTo (sx -3, sy);
+			g.LineTo (sx +3, sy);
+		} else {
+			g.MoveTo (sx, sy -3);
+			g.LineTo (sx, sy + 3);
+		}
+
 		g.Stroke ();
 		g.Restore ();
 
@@ -1540,7 +1547,6 @@ public class Asteroid
 
 	public bool NeedToShow (double graphUsStart, int graphSecondsAtRight)
 	{
-		LogB.Information ("NeedToShow 0");
 		if (! alive)
 			return false;
 
@@ -1550,19 +1556,15 @@ public class Asteroid
 		// the 3000000 is for having a bit of margin to easily consider radius
 		// to not have asteroids appear/disappear on sides when center arrives to that limits
 		if (xStart - 3*multiplier > graphUsTotalAtRight)
-		{
-			LogB.Information ("NeedToShow 1");
 			return false;
-		} if (xStart + usLife + 3*multiplier < graphUsTotalAtRight)
+		if (xStart + usLife + 3*multiplier < graphUsTotalAtRight)
 		{
-			LogB.Information ("NeedToShow 2");
-			LogB.Information (string.Format (
-						"xStart: {0}, usLife: {1}, multiplier: {2}, graphUsTotalAtRight: {3}",
-						xStart, usLife, multiplier, graphUsTotalAtRight));
+			//LogB.Information (string.Format (
+			//			"xStart: {0}, usLife: {1}, multiplier: {2}, graphUsTotalAtRight: {3}",
+			//			xStart, usLife, multiplier, graphUsTotalAtRight));
 			return false;
 		}
 
-		LogB.Information ("NeedToShow 3");
 		return true;
 	}
 

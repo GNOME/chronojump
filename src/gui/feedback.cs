@@ -192,6 +192,7 @@ public class FeedbackWindow
 	Gtk.HBox hbox_rhythm_rest_reps_value;
 	Gtk.CheckButton check_rhythm_rest_reps;
 
+	//signal
 	//forceSensor
 	Gtk.Box box_forceSensor_feedback;
 	Gtk.Notebook notebook_capture_feedback;
@@ -228,6 +229,9 @@ public class FeedbackWindow
 	Gtk.Image image_force_sensor_capture_feedback_questionnaire_load_info;
 	Gtk.Box buttons_force_sensor_capture_feedback_questionnaire_load;
 	Gtk.Label label_force_sensor_capture_feedback_questionnaire_load_success;
+	//direction
+	Gtk.RadioButton radio_signal_direction_horizontal;
+	Gtk.RadioButton radio_signal_direction_vertical;
 
 	//runsEncoder
 	Gtk.RadioButton radio_run_encoder_power;
@@ -364,7 +368,8 @@ public class FeedbackWindow
 				preferences.forceSensorFeedbackShotsFrequency,
 				preferences.forceSensorFeedbackQuestionnaireMax,
 				preferences.forceSensorFeedbackQuestionnaireMin,
-				preferences.forceSensorFeedbackQuestionnaireN
+				preferences.forceSensorFeedbackQuestionnaireN,
+				preferences.signalDirectionHorizontal
 				);
 
 		if(viewWindow)
@@ -441,7 +446,8 @@ public class FeedbackWindow
 			int forceSensorFeedbackShotsFrequency,
 			int forceSensorFeedbackQuestionnaireMax,
 			int forceSensorFeedbackQuestionnaireMin,
-			int forceSensorFeedbackQuestionnaireN
+			int forceSensorFeedbackQuestionnaireN,
+			bool signalDirectionHorizontal
 				)
 	{
 		hbox_jump_best_worst.Hide();
@@ -642,6 +648,8 @@ public class FeedbackWindow
 			check_force_sensor_capture_feedback_asteroids_dark.Active = forceSensorFeedbackAsteroidsDark;
 			spin_force_sensor_capture_feedback_asteroids_frequency.Value = forceSensorFeedbackAsteroidsFrequency;
 			spin_force_sensor_capture_feedback_shots_frequency.Value = forceSensorFeedbackShotsFrequency;
+			label_feedback_asteroids_min_units.Text = "N";
+			label_feedback_asteroids_max_units.Text = "N";
 
 			//questionnaire widgets
 			spin_force_sensor_capture_feedback_questionnaire_max.Value = forceSensorFeedbackQuestionnaireMax;
@@ -657,10 +665,14 @@ public class FeedbackWindow
 			}
 			label_force_sensor_capture_feedback_questionnaire_load_success.Text = "";
 
+			//direction
+			if (signalDirectionHorizontal)
+				radio_signal_direction_horizontal.Active = true;
+			else
+				radio_signal_direction_vertical.Active = true;
+
 			box_forceSensor_feedback.Visible = true;
 			check_encoder_show_asteroids.Visible = false;
-			label_feedback_asteroids_min_units.Text = "N";
-			label_feedback_asteroids_max_units.Text = "N";
 
 			notebook_main.GetNthPage(SIGNALPAGE).Show();
 		}
@@ -1444,6 +1456,10 @@ public class FeedbackWindow
 		get { return forceSensorFeedbackQuestionnaireFile; }
 	}
 
+	public bool GetSignalDirectionHorizontal {
+		get { return radio_signal_direction_horizontal.Active; }
+	}
+
 	/* JUMPS */
 
 	public bool JumpsRjFeedbackShowBestTvTc {
@@ -1968,6 +1984,9 @@ public class FeedbackWindow
 		image_force_sensor_capture_feedback_questionnaire_load_info = (Gtk.Image) builder.GetObject ("image_force_sensor_capture_feedback_questionnaire_load_info");
 		buttons_force_sensor_capture_feedback_questionnaire_load = (Gtk.Box) builder.GetObject ("buttons_force_sensor_capture_feedback_questionnaire_load");
 		label_force_sensor_capture_feedback_questionnaire_load_success = (Gtk.Label) builder.GetObject ("label_force_sensor_capture_feedback_questionnaire_load_success");
+		//direction
+		radio_signal_direction_horizontal = (Gtk.RadioButton) builder.GetObject ("radio_signal_direction_horizontal");
+		radio_signal_direction_vertical = (Gtk.RadioButton) builder.GetObject ("radio_signal_direction_vertical");
 
 		//runsEncoder
 		radio_run_encoder_power = (Gtk.RadioButton) builder.GetObject ("radio_run_encoder_power");

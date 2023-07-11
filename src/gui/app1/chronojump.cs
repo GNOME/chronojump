@@ -8956,6 +8956,16 @@ LogB.Debug("mc finished 5");
 				preferences.forceSensorFeedbackShotsFrequency = forceSensorFeedbackShotsFrequency;
 			}
 		}
+
+		if (Constants.ModeIsENCODER (m) || Constants.ModeIsFORCESENSOR (m))
+		{
+			bool signalDirectionHorizontal = feedbackWin.GetSignalDirectionHorizontal;
+			if(preferences.signalDirectionHorizontal != signalDirectionHorizontal)
+			{
+				//SqlitePreferences.Update(SqlitePreferences.SignalDirectionHorizontal, signalDirectionHorizontal.ToString(), false); //TODO
+				preferences.signalDirectionHorizontal = signalDirectionHorizontal;
+			}
+		}
 	}
 
 	private void on_feedback_questionnaire_load (object o, EventArgs args)

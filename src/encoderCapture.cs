@@ -233,8 +233,9 @@ public abstract class EncoderCapture
 		inertialCalibrated = false;
 	}
 
-	public bool Capture(string outputData1, EncoderRProcCapture encoderRProcCapture,
-			bool compujump, Preferences.TriggerTypes cutByTriggers, double restClustersSeconds, bool playSoundsFromFile)
+	public bool Capture (string outputData1, EncoderRProcCapture encoderRProcCapture,
+			bool compujump, Preferences.TriggerTypes cutByTriggers,
+			double restClustersSeconds, bool playSoundsFromFile, bool cairoHorizontal)
 	{
 		/*
 		 * removed at 1.7.0
@@ -441,7 +442,7 @@ public abstract class EncoderCapture
 
 				if(! showOnlyBars)
 				{
-					assignEncoderCapturePoints();
+					assignEncoderCapturePoints (cairoHorizontal);
 					PointsCaptured = i;
 				}
 
@@ -751,9 +752,12 @@ public abstract class EncoderCapture
 
 
 	//on inertial also assigns to EncoderCapturePointsInertialDisc
-	protected virtual void assignEncoderCapturePoints() 
+	protected virtual void assignEncoderCapturePoints (bool cairoHorizontal)
 	{
-		EncoderCapturePointsCairo.Add(new PointF(i, sum));
+		if (cairoHorizontal)
+			EncoderCapturePointsCairo.Add (new PointF (i, sum));
+		else
+			EncoderCapturePointsCairo.Add (new PointF (sum, i));
 	}
 				
 	/*
@@ -922,10 +926,15 @@ public class EncoderCaptureInertial : EncoderCapture
 		sumInertialDisc = angleNow;
 	}
 
-	protected override void assignEncoderCapturePoints() 
+	protected override void assignEncoderCapturePoints (bool cairoHorizontal)
 	{
-		EncoderCapturePointsCairo.Add(new PointF(i, sum));
-		EncoderCapturePointsInertialDiscCairo.Add(new PointF(i, sumInertialDisc));
+		if (cairoHorizontal) {
+			EncoderCapturePointsCairo.Add (new PointF (i, sum));
+			EncoderCapturePointsInertialDiscCairo.Add (new PointF (i, sumInertialDisc));
+		} else {
+			EncoderCapturePointsCairo.Add (new PointF (sum, i));
+			EncoderCapturePointsInertialDiscCairo.Add (new PointF (sumInertialDisc, i));
+		}
 	}
 	
 	protected override void markDirectionChanged() 

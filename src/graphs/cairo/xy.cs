@@ -905,7 +905,8 @@ public abstract class CairoXY : CairoGeneric
 
 	// Thought for signals like forceSensor where points_l.X is time in microseconds and there is not a sample for each second
 	// but it is also used on encoder
-	protected int configureTimeWindow (List<PointF> points_l, int seconds, int rightMarginSeconds, int multiplier)
+	//time on X
+	protected int configureTimeWindowHorizontal (List<PointF> points_l, int seconds, int rightMarginSeconds, int multiplier)
 	{
 		double lastTime = points_l[points_l.Count -1].X;
 
@@ -915,6 +916,20 @@ public abstract class CairoXY : CairoGeneric
 
 		int startAt = PointF.FindSampleAtTimeToEnd (points_l, (seconds -rightMarginSeconds) * multiplier);
 		minX = points_l[startAt].X;
+
+		return startAt;
+	}
+	//time on Y
+	protected int configureTimeWindowVertical (List<PointF> points_l, int seconds, int rightMarginSeconds, int multiplier)
+	{
+		double lastTime = points_l[points_l.Count -1].Y;
+
+		absoluteMaxY = lastTime + rightMarginSeconds * multiplier;
+		if (absoluteMaxY < seconds * multiplier)
+			absoluteMaxY = seconds * multiplier;
+
+		int startAt = PointF.FindSampleAtTimeToEndDateY (points_l, (seconds -rightMarginSeconds) * multiplier);
+		minY = points_l[startAt].Y;
 
 		return startAt;
 	}

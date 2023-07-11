@@ -173,8 +173,8 @@ public class CairoGraphEncoderSignal : CairoXY
 		pointsRadius = 1;
 
 		//display this milliseconds on screen, when is higher, scroll
-		int msWidth = 10000;
-		marginRightInSeconds = 10;
+		int sWidth = 10;
+		int msWidth = sWidth * 1000;
 		if (horizontal && absoluteMaxX < msWidth)
 			absoluteMaxX = msWidth;
 		else if (! horizontal && absoluteMaxY < msWidth)
@@ -189,8 +189,14 @@ public class CairoGraphEncoderSignal : CairoXY
 			else
 				minY = points_l[startAt].Y;
 		}
-		if (asteroids != null && horizontal)
-			startAt = configureTimeWindow (points_l, 10, 7, 1000);
+		if (asteroids != null)
+		{
+			marginRightInSeconds = Convert.ToInt32 (.66 * sWidth);
+			if (horizontal)
+				startAt = configureTimeWindowHorizontal (points_l, sWidth, marginRightInSeconds, 1000);
+			else
+				startAt = configureTimeWindowVertical (points_l, sWidth, marginRightInSeconds, 1000);
+		}
 
 		if(maxValuesChanged || forceRedraw || points_l.Count != points_l_painted)
 		{

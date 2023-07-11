@@ -224,13 +224,10 @@ public class CairoGraphEncoderSignalAsteroids : CairoGraphEncoderSignal
 	private double lastPointUp;
 	private int multiplier;
 
-	public CairoGraphEncoderSignalAsteroids (DrawingArea area, string title, bool micros)
+	public CairoGraphEncoderSignalAsteroids (DrawingArea area, string title)
 	{
 		initEncoder (area, title);
-		if (micros)
-			multiplier = 1000000; //forceSensor
-		else
-			multiplier = 1000; //encoder
+		multiplier = 1000; //encoder
 
 		lastShot = 0;
 		lastPointUp = 0; //each s 1 point up

@@ -637,7 +637,6 @@ class SqliteJump : Sqlite
 
 	  if(onlyHigherOfSameWeight)
 	  {
-		  LogB.Information("PPPP");
 		  List<Jump> jmp_l_purged = new List<Jump>();
 		  double lastWeight = 0;
 		  foreach(Jump j in jmp_l)

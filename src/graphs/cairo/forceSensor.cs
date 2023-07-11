@@ -1455,7 +1455,9 @@ public class Asteroids
 
 	public void PaintShot (Shot s, double sx, double sy, double timeNow, Context g)
 	{
-		Cairo.Color color = white;
+		Cairo.Color color = bluePlots;
+		if (Dark)
+			color = yellow;
 		if (s.LifeIsEnding (timeNow))
 			color = gray;
 

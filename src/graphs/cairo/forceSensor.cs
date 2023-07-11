@@ -226,7 +226,7 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 {
 	protected List<PointF> points_l;
 	protected int startAt;
-	protected int marginRightInSeconds;
+	protected int marginAfterInSeconds;
 	protected bool capturing;
 
 	//questionnaire
@@ -396,18 +396,18 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 		pointsRadius = 1;
 
 		startAt = 0;
-		marginRightInSeconds = 0;
+		marginAfterInSeconds = 0;
 
 		//on worm, have it on 3 s
 		/*
 		if (showAccuracy && points_l_interpolated_path != null && points_l_interpolated_path.Count > 0 && showLastSeconds >= 10)
-			marginRightInSeconds = 3; //TODO: or a 1/3 of showLastSeconds TODO: on worm first we need to fix interpolatedPath to be 3s longer
+			marginAfterInSeconds = 3; //TODO: or a 1/3 of showLastSeconds TODO: on worm first we need to fix interpolatedPath to be 3s longer
 			*/
 		if ( (asteroids != null || questionnaire != null) && showLastSeconds > 3) //this works also for asteroids
-			marginRightInSeconds = Convert.ToInt32 (.66 * showLastSeconds); //show in left third of image (to have time/space to answer)
+			marginAfterInSeconds = Convert.ToInt32 (.66 * showLastSeconds); //show in left third of image (to have time/space to answer)
 
 		if (showLastSeconds > 0 && points_l.Count > 1)
-			startAt = configureTimeWindowHorizontal (points_l, showLastSeconds, marginRightInSeconds, 1000000); //TODO: do also for vertical
+			startAt = configureTimeWindowHorizontal (points_l, showLastSeconds, marginAfterInSeconds, 1000000); //TODO: do also for vertical
 
 		// paint points and maybe interpolated path
 		if(maxValuesChanged || forceRedraw || points_l.Count != points_l_painted)
@@ -624,8 +624,8 @@ public class CairoGraphForceSensorSignalAsteroids : CairoGraphForceSensorSignal
 			return;
 
 		asteroidsPlot (points_l[points_l.Count -1], startAt, multiplier,
-				//marginRightInSeconds, points_l, horizontal,
-				marginRightInSeconds, points_l, true,
+				//marginAfterInSeconds, points_l, horizontal,
+				marginAfterInSeconds, points_l, true,
 				ref lastShot, ref lastPointUp);
 	}
 }
@@ -1414,11 +1414,11 @@ public class Asteroids
 
 	}
 
-	public List<Asteroid> GetAllAsteroidsPaintable (double startAtPointX, int marginRightInSeconds)
+	public List<Asteroid> GetAllAsteroidsPaintable (double startAtPointX, int marginAfterInSeconds)
 	{
 		List<Asteroid> aPaintable_l = new List<Asteroid> ();
 		foreach (Asteroid a in asteroid_l)
-			if (a.NeedToShow (startAtPointX, marginRightInSeconds))
+			if (a.NeedToShow (startAtPointX, marginAfterInSeconds))
 				aPaintable_l.Add (a);
 
 		return aPaintable_l;

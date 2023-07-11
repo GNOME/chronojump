@@ -29,7 +29,7 @@ public class CairoGraphEncoderSignal : CairoXY
 	protected List<PointF> points_l;
 	protected List<PointF> points_l_inertial;
 	protected int startAt;
-	protected int marginRightInSeconds;
+	protected int marginAfterInSeconds;
 	protected bool horizontal;
 
 	//TODO: check if this two are doing anything
@@ -191,11 +191,11 @@ public class CairoGraphEncoderSignal : CairoXY
 		}
 		if (asteroids != null)
 		{
-			marginRightInSeconds = Convert.ToInt32 (.66 * sWidth);
+			marginAfterInSeconds = Convert.ToInt32 (.66 * sWidth);
 			if (horizontal)
-				startAt = configureTimeWindowHorizontal (points_l, sWidth, marginRightInSeconds, 1000);
+				startAt = configureTimeWindowHorizontal (points_l, sWidth, marginAfterInSeconds, 1000);
 			else
-				startAt = configureTimeWindowVertical (points_l, sWidth, marginRightInSeconds, 1000);
+				startAt = configureTimeWindowVertical (points_l, sWidth, marginAfterInSeconds, 1000);
 		}
 
 		if(maxValuesChanged || forceRedraw || points_l.Count != points_l_painted)
@@ -273,7 +273,7 @@ public class CairoGraphEncoderSignalAsteroids : CairoGraphEncoderSignal
 			*/
 
 		asteroidsPlot (points_l[points_l.Count -1], startAt, multiplier,
-				marginRightInSeconds, points_l, horizontal,
+				marginAfterInSeconds, points_l, horizontal,
 				ref lastShot, ref lastPointUp);
 	}
 }

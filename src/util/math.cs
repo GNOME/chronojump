@@ -74,7 +74,6 @@ public class PointF
 		int sample = 0;
 		for (int i = p_l.Count -1; i >= 0; i --)
 		{
-			//LogB.Information (string.Format ("i: {0}, p_l[i].X: {1}, searchTime: {2}", i, p_l[i].X, searchTime));
 			if (p_l[i].X <= searchTime)
 			{
 				sample = i;
@@ -85,13 +84,36 @@ public class PointF
 		if (sample +1 >= p_l.Count)
 			return sample;
 
-		/*
-		LogB.Information (string.Format ("sample: {0}, sample+1: {1}, return sample?: {2}",
-					p_l[sample].X, p_l[sample+1].X,
-					(searchTime - p_l[sample].X < p_l[sample +1].X - searchTime) ));
-					*/
-
 		if (searchTime - p_l[sample].X < p_l[sample +1].X - searchTime)
+			return sample;
+		else
+			return sample + 1;
+	}
+
+	//same as above but with date on Y
+	public static int FindSampleAtTimeToEndDateY (List<PointF> p_l, double timeToEnd)
+	{
+		if (p_l.Count < 2)
+			return 0;
+
+		double searchTime = p_l[p_l.Count -1].Y - timeToEnd;
+		if (searchTime <= 0)
+			return 0;
+
+		int sample = 0;
+		for (int i = p_l.Count -1; i >= 0; i --)
+		{
+			if (p_l[i].Y <= searchTime)
+			{
+				sample = i;
+				break;
+			}
+		}
+
+		if (sample +1 >= p_l.Count)
+			return sample;
+
+		if (searchTime - p_l[sample].Y < p_l[sample +1].Y - searchTime)
 			return sample;
 		else
 			return sample + 1;

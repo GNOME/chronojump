@@ -407,7 +407,7 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 			marginRightInSeconds = Convert.ToInt32 (.66 * showLastSeconds); //show in left third of image (to have time/space to answer)
 
 		if (showLastSeconds > 0 && points_l.Count > 1)
-			startAt = configureTimeWindow (points_l, showLastSeconds, marginRightInSeconds, 1000000);
+			startAt = configureTimeWindowHorizontal (points_l, showLastSeconds, marginRightInSeconds, 1000000); //TODO: do also for vertical
 
 		// paint points and maybe interpolated path
 		if(maxValuesChanged || forceRedraw || points_l.Count != points_l_painted)

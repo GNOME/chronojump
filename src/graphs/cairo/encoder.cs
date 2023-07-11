@@ -30,6 +30,7 @@ public class CairoGraphEncoderSignal : CairoXY
 	protected List<PointF> points_l_inertial;
 	protected int startAt;
 	protected int marginRightInSeconds;
+	protected bool horizontal;
 
 	//TODO: check if this two are doing anything
 	private int points_l_painted;
@@ -42,9 +43,9 @@ public class CairoGraphEncoderSignal : CairoXY
 	}
 
 	// regular constructor
-	public CairoGraphEncoderSignal (DrawingArea area, string title)
+	public CairoGraphEncoderSignal (DrawingArea area, string title, bool horizontal)
 	{
-		initEncoder (area, title);
+		initEncoder (area, title, horizontal);
 	}
 
 	// separated in two methods to ensure endGraphDisposing on any return of the other method
@@ -59,10 +60,11 @@ public class CairoGraphEncoderSignal : CairoXY
 			endGraphDisposing(g, surface, area.Window);
 	}
 
-	protected void initEncoder (DrawingArea area, string title)
+	protected void initEncoder (DrawingArea area, string title, bool horizontal)
 	{
 		this.area = area;
 		this.title = title;
+		this.horizontal = horizontal;
 		this.colorBackground = colorFromRGBA (Config.ColorBackground); //but note if we are using system colors, this will not match
 		
 		//doing = false;
@@ -103,6 +105,17 @@ public class CairoGraphEncoderSignal : CairoXY
 				maxY = 100; //to be able to graph at start when all the points are 0
 			if(isInertial && minY > -100)
 				minY = -100;
+
+			// if vertical do have X in the center (at least at start)
+			if (! horizontal)
+			{
+				if (minX > -50)
+					minX = -50;
+				if (maxX < 50)
+					maxX = 50;
+				if (absoluteMaxX < 50)
+					absoluteMaxX = 50;
+			}
 
 			if (asteroids != null)
 			{
@@ -154,16 +167,21 @@ public class CairoGraphEncoderSignal : CairoXY
 		//display this milliseconds on screen, when is higher, scroll
 		int msWidth = 10000;
 		marginRightInSeconds = 10;
-		if(absoluteMaxX < msWidth)
+		if (horizontal && absoluteMaxX < msWidth)
 			absoluteMaxX = msWidth;
+		else if (! horizontal && absoluteMaxY < msWidth)
+			absoluteMaxY = msWidth;
 
 		startAt = 0;
 		if(points_l.Count - msWidth > 0)
 		{
 			startAt = points_l.Count - msWidth;
-			minX = points_l[startAt].X;
+			if (horizontal)
+				minX = points_l[startAt].X;
+			else
+				minY = points_l[startAt].Y;
 		}
-		if (asteroids != null)
+		if (asteroids != null && horizontal)
 			startAt = configureTimeWindow (points_l, 10, 7, 1000);
 
 		if(maxValuesChanged || forceRedraw || points_l.Count != points_l_painted)
@@ -224,9 +242,9 @@ public class CairoGraphEncoderSignalAsteroids : CairoGraphEncoderSignal
 	private double lastPointUp;
 	private int multiplier;
 
-	public CairoGraphEncoderSignalAsteroids (DrawingArea area, string title)
+	public CairoGraphEncoderSignalAsteroids (DrawingArea area, string title, bool horizontal)
 	{
-		initEncoder (area, title);
+		initEncoder (area, title, horizontal);
 		multiplier = 1000; //encoder
 
 		lastShot = 0;

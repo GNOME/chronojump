@@ -968,7 +968,7 @@ public abstract class CairoXY : CairoGeneric
 			if (asteroids.DoesAsteroidCrashedWithPlayer (ax, ay, a.Size,
 					calculatePaintX (lastPoint.X), calculatePaintY (lastPoint.Y)))
 			{
-				asteroids.AsteroidCrashedWithPlayerSetTime (lastPoint.X);
+				asteroids.AsteroidCrashedWithPlayerSetTime (lastPointDate);
 				a.Destroy ();
 				asteroids.Points -= 20;
 			}
@@ -1029,6 +1029,6 @@ public abstract class CairoXY : CairoGeneric
 			lastShot = lastPointDate;
 		}
 
-		asteroids.PaintShip (calculatePaintX (lastPoint.X), calculatePaintY (lastPoint.Y), lastPoint.X, g);
+		asteroids.PaintShip (calculatePaintX (lastPoint.X), calculatePaintY (lastPoint.Y), lastPointDate, g);
 	}
 }

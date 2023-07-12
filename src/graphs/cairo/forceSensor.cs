@@ -1398,10 +1398,24 @@ public class Asteroids
 		{
 			int xStart = random.Next (7*multiplier, 100*multiplier);
 			int usLife = random.Next (3*multiplier/10, 15*multiplier);
+
+			//shield
+			int shield = random.Next (0, 20);
+			if (shield <= 10)
+				shield = 0;
+			else if (shield <= 15)
+				shield = 1;
+			else if (shield <= 18)
+				shield = 2;
+			else
+				shield = 3;
+
+			LogB.Information ("shield: " + shield.ToString ());
 			asteroid_l.Add (new Asteroid (
 						xStart, random.Next (minY, maxY), // y (force)
 						usLife, random.Next (minY, maxY), // y (force)
 						random.Next (20, 100), // size
+						shield,
 						createAsteroidColor (),
 						micros
 						));
@@ -1410,7 +1424,7 @@ public class Asteroids
 		/*
 		//debug with just one
 		asteroid_l.Add (new Asteroid (10 * multiplier, -50, 5 * multiplier, +50,
-					50, createAsteroidColor (), micros));
+					50, 0, createAsteroidColor (), micros));
 					*/
 
 	}
@@ -1489,20 +1503,29 @@ public class Asteroids
 		//drawCircle (sx, sy, s.Size, color, true);
 	}
 
-	public bool ShotCrashedWithAsteroid (double sx, double sy, int size,
-			List<Asteroid> asteroid_l, List<Point3F> asteroidXYZ_l)
+	public enum ShotCrashedEnum { NOCRASHED, CRASHEDNODESTROY, CRASHEDANDDESTROY }
+	public ShotCrashedEnum ShotCrashedWithAsteroid (double sx, double sy, int size,
+			List<Asteroid> asteroid_l, List<Point3F> asteroidXYZ_l, out int pointsKill)
 	{
+		pointsKill = 0;
+
 		for (int i = 0; i < asteroidXYZ_l.Count; i ++)
 		{
 			Point3F aXYZ = asteroidXYZ_l[i];
 			if (CairoUtil.GetDistance2D (aXYZ.X, aXYZ.Y, sx, sy) < aXYZ.Z + size)
 			{
-				asteroid_l[i].Alive = false;
-				return true;
+				asteroid_l[i].Shield --;
+				if (asteroid_l[i].Shield < 0)
+				{
+					asteroid_l[i].Alive = false;
+					pointsKill = asteroid_l[i].PointsOnDestroy;
+					return ShotCrashedEnum.CRASHEDANDDESTROY;
+				} else
+					return ShotCrashedEnum.CRASHEDNODESTROY;
 			}
 		}
 
-		return false;
+		return ShotCrashedEnum.NOCRASHED;
 	}
 
 	private Cairo.Color createAsteroidColor ()
@@ -1525,17 +1548,21 @@ public class Asteroid
 	private int usLife; //time
 	private int yEnd; //force
 	private int size;
+	private int shield; // 0 - 3
+	private int pointsOnDestroy; //related to shield initial value
 	private Cairo.Color color;
 	private bool alive;
 	private int multiplier;
 
-	public Asteroid (int xStart, int yStart, int usLife, int yEnd, int size, Cairo.Color color, bool micros)
+	public Asteroid (int xStart, int yStart, int usLife, int yEnd, int size, int shield, Cairo.Color color, bool micros)
 	{
 		this.xStart = xStart;
 		this.yStart = yStart;
 		this.usLife = usLife;
 		this.yEnd = yEnd;
 		this.size = size;
+		this.shield = shield;
+		this.pointsOnDestroy = shield * 5;
 		this.color = color;
 
 		if (micros)
@@ -1596,6 +1623,15 @@ public class Asteroid
 
 	public int Size {
 		get { return size; }
+	}
+
+	public int Shield {
+		get { return shield; }
+		set { shield = value; }
+	}
+
+	public int PointsOnDestroy {
+		get { return pointsOnDestroy; }
 	}
 
 	public Cairo.Color Color {

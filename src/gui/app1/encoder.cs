@@ -1050,7 +1050,7 @@ public partial class ChronoJumpWindow
 					preferences.forceSensorFeedbackAsteroidsDark,
 					preferences.forceSensorFeedbackAsteroidsFrequency,
 					preferences.forceSensorFeedbackShotsFrequency,
-					false); //not micros (encoder goes in millis)
+					false, preferences.encoderCaptureTime); //not micros (encoder goes in millis)
 
 		encoderThreadStart(encoderActions.CAPTURE);
 
@@ -6422,8 +6422,6 @@ public partial class ChronoJumpWindow
 				eCapture.FakeFinishByTime.Clicked -= new EventHandler (on_encoder_capture_finish_by_time);
 				eCapture.FakeFinishByTime.Clicked += new EventHandler (on_encoder_capture_finish_by_time);
 
-
-				int recordingTime = preferences.encoderCaptureTime;
 				if(preferences.encoderCaptureInfinite)
 					encoderProcessFinishContMode = false; //will be true when finish button is pressed
 
@@ -6432,7 +6430,7 @@ public partial class ChronoJumpWindow
 					portName = chronopicRegister.ConnectedOfType(ChronopicRegisterPort.Types.ENCODER).Port;
 
 				bool success = eCapture.InitGlobal(
-						recordingTime,
+						preferences.encoderCaptureTime,
 						preferences.encoderCaptureInactivityEndTime,
 						preferences.encoderCaptureInfinite,
 						findEccon(true),

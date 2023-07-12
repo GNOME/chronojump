@@ -950,6 +950,9 @@ public abstract class CairoXY : CairoGeneric
 
 		List<Point3F> aPainted_l = new List <Point3F> ();
 		double ax, ay;
+		Cairo.Color colorShield = black;
+		if (asteroids.Dark)
+			colorShield = white;
 		foreach (Asteroid a in aPaintable_l)
 		{
 			if (horizontal)
@@ -964,6 +967,16 @@ public abstract class CairoXY : CairoGeneric
 			}
 
 			drawCircle (ax, ay, a.Size, a.Color, true);
+			if (a.Shield > 0)
+			{
+				drawCircle (ax, ay, a.Size + 2, colorShield, false);
+				if (a.Shield > 1)
+				{
+					drawCircle (ax, ay, a.Size + 4, colorShield, false);
+					if (a.Shield > 2)
+						drawCircle (ax, ay, a.Size + 6, colorShield, false);
+				}
+			}
 
 			if (asteroids.DoesAsteroidCrashedWithPlayer (ax, ay, a.Size,
 					calculatePaintX (lastPoint.X), calculatePaintY (lastPoint.Y)))
@@ -990,9 +1003,14 @@ public abstract class CairoXY : CairoGeneric
 			}
 			//LogB.Information (string.Format ("shot: {0}, {1}", sx, sy));
 
-			if (asteroids.ShotCrashedWithAsteroid (sx, sy, s.Size, aPaintable_l, aPainted_l))
+			int pointsKillAsteroid = 0;
+			Asteroids.ShotCrashedEnum sce = asteroids.ShotCrashedWithAsteroid (sx, sy, s.Size, aPaintable_l, aPainted_l, out pointsKillAsteroid);
+			if (sce == Asteroids.ShotCrashedEnum.CRASHEDANDDESTROY)
 			{
-				asteroids.Points += 5;
+				asteroids.Points += pointsKillAsteroid;
+				s.Alive = false;
+			} else if (sce == Asteroids.ShotCrashedEnum.CRASHEDNODESTROY)
+			{
 				s.Alive = false;
 			} else
 				asteroids.PaintShot (s, sx, sy, lastPoint.X, horizontal, g);
@@ -1013,7 +1031,7 @@ public abstract class CairoXY : CairoGeneric
 		else
 			g.SetSourceColor (black);
 
-		printText (graphWidth -rightMargin -innerMargin, topMargin/2, 0, textHeight +4,
+		printText (graphWidth -rightMargin -innerMargin, .66*topMargin, 0, textHeight +4,
 				"Points: " + asteroids.Points.ToString (), g, alignTypes.RIGHT);
 
 		g.SetFontSize (textHeight);

@@ -3,8 +3,8 @@ xini = 6545
 xend = 7263
 
 #trajectory raw and filtered
-plot(d$Raw.coordinate..mm., type="l", xlim=c(xini,xend), axes=F, ylab="")
-lines(d$Filtered.coordinate..mm., type="l", xlim=c(xini,xend), col="yellow")
+plot(d$Raw.coordinate..mm., type="l", xlim=c(xini,xend), ylim=c(min(d$Raw.coordinate..mm[xini:xend]),max(d$Raw.coordinate..mm[xini:xend])), axes=F, ylab="")
+lines(d$Filtered.coordinate..mm., type="l", xlim=c(xini,xend), ylim=c(min(d$Raw.coordinate..mm[xini:xend]),max(d$Raw.coordinate..mm[xini:xend])), col="yellow3")
 
 #speed
 speed = d$Velocity..mm.ms.

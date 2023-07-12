@@ -27,7 +27,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
-using System.Linq;
+//using System.Linq; //commented to be able to compile without Linq
 using Kinovea.Filtering;
 
 namespace Sample
@@ -37,7 +37,7 @@ namespace Sample
     public static void Main(string[] args)
     {
       // 1. Import data.
-      string inputPath = "/home/xavier/informatica/progs_meus/chronojump/chronojump/butterworth/Data/sample-signal.txt";
+      string inputPath = "/home/xavier/informatica/progs_meus/chronojump/butterworth/Data/sample-signal.txt";
       List<float> values = ParseInput(inputPath);
       
       // 2. Convert values to a list of timed points. 
@@ -130,8 +130,29 @@ namespace Sample
         p.Add(tsc[Kinematics.X][i]);
         p.Add(tsc[Kinematics.LinearHorizontalVelocity][i]);
         p.Add(tsc[Kinematics.LinearHorizontalAcceleration][i]);
-        
-        string[] values = p.Select(v => double.IsNaN(v) ? "" : v.ToString()).ToArray();
+
+	/* seems that this LinQ line just convert the NaN to ""
+	 *
+	Console.WriteLine ("before Linq");
+	foreach (double pDebug in p)
+		Console.WriteLine (pDebug.ToString ());
+
+        string[] values = p.Select(v => double.IsNaN(v) ? "" : v.ToString()).ToArray();  //Linq is just used here in all the Kinovea butterworth code, so just do this non Linq
+	Console.WriteLine ("after Linq");
+	foreach (string vDebug in values)
+		Console.WriteLine (vDebug.ToString ());
+	*/
+
+	// without Linq:
+	string [] values = new String [p.Count];
+	for (int j = 0; j < p.Count; j ++)
+	{
+		if (double.IsNaN (p[j]))
+			values [j] = "";
+		else
+			values [j] = p[j].ToString ();
+	}
+
         string line = string.Join(separator, values);
         csv.Add(line);
       }

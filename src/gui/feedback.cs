@@ -232,6 +232,8 @@ public class FeedbackWindow
 	//direction
 	Gtk.RadioButton radio_signal_direction_horizontal;
 	Gtk.RadioButton radio_signal_direction_vertical;
+	Gtk.Box box_radio_signal_direction;
+	Gtk.Label label_signal_direction_horizontal;
 
 	//runsEncoder
 	Gtk.RadioButton radio_run_encoder_power;
@@ -600,6 +602,8 @@ public class FeedbackWindow
 				check_force_sensor_capture_feedback_no.Active = true;
 				box_force_sensor_capture_feedback_show.Visible = false;
 				notebook_capture_feedback.Visible = false;
+				box_radio_signal_direction.Visible = true;
+				label_signal_direction_horizontal.Visible = false;
 			}
 			else if(forceSensorCaptureFeedbackActive == Preferences.ForceSensorCaptureFeedbackActiveEnum.RECTANGLE)
 			{
@@ -607,6 +611,8 @@ public class FeedbackWindow
 				box_force_sensor_capture_feedback_show.Visible = true;
 				notebook_capture_feedback.Visible = true;
 				notebook_capture_feedback.Page = 0;
+				box_radio_signal_direction.Visible = false;
+				label_signal_direction_horizontal.Visible = true;
 			}
 			else if(forceSensorCaptureFeedbackActive == Preferences.ForceSensorCaptureFeedbackActiveEnum.PATH)
 			{
@@ -614,6 +620,8 @@ public class FeedbackWindow
 				box_force_sensor_capture_feedback_show.Visible = true;
 				notebook_capture_feedback.Visible = true;
 				notebook_capture_feedback.Page = 1;
+				box_radio_signal_direction.Visible = false;
+				label_signal_direction_horizontal.Visible = true;
 			}
 			else if(forceSensorCaptureFeedbackActive == Preferences.ForceSensorCaptureFeedbackActiveEnum.ASTEROIDS)
 			{
@@ -621,6 +629,8 @@ public class FeedbackWindow
 				box_force_sensor_capture_feedback_show.Visible = true;
 				notebook_capture_feedback.Visible = true;
 				notebook_capture_feedback.Page = 2;
+				box_radio_signal_direction.Visible = true;
+				label_signal_direction_horizontal.Visible = false;
 			}
 			else //if(forceSensorCaptureFeedbackActive == Preferences.ForceSensorCaptureFeedbackActiveEnum.QUESTIONNAIRE)
 			{
@@ -628,6 +638,8 @@ public class FeedbackWindow
 				box_force_sensor_capture_feedback_show.Visible = true;
 				notebook_capture_feedback.Visible = true;
 				notebook_capture_feedback.Page = 3;
+				box_radio_signal_direction.Visible = false;
+				label_signal_direction_horizontal.Visible = true;
 			}
 
 			//rectangle widgets
@@ -1265,6 +1277,8 @@ public class FeedbackWindow
 		{
 			box_force_sensor_capture_feedback_show.Visible = false;
 			notebook_capture_feedback.Visible = false;
+			box_radio_signal_direction.Visible = true;
+			label_signal_direction_horizontal.Visible = false;
 		} else {
 			box_force_sensor_capture_feedback_show.Visible = true;
 			notebook_capture_feedback.Visible = true;
@@ -1283,18 +1297,26 @@ public class FeedbackWindow
 	private void on_radio_force_sensor_capture_feedback_show_rectangle_toggled (object o, EventArgs args)
 	{
 		notebook_capture_feedback.Page = 0;
+		box_radio_signal_direction.Visible = false;
+		label_signal_direction_horizontal.Visible = true;
 	}
 	private void on_radio_force_sensor_capture_feedback_show_path_toggled (object o, EventArgs args)
 	{
 		notebook_capture_feedback.Page = 1;
+		box_radio_signal_direction.Visible = false;
+		label_signal_direction_horizontal.Visible = true;
 	}
 	private void on_radio_force_sensor_capture_feedback_show_asteroids_toggled (object o, EventArgs args)
 	{
 		notebook_capture_feedback.Page = 2;
+		box_radio_signal_direction.Visible = true;
+		label_signal_direction_horizontal.Visible = false;
 	}
 	private void on_radio_force_sensor_capture_feedback_show_questionnaire_toggled (object o, EventArgs args)
 	{
 		notebook_capture_feedback.Page = 3;
+		box_radio_signal_direction.Visible = false;
+		label_signal_direction_horizontal.Visible = true;
 	}
 
 	public Preferences.ForceSensorCaptureFeedbackActiveEnum GetForceSensorFeedback {
@@ -1987,6 +2009,8 @@ public class FeedbackWindow
 		//direction
 		radio_signal_direction_horizontal = (Gtk.RadioButton) builder.GetObject ("radio_signal_direction_horizontal");
 		radio_signal_direction_vertical = (Gtk.RadioButton) builder.GetObject ("radio_signal_direction_vertical");
+		box_radio_signal_direction = (Gtk.Box) builder.GetObject ("box_radio_signal_direction");
+		label_signal_direction_horizontal = (Gtk.Label) builder.GetObject ("label_signal_direction_horizontal");
 
 		//runsEncoder
 		radio_run_encoder_power = (Gtk.RadioButton) builder.GetObject ("radio_run_encoder_power");

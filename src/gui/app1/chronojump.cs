@@ -976,6 +976,8 @@ public partial class ChronoJumpWindow
 
 		initialize_menu_or_menu_tiny();
 
+		presentationPrepare ();
+
 		testNewStuff();
 
 		//show before destroying/hiding app1 to see if this fixes rare problems of exiting/not showing app1
@@ -1322,10 +1324,7 @@ public partial class ChronoJumpWindow
 		//MovingAverage.TestCalculate();
 
 		//TestObjectsDifferences.Test ();
-		presentationPrepare ();
 	}
-
-
 
 /*
 	private void chronopicAtStart(object o, EventArgs args) {

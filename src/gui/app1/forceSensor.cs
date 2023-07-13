@@ -2652,9 +2652,9 @@ LogB.Information(" fs R ");
 			for (int i = 0; i < traj.Times.Length; i ++)
 			{
 				if (cairoDrawHorizontal)
-					butterTraj_l.Add (new PointF (traj.Times[i], traj.Xs[i]));
+					butterTraj_l.Add (new PointF (traj.Times[i], traj.Xs[i] + 10)); //+10 to be able to see the diff now as debug
 				else
-					butterTraj_l.Add (new PointF (traj.Xs[i], traj.Times[i]));
+					butterTraj_l.Add (new PointF (traj.Xs[i] + 10, traj.Times[i])); //+10 to be able to see the diff now as debug
 			}
 		}
 

@@ -290,7 +290,19 @@ SOURCES = \
 	webcam/webcamFfmpeg.cs\
 	webcam/webcamFfmpegDevices.cs\
 	webcam/webcamFfmpegSupportedModes.cs\
-	webcam/webcamMplayer.cs
+	webcam/webcamMplayer.cs\
+	../butterworth/Kinovea.Filtering/Butterworth.cs\
+	../butterworth/Kinovea.Filtering/Extensions.cs\
+	../butterworth/Kinovea.Filtering/FilteredTrajectory.cs\
+	../butterworth/Kinovea.Filtering/FilteringResult.cs\
+	../butterworth/Kinovea.Filtering/Kinematics.cs\
+	../butterworth/Kinovea.Filtering/LinearKinematics.cs\
+	../butterworth/Kinovea.Filtering/MathHelper.cs\
+	../butterworth/Kinovea.Filtering/MovingAverage.cs\
+	../butterworth/Kinovea.Filtering/StatsHelper.cs\
+	../butterworth/Kinovea.Filtering/TimedPoint.cs\
+	../butterworth/Kinovea.Filtering/TimeSeriesCollection.cs\
+	../butterworth/Kinovea.Filtering/TimeSeriesPadder.cs
 
 RESOURCES = \
 	../glade/app1.glade \

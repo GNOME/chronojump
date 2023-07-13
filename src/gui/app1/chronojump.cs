@@ -3579,6 +3579,8 @@ public partial class ChronoJumpWindow
 
 		preferencesWin.FakeButtonMaximizeChanges.Clicked -= new EventHandler (on_preferences_maximize_changes);
 		preferencesWin.FakeButtonMaximizeChanges.Clicked += new EventHandler (on_preferences_maximize_changes);
+		preferencesWin.FakeButtonPersonWin.Clicked -= new EventHandler (on_preferences_personWin_changes);
+		preferencesWin.FakeButtonPersonWin.Clicked += new EventHandler (on_preferences_personWin_changes);
 		preferencesWin.FakeButtonConfigurationImported.Clicked += new EventHandler(on_preferences_import_configuration);
 		preferencesWin.FakeButtonConfigurationImported.Clicked += new EventHandler(on_preferences_import_configuration);
 		preferencesWin.FakeButtonDebugModeStart.Clicked += new EventHandler(on_preferences_debug_mode_start);
@@ -3589,6 +3591,16 @@ public partial class ChronoJumpWindow
 	{
 		preferences = preferencesWin.GetPreferences;
 		maximizeOrNot (false); //fromPreferences
+
+		//TODO: undecorated is not working
+	}
+
+	//show at top/left, if show at left show photo or not
+	private void on_preferences_personWin_changes (object o, EventArgs args)
+	{
+		preferences = preferencesWin.GetPreferences;
+		configInitFromPreferences();
+		initialize_menu_or_menu_tiny();
 	}
 
 	private void on_preferences_import_configuration (object o, EventArgs args)
@@ -3689,8 +3701,8 @@ public partial class ChronoJumpWindow
 		if(myTreeViewPersons != null)
 			myTreeViewPersons.RestSecondsMark = get_configured_rest_time_in_seconds();
 
-		//TODO: only if personWinHide changed
-		initialize_menu_or_menu_tiny();
+		//not done here because done on click the checkboxes at preferences win
+		//initialize_menu_or_menu_tiny();
 
 		// ---------- force sensor changes -------------->
 

@@ -292,6 +292,7 @@ public class PreferencesWindow
 	Gtk.ComboBoxText combo_decimals;
 
 	public Gtk.Button FakeButtonMaximizeChanges;
+	public Gtk.Button FakeButtonPersonWin;
 	public Gtk.Button FakeButtonConfigurationImported;
 	public Gtk.Button FakeButtonDebugModeStart;
 	
@@ -340,6 +341,7 @@ public class PreferencesWindow
 		//databaseTempURL = Util.GetDatabaseTempDir() + System.IO.Path.DirectorySeparatorChar  + "chronojump.db";
 		
 		FakeButtonMaximizeChanges = new Gtk.Button ();
+		FakeButtonPersonWin = new Gtk.Button ();
 		FakeButtonConfigurationImported = new Gtk.Button();
 		FakeButtonDebugModeStart = new Gtk.Button();
 	}
@@ -1079,9 +1081,10 @@ public class PreferencesWindow
 		if(preferences.maximized != maximizedTypeFromGUI)
 		{
 			SqlitePreferences.Update ("maximized", maximizedTypeFromGUI.ToString(), false);
-			preferences.maximized = maximizedTypeFromGUI;
-			FakeButtonMaximizeChanges.Click ();
 		}
+	
+		preferences.maximized = maximizedTypeFromGUI;
+		FakeButtonMaximizeChanges.Click ();
 	}
 
 	private void on_check_appearance_person_win_hide_toggled (object obj, EventArgs args)
@@ -1093,6 +1096,7 @@ public class PreferencesWindow
 		if( preferences.personWinHide != PreferencesWindowBox.check_appearance_person_win_hide.Active ) {
 			SqlitePreferences.Update("personWinHide", PreferencesWindowBox.check_appearance_person_win_hide.Active.ToString(), false);
 			preferences.personWinHide = PreferencesWindowBox.check_appearance_person_win_hide.Active;
+			FakeButtonPersonWin.Click ();
 		}
 	}
 
@@ -1102,6 +1106,7 @@ public class PreferencesWindow
 		if( preferences.personPhoto != PreferencesWindowBox.check_appearance_person_photo.Active ) {
 			SqlitePreferences.Update("personPhoto", PreferencesWindowBox.check_appearance_person_photo.Active.ToString(), false);
 			preferences.personPhoto = PreferencesWindowBox.check_appearance_person_photo.Active;
+			FakeButtonPersonWin.Click ();
 		}
 	}
 

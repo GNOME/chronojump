@@ -2507,7 +2507,7 @@ LogB.Information(" fs R ");
 			if (preferences.forceSensorCaptureFeedbackActive ==
 					Preferences.ForceSensorCaptureFeedbackActiveEnum.ASTEROIDS)
 				cairoGraphForceSensorSignal = new CairoGraphForceSensorSignalAsteroids (
-						da, "title");
+						da, "title", preferences.signalDirectionHorizontal);
 			else if (preferences.forceSensorCaptureFeedbackActive ==
 					Preferences.ForceSensorCaptureFeedbackActiveEnum.QUESTIONNAIRE)
 				cairoGraphForceSensorSignal = new CairoGraphForceSensorSignalQuestionnaire (
@@ -2515,7 +2515,8 @@ LogB.Information(" fs R ");
 			else
 				cairoGraphForceSensorSignal = new CairoGraphForceSensorSignal (
 						da, "title",
-						preferences.forceSensorFeedbackPathLineWidth);
+						preferences.forceSensorFeedbackPathLineWidth,
+						preferences.signalDirectionHorizontal);
 		}
 		else if (! capturing &&
 				(cairoGraphForceSensorSignal.GetType ().Equals (typeof (CairoGraphForceSensorSignalAsteroids)) ||
@@ -2524,7 +2525,8 @@ LogB.Information(" fs R ");
 			//while ! capture do not show asteroids/questionnaire
 			cairoGraphForceSensorSignal = new CairoGraphForceSensorSignal (
 					force_capture_drawingarea_cairo, "title",
-					preferences.forceSensorFeedbackPathLineWidth);
+					preferences.forceSensorFeedbackPathLineWidth,
+					preferences.signalDirectionHorizontal);
 		}
 
 		//LogB.Information ("updateForceSensorCaptureSignalCairo 1");
@@ -2559,7 +2561,8 @@ LogB.Information(" fs R ");
 
 		//create a copy
 		int pointsToCopy = spCairoFE.Force_l.Count;
-		SignalPointsCairoForceElastic spCairoFECopy = new SignalPointsCairoForceElastic (spCairoFE, 0, pointsToCopy -1);
+		SignalPointsCairoForceElastic spCairoFECopy = new SignalPointsCairoForceElastic (
+				spCairoFE, 0, pointsToCopy -1, preferences.signalDirectionHorizontal);
 
 		//create inerpolate_l_copy for path, but not on load
 		if (interpolate_l != null && preferences.forceSensorCaptureFeedbackActive == Preferences.ForceSensorCaptureFeedbackActiveEnum.PATH)

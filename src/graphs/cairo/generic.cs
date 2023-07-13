@@ -284,7 +284,7 @@ public abstract class CairoGeneric
 		g.Restore();
 	}
 
-	protected void paintHorizontalGridLine (Cairo.Context g, int ytemp, string text, int fontH, bool atRight, int shiftRight)
+	protected virtual void paintHorizontalGridLine (Cairo.Context g, int ytemp, string text, int fontH, bool atRight, int shiftRight)
 	{
 		if (atRight) //atRight do not write the line
 		{

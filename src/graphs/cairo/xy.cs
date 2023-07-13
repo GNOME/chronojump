@@ -352,7 +352,11 @@ public abstract class CairoXY : CairoGeneric
 	{
 		g.MoveTo (leftMargin, topMargin);
 		g.LineTo (leftMargin, graphHeight -bottomMargin);
-		g.LineTo (graphWidth -rightMargin, graphHeight -bottomMargin);
+		if (xVariable != "")
+			g.LineTo (graphWidth -3*rightMargin, graphHeight -bottomMargin);
+		else
+			g.LineTo (graphWidth -rightMargin, graphHeight -bottomMargin);
+
 		g.Stroke ();
 		printYAxisText();
 		printXAxisText();
@@ -386,7 +390,7 @@ public abstract class CairoXY : CairoGeneric
 	}
 	protected virtual void printXAxisText()
 	{
-		printText (graphWidth - Convert.ToInt32 (rightMargin/2), graphHeight -bottomMargin, 0, textHeight, getXAxisLabel(), g, alignTypes.LEFT);
+		printText (graphWidth - Convert.ToInt32 (rightMargin/2), graphHeight -bottomMargin, 0, textHeight, getXAxisLabel(), g, alignTypes.RIGHT);
 	}
 
 	protected string getXAxisLabel()

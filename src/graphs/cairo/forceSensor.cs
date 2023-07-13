@@ -25,6 +25,7 @@ using Cairo;
 
 public abstract class CairoGraphForceSensor : CairoXY
 {
+	protected bool horizontal;
 	protected int points_l_painted;
 
 	protected int pathLineWidthInN;
@@ -39,10 +40,11 @@ public abstract class CairoGraphForceSensor : CairoXY
 	//protected bool oneSerie; //on elastic is false: more than 1 serie
 
 
-	protected void initForceSensor (DrawingArea area, string title)
+	protected void initForceSensor (DrawingArea area, string title, bool horizontal)
 	{
 		this.area = area;
 		this.title = title;
+		this.horizontal = horizontal;
 		this.colorBackground = colorFromRGBA(Config.ColorBackground); //but note if we are using system colors, this will not match
 
 		points_l_painted = 0;
@@ -56,8 +58,14 @@ public abstract class CairoGraphForceSensor : CairoXY
 
 		innerMargin = 20;
 
-		yVariable = forceStr;
-		yUnits = "N";
+		if (horizontal)
+		{
+			yVariable = forceStr;
+			yUnits = "N";
+		} else {
+			xVariable = forceStr;
+			xUnits = "N";
+		}
 
 		xAtMaxY = 0;
 		yAtMaxY = 0;
@@ -69,12 +77,20 @@ public abstract class CairoGraphForceSensor : CairoXY
 
 	protected void fixMaximums ()
 	{
-		if (minY > minDisplayFNegative)
-			minY = minDisplayFNegative;
-		if (absoluteMaxY < minDisplayFPositive)
-			absoluteMaxY = minDisplayFPositive;
+		if (horizontal)
+		{
+			if (minY > minDisplayFNegative)
+				minY = minDisplayFNegative;
+			if (absoluteMaxY < minDisplayFPositive)
+				absoluteMaxY = minDisplayFPositive;
+		} else {
+			if (minX > minDisplayFNegative)
+				minX = minDisplayFNegative;
+			if (absoluteMaxX < minDisplayFPositive)
+				absoluteMaxX = minDisplayFPositive;
+		}
 
-		if (rectangleRange > 0)
+		if (rectangleRange > 0) //TODO: fix this for vertical
 		{
 			if (rectangleN < 0 && rectangleN - rectangleRange/2 < minY)
 				minY = rectangleN - rectangleRange/2;
@@ -82,6 +98,7 @@ public abstract class CairoGraphForceSensor : CairoXY
 				absoluteMaxY = rectangleN + rectangleRange/2;
 		}
 
+		//TODO: fix this for vertical
 		if (points_l_interpolated_path != null && points_l_interpolated_path.Count > 0)
 		{
 			if (interpolatedMin - pathLineWidthInN/2 < minY)
@@ -96,6 +113,7 @@ public abstract class CairoGraphForceSensor : CairoXY
 		//questionnaire is only done at CairoGraphForceSensorSignal
 	}
 
+	//TODO: fix this for vertical
 	protected double calculatePathWidth ()
 	{
 		return Math.Abs (calculatePaintY (pathLineWidthInN) - calculatePaintY (0));
@@ -109,6 +127,29 @@ public abstract class CairoGraphForceSensor : CairoXY
 				absoluteMaxX - minX);
         }
 
+	protected override void paintHorizontalGridLine (Cairo.Context g, int ytemp, string text, int fontH, bool atRight, int shiftRight)
+	{
+		if (atRight) //atRight do not write the line
+		{
+			//g.MoveTo(leftMargin, ytemp);
+			//g.LineTo(graphWidth - rightMargin, ytemp);
+			//g.SetDash(new double[] {10,5}, 0);
+
+			printText (graphWidth -rightMargin + shiftRight, ytemp, 0, fontH, text, g, alignTypes.LEFT);
+
+			return;
+		}
+
+		g.MoveTo(leftMargin, ytemp);
+		g.LineTo(graphWidth - rightMargin, ytemp);
+
+		if (! horizontal && Util.IsNumber (text, false))
+		{
+			double micros = Convert.ToDouble (text);
+			text = string.Format ("{0}s", UtilAll.DivideSafe (micros, 1000000));
+		}
+		printText (leftMargin/2, ytemp, 0, fontH, text, g, alignTypes.CENTER);
+	}
 	protected override void paintVerticalGridLine(Cairo.Context g, int xtemp, string text, int fontH)
 	{
 		if(fontH < 1)
@@ -117,7 +158,7 @@ public abstract class CairoGraphForceSensor : CairoXY
 		g.MoveTo(xtemp, topMargin);
 		g.LineTo(xtemp, graphHeight - bottomMargin);
 
-		if (Util.IsNumber (text, false))
+		if (horizontal && Util.IsNumber (text, false))
 		{
 			double micros = Convert.ToDouble (text);
 			text = string.Format ("{0}s", UtilAll.DivideSafe (micros, 1000000));
@@ -125,6 +166,7 @@ public abstract class CairoGraphForceSensor : CairoXY
 		printText(xtemp, graphHeight -bottomMargin/2, 0, fontH, text, g, alignTypes.CENTER);
 	}
 
+	//TODO: fix this for vertical
 	protected void paintRectangle (int rectangleN, int rectangleRange)
 	{
 		// 1) paint the light blue rectangle
@@ -150,6 +192,7 @@ public abstract class CairoGraphForceSensor : CairoXY
 		g.SetSourceRGB(0, 0, 0);
 	}
 
+	//TODO: fix this for vertical
 	protected void paintTriggers (List<PointF> points_l, TriggerList triggerList)
 	{
 		g.LineWidth = 1;
@@ -184,6 +227,7 @@ public abstract class CairoGraphForceSensor : CairoXY
 		g.SetSourceColor (black);
 	}
 	
+	//TODO: fix this for vertical
 	//this is painted after the 1st serie because this changes the mins and max to be used on calculatePaintY
 	protected void paintAnotherSerie (List<PointF> p_l, int startAt, PlotTypes plotType, Cairo.Color color, int axisShiftToRight, bool axisLabelTop, string variable, string units)
 	{
@@ -250,9 +294,9 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 	}
 
 	//regular constructor
-	public CairoGraphForceSensorSignal (DrawingArea area, string title, int pathLineWidthInN)
+	public CairoGraphForceSensorSignal (DrawingArea area, string title, int pathLineWidthInN, bool horizontal)
 	{
-		initForceSensor (area, title);
+		initForceSensor (area, title, horizontal);
 
 		this.pathLineWidthInN = pathLineWidthInN;
 
@@ -342,6 +386,17 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 
 			fixMaximums ();
 
+			// if vertical do have X in the center (at least at start)
+			if (! horizontal)
+			{
+				if (minX > -50)
+					minX = -50;
+				if (maxX < 50)
+					maxX = 50;
+				if (absoluteMaxX < 50)
+					absoluteMaxX = 50;
+			}
+
 			if (questionnaire != null)
 			{
 				if (questionnaireMinY < minY)
@@ -350,10 +405,18 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 					absoluteMaxY = questionnaireMaxY;
 			} else if (asteroids != null)
 			{
-				if (asteroids.MinY < minY)
-					minY = asteroids.MinY;
-				if (asteroids.MaxY > absoluteMaxY)
-					absoluteMaxY = asteroids.MaxY;
+				if (horizontal)
+				{
+					if (asteroids.MinY < minY)
+						minY = asteroids.MinY;
+					if (asteroids.MaxY > absoluteMaxY)
+						absoluteMaxY = asteroids.MaxY;
+				} else {
+					if (asteroids.MinY < minY)
+						minY = asteroids.MinY;
+					if (asteroids.MaxY > absoluteMaxY)
+						absoluteMaxY = asteroids.MaxY;
+				}
 			}
 		}
 
@@ -407,7 +470,12 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 			marginAfterInSeconds = Convert.ToInt32 (.66 * showLastSeconds); //show in left third of image (to have time/space to answer)
 
 		if (showLastSeconds > 0 && points_l.Count > 1)
-			startAt = configureTimeWindowHorizontal (points_l, showLastSeconds, marginAfterInSeconds, 1000000); //TODO: do also for vertical
+		{
+			if (horizontal)
+				startAt = configureTimeWindowHorizontal (points_l, showLastSeconds, marginAfterInSeconds, 1000000);
+			else
+				startAt = configureTimeWindowVertical (points_l, showLastSeconds, marginAfterInSeconds, 1000000);
+		}
 
 		// paint points and maybe interpolated path
 		if(maxValuesChanged || forceRedraw || points_l.Count != points_l_painted)
@@ -472,6 +540,7 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 		points_l_painted = points_l.Count;
 	}
 
+	//TODO: fix this for vertical
 	private string accuracyCalcule (List<PointF> points_l)
 	{
 		string str;
@@ -521,6 +590,7 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 		//do nothing
 	}
 
+	//TODO: fix this for vertical
 	private void briwPlot (List<PointF> points_l)
 	{
 		g.LineWidth = 2;
@@ -545,6 +615,7 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 		g.LineWidth = 2;
 	}
 
+	//TODO: fix this for vertical
 	private void accuracyPathPlot (string accuracyText,
 			int points_lCount,  List<PointF> points_l_interpolated_path, PlotTypes plotType)
 	{
@@ -609,9 +680,9 @@ public class CairoGraphForceSensorSignalAsteroids : CairoGraphForceSensorSignal
 	private double lastPointUp; //each s 1 point up
 	private int multiplier;
 
-	public CairoGraphForceSensorSignalAsteroids (DrawingArea area, string title)
+	public CairoGraphForceSensorSignalAsteroids (DrawingArea area, string title, bool horizontal)
 	{
-		initForceSensor (area, title);
+		initForceSensor (area, title, horizontal);
 		multiplier = 1000000; //forceSensor
 
 		lastShot = 0;
@@ -624,8 +695,7 @@ public class CairoGraphForceSensorSignalAsteroids : CairoGraphForceSensorSignal
 			return;
 
 		asteroidsPlot (points_l[points_l.Count -1], startAt, multiplier,
-				//marginAfterInSeconds, points_l, horizontal,
-				marginAfterInSeconds, points_l, true,
+				marginAfterInSeconds, points_l, horizontal,
 				ref lastShot, ref lastPointUp);
 	}
 }
@@ -634,7 +704,7 @@ public class CairoGraphForceSensorSignalQuestionnaire : CairoGraphForceSensorSig
 {
 	public CairoGraphForceSensorSignalQuestionnaire (DrawingArea area, string title)
 	{
-		initForceSensor (area, title);
+		initForceSensor (area, title, true);
 	}
 
 	protected override void plotSpecific ()
@@ -775,7 +845,7 @@ public class CairoGraphForceSensorAI : CairoGraphForceSensor
 	//regular constructor
 	public CairoGraphForceSensorAI (DrawingArea area, string title)
 	{
-		initForceSensor (area, title);
+		initForceSensor (area, title, true);
 	}
 
 	//separated in two methods to ensure endGraphDisposing on any return of the other method
@@ -1410,7 +1480,6 @@ public class Asteroids
 			else
 				shield = 3;
 
-			LogB.Information ("shield: " + shield.ToString ());
 			asteroid_l.Add (new Asteroid (
 						xStart, random.Next (minY, maxY), // y (force)
 						usLife, random.Next (minY, maxY), // y (force)

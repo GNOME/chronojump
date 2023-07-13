@@ -6689,13 +6689,41 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkRadioButton" id="radio_signal_direction_horizontal">
-                        <property name="label" translatable="yes">Horizontal</property>
+                      <object class="GtkBox" id="box_radio_signal_direction">
                         <property name="visible">True</property>
-                        <property name="can-focus">True</property>
-                        <property name="receives-default">False</property>
-                        <property name="active">True</property>
-                        <property name="draw-indicator">True</property>
+                        <property name="can-focus">False</property>
+                        <property name="spacing">12</property>
+                        <child>
+                          <object class="GtkRadioButton" id="radio_signal_direction_horizontal">
+                            <property name="label" translatable="yes">Horizontal</property>
+                            <property name="visible">True</property>
+                            <property name="can-focus">True</property>
+                            <property name="receives-default">False</property>
+                            <property name="active">True</property>
+                            <property name="draw-indicator">True</property>
+                          </object>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">True</property>
+                            <property name="position">0</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkRadioButton" id="radio_signal_direction_vertical">
+                            <property name="label" translatable="yes">Vertical</property>
+                            <property name="visible">True</property>
+                            <property name="can-focus">True</property>
+                            <property name="receives-default">False</property>
+                            <property name="active">True</property>
+                            <property name="draw-indicator">True</property>
+                            <property name="group">radio_signal_direction_horizontal</property>
+                          </object>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">True</property>
+                            <property name="position">1</property>
+                          </packing>
+                        </child>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -6704,14 +6732,9 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkRadioButton" id="radio_signal_direction_vertical">
-                        <property name="label" translatable="yes">Vertical</property>
-                        <property name="visible">True</property>
-                        <property name="can-focus">True</property>
-                        <property name="receives-default">False</property>
-                        <property name="active">True</property>
-                        <property name="draw-indicator">True</property>
-                        <property name="group">radio_signal_direction_horizontal</property>
+                      <object class="GtkLabel" id="label_signal_direction_horizontal">
+                        <property name="can-focus">False</property>
+                        <property name="label" translatable="yes">Horizontal</property>
                       </object>
                       <packing>
                         <property name="expand">False</property>

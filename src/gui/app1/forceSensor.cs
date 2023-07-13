@@ -30,6 +30,7 @@ using System.Collections;
 using System.Collections.Generic; //List<T>
 using System.Text.RegularExpressions; //Regex
 using Mono.Unix;
+using Kinovea.Filtering;
 
 
 public partial class ChronoJumpWindow 
@@ -2631,10 +2632,37 @@ LogB.Information(" fs R ");
 			fullScreenChange = fullScreenChangeEnum.DONOTHING;
 		}
 
+		//butterworth (see comments on butterworth/Sample/Program.cs
+		List<PointF> butterTraj_l = new List<PointF> ();
+		if (spCairoFECopy.Force_l.Count > 0)
+		{
+			List<TimedPoint> samples = new List<TimedPoint>();
+			if (cairoDrawHorizontal)
+			{
+				foreach (PointF point in spCairoFECopy.Force_l)
+					samples.Add(new TimedPoint((float) point.Y, 0, (long) point.X));
+			} else {
+				foreach (PointF point in spCairoFECopy.ForcePaintHoriz_l)
+					samples.Add(new TimedPoint((float) point.Y, 0, (long) point.X));
+			}
+
+			FilteredTrajectory traj = new FilteredTrajectory();
+			traj.Initialize(samples, 100);
+
+			for (int i = 0; i < traj.Times.Length; i ++)
+			{
+				if (cairoDrawHorizontal)
+					butterTraj_l.Add (new PointF (traj.Times[i], traj.Xs[i]));
+				else
+					butterTraj_l.Add (new PointF (traj.Xs[i], traj.Times[i]));
+			}
+		}
+
 		//LogB.Information ("updateForceSensorCaptureSignalCairo 4");
 		cairoGraphForceSensorSignal.DoSendingList (
 				preferences.fontType.ToString(),
 				spCairoFECopy,
+				butterTraj_l,
 				check_force_sensor_capture_show_distance.Active,
 				check_force_sensor_capture_show_speed.Active,
 				check_force_sensor_capture_show_power.Active,

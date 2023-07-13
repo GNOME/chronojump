@@ -110,6 +110,21 @@ public abstract class CairoGraphForceSensor : CairoXY
 				rightMargin = Convert.ToInt32 (Math.Ceiling (calculatePathWidth ()/2));
 		}
 
+		if (asteroids != null)
+		{
+			if (horizontal)
+			{
+				if (asteroids.MinY < minY)
+					minY = asteroids.MinY;
+				if (asteroids.MaxY > absoluteMaxY)
+					absoluteMaxY = asteroids.MaxY;
+			} else {
+				if (asteroids.MinY < minX)
+					minX = asteroids.MinY;
+				if (asteroids.MaxY > absoluteMaxX)
+					absoluteMaxX = asteroids.MaxY;
+			}
+		}
 		//questionnaire is only done at CairoGraphForceSensorSignal
 	}
 

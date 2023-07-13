@@ -1716,6 +1716,10 @@ LogB.Information(" fs C ");
 				Thread.Sleep (250);
 LogB.Information(" fs D ");
 
+			// if captured in vertical, make null the graph to be drawn again (horizontal with axis ok)
+			if (! preferences.signalDirectionHorizontal)
+				cairoGraphForceSensorSignal = null;
+
 			//1) unMute logs if preferences.muteLogs == false
 			LogB.Mute = preferences.muteLogs;
 			if(! preferences.muteLogs)
@@ -2494,6 +2498,10 @@ LogB.Information(" fs R ");
 	{
 		bool capturing = (forceCaptureThread != null && forceCaptureThread.IsAlive);
 
+		bool cairoDrawHorizontal = true;
+		if (! preferences.signalDirectionHorizontal && capturing)
+			cairoDrawHorizontal = false;
+
 		//LogB.Information ("updateForceSensorCaptureSignalCairo 0");
 		if (cairoGraphForceSensorSignal == null || fullScreenChange == fullScreenChangeEnum.CHANGETOFULL)
 		{
@@ -2507,7 +2515,7 @@ LogB.Information(" fs R ");
 			if (preferences.forceSensorCaptureFeedbackActive ==
 					Preferences.ForceSensorCaptureFeedbackActiveEnum.ASTEROIDS)
 				cairoGraphForceSensorSignal = new CairoGraphForceSensorSignalAsteroids (
-						da, "title", preferences.signalDirectionHorizontal);
+						da, "title", cairoDrawHorizontal);
 			else if (preferences.forceSensorCaptureFeedbackActive ==
 					Preferences.ForceSensorCaptureFeedbackActiveEnum.QUESTIONNAIRE)
 				cairoGraphForceSensorSignal = new CairoGraphForceSensorSignalQuestionnaire (
@@ -2516,7 +2524,7 @@ LogB.Information(" fs R ");
 				cairoGraphForceSensorSignal = new CairoGraphForceSensorSignal (
 						da, "title",
 						preferences.forceSensorFeedbackPathLineWidth,
-						preferences.signalDirectionHorizontal);
+						cairoDrawHorizontal);
 		}
 		else if (! capturing &&
 				(cairoGraphForceSensorSignal.GetType ().Equals (typeof (CairoGraphForceSensorSignalAsteroids)) ||
@@ -2526,7 +2534,7 @@ LogB.Information(" fs R ");
 			cairoGraphForceSensorSignal = new CairoGraphForceSensorSignal (
 					force_capture_drawingarea_cairo, "title",
 					preferences.forceSensorFeedbackPathLineWidth,
-					preferences.signalDirectionHorizontal);
+					cairoDrawHorizontal);
 		}
 
 		//LogB.Information ("updateForceSensorCaptureSignalCairo 1");
@@ -2562,7 +2570,7 @@ LogB.Information(" fs R ");
 		//create a copy
 		int pointsToCopy = spCairoFE.Force_l.Count;
 		SignalPointsCairoForceElastic spCairoFECopy = new SignalPointsCairoForceElastic (
-				spCairoFE, 0, pointsToCopy -1, preferences.signalDirectionHorizontal);
+				spCairoFE, 0, pointsToCopy -1, cairoDrawHorizontal);
 
 		//create inerpolate_l_copy for path, but not on load
 		if (interpolate_l != null && preferences.forceSensorCaptureFeedbackActive == Preferences.ForceSensorCaptureFeedbackActiveEnum.PATH)

@@ -780,7 +780,6 @@ public partial class ChronoJumpWindow
 				app1.Maximize();
 			}
 		}
-
 	}
 
 	private bool needToCreateMonthlySession(string yearMonthStr)

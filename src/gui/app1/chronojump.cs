@@ -3586,13 +3586,14 @@ public partial class ChronoJumpWindow
 		preferencesWin.FakeButtonDebugModeStart.Clicked += new EventHandler(on_preferences_debug_mode_start);
 		preferencesWin.Button_close.Clicked += new EventHandler(on_preferences_closed);
 	}
-		
+
 	private void on_preferences_maximize_changes (object o, EventArgs args)
 	{
 		preferences = preferencesWin.GetPreferences;
+		//LogB.Information ("preferences.maximized = " + preferences.maximized);
 		maximizeOrNot (false); //fromPreferences
 
-		//TODO: undecorated is not working
+		//TODO: undecorated is not working if Chronojump started undecorated
 	}
 
 	//show at top/left, if show at left show photo or not

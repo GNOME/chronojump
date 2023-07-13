@@ -469,6 +469,12 @@ public static class LogB
 
 #region Public Information Methods
 
+	// to debug any variable
+	public static void Information (string varName, object val)
+	{
+		Information (string.Format ("{0}: {1}", varName, val), null);
+	}
+
 	public static void Information(string message)
 	{
 		Information(message, null);

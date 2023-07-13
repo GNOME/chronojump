@@ -2081,7 +2081,11 @@ public class SignalPointsCairoForceElastic : SignalPointsCairo
 	// constructor for:
 	// - capture to send to graph a copy of the capturing set (and avoid thread problems), a, b is the full set
 	// - zoom being a and b the aBeforeZoom and bBeforeZoom, for copying an area from the full set
-	public SignalPointsCairoForceElastic (SignalPointsCairoForceElastic spfe, int a, int b)
+	//
+	// on capture vertical: , all this variables have XY transposed and there is a new variable: ForcePaintHoriz_l where XY is ok to calculate briw and miw
+	public List<PointF> ForcePaintHoriz_l;
+
+	public SignalPointsCairoForceElastic (SignalPointsCairoForceElastic spfe, int a, int b, bool horizontal)
 	{
 		Force_l = new List<PointF> ();
 		Displ_l = new List<PointF> ();
@@ -2089,17 +2093,35 @@ public class SignalPointsCairoForceElastic : SignalPointsCairo
 		Accel_l = new List<PointF> ();
 		Power_l = new List<PointF> ();
 
-		for (int i = a; i <= b; i ++)
+		if (horizontal)
 		{
-			Force_l.Add (spfe.Force_l[i]);
-			if (spfe.Displ_l != null && spfe.Displ_l.Count > 0)
-				Displ_l.Add (spfe.Displ_l[i]);
-			if (spfe.Speed_l != null && spfe.Speed_l.Count > 0)
-				Speed_l.Add (spfe.Speed_l[i]);
-			if (spfe.Accel_l != null && spfe.Accel_l.Count > 0)
-				Accel_l.Add (spfe.Accel_l[i]);
-			if (spfe.Power_l != null && spfe.Power_l.Count > 0)
-				Power_l.Add (spfe.Power_l[i]);
+			for (int i = a; i <= b; i ++)
+			{
+				Force_l.Add (spfe.Force_l[i]);
+				if (spfe.Displ_l != null && spfe.Displ_l.Count > 0)
+					Displ_l.Add (spfe.Displ_l[i]);
+				if (spfe.Speed_l != null && spfe.Speed_l.Count > 0)
+					Speed_l.Add (spfe.Speed_l[i]);
+				if (spfe.Accel_l != null && spfe.Accel_l.Count > 0)
+					Accel_l.Add (spfe.Accel_l[i]);
+				if (spfe.Power_l != null && spfe.Power_l.Count > 0)
+					Power_l.Add (spfe.Power_l[i]);
+			}
+		} else {
+			ForcePaintHoriz_l = new List<PointF> ();
+			for (int i = a; i <= b; i ++)
+			{
+				ForcePaintHoriz_l.Add (spfe.Force_l[i]);
+				Force_l.Add (spfe.Force_l[i].Transpose ());
+				if (spfe.Displ_l != null && spfe.Displ_l.Count > 0)
+					Displ_l.Add (spfe.Displ_l[i].Transpose ());
+				if (spfe.Speed_l != null && spfe.Speed_l.Count > 0)
+					Speed_l.Add (spfe.Speed_l[i].Transpose ());
+				if (spfe.Accel_l != null && spfe.Accel_l.Count > 0)
+					Accel_l.Add (spfe.Accel_l[i].Transpose ());
+				if (spfe.Power_l != null && spfe.Power_l.Count > 0)
+					Power_l.Add (spfe.Power_l[i].Transpose ());
+			}
 		}
 	}
 }

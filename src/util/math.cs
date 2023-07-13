@@ -48,6 +48,11 @@ public class PointF
 		get { return y; }
 	}
 
+	public PointF Transpose ()
+	{
+		return new PointF (y, x);
+	}
+
 	public override string ToString()
 	{
 		//return string.Format("X:{0}, Y:{1}", x, y);

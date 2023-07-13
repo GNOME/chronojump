@@ -1219,10 +1219,10 @@ public partial class ChronoJumpWindow
 
 			if (radio_force_sensor_ai_ab.Active)
 				spCairoFEZoom = new SignalPointsCairoForceElastic (spCairoFE,
-						hscale_force_sensor_ai_a_BeforeZoom, hscale_force_sensor_ai_b_BeforeZoom);
+						hscale_force_sensor_ai_a_BeforeZoom, hscale_force_sensor_ai_b_BeforeZoom, true);
 			else
 				spCairoFEZoom = new SignalPointsCairoForceElastic (spCairoFE,
-						hscale_force_sensor_ai_c_BeforeZoom, hscale_force_sensor_ai_d_BeforeZoom);
+						hscale_force_sensor_ai_c_BeforeZoom, hscale_force_sensor_ai_d_BeforeZoom, true);
 
 			//cairo
 			forceSensorRepetition_lZoomAppliedCairo = new List<ForceSensorRepetition> ();

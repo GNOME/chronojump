@@ -293,6 +293,7 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 	protected int questionnaireMinY;
 	protected int questionnaireMaxY;
 
+	private List<PointF> butterTraj_l;
 	private bool showAccuracy;
 	private int accuracySamplesGood;
 	private int accuracySamplesBad;
@@ -323,6 +324,7 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 	//separated in two methods to ensure endGraphDisposing on any return of the other method
 	public void DoSendingList (string font,
 			SignalPointsCairoForceElastic spCairoFE,
+			List<PointF> butterTraj_l,
 			bool showDistance, bool showSpeed, bool showPower,
 			List<PointF> points_l_interpolated_path, int interpolatedMin, int interpolatedMax,
 			bool capturing, bool showAccuracy, int showLastSeconds,
@@ -334,6 +336,7 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 			bool forceRedraw, PlotTypes plotType)
 	{
 		this.points_l = spCairoFE.Force_l;
+		this.butterTraj_l = butterTraj_l;
 		this.capturing = capturing;
 		this.showAccuracy = showAccuracy;
 		this.minDisplayFNegative = minDisplayFNegative;
@@ -550,6 +553,9 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 
 			if(calculatePaintX (xAtMinY) > leftMargin)
 				drawCircle (calculatePaintX (xAtMinY), calculatePaintY (yAtMinY), 8, red, false);
+
+			if (butterTraj_l != null && butterTraj_l.Count > 0)
+				plotRealPoints(plotType, butterTraj_l, startAt, false); //fast (but the difference is very low)
 		}
 
 		points_l_painted = points_l.Count;
@@ -1685,12 +1691,16 @@ public class Asteroid
 		int graphUsAtRight = graphSecondsAtRight * multiplier;
 		double graphUsTotalAtRight = graphUsStart + graphUsAtRight;
 
+		LogB.Information (string.Format ("GetTimeNowProportion: graphUsStart: {0}, graphSecondsAtRight: {1}, graphUsAtRight: {2}, graphUsTotalAtRight: {3}, total: {4}",
+					graphUsStart, graphSecondsAtRight, graphUsAtRight, graphUsTotalAtRight, UtilAll.DivideSafe (graphUsTotalAtRight - xStart, usLife)));
+
 		return UtilAll.DivideSafe (graphUsTotalAtRight - xStart, usLife);
 	}
 
 	public double GetYNow (double graphUsStart, int graphSecondsAtRight)
 	{
 		double lifeProportion = GetTimeNowProportion (graphUsStart, graphSecondsAtRight);
+		LogB.Information ("lifeProportion:" + lifeProportion);
 		return lifeProportion * (yEnd - yStart) + yStart;
 	}
 

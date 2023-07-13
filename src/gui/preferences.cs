@@ -1081,10 +1081,9 @@ public class PreferencesWindow
 		if(preferences.maximized != maximizedTypeFromGUI)
 		{
 			SqlitePreferences.Update ("maximized", maximizedTypeFromGUI.ToString(), false);
+			preferences.maximized = maximizedTypeFromGUI;
+			FakeButtonMaximizeChanges.Click ();
 		}
-	
-		preferences.maximized = maximizedTypeFromGUI;
-		FakeButtonMaximizeChanges.Click ();
 	}
 
 	private void on_check_appearance_person_win_hide_toggled (object obj, EventArgs args)

@@ -1483,6 +1483,7 @@ public class Asteroids
 
 	private List<Asteroid> asteroid_l;
 	private List<Shot> shot_l;
+	private List<AsteroidPoint> asteroidPoints_l;
 	private Random random = new Random();
 	private double lastCrash; //to paint ship in red for half second
 
@@ -1512,6 +1513,8 @@ public class Asteroids
 		lastCrash = -1; //to not start in red
 		asteroid_l = new List<Asteroid> ();
 		shot_l = new List<Shot> ();
+		asteroidPoints_l = new List<AsteroidPoint> ();
+
 		if (recordingTime < 0)
 			recordingTime = 100;
 
@@ -1648,6 +1651,21 @@ public class Asteroids
 		return ShotCrashedEnum.NOCRASHED;
 	}
 
+	public void AddAsteroidPoint (AsteroidPoint ap)
+	{
+		asteroidPoints_l.Add (ap);
+	}
+
+	public List<AsteroidPoint> GetAllAsteroidPointsPaintable ()
+	{
+		List<AsteroidPoint> apPaintable_l = new List<AsteroidPoint> ();
+		foreach (AsteroidPoint ap in asteroidPoints_l)
+			if (ap.NeedToShow ())
+				apPaintable_l.Add (ap);
+
+		return apPaintable_l;
+	}
+
 	private Cairo.Color createAsteroidColor ()
 	{
 		Cairo.Color color;
@@ -1658,7 +1676,6 @@ public class Asteroids
 
 		return color;
 	}
-
 }
 
 public class Asteroid
@@ -1682,7 +1699,7 @@ public class Asteroid
 		this.yEnd = yEnd;
 		this.size = size;
 		this.shield = shield;
-		this.pointsOnDestroy = shield * 5;
+		this.pointsOnDestroy = 5 + shield * 5;
 		this.color = color;
 
 		if (micros)
@@ -1822,5 +1839,52 @@ public class Shot
 	}
 	public bool Alive {
 		set { alive = value; }
+	}
+}
+
+//to show a +5 on destroying an asteroid
+public class AsteroidPoint
+{
+	private DateTime timeStart;
+	private double xGraph;
+	private double yGraph;
+	private int points;
+	private bool alive;
+	private const double life = .75; //seconds
+
+	public AsteroidPoint (DateTime timeStart, double xGraph, double yGraph, int points)
+	{
+		this.timeStart = timeStart;
+		this.xGraph = xGraph;
+		this.yGraph = yGraph;
+		this.points = points;
+		this.alive = true;
+	}
+
+	public bool NeedToShow ()
+	{
+		if (! alive)
+			return false;
+
+		if (DateTime.Now.Subtract (timeStart).TotalSeconds > life)
+		       return false;
+
+		return true;
+	}
+
+	public double XGraph {
+		get { return xGraph; }
+	}
+
+	public double YGraph {
+		get { return yGraph; }
+	}
+
+	public int Points {
+		get { return points; }
+	}
+
+	public bool Alive {
+		get { return alive; }
 	}
 }

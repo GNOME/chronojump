@@ -1,6 +1,7 @@
 ﻿#region License
 /*
   Copyright © 2017 Joan Charmant 
+  Copyright (C) 2023 Xavier de Blas <xaviblas@gmail.com>
   The MIT license.
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -66,7 +67,7 @@ namespace Kinovea.Filtering
     {
       get
       {
-        return XCutoffIndex < 0 ? RawXs : FilterResultXs[XCutoffIndex].Data;
+	return XCutoffIndex < 0 ? RawXs : FilterResultXs[XCutoffIndex].Data;
       }
     }
 
@@ -92,6 +93,11 @@ namespace Kinovea.Filtering
     public int XCutoffIndex { get; set; }
 
     /// <summary>
+    /// Best-guess cutoff frequency for Xs series.
+    /// </summary>
+    public double XCutoff { get; set; }
+
+    /// <summary>
     /// Filtered time series at various cutoff frequencies.
     /// </summary>
     public List<FilteringResult> FilterResultYs { get; set; }
@@ -106,7 +112,8 @@ namespace Kinovea.Filtering
     /// <summary>
     /// Initialize the data and filter it if possible.
     /// </summary>
-    public void Initialize(List<TimedPoint> samples, double captureFramesPerSecond)
+    /// <param name="forceFreq">If this is > 0, then this freq is used.</param>
+    public void Initialize(List<TimedPoint> samples, double captureFramesPerSecond, double forceFreq)
     {
       this.Length = samples.Count;
 
@@ -139,8 +146,11 @@ namespace Kinovea.Filtering
         // Filter the results a hundred times at various cutoff frequency and store all data along with the best cutoff frequency.
         int tests = 100;
         int bestCutoffIndexX;
-        FilterResultXs = filter.FilterSamples(RawXs, framerate, tests, out bestCutoffIndexX);
+        double bestCutoff;
+        FilterResultXs = filter.FilterSamples(RawXs, framerate, tests,
+			out bestCutoffIndexX, out bestCutoff, forceFreq);
         XCutoffIndex = bestCutoffIndexX;
+	XCutoff = bestCutoff;
 
 	/*
 	 * unneded Y (for Chronojump)

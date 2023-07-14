@@ -1,6 +1,7 @@
 ﻿#region License
 /*
   Copyright © 2017 Joan Charmant 
+  Copyright (C) 2023 Xavier de Blas <xaviblas@gmail.com>
   The MIT license.
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -58,11 +59,14 @@ namespace Kinovea.Filtering
     /// <param name="fs">The sampling frequency</param>
     /// <param name="fcTests">The number of cutoff frequencies to test. These will span between 0.5Hz and the Nyquist frequency.</param>
     /// <param name="bestCutoff">The best guess cutoff frequency found at minimal autocorrelation of residuals.</param>
-    public List<FilteringResult> FilterSamples(double[] samples, double fs, int fcTests, out int bestCutoffIndex)
+    /// <param name="forceFreq">If this is > 0, then this freq is used.</param>
+    public List<FilteringResult> FilterSamples(double[] samples, double fs, int fcTests,
+		    out int bestCutoffIndex, out double bestCutoff, double forceFreq)
     {
       if (samples.Length <= 10)
         throw new ArgumentException("Number of samples must be superior to 10");
 
+      bestCutoff = 0;
       List<FilteringResult> results = new List<FilteringResult>();
 
       double nyquist = fs / 2;
@@ -70,6 +74,30 @@ namespace Kinovea.Filtering
 
       int padding = 10;
       double[] padded = AddPadding(samples, padding);
+
+
+      LogB.Information ("FilterSamples, forceFreq: " + forceFreq.ToString ());
+      if (forceFreq > 0)
+      {
+	      double[] filteredPadded = FilterSamples (padded, fs, forceFreq);
+	      double[] filtered = RemovePadding (filteredPadded, padding);
+
+	      double[] residuals = samples.Subtract (filtered);
+	      double dw = StatsHelper.DurbinWatson (residuals);
+	      if  (! double.IsNaN (dw))
+	      {
+		      double dwNormalized = Math.Abs (2 - dw) / 2;
+
+		      FilteringResult result = new FilteringResult (forceFreq, filtered, dwNormalized);
+		      results.Add (result);
+		      bestCutoffIndex = 0;
+		      bestCutoff = forceFreq;
+		      LogB.Information ("FilterSamples, success");
+
+		      return results;
+	      }
+      }
+
 
       // Compute filtered result for a range of fc.
       // We keep the whole array of results so the user can manually change cutoff frequency without a 
@@ -99,12 +127,13 @@ namespace Kinovea.Filtering
         {
           bestScore = dwNormalized;
           bestIndex = index;
+	  bestCutoff = fc;
         }
 
         index++;
       }
 
-      bestCutoffIndex = bestIndex;
+      bestCutoffIndex = bestIndex; //note this index is not the fc
 
       return results;
     }

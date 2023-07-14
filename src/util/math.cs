@@ -166,6 +166,12 @@ public class PointF
 
 		return str;
 	}
+
+	public static PointF Last (List<PointF> p_l)
+	{
+		return p_l[p_l.Count -1];
+	}
+
 }
 
 //nice to have an X, Y and a value (Z)

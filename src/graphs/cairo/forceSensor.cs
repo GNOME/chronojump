@@ -1628,11 +1628,12 @@ public class Asteroids
 
 	public enum ShotCrashedEnum { NOCRASHED, CRASHEDNODESTROY, CRASHEDANDDESTROY }
 	public ShotCrashedEnum ShotCrashedWithAsteroid (double sx, double sy, int size,
-			List<Asteroid> asteroid_l, List<Point3F> asteroidXYZ_l, out int pointsKill)
+			List<Asteroid> asteroid_l, List<Point3F> asteroidXYZ_l,
+			out int i, out Asteroid asteroid) //the i asteroid
 	{
-		pointsKill = 0;
+		asteroid = null;
 
-		for (int i = 0; i < asteroidXYZ_l.Count; i ++)
+		for (i = 0; i < asteroidXYZ_l.Count; i ++)
 		{
 			Point3F aXYZ = asteroidXYZ_l[i];
 			if (CairoUtil.GetDistance2D (aXYZ.X, aXYZ.Y, sx, sy) < aXYZ.Z + size)
@@ -1641,7 +1642,7 @@ public class Asteroids
 				if (asteroid_l[i].Shield < 0)
 				{
 					asteroid_l[i].Alive = false;
-					pointsKill = asteroid_l[i].PointsOnDestroy;
+					asteroid = asteroid_l[i];
 					return ShotCrashedEnum.CRASHEDANDDESTROY;
 				} else
 					return ShotCrashedEnum.CRASHEDNODESTROY;

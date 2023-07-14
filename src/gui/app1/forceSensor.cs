@@ -2642,7 +2642,10 @@ LogB.Information(" fs R ");
 		double trajAutomaticXCutoff = 0;
 		double trajACutoff = 9;
 		double trajBCutoff = 26;
-		if (spCairoFECopy.Force_l.Count > 0)
+
+		if (spCairoFECopy.Force_l.Count > 0 &&
+				preferences.forceSensorCaptureFeedbackActive ==
+				Preferences.ForceSensorCaptureFeedbackActiveEnum.NO) //right now only calculate butterworth on NO feedback
 		{
 			List<PointF> pForButter_l = spCairoFECopy.Force_l;
 			if (! cairoDrawHorizontal)

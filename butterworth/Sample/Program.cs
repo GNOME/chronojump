@@ -60,7 +60,7 @@ namespace Sample
       // Here we assume the data is already in real world space so the function was slightly simplified.
       double framerate = 1000.0 / intervalMilliseconds;
       FilteredTrajectory traj = new FilteredTrajectory();
-      traj.Initialize(samples, framerate);
+      traj.Initialize(samples, framerate, -1);
 
       // 4. Compute linear kinematics on the data.
       // At this point `traj` contains a list of raw positions, a list of filtered positions at various cutoff frequencies, and the best-guess cutoff frequency.

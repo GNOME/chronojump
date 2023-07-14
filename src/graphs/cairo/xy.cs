@@ -1012,6 +1012,8 @@ public abstract class CairoXY : CairoGeneric
 			if (sce == Asteroids.ShotCrashedEnum.CRASHEDANDDESTROY)
 			{
 				asteroids.Points += pointsKillAsteroid;
+				asteroids.AddAsteroidPoint (new AsteroidPoint (
+							DateTime.Now, sx, sy, pointsKillAsteroid));
 				s.Alive = false;
 			} else if (sce == Asteroids.ShotCrashedEnum.CRASHEDNODESTROY)
 			{
@@ -1019,6 +1021,15 @@ public abstract class CairoXY : CairoGeneric
 			} else
 				asteroids.PaintShot (s, sx, sy, lastPoint.X, horizontal, g);
 		}
+
+		if (asteroids.Dark)
+			g.SetSourceColor (white);
+		else
+			g.SetSourceColor (black);
+
+		foreach (AsteroidPoint ap in asteroids.GetAllAsteroidPointsPaintable ())
+			printText (ap.XGraph, ap.YGraph, 0, textHeight+2,
+					string.Format ("+{0}", ap.Points), g, alignTypes.CENTER);
 
 		//add 1 point each s
 		if (lastPointDate >= lastPointUp + multiplier)
@@ -1029,11 +1040,6 @@ public abstract class CairoXY : CairoGeneric
 
 		// print points
 		g.SetFontSize (textHeight +8);
-
-		if (asteroids.Dark)
-			g.SetSourceColor (white);
-		else
-			g.SetSourceColor (black);
 
 		printText (graphWidth -rightMargin -innerMargin, .66*topMargin, 0, textHeight +4,
 				"Points: " + asteroids.Points.ToString (), g, alignTypes.RIGHT);

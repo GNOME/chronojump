@@ -2633,7 +2633,15 @@ LogB.Information(" fs R ");
 		}
 
 		//butterworth (see comments on butterworth/Sample/Program.cs
-		List<PointF> butterTraj_l = new List<PointF> ();
+		ChronoDebug cDebug = new ChronoDebug ("Butterworth time:");
+		cDebug.Start();
+
+		List<PointF> butterTrajAutomatic_l = new List<PointF> ();
+		List<PointF> butterTrajA_l = new List<PointF> ();
+		List<PointF> butterTrajB_l = new List<PointF> ();
+		double trajAutomaticXCutoff = 0;
+		double trajACutoff = 9;
+		double trajBCutoff = 26;
 		if (spCairoFECopy.Force_l.Count > 0)
 		{
 			List<PointF> pForButter_l = spCairoFECopy.Force_l;
@@ -2645,25 +2653,40 @@ LogB.Information(" fs R ");
 				samples.Add (new TimedPoint((float) point.Y, 0, (long) point.X));
 
 			double fps = UtilAll.DivideSafe (pForButter_l.Count, PointF.Last (pForButter_l).X/1000000 - pForButter_l[0].X/1000000);
-			FilteredTrajectory traj = new FilteredTrajectory();
-			traj.Initialize(samples, fps);
-			LogB.Information (string.Format ("butterworth: samples: {0}, fps: {1}, cutoff: {2}",
-						pForButter_l.Count, fps, traj.XCutoffIndex));
+			FilteredTrajectory trajAutomatic = new FilteredTrajectory();
+			FilteredTrajectory trajA = new FilteredTrajectory();
+			FilteredTrajectory trajB = new FilteredTrajectory();
+			trajAutomatic.Initialize(samples, fps, -1);
+			trajAutomaticXCutoff = trajAutomatic.XCutoff;
+			trajA.Initialize(samples, fps, trajACutoff);
+			trajB.Initialize(samples, fps, trajBCutoff);
+			//LogB.Information (string.Format ("butterworth: samples: {0}, fps: {1}, cutoff: {2}",
+			//			pForButter_l.Count, fps, traj.XCutoffIndex));
 
-			for (int i = 0; i < traj.Times.Length; i ++)
+			for (int i = 0; i < trajAutomatic.Times.Length; i ++)
 			{
+				//the -10, +5 , +10 are to be able to see the diff now as fast debug on screen
 				if (cairoDrawHorizontal)
-					butterTraj_l.Add (new PointF (traj.Times[i], traj.Xs[i] + 10)); //+10 to be able to see the diff now as debug
-				else
-					butterTraj_l.Add (new PointF (traj.Xs[i] + 10, traj.Times[i])); //+10 to be able to see the diff now as debug
+				{
+					butterTrajAutomatic_l.Add (new PointF (trajAutomatic.Times[i], trajAutomatic.Xs[i] - 10));
+					butterTrajA_l.Add (new PointF (trajA.Times[i], trajA.Xs[i] + 5));
+					butterTrajB_l.Add (new PointF (trajB.Times[i], trajB.Xs[i] + 10));
+				} else {
+					butterTrajAutomatic_l.Add (new PointF (trajAutomatic.Xs[i] - 10, trajAutomatic.Times[i]));
+					butterTrajA_l.Add (new PointF (trajA.Xs[i] + 5, trajA.Times[i]));
+					butterTrajB_l.Add (new PointF (trajB.Xs[i] + 10, trajB.Times[i]));
+				}
 			}
 		}
+		cDebug.StopAndPrint();
 
 		//LogB.Information ("updateForceSensorCaptureSignalCairo 4");
 		cairoGraphForceSensorSignal.DoSendingList (
 				preferences.fontType.ToString(),
 				spCairoFECopy,
-				butterTraj_l,
+				butterTrajAutomatic_l, trajAutomaticXCutoff,
+				butterTrajA_l, trajACutoff,
+				butterTrajB_l, trajBCutoff,
 				check_force_sensor_capture_show_distance.Active,
 				check_force_sensor_capture_show_speed.Active,
 				check_force_sensor_capture_show_power.Active,

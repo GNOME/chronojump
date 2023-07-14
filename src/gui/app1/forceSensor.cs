@@ -2636,18 +2636,19 @@ LogB.Information(" fs R ");
 		List<PointF> butterTraj_l = new List<PointF> ();
 		if (spCairoFECopy.Force_l.Count > 0)
 		{
-			List<TimedPoint> samples = new List<TimedPoint>();
-			if (cairoDrawHorizontal)
-			{
-				foreach (PointF point in spCairoFECopy.Force_l)
-					samples.Add(new TimedPoint((float) point.Y, 0, (long) point.X));
-			} else {
-				foreach (PointF point in spCairoFECopy.ForcePaintHoriz_l)
-					samples.Add(new TimedPoint((float) point.Y, 0, (long) point.X));
-			}
+			List<PointF> pForButter_l = spCairoFECopy.Force_l;
+			if (! cairoDrawHorizontal)
+				pForButter_l = spCairoFECopy.ForcePaintHoriz_l;
 
+			List<TimedPoint> samples = new List<TimedPoint>();
+			foreach (PointF point in pForButter_l)
+				samples.Add (new TimedPoint((float) point.Y, 0, (long) point.X));
+
+			double fps = UtilAll.DivideSafe (pForButter_l.Count, PointF.Last (pForButter_l).X/1000000 - pForButter_l[0].X/1000000);
 			FilteredTrajectory traj = new FilteredTrajectory();
-			traj.Initialize(samples, 100);
+			traj.Initialize(samples, fps);
+			LogB.Information (string.Format ("butterworth: samples: {0}, fps: {1}, cutoff: {2}",
+						pForButter_l.Count, fps, traj.XCutoffIndex));
 
 			for (int i = 0; i < traj.Times.Length; i ++)
 			{

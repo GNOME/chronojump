@@ -142,9 +142,12 @@ namespace Kinovea.Filtering
         FilterResultXs = filter.FilterSamples(RawXs, framerate, tests, out bestCutoffIndexX);
         XCutoffIndex = bestCutoffIndexX;
 
+	/*
+	 * unneded Y (for Chronojump)
         int bestCutoffIndexY;
         FilterResultYs = filter.FilterSamples(RawYs, framerate, tests, out bestCutoffIndexY);
         YCutoffIndex = bestCutoffIndexY;
+	*/
       }
 
       //BestFitCircle = CircleFitter.Fit(this);

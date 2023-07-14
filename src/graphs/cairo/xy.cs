@@ -1007,13 +1007,15 @@ public abstract class CairoXY : CairoGeneric
 			}
 			//LogB.Information (string.Format ("shot: {0}, {1}", sx, sy));
 
-			int pointsKillAsteroid = 0;
-			Asteroids.ShotCrashedEnum sce = asteroids.ShotCrashedWithAsteroid (sx, sy, s.Size, aPaintable_l, aPainted_l, out pointsKillAsteroid);
+			int i = 0;
+			Asteroid asteroid;
+			Asteroids.ShotCrashedEnum sce = asteroids.ShotCrashedWithAsteroid (
+					sx, sy, s.Size, aPaintable_l, aPainted_l, out i, out asteroid);
 			if (sce == Asteroids.ShotCrashedEnum.CRASHEDANDDESTROY)
 			{
-				asteroids.Points += pointsKillAsteroid;
+				asteroids.Points += asteroid.PointsOnDestroy;
 				asteroids.AddAsteroidPoint (new AsteroidPoint (
-							DateTime.Now, sx, sy, pointsKillAsteroid));
+							DateTime.Now, aPainted_l[i].X, aPainted_l[i].Y, asteroid.PointsOnDestroy));
 				s.Alive = false;
 			} else if (sce == Asteroids.ShotCrashedEnum.CRASHEDNODESTROY)
 			{

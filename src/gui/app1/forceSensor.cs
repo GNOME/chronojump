@@ -97,12 +97,14 @@ public partial class ChronoJumpWindow
 	static DateTime forceSensorTimeStart;
 	static string lastForceSensorFile = "";
 	static string lastForceSensorFullPath = "";
+	static string lastForceSensorFullPath_cd = "";
 
 	int usbDisconnectedCount;
 	int usbDisconnectedLastTime;
 
 	private ForceSensor currentForceSensor;
 	private ForceSensorExercise currentForceSensorExercise;
+	private ForceSensorExercise currentForceSensorExercise_cd; //only for analyze cd (when 2sets)
 	DateTime forceSensorTimeStartCapture;
 	private string forceSensorFirmwareVersion;
 
@@ -534,6 +536,7 @@ public partial class ChronoJumpWindow
 		fsAI_AB = null;
 		fsAI_CD = null;
 		lastForceSensorFullPath = null;
+		lastForceSensorFullPath_cd = null;
 
 		button_contacts_exercise_close_and_recalculate.Sensitive = false;
 		textview_contacts_signal_comment.Buffer.Text = "";
@@ -1949,10 +1952,27 @@ LogB.Information(" fs R ");
 			return;
 		}
 
+		// trying on _cd to only update the graph
+		if (radio_force_sensor_ai_2sets.Active && radio_force_sensor_ai_cd.Active)
+		{
+			lastForceSensorFullPath_cd = fs.FullURL;
+			LogB.Information ("lastForceSensorFullPath_cd is: " + lastForceSensorFullPath_cd);
+
+			currentForceSensorExercise_cd = (ForceSensorExercise) SqliteForceSensorExercise.Select (
+                                false, fs.ExerciseID, -1, false, "")[0];
+
+			//TODO: maybe need to wait to ensure is copied
+			File.Copy (lastForceSensorFullPath_cd, UtilEncoder.GetmifCSVFileName_CD (), true); //can be overwritten
+			forceSensorDoSignalGraphReadFile (false, fs.CaptureOption); //cd
+			forceSensorDoGraphAI (false);
+			updateForceSensorAICairo (true);
+			return;
+		}
 
 		currentForceSensor = fs;
 		lastForceSensorFile = Util.RemoveExtension(fs.Filename);
 		lastForceSensorFullPath = fs.FullURL;
+		LogB.Information ("lastForceSensorFullPath is: " + lastForceSensorFullPath);
 		LogB.Information("lastForceSensorFullPath: " + lastForceSensorFullPath);
 
 		combo_force_sensor_exercise.Active = UtilGtk.ComboMakeActive(combo_force_sensor_exercise, fs.ExerciseName);
@@ -2375,17 +2395,25 @@ LogB.Information(" fs R ");
 		button_force_sensor_image_save_rfd_auto.Sensitive = true;
 	}
 
-	void forceSensorDoSignalGraph()
+	void forceSensorDoSignalGraph ()
 	{
-		forceSensorDoSignalGraphReadFile (getForceSensorCaptureOptions());
+		forceSensorDoSignalGraphReadFile (true, getForceSensorCaptureOptions());
 		forceSensorDoSignalGraphPlot ();
 	}
-	void forceSensorDoSignalGraphReadFile(ForceSensor.CaptureOptions fsco)
+	void forceSensorDoSignalGraphReadFile (bool ab, ForceSensor.CaptureOptions fsco)
 	{
-		spCairoFE = new SignalPointsCairoForceElastic ();
+		if (ab)
+			spCairoFE = new SignalPointsCairoForceElastic ();
+		else
+			spCairoFE_CD = new SignalPointsCairoForceElastic ();
 
 		//LogB.Information("at forceSensorDoSignalGraphReadFile(), filename: " + UtilEncoder.GetmifCSVFileName());
-		List<string> contents = Util.ReadFileAsStringList(UtilEncoder.GetmifCSVFileName());
+		List<string> contents;
+		if (ab)
+			contents = Util.ReadFileAsStringList(UtilEncoder.GetmifCSVFileName ());
+		else //cd
+			contents = Util.ReadFileAsStringList(UtilEncoder.GetmifCSVFileName_CD ());
+
 		bool headersRow = true;
 
 		//initialize
@@ -2444,13 +2472,25 @@ LogB.Information(" fs R ");
 		int i = 0;
 		foreach(int time in times)
 		{
-			spCairoFE.Force_l.Add (new PointF (time, forces[i]));
-			if(fsd.CalculedElasticPSAP)
+			if (ab)
 			{
-				spCairoFE.Displ_l.Add (new PointF (time, position_l[i]));
-				spCairoFE.Speed_l.Add (new PointF (time, speed_l[i]));
-				spCairoFE.Accel_l.Add (new PointF (time, accel_l[i]));
-				spCairoFE.Power_l.Add (new PointF (time, power_l[i]));
+				spCairoFE.Force_l.Add (new PointF (time, forces[i]));
+				if(fsd.CalculedElasticPSAP)
+				{
+					spCairoFE.Displ_l.Add (new PointF (time, position_l[i]));
+					spCairoFE.Speed_l.Add (new PointF (time, speed_l[i]));
+					spCairoFE.Accel_l.Add (new PointF (time, accel_l[i]));
+					spCairoFE.Power_l.Add (new PointF (time, power_l[i]));
+				}
+			} else {
+				spCairoFE_CD.Force_l.Add (new PointF (time, forces[i]));
+				if(fsd.CalculedElasticPSAP)
+				{
+					spCairoFE_CD.Displ_l.Add (new PointF (time, position_l[i]));
+					spCairoFE_CD.Speed_l.Add (new PointF (time, speed_l[i]));
+					spCairoFE_CD.Accel_l.Add (new PointF (time, accel_l[i]));
+					spCairoFE_CD.Power_l.Add (new PointF (time, power_l[i]));
+				}
 			}
 
 			forceSensorValues.TimeLast = time;
@@ -2467,6 +2507,7 @@ LogB.Information(" fs R ");
 	CairoGraphForceSensorSignal cairoGraphForceSensorSignal;
 	SignalPointsCairoForceElastic spCairoFE;
 	SignalPointsCairoForceElastic spCairoFEZoom;
+	SignalPointsCairoForceElastic spCairoFE_CD; //used if ! toggle_force_sensor_ai_chained_load_link
 	bool cairoGraphForceSensorSignalPointsShowAccuracy;
 
 	bool fsMagnitudesSignalsNoFollow;

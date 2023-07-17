@@ -265,6 +265,9 @@ public class UtilEncoder
 	public static string GetmifCSVFileName() {
 		return Path.Combine(Path.GetTempPath(), "cj_mif_Data.csv");
 	}
+	public static string GetmifCSVFileName_CD () {
+		return Path.Combine(Path.GetTempPath(), "cj_mif_Data_CD.csv");
+	}
 	public static string GetmifTempFileName() {
 		return Path.Combine(Path.GetTempPath(), "cj_mif_Graph.png");
 	}

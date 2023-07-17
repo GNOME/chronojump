@@ -1314,7 +1314,12 @@ public partial class ChronoJumpWindow
 		if ((Gtk.RadioButton) o == radio_force_sensor_ai_1set)
 			notebook_force_sensor_ai_load.Page = 0;
 		else //((Gtk.RadioButton) o == radio_force_sensor_ai_2sets)
+		{
 			notebook_force_sensor_ai_load.Page = 1;
+
+			button_force_sensor_analyze_load_ab.Sensitive = radio_force_sensor_ai_ab.Active;
+			button_force_sensor_analyze_load_cd.Sensitive = radio_force_sensor_ai_cd.Active;
+		}
 	}
 
 	private void on_radio_force_sensor_ai_abcd_toggled (object o, EventArgs args)
@@ -1340,6 +1345,9 @@ public partial class ChronoJumpWindow
 			label_force_sensor_ai_zoom_abcd.Text = "[C-D]";
 			UtilGtk.ViewportColor (viewport_force_sensor_analyze_hscales, UtilGtk.Colors.GREEN_LIGHT);
 		}
+
+		button_force_sensor_analyze_load_ab.Sensitive = (radio_force_sensor_ai_2sets.Active && radio_force_sensor_ai_ab.Active);
+		button_force_sensor_analyze_load_cd.Sensitive = (radio_force_sensor_ai_2sets.Active && radio_force_sensor_ai_cd.Active);
 
 		forceSensorAnalyzeGeneralButtonHscaleZoomSensitiveness();
 	}

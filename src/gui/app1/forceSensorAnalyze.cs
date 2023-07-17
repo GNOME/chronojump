@@ -983,11 +983,11 @@ public partial class ChronoJumpWindow
 		string fullPath_cd = lastForceSensorFullPath;
 		ForceSensorExercise exercise_cd = currentForceSensorExercise;
 		if (radio_force_sensor_ai_2sets.Active &&
-				lastForceSensorFullPath_cd != null &&
-				lastForceSensorFullPath_cd != "")
+				lastForceSensorFullPath_CD != null &&
+				lastForceSensorFullPath_CD != "")
 		{
-			fullPath_cd = lastForceSensorFullPath_cd;
-			exercise_cd = currentForceSensorExercise_cd;
+			fullPath_cd = lastForceSensorFullPath_CD;
+			exercise_cd = currentForceSensorExercise_CD;
 			//TODO: CaptureOptions, Stiffness, also personSession.Weight if compare between persons
 		}
 

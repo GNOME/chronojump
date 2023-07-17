@@ -82,6 +82,7 @@ public abstract class CairoXY : CairoGeneric
 
 	protected Cairo.Color black;
 	protected Cairo.Color gray99;
+	protected Cairo.Color grayDark;
 	protected Cairo.Color gray;
 	protected Cairo.Color white;
 	//Cairo.Color blue;
@@ -185,6 +186,7 @@ public abstract class CairoXY : CairoGeneric
 		black = colorFromRGB(0,0,0);
 		gray99 = colorFromRGB(99,99,99);
 		gray = new Cairo.Color (.5, .5, .5, 1);
+		grayDark = new Cairo.Color (.33, .33, .33, 1);
 		white = new Cairo.Color (1, 1, 1, 1);
 		//blue = colorFromRGB(178, 223, 238); //lightblue
 		bluePlots = colorFromRGB(0, 0, 200);

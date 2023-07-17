@@ -1150,12 +1150,30 @@ public partial class ChronoJumpWindow
 		}
 
 		SignalPointsCairoForceElastic spCairoFESend_CD = null;
+		List<string> subtitleWithSetsInfo_l = new List<string> ();
 		if (radio_force_sensor_ai_2sets.Active)
+		{
 			spCairoFESend_CD = spCairoFE_CD;
+
+			if (currentForceSensor != null && currentForceSensorExercise != null &&
+					currentForceSensor_CD != null && currentForceSensorExercise_CD != null)
+			{
+				subtitleWithSetsInfo_l.Add (string.Format ("AB: {0}, {1}, {2}",
+						currentForceSensorExercise.Name,
+						currentForceSensor.Laterality,
+						currentForceSensor.DateTimePublic));
+
+				subtitleWithSetsInfo_l.Add (string.Format ("CD: {0}, {1}, {2}",
+						currentForceSensorExercise_CD.Name,
+						currentForceSensor_CD.Laterality,
+						currentForceSensor_CD.DateTimePublic));
+			}
+		}
 
 		fsAIRepetitionMouseLimitsCairo = cairoGraphForceSensorAI.DoSendingList (
 				preferences.fontType.ToString(),
 				spCairoFESend, spCairoFESend_CD,
+				subtitleWithSetsInfo_l,
 				check_force_sensor_analyze_show_distance.Active,
 				check_force_sensor_analyze_show_speed.Active,
 				check_force_sensor_analyze_show_power.Active,

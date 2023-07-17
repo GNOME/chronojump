@@ -904,6 +904,7 @@ public class CairoGraphForceSensorAI : CairoGraphForceSensor
 			string font,
 			SignalPointsCairoForceElastic spCairoFE,
 			SignalPointsCairoForceElastic spCairoFE_CD,
+			List<string> subtitleWithSetsInfo_l,
 			bool showDistance, bool showSpeed, bool showPower,
 			int minDisplayFNegative, int minDisplayFPositive,
 			int rectangleN, int rectangleRange,
@@ -940,6 +941,7 @@ public class CairoGraphForceSensorAI : CairoGraphForceSensor
 
 		if (doSendingList (font, spCairoFE.Force_l,
 					spCairoFE_CD,
+					subtitleWithSetsInfo_l,
 					triggerList,
 					hscaleSampleA, hscaleSampleB,
 					hscaleSampleC, hscaleSampleD,
@@ -983,6 +985,7 @@ public class CairoGraphForceSensorAI : CairoGraphForceSensor
 	private bool doSendingList (string font,
 			List<PointF> points_l,
 			SignalPointsCairoForceElastic spCairoFE_CD,
+			List<string> subtitleWithSetsInfo_l,
 			TriggerList triggerList,
 			int hscaleSampleA, int hscaleSampleB,
 			int hscaleSampleC, int hscaleSampleD,
@@ -1235,6 +1238,19 @@ public class CairoGraphForceSensorAI : CairoGraphForceSensor
 				paintBriw (pointsCD_l, briw_l[1]);
 
 			g.LineWidth = 2;
+
+			if (subtitleWithSetsInfo_l.Count > 0)
+			{
+				Cairo.TextExtents teAB = g.TextExtents (subtitleWithSetsInfo_l[0]);
+				Cairo.TextExtents teCD = g.TextExtents (subtitleWithSetsInfo_l[1]);
+
+				printText (graphWidth /2 -(teAB.Width + teCD.Width + 30)/2, graphHeight -bottomMargin -innerMargin/2,
+						0, textHeight, subtitleWithSetsInfo_l[0], g, alignTypes.LEFT);
+
+				g.SetSourceColor (grayDark);
+				printText (graphWidth /2 +(teAB.Width + teCD.Width + 30)/2, graphHeight -bottomMargin -innerMargin/2,
+						0, textHeight, subtitleWithSetsInfo_l[1], g, alignTypes.RIGHT);
+			}
 
 			// paint max, min circles
 			if(calculatePaintX (xAtMaxY) > leftMargin)

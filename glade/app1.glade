@@ -25493,6 +25493,7 @@ Concentric</property>
                                                             <child>
                                                             <object class="GtkButton" id="button_force_sensor_analyze_load_cd">
                                                             <property name="visible">True</property>
+                                                            <property name="sensitive">False</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="receives-default">True</property>
                                                             <signal name="clicked" handler="on_button_contacts_capture_load_clicked" swapped="no"/>

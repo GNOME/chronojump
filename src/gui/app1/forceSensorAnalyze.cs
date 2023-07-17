@@ -900,7 +900,7 @@ public partial class ChronoJumpWindow
 					Constants.DirectoryCannotOpenStr() + "\n\n" + forceSensorExport.ExportURL);
 	}
 
-	private void forceSensorDoGraphAI(bool windowResizedAndZoom) //TODO: note true is never sent
+	private void forceSensorDoGraphAI (bool windowResizedAndZoom) //TODO: note true is never sent
 	{
 		if(lastForceSensorFullPath == null || lastForceSensorFullPath == "")
 			return;
@@ -979,11 +979,25 @@ public partial class ChronoJumpWindow
 				getForceSensorCaptureOptions(), currentForceSensor.Stiffness,
 				eccMinDispl, conMinDispl
 				);
+
+		string fullPath_cd = lastForceSensorFullPath;
+		ForceSensorExercise exercise_cd = currentForceSensorExercise;
+		if (radio_force_sensor_ai_2sets.Active &&
+				lastForceSensorFullPath_cd != null &&
+				lastForceSensorFullPath_cd != "")
+		{
+			fullPath_cd = lastForceSensorFullPath_cd;
+			exercise_cd = currentForceSensorExercise_cd;
+			//TODO: CaptureOptions, Stiffness, also personSession.Weight if compare between persons
+		}
+
+
+		//LogB.Information ("fullPath_cd", fullPath_cd);
 		fsAI_CD = new ForceSensorAnalyzeInstant(
 				"CD",
-				lastForceSensorFullPath,
-				zoomFrameA, zoomFrameB, //TODO: check zoomz for CD
-				currentForceSensorExercise, currentPersonSession.Weight,
+				fullPath_cd,
+				zoomFrameA, zoomFrameB, //TODO: check zoom for CD
+				exercise_cd, currentPersonSession.Weight,
 				getForceSensorCaptureOptions(), currentForceSensor.Stiffness,
 				eccMinDispl, conMinDispl
 				);
@@ -1135,9 +1149,13 @@ public partial class ChronoJumpWindow
 			maxY = 0;
 		}
 
+		SignalPointsCairoForceElastic spCairoFESend_CD = null;
+		if (radio_force_sensor_ai_2sets.Active)
+			spCairoFESend_CD = spCairoFE_CD;
+
 		fsAIRepetitionMouseLimitsCairo = cairoGraphForceSensorAI.DoSendingList (
 				preferences.fontType.ToString(),
-				spCairoFESend, //now send this, in the future send List of this to superpose curves
+				spCairoFESend, spCairoFESend_CD,
 				check_force_sensor_analyze_show_distance.Active,
 				check_force_sensor_analyze_show_speed.Active,
 				check_force_sensor_analyze_show_power.Active,

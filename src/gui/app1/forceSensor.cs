@@ -97,14 +97,14 @@ public partial class ChronoJumpWindow
 	static DateTime forceSensorTimeStart;
 	static string lastForceSensorFile = "";
 	static string lastForceSensorFullPath = "";
-	static string lastForceSensorFullPath_cd = "";
+	static string lastForceSensorFullPath_CD = "";
 
 	int usbDisconnectedCount;
 	int usbDisconnectedLastTime;
 
 	private ForceSensor currentForceSensor;
 	private ForceSensorExercise currentForceSensorExercise;
-	private ForceSensorExercise currentForceSensorExercise_cd; //only for analyze cd (when 2sets)
+	private ForceSensorExercise currentForceSensorExercise_CD; //only for analyze cd (when 2sets)
 	DateTime forceSensorTimeStartCapture;
 	private string forceSensorFirmwareVersion;
 
@@ -536,7 +536,7 @@ public partial class ChronoJumpWindow
 		fsAI_AB = null;
 		fsAI_CD = null;
 		lastForceSensorFullPath = null;
-		lastForceSensorFullPath_cd = null;
+		lastForceSensorFullPath_CD = null;
 
 		button_contacts_exercise_close_and_recalculate.Sensitive = false;
 		textview_contacts_signal_comment.Buffer.Text = "";
@@ -1955,14 +1955,14 @@ LogB.Information(" fs R ");
 		// trying on _cd to only update the graph
 		if (radio_force_sensor_ai_2sets.Active && radio_force_sensor_ai_cd.Active)
 		{
-			lastForceSensorFullPath_cd = fs.FullURL;
-			LogB.Information ("lastForceSensorFullPath_cd is: " + lastForceSensorFullPath_cd);
+			lastForceSensorFullPath_CD = fs.FullURL;
+			LogB.Information ("lastForceSensorFullPath_CD is: " + lastForceSensorFullPath_CD);
 
-			currentForceSensorExercise_cd = (ForceSensorExercise) SqliteForceSensorExercise.Select (
+			currentForceSensorExercise_CD = (ForceSensorExercise) SqliteForceSensorExercise.Select (
                                 false, fs.ExerciseID, -1, false, "")[0];
 
 			//TODO: maybe need to wait to ensure is copied
-			File.Copy (lastForceSensorFullPath_cd, UtilEncoder.GetmifCSVFileName_CD (), true); //can be overwritten
+			File.Copy (lastForceSensorFullPath_CD, UtilEncoder.GetmifCSVFileName_CD (), true); //can be overwritten
 			forceSensorDoSignalGraphReadFile (false, fs.CaptureOption); //cd
 			forceSensorDoGraphAI (false);
 			updateForceSensorAICairo (true);
@@ -2446,13 +2446,19 @@ LogB.Information(" fs R ");
 		//LogB.Information(string.Format("size of times: {0}", times.Count));
 		//LogB.Information(string.Format("size of forces: {0}", forces.Count));
 
-		if(currentForceSensorExercise.ComputeAsElastic)
-			fsd = new ForceSensorDynamicsElastic(
-					times, forces, fsco, currentForceSensorExercise, currentPersonSession.Weight, currentForceSensor.Stiffness,
+		ForceSensorExercise fsex;
+		if (ab)
+			fsex = currentForceSensorExercise;
+		else
+			fsex = currentForceSensorExercise_CD;
+
+		if (fsex.ComputeAsElastic)
+			fsd = new ForceSensorDynamicsElastic (
+					times, forces, fsco, fsex, currentPersonSession.Weight, currentForceSensor.Stiffness,
 					preferences.forceSensorElasticEccMinDispl, preferences.forceSensorElasticConMinDispl, false);
 		else
-			fsd = new ForceSensorDynamicsNotElastic(
-					times, forces, fsco, currentForceSensorExercise, currentPersonSession.Weight, currentForceSensor.Stiffness,
+			fsd = new ForceSensorDynamicsNotElastic (
+					times, forces, fsco, fsex, currentPersonSession.Weight, currentForceSensor.Stiffness,
 					preferences.forceSensorNotElasticEccMinForce, preferences.forceSensorNotElasticConMinForce);
 
 		forces = fsd.GetForces();

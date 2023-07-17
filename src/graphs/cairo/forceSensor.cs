@@ -994,12 +994,34 @@ public class CairoGraphForceSensorAI : CairoGraphForceSensor
 	{
 		bool maxValuesChanged = false;
 
+		bool twoSeries = false;
+		List <PointF> pointsCD_l = points_l;
+		if (spCairoFE_CD != null && spCairoFE_CD.Force_l.Count > 0)
+		{
+			twoSeries = true;
+			pointsCD_l = spCairoFE_CD.Force_l;
+		}
+
 		if(points_l != null)
 		{
 			maxValuesChanged = findPointMaximums(false, points_l);
 			//LogB.Information(string.Format("minY: {0}, maxY: {1}", minY, maxY));
 
 			fixMaximums ();
+			if (twoSeries)
+			{
+				foreach (PointF p in pointsCD_l)
+				{
+					if(p.X < minX)
+						minX = p.X;
+					if(p.X > absoluteMaxX)
+						absoluteMaxX = p.X;
+					if(p.Y < minY)
+						minY = p.Y;
+					if(p.Y > absoluteMaxY)
+						absoluteMaxY = p.Y;
+				}
+			}
 		}
 
 		bool graphInited = false;
@@ -1033,10 +1055,6 @@ public class CairoGraphForceSensorAI : CairoGraphForceSensor
 			return graphInited;
 		}
 
-		List <PointF> pointsCD_l = points_l;
-		if (spCairoFE_CD != null && spCairoFE_CD.Force_l.Count > 0)
-			pointsCD_l = spCairoFE_CD.Force_l;
-
 		pointsRadius = 1;
 		startAt = 0;
 
@@ -1053,7 +1071,7 @@ public class CairoGraphForceSensorAI : CairoGraphForceSensor
 
 			plotRealPoints (plotType, points_l, startAt, false); //fast (but the difference is very low)
 
-			if (spCairoFE_CD != null && spCairoFE_CD.Force_l.Count > 0)
+			if (twoSeries)
 			{
 				g.SetSourceColor (gray);
 				plotRealPoints (plotType, pointsCD_l, startAt, false); //fast (but the difference is very low)

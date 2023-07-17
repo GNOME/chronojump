@@ -1244,6 +1244,7 @@ public class CairoGraphForceSensorAI : CairoGraphForceSensor
 				Cairo.TextExtents teAB = g.TextExtents (subtitleWithSetsInfo_l[0]);
 				Cairo.TextExtents teCD = g.TextExtents (subtitleWithSetsInfo_l[1]);
 
+				g.SetSourceColor (black);
 				printText (graphWidth /2 -(teAB.Width + teCD.Width + 30)/2, graphHeight -bottomMargin -innerMargin/2,
 						0, textHeight, subtitleWithSetsInfo_l[0], g, alignTypes.LEFT);
 

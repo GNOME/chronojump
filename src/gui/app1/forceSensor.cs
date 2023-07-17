@@ -163,8 +163,8 @@ public partial class ChronoJumpWindow
 		setImpulseValue();
 		setForceSensorAnalyzeABSliderIncrements();
 
-		toggle_force_sensor_ai_chained_load_link.Active = true;
-		on_toggle_force_sensor_ai_chained_load_link_toggled (new object (), new EventArgs ());
+		//toggle_force_sensor_ai_chained_load_link.Active = true;
+		//on_toggle_force_sensor_ai_chained_load_link_toggled (new object (), new EventArgs ());
 
 		forceSensorAnalyzeGeneralButtonHscaleZoomSensitiveness();
 		if (tvFS_other == null)
@@ -568,8 +568,8 @@ public partial class ChronoJumpWindow
 		force_sensor_ai_drawingarea_cairo.QueueDraw ();
 		// <---- end of erase cairo graphs
 
-		toggle_force_sensor_ai_chained_load_link.Active = true;
-		on_toggle_force_sensor_ai_chained_load_link_toggled (new object (), new EventArgs ());
+		//toggle_force_sensor_ai_chained_load_link.Active = true;
+		//on_toggle_force_sensor_ai_chained_load_link_toggled (new object (), new EventArgs ());
 
 		//put scales to 0,0
 		hscale_force_sensor_ai_a.SetRange(0, 0);

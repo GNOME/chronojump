@@ -161,13 +161,16 @@ public partial class ChronoJumpWindow
 	Gtk.Image image_force_sensor_analyze_show_distance;
 	Gtk.Image image_force_sensor_analyze_show_speed;
 	Gtk.Image image_force_sensor_analyze_show_power;
+	Gtk.RadioButton radio_force_sensor_ai_1set;
+	Gtk.RadioButton radio_force_sensor_ai_2sets;
+	Gtk.Notebook notebook_force_sensor_ai_load;
 	Gtk.DrawingArea force_sensor_ai_drawingarea_cairo;
 	Gtk.Viewport viewport_force_sensor_analyze_hscales;
 	Gtk.Viewport viewport_radio_force_sensor_ai_ab;
 	Gtk.Viewport viewport_radio_force_sensor_ai_cd;
 	Gtk.RadioButton radio_force_sensor_ai_ab;
 	Gtk.RadioButton radio_force_sensor_ai_cd;
-	Gtk.ToggleButton toggle_force_sensor_ai_chained_load_link;
+	//Gtk.ToggleButton toggle_force_sensor_ai_chained_load_link;
 	Gtk.Image image_force_sensor_ai_chained_load_link;
 	Gtk.Box box_force_sensor_ai_a;
 	Gtk.Box box_force_sensor_ai_b;
@@ -1303,6 +1306,17 @@ public partial class ChronoJumpWindow
 		return fsAIRepetitionMouseLimitsCairo.FindBarInPixel (pixel);
 	}
 
+	private void on_radio_force_sensor_ai_sets_toggled (object o, EventArgs args)
+	{
+		if (o == null || ! ((Gtk.RadioButton) o).Active)
+			return;
+
+		if ((Gtk.RadioButton) o == radio_force_sensor_ai_1set)
+			notebook_force_sensor_ai_load.Page = 0;
+		else //((Gtk.RadioButton) o == radio_force_sensor_ai_2sets)
+			notebook_force_sensor_ai_load.Page = 1;
+	}
+
 	private void on_radio_force_sensor_ai_abcd_toggled (object o, EventArgs args)
 	{
 		if (o == null || ! ((Gtk.RadioButton) o).Active)
@@ -1316,8 +1330,6 @@ public partial class ChronoJumpWindow
 			box_force_sensor_ai_d.Visible = false;
 			label_force_sensor_ai_zoom_abcd.Text = "[A-B]";
 			UtilGtk.ViewportColor (viewport_force_sensor_analyze_hscales, UtilGtk.Colors.YELLOW_LIGHT);
-			button_force_sensor_analyze_load_ab.Visible = true;
-			button_force_sensor_analyze_load_cd.Visible = false;
 		}
 		else if ((Gtk.RadioButton) o == radio_force_sensor_ai_cd)
 		{
@@ -1327,8 +1339,6 @@ public partial class ChronoJumpWindow
 			box_force_sensor_ai_d.Visible = true;
 			label_force_sensor_ai_zoom_abcd.Text = "[C-D]";
 			UtilGtk.ViewportColor (viewport_force_sensor_analyze_hscales, UtilGtk.Colors.GREEN_LIGHT);
-			button_force_sensor_analyze_load_ab.Visible = false;
-			button_force_sensor_analyze_load_cd.Visible = true;
 		}
 
 		forceSensorAnalyzeGeneralButtonHscaleZoomSensitiveness();
@@ -1361,12 +1371,15 @@ public partial class ChronoJumpWindow
 
 	private void on_toggle_force_sensor_ai_chained_load_link_toggled (object o, EventArgs args)
 	{
+		return;
+		/*
 		if (toggle_force_sensor_ai_chained_load_link.Active)
 		{
 			image_force_sensor_ai_chained_load_link.Pixbuf = new Pixbuf(null, Util.GetImagePath(false) + "link_vertical.png");
 		} else {
 			image_force_sensor_ai_chained_load_link.Pixbuf = new Pixbuf(null, Util.GetImagePath(false) + "link_vertical_off.png");
 		}
+		*/
 	}
 
 	bool forceSensorHScalesDoNotFollow = false;
@@ -2198,6 +2211,9 @@ public partial class ChronoJumpWindow
 		button_force_sensor_export_result_open = (Gtk.Button) builder.GetObject ("button_force_sensor_export_result_open");
 
 		hbox_force_sensor_analyze_ai_sliders_and_buttons = (Gtk.HBox) builder.GetObject ("hbox_force_sensor_analyze_ai_sliders_and_buttons");
+		radio_force_sensor_ai_1set = (Gtk.RadioButton) builder.GetObject ("radio_force_sensor_ai_1set");
+		radio_force_sensor_ai_2sets = (Gtk.RadioButton) builder.GetObject ("radio_force_sensor_ai_2sets");
+		notebook_force_sensor_ai_load = (Gtk.Notebook) builder.GetObject ("notebook_force_sensor_ai_load");
 		force_sensor_ai_drawingarea_cairo = (Gtk.DrawingArea) builder.GetObject ("force_sensor_ai_drawingarea_cairo");
 		box_force_sensor_analyze_magnitudes = (Gtk.Box) builder.GetObject ("box_force_sensor_analyze_magnitudes");
 		check_force_sensor_analyze_show_distance = (Gtk.CheckButton) builder.GetObject ("check_force_sensor_analyze_show_distance");
@@ -2211,7 +2227,7 @@ public partial class ChronoJumpWindow
 		viewport_radio_force_sensor_ai_cd = (Gtk.Viewport) builder.GetObject ("viewport_radio_force_sensor_ai_cd");
 		radio_force_sensor_ai_ab = (Gtk.RadioButton) builder.GetObject ("radio_force_sensor_ai_ab");
 		radio_force_sensor_ai_cd = (Gtk.RadioButton) builder.GetObject ("radio_force_sensor_ai_cd");
-		toggle_force_sensor_ai_chained_load_link = (Gtk.ToggleButton) builder.GetObject ("toggle_force_sensor_ai_chained_load_link");
+		//toggle_force_sensor_ai_chained_load_link = (Gtk.ToggleButton) builder.GetObject ("toggle_force_sensor_ai_chained_load_link");
 		image_force_sensor_ai_chained_load_link = (Gtk.Image) builder.GetObject ("image_force_sensor_ai_chained_load_link");
 		box_force_sensor_ai_a = (Gtk.Box) builder.GetObject ("box_force_sensor_ai_a");
 		box_force_sensor_ai_b = (Gtk.Box) builder.GetObject ("box_force_sensor_ai_b");

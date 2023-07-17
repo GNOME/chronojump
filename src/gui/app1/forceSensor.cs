@@ -528,6 +528,11 @@ public partial class ChronoJumpWindow
 	{
 		currentForceSensor = new ForceSensor();
 
+		//cd cannot be selected until currentForceSensor.UniqueID >= 0
+		radio_force_sensor_ai_ab.Active = true;
+		if (radio_force_sensor_ai_2sets.Active)
+			radio_force_sensor_ai_cd.Sensitive = false;
+
 		/*
 		 * without this, on change person fsAI graph will blank
 		 * but first makes no graph when resize,
@@ -1632,6 +1637,9 @@ LogB.Information(" fs C ");
 					triggerListForceSensor.SQLInsert(currentForceSensor.UniqueID);
 					//showForceSensorTriggers (); TODO until know where to put it
 
+					if (radio_force_sensor_ai_2sets.Active)
+						radio_force_sensor_ai_cd.Sensitive = true;
+
 					//stop camera
 					if(webcamEnd (Constants.TestTypes.FORCESENSOR, currentForceSensor.UniqueID))
 					{
@@ -1975,6 +1983,9 @@ LogB.Information(" fs R ");
 		LogB.Information ("lastForceSensorFullPath is: " + lastForceSensorFullPath);
 		LogB.Information("lastForceSensorFullPath: " + lastForceSensorFullPath);
 
+		if (radio_force_sensor_ai_2sets.Active)
+			radio_force_sensor_ai_cd.Sensitive = true;
+
 		combo_force_sensor_exercise.Active = UtilGtk.ComboMakeActive(combo_force_sensor_exercise, fs.ExerciseName);
 		setForceSensorCaptureOptions(fs.CaptureOption);
 
@@ -2201,12 +2212,9 @@ LogB.Information(" fs R ");
 	}
 	private void force_sensor_delete_current_test_accepted(object o, EventArgs args)
 	{
-		forceSensorDeleteTestDo(currentForceSensor);
+		forceSensorDeleteTestDo (currentForceSensor);
 
-		//empty currentForceSensor (assign -1)
-		currentForceSensor = new ForceSensor();
-
-		//empty forceSensor GUI
+		//empty forceSensor GUI (this also assigns -1 to currentForceSensor)
 		blankForceSensorInterface();
 	}
 

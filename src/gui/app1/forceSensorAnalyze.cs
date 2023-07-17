@@ -1330,13 +1330,19 @@ public partial class ChronoJumpWindow
 			return;
 
 		if ((Gtk.RadioButton) o == radio_force_sensor_ai_1set)
+		{
 			notebook_force_sensor_ai_load.Page = 0;
+			radio_force_sensor_ai_cd.Sensitive = true;
+		}
 		else //((Gtk.RadioButton) o == radio_force_sensor_ai_2sets)
 		{
 			notebook_force_sensor_ai_load.Page = 1;
 
 			button_force_sensor_analyze_load_ab.Sensitive = radio_force_sensor_ai_ab.Active;
 			button_force_sensor_analyze_load_cd.Sensitive = radio_force_sensor_ai_cd.Active;
+
+			//do not allow to click on cd if two sets (when there is no ab loaded)
+			radio_force_sensor_ai_cd.Sensitive = (currentForceSensor != null && currentForceSensor.UniqueID >= 0);
 		}
 	}
 

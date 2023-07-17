@@ -103,6 +103,7 @@ public partial class ChronoJumpWindow
 	int usbDisconnectedLastTime;
 
 	private ForceSensor currentForceSensor;
+	private ForceSensor currentForceSensor_CD; //only for analyze cd (when 2 sets), only for know laterality, and datetime
 	private ForceSensorExercise currentForceSensorExercise;
 	private ForceSensorExercise currentForceSensorExercise_CD; //only for analyze cd (when 2sets)
 	DateTime forceSensorTimeStartCapture;
@@ -1966,6 +1967,7 @@ LogB.Information(" fs R ");
 			lastForceSensorFullPath_CD = fs.FullURL;
 			LogB.Information ("lastForceSensorFullPath_CD is: " + lastForceSensorFullPath_CD);
 
+			currentForceSensor_CD = fs;
 			currentForceSensorExercise_CD = (ForceSensorExercise) SqliteForceSensorExercise.Select (
                                 false, fs.ExerciseID, -1, false, "")[0];
 

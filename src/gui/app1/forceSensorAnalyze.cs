@@ -1105,8 +1105,10 @@ public partial class ChronoJumpWindow
 				else
 					gmaiw_l.Add (new GetMaxAvgInWindow ());
 
-				//TODO: think on List of reps_l for when we have two different samples
-				if (count == 0)
+				// display reps for set1 or for set2
+				if (
+						(count == 0 && ! (radio_force_sensor_ai_2sets.Active && radio_force_sensor_ai_cd.Active)) ||
+						(count == 1 && radio_force_sensor_ai_2sets.Active && radio_force_sensor_ai_cd.Active) )
 				{
 					reps_l = fsAI.ForceSensorRepetition_l;
 					if(forceSensorZoomApplied)
@@ -1173,7 +1175,7 @@ public partial class ChronoJumpWindow
 		fsAIRepetitionMouseLimitsCairo = cairoGraphForceSensorAI.DoSendingList (
 				preferences.fontType.ToString(),
 				spCairoFESend, spCairoFESend_CD,
-				subtitleWithSetsInfo_l,
+				subtitleWithSetsInfo_l, radio_force_sensor_ai_cd.Active,
 				check_force_sensor_analyze_show_distance.Active,
 				check_force_sensor_analyze_show_speed.Active,
 				check_force_sensor_analyze_show_power.Active,

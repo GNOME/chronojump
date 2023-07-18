@@ -1364,6 +1364,7 @@ public partial class ChronoJumpWindow
 			//do not allow to click on cd if two sets (when there is no ab loaded)
 			radio_force_sensor_ai_cd.Sensitive = (currentForceSensor != null && currentForceSensor.UniqueID >= 0);
 		}
+		force_sensor_ai_drawingarea_cairo.QueueDraw(); //will fire ExposeEvent
 	}
 
 	private void on_radio_force_sensor_ai_abcd_toggled (object o, EventArgs args)
@@ -1394,6 +1395,7 @@ public partial class ChronoJumpWindow
 		button_force_sensor_analyze_load_cd.Sensitive = (radio_force_sensor_ai_2sets.Active && radio_force_sensor_ai_cd.Active);
 
 		forceSensorAnalyzeGeneralButtonHscaleZoomSensitiveness();
+		force_sensor_ai_drawingarea_cairo.QueueDraw(); //will fire ExposeEvent
 	}
 
 	private Gtk.HScale getHScaleABCD (bool left)

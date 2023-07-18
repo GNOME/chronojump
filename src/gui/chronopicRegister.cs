@@ -122,9 +122,11 @@ public class DiscoverWindow
 	//TODO instead of 4 lists, have List<microDiscoveGui>
 	List<Gtk.ProgressBar> progressbar_microNotDiscovered_l;
 	List<Gtk.Button> button_microNotDiscovered_l;
+	List<Gtk.Label> label_microNotDiscovered_l; //to use labels for ---- and NC instead of buttons
 
 	List<ChronopicRegisterPort> portAlreadyDiscovered_l;
 	List<Gtk.Button> button_microAlreadyDiscovered_l;
+	//List<Gtk.Label> label_microAlreadyDiscovered_l; //to use labels for ---- and NC instead of buttons
 
 	static bool discoverCloseAfterCancel; //is true when select useThis while reading other devices
 	static Thread discoverThread;
@@ -225,8 +227,10 @@ public class DiscoverWindow
 		// 2) create the lists of widgets to be able to access later
 		progressbar_microNotDiscovered_l = new List<Gtk.ProgressBar> ();
 		button_microNotDiscovered_l = new List<Gtk.Button> ();
+		label_microNotDiscovered_l = new List<Gtk.Label> ();
 		portAlreadyDiscovered_l = new List<ChronopicRegisterPort> ();
 		button_microAlreadyDiscovered_l = new List<Gtk.Button> ();
+		//label_microAlreadyDiscovered_l = new List<Gtk.Label> ();
 
 		// 3) create widgets, lists, attach to table and show all
 
@@ -234,14 +238,17 @@ public class DiscoverWindow
 		Gtk.Label l0 = new Gtk.Label ("<b>" + Catalog.GetString ("Device") + "</b>");
 		l0.UseMarkup = true;
 
-		Gtk.Label l1 = new Gtk.Label ("<b>" + Catalog.GetString ("Compatible") + "</b>");
+		Gtk.Label l1 = new Gtk.Label ("<b>" + Catalog.GetString ("Compatibility with") + "</b>");
 		l1.UseMarkup = true;
 		Gtk.HBox hbox_l1 = new Gtk.HBox (false, 4);
 		hbox_l1.PackStart (l1, false, false, 0);
 		hbox_l1.PackStart (image_discover_mode, false, false, 0);
+		//hbox_l1.Hexpand = true; //this does not work, so create a parent and expand:
+		Gtk.HBox hbox_l1_parent = new Gtk.HBox (false, 0);
+		hbox_l1_parent.PackStart (hbox_l1, true, false, 0);
 
 		grid_micro_discover.Attach (l0, 0, 0, 1, 1);
-		grid_micro_discover.Attach (hbox_l1, 1, 0, 1, 1);
+		grid_micro_discover.Attach (hbox_l1_parent, 1, 0, 2, 1);
 
 		// 3b) create a row for each device
 		for (int i = 0; i < alreadyDiscovered_l.Count; i ++)
@@ -250,6 +257,14 @@ public class DiscoverWindow
 			setup_row_micro_discover_l (notDiscovered_l [i], i + 1 + alreadyDiscovered_l.Count, false);
 
 		grid_micro_discover.ShowAll();
+
+		//hide any buttons with "NC"or "----"
+		foreach (Button b in button_microAlreadyDiscovered_l)
+			if (b.Label == "NC" || b.Label == "----")
+				b.Visible = false;
+		foreach (Button b in button_microNotDiscovered_l)
+			if (b.Label == "NC" || b.Label == "----")
+				b.Visible = false;
 	}
 
 	private void setup_row_micro_discover_l (ChronopicRegisterPort crp, int i, bool alreadyDiscovered)
@@ -274,37 +289,53 @@ public class DiscoverWindow
 			grid_micro_discover.Attach (pb, 1, i, 1, 1);
 		}
 
-
-		Gtk.HBox hbox = new Gtk.HBox (false, 6);
-		Gtk.Image image = new Gtk.Image (new Pixbuf (null, Util.GetImagePath(false) + "image_done_blue.png"));
-		Gtk.Label label = new Gtk.Label ("");
-		hbox.PackStart (image, false, false, 0);
-		hbox.PackStart (label, false, false, 0);
-		Gtk.Button b = new Gtk.Button (hbox);
+		Gtk.Label label = new Gtk.Label (); //used on NC and ----
+		Gtk.Button b = new Gtk.Button (); //used on Use this!
+		Gtk.Box box_b_label = new Gtk.Box (Gtk.Orientation.Horizontal, 0);
 
 		if (alreadyDiscovered)
 		{
 			if (discoverMatchCurrentMode (crp.Type))
 			{
 				b.Sensitive = true;
-				b.Label = Catalog.GetString ("Use this!");
+				label.Text = Catalog.GetString ("Use this!");
 			} else
 			{
 				b.Sensitive = false;
-				b.Label = Catalog.GetString ("NC");
+				label.Text = Catalog.GetString ("NC");
 				box_micro_discover_nc.Visible = true;
 			}
 
+			//label_microAlreadyDiscovered_l.Add (label);
+			b.Label = label.Text;
 			button_microAlreadyDiscovered_l.Add (b);
 			portAlreadyDiscovered_l.Add (crp);
 			b.Clicked += new EventHandler (on_discover_use_this_clicked);
 		} else {
 			b.Sensitive = false;
-			b.Label = "----";
+
+			//b.Label = "----";
+			label_microNotDiscovered_l.Add (label);
+			label.Text = "----";
+			b.Label = label.Text;
 			button_microNotDiscovered_l.Add (b);
 		}
 
-		grid_micro_discover.Attach (b, 2, i, 1, 1);
+		box_b_label.PackStart (label, false, false, 0);
+		box_b_label.PackStart (b, false, false, 0);
+
+		/* done after grid_micro_discover.ShowAll ();
+		if (label.Text == "NC" || label.Text == "----")
+		{
+			label.Visible = true;
+			b.Visible = false;
+		} else {
+			label.Visible = false;
+			b.Visible = true;
+		}
+		*/
+
+		grid_micro_discover.Attach (box_b_label, 2, i, 1, 1);
 	}
 
 	private void discoverDo ()
@@ -348,8 +379,14 @@ public class DiscoverWindow
 					button_microNotDiscovered_l[i].Sensitive = true;
 					button_microNotDiscovered_l[i].Label = Catalog.GetString ("Use this!");
 					button_microNotDiscovered_l[i].Clicked += new EventHandler(on_discover_use_this_clicked);
+					button_microNotDiscovered_l[i].Visible = true;
+					label_microNotDiscovered_l[i].Visible = false;
 				} else {
-					button_microNotDiscovered_l[i].Label = Catalog.GetString ("NC");
+					//button_microNotDiscovered_l[i].Label = Catalog.GetString ("NC");
+					button_microNotDiscovered_l[i].Visible = false;
+					label_microNotDiscovered_l[i].Text = Catalog.GetString ("NC");
+					label_microNotDiscovered_l[i].Visible = true;
+
 					box_micro_discover_nc.Visible = true;
 				}
 			}

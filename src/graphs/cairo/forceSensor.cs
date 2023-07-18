@@ -1115,6 +1115,10 @@ public class CairoGraphForceSensorAI : CairoGraphForceSensor
 			// paint the repetition lines and codes
 			if (reps_l.Count > 0)
 			{
+				List<PointF> pointsForReps_l = points_l;
+				if (twoSets && radio_cd_active)
+					pointsForReps_l = pointsCD_l;
+
 				g.LineWidth = 1;
 
 				Cairo.Color colorReps = grayDark;
@@ -1155,7 +1159,7 @@ public class CairoGraphForceSensorAI : CairoGraphForceSensor
 					}
 					// 2) if the rep does not overlap because on zoom starts after B, do not paint it
 					//    A    B  | rep |
-					else if (zoomed && rep.sampleStart >= points_l.Count)
+					else if (zoomed && rep.sampleStart >= pointsForReps_l.Count)
 					{
 						iAll ++;
 						continue;
@@ -1171,22 +1175,22 @@ public class CairoGraphForceSensorAI : CairoGraphForceSensor
 					if (zoomed && rep.sampleStart < 0)
 					{
 						arrowL = true;
-						xgStart = calculatePaintX (points_l[0].X);
+						xgStart = calculatePaintX (pointsForReps_l[0].X);
 					} else
-						xgStart = calculatePaintX (points_l[rep.sampleStart].X);
+						xgStart = calculatePaintX (pointsForReps_l[rep.sampleStart].X);
 
 					// 4) rep ends after B, paint an arrow to B (and write text in the center of the end of rep and B
 					// hscales:     A      B
 					// rep:            |  rep  |
 					// show:           |--->
-					LogB.Information (string.Format ("rep.sampleStart: {0}, rep.sampleEnd: {1}, points_l.Count: {2}",
-								rep.sampleStart, rep.sampleEnd, points_l.Count));
-					if (zoomed && rep.sampleEnd >= points_l.Count)
+					LogB.Information (string.Format ("rep.sampleStart: {0}, rep.sampleEnd: {1}, pointsForReps_l.Count: {2}",
+								rep.sampleStart, rep.sampleEnd, pointsForReps_l.Count));
+					if (zoomed && rep.sampleEnd >= pointsForReps_l.Count)
 					{
 						arrowR = true;
-						xgEnd = calculatePaintX (points_l[points_l.Count -1].X);
+						xgEnd = calculatePaintX (pointsForReps_l[pointsForReps_l.Count -1].X);
 					} else
-						xgEnd = calculatePaintX (points_l[rep.sampleEnd].X);
+						xgEnd = calculatePaintX (pointsForReps_l[rep.sampleEnd].X);
 
 					//display arrows if needed
 					if (arrowL && arrowR)
@@ -1211,7 +1215,7 @@ public class CairoGraphForceSensorAI : CairoGraphForceSensor
 								xgEnd, textHeight +6);
 
 					// display left vertical line if does not overlap a previous right vertical line
-					if (! arrowL && (iAccepted == 0 || (iAccepted > 0 && points_l[rep.sampleStart].X > points_l[reps_l[iAll-1].sampleEnd].X)))
+					if (! arrowL && (iAccepted == 0 || (iAccepted > 0 && pointsForReps_l[rep.sampleStart].X > pointsForReps_l[reps_l[iAll-1].sampleEnd].X)))
 						CairoUtil.PaintSegment (g,
 								xgStart, textHeight +6,
 								xgStart, graphHeight -bottomMargin);

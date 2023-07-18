@@ -888,7 +888,7 @@ public class CairoGraphForceSensorSignalQuestionnaire : CairoGraphForceSensorSig
 public class CairoGraphForceSensorAI : CairoGraphForceSensor
 {
 	//private Cairo.Color colorGreen = colorFromRGB (0,200,0);
-	private Cairo.Color colorBlue = colorFromRGB (0,0,200);
+	//private Cairo.Color colorBlue = colorFromRGB (0,0,200);
 	private ForceSensorExercise exercise;
 	private RepetitionMouseLimitsWithSamples repMouseLimits;
 	private int startAt;
@@ -904,7 +904,7 @@ public class CairoGraphForceSensorAI : CairoGraphForceSensor
 			string font,
 			SignalPointsCairoForceElastic spCairoFE,
 			SignalPointsCairoForceElastic spCairoFE_CD,
-			List<string> subtitleWithSetsInfo_l,
+			List<string> subtitleWithSetsInfo_l, bool radio_cd_active,
 			bool showDistance, bool showSpeed, bool showPower,
 			int minDisplayFNegative, int minDisplayFPositive,
 			int rectangleN, int rectangleRange,
@@ -941,7 +941,7 @@ public class CairoGraphForceSensorAI : CairoGraphForceSensor
 
 		if (doSendingList (font, spCairoFE.Force_l,
 					spCairoFE_CD,
-					subtitleWithSetsInfo_l,
+					subtitleWithSetsInfo_l, radio_cd_active,
 					triggerList,
 					hscaleSampleA, hscaleSampleB,
 					hscaleSampleC, hscaleSampleD,
@@ -985,7 +985,7 @@ public class CairoGraphForceSensorAI : CairoGraphForceSensor
 	private bool doSendingList (string font,
 			List<PointF> points_l,
 			SignalPointsCairoForceElastic spCairoFE_CD,
-			List<string> subtitleWithSetsInfo_l,
+			List<string> subtitleWithSetsInfo_l, bool radio_cd_active,
 			TriggerList triggerList,
 			int hscaleSampleA, int hscaleSampleB,
 			int hscaleSampleC, int hscaleSampleD,
@@ -997,11 +997,11 @@ public class CairoGraphForceSensorAI : CairoGraphForceSensor
 	{
 		bool maxValuesChanged = false;
 
-		bool twoSeries = false;
+		bool twoSets = false;
 		List <PointF> pointsCD_l = points_l;
 		if (spCairoFE_CD != null && spCairoFE_CD.Force_l.Count > 0)
 		{
-			twoSeries = true;
+			twoSets = true;
 			pointsCD_l = spCairoFE_CD.Force_l;
 		}
 
@@ -1011,7 +1011,7 @@ public class CairoGraphForceSensorAI : CairoGraphForceSensor
 			//LogB.Information(string.Format("minY: {0}, maxY: {1}", minY, maxY));
 
 			fixMaximums ();
-			if (twoSeries)
+			if (twoSets)
 			{
 				foreach (PointF p in pointsCD_l)
 				{
@@ -1074,7 +1074,7 @@ public class CairoGraphForceSensorAI : CairoGraphForceSensor
 
 			plotRealPoints (plotType, points_l, startAt, false); //fast (but the difference is very low)
 
-			if (twoSeries)
+			if (twoSets)
 			{
 				printText (calculatePaintX (PointF.Last (points_l).X) + 5,
 						calculatePaintY (PointF.Last (points_l).Y),
@@ -1116,7 +1116,14 @@ public class CairoGraphForceSensorAI : CairoGraphForceSensor
 			if (reps_l.Count > 0)
 			{
 				g.LineWidth = 1;
-				g.SetSourceColor (colorBlue);
+
+				Cairo.Color colorReps = grayDark;
+				if (twoSets && radio_cd_active)
+					colorReps = green;
+				else if (twoSets && ! radio_cd_active)
+					colorReps = yellow;
+
+				g.SetSourceColor (colorReps);
 
 				// for RepetitionsShowTypes.BOTHSEPARATED to write correctly e or c
 				int sepCount = 0;
@@ -1184,18 +1191,18 @@ public class CairoGraphForceSensorAI : CairoGraphForceSensor
 					//display arrows if needed
 					if (arrowL && arrowR)
 					{
-						plotArrowFree (g, colorBlue, 1, 8, false,
+						plotArrowFree (g, colorReps, 1, 8, false,
 								(xgStart + xgEnd) /2, textHeight +6,
 								xgStart, textHeight +6);
-						plotArrowFree (g, colorBlue, 1, 8, false,
+						plotArrowFree (g, colorReps, 1, 8, false,
 								(xgStart + xgEnd) /2, textHeight +6,
 								xgEnd, textHeight +6);
 					} else if (arrowL)
-						plotArrowFree (g, colorBlue, 1, 8, false,
+						plotArrowFree (g, colorReps, 1, 8, false,
 								xgEnd, textHeight +6,
 								xgStart, textHeight +6);
 					else if (arrowR)
-						plotArrowFree (g, colorBlue, 1, 8, false,
+						plotArrowFree (g, colorReps, 1, 8, false,
 								xgStart, textHeight +6,
 								xgEnd, textHeight +6);
 					else

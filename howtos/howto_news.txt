@@ -10,6 +10,8 @@ At chronojump.org server:
 
 4- INSERT INTO news VALUES (NULL, 0, 0, "ForHealth Kit: Force sensor for quick testing in clinical context.", "Kit ForHealth: Sensor de fuerza para medir rápidamente en contextos clínicos.", "https://chronojump.org/product/forhealth-kit/", "https://chronojump.org/es/product/kit-forhealth/", "This device allows the evaluator to measure quickly most of the muscular groups.\nHolding it in the different body parts will permit the evaluated person to perform the maximum force in order to measure it in real time.", "Dispositivo que permite al evaluador medir rápidamente la mayoría de grupos musculares.\nSosteniéndolo en las distintas partes del cuerpo permite a la persona evaluada ejercer la máxima fuerza por tal de medirla en tiempo real.", "http://static.chronojump.org/latest_products/forhealth_400w.jpg");
 
+4- INSERT INTO news VALUES (NULL, 0, 0, "Algometer kit: kit to measurement the pressure pain threshold.", "Kit de algómetro: Kit para el umbral de dolor en presión.", "https://chronojump.org/product/algometer-kit/", "https://chronojump.org/es/product/kit-de-algometro/", "The load cell measure the increasing force applied by the evaluator. The person evaluated pushes the hand push button when the pressure surpass the pain limit.\nThe Chronojump software will register the trigger signal sent by the button to identify the force at the moment that the pain appears.\nStrongly recommended for hamstring evaluation in soccer.", "La célula de carga mide la fuerza creciente aplicada por el evaluador. La persona evaluada presiona el pulsador cuando la presión sobrepasa el umbral de dolor.\nEl software Chronojump registra la señal del pulsador para identificar la fuerza ejercida en el momento que aparece el dolor.\nMuy recomendado para la evaluación de la musculatura isquiotibial.", "http://static.chronojump.org/latest_products/algometer_400w.png");
+
 note fields are:
 +-----------------+-----------+------+-----+---------+----------------+
 | Field           | Type      | Null | Key | Default | Extra          |
@@ -21,8 +23,8 @@ note fields are:
 | titleEs         | char(255) | YES  |     | NULL    |                |
 | linkEn          | char(255) | YES  |     | NULL    |                |
 | linkEs          | char(255) | YES  |     | NULL    |                |
-| descriptionEn   | char(255) | YES  |     | NULL    |                |
-| descriptionEs   | char(255) | YES  |     | NULL    |                |
+| descriptionEn   | TEXT      | YES  |     | NULL    |                |
+| descriptionEs   | TEXT      | YES  |     | NULL    |                |
 | linkServerImage | char(255) | YES  |     | NULL    |                |
 +-----------------+-----------+------+-----+---------+----------------+
 

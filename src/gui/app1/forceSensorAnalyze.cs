@@ -1608,6 +1608,10 @@ public partial class ChronoJumpWindow
 
 		tvFS.ResetTreeview ();
 		tvFS.PassRow1or2 (isLeft, Math.Round(fsAI.GetTimeMS(count), 1).ToString(), fsAI.GetForceAtCount (count), rfd);
+		//fix a bug where B is moved and not A (so A is empty)
+		if (! isLeft && (tvFS.TimeStart == null || tvFS.TimeStart == ""))
+			tvFS.PassRow1or2 (true, Math.Round(fsAI.GetTimeMS(0), 1).ToString(), fsAI.GetForceAtCount (0), rfd);
+
 		if (current_mode == Constants.Modes.FORCESENSORELASTIC)
 			tvFS.PassRow1or2Elastic (isLeft, position, speed, accel, power);
 

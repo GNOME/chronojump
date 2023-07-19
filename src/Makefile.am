@@ -621,6 +621,8 @@ RESOURCES = \
 	../images/chronojump_icon_graph.png,chronojump_icon_graph.png \
 	../images/stock_right.png,stock_right.png \
 	../images/stock_right_left.png,stock_right_left.png \
+	../images/md/north_east.png,north_east.png \
+	../images/md/north_west.png,north_west.png \
 	../images/stock_up.png,stock_up.png \
 	../images/stock_up_down.png,stock_up_down.png \
 	../images/stock_down.png,stock_down.png \
@@ -661,6 +663,7 @@ RESOURCES = \
 	../images/md/right_cut.png,right_cut.png \
 	../images/md/link.png,link.png \
 	../images/md/link_off.png,link_off.png \
+	../images/md/move_sides.png,move_sides.png \
 	../images/calendar.png,calendar.png \
 	../images/chronojump-logo-transparent.png,chronojump-logo-transparent.png \
 	../images/chronojump-logo-transparent-40h.png,chronojump-logo-transparent-40h.png \

@@ -660,8 +660,6 @@ RESOURCES = \
 	../images/md/right_cut.png,right_cut.png \
 	../images/md/link.png,link.png \
 	../images/md/link_off.png,link_off.png \
-	../images/md/link_vertical.png,link_vertical.png \
-	../images/md/link_vertical_off.png,link_vertical_off.png \
 	../images/calendar.png,calendar.png \
 	../images/chronojump-logo-transparent.png,chronojump-logo-transparent.png \
 	../images/chronojump-logo-transparent-40h.png,chronojump-logo-transparent-40h.png \

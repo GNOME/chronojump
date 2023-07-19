@@ -1103,9 +1103,6 @@ public partial class ChronoJumpWindow
 		pixbuf = new Pixbuf(null, Util.GetImagePath(false) + "link_off.png");
 		image_force_sensor_ai_chained_hscales_link_off.Pixbuf = pixbuf;
 
-		pixbuf = new Pixbuf(null, Util.GetImagePath(false) + "link_vertical.png");
-		image_force_sensor_ai_chained_load_link.Pixbuf = pixbuf;
-
 		pixbuf = new Pixbuf(null, Util.GetImagePath(false) + "zoom_in.png");
 		image_force_sensor_ai_zoom.Pixbuf = pixbuf;
 		image_jumps_zoom.Pixbuf = pixbuf;

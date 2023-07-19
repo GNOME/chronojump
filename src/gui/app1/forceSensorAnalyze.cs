@@ -171,8 +171,6 @@ public partial class ChronoJumpWindow
 	Gtk.Viewport viewport_radio_force_sensor_ai_cd;
 	Gtk.RadioButton radio_force_sensor_ai_ab;
 	Gtk.RadioButton radio_force_sensor_ai_cd;
-	//Gtk.ToggleButton toggle_force_sensor_ai_chained_load_link;
-	Gtk.Image image_force_sensor_ai_chained_load_link;
 	Gtk.Box box_force_sensor_ai_a;
 	Gtk.Box box_force_sensor_ai_b;
 	Gtk.Box box_force_sensor_ai_c;
@@ -1439,19 +1437,6 @@ public partial class ChronoJumpWindow
 			return fsAI_CD;
 	}
 
-	private void on_toggle_force_sensor_ai_chained_load_link_toggled (object o, EventArgs args)
-	{
-		return;
-		/*
-		if (toggle_force_sensor_ai_chained_load_link.Active)
-		{
-			image_force_sensor_ai_chained_load_link.Pixbuf = new Pixbuf(null, Util.GetImagePath(false) + "link_vertical.png");
-		} else {
-			image_force_sensor_ai_chained_load_link.Pixbuf = new Pixbuf(null, Util.GetImagePath(false) + "link_vertical_off.png");
-		}
-		*/
-	}
-
 	bool forceSensorHScalesDoNotFollow = false;
 	//to know change of slider in order to apply on the other slider if chained
 	int force_sensor_last_a = 1;
@@ -2302,8 +2287,6 @@ public partial class ChronoJumpWindow
 		viewport_radio_force_sensor_ai_cd = (Gtk.Viewport) builder.GetObject ("viewport_radio_force_sensor_ai_cd");
 		radio_force_sensor_ai_ab = (Gtk.RadioButton) builder.GetObject ("radio_force_sensor_ai_ab");
 		radio_force_sensor_ai_cd = (Gtk.RadioButton) builder.GetObject ("radio_force_sensor_ai_cd");
-		//toggle_force_sensor_ai_chained_load_link = (Gtk.ToggleButton) builder.GetObject ("toggle_force_sensor_ai_chained_load_link");
-		image_force_sensor_ai_chained_load_link = (Gtk.Image) builder.GetObject ("image_force_sensor_ai_chained_load_link");
 		box_force_sensor_ai_a = (Gtk.Box) builder.GetObject ("box_force_sensor_ai_a");
 		box_force_sensor_ai_b = (Gtk.Box) builder.GetObject ("box_force_sensor_ai_b");
 		box_force_sensor_ai_c = (Gtk.Box) builder.GetObject ("box_force_sensor_ai_c");

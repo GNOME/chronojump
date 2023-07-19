@@ -161,6 +161,7 @@ public partial class ChronoJumpWindow
 	Gtk.Image image_force_sensor_analyze_show_distance;
 	Gtk.Image image_force_sensor_analyze_show_speed;
 	Gtk.Image image_force_sensor_analyze_show_power;
+	Gtk.Grid grid_radios_force_sensor_ai;
 	Gtk.RadioButton radio_force_sensor_ai_1set;
 	Gtk.RadioButton radio_force_sensor_ai_2sets;
 	Gtk.Notebook notebook_force_sensor_ai_load;
@@ -900,7 +901,7 @@ public partial class ChronoJumpWindow
 					Constants.DirectoryCannotOpenStr() + "\n\n" + forceSensorExport.ExportURL);
 	}
 
-	private void forceSensorDoGraphAI (bool windowResizedAndZoom) //TODO: note true is never sent
+	private void forceSensorPrepareGraphAI ()
 	{
 		if(lastForceSensorFullPath == null || lastForceSensorFullPath == "")
 			return;
@@ -911,22 +912,7 @@ public partial class ChronoJumpWindow
 		Gtk.HScale hsLeft = getHScaleABCD (true);
 		Gtk.HScale hsRight = getHScaleABCD (false);
 
-		if(windowResizedAndZoom)
-		{
-			if (radio_force_sensor_ai_ab.Active)
-			{
-				//like this works but cannot calculate the RFD of A,B
-				zoomFrameA = hscale_force_sensor_ai_a_BeforeZoom;
-				zoomFrameB = hscale_force_sensor_ai_b_BeforeZoom;
-				//zoomFrameA = hscale_force_sensor_ai_a_BeforeZoom -1;
-				//zoomFrameB = hscale_force_sensor_ai_b_BeforeZoom +1;
-			} else
-			{
-				zoomFrameA = hscale_force_sensor_ai_c_BeforeZoom;
-				zoomFrameB = hscale_force_sensor_ai_d_BeforeZoom;
-			}
-		}
-		else if ( forceSensorZoomApplied && (
+		if ( forceSensorZoomApplied && (
 				(radio_force_sensor_ai_ab.Active &&
 				Util.IsNumber (tvFS_AB.TimeStart, true) &&
 				Util.IsNumber (tvFS_AB.TimeEnd, true)) ||
@@ -970,6 +956,7 @@ public partial class ChronoJumpWindow
 				preferences.forceSensorNotElasticConMinForce);
 		LogB.Information(string.Format("eccMinDispl: {0}, conMinDispl: {1}", eccMinDispl, conMinDispl));
 
+		//LogB.Information ("lastForceSensorFullPath", lastForceSensorFullPath);
 		//LogB.Information(string.Format("creating fsAI with zoomFrameA: {0}, zoomFrameB: {1}", zoomFrameA, zoomFrameB));
 		fsAI_AB = new ForceSensorAnalyzeInstant(
 				"AB",
@@ -996,7 +983,7 @@ public partial class ChronoJumpWindow
 		fsAI_CD = new ForceSensorAnalyzeInstant(
 				"CD",
 				fullPath_cd,
-				zoomFrameA, zoomFrameB, //TODO: check zoom for CD
+				zoomFrameA, zoomFrameB,
 				exercise_cd, currentPersonSession.Weight,
 				getForceSensorCaptureOptions(), currentForceSensor.Stiffness,
 				eccMinDispl, conMinDispl
@@ -1032,13 +1019,15 @@ public partial class ChronoJumpWindow
 		//on zoom put hscale B at the right
 		if(zoomFrameB >= 0)
 		{
-			hsRight.Value = fsAI_AB.GetLength() -1; //TODO: fix for D
-			LogB.Information ("hsRight.Value: " + hsRight.Value.ToString ());
-			LogB.Information ("hscale_force_sensor_ai_b.Value: " + hscale_force_sensor_ai_b.Value.ToString ());
+			//if (radio_force_sensor_ai_2sets.Active && radio_force_sensor_ai_cd.Active)
+			if (radio_force_sensor_ai_cd.Active)
+				hsRight.Value = fsAI_CD.GetLength() -1;
+			else
+				hsRight.Value = fsAI_AB.GetLength() -1;
 		}
 
 		//to update values
-		LogB.Information ("calling to move hscale from forceSensorDoGraphAI ()");
+		LogB.Information ("calling to move hscale from forceSensorPrepareGraphAI ()");
 		if (radio_force_sensor_ai_ab.Active)
 			on_hscale_force_sensor_ai_value_changed (hscale_force_sensor_ai_a, new EventArgs ());
 		else
@@ -1136,6 +1125,7 @@ public partial class ChronoJumpWindow
 		// no need of copy because this graph is done on load or at end of capture (points_list does not grow in other thread
 		// spCairoFESend is not a copy, is just to choose between zoomed or not
 		SignalPointsCairoForceElastic spCairoFESend;
+
 		if (forceSensorZoomApplied)
 			spCairoFESend = spCairoFEZoom;
 		else
@@ -1156,6 +1146,8 @@ public partial class ChronoJumpWindow
 		if (radio_force_sensor_ai_2sets.Active)
 		{
 			spCairoFESend_CD = spCairoFE_CD;
+			if (forceSensorZoomApplied)
+				spCairoFESend_CD = spCairoFEZoom_CD;
 
 			if (currentForceSensor != null && currentForceSensorExercise != null &&
 					currentForceSensor_CD != null && currentForceSensorExercise_CD != null)
@@ -1258,12 +1250,31 @@ public partial class ChronoJumpWindow
 			hscale_force_sensor_ai_c_BeforeZoom = Convert.ToInt32 (hscale_force_sensor_ai_c.Value);
 			hscale_force_sensor_ai_d_BeforeZoom = Convert.ToInt32 (hscale_force_sensor_ai_d.Value);
 
-			if (radio_force_sensor_ai_ab.Active)
+			if (radio_force_sensor_ai_2sets.Active)
+			{
+				// zoomed has to be the same range for ab than cd, to show all data in graph. range is related to what is selected in the ratio
+				int sampleL;
+				int sampleR;
+				if (radio_force_sensor_ai_ab.Active)
+				{
+					sampleL = hscale_force_sensor_ai_a_BeforeZoom;
+					sampleR = hscale_force_sensor_ai_b_BeforeZoom;
+				} else {
+					sampleL = hscale_force_sensor_ai_c_BeforeZoom;
+					sampleR = hscale_force_sensor_ai_d_BeforeZoom;
+				}
 				spCairoFEZoom = new SignalPointsCairoForceElastic (spCairoFE,
-						hscale_force_sensor_ai_a_BeforeZoom, hscale_force_sensor_ai_b_BeforeZoom, true);
-			else
-				spCairoFEZoom = new SignalPointsCairoForceElastic (spCairoFE,
-						hscale_force_sensor_ai_c_BeforeZoom, hscale_force_sensor_ai_d_BeforeZoom, true);
+						sampleL, sampleR, true);
+				spCairoFEZoom_CD = new SignalPointsCairoForceElastic (spCairoFE_CD,
+						sampleL, sampleR, true);
+			} else {
+				if (radio_force_sensor_ai_ab.Active)
+					spCairoFEZoom = new SignalPointsCairoForceElastic (spCairoFE,
+							hscale_force_sensor_ai_a_BeforeZoom, hscale_force_sensor_ai_b_BeforeZoom, true);
+				else
+					spCairoFEZoom = new SignalPointsCairoForceElastic (spCairoFE,
+							hscale_force_sensor_ai_c_BeforeZoom, hscale_force_sensor_ai_d_BeforeZoom, true);
+			}
 
 			//cairo
 			forceSensorRepetition_lZoomAppliedCairo = new List<ForceSensorRepetition> ();
@@ -1280,11 +1291,11 @@ public partial class ChronoJumpWindow
 				forceSensorRepetition_lZoomAppliedCairo.Add (fsr);
 			}
 
-			forceSensorDoGraphAI(false);
+			forceSensorPrepareGraphAI ();
 
 			image_force_sensor_ai_zoom.Visible = false;
 			image_force_sensor_ai_zoom_out.Visible = true;
-
+			grid_radios_force_sensor_ai.Sensitive = false;
 		} else {
 			forceSensorZoomApplied = false;
 
@@ -1297,7 +1308,7 @@ public partial class ChronoJumpWindow
 				hscale_force_sensor_ai_d_AtZoom = Convert.ToInt32 (hscale_force_sensor_ai_d.Value);
 			}
 
-			forceSensorDoGraphAI(false);
+			forceSensorPrepareGraphAI ();
 
 			if (radio_force_sensor_ai_ab.Active)
 			{
@@ -1322,6 +1333,7 @@ public partial class ChronoJumpWindow
 
 			image_force_sensor_ai_zoom.Visible = true;
 			image_force_sensor_ai_zoom_out.Visible = false;
+			grid_radios_force_sensor_ai.Sensitive = true;
 		}
 	}
 
@@ -1353,6 +1365,10 @@ public partial class ChronoJumpWindow
 		{
 			notebook_force_sensor_ai_load.Page = 0;
 			radio_force_sensor_ai_cd.Sensitive = true;
+
+			// if CD goes beyond AB, convert it to 0
+			hscale_force_sensor_ai_c.SetRange (0, fsAI_AB.GetLength() -1);
+			hscale_force_sensor_ai_d.SetRange (0, fsAI_AB.GetLength() -1);
 		}
 		else //((Gtk.RadioButton) o == radio_force_sensor_ai_2sets)
 		{
@@ -2269,6 +2285,7 @@ public partial class ChronoJumpWindow
 		button_force_sensor_export_result_open = (Gtk.Button) builder.GetObject ("button_force_sensor_export_result_open");
 
 		hbox_force_sensor_analyze_ai_sliders_and_buttons = (Gtk.HBox) builder.GetObject ("hbox_force_sensor_analyze_ai_sliders_and_buttons");
+		grid_radios_force_sensor_ai = (Gtk.Grid) builder.GetObject ("grid_radios_force_sensor_ai");
 		radio_force_sensor_ai_1set = (Gtk.RadioButton) builder.GetObject ("radio_force_sensor_ai_1set");
 		radio_force_sensor_ai_2sets = (Gtk.RadioButton) builder.GetObject ("radio_force_sensor_ai_2sets");
 		notebook_force_sensor_ai_load = (Gtk.Notebook) builder.GetObject ("notebook_force_sensor_ai_load");

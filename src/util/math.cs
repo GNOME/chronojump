@@ -169,6 +169,9 @@ public class PointF
 
 	public static PointF Last (List<PointF> p_l)
 	{
+		if (p_l.Count == 0)
+			return null;
+
 		return p_l[p_l.Count -1];
 	}
 

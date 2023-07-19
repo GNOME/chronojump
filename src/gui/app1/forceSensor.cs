@@ -569,17 +569,20 @@ public partial class ChronoJumpWindow
 		// ... at capture tab
 		cairoGraphForceSensorSignal = null;
 		spCairoFE = new SignalPointsCairoForceElastic ();
+		spCairoFE_CD = new SignalPointsCairoForceElastic ();
 		paintPointsInterpolateCairo_l = new List<PointF>();
 		force_capture_drawingarea_cairo.QueueDraw ();
 
 		// ... at analyze tab
 		spCairoFEZoom = new SignalPointsCairoForceElastic ();
+		spCairoFEZoom_CD = new SignalPointsCairoForceElastic ();
 		force_sensor_ai_drawingarea_cairo.QueueDraw ();
 		// <---- end of erase cairo graphs
 
 		//toggle_force_sensor_ai_chained_load_link.Active = true;
 		//on_toggle_force_sensor_ai_chained_load_link_toggled (new object (), new EventArgs ());
 
+		grid_radios_force_sensor_ai.Sensitive = true; //because maybe zoom was in
 		//put scales to 0,0
 		hscale_force_sensor_ai_a.SetRange(0, 0);
 		hscale_force_sensor_ai_b.SetRange(0, 0);
@@ -1663,7 +1666,7 @@ LogB.Information(" fs C ");
 					//forceSensorDoRFDGraph();
 
 					forceSensorZoomDefaultValues();
-					forceSensorDoGraphAI(false);
+					forceSensorPrepareGraphAI ();
 
 					hbox_force_sensor_analyze_ai_sliders_and_buttons.Sensitive = true;
 
@@ -1974,7 +1977,7 @@ LogB.Information(" fs R ");
 			//TODO: maybe need to wait to ensure is copied
 			File.Copy (lastForceSensorFullPath_CD, UtilEncoder.GetmifCSVFileName_CD (), true); //can be overwritten
 			forceSensorDoSignalGraphReadFile (false, fs.CaptureOption); //cd
-			forceSensorDoGraphAI (false);
+			forceSensorPrepareGraphAI ();
 			updateForceSensorAICairo (true);
 			return;
 		}
@@ -2049,7 +2052,7 @@ LogB.Information(" fs R ");
 		sensitiveLastTestButtons(true);
 
 		forceSensorZoomDefaultValues();
-		forceSensorDoGraphAI(false);
+		forceSensorPrepareGraphAI ();
 		updateForceSensorAICairo (true);
 
 		//event_execute_label_message.Text = "Loaded: " + Util.GetLastPartOfPath(filechooser.Filename);
@@ -2275,7 +2278,7 @@ LogB.Information(" fs R ");
 		}
 
 		forceSensorZoomDefaultValues();
-		forceSensorDoGraphAI(false);
+		forceSensorPrepareGraphAI ();
 
 		//to update maxAvgForce in 1s and fmax need to have fscPoints changed according to CaptureOption. So do it here
 		currentForceSensor.MaxForceRaw = forceSensorValues.Max;
@@ -2523,7 +2526,8 @@ LogB.Information(" fs R ");
 	CairoGraphForceSensorSignal cairoGraphForceSensorSignal;
 	SignalPointsCairoForceElastic spCairoFE;
 	SignalPointsCairoForceElastic spCairoFEZoom;
-	SignalPointsCairoForceElastic spCairoFE_CD; //used if ! toggle_force_sensor_ai_chained_load_link
+	SignalPointsCairoForceElastic spCairoFE_CD;
+	SignalPointsCairoForceElastic spCairoFEZoom_CD;
 	bool cairoGraphForceSensorSignalPointsShowAccuracy;
 
 	bool fsMagnitudesSignalsNoFollow;
@@ -2624,6 +2628,7 @@ LogB.Information(" fs R ");
 		//create copys to not have problem on updating data that is being graph in other thread (even using static variables)
 		List<PointF> paintPointsInterpolateCairo_l_copy = new List<PointF>();
 
+		//TODO: think if is better to decide de startAt here and not in Cairo to not be able to copy a growing list that is not used at all
 
 		//create a copy
 		int pointsToCopy = spCairoFE.Force_l.Count;
@@ -3207,7 +3212,7 @@ LogB.Information(" fs R ");
 
 		forceSensorExerciseWin.HideAndNull();
 
-		forceSensorDoGraphAI(false);
+		forceSensorPrepareGraphAI ();
 	}
 
 	//based on: on_button_encoder_exercise_delete

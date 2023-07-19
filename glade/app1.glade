@@ -22882,6 +22882,9 @@ Concentric</property>
                                                             <child>
                                                             <placeholder/>
                                                             </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
                                                             </object>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -25262,7 +25265,7 @@ Concentric</property>
                                                             <property name="spacing">16</property>
                                                             <child>
                                                             <!-- n-columns=2 n-rows=2 -->
-                                                            <object class="GtkGrid">
+                                                            <object class="GtkGrid" id="grid_radios_force_sensor_ai">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
                                                             <property name="row-spacing">4</property>

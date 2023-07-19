@@ -1725,8 +1725,15 @@ public class ForceSensorAnalyzeInstant
 
 		if(startSample >= 0 && endSample >= 0) //zoom in
 		{
+			// fix crash on two series where zoom range of a series does not fit in the other
+			if (startSample >= times.Count)
+				return;
+
+			if (endSample >= times.Count)
+				endSample = times.Count -1;
+
 			forceSensorDynamics.CutSamplesForZoom(startSample, endSample); //this takes in account the RemoveNValues
-			times = times.GetRange(startSample, endSample - startSample + 1);
+			times = times.GetRange (startSample, endSample - startSample + 1);
 		}
 
 
@@ -2097,6 +2104,10 @@ public class SignalPointsCairoForceElastic : SignalPointsCairo
 		{
 			for (int i = a; i <= b; i ++)
 			{
+				//fixes problem on zoom two sets where a set is longer than the other
+				if (i >= spfe.Force_l.Count)
+					break;
+
 				Force_l.Add (spfe.Force_l[i]);
 				if (spfe.Displ_l != null && spfe.Displ_l.Count > 0)
 					Displ_l.Add (spfe.Displ_l[i]);
@@ -2111,6 +2122,10 @@ public class SignalPointsCairoForceElastic : SignalPointsCairo
 			ForcePaintHoriz_l = new List<PointF> ();
 			for (int i = a; i <= b; i ++)
 			{
+				//fixes problem on zoom two sets where a set is longer than the other
+				if (i >= spfe.Force_l.Count)
+					break;
+
 				ForcePaintHoriz_l.Add (spfe.Force_l[i]);
 				Force_l.Add (spfe.Force_l[i].Transpose ());
 				if (spfe.Displ_l != null && spfe.Displ_l.Count > 0)

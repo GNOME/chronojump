@@ -995,6 +995,17 @@ public class CairoGraphForceSensorAI : CairoGraphForceSensor
 			ForceSensorExercise exercise, List<ForceSensorRepetition> reps_l,
 			bool forceRedraw, PlotTypes plotType)
 	{
+		bool dataExists = false;
+		if (points_l != null)
+			dataExists = true;
+		else if (points_l == null && (spCairoFE_CD != null && spCairoFE_CD.Force_l.Count > 0))
+		{
+			// on superpose, can have data of the CD but not of the AB (because set ended)
+			// just create an empty points_l
+			points_l = new List<PointF> ();
+			dataExists = true;
+		}
+
 		bool maxValuesChanged = false;
 
 		bool twoSets = false;
@@ -1005,14 +1016,19 @@ public class CairoGraphForceSensorAI : CairoGraphForceSensor
 			pointsCD_l = spCairoFE_CD.Force_l;
 		}
 
-		if(points_l != null)
+		if (dataExists)
 		{
 			maxValuesChanged = findPointMaximums(false, points_l);
 			//LogB.Information(string.Format("minY: {0}, maxY: {1}", minY, maxY));
 
 			fixMaximums ();
+
 			if (twoSets)
 			{
+				// for superpose when CD starts after AB ends (so points_l.Count == 0)
+				if (points_l.Count == 0)
+					minX = pointsCD_l[0].X;
+
 				foreach (PointF p in pointsCD_l)
 				{
 					if(p.X < minX)
@@ -1029,14 +1045,14 @@ public class CairoGraphForceSensorAI : CairoGraphForceSensor
 
 		bool graphInited = false;
 		if ( maxValuesChanged || forceRedraw ||
-				(points_l != null && points_l.Count != points_l_painted) )
+				(dataExists && points_l.Count != points_l_painted) )
 		{
 			initGraph (font, 1, (maxValuesChanged || forceRedraw) );
 			graphInited = true;
 			points_l_painted = 0;
 		}
 
-		if (points_l == null || points_l.Count == 0)
+		if (! dataExists)
 		{
 			if (! graphInited)
 			{
@@ -1072,13 +1088,15 @@ public class CairoGraphForceSensorAI : CairoGraphForceSensor
 
 			paintAxis();
 
-			plotRealPoints (plotType, points_l, startAt, false); //fast (but the difference is very low)
+			if (points_l.Count > 0)
+				plotRealPoints (plotType, points_l, startAt, false); //fast (but the difference is very low)
 
 			if (twoSets)
 			{
-				printText (calculatePaintX (PointF.Last (points_l).X) + 5,
-						calculatePaintY (PointF.Last (points_l).Y),
-						0, textHeight, "AB", g, alignTypes.LEFT);
+				if (points_l.Count > 0)
+					printText (calculatePaintX (PointF.Last (points_l).X) + 5,
+							calculatePaintY (PointF.Last (points_l).Y),
+							0, textHeight, "AB", g, alignTypes.LEFT);
 
 				g.SetSourceColor (grayDark);
 				plotRealPoints (plotType, pointsCD_l, startAt, false); //fast (but the difference is very low)
@@ -1244,6 +1262,7 @@ public class CairoGraphForceSensorAI : CairoGraphForceSensor
 			if (gmaiw_l.Count > 1)
 				paintGmaiw (pointsCD_l, gmaiw_l[1]);
 
+			// paint the f max avg in x seconds
 			paintBriw (points_l, briw_l[0]);
 			if (briw_l.Count > 1)
 				paintBriw (pointsCD_l, briw_l[1]);
@@ -1265,10 +1284,10 @@ public class CairoGraphForceSensorAI : CairoGraphForceSensor
 			}
 
 			// paint max, min circles
-			if(calculatePaintX (xAtMaxY) > leftMargin)
+			if (points_l.Count > 0 && calculatePaintX (xAtMaxY) > leftMargin)
 				drawCircle (calculatePaintX (xAtMaxY), calculatePaintY (yAtMaxY), 8, red, false);
 
-			if(calculatePaintX (xAtMinY) > leftMargin)
+			if (points_l.Count > 0 && calculatePaintX (xAtMinY) > leftMargin)
 				drawCircle (calculatePaintX (xAtMinY), calculatePaintY (yAtMinY), 8, red, false);
 
 			points_l_painted = points_l.Count;

@@ -1365,8 +1365,11 @@ public partial class ChronoJumpWindow
 			radio_force_sensor_ai_cd.Sensitive = true;
 
 			// if CD goes beyond AB, convert it to 0
-			hscale_force_sensor_ai_c.SetRange (0, fsAI_AB.GetLength() -1);
-			hscale_force_sensor_ai_d.SetRange (0, fsAI_AB.GetLength() -1);
+			if (fsAI_AB != null)
+			{
+				hscale_force_sensor_ai_c.SetRange (0, fsAI_AB.GetLength() -1);
+				hscale_force_sensor_ai_d.SetRange (0, fsAI_AB.GetLength() -1);
+			}
 		}
 		else //((Gtk.RadioButton) o == radio_force_sensor_ai_2sets)
 		{

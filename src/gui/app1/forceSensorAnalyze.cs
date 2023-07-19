@@ -45,7 +45,8 @@ public partial class ChronoJumpWindow
 	Gtk.HBox hbox_force_general_analysis;
 	Gtk.Button button_force_sensor_analyze_load_ab;
 	Gtk.Button button_force_sensor_analyze_load_cd;
-	Gtk.Button button_force_sensor_analyze_move_cd;
+	Gtk.Button button_force_sensor_analyze_move_cd_left;
+	Gtk.Button button_force_sensor_analyze_move_cd_right;
 	Gtk.Button button_force_sensor_analyze_analyze;
 	Gtk.Label label_force_sensor_analyze;
 	Gtk.Image image_force_sensor_graph;
@@ -212,7 +213,8 @@ public partial class ChronoJumpWindow
 		button_force_sensor_analyze_options.Sensitive = s;
 		button_force_sensor_analyze_load_ab.Sensitive = s;
 		button_force_sensor_analyze_load_cd.Sensitive = s;
-		button_force_sensor_analyze_move_cd.Sensitive = s;
+		button_force_sensor_analyze_move_cd_left.Sensitive = s;
+		button_force_sensor_analyze_move_cd_right.Sensitive = s;
 
 		if(s)
 			button_force_sensor_analyze_analyze.Sensitive = button_force_sensor_analyze_analyze_was_sensitive;
@@ -1379,7 +1381,8 @@ public partial class ChronoJumpWindow
 
 			button_force_sensor_analyze_load_ab.Sensitive = radio_force_sensor_ai_ab.Active;
 			button_force_sensor_analyze_load_cd.Sensitive = radio_force_sensor_ai_cd.Active;
-			button_force_sensor_analyze_move_cd.Sensitive = radio_force_sensor_ai_cd.Active;
+			button_force_sensor_analyze_move_cd_left.Sensitive = radio_force_sensor_ai_cd.Active;
+			button_force_sensor_analyze_move_cd_right.Sensitive = radio_force_sensor_ai_cd.Active;
 
 			//do not allow to click on cd if two sets (when there is no ab loaded)
 			radio_force_sensor_ai_cd.Sensitive = (currentForceSensor != null && currentForceSensor.UniqueID >= 0);
@@ -1413,10 +1416,28 @@ public partial class ChronoJumpWindow
 
 		button_force_sensor_analyze_load_ab.Sensitive = (radio_force_sensor_ai_2sets.Active && radio_force_sensor_ai_ab.Active);
 		button_force_sensor_analyze_load_cd.Sensitive = (radio_force_sensor_ai_2sets.Active && radio_force_sensor_ai_cd.Active);
-		button_force_sensor_analyze_move_cd.Sensitive = (radio_force_sensor_ai_2sets.Active && radio_force_sensor_ai_cd.Active);
+		button_force_sensor_analyze_move_cd_left.Sensitive = (radio_force_sensor_ai_2sets.Active && radio_force_sensor_ai_cd.Active);
+		button_force_sensor_analyze_move_cd_right.Sensitive = (radio_force_sensor_ai_2sets.Active && radio_force_sensor_ai_cd.Active);
 
 		forceSensorAnalyzeGeneralButtonHscaleZoomSensitiveness();
 		force_sensor_ai_drawingarea_cairo.QueueDraw(); //will fire ExposeEvent
+	}
+
+	private void on_button_force_sensor_analyze_move_cd_left_clicked (object o, EventArgs args)
+	{
+		if (spCairoFE_CD != null)
+		{
+			spCairoFE_CD.ShiftMicros (-500000); //.5 s
+			force_sensor_ai_drawingarea_cairo.QueueDraw(); //will fire ExposeEvent
+		}
+	}
+	private void on_button_force_sensor_analyze_move_cd_right_clicked (object o, EventArgs args)
+	{
+		if (spCairoFE_CD != null)
+		{
+			spCairoFE_CD.ShiftMicros (500000); //.5 s
+			force_sensor_ai_drawingarea_cairo.QueueDraw(); //will fire ExposeEvent
+		}
 	}
 
 	private Gtk.HScale getHScaleABCD (bool left)
@@ -2168,7 +2189,8 @@ public partial class ChronoJumpWindow
 		hbox_force_general_analysis = (Gtk.HBox) builder.GetObject ("hbox_force_general_analysis");
 		button_force_sensor_analyze_load_ab = (Gtk.Button) builder.GetObject ("button_force_sensor_analyze_load_ab");
 		button_force_sensor_analyze_load_cd = (Gtk.Button) builder.GetObject ("button_force_sensor_analyze_load_cd");
-		button_force_sensor_analyze_move_cd = (Gtk.Button) builder.GetObject ("button_force_sensor_analyze_move_cd");
+		button_force_sensor_analyze_move_cd_left = (Gtk.Button) builder.GetObject ("button_force_sensor_analyze_move_cd_left");
+		button_force_sensor_analyze_move_cd_right = (Gtk.Button) builder.GetObject ("button_force_sensor_analyze_move_cd_right");
 		button_force_sensor_analyze_analyze = (Gtk.Button) builder.GetObject ("button_force_sensor_analyze_analyze");
 		label_force_sensor_analyze = (Gtk.Label) builder.GetObject ("label_force_sensor_analyze");
 		image_force_sensor_graph = (Gtk.Image) builder.GetObject ("image_force_sensor_graph");

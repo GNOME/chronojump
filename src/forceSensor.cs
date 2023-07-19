@@ -2092,6 +2092,7 @@ public class SignalPointsCairoForceElastic : SignalPointsCairo
 	// on capture vertical: , all this variables have XY transposed and there is a new variable: ForcePaintHoriz_l where XY is ok to calculate briw and miw
 	public List<PointF> ForcePaintHoriz_l;
 
+	//acts like a Clone
 	public SignalPointsCairoForceElastic (SignalPointsCairoForceElastic spfe, int a, int b, bool horizontal)
 	{
 		Force_l = new List<PointF> ();
@@ -2138,6 +2139,14 @@ public class SignalPointsCairoForceElastic : SignalPointsCairo
 					Power_l.Add (spfe.Power_l[i].Transpose ());
 			}
 		}
+	}
+
+	//only used on analyze superpose spCairoFESend_CD, so no vertical
+	public void ShiftMicros (int micros)
+	{
+		for (int i = 0; i < Force_l.Count; i ++)
+			Force_l[i].X += micros;
+		//TODO: same for displ, ...
 	}
 }
 

@@ -221,6 +221,7 @@ public partial class ChronoJumpWindow
 	Gtk.Image image_force_sensor_analyze_load_abcd_north_west;
 	Gtk.Image image_force_sensor_analyze_load_abcd_north_east;
 	Gtk.Image image_force_sensor_analyze_move_cd;
+	Gtk.Image image_force_sensor_analyze_move_cd1;
 	Gtk.Image image_force_sensor_ai_zoom;
 	Gtk.Image image_force_sensor_ai_zoom_out;
 	Gtk.Image image_button_force_sensor_analyze_back_to_signal;
@@ -1109,6 +1110,7 @@ public partial class ChronoJumpWindow
 		image_force_sensor_analyze_load_abcd_north_west.Pixbuf = new Pixbuf (null, Util.GetImagePath (false) + "north_west.png");
 		image_force_sensor_analyze_load_abcd_north_east.Pixbuf = new Pixbuf (null, Util.GetImagePath (false) + "north_east.png");
 		image_force_sensor_analyze_move_cd.Pixbuf = new Pixbuf (null, Util.GetImagePath (false) + "move_sides.png");
+		image_force_sensor_analyze_move_cd1.Pixbuf = new Pixbuf (null, Util.GetImagePath (false) + "move_sides.png");
 
 		pixbuf = new Pixbuf(null, Util.GetImagePath(false) + "zoom_in.png");
 		image_force_sensor_ai_zoom.Pixbuf = pixbuf;
@@ -1322,6 +1324,7 @@ public partial class ChronoJumpWindow
 		image_force_sensor_analyze_load_abcd_north_west = (Gtk.Image) builder.GetObject ("image_force_sensor_analyze_load_abcd_north_west");
 		image_force_sensor_analyze_load_abcd_north_east = (Gtk.Image) builder.GetObject ("image_force_sensor_analyze_load_abcd_north_east");
 		image_force_sensor_analyze_move_cd = (Gtk.Image) builder.GetObject ("image_force_sensor_analyze_move_cd");
+		image_force_sensor_analyze_move_cd1 = (Gtk.Image) builder.GetObject ("image_force_sensor_analyze_move_cd1");
 		image_force_sensor_ai_zoom = (Gtk.Image) builder.GetObject ("image_force_sensor_ai_zoom");
 		image_force_sensor_ai_zoom_out = (Gtk.Image) builder.GetObject ("image_force_sensor_ai_zoom_out");
 		image_button_force_sensor_analyze_back_to_signal = (Gtk.Image) builder.GetObject ("image_button_force_sensor_analyze_back_to_signal");

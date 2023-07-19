@@ -25533,11 +25533,12 @@ Concentric</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <object class="GtkButton" id="button_force_sensor_analyze_move_cd">
+                                                            <object class="GtkButton" id="button_force_sensor_analyze_move_cd_left">
                                                             <property name="visible">True</property>
                                                             <property name="sensitive">False</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="receives-default">True</property>
+                                                            <signal name="clicked" handler="on_button_force_sensor_analyze_move_cd_left_clicked" swapped="no"/>
                                                             <child>
                                                             <object class="GtkImage" id="image_force_sensor_analyze_move_cd">
                                                             <property name="visible">True</property>
@@ -25550,6 +25551,27 @@ Concentric</property>
                                                             <property name="expand">False</property>
                                                             <property name="fill">False</property>
                                                             <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkButton" id="button_force_sensor_analyze_move_cd_right">
+                                                            <property name="visible">True</property>
+                                                            <property name="sensitive">False</property>
+                                                            <property name="can-focus">True</property>
+                                                            <property name="receives-default">True</property>
+                                                            <signal name="clicked" handler="on_button_force_sensor_analyze_move_cd_right_clicked" swapped="no"/>
+                                                            <child>
+                                                            <object class="GtkImage" id="image_force_sensor_analyze_move_cd1">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="stock">gtk-missing-image</property>
+                                                            </object>
+                                                            </child>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">2</property>
                                                             </packing>
                                                             </child>
                                                             </object>

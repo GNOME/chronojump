@@ -2141,9 +2141,12 @@ public class SignalPointsCairoForceElastic : SignalPointsCairo
 		}
 	}
 
+	public bool TimeShifted = false;
+
 	//only used on analyze superpose spCairoFESend_CD, so no vertical
 	public void ShiftMicros (int micros)
 	{
+		TimeShifted = true;
 		for (int i = 0; i < Force_l.Count; i ++)
 			Force_l[i].X += micros;
 		//TODO: same for displ, ...

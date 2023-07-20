@@ -1257,18 +1257,60 @@ public partial class ChronoJumpWindow
 				// zoomed has to be the same range for ab than cd, to show all data in graph. range is related to what is selected in the ratio
 				int sampleL;
 				int sampleR;
-				if (radio_force_sensor_ai_ab.Active)
+
+				if (spCairoFE_CD.TimeShifted) //time has shifted (not as samples, is directly time, so need to find sample that matches that time)
 				{
-					sampleL = hscale_force_sensor_ai_a_BeforeZoom;
-					sampleR = hscale_force_sensor_ai_b_BeforeZoom;
+					if (radio_force_sensor_ai_ab.Active)
+					{
+						// ab data is the hscales data
+						spCairoFEZoom = new SignalPointsCairoForceElastic (spCairoFE,
+								hscale_force_sensor_ai_a_BeforeZoom, hscale_force_sensor_ai_b_BeforeZoom, true);
+
+						// cd data are samples close in time to ab data
+						// 1st check if it overlaps, if it does not overlap and we include it, it would show a bigger graph with empty data
+						if (! PointF.ListsTimeOverlap (spCairoFE_CD.Force_l, spCairoFE.Force_l, hscale_force_sensor_ai_a_BeforeZoom, hscale_force_sensor_ai_b_BeforeZoom))
+							spCairoFEZoom_CD = new SignalPointsCairoForceElastic ();
+						else {
+							sampleL = PointF.FindSampleCloseToTime (
+									spCairoFE_CD.Force_l, spCairoFE.Force_l[hscale_force_sensor_ai_a_BeforeZoom].X);
+							sampleR = PointF.FindSampleCloseToTime (
+									spCairoFE_CD.Force_l, spCairoFE.Force_l[hscale_force_sensor_ai_b_BeforeZoom].X);
+							spCairoFEZoom_CD = new SignalPointsCairoForceElastic (spCairoFE_CD,
+									sampleL, sampleR, true);
+						}
+					} else {
+						// cd data is the hscales data
+						spCairoFEZoom_CD = new SignalPointsCairoForceElastic (spCairoFE_CD,
+								hscale_force_sensor_ai_c_BeforeZoom, hscale_force_sensor_ai_d_BeforeZoom, true);
+
+						// ab data are samples close in time to cd data
+						// 1st check if it overlaps, if it does not overlap and we include it, it would show a bigger graph with empty data
+						if (! PointF.ListsTimeOverlap (spCairoFE.Force_l, spCairoFE_CD.Force_l, hscale_force_sensor_ai_c_BeforeZoom, hscale_force_sensor_ai_d_BeforeZoom))
+							spCairoFEZoom = new SignalPointsCairoForceElastic ();
+						else {
+							sampleL = PointF.FindSampleCloseToTime (
+									spCairoFE.Force_l, spCairoFE_CD.Force_l[hscale_force_sensor_ai_c_BeforeZoom].X);
+							sampleR = PointF.FindSampleCloseToTime (
+									spCairoFE.Force_l, spCairoFE_CD.Force_l[hscale_force_sensor_ai_d_BeforeZoom].X);
+							spCairoFEZoom = new SignalPointsCairoForceElastic (spCairoFE,
+									sampleL, sampleR, true);
+						}
+					}
 				} else {
-					sampleL = hscale_force_sensor_ai_c_BeforeZoom;
-					sampleR = hscale_force_sensor_ai_d_BeforeZoom;
+					if (radio_force_sensor_ai_ab.Active)
+					{
+						sampleL = hscale_force_sensor_ai_a_BeforeZoom;
+						sampleR = hscale_force_sensor_ai_b_BeforeZoom;
+					} else {
+						sampleL = hscale_force_sensor_ai_c_BeforeZoom;
+						sampleR = hscale_force_sensor_ai_d_BeforeZoom;
+					}
+
+					spCairoFEZoom = new SignalPointsCairoForceElastic (spCairoFE,
+							sampleL, sampleR, true);
+					spCairoFEZoom_CD = new SignalPointsCairoForceElastic (spCairoFE_CD,
+							sampleL, sampleR, true);
 				}
-				spCairoFEZoom = new SignalPointsCairoForceElastic (spCairoFE,
-						sampleL, sampleR, true);
-				spCairoFEZoom_CD = new SignalPointsCairoForceElastic (spCairoFE_CD,
-						sampleL, sampleR, true);
 			} else {
 				if (radio_force_sensor_ai_ab.Active)
 					spCairoFEZoom = new SignalPointsCairoForceElastic (spCairoFE,
@@ -1448,8 +1490,7 @@ public partial class ChronoJumpWindow
 				return hscale_force_sensor_ai_a;
 			else
 				return hscale_force_sensor_ai_b;
-		} else
-		{
+		} else {
 			if (left)
 				return hscale_force_sensor_ai_c;
 			else

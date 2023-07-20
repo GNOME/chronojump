@@ -67,6 +67,31 @@ public class PointF
 		return str;
 	}
 
+	public static bool ListsTimeOverlap (List<PointF> p1_l, List<PointF> p2_l, int p2Start, int p2End)
+	{
+		if (p1_l[0].X > p2_l[p2End].X)
+			return false;
+		else if (Last (p1_l).X < p2_l[p2Start].X)
+			return false;
+
+		return true;
+	}
+
+	public static int FindSampleCloseToTime (List<PointF> p_l, double searchTime)
+	{
+		int sample = 0;
+		for (int i = 0; i < p_l.Count && p_l[i].X <= searchTime; i ++)
+			sample = i;
+
+		if (sample +1 >= p_l.Count)
+			return sample;
+
+		if (searchTime - p_l[sample].X < p_l[sample +1].X - searchTime)
+			return sample;
+		else
+			return sample + 1;
+	}
+
 	//for finding wich sample is at selected time from the end
 	public static int FindSampleAtTimeToEnd (List<PointF> p_l, double timeToEnd)
 	{

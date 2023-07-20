@@ -5461,8 +5461,14 @@ public partial class ChronoJumpWindow
 		if(currentPerson == null || currentSession == null)
 			return;
 
+		Gtk.Button b = o as Gtk.Button;
+		if (o == null) {
+			LogB.Information("o is null");
+			return;
+		}
+
 		if (Constants.ModeIsFORCESENSOR (current_mode))
-			force_sensor_load();
+			force_sensor_load (b == button_force_sensor_analyze_load_cd); //allows to choose person and session
 		else if(current_mode == Constants.Modes.RUNSENCODER)
 			run_encoder_load();
 	}

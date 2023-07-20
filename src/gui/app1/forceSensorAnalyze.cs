@@ -32,10 +32,11 @@ public partial class ChronoJumpWindow
 {
 	// at glade ---->
 	//analyze tab
-	Gtk.RadioButton radio_force_sensor_analyze_individual_current_set;
-	Gtk.RadioButton radio_force_sensor_analyze_individual_current_session;
-	Gtk.RadioButton radio_force_sensor_analyze_individual_all_sessions;
-	Gtk.RadioButton radio_force_sensor_analyze_groupal_current_session;
+	Gtk.RadioButton radio_force_sensor_analyze_current_set;
+	//Gtk.RadioButton radio_force_sensor_analyze_export_csv;
+	Gtk.RadioButton radio_force_sensor_export_individual_current_session;
+	Gtk.RadioButton radio_force_sensor_export_individual_all_sessions;
+	Gtk.RadioButton radio_force_sensor_export_groupal_current_session;
 	Gtk.Image image_force_sensor_analyze_individual_current_set;
 	Gtk.Image image_force_sensor_analyze_individual_current_session;
 	Gtk.Image image_force_sensor_analyze_individual_all_sessions;
@@ -145,7 +146,8 @@ public partial class ChronoJumpWindow
 	Gtk.Button button_hscale_fs_ai_b_last;
 
 	Gtk.Notebook notebook_force_sensor_export;
-	Gtk.Label label_force_sensor_export_data;
+	Gtk.Label label_force_sensor_export_person;
+	Gtk.Label label_force_sensor_export_session;
 	Gtk.HBox hbox_force_sensor_export_images;
 	Gtk.CheckButton check_force_sensor_export_images;
 	Gtk.HBox hbox_force_sensor_export_width_height;
@@ -219,7 +221,7 @@ public partial class ChronoJumpWindow
 		if(s)
 			button_force_sensor_analyze_analyze.Sensitive = button_force_sensor_analyze_analyze_was_sensitive;
 		else {
-			button_force_sensor_analyze_analyze_was_sensitive =	button_force_sensor_analyze_analyze.Sensitive;
+			button_force_sensor_analyze_analyze_was_sensitive = button_force_sensor_analyze_analyze.Sensitive;
 			button_force_sensor_analyze_analyze.Sensitive = false;
 		}
 
@@ -237,7 +239,7 @@ public partial class ChronoJumpWindow
 
 		hbox_force_sensor_analyze_top_modes.Sensitive = false;
 
-		button_force_sensor_analyze_options_close_and_analyze.Visible = radio_force_sensor_analyze_individual_current_set.Active;
+		button_force_sensor_analyze_options_close_and_analyze.Visible = radio_force_sensor_analyze_current_set.Active;
 
 		forceSensorAnalyzeOptionsSensitivity(false);
 	}
@@ -724,40 +726,57 @@ public partial class ChronoJumpWindow
 		button_force_sensor_export_result_open.Visible = false;
 	}
 
-	private void on_radio_force_sensor_analyze_individual_current_set_toggled (object o, EventArgs args)
+	private void on_radio_force_sensor_analyze_current_set_toggled (object o, EventArgs args)
 	{
 		notebook_force_sensor_analyze_top.CurrentPage = Convert.ToInt32(notebook_force_sensor_analyze_top_pages.CURRENTSETSIGNAL);
 		label_force_sensor_export_result.Text = "";
 		button_force_sensor_export_result_open.Visible = false;
-		button_force_sensor_analyze_analyze.Visible = true;
 	}
-	private void on_radio_force_sensor_analyze_individual_session_current_or_all_toggled (object o, EventArgs args)
+	private void on_radio_force_sensor_analyze_export_csv_toggled (object o, EventArgs args)
+	{
+		notebook_force_sensor_analyze_top.CurrentPage = Convert.ToInt32(notebook_force_sensor_analyze_top_pages.CURRENTSESSION);
+		label_force_sensor_export_result.Text = "";
+		button_force_sensor_export_result_open.Visible = false;
+	}
+
+	private void on_radio_force_sensor_export_session_current_toggled (object o, EventArgs args)
 	{
 		if(currentPerson != null)
-			label_force_sensor_export_data.Text = currentPerson.Name;
+			label_force_sensor_export_person.Text = currentPerson.Name;
 		else
-			label_force_sensor_export_data.Text = "";
+			label_force_sensor_export_person.Text = "";
 
-		notebook_force_sensor_analyze_top.CurrentPage = Convert.ToInt32(notebook_force_sensor_analyze_top_pages.CURRENTSESSION);
+		label_force_sensor_export_session.Text = currentSession.Name;
+
 		label_force_sensor_export_result.Text = "";
 		button_force_sensor_export_result_open.Visible = false;
-		button_force_sensor_analyze_analyze.Visible = false;
 	}
-	private void on_radio_force_sensor_analyze_groupal_current_session_toggled (object o, EventArgs args)
+	private void on_radio_force_sensor_export_session_all_toggled (object o, EventArgs args)
 	{
-		label_force_sensor_export_data.Text = currentSession.Name;
+		if(currentPerson != null)
+			label_force_sensor_export_person.Text = currentPerson.Name;
+		else
+			label_force_sensor_export_person.Text = "";
 
-		notebook_force_sensor_analyze_top.CurrentPage = Convert.ToInt32(notebook_force_sensor_analyze_top_pages.CURRENTSESSION);
+		label_force_sensor_export_session.Text = Catalog.GetString ("All");
+
 		label_force_sensor_export_result.Text = "";
 		button_force_sensor_export_result_open.Visible = false;
-		button_force_sensor_analyze_analyze.Visible = false;
+	}
+	private void on_radio_force_sensor_analyze_export_groupal_toggled (object o, EventArgs args)
+	{
+		label_force_sensor_export_person.Text = Catalog.GetString ("All");
+		label_force_sensor_export_session.Text = currentSession.Name;
+
+		label_force_sensor_export_result.Text = "";
+		button_force_sensor_export_result_open.Visible = false;
 	}
 
 	//everything except the current set
 	private void on_button_force_sensor_export_not_set_clicked (object o, EventArgs args)
 	{
 		// 1) check if all sessions
-		if(radio_force_sensor_analyze_individual_all_sessions.Active)
+		if(radio_force_sensor_export_individual_all_sessions.Active)
 		{
 			if(currentPerson == null)
 				return;
@@ -770,14 +789,14 @@ public partial class ChronoJumpWindow
 		if(currentSession == null)
 			return;
 
-		if (radio_force_sensor_analyze_individual_current_session.Active)
+		if (radio_force_sensor_export_individual_current_session.Active)
 		{
 			if(currentPerson == null)
 				return;
 
 			button_force_sensor_export_session (currentPerson.UniqueID, currentSession.UniqueID);
 		}
-		else if (radio_force_sensor_analyze_groupal_current_session.Active)
+		else if (radio_force_sensor_export_groupal_current_session.Active)
 		{
 			button_force_sensor_export_session (-1, currentSession.UniqueID);
 		}
@@ -2217,10 +2236,11 @@ public partial class ChronoJumpWindow
 	private void connectWidgetsForceSensorAnalyze (Gtk.Builder builder)
 	{
 		//analyze tab
-		radio_force_sensor_analyze_individual_current_set = (Gtk.RadioButton) builder.GetObject ("radio_force_sensor_analyze_individual_current_set");
-		radio_force_sensor_analyze_individual_current_session = (Gtk.RadioButton) builder.GetObject ("radio_force_sensor_analyze_individual_current_session");
-		radio_force_sensor_analyze_individual_all_sessions = (Gtk.RadioButton) builder.GetObject ("radio_force_sensor_analyze_individual_all_sessions");
-		radio_force_sensor_analyze_groupal_current_session = (Gtk.RadioButton) builder.GetObject ("radio_force_sensor_analyze_groupal_current_session");
+		radio_force_sensor_analyze_current_set = (Gtk.RadioButton) builder.GetObject ("radio_force_sensor_analyze_current_set");
+		//radio_force_sensor_analyze_export_csv = (Gtk.RadioButton) builder.GetObject ("radio_force_sensor_analyze_export_csv");
+		radio_force_sensor_export_individual_current_session = (Gtk.RadioButton) builder.GetObject ("radio_force_sensor_export_individual_current_session");
+		radio_force_sensor_export_individual_all_sessions = (Gtk.RadioButton) builder.GetObject ("radio_force_sensor_export_individual_all_sessions");
+		radio_force_sensor_export_groupal_current_session = (Gtk.RadioButton) builder.GetObject ("radio_force_sensor_export_groupal_current_session");
 		image_force_sensor_analyze_individual_current_set = (Gtk.Image) builder.GetObject ("image_force_sensor_analyze_individual_current_set");
 		image_force_sensor_analyze_individual_current_session = (Gtk.Image) builder.GetObject ("image_force_sensor_analyze_individual_current_session");
 		image_force_sensor_analyze_individual_all_sessions = (Gtk.Image) builder.GetObject ("image_force_sensor_analyze_individual_all_sessions");
@@ -2330,7 +2350,8 @@ public partial class ChronoJumpWindow
 		button_hscale_fs_ai_b_last = (Gtk.Button) builder.GetObject ("button_hscale_fs_ai_b_last");
 
 		notebook_force_sensor_export = (Gtk.Notebook) builder.GetObject ("notebook_force_sensor_export");
-		label_force_sensor_export_data = (Gtk.Label) builder.GetObject ("label_force_sensor_export_data");
+		label_force_sensor_export_person = (Gtk.Label) builder.GetObject ("label_force_sensor_export_person");
+		label_force_sensor_export_session = (Gtk.Label) builder.GetObject ("label_force_sensor_export_session");
 		hbox_force_sensor_export_images = (Gtk.HBox) builder.GetObject ("hbox_force_sensor_export_images");
 		check_force_sensor_export_images = (Gtk.CheckButton) builder.GetObject ("check_force_sensor_export_images");
 		hbox_force_sensor_export_width_height = (Gtk.HBox) builder.GetObject ("hbox_force_sensor_export_width_height");

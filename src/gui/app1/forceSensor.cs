@@ -580,15 +580,15 @@ public partial class ChronoJumpWindow
 
 		grid_radios_force_sensor_ai.Sensitive = true; //because maybe zoom was in
 		//put scales to 0,0
-		hscale_force_sensor_ai_a.SetRange(0, 0);
-		hscale_force_sensor_ai_b.SetRange(0, 0);
-		hscale_force_sensor_ai_c.SetRange(0, 0);
-		hscale_force_sensor_ai_d.SetRange(0, 0);
+		hscale_fs_ai_a.SetRange(0, 0);
+		hscale_fs_ai_b.SetRange(0, 0);
+		hscale_fs_ai_c.SetRange(0, 0);
+		hscale_fs_ai_d.SetRange(0, 0);
 		//set them to 0, because if not is set to 1 by a GTK error
-		hscale_force_sensor_ai_a.Value = 0;
-		hscale_force_sensor_ai_b.Value = 0;
-		hscale_force_sensor_ai_c.Value = 0;
-		hscale_force_sensor_ai_d.Value = 0;
+		hscale_fs_ai_a.Value = 0;
+		hscale_fs_ai_b.Value = 0;
+		hscale_fs_ai_c.Value = 0;
+		hscale_fs_ai_d.Value = 0;
 		forceSensorAnalyzeGeneralButtonHscaleZoomSensitiveness();
 
 		label_force_sensor_value_max.Text = "";
@@ -2331,11 +2331,11 @@ LogB.Information(" fs R ");
 		int sampleB;
 		if (radio_force_sensor_ai_ab.Active)
 		{
-			sampleA = Convert.ToInt32(hscale_force_sensor_ai_a.Value);
-			sampleB = Convert.ToInt32(hscale_force_sensor_ai_b.Value);
+			sampleA = Convert.ToInt32(hscale_fs_ai_a.Value);
+			sampleB = Convert.ToInt32(hscale_fs_ai_b.Value);
 		} else {
-			sampleA = Convert.ToInt32(hscale_force_sensor_ai_c.Value);
-			sampleB = Convert.ToInt32(hscale_force_sensor_ai_d.Value);
+			sampleA = Convert.ToInt32(hscale_fs_ai_c.Value);
+			sampleB = Convert.ToInt32(hscale_fs_ai_d.Value);
 		}
 		if(forceSensorZoomApplied)
 		{

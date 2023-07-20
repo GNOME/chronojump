@@ -19036,6 +19036,7 @@
                                                             <object class="GtkVBox" id="vbox35">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
+                                                            <property name="border-width">4</property>
                                                             <property name="spacing">4</property>
                                                             <child>
                                                             <object class="GtkHBox" id="hbox39">
@@ -19336,6 +19337,7 @@
                                                             <object class="GtkVBox" id="vbox27">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
+                                                            <property name="border-width">4</property>
                                                             <child>
                                                             <object class="GtkHBox" id="hbox55">
                                                             <property name="visible">True</property>
@@ -19431,6 +19433,7 @@
                                                             <object class="GtkTable" id="table6">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
+                                                            <property name="border-width">4</property>
                                                             <property name="n-rows">2</property>
                                                             <property name="n-columns">2</property>
                                                             <property name="column-spacing">13</property>
@@ -19587,7 +19590,7 @@
                                                             <object class="GtkVBox" id="vbox112">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
-                                                            <property name="border-width">6</property>
+                                                            <property name="border-width">4</property>
                                                             <child>
                                                             <object class="GtkCheckButton" id="checkbutton_stats_sex">
                                                             <property name="label" translatable="yes">Show sex</property>
@@ -22623,6 +22626,9 @@ Concentric</property>
                                                             <property name="left-attach">3</property>
                                                             <property name="right-attach">4</property>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>

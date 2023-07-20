@@ -22888,6 +22888,9 @@ Concentric</property>
                                                             <child>
                                                             <placeholder/>
                                                             </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
                                                             </object>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -25657,11 +25660,11 @@ Concentric</property>
                                                             <property name="can-focus">False</property>
                                                             <property name="spacing">3</property>
                                                             <child>
-                                                            <object class="GtkButton" id="button_hscale_force_sensor_ai_a_first">
+                                                            <object class="GtkButton" id="button_hscale_fs_ai_a_first">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="receives-default">True</property>
-                                                            <signal name="clicked" handler="on_button_hscale_force_sensor_ai_a_first_clicked" swapped="no"/>
+                                                            <signal name="clicked" handler="on_button_hscale_fs_ai_a_first_clicked" swapped="no"/>
                                                             <child>
                                                             <object class="GtkImage" id="image_hscale_force_sensor_ai_a_first">
                                                             <property name="visible">True</property>
@@ -25678,11 +25681,11 @@ Concentric</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <object class="GtkButton" id="button_hscale_force_sensor_ai_a_pre_1s">
+                                                            <object class="GtkButton" id="button_hscale_fs_ai_a_pre_1s">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="receives-default">True</property>
-                                                            <signal name="clicked" handler="on_button_hscale_force_sensor_ai_a_pre_1s_clicked" swapped="no"/>
+                                                            <signal name="clicked" handler="on_button_hscale_fs_ai_a_pre_1s_clicked" swapped="no"/>
                                                             <child>
                                                             <object class="GtkHBox" id="hbox465">
                                                             <property name="visible">True</property>
@@ -25702,7 +25705,7 @@ Concentric</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <object class="GtkLabel" id="label_hscale_force_sensor_ai_a_pre_1s">
+                                                            <object class="GtkLabel" id="label_hscale_fs_ai_a_pre_1s">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
                                                             </object>
@@ -25722,11 +25725,11 @@ Concentric</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <object class="GtkButton" id="button_hscale_force_sensor_ai_a_pre">
+                                                            <object class="GtkButton" id="button_hscale_fs_ai_a_pre">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="receives-default">True</property>
-                                                            <signal name="clicked" handler="on_button_hscale_force_sensor_ai_a_pre_clicked" swapped="no"/>
+                                                            <signal name="clicked" handler="on_button_hscale_fs_ai_a_pre_clicked" swapped="no"/>
                                                             <child>
                                                             <object class="GtkImage" id="image_hscale_force_sensor_ai_a_pre">
                                                             <property name="visible">True</property>
@@ -25755,11 +25758,11 @@ Concentric</property>
                                                             <property name="can-focus">False</property>
                                                             <property name="spacing">3</property>
                                                             <child>
-                                                            <object class="GtkButton" id="button_hscale_force_sensor_ai_a_post">
+                                                            <object class="GtkButton" id="button_hscale_fs_ai_a_post">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="receives-default">True</property>
-                                                            <signal name="clicked" handler="on_button_hscale_force_sensor_ai_a_post_clicked" swapped="no"/>
+                                                            <signal name="clicked" handler="on_button_hscale_fs_ai_a_post_clicked" swapped="no"/>
                                                             <child>
                                                             <object class="GtkImage" id="image_hscale_force_sensor_ai_a_post">
                                                             <property name="visible">True</property>
@@ -25776,18 +25779,18 @@ Concentric</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <object class="GtkButton" id="button_hscale_force_sensor_ai_a_post_1s">
+                                                            <object class="GtkButton" id="button_hscale_fs_ai_a_post_1s">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="receives-default">True</property>
-                                                            <signal name="clicked" handler="on_button_hscale_force_sensor_ai_a_post_1s_clicked" swapped="no"/>
+                                                            <signal name="clicked" handler="on_button_hscale_fs_ai_a_post_1s_clicked" swapped="no"/>
                                                             <child>
                                                             <object class="GtkHBox" id="hbox466">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
                                                             <property name="spacing">2</property>
                                                             <child>
-                                                            <object class="GtkLabel" id="label_hscale_force_sensor_ai_a_post_1s">
+                                                            <object class="GtkLabel" id="label_hscale_fs_ai_a_post_1s">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
                                                             </object>
@@ -25820,11 +25823,11 @@ Concentric</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <object class="GtkButton" id="button_hscale_force_sensor_ai_a_last">
+                                                            <object class="GtkButton" id="button_hscale_fs_ai_a_last">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="receives-default">True</property>
-                                                            <signal name="clicked" handler="on_button_hscale_force_sensor_ai_a_last_clicked" swapped="no"/>
+                                                            <signal name="clicked" handler="on_button_hscale_fs_ai_a_last_clicked" swapped="no"/>
                                                             <child>
                                                             <object class="GtkImage" id="image_hscale_force_sensor_ai_a_last">
                                                             <property name="visible">True</property>
@@ -25866,11 +25869,11 @@ Concentric</property>
                                                             <property name="can-focus">False</property>
                                                             <property name="spacing">3</property>
                                                             <child>
-                                                            <object class="GtkButton" id="button_hscale_force_sensor_ai_b_first">
+                                                            <object class="GtkButton" id="button_hscale_fs_ai_b_first">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="receives-default">True</property>
-                                                            <signal name="clicked" handler="on_button_hscale_force_sensor_ai_b_first_clicked" swapped="no"/>
+                                                            <signal name="clicked" handler="on_button_hscale_fs_ai_b_first_clicked" swapped="no"/>
                                                             <child>
                                                             <object class="GtkImage" id="image_hscale_force_sensor_ai_b_first">
                                                             <property name="visible">True</property>
@@ -25887,11 +25890,11 @@ Concentric</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <object class="GtkButton" id="button_hscale_force_sensor_ai_b_pre_1s">
+                                                            <object class="GtkButton" id="button_hscale_fs_ai_b_pre_1s">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="receives-default">True</property>
-                                                            <signal name="clicked" handler="on_button_hscale_force_sensor_ai_b_pre_1s_clicked" swapped="no"/>
+                                                            <signal name="clicked" handler="on_button_hscale_fs_ai_b_pre_1s_clicked" swapped="no"/>
                                                             <child>
                                                             <object class="GtkHBox" id="hbox467">
                                                             <property name="visible">True</property>
@@ -25911,7 +25914,7 @@ Concentric</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <object class="GtkLabel" id="label_hscale_force_sensor_ai_b_pre_1s">
+                                                            <object class="GtkLabel" id="label_hscale_fs_ai_b_pre_1s">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
                                                             </object>
@@ -25931,11 +25934,11 @@ Concentric</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <object class="GtkButton" id="button_hscale_force_sensor_ai_b_pre">
+                                                            <object class="GtkButton" id="button_hscale_fs_ai_b_pre">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="receives-default">True</property>
-                                                            <signal name="clicked" handler="on_button_hscale_force_sensor_ai_b_pre_clicked" swapped="no"/>
+                                                            <signal name="clicked" handler="on_button_hscale_fs_ai_b_pre_clicked" swapped="no"/>
                                                             <child>
                                                             <object class="GtkImage" id="image_hscale_force_sensor_ai_b_pre">
                                                             <property name="visible">True</property>
@@ -25964,11 +25967,11 @@ Concentric</property>
                                                             <property name="can-focus">False</property>
                                                             <property name="spacing">3</property>
                                                             <child>
-                                                            <object class="GtkButton" id="button_hscale_force_sensor_ai_b_post">
+                                                            <object class="GtkButton" id="button_hscale_fs_ai_b_post">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="receives-default">True</property>
-                                                            <signal name="clicked" handler="on_button_hscale_force_sensor_ai_b_post_clicked" swapped="no"/>
+                                                            <signal name="clicked" handler="on_button_hscale_fs_ai_b_post_clicked" swapped="no"/>
                                                             <child>
                                                             <object class="GtkImage" id="image_hscale_force_sensor_ai_b_post">
                                                             <property name="visible">True</property>
@@ -25985,18 +25988,18 @@ Concentric</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <object class="GtkButton" id="button_hscale_force_sensor_ai_b_post_1s">
+                                                            <object class="GtkButton" id="button_hscale_fs_ai_b_post_1s">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="receives-default">True</property>
-                                                            <signal name="clicked" handler="on_button_hscale_force_sensor_ai_b_post_1s_clicked" swapped="no"/>
+                                                            <signal name="clicked" handler="on_button_hscale_fs_ai_b_post_1s_clicked" swapped="no"/>
                                                             <child>
                                                             <object class="GtkHBox" id="hbox468">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
                                                             <property name="spacing">2</property>
                                                             <child>
-                                                            <object class="GtkLabel" id="label_hscale_force_sensor_ai_b_post_1s">
+                                                            <object class="GtkLabel" id="label_hscale_fs_ai_b_post_1s">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
                                                             </object>
@@ -26029,11 +26032,11 @@ Concentric</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <object class="GtkButton" id="button_hscale_force_sensor_ai_b_last">
+                                                            <object class="GtkButton" id="button_hscale_fs_ai_b_last">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="receives-default">True</property>
-                                                            <signal name="clicked" handler="on_button_hscale_force_sensor_ai_b_last_clicked" swapped="no"/>
+                                                            <signal name="clicked" handler="on_button_hscale_fs_ai_b_last_clicked" swapped="no"/>
                                                             <child>
                                                             <object class="GtkImage" id="image_hscale_force_sensor_ai_b_last">
                                                             <property name="visible">True</property>
@@ -26087,14 +26090,14 @@ Concentric</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <object class="GtkHScale" id="hscale_force_sensor_ai_a">
+                                                            <object class="GtkHScale" id="hscale_fs_ai_a">
                                                             <property name="width-request">70</property>
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="adjustment">adjustment81</property>
                                                             <property name="digits">0</property>
                                                             <property name="draw-value">False</property>
-                                                            <signal name="value-changed" handler="on_hscale_force_sensor_ai_value_changed" swapped="no"/>
+                                                            <signal name="value-changed" handler="on_hscale_fs_ai_value_changed" swapped="no"/>
                                                             </object>
                                                             <packing>
                                                             <property name="expand">True</property>
@@ -26125,14 +26128,14 @@ Concentric</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <object class="GtkHScale" id="hscale_force_sensor_ai_c">
+                                                            <object class="GtkHScale" id="hscale_fs_ai_c">
                                                             <property name="width-request">70</property>
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="adjustment">adjustment123</property>
                                                             <property name="digits">0</property>
                                                             <property name="draw-value">False</property>
-                                                            <signal name="value-changed" handler="on_hscale_force_sensor_ai_value_changed" swapped="no"/>
+                                                            <signal name="value-changed" handler="on_hscale_fs_ai_value_changed" swapped="no"/>
                                                             </object>
                                                             <packing>
                                                             <property name="expand">True</property>
@@ -26173,14 +26176,14 @@ Concentric</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <object class="GtkHScale" id="hscale_force_sensor_ai_b">
+                                                            <object class="GtkHScale" id="hscale_fs_ai_b">
                                                             <property name="width-request">70</property>
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="adjustment">adjustment82</property>
                                                             <property name="digits">0</property>
                                                             <property name="draw-value">False</property>
-                                                            <signal name="value-changed" handler="on_hscale_force_sensor_ai_value_changed" swapped="no"/>
+                                                            <signal name="value-changed" handler="on_hscale_fs_ai_value_changed" swapped="no"/>
                                                             </object>
                                                             <packing>
                                                             <property name="expand">True</property>
@@ -26211,14 +26214,14 @@ Concentric</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <object class="GtkHScale" id="hscale_force_sensor_ai_d">
+                                                            <object class="GtkHScale" id="hscale_fs_ai_d">
                                                             <property name="width-request">70</property>
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="adjustment">adjustment124</property>
                                                             <property name="digits">0</property>
                                                             <property name="draw-value">False</property>
-                                                            <signal name="value-changed" handler="on_hscale_force_sensor_ai_value_changed" swapped="no"/>
+                                                            <signal name="value-changed" handler="on_hscale_fs_ai_value_changed" swapped="no"/>
                                                             </object>
                                                             <packing>
                                                             <property name="expand">True</property>

@@ -1852,7 +1852,7 @@ LogB.Information(" fs R ");
 
 	//this is called when user clicks on load signal
 	//very based on: on_encoder_load_signal_clicked () future have some inheritance
-	private void force_sensor_load ()
+	private void force_sensor_load (bool canChoosePersonAndSession)
 	{
 		int elastic = ForceSensor.GetElasticIntFromMode (current_mode);
 		List<ForceSensor> data = SqliteForceSensor.Select(false, -1, currentPerson.UniqueID, currentSession.UniqueID, elastic);
@@ -1890,6 +1890,13 @@ LogB.Information(" fs R ");
 
 		a2.Add(Constants.GenericWindowShow.COMBO); a2.Add(true); a2.Add("");
 		bigArray.Add(a2);
+
+		if (canChoosePersonAndSession)
+		{
+			ArrayList a3 = new ArrayList ();
+			a3.Add (Constants.GenericWindowShow.GRIDPERSONSESSION); a3.Add (true); a3.Add ("");
+			bigArray.Add (a3);
+		}
 
 		genericWin = GenericWindow.Show (Catalog.GetString("Load"), false,	//don't show now
 				string.Format(Catalog.GetString("Select set of athlete {0} on this session."),

@@ -57,6 +57,8 @@ public class GenericWindow
 	Gtk.HButtonBox hbuttonbox_middle;
 	Gtk.Button button_middle;
 
+	Gtk.Grid grid_person_session;
+
 	//Edit row
 	Gtk.Box hbox_edit_row;
 	Gtk.Label hbox_combo_label;
@@ -257,6 +259,7 @@ public class GenericWindow
 		hbox_all_none_selected.Hide();
 		hbox_combo_all_none_selected.Hide();
 		hbuttonbox_middle.Hide();
+		grid_person_session.Hide ();
 		label_before_textview_treeview.Hide();
 		scrolled_window_textview.Hide();
 		scrolled_window_treeview.Hide();
@@ -329,6 +332,9 @@ public class GenericWindow
 		}
 		else if(stuff == Constants.GenericWindowShow.BUTTONMIDDLE) {
 			hbuttonbox_middle.Show();
+		}
+		else if(stuff == Constants.GenericWindowShow.GRIDPERSONSESSION) {
+			grid_person_session.Show ();
 		}
 		else if(stuff == Constants.GenericWindowShow.LABELBEFORETEXTVIEWTREEVIEW) {
 			label_before_textview_treeview.Show();
@@ -1259,6 +1265,8 @@ public class GenericWindow
 
 		hbuttonbox_middle = (Gtk.HButtonBox) builder.GetObject ("hbuttonbox_middle");
 		button_middle = (Gtk.Button) builder.GetObject ("button_middle");
+
+		grid_person_session = (Gtk.Grid) builder.GetObject ("grid_person_session");
 
 		//Edit row
 		hbox_edit_row = (Gtk.Box) builder.GetObject ("hbox_edit_row");

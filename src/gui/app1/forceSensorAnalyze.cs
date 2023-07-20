@@ -1224,16 +1224,16 @@ public partial class ChronoJumpWindow
 		check_force_sensor_ai_zoom.Active = false;
 	}
 
-	private int hscale_force_sensor_ai_a_BeforeZoom = 0;
-	private int hscale_force_sensor_ai_a_AtZoom = 0;
-	private int hscale_force_sensor_ai_b_BeforeZoom = 0;
-	private int hscale_force_sensor_ai_b_AtZoom = 0;
-	private int hscale_force_sensor_ai_c_BeforeZoom = 0;
-	private int hscale_force_sensor_ai_c_AtZoom = 0;
-	private int hscale_force_sensor_ai_d_BeforeZoom = 0;
-	private int hscale_force_sensor_ai_d_AtZoom = 0;
+	private int hscale_fs_ai_a_BeforeZoom = 0;
+	private int hscale_fs_ai_a_AtZoom = 0;
+	private int hscale_fs_ai_b_BeforeZoom = 0;
+	private int hscale_fs_ai_b_AtZoom = 0;
+	private int hscale_fs_ai_c_BeforeZoom = 0;
+	private int hscale_fs_ai_c_AtZoom = 0;
+	private int hscale_fs_ai_d_BeforeZoom = 0;
+	private int hscale_fs_ai_d_AtZoom = 0;
 
-	//private double hscale_force_sensor_ai_a_BeforeZoomTimeMS = 0; //to calculate triggers
+	//private double hscale_fs_ai_a_BeforeZoomTimeMS = 0; //to calculate triggers
 
 	private void on_check_force_sensor_ai_zoom_clicked (object o, EventArgs args)
 	{
@@ -1247,10 +1247,10 @@ public partial class ChronoJumpWindow
 			forceSensorZoomApplied = true;
 
 			//store hscale a to help return to position on unzoom
-			hscale_force_sensor_ai_a_BeforeZoom = Convert.ToInt32 (hscale_force_sensor_ai_a.Value);
-			hscale_force_sensor_ai_b_BeforeZoom = Convert.ToInt32 (hscale_force_sensor_ai_b.Value);
-			hscale_force_sensor_ai_c_BeforeZoom = Convert.ToInt32 (hscale_force_sensor_ai_c.Value);
-			hscale_force_sensor_ai_d_BeforeZoom = Convert.ToInt32 (hscale_force_sensor_ai_d.Value);
+			hscale_fs_ai_a_BeforeZoom = Convert.ToInt32 (hscale_force_sensor_ai_a.Value);
+			hscale_fs_ai_b_BeforeZoom = Convert.ToInt32 (hscale_force_sensor_ai_b.Value);
+			hscale_fs_ai_c_BeforeZoom = Convert.ToInt32 (hscale_force_sensor_ai_c.Value);
+			hscale_fs_ai_d_BeforeZoom = Convert.ToInt32 (hscale_force_sensor_ai_d.Value);
 
 			if (radio_force_sensor_ai_2sets.Active)
 			{
@@ -1264,34 +1264,34 @@ public partial class ChronoJumpWindow
 					{
 						// ab data is the hscales data
 						spCairoFEZoom = new SignalPointsCairoForceElastic (spCairoFE,
-								hscale_force_sensor_ai_a_BeforeZoom, hscale_force_sensor_ai_b_BeforeZoom, true);
+								hscale_fs_ai_a_BeforeZoom, hscale_fs_ai_b_BeforeZoom, true);
 
 						// cd data are samples close in time to ab data
 						// 1st check if it overlaps, if it does not overlap and we include it, it would show a bigger graph with empty data
-						if (! PointF.ListsTimeOverlap (spCairoFE_CD.Force_l, spCairoFE.Force_l, hscale_force_sensor_ai_a_BeforeZoom, hscale_force_sensor_ai_b_BeforeZoom))
+						if (! PointF.ListsTimeOverlap (spCairoFE_CD.Force_l, spCairoFE.Force_l, hscale_fs_ai_a_BeforeZoom, hscale_fs_ai_b_BeforeZoom))
 							spCairoFEZoom_CD = new SignalPointsCairoForceElastic ();
 						else {
 							sampleL = PointF.FindSampleCloseToTime (
-									spCairoFE_CD.Force_l, spCairoFE.Force_l[hscale_force_sensor_ai_a_BeforeZoom].X);
+									spCairoFE_CD.Force_l, spCairoFE.Force_l[hscale_fs_ai_a_BeforeZoom].X);
 							sampleR = PointF.FindSampleCloseToTime (
-									spCairoFE_CD.Force_l, spCairoFE.Force_l[hscale_force_sensor_ai_b_BeforeZoom].X);
+									spCairoFE_CD.Force_l, spCairoFE.Force_l[hscale_fs_ai_b_BeforeZoom].X);
 							spCairoFEZoom_CD = new SignalPointsCairoForceElastic (spCairoFE_CD,
 									sampleL, sampleR, true);
 						}
 					} else {
 						// cd data is the hscales data
 						spCairoFEZoom_CD = new SignalPointsCairoForceElastic (spCairoFE_CD,
-								hscale_force_sensor_ai_c_BeforeZoom, hscale_force_sensor_ai_d_BeforeZoom, true);
+								hscale_fs_ai_c_BeforeZoom, hscale_fs_ai_d_BeforeZoom, true);
 
 						// ab data are samples close in time to cd data
 						// 1st check if it overlaps, if it does not overlap and we include it, it would show a bigger graph with empty data
-						if (! PointF.ListsTimeOverlap (spCairoFE.Force_l, spCairoFE_CD.Force_l, hscale_force_sensor_ai_c_BeforeZoom, hscale_force_sensor_ai_d_BeforeZoom))
+						if (! PointF.ListsTimeOverlap (spCairoFE.Force_l, spCairoFE_CD.Force_l, hscale_fs_ai_c_BeforeZoom, hscale_fs_ai_d_BeforeZoom))
 							spCairoFEZoom = new SignalPointsCairoForceElastic ();
 						else {
 							sampleL = PointF.FindSampleCloseToTime (
-									spCairoFE.Force_l, spCairoFE_CD.Force_l[hscale_force_sensor_ai_c_BeforeZoom].X);
+									spCairoFE.Force_l, spCairoFE_CD.Force_l[hscale_fs_ai_c_BeforeZoom].X);
 							sampleR = PointF.FindSampleCloseToTime (
-									spCairoFE.Force_l, spCairoFE_CD.Force_l[hscale_force_sensor_ai_d_BeforeZoom].X);
+									spCairoFE.Force_l, spCairoFE_CD.Force_l[hscale_fs_ai_d_BeforeZoom].X);
 							spCairoFEZoom = new SignalPointsCairoForceElastic (spCairoFE,
 									sampleL, sampleR, true);
 						}
@@ -1299,11 +1299,11 @@ public partial class ChronoJumpWindow
 				} else {
 					if (radio_force_sensor_ai_ab.Active)
 					{
-						sampleL = hscale_force_sensor_ai_a_BeforeZoom;
-						sampleR = hscale_force_sensor_ai_b_BeforeZoom;
+						sampleL = hscale_fs_ai_a_BeforeZoom;
+						sampleR = hscale_fs_ai_b_BeforeZoom;
 					} else {
-						sampleL = hscale_force_sensor_ai_c_BeforeZoom;
-						sampleR = hscale_force_sensor_ai_d_BeforeZoom;
+						sampleL = hscale_fs_ai_c_BeforeZoom;
+						sampleR = hscale_fs_ai_d_BeforeZoom;
 					}
 
 					spCairoFEZoom = new SignalPointsCairoForceElastic (spCairoFE,
@@ -1314,10 +1314,10 @@ public partial class ChronoJumpWindow
 			} else {
 				if (radio_force_sensor_ai_ab.Active)
 					spCairoFEZoom = new SignalPointsCairoForceElastic (spCairoFE,
-							hscale_force_sensor_ai_a_BeforeZoom, hscale_force_sensor_ai_b_BeforeZoom, true);
+							hscale_fs_ai_a_BeforeZoom, hscale_fs_ai_b_BeforeZoom, true);
 				else
 					spCairoFEZoom = new SignalPointsCairoForceElastic (spCairoFE,
-							hscale_force_sensor_ai_c_BeforeZoom, hscale_force_sensor_ai_d_BeforeZoom, true);
+							hscale_fs_ai_c_BeforeZoom, hscale_fs_ai_d_BeforeZoom, true);
 			}
 
 			//cairo
@@ -1329,8 +1329,8 @@ public partial class ChronoJumpWindow
 				// do this:
 				ForceSensorRepetition fsr = fsAI.ForceSensorRepetition_l[r].Clone();
 
-				fsr.sampleStart -= hscale_force_sensor_ai_a_BeforeZoom;
-				fsr.sampleEnd -= hscale_force_sensor_ai_a_BeforeZoom;
+				fsr.sampleStart -= hscale_fs_ai_a_BeforeZoom;
+				fsr.sampleEnd -= hscale_fs_ai_a_BeforeZoom;
 
 				forceSensorRepetition_lZoomAppliedCairo.Add (fsr);
 			}
@@ -1345,11 +1345,11 @@ public partial class ChronoJumpWindow
 
 			if (radio_force_sensor_ai_ab.Active)
 			{
-				hscale_force_sensor_ai_a_AtZoom = Convert.ToInt32 (hscale_force_sensor_ai_a.Value);
-				hscale_force_sensor_ai_b_AtZoom = Convert.ToInt32 (hscale_force_sensor_ai_b.Value);
+				hscale_fs_ai_a_AtZoom = Convert.ToInt32 (hscale_force_sensor_ai_a.Value);
+				hscale_fs_ai_b_AtZoom = Convert.ToInt32 (hscale_force_sensor_ai_b.Value);
 			} else {
-				hscale_force_sensor_ai_c_AtZoom = Convert.ToInt32 (hscale_force_sensor_ai_c.Value);
-				hscale_force_sensor_ai_d_AtZoom = Convert.ToInt32 (hscale_force_sensor_ai_d.Value);
+				hscale_fs_ai_c_AtZoom = Convert.ToInt32 (hscale_force_sensor_ai_c.Value);
+				hscale_fs_ai_d_AtZoom = Convert.ToInt32 (hscale_force_sensor_ai_d.Value);
 			}
 
 			forceSensorPrepareGraphAI ();
@@ -1357,22 +1357,22 @@ public partial class ChronoJumpWindow
 			if (radio_force_sensor_ai_ab.Active)
 			{
 				// set hscales a,b to value before + value at zoom (because user maybe changed it on zoom)
-				hscale_force_sensor_ai_a.Value = hscale_force_sensor_ai_a_BeforeZoom +
-					(hscale_force_sensor_ai_a_AtZoom);
-				hscale_force_sensor_ai_b.Value = hscale_force_sensor_ai_a_BeforeZoom +
-					(hscale_force_sensor_ai_b_AtZoom);
+				hscale_force_sensor_ai_a.Value = hscale_fs_ai_a_BeforeZoom +
+					(hscale_fs_ai_a_AtZoom);
+				hscale_force_sensor_ai_b.Value = hscale_fs_ai_a_BeforeZoom +
+					(hscale_fs_ai_b_AtZoom);
 
 				// set hscales c,d at same value before zoom
-				hscale_force_sensor_ai_c.Value = hscale_force_sensor_ai_c_BeforeZoom;
-				hscale_force_sensor_ai_d.Value = hscale_force_sensor_ai_d_BeforeZoom;
+				hscale_force_sensor_ai_c.Value = hscale_fs_ai_c_BeforeZoom;
+				hscale_force_sensor_ai_d.Value = hscale_fs_ai_d_BeforeZoom;
 			} else {
-				hscale_force_sensor_ai_a.Value = hscale_force_sensor_ai_a_BeforeZoom;
-				hscale_force_sensor_ai_b.Value = hscale_force_sensor_ai_b_BeforeZoom;
+				hscale_force_sensor_ai_a.Value = hscale_fs_ai_a_BeforeZoom;
+				hscale_force_sensor_ai_b.Value = hscale_fs_ai_b_BeforeZoom;
 
-				hscale_force_sensor_ai_c.Value = hscale_force_sensor_ai_c_BeforeZoom +
-					(hscale_force_sensor_ai_c_AtZoom);
-				hscale_force_sensor_ai_d.Value = hscale_force_sensor_ai_c_BeforeZoom +
-					(hscale_force_sensor_ai_d_AtZoom);
+				hscale_force_sensor_ai_c.Value = hscale_fs_ai_c_BeforeZoom +
+					(hscale_fs_ai_c_AtZoom);
+				hscale_force_sensor_ai_d.Value = hscale_fs_ai_c_BeforeZoom +
+					(hscale_fs_ai_d_AtZoom);
 			}
 
 			image_force_sensor_ai_zoom.Visible = true;

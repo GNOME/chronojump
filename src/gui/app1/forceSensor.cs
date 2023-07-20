@@ -2341,11 +2341,11 @@ LogB.Information(" fs R ");
 		{
 			if (radio_force_sensor_ai_ab.Active)
 			{
-				sampleA += hscale_force_sensor_ai_a_BeforeZoom;
-				sampleB += hscale_force_sensor_ai_b_BeforeZoom;
+				sampleA += hscale_fs_ai_a_BeforeZoom;
+				sampleB += hscale_fs_ai_b_BeforeZoom;
 			} else {
-				sampleA += hscale_force_sensor_ai_c_BeforeZoom;
-				sampleB += hscale_force_sensor_ai_d_BeforeZoom;
+				sampleA += hscale_fs_ai_c_BeforeZoom;
+				sampleB += hscale_fs_ai_d_BeforeZoom;
 			}
 		}
 

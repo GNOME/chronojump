@@ -3479,7 +3479,13 @@ public partial class ChronoJumpWindow
 		//update other widgets
 		//analyze export labels:
 		label_sprint_export_data.Text = currentSession.Name;
-		label_force_sensor_export_data.Text = currentSession.Name;
+
+		if(currentPerson != null)
+			label_force_sensor_export_person.Text = currentPerson.Name;
+		else
+			label_force_sensor_export_person.Text = "";
+		label_force_sensor_export_session.Text = currentSession.Name;
+
 		label_run_encoder_export_data.Text = currentSession.Name;
 
 		chronojumpWindowTestsNext();

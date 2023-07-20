@@ -153,7 +153,7 @@ public partial class ChronoJumpWindow
 	{
 		//notebook_force_sensor_analyze_top.CurrentPage = Convert.ToInt32(notebook_force_sensor_analyze_top_pages.CURRENTSETSIGNAL);
 		//change radio and will change also notebook:
-		radio_force_sensor_analyze_individual_current_set.Active = true;
+		radio_force_sensor_analyze_current_set.Active = true;
 
 		createComboForceSensorCaptureOptions();
 		createForceExerciseCombo();
@@ -407,7 +407,7 @@ public partial class ChronoJumpWindow
 		{
 			//notebook_force_sensor_analyze_top.CurrentPage = Convert.ToInt32(notebook_force_sensor_analyze_top_pages.CURRENTSETSIGNAL);
 			//change radio and will change also notebook:
-			radio_force_sensor_analyze_individual_current_set.Active = true;
+			radio_force_sensor_analyze_current_set.Active = true;
 
 			forceSensorButtonsSensitive(false);
 			sensitiveLastTestButtons(false);
@@ -597,12 +597,12 @@ public partial class ChronoJumpWindow
 		label_force_sensor_value_best_second.Text = "";
 		label_force_sensor_value_rfd.Text = "";
 
-		if (radio_force_sensor_analyze_individual_current_session.Active)
+		if (radio_force_sensor_export_individual_current_session.Active)
 		{
 			if(currentPerson != null)
-				label_force_sensor_export_data.Text = currentPerson.Name;
+				label_force_sensor_export_person.Text = currentPerson.Name;
 			else
-				label_force_sensor_export_data.Text = "";
+				label_force_sensor_export_person.Text = "";
 		}
 
 		button_force_sensor_image_save_signal.Sensitive = false;
@@ -2062,7 +2062,7 @@ LogB.Information(" fs R ");
 
 		//notebook_force_sensor_analyze_top.CurrentPage = Convert.ToInt32(notebook_force_sensor_analyze_top_pages.CURRENTSETSIGNAL);
 		//change radio and will change also notebook:
-		radio_force_sensor_analyze_individual_current_set.Active = true;
+		radio_force_sensor_analyze_current_set.Active = true;
 	}
 
 	protected void on_force_sensor_load_signal_row_play (object o, EventArgs args)
@@ -2287,7 +2287,7 @@ LogB.Information(" fs R ");
 
 		//notebook_force_sensor_analyze_top.CurrentPage = Convert.ToInt32(notebook_force_sensor_analyze_top_pages.CURRENTSETSIGNAL);
 		//change radio and will change also notebook:
-		radio_force_sensor_analyze_individual_current_set.Active = true;
+		radio_force_sensor_analyze_current_set.Active = true;
 	}
 
 	private enum forceSensorGraphsEnum { SIGNAL, RFD }

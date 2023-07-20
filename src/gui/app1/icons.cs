@@ -225,6 +225,7 @@ public partial class ChronoJumpWindow
 	Gtk.Image image_force_sensor_ai_zoom;
 	Gtk.Image image_force_sensor_ai_zoom_out;
 	Gtk.Image image_button_force_sensor_analyze_back_to_signal;
+	Gtk.Image image_force_sensor_analyze_export;
 
 	Gtk.Image image_hscale_force_sensor_ai_a_first;
 	Gtk.Image image_hscale_force_sensor_ai_a_last;
@@ -455,6 +456,8 @@ public partial class ChronoJumpWindow
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "arrow_back.png");
 		image_button_force_sensor_analyze_back_to_signal.Pixbuf = pixbuf;
 		image_app1s_button_back.Pixbuf = pixbuf;
+
+		image_force_sensor_analyze_export.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "export.png");
 
 		//pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_person_pin.png");
 		if(Config.ColorBackgroundIsDark)
@@ -1328,6 +1331,7 @@ public partial class ChronoJumpWindow
 		image_force_sensor_ai_zoom = (Gtk.Image) builder.GetObject ("image_force_sensor_ai_zoom");
 		image_force_sensor_ai_zoom_out = (Gtk.Image) builder.GetObject ("image_force_sensor_ai_zoom_out");
 		image_button_force_sensor_analyze_back_to_signal = (Gtk.Image) builder.GetObject ("image_button_force_sensor_analyze_back_to_signal");
+		image_force_sensor_analyze_export = (Gtk.Image) builder.GetObject ("image_force_sensor_analyze_export");
 
 		image_hscale_force_sensor_ai_a_first = (Gtk.Image) builder.GetObject ("image_hscale_force_sensor_ai_a_first");
 		image_hscale_force_sensor_ai_a_last = (Gtk.Image) builder.GetObject ("image_hscale_force_sensor_ai_a_last");

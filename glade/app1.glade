@@ -22891,6 +22891,9 @@ Concentric</property>
                                                             <child>
                                                             <placeholder/>
                                                             </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
                                                             </object>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -25411,6 +25414,11 @@ Concentric</property>
                                                             </packing>
                                                             </child>
                                                             <child>
+                                                            <object class="GtkBox">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="spacing">3</property>
+                                                            <child>
                                                             <object class="GtkNotebook" id="notebook_force_sensor_ai_load">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">True</property>
@@ -25480,10 +25488,6 @@ Concentric</property>
                                                             <property name="tab-fill">False</property>
                                                             </packing>
                                                             </child>
-                                                            <child>
-                                                            <object class="GtkBox">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
                                                             <child>
                                                             <object class="GtkBox">
                                                             <property name="visible">True</property>
@@ -25580,15 +25584,8 @@ Concentric</property>
                                                             </object>
                                                             <packing>
                                                             <property name="expand">False</property>
-                                                            <property name="fill">False</property>
+                                                            <property name="fill">True</property>
                                                             <property name="position">1</property>
-                                                            </packing>
-                                                            </child>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">True</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="position">0</property>
                                                             </packing>
                                                             </child>
                                                             </object>
@@ -25605,6 +25602,13 @@ Concentric</property>
                                                             <packing>
                                                             <property name="position">1</property>
                                                             <property name="tab-fill">False</property>
+                                                            </packing>
+                                                            </child>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">0</property>
                                                             </packing>
                                                             </child>
                                                             </object>

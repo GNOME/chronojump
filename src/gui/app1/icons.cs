@@ -1109,8 +1109,8 @@ public partial class ChronoJumpWindow
 
 		image_force_sensor_analyze_load_abcd_north_west.Pixbuf = new Pixbuf (null, Util.GetImagePath (false) + "north_west.png");
 		image_force_sensor_analyze_load_abcd_north_east.Pixbuf = new Pixbuf (null, Util.GetImagePath (false) + "north_east.png");
-		image_force_sensor_analyze_move_cd.Pixbuf = new Pixbuf (null, Util.GetImagePath (false) + "move_sides.png");
-		image_force_sensor_analyze_move_cd1.Pixbuf = new Pixbuf (null, Util.GetImagePath (false) + "move_sides.png");
+		image_force_sensor_analyze_move_cd.Pixbuf = new Pixbuf (null, Util.GetImagePath (false) + "halfSecondLeft.png");
+		image_force_sensor_analyze_move_cd1.Pixbuf = new Pixbuf (null, Util.GetImagePath (false) + "halfSecondRight.png");
 
 		pixbuf = new Pixbuf(null, Util.GetImagePath(false) + "zoom_in.png");
 		image_force_sensor_ai_zoom.Pixbuf = pixbuf;

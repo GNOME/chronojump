@@ -32,6 +32,7 @@ public partial class ChronoJumpWindow
 {
 	// at glade ---->
 	Gtk.Notebook notebook_stats_sup;
+	Gtk.Notebook notebook_stats;
 	Gtk.Box vbox_stats;
 	Gtk.TreeView treeview_stats;
 	Gtk.Box vbox_stats_type;
@@ -1352,6 +1353,7 @@ public partial class ChronoJumpWindow
 	private void connectWidgetsStats (Gtk.Builder builder)
 	{
 		notebook_stats_sup = (Gtk.Notebook) builder.GetObject ("notebook_stats_sup");
+		notebook_stats = (Gtk.Notebook) builder.GetObject ("notebook_stats");
 		vbox_stats = (Gtk.Box) builder.GetObject ("vbox_stats");
 		treeview_stats = (Gtk.TreeView) builder.GetObject ("treeview_stats");
 		vbox_stats_type = (Gtk.Box) builder.GetObject ("vbox_stats_type");

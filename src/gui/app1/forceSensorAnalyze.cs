@@ -205,6 +205,9 @@ public partial class ChronoJumpWindow
 	private RepetitionMouseLimitsWithSamples fsAIRepetitionMouseLimitsCairo;
 
 	private enum notebook_force_sensor_analyze_top_pages { CURRENTSETSIGNAL, CURRENTSETMODEL, CURRENTSESSION, AUTOMATICOPTIONS }
+
+	private string forceSensorAnalyzeSuperpose2SetsCDPersonName = "";
+
 	/*
 	 * analyze options -------------------------->
 	 */
@@ -1173,15 +1176,25 @@ public partial class ChronoJumpWindow
 			if (currentForceSensor != null && currentForceSensorExercise != null &&
 					currentForceSensor_CD != null && currentForceSensorExercise_CD != null)
 			{
-				subtitleWithSetsInfo_l.Add (string.Format ("AB: {0}, {1}, {2}",
-						currentForceSensorExercise.Name,
-						currentForceSensor.Laterality,
-						currentForceSensor.DateTimePublic));
+				string abPersonName = "";
+				string cdPersonName = "";
+				if (forceSensorAnalyzeSuperpose2SetsCDPersonName != "")
+				{
+					abPersonName = currentPerson.Name + ", ";
+					cdPersonName = forceSensorAnalyzeSuperpose2SetsCDPersonName + ", ";
+				}
 
-				subtitleWithSetsInfo_l.Add (string.Format ("CD: {0}, {1}, {2}",
-						currentForceSensorExercise_CD.Name,
-						currentForceSensor_CD.Laterality,
-						currentForceSensor_CD.DateTimePublic));
+				subtitleWithSetsInfo_l.Add (string.Format ("AB: {0}{1}, {2}, {3}",
+							abPersonName,
+							currentForceSensorExercise.Name,
+							currentForceSensor.Laterality,
+							currentForceSensor.DateTimePublic));
+
+				subtitleWithSetsInfo_l.Add (string.Format ("CD: {0}{1}, {2}, {3}",
+							cdPersonName,
+							currentForceSensorExercise_CD.Name,
+							currentForceSensor_CD.Laterality,
+							currentForceSensor_CD.DateTimePublic));
 			}
 		}
 

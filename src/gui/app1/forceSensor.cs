@@ -1980,8 +1980,6 @@ LogB.Information(" fs R ");
 
 		int uniqueID = genericWin.TreeviewSelectedRowID();
 
-		genericWin.HideAndNull();
-
 		int elastic = ForceSensor.GetElasticIntFromMode (current_mode);
 
 		int personID = currentPerson.UniqueID;
@@ -1991,6 +1989,8 @@ LogB.Information(" fs R ");
 			personID = genericWin.GetPersonIDFromGui ();
 			sessionID = genericWin.GetSessionIDFromGui ();
 		}
+
+		genericWin.HideAndNull();
 
 		ForceSensor fs = (ForceSensor) SqliteForceSensor.Select(false, uniqueID, personID, sessionID, elastic)[0];
 		if(fs == null)
@@ -2024,6 +2024,11 @@ LogB.Information(" fs R ");
 			//TODO: maybe need to wait to ensure is copied
 			File.Copy (lastForceSensorFullPath_CD, UtilEncoder.GetmifCSVFileName_CD (), true); //can be overwritten
 			forceSensorDoSignalGraphReadFile (false, fs.CaptureOption); //cd
+
+			forceSensorAnalyzeSuperpose2SetsCDPersonName = "";
+			if (personID != currentPerson.UniqueID)
+				forceSensorAnalyzeSuperpose2SetsCDPersonName = SqlitePerson.SelectAttribute (personID, "name");
+
 			forceSensorPrepareGraphAI ();
 			updateForceSensorAICairo (true);
 			return;

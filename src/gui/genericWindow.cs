@@ -26,6 +26,7 @@ using Gtk;
 using GLib; //for Value
 //using System.Text; //StringBuilder
 using System.Collections; //ArrayList
+using System.Collections.Generic; //List<T>
 using Mono.Unix;
 
 
@@ -58,6 +59,8 @@ public class GenericWindow
 	Gtk.Button button_middle;
 
 	Gtk.Grid grid_person_session;
+	Gtk.Box box_combo_person_other;
+	Gtk.Box box_combo_session_other;
 
 	//Edit row
 	Gtk.Box hbox_edit_row;
@@ -108,6 +111,8 @@ public class GenericWindow
 	
 	Gtk.ComboBoxText combo_edit;
 	Gtk.ComboBoxText combo_all_none_selected;
+	Gtk.ComboBoxText combo_person_other;
+	Gtk.ComboBoxText combo_session_other;
 
 	private ArrayList nonSensitiveRows;
 
@@ -333,7 +338,8 @@ public class GenericWindow
 		else if(stuff == Constants.GenericWindowShow.BUTTONMIDDLE) {
 			hbuttonbox_middle.Show();
 		}
-		else if(stuff == Constants.GenericWindowShow.GRIDPERSONSESSION) {
+		else if(stuff == Constants.GenericWindowShow.GRIDPERSONSESSION)
+		{
 			grid_person_session.Show ();
 		}
 		else if(stuff == Constants.GenericWindowShow.LABELBEFORETEXTVIEWTREEVIEW) {
@@ -608,7 +614,50 @@ public class GenericWindow
 	public void SetButtonMiddleLabel(string str) {
 		button_middle.Label=str;
 	}
-	
+
+	//what is in app1
+	private Person currentPerson;
+	private Session currentSession;
+	public void SetGridPersonSesion (Person currentPerson, Session currentSession)
+	{
+		// assign the variables on app1
+		this.currentPerson = currentPerson;
+		this.currentSession = currentSession;
+
+		// create the empty combos
+		combo_person_other = UtilGtk.CreateComboBoxText (box_combo_person_other, new List<string> (), "");
+		combo_session_other = UtilGtk.CreateComboBoxText (box_combo_session_other, new List<string> (), "");
+
+		// update the combo values
+		updateGridPersonSession ();
+	}
+
+	private void updateGridPersonSession ()
+	{
+		// select person
+		List<Person> person_l = SqlitePersonSession.SelectCurrentSessionPersonsAsList (false, currentSession.UniqueID);
+		List<string> personStr_l = new List<string> ();
+		foreach (Person p in person_l)
+			personStr_l.Add (p.Name);
+
+		// select session
+		List<PersonSession> psCurrentPerson_l = SqlitePersonSession.SelectPersonSessionList (false, currentPerson.UniqueID, -1);
+		List<Session> session_l = SqliteSession.SelectAll (false, Sqlite.Orders_by.DEFAULT);
+
+		List<string> sessionStr_l = new List<string> ();
+		foreach (PersonSession ps in psCurrentPerson_l)
+			foreach (Session s in session_l)
+				if (s.UniqueID == ps.SessionID)
+					sessionStr_l.Add (s.Name);
+
+		//this is only if no other is active!
+		UtilGtk.ComboUpdate (combo_person_other, personStr_l);
+		combo_person_other.Active = UtilGtk.ComboMakeActive (combo_person_other, currentPerson.Name);
+
+		UtilGtk.ComboUpdate (combo_session_other, sessionStr_l);
+		combo_session_other.Active = UtilGtk.ComboMakeActive (combo_session_other, currentSession.Name);
+	}
+
 	public void SetTextview(string str)
 	{
 		TextBuffer tb = new TextBuffer (new TextTagTable());
@@ -1267,6 +1316,8 @@ public class GenericWindow
 		button_middle = (Gtk.Button) builder.GetObject ("button_middle");
 
 		grid_person_session = (Gtk.Grid) builder.GetObject ("grid_person_session");
+		box_combo_person_other = (Gtk.Box) builder.GetObject ("box_combo_person_other");
+		box_combo_session_other = (Gtk.Box) builder.GetObject ("box_combo_session_other");
 
 		//Edit row
 		hbox_edit_row = (Gtk.Box) builder.GetObject ("hbox_edit_row");

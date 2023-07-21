@@ -1896,19 +1896,23 @@ LogB.Information(" fs R ");
 		//}
 		*/
 
+		string title = string.Format (Catalog.GetString ("Select set of athlete {0} on this session."), currentPerson.Name);
+
 		if (canChoosePersonAndSession)
 		{
 			ArrayList a3 = new ArrayList ();
 			a3.Add (Constants.GenericWindowShow.GRIDPERSONSESSION); a3.Add (true); a3.Add ("");
 			bigArray.Add (a3);
+
+			title = Catalog.GetString ("Select set to compare");
 		}
 
-		genericWin = GenericWindow.Show (Catalog.GetString("Load"), false,	//don't show now
-				string.Format(Catalog.GetString("Select set of athlete {0} on this session."),
-					currentPerson.Name), bigArray);
+		genericWin = GenericWindow.Show (Catalog.GetString("Load"), false, title , bigArray);
 
 		if (canChoosePersonAndSession)
 		{
+			genericWin.SetGridPersonSesion (currentPerson, currentSession);
+
 			//do not allow to edit when can change person/session
 			genericWin.SetTreeview (colStr, false, dataPrint, new ArrayList(), GenericWindow.EditActions.NONE, true);
 		} else {

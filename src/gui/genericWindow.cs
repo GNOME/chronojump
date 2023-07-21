@@ -63,7 +63,7 @@ public class GenericWindow
 	Gtk.Box hbox_edit_row;
 	Gtk.Label hbox_combo_label;
 	Gtk.Label label_comment;
-	Gtk.Box hbox_combo;
+	Gtk.Box hbox_combo_edit;
 	Gtk.Button hbox_combo_button_apply;
 	Gtk.Entry entry_edit_row;
 	
@@ -106,7 +106,7 @@ public class GenericWindow
 	Gtk.SpinButton spin_double2;
 	// <---- at glade
 	
-	Gtk.ComboBoxText combo;
+	Gtk.ComboBoxText combo_edit;
 	Gtk.ComboBoxText combo_all_none_selected;
 
 	private ArrayList nonSensitiveRows;
@@ -319,8 +319,8 @@ public class GenericWindow
 		}
 		else if(stuff == Constants.GenericWindowShow.COMBO) {
 			/*
-			hbox_combo.Show();
-			combo.Show();
+			hbox_combo_edit.Show();
+			combo_edit.Show();
 			*/
 		}
 		else if(stuff == Constants.GenericWindowShow.COMBOALLNONESELECTED) {
@@ -403,8 +403,8 @@ public class GenericWindow
 		else if(stuff == Constants.GenericWindowShow.COMBO) {
 			//do later, we need to create them first
 			/*
-			hbox_combo.Show();
-			combo.Show();
+			hbox_combo_edit.Show();
+			combo_edit.Show();
 			*/
 		}
 		else if(stuff == Constants.GenericWindowShow.BUTTONMIDDLE)
@@ -490,20 +490,20 @@ public class GenericWindow
 		spin_double2.Digits = digits;
 	}
 	
-	public void SetComboValues(string [] values, string current) {
-		combo = new ComboBoxText ();
-		UtilGtk.ComboUpdate(combo, values, "");
+	public void SetComboEditValues(string [] values, string current) {
+		combo_edit = new ComboBoxText ();
+		UtilGtk.ComboUpdate (combo_edit, values, "");
 
 		//if there hbox already has a combo (window has not been properly destroyed)
 		//remove that combo (to not have two combos)
-		if(hbox_combo.Children.Length > 0)
-			hbox_combo.Remove(combo);
+		if (hbox_combo_edit.Children.Length > 0)
+			hbox_combo_edit.Remove (combo_edit);
 
-		hbox_combo.PackStart(combo, true, true, 0);
-		hbox_combo.ShowAll();
-		combo.Sensitive = true;
+		hbox_combo_edit.PackStart (combo_edit, true, true, 0);
+		hbox_combo_edit.ShowAll ();
+		combo_edit.Sensitive = true;
 			
-		combo.Active = UtilGtk.ComboMakeActive(values, current);
+		combo_edit.Active = UtilGtk.ComboMakeActive (values, current);
 	}
 	public void SetComboLabel(string l) {
 		hbox_combo_label.Text = l;
@@ -1149,7 +1149,7 @@ public class GenericWindow
 
 	public void HideEditRowCombo()
 	{
-		hbox_combo.Visible = false;
+		hbox_combo_edit.Visible = false;
 		hbox_combo_label.Visible = false;
 	}
 
@@ -1231,8 +1231,8 @@ public class GenericWindow
 		get { return Util.RemoveTab(textview.Buffer.Text); }
 	}
 
-	public string GetComboSelected {
-		get { return UtilGtk.ComboGetActive(combo); }
+	public string GetComboEditSelected {
+		get { return UtilGtk.ComboGetActive (combo_edit); }
 	}
 
 	public bool GetCheck1 {
@@ -1272,7 +1272,7 @@ public class GenericWindow
 		hbox_edit_row = (Gtk.Box) builder.GetObject ("hbox_edit_row");
 		hbox_combo_label = (Gtk.Label) builder.GetObject ("hbox_combo_label");
 		label_comment = (Gtk.Label) builder.GetObject ("label_comment");
-		hbox_combo = (Gtk.Box) builder.GetObject ("hbox_combo");
+		hbox_combo_edit = (Gtk.Box) builder.GetObject ("hbox_combo_edit");
 		hbox_combo_button_apply = (Gtk.Button) builder.GetObject ("hbox_combo_button_apply");
 		entry_edit_row = (Gtk.Entry) builder.GetObject ("entry_edit_row");
 

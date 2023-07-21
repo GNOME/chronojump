@@ -1883,13 +1883,18 @@ LogB.Information(" fs R ");
 
 		ArrayList bigArray = new ArrayList();
 		ArrayList a1 = new ArrayList();
-		ArrayList a2 = new ArrayList();
 		//0 is the widgget to show; 1 is the editable; 2 id default value
 		a1.Add(Constants.GenericWindowShow.TREEVIEW); a1.Add(true); a1.Add("");
 		bigArray.Add(a1);
 
-		a2.Add(Constants.GenericWindowShow.COMBO); a2.Add(true); a2.Add("");
-		bigArray.Add(a2);
+		/* this actually does not do nothing
+		//if (! canChoosePersonAndSession) //do not allow to edit when can change person/session
+		//{
+			ArrayList a2 = new ArrayList();
+			a2.Add(Constants.GenericWindowShow.COMBO); a2.Add(true); a2.Add("");
+			bigArray.Add(a2);
+		//}
+		*/
 
 		if (canChoosePersonAndSession)
 		{
@@ -1902,21 +1907,27 @@ LogB.Information(" fs R ");
 				string.Format(Catalog.GetString("Select set of athlete {0} on this session."),
 					currentPerson.Name), bigArray);
 
-		genericWin.SetTreeview(colStr, false, dataPrint, new ArrayList(), GenericWindow.EditActions.EDITPLAYDELETE, true);
+		if (canChoosePersonAndSession)
+		{
+			//do not allow to edit when can change person/session
+			genericWin.SetTreeview (colStr, false, dataPrint, new ArrayList(), GenericWindow.EditActions.NONE, true);
+		} else {
+			genericWin.SetTreeview (colStr, false, dataPrint, new ArrayList(), GenericWindow.EditActions.EDITPLAYDELETE, true);
 
-		//find all persons in current session
-		ArrayList personsPre = SqlitePersonSession.SelectCurrentSessionPersons(currentSession.UniqueID,
-				false); //means: do not returnPersonAndPSlist
+			//find all persons in current session
+			ArrayList personsPre = SqlitePersonSession.SelectCurrentSessionPersons(currentSession.UniqueID,
+					false); //means: do not returnPersonAndPSlist
 
-		string [] persons = new String[personsPre.Count];
-		count = 0;
-	        foreach	(Person p in personsPre)
-			persons[count++] = p.UniqueID.ToString() + ":" + p.Name;
-		genericWin.SetComboEditValues (persons, currentPerson.UniqueID + ":" + currentPerson.Name);
-		//genericWin.SetComboLabel(Catalog.GetString("Change the owner of selected set") +
-		//		" (" + Catalog.GetString("code") + ":" + Catalog.GetString("name") + ")");
-		genericWin.SetComboLabel(Catalog.GetString("Change person"));
-		genericWin.ShowEditRow(false);
+			string [] persons = new String[personsPre.Count];
+			count = 0;
+			foreach	(Person p in personsPre)
+				persons[count++] = p.UniqueID.ToString() + ":" + p.Name;
+			genericWin.SetComboEditValues (persons, currentPerson.UniqueID + ":" + currentPerson.Name);
+			//genericWin.SetComboLabel(Catalog.GetString("Change the owner of selected set") +
+			//		" (" + Catalog.GetString("code") + ":" + Catalog.GetString("name") + ")");
+			genericWin.SetComboLabel(Catalog.GetString("Change person"));
+			genericWin.ShowEditRow(false);
+		}
 
 		//select row corresponding to current signal
 		if(currentForceSensor != null)
@@ -1930,10 +1941,14 @@ LogB.Information(" fs R ");
 		genericWin.SetButtonCancelLabel(Catalog.GetString("Close"));
 		genericWin.SetButtonAcceptSensitive(false);
 		genericWin.Button_accept.Clicked += new EventHandler(on_force_sensor_load_signal_accepted);
-		genericWin.Button_row_play.Clicked += new EventHandler(on_force_sensor_load_signal_row_play);
-		genericWin.Button_row_edit.Clicked += new EventHandler(on_force_sensor_load_signal_row_edit);
-		genericWin.Button_row_edit_apply.Clicked += new EventHandler(on_force_sensor_load_signal_row_edit_apply);
-		genericWin.Button_row_delete.Clicked += new EventHandler(on_force_sensor_load_signal_row_delete_prequestion);
+
+		if (! canChoosePersonAndSession)
+		{
+			genericWin.Button_row_play.Clicked += new EventHandler(on_force_sensor_load_signal_row_play);
+			genericWin.Button_row_edit.Clicked += new EventHandler(on_force_sensor_load_signal_row_edit);
+			genericWin.Button_row_edit_apply.Clicked += new EventHandler(on_force_sensor_load_signal_row_edit_apply);
+			genericWin.Button_row_delete.Clicked += new EventHandler(on_force_sensor_load_signal_row_delete_prequestion);
+		}
 
 		genericWin.ShowNow();
 	}

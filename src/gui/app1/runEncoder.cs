@@ -1020,7 +1020,7 @@ RunEncoderCaptureGetSpeedAndDisplacementTest recgsdt = new RunEncoderCaptureGetS
 		count = 0;
 	        foreach	(Person p in personsPre)
 			persons[count++] = p.UniqueID.ToString() + ":" + p.Name;
-		genericWin.SetComboValues(persons, currentPerson.UniqueID + ":" + currentPerson.Name);
+		genericWin.SetComboEditValues (persons, currentPerson.UniqueID + ":" + currentPerson.Name);
 		//genericWin.SetComboLabel(Catalog.GetString("Change the owner of selected set") +
 		//		" (" + Catalog.GetString("code") + ":" + Catalog.GetString("name") + ")");
 		genericWin.SetComboLabel(Catalog.GetString("Change person"));
@@ -1340,7 +1340,7 @@ RunEncoderCaptureGetSpeedAndDisplacementTest recgsdt = new RunEncoderCaptureGetS
 		}
 
 		//3) change the session param and the url of signal and curves (if any)
-		string idName = genericWin.GetComboSelected;
+		string idName = genericWin.GetComboEditSelected;
 		LogB.Information("new person: " + idName);
 		int newPersonID = Util.FetchID(idName);
 		if(newPersonID != currentPerson.UniqueID)

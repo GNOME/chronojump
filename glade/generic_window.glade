@@ -736,7 +736,7 @@
                 <property name="column-spacing">6</property>
                 <property name="row-spacing">6</property>
                 <child>
-                  <object class="GtkHBox" id="hbox_combo">
+                  <object class="GtkHBox" id="hbox_combo_edit">
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
                     <child>

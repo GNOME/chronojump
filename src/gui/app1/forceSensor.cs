@@ -578,7 +578,7 @@ public partial class ChronoJumpWindow
 		force_sensor_ai_drawingarea_cairo.QueueDraw ();
 		// <---- end of erase cairo graphs
 
-		grid_radios_force_sensor_ai.Sensitive = true; //because maybe zoom was in
+		radiosForceSensorAiSensitivity (true); //because maybe zoom was in
 		//put scales to 0,0
 		hscale_fs_ai_a.SetRange(0, 0);
 		hscale_fs_ai_b.SetRange(0, 0);

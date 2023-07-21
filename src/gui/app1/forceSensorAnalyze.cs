@@ -936,7 +936,7 @@ public partial class ChronoJumpWindow
 		Gtk.HScale hsLeft = getHScaleABCD (true);
 		Gtk.HScale hsRight = getHScaleABCD (false);
 
-		if ( forceSensorZoomApplied && (
+		if ( FsAiVars.zoomApplied && (
 				(radio_force_sensor_ai_ab.Active &&
 				Util.IsNumber (tvFS_AB.TimeStart, true) &&
 				Util.IsNumber (tvFS_AB.TimeEnd, true)) ||
@@ -1124,8 +1124,8 @@ public partial class ChronoJumpWindow
 						(count == 1 && radio_force_sensor_ai_2sets.Active && radio_force_sensor_ai_cd.Active) )
 				{
 					reps_l = fsAI.ForceSensorRepetition_l;
-					if(forceSensorZoomApplied)
-						reps_l = forceSensorRepetition_lZoomAppliedCairo;
+					if(FsAiVars.zoomApplied)
+						reps_l = FsAiVars.rep_lZoomAppliedCairo;
 				}
 
 				if (fsAI.Briw == null)
@@ -1150,7 +1150,7 @@ public partial class ChronoJumpWindow
 		// spCairoFESend is not a copy, is just to choose between zoomed or not
 		SignalPointsCairoForceElastic spCairoFESend;
 
-		if (forceSensorZoomApplied)
+		if (FsAiVars.zoomApplied)
 			spCairoFESend = spCairoFEZoom;
 		else
 			spCairoFESend = spCairoFE;
@@ -1170,7 +1170,7 @@ public partial class ChronoJumpWindow
 		if (radio_force_sensor_ai_2sets.Active)
 		{
 			spCairoFESend_CD = spCairoFE_CD;
-			if (forceSensorZoomApplied)
+			if (FsAiVars.zoomApplied)
 				spCairoFESend_CD = spCairoFEZoom_CD;
 
 			if (currentForceSensor != null && currentForceSensorExercise != null &&
@@ -1211,7 +1211,7 @@ public partial class ChronoJumpWindow
 				triggerListForceSensor,
 				hscaleABSampleStart, hscaleABSampleEnd,
 				hscaleCDSampleStart, hscaleCDSampleEnd,
-				forceSensorZoomApplied,
+				FsAiVars.zoomApplied,
 				gmaiw_l,
 				currentForceSensorExercise, reps_l,
 				forceRedraw, CairoXY.PlotTypes.LINES);
@@ -1222,7 +1222,7 @@ public partial class ChronoJumpWindow
 		//LogB.Information(string.Format("Mouse X: {0}; Mouse Y: {1}", args.Event.X, args.Event.Y));
 
 		//if zoomed: unzoom and return
-		if(forceSensorZoomApplied)
+		if(FsAiVars.zoomApplied)
 		{
 			check_force_sensor_ai_zoom.Click();
 			return;
@@ -1248,22 +1248,11 @@ public partial class ChronoJumpWindow
 		}
 	}
 
-	private bool forceSensorZoomApplied;
-	private List<ForceSensorRepetition> forceSensorRepetition_lZoomAppliedCairo;
 	private void forceSensorZoomDefaultValues()
 	{
-		forceSensorZoomApplied = false;
+		FsAiVars.zoomApplied = false;
 		check_force_sensor_ai_zoom.Active = false;
 	}
-
-	private int hscale_fs_ai_a_BeforeZoom = 0;
-	private int hscale_fs_ai_a_AtZoom = 0;
-	private int hscale_fs_ai_b_BeforeZoom = 0;
-	private int hscale_fs_ai_b_AtZoom = 0;
-	private int hscale_fs_ai_c_BeforeZoom = 0;
-	private int hscale_fs_ai_c_AtZoom = 0;
-	private int hscale_fs_ai_d_BeforeZoom = 0;
-	private int hscale_fs_ai_d_AtZoom = 0;
 
 	//private double hscale_fs_ai_a_BeforeZoomTimeMS = 0; //to calculate triggers
 
@@ -1276,13 +1265,13 @@ public partial class ChronoJumpWindow
 
 		if(check_force_sensor_ai_zoom.Active)
 		{
-			forceSensorZoomApplied = true;
+			FsAiVars.zoomApplied = true;
 
 			//store hscale a to help return to position on unzoom
-			hscale_fs_ai_a_BeforeZoom = Convert.ToInt32 (hscale_fs_ai_a.Value);
-			hscale_fs_ai_b_BeforeZoom = Convert.ToInt32 (hscale_fs_ai_b.Value);
-			hscale_fs_ai_c_BeforeZoom = Convert.ToInt32 (hscale_fs_ai_c.Value);
-			hscale_fs_ai_d_BeforeZoom = Convert.ToInt32 (hscale_fs_ai_d.Value);
+			FsAiVars.a_beforeZoom = Convert.ToInt32 (hscale_fs_ai_a.Value);
+			FsAiVars.b_beforeZoom = Convert.ToInt32 (hscale_fs_ai_b.Value);
+			FsAiVars.c_beforeZoom = Convert.ToInt32 (hscale_fs_ai_c.Value);
+			FsAiVars.d_beforeZoom = Convert.ToInt32 (hscale_fs_ai_d.Value);
 
 			if (radio_force_sensor_ai_2sets.Active)
 			{
@@ -1296,34 +1285,34 @@ public partial class ChronoJumpWindow
 					{
 						// ab data is the hscales data
 						spCairoFEZoom = new SignalPointsCairoForceElastic (spCairoFE,
-								hscale_fs_ai_a_BeforeZoom, hscale_fs_ai_b_BeforeZoom, true);
+								FsAiVars.a_beforeZoom, FsAiVars.b_beforeZoom, true);
 
 						// cd data are samples close in time to ab data
 						// 1st check if it overlaps, if it does not overlap and we include it, it would show a bigger graph with empty data
-						if (! PointF.ListsTimeOverlap (spCairoFE_CD.Force_l, spCairoFE.Force_l, hscale_fs_ai_a_BeforeZoom, hscale_fs_ai_b_BeforeZoom))
+						if (! PointF.ListsTimeOverlap (spCairoFE_CD.Force_l, spCairoFE.Force_l, FsAiVars.a_beforeZoom, FsAiVars.b_beforeZoom))
 							spCairoFEZoom_CD = new SignalPointsCairoForceElastic ();
 						else {
 							sampleL = PointF.FindSampleCloseToTime (
-									spCairoFE_CD.Force_l, spCairoFE.Force_l[hscale_fs_ai_a_BeforeZoom].X);
+									spCairoFE_CD.Force_l, spCairoFE.Force_l[FsAiVars.a_beforeZoom].X);
 							sampleR = PointF.FindSampleCloseToTime (
-									spCairoFE_CD.Force_l, spCairoFE.Force_l[hscale_fs_ai_b_BeforeZoom].X);
+									spCairoFE_CD.Force_l, spCairoFE.Force_l[FsAiVars.b_beforeZoom].X);
 							spCairoFEZoom_CD = new SignalPointsCairoForceElastic (spCairoFE_CD,
 									sampleL, sampleR, true);
 						}
 					} else {
 						// cd data is the hscales data
 						spCairoFEZoom_CD = new SignalPointsCairoForceElastic (spCairoFE_CD,
-								hscale_fs_ai_c_BeforeZoom, hscale_fs_ai_d_BeforeZoom, true);
+								FsAiVars.c_beforeZoom, FsAiVars.d_beforeZoom, true);
 
 						// ab data are samples close in time to cd data
 						// 1st check if it overlaps, if it does not overlap and we include it, it would show a bigger graph with empty data
-						if (! PointF.ListsTimeOverlap (spCairoFE.Force_l, spCairoFE_CD.Force_l, hscale_fs_ai_c_BeforeZoom, hscale_fs_ai_d_BeforeZoom))
+						if (! PointF.ListsTimeOverlap (spCairoFE.Force_l, spCairoFE_CD.Force_l, FsAiVars.c_beforeZoom, FsAiVars.d_beforeZoom))
 							spCairoFEZoom = new SignalPointsCairoForceElastic ();
 						else {
 							sampleL = PointF.FindSampleCloseToTime (
-									spCairoFE.Force_l, spCairoFE_CD.Force_l[hscale_fs_ai_c_BeforeZoom].X);
+									spCairoFE.Force_l, spCairoFE_CD.Force_l[FsAiVars.c_beforeZoom].X);
 							sampleR = PointF.FindSampleCloseToTime (
-									spCairoFE.Force_l, spCairoFE_CD.Force_l[hscale_fs_ai_d_BeforeZoom].X);
+									spCairoFE.Force_l, spCairoFE_CD.Force_l[FsAiVars.d_beforeZoom].X);
 							spCairoFEZoom = new SignalPointsCairoForceElastic (spCairoFE,
 									sampleL, sampleR, true);
 						}
@@ -1331,11 +1320,11 @@ public partial class ChronoJumpWindow
 				} else {
 					if (radio_force_sensor_ai_ab.Active)
 					{
-						sampleL = hscale_fs_ai_a_BeforeZoom;
-						sampleR = hscale_fs_ai_b_BeforeZoom;
+						sampleL = FsAiVars.a_beforeZoom;
+						sampleR = FsAiVars.b_beforeZoom;
 					} else {
-						sampleL = hscale_fs_ai_c_BeforeZoom;
-						sampleR = hscale_fs_ai_d_BeforeZoom;
+						sampleL = FsAiVars.c_beforeZoom;
+						sampleR = FsAiVars.d_beforeZoom;
 					}
 
 					spCairoFEZoom = new SignalPointsCairoForceElastic (spCairoFE,
@@ -1346,14 +1335,14 @@ public partial class ChronoJumpWindow
 			} else {
 				if (radio_force_sensor_ai_ab.Active)
 					spCairoFEZoom = new SignalPointsCairoForceElastic (spCairoFE,
-							hscale_fs_ai_a_BeforeZoom, hscale_fs_ai_b_BeforeZoom, true);
+							FsAiVars.a_beforeZoom, FsAiVars.b_beforeZoom, true);
 				else
 					spCairoFEZoom = new SignalPointsCairoForceElastic (spCairoFE,
-							hscale_fs_ai_c_BeforeZoom, hscale_fs_ai_d_BeforeZoom, true);
+							FsAiVars.c_beforeZoom, FsAiVars.d_beforeZoom, true);
 			}
 
 			//cairo
-			forceSensorRepetition_lZoomAppliedCairo = new List<ForceSensorRepetition> ();
+			FsAiVars.rep_lZoomAppliedCairo = new List<ForceSensorRepetition> ();
 			for (int r = 0; r < fsAI.ForceSensorRepetition_l.Count; r ++)
 			{
 				// don't do like this until delete non-cairo because this changes the fsAI.ForceSensorRepetition_l values and non-cairo is not displayed correctly
@@ -1361,10 +1350,10 @@ public partial class ChronoJumpWindow
 				// do this:
 				ForceSensorRepetition fsr = fsAI.ForceSensorRepetition_l[r].Clone();
 
-				fsr.sampleStart -= hscale_fs_ai_a_BeforeZoom;
-				fsr.sampleEnd -= hscale_fs_ai_a_BeforeZoom;
+				fsr.sampleStart -= FsAiVars.a_beforeZoom;
+				fsr.sampleEnd -= FsAiVars.a_beforeZoom;
 
-				forceSensorRepetition_lZoomAppliedCairo.Add (fsr);
+				FsAiVars.rep_lZoomAppliedCairo.Add (fsr);
 			}
 
 			forceSensorPrepareGraphAI ();
@@ -1373,15 +1362,15 @@ public partial class ChronoJumpWindow
 			image_force_sensor_ai_zoom_out.Visible = true;
 			radiosForceSensorAiSensitivity (false);
 		} else {
-			forceSensorZoomApplied = false;
+			FsAiVars.zoomApplied = false;
 
 			if (radio_force_sensor_ai_ab.Active)
 			{
-				hscale_fs_ai_a_AtZoom = Convert.ToInt32 (hscale_fs_ai_a.Value);
-				hscale_fs_ai_b_AtZoom = Convert.ToInt32 (hscale_fs_ai_b.Value);
+				FsAiVars.a_atZoom = Convert.ToInt32 (hscale_fs_ai_a.Value);
+				FsAiVars.b_atZoom = Convert.ToInt32 (hscale_fs_ai_b.Value);
 			} else {
-				hscale_fs_ai_c_AtZoom = Convert.ToInt32 (hscale_fs_ai_c.Value);
-				hscale_fs_ai_d_AtZoom = Convert.ToInt32 (hscale_fs_ai_d.Value);
+				FsAiVars.c_atZoom = Convert.ToInt32 (hscale_fs_ai_c.Value);
+				FsAiVars.d_atZoom = Convert.ToInt32 (hscale_fs_ai_d.Value);
 			}
 
 			forceSensorPrepareGraphAI ();
@@ -1389,22 +1378,22 @@ public partial class ChronoJumpWindow
 			if (radio_force_sensor_ai_ab.Active)
 			{
 				// set hscales a,b to value before + value at zoom (because user maybe changed it on zoom)
-				hscale_fs_ai_a.Value = hscale_fs_ai_a_BeforeZoom +
-					(hscale_fs_ai_a_AtZoom);
-				hscale_fs_ai_b.Value = hscale_fs_ai_a_BeforeZoom +
-					(hscale_fs_ai_b_AtZoom);
+				hscale_fs_ai_a.Value = FsAiVars.a_beforeZoom +
+					(FsAiVars.a_atZoom);
+				hscale_fs_ai_b.Value = FsAiVars.a_beforeZoom +
+					(FsAiVars.b_atZoom);
 
 				// set hscales c,d at same value before zoom
-				hscale_fs_ai_c.Value = hscale_fs_ai_c_BeforeZoom;
-				hscale_fs_ai_d.Value = hscale_fs_ai_d_BeforeZoom;
+				hscale_fs_ai_c.Value = FsAiVars.c_beforeZoom;
+				hscale_fs_ai_d.Value = FsAiVars.d_beforeZoom;
 			} else {
-				hscale_fs_ai_a.Value = hscale_fs_ai_a_BeforeZoom;
-				hscale_fs_ai_b.Value = hscale_fs_ai_b_BeforeZoom;
+				hscale_fs_ai_a.Value = FsAiVars.a_beforeZoom;
+				hscale_fs_ai_b.Value = FsAiVars.b_beforeZoom;
 
-				hscale_fs_ai_c.Value = hscale_fs_ai_c_BeforeZoom +
-					(hscale_fs_ai_c_AtZoom);
-				hscale_fs_ai_d.Value = hscale_fs_ai_c_BeforeZoom +
-					(hscale_fs_ai_d_AtZoom);
+				hscale_fs_ai_c.Value = FsAiVars.c_beforeZoom +
+					(FsAiVars.c_atZoom);
+				hscale_fs_ai_d.Value = FsAiVars.c_beforeZoom +
+					(FsAiVars.d_atZoom);
 			}
 
 			image_force_sensor_ai_zoom.Visible = true;
@@ -1547,13 +1536,6 @@ public partial class ChronoJumpWindow
 			return fsAI_CD;
 	}
 
-	bool forceSensorHScalesDoNotFollow = false;
-	//to know change of slider in order to apply on the other slider if chained
-	int force_sensor_last_a = 1;
-	int force_sensor_last_b = 1;
-	int force_sensor_last_c = 1;
-	int force_sensor_last_d = 1;
-
 	private void on_hscale_fs_ai_value_changed (object o, EventArgs args)
 	{
 		LogB.Information ("on_hscale_fs_ai_value_changed");
@@ -1574,34 +1556,34 @@ public partial class ChronoJumpWindow
 			{
 				isLeft = true; //A or C
 				hsRelated = hscale_fs_ai_b; //if A then B, if D then C
-				last = force_sensor_last_a;
-				previousDiffWithRelated = force_sensor_last_b - force_sensor_last_a;
+				last = FsAiVars.a_last;
+				previousDiffWithRelated = FsAiVars.b_last - FsAiVars.a_last;
 			}
 			else if (hs == hscale_fs_ai_b)
 			{
 				isLeft = false;
 				hsRelated = hscale_fs_ai_a;
-				last = force_sensor_last_b;
-				previousDiffWithRelated = force_sensor_last_b - force_sensor_last_a;
+				last = FsAiVars.b_last;
+				previousDiffWithRelated = FsAiVars.b_last - FsAiVars.a_last;
 			}
 			else if (hs == hscale_fs_ai_c)
 			{
 				isLeft = true;
 				hsRelated = hscale_fs_ai_d;
-				last = force_sensor_last_c;
-				previousDiffWithRelated = force_sensor_last_d - force_sensor_last_c;
+				last = FsAiVars.c_last;
+				previousDiffWithRelated = FsAiVars.d_last - FsAiVars.c_last;
 			}
 			else //if (hs == hscale_fs_ai_d)
 			{
 				isLeft = false;
 				hsRelated = hscale_fs_ai_c;
-				last = force_sensor_last_d;
-				previousDiffWithRelated = force_sensor_last_d - force_sensor_last_c;
+				last = FsAiVars.d_last;
+				previousDiffWithRelated = FsAiVars.d_last - FsAiVars.c_last;
 			}
 
-			if (! forceSensorHScalesDoNotFollow)
+			if (! FsAiVars.hscalesDoNotFollow)
 			{
-				forceSensorHScalesDoNotFollow = true;
+				FsAiVars.hscalesDoNotFollow = true;
 				int diffWithPrevious = Convert.ToInt32 (hs.Value) - last;
 				if (isLeft && Convert.ToInt32 (hsRelated.Value) + diffWithPrevious >= fsAI.GetLength() -1)
 				{
@@ -1616,17 +1598,17 @@ public partial class ChronoJumpWindow
 				else
 					hsRelated.Value += diffWithPrevious;
 
-				forceSensorHScalesDoNotFollow = false;
+				FsAiVars.hscalesDoNotFollow = false;
 			}
 
 			if (hs == hscale_fs_ai_a)
-				force_sensor_last_b = Convert.ToInt32 (hsRelated.Value);
+				FsAiVars.b_last = Convert.ToInt32 (hsRelated.Value);
 			else if (hs == hscale_fs_ai_b)
-				force_sensor_last_a = Convert.ToInt32 (hsRelated.Value);
+				FsAiVars.a_last = Convert.ToInt32 (hsRelated.Value);
 			else if (hs == hscale_fs_ai_c)
-				force_sensor_last_d = Convert.ToInt32 (hsRelated.Value);
+				FsAiVars.d_last = Convert.ToInt32 (hsRelated.Value);
 			else if (hs == hscale_fs_ai_d)
-				force_sensor_last_c = Convert.ToInt32 (hsRelated.Value);
+				FsAiVars.c_last = Convert.ToInt32 (hsRelated.Value);
 		}
 
 		hscale_fs_ai_value_changed_do (fsAI, hs);
@@ -1727,20 +1709,20 @@ public partial class ChronoJumpWindow
 			tvFS.PassRow1or2Elastic (isLeft, position, speed, accel, power);
 
 		//LogB.Information (string.Format ("on_hscale_fs_ai_value_changed {0} 3", hscaleToDebug));
-		// update force_sensor_last_a, ...
+		// update FsAiVars.a_last, ...
 		if (hs == hscale_fs_ai_a)
-			force_sensor_last_a = Convert.ToInt32 (hs.Value);
+			FsAiVars.a_last = Convert.ToInt32 (hs.Value);
 		else if (hs == hscale_fs_ai_b)
-			force_sensor_last_b = Convert.ToInt32 (hs.Value);
+			FsAiVars.b_last = Convert.ToInt32 (hs.Value);
 		else if (hs == hscale_fs_ai_c)
-			force_sensor_last_c = Convert.ToInt32 (hs.Value);
+			FsAiVars.c_last = Convert.ToInt32 (hs.Value);
 		else if (hs == hscale_fs_ai_d)
-			force_sensor_last_d = Convert.ToInt32 (hs.Value);
+			FsAiVars.d_last = Convert.ToInt32 (hs.Value);
 
 		//LogB.Information (string.Format ("on_hscale_fs_ai_value_changed {0} 6", hscaleToDebug));
-		if (forceSensorHScalesDoNotFollow)
+		if (FsAiVars.hscalesDoNotFollow)
 		{
-			forceSensorHScalesDoNotFollow = false;
+			FsAiVars.hscalesDoNotFollow = false;
 			tvFS.ResetTreeview (); //To avoid duplicated rows on chained A,B
 			tvFS.FillTreeview ();
 
@@ -2427,6 +2409,31 @@ public partial class ChronoJumpWindow
 	}
 }
 
+/*
+ * To have some variables separated on a single class (to make in the future easier to reutilize on RaceAnalyzer)
+ * Maybe put more zoom variables here
+ */
+public static class FsAiVars
+{
+	public static bool zoomApplied;
+	public static List<ForceSensorRepetition> rep_lZoomAppliedCairo;
+	public static bool hscalesDoNotFollow = false;
+
+	public static int a_beforeZoom = 0;
+	public static int a_atZoom = 0;
+	public static int b_beforeZoom = 0;
+	public static int b_atZoom = 0;
+	public static int c_beforeZoom = 0;
+	public static int c_atZoom = 0;
+	public static int d_beforeZoom = 0;
+	public static int d_atZoom = 0;
+
+	//to know change of slider in order to apply on the other slider if chained
+	public static int a_last = 1;
+	public static int b_last = 1;
+	public static int c_last = 1;
+	public static int d_last = 1;
+}
 
 public abstract class TreeviewFSAbstract
 {

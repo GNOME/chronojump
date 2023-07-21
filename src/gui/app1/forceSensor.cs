@@ -2404,15 +2404,15 @@ LogB.Information(" fs R ");
 			sampleA = Convert.ToInt32(hscale_fs_ai_c.Value);
 			sampleB = Convert.ToInt32(hscale_fs_ai_d.Value);
 		}
-		if(forceSensorZoomApplied)
+		if (FsAiVars.zoomApplied)
 		{
 			if (radio_force_sensor_ai_ab.Active)
 			{
-				sampleA += hscale_fs_ai_a_BeforeZoom;
-				sampleB += hscale_fs_ai_b_BeforeZoom;
+				sampleA += FsAiVars.a_beforeZoom;
+				sampleB += FsAiVars.b_beforeZoom;
 			} else {
-				sampleA += hscale_fs_ai_c_BeforeZoom;
-				sampleB += hscale_fs_ai_d_BeforeZoom;
+				sampleA += FsAiVars.c_beforeZoom;
+				sampleB += FsAiVars.d_beforeZoom;
 			}
 		}
 

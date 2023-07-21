@@ -1371,7 +1371,7 @@ public partial class ChronoJumpWindow
 
 			image_force_sensor_ai_zoom.Visible = false;
 			image_force_sensor_ai_zoom_out.Visible = true;
-			grid_radios_force_sensor_ai.Sensitive = false;
+			radiosForceSensorAiSensitivity (false);
 		} else {
 			forceSensorZoomApplied = false;
 
@@ -1409,7 +1409,7 @@ public partial class ChronoJumpWindow
 
 			image_force_sensor_ai_zoom.Visible = true;
 			image_force_sensor_ai_zoom_out.Visible = false;
-			grid_radios_force_sensor_ai.Sensitive = true;
+			radiosForceSensorAiSensitivity (true);
 		}
 	}
 

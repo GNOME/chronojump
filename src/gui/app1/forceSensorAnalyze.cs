@@ -165,7 +165,7 @@ public partial class ChronoJumpWindow
 	Gtk.Image image_force_sensor_analyze_show_distance;
 	Gtk.Image image_force_sensor_analyze_show_speed;
 	Gtk.Image image_force_sensor_analyze_show_power;
-	Gtk.Grid grid_radios_force_sensor_ai;
+	//Gtk.Grid grid_radios_force_sensor_ai;
 	Gtk.RadioButton radio_force_sensor_ai_1set;
 	Gtk.RadioButton radio_force_sensor_ai_2sets;
 	Gtk.Notebook notebook_force_sensor_ai_load;
@@ -1497,6 +1497,15 @@ public partial class ChronoJumpWindow
 		force_sensor_ai_drawingarea_cairo.QueueDraw(); //will fire ExposeEvent
 	}
 
+	private void radiosForceSensorAiSensitivity (bool sensitive)
+	{
+		radio_force_sensor_ai_1set.Sensitive = sensitive;
+		radio_force_sensor_ai_2sets.Sensitive = sensitive;
+		radio_force_sensor_ai_ab.Sensitive = sensitive;
+		radio_force_sensor_ai_cd.Sensitive = sensitive;
+		notebook_force_sensor_ai_load.Sensitive = sensitive;
+	}
+
 	private void on_button_force_sensor_analyze_move_cd_left_clicked (object o, EventArgs args)
 	{
 		if (spCairoFE_CD != null)
@@ -2375,7 +2384,7 @@ public partial class ChronoJumpWindow
 		button_force_sensor_export_result_open = (Gtk.Button) builder.GetObject ("button_force_sensor_export_result_open");
 
 		hbox_force_sensor_analyze_ai_sliders_and_buttons = (Gtk.HBox) builder.GetObject ("hbox_force_sensor_analyze_ai_sliders_and_buttons");
-		grid_radios_force_sensor_ai = (Gtk.Grid) builder.GetObject ("grid_radios_force_sensor_ai");
+		//grid_radios_force_sensor_ai = (Gtk.Grid) builder.GetObject ("grid_radios_force_sensor_ai");
 		radio_force_sensor_ai_1set = (Gtk.RadioButton) builder.GetObject ("radio_force_sensor_ai_1set");
 		radio_force_sensor_ai_2sets = (Gtk.RadioButton) builder.GetObject ("radio_force_sensor_ai_2sets");
 		notebook_force_sensor_ai_load = (Gtk.Notebook) builder.GetObject ("notebook_force_sensor_ai_load");

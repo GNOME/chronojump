@@ -1850,18 +1850,8 @@ LogB.Information(" fs R ");
 		return true;
 	}
 
-	//this is called when user clicks on load signal
-	//very based on: on_encoder_load_signal_clicked () future have some inheritance
-	private void force_sensor_load (bool canChoosePersonAndSession)
+	private string [] getForceSensorLoadColumnsString ()
 	{
-		int elastic = ForceSensor.GetElasticIntFromMode (current_mode);
-		List<ForceSensor> data = SqliteForceSensor.Select(false, -1, currentPerson.UniqueID, currentSession.UniqueID, elastic);
-
-		ArrayList dataPrint = new ArrayList();
-		int count = 1;
-		foreach (ForceSensor fs in data)
-			dataPrint.Add (fs.ToStringArray (count++, current_mode));
-
 		int all = 10;
 		if (current_mode == Constants.Modes.FORCESENSORELASTIC)
 			all = 11;
@@ -1880,6 +1870,29 @@ LogB.Information(" fs R ");
 		colStr [i++] = Catalog.GetString("Date");
 		colStr [i++] = Catalog.GetString("Video");
 		colStr [i++] = Catalog.GetString("Comment");
+
+		return colStr;
+	}
+
+	private ArrayList getForceSensorLoadSetsDataPrint (int personID, int sessionID)
+	{
+		int elastic = ForceSensor.GetElasticIntFromMode (current_mode);
+		List<ForceSensor> data = SqliteForceSensor.Select(false, -1, personID, sessionID, elastic);
+
+		ArrayList dataPrint = new ArrayList();
+		int count = 1;
+		foreach (ForceSensor fs in data)
+			dataPrint.Add (fs.ToStringArray (count++, current_mode));
+
+		return dataPrint;
+	}
+
+	//this is called when user clicks on load signal
+	//very based on: on_encoder_load_signal_clicked () future have some inheritance
+	private void force_sensor_load (bool canChoosePersonAndSession)
+	{
+		string [] colStr = getForceSensorLoadColumnsString ();
+		ArrayList dataPrint = getForceSensorLoadSetsDataPrint (currentPerson.UniqueID, currentSession.UniqueID);
 
 		ArrayList bigArray = new ArrayList();
 		ArrayList a1 = new ArrayList();
@@ -1915,6 +1928,9 @@ LogB.Information(" fs R ");
 
 			//do not allow to edit when can change person/session
 			genericWin.SetTreeview (colStr, false, dataPrint, new ArrayList(), GenericWindow.EditActions.NONE, true);
+
+			genericWin.FakeButtonNeedUpdateTreeView.Clicked -= new EventHandler (on_force_sensor_load_signal_update_treeview);
+			genericWin.FakeButtonNeedUpdateTreeView.Clicked += new EventHandler (on_force_sensor_load_signal_update_treeview);
 		} else {
 			genericWin.SetTreeview (colStr, false, dataPrint, new ArrayList(), GenericWindow.EditActions.EDITPLAYDELETE, true);
 
@@ -1923,7 +1939,7 @@ LogB.Information(" fs R ");
 					false); //means: do not returnPersonAndPSlist
 
 			string [] persons = new String[personsPre.Count];
-			count = 0;
+			int count = 0;
 			foreach	(Person p in personsPre)
 				persons[count++] = p.UniqueID.ToString() + ":" + p.Name;
 			genericWin.SetComboEditValues (persons, currentPerson.UniqueID + ":" + currentPerson.Name);
@@ -1967,7 +1983,16 @@ LogB.Information(" fs R ");
 		genericWin.HideAndNull();
 
 		int elastic = ForceSensor.GetElasticIntFromMode (current_mode);
-		ForceSensor fs = (ForceSensor) SqliteForceSensor.Select(false, uniqueID, currentPerson.UniqueID, currentSession.UniqueID, elastic)[0];
+
+		int personID = currentPerson.UniqueID;
+		int sessionID = currentSession.UniqueID;
+		if (genericWin.UseGridPersonSession)
+		{
+			personID = genericWin.GetPersonIDFromGui ();
+			sessionID = genericWin.GetSessionIDFromGui ();
+		}
+
+		ForceSensor fs = (ForceSensor) SqliteForceSensor.Select(false, uniqueID, personID, sessionID, elastic)[0];
 		if(fs == null)
 		{
 			new DialogMessage(Constants.MessageTypes.WARNING, Constants.FileNotFoundStr());
@@ -2089,6 +2114,17 @@ LogB.Information(" fs R ");
 		//notebook_force_sensor_analyze_top.CurrentPage = Convert.ToInt32(notebook_force_sensor_analyze_top_pages.CURRENTSETSIGNAL);
 		//change radio and will change also notebook:
 		radio_force_sensor_analyze_current_set.Active = true;
+	}
+
+	private void on_force_sensor_load_signal_update_treeview (object o, EventArgs args)
+	{
+		LogB.Information ("on_force_sensor_load_signal_update_treeview");
+
+		string [] colStr = getForceSensorLoadColumnsString ();
+		ArrayList dataPrint = getForceSensorLoadSetsDataPrint (
+				genericWin.GetPersonIDFromGui (), genericWin.GetSessionIDFromGui ());
+
+		genericWin.SetTreeview (colStr, false, dataPrint, new ArrayList(), GenericWindow.EditActions.NONE, true);
 	}
 
 	protected void on_force_sensor_load_signal_row_play (object o, EventArgs args)

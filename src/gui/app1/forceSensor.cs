@@ -1911,7 +1911,7 @@ LogB.Information(" fs R ");
 
 		if (canChoosePersonAndSession)
 		{
-			genericWin.SetGridPersonSesion (currentPerson, currentSession);
+			genericWin.SetGridPersonSession (currentPerson, currentSession);
 
 			//do not allow to edit when can change person/session
 			genericWin.SetTreeview (colStr, false, dataPrint, new ArrayList(), GenericWindow.EditActions.NONE, true);

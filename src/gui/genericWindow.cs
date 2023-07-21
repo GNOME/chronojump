@@ -59,8 +59,8 @@ public class GenericWindow
 	Gtk.Button button_middle;
 
 	Gtk.Grid grid_person_session;
-	Gtk.Box box_combo_person_other;
-	Gtk.Box box_combo_session_other;
+	Gtk.Box box_combo_person_select;
+	Gtk.Box box_combo_session_select;
 
 	//Edit row
 	Gtk.Box hbox_edit_row;
@@ -111,8 +111,8 @@ public class GenericWindow
 	
 	Gtk.ComboBoxText combo_edit;
 	Gtk.ComboBoxText combo_all_none_selected;
-	Gtk.ComboBoxText combo_person_other;
-	Gtk.ComboBoxText combo_session_other;
+	Gtk.ComboBoxText combo_person_select;
+	Gtk.ComboBoxText combo_session_select;
 
 	private ArrayList nonSensitiveRows;
 
@@ -618,45 +618,123 @@ public class GenericWindow
 	//what is in app1
 	private Person currentPerson;
 	private Session currentSession;
-	public void SetGridPersonSesion (Person currentPerson, Session currentSession)
+	private bool followSignals = false;
+	public void SetGridPersonSession (Person currentPerson, Session currentSession)
 	{
 		// assign the variables on app1
 		this.currentPerson = currentPerson;
 		this.currentSession = currentSession;
 
 		// create the empty combos
-		combo_person_other = UtilGtk.CreateComboBoxText (box_combo_person_other, new List<string> (), "");
-		combo_session_other = UtilGtk.CreateComboBoxText (box_combo_session_other, new List<string> (), "");
+		combo_person_select = UtilGtk.CreateComboBoxText (box_combo_person_select, new List<string> (), "");
+		combo_person_select.Changed += new EventHandler (on_combo_person_select_changed);
+
+		combo_session_select = UtilGtk.CreateComboBoxText (box_combo_session_select, new List<string> (), "");
+		combo_session_select.Changed += new EventHandler (on_combo_session_select_changed);
 
 		// update the combo values
-		updateGridPersonSession ();
+		updateGridPersonChanged ();
+		updateGridSessionChanged ();
 	}
 
-	private void updateGridPersonSession ()
+	private void updateGridPersonChanged ()
 	{
-		// select person
-		List<Person> person_l = SqlitePersonSession.SelectCurrentSessionPersonsAsList (false, currentSession.UniqueID);
-		List<string> personStr_l = new List<string> ();
-		foreach (Person p in person_l)
-			personStr_l.Add (p.Name);
+		// 1) get person and session from gui
+		int personID; string personName;
+		getPersonFromGui (out personID, out personName);
 
-		// select session
-		List<PersonSession> psCurrentPerson_l = SqlitePersonSession.SelectPersonSessionList (false, currentPerson.UniqueID, -1);
+		int sessionID; string sessionName;
+		getSessionFromGui (out sessionID, out sessionName);
+
+		// 2) select sessions for this person
+		List<PersonSession> psCurrentPerson_l = SqlitePersonSession.SelectPersonSessionList (false, personID, -1);
 		List<Session> session_l = SqliteSession.SelectAll (false, Sqlite.Orders_by.DEFAULT);
 
 		List<string> sessionStr_l = new List<string> ();
 		foreach (PersonSession ps in psCurrentPerson_l)
 			foreach (Session s in session_l)
 				if (s.UniqueID == ps.SessionID)
-					sessionStr_l.Add (s.Name);
+					sessionStr_l.Add (string.Format("{0}:{1}", s.UniqueID, s.Name));
 
-		//this is only if no other is active!
-		UtilGtk.ComboUpdate (combo_person_other, personStr_l);
-		combo_person_other.Active = UtilGtk.ComboMakeActive (combo_person_other, currentPerson.Name);
-
-		UtilGtk.ComboUpdate (combo_session_other, sessionStr_l);
-		combo_session_other.Active = UtilGtk.ComboMakeActive (combo_session_other, currentSession.Name);
+		// 3) update the session combo
+		followSignals = false;
+		UtilGtk.ComboUpdate (combo_session_select, sessionStr_l);
+		combo_session_select.Active = UtilGtk.ComboMakeActive (combo_session_select,
+				string.Format ("{0}:{1}", sessionID, sessionName));
+		followSignals = true;
 	}
+
+	private void updateGridSessionChanged ()
+	{
+		// 1) get person and session from gui
+		int personID; string personName;
+		getPersonFromGui (out personID, out personName);
+
+		int sessionID; string sessionName;
+		getSessionFromGui (out sessionID, out sessionName);
+
+		// 2) select persons for this session
+		List<Person> person_l = SqlitePersonSession.SelectCurrentSessionPersonsAsList (false, sessionID);
+		List<string> personStr_l = new List<string> ();
+		foreach (Person p in person_l)
+			personStr_l.Add (string.Format("{0}:{1}", p.UniqueID, p.Name));
+
+		// 3) update the person combo
+		followSignals = false;
+		UtilGtk.ComboUpdate (combo_person_select, personStr_l);
+		combo_person_select.Active = UtilGtk.ComboMakeActive (combo_person_select,
+				string.Format("{0}:{1}", personID, personName));
+		followSignals = true;
+	}
+
+	private void getPersonFromGui (out int personID, out string personName)
+	{
+		// just if it fails for any reason
+		personID = currentPerson.UniqueID;
+		personName = currentPerson.Name;
+
+		string str = UtilGtk.ComboGetActive (combo_person_select);
+		string [] strFull = str.Split(new char[] {':'});
+		if (strFull.Length == 2 && Util.IsNumber (strFull[0], false))
+		{
+			personID = Convert.ToInt32 (strFull[0]);
+			personName = strFull[1];
+		}
+	}
+
+	private void getSessionFromGui (out int sessionID, out string sessionName)
+	{
+		// just if it fails for any reason
+		sessionID = currentSession.UniqueID;
+		sessionName = currentSession.Name;
+
+		string str = UtilGtk.ComboGetActive (combo_session_select);
+		string [] strFull = str.Split(new char[] {':'});
+		if (strFull.Length == 2 && Util.IsNumber (strFull[0], false))
+		{
+			sessionID = Convert.ToInt32 (strFull[0]);
+			sessionName = strFull[1];
+		}
+	}
+
+	private void on_combo_person_select_changed (object o, EventArgs args)
+	{
+		if (followSignals)
+		{
+			updateGridPersonChanged ();
+			//TODO: change treeview
+		}
+	}
+
+	private void on_combo_session_select_changed (object o, EventArgs args)
+	{
+		if (followSignals)
+		{
+			updateGridSessionChanged ();
+			//TODO: change treeview
+		}
+	}
+
 
 	public void SetTextview(string str)
 	{
@@ -1316,8 +1394,8 @@ public class GenericWindow
 		button_middle = (Gtk.Button) builder.GetObject ("button_middle");
 
 		grid_person_session = (Gtk.Grid) builder.GetObject ("grid_person_session");
-		box_combo_person_other = (Gtk.Box) builder.GetObject ("box_combo_person_other");
-		box_combo_session_other = (Gtk.Box) builder.GetObject ("box_combo_session_other");
+		box_combo_person_select = (Gtk.Box) builder.GetObject ("box_combo_person_select");
+		box_combo_session_select = (Gtk.Box) builder.GetObject ("box_combo_session_select");
 
 		//Edit row
 		hbox_edit_row = (Gtk.Box) builder.GetObject ("hbox_edit_row");

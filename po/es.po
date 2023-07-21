@@ -6832,7 +6832,7 @@ msgstr "Contracción"
 #: ../src/gui/app1/runEncoder.cs:977
 #, csharp-format
 msgid "Select set of athlete {0} on this session."
-msgstr "Seleccionar las series del atleta {0} en esta sesión."
+msgstr "Seleccionar la serie del atleta {0} en esta sesión."
 
 #: ../src/gui/app1/encoder.cs:1783 ../src/gui/app1/forceSensor.cs:1770
 #: ../src/gui/app1/runEncoder.cs:980

@@ -341,6 +341,7 @@ public class GenericWindow
 		else if(stuff == Constants.GenericWindowShow.GRIDPERSONSESSION)
 		{
 			grid_person_session.Show ();
+			UseGridPersonSession = true;
 		}
 		else if(stuff == Constants.GenericWindowShow.LABELBEFORETEXTVIEWTREEVIEW) {
 			label_before_textview_treeview.Show();
@@ -616,11 +617,15 @@ public class GenericWindow
 	}
 
 	//what is in app1
+	public Gtk.Button FakeButtonNeedUpdateTreeView;
+	public bool UseGridPersonSession;
 	private Person currentPerson;
 	private Session currentSession;
 	private bool followSignals = false;
 	public void SetGridPersonSession (Person currentPerson, Session currentSession)
 	{
+		UseGridPersonSession = true;
+		FakeButtonNeedUpdateTreeView = new Gtk.Button ();
 		// assign the variables on app1
 		this.currentPerson = currentPerson;
 		this.currentSession = currentSession;
@@ -702,6 +707,14 @@ public class GenericWindow
 		}
 	}
 
+	public int GetPersonIDFromGui ()
+	{
+		int personID; string personName;
+		getPersonFromGui (out personID, out personName);
+
+		return personID;
+	}
+
 	private void getSessionFromGui (out int sessionID, out string sessionName)
 	{
 		// just if it fails for any reason
@@ -717,12 +730,20 @@ public class GenericWindow
 		}
 	}
 
+	public int GetSessionIDFromGui ()
+	{
+		int sessionID; string sessionName;
+		getSessionFromGui (out sessionID, out sessionName);
+
+		return sessionID;
+	}
+
 	private void on_combo_person_select_changed (object o, EventArgs args)
 	{
 		if (followSignals)
 		{
 			updateGridPersonChanged ();
-			//TODO: change treeview
+			FakeButtonNeedUpdateTreeView.Click ();
 		}
 	}
 
@@ -731,7 +752,7 @@ public class GenericWindow
 		if (followSignals)
 		{
 			updateGridSessionChanged ();
-			//TODO: change treeview
+			FakeButtonNeedUpdateTreeView.Click ();
 		}
 	}
 
@@ -822,6 +843,7 @@ public class GenericWindow
 			button_treeviewload_row_delete.Visible = true;
 		}
 
+		treeview.CursorChanged -= on_treeview_cursor_changed;
 		treeview.CursorChanged += on_treeview_cursor_changed;
 	}
 

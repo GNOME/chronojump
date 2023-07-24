@@ -126,7 +126,7 @@ public class DiscoverWindow
 
 	List<ChronopicRegisterPort> portAlreadyDiscovered_l;
 	List<Gtk.Button> button_microAlreadyDiscovered_l;
-	//List<Gtk.Label> label_microAlreadyDiscovered_l; //to use labels for ---- and NC instead of buttons
+	List<Gtk.Label> label_microAlreadyDiscovered_l; //to be able to Visible = false after ShowAll ()
 
 	static bool discoverCloseAfterCancel; //is true when select useThis while reading other devices
 	static Thread discoverThread;
@@ -140,6 +140,7 @@ public class DiscoverWindow
 	private Gtk.Image image_button_micro_discover_cancel_close;
 	private Gtk.Label label_button_micro_discover_cancel_close;
 	private Gtk.Image image_discover_mode;
+	private string useThisStr = "Use this!";
 
 	private ChronopicRegisterPort portSelected;
 
@@ -230,7 +231,7 @@ public class DiscoverWindow
 		label_microNotDiscovered_l = new List<Gtk.Label> ();
 		portAlreadyDiscovered_l = new List<ChronopicRegisterPort> ();
 		button_microAlreadyDiscovered_l = new List<Gtk.Button> ();
-		//label_microAlreadyDiscovered_l = new List<Gtk.Label> ();
+		label_microAlreadyDiscovered_l = new List<Gtk.Label> ();
 
 		// 3) create widgets, lists, attach to table and show all
 
@@ -240,7 +241,7 @@ public class DiscoverWindow
 
 		Gtk.Label l1 = new Gtk.Label ("<b>" + Catalog.GetString ("Compatibility with") + "</b>");
 		l1.UseMarkup = true;
-		Gtk.HBox hbox_l1 = new Gtk.HBox (false, 4);
+		Gtk.HBox hbox_l1 = new Gtk.HBox (false, 10);
 		hbox_l1.PackStart (l1, false, false, 0);
 		hbox_l1.PackStart (image_discover_mode, false, false, 0);
 		//hbox_l1.Hexpand = true; //this does not work, so create a parent and expand:
@@ -265,6 +266,9 @@ public class DiscoverWindow
 		foreach (Button b in button_microNotDiscovered_l)
 			if (b.Label == "NC" || b.Label == "----")
 				b.Visible = false;
+		foreach (Gtk.Label l in label_microAlreadyDiscovered_l)
+			if (l.Text == Catalog.GetString (useThisStr))
+				l.Visible = false;
 	}
 
 	private void setup_row_micro_discover_l (ChronopicRegisterPort crp, int i, bool alreadyDiscovered)
@@ -298,7 +302,7 @@ public class DiscoverWindow
 			if (discoverMatchCurrentMode (crp.Type))
 			{
 				b.Sensitive = true;
-				label.Text = Catalog.GetString ("Use this!");
+				label.Text = Catalog.GetString (useThisStr);
 			} else
 			{
 				b.Sensitive = false;
@@ -309,6 +313,7 @@ public class DiscoverWindow
 			//label_microAlreadyDiscovered_l.Add (label);
 			b.Label = label.Text;
 			button_microAlreadyDiscovered_l.Add (b);
+			label_microAlreadyDiscovered_l.Add (label); //just to make not visible later
 			portAlreadyDiscovered_l.Add (crp);
 			b.Clicked += new EventHandler (on_discover_use_this_clicked);
 		} else {
@@ -377,7 +382,7 @@ public class DiscoverWindow
 				{
 					(progressbar_microNotDiscovered_l[i]).Text = ChronopicRegisterPort.TypePrint(microDiscover.Discovered_l[i]);
 					button_microNotDiscovered_l[i].Sensitive = true;
-					button_microNotDiscovered_l[i].Label = Catalog.GetString ("Use this!");
+					button_microNotDiscovered_l[i].Label = Catalog.GetString (useThisStr);
 					button_microNotDiscovered_l[i].Clicked += new EventHandler(on_discover_use_this_clicked);
 					button_microNotDiscovered_l[i].Visible = true;
 					label_microNotDiscovered_l[i].Visible = false;

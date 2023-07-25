@@ -1450,6 +1450,7 @@ public partial class ChronoJumpWindow
 			//do not allow to click on cd if two sets (when there is no ab loaded)
 			radio_force_sensor_ai_cd.Sensitive = (currentForceSensor != null && currentForceSensor.UniqueID >= 0);
 		}
+		forceSensorPrepareGraphAI ();
 		force_sensor_ai_drawingarea_cairo.QueueDraw(); //will fire ExposeEvent
 	}
 

@@ -995,6 +995,18 @@ public class CairoGraphForceSensorAI : CairoGraphForceSensor
 			ForceSensorExercise exercise, List<ForceSensorRepetition> reps_l,
 			bool forceRedraw, PlotTypes plotType)
 	{
+		//debug
+		if (spCairoFE_CD != null)
+			LogB.Information (string.Format ("\nAt CairoGraphForceSensorAI doSendingList" +
+						"points_l.Count: {0}, spCairoFE_CD.Force_l.Count: {1} " +
+						"hscaleSampleA : {2}, hscaleSampleB : {3}, " +
+						"hscaleSampleC : {4}, hscaleSampleD : {5}, " +
+						"exercise : {6}, reps_l.Count : {7}",
+						points_l.Count, spCairoFE_CD.Force_l.Count,
+						hscaleSampleA, hscaleSampleB,
+						hscaleSampleC, hscaleSampleD,
+						exercise, reps_l.Count));
+
 		bool dataExists = false;
 		if (points_l != null)
 			dataExists = true;

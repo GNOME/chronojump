@@ -56,13 +56,16 @@ public class UtilAll
 			return false;
 	}
 	
-	public static string GetOS() {
+	public static string GetOS()
+	{
 		OperatingSystem os = Environment.OSVersion;
 		string platform = os.Platform.ToString();
 
 		//detect a Mac that seems an Unix
 		if(platform == "Unix" && GetOSEnum() == OperatingSystems.MACOSX)
 			platform = "Unix (MacOSX)";
+		if (platform == "Unix" && IsChromeOS ())
+			platform = "Unix ChromeOS";
 
 		string osString =  string.Format("{0}, {1}", platform, os.Version);
 

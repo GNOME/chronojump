@@ -25094,14 +25094,14 @@ Concentric</property>
                                                             <property name="row-spacing">4</property>
                                                             <property name="column-spacing">16</property>
                                                             <child>
-                                                            <object class="GtkRadioButton" id="radio_force_sensor_ai_1set">
+                                                            <object class="GtkRadioButton" id="radio_ai_1set">
                                                             <property name="label">1 set</property>
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="receives-default">False</property>
                                                             <property name="active">True</property>
                                                             <property name="draw-indicator">True</property>
-                                                            <signal name="toggled" handler="on_radio_force_sensor_ai_sets_toggled" swapped="no"/>
+                                                            <signal name="toggled" handler="on_radio_ai_sets_toggled" swapped="no"/>
                                                             </object>
                                                             <packing>
                                                             <property name="left-attach">0</property>
@@ -25109,15 +25109,15 @@ Concentric</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <object class="GtkRadioButton" id="radio_force_sensor_ai_2sets">
+                                                            <object class="GtkRadioButton" id="radio_ai_2sets">
                                                             <property name="label">2 sets</property>
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="receives-default">False</property>
                                                             <property name="active">True</property>
                                                             <property name="draw-indicator">True</property>
-                                                            <property name="group">radio_force_sensor_ai_1set</property>
-                                                            <signal name="toggled" handler="on_radio_force_sensor_ai_sets_toggled" swapped="no"/>
+                                                            <property name="group">radio_ai_1set</property>
+                                                            <signal name="toggled" handler="on_radio_ai_sets_toggled" swapped="no"/>
                                                             </object>
                                                             <packing>
                                                             <property name="left-attach">0</property>
@@ -25136,7 +25136,7 @@ Concentric</property>
                                                             <property name="orientation">vertical</property>
                                                             <property name="spacing">2</property>
                                                             <child>
-                                                            <object class="GtkViewport" id="viewport_radio_force_sensor_ai_ab">
+                                                            <object class="GtkViewport" id="viewport_radio_ai_ab">
                                                             <property name="width-request">2</property>
                                                             <property name="height-request">2</property>
                                                             <property name="visible">True</property>
@@ -25153,14 +25153,14 @@ Concentric</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <object class="GtkRadioButton" id="radio_force_sensor_ai_ab">
+                                                            <object class="GtkRadioButton" id="radio_ai_ab">
                                                             <property name="label">AB</property>
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="receives-default">False</property>
                                                             <property name="active">True</property>
                                                             <property name="draw-indicator">True</property>
-                                                            <signal name="toggled" handler="on_radio_force_sensor_ai_abcd_toggled" swapped="no"/>
+                                                            <signal name="toggled" handler="on_radio_ai_abcd_toggled" swapped="no"/>
                                                             </object>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -25182,7 +25182,7 @@ Concentric</property>
                                                             <property name="orientation">vertical</property>
                                                             <property name="spacing">2</property>
                                                             <child>
-                                                            <object class="GtkViewport" id="viewport_radio_force_sensor_ai_cd">
+                                                            <object class="GtkViewport" id="viewport_radio_ai_cd">
                                                             <property name="width-request">2</property>
                                                             <property name="height-request">2</property>
                                                             <property name="visible">True</property>
@@ -25199,14 +25199,14 @@ Concentric</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <object class="GtkRadioButton" id="radio_force_sensor_ai_cd">
+                                                            <object class="GtkRadioButton" id="radio_ai_cd">
                                                             <property name="label">CD</property>
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="receives-default">False</property>
                                                             <property name="draw-indicator">True</property>
-                                                            <property name="group">radio_force_sensor_ai_ab</property>
-                                                            <signal name="toggled" handler="on_radio_force_sensor_ai_abcd_toggled" swapped="no"/>
+                                                            <property name="group">radio_ai_ab</property>
+                                                            <signal name="toggled" handler="on_radio_ai_abcd_toggled" swapped="no"/>
                                                             </object>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -25233,7 +25233,7 @@ Concentric</property>
                                                             <property name="can-focus">False</property>
                                                             <property name="spacing">3</property>
                                                             <child>
-                                                            <object class="GtkNotebook" id="notebook_force_sensor_ai_load">
+                                                            <object class="GtkNotebook" id="notebook_ai_load">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="show-tabs">False</property>

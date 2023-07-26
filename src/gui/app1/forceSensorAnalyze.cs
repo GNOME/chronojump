@@ -148,15 +148,7 @@ public partial class ChronoJumpWindow
 	Gtk.Image image_force_sensor_analyze_show_distance;
 	Gtk.Image image_force_sensor_analyze_show_speed;
 	Gtk.Image image_force_sensor_analyze_show_power;
-	//Gtk.Grid grid_radios_force_sensor_ai;
-	Gtk.RadioButton radio_force_sensor_ai_1set;
-	Gtk.RadioButton radio_force_sensor_ai_2sets;
-	Gtk.Notebook notebook_force_sensor_ai_load;
 	Gtk.DrawingArea force_sensor_ai_drawingarea_cairo;
-	Gtk.Viewport viewport_radio_force_sensor_ai_ab;
-	Gtk.Viewport viewport_radio_force_sensor_ai_cd;
-	Gtk.RadioButton radio_force_sensor_ai_ab;
-	Gtk.RadioButton radio_force_sensor_ai_cd;
 	Gtk.Box box_force_sensor_ai_a;
 	Gtk.Box box_force_sensor_ai_b;
 	Gtk.Box box_force_sensor_ai_c;
@@ -918,10 +910,10 @@ public partial class ChronoJumpWindow
 		Gtk.HScale hsRight = getHScaleABCD (false);
 
 		if ( AiVars.zoomApplied && (
-				(radio_force_sensor_ai_ab.Active &&
+				(radio_ai_ab.Active &&
 				Util.IsNumber (tvFS_AB.TimeStart, true) &&
 				Util.IsNumber (tvFS_AB.TimeEnd, true)) ||
-				(! radio_force_sensor_ai_ab.Active &&
+				(! radio_ai_ab.Active &&
 				Util.IsNumber (tvFS_CD.TimeStart, true) &&
 				Util.IsNumber (tvFS_CD.TimeEnd, true)) ))
 		{
@@ -974,7 +966,7 @@ public partial class ChronoJumpWindow
 
 		string fullPath_cd = lastForceSensorFullPath;
 		ForceSensorExercise exercise_cd = currentForceSensorExercise;
-		if (radio_force_sensor_ai_2sets.Active &&
+		if (radio_ai_2sets.Active &&
 				lastForceSensorFullPath_CD != null &&
 				lastForceSensorFullPath_CD != "")
 		{
@@ -1024,8 +1016,8 @@ public partial class ChronoJumpWindow
 		//on zoom put hscale B at the right
 		if(zoomFrameB >= 0)
 		{
-			//if (radio_force_sensor_ai_2sets.Active && radio_force_sensor_ai_cd.Active)
-			if (radio_force_sensor_ai_cd.Active)
+			//if (radio_ai_2sets.Active && radio_ai_cd.Active)
+			if (radio_ai_cd.Active)
 				hsRight.Value = fsAI_CD.GetLength() -1;
 			else
 				hsRight.Value = fsAI_AB.GetLength() -1;
@@ -1033,7 +1025,7 @@ public partial class ChronoJumpWindow
 
 		//to update values
 		LogB.Information ("calling to move hscale from forceSensorPrepareGraphAI ()");
-		if (radio_force_sensor_ai_ab.Active)
+		if (radio_ai_ab.Active)
 			on_hscale_ai_value_changed (hscale_ai_a, new EventArgs ());
 		else
 			on_hscale_ai_value_changed (hscale_ai_c, new EventArgs ());
@@ -1101,8 +1093,8 @@ public partial class ChronoJumpWindow
 
 				// display reps for set1 or for set2
 				if (
-						(count == 0 && ! (radio_force_sensor_ai_2sets.Active && radio_force_sensor_ai_cd.Active)) ||
-						(count == 1 && radio_force_sensor_ai_2sets.Active && radio_force_sensor_ai_cd.Active) )
+						(count == 0 && ! (radio_ai_2sets.Active && radio_ai_cd.Active)) ||
+						(count == 1 && radio_ai_2sets.Active && radio_ai_cd.Active) )
 				{
 					reps_l = fsAI.ForceSensorRepetition_l;
 					if(AiVars.zoomApplied)
@@ -1148,7 +1140,7 @@ public partial class ChronoJumpWindow
 
 		SignalPointsCairoForceElastic spCairoFESend_CD = null;
 		List<string> subtitleWithSetsInfo_l = new List<string> ();
-		if (radio_force_sensor_ai_2sets.Active)
+		if (radio_ai_2sets.Active)
 		{
 			spCairoFESend_CD = spCairoFE_CD;
 			if (AiVars.zoomApplied)
@@ -1182,7 +1174,7 @@ public partial class ChronoJumpWindow
 		fsAIRepetitionMouseLimitsCairo = cairoGraphForceSensorAI.DoSendingList (
 				preferences.fontType.ToString(),
 				spCairoFESend, spCairoFESend_CD,
-				subtitleWithSetsInfo_l, radio_force_sensor_ai_cd.Active,
+				subtitleWithSetsInfo_l, radio_ai_cd.Active,
 				check_force_sensor_analyze_show_distance.Active,
 				check_force_sensor_analyze_show_speed.Active,
 				check_force_sensor_analyze_show_power.Active,
@@ -1218,7 +1210,7 @@ public partial class ChronoJumpWindow
 		if(repetition < 0)
 			return;
 
-		if (radio_force_sensor_ai_ab.Active)
+		if (radio_ai_ab.Active)
 		{
 			hscale_ai_a.Value = fsAIRepetitionMouseLimitsCairo.GetSampleStartOfARep (repetition);
 			hscale_ai_b.Value = fsAIRepetitionMouseLimitsCairo.GetSampleEndOfARep (repetition);
@@ -1246,81 +1238,6 @@ public partial class ChronoJumpWindow
 			return -1;
 
 		return fsAIRepetitionMouseLimitsCairo.FindBarInPixel (pixel);
-	}
-
-	private void on_radio_force_sensor_ai_sets_toggled (object o, EventArgs args)
-	{
-		if (o == null || ! ((Gtk.RadioButton) o).Active)
-			return;
-
-		if ((Gtk.RadioButton) o == radio_force_sensor_ai_1set)
-		{
-			notebook_force_sensor_ai_load.Page = 0;
-			radio_force_sensor_ai_cd.Sensitive = true;
-
-			// if CD goes beyond AB, convert it to 0
-			if (fsAI_AB != null)
-			{
-				hscale_ai_c.SetRange (0, fsAI_AB.GetLength() -1);
-				hscale_ai_d.SetRange (0, fsAI_AB.GetLength() -1);
-			}
-		}
-		else //((Gtk.RadioButton) o == radio_force_sensor_ai_2sets)
-		{
-			notebook_force_sensor_ai_load.Page = 1;
-
-			button_force_sensor_analyze_load_ab.Sensitive = radio_force_sensor_ai_ab.Active;
-			button_force_sensor_analyze_load_cd.Sensitive = radio_force_sensor_ai_cd.Active;
-			button_force_sensor_analyze_move_cd_left.Sensitive = radio_force_sensor_ai_cd.Active;
-			button_force_sensor_analyze_move_cd_right.Sensitive = radio_force_sensor_ai_cd.Active;
-
-			//do not allow to click on cd if two sets (when there is no ab loaded)
-			radio_force_sensor_ai_cd.Sensitive = (currentForceSensor != null && currentForceSensor.UniqueID >= 0);
-		}
-		forceSensorPrepareGraphAI ();
-		force_sensor_ai_drawingarea_cairo.QueueDraw(); //will fire ExposeEvent
-	}
-
-	private void on_radio_force_sensor_ai_abcd_toggled (object o, EventArgs args)
-	{
-		if (o == null || ! ((Gtk.RadioButton) o).Active)
-			return;
-
-		if ((Gtk.RadioButton) o == radio_force_sensor_ai_ab)
-		{
-			box_force_sensor_ai_a.Visible = true;
-			box_force_sensor_ai_b.Visible = true;
-			box_force_sensor_ai_c.Visible = false;
-			box_force_sensor_ai_d.Visible = false;
-			label_force_sensor_ai_zoom_abcd.Text = "[A-B]";
-			UtilGtk.ViewportColor (viewport_ai_hscales, UtilGtk.Colors.YELLOW_LIGHT);
-		}
-		else if ((Gtk.RadioButton) o == radio_force_sensor_ai_cd)
-		{
-			box_force_sensor_ai_a.Visible = false;
-			box_force_sensor_ai_b.Visible = false;
-			box_force_sensor_ai_c.Visible = true;
-			box_force_sensor_ai_d.Visible = true;
-			label_force_sensor_ai_zoom_abcd.Text = "[C-D]";
-			UtilGtk.ViewportColor (viewport_ai_hscales, UtilGtk.Colors.GREEN_LIGHT);
-		}
-
-		button_force_sensor_analyze_load_ab.Sensitive = (radio_force_sensor_ai_2sets.Active && radio_force_sensor_ai_ab.Active);
-		button_force_sensor_analyze_load_cd.Sensitive = (radio_force_sensor_ai_2sets.Active && radio_force_sensor_ai_cd.Active);
-		button_force_sensor_analyze_move_cd_left.Sensitive = (radio_force_sensor_ai_2sets.Active && radio_force_sensor_ai_cd.Active);
-		button_force_sensor_analyze_move_cd_right.Sensitive = (radio_force_sensor_ai_2sets.Active && radio_force_sensor_ai_cd.Active);
-
-		forceSensorAnalyzeGeneralButtonHscaleZoomSensitiveness();
-		force_sensor_ai_drawingarea_cairo.QueueDraw(); //will fire ExposeEvent
-	}
-
-	private void radiosForceSensorAiSensitivity (bool sensitive)
-	{
-		radio_force_sensor_ai_1set.Sensitive = sensitive;
-		radio_force_sensor_ai_2sets.Sensitive = sensitive;
-		radio_force_sensor_ai_ab.Sensitive = sensitive;
-		radio_force_sensor_ai_cd.Sensitive = sensitive;
-		notebook_force_sensor_ai_load.Sensitive = sensitive;
 	}
 
 	private void on_button_force_sensor_analyze_move_cd_left_clicked (object o, EventArgs args)
@@ -1764,10 +1681,6 @@ public partial class ChronoJumpWindow
 		button_force_sensor_export_result_open = (Gtk.Button) builder.GetObject ("button_force_sensor_export_result_open");
 
 		hbox_force_sensor_analyze_ai_sliders_and_buttons = (Gtk.HBox) builder.GetObject ("hbox_force_sensor_analyze_ai_sliders_and_buttons");
-		//grid_radios_force_sensor_ai = (Gtk.Grid) builder.GetObject ("grid_radios_force_sensor_ai");
-		radio_force_sensor_ai_1set = (Gtk.RadioButton) builder.GetObject ("radio_force_sensor_ai_1set");
-		radio_force_sensor_ai_2sets = (Gtk.RadioButton) builder.GetObject ("radio_force_sensor_ai_2sets");
-		notebook_force_sensor_ai_load = (Gtk.Notebook) builder.GetObject ("notebook_force_sensor_ai_load");
 		force_sensor_ai_drawingarea_cairo = (Gtk.DrawingArea) builder.GetObject ("force_sensor_ai_drawingarea_cairo");
 		box_force_sensor_analyze_magnitudes = (Gtk.Box) builder.GetObject ("box_force_sensor_analyze_magnitudes");
 		check_force_sensor_analyze_show_distance = (Gtk.CheckButton) builder.GetObject ("check_force_sensor_analyze_show_distance");
@@ -1776,10 +1689,6 @@ public partial class ChronoJumpWindow
 		image_force_sensor_analyze_show_distance = (Gtk.Image) builder.GetObject ("image_force_sensor_analyze_show_distance");
 		image_force_sensor_analyze_show_speed = (Gtk.Image) builder.GetObject ("image_force_sensor_analyze_show_speed");
 		image_force_sensor_analyze_show_power = (Gtk.Image) builder.GetObject ("image_force_sensor_analyze_show_power");
-		viewport_radio_force_sensor_ai_ab = (Gtk.Viewport) builder.GetObject ("viewport_radio_force_sensor_ai_ab");
-		viewport_radio_force_sensor_ai_cd = (Gtk.Viewport) builder.GetObject ("viewport_radio_force_sensor_ai_cd");
-		radio_force_sensor_ai_ab = (Gtk.RadioButton) builder.GetObject ("radio_force_sensor_ai_ab");
-		radio_force_sensor_ai_cd = (Gtk.RadioButton) builder.GetObject ("radio_force_sensor_ai_cd");
 		box_force_sensor_ai_a = (Gtk.Box) builder.GetObject ("box_force_sensor_ai_a");
 		box_force_sensor_ai_b = (Gtk.Box) builder.GetObject ("box_force_sensor_ai_b");
 		box_force_sensor_ai_c = (Gtk.Box) builder.GetObject ("box_force_sensor_ai_c");

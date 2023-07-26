@@ -32,6 +32,34 @@ using System.Collections.Generic; //List<T>
 
 public partial class ChronoJumpWindow
 {
+	// at glade ---->
+	Gtk.Label label_hscale_ai_a_pre_1s;
+	Gtk.Label label_hscale_ai_a_post_1s;
+	Gtk.Label label_hscale_ai_b_pre_1s;
+	Gtk.Label label_hscale_ai_b_post_1s;
+
+	Gtk.Button button_hscale_ai_a_first;
+	Gtk.Button button_hscale_ai_a_pre;
+	Gtk.Button button_hscale_ai_a_pre_1s;
+	Gtk.Button button_hscale_ai_a_post;
+	Gtk.Button button_hscale_ai_a_post_1s;
+	Gtk.Button button_hscale_ai_a_last;
+
+	Gtk.Button button_hscale_ai_b_first;
+	Gtk.Button button_hscale_ai_b_pre;
+	Gtk.Button button_hscale_ai_b_pre_1s;
+	Gtk.Button button_hscale_ai_b_post;
+	Gtk.Button button_hscale_ai_b_post_1s;
+	Gtk.Button button_hscale_ai_b_last;
+
+	Gtk.HScale hscale_ai_a;
+	Gtk.HScale hscale_ai_b;
+	Gtk.HScale hscale_ai_c;
+	Gtk.HScale hscale_ai_d;
+
+	Gtk.Viewport viewport_ai_hscales;
+	// <---- at glade
+
 	private void forceSensorZoomDefaultValues()
 	{
 		FsAiVars.zoomApplied = false;
@@ -52,10 +80,10 @@ public partial class ChronoJumpWindow
 			FsAiVars.zoomApplied = true;
 
 			//store hscale a to help return to position on unzoom
-			FsAiVars.a_beforeZoom = Convert.ToInt32 (hscale_fs_ai_a.Value);
-			FsAiVars.b_beforeZoom = Convert.ToInt32 (hscale_fs_ai_b.Value);
-			FsAiVars.c_beforeZoom = Convert.ToInt32 (hscale_fs_ai_c.Value);
-			FsAiVars.d_beforeZoom = Convert.ToInt32 (hscale_fs_ai_d.Value);
+			FsAiVars.a_beforeZoom = Convert.ToInt32 (hscale_ai_a.Value);
+			FsAiVars.b_beforeZoom = Convert.ToInt32 (hscale_ai_b.Value);
+			FsAiVars.c_beforeZoom = Convert.ToInt32 (hscale_ai_c.Value);
+			FsAiVars.d_beforeZoom = Convert.ToInt32 (hscale_ai_d.Value);
 
 			if (radio_force_sensor_ai_2sets.Active)
 			{
@@ -153,11 +181,11 @@ public partial class ChronoJumpWindow
 
 			if (radio_force_sensor_ai_ab.Active)
 			{
-				FsAiVars.a_atZoom = Convert.ToInt32 (hscale_fs_ai_a.Value);
-				FsAiVars.b_atZoom = Convert.ToInt32 (hscale_fs_ai_b.Value);
+				FsAiVars.a_atZoom = Convert.ToInt32 (hscale_ai_a.Value);
+				FsAiVars.b_atZoom = Convert.ToInt32 (hscale_ai_b.Value);
 			} else {
-				FsAiVars.c_atZoom = Convert.ToInt32 (hscale_fs_ai_c.Value);
-				FsAiVars.d_atZoom = Convert.ToInt32 (hscale_fs_ai_d.Value);
+				FsAiVars.c_atZoom = Convert.ToInt32 (hscale_ai_c.Value);
+				FsAiVars.d_atZoom = Convert.ToInt32 (hscale_ai_d.Value);
 			}
 
 			forceSensorPrepareGraphAI ();
@@ -165,21 +193,21 @@ public partial class ChronoJumpWindow
 			if (radio_force_sensor_ai_ab.Active)
 			{
 				// set hscales a,b to value before + value at zoom (because user maybe changed it on zoom)
-				hscale_fs_ai_a.Value = FsAiVars.a_beforeZoom +
+				hscale_ai_a.Value = FsAiVars.a_beforeZoom +
 					(FsAiVars.a_atZoom);
-				hscale_fs_ai_b.Value = FsAiVars.a_beforeZoom +
+				hscale_ai_b.Value = FsAiVars.a_beforeZoom +
 					(FsAiVars.b_atZoom);
 
 				// set hscales c,d at same value before zoom
-				hscale_fs_ai_c.Value = FsAiVars.c_beforeZoom;
-				hscale_fs_ai_d.Value = FsAiVars.d_beforeZoom;
+				hscale_ai_c.Value = FsAiVars.c_beforeZoom;
+				hscale_ai_d.Value = FsAiVars.d_beforeZoom;
 			} else {
-				hscale_fs_ai_a.Value = FsAiVars.a_beforeZoom;
-				hscale_fs_ai_b.Value = FsAiVars.b_beforeZoom;
+				hscale_ai_a.Value = FsAiVars.a_beforeZoom;
+				hscale_ai_b.Value = FsAiVars.b_beforeZoom;
 
-				hscale_fs_ai_c.Value = FsAiVars.c_beforeZoom +
+				hscale_ai_c.Value = FsAiVars.c_beforeZoom +
 					(FsAiVars.c_atZoom);
-				hscale_fs_ai_d.Value = FsAiVars.c_beforeZoom +
+				hscale_ai_d.Value = FsAiVars.c_beforeZoom +
 					(FsAiVars.d_atZoom);
 			}
 
@@ -194,14 +222,14 @@ public partial class ChronoJumpWindow
 		if (radio_force_sensor_ai_ab.Active)
 		{
 			if (left)
-				return hscale_fs_ai_a;
+				return hscale_ai_a;
 			else
-				return hscale_fs_ai_b;
+				return hscale_ai_b;
 		} else {
 			if (left)
-				return hscale_fs_ai_c;
+				return hscale_ai_c;
 			else
-				return hscale_fs_ai_d;
+				return hscale_ai_d;
 		}
 	}
 
@@ -221,9 +249,9 @@ public partial class ChronoJumpWindow
 		}
 	}
 
-	private void on_hscale_fs_ai_value_changed (object o, EventArgs args)
+	private void on_hscale_ai_value_changed (object o, EventArgs args)
 	{
-		LogB.Information ("on_hscale_fs_ai_value_changed");
+		LogB.Information ("on_hscale_ai_value_changed");
 		AnalyzeInstant sAI = getCorrectAI ();
 
 		if(sAI == null || sAI.GetLength() == 0)
@@ -237,31 +265,31 @@ public partial class ChronoJumpWindow
 			Gtk.HScale hsRelated ; //if A then B, if D then C
 			int last;
 			int previousDiffWithRelated;
-			if (hs == hscale_fs_ai_a)
+			if (hs == hscale_ai_a)
 			{
 				isLeft = true; //A or C
-				hsRelated = hscale_fs_ai_b; //if A then B, if D then C
+				hsRelated = hscale_ai_b; //if A then B, if D then C
 				last = FsAiVars.a_last;
 				previousDiffWithRelated = FsAiVars.b_last - FsAiVars.a_last;
 			}
-			else if (hs == hscale_fs_ai_b)
+			else if (hs == hscale_ai_b)
 			{
 				isLeft = false;
-				hsRelated = hscale_fs_ai_a;
+				hsRelated = hscale_ai_a;
 				last = FsAiVars.b_last;
 				previousDiffWithRelated = FsAiVars.b_last - FsAiVars.a_last;
 			}
-			else if (hs == hscale_fs_ai_c)
+			else if (hs == hscale_ai_c)
 			{
 				isLeft = true;
-				hsRelated = hscale_fs_ai_d;
+				hsRelated = hscale_ai_d;
 				last = FsAiVars.c_last;
 				previousDiffWithRelated = FsAiVars.d_last - FsAiVars.c_last;
 			}
-			else //if (hs == hscale_fs_ai_d)
+			else //if (hs == hscale_ai_d)
 			{
 				isLeft = false;
-				hsRelated = hscale_fs_ai_c;
+				hsRelated = hscale_ai_c;
 				last = FsAiVars.d_last;
 				previousDiffWithRelated = FsAiVars.d_last - FsAiVars.c_last;
 			}
@@ -286,21 +314,21 @@ public partial class ChronoJumpWindow
 				FsAiVars.hscalesDoNotFollow = false;
 			}
 
-			if (hs == hscale_fs_ai_a)
+			if (hs == hscale_ai_a)
 				FsAiVars.b_last = Convert.ToInt32 (hsRelated.Value);
-			else if (hs == hscale_fs_ai_b)
+			else if (hs == hscale_ai_b)
 				FsAiVars.a_last = Convert.ToInt32 (hsRelated.Value);
-			else if (hs == hscale_fs_ai_c)
+			else if (hs == hscale_ai_c)
 				FsAiVars.d_last = Convert.ToInt32 (hsRelated.Value);
-			else if (hs == hscale_fs_ai_d)
+			else if (hs == hscale_ai_d)
 				FsAiVars.c_last = Convert.ToInt32 (hsRelated.Value);
 		}
 
-		hscale_fs_ai_value_changed_do (sAI, hs);
+		hscale_ai_value_changed_do (sAI, hs);
 	}
 
 	//can be convinient to call it directly
-	private void hscale_fs_ai_value_changed_do (AnalyzeInstant sAI, HScale hs)
+	private void hscale_ai_value_changed_do (AnalyzeInstant sAI, HScale hs)
 	{
 		// 1. set some variables to make this function work for the four hscales
 		bool isLeft; //A or C
@@ -308,45 +336,45 @@ public partial class ChronoJumpWindow
 		string hscaleToDebug;
 		TreeviewFSAnalyze tvFS;
 
-		if (hs == hscale_fs_ai_a)
+		if (hs == hscale_ai_a)
 		{
 			tvFS = tvFS_AB;
 			isLeft = true; //A or C
-			hsRelated = hscale_fs_ai_b; //if A then B, if D then C
+			hsRelated = hscale_ai_b; //if A then B, if D then C
 			hscaleToDebug = "--- hscale_a ---";
 		}
-		else if (hs == hscale_fs_ai_b)
+		else if (hs == hscale_ai_b)
 		{
 			tvFS = tvFS_AB;
 			isLeft = false;
-			hsRelated = hscale_fs_ai_a;
+			hsRelated = hscale_ai_a;
 			hscaleToDebug = "--- hscale_b ---";
 		}
-		else if (hs == hscale_fs_ai_c)
+		else if (hs == hscale_ai_c)
 		{
 			tvFS = tvFS_CD;
 			isLeft = true;
-			hsRelated = hscale_fs_ai_d;
+			hsRelated = hscale_ai_d;
 			hscaleToDebug = "--- hscale_c ---";
 		}
-		else //if (hs == hscale_fs_ai_d)
+		else //if (hs == hscale_ai_d)
 		{
 			tvFS = tvFS_CD;
 			isLeft = false;
-			hsRelated = hscale_fs_ai_c;
+			hsRelated = hscale_ai_c;
 			hscaleToDebug = "--- hscale_d ---";
 		}
 
 		/*
-		LogB.Information (string.Format ("on_hscale_fs_ai_value_changed {0} 0", hscaleToDebug));
+		LogB.Information (string.Format ("on_hscale_ai_value_changed {0} 0", hscaleToDebug));
 		LogB.Information ("hscales at start: ");
-		LogB.Information ("hscales a: " + hscale_fs_ai_a.Value.ToString ());
-		LogB.Information ("hscales b: " + hscale_fs_ai_b.Value.ToString ());
-		LogB.Information ("hscales c: " + hscale_fs_ai_c.Value.ToString ());
-		LogB.Information ("hscales d: " + hscale_fs_ai_d.Value.ToString ());
+		LogB.Information ("hscales a: " + hscale_ai_a.Value.ToString ());
+		LogB.Information ("hscales b: " + hscale_ai_b.Value.ToString ());
+		LogB.Information ("hscales c: " + hscale_ai_c.Value.ToString ());
+		LogB.Information ("hscales d: " + hscale_ai_d.Value.ToString ());
 		*/
 
-		//LogB.Information (string.Format ("on_hscale_fs_ai_value_changed {0} 1", hscaleToDebug));
+		//LogB.Information (string.Format ("on_hscale_ai_value_changed {0} 1", hscaleToDebug));
 
 		//do not allow A or C to be higher than B or D (fix multiple possible problems)
 		if (isLeft && hs.Value > hsRelated.Value)
@@ -365,7 +393,7 @@ public partial class ChronoJumpWindow
 						isLeft, count, countRelated, sAI.GetLength ()));
 			return;
 		}
-		LogB.Information (string.Format ("on_hscale_fs_ai_value_changed {0} 2", hscaleToDebug));
+		LogB.Information (string.Format ("on_hscale_ai_value_changed {0} 2", hscaleToDebug));
 
 		// 3. calculate RFD
 		string rfd = "";
@@ -400,18 +428,18 @@ public partial class ChronoJumpWindow
 				tvFS.PassRow1or2Elastic (isLeft, position, speed, accel, power);
 		}
 
-		//LogB.Information (string.Format ("on_hscale_fs_ai_value_changed {0} 3", hscaleToDebug));
+		//LogB.Information (string.Format ("on_hscale_ai_value_changed {0} 3", hscaleToDebug));
 		// update FsAiVars.a_last, ...
-		if (hs == hscale_fs_ai_a)
+		if (hs == hscale_ai_a)
 			FsAiVars.a_last = Convert.ToInt32 (hs.Value);
-		else if (hs == hscale_fs_ai_b)
+		else if (hs == hscale_ai_b)
 			FsAiVars.b_last = Convert.ToInt32 (hs.Value);
-		else if (hs == hscale_fs_ai_c)
+		else if (hs == hscale_ai_c)
 			FsAiVars.c_last = Convert.ToInt32 (hs.Value);
-		else if (hs == hscale_fs_ai_d)
+		else if (hs == hscale_ai_d)
 			FsAiVars.d_last = Convert.ToInt32 (hs.Value);
 
-		//LogB.Information (string.Format ("on_hscale_fs_ai_value_changed {0} 6", hscaleToDebug));
+		//LogB.Information (string.Format ("on_hscale_ai_value_changed {0} 6", hscaleToDebug));
 		if (FsAiVars.hscalesDoNotFollow)
 		{
 			FsAiVars.hscalesDoNotFollow = false;
@@ -429,11 +457,11 @@ public partial class ChronoJumpWindow
 		{
 			//need to do both to ensure at unzoom params are calculated for AB and CD
 			force_sensor_analyze_instant_calculate_params (fsAI_AB, tvFS_AB, true,
-					Convert.ToInt32 (hscale_fs_ai_a.Value),
-					Convert.ToInt32 (hscale_fs_ai_b.Value));
+					Convert.ToInt32 (hscale_ai_a.Value),
+					Convert.ToInt32 (hscale_ai_b.Value));
 			force_sensor_analyze_instant_calculate_params (fsAI_CD, tvFS_CD, false,
-					Convert.ToInt32 (hscale_fs_ai_c.Value),
-					Convert.ToInt32 (hscale_fs_ai_d.Value));
+					Convert.ToInt32 (hscale_ai_c.Value),
+					Convert.ToInt32 (hscale_ai_d.Value));
 
 			// 6. treeviews fill
 			tvFS.ResetTreeview (); //To avoid duplicated rows on chained A,B
@@ -445,7 +473,7 @@ public partial class ChronoJumpWindow
 
 		// 8. refresh graph
 		force_sensor_ai_drawingarea_cairo.QueueDraw(); //will fire ExposeEvent
-		LogB.Information (string.Format ("on_hscale_fs_ai_value_changed {0} 8", hscaleToDebug));
+		LogB.Information (string.Format ("on_hscale_ai_value_changed {0} 8", hscaleToDebug));
 	}
 
 	private void on_check_force_sensor_ai_chained_hscales_clicked (object o, EventArgs args)
@@ -459,40 +487,40 @@ public partial class ChronoJumpWindow
 		Gtk.HScale hsLeft = getHScaleABCD (true);
 		Gtk.HScale hsRight = getHScaleABCD (false);
 
-		button_hscale_fs_ai_a_first.Sensitive = hsLeft.Value > 0;
-		button_hscale_fs_ai_a_pre.Sensitive = hsLeft.Value > 0;
-		button_hscale_fs_ai_a_pre_1s.Sensitive = hsLeft.Value > 0;
-		button_hscale_fs_ai_b_first.Sensitive = hsRight.Value > 0;
-		button_hscale_fs_ai_b_pre.Sensitive = hsRight.Value > 0;
-		button_hscale_fs_ai_b_pre_1s.Sensitive = hsRight.Value > 0;
+		button_hscale_ai_a_first.Sensitive = hsLeft.Value > 0;
+		button_hscale_ai_a_pre.Sensitive = hsLeft.Value > 0;
+		button_hscale_ai_a_pre_1s.Sensitive = hsLeft.Value > 0;
+		button_hscale_ai_b_first.Sensitive = hsRight.Value > 0;
+		button_hscale_ai_b_pre.Sensitive = hsRight.Value > 0;
+		button_hscale_ai_b_pre_1s.Sensitive = hsRight.Value > 0;
 
 		AnalyzeInstant sAI = getCorrectAI ();
-		button_hscale_fs_ai_a_last.Sensitive = (sAI != null && hsLeft.Value < sAI.GetLength() -1);
-		button_hscale_fs_ai_a_post_1s.Sensitive = (sAI != null && hsLeft.Value < sAI.GetLength() -1);
-		button_hscale_fs_ai_a_post.Sensitive = (sAI != null && hsLeft.Value < sAI.GetLength() -1);
-		button_hscale_fs_ai_b_last.Sensitive = (sAI != null && hsRight.Value < sAI.GetLength() -1);
-		button_hscale_fs_ai_b_post_1s.Sensitive = (sAI != null && hsRight.Value < sAI.GetLength() -1);
-		button_hscale_fs_ai_b_post.Sensitive = (sAI != null && hsRight.Value < sAI.GetLength() -1);
+		button_hscale_ai_a_last.Sensitive = (sAI != null && hsLeft.Value < sAI.GetLength() -1);
+		button_hscale_ai_a_post_1s.Sensitive = (sAI != null && hsLeft.Value < sAI.GetLength() -1);
+		button_hscale_ai_a_post.Sensitive = (sAI != null && hsLeft.Value < sAI.GetLength() -1);
+		button_hscale_ai_b_last.Sensitive = (sAI != null && hsRight.Value < sAI.GetLength() -1);
+		button_hscale_ai_b_post_1s.Sensitive = (sAI != null && hsRight.Value < sAI.GetLength() -1);
+		button_hscale_ai_b_post.Sensitive = (sAI != null && hsRight.Value < sAI.GetLength() -1);
 
 		//diff have to be more than one pixel
 		check_force_sensor_ai_zoom.Sensitive = (Math.Abs(hsLeft.Value - hsRight.Value) > 1);
 	}
 
-	private void on_button_hscale_fs_ai_a_first_clicked (object o, EventArgs args)
+	private void on_button_hscale_ai_a_first_clicked (object o, EventArgs args)
 	{
 		getHScaleABCD (true).Value = 0;
 	}
-	private void on_button_hscale_fs_ai_a_pre_clicked (object o, EventArgs args)
+	private void on_button_hscale_ai_a_pre_clicked (object o, EventArgs args)
 	{
 		HScale hs = getHScaleABCD (true);
 		hs.Value -= 1;
 	}
-	private void on_button_hscale_fs_ai_a_post_clicked (object o, EventArgs args)
+	private void on_button_hscale_ai_a_post_clicked (object o, EventArgs args)
 	{
 		HScale hs = getHScaleABCD (true);
 		hs.Value += 1;
 	}
-	private void on_button_hscale_fs_ai_a_last_clicked (object o, EventArgs args)
+	private void on_button_hscale_ai_a_last_clicked (object o, EventArgs args)
 	{
 		AnalyzeInstant sAI = getCorrectAI ();
 		if(sAI == null || sAI.GetLength() < 2)
@@ -501,22 +529,22 @@ public partial class ChronoJumpWindow
 		getHScaleABCD (true).Value = sAI.GetLength() -1;
 	}
 
-	private void on_button_hscale_fs_ai_b_first_clicked (object o, EventArgs args)
+	private void on_button_hscale_ai_b_first_clicked (object o, EventArgs args)
 	{
 		getHScaleABCD (false).Value = 0;
 	}
-	private void on_button_hscale_fs_ai_b_pre_clicked (object o, EventArgs args)
+	private void on_button_hscale_ai_b_pre_clicked (object o, EventArgs args)
 	{
 		HScale hs = getHScaleABCD (false);
 		hs.Value -= 1;
 	}
-	private void on_button_hscale_fs_ai_b_post_clicked (object o, EventArgs args)
+	private void on_button_hscale_ai_b_post_clicked (object o, EventArgs args)
 	{
 		HScale hs = getHScaleABCD (false);
 		hs.Value += 1;
 	}
 
-	private void on_button_hscale_fs_ai_b_last_clicked (object o, EventArgs args)
+	private void on_button_hscale_ai_b_last_clicked (object o, EventArgs args)
 	{
 		AnalyzeInstant sAI = getCorrectAI ();
 		if(sAI == null || sAI.GetLength() < 2)
@@ -525,7 +553,7 @@ public partial class ChronoJumpWindow
 		getHScaleABCD (false).Value = sAI.GetLength() -1;
 	}
 
-	private void on_button_hscale_fs_ai_a_pre_1s_clicked (object o, EventArgs args)
+	private void on_button_hscale_ai_a_pre_1s_clicked (object o, EventArgs args)
 	{
 		AnalyzeInstant sAI = getCorrectAI ();
 		if(sAI == null || sAI.GetLength() == 0)
@@ -538,7 +566,7 @@ public partial class ChronoJumpWindow
 		{
 			if(startAMs - sAI.GetTimeMS(i) >= preferences.forceSensorAnalyzeABSliderIncrement * 1000)
 			{
-				//hscale_fs_ai_a.Value += i - startA; is the sample where condition is done,
+				//hscale_ai_a.Value += i - startA; is the sample where condition is done,
 				//but maybe the sample before that condition is more close to 1s than this
 				if(MathUtil.PassedSampleIsCloserToCriteria (
 						startAMs - sAI.GetTimeMS(i), startAMs - sAI.GetTimeMS(i+1),
@@ -551,7 +579,7 @@ public partial class ChronoJumpWindow
 			}
 		}
 	}
-	private void on_button_hscale_fs_ai_a_post_1s_clicked (object o, EventArgs args)
+	private void on_button_hscale_ai_a_post_1s_clicked (object o, EventArgs args)
 	{
 		AnalyzeInstant sAI = getCorrectAI ();
 		if(sAI == null || sAI.GetLength() == 0)
@@ -564,7 +592,7 @@ public partial class ChronoJumpWindow
 		{
 			if(sAI.GetTimeMS(i) - startAMs >= preferences.forceSensorAnalyzeABSliderIncrement * 1000)
 			{
-				//hscale_fs_ai_a.Value += i - startA;
+				//hscale_ai_a.Value += i - startA;
 				if(MathUtil.PassedSampleIsCloserToCriteria (
 						sAI.GetTimeMS(i) - startAMs, sAI.GetTimeMS(i-1) - startAMs,
 						preferences.forceSensorAnalyzeABSliderIncrement * 1000))
@@ -577,7 +605,7 @@ public partial class ChronoJumpWindow
 		}
 	}
 
-	private void on_button_hscale_fs_ai_b_pre_1s_clicked (object o, EventArgs args)
+	private void on_button_hscale_ai_b_pre_1s_clicked (object o, EventArgs args)
 	{
 		AnalyzeInstant sAI = getCorrectAI ();
 		if(sAI == null || sAI.GetLength() == 0)
@@ -590,7 +618,7 @@ public partial class ChronoJumpWindow
 		{
 			if(startBMs - sAI.GetTimeMS(i) >= preferences.forceSensorAnalyzeABSliderIncrement * 1000)
 			{
-				//hscale_fs_ai_b.Value += i - startB;
+				//hscale_ai_b.Value += i - startB;
 				if(MathUtil.PassedSampleIsCloserToCriteria (
 						startBMs - sAI.GetTimeMS(i), startBMs - sAI.GetTimeMS(i+1),
 						preferences.forceSensorAnalyzeABSliderIncrement * 1000))
@@ -602,7 +630,7 @@ public partial class ChronoJumpWindow
 			}
 		}
 	}
-	private void on_button_hscale_fs_ai_b_post_1s_clicked (object o, EventArgs args)
+	private void on_button_hscale_ai_b_post_1s_clicked (object o, EventArgs args)
 	{
 		AnalyzeInstant sAI = getCorrectAI ();
 		if(sAI == null || sAI.GetLength() == 0)
@@ -615,7 +643,7 @@ public partial class ChronoJumpWindow
 		{
 			if(sAI.GetTimeMS(i) - startBMs >= preferences.forceSensorAnalyzeABSliderIncrement * 1000)
 			{
-				//hscale_fs_ai_b.Value += i - startB;
+				//hscale_ai_b.Value += i - startB;
 				if(MathUtil.PassedSampleIsCloserToCriteria (
 						sAI.GetTimeMS(i) - startBMs, sAI.GetTimeMS(i-1) - startBMs,
 						preferences.forceSensorAnalyzeABSliderIncrement * 1000))
@@ -628,5 +656,34 @@ public partial class ChronoJumpWindow
 		}
 	}
 
+	private void connectWidgetsSignalAnalyze (Gtk.Builder builder)
+	{
+		LogB.Information ("connectWidgetsSignalAnalyze");
+		label_hscale_ai_a_pre_1s = (Gtk.Label) builder.GetObject ("label_hscale_ai_a_pre_1s");
+		label_hscale_ai_a_post_1s = (Gtk.Label) builder.GetObject ("label_hscale_ai_a_post_1s");
+		label_hscale_ai_b_pre_1s = (Gtk.Label) builder.GetObject ("label_hscale_ai_b_pre_1s");
+		label_hscale_ai_b_post_1s = (Gtk.Label) builder.GetObject ("label_hscale_ai_b_post_1s");
+
+		button_hscale_ai_a_first = (Gtk.Button) builder.GetObject ("button_hscale_ai_a_first");
+		button_hscale_ai_a_pre = (Gtk.Button) builder.GetObject ("button_hscale_ai_a_pre");
+		button_hscale_ai_a_pre_1s = (Gtk.Button) builder.GetObject ("button_hscale_ai_a_pre_1s");
+		button_hscale_ai_a_post = (Gtk.Button) builder.GetObject ("button_hscale_ai_a_post");
+		button_hscale_ai_a_post_1s = (Gtk.Button) builder.GetObject ("button_hscale_ai_a_post_1s");
+		button_hscale_ai_a_last = (Gtk.Button) builder.GetObject ("button_hscale_ai_a_last");
+
+		button_hscale_ai_b_first = (Gtk.Button) builder.GetObject ("button_hscale_ai_b_first");
+		button_hscale_ai_b_pre = (Gtk.Button) builder.GetObject ("button_hscale_ai_b_pre");
+		button_hscale_ai_b_pre_1s = (Gtk.Button) builder.GetObject ("button_hscale_ai_b_pre_1s");
+		button_hscale_ai_b_post = (Gtk.Button) builder.GetObject ("button_hscale_ai_b_post");
+		button_hscale_ai_b_post_1s = (Gtk.Button) builder.GetObject ("button_hscale_ai_b_post_1s");
+		button_hscale_ai_b_last = (Gtk.Button) builder.GetObject ("button_hscale_ai_b_last");
+
+		hscale_ai_a = (Gtk.HScale) builder.GetObject ("hscale_ai_a");
+		hscale_ai_b = (Gtk.HScale) builder.GetObject ("hscale_ai_b");
+		hscale_ai_c = (Gtk.HScale) builder.GetObject ("hscale_ai_c");
+		hscale_ai_d = (Gtk.HScale) builder.GetObject ("hscale_ai_d");
+
+		viewport_ai_hscales = (Gtk.Viewport) builder.GetObject ("viewport_ai_hscales");
+	}
 }
 

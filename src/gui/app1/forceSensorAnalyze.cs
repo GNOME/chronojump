@@ -73,10 +73,6 @@ public partial class ChronoJumpWindow
 //	Gtk.HBox hbox_force_sensor_analyze_automatic_options;
 //	Gtk.Notebook notebook_force_analyze_automatic;
 	Gtk.Button button_force_sensor_analyze_options_close_and_analyze;
-	Gtk.Label label_hscale_fs_ai_a_pre_1s;
-	Gtk.Label label_hscale_fs_ai_a_post_1s;
-	Gtk.Label label_hscale_fs_ai_b_pre_1s;
-	Gtk.Label label_hscale_fs_ai_b_post_1s;
 	Gtk.VBox vbox_force_rfd_duration_end;
 	Gtk.Button button_force_sensor_analyze_options;
 	Gtk.HBox hbox_force_1;
@@ -131,19 +127,6 @@ public partial class ChronoJumpWindow
 	Gtk.SpinButton spinbutton_force_3_in_x_ms;
 	Gtk.SpinButton spinbutton_force_4_in_x_ms;
 
-	Gtk.Button button_hscale_fs_ai_a_first;
-	Gtk.Button button_hscale_fs_ai_a_pre;
-	Gtk.Button button_hscale_fs_ai_a_pre_1s;
-	Gtk.Button button_hscale_fs_ai_a_post;
-	Gtk.Button button_hscale_fs_ai_a_post_1s;
-	Gtk.Button button_hscale_fs_ai_a_last;
-
-	Gtk.Button button_hscale_fs_ai_b_first;
-	Gtk.Button button_hscale_fs_ai_b_pre;
-	Gtk.Button button_hscale_fs_ai_b_pre_1s;
-	Gtk.Button button_hscale_fs_ai_b_post;
-	Gtk.Button button_hscale_fs_ai_b_post_1s;
-	Gtk.Button button_hscale_fs_ai_b_last;
 
 	Gtk.Notebook notebook_force_sensor_export;
 	Gtk.Label label_force_sensor_export_person;
@@ -170,7 +153,6 @@ public partial class ChronoJumpWindow
 	Gtk.RadioButton radio_force_sensor_ai_2sets;
 	Gtk.Notebook notebook_force_sensor_ai_load;
 	Gtk.DrawingArea force_sensor_ai_drawingarea_cairo;
-	Gtk.Viewport viewport_force_sensor_analyze_hscales;
 	Gtk.Viewport viewport_radio_force_sensor_ai_ab;
 	Gtk.Viewport viewport_radio_force_sensor_ai_cd;
 	Gtk.RadioButton radio_force_sensor_ai_ab;
@@ -180,10 +162,6 @@ public partial class ChronoJumpWindow
 	Gtk.Box box_force_sensor_ai_c;
 	Gtk.Box box_force_sensor_ai_d;
 	Gtk.Label label_force_sensor_ai_zoom_abcd;
-	Gtk.HScale hscale_fs_ai_a;
-	Gtk.HScale hscale_fs_ai_b;
-	Gtk.HScale hscale_fs_ai_c;
-	Gtk.HScale hscale_fs_ai_d;
 	Gtk.TreeView treeview_force_sensor_ai_AB;
 	Gtk.TreeView treeview_force_sensor_ai_CD;
 	Gtk.TreeView treeview_force_sensor_ai_other;
@@ -662,10 +640,10 @@ public partial class ChronoJumpWindow
 
 	private void setForceSensorAnalyzeABSliderIncrements()
 	{
-		label_hscale_fs_ai_a_pre_1s.Text = string.Format("{0}s", preferences.forceSensorAnalyzeABSliderIncrement);
-		label_hscale_fs_ai_a_post_1s.Text = string.Format("{0}s", preferences.forceSensorAnalyzeABSliderIncrement);
-		label_hscale_fs_ai_b_pre_1s.Text = string.Format("{0}s", preferences.forceSensorAnalyzeABSliderIncrement);
-		label_hscale_fs_ai_b_post_1s.Text = string.Format("{0}s", preferences.forceSensorAnalyzeABSliderIncrement);
+		label_hscale_ai_a_pre_1s.Text = string.Format("{0}s", preferences.forceSensorAnalyzeABSliderIncrement);
+		label_hscale_ai_a_post_1s.Text = string.Format("{0}s", preferences.forceSensorAnalyzeABSliderIncrement);
+		label_hscale_ai_b_pre_1s.Text = string.Format("{0}s", preferences.forceSensorAnalyzeABSliderIncrement);
+		label_hscale_ai_b_post_1s.Text = string.Format("{0}s", preferences.forceSensorAnalyzeABSliderIncrement);
 	}
 	private void setForceSensorAnalyzeMaxAVGInWindow()
 	{
@@ -1020,27 +998,27 @@ public partial class ChronoJumpWindow
 		/*
 		 * position the hscales on the left to avoid loading a csv
 		 * with less data rows than current csv and having scales out of the graph
-		//hscale_fs_ai_a.ValuePos = Gtk.PositionType.Left; //doesn't work
-		//hscale_fs_ai_b.ValuePos = Gtk.PositionType.Left; //doesn't work
+		//hscale_ai_a.ValuePos = Gtk.PositionType.Left; //doesn't work
+		//hscale_ai_b.ValuePos = Gtk.PositionType.Left; //doesn't work
 		*/
-		hscale_fs_ai_a.Value = 0;
-		hscale_fs_ai_b.Value = 0;
-		hscale_fs_ai_c.Value = 0;
-		hscale_fs_ai_d.Value = 0;
+		hscale_ai_a.Value = 0;
+		hscale_ai_b.Value = 0;
+		hscale_ai_c.Value = 0;
+		hscale_ai_d.Value = 0;
 
 		//ranges should have max value the number of the lines of csv file minus the header
 		//this applies to the four hscales
-		hscale_fs_ai_a.SetRange (0, fsAI_AB.GetLength() -1);
-		hscale_fs_ai_b.SetRange (0, fsAI_AB.GetLength() -1);
-		hscale_fs_ai_c.SetRange (0, fsAI_CD.GetLength() -1);
-		hscale_fs_ai_d.SetRange (0, fsAI_CD.GetLength() -1);
+		hscale_ai_a.SetRange (0, fsAI_AB.GetLength() -1);
+		hscale_ai_b.SetRange (0, fsAI_AB.GetLength() -1);
+		hscale_ai_c.SetRange (0, fsAI_CD.GetLength() -1);
+		hscale_ai_d.SetRange (0, fsAI_CD.GetLength() -1);
 		//set them to 0, because if not is set to 1 by a GTK error
-		hscale_fs_ai_a.Value = 0;
-		hscale_fs_ai_b.Value = 0;
-		hscale_fs_ai_c.Value = 0;
-		hscale_fs_ai_d.Value = 0;
+		hscale_ai_a.Value = 0;
+		hscale_ai_b.Value = 0;
+		hscale_ai_c.Value = 0;
+		hscale_ai_d.Value = 0;
 
-		//LogB.Information(string.Format("hscale_fs_ai_time_a,b,ab ranges: 0, {0}", fsAI.GetLength() -1));
+		//LogB.Information(string.Format("hscale_ai_time_a,b,ab ranges: 0, {0}", fsAI.GetLength() -1));
 
 		//on zoom put hscale B at the right
 		if(zoomFrameB >= 0)
@@ -1055,9 +1033,9 @@ public partial class ChronoJumpWindow
 		//to update values
 		LogB.Information ("calling to move hscale from forceSensorPrepareGraphAI ()");
 		if (radio_force_sensor_ai_ab.Active)
-			on_hscale_fs_ai_value_changed (hscale_fs_ai_a, new EventArgs ());
+			on_hscale_ai_value_changed (hscale_ai_a, new EventArgs ());
 		else
-			on_hscale_fs_ai_value_changed (hscale_fs_ai_c, new EventArgs ());
+			on_hscale_ai_value_changed (hscale_ai_c, new EventArgs ());
 
 		manage_force_sensor_ai_table_visibilities();
 	}
@@ -1143,10 +1121,10 @@ public partial class ChronoJumpWindow
 			count ++;
 		}
 
-		int hscaleABSampleStart = Convert.ToInt32 (hscale_fs_ai_a.Value);
-		int hscaleABSampleEnd = Convert.ToInt32 (hscale_fs_ai_b.Value);
-		int hscaleCDSampleStart = Convert.ToInt32 (hscale_fs_ai_c.Value);
-		int hscaleCDSampleEnd = Convert.ToInt32 (hscale_fs_ai_d.Value);
+		int hscaleABSampleStart = Convert.ToInt32 (hscale_ai_a.Value);
+		int hscaleABSampleEnd = Convert.ToInt32 (hscale_ai_b.Value);
+		int hscaleCDSampleStart = Convert.ToInt32 (hscale_ai_c.Value);
+		int hscaleCDSampleEnd = Convert.ToInt32 (hscale_ai_d.Value);
 
 		// no need of copy because this graph is done on load or at end of capture (points_list does not grow in other thread
 		// spCairoFESend is not a copy, is just to choose between zoomed or not
@@ -1241,12 +1219,12 @@ public partial class ChronoJumpWindow
 
 		if (radio_force_sensor_ai_ab.Active)
 		{
-			hscale_fs_ai_a.Value = fsAIRepetitionMouseLimitsCairo.GetSampleStartOfARep (repetition);
-			hscale_fs_ai_b.Value = fsAIRepetitionMouseLimitsCairo.GetSampleEndOfARep (repetition);
+			hscale_ai_a.Value = fsAIRepetitionMouseLimitsCairo.GetSampleStartOfARep (repetition);
+			hscale_ai_b.Value = fsAIRepetitionMouseLimitsCairo.GetSampleEndOfARep (repetition);
 		} else
 		{
-			hscale_fs_ai_c.Value = fsAIRepetitionMouseLimitsCairo.GetSampleStartOfARep (repetition);
-			hscale_fs_ai_d.Value = fsAIRepetitionMouseLimitsCairo.GetSampleEndOfARep (repetition);
+			hscale_ai_c.Value = fsAIRepetitionMouseLimitsCairo.GetSampleStartOfARep (repetition);
+			hscale_ai_d.Value = fsAIRepetitionMouseLimitsCairo.GetSampleEndOfARep (repetition);
 		}
 	}
 
@@ -1282,8 +1260,8 @@ public partial class ChronoJumpWindow
 			// if CD goes beyond AB, convert it to 0
 			if (fsAI_AB != null)
 			{
-				hscale_fs_ai_c.SetRange (0, fsAI_AB.GetLength() -1);
-				hscale_fs_ai_d.SetRange (0, fsAI_AB.GetLength() -1);
+				hscale_ai_c.SetRange (0, fsAI_AB.GetLength() -1);
+				hscale_ai_d.SetRange (0, fsAI_AB.GetLength() -1);
 			}
 		}
 		else //((Gtk.RadioButton) o == radio_force_sensor_ai_2sets)
@@ -1314,7 +1292,7 @@ public partial class ChronoJumpWindow
 			box_force_sensor_ai_c.Visible = false;
 			box_force_sensor_ai_d.Visible = false;
 			label_force_sensor_ai_zoom_abcd.Text = "[A-B]";
-			UtilGtk.ViewportColor (viewport_force_sensor_analyze_hscales, UtilGtk.Colors.YELLOW_LIGHT);
+			UtilGtk.ViewportColor (viewport_ai_hscales, UtilGtk.Colors.YELLOW_LIGHT);
 		}
 		else if ((Gtk.RadioButton) o == radio_force_sensor_ai_cd)
 		{
@@ -1323,7 +1301,7 @@ public partial class ChronoJumpWindow
 			box_force_sensor_ai_c.Visible = true;
 			box_force_sensor_ai_d.Visible = true;
 			label_force_sensor_ai_zoom_abcd.Text = "[C-D]";
-			UtilGtk.ViewportColor (viewport_force_sensor_analyze_hscales, UtilGtk.Colors.GREEN_LIGHT);
+			UtilGtk.ViewportColor (viewport_ai_hscales, UtilGtk.Colors.GREEN_LIGHT);
 		}
 
 		button_force_sensor_analyze_load_ab.Sensitive = (radio_force_sensor_ai_2sets.Active && radio_force_sensor_ai_ab.Active);
@@ -1535,7 +1513,7 @@ public partial class ChronoJumpWindow
 			rfdBDefined = true;
 		}
 
-		/* no need (I think) because it is already on on_hscale_fs_ai_value_changed
+		/* no need (I think) because it is already on on_hscale_ai_value_changed
 		if(rfdADefined)
 			label_force_sensor_ai_rfd_a.Text = rfdA.ToString();
 		else
@@ -1647,15 +1625,15 @@ public partial class ChronoJumpWindow
 	private void on_button_force_sensor_save_AB_file_selected (string selectedFileName)
 	{
 		fsAI_AB.ExportToCSV(
-				getLowestForceSensorScale (hscale_fs_ai_a, hscale_fs_ai_b),
-				getHighestForceSensorScale (hscale_fs_ai_a, hscale_fs_ai_b),
+				getLowestForceSensorScale (hscale_ai_a, hscale_ai_b),
+				getHighestForceSensorScale (hscale_ai_a, hscale_ai_b),
 				selectedFileName, preferences.CSVExportDecimalSeparator);
 	}
 	private void on_button_force_sensor_save_CD_file_selected (string selectedFileName)
 	{
 		fsAI_CD.ExportToCSV(
-				getLowestForceSensorScale (hscale_fs_ai_c, hscale_fs_ai_d),
-				getHighestForceSensorScale (hscale_fs_ai_c, hscale_fs_ai_d),
+				getLowestForceSensorScale (hscale_ai_c, hscale_ai_d),
+				getHighestForceSensorScale (hscale_ai_c, hscale_ai_d),
 				selectedFileName, preferences.CSVExportDecimalSeparator);
 	}
 
@@ -1718,10 +1696,6 @@ public partial class ChronoJumpWindow
 		//	hbox_force_sensor_analyze_automatic_options = (Gtk.HBox) builder.GetObject ("hbox_force_sensor_analyze_automatic_options");
 		//	notebook_force_analyze_automatic = (Gtk.Notebook) builder.GetObject ("notebook_force_analyze_automatic");
 		button_force_sensor_analyze_options_close_and_analyze = (Gtk.Button) builder.GetObject ("button_force_sensor_analyze_options_close_and_analyze");
-		label_hscale_fs_ai_a_pre_1s = (Gtk.Label) builder.GetObject ("label_hscale_fs_ai_a_pre_1s");
-		label_hscale_fs_ai_a_post_1s = (Gtk.Label) builder.GetObject ("label_hscale_fs_ai_a_post_1s");
-		label_hscale_fs_ai_b_pre_1s = (Gtk.Label) builder.GetObject ("label_hscale_fs_ai_b_pre_1s");
-		label_hscale_fs_ai_b_post_1s = (Gtk.Label) builder.GetObject ("label_hscale_fs_ai_b_post_1s");
 		vbox_force_rfd_duration_end = (Gtk.VBox) builder.GetObject ("vbox_force_rfd_duration_end");
 		button_force_sensor_analyze_options = (Gtk.Button) builder.GetObject ("button_force_sensor_analyze_options");
 		hbox_force_1 = (Gtk.HBox) builder.GetObject ("hbox_force_1");
@@ -1776,20 +1750,6 @@ public partial class ChronoJumpWindow
 		spinbutton_force_3_in_x_ms = (Gtk.SpinButton) builder.GetObject ("spinbutton_force_3_in_x_ms");
 		spinbutton_force_4_in_x_ms = (Gtk.SpinButton) builder.GetObject ("spinbutton_force_4_in_x_ms");
 
-		button_hscale_fs_ai_a_first = (Gtk.Button) builder.GetObject ("button_hscale_fs_ai_a_first");
-		button_hscale_fs_ai_a_pre = (Gtk.Button) builder.GetObject ("button_hscale_fs_ai_a_pre");
-		button_hscale_fs_ai_a_pre_1s = (Gtk.Button) builder.GetObject ("button_hscale_fs_ai_a_pre_1s");
-		button_hscale_fs_ai_a_post = (Gtk.Button) builder.GetObject ("button_hscale_fs_ai_a_post");
-		button_hscale_fs_ai_a_post_1s = (Gtk.Button) builder.GetObject ("button_hscale_fs_ai_a_post_1s");
-		button_hscale_fs_ai_a_last = (Gtk.Button) builder.GetObject ("button_hscale_fs_ai_a_last");
-
-		button_hscale_fs_ai_b_first = (Gtk.Button) builder.GetObject ("button_hscale_fs_ai_b_first");
-		button_hscale_fs_ai_b_pre = (Gtk.Button) builder.GetObject ("button_hscale_fs_ai_b_pre");
-		button_hscale_fs_ai_b_pre_1s = (Gtk.Button) builder.GetObject ("button_hscale_fs_ai_b_pre_1s");
-		button_hscale_fs_ai_b_post = (Gtk.Button) builder.GetObject ("button_hscale_fs_ai_b_post");
-		button_hscale_fs_ai_b_post_1s = (Gtk.Button) builder.GetObject ("button_hscale_fs_ai_b_post_1s");
-		button_hscale_fs_ai_b_last = (Gtk.Button) builder.GetObject ("button_hscale_fs_ai_b_last");
-
 		notebook_force_sensor_export = (Gtk.Notebook) builder.GetObject ("notebook_force_sensor_export");
 		label_force_sensor_export_person = (Gtk.Label) builder.GetObject ("label_force_sensor_export_person");
 		label_force_sensor_export_session = (Gtk.Label) builder.GetObject ("label_force_sensor_export_session");
@@ -1815,7 +1775,6 @@ public partial class ChronoJumpWindow
 		image_force_sensor_analyze_show_distance = (Gtk.Image) builder.GetObject ("image_force_sensor_analyze_show_distance");
 		image_force_sensor_analyze_show_speed = (Gtk.Image) builder.GetObject ("image_force_sensor_analyze_show_speed");
 		image_force_sensor_analyze_show_power = (Gtk.Image) builder.GetObject ("image_force_sensor_analyze_show_power");
-		viewport_force_sensor_analyze_hscales = (Gtk.Viewport) builder.GetObject ("viewport_force_sensor_analyze_hscales");
 		viewport_radio_force_sensor_ai_ab = (Gtk.Viewport) builder.GetObject ("viewport_radio_force_sensor_ai_ab");
 		viewport_radio_force_sensor_ai_cd = (Gtk.Viewport) builder.GetObject ("viewport_radio_force_sensor_ai_cd");
 		radio_force_sensor_ai_ab = (Gtk.RadioButton) builder.GetObject ("radio_force_sensor_ai_ab");
@@ -1825,10 +1784,6 @@ public partial class ChronoJumpWindow
 		box_force_sensor_ai_c = (Gtk.Box) builder.GetObject ("box_force_sensor_ai_c");
 		box_force_sensor_ai_d = (Gtk.Box) builder.GetObject ("box_force_sensor_ai_d");
 		label_force_sensor_ai_zoom_abcd = (Gtk.Label) builder.GetObject ("label_force_sensor_ai_zoom_abcd");
-		hscale_fs_ai_a = (Gtk.HScale) builder.GetObject ("hscale_fs_ai_a");
-		hscale_fs_ai_b = (Gtk.HScale) builder.GetObject ("hscale_fs_ai_b");
-		hscale_fs_ai_c = (Gtk.HScale) builder.GetObject ("hscale_fs_ai_c");
-		hscale_fs_ai_d = (Gtk.HScale) builder.GetObject ("hscale_fs_ai_d");
 		treeview_force_sensor_ai_AB = (Gtk.TreeView) builder.GetObject ("treeview_force_sensor_ai_AB");
 		treeview_force_sensor_ai_CD = (Gtk.TreeView) builder.GetObject ("treeview_force_sensor_ai_CD");
 		treeview_force_sensor_ai_other = (Gtk.TreeView) builder.GetObject ("treeview_force_sensor_ai_other");

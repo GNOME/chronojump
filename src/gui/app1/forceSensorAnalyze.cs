@@ -181,6 +181,7 @@ public partial class ChronoJumpWindow
 
 	private RepetitionMouseLimits fsAIRepetitionMouseLimits;
 	private RepetitionMouseLimitsWithSamples fsAIRepetitionMouseLimitsCairo;
+	private List<ForceSensorRepetition> rep_lZoomAppliedCairo;
 
 	private enum notebook_force_sensor_analyze_top_pages { CURRENTSETSIGNAL, CURRENTSETMODEL, CURRENTSESSION, AUTOMATICOPTIONS }
 
@@ -916,7 +917,7 @@ public partial class ChronoJumpWindow
 		Gtk.HScale hsLeft = getHScaleABCD (true);
 		Gtk.HScale hsRight = getHScaleABCD (false);
 
-		if ( FsAiVars.zoomApplied && (
+		if ( AiVars.zoomApplied && (
 				(radio_force_sensor_ai_ab.Active &&
 				Util.IsNumber (tvFS_AB.TimeStart, true) &&
 				Util.IsNumber (tvFS_AB.TimeEnd, true)) ||
@@ -1104,8 +1105,8 @@ public partial class ChronoJumpWindow
 						(count == 1 && radio_force_sensor_ai_2sets.Active && radio_force_sensor_ai_cd.Active) )
 				{
 					reps_l = fsAI.ForceSensorRepetition_l;
-					if(FsAiVars.zoomApplied)
-						reps_l = FsAiVars.rep_lZoomAppliedCairo;
+					if(AiVars.zoomApplied)
+						reps_l = rep_lZoomAppliedCairo;
 				}
 
 				if (fsAI.Briw == null)
@@ -1130,7 +1131,7 @@ public partial class ChronoJumpWindow
 		// spCairoFESend is not a copy, is just to choose between zoomed or not
 		SignalPointsCairoForceElastic spCairoFESend;
 
-		if (FsAiVars.zoomApplied)
+		if (AiVars.zoomApplied)
 			spCairoFESend = spCairoFEZoom;
 		else
 			spCairoFESend = spCairoFE;
@@ -1150,7 +1151,7 @@ public partial class ChronoJumpWindow
 		if (radio_force_sensor_ai_2sets.Active)
 		{
 			spCairoFESend_CD = spCairoFE_CD;
-			if (FsAiVars.zoomApplied)
+			if (AiVars.zoomApplied)
 				spCairoFESend_CD = spCairoFEZoom_CD;
 
 			if (currentForceSensor != null && currentForceSensorExercise != null &&
@@ -1191,7 +1192,7 @@ public partial class ChronoJumpWindow
 				triggerListForceSensor,
 				hscaleABSampleStart, hscaleABSampleEnd,
 				hscaleCDSampleStart, hscaleCDSampleEnd,
-				FsAiVars.zoomApplied,
+				AiVars.zoomApplied,
 				gmaiw_l,
 				currentForceSensorExercise, reps_l,
 				forceRedraw, CairoXY.PlotTypes.LINES);
@@ -1202,7 +1203,7 @@ public partial class ChronoJumpWindow
 		//LogB.Information(string.Format("Mouse X: {0}; Mouse Y: {1}", args.Event.X, args.Event.Y));
 
 		//if zoomed: unzoom and return
-		if(FsAiVars.zoomApplied)
+		if(AiVars.zoomApplied)
 		{
 			check_force_sensor_ai_zoom.Click();
 			return;
@@ -1799,32 +1800,6 @@ public partial class ChronoJumpWindow
 		combo_force_4_type = (Gtk.ComboBoxText) builder.GetObject ("combo_force_4_type");
 		combo_force_impulse_type = (Gtk.ComboBoxText) builder.GetObject ("combo_force_impulse_type");
 	}
-}
-
-/*
- * To have some variables separated on a single class (to make in the future easier to reutilize on RaceAnalyzer)
- * Maybe put more zoom variables here
- */
-public static class FsAiVars
-{
-	public static bool zoomApplied;
-	public static List<ForceSensorRepetition> rep_lZoomAppliedCairo;
-	public static bool hscalesDoNotFollow = false;
-
-	public static int a_beforeZoom = 0;
-	public static int a_atZoom = 0;
-	public static int b_beforeZoom = 0;
-	public static int b_atZoom = 0;
-	public static int c_beforeZoom = 0;
-	public static int c_atZoom = 0;
-	public static int d_beforeZoom = 0;
-	public static int d_atZoom = 0;
-
-	//to know change of slider in order to apply on the other slider if chained
-	public static int a_last = 1;
-	public static int b_last = 1;
-	public static int c_last = 1;
-	public static int d_last = 1;
 }
 
 public abstract class TreeviewFSAbstract

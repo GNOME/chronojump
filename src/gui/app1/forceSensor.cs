@@ -2761,12 +2761,10 @@ LogB.Information(" fs R ");
 		ChronoDebug cDebug = new ChronoDebug ("Butterworth time:");
 		cDebug.Start();
 
-		List<PointF> butterTrajAutomatic_l = new List<PointF> ();
+		//List<PointF> butterTrajAutomatic_l = new List<PointF> ();
 		List<PointF> butterTrajA_l = new List<PointF> ();
-		List<PointF> butterTrajB_l = new List<PointF> ();
-		double trajAutomaticXCutoff = 0;
-		double trajACutoff = 9;
-		double trajBCutoff = 26;
+		//double trajAutomaticXCutoff = 0;
+		double trajACutoff = 15;
 
 		if (spCairoFECopy.Force_l.Count > 0 &&
 				preferences.forceSensorCaptureFeedbackActive ==
@@ -2781,28 +2779,25 @@ LogB.Information(" fs R ");
 				samples.Add (new TimedPoint((float) point.Y, 0, (long) point.X));
 
 			double fps = UtilAll.DivideSafe (pForButter_l.Count, PointF.Last (pForButter_l).X/1000000 - pForButter_l[0].X/1000000);
-			FilteredTrajectory trajAutomatic = new FilteredTrajectory();
+			//FilteredTrajectory trajAutomatic = new FilteredTrajectory();
 			FilteredTrajectory trajA = new FilteredTrajectory();
-			FilteredTrajectory trajB = new FilteredTrajectory();
-			trajAutomatic.Initialize(samples, fps, -1);
-			trajAutomaticXCutoff = trajAutomatic.XCutoff;
+			//trajAutomatic.Initialize(samples, fps, -1);
+			//trajAutomaticXCutoff = trajAutomatic.XCutoff;
 			trajA.Initialize(samples, fps, trajACutoff);
-			trajB.Initialize(samples, fps, trajBCutoff);
 			//LogB.Information (string.Format ("butterworth: samples: {0}, fps: {1}, cutoff: {2}",
 			//			pForButter_l.Count, fps, traj.XCutoffIndex));
 
-			for (int i = 0; i < trajAutomatic.Times.Length; i ++)
+			//for (int i = 0; i < trajAutomatic.Times.Length; i ++)
+			for (int i = 0; i < trajA.Times.Length; i ++)
 			{
 				//the -10, +5 , +10 are to be able to see the diff now as fast debug on screen
 				if (cairoDrawHorizontal)
 				{
-					butterTrajAutomatic_l.Add (new PointF (trajAutomatic.Times[i], trajAutomatic.Xs[i] - 10));
-					butterTrajA_l.Add (new PointF (trajA.Times[i], trajA.Xs[i] + 5));
-					butterTrajB_l.Add (new PointF (trajB.Times[i], trajB.Xs[i] + 10));
+					//butterTrajAutomatic_l.Add (new PointF (trajAutomatic.Times[i], trajAutomatic.Xs[i] - 10));
+					butterTrajA_l.Add (new PointF (trajA.Times[i], trajA.Xs[i]));
 				} else {
-					butterTrajAutomatic_l.Add (new PointF (trajAutomatic.Xs[i] - 10, trajAutomatic.Times[i]));
-					butterTrajA_l.Add (new PointF (trajA.Xs[i] + 5, trajA.Times[i]));
-					butterTrajB_l.Add (new PointF (trajB.Xs[i] + 10, trajB.Times[i]));
+					//butterTrajAutomatic_l.Add (new PointF (trajAutomatic.Xs[i] - 10, trajAutomatic.Times[i]));
+					butterTrajA_l.Add (new PointF (trajA.Xs[i], trajA.Times[i]));
 				}
 			}
 		}
@@ -2812,9 +2807,8 @@ LogB.Information(" fs R ");
 		cairoGraphForceSensorSignal.DoSendingList (
 				preferences.fontType.ToString(),
 				spCairoFECopy,
-				butterTrajAutomatic_l, trajAutomaticXCutoff,
+				//butterTrajAutomatic_l, trajAutomaticXCutoff,
 				butterTrajA_l, trajACutoff,
-				butterTrajB_l, trajBCutoff,
 				check_force_sensor_capture_show_distance.Active,
 				check_force_sensor_capture_show_speed.Active,
 				check_force_sensor_capture_show_power.Active,

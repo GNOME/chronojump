@@ -293,12 +293,10 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 	protected int questionnaireMinY;
 	protected int questionnaireMaxY;
 
-	private List<PointF> butterTrajAutomatic_l;
-	private double butterTrajAutomaticCutoff;
+	//private List<PointF> butterTrajAutomatic_l;
+	//private double butterTrajAutomaticCutoff;
 	private List<PointF> butterTrajA_l;
 	private double butterTrajACutoff;
-	private List<PointF> butterTrajB_l;
-	private double butterTrajBCutoff;
 	private bool showAccuracy;
 	private int accuracySamplesGood;
 	private int accuracySamplesBad;
@@ -329,9 +327,8 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 	//separated in two methods to ensure endGraphDisposing on any return of the other method
 	public void DoSendingList (string font,
 			SignalPointsCairoForceElastic spCairoFE,
-			List<PointF> butterTrajAutomatic_l, double butterTrajAutomaticCutoff,
+			//List<PointF> butterTrajAutomatic_l, double butterTrajAutomaticCutoff,
 			List<PointF> butterTrajA_l, double butterTrajACutoff,
-			List<PointF> butterTrajB_l, double butterTrajBCutoff,
 			bool showDistance, bool showSpeed, bool showPower,
 			List<PointF> points_l_interpolated_path, int interpolatedMin, int interpolatedMax,
 			bool capturing, bool showAccuracy, int showLastSeconds,
@@ -343,12 +340,10 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 			bool forceRedraw, PlotTypes plotType)
 	{
 		this.points_l = spCairoFE.Force_l;
-		this.butterTrajAutomatic_l = butterTrajAutomatic_l;
-		this.butterTrajAutomaticCutoff = butterTrajAutomaticCutoff;
+		//this.butterTrajAutomatic_l = butterTrajAutomatic_l;
+		//this.butterTrajAutomaticCutoff = butterTrajAutomaticCutoff;
 		this.butterTrajA_l = butterTrajA_l;
 		this.butterTrajACutoff = butterTrajACutoff;
-		this.butterTrajB_l = butterTrajB_l;
-		this.butterTrajBCutoff = butterTrajBCutoff;
 		this.capturing = capturing;
 		this.showAccuracy = showAccuracy;
 		this.minDisplayFNegative = minDisplayFNegative;
@@ -558,6 +553,7 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 			if (briw.Error == "")
 				briwPlot (points_l);
 
+			g.SetSourceColor (brown);
 			plotRealPoints(plotType, points_l, startAt, false); //fast (but the difference is very low)
 
 			if(calculatePaintX (xAtMaxY) > leftMargin)
@@ -566,26 +562,21 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 			if(calculatePaintX (xAtMinY) > leftMargin)
 				drawCircle (calculatePaintX (xAtMinY), calculatePaintY (yAtMinY), 8, red, false);
 
-			g.SetSourceColor (green);
+			g.SetSourceColor (black);
+			/*
 			if (butterTrajAutomatic_l != null && butterTrajAutomatic_l.Count > 0)
 			{
 				plotRealPoints(plotType, butterTrajAutomatic_l, startAt, false); //fast (but the difference is very low)
 				printText (graphWidth - rightMargin/2, calculatePaintY (PointF.Last (butterTrajAutomatic_l).Y),
 						0, textHeight +4, Util.TrimDecimals (butterTrajAutomaticCutoff, 2), g, alignTypes.RIGHT);
 			}
+			*/
 			if (butterTrajA_l != null && butterTrajA_l.Count > 0)
 			{
 				plotRealPoints(plotType, butterTrajA_l, startAt, false); //fast (but the difference is very low)
-				printText (graphWidth - rightMargin/2, calculatePaintY (PointF.Last (butterTrajA_l).Y),
-						0, textHeight +4, Util.TrimDecimals (butterTrajACutoff, 2), g, alignTypes.RIGHT);
+				//printText (graphWidth - rightMargin/2, calculatePaintY (PointF.Last (butterTrajA_l).Y),
+				//		0, textHeight +4, Util.TrimDecimals (butterTrajACutoff, 2), g, alignTypes.RIGHT);
 			}
-			if (butterTrajB_l != null && butterTrajB_l.Count > 0)
-			{
-				plotRealPoints(plotType, butterTrajB_l, startAt, false); //fast (but the difference is very low)
-				printText (graphWidth - rightMargin/2, calculatePaintY (PointF.Last (butterTrajB_l).Y),
-						0, textHeight +4, Util.TrimDecimals (butterTrajBCutoff, 2), g, alignTypes.RIGHT);
-			}
-			g.SetSourceColor (black);
 		}
 
 		points_l_painted = points_l.Count;

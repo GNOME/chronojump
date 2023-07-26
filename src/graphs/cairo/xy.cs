@@ -81,9 +81,11 @@ public abstract class CairoXY : CairoGeneric
 	protected double mouseY;
 
 	protected Cairo.Color black;
+	protected Cairo.Color brown;
 	protected Cairo.Color gray99;
-	protected Cairo.Color grayDark;
 	protected Cairo.Color gray;
+	protected Cairo.Color grayClear;
+	protected Cairo.Color grayDark;
 	protected Cairo.Color white;
 	//Cairo.Color blue;
 	protected Cairo.Color bluePlots;
@@ -184,8 +186,10 @@ public abstract class CairoXY : CairoGeneric
 		g.SetFontSize(textHeight);
 
 		black = colorFromRGB(0,0,0);
+		brown = new Cairo.Color (0.588,0.294,0);
 		gray99 = colorFromRGB(99,99,99);
 		gray = new Cairo.Color (.5, .5, .5, 1);
+		grayClear = new Cairo.Color (.66, .66, .66, 1);
 		grayDark = new Cairo.Color (.33, .33, .33, 1);
 		white = new Cairo.Color (1, 1, 1, 1);
 		//blue = colorFromRGB(178, 223, 238); //lightblue

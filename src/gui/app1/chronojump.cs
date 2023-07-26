@@ -638,6 +638,7 @@ public partial class ChronoJumpWindow
 		connectWidgetsJumpsWeightFVProfile (builder);
 		connectWidgetsForceSensor (builder);
 		connectWidgetsForceSensorAnalyze (builder);
+		connectWidgetsSignalAnalyze (builder);
 		connectWidgetsMenu (builder);
 		connectWidgetsMenuTiny (builder);
 		connectWidgetsMultiChronopic (builder);

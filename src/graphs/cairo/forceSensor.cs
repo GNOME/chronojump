@@ -414,12 +414,12 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 			// if vertical do have X in the center (at least at start)
 			if (! horizontal)
 			{
-				if (minX > -50)
-					minX = -50;
-				if (maxX < 50)
-					maxX = 50;
-				if (absoluteMaxX < 50)
-					absoluteMaxX = 50;
+				if (minX > -25)
+					minX = -25;
+				if (maxX < 25)
+					maxX = 25;
+				if (absoluteMaxX < 25)
+					absoluteMaxX = 25;
 			}
 
 			if (questionnaire != null)

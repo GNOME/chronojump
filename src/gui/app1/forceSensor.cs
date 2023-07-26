@@ -2712,8 +2712,8 @@ LogB.Information(" fs R ");
 		}
 
 		//minimum Y display from -50 to 50
-		int minY = -50;
-		int maxY = +50;
+		int minY = 0;
+		int maxY = +25;
 		if (spCairoFECopy.Displ_l != null && spCairoFECopy.Displ_l.Count > 0)
 		{
 			minY = 0;

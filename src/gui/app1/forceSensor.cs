@@ -157,8 +157,8 @@ public partial class ChronoJumpWindow
 
 		createComboForceSensorCaptureOptions();
 		createForceExerciseCombo();
-		UtilGtk.ViewportColor (viewport_radio_force_sensor_ai_ab, UtilGtk.Colors.YELLOW_LIGHT);
-		UtilGtk.ViewportColor (viewport_radio_force_sensor_ai_cd, UtilGtk.Colors.GREEN_LIGHT);
+		UtilGtk.ViewportColor (viewport_radio_ai_ab, UtilGtk.Colors.YELLOW_LIGHT);
+		UtilGtk.ViewportColor (viewport_radio_ai_cd, UtilGtk.Colors.GREEN_LIGHT);
 		UtilGtk.ViewportColor (viewport_ai_hscales, UtilGtk.Colors.YELLOW_LIGHT);
 		createForceAnalyzeCombos();
 		setForceDurationRadios();
@@ -529,9 +529,9 @@ public partial class ChronoJumpWindow
 		currentForceSensor = new ForceSensor();
 
 		//cd cannot be selected until currentForceSensor.UniqueID >= 0
-		radio_force_sensor_ai_ab.Active = true;
-		if (radio_force_sensor_ai_2sets.Active)
-			radio_force_sensor_ai_cd.Sensitive = false;
+		radio_ai_ab.Active = true;
+		if (radio_ai_2sets.Active)
+			radio_ai_cd.Sensitive = false;
 
 		/*
 		 * without this, on change person fsAI graph will blank
@@ -1637,8 +1637,8 @@ LogB.Information(" fs C ");
 					triggerListForceSensor.SQLInsert(currentForceSensor.UniqueID);
 					//showForceSensorTriggers (); TODO until know where to put it
 
-					if (radio_force_sensor_ai_2sets.Active)
-						radio_force_sensor_ai_cd.Sensitive = true;
+					if (radio_ai_2sets.Active)
+						radio_ai_cd.Sensitive = true;
 
 					//stop camera
 					if(webcamEnd (Constants.TestTypes.FORCESENSOR, currentForceSensor.UniqueID))
@@ -2012,7 +2012,7 @@ LogB.Information(" fs R ");
 		}
 
 		// trying on _cd to only update the graph
-		if (radio_force_sensor_ai_2sets.Active && radio_force_sensor_ai_cd.Active)
+		if (radio_ai_2sets.Active && radio_ai_cd.Active)
 		{
 			lastForceSensorFullPath_CD = fs.FullURL;
 			LogB.Information ("lastForceSensorFullPath_CD is: " + lastForceSensorFullPath_CD);
@@ -2040,8 +2040,8 @@ LogB.Information(" fs R ");
 		LogB.Information ("lastForceSensorFullPath is: " + lastForceSensorFullPath);
 		LogB.Information("lastForceSensorFullPath: " + lastForceSensorFullPath);
 
-		if (radio_force_sensor_ai_2sets.Active)
-			radio_force_sensor_ai_cd.Sensitive = true;
+		if (radio_ai_2sets.Active)
+			radio_ai_cd.Sensitive = true;
 
 		combo_force_sensor_exercise.Active = UtilGtk.ComboMakeActive(combo_force_sensor_exercise, fs.ExerciseName);
 		setForceSensorCaptureOptions(fs.CaptureOption);
@@ -2396,7 +2396,7 @@ LogB.Information(" fs R ");
 
 		int sampleA;
 		int sampleB;
-		if (radio_force_sensor_ai_ab.Active)
+		if (radio_ai_ab.Active)
 		{
 			sampleA = Convert.ToInt32(hscale_ai_a.Value);
 			sampleB = Convert.ToInt32(hscale_ai_b.Value);
@@ -2406,7 +2406,7 @@ LogB.Information(" fs R ");
 		}
 		if (AiVars.zoomApplied)
 		{
-			if (radio_force_sensor_ai_ab.Active)
+			if (radio_ai_ab.Active)
 			{
 				sampleA += AiVars.a_beforeZoom;
 				sampleB += AiVars.b_beforeZoom;

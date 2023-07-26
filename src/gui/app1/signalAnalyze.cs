@@ -57,6 +57,15 @@ public partial class ChronoJumpWindow
 	Gtk.HScale hscale_ai_c;
 	Gtk.HScale hscale_ai_d;
 
+	//Gtk.Grid grid_radios_force_sensor_ai;
+	Gtk.RadioButton radio_ai_1set;
+	Gtk.RadioButton radio_ai_2sets;
+	Gtk.Notebook notebook_ai_load;
+	Gtk.Viewport viewport_radio_ai_ab;
+	Gtk.Viewport viewport_radio_ai_cd;
+	Gtk.RadioButton radio_ai_ab;
+	Gtk.RadioButton radio_ai_cd;
+
 	Gtk.Viewport viewport_ai_hscales;
 	// <---- at glade
 
@@ -85,7 +94,7 @@ public partial class ChronoJumpWindow
 			AiVars.c_beforeZoom = Convert.ToInt32 (hscale_ai_c.Value);
 			AiVars.d_beforeZoom = Convert.ToInt32 (hscale_ai_d.Value);
 
-			if (radio_force_sensor_ai_2sets.Active)
+			if (radio_ai_2sets.Active)
 			{
 				// zoomed has to be the same range for ab than cd, to show all data in graph. range is related to what is selected in the ratio
 				int sampleL;
@@ -93,7 +102,7 @@ public partial class ChronoJumpWindow
 
 				if (spCairoFE_CD.TimeShifted) //time has shifted (not as samples, is directly time, so need to find sample that matches that time)
 				{
-					if (radio_force_sensor_ai_ab.Active)
+					if (radio_ai_ab.Active)
 					{
 						// ab data is the hscales data
 						spCairoFEZoom = new SignalPointsCairoForceElastic (spCairoFE,
@@ -130,7 +139,7 @@ public partial class ChronoJumpWindow
 						}
 					}
 				} else {
-					if (radio_force_sensor_ai_ab.Active)
+					if (radio_ai_ab.Active)
 					{
 						sampleL = AiVars.a_beforeZoom;
 						sampleR = AiVars.b_beforeZoom;
@@ -145,7 +154,7 @@ public partial class ChronoJumpWindow
 							sampleL, sampleR, true);
 				}
 			} else {
-				if (radio_force_sensor_ai_ab.Active)
+				if (radio_ai_ab.Active)
 					spCairoFEZoom = new SignalPointsCairoForceElastic (spCairoFE,
 							AiVars.a_beforeZoom, AiVars.b_beforeZoom, true);
 				else
@@ -179,7 +188,7 @@ public partial class ChronoJumpWindow
 		} else {
 			AiVars.zoomApplied = false;
 
-			if (radio_force_sensor_ai_ab.Active)
+			if (radio_ai_ab.Active)
 			{
 				AiVars.a_atZoom = Convert.ToInt32 (hscale_ai_a.Value);
 				AiVars.b_atZoom = Convert.ToInt32 (hscale_ai_b.Value);
@@ -190,7 +199,7 @@ public partial class ChronoJumpWindow
 
 			forceSensorPrepareGraphAI ();
 
-			if (radio_force_sensor_ai_ab.Active)
+			if (radio_ai_ab.Active)
 			{
 				// set hscales a,b to value before + value at zoom (because user maybe changed it on zoom)
 				hscale_ai_a.Value = AiVars.a_beforeZoom +
@@ -219,7 +228,7 @@ public partial class ChronoJumpWindow
 
 	private Gtk.HScale getHScaleABCD (bool left)
 	{
-		if (radio_force_sensor_ai_ab.Active)
+		if (radio_ai_ab.Active)
 		{
 			if (left)
 				return hscale_ai_a;
@@ -237,12 +246,12 @@ public partial class ChronoJumpWindow
 	{
 		if (Constants.ModeIsFORCESENSOR (current_mode))
 		{
-			if (radio_force_sensor_ai_ab.Active)
+			if (radio_ai_ab.Active)
 				return fsAI_AB;
 			else
 				return fsAI_CD;
 		} else { //if (current_mode == Constants.Modes.RUNSENCODER)
-			if (radio_force_sensor_ai_ab.Active)
+			if (radio_ai_ab.Active)
 				return raAI_AB;
 			else
 				return raAI_CD;
@@ -656,6 +665,81 @@ public partial class ChronoJumpWindow
 		}
 	}
 
+	private void on_radio_ai_sets_toggled (object o, EventArgs args)
+	{
+		if (o == null || ! ((Gtk.RadioButton) o).Active)
+			return;
+
+		if ((Gtk.RadioButton) o == radio_ai_1set)
+		{
+			notebook_ai_load.Page = 0;
+			radio_ai_cd.Sensitive = true;
+
+			// if CD goes beyond AB, convert it to 0
+			if (fsAI_AB != null)
+			{
+				hscale_ai_c.SetRange (0, fsAI_AB.GetLength() -1);
+				hscale_ai_d.SetRange (0, fsAI_AB.GetLength() -1);
+			}
+		}
+		else //((Gtk.RadioButton) o == radio_ai_2sets)
+		{
+			notebook_ai_load.Page = 1;
+
+			button_force_sensor_analyze_load_ab.Sensitive = radio_ai_ab.Active;
+			button_force_sensor_analyze_load_cd.Sensitive = radio_ai_cd.Active;
+			button_force_sensor_analyze_move_cd_left.Sensitive = radio_ai_cd.Active;
+			button_force_sensor_analyze_move_cd_right.Sensitive = radio_ai_cd.Active;
+
+			//do not allow to click on cd if two sets (when there is no ab loaded)
+			radio_ai_cd.Sensitive = (currentForceSensor != null && currentForceSensor.UniqueID >= 0);
+		}
+		forceSensorPrepareGraphAI ();
+		force_sensor_ai_drawingarea_cairo.QueueDraw(); //will fire ExposeEvent
+	}
+
+	private void on_radio_ai_abcd_toggled (object o, EventArgs args)
+	{
+		if (o == null || ! ((Gtk.RadioButton) o).Active)
+			return;
+
+		if ((Gtk.RadioButton) o == radio_ai_ab)
+		{
+			box_force_sensor_ai_a.Visible = true;
+			box_force_sensor_ai_b.Visible = true;
+			box_force_sensor_ai_c.Visible = false;
+			box_force_sensor_ai_d.Visible = false;
+			label_force_sensor_ai_zoom_abcd.Text = "[A-B]";
+			UtilGtk.ViewportColor (viewport_ai_hscales, UtilGtk.Colors.YELLOW_LIGHT);
+		}
+		else if ((Gtk.RadioButton) o == radio_ai_cd)
+		{
+			box_force_sensor_ai_a.Visible = false;
+			box_force_sensor_ai_b.Visible = false;
+			box_force_sensor_ai_c.Visible = true;
+			box_force_sensor_ai_d.Visible = true;
+			label_force_sensor_ai_zoom_abcd.Text = "[C-D]";
+			UtilGtk.ViewportColor (viewport_ai_hscales, UtilGtk.Colors.GREEN_LIGHT);
+		}
+
+		button_force_sensor_analyze_load_ab.Sensitive = (radio_ai_2sets.Active && radio_ai_ab.Active);
+		button_force_sensor_analyze_load_cd.Sensitive = (radio_ai_2sets.Active && radio_ai_cd.Active);
+		button_force_sensor_analyze_move_cd_left.Sensitive = (radio_ai_2sets.Active && radio_ai_cd.Active);
+		button_force_sensor_analyze_move_cd_right.Sensitive = (radio_ai_2sets.Active && radio_ai_cd.Active);
+
+		forceSensorAnalyzeGeneralButtonHscaleZoomSensitiveness();
+		force_sensor_ai_drawingarea_cairo.QueueDraw(); //will fire ExposeEvent
+	}
+
+	private void radiosForceSensorAiSensitivity (bool sensitive)
+	{
+		radio_ai_1set.Sensitive = sensitive;
+		radio_ai_2sets.Sensitive = sensitive;
+		radio_ai_ab.Sensitive = sensitive;
+		radio_ai_cd.Sensitive = sensitive;
+		notebook_ai_load.Sensitive = sensitive;
+	}
+
 	private void connectWidgetsSignalAnalyze (Gtk.Builder builder)
 	{
 		LogB.Information ("connectWidgetsSignalAnalyze");
@@ -682,6 +766,15 @@ public partial class ChronoJumpWindow
 		hscale_ai_b = (Gtk.HScale) builder.GetObject ("hscale_ai_b");
 		hscale_ai_c = (Gtk.HScale) builder.GetObject ("hscale_ai_c");
 		hscale_ai_d = (Gtk.HScale) builder.GetObject ("hscale_ai_d");
+
+		//grid_radios_ai = (Gtk.Grid) builder.GetObject ("grid_radios_ai");
+		radio_ai_1set = (Gtk.RadioButton) builder.GetObject ("radio_ai_1set");
+		radio_ai_2sets = (Gtk.RadioButton) builder.GetObject ("radio_ai_2sets");
+		notebook_ai_load = (Gtk.Notebook) builder.GetObject ("notebook_ai_load");
+		viewport_radio_ai_ab = (Gtk.Viewport) builder.GetObject ("viewport_radio_ai_ab");
+		viewport_radio_ai_cd = (Gtk.Viewport) builder.GetObject ("viewport_radio_ai_cd");
+		radio_ai_ab = (Gtk.RadioButton) builder.GetObject ("radio_ai_ab");
+		radio_ai_cd = (Gtk.RadioButton) builder.GetObject ("radio_ai_cd");
 
 		viewport_ai_hscales = (Gtk.Viewport) builder.GetObject ("viewport_ai_hscales");
 	}

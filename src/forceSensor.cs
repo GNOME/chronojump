@@ -1588,7 +1588,55 @@ public class ForceSensorGraph
 	}
 }
 
-public class ForceSensorAnalyzeInstant
+//inherits ForceSensorAnalyzeInstant & RaceAnalyzerAnalyzeInstant
+public abstract class AnalyzeInstant
+{
+	protected List<PointF> p_l;
+
+	/*
+	 * forceSensor variables
+	 */
+
+	public List<ForceSensorRepetition> ForceSensorRepetition_l;
+	//for elastic
+	public bool CalculedElasticPSAP;
+	public List<double> Position_l;
+	public List<double> Speed_l;
+	public List<double> Accel_l;
+	public List<double> Power_l;
+
+	public int GetLength()
+	{
+		return p_l.Count;
+	}
+
+	//gets an instant value
+	public double GetTimeMS(int count)
+	{
+		return p_l[count].X / 1000.0; //microseconds to milliseconds
+	}
+
+	/*
+	 * forceSensor methods
+	 */
+	public virtual double GetForceAtCount (int count)
+	{
+		return 0;
+	}
+	public virtual double CalculateRFD (int countA, int countB)
+	{
+		return 0;
+	}
+}
+
+public class RaceAnalyzerAnalyzeInstant : AnalyzeInstant
+{
+	public RaceAnalyzerAnalyzeInstant ()
+	{
+	}
+}
+
+public class ForceSensorAnalyzeInstant : AnalyzeInstant
 {
 	public double ForceAVG;
 	public double ForceMAX;
@@ -1603,18 +1651,9 @@ public class ForceSensorAnalyzeInstant
 	private GetBestRFDInWindow briw;
 	private VariabilityAndAccuracy vaa;
 
-	//for elastic
-	public bool CalculedElasticPSAP;
-	public List<double> Position_l;
-	public List<double> Speed_l;
-	public List<double> Accel_l;
-	public List<double> Power_l;
-	public List<ForceSensorRepetition> ForceSensorRepetition_l;
-
 	private ForceSensorValues forceSensorValues;
 	private ForceSensorValues forceSensorValuesDispl; //this class can be used for force, displ, or whatever
 
-	private List<PointF> p_l;
 //	private List<PointF> pDist_l;
 
 	private string idStr; //just to identify it
@@ -1783,24 +1822,19 @@ public class ForceSensorAnalyzeInstant
 		}
 	}
 
-	//gets an instant value
-	public double GetTimeMS(int count)
-	{
-		return p_l[count].X / 1000.0; //microseconds to milliseconds
-	}
 	public double GetTimeMicros(int count)
 	{
 		return p_l[count].X; //microseconds to milliseconds
 	}
 
-	public double GetForceAtCount(int count)
+	public override double GetForceAtCount(int count)
 	{
 		return p_l[count].Y;
 	}
 
-	public int GetLength()
+	public override double CalculateRFD (int countA, int countB)
 	{
-		return p_l.Count;
+		return ForceCalcs.GetRFD (p_l, countA, countB);
 	}
 
 	//calculates from a range
@@ -1832,11 +1866,6 @@ public class ForceSensorAnalyzeInstant
 		}
 
 		return true;
-	}
-
-	public double CalculateRFD (int countA, int countB)
-	{
-		return ForceCalcs.GetRFD (p_l, countA, countB);
 	}
 
 	public double CalculateImpulse (int countA, int countB)

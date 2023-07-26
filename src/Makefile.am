@@ -34,6 +34,7 @@ SOURCES = \
 	gui/app1/contactsExercise.cs\
 	gui/app1/forceSensor.cs\
 	gui/app1/forceSensorAnalyze.cs\
+	gui/app1/signalAnalyze.cs\
 	gui/app1/news.cs\
 	gui/app1/graphs/jumpsAsymmetry.cs\
 	gui/app1/graphs/jumpsProfile.cs\

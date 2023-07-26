@@ -2711,7 +2711,7 @@ LogB.Information(" fs R ");
 				triggerListForceSensor_copy.Add (triggerListForceSensor.GetTrigger (i));
 		}
 
-		//minimum Y display from -50 to 50
+		//minimum Y display from 0 to +25
 		int minY = 0;
 		int maxY = +25;
 		if (spCairoFECopy.Displ_l != null && spCairoFECopy.Displ_l.Count > 0)
@@ -2808,7 +2808,7 @@ LogB.Information(" fs R ");
 				preferences.fontType.ToString(),
 				spCairoFECopy,
 				//butterTrajAutomatic_l, trajAutomaticXCutoff,
-				butterTrajA_l, trajACutoff,
+				butterTrajA_l, //trajACutoff,
 				check_force_sensor_capture_show_distance.Active,
 				check_force_sensor_capture_show_speed.Active,
 				check_force_sensor_capture_show_power.Active,

@@ -296,7 +296,7 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 	//private List<PointF> butterTrajAutomatic_l;
 	//private double butterTrajAutomaticCutoff;
 	private List<PointF> butterTrajA_l;
-	private double butterTrajACutoff;
+	//private double butterTrajACutoff;
 	private bool showAccuracy;
 	private int accuracySamplesGood;
 	private int accuracySamplesBad;
@@ -328,7 +328,7 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 	public void DoSendingList (string font,
 			SignalPointsCairoForceElastic spCairoFE,
 			//List<PointF> butterTrajAutomatic_l, double butterTrajAutomaticCutoff,
-			List<PointF> butterTrajA_l, double butterTrajACutoff,
+			List<PointF> butterTrajA_l, //double butterTrajACutoff,
 			bool showDistance, bool showSpeed, bool showPower,
 			List<PointF> points_l_interpolated_path, int interpolatedMin, int interpolatedMax,
 			bool capturing, bool showAccuracy, int showLastSeconds,
@@ -343,7 +343,7 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 		//this.butterTrajAutomatic_l = butterTrajAutomatic_l;
 		//this.butterTrajAutomaticCutoff = butterTrajAutomaticCutoff;
 		this.butterTrajA_l = butterTrajA_l;
-		this.butterTrajACutoff = butterTrajACutoff;
+		//this.butterTrajACutoff = butterTrajACutoff;
 		this.capturing = capturing;
 		this.showAccuracy = showAccuracy;
 		this.minDisplayFNegative = minDisplayFNegative;

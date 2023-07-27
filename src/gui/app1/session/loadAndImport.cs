@@ -150,57 +150,12 @@ public partial class ChronoJumpWindow
 
 		sessionLoadWinSignals = true;
 
-		app1s_createTreeView (app1s_treeview_session_load, app1s_type == app1s_windowType.LOAD_SESSION,
-				app1s_checkbutton_show_data_persons.Active,
-				app1s_checkbutton_show_data_jumps.Active,
-				app1s_checkbutton_show_data_runs.Active,
-				app1s_checkbutton_show_data_isometric.Active,
-				app1s_checkbutton_show_data_elastic.Active,
-				app1s_checkbutton_show_data_weights.Active,
-				app1s_checkbutton_show_data_inertial.Active);/*,
-				app1s_checkbutton_show_data_rt.Active,
-				app1s_checkbutton_show_data_other.Active
-				);*/
-
-		app1s_store = app1s_getStore (true,
-				app1s_checkbutton_show_data_persons.Active,
-				app1s_checkbutton_show_data_jumps.Active,
-				app1s_checkbutton_show_data_runs.Active,
-				app1s_checkbutton_show_data_isometric.Active,
-				app1s_checkbutton_show_data_elastic.Active,
-				app1s_checkbutton_show_data_weights.Active,
-				app1s_checkbutton_show_data_inertial.Active);/*,
-				app1s_checkbutton_show_data_rt.Active,
-				app1s_checkbutton_show_data_other.Active
-				);*/
-
-		app1s_treeview_session_load.Model = app1s_store;
-
-		app1s_fillTreeView (app1s_treeview_session_load, app1s_store,
-				app1s_checkbutton_show_data_persons.Active,
-				app1s_checkbutton_show_data_jumps.Active,
-				app1s_checkbutton_show_data_runs.Active,
-				app1s_checkbutton_show_data_isometric.Active,
-				app1s_checkbutton_show_data_elastic.Active,
-				app1s_checkbutton_show_data_weights.Active,
-				app1s_checkbutton_show_data_inertial.Active);/*,
-				app1s_checkbutton_show_data_rt.Active,
-				app1s_checkbutton_show_data_other.Active
-				);*/
-
-		//at load session (not at import) select current session
-		if (app1s_type == app1s_windowType.LOAD_SESSION &&
-				currentSession != null && currentSession.UniqueID >= 0)
-			app1s_SelectRowByID(currentSession.UniqueID);
-
-		app1s_store.SetSortColumnId(1, Gtk.SortType.Descending); //date
-		app1s_store.ChangeSortColumn();
-
 		app1s_button_load.Sensitive = false;
 		app1s_button_import.Sensitive = false;
 		app1s_entry_search_filter.CanFocus = true;
 		app1s_entry_search_filter.IsFocus = true;
 
+		app1s_treeview_session_load.Selection.Changed -= app1s_onSelectionEntry;
 		app1s_treeview_session_load.Selection.Changed += app1s_onSelectionEntry;
 
 		/**

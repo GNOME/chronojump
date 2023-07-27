@@ -22,10 +22,10 @@ using System;
 using System.IO;
 using Gtk;
 //using Glade;
-using GLib; //for Value
 using System.Text; //StringBuilder
 using System.Collections.Generic; //List<T>
 using System.Collections; //ArrayList
+using System.Threading;
 using Mono.Unix;
 
 //here using app1s_ , "s" means session
@@ -462,6 +462,7 @@ public partial class ChronoJumpWindow
 	void app1s_recreateTreeView(string message)
 	{
 		LogB.Information("Recreate treeview: " + message);
+		app1s_table_select.Sensitive = false;
 
 		UtilGtk.RemoveColumns(app1s_treeview_session_load);
 		
@@ -490,45 +491,32 @@ public partial class ChronoJumpWindow
 				app1s_checkbutton_show_data_other.Active
 				);*/
 		app1s_treeview_session_load.Model = app1s_store;
-		app1s_fillTreeView (app1s_treeview_session_load, app1s_store,
-				app1s_checkbutton_show_data_persons.Active,
-				app1s_checkbutton_show_data_jumps.Active,
-				app1s_checkbutton_show_data_runs.Active,
-				app1s_checkbutton_show_data_isometric.Active,
-				app1s_checkbutton_show_data_elastic.Active,
-				app1s_checkbutton_show_data_weights.Active,
-				app1s_checkbutton_show_data_inertial.Active);/*,
-				app1s_checkbutton_show_data_rt.Active,
-				app1s_checkbutton_show_data_other.Active
-				);*/
-
-		//at load session (not at import) select current session
-		if (app1s_type == app1s_windowType.LOAD_SESSION &&
-				currentSession != null && currentSession.UniqueID >= 0)
-			app1s_SelectRowByID(currentSession.UniqueID);
-
-		app1s_store.SetSortColumnId(1, Gtk.SortType.Descending); //date
-		app1s_store.ChangeSortColumn();
-
-
-		/*
-		 * after clicking on checkbuttons, treeview row gets unselected
-		 * call onSelectionEntry to see if there's a row selected
-		 * and it will sensitive on/off button_accept as needed
-		 */
-		app1s_onSelectionEntry (app1s_treeview_session_load.Selection, new EventArgs ());
+		app1s_fillTreeView ();
 	}
 
-	private void app1s_fillTreeView (Gtk.TreeView tv, TreeStore store, bool showPersons,
-			bool showJumps, bool showRuns, bool showIsometric, bool showElastic,
-			bool showWeights, bool showInertial)//, bool showRT, bool showOther)
+	private Thread sessionTestCountThread;
+	private static List<SessionTestsCount> sessionTestsCount_l;
+	private string app1s_filterName;
+
+	private void app1s_fillTreeView ()
 	{
 		sensorViewportVisibility ();
 
-		string filterName = "";
+		app1s_filterName = "";
 		if(app1s_entry_search_filter.Text.ToString().Length > 0)
-			filterName = app1s_entry_search_filter.Text.ToString();
+			app1s_filterName = app1s_entry_search_filter.Text.ToString();
 
+		SqliteSession.TestsProgressReset ();
+		sessionTestCountThread = new Thread (new ThreadStart (sessionTestsCountDo));
+		GLib.Idle.Add (new GLib.IdleHandler (pulseGTKSessionTestsCount));
+
+		LogB.ThreadStart();
+		sessionTestCountThread.Start ();
+	}
+
+	//long process, done in thread
+	private void sessionTestsCountDo ()
+	{
 		SqliteSessionSwitcher.DatabaseType databaseType;
 		if (app1s_type == app1s_windowType.LOAD_SESSION) {
 			databaseType = SqliteSessionSwitcher.DatabaseType.DEFAULT;
@@ -537,7 +525,34 @@ public partial class ChronoJumpWindow
 		}
 		SqliteSessionSwitcher sessionSwitcher = new SqliteSessionSwitcher (databaseType, app1s_import_file_path);
 		
-		List<SessionTestsCount> stc_l = sessionSwitcher.SelectAllSessionsTestsCount (filterName); //returns a string of values separated by ':'
+		sessionTestsCount_l = sessionSwitcher.SelectAllSessionsTestsCount (app1s_filterName); //returns a string of values separated by ':'
+	}
+
+	private bool pulseGTKSessionTestsCount ()
+	{
+		if (! sessionTestCountThread.IsAlive)
+		{
+			app1s_progressbar_treeview_session_load.Fraction = 1;
+			app1s_fillTreeViewCont ();
+
+                        return false;
+		}
+
+		app1s_progressbar_treeview_session_load.Fraction = SqliteSession.TestsProgressGet ();
+
+		Thread.Sleep (50);
+		return true;
+	}
+
+	private void app1s_fillTreeViewCont ()
+	{
+		bool showPersons = app1s_checkbutton_show_data_persons.Active;
+		bool showJumps = app1s_checkbutton_show_data_jumps.Active;
+		bool showRuns = app1s_checkbutton_show_data_runs.Active;
+		bool showIsometric = app1s_checkbutton_show_data_isometric.Active;
+		bool showElastic = app1s_checkbutton_show_data_elastic.Active;
+		bool showWeights = app1s_checkbutton_show_data_weights.Active;
+		bool showInertial = app1s_checkbutton_show_data_inertial.Active;
 
 		//new 2.0 code
 		int columns = 6;
@@ -570,8 +585,9 @@ public partial class ChronoJumpWindow
 			columns ++;
 		}
 
-		foreach (SessionTestsCount stc in stc_l)
+		foreach (SessionTestsCount stc in sessionTestsCount_l)
 		{
+			LogB.Information ("sessionTestsCount_l.Count", sessionTestsCount_l.Count);
 			if (discardSessionBySensorFilter (stc,
 						showJumps, showRuns, showIsometric, showElastic,
 						showWeights, showInertial))
@@ -658,8 +674,24 @@ public partial class ChronoJumpWindow
 			strings[i ++] = stc.sessionParams.Description;
 
 			app1s_store.AppendValues (strings);
-		}	
+		}
 
+		//at load session (not at import) select current session
+		if (app1s_type == app1s_windowType.LOAD_SESSION &&
+				currentSession != null && currentSession.UniqueID >= 0)
+			app1s_SelectRowByID(currentSession.UniqueID);
+
+		app1s_store.SetSortColumnId(1, Gtk.SortType.Descending); //date
+		app1s_store.ChangeSortColumn();
+
+
+		/*
+		 * after clicking on checkbuttons, treeview row gets unselected
+		 * call onSelectionEntry to see if there's a row selected
+		 * and it will sensitive on/off button_accept as needed
+		 */
+		app1s_onSelectionEntry (app1s_treeview_session_load.Selection, new EventArgs ());
+		app1s_table_select.Sensitive = true;
 	}
 
 	/* unused right now

@@ -387,6 +387,19 @@ class SqliteSession : Sqlite
 		return selectAllSessionsTestsCountDo (filterName, -1, dbcon); //-1 for allTests, contrary to person show all events use
 	}
 
+	private static double testsProgress;
+	private static int testsAll = 15;
+
+	public static void TestsProgressReset ()
+	{
+		testsProgress = 0;
+	}
+	public static double TestsProgressGet ()
+	{
+		return UtilAll.DivideSafeFraction (testsProgress, testsAll);
+	}
+
+
 	// This is the usual chronojump's call (default database)
 	public static List<SessionTestsCount> SelectAllSessionsTestsCount (string filterName)
 	{
@@ -421,6 +434,7 @@ class SqliteSession : Sqlite
 		// to connect to the database. This method is used by the importer after opening an arbitrary
 		// ChronoJump sqlite database. It needs to be refactored to the new database system.
 
+		testsProgress = 0;
 		dbcmd = dbcon.CreateCommand();
 
 		string filterNameString = "";
@@ -449,6 +463,7 @@ class SqliteSession : Sqlite
 
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
+		testsProgress = 1;
 
 		SqliteDataReader reader;
 		reader = dbcmd.ExecuteReader();
@@ -474,6 +489,7 @@ class SqliteSession : Sqlite
 		}
 
 		reader.Close();
+		testsProgress = 2;
 
 		/* FIXME:
 		 * all this thing it's because if someone has createds sessions without jumps or jumpers,
@@ -508,6 +524,7 @@ class SqliteSession : Sqlite
 			myArray_persons.Add (reader_persons[0].ToString() + ":" + reader_persons[1].ToString() + ":" );
 		}
 		reader_persons.Close();
+		testsProgress = 3;
 
 		//select jumps of each session
 		dbcmd.CommandText = "SELECT sessionID, count(*) FROM " + Constants.JumpTable + 
@@ -524,6 +541,7 @@ class SqliteSession : Sqlite
 			myArray_jumps.Add (reader_jumps[0].ToString() + ":" + reader_jumps[1].ToString() + ":" );
 		}
 		reader_jumps.Close();
+		testsProgress = 4;
 
 		//select jumpsRj of each session
 		dbcmd.CommandText = "SELECT sessionID, count(*) FROM " + Constants.JumpRjTable + 
@@ -540,6 +558,7 @@ class SqliteSession : Sqlite
 			myArray_jumpsRj.Add (reader_jumpsRj[0].ToString() + ":" + reader_jumpsRj[1].ToString() + ":" );
 		}
 		reader_jumpsRj.Close();
+		testsProgress = 5;
 
 		//select runs of each session
 		dbcmd.CommandText = "SELECT sessionID, count(*) FROM " + Constants.RunTable + 
@@ -556,6 +575,7 @@ class SqliteSession : Sqlite
 			myArray_runs.Add (reader_runs[0].ToString() + ":" + reader_runs[1].ToString() + ":" );
 		}
 		reader_runs.Close();
+		testsProgress = 6;
 
 		//select runsInterval of each session
 		dbcmd.CommandText = "SELECT sessionID, count(*) FROM " + Constants.RunIntervalTable + 
@@ -572,6 +592,7 @@ class SqliteSession : Sqlite
 			myArray_runs_interval.Add (reader_runs_interval[0].ToString() + ":" + reader_runs_interval[1].ToString() + ":" );
 		}
 		reader_runs_interval.Close();
+		testsProgress = 7;
 
 		//select reaction time of each session
 		dbcmd.CommandText = "SELECT sessionID, count(*) FROM " + Constants.ReactionTimeTable + 
@@ -588,6 +609,7 @@ class SqliteSession : Sqlite
 			myArray_rt.Add (reader_rt[0].ToString() + ":" + reader_rt[1].ToString() + ":" );
 		}
 		reader_rt.Close();
+		testsProgress = 8;
 
 		//select pulses of each session
 		dbcmd.CommandText = "SELECT sessionID, count(*) FROM " + Constants.PulseTable + 
@@ -604,6 +626,7 @@ class SqliteSession : Sqlite
 			myArray_pulses.Add (reader_pulses[0].ToString() + ":" + reader_pulses[1].ToString() + ":" );
 		}
 		reader_pulses.Close();
+		testsProgress = 9;
 
 		//select multichronopic of each session
 		dbcmd.CommandText = "SELECT sessionID, count(*) FROM " + Constants.MultiChronopicTable + 
@@ -620,16 +643,27 @@ class SqliteSession : Sqlite
 			myArray_mcs.Add (reader_mcs[0].ToString() + ":" + reader_mcs[1].ToString() + ":" );
 		}
 		reader_mcs.Close();
-
+		testsProgress = 10;
 
 		//select encoder stuff of each session
+		// 1st need to know the count to update the progressbar
+		dbcmd.CommandText = "SELECT COUNT (*) FROM " + Constants.EncoderTable +
+			wherePersonStr + " ORDER BY sessionID";
+		LogB.SQL(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+		SqliteDataReader reader_enc = dbcmd.ExecuteReader();
+		int testsProgressSubCount = 0;
+		if (reader_enc.Read())
+			testsProgressSubCount = Convert.ToInt32 (reader_enc[0].ToString());
+		reader_enc.Close();
+
+		// now the actual select
 		dbcmd.CommandText = "SELECT sessionID, encoderConfiguration, signalOrCurve FROM " + Constants.EncoderTable +
-			wherePersonStr +
-			" ORDER BY sessionID";
+			wherePersonStr + " ORDER BY sessionID";
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
-		SqliteDataReader reader_enc = dbcmd.ExecuteReader();
+		reader_enc = dbcmd.ExecuteReader();
 		ArrayList myArray_enc_g_s = new ArrayList(2); //gravitatory sets
 		ArrayList myArray_enc_g_r = new ArrayList(2); //gravitatory repetitions
 		ArrayList myArray_enc_i_s = new ArrayList(2); //inertial sets
@@ -641,6 +675,7 @@ class SqliteSession : Sqlite
 		int count_i_r = 0;
 		int sessionBefore = -1;
 		int sessionNow = -1;
+
 		while(reader_enc.Read()) 
 		{
 			//get econf to separate gravitatory and inertial
@@ -673,6 +708,9 @@ class SqliteSession : Sqlite
 				else
 					count_i_r ++;
 			}
+
+			if (testsProgressSubCount > 0)
+				testsProgress += (1.0 / testsProgressSubCount);
 		}
 		myArray_enc_g_s.Add (sessionBefore.ToString() + ":" + count_g_s.ToString() + ":" );
 		myArray_enc_g_r.Add (sessionBefore.ToString() + ":" + count_g_r.ToString() + ":" );
@@ -680,6 +718,7 @@ class SqliteSession : Sqlite
 		myArray_enc_i_r.Add (sessionBefore.ToString() + ":" + count_i_r.ToString() + ":" );
 
 		reader_enc.Close();
+		testsProgress = 11;
 
 		//select force sensor isometric of each session
 		ArrayList myArray_fs_isometric = new ArrayList(2);
@@ -702,6 +741,7 @@ class SqliteSession : Sqlite
 			}
 			reader_fs_isometric.Close();
 		}
+		testsProgress = 12;
 
 		//select force sensor elastic of each session
 		ArrayList myArray_fs_elastic = new ArrayList(2);
@@ -724,6 +764,7 @@ class SqliteSession : Sqlite
 			}
 			reader_fs_elastic.Close();
 		}
+		testsProgress = 13;
 
 		//select run encoder of each session
 		ArrayList myArray_re = new ArrayList(2);
@@ -745,6 +786,7 @@ class SqliteSession : Sqlite
 			}
 			reader_re.Close();
 		}
+		testsProgress = 14;
 
 		//mix all arrayLists
 		List<SessionTestsCount> stc_l = new List<SessionTestsCount> ();
@@ -778,6 +820,7 @@ class SqliteSession : Sqlite
 			//mySessions [count++] = lineNotReadOnly;
 			stc_l.Add (stc);
 		}
+		testsProgress = 15;
 
 		return stc_l;
 	}

@@ -22903,6 +22903,12 @@ Concentric</property>
                                                             <child>
                                                             <placeholder/>
                                                             </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
                                                             </object>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -41359,7 +41365,7 @@ then click this button.</property>
                                                             <property name="border-width">12</property>
                                                             <property name="spacing">12</property>
                                                             <child>
-                                                            <object class="GtkTable" id="table4">
+                                                            <object class="GtkTable" id="app1s_table_select">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
                                                             <property name="n-rows">2</property>
@@ -41931,16 +41937,20 @@ then click this button.</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <object class="GtkLabel" id="app1s_file_path_import">
+                                                            <object class="GtkBox">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
-                                                            <property name="ellipsize">middle</property>
-                                                            <property name="max-width-chars">60</property>
+                                                            <property name="orientation">vertical</property>
+                                                            <property name="spacing">4</property>
+                                                            <child>
+                                                            <object class="GtkProgressBar" id="app1s_progressbar_treeview_session_load">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
                                                             </object>
                                                             <packing>
                                                             <property name="expand">False</property>
-                                                            <property name="fill">True</property>
-                                                            <property name="position">1</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">0</property>
                                                             </packing>
                                                             </child>
                                                             <child>
@@ -41953,14 +41963,31 @@ then click this button.</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="enable-search">False</property>
                                                             <signal name="row-activated" handler="app1s_on_row_double_clicked" swapped="no"/>
-                                                            <child internal-child="selection">
-                                                            <object class="GtkTreeSelection"/>
-                                                            </child>
                                                             </object>
                                                             </child>
                                                             </object>
                                                             <packing>
                                                             <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkLabel" id="app1s_file_path_import">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="ellipsize">middle</property>
+                                                            <property name="max-width-chars">60</property>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
                                                             <property name="fill">True</property>
                                                             <property name="position">2</property>
                                                             </packing>

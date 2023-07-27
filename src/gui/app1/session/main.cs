@@ -49,7 +49,9 @@ public partial class ChronoJumpWindow
 	Gtk.EventBox app1s_eventbox_button_cancel1;
 
 	//notebook tab 2
+	Gtk.Table app1s_table_select;
 	Gtk.TreeView app1s_treeview_session_load;
+	Gtk.ProgressBar app1s_progressbar_treeview_session_load;
 	Gtk.Button app1s_button_edit;
 	Gtk.Button app1s_button_delete;
 	Gtk.Button app1s_button_load;
@@ -401,7 +403,9 @@ public partial class ChronoJumpWindow
 		app1s_eventbox_button_cancel1 = (Gtk.EventBox) builder.GetObject ("app1s_eventbox_button_cancel1");
 
 		//notebook tab 2
+		app1s_table_select = (Gtk.Table) builder.GetObject ("app1s_table_select");
 		app1s_treeview_session_load = (Gtk.TreeView) builder.GetObject ("app1s_treeview_session_load");
+		app1s_progressbar_treeview_session_load = (Gtk.ProgressBar) builder.GetObject ("app1s_progressbar_treeview_session_load");
 		app1s_button_edit = (Gtk.Button) builder.GetObject ("app1s_button_edit");
 		app1s_button_delete = (Gtk.Button) builder.GetObject ("app1s_button_delete");
 		app1s_button_load = (Gtk.Button) builder.GetObject ("app1s_button_load");

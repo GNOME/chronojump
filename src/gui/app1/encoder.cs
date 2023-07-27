@@ -2017,6 +2017,8 @@ public partial class ChronoJumpWindow
 		
 			radio_encoder_analyze_individual_current_set.Active = true;
 		}
+		else
+			sensitiveGuiEventDone ();
 	}
 
 	protected void on_encoder_load_signal_row_play (object o, EventArgs args)

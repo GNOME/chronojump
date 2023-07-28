@@ -547,7 +547,7 @@ public partial class ChronoJumpWindow
 		textview_contacts_signal_comment.Buffer.Text = "";
 		hbox_force_general_analysis.Sensitive = false;
 		button_force_sensor_analyze_options_close_and_analyze.Sensitive = false;
-		button_force_sensor_analyze_analyze.Sensitive = false;
+		button_force_sensor_analyze_model.Sensitive = false;
 		button_delete_last_test.Sensitive = false;
 
 		// if on RFD model graph shown, go back to signal
@@ -1081,7 +1081,7 @@ public partial class ChronoJumpWindow
 		event_execute_button_cancel.Sensitive = true;
 		fullscreen_button_fullscreen_contacts.Sensitive = true;
 		button_force_sensor_image_save_signal.Sensitive = false;
-		button_force_sensor_analyze_analyze.Sensitive = false;
+		button_force_sensor_analyze_model.Sensitive = false;
 		forceCaptureStartMark = false;
 		forceTooBigMark = false;
 		forceTooBigValue = 0;
@@ -1671,7 +1671,7 @@ LogB.Information(" fs C ");
 					button_force_sensor_image_save_signal.Sensitive = true;
 					hbox_force_general_analysis.Sensitive = true;
 					button_force_sensor_analyze_options_close_and_analyze.Sensitive = true;
-					button_force_sensor_analyze_analyze.Sensitive = true;
+					button_force_sensor_analyze_model.Sensitive = true;
 
 					if( configChronojump.Exhibition &&
 							( configChronojump.ExhibitionStationType == ExhibitionTest.testTypes.FORCE_ROPE ||
@@ -1708,7 +1708,7 @@ LogB.Information(" fs C ");
 				}
 
 				button_force_sensor_image_save_signal.Sensitive = false;
-				button_force_sensor_analyze_analyze.Sensitive = false;
+				button_force_sensor_analyze_model.Sensitive = false;
 				button_force_sensor_image_save_rfd_auto.Sensitive = false;
 				button_force_sensor_image_save_rfd_manual.Sensitive = false;
 				button_contacts_exercise_close_and_recalculate.Sensitive = false;
@@ -2837,7 +2837,7 @@ LogB.Information(" fs R ");
 		{
 			//LogB.Information ("updateForceSensorCaptureSignalCairo 6");
 			button_force_sensor_image_save_signal.Sensitive = true;
-			button_force_sensor_analyze_analyze.Sensitive = true;
+			button_force_sensor_analyze_model.Sensitive = true;
 		}
 	}
 
@@ -2851,7 +2851,7 @@ LogB.Information(" fs R ");
 		label_force_sensor_value_best_second.Text = string.Format("{0:0.##}", forceSensorValues.BestSecond);
 		label_force_sensor_value_best_second.Text = string.Format("{0:0.##}", forceSensorValues.BestRFD);
 		button_force_sensor_image_save_signal.Sensitive = true;
-		button_force_sensor_analyze_analyze.Sensitive = true;
+		button_force_sensor_analyze_model.Sensitive = true;
 	}
 
 	static List<PointF> paintPointsInterpolateCairo_l;

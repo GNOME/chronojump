@@ -48,7 +48,7 @@ public partial class ChronoJumpWindow
 	Gtk.Button button_force_sensor_analyze_load_cd;
 	Gtk.Button button_force_sensor_analyze_move_cd_left;
 	Gtk.Button button_force_sensor_analyze_move_cd_right;
-	Gtk.Button button_force_sensor_analyze_analyze;
+	Gtk.Button button_force_sensor_analyze_model;
 	Gtk.Label label_force_sensor_analyze;
 	Gtk.Image image_force_sensor_graph;
 	Gtk.Viewport viewport_force_sensor_graph;
@@ -183,7 +183,7 @@ public partial class ChronoJumpWindow
 	 * analyze options -------------------------->
 	 */
 
-	private bool button_force_sensor_analyze_analyze_was_sensitive; //needed this temp variable
+	private bool button_force_sensor_analyze_model_was_sensitive; //needed this temp variable
 	private void forceSensorAnalyzeOptionsSensitivity(bool s) //s for sensitive. When show options frame is ! s
 	{
 		button_force_sensor_analyze_options.Sensitive = s;
@@ -193,10 +193,10 @@ public partial class ChronoJumpWindow
 		button_force_sensor_analyze_move_cd_right.Sensitive = s;
 
 		if(s)
-			button_force_sensor_analyze_analyze.Sensitive = button_force_sensor_analyze_analyze_was_sensitive;
+			button_force_sensor_analyze_model.Sensitive = button_force_sensor_analyze_model_was_sensitive;
 		else {
-			button_force_sensor_analyze_analyze_was_sensitive = button_force_sensor_analyze_analyze.Sensitive;
-			button_force_sensor_analyze_analyze.Sensitive = false;
+			button_force_sensor_analyze_model_was_sensitive = button_force_sensor_analyze_model.Sensitive;
+			button_force_sensor_analyze_model.Sensitive = false;
 		}
 
 		menus_and_mode_sensitive(s);
@@ -285,10 +285,10 @@ public partial class ChronoJumpWindow
 	private void on_button_force_sensor_analyze_options_close_and_analyze_clicked (object o, EventArgs args)
 	{
 		on_button_force_sensor_analyze_options_close_clicked (o, args);
-		on_button_force_sensor_analyze_analyze_clicked (o, args);
+		on_button_force_sensor_analyze_model_clicked (o, args);
 	}
 
-	private void on_button_force_sensor_analyze_analyze_clicked (object o, EventArgs args)
+	private void on_button_force_sensor_analyze_model_clicked (object o, EventArgs args)
 	{
 		notebook_force_sensor_analyze_top.CurrentPage = Convert.ToInt32(notebook_force_sensor_analyze_top_pages.CURRENTSETMODEL);
 
@@ -1564,7 +1564,7 @@ public partial class ChronoJumpWindow
 		button_force_sensor_analyze_load_cd = (Gtk.Button) builder.GetObject ("button_force_sensor_analyze_load_cd");
 		button_force_sensor_analyze_move_cd_left = (Gtk.Button) builder.GetObject ("button_force_sensor_analyze_move_cd_left");
 		button_force_sensor_analyze_move_cd_right = (Gtk.Button) builder.GetObject ("button_force_sensor_analyze_move_cd_right");
-		button_force_sensor_analyze_analyze = (Gtk.Button) builder.GetObject ("button_force_sensor_analyze_analyze");
+		button_force_sensor_analyze_model = (Gtk.Button) builder.GetObject ("button_force_sensor_analyze_model");
 		label_force_sensor_analyze = (Gtk.Label) builder.GetObject ("label_force_sensor_analyze");
 		image_force_sensor_graph = (Gtk.Image) builder.GetObject ("image_force_sensor_graph");
 		viewport_force_sensor_graph = (Gtk.Viewport) builder.GetObject ("viewport_force_sensor_graph");

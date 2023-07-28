@@ -2552,10 +2552,16 @@ RunEncoderCaptureGetSpeedAndDisplacementTest recgsdt = new RunEncoderCaptureGetS
 			timeAtEnoughAccelMark = reCGSD.TimeAtEnoughAccelMark; //to show mark at capture
 		}
 
+		Gtk.DrawingArea da;
+		if (notebook_capture_analyze.CurrentPage == 0)
+			da = drawingarea_race_analyzer_capture_speed_time;
+		else
+			da = ai_drawingarea_cairo;
+
 		if(cairoGraphRaceAnalyzer_st == null || forceRedraw)
 			cairoGraphRaceAnalyzer_st = new CairoGraphRaceAnalyzer(
 					(currentRunEncoder != null && currentRunEncoder.UniqueID >= 0 && (runEncoderCaptureThread == null || ! runEncoderCaptureThread.IsAlive)),
-					drawingarea_race_analyzer_capture_speed_time, "title",
+					da, "title",
 					Catalog.GetString("Speed"), "m/s",
 					isSprint, true,
 					segmentCalcs,

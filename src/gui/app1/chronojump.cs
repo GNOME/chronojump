@@ -4238,12 +4238,12 @@ public partial class ChronoJumpWindow
 			blankForceSensorInterface();
 			if (m == Constants.Modes.FORCESENSORISOMETRIC)
 			{
-				tvFS_AB = new TreeviewFSAnalyze (treeview_force_sensor_ai_AB, "A", "B");
-				tvFS_CD = new TreeviewFSAnalyze (treeview_force_sensor_ai_CD, "C", "D");
+				tvFS_AB = new TreeviewFSAnalyze (treeview_ai_AB, "A", "B");
+				tvFS_CD = new TreeviewFSAnalyze (treeview_ai_CD, "C", "D");
 			} else //if (m == Constants.Modes.FORCESENSORELASTIC)
 			{
-				tvFS_AB = new TreeviewFSAnalyzeElastic (treeview_force_sensor_ai_AB, "A", "B");
-				tvFS_CD = new TreeviewFSAnalyzeElastic (treeview_force_sensor_ai_CD, "C", "D");
+				tvFS_AB = new TreeviewFSAnalyzeElastic (treeview_ai_AB, "A", "B");
+				tvFS_CD = new TreeviewFSAnalyzeElastic (treeview_ai_CD, "C", "D");
 			}
 			tvFS_other = new TreeviewFSAnalyzeOther (treeview_force_sensor_ai_other);
 
@@ -4333,6 +4333,8 @@ public partial class ChronoJumpWindow
 			hbox_combo_select_contacts_top_with_arrows.Visible = true; //this will be unneded
 
 			signalAnalyzeButtonsVisibility ();
+			tvRA_AB = new TreeviewRAAnalyze (treeview_ai_AB, "A", "B");
+			tvRA_CD = new TreeviewRAAnalyze (treeview_ai_CD, "C", "D");
 		}
 		else if(m == Constants.Modes.RT)
 		{

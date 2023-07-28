@@ -546,7 +546,7 @@ public partial class ChronoJumpWindow
 		button_contacts_exercise_close_and_recalculate.Sensitive = false;
 		textview_contacts_signal_comment.Buffer.Text = "";
 		hbox_force_general_analysis.Sensitive = false;
-		button_force_sensor_analyze_options_close_and_analyze.Sensitive = false;
+		button_ai_model_options_close_and_analyze.Sensitive = false;
 		button_force_sensor_analyze_model.Sensitive = false;
 		button_delete_last_test.Sensitive = false;
 
@@ -1670,7 +1670,7 @@ LogB.Information(" fs C ");
 					button_delete_last_test.Sensitive = true;
 					button_force_sensor_image_save_signal.Sensitive = true;
 					hbox_force_general_analysis.Sensitive = true;
-					button_force_sensor_analyze_options_close_and_analyze.Sensitive = true;
+					button_ai_model_options_close_and_analyze.Sensitive = true;
 					button_force_sensor_analyze_model.Sensitive = true;
 
 					if( configChronojump.Exhibition &&
@@ -2114,7 +2114,7 @@ LogB.Information(" fs R ");
 
 		button_contacts_exercise_close_and_recalculate.Sensitive = true;
 		hbox_force_general_analysis.Sensitive = true;
-		button_force_sensor_analyze_options_close_and_analyze.Sensitive = true;
+		button_ai_model_options_close_and_analyze.Sensitive = true;
 
 		//notebook_force_sensor_analyze_top.CurrentPage = Convert.ToInt32(notebook_force_sensor_analyze_top_pages.CURRENTSETSIGNAL);
 		//change radio and will change also notebook:

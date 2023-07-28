@@ -2992,7 +2992,7 @@ public partial class ChronoJumpWindow
 	{
 		forceSensorButtonsSensitive(true);
 		hbox_force_sensor_analyze_top_modes.Sensitive = true;
-		button_force_sensor_analyze_options.Sensitive = true;
+		button_ai_model_options.Sensitive = true;
 	}
 
 	private void on_overwrite_file_runencoder_export_accepted(object o, EventArgs args)

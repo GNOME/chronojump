@@ -38,6 +38,7 @@ public partial class ChronoJumpWindow
 	Gtk.Image image_fullscreen_exit;
 	Gtk.Image image_session_delete;
 	Gtk.Image app1s_image_button_close;
+	Gtk.Image app1s_image_search;
 	Gtk.Image image_db_backup;
 	Gtk.Image app1s_image_button_backup_start;
 	Gtk.Image image_db_view;
@@ -1109,6 +1110,8 @@ public partial class ChronoJumpWindow
 		image_force_sensor_analyze_move_cd.Pixbuf = new Pixbuf (null, Util.GetImagePath (false) + "halfSecondLeft.png");
 		image_force_sensor_analyze_move_cd1.Pixbuf = new Pixbuf (null, Util.GetImagePath (false) + "halfSecondRight.png");
 
+		app1s_image_search.Pixbuf = new Pixbuf(null, Util.GetImagePath(false) + "search.png");
+
 		pixbuf = new Pixbuf(null, Util.GetImagePath(false) + "zoom_in.png");
 		image_force_sensor_ai_zoom.Pixbuf = pixbuf;
 		image_jumps_zoom.Pixbuf = pixbuf;
@@ -1138,6 +1141,7 @@ public partial class ChronoJumpWindow
 		image_fullscreen_exit = (Gtk.Image) builder.GetObject ("image_fullscreen_exit");
 		image_session_delete = (Gtk.Image) builder.GetObject ("image_session_delete");
 		app1s_image_button_close = (Gtk.Image) builder.GetObject ("app1s_image_button_close");
+		app1s_image_search = (Gtk.Image) builder.GetObject ("app1s_image_search");
 		image_db_backup = (Gtk.Image) builder.GetObject ("image_db_backup");
 		app1s_image_button_backup_start = (Gtk.Image) builder.GetObject ("app1s_image_button_backup_start");
 		image_db_view = (Gtk.Image) builder.GetObject ("image_db_view");

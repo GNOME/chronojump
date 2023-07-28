@@ -586,6 +586,7 @@ RESOURCES = \
 	../images/md/calibrate.png,calibrate.png \
 	../images/md/folder_check_blue_1x.png,folder_check.png \
 	../images/md/test_inspect_blue_1x.png,image_test_inspect.png \
+	../images/md/search.png,search.png \
 	../images/md/zoom_in.png,zoom_in.png \
 	../images/md/zoom_out.png,zoom_out.png \
 	../images/md/zoom_out_red.png,zoom_out_red.png \

@@ -900,9 +900,11 @@ public partial class ChronoJumpWindow
 
 	private void forceSensorPrepareGraphAI ()
 	{
+		// 0. condition return if null
 		if(lastForceSensorFullPath == null || lastForceSensorFullPath == "")
 			return;
 
+		// 1. get zoom values
 		int zoomFrameA = -1; //means no zoom
 		int zoomFrameB = -1; //means no zoom
 
@@ -944,6 +946,7 @@ public partial class ChronoJumpWindow
 			}
 		}
 
+		// 2. create fsAI_AB, fsAI_CD
 		//pass them as doubles
 		double eccMinDispl = currentForceSensorExercise.GetEccOrConMinMaybePreferences(true,
 				preferences.forceSensorElasticEccMinDispl,
@@ -988,48 +991,10 @@ public partial class ChronoJumpWindow
 		//LogB.Information("created fsAI");
 		//LogB.Information(string.Format("fsAI.GetLength: {0}", fsAI.GetLength()));
 
-		/*
-		 * position the hscales on the left to avoid loading a csv
-		 * with less data rows than current csv and having scales out of the graph
-		//hscale_ai_a.ValuePos = Gtk.PositionType.Left; //doesn't work
-		//hscale_ai_b.ValuePos = Gtk.PositionType.Left; //doesn't work
-		*/
-		hscale_ai_a.Value = 0;
-		hscale_ai_b.Value = 0;
-		hscale_ai_c.Value = 0;
-		hscale_ai_d.Value = 0;
+		// 3. set hscales
+		signalPrepareGraphAICont (fsAI_AB.GetLength(), fsAI_CD.GetLength(), zoomFrameB, hsRight);
 
-		//ranges should have max value the number of the lines of csv file minus the header
-		//this applies to the four hscales
-		hscale_ai_a.SetRange (0, fsAI_AB.GetLength() -1);
-		hscale_ai_b.SetRange (0, fsAI_AB.GetLength() -1);
-		hscale_ai_c.SetRange (0, fsAI_CD.GetLength() -1);
-		hscale_ai_d.SetRange (0, fsAI_CD.GetLength() -1);
-		//set them to 0, because if not is set to 1 by a GTK error
-		hscale_ai_a.Value = 0;
-		hscale_ai_b.Value = 0;
-		hscale_ai_c.Value = 0;
-		hscale_ai_d.Value = 0;
-
-		//LogB.Information(string.Format("hscale_ai_time_a,b,ab ranges: 0, {0}", fsAI.GetLength() -1));
-
-		//on zoom put hscale B at the right
-		if(zoomFrameB >= 0)
-		{
-			//if (radio_ai_2sets.Active && radio_ai_cd.Active)
-			if (radio_ai_cd.Active)
-				hsRight.Value = fsAI_CD.GetLength() -1;
-			else
-				hsRight.Value = fsAI_AB.GetLength() -1;
-		}
-
-		//to update values
-		LogB.Information ("calling to move hscale from forceSensorPrepareGraphAI ()");
-		if (radio_ai_ab.Active)
-			on_hscale_ai_value_changed (hscale_ai_a, new EventArgs ());
-		else
-			on_hscale_ai_value_changed (hscale_ai_c, new EventArgs ());
-
+		// 4. manage save buttons visibilities
 		manage_force_sensor_ai_table_visibilities();
 	}
 
@@ -1056,15 +1021,24 @@ public partial class ChronoJumpWindow
 	CairoGraphForceSensorAI cairoGraphForceSensorAI;
 	public void on_force_sensor_ai_drawingarea_cairo_draw (object o, Gtk.DrawnArgs args)
 	{
-		updateForceSensorAICairo (true);
+		if (Constants.ModeIsFORCESENSOR (current_mode))
+			updateForceSensorAICairo (true);
+		else //if (current_mode == Constants.Modes.RUNSENCODER)
+			updateRaceAnalyzerCaptureSpeedTime (true);
 	}
 
 	private void updateForceSensorAICairo (bool forceRedraw)
 	{
+		// 1. create cairoGraphForceSensorAI & spCairoFE if needed
 		if (cairoGraphForceSensorAI == null)
 			cairoGraphForceSensorAI = new CairoGraphForceSensorAI (
 					force_sensor_ai_drawingarea_cairo, "title");
 
+		if (spCairoFE == null)
+			spCairoFE = new SignalPointsCairoForceElastic ();
+
+
+		// 2. get rectangle values if needed
 		int rectangleN = 0;
 		int rectangleRange = 0;
 		if(preferences.forceSensorCaptureFeedbackActive == Preferences.ForceSensorCaptureFeedbackActiveEnum.RECTANGLE)
@@ -1073,9 +1047,7 @@ public partial class ChronoJumpWindow
 			rectangleRange = preferences.forceSensorCaptureFeedbackRange;
 		}
 
-		if (spCairoFE == null)
-			spCairoFE = new SignalPointsCairoForceElastic ();
-
+		// 3. get gmaiw_l, briw_l, reps_l for both fsAI
 		List<GetMaxAvgInWindow> gmaiw_l = new List<GetMaxAvgInWindow> ();
 		List<GetBestRFDInWindow> briw_l = new List<GetBestRFDInWindow> ();
 		List<ForceSensorRepetition> reps_l = new List<ForceSensorRepetition> ();
@@ -1114,6 +1086,7 @@ public partial class ChronoJumpWindow
 			count ++;
 		}
 
+		// 4. get other data needed
 		int hscaleABSampleStart = Convert.ToInt32 (hscale_ai_a.Value);
 		int hscaleABSampleEnd = Convert.ToInt32 (hscale_ai_b.Value);
 		int hscaleCDSampleStart = Convert.ToInt32 (hscale_ai_c.Value);
@@ -1138,6 +1111,7 @@ public partial class ChronoJumpWindow
 			maxY = 0;
 		}
 
+		// 5. get subtitleWithSetsInfo if needed
 		SignalPointsCairoForceElastic spCairoFESend_CD = null;
 		List<string> subtitleWithSetsInfo_l = new List<string> ();
 		if (radio_ai_2sets.Active)
@@ -1171,6 +1145,7 @@ public partial class ChronoJumpWindow
 			}
 		}
 
+		// 6. draw the cairo graph
 		fsAIRepetitionMouseLimitsCairo = cairoGraphForceSensorAI.DoSendingList (
 				preferences.fontType.ToString(),
 				spCairoFESend, spCairoFESend_CD,

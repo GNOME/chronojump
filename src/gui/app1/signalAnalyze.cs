@@ -77,6 +77,61 @@ public partial class ChronoJumpWindow
 
 	//private double hscale_fs_ai_a_BeforeZoomTimeMS = 0; //to calculate triggers
 
+	private void signalPrepareGraphAI ()
+	{
+		if (Constants.ModeIsFORCESENSOR (current_mode))
+			forceSensorPrepareGraphAI ();
+		else //if (current_mode == Constants.Modes.RUNSENCODER)
+			runEncoderPrepareGraphAI ();
+	}
+
+	private void signalPrepareGraphAICont (int lengthAB, int lengthCD, int zoomFrameB, Gtk.HScale hsRight)
+	{
+		/*
+		 * position the hscales on the left to avoid loading a csv
+		 * with less data rows than current csv and having scales out of the graph
+		//hscale_ai_a.ValuePos = Gtk.PositionType.Left; //doesn't work
+		//hscale_ai_b.ValuePos = Gtk.PositionType.Left; //doesn't work
+		*/
+		hscale_ai_a.Value = 0;
+		hscale_ai_b.Value = 0;
+		hscale_ai_c.Value = 0;
+		hscale_ai_d.Value = 0;
+
+//TODO: això haurà de ser també per raceAnalyzer, per tant tota la funció, creant els raAI_AB i raAI_CD
+
+		//ranges should have max value the number of the lines of csv file minus the header
+		//this applies to the four hscales
+		hscale_ai_a.SetRange (0, lengthAB -1);
+		hscale_ai_b.SetRange (0, lengthAB -1);
+		hscale_ai_c.SetRange (0, lengthCD -1);
+		hscale_ai_d.SetRange (0, lengthCD -1);
+		//set them to 0, because if not is set to 1 by a GTK error
+		hscale_ai_a.Value = 0;
+		hscale_ai_b.Value = 0;
+		hscale_ai_c.Value = 0;
+		hscale_ai_d.Value = 0;
+
+		//LogB.Information(string.Format("hscale_ai_time_a,b,ab ranges: 0, {0}", fsAI.GetLength() -1));
+
+		//on zoom put hscale B at the right
+		if(zoomFrameB >= 0)
+		{
+			//if (radio_ai_2sets.Active && radio_ai_cd.Active)
+			if (radio_ai_cd.Active)
+				hsRight.Value = lengthCD -1;
+			else
+				hsRight.Value = lengthAB -1;
+		}
+
+		//to update values
+		LogB.Information ("calling to move hscale from forceSensorPrepareGraphAI ()");
+		if (radio_ai_ab.Active)
+			on_hscale_ai_value_changed (hscale_ai_a, new EventArgs ());
+		else
+			on_hscale_ai_value_changed (hscale_ai_c, new EventArgs ());
+	}
+
 	private void on_check_force_sensor_ai_zoom_clicked (object o, EventArgs args)
 	{
 		AnalyzeInstant sAI = getCorrectAI ();
@@ -180,7 +235,7 @@ public partial class ChronoJumpWindow
 				}
 			}
 
-			forceSensorPrepareGraphAI ();
+			signalPrepareGraphAI ();
 
 			image_force_sensor_ai_zoom.Visible = false;
 			image_force_sensor_ai_zoom_out.Visible = true;
@@ -197,7 +252,7 @@ public partial class ChronoJumpWindow
 				AiVars.d_atZoom = Convert.ToInt32 (hscale_ai_d.Value);
 			}
 
-			forceSensorPrepareGraphAI ();
+			signalPrepareGraphAI ();
 
 			if (radio_ai_ab.Active)
 			{
@@ -481,7 +536,17 @@ public partial class ChronoJumpWindow
 		forceSensorAnalyzeGeneralButtonHscaleZoomSensitiveness();
 
 		// 8. refresh graph
-		force_sensor_ai_drawingarea_cairo.QueueDraw(); //will fire ExposeEvent
+//		if (Constants.ModeIsFORCESENSOR (current_mode))
+		LogB.Information ("graph should update");
+			force_sensor_ai_drawingarea_cairo.QueueDraw(); //will fire ExposeEvent
+/*	do not do this, as this force_sensor_ai_drawingarea_cairo.QueueDraw will already update raceAnalyzer graph
+ *	else //if (current_mode == Constants.Modes.RUNSENCODER)
+		{
+			LogB.Information 
+			drawingarea_race_analyzer_capture_speed_time.QueueDraw ();
+		}
+		*/
+
 		LogB.Information (string.Format ("on_hscale_ai_value_changed {0} 8", hscaleToDebug));
 	}
 
@@ -694,7 +759,7 @@ public partial class ChronoJumpWindow
 			//do not allow to click on cd if two sets (when there is no ab loaded)
 			radio_ai_cd.Sensitive = (currentForceSensor != null && currentForceSensor.UniqueID >= 0);
 		}
-		forceSensorPrepareGraphAI ();
+		signalPrepareGraphAI ();
 		force_sensor_ai_drawingarea_cairo.QueueDraw(); //will fire ExposeEvent
 	}
 

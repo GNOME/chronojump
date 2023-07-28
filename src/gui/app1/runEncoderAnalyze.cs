@@ -73,6 +73,37 @@ public partial class ChronoJumpWindow
 	private enum notebook_run_encoder_analyze_pages { CURRENTSET, CURRENTSESSION, OPTIONS }
 	private enum notebook_run_encoder_analyze_current_set_pages { GRAPH, TABLE, TRIGGERS }
 
+
+
+	private void runEncoderPrepareGraphAI ()
+	{
+		// 0. condition return if null
+		if (cairoGraphRaceAnalyzerPoints_st_l == null || cairoGraphRaceAnalyzerPoints_st_l.Count == 0)
+			return;
+
+		// 1. get zoom values
+		//int zoomFrameA = -1; //means no zoom
+		int zoomFrameB = -1; //means no zoom
+
+		//Gtk.HScale hsLeft = getHScaleABCD (true);
+		Gtk.HScale hsRight = getHScaleABCD (false);
+
+		//TODO: continue
+
+		// 2. create raAI_AB, raAI_CD
+		raAI_AB = new RaceAnalyzerAnalyzeInstant ("AB",
+			cairoGraphRaceAnalyzerPoints_st_l);
+		raAI_CD = new RaceAnalyzerAnalyzeInstant ("CD",
+			cairoGraphRaceAnalyzerPoints_st_l);
+
+		// 3. set hscales
+		signalPrepareGraphAICont (raAI_AB.GetLength(), raAI_CD.GetLength(), zoomFrameB, hsRight);
+
+		// 4. manage save buttons visibilities (TODO)
+		//manage_force_sensor_ai_table_visibilities();
+	}
+
+
 	private void createRunEncoderAnalyzeCombos ()
 	{
 		/*

@@ -68,9 +68,15 @@ public partial class ChronoJumpWindow
 
 	Gtk.Viewport viewport_ai_hscales;
 
+	Gtk.Notebook notebook_ai_model_options;
 	Gtk.Button button_ai_model_options_close_and_analyze;
 	Gtk.Button button_ai_model_options;
 	// <---- at glade
+
+	private void blankAIInterface ()
+	{
+		button_ai_model_options_close_and_analyze.Sensitive = false;
+	}
 
 	private void signalAnalyzeButtonsVisibility ()
 	{
@@ -835,6 +841,49 @@ public partial class ChronoJumpWindow
 		notebook_ai_load.Sensitive = sensitive;
 	}
 
+	private int notebook_ai_top_LastPage;
+	private void on_button_ai_model_options_clicked (object o, EventArgs args)
+	{
+		//store the notebook to return to same place
+		notebook_ai_top_LastPage = notebook_ai_top.CurrentPage;
+		notebook_ai_top.CurrentPage = Convert.ToInt32(notebook_ai_top_pages.AUTOMATICOPTIONS);
+
+		hbox_force_sensor_analyze_top_modes.Sensitive = false;
+		button_ai_model_options_close_and_analyze.Visible = radio_force_sensor_analyze_current_set.Active;
+
+		if (Constants.ModeIsFORCESENSOR (current_mode))
+		{
+			notebook_ai_model_options.CurrentPage = 0;
+			on_button_force_sensor_ai_model_options_clicked ();
+		}
+		else //if (current_mode == Constants.Modes.RUNSENCODER)
+		{
+			notebook_ai_model_options.CurrentPage = 1;
+			on_button_run_encoder_ai_model_options_clicked ();
+		}
+	}
+
+	private void on_button_ai_model_options_close_clicked (object o, EventArgs args)
+	{
+		notebook_ai_top.CurrentPage = notebook_ai_top_LastPage;
+		hbox_force_sensor_analyze_top_modes.Sensitive = true;
+
+		if (Constants.ModeIsFORCESENSOR (current_mode))
+			on_button_force_sensor_ai_model_options_close_clicked ();
+		else //if (current_mode == Constants.Modes.RUNSENCODER)
+			on_button_run_encoder_ai_model_options_close_clicked ();
+	}
+
+	private void on_button_ai_model_options_close_and_analyze_clicked (object o, EventArgs args)
+	{
+		on_button_ai_model_options_close_clicked (o, args);
+
+		if (Constants.ModeIsFORCESENSOR (current_mode))
+			on_button_force_sensor_analyze_model_clicked (o, args);
+		else //if (current_mode == Constants.Modes.RUNSENCODER)
+			on_button_run_encoder_analyze_analyze_clicked (o, args);
+	}
+
 	private void connectWidgetsSignalAnalyze (Gtk.Builder builder)
 	{
 		LogB.Information ("connectWidgetsSignalAnalyze");
@@ -873,6 +922,7 @@ public partial class ChronoJumpWindow
 
 		viewport_ai_hscales = (Gtk.Viewport) builder.GetObject ("viewport_ai_hscales");
 
+		notebook_ai_model_options = (Gtk.Notebook) builder.GetObject ("notebook_ai_model_options");
 		button_ai_model_options_close_and_analyze = (Gtk.Button) builder.GetObject ("button_ai_model_options_close_and_analyze");
 		button_ai_model_options = (Gtk.Button) builder.GetObject ("button_ai_model_options");
 	}

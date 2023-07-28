@@ -32,7 +32,6 @@ public partial class ChronoJumpWindow
 	Gtk.CheckButton check_run_encoder_analyze_accel;
 	Gtk.CheckButton check_run_encoder_analyze_force;
 	Gtk.CheckButton check_run_encoder_analyze_power;
-	Gtk.Button button_run_encoder_analyze_options_close_and_analyze;
 	Gtk.Button button_run_encoder_analyze_analyze;
 	Gtk.Button button_run_encoder_image_save;
 
@@ -46,7 +45,6 @@ public partial class ChronoJumpWindow
 	Gtk.Image image_run_encoder_analyze_groupal_current_session;
 
 	Gtk.HBox hbox_run_encoder_top;
-	Gtk.HBox hbox_run_encoder_analyze_top_modes;
 
 	//export
 	Gtk.Notebook notebook_run_encoder_export;
@@ -61,7 +59,7 @@ public partial class ChronoJumpWindow
 	Gtk.Label label_run_encoder_export_result;
 	Gtk.Button button_run_encoder_export_result_open;
 
-	Gtk.Notebook notebook_run_encoder_analyze;
+	Gtk.Notebook notebook_run_encoder_analyze; //TODO: this will be erased
 	Gtk.Notebook notebook_run_encoder_analyze_current_set;
 
 	Gtk.ComboBoxText combo_run_encoder_analyze_accel;
@@ -70,7 +68,7 @@ public partial class ChronoJumpWindow
 	// <---- at glade
 
 
-	private enum notebook_run_encoder_analyze_pages { CURRENTSET, CURRENTSESSION, OPTIONS }
+	private enum notebook_run_encoder_analyze_pages { CURRENTSET, CURRENTSESSION, OPTIONS } //TODO: this will be erased
 	private enum notebook_run_encoder_analyze_current_set_pages { GRAPH, TABLE, TRIGGERS }
 
 	TreeviewRAAnalyze tvRA_AB;
@@ -184,26 +182,15 @@ public partial class ChronoJumpWindow
 	}
 
 	private bool button_run_encoder_analyze_analyze_was_sensitive; //needed this temp variable
-	private int notebook_run_encoder_analyze_coming_page; //needed this temp variable
-	private void on_button_run_encoder_analyze_options_clicked (object o, EventArgs args)
+//	private int notebook_run_encoder_analyze_coming_page; //needed this temp variable
+	private void on_button_run_encoder_ai_model_options_clicked ()
 	{
-		//only show close_and_analyze button on current set tab
-		button_run_encoder_analyze_options_close_and_analyze.Visible =
-			(notebook_run_encoder_analyze.CurrentPage == Convert.ToInt32(notebook_run_encoder_analyze_pages.CURRENTSET));
-
-		notebook_run_encoder_analyze_coming_page = Convert.ToInt32(notebook_run_encoder_analyze.CurrentPage);
-		notebook_run_encoder_analyze.CurrentPage = Convert.ToInt32(notebook_run_encoder_analyze_pages.OPTIONS);
-
-		hbox_run_encoder_analyze_top_modes.Sensitive = false;
 		runEncoderButtonsSensitive(false);
-
-		button_run_encoder_analyze_analyze_was_sensitive = button_run_encoder_analyze_analyze.Sensitive;
 		button_run_encoder_analyze_analyze.Sensitive = false;
 	}
-	private void on_button_run_encoder_analyze_options_close_clicked (object o, EventArgs args)
-	{
-		hbox_run_encoder_analyze_top_modes.Sensitive = true;
 
+	private void on_button_run_encoder_ai_model_options_close_clicked ()
+	{
 		// 1 change stuff on Sqlite if needed
 
 		Sqlite.Open();
@@ -239,15 +226,8 @@ public partial class ChronoJumpWindow
 
 		// 2 change sensitivity of widgets
 
-		notebook_run_encoder_analyze.CurrentPage = notebook_run_encoder_analyze_coming_page;
 		runEncoderButtonsSensitive(true);
 		button_run_encoder_analyze_analyze.Sensitive = button_run_encoder_analyze_analyze_was_sensitive;
-	}
-
-	private void on_button_run_encoder_analyze_options_close_and_analyze_clicked (object o, EventArgs args)
-	{
-		on_button_run_encoder_analyze_options_close_clicked (o, args);
-		on_button_run_encoder_analyze_analyze_clicked (o, args);
 	}
 
 	private void on_button_run_encoder_analyze_analyze_clicked (object o, EventArgs args)
@@ -563,7 +543,6 @@ public partial class ChronoJumpWindow
 		check_run_encoder_analyze_accel = (Gtk.CheckButton) builder.GetObject ("check_run_encoder_analyze_accel");
 		check_run_encoder_analyze_force = (Gtk.CheckButton) builder.GetObject ("check_run_encoder_analyze_force");
 		check_run_encoder_analyze_power = (Gtk.CheckButton) builder.GetObject ("check_run_encoder_analyze_power");
-		button_run_encoder_analyze_options_close_and_analyze = (Gtk.Button) builder.GetObject ("button_run_encoder_analyze_options_close_and_analyze");
 		button_run_encoder_analyze_analyze = (Gtk.Button) builder.GetObject ("button_run_encoder_analyze_analyze");
 		button_run_encoder_image_save = (Gtk.Button) builder.GetObject ("button_run_encoder_image_save");
 
@@ -577,7 +556,6 @@ public partial class ChronoJumpWindow
 		image_run_encoder_analyze_groupal_current_session = (Gtk.Image) builder.GetObject ("image_run_encoder_analyze_groupal_current_session");
 
 		hbox_run_encoder_top = (Gtk.HBox) builder.GetObject ("hbox_run_encoder_top");
-		hbox_run_encoder_analyze_top_modes = (Gtk.HBox) builder.GetObject ("hbox_run_encoder_analyze_top_modes");
 
 		//export
 		notebook_run_encoder_export = (Gtk.Notebook) builder.GetObject ("notebook_run_encoder_export");

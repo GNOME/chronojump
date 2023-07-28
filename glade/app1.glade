@@ -749,60 +749,6 @@
     <property name="step-increment">1</property>
     <property name="page-increment">10</property>
   </object>
-  <object class="GtkAdjustment" id="adjustment90">
-    <property name="upper">300</property>
-    <property name="step-increment">1</property>
-    <property name="page-increment">1</property>
-  </object>
-  <object class="GtkAdjustment" id="adjustment91">
-    <property name="lower">25</property>
-    <property name="upper">1000</property>
-    <property name="value">100</property>
-    <property name="step-increment">1</property>
-    <property name="page-increment">1</property>
-  </object>
-  <object class="GtkAdjustment" id="adjustment92">
-    <property name="upper">300</property>
-    <property name="step-increment">1</property>
-    <property name="page-increment">1</property>
-  </object>
-  <object class="GtkAdjustment" id="adjustment93">
-    <property name="upper">100</property>
-    <property name="step-increment">1</property>
-    <property name="page-increment">1</property>
-  </object>
-  <object class="GtkAdjustment" id="adjustment94">
-    <property name="upper">300</property>
-    <property name="step-increment">1</property>
-    <property name="page-increment">1</property>
-  </object>
-  <object class="GtkAdjustment" id="adjustment95">
-    <property name="upper">300</property>
-    <property name="step-increment">1</property>
-    <property name="page-increment">1</property>
-  </object>
-  <object class="GtkAdjustment" id="adjustment96">
-    <property name="lower">25</property>
-    <property name="upper">1000</property>
-    <property name="value">100</property>
-    <property name="step-increment">1</property>
-    <property name="page-increment">1</property>
-  </object>
-  <object class="GtkAdjustment" id="adjustment97">
-    <property name="upper">300</property>
-    <property name="step-increment">1</property>
-    <property name="page-increment">1</property>
-  </object>
-  <object class="GtkAdjustment" id="adjustment98">
-    <property name="upper">100</property>
-    <property name="step-increment">1</property>
-    <property name="page-increment">1</property>
-  </object>
-  <object class="GtkAdjustment" id="adjustment99">
-    <property name="upper">300</property>
-    <property name="step-increment">1</property>
-    <property name="page-increment">1</property>
-  </object>
   <object class="GtkWindow" id="app1">
     <property name="can-focus">False</property>
     <property name="title" translatable="yes">Chronojump</property>
@@ -25082,7 +25028,7 @@ Concentric</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <object class="GtkNotebook" id="notebook_force_sensor_analyze_top">
+                                                            <object class="GtkNotebook" id="notebook_ai_top">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="show-tabs">False</property>
@@ -27511,7 +27457,7 @@ Concentric</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <object class="GtkAlignment" id="alignment_force_sensor_rfd_options">
+                                                            <object class="GtkAlignment" id="alignment_signal_model_options">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
                                                             <property name="top-padding">10</property>
@@ -27530,6 +27476,12 @@ Concentric</property>
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
                                                             <property name="left-padding">12</property>
+                                                            <child>
+                                                            <object class="GtkNotebook" id="notebook_ai_model_options">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">True</property>
+                                                            <property name="show-tabs">False</property>
+                                                            <property name="show-border">False</property>
                                                             <child>
                                                             <object class="GtkNotebook" id="notebook_force_sensor_rfd_options">
                                                             <property name="visible">True</property>
@@ -27641,6 +27593,7 @@ Concentric</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="invisible-char">•</property>
                                                             <property name="width-chars">3</property>
+                                                            <property name="text" translatable="yes">2,0</property>
                                                             <property name="primary-icon-activatable">False</property>
                                                             <property name="secondary-icon-activatable">False</property>
                                                             <property name="adjustment">adjustment85</property>
@@ -27648,6 +27601,7 @@ Concentric</property>
                                                             <property name="digits">1</property>
                                                             <property name="snap-to-ticks">True</property>
                                                             <property name="numeric">True</property>
+                                                            <property name="value">2</property>
                                                             </object>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -27702,12 +27656,14 @@ Concentric</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="invisible-char">•</property>
                                                             <property name="width-chars">2</property>
+                                                            <property name="text" translatable="yes">5</property>
                                                             <property name="primary-icon-activatable">False</property>
                                                             <property name="secondary-icon-activatable">False</property>
                                                             <property name="adjustment">adjustment86</property>
                                                             <property name="climb-rate">1</property>
                                                             <property name="snap-to-ticks">True</property>
                                                             <property name="numeric">True</property>
+                                                            <property name="value">5</property>
                                                             </object>
                                                             <packing>
                                                             <property name="expand">True</property>
@@ -27880,6 +27836,7 @@ Concentric</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="invisible-char">●</property>
                                                             <property name="width-chars">5</property>
+                                                            <property name="text" translatable="yes">0</property>
                                                             <property name="primary-icon-activatable">False</property>
                                                             <property name="secondary-icon-activatable">False</property>
                                                             <property name="adjustment">adjustment87</property>
@@ -27934,6 +27891,7 @@ Concentric</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="invisible-char">●</property>
                                                             <property name="width-chars">5</property>
+                                                            <property name="text" translatable="yes">0</property>
                                                             <property name="primary-icon-activatable">False</property>
                                                             <property name="secondary-icon-activatable">False</property>
                                                             <property name="adjustment">adjustment88</property>
@@ -27988,6 +27946,7 @@ Concentric</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="invisible-char">●</property>
                                                             <property name="width-chars">5</property>
+                                                            <property name="text" translatable="yes">0</property>
                                                             <property name="primary-icon-activatable">False</property>
                                                             <property name="secondary-icon-activatable">False</property>
                                                             <property name="adjustment">adjustment89</property>
@@ -28018,6 +27977,7 @@ Concentric</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="invisible-char">●</property>
                                                             <property name="width-chars">5</property>
+                                                            <property name="text" translatable="yes">0</property>
                                                             <property name="primary-icon-activatable">False</property>
                                                             <property name="secondary-icon-activatable">False</property>
                                                             <property name="adjustment">adjustment90</property>
@@ -28072,11 +28032,13 @@ Concentric</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="invisible-char">●</property>
                                                             <property name="width-chars">5</property>
+                                                            <property name="text" translatable="yes">100</property>
                                                             <property name="primary-icon-activatable">False</property>
                                                             <property name="secondary-icon-activatable">False</property>
                                                             <property name="adjustment">adjustment91</property>
                                                             <property name="climb-rate">1</property>
                                                             <property name="numeric">True</property>
+                                                            <property name="value">100</property>
                                                             </object>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -28220,6 +28182,7 @@ Concentric</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="invisible-char">●</property>
                                                             <property name="width-chars">5</property>
+                                                            <property name="text" translatable="yes">0</property>
                                                             <property name="primary-icon-activatable">False</property>
                                                             <property name="secondary-icon-activatable">False</property>
                                                             <property name="adjustment">adjustment92</property>
@@ -28274,6 +28237,7 @@ Concentric</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="invisible-char">●</property>
                                                             <property name="width-chars">5</property>
+                                                            <property name="text" translatable="yes">0</property>
                                                             <property name="primary-icon-activatable">False</property>
                                                             <property name="secondary-icon-activatable">False</property>
                                                             <property name="adjustment">adjustment93</property>
@@ -28328,6 +28292,7 @@ Concentric</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="invisible-char">●</property>
                                                             <property name="width-chars">5</property>
+                                                            <property name="text" translatable="yes">0</property>
                                                             <property name="primary-icon-activatable">False</property>
                                                             <property name="secondary-icon-activatable">False</property>
                                                             <property name="adjustment">adjustment94</property>
@@ -28358,6 +28323,7 @@ Concentric</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="invisible-char">●</property>
                                                             <property name="width-chars">5</property>
+                                                            <property name="text" translatable="yes">0</property>
                                                             <property name="primary-icon-activatable">False</property>
                                                             <property name="secondary-icon-activatable">False</property>
                                                             <property name="adjustment">adjustment95</property>
@@ -28412,11 +28378,13 @@ Concentric</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="invisible-char">●</property>
                                                             <property name="width-chars">5</property>
+                                                            <property name="text" translatable="yes">100</property>
                                                             <property name="primary-icon-activatable">False</property>
                                                             <property name="secondary-icon-activatable">False</property>
                                                             <property name="adjustment">adjustment96</property>
                                                             <property name="climb-rate">1</property>
                                                             <property name="numeric">True</property>
+                                                            <property name="value">100</property>
                                                             </object>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -28560,6 +28528,7 @@ Concentric</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="invisible-char">●</property>
                                                             <property name="width-chars">5</property>
+                                                            <property name="text" translatable="yes">0</property>
                                                             <property name="primary-icon-activatable">False</property>
                                                             <property name="secondary-icon-activatable">False</property>
                                                             <property name="adjustment">adjustment97</property>
@@ -28614,6 +28583,7 @@ Concentric</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="invisible-char">●</property>
                                                             <property name="width-chars">5</property>
+                                                            <property name="text" translatable="yes">0</property>
                                                             <property name="primary-icon-activatable">False</property>
                                                             <property name="secondary-icon-activatable">False</property>
                                                             <property name="adjustment">adjustment98</property>
@@ -28668,6 +28638,7 @@ Concentric</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="invisible-char">●</property>
                                                             <property name="width-chars">5</property>
+                                                            <property name="text" translatable="yes">0</property>
                                                             <property name="primary-icon-activatable">False</property>
                                                             <property name="secondary-icon-activatable">False</property>
                                                             <property name="adjustment">adjustment99</property>
@@ -28698,6 +28669,7 @@ Concentric</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="invisible-char">●</property>
                                                             <property name="width-chars">5</property>
+                                                            <property name="text" translatable="yes">0</property>
                                                             <property name="primary-icon-activatable">False</property>
                                                             <property name="secondary-icon-activatable">False</property>
                                                             <property name="adjustment">adjustment100</property>
@@ -28752,11 +28724,13 @@ Concentric</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="invisible-char">●</property>
                                                             <property name="width-chars">5</property>
+                                                            <property name="text" translatable="yes">100</property>
                                                             <property name="primary-icon-activatable">False</property>
                                                             <property name="secondary-icon-activatable">False</property>
                                                             <property name="adjustment">adjustment101</property>
                                                             <property name="climb-rate">1</property>
                                                             <property name="numeric">True</property>
+                                                            <property name="value">100</property>
                                                             </object>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -28900,6 +28874,7 @@ Concentric</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="invisible-char">●</property>
                                                             <property name="width-chars">5</property>
+                                                            <property name="text" translatable="yes">0</property>
                                                             <property name="primary-icon-activatable">False</property>
                                                             <property name="secondary-icon-activatable">False</property>
                                                             <property name="adjustment">adjustment102</property>
@@ -28954,6 +28929,7 @@ Concentric</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="invisible-char">●</property>
                                                             <property name="width-chars">5</property>
+                                                            <property name="text" translatable="yes">0</property>
                                                             <property name="primary-icon-activatable">False</property>
                                                             <property name="secondary-icon-activatable">False</property>
                                                             <property name="adjustment">adjustment103</property>
@@ -29008,6 +28984,7 @@ Concentric</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="invisible-char">●</property>
                                                             <property name="width-chars">5</property>
+                                                            <property name="text" translatable="yes">0</property>
                                                             <property name="primary-icon-activatable">False</property>
                                                             <property name="secondary-icon-activatable">False</property>
                                                             <property name="adjustment">adjustment104</property>
@@ -29038,6 +29015,7 @@ Concentric</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="invisible-char">●</property>
                                                             <property name="width-chars">5</property>
+                                                            <property name="text" translatable="yes">0</property>
                                                             <property name="primary-icon-activatable">False</property>
                                                             <property name="secondary-icon-activatable">False</property>
                                                             <property name="adjustment">adjustment105</property>
@@ -29092,11 +29070,13 @@ Concentric</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="invisible-char">●</property>
                                                             <property name="width-chars">5</property>
+                                                            <property name="text" translatable="yes">100</property>
                                                             <property name="primary-icon-activatable">False</property>
                                                             <property name="secondary-icon-activatable">False</property>
                                                             <property name="adjustment">adjustment106</property>
                                                             <property name="climb-rate">1</property>
                                                             <property name="numeric">True</property>
+                                                            <property name="value">100</property>
                                                             </object>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -29216,6 +29196,7 @@ Concentric</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="invisible-char">●</property>
                                                             <property name="width-chars">5</property>
+                                                            <property name="text" translatable="yes">0</property>
                                                             <property name="primary-icon-activatable">False</property>
                                                             <property name="secondary-icon-activatable">False</property>
                                                             <property name="adjustment">adjustment107</property>
@@ -29270,11 +29251,13 @@ Concentric</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="invisible-char">●</property>
                                                             <property name="width-chars">5</property>
+                                                            <property name="text" translatable="yes">1</property>
                                                             <property name="primary-icon-activatable">False</property>
                                                             <property name="secondary-icon-activatable">False</property>
                                                             <property name="adjustment">adjustment108</property>
                                                             <property name="climb-rate">1</property>
                                                             <property name="numeric">True</property>
+                                                            <property name="value">1</property>
                                                             </object>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -29300,6 +29283,7 @@ Concentric</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="invisible-char">●</property>
                                                             <property name="width-chars">5</property>
+                                                            <property name="text" translatable="yes">0</property>
                                                             <property name="primary-icon-activatable">False</property>
                                                             <property name="secondary-icon-activatable">False</property>
                                                             <property name="adjustment">adjustment109</property>
@@ -29393,6 +29377,159 @@ Concentric</property>
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
                                                             <property name="label" translatable="yes">RFD calculation</property>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="position">1</property>
+                                                            <property name="tab-fill">False</property>
+                                                            </packing>
+                                                            </child>
+                                                            </object>
+                                                            </child>
+                                                            <child type="tab">
+                                                            <object class="GtkLabel">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="label">forceSensor model RFD</property>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="tab-fill">False</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkVBox" id="vbox212">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="border-width">16</property>
+                                                            <property name="spacing">16</property>
+                                                            <child>
+                                                            <object class="GtkFrame" id="frame19">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="label-xalign">0</property>
+                                                            <property name="shadow-type">none</property>
+                                                            <child>
+                                                            <object class="GtkAlignment" id="alignment53">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="left-padding">12</property>
+                                                            <child>
+                                                            <object class="GtkTable" id="table14">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="border-width">8</property>
+                                                            <property name="n-rows">3</property>
+                                                            <property name="n-columns">2</property>
+                                                            <property name="column-spacing">12</property>
+                                                            <property name="row-spacing">12</property>
+                                                            <child>
+                                                            <object class="GtkCheckButton" id="check_run_encoder_analyze_accel">
+                                                            <property name="label" translatable="yes">Acceleration</property>
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">True</property>
+                                                            <property name="receives-default">False</property>
+                                                            <property name="draw-indicator">True</property>
+                                                            <signal name="clicked" handler="on_check_run_encoder_analyze_accel_clicked" swapped="no"/>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="x-options">GTK_FILL</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkCheckButton" id="check_run_encoder_analyze_force">
+                                                            <property name="label" translatable="yes">Force</property>
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">True</property>
+                                                            <property name="receives-default">False</property>
+                                                            <property name="draw-indicator">True</property>
+                                                            <signal name="clicked" handler="on_check_run_encoder_analyze_force_clicked" swapped="no"/>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="top-attach">1</property>
+                                                            <property name="bottom-attach">2</property>
+                                                            <property name="x-options">GTK_FILL</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkCheckButton" id="check_run_encoder_analyze_power">
+                                                            <property name="label" translatable="yes">Power</property>
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">True</property>
+                                                            <property name="receives-default">False</property>
+                                                            <property name="draw-indicator">True</property>
+                                                            <signal name="clicked" handler="on_check_run_encoder_analyze_power_clicked" swapped="no"/>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="top-attach">2</property>
+                                                            <property name="bottom-attach">3</property>
+                                                            <property name="x-options">GTK_FILL</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkComboBoxText" id="combo_run_encoder_analyze_accel">
+                                                            <property name="can-focus">False</property>
+                                                            <property name="active">1</property>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="left-attach">1</property>
+                                                            <property name="right-attach">2</property>
+                                                            <property name="x-options">GTK_FILL</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkComboBoxText" id="combo_run_encoder_analyze_force">
+                                                            <property name="can-focus">False</property>
+                                                            <property name="active">1</property>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="left-attach">1</property>
+                                                            <property name="right-attach">2</property>
+                                                            <property name="top-attach">1</property>
+                                                            <property name="bottom-attach">2</property>
+                                                            <property name="x-options">GTK_FILL</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkComboBoxText" id="combo_run_encoder_analyze_power">
+                                                            <property name="can-focus">False</property>
+                                                            <property name="active">1</property>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="left-attach">1</property>
+                                                            <property name="right-attach">2</property>
+                                                            <property name="top-attach">2</property>
+                                                            <property name="bottom-attach">3</property>
+                                                            <property name="x-options">GTK_FILL</property>
+                                                            </packing>
+                                                            </child>
+                                                            </object>
+                                                            </child>
+                                                            </object>
+                                                            </child>
+                                                            <child type="label">
+                                                            <object class="GtkLabel" id="label528">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="label" translatable="yes">Calculations</property>
+                                                            <property name="use-markup">True</property>
+                                                            </object>
+                                                            </child>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child type="tab">
+                                                            <object class="GtkLabel">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="label">raceAnalyzer model</property>
                                                             </object>
                                                             <packing>
                                                             <property name="position">1</property>
@@ -29519,7 +29656,7 @@ Concentric</property>
                                                             <object class="GtkLabel" id="label201">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
-                                                            <property name="label">RFD options</property>
+                                                            <property name="label">Model options</property>
                                                             </object>
                                                             <packing>
                                                             <property name="position">3</property>
@@ -29843,48 +29980,7 @@ Concentric</property>
                                                             <property name="can-focus">False</property>
                                                             <property name="spacing">6</property>
                                                             <child>
-                                                            <object class="GtkButton" id="button_run_encoder_analyze_options">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">True</property>
-                                                            <property name="receives-default">True</property>
-                                                            <signal name="clicked" handler="on_button_run_encoder_analyze_options_clicked" swapped="no"/>
-                                                            <child>
-                                                            <object class="GtkHBox" id="hbox409">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="spacing">6</property>
-                                                            <child>
-                                                            <object class="GtkImage" id="image_force_sensor_analyze_options1">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="stock">gtk-missing-image</property>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">True</property>
-                                                            <property name="fill">True</property>
-                                                            <property name="position">0</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
-                                                            <object class="GtkLabel" id="label522">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="label" translatable="yes">Options</property>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">True</property>
-                                                            <property name="fill">True</property>
-                                                            <property name="position">1</property>
-                                                            </packing>
-                                                            </child>
-                                                            </object>
-                                                            </child>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="position">0</property>
-                                                            </packing>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <object class="GtkButton" id="button_run_encoder_analyze_analyze">
@@ -30753,232 +30849,12 @@ Concentric</property>
                                                             <property name="can-focus">False</property>
                                                             <property name="left-padding">12</property>
                                                             <child>
-                                                            <object class="GtkVBox" id="vbox212">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="border-width">16</property>
-                                                            <property name="spacing">16</property>
-                                                            <child>
-                                                            <object class="GtkFrame" id="frame19">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="label-xalign">0</property>
-                                                            <property name="shadow-type">none</property>
-                                                            <child>
-                                                            <object class="GtkAlignment" id="alignment53">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="left-padding">12</property>
-                                                            <child>
-                                                            <object class="GtkTable" id="table14">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="border-width">8</property>
-                                                            <property name="n-rows">3</property>
-                                                            <property name="n-columns">2</property>
-                                                            <property name="column-spacing">12</property>
-                                                            <property name="row-spacing">12</property>
-                                                            <child>
-                                                            <object class="GtkCheckButton" id="check_run_encoder_analyze_accel">
-                                                            <property name="label" translatable="yes">Acceleration</property>
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">True</property>
-                                                            <property name="receives-default">False</property>
-                                                            <property name="draw-indicator">True</property>
-                                                            <signal name="clicked" handler="on_check_run_encoder_analyze_accel_clicked" swapped="no"/>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="x-options">GTK_FILL</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
-                                                            <object class="GtkCheckButton" id="check_run_encoder_analyze_force">
-                                                            <property name="label" translatable="yes">Force</property>
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">True</property>
-                                                            <property name="receives-default">False</property>
-                                                            <property name="draw-indicator">True</property>
-                                                            <signal name="clicked" handler="on_check_run_encoder_analyze_force_clicked" swapped="no"/>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="top-attach">1</property>
-                                                            <property name="bottom-attach">2</property>
-                                                            <property name="x-options">GTK_FILL</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
-                                                            <object class="GtkCheckButton" id="check_run_encoder_analyze_power">
-                                                            <property name="label" translatable="yes">Power</property>
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">True</property>
-                                                            <property name="receives-default">False</property>
-                                                            <property name="draw-indicator">True</property>
-                                                            <signal name="clicked" handler="on_check_run_encoder_analyze_power_clicked" swapped="no"/>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="top-attach">2</property>
-                                                            <property name="bottom-attach">3</property>
-                                                            <property name="x-options">GTK_FILL</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
-                                                            <object class="GtkComboBoxText" id="combo_run_encoder_analyze_accel">
-                                                            <property name="can-focus">False</property>
-                                                            <property name="active">1</property>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="left-attach">1</property>
-                                                            <property name="right-attach">2</property>
-                                                            <property name="x-options">GTK_FILL</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
-                                                            <object class="GtkComboBoxText" id="combo_run_encoder_analyze_force">
-                                                            <property name="can-focus">False</property>
-                                                            <property name="active">1</property>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="left-attach">1</property>
-                                                            <property name="right-attach">2</property>
-                                                            <property name="top-attach">1</property>
-                                                            <property name="bottom-attach">2</property>
-                                                            <property name="x-options">GTK_FILL</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
-                                                            <object class="GtkComboBoxText" id="combo_run_encoder_analyze_power">
-                                                            <property name="can-focus">False</property>
-                                                            <property name="active">1</property>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="left-attach">1</property>
-                                                            <property name="right-attach">2</property>
-                                                            <property name="top-attach">2</property>
-                                                            <property name="bottom-attach">3</property>
-                                                            <property name="x-options">GTK_FILL</property>
-                                                            </packing>
+                                                            <placeholder/>
                                                             </child>
                                                             </object>
                                                             </child>
-                                                            </object>
-                                                            </child>
-                                                            <child type="label">
-                                                            <object class="GtkLabel" id="label528">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="label" translatable="yes">Calculations</property>
-                                                            <property name="use-markup">True</property>
-                                                            </object>
-                                                            </child>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="position">0</property>
-                                                            </packing>
-                                                            </child>
-                                                            </object>
-                                                            </child>
-                                                            </object>
-                                                            </child>
-                                                            <child type="label">
-                                                            <object class="GtkHBox" id="hbox411">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="spacing">30</property>
-                                                            <child>
-                                                            <object class="GtkButton" id="button_run_encoder_analyze_options_close">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">True</property>
-                                                            <property name="receives-default">True</property>
-                                                            <signal name="clicked" handler="on_button_run_encoder_analyze_options_close_clicked" swapped="no"/>
-                                                            <child>
-                                                            <object class="GtkHBox" id="hbox412">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="spacing">6</property>
-                                                            <child>
-                                                            <object class="GtkImage" id="image_force_sensor_analyze_options_close1">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="stock">gtk-missing-image</property>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">True</property>
-                                                            <property name="fill">True</property>
-                                                            <property name="position">0</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
-                                                            <object class="GtkLabel" id="label526">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="label" translatable="yes">Close</property>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">True</property>
-                                                            <property name="fill">True</property>
-                                                            <property name="position">1</property>
-                                                            </packing>
-                                                            </child>
-                                                            </object>
-                                                            </child>
-                                                            <accelerator key="Escape" signal="clicked"/>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">True</property>
-                                                            <property name="fill">True</property>
-                                                            <property name="position">0</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
-                                                            <object class="GtkButton" id="button_run_encoder_analyze_options_close_and_analyze">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">True</property>
-                                                            <property name="receives-default">True</property>
-                                                            <property name="tooltip-text" translatable="yes">Close</property>
-                                                            <property name="relief">half</property>
-                                                            <signal name="clicked" handler="on_button_run_encoder_analyze_options_close_and_analyze_clicked" swapped="no"/>
-                                                            <child>
-                                                            <object class="GtkHBox" id="hbox413">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="spacing">8</property>
-                                                            <child>
-                                                            <object class="GtkImage" id="image_force_sensor_analyze_options_close_and_analyze1">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="stock">gtk-missing-image</property>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">True</property>
-                                                            <property name="fill">True</property>
-                                                            <property name="position">0</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
-                                                            <object class="GtkLabel" id="label527">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="label" translatable="yes">Close and analyze</property>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">True</property>
-                                                            <property name="fill">True</property>
-                                                            <property name="position">1</property>
-                                                            </packing>
-                                                            </child>
-                                                            </object>
-                                                            </child>
-                                                            <accelerator key="Escape" signal="clicked"/>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">True</property>
-                                                            <property name="fill">True</property>
-                                                            <property name="position">1</property>
-                                                            </packing>
-                                                            </child>
-                                                            </object>
+                                                            <child type="label_item">
+                                                            <placeholder/>
                                                             </child>
                                                             </object>
                                                             </child>
@@ -50730,6 +50606,60 @@ Since Chronojump 2.1.3, backups contain the complete data.</property>
         </child>
       </object>
     </child>
+  </object>
+  <object class="GtkAdjustment" id="adjustment90">
+    <property name="upper">300</property>
+    <property name="step-increment">1</property>
+    <property name="page-increment">1</property>
+  </object>
+  <object class="GtkAdjustment" id="adjustment91">
+    <property name="lower">25</property>
+    <property name="upper">1000</property>
+    <property name="value">100</property>
+    <property name="step-increment">1</property>
+    <property name="page-increment">1</property>
+  </object>
+  <object class="GtkAdjustment" id="adjustment92">
+    <property name="upper">300</property>
+    <property name="step-increment">1</property>
+    <property name="page-increment">1</property>
+  </object>
+  <object class="GtkAdjustment" id="adjustment93">
+    <property name="upper">100</property>
+    <property name="step-increment">1</property>
+    <property name="page-increment">1</property>
+  </object>
+  <object class="GtkAdjustment" id="adjustment94">
+    <property name="upper">300</property>
+    <property name="step-increment">1</property>
+    <property name="page-increment">1</property>
+  </object>
+  <object class="GtkAdjustment" id="adjustment95">
+    <property name="upper">300</property>
+    <property name="step-increment">1</property>
+    <property name="page-increment">1</property>
+  </object>
+  <object class="GtkAdjustment" id="adjustment96">
+    <property name="lower">25</property>
+    <property name="upper">1000</property>
+    <property name="value">100</property>
+    <property name="step-increment">1</property>
+    <property name="page-increment">1</property>
+  </object>
+  <object class="GtkAdjustment" id="adjustment97">
+    <property name="upper">300</property>
+    <property name="step-increment">1</property>
+    <property name="page-increment">1</property>
+  </object>
+  <object class="GtkAdjustment" id="adjustment98">
+    <property name="upper">100</property>
+    <property name="step-increment">1</property>
+    <property name="page-increment">1</property>
+  </object>
+  <object class="GtkAdjustment" id="adjustment99">
+    <property name="upper">300</property>
+    <property name="step-increment">1</property>
+    <property name="page-increment">1</property>
   </object>
   <object class="GtkListStore" id="model1">
     <columns>

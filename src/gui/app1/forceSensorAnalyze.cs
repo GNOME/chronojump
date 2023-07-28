@@ -42,7 +42,7 @@ public partial class ChronoJumpWindow
 	Gtk.Image image_force_sensor_analyze_individual_all_sessions;
 	Gtk.Image image_force_sensor_analyze_groupal_current_session;
 
-	Gtk.Notebook notebook_force_sensor_analyze_top;
+	Gtk.Notebook notebook_ai_top;
 	Gtk.HBox hbox_force_general_analysis;
 	Gtk.Button button_force_sensor_analyze_load_ab;
 	Gtk.Button button_force_sensor_analyze_load_cd;
@@ -173,7 +173,7 @@ public partial class ChronoJumpWindow
 	private RepetitionMouseLimitsWithSamples fsAIRepetitionMouseLimitsCairo;
 	private List<ForceSensorRepetition> rep_lZoomAppliedCairo;
 
-	private enum notebook_force_sensor_analyze_top_pages { CURRENTSETSIGNAL, CURRENTSETMODEL, CURRENTSESSION, AUTOMATICOPTIONS }
+	private enum notebook_ai_top_pages { CURRENTSETSIGNAL, CURRENTSETMODEL, CURRENTSESSION, AUTOMATICOPTIONS }
 
 	private string forceSensorAnalyzeSuperpose2SetsCDPersonName = "";
 
@@ -202,26 +202,13 @@ public partial class ChronoJumpWindow
 		hbox_top_person.Sensitive = s;
 	}
 
-	private int notebook_force_sensor_analyze_top_LastPage;
-	private void on_button_ai_model_options_clicked (object o, EventArgs args)
+	private void on_button_force_sensor_ai_model_options_clicked ()
 	{
-		//store the notebook to return to same place
-		notebook_force_sensor_analyze_top_LastPage = notebook_force_sensor_analyze_top.CurrentPage;
-		notebook_force_sensor_analyze_top.CurrentPage = Convert.ToInt32(notebook_force_sensor_analyze_top_pages.AUTOMATICOPTIONS);
-
-		hbox_force_sensor_analyze_top_modes.Sensitive = false;
-
-		button_ai_model_options_close_and_analyze.Visible = radio_force_sensor_analyze_current_set.Active;
-
 		forceSensorAnalyzeOptionsSensitivity(false);
 	}
 
-	private void on_button_ai_model_options_close_clicked (object o, EventArgs args)
+	private void on_button_force_sensor_ai_model_options_close_clicked ()
 	{
-		notebook_force_sensor_analyze_top.CurrentPage = notebook_force_sensor_analyze_top_LastPage;
-
-		hbox_force_sensor_analyze_top_modes.Sensitive = true;
-
 		// 1 change stuff on Sqlite if needed
 
 		Sqlite.Open();
@@ -280,15 +267,9 @@ public partial class ChronoJumpWindow
 		forceSensorAnalyzeOptionsSensitivity(true);
 	}
 
-	private void on_button_ai_model_options_close_and_analyze_clicked (object o, EventArgs args)
-	{
-		on_button_ai_model_options_close_clicked (o, args);
-		on_button_force_sensor_analyze_model_clicked (o, args);
-	}
-
 	private void on_button_force_sensor_analyze_model_clicked (object o, EventArgs args)
 	{
-		notebook_force_sensor_analyze_top.CurrentPage = Convert.ToInt32(notebook_force_sensor_analyze_top_pages.CURRENTSETMODEL);
+		notebook_ai_top.CurrentPage = Convert.ToInt32(notebook_ai_top_pages.CURRENTSETMODEL);
 
 		if(! Util.FileExists(lastForceSensorFullPath))
 		{
@@ -302,7 +283,7 @@ public partial class ChronoJumpWindow
 
 	private void on_button_force_sensor_analyze_back_to_signal_clicked (object o, EventArgs args)
 	{
-		notebook_force_sensor_analyze_top.CurrentPage = Convert.ToInt32(notebook_force_sensor_analyze_top_pages.CURRENTSETSIGNAL);
+		notebook_ai_top.CurrentPage = Convert.ToInt32(notebook_ai_top_pages.CURRENTSETSIGNAL);
 	}
 
 	private void on_radio_force_rfd_search_optimized_ab_toggled (object o, EventArgs args)
@@ -702,13 +683,13 @@ public partial class ChronoJumpWindow
 
 	private void on_radio_force_sensor_analyze_current_set_toggled (object o, EventArgs args)
 	{
-		notebook_force_sensor_analyze_top.CurrentPage = Convert.ToInt32(notebook_force_sensor_analyze_top_pages.CURRENTSETSIGNAL);
+		notebook_ai_top.CurrentPage = Convert.ToInt32(notebook_ai_top_pages.CURRENTSETSIGNAL);
 		label_force_sensor_export_result.Text = "";
 		button_force_sensor_export_result_open.Visible = false;
 	}
 	private void on_radio_force_sensor_analyze_export_csv_toggled (object o, EventArgs args)
 	{
-		notebook_force_sensor_analyze_top.CurrentPage = Convert.ToInt32(notebook_force_sensor_analyze_top_pages.CURRENTSESSION);
+		notebook_ai_top.CurrentPage = Convert.ToInt32(notebook_ai_top_pages.CURRENTSESSION);
 		label_force_sensor_export_result.Text = "";
 		button_force_sensor_export_result_open.Visible = false;
 	}
@@ -1556,7 +1537,7 @@ public partial class ChronoJumpWindow
 		image_force_sensor_analyze_individual_all_sessions = (Gtk.Image) builder.GetObject ("image_force_sensor_analyze_individual_all_sessions");
 		image_force_sensor_analyze_groupal_current_session = (Gtk.Image) builder.GetObject ("image_force_sensor_analyze_groupal_current_session");
 
-		notebook_force_sensor_analyze_top = (Gtk.Notebook) builder.GetObject ("notebook_force_sensor_analyze_top");
+		notebook_ai_top = (Gtk.Notebook) builder.GetObject ("notebook_ai_top");
 		hbox_force_general_analysis = (Gtk.HBox) builder.GetObject ("hbox_force_general_analysis");
 		button_force_sensor_analyze_load_ab = (Gtk.Button) builder.GetObject ("button_force_sensor_analyze_load_ab");
 		button_force_sensor_analyze_load_cd = (Gtk.Button) builder.GetObject ("button_force_sensor_analyze_load_cd");

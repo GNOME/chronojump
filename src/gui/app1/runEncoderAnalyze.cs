@@ -113,8 +113,15 @@ public partial class ChronoJumpWindow
 
 		//LogB.Information (string.Format ("before CalculateRangeParams 1 with fsAI.IdStr: {0}", fsAI.IdStr));
 		//old method
-		double timeA = raAI.GetTimeMS(countA);
-		double timeB = raAI.GetTimeMS(countB);
+		double timeA = raAI.GetTimeMS (countA);
+		double timeB = raAI.GetTimeMS (countB);
+		double speedA = raAI.GetSpeedAtCount (countA);
+		double speedB = raAI.GetSpeedAtCount (countB);
+
+		tvRA.TimeDiff = Math.Round (timeB - timeA, 1).ToString();
+		tvRA.SpeedDiff = speedB - speedA;
+
+		//TODO: avg, max
 	}
 
 	private void createRunEncoderAnalyzeCombos ()
@@ -648,7 +655,7 @@ public class TreeviewRAAnalyze : TreeviewS2Abstract
 	{
 		str[i++] = letterStart;
 		str[i++] = timeStart;
-		str[i++] = Math.Round (speedStart, 1).ToString ();
+		str[i++] = Math.Round (speedStart, 3).ToString ();
 		return str;
 	}
 
@@ -656,7 +663,7 @@ public class TreeviewRAAnalyze : TreeviewS2Abstract
 	{
 		str[i++] = letterEnd;
 		str[i++] = timeEnd;
-		str[i++] = Math.Round (speedEnd, 1).ToString ();
+		str[i++] = Math.Round (speedEnd, 3).ToString ();
 		return str;
 	}
 
@@ -664,7 +671,7 @@ public class TreeviewRAAnalyze : TreeviewS2Abstract
 	{
 		str[i++] = Catalog.GetString ("Difference");
 		str[i++] = timeDiff;
-		str[i++] = Math.Round (speedDiff, 1).ToString ();
+		str[i++] = Math.Round (speedDiff, 3).ToString ();
 		return str;
 	}
 
@@ -682,5 +689,9 @@ public class TreeviewRAAnalyze : TreeviewS2Abstract
 		str[i++] = ""; // no time max
 		str[i++] = speedMax;
 		return str;
+	}
+
+	public double SpeedDiff {
+		set { speedDiff = value; }
 	}
 }

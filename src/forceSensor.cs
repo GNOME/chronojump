@@ -1627,6 +1627,19 @@ public abstract class AnalyzeInstant
 		return 0;
 	}
 
+	/*
+	 * raceAnalyzer methods
+	 */
+
+	public virtual double GetSpeedAtCount (int count)
+	{
+		return 0;
+	}
+
+	/*
+	 * accessors
+	 */
+
 	public string IdStr
 	{
 		get { return idStr; }
@@ -1645,6 +1658,11 @@ public class RaceAnalyzerAnalyzeInstant : AnalyzeInstant
 	public override double GetTimeMS (int count)
 	{
 		return p_l[count].X * 1000; // s -> ms
+	}
+
+	public override double GetSpeedAtCount (int count)
+	{
+		return p_l[count].Y;
 	}
 }
 

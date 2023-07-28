@@ -73,7 +73,8 @@ public partial class ChronoJumpWindow
 	private enum notebook_run_encoder_analyze_pages { CURRENTSET, CURRENTSESSION, OPTIONS }
 	private enum notebook_run_encoder_analyze_current_set_pages { GRAPH, TABLE, TRIGGERS }
 
-
+	TreeviewRAAnalyze tvRA_AB;
+	TreeviewRAAnalyze tvRA_CD;
 
 	private void runEncoderPrepareGraphAI ()
 	{
@@ -578,5 +579,114 @@ public partial class ChronoJumpWindow
 		combo_run_encoder_analyze_accel = (Gtk.ComboBoxText) builder.GetObject ("combo_run_encoder_analyze_accel");
 		combo_run_encoder_analyze_force = (Gtk.ComboBoxText) builder.GetObject ("combo_run_encoder_analyze_force");
 		combo_run_encoder_analyze_power = (Gtk.ComboBoxText) builder.GetObject ("combo_run_encoder_analyze_power");
+	}
+}
+
+public class TreeviewRAAnalyze : TreeviewSAbstract
+{
+	//row 1
+	protected string letterStart;
+	protected string timeStart;
+	protected double speedStart;
+
+	//row 2
+	protected string letterEnd;
+	protected string timeEnd;
+	protected double speedEnd;
+
+	//row 3
+	protected string timeDiff;
+	protected double speedDiff;
+
+	//row 4
+	protected string speedAvg;
+
+	//row 5
+	protected string speedMax;
+
+	public TreeviewRAAnalyze (Gtk.TreeView tv, string letterStart, string letterEnd)
+	{
+		this.tv = tv;
+		this.letterStart = letterStart;
+		this.letterEnd = letterEnd;
+
+		createTreeview ();
+	}
+
+	protected override string [] setColumnsString ()
+	{
+		return new String [] {
+			"",
+			Catalog.GetString ("Time") + " (ms)",
+			Catalog.GetString ("Speed") + " (m/s)"
+		};
+	}
+
+	//some are string because it is easier to know if missing data, because doble could be 0.00000001 ...
+	public void PassRow1or2 (bool isLeft, string time, double speed)
+	{
+		if (isLeft)
+		{
+			this.timeStart = time;
+			this.speedStart = speed;
+		} else {
+			this.timeEnd = time;
+			this.speedEnd = speed;
+		}
+	}
+
+	protected virtual string [] getTreeviewStr ()
+	{
+		return new String [3];
+	}
+
+	public virtual void FillTreeview ()
+	{
+		string [] str = getTreeviewStr ();
+		store.AppendValues (fillTreeViewStart (str, 0));
+		store.AppendValues (fillTreeViewEnd (str, 0));
+		store.AppendValues (fillTreeViewDiff (str, 0));
+		store.AppendValues (fillTreeViewAvg (str, 0));
+		store.AppendValues (fillTreeViewMax (str, 0));
+	}
+
+	private string [] fillTreeViewStart (string [] str, int i)
+	{
+		str[i++] = letterStart;
+		str[i++] = timeStart;
+		str[i++] = Math.Round (speedStart, 1).ToString ();
+		return str;
+	}
+
+	private string [] fillTreeViewEnd (string [] str, int i)
+	{
+		str[i++] = letterEnd;
+		str[i++] = timeEnd;
+		str[i++] = Math.Round (speedEnd, 1).ToString ();
+		return str;
+	}
+
+	private string [] fillTreeViewDiff (string [] str, int i)
+	{
+		str[i++] = Catalog.GetString ("Difference");
+		str[i++] = timeDiff;
+		str[i++] = Math.Round (speedDiff, 1).ToString ();
+		return str;
+	}
+
+	private string [] fillTreeViewAvg (string [] str, int i)
+	{
+		str[i++] = Catalog.GetString ("Average");
+		str[i++] = ""; // no time avg
+		str[i++] = speedAvg;
+		return str;
+	}
+
+	private string [] fillTreeViewMax (string [] str, int i)
+	{
+		str[i++] = Catalog.GetString ("Maximum");
+		str[i++] = ""; // no time max
+		str[i++] = speedMax;
+		return str;
 	}
 }

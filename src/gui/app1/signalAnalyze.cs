@@ -535,16 +535,17 @@ public partial class ChronoJumpWindow
 		if (Constants.ModeIsFORCESENSOR (current_mode))
 		{
 			//need to do both to ensure at unzoom params are calculated for AB and CD
-			force_sensor_analyze_instant_calculate_params (fsAI_AB, tvFS_AB, true,
+			force_sensor_analyze_instant_calculate_params_for_treeview (fsAI_AB, tvFS_AB, true,
 					Convert.ToInt32 (hscale_ai_a.Value),
 					Convert.ToInt32 (hscale_ai_b.Value));
-			force_sensor_analyze_instant_calculate_params (fsAI_CD, tvFS_CD, false,
+			force_sensor_analyze_instant_calculate_params_for_treeview (fsAI_CD, tvFS_CD, false,
 					Convert.ToInt32 (hscale_ai_c.Value),
 					Convert.ToInt32 (hscale_ai_d.Value));
 
 			// 6. treeviews fill
 			tvFS.ResetTreeview (); //To avoid duplicated rows on chained A,B
 			tvFS.FillTreeview ();
+		} else { //if (current_mode == Constants.Modes.RUNSENCODER)
 		}
 
 		// 7. hscales manage sensitive
@@ -876,3 +877,41 @@ public static class AiVars
 	public static int d_last = 1;
 }
 
+//SignalAbstract
+public abstract class TreeviewSAbstract
+{
+	protected TreeStore store;
+	protected Gtk.TreeView tv;
+	protected string [] columnsString;
+
+	protected void createTreeview ()
+	{
+		tv = UtilGtk.RemoveColumns (tv);
+		columnsString = setColumnsString ();
+		store = UtilGtk.GetStore (columnsString.Length);
+		tv.Model = store;
+		prepareHeaders (columnsString);
+		tv.HeadersClickable = false;
+	}
+
+	protected virtual string [] setColumnsString ()
+	{
+		return new string [] {};
+	}
+
+	protected void prepareHeaders(string [] columnsString)
+	{
+		tv.HeadersVisible = true;
+		int i = 0;
+		foreach (string myCol in columnsString)
+			UtilGtk.CreateCols (tv, store, myCol, i++, true);
+	}
+
+	public void ResetTreeview ()
+	{
+		if (tv != null)
+			tv = UtilGtk.RemoveColumns (tv);
+
+		createTreeview ();
+	}
+}

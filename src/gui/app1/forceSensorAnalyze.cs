@@ -154,8 +154,8 @@ public partial class ChronoJumpWindow
 	Gtk.Box box_force_sensor_ai_c;
 	Gtk.Box box_force_sensor_ai_d;
 	Gtk.Label label_force_sensor_ai_zoom_abcd;
-	Gtk.TreeView treeview_force_sensor_ai_AB;
-	Gtk.TreeView treeview_force_sensor_ai_CD;
+	Gtk.TreeView treeview_ai_AB;
+	Gtk.TreeView treeview_ai_CD;
 	Gtk.TreeView treeview_force_sensor_ai_other;
 
 	Gtk.ComboBoxText combo_force_1_function;
@@ -1251,7 +1251,7 @@ public partial class ChronoJumpWindow
 			button_force_sensor_analyze_CD_save.Visible = false;
 	}
 
-	private void force_sensor_analyze_instant_calculate_params (
+	private void force_sensor_analyze_instant_calculate_params_for_treeview (
 			ForceSensorAnalyzeInstant fsAI, TreeviewFSAnalyze tvFS,	bool isAB, int countA, int countB)
 	{
 		//LogB.Information (string.Format ("before CalculateRangeParams 0 with fsAI.IdStr: {0}", fsAI.IdStr));
@@ -1669,8 +1669,8 @@ public partial class ChronoJumpWindow
 		box_force_sensor_ai_c = (Gtk.Box) builder.GetObject ("box_force_sensor_ai_c");
 		box_force_sensor_ai_d = (Gtk.Box) builder.GetObject ("box_force_sensor_ai_d");
 		label_force_sensor_ai_zoom_abcd = (Gtk.Label) builder.GetObject ("label_force_sensor_ai_zoom_abcd");
-		treeview_force_sensor_ai_AB = (Gtk.TreeView) builder.GetObject ("treeview_force_sensor_ai_AB");
-		treeview_force_sensor_ai_CD = (Gtk.TreeView) builder.GetObject ("treeview_force_sensor_ai_CD");
+		treeview_ai_AB = (Gtk.TreeView) builder.GetObject ("treeview_ai_AB");
+		treeview_ai_CD = (Gtk.TreeView) builder.GetObject ("treeview_ai_CD");
 		treeview_force_sensor_ai_other = (Gtk.TreeView) builder.GetObject ("treeview_force_sensor_ai_other");
 
 		combo_force_1_function = (Gtk.ComboBoxText) builder.GetObject ("combo_force_1_function");
@@ -1686,49 +1686,11 @@ public partial class ChronoJumpWindow
 	}
 }
 
-public abstract class TreeviewFSAbstract
-{
-	protected TreeStore store;
-	protected Gtk.TreeView tv;
-	protected string [] columnsString;
-
-	protected void createTreeview ()
-	{
-		tv = UtilGtk.RemoveColumns (tv);
-		columnsString = setColumnsString ();
-		store = UtilGtk.GetStore (columnsString.Length);
-		tv.Model = store;
-		prepareHeaders (columnsString);
-		tv.HeadersClickable = false;
-	}
-
-	protected virtual string [] setColumnsString ()
-	{
-		return new string [] {};
-	}
-
-	protected void prepareHeaders(string [] columnsString)
-	{
-		tv.HeadersVisible = true;
-		int i = 0;
-		foreach (string myCol in columnsString)
-			UtilGtk.CreateCols (tv, store, myCol, i++, true);
-	}
-
-	public void ResetTreeview ()
-	{
-		if (tv != null)
-			tv = UtilGtk.RemoveColumns (tv);
-
-		createTreeview ();
-	}
-
-}
 
 // 1 for AB and another for CD:
-// tvFS_AB for treeview_force_sensor_ai_AB
-// tvFS_CD for treeview_force_sensor_ai_CD
-public class TreeviewFSAnalyze : TreeviewFSAbstract
+// tvFS_AB for treeview_ai_AB
+// tvFS_CD for treeview_ai_CD
+public class TreeviewFSAnalyze : TreeviewSAbstract
 {
 	//row 1
 	protected string letterStart;
@@ -1764,7 +1726,6 @@ public class TreeviewFSAnalyze : TreeviewFSAbstract
 		this.tv = tv;
 		this.letterStart = letterStart;
 		this.letterEnd = letterEnd;
-
 
 		createTreeview ();
 	}
@@ -2064,7 +2025,7 @@ public class TreeviewFSAnalyzeElastic : TreeviewFSAnalyze
 	}
 }
 
-public class TreeviewFSAnalyzeOther : TreeviewFSAbstract
+public class TreeviewFSAnalyzeOther : TreeviewSAbstract
 {
 	private bool showColumnAB;
 	private bool showColumnCD;

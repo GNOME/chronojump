@@ -4291,6 +4291,8 @@ public partial class ChronoJumpWindow
 			image_top_laterality_contacts.Visible = true;
 			setForceSensorLateralityPixbuf();
 			fullscreen_button_fullscreen_contacts.Visible = true;
+
+			signalAnalyzeButtonsVisibility ();
 		}
 		else if(m == Constants.Modes.RUNSENCODER)
 		{
@@ -4329,6 +4331,8 @@ public partial class ChronoJumpWindow
 			createComboSelectContactsTop ();
 			label_contacts_exercise_selected_name.Visible = false;
 			hbox_combo_select_contacts_top_with_arrows.Visible = true; //this will be unneded
+
+			signalAnalyzeButtonsVisibility ();
 		}
 		else if(m == Constants.Modes.RT)
 		{

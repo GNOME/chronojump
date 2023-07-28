@@ -104,6 +104,18 @@ public partial class ChronoJumpWindow
 		//manage_force_sensor_ai_table_visibilities();
 	}
 
+	private void race_analyzer_analyze_instant_calculate_params_for_treeview (
+			RaceAnalyzerAnalyzeInstant raAI, TreeviewRAAnalyze tvRA, bool isAB, int countA, int countB)
+	{
+		//LogB.Information (string.Format ("before CalculateRangeParams 0 with raAI.IdStr: {0}", raAI.IdStr));
+		if (countA < 0 || countA > raAI.GetLength() -1 || countB < 0 || countB > raAI.GetLength() -1)
+			return;
+
+		//LogB.Information (string.Format ("before CalculateRangeParams 1 with fsAI.IdStr: {0}", fsAI.IdStr));
+		//old method
+		double timeA = raAI.GetTimeMS(countA);
+		double timeB = raAI.GetTimeMS(countB);
+	}
 
 	private void createRunEncoderAnalyzeCombos ()
 	{
@@ -582,20 +594,17 @@ public partial class ChronoJumpWindow
 	}
 }
 
-public class TreeviewRAAnalyze : TreeviewSAbstract
+public class TreeviewRAAnalyze : TreeviewS2Abstract
 {
 	//row 1
 	protected string letterStart;
-	protected string timeStart;
 	protected double speedStart;
 
 	//row 2
 	protected string letterEnd;
-	protected string timeEnd;
 	protected double speedEnd;
 
 	//row 3
-	protected string timeDiff;
 	protected double speedDiff;
 
 	//row 4
@@ -622,35 +631,20 @@ public class TreeviewRAAnalyze : TreeviewSAbstract
 		};
 	}
 
-	//some are string because it is easier to know if missing data, because doble could be 0.00000001 ...
-	public void PassRow1or2 (bool isLeft, string time, double speed)
+	public override void PassSpeed1or2 (bool isLeft, double speed)
 	{
 		if (isLeft)
-		{
-			this.timeStart = time;
 			this.speedStart = speed;
-		} else {
-			this.timeEnd = time;
+		else
 			this.speedEnd = speed;
-		}
 	}
 
-	protected virtual string [] getTreeviewStr ()
+	protected override string [] getTreeviewStr ()
 	{
 		return new String [3];
 	}
 
-	public virtual void FillTreeview ()
-	{
-		string [] str = getTreeviewStr ();
-		store.AppendValues (fillTreeViewStart (str, 0));
-		store.AppendValues (fillTreeViewEnd (str, 0));
-		store.AppendValues (fillTreeViewDiff (str, 0));
-		store.AppendValues (fillTreeViewAvg (str, 0));
-		store.AppendValues (fillTreeViewMax (str, 0));
-	}
-
-	private string [] fillTreeViewStart (string [] str, int i)
+	protected override string [] fillTreeViewStart (string [] str, int i)
 	{
 		str[i++] = letterStart;
 		str[i++] = timeStart;
@@ -658,7 +652,7 @@ public class TreeviewRAAnalyze : TreeviewSAbstract
 		return str;
 	}
 
-	private string [] fillTreeViewEnd (string [] str, int i)
+	protected override string [] fillTreeViewEnd (string [] str, int i)
 	{
 		str[i++] = letterEnd;
 		str[i++] = timeEnd;
@@ -666,7 +660,7 @@ public class TreeviewRAAnalyze : TreeviewSAbstract
 		return str;
 	}
 
-	private string [] fillTreeViewDiff (string [] str, int i)
+	protected override string [] fillTreeViewDiff (string [] str, int i)
 	{
 		str[i++] = Catalog.GetString ("Difference");
 		str[i++] = timeDiff;
@@ -674,7 +668,7 @@ public class TreeviewRAAnalyze : TreeviewSAbstract
 		return str;
 	}
 
-	private string [] fillTreeViewAvg (string [] str, int i)
+	protected override string [] fillTreeViewAvg (string [] str, int i)
 	{
 		str[i++] = Catalog.GetString ("Average");
 		str[i++] = ""; // no time avg
@@ -682,7 +676,7 @@ public class TreeviewRAAnalyze : TreeviewSAbstract
 		return str;
 	}
 
-	private string [] fillTreeViewMax (string [] str, int i)
+	protected override string [] fillTreeViewMax (string [] str, int i)
 	{
 		str[i++] = Catalog.GetString ("Maximum");
 		str[i++] = ""; // no time max

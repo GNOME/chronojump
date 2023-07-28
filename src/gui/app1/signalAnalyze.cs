@@ -522,6 +522,7 @@ public partial class ChronoJumpWindow
 			if (current_mode == Constants.Modes.FORCESENSORELASTIC)
 				tvS.PassRow1or2Elastic (isLeft, position, speed, accel, power);
 		} else { //if (current_mode == Constants.Modes.RUNSENCODER)
+			tvS.PassSpeed1or2 (isLeft, sAI.GetSpeedAtCount (count));
 		}
 
 		//LogB.Information (string.Format ("on_hscale_ai_value_changed {0} 3", hscaleToDebug));
@@ -559,14 +560,12 @@ public partial class ChronoJumpWindow
 					Convert.ToInt32 (hscale_ai_c.Value),
 					Convert.ToInt32 (hscale_ai_d.Value));
 		} else { //if (current_mode == Constants.Modes.RUNSENCODER)
-			/*
 			race_analyzer_analyze_instant_calculate_params_for_treeview (raAI_AB, tvRA_AB, true,
 					Convert.ToInt32 (hscale_ai_a.Value),
 					Convert.ToInt32 (hscale_ai_b.Value));
 			race_analyzer_analyze_instant_calculate_params_for_treeview (raAI_CD, tvRA_CD, false,
 					Convert.ToInt32 (hscale_ai_c.Value),
 					Convert.ToInt32 (hscale_ai_d.Value));
-					*/
 		}
 
 		// 6. treeviews fill

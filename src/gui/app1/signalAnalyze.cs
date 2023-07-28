@@ -536,16 +536,7 @@ public partial class ChronoJumpWindow
 		forceSensorAnalyzeGeneralButtonHscaleZoomSensitiveness();
 
 		// 8. refresh graph
-//		if (Constants.ModeIsFORCESENSOR (current_mode))
-		LogB.Information ("graph should update");
-			force_sensor_ai_drawingarea_cairo.QueueDraw(); //will fire ExposeEvent
-/*	do not do this, as this force_sensor_ai_drawingarea_cairo.QueueDraw will already update raceAnalyzer graph
- *	else //if (current_mode == Constants.Modes.RUNSENCODER)
-		{
-			LogB.Information 
-			drawingarea_race_analyzer_capture_speed_time.QueueDraw ();
-		}
-		*/
+		ai_drawingarea_cairo.QueueDraw(); //will fire ExposeEvent
 
 		LogB.Information (string.Format ("on_hscale_ai_value_changed {0} 8", hscaleToDebug));
 	}
@@ -760,7 +751,7 @@ public partial class ChronoJumpWindow
 			radio_ai_cd.Sensitive = (currentForceSensor != null && currentForceSensor.UniqueID >= 0);
 		}
 		signalPrepareGraphAI ();
-		force_sensor_ai_drawingarea_cairo.QueueDraw(); //will fire ExposeEvent
+		ai_drawingarea_cairo.QueueDraw(); //will fire ExposeEvent
 	}
 
 	private void on_radio_ai_abcd_toggled (object o, EventArgs args)
@@ -793,7 +784,7 @@ public partial class ChronoJumpWindow
 		button_force_sensor_analyze_move_cd_right.Sensitive = (radio_ai_2sets.Active && radio_ai_cd.Active);
 
 		forceSensorAnalyzeGeneralButtonHscaleZoomSensitiveness();
-		force_sensor_ai_drawingarea_cairo.QueueDraw(); //will fire ExposeEvent
+		ai_drawingarea_cairo.QueueDraw(); //will fire ExposeEvent
 	}
 
 	private void radiosForceSensorAiSensitivity (bool sensitive)

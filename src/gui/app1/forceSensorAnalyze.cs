@@ -148,7 +148,7 @@ public partial class ChronoJumpWindow
 	Gtk.Image image_force_sensor_analyze_show_distance;
 	Gtk.Image image_force_sensor_analyze_show_speed;
 	Gtk.Image image_force_sensor_analyze_show_power;
-	Gtk.DrawingArea force_sensor_ai_drawingarea_cairo;
+	Gtk.DrawingArea ai_drawingarea_cairo;
 	Gtk.Box box_force_sensor_ai_a;
 	Gtk.Box box_force_sensor_ai_b;
 	Gtk.Box box_force_sensor_ai_c;
@@ -1003,7 +1003,7 @@ public partial class ChronoJumpWindow
 		if (fsMagnitudesSignalsNoFollow)
 			return;
 
-		force_sensor_ai_drawingarea_cairo.QueueDraw ();
+		ai_drawingarea_cairo.QueueDraw ();
 
 		//sync with capture magnitudes
 		fsMagnitudesSignalsNoFollow = true;
@@ -1019,7 +1019,7 @@ public partial class ChronoJumpWindow
 	}
 
 	CairoGraphForceSensorAI cairoGraphForceSensorAI;
-	public void on_force_sensor_ai_drawingarea_cairo_draw (object o, Gtk.DrawnArgs args)
+	public void on_ai_drawingarea_cairo_draw (object o, Gtk.DrawnArgs args)
 	{
 		if (Constants.ModeIsFORCESENSOR (current_mode))
 			updateForceSensorAICairo (true);
@@ -1032,7 +1032,7 @@ public partial class ChronoJumpWindow
 		// 1. create cairoGraphForceSensorAI & spCairoFE if needed
 		if (cairoGraphForceSensorAI == null)
 			cairoGraphForceSensorAI = new CairoGraphForceSensorAI (
-					force_sensor_ai_drawingarea_cairo, "title");
+					ai_drawingarea_cairo, "title");
 
 		if (spCairoFE == null)
 			spCairoFE = new SignalPointsCairoForceElastic ();
@@ -1165,7 +1165,7 @@ public partial class ChronoJumpWindow
 				forceRedraw, CairoXY.PlotTypes.LINES);
 	}
 
-	private void on_force_sensor_ai_drawingarea_cairo_button_press_event (object o, ButtonPressEventArgs args)
+	private void on_ai_drawingarea_cairo_button_press_event (object o, ButtonPressEventArgs args)
 	{
 		//LogB.Information(string.Format("Mouse X: {0}; Mouse Y: {1}", args.Event.X, args.Event.Y));
 
@@ -1220,7 +1220,7 @@ public partial class ChronoJumpWindow
 		if (spCairoFE_CD != null)
 		{
 			spCairoFE_CD.ShiftMicros (-500000); //.5 s
-			force_sensor_ai_drawingarea_cairo.QueueDraw(); //will fire ExposeEvent
+			ai_drawingarea_cairo.QueueDraw(); //will fire ExposeEvent
 		}
 	}
 	private void on_button_force_sensor_analyze_move_cd_right_clicked (object o, EventArgs args)
@@ -1228,7 +1228,7 @@ public partial class ChronoJumpWindow
 		if (spCairoFE_CD != null)
 		{
 			spCairoFE_CD.ShiftMicros (500000); //.5 s
-			force_sensor_ai_drawingarea_cairo.QueueDraw(); //will fire ExposeEvent
+			ai_drawingarea_cairo.QueueDraw(); //will fire ExposeEvent
 		}
 	}
 
@@ -1656,7 +1656,7 @@ public partial class ChronoJumpWindow
 		button_force_sensor_export_result_open = (Gtk.Button) builder.GetObject ("button_force_sensor_export_result_open");
 
 		hbox_force_sensor_analyze_ai_sliders_and_buttons = (Gtk.HBox) builder.GetObject ("hbox_force_sensor_analyze_ai_sliders_and_buttons");
-		force_sensor_ai_drawingarea_cairo = (Gtk.DrawingArea) builder.GetObject ("force_sensor_ai_drawingarea_cairo");
+		ai_drawingarea_cairo = (Gtk.DrawingArea) builder.GetObject ("ai_drawingarea_cairo");
 		box_force_sensor_analyze_magnitudes = (Gtk.Box) builder.GetObject ("box_force_sensor_analyze_magnitudes");
 		check_force_sensor_analyze_show_distance = (Gtk.CheckButton) builder.GetObject ("check_force_sensor_analyze_show_distance");
 		check_force_sensor_analyze_show_speed = (Gtk.CheckButton) builder.GetObject ("check_force_sensor_analyze_show_speed");

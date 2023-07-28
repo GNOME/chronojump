@@ -575,7 +575,7 @@ public partial class ChronoJumpWindow
 		// ... at analyze tab
 		spCairoFEZoom = new SignalPointsCairoForceElastic ();
 		spCairoFEZoom_CD = new SignalPointsCairoForceElastic ();
-		force_sensor_ai_drawingarea_cairo.QueueDraw ();
+		ai_drawingarea_cairo.QueueDraw ();
 		// <---- end of erase cairo graphs
 
 		radiosForceSensorAiSensitivity (true); //because maybe zoom was in
@@ -2914,11 +2914,11 @@ LogB.Information(" fs R ");
 	void on_button_forcesensor_save_image_rfd_manual_file_selected (string destination)
 	{
 		try {
-			if (force_sensor_ai_drawingarea_cairo == null)
+			if (ai_drawingarea_cairo == null)
 				return;
 
 			LogB.Information ("Saving");
-			CairoUtil.GetScreenshotFromDrawingArea (force_sensor_ai_drawingarea_cairo, destination);
+			CairoUtil.GetScreenshotFromDrawingArea (ai_drawingarea_cairo, destination);
 		} catch {
 			string myString = string.Format (
 					Catalog.GetString ("Cannot save file {0} "), destination);

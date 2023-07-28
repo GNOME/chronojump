@@ -22909,6 +22909,9 @@ Concentric</property>
                                                             <child>
                                                             <placeholder/>
                                                             </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
                                                             </object>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -26251,11 +26254,11 @@ Concentric</property>
                                                             <property name="can-focus">False</property>
                                                             <property name="spacing">8</property>
                                                             <child>
-                                                            <object class="GtkDrawingArea" id="force_sensor_ai_drawingarea_cairo">
+                                                            <object class="GtkDrawingArea" id="ai_drawingarea_cairo">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
-                                                            <signal name="button-press-event" handler="on_force_sensor_ai_drawingarea_cairo_button_press_event" swapped="no"/>
-                                                            <signal name="draw" handler="on_force_sensor_ai_drawingarea_cairo_draw" swapped="no"/>
+                                                            <signal name="button-press-event" handler="on_ai_drawingarea_cairo_button_press_event" swapped="no"/>
+                                                            <signal name="draw" handler="on_ai_drawingarea_cairo_draw" swapped="no"/>
                                                             </object>
                                                             <packing>
                                                             <property name="expand">True</property>
@@ -41963,6 +41966,9 @@ then click this button.</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="enable-search">False</property>
                                                             <signal name="row-activated" handler="app1s_on_row_double_clicked" swapped="no"/>
+                                                            <child internal-child="selection">
+                                                            <object class="GtkTreeSelection"/>
+                                                            </child>
                                                             </object>
                                                             </child>
                                                             </object>

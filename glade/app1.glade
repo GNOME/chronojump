@@ -41303,18 +41303,12 @@ then click this button.</property>
                                                             <property name="border-width">12</property>
                                                             <property name="spacing">12</property>
                                                             <child>
-                                                            <object class="GtkTable" id="app1s_table_select">
+                                                            <!-- n-columns=3 n-rows=2 -->
+                                                            <object class="GtkGrid" id="app1s_grid_select">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
-                                                            <property name="n-rows">2</property>
-                                                            <property name="n-columns">2</property>
+                                                            <property name="row-spacing">8</property>
                                                             <property name="column-spacing">25</property>
-                                                            <property name="row-spacing">6</property>
-                                                            <child>
-                                                            <object class="GtkHBox" id="hbox116">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="spacing">6</property>
                                                             <child>
                                                             <object class="GtkLabel" id="label443">
                                                             <property name="visible">True</property>
@@ -41323,53 +41317,10 @@ then click this button.</property>
                                                             <property name="xalign">0</property>
                                                             </object>
                                                             <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="position">0</property>
+                                                            <property name="left-attach">0</property>
+                                                            <property name="top-attach">0</property>
                                                             </packing>
                                                             </child>
-                                                            <child>
-                                                            <object class="GtkEntry" id="app1s_entry_search_filter">
-                                                            <property name="width-request">200</property>
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="invisible-char">●</property>
-                                                            <property name="primary-icon-activatable">False</property>
-                                                            <property name="secondary-icon-activatable">False</property>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="position">1</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
-                                                            <object class="GtkButton" id="app1s_button_search">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">True</property>
-                                                            <property name="receives-default">True</property>
-                                                            <signal name="clicked" handler="on_app1s_button_search_clicked" swapped="no"/>
-                                                            <child>
-                                                            <object class="GtkImage" id="app1s_image_search">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="stock">gtk-missing-image</property>
-                                                            </object>
-                                                            </child>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="position">2</property>
-                                                            </packing>
-                                                            </child>
-                                                            </object>
-                                                            </child>
-                                                            <child>
-                                                            <object class="GtkHBox" id="app1s_hbox_tags">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="spacing">6</property>
                                                             <child>
                                                             <object class="GtkLabel" id="label339">
                                                             <property name="visible">True</property>
@@ -41377,11 +41328,15 @@ then click this button.</property>
                                                             <property name="label" translatable="yes">Filter by tag</property>
                                                             </object>
                                                             <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="position">0</property>
+                                                            <property name="left-attach">0</property>
+                                                            <property name="top-attach">1</property>
                                                             </packing>
                                                             </child>
+                                                            <child>
+                                                            <object class="GtkHBox" id="app1s_hbox_tags">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="spacing">6</property>
                                                             <child>
                                                             <object class="GtkHBox" id="app1s_hbox_combo_tags">
                                                             <property name="visible">True</property>
@@ -41412,16 +41367,92 @@ then click this button.</property>
                                                             </child>
                                                             </object>
                                                             <packing>
+                                                            <property name="left-attach">1</property>
                                                             <property name="top-attach">1</property>
-                                                            <property name="bottom-attach">2</property>
-                                                            <property name="x-options">GTK_FILL</property>
-                                                            <property name="y-options"/>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkHBox" id="hbox386">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="halign">end</property>
+                                                            <property name="hexpand">True</property>
+                                                            <property name="spacing">25</property>
+                                                            <child>
+                                                            <object class="GtkCheckButton" id="app1s_check_filter_by_sensor">
+                                                            <property name="label" translatable="yes">Filter by sensor data</property>
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">True</property>
+                                                            <property name="receives-default">False</property>
+                                                            <property name="draw-indicator">True</property>
+                                                            <signal name="clicked" handler="on_app1s_check_filter_by_sensor_clicked" swapped="no"/>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkHBox" id="hbox535">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="spacing">6</property>
+                                                            <child>
+                                                            <object class="GtkLabel" id="label107">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="label" translatable="yes">View</property>
+                                                            <property name="use-markup">True</property>
+                                                            <property name="xalign">0</property>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkCheckButton" id="app1s_checkbutton_show_data_persons">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">True</property>
+                                                            <property name="receives-default">False</property>
+                                                            <property name="draw-indicator">False</property>
+                                                            <signal name="toggled" handler="app1s_on_checkbutton_show_data_toggled" swapped="no"/>
+                                                            <child>
+                                                            <object class="GtkImage" id="app1s_image_show_data_persons">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="stock">gtk-missing-image</property>
+                                                            </object>
+                                                            </child>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="pack-type">end</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="left-attach">2</property>
+                                                            <property name="top-attach">1</property>
                                                             </packing>
                                                             </child>
                                                             <child>
                                                             <object class="GtkHBox" id="hbox115">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
+                                                            <property name="halign">end</property>
+                                                            <property name="hexpand">True</property>
                                                             <property name="spacing">6</property>
                                                             <child>
                                                             <object class="GtkLabel" id="label575">
@@ -41805,59 +41836,39 @@ then click this button.</property>
                                                             </child>
                                                             </object>
                                                             <packing>
-                                                            <property name="left-attach">1</property>
-                                                            <property name="right-attach">2</property>
-                                                            <property name="x-options">GTK_FILL</property>
-                                                            <property name="y-options"/>
+                                                            <property name="left-attach">2</property>
+                                                            <property name="top-attach">0</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <object class="GtkHBox" id="hbox386">
+                                                            <object class="GtkBox">
+                                                            <property name="width-request">300</property>
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
+                                                            <property name="spacing">8</property>
                                                             <child>
-                                                            <object class="GtkCheckButton" id="app1s_check_filter_by_sensor">
-                                                            <property name="label" translatable="yes">Filter by sensor data</property>
+                                                            <object class="GtkEntry" id="app1s_entry_search_filter">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">True</property>
-                                                            <property name="receives-default">False</property>
-                                                            <property name="draw-indicator">True</property>
-                                                            <signal name="clicked" handler="on_app1s_check_filter_by_sensor_clicked" swapped="no"/>
+                                                            <property name="invisible-char">●</property>
+                                                            <property name="primary-icon-activatable">False</property>
+                                                            <property name="secondary-icon-activatable">False</property>
                                                             </object>
                                                             <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
                                                             <property name="position">0</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <object class="GtkHBox" id="hbox535">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="spacing">6</property>
-                                                            <child>
-                                                            <object class="GtkLabel" id="label107">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="label" translatable="yes">View</property>
-                                                            <property name="use-markup">True</property>
-                                                            <property name="xalign">0</property>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="position">0</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
-                                                            <object class="GtkCheckButton" id="app1s_checkbutton_show_data_persons">
+                                                            <object class="GtkButton" id="app1s_button_search">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">True</property>
-                                                            <property name="receives-default">False</property>
-                                                            <property name="draw-indicator">False</property>
-                                                            <signal name="toggled" handler="app1s_on_checkbutton_show_data_toggled" swapped="no"/>
+                                                            <property name="receives-default">True</property>
+                                                            <property name="halign">start</property>
+                                                            <signal name="clicked" handler="on_app1s_button_search_clicked" swapped="no"/>
                                                             <child>
-                                                            <object class="GtkImage" id="app1s_image_show_data_persons">
+                                                            <object class="GtkImage" id="app1s_image_search">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
                                                             <property name="stock">gtk-missing-image</property>
@@ -41866,25 +41877,14 @@ then click this button.</property>
                                                             </object>
                                                             <packing>
                                                             <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="position">1</property>
-                                                            </packing>
-                                                            </child>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="pack-type">end</property>
+                                                            <property name="fill">True</property>
                                                             <property name="position">1</property>
                                                             </packing>
                                                             </child>
                                                             </object>
                                                             <packing>
                                                             <property name="left-attach">1</property>
-                                                            <property name="right-attach">2</property>
-                                                            <property name="top-attach">1</property>
-                                                            <property name="bottom-attach">2</property>
-                                                            <property name="x-options">GTK_FILL</property>
+                                                            <property name="top-attach">0</property>
                                                             </packing>
                                                             </child>
                                                             </object>
@@ -41937,7 +41937,7 @@ then click this button.</property>
                                                             <packing>
                                                             <property name="expand">True</property>
                                                             <property name="fill">True</property>
-                                                            <property name="position">1</property>
+                                                            <property name="position">2</property>
                                                             </packing>
                                                             </child>
                                                             <child>
@@ -41950,7 +41950,7 @@ then click this button.</property>
                                                             <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">True</property>
-                                                            <property name="position">2</property>
+                                                            <property name="position">3</property>
                                                             </packing>
                                                             </child>
                                                             </object>

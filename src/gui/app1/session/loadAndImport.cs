@@ -462,7 +462,7 @@ public partial class ChronoJumpWindow
 	void app1s_recreateTreeView(string message)
 	{
 		LogB.Information("Recreate treeview: " + message);
-		app1s_table_select.Sensitive = false;
+		app1s_grid_select.Sensitive = false;
 
 		UtilGtk.RemoveColumns(app1s_treeview_session_load);
 		
@@ -691,7 +691,7 @@ public partial class ChronoJumpWindow
 		 * and it will sensitive on/off button_accept as needed
 		 */
 		app1s_onSelectionEntry (app1s_treeview_session_load.Selection, new EventArgs ());
-		app1s_table_select.Sensitive = true;
+		app1s_grid_select.Sensitive = true;
 	}
 
 	/* unused right now

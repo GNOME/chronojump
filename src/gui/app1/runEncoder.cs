@@ -465,7 +465,6 @@ public partial class ChronoJumpWindow
 		triggerListRunEncoder = new TriggerList();
 		clearRaceAnalyzerTriggersFromTextView();
 
-		button_run_encoder_analyze_options_close_and_analyze.Sensitive = false;
 		button_run_encoder_analyze_analyze.Sensitive = false;
 		button_delete_last_test.Sensitive = false;
 		button_run_encoder_image_save.Sensitive = false;
@@ -481,6 +480,8 @@ public partial class ChronoJumpWindow
 		label_run_encoder_export_discarded.Text = "";
 		label_run_encoder_export_result.Text = "";
 		button_run_encoder_export_result_open.Visible = false;
+
+		blankAIInterface ();
 	}
 
 	private void raceEncoderReadWidgets()
@@ -1298,7 +1299,7 @@ RunEncoderCaptureGetSpeedAndDisplacementTest recgsdt = new RunEncoderCaptureGetS
 
 		image_run_encoder_graph.Visible = false;
 		button_run_encoder_analyze_analyze.Sensitive = true;
-		button_run_encoder_analyze_options_close_and_analyze.Sensitive = true;
+		button_ai_model_options_close_and_analyze.Sensitive = true;
 		button_run_encoder_image_save.Sensitive = true;
 
 		return (Util.GetLastPartOfPath(re.Filename));
@@ -1792,7 +1793,7 @@ RunEncoderCaptureGetSpeedAndDisplacementTest recgsdt = new RunEncoderCaptureGetS
 					*/
 
 					button_contacts_exercise_close_and_recalculate.Sensitive = true;
-					button_run_encoder_analyze_options_close_and_analyze.Sensitive = true;
+					button_ai_model_options_close_and_analyze.Sensitive = true;
 					button_run_encoder_analyze_analyze.Sensitive = true;
 					button_run_encoder_image_save.Sensitive = true;
 					button_delete_last_test.Sensitive = true;
@@ -1825,7 +1826,7 @@ RunEncoderCaptureGetSpeedAndDisplacementTest recgsdt = new RunEncoderCaptureGetS
 				webcamEnd (Constants.TestTypes.RACEANALYZER, -1);
 				sensitiveLastTestButtons(false);
 				contactsShowCaptureDoingButtons(false);
-				button_run_encoder_analyze_options_close_and_analyze.Sensitive = false;
+				button_ai_model_options_close_and_analyze.Sensitive = false;
 				button_run_encoder_analyze_analyze.Sensitive = false;
 				button_run_encoder_image_save.Sensitive = false;
 				button_delete_last_test.Sensitive = false;

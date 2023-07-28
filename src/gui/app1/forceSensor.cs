@@ -151,7 +151,7 @@ public partial class ChronoJumpWindow
 
 	private void initForceSensor ()
 	{
-		//notebook_force_sensor_analyze_top.CurrentPage = Convert.ToInt32(notebook_force_sensor_analyze_top_pages.CURRENTSETSIGNAL);
+		//notebook_ai_top.CurrentPage = Convert.ToInt32(notebook_ai_top_pages.CURRENTSETSIGNAL);
 		//change radio and will change also notebook:
 		radio_force_sensor_analyze_current_set.Active = true;
 
@@ -405,7 +405,7 @@ public partial class ChronoJumpWindow
 		}
 		else if (o == (object) button_execute_test)
 		{
-			//notebook_force_sensor_analyze_top.CurrentPage = Convert.ToInt32(notebook_force_sensor_analyze_top_pages.CURRENTSETSIGNAL);
+			//notebook_ai_top.CurrentPage = Convert.ToInt32(notebook_ai_top_pages.CURRENTSETSIGNAL);
 			//change radio and will change also notebook:
 			radio_force_sensor_analyze_current_set.Active = true;
 
@@ -546,15 +546,14 @@ public partial class ChronoJumpWindow
 		button_contacts_exercise_close_and_recalculate.Sensitive = false;
 		textview_contacts_signal_comment.Buffer.Text = "";
 		hbox_force_general_analysis.Sensitive = false;
-		button_ai_model_options_close_and_analyze.Sensitive = false;
 		button_force_sensor_analyze_model.Sensitive = false;
 		button_delete_last_test.Sensitive = false;
 
 		// if on RFD model graph shown, go back to signal
-		if (notebook_force_sensor_analyze_top.CurrentPage ==
-				Convert.ToInt32 (notebook_force_sensor_analyze_top_pages.CURRENTSETMODEL))
-			notebook_force_sensor_analyze_top.CurrentPage =
-				Convert.ToInt32 (notebook_force_sensor_analyze_top_pages.CURRENTSETSIGNAL);
+		if (notebook_ai_top.CurrentPage ==
+				Convert.ToInt32 (notebook_ai_top_pages.CURRENTSETMODEL))
+			notebook_ai_top.CurrentPage =
+				Convert.ToInt32 (notebook_ai_top_pages.CURRENTSETSIGNAL);
 
 		// if on zoom, exit
 		if (check_force_sensor_ai_zoom.Active)
@@ -576,6 +575,8 @@ public partial class ChronoJumpWindow
 		spCairoFEZoom = new SignalPointsCairoForceElastic ();
 		spCairoFEZoom_CD = new SignalPointsCairoForceElastic ();
 		ai_drawingarea_cairo.QueueDraw ();
+
+		blankAIInterface ();
 		// <---- end of erase cairo graphs
 
 		radiosForceSensorAiSensitivity (true); //because maybe zoom was in
@@ -2098,7 +2099,7 @@ LogB.Information(" fs R ");
 		cairoGraphForceSensorSignalPointsShowAccuracy = false;
 		forceSensorCopyTempAndDoGraphs(forceSensorGraphsEnum.SIGNAL);
 		//image_force_sensor_graph.Sensitive = false; //unsensitivize the RFD image (can contain info of previous data)
-		notebook_force_sensor_analyze_top.CurrentPage = Convert.ToInt32(notebook_force_sensor_analyze_top_pages.CURRENTSETSIGNAL);
+		notebook_ai_top.CurrentPage = Convert.ToInt32(notebook_ai_top_pages.CURRENTSETSIGNAL);
 
 		button_video_play_this_test_contacts.Sensitive = (fs.VideoURL != "");
 		sensitiveLastTestButtons(true);
@@ -2116,7 +2117,7 @@ LogB.Information(" fs R ");
 		hbox_force_general_analysis.Sensitive = true;
 		button_ai_model_options_close_and_analyze.Sensitive = true;
 
-		//notebook_force_sensor_analyze_top.CurrentPage = Convert.ToInt32(notebook_force_sensor_analyze_top_pages.CURRENTSETSIGNAL);
+		//notebook_ai_top.CurrentPage = Convert.ToInt32(notebook_ai_top_pages.CURRENTSETSIGNAL);
 		//change radio and will change also notebook:
 		radio_force_sensor_analyze_current_set.Active = true;
 	}
@@ -2352,7 +2353,7 @@ LogB.Information(" fs R ");
 
 		currentForceSensor.UpdateSQL(false);
 
-		//notebook_force_sensor_analyze_top.CurrentPage = Convert.ToInt32(notebook_force_sensor_analyze_top_pages.CURRENTSETSIGNAL);
+		//notebook_ai_top.CurrentPage = Convert.ToInt32(notebook_ai_top_pages.CURRENTSETSIGNAL);
 		//change radio and will change also notebook:
 		radio_force_sensor_analyze_current_set.Active = true;
 	}

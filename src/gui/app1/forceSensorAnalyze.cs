@@ -72,9 +72,7 @@ public partial class ChronoJumpWindow
 	Gtk.HBox hbox_force_sensor_analyze_top_modes;
 //	Gtk.HBox hbox_force_sensor_analyze_automatic_options;
 //	Gtk.Notebook notebook_force_analyze_automatic;
-	Gtk.Button button_force_sensor_analyze_options_close_and_analyze;
 	Gtk.VBox vbox_force_rfd_duration_end;
-	Gtk.Button button_force_sensor_analyze_options;
 	Gtk.HBox hbox_force_1;
 	Gtk.HBox hbox_force_2;
 	Gtk.HBox hbox_force_3;
@@ -186,7 +184,7 @@ public partial class ChronoJumpWindow
 	private bool button_force_sensor_analyze_model_was_sensitive; //needed this temp variable
 	private void forceSensorAnalyzeOptionsSensitivity(bool s) //s for sensitive. When show options frame is ! s
 	{
-		button_force_sensor_analyze_options.Sensitive = s;
+		button_ai_model_options.Sensitive = s;
 		button_force_sensor_analyze_load_ab.Sensitive = s;
 		button_force_sensor_analyze_load_cd.Sensitive = s;
 		button_force_sensor_analyze_move_cd_left.Sensitive = s;
@@ -205,7 +203,7 @@ public partial class ChronoJumpWindow
 	}
 
 	private int notebook_force_sensor_analyze_top_LastPage;
-	private void on_button_force_sensor_analyze_options_clicked (object o, EventArgs args)
+	private void on_button_ai_model_options_clicked (object o, EventArgs args)
 	{
 		//store the notebook to return to same place
 		notebook_force_sensor_analyze_top_LastPage = notebook_force_sensor_analyze_top.CurrentPage;
@@ -213,12 +211,12 @@ public partial class ChronoJumpWindow
 
 		hbox_force_sensor_analyze_top_modes.Sensitive = false;
 
-		button_force_sensor_analyze_options_close_and_analyze.Visible = radio_force_sensor_analyze_current_set.Active;
+		button_ai_model_options_close_and_analyze.Visible = radio_force_sensor_analyze_current_set.Active;
 
 		forceSensorAnalyzeOptionsSensitivity(false);
 	}
 
-	private void on_button_force_sensor_analyze_options_close_clicked (object o, EventArgs args)
+	private void on_button_ai_model_options_close_clicked (object o, EventArgs args)
 	{
 		notebook_force_sensor_analyze_top.CurrentPage = notebook_force_sensor_analyze_top_LastPage;
 
@@ -282,9 +280,9 @@ public partial class ChronoJumpWindow
 		forceSensorAnalyzeOptionsSensitivity(true);
 	}
 
-	private void on_button_force_sensor_analyze_options_close_and_analyze_clicked (object o, EventArgs args)
+	private void on_button_ai_model_options_close_and_analyze_clicked (object o, EventArgs args)
 	{
-		on_button_force_sensor_analyze_options_close_clicked (o, args);
+		on_button_ai_model_options_close_clicked (o, args);
 		on_button_force_sensor_analyze_model_clicked (o, args);
 	}
 
@@ -789,7 +787,7 @@ public partial class ChronoJumpWindow
 		button_force_sensor_export_result_open.Visible = false;
 		forceSensorButtonsSensitive(false);
 		hbox_force_sensor_analyze_top_modes.Sensitive = false;
-		button_force_sensor_analyze_options.Sensitive = false;
+		button_ai_model_options.Sensitive = false;
 		hbox_force_sensor_export_images.Sensitive = false;
 
 		//store new width/height if changed
@@ -857,7 +855,7 @@ public partial class ChronoJumpWindow
 		if(! selectedFile) {
 			forceSensorButtonsSensitive(true);
 			hbox_force_sensor_analyze_top_modes.Sensitive = true;
-			button_force_sensor_analyze_options.Sensitive = true;
+			button_ai_model_options.Sensitive = true;
 			hbox_force_sensor_export_images.Sensitive = true;
 		}
 	}
@@ -877,7 +875,7 @@ public partial class ChronoJumpWindow
 
 		forceSensorButtonsSensitive(true);
 		hbox_force_sensor_analyze_top_modes.Sensitive = true;
-		button_force_sensor_analyze_options.Sensitive = true;
+		button_ai_model_options.Sensitive = true;
 		hbox_force_sensor_export_images.Sensitive = true;
 
 		if(forceSensorExport != null && forceSensorExport.AllOk)
@@ -1588,9 +1586,7 @@ public partial class ChronoJumpWindow
 		hbox_force_sensor_analyze_top_modes = (Gtk.HBox) builder.GetObject ("hbox_force_sensor_analyze_top_modes");
 		//	hbox_force_sensor_analyze_automatic_options = (Gtk.HBox) builder.GetObject ("hbox_force_sensor_analyze_automatic_options");
 		//	notebook_force_analyze_automatic = (Gtk.Notebook) builder.GetObject ("notebook_force_analyze_automatic");
-		button_force_sensor_analyze_options_close_and_analyze = (Gtk.Button) builder.GetObject ("button_force_sensor_analyze_options_close_and_analyze");
 		vbox_force_rfd_duration_end = (Gtk.VBox) builder.GetObject ("vbox_force_rfd_duration_end");
-		button_force_sensor_analyze_options = (Gtk.Button) builder.GetObject ("button_force_sensor_analyze_options");
 		hbox_force_1 = (Gtk.HBox) builder.GetObject ("hbox_force_1");
 		hbox_force_2 = (Gtk.HBox) builder.GetObject ("hbox_force_2");
 		hbox_force_3 = (Gtk.HBox) builder.GetObject ("hbox_force_3");

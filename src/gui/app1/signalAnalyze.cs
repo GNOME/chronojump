@@ -67,6 +67,9 @@ public partial class ChronoJumpWindow
 	Gtk.RadioButton radio_ai_cd;
 
 	Gtk.Viewport viewport_ai_hscales;
+
+	Gtk.Button button_ai_model_options_close_and_analyze;
+	Gtk.Button button_ai_model_options;
 	// <---- at glade
 
 	private void signalAnalyzeButtonsVisibility ()
@@ -74,13 +77,9 @@ public partial class ChronoJumpWindow
 		if (Constants.ModeIsFORCESENSOR (current_mode))
 		{
 			// depend if set is elastic: box_force_sensor_analyze_magnitudes.Visible = true;
-			button_force_sensor_analyze_options.Visible = true;
-			button_force_sensor_analyze_model.Visible = true;
 		} else //if (current_mode == Constants.Modes.RUNSENCODER)
 		{
 			box_force_sensor_analyze_magnitudes.Visible = false;
-			button_force_sensor_analyze_options.Visible = false;
-			button_force_sensor_analyze_model.Visible = false;
 		}
 	}
 
@@ -873,6 +872,9 @@ public partial class ChronoJumpWindow
 		radio_ai_cd = (Gtk.RadioButton) builder.GetObject ("radio_ai_cd");
 
 		viewport_ai_hscales = (Gtk.Viewport) builder.GetObject ("viewport_ai_hscales");
+
+		button_ai_model_options_close_and_analyze = (Gtk.Button) builder.GetObject ("button_ai_model_options_close_and_analyze");
+		button_ai_model_options = (Gtk.Button) builder.GetObject ("button_ai_model_options");
 	}
 }
 

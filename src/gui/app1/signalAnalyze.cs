@@ -649,8 +649,8 @@ public partial class ChronoJumpWindow
 				//hscale_ai_a.Value += i - startA; is the sample where condition is done,
 				//but maybe the sample before that condition is more close to 1s than this
 				if(MathUtil.PassedSampleIsCloserToCriteria (
-						startAMs - sAI.GetTimeMS(i), startAMs - sAI.GetTimeMS(i+1),
-						preferences.forceSensorAnalyzeABSliderIncrement * 1000))
+							startAMs - sAI.GetTimeMS(i), startAMs - sAI.GetTimeMS(i+1),
+							preferences.forceSensorAnalyzeABSliderIncrement * 1000))
 					hs.Value += (i - startA);
 				else
 					hs.Value += (i+1 - startA);

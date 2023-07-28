@@ -1612,10 +1612,7 @@ public abstract class AnalyzeInstant
 	}
 
 	//gets an instant value
-	public double GetTimeMS(int count)
-	{
-		return p_l[count].X / 1000.0; //microseconds to milliseconds
-	}
+	public abstract double GetTimeMS (int count);
 
 	/*
 	 * forceSensor methods
@@ -1624,9 +1621,15 @@ public abstract class AnalyzeInstant
 	{
 		return 0;
 	}
+
 	public virtual double CalculateRFD (int countA, int countB)
 	{
 		return 0;
+	}
+
+	public string IdStr
+	{
+		get { return idStr; }
 	}
 }
 
@@ -1636,6 +1639,12 @@ public class RaceAnalyzerAnalyzeInstant : AnalyzeInstant
 	{
 		this.idStr = idStr;
 		this.p_l = p_l;
+	}
+
+	//gets an instant value
+	public override double GetTimeMS (int count)
+	{
+		return p_l[count].X * 1000; // s -> ms
 	}
 }
 
@@ -1822,6 +1831,12 @@ public class ForceSensorAnalyzeInstant : AnalyzeInstant
 
 			i ++;
 		}
+	}
+
+	//gets an instant value
+	public override double GetTimeMS (int count)
+	{
+		return p_l[count].X / 1000.0; //microseconds to milliseconds
 	}
 
 	public double GetTimeMicros(int count)
@@ -2066,11 +2081,6 @@ public class ForceSensorAnalyzeInstant : AnalyzeInstant
 				Util.DoubleToCSV(Power_l[i], 3, sepString);
 
 		return str;
-	}
-
-	public string IdStr
-	{
-		get { return idStr; }
 	}
 
 	public GetMaxAvgInWindow Gmaiw

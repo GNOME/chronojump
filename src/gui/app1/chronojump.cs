@@ -9102,7 +9102,11 @@ LogB.Debug("mc finished 5");
 		else if (Constants.ModeIsFORCESENSOR (current_mode))
 			notebook_analyze.CurrentPage = Convert.ToInt32(notebook_analyze_pages.FORCESENSOR);
 		else if(current_mode == Constants.Modes.RUNSENCODER)
-			notebook_analyze.CurrentPage = Convert.ToInt32(notebook_analyze_pages.RACEENCODER);
+		{
+			//TODO: using forceSensor instead of runEncoder
+			//notebook_analyze.CurrentPage = Convert.ToInt32(notebook_analyze_pages.RACEENCODER);
+			notebook_analyze.CurrentPage = Convert.ToInt32(notebook_analyze_pages.FORCESENSOR);
+		}
 		else
 			notebook_analyze.CurrentPage = Convert.ToInt32(notebook_analyze_pages.STATISTICS);
 

@@ -1591,6 +1591,7 @@ public class ForceSensorGraph
 //inherits ForceSensorAnalyzeInstant & RaceAnalyzerAnalyzeInstant
 public abstract class AnalyzeInstant
 {
+	protected string idStr; //just to identify it
 	protected List<PointF> p_l;
 
 	/*
@@ -1631,8 +1632,10 @@ public abstract class AnalyzeInstant
 
 public class RaceAnalyzerAnalyzeInstant : AnalyzeInstant
 {
-	public RaceAnalyzerAnalyzeInstant ()
+	public RaceAnalyzerAnalyzeInstant (string idStr, List<PointF> p_l)
 	{
+		this.idStr = idStr;
+		this.p_l = p_l;
 	}
 }
 
@@ -1656,7 +1659,6 @@ public class ForceSensorAnalyzeInstant : AnalyzeInstant
 
 //	private List<PointF> pDist_l;
 
-	private string idStr; //just to identify it
 	private ForceSensorExercise fse;
 
 	public ForceSensorAnalyzeInstant(

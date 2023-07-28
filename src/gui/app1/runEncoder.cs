@@ -1276,6 +1276,7 @@ RunEncoderCaptureGetSpeedAndDisplacementTest recgsdt = new RunEncoderCaptureGetS
 			drawingarea_race_analyzer_capture_speed_time.QueueDraw ();
 			drawingarea_race_analyzer_capture_accel_time.QueueDraw ();
 		}
+		runEncoderPrepareGraphAI ();
 
 		/*
 		//debug reCGSD.SegmentCalcs
@@ -1809,6 +1810,8 @@ RunEncoderCaptureGetSpeedAndDisplacementTest recgsdt = new RunEncoderCaptureGetS
 					drawingarea_race_analyzer_capture_position_time.QueueDraw ();
 					drawingarea_race_analyzer_capture_speed_time.QueueDraw ();
 					drawingarea_race_analyzer_capture_accel_time.QueueDraw ();
+
+					runEncoderPrepareGraphAI ();
 				}
 				LogB.Information(" re C finish 2");
 			} else if(runEncoderProcessCancel || runEncoderProcessError)
@@ -2519,7 +2522,8 @@ RunEncoderCaptureGetSpeedAndDisplacementTest recgsdt = new RunEncoderCaptureGetS
 				forceRedraw, CairoXY.PlotTypes.LINES, smoothGui == 0,
 				smoothGui,
 				triggerListRunEncoder, timeAtEnoughAccel,
-				timeAtEnoughAccelMark, preferences.runEncoderMinAccel);
+				timeAtEnoughAccelMark, preferences.runEncoderMinAccel,
+				-1, -1, -1, -1);
 	}
 	private void updateRaceAnalyzerCaptureSpeedTime(bool forceRedraw)
 	{
@@ -2559,12 +2563,23 @@ RunEncoderCaptureGetSpeedAndDisplacementTest recgsdt = new RunEncoderCaptureGetS
 					false);
 
 		int smoothGui = getSmoothFrom_gui_at_race_analyzer_capture_smooth_graphs ();
+
+		int hscaleA = -1, hscaleB = -1;
+		int hscaleC = -1, hscaleD = -1;
+		if (notebook_capture_analyze.CurrentPage == 1)
+		{
+			hscaleA = Convert.ToInt32 (hscale_ai_a.Value);
+			hscaleB = Convert.ToInt32 (hscale_ai_b.Value);
+			hscaleC = Convert.ToInt32 (hscale_ai_c.Value);
+			hscaleD = Convert.ToInt32 (hscale_ai_d.Value);
+		}
 		cairoGraphRaceAnalyzer_st.DoSendingList (preferences.fontType.ToString(),
 				cairoGraphRaceAnalyzerPoints_st_l,
 				forceRedraw, CairoXY.PlotTypes.LINES, smoothGui == 0,
 				smoothGui,
 				triggerListRunEncoder, timeAtEnoughAccel,
-				timeAtEnoughAccelMark, preferences.runEncoderMinAccel);
+				timeAtEnoughAccelMark, preferences.runEncoderMinAccel,
+				hscaleA, hscaleB, hscaleC, hscaleD);
 	}
 	private void updateRaceAnalyzerCaptureAccelTime(bool forceRedraw)
 	{
@@ -2603,7 +2618,8 @@ RunEncoderCaptureGetSpeedAndDisplacementTest recgsdt = new RunEncoderCaptureGetS
 				forceRedraw, CairoXY.PlotTypes.LINES, false,
 				getSmoothFrom_gui_at_race_analyzer_capture_smooth_graphs (),
 				triggerListRunEncoder, timeAtEnoughAccel,
-				timeAtEnoughAccelMark, preferences.runEncoderMinAccel);
+				timeAtEnoughAccelMark, preferences.runEncoderMinAccel,
+				-1, -1, -1, -1);
 	}
 
 	private void on_check_race_analyzer_capture_smooth_graphs_clicked (object o, EventArgs args)

@@ -97,10 +97,16 @@ public class CairoGraphRaceAnalyzer : CairoXY
 	public void DoSendingList (string font, List<PointF> points_list, bool forceRedraw,
 			PlotTypes plotType, bool blackLine, int smoothLineWindow,
 			TriggerList triggerList, int timeAtEnoughAccelOrTrigger0,
-			int timeAtEnoughAccelMark, double minAccel)
+			int timeAtEnoughAccelMark, double minAccel,
+			int hscaleSampleA, int hscaleSampleB,
+			int hscaleSampleC, int hscaleSampleD)
+
 	{
-		if(doSendingList (font, points_list, forceRedraw, plotType, blackLine, smoothLineWindow,
-					triggerList, timeAtEnoughAccelOrTrigger0, timeAtEnoughAccelMark, minAccel))
+		if (doSendingList (font, points_list, forceRedraw, plotType, blackLine, smoothLineWindow,
+					triggerList, timeAtEnoughAccelOrTrigger0, timeAtEnoughAccelMark, minAccel,
+					hscaleSampleA, hscaleSampleB,
+					hscaleSampleC, hscaleSampleD))
+
 			endGraphDisposing(g, surface, area.Window);
 	}
 
@@ -108,7 +114,9 @@ public class CairoGraphRaceAnalyzer : CairoXY
 	private bool doSendingList (string font, List<PointF> points_list, bool forceRedraw,
 			PlotTypes plotType, bool blackLine, int smoothLineWindow,
 			TriggerList triggerList, int timeAtEnoughAccelOrTrigger0,
-			int timeAtEnoughAccelMark, double minAccel) //timeAtEnoughAccelMark: only for capture (just to display mark), minAccel is the value at preferences
+			int timeAtEnoughAccelMark, double minAccel, //timeAtEnoughAccelMark: only for capture (just to display mark), minAccel is the value at preferences
+			int hscaleSampleA, int hscaleSampleB,
+			int hscaleSampleC, int hscaleSampleD)
 	{
 		// 1) init graph
 
@@ -353,6 +361,27 @@ public class CairoGraphRaceAnalyzer : CairoXY
 					drawCircle (graphX, graphY, 8, red, false);
 				}
 			}
+
+			// TODO: move this to xy.cs to share between forceSensor and raceAnalyzer
+			// hscales start at 0
+			if (hscaleSampleA >= 0 && hscaleSampleB >= 0 &&
+					points_list.Count > hscaleSampleA && points_list.Count > hscaleSampleB)
+				CairoUtil.PaintVerticalLinesAndRectangle (g, graphHeight,
+						"A", calculatePaintX (points_list[hscaleSampleA].X),
+						"B", calculatePaintX (points_list[hscaleSampleB].X),
+						true, 15, 0, yellow, yellowTransp);
+
+			// paint the CD rectangle
+			// TODO
+			/*
+			if (hscaleSampleC >= 0 && hscaleSampleD >= 0 &&
+					pointsCD_l.Count > hscaleSampleC && pointsCD_l.Count > hscaleSampleD
+					&& (hscaleSampleC != hscaleSampleA || hscaleSampleD != hscaleSampleB))
+				CairoUtil.PaintVerticalLinesAndRectangle (g, graphHeight,
+						"C", calculatePaintX (pointsCD_l[hscaleSampleC].X),
+						"D", calculatePaintX (pointsCD_l[hscaleSampleD].X),
+						true, 15, 0, green, greenTransp);
+						*/
 
 			if (timeAtEnoughAccelMark >= 0 || timeAtEnoughAccelOrTrigger0 >= 0)
 			{

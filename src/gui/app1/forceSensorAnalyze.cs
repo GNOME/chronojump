@@ -1690,22 +1690,19 @@ public partial class ChronoJumpWindow
 // 1 for AB and another for CD:
 // tvFS_AB for treeview_ai_AB
 // tvFS_CD for treeview_ai_CD
-public class TreeviewFSAnalyze : TreeviewSAbstract
+public class TreeviewFSAnalyze : TreeviewS2Abstract
 {
 	//row 1
 	protected string letterStart;
-	protected string timeStart;
 	protected double forceStart;
 	protected string rfdStart;
 
 	//row 2
 	protected string letterEnd;
-	protected string timeEnd;
 	protected double forceEnd;
 	protected string rfdEnd;
 
 	//row 3
-	protected string timeDiff;
 	protected double forceDiff;
 	protected double rfdDiff;
 
@@ -1740,51 +1737,24 @@ public class TreeviewFSAnalyze : TreeviewSAbstract
 		};
 	}
 
-	//some are string because it is easier to know if missing data, because doble could be 0.00000001 ...
-	public void PassRow1or2 (bool isLeft, string time, double force, string rfd)
+	public override void PassForceAndRFD1or2 (bool isLeft, double force, string rfd)
 	{
 		if (isLeft)
 		{
-			this.timeStart = time;
 			this.forceStart = force;
 			this.rfdStart = rfd;
 		} else {
-			this.timeEnd = time;
 			this.forceEnd = force;
 			this.rfdEnd = rfd;
 		}
 	}
 
-	public virtual void PassRow1or2Elastic (bool isLeft, string position, string speed, string accel, string power)
-	{
-	}
-
-	public virtual void PassElasticDiffs (string position, string speed, string accel, string power)
-	{
-	}
-	public virtual void PassElasticAvgs (string speed, string accel, string power)
-	{
-	}
-	public virtual void PassElasticMaxs (string speed, string accel, string power)
-	{
-	}
-
-	protected virtual string [] getTreeviewStr ()
+	protected override string [] getTreeviewStr ()
 	{
 		return new String [4];
 	}
 
-	public virtual void FillTreeview ()
-	{
-		string [] str = getTreeviewStr ();
-		store.AppendValues (fillTreeViewStart (str, 0));
-		store.AppendValues (fillTreeViewEnd (str, 0));
-		store.AppendValues (fillTreeViewDiff (str, 0));
-		store.AppendValues (fillTreeViewAvg (str, 0));
-		store.AppendValues (fillTreeViewMax (str, 0));
-	}
-
-	private string [] fillTreeViewStart (string [] str, int i)
+	protected override string [] fillTreeViewStart (string [] str, int i)
 	{
 		str[i++] = letterStart;
 		str[i++] = timeStart;
@@ -1793,7 +1763,7 @@ public class TreeviewFSAnalyze : TreeviewSAbstract
 		return fillTreeViewStartElastic (str, i);
 	}
 
-	private string [] fillTreeViewEnd (string [] str, int i)
+	protected override string [] fillTreeViewEnd (string [] str, int i)
 	{
 		str[i++] = letterEnd;
 		str[i++] = timeEnd;
@@ -1802,7 +1772,7 @@ public class TreeviewFSAnalyze : TreeviewSAbstract
 		return fillTreeViewEndElastic (str, i);
 	}
 
-	private string [] fillTreeViewDiff (string [] str, int i)
+	protected override string [] fillTreeViewDiff (string [] str, int i)
 	{
 		str[i++] = Catalog.GetString ("Difference");
 		str[i++] = timeDiff;
@@ -1811,7 +1781,7 @@ public class TreeviewFSAnalyze : TreeviewSAbstract
 		return fillTreeViewDiffElastic (str, i);
 	}
 
-	private string [] fillTreeViewAvg (string [] str, int i)
+	protected override string [] fillTreeViewAvg (string [] str, int i)
 	{
 		str[i++] = Catalog.GetString ("Average");
 		str[i++] = ""; // no time avg
@@ -1820,7 +1790,7 @@ public class TreeviewFSAnalyze : TreeviewSAbstract
 		return fillTreeViewAvgElastic (str, i);
 	}
 
-	private string [] fillTreeViewMax (string [] str, int i)
+	protected override string [] fillTreeViewMax (string [] str, int i)
 	{
 		str[i++] = Catalog.GetString ("Maximum");
 		str[i++] = ""; // no time max
@@ -1850,18 +1820,6 @@ public class TreeviewFSAnalyze : TreeviewSAbstract
 		return str;
 	}
 
-	public string TimeStart {
-		get { return timeStart; }
-	}
-	public string TimeEnd {
-		get { return timeEnd; }
-	}
-
-	// this accessors help to pass variables once are calculated on force_sensor_analyze_instant_calculate_params
-	public string TimeDiff {
-		get { return timeDiff; }
-		set { timeDiff = value; }
-	}
 	public double ForceDiff {
 		set { forceDiff = value; }
 	}

@@ -413,35 +413,44 @@ public partial class ChronoJumpWindow
 		bool isLeft; //A or C
 		Gtk.HScale hsRelated ; //if A then B, if D then C
 		string hscaleToDebug;
-		TreeviewFSAnalyze tvFS;
+		TreeviewS2Abstract tvS;
 
 		if (hs == hscale_ai_a)
 		{
-			tvFS = tvFS_AB;
 			isLeft = true; //A or C
 			hsRelated = hscale_ai_b; //if A then B, if D then C
 			hscaleToDebug = "--- hscale_a ---";
 		}
 		else if (hs == hscale_ai_b)
 		{
-			tvFS = tvFS_AB;
 			isLeft = false;
 			hsRelated = hscale_ai_a;
 			hscaleToDebug = "--- hscale_b ---";
 		}
 		else if (hs == hscale_ai_c)
 		{
-			tvFS = tvFS_CD;
 			isLeft = true;
 			hsRelated = hscale_ai_d;
 			hscaleToDebug = "--- hscale_c ---";
 		}
 		else //if (hs == hscale_ai_d)
 		{
-			tvFS = tvFS_CD;
 			isLeft = false;
 			hsRelated = hscale_ai_c;
 			hscaleToDebug = "--- hscale_d ---";
+		}
+
+		if (Constants.ModeIsFORCESENSOR (current_mode))
+		{
+			if (hs == hscale_ai_a || hs == hscale_ai_b)
+				tvS = tvFS_AB;
+			else
+				tvS = tvFS_CD;
+		} else { //if (current_mode == Constants.Modes.RUNSENCODER)
+			if (hs == hscale_ai_a || hs == hscale_ai_b)
+				tvS = tvRA_AB;
+			else
+				tvS = tvRA_CD;
 		}
 
 		/*
@@ -474,15 +483,20 @@ public partial class ChronoJumpWindow
 		}
 		LogB.Information (string.Format ("on_hscale_ai_value_changed {0} 2", hscaleToDebug));
 
-		// 3. calculate RFD
-		string rfd = "";
-		if (Constants.ModeIsFORCESENSOR (current_mode))
-			if(count > 0 && count < sAI.GetLength() -1)
-				rfd = Math.Round(sAI.CalculateRFD(count -1, count +1), 1).ToString();
+		// 3. treeviews prepare
+		tvS.ResetTreeview ();
+		tvS.PassTime1or2 (isLeft, Math.Round(sAI.GetTimeMS(count), 1).ToString());
 
-		// 4. calculate elastic variables
+		// 4. fill treeviews
 		if (Constants.ModeIsFORCESENSOR (current_mode))
 		{
+			// 4.1. calculate RFD
+			string rfd = "";
+			if (Constants.ModeIsFORCESENSOR (current_mode))
+				if(count > 0 && count < sAI.GetLength() -1)
+					rfd = Math.Round(sAI.CalculateRFD(count -1, count +1), 1).ToString();
+
+			// 4.2. calculate elastic variables
 			string position = "";
 			string speed = "";
 			string accel = "";
@@ -496,15 +510,18 @@ public partial class ChronoJumpWindow
 				power = Math.Round (sAI.Power_l[count], 3).ToString();
 			}
 
-			// 5. treeviews prepare
-			tvFS.ResetTreeview ();
-			tvFS.PassRow1or2 (isLeft, Math.Round(sAI.GetTimeMS(count), 1).ToString(), sAI.GetForceAtCount (count), rfd);
+			// 4.3 fill treeviews
+			tvS.PassForceAndRFD1or2 (isLeft, sAI.GetForceAtCount (count), rfd);
 			//fix a bug where B is moved and not A (so A is empty)
-			if (! isLeft && (tvFS.TimeStart == null || tvFS.TimeStart == ""))
-				tvFS.PassRow1or2 (true, Math.Round(sAI.GetTimeMS(0), 1).ToString(), sAI.GetForceAtCount (0), rfd);
+			if (! isLeft && (tvS.TimeStart == null || tvS.TimeStart == ""))
+			{
+				tvS.PassTime1or2 (true, Math.Round(sAI.GetTimeMS(0), 1).ToString());
+				tvS.PassForceAndRFD1or2 (true, sAI.GetForceAtCount (0), rfd);
+			}
 
 			if (current_mode == Constants.Modes.FORCESENSORELASTIC)
-				tvFS.PassRow1or2Elastic (isLeft, position, speed, accel, power);
+				tvS.PassRow1or2Elastic (isLeft, position, speed, accel, power);
+		} else { //if (current_mode == Constants.Modes.RUNSENCODER)
 		}
 
 		//LogB.Information (string.Format ("on_hscale_ai_value_changed {0} 3", hscaleToDebug));
@@ -525,8 +542,8 @@ public partial class ChronoJumpWindow
 
 			if (Constants.ModeIsFORCESENSOR (current_mode))
 			{
-				tvFS.ResetTreeview (); //To avoid duplicated rows on chained A,B
-				tvFS.FillTreeview ();
+				tvS.ResetTreeview (); //To avoid duplicated rows on chained A,B
+				tvS.FillTreeview ();
 			}
 
 			return;
@@ -541,12 +558,20 @@ public partial class ChronoJumpWindow
 			force_sensor_analyze_instant_calculate_params_for_treeview (fsAI_CD, tvFS_CD, false,
 					Convert.ToInt32 (hscale_ai_c.Value),
 					Convert.ToInt32 (hscale_ai_d.Value));
-
-			// 6. treeviews fill
-			tvFS.ResetTreeview (); //To avoid duplicated rows on chained A,B
-			tvFS.FillTreeview ();
 		} else { //if (current_mode == Constants.Modes.RUNSENCODER)
+			/*
+			race_analyzer_analyze_instant_calculate_params_for_treeview (raAI_AB, tvRA_AB, true,
+					Convert.ToInt32 (hscale_ai_a.Value),
+					Convert.ToInt32 (hscale_ai_b.Value));
+			race_analyzer_analyze_instant_calculate_params_for_treeview (raAI_CD, tvRA_CD, false,
+					Convert.ToInt32 (hscale_ai_c.Value),
+					Convert.ToInt32 (hscale_ai_d.Value));
+					*/
 		}
+
+		// 6. treeviews fill
+		tvS.ResetTreeview (); //To avoid duplicated rows on chained A,B
+		tvS.FillTreeview ();
 
 		// 7. hscales manage sensitive
 		forceSensorAnalyzeGeneralButtonHscaleZoomSensitiveness();
@@ -913,5 +938,85 @@ public abstract class TreeviewSAbstract
 			tv = UtilGtk.RemoveColumns (tv);
 
 		createTreeview ();
+	}
+}
+
+public abstract class TreeviewS2Abstract : TreeviewSAbstract
+{
+	//row 1
+	protected string timeStart;
+	//row 2
+	protected string timeEnd;
+	//row 3
+	protected string timeDiff;
+
+	protected abstract string [] getTreeviewStr ();
+	protected abstract string [] fillTreeViewStart (string [] str, int i);
+	protected abstract string [] fillTreeViewEnd (string [] str, int i);
+	protected abstract string [] fillTreeViewDiff (string [] str, int i);
+	protected abstract string [] fillTreeViewAvg (string [] str, int i);
+	protected abstract string [] fillTreeViewMax (string [] str, int i);
+
+	public virtual void FillTreeview ()
+	{
+		string [] str = getTreeviewStr ();
+		store.AppendValues (fillTreeViewStart (str, 0));
+		store.AppendValues (fillTreeViewEnd (str, 0));
+		store.AppendValues (fillTreeViewDiff (str, 0));
+		store.AppendValues (fillTreeViewAvg (str, 0));
+		store.AppendValues (fillTreeViewMax (str, 0));
+	}
+
+	//some are string because it is easier to know if missing data, because doble could be 0.00000001 ...
+	public void PassTime1or2 (bool isLeft, string time)
+	{
+		if (isLeft)
+			this.timeStart = time;
+		else
+			this.timeEnd = time;
+	}
+
+	/*
+	 * forceSensor specific
+	 */
+	public virtual void PassForceAndRFD1or2 (bool isLeft, double force, string rfd)
+	{
+	}
+
+	public virtual void PassRow1or2Elastic (bool isLeft, string position, string speed, string accel, string power)
+	{
+	}
+
+	public virtual void PassElasticDiffs (string position, string speed, string accel, string power)
+	{
+	}
+	public virtual void PassElasticAvgs (string speed, string accel, string power)
+	{
+	}
+	public virtual void PassElasticMaxs (string speed, string accel, string power)
+	{
+	}
+
+	/*
+	 * raceAnalyzer specific
+	 */
+	public virtual void PassSpeed1or2 (bool isLeft, double speed)
+	{
+	}
+
+	/*
+	 * accessors
+	 */
+	public string TimeStart {
+		get { return timeStart; }
+	}
+	public string TimeEnd {
+		get { return timeEnd; }
+	}
+
+	// this accessors help to pass variables once are calculated on force_sensor_analyze_instant_calculate_params
+	public string TimeDiff {
+		get { return timeDiff; }
+		set { timeDiff = value; }
 	}
 }

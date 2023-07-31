@@ -177,9 +177,14 @@ public partial class ChronoJumpWindow
 				spCairoFE_CD.ShiftMicros (-500000); //.5 s
 				ai_drawingarea_cairo.QueueDraw(); //will fire ExposeEvent
 			}
+		} else { //if (current_mode == Constants.Modes.RUNSENCODER)
+			if (cairoGraphRaceAnalyzerPoints_st_CD_l != null)
+			{
+				cairoGraphRaceAnalyzerPoints_st_CD_l =
+					PointF.ShiftX (cairoGraphRaceAnalyzerPoints_st_CD_l, -.5); //.5s
+				ai_drawingarea_cairo.QueueDraw(); //will fire ExposeEvent
+			}
 		}
-
-		// TODO: RaceAnalyzer
 	}
 	private void on_button_signal_analyze_move_cd_right_clicked (object o, EventArgs args)
 	{
@@ -190,9 +195,14 @@ public partial class ChronoJumpWindow
 				spCairoFE_CD.ShiftMicros (500000); //.5 s
 				ai_drawingarea_cairo.QueueDraw(); //will fire ExposeEvent
 			}
+		} else { //if (current_mode == Constants.Modes.RUNSENCODER)
+			if (cairoGraphRaceAnalyzerPoints_st_CD_l != null)
+			{
+				cairoGraphRaceAnalyzerPoints_st_CD_l =
+					PointF.ShiftX (cairoGraphRaceAnalyzerPoints_st_CD_l, .5); //.5s
+				ai_drawingarea_cairo.QueueDraw(); //will fire ExposeEvent
+			}
 		}
-
-		// TODO: RaceAnalyzer
 	}
 
 	private void on_check_force_sensor_ai_zoom_clicked (object o, EventArgs args)

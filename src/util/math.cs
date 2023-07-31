@@ -193,6 +193,14 @@ public class PointF
 		return str;
 	}
 
+	public static List<PointF> ShiftX (List<PointF> p_l, double xShift)
+	{
+		for (int i = 0; i < p_l.Count; i ++)
+			p_l[i].X += xShift;
+
+		return p_l;
+	}
+
 	public static PointF Last (List<PointF> p_l)
 	{
 		if (p_l.Count == 0)

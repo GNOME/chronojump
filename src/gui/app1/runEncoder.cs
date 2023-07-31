@@ -139,7 +139,11 @@ public partial class ChronoJumpWindow
 	static bool runEncoderShouldShowCaptureGraphsWithData; //on change person this is false
 	
 	private RunEncoder currentRunEncoder;
+	private RunEncoder currentRunEncoder_CD; //only for analyze cd (when 2 sets)
+
 	private RunEncoderExercise currentRunEncoderExercise;
+	private RunEncoderExercise currentRunEncoderExercise_CD; //only for analyze cd (when 2 sets)
+
 	DateTime runEncoderTimeStartCapture;
 	string runEncoderFirmwareVersion;
 
@@ -1161,17 +1165,23 @@ RunEncoderCaptureGetSpeedAndDisplacementTest recgsdt = new RunEncoderCaptureGetS
 			return "";
 		}
 
+		signalSuperpose2SetsCDPersonName = "";
 		// trying on _cd to only update the graph
 		if (radio_ai_2sets.Active && radio_ai_cd.Active)
 		{
 			cairoGraphRaceAnalyzerPoints_st_CD_l = new List<PointF>();
 
-			RunEncoderExercise reEx_CD = SqliteRunEncoderExercise.Select (false, re.ExerciseID)[0];
+			currentRunEncoder_CD = re;
+			currentRunEncoderExercise_CD = SqliteRunEncoderExercise.Select (false, re.ExerciseID)[0];
 
 			reCGSD_CD = run_encoder_load_set_reCGSD (contents, true, //two sets
-					reEx_CD.SegmentCm, reEx_CD.SegmentVariableCm,
+					currentRunEncoderExercise_CD.SegmentCm,
+					currentRunEncoderExercise_CD.SegmentVariableCm,
 					SqlitePersonSession.SelectAttribute (false, re.PersonID, re.SessionID, Constants.Weight),
 					re.Angle);
+
+			if (personID != currentPerson.UniqueID)
+				signalSuperpose2SetsCDPersonName = SqlitePerson.SelectAttribute (personID, "name");
 
 			if (reCGSD_CD.RunEncoderCaptureSpeedMax > 0)
 				drawingarea_race_analyzer_capture_speed_time.QueueDraw ();
@@ -1260,6 +1270,9 @@ RunEncoderCaptureGetSpeedAndDisplacementTest recgsdt = new RunEncoderCaptureGetS
 			button_run_encoder_analyze_analyze.Sensitive = true;
 			button_ai_model_options_close_and_analyze.Sensitive = true;
 			button_run_encoder_image_save.Sensitive = true;
+
+			if (radio_ai_2sets.Active)
+				radio_ai_cd.Sensitive = true;
 
 			return (Util.GetLastPartOfPath(re.Filename));
 		}
@@ -1874,6 +1887,9 @@ RunEncoderCaptureGetSpeedAndDisplacementTest recgsdt = new RunEncoderCaptureGetS
 					currentRunEncoder.UniqueID = currentRunEncoder.InsertSQL(false);
 					triggerListRunEncoder.SQLInsert(currentRunEncoder.UniqueID);
 					showRaceAnalyzerTriggers ();
+
+					if (radio_ai_2sets.Active)
+						radio_ai_cd.Sensitive = true;
 
 					//stop camera
 					if(webcamEnd (Constants.TestTypes.RACEANALYZER, currentRunEncoder.UniqueID))
@@ -2630,6 +2646,7 @@ RunEncoderCaptureGetSpeedAndDisplacementTest recgsdt = new RunEncoderCaptureGetS
 		cairoGraphRaceAnalyzer_dt.DoSendingList (preferences.fontType.ToString(),
 				cairoGraphRaceAnalyzerPoints_dt_l,
 				null,
+				new List<string> (),
 				forceRedraw, CairoXY.PlotTypes.LINES, smoothGui == 0,
 				smoothGui,
 				triggerListRunEncoder, timeAtEnoughAccel,
@@ -2663,9 +2680,35 @@ RunEncoderCaptureGetSpeedAndDisplacementTest recgsdt = new RunEncoderCaptureGetS
 			timeAtEnoughAccelMark = reCGSD.TimeAtEnoughAccelMark; //to show mark at capture
 		}
 
+		// get distinct CD data && subtitleWithSetsInfo if needed
 		List<PointF> cairoGraphSend_CD = null;
+		List<string> subtitleWithSetsInfo_l = new List<string> ();
 		if (notebook_capture_analyze.CurrentPage == 1 && radio_ai_2sets.Active)
+		{
 			cairoGraphSend_CD = cairoGraphRaceAnalyzerPoints_st_CD_l;
+
+			if (currentRunEncoder != null && currentRunEncoderExercise != null &&
+					currentRunEncoder_CD != null && currentRunEncoderExercise_CD != null)
+			{
+				string abPersonName = "";
+				string cdPersonName = "";
+				if (signalSuperpose2SetsCDPersonName != "")
+				{
+					abPersonName = currentPerson.Name + ", ";
+					cdPersonName = signalSuperpose2SetsCDPersonName + ", ";
+				}
+
+				subtitleWithSetsInfo_l.Add (string.Format ("AB: {0}{1}, {2}",
+							abPersonName,
+							currentRunEncoderExercise.Name,
+							currentRunEncoder.DateTimePublic));
+
+				subtitleWithSetsInfo_l.Add (string.Format ("CD: {0}{1}, {2}",
+							cdPersonName,
+							currentRunEncoderExercise_CD.Name,
+							currentRunEncoder_CD.DateTimePublic));
+			}
+		}
 
 		Gtk.DrawingArea da;
 		if (notebook_capture_analyze.CurrentPage == 0)
@@ -2697,6 +2740,7 @@ RunEncoderCaptureGetSpeedAndDisplacementTest recgsdt = new RunEncoderCaptureGetS
 		cairoGraphRaceAnalyzer_st.DoSendingList (preferences.fontType.ToString(),
 				cairoGraphRaceAnalyzerPoints_st_l,
 				cairoGraphSend_CD,
+				subtitleWithSetsInfo_l,
 				forceRedraw, CairoXY.PlotTypes.LINES, smoothGui == 0,
 				smoothGui,
 				triggerListRunEncoder, timeAtEnoughAccel,
@@ -2738,6 +2782,7 @@ RunEncoderCaptureGetSpeedAndDisplacementTest recgsdt = new RunEncoderCaptureGetS
 		cairoGraphRaceAnalyzer_at.DoSendingList (preferences.fontType.ToString(),
 				cairoGraphRaceAnalyzerPoints_at_l,
 				null,
+				new List<string> (),
 				forceRedraw, CairoXY.PlotTypes.LINES, false,
 				getSmoothFrom_gui_at_race_analyzer_capture_smooth_graphs (),
 				triggerListRunEncoder, timeAtEnoughAccel,

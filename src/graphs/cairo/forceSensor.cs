@@ -1272,18 +1272,7 @@ public class CairoGraphForceSensorAI : CairoGraphForceSensor
 			g.LineWidth = 2;
 
 			if (subtitleWithSetsInfo_l.Count > 0)
-			{
-				Cairo.TextExtents teAB = g.TextExtents (subtitleWithSetsInfo_l[0]);
-				Cairo.TextExtents teCD = g.TextExtents (subtitleWithSetsInfo_l[1]);
-
-				g.SetSourceColor (black);
-				printText (graphWidth /2 -(teAB.Width + teCD.Width + 30)/2, graphHeight -bottomMargin -innerMargin/2,
-						0, textHeight, subtitleWithSetsInfo_l[0], g, alignTypes.LEFT);
-
-				g.SetSourceColor (grayDark);
-				printText (graphWidth /2 +(teAB.Width + teCD.Width + 30)/2, graphHeight -bottomMargin -innerMargin/2,
-						0, textHeight, subtitleWithSetsInfo_l[1], g, alignTypes.RIGHT);
-			}
+				paintSignalSubtitles (subtitleWithSetsInfo_l);
 
 			// paint max, min circles
 			if (points_l.Count > 0 && calculatePaintX (xAtMaxY) > leftMargin)

@@ -175,7 +175,7 @@ public partial class ChronoJumpWindow
 
 	private enum notebook_ai_top_pages { CURRENTSETSIGNAL, CURRENTSETMODEL, CURRENTSESSION, AUTOMATICOPTIONS }
 
-	private string forceSensorAnalyzeSuperpose2SetsCDPersonName = "";
+	private string signalSuperpose2SetsCDPersonName = "";
 
 	/*
 	 * analyze options -------------------------->
@@ -1104,10 +1104,10 @@ public partial class ChronoJumpWindow
 			{
 				string abPersonName = "";
 				string cdPersonName = "";
-				if (forceSensorAnalyzeSuperpose2SetsCDPersonName != "")
+				if (signalSuperpose2SetsCDPersonName != "")
 				{
 					abPersonName = currentPerson.Name + ", ";
-					cdPersonName = forceSensorAnalyzeSuperpose2SetsCDPersonName + ", ";
+					cdPersonName = signalSuperpose2SetsCDPersonName + ", ";
 				}
 
 				subtitleWithSetsInfo_l.Add (string.Format ("AB: {0}{1}, {2}, {3}",

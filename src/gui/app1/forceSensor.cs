@@ -2012,9 +2012,9 @@ LogB.Information(" fs R ");
 			File.Copy (lastForceSensorFullPath_CD, UtilEncoder.GetmifCSVFileName_CD (), true); //can be overwritten
 			forceSensorDoSignalGraphReadFile (false, fs.CaptureOption); //cd
 
-			forceSensorAnalyzeSuperpose2SetsCDPersonName = "";
+			signalSuperpose2SetsCDPersonName = "";
 			if (personID != currentPerson.UniqueID)
-				forceSensorAnalyzeSuperpose2SetsCDPersonName = SqlitePerson.SelectAttribute (personID, "name");
+				signalSuperpose2SetsCDPersonName = SqlitePerson.SelectAttribute (personID, "name");
 
 			forceSensorPrepareGraphAI ();
 			updateForceSensorAICairo (true);

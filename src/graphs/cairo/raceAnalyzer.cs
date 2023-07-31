@@ -97,6 +97,7 @@ public class CairoGraphRaceAnalyzer : CairoXY
 	public void DoSendingList (string font,
 			List<PointF> points_l,
 			List<PointF> pointsCD_l,
+			List<string> subtitleWithSetsInfo_l,
 			bool forceRedraw,
 			PlotTypes plotType, bool blackLine, int smoothLineWindow,
 			TriggerList triggerList, int timeAtEnoughAccelOrTrigger0,
@@ -105,7 +106,8 @@ public class CairoGraphRaceAnalyzer : CairoXY
 			int hscaleSampleC, int hscaleSampleD)
 
 	{
-		if (doSendingList (font, points_l, pointsCD_l, forceRedraw, plotType, blackLine, smoothLineWindow,
+		if (doSendingList (font, points_l, pointsCD_l, subtitleWithSetsInfo_l,
+					forceRedraw, plotType, blackLine, smoothLineWindow,
 					triggerList, timeAtEnoughAccelOrTrigger0, timeAtEnoughAccelMark, minAccel,
 					hscaleSampleA, hscaleSampleB,
 					hscaleSampleC, hscaleSampleD))
@@ -117,6 +119,7 @@ public class CairoGraphRaceAnalyzer : CairoXY
 	private bool doSendingList (string font,
 			List<PointF> points_l,
 			List<PointF> pointsCD_l,
+			List<string> subtitleWithSetsInfo_l,
 			bool forceRedraw,
 			PlotTypes plotType, bool blackLine, int smoothLineWindow,
 			TriggerList triggerList, int timeAtEnoughAccelOrTrigger0,
@@ -462,6 +465,10 @@ public class CairoGraphRaceAnalyzer : CairoXY
 							minAccel, Math.Round(timeAtEnoughAccelMark/1000000.0, 3)),
 						g, alignTypes.LEFT);
 			}
+
+			if (subtitleWithSetsInfo_l.Count > 0)
+				paintSignalSubtitles (subtitleWithSetsInfo_l);
+
 		}
 
 		// 5) paint triggers

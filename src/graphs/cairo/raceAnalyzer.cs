@@ -34,7 +34,7 @@ public class CairoGraphRaceAnalyzer : CairoXY
 	private bool setExists; //only used to show no data on load (at speed/time)
 //	private bool load;
 
-	int points_list_painted;
+	int points_l_painted;
 	private bool isSprint;
 	private bool plotMaxMark;
 	private RunEncoderSegmentCalcs segmentCalcs;
@@ -76,7 +76,7 @@ public class CairoGraphRaceAnalyzer : CairoXY
 		this.useListOfDoublesOnY = useListOfDoublesOnY;
 		
 //		doing = false;
-		points_list_painted = 0;
+		points_l_painted = 0;
 	}
 
 	public void Reset()
@@ -90,11 +90,11 @@ public class CairoGraphRaceAnalyzer : CairoXY
 		absoluteMaxX = 0;
 		absoluteMaxY = 0;
 
-		points_list_painted = 0;
+		points_l_painted = 0;
 	}
 
 	//separated in two methods to ensure endGraphDisposing on any return of the other method
-	public void DoSendingList (string font, List<PointF> points_list, bool forceRedraw,
+	public void DoSendingList (string font, List<PointF> points_l, bool forceRedraw,
 			PlotTypes plotType, bool blackLine, int smoothLineWindow,
 			TriggerList triggerList, int timeAtEnoughAccelOrTrigger0,
 			int timeAtEnoughAccelMark, double minAccel,
@@ -102,7 +102,7 @@ public class CairoGraphRaceAnalyzer : CairoXY
 			int hscaleSampleC, int hscaleSampleD)
 
 	{
-		if (doSendingList (font, points_list, forceRedraw, plotType, blackLine, smoothLineWindow,
+		if (doSendingList (font, points_l, forceRedraw, plotType, blackLine, smoothLineWindow,
 					triggerList, timeAtEnoughAccelOrTrigger0, timeAtEnoughAccelMark, minAccel,
 					hscaleSampleA, hscaleSampleB,
 					hscaleSampleC, hscaleSampleD))
@@ -111,7 +111,7 @@ public class CairoGraphRaceAnalyzer : CairoXY
 	}
 
 	//return true if graph is inited (to dispose it)
-	private bool doSendingList (string font, List<PointF> points_list, bool forceRedraw,
+	private bool doSendingList (string font, List<PointF> points_l, bool forceRedraw,
 			PlotTypes plotType, bool blackLine, int smoothLineWindow,
 			TriggerList triggerList, int timeAtEnoughAccelOrTrigger0,
 			int timeAtEnoughAccelMark, double minAccel, //timeAtEnoughAccelMark: only for capture (just to display mark), minAccel is the value at preferences
@@ -121,17 +121,27 @@ public class CairoGraphRaceAnalyzer : CairoXY
 		// 1) init graph
 
 		bool maxValuesChanged = false;
-		if(points_list != null)
-			maxValuesChanged = findPointMaximums(false, points_list);
+		if(points_l != null)
+			maxValuesChanged = findPointMaximums(false, points_l);
+
+		bool twoSets = false;
+		List <PointF> pointsCD_l = points_l;
+		/*
+		if (spCairoFE_CD != null && spCairoFE_CD.Force_l.Count > 0)
+		{
+			twoSets = true;
+			pointsCD_l = spCairoFE_CD.Force_l;
+		}
+		*/
 
 		bool graphInited = false;
-		if(maxValuesChanged || forceRedraw || points_list.Count != points_list_painted)
+		if(maxValuesChanged || forceRedraw || points_l.Count != points_l_painted)
 		{
 			initGraph( font, 1, (maxValuesChanged || forceRedraw) );
 			graphInited = true;
-			points_list_painted = 0;
+			points_l_painted = 0;
 		}
-		if(points_list == null || points_list.Count == 0)
+		if(points_l == null || points_l.Count == 0)
 		{
 			if(! graphInited)
 			{
@@ -140,7 +150,7 @@ public class CairoGraphRaceAnalyzer : CairoXY
 			}
 
 			paintAxis();
-			if (setExists && (points_list == null || points_list.Count == 0))
+			if (setExists && (points_l == null || points_l.Count == 0))
 			{
 				printText(graphWidth/2, graphHeight/2,
 						0, textHeight-3,
@@ -242,12 +252,12 @@ public class CairoGraphRaceAnalyzer : CairoXY
 						//draw Y0 line
 						g.SetSourceColor (colorFromRGB (66,66,66));
 						g.MoveTo (leftMargin, calculatePaintYProportion (powerPropAt0));
-						g.LineTo (calculatePaintX (points_list[points_list.Count -1].X), calculatePaintYProportion (powerPropAt0));
+						g.LineTo (calculatePaintX (points_l[points_l.Count -1].X), calculatePaintYProportion (powerPropAt0));
 						g.Stroke ();
 						g.SetSourceColor (black);
-						printText(calculatePaintX (points_list[points_list.Count -1].X), calculatePaintYProportion (powerPropAt0) - .66*textHeight,
+						printText(calculatePaintX (points_l[points_l.Count -1].X), calculatePaintYProportion (powerPropAt0) - .66*textHeight,
 								0, textHeight-3, mainVariableStr, g, alignTypes.LEFT);
-						printText(calculatePaintX (points_list[points_list.Count -1].X), calculatePaintYProportion (powerPropAt0) + .66*textHeight,
+						printText(calculatePaintX (points_l[points_l.Count -1].X), calculatePaintYProportion (powerPropAt0) + .66*textHeight,
 								0, textHeight-3, "0 " + unitsStr, g, alignTypes.LEFT);
 
 						for(int i = 0 ; i < segmentCalcs.Count ; i ++)
@@ -296,25 +306,25 @@ public class CairoGraphRaceAnalyzer : CairoXY
 
 		// 3) paint points, paint smooth line, paint maximum mark, paint timeAtEnoughAccelMark on capture
 		pointsRadius = 1;
-		if( graphInited && points_list != null &&
-				(maxValuesChanged || forceRedraw || points_list.Count != points_list_painted) )
+		if( graphInited && points_l != null &&
+				(maxValuesChanged || forceRedraw || points_l.Count != points_l_painted) )
 		{
 			// 3.a) paint points
 			if(! blackLine)
 				g.SetSourceColor (gray99);
 
-			plotRealPoints(plotType, points_list, points_list_painted, false); //not fast. TODO: maybe use fast if is really faster
-			//plotRealPoints(PlotTypes.POINTSLINES, points_list, points_list_painted, false); //not fast. TODO: maybe use fast if is really faster //to debug
+			plotRealPoints(plotType, points_l, points_l_painted, false); //not fast. TODO: maybe use fast if is really faster
+			//plotRealPoints(PlotTypes.POINTSLINES, points_l, points_l_painted, false); //not fast. TODO: maybe use fast if is really faster //to debug
 
 			if(! blackLine)
 				g.SetSourceRGB (0,0,0);
 
-			points_list_painted = points_list.Count;
+			points_l_painted = points_l.Count;
 
 			// 3.b) paint smooth line
-			if(smoothLineWindow > 0 && points_list.Count > smoothLineWindow)
+			if(smoothLineWindow > 0 && points_l.Count > smoothLineWindow)
 			{
-				MovingAverage mAverageSmoothLine = new MovingAverage (points_list, smoothLineWindow);
+				MovingAverage mAverageSmoothLine = new MovingAverage (points_l, smoothLineWindow);
 				mAverageSmoothLine.Calculate ();
 				g.SetSourceColor (bluePlots);
 				plotRealPoints(plotType, mAverageSmoothLine.MovingAverage_l, 0, false); //not fast. TODO: maybe use fast if is really faster
@@ -322,7 +332,7 @@ public class CairoGraphRaceAnalyzer : CairoXY
 			}
 
 			// 3.c) paint maximum mark
-			if(plotMaxMark && points_list.Count > 1)
+			if(plotMaxMark && points_l.Count > 1)
 			{
 				if(isSprint) //on sprint plot an arrow from top speed (with moving average) to the right
 				{
@@ -330,7 +340,7 @@ public class CairoGraphRaceAnalyzer : CairoXY
 					double graphY = 0;
 					if (smoothLineWindow >= 3)
 					{
-						MovingAverage mAverage = new MovingAverage (points_list, smoothLineWindow);
+						MovingAverage mAverage = new MovingAverage (points_l, smoothLineWindow);
 						mAverage.Calculate ();
 						PointF pMaxY = mAverage.GetMaxY ();
 						graphX = pMaxY.X;
@@ -340,7 +350,7 @@ public class CairoGraphRaceAnalyzer : CairoXY
 						graphY = yAtMaxY;
 					}
 					plotArrowPassingRealPoints (g, colorFromRGB (255,0,0),
-							graphX, graphY, points_list[points_list.Count -1].X, graphY, true, false, 0);
+							graphX, graphY, points_l[points_l.Count -1].X, graphY, true, false, 0);
 				}
 				else  //if no sprint just plot a circle on max value
 				{
@@ -349,7 +359,7 @@ public class CairoGraphRaceAnalyzer : CairoXY
 					bool useMovingAverage = false;
 					if(useMovingAverage)
 					{
-						MovingAverage mAverage = new MovingAverage(points_list, 5);
+						MovingAverage mAverage = new MovingAverage(points_l, 5);
 						mAverage.Calculate();
 						PointF pMaxY = mAverage.GetMaxY();
 
@@ -365,15 +375,12 @@ public class CairoGraphRaceAnalyzer : CairoXY
 			// TODO: move this to xy.cs to share between forceSensor and raceAnalyzer
 			// hscales start at 0
 			if (hscaleSampleA >= 0 && hscaleSampleB >= 0 &&
-					points_list.Count > hscaleSampleA && points_list.Count > hscaleSampleB)
+					points_l.Count > hscaleSampleA && points_l.Count > hscaleSampleB)
 				CairoUtil.PaintVerticalLinesAndRectangle (g, graphHeight,
-						"A", calculatePaintX (points_list[hscaleSampleA].X),
-						"B", calculatePaintX (points_list[hscaleSampleB].X),
+						"A", calculatePaintX (points_l[hscaleSampleA].X),
+						"B", calculatePaintX (points_l[hscaleSampleB].X),
 						true, 15, 0, yellow, yellowTransp);
 
-			// paint the CD rectangle
-			// TODO
-			/*
 			if (hscaleSampleC >= 0 && hscaleSampleD >= 0 &&
 					pointsCD_l.Count > hscaleSampleC && pointsCD_l.Count > hscaleSampleD
 					&& (hscaleSampleC != hscaleSampleA || hscaleSampleD != hscaleSampleB))
@@ -381,7 +388,6 @@ public class CairoGraphRaceAnalyzer : CairoXY
 						"C", calculatePaintX (pointsCD_l[hscaleSampleC].X),
 						"D", calculatePaintX (pointsCD_l[hscaleSampleD].X),
 						true, 15, 0, green, greenTransp);
-						*/
 
 			if (timeAtEnoughAccelMark >= 0 || timeAtEnoughAccelOrTrigger0 >= 0)
 			{

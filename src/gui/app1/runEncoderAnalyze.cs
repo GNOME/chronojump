@@ -93,7 +93,7 @@ public partial class ChronoJumpWindow
 		raAI_AB = new RaceAnalyzerAnalyzeInstant ("AB",
 			cairoGraphRaceAnalyzerPoints_st_l);
 		raAI_CD = new RaceAnalyzerAnalyzeInstant ("CD",
-			cairoGraphRaceAnalyzerPoints_st_l);
+			cairoGraphRaceAnalyzerPoints_st_CD_l);
 
 		// 3. set hscales
 		signalPrepareGraphAICont (raAI_AB.GetLength(), raAI_CD.GetLength(), zoomFrameB, hsRight);

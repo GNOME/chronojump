@@ -5475,9 +5475,9 @@ public partial class ChronoJumpWindow
 		}
 
 		if (Constants.ModeIsFORCESENSOR (current_mode))
-			force_sensor_load (b == button_force_sensor_analyze_load_cd); //allows to choose person and session
+			force_sensor_load (b == button_signal_analyze_load_cd); //allows to choose person and session
 		else if(current_mode == Constants.Modes.RUNSENCODER)
-			run_encoder_load();
+			run_encoder_load (b == button_signal_analyze_load_cd); //allows to choose person and session
 	}
 
 	private void on_button_contacts_recalculate_clicked (object o, EventArgs args)

@@ -452,10 +452,10 @@ public partial class ChronoJumpWindow
 		hbox_force_capture_buttons.Sensitive = sensitive;
 		frame_contacts_exercise.Sensitive = sensitive;
 		button_execute_test.Sensitive = sensitive;
-		button_force_sensor_analyze_load_ab.Sensitive = sensitive;
-		button_force_sensor_analyze_load_cd.Sensitive = sensitive;
-		button_force_sensor_analyze_move_cd_left.Sensitive = sensitive;
-		button_force_sensor_analyze_move_cd_right.Sensitive = sensitive;
+		button_signal_analyze_load_ab.Sensitive = sensitive;
+		button_signal_analyze_load_cd.Sensitive = sensitive;
+		button_signal_analyze_move_cd_left.Sensitive = sensitive;
+		button_signal_analyze_move_cd_right.Sensitive = sensitive;
 		hbox_contacts_camera.Sensitive = sensitive;
 
 		//other gui buttons
@@ -528,10 +528,7 @@ public partial class ChronoJumpWindow
 	{
 		currentForceSensor = new ForceSensor();
 
-		//cd cannot be selected until currentForceSensor.UniqueID >= 0
-		radio_ai_ab.Active = true;
-		if (radio_ai_2sets.Active)
-			radio_ai_cd.Sensitive = false;
+		blankAIInterface ();
 
 		/*
 		 * without this, on change person fsAI graph will blank
@@ -576,20 +573,9 @@ public partial class ChronoJumpWindow
 		spCairoFEZoom_CD = new SignalPointsCairoForceElastic ();
 		ai_drawingarea_cairo.QueueDraw ();
 
-		blankAIInterface ();
 		// <---- end of erase cairo graphs
 
 		radiosForceSensorAiSensitivity (true); //because maybe zoom was in
-		//put scales to 0,0
-		hscale_ai_a.SetRange(0, 0);
-		hscale_ai_b.SetRange(0, 0);
-		hscale_ai_c.SetRange(0, 0);
-		hscale_ai_d.SetRange(0, 0);
-		//set them to 0, because if not is set to 1 by a GTK error
-		hscale_ai_a.Value = 0;
-		hscale_ai_b.Value = 0;
-		hscale_ai_c.Value = 0;
-		hscale_ai_d.Value = 0;
 		forceSensorAnalyzeGeneralButtonHscaleZoomSensitiveness();
 
 		label_force_sensor_value_max.Text = "";
@@ -1993,7 +1979,7 @@ LogB.Information(" fs R ");
 
 		genericWin.HideAndNull();
 
-		ForceSensor fs = (ForceSensor) SqliteForceSensor.Select(false, uniqueID, personID, sessionID, elastic)[0];
+		ForceSensor fs = (ForceSensor) SqliteForceSensor.Select (false, uniqueID, personID, sessionID, elastic)[0];
 		if(fs == null)
 		{
 			new DialogMessage(Constants.MessageTypes.WARNING, Constants.FileNotFoundStr());

@@ -44,10 +44,10 @@ public partial class ChronoJumpWindow
 
 	Gtk.Notebook notebook_ai_top;
 	Gtk.HBox hbox_force_general_analysis;
-	Gtk.Button button_force_sensor_analyze_load_ab;
-	Gtk.Button button_force_sensor_analyze_load_cd;
-	Gtk.Button button_force_sensor_analyze_move_cd_left;
-	Gtk.Button button_force_sensor_analyze_move_cd_right;
+	Gtk.Button button_signal_analyze_load_ab;
+	Gtk.Button button_signal_analyze_load_cd;
+	Gtk.Button button_signal_analyze_move_cd_left;
+	Gtk.Button button_signal_analyze_move_cd_right;
 	Gtk.Button button_force_sensor_analyze_model;
 	Gtk.Label label_force_sensor_analyze;
 	Gtk.Image image_force_sensor_graph;
@@ -185,10 +185,10 @@ public partial class ChronoJumpWindow
 	private void forceSensorAnalyzeOptionsSensitivity(bool s) //s for sensitive. When show options frame is ! s
 	{
 		button_ai_model_options.Sensitive = s;
-		button_force_sensor_analyze_load_ab.Sensitive = s;
-		button_force_sensor_analyze_load_cd.Sensitive = s;
-		button_force_sensor_analyze_move_cd_left.Sensitive = s;
-		button_force_sensor_analyze_move_cd_right.Sensitive = s;
+		button_signal_analyze_load_ab.Sensitive = s;
+		button_signal_analyze_load_cd.Sensitive = s;
+		button_signal_analyze_move_cd_left.Sensitive = s;
+		button_signal_analyze_move_cd_right.Sensitive = s;
 
 		if(s)
 			button_force_sensor_analyze_model.Sensitive = button_force_sensor_analyze_model_was_sensitive;
@@ -1090,7 +1090,7 @@ public partial class ChronoJumpWindow
 			maxY = 0;
 		}
 
-		// 5. get subtitleWithSetsInfo if needed
+		// 5. get distinct CD data && subtitleWithSetsInfo if needed
 		SignalPointsCairoForceElastic spCairoFESend_CD = null;
 		List<string> subtitleWithSetsInfo_l = new List<string> ();
 		if (radio_ai_2sets.Active)
@@ -1192,23 +1192,6 @@ public partial class ChronoJumpWindow
 			return -1;
 
 		return fsAIRepetitionMouseLimitsCairo.FindBarInPixel (pixel);
-	}
-
-	private void on_button_force_sensor_analyze_move_cd_left_clicked (object o, EventArgs args)
-	{
-		if (spCairoFE_CD != null)
-		{
-			spCairoFE_CD.ShiftMicros (-500000); //.5 s
-			ai_drawingarea_cairo.QueueDraw(); //will fire ExposeEvent
-		}
-	}
-	private void on_button_force_sensor_analyze_move_cd_right_clicked (object o, EventArgs args)
-	{
-		if (spCairoFE_CD != null)
-		{
-			spCairoFE_CD.ShiftMicros (500000); //.5 s
-			ai_drawingarea_cairo.QueueDraw(); //will fire ExposeEvent
-		}
 	}
 
 
@@ -1539,10 +1522,10 @@ public partial class ChronoJumpWindow
 
 		notebook_ai_top = (Gtk.Notebook) builder.GetObject ("notebook_ai_top");
 		hbox_force_general_analysis = (Gtk.HBox) builder.GetObject ("hbox_force_general_analysis");
-		button_force_sensor_analyze_load_ab = (Gtk.Button) builder.GetObject ("button_force_sensor_analyze_load_ab");
-		button_force_sensor_analyze_load_cd = (Gtk.Button) builder.GetObject ("button_force_sensor_analyze_load_cd");
-		button_force_sensor_analyze_move_cd_left = (Gtk.Button) builder.GetObject ("button_force_sensor_analyze_move_cd_left");
-		button_force_sensor_analyze_move_cd_right = (Gtk.Button) builder.GetObject ("button_force_sensor_analyze_move_cd_right");
+		button_signal_analyze_load_ab = (Gtk.Button) builder.GetObject ("button_signal_analyze_load_ab");
+		button_signal_analyze_load_cd = (Gtk.Button) builder.GetObject ("button_signal_analyze_load_cd");
+		button_signal_analyze_move_cd_left = (Gtk.Button) builder.GetObject ("button_signal_analyze_move_cd_left");
+		button_signal_analyze_move_cd_right = (Gtk.Button) builder.GetObject ("button_signal_analyze_move_cd_right");
 		button_force_sensor_analyze_model = (Gtk.Button) builder.GetObject ("button_force_sensor_analyze_model");
 		label_force_sensor_analyze = (Gtk.Label) builder.GetObject ("label_force_sensor_analyze");
 		image_force_sensor_graph = (Gtk.Image) builder.GetObject ("image_force_sensor_graph");

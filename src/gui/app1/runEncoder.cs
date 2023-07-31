@@ -383,6 +383,7 @@ public partial class ChronoJumpWindow
 		cairoGraphRaceAnalyzer_at = null;
 		cairoGraphRaceAnalyzerPoints_dt_l = new List<PointF>();
 		cairoGraphRaceAnalyzerPoints_st_l = new List<PointF>();
+		cairoGraphRaceAnalyzerPoints_st_CD_l = new List<PointF>();
 		cairoGraphRaceAnalyzerPoints_at_l = new List<PointF>();
 
 		//to not show old vertical segments info on a capture that maybe cannot be done by lack of device
@@ -436,6 +437,8 @@ public partial class ChronoJumpWindow
 	{
 		currentRunEncoder = new RunEncoder();
 
+		blankAIInterface ();
+
 		//draw the capture graphs empty:
 		//a) radial
 		runEncoderShouldShowCaptureGraphsWithData = false;
@@ -449,6 +452,7 @@ public partial class ChronoJumpWindow
 		//b) scatterplots
 		cairoGraphRaceAnalyzerPoints_dt_l = new List<PointF>();
 		cairoGraphRaceAnalyzerPoints_st_l = new List<PointF>();
+		cairoGraphRaceAnalyzerPoints_st_CD_l = new List<PointF>();
 		cairoGraphRaceAnalyzerPoints_at_l = new List<PointF>();
 		drawingarea_race_analyzer_capture_position_time.QueueDraw(); //will fire ExposeEvent
 		drawingarea_race_analyzer_capture_speed_time.QueueDraw(); //will fire ExposeEvent
@@ -480,8 +484,6 @@ public partial class ChronoJumpWindow
 		label_run_encoder_export_discarded.Text = "";
 		label_run_encoder_export_result.Text = "";
 		button_run_encoder_export_result_open.Visible = false;
-
-		blankAIInterface ();
 	}
 
 	private void raceEncoderReadWidgets()
@@ -583,6 +585,7 @@ public partial class ChronoJumpWindow
 
 		cairoGraphRaceAnalyzerPoints_dt_l = new List<PointF>();
 		cairoGraphRaceAnalyzerPoints_st_l = new List<PointF>();
+		cairoGraphRaceAnalyzerPoints_st_CD_l = new List<PointF>();
 		cairoGraphRaceAnalyzerPoints_at_l = new List<PointF>();
 
 		//RunEncoderCaptureGetSpeedAndDisplacement reCGSD = new RunEncoderCaptureGetSpeedAndDisplacement();
@@ -610,6 +613,7 @@ public partial class ChronoJumpWindow
 
 	string capturingMessage = "Capturing ...";
 	static RunEncoderCaptureGetSpeedAndDisplacement reCGSD;
+	static RunEncoderCaptureGetSpeedAndDisplacement reCGSD_CD;
 
 	//non GTK on this method
 	private void runEncoderCaptureDo()
@@ -775,6 +779,9 @@ RunEncoderCaptureGetSpeedAndDisplacementTest recgsdt = new RunEncoderCaptureGetS
 							reCGSD.RunEncoderCaptureDistance));
 				//speed/time
 				cairoGraphRaceAnalyzerPoints_st_l.Add(new PointF(
+							UtilAll.DivideSafe(reCGSD.Time, 1000000),
+							reCGSD.RunEncoderCaptureSpeed));
+				cairoGraphRaceAnalyzerPoints_st_CD_l.Add(new PointF(
 							UtilAll.DivideSafe(reCGSD.Time, 1000000),
 							reCGSD.RunEncoderCaptureSpeed));
 
@@ -977,55 +984,90 @@ RunEncoderCaptureGetSpeedAndDisplacementTest recgsdt = new RunEncoderCaptureGetS
                 return dataRow;
         }
 
-	private void run_encoder_load ()
+	private string [] getRunEncoderLoadColumnsString ()
 	{
-		List<RunEncoder> data = SqliteRunEncoder.Select(false, -1, currentPerson.UniqueID, currentSession.UniqueID);
+		return  new string [] {
+			Catalog.GetString("ID"),
+				Catalog.GetString("Set"),
+				Catalog.GetString("Exercise"),
+				//Catalog.GetString("Device"),
+				Catalog.GetString("Distance"),
+				Catalog.GetString("Date"),
+				Catalog.GetString("Video"),
+				Catalog.GetString("Comment")
+		};
+	}
+
+	private ArrayList getRunEncoderLoadSetsDataPrint (int personID, int sessionID)
+	{
+		List<RunEncoder> data = SqliteRunEncoder.Select (false, -1, personID, sessionID);
 
 		ArrayList dataPrint = new ArrayList();
 		int count = 1;
 		foreach(RunEncoder re in data)
 			dataPrint.Add(re.ToStringArray(false, count++));
 
-		string [] columnsString = {
-			Catalog.GetString("ID"),
-			Catalog.GetString("Set"),
-			Catalog.GetString("Exercise"),
-			//Catalog.GetString("Device"),
-			Catalog.GetString("Distance"),
-			Catalog.GetString("Date"),
-			Catalog.GetString("Video"),
-			Catalog.GetString("Comment")
-		};
+		return dataPrint;
+	}
+
+	private void run_encoder_load (bool canChoosePersonAndSession)
+	{
+		string [] colStr = getRunEncoderLoadColumnsString ();
+		ArrayList dataPrint = getRunEncoderLoadSetsDataPrint (currentPerson.UniqueID, currentSession.UniqueID);
 
 		ArrayList bigArray = new ArrayList();
 		ArrayList a1 = new ArrayList();
-		ArrayList a2 = new ArrayList();
 		//0 is the widgget to show; 1 is the editable; 2 id default value
 		a1.Add(Constants.GenericWindowShow.TREEVIEW); a1.Add(true); a1.Add("");
 		bigArray.Add(a1);
 
-		a2.Add(Constants.GenericWindowShow.COMBO); a2.Add(true); a2.Add("");
-		bigArray.Add(a2);
+		/* this actually does not do nothing
+		//if (! canChoosePersonAndSession) //do not allow to edit when can change person/session
+		//{
+			ArrayList a2 = new ArrayList();
+			a2.Add(Constants.GenericWindowShow.COMBO); a2.Add(true); a2.Add("");
+			bigArray.Add(a2);
+		*/
 
-		genericWin = GenericWindow.Show (Catalog.GetString("Load"), false,	//don't show now
-				string.Format(Catalog.GetString("Select set of athlete {0} on this session."),
-					currentPerson.Name), bigArray);
+		string title = string.Format (Catalog.GetString ("Select set of athlete {0} on this session."), currentPerson.Name);
 
-		genericWin.SetTreeview(columnsString, false, dataPrint, new ArrayList(), GenericWindow.EditActions.EDITPLAYDELETE, true);
+		if (canChoosePersonAndSession)
+		{
+			ArrayList a3 = new ArrayList ();
+			a3.Add (Constants.GenericWindowShow.GRIDPERSONSESSION); a3.Add (true); a3.Add ("");
+			bigArray.Add (a3);
 
-		//find all persons in current session
-		ArrayList personsPre = SqlitePersonSession.SelectCurrentSessionPersons(currentSession.UniqueID,
-				false); //means: do not returnPersonAndPSlist
+			title = Catalog.GetString ("Select set to compare");
+		}
 
-		string [] persons = new String[personsPre.Count];
-		count = 0;
-	        foreach	(Person p in personsPre)
-			persons[count++] = p.UniqueID.ToString() + ":" + p.Name;
-		genericWin.SetComboEditValues (persons, currentPerson.UniqueID + ":" + currentPerson.Name);
-		//genericWin.SetComboLabel(Catalog.GetString("Change the owner of selected set") +
-		//		" (" + Catalog.GetString("code") + ":" + Catalog.GetString("name") + ")");
-		genericWin.SetComboLabel(Catalog.GetString("Change person"));
-		genericWin.ShowEditRow(false);
+		genericWin = GenericWindow.Show (Catalog.GetString("Load"), false, title, bigArray);
+
+		if (canChoosePersonAndSession)
+		{
+			genericWin.SetGridPersonSession (currentPerson, currentSession);
+
+			//do not allow to edit when can change person/session
+			genericWin.SetTreeview (colStr, false, dataPrint, new ArrayList(), GenericWindow.EditActions.NONE, true);
+
+			genericWin.FakeButtonNeedUpdateTreeView.Clicked -= new EventHandler (on_run_encoder_load_signal_update_treeview);
+			genericWin.FakeButtonNeedUpdateTreeView.Clicked += new EventHandler (on_run_encoder_load_signal_update_treeview);
+		} else {
+			genericWin.SetTreeview (colStr, false, dataPrint, new ArrayList(), GenericWindow.EditActions.EDITPLAYDELETE, true);
+
+			//find all persons in current session
+			ArrayList personsPre = SqlitePersonSession.SelectCurrentSessionPersons(currentSession.UniqueID,
+					false); //means: do not returnPersonAndPSlist
+
+			string [] persons = new String[personsPre.Count];
+			int count = 0;
+			foreach	(Person p in personsPre)
+				persons[count++] = p.UniqueID.ToString() + ":" + p.Name;
+			genericWin.SetComboEditValues (persons, currentPerson.UniqueID + ":" + currentPerson.Name);
+			//genericWin.SetComboLabel(Catalog.GetString("Change the owner of selected set") +
+			//		" (" + Catalog.GetString("code") + ":" + Catalog.GetString("name") + ")");
+			genericWin.SetComboLabel(Catalog.GetString("Change person"));
+			genericWin.ShowEditRow(false);
+		}
 
 		//select row corresponding to current signal
 		if(currentRunEncoder != null)
@@ -1039,12 +1081,27 @@ RunEncoderCaptureGetSpeedAndDisplacementTest recgsdt = new RunEncoderCaptureGetS
 		genericWin.SetButtonCancelLabel(Catalog.GetString("Close"));
 		genericWin.SetButtonAcceptSensitive(false);
 		genericWin.Button_accept.Clicked += new EventHandler(on_run_encoder_load_accepted);
-		genericWin.Button_row_play.Clicked += new EventHandler(on_run_encoder_load_signal_row_play);
-		genericWin.Button_row_edit.Clicked += new EventHandler(on_run_encoder_load_signal_row_edit);
-		genericWin.Button_row_edit_apply.Clicked += new EventHandler(on_run_encoder_load_signal_row_edit_apply);
-		genericWin.Button_row_delete.Clicked += new EventHandler(on_run_encoder_load_signal_row_delete_prequestion);
+
+		if (! canChoosePersonAndSession)
+		{
+			genericWin.Button_row_play.Clicked += new EventHandler(on_run_encoder_load_signal_row_play);
+			genericWin.Button_row_edit.Clicked += new EventHandler(on_run_encoder_load_signal_row_edit);
+			genericWin.Button_row_edit_apply.Clicked += new EventHandler(on_run_encoder_load_signal_row_edit_apply);
+			genericWin.Button_row_delete.Clicked += new EventHandler(on_run_encoder_load_signal_row_delete_prequestion);
+		}
 
 		genericWin.ShowNow();
+	}
+
+	private void on_run_encoder_load_signal_update_treeview (object o, EventArgs args)
+	{
+		LogB.Information ("on_run_encoder_load_signal_update_treeview");
+
+		string [] colStr = getRunEncoderLoadColumnsString ();
+		ArrayList dataPrint = getRunEncoderLoadSetsDataPrint (
+				genericWin.GetPersonIDFromGui (), genericWin.GetSessionIDFromGui ());
+
+		genericWin.SetTreeview (colStr, false, dataPrint, new ArrayList(), GenericWindow.EditActions.NONE, true);
 	}
 
 	private void on_run_encoder_load_accepted (object o, EventArgs args)
@@ -1053,8 +1110,6 @@ RunEncoderCaptureGetSpeedAndDisplacementTest recgsdt = new RunEncoderCaptureGetS
 		genericWin.Button_accept.Clicked -= new EventHandler(on_run_encoder_load_accepted);
 
 		int uniqueID = genericWin.TreeviewSelectedRowID();
-
-		genericWin.HideAndNull();
 		radio_run_encoder_analyze_individual_current_set.Active = true;
 
 		string str = run_encoder_load_set (uniqueID);
@@ -1065,7 +1120,20 @@ RunEncoderCaptureGetSpeedAndDisplacementTest recgsdt = new RunEncoderCaptureGetS
 	//this is also called from recalculate
 	private string run_encoder_load_set (int uniqueID)
 	{
-		RunEncoder re = (RunEncoder) SqliteRunEncoder.Select(false, uniqueID, currentPerson.UniqueID, currentSession.UniqueID)[0];
+		int personID = currentPerson.UniqueID;
+		int sessionID = currentSession.UniqueID;
+
+		if (genericWin.UseGridPersonSession)
+		{
+			personID = genericWin.GetPersonIDFromGui ();
+			sessionID = genericWin.GetSessionIDFromGui ();
+		}
+
+		genericWin.HideAndNull();
+
+		RunEncoder re = (RunEncoder) SqliteRunEncoder.Select (false, uniqueID, personID, sessionID)[0];
+
+
 		if(re == null)
 		{
 			new DialogMessage(Constants.MessageTypes.WARNING, Constants.FileNotFoundStr());
@@ -1093,42 +1161,116 @@ RunEncoderCaptureGetSpeedAndDisplacementTest recgsdt = new RunEncoderCaptureGetS
 			return "";
 		}
 
-		currentRunEncoder = re;
-		lastRunEncoderFile = Util.RemoveExtension(re.Filename);
-		lastRunEncoderFullPath = re.FullURL;
+		// trying on _cd to only update the graph
+		if (radio_ai_2sets.Active && radio_ai_cd.Active)
+		{
+			cairoGraphRaceAnalyzerPoints_st_CD_l = new List<PointF>();
 
-		combo_run_encoder_exercise.Active = UtilGtk.ComboMakeActive(combo_run_encoder_exercise, Catalog.GetString(re.ExerciseName));
-		assignCurrentRunEncoderExercise();
+			RunEncoderExercise reEx_CD = SqliteRunEncoderExercise.Select (false, re.ExerciseID)[0];
 
-		raceEncoderSetDevice(re.Device);
-		raceEncoderSetDistanceAngleAndTemp(re.Distance, re.Angle, re.Temperature);
-///		textview_race_analyzer_comment.Buffer.Text = re.Comments;
-		textview_contacts_signal_comment.Buffer.Text = re.Comments;
+			reCGSD_CD = run_encoder_load_set_reCGSD (contents, true, //two sets
+					reEx_CD.SegmentCm, reEx_CD.SegmentVariableCm,
+					SqlitePersonSession.SelectAttribute (false, re.PersonID, re.SessionID, Constants.Weight),
+					re.Angle);
 
-		raceEncoderReadWidgets(); //needed to be able to do R graph
+			if (reCGSD_CD.RunEncoderCaptureSpeedMax > 0)
+				drawingarea_race_analyzer_capture_speed_time.QueueDraw ();
 
-		//triggers
-		triggerListRunEncoder = new TriggerList(
-				SqliteTrigger.Select(
-					false, Trigger.Modes.RACEANALYZER,
-					Convert.ToInt32(currentRunEncoder.UniqueID))
-				);
-		showRaceAnalyzerTriggers ();
+			runEncoderPrepareGraphAI ();
 
-		// ---- capture tab graphs start ---->
+			return "";
+		} else {
+			currentRunEncoder = re;
+			lastRunEncoderFile = Util.RemoveExtension(re.Filename);
+			lastRunEncoderFullPath = re.FullURL;
 
-		reCGSD = new RunEncoderCaptureGetSpeedAndDisplacement(
-				currentRunEncoderExercise.SegmentCm, currentRunEncoderExercise.SegmentVariableCm,
-				currentPersonSession.Weight, //but note if person changes (but graph will be hopefully erased), this will change also take care on exports
-				currentRunEncoder.Angle);
-		runEncoderShouldShowCaptureGraphsWithData = true;
+			combo_run_encoder_exercise.Active = UtilGtk.ComboMakeActive(combo_run_encoder_exercise, Catalog.GetString(re.ExerciseName));
+			assignCurrentRunEncoderExercise();
 
-		cairoGraphRaceAnalyzer_dt = null;
-		cairoGraphRaceAnalyzer_st = null;
-		cairoGraphRaceAnalyzer_at = null;
-		cairoGraphRaceAnalyzerPoints_dt_l = new List<PointF>();
-		cairoGraphRaceAnalyzerPoints_st_l = new List<PointF>();
-		cairoGraphRaceAnalyzerPoints_at_l = new List<PointF>();
+			raceEncoderSetDevice(re.Device);
+			raceEncoderSetDistanceAngleAndTemp(re.Distance, re.Angle, re.Temperature);
+			///		textview_race_analyzer_comment.Buffer.Text = re.Comments;
+			textview_contacts_signal_comment.Buffer.Text = re.Comments;
+
+			raceEncoderReadWidgets(); //needed to be able to do R graph
+
+			//triggers
+			triggerListRunEncoder = new TriggerList(
+					SqliteTrigger.Select(
+						false, Trigger.Modes.RACEANALYZER,
+						Convert.ToInt32(currentRunEncoder.UniqueID))
+					);
+			showRaceAnalyzerTriggers ();
+
+			// ---- capture tab graphs start ---->
+
+			runEncoderShouldShowCaptureGraphsWithData = true;
+
+			cairoGraphRaceAnalyzer_dt = null;
+			cairoGraphRaceAnalyzer_st = null;
+			cairoGraphRaceAnalyzer_at = null;
+			cairoGraphRaceAnalyzerPoints_dt_l = new List<PointF>();
+			cairoGraphRaceAnalyzerPoints_st_l = new List<PointF>();
+			cairoGraphRaceAnalyzerPoints_st_CD_l = new List<PointF>();
+			cairoGraphRaceAnalyzerPoints_at_l = new List<PointF>();
+
+			reCGSD = run_encoder_load_set_reCGSD (contents, false,
+					currentRunEncoderExercise.SegmentCm, currentRunEncoderExercise.SegmentVariableCm,
+					currentPersonSession.Weight, currentRunEncoder.Angle);
+
+			if(reCGSD.RunEncoderCaptureSpeedMax > 0)
+			{
+				if(cairoRadial == null)
+				{
+					/*
+					   if(radio_race_analyzer_capture_view_simple.Active)
+					   cairoRadial = new CairoRadial(drawingarea_race_analyzer_capture_velocimeter_topleft, preferences.fontType.ToString());
+					   else */
+					cairoRadial = new CairoRadial(drawingarea_race_analyzer_capture_velocimeter_bottom, preferences.fontType.ToString());
+				}
+
+				cairoRadial.GraphSpeedMaxAndDistance(reCGSD.RunEncoderCaptureSpeedMax, reCGSD.RunEncoderCaptureDistance);
+
+				drawingarea_race_analyzer_capture_position_time.QueueDraw ();
+				drawingarea_race_analyzer_capture_speed_time.QueueDraw ();
+				drawingarea_race_analyzer_capture_accel_time.QueueDraw ();
+			}
+
+			runEncoderPrepareGraphAI ();
+
+			/*
+			//debug reCGSD.SegmentCalcs
+			if (reCGSD != null && reCGSD.SegmentCalcs != null)
+			LogB.Information (reCGSD.SegmentCalcs.ToString ());
+			*/
+
+			// <---- capture tab graphs end ----
+
+			//on load do the R graph, but not on capture, to show on capture the label related to lack of person height
+			//raceEncoderCopyToTempAndDoRGraph();
+			//no do not do it automatically, just make user click on analyze button
+			//also showing that graph while analyze tab has not shown first time is buggy
+
+			button_contacts_exercise_close_and_recalculate.Sensitive = true;
+
+			button_video_play_this_test_contacts.Sensitive = (re.VideoURL != "");
+			sensitiveLastTestButtons(true);
+
+			image_run_encoder_graph.Visible = false;
+			button_run_encoder_analyze_analyze.Sensitive = true;
+			button_ai_model_options_close_and_analyze.Sensitive = true;
+			button_run_encoder_image_save.Sensitive = true;
+
+			return (Util.GetLastPartOfPath(re.Filename));
+		}
+	}
+
+	private RunEncoderCaptureGetSpeedAndDisplacement run_encoder_load_set_reCGSD (
+			List<string> contents, bool twoSets,
+			int segmentCm, List<int> segmentVariableCm, double personWeight, int angle)
+	{
+		RunEncoderCaptureGetSpeedAndDisplacement my_reCGSD = new RunEncoderCaptureGetSpeedAndDisplacement (
+			segmentCm, segmentVariableCm, personWeight, angle);
 
 		//to measure accel (having 3 samples)
 		//TODO: store on reCGSD
@@ -1151,25 +1293,25 @@ RunEncoderCaptureGetSpeedAndDisplacementTest recgsdt = new RunEncoderCaptureGetS
 				continue;
 			}
 
-			if(reCGSD.PassLoadedRow (row))
-				reCGSD.Calcule(false);
+			if (my_reCGSD.PassLoadedRow (row))
+				my_reCGSD.Calcule (false);
 
 			speedPre2 = speedPre;
 			timePre2 = timePre;
-			speedPre = reCGSD.RunEncoderCaptureSpeed;
-			timePre = UtilAll.DivideSafe(reCGSD.Time, 1000000);
+			speedPre = my_reCGSD.RunEncoderCaptureSpeed;
+			timePre = UtilAll.DivideSafe (my_reCGSD.Time, 1000000);
 
 			/*
-			LogB.Information ( string.Format ("reCGSD.RunEncoderCaptureSpeed: {0}, speedPre2: {1}," +
-						"UtilAll.DivideSafe(reCGSD.Time, 1000000): {2}, timePre2: {3}",
-						reCGSD.RunEncoderCaptureSpeed, speedPre2,
-						UtilAll.DivideSafe(reCGSD.Time, 1000000), timePre2));
+			LogB.Information ( string.Format ("my_reCGSD.RunEncoderCaptureSpeed: {0}, speedPre2: {1}," +
+						"UtilAll.DivideSafe(my_reCGSD.Time, 1000000): {2}, timePre2: {3}",
+						my_reCGSD.RunEncoderCaptureSpeed, speedPre2,
+						UtilAll.DivideSafe(my_reCGSD.Time, 1000000), timePre2));
 						*/
 
 			if(speedPre2 > 0)
 			{
-				accel = UtilAll.DivideSafe(reCGSD.RunEncoderCaptureSpeed - speedPre2,
-								UtilAll.DivideSafe(reCGSD.Time, 1000000) - timePre2);
+				accel = UtilAll.DivideSafe(my_reCGSD.RunEncoderCaptureSpeed - speedPre2,
+								UtilAll.DivideSafe(my_reCGSD.Time, 1000000) - timePre2);
 
 				//LogB.Information (string.Format ("accel: {0}", accel));
 
@@ -1189,12 +1331,15 @@ RunEncoderCaptureGetSpeedAndDisplacementTest recgsdt = new RunEncoderCaptureGetS
 					bool shiftNow = false;
 					int shiftTo = 0;
 
-					if (triggerListRunEncoder != null && triggerListRunEncoder.Count() > 0 &&
-							triggerListRunEncoder.GetList()[0].Us < timeNow)
+					if (! twoSets)
 					{
-						//reCGSD.SetTimeAtTrigger0 (triggerListRunEncoder.GetList()[0].Us);
-						shiftTo = triggerListRunEncoder.GetList()[0].Us;
-						shiftNow = true;
+						if (triggerListRunEncoder != null && triggerListRunEncoder.Count() > 0 &&
+								triggerListRunEncoder.GetList()[0].Us < timeNow)
+						{
+							//my_reCGSD.SetTimeAtTrigger0 (triggerListRunEncoder.GetList()[0].Us);
+							shiftTo = triggerListRunEncoder.GetList()[0].Us;
+							shiftNow = true;
+						}
 					}
 
 					if (accel >= preferences.runEncoderMinAccel && ! enoughAccelFound)
@@ -1210,17 +1355,15 @@ RunEncoderCaptureGetSpeedAndDisplacementTest recgsdt = new RunEncoderCaptureGetS
 					if (shiftNow)
 					{
 						//recreate rcCGSD object since now
-						reCGSD = new RunEncoderCaptureGetSpeedAndDisplacement(
-								currentRunEncoderExercise.SegmentCm, currentRunEncoderExercise.SegmentVariableCm,
-								currentPersonSession.Weight, //but note if person changes (but graph will be hopefully erased), this will change also take care on exports
-								currentRunEncoder.Angle);
+						my_reCGSD = new RunEncoderCaptureGetSpeedAndDisplacement(
+							segmentCm, segmentVariableCm, personWeight, angle);
 
-						reCGSD.SetTimeAtEnoughAccelOrTrigger0 (shiftTo);
+						my_reCGSD.SetTimeAtEnoughAccelOrTrigger0 (shiftTo);
 
 						LogB.Information ("load_set shiftNow with row: " + row);
-						if (reCGSD.PassLoadedRow (row))
-							reCGSD.CalculeSpeedAt0Shifted (rowPre, row);
-						//LogB.Information(string.Format("after row runEncoderCaptureSpeed: {0}", reCGSD.RunEncoderCaptureSpeed));
+						if (my_reCGSD.PassLoadedRow (row))
+							my_reCGSD.CalculeSpeedAt0Shifted (rowPre, row);
+						//LogB.Information(string.Format("after row runEncoderCaptureSpeed: {0}", my_reCGSD.RunEncoderCaptureSpeed));
 
 						signalShifted = true;
 						timePre = 0;
@@ -1228,11 +1371,11 @@ RunEncoderCaptureGetSpeedAndDisplacementTest recgsdt = new RunEncoderCaptureGetS
 				} else {
 					/*
 					   if first was trigger then accel >= minAccel,
-					   we need to use the reCGSD.SetTimeAtEnoughAccelMark () to show a line
+					   we need to use the my_reCGSD.SetTimeAtEnoughAccelMark () to show a line
 					   */
 					if (accel >= preferences.runEncoderMinAccel && ! enoughAccelFound)
 					{
-						reCGSD.SetTimeAtEnoughAccelMark (timeNow);
+						my_reCGSD.SetTimeAtEnoughAccelMark (timeNow);
 						enoughAccelFound = true;
 					}
 				}
@@ -1240,69 +1383,34 @@ RunEncoderCaptureGetSpeedAndDisplacementTest recgsdt = new RunEncoderCaptureGetS
 
 			if(signalShifted)
 			{
-				cairoGraphRaceAnalyzerPoints_dt_l.Add(new PointF(
-							UtilAll.DivideSafe(reCGSD.Time, 1000000),
-							reCGSD.RunEncoderCaptureDistance));
+				cairoGraphRaceAnalyzerPoints_st_CD_l.Add(new PointF(
+							UtilAll.DivideSafe(my_reCGSD.Time, 1000000),
+							my_reCGSD.RunEncoderCaptureSpeed));
 
-				cairoGraphRaceAnalyzerPoints_st_l.Add(new PointF(
-							UtilAll.DivideSafe(reCGSD.Time, 1000000),
-							reCGSD.RunEncoderCaptureSpeed));
+				if (! twoSets)
+				{
+					cairoGraphRaceAnalyzerPoints_dt_l.Add(new PointF(
+								UtilAll.DivideSafe(my_reCGSD.Time, 1000000),
+								my_reCGSD.RunEncoderCaptureDistance));
 
-				cairoGraphRaceAnalyzerPoints_at_l.Add(new PointF(
-							UtilAll.DivideSafe(reCGSD.Time, 1000000),
-							accel));
+					cairoGraphRaceAnalyzerPoints_st_l.Add(new PointF(
+								UtilAll.DivideSafe(my_reCGSD.Time, 1000000),
+								my_reCGSD.RunEncoderCaptureSpeed));
+
+					cairoGraphRaceAnalyzerPoints_at_l.Add(new PointF(
+								UtilAll.DivideSafe(my_reCGSD.Time, 1000000),
+								accel));
+				}
 			}
 
 			rowPre = row;
 		}
 
 		if (getSmoothFrom_gui_at_race_analyzer_capture_smooth_graphs () > 0)
-			reCGSD.SegmentsRedoWithSmoothing (
+			my_reCGSD.SegmentsRedoWithSmoothing (
 					getSmoothFrom_gui_at_race_analyzer_capture_smooth_graphs ());
 
-		if(reCGSD.RunEncoderCaptureSpeedMax > 0)
-		{
-			if(cairoRadial == null)
-			{
-				/*
-				if(radio_race_analyzer_capture_view_simple.Active)
-					cairoRadial = new CairoRadial(drawingarea_race_analyzer_capture_velocimeter_topleft, preferences.fontType.ToString());
-				else */
-					cairoRadial = new CairoRadial(drawingarea_race_analyzer_capture_velocimeter_bottom, preferences.fontType.ToString());
-			}
-
-			cairoRadial.GraphSpeedMaxAndDistance(reCGSD.RunEncoderCaptureSpeedMax, reCGSD.RunEncoderCaptureDistance);
-
-			drawingarea_race_analyzer_capture_position_time.QueueDraw ();
-			drawingarea_race_analyzer_capture_speed_time.QueueDraw ();
-			drawingarea_race_analyzer_capture_accel_time.QueueDraw ();
-		}
-		runEncoderPrepareGraphAI ();
-
-		/*
-		//debug reCGSD.SegmentCalcs
-		if (reCGSD != null && reCGSD.SegmentCalcs != null)
-			LogB.Information (reCGSD.SegmentCalcs.ToString ());
-			*/
-
-		// <---- capture tab graphs end ----
-
-		//on load do the R graph, but not on capture, to show on capture the label related to lack of person height
-		//raceEncoderCopyToTempAndDoRGraph();
-		//no do not do it automatically, just make user click on analyze button
-		//also showing that graph while analyze tab has not shown first time is buggy
-
-		button_contacts_exercise_close_and_recalculate.Sensitive = true;
-
-		button_video_play_this_test_contacts.Sensitive = (re.VideoURL != "");
-		sensitiveLastTestButtons(true);
-
-		image_run_encoder_graph.Visible = false;
-		button_run_encoder_analyze_analyze.Sensitive = true;
-		button_ai_model_options_close_and_analyze.Sensitive = true;
-		button_run_encoder_image_save.Sensitive = true;
-
-		return (Util.GetLastPartOfPath(re.Filename));
+		return my_reCGSD;
 	}
 
 	protected void on_run_encoder_load_signal_row_play (object o, EventArgs args)
@@ -2472,7 +2580,8 @@ RunEncoderCaptureGetSpeedAndDisplacementTest recgsdt = new RunEncoderCaptureGetS
 	}
 
 	CairoGraphRaceAnalyzer cairoGraphRaceAnalyzer_st;
-	static List<PointF> cairoGraphRaceAnalyzerPoints_st_l;	//speed/time
+	static List<PointF> cairoGraphRaceAnalyzerPoints_st_l;		//speed/time
+	static List<PointF> cairoGraphRaceAnalyzerPoints_st_CD_l;	//speed/time (signal can be same or other)
 	private void on_drawingarea_race_analyzer_capture_speed_time_cairo_draw (object o, Gtk.DrawnArgs args)
 	{
 		updateRaceAnalyzerCaptureSpeedTime(true);
@@ -2520,6 +2629,7 @@ RunEncoderCaptureGetSpeedAndDisplacementTest recgsdt = new RunEncoderCaptureGetS
 		int smoothGui = getSmoothFrom_gui_at_race_analyzer_capture_smooth_graphs ();
 		cairoGraphRaceAnalyzer_dt.DoSendingList (preferences.fontType.ToString(),
 				cairoGraphRaceAnalyzerPoints_dt_l,
+				null,
 				forceRedraw, CairoXY.PlotTypes.LINES, smoothGui == 0,
 				smoothGui,
 				triggerListRunEncoder, timeAtEnoughAccel,
@@ -2553,6 +2663,10 @@ RunEncoderCaptureGetSpeedAndDisplacementTest recgsdt = new RunEncoderCaptureGetS
 			timeAtEnoughAccelMark = reCGSD.TimeAtEnoughAccelMark; //to show mark at capture
 		}
 
+		List<PointF> cairoGraphSend_CD = null;
+		if (notebook_capture_analyze.CurrentPage == 1 && radio_ai_2sets.Active)
+			cairoGraphSend_CD = cairoGraphRaceAnalyzerPoints_st_CD_l;
+
 		Gtk.DrawingArea da;
 		if (notebook_capture_analyze.CurrentPage == 0)
 			da = drawingarea_race_analyzer_capture_speed_time;
@@ -2582,6 +2696,7 @@ RunEncoderCaptureGetSpeedAndDisplacementTest recgsdt = new RunEncoderCaptureGetS
 		}
 		cairoGraphRaceAnalyzer_st.DoSendingList (preferences.fontType.ToString(),
 				cairoGraphRaceAnalyzerPoints_st_l,
+				cairoGraphSend_CD,
 				forceRedraw, CairoXY.PlotTypes.LINES, smoothGui == 0,
 				smoothGui,
 				triggerListRunEncoder, timeAtEnoughAccel,
@@ -2622,6 +2737,7 @@ RunEncoderCaptureGetSpeedAndDisplacementTest recgsdt = new RunEncoderCaptureGetS
 
 		cairoGraphRaceAnalyzer_at.DoSendingList (preferences.fontType.ToString(),
 				cairoGraphRaceAnalyzerPoints_at_l,
+				null,
 				forceRedraw, CairoXY.PlotTypes.LINES, false,
 				getSmoothFrom_gui_at_race_analyzer_capture_smooth_graphs (),
 				triggerListRunEncoder, timeAtEnoughAccel,

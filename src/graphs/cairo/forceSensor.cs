@@ -1009,8 +1009,6 @@ public class CairoGraphForceSensorAI : CairoGraphForceSensor
 			dataExists = true;
 		}
 
-		bool maxValuesChanged = false;
-
 		bool twoSets = false;
 		List <PointF> pointsCD_l = points_l;
 		if (spCairoFE_CD != null && spCairoFE_CD.Force_l.Count > 0)
@@ -1019,6 +1017,7 @@ public class CairoGraphForceSensorAI : CairoGraphForceSensor
 			pointsCD_l = spCairoFE_CD.Force_l;
 		}
 
+		bool maxValuesChanged = false;
 		if (dataExists)
 		{
 			maxValuesChanged = findPointMaximums(false, points_l);

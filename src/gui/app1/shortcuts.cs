@@ -64,8 +64,8 @@ public partial class ChronoJumpWindow
 		button_delete_last_test.TooltipText += string.Format(" ({0}+d)", kCtrl);
 		button_contacts_capture_session_overview.TooltipText += string.Format(" ({0}+o)", kCtrl);
 		button_contacts_capture_load.TooltipText += string.Format(" ({0}+l)", kCtrl);
-		//button_force_sensor_analyze_load_ab.TooltipText += string.Format(" ({0}+l)", kCtrl);
-		//button_force_sensor_analyze_load_cd.TooltipText += string.Format(" ({0}+l)", kCtrl);
+		//button_signal_analyze_load_ab.TooltipText += string.Format(" ({0}+l)", kCtrl);
+		//button_signal_analyze_load_cd.TooltipText += string.Format(" ({0}+l)", kCtrl);
 		button_run_encoder_analyze_load.TooltipText += string.Format(" ({0}+l)", kCtrl);
 		button_video_play_this_test_contacts.TooltipText += string.Format(" ({0}+v)", kCtrl);
 

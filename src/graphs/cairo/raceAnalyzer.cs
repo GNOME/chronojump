@@ -94,7 +94,10 @@ public class CairoGraphRaceAnalyzer : CairoXY
 	}
 
 	//separated in two methods to ensure endGraphDisposing on any return of the other method
-	public void DoSendingList (string font, List<PointF> points_l, bool forceRedraw,
+	public void DoSendingList (string font,
+			List<PointF> points_l,
+			List<PointF> pointsCD_l,
+			bool forceRedraw,
 			PlotTypes plotType, bool blackLine, int smoothLineWindow,
 			TriggerList triggerList, int timeAtEnoughAccelOrTrigger0,
 			int timeAtEnoughAccelMark, double minAccel,
@@ -102,7 +105,7 @@ public class CairoGraphRaceAnalyzer : CairoXY
 			int hscaleSampleC, int hscaleSampleD)
 
 	{
-		if (doSendingList (font, points_l, forceRedraw, plotType, blackLine, smoothLineWindow,
+		if (doSendingList (font, points_l, pointsCD_l, forceRedraw, plotType, blackLine, smoothLineWindow,
 					triggerList, timeAtEnoughAccelOrTrigger0, timeAtEnoughAccelMark, minAccel,
 					hscaleSampleA, hscaleSampleB,
 					hscaleSampleC, hscaleSampleD))
@@ -111,7 +114,10 @@ public class CairoGraphRaceAnalyzer : CairoXY
 	}
 
 	//return true if graph is inited (to dispose it)
-	private bool doSendingList (string font, List<PointF> points_l, bool forceRedraw,
+	private bool doSendingList (string font,
+			List<PointF> points_l,
+			List<PointF> pointsCD_l,
+			bool forceRedraw,
 			PlotTypes plotType, bool blackLine, int smoothLineWindow,
 			TriggerList triggerList, int timeAtEnoughAccelOrTrigger0,
 			int timeAtEnoughAccelMark, double minAccel, //timeAtEnoughAccelMark: only for capture (just to display mark), minAccel is the value at preferences
@@ -120,19 +126,48 @@ public class CairoGraphRaceAnalyzer : CairoXY
 	{
 		// 1) init graph
 
-		bool maxValuesChanged = false;
-		if(points_l != null)
-			maxValuesChanged = findPointMaximums(false, points_l);
+		bool dataExists = false;
+		if (points_l != null)
+			dataExists = true;
+		else if (points_l == null && (pointsCD_l != null && pointsCD_l.Count > 0))
+		{
+			// on superpose, can have data of the CD but not of the AB (because set ended)
+			// just create an empty points_l
+			points_l = new List<PointF> ();
+			dataExists = true;
+		}
 
 		bool twoSets = false;
-		List <PointF> pointsCD_l = points_l;
-		/*
-		if (spCairoFE_CD != null && spCairoFE_CD.Force_l.Count > 0)
-		{
+		if (pointsCD_l != null && pointsCD_l.Count > 0)
 			twoSets = true;
-			pointsCD_l = spCairoFE_CD.Force_l;
+		else
+			pointsCD_l = points_l;
+
+		bool maxValuesChanged = false;
+
+		if (dataExists)
+		{
+			maxValuesChanged = findPointMaximums(false, points_l);
+
+			if (twoSets)
+			{
+				// for superpose when CD starts after AB ends (so points_l.Count == 0)
+				if (points_l.Count == 0)
+					minX = pointsCD_l[0].X;
+
+				foreach (PointF p in pointsCD_l)
+				{
+					if(p.X < minX)
+						minX = p.X;
+					if(p.X > absoluteMaxX)
+						absoluteMaxX = p.X;
+					if(p.Y < minY)
+						minY = p.Y;
+					if(p.Y > absoluteMaxY)
+						absoluteMaxY = p.Y;
+				}
+			}
 		}
-		*/
 
 		bool graphInited = false;
 		if(maxValuesChanged || forceRedraw || points_l.Count != points_l_painted)
@@ -315,6 +350,13 @@ public class CairoGraphRaceAnalyzer : CairoXY
 
 			plotRealPoints(plotType, points_l, points_l_painted, false); //not fast. TODO: maybe use fast if is really faster
 			//plotRealPoints(PlotTypes.POINTSLINES, points_l, points_l_painted, false); //not fast. TODO: maybe use fast if is really faster //to debug
+
+			if (twoSets)
+			{
+				g.SetSourceColor (grayDark);
+				plotRealPoints (plotType, pointsCD_l, points_l_painted, false); //fast (but the difference is very low)
+				g.SetSourceColor (black);
+			}
 
 			if(! blackLine)
 				g.SetSourceRGB (0,0,0);

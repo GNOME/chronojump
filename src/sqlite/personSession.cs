@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2022   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2004-2023   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -96,8 +96,8 @@ class SqlitePersonSession : Sqlite
 			Sqlite.Open();
 
 		dbcmd.CommandText = "SELECT " + attribute + " FROM " + Constants.PersonSessionTable +
-		       	" WHERE personID == " + personID + 
-			" AND sessionID == " + sessionID;
+			" WHERE personID = " + personID +
+			" AND sessionID = " + sessionID;
 		
 		//LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
@@ -118,13 +118,13 @@ class SqlitePersonSession : Sqlite
 
 	//when a session is NOT KNOWN, then select atrribute of last session
 	//select doubles
-	public static double SelectAttribute(int personID, string attribute)
+	public static double SelectAttributeOnLastSession (int personID, string attribute)
 	{
 		Sqlite.Open();
 
 		dbcmd.CommandText = "SELECT " + attribute + ", sessionID FROM " + Constants.PersonSessionTable + 
-			" WHERE personID == " + personID + 
-			"ORDER BY sessionID DESC LIMIT 1";
+			" WHERE personID = " + personID +
+			" ORDER BY sessionID DESC LIMIT 1";
 		
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();

@@ -386,43 +386,24 @@ public class CairoGraphRaceAnalyzer : CairoXY
 			}
 
 			// 3.c) paint maximum mark
-			if(plotMaxMark && points_l.Count > 1)
+			if (plotMaxMark)
 			{
-				if(isSprint) //on sprint plot an arrow from top speed (with moving average) to the right
+				if (points_l.Count > 1)
+					plotMaxMarkDo (points_l, smoothLineWindow, xAtMaxY, yAtMaxY);
+				if (twoSets && pointsCD_l.Count > 1)
 				{
-					double graphX = 0;
-					double graphY = 0;
-					if (smoothLineWindow >= 3)
+					double xAtMaxYCD = 0;
+					double yAtMaxYCD = 0;
+					for (int i = 0; i < pointsCD_l.Count; i ++)
 					{
-						MovingAverage mAverage = new MovingAverage (points_l, smoothLineWindow);
-						mAverage.Calculate ();
-						PointF pMaxY = mAverage.GetMaxY ();
-						graphX = pMaxY.X;
-						graphY = pMaxY.Y;
-					} else {
-						graphX = xAtMaxY;
-						graphY = yAtMaxY;
+						if (pointsCD_l[i].Y > yAtMaxYCD)
+						{
+							xAtMaxYCD = pointsCD_l[i].X;
+							yAtMaxYCD = pointsCD_l[i].Y;
+						}
 					}
-					plotArrowPassingRealPoints (g, colorFromRGB (255,0,0),
-							graphX, graphY, points_l[points_l.Count -1].X, graphY, true, false, 0);
-				}
-				else  //if no sprint just plot a circle on max value
-				{
-					double graphX = xAtMaxY;
-					double graphY = yAtMaxY;
-					bool useMovingAverage = false;
-					if(useMovingAverage)
-					{
-						MovingAverage mAverage = new MovingAverage(points_l, 5);
-						mAverage.Calculate();
-						PointF pMaxY = mAverage.GetMaxY();
 
-						graphX = pMaxY.X;
-						graphY = pMaxY.Y;
-					}
-					graphX = calculatePaintX (graphX);
-					graphY = calculatePaintY (graphY);
-					drawCircle (graphX, graphY, 8, red, false);
+					plotMaxMarkDo (pointsCD_l, smoothLineWindow, xAtMaxYCD, yAtMaxYCD);
 				}
 			}
 
@@ -518,6 +499,46 @@ public class CairoGraphRaceAnalyzer : CairoXY
 	{
 		printText(graphWidth, topMargin/2,
 				0, textHeight-3, getAxisLabel(distanceStr, "m") + "  ", g, alignTypes.RIGHT);
+	}
+
+	private void plotMaxMarkDo (List<PointF> p_l, int smoothLineWindow, double xAtMaxY, double yAtMaxY)
+	{
+		if(isSprint) //on sprint plot an arrow from top speed (with moving average) to the right
+		{
+			double graphX = 0;
+			double graphY = 0;
+			if (smoothLineWindow >= 3)
+			{
+				MovingAverage mAverage = new MovingAverage (p_l, smoothLineWindow);
+				mAverage.Calculate ();
+				PointF pMaxY = mAverage.GetMaxY ();
+				graphX = pMaxY.X;
+				graphY = pMaxY.Y;
+			} else {
+				graphX = xAtMaxY;
+				graphY = yAtMaxY;
+			}
+			plotArrowPassingRealPoints (g, colorFromRGB (255,0,0),
+					graphX, graphY, p_l[p_l.Count -1].X, graphY, true, false, 0);
+		}
+		else  //if no sprint just plot a circle on max value
+		{
+			double graphX = xAtMaxY;
+			double graphY = yAtMaxY;
+			bool useMovingAverage = false;
+			if(useMovingAverage)
+			{
+				MovingAverage mAverage = new MovingAverage(p_l, 5);
+				mAverage.Calculate();
+				PointF pMaxY = mAverage.GetMaxY();
+
+				graphX = pMaxY.X;
+				graphY = pMaxY.Y;
+			}
+			graphX = calculatePaintX (graphX);
+			graphY = calculatePaintY (graphY);
+			drawCircle (graphX, graphY, 8, red, false);
+		}
 	}
 
 	/*

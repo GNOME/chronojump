@@ -33,6 +33,21 @@ using System.Collections.Generic; //List<T>
 public partial class ChronoJumpWindow
 {
 	// at glade ---->
+	Gtk.Box box_ai_move_cd_accept;
+	Gtk.Box box_ai_move_cd_buttons;
+
+	Gtk.Button button_ai_move_cd_pre_1s;
+	Gtk.Button button_ai_move_cd_pre_1ds;
+	Gtk.Button button_ai_move_cd_pre_1cs;
+	Gtk.Button button_ai_move_cd_post_1cs;
+	Gtk.Button button_ai_move_cd_post_1ds;
+	Gtk.Button button_ai_move_cd_post_1s;
+
+	Gtk.Box box_ai_ac;
+	Gtk.Box box_ai_bd;
+	Gtk.Box box_ai_a_buttons;
+	Gtk.Box box_ai_b_buttons;
+
 	Gtk.Label label_hscale_ai_a_pre_1s;
 	Gtk.Label label_hscale_ai_a_post_1s;
 	Gtk.Label label_hscale_ai_b_pre_1s;
@@ -168,38 +183,70 @@ public partial class ChronoJumpWindow
 			on_hscale_ai_value_changed (hscale_ai_c, new EventArgs ());
 	}
 
-	private void on_button_signal_analyze_move_cd_left_clicked (object o, EventArgs args)
+	private void on_button_ai_move_cd_pre_clicked (object o, EventArgs args)
 	{
-		if (Constants.ModeIsFORCESENSOR (current_mode))
-		{
-			if (spCairoFE_CD != null)
-			{
-				spCairoFE_CD.ShiftMicros (-500000); //.5 s
-				ai_drawingarea_cairo.QueueDraw(); //will fire ExposeEvent
-			}
-		} else { //if (current_mode == Constants.Modes.RUNSENCODER)
-			if (cairoGraphRaceAnalyzerPoints_st_CD_l != null)
-			{
-				cairoGraphRaceAnalyzerPoints_st_CD_l =
-					PointF.ShiftX (cairoGraphRaceAnalyzerPoints_st_CD_l, -.5); //.5s
-				ai_drawingarea_cairo.QueueDraw(); //will fire ExposeEvent
-			}
-		}
+		button_ai_move_cd_pre.Sensitive = false;
+
+		box_ai_ac.Visible = false;
+		box_ai_bd.Visible = false;
+		box_ai_a_buttons.Visible = false;
+		box_ai_b_buttons.Visible = false;
+		check_force_sensor_ai_chained_hscales.Visible = false;
+		check_force_sensor_ai_zoom.Visible = false;
+		button_force_sensor_analyze_model.Visible = false;
+
+		box_ai_move_cd_accept.Visible = true;
+		box_ai_move_cd_buttons.Visible = true;
 	}
-	private void on_button_signal_analyze_move_cd_right_clicked (object o, EventArgs args)
+	private void on_button_signal_analyze_move_cd_accept_clicked (object o, EventArgs args)
+	{
+		button_ai_move_cd_pre.Sensitive = true;
+
+		box_ai_ac.Visible = true;
+		box_ai_bd.Visible = true;
+		box_ai_a_buttons.Visible = true;
+		box_ai_b_buttons.Visible = true;
+		check_force_sensor_ai_chained_hscales.Visible = true;
+		check_force_sensor_ai_zoom.Visible = true;
+		button_force_sensor_analyze_model.Visible = true;
+
+		box_ai_move_cd_accept.Visible = false;
+		box_ai_move_cd_buttons.Visible = false;
+	}
+
+	private void on_button_ai_move_cd_clicked (object o, EventArgs args)
+	{
+		if (o == null)
+			return;
+
+		if ((Gtk.Button) o == button_ai_move_cd_pre_1s)
+			on_button_signal_analyze_move_cd_do (-1);
+		else if ((Gtk.Button) o == button_ai_move_cd_pre_1ds)
+			on_button_signal_analyze_move_cd_do (-.1);
+		else if ((Gtk.Button) o == button_ai_move_cd_pre_1cs)
+			on_button_signal_analyze_move_cd_do (-.01);
+		else if ((Gtk.Button) o == button_ai_move_cd_post_1cs)
+			on_button_signal_analyze_move_cd_do (+.01);
+		else if ((Gtk.Button) o == button_ai_move_cd_post_1ds)
+			on_button_signal_analyze_move_cd_do (+.1);
+		else if ((Gtk.Button) o == button_ai_move_cd_post_1s)
+			on_button_signal_analyze_move_cd_do (+1);
+	}
+
+	private void on_button_signal_analyze_move_cd_do (double time)
 	{
 		if (Constants.ModeIsFORCESENSOR (current_mode))
 		{
 			if (spCairoFE_CD != null)
 			{
-				spCairoFE_CD.ShiftMicros (500000); //.5 s
+				spCairoFE_CD.ShiftMicros (Convert.ToInt32 (time * 1000000)); // s to micros
 				ai_drawingarea_cairo.QueueDraw(); //will fire ExposeEvent
 			}
 		} else { //if (current_mode == Constants.Modes.RUNSENCODER)
 			if (cairoGraphRaceAnalyzerPoints_st_CD_l != null)
 			{
 				cairoGraphRaceAnalyzerPoints_st_CD_l =
-					PointF.ShiftX (cairoGraphRaceAnalyzerPoints_st_CD_l, .5); //.5s
+					PointF.ShiftX (cairoGraphRaceAnalyzerPoints_st_CD_l ,time);
 				ai_drawingarea_cairo.QueueDraw(); //will fire ExposeEvent
 			}
 		}
@@ -842,8 +889,7 @@ public partial class ChronoJumpWindow
 
 			button_signal_analyze_load_ab.Sensitive = radio_ai_ab.Active;
 			button_signal_analyze_load_cd.Sensitive = radio_ai_cd.Active;
-			button_signal_analyze_move_cd_left.Sensitive = radio_ai_cd.Active;
-			button_signal_analyze_move_cd_right.Sensitive = radio_ai_cd.Active;
+			button_ai_move_cd_pre.Sensitive = radio_ai_cd.Active;
 
 			//do not allow to click on cd if two sets (when there is no ab loaded)
 			radio_ai_cd.Sensitive =	(
@@ -883,8 +929,7 @@ public partial class ChronoJumpWindow
 
 		button_signal_analyze_load_ab.Sensitive = (radio_ai_2sets.Active && radio_ai_ab.Active);
 		button_signal_analyze_load_cd.Sensitive = (radio_ai_2sets.Active && radio_ai_cd.Active);
-		button_signal_analyze_move_cd_left.Sensitive = (radio_ai_2sets.Active && radio_ai_cd.Active);
-		button_signal_analyze_move_cd_right.Sensitive = (radio_ai_2sets.Active && radio_ai_cd.Active);
+		button_ai_move_cd_pre.Sensitive = (radio_ai_2sets.Active && radio_ai_cd.Active);
 
 		forceSensorAnalyzeGeneralButtonHscaleZoomSensitiveness();
 		ai_drawingarea_cairo.QueueDraw(); //will fire ExposeEvent
@@ -945,6 +990,22 @@ public partial class ChronoJumpWindow
 	private void connectWidgetsSignalAnalyze (Gtk.Builder builder)
 	{
 		LogB.Information ("connectWidgetsSignalAnalyze");
+
+		box_ai_move_cd_accept = (Gtk.Box) builder.GetObject ("box_ai_move_cd_accept");
+		box_ai_move_cd_buttons = (Gtk.Box) builder.GetObject ("box_ai_move_cd_buttons");
+
+		button_ai_move_cd_pre_1s = (Gtk.Button) builder.GetObject ("button_ai_move_cd_pre_1s");
+		button_ai_move_cd_pre_1ds = (Gtk.Button) builder.GetObject ("button_ai_move_cd_pre_1ds");
+		button_ai_move_cd_pre_1cs = (Gtk.Button) builder.GetObject ("button_ai_move_cd_pre_1cs");
+		button_ai_move_cd_post_1cs = (Gtk.Button) builder.GetObject ("button_ai_move_cd_post_1cs");
+		button_ai_move_cd_post_1ds = (Gtk.Button) builder.GetObject ("button_ai_move_cd_post_1ds");
+		button_ai_move_cd_post_1s = (Gtk.Button) builder.GetObject ("button_ai_move_cd_post_1s");
+
+		box_ai_ac = (Gtk.Box) builder.GetObject ("box_ai_ac");
+		box_ai_bd = (Gtk.Box) builder.GetObject ("box_ai_bd");
+		box_ai_a_buttons = (Gtk.Box) builder.GetObject ("box_ai_a_buttons");
+		box_ai_b_buttons = (Gtk.Box) builder.GetObject ("box_ai_b_buttons");
+
 		label_hscale_ai_a_pre_1s = (Gtk.Label) builder.GetObject ("label_hscale_ai_a_pre_1s");
 		label_hscale_ai_a_post_1s = (Gtk.Label) builder.GetObject ("label_hscale_ai_a_post_1s");
 		label_hscale_ai_b_pre_1s = (Gtk.Label) builder.GetObject ("label_hscale_ai_b_pre_1s");

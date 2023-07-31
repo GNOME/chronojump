@@ -46,8 +46,7 @@ public partial class ChronoJumpWindow
 	Gtk.HBox hbox_force_general_analysis;
 	Gtk.Button button_signal_analyze_load_ab;
 	Gtk.Button button_signal_analyze_load_cd;
-	Gtk.Button button_signal_analyze_move_cd_left;
-	Gtk.Button button_signal_analyze_move_cd_right;
+	Gtk.Button button_ai_move_cd_pre;
 	Gtk.Button button_force_sensor_analyze_model;
 	Gtk.Label label_force_sensor_analyze;
 	Gtk.Image image_force_sensor_graph;
@@ -187,8 +186,7 @@ public partial class ChronoJumpWindow
 		button_ai_model_options.Sensitive = s;
 		button_signal_analyze_load_ab.Sensitive = s;
 		button_signal_analyze_load_cd.Sensitive = s;
-		button_signal_analyze_move_cd_left.Sensitive = s;
-		button_signal_analyze_move_cd_right.Sensitive = s;
+		button_ai_move_cd_pre.Sensitive = s;
 
 		if(s)
 			button_force_sensor_analyze_model.Sensitive = button_force_sensor_analyze_model_was_sensitive;
@@ -1524,8 +1522,7 @@ public partial class ChronoJumpWindow
 		hbox_force_general_analysis = (Gtk.HBox) builder.GetObject ("hbox_force_general_analysis");
 		button_signal_analyze_load_ab = (Gtk.Button) builder.GetObject ("button_signal_analyze_load_ab");
 		button_signal_analyze_load_cd = (Gtk.Button) builder.GetObject ("button_signal_analyze_load_cd");
-		button_signal_analyze_move_cd_left = (Gtk.Button) builder.GetObject ("button_signal_analyze_move_cd_left");
-		button_signal_analyze_move_cd_right = (Gtk.Button) builder.GetObject ("button_signal_analyze_move_cd_right");
+		button_ai_move_cd_pre = (Gtk.Button) builder.GetObject ("button_ai_move_cd_pre");
 		button_force_sensor_analyze_model = (Gtk.Button) builder.GetObject ("button_force_sensor_analyze_model");
 		label_force_sensor_analyze = (Gtk.Label) builder.GetObject ("label_force_sensor_analyze");
 		image_force_sensor_graph = (Gtk.Image) builder.GetObject ("image_force_sensor_graph");

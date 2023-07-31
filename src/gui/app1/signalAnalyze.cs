@@ -75,6 +75,22 @@ public partial class ChronoJumpWindow
 
 	private void blankAIInterface ()
 	{
+		//cd cannot be selected until currentForceSensor.UniqueID >= 0
+		radio_ai_ab.Active = true;
+		if (radio_ai_2sets.Active)
+			radio_ai_cd.Sensitive = false;
+
+		//put scales to 0,0
+		hscale_ai_a.SetRange(0, 0);
+		hscale_ai_b.SetRange(0, 0);
+		hscale_ai_c.SetRange(0, 0);
+		hscale_ai_d.SetRange(0, 0);
+		//set them to 0, because if not is set to 1 by a GTK error
+		hscale_ai_a.Value = 0;
+		hscale_ai_b.Value = 0;
+		hscale_ai_c.Value = 0;
+		hscale_ai_d.Value = 0;
+
 		button_ai_model_options_close_and_analyze.Sensitive = false;
 	}
 
@@ -150,6 +166,33 @@ public partial class ChronoJumpWindow
 			on_hscale_ai_value_changed (hscale_ai_a, new EventArgs ());
 		else
 			on_hscale_ai_value_changed (hscale_ai_c, new EventArgs ());
+	}
+
+	private void on_button_signal_analyze_move_cd_left_clicked (object o, EventArgs args)
+	{
+		if (Constants.ModeIsFORCESENSOR (current_mode))
+		{
+			if (spCairoFE_CD != null)
+			{
+				spCairoFE_CD.ShiftMicros (-500000); //.5 s
+				ai_drawingarea_cairo.QueueDraw(); //will fire ExposeEvent
+			}
+		}
+
+		// TODO: RaceAnalyzer
+	}
+	private void on_button_signal_analyze_move_cd_right_clicked (object o, EventArgs args)
+	{
+		if (Constants.ModeIsFORCESENSOR (current_mode))
+		{
+			if (spCairoFE_CD != null)
+			{
+				spCairoFE_CD.ShiftMicros (500000); //.5 s
+				ai_drawingarea_cairo.QueueDraw(); //will fire ExposeEvent
+			}
+		}
+
+		// TODO: RaceAnalyzer
 	}
 
 	private void on_check_force_sensor_ai_zoom_clicked (object o, EventArgs args)
@@ -787,13 +830,18 @@ public partial class ChronoJumpWindow
 		{
 			notebook_ai_load.Page = 1;
 
-			button_force_sensor_analyze_load_ab.Sensitive = radio_ai_ab.Active;
-			button_force_sensor_analyze_load_cd.Sensitive = radio_ai_cd.Active;
-			button_force_sensor_analyze_move_cd_left.Sensitive = radio_ai_cd.Active;
-			button_force_sensor_analyze_move_cd_right.Sensitive = radio_ai_cd.Active;
+			button_signal_analyze_load_ab.Sensitive = radio_ai_ab.Active;
+			button_signal_analyze_load_cd.Sensitive = radio_ai_cd.Active;
+			button_signal_analyze_move_cd_left.Sensitive = radio_ai_cd.Active;
+			button_signal_analyze_move_cd_right.Sensitive = radio_ai_cd.Active;
 
 			//do not allow to click on cd if two sets (when there is no ab loaded)
-			radio_ai_cd.Sensitive = (currentForceSensor != null && currentForceSensor.UniqueID >= 0);
+			radio_ai_cd.Sensitive =	(
+					(Constants.ModeIsFORCESENSOR (current_mode) &&
+					 currentForceSensor != null && currentForceSensor.UniqueID >= 0) ||
+					(current_mode == Constants.Modes.RUNSENCODER &&
+					 currentRunEncoder != null && currentRunEncoder.UniqueID >= 0)
+					);
 		}
 		signalPrepareGraphAI ();
 		ai_drawingarea_cairo.QueueDraw(); //will fire ExposeEvent
@@ -823,10 +871,10 @@ public partial class ChronoJumpWindow
 			UtilGtk.ViewportColor (viewport_ai_hscales, UtilGtk.Colors.GREEN_LIGHT);
 		}
 
-		button_force_sensor_analyze_load_ab.Sensitive = (radio_ai_2sets.Active && radio_ai_ab.Active);
-		button_force_sensor_analyze_load_cd.Sensitive = (radio_ai_2sets.Active && radio_ai_cd.Active);
-		button_force_sensor_analyze_move_cd_left.Sensitive = (radio_ai_2sets.Active && radio_ai_cd.Active);
-		button_force_sensor_analyze_move_cd_right.Sensitive = (radio_ai_2sets.Active && radio_ai_cd.Active);
+		button_signal_analyze_load_ab.Sensitive = (radio_ai_2sets.Active && radio_ai_ab.Active);
+		button_signal_analyze_load_cd.Sensitive = (radio_ai_2sets.Active && radio_ai_cd.Active);
+		button_signal_analyze_move_cd_left.Sensitive = (radio_ai_2sets.Active && radio_ai_cd.Active);
+		button_signal_analyze_move_cd_right.Sensitive = (radio_ai_2sets.Active && radio_ai_cd.Active);
 
 		forceSensorAnalyzeGeneralButtonHscaleZoomSensitiveness();
 		ai_drawingarea_cairo.QueueDraw(); //will fire ExposeEvent

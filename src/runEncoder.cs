@@ -228,6 +228,10 @@ public class RunEncoder
 	{
 		get { return personID; }
 	}
+	public int SessionID
+	{
+		get { return sessionID; }
+	}
 	public int ExerciseID
 	{
 		get { return exerciseID; }

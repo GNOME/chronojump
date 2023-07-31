@@ -356,8 +356,17 @@ public class CairoGraphRaceAnalyzer : CairoXY
 
 			if (twoSets)
 			{
+				if (points_l.Count > 0)
+					printText (calculatePaintX (PointF.Last (points_l).X) + 5,
+							calculatePaintY (PointF.Last (points_l).Y),
+							0, textHeight, "AB", g, alignTypes.LEFT);
+
 				g.SetSourceColor (grayDark);
 				plotRealPoints (plotType, pointsCD_l, points_l_painted, false); //fast (but the difference is very low)
+				printText (calculatePaintX (PointF.Last (pointsCD_l).X) + 5,
+						calculatePaintY (PointF.Last (pointsCD_l).Y),
+						0, textHeight, "CD", g, alignTypes.LEFT);
+
 				g.SetSourceColor (black);
 			}
 

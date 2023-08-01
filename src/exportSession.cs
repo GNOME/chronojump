@@ -199,16 +199,16 @@ public abstract class ExportSession
 		Sqlite.Close(); // ------------------------------
 	}
 
-	protected virtual void printTitles(string title)
+	protected virtual void printTitles (string title)
 	{
-		writer.WriteLine("");
-		writer.WriteLine("**** " + title + " ****");
+		writer.WriteLine ("");
+		writer.WriteLine ("+ " + title.ToUpper ());
 	}
 
 	protected virtual void printSubTitles (string subtitle)
 	{
-		writer.WriteLine("");
-		writer.WriteLine("** " + subtitle + " **");
+		writer.WriteLine ("");
+		writer.WriteLine ("- " + subtitle.ToUpper ());
 	}
 
 	protected virtual void printData ()

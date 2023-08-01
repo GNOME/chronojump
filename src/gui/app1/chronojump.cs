@@ -147,6 +147,8 @@ public partial class ChronoJumpWindow
 	Gtk.RadioButton radio_mode_contacts_export_csv;
 
 	Gtk.RadioButton radio_contacts_export_individual_current_session;
+	Gtk.RadioButton radio_contacts_export_individual_all_sessions;
+	Gtk.RadioButton radio_contacts_export_groupal_current_session;
 	Gtk.Label label_contacts_export_person;
 	Gtk.Label label_contacts_export_session;
 	Gtk.Label label_contacts_export_result;
@@ -3588,6 +3590,7 @@ public partial class ChronoJumpWindow
 		}
 
 		new ExportSessionCSV (currentSession, app1, preferences,
+				"", currentPerson.UniqueID, currentSession.UniqueID,
 				true, true, true, true);
 	}
 
@@ -3624,23 +3627,65 @@ public partial class ChronoJumpWindow
 		button_contacts_export_result_open.Visible = false;
 	}
 
+	ExportSessionCSV contactsExportCSV;
 	private void on_button_contacts_export_clicked (object o, EventArgs args)
 	{
+		button_contacts_export_result_open.Visible = false;
 		if(currentSession == null || currentSession.UniqueID == -1) {
 			new DialogMessage(Constants.MessageTypes.WARNING, "Cannot export a missing session");
 			return;
 		}
 
+		int personID = currentPerson.UniqueID;
+		int sessionID = currentSession.UniqueID;
+
+		/*if (radio_contacts_export_individual_current_session.Active)
+		{
+			personID = currentPerson.UniqueID;
+			sessionID = currentSession.UniqueID;
+		} else*/ if (radio_contacts_export_individual_all_sessions.Active)
+		{
+			personID = currentPerson.UniqueID;
+			sessionID = -1;
+		} else if (radio_contacts_export_groupal_current_session.Active)
+		{
+			personID = -1;
+			sessionID = currentSession.UniqueID;
+		}
+
+		contactsExportCSV = new ExportSessionCSV ();
 		if (current_mode == Constants.Modes.JUMPSSIMPLE || current_mode == Constants.Modes.JUMPSREACTIVE)
-			new ExportSessionCSV (currentSession, app1, preferences,
+		{
+			contactsExportCSV = new ExportSessionCSV (currentSession, app1, preferences,
+					"jumps", personID, sessionID,
 					check_contacts_export_jumps_simple.Active,
 					check_contacts_export_jumps_reactive.Active,
 					false, false);
-		else if (current_mode == Constants.Modes.RUNSSIMPLE || current_mode == Constants.Modes.RUNSINTERVALLIC)
-			new ExportSessionCSV (currentSession, app1, preferences,
+		} else if (current_mode == Constants.Modes.RUNSSIMPLE || current_mode == Constants.Modes.RUNSINTERVALLIC)
+		{
+			contactsExportCSV = new ExportSessionCSV (currentSession, app1, preferences,
+					"races", personID, sessionID,
 					false, false,
 					check_contacts_export_runs_simple.Active,
 					check_contacts_export_runs_intervallic.Active);
+		}
+
+		contactsExportCSV.FakeButtonDone.Clicked -= new EventHandler (on_button_contacts_export_done);
+		contactsExportCSV.FakeButtonDone.Clicked += new EventHandler (on_button_contacts_export_done);
+
+		contactsExportCSV.Do ();
+	}
+
+	private void on_button_contacts_export_done (object o, EventArgs args)
+	{
+		button_contacts_export_result_open.Visible = (contactsExportCSV.Success && contactsExportCSV.Filename != "");
+	}
+
+	private void on_button_contacts_export_result_open_clicked (object o, EventArgs args)
+	{
+		if(! Util.OpenURL (contactsExportCSV.Filename))
+			new DialogMessage (Constants.MessageTypes.WARNING,
+					Constants.DirectoryCannotOpenStr() + "\n\n" + contactsExportCSV.Filename);
 	}
 
 
@@ -9891,6 +9936,8 @@ LogB.Debug("mc finished 5");
 		radio_mode_contacts_export_csv = (Gtk.RadioButton) builder.GetObject ("radio_mode_contacts_export_csv");
 
 		radio_contacts_export_individual_current_session = (Gtk.RadioButton) builder.GetObject ("radio_contacts_export_individual_current_session");
+		radio_contacts_export_individual_all_sessions = (Gtk.RadioButton) builder.GetObject ("radio_contacts_export_individual_all_sessions");
+		radio_contacts_export_groupal_current_session = (Gtk.RadioButton) builder.GetObject ("radio_contacts_export_groupal_current_session");
 		label_contacts_export_person = (Gtk.Label) builder.GetObject ("label_contacts_export_person");
 		label_contacts_export_session = (Gtk.Label) builder.GetObject ("label_contacts_export_session");
 		label_contacts_export_result = (Gtk.Label) builder.GetObject ("label_contacts_export_result");

@@ -25569,6 +25569,7 @@ Concentric</property>
                                                             <property name="label" translatable="yes">Open</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="receives-default">True</property>
+                                                            <signal name="clicked" handler="on_button_contacts_export_result_open_clicked" swapped="no"/>
                                                             </object>
                                                             <packing>
                                                             <property name="expand">False</property>

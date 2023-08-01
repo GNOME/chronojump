@@ -29,6 +29,10 @@ using Mono.Unix;
 
 public abstract class ExportSession
 {
+	protected Gtk.Button fakeButtonDone;
+	protected bool success;
+	protected string filename;
+
 	protected ArrayList myPersonsAndPS;
 	List<string> jumpTypes_l;
 	protected List<List<SqliteStruct.IntTypeDoubleDouble>> jumps_ll;
@@ -42,12 +46,14 @@ public abstract class ExportSession
 	protected Session mySession;
 	protected TextWriter writer;
 	protected static Gtk.Window app1;
-	protected string fileName;
 	
 	public Preferences preferences;
 					
 	protected string spreadsheetString;
 
+	protected string modeForFilename;
+	protected int personID; // -1 for all
+	protected int sessionID; // -1 for all
 	protected bool jumpsSimple;
 	protected bool jumpsReactive;
 	protected bool runsSimple;
@@ -72,7 +78,7 @@ public abstract class ExportSession
 					);
 	
 		//set default name	
-		string nameString = mySession.Name + "_" + mySession.DateShortAsSQL;
+		string nameString = mySession.Name + "_" + modeForFilename + "_" + mySession.DateShortAsSQL;
 		if(formatFile == "report") {
 			if(UtilAll.IsWindows())
 				nameString += ".htm";
@@ -85,21 +91,21 @@ public abstract class ExportSession
 
 		if (fc.Run() == (int)ResponseType.Accept) 
 		{
-			fileName = fc.Filename;
+			filename = fc.Filename;
 			if(formatFile == "report") {
 				//add ".html" if needed, remember that on windows should be .htm
-				fileName = addHtmlIfNeeded(fileName);
+				filename = addHtmlIfNeeded(filename);
 			} else {
 				//add ".csv" if needed
-				fileName = Util.AddCsvIfNeeded(fileName);
+				filename = Util.AddCsvIfNeeded(filename);
 			}
 
-			if (File.Exists(fileName)) {
+			if (File.Exists(filename)) {
 				LogB.Warning(string.Format("File {0} exists with attributes {1}, created at {2}",
-							fileName, File.GetAttributes(fileName), File.GetCreationTime(fileName)));
+							filename, File.GetAttributes(filename), File.GetCreationTime(filename)));
 				LogB.Information("Overwrite …");
 				ConfirmWindow confirmWin = ConfirmWindow.Show(Catalog.GetString("Are you sure you want to overwrite file: "),
-						"", fileName);
+						"", filename);
 				confirmWin.Button_accept.Clicked += new EventHandler(on_overwrite_file_accepted);
 			} else {
 				writeFile();
@@ -112,13 +118,12 @@ public abstract class ExportSession
 			//	new DialogMessage(Constants.MessageTypes.INFO, Catalog.GetString("Cancelled."));
 			//}
 			fc.Hide ();
-			return ;
+			fakeButtonDone.Click ();
+			return;
 		}
 		
 		//Don't forget to call Destroy() or the FileChooserDialog window won't get closed.
 		fc.Destroy();
-		
-		return;
 	}
 
 	private void on_overwrite_file_accepted(object o, EventArgs args)
@@ -136,6 +141,7 @@ public abstract class ExportSession
 			LogB.Information("Couldn't create tempfile: " + tempfile);
 			new DialogMessage( Constants.MessageTypes.WARNING,
 					string.Format(Catalog.GetString("Cannot export to file {0} "), tempfile) );
+			fakeButtonDone.Click ();
 			return;
 		}
 
@@ -145,17 +151,22 @@ public abstract class ExportSession
 
 		// 2) copy temp file to user destination
 		try {
-			File.Copy(tempfile, fileName, true); //can be overwritten
+			File.Copy(tempfile, filename, true); //can be overwritten
 		} catch {
-			LogB.Information("Couldn't copy to: " + fileName);
+			LogB.Information("Couldn't copy to: " + filename);
 			new DialogMessage( Constants.MessageTypes.WARNING,
-					string.Format(Catalog.GetString("Cannot export to file {0} "), fileName) );
+					string.Format(Catalog.GetString("Cannot export to file {0} "), filename) );
+			fakeButtonDone.Click ();
 			return;
 		}
 
 		// 3) show message
-		string myString = string.Format(Catalog.GetString("Saved to {0}"), fileName) + spreadsheetString;
+		string myString = string.Format(Catalog.GetString("Saved to {0}"), filename) + spreadsheetString;
 		new DialogMessage(Constants.MessageTypes.INFO, myString);
+
+		success = true;
+		fakeButtonDone.Click ();
+		fakeButtonDone.Click ();
 	}
 		
 	private string addHtmlIfNeeded(string myFile)
@@ -1025,7 +1036,19 @@ public abstract class ExportSession
 			writeData("VERTICAL-SPACE");
 		}
 	}
-	
+
+	public Gtk.Button FakeButtonDone {
+		get { return fakeButtonDone; }
+	}
+
+	public bool Success {
+		get { return success; }
+	}
+
+	public string Filename {
+		get { return filename; }
+	}
+
 	protected virtual void printFooter()
 	{
 	}
@@ -1036,7 +1059,6 @@ public abstract class ExportSession
 		((IDisposable)writer).Dispose();
 	}
 
-
 	~ExportSession() {}
 }
 
@@ -1046,19 +1068,32 @@ public class ExportSessionCSV : ExportSession
 
 	//TODO: falta tot lo de individual current session, individual all sessions, groupal current session
 
+	public ExportSessionCSV ()
+	{
+	}
+
 	public ExportSessionCSV (Session mySession, Gtk.Window app1, Preferences preferences,
+			string modeForFilename, int personID, int sessionID,
 			bool jumpsSimple, bool jumpsReactive, bool runsSimple, bool runsIntervallic)
 	{
 		this.mySession = mySession;
 		this.preferences = preferences;
+		this.modeForFilename = modeForFilename;
+		this.personID = personID;
+		this.sessionID = sessionID;
 		this.jumpsSimple = jumpsSimple;
 		this.jumpsReactive = jumpsReactive;
 		this.runsSimple = runsSimple;
 		this.runsIntervallic = runsIntervallic;
 
 		spreadsheetString = Constants.GetSpreadsheetString(preferences.CSVExportDecimalSeparator);
+		fakeButtonDone = new Gtk.Button ();
+		filename = "";
+	}
 
-		checkFile("CSV");
+	public void Do ()
+	{
+		checkFile ("CSV");
 	}
 
 	protected override void writeData (ArrayList exportData) {
@@ -1097,7 +1132,7 @@ public class ExportSessionCSV : ExportSession
 	{
 		LogB.Information( "Correctly exported" );
 		/*
-		string myString = Catalog.GetString ("Exported to file: ") + fileName;
+		string myString = Catalog.GetString ("Exported to file: ") + filename;
 		new DialogMessage(Constants.MessageTypes.INFO, myString);
 		*/
 	}

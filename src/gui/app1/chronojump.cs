@@ -3678,7 +3678,17 @@ public partial class ChronoJumpWindow
 
 	private void on_button_contacts_export_done (object o, EventArgs args)
 	{
-		button_contacts_export_result_open.Visible = (contactsExportCSV.Success && contactsExportCSV.Filename != "");
+		bool success = (contactsExportCSV.Success && contactsExportCSV.Filename != "");
+
+		if (success)
+		{
+			label_contacts_export_result.Text = string.Format (Catalog.GetString ("Saved to {0}"), contactsExportCSV.Filename) +
+				Constants.GetSpreadsheetString (preferences.CSVExportDecimalSeparator);
+			button_contacts_export_result_open.Visible = true;
+		} else {
+			label_contacts_export_result.Text = string.Format (Catalog.GetString ("Cannot export to file {0} "), contactsExportCSV.Filename);
+			button_contacts_export_result_open.Visible = false;
+		}
 	}
 
 	private void on_button_contacts_export_result_open_clicked (object o, EventArgs args)

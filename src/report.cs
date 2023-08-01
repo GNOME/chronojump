@@ -22,6 +22,7 @@ using System;
 using System.Data;
 using System.IO;
 using System.Collections; //ArrayList
+using System.Collections.Generic; //List
 using Gtk;
 //using Glade;
 using Mono.Unix;
@@ -81,6 +82,9 @@ public class Report : ExportSession
 
 	protected override void getData() 
 	{
+		//to avoid a crash since jumps_ll on exportSession
+		jumps_ll = new List<List<SqliteStruct.IntTypeDoubleDouble>> ();
+
 		//create directory filename_files/
 		string directoryName = Util.GetReportDirectoryName(filename);
 		if(!Directory.Exists(directoryName)) {

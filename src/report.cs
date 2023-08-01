@@ -62,8 +62,10 @@ public class Report : ExportSession
 		ShowIntervalRuns = true;
 		ShowReactionTimes = true;
 		ShowPulses = true;
-	
+
 		spreadsheetString = "";
+		showDialogMessage = true;
+		fakeButtonDone = new Gtk.Button ();
 
 		StatisticsData = new ArrayList(1);
 		

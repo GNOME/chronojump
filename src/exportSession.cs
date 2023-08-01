@@ -59,6 +59,8 @@ public abstract class ExportSession
 	protected bool runsSimple;
 	protected bool runsIntervallic;
 
+	protected bool showDialogMessage; //on report
+
 	protected void checkFile (string formatFile)
 	{
 		string exportString = "";
@@ -139,8 +141,10 @@ public abstract class ExportSession
 			writer = File.CreateText(tempfile);
 		} catch {
 			LogB.Information("Couldn't create tempfile: " + tempfile);
-			new DialogMessage( Constants.MessageTypes.WARNING,
-					string.Format(Catalog.GetString("Cannot export to file {0} "), tempfile) );
+			if (showDialogMessage)
+				new DialogMessage( Constants.MessageTypes.WARNING,
+						string.Format(Catalog.GetString("Cannot export to file {0} "), tempfile) );
+
 			fakeButtonDone.Click ();
 			return;
 		}
@@ -154,18 +158,20 @@ public abstract class ExportSession
 			File.Copy(tempfile, filename, true); //can be overwritten
 		} catch {
 			LogB.Information("Couldn't copy to: " + filename);
-			new DialogMessage( Constants.MessageTypes.WARNING,
-					string.Format(Catalog.GetString("Cannot export to file {0} "), filename) );
+			if (showDialogMessage)
+				new DialogMessage( Constants.MessageTypes.WARNING,
+						string.Format(Catalog.GetString("Cannot export to file {0} "), filename) );
+
 			fakeButtonDone.Click ();
 			return;
 		}
 
 		// 3) show message
-		string myString = string.Format(Catalog.GetString("Saved to {0}"), filename) + spreadsheetString;
-		new DialogMessage(Constants.MessageTypes.INFO, myString);
+		if (showDialogMessage)
+			new DialogMessage(Constants.MessageTypes.INFO,
+					string.Format(Catalog.GetString("Saved to {0}"), filename) + spreadsheetString);
 
 		success = true;
-		fakeButtonDone.Click ();
 		fakeButtonDone.Click ();
 	}
 		
@@ -1086,7 +1092,8 @@ public class ExportSessionCSV : ExportSession
 		this.runsSimple = runsSimple;
 		this.runsIntervallic = runsIntervallic;
 
-		spreadsheetString = Constants.GetSpreadsheetString(preferences.CSVExportDecimalSeparator);
+		//spreadsheetString = Constants.GetSpreadsheetString(preferences.CSVExportDecimalSeparator);
+		showDialogMessage = false;
 		fakeButtonDone = new Gtk.Button ();
 		filename = "";
 	}
@@ -1152,7 +1159,8 @@ public class ExportSessionXML : ExportSession
 		//xr = new XmlTextWriter(fileExport, null);
 		//xr.Formatting = Formatting.Indented;
 		//xr.Indentation = 4;
-		
+
+		showDialogMessage = false;
 		checkFile("XML");
 	}
 	

@@ -952,7 +952,7 @@ public partial class ChronoJumpWindow
 		notebook_ai_top.CurrentPage = Convert.ToInt32(notebook_ai_top_pages.AUTOMATICOPTIONS);
 
 		hbox_force_sensor_analyze_top_modes.Sensitive = false;
-		button_ai_model_options_close_and_analyze.Visible = radio_force_sensor_analyze_current_set.Active;
+		button_ai_model_options_close_and_analyze.Visible = radio_signal_analyze_current_set.Active;
 
 		if (Constants.ModeIsFORCESENSOR (current_mode))
 		{

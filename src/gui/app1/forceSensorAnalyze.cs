@@ -32,8 +32,8 @@ public partial class ChronoJumpWindow
 {
 	// at glade ---->
 	//analyze tab
-	Gtk.RadioButton radio_force_sensor_analyze_current_set;
-	//Gtk.RadioButton radio_force_sensor_analyze_export_csv;
+	Gtk.RadioButton radio_signal_analyze_current_set;
+	//Gtk.RadioButton radio_signal_analyze_export_csv;
 	Gtk.RadioButton radio_force_sensor_export_individual_current_session;
 	Gtk.RadioButton radio_force_sensor_export_individual_all_sessions;
 	Gtk.RadioButton radio_force_sensor_export_groupal_current_session;
@@ -679,13 +679,13 @@ public partial class ChronoJumpWindow
 		button_force_sensor_export_result_open.Visible = false;
 	}
 
-	private void on_radio_force_sensor_analyze_current_set_toggled (object o, EventArgs args)
+	private void on_radio_signal_analyze_current_set_toggled (object o, EventArgs args)
 	{
 		notebook_ai_top.CurrentPage = Convert.ToInt32(notebook_ai_top_pages.CURRENTSETSIGNAL);
 		label_force_sensor_export_result.Text = "";
 		button_force_sensor_export_result_open.Visible = false;
 	}
-	private void on_radio_force_sensor_analyze_export_csv_toggled (object o, EventArgs args)
+	private void on_radio_signal_analyze_export_csv_toggled (object o, EventArgs args)
 	{
 		notebook_ai_top.CurrentPage = Convert.ToInt32(notebook_ai_top_pages.CURRENTSESSION);
 		label_force_sensor_export_result.Text = "";
@@ -1508,8 +1508,8 @@ public partial class ChronoJumpWindow
 	private void connectWidgetsForceSensorAnalyze (Gtk.Builder builder)
 	{
 		//analyze tab
-		radio_force_sensor_analyze_current_set = (Gtk.RadioButton) builder.GetObject ("radio_force_sensor_analyze_current_set");
-		//radio_force_sensor_analyze_export_csv = (Gtk.RadioButton) builder.GetObject ("radio_force_sensor_analyze_export_csv");
+		radio_signal_analyze_current_set = (Gtk.RadioButton) builder.GetObject ("radio_signal_analyze_current_set");
+		//radio_signal_analyze_export_csv = (Gtk.RadioButton) builder.GetObject ("radio_signal_analyze_export_csv");
 		radio_force_sensor_export_individual_current_session = (Gtk.RadioButton) builder.GetObject ("radio_force_sensor_export_individual_current_session");
 		radio_force_sensor_export_individual_all_sessions = (Gtk.RadioButton) builder.GetObject ("radio_force_sensor_export_individual_all_sessions");
 		radio_force_sensor_export_groupal_current_session = (Gtk.RadioButton) builder.GetObject ("radio_force_sensor_export_groupal_current_session");

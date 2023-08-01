@@ -38,8 +38,8 @@ public class Report : ExportSession
 	public bool ShowSimpleRuns;
 	public bool ShowIntervalRuns;
 	public bool ShowIntervalRunsWithSubruns;
-	public bool ShowReactionTimes;
-	public bool ShowPulses;
+	//public bool ShowReactionTimes;
+	//public bool ShowPulses;
 	
 	bool toReport = true;
 
@@ -60,8 +60,8 @@ public class Report : ExportSession
 		ShowReactiveJumps = true;
 		ShowSimpleRuns = true;
 		ShowIntervalRuns = true;
-		ShowReactionTimes = true;
-		ShowPulses = true;
+		//ShowReactionTimes = true;
+		//ShowPulses = true;
 
 		spreadsheetString = "";
 		showDialogMessage = true;
@@ -120,6 +120,7 @@ public class Report : ExportSession
 		if (ShowIntervalRuns) {
 			myRunsInterval = SqliteRunInterval.SelectRunsSA (true, sessionID, -1, "");
 		}
+		/*
 		if(ShowReactionTimes) {
 			myReactionTimes= SqliteReactionTime.SelectReactionTimes(true, sessionID, -1, "",
 					Sqlite.Orders_by.DEFAULT, -1);
@@ -127,6 +128,7 @@ public class Report : ExportSession
 		if(ShowPulses) {
 			myPulses= SqlitePulse.SelectPulses(true, sessionID, -1);
 		}
+		*/
 		
 		Sqlite.Close(); // ------------------------------
 	}
@@ -180,12 +182,14 @@ public class Report : ExportSession
 			}
 			printRunsInterval(ShowIntervalRunsWithSubruns, myTitle);
 		}
-		
+
+		/*
 		if(ShowReactionTimes) 
 			printReactionTimes(Catalog.GetString("Reaction times"));
 
 		if(ShowPulses) 
 			printPulses(Catalog.GetString("Pulses"));
+		*/
 
 		printStats();
 		

@@ -153,7 +153,7 @@ public partial class ChronoJumpWindow
 	{
 		//notebook_ai_top.CurrentPage = Convert.ToInt32(notebook_ai_top_pages.CURRENTSETSIGNAL);
 		//change radio and will change also notebook:
-		radio_force_sensor_analyze_current_set.Active = true;
+		radio_signal_analyze_current_set.Active = true;
 
 		createComboForceSensorCaptureOptions();
 		createForceExerciseCombo();
@@ -407,7 +407,7 @@ public partial class ChronoJumpWindow
 		{
 			//notebook_ai_top.CurrentPage = Convert.ToInt32(notebook_ai_top_pages.CURRENTSETSIGNAL);
 			//change radio and will change also notebook:
-			radio_force_sensor_analyze_current_set.Active = true;
+			radio_signal_analyze_current_set.Active = true;
 
 			forceSensorButtonsSensitive(false);
 			sensitiveLastTestButtons(false);
@@ -2104,7 +2104,7 @@ LogB.Information(" fs R ");
 
 		//notebook_ai_top.CurrentPage = Convert.ToInt32(notebook_ai_top_pages.CURRENTSETSIGNAL);
 		//change radio and will change also notebook:
-		radio_force_sensor_analyze_current_set.Active = true;
+		radio_signal_analyze_current_set.Active = true;
 	}
 
 	private void on_force_sensor_load_signal_update_treeview (object o, EventArgs args)
@@ -2340,7 +2340,7 @@ LogB.Information(" fs R ");
 
 		//notebook_ai_top.CurrentPage = Convert.ToInt32(notebook_ai_top_pages.CURRENTSETSIGNAL);
 		//change radio and will change also notebook:
-		radio_force_sensor_analyze_current_set.Active = true;
+		radio_signal_analyze_current_set.Active = true;
 	}
 
 	private enum forceSensorGraphsEnum { SIGNAL, RFD }

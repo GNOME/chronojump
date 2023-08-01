@@ -18999,6 +18999,9 @@
                                                             <property name="position">4</property>
                                                           </packing>
                                                         </child>
+                                                        <child>
+                                                          <placeholder/>
+                                                        </child>
                                                       </object>
                                                       <packing>
                                                         <property name="expand">False</property>
@@ -22921,6 +22924,9 @@ Concentric</property>
                                                             <child>
                                                             <placeholder/>
                                                             </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
                                                             </object>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -24909,13 +24915,13 @@ Concentric</property>
                                                             <property name="can-focus">False</property>
                                                             <property name="spacing">20</property>
                                                             <child>
-                                                            <object class="GtkRadioButton" id="radio_force_sensor_analyze_current_set">
+                                                            <object class="GtkRadioButton" id="radio_signal_analyze_current_set">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="receives-default">False</property>
                                                             <property name="active">True</property>
                                                             <property name="draw-indicator">False</property>
-                                                            <signal name="toggled" handler="on_radio_force_sensor_analyze_current_set_toggled" swapped="no"/>
+                                                            <signal name="toggled" handler="on_radio_signal_analyze_current_set_toggled" swapped="no"/>
                                                             <child>
                                                             <object class="GtkHBox" id="hbox459">
                                                             <property name="visible">True</property>
@@ -24955,14 +24961,14 @@ Concentric</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <object class="GtkRadioButton" id="radio_force_sensor_analyze_export_csv">
+                                                            <object class="GtkRadioButton" id="radio_signal_analyze_export_csv">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="receives-default">False</property>
                                                             <property name="active">True</property>
                                                             <property name="draw-indicator">False</property>
-                                                            <property name="group">radio_force_sensor_analyze_current_set</property>
-                                                            <signal name="toggled" handler="on_radio_force_sensor_analyze_export_csv_toggled" swapped="no"/>
+                                                            <property name="group">radio_signal_analyze_current_set</property>
+                                                            <signal name="toggled" handler="on_radio_signal_analyze_export_csv_toggled" swapped="no"/>
                                                             <child>
                                                             <object class="GtkHBox" id="hbox187">
                                                             <property name="visible">True</property>
@@ -27158,7 +27164,7 @@ Concentric</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <object class="GtkVBox" id="vbox_force_sensor_export">
+                                                            <object class="GtkVBox" id="vbox_signal_export">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
                                                             <property name="border-width">12</property>

@@ -144,6 +144,13 @@ public partial class ChronoJumpWindow
 	Gtk.RadioButton radio_mode_contacts_runs_evolution;
 	Gtk.RadioButton radio_mode_contacts_sprint;
 	Gtk.RadioButton radio_mode_contacts_advanced;
+	Gtk.RadioButton radio_mode_contacts_export_csv;
+
+	Gtk.RadioButton radio_contacts_export_individual_current_session;
+	Gtk.Label label_contacts_export_person;
+	Gtk.Label label_contacts_export_session;
+	Gtk.Label label_contacts_export_result;
+	Gtk.Button button_contacts_export_result_open;
 
 	Gtk.Label label_sprint_person_name;
 
@@ -575,8 +582,9 @@ public partial class ChronoJumpWindow
 	private enum notebook_start_pages { PROGRAM, SENDLOG, EXITCONFIRM, SOCIALNETWORKPOLL, FULLSCREENCAPTURE }
 	private enum notebook_sup_pages { START, CONTACTS, ENCODER, SESSION, NETWORKSPROBLEMS, HELP, NEWS, MICRODISCOVER, PERSON }
 	private enum notebook_contacts_execute_or_pages { EXECUTE, INSTRUCTIONS, FORCESENSORADJUST, RACEINSPECTOR }
-	private enum notebook_analyze_pages { STATISTICS, JUMPSPROFILE, JUMPSDJOPTIMALFALL, JUMPSWEIGHTFVPROFILE, JUMPSASYMMETRY, JUMPSEVOLUTION, JUMPSRJFATIGUE,
-		RUNSEVOLUTION, SPRINT, FORCESENSOR, RACEENCODER }
+	private enum notebook_analyze_pages { STATISTICS, JUMPSPROFILE, JUMPSDJOPTIMALFALL, JUMPSWEIGHTFVPROFILE,
+		JUMPSASYMMETRY, JUMPSEVOLUTION, JUMPSRJFATIGUE,
+		RUNSEVOLUTION, SPRINT, CONTACTS_EXPORT_CSV, FORCESENSOR, RACEENCODER }
 
 	private string runningFileName; //useful for knowing if there are two chronojump instances
 
@@ -1665,6 +1673,17 @@ public partial class ChronoJumpWindow
 
 		label_current_person.Text = currentPerson.Name;
 		button_person_merge.Sensitive = true;
+
+		if (current_mode == Constants.Modes.JUMPSSIMPLE || current_mode == Constants.Modes.JUMPSREACTIVE ||
+				current_mode == Constants.Modes.RUNSSIMPLE || current_mode == Constants.Modes.RUNSINTERVALLIC) {
+			if (radio_contacts_export_individual_current_session.Active)
+			{
+				if(currentPerson != null)
+					label_contacts_export_person.Text = currentPerson.Name;
+				else
+					label_contacts_export_person.Text = "";
+			}
+		}
 
 		if(current_mode == Constants.Modes.JUMPSSIMPLE)
 		{
@@ -3367,6 +3386,11 @@ public partial class ChronoJumpWindow
 			reportWin.FillTreeView();
 		} catch {} //reportWin is still not created, not need to Fill again
 
+		label_force_sensor_export_person.Text = "";
+		label_contacts_export_person.Text = "";
+		label_force_sensor_export_session.Text = currentSession.Name;
+		label_contacts_export_session.Text = currentSession.Name;
+
 		//feedback (more in 1st session created)
 		string feedbackLoadUsers = Catalog.GetString ("Session created, now add or load persons.");
 		new DialogMessage(Constants.MessageTypes.INFO, feedbackLoadUsers);
@@ -3482,10 +3506,15 @@ public partial class ChronoJumpWindow
 		label_sprint_export_data.Text = currentSession.Name;
 
 		if(currentPerson != null)
+		{
 			label_force_sensor_export_person.Text = currentPerson.Name;
-		else
+			label_contacts_export_person.Text = currentPerson.Name;
+		} else {
 			label_force_sensor_export_person.Text = "";
+			label_contacts_export_person.Text = "";
+		}
 		label_force_sensor_export_session.Text = currentSession.Name;
+		label_contacts_export_session.Text = currentSession.Name;
 
 		label_run_encoder_export_data.Text = currentSession.Name;
 
@@ -3550,16 +3579,69 @@ public partial class ChronoJumpWindow
 		}
 	}
 
+	//TODO: delete this
 	private void on_export_session_accepted(object o, EventArgs args)
 	{
 		if(currentSession == null || currentSession.UniqueID == -1) {
-			new DialogMessage(Constants.MessageTypes.WARNING, "Cannot edit a missing session");
+			new DialogMessage(Constants.MessageTypes.WARNING, "Cannot export a missing session");
 			return;
 		}
 
-		new ExportSessionCSV(currentSession, app1, preferences);
+		new ExportSessionCSV (currentSession, app1, preferences,
+				true, true, true, true);
 	}
 
+	private void on_radio_contacts_export_individual_current_session_toggled (object o, EventArgs args)
+	{
+		if(currentPerson != null)
+			label_contacts_export_person.Text = currentPerson.Name;
+		else
+			label_contacts_export_person.Text = "";
+
+		label_contacts_export_session.Text = currentSession.Name;
+
+		label_contacts_export_result.Text = "";
+		button_contacts_export_result_open.Visible = false;
+	}
+	private void on_radio_contacts_export_individual_all_sessions_toggled (object o, EventArgs args)
+	{
+		if(currentPerson != null)
+			label_contacts_export_person.Text = currentPerson.Name;
+		else
+			label_contacts_export_person.Text = "";
+
+		label_contacts_export_session.Text = Catalog.GetString ("All");
+
+		label_contacts_export_result.Text = "";
+		button_contacts_export_result_open.Visible = false;
+	}
+	private void on_radio_contacts_export_groupal_current_session_toggled (object o, EventArgs args)
+	{
+		label_contacts_export_person.Text = Catalog.GetString ("All");
+		label_contacts_export_session.Text = currentSession.Name;
+
+		label_contacts_export_result.Text = "";
+		button_contacts_export_result_open.Visible = false;
+	}
+
+	private void on_button_contacts_export_clicked (object o, EventArgs args)
+	{
+		if(currentSession == null || currentSession.UniqueID == -1) {
+			new DialogMessage(Constants.MessageTypes.WARNING, "Cannot export a missing session");
+			return;
+		}
+
+		if (current_mode == Constants.Modes.JUMPSSIMPLE || current_mode == Constants.Modes.JUMPSREACTIVE)
+			new ExportSessionCSV (currentSession, app1, preferences,
+					check_contacts_export_jumps_simple.Active,
+					check_contacts_export_jumps_reactive.Active,
+					false, false);
+		else if (current_mode == Constants.Modes.RUNSSIMPLE || current_mode == Constants.Modes.RUNSINTERVALLIC)
+			new ExportSessionCSV (currentSession, app1, preferences,
+					false, false,
+					check_contacts_export_runs_simple.Active,
+					check_contacts_export_runs_intervallic.Active);
+	}
 
 
 	/* ---------------------------------------------------------
@@ -4032,6 +4114,13 @@ public partial class ChronoJumpWindow
 			label_contacts_exercise_selected_name.Visible = false;
 			hbox_combo_select_contacts_top_with_arrows.Visible = true; //this will be unneded
 
+			box_contacts_export_data_jumps.Visible = true;
+			check_contacts_export_jumps_simple.Active = (current_mode == Constants.Modes.JUMPSSIMPLE);
+			check_contacts_export_jumps_reactive.Active = (current_mode == Constants.Modes.JUMPSREACTIVE);
+			box_contacts_export_data_runs.Visible = false;
+			radio_contacts_export_individual_current_session.Active = true;
+			on_radio_contacts_export_individual_current_session_toggled (new object (), new EventArgs ());
+
 			/*
 			if(radio_mode_contacts_jumps_profile.Active || radio_mode_contacts_jumps_dj_optimal_fall.Active ||
 					radio_mode_contacts_jumps_weight_fv_profile.Active || radio_mode_contacts_jumps_evolution.Active)
@@ -4103,6 +4192,13 @@ public partial class ChronoJumpWindow
 				if(radio_mode_contacts_analyze.Active)
 					radio_mode_contacts_analyze_buttons_visible (m);
 			}
+
+			box_contacts_export_data_jumps.Visible = false;
+			box_contacts_export_data_runs.Visible = true;
+			check_contacts_export_runs_simple.Active = (current_mode == Constants.Modes.RUNSSIMPLE);
+			check_contacts_export_runs_intervallic.Active = (current_mode == Constants.Modes.RUNSINTERVALLIC);
+			radio_contacts_export_individual_current_session.Active = true;
+			on_radio_contacts_export_individual_current_session_toggled (new object (), new EventArgs ());
 
 			feedbackWin.View(Constants.BellModes.RUNS, preferences, encoderRhythm, false); //not viewWindow
 			createComboSelectContactsTop ();
@@ -9104,6 +9200,10 @@ LogB.Debug("mc finished 5");
 					drawingarea_runs_evolution.QueueDraw ();
 				}
 			}
+			if(radio_mode_contacts_export_csv.Active)
+			{
+				notebook_analyze.CurrentPage = Convert.ToInt32(notebook_analyze_pages.CONTACTS_EXPORT_CSV);
+			}
 		}
 		else if (Constants.ModeIsFORCESENSOR (current_mode))
 			notebook_analyze.CurrentPage = Convert.ToInt32(notebook_analyze_pages.FORCESENSOR);
@@ -9190,6 +9290,11 @@ LogB.Debug("mc finished 5");
 	{
 		if(radio_mode_contacts_sprint.Active)
 			notebook_analyze.CurrentPage = Convert.ToInt32(notebook_analyze_pages.SPRINT);
+	}
+	private void on_radio_mode_contacts_export_csv_toggled (object o, EventArgs args)
+	{
+		if (radio_mode_contacts_export_csv.Active)
+			notebook_analyze.CurrentPage = Convert.ToInt32(notebook_analyze_pages.CONTACTS_EXPORT_CSV);
 	}
 
 	/* ---------------------------------------------------------
@@ -9783,6 +9888,13 @@ LogB.Debug("mc finished 5");
 		radio_mode_contacts_runs_evolution = (Gtk.RadioButton) builder.GetObject ("radio_mode_contacts_runs_evolution");
 		radio_mode_contacts_sprint = (Gtk.RadioButton) builder.GetObject ("radio_mode_contacts_sprint");
 		radio_mode_contacts_advanced = (Gtk.RadioButton) builder.GetObject ("radio_mode_contacts_advanced");
+		radio_mode_contacts_export_csv = (Gtk.RadioButton) builder.GetObject ("radio_mode_contacts_export_csv");
+
+		radio_contacts_export_individual_current_session = (Gtk.RadioButton) builder.GetObject ("radio_contacts_export_individual_current_session");
+		label_contacts_export_person = (Gtk.Label) builder.GetObject ("label_contacts_export_person");
+		label_contacts_export_session = (Gtk.Label) builder.GetObject ("label_contacts_export_session");
+		label_contacts_export_result = (Gtk.Label) builder.GetObject ("label_contacts_export_result");
+		button_contacts_export_result_open = (Gtk.Button) builder.GetObject ("button_contacts_export_result_open");
 
 		label_sprint_person_name = (Gtk.Label) builder.GetObject ("label_sprint_person_name");
 

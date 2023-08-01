@@ -32,6 +32,7 @@ using Mono.Unix;
 
 public partial class ChronoJumpWindow
 {
+	// at glade ---->
 	//options runs
 	Gtk.Button button_combo_runs_exercise_capture_left;
 	Gtk.Button button_combo_runs_exercise_capture_right;
@@ -53,6 +54,11 @@ public partial class ChronoJumpWindow
 	Gtk.SpinButton extra_window_runs_interval_spinbutton_limit_tracks;
 	Gtk.SpinButton extra_window_runs_interval_spinbutton_limit_time;
 	Gtk.CheckButton check_run_interval_with_reaction_time;
+
+	Gtk.Box box_contacts_export_data_runs;
+	Gtk.CheckButton check_contacts_export_runs_simple;
+	Gtk.CheckButton check_contacts_export_runs_intervallic;
+	// <---- at glade
 	
 
 	double extra_window_runs_distance = 10;
@@ -555,6 +561,10 @@ public partial class ChronoJumpWindow
 		extra_window_runs_interval_spinbutton_limit_tracks = (Gtk.SpinButton) builder.GetObject ("extra_window_runs_interval_spinbutton_limit_tracks");
 		extra_window_runs_interval_spinbutton_limit_time = (Gtk.SpinButton) builder.GetObject ("extra_window_runs_interval_spinbutton_limit_time");
 		check_run_interval_with_reaction_time = (Gtk.CheckButton) builder.GetObject ("check_run_interval_with_reaction_time");
+
+		box_contacts_export_data_runs = (Gtk.Box) builder.GetObject ("box_contacts_export_data_runs");
+		check_contacts_export_runs_simple = (Gtk.CheckButton) builder.GetObject ("check_contacts_export_runs_simple");
+		check_contacts_export_runs_intervallic = (Gtk.CheckButton) builder.GetObject ("check_contacts_export_runs_intervallic");
 	}
 }
 

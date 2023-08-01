@@ -32,6 +32,7 @@ using Mono.Unix;
 
 public partial class ChronoJumpWindow
 {
+	// at glade ---->
 	//options jumps
 	Gtk.Button button_combo_jumps_exercise_capture_left;
 	Gtk.Button button_combo_jumps_exercise_capture_right;
@@ -102,7 +103,11 @@ public partial class ChronoJumpWindow
 	Gtk.Button button_jumps_rj_extra_fall_plus_1;
 	Gtk.Button button_jumps_rj_extra_fall_plus_10;
 
-	
+	Gtk.Box box_contacts_export_data_jumps;
+	Gtk.CheckButton check_contacts_export_jumps_simple;
+	Gtk.CheckButton check_contacts_export_jumps_reactive;
+	// <---- at glade
+
 	//for RunAnalysis
 	//but will be used and recorded with "fall"
 	//static double distance;
@@ -891,5 +896,9 @@ public partial class ChronoJumpWindow
 		button_jumps_rj_extra_fall_minus_1 = (Gtk.Button) builder.GetObject ("button_jumps_rj_extra_fall_minus_1");
 		button_jumps_rj_extra_fall_plus_1 = (Gtk.Button) builder.GetObject ("button_jumps_rj_extra_fall_plus_1");
 		button_jumps_rj_extra_fall_plus_10 = (Gtk.Button) builder.GetObject ("button_jumps_rj_extra_fall_plus_10");
+
+		box_contacts_export_data_jumps = (Gtk.Box) builder.GetObject ("box_contacts_export_data_jumps");
+		check_contacts_export_jumps_simple = (Gtk.CheckButton) builder.GetObject ("check_contacts_export_jumps_simple");
+		check_contacts_export_jumps_reactive = (Gtk.CheckButton) builder.GetObject ("check_contacts_export_jumps_reactive");
 	}
 }

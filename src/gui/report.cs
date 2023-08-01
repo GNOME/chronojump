@@ -48,8 +48,8 @@ public class ReportWindow
 	Gtk.CheckButton cb_runs_simple;
 	Gtk.CheckButton cb_runs_interval;
 	Gtk.CheckButton cb_runs_interval_with_subruns;
-	Gtk.CheckButton cb_reaction_times;
-	Gtk.CheckButton cb_pulses;
+	//Gtk.CheckButton cb_reaction_times;
+	//Gtk.CheckButton cb_pulses;
 	Gtk.Image image_report_win_graph;
 	Gtk.Image image_report_win_report;
 	Gtk.Image image_report_delete;
@@ -189,8 +189,8 @@ public class ReportWindow
 		if(report.ShowSimpleRuns) { 		cb_runs_simple.Active = true; } 
 		if(report.ShowIntervalRuns) { 	cb_runs_interval.Active = true; } 
 		if(report.ShowIntervalRunsWithSubruns) { 	cb_runs_interval_with_subruns.Active = true; } 
-		if(report.ShowReactionTimes) { 		cb_reaction_times.Active = true; } 
-		if(report.ShowPulses) { 		cb_pulses.Active = true; } 
+		//if(report.ShowReactionTimes) { 		cb_reaction_times.Active = true; } 
+		//if(report.ShowPulses) { 		cb_pulses.Active = true; } 
 	}
 	
 	public void FillTreeView () 
@@ -451,11 +451,13 @@ public class ReportWindow
 		if(cb_runs_interval_with_subruns.Active) { report.ShowIntervalRunsWithSubruns = true;  } 
 		else { report.ShowIntervalRunsWithSubruns = false; }
 
+		/*
 		if(cb_reaction_times.Active) { report.ShowReactionTimes = true;  } 
 		else { report.ShowReactionTimes = false; }
 
 		if(cb_pulses.Active) { report.ShowPulses = true;  } 
 		else { report.ShowPulses = false; }
+		*/
 
 		//treeview
 		TreeIter myIter = new TreeIter ();
@@ -536,8 +538,8 @@ public class ReportWindow
 		cb_runs_simple = (Gtk.CheckButton) builder.GetObject ("cb_runs_simple");
 		cb_runs_interval = (Gtk.CheckButton) builder.GetObject ("cb_runs_interval");
 		cb_runs_interval_with_subruns = (Gtk.CheckButton) builder.GetObject ("cb_runs_interval_with_subruns");
-		cb_reaction_times = (Gtk.CheckButton) builder.GetObject ("cb_reaction_times");
-		cb_pulses = (Gtk.CheckButton) builder.GetObject ("cb_pulses");
+		//cb_reaction_times = (Gtk.CheckButton) builder.GetObject ("cb_reaction_times");
+		//cb_pulses = (Gtk.CheckButton) builder.GetObject ("cb_pulses");
 		image_report_win_graph = (Gtk.Image) builder.GetObject ("image_report_win_graph");
 		image_report_win_report = (Gtk.Image) builder.GetObject ("image_report_win_report");
 		image_report_delete = (Gtk.Image) builder.GetObject ("image_report_delete");

@@ -40,9 +40,11 @@ public abstract class ExportSession
 	protected string [] myJumpsRj;
 	protected string [] myRuns;
 	protected string [] myRunsInterval;
+	/*
 	protected string [] myReactionTimes;
 	protected string [] myPulses;
 	protected string [] myMCs;
+	*/
 	protected Session mySession;
 	protected TextWriter writer;
 	protected static Gtk.Window app1;
@@ -207,11 +209,14 @@ public abstract class ExportSession
 				Sqlite.Orders_by.DEFAULT, 0);
 
 		myRunsInterval = SqliteRunInterval.SelectRunsSA (true, mySession.UniqueID, -1, "");
+
+		/*
 		myReactionTimes = SqliteReactionTime.SelectReactionTimes(true, mySession.UniqueID, -1, "",
 				Sqlite.Orders_by.DEFAULT, -1);
 
 		myPulses = SqlitePulse.SelectPulses(true, mySession.UniqueID, -1);
 		myMCs = SqliteMultiChronopic.SelectTests(true, mySession.UniqueID, -1);
+		*/
 		
 		Sqlite.Close(); // ------------------------------
 	}
@@ -824,6 +829,7 @@ public abstract class ExportSession
 		}
 	}
 	
+	/*
 	protected void printReactionTimes(string title)
 	{
 		int dec=preferences.digitsNumber; //decimals
@@ -1042,6 +1048,7 @@ public abstract class ExportSession
 			writeData("VERTICAL-SPACE");
 		}
 	}
+	*/
 
 	public Gtk.Button FakeButtonDone {
 		get { return fakeButtonDone; }

@@ -29,7 +29,6 @@ using Mono.Unix;
 
 public class Report : ExportSession
 {
-	private int sessionID;
 	public bool ShowCurrentSessionData;
 	public bool ShowCurrentSessionJumpers;
 	public bool ShowSimpleJumps;
@@ -82,8 +81,8 @@ public class Report : ExportSession
 
 	protected override void getData() 
 	{
-		//create directory fileName_files/
-		string directoryName = Util.GetReportDirectoryName(fileName);
+		//create directory filename_files/
+		string directoryName = Util.GetReportDirectoryName(filename);
 		if(!Directory.Exists(directoryName)) {
 			Directory.CreateDirectory (directoryName);
 		} else {
@@ -191,12 +190,12 @@ public class Report : ExportSession
 		//copy files, and continue if already exists
 		try {
 			File.Copy(Util.GetCssDir()+ Path.DirectorySeparatorChar + Constants.FileNameCSS, 
-					Util.GetReportDirectoryName(fileName) + Path.DirectorySeparatorChar + Constants.FileNameCSS );
+					Util.GetReportDirectoryName(filename) + Path.DirectorySeparatorChar + Constants.FileNameCSS );
 		} catch {}
 		try {
 
 			File.Copy(Util.GetImagesDir() + Path.DirectorySeparatorChar + Constants.FileNameLogo, 
-					Util.GetReportDirectoryName(fileName) + Path.DirectorySeparatorChar + Constants.FileNameLogo );
+					Util.GetReportDirectoryName(filename) + Path.DirectorySeparatorChar + Constants.FileNameLogo );
 		} catch {}
 	}
 	
@@ -205,14 +204,14 @@ public class Report : ExportSession
 		writer.WriteLine("<HTML><HEAD><TITLE>Chronojump Report (" + DateTime.Now + ")</TITLE>\n");
 		writer.WriteLine("<meta HTTP-EQUIV=\"Content-Type\" CONTENT=\"text/html; charset=UTF-8\">\n");
 		writer.WriteLine("<style type=\"text/css\">");
-		writer.WriteLine("	@import url(\"" + Util.GetLastPartOfPath(Util.GetReportDirectoryName(fileName)) + 
+		writer.WriteLine("	@import url(\"" + Util.GetLastPartOfPath(Util.GetReportDirectoryName(filename)) + 
 				"/report_web_style.css\"); ");
 		writer.WriteLine("</style>");
 		writer.WriteLine("</HEAD>\n<BODY BGCOLOR=\"#ffffff\" TEXT=\"#444444\">\n");
 		
 		writer.WriteLine("<table width=\"100%\" class=\"empty\"><tr><td>\n");
 		writer.WriteLine("<img src=\"" +
-				Util.GetLastPartOfPath(Util.GetReportDirectoryName(fileName)) 
+				Util.GetLastPartOfPath(Util.GetReportDirectoryName(filename)) 
 				+ "/" + Constants.FileNameLogo + "\">\n ");
 		writer.WriteLine("</td><td width=\"80%\" valign=\"bottom\"><h1>Chronojump report</h1></td></tr>\n");
 		writer.WriteLine("</table>\n");
@@ -378,7 +377,7 @@ public class Report : ExportSession
 					toReport,
 					preferences,
 					writer,
-					fileName,		//fileName for exporting there
+					filename,		//filename for exporting there
 					statCount
 					);
 

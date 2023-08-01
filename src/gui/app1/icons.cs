@@ -146,6 +146,13 @@ public partial class ChronoJumpWindow
 	Gtk.Image image_sprint_export_cancel;
 	Gtk.Image image_race_inspector_close;
 
+	Gtk.Image image_contacts_export_individual_current_session;
+	Gtk.Image image_contacts_export_individual_all_sessions;
+	Gtk.Image image_contacts_export_groupal_current_session;
+	Gtk.Image image_contacts_export_grid;
+	Gtk.Image image_contacts_export_save;
+	Gtk.Image image_contacts_export_cancel;
+
 	//encoder images
 	Gtk.Image image_top_eccon;
 	Gtk.Image image_encoder_eccon_concentric;
@@ -222,6 +229,7 @@ public partial class ChronoJumpWindow
 	Gtk.Image image_force_sensor_ai_zoom;
 	Gtk.Image image_force_sensor_ai_zoom_out;
 	Gtk.Image image_button_force_sensor_analyze_back_to_signal;
+	Gtk.Image image_mode_contacts_export_csv;
 	Gtk.Image image_force_sensor_analyze_export;
 
 	Gtk.Image image_hscale_force_sensor_ai_a_first;
@@ -453,8 +461,6 @@ public partial class ChronoJumpWindow
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "arrow_back.png");
 		image_button_force_sensor_analyze_back_to_signal.Pixbuf = pixbuf;
 		image_app1s_button_back.Pixbuf = pixbuf;
-
-		image_force_sensor_analyze_export.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "export.png");
 
 		//pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_person_pin.png");
 		if(Config.ColorBackgroundIsDark)
@@ -767,6 +773,8 @@ public partial class ChronoJumpWindow
 		image_export_encoder_signal.Pixbuf = pixbuf;
 		image_session_export.Pixbuf = pixbuf;
 		image_session_export_csv.Pixbuf = pixbuf;
+		image_mode_contacts_export_csv.Pixbuf = pixbuf;
+		image_force_sensor_analyze_export.Pixbuf = pixbuf;
 
 		//reaction times changes
 		//UtilGtk.ColorsTestLabel(viewport_chronopics, label_extra_window_radio_reaction_time);
@@ -823,6 +831,7 @@ public partial class ChronoJumpWindow
 		app1s_image_delete.Pixbuf = pixbuf;
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_cancel.png");
+		image_contacts_export_cancel.Pixbuf = pixbuf;
 		image_sprint_export_cancel.Pixbuf = pixbuf;
 		image_button_contacts_exercise_actions_cancel.Pixbuf = pixbuf;
 		image_button_encoder_exercise_actions_cancel.Pixbuf = pixbuf;
@@ -875,6 +884,7 @@ public partial class ChronoJumpWindow
 		image_sprint_table_save_grid.Pixbuf = pixbuf;
 		image_raceAnalyzer_table_save_grid.Pixbuf = pixbuf;
 		image_session_export_csv1.Pixbuf = pixbuf;
+		image_contacts_export_grid.Pixbuf = pixbuf;
 
 		//encoder
 		UtilGtk.ColorsRadio(viewport_chronopics, radiobutton_encoder_analyze_powerbars);
@@ -916,6 +926,7 @@ public partial class ChronoJumpWindow
 		image_run_encoder_analyze_image_save_graph.Pixbuf = pixbuf;
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "save.png");
+		image_contacts_export_save.Pixbuf = pixbuf;
 		image_button_contacts_capture_save_image_disk.Pixbuf = pixbuf;
 		image_jumps_rj_fatigue_image_save.Pixbuf = pixbuf;
 		image_sprint_analyze_table_save_1.Pixbuf = pixbuf;
@@ -981,12 +992,14 @@ public partial class ChronoJumpWindow
 		image_run_encoder_analyze_individual_current_set.Pixbuf = pixbuf;
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameEncoderAnalyzeIndividualCurrentSessionIcon);
+		image_contacts_export_individual_current_session.Pixbuf = pixbuf;
 		image_sprint_analyze_individual_current_session.Pixbuf = pixbuf;
 		image_encoder_analyze_individual_current_session.Pixbuf = pixbuf;
 		image_force_sensor_analyze_individual_current_session.Pixbuf = pixbuf;
 		image_run_encoder_analyze_individual_current_session.Pixbuf = pixbuf;
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameEncoderAnalyzeIndividualAllSessionsIcon);
+		image_contacts_export_individual_all_sessions.Pixbuf = pixbuf;
 		image_encoder_analyze_individual_all_sessions.Pixbuf = pixbuf;
 		image_sprint_analyze_individual_all_sessions.Pixbuf = pixbuf;
 		image_force_sensor_analyze_individual_all_sessions.Pixbuf = pixbuf;
@@ -995,6 +1008,7 @@ public partial class ChronoJumpWindow
 		image_tab_runs_evolution.Pixbuf = pixbuf;
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameEncoderAnalyzeGroupalCurrentSessionIcon);
+		image_contacts_export_groupal_current_session.Pixbuf = pixbuf;
 		image_sprint_analyze_groupal_current_session.Pixbuf = pixbuf;
 		image_encoder_analyze_groupal_current_session.Pixbuf = pixbuf;
 		image_force_sensor_analyze_groupal_current_session.Pixbuf = pixbuf;
@@ -1246,6 +1260,13 @@ public partial class ChronoJumpWindow
 		image_sprint_analyze_table_save_1 = (Gtk.Image) builder.GetObject ("image_sprint_analyze_table_save_1");
 		image_sprint_export_cancel = (Gtk.Image) builder.GetObject ("image_sprint_export_cancel");
 		image_race_inspector_close = (Gtk.Image) builder.GetObject ("image_race_inspector_close");
+		image_sprint_analyze_individual_current_set = (Gtk.Image) builder.GetObject ("image_sprint_analyze_individual_current_set");
+		image_contacts_export_individual_current_session = (Gtk.Image) builder.GetObject ("image_contacts_export_individual_current_session");
+		image_contacts_export_individual_all_sessions = (Gtk.Image) builder.GetObject ("image_contacts_export_individual_all_sessions");
+		image_contacts_export_groupal_current_session = (Gtk.Image) builder.GetObject ("image_contacts_export_groupal_current_session");
+		image_contacts_export_grid = (Gtk.Image) builder.GetObject ("image_contacts_export_grid");
+		image_contacts_export_save = (Gtk.Image) builder.GetObject ("image_contacts_export_save");
+		image_contacts_export_cancel = (Gtk.Image) builder.GetObject ("image_contacts_export_cancel");
 
 		//encoder images
 		image_top_eccon = (Gtk.Image) builder.GetObject ("image_top_eccon");
@@ -1323,6 +1344,7 @@ public partial class ChronoJumpWindow
 		image_force_sensor_ai_zoom = (Gtk.Image) builder.GetObject ("image_force_sensor_ai_zoom");
 		image_force_sensor_ai_zoom_out = (Gtk.Image) builder.GetObject ("image_force_sensor_ai_zoom_out");
 		image_button_force_sensor_analyze_back_to_signal = (Gtk.Image) builder.GetObject ("image_button_force_sensor_analyze_back_to_signal");
+		image_mode_contacts_export_csv= (Gtk.Image) builder.GetObject ("image_mode_contacts_export_csv");
 		image_force_sensor_analyze_export = (Gtk.Image) builder.GetObject ("image_force_sensor_analyze_export");
 
 		image_hscale_force_sensor_ai_a_first = (Gtk.Image) builder.GetObject ("image_hscale_force_sensor_ai_a_first");

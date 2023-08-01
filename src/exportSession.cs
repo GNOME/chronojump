@@ -27,7 +27,7 @@ using System.Collections; //ArrayList
 using System.Collections.Generic; //List
 using Mono.Unix;
 
-public class ExportSession
+public abstract class ExportSession
 {
 	protected ArrayList myPersonsAndPS;
 	List<string> jumpTypes_l;
@@ -48,18 +48,10 @@ public class ExportSession
 					
 	protected string spreadsheetString;
 
-	public ExportSession() {
-	}
-
-	public ExportSession(Session mySession, Gtk.Window app1, Preferences preferences) 
-	{
-		this.mySession = mySession;
-		this.preferences = preferences;
-		
-		spreadsheetString = "";
-
-		checkFile("none");
-	}
+	protected bool jumpsSimple;
+	protected bool jumpsReactive;
+	protected bool runsSimple;
+	protected bool runsIntervallic;
 
 	protected void checkFile (string formatFile)
 	{
@@ -221,22 +213,29 @@ public class ExportSession
 
 	protected virtual void printData ()
 	{
+		/*
 		printTitles(Catalog.GetString("Session"));
 		printSessionInfo();
 		
 		printTitles(Catalog.GetString("Persons"));
 		printPersons();
+		*/
 		
-		printJumps(Catalog.GetString("Simple jumps"));
+		if (jumpsSimple)
+			printJumps (Catalog.GetString("Simple jumps"));
 		
-		printJumpsRj(true, Catalog.GetString("Reactive jumps") + 
-				" (" + Catalog.GetString("with subjumps") + ")");
+		if (jumpsReactive)
+			printJumpsRj (true, Catalog.GetString("Reactive jumps") +
+					" (" + Catalog.GetString("with subjumps") + ")");
 
-		printRuns(Catalog.GetString("Simple races"));
+		if (runsSimple)
+			printRuns (Catalog.GetString("Simple races"));
 
-		printRunsInterval(true, Catalog.GetString("interval races") +
-				" (" + Catalog.GetString("with laps") + ")");
+		if (runsIntervallic)
+			printRunsInterval (true, Catalog.GetString("interval races") +
+					" (" + Catalog.GetString("with laps") + ")");
 
+		/*
 		printReactionTimes(Catalog.GetString("Reaction times"));
 		
 		printPulses(Catalog.GetString("Pulses"));
@@ -244,6 +243,7 @@ public class ExportSession
 		printMCs(Catalog.GetString("MultiChronopic"));
 
 		printFooter();
+		*/
 	}
 
 	protected virtual void writeData (ArrayList exportData) {
@@ -1044,11 +1044,18 @@ public class ExportSession
 public class ExportSessionCSV : ExportSession 
 {
 
-	public ExportSessionCSV(Session mySession, Gtk.Window app1, Preferences preferences) 
+	//TODO: falta tot lo de individual current session, individual all sessions, groupal current session
+
+	public ExportSessionCSV (Session mySession, Gtk.Window app1, Preferences preferences,
+			bool jumpsSimple, bool jumpsReactive, bool runsSimple, bool runsIntervallic)
 	{
 		this.mySession = mySession;
 		this.preferences = preferences;
-	
+		this.jumpsSimple = jumpsSimple;
+		this.jumpsReactive = jumpsReactive;
+		this.runsSimple = runsSimple;
+		this.runsIntervallic = runsIntervallic;
+
 		spreadsheetString = Constants.GetSpreadsheetString(preferences.CSVExportDecimalSeparator);
 
 		checkFile("CSV");

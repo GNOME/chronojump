@@ -57,6 +57,7 @@ public abstract class ExportSession
 	protected int personID; // -1 for all
 	protected int sessionID; // -1 for all
 	protected bool jumpsSimple;
+	protected bool jumpsSimpleMeanMaxTables;
 	protected bool jumpsReactive;
 	protected bool runsSimple;
 	protected bool runsIntervallic;
@@ -196,19 +197,23 @@ public abstract class ExportSession
 		//Leave SQL opened in all this process
 		Sqlite.Open(); // ------------------------------
 
-		jumpTypes_l = SqliteJump.SelectJumpsTypeInSession (true, mySession.UniqueID);
 		jumps_ll = new List<List<SqliteStruct.IntTypeDoubleDouble>> ();
-		foreach (string type in jumpTypes_l)
-			jumps_ll.Add (SqliteJump.SelectJumpsToCSVExport (true, mySession.UniqueID, type));
 
-		myJumps= SqliteJump.SelectJumpsSA (true, mySession.UniqueID, -1, "", "",
+		if (jumpsSimpleMeanMaxTables)
+		{
+			jumpTypes_l = SqliteJump.SelectJumpsTypeInSession (true, sessionID, personID);
+			foreach (string type in jumpTypes_l)
+				jumps_ll.Add (SqliteJump.SelectJumpsToCSVExport (true, sessionID, personID, type));
+		}
+
+		myJumps = SqliteJump.SelectJumpsSA (true, sessionID, personID, "", "",
 				Sqlite.Orders_by.DEFAULT, 0);
 
-		myJumpsRj = SqliteJumpRj.SelectJumpsSA (true, mySession.UniqueID, -1, "", "");
-		myRuns= SqliteRun.SelectRunsSA (true, mySession.UniqueID, -1, "",
+		myJumpsRj = SqliteJumpRj.SelectJumpsSA (true, sessionID, personID, "", "");
+		myRuns = SqliteRun.SelectRunsSA (true, sessionID, personID, "",
 				Sqlite.Orders_by.DEFAULT, 0);
 
-		myRunsInterval = SqliteRunInterval.SelectRunsSA (true, mySession.UniqueID, -1, "");
+		myRunsInterval = SqliteRunInterval.SelectRunsSA (true, sessionID, personID, "");
 
 		/*
 		myReactionTimes = SqliteReactionTime.SelectReactionTimes(true, mySession.UniqueID, -1, "",
@@ -375,6 +380,10 @@ public abstract class ExportSession
 
 		foreach (PersonAndPS paps in myPersonsAndPS)
 		{
+			//on -1 show all persons, but on selected personID only show that
+			if (personID >= 0 && personID != paps.p.UniqueID)
+				continue;
+
 			string str = paps.p.UniqueID + ":" + paps.p.Name + ":";
 
 			foreach (List<SqliteStruct.IntTypeDoubleDouble> jumps_l in jumps_ll)
@@ -1087,7 +1096,8 @@ public class ExportSessionCSV : ExportSession
 
 	public ExportSessionCSV (Session mySession, Gtk.Window app1, Preferences preferences,
 			string modeForFilename, int personID, int sessionID,
-			bool jumpsSimple, bool jumpsReactive, bool runsSimple, bool runsIntervallic)
+			bool jumpsSimple, bool jumpsSimpleMeanMaxTables, bool jumpsReactive,
+			bool runsSimple, bool runsIntervallic)
 	{
 		this.mySession = mySession;
 		this.preferences = preferences;
@@ -1095,6 +1105,7 @@ public class ExportSessionCSV : ExportSession
 		this.personID = personID;
 		this.sessionID = sessionID;
 		this.jumpsSimple = jumpsSimple;
+		this.jumpsSimpleMeanMaxTables = jumpsSimpleMeanMaxTables;
 		this.jumpsReactive = jumpsReactive;
 		this.runsSimple = runsSimple;
 		this.runsIntervallic = runsIntervallic;

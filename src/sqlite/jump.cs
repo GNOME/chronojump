@@ -276,13 +276,21 @@ class SqliteJump : Sqlite
 	  return jmp_l;
 	}
 
-	public static List<string> SelectJumpsTypeInSession (bool dbconOpened, int sID)
+	//pID can be -1 for all
+	public static List<string> SelectJumpsTypeInSession (bool dbconOpened, int sID, int pID)
 	{
 		if(!dbconOpened)
 			Sqlite.Open(); //  -------------------->
 
 		List<string> list = new List<string> ();
-		dbcmd.CommandText = "SELECT DISTINCT (type) FROM jump WHERE sessionID = " + sID + " ORDER BY type";
+
+		string personIDStr = "";
+		if (pID >= 0)
+			personIDStr = " AND personID = " + pID;
+
+		dbcmd.CommandText = "SELECT DISTINCT (type) FROM jump WHERE sessionID = " + sID +
+			personIDStr + " ORDER BY type";
+		LogB.SQL(dbcmd.CommandText.ToString());
 
 		SqliteDataReader reader;
 		reader = dbcmd.ExecuteReader();
@@ -298,15 +306,20 @@ class SqliteJump : Sqlite
 	}
 
 	//called once for each jumpType
-	public static List<SqliteStruct.IntTypeDoubleDouble> SelectJumpsToCSVExport (bool dbconOpened, int sID, string jumpType)
+	//pID can be -1 for all
+	public static List<SqliteStruct.IntTypeDoubleDouble> SelectJumpsToCSVExport (bool dbconOpened, int sID, int pID, string jumpType)
 	{
 		if(!dbconOpened)
 			Sqlite.Open(); //  -------------------->
 
 		List<SqliteStruct.IntTypeDoubleDouble> list = new List<SqliteStruct.IntTypeDoubleDouble> ();
 
+		string personIDStr = "";
+		if (pID >= 0)
+			personIDStr = " AND personID = " + pID;
+
 		dbcmd.CommandText = "SELECT personID, type, AVG (tv), MAX (tv) FROM jump" +
-			" WHERE sessionID = " + sID +
+			" WHERE sessionID = " + sID + personIDStr +
 			" AND type = '" + jumpType + "'" +
 			" GROUP BY personID ORDER BY personID";
 		LogB.SQL(dbcmd.CommandText.ToString());

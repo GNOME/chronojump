@@ -3588,19 +3588,6 @@ public partial class ChronoJumpWindow
 		}
 	}
 
-	//TODO: delete this
-	private void on_export_session_accepted(object o, EventArgs args)
-	{
-		if(currentSession == null || currentSession.UniqueID == -1) {
-			new DialogMessage(Constants.MessageTypes.WARNING, "Cannot export a missing session");
-			return;
-		}
-
-		new ExportSessionCSV (currentSession, app1, preferences,
-				"", currentPerson.UniqueID, "", currentSession.UniqueID,
-				true, true, true, true, true);
-	}
-
 	private void on_radio_contacts_export_individual_current_session_toggled (object o, EventArgs args)
 	{
 		if(currentPerson != null)

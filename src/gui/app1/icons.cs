@@ -359,7 +359,6 @@ public partial class ChronoJumpWindow
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_folders.png");
 		image_menu_folders1.Pixbuf = pixbuf;
-		image_session_export1.Pixbuf = pixbuf;
 		image_menu_folders2.Pixbuf = pixbuf;
 		image_session_more_window_blue.Pixbuf = pixbuf;
 		image_session_more_window_yellow.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_folders_yellow.png");
@@ -770,7 +769,6 @@ public partial class ChronoJumpWindow
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameExport);
 		image_export_encoder_signal.Pixbuf = pixbuf;
 		image_session_export.Pixbuf = pixbuf;
-		image_session_export_csv.Pixbuf = pixbuf;
 		image_force_sensor_analyze_export.Pixbuf = pixbuf;
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "csv.png");
@@ -883,7 +881,6 @@ public partial class ChronoJumpWindow
 		image_run_encoder_analyze_table_save.Pixbuf = pixbuf;
 		image_sprint_table_save_grid.Pixbuf = pixbuf;
 		image_raceAnalyzer_table_save_grid.Pixbuf = pixbuf;
-		image_session_export_csv1.Pixbuf = pixbuf;
 
 		//encoder
 		UtilGtk.ColorsRadio(viewport_chronopics, radiobutton_encoder_analyze_powerbars);

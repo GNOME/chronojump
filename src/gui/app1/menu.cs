@@ -86,9 +86,6 @@ public partial class ChronoJumpWindow
 	//just to manage width
 	Gtk.Image image_session_import;
 	Gtk.Image image_session_export;
-	Gtk.Image image_session_export1;
-	Gtk.Image image_session_export_csv;
-	Gtk.Image image_session_export_csv1;
 
 	//menu icons
 	//Gtk.Image image_menu_folders;
@@ -462,9 +459,6 @@ public partial class ChronoJumpWindow
 		//just to manage width
 		image_session_import = (Gtk.Image) builder.GetObject ("image_session_import");
 		image_session_export = (Gtk.Image) builder.GetObject ("image_session_export");
-		image_session_export1 = (Gtk.Image) builder.GetObject ("image_session_export1");
-		image_session_export_csv = (Gtk.Image) builder.GetObject ("image_session_export_csv");
-		image_session_export_csv1 = (Gtk.Image) builder.GetObject ("image_session_export_csv1");
 
 		//menu icons
 		//image_menu_folders = (Gtk.Image) builder.GetObject ("image_menu_folders");

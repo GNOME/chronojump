@@ -3671,8 +3671,8 @@ public partial class ChronoJumpWindow
 			jumpsSimpleMeanMaxTables = check_contacts_export_jumps_simple_mean_max_tables.Active;
 		} else*/ if (radio_contacts_export_individual_all_sessions.Active)
 		{
-			personID = personID;
-			personName = personName;
+			//personID = personID;
+			//personName = personName;
 			sessionID = -1;
 			jumpsSimpleMeanMaxTables = false;
 		} else if (radio_contacts_export_groupal_current_session.Active)
@@ -3709,7 +3709,7 @@ public partial class ChronoJumpWindow
 
 	private void on_button_contacts_export_done (object o, EventArgs args)
 	{
-		bool success = (contactsExportCSV.Success && contactsExportCSV.Filename != "");
+		bool success = (contactsExportCSV.DoneEnum == ExportSession.DoneEnumType.SUCCESS && contactsExportCSV.Filename != "");
 
 		if (success)
 		{
@@ -3718,7 +3718,13 @@ public partial class ChronoJumpWindow
 			label_contacts_export_result.UseMarkup = true;
 			button_contacts_export_result_open.Visible = true;
 		} else {
-			label_contacts_export_result.Text = string.Format (Catalog.GetString ("Cannot export to file {0} "), contactsExportCSV.Filename);
+			if (contactsExportCSV.DoneEnum == ExportSession.DoneEnumType.CANCEL) 
+				label_contacts_export_result.Text = Catalog.GetString ("Cancelled.");
+			else if (contactsExportCSV.DoneEnum == ExportSession.DoneEnumType.NODATA) 
+				label_contacts_export_result.Text = Catalog.GetString ("Not enough data.");
+			else if (contactsExportCSV.DoneEnum == ExportSession.DoneEnumType.CANNOTCOPY) 
+				label_contacts_export_result.Text = string.Format (Catalog.GetString ("Cannot export to file {0} "), contactsExportCSV.Filename);
+
 			button_contacts_export_result_open.Visible = false;
 		}
 	}

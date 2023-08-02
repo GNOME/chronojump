@@ -29,8 +29,10 @@ using Mono.Unix;
 
 public abstract class ExportSession
 {
+	public enum DoneEnumType { CANCEL, NODATA, CANNOTCOPY, SUCCESS };
+	public DoneEnumType DoneEnum;
+
 	protected Gtk.Button fakeButtonDone;
-	protected bool success;
 	protected string filename;
 
 	protected ArrayList myPersonsAndPS;
@@ -134,6 +136,7 @@ public abstract class ExportSession
 			//	new DialogMessage(Constants.MessageTypes.INFO, Catalog.GetString("Cancelled."));
 			//}
 			fc.Hide ();
+			DoneEnum = DoneEnumType.CANCEL;
 			fakeButtonDone.Click ();
 			return;
 		}
@@ -149,6 +152,13 @@ public abstract class ExportSession
 
 	private void writeFile()
 	{
+		if (! getData())
+		{
+			DoneEnum = DoneEnumType.NODATA;
+			fakeButtonDone.Click ();
+			return;
+		}
+
 		// 1) create temp file to not have problems with a previously opened html on windows browser
 		string tempfile = Path.GetTempFileName();
 		try {
@@ -159,11 +169,11 @@ public abstract class ExportSession
 				new DialogMessage( Constants.MessageTypes.WARNING,
 						string.Format(Catalog.GetString("Cannot export to file {0} "), tempfile) );
 
+			DoneEnum = DoneEnumType.CANNOTCOPY;
 			fakeButtonDone.Click ();
 			return;
 		}
 
-		getData();
 		printData();
 		closeWriter();
 
@@ -176,6 +186,7 @@ public abstract class ExportSession
 				new DialogMessage( Constants.MessageTypes.WARNING,
 						string.Format(Catalog.GetString("Cannot export to file {0} "), filename) );
 
+			DoneEnum = DoneEnumType.CANNOTCOPY;
 			fakeButtonDone.Click ();
 			return;
 		}
@@ -185,7 +196,7 @@ public abstract class ExportSession
 			new DialogMessage(Constants.MessageTypes.INFO,
 					string.Format(Catalog.GetString("Saved to {0}"), filename) + spreadsheetString);
 
-		success = true;
+		DoneEnum = DoneEnumType.SUCCESS;
 		fakeButtonDone.Click ();
 	}
 		
@@ -201,7 +212,7 @@ public abstract class ExportSession
 		return myFile;
 	}
 	
-	protected virtual void getData() 
+	protected virtual bool getData()
 	{
 		myPersonsAndPS = SqlitePersonSession.SelectCurrentSessionPersons(mySession.UniqueID, true);
 
@@ -217,14 +228,32 @@ public abstract class ExportSession
 				jumps_ll.Add (SqliteJump.SelectJumpsToCSVExport (true, sessionID, personID, type));
 		}
 
-		myJumps = SqliteJump.SelectJumpsSA (true, sessionID, personID, "", "",
-				Sqlite.Orders_by.DEFAULT, 0);
+		bool hasData = false;
+		if (jumpsSimple) {
+			myJumps = SqliteJump.SelectJumpsSA (true, sessionID, personID, "", "",
+					Sqlite.Orders_by.DEFAULT, 0);
+			if (myJumps.Length > 0)
+				hasData = true;
+		}
 
-		myJumpsRj = SqliteJumpRj.SelectJumpsSA (true, sessionID, personID, "", "");
-		myRuns = SqliteRun.SelectRunsSA (true, sessionID, personID, "",
-				Sqlite.Orders_by.DEFAULT, 0);
+		if (jumpsReactive) {
+			myJumpsRj = SqliteJumpRj.SelectJumpsSA (true, sessionID, personID, "", "");
+			if (myJumpsRj.Length > 0)
+				hasData = true;
+		}
 
-		myRunsInterval = SqliteRunInterval.SelectRunsSA (true, sessionID, personID, "");
+		if(runsSimple) {
+			myRuns = SqliteRun.SelectRunsSA (true, sessionID, personID, "",
+					Sqlite.Orders_by.DEFAULT, 0);
+			if (myRuns.Length > 0)
+				hasData = true;
+		}
+
+		if (runsIntervallic) {
+			myRunsInterval = SqliteRunInterval.SelectRunsSA (true, sessionID, personID, "");
+			if (myRunsInterval.Length > 0)
+				hasData = true;
+		}
 
 		/*
 		myReactionTimes = SqliteReactionTime.SelectReactionTimes(true, mySession.UniqueID, -1, "",
@@ -235,6 +264,7 @@ public abstract class ExportSession
 		*/
 		
 		Sqlite.Close(); // ------------------------------
+		return hasData;
 	}
 
 	protected virtual void printTitles (string title)
@@ -1072,10 +1102,6 @@ public abstract class ExportSession
 
 	public Gtk.Button FakeButtonDone {
 		get { return fakeButtonDone; }
-	}
-
-	public bool Success {
-		get { return success; }
 	}
 
 	public string Filename {

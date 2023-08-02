@@ -82,7 +82,7 @@ public class Report : ExportSession
 		StatisticsData = new ArrayList(1);
 	}
 
-	protected override void getData() 
+	protected override bool getData()
 	{
 		//to avoid a crash since jumps_ll on exportSession
 		jumps_ll = new List<List<SqliteStruct.IntTypeDoubleDouble>> ();
@@ -105,20 +105,29 @@ public class Report : ExportSession
 		
 		//Leave SQL opened in all this process
 		Sqlite.Open(); // ------------------------------
-		
-		if(ShowSimpleJumps) {
-			myJumps= SqliteJump.SelectJumpsSA (true, sessionID, -1, "", "",
+
+		bool hasData = false;
+		if (ShowSimpleJumps) {
+			myJumps = SqliteJump.SelectJumpsSA (true, sessionID, -1, "", "",
 					Sqlite.Orders_by.DEFAULT, 0);
+			if (myJumps.Length > 0)
+				hasData = true;
 		}
-		if(ShowReactiveJumps) {
+		if (ShowReactiveJumps) {
 			myJumpsRj = SqliteJumpRj.SelectJumpsSA(true, sessionID, -1, "", "");
+			if (myJumpsRj.Length > 0)
+				hasData = true;
 		}
-		if(ShowSimpleRuns) {
-			myRuns= SqliteRun.SelectRunsSA (true, sessionID, -1, "",
+		if (ShowSimpleRuns) {
+			myRuns = SqliteRun.SelectRunsSA (true, sessionID, -1, "",
 					Sqlite.Orders_by.DEFAULT, -1);
+			if (myRuns.Length > 0)
+				hasData = true;
 		}
 		if (ShowIntervalRuns) {
 			myRunsInterval = SqliteRunInterval.SelectRunsSA (true, sessionID, -1, "");
+			if (myRunsInterval.Length > 0)
+				hasData = true;
 		}
 		/*
 		if(ShowReactionTimes) {
@@ -131,6 +140,7 @@ public class Report : ExportSession
 		*/
 		
 		Sqlite.Close(); // ------------------------------
+		return hasData;
 	}
 	
 	protected override void printTitles(string title) {

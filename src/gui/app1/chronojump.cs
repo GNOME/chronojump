@@ -3597,7 +3597,7 @@ public partial class ChronoJumpWindow
 		}
 
 		new ExportSessionCSV (currentSession, app1, preferences,
-				"", currentPerson.UniqueID, currentSession.UniqueID,
+				"", currentPerson.UniqueID, "", currentSession.UniqueID,
 				true, true, true, true, true);
 	}
 
@@ -3653,23 +3653,32 @@ public partial class ChronoJumpWindow
 			return;
 		}
 
-		int personID = currentPerson.UniqueID;
+		int personID = -1;
+		string personName = "";
+		if (currentPerson != null)
+		{
+			personID = currentPerson.UniqueID;
+			personName = currentPerson.Name;
+		}
 		int sessionID = currentSession.UniqueID;
 		bool jumpsSimpleMeanMaxTables = check_contacts_export_jumps_simple_mean_max_tables.Active;
 
 		/*if (radio_contacts_export_individual_current_session.Active)
 		{
-			personID = currentPerson.UniqueID;
+			personID = personID;
+			personName = personName;
 			sessionID = currentSession.UniqueID;
 			jumpsSimpleMeanMaxTables = check_contacts_export_jumps_simple_mean_max_tables.Active;
 		} else*/ if (radio_contacts_export_individual_all_sessions.Active)
 		{
-			personID = currentPerson.UniqueID;
+			personID = personID;
+			personName = personName;
 			sessionID = -1;
 			jumpsSimpleMeanMaxTables = false;
 		} else if (radio_contacts_export_groupal_current_session.Active)
 		{
 			personID = -1;
+			personName = "";
 			sessionID = currentSession.UniqueID;
 			jumpsSimpleMeanMaxTables = check_contacts_export_jumps_simple_mean_max_tables.Active;
 		}
@@ -3678,7 +3687,7 @@ public partial class ChronoJumpWindow
 		if (current_mode == Constants.Modes.JUMPSSIMPLE || current_mode == Constants.Modes.JUMPSREACTIVE)
 		{
 			contactsExportCSV = new ExportSessionCSV (currentSession, app1, preferences,
-					"jumps", personID, sessionID,
+					"jumps", personID, personName, sessionID,
 					check_contacts_export_jumps_simple.Active,
 					jumpsSimpleMeanMaxTables,
 					check_contacts_export_jumps_reactive.Active,
@@ -3686,7 +3695,7 @@ public partial class ChronoJumpWindow
 		} else if (current_mode == Constants.Modes.RUNSSIMPLE || current_mode == Constants.Modes.RUNSINTERVALLIC)
 		{
 			contactsExportCSV = new ExportSessionCSV (currentSession, app1, preferences,
-					"races", personID, sessionID,
+					"races", personID, personName, sessionID,
 					false, false, false,
 					check_contacts_export_runs_simple.Active,
 					check_contacts_export_runs_intervallic.Active);

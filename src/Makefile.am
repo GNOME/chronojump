@@ -657,6 +657,7 @@ RESOURCES = \
 	../images/import-csv-headers.png,import-csv-headers.png \
 	../images/import-csv-name-1-column.png,import-csv-name-1-column.png \
 	../images/import-csv-name-2-columns.png,import-csv-name-2-columns.png \
+	../images/md/csv_24x24.png,csv.png \
 	../images/md/first.png,first.png \
 	../images/md/last.png,last.png \
 	../images/md/left.png,left.png \

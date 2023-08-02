@@ -1685,6 +1685,9 @@ public partial class ChronoJumpWindow
 				else
 					label_contacts_export_person.Text = "";
 			}
+
+			label_contacts_export_result.Text = "";
+			button_contacts_export_result_open.Visible = false;
 		}
 
 		if(current_mode == Constants.Modes.JUMPSSIMPLE)
@@ -3392,6 +3395,8 @@ public partial class ChronoJumpWindow
 		label_contacts_export_person.Text = "";
 		label_force_sensor_export_session.Text = currentSession.Name;
 		label_contacts_export_session.Text = currentSession.Name;
+		label_contacts_export_result.Text = "";
+		button_contacts_export_result_open.Visible = false;
 
 		//feedback (more in 1st session created)
 		string feedbackLoadUsers = Catalog.GetString ("Session created, now add or load persons.");
@@ -3517,6 +3522,8 @@ public partial class ChronoJumpWindow
 		}
 		label_force_sensor_export_session.Text = currentSession.Name;
 		label_contacts_export_session.Text = currentSession.Name;
+		label_contacts_export_result.Text = "";
+		button_contacts_export_result_open.Visible = false;
 
 		label_run_encoder_export_data.Text = currentSession.Name;
 
@@ -3591,7 +3598,7 @@ public partial class ChronoJumpWindow
 
 		new ExportSessionCSV (currentSession, app1, preferences,
 				"", currentPerson.UniqueID, currentSession.UniqueID,
-				true, true, true, true);
+				true, true, true, true, true);
 	}
 
 	private void on_radio_contacts_export_individual_current_session_toggled (object o, EventArgs args)
@@ -3603,6 +3610,7 @@ public partial class ChronoJumpWindow
 
 		label_contacts_export_session.Text = currentSession.Name;
 
+		check_contacts_export_jumps_simple_mean_max_tables.Visible = check_contacts_export_jumps_simple.Active;
 		label_contacts_export_result.Text = "";
 		button_contacts_export_result_open.Visible = false;
 	}
@@ -3615,6 +3623,7 @@ public partial class ChronoJumpWindow
 
 		label_contacts_export_session.Text = Catalog.GetString ("All");
 
+		check_contacts_export_jumps_simple_mean_max_tables.Visible = false;
 		label_contacts_export_result.Text = "";
 		button_contacts_export_result_open.Visible = false;
 	}
@@ -3623,8 +3632,16 @@ public partial class ChronoJumpWindow
 		label_contacts_export_person.Text = Catalog.GetString ("All");
 		label_contacts_export_session.Text = currentSession.Name;
 
+		check_contacts_export_jumps_simple_mean_max_tables.Visible = check_contacts_export_jumps_simple.Active;
 		label_contacts_export_result.Text = "";
 		button_contacts_export_result_open.Visible = false;
+	}
+
+	private void on_check_contacts_export_jumps_simple_toggled (object o, EventArgs args)
+	{
+		check_contacts_export_jumps_simple_mean_max_tables.Visible =
+			(! radio_contacts_export_individual_all_sessions.Active &&
+			 check_contacts_export_jumps_simple.Active);
 	}
 
 	ExportSessionCSV contactsExportCSV;
@@ -3638,19 +3655,23 @@ public partial class ChronoJumpWindow
 
 		int personID = currentPerson.UniqueID;
 		int sessionID = currentSession.UniqueID;
+		bool jumpsSimpleMeanMaxTables = check_contacts_export_jumps_simple_mean_max_tables.Active;
 
 		/*if (radio_contacts_export_individual_current_session.Active)
 		{
 			personID = currentPerson.UniqueID;
 			sessionID = currentSession.UniqueID;
+			jumpsSimpleMeanMaxTables = check_contacts_export_jumps_simple_mean_max_tables.Active;
 		} else*/ if (radio_contacts_export_individual_all_sessions.Active)
 		{
 			personID = currentPerson.UniqueID;
 			sessionID = -1;
+			jumpsSimpleMeanMaxTables = false;
 		} else if (radio_contacts_export_groupal_current_session.Active)
 		{
 			personID = -1;
 			sessionID = currentSession.UniqueID;
+			jumpsSimpleMeanMaxTables = check_contacts_export_jumps_simple_mean_max_tables.Active;
 		}
 
 		contactsExportCSV = new ExportSessionCSV ();
@@ -3659,13 +3680,14 @@ public partial class ChronoJumpWindow
 			contactsExportCSV = new ExportSessionCSV (currentSession, app1, preferences,
 					"jumps", personID, sessionID,
 					check_contacts_export_jumps_simple.Active,
+					jumpsSimpleMeanMaxTables,
 					check_contacts_export_jumps_reactive.Active,
 					false, false);
 		} else if (current_mode == Constants.Modes.RUNSSIMPLE || current_mode == Constants.Modes.RUNSINTERVALLIC)
 		{
 			contactsExportCSV = new ExportSessionCSV (currentSession, app1, preferences,
 					"races", personID, sessionID,
-					false, false,
+					false, false, false,
 					check_contacts_export_runs_simple.Active,
 					check_contacts_export_runs_intervallic.Active);
 		}
@@ -3684,6 +3706,7 @@ public partial class ChronoJumpWindow
 		{
 			label_contacts_export_result.Text = string.Format (Catalog.GetString ("Saved to {0}"), contactsExportCSV.Filename) +
 				Constants.GetSpreadsheetString (preferences.CSVExportDecimalSeparator);
+			label_contacts_export_result.UseMarkup = true;
 			button_contacts_export_result_open.Visible = true;
 		} else {
 			label_contacts_export_result.Text = string.Format (Catalog.GetString ("Cannot export to file {0} "), contactsExportCSV.Filename);
@@ -4171,6 +4194,7 @@ public partial class ChronoJumpWindow
 
 			box_contacts_export_data_jumps.Visible = true;
 			check_contacts_export_jumps_simple.Active = (current_mode == Constants.Modes.JUMPSSIMPLE);
+			check_contacts_export_jumps_simple_mean_max_tables.Active = (current_mode == Constants.Modes.JUMPSSIMPLE);
 			check_contacts_export_jumps_reactive.Active = (current_mode == Constants.Modes.JUMPSREACTIVE);
 			box_contacts_export_data_runs.Visible = false;
 			radio_contacts_export_individual_current_session.Active = true;

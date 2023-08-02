@@ -22970,6 +22970,9 @@ Concentric</property>
                                                             <child>
                                                             <placeholder/>
                                                             </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
                                                             </object>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -24941,7 +24944,7 @@ Concentric</property>
                                                           </packing>
                                                         </child>
                                                         <child>
-                                                          <object class="GtkVBox" id="vbox_contacts_export_csv">
+                                                          <object class="GtkVBox" id="box_contacts_export_csv">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
                                                             <property name="border-width">12</property>
@@ -25275,10 +25278,18 @@ Concentric</property>
                                                             <property name="can-focus">False</property>
                                                             <property name="spacing">12</property>
                                                             <child>
+                                                            <object class="GtkAlignment">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="yalign">0</property>
+                                                            <property name="yscale">0</property>
+                                                            <child>
                                                             <object class="GtkLabel">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
                                                             <property name="label" translatable="yes">Data</property>
+                                                            </object>
+                                                            </child>
                                                             </object>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -25290,6 +25301,12 @@ Concentric</property>
                                                             <object class="GtkBox" id="box_contacts_export_data_jumps">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
+                                                            <property name="orientation">vertical</property>
+                                                            <property name="spacing">12</property>
+                                                            <child>
+                                                            <object class="GtkBox">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
                                                             <property name="spacing">12</property>
                                                             <child>
                                                             <object class="GtkCheckButton" id="check_contacts_export_jumps_simple">
@@ -25298,6 +25315,29 @@ Concentric</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="receives-default">False</property>
                                                             <property name="draw-indicator">True</property>
+                                                            <signal name="toggled" handler="on_check_contacts_export_jumps_simple_toggled" swapped="no"/>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkCheckButton" id="check_contacts_export_jumps_simple_mean_max_tables">
+                                                            <property name="label" translatable="yes">Include avg and max tables</property>
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">True</property>
+                                                            <property name="receives-default">False</property>
+                                                            <property name="active">True</property>
+                                                            <property name="draw-indicator">True</property>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
                                                             </object>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -25311,6 +25351,7 @@ Concentric</property>
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="receives-default">False</property>
+                                                            <property name="xalign">0</property>
                                                             <property name="draw-indicator">True</property>
                                                             </object>
                                                             <packing>
@@ -25330,6 +25371,7 @@ Concentric</property>
                                                             <object class="GtkBox" id="box_contacts_export_data_runs">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
+                                                            <property name="orientation">vertical</property>
                                                             <property name="spacing">12</property>
                                                             <child>
                                                             <object class="GtkCheckButton" id="check_contacts_export_runs_simple">

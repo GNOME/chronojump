@@ -105,6 +105,7 @@ public partial class ChronoJumpWindow
 
 	Gtk.Box box_contacts_export_data_jumps;
 	Gtk.CheckButton check_contacts_export_jumps_simple;
+	Gtk.CheckButton check_contacts_export_jumps_simple_mean_max_tables;
 	Gtk.CheckButton check_contacts_export_jumps_reactive;
 	// <---- at glade
 
@@ -899,6 +900,7 @@ public partial class ChronoJumpWindow
 
 		box_contacts_export_data_jumps = (Gtk.Box) builder.GetObject ("box_contacts_export_data_jumps");
 		check_contacts_export_jumps_simple = (Gtk.CheckButton) builder.GetObject ("check_contacts_export_jumps_simple");
+		check_contacts_export_jumps_simple_mean_max_tables = (Gtk.CheckButton) builder.GetObject ("check_contacts_export_jumps_simple_mean_max_tables");
 		check_contacts_export_jumps_reactive = (Gtk.CheckButton) builder.GetObject ("check_contacts_export_jumps_reactive");
 	}
 }

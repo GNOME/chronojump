@@ -149,8 +149,6 @@ public partial class ChronoJumpWindow
 	Gtk.Image image_contacts_export_individual_current_session;
 	Gtk.Image image_contacts_export_individual_all_sessions;
 	Gtk.Image image_contacts_export_groupal_current_session;
-	Gtk.Image image_contacts_export_grid;
-	Gtk.Image image_contacts_export_save;
 	Gtk.Image image_contacts_export_cancel;
 
 	//encoder images
@@ -773,8 +771,10 @@ public partial class ChronoJumpWindow
 		image_export_encoder_signal.Pixbuf = pixbuf;
 		image_session_export.Pixbuf = pixbuf;
 		image_session_export_csv.Pixbuf = pixbuf;
-		image_mode_contacts_export_csv.Pixbuf = pixbuf;
 		image_force_sensor_analyze_export.Pixbuf = pixbuf;
+
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "csv.png");
+		image_mode_contacts_export_csv.Pixbuf = pixbuf;
 
 		//reaction times changes
 		//UtilGtk.ColorsTestLabel(viewport_chronopics, label_extra_window_radio_reaction_time);
@@ -884,7 +884,6 @@ public partial class ChronoJumpWindow
 		image_sprint_table_save_grid.Pixbuf = pixbuf;
 		image_raceAnalyzer_table_save_grid.Pixbuf = pixbuf;
 		image_session_export_csv1.Pixbuf = pixbuf;
-		image_contacts_export_grid.Pixbuf = pixbuf;
 
 		//encoder
 		UtilGtk.ColorsRadio(viewport_chronopics, radiobutton_encoder_analyze_powerbars);
@@ -926,7 +925,6 @@ public partial class ChronoJumpWindow
 		image_run_encoder_analyze_image_save_graph.Pixbuf = pixbuf;
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "save.png");
-		image_contacts_export_save.Pixbuf = pixbuf;
 		image_button_contacts_capture_save_image_disk.Pixbuf = pixbuf;
 		image_jumps_rj_fatigue_image_save.Pixbuf = pixbuf;
 		image_sprint_analyze_table_save_1.Pixbuf = pixbuf;
@@ -1264,8 +1262,6 @@ public partial class ChronoJumpWindow
 		image_contacts_export_individual_current_session = (Gtk.Image) builder.GetObject ("image_contacts_export_individual_current_session");
 		image_contacts_export_individual_all_sessions = (Gtk.Image) builder.GetObject ("image_contacts_export_individual_all_sessions");
 		image_contacts_export_groupal_current_session = (Gtk.Image) builder.GetObject ("image_contacts_export_groupal_current_session");
-		image_contacts_export_grid = (Gtk.Image) builder.GetObject ("image_contacts_export_grid");
-		image_contacts_export_save = (Gtk.Image) builder.GetObject ("image_contacts_export_save");
 		image_contacts_export_cancel = (Gtk.Image) builder.GetObject ("image_contacts_export_cancel");
 
 		//encoder images

@@ -55,6 +55,7 @@ public abstract class ExportSession
 
 	protected string modeForFilename;
 	protected int personID; // -1 for all
+	protected string personName; // just to name file if personID >= 0int
 	protected int sessionID; // -1 for all
 	protected bool jumpsSimple;
 	protected bool jumpsSimpleMeanMaxTables;
@@ -82,8 +83,18 @@ public abstract class ExportSession
 					Catalog.GetString("Export"),ResponseType.Accept
 					);
 	
-		//set default name	
-		string nameString = mySession.Name + "_" + modeForFilename + "_" + mySession.DateShortAsSQL;
+		//set default name
+		string nameString = "";
+		if (sessionID >= 0)
+			nameString += mySession.Name + "_";
+		if (personID >= 0)
+			nameString += personName + "_";
+
+		nameString += modeForFilename;
+
+		if (sessionID >= 0)
+			nameString += "_" + mySession.DateShortAsSQL;
+
 		if(formatFile == "report") {
 			if(UtilAll.IsWindows())
 				nameString += ".htm";
@@ -1095,7 +1106,7 @@ public class ExportSessionCSV : ExportSession
 	}
 
 	public ExportSessionCSV (Session mySession, Gtk.Window app1, Preferences preferences,
-			string modeForFilename, int personID, int sessionID,
+			string modeForFilename, int personID, string personName, int sessionID,
 			bool jumpsSimple, bool jumpsSimpleMeanMaxTables, bool jumpsReactive,
 			bool runsSimple, bool runsIntervallic)
 	{
@@ -1103,6 +1114,7 @@ public class ExportSessionCSV : ExportSession
 		this.preferences = preferences;
 		this.modeForFilename = modeForFilename;
 		this.personID = personID;
+		this.personName = personName;
 		this.sessionID = sessionID;
 		this.jumpsSimple = jumpsSimple;
 		this.jumpsSimpleMeanMaxTables = jumpsSimpleMeanMaxTables;

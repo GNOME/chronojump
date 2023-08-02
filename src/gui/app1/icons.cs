@@ -287,8 +287,6 @@ public partial class ChronoJumpWindow
 	Gtk.Image image_forcesensor_analyze_image_save7;
 	Gtk.Image image_forcesensor_analyze_image_save8;
 	Gtk.Image image_forcesensor_analyze_image_save9;
-	Gtk.Image image_force_sensor_analyze_table_save;
-	Gtk.Image image_force_sensor_analyze_table_save_1;
 	Gtk.Image image_run_encoder_analyze_table_save;
 	Gtk.Image image_run_encoder_analyze_table_save_1;
 	Gtk.Image image_sprint_analyze_image_save;
@@ -769,10 +767,10 @@ public partial class ChronoJumpWindow
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameExport);
 		image_export_encoder_signal.Pixbuf = pixbuf;
 		image_session_export.Pixbuf = pixbuf;
-		image_force_sensor_analyze_export.Pixbuf = pixbuf;
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "csv.png");
 		image_mode_contacts_export_csv.Pixbuf = pixbuf;
+		image_force_sensor_analyze_export.Pixbuf = pixbuf;
 
 		//reaction times changes
 		//UtilGtk.ColorsTestLabel(viewport_chronopics, label_extra_window_radio_reaction_time);
@@ -877,7 +875,6 @@ public partial class ChronoJumpWindow
 		image_sprint_analyze_table_save.Pixbuf = pixbuf;
 		image_encoder_session_overview.Pixbuf = pixbuf;
 		image_encoder_analyze_table_save.Pixbuf = pixbuf;
-		image_force_sensor_analyze_table_save.Pixbuf = pixbuf;
 		image_run_encoder_analyze_table_save.Pixbuf = pixbuf;
 		image_sprint_table_save_grid.Pixbuf = pixbuf;
 		image_raceAnalyzer_table_save_grid.Pixbuf = pixbuf;
@@ -946,7 +943,6 @@ public partial class ChronoJumpWindow
 		image_forcesensor_analyze_image_save8.Pixbuf = pixbuf;
 		image_forcesensor_analyze_image_save9.Pixbuf = pixbuf;
 		image_runs_evolution_analyze_image_save.Pixbuf = pixbuf;
-		image_force_sensor_analyze_table_save_1.Pixbuf = pixbuf;
 		image_button_contacts_run_encoder_capture_save_image_disk.Pixbuf = pixbuf;
 		image_run_encoder_analyze_table_save_1.Pixbuf = pixbuf;
 		image_sprint_analyze_image_save.Pixbuf = pixbuf;
@@ -1397,8 +1393,6 @@ public partial class ChronoJumpWindow
 		image_forcesensor_analyze_image_save7 = (Gtk.Image) builder.GetObject ("image_forcesensor_analyze_image_save7");
 		image_forcesensor_analyze_image_save8 = (Gtk.Image) builder.GetObject ("image_forcesensor_analyze_image_save8");
 		image_forcesensor_analyze_image_save9 = (Gtk.Image) builder.GetObject ("image_forcesensor_analyze_image_save9");
-		image_force_sensor_analyze_table_save = (Gtk.Image) builder.GetObject ("image_force_sensor_analyze_table_save");
-		image_force_sensor_analyze_table_save_1 = (Gtk.Image) builder.GetObject ("image_force_sensor_analyze_table_save_1");
 		image_run_encoder_analyze_table_save = (Gtk.Image) builder.GetObject ("image_run_encoder_analyze_table_save");
 		image_run_encoder_analyze_table_save_1 = (Gtk.Image) builder.GetObject ("image_run_encoder_analyze_table_save_1");
 		image_sprint_analyze_image_save = (Gtk.Image) builder.GetObject ("image_sprint_analyze_image_save");

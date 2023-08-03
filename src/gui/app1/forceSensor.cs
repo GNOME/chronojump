@@ -1018,6 +1018,7 @@ public partial class ChronoJumpWindow
 			return -1;
 
 		LogB.Information("Waiting end_capture");
+		int notValidCommandCount = 0;
 		do {
 			Thread.Sleep(10);
 			try {
@@ -1026,6 +1027,16 @@ public partial class ChronoJumpWindow
 				LogB.Information("Catched waiting end_capture feedback");
 			}
 			LogB.Information("waiting \"Capture ended\" string: " + str);
+
+			//See comment "2023 Aug 3" on this file
+			if (str.Contains ("Not a valid command"))
+			{
+				LogB.Information ("Not a valid commmand");
+				notValidCommandCount ++;
+
+				if (notValidCommandCount > 10 || ! forceSensorSendCommand("end_capture:", Catalog.GetString ("Ending capture …"), "Catched ending capture"))
+					return -1;
+			}
 		}
 		while(! str.Contains("Capture ended"));
 		LogB.Information("Success: received end_capture");
@@ -1487,14 +1498,14 @@ public partial class ChronoJumpWindow
 			LogB.Information("Calling end_capture");
 			if(! forceSensorSendCommand("end_capture:", Catalog.GetString ("Ending capture …"), "Catched ending capture"))
 			{
-				forceProcessError = true;
-				LogB.Information("fs Error 3");
+				forceProcessError = true; LogB.Information("fs Error 3");
 				capturingForce = arduinoCaptureStatus.STOP;
 				Util.FileDelete(fileName);
 				return;
 			}
 
 			LogB.Information("Waiting end_capture");
+			int notValidCommandCount = 0;
 			do {
 				Thread.Sleep(10);
 				try {
@@ -1503,6 +1514,23 @@ public partial class ChronoJumpWindow
 					LogB.Information("Catched waiting end_capture feedback");
 				}
 				LogB.Information("waiting \"Capture ended\" string: " + str);
+
+				//2023 Aug 3: sometimes Arduino looses some chars. It seems only happens with this command because Arduino will be busy capturing
+				//instead of "end_capture:" arrived "end_cture:" (found 2 times) "end_capte:", "end_ture:", "end_caure:"
+				if (str.Contains ("Not a valid command"))
+				{
+					LogB.Information ("Not a valid commmand");
+					notValidCommandCount ++;
+
+					if (notValidCommandCount > 10 ||
+							(! Config.SimulatedCapture && ! forceSensorSendCommand("end_capture:", Catalog.GetString ("Ending capture …"), "Catched ending capture")))
+					{
+						forceProcessError = true; LogB.Information("fs Error 3b");
+						capturingForce = arduinoCaptureStatus.STOP;
+						Util.FileDelete(fileName);
+						return;
+					}
+				}
 			}
 			while(! str.Contains("Capture ended"));
 			LogB.Information("Success: received end_capture");

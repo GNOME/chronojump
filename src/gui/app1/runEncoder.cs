@@ -825,6 +825,7 @@ public partial class ChronoJumpWindow
 			}
 
 			LogB.Information("Waiting end_capture");
+			int notValidCommandCount = 0;
 			do {
 				Thread.Sleep(10);
 				try {
@@ -839,6 +840,21 @@ public partial class ChronoJumpWindow
 					LogB.Information("Caught waiting end_capture feedback");
 				}
 				LogB.Information("waiting \"Capture ended\" string: " + str);
+
+				//See comment on gui/app1/forceSensor.cs "2023 Aug 3"
+				if (str.Contains ("Not a valid command"))
+				{
+					LogB.Information ("Not a valid commmand");
+					notValidCommandCount ++;
+
+					if (notValidCommandCount > 10 || ! runEncoderSendCommand("end_capture:", "Ending capture ...", "Catched ending capture"))
+					{
+						runEncoderProcessError = true;
+						capturingRunEncoder = arduinoCaptureStatus.STOP;
+						Util.FileDelete(fileName);
+						return;
+					}
+				}
 			}
 			while(! str.Contains("Capture ended")); //TODO: read after ':' the number of "rows" sent
 			LogB.Information("Success: received end_capture");

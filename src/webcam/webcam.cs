@@ -103,6 +103,8 @@ public abstract class Webcam
 		string.Format(Catalog.GetString("Error. {0} is not installed."), "ffmpeg");
 	protected static internal string programFfplayNotInstalled =
 		string.Format(Catalog.GetString("Error. {0} is not installed."), "ffplay");
+	public static string ProgramFfprobeNotInstalled =
+		string.Format(Catalog.GetString("Error. {0} is not installed."), "ffprobe");
 	protected static internal string programMplayerClosed =
 		string.Format(Catalog.GetString("Error. {0} has been closed."), "mplayer");
 	protected static internal string programMplayerCannotSave =
@@ -118,6 +120,7 @@ public abstract class Webcam
 	protected string videoDeviceFramerate;
 	protected StreamWriter streamWriter;
 	protected string executable = "";
+	protected double playVideoGetSecond;
 
 
 	// Result struct holds the output, error and success operations. It's used to pass
@@ -148,6 +151,7 @@ public abstract class Webcam
 	public abstract Result PlayPreviewNoBackground();
 	public abstract Result PlayPreviewNoBackgroundWantStdoutAndStderr();
 
+	public abstract double FindVideoDuration (string filename);
 	public abstract Result PlayFile(string filename);
 
 	public abstract bool Snapshot();
@@ -172,6 +176,10 @@ public abstract class Webcam
 	}
 
 	protected abstract void deleteTempFiles();
+
+	public double PlayVideoGetSecond {
+		get { return playVideoGetSecond; }
+	}
 }
 
 /*

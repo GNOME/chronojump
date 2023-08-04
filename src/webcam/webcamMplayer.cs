@@ -116,6 +116,12 @@ public class WebcamMplayer : Webcam
 		return new Result (false, "");
 	}
 
+	public override double FindVideoDuration (string filename)
+	{
+		//not implemented
+		return -1;
+	}
+
 	public override Result PlayFile (string filename)
 	{
 		if(process != null || filename == "")

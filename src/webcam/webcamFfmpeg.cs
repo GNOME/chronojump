@@ -180,7 +180,36 @@ public class WebcamFfmpeg : Webcam
 		return execute_result.success;
 	}
 
+	public override double FindVideoDuration (string filename)
+	{
+		// ffprobe -v 0 -show_entries format=duration -of compact=p=0:nk=1 filename
+		if(filename == "")
+			return -1;
 
+		executable = "ffprobe";
+		if(os == UtilAll.OperatingSystems.WINDOWS)
+		{
+			if(System.Environment.Is64BitProcess)
+				executable = System.IO.Path.Combine(Util.GetPrefixDir(), "bin/ffprobe.exe");
+			else
+				executable = System.IO.Path.Combine(Util.GetPrefixDir(), "bin/i386/ffprobe.exe");
+		}
+		if(os == UtilAll.OperatingSystems.MACOSX)
+			executable = System.IO.Path.Combine(Util.GetPrefixDir(), "bin/ffprobe");
+
+		List<string> parameters = new List<string> { "-v", "0", "-show_entries", "format=duration", "-of", "compact=p=0:nk=1", filename };
+		ExecuteProcess.Result execute_result = ExecuteProcess.run (executable, parameters, true, false);
+		if(! execute_result.success)
+			return -1;
+
+		LogB.Information ("execute_result stdout:" + execute_result.stdout);
+
+		string stdoutConverted = Util.ChangeDecimalSeparator (execute_result.stdout);
+		if (Util.IsNumber (stdoutConverted, true))
+			return Convert.ToDouble (stdoutConverted);
+
+		return 0;
+	}
 
 	public override Result PlayFile (string filename)
 	{
@@ -210,7 +239,11 @@ public class WebcamFfmpeg : Webcam
 	private void stderrHandler (object sendingProcess, DataReceivedEventArgs line)
 	{
 		if (line.Data != null && line.Data.Length > 0)
-			LogB.Information (string.Format ("ffplay time: {0}", ffplayMatchTime (line.Data)));
+		{
+			//LogB.Information (string.Format ("ffplay time: {0}", ffplayMatchTime (line.Data)));
+			playVideoGetSecond = ffplayMatchTime (line.Data);
+		} else 
+			playVideoGetSecond = -1;
 	}
 	private double ffplayMatchTime (string l)
 	{
@@ -600,5 +633,4 @@ public class WebcamFfmpeg : Webcam
 		if(File.Exists(Util.GetVideoTempFileName()))
 			File.Delete(Util.GetVideoTempFileName());
 	}
-
 }

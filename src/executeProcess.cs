@@ -102,8 +102,8 @@ class ExecuteProcess
 		processStartInfo.CreateNoWindow = true;
 		processStartInfo.UseShellExecute = false;
 		processStartInfo.RedirectStandardInput = (redirectInputString != "");
-		processStartInfo.RedirectStandardError = redirectOutput;
-		processStartInfo.RedirectStandardOutput = redirectStderr;
+		processStartInfo.RedirectStandardOutput = redirectOutput;
+		processStartInfo.RedirectStandardError = redirectStderr;
 
 		process.StartInfo = processStartInfo;
 

@@ -15,13 +15,14 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Copyright (C) 2018   Xavier de Blas <xaviblas@gmail.com> 
+ *  Copyright (C) 2018-2023   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System.Collections.Generic; //List
 using System.Diagnostics;
 using System;
 using System.IO;
+using System.Text.RegularExpressions; //Regex
 using Mono.Unix;
 
 //note the stdout and stderr redirection to false is to fix problems with windows
@@ -189,15 +190,42 @@ public class WebcamFfmpeg : Webcam
 		List<string> parameters = createParametersPlayFile (filename);
 
 		process = new Process();
-		bool success = ExecuteProcess.RunAtBackground (ref process, executable, parameters, true, false, false, false, false);
+
+		//ffplay returns the stats play time in stderr
+		process.ErrorDataReceived += new DataReceivedEventHandler (stderrHandler);
+
+		bool success = ExecuteProcess.RunAtBackground (ref process, executable, parameters, true, false, false, false, true);
 		if(! success)
 		{
 			process = null;
 			return new Result (false, "", programFfplayNotInstalled);
 		}
 
+		process.BeginErrorReadLine();
+
 		Running = true;
 		return new Result (true, "");
+	}
+
+	private void stderrHandler (object sendingProcess, DataReceivedEventArgs line)
+	{
+		if (line.Data != null && line.Data.Length > 0)
+			LogB.Information (string.Format ("ffplay time: {0}", ffplayMatchTime (line.Data)));
+	}
+	private double ffplayMatchTime (string l)
+	{
+		Match match = Regex.Match(l, @"(\d+).(\d+) M-V");
+
+		//LogB.Information("fps match group count is 3?", (match.Groups.Count == 3).ToString());
+		if(match.Groups.Count == 3)
+		{
+			string str = string.Format ("{0}.{1}", match.Groups[1].Value, match.Groups[2].Value);
+			str = Util.ChangeDecimalSeparator (str);
+			if (Util.IsNumber (str, true))
+				return Convert.ToDouble (str);
+		}
+
+		return 0;
 	}
 
 	public override Result VideoCaptureStart()
@@ -351,6 +379,18 @@ public class WebcamFfmpeg : Webcam
 
 		parameters.Insert (i ++, "-autoexit");
 		parameters.Insert (i ++, filename);
+
+		/*
+		 * these parameters allow to have:
+		 * 4.70 M-V:  0.034 fd=   0 aq=    0KB vq=  148KB sq=    0B f=0/0
+		 * being 4.70 the time in seconds with two decimals
+		 * https://gitlab.gnome.org/GNOME/chronojump/-/issues/29
+		 */
+		parameters.Insert (i ++, "-hide_banner");
+		parameters.Insert (i ++, "-loglevel");
+		parameters.Insert (i ++, "8");
+		parameters.Insert (i ++, "-stats");
+
 		return parameters;
 	}
 

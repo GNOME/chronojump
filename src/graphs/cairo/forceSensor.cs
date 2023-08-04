@@ -331,7 +331,7 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 			List<PointF> butterTrajA_l, //double butterTrajACutoff,
 			bool showDistance, bool showSpeed, bool showPower,
 			List<PointF> points_l_interpolated_path, int interpolatedMin, int interpolatedMax,
-			bool capturing, bool showAccuracy, int showLastSeconds,
+			bool capturing, double videoPlayTimeInSeconds, bool showAccuracy, int showLastSeconds,
 			int minDisplayFNegative, int minDisplayFPositive,
 			int rectangleN, int rectangleRange,
 			GetMaxAvgInWindow miw,
@@ -368,7 +368,7 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 				Util.BoolToInt (showSpeed) * 50 +
 				Util.BoolToInt (showPower) * 50;
 
-		if (doSendingList (font, showLastSeconds, triggerList, forceRedraw, plotType))
+		if (doSendingList (font, videoPlayTimeInSeconds, showLastSeconds, triggerList, forceRedraw, plotType))
 		{
 			int atX = 0;
 			bool atTop = true;
@@ -399,7 +399,7 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 
 	//similar to encoder method but calling configureTimeWindow and using minDisplayF(Negative/Positive)
 	//return true if graph is inited (to dispose it)
-	private bool doSendingList (string font, int showLastSeconds,
+	private bool doSendingList (string font, double videoPlayTimeInSeconds, int showLastSeconds,
 			TriggerList triggerList, bool forceRedraw, PlotTypes plotType)
 	{
 		bool maxValuesChanged = false;
@@ -509,6 +509,13 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 		// paint triggers
 		if (points_l != null && points_l.Count > 3 && graphInited && triggerList != null && triggerList.Count() > 0)
 			paintTriggers (points_l, triggerList);
+
+		//videoPlayTimeInSeconds
+		printText (graphWidth - rightMargin/2, topMargin,
+				0, textHeight +4, Util.TrimDecimals (videoPlayTimeInSeconds, 2), g, alignTypes.CENTER);
+		g.MoveTo (calculatePaintX (videoPlayTimeInSeconds * 1000000), topMargin);
+		g.LineTo (calculatePaintX (videoPlayTimeInSeconds * 1000000), graphHeight - bottomMargin);
+		g.Stroke ();
 
 		return true;
 	}

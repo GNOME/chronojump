@@ -2817,6 +2817,10 @@ LogB.Information(" fs R ");
 		}
 		cDebug.StopAndPrint();
 
+		double time = 0;
+		if (webcamPlay != null && webcamPlay.PlayVideoGetSecond > 0)
+			time = webcamPlay.PlayVideoGetSecond -diffVideoVsSignal;
+
 		//LogB.Information ("updateForceSensorCaptureSignalCairo 4");
 		cairoGraphForceSensorSignal.DoSendingList (
 				preferences.fontType.ToString(),
@@ -2827,7 +2831,7 @@ LogB.Information(" fs R ");
 				check_force_sensor_capture_show_speed.Active,
 				check_force_sensor_capture_show_power.Active,
 				paintPointsInterpolateCairo_l_copy, preferences.forceSensorFeedbackPathMin, preferences.forceSensorFeedbackPathMax,
-				capturing,
+				capturing, time,
 				cairoGraphForceSensorSignalPointsShowAccuracy,
 				showLastSeconds,
 				minY, maxY,

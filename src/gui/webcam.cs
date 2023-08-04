@@ -376,6 +376,8 @@ public partial class ChronoJumpWindow
 
 	private bool webcamEndDo()
 	{
+		//preferences.videoStopAfter = 0; //maybe set it to sync better. Or we will need to store this variable on each set if changed
+
 		//note on encoder swWebcamStop is null because the video ends when encoder ends. so do not show the progressbar finishing the video
 		if(swWebcamStart != null || swWebcamStop != null)
 		{
@@ -712,12 +714,12 @@ public partial class ChronoJumpWindow
 	*/
 
 	//Not used on encoder
-	private void playVideo (string fileName)
+	private bool playVideo (string fileName)
 	{
 		//constructor for playpreview
 		webcamPlay = new WebcamFfmpeg (Webcam.Action.PLAYFILE, UtilAll.GetOSEnum(), "", "", "", "");
 		//Webcam.Result result = webcamPlay.PlayFile (fileName);
-		webcamPlay.PlayFile (fileName);
+		Webcam.Result result = webcamPlay.PlayFile (fileName);
 
 		/*
 		 * TODO: reimplement this with ffmpeg
@@ -742,8 +744,11 @@ public partial class ChronoJumpWindow
 			return true;
 		}
 		*/
+		return result.success;
 	}
 
+	Thread webcamPlayThread;
+	private double diffVideoVsSignal;
 
 	private void on_button_video_play_this_test_contacts_clicked (object o, EventArgs args)
 	{
@@ -752,7 +757,32 @@ public partial class ChronoJumpWindow
 			if(currentForceSensor == null || currentForceSensor.UniqueID == -1)
 				new DialogMessage(Constants.MessageTypes.WARNING, "Sorry, file not found");
 			else
-				playVideo(Util.GetVideoFileName(currentSession.UniqueID, Constants.TestTypes.FORCESENSOR, currentForceSensor.UniqueID));
+			{
+				double forceTotalTime = 0;
+				if (fsAI_AB != null)
+					forceTotalTime = UtilAll.DivideSafe (PointF.Last (fsAI_AB.P_l).X, 1000000);
+
+				webcamPlay = new WebcamFfmpeg (Webcam.Action.PLAYFILE, UtilAll.GetOSEnum(), "", "", "", "");
+				double videoTotalTime = webcamPlay.FindVideoDuration (
+						Util.GetVideoFileName(currentSession.UniqueID, Constants.TestTypes.FORCESENSOR, currentForceSensor.UniqueID));
+				if (videoTotalTime < 0)
+				{
+					new DialogMessage (Constants.MessageTypes.WARNING, Webcam.ProgramFfprobeNotInstalled);
+					diffVideoVsSignal = 0;
+				} else {
+					/*
+					 * the -1 is because we are ending camera after inserting forceSensor (to store forceSensor.UniqueID
+					 * we can improve this stopping camera and after ending it and putting that uniqueID
+					 */
+					diffVideoVsSignal = videoTotalTime -preferences.videoStopAfter -1 -forceTotalTime;
+					LogB.Information (string.Format ("forceTotalTime: {0}, videoTotalTime: {1}, diffVideoVsSignal: {2}",
+								forceTotalTime, videoTotalTime, diffVideoVsSignal));
+				}
+
+				webcamPlayThread = new Thread (new ThreadStart (webcamPlayThreadDo));
+				GLib.Idle.Add (new GLib.IdleHandler (pulseWebcamPlayGTK));
+				webcamPlayThread.Start();
+			}
 
 			return;
 		}
@@ -803,6 +833,34 @@ public partial class ChronoJumpWindow
 
 		playVideo(Util.GetVideoFileName(currentSession.UniqueID, type, id));
 	}
+
+	private void webcamPlayThreadDo ()
+	{
+		if (playVideo(Util.GetVideoFileName(currentSession.UniqueID, Constants.TestTypes.FORCESENSOR, currentForceSensor.UniqueID)))
+			do {
+			} while (webcamPlay != null && webcamPlay.PlayVideoGetSecond >= 0);
+	}
+
+	private bool pulseWebcamPlayGTK ()
+	{
+		if (! webcamPlayThread.IsAlive)
+			return false;
+
+		if (webcamPlay != null && webcamPlay.PlayVideoGetSecond > 0)
+		{
+
+			event_execute_label_message.Text = string.Format ("video s: {0} force s: {1}",
+					webcamPlay.PlayVideoGetSecond,
+					webcamPlay.PlayVideoGetSecond - diffVideoVsSignal);
+
+			force_capture_drawingarea_cairo.QueueDraw ();
+		}
+
+		Thread.Sleep (25);
+		LogB.Debug(webcamPlayThread.ThreadState.ToString());
+		return true;
+	}
+
 
 	private void on_video_play_selected_jump_clicked (object o, EventArgs args) {
 		if (myTreeViewJumps.EventSelectedID > 0)

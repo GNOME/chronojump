@@ -1644,6 +1644,11 @@ public abstract class AnalyzeInstant
 	{
 		get { return idStr; }
 	}
+
+	public List<PointF> P_l
+	{
+		get { return p_l; }
+	}
 }
 
 public class RaceAnalyzerAnalyzeInstant : AnalyzeInstant

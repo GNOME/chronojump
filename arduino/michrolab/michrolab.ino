@@ -818,6 +818,13 @@ void startLoadCellCapture(void)
     return;
   }
   */
+
+  //Check that calibration_factor is set
+  if (scale.get_scale() == 0) {
+    Serial.println("Not a previous calibration");
+    return;
+  }
+
   attachInterrupt(rcaPin, changedRCA, CHANGE);
   Serial.println("Starting capture...");
   scale.power_up();
@@ -1179,7 +1186,7 @@ void end_steadiness()
 
 void captureRaw()
 {
-  writeCaptureHeaders();  
+  writeCaptureHeaders();
 
   //Position graph's lower left corner.
   double graphX = 30;
@@ -1194,9 +1201,9 @@ void captureRaw()
   double xMax = 290;
 
   //Size and num of divisions
-  double yDivSize = 100;
-  double yDivN = 10;
-  double xDivSize = 100;
+  double yDivSize = 100.0;
+  double yDivN = 10.0;
+  double xDivSize = 100.0;
   double yBuffer[320];
   yBuffer[0] = measured;
 
@@ -1434,8 +1441,8 @@ void writeCaptureHeaders()
   fullFileName = "/" + dirName + "/" + fileName + ".TXT";
   Serial.println(fullFileName);
   dataFile = SD.open(fullFileName.c_str(), FILE_WRITE);
+  dataFile.println("Date:" + String(year()) + "/" + month() + "/" + day() + " " + hour() + ":" + minute() + ":" + second());
   dataFile.println("Person:" + String(persons[currentPerson].index) + "," + persons[currentPerson].name + " " + persons[currentPerson].surname);
-
 
   if (sensor == incLinEncoder)
   {
@@ -1452,6 +1459,7 @@ void writeCaptureHeaders()
   {
     dataFile.println("Exercise:" + String(raceAnalyzerTypes[currentExerciseType].id) + "," + raceAnalyzerTypes[currentExerciseType].name);
   }
+
 }
 
 //text mode
@@ -1642,7 +1650,6 @@ void endEncoderCapture()
   if (!PcControlled) {
     showEncoderResults();
   }
-  dataFile.close();
   showMenuEntry(currentMenuIndex);
 }
 
@@ -2032,8 +2039,10 @@ void setForceGoal()
 
 void saveData(String fileName)
 {
-  if (sensor == loadCell)
+  if (sensor == loadCell) {
+    Serial.println("Saving loadCell data: " + String(lastSampleTime) + ";" + String(measured));
     dataFile.println(String(lastSampleTime) + ";" + String(measured));
+  }
   else if(sensor == raceAnalyzer)
   {
     //Only write on interruption

@@ -94,3 +94,8 @@ addRaceAnalyzerType:9,30m Sprint,Running 30m as fast as possible;       //Adds a
 getRaceAnalyzerTypes:                              //Shows a list of RaceAnalyzer exercises                             
 deleteRaceAnalyzerTypes:                           //Delete RaceAnalyzer exercise types in memory. It doesn't delete from SD
 saveRaceAnalyzerTypes                              //Saves the RaceAnalyzer exercises list to the SD   
+
+    ## Time management ##
+    
+getRtcTime:                                 //Shows the date and hour in format 10:39:4 2023/8/7 hh:mm:ss YYYY/M/D
+setRtcTime(String time)                     //Sets the internal RTC time. Input variable is seconds since 1970/1/1 0h:0m:0s

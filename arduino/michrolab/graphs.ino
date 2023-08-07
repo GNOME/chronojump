@@ -91,10 +91,10 @@ void redrawAxes(ILI9341_t3 & d, double gx, double gy, double w, double h, double
   d.setTextSize(1);
   d.setTextColor(tcolor, bcolor);
 
-
   // draw y scale
   for (double i = ylo; i <= yhi; i += yinc)
   {
+
     // compute the transform
     yAxis =  (i - ylo) * (-h) / (yhi - ylo) + gy;
 

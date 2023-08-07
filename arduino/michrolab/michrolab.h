@@ -165,3 +165,9 @@ unsigned int selectPreviousItem (int currentExerciseType, int arrayElements);
 
 //Navigates through the System Menu items
 void showSystemEntry(int currentMenuIndex);
+
+//Shows the date and hour in format 10:39:4 2023/8/7 hh:mm:ss YYYY/M/D
+void getRtcTime();
+
+//Sets the time of Teensy RTC. Seconds since 1970/1/1 0h:0m:0s
+void setRtcTime(String time);

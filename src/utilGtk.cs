@@ -1147,6 +1147,13 @@ public class UtilGtk
 		imageFileWaitUntilCreated(filename);
 		
 		bool readedOk;
+		
+		/*
+		 * An user had a hang with a repeated "File is still not ready. Wait a bit"
+		 * for more than one minute. This happened after downloading news. Maybe is any disk buffer problem.
+		 */
+		int countTimes = 0;
+
 		do {
 			readedOk = true;
 			try {
@@ -1155,8 +1162,12 @@ public class UtilGtk
 				LogB.Warning("File is still not ready. Wait a bit");
 				System.Threading.Thread.Sleep(50);
 				readedOk = false;
+				countTimes ++;
 			}
-		} while( ! readedOk );
+		} while( ! readedOk && countTimes < 25);
+
+		if (countTimes >= 25)
+			return new Pixbuf (null, Util.GetImagePath(false) + "image.png"); //an icon representing an image
 
 		return pixbuf;
 	}

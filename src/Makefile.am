@@ -451,6 +451,7 @@ RESOURCES = \
 	../images/mini/plataforma_contactos.jpg,mini/plataforma_contactos.jpg \
 	../images/infrared.jpg,infrared.jpg \
 	../images/mini/infrared.jpg,mini/infrared.jpg \
+	../images/md/image.png,image.png \
 	../images/md/start-24-blue.png,start.png \
 	../images/md/notifications_blue_1x.png,stock_bell.png \
 	../images/md/notifications_active_blue_1x.png,stock_bell_active.png \

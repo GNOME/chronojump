@@ -3590,12 +3590,15 @@ public partial class ChronoJumpWindow
 
 	private void on_radio_contacts_export_individual_current_session_toggled (object o, EventArgs args)
 	{
-		if(currentPerson != null)
+		if (currentPerson != null)
 			label_contacts_export_person.Text = currentPerson.Name;
 		else
 			label_contacts_export_person.Text = "";
 
-		label_contacts_export_session.Text = currentSession.Name;
+		if (currentSession != null)
+			label_contacts_export_session.Text = currentSession.Name;
+		else
+			label_contacts_export_session.Text = "";
 
 		check_contacts_export_jumps_simple_mean_max_tables.Visible = check_contacts_export_jumps_simple.Active;
 		label_contacts_export_result.Text = "";
@@ -3617,7 +3620,10 @@ public partial class ChronoJumpWindow
 	private void on_radio_contacts_export_groupal_current_session_toggled (object o, EventArgs args)
 	{
 		label_contacts_export_person.Text = Catalog.GetString ("All");
-		label_contacts_export_session.Text = currentSession.Name;
+		if (currentSession != null)
+			label_contacts_export_session.Text = currentSession.Name;
+		else
+			label_contacts_export_session.Text = "";
 
 		check_contacts_export_jumps_simple_mean_max_tables.Visible = check_contacts_export_jumps_simple.Active;
 		label_contacts_export_result.Text = "";

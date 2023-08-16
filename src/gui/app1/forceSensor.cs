@@ -1102,7 +1102,10 @@ public partial class ChronoJumpWindow
 
 		//initialize
 		forceSensorValues = new ForceSensorValues();
-		webcamEndStopEnum = WebcamEndStopEnum.NOTHING;
+		if (checkbutton_video_contacts.Active)
+			webcamEndStopEnum = WebcamEndStopEnum.RECORDING;
+		else
+			webcamEndStopEnum = WebcamEndStopEnum.NOCAMERA;
 
 		//blank Cairo scatterplot graphs
 		cairoGraphForceSensorSignal = null;
@@ -1623,7 +1626,7 @@ LogB.Information(" fs C ");
 			button_video_play_this_test_contacts.Sensitive = false;
 			if(forceProcessFinish)
 			{
-				if (webcamEndStopEnum == WebcamEndStopEnum.NOTHING)
+				if (webcamEndStopEnum == WebcamEndStopEnum.RECORDING)
 				{
 					LogB.Information ("webcam will end now (gtk thread) at: " +
 							DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss.fff"));
@@ -1674,16 +1677,18 @@ LogB.Information(" fs C ");
 						radio_ai_cd.Sensitive = true;
 
 					if (webcamEndStopEnum == WebcamEndStopEnum.STOPPED)
-						if(webcamEndingSaveFile (Constants.TestTypes.FORCESENSOR, currentForceSensor.UniqueID))
+					{
+						bool success = webcamEndingSaveFile (Constants.TestTypes.FORCESENSOR, currentForceSensor.UniqueID);
+						if (success)
 						{
 							//add the videoURL to SQL
 							currentForceSensor.VideoURL = Util.GetVideoFileName(currentSession.UniqueID,
 									Constants.TestTypes.FORCESENSOR,
 									currentForceSensor.UniqueID);
 							currentForceSensor.UpdateSQL(false);
-							label_video_feedback.Text = "";
-							button_video_play_this_test_contacts.Sensitive = true;
 						}
+						webcamRestoreGui (success);
+					}
 
 					Thread.Sleep (250); //Wait a bit to ensure is copied
 					sensitiveLastTestButtons(true);
@@ -1724,8 +1729,11 @@ LogB.Information(" fs C ");
 					Util.PlaySound (Constants.SoundTypes.BAD, preferences.volumeOn, preferences.gstreamer);
 
 				//stop the camera (and do not save)
-				if (webcamEndingRecordingStop (Constants.TestTypes.FORCESENSOR))
-					webcamEndingSaveFile (Constants.TestTypes.FORCESENSOR, -1);
+				if (webcamEndStopEnum == WebcamEndStopEnum.RECORDING)
+				{
+					webcamEndingRecordingCancel ();
+					webcamRestoreGui (false);
+				}
 
 				sensitiveLastTestButtons(false);
 				contactsShowCaptureDoingButtons(false);

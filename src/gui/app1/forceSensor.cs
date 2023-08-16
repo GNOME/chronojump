@@ -2819,7 +2819,9 @@ LogB.Information(" fs R ");
 
 		double time = 0;
 		if (webcamPlay != null && webcamPlay.PlayVideoGetSecond > 0)
-			time = webcamPlay.PlayVideoGetSecond -diffVideoVsSignal;
+			time = webcamPlay.PlayVideoGetSecond -diffVideoVsSignal
+				+ 0.020 //creating the graph is 20ms aprox
+				+ 0.020; //20 more for getting the sterrHandler from ffplay and processing it
 
 		//LogB.Information ("updateForceSensorCaptureSignalCairo 4");
 		cairoGraphForceSensorSignal.DoSendingList (

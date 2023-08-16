@@ -1102,6 +1102,7 @@ public partial class ChronoJumpWindow
 
 		//initialize
 		forceSensorValues = new ForceSensorValues();
+		webcamEndStopEnum = WebcamEndStopEnum.NOTHING;
 
 		//blank Cairo scatterplot graphs
 		cairoGraphForceSensorSignal = null;
@@ -1118,6 +1119,7 @@ public partial class ChronoJumpWindow
 			fullscreen_button_fullscreen_contacts.Click ();
 
 		cairoGraphForceSensorSignalPointsShowAccuracy = true;
+
 		forceCaptureThread = new Thread(new ThreadStart(forceSensorCaptureDo));
 		GLib.Idle.Add (new GLib.IdleHandler (pulseGTKForceSensorCapture));
 
@@ -1621,6 +1623,23 @@ LogB.Information(" fs C ");
 			button_video_play_this_test_contacts.Sensitive = false;
 			if(forceProcessFinish)
 			{
+				if (webcamEndStopEnum == WebcamEndStopEnum.NOTHING)
+				{
+					LogB.Information ("webcam will end now (gtk thread) at: " +
+							DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss.fff"));
+
+					webcamEndingRecordingStop (Constants.TestTypes.FORCESENSOR);
+
+					Thread.Sleep (50); //Wait
+					return true;
+				}
+				else if (webcamEndStopEnum == WebcamEndStopEnum.STOPPING)
+				{
+					bool success = webcamEndingRecordingStopDo ();
+					if (! success)
+						return true;
+				}
+
 				if(capturingForce != arduinoCaptureStatus.COPIED_TO_TMP)
 				{
 					Thread.Sleep (25); //Wait file is copied
@@ -1654,17 +1673,17 @@ LogB.Information(" fs C ");
 					if (radio_ai_2sets.Active)
 						radio_ai_cd.Sensitive = true;
 
-					//stop camera
-					if(webcamEnd (Constants.TestTypes.FORCESENSOR, currentForceSensor.UniqueID))
-					{
-						//add the videoURL to SQL
-						currentForceSensor.VideoURL = Util.GetVideoFileName(currentSession.UniqueID,
-								Constants.TestTypes.FORCESENSOR,
-								currentForceSensor.UniqueID);
-						currentForceSensor.UpdateSQL(false);
-						label_video_feedback.Text = "";
-						button_video_play_this_test_contacts.Sensitive = true;
-					}
+					if (webcamEndStopEnum == WebcamEndStopEnum.STOPPED)
+						if(webcamEndingSaveFile (Constants.TestTypes.FORCESENSOR, currentForceSensor.UniqueID))
+						{
+							//add the videoURL to SQL
+							currentForceSensor.VideoURL = Util.GetVideoFileName(currentSession.UniqueID,
+									Constants.TestTypes.FORCESENSOR,
+									currentForceSensor.UniqueID);
+							currentForceSensor.UpdateSQL(false);
+							label_video_feedback.Text = "";
+							button_video_play_this_test_contacts.Sensitive = true;
+						}
 
 					Thread.Sleep (250); //Wait a bit to ensure is copied
 					sensitiveLastTestButtons(true);
@@ -1705,7 +1724,9 @@ LogB.Information(" fs C ");
 					Util.PlaySound (Constants.SoundTypes.BAD, preferences.volumeOn, preferences.gstreamer);
 
 				//stop the camera (and do not save)
-				webcamEnd (Constants.TestTypes.FORCESENSOR, -1);
+				if (webcamEndingRecordingStop (Constants.TestTypes.FORCESENSOR))
+					webcamEndingSaveFile (Constants.TestTypes.FORCESENSOR, -1);
+
 				sensitiveLastTestButtons(false);
 				contactsShowCaptureDoingButtons(false);
 

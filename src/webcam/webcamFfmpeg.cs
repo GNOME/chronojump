@@ -540,10 +540,8 @@ public class WebcamFfmpeg : Webcam
 	}
 
         //can pass a -1 uniqueID if test is cancelled
-	public override Result ExitAndFinish (int sessionID, Constants.TestTypes testType, int testID, bool moveTempFiles)
+	public override Result SaveFile (int sessionID, Constants.TestTypes testType, int testID, bool moveTempFiles)
 	{
-		ExitCamera();
-
 		if(! moveTempFiles)
 			return new Result (true, "");
 
@@ -559,9 +557,9 @@ public class WebcamFfmpeg : Webcam
 		return new Result (true, "");
 	}
 
-	public override void ExitCamera()
+	public override void RecordingStop ()
 	{
-		LogB.Information("Exit camera");
+		LogB.Information("RecordingStop (was: Exit camera)");
 		LogB.Information("streamWriter is null: " + (streamWriter == null).ToString());
 		LogB.Information("Action: " + action.ToString());
 

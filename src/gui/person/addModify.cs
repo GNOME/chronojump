@@ -441,7 +441,7 @@ public class PersonAddModifyWindow
 		// A) end if it's running
 		if(webcam != null && webcam.Running)
 		{
-			webcam.ExitCamera();
+			webcam.RecordingStop();
 			//return;
 		}
 
@@ -466,7 +466,7 @@ public class PersonAddModifyWindow
 			webcam = new WebcamFfmpeg (Webcam.Action.PLAYPREVIEW, UtilAll.GetOSEnum(), videoDevice, videoDevicePixelFormat, videoDeviceResolution, videoDeviceFramerate);
 		else if(webcam != null && webcam.Running)
 		{
-			webcam.ExitCamera();
+			webcam.RecordingStop();
 		}
 
 		if(webcam.Snapshot())
@@ -1299,7 +1299,7 @@ public class PersonAddModifyWindow
 		}
 
 		if(webcam != null && webcam.Running)
-			webcam.ExitCamera();
+			webcam.RecordingStop();
 
 		PersonAddModifyWindowBox.person_win.Hide();
 		PersonAddModifyWindowBox = null;
@@ -1312,7 +1312,7 @@ public class PersonAddModifyWindow
 		fakeButtonCancel.Click (); //managed if persons in top win
 
 		if(webcam != null && webcam.Running)
-			webcam.ExitCamera();
+			webcam.RecordingStop();
 
 		PersonAddModifyWindowBox.person_win.Hide();
 		PersonAddModifyWindowBox = null;
@@ -1324,7 +1324,7 @@ public class PersonAddModifyWindow
 		fakeButtonCancel.Click (); //managed if persons in top win
 
 		if(webcam != null && webcam.Running)
-			webcam.ExitCamera();
+			webcam.RecordingStop();
 
 		PersonAddModifyWindowBox.person_win.Hide();
 		PersonAddModifyWindowBox = null;

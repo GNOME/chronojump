@@ -62,6 +62,9 @@ public partial class ChronoJumpWindow
 	private WebcamEncoderFileStarted webcamEncoderFileStarted;
 	private WebcamEndParams webcamEndParams;
 
+	private enum WebcamEndStopEnum { NOTHING, STOPPING, STOPPED, SAVED }
+	private WebcamEndStopEnum webcamEndStopEnum;
+
 
 	//should be visible on all contacts, but right now hide it on force sensor and runEncoder
 	//but we need database stuff first
@@ -311,25 +314,25 @@ public partial class ChronoJumpWindow
 		}
 	}
 
+	//this is like the old call that stops and saves the file
+	//now we are stopping when eg. forceSensor finish. and after copied signal file to tmp and have uniqueID, then save the file
+	//this will be deprecated
+	public bool webcamEnd (Constants.TestTypes testType, int uniqueID)
+	{
+		if (! webcamEndingRecordingStop (testType))
+			return false;
+
+		return webcamEndingSaveFile (testType, uniqueID);
+	}
+
 
 	//can pass a -1 uniqueID if test is cancelled
 	//returns false if not ended (maybe because did not started)
-	private bool webcamEnd (Constants.TestTypes testType, int uniqueID)
+	private bool webcamEndingRecordingStop (Constants.TestTypes testType)//, int uniqueID)
 	{
 		//on contacts tests, we have ReallyStarted. No need to stop camera because it is not recording
 		if(testType != Constants.TestTypes.ENCODER && ! webcamManage.ReallyStarted)
 			return false;
-
-		WebcamManage.GuiContactsEncoder guiContactsEncoder = WebcamManage.GuiContactsEncoder.CONTACTS;
-		if(testType == Constants.TestTypes.ENCODER)
-		{
-			guiContactsEncoder = WebcamManage.GuiContactsEncoder.ENCODER;
-			label_video_encoder_feedback.Text = "";
-
-			hbox_video_encoder.Sensitive = true;
-			hbox_video_encoder_no_capturing.Visible = true;
-			hbox_video_encoder_capturing.Visible = false;
-		}
 
 		if(! preferences.videoOn || webcamManage == null)
 			return false;
@@ -342,58 +345,73 @@ public partial class ChronoJumpWindow
 			return false;
 		}
 
-		webcamEndParams = new WebcamEndParams(1, currentSession.UniqueID, testType, uniqueID, guiContactsEncoder);
+		webcamEndStopEnum = WebcamEndStopEnum.STOPPING;
 
 		//on encoder do not have a delayed call to not have problems with CopyTempVideo on src/gui/encoder.cs
 		//also on encoder exercise ends when movement has really finished
-		if(testType == Constants.TestTypes.ENCODER)
+		if (testType != Constants.TestTypes.ENCODER && preferences.videoStopAfter > 0)
 		{
-			LogB.Information("Encoder, immediate call to webcamEndDo()");
-			webcamEndDo();
-		} else {
-			if(preferences.videoStopAfter == 0)
-				webcamEndDo();
-			else {
-				//call it later to be able to have some video on a short test like a jump.
-				LogB.Information(string.Format("Preparing to call webcamEndDo() in {0} s", preferences.videoStopAfter));
+			//call it later to be able to have some video on a short test like a jump.
+			LogB.Information(string.Format("Preparing to call webcamEndDo() in {0} s", preferences.videoStopAfter));
 
-				//notebook_last_test_buttons.CurrentPage = 1;
-				//hbox_video_contacts_no_capturing.Visible = false;
-				notebook_video_contacts.CurrentPage = 2;
-				progressbar_video_generating.Text = Catalog.GetString("Ending video");
-				//progressbar_video_generating.Visible = true;
+			//notebook_last_test_buttons.CurrentPage = 1;
+			//hbox_video_contacts_no_capturing.Visible = false;
+			notebook_video_contacts.CurrentPage = 2;
+			progressbar_video_generating.Text = Catalog.GetString("Ending video");
+			//progressbar_video_generating.Visible = true;
 
-				//GLib.Timeout.Add(Convert.ToUInt32(preferences.videoStopAfter * 1000), new GLib.TimeoutHandler(webcamEndDo));
-				//do not done the above method because now we call webcamEndDo to update the progressbar, until preferences.videoStopAfter end
-				swWebcamStop = new Stopwatch();
-				swWebcamStop.Start();
-				GLib.Timeout.Add(50, new GLib.TimeoutHandler(webcamEndDo));
-			}
+			swWebcamStop = new Stopwatch();
+			swWebcamStop.Start();
 		}
 
-		return true; //really ended
+		return true;
 	}
 
-	private bool webcamEndDo()
+	//this bool means: has stopped. Do not call me again
+	private bool webcamEndingRecordingStopDo ()
 	{
-		//preferences.videoStopAfter = 0; //maybe set it to sync better. Or we will need to store this variable on each set if changed
-
-		//note on encoder swWebcamStop is null because the video ends when encoder ends. so do not show the progressbar finishing the video
+		//stop camera
 		if(swWebcamStart != null || swWebcamStop != null)
 		{
 			if(swWebcamStop.Elapsed.TotalSeconds < preferences.videoStopAfter)
 			{
 				//progressbar_video_generating.Pulse();
-				progressbar_video_generating.Fraction = UtilAll.DivideSafeFraction(swWebcamStop.Elapsed.TotalMilliseconds, preferences.videoStopAfter * 1000);
-				return true;
+				progressbar_video_generating.Fraction = UtilAll.DivideSafeFraction (
+						swWebcamStop.Elapsed.TotalMilliseconds, preferences.videoStopAfter * 1000);
+				Thread.Sleep (50);
+				return false;
 			}
 
-			swWebcamStart.Stop();
+			swWebcamStop.Stop();
 			progressbar_video_generating.Fraction = 1;
+
+			//LogB.Information("Called webcamEndingRecordingStopDo () ending the pulse");
+			webcamManage.RecordingStop ();
+			webcamEndStopEnum = WebcamEndStopEnum.STOPPED;
 		}
-		LogB.Information("Called webcamEndDo() ending the pulse");
-		Webcam.Result resultExit = webcamManage.ExitAndFinish (webcamEndParams.camera, webcamEndParams.sessionID,
+
+		return true;
+	}
+
+	public bool webcamEndingSaveFile (Constants.TestTypes testType, int uniqueID)
+	{
+		WebcamManage.GuiContactsEncoder guiContactsEncoder = WebcamManage.GuiContactsEncoder.CONTACTS;
+		if(testType == Constants.TestTypes.ENCODER)
+		{
+			guiContactsEncoder = WebcamManage.GuiContactsEncoder.ENCODER;
+			label_video_encoder_feedback.Text = "";
+
+			hbox_video_encoder.Sensitive = true;
+			hbox_video_encoder_no_capturing.Visible = true;
+			hbox_video_encoder_capturing.Visible = false;
+		}
+
+		webcamEndParams = new WebcamEndParams (1, currentSession.UniqueID, testType, uniqueID, guiContactsEncoder);
+
+		LogB.Information ("pre SaveFile");
+		Webcam.Result resultExit = webcamManage.SaveFile (webcamEndParams.camera, webcamEndParams.sessionID,
 				webcamEndParams.testType, webcamEndParams.uniqueID, webcamEndParams.guiContactsEncoder);
+		LogB.Information ("post SaveFile");
 
 		if(webcamEndParams.uniqueID != -1 && ! resultExit.success)
 			new DialogMessage(Constants.MessageTypes.WARNING, resultExit.error);
@@ -410,7 +428,9 @@ public partial class ChronoJumpWindow
 		//hbox_video_contacts_no_capturing.Visible = true;
 		notebook_video_contacts.CurrentPage = 0;
 
-		return false; //do not call this Timeout routine again
+		webcamEndStopEnum = WebcamEndStopEnum.SAVED;
+
+		return resultExit.success;
 	}
 
 	//to be able to pass data to webcamEndDo
@@ -775,11 +795,7 @@ public partial class ChronoJumpWindow
 					new DialogMessage (Constants.MessageTypes.WARNING, Webcam.ProgramFfprobeNotInstalled);
 					diffVideoVsSignal = 0;
 				} else {
-					/*
-					 * the -1 is because we are ending camera after inserting forceSensor (to store forceSensor.UniqueID
-					 * we can improve this stopping camera and after ending it and putting that uniqueID
-					 */
-					diffVideoVsSignal = videoTotalTime -preferences.videoStopAfter -1 -forceTotalTime;
+					diffVideoVsSignal = videoTotalTime -preferences.videoStopAfter -forceTotalTime;
 					LogB.Information (string.Format ("forceTotalTime: {0}, videoTotalTime: {1}, diffVideoVsSignal: {2}",
 								forceTotalTime, videoTotalTime, diffVideoVsSignal));
 				}

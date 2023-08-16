@@ -85,7 +85,7 @@ $ ffmpeg -rtbufsize 1M -r 30 -i /dev/video0 -rtbufsize 1M -r 30 -i /dev/video1 -
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Copyright (C) 2018   Xavier de Blas <xaviblas@gmail.com> 
+ *  Copyright (C) 2018-2023   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System.Diagnostics;
@@ -161,9 +161,10 @@ public abstract class Webcam
 	//short process, to do end capture (good if there's more than one camera to end capture all at same time)
 	public abstract Result VideoCaptureEnd();
 
-	public abstract Result ExitAndFinish (int sessionID, Constants.TestTypes testType, int testID, bool moveTempFiles);
+	public abstract Result SaveFile (int sessionID, Constants.TestTypes testType, int testID, bool moveTempFiles);
 
-	public abstract void ExitCamera();
+	//public abstract void ExitCamera();
+	public abstract void RecordingStop ();
 
 	/*
 	 * protected methods
@@ -283,20 +284,33 @@ public class WebcamManage
 		return result;
 	}
 
-	public Webcam.Result ExitAndFinish (int ncam, int sessionID,
+	/*
+	 * To be able to sync correctly, we need to have same end of signal (eg. forceSensor) and video
+	 * preferences.videoStopAfter is one problem, but the other is that ExitAndFinish is called after COPIED_TO_TMP
+	 * so camera is stopped when all the csvs are done (this is aprox 1s extra), and this is done because ExitAndFinish has the currentForceSensor.UniqueID, created after COPIED_TO_TMP to store correctly the video
+	 * What we do now: (2023 Aug) is:
+	 * 1) Just when user press Finish (force sensor capture): RecordingStop ()
+	 * 2) After COPIED_TO_TMP: Move correctly the tmp file to the uniqueID needed file
+	 */
+	public void RecordingStop ()
+	{
+		webcam.RecordingStop ();
+	}
+
+	public Webcam.Result SaveFile (int ncam, int sessionID,
 			Constants.TestTypes testType, int testID, GuiContactsEncoder guiContactsEncoder)
 	{
 		bool moveTempFiles = guiContactsEncoder == GuiContactsEncoder.CONTACTS;
 		if(ncam == 1)
-			return exitAndFinishDo (ref webcam, sessionID, testType, testID, moveTempFiles);
+			return saveFileDo (ref webcam, sessionID, testType, testID, moveTempFiles);
 		else //ncam == 2
-			return exitAndFinishDo (ref webcam2, sessionID, testType, testID, moveTempFiles);
+			return saveFileDo (ref webcam2, sessionID, testType, testID, moveTempFiles);
 	}
 
-	private Webcam.Result exitAndFinishDo (ref Webcam webcam, int sessionID,
+	private Webcam.Result saveFileDo (ref Webcam webcam, int sessionID,
 			Constants.TestTypes testType, int testID, bool moveTempFiles)
 	{
-		return webcam.ExitAndFinish (sessionID, testType, testID, moveTempFiles);
+		return webcam.SaveFile (sessionID, testType, testID, moveTempFiles);
 	}
 
 	public static bool RecordingFileStarted ()

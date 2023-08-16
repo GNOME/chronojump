@@ -1679,23 +1679,20 @@ void getPowerDynamics()
 {
   float force = scale.get_units();
   //position = encoder.read();
+  readEncoder();
+  encoderBufferIndex = (encoderBufferIndex + 1) % 20;
   float velocity = (float)(position - lastPosition) * 1000 / (totalTime - lastSampleTime);
   lastSampleTime = totalTime;
-  lastPosition = position;
-  for (int i = 0; i < encoderBufferIndex; i++)
-  {
-    Serial.print(encoderBuffer[i]);
-    Serial.print(",");
-  }
   encoderString = "";
-  encoderBufferIndex = 0;
   measured = force * velocity;
+  Serial.println(measured);
   if (measured > maxPower) maxPower = measured;
 }
 
 void startPowerCapture(void)
 {
   attachInterrupt(rcaPin, changedRCA, CHANGE);
+  scale.power_up();
   capturing = true;
   sensor = loadCellincEncoder;
   maxString = "P";
@@ -1714,11 +1711,10 @@ void startPowerCapture(void)
 
 void readEncoder()
 {
+  lastPosition = position;
   position = encoder.read();
   //  encoderString = encoderString + String(position - lastPosition) + ",";
   encoderBuffer[encoderBufferIndex] = position - lastPosition;
-  lastPosition = position;
-  encoderBufferIndex++;
 }
 
 void endPowerCapture()

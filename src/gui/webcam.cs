@@ -432,6 +432,10 @@ public partial class ChronoJumpWindow
 		}
 	}
 
+	/*
+	 * Unused right now.
+	 * if use again in the future, note ExitAndFinish now is RecordingStop and the SaveFile
+	 *
 	//do this to start them at the "same moment"
 	//can pass a -1 uniqueID if test is cancelled
 	private void webcamEndTwoCams (Constants.TestTypes testType, int uniqueID)
@@ -478,6 +482,7 @@ public partial class ChronoJumpWindow
 		button_video_play_this_test_contacts_sensitive (guiContactsEncoder, (uniqueID != -1 && errorMessage == ""));
 		button_video_play_selected_test(current_mode);
 	}
+	*/
 
 	private void on_button_camera_stop_at_boot_clicked (object o, EventArgs args)
 	{

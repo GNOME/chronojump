@@ -181,6 +181,7 @@ public class WebcamMplayer : Webcam
 		return new Result (true, "");
 	}
 
+	/* unused on ffmpeg
 	public override Result VideoCaptureEnd()
 	{
 		if(process == null || streamWriter == null)
@@ -192,6 +193,7 @@ public class WebcamMplayer : Webcam
 
 		return new Result (true, "");
 	}
+	*/
 
 
 	public override Result SaveFile (int sessionID, Constants.TestTypes testType, int testID, bool moveTempFiles)

@@ -159,7 +159,7 @@ public abstract class Webcam
 	public abstract Result VideoCaptureStart();
 
 	//short process, to do end capture (good if there's more than one camera to end capture all at same time)
-	public abstract Result VideoCaptureEnd();
+	//public abstract Result VideoCaptureEnd();
 
 	public abstract Result SaveFile (int sessionID, Constants.TestTypes testType, int testID, bool moveTempFiles);
 
@@ -255,6 +255,7 @@ public class WebcamManage
 		return webcam.VideoCaptureStart().success;
 	}
 
+	/* unused on ffmpeg
 	public Webcam.Result RecordEnd(int ncam)
 	{
 		if(ncam == 1)
@@ -283,6 +284,7 @@ public class WebcamManage
 		LogB.Information("webcamRecordEnd call 2");
 		return result;
 	}
+	*/
 
 	/*
 	 * To be able to sync correctly, we need to have same end of signal (eg. forceSensor) and video

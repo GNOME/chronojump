@@ -1,4 +1,0 @@
-1,0,Blancaneus ,4,CMJ,0.735469R
-3,0,Blancaneus ,4,CMJ,0.914733R
-5,0,Blancaneus ,4,CMJ,0.459538R
-7,0,Blancaneus ,4,CMJ,0.674904R

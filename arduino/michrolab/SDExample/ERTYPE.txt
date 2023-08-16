@@ -1,0 +1,4 @@
+0,40m Sprint,40 meters sprint without obstacles
+1,25m swiming,25 meters swiming with no particular technique
+2,40m hurdles,40 meters with hurdles in x y and z meters
+3,sprint,12345

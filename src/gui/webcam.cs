@@ -62,7 +62,7 @@ public partial class ChronoJumpWindow
 	private WebcamEncoderFileStarted webcamEncoderFileStarted;
 	private WebcamEndParams webcamEndParams;
 
-	private enum WebcamEndStopEnum { NOTHING, STOPPING, STOPPED, SAVED }
+	private enum WebcamEndStopEnum { NOCAMERA, RECORDING, STOPPING, STOPPED, SAVED }
 	private WebcamEndStopEnum webcamEndStopEnum;
 
 
@@ -326,9 +326,18 @@ public partial class ChronoJumpWindow
 	}
 
 
+	private void webcamEndingRecordingCancel ()
+	{
+		if(! preferences.videoOn || webcamManage == null)
+			return;
+
+		webcamManage.RecordingStop ();
+		webcamEndStopEnum = WebcamEndStopEnum.STOPPED;
+	}
+
 	//can pass a -1 uniqueID if test is cancelled
 	//returns false if not ended (maybe because did not started)
-	private bool webcamEndingRecordingStop (Constants.TestTypes testType)//, int uniqueID)
+	private bool webcamEndingRecordingStop (Constants.TestTypes testType)
 	{
 		//on contacts tests, we have ReallyStarted. No need to stop camera because it is not recording
 		if(testType != Constants.TestTypes.ENCODER && ! webcamManage.ReallyStarted)
@@ -395,20 +404,17 @@ public partial class ChronoJumpWindow
 		return true;
 	}
 
+	private WebcamManage.GuiContactsEncoder getGuiContactsEncoder ()
+	{
+		if (Constants.ModeIsENCODER (current_mode))
+			return WebcamManage.GuiContactsEncoder.ENCODER;
+		else
+			return WebcamManage.GuiContactsEncoder.CONTACTS;
+	}
+
 	public bool webcamEndingSaveFile (Constants.TestTypes testType, int uniqueID)
 	{
-		WebcamManage.GuiContactsEncoder guiContactsEncoder = WebcamManage.GuiContactsEncoder.CONTACTS;
-		if(testType == Constants.TestTypes.ENCODER)
-		{
-			guiContactsEncoder = WebcamManage.GuiContactsEncoder.ENCODER;
-			label_video_encoder_feedback.Text = "";
-
-			hbox_video_encoder.Sensitive = true;
-			hbox_video_encoder_no_capturing.Visible = true;
-			hbox_video_encoder_capturing.Visible = false;
-		}
-
-		webcamEndParams = new WebcamEndParams (1, currentSession.UniqueID, testType, uniqueID, guiContactsEncoder);
+		webcamEndParams = new WebcamEndParams (1, currentSession.UniqueID, testType, uniqueID, getGuiContactsEncoder ());
 
 		LogB.Information ("pre SaveFile");
 		Webcam.Result resultExit = webcamManage.SaveFile (webcamEndParams.camera, webcamEndParams.sessionID,
@@ -421,18 +427,33 @@ public partial class ChronoJumpWindow
 		button_video_contacts_preview_visible (webcamEndParams.guiContactsEncoder, true);
 		LogB.Information(string.Format("calling button_video_play_this_test_contacts_sensitive {0}-{1}-{2}",
 					webcamEndParams.guiContactsEncoder, webcamManage.ReallyStarted, resultExit.success));
-		button_video_play_this_test_contacts_sensitive (webcamEndParams.guiContactsEncoder, webcamManage.ReallyStarted && resultExit.success);
-		button_video_play_selected_test(current_mode);
-
-		sensitiveGuiEventDone();
-		//notebook_last_test_buttons.CurrentPage = 0;
-		//progressbar_video_generating.Visible = false;
-		//hbox_video_contacts_no_capturing.Visible = true;
-		notebook_video_contacts.CurrentPage = 0;
-
 		webcamEndStopEnum = WebcamEndStopEnum.SAVED;
 
 		return resultExit.success;
+	}
+
+	public void webcamRestoreGui (bool saved)
+	{
+		if (Constants.ModeIsENCODER (current_mode))
+		{
+			label_video_encoder_feedback.Text = "";
+			hbox_video_encoder.Sensitive = true;
+			hbox_video_encoder_no_capturing.Visible = true;
+			hbox_video_encoder_capturing.Visible = false;
+		} else {
+			label_video_feedback.Text = "";
+			button_video_play_this_test_contacts_sensitive (
+					webcamEndParams.guiContactsEncoder, webcamManage.ReallyStarted && saved);
+
+			button_video_play_selected_test (current_mode);
+
+			//notebook_last_test_buttons.CurrentPage = 0;
+			//progressbar_video_generating.Visible = false;
+			//hbox_video_contacts_no_capturing.Visible = true;
+			notebook_video_contacts.CurrentPage = 0;
+		}
+
+		sensitiveGuiEventDone();
 	}
 
 	//to be able to pass data to webcamEndDo

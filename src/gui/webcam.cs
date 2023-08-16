@@ -337,6 +337,7 @@ public partial class ChronoJumpWindow
 		if(! preferences.videoOn || webcamManage == null)
 			return false;
 
+		/* unused on ffmpeg
 		Webcam.Result result = webcamManage.RecordEnd (1);
 
 		if(! result.success)
@@ -344,6 +345,7 @@ public partial class ChronoJumpWindow
 			new DialogMessage(Constants.MessageTypes.WARNING, result.error);
 			return false;
 		}
+		*/
 
 		webcamEndStopEnum = WebcamEndStopEnum.STOPPING;
 

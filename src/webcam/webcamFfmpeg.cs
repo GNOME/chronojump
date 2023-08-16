@@ -533,11 +533,13 @@ public class WebcamFfmpeg : Webcam
 	 */
 
 
+	/* unused on ffmpeg
 	public override Result VideoCaptureEnd()
 	{
 		//on ffmpeg capture ends on exit: 'q' done at ExitAndFinish()
 		return new Result (true, "");
 	}
+	*/
 
         //can pass a -1 uniqueID if test is cancelled
 	public override Result SaveFile (int sessionID, Constants.TestTypes testType, int testID, bool moveTempFiles)

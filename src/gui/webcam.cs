@@ -806,6 +806,9 @@ public partial class ChronoJumpWindow
 				new DialogMessage(Constants.MessageTypes.WARNING, "Sorry, file not found");
 			else
 			{
+				if (webcamPlay != null && webcamPlayThread != null && webcamPlayThread.IsAlive)
+					return;
+
 				double forceTotalTime = 0;
 				if (fsAI_AB != null)
 					forceTotalTime = UtilAll.DivideSafe (PointF.Last (fsAI_AB.P_l).X, 1000000);

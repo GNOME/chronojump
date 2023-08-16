@@ -15,7 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Copyright (C) 2018   Xavier de Blas <xaviblas@gmail.com> 
+ *  Copyright (C) 2018-2023   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System.Collections.Generic; //List
@@ -165,7 +165,7 @@ public class WebcamMplayer : Webcam
 		{
 			streamWriter.Flush();
 			System.Threading.Thread.Sleep(100);
-			ExitCamera();
+			RecordingStop ();
 		}
 		return true;
 	}
@@ -194,10 +194,8 @@ public class WebcamMplayer : Webcam
 	}
 
 
-	public override Result ExitAndFinish (int sessionID, Constants.TestTypes testType, int testID, bool moveTempFiles)
+	public override Result SaveFile (int sessionID, Constants.TestTypes testType, int testID, bool moveTempFiles)
 	{
-		ExitCamera();
-
 		if(! findIfThereAreImagesToConvert())
 			return new Result (false, "", Constants.VideoNothingCapturedStr());
 
@@ -218,7 +216,7 @@ public class WebcamMplayer : Webcam
 		return new Result (true, "");
 	}
 
-	public override void ExitCamera()
+	public override void RecordingStop ()
 	{
 		try {
 			streamWriter.Write('q');

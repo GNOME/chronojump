@@ -407,7 +407,7 @@ public class WebcamFfmpeg : Webcam
 
 		if(os == UtilAll.OperatingSystems.LINUX) { //TODO: check if this works on Mac and Windows
 			parameters.Insert (i++, "-vf");
-			parameters.Insert (i++, "drawtext=text='%{pts\\:hms}':box=1:x=(w-tw)/2:y=h-(2*lh)");
+			parameters.Insert (i++, "[in]drawtext=text='%{pts\\:hms}':box=1:x=(w-tw)/2:y=h-(3*lh), drawtext=text='pause\\: p, space; next frame\\: s; -+10s\\: left/right':box=1:x=(w-tw)/2:y=h-(lh)[out]");
 		}
 
 		parameters.Insert (i ++, "-autoexit");

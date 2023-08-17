@@ -171,3 +171,6 @@ void getRtcTime();
 
 //Sets the time of Teensy RTC. Seconds since 1970/1/1 0h:0m:0s
 void setRtcTime(String time);
+
+//Update the state of all directional buttons
+void updateButtons();

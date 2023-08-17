@@ -1,4 +1,0 @@
-#id, name, description, percentBodyWeight, speed1RM
-0,Bench Press,Typical Bench press with a barbell,0,0.185
-1,Squat,Squat movement with a barbell,100,0.31
-2,Biceps Curl,Typical biceps curl with a barbell,0,0 

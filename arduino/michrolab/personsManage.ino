@@ -80,8 +80,16 @@ void readPersonsFile()
   char readChar;
   String rowString = "";
   unsigned long pos = 0;    //Position in the file
-  String fileName = "GROUP" + String(group) + ".TXT";
+  String fileName = "GROUPS/GROUP" + String(group) + ".TXT";
   File  personsFile = SD.open(fileName.c_str());
+  currentPerson = 0;
+
+  //Checking that the file is read
+  if (!personsFile) {
+    Serial.println("error opening " + fileName);
+    return;
+  }
+
   if (personsFile)
   {
     currentPerson = 0;
@@ -109,11 +117,7 @@ void readPersonsFile()
     }
     // close the file:
     personsFile.close();
-  } else {
-    // if the file didn't open, print an error:
-    Serial.println("error opening " + fileName);
   }
-  currentPerson = 0;
 }
 
 void updatePersonSet() {updatePersonSet(true); }
@@ -195,7 +199,7 @@ void selectPersonDialog()
       {
         textList[i+3] = persons[ (currentPerson + i + totalPersons) % totalPersons].name + " " + persons[ (currentPerson + i + totalPersons) % totalPersons].surname;
       }      
-      Serial.println("Changed to " + String(currentPerson));
+      // Serial.println("Changed to " + String(currentPerson));
       //Printing new list
       showList(WHITE);
     }
@@ -208,7 +212,7 @@ void selectPersonDialog()
       {
         textList[i+3] = persons[ (currentPerson + i + totalPersons) % totalPersons].name + " " + persons[ (currentPerson + i + totalPersons) % totalPersons].surname;
       }
-      Serial.println("Changed to " + String(currentPerson));
+      // Serial.println("Changed to " + String(currentPerson));
       //Printing new list
       showList(WHITE);      
     }

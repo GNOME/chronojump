@@ -1,0 +1,5 @@
+0,Abd/Add,Isometric leg abduction/adduction,0.00,0.00,0
+1,Squat,Isometric squat,0.00,90.00,0
+3,Handgrip,Handgrip isometric force,0.00,0.00,0
+4,90-20,Isometric hamstring force,0.00,0.00,1
+6,Leg Extension,Isometric knee extension,0.00,0.00,0

@@ -46,9 +46,9 @@ void addJump(String row)
 
 void saveJumpsType()
 {
-  SD.remove("JUMPTYPE.TXT");
+  SD.remove("EXERCISE/JUMPTYPE.TXT");
  
-  File jumpFile = SD.open("JUMPTYPE.TXT", FILE_WRITE);
+  File jumpFile = SD.open("EXERCISE/JUMPTYPE.TXT", FILE_WRITE);
 
 //  if(jumpFile) Serial.println("File created");
 //  else Serial.println("Error creating file");
@@ -67,7 +67,7 @@ void saveJumpsType()
     jumpFile.print("," + String(jumpTypes[i].startIn));
   }
   jumpFile.close();
-  Serial.println("Saved " + String(totalJumpTypes) + " to JUMPTYPE.TXT");
+  Serial.println("Saved " + String(totalJumpTypes) + " to /EXERCISE/JUMPTYPE.TXT");
 }
 
 void addGravitatory(String row)
@@ -97,9 +97,9 @@ void addGravitatory(String row)
 
 void saveGravitatoryType()
 {
-  SD.remove("GRAVTYPE.TXT");
+  SD.remove("EXERCISE/GRAVTYPE.TXT");
  
-  File gravFile = SD.open("GRAVTYPE.TXT", FILE_WRITE);
+  File gravFile = SD.open("EXERCISE/GRAVTYPE.TXT", FILE_WRITE);
 
 //  if(gravFile) Serial.println("File created");
 //  else Serial.println("Error creating file");
@@ -113,7 +113,7 @@ void saveGravitatoryType()
     gravFile.println("," + String(gravTypes[i].speed1Rm));
   }
   gravFile.close();
-  Serial.println("Saved " + String(totalGravTypes) + " to GRAVTYPE.TXT");
+  Serial.println("Saved " + String(totalGravTypes) + " to /EXERCISE/GRAVTYPE.TXT");
 }
 
 void addInertial(String row)
@@ -141,9 +141,9 @@ void addInertial(String row)
 
 void saveInertialType()
 {
-  SD.remove("INERTYPE.TXT");
+  SD.remove("EXERCISE/INERTYPE.TXT");
  
-  File inertFile = SD.open("INERTYPE.TXT", FILE_WRITE);
+  File inertFile = SD.open("EXERCISE/INERTYPE.TXT", FILE_WRITE);
 
 //  if(gravFile) Serial.println("File created");
 //  else Serial.println("Error creating file");
@@ -157,7 +157,7 @@ void saveInertialType()
     inertFile.println("," + String(gravTypes[i].speed1Rm));
   }
   inertFile.close();
-  Serial.println("Saved " + String(totalInertTypes) + " to GRAVTYPE.TXT");
+  Serial.println("Saved " + String(totalInertTypes) + " to /EXERCISE/GRAVTYPE.TXT");
 }
 
 void addForce(String row)
@@ -206,9 +206,9 @@ void addRaceAnalyzer(String row)
 
 void saveForceType()
 {
-  SD.remove("FORCTYPE.TXT");
+  SD.remove("EXERCISE/FORCTYPE.TXT");
  
-  File forceFile = SD.open("FORCTYPE.TXT", FILE_WRITE);
+  File forceFile = SD.open("EXERCISE/FORCTYPE.TXT", FILE_WRITE);
 
 //  if(gravFile) Serial.println("File created");
 //  else Serial.println("Error creating file");
@@ -229,9 +229,9 @@ void saveForceType()
 
 void saveRaceAnalyzerTypes()
 {
-  SD.remove("ERTYPE.TXT");
+  SD.remove("EXERCISE/ERTYPE.TXT");
  
-  File raceAnalyzerFile = SD.open("ERTYPE.TXT", FILE_WRITE);
+  File raceAnalyzerFile = SD.open("EXERCISE/ERTYPE.TXT", FILE_WRITE);
 
 //  if(gravFile) Serial.println("File created");
 //  else Serial.println("Error creating file");
@@ -244,7 +244,7 @@ void saveRaceAnalyzerTypes()
   }
   
   raceAnalyzerFile.close();
-  Serial.println("Saved " + String(totalRaceAnalyzerTypes) + " to ERTYPE.TXT");
+  Serial.println("Saved " + String(totalRaceAnalyzerTypes) + " to /EXERCISE/ERTYPE.TXT");
 }
 
 void readExercisesFile(String parameters){
@@ -267,19 +267,19 @@ void readExercisesFile(exerciseType mode)
 
   if (mode == jumps) {
     //Serial.println("J");
-    file = "JUMPTYPE.TXT";
+    file = "EXERCISE/JUMPTYPE.TXT";
   } else if (mode == gravitatory) {
     //Serial.println("G");
-    file = "GRAVTYPE.TXT";
+    file = "EXERCISE/GRAVTYPE.TXT";
   } else if (mode == inertial) {
     //Serial.println("I");
-    file = "INERTYPE.TXT";
+    file = "EXERCISE/INERTYPE.TXT";
   } else if (mode == force) {
     //Serial.println("F");
-    file = "FORCTYPE.TXT";
+    file = "EXERCISE/FORCTYPE.TXT";
   } else if (mode == encoderRace) {
     //Serial.println("ER");
-    file = "ERTYPE.TXT";
+    file = "EXERCISE/ERTYPE.TXT";
   }
 
   File  exercisesFile = SD.open(file.c_str());

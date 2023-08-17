@@ -1,0 +1,13 @@
+#id, name, jumpLimit,timeLimit, hardTimeLimit, percentBodyWeight, fall, startIn, description
+24,RJ(5j),5,0,0,0,0,0,5 repeated Jumps.
+32,RJ(5ss),0,5,0,0,0,1,Repeated Jumps during 5 seconds.
+39,RJ(5sh),0,5,1,0,0,1,RJ(5sh).
+1,Free,1,0,0,0,0,1,Free mode.
+2,SJ,1,0,0,0,0,1,Jump after a3 seconds isometric hold at 90º of knee flexion with hands at hips.
+3,SJl100,1,0,0,100,0,1,SJl100.
+4,CMJ,1,0,0,0,0,1,Countermovement Jump with hands at hips.
+5,CMJl,1,0,0,100,0,1,CMJl
+6,slCMJleft,1,0,0,0,0,1,Countermovement Jump performed with the left leg only.
+7,slCMJright,1,0,0,0,0,1,Countermovement Jump performed with the right leg only.
+8,ABK,1,0,0,0,0,1,Countermovement Jump with arms.
+10,DJa,1,0,0,0,0,0,Jump after dropping from a determined height.

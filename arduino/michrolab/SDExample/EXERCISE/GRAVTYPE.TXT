@@ -1,0 +1,3 @@
+24,Bench Press, Typical Bench press with a barbell,0.00,0.19
+32,Squat,Squat movement with a barbell,100.00,0.31
+39,Biceps Curl,Typical biceps curl with,0.00,0.00

@@ -1138,9 +1138,9 @@ void addInertMachine(String row)
 
 void saveInertMachines()
 {
-  SD.remove("INERMACH.TXT");
+  SD.remove("/CONFIGS/INERMACH.TXT");
  
-  File inertFile = SD.open("INERMACH.TXT", FILE_WRITE);
+  File inertFile = SD.open("/CONFIGS/INERMACH.TXT", FILE_WRITE);
 
 //  if(gravFile) Serial.println("File created");
 //  else Serial.println("Error creating file");
@@ -1154,47 +1154,51 @@ void saveInertMachines()
     inertFile.println("," + String(inertMachines[i].gearedDown));
   }
   inertFile.close();
-  Serial.println("Saved " + String(totalInertMachines) + " to INERMACH.TXT");
+  Serial.println("Saved " + String(totalInertMachines) + " to /CONFIGS/INERMACH.TXT");
 }
 
 void readInertMachineFile()
 {
+  // Serial.println("<readInertialMachinesFile");
   char readChar;
   String readString = "";
   unsigned long pos = 0;    //Position in the file
   int numRows = 0;          //Number of valid rows in the file
 
-  File  machinesFile = SD.open("INERMACH.TXT");
+  File  machinesFile = SD.open("/CONFIGS/INERMACH.TXT");
 
-  if (machinesFile)
+  if (!machinesFile) {
+    Serial.println("Error opening /CONFIGS/INERMACH.TXT");
+    return;
+  }
+
+  //Serial.println("File size = " + String(exercisesFile.size() ) );
+  while (pos <= machinesFile.size())
   {
-    //Serial.println("File size = " + String(exercisesFile.size() ) );
-    while (pos <= machinesFile.size())
+    readChar = '0';
+    String readString = "";
+    while (readChar != '\n' && readChar != '\r' && pos <= machinesFile.size())
     {
-      readChar = '0';
-      String readString = "";
-      while (readChar != '\n' && readChar != '\r' && pos <= machinesFile.size())
-      {
-        readChar = machinesFile.read();
-        readString = readString + readChar;
-        pos++;
-      }
-      
-      //Serial.print(readString);
-
-      //Check that it is a valid row.
-      if ( isDigit(readString[0]) )
-      {
-        numRows++;
-        currentInertMachine = numRows - 1;
-        addInertMachine(readString);
-      }
+      readChar = machinesFile.read();
+      readString = readString + readChar;
+      pos++;
     }
     
-    totalInertMachines = numRows;
-    Serial.println("Total:" + String(totalInertMachines));
+    //Serial.print(readString);
+
+    //Check that it is a valid row.
+    if ( isDigit(readString[0]) )
+    {
+      numRows++;
+      currentInertMachine = numRows - 1;
+      addInertMachine(readString);
+    }
   }
+  
+  totalInertMachines = numRows;
+  Serial.println("Total:" + String(totalInertMachines));
   machinesFile.close();
+  // Serial.println("readInertialMachinesFile>");
 }
 
 void showList(int color)

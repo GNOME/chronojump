@@ -3,10 +3,9 @@
 //Manages the current menu
 void showMenu()
 {
-  //The blue button navigates through the Menu options
+  //The right/left buttons navigates through the Menu options
   
-  rightButton.update();
-  leftButton.update();
+  updateButtons();
   if (leftButton.fell()) {
     currentMenuIndex--;
     currentMenuIndex = currentMenuIndex % menuItemsNum;
@@ -25,7 +24,6 @@ void showMenu()
   }
 
   //The red button activates the menu option
-  cenButton.update();
   if (cenButton.fell())
   {
     PcControlled = false;
@@ -106,6 +104,7 @@ void showSystemEntry(unsigned int currentMenuIndex)
 //shows the current entry of the current menu
 void showMenuEntry(unsigned int currentMenuIndex)
 {
+  // Serial.println("<showMenuEntry");
   tft.fillRect(30, 0, 260, 50, BLACK);
   printTftText(currentMenu[currentMenuIndex].title, 40, 20, WHITE, 3);
   //This erases the last index description
@@ -126,6 +125,7 @@ void showMenuEntry(unsigned int currentMenuIndex)
   rightButton.update();
   leftButton.update();
   printTftText(currentMenu[currentMenuIndex].description, 12, 100);
+  // Serial.println("showMenuEntry>");
 }
 
 void drawRightButton(void) { drawRightButton(295, 212, "", WHITE, BLACK); }

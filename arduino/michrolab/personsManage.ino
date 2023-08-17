@@ -166,6 +166,7 @@ void selectGroup()
 
 void selectPersonDialog()
 {
+  // Serial.println("<selectPersonDialog");
   tft.fillScreen(BLACK);
   printTftText("Select person", 40, 20, WHITE, 3);
   for (int i = -3; i <= 3; i++)
@@ -182,7 +183,7 @@ void selectPersonDialog()
   rightButton.update();
   upButton.update();
   cenButton.update();
-  while (!cenButton.fell())
+  while (currentConfigSetMenu == personSelect )
   {
     if (downButton.fell())
     {
@@ -211,10 +212,12 @@ void selectPersonDialog()
       //Printing new list
       showList(WHITE);      
     }
-    downButton.update();
-    upButton.update();
-    cenButton.update();
+    if ( rightButton.fell() || cenButton.fell() ) currentConfigSetMenu = exerciseSelect;
+    if ( leftButton.fell() ) currentConfigSetMenu = quit;
+    updateButtons();
   }
+  Serial.println(currentConfigSetMenu);
+  // Serial.println("selectPersonDialog>");
 }
 
 void setGroup(String parameters)

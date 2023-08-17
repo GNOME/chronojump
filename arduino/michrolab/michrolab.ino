@@ -133,6 +133,19 @@ enum exerciseType {
   credits //name variable could be replaced
 };
 
+// Sets the menu to show before capturing
+enum configSetMenu {
+  personSelect = 0,
+  exerciseSelect = 1,
+  valueSelect = 2,
+  capture = 3,
+  quit = 4
+};
+
+configSetMenu currentConfigSetMenu = personSelect;
+bool nextConfigSetMenu = false;
+bool prevConfigSetMenu = false;
+
 sensorType sensor = none;
 String maxString = "";
 
@@ -812,12 +825,7 @@ void serialEvent() {
 
 void startLoadCellCapture(void)
 {
-  /* cambiado por mon
-  if (!selectExerciseType(jumps) || !selectExerciseType(inertial) || !selectExerciseType(force) || !selectExerciseType(encoderRace)) 
-  {
-    return;
-  }
-  */
+  // Serial.println("<startLoadCellCapture");
 
   //Check that calibration_factor is set
   if (scale.get_scale() == 0) {
@@ -826,7 +834,6 @@ void startLoadCellCapture(void)
   }
 
   attachInterrupt(rcaPin, changedRCA, CHANGE);
-  Serial.println("Starting capture...");
   scale.power_up();
   totalTime = 0;
   measuredMax = scale.get_units();
@@ -851,7 +858,6 @@ void startLoadCellCapture(void)
   sumSSD = 0.0;
   sumMeasures = lastMeasure;
   samplesSSD = 0;
-  capturing = true;
   sensor = loadCell;
   maxString = "F";
   plotPeriod = 5;
@@ -866,25 +872,61 @@ void startLoadCellCapture(void)
     newGraphMax = max(100, measuredMax * 1.5);
   }
 
-  selectPersonDialog();
-  if (totalForceTypes == 0) readExercisesFile(force);
-  selectExerciseType(force);
-  if(forceTypes[currentExerciseType].tare)
-  {
-    tft.fillScreen(BLACK);
-    printTftText(currentMenu[currentMenuIndex].description, 12, 100, 2);
-    printTftText("Taring...", 100, 100);
+  currentConfigSetMenu = personSelect;
 
-    drawLeftButton("-", BLACK, BLACK);
-    drawRightButton("-", BLACK, BLACK);
+  while( currentConfigSetMenu != quit && currentConfigSetMenu != capture ) {
+    if( currentConfigSetMenu == personSelect) {
+      selectPersonDialog();
+      } else if( currentConfigSetMenu == exerciseSelect) {
 
-    
-    scale.tare(50); //Reset the scale to 0 using the mean of 255 raw values
-    printTftText("Taring...", 100, 100, BLACK);
-    printTftText("  Tared  ", 100, 100);
-    delay(300);
+        if (totalForceTypes == 0) readExercisesFile(force);
+
+        selectExerciseType(force);
+
+        //Checking the reason of exit from electExerciseType(force)
+        if (prevConfigSetMenu) {
+          Serial.println("-");
+          prevConfigSetMenu = false;
+          currentConfigSetMenu = personSelect;
+        }
+        if (nextConfigSetMenu) {
+          nextConfigSetMenu = false;
+          currentConfigSetMenu = capture;
+        }
+      }
+
+    if( currentConfigSetMenu == quit) {
+      Serial.println("Returning");
+      drawMenuBackground();
+      showMenuEntry(currentMenuIndex);
+      //Serial.println("startLoadCellCapture (return)>");
+      return;
+    };
+
+    if(forceTypes[currentExerciseType].tare)
+    {
+      tft.fillScreen(BLACK);
+      printTftText(currentMenu[currentMenuIndex].description, 12, 100, 2);
+      printTftText("Taring...", 100, 100);
+
+      drawLeftButton("-", BLACK, BLACK);
+      drawRightButton("-", BLACK, BLACK);
+
+      
+      scale.tare(50); //Reset the scale to 0 using the mean of 255 raw values
+      printTftText("Taring...", 100, 100, BLACK);
+      printTftText("  Tared  ", 100, 100);
+      delay(300);
+    }
   }
-  
+  if(currentConfigSetMenu == capture) {
+    capturing = true;
+    Serial.println("Starting capture...");
+  } else {
+    currentConfigSetMenu = personSelect;
+  }
+
+  // Serial.println("startLoadCellCapture>");
 }
 
 void endLoadCellCapture()
@@ -1602,6 +1644,8 @@ void startGravitEncoderCapture()
   inertialMode = false;
   sensor = incLinEncoder;
   if(totalGravTypes == 0) readExercisesFile(gravitatory);
+
+  selectPersonDialog();
   selectExerciseType(gravitatory);
   load = selectValueDialog("Select the load you are\ngoing to move", "0,5,20,200", "0.5,1,5", 1);
   startEncoderCapture();
@@ -1629,7 +1673,6 @@ void startEncoderCapture(void)
   avgVelocity = 0;
   maxAvgVelocity = 0;
   lastVelocity = 0;
-  selectPersonDialog();
   //captureRaw();
   encoderTimer.begin(saveEncoderSpeed, 1000);
   captureBars(false);
@@ -2468,6 +2511,13 @@ time_t getTeensy3Time() {
   return Teensy3Clock.get();
 }
 
+void updateButtons(void){
+  rightButton.update();
+  leftButton.update();
+  upButton.update();
+  downButton.update();
+  cenButton.update();
+}
 /*
 void encoderBChange()
 {

@@ -400,6 +400,7 @@ void printRaceAnalyzerTypes()
 
 bool selectExerciseType(exerciseType mode)
 {
+  // Serial.println("<selectExerciseType");
   tft.fillScreen(BLACK); 
   drawLeftButton("Prev", WHITE, RED);
   drawRightButton("Next", WHITE, BLUE);
@@ -441,14 +442,12 @@ bool selectExerciseType(exerciseType mode)
   */
   
   
-  rightButton.update();
-  leftButton.update();
-  cenButton.update();
-  downButton.update();
-  while(!cenButton.fell())
+  updateButtons();
+
+  while( !cenButton.fell() && !rightButton.fell() && !leftButton.fell())
   {
     //FORDWARD
-    if(rightButton.fell())
+    if(downButton.fell())
     {      
       if (mode == jumps) {
         printTftText(jumpTypes[currentExerciseType].name, 50, 70, BLACK);
@@ -483,7 +482,7 @@ bool selectExerciseType(exerciseType mode)
       }
     }
     //BACKWARD
-    if(leftButton.fell()) {
+    if(upButton.fell()) {
       if (mode == jumps) {
         printTftText(jumpTypes[currentExerciseType].name, 50, 70, BLACK);
         printTftText(jumpTypes[currentExerciseType].description, 30, 115, BLACK);
@@ -516,19 +515,19 @@ bool selectExerciseType(exerciseType mode)
         printTftText(raceAnalyzerTypes[currentExerciseType].description, 30, 115);
       } 
     }
+    updateButtons();
+  }
 
-    //Go to main menu
-    if(downButton.fell()) {
+    //Go to the previous menu
+    if(leftButton.fell()) {
+      prevConfigSetMenu = true;
       backMenu();
       showMenu();
-      return false;
     }
-    
-    rightButton.update();
-    leftButton.update();
-    cenButton.update();
-    downButton.update();
-
-  }
+    //Go to the next menu
+    if (rightButton.fell() || cenButton.fell()) {
+      nextConfigSetMenu = true;
+    }
+  // Serial.println("selectExerciseType>");
   return true;
 }

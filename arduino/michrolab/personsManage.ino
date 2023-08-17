@@ -184,7 +184,7 @@ void selectPersonDialog()
   cenButton.update();
   while (!cenButton.fell())
   {
-    if (rightButton.fell())
+    if (downButton.fell())
     {
       //Deleting last list
       showList(BLACK);
@@ -211,7 +211,7 @@ void selectPersonDialog()
       //Printing new list
       showList(WHITE);      
     }
-    rightButton.update();
+    downButton.update();
     upButton.update();
     cenButton.update();
   }

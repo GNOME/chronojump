@@ -895,15 +895,16 @@ public partial class ChronoJumpWindow
 
 		if (webcamPlay != null && webcamPlay.PlayVideoGetSecond > 0)
 		{
-
+			/*
 			event_execute_label_message.Text = string.Format ("video s: {0} force s: {1}",
 					webcamPlay.PlayVideoGetSecond,
 					webcamPlay.PlayVideoGetSecond - diffVideoVsSignal);
+			*/
 
 			force_capture_drawingarea_cairo.QueueDraw ();
 		}
 
-		Thread.Sleep (25);
+		Thread.Sleep (10);
 		LogB.Debug(webcamPlayThread.ThreadState.ToString());
 		return true;
 	}

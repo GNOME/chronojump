@@ -1,0 +1,3 @@
+The SD must be formated in a particular format.
+Kde neon or Ubuntu doesn't format the SD in with a format that can be read/written by the SD reader.
+The SDImage allows to create a 1Gb partition with the SD example data using the "dd if=Michrolab-1Gb.img of=<device>"

@@ -220,6 +220,20 @@ void selectPersonDialog()
   // Serial.println("selectPersonDialog>");
 }
 
+void selectPerson()
+{
+  //setNumber++;
+  updatePersonSet();
+  while (!cenButton.fell())
+  {
+    rightButton.update();
+    if (rightButton.fell()) {
+      updatePersonSet();
+    }
+    cenButton.update();
+  }
+}
+
 void setGroup(String parameters)
 {
   group = parameters.substring(0, parameters.lastIndexOf(";")).toInt();

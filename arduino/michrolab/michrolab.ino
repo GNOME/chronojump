@@ -84,6 +84,7 @@ int tareAddress = 0;
 int calibrationAddress = 4;
 int forceGoalAddress = 8;
 int groupAddress = 12;
+int currentCalibrationAddress = 14;
 
 
 //variables to erase the menu when going fordwards or backwars
@@ -469,6 +470,18 @@ struct raceAnalyzerType {
 raceAnalyzerType raceAnalyzerTypes[100];
 unsigned int totalRaceAnalyzerTypes = 0;
 
+// Calibration stuff
+struct calibrationType {
+  unsigned int id;
+  long tare;
+  float calibration;
+  String description;
+};
+
+calibrationType calibrations[100];
+unsigned int totalCalibrations = 0;
+unsigned int currentCalibration = 0;
+
 IntervalTimer rcaTimer;
 String fullFileName;
 File dataFile;
@@ -812,6 +825,12 @@ void serialEvent() {
     startRaceAnalyzerCapture();
   } else if (commandString == "endRaceAnalyzerCapture") {
     endRaceAnalyzerCapture();
+  } else if (commandString == "readCalibrationsFile") {
+    readCalibrationsFile();
+  } else if (commandString == "addCalibration") {
+    addCalibration(parameters);
+  } else if (commandString == "getCalibrations") {
+    printCalibrationsList();
   } else if (commandString == "getRtcTime") {
     getRtcTime();
   } else if (commandString == "setRtcTime") {
@@ -1278,4 +1297,88 @@ void updateButtons(void){
   upButton.update();
   downButton.update();
   cenButton.update();
+}
+
+void addCalibration(String row)
+{
+  int prevComaIndex = row.indexOf(":");
+  int nextComaIndex = row.indexOf(",");
+  
+  calibrations[totalCalibrations].id = row.substring(prevComaIndex + 1, nextComaIndex).toInt();
+
+  prevComaIndex = nextComaIndex;
+  nextComaIndex = row.indexOf(",", prevComaIndex + 1 );
+  calibrations[totalCalibrations].tare = row.substring(prevComaIndex + 1 , nextComaIndex).toInt();
+  
+  prevComaIndex = nextComaIndex;
+  nextComaIndex = row.indexOf(",", prevComaIndex + 1 );
+  calibrations[totalCalibrations].calibration = row.substring(prevComaIndex + 1 , nextComaIndex).toFloat();
+
+  prevComaIndex = nextComaIndex;
+  nextComaIndex = row.length() - 1; //Eliminating the last character (end of line)
+  calibrations[totalCalibrations].description = row.substring(prevComaIndex + 1 , nextComaIndex);
+
+  totalCalibrations++;
+}
+
+void readCalibrationsFile()
+{
+  /*
+    Example of calibrations file format
+    0,14241,915.00,Galga de 200kg
+    1,15000,896.00,Galga del 90-20
+  */
+  String row = "";
+  char readChar;
+  String rowString = "";
+  unsigned long pos = 0;    //Position in the file
+  String fileName = "/CONFIGS/CALIBRAT.TXT";
+  File  calibrationsFile = SD.open(fileName.c_str());
+  currentCalibration = 0;
+
+  //Checking that the file is read
+  if (!calibrationsFile) {
+    Serial.println("error opening " + fileName);
+    return;
+  }
+
+  calibrationsFile.seek(0);
+  totalCalibrations = 0;
+
+  // read from the file until there's nothing else in it:
+  while ( pos <= calibrationsFile.size() )
+  {
+    readChar = '0';
+    rowString = "";
+
+    //Reading the new row
+    while (readChar != '\n' && readChar != '\r' && pos <= calibrationsFile.size())
+    {
+      readChar = calibrationsFile.read();
+      rowString = rowString + readChar;
+      pos++;
+    }
+
+    if ( isDigit(rowString[0]) )
+    {
+      addCalibration(rowString);
+    }
+  }
+  // close the file:
+  calibrationsFile.close();
+}
+
+void printCalibrationsList()
+{
+  Serial.println("Current calibration:" + String(calibrations[currentCalibration].id));
+  for (unsigned int i = 0; i < totalCalibrations; i++)
+  {
+    Serial.print(calibrations[i].id);
+    Serial.print(",");
+    Serial.print(calibrations[i].tare);
+    Serial.print(",");
+    Serial.print(calibrations[i].calibration);
+    Serial.print(",");
+    Serial.println(calibrations[i].description);
+  }
 }

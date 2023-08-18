@@ -167,6 +167,7 @@ float selectValueDialog(String description, String rangesString, String incStrin
   //From 10..500 increment by 10
   //increments must have the number of ranges elements -1
   //Maximum number of ranges is 10 (11 key values)
+
   int prevColon = 0;
   int nextColon = rangesString.indexOf(",");
   unsigned int rangesNum = 0;
@@ -204,6 +205,7 @@ float selectValueDialog(String description, String rangesString, String incStrin
   float value = rangesValues[0];
   submenu = 0;
   int currentSegment = 1;
+  int nextSegment = 0;
   bool exitFlag = false;
   //Delete description
   tft.fillRect(0, 50, 320, 190, BLACK);
@@ -226,59 +228,38 @@ float selectValueDialog(String description, String rangesString, String incStrin
   //Current value
   printTftText("Current:", 100, 174);
   printTftValue(value, 236, 174, 2, 0);
-  cenButton.update();
-  rightButton.update();
-  leftButton.update();
+  updateButtons();
   
   while (!exitFlag) {
 
-    //Selecting the force goal
-    //TODO: Allow coninuous increasing by keeping pressed the button
-    if (rightButton.fell()) {
+    if ( leftButton.fell() || rightButton.fell() ) {
       printTftValue(value, 236, 174, 2, decimals, BLACK);
-      
-      value += incValues[currentSegment - 1];
-      if (abs(value -  rangesValues[rangesNum] - incValues[currentSegment - 1]) < 0.0001) {
-        printTftValue(value, 236, 174, 2, decimals, BLACK);
-        value = rangesValues[0];
-        currentSegment = 1;
-        drawLeftButton("+" + String(incValues[currentSegment - 1], decimals), WHITE, RED);
-      }
-      //Sometimes float values are not exatcly the expected one
-      if (abs(value - rangesValues[currentSegment]) < 0.0001)
-      {
-        currentSegment++;
+
+      if (rightButton.fell()) value += incValues[currentSegment - 1];
+      if (leftButton.fell()) value -= incValues[currentSegment - 1];
+
+      //Limit the value to the minimum and maximum
+      if ( value <= rangesValues[0] ) value = rangesValues[0];
+      if ( value >= rangesValues[rangesNum] ) value = rangesValues[rangesNum];
+
+       //Value reached the lower limit of the range
+      if ( value <= rangesValues[currentSegment - 1] && currentSegment > 0) nextSegment = currentSegment - 1;
+
+      //Value reached the upper limit of the range
+      if (value >= rangesValues[currentSegment] && currentSegment < rangesNum) nextSegment = currentSegment + 1;
+
+      //Updating segment
+      if (nextSegment != 0) {
+        drawLeftButton("-" + String(incValues[currentSegment - 1], decimals), BLACK, RED);
+        drawRightButton("+" + String(incValues[currentSegment - 1], decimals), BLACK, BLUE);
+        currentSegment = nextSegment;
+        nextSegment = 0;
         drawLeftButton("-" + String(incValues[currentSegment - 1], decimals), WHITE, RED);
         drawRightButton("+" + String(incValues[currentSegment - 1], decimals), WHITE, BLUE);
       }
       printTftValue(value, 236, 174, 2, decimals);
     }
     
-    //TODO: Allow coninuous increasing by keeping pressed the button
-    if (leftButton.fell()) {
-      printTftValue(value, 236, 174, 2, decimals, BLACK);
-      
-      value -= incValues[currentSegment - 1];
-      if (abs(value -  rangesValues[rangesNum] - incValues[currentSegment - 1]) < 0.0001) {
-        printTftValue(value, 236, 174, 2, decimals, BLACK);
-        value = rangesValues[0];
-        currentSegment = 1;
-        drawLeftButton("-" + String(incValues[currentSegment - 1], decimals), WHITE, RED);
-        drawRightButton("+" + String(incValues[currentSegment - 1], decimals), WHITE, BLUE);
-        //Meter aquí el "- " y mismo decrecimiento
-      }
-      //Sometimes float values are not exatcly the expected one
-      if (abs(value - rangesValues[currentSegment]) < 0.0001)
-      {
-        currentSegment++;
-        drawLeftButton("+" + String(incValues[currentSegment - 1], decimals), WHITE, BLUE);
-      }
-      if (value < 0 || value == 0) {
-        value = 0;
-      }
-      printTftValue(value, 236, 174, 2, decimals);
-    }
-
     //Change to Calibrate execution
     if (cenButton.fell()) {
       //Deleting explanation
@@ -287,11 +268,8 @@ float selectValueDialog(String description, String rangesString, String incStrin
       submenu = 1;
       exitFlag = true;
     }
-    //Waiting the red button push to start calibration process
-    cenButton.update();
-    rightButton.update();
-    leftButton.update();
 
+    updateButtons();
   }
   return value;
 }

@@ -59,13 +59,7 @@ void drawMenuBackground() {
 //Set the currentMenu to systemMenu and shows it
 void showSystemMenu(void)
 {
-  /*
-  if (!selectExerciseType(jumps) || !selectExerciseType(inertial) || !selectExerciseType(force) || !selectExerciseType(encoderRace)) 
-  {
-    //Try adding showmenu & backmenu functions    
-    return;
-  }
-  */  
+  // Serial.println("<showSystemMenu");
   drawMenuBackground();
   currentMenuIndex = 0;
   for (int i = 0; i < 10; i++) {
@@ -78,15 +72,17 @@ void showSystemMenu(void)
   //showMenuEntry(currentMenuIndex);
   showSystemEntry(currentMenuIndex);
   //showMenu();
+
+  // Serial.println("showSystemMenu>");
 }
 
 void showSystemEntry(unsigned int currentMenuIndex)
 {
+  // Serial.println("<showSystemEntry");
   tft.fillRect(30, 0, 260, 50, BLACK);
   printTftText(currentMenu[currentMenuIndex].title, 40, 20, WHITE, 3);
   //This erases the last index description
-  rightButton.update();
-  leftButton.update();
+  updateButtons();
   Serial.println(systemMenuItems);  
   if (rightButtonPressed) {
     printTftText(currentMenu[(currentMenuIndex + systemMenuItems - 1) % systemMenuItems].description, 12, 100, BLACK);   
@@ -98,7 +94,8 @@ void showSystemEntry(unsigned int currentMenuIndex)
   rightButton.update();
   leftButton.update();
   Serial.println(currentMenuIndex);
-  printTftText(currentMenu[currentMenuIndex].description, 12, 100); 
+  printTftText(currentMenu[currentMenuIndex].description, 12, 100);
+  // Serial.println("showSystemEntry>");
 }
 
 //shows the current entry of the current menu
@@ -346,4 +343,60 @@ unsigned int selectPreviousItem (int currentExerciseType, int arrayElements)
 {
   currentExerciseType = (currentExerciseType - 1 + arrayElements) % arrayElements;
   return currentExerciseType;
+}
+
+void selectLoadCellDialog()
+{
+  // Serial.println("<selectLoadCellDialog");
+  readCalibrationsFile();
+  tft.fillScreen(BLACK);
+  printTftText("Sel. load cell", 40, 20, WHITE, 3);
+  for (int i = -3; i <= 3; i++)
+  {
+    textList[i+3] = String( calibrations[ (currentCalibration + i + totalCalibrations) % totalCalibrations].id )
+    + "-"
+    + calibrations[ (currentCalibration + i + totalCalibrations) % totalCalibrations].description;
+  }
+  
+  //showPersonList(WHITE);
+  showList(WHITE);
+
+  //drawLeftButton("Next", WHITE, BLUE);
+  //drawRightButton("Accept", WHITE, RED);
+
+  updateButtons();
+  while (!cenButton.fell() )
+  {
+    //If selection changed delete list
+    if (downButton.fell() || upButton.fell() )
+    {
+      //Deleting last list
+      showList(BLACK);
+    }
+    //update selection depending on the button pressed
+    if (downButton.fell() ) currentCalibration = ( currentCalibration + 1) % totalCalibrations;
+    if (upButton.fell() ) currentCalibration = ( currentCalibration -1 ) % totalCalibrations;
+
+    for (int i = -3; i <= 3; i++)
+    {
+      textList[i+3] = String( calibrations[ (currentCalibration + i + totalCalibrations) % totalCalibrations].id )
+      + "-"
+      + calibrations[ (currentCalibration + i + totalCalibrations) % totalCalibrations].description;
+    }
+    //If selection changed show the new list
+    if (downButton.fell() || upButton.fell() )
+    {
+      showList(WHITE);
+    }
+    updateButtons();
+  }
+  scale.set_scale(calibrations[currentCalibration].calibration);
+  scale.set_offset(calibrations[currentCalibration].tare);
+  EEPROM.put(tareAddress, calibrations[currentCalibration].tare);
+  EEPROM.put(calibrationAddress, calibrations[currentCalibration].calibration);
+  drawMenuBackground();
+  showMenuEntry(currentMenuIndex);
+  // Serial.print("Current calibration: ");
+  // Serial.println(currentCalibration);
+  // Serial.println("selectLoadCellDialog>");
 }

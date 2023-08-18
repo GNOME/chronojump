@@ -106,6 +106,9 @@ public partial class ChronoJumpWindow
 		hscale_ai_c.Value = 0;
 		hscale_ai_d.Value = 0;
 
+		AiVars.chainedDiffAtStartAB = 0;
+		AiVars.chainedDiffAtStartCD = 0;
+
 		button_ai_model_options_close_and_analyze.Sensitive = false;
 	}
 
@@ -444,71 +447,88 @@ public partial class ChronoJumpWindow
 		Gtk.HScale hs = (Gtk.HScale) o;
 
 		if (check_force_sensor_ai_chained_hscales.Active)
-		{
-			bool isLeft; //A or C
-			Gtk.HScale hsRelated ; //if A then B, if D then C
-			int last;
-			int previousDiffWithRelated;
-			if (hs == hscale_ai_a)
-			{
-				isLeft = true; //A or C
-				hsRelated = hscale_ai_b; //if A then B, if D then C
-				last = AiVars.a_last;
-				previousDiffWithRelated = AiVars.b_last - AiVars.a_last;
-			}
-			else if (hs == hscale_ai_b)
-			{
-				isLeft = false;
-				hsRelated = hscale_ai_a;
-				last = AiVars.b_last;
-				previousDiffWithRelated = AiVars.b_last - AiVars.a_last;
-			}
-			else if (hs == hscale_ai_c)
-			{
-				isLeft = true;
-				hsRelated = hscale_ai_d;
-				last = AiVars.c_last;
-				previousDiffWithRelated = AiVars.d_last - AiVars.c_last;
-			}
-			else //if (hs == hscale_ai_d)
-			{
-				isLeft = false;
-				hsRelated = hscale_ai_c;
-				last = AiVars.d_last;
-				previousDiffWithRelated = AiVars.d_last - AiVars.c_last;
-			}
-
-			if (! AiVars.hscalesDoNotFollow)
-			{
-				AiVars.hscalesDoNotFollow = true;
-				int diffWithPrevious = Convert.ToInt32 (hs.Value) - last;
-				if (isLeft && Convert.ToInt32 (hsRelated.Value) + diffWithPrevious >= sAI.GetLength() -1)
-				{
-					hsRelated.Value = sAI.GetLength () -1;
-					hs.Value = hsRelated.Value - previousDiffWithRelated;
-				}
-				else if (! isLeft && Convert.ToInt32 (hsRelated.Value) + diffWithPrevious <= 0)
-				{
-					hsRelated.Value = 0;
-					hs.Value = hsRelated.Value + previousDiffWithRelated;
-				}
-				else
-					hsRelated.Value += diffWithPrevious;
-
-				AiVars.hscalesDoNotFollow = false;
-			}
-
-			if (hs == hscale_ai_a)
-				AiVars.b_last = Convert.ToInt32 (hsRelated.Value);
-			else if (hs == hscale_ai_b)
-				AiVars.a_last = Convert.ToInt32 (hsRelated.Value);
-			else if (hs == hscale_ai_c)
-				AiVars.d_last = Convert.ToInt32 (hsRelated.Value);
-			else if (hs == hscale_ai_d)
-				AiVars.c_last = Convert.ToInt32 (hsRelated.Value);
-		}
+			hscale_ai_value_changed_chained (sAI, hs);
 
 		hscale_ai_value_changed_do (sAI, hs);
+	}
+
+	private void hscale_ai_value_changed_chained (AnalyzeInstant sAI, Gtk.HScale hs)
+	{
+		if (AiVars.hscalesDoNotFollow)
+			return;
+
+		LogB.Information ("hscale_ai_value_changed_chained 0");
+		bool isLeft; //A or C
+		Gtk.HScale hsRelated ; //if A then B, if D then C
+		int previousDiffWithRelated;
+		double previousDiffTimeWithRelated; //used on race analyzer because the samples are not uniform
+		if (hs == hscale_ai_a)
+		{
+			isLeft = true; //A or C
+			hsRelated = hscale_ai_b; //if A then B, if D then C
+			previousDiffWithRelated = Convert.ToInt32 (AiVars.chainedDiffAtStartAB);
+			previousDiffTimeWithRelated = AiVars.chainedDiffAtStartAB;
+		}
+		else if (hs == hscale_ai_b)
+		{
+			isLeft = false;
+			hsRelated = hscale_ai_a;
+			previousDiffWithRelated = -Convert.ToInt32 (AiVars.chainedDiffAtStartAB);
+			previousDiffTimeWithRelated = -AiVars.chainedDiffAtStartAB;
+		}
+		else if (hs == hscale_ai_c)
+		{
+			isLeft = true;
+			hsRelated = hscale_ai_d;
+			previousDiffWithRelated = Convert.ToInt32 (AiVars.chainedDiffAtStartCD);
+			previousDiffTimeWithRelated = AiVars.chainedDiffAtStartCD;
+		}
+		else //if (hs == hscale_ai_d)
+		{
+			isLeft = false;
+			hsRelated = hscale_ai_c;
+			previousDiffWithRelated = -Convert.ToInt32 (AiVars.chainedDiffAtStartCD);
+			previousDiffTimeWithRelated = -AiVars.chainedDiffAtStartCD;
+		}
+
+		AiVars.hscalesDoNotFollow = true;
+
+		if (Constants.ModeIsFORCESENSOR (current_mode))
+		{
+			if (isLeft && Convert.ToInt32 (hs.Value) + previousDiffWithRelated >= sAI.GetLength() -1)
+			{
+				hsRelated.Value = sAI.GetLength () -1;
+				hs.Value = hsRelated.Value - Math.Abs (previousDiffWithRelated);
+			}
+			else if (! isLeft && Convert.ToInt32 (hs.Value) + previousDiffWithRelated <= 0)
+			{
+				hsRelated.Value = 0;
+				hs.Value = hsRelated.Value + Math.Abs (previousDiffWithRelated);
+			}
+			else
+				hsRelated.Value = hs.Value + previousDiffWithRelated;
+		}
+		else { //if (current_mode == Constants.Modes.RUNSENCODER)
+			if (isLeft && UtilAll.DivideSafe (sAI.GetTimeMS (Convert.ToInt32(hs.Value)) + previousDiffTimeWithRelated, 1000) > PointF.Last (sAI.P_l).X)
+			{
+				hsRelated.Value = sAI.GetLength () -1;
+				hs.Value = PointF.FindSampleCloseToTime (sAI.P_l,
+						UtilAll.DivideSafe (sAI.GetTimeMS (Convert.ToInt32 (hsRelated.Value)) - Math.Abs (previousDiffTimeWithRelated), 1000)); //ms to s
+			} else if (! isLeft && UtilAll.DivideSafe (sAI.GetTimeMS (Convert.ToInt32(hs.Value)) + previousDiffTimeWithRelated, 1000) <= 0)
+			{
+				hsRelated.Value = 0;
+				hs.Value = PointF.FindSampleCloseToTime (sAI.P_l,
+						UtilAll.DivideSafe (sAI.GetTimeMS (Convert.ToInt32 (hsRelated.Value)) + Math.Abs (previousDiffTimeWithRelated), 1000)); //ms to s
+			} else {
+				int relatedSampleWillBe = PointF.FindSampleCloseToTime (sAI.P_l,
+						UtilAll.DivideSafe (sAI.GetTimeMS (Convert.ToInt32(hs.Value)) + previousDiffTimeWithRelated, 1000)); //ms to s
+				hsRelated.Value = relatedSampleWillBe;
+			}
+		}
+
+		AiVars.hscalesDoNotFollow = false;
+
+		LogB.Information ("hscale_ai_value_changed_chained end");
 	}
 
 	//can be convinient to call it directly
@@ -631,17 +651,7 @@ public partial class ChronoJumpWindow
 		}
 
 		//LogB.Information (string.Format ("on_hscale_ai_value_changed {0} 3", hscaleToDebug));
-		// update AiVars.a_last, ...
-		if (hs == hscale_ai_a)
-			AiVars.a_last = Convert.ToInt32 (hs.Value);
-		else if (hs == hscale_ai_b)
-			AiVars.b_last = Convert.ToInt32 (hs.Value);
-		else if (hs == hscale_ai_c)
-			AiVars.c_last = Convert.ToInt32 (hs.Value);
-		else if (hs == hscale_ai_d)
-			AiVars.d_last = Convert.ToInt32 (hs.Value);
 
-		//LogB.Information (string.Format ("on_hscale_ai_value_changed {0} 6", hscaleToDebug));
 		if (AiVars.hscalesDoNotFollow)
 		{
 			AiVars.hscalesDoNotFollow = false;
@@ -683,13 +693,25 @@ public partial class ChronoJumpWindow
 		// 8. refresh graph
 		ai_drawingarea_cairo.QueueDraw(); //will fire ExposeEvent
 
-		LogB.Information (string.Format ("on_hscale_ai_value_changed {0} 8", hscaleToDebug));
+		LogB.Information (string.Format ("on_hscale_ai_value_changed {0} end", hscaleToDebug));
 	}
 
 	private void on_check_force_sensor_ai_chained_hscales_clicked (object o, EventArgs args)
 	{
 		image_force_sensor_ai_chained_hscales_link.Visible = check_force_sensor_ai_chained_hscales.Active;
 		image_force_sensor_ai_chained_hscales_link_off.Visible = ! check_force_sensor_ai_chained_hscales.Active;
+
+		if (Constants.ModeIsFORCESENSOR (current_mode))
+		{
+			AiVars.chainedDiffAtStartAB = hscale_ai_b.Value - hscale_ai_a.Value;
+			AiVars.chainedDiffAtStartCD = hscale_ai_d.Value - hscale_ai_c.Value;
+		} else //if (current_mode == Constants.Modes.RUNSENCODER)
+		{
+			AiVars.chainedDiffAtStartAB = raAI_AB.GetTimeMS (Convert.ToInt32 (hscale_ai_b.Value))
+				- raAI_AB.GetTimeMS (Convert.ToInt32 (hscale_ai_a.Value));
+			AiVars.chainedDiffAtStartCD = raAI_CD.GetTimeMS (Convert.ToInt32 (hscale_ai_d.Value))
+				- raAI_CD.GetTimeMS (Convert.ToInt32 (hscale_ai_c.Value));
+		}
 	}
 
 	private void forceSensorAnalyzeGeneralButtonHscaleZoomSensitiveness()
@@ -1065,11 +1087,10 @@ public static class AiVars
 	public static int d_beforeZoom = 0;
 	public static int d_atZoom = 0;
 
-	//to know change of slider in order to apply on the other slider if chained
-	public static int a_last = 1;
-	public static int b_last = 1;
-	public static int c_last = 1;
-	public static int d_last = 1;
+	// on forceSensor diff is samples, on raceAnalyzer is time as here is lot variable
+	// double because raceAnalyzer time is returned (or stored) as double
+	public static double chainedDiffAtStartAB;
+	public static double chainedDiffAtStartCD;
 }
 
 //SignalAbstract

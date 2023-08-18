@@ -226,8 +226,8 @@ int mainMenuItems = 8;
 menuEntry systemMenu[10] {
   { "Group", "Select the group you are going to use.\nUp to 9 groups can be\nselected", &selectGroup},
   { "Tare", "Set the offset of the\nsensor.", &tare },
-  { "Sel. load cell", "Select from a list of \nload cells. It allows to \nsave the calibrations", &selectLoadCellDialog},
   { "Calibrate", "Set the equivalence\nbetween the sensor values\nand the force measured.", &calibrateTFT },
+  { "Sel. load cell", "Select from a list of \nload cells. It allows to \nsave the calibrations", &selectLoadCellDialog},
   { "Force Goal", "Set the goal force for\nsteadiness measurements.", &setForceGoal },
   { "Inert. Calib.", "Set the Exact point in which the concentric phase ends", &calibrateInertial},
   { "Info", "Hardware, firmware and config information.", &showSystemInfo },

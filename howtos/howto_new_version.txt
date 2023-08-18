@@ -178,6 +178,10 @@ windows stuff
 It changed on: 27 Apr 2021!!
 because windows compile machine has cerbero with python2 and we do not want to break stuff installing python3
 
+update ffmpeg, ffplay, ffprobe:
+https://www.gyan.dev/ffmpeg/builds/
+download ffmpeg-release-essentials.7z uncompress, copy to win32/deps/bin
+
 on my local laptop:
 
 cp src/chronojump-importer/py2exec_chronojump_importer.py ~/informatica/virtualbox_windows_shared/

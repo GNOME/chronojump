@@ -371,10 +371,10 @@ public class WebcamFfmpegSupportedModesWindows : WebcamFfmpegSupportedModes
 		}
 
 		string executable;
-		if(System.Environment.Is64BitProcess)
+		//if(System.Environment.Is64BitProcess)
 			executable = System.IO.Path.Combine(Util.GetPrefixDir(), "bin/ffmpeg.exe");
-		else
-			executable = System.IO.Path.Combine(Util.GetPrefixDir(), "bin/i386/ffmpeg.exe");
+		//else
+		//	executable = System.IO.Path.Combine(Util.GetPrefixDir(), "bin/i386/ffmpeg.exe");
 		//ffmpeg -f dshow -list_options true -i video="USB 2.0 WebCamera"
 		List<string> parameters = new List<string>();
 		parameters.Add("-f");

@@ -1842,10 +1842,10 @@ public class Util
 				pBin="ffplay";
 				if(operatingSystem == UtilAll.OperatingSystems.WINDOWS)
 				{
-					if(System.Environment.Is64BitProcess)
+					//if(System.Environment.Is64BitProcess)
 						pBin = System.IO.Path.Combine(Util.GetPrefixDir(), "bin/ffplay.exe");
-					else
-						pBin = System.IO.Path.Combine(Util.GetPrefixDir(), "bin/i386/ffplay.exe");
+					//else
+					//	pBin = System.IO.Path.Combine(Util.GetPrefixDir(), "bin/i386/ffplay.exe"); i386 is no longer updated/included
 				}
 				else if(operatingSystem == UtilAll.OperatingSystems.MACOSX)
 					pBin = System.IO.Path.Combine(Util.GetPrefixDir(), "bin/ffplay");

@@ -293,10 +293,10 @@ public class WebcamFfmpegGetDevicesWindows : WebcamFfmpegGetDevicesWinMac
 	public WebcamFfmpegGetDevicesWindows()
 	{
 		initialize();
-		if(System.Environment.Is64BitProcess)
+		//if(System.Environment.Is64BitProcess)
 			executable = System.IO.Path.Combine(Util.GetPrefixDir(), "bin/ffmpeg.exe");
-		else
-			executable = System.IO.Path.Combine(Util.GetPrefixDir(), "bin/i386/ffmpeg.exe");
+		//else
+		//	executable = System.IO.Path.Combine(Util.GetPrefixDir(), "bin/i386/ffmpeg.exe");
 		videoDevString = "DirectShow video devices";
 		audioDevString = "DirectShow audio devices";
 	}

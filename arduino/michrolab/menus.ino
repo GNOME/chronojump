@@ -155,6 +155,38 @@ void drawLeftButton(int x, int y, String label, uint16_t tColor, uint16_t bColor
   }
 }
 
+
+void drawUpDownButton(void) { drawUpDownButton(0, 206, "", WHITE, BLACK); }
+void drawUpDownButton(String label) {drawUpDownButton(0, 206, label, WHITE, BLACK); }
+void drawUpDownButton(String label, uint16_t tColor) {drawUpDownButton(0, 206, label, tColor, BLACK); }
+void drawUpDownButton(String label, uint16_t tColor, uint16_t bColor) {drawUpDownButton(0, 206, label, tColor, bColor); }
+void drawUpDownButton(int x, int y) { drawUpDownButton(x, y, "", WHITE, BLACK); }
+void drawUpDownButton(int x, int y, String label) { drawUpDownButton(x, y, label, WHITE, BLACK); }
+void drawUpDownButton(int x, int y, String label, uint16_t tColor) { drawUpDownButton(x, y, label, tColor, BLACK); }
+void drawUpDownButton(int x, int y, String label, uint16_t tColor, uint16_t bColor)
+{
+  tft.writeRect(x, y, 25, 25, (uint16_t*)upDown);
+  if (label.length() > 0) {
+    printTftText(label, x + 26, y+6, tColor, 2);
+  }
+}
+
+void drawLeftRightButton(void) { drawLeftRightButton(0, 206, "", WHITE, BLACK); }
+void drawLeftRightButton(String label) {drawLeftRightButton(0, 206, label, WHITE, BLACK); }
+void drawLeftRightButton(String label, uint16_t tColor) {drawLeftRightButton(0, 206, label, tColor, BLACK); }
+void drawLeftRightButton(String label, uint16_t tColor, uint16_t bColor) {drawLeftRightButton(0, 206, label, tColor, bColor); }
+void drawLeftRightButton(int x, int y) { drawLeftRightButton(x, y, "", WHITE, BLACK); }
+void drawLeftRightButton(int x, int y, String label) { drawLeftRightButton(x, y, label, WHITE, BLACK); }
+void drawLeftRightButton(int x, int y, String label, uint16_t tColor) { drawLeftRightButton(x, y, label, tColor, BLACK); }
+void drawLeftRightButton(int x, int y, String label, uint16_t tColor, uint16_t bColor)
+{
+  tft.writeRect(x, y, 25, 25, (uint16_t*)leftRight);
+  if (label.length() > 0) {
+    printTftText(label, x + 26, y+6, tColor, 2);
+  }
+}
+
+
 //Dialog for selecting float value
 float selectValueDialog(String description, String rangesString, String incString) {
   return selectValueDialog(description, rangesString, incString,0);

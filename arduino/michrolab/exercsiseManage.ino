@@ -402,8 +402,9 @@ bool selectExerciseType(exerciseType mode)
 {
   // Serial.println("<selectExerciseType");
   tft.fillScreen(BLACK); 
-  drawLeftButton("Prev", WHITE, RED);
-  drawRightButton("Next", WHITE, BLUE);
+  drawLeftButton(0, 20, "", BLACK, BLACK);
+  drawRightButton(295, 20, "", BLACK, BLACK);
+  drawUpDownButton(20,65, "", BLACK, BLACK);
 
   if (mode == jumps) {
     printTftText("Jump type", 40, 20, WHITE, 3);

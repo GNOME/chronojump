@@ -293,8 +293,10 @@ long tareValue = 0;
 //Images of the multidirectional switch
 #include "IMGS/left.c"
 #include "IMGS/right.c"
+#include "IMGS/leftRight.c"
 #include "IMGS/up.c"
 #include "IMGS/down.c"
+#include "IMGS/upDown.c"
 #include "IMGS/all.c"
 #include "IMGS/center.c"
 

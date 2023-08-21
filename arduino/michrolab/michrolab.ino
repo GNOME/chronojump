@@ -467,6 +467,7 @@ String textList[7] = {"First", "Second", "Thirth", "Fourth", "Fifth", "Sixtth", 
 
 void setup() {
 
+  SPI.beginTransaction(SPISettings(200000000, MSBFIRST, SPI_MODE0));
   //Real time clock sync with the temp clock
   setSyncProvider(getTeensy3Time);
   //Attention: some SD cards fails to initalize after uploading the firmware
@@ -705,6 +706,9 @@ void serialEvent() {
   if (commandString == "start_capture") {
     PcControlled = true;
     startLoadCellCapture();
+  } else if (commandString == "start_gravity_capture") {
+    PcControlled = true;
+    startGravitEncoderCapture();
     //captureRaw();
   } else if (commandString == "end_capture") {
     endLoadCellCapture();
@@ -1465,19 +1469,15 @@ void writeCaptureHeaders()
 //text mode
 void saveEncoderSpeed()
 {
-  long position = encoder.read();
-  String currentValue = String(position - lastSamplePosition) + ",";
-
+  position = encoder.read();
   if (PcControlled) {
-    Serial.print(currentValue);
+    encoderFlag = true;
+    fileBuffer = String(position - lastSamplePosition) + ",";
   } else {
-    fileBuffer = fileBuffer + currentValue;
+    fileBuffer = fileBuffer + String(position - lastSamplePosition) + ",";
     sampleNum++;
-    if (sampleNum >= 100) {
-      dataFile.print(fileBuffer);
-      Serial.println(fileBuffer);
-      fileBuffer = "";
-      sampleNum = 0;
+    if (sampleNum >= 10) {
+      encoderFlag = true;
     }
   }
   lastSamplePosition = position;
@@ -1501,15 +1501,17 @@ void saveEncoderSpeed()
 void getEncoderDynamics()
 {
   int duration = totalTime - lastMeasuredTime;
-  if (duration >= 1000)
+  if (encoderFlag)
   {
+    measured = position - lastSamplePosition;
     lastMeasuredTime = totalTime;
+    encoderFlag = false;
 
-    long position = encoder.read();
+    if( PcControlled ) Serial.println(fileBuffer);
 
     //TODO: Calculate positoion depending on the parameters of the encoder/machine
     if (inertialMode) position = - abs(position);
-    measured = (float)(position - lastPosition) * 1000 / (duration);
+    measured = (float)(position - lastPosition);
     if (measured > measuredMax) measuredMax = measured;
     //measured = position;
     //    if(position != lastPosition) Serial.println(String(localMax) + "\t" + String(lastPosition) +
@@ -1568,6 +1570,9 @@ void getEncoderDynamics()
     lastPosition = position;
     lastVelocity = measured;
     //Serial.println(String(measured) + "\t" + String(accel));
+    if ( !PcControlled ) dataFile.println(fileBuffer);
+    fileBuffer = "";
+    sampleNum = 0;
   }
 }
 
@@ -1642,6 +1647,7 @@ void endEncoderCapture()
   encoderTimer.end();
   numRepetitions = ceil((float)(numRepetitions / 2));
   sensor = none;
+  PcControlled = false;
   Serial.println("Capture ended:");
   dataFile.close();
   //If the device is controlled by the PC the results menu is not showed

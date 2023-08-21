@@ -7,7 +7,7 @@
    viewBox="0 0 210 297"
    version="1.1"
    id="svg5"
-   inkscape:export-filename="/home/xpadulles/Baixades/left.png"
+   inkscape:export-filename="/home/xpadulles/Baixades/leftRight.png"
    inkscape:export-xdpi="6.3484459"
    inkscape:export-ydpi="6.3484459"
    inkscape:version="1.1.2 (0a00cf5339, 2022-02-04)"
@@ -29,11 +29,11 @@
      showguides="true"
      inkscape:guide-bbox="true"
      inkscape:zoom="1.1224747"
-     inkscape:cx="251.2306"
-     inkscape:cy="450.34421"
+     inkscape:cx="434.75367"
+     inkscape:cy="450.34423"
      inkscape:window-width="1920"
      inkscape:window-height="1007"
-     inkscape:window-x="1920"
+     inkscape:window-x="0"
      inkscape:window-y="0"
      inkscape:window-maximized="1"
      inkscape:current-layer="layer1"
@@ -138,55 +138,59 @@
      inkscape:label="Capa 1"
      inkscape:groupmode="layer"
      id="layer1">
-    <rect
-       style="fill:#000001;fill-opacity:1;stroke:#000001;stroke-width:2.48463;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       id="rect4660"
-       width="97.515373"
-       height="97.515366"
-       x="-155.24329"
-       y="31.482485"
-       inkscape:export-filename="/home/xpadulles/Baixades/down.png"
-       inkscape:export-xdpi="6.3226366"
-       inkscape:export-ydpi="6.3226366"
-       transform="rotate(-90)" />
-    <path
-       style="fill:#666666;fill-opacity:1;stroke:#666666;stroke-width:2.7227;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#Arrow2Lend-3)"
-       d="M 80.215678,106.91866 H 34.767238"
-       id="path1572-7"
-       inkscape:export-filename="/home/xpadulles/Baixades/down.png"
-       inkscape:export-xdpi="6.3226366"
-       inkscape:export-ydpi="6.3226366" />
-    <path
-       style="fill:none;fill-opacity:1;stroke:#ff0000;stroke-width:2.72236;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#Arrow2Lend-3-5)"
-       d="M 80.215678,106.91866 V 152.3674"
-       id="path1572-7-5"
-       inkscape:export-filename="/home/xpadulles/Baixades/down.png"
-       inkscape:export-xdpi="6.3226366"
-       inkscape:export-ydpi="6.3226366" />
-    <path
-       style="fill:#666666;fill-opacity:1;stroke:#666666;stroke-width:2.7227;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#Arrow2Lend-3-5-6)"
-       d="M 80.215678,106.91866 H 125.66414"
-       id="path1572-7-5-9"
-       inkscape:export-filename="/home/xpadulles/Baixades/down.png"
-       inkscape:export-xdpi="6.3226366"
-       inkscape:export-ydpi="6.3226366" />
-    <path
-       style="fill:#666666;fill-opacity:1;stroke:#666666;stroke-width:2.7227;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#Arrow2Lend)"
-       d="M 80.215678,106.91866 V 61.469915"
-       id="path1572"
-       inkscape:export-filename="/home/xpadulles/Baixades/down.png"
-       inkscape:export-xdpi="6.3226366"
-       inkscape:export-ydpi="6.3226366" />
-    <ellipse
-       style="fill:#666666;fill-opacity:1;stroke:#666666;stroke-width:6.92664;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       id="path1866"
-       cx="-106.91867"
-       cy="80.215683"
-       inkscape:export-filename="/home/xpadulles/Baixades/down.png"
-       inkscape:export-xdpi="6.3226366"
-       inkscape:export-ydpi="6.3226366"
-       rx="9.925312"
-       ry="9.9252472"
-       transform="rotate(-90)" />
+    <g
+       id="g883"
+       transform="rotate(-90,80.240168,106.4856)">
+      <rect
+         style="fill:#000001;fill-opacity:1;stroke:#000001;stroke-width:2.48463;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         id="rect4660"
+         width="97.515373"
+         height="97.515366"
+         x="-155.24329"
+         y="31.482485"
+         inkscape:export-filename="/home/xpadulles/Baixades/down.png"
+         inkscape:export-xdpi="6.3226366"
+         inkscape:export-ydpi="6.3226366"
+         transform="rotate(-90)" />
+      <path
+         style="fill:#666666;fill-opacity:1;stroke:#666666;stroke-width:2.7227;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#Arrow2Lend-3)"
+         d="M 80.215678,106.91866 H 34.767238"
+         id="path1572-7"
+         inkscape:export-filename="/home/xpadulles/Baixades/down.png"
+         inkscape:export-xdpi="6.3226366"
+         inkscape:export-ydpi="6.3226366" />
+      <path
+         style="fill:none;fill-opacity:1;stroke:#ff0000;stroke-width:2.72236;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#Arrow2Lend-3-5)"
+         d="M 80.215678,106.91866 V 152.3674"
+         id="path1572-7-5"
+         inkscape:export-filename="/home/xpadulles/Baixades/down.png"
+         inkscape:export-xdpi="6.3226366"
+         inkscape:export-ydpi="6.3226366" />
+      <path
+         style="fill:#666666;fill-opacity:1;stroke:#666666;stroke-width:2.7227;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#Arrow2Lend-3-5-6)"
+         d="M 80.215678,106.91866 H 125.66414"
+         id="path1572-7-5-9"
+         inkscape:export-filename="/home/xpadulles/Baixades/down.png"
+         inkscape:export-xdpi="6.3226366"
+         inkscape:export-ydpi="6.3226366" />
+      <path
+         style="fill:#666666;fill-opacity:1;stroke:#ff0000;stroke-width:2.7227;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#Arrow2Lend)"
+         d="M 80.215678,106.91866 V 61.469915"
+         id="path1572"
+         inkscape:export-filename="/home/xpadulles/Baixades/down.png"
+         inkscape:export-xdpi="6.3226366"
+         inkscape:export-ydpi="6.3226366" />
+      <ellipse
+         style="fill:#666666;fill-opacity:1;stroke:#666666;stroke-width:6.92664;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         id="path1866"
+         cx="-106.91867"
+         cy="80.215683"
+         inkscape:export-filename="/home/xpadulles/Baixades/down.png"
+         inkscape:export-xdpi="6.3226366"
+         inkscape:export-ydpi="6.3226366"
+         rx="9.925312"
+         ry="9.9252472"
+         transform="rotate(-90)" />
+    </g>
   </g>
 </svg>

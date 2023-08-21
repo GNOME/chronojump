@@ -236,7 +236,7 @@ float selectValueDialog(String description, String rangesString, String incStrin
 
   float value = rangesValues[0];
   submenu = 0;
-  int currentSegment = 1;
+  unsigned int currentSegment = 1;
   int nextSegment = 0;
   bool exitFlag = false;
   //Delete description

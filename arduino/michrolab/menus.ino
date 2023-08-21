@@ -1,4 +1,17 @@
+void drawUpperBar()
+{
+  int x = 0;
+  int y = 0;
+  String menuEntries[mainMenuItems] = {"J", "RW", "LV", "IV", "RA", "RP", "FS", "S"};
 
+  tft.fillRect(0,0,320,15,BLUE);
+  tft.fillRect(currentMenuIndex * 320 / mainMenuItems, 0, 320 / mainMenuItems, 15, RED);
+  for (int i = 0; i < mainMenuItems; i++) {
+    x = i * 320 / mainMenuItems;
+     tft.setCursor(x + (320 / mainMenuItems) /2  - 3*menuEntries[i].length(), y);
+    tft.print(menuEntries[i]);
+  }
+}
 
 //Manages the current menu
 void showMenu()
@@ -54,6 +67,7 @@ void drawMenuBackground() {
   tft.writeRect(295, 20, 25, 25, (uint16_t*)right);
   tft.writeRect(145, 215, 25, 25, (uint16_t*)center);
   printTftText("Enter",143, 210, WHITE, 1);
+  drawUpperBar();
 }
 
 //Set the currentMenu to systemMenu and shows it
@@ -102,7 +116,8 @@ void showSystemEntry(unsigned int currentMenuIndex)
 void showMenuEntry(unsigned int currentMenuIndex)
 {
   // Serial.println("<showMenuEntry");
-  tft.fillRect(30, 0, 260, 50, BLACK);
+  drawUpperBar();
+  tft.fillRect(30, 20, 260, 25, BLACK);
   printTftText(currentMenu[currentMenuIndex].title, 40, 20, WHITE, 3);
   //This erases the last index description
   rightButton.update();

@@ -579,7 +579,6 @@ void setup() {
   tft.fillScreen(BLACK);
 
   Serial.println("Microlab-" + version);
-  
   drawMenuBackground();
   backMenu();
   showMenuEntry(currentMenuIndex);

@@ -31,7 +31,7 @@ void addJump(String row)
 
   prevComaIndex = nextComaIndex;
   nextComaIndex = row.indexOf(",", prevComaIndex + 1 );
-  jumpTypes[totalJumpTypes].startIn = (row.substring(prevComaIndex + 1, nextComaIndex));
+  jumpTypes[totalJumpTypes].startIn = (row.substring(prevComaIndex + 1, nextComaIndex) == "1");
   //Serial.println("totalJumpTypes: " + String(totalJumpTypes));
 
   
@@ -338,13 +338,13 @@ void printJumpTypes()
     Serial.print("," + jumpTypes[i].name + ", ");
     Serial.print(String( jumpTypes[i].jumpLimit) + "j, ");
     Serial.print(String( jumpTypes[i].timeLimit ) + "s, ");
-    Serial.print(String( jumpTypes[i].description ) + ", ");
     if(jumpTypes[i].hardTimeLimit) Serial.print("Yes, ");
     else Serial.print("No, ");
     Serial.print(String( jumpTypes[i].percentBodyWeight , 2) + "%, ");
     Serial.print(String( jumpTypes[i].fall , 2) + "cm, ");    
-    if(jumpTypes[i].startIn) Serial.println("Yes");
-    else Serial.println("No");
+    if(jumpTypes[i].startIn) Serial.print("Yes,");
+    else Serial.print("No,");
+    Serial.println(String( jumpTypes[i].description ) + ", ");
   }
 }
 

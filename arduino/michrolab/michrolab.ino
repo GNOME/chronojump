@@ -142,6 +142,13 @@ enum configSetMenu {
   quit = 4
 };
 
+//Align of the text
+enum alignType {
+  alignLeft = 0,
+  alignRight = 1,
+  alignCenter = 2
+};
+
 configSetMenu currentConfigSetMenu = personSelect;
 bool nextConfigSetMenu = false;
 bool prevConfigSetMenu = false;
@@ -699,20 +706,24 @@ void printTftValue (float val, int x, int y, int fontSize, int decimal, int colo
 }
 
 void printTftText(String text, int x, int y) {
-  printTftText(text, x, y, WHITE, 2, false);
+  printTftText(text, x, y, WHITE, 2);
 }
 void printTftText(String text, int x, int y, unsigned int color) {
-  printTftText(text, x, y, color, 2, false);
+  printTftText(text, x, y, color, 2);
 }
 void printTftText(String text, int x, int y, unsigned int color, int fontSize) {
-  printTftText(text, x, y, color, fontSize, false);
+  printTftText(text, x, y, color, fontSize);
 }
-void printTftText(String text, int x, int y, unsigned int color, int fontSize, bool alignRight)
+void printTftText(String text, int x, int y, unsigned int color, int fontSize, alignType align)
 {
-  if (alignRight)
+  if (align == alignRight)
   {
     int len = text.length();
     x = x - 6 * fontSize * len;
+  } else if (align == alignCenter)
+  {
+    int len = text.length();
+    x = x - 3 * fontSize * len;
   }
   tft.setTextColor(color);
   tft.setTextSize(fontSize);
@@ -946,7 +957,7 @@ void calibrateTFT(void) {
   calibrate(calibrateCommand);
   printTftText("Calibrated", 120, 150);
   delay(300);
-  printTftText("Calibrated", 120, 150, 2, BLACK, false);
+  printTftText("Calibrated", 120, 150, 2, BLACK);
   drawMenuBackground();
   showMenuEntry(currentMenuIndex);
 }

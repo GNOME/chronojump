@@ -68,7 +68,9 @@ void printTftValue (float val, int x, int y, int fontSize, int decimal);
  *  fontSize = 2
  *  alignRight = false;
  */
-void printTftText(String text, int x, int y, unsigned int color, int fontSize, bool alignRight);
+ //Align of the text
+
+//void printTftText(String text, int x, int y, unsigned int color, int fontSize, alignType align);
 
 //Reads whatever it is in the serial buffer
 void serialEvent();

@@ -7,9 +7,10 @@ void drawUpperBar()
   tft.fillRect(0,0,320,15,BLUE);
   tft.fillRect(currentMenuIndex * 320 / mainMenuItems, 0, 320 / mainMenuItems, 15, RED);
   for (int i = 0; i < mainMenuItems; i++) {
-    x = i * 320 / mainMenuItems;
-     tft.setCursor(x + (320 / mainMenuItems) /2  - 3*menuEntries[i].length(), y);
-    tft.print(menuEntries[i]);
+    x = i * 320 / mainMenuItems ;
+    printTftText(x,y, WHITE, 1, alignCenter);
+    //  tft.setCursor(x + (320 / mainMenuItems) /2  - 3*menuEntries[i].length(), y);
+    // tft.print(menuEntries[i]);
   }
 }
 
@@ -151,7 +152,7 @@ void drawRightButton(int x, int y, String label, uint16_t tColor, uint16_t bColo
 {
   tft.writeRect(x, y, 25, 25, (uint16_t*)right);
   if (label.length() > 0) {
-    printTftText(label, x-1, y+6, tColor, 2, true);
+    printTftText(label, x-1, y+6, tColor, 2, alignRight);
     }
 }
 

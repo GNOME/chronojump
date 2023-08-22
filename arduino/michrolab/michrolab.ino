@@ -91,6 +91,7 @@ boolean leftButtonPressed = false;
 boolean rightButtonPressed = false;
 boolean downButtonPressed = false;
 
+
 #define DOUT  2
 #define CLK  3
 
@@ -593,16 +594,20 @@ void setup() {
 
 void loop()
 {
+  // Serial.println("<loop");
   if (!capturing)
   {
+    updateButtons();
+    while(!leftButton.fell() && !rightButton.fell() && !cenButton.fell()) 
+    {
+      updateButtons();
+    }
     showMenu();
-  } else
-  {
-    captureRaw();
-  }
+  } else captureRaw();
 
   //With Teensy serialEvent is not called automatically after loop
   if (Serial.available()) serialEvent();
+  // Serial.println("loop>");
 }
 
 void getLoadCellDynamics(void)
@@ -706,13 +711,13 @@ void printTftValue (float val, int x, int y, int fontSize, int decimal, int colo
 }
 
 void printTftText(String text, int x, int y) {
-  printTftText(text, x, y, WHITE, 2);
+  printTftText(text, x, y, WHITE, 2, alignLeft);
 }
 void printTftText(String text, int x, int y, unsigned int color) {
-  printTftText(text, x, y, color, 2);
+  printTftText(text, x, y, color, 2, alignLeft);
 }
 void printTftText(String text, int x, int y, unsigned int color, int fontSize) {
-  printTftText(text, x, y, color, fontSize);
+  printTftText(text, x, y, color, fontSize, alignLeft);
 }
 void printTftText(String text, int x, int y, unsigned int color, int fontSize, alignType align)
 {

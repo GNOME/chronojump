@@ -1,25 +1,28 @@
 void drawUpperBar()
 {
+  // Serial.println("<drawUpperBar");
   int x = 0;
   int y = 0;
   String menuEntries[mainMenuItems] = {"J", "RW", "LV", "IV", "RA", "RP", "FS", "S"};
 
   tft.fillRect(0,0,320,15,BLUE);
   tft.fillRect(currentMenuIndex * 320 / mainMenuItems, 0, 320 / mainMenuItems, 15, RED);
-  for (int i = 0; i < mainMenuItems; i++) {
-    x = i * 320 / mainMenuItems ;
-    printTftText(x,y, WHITE, 1, alignCenter);
-    //  tft.setCursor(x + (320 / mainMenuItems) /2  - 3*menuEntries[i].length(), y);
-    // tft.print(menuEntries[i]);
+  for (int i = 0; i < mainMenuItems; i++)
+  {
+    x = (i+0.5) * 320 / mainMenuItems;
+    printTftText(menuEntries[i], x,y, WHITE, 2, alignCenter);
   }
+
+  // Serial.println("drawUpperBar>");
 }
 
 //Manages the current menu
 void showMenu()
 {
-  //The right/left buttons navigates through the Menu options
-  
-  updateButtons();
+  // Serial.println("<showMenu");
+
+  //The right/left buttons navigates through the Menu options.
+  //The buttons are read in loop()
   if (leftButton.fell()) {
     currentMenuIndex--;
     currentMenuIndex = currentMenuIndex % menuItemsNum;
@@ -43,11 +46,13 @@ void showMenu()
     PcControlled = false;
     currentMenu[currentMenuIndex].function();
   }
+  // Serial.println("showMenu>");
 }
 
 //Exits the currentMenu and sets the currentMenu to mainMenu
 void backMenu(void)
 {
+  // Serial.println("<backMenu");
   currentMenuIndex = 0;
   drawMenuBackground();
   currentMenuIndex = 0;
@@ -59,16 +64,19 @@ void backMenu(void)
   menuItemsNum = mainMenuItems;
   showMenuEntry(currentMenuIndex);
   showMenu();
+  // Serial.println("backMenu>");
 }
 
 //Erases screen and draw the left and right buttons in the upper part of screen
 void drawMenuBackground() {
+  // Serial.println("<drawMenuBackground");
   tft.fillScreen(BLACK);
   tft.writeRect(0, 20, 25, 25, (uint16_t*)left);
   tft.writeRect(295, 20, 25, 25, (uint16_t*)right);
   tft.writeRect(145, 215, 25, 25, (uint16_t*)center);
-  printTftText("Enter",143, 210, WHITE, 1);
+  printTftText("Enter",143, 210, WHITE, 1,alignLeft);
   drawUpperBar();
+  // Serial.println("drawMenuBackground>");
 }
 
 //Set the currentMenu to systemMenu and shows it

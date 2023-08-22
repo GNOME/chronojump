@@ -85,13 +85,6 @@ int calibrationAddress = 4;
 int forceGoalAddress = 8;
 int groupAddress = 12;
 
-
-//variables to erase the menu when going fordwards or backwars
-boolean leftButtonPressed = false;
-boolean rightButtonPressed = false;
-boolean downButtonPressed = false;
-
-
 #define DOUT  2
 #define CLK  3
 
@@ -249,6 +242,7 @@ menuEntry systemMenu[10] {
 int systemMenuItems = 8;
 
 menuEntry currentMenu[10];
+
 
 int menuItemsNum = mainMenuItems;
 //Mean force in 1s

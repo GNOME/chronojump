@@ -29,14 +29,12 @@ void showMenu()
     if (currentMenuIndex < 0) {
       currentMenuIndex = menuItemsNum - 1;
     }
-    leftButtonPressed = true;
     showMenuEntry(currentMenuIndex);
   }
   
   if (rightButton.fell()) {
     currentMenuIndex++;
     currentMenuIndex = currentMenuIndex % menuItemsNum;
-    rightButtonPressed = true; 
     showMenuEntry(currentMenuIndex);
   }
 
@@ -85,7 +83,7 @@ void showSystemMenu(void)
   // Serial.println("<showSystemMenu");
   drawMenuBackground();
   currentMenuIndex = 0;
-  for (int i = 0; i < 10; i++) {
+  for (int i = 0; i < systemMenuItems; i++) {
     currentMenu[i].title = systemMenu[i].title;
     currentMenu[i].description = systemMenu[i].description;
     currentMenu[i].function = systemMenu[i].function;
@@ -106,16 +104,11 @@ void showSystemEntry(unsigned int currentMenuIndex)
   printTftText(currentMenu[currentMenuIndex].title, 40, 20, WHITE, 3);
   //This erases the last index description
   updateButtons();
-  Serial.println(systemMenuItems);  
-  if (rightButtonPressed) {
-    printTftText(currentMenu[(currentMenuIndex + systemMenuItems - 1) % systemMenuItems].description, 12, 100, BLACK);   
-  }
-  else if (leftButtonPressed) { //Fordwards
-    printTftText(currentMenu[(currentMenuIndex + systemMenuItems + 1) % systemMenuItems].description, 12, 100, BLACK);
-  }
+  Serial.println(systemMenuItems);
+  if ( rightButton.fell() ) printTftText(currentMenu[(currentMenuIndex + systemMenuItems - 1) % systemMenuItems].description, 12, 100, BLACK);
+  if (leftButton.fell() )   printTftText(currentMenu[(currentMenuIndex + systemMenuItems + 1) % systemMenuItems].description, 12, 100, BLACK);
     
-  rightButton.update();
-  leftButton.update();
+  updateButtons();
   Serial.println(currentMenuIndex);
   printTftText(currentMenu[currentMenuIndex].description, 12, 100);
   // Serial.println("showSystemEntry>");
@@ -129,22 +122,13 @@ void showMenuEntry(unsigned int currentMenuIndex)
   tft.fillRect(30, 20, 260, 25, BLACK);
   printTftText(currentMenu[currentMenuIndex].title, 40, 20, WHITE, 3);
   //This erases the last index description
-  rightButton.update();
-  leftButton.update();  
-  if (rightButtonPressed) {
+  if (rightButton.fell()) {
     printTftText(currentMenu[(currentMenuIndex + menuItemsNum - 1) % menuItemsNum].description, 12, 100, BLACK);
-    rightButtonPressed = false;
   }
-  else if (leftButtonPressed) {
-    printTftText(currentMenu[(currentMenuIndex + menuItemsNum + 1) % menuItemsNum].description, 12, 100, BLACK);     
-    leftButtonPressed = false;
+    if (leftButton.fell()) {
+    printTftText(currentMenu[(currentMenuIndex + menuItemsNum + 1) % menuItemsNum].description, 12, 100, BLACK);
   }
-  else if (leftButtonPressed && leftButton.fell()) {
-    printTftText(currentMenu[(currentMenuIndex + menuItemsNum + 1) % menuItemsNum].description, 12, 100, BLACK);     
-    leftButtonPressed = false;
-  }
-  rightButton.update();
-  leftButton.update();
+  updateButtons();
   printTftText(currentMenu[currentMenuIndex].description, 12, 100);
   // Serial.println("showMenuEntry>");
 }

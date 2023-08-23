@@ -1,16 +1,27 @@
-void drawUpperBar()
+void updateCurrentMenu(menuEntry newMenu[10], int newNumEntries)
+{
+  // Serial.println("<updateCurrentMenu");
+  for (int i = 0; i < newNumEntries; i++)
+  {
+    currentMenu[i].title = newMenu[i].title;
+    currentMenu[i].description = newMenu[i].description;
+    currentMenu[i].abbreviation = newMenu[i].abbreviation;
+    currentMenu[i].function = newMenu[i].function;
+  }
+  // Serial.println("updateCurrentMenu>");
+}
+void drawUpperBar(menuEntry upperMenu[10], int numEntries)
 {
   // Serial.println("<drawUpperBar");
   int x = 0;
   int y = 0;
-  String menuEntries[mainMenuItems] = {"J", "RW", "LV", "IV", "RA", "RP", "FS", "S"};
 
   tft.fillRect(0,0,320,15,BLUE);
-  tft.fillRect(currentMenuIndex * 320 / mainMenuItems, 0, 320 / mainMenuItems, 15, RED);
-  for (int i = 0; i < mainMenuItems; i++)
+  tft.fillRect(currentMenuIndex * 320 / numEntries, 0, 320 / numEntries, 15, RED);
+  for (int i = 0; i < numEntries; i++)
   {
-    x = (i+0.5) * 320 / mainMenuItems;
-    printTftText(menuEntries[i], x,y, WHITE, 2, alignCenter);
+    x = (i+0.5) * 320 / numEntries;
+    printTftText(upperMenu[i].abbreviation, x,y, WHITE, 2, alignCenter);
   }
 
   // Serial.println("drawUpperBar>");
@@ -54,12 +65,7 @@ void backMenu(void)
   currentMenuIndex = 0;
   drawMenuBackground();
   currentMenuIndex = 0;
-  for (int i = 0; i < 10; i++) {
-    currentMenu[i].title = mainMenu[i].title;
-    currentMenu[i].description = mainMenu[i].description;
-    currentMenu[i].function = mainMenu[i].function;
-  }
-  menuItemsNum = mainMenuItems;
+  updateCurrentMenu(mainMenu, mainMenuItems);
   showMenuEntry(currentMenuIndex);
   showMenu();
   // Serial.println("backMenu>");
@@ -73,7 +79,7 @@ void drawMenuBackground() {
   tft.writeRect(295, 20, 25, 25, (uint16_t*)right);
   tft.writeRect(145, 215, 25, 25, (uint16_t*)center);
   printTftText("Enter",143, 210, WHITE, 1,alignLeft);
-  drawUpperBar();
+  drawUpperBar(mainMenu, mainMenuItems);
   // Serial.println("drawMenuBackground>");
 }
 
@@ -83,33 +89,23 @@ void showSystemMenu(void)
   // Serial.println("<showSystemMenu");
   drawMenuBackground();
   currentMenuIndex = 0;
-  for (int i = 0; i < systemMenuItems; i++) {
-    currentMenu[i].title = systemMenu[i].title;
-    currentMenu[i].description = systemMenu[i].description;
-    currentMenu[i].function = systemMenu[i].function;
-  }
-  //menuItemsNum = systemMenuItems;
-  //Create a new function to navigate through the system menu
-  //showMenuEntry(currentMenuIndex);
+  updateCurrentMenu(systemMenu, systemMenuItems);
+  drawUpperBar(systemMenu, systemMenuItems);
   showSystemEntry(currentMenuIndex);
-  //showMenu();
-
   // Serial.println("showSystemMenu>");
 }
 
 void showSystemEntry(unsigned int currentMenuIndex)
 {
   // Serial.println("<showSystemEntry");
-  tft.fillRect(30, 0, 260, 50, BLACK);
+  tft.fillRect(30, 15, 260, 50, BLACK);
   printTftText(currentMenu[currentMenuIndex].title, 40, 20, WHITE, 3);
   //This erases the last index description
   updateButtons();
-  Serial.println(systemMenuItems);
   if ( rightButton.fell() ) printTftText(currentMenu[(currentMenuIndex + systemMenuItems - 1) % systemMenuItems].description, 12, 100, BLACK);
   if (leftButton.fell() )   printTftText(currentMenu[(currentMenuIndex + systemMenuItems + 1) % systemMenuItems].description, 12, 100, BLACK);
     
   updateButtons();
-  Serial.println(currentMenuIndex);
   printTftText(currentMenu[currentMenuIndex].description, 12, 100);
   // Serial.println("showSystemEntry>");
 }
@@ -118,7 +114,7 @@ void showSystemEntry(unsigned int currentMenuIndex)
 void showMenuEntry(unsigned int currentMenuIndex)
 {
   // Serial.println("<showMenuEntry");
-  drawUpperBar();
+  drawUpperBar(currentMenu, menuItemsNum);
   tft.fillRect(30, 20, 260, 25, BLACK);
   printTftText(currentMenu[currentMenuIndex].title, 40, 20, WHITE, 3);
   //This erases the last index description

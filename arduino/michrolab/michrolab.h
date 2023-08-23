@@ -3,6 +3,7 @@ typedef void (*functionPointer) (void);
 struct menuEntry {
     String title;
     String description;
+    String abbreviation;
     functionPointer function;
 };
 

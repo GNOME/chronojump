@@ -210,29 +210,29 @@ unsigned int submenu = 0;           //submenus state
 functionPointer FArray[3] = {&fakeFunction, &fakeFunction, &fakeFunction};
 
 menuEntry mainMenu[10] = {
-  { "Jumps", "Shows bars with the jumps height", &jumpCapture},
+  { "Jumps", "Shows bars with the jumps height", "Ju", &jumpCapture},
   //  { "Drop Jumps", "Jumps with a previous\nfalling height (previous\njump or fixed height)\nShows bars with the heightof jumps", &dropJumpsCapture},
-  { "Raw Force", "Shows standard graph of\nthe force and the summary of the set.\n(Maximum Force, RFD and\nImpulse)", &startLoadCellCapture},
-  { "Lin. Velocity", "Show bars of linear velocity", &startGravitEncoderCapture },
-  { "Iner. Velocity", "Show bars of the velocity of the person in inertial machines", &startInertEncoderCapture },
-  { "RaceAnalyzer", "Measure speed with a raceAnalyzer", &startRaceAnalyzerCapture},
-  { "RawPower", "Measure Force and Speed\nat the same time.\nOnly power is shown in thegraph", &startPowerCapture},
+  { "Raw Force", "Shows standard graph of\nthe force and the summary of the set.\n(Maximum Force, RFD and\nImpulse)", "RF", &startLoadCellCapture},
+  { "Lin. Velocity", "Show bars of linear velocity", "LV", &startGravitEncoderCapture },
+  { "Iner. Velocity", "Show bars of the velocity of the person in inertial machines", "IV", &startInertEncoderCapture },
+  { "RaceAnalyzer", "Measure speed with a raceAnalyzer", "RA", &startRaceAnalyzerCapture},
+  { "RawPower", "Measure Force and Speed\nat the same time.\nOnly power is shown in thegraph", "RP", &startPowerCapture},
   //{ "Tared Force", "Offset the force before\nmeasuring it.\nUseful to substract body\nweight.", &startTareCapture},
-  { "F. Steadiness", "RMSSD and cvRMSSD.\nSteadynessof the force.\nWhen ready, press the Red Button to get the\nsteadiness of the next 5s.", &startSteadiness},
-  { "System", "Performs calibration or\ntare and shows some system information.", &showSystemMenu}
+  { "F. Steadiness", "RMSSD and cvRMSSD.\nSteadynessof the force.\nWhen ready, press the Red Button to get the\nsteadiness of the next 5s.", "FS", &startSteadiness},
+  { "System", "Performs calibration or\ntare and shows some system information.", "Sy", &showSystemMenu}
 };
 
 int mainMenuItems = 8;
 
 menuEntry systemMenu[10] {
-  { "Group", "Select the group you are going to use.\nUp to 9 groups can be\nselected", &selectGroup},
-  { "Tare", "Set the offset of the\nsensor.", &tare },
-  { "Calibrate", "Set the equivalence\nbetween the sensor values\nand the force measured.", &calibrateTFT },
-  { "Sel. load cell", "Select from a list of \nload cells. It allows to \nsave the calibrations", &selectLoadCellDialog},
-  { "Force Goal", "Set the goal force for\nsteadiness measurements.", &setForceGoal },
-  { "Inert. Calib.", "Set the Exact point in which the concentric phase ends", &calibrateInertial},
-  { "Info", "Hardware, firmware and config information.", &showSystemInfo },
-  { "Exit", "Goes back to main menu", &backMenu },
+  { "Group", "Select the group you are going to use.\nUp to 9 groups can be\nselected", "Gr", &selectGroup},
+  { "Tare", "Set the offset of the\nsensor.", "Ta", &tare },
+  { "Calibrate", "Set the equivalence\nbetween the sensor values\nand the force measured.", "Ca", &calibrateTFT },
+  { "Sel. load cell", "Select from a list of \nload cells. It allows to \nsave the calibrations", "SL", &selectLoadCellDialog},
+  { "Force Goal", "Set the goal force for\nsteadiness measurements.", "FG", &setForceGoal },
+  { "Inert. Calib.", "Set the Exact point in which the concentric phase ends", "IC", &calibrateInertial},
+  { "Info", "Hardware, firmware and config information.", "In", &showSystemInfo, },
+  { "Exit", "Goes back to main menu", "Ex", &backMenu},
   /*
   { "", "", &backMenu},
   { "", "", &backMenu}
@@ -579,6 +579,8 @@ void setup() {
   currentExerciseType = 0;
 
   tft.fillScreen(BLACK);
+  
+  drawUpperBar(mainMenu, mainMenuItems);
 
   Serial.println("Microlab-" + version);
   drawMenuBackground();

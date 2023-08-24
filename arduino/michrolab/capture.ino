@@ -505,7 +505,6 @@ void captureBars(float fullScreen)
         redrawAxes(tft, 30, h, 290, h, 290, h, 0, graphRange, graphRange / 10, "", "", "", WHITE, GREY, WHITE, WHITE, BLACK, RED, true, 1);
         graphRange = bars[currentSlot] * 1.25;
       }
-      redrawAxes(tft, 30, h, 290, h, 290, h, 0, graphRange, graphRange / 10, "", "", "", WHITE, GREY, WHITE, WHITE, BLACK, RED, true, 1);
       barPlot(30, h, 290, h, graphRange, 10, currentSlot, 0.75, RED);
     }
     cenButton.update();
@@ -546,44 +545,44 @@ void writeCaptureHeaders()
   {
     dataFile.println("Exercise:" + String(raceAnalyzerTypes[currentExerciseType].id) + "," + raceAnalyzerTypes[currentExerciseType].name);
   }
-
 }
 
 //text mode
-void saveEncoderSpeed()
-{
-  long position = encoder.read();
-  String currentValue = String(position - lastSamplePosition) + ",";
+// void saveEncoderSpeed()
+// {
+//   long position = encoder.read();
+//   String currentValue = String(position - lastSamplePosition) + ",";
 
-  if (PcControlled) {
-    Serial.print(currentValue);
-  } else {
-    fileBuffer = fileBuffer + currentValue;
-    sampleNum++;
-    if (sampleNum >= 100) {
-      dataFile.print(fileBuffer);
-      Serial.println(fileBuffer);
-      fileBuffer = "";
-      sampleNum = 0;
-    }
-  }
-  lastSamplePosition = position;
-}
+//   if (PcControlled) {
+//     Serial.print(currentValue);
+//   } else if (!PcControlled) {
+//     fileBuffer = fileBuffer + currentValue;
+//     sampleNum++;
+//     if (sampleNum >= 50) {
+//       dataFile.print(fileBuffer);
+//       //Serial.println(fileBuffer);
+//       fileBuffer = "";
+//       sampleNum = 0;
+//     }
+//   }
+//   lastSamplePosition = position;
+// }
 
-/*
+
   //binary mode
   void saveEncoderSpeed()
   {
-  long position = encoder.read();
-  fileBuffer[sampleNum] =(char)(position - lastSamplePosition);
-  sampleNum++;
-  lastSamplePosition = position;
-  if (sampleNum >= 99){
-    dataFile.write(fileBuffer, 100);
-    sampleNum = 0;
+    // Serial.println("<saveEncoderSpeed");
+    long position = encoder.read();
+    binFileBuffer[sampleNum] =(char)(position - lastSamplePosition)/4;
+    sampleNum++;
+    lastSamplePosition = position;
+    if (sampleNum >= 50){
+      dataFile.write(binFileBuffer, 50);
+      sampleNum = 0;
+    }
+    // Serial.println("saveEncoderSpeed>");
   }
-  }
-*/
 
 void getEncoderDynamics()
 {
@@ -719,7 +718,7 @@ void startEncoderCapture(void)
   maxAvgVelocity = 0;
   lastVelocity = 0;
   //captureRaw();
-  encoderTimer.begin(saveEncoderSpeed, 1000);
+  encoderTimer.begin(saveEncoderSpeed, 10000);
   captureBars(false);
 }
 

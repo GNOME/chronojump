@@ -84,6 +84,7 @@ int tareAddress = 0;
 int calibrationAddress = 4;
 int forceGoalAddress = 8;
 int groupAddress = 12;
+int ppsAddress = 16;
 
 #define DOUT  2
 #define CLK  3
@@ -560,6 +561,15 @@ void setup() {
     group = 0;
     EEPROM.put(groupAddress, 0);
   }
+
+  EEPROM.get(ppsAddress, pps);
+  //if pps is 0 it means that it has never been set. We use the default value
+  if (pps < 0) {
+    pps = 40;
+    EEPROM.put(ppsAddress, pps);
+  }
+
+
 
   //Start TFT
   tft.begin();
@@ -1405,7 +1415,7 @@ void set_pps(String inputString)
   String argument = get_command_argument(inputString);
   int newPps = argument.toInt();
   if (newPps != pps) {  //Trying to reduce the number of writings
-    // EEPROM.put(ppsAddress, newPps);
+    EEPROM.put(ppsAddress, newPps);
     pps = newPps;
   }
   Serial.print("pps set to: ");

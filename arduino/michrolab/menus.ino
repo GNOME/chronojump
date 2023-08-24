@@ -258,21 +258,21 @@ float selectValueDialog(String description, String rangesString, String incStrin
   //Red button
   //drawRightButton("Accept", WHITE, RED);
 
-  drawLeftButton("-" + String(incValues[currentSegment - 1], decimals), WHITE, RED);
-  drawRightButton("+" + String(incValues[currentSegment - 1], decimals), WHITE, BLUE);
+  drawUpDownButton(0,168, "+-" + String(incValues[currentSegment - 1], decimals), WHITE, RED);
+  //drawUpButton("+" + String(incValues[currentSegment - 1], decimals), WHITE, BLUE);
 
   //Current value
-  printTftText("Current:", 100, 174);
-  printTftValue(value, 236, 174, 2, 0);
+  printTftText("Current:", 112, 174);
+  printTftValue(value, 248, 174, 2, 0);
   updateButtons();
   
   while (!exitFlag) {
 
-    if ( leftButton.fell() || rightButton.fell() ) {
-      printTftValue(value, 236, 174, 2, decimals, BLACK);
+    if ( upButton.fell() || downButton.fell() ) {
+      printTftValue(value, 248, 174, 2, decimals, BLACK);
 
-      if (rightButton.fell()) value += incValues[currentSegment - 1];
-      if (leftButton.fell()) value -= incValues[currentSegment - 1];
+      if (upButton.fell()) value += incValues[currentSegment - 1];
+      if (downButton.fell()) value -= incValues[currentSegment - 1];
 
       //Limit the value to the minimum and maximum
       if ( value <= rangesValues[0] ) value = rangesValues[0];
@@ -286,18 +286,18 @@ float selectValueDialog(String description, String rangesString, String incStrin
 
       //Updating segment
       if (nextSegment != 0) {
-        drawLeftButton("-" + String(incValues[currentSegment - 1], decimals), BLACK, RED);
-        drawRightButton("+" + String(incValues[currentSegment - 1], decimals), BLACK, BLUE);
+        drawUpDownButton(0,168, "+-" + String(incValues[currentSegment - 1], decimals), BLACK, RED);
+        //drawUpButton("+" + String(incValues[currentSegment - 1], decimals), BLACK, BLUE);
         currentSegment = nextSegment;
         nextSegment = 0;
-        drawLeftButton("-" + String(incValues[currentSegment - 1], decimals), WHITE, RED);
-        drawRightButton("+" + String(incValues[currentSegment - 1], decimals), WHITE, BLUE);
+        drawUpDownButton(0,168, "+-" + String(incValues[currentSegment - 1], decimals), WHITE, RED);
+        //drawUpButton("+" + String(incValues[currentSegment - 1], decimals), WHITE, BLUE);
       }
-      printTftValue(value, 236, 174, 2, decimals);
+      printTftValue(value, 248, 174, 2, decimals);
     }
     
     //Change to Calibrate execution
-    if (cenButton.fell()) {
+    if ( cenButton.fell()|| rightButton.fell() ){
       //Deleting explanation
       tft.fillRect(0, 60, 320, 240, BLACK);
 

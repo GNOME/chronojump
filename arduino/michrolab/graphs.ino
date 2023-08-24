@@ -152,24 +152,6 @@ void barPlot (float gx, float gy, float w, float h, float yhi, int numBars, int 
   float barValue = 0;
   float barPixHeight = 0;
 
-  //
-  //  for(int i = currentIndex + 1; i <= currentIndex + 10; i++)
-  //  {
-  //    Serial.print(i % 10);
-  //    Serial.print("\t");
-  //  }
-  //
-  //  Serial.println();
-  //
-  //  for(int i = currentIndex + 1; i <= currentIndex + 10; i++)
-  //  {
-  //    Serial.print(bars[ i % 10]);
-  //    Serial.print("\t");
-  //  }
-  //
-  //
-  //  Serial.println();
-
   //the first bar to plot corresponds to the last updated slot of the array
 
   //Deleting the previous bars (The older bar are not in the buffer)
@@ -179,12 +161,14 @@ void barPlot (float gx, float gy, float w, float h, float yhi, int numBars, int 
     barValue = bars[ (currentIndex - i + 10) % 10];
     barPixHeight =  barValue * h / yhi;
     tft.fillRect(gx + localX, gy - barPixHeight , b, barPixHeight, BLACK);
+    // tft.drawRect(gx + localX, gy - barPixHeight , b, barPixHeight, BLACK);
     localX -= b;
   }
 
   //Deleting the most left Bar
   localX -= a;
   tft.fillRect(gx + localX, gy - h , b, h, BLACK);
+  // tft.drawRect(gx + localX, gy - h , b, h, BLACK);
   localX = w - b;
 
   for (int i = 0; i < 10; i++)
@@ -195,8 +179,10 @@ void barPlot (float gx, float gy, float w, float h, float yhi, int numBars, int 
     //Serial.println(String(gx+localX) + "," + String(gy) + "\t" + String(b) + "," + String(bars[ (i + 10 - numBars) % 10]));
     if (i == 0) {
       tft.fillRect(gx + localX, gy - barPixHeight , b, barPixHeight, RED);
+      // tft.drawRect(gx + localX, gy - barPixHeight , b, barPixHeight, RED);
     } else {
       tft.fillRect(gx + localX, gy - barPixHeight , b, barPixHeight, BLUE);
+      // tft.drawRect(gx + localX, gy - barPixHeight , b, barPixHeight, BLUE);
     }
     localX -= b;
   }

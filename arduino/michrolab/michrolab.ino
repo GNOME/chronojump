@@ -491,12 +491,13 @@ String fullFileName;
 File dataFile;
 int sampleNum = 0;
 String fileBuffer;        //Text mode
-//char fileBuffer[100];       //binary mode. Using char type cannot write speeds greater than +-127 pulses/mm
+char binFileBuffer[100];       //binary mode. Using char type cannot write speeds greater than +-127 pulses/ms
 
 String textList[7] = {"First", "Second", "Thirth", "Fourth", "Fifth", "Sixtth", "Seventh"} ;
 
 void setup() {
 
+  SPI.beginTransaction(SPISettings(20000000, MSBFIRST, SPI_MODE0));
   //Real time clock sync with the temp clock
   setSyncProvider(getTeensy3Time);
   //Attention: some SD cards fails to initalize after uploading the firmware

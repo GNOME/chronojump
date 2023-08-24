@@ -1145,32 +1145,30 @@ void startRaceAnalyzerCapture()
   }
   */
   downButton.update();
-  Serial.println("antes del while");
   //if (!downButton.fell()) {
-    Serial.println("comienza la captura de información");
-    encoderFlag = false;
-    rcaFlag = false;
-    attachInterrupt(encoderAPin, encoderAChange, CHANGE);
-    //attachInterrupt(encoderBPin, encoderBChange, CHANGE);
-    attachInterrupt(rcaPin, changedRCA, CHANGE);
-    calibratedInertial = false;
-    totalTime = 0;
-    sensor = raceAnalyzer;
-    pps = 40;             //TODO: Manage the PPS by serial commands
-    capturing = true;
-    maxString = "V";
-    plotPeriod = 5;
-    newGraphMin = -1;
-    newGraphMax = 10;
-    measuredMax = 0;
-    measured = 0;
-    totalTime = 0;
+  encoderFlag = false;
+  rcaFlag = false;
+  attachInterrupt(encoderAPin, encoderAChange, CHANGE);
+  //attachInterrupt(encoderBPin, encoderBChange, CHANGE);
+  attachInterrupt(rcaPin, changedRCA, CHANGE);
+  calibratedInertial = false;
+  totalTime = 0;
+  sensor = raceAnalyzer;
+  pps = 40;             //TODO: Manage the PPS by serial commands
+  capturing = true;
+  maxString = "V";
+  plotPeriod = 50;
+  newGraphMin = -1;
+  newGraphMax = 10;
+  measuredMax = 0;
+  measured = 0;
+  totalTime = 0;
 
-    if(totalRaceAnalyzerTypes == 0) readExercisesFile(encoderRace);
-    selectExerciseType(encoderRace);
-    
-    captureRaw();
-    endRaceAnalyzerCapture();
+  if(totalRaceAnalyzerTypes == 0) readExercisesFile(encoderRace);
+  selectExerciseType(encoderRace);
+  
+  captureRaw();
+  endRaceAnalyzerCapture();
   //}
 
 }

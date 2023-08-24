@@ -597,12 +597,12 @@ void loop()
     while(!leftButton.fell() && !rightButton.fell() && !cenButton.fell()) 
     {
       updateButtons();
+      if (Serial.available()) serialEvent();
     }
     showMenu();
   } else captureRaw();
 
   //With Teensy serialEvent is not called automatically after loop
-  if (Serial.available()) serialEvent();
   // Serial.println("loop>");
 }
 
@@ -837,6 +837,10 @@ void serialEvent() {
     startRaceAnalyzerCapture();
   } else if (commandString == "endRaceAnalyzerCapture") {
     endRaceAnalyzerCapture();
+  } else if (commandString == "set_pps") {
+    set_pps(inputString);
+  } else if (commandString == "get_pps") {
+    get_pps();
   } else if (commandString == "readCalibrationsFile") {
     readCalibrationsFile();
   } else if (commandString == "addCalibration") {
@@ -1393,4 +1397,22 @@ void printCalibrationsList()
     Serial.print(",");
     Serial.println(calibrations[i].description);
   }
+}
+
+//Setting how many pulses are needed to get a sample
+void set_pps(String inputString)
+{
+  String argument = get_command_argument(inputString);
+  int newPps = argument.toInt();
+  if (newPps != pps) {  //Trying to reduce the number of writings
+    // EEPROM.put(ppsAddress, newPps);
+    pps = newPps;
+  }
+  Serial.print("pps set to: ");
+  Serial.println(pps);
+}
+
+void get_pps()
+{
+  Serial.println(pps);
 }

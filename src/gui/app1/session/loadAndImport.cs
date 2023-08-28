@@ -354,6 +354,12 @@ public partial class ChronoJumpWindow
 			(app1s_check_filter_by_sensor.Active && app1s_checkbutton_show_data_inertial.Active);
 	}
 
+	// pressed enter on entry
+	private void on_app1s_entry_search_filter_activate (object o, EventArgs args)
+	{
+		app1s_recreateTreeView("changed search filter");
+	}
+	// pressed search button
 	private void on_app1s_button_search_clicked (object o, EventArgs args) {
 		app1s_recreateTreeView("changed search filter");
 	}

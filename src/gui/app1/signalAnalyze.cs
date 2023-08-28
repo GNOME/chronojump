@@ -201,7 +201,7 @@ public partial class ChronoJumpWindow
 		box_ai_move_cd_accept.Visible = true;
 		box_ai_move_cd_buttons.Visible = true;
 	}
-	private void on_button_signal_analyze_move_cd_accept_clicked (object o, EventArgs args)
+	private void on_button_signal_analyze_move_cd_done_clicked (object o, EventArgs args)
 	{
 		button_ai_move_cd_pre.Sensitive = true;
 

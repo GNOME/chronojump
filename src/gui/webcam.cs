@@ -55,6 +55,7 @@ public partial class ChronoJumpWindow
 	Gtk.Label label_video_encoder_tests_will_be_filmed;
 	Gtk.Button button_video_play_this_test_contacts;
 	Gtk.Button button_video_play_this_test_encoder;
+	Gtk.Spinner spinner_video_play_this_test_contacts;
 	Gtk.ProgressBar pulsebar_webcam;
 
 
@@ -797,6 +798,7 @@ public partial class ChronoJumpWindow
 
 	Thread webcamPlayThread;
 	private double diffVideoVsSignal;
+	private double videoFrames;
 
 	private void on_button_video_play_this_test_contacts_clicked (object o, EventArgs args)
 	{
@@ -809,26 +811,10 @@ public partial class ChronoJumpWindow
 				if (webcamPlay != null && webcamPlayThread != null && webcamPlayThread.IsAlive)
 					return;
 
-				double forceTotalTime = 0;
-				if (fsAI_AB != null)
-					forceTotalTime = UtilAll.DivideSafe (PointF.Last (fsAI_AB.P_l).X, 1000000);
-
-				webcamPlay = new WebcamFfmpeg (Webcam.Action.PLAYFILE, UtilAll.GetOSEnum(), "", "", "", "");
-				double videoTotalTime = webcamPlay.FindVideoDuration (
-						Util.GetVideoFileName(currentSession.UniqueID, Constants.TestTypes.FORCESENSOR, currentForceSensor.UniqueID));
-				if (videoTotalTime < 0)
-				{
-					new DialogMessage (Constants.MessageTypes.WARNING, Webcam.ProgramFfprobeNotInstalled);
-					diffVideoVsSignal = 0;
-				} else {
-					diffVideoVsSignal = videoTotalTime -preferences.videoStopAfter -forceTotalTime;
-					LogB.Information (string.Format ("forceTotalTime: {0}, videoTotalTime: {1}, diffVideoVsSignal: {2}",
-								forceTotalTime, videoTotalTime, diffVideoVsSignal));
-				}
-
-				double videoFrames = webcamPlay.FindVideoFrames (
-						Util.GetVideoFileName (currentSession.UniqueID, Constants.TestTypes.FORCESENSOR, currentForceSensor.UniqueID));
-				LogB.Information ("videoFrames", videoFrames);
+				checkbutton_video_contacts.Visible = false;
+				button_video_play_this_test_contacts.Visible = false;
+				spinner_video_play_this_test_contacts.Visible = true;
+				spinner_video_play_this_test_contacts.Start ();
 
 				webcamPlayThread = new Thread (new ThreadStart (webcamPlayThreadDo));
 				GLib.Idle.Add (new GLib.IdleHandler (pulseWebcamPlayGTK));
@@ -887,6 +873,27 @@ public partial class ChronoJumpWindow
 
 	private void webcamPlayThreadDo ()
 	{
+		double forceTotalTime = 0;
+		if (fsAI_AB != null)
+			forceTotalTime = UtilAll.DivideSafe (PointF.Last (fsAI_AB.P_l).X, 1000000);
+
+		webcamPlay = new WebcamFfmpeg (Webcam.Action.PLAYFILE, UtilAll.GetOSEnum(), "", "", "", "");
+		double videoTotalTime = webcamPlay.FindVideoDuration (
+				Util.GetVideoFileName(currentSession.UniqueID, Constants.TestTypes.FORCESENSOR, currentForceSensor.UniqueID));
+		if (videoTotalTime < 0)
+		{
+			new DialogMessage (Constants.MessageTypes.WARNING, Webcam.ProgramFfprobeNotInstalled);
+			diffVideoVsSignal = 0;
+		} else {
+			diffVideoVsSignal = videoTotalTime -preferences.videoStopAfter -forceTotalTime;
+			LogB.Information (string.Format ("forceTotalTime: {0}, videoTotalTime: {1}, diffVideoVsSignal: {2}",
+						forceTotalTime, videoTotalTime, diffVideoVsSignal));
+		}
+
+		videoFrames = webcamPlay.FindVideoFrames (
+				Util.GetVideoFileName (currentSession.UniqueID, Constants.TestTypes.FORCESENSOR, currentForceSensor.UniqueID));
+		//LogB.Information ("videoFrames", videoFrames);
+
 		if (playVideo(Util.GetVideoFileName(currentSession.UniqueID, Constants.TestTypes.FORCESENSOR, currentForceSensor.UniqueID)))
 			do {
 			} while (webcamPlay != null && webcamPlay.PlayVideoGetSecond >= 0);
@@ -895,10 +902,20 @@ public partial class ChronoJumpWindow
 	private bool pulseWebcamPlayGTK ()
 	{
 		if (! webcamPlayThread.IsAlive)
+		{
+			checkbutton_video_contacts.Visible = true;
+			button_video_play_this_test_contacts.Visible = true;
+			spinner_video_play_this_test_contacts.Stop ();
+			spinner_video_play_this_test_contacts.Visible = false;
+
 			return false;
+		}
 
 		if (webcamPlay != null && webcamPlay.PlayVideoGetSecond > 0)
 		{
+			spinner_video_play_this_test_contacts.Stop ();
+			spinner_video_play_this_test_contacts.Visible = false;
+
 			/*
 			event_execute_label_message.Text = string.Format ("video s: {0} force s: {1}",
 					webcamPlay.PlayVideoGetSecond,
@@ -906,6 +923,8 @@ public partial class ChronoJumpWindow
 			*/
 
 			force_capture_drawingarea_cairo.QueueDraw ();
+
+			spinner_video_play_this_test_contacts.Visible = true;
 		}
 
 		Thread.Sleep (10);
@@ -998,6 +1017,7 @@ public partial class ChronoJumpWindow
 		label_video_encoder_tests_will_be_filmed = (Gtk.Label) builder.GetObject ("label_video_encoder_tests_will_be_filmed");
 		button_video_play_this_test_contacts = (Gtk.Button) builder.GetObject ("button_video_play_this_test_contacts");
 		button_video_play_this_test_encoder = (Gtk.Button) builder.GetObject ("button_video_play_this_test_encoder");
+		spinner_video_play_this_test_contacts = (Gtk.Spinner) builder.GetObject ("spinner_video_play_this_test_contacts");
 		pulsebar_webcam = (Gtk.ProgressBar) builder.GetObject ("pulsebar_webcam");
 	}
 }

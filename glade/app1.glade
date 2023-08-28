@@ -27308,6 +27308,7 @@ Concentric</property>
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="receives-default">True</property>
+                                                            <signal name="clicked" handler="on_button_ai_move_cd_clicked" swapped="no"/>
                                                             <child>
                                                             <object class="GtkImage" id="image_ai_move_cd_align_left">
                                                             <property name="visible">True</property>
@@ -27328,6 +27329,7 @@ Concentric</property>
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="receives-default">True</property>
+                                                            <signal name="clicked" handler="on_button_ai_move_cd_clicked" swapped="no"/>
                                                             <child>
                                                             <object class="GtkImage" id="image_ai_move_cd_align_right">
                                                             <property name="visible">True</property>

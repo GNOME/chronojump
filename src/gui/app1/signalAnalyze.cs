@@ -42,6 +42,8 @@ public partial class ChronoJumpWindow
 	Gtk.Button button_ai_move_cd_post_1cs;
 	Gtk.Button button_ai_move_cd_post_1ds;
 	Gtk.Button button_ai_move_cd_post_1s;
+	Gtk.Button button_ai_move_cd_align_left;
+	Gtk.Button button_ai_move_cd_align_right;
 
 	Gtk.Box box_ai_ac;
 	Gtk.Box box_ai_bd;
@@ -234,6 +236,10 @@ public partial class ChronoJumpWindow
 			on_button_signal_analyze_move_cd_do (+.1);
 		else if ((Gtk.Button) o == button_ai_move_cd_post_1s)
 			on_button_signal_analyze_move_cd_do (+1);
+		else if ((Gtk.Button) o == button_ai_move_cd_align_left)
+			on_button_signal_analyze_move_cd_do_align_left_right (true);
+		else if ((Gtk.Button) o == button_ai_move_cd_align_right)
+			on_button_signal_analyze_move_cd_do_align_left_right (false);
 	}
 
 	private void on_button_signal_analyze_move_cd_do (double time)
@@ -252,6 +258,29 @@ public partial class ChronoJumpWindow
 					PointF.ShiftX (cairoGraphRaceAnalyzerPoints_st_CD_l ,time);
 				ai_drawingarea_cairo.QueueDraw(); //will fire ExposeEvent
 			}
+		}
+	}
+
+	private void on_button_signal_analyze_move_cd_do_align_left_right (bool left)
+	{
+		if (Constants.ModeIsFORCESENSOR (current_mode))
+		{
+			if (spCairoFE_CD != null && spCairoFE != null &&
+					spCairoFE_CD.Force_l.Count > 0 && spCairoFE.Force_l.Count > 0)
+			{
+				int xAB = Convert.ToInt32 (spCairoFE.Force_l[0].X);
+				int xCD = Convert.ToInt32 (spCairoFE_CD.Force_l[0].X);
+				if (! left)
+				{
+					xAB = Convert.ToInt32 (PointF.Last (spCairoFE.Force_l).X);
+					xCD = Convert.ToInt32 (PointF.Last (spCairoFE_CD.Force_l).X);
+				}
+
+				spCairoFE_CD.ShiftMicros (xAB - xCD);
+
+				ai_drawingarea_cairo.QueueDraw(); //will fire ExposeEvent
+			}
+		} else { //if (current_mode == Constants.Modes.RUNSENCODER)
 		}
 	}
 
@@ -1022,6 +1051,8 @@ public partial class ChronoJumpWindow
 		button_ai_move_cd_post_1cs = (Gtk.Button) builder.GetObject ("button_ai_move_cd_post_1cs");
 		button_ai_move_cd_post_1ds = (Gtk.Button) builder.GetObject ("button_ai_move_cd_post_1ds");
 		button_ai_move_cd_post_1s = (Gtk.Button) builder.GetObject ("button_ai_move_cd_post_1s");
+		button_ai_move_cd_align_left = (Gtk.Button) builder.GetObject ("button_ai_move_cd_align_left");
+		button_ai_move_cd_align_right = (Gtk.Button) builder.GetObject ("button_ai_move_cd_align_right");
 
 		box_ai_ac = (Gtk.Box) builder.GetObject ("box_ai_ac");
 		box_ai_bd = (Gtk.Box) builder.GetObject ("box_ai_bd");

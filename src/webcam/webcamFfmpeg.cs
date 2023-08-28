@@ -55,7 +55,7 @@ public class WebcamFfmpeg : Webcam
 
 	// public methods ----------------------------------
 
-	public static string GetExecutableCapture(UtilAll.OperatingSystems os)
+	public static string GetExecutableCapture (UtilAll.OperatingSystems os)
 	{
 		string e = "ffmpeg";
 		if(os == UtilAll.OperatingSystems.WINDOWS)
@@ -70,7 +70,8 @@ public class WebcamFfmpeg : Webcam
 
 		return e;
 	}
-	public static string GetExecutablePlay(UtilAll.OperatingSystems os)
+
+	public static string GetExecutablePlay (UtilAll.OperatingSystems os)
 	{
 		string e = "ffplay";
 		if(os == UtilAll.OperatingSystems.WINDOWS)
@@ -82,6 +83,22 @@ public class WebcamFfmpeg : Webcam
 		}
 		if(os == UtilAll.OperatingSystems.MACOSX)
 			e = System.IO.Path.Combine(Util.GetPrefixDir(), "bin/ffplay");
+
+		return e;
+	}
+
+	public static string GetExecutableProbe (UtilAll.OperatingSystems os)
+	{
+		string e = "ffprobe";
+		if(os == UtilAll.OperatingSystems.WINDOWS)
+		{
+			//if(System.Environment.Is64BitProcess)
+				e = System.IO.Path.Combine(Util.GetPrefixDir(), "bin/ffprobe.exe");
+			//else
+			//	e = System.IO.Path.Combine(Util.GetPrefixDir(), "bin/i386/ffprobe.exe");
+		}
+		if(os == UtilAll.OperatingSystems.MACOSX)
+			e = System.IO.Path.Combine(Util.GetPrefixDir(), "bin/ffprobe");
 
 		return e;
 	}
@@ -186,16 +203,7 @@ public class WebcamFfmpeg : Webcam
 		if(filename == "")
 			return -1;
 
-		executable = "ffprobe";
-		if(os == UtilAll.OperatingSystems.WINDOWS)
-		{
-			//if(System.Environment.Is64BitProcess)
-				executable = System.IO.Path.Combine(Util.GetPrefixDir(), "bin/ffprobe.exe");
-			//else
-			//	executable = System.IO.Path.Combine(Util.GetPrefixDir(), "bin/i386/ffprobe.exe");
-		}
-		if(os == UtilAll.OperatingSystems.MACOSX)
-			executable = System.IO.Path.Combine(Util.GetPrefixDir(), "bin/ffprobe");
+		executable = GetExecutableProbe (os);
 
 		List<string> parameters = new List<string> { "-v", "0", "-show_entries", "format=duration", "-of", "compact=p=0:nk=1", filename };
 		ExecuteProcess.Result execute_result = ExecuteProcess.run (executable, parameters, true, false);

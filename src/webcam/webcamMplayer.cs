@@ -122,6 +122,12 @@ public class WebcamMplayer : Webcam
 		return -1;
 	}
 
+	public override int FindVideoFrames (string filename)
+	{
+		//not implemented
+		return -1;
+	}
+
 	public override Result PlayFile (string filename)
 	{
 		if(process != null || filename == "")

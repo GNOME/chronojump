@@ -219,6 +219,25 @@ public class WebcamFfmpeg : Webcam
 		return 0;
 	}
 
+	public override int FindVideoFrames (string filename)
+	{
+		// ffprobe -v 0 -count_frames -show_entries stream=nb_read_frames FORCESENSOR-3141.mp4
+		if(filename == "")
+			return -1;
+
+		executable = GetExecutableProbe (os);
+
+		List<string> parameters = new List<string> { "-v", "0", "-count_frames", "-show_entries", "stream=nb_read_frames", filename };
+
+		ExecuteProcess.Result execute_result = ExecuteProcess.run (executable, parameters, true, false);
+		if(! execute_result.success)
+			return -1;
+
+		LogB.Information ("execute_result stdout:" + execute_result.stdout);
+
+		return ffprobeMatchFrames (execute_result.stdout);
+	}
+
 	public override Result PlayFile (string filename)
 	{
 		if(process != null || filename == "")
@@ -264,6 +283,21 @@ public class WebcamFfmpeg : Webcam
 			str = Util.ChangeDecimalSeparator (str);
 			if (Util.IsNumber (str, true))
 				return Convert.ToDouble (str);
+		}
+
+		return 0;
+	}
+
+	private int ffprobeMatchFrames (string l)
+	{
+		Match match = Regex.Match(l, @"nb_read_frames=(\d+)");
+
+		//LogB.Information("frames match group count is 2?", (match.Groups.Count == 2).ToString());
+		if(match.Groups.Count == 2)
+		{
+			string str = string.Format ("{0}", match.Groups[1].Value);
+			if (Util.IsNumber (str, false))
+				return Convert.ToInt32 (str);
 		}
 
 		return 0;

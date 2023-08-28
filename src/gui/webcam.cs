@@ -826,6 +826,10 @@ public partial class ChronoJumpWindow
 								forceTotalTime, videoTotalTime, diffVideoVsSignal));
 				}
 
+				double videoFrames = webcamPlay.FindVideoFrames (
+						Util.GetVideoFileName (currentSession.UniqueID, Constants.TestTypes.FORCESENSOR, currentForceSensor.UniqueID));
+				LogB.Information ("videoFrames", videoFrames);
+
 				webcamPlayThread = new Thread (new ThreadStart (webcamPlayThreadDo));
 				GLib.Idle.Add (new GLib.IdleHandler (pulseWebcamPlayGTK));
 				webcamPlayThread.Start();

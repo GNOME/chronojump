@@ -152,6 +152,7 @@ public abstract class Webcam
 	public abstract Result PlayPreviewNoBackgroundWantStdoutAndStderr();
 
 	public abstract double FindVideoDuration (string filename);
+	public abstract int FindVideoFrames (string filename);
 	public abstract Result PlayFile(string filename);
 
 	public abstract bool Snapshot();

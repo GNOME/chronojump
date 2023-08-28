@@ -22976,6 +22976,9 @@ Concentric</property>
                                                             <child>
                                                             <placeholder/>
                                                             </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
                                                             </object>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -42750,6 +42753,7 @@ then click this button.</property>
                                                             <property name="invisible-char">●</property>
                                                             <property name="primary-icon-activatable">False</property>
                                                             <property name="secondary-icon-activatable">False</property>
+                                                            <signal name="activate" handler="on_app1s_entry_search_filter_activate" swapped="no"/>
                                                             </object>
                                                             <packing>
                                                             <property name="expand">True</property>

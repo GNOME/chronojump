@@ -255,7 +255,7 @@ public partial class ChronoJumpWindow
 			if (cairoGraphRaceAnalyzerPoints_st_CD_l != null)
 			{
 				cairoGraphRaceAnalyzerPoints_st_CD_l =
-					PointF.ShiftX (cairoGraphRaceAnalyzerPoints_st_CD_l ,time);
+					PointF.ShiftX (cairoGraphRaceAnalyzerPoints_st_CD_l, time);
 				ai_drawingarea_cairo.QueueDraw(); //will fire ExposeEvent
 			}
 		}
@@ -277,10 +277,25 @@ public partial class ChronoJumpWindow
 				}
 
 				spCairoFE_CD.ShiftMicros (xAB - xCD);
-
 				ai_drawingarea_cairo.QueueDraw(); //will fire ExposeEvent
 			}
 		} else { //if (current_mode == Constants.Modes.RUNSENCODER)
+			if (cairoGraphRaceAnalyzerPoints_st_CD_l != null && cairoGraphRaceAnalyzerPoints_st_l != null &&
+					cairoGraphRaceAnalyzerPoints_st_CD_l.Count > 0 && cairoGraphRaceAnalyzerPoints_st_l.Count > 0)
+			{
+				double xAB = cairoGraphRaceAnalyzerPoints_st_l[0].X;
+				double xCD = cairoGraphRaceAnalyzerPoints_st_CD_l[0].X;
+				if (! left)
+				{
+					xAB = PointF.Last (cairoGraphRaceAnalyzerPoints_st_l).X;
+					xCD = PointF.Last (cairoGraphRaceAnalyzerPoints_st_CD_l).X;
+				}
+
+				cairoGraphRaceAnalyzerPoints_st_CD_l =
+					PointF.ShiftX (cairoGraphRaceAnalyzerPoints_st_CD_l, xAB - xCD);
+				ai_drawingarea_cairo.QueueDraw(); //will fire ExposeEvent
+
+			}
 		}
 	}
 

@@ -2017,7 +2017,7 @@ RunEncoderCaptureGetSpeedAndDisplacementTest recgsdt = new RunEncoderCaptureGetS
 			LogB.ThreadEnded(); 
 
 			runEncoderButtonsSensitive(true);
-			radio_signal_analyze_individual_current_set.Active = true;
+			radio_signal_analyze_current_set.Active = true;
 
 			/*
 			button_force_sensor_image_save_signal.Sensitive = true;

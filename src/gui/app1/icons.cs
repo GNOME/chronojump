@@ -985,21 +985,18 @@ public partial class ChronoJumpWindow
 		image_sprint_analyze_individual_current_set.Pixbuf = pixbuf;
 		image_encoder_analyze_individual_current_set.Pixbuf = pixbuf;
 		image_force_sensor_analyze_individual_current_set.Pixbuf = pixbuf;
-		image_run_encoder_analyze_individual_current_set.Pixbuf = pixbuf;
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameEncoderAnalyzeIndividualCurrentSessionIcon);
 		image_contacts_export_individual_current_session.Pixbuf = pixbuf;
 		image_sprint_analyze_individual_current_session.Pixbuf = pixbuf;
 		image_encoder_analyze_individual_current_session.Pixbuf = pixbuf;
 		image_force_sensor_analyze_individual_current_session.Pixbuf = pixbuf;
-		image_run_encoder_analyze_individual_current_session.Pixbuf = pixbuf;
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameEncoderAnalyzeIndividualAllSessionsIcon);
 		image_contacts_export_individual_all_sessions.Pixbuf = pixbuf;
 		image_encoder_analyze_individual_all_sessions.Pixbuf = pixbuf;
 		image_sprint_analyze_individual_all_sessions.Pixbuf = pixbuf;
 		image_force_sensor_analyze_individual_all_sessions.Pixbuf = pixbuf;
-		image_run_encoder_analyze_individual_all_sessions.Pixbuf = pixbuf;
 		image_tab_jumps_evolution.Pixbuf = pixbuf;
 		image_tab_runs_evolution.Pixbuf = pixbuf;
 
@@ -1008,7 +1005,6 @@ public partial class ChronoJumpWindow
 		image_sprint_analyze_groupal_current_session.Pixbuf = pixbuf;
 		image_encoder_analyze_groupal_current_session.Pixbuf = pixbuf;
 		image_force_sensor_analyze_groupal_current_session.Pixbuf = pixbuf;
-		image_run_encoder_analyze_groupal_current_session.Pixbuf = pixbuf;
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameEncoderAnalyzePowerbarsIcon);
 		image_encoder_analyze_powerbars.Pixbuf = pixbuf;

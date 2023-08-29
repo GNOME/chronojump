@@ -94,6 +94,8 @@ public partial class ChronoJumpWindow
 	Gtk.RadioButton radio_ai_export_individual_current_session;
 	Gtk.RadioButton radio_ai_export_individual_all_sessions;
 	Gtk.RadioButton radio_ai_export_groupal_current_session;
+	Gtk.Label label_ai_export_person;
+	Gtk.Label label_ai_export_session;
 	Gtk.Button button_ai_export_result_open;
 	// <---- at glade
 
@@ -1199,6 +1201,8 @@ public partial class ChronoJumpWindow
 		radio_ai_export_individual_current_session = (Gtk.RadioButton) builder.GetObject ("radio_ai_export_individual_current_session");
 		radio_ai_export_individual_all_sessions = (Gtk.RadioButton) builder.GetObject ("radio_ai_export_individual_all_sessions");
 		radio_ai_export_groupal_current_session = (Gtk.RadioButton) builder.GetObject ("radio_ai_export_groupal_current_session");
+		label_ai_export_person = (Gtk.Label) builder.GetObject ("label_ai_export_person");
+		label_ai_export_session = (Gtk.Label) builder.GetObject ("label_ai_export_session");
 		button_ai_export_result_open = (Gtk.Button) builder.GetObject ("button_ai_export_result_open");
 	}
 }

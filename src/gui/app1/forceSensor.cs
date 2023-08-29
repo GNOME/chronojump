@@ -590,9 +590,9 @@ public partial class ChronoJumpWindow
 		if (radio_ai_export_individual_current_session.Active)
 		{
 			if(currentPerson != null)
-				label_force_sensor_export_person.Text = currentPerson.Name;
+				label_ai_export_person.Text = currentPerson.Name;
 			else
-				label_force_sensor_export_person.Text = "";
+				label_ai_export_person.Text = "";
 		}
 
 		button_force_sensor_image_save_signal.Sensitive = false;

@@ -39,7 +39,6 @@ public partial class ChronoJumpWindow
 
 	//export
 	Gtk.Notebook notebook_run_encoder_export;
-	Gtk.CheckButton check_run_encoder_export_images;
 	Gtk.HBox hbox_run_encoder_export_width_height;
 	Gtk.SpinButton spinbutton_run_encoder_export_image_width;
 	Gtk.SpinButton spinbutton_run_encoder_export_image_height;
@@ -334,12 +333,14 @@ public partial class ChronoJumpWindow
 
 	private void on_check_run_encoder_export_images_toggled (object o, EventArgs args)
 	{
+		/*
 		hbox_run_encoder_export_width_height.Visible = check_run_encoder_export_images.Active;
 
 		//also hide the label and the open button
 		label_run_encoder_export_discarded.Text = "";
 		label_run_encoder_export_result.Text = "";
 		button_ai_export_result_open.Visible = false;
+		*/
 	}
 
 	private void on_radio_run_encoder_analyze_individual_current_set_toggled (object o, EventArgs args)
@@ -454,7 +455,7 @@ public partial class ChronoJumpWindow
 				progressbar_run_encoder_export,
 				label_run_encoder_export_discarded,
 				label_run_encoder_export_result,
-				check_run_encoder_export_images.Active,
+				check_ai_export_images.Active,
 				Convert.ToInt32(spinbutton_run_encoder_export_image_width.Value),
 				Convert.ToInt32(spinbutton_run_encoder_export_image_height.Value),
 				check_run_encoder_export_instantaneous.Active,
@@ -474,7 +475,7 @@ public partial class ChronoJumpWindow
 		runEncoderExport.Button_done.Clicked += new EventHandler(run_encoder_export_done);
 
 		bool selectedFile = false;
-		if(check_run_encoder_export_images.Active || check_run_encoder_export_instantaneous.Active) 	//export folder
+		if(check_ai_export_images.Active || check_run_encoder_export_instantaneous.Active) 	//export folder
 		{
 			if(personID == -1)
 				selectedFile = checkFolder (Constants.CheckFileOp.RUNENCODER_EXPORT_GROUPAL_CURRENT_SESSION_YES_IMAGES);
@@ -545,7 +546,6 @@ public partial class ChronoJumpWindow
 
 		//export
 		notebook_run_encoder_export = (Gtk.Notebook) builder.GetObject ("notebook_run_encoder_export");
-		check_run_encoder_export_images = (Gtk.CheckButton) builder.GetObject ("check_run_encoder_export_images");
 		hbox_run_encoder_export_width_height = (Gtk.HBox) builder.GetObject ("hbox_run_encoder_export_width_height");
 		spinbutton_run_encoder_export_image_width = (Gtk.SpinButton) builder.GetObject ("spinbutton_run_encoder_export_image_width");
 		spinbutton_run_encoder_export_image_height = (Gtk.SpinButton) builder.GetObject ("spinbutton_run_encoder_export_image_height");

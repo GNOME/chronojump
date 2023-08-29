@@ -123,8 +123,6 @@ public partial class ChronoJumpWindow
 
 
 	Gtk.Notebook notebook_force_sensor_export;
-	Gtk.HBox hbox_force_sensor_export_images;
-	Gtk.CheckButton check_force_sensor_export_images;
 	Gtk.HBox hbox_force_sensor_export_width_height;
 	Gtk.SpinButton spinbutton_force_sensor_export_image_width;
 	Gtk.SpinButton spinbutton_force_sensor_export_image_height;
@@ -667,9 +665,9 @@ public partial class ChronoJumpWindow
 
 	//move to export gui file
 
-	private void on_check_force_sensor_export_images_toggled (object o, EventArgs args)
+	private void on_check_ai_export_images_toggled (object o, EventArgs args)
 	{
-		hbox_force_sensor_export_width_height.Visible = check_force_sensor_export_images.Active;
+		hbox_force_sensor_export_width_height.Visible = check_ai_export_images.Active;
 
 		//also hide the label and the open button
 		label_force_sensor_export_result.Text = "";
@@ -764,7 +762,7 @@ public partial class ChronoJumpWindow
 		forceSensorButtonsSensitive(false);
 		hbox_ai_export_top_modes.Sensitive = false;
 		button_ai_model_options.Sensitive = false;
-		hbox_force_sensor_export_images.Sensitive = false;
+		hbox_ai_export_images.Sensitive = false;
 
 		//store new width/height if changed
 		Sqlite.Open();
@@ -791,7 +789,7 @@ public partial class ChronoJumpWindow
 				notebook_force_sensor_export,
 				progressbar_force_sensor_export,
 				label_force_sensor_export_result,
-				check_force_sensor_export_images.Active,
+				check_ai_export_images.Active,
 				Convert.ToInt32(spinbutton_force_sensor_export_image_width.Value),
 				Convert.ToInt32(spinbutton_force_sensor_export_image_height.Value),
 				UtilAll.IsWindows(), personID, sessionID,
@@ -810,7 +808,7 @@ public partial class ChronoJumpWindow
 		forceSensorExport.Button_done.Clicked += new EventHandler(force_sensor_export_done);
 
 		bool selectedFile = false;
-		if(check_force_sensor_export_images.Active)
+		if(check_ai_export_images.Active)
 		{
 			if(personID == -1)
 				selectedFile = checkFolder (Constants.CheckFileOp.FORCESENSOR_EXPORT_GROUPAL_CURRENT_SESSION_YES_IMAGES);
@@ -832,7 +830,7 @@ public partial class ChronoJumpWindow
 			forceSensorButtonsSensitive(true);
 			hbox_ai_export_top_modes.Sensitive = true;
 			button_ai_model_options.Sensitive = true;
-			hbox_force_sensor_export_images.Sensitive = true;
+			hbox_ai_export_images.Sensitive = true;
 		}
 	}
 	private void on_button_force_sensor_export_file_selected (string selectedFileName)
@@ -852,7 +850,7 @@ public partial class ChronoJumpWindow
 		forceSensorButtonsSensitive(true);
 		hbox_ai_export_top_modes.Sensitive = true;
 		button_ai_model_options.Sensitive = true;
-		hbox_force_sensor_export_images.Sensitive = true;
+		hbox_ai_export_images.Sensitive = true;
 
 		if(forceSensorExport != null && forceSensorExport.AllOk)
 			button_ai_export_result_open.Visible = true;
@@ -1595,8 +1593,6 @@ public partial class ChronoJumpWindow
 		spinbutton_force_4_in_x_ms = (Gtk.SpinButton) builder.GetObject ("spinbutton_force_4_in_x_ms");
 
 		notebook_force_sensor_export = (Gtk.Notebook) builder.GetObject ("notebook_force_sensor_export");
-		hbox_force_sensor_export_images = (Gtk.HBox) builder.GetObject ("hbox_force_sensor_export_images");
-		check_force_sensor_export_images = (Gtk.CheckButton) builder.GetObject ("check_force_sensor_export_images");
 		hbox_force_sensor_export_width_height = (Gtk.HBox) builder.GetObject ("hbox_force_sensor_export_width_height");
 		spinbutton_force_sensor_export_image_width = (Gtk.SpinButton) builder.GetObject ("spinbutton_force_sensor_export_image_width");
 		spinbutton_force_sensor_export_image_height = (Gtk.SpinButton) builder.GetObject ("spinbutton_force_sensor_export_image_height");

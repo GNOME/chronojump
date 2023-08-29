@@ -28353,19 +28353,19 @@ Concentric</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <object class="GtkHBox" id="hbox_force_sensor_export_images">
+                                                            <object class="GtkHBox" id="hbox_ai_export_images">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
                                                             <property name="spacing">24</property>
                                                             <child>
-                                                            <object class="GtkCheckButton" id="check_force_sensor_export_images">
+                                                            <object class="GtkCheckButton" id="check_ai_export_images">
                                                             <property name="label" translatable="yes">Include images</property>
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="receives-default">False</property>
                                                             <property name="active">True</property>
                                                             <property name="draw-indicator">True</property>
-                                                            <signal name="toggled" handler="on_check_force_sensor_export_images_toggled" swapped="no"/>
+                                                            <signal name="toggled" handler="on_check_ai_export_images_toggled" swapped="no"/>
                                                             </object>
                                                             <packing>
                                                             <property name="expand">False</property>

@@ -504,11 +504,6 @@ public partial class ChronoJumpWindow
 		runEncoderExport.Start(selectedFileName); //file or folder
 	}
 
-	private void on_button_run_encoder_export_cancel_clicked (object o, EventArgs args)
-	{
-		runEncoderExport.Cancel();
-	}
-
 	private void run_encoder_export_done (object o, EventArgs args)
 	{
 		runEncoderExport.Button_done.Clicked -= new EventHandler(run_encoder_export_done);

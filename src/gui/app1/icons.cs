@@ -219,7 +219,7 @@ public partial class ChronoJumpWindow
 	Gtk.Image image_force_sensor_laterality_both;
 	Gtk.Image image_force_sensor_laterality_r;
 	Gtk.Image image_force_sensor_laterality_l;
-	Gtk.Image image_force_sensor_export_cancel;
+	Gtk.Image image_ai_export_cancel;
 	Gtk.Image image_force_sensor_ai_chained_hscales_link;
 	Gtk.Image image_force_sensor_ai_chained_hscales_link_off;
 	Gtk.Image image_force_sensor_analyze_load_abcd_north_west;
@@ -837,7 +837,7 @@ public partial class ChronoJumpWindow
 		image_button_contacts_exercise_actions_cancel.Pixbuf = pixbuf;
 		image_button_encoder_exercise_actions_cancel.Pixbuf = pixbuf;
 		image_encoder_analyze_cancel.Pixbuf = pixbuf;
-		image_force_sensor_export_cancel.Pixbuf = pixbuf;
+		image_ai_export_cancel.Pixbuf = pixbuf;
 		image_run_encoder_export_cancel.Pixbuf = pixbuf;
 		app1s_image_cancel.Pixbuf = pixbuf;
 		image_app1sae_button_cancel.Pixbuf = pixbuf;
@@ -1329,7 +1329,7 @@ public partial class ChronoJumpWindow
 		image_force_sensor_laterality_both = (Gtk.Image) builder.GetObject ("image_force_sensor_laterality_both");
 		image_force_sensor_laterality_r = (Gtk.Image) builder.GetObject ("image_force_sensor_laterality_r");
 		image_force_sensor_laterality_l = (Gtk.Image) builder.GetObject ("image_force_sensor_laterality_l");
-		image_force_sensor_export_cancel = (Gtk.Image) builder.GetObject ("image_force_sensor_export_cancel");
+		image_ai_export_cancel = (Gtk.Image) builder.GetObject ("image_ai_export_cancel");
 		image_force_sensor_ai_chained_hscales_link = (Gtk.Image) builder.GetObject ("image_force_sensor_ai_chained_hscales_link");
 		image_force_sensor_ai_chained_hscales_link_off = (Gtk.Image) builder.GetObject ("image_force_sensor_ai_chained_hscales_link_off");
 		image_force_sensor_analyze_load_abcd_north_west = (Gtk.Image) builder.GetObject ("image_force_sensor_analyze_load_abcd_north_west");

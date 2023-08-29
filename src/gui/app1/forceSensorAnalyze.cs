@@ -833,11 +833,6 @@ public partial class ChronoJumpWindow
 		forceSensorExport.Start(selectedFileName); //file or folder
 	}
 
-	private void on_button_force_sensor_export_cancel_clicked (object o, EventArgs args)
-	{
-		forceSensorExport.Cancel();
-	}
-
 	private void force_sensor_export_done (object o, EventArgs args)
 	{
 		forceSensorExport.Button_done.Clicked -= new EventHandler(force_sensor_export_done);

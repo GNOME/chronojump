@@ -123,8 +123,6 @@ public partial class ChronoJumpWindow
 
 
 	Gtk.Notebook notebook_force_sensor_export;
-	Gtk.Label label_force_sensor_export_person;
-	Gtk.Label label_force_sensor_export_session;
 	Gtk.HBox hbox_force_sensor_export_images;
 	Gtk.CheckButton check_force_sensor_export_images;
 	Gtk.HBox hbox_force_sensor_export_width_height;
@@ -694,11 +692,11 @@ public partial class ChronoJumpWindow
 	private void on_radio_force_sensor_export_session_current_toggled (object o, EventArgs args)
 	{
 		if(currentPerson != null)
-			label_force_sensor_export_person.Text = currentPerson.Name;
+			label_ai_export_person.Text = currentPerson.Name;
 		else
-			label_force_sensor_export_person.Text = "";
+			label_ai_export_person.Text = "";
 
-		label_force_sensor_export_session.Text = currentSession.Name;
+		label_ai_export_session.Text = currentSession.Name;
 
 		label_force_sensor_export_result.Text = "";
 		button_ai_export_result_open.Visible = false;
@@ -706,19 +704,19 @@ public partial class ChronoJumpWindow
 	private void on_radio_force_sensor_export_session_all_toggled (object o, EventArgs args)
 	{
 		if(currentPerson != null)
-			label_force_sensor_export_person.Text = currentPerson.Name;
+			label_ai_export_person.Text = currentPerson.Name;
 		else
-			label_force_sensor_export_person.Text = "";
+			label_ai_export_person.Text = "";
 
-		label_force_sensor_export_session.Text = Catalog.GetString ("All");
+		label_ai_export_session.Text = Catalog.GetString ("All");
 
 		label_force_sensor_export_result.Text = "";
 		button_ai_export_result_open.Visible = false;
 	}
 	private void on_radio_force_sensor_analyze_export_groupal_toggled (object o, EventArgs args)
 	{
-		label_force_sensor_export_person.Text = Catalog.GetString ("All");
-		label_force_sensor_export_session.Text = currentSession.Name;
+		label_ai_export_person.Text = Catalog.GetString ("All");
+		label_ai_export_session.Text = currentSession.Name;
 
 		label_force_sensor_export_result.Text = "";
 		button_ai_export_result_open.Visible = false;
@@ -1597,8 +1595,6 @@ public partial class ChronoJumpWindow
 		spinbutton_force_4_in_x_ms = (Gtk.SpinButton) builder.GetObject ("spinbutton_force_4_in_x_ms");
 
 		notebook_force_sensor_export = (Gtk.Notebook) builder.GetObject ("notebook_force_sensor_export");
-		label_force_sensor_export_person = (Gtk.Label) builder.GetObject ("label_force_sensor_export_person");
-		label_force_sensor_export_session = (Gtk.Label) builder.GetObject ("label_force_sensor_export_session");
 		hbox_force_sensor_export_images = (Gtk.HBox) builder.GetObject ("hbox_force_sensor_export_images");
 		check_force_sensor_export_images = (Gtk.CheckButton) builder.GetObject ("check_force_sensor_export_images");
 		hbox_force_sensor_export_width_height = (Gtk.HBox) builder.GetObject ("hbox_force_sensor_export_width_height");

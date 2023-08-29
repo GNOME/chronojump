@@ -3391,9 +3391,9 @@ public partial class ChronoJumpWindow
 			reportWin.FillTreeView();
 		} catch {} //reportWin is still not created, not need to Fill again
 
-		label_force_sensor_export_person.Text = "";
+		label_ai_export_person.Text = "";
 		label_contacts_export_person.Text = "";
-		label_force_sensor_export_session.Text = currentSession.Name;
+		label_ai_export_session.Text = currentSession.Name;
 		label_contacts_export_session.Text = currentSession.Name;
 		label_contacts_export_result.Text = "";
 		button_contacts_export_result_open.Visible = false;
@@ -3514,18 +3514,16 @@ public partial class ChronoJumpWindow
 
 		if(currentPerson != null)
 		{
-			label_force_sensor_export_person.Text = currentPerson.Name;
+			label_ai_export_person.Text = currentPerson.Name;
 			label_contacts_export_person.Text = currentPerson.Name;
 		} else {
-			label_force_sensor_export_person.Text = "";
+			label_ai_export_person.Text = "";
 			label_contacts_export_person.Text = "";
 		}
-		label_force_sensor_export_session.Text = currentSession.Name;
+		label_ai_export_session.Text = currentSession.Name;
 		label_contacts_export_session.Text = currentSession.Name;
 		label_contacts_export_result.Text = "";
 		button_contacts_export_result_open.Visible = false;
-
-		label_run_encoder_export_data.Text = currentSession.Name;
 
 		chronojumpWindowTestsNext();
 

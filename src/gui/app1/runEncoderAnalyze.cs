@@ -39,7 +39,6 @@ public partial class ChronoJumpWindow
 
 	//export
 	Gtk.Notebook notebook_run_encoder_export;
-	Gtk.Label label_run_encoder_export_data;
 	Gtk.CheckButton check_run_encoder_export_images;
 	Gtk.HBox hbox_run_encoder_export_width_height;
 	Gtk.SpinButton spinbutton_run_encoder_export_image_width;
@@ -546,7 +545,6 @@ public partial class ChronoJumpWindow
 
 		//export
 		notebook_run_encoder_export = (Gtk.Notebook) builder.GetObject ("notebook_run_encoder_export");
-		label_run_encoder_export_data = (Gtk.Label) builder.GetObject ("label_run_encoder_export_data");
 		check_run_encoder_export_images = (Gtk.CheckButton) builder.GetObject ("check_run_encoder_export_images");
 		hbox_run_encoder_export_width_height = (Gtk.HBox) builder.GetObject ("hbox_run_encoder_export_width_height");
 		spinbutton_run_encoder_export_image_width = (Gtk.SpinButton) builder.GetObject ("spinbutton_run_encoder_export_image_width");

@@ -28050,7 +28050,7 @@ Concentric</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <object class="GtkHBox" id="hbox_force_sensor_analyze_top_modes">
+                                                            <object class="GtkHBox" id="hbox_ai_export_top_modes">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
                                                             <property name="spacing">12</property>
@@ -28293,7 +28293,7 @@ Concentric</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <object class="GtkLabel" id="label_force_sensor_export_person">
+                                                            <object class="GtkLabel" id="label_ai_export_person">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
                                                             </object>
@@ -28328,7 +28328,7 @@ Concentric</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <object class="GtkLabel" id="label_force_sensor_export_session">
+                                                            <object class="GtkLabel" id="label_ai_export_session">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
                                                             </object>
@@ -30912,7 +30912,7 @@ Concentric</property>
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
                                                             <child>
-                                                            <object class="GtkHBox" id="hbox_ai_export_top_modes">
+                                                            <object class="GtkHBox" id="hbox_ai_export_top_modes_deletethis">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
                                                             <property name="spacing">12</property>

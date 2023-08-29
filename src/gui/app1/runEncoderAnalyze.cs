@@ -39,13 +39,13 @@ public partial class ChronoJumpWindow
 
 	//export
 	Gtk.Notebook notebook_run_encoder_export;
-	Gtk.HBox hbox_run_encoder_export_width_height;
+	//Gtk.HBox hbox_run_encoder_export_width_height;
 	Gtk.SpinButton spinbutton_run_encoder_export_image_width;
 	Gtk.SpinButton spinbutton_run_encoder_export_image_height;
 	Gtk.CheckButton check_run_encoder_export_instantaneous;
-	Gtk.ProgressBar progressbar_run_encoder_export;
+	//Gtk.ProgressBar progressbar_run_encoder_export;
 	Gtk.Label label_run_encoder_export_discarded;
-	Gtk.Label label_run_encoder_export_result;
+	//Gtk.Label label_run_encoder_export_result;
 
 	Gtk.Notebook notebook_run_encoder_analyze; //TODO: this will be erased
 	Gtk.Notebook notebook_run_encoder_analyze_current_set;
@@ -427,7 +427,7 @@ public partial class ChronoJumpWindow
 	private void button_run_encoder_export_session (int personID, int sessionID)
 	{
 		label_run_encoder_export_discarded.Text = "";
-		label_run_encoder_export_result.Text = "";
+		//label_run_encoder_export_result.Text = "";
 		button_ai_export_result_open.Visible = false;
 		runEncoderButtonsSensitive(false);
 		hbox_run_encoder_top.Sensitive = false;
@@ -452,9 +452,9 @@ public partial class ChronoJumpWindow
 
 		runEncoderExport = new RunEncoderExport (
 				notebook_run_encoder_export,
-				progressbar_run_encoder_export,
+				label_ai_export, progressbar_ai_export,
 				label_run_encoder_export_discarded,
-				label_run_encoder_export_result,
+				label_ai_export_result,
 				check_ai_export_images.Active,
 				Convert.ToInt32(spinbutton_run_encoder_export_image_width.Value),
 				Convert.ToInt32(spinbutton_run_encoder_export_image_height.Value),
@@ -546,13 +546,13 @@ public partial class ChronoJumpWindow
 
 		//export
 		notebook_run_encoder_export = (Gtk.Notebook) builder.GetObject ("notebook_run_encoder_export");
-		hbox_run_encoder_export_width_height = (Gtk.HBox) builder.GetObject ("hbox_run_encoder_export_width_height");
+		//hbox_run_encoder_export_width_height = (Gtk.HBox) builder.GetObject ("hbox_run_encoder_export_width_height");
 		spinbutton_run_encoder_export_image_width = (Gtk.SpinButton) builder.GetObject ("spinbutton_run_encoder_export_image_width");
 		spinbutton_run_encoder_export_image_height = (Gtk.SpinButton) builder.GetObject ("spinbutton_run_encoder_export_image_height");
 		check_run_encoder_export_instantaneous = (Gtk.CheckButton) builder.GetObject ("check_run_encoder_export_instantaneous");
-		progressbar_run_encoder_export = (Gtk.ProgressBar) builder.GetObject ("progressbar_run_encoder_export");
+		//progressbar_run_encoder_export = (Gtk.ProgressBar) builder.GetObject ("progressbar_run_encoder_export");
 		label_run_encoder_export_discarded = (Gtk.Label) builder.GetObject ("label_run_encoder_export_discarded");
-		label_run_encoder_export_result = (Gtk.Label) builder.GetObject ("label_run_encoder_export_result");
+		//label_run_encoder_export_result = (Gtk.Label) builder.GetObject ("label_run_encoder_export_result");
 
 		notebook_run_encoder_analyze = (Gtk.Notebook) builder.GetObject ("notebook_run_encoder_analyze");
 		notebook_run_encoder_analyze_current_set = (Gtk.Notebook) builder.GetObject ("notebook_run_encoder_analyze_current_set");

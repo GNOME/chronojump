@@ -30,6 +30,7 @@ public abstract class ExportFiles
 
 	//passed variables
 	protected Gtk.Notebook notebook;
+	protected Gtk.Label labelProgress;
 	protected Gtk.ProgressBar progressbar;
 	protected Gtk.Label labelDiscarded;
 	protected Gtk.Label labelResult;
@@ -55,7 +56,7 @@ public abstract class ExportFiles
 
 	protected void assignParams (
 			Gtk.Notebook notebook,
-			Gtk.ProgressBar progressbar,
+			Gtk.Label labelProgress, Gtk.ProgressBar progressbar,
 			Gtk.Label labelDiscarded,
 			Gtk.Label labelResult,
 			bool includeImages,
@@ -65,6 +66,7 @@ public abstract class ExportFiles
 
 	{
 		this.notebook = notebook;
+		this.labelProgress = labelProgress;
 		this.progressbar = progressbar;
 		this.labelDiscarded = labelDiscarded;
 		this.labelResult = labelResult;
@@ -88,6 +90,7 @@ public abstract class ExportFiles
 		noData = false;
 		cannotCopy = false;
 		allOk = false;
+		labelProgress.Text = "";
 		progressbar.Fraction = 0;
 		messageToProgressbar = "";
 		notebook.CurrentPage = 1;
@@ -193,7 +196,7 @@ public abstract class ExportFiles
 
 		int fileCount = dirInfo.GetFiles().Length;
 		if(fileCount == 0) {
-			progressbar.Text = messageToProgressbar;
+			labelProgress.Text = messageToProgressbar;
 			progressbar.Pulse();
 		} else {
 			setProgressBarTextAndFractionPrepare (fileCount);
@@ -234,7 +237,7 @@ public abstract class ExportFiles
 	//forceSensor inherits different
 	protected virtual void setProgressBarTextAndFractionDo (int current, int total)
 	{
-		progressbar.Text = string.Format(Catalog.GetString("Exporting {0}/{1}"),
+		labelProgress.Text = string.Format(Catalog.GetString("Exporting {0}/{1}"),
 				current, total);
 		progressbar.Fraction = UtilAll.DivideSafeFraction(current, total);
 	}

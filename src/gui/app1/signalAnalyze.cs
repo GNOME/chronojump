@@ -1082,7 +1082,7 @@ public partial class ChronoJumpWindow
 		notebook_ai_top_LastPage = notebook_ai_top.CurrentPage;
 		notebook_ai_top.CurrentPage = Convert.ToInt32(notebook_ai_top_pages.AUTOMATICOPTIONS);
 
-		hbox_force_sensor_analyze_top_modes.Sensitive = false;
+		hbox_ai_export_top_modes.Sensitive = false;
 		button_ai_model_options_close_and_analyze.Visible = radio_signal_analyze_current_set.Active;
 
 		if (Constants.ModeIsFORCESENSOR (current_mode))
@@ -1100,7 +1100,7 @@ public partial class ChronoJumpWindow
 	private void on_button_ai_model_options_close_clicked (object o, EventArgs args)
 	{
 		notebook_ai_top.CurrentPage = notebook_ai_top_LastPage;
-		hbox_force_sensor_analyze_top_modes.Sensitive = true;
+		hbox_ai_export_top_modes.Sensitive = true;
 
 		if (Constants.ModeIsFORCESENSOR (current_mode))
 			on_button_force_sensor_ai_model_options_close_clicked ();

@@ -2991,7 +2991,7 @@ public partial class ChronoJumpWindow
 	private void on_overwrite_file_forcesensor_export_cancelled(object o, EventArgs args)
 	{
 		forceSensorButtonsSensitive(true);
-		hbox_force_sensor_analyze_top_modes.Sensitive = true;
+		hbox_ai_export_top_modes.Sensitive = true;
 		button_ai_model_options.Sensitive = true;
 	}
 

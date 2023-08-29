@@ -65,7 +65,7 @@ public partial class ChronoJumpWindow
 
 	//analyze options
 	Gtk.Notebook notebook_force_sensor_rfd_options;
-	Gtk.HBox hbox_force_sensor_analyze_top_modes;
+	Gtk.HBox hbox_ai_export_top_modes;
 //	Gtk.HBox hbox_force_sensor_analyze_automatic_options;
 //	Gtk.Notebook notebook_force_analyze_automatic;
 	Gtk.VBox vbox_force_rfd_duration_end;
@@ -764,7 +764,7 @@ public partial class ChronoJumpWindow
 		label_force_sensor_export_result.Text = "";
 		button_ai_export_result_open.Visible = false;
 		forceSensorButtonsSensitive(false);
-		hbox_force_sensor_analyze_top_modes.Sensitive = false;
+		hbox_ai_export_top_modes.Sensitive = false;
 		button_ai_model_options.Sensitive = false;
 		hbox_force_sensor_export_images.Sensitive = false;
 
@@ -832,7 +832,7 @@ public partial class ChronoJumpWindow
 		//restore the gui if cancelled
 		if(! selectedFile) {
 			forceSensorButtonsSensitive(true);
-			hbox_force_sensor_analyze_top_modes.Sensitive = true;
+			hbox_ai_export_top_modes.Sensitive = true;
 			button_ai_model_options.Sensitive = true;
 			hbox_force_sensor_export_images.Sensitive = true;
 		}
@@ -852,7 +852,7 @@ public partial class ChronoJumpWindow
 		forceSensorExport.Button_done.Clicked -= new EventHandler(force_sensor_export_done);
 
 		forceSensorButtonsSensitive(true);
-		hbox_force_sensor_analyze_top_modes.Sensitive = true;
+		hbox_ai_export_top_modes.Sensitive = true;
 		button_ai_model_options.Sensitive = true;
 		hbox_force_sensor_export_images.Sensitive = true;
 
@@ -1540,7 +1540,7 @@ public partial class ChronoJumpWindow
 
 		//analyze options
 		notebook_force_sensor_rfd_options = (Gtk.Notebook) builder.GetObject ("notebook_force_sensor_rfd_options");
-		hbox_force_sensor_analyze_top_modes = (Gtk.HBox) builder.GetObject ("hbox_force_sensor_analyze_top_modes");
+		hbox_ai_export_top_modes = (Gtk.HBox) builder.GetObject ("hbox_ai_export_top_modes");
 		//	hbox_force_sensor_analyze_automatic_options = (Gtk.HBox) builder.GetObject ("hbox_force_sensor_analyze_automatic_options");
 		//	notebook_force_analyze_automatic = (Gtk.Notebook) builder.GetObject ("notebook_force_analyze_automatic");
 		vbox_force_rfd_duration_end = (Gtk.VBox) builder.GetObject ("vbox_force_rfd_duration_end");

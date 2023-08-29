@@ -277,62 +277,68 @@ public partial class ChronoJumpWindow
 
 	private void on_button_signal_analyze_move_cd_do_align (AlignTypes align)
 	{
-		if (Constants.ModeIsFORCESENSOR (current_mode))
+		if (Constants.ModeIsFORCESENSOR (current_mode) &&
+				spCairoFE_CD != null &&
+				spCairoFE != null &&
+				spCairoFE_CD.Force_l.Count > 0 &&
+				spCairoFE.Force_l.Count > 0)
+			on_button_signal_analyze_move_cd_do_align_forceSensor (align);
+		else if (current_mode == Constants.Modes.RUNSENCODER &&
+				cairoGraphRaceAnalyzerPoints_st_CD_l != null &&
+				cairoGraphRaceAnalyzerPoints_st_l != null &&
+				cairoGraphRaceAnalyzerPoints_st_CD_l.Count > 0 &&
+				cairoGraphRaceAnalyzerPoints_st_l.Count > 0)
+			on_button_signal_analyze_move_cd_do_align_raceAnalyzer (align);
+	}
+
+	private void on_button_signal_analyze_move_cd_do_align_forceSensor (AlignTypes align)
+	{
+		int xAB = 0;
+		int xCD = 0;
+		if (align == AlignTypes.LEFT)
 		{
-			if (spCairoFE_CD != null && spCairoFE != null &&
-					spCairoFE_CD.Force_l.Count > 0 && spCairoFE.Force_l.Count > 0)
-			{
-				int xAB = 0;
-				int xCD = 0;
-				if (align == AlignTypes.LEFT)
-				{
-					xAB = Convert.ToInt32 (spCairoFE.Force_l[0].X);
-					xCD = Convert.ToInt32 (spCairoFE_CD.Force_l[0].X);
-				}
-				else if (align == AlignTypes.CENTER)
-				{
-					xAB = Convert.ToInt32 (UtilAll.DivideSafe (spCairoFE.Force_l[0].X + PointF.Last (spCairoFE.Force_l).X, 2));
-					xCD = Convert.ToInt32 (UtilAll.DivideSafe (spCairoFE_CD.Force_l[0].X + PointF.Last (spCairoFE_CD.Force_l).X, 2));
-				}
-				else if (align == AlignTypes.RIGHT)
-				{
-					xAB = Convert.ToInt32 (PointF.Last (spCairoFE.Force_l).X);
-					xCD = Convert.ToInt32 (PointF.Last (spCairoFE_CD.Force_l).X);
-				}
-
-				spCairoFE_CD.ShiftMicros (xAB - xCD);
-				ai_drawingarea_cairo.QueueDraw(); //will fire ExposeEvent
-			}
-		} else { //if (current_mode == Constants.Modes.RUNSENCODER)
-			if (cairoGraphRaceAnalyzerPoints_st_CD_l != null && cairoGraphRaceAnalyzerPoints_st_l != null &&
-					cairoGraphRaceAnalyzerPoints_st_CD_l.Count > 0 && cairoGraphRaceAnalyzerPoints_st_l.Count > 0)
-			{
-				double xAB = 0;
-				double xCD = 0;
-				if (align == AlignTypes.LEFT)
-				{
-					xAB = cairoGraphRaceAnalyzerPoints_st_l[0].X;
-					xCD = cairoGraphRaceAnalyzerPoints_st_CD_l[0].X;
-				}
-				else if (align == AlignTypes.CENTER)
-				{
-					xAB = UtilAll.DivideSafe (cairoGraphRaceAnalyzerPoints_st_l[0].X +
-							PointF.Last (cairoGraphRaceAnalyzerPoints_st_l).X, 2);
-					xCD = UtilAll.DivideSafe (cairoGraphRaceAnalyzerPoints_st_CD_l[0].X +
-							PointF.Last (cairoGraphRaceAnalyzerPoints_st_CD_l).X, 2);
-				}
-				else if (align == AlignTypes.RIGHT)
-				{
-					xAB = PointF.Last (cairoGraphRaceAnalyzerPoints_st_l).X;
-					xCD = PointF.Last (cairoGraphRaceAnalyzerPoints_st_CD_l).X;
-				}
-
-				cairoGraphRaceAnalyzerPoints_st_CD_l =
-					PointF.ShiftX (cairoGraphRaceAnalyzerPoints_st_CD_l, xAB - xCD);
-				ai_drawingarea_cairo.QueueDraw(); //will fire ExposeEvent
-
-			}
+			xAB = Convert.ToInt32 (spCairoFE.Force_l[0].X);
+			xCD = Convert.ToInt32 (spCairoFE_CD.Force_l[0].X);
 		}
+		else if (align == AlignTypes.CENTER)
+		{
+			xAB = Convert.ToInt32 (UtilAll.DivideSafe (spCairoFE.Force_l[0].X + PointF.Last (spCairoFE.Force_l).X, 2));
+			xCD = Convert.ToInt32 (UtilAll.DivideSafe (spCairoFE_CD.Force_l[0].X + PointF.Last (spCairoFE_CD.Force_l).X, 2));
+		}
+		else if (align == AlignTypes.RIGHT)
+		{
+			xAB = Convert.ToInt32 (PointF.Last (spCairoFE.Force_l).X);
+			xCD = Convert.ToInt32 (PointF.Last (spCairoFE_CD.Force_l).X);
+		}
+
+		spCairoFE_CD.ShiftMicros (xAB - xCD);
+		ai_drawingarea_cairo.QueueDraw(); //will fire ExposeEvent
+	}
+
+	private void on_button_signal_analyze_move_cd_do_align_raceAnalyzer (AlignTypes align)
+	{
+		double xAB = 0;
+		double xCD = 0;
+		if (align == AlignTypes.LEFT)
+		{
+			xAB = cairoGraphRaceAnalyzerPoints_st_l[0].X;
+			xCD = cairoGraphRaceAnalyzerPoints_st_CD_l[0].X;
+		}
+		else if (align == AlignTypes.CENTER)
+		{
+			xAB = UtilAll.DivideSafe (cairoGraphRaceAnalyzerPoints_st_l[0].X +
+					PointF.Last (cairoGraphRaceAnalyzerPoints_st_l).X, 2);
+			xCD = UtilAll.DivideSafe (cairoGraphRaceAnalyzerPoints_st_CD_l[0].X +
+					PointF.Last (cairoGraphRaceAnalyzerPoints_st_CD_l).X, 2);
+		}
+		else if (align == AlignTypes.RIGHT)
+		{
+			xAB = PointF.Last (cairoGraphRaceAnalyzerPoints_st_l).X;
+			xCD = PointF.Last (cairoGraphRaceAnalyzerPoints_st_CD_l).X;
+		}
+
+		cairoGraphRaceAnalyzerPoints_st_CD_l = PointF.ShiftX (cairoGraphRaceAnalyzerPoints_st_CD_l, xAB - xCD);
+		ai_drawingarea_cairo.QueueDraw(); //will fire ExposeEvent
 	}
 
 	private void on_check_force_sensor_ai_zoom_clicked (object o, EventArgs args)

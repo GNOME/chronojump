@@ -226,6 +226,7 @@ public partial class ChronoJumpWindow
 	Gtk.Image image_force_sensor_analyze_load_abcd_north_east;
 	Gtk.Image image_ai_move_cd_pre;
 	Gtk.Image image_ai_move_cd_align_left;
+	Gtk.Image image_ai_move_cd_align_center;
 	Gtk.Image image_ai_move_cd_align_right;
 	Gtk.Image image_force_sensor_ai_zoom;
 	Gtk.Image image_force_sensor_ai_zoom_out;
@@ -1117,6 +1118,7 @@ public partial class ChronoJumpWindow
 		image_force_sensor_analyze_load_abcd_north_east.Pixbuf = new Pixbuf (null, Util.GetImagePath (false) + "north_east.png");
 		image_ai_move_cd_pre.Pixbuf = new Pixbuf (null, Util.GetImagePath (false) + "move_sides.png");
 		image_ai_move_cd_align_left.Pixbuf = new Pixbuf (null, Util.GetImagePath (false) + "align_horiz_left.png");
+		image_ai_move_cd_align_center.Pixbuf = new Pixbuf (null, Util.GetImagePath (false) + "align_horiz_center.png");
 		image_ai_move_cd_align_right.Pixbuf = new Pixbuf (null, Util.GetImagePath (false) + "align_horiz_right.png");
 
 		app1s_image_search.Pixbuf = new Pixbuf(null, Util.GetImagePath(false) + "search.png");
@@ -1338,6 +1340,7 @@ public partial class ChronoJumpWindow
 		image_force_sensor_analyze_load_abcd_north_east = (Gtk.Image) builder.GetObject ("image_force_sensor_analyze_load_abcd_north_east");
 		image_ai_move_cd_pre = (Gtk.Image) builder.GetObject ("image_ai_move_cd_pre");
 		image_ai_move_cd_align_left = (Gtk.Image) builder.GetObject ("image_ai_move_cd_align_left");
+		image_ai_move_cd_align_center = (Gtk.Image) builder.GetObject ("image_ai_move_cd_align_center");
 		image_ai_move_cd_align_right = (Gtk.Image) builder.GetObject ("image_ai_move_cd_align_right");
 		image_force_sensor_ai_zoom = (Gtk.Image) builder.GetObject ("image_force_sensor_ai_zoom");
 		image_force_sensor_ai_zoom_out = (Gtk.Image) builder.GetObject ("image_force_sensor_ai_zoom_out");

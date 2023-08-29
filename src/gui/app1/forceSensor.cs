@@ -454,7 +454,11 @@ public partial class ChronoJumpWindow
 		button_execute_test.Sensitive = sensitive;
 		button_signal_analyze_load_ab.Sensitive = sensitive;
 		button_signal_analyze_load_cd.Sensitive = sensitive;
-		button_ai_move_cd_pre.Sensitive = sensitive;
+		if (! sensitive )
+			button_ai_move_cd_pre.Sensitive = false;
+		else
+			button_ai_move_cd_pre_set_sensitivity ();
+
 		hbox_contacts_camera.Sensitive = sensitive;
 
 		//other gui buttons
@@ -2074,6 +2078,9 @@ LogB.Information(" fs R ");
 
 			forceSensorPrepareGraphAI ();
 			updateForceSensorAICairo (true);
+
+			button_ai_move_cd_pre_set_sensitivity ();
+
 			return;
 		}
 

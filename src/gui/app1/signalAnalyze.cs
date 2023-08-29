@@ -192,6 +192,24 @@ public partial class ChronoJumpWindow
 			on_hscale_ai_value_changed (hscale_ai_c, new EventArgs ());
 	}
 
+	private void button_ai_move_cd_pre_set_sensitivity ()
+	{
+		if (! radio_ai_2sets.Active)
+		{
+			button_ai_move_cd_pre.Sensitive = false;
+			return;
+		}
+		if (! radio_ai_cd.Active)
+		{
+			button_ai_move_cd_pre.Sensitive = false;
+			return;
+		}
+		if (Constants.ModeIsFORCESENSOR (current_mode))
+			button_ai_move_cd_pre.Sensitive = lastForceSensorFullPath_CD != null && lastForceSensorFullPath_CD != "";
+		else //if (current_mode == Constants.Modes.RUNSENCODER)
+			button_ai_move_cd_pre.Sensitive = currentRunEncoder_CD != null;
+	}
+
 	private void on_button_ai_move_cd_pre_clicked (object o, EventArgs args)
 	{
 		button_ai_move_cd_pre.Sensitive = false;
@@ -997,7 +1015,7 @@ public partial class ChronoJumpWindow
 
 			button_signal_analyze_load_ab.Sensitive = radio_ai_ab.Active;
 			button_signal_analyze_load_cd.Sensitive = radio_ai_cd.Active;
-			button_ai_move_cd_pre.Sensitive = radio_ai_cd.Active;
+			button_ai_move_cd_pre_set_sensitivity ();
 
 			//do not allow to click on cd if two sets (when there is no ab loaded)
 			radio_ai_cd.Sensitive =	(
@@ -1037,7 +1055,7 @@ public partial class ChronoJumpWindow
 
 		button_signal_analyze_load_ab.Sensitive = (radio_ai_2sets.Active && radio_ai_ab.Active);
 		button_signal_analyze_load_cd.Sensitive = (radio_ai_2sets.Active && radio_ai_cd.Active);
-		button_ai_move_cd_pre.Sensitive = (radio_ai_2sets.Active && radio_ai_cd.Active);
+		button_ai_move_cd_pre_set_sensitivity ();
 
 		forceSensorAnalyzeGeneralButtonHscaleZoomSensitiveness();
 		ai_drawingarea_cairo.QueueDraw(); //will fire ExposeEvent

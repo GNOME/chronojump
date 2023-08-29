@@ -186,7 +186,10 @@ public partial class ChronoJumpWindow
 		button_ai_model_options.Sensitive = s;
 		button_signal_analyze_load_ab.Sensitive = s;
 		button_signal_analyze_load_cd.Sensitive = s;
-		button_ai_move_cd_pre.Sensitive = s;
+		if (! s)
+			button_ai_move_cd_pre.Sensitive = false;
+		else
+			button_ai_move_cd_pre_set_sensitivity ();
 
 		if(s)
 			button_force_sensor_analyze_model.Sensitive = button_force_sensor_analyze_model_was_sensitive;

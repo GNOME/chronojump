@@ -139,7 +139,7 @@ public partial class ChronoJumpWindow
 	static bool runEncoderShouldShowCaptureGraphsWithData; //on change person this is false
 	
 	private RunEncoder currentRunEncoder;
-	private RunEncoder currentRunEncoder_CD; //only for analyze cd (when 2 sets)
+	private RunEncoder currentRunEncoder_CD = null; //only for analyze cd (when 2 sets)
 
 	private RunEncoderExercise currentRunEncoderExercise;
 	private RunEncoderExercise currentRunEncoderExercise_CD; //only for analyze cd (when 2 sets)
@@ -440,6 +440,7 @@ public partial class ChronoJumpWindow
 	private void blankRunEncoderInterface()
 	{
 		currentRunEncoder = new RunEncoder();
+		currentRunEncoder_CD = null;
 
 		blankAIInterface ();
 
@@ -1203,6 +1204,8 @@ RunEncoderCaptureGetSpeedAndDisplacementTest recgsdt = new RunEncoderCaptureGetS
 				drawingarea_race_analyzer_capture_speed_time.QueueDraw ();
 
 			runEncoderPrepareGraphAI ();
+
+			button_ai_move_cd_pre_set_sensitivity ();
 
 			return "";
 		} else {

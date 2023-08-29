@@ -38,7 +38,7 @@ public partial class ChronoJumpWindow
 	Gtk.HBox hbox_run_encoder_top;
 
 	//export
-	Gtk.Notebook notebook_run_encoder_export;
+	//Gtk.Notebook notebook_run_encoder_export;
 	//Gtk.HBox hbox_run_encoder_export_width_height;
 	Gtk.SpinButton spinbutton_run_encoder_export_image_width;
 	Gtk.SpinButton spinbutton_run_encoder_export_image_height;
@@ -451,7 +451,7 @@ public partial class ChronoJumpWindow
 
 
 		runEncoderExport = new RunEncoderExport (
-				notebook_run_encoder_export,
+				notebook_ai_export,
 				label_ai_export, progressbar_ai_export,
 				label_run_encoder_export_discarded,
 				label_ai_export_result,
@@ -540,7 +540,7 @@ public partial class ChronoJumpWindow
 		hbox_run_encoder_top = (Gtk.HBox) builder.GetObject ("hbox_run_encoder_top");
 
 		//export
-		notebook_run_encoder_export = (Gtk.Notebook) builder.GetObject ("notebook_run_encoder_export");
+		//notebook_run_encoder_export = (Gtk.Notebook) builder.GetObject ("notebook_run_encoder_export");
 		//hbox_run_encoder_export_width_height = (Gtk.HBox) builder.GetObject ("hbox_run_encoder_export_width_height");
 		spinbutton_run_encoder_export_image_width = (Gtk.SpinButton) builder.GetObject ("spinbutton_run_encoder_export_image_width");
 		spinbutton_run_encoder_export_image_height = (Gtk.SpinButton) builder.GetObject ("spinbutton_run_encoder_export_image_height");

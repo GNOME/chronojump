@@ -34,6 +34,7 @@ public class SprintExport : ExportFiles
 	//constructor
 	public SprintExport (
 			Gtk.Notebook notebook,
+			Gtk.Label labelProgress,
 			Gtk.ProgressBar progressbar,
 			Gtk.Label labelDiscarded,
 			Gtk.Label labelResult,
@@ -48,7 +49,7 @@ public class SprintExport : ExportFiles
 	{
 		Button_done = new Gtk.Button();
 
-		assignParams(notebook, progressbar, labelDiscarded, labelResult, includeImages,
+		assignParams(notebook, labelProgress, progressbar, labelDiscarded, labelResult, includeImages,
 				imageWidth, imageHeight, isWindows, personID, sessionID, exportDecimalSeparator);
 
 		this.digitsNumber = digitsNumber;

@@ -171,8 +171,8 @@ public partial class ChronoJumpWindow
 			tvFS_other = new TreeviewFSAnalyzeOther (treeview_force_sensor_ai_other);
 		setForceSensorAnalyzeMaxAVGInWindow();
 
-		spinbutton_force_sensor_export_image_width.Value = preferences.exportGraphWidth;
-		spinbutton_force_sensor_export_image_height.Value = preferences.exportGraphHeight;
+		spinbutton_ai_export_image_width.Value = preferences.exportGraphWidth;
+		spinbutton_ai_export_image_height.Value = preferences.exportGraphHeight;
 	}
 
 	//Attention: no GTK here!!
@@ -597,7 +597,7 @@ public partial class ChronoJumpWindow
 
 		button_force_sensor_image_save_signal.Sensitive = false;
 
-		label_force_sensor_export_result.Text = "";
+		label_ai_export_result.Text = "";
 		button_ai_export_result_open.Visible = false;
 		event_execute_label_message.Text = "";
 		box_force_sensor_capture_magnitudes.Visible = false;

@@ -42,6 +42,7 @@ public class RunEncoderExport : ExportFiles
 	//constructor
 	public RunEncoderExport (
 			Gtk.Notebook notebook,
+			Gtk.Label labelProgress,
 			Gtk.ProgressBar progressbar,
 			Gtk.Label labelDiscarded,
 			Gtk.Label labelResult,
@@ -60,7 +61,7 @@ public class RunEncoderExport : ExportFiles
 	{
 		Button_done = new Gtk.Button();
 
-		assignParams(notebook, progressbar, labelDiscarded, labelResult, includeImages,
+		assignParams(notebook, labelProgress, progressbar, labelDiscarded, labelResult, includeImages,
 				imageWidth, imageHeight, isWindows, personID, sessionID, exportDecimalSeparator);
 
 		this.includeInstantaneous = includeInstantaneous;

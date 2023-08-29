@@ -55,6 +55,7 @@ public partial class ChronoJumpWindow
 	Gtk.HBox hbox_sprint_export_width_height;
 	Gtk.SpinButton spinbutton_sprint_export_image_width;
 	Gtk.SpinButton spinbutton_sprint_export_image_height;
+	Gtk.Label label_sprint_export;
 	Gtk.ProgressBar progressbar_sprint_export;
 	Gtk.Label label_sprint_export_discarded;
 	Gtk.Label label_sprint_export_result;
@@ -596,7 +597,7 @@ public partial class ChronoJumpWindow
 
 		sprintExport = new SprintExport(
 				notebook_sprint_export,
-				progressbar_sprint_export,
+				label_sprint_export, progressbar_sprint_export,
 				label_sprint_export_discarded,
 				label_sprint_export_result,
 				check_sprint_export_images.Active,
@@ -695,6 +696,7 @@ public partial class ChronoJumpWindow
 		hbox_sprint_export_width_height = (Gtk.HBox) builder.GetObject ("hbox_sprint_export_width_height");
 		spinbutton_sprint_export_image_width = (Gtk.SpinButton) builder.GetObject ("spinbutton_sprint_export_image_width");
 		spinbutton_sprint_export_image_height = (Gtk.SpinButton) builder.GetObject ("spinbutton_sprint_export_image_height");
+		label_sprint_export = (Gtk.Label) builder.GetObject ("label_sprint_export");
 		progressbar_sprint_export = (Gtk.ProgressBar) builder.GetObject ("progressbar_sprint_export");
 		label_sprint_export_discarded = (Gtk.Label) builder.GetObject ("label_sprint_export_discarded");
 		label_sprint_export_result = (Gtk.Label) builder.GetObject ("label_sprint_export_result");

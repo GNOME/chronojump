@@ -123,8 +123,6 @@ public partial class ChronoJumpWindow
 
 
 	Gtk.Notebook notebook_force_sensor_export;
-	Gtk.ProgressBar progressbar_force_sensor_export;
-	Gtk.Label label_force_sensor_export_result;
 
 	Gtk.HBox hbox_force_sensor_analyze_ai_sliders_and_buttons;
 	Gtk.Box box_force_sensor_analyze_magnitudes;
@@ -667,20 +665,20 @@ public partial class ChronoJumpWindow
 		hbox_ai_export_width_height.Visible = check_ai_export_images.Active;
 
 		//also hide the label and the open button
-		label_force_sensor_export_result.Text = "";
+		label_ai_export_result.Text = "";
 		button_ai_export_result_open.Visible = false;
 	}
 
 	private void on_radio_signal_analyze_current_set_toggled (object o, EventArgs args)
 	{
 		notebook_ai_top.CurrentPage = Convert.ToInt32(notebook_ai_top_pages.CURRENTSETSIGNAL);
-		label_force_sensor_export_result.Text = "";
+		label_ai_export_result.Text = "";
 		button_ai_export_result_open.Visible = false;
 	}
 	private void on_radio_signal_analyze_export_csv_toggled (object o, EventArgs args)
 	{
 		notebook_ai_top.CurrentPage = Convert.ToInt32(notebook_ai_top_pages.CURRENTSESSION);
-		label_force_sensor_export_result.Text = "";
+		label_ai_export_result.Text = "";
 		button_ai_export_result_open.Visible = false;
 	}
 
@@ -693,7 +691,7 @@ public partial class ChronoJumpWindow
 
 		label_ai_export_session.Text = currentSession.Name;
 
-		label_force_sensor_export_result.Text = "";
+		label_ai_export_result.Text = "";
 		button_ai_export_result_open.Visible = false;
 	}
 	private void on_radio_force_sensor_export_session_all_toggled (object o, EventArgs args)
@@ -705,7 +703,7 @@ public partial class ChronoJumpWindow
 
 		label_ai_export_session.Text = Catalog.GetString ("All");
 
-		label_force_sensor_export_result.Text = "";
+		label_ai_export_result.Text = "";
 		button_ai_export_result_open.Visible = false;
 	}
 	private void on_radio_force_sensor_analyze_export_groupal_toggled (object o, EventArgs args)
@@ -713,7 +711,7 @@ public partial class ChronoJumpWindow
 		label_ai_export_person.Text = Catalog.GetString ("All");
 		label_ai_export_session.Text = currentSession.Name;
 
-		label_force_sensor_export_result.Text = "";
+		label_ai_export_result.Text = "";
 		button_ai_export_result_open.Visible = false;
 	}
 
@@ -754,7 +752,7 @@ public partial class ChronoJumpWindow
 		if(radio_force_duration_seconds.Active)
 			duration = Convert.ToDouble(spin_force_duration_seconds.Value);
 
-		label_force_sensor_export_result.Text = "";
+		label_ai_export_result.Text = "";
 		button_ai_export_result_open.Visible = false;
 		forceSensorButtonsSensitive(false);
 		hbox_ai_export_top_modes.Sensitive = false;
@@ -784,8 +782,8 @@ public partial class ChronoJumpWindow
 		forceSensorExport = new ForceSensorExport (
 				current_mode,
 				notebook_force_sensor_export,
-				progressbar_force_sensor_export,
-				label_force_sensor_export_result,
+				label_ai_export, progressbar_ai_export,
+				label_ai_export_result,
 				check_ai_export_images.Active,
 				Convert.ToInt32(spinbutton_ai_export_image_width.Value),
 				Convert.ToInt32(spinbutton_ai_export_image_height.Value),
@@ -1590,8 +1588,6 @@ public partial class ChronoJumpWindow
 		spinbutton_force_4_in_x_ms = (Gtk.SpinButton) builder.GetObject ("spinbutton_force_4_in_x_ms");
 
 		notebook_force_sensor_export = (Gtk.Notebook) builder.GetObject ("notebook_force_sensor_export");
-		progressbar_force_sensor_export = (Gtk.ProgressBar) builder.GetObject ("progressbar_force_sensor_export");
-		label_force_sensor_export_result = (Gtk.Label) builder.GetObject ("label_force_sensor_export_result");
 
 		hbox_force_sensor_analyze_ai_sliders_and_buttons = (Gtk.HBox) builder.GetObject ("hbox_force_sensor_analyze_ai_sliders_and_buttons");
 		ai_drawingarea_cairo = (Gtk.DrawingArea) builder.GetObject ("ai_drawingarea_cairo");

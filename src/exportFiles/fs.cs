@@ -46,7 +46,7 @@ public class ForceSensorExport : ExportFiles
 	public ForceSensorExport (
 			Constants.Modes mode,
 			Gtk.Notebook notebook,
-			Gtk.ProgressBar progressbar,
+			Gtk.Label labelProgress, Gtk.ProgressBar progressbar,
 			Gtk.Label labelResult,
 			bool includeImages,
 			int imageWidth, int imageHeight,
@@ -64,7 +64,7 @@ public class ForceSensorExport : ExportFiles
 	{
 		Button_done = new Gtk.Button();
 
-		assignParams(notebook, progressbar, new Gtk.Label(), labelResult, includeImages,
+		assignParams(notebook, labelProgress, progressbar, new Gtk.Label(), labelResult, includeImages,
 				imageWidth, imageHeight, isWindows, personID, sessionID, exportDecimalSeparator);
 
 		this.mode = mode;
@@ -382,7 +382,7 @@ public class ForceSensorExport : ExportFiles
 	}
 	protected override void setProgressBarTextAndFractionDo (int current, int total)
 	{
-		progressbar.Text = string.Format(Catalog.GetString("Exporting repetition {0}/{1}"),
+		labelProgress.Text = string.Format(Catalog.GetString("Exporting repetition {0}/{1}"),
 				current, total);
 		progressbar.Fraction = UtilAll.DivideSafeFraction(current, total);
 	}

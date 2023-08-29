@@ -82,6 +82,7 @@ public partial class ChronoJumpWindow
 	Gtk.Viewport viewport_radio_ai_cd;
 	Gtk.RadioButton radio_ai_ab;
 	Gtk.RadioButton radio_ai_cd;
+	Gtk.Box box_ai_cd_buttons;
 
 	Gtk.Viewport viewport_ai_hscales;
 
@@ -202,6 +203,10 @@ public partial class ChronoJumpWindow
 
 		box_ai_move_cd_accept.Visible = true;
 		box_ai_move_cd_buttons.Visible = true;
+
+		radio_ai_1set.Sensitive = false;
+		radio_ai_ab.Sensitive = false;
+		box_ai_cd_buttons.Sensitive = false;
 	}
 	private void on_button_signal_analyze_move_cd_done_clicked (object o, EventArgs args)
 	{
@@ -217,6 +222,10 @@ public partial class ChronoJumpWindow
 
 		box_ai_move_cd_accept.Visible = false;
 		box_ai_move_cd_buttons.Visible = false;
+
+		radio_ai_1set.Sensitive = true;
+		radio_ai_ab.Sensitive = true;
+		box_ai_cd_buttons.Sensitive = true;
 	}
 
 	private void on_button_ai_move_cd_clicked (object o, EventArgs args)
@@ -1106,6 +1115,7 @@ public partial class ChronoJumpWindow
 		viewport_radio_ai_cd = (Gtk.Viewport) builder.GetObject ("viewport_radio_ai_cd");
 		radio_ai_ab = (Gtk.RadioButton) builder.GetObject ("radio_ai_ab");
 		radio_ai_cd = (Gtk.RadioButton) builder.GetObject ("radio_ai_cd");
+		box_ai_cd_buttons = (Gtk.Box) builder.GetObject ("box_ai_cd_buttons");
 
 		viewport_ai_hscales = (Gtk.Viewport) builder.GetObject ("viewport_ai_hscales");
 

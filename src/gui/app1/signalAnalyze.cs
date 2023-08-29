@@ -1136,6 +1136,14 @@ public partial class ChronoJumpWindow
 			on_button_run_encoder_export_not_set_clicked (o, args);
 	}
 
+	private void on_button_ai_export_cancel_clicked (object o, EventArgs args)
+	{
+		if (Constants.ModeIsFORCESENSOR (current_mode))
+			forceSensorExport.Cancel();
+		else //if (current_mode == Constants.Modes.RUNSENCODER)
+			runEncoderExport.Cancel();
+	}
+
 	private void on_ai_export_result_open_clicked (object o, EventArgs args)
 	{
 		if (Constants.ModeIsFORCESENSOR (current_mode))

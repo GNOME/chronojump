@@ -121,9 +121,6 @@ public partial class ChronoJumpWindow
 	Gtk.SpinButton spinbutton_force_3_in_x_ms;
 	Gtk.SpinButton spinbutton_force_4_in_x_ms;
 
-
-	Gtk.Notebook notebook_force_sensor_export;
-
 	Gtk.HBox hbox_force_sensor_analyze_ai_sliders_and_buttons;
 	Gtk.Box box_force_sensor_analyze_magnitudes;
 	Gtk.CheckButton check_force_sensor_analyze_show_distance;
@@ -781,7 +778,7 @@ public partial class ChronoJumpWindow
 
 		forceSensorExport = new ForceSensorExport (
 				current_mode,
-				notebook_force_sensor_export,
+				notebook_ai_export,
 				label_ai_export, progressbar_ai_export,
 				label_ai_export_result,
 				check_ai_export_images.Active,
@@ -1581,8 +1578,6 @@ public partial class ChronoJumpWindow
 		spinbutton_force_2_in_x_ms = (Gtk.SpinButton) builder.GetObject ("spinbutton_force_2_in_x_ms");
 		spinbutton_force_3_in_x_ms = (Gtk.SpinButton) builder.GetObject ("spinbutton_force_3_in_x_ms");
 		spinbutton_force_4_in_x_ms = (Gtk.SpinButton) builder.GetObject ("spinbutton_force_4_in_x_ms");
-
-		notebook_force_sensor_export = (Gtk.Notebook) builder.GetObject ("notebook_force_sensor_export");
 
 		hbox_force_sensor_analyze_ai_sliders_and_buttons = (Gtk.HBox) builder.GetObject ("hbox_force_sensor_analyze_ai_sliders_and_buttons");
 		ai_drawingarea_cairo = (Gtk.DrawingArea) builder.GetObject ("ai_drawingarea_cairo");

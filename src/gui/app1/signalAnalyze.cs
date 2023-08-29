@@ -101,6 +101,7 @@ public partial class ChronoJumpWindow
 	Gtk.HBox hbox_ai_export_width_height;
 	Gtk.SpinButton spinbutton_ai_export_image_width;
 	Gtk.SpinButton spinbutton_ai_export_image_height;
+	Gtk.Notebook notebook_ai_export;
 	Gtk.Label label_ai_export;
 	Gtk.ProgressBar progressbar_ai_export;
 	Gtk.Label label_ai_export_result;
@@ -1224,6 +1225,7 @@ public partial class ChronoJumpWindow
 		spinbutton_ai_export_image_width = (Gtk.SpinButton) builder.GetObject ("spinbutton_ai_export_image_width");
 		spinbutton_ai_export_image_height = (Gtk.SpinButton) builder.GetObject ("spinbutton_ai_export_image_height");
 		check_ai_export_images = (Gtk.CheckButton) builder.GetObject ("check_ai_export_images");
+		notebook_ai_export = (Gtk.Notebook) builder.GetObject ("notebook_ai_export");
 		label_ai_export = (Gtk.Label) builder.GetObject ("label_ai_export");
 		progressbar_ai_export = (Gtk.ProgressBar) builder.GetObject ("progressbar_ai_export");
 		label_ai_export_result = (Gtk.Label) builder.GetObject ("label_ai_export_result");

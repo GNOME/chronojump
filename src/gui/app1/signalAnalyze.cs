@@ -90,6 +90,11 @@ public partial class ChronoJumpWindow
 	Gtk.Notebook notebook_ai_model_options;
 	Gtk.Button button_ai_model_options_close_and_analyze;
 	Gtk.Button button_ai_model_options;
+
+	Gtk.RadioButton radio_ai_export_individual_current_session;
+	Gtk.RadioButton radio_ai_export_individual_all_sessions;
+	Gtk.RadioButton radio_ai_export_groupal_current_session;
+	Gtk.Button button_ai_export_result_open;
 	// <---- at glade
 
 	public enum AlignTypes { LEFT, CENTER, RIGHT };
@@ -1113,6 +1118,22 @@ public partial class ChronoJumpWindow
 			on_button_run_encoder_analyze_analyze_clicked (o, args);
 	}
 
+	private void on_ai_export_not_set_clicked (object o, EventArgs args)
+	{
+		if (Constants.ModeIsFORCESENSOR (current_mode))
+			on_button_force_sensor_export_not_set_clicked (o, args);
+		else //if (current_mode == Constants.Modes.RUNSENCODER)
+			on_button_run_encoder_export_not_set_clicked (o, args);
+	}
+
+	private void on_ai_export_result_open_clicked (object o, EventArgs args)
+	{
+		if (Constants.ModeIsFORCESENSOR (current_mode))
+			on_button_force_sensor_export_result_open_clicked (o, args);
+		else //if (current_mode == Constants.Modes.RUNSENCODER)
+			on_button_run_encoder_export_result_open_clicked (o, args);
+	}
+
 	private void connectWidgetsSignalAnalyze (Gtk.Builder builder)
 	{
 		LogB.Information ("connectWidgetsSignalAnalyze");
@@ -1174,6 +1195,11 @@ public partial class ChronoJumpWindow
 		notebook_ai_model_options = (Gtk.Notebook) builder.GetObject ("notebook_ai_model_options");
 		button_ai_model_options_close_and_analyze = (Gtk.Button) builder.GetObject ("button_ai_model_options_close_and_analyze");
 		button_ai_model_options = (Gtk.Button) builder.GetObject ("button_ai_model_options");
+
+		radio_ai_export_individual_current_session = (Gtk.RadioButton) builder.GetObject ("radio_ai_export_individual_current_session");
+		radio_ai_export_individual_all_sessions = (Gtk.RadioButton) builder.GetObject ("radio_ai_export_individual_all_sessions");
+		radio_ai_export_groupal_current_session = (Gtk.RadioButton) builder.GetObject ("radio_ai_export_groupal_current_session");
+		button_ai_export_result_open = (Gtk.Button) builder.GetObject ("button_ai_export_result_open");
 	}
 }
 

@@ -478,17 +478,17 @@ public partial class ChronoJumpWindow
 		button_delete_last_test.Sensitive = false;
 		button_run_encoder_image_save.Sensitive = false;
 
-		if(radio_run_encoder_analyze_individual_current_session.Active)
+		if (radio_ai_export_individual_current_session.Active)
 		{
 			if(currentPerson != null)
-				label_run_encoder_export_data.Text = currentPerson.Name;
+				label_force_sensor_export_person.Text = currentPerson.Name;
 			else
-				label_run_encoder_export_data.Text = "";
+				label_force_sensor_export_person.Text = "";
 		}
 
 		label_run_encoder_export_discarded.Text = "";
 		label_run_encoder_export_result.Text = "";
-		button_run_encoder_export_result_open.Visible = false;
+		button_ai_export_result_open.Visible = false;
 	}
 
 	private void raceEncoderReadWidgets()
@@ -1131,7 +1131,7 @@ RunEncoderCaptureGetSpeedAndDisplacementTest recgsdt = new RunEncoderCaptureGetS
 		genericWin.Button_accept.Clicked -= new EventHandler(on_run_encoder_load_accepted);
 
 		int uniqueID = genericWin.TreeviewSelectedRowID();
-		radio_run_encoder_analyze_individual_current_set.Active = true;
+		radio_signal_analyze_current_set.Active = true;
 
 		string str = run_encoder_load_set (uniqueID);
 		if(str != "")
@@ -2017,7 +2017,7 @@ RunEncoderCaptureGetSpeedAndDisplacementTest recgsdt = new RunEncoderCaptureGetS
 			LogB.ThreadEnded(); 
 
 			runEncoderButtonsSensitive(true);
-			radio_run_encoder_analyze_individual_current_set.Active = true;
+			radio_signal_analyze_individual_current_set.Active = true;
 
 			/*
 			button_force_sensor_image_save_signal.Sensitive = true;

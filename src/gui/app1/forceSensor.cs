@@ -587,7 +587,7 @@ public partial class ChronoJumpWindow
 		label_force_sensor_value_best_second.Text = "";
 		label_force_sensor_value_rfd.Text = "";
 
-		if (radio_force_sensor_export_individual_current_session.Active)
+		if (radio_ai_export_individual_current_session.Active)
 		{
 			if(currentPerson != null)
 				label_force_sensor_export_person.Text = currentPerson.Name;
@@ -598,7 +598,7 @@ public partial class ChronoJumpWindow
 		button_force_sensor_image_save_signal.Sensitive = false;
 
 		label_force_sensor_export_result.Text = "";
-		button_force_sensor_export_result_open.Visible = false;
+		button_ai_export_result_open.Visible = false;
 		event_execute_label_message.Text = "";
 		box_force_sensor_capture_magnitudes.Visible = false;
 		box_force_sensor_analyze_magnitudes.Visible = false;

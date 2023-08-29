@@ -35,15 +35,6 @@ public partial class ChronoJumpWindow
 	Gtk.Button button_run_encoder_analyze_analyze;
 	Gtk.Button button_run_encoder_image_save;
 
-	Gtk.RadioButton radio_run_encoder_analyze_individual_current_set;
-	Gtk.RadioButton radio_run_encoder_analyze_individual_current_session;
-	Gtk.RadioButton radio_run_encoder_analyze_individual_all_sessions;
-	Gtk.RadioButton radio_run_encoder_analyze_groupal_current_session;
-	Gtk.Image image_run_encoder_analyze_individual_current_set;
-	Gtk.Image image_run_encoder_analyze_individual_current_session;
-	Gtk.Image image_run_encoder_analyze_individual_all_sessions;
-	Gtk.Image image_run_encoder_analyze_groupal_current_session;
-
 	Gtk.HBox hbox_run_encoder_top;
 
 	//export
@@ -57,7 +48,6 @@ public partial class ChronoJumpWindow
 	Gtk.ProgressBar progressbar_run_encoder_export;
 	Gtk.Label label_run_encoder_export_discarded;
 	Gtk.Label label_run_encoder_export_result;
-	Gtk.Button button_run_encoder_export_result_open;
 
 	Gtk.Notebook notebook_run_encoder_analyze; //TODO: this will be erased
 	Gtk.Notebook notebook_run_encoder_analyze_current_set;
@@ -350,11 +340,12 @@ public partial class ChronoJumpWindow
 		//also hide the label and the open button
 		label_run_encoder_export_discarded.Text = "";
 		label_run_encoder_export_result.Text = "";
-		button_run_encoder_export_result_open.Visible = false;
+		button_ai_export_result_open.Visible = false;
 	}
 
 	private void on_radio_run_encoder_analyze_individual_current_set_toggled (object o, EventArgs args)
 	{
+	/*
 		button_run_encoder_analyze_load.Visible = true;
 		button_run_encoder_analyze_analyze.Visible = true;
 
@@ -362,9 +353,11 @@ public partial class ChronoJumpWindow
 		label_run_encoder_export_discarded.Text = "";
 		label_run_encoder_export_result.Text = "";
 		button_run_encoder_export_result_open.Visible = false;
+		*/
 	}
 	private void on_radio_run_encoder_analyze_individual_session_current_or_all_toggled (object o, EventArgs args)
 	{
+	/*
 		button_run_encoder_analyze_load.Visible = false;
 		button_run_encoder_analyze_analyze.Visible = false;
 
@@ -377,9 +370,11 @@ public partial class ChronoJumpWindow
 		label_run_encoder_export_discarded.Text = "";
 		label_run_encoder_export_result.Text = "";
 		button_run_encoder_export_result_open.Visible = false;
+		*/
 	}
 	private void on_radio_run_encoder_analyze_groupal_current_session_toggled (object o, EventArgs args)
 	{
+	/*
 		button_run_encoder_analyze_load.Visible = false;
 		button_run_encoder_analyze_analyze.Visible = false;
 
@@ -389,11 +384,12 @@ public partial class ChronoJumpWindow
 		label_run_encoder_export_discarded.Text = "";
 		label_run_encoder_export_result.Text = "";
 		button_run_encoder_export_result_open.Visible = false;
+	*/
 	}
 
 	private void on_button_run_encoder_export_not_set_clicked (object o, EventArgs args)
 	{
-		if(operatingSystem == UtilAll.OperatingSystems.MACOSX &&
+		if (operatingSystem == UtilAll.OperatingSystems.MACOSX &&
 				! Util.FileExists(Constants.ROSX) )
 		{
 			showMacRInstallMessage ();
@@ -401,7 +397,7 @@ public partial class ChronoJumpWindow
 		}
 
 		// 1) check if all sessions
-		if(radio_run_encoder_analyze_individual_all_sessions.Active)
+		if (radio_ai_export_individual_all_sessions.Active)
 		{
 			if(currentPerson == null)
 				return;
@@ -414,14 +410,14 @@ public partial class ChronoJumpWindow
 		if(currentSession == null)
 			return;
 
-		if (radio_run_encoder_analyze_individual_current_session.Active)
+		if (radio_ai_export_individual_current_session.Active)
 		{
 			if(currentPerson == null)
 				return;
 
 			button_run_encoder_export_session (currentPerson.UniqueID, currentSession.UniqueID);
 		}
-		else if (radio_run_encoder_analyze_groupal_current_session.Active)
+		else if (radio_ai_export_groupal_current_session.Active)
 		{
 			button_run_encoder_export_session (-1, currentSession.UniqueID);
 		}
@@ -432,7 +428,7 @@ public partial class ChronoJumpWindow
 	{
 		label_run_encoder_export_discarded.Text = "";
 		label_run_encoder_export_result.Text = "";
-		button_run_encoder_export_result_open.Visible = false;
+		button_ai_export_result_open.Visible = false;
 		runEncoderButtonsSensitive(false);
 		hbox_run_encoder_top.Sensitive = false;
 
@@ -521,7 +517,7 @@ public partial class ChronoJumpWindow
 		hbox_run_encoder_top.Sensitive = true;
 
 		if(runEncoderExport != null && runEncoderExport.AllOk)
-			button_run_encoder_export_result_open.Visible = true;
+			button_ai_export_result_open.Visible = true;
 	}
 
 	private void on_button_run_encoder_export_result_open_clicked (object o, EventArgs args)
@@ -546,15 +542,6 @@ public partial class ChronoJumpWindow
 		button_run_encoder_analyze_analyze = (Gtk.Button) builder.GetObject ("button_run_encoder_analyze_analyze");
 		button_run_encoder_image_save = (Gtk.Button) builder.GetObject ("button_run_encoder_image_save");
 
-		radio_run_encoder_analyze_individual_current_set = (Gtk.RadioButton) builder.GetObject ("radio_run_encoder_analyze_individual_current_set");
-		radio_run_encoder_analyze_individual_current_session = (Gtk.RadioButton) builder.GetObject ("radio_run_encoder_analyze_individual_current_session");
-		radio_run_encoder_analyze_individual_all_sessions = (Gtk.RadioButton) builder.GetObject ("radio_run_encoder_analyze_individual_all_sessions");
-		radio_run_encoder_analyze_groupal_current_session = (Gtk.RadioButton) builder.GetObject ("radio_run_encoder_analyze_groupal_current_session");
-		image_run_encoder_analyze_individual_current_set = (Gtk.Image) builder.GetObject ("image_run_encoder_analyze_individual_current_set");
-		image_run_encoder_analyze_individual_current_session = (Gtk.Image) builder.GetObject ("image_run_encoder_analyze_individual_current_session");
-		image_run_encoder_analyze_individual_all_sessions = (Gtk.Image) builder.GetObject ("image_run_encoder_analyze_individual_all_sessions");
-		image_run_encoder_analyze_groupal_current_session = (Gtk.Image) builder.GetObject ("image_run_encoder_analyze_groupal_current_session");
-
 		hbox_run_encoder_top = (Gtk.HBox) builder.GetObject ("hbox_run_encoder_top");
 
 		//export
@@ -568,7 +555,6 @@ public partial class ChronoJumpWindow
 		progressbar_run_encoder_export = (Gtk.ProgressBar) builder.GetObject ("progressbar_run_encoder_export");
 		label_run_encoder_export_discarded = (Gtk.Label) builder.GetObject ("label_run_encoder_export_discarded");
 		label_run_encoder_export_result = (Gtk.Label) builder.GetObject ("label_run_encoder_export_result");
-		button_run_encoder_export_result_open = (Gtk.Button) builder.GetObject ("button_run_encoder_export_result_open");
 
 		notebook_run_encoder_analyze = (Gtk.Notebook) builder.GetObject ("notebook_run_encoder_analyze");
 		notebook_run_encoder_analyze_current_set = (Gtk.Notebook) builder.GetObject ("notebook_run_encoder_analyze_current_set");

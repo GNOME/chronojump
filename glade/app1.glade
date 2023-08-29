@@ -28071,7 +28071,7 @@ Concentric</property>
                                                             <property name="can-focus">False</property>
                                                             <property name="spacing">12</property>
                                                             <child>
-                                                            <object class="GtkRadioButton" id="radio_force_sensor_export_individual_current_session">
+                                                            <object class="GtkRadioButton" id="radio_ai_export_individual_current_session">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="receives-default">False</property>
@@ -28116,12 +28116,12 @@ Concentric</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <object class="GtkRadioButton" id="radio_force_sensor_export_individual_all_sessions">
+                                                            <object class="GtkRadioButton" id="radio_ai_export_individual_all_sessions">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="receives-default">False</property>
                                                             <property name="draw-indicator">False</property>
-                                                            <property name="group">radio_force_sensor_export_individual_current_session</property>
+                                                            <property name="group">radio_ai_export_individual_current_session</property>
                                                             <signal name="toggled" handler="on_radio_force_sensor_export_session_all_toggled" swapped="no"/>
                                                             <child>
                                                             <object class="GtkHBox" id="hbox7">
@@ -28195,12 +28195,12 @@ Concentric</property>
                                                             <property name="left-padding">1</property>
                                                             <property name="right-padding">1</property>
                                                             <child>
-                                                            <object class="GtkRadioButton" id="radio_force_sensor_export_groupal_current_session">
+                                                            <object class="GtkRadioButton" id="radio_ai_export_groupal_current_session">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="receives-default">False</property>
                                                             <property name="draw-indicator">False</property>
-                                                            <property name="group">radio_force_sensor_export_individual_current_session</property>
+                                                            <property name="group">radio_ai_export_individual_current_session</property>
                                                             <signal name="toggled" handler="on_radio_force_sensor_analyze_export_groupal_toggled" swapped="no"/>
                                                             <child>
                                                             <object class="GtkHBox" id="hbox462">
@@ -28495,7 +28495,7 @@ Concentric</property>
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="receives-default">True</property>
-                                                            <signal name="clicked" handler="on_button_force_sensor_export_not_set_clicked" swapped="no"/>
+                                                            <signal name="clicked" handler="on_ai_export_not_set_clicked" swapped="no"/>
                                                             <child>
                                                             <object class="GtkLabel" id="label185">
                                                             <property name="visible">True</property>
@@ -28626,11 +28626,11 @@ Concentric</property>
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
                                                             <child>
-                                                            <object class="GtkButton" id="button_force_sensor_export_result_open">
+                                                            <object class="GtkButton" id="button_ai_export_result_open">
                                                             <property name="label" translatable="yes">Open</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="receives-default">True</property>
-                                                            <signal name="clicked" handler="on_button_force_sensor_export_result_open_clicked" swapped="no"/>
+                                                            <signal name="clicked" handler="on_ai_export_result_open_clicked" swapped="no"/>
                                                             </object>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -31822,7 +31822,6 @@ Concentric</property>
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="receives-default">True</property>
-                                                            <signal name="clicked" handler="on_button_run_encoder_export_not_set_clicked" swapped="no"/>
                                                             <child>
                                                             <object class="GtkHBox" id="hbox182">
                                                             <property name="visible">True</property>
@@ -32006,7 +32005,6 @@ Concentric</property>
                                                             <property name="label" translatable="yes">Open</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="receives-default">True</property>
-                                                            <signal name="clicked" handler="on_button_run_encoder_export_result_open_clicked" swapped="no"/>
                                                             </object>
                                                             <packing>
                                                             <property name="expand">False</property>

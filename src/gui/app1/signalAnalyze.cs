@@ -208,7 +208,7 @@ public partial class ChronoJumpWindow
 		radio_ai_ab.Sensitive = false;
 		box_ai_cd_buttons.Sensitive = false;
 	}
-	private void on_button_signal_analyze_move_cd_done_clicked (object o, EventArgs args)
+	private void on_button_signal_analyze_move_cd_close_clicked (object o, EventArgs args)
 	{
 		button_ai_move_cd_pre.Sensitive = true;
 

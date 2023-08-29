@@ -25867,7 +25867,7 @@ Concentric</property>
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
                                                             <property name="hexpand">False</property>
-                                                            <property name="row-spacing">4</property>
+                                                            <property name="row-spacing">6</property>
                                                             <property name="column-spacing">16</property>
                                                             <child>
                                                             <object class="GtkRadioButton" id="radio_ai_1set">
@@ -27360,12 +27360,42 @@ Concentric</property>
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
                                                             <child>
-                                                            <object class="GtkButton" id="button_signal_analyze_move_cd_accept">
-                                                            <property name="label" translatable="yes">Done</property>
+                                                            <object class="GtkButton" id="button_signal_analyze_move_cd_close">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="receives-default">True</property>
-                                                            <signal name="clicked" handler="on_button_signal_analyze_move_cd_done_clicked" swapped="no"/>
+                                                            <signal name="clicked" handler="on_button_signal_analyze_move_cd_close_clicked" swapped="no"/>
+                                                            <child>
+                                                            <object class="GtkHBox" id="hbox392">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="spacing">6</property>
+                                                            <child>
+                                                            <object class="GtkImage" id="image_signal_analyze_move_cd_close">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="stock">gtk-missing-image</property>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkLabel" id="label401">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="label" translatable="yes">Close</property>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            </object>
+                                                            </child>
                                                             </object>
                                                             <packing>
                                                             <property name="expand">False</property>

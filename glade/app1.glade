@@ -28374,7 +28374,7 @@ Concentric</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <object class="GtkHBox" id="hbox_force_sensor_export_width_height">
+                                                            <object class="GtkHBox" id="hbox_ai_export_width_height">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
                                                             <property name="spacing">12</property>
@@ -28396,10 +28396,11 @@ Concentric</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <object class="GtkSpinButton" id="spinbutton_force_sensor_export_image_width">
+                                                            <object class="GtkSpinButton" id="spinbutton_ai_export_image_width">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="invisible-char">•</property>
+                                                            <property name="width-chars">6</property>
                                                             <property name="primary-icon-activatable">False</property>
                                                             <property name="secondary-icon-activatable">False</property>
                                                             <property name="adjustment">adjustment83</property>
@@ -28436,10 +28437,11 @@ Concentric</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <object class="GtkSpinButton" id="spinbutton_force_sensor_export_image_height">
+                                                            <object class="GtkSpinButton" id="spinbutton_ai_export_image_height">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="invisible-char">•</property>
+                                                            <property name="width-chars">6</property>
                                                             <property name="primary-icon-activatable">False</property>
                                                             <property name="secondary-icon-activatable">False</property>
                                                             <property name="adjustment">adjustment84</property>

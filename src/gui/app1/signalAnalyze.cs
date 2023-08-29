@@ -98,6 +98,9 @@ public partial class ChronoJumpWindow
 	Gtk.Label label_ai_export_session;
 	Gtk.HBox hbox_ai_export_images;
 	Gtk.CheckButton check_ai_export_images;
+	Gtk.HBox hbox_ai_export_width_height;
+	Gtk.SpinButton spinbutton_ai_export_image_width;
+	Gtk.SpinButton spinbutton_ai_export_image_height;
 	Gtk.Button button_ai_export_result_open;
 	// <---- at glade
 
@@ -1206,6 +1209,9 @@ public partial class ChronoJumpWindow
 		label_ai_export_person = (Gtk.Label) builder.GetObject ("label_ai_export_person");
 		label_ai_export_session = (Gtk.Label) builder.GetObject ("label_ai_export_session");
 		hbox_ai_export_images = (Gtk.HBox) builder.GetObject ("hbox_ai_export_images");
+		hbox_ai_export_width_height = (Gtk.HBox) builder.GetObject ("hbox_ai_export_width_height");
+		spinbutton_ai_export_image_width = (Gtk.SpinButton) builder.GetObject ("spinbutton_ai_export_image_width");
+		spinbutton_ai_export_image_height = (Gtk.SpinButton) builder.GetObject ("spinbutton_ai_export_image_height");
 		check_ai_export_images = (Gtk.CheckButton) builder.GetObject ("check_ai_export_images");
 		button_ai_export_result_open = (Gtk.Button) builder.GetObject ("button_ai_export_result_open");
 	}

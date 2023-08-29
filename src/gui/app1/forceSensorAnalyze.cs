@@ -123,9 +123,6 @@ public partial class ChronoJumpWindow
 
 
 	Gtk.Notebook notebook_force_sensor_export;
-	Gtk.HBox hbox_force_sensor_export_width_height;
-	Gtk.SpinButton spinbutton_force_sensor_export_image_width;
-	Gtk.SpinButton spinbutton_force_sensor_export_image_height;
 	Gtk.ProgressBar progressbar_force_sensor_export;
 	Gtk.Label label_force_sensor_export_result;
 
@@ -667,7 +664,7 @@ public partial class ChronoJumpWindow
 
 	private void on_check_ai_export_images_toggled (object o, EventArgs args)
 	{
-		hbox_force_sensor_export_width_height.Visible = check_ai_export_images.Active;
+		hbox_ai_export_width_height.Visible = check_ai_export_images.Active;
 
 		//also hide the label and the open button
 		label_force_sensor_export_result.Text = "";
@@ -769,19 +766,19 @@ public partial class ChronoJumpWindow
 		preferences.exportGraphWidth = Preferences.PreferencesChange(
 				true,
 				SqlitePreferences.ExportGraphWidth,
-				preferences.exportGraphWidth, Convert.ToInt32(spinbutton_force_sensor_export_image_width.Value));
+				preferences.exportGraphWidth, Convert.ToInt32(spinbutton_ai_export_image_width.Value));
 		preferences.exportGraphHeight = Preferences.PreferencesChange(
 				true,
 				SqlitePreferences.ExportGraphHeight,
-				preferences.exportGraphHeight, Convert.ToInt32(spinbutton_force_sensor_export_image_height.Value));
+				preferences.exportGraphHeight, Convert.ToInt32(spinbutton_ai_export_image_height.Value));
 		Sqlite.Close();
 
 		//change also spinbuttons of export sprint and runEncoder
-		spinbutton_sprint_export_image_width.Value = spinbutton_force_sensor_export_image_width.Value;
-		spinbutton_sprint_export_image_height.Value = spinbutton_force_sensor_export_image_height.Value;
+		spinbutton_sprint_export_image_width.Value = spinbutton_ai_export_image_width.Value;
+		spinbutton_sprint_export_image_height.Value = spinbutton_ai_export_image_height.Value;
 
-		spinbutton_run_encoder_export_image_width.Value = spinbutton_force_sensor_export_image_width.Value;
-		spinbutton_run_encoder_export_image_height.Value = spinbutton_force_sensor_export_image_height.Value;
+		spinbutton_run_encoder_export_image_width.Value = spinbutton_ai_export_image_width.Value;
+		spinbutton_run_encoder_export_image_height.Value = spinbutton_ai_export_image_height.Value;
 
 
 		forceSensorExport = new ForceSensorExport (
@@ -790,8 +787,8 @@ public partial class ChronoJumpWindow
 				progressbar_force_sensor_export,
 				label_force_sensor_export_result,
 				check_ai_export_images.Active,
-				Convert.ToInt32(spinbutton_force_sensor_export_image_width.Value),
-				Convert.ToInt32(spinbutton_force_sensor_export_image_height.Value),
+				Convert.ToInt32(spinbutton_ai_export_image_width.Value),
+				Convert.ToInt32(spinbutton_ai_export_image_height.Value),
 				UtilAll.IsWindows(), personID, sessionID,
 				rfdList, impulse,//getImpulseValue(),
 				duration, Convert.ToInt32(spin_force_rfd_duration_percent.Value),
@@ -1593,9 +1590,6 @@ public partial class ChronoJumpWindow
 		spinbutton_force_4_in_x_ms = (Gtk.SpinButton) builder.GetObject ("spinbutton_force_4_in_x_ms");
 
 		notebook_force_sensor_export = (Gtk.Notebook) builder.GetObject ("notebook_force_sensor_export");
-		hbox_force_sensor_export_width_height = (Gtk.HBox) builder.GetObject ("hbox_force_sensor_export_width_height");
-		spinbutton_force_sensor_export_image_width = (Gtk.SpinButton) builder.GetObject ("spinbutton_force_sensor_export_image_width");
-		spinbutton_force_sensor_export_image_height = (Gtk.SpinButton) builder.GetObject ("spinbutton_force_sensor_export_image_height");
 		progressbar_force_sensor_export = (Gtk.ProgressBar) builder.GetObject ("progressbar_force_sensor_export");
 		label_force_sensor_export_result = (Gtk.Label) builder.GetObject ("label_force_sensor_export_result");
 

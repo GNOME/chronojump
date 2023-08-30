@@ -505,7 +505,7 @@ void captureBars(float fullScreen)
         redrawAxes(tft, 30, h, 290, h, 290, h, 0, graphRange, graphRange / 10, "", "", "", WHITE, GREY, WHITE, WHITE, BLACK, RED, true, 1);
         graphRange = bars[currentSlot] * 1.25;
       }
-      barPlot(30, h, 290, h, graphRange, 10, currentSlot, 0.75, RED);
+      barPlot(30, h, 290, h, graphRange, 5, currentSlot, 0.75, RED);
     }
     cenButton.update();
     if (cenButton.fell())

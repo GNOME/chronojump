@@ -27,7 +27,6 @@ public partial class ChronoJumpWindow
 {
 	//Gtk.Button button_edit_current_person;
 	Gtk.Button button_edit_current_person_h;
-	Gtk.Button button_run_encoder_analyze_load;
 	Gtk.Button button_encoder_exercise;
 	Gtk.Button button_encoder_exercise_close_and_capture;
 
@@ -66,7 +65,6 @@ public partial class ChronoJumpWindow
 		button_contacts_capture_load.TooltipText += string.Format(" ({0}+l)", kCtrl);
 		//button_signal_analyze_load_ab.TooltipText += string.Format(" ({0}+l)", kCtrl);
 		//button_signal_analyze_load_cd.TooltipText += string.Format(" ({0}+l)", kCtrl);
-		button_run_encoder_analyze_load.TooltipText += string.Format(" ({0}+l)", kCtrl);
 		button_video_play_this_test_contacts.TooltipText += string.Format(" ({0}+v)", kCtrl);
 
 		//encoder
@@ -86,7 +84,6 @@ public partial class ChronoJumpWindow
 	{
 		//button_edit_current_person = (Gtk.Button) builder.GetObject ("button_edit_current_person");
 		button_edit_current_person_h = (Gtk.Button) builder.GetObject ("button_edit_current_person_h");
-		button_run_encoder_analyze_load = (Gtk.Button) builder.GetObject ("button_run_encoder_analyze_load");
 		button_encoder_exercise = (Gtk.Button) builder.GetObject ("button_encoder_exercise");
 		button_encoder_exercise_close_and_capture = (Gtk.Button) builder.GetObject ("button_encoder_exercise_close_and_capture");
 	}

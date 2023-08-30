@@ -44,7 +44,6 @@ public partial class ChronoJumpWindow
 	Gtk.Button button_signal_analyze_load_ab;
 	Gtk.Button button_signal_analyze_load_cd;
 	Gtk.Button button_ai_move_cd_pre;
-	Gtk.Button button_force_sensor_analyze_model;
 	Gtk.Label label_force_sensor_analyze;
 	Gtk.Image image_force_sensor_graph;
 	Gtk.Viewport viewport_force_sensor_graph;
@@ -164,7 +163,6 @@ public partial class ChronoJumpWindow
 	 * analyze options -------------------------->
 	 */
 
-	private bool button_force_sensor_analyze_model_was_sensitive; //needed this temp variable
 	private void forceSensorAnalyzeOptionsSensitivity(bool s) //s for sensitive. When show options frame is ! s
 	{
 		button_ai_model_options.Sensitive = s;
@@ -176,10 +174,10 @@ public partial class ChronoJumpWindow
 			button_ai_move_cd_pre_set_sensitivity ();
 
 		if(s)
-			button_force_sensor_analyze_model.Sensitive = button_force_sensor_analyze_model_was_sensitive;
+			button_ai_model.Sensitive = button_ai_model_was_sensitive;
 		else {
-			button_force_sensor_analyze_model_was_sensitive = button_force_sensor_analyze_model.Sensitive;
-			button_force_sensor_analyze_model.Sensitive = false;
+			button_ai_model_was_sensitive = button_ai_model.Sensitive;
+			button_ai_model.Sensitive = false;
 		}
 
 		menus_and_mode_sensitive(s);
@@ -1498,7 +1496,6 @@ public partial class ChronoJumpWindow
 		button_signal_analyze_load_ab = (Gtk.Button) builder.GetObject ("button_signal_analyze_load_ab");
 		button_signal_analyze_load_cd = (Gtk.Button) builder.GetObject ("button_signal_analyze_load_cd");
 		button_ai_move_cd_pre = (Gtk.Button) builder.GetObject ("button_ai_move_cd_pre");
-		button_force_sensor_analyze_model = (Gtk.Button) builder.GetObject ("button_force_sensor_analyze_model");
 		label_force_sensor_analyze = (Gtk.Label) builder.GetObject ("label_force_sensor_analyze");
 		image_force_sensor_graph = (Gtk.Image) builder.GetObject ("image_force_sensor_graph");
 		viewport_force_sensor_graph = (Gtk.Viewport) builder.GetObject ("viewport_force_sensor_graph");

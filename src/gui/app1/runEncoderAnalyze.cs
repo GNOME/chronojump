@@ -32,10 +32,7 @@ public partial class ChronoJumpWindow
 	Gtk.CheckButton check_run_encoder_analyze_accel;
 	Gtk.CheckButton check_run_encoder_analyze_force;
 	Gtk.CheckButton check_run_encoder_analyze_power;
-	Gtk.Button button_run_encoder_analyze_analyze;
 	Gtk.Button button_run_encoder_image_save;
-
-	Gtk.HBox hbox_run_encoder_top;
 
 	//export
 	Gtk.CheckButton check_run_encoder_export_instantaneous;
@@ -161,11 +158,10 @@ public partial class ChronoJumpWindow
 		combo_run_encoder_analyze_power.Visible = (check_run_encoder_analyze_power.Active);
 	}
 
-	private bool button_run_encoder_analyze_analyze_was_sensitive; //needed this temp variable
 	private void on_button_run_encoder_ai_model_options_clicked ()
 	{
 		runEncoderButtonsSensitive(false);
-		button_run_encoder_analyze_analyze.Sensitive = false;
+		button_ai_model.Sensitive = false;
 	}
 
 	private void on_button_run_encoder_ai_model_options_close_clicked ()
@@ -206,7 +202,7 @@ public partial class ChronoJumpWindow
 		// 2 change sensitivity of widgets
 
 		runEncoderButtonsSensitive(true);
-		button_run_encoder_analyze_analyze.Sensitive = button_run_encoder_analyze_analyze_was_sensitive;
+		button_ai_model.Sensitive = button_ai_model_was_sensitive;
 	}
 
 	private void on_button_run_encoder_analyze_analyze_clicked (object o, EventArgs args)
@@ -319,65 +315,6 @@ public partial class ChronoJumpWindow
 		new DialogMessage(Constants.MessageTypes.INFO, myString);
 	}
 
-
-	//move to export gui file
-
-	private void on_check_run_encoder_export_images_toggled (object o, EventArgs args)
-	{
-		/*
-		hbox_run_encoder_export_width_height.Visible = check_run_encoder_export_images.Active;
-
-		//also hide the label and the open button
-		label_run_encoder_export_discarded.Text = "";
-		label_ai_export_result.Text = "";
-		button_ai_export_result_open.Visible = false;
-		*/
-	}
-
-	private void on_radio_run_encoder_analyze_individual_current_set_toggled (object o, EventArgs args)
-	{
-	/*
-		button_run_encoder_analyze_load.Visible = true;
-		button_run_encoder_analyze_analyze.Visible = true;
-
-		//notebook_run_encoder_analyze.CurrentPage = Convert.ToInt32(notebook_run_encoder_analyze_pages.CURRENTSET);
-		label_run_encoder_export_discarded.Text = "";
-		label_ai_export_result.Text = "";
-		button_run_encoder_export_result_open.Visible = false;
-		*/
-	}
-	private void on_radio_run_encoder_analyze_individual_session_current_or_all_toggled (object o, EventArgs args)
-	{
-	/*
-		button_run_encoder_analyze_load.Visible = false;
-		button_run_encoder_analyze_analyze.Visible = false;
-
-		if(currentPerson != null)
-			label_run_encoder_export_data.Text = currentPerson.Name;
-		else
-			label_run_encoder_export_data.Text = "";
-
-		//notebook_run_encoder_analyze.CurrentPage = Convert.ToInt32(notebook_run_encoder_analyze_pages.CURRENTSESSION);
-		label_run_encoder_export_discarded.Text = "";
-		label_ai_export_result.Text = "";
-		button_run_encoder_export_result_open.Visible = false;
-		*/
-	}
-	private void on_radio_run_encoder_analyze_groupal_current_session_toggled (object o, EventArgs args)
-	{
-	/*
-		button_run_encoder_analyze_load.Visible = false;
-		button_run_encoder_analyze_analyze.Visible = false;
-
-		label_run_encoder_export_data.Text = currentSession.Name;
-
-		//notebook_run_encoder_analyze.CurrentPage = Convert.ToInt32(notebook_run_encoder_analyze_pages.CURRENTSESSION);
-		label_run_encoder_export_discarded.Text = "";
-		label_ai_export_result.Text = "";
-		button_run_encoder_export_result_open.Visible = false;
-	*/
-	}
-
 	private void on_button_run_encoder_export_not_set_clicked (object o, EventArgs args)
 	{
 		if (operatingSystem == UtilAll.OperatingSystems.MACOSX &&
@@ -421,7 +358,6 @@ public partial class ChronoJumpWindow
 		label_ai_export_result.Text = "";
 		button_ai_export_result_open.Visible = false;
 		runEncoderButtonsSensitive(false);
-		hbox_run_encoder_top.Sensitive = false;
 
 		//store new width/height if changed
 		Sqlite.Open();
@@ -488,7 +424,6 @@ public partial class ChronoJumpWindow
 		//restore the gui if cancelled
 		if(! selectedFile) {
 			runEncoderButtonsSensitive(true);
-			hbox_run_encoder_top.Sensitive = true;
 		}
 	}
 	private void on_button_run_encoder_export_file_selected (string selectedFileName)
@@ -502,7 +437,6 @@ public partial class ChronoJumpWindow
 		runEncoderExport.Button_done.Clicked -= new EventHandler(run_encoder_export_done);
 
 		runEncoderButtonsSensitive(true);
-		hbox_run_encoder_top.Sensitive = true;
 
 		if(runEncoderExport != null && runEncoderExport.AllOk)
 			button_ai_export_result_open.Visible = true;
@@ -527,10 +461,7 @@ public partial class ChronoJumpWindow
 		check_run_encoder_analyze_accel = (Gtk.CheckButton) builder.GetObject ("check_run_encoder_analyze_accel");
 		check_run_encoder_analyze_force = (Gtk.CheckButton) builder.GetObject ("check_run_encoder_analyze_force");
 		check_run_encoder_analyze_power = (Gtk.CheckButton) builder.GetObject ("check_run_encoder_analyze_power");
-		button_run_encoder_analyze_analyze = (Gtk.Button) builder.GetObject ("button_run_encoder_analyze_analyze");
 		button_run_encoder_image_save = (Gtk.Button) builder.GetObject ("button_run_encoder_image_save");
-
-		hbox_run_encoder_top = (Gtk.HBox) builder.GetObject ("hbox_run_encoder_top");
 
 		//export
 		check_run_encoder_export_instantaneous = (Gtk.CheckButton) builder.GetObject ("check_run_encoder_export_instantaneous");

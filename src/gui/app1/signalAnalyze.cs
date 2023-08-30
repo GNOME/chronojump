@@ -87,6 +87,7 @@ public partial class ChronoJumpWindow
 
 	Gtk.Viewport viewport_ai_hscales;
 
+	Gtk.Button button_ai_model;
 	Gtk.Notebook notebook_ai_model_options;
 	Gtk.Button button_ai_model_options_close_and_analyze;
 	Gtk.Button button_ai_model_options;
@@ -109,6 +110,7 @@ public partial class ChronoJumpWindow
 	// <---- at glade
 
 	public enum AlignTypes { LEFT, CENTER, RIGHT };
+	private bool button_ai_model_was_sensitive; //needed this temp variable
 
 	private void blankAIInterface ()
 	{
@@ -236,7 +238,7 @@ public partial class ChronoJumpWindow
 		box_ai_b_buttons.Visible = false;
 		check_force_sensor_ai_chained_hscales.Visible = false;
 		check_force_sensor_ai_zoom.Visible = false;
-		button_force_sensor_analyze_model.Visible = false;
+		button_ai_model.Visible = false;
 
 		box_ai_move_cd_accept.Visible = true;
 		box_ai_move_cd_buttons.Visible = true;
@@ -255,7 +257,7 @@ public partial class ChronoJumpWindow
 		box_ai_b_buttons.Visible = true;
 		check_force_sensor_ai_chained_hscales.Visible = true;
 		check_force_sensor_ai_zoom.Visible = true;
-		button_force_sensor_analyze_model.Visible = true;
+		button_ai_model.Visible = true;
 
 		box_ai_move_cd_accept.Visible = false;
 		box_ai_move_cd_buttons.Visible = false;
@@ -1122,7 +1124,11 @@ public partial class ChronoJumpWindow
 	private void on_button_ai_model_options_close_and_analyze_clicked (object o, EventArgs args)
 	{
 		on_button_ai_model_options_close_clicked (o, args);
+		on_button_ai_model_clicked (o, args);
+	}
 
+	private void on_button_ai_model_clicked (object o, EventArgs args)
+	{
 		if (Constants.ModeIsFORCESENSOR (current_mode))
 			on_button_force_sensor_analyze_model_clicked (o, args);
 		else //if (current_mode == Constants.Modes.RUNSENCODER)
@@ -1211,6 +1217,7 @@ public partial class ChronoJumpWindow
 
 		viewport_ai_hscales = (Gtk.Viewport) builder.GetObject ("viewport_ai_hscales");
 
+		button_ai_model = (Gtk.Button) builder.GetObject ("button_ai_model");
 		notebook_ai_model_options = (Gtk.Notebook) builder.GetObject ("notebook_ai_model_options");
 		button_ai_model_options_close_and_analyze = (Gtk.Button) builder.GetObject ("button_ai_model_options_close_and_analyze");
 		button_ai_model_options = (Gtk.Button) builder.GetObject ("button_ai_model_options");

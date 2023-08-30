@@ -3002,7 +3002,6 @@ public partial class ChronoJumpWindow
 	private void on_overwrite_file_runencoder_export_cancelled(object o, EventArgs args)
 	{
 		runEncoderButtonsSensitive(true);
-		hbox_run_encoder_top.Sensitive = true;
 	}
 
 	void on_button_encoder_delete_signal_clicked (object o, EventArgs args) 

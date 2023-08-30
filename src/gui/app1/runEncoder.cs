@@ -471,7 +471,7 @@ public partial class ChronoJumpWindow
 		triggerListRunEncoder = new TriggerList();
 		clearRaceAnalyzerTriggersFromTextView();
 
-		button_run_encoder_analyze_analyze.Sensitive = false;
+		button_ai_model.Sensitive = false;
 		button_delete_last_test.Sensitive = false;
 		button_run_encoder_image_save.Sensitive = false;
 
@@ -1282,7 +1282,7 @@ RunEncoderCaptureGetSpeedAndDisplacementTest recgsdt = new RunEncoderCaptureGetS
 			sensitiveLastTestButtons(true);
 
 			image_run_encoder_graph.Visible = false;
-			button_run_encoder_analyze_analyze.Sensitive = true;
+			button_ai_model.Sensitive = true;
 			button_ai_model_options_close_and_analyze.Sensitive = true;
 			button_run_encoder_image_save.Sensitive = true;
 
@@ -1622,7 +1622,7 @@ RunEncoderCaptureGetSpeedAndDisplacementTest recgsdt = new RunEncoderCaptureGetS
 		runEncoderAnalyzeOpenImage();
 		notebook_analyze.CurrentPage = Convert.ToInt32(notebook_analyze_pages.RACEENCODER);
 		//radio_mode_contacts_analyze.Active = true;
-		button_run_encoder_analyze_analyze.Sensitive = true;
+		button_ai_model.Sensitive = true;
 
 		// 3) display table
 		treeview_raceAnalyzer = UtilGtk.RemoveColumns(treeview_raceAnalyzer);
@@ -1933,7 +1933,7 @@ RunEncoderCaptureGetSpeedAndDisplacementTest recgsdt = new RunEncoderCaptureGetS
 
 					button_contacts_exercise_close_and_recalculate.Sensitive = true;
 					button_ai_model_options_close_and_analyze.Sensitive = true;
-					button_run_encoder_analyze_analyze.Sensitive = true;
+					button_ai_model.Sensitive = true;
 					button_run_encoder_image_save.Sensitive = true;
 					button_delete_last_test.Sensitive = true;
 
@@ -1966,7 +1966,7 @@ RunEncoderCaptureGetSpeedAndDisplacementTest recgsdt = new RunEncoderCaptureGetS
 				sensitiveLastTestButtons(false);
 				contactsShowCaptureDoingButtons(false);
 				button_ai_model_options_close_and_analyze.Sensitive = false;
-				button_run_encoder_analyze_analyze.Sensitive = false;
+				button_ai_model.Sensitive = false;
 				button_run_encoder_image_save.Sensitive = false;
 				button_delete_last_test.Sensitive = false;
 

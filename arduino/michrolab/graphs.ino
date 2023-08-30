@@ -152,38 +152,46 @@ void barPlot (float gx, float gy, float w, float h, float yhi, int numBars, int 
   float barValue = 0;
   float barPixHeight = 0;
 
+  //Limiting the number of bars
+  if ( numBars > 10) numBars = 10;
+
   //the first bar to plot corresponds to the last updated slot of the array
 
   //Deleting the previous bars (The older bar are not in the buffer)
-  for (int i = 1; i < 10; i++)
+  for (int i = 1; i <= numBars; i++)
   {
     localX -= a;
     barValue = bars[ (currentIndex - i + 10) % 10];
     barPixHeight =  barValue * h / yhi;
-    tft.fillRect(gx + localX, gy - barPixHeight , b, barPixHeight, BLACK);
+    // tft.fillRect(gx + localX, gy - barPixHeight , b, barPixHeight, BLACK);
     // tft.drawRect(gx + localX, gy - barPixHeight , b, barPixHeight, BLACK);
+    tft.drawLine(gx + localX, gy - barPixHeight , gx + localX + b, gy - barPixHeight, BLACK);
     localX -= b;
   }
 
   //Deleting the most left Bar
-  localX -= a;
-  tft.fillRect(gx + localX, gy - h , b, h, BLACK);
-  // tft.drawRect(gx + localX, gy - h , b, h, BLACK);
+  // localX -= a;
+  // barValue = bars[ currentIndex + 10];
+  // barPixHeight =  barValue * h / yhi;
+  // // tft.fillRect(gx + localX, gy - h , b, h, BLACK);
+  // // tft.drawRect(gx + localX, gy - h , b, h, BLACK);
+  // tft.drawLine(gx + localX, gy - barPixHeight , gx + localX + b, gy - barPixHeight, BLACK);
+  
   localX = w - b;
 
-  for (int i = 0; i < 10; i++)
+  for (int i = 0; i < numBars; i++)
   {
     localX -= a;
     barValue = bars[ (currentIndex - i + 10) % 10];
     barPixHeight =  barValue * h / yhi;
     //Serial.println(String(gx+localX) + "," + String(gy) + "\t" + String(b) + "," + String(bars[ (i + 10 - numBars) % 10]));
-    if (i == 0) {
-      tft.fillRect(gx + localX, gy - barPixHeight , b, barPixHeight, RED);
+    if (i == 0) tft.drawLine(gx + localX, gy - barPixHeight , gx + localX + b, gy - barPixHeight, RED);
+      // tft.fillRect(gx + localX, gy - barPixHeight , b, barPixHeight, RED);
       // tft.drawRect(gx + localX, gy - barPixHeight , b, barPixHeight, RED);
-    } else {
-      tft.fillRect(gx + localX, gy - barPixHeight , b, barPixHeight, BLUE);
+      
+    else tft.drawLine(gx + localX, gy - barPixHeight , gx + localX + b, gy - barPixHeight, BLUE);
+      // tft.fillRect(gx + localX, gy - barPixHeight , b, barPixHeight, BLUE);
       // tft.drawRect(gx + localX, gy - barPixHeight , b, barPixHeight, BLUE);
-    }
     localX -= b;
   }
 

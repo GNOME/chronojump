@@ -497,7 +497,7 @@ String textList[7] = {"First", "Second", "Thirth", "Fourth", "Fifth", "Sixtth", 
 
 void setup() {
 
-  SPI.beginTransaction(SPISettings(20000000, MSBFIRST, SPI_MODE0));
+  SPI.beginTransaction(SPISettings(100000000, MSBFIRST, SPI_MODE0));
   //Real time clock sync with the temp clock
   setSyncProvider(getTeensy3Time);
   //Attention: some SD cards fails to initalize after uploading the firmware

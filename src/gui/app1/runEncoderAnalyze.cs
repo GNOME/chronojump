@@ -229,11 +229,14 @@ public partial class ChronoJumpWindow
 		if(lastRunEncoderFullPath != null && lastRunEncoderFullPath != "")
 			raceEncoderCopyToTempAndDoRGraph();
 
+		/*
 		//move from triggers tab (if we are there) to graph tab
 		if(notebook_run_encoder_analyze_current_set.CurrentPage ==
 				Convert.ToInt32(notebook_run_encoder_analyze_current_set_pages.TRIGGERS))
 			notebook_run_encoder_analyze_current_set.CurrentPage =
 				Convert.ToInt32(notebook_run_encoder_analyze_current_set_pages.GRAPH);
+		*/
+		notebook_ai_top.CurrentPage = Convert.ToInt32(notebook_ai_top_pages.CURRENTSETMODEL);
 	}
 
 	private void on_button_raceAnalyzer_table_save_clicked (object o, EventArgs args)
@@ -241,9 +244,9 @@ public partial class ChronoJumpWindow
 		checkFile(Constants.CheckFileOp.RUNENCODER_ANALYZE_SAVE_TABLE);
 	}
 
-	private void on_button_run_encoder_image_save_clicked (object o, EventArgs args)
+	private void on_button_run_encoder_image_save_model_clicked (object o, EventArgs args)
 	{
-		checkFile(Constants.CheckFileOp.RUNENCODER_ANALYZE_SAVE_IMAGE);
+		checkFile(Constants.CheckFileOp.RUNENCODER_ANALYZE_SAVE_IMAGE_MODEL);
 	}
 
 	private void on_button_run_encoder_analyze_image_save_selected (string destination)

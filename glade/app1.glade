@@ -27848,7 +27848,7 @@ Concentric</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <object class="GtkHBox" id="hbox_force_rfd">
+                                                            <object class="GtkHBox" id="box_model">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
                                                             <child>
@@ -27857,11 +27857,11 @@ Concentric</property>
                                                             <property name="can-focus">False</property>
                                                             <property name="spacing">6</property>
                                                             <child>
-                                                            <object class="GtkHBox" id="hbox_force_sensor_analyze_back_to_signal">
+                                                            <object class="GtkHBox" id="box_model_back_to_signal">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
                                                             <child>
-                                                            <object class="GtkLabel" id="label_force_sensor_analyze">
+                                                            <object class="GtkLabel" id="label_model_analyze">
                                                             <property name="can-focus">False</property>
                                                             <property name="use-markup">True</property>
                                                             <property name="single-line-mode">True</property>
@@ -27873,11 +27873,11 @@ Concentric</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <object class="GtkButton" id="button_force_sensor_analyze_back_to_signal">
+                                                            <object class="GtkButton" id="button_ai_model_back_to_signal">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="receives-default">True</property>
-                                                            <signal name="clicked" handler="on_button_force_sensor_analyze_back_to_signal_clicked" swapped="no"/>
+                                                            <signal name="clicked" handler="on_button_ai_model_back_to_signal_clicked" swapped="no"/>
                                                             <child>
                                                             <object class="GtkHBox" id="hbox516">
                                                             <property name="visible">True</property>
@@ -27935,7 +27935,7 @@ Concentric</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="shadow-type">in</property>
                                                             <child>
-                                                            <object class="GtkViewport" id="viewport_force_sensor_graph">
+                                                            <object class="GtkViewport" id="viewport_ai_model_graph">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
                                                             <property name="shadow-type">none</property>
@@ -27944,7 +27944,7 @@ Concentric</property>
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
                                                             <child>
-                                                            <object class="GtkImage" id="image_force_sensor_graph">
+                                                            <object class="GtkImage" id="image_ai_model_graph">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
                                                             <property name="stock">gtk-missing-image</property>
@@ -27971,13 +27971,13 @@ Concentric</property>
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
                                                             <child>
-                                                            <object class="GtkButton" id="button_force_sensor_image_save_rfd_auto">
+                                                            <object class="GtkButton" id="button_ai_model_save_image">
                                                             <property name="visible">True</property>
                                                             <property name="sensitive">False</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="receives-default">True</property>
                                                             <property name="tooltip-text" translatable="yes">Save image</property>
-                                                            <signal name="clicked" handler="on_button_force_sensor_image_save_rfd_auto_clicked" swapped="no"/>
+                                                            <signal name="clicked" handler="on_button_ai_model_save_image_clicked" swapped="no"/>
                                                             <child>
                                                             <object class="GtkVBox" id="vbox114">
                                                             <property name="visible">True</property>
@@ -31029,51 +31029,7 @@ Concentric</property>
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
                                                             <child>
-                                                            <object class="GtkButton" id="button_run_encoder_image_save">
-                                                            <property name="visible">True</property>
-                                                            <property name="sensitive">False</property>
-                                                            <property name="can-focus">True</property>
-                                                            <property name="receives-default">True</property>
-                                                            <property name="tooltip-text" translatable="yes">Save image</property>
-                                                            <signal name="clicked" handler="on_button_run_encoder_image_save_clicked" swapped="no"/>
-                                                            <child>
-                                                            <object class="GtkVBox" id="vbox214">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="spacing">4</property>
-                                                            <child>
-                                                            <object class="GtkImage" id="image_run_encoder_analyze_image_save_graph">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="stock">gtk-missing-image</property>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="position">0</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
-                                                            <object class="GtkImage" id="image_run_encoder_analyze_image_save_disk">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="stock">gtk-missing-image</property>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="position">1</property>
-                                                            </packing>
-                                                            </child>
-                                                            </object>
-                                                            </child>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="pack-type">end</property>
-                                                            <property name="position">0</property>
-                                                            </packing>
+                                                            <placeholder/>
                                                             </child>
                                                             </object>
                                                             <packing>

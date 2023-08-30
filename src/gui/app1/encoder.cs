@@ -2322,10 +2322,10 @@ public partial class ChronoJumpWindow
 				checkFileOp == Constants.CheckFileOp.ENCODER_ANALYZE_SAVE_IMAGE ||
 				checkFileOp == Constants.CheckFileOp.ENCODER_ANALYZE_SAVE_IMAGE_CURRENT_SESSION ||
 				checkFileOp == Constants.CheckFileOp.FORCESENSOR_SAVE_IMAGE_SIGNAL ||
-				checkFileOp == Constants.CheckFileOp.FORCESENSOR_SAVE_IMAGE_RFD_AUTO ||
+				checkFileOp == Constants.CheckFileOp.FORCESENSOR_SAVE_IMAGE_MODEL ||
 				checkFileOp == Constants.CheckFileOp.FORCESENSOR_SAVE_IMAGE_RFD_MANUAL ||
 				checkFileOp == Constants.CheckFileOp.RUNENCODER_CAPTURE_SAVE_IMAGE ||
-				checkFileOp == Constants.CheckFileOp.RUNENCODER_ANALYZE_SAVE_IMAGE)
+				checkFileOp == Constants.CheckFileOp.RUNENCODER_ANALYZE_SAVE_IMAGE_MODEL)
 			exportString = Catalog.GetString ("Save image");
 		else if(
 				checkFileOp == Constants.CheckFileOp.ENCODER_ANALYZE_SAVE_AB ||
@@ -2380,7 +2380,7 @@ public partial class ChronoJumpWindow
 		//and if elastic, exercise should have (stiffness)
 		if(
 				checkFileOp == Constants.CheckFileOp.FORCESENSOR_SAVE_IMAGE_SIGNAL ||
-				checkFileOp == Constants.CheckFileOp.FORCESENSOR_SAVE_IMAGE_RFD_AUTO ||
+				checkFileOp == Constants.CheckFileOp.FORCESENSOR_SAVE_IMAGE_MODEL ||
 				checkFileOp == Constants.CheckFileOp.FORCESENSOR_SAVE_IMAGE_RFD_MANUAL ||
 				checkFileOp == Constants.CheckFileOp.FORCESENSOR_ANALYZE_SAVE_AB ||
 				checkFileOp == Constants.CheckFileOp.FORCESENSOR_ANALYZE_SAVE_CD )
@@ -2455,14 +2455,14 @@ public partial class ChronoJumpWindow
 			nameString += "_encoder.png";
 		else if(checkFileOp == Constants.CheckFileOp.FORCESENSOR_SAVE_IMAGE_SIGNAL)
 			nameString += "_force_sensor_set.png";
-		else if(checkFileOp == Constants.CheckFileOp.FORCESENSOR_SAVE_IMAGE_RFD_AUTO)
-			nameString += "_force_sensor_rfd_auto.png";
+		else if(checkFileOp == Constants.CheckFileOp.FORCESENSOR_SAVE_IMAGE_MODEL)
+			nameString += "_force_sensor_rfd_model.png";
 		else if(checkFileOp == Constants.CheckFileOp.FORCESENSOR_SAVE_IMAGE_RFD_MANUAL)
 			nameString += "_force_sensor_general_analysis.png";
 		else if(checkFileOp == Constants.CheckFileOp.RUNENCODER_CAPTURE_SAVE_IMAGE)
 			nameString += "_race_analyzer_capture.png";
-		else if(checkFileOp == Constants.CheckFileOp.RUNENCODER_ANALYZE_SAVE_IMAGE)
-			nameString += "_race_analyzer_analyze.png";
+		else if(checkFileOp == Constants.CheckFileOp.RUNENCODER_ANALYZE_SAVE_IMAGE_MODEL)
+			nameString += "_race_analyzer_model.png";
 		else if(checkFileOp == Constants.CheckFileOp.ENCODER_ANALYZE_SAVE_AB)
 			nameString += "_encoder_repetition_export.csv";
 		else if(checkFileOp == Constants.CheckFileOp.FORCESENSOR_ANALYZE_SAVE_AB)
@@ -2533,7 +2533,7 @@ public partial class ChronoJumpWindow
 				exportFileName = Util.AddCsvIfNeeded(exportFileName);
 			else {
 				//ENCODER_ANALYZE_SAVE_IMAGE, ENCODER_ANALYZE_SAVE_IMAGE_CURRENT_SESSION, FORCESENSOR_SAVE_IMAGE_SIGNAL,
-				//FORCESENSOR_SAVE_IMAGE_RFD_AUTO, FORCESENSOR_SAVE_IMAGE_RFD_MANUAL
+				//FORCESENSOR_SAVE_IMAGE_MODEL, FORCESENSOR_SAVE_IMAGE_RFD_MANUAL
 				//… and sure other modes
 				exportFileName = Util.AddPngIfNeeded(exportFileName);
 			}
@@ -2610,9 +2610,9 @@ public partial class ChronoJumpWindow
 					else if(checkFileOp == Constants.CheckFileOp.FORCESENSOR_SAVE_IMAGE_SIGNAL)
 						confirmWin.Button_accept.Clicked +=
 							new EventHandler(on_overwrite_file_forcesensor_save_image_signal_accepted);
-					else if(checkFileOp == Constants.CheckFileOp.FORCESENSOR_SAVE_IMAGE_RFD_AUTO)
+					else if(checkFileOp == Constants.CheckFileOp.FORCESENSOR_SAVE_IMAGE_MODEL)
 						confirmWin.Button_accept.Clicked +=
-							new EventHandler(on_overwrite_file_forcesensor_save_image_rfd_auto_accepted);
+							new EventHandler(on_overwrite_file_forcesensor_save_image_rfd_model_accepted);
 					else if(checkFileOp == Constants.CheckFileOp.FORCESENSOR_SAVE_IMAGE_RFD_MANUAL)
 						confirmWin.Button_accept.Clicked +=
 							new EventHandler(on_overwrite_file_forcesensor_save_image_rfd_manual_accepted);
@@ -2643,7 +2643,7 @@ public partial class ChronoJumpWindow
 					else if(checkFileOp == Constants.CheckFileOp.RUNENCODER_CAPTURE_SAVE_IMAGE)
 						confirmWin.Button_accept.Clicked +=
 							new EventHandler(on_overwrite_file_runencoder_capture_image_save_accepted);
-					else if(checkFileOp == Constants.CheckFileOp.RUNENCODER_ANALYZE_SAVE_IMAGE)
+					else if(checkFileOp == Constants.CheckFileOp.RUNENCODER_ANALYZE_SAVE_IMAGE_MODEL)
 						confirmWin.Button_accept.Clicked +=
 							new EventHandler(on_overwrite_file_runencoder_analyze_image_save_accepted);
 					else if(checkFileOp == Constants.CheckFileOp.RUNENCODER_ANALYZE_SAVE_TABLE)
@@ -2690,8 +2690,8 @@ public partial class ChronoJumpWindow
 						on_button_encoder_save_table_file_selected (exportFileName, true);
 					else if(checkFileOp == Constants.CheckFileOp.FORCESENSOR_SAVE_IMAGE_SIGNAL)
 						on_button_forcesensor_save_image_signal_file_selected (exportFileName);
-					else if(checkFileOp == Constants.CheckFileOp.FORCESENSOR_SAVE_IMAGE_RFD_AUTO)
-						on_button_forcesensor_save_image_rfd_auto_file_selected (exportFileName);
+					else if(checkFileOp == Constants.CheckFileOp.FORCESENSOR_SAVE_IMAGE_MODEL)
+						on_button_forcesensor_save_image_rfd_model_file_selected (exportFileName);
 					else if(checkFileOp == Constants.CheckFileOp.FORCESENSOR_SAVE_IMAGE_RFD_MANUAL)
 						on_button_forcesensor_save_image_rfd_manual_file_selected (exportFileName);
 					else if(checkFileOp == Constants.CheckFileOp.FORCESENSOR_ANALYZE_SAVE_AB)
@@ -2715,7 +2715,7 @@ public partial class ChronoJumpWindow
 						on_button_run_encoder_export_file_selected (exportFileName);
 					else if(checkFileOp == Constants.CheckFileOp.RUNENCODER_CAPTURE_SAVE_IMAGE)
 						on_button_run_encoder_capture_image_save_selected (exportFileName);
-					else if(checkFileOp == Constants.CheckFileOp.RUNENCODER_ANALYZE_SAVE_IMAGE)
+					else if(checkFileOp == Constants.CheckFileOp.RUNENCODER_ANALYZE_SAVE_IMAGE_MODEL)
 						on_button_run_encoder_analyze_image_save_selected (exportFileName);
 					else if(checkFileOp == Constants.CheckFileOp.RUNENCODER_ANALYZE_SAVE_TABLE)
 						on_button_raceAnalyzer_save_table_file_selected (exportFileName);

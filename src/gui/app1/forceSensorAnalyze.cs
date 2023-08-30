@@ -44,10 +44,6 @@ public partial class ChronoJumpWindow
 	Gtk.Button button_signal_analyze_load_ab;
 	Gtk.Button button_signal_analyze_load_cd;
 	Gtk.Button button_ai_move_cd_pre;
-	Gtk.Label label_force_sensor_analyze;
-	Gtk.Image image_force_sensor_graph;
-	Gtk.Viewport viewport_force_sensor_graph;
-	Gtk.Button button_force_sensor_image_save_rfd_auto;
 	Gtk.Button button_force_sensor_image_save_rfd_manual;
 	Gtk.Button button_force_sensor_analyze_AB_save;
 	Gtk.Button button_force_sensor_analyze_CD_save;
@@ -264,7 +260,7 @@ public partial class ChronoJumpWindow
 			forceSensorCopyTempAndDoGraphs(forceSensorGraphsEnum.RFD);
 	}
 
-	private void on_button_force_sensor_analyze_back_to_signal_clicked (object o, EventArgs args)
+	private void on_button_ai_model_back_to_signal_clicked (object o, EventArgs args)
 	{
 		notebook_ai_top.CurrentPage = Convert.ToInt32(notebook_ai_top_pages.CURRENTSETSIGNAL);
 	}
@@ -1496,10 +1492,6 @@ public partial class ChronoJumpWindow
 		button_signal_analyze_load_ab = (Gtk.Button) builder.GetObject ("button_signal_analyze_load_ab");
 		button_signal_analyze_load_cd = (Gtk.Button) builder.GetObject ("button_signal_analyze_load_cd");
 		button_ai_move_cd_pre = (Gtk.Button) builder.GetObject ("button_ai_move_cd_pre");
-		label_force_sensor_analyze = (Gtk.Label) builder.GetObject ("label_force_sensor_analyze");
-		image_force_sensor_graph = (Gtk.Image) builder.GetObject ("image_force_sensor_graph");
-		viewport_force_sensor_graph = (Gtk.Viewport) builder.GetObject ("viewport_force_sensor_graph");
-		button_force_sensor_image_save_rfd_auto = (Gtk.Button) builder.GetObject ("button_force_sensor_image_save_rfd_auto");
 		button_force_sensor_image_save_rfd_manual = (Gtk.Button) builder.GetObject ("button_force_sensor_image_save_rfd_manual");
 		button_force_sensor_analyze_AB_save = (Gtk.Button) builder.GetObject ("button_force_sensor_analyze_AB_save");
 		button_force_sensor_analyze_CD_save = (Gtk.Button) builder.GetObject ("button_force_sensor_analyze_CD_save");

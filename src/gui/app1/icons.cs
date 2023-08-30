@@ -253,8 +253,6 @@ public partial class ChronoJumpWindow
 	Gtk.Image image_run_encoder_exercise_edit;
 	Gtk.Image image_run_encoder_exercise_add;
 	Gtk.Image image_run_encoder_exercise_delete;
-	Gtk.Image image_run_encoder_analyze_image_save_graph;
-	Gtk.Image image_run_encoder_analyze_image_save_disk;
 	Gtk.Image image_run_encoder_exercise_is_sprint_help;
 	Gtk.Image image_run_encoder_exercise_angle_default_help;
 
@@ -912,7 +910,6 @@ public partial class ChronoJumpWindow
 		image_sprint_analyze_save.Pixbuf = pixbuf;
 		image_button_contacts_run_encoder_capture_save_image_chart.Pixbuf = pixbuf;
 		image_encoder_analyze_image_compujump_send_email_image.Pixbuf = pixbuf;
-		image_run_encoder_analyze_image_save_graph.Pixbuf = pixbuf;
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "save.png");
 		image_button_contacts_capture_save_image_disk.Pixbuf = pixbuf;
@@ -941,7 +938,6 @@ public partial class ChronoJumpWindow
 		image_runs_evolution_analyze_image_save.Pixbuf = pixbuf;
 		image_button_contacts_run_encoder_capture_save_image_disk.Pixbuf = pixbuf;
 		image_sprint_analyze_image_save.Pixbuf = pixbuf;
-		image_run_encoder_analyze_image_save_disk.Pixbuf = pixbuf;
 		image_sprint_table_save_disk.Pixbuf = pixbuf;
 		image_raceAnalyzer_table_save_disk.Pixbuf = pixbuf;
 
@@ -1353,8 +1349,6 @@ public partial class ChronoJumpWindow
 		image_run_encoder_exercise_edit = (Gtk.Image) builder.GetObject ("image_run_encoder_exercise_edit");
 		image_run_encoder_exercise_add = (Gtk.Image) builder.GetObject ("image_run_encoder_exercise_add");
 		image_run_encoder_exercise_delete = (Gtk.Image) builder.GetObject ("image_run_encoder_exercise_delete");
-		image_run_encoder_analyze_image_save_graph = (Gtk.Image) builder.GetObject ("image_run_encoder_analyze_image_save_graph");
-		image_run_encoder_analyze_image_save_disk = (Gtk.Image) builder.GetObject ("image_run_encoder_analyze_image_save_disk");
 		image_run_encoder_exercise_is_sprint_help = (Gtk.Image) builder.GetObject ("image_run_encoder_exercise_is_sprint_help");
 		image_run_encoder_exercise_angle_default_help = (Gtk.Image) builder.GetObject ("image_run_encoder_exercise_angle_default_help");
 

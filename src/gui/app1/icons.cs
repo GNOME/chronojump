@@ -257,7 +257,6 @@ public partial class ChronoJumpWindow
 	Gtk.Image image_run_encoder_analyze_load;
 	Gtk.Image image_run_encoder_analyze_image_save_graph;
 	Gtk.Image image_run_encoder_analyze_image_save_disk;
-	Gtk.Image image_run_encoder_export_cancel;
 	Gtk.Image image_run_encoder_exercise_is_sprint_help;
 	Gtk.Image image_run_encoder_exercise_angle_default_help;
 
@@ -291,8 +290,6 @@ public partial class ChronoJumpWindow
 	Gtk.Image image_forcesensor_analyze_image_save7;
 	Gtk.Image image_forcesensor_analyze_image_save8;
 	Gtk.Image image_forcesensor_analyze_image_save9;
-	Gtk.Image image_run_encoder_analyze_table_save;
-	Gtk.Image image_run_encoder_analyze_table_save_1;
 	Gtk.Image image_sprint_analyze_image_save;
 	Gtk.Image image_raceAnalyzer_table_save_grid;
 	Gtk.Image image_sprint_table_save_disk;
@@ -838,7 +835,6 @@ public partial class ChronoJumpWindow
 		image_button_encoder_exercise_actions_cancel.Pixbuf = pixbuf;
 		image_encoder_analyze_cancel.Pixbuf = pixbuf;
 		image_ai_export_cancel.Pixbuf = pixbuf;
-		image_run_encoder_export_cancel.Pixbuf = pixbuf;
 		app1s_image_cancel.Pixbuf = pixbuf;
 		image_app1sae_button_cancel.Pixbuf = pixbuf;
 		image_app1s_button_delete_cancel.Pixbuf = pixbuf;
@@ -880,7 +876,6 @@ public partial class ChronoJumpWindow
 		image_sprint_analyze_table_save.Pixbuf = pixbuf;
 		image_encoder_session_overview.Pixbuf = pixbuf;
 		image_encoder_analyze_table_save.Pixbuf = pixbuf;
-		image_run_encoder_analyze_table_save.Pixbuf = pixbuf;
 		image_sprint_table_save_grid.Pixbuf = pixbuf;
 		image_raceAnalyzer_table_save_grid.Pixbuf = pixbuf;
 
@@ -949,7 +944,6 @@ public partial class ChronoJumpWindow
 		image_forcesensor_analyze_image_save9.Pixbuf = pixbuf;
 		image_runs_evolution_analyze_image_save.Pixbuf = pixbuf;
 		image_button_contacts_run_encoder_capture_save_image_disk.Pixbuf = pixbuf;
-		image_run_encoder_analyze_table_save_1.Pixbuf = pixbuf;
 		image_sprint_analyze_image_save.Pixbuf = pixbuf;
 		image_run_encoder_analyze_image_save_disk.Pixbuf = pixbuf;
 		image_sprint_table_save_disk.Pixbuf = pixbuf;
@@ -1367,7 +1361,6 @@ public partial class ChronoJumpWindow
 		image_run_encoder_analyze_load = (Gtk.Image) builder.GetObject ("image_run_encoder_analyze_load");
 		image_run_encoder_analyze_image_save_graph = (Gtk.Image) builder.GetObject ("image_run_encoder_analyze_image_save_graph");
 		image_run_encoder_analyze_image_save_disk = (Gtk.Image) builder.GetObject ("image_run_encoder_analyze_image_save_disk");
-		image_run_encoder_export_cancel = (Gtk.Image) builder.GetObject ("image_run_encoder_export_cancel");
 		image_run_encoder_exercise_is_sprint_help = (Gtk.Image) builder.GetObject ("image_run_encoder_exercise_is_sprint_help");
 		image_run_encoder_exercise_angle_default_help = (Gtk.Image) builder.GetObject ("image_run_encoder_exercise_angle_default_help");
 
@@ -1401,8 +1394,6 @@ public partial class ChronoJumpWindow
 		image_forcesensor_analyze_image_save7 = (Gtk.Image) builder.GetObject ("image_forcesensor_analyze_image_save7");
 		image_forcesensor_analyze_image_save8 = (Gtk.Image) builder.GetObject ("image_forcesensor_analyze_image_save8");
 		image_forcesensor_analyze_image_save9 = (Gtk.Image) builder.GetObject ("image_forcesensor_analyze_image_save9");
-		image_run_encoder_analyze_table_save = (Gtk.Image) builder.GetObject ("image_run_encoder_analyze_table_save");
-		image_run_encoder_analyze_table_save_1 = (Gtk.Image) builder.GetObject ("image_run_encoder_analyze_table_save_1");
 		image_sprint_analyze_image_save = (Gtk.Image) builder.GetObject ("image_sprint_analyze_image_save");
 		image_raceAnalyzer_table_save_grid = (Gtk.Image) builder.GetObject ("image_raceAnalyzer_table_save_grid");
 		image_sprint_table_save_disk = (Gtk.Image) builder.GetObject ("image_sprint_table_save_disk");

@@ -772,10 +772,6 @@ public partial class ChronoJumpWindow
 		spinbutton_sprint_export_image_width.Value = spinbutton_ai_export_image_width.Value;
 		spinbutton_sprint_export_image_height.Value = spinbutton_ai_export_image_height.Value;
 
-		spinbutton_run_encoder_export_image_width.Value = spinbutton_ai_export_image_width.Value;
-		spinbutton_run_encoder_export_image_height.Value = spinbutton_ai_export_image_height.Value;
-
-
 		forceSensorExport = new ForceSensorExport (
 				current_mode,
 				notebook_ai_export,

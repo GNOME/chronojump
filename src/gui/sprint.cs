@@ -591,10 +591,6 @@ public partial class ChronoJumpWindow
 		spinbutton_ai_export_image_width.Value = spinbutton_sprint_export_image_width.Value;
 		spinbutton_ai_export_image_height.Value = spinbutton_sprint_export_image_height.Value;
 
-		spinbutton_run_encoder_export_image_width.Value = spinbutton_sprint_export_image_width.Value;
-		spinbutton_run_encoder_export_image_height.Value = spinbutton_sprint_export_image_height.Value;
-
-
 		sprintExport = new SprintExport(
 				notebook_sprint_export,
 				label_sprint_export, progressbar_sprint_export,

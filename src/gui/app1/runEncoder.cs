@@ -48,8 +48,6 @@ public partial class ChronoJumpWindow
 	Gtk.SpinButton race_analyzer_spinbutton_distance;
 	Gtk.SpinButton race_analyzer_spinbutton_angle;
 	Gtk.SpinButton race_analyzer_spinbutton_temperature;
-	Gtk.Image image_run_encoder_graph;
-	Gtk.Viewport viewport_run_encoder_graph;
 	Gtk.TreeView treeview_raceAnalyzer;
 	Gtk.Button button_raceAnalyzer_table_save;
 	//Gtk.Label label_race_analyzer_capture_speed;
@@ -422,7 +420,7 @@ public partial class ChronoJumpWindow
 		button_contacts_exercise_close_and_recalculate.Sensitive = false;
 
 		//remove stuff on analyze tab
-		image_run_encoder_graph.Visible = false;
+		image_ai_model_graph.Visible = false;
 		treeview_raceAnalyzer = UtilGtk.RemoveColumns(treeview_raceAnalyzer);
 
 		bool connected = runEncoderCapturePre4_GTK();
@@ -463,8 +461,8 @@ public partial class ChronoJumpWindow
 		button_contacts_exercise_close_and_recalculate.Sensitive = false;
 		textview_contacts_signal_comment.Buffer.Text = "";
 
-		//image_run_encoder_graph.Sensitive = false; //this is not useful at all
-		image_run_encoder_graph.Visible = false;
+		//image_ai_model_graph.Sensitive = false; //this is not useful at all
+		image_ai_model_graph.Visible = false;
 
 		treeview_raceAnalyzer = UtilGtk.RemoveColumns(treeview_raceAnalyzer);
 		button_raceAnalyzer_table_save.Sensitive = false;
@@ -473,7 +471,7 @@ public partial class ChronoJumpWindow
 
 		button_ai_model.Sensitive = false;
 		button_delete_last_test.Sensitive = false;
-		button_run_encoder_image_save.Sensitive = false;
+		button_ai_model_save_image.Sensitive = false;
 
 		if (radio_ai_export_individual_current_session.Active)
 		{
@@ -1281,10 +1279,10 @@ RunEncoderCaptureGetSpeedAndDisplacementTest recgsdt = new RunEncoderCaptureGetS
 			button_video_play_this_test_contacts.Sensitive = (re.VideoURL != "");
 			sensitiveLastTestButtons(true);
 
-			image_run_encoder_graph.Visible = false;
+			image_ai_model_graph.Visible = false;
 			button_ai_model.Sensitive = true;
 			button_ai_model_options_close_and_analyze.Sensitive = true;
-			button_run_encoder_image_save.Sensitive = true;
+			button_ai_model_save_image.Sensitive = true;
 
 			if (radio_ai_2sets.Active)
 				radio_ai_cd.Sensitive = true;
@@ -1620,7 +1618,7 @@ RunEncoderCaptureGetSpeedAndDisplacementTest recgsdt = new RunEncoderCaptureGetS
 		Thread.Sleep (250); //Wait a bit to ensure is copied
 
 		runEncoderAnalyzeOpenImage();
-		notebook_analyze.CurrentPage = Convert.ToInt32(notebook_analyze_pages.RACEENCODER);
+		//notebook_analyze.CurrentPage = Convert.ToInt32(notebook_analyze_pages.RACEENCODER);
 		//radio_mode_contacts_analyze.Active = true;
 		button_ai_model.Sensitive = true;
 
@@ -1647,9 +1645,8 @@ RunEncoderCaptureGetSpeedAndDisplacementTest recgsdt = new RunEncoderCaptureGetS
 		if(File.Exists(UtilEncoder.GetSprintEncoderImage()))
 			Util.FileDelete(UtilEncoder.GetSprintEncoderImage());
 
-		int imageWidth = UtilGtk.WidgetWidth(viewport_run_encoder_graph);
-		int imageHeight = UtilGtk.WidgetHeight(viewport_run_encoder_graph);
-
+		int imageWidth = UtilGtk.WidgetWidth (viewport_ai_model_graph);
+		int imageHeight = UtilGtk.WidgetHeight (viewport_ai_model_graph);
 
 		//create graph
 		RunEncoderGraph reg = new RunEncoderGraph(
@@ -1934,7 +1931,7 @@ RunEncoderCaptureGetSpeedAndDisplacementTest recgsdt = new RunEncoderCaptureGetS
 					button_contacts_exercise_close_and_recalculate.Sensitive = true;
 					button_ai_model_options_close_and_analyze.Sensitive = true;
 					button_ai_model.Sensitive = true;
-					button_run_encoder_image_save.Sensitive = true;
+					button_ai_model_save_image.Sensitive = true;
 					button_delete_last_test.Sensitive = true;
 
 					/*
@@ -1967,7 +1964,7 @@ RunEncoderCaptureGetSpeedAndDisplacementTest recgsdt = new RunEncoderCaptureGetS
 				contactsShowCaptureDoingButtons(false);
 				button_ai_model_options_close_and_analyze.Sensitive = false;
 				button_ai_model.Sensitive = false;
-				button_run_encoder_image_save.Sensitive = false;
+				button_ai_model_save_image.Sensitive = false;
 				button_delete_last_test.Sensitive = false;
 
 				if(runEncoderProcessCancel)
@@ -2125,12 +2122,12 @@ RunEncoderCaptureGetSpeedAndDisplacementTest recgsdt = new RunEncoderCaptureGetS
 	void runEncoderAnalyzeOpenImage()
 	{
 		string imagePath = UtilEncoder.GetSprintEncoderImage();
-		image_run_encoder_graph = UtilGtk.OpenImageSafe(
+		image_ai_model_graph = UtilGtk.OpenImageSafe(
 				imagePath,
-				image_run_encoder_graph);
+				image_ai_model_graph);
 
-		//image_run_encoder_graph.Sensitive = true; //not useful
-		image_run_encoder_graph.Visible = true;
+		//image_ai_model_graph.Sensitive = true; //not useful
+		image_ai_model_graph.Visible = true;
 	}
 
 	/*
@@ -2889,8 +2886,6 @@ RunEncoderCaptureGetSpeedAndDisplacementTest recgsdt = new RunEncoderCaptureGetS
 		race_analyzer_spinbutton_distance = (Gtk.SpinButton) builder.GetObject ("race_analyzer_spinbutton_distance");
 		race_analyzer_spinbutton_angle = (Gtk.SpinButton) builder.GetObject ("race_analyzer_spinbutton_angle");
 		race_analyzer_spinbutton_temperature = (Gtk.SpinButton) builder.GetObject ("race_analyzer_spinbutton_temperature");
-		image_run_encoder_graph = (Gtk.Image) builder.GetObject ("image_run_encoder_graph");
-		viewport_run_encoder_graph = (Gtk.Viewport) builder.GetObject ("viewport_run_encoder_graph");
 		treeview_raceAnalyzer = (Gtk.TreeView) builder.GetObject ("treeview_raceAnalyzer");
 		button_raceAnalyzer_table_save = (Gtk.Button) builder.GetObject ("button_raceAnalyzer_table_save");
 		//label_race_analyzer_capture_speed = (Gtk.Label) builder.GetObject ("label_race_analyzer_capture_speed");

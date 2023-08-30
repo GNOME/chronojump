@@ -91,6 +91,10 @@ public partial class ChronoJumpWindow
 	Gtk.Notebook notebook_ai_model_options;
 	Gtk.Button button_ai_model_options_close_and_analyze;
 	Gtk.Button button_ai_model_options;
+	Gtk.Label label_model_analyze;
+	Gtk.Viewport viewport_ai_model_graph;
+	Gtk.Image image_ai_model_graph;
+	Gtk.Button button_ai_model_save_image;
 
 	Gtk.RadioButton radio_ai_export_individual_current_session;
 	Gtk.RadioButton radio_ai_export_individual_all_sessions;
@@ -1135,6 +1139,14 @@ public partial class ChronoJumpWindow
 			on_button_run_encoder_analyze_analyze_clicked (o, args);
 	}
 
+	private void on_button_ai_model_save_image_clicked (object o, EventArgs args)
+	{
+		if (Constants.ModeIsFORCESENSOR (current_mode))
+			on_button_force_sensor_image_save_model_clicked (o, args);
+		else //if (current_mode == Constants.Modes.RUNSENCODER)
+			on_button_run_encoder_image_save_model_clicked (o, args);
+	}
+
 	private void on_ai_export_not_set_clicked (object o, EventArgs args)
 	{
 		if (Constants.ModeIsFORCESENSOR (current_mode))
@@ -1221,6 +1233,10 @@ public partial class ChronoJumpWindow
 		notebook_ai_model_options = (Gtk.Notebook) builder.GetObject ("notebook_ai_model_options");
 		button_ai_model_options_close_and_analyze = (Gtk.Button) builder.GetObject ("button_ai_model_options_close_and_analyze");
 		button_ai_model_options = (Gtk.Button) builder.GetObject ("button_ai_model_options");
+		label_model_analyze = (Gtk.Label) builder.GetObject ("label_model_analyze");
+		viewport_ai_model_graph = (Gtk.Viewport) builder.GetObject ("viewport_ai_model_graph");
+		image_ai_model_graph = (Gtk.Image) builder.GetObject ("image_ai_model_graph");
+		button_ai_model_save_image = (Gtk.Button) builder.GetObject ("button_ai_model_save_image");
 
 		radio_ai_export_individual_current_session = (Gtk.RadioButton) builder.GetObject ("radio_ai_export_individual_current_session");
 		radio_ai_export_individual_all_sessions = (Gtk.RadioButton) builder.GetObject ("radio_ai_export_individual_all_sessions");

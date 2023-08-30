@@ -412,7 +412,7 @@ public partial class ChronoJumpWindow
 			forceSensorButtonsSensitive(false);
 			sensitiveLastTestButtons(false);
 			contactsShowCaptureDoingButtons(true);
-			image_force_sensor_graph.Sensitive = false; //unsensitivize the RFD image (can contain info of previous data)
+			image_ai_model_graph.Sensitive = false; //unsensitivize the RFD image (can contain info of previous data)
 
 			//textview_force_sensor_capture_comment.Buffer.Text = "";
 			textview_contacts_signal_comment.Buffer.Text = "";
@@ -1092,8 +1092,8 @@ public partial class ChronoJumpWindow
 		label_force_sensor_value_min.Text = "0";
 		label_force_sensor_value_best_second.Text = "0";
 		label_force_sensor_value_rfd.Text = "0";
-		label_force_sensor_analyze.Text = "";
-		label_force_sensor_analyze.Visible = false;
+		label_model_analyze.Text = "";
+		label_model_analyze.Visible = false;
 
 		forceProcessFinish = false;
 		forceProcessCancel = false;
@@ -1756,7 +1756,7 @@ LogB.Information(" fs C ");
 
 				button_force_sensor_image_save_signal.Sensitive = false;
 				button_ai_model.Sensitive = false;
-				button_force_sensor_image_save_rfd_auto.Sensitive = false;
+				button_ai_model_save_image.Sensitive = false;
 				button_force_sensor_image_save_rfd_manual.Sensitive = false;
 				button_contacts_exercise_close_and_recalculate.Sensitive = false;
 				button_delete_last_test.Sensitive = false;
@@ -2147,7 +2147,7 @@ LogB.Information(" fs R ");
 
 		cairoGraphForceSensorSignalPointsShowAccuracy = false;
 		forceSensorCopyTempAndDoGraphs(forceSensorGraphsEnum.SIGNAL);
-		//image_force_sensor_graph.Sensitive = false; //unsensitivize the RFD image (can contain info of previous data)
+		//image_ai_model_graph.Sensitive = false; //unsensitivize the RFD image (can contain info of previous data)
 		notebook_ai_top.CurrentPage = Convert.ToInt32(notebook_ai_top_pages.CURRENTSETSIGNAL);
 
 		button_video_play_this_test_contacts.Sensitive = (fs.VideoURL != "");
@@ -2387,7 +2387,7 @@ LogB.Information(" fs R ");
 		if(lastForceSensorFullPath != null && lastForceSensorFullPath != "")
 		{
 			forceSensorCopyTempAndDoGraphs(forceSensorGraphsEnum.SIGNAL);
-			image_force_sensor_graph.Sensitive = false; //unsensitivize the RFD image (can contain info of previous data)
+			image_ai_model_graph.Sensitive = false; //unsensitivize the RFD image (can contain info of previous data)
 		}
 
 		forceSensorZoomDefaultValues();
@@ -2425,7 +2425,7 @@ LogB.Information(" fs R ");
 	{
 		string imagePath = UtilEncoder.GetmifTempFileName();
 		Util.FileDelete(imagePath);
-		image_force_sensor_graph.Sensitive = false;
+		image_ai_model_graph.Sensitive = false;
 
 		double duration = -1;
 		if(radio_force_duration_seconds.Active)
@@ -2488,8 +2488,8 @@ LogB.Information(" fs R ");
 					triggerListForceSensor)
 				);
 
-		int imageWidth = UtilGtk.WidgetWidth(viewport_force_sensor_graph);
-		int imageHeight = UtilGtk.WidgetHeight(viewport_force_sensor_graph);
+		int imageWidth = UtilGtk.WidgetWidth (viewport_ai_model_graph);
+		int imageHeight = UtilGtk.WidgetHeight (viewport_ai_model_graph);
 		if(imageWidth < 300)
 			imageWidth = 300; //Not crash R with a png height of -1 or "figure margins too large"
 		if(imageHeight < 300)
@@ -2499,26 +2499,26 @@ LogB.Information(" fs R ");
 
 		if(! success)
 		{
-			label_force_sensor_analyze.Text = Catalog.GetString("Error doing graph.") + " " +
+			label_model_analyze.Text = Catalog.GetString("Error doing graph.") + " " +
 				Catalog.GetString("Probably not sustained force.");
-			label_force_sensor_analyze.Visible = true;
+			label_model_analyze.Visible = true;
 
-			image_force_sensor_graph.Visible = false;
-			button_force_sensor_image_save_rfd_auto.Sensitive = false;
+			image_ai_model_graph.Visible = false;
+			button_ai_model_save_image.Sensitive = false;
 
 			return;
 		}
-		label_force_sensor_analyze.Visible = false;
-		label_force_sensor_analyze.Text = "";
+		label_model_analyze.Visible = false;
+		label_model_analyze.Text = "";
 
 		while ( ! Util.FileReadable(imagePath));
 
-		image_force_sensor_graph = UtilGtk.OpenImageSafe(
+		image_ai_model_graph = UtilGtk.OpenImageSafe(
 				imagePath,
-				image_force_sensor_graph);
-		image_force_sensor_graph.Sensitive = true;
-		image_force_sensor_graph.Visible = true;
-		button_force_sensor_image_save_rfd_auto.Sensitive = true;
+				image_ai_model_graph);
+		image_ai_model_graph.Sensitive = true;
+		image_ai_model_graph.Visible = true;
+		button_ai_model_save_image.Sensitive = true;
 	}
 
 	void forceSensorDoSignalGraph ()
@@ -2935,9 +2935,9 @@ LogB.Information(" fs R ");
 	{
 		checkFile(Constants.CheckFileOp.FORCESENSOR_SAVE_IMAGE_SIGNAL);
 	}
-	private void on_button_force_sensor_image_save_rfd_auto_clicked (object o, EventArgs args)
+	private void on_button_force_sensor_image_save_model_clicked (object o, EventArgs args)
 	{
-		checkFile(Constants.CheckFileOp.FORCESENSOR_SAVE_IMAGE_RFD_AUTO);
+		checkFile(Constants.CheckFileOp.FORCESENSOR_SAVE_IMAGE_MODEL);
 	}
 	private void on_button_force_sensor_image_save_rfd_manual_clicked (object o, EventArgs args)
 	{
@@ -2966,13 +2966,13 @@ LogB.Information(" fs R ");
 		new DialogMessage(Constants.MessageTypes.INFO, myString);
 	}
 
-	void on_button_forcesensor_save_image_rfd_auto_file_selected (string destination)
+	void on_button_forcesensor_save_image_rfd_model_file_selected (string destination)
 	{
 		File.Copy(UtilEncoder.GetmifTempFileName(), destination, true);
 	}
-	private void on_overwrite_file_forcesensor_save_image_rfd_auto_accepted(object o, EventArgs args)
+	private void on_overwrite_file_forcesensor_save_image_rfd_model_accepted(object o, EventArgs args)
 	{
-		on_button_forcesensor_save_image_rfd_auto_file_selected (exportFileName);
+		on_button_forcesensor_save_image_rfd_model_file_selected (exportFileName);
 
 		string myString = string.Format(Catalog.GetString("Saved to {0}"), exportFileName);
 		new DialogMessage(Constants.MessageTypes.INFO, myString);

@@ -4474,6 +4474,7 @@ public partial class ChronoJumpWindow
 			fullscreen_button_fullscreen_contacts.Visible = true;
 
 			signalAnalyzeButtonsVisibility ();
+			check_run_encoder_export_instantaneous.Visible = false;
 		}
 		else if(m == Constants.Modes.RUNSENCODER)
 		{
@@ -4514,6 +4515,7 @@ public partial class ChronoJumpWindow
 			hbox_combo_select_contacts_top_with_arrows.Visible = true; //this will be unneded
 
 			signalAnalyzeButtonsVisibility ();
+			check_run_encoder_export_instantaneous.Visible = true;
 			tvRA_AB = new TreeviewRAAnalyze (treeview_ai_AB, "A", "B");
 			tvRA_CD = new TreeviewRAAnalyze (treeview_ai_CD, "C", "D");
 		}

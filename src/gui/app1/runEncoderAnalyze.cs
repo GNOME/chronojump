@@ -38,16 +38,9 @@ public partial class ChronoJumpWindow
 	Gtk.HBox hbox_run_encoder_top;
 
 	//export
-	//Gtk.Notebook notebook_run_encoder_export;
-	//Gtk.HBox hbox_run_encoder_export_width_height;
-	Gtk.SpinButton spinbutton_run_encoder_export_image_width;
-	Gtk.SpinButton spinbutton_run_encoder_export_image_height;
 	Gtk.CheckButton check_run_encoder_export_instantaneous;
-	//Gtk.ProgressBar progressbar_run_encoder_export;
 	Gtk.Label label_run_encoder_export_discarded;
-	//Gtk.Label label_run_encoder_export_result;
 
-	Gtk.Notebook notebook_run_encoder_analyze; //TODO: this will be erased
 	Gtk.Notebook notebook_run_encoder_analyze_current_set;
 
 	Gtk.ComboBoxText combo_run_encoder_analyze_accel;
@@ -56,7 +49,6 @@ public partial class ChronoJumpWindow
 	// <---- at glade
 
 
-	private enum notebook_run_encoder_analyze_pages { CURRENTSET, CURRENTSESSION, OPTIONS } //TODO: this will be erased
 	private enum notebook_run_encoder_analyze_current_set_pages { GRAPH, TABLE, TRIGGERS }
 
 	TreeviewRAAnalyze tvRA_AB;
@@ -170,7 +162,6 @@ public partial class ChronoJumpWindow
 	}
 
 	private bool button_run_encoder_analyze_analyze_was_sensitive; //needed this temp variable
-//	private int notebook_run_encoder_analyze_coming_page; //needed this temp variable
 	private void on_button_run_encoder_ai_model_options_clicked ()
 	{
 		runEncoderButtonsSensitive(false);
@@ -338,7 +329,7 @@ public partial class ChronoJumpWindow
 
 		//also hide the label and the open button
 		label_run_encoder_export_discarded.Text = "";
-		label_run_encoder_export_result.Text = "";
+		label_ai_export_result.Text = "";
 		button_ai_export_result_open.Visible = false;
 		*/
 	}
@@ -349,9 +340,9 @@ public partial class ChronoJumpWindow
 		button_run_encoder_analyze_load.Visible = true;
 		button_run_encoder_analyze_analyze.Visible = true;
 
-		notebook_run_encoder_analyze.CurrentPage = Convert.ToInt32(notebook_run_encoder_analyze_pages.CURRENTSET);
+		//notebook_run_encoder_analyze.CurrentPage = Convert.ToInt32(notebook_run_encoder_analyze_pages.CURRENTSET);
 		label_run_encoder_export_discarded.Text = "";
-		label_run_encoder_export_result.Text = "";
+		label_ai_export_result.Text = "";
 		button_run_encoder_export_result_open.Visible = false;
 		*/
 	}
@@ -366,9 +357,9 @@ public partial class ChronoJumpWindow
 		else
 			label_run_encoder_export_data.Text = "";
 
-		notebook_run_encoder_analyze.CurrentPage = Convert.ToInt32(notebook_run_encoder_analyze_pages.CURRENTSESSION);
+		//notebook_run_encoder_analyze.CurrentPage = Convert.ToInt32(notebook_run_encoder_analyze_pages.CURRENTSESSION);
 		label_run_encoder_export_discarded.Text = "";
-		label_run_encoder_export_result.Text = "";
+		label_ai_export_result.Text = "";
 		button_run_encoder_export_result_open.Visible = false;
 		*/
 	}
@@ -380,9 +371,9 @@ public partial class ChronoJumpWindow
 
 		label_run_encoder_export_data.Text = currentSession.Name;
 
-		notebook_run_encoder_analyze.CurrentPage = Convert.ToInt32(notebook_run_encoder_analyze_pages.CURRENTSESSION);
+		//notebook_run_encoder_analyze.CurrentPage = Convert.ToInt32(notebook_run_encoder_analyze_pages.CURRENTSESSION);
 		label_run_encoder_export_discarded.Text = "";
-		label_run_encoder_export_result.Text = "";
+		label_ai_export_result.Text = "";
 		button_run_encoder_export_result_open.Visible = false;
 	*/
 	}
@@ -427,27 +418,29 @@ public partial class ChronoJumpWindow
 	private void button_run_encoder_export_session (int personID, int sessionID)
 	{
 		label_run_encoder_export_discarded.Text = "";
-		//label_run_encoder_export_result.Text = "";
+		label_ai_export_result.Text = "";
 		button_ai_export_result_open.Visible = false;
 		runEncoderButtonsSensitive(false);
 		hbox_run_encoder_top.Sensitive = false;
 
 		//store new width/height if changed
 		Sqlite.Open();
-		preferences.exportGraphWidth = Preferences.PreferencesChange(
+		preferences.exportGraphWidth = Preferences.PreferencesChange (
 				true, SqlitePreferences.ExportGraphWidth,
-				preferences.exportGraphWidth, Convert.ToInt32(spinbutton_run_encoder_export_image_width.Value));
-		preferences.exportGraphHeight = Preferences.PreferencesChange(
+				preferences.exportGraphWidth,
+				Convert.ToInt32 (spinbutton_ai_export_image_width.Value));
+		preferences.exportGraphHeight = Preferences.PreferencesChange (
 				true, SqlitePreferences.ExportGraphHeight,
-				preferences.exportGraphHeight, Convert.ToInt32(spinbutton_run_encoder_export_image_height.Value));
+				preferences.exportGraphHeight,
+				Convert.ToInt32 (spinbutton_ai_export_image_height.Value));
 		Sqlite.Close();
 
 		//change also spinbuttons of export sprint and forceSensor
-		spinbutton_sprint_export_image_width.Value = spinbutton_run_encoder_export_image_width.Value;
-		spinbutton_sprint_export_image_height.Value = spinbutton_run_encoder_export_image_height.Value;
+		spinbutton_sprint_export_image_width.Value = spinbutton_ai_export_image_width.Value;
+		spinbutton_sprint_export_image_height.Value = spinbutton_ai_export_image_height.Value;
 
-		spinbutton_ai_export_image_width.Value = spinbutton_run_encoder_export_image_width.Value;
-		spinbutton_ai_export_image_height.Value = spinbutton_run_encoder_export_image_height.Value;
+		spinbutton_ai_export_image_width.Value = spinbutton_ai_export_image_width.Value;
+		spinbutton_ai_export_image_height.Value = spinbutton_ai_export_image_height.Value;
 
 
 		runEncoderExport = new RunEncoderExport (
@@ -456,8 +449,8 @@ public partial class ChronoJumpWindow
 				label_run_encoder_export_discarded,
 				label_ai_export_result,
 				check_ai_export_images.Active,
-				Convert.ToInt32(spinbutton_run_encoder_export_image_width.Value),
-				Convert.ToInt32(spinbutton_run_encoder_export_image_height.Value),
+				Convert.ToInt32 (spinbutton_ai_export_image_width.Value),
+				Convert.ToInt32 (spinbutton_ai_export_image_height.Value),
 				check_run_encoder_export_instantaneous.Active,
 				UtilAll.IsWindows(),
 				personID, sessionID,
@@ -540,16 +533,9 @@ public partial class ChronoJumpWindow
 		hbox_run_encoder_top = (Gtk.HBox) builder.GetObject ("hbox_run_encoder_top");
 
 		//export
-		//notebook_run_encoder_export = (Gtk.Notebook) builder.GetObject ("notebook_run_encoder_export");
-		//hbox_run_encoder_export_width_height = (Gtk.HBox) builder.GetObject ("hbox_run_encoder_export_width_height");
-		spinbutton_run_encoder_export_image_width = (Gtk.SpinButton) builder.GetObject ("spinbutton_run_encoder_export_image_width");
-		spinbutton_run_encoder_export_image_height = (Gtk.SpinButton) builder.GetObject ("spinbutton_run_encoder_export_image_height");
 		check_run_encoder_export_instantaneous = (Gtk.CheckButton) builder.GetObject ("check_run_encoder_export_instantaneous");
-		//progressbar_run_encoder_export = (Gtk.ProgressBar) builder.GetObject ("progressbar_run_encoder_export");
 		label_run_encoder_export_discarded = (Gtk.Label) builder.GetObject ("label_run_encoder_export_discarded");
-		//label_run_encoder_export_result = (Gtk.Label) builder.GetObject ("label_run_encoder_export_result");
 
-		notebook_run_encoder_analyze = (Gtk.Notebook) builder.GetObject ("notebook_run_encoder_analyze");
 		notebook_run_encoder_analyze_current_set = (Gtk.Notebook) builder.GetObject ("notebook_run_encoder_analyze_current_set");
 
 		combo_run_encoder_analyze_accel = (Gtk.ComboBoxText) builder.GetObject ("combo_run_encoder_analyze_accel");

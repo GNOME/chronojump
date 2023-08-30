@@ -189,9 +189,6 @@ public partial class ChronoJumpWindow
 		createRunEncoderExerciseCombo();
 		createRunEncoderAnalyzeCombos();
 		setRunEncoderAnalyzeWidgets();
-
-		spinbutton_run_encoder_export_image_width.Value = preferences.exportGraphWidth;
-		spinbutton_run_encoder_export_image_height.Value = preferences.exportGraphHeight;
 	}
 
 	private void manageRunEncoderCaptureViews()

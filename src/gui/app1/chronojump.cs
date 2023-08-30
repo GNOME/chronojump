@@ -586,7 +586,7 @@ public partial class ChronoJumpWindow
 	private enum notebook_contacts_execute_or_pages { EXECUTE, INSTRUCTIONS, FORCESENSORADJUST, RACEINSPECTOR }
 	private enum notebook_analyze_pages { STATISTICS, JUMPSPROFILE, JUMPSDJOPTIMALFALL, JUMPSWEIGHTFVPROFILE,
 		JUMPSASYMMETRY, JUMPSEVOLUTION, JUMPSRJFATIGUE,
-		RUNSEVOLUTION, SPRINT, CONTACTS_EXPORT_CSV, FORCESENSOR, RACEENCODER }
+		RUNSEVOLUTION, SPRINT, CONTACTS_EXPORT_CSV, SIGNAL_AI, }
 
 	private string runningFileName; //useful for knowing if there are two chronojump instances
 
@@ -4478,6 +4478,13 @@ public partial class ChronoJumpWindow
 			//forceSensor and runEncoder
 			check_run_encoder_export_instantaneous.Visible = false;
 			label_run_encoder_export_discarded.Visible = false;
+			//forceSensor and runEncoder notebook_ai_model_graph_table_triggers
+			notebook_ai_model_graph_table_triggers.GetNthPage
+				(Convert.ToInt32 (notebook_ai_model_graph_table_triggers_pages.TRIGGERS)).Hide();
+			notebook_ai_model_graph_table_triggers.GetNthPage
+				(Convert.ToInt32 (notebook_ai_model_graph_table_triggers_pages.TABLE)).Hide();
+			notebook_ai_model_graph_table_triggers.ShowTabs = false;
+			notebook_ai_model_graph_table_triggers.ShowBorder = false;
 		}
 		else if(m == Constants.Modes.RUNSENCODER)
 		{
@@ -4522,6 +4529,13 @@ public partial class ChronoJumpWindow
 			//forceSensor and runEncoder
 			check_run_encoder_export_instantaneous.Visible = true;
 			label_run_encoder_export_discarded.Visible = true;
+			//forceSensor and runEncoder notebook_ai_model_graph_table_triggers
+			notebook_ai_model_graph_table_triggers.GetNthPage
+				(Convert.ToInt32 (notebook_ai_model_graph_table_triggers_pages.TRIGGERS)).Show();
+			notebook_ai_model_graph_table_triggers.GetNthPage
+				(Convert.ToInt32 (notebook_ai_model_graph_table_triggers_pages.TABLE)).Show();
+			notebook_ai_model_graph_table_triggers.ShowTabs = true;
+			notebook_ai_model_graph_table_triggers.ShowBorder = true;
 
 			tvRA_AB = new TreeviewRAAnalyze (treeview_ai_AB, "A", "B");
 			tvRA_CD = new TreeviewRAAnalyze (treeview_ai_CD, "C", "D");
@@ -9300,13 +9314,9 @@ LogB.Debug("mc finished 5");
 			}
 		}
 		else if (Constants.ModeIsFORCESENSOR (current_mode))
-			notebook_analyze.CurrentPage = Convert.ToInt32(notebook_analyze_pages.FORCESENSOR);
+			notebook_analyze.CurrentPage = Convert.ToInt32(notebook_analyze_pages.SIGNAL_AI);
 		else if(current_mode == Constants.Modes.RUNSENCODER)
-		{
-			//TODO: using forceSensor instead of runEncoder
-			//notebook_analyze.CurrentPage = Convert.ToInt32(notebook_analyze_pages.RACEENCODER);
-			notebook_analyze.CurrentPage = Convert.ToInt32(notebook_analyze_pages.FORCESENSOR);
-		}
+			notebook_analyze.CurrentPage = Convert.ToInt32(notebook_analyze_pages.SIGNAL_AI);
 		else
 			notebook_analyze.CurrentPage = Convert.ToInt32(notebook_analyze_pages.STATISTICS);
 

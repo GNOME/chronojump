@@ -38,15 +38,13 @@ public partial class ChronoJumpWindow
 	Gtk.CheckButton check_run_encoder_export_instantaneous;
 	Gtk.Label label_run_encoder_export_discarded;
 
-	Gtk.Notebook notebook_run_encoder_analyze_current_set;
-
 	Gtk.ComboBoxText combo_run_encoder_analyze_accel;
 	Gtk.ComboBoxText combo_run_encoder_analyze_force;
 	Gtk.ComboBoxText combo_run_encoder_analyze_power;
 	// <---- at glade
 
 
-	private enum notebook_run_encoder_analyze_current_set_pages { GRAPH, TABLE, TRIGGERS }
+	private enum notebook_ai_model_graph_table_triggers_pages { GRAPH, TABLE, TRIGGERS }
 
 	TreeviewRAAnalyze tvRA_AB;
 	TreeviewRAAnalyze tvRA_CD;
@@ -229,13 +227,12 @@ public partial class ChronoJumpWindow
 		if(lastRunEncoderFullPath != null && lastRunEncoderFullPath != "")
 			raceEncoderCopyToTempAndDoRGraph();
 
-		/*
 		//move from triggers tab (if we are there) to graph tab
-		if(notebook_run_encoder_analyze_current_set.CurrentPage ==
-				Convert.ToInt32(notebook_run_encoder_analyze_current_set_pages.TRIGGERS))
-			notebook_run_encoder_analyze_current_set.CurrentPage =
-				Convert.ToInt32(notebook_run_encoder_analyze_current_set_pages.GRAPH);
-		*/
+		if(notebook_ai_model_graph_table_triggers.CurrentPage ==
+				Convert.ToInt32(notebook_ai_model_graph_table_triggers_pages.TRIGGERS))
+			notebook_ai_model_graph_table_triggers.CurrentPage =
+				Convert.ToInt32(notebook_ai_model_graph_table_triggers_pages.GRAPH);
+
 		notebook_ai_top.CurrentPage = Convert.ToInt32(notebook_ai_top_pages.CURRENTSETMODEL);
 	}
 
@@ -470,7 +467,6 @@ public partial class ChronoJumpWindow
 		check_run_encoder_export_instantaneous = (Gtk.CheckButton) builder.GetObject ("check_run_encoder_export_instantaneous");
 		label_run_encoder_export_discarded = (Gtk.Label) builder.GetObject ("label_run_encoder_export_discarded");
 
-		notebook_run_encoder_analyze_current_set = (Gtk.Notebook) builder.GetObject ("notebook_run_encoder_analyze_current_set");
 
 		combo_run_encoder_analyze_accel = (Gtk.ComboBoxText) builder.GetObject ("combo_run_encoder_analyze_accel");
 		combo_run_encoder_analyze_force = (Gtk.ComboBoxText) builder.GetObject ("combo_run_encoder_analyze_force");

@@ -95,6 +95,7 @@ public partial class ChronoJumpWindow
 	Gtk.Viewport viewport_ai_model_graph;
 	Gtk.Image image_ai_model_graph;
 	Gtk.Button button_ai_model_save_image;
+	Gtk.Notebook notebook_ai_model_graph_table_triggers;
 
 	Gtk.RadioButton radio_ai_export_individual_current_session;
 	Gtk.RadioButton radio_ai_export_individual_all_sessions;
@@ -1237,6 +1238,7 @@ public partial class ChronoJumpWindow
 		viewport_ai_model_graph = (Gtk.Viewport) builder.GetObject ("viewport_ai_model_graph");
 		image_ai_model_graph = (Gtk.Image) builder.GetObject ("image_ai_model_graph");
 		button_ai_model_save_image = (Gtk.Button) builder.GetObject ("button_ai_model_save_image");
+		notebook_ai_model_graph_table_triggers = (Gtk.Notebook) builder.GetObject ("notebook_ai_model_graph_table_triggers");
 
 		radio_ai_export_individual_current_session = (Gtk.RadioButton) builder.GetObject ("radio_ai_export_individual_current_session");
 		radio_ai_export_individual_all_sessions = (Gtk.RadioButton) builder.GetObject ("radio_ai_export_individual_all_sessions");

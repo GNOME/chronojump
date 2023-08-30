@@ -23015,6 +23015,9 @@ Concentric</property>
                                                             <child>
                                                             <placeholder/>
                                                             </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
                                                             </object>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -25683,7 +25686,7 @@ Concentric</property>
                                                           </packing>
                                                         </child>
                                                         <child>
-                                                          <object class="GtkVBox" id="vbox108_force_sensor">
+                                                          <object class="GtkVBox" id="vbox108_signal_fs_re">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
                                                             <property name="margin-top">2</property>
@@ -27925,6 +27928,11 @@ Concentric</property>
                                                             </packing>
                                                             </child>
                                                             <child>
+                                                            <object class="GtkNotebook" id="notebook_ai_model_graph_table_triggers">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">True</property>
+                                                            <property name="tab-pos">bottom</property>
+                                                            <child>
                                                             <object class="GtkHBox" id="hbox231">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
@@ -28022,6 +28030,203 @@ Concentric</property>
                                                             <property name="expand">False</property>
                                                             <property name="fill">False</property>
                                                             <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            </object>
+                                                            </child>
+                                                            <child type="tab">
+                                                            <object class="GtkLabel">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="label" translatable="yes">Show graph</property>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="tab-fill">False</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkHBox" id="hbox445">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="spacing">2</property>
+                                                            <child>
+                                                            <object class="GtkScrolledWindow" id="scrolledwindow_raceAnalyzer">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">True</property>
+                                                            <child>
+                                                            <object class="GtkTreeView" id="treeview_raceAnalyzer">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">True</property>
+                                                            <child internal-child="selection">
+                                                            <object class="GtkTreeSelection"/>
+                                                            </child>
+                                                            </object>
+                                                            </child>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkVBox" id="vbox140">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <child>
+                                                            <object class="GtkButton" id="button_raceAnalyzer_table_save">
+                                                            <property name="visible">True</property>
+                                                            <property name="sensitive">False</property>
+                                                            <property name="can-focus">True</property>
+                                                            <property name="receives-default">True</property>
+                                                            <property name="tooltip-text" translatable="yes">Save table</property>
+                                                            <signal name="clicked" handler="on_button_raceAnalyzer_table_save_clicked" swapped="no"/>
+                                                            <child>
+                                                            <object class="GtkVBox" id="vbox237">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="spacing">4</property>
+                                                            <child>
+                                                            <object class="GtkImage" id="image_raceAnalyzer_table_save_grid">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="stock">gtk-missing-image</property>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkImage" id="image_raceAnalyzer_table_save_disk">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="stock">gtk-missing-image</property>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            </object>
+                                                            </child>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="pack-type">end</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child type="tab">
+                                                            <object class="GtkLabel">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="label" translatable="yes">Show table</property>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="position">1</property>
+                                                            <property name="tab-fill">False</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkVBox" id="vbox165">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="border-width">8</property>
+                                                            <property name="spacing">8</property>
+                                                            <child>
+                                                            <object class="GtkButton">
+                                                            <property name="label" translatable="yes">button</property>
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">True</property>
+                                                            <property name="receives-default">True</property>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkLabel">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="label" translatable="yes">zzzzzzzz</property>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkLabel" id="label419">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="label" translatable="yes">Triggers found on this set</property>
+                                                            <property name="xalign">0</property>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">2</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkScrolledWindow" id="scrolledwindow8">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">True</property>
+                                                            <property name="hscrollbar-policy">never</property>
+                                                            <child>
+                                                            <object class="GtkViewport" id="viewport5">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <child>
+                                                            <object class="GtkTextView" id="textview_run_encoder_triggers">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">True</property>
+                                                            <property name="editable">False</property>
+                                                            <property name="cursor-visible">False</property>
+                                                            </object>
+                                                            </child>
+                                                            </object>
+                                                            </child>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">3</property>
+                                                            </packing>
+                                                            </child>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="position">2</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child type="tab">
+                                                            <object class="GtkLabel">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="label" translatable="yes">Show triggers</property>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="position">2</property>
+                                                            <property name="tab-fill">False</property>
                                                             </packing>
                                                             </child>
                                                             </object>
@@ -30971,255 +31176,10 @@ Concentric</property>
                                                           <object class="GtkLabel" id="label252">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
-                                                            <property name="label">force sensor</property>
+                                                            <property name="label">signal ai (fs, re)</property>
                                                           </object>
                                                           <packing>
                                                             <property name="position">10</property>
-                                                            <property name="tab-fill">False</property>
-                                                          </packing>
-                                                        </child>
-                                                        <child>
-                                                          <object class="GtkNotebook" id="notebook_run_encoder_analyze_current_set">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">True</property>
-                                                            <property name="tab-pos">bottom</property>
-                                                            <property name="show-border">False</property>
-                                                            <child>
-                                                            <object class="GtkHBox" id="hbox415">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <child>
-                                                            <object class="GtkScrolledWindow" id="scrolledwindow9">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">True</property>
-                                                            <child>
-                                                            <object class="GtkViewport" id="viewport_run_encoder_graph">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="shadow-type">none</property>
-                                                            <child>
-                                                            <object class="GtkVBox" id="vbox139">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <child>
-                                                            <object class="GtkImage" id="image_run_encoder_graph">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="stock">gtk-missing-image</property>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">True</property>
-                                                            <property name="fill">True</property>
-                                                            <property name="position">0</property>
-                                                            </packing>
-                                                            </child>
-                                                            </object>
-                                                            </child>
-                                                            </object>
-                                                            </child>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">True</property>
-                                                            <property name="fill">True</property>
-                                                            <property name="position">0</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
-                                                            <object class="GtkVBox" id="vbox213">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <child>
-                                                            <placeholder/>
-                                                            </child>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="position">1</property>
-                                                            </packing>
-                                                            </child>
-                                                            </object>
-                                                            </child>
-                                                            <child type="tab">
-                                                            <object class="GtkLabel" id="label420">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="label" translatable="yes">Show graph</property>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="tab-fill">False</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
-                                                            <object class="GtkHBox" id="hbox445">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="spacing">2</property>
-                                                            <child>
-                                                            <object class="GtkScrolledWindow" id="scrolledwindow_raceAnalyzer">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">True</property>
-                                                            <child>
-                                                            <object class="GtkTreeView" id="treeview_raceAnalyzer">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">True</property>
-                                                            </object>
-                                                            </child>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">True</property>
-                                                            <property name="fill">True</property>
-                                                            <property name="position">0</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
-                                                            <object class="GtkVBox" id="vbox140">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <child>
-                                                            <object class="GtkButton" id="button_raceAnalyzer_table_save">
-                                                            <property name="visible">True</property>
-                                                            <property name="sensitive">False</property>
-                                                            <property name="can-focus">True</property>
-                                                            <property name="receives-default">True</property>
-                                                            <property name="tooltip-text" translatable="yes">Save table</property>
-                                                            <signal name="clicked" handler="on_button_raceAnalyzer_table_save_clicked" swapped="no"/>
-                                                            <child>
-                                                            <object class="GtkVBox" id="vbox237">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="spacing">4</property>
-                                                            <child>
-                                                            <object class="GtkImage" id="image_raceAnalyzer_table_save_grid">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="stock">gtk-missing-image</property>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">True</property>
-                                                            <property name="fill">True</property>
-                                                            <property name="position">0</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
-                                                            <object class="GtkImage" id="image_raceAnalyzer_table_save_disk">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="stock">gtk-missing-image</property>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">True</property>
-                                                            <property name="fill">True</property>
-                                                            <property name="position">1</property>
-                                                            </packing>
-                                                            </child>
-                                                            </object>
-                                                            </child>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">True</property>
-                                                            <property name="pack-type">end</property>
-                                                            <property name="position">0</property>
-                                                            </packing>
-                                                            </child>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="position">1</property>
-                                                            </packing>
-                                                            </child>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="position">1</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child type="tab">
-                                                            <object class="GtkLabel" id="label113">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="label" translatable="yes">Show table</property>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="position">1</property>
-                                                            <property name="tab-fill">False</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
-                                                            <object class="GtkVBox" id="vbox165">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="border-width">8</property>
-                                                            <property name="spacing">8</property>
-                                                            <child>
-                                                            <object class="GtkLabel" id="label419">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="label" translatable="yes">Triggers found on this set</property>
-                                                            <property name="xalign">0</property>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="position">0</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
-                                                            <object class="GtkScrolledWindow" id="scrolledwindow8">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">True</property>
-                                                            <property name="hscrollbar-policy">never</property>
-                                                            <child>
-                                                            <object class="GtkViewport" id="viewport5">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <child>
-                                                            <object class="GtkTextView" id="textview_run_encoder_triggers">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">True</property>
-                                                            <property name="editable">False</property>
-                                                            <property name="cursor-visible">False</property>
-                                                            </object>
-                                                            </child>
-                                                            </object>
-                                                            </child>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">True</property>
-                                                            <property name="fill">True</property>
-                                                            <property name="position">1</property>
-                                                            </packing>
-                                                            </child>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="position">2</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child type="tab">
-                                                            <object class="GtkLabel" id="label421">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="label" translatable="yes">Show triggers</property>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="position">2</property>
-                                                            <property name="tab-fill">False</property>
-                                                            </packing>
-                                                            </child>
-                                                          </object>
-                                                          <packing>
-                                                            <property name="position">11</property>
-                                                          </packing>
-                                                        </child>
-                                                        <child type="tab">
-                                                          <object class="GtkLabel" id="label393">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="label">raceencoder</property>
-                                                          </object>
-                                                          <packing>
-                                                            <property name="position">11</property>
                                                             <property name="tab-fill">False</property>
                                                           </packing>
                                                         </child>

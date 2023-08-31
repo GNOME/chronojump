@@ -166,7 +166,7 @@ public partial class ChronoJumpWindow
 		setImpulseValue();
 		setForceSensorAnalyzeABSliderIncrements();
 
-		forceSensorAnalyzeGeneralButtonHscaleZoomSensitiveness();
+		aiButtonsHscaleZoomSensitiveness();
 		if (tvFS_other == null)
 			tvFS_other = new TreeviewFSAnalyzeOther (treeview_force_sensor_ai_other);
 		setForceSensorAnalyzeMaxAVGInWindow();
@@ -578,8 +578,8 @@ public partial class ChronoJumpWindow
 
 		// <---- end of erase cairo graphs
 
-		radiosForceSensorAiSensitivity (true); //because maybe zoom was in
-		forceSensorAnalyzeGeneralButtonHscaleZoomSensitiveness();
+		radiosAiSensitivity (true); //because maybe zoom was in
+		aiButtonsHscaleZoomSensitiveness();
 
 		label_force_sensor_value_max.Text = "";
 		label_force_sensor_value.Text = "";

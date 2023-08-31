@@ -55,20 +55,28 @@ public partial class ChronoJumpWindow
 		if (cairoGraphRaceAnalyzerPoints_st_l == null || cairoGraphRaceAnalyzerPoints_st_l.Count == 0)
 			return;
 
-		// 1. get zoom values
-		//int zoomFrameA = -1; //means no zoom
-		int zoomFrameB = -1; //means no zoom
-
-		//Gtk.HScale hsLeft = getHScaleABCD (true);
+		Gtk.HScale hsLeft = getHScaleABCD (true);
 		Gtk.HScale hsRight = getHScaleABCD (false);
 
-		//TODO: continue
+		// 1. get zoom values
+		int zoomFrameA = -1; //means no zoom
+		int zoomFrameB = -1; //means no zoom
+
+		if (AiVars.zoomApplied)
+		{
+			if (radio_ai_ab.Active)
+				getAiZoomStartEnd (tvRA_AB.TimeStart, tvRA_AB.TimeEnd, hsLeft, hsRight,
+						ref zoomFrameA, ref zoomFrameB);
+			else
+				getAiZoomStartEnd (tvRA_CD.TimeStart, tvRA_CD.TimeEnd, hsLeft, hsRight,
+						ref zoomFrameA, ref zoomFrameB);
+		}
 
 		// 2. create raAI_AB, raAI_CD
 		raAI_AB = new RaceAnalyzerAnalyzeInstant ("AB",
-			cairoGraphRaceAnalyzerPoints_st_l);
+			PointF.GetSubList (cairoGraphRaceAnalyzerPoints_st_l, zoomFrameA, zoomFrameB));
 		raAI_CD = new RaceAnalyzerAnalyzeInstant ("CD",
-			cairoGraphRaceAnalyzerPoints_st_CD_l);
+			PointF.GetSubList (cairoGraphRaceAnalyzerPoints_st_CD_l, zoomFrameA, zoomFrameB));
 
 		// 3. set hscales
 		signalPrepareGraphAICont (raAI_AB.GetLength(), raAI_CD.GetLength(), zoomFrameB, hsRight);

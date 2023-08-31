@@ -47,8 +47,6 @@ public partial class ChronoJumpWindow
 	Gtk.Button button_force_sensor_image_save_rfd_manual;
 	Gtk.Button button_force_sensor_analyze_AB_save;
 	Gtk.Button button_force_sensor_analyze_CD_save;
-	Gtk.CheckButton check_force_sensor_ai_chained_hscales;
-	Gtk.CheckButton check_force_sensor_ai_zoom;
 
 	Gtk.RadioButton radio_force_rfd_search_optimized_ab;
 	Gtk.RadioButton radio_force_rfd_use_ab_range;
@@ -1121,7 +1119,7 @@ public partial class ChronoJumpWindow
 		//if zoomed: unzoom and return
 		if(AiVars.zoomApplied)
 		{
-			check_force_sensor_ai_zoom.Click();
+			check_ai_zoom.Click();
 			return;
 		}
 
@@ -1495,8 +1493,6 @@ public partial class ChronoJumpWindow
 		button_force_sensor_image_save_rfd_manual = (Gtk.Button) builder.GetObject ("button_force_sensor_image_save_rfd_manual");
 		button_force_sensor_analyze_AB_save = (Gtk.Button) builder.GetObject ("button_force_sensor_analyze_AB_save");
 		button_force_sensor_analyze_CD_save = (Gtk.Button) builder.GetObject ("button_force_sensor_analyze_CD_save");
-		check_force_sensor_ai_chained_hscales = (Gtk.CheckButton) builder.GetObject ("check_force_sensor_ai_chained_hscales");
-		check_force_sensor_ai_zoom = (Gtk.CheckButton) builder.GetObject ("check_force_sensor_ai_zoom");
 
 		radio_force_rfd_search_optimized_ab = (Gtk.RadioButton) builder.GetObject ("radio_force_rfd_search_optimized_ab");
 		radio_force_rfd_use_ab_range = (Gtk.RadioButton) builder.GetObject ("radio_force_rfd_use_ab_range");

@@ -86,6 +86,8 @@ public partial class ChronoJumpWindow
 	Gtk.Box box_ai_cd_buttons;
 
 	Gtk.Viewport viewport_ai_hscales;
+	Gtk.CheckButton check_ai_chained_hscales;
+	Gtk.CheckButton check_ai_zoom;
 
 	Gtk.Button button_ai_model;
 	Gtk.Notebook notebook_ai_model_options;
@@ -156,7 +158,7 @@ public partial class ChronoJumpWindow
 	private void forceSensorZoomDefaultValues()
 	{
 		AiVars.zoomApplied = false;
-		check_force_sensor_ai_zoom.Active = false;
+		check_ai_zoom.Active = false;
 	}
 
 	//private double hscale_fs_ai_a_BeforeZoomTimeMS = 0; //to calculate triggers
@@ -242,8 +244,8 @@ public partial class ChronoJumpWindow
 		box_ai_bd.Visible = false;
 		box_ai_a_buttons.Visible = false;
 		box_ai_b_buttons.Visible = false;
-		check_force_sensor_ai_chained_hscales.Visible = false;
-		check_force_sensor_ai_zoom.Visible = false;
+		check_ai_chained_hscales.Visible = false;
+		check_ai_zoom.Visible = false;
 		button_ai_model.Visible = false;
 
 		box_ai_move_cd_accept.Visible = true;
@@ -261,8 +263,8 @@ public partial class ChronoJumpWindow
 		box_ai_bd.Visible = true;
 		box_ai_a_buttons.Visible = true;
 		box_ai_b_buttons.Visible = true;
-		check_force_sensor_ai_chained_hscales.Visible = true;
-		check_force_sensor_ai_zoom.Visible = true;
+		check_ai_chained_hscales.Visible = true;
+		check_ai_zoom.Visible = true;
 		button_ai_model.Visible = true;
 
 		box_ai_move_cd_accept.Visible = false;
@@ -383,14 +385,15 @@ public partial class ChronoJumpWindow
 		ai_drawingarea_cairo.QueueDraw(); //will fire ExposeEvent
 	}
 
-	private void on_check_force_sensor_ai_zoom_clicked (object o, EventArgs args)
+	//TODO:
+	private void on_check_ai_zoom_clicked (object o, EventArgs args)
 	{
 		AnalyzeInstant sAI = getCorrectAI ();
 
 		if(sAI == null || sAI.GetLength() == 0)
 			return;
 
-		if(check_force_sensor_ai_zoom.Active)
+		if(check_ai_zoom.Active)
 		{
 			AiVars.zoomApplied = true;
 
@@ -574,7 +577,7 @@ public partial class ChronoJumpWindow
 
 		Gtk.HScale hs = (Gtk.HScale) o;
 
-		if (check_force_sensor_ai_chained_hscales.Active)
+		if (check_ai_chained_hscales.Active)
 			hscale_ai_value_changed_chained (sAI, hs);
 
 		hscale_ai_value_changed_do (sAI, hs);
@@ -824,10 +827,10 @@ public partial class ChronoJumpWindow
 		LogB.Information (string.Format ("on_hscale_ai_value_changed {0} end", hscaleToDebug));
 	}
 
-	private void on_check_force_sensor_ai_chained_hscales_clicked (object o, EventArgs args)
+	private void on_check_ai_chained_hscales_clicked (object o, EventArgs args)
 	{
-		image_force_sensor_ai_chained_hscales_link.Visible = check_force_sensor_ai_chained_hscales.Active;
-		image_force_sensor_ai_chained_hscales_link_off.Visible = ! check_force_sensor_ai_chained_hscales.Active;
+		image_force_sensor_ai_chained_hscales_link.Visible = check_ai_chained_hscales.Active;
+		image_force_sensor_ai_chained_hscales_link_off.Visible = ! check_ai_chained_hscales.Active;
 
 		if (Constants.ModeIsFORCESENSOR (current_mode))
 		{
@@ -863,7 +866,7 @@ public partial class ChronoJumpWindow
 		button_hscale_ai_b_post.Sensitive = (sAI != null && hsRight.Value < sAI.GetLength() -1);
 
 		//diff have to be more than one pixel
-		check_force_sensor_ai_zoom.Sensitive = (Math.Abs(hsLeft.Value - hsRight.Value) > 1);
+		check_ai_zoom.Sensitive = (Math.Abs(hsLeft.Value - hsRight.Value) > 1);
 	}
 
 	private void on_button_hscale_ai_a_first_clicked (object o, EventArgs args)
@@ -1230,6 +1233,8 @@ public partial class ChronoJumpWindow
 		box_ai_cd_buttons = (Gtk.Box) builder.GetObject ("box_ai_cd_buttons");
 
 		viewport_ai_hscales = (Gtk.Viewport) builder.GetObject ("viewport_ai_hscales");
+		check_ai_chained_hscales = (Gtk.CheckButton) builder.GetObject ("check_ai_chained_hscales");
+		check_ai_zoom = (Gtk.CheckButton) builder.GetObject ("check_ai_zoom");
 
 		button_ai_model = (Gtk.Button) builder.GetObject ("button_ai_model");
 		notebook_ai_model_options = (Gtk.Notebook) builder.GetObject ("notebook_ai_model_options");

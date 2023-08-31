@@ -540,6 +540,10 @@ public class ChronopicRegisterLinux : ChronopicRegister
 		if (FTDIalways)
 			crp.FTDI = true;
 
+		//on Linux now we can use ACMs, but we cannot detect if they are FTDI, so mark them as FTDI in order to be shown on Chronojump
+		if (crp.Port.Contains ("ACM"))
+			crp.FTDI = true;
+
 		return crp;
 	}
 }

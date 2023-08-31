@@ -22,6 +22,7 @@ using System;
 using Gtk;
 //using Glade;
 using System.Collections.Generic; //List<T>
+using Mono.Unix;
 
 
 public partial class ChronoJumpWindow
@@ -76,6 +77,10 @@ public partial class ChronoJumpWindow
 	private void showRaceAnalyzerTriggers()
 	{
 		showTestTriggers(triggerListRunEncoder, textview_run_encoder_triggers);
+		if (triggerListRunEncoder.Count () == 0)
+			label_model_triggers_found.Text = Catalog.GetString ("This set does not have any triggers.");
+		else
+			label_model_triggers_found.Text = Catalog.GetString ("Triggers found on this set:");
 	}
 
 	private void showTestTriggers(TriggerList trigger_l, Gtk.TextView textview)

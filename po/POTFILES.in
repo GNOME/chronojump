@@ -123,6 +123,7 @@ src/gui/session/selectStats.cs
 src/gui/splash.cs
 src/gui/sprint.cs
 src/gui/stats.cs
+src/gui/trigger.cs
 src/gui/webcam.cs
 src/json/compujump.cs
 src/json/compujumpOther.cs

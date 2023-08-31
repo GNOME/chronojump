@@ -556,9 +556,9 @@ public partial class ChronoJumpWindow
 				Convert.ToInt32 (notebook_ai_top_pages.CURRENTSETSIGNAL);
 
 		// if on zoom, exit
-		if (check_force_sensor_ai_zoom.Active)
+		if (check_ai_zoom.Active)
 		{
-			check_force_sensor_ai_zoom.Active = false;
+			check_ai_zoom.Active = false;
 			image_force_sensor_ai_zoom.Visible = true;
 			image_force_sensor_ai_zoom_out.Visible = false;
 		}

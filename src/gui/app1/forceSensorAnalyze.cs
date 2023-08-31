@@ -851,46 +851,21 @@ public partial class ChronoJumpWindow
 		if(lastForceSensorFullPath == null || lastForceSensorFullPath == "")
 			return;
 
+		Gtk.HScale hsLeft = getHScaleABCD (true);
+		Gtk.HScale hsRight = getHScaleABCD (false);
+
 		// 1. get zoom values
 		int zoomFrameA = -1; //means no zoom
 		int zoomFrameB = -1; //means no zoom
 
-		Gtk.HScale hsLeft = getHScaleABCD (true);
-		Gtk.HScale hsRight = getHScaleABCD (false);
-
-		if ( AiVars.zoomApplied && (
-				(radio_ai_ab.Active &&
-				Util.IsNumber (tvFS_AB.TimeStart, true) &&
-				Util.IsNumber (tvFS_AB.TimeEnd, true)) ||
-				(! radio_ai_ab.Active &&
-				Util.IsNumber (tvFS_CD.TimeStart, true) &&
-				Util.IsNumber (tvFS_CD.TimeEnd, true)) ))
+		if (AiVars.zoomApplied)
 		{
-			//invert hscales if needed
-			int firstValue = Convert.ToInt32 (hsLeft.Value);
-			int secondValue = Convert.ToInt32 (hsRight.Value);
-			//LogB.Information(string.Format("firstValue: {0}, secondValue: {1}", firstValue, secondValue));
-
-			//note that is almost impossible in the ui, but just in case...
-			if(firstValue > secondValue) {
-				int temp = firstValue;
-				firstValue = secondValue;
-				secondValue = temp;
-			}
-
-			//-1 and +1 to have the points at the edges to calcule the RFDs
-			//like this works but cannot calculate the RFD of A,B
-			zoomFrameA = firstValue;
-			zoomFrameB = secondValue;;
-			//zoomFrameA = firstValue -1;
-			//zoomFrameB = secondValue +1;
-
-			//do not zoom if both are the same, or the diff is just on pixel
-			if(Math.Abs(zoomFrameA - zoomFrameB) <= 1)
-			{
-				zoomFrameA = -1;
-				zoomFrameB = -1;
-			}
+			if (radio_ai_ab.Active)
+				getAiZoomStartEnd (tvFS_AB.TimeStart, tvFS_AB.TimeEnd, hsLeft, hsRight,
+						ref zoomFrameA, ref zoomFrameB);
+			else
+				getAiZoomStartEnd (tvFS_CD.TimeStart, tvFS_CD.TimeEnd, hsLeft, hsRight,
+						ref zoomFrameA, ref zoomFrameB);
 		}
 
 		// 2. create fsAI_AB, fsAI_CD

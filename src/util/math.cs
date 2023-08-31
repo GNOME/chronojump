@@ -209,6 +209,22 @@ public class PointF
 		return p_l[p_l.Count -1];
 	}
 
+	public static List<PointF> GetSubList (List<PointF> orig_l, int start, int end)
+	{
+		// if passed -1, return orig_l
+		if (start < 0 && end < 0)
+			return orig_l;
+
+		// if start || end are beyond list, return orig_l
+		if (start >= orig_l.Count || end >= orig_l.Count)
+			return orig_l;
+
+		List<PointF> p_l = new List <PointF> ();
+		for (int i = start; i < end; i ++)
+			p_l.Add (orig_l[i]);
+
+		return p_l;
+	}
 }
 
 //nice to have an X, Y and a value (Z)

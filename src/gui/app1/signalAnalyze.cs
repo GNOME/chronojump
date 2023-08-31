@@ -403,11 +403,13 @@ public partial class ChronoJumpWindow
 			AiVars.c_beforeZoom = Convert.ToInt32 (hscale_ai_c.Value);
 			AiVars.d_beforeZoom = Convert.ToInt32 (hscale_ai_d.Value);
 
+			int sampleL;
+			int sampleR;
+
 			if (radio_ai_2sets.Active)
 			{
+//TODO: race Analyzer
 				// zoomed has to be the same range for ab than cd, to show all data in graph. range is related to what is selected in the ratio
-				int sampleL;
-				int sampleR;
 
 				if (spCairoFE_CD.TimeShifted) //time has shifted (not as samples, is directly time, so need to find sample that matches that time)
 				{
@@ -463,15 +465,22 @@ public partial class ChronoJumpWindow
 							sampleL, sampleR, true);
 				}
 			} else {
-				if (radio_ai_ab.Active)
-					spCairoFEZoom = new SignalPointsCairoForceElastic (spCairoFE,
-							AiVars.a_beforeZoom, AiVars.b_beforeZoom, true);
-				else
-					spCairoFEZoom = new SignalPointsCairoForceElastic (spCairoFE,
-							AiVars.c_beforeZoom, AiVars.d_beforeZoom, true);
+				sampleL = AiVars.a_beforeZoom;
+				sampleR = AiVars.b_beforeZoom;
+				if (! radio_ai_ab.Active)
+				{
+					sampleL = AiVars.c_beforeZoom;
+					sampleR = AiVars.d_beforeZoom;
+				}
+
+				if (Constants.ModeIsFORCESENSOR (current_mode))
+					spCairoFEZoom = new SignalPointsCairoForceElastic (spCairoFE, sampleL, sampleR, true);
+				else //if (current_mode == Constants.Modes.RUNSENCODER)
+					cairoGraphRaceAnalyzerPoints_st_Zoom_l = PointF.GetSubList (
+							cairoGraphRaceAnalyzerPoints_st_l, sampleL, sampleR);
 			}
 
-			//cairo
+			//cairo, repetitions
 			if (Constants.ModeIsFORCESENSOR (current_mode))
 			{
 				rep_lZoomAppliedCairo = new List<ForceSensorRepetition> ();
@@ -493,7 +502,7 @@ public partial class ChronoJumpWindow
 
 			image_force_sensor_ai_zoom.Visible = false;
 			image_force_sensor_ai_zoom_out.Visible = true;
-			radiosForceSensorAiSensitivity (false);
+			radiosAiSensitivity (false);
 		} else {
 			AiVars.zoomApplied = false;
 
@@ -531,7 +540,46 @@ public partial class ChronoJumpWindow
 
 			image_force_sensor_ai_zoom.Visible = true;
 			image_force_sensor_ai_zoom_out.Visible = false;
-			radiosForceSensorAiSensitivity (true);
+			radiosAiSensitivity (true);
+		}
+	}
+
+	private void getAiZoomStartEnd (string timeStart, string timeEnd, Gtk.HScale hsLeft, Gtk.HScale hsRight,
+			ref int zoomFrameA, ref int zoomFrameB)
+	{
+		LogB.Information ("getAiZoomStartEnd");
+		LogB.Information ("timeStart", timeStart);
+		LogB.Information ("timeEnd", timeEnd);
+		if (timeStart == null || timeStart == "" || timeEnd == null || timeEnd == "")
+			return;
+
+		if (! Util.IsNumber (timeStart, true) || ! Util.IsNumber (timeEnd, true))
+			return;
+
+		//invert hscales if needed
+		int firstValue = Convert.ToInt32 (hsLeft.Value);
+		int secondValue = Convert.ToInt32 (hsRight.Value);
+		//LogB.Information(string.Format("firstValue: {0}, secondValue: {1}", firstValue, secondValue));
+
+		//note that is almost impossible in the ui, but just in case...
+		if(firstValue > secondValue) {
+			int temp = firstValue;
+			firstValue = secondValue;
+			secondValue = temp;
+		}
+
+		//-1 and +1 to have the points at the edges to calcule the RFDs
+		//like this works but cannot calculate the RFD of A,B
+		zoomFrameA = firstValue;
+		zoomFrameB = secondValue;;
+		//zoomFrameA = firstValue -1;
+		//zoomFrameB = secondValue +1;
+
+		//do not zoom if both are the same, or the diff is just on pixel
+		if(Math.Abs(zoomFrameA - zoomFrameB) <= 1)
+		{
+			zoomFrameA = -1;
+			zoomFrameB = -1;
 		}
 	}
 
@@ -819,7 +867,7 @@ public partial class ChronoJumpWindow
 		tvS.FillTreeview ();
 
 		// 7. hscales manage sensitive
-		forceSensorAnalyzeGeneralButtonHscaleZoomSensitiveness();
+		aiButtonsHscaleZoomSensitiveness();
 
 		// 8. refresh graph
 		ai_drawingarea_cairo.QueueDraw(); //will fire ExposeEvent
@@ -845,7 +893,7 @@ public partial class ChronoJumpWindow
 		}
 	}
 
-	private void forceSensorAnalyzeGeneralButtonHscaleZoomSensitiveness()
+	private void aiButtonsHscaleZoomSensitiveness ()
 	{
 		Gtk.HScale hsLeft = getHScaleABCD (true);
 		Gtk.HScale hsRight = getHScaleABCD (false);
@@ -865,8 +913,8 @@ public partial class ChronoJumpWindow
 		button_hscale_ai_b_post_1s.Sensitive = (sAI != null && hsRight.Value < sAI.GetLength() -1);
 		button_hscale_ai_b_post.Sensitive = (sAI != null && hsRight.Value < sAI.GetLength() -1);
 
-		//diff have to be more than one pixel
-		check_ai_zoom.Sensitive = (Math.Abs(hsLeft.Value - hsRight.Value) > 1);
+		//if not in zoom, diff have to be more than one pixel
+		check_ai_zoom.Sensitive = (AiVars.zoomApplied || Math.Abs(hsLeft.Value - hsRight.Value) > 1);
 	}
 
 	private void on_button_hscale_ai_a_first_clicked (object o, EventArgs args)
@@ -1084,11 +1132,11 @@ public partial class ChronoJumpWindow
 		button_signal_analyze_load_cd.Sensitive = (radio_ai_2sets.Active && radio_ai_cd.Active);
 		button_ai_move_cd_pre_set_sensitivity ();
 
-		forceSensorAnalyzeGeneralButtonHscaleZoomSensitiveness();
+		aiButtonsHscaleZoomSensitiveness();
 		ai_drawingarea_cairo.QueueDraw(); //will fire ExposeEvent
 	}
 
-	private void radiosForceSensorAiSensitivity (bool sensitive)
+	private void radiosAiSensitivity (bool sensitive)
 	{
 		radio_ai_1set.Sensitive = sensitive;
 		radio_ai_2sets.Sensitive = sensitive;

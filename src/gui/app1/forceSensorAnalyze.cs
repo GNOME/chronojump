@@ -597,7 +597,7 @@ public partial class ChronoJumpWindow
 	private void setForceSensorAnalyzeMaxAVGInWindow()
 	{
 		tvFS_other.MaxAvgInWindowName = string.Format("Max AVG Force in {0} s",
-				preferences.forceSensorAnalyzeMaxAVGInWindow);
+				Util.TrimDecimals (preferences.forceSensorAnalyzeMaxAVGInWindow, 1));
 	}
 
 	private void on_button_force_rfd_default_clicked (object o, EventArgs args)

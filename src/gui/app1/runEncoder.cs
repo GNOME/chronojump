@@ -386,6 +386,8 @@ public partial class ChronoJumpWindow
 		cairoGraphRaceAnalyzerPoints_st_l = new List<PointF>();
 		cairoGraphRaceAnalyzerPoints_st_Zoom_l = new List<PointF>();
 		cairoGraphRaceAnalyzerPoints_st_CD_l = new List<PointF>();
+		//cairoGraphRaceAnalyzerPoints_st_CD_l_timeShifted = false; //unused
+		cairoGraphRaceAnalyzerPoints_st_Zoom_CD_l = new List<PointF>();
 		cairoGraphRaceAnalyzerPoints_at_l = new List<PointF>();
 
 		//to not show old vertical segments info on a capture that maybe cannot be done by lack of device
@@ -457,6 +459,8 @@ public partial class ChronoJumpWindow
 		cairoGraphRaceAnalyzerPoints_st_l = new List<PointF>();
 		cairoGraphRaceAnalyzerPoints_st_Zoom_l = new List<PointF>();
 		cairoGraphRaceAnalyzerPoints_st_CD_l = new List<PointF>();
+		//cairoGraphRaceAnalyzerPoints_st_CD_l_timeShifted = false; //unused
+		cairoGraphRaceAnalyzerPoints_st_Zoom_CD_l = new List<PointF>();
 		cairoGraphRaceAnalyzerPoints_at_l = new List<PointF>();
 		drawingarea_race_analyzer_capture_position_time.QueueDraw(); //will fire ExposeEvent
 		drawingarea_race_analyzer_capture_speed_time.QueueDraw(); //will fire ExposeEvent
@@ -593,6 +597,8 @@ public partial class ChronoJumpWindow
 		cairoGraphRaceAnalyzerPoints_st_l = new List<PointF>();
 		cairoGraphRaceAnalyzerPoints_st_Zoom_l = new List<PointF>();
 		cairoGraphRaceAnalyzerPoints_st_CD_l = new List<PointF>();
+		//cairoGraphRaceAnalyzerPoints_st_CD_l_timeShifted = false; //unused
+		cairoGraphRaceAnalyzerPoints_st_Zoom_CD_l = new List<PointF>();
 		cairoGraphRaceAnalyzerPoints_at_l = new List<PointF>();
 
 		//RunEncoderCaptureGetSpeedAndDisplacement reCGSD = new RunEncoderCaptureGetSpeedAndDisplacement();
@@ -1189,6 +1195,7 @@ RunEncoderCaptureGetSpeedAndDisplacementTest recgsdt = new RunEncoderCaptureGetS
 		if (radio_ai_2sets.Active && radio_ai_cd.Active)
 		{
 			cairoGraphRaceAnalyzerPoints_st_CD_l = new List<PointF>();
+			//cairoGraphRaceAnalyzerPoints_st_CD_l_timeShifted = false; //unused
 
 			currentRunEncoder_CD = re;
 			currentRunEncoderExercise_CD = SqliteRunEncoderExercise.Select (false, re.ExerciseID)[0];
@@ -1244,6 +1251,8 @@ RunEncoderCaptureGetSpeedAndDisplacementTest recgsdt = new RunEncoderCaptureGetS
 			cairoGraphRaceAnalyzerPoints_st_l = new List<PointF>();
 			cairoGraphRaceAnalyzerPoints_st_Zoom_l = new List<PointF>();
 			cairoGraphRaceAnalyzerPoints_st_CD_l = new List<PointF>();
+			//cairoGraphRaceAnalyzerPoints_st_CD_l_timeShifted = false; //unused
+			cairoGraphRaceAnalyzerPoints_st_Zoom_CD_l = new List<PointF>();
 			cairoGraphRaceAnalyzerPoints_at_l = new List<PointF>();
 
 			reCGSD = run_encoder_load_set_reCGSD (contents, false,
@@ -2618,8 +2627,10 @@ RunEncoderCaptureGetSpeedAndDisplacementTest recgsdt = new RunEncoderCaptureGetS
 
 	CairoGraphRaceAnalyzer cairoGraphRaceAnalyzer_st;
 	static List<PointF> cairoGraphRaceAnalyzerPoints_st_l;		//speed/time
-	static List<PointF> cairoGraphRaceAnalyzerPoints_st_Zoom_l;		//speed/time
+	static List<PointF> cairoGraphRaceAnalyzerPoints_st_Zoom_l;	//speed/time
 	static List<PointF> cairoGraphRaceAnalyzerPoints_st_CD_l;	//speed/time (signal can be same or other)
+	//private bool cairoGraphRaceAnalyzerPoints_st_CD_l_timeShifted = false; //unused
+	static List<PointF> cairoGraphRaceAnalyzerPoints_st_Zoom_CD_l;	//speed/time
 	private void on_drawingarea_race_analyzer_capture_speed_time_cairo_draw (object o, Gtk.DrawnArgs args)
 	{
 		updateRaceAnalyzerCaptureSpeedTime(true);
@@ -2708,6 +2719,8 @@ RunEncoderCaptureGetSpeedAndDisplacementTest recgsdt = new RunEncoderCaptureGetS
 		if (notebook_capture_analyze.CurrentPage == 1 && radio_ai_2sets.Active)
 		{
 			cairoGraphSend_CD = cairoGraphRaceAnalyzerPoints_st_CD_l;
+			if (AiVars.zoomApplied)
+				cairoGraphSend_CD = cairoGraphRaceAnalyzerPoints_st_Zoom_CD_l;
 
 			if (currentRunEncoder != null && currentRunEncoderExercise != null &&
 					currentRunEncoder_CD != null && currentRunEncoderExercise_CD != null)

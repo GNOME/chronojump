@@ -392,201 +392,209 @@ public partial class ChronoJumpWindow
 	private void on_check_ai_zoom_clicked (object o, EventArgs args)
 	{
 		LogB.Information ("on_check_ai_zoom_clicked");
+		if (check_ai_zoom.Active)
+			check_ai_zoom_zoom ();
+		else
+			check_ai_zoom_unzoom ();
+	}
+
+	private void check_ai_zoom_zoom ()
+	{
 		AnalyzeInstant sAI = getCorrectAI ();
 
 		if(sAI == null || sAI.GetLength() == 0)
 			return;
 
-		if(check_ai_zoom.Active)
+		AiVars.zoomApplied = true;
+
+		//store hscale a to help return to position on unzoom
+		AiVars.a_beforeZoom = Convert.ToInt32 (hscale_ai_a.Value);
+		AiVars.b_beforeZoom = Convert.ToInt32 (hscale_ai_b.Value);
+		AiVars.c_beforeZoom = Convert.ToInt32 (hscale_ai_c.Value);
+		AiVars.d_beforeZoom = Convert.ToInt32 (hscale_ai_d.Value);
+
+		int sampleL;
+		int sampleR;
+
+		if (radio_ai_2sets.Active &&
+				(Constants.ModeIsFORCESENSOR (current_mode) && spCairoFE_CD != null && spCairoFE_CD.Force_l.Count > 0) ||
+				(current_mode == Constants.Modes.RUNSENCODER && cairoGraphRaceAnalyzerPoints_st_CD_l != null && cairoGraphRaceAnalyzerPoints_st_CD_l.Count > 0))
+
 		{
-			AiVars.zoomApplied = true;
+			// zoomed has to be the same range for ab than cd, to show all data in graph. range is related to what is selected in the ratio
 
-			//store hscale a to help return to position on unzoom
-			AiVars.a_beforeZoom = Convert.ToInt32 (hscale_ai_a.Value);
-			AiVars.b_beforeZoom = Convert.ToInt32 (hscale_ai_b.Value);
-			AiVars.c_beforeZoom = Convert.ToInt32 (hscale_ai_c.Value);
-			AiVars.d_beforeZoom = Convert.ToInt32 (hscale_ai_d.Value);
-
-			int sampleL;
-			int sampleR;
-
-			if (radio_ai_2sets.Active &&
-					(Constants.ModeIsFORCESENSOR (current_mode) && spCairoFE_CD != null && spCairoFE_CD.Force_l.Count > 0) ||
-					(current_mode == Constants.Modes.RUNSENCODER && cairoGraphRaceAnalyzerPoints_st_CD_l != null && cairoGraphRaceAnalyzerPoints_st_CD_l.Count > 0))
-
+			//time has shifted (not as samples, is directly time, so need to find sample that matches that time)
+			if (Constants.ModeIsFORCESENSOR (current_mode))// && spCairoFE_CD.TimeShifted)
 			{
-				// zoomed has to be the same range for ab than cd, to show all data in graph. range is related to what is selected in the ratio
-
-				//time has shifted (not as samples, is directly time, so need to find sample that matches that time)
-				if (Constants.ModeIsFORCESENSOR (current_mode))// && spCairoFE_CD.TimeShifted)
+				if (radio_ai_ab.Active)
 				{
-					if (radio_ai_ab.Active)
-					{
-						// 1) ab data is the hscales data
-						spCairoFEZoom = new SignalPointsCairoForceElastic (spCairoFE, AiVars.a_beforeZoom, AiVars.b_beforeZoom, true);
+					// 1) ab data is the hscales data
+					spCairoFEZoom = new SignalPointsCairoForceElastic (spCairoFE, AiVars.a_beforeZoom, AiVars.b_beforeZoom, true);
 
-						// 2) cd data are samples close in time to ab data
-						// 1st check if it overlaps, if it does not overlap and we include it, it would show a bigger graph with empty data
-						if (! PointF.ListsTimeOverlap (spCairoFE_CD.Force_l, spCairoFE.Force_l, AiVars.a_beforeZoom, AiVars.b_beforeZoom))
-							spCairoFEZoom_CD = new SignalPointsCairoForceElastic ();
-						else {
-							sampleL = PointF.FindSampleCloseToTime (
-									spCairoFE_CD.Force_l, spCairoFE.Force_l[AiVars.a_beforeZoom].X);
-							sampleR = PointF.FindSampleCloseToTime (
-									spCairoFE_CD.Force_l, spCairoFE.Force_l[AiVars.b_beforeZoom].X);
-							spCairoFEZoom_CD = new SignalPointsCairoForceElastic (spCairoFE_CD,
-									sampleL, sampleR, true);
-						}
-					} else {
-						// 1) cd data is the hscales data
-						spCairoFEZoom_CD = new SignalPointsCairoForceElastic (spCairoFE_CD, AiVars.c_beforeZoom, AiVars.d_beforeZoom, true);
-
-						// 2) ab data are samples close in time to cd data
-						// 1st check if it overlaps, if it does not overlap and we include it, it would show a bigger graph with empty data
-						if (! PointF.ListsTimeOverlap (spCairoFE.Force_l, spCairoFE_CD.Force_l, AiVars.c_beforeZoom, AiVars.d_beforeZoom))
-							spCairoFEZoom = new SignalPointsCairoForceElastic ();
-						else {
-							sampleL = PointF.FindSampleCloseToTime (
-									spCairoFE.Force_l, spCairoFE_CD.Force_l[AiVars.c_beforeZoom].X);
-							sampleR = PointF.FindSampleCloseToTime (
-									spCairoFE.Force_l, spCairoFE_CD.Force_l[AiVars.d_beforeZoom].X);
-							spCairoFEZoom = new SignalPointsCairoForceElastic (spCairoFE,
-									sampleL, sampleR, true);
-						}
-					}
-				}
-				else if (current_mode == Constants.Modes.RUNSENCODER)// && cairoGraphRaceAnalyzerPoints_st_CD_l_timeShifted) //similar to above code, read comments there
-				{
-					if (radio_ai_ab.Active)
-					{
-						cairoGraphRaceAnalyzerPoints_st_Zoom_l = PointF.GetSubList (cairoGraphRaceAnalyzerPoints_st_l, AiVars.a_beforeZoom, AiVars.b_beforeZoom);
-
-						if (! PointF.ListsTimeOverlap (cairoGraphRaceAnalyzerPoints_st_CD_l, cairoGraphRaceAnalyzerPoints_st_l, AiVars.a_beforeZoom, AiVars.b_beforeZoom))
-							cairoGraphRaceAnalyzerPoints_st_Zoom_CD_l = new List<PointF> ();
-						else {
-							sampleL = PointF.FindSampleCloseToTime (
-									cairoGraphRaceAnalyzerPoints_st_CD_l, cairoGraphRaceAnalyzerPoints_st_l[AiVars.a_beforeZoom].X);
-							sampleR = PointF.FindSampleCloseToTime (
-									cairoGraphRaceAnalyzerPoints_st_CD_l, cairoGraphRaceAnalyzerPoints_st_l[AiVars.b_beforeZoom].X);
-							cairoGraphRaceAnalyzerPoints_st_Zoom_CD_l = PointF.GetSubList (cairoGraphRaceAnalyzerPoints_st_CD_l, sampleL, sampleR);
-						}
-					} else {
-						cairoGraphRaceAnalyzerPoints_st_Zoom_CD_l = PointF.GetSubList (cairoGraphRaceAnalyzerPoints_st_CD_l, AiVars.c_beforeZoom, AiVars.d_beforeZoom);
-
-						if (! PointF.ListsTimeOverlap (cairoGraphRaceAnalyzerPoints_st_l, cairoGraphRaceAnalyzerPoints_st_CD_l, AiVars.c_beforeZoom, AiVars.d_beforeZoom))
-							cairoGraphRaceAnalyzerPoints_st_Zoom_l = new List<PointF> ();
-						else {
-							sampleL = PointF.FindSampleCloseToTime (
-									cairoGraphRaceAnalyzerPoints_st_l, cairoGraphRaceAnalyzerPoints_st_CD_l[AiVars.c_beforeZoom].X);
-							sampleR = PointF.FindSampleCloseToTime (
-									cairoGraphRaceAnalyzerPoints_st_l, cairoGraphRaceAnalyzerPoints_st_CD_l[AiVars.d_beforeZoom].X);
-							cairoGraphRaceAnalyzerPoints_st_Zoom_l = PointF.GetSubList (cairoGraphRaceAnalyzerPoints_st_l, sampleL, sampleR);
-						}
-					}
-				} /*else { //this code (! timeShifted) is not used because samples are not at same time (even on forceSensor)
-					if (radio_ai_ab.Active)
-					{
-						sampleL = AiVars.a_beforeZoom;
-						sampleR = AiVars.b_beforeZoom;
-					} else {
-						sampleL = AiVars.c_beforeZoom;
-						sampleR = AiVars.d_beforeZoom;
-					}
-
-					if (Constants.ModeIsFORCESENSOR (current_mode))
-					{
-						spCairoFEZoom = new SignalPointsCairoForceElastic (spCairoFE,
-								sampleL, sampleR, true);
+					// 2) cd data are samples close in time to ab data
+					// 1st check if it overlaps, if it does not overlap and we include it, it would show a bigger graph with empty data
+					if (! PointF.ListsTimeOverlap (spCairoFE_CD.Force_l, spCairoFE.Force_l, AiVars.a_beforeZoom, AiVars.b_beforeZoom))
+						spCairoFEZoom_CD = new SignalPointsCairoForceElastic ();
+					else {
+						sampleL = PointF.FindSampleCloseToTime (
+								spCairoFE_CD.Force_l, spCairoFE.Force_l[AiVars.a_beforeZoom].X);
+						sampleR = PointF.FindSampleCloseToTime (
+								spCairoFE_CD.Force_l, spCairoFE.Force_l[AiVars.b_beforeZoom].X);
 						spCairoFEZoom_CD = new SignalPointsCairoForceElastic (spCairoFE_CD,
 								sampleL, sampleR, true);
 					}
-					else //if (current_mode == Constants.Modes.RUNSENCODER)
-					{
-						cairoGraphRaceAnalyzerPoints_st_Zoom_l = PointF.GetSubList (
-								cairoGraphRaceAnalyzerPoints_st_l, sampleL, sampleR);
-						cairoGraphRaceAnalyzerPoints_st_Zoom_CD_l = PointF.GetSubList (
-								cairoGraphRaceAnalyzerPoints_st_CD_l, sampleL, sampleR);
+				} else {
+					// 1) cd data is the hscales data
+					spCairoFEZoom_CD = new SignalPointsCairoForceElastic (spCairoFE_CD, AiVars.c_beforeZoom, AiVars.d_beforeZoom, true);
+
+					// 2) ab data are samples close in time to cd data
+					// 1st check if it overlaps, if it does not overlap and we include it, it would show a bigger graph with empty data
+					if (! PointF.ListsTimeOverlap (spCairoFE.Force_l, spCairoFE_CD.Force_l, AiVars.c_beforeZoom, AiVars.d_beforeZoom))
+						spCairoFEZoom = new SignalPointsCairoForceElastic ();
+					else {
+						sampleL = PointF.FindSampleCloseToTime (
+								spCairoFE.Force_l, spCairoFE_CD.Force_l[AiVars.c_beforeZoom].X);
+						sampleR = PointF.FindSampleCloseToTime (
+								spCairoFE.Force_l, spCairoFE_CD.Force_l[AiVars.d_beforeZoom].X);
+						spCairoFEZoom = new SignalPointsCairoForceElastic (spCairoFE,
+								sampleL, sampleR, true);
 					}
 				}
-				*/
-			} else {
-				sampleL = AiVars.a_beforeZoom;
-				sampleR = AiVars.b_beforeZoom;
-				if (! radio_ai_ab.Active)
-				{
-					sampleL = AiVars.c_beforeZoom;
-					sampleR = AiVars.d_beforeZoom;
-				}
-
-				if (Constants.ModeIsFORCESENSOR (current_mode))
-					spCairoFEZoom = new SignalPointsCairoForceElastic (spCairoFE, sampleL, sampleR, true);
-				else //if (current_mode == Constants.Modes.RUNSENCODER)
-					cairoGraphRaceAnalyzerPoints_st_Zoom_l = PointF.GetSubList (
-							cairoGraphRaceAnalyzerPoints_st_l, sampleL, sampleR);
 			}
-
-			//cairo, repetitions
-			if (Constants.ModeIsFORCESENSOR (current_mode))
+			else if (current_mode == Constants.Modes.RUNSENCODER)// && cairoGraphRaceAnalyzerPoints_st_CD_l_timeShifted) //similar to above code, read comments there
 			{
-				rep_lZoomAppliedCairo = new List<ForceSensorRepetition> ();
-				for (int r = 0; r < sAI.ForceSensorRepetition_l.Count; r ++)
+				if (radio_ai_ab.Active)
 				{
-					// don't do like this until delete non-cairo because this changes the sAI.ForceSensorRepetition_l values and non-cairo is not displayed correctly
-					//ForceSensorRepetition fsr = sAI.ForceSensorRepetition_l[r];
-					// do this:
-					ForceSensorRepetition fsr = sAI.ForceSensorRepetition_l[r].Clone();
+					cairoGraphRaceAnalyzerPoints_st_Zoom_l = PointF.GetSubList (cairoGraphRaceAnalyzerPoints_st_l, AiVars.a_beforeZoom, AiVars.b_beforeZoom);
 
-					fsr.sampleStart -= AiVars.a_beforeZoom;
-					fsr.sampleEnd -= AiVars.a_beforeZoom;
+					if (! PointF.ListsTimeOverlap (cairoGraphRaceAnalyzerPoints_st_CD_l, cairoGraphRaceAnalyzerPoints_st_l, AiVars.a_beforeZoom, AiVars.b_beforeZoom))
+						cairoGraphRaceAnalyzerPoints_st_Zoom_CD_l = new List<PointF> ();
+					else {
+						sampleL = PointF.FindSampleCloseToTime (
+								cairoGraphRaceAnalyzerPoints_st_CD_l, cairoGraphRaceAnalyzerPoints_st_l[AiVars.a_beforeZoom].X);
+						sampleR = PointF.FindSampleCloseToTime (
+								cairoGraphRaceAnalyzerPoints_st_CD_l, cairoGraphRaceAnalyzerPoints_st_l[AiVars.b_beforeZoom].X);
+						cairoGraphRaceAnalyzerPoints_st_Zoom_CD_l = PointF.GetSubList (cairoGraphRaceAnalyzerPoints_st_CD_l, sampleL, sampleR);
+					}
+				} else {
+					cairoGraphRaceAnalyzerPoints_st_Zoom_CD_l = PointF.GetSubList (cairoGraphRaceAnalyzerPoints_st_CD_l, AiVars.c_beforeZoom, AiVars.d_beforeZoom);
 
-					rep_lZoomAppliedCairo.Add (fsr);
+					if (! PointF.ListsTimeOverlap (cairoGraphRaceAnalyzerPoints_st_l, cairoGraphRaceAnalyzerPoints_st_CD_l, AiVars.c_beforeZoom, AiVars.d_beforeZoom))
+						cairoGraphRaceAnalyzerPoints_st_Zoom_l = new List<PointF> ();
+					else {
+						sampleL = PointF.FindSampleCloseToTime (
+								cairoGraphRaceAnalyzerPoints_st_l, cairoGraphRaceAnalyzerPoints_st_CD_l[AiVars.c_beforeZoom].X);
+						sampleR = PointF.FindSampleCloseToTime (
+								cairoGraphRaceAnalyzerPoints_st_l, cairoGraphRaceAnalyzerPoints_st_CD_l[AiVars.d_beforeZoom].X);
+						cairoGraphRaceAnalyzerPoints_st_Zoom_l = PointF.GetSubList (cairoGraphRaceAnalyzerPoints_st_l, sampleL, sampleR);
+					}
 				}
-			}
+			} /*else { //this code (! timeShifted) is not used because samples are not at same time (even on forceSensor)
+			    if (radio_ai_ab.Active)
+			    {
+			    sampleL = AiVars.a_beforeZoom;
+			    sampleR = AiVars.b_beforeZoom;
+			    } else {
+			    sampleL = AiVars.c_beforeZoom;
+			    sampleR = AiVars.d_beforeZoom;
+			    }
 
-			signalPrepareGraphAI ();
-
-			image_force_sensor_ai_zoom.Visible = false;
-			image_force_sensor_ai_zoom_out.Visible = true;
-			radiosAiSensitivity (false);
+			    if (Constants.ModeIsFORCESENSOR (current_mode))
+			    {
+			    spCairoFEZoom = new SignalPointsCairoForceElastic (spCairoFE,
+			    sampleL, sampleR, true);
+			    spCairoFEZoom_CD = new SignalPointsCairoForceElastic (spCairoFE_CD,
+			    sampleL, sampleR, true);
+			    }
+			    else //if (current_mode == Constants.Modes.RUNSENCODER)
+			    {
+			    cairoGraphRaceAnalyzerPoints_st_Zoom_l = PointF.GetSubList (
+			    cairoGraphRaceAnalyzerPoints_st_l, sampleL, sampleR);
+			    cairoGraphRaceAnalyzerPoints_st_Zoom_CD_l = PointF.GetSubList (
+			    cairoGraphRaceAnalyzerPoints_st_CD_l, sampleL, sampleR);
+			    }
+			    }
+			    */
 		} else {
-			AiVars.zoomApplied = false;
-
-			if (radio_ai_ab.Active)
+			sampleL = AiVars.a_beforeZoom;
+			sampleR = AiVars.b_beforeZoom;
+			if (! radio_ai_ab.Active)
 			{
-				AiVars.a_atZoom = Convert.ToInt32 (hscale_ai_a.Value);
-				AiVars.b_atZoom = Convert.ToInt32 (hscale_ai_b.Value);
-			} else {
-				AiVars.c_atZoom = Convert.ToInt32 (hscale_ai_c.Value);
-				AiVars.d_atZoom = Convert.ToInt32 (hscale_ai_d.Value);
+				sampleL = AiVars.c_beforeZoom;
+				sampleR = AiVars.d_beforeZoom;
 			}
 
-			signalPrepareGraphAI ();
-
-			if (radio_ai_ab.Active)
-			{
-				// set hscales a,b to value before + value at zoom (because user maybe changed it on zoom)
-				hscale_ai_a.Value = AiVars.a_beforeZoom +
-					(AiVars.a_atZoom);
-				hscale_ai_b.Value = AiVars.a_beforeZoom +
-					(AiVars.b_atZoom);
-
-				// set hscales c,d at same value before zoom
-				hscale_ai_c.Value = AiVars.c_beforeZoom;
-				hscale_ai_d.Value = AiVars.d_beforeZoom;
-			} else {
-				hscale_ai_a.Value = AiVars.a_beforeZoom;
-				hscale_ai_b.Value = AiVars.b_beforeZoom;
-
-				hscale_ai_c.Value = AiVars.c_beforeZoom +
-					(AiVars.c_atZoom);
-				hscale_ai_d.Value = AiVars.c_beforeZoom +
-					(AiVars.d_atZoom);
-			}
-
-			image_force_sensor_ai_zoom.Visible = true;
-			image_force_sensor_ai_zoom_out.Visible = false;
-			radiosAiSensitivity (true);
+			if (Constants.ModeIsFORCESENSOR (current_mode))
+				spCairoFEZoom = new SignalPointsCairoForceElastic (spCairoFE, sampleL, sampleR, true);
+			else //if (current_mode == Constants.Modes.RUNSENCODER)
+				cairoGraphRaceAnalyzerPoints_st_Zoom_l = PointF.GetSubList (
+						cairoGraphRaceAnalyzerPoints_st_l, sampleL, sampleR);
 		}
+
+		//cairo, repetitions
+		if (Constants.ModeIsFORCESENSOR (current_mode))
+		{
+			rep_lZoomAppliedCairo = new List<ForceSensorRepetition> ();
+			for (int r = 0; r < sAI.ForceSensorRepetition_l.Count; r ++)
+			{
+				// don't do like this until delete non-cairo because this changes the sAI.ForceSensorRepetition_l values and non-cairo is not displayed correctly
+				//ForceSensorRepetition fsr = sAI.ForceSensorRepetition_l[r];
+				// do this:
+				ForceSensorRepetition fsr = sAI.ForceSensorRepetition_l[r].Clone();
+
+				fsr.sampleStart -= AiVars.a_beforeZoom;
+				fsr.sampleEnd -= AiVars.a_beforeZoom;
+
+				rep_lZoomAppliedCairo.Add (fsr);
+			}
+		}
+
+		signalPrepareGraphAI ();
+
+		image_force_sensor_ai_zoom.Visible = false;
+		image_force_sensor_ai_zoom_out.Visible = true;
+		radiosAiSensitivity (false);
+	}
+
+	private void check_ai_zoom_unzoom ()
+	{
+		AiVars.zoomApplied = false;
+
+		if (radio_ai_ab.Active)
+		{
+			AiVars.a_atZoom = Convert.ToInt32 (hscale_ai_a.Value);
+			AiVars.b_atZoom = Convert.ToInt32 (hscale_ai_b.Value);
+		} else {
+			AiVars.c_atZoom = Convert.ToInt32 (hscale_ai_c.Value);
+			AiVars.d_atZoom = Convert.ToInt32 (hscale_ai_d.Value);
+		}
+
+		signalPrepareGraphAI ();
+
+		if (radio_ai_ab.Active)
+		{
+			// set hscales a,b to value before + value at zoom (because user maybe changed it on zoom)
+			hscale_ai_a.Value = AiVars.a_beforeZoom +
+				(AiVars.a_atZoom);
+			hscale_ai_b.Value = AiVars.a_beforeZoom +
+				(AiVars.b_atZoom);
+
+			// set hscales c,d at same value before zoom
+			hscale_ai_c.Value = AiVars.c_beforeZoom;
+			hscale_ai_d.Value = AiVars.d_beforeZoom;
+		} else {
+			hscale_ai_a.Value = AiVars.a_beforeZoom;
+			hscale_ai_b.Value = AiVars.b_beforeZoom;
+
+			hscale_ai_c.Value = AiVars.c_beforeZoom +
+				(AiVars.c_atZoom);
+			hscale_ai_d.Value = AiVars.c_beforeZoom +
+				(AiVars.d_atZoom);
+		}
+
+		image_force_sensor_ai_zoom.Visible = true;
+		image_force_sensor_ai_zoom_out.Visible = false;
+		radiosAiSensitivity (true);
 	}
 
 	private void getAiZoomStartEnd (string timeStart, string timeEnd, Gtk.HScale hsLeft, Gtk.HScale hsRight,

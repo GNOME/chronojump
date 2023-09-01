@@ -410,7 +410,10 @@ public partial class ChronoJumpWindow
 			int sampleL;
 			int sampleR;
 
-			if (radio_ai_2sets.Active)
+			if (radio_ai_2sets.Active &&
+					(Constants.ModeIsFORCESENSOR (current_mode) && spCairoFE_CD != null && spCairoFE_CD.Force_l.Count > 0) ||
+					(current_mode == Constants.Modes.RUNSENCODER && cairoGraphRaceAnalyzerPoints_st_CD_l != null && cairoGraphRaceAnalyzerPoints_st_CD_l.Count > 0))
+
 			{
 				// zoomed has to be the same range for ab than cd, to show all data in graph. range is related to what is selected in the ratio
 

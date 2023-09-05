@@ -1106,10 +1106,8 @@ public partial class ChronoJumpWindow
 
 		//initialize
 		forceSensorValues = new ForceSensorValues();
-		if (checkbutton_video_contacts.Active)
-			webcamEndStopEnum = WebcamEndStopEnum.RECORDING;
-		else
-			webcamEndStopEnum = WebcamEndStopEnum.NOCAMERA;
+
+		webcamStatusEnumSet ();
 
 		//blank Cairo scatterplot graphs
 		cairoGraphForceSensorSignal = null;
@@ -1630,7 +1628,7 @@ LogB.Information(" fs C ");
 			button_video_play_this_test_contacts.Sensitive = false;
 			if(forceProcessFinish)
 			{
-				if (webcamEndStopEnum == WebcamEndStopEnum.RECORDING)
+				if (webcamStatusEnum == WebcamStatusEnum.RECORDING)
 				{
 					LogB.Information ("webcam will end now (gtk thread) at: " +
 							DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss.fff"));
@@ -1640,7 +1638,7 @@ LogB.Information(" fs C ");
 					Thread.Sleep (50); //Wait
 					return true;
 				}
-				else if (webcamEndStopEnum == WebcamEndStopEnum.STOPPING)
+				else if (webcamStatusEnum == WebcamStatusEnum.STOPPING)
 				{
 					bool success = webcamEndingRecordingStopDo ();
 					if (! success)
@@ -1680,7 +1678,7 @@ LogB.Information(" fs C ");
 					if (radio_ai_2sets.Active)
 						radio_ai_cd.Sensitive = true;
 
-					if (webcamEndStopEnum == WebcamEndStopEnum.STOPPED)
+					if (webcamStatusEnum == WebcamStatusEnum.STOPPED)
 					{
 						bool success = webcamEndingSaveFile (Constants.TestTypes.FORCESENSOR, currentForceSensor.UniqueID);
 						if (success)
@@ -1733,7 +1731,7 @@ LogB.Information(" fs C ");
 					Util.PlaySound (Constants.SoundTypes.BAD, preferences.volumeOn, preferences.gstreamer);
 
 				//stop the camera (and do not save)
-				if (webcamEndStopEnum == WebcamEndStopEnum.RECORDING)
+				if (webcamStatusEnum == WebcamStatusEnum.RECORDING)
 				{
 					webcamEndingRecordingCancel ();
 					webcamRestoreGui (false);

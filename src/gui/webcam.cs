@@ -169,14 +169,18 @@ public partial class ChronoJumpWindow
 	static Stopwatch swWebcamStart;
 	static Stopwatch swWebcamStop;
 
-	private void webcamStatusEnumSet ()
+	private bool webcamStatusEnumSetStart ()
 	{
 		if (
 				(Constants.ModeIsENCODER (current_mode) && checkbutton_video_encoder.Active) ||
 				(! Constants.ModeIsENCODER (current_mode) && checkbutton_video_contacts.Active) )
+		{
 			webcamStatusEnum = WebcamStatusEnum.RECORDING;
-		else
+			return true;
+		} else {
 			webcamStatusEnum = WebcamStatusEnum.NOCAMERA;
+			return false;
+		}
 	}
 
 	//Attention: no GTK here
@@ -328,12 +332,21 @@ public partial class ChronoJumpWindow
 	//this is like the old call that stops and saves the file
 	//now we are stopping when eg. forceSensor finish. and after copied signal file to tmp and have uniqueID, then save the file
 	//this will be deprecated
+	//currently only used on encoder and raceAnalyzer
 	public bool webcamEnd (Constants.TestTypes testType, int uniqueID)
 	{
-		if (! webcamEndingRecordingStop (testType))
+		if (! webcamEndingRecordingStop ())
+		{
+			webcamRestoreGui (false);
 			return false;
+		}
 
-		return webcamEndingSaveFile (testType, uniqueID);
+		while (! webcamEndingRecordingStopDo ())
+			;
+
+		bool saved = webcamEndingSaveFile (testType, uniqueID);
+		webcamRestoreGui (saved);
+		return saved;
 	}
 
 
@@ -343,15 +356,15 @@ public partial class ChronoJumpWindow
 			return;
 
 		webcamManage.RecordingStop ();
-		webcamEndStopEnum = WebcamEndStopEnum.STOPPED;
+		webcamStatusEnum = WebcamStatusEnum.STOPPED;
 	}
 
 	//can pass a -1 uniqueID if test is cancelled
 	//returns false if not ended (maybe because did not started)
-	private bool webcamEndingRecordingStop (Constants.TestTypes testType)
+	private bool webcamEndingRecordingStop ()
 	{
 		//on contacts tests, we have ReallyStarted. No need to stop camera because it is not recording
-		if(testType != Constants.TestTypes.ENCODER && ! webcamManage.ReallyStarted)
+		if(! Constants.ModeIsENCODER (current_mode) && ! webcamManage.ReallyStarted)
 			return false;
 
 		if(! preferences.videoOn || webcamManage == null)
@@ -371,10 +384,10 @@ public partial class ChronoJumpWindow
 
 		//on encoder do not have a delayed call to not have problems with CopyTempVideo on src/gui/encoder.cs
 		//also on encoder exercise ends when movement has really finished
-		if (testType != Constants.TestTypes.ENCODER && preferences.videoStopAfter > 0)
+		if (! Constants.ModeIsENCODER (current_mode) && preferences.videoStopAfter > 0)
 		{
 			//call it later to be able to have some video on a short test like a jump.
-			LogB.Information(string.Format("Preparing to call webcamEndDo() in {0} s", preferences.videoStopAfter));
+			//LogB.Information(string.Format("Preparing to call webcamEndDo() in {0} s", preferences.videoStopAfter));
 
 			//notebook_last_test_buttons.CurrentPage = 1;
 			//hbox_video_contacts_no_capturing.Visible = false;

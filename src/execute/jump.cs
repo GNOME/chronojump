@@ -74,7 +74,8 @@ public class JumpExecute : EventExecute
 			bool metersSecondsPreferred,
 			int graphLimit, bool graphAllTypes, bool graphAllPersons,
 			Gtk.Image image_jump_execute_air, Gtk.Image image_jump_execute_land,
-			bool upload, int uploadStationId, bool django //upload: configChronojump.Compujump && upload (contacts) button active
+			bool upload, int uploadStationId, bool django, //upload: configChronojump.Compujump && upload (contacts) button active
+			bool cameraRecording
 			)
 	{
 		this.personID = personID;
@@ -105,16 +106,18 @@ public class JumpExecute : EventExecute
 		this.upload = upload;
 		this.uploadStationId = uploadStationId;
 		this.django = django;
+		this.cameraRecording = cameraRecording;
 
 		if(TypeHasFall) {
 			hasFall = true;
 		} else {
 			hasFall = false;
 		}
-		
+
 		fakeButtonUpdateGraph = new Gtk.Button();
+		fakeButtonCameraStopIfNeeded = new Gtk.Button ();
 		fakeButtonThreadDyed = new Gtk.Button();
-		
+
 		simulated = false;
 			
 		needUpdateEventProgressBar = false;
@@ -684,7 +687,8 @@ public class JumpRjExecute : JumpExecute
 			bool metersSecondsPreferred, FeedbackJumpsRj feedbackJumpsRj,
 			double progressbarLimit, ExecutingGraphData egd,
 			Gtk.Image image_jump_execute_air, Gtk.Image image_jump_execute_land,
-			bool upload, int uploadStationId, bool django //upload: configChronojump.Compujump && upload (contacts) button active
+			bool upload, int uploadStationId, bool django, //upload: configChronojump.Compujump && upload (contacts) button active
+			bool cameraRecording
 			)
 	{
 		this.personID = personID;
@@ -726,8 +730,10 @@ public class JumpRjExecute : JumpExecute
 		this.upload = upload;
 		this.uploadStationId = uploadStationId;
 		this.django = django;
+		this.cameraRecording = cameraRecording;
 		
 		fakeButtonUpdateGraph = new Gtk.Button();
+		fakeButtonCameraStopIfNeeded = new Gtk.Button ();
 		fakeButtonThreadDyed = new Gtk.Button();
 		
 		simulated = false;

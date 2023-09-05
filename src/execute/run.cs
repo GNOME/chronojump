@@ -98,7 +98,8 @@ public class RunExecute : EventExecute
 			Gtk.Image image_run_execute_running,
 			Gtk.Image image_run_execute_photocell_icon,
 			Gtk.Label label_run_execute_photocell_code,
-			int graphLimit, bool graphAllTypes, bool graphAllPersons
+			int graphLimit, bool graphAllTypes, bool graphAllPersons,
+			bool cameraRecording
 			)
 	{
 		this.personID = personID;
@@ -129,10 +130,12 @@ public class RunExecute : EventExecute
 		this.graphLimit = graphLimit;
 		this.graphAllTypes = graphAllTypes;
 		this.graphAllPersons = graphAllPersons;
+		this.cameraRecording = cameraRecording;
 
 		reactionTimeMS = 0;
 
 		fakeButtonUpdateGraph = new Gtk.Button();
+		fakeButtonCameraStopIfNeeded = new Gtk.Button ();
 		fakeButtonThreadDyed = new Gtk.Button();
 
 		simulated = false;
@@ -990,7 +993,8 @@ public class RunIntervalExecute : RunExecute
 			bool speedStartArrival, bool measureReactionTime,
 			Gtk.Image image_run_execute_running,
 			Gtk.Image image_run_execute_photocell_icon,
-			Gtk.Label label_run_execute_photocell_code
+			Gtk.Label label_run_execute_photocell_code,
+			bool cameraRecording
 			)
 	{
 		this.personID = personID;
@@ -1039,12 +1043,14 @@ public class RunIntervalExecute : RunExecute
 		this.image_run_execute_running = image_run_execute_running;
 		this.image_run_execute_photocell_icon = image_run_execute_photocell_icon;
 		this.label_run_execute_photocell_code = label_run_execute_photocell_code;
+		this.cameraRecording = cameraRecording;
 
 		reactionTimeMS = 0;
 		reactionTimeIncludedStr = Catalog.GetString("Included on race time of first track");
 		reactionTimeNotIncludedStr = Catalog.GetString("Not included on race time of first track");
 
 		fakeButtonUpdateGraph = new Gtk.Button();
+		fakeButtonCameraStopIfNeeded = new Gtk.Button ();
 		fakeButtonThreadDyed = new Gtk.Button();
 
 		simulated = false;

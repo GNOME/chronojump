@@ -128,8 +128,10 @@ public class EventExecute
 	//this should be a safer way, because will be called when thread has dyed, then will be the last action in the GTK thread.
 	//suitable for calling sensitiveGuiEventDone without problems
 	//sensitiveGuiEventDone causes problems on changing (or even reading) properties of gtk stuff outside of gtk thread
+
+	protected Gtk.Button fakeButtonCameraStopIfNeeded;
 	protected Gtk.Button fakeButtonThreadDyed;
-	
+
 	//for cancelling from chronojump.cs
 	protected bool cancel;
 
@@ -142,6 +144,7 @@ public class EventExecute
 	// multi Chronopic stuff
 	protected int chronopics; 
 
+	protected bool cameraRecording;
 
 	//for reaction time	
 	//on animation lights and discriminative should be false
@@ -231,7 +234,16 @@ public class EventExecute
 		//when waitEvent it's done (with success, for example)
 		//then thread is dead
 
-		if ( ! thread.IsAlive || cancel) {
+		if ( ! thread.IsAlive || cancel)
+		{
+			//to correctly show the progressbar need to call this until is done
+			if (cameraRecording && ! cancel)
+			{
+				//LogB.Information ("PulseGTK fakeButtonCameraStopIfNeeded.Click");
+				fakeButtonCameraStopIfNeeded.Click ();
+				return true;
+			}
+
 			LogB.ThreadEnding();
 
 			//don't show any of the change image icons
@@ -626,6 +638,10 @@ public class EventExecute
 		get { return fakeButtonUpdateGraph; }
 	}
 
+	public Gtk.Button FakeButtonCameraStopIfNeeded {
+		get { return fakeButtonCameraStopIfNeeded; }
+	}
+
 	public Gtk.Button FakeButtonThreadDyed {
 		get { return fakeButtonThreadDyed; }
 	}
@@ -651,6 +667,11 @@ public class EventExecute
 	public bool ChronopicDisconnected
 	{
 		get { return chronopicDisconnected; }
+	}
+
+	public bool CameraRecording
+	{
+		set { cameraRecording = value; }
 	}
 
 	public Event EventDone {

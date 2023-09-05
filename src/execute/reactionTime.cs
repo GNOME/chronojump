@@ -41,7 +41,8 @@ public class ReactionTimeExecute : EventExecute
 	public ReactionTimeExecute(int personID, string personName, int sessionID, string type,
 			Chronopic cp, int pDN,
 			bool volumeOn, Preferences.GstreamerTypes gstreamer,
-			double progressbarLimit, ExecutingGraphData egd, string description
+			double progressbarLimit, ExecutingGraphData egd, string description,
+			bool cameraRecording
 			)
 	{
 		this.personID = personID;
@@ -57,8 +58,10 @@ public class ReactionTimeExecute : EventExecute
 		this.progressbarLimit = progressbarLimit;
 		this.egd = egd;
 		this.description = description;
+		this.cameraRecording = cameraRecording;
 	
 		fakeButtonUpdateGraph = new Gtk.Button();
+		fakeButtonCameraStopIfNeeded = new Gtk.Button ();
 		fakeButtonThreadDyed = new Gtk.Button();
 				
 		FakeButtonReactionTimeStart = new Gtk.Button();

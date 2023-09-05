@@ -6512,6 +6512,8 @@ public partial class ChronoJumpWindow
 				if (fullscreenLastCapture)
 					fullscreen_button_fullscreen_encoder.Click ();
 
+				button_video_play_this_test_encoder.Sensitive = false;
+
 				encoderThread = new Thread(new ThreadStart(encoderDoCaptureCsharp));
 				GLib.Idle.Add (new GLib.IdleHandler (pulseGTKEncoderCaptureAndCurves));
 			}

@@ -338,6 +338,18 @@ public partial class ChronoJumpWindow
 	//currently only used on encoder and raceAnalyzer
 	public bool webcamEnd (Constants.TestTypes testType, int uniqueID)
 	{
+		if (Constants.ModeIsENCODER (current_mode))
+		{
+			if (webcamEncoderFileStarted == WebcamEncoderFileStarted.RECORDSTARTED)
+			{
+				webcamManage.RecordingStop ();
+				webcamStatusEnum = WebcamStatusEnum.STOPPED;
+			}
+
+			webcamRestoreGui (! encoderProcessCancel);
+			return false;
+		}
+
 		if (! webcamEndingRecordingStop ())
 		{
 			webcamRestoreGui (false);

@@ -63,8 +63,8 @@ public partial class ChronoJumpWindow
 	private WebcamEncoderFileStarted webcamEncoderFileStarted;
 	private WebcamEndParams webcamEndParams;
 
-	private enum WebcamEndStopEnum { NOCAMERA, RECORDING, STOPPING, STOPPED, SAVED }
-	private WebcamEndStopEnum webcamEndStopEnum;
+	private enum WebcamStatusEnum { NOCAMERA, RECORDING, STOPPING, STOPPED, SAVED }
+	private WebcamStatusEnum webcamStatusEnum;
 
 
 	//should be visible on all contacts, but right now hide it on force sensor and runEncoder
@@ -168,6 +168,16 @@ public partial class ChronoJumpWindow
 	static statusEnum webcamStartThreadBeforeTestStatus;
 	static Stopwatch swWebcamStart;
 	static Stopwatch swWebcamStop;
+
+	private void webcamStatusEnumSet ()
+	{
+		if (
+				(Constants.ModeIsENCODER (current_mode) && checkbutton_video_encoder.Active) ||
+				(! Constants.ModeIsENCODER (current_mode) && checkbutton_video_contacts.Active) )
+			webcamStatusEnum = WebcamStatusEnum.RECORDING;
+		else
+			webcamStatusEnum = WebcamStatusEnum.NOCAMERA;
+	}
 
 	//Attention: no GTK here
 	private void webcamStartThreadBeforeTest()
@@ -357,7 +367,7 @@ public partial class ChronoJumpWindow
 		}
 		*/
 
-		webcamEndStopEnum = WebcamEndStopEnum.STOPPING;
+		webcamStatusEnum = WebcamStatusEnum.STOPPING;
 
 		//on encoder do not have a delayed call to not have problems with CopyTempVideo on src/gui/encoder.cs
 		//also on encoder exercise ends when movement has really finished
@@ -399,7 +409,7 @@ public partial class ChronoJumpWindow
 
 			//LogB.Information("Called webcamEndingRecordingStopDo () ending the pulse");
 			webcamManage.RecordingStop ();
-			webcamEndStopEnum = WebcamEndStopEnum.STOPPED;
+			webcamStatusEnum = WebcamStatusEnum.STOPPED;
 		}
 
 		return true;
@@ -428,7 +438,7 @@ public partial class ChronoJumpWindow
 		button_video_contacts_preview_visible (webcamEndParams.guiContactsEncoder, true);
 		LogB.Information(string.Format("calling button_video_play_this_test_contacts_sensitive {0}-{1}-{2}",
 					webcamEndParams.guiContactsEncoder, webcamManage.ReallyStarted, resultExit.success));
-		webcamEndStopEnum = WebcamEndStopEnum.SAVED;
+		webcamStatusEnum = WebcamStatusEnum.SAVED;
 
 		return resultExit.success;
 	}

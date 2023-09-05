@@ -28,7 +28,9 @@ using Mono.Unix;
 
 public partial class ChronoJumpWindow 
 {
+	// at glade ---->
 	//Gtk.Notebook notebook_last_test_buttons; page1: delete, play, inspect, page2: progressbar_video_generating
+	Gtk.Label label_video_generating;
 	Gtk.ProgressBar progressbar_video_generating;
 	Gtk.HBox hbox_contacts_camera;
 	Gtk.CheckButton checkbutton_video_contacts;
@@ -57,6 +59,7 @@ public partial class ChronoJumpWindow
 	Gtk.Button button_video_play_this_test_encoder;
 	Gtk.Spinner spinner_video_play_this_test_contacts;
 	Gtk.ProgressBar pulsebar_webcam;
+	// <---- at glade
 
 
 	private enum WebcamEncoderFileStarted { NEEDTOCHECK, RECORDSTARTED, NOCAMERA }
@@ -392,7 +395,7 @@ public partial class ChronoJumpWindow
 			//notebook_last_test_buttons.CurrentPage = 1;
 			//hbox_video_contacts_no_capturing.Visible = false;
 			notebook_video_contacts.CurrentPage = 2;
-			progressbar_video_generating.Text = Catalog.GetString("Ending video");
+			label_video_generating.Text = Catalog.GetString("Ending video");
 			//progressbar_video_generating.Visible = true;
 
 			swWebcamStop = new Stopwatch();
@@ -1014,6 +1017,7 @@ public partial class ChronoJumpWindow
 	private void connectWidgetsWebcam (Gtk.Builder builder)
 	{
 		//notebook_last_test_buttons = (Gtk.Notebook) builder.GetObject ("notebook_last_test_buttons"); page1: delete, play, inspect, page2: progressbar_video_generating
+		label_video_generating = (Gtk.Label) builder.GetObject ("label_video_generating");
 		progressbar_video_generating = (Gtk.ProgressBar) builder.GetObject ("progressbar_video_generating");
 		hbox_contacts_camera = (Gtk.HBox) builder.GetObject ("hbox_contacts_camera");
 		checkbutton_video_contacts = (Gtk.CheckButton) builder.GetObject ("checkbutton_video_contacts");

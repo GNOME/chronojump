@@ -1107,7 +1107,7 @@ public partial class ChronoJumpWindow
 		//initialize
 		forceSensorValues = new ForceSensorValues();
 
-		webcamStatusEnumSet ();
+		webcamStatusEnumSetStart ();
 
 		//blank Cairo scatterplot graphs
 		cairoGraphForceSensorSignal = null;
@@ -1633,7 +1633,7 @@ LogB.Information(" fs C ");
 					LogB.Information ("webcam will end now (gtk thread) at: " +
 							DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss.fff"));
 
-					webcamEndingRecordingStop (Constants.TestTypes.FORCESENSOR);
+					webcamEndingRecordingStop ();
 
 					Thread.Sleep (50); //Wait
 					return true;

@@ -56,7 +56,8 @@ public class PulseExecute : EventExecute
 	public PulseExecute(int personID, string personName, int sessionID, string type, double fixedPulse, int totalPulsesNum,  
 			Chronopic cp, int pDN,
 			bool volumeOn, Preferences.GstreamerTypes gstreamer,
-			ExecutingGraphData egd
+			ExecutingGraphData egd,
+			bool cameraRecording
 			)
 	{
 		this.personID = personID;
@@ -72,8 +73,10 @@ public class PulseExecute : EventExecute
 		this.volumeOn = volumeOn;
 		this.gstreamer = gstreamer;
 		this.egd = egd;
+		this.cameraRecording = cameraRecording;
 	
 		fakeButtonUpdateGraph = new Gtk.Button();
+		fakeButtonCameraStopIfNeeded = new Gtk.Button ();
 		fakeButtonThreadDyed = new Gtk.Button();
 
 		simulated = false;

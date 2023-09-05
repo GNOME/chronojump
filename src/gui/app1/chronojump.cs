@@ -5096,6 +5096,13 @@ public partial class ChronoJumpWindow
 
 		LogB.Information("cancel clicked one");
 
+		if (webcamStatusEnum == WebcamStatusEnum.RECORDING)
+		{
+			webcamManage.RecordingStop ();
+			webcamStatusEnum = WebcamStatusEnum.NOCAMERA;
+			webcamRestoreGui (false);
+		}
+
 		//this will mark the test as cancelled
 		currentEventExecute.Cancel = true;
 
@@ -5941,7 +5948,9 @@ public partial class ChronoJumpWindow
 				radio_contacts_graph_allTests.Active, radio_contacts_graph_allPersons.Active,
 				image_jump_execute_air, image_jump_execute_land,
 				(configChronojump.Compujump && check_contacts_networks_upload.Active),
-				configChronojump.CompujumpStationID, configChronojump.CompujumpDjango);
+				configChronojump.CompujumpStationID, configChronojump.CompujumpDjango,
+				webcamStatusEnumSetStart ());
+
 
 
 		//UtilGtk.ChronopicColors(viewport_chronopics, label_chronopics, label_connected_chronopics, chronopicWin.Connected);
@@ -5970,6 +5979,10 @@ public partial class ChronoJumpWindow
 		thisJumpIsSimple = true; //used by: on_event_execute_update_graph_in_progress_clicked
 		currentEventExecute.FakeButtonUpdateGraph.Clicked += 
 			new EventHandler(on_event_execute_update_graph_in_progress_clicked);
+
+		currentEventExecute.FakeButtonCameraStopIfNeeded.Clicked -= new EventHandler (on_test_finished_stop_camera_if_needed);
+		currentEventExecute.FakeButtonCameraStopIfNeeded.Clicked += new EventHandler (on_test_finished_stop_camera_if_needed);
+
 		currentEventExecute.FakeButtonThreadDyed.Clicked += new EventHandler(on_test_finished_can_touch_gtk);
 	}	
 	
@@ -6027,11 +6040,11 @@ public partial class ChronoJumpWindow
 		//since 2.2.2 graph is not updated at test end by write. is updated here to not have to readers on separated threads
 		updateGraphJumpsSimple();
 
-		//stop camera (storing value or not)
-		if(currentEventExecute.Cancel || currentJump == null)
-			webcamEnd (Constants.TestTypes.JUMP, -1);
-		else
-			webcamEnd (Constants.TestTypes.JUMP, currentJump.UniqueID);
+		if (webcamStatusEnum == WebcamStatusEnum.STOPPED)
+		{
+			bool saved = webcamEndingSaveFile (Constants.TestTypes.JUMP, currentJump.UniqueID);
+			webcamRestoreGui (saved);
+		}
 
 		//since 0.7.4.1 when test is done, treeview select it. action event button have to be shown
 		//this has to be after webcamRecordEnd in order to see if video is created
@@ -6044,6 +6057,30 @@ public partial class ChronoJumpWindow
 		//chronopicWin.Connected = false;
 
 		button_detect_show_hide (true);
+	}
+
+	private void on_test_finished_stop_camera_if_needed (object o, EventArgs args)
+	{
+		 if (webcamStatusEnum == WebcamStatusEnum.RECORDING)
+		 {
+			 webcamEndingRecordingStop (); //stop as soon as possible to sync test with the end of video
+			 Thread.Sleep (50); //Wait
+		 }
+		 else if (webcamStatusEnum == WebcamStatusEnum.STOPPING)
+		 {
+			 webcamEndingRecordingStopDo ();
+		 }
+		 /* this and save the file will be done after when we know the uniqueID
+		 else if (webcamStatusEnum == WebcamStatusEnum.STOPPED)
+		 {
+			 currentEventExecute.CameraRecording = false;
+			 webcamRestoreGui (success);
+		 }
+		 */
+		 else if (webcamStatusEnum == WebcamStatusEnum.STOPPED)
+		 {
+			 currentEventExecute.CameraRecording = false;
+		 }
 	}
 
 	private void on_test_finished_can_touch_gtk (object o, EventArgs args)
@@ -6252,7 +6289,8 @@ public partial class ChronoJumpWindow
 				feedbackJumpsRj, progressbarLimit, egd,
 				image_jump_execute_air, image_jump_execute_land,
 				(configChronojump.Compujump && check_contacts_networks_upload.Active),
-				configChronojump.CompujumpStationID, configChronojump.CompujumpDjango);
+				configChronojump.CompujumpStationID, configChronojump.CompujumpDjango,
+				webcamStatusEnumSetStart ());
 		
 		//suitable for limited by jump and time
 		//simulated always simulate limited by jumps
@@ -6274,6 +6312,10 @@ public partial class ChronoJumpWindow
 		thisJumpIsSimple = false; //used by: on_event_execute_update_graph_in_progress_clicked
 		currentEventExecute.FakeButtonUpdateGraph.Clicked += 
 			new EventHandler(on_event_execute_update_graph_in_progress_clicked);
+
+		currentEventExecute.FakeButtonCameraStopIfNeeded.Clicked -= new EventHandler (on_test_finished_stop_camera_if_needed);
+		currentEventExecute.FakeButtonCameraStopIfNeeded.Clicked += new EventHandler (on_test_finished_stop_camera_if_needed);
+
 		currentEventExecute.FakeButtonThreadDyed.Clicked += new EventHandler(on_test_finished_can_touch_gtk);
 	}
 		
@@ -6326,14 +6368,10 @@ public partial class ChronoJumpWindow
 		//Cairo graph is not updated if window is not resized, so force update
 		updateGraphJumpsReactive();
 
-		//stop camera (storing value or not)
-		if(currentEventExecute.Cancel || currentJumpRj == null) {
-			//webcamEndTwoCams (Constants.TestTypes.JUMP_RJ, -1);
-			webcamEnd (Constants.TestTypes.JUMP_RJ, -1);
-		}
-		else {
-			//webcamEndTwoCams (Constants.TestTypes.JUMP_RJ, currentJumpRj.UniqueID);
-			webcamEnd (Constants.TestTypes.JUMP_RJ, currentJumpRj.UniqueID);
+		if (webcamStatusEnum == WebcamStatusEnum.STOPPED)
+		{
+			bool saved = webcamEndingSaveFile (Constants.TestTypes.JUMP_RJ, currentJumpRj.UniqueID);
+			webcamRestoreGui (saved);
 		}
 
 		//since 0.7.4.1 when test is done, treeview select it. action event button have to be shown
@@ -6417,8 +6455,8 @@ public partial class ChronoJumpWindow
 				image_run_execute_photocell_icon,
 				label_run_execute_photocell_code,
 				Convert.ToInt32(spin_contacts_graph_last_limit.Value),
-				radio_contacts_graph_allTests.Active, radio_contacts_graph_allPersons.Active
-				);
+				radio_contacts_graph_allTests.Active, radio_contacts_graph_allPersons.Active,
+				webcamStatusEnumSetStart ());
 
 		if (! canCaptureC && ! wireless)
 			currentEventExecute.SimulateInitValues(rand);
@@ -6438,6 +6476,10 @@ public partial class ChronoJumpWindow
 		thisRunIsSimple = true; //used by: on_event_execute_update_graph_in_progress_clicked
 		currentEventExecute.FakeButtonUpdateGraph.Clicked += 
 			new EventHandler(on_event_execute_update_graph_in_progress_clicked);
+
+		currentEventExecute.FakeButtonCameraStopIfNeeded.Clicked -= new EventHandler (on_test_finished_stop_camera_if_needed);
+		currentEventExecute.FakeButtonCameraStopIfNeeded.Clicked += new EventHandler (on_test_finished_stop_camera_if_needed);
+
 		currentEventExecute.FakeButtonThreadDyed.Clicked += new EventHandler(on_test_finished_can_touch_gtk);
 	}
 	
@@ -6480,11 +6522,11 @@ public partial class ChronoJumpWindow
 		//since 2.2.2 graph is not updated at test end by write. is updated here to not have to readers on separated threads
 		updateGraphRunsSimple();
 
-		//stop camera (storing value or not)
-		if(currentEventExecute.Cancel || currentRun == null)
-			webcamEnd (Constants.TestTypes.RUN, -1);
-		else
-			webcamEnd (Constants.TestTypes.RUN, currentRun.UniqueID);
+		if (webcamStatusEnum == WebcamStatusEnum.STOPPED)
+		{
+			bool saved = webcamEndingSaveFile (Constants.TestTypes.RUN, currentRun.UniqueID);
+			webcamRestoreGui (saved);
+		}
 	}
 
 	/* ---------------------------------------------------------
@@ -6575,8 +6617,8 @@ public partial class ChronoJumpWindow
 				check_run_interval_with_reaction_time.Active,
 				image_run_execute_running,
 				image_run_execute_photocell_icon,
-				label_run_execute_photocell_code
-				);
+				label_run_execute_photocell_code,
+				webcamStatusEnumSetStart ());
 
 		//suitable for limited by tracks and time
 		if(! canCaptureC && ! wireless)
@@ -6597,6 +6639,10 @@ public partial class ChronoJumpWindow
 		thisRunIsSimple = false; //used by: on_event_execute_update_graph_in_progress_clicked
 		currentEventExecute.FakeButtonUpdateGraph.Clicked += 
 			new EventHandler(on_event_execute_update_graph_in_progress_clicked);
+
+		currentEventExecute.FakeButtonCameraStopIfNeeded.Clicked -= new EventHandler (on_test_finished_stop_camera_if_needed);
+		currentEventExecute.FakeButtonCameraStopIfNeeded.Clicked += new EventHandler (on_test_finished_stop_camera_if_needed);
+
 		currentEventExecute.FakeButtonThreadDyed.Clicked += new EventHandler(on_test_finished_can_touch_gtk);
 	}
 
@@ -6656,12 +6702,12 @@ public partial class ChronoJumpWindow
 		}
 		else if( currentEventExecute.ChronopicDisconnected )
 			chronopicDisconnectedWhileExecuting();
-		
-		//stop camera (storing value or not)
-		if(currentEventExecute.Cancel || currentRunInterval == null)
-			webcamEnd (Constants.TestTypes.RUN_I, -1);
-		else
-			webcamEnd (Constants.TestTypes.RUN_I, currentRunInterval.UniqueID);
+
+		if (webcamStatusEnum == WebcamStatusEnum.STOPPED)
+		{
+			bool saved = webcamEndingSaveFile (Constants.TestTypes.RUN_I, currentRunInterval.UniqueID);
+			webcamRestoreGui (saved);
+		}
 
 		//delete the temp tables if exists
 		Sqlite.DeleteTempEvents("tempRunInterval");
@@ -6812,7 +6858,9 @@ public partial class ChronoJumpWindow
 				currentSession.UniqueID, currentReactionTimeType.Name, 
 				cp2016.CP, preferences.digitsNumber,
 				preferences.volumeOn, preferences.gstreamer,
-				progressbarLimit, egd, description);
+				progressbarLimit, egd, description,
+				webcamStatusEnumSetStart ());
+
 
 		if (! canCaptureC)
 			currentEventExecute.SimulateInitValues(rand);
@@ -6831,6 +6879,10 @@ public partial class ChronoJumpWindow
 		
 		currentEventExecute.FakeButtonUpdateGraph.Clicked += 
 			new EventHandler(on_event_execute_update_graph_in_progress_clicked);
+
+		currentEventExecute.FakeButtonCameraStopIfNeeded.Clicked -= new EventHandler (on_test_finished_stop_camera_if_needed);
+		currentEventExecute.FakeButtonCameraStopIfNeeded.Clicked += new EventHandler (on_test_finished_stop_camera_if_needed);
+
 		currentEventExecute.FakeButtonThreadDyed.Clicked += new EventHandler(on_test_finished_can_touch_gtk);
 	}	
 
@@ -6902,12 +6954,11 @@ public partial class ChronoJumpWindow
 		else if( currentEventExecute.ChronopicDisconnected )
 			chronopicDisconnectedWhileExecuting();
 
-		//stop camera (storing value or not)
-		if(currentEventExecute.Cancel || currentReactionTime == null)
-			webcamEnd (Constants.TestTypes.RT, -1);
-		else
-			webcamEnd (Constants.TestTypes.RT, currentReactionTime.UniqueID);
-
+		if (webcamStatusEnum == WebcamStatusEnum.STOPPED)
+		{
+			bool saved = webcamEndingSaveFile (Constants.TestTypes.RT, currentReactionTime.UniqueID);
+			webcamRestoreGui (saved);
+		}
 	}
 
 	/* ---------------------------------------------------------
@@ -6964,7 +7015,9 @@ public partial class ChronoJumpWindow
 		currentEventExecute = new PulseExecute(currentPerson.UniqueID, currentPerson.Name, 
 				currentSession.UniqueID, currentPulseType.Name, pulseStep, totalPulses, 
 				cp2016.CP, preferences.digitsNumber,
-				preferences.volumeOn, preferences.gstreamer, egd);
+				preferences.volumeOn, preferences.gstreamer, egd,
+				webcamStatusEnumSetStart ());
+
 		
 		if(! canCaptureC)
 			currentEventExecute.SimulateInitValues(rand);
@@ -6974,6 +7027,10 @@ public partial class ChronoJumpWindow
 		
 		currentEventExecute.FakeButtonUpdateGraph.Clicked += 
 			new EventHandler(on_event_execute_update_graph_in_progress_clicked);
+
+		currentEventExecute.FakeButtonCameraStopIfNeeded.Clicked -= new EventHandler (on_test_finished_stop_camera_if_needed);
+		currentEventExecute.FakeButtonCameraStopIfNeeded.Clicked += new EventHandler (on_test_finished_stop_camera_if_needed);
+
 		currentEventExecute.FakeButtonThreadDyed.Clicked += new EventHandler(on_test_finished_can_touch_gtk);
 	}
 
@@ -7020,12 +7077,11 @@ public partial class ChronoJumpWindow
 		else if( currentEventExecute.ChronopicDisconnected )
 			chronopicDisconnectedWhileExecuting();
 
-		//stop camera (storing value or not)
-		if(currentEventExecute.Cancel || currentPulse == null)
-			webcamEnd (Constants.TestTypes.PULSE, -1);
-		else
-			webcamEnd (Constants.TestTypes.PULSE, currentPulse.UniqueID);
-
+		if (webcamStatusEnum == WebcamStatusEnum.STOPPED)
+		{
+			bool saved = webcamEndingSaveFile (Constants.TestTypes.PULSE, currentPulse.UniqueID);
+			webcamRestoreGui (saved);
+		}
 	}
 
 	/* ---------------------------------------------------------
@@ -7256,8 +7312,8 @@ public partial class ChronoJumpWindow
 				currentSession.UniqueID, currentMultiChronopicType.Name,
 				cp2016.CP, cp2016.CP2,
 				syncAvailable, extra_window_check_multichronopic_delete_first.Active,
-				extra_window_spin_run_analysis_distance.Value.ToString(), egd
-				);
+				extra_window_spin_run_analysis_distance.Value.ToString(), egd,
+				webcamStatusEnumSetStart ());
 
 		//mark to only get inside on_multi_chronopic_finished one time
 		multiFinishing = false;
@@ -7267,6 +7323,10 @@ public partial class ChronoJumpWindow
 		currentEventExecute.FakeButtonUpdateGraph.Clicked += 
 			new EventHandler(on_event_execute_update_graph_in_progress_clicked);
 //		currentEventExecute.FakeButtonRunATouchPlatform.Clicked += new EventHandler(on_event_execute_RunATouchPlatform);
+
+		currentEventExecute.FakeButtonCameraStopIfNeeded.Clicked -= new EventHandler (on_test_finished_stop_camera_if_needed);
+		currentEventExecute.FakeButtonCameraStopIfNeeded.Clicked += new EventHandler (on_test_finished_stop_camera_if_needed);
+
 		currentEventExecute.FakeButtonThreadDyed.Clicked += new EventHandler(on_test_finished_can_touch_gtk);
 	}
 
@@ -7326,11 +7386,11 @@ LogB.Debug("mc finished 5");
 			chronopicDisconnectedWhileExecuting();
 
 
-		//stop camera (storing value or not)
-		if(currentEventExecute.Cancel || currentMultiChronopic == null)
-			webcamEnd (Constants.TestTypes.MULTICHRONOPIC, -1);
-		else
-			webcamEnd (Constants.TestTypes.MULTICHRONOPIC, currentMultiChronopic.UniqueID);
+		if (webcamStatusEnum == WebcamStatusEnum.STOPPED)
+		{
+			bool saved = webcamEndingSaveFile (Constants.TestTypes.MULTICHRONOPIC, currentMultiChronopic.UniqueID);
+			webcamRestoreGui (saved);
+		}
 	}
 		
 

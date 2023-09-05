@@ -94,7 +94,7 @@ public class MultiChronopicExecute : EventExecute
 	
 	public MultiChronopicExecute(int personID, string personName, int sessionID, string type, 
 			Chronopic cp, Chronopic cp2, bool syncFirst, bool deleteFirst, string vars,
-			ExecutingGraphData egd
+			ExecutingGraphData egd, bool cameraRecording
 			) {
 		this.personID = personID;
 		this.personName = personName;
@@ -107,6 +107,7 @@ public class MultiChronopicExecute : EventExecute
 		this.deleteFirst = deleteFirst;
 		this.vars = vars;
 		this.egd = egd;
+		this.cameraRecording = cameraRecording;
 	
 		chronopics = 2; 
 		initValues();	
@@ -158,8 +159,10 @@ public class MultiChronopicExecute : EventExecute
 	}
 
 
-	private void initValues() {
+	private void initValues()
+	{
 		fakeButtonUpdateGraph = new Gtk.Button();
+		fakeButtonCameraStopIfNeeded = new Gtk.Button ();
 		fakeButtonThreadDyed = new Gtk.Button();
 		simulated = false;
 

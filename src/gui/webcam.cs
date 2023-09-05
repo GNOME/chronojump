@@ -332,38 +332,16 @@ public partial class ChronoJumpWindow
 		}
 	}
 
-	//this is like the old call that stops and saves the file
-	//now we are stopping when eg. forceSensor finish. and after copied signal file to tmp and have uniqueID, then save the file
-	//this will be deprecated
-	//currently only used on encoder and raceAnalyzer
-	public bool webcamEnd (Constants.TestTypes testType, int uniqueID)
+	public void webcamEncoderEnd ()
 	{
-		if (Constants.ModeIsENCODER (current_mode))
+		if (webcamEncoderFileStarted == WebcamEncoderFileStarted.RECORDSTARTED)
 		{
-			if (webcamEncoderFileStarted == WebcamEncoderFileStarted.RECORDSTARTED)
-			{
-				webcamManage.RecordingStop ();
-				webcamStatusEnum = WebcamStatusEnum.STOPPED;
-			}
-
-			webcamRestoreGui (! encoderProcessCancel);
-			return false;
+			webcamManage.RecordingStop ();
+			webcamStatusEnum = WebcamStatusEnum.STOPPED;
 		}
 
-		if (! webcamEndingRecordingStop ())
-		{
-			webcamRestoreGui (false);
-			return false;
-		}
-
-		while (! webcamEndingRecordingStopDo ())
-			;
-
-		bool saved = webcamEndingSaveFile (testType, uniqueID);
-		webcamRestoreGui (saved);
-		return saved;
+		webcamRestoreGui (! encoderProcessCancel);
 	}
-
 
 	private void webcamEndingRecordingCancel ()
 	{

@@ -6948,8 +6948,8 @@ public partial class ChronoJumpWindow
 
 			if(encoderProcessCancel) {
 				//stop video and will NOT be stored
-				LogB.Information("call to webcamEnd");
-				webcamEnd (Constants.TestTypes.ENCODER, -1);
+				LogB.Information("call to webcamEncoderEnd");
+				webcamEncoderEnd ();
 
 				if(compujumpAutologout != null)
 					compujumpAutologout.EndCapturingEncoder();
@@ -7051,7 +7051,7 @@ public partial class ChronoJumpWindow
 			//LogB.Information(" Cap:" + encoderThread.ThreadState.ToString());
 		} else if(capturingCsharp == encoderCaptureProcess.STOPPING) {
 			//stop video		
-			webcamEnd (Constants.TestTypes.ENCODER, -1); //this will end but file will be copied later (when we have encoderSignalUniqueID)
+			webcamEncoderEnd (); //this will end but file will be copied later (when we have encoderSignalUniqueID)
 
 			//don't allow to press cancel or finish
 			button_encoder_capture_cancel.Sensitive = false;

@@ -1630,8 +1630,8 @@ LogB.Information(" fs C ");
 			{
 				if (webcamStatusEnum == WebcamStatusEnum.RECORDING)
 				{
-					LogB.Information ("webcam will end now (gtk thread) at: " +
-							DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss.fff"));
+					//LogB.Information ("webcam will end now (gtk thread) at: " +
+					//		DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss.fff"));
 
 					webcamEndingRecordingStop ();
 

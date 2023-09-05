@@ -571,6 +571,8 @@ public partial class ChronoJumpWindow
 		button_execute_test.Sensitive = false;
 		event_execute_button_cancel.Sensitive = true;
 
+		webcamStatusEnumSetStart ();
+
 		//forceCaptureStartMark = false;
 
 		runEncoderProcessFinish = false;
@@ -631,7 +633,7 @@ public partial class ChronoJumpWindow
 	//non GTK on this method
 	private void runEncoderCaptureDo()
 	{
-RunEncoderCaptureGetSpeedAndDisplacementTest recgsdt = new RunEncoderCaptureGetSpeedAndDisplacementTest ();
+		RunEncoderCaptureGetSpeedAndDisplacementTest recgsdt = new RunEncoderCaptureGetSpeedAndDisplacementTest ();
 
 		LogB.Information("runEncoderCaptureDo 0");
 
@@ -1888,6 +1890,23 @@ RunEncoderCaptureGetSpeedAndDisplacementTest recgsdt = new RunEncoderCaptureGetS
 			button_video_play_this_test_contacts.Sensitive = false;
 			if(runEncoderProcessFinish)
 			{
+				if (webcamStatusEnum == WebcamStatusEnum.RECORDING)
+				{
+					//LogB.Information ("webcam will end now (gtk thread) at: " +
+					//		DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss.fff"));
+
+					webcamEndingRecordingStop ();
+
+					Thread.Sleep (50); //Wait
+					return true;
+				}
+				else if (webcamStatusEnum == WebcamStatusEnum.STOPPING)
+				{
+					bool success = webcamEndingRecordingStopDo ();
+					if (! success)
+						return true;
+				}
+
 				LogB.Information(" re C finish");
 				if(capturingRunEncoder != arduinoCaptureStatus.COPIED_TO_TMP)
 				{
@@ -1921,16 +1940,18 @@ RunEncoderCaptureGetSpeedAndDisplacementTest recgsdt = new RunEncoderCaptureGetS
 					if (radio_ai_2sets.Active)
 						radio_ai_cd.Sensitive = true;
 
-					//stop camera
-					if(webcamEnd (Constants.TestTypes.RACEANALYZER, currentRunEncoder.UniqueID))
+					if (webcamStatusEnum == WebcamStatusEnum.STOPPED)
 					{
-						//add the videoURL to SQL
-						currentRunEncoder.VideoURL = Util.GetVideoFileName(currentSession.UniqueID,
-								Constants.TestTypes.RACEANALYZER,
-								currentRunEncoder.UniqueID);
-						currentRunEncoder.UpdateSQL(false);
-						label_video_feedback.Text = "";
-						button_video_play_this_test_contacts.Sensitive = true;
+						bool success = webcamEndingSaveFile (Constants.TestTypes.RACEANALYZER, currentRunEncoder.UniqueID);
+						if (success)
+						{
+							//add the videoURL to SQL
+							currentRunEncoder.VideoURL = Util.GetVideoFileName(currentSession.UniqueID,
+									Constants.TestTypes.RACEANALYZER,
+									currentRunEncoder.UniqueID);
+							currentRunEncoder.UpdateSQL(false);
+						}
+						webcamRestoreGui (success);
 					}
 
 					Thread.Sleep (250); //Wait a bit to ensure is copied
@@ -1977,7 +1998,12 @@ RunEncoderCaptureGetSpeedAndDisplacementTest recgsdt = new RunEncoderCaptureGetS
 					Util.PlaySound (Constants.SoundTypes.BAD, preferences.volumeOn, preferences.gstreamer);
 
 				//stop the camera (and do not save)
-				webcamEnd (Constants.TestTypes.RACEANALYZER, -1);
+				if (webcamStatusEnum == WebcamStatusEnum.RECORDING)
+				{
+					webcamEndingRecordingCancel ();
+					webcamRestoreGui (false);
+				}
+
 				sensitiveLastTestButtons(false);
 				contactsShowCaptureDoingButtons(false);
 				button_ai_model_options_close_and_analyze.Sensitive = false;

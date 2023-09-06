@@ -23,6 +23,7 @@ using Gtk;
 //using Glade;
 using System.IO; //"File" things
 using System.Diagnostics;  //Stopwatch
+using System.Collections.Generic; //List<T>
 using System.Threading;
 using Mono.Unix;
 
@@ -889,7 +890,7 @@ public partial class ChronoJumpWindow
 
 	private void webcamPlayThreadDo ()
 	{
-		// 1) get signal total time
+		// 1) get signal total time (s)
 		double signalTotalTime = signalTotalTimeCalculate ();
 
 		// 2) get video duration
@@ -922,8 +923,8 @@ public partial class ChronoJumpWindow
 			else
 				diffVideoVsSignal = videoDuration -preferences.videoStopAfter -signalTotalTime;
 
-			//LogB.Information (string.Format ("signalTotalTime: {0}, videoDuration: {1}, diffVideoVsSignal: {2}",
-			//			signalTotalTime, videoDuration, diffVideoVsSignal));
+			LogB.Information (string.Format ("signalTotalTime: {0}, videoDuration: {1}, diffVideoVsSignal: {2}",
+						signalTotalTime, videoDuration, diffVideoVsSignal));
 		}
 
 		//unused right now
@@ -946,12 +947,13 @@ public partial class ChronoJumpWindow
 		}
 		else if (Constants.ModeIsENCODER (current_mode))
 		{
-			//TODO
+			signalTotalTime = UtilAll.DivideSafe (cairoGraphEncoderSignalPoints_l.Count, 1000); // 1 KHz
 		}
 
 		return signalTotalTime;
 	}
 
+	//TODO: use contacts or encoder widgets
 	private bool pulseWebcamPlayGTK ()
 	{
 		if (! webcamPlayThread.IsAlive)
@@ -975,7 +977,10 @@ public partial class ChronoJumpWindow
 					webcamPlay.PlayVideoGetSecond - diffVideoVsSignal);
 			*/
 
-			force_capture_drawingarea_cairo.QueueDraw ();
+			if (Constants.ModeIsFORCESENSOR (current_mode))
+				force_capture_drawingarea_cairo.QueueDraw ();
+			else if (Constants.ModeIsENCODER (current_mode))
+				encoder_capture_signal_drawingarea_cairo.QueueDraw ();
 
 			spinner_video_play_this_test_contacts.Visible = true;
 		}
@@ -1037,8 +1042,36 @@ public partial class ChronoJumpWindow
 
 	private void on_button_video_play_this_test_encoder_clicked (object o, EventArgs args)
 	{
-		playVideo(Util.GetVideoFileName(currentSession.UniqueID,
-				Constants.TestTypes.ENCODER, Convert.ToInt32(encoderSignalUniqueID)));
+		if (webcamPlay != null && webcamPlayThread != null && webcamPlayThread.IsAlive)
+			return;
+
+		if(encoderConfigurationCurrent.has_inertia)
+			eCapture = new EncoderCaptureInertial();
+		else
+			eCapture = new EncoderCaptureGravitatory();
+
+		cairoGraphEncoderSignal = null;
+		cairoGraphEncoderSignalPoints_l = new List<PointF>();
+		cairoGraphEncoderSignalInertialPoints_l = new List<PointF>();
+
+		eCapture.LoadFromFile (); //TODO: only working for grav
+		eCapture.PointsPainted = -1;
+		if(encoderConfigurationCurrent.has_inertia) {
+			updateEncoderCaptureGraphPaintData (UpdateEncoderPaintModes.INERTIAL);
+			//updateEncoderCaptureSignalCairo (true, false); //inertial, forceRedraw
+		} else {
+			updateEncoderCaptureGraphPaintData (UpdateEncoderPaintModes.GRAVITATORY);
+			//updateEncoderCaptureSignalCairo (false, false);
+		}
+		//eCapture.PointsPainted = 0;
+		//encoder_capture_signal_drawingarea_cairo.QueueDraw (); //aixo no hauria de caldre aqui pq ja es deu fer al thread de sota
+
+		// show the signal realtime cairo graph (not the R generated)
+		notebook_encoder_capture.CurrentPage = 0; //TODO: return to show the Page 1 at end
+
+		webcamPlayThread = new Thread (new ThreadStart (webcamPlayThreadDo));
+		GLib.Idle.Add (new GLib.IdleHandler (pulseWebcamPlayGTK));
+		webcamPlayThread.Start();
 	}
 
 	private void connectWidgetsWebcam (Gtk.Builder builder)

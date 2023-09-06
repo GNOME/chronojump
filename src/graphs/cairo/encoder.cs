@@ -49,14 +49,15 @@ public class CairoGraphEncoderSignal : CairoXY
 	}
 
 	// separated in two methods to ensure endGraphDisposing on any return of the other method
-	public override void DoSendingList (string font, bool isInertial,
+	public void DoSendingList (string font, bool isInertial,
 			List<PointF> points_l, List<PointF> points_l_inertial,
+			double videoPlayTimeInSeconds,
 			bool forceRedraw, PlotTypes plotType)
 	{
 		this.points_l = points_l;
 		this.points_l_inertial = points_l_inertial;
 
-		if(doSendingList (font, isInertial, forceRedraw, plotType))
+		if(doSendingList (font, isInertial, videoPlayTimeInSeconds, forceRedraw, plotType))
 			endGraphDisposing(g, surface, area.Window);
 	}
 
@@ -81,7 +82,7 @@ public class CairoGraphEncoderSignal : CairoXY
 	}
 
 	//return true if graph is inited (to dispose it)
-	private bool doSendingList (string font, bool isInertial, bool forceRedraw, PlotTypes plotType)
+	private bool doSendingList (string font, bool isInertial, double videoPlayTimeInSeconds, bool forceRedraw, PlotTypes plotType)
 	{
 //		if(doing)
 //			return false;
@@ -230,6 +231,12 @@ public class CairoGraphEncoderSignal : CairoXY
 			plotRealPoints(plotType, points_l_inertial, startAt, true); //fast
 			points_l_inertial_painted = points_l_inertial.Count;
 		}
+
+		//LogB.Information ("videoPlayTimeInSeconds", videoPlayTimeInSeconds);
+		//LogB.Information ("last points_l.X", PointF.Last (points_l).X);
+		g.MoveTo (calculatePaintX (videoPlayTimeInSeconds * 1000), topMargin);
+		g.LineTo (calculatePaintX (videoPlayTimeInSeconds * 1000), graphHeight - bottomMargin);
+		g.Stroke ();
 
 		//doing = false;
 		return true;

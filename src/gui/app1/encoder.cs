@@ -6266,8 +6266,14 @@ public partial class ChronoJumpWindow
 		if (preferences.encoderFeedbackAsteroidsActive)
 			cairoGraphEncoderSignal.PassAsteroids = asteroids;
 
+		double time = 0;
+		if (webcamPlay != null && webcamPlay.PlayVideoGetSecond > 0)
+		{
+			time = webcamPlay.PlayVideoGetSecond -diffVideoVsSignal;
+		}
+
 		cairoGraphEncoderSignal.DoSendingList (preferences.fontType.ToString(), inertial,
-				cairoGraphEncoderSignalPoints_l, cairoGraphEncoderSignalInertialPoints_l,
+				cairoGraphEncoderSignalPoints_l, cairoGraphEncoderSignalInertialPoints_l, time,
 				forceRedraw, CairoXY.PlotTypes.LINES);
 	}
 
@@ -6972,12 +6978,11 @@ public partial class ChronoJumpWindow
 			if(encoderConfigurationCurrent.has_inertia) {
 				updateEncoderCaptureGraphPaintData (UpdateEncoderPaintModes.INERTIAL);
 				//updateEncoderCaptureSignalCairo (true, false); //inertial, forceRedraw
-				encoder_capture_signal_drawingarea_cairo.QueueDraw ();
 			} else {
 				updateEncoderCaptureGraphPaintData (UpdateEncoderPaintModes.GRAVITATORY);
 				//updateEncoderCaptureSignalCairo (false, false);
-				encoder_capture_signal_drawingarea_cairo.QueueDraw ();
 			}
+			encoder_capture_signal_drawingarea_cairo.QueueDraw ();
 
 			if(needToRefreshTreeviewCapture) 
 			{

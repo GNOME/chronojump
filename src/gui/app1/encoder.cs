@@ -6126,12 +6126,16 @@ public partial class ChronoJumpWindow
 
 		if(mode == UpdateEncoderPaintModes.GRAVITATORY || mode == UpdateEncoderPaintModes.INERTIAL)
 		{
+			//TODO: check this < instead of <= does not fail on capture
 			//this applies to both
-			for(int j=0, i = eCapture.PointsPainted +1 ; i <= eCapture.PointsCaptured ; i ++, j++)
+			for(int j=0, i = eCapture.PointsPainted +1 ; i < eCapture.PointsCaptured ; i ++, j++)
+			{
 				cairoGraphEncoderSignalPoints_l.Add(eCapture.EncoderCapturePointsCairo[i]);
+			}
 
+			//TODO: check this < instead of <= does not fail on capture
 			if(mode == UpdateEncoderPaintModes.INERTIAL)
-				for(int j=0, i = eCapture.PointsPainted +1 ; i <= eCapture.PointsCaptured ; i ++, j ++)
+				for(int j=0, i = eCapture.PointsPainted +1 ; i < eCapture.PointsCaptured ; i ++, j ++)
 					cairoGraphEncoderSignalInertialPoints_l.Add(eCapture.EncoderCapturePointsInertialDiscCairo[i]);
 
 			eCapture.PointsPainted = eCapture.PointsCaptured;

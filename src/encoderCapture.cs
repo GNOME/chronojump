@@ -842,6 +842,34 @@ public abstract class EncoderCapture
 		((IDisposable)writer).Dispose();
 	}
 
+	/*
+	 * used to playVideo
+	 * we need to read Constants.EncoderDataTemp
+	 * and put as eCapture variables
+	 * in order to be able to graph it while play
+	 */
+	public void LoadFromFile ()
+	{
+		int [] encData = Util.ReadFileAsInts (UtilEncoder.GetEncoderDataTempFileName ());
+
+		EncoderCapturePointsCairo = new List<PointF>();
+		EncoderCapturePointsInertialDiscCairo = new List<PointF>();
+		PointsCaptured = encData.Length;
+		PointsPainted = 0;
+
+		for (i = 0; i < encData.Length; i ++)
+		{
+			if (encData[i] >= 0)
+				sum += encData[i] -48; //48 is 0 in ASCII
+			else 	// -49 -> 49-48 -> 1 -> -1
+				sum += -1 * (Math.Abs (encData[i]) - 48);
+
+			//TODO: on inertial is different
+
+			assignEncoderCapturePoints (true); //cairoHorizontal (TODO: do it also on vertical)
+		}
+	}
+
 	public void SaveTriggers(int signalID)
 	{
 		triggerList.SQLInsert(signalID);

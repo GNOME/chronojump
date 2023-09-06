@@ -889,30 +889,67 @@ public partial class ChronoJumpWindow
 
 	private void webcamPlayThreadDo ()
 	{
-		double forceTotalTime = 0;
-		if (fsAI_AB != null)
-			forceTotalTime = UtilAll.DivideSafe (PointF.Last (fsAI_AB.P_l).X, 1000000);
+		// 1) get signal total time
+		double signalTotalTime = signalTotalTimeCalculate ();
+
+		// 2) get video duration
+		int sessionID = currentSession.UniqueID;
+		Constants.TestTypes testType = Constants.TestTypes.FORCESENSOR;
+		int id = -1;
+
+		if (Constants.ModeIsFORCESENSOR (current_mode))
+		{
+			testType = Constants.TestTypes.FORCESENSOR;
+			id = currentForceSensor.UniqueID;
+		}
+		else if(Constants.ModeIsENCODER (current_mode))
+		{
+			testType = Constants.TestTypes.ENCODER;
+			id = Convert.ToInt32 (encoderSignalUniqueID);
+		}
 
 		webcamPlay = new WebcamFfmpeg (Webcam.Action.PLAYFILE, UtilAll.GetOSEnum(), "", "", "", "");
-		double videoTotalTime = webcamPlay.FindVideoDuration (
-				Util.GetVideoFileName(currentSession.UniqueID, Constants.TestTypes.FORCESENSOR, currentForceSensor.UniqueID));
-		if (videoTotalTime < 0)
+		double videoDuration = webcamPlay.FindVideoDuration (Util.GetVideoFileName (sessionID, testType, id));
+
+		// 3) get diff video vs signal
+		if (videoDuration < 0)
 		{
 			new DialogMessage (Constants.MessageTypes.WARNING, Webcam.ProgramFfprobeNotInstalled);
 			diffVideoVsSignal = 0;
 		} else {
-			diffVideoVsSignal = videoTotalTime -preferences.videoStopAfter -forceTotalTime;
-			LogB.Information (string.Format ("forceTotalTime: {0}, videoTotalTime: {1}, diffVideoVsSignal: {2}",
-						forceTotalTime, videoTotalTime, diffVideoVsSignal));
+			if (Constants.ModeIsENCODER (current_mode)) //encoder video capture ends at signal end
+				diffVideoVsSignal = videoDuration -signalTotalTime;
+			else
+				diffVideoVsSignal = videoDuration -preferences.videoStopAfter -signalTotalTime;
+
+			//LogB.Information (string.Format ("signalTotalTime: {0}, videoDuration: {1}, diffVideoVsSignal: {2}",
+			//			signalTotalTime, videoDuration, diffVideoVsSignal));
 		}
 
-		videoFrames = webcamPlay.FindVideoFrames (
-				Util.GetVideoFileName (currentSession.UniqueID, Constants.TestTypes.FORCESENSOR, currentForceSensor.UniqueID));
+		//unused right now
+		//videoFrames = webcamPlay.FindVideoFrames (Util.GetVideoFileName (sessionID, testType, id));
 		//LogB.Information ("videoFrames", videoFrames);
 
-		if (playVideo(Util.GetVideoFileName(currentSession.UniqueID, Constants.TestTypes.FORCESENSOR, currentForceSensor.UniqueID)))
+		// 4) play video
+		if (playVideo (Util.GetVideoFileName (sessionID, testType, id)))
 			do {
 			} while (webcamPlay != null && webcamPlay.PlayVideoGetSecond >= 0);
+	}
+
+	private double signalTotalTimeCalculate ()
+	{
+		double signalTotalTime = 0;
+		if (Constants.ModeIsFORCESENSOR (current_mode))
+		{
+			if (fsAI_AB != null)
+				signalTotalTime = UtilAll.DivideSafe (PointF.Last (fsAI_AB.P_l).X, 1000000);
+		}
+		else if (Constants.ModeIsENCODER (current_mode))
+		{
+			//TODO
+		}
+
+		return signalTotalTime;
 	}
 
 	private bool pulseWebcamPlayGTK ()

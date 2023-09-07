@@ -848,7 +848,7 @@ public abstract class EncoderCapture
 	 * and put as eCapture variables
 	 * in order to be able to graph it while play
 	 */
-	public void LoadFromFile (bool cairoHorizontal)
+	public void LoadFromFile (bool inertial, bool cairoHorizontal)
 	{
 		int [] encData = Util.ReadFileAsInts (UtilEncoder.GetEncoderDataTempFileName ());
 
@@ -859,12 +859,21 @@ public abstract class EncoderCapture
 
 		for (i = 0; i < encData.Length; i ++)
 		{
+			int b;
 			if (encData[i] >= 0)
-				sum += encData[i] -48; //48 is 0 in ASCII
+				b = encData[i] -48; //48 is 0 in ASCII
 			else 	// -49 -> 49-48 -> 1 -> -1
-				sum += -1 * (Math.Abs (encData[i]) - 48);
+				b = -1 * (Math.Abs (encData[i]) - 48);
 
-			//TODO: on inertial is different
+			if (inertial)
+			{
+				sumInertialDisc += b;
+				//int sumOld = sum;
+				sum = - Math.Abs (sumInertialDisc);
+				//byteReaded = sum - sumOld;
+			} else {
+				sum += b;
+			}
 
 			assignEncoderCapturePoints (cairoHorizontal);
 		}

@@ -95,7 +95,11 @@ public class CairoGraphEncoderSignal : CairoXY
 			maxValuesChanged = findPointMaximums(false, points_l);
 			if(isInertial && points_l_inertial != null)
 			{
+				double minYperson = minY;
 				bool maxValuesChangedInertial = findPointMaximums(false, points_l_inertial);
+				if (minYperson < minY)
+					minY = minYperson;
+
 				if(! maxValuesChanged && maxValuesChangedInertial)
 					maxValuesChanged = true;
 			}

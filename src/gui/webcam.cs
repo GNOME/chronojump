@@ -910,7 +910,7 @@ public partial class ChronoJumpWindow
 		cairoGraphEncoderSignalPoints_l = new List<PointF>();
 		cairoGraphEncoderSignalInertialPoints_l = new List<PointF>();
 
-		eCapture.LoadFromFile (); //TODO: only working for grav
+		eCapture.LoadFromFile (preferences.signalDirectionHorizontal); //TODO: only working for grav
 		eCapture.PointsPainted = -1;
 		if(encoderConfigurationCurrent.has_inertia) {
 			updateEncoderCaptureGraphPaintData (UpdateEncoderPaintModes.INERTIAL);

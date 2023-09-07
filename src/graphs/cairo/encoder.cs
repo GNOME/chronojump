@@ -232,11 +232,20 @@ public class CairoGraphEncoderSignal : CairoXY
 			points_l_inertial_painted = points_l_inertial.Count;
 		}
 
-		//LogB.Information ("videoPlayTimeInSeconds", videoPlayTimeInSeconds);
-		//LogB.Information ("last points_l.X", PointF.Last (points_l).X);
-		g.MoveTo (calculatePaintX (videoPlayTimeInSeconds * 1000), topMargin);
-		g.LineTo (calculatePaintX (videoPlayTimeInSeconds * 1000), graphHeight - bottomMargin);
-		g.Stroke ();
+		if (videoPlayTimeInSeconds > 0)
+		{
+			//LogB.Information ("videoPlayTimeInSeconds", videoPlayTimeInSeconds);
+			//LogB.Information ("last points_l.X", PointF.Last (points_l).X);
+			if (horizontal)
+			{
+				g.MoveTo (calculatePaintX (videoPlayTimeInSeconds * 1000), topMargin);
+				g.LineTo (calculatePaintX (videoPlayTimeInSeconds * 1000), graphHeight - bottomMargin);
+			} else {
+				g.MoveTo (leftMargin, calculatePaintY (videoPlayTimeInSeconds * 1000));
+				g.LineTo (graphWidth - rightMargin, calculatePaintY (videoPlayTimeInSeconds * 1000));
+			}
+			g.Stroke ();
+		}
 
 		//doing = false;
 		return true;

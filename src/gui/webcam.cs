@@ -59,6 +59,7 @@ public partial class ChronoJumpWindow
 	Gtk.Button button_video_play_this_test_contacts;
 	Gtk.Button button_video_play_this_test_encoder;
 	Gtk.Spinner spinner_video_play_this_test_contacts;
+	Gtk.Spinner spinner_video_play_this_test_encoder;
 	Gtk.ProgressBar pulsebar_webcam;
 	// <---- at glade
 
@@ -828,6 +829,7 @@ public partial class ChronoJumpWindow
 				if (webcamPlay != null && webcamPlayThread != null && webcamPlayThread.IsAlive)
 					return;
 
+				// widgets changes
 				checkbutton_video_contacts.Visible = false;
 				button_video_play_this_test_contacts.Visible = false;
 				spinner_video_play_this_test_contacts.Visible = true;
@@ -886,6 +888,46 @@ public partial class ChronoJumpWindow
 		}
 
 		playVideo(Util.GetVideoFileName(currentSession.UniqueID, type, id));
+	}
+
+	private void on_button_video_play_this_test_encoder_clicked (object o, EventArgs args)
+	{
+		if (webcamPlay != null && webcamPlayThread != null && webcamPlayThread.IsAlive)
+			return;
+
+		// widgets changes
+		checkbutton_video_encoder.Visible = false;
+		button_video_play_this_test_encoder.Visible = false;
+		spinner_video_play_this_test_encoder.Visible = true;
+		spinner_video_play_this_test_encoder.Start ();
+
+		if(encoderConfigurationCurrent.has_inertia)
+			eCapture = new EncoderCaptureInertial();
+		else
+			eCapture = new EncoderCaptureGravitatory();
+
+		cairoGraphEncoderSignal = null;
+		cairoGraphEncoderSignalPoints_l = new List<PointF>();
+		cairoGraphEncoderSignalInertialPoints_l = new List<PointF>();
+
+		eCapture.LoadFromFile (); //TODO: only working for grav
+		eCapture.PointsPainted = -1;
+		if(encoderConfigurationCurrent.has_inertia) {
+			updateEncoderCaptureGraphPaintData (UpdateEncoderPaintModes.INERTIAL);
+			//updateEncoderCaptureSignalCairo (true, false); //inertial, forceRedraw
+		} else {
+			updateEncoderCaptureGraphPaintData (UpdateEncoderPaintModes.GRAVITATORY);
+			//updateEncoderCaptureSignalCairo (false, false);
+		}
+		//eCapture.PointsPainted = 0;
+		//encoder_capture_signal_drawingarea_cairo.QueueDraw (); //aixo no hauria de caldre aqui pq ja es deu fer al thread de sota
+
+		// show the signal realtime cairo graph (not the R generated)
+		notebook_encoder_capture.CurrentPage = 0; //TODO: return to show the Page 1 at end
+
+		webcamPlayThread = new Thread (new ThreadStart (webcamPlayThreadDo));
+		GLib.Idle.Add (new GLib.IdleHandler (pulseWebcamPlayGTK));
+		webcamPlayThread.Start();
 	}
 
 	private void webcamPlayThreadDo ()
@@ -958,18 +1000,30 @@ public partial class ChronoJumpWindow
 	{
 		if (! webcamPlayThread.IsAlive)
 		{
-			checkbutton_video_contacts.Visible = true;
-			button_video_play_this_test_contacts.Visible = true;
-			spinner_video_play_this_test_contacts.Stop ();
-			spinner_video_play_this_test_contacts.Visible = false;
+			if (Constants.ModeIsENCODER (current_mode)) {
+				checkbutton_video_encoder.Visible = true;
+				button_video_play_this_test_encoder.Visible = true;
+				spinner_video_play_this_test_encoder.Stop ();
+				spinner_video_play_this_test_encoder.Visible = false;
+			} else {
+			}
+				checkbutton_video_contacts.Visible = true;
+				button_video_play_this_test_contacts.Visible = true;
+				spinner_video_play_this_test_contacts.Stop ();
+				spinner_video_play_this_test_contacts.Visible = false;
 
 			return false;
 		}
 
 		if (webcamPlay != null && webcamPlay.PlayVideoGetSecond > 0)
 		{
-			spinner_video_play_this_test_contacts.Stop ();
-			spinner_video_play_this_test_contacts.Visible = false;
+			if (Constants.ModeIsENCODER (current_mode)) {
+				spinner_video_play_this_test_encoder.Stop ();
+				spinner_video_play_this_test_encoder.Visible = false;
+			} else {
+				spinner_video_play_this_test_contacts.Stop ();
+				spinner_video_play_this_test_contacts.Visible = false;
+			}
 
 			/*
 			event_execute_label_message.Text = string.Format ("video s: {0} force s: {1}",
@@ -1040,40 +1094,6 @@ public partial class ChronoJumpWindow
 						myTreeViewMultiChronopic.EventSelectedID));
 	}
 
-	private void on_button_video_play_this_test_encoder_clicked (object o, EventArgs args)
-	{
-		if (webcamPlay != null && webcamPlayThread != null && webcamPlayThread.IsAlive)
-			return;
-
-		if(encoderConfigurationCurrent.has_inertia)
-			eCapture = new EncoderCaptureInertial();
-		else
-			eCapture = new EncoderCaptureGravitatory();
-
-		cairoGraphEncoderSignal = null;
-		cairoGraphEncoderSignalPoints_l = new List<PointF>();
-		cairoGraphEncoderSignalInertialPoints_l = new List<PointF>();
-
-		eCapture.LoadFromFile (); //TODO: only working for grav
-		eCapture.PointsPainted = -1;
-		if(encoderConfigurationCurrent.has_inertia) {
-			updateEncoderCaptureGraphPaintData (UpdateEncoderPaintModes.INERTIAL);
-			//updateEncoderCaptureSignalCairo (true, false); //inertial, forceRedraw
-		} else {
-			updateEncoderCaptureGraphPaintData (UpdateEncoderPaintModes.GRAVITATORY);
-			//updateEncoderCaptureSignalCairo (false, false);
-		}
-		//eCapture.PointsPainted = 0;
-		//encoder_capture_signal_drawingarea_cairo.QueueDraw (); //aixo no hauria de caldre aqui pq ja es deu fer al thread de sota
-
-		// show the signal realtime cairo graph (not the R generated)
-		notebook_encoder_capture.CurrentPage = 0; //TODO: return to show the Page 1 at end
-
-		webcamPlayThread = new Thread (new ThreadStart (webcamPlayThreadDo));
-		GLib.Idle.Add (new GLib.IdleHandler (pulseWebcamPlayGTK));
-		webcamPlayThread.Start();
-	}
-
 	private void connectWidgetsWebcam (Gtk.Builder builder)
 	{
 		//notebook_last_test_buttons = (Gtk.Notebook) builder.GetObject ("notebook_last_test_buttons"); page1: delete, play, inspect, page2: progressbar_video_generating
@@ -1105,6 +1125,7 @@ public partial class ChronoJumpWindow
 		button_video_play_this_test_contacts = (Gtk.Button) builder.GetObject ("button_video_play_this_test_contacts");
 		button_video_play_this_test_encoder = (Gtk.Button) builder.GetObject ("button_video_play_this_test_encoder");
 		spinner_video_play_this_test_contacts = (Gtk.Spinner) builder.GetObject ("spinner_video_play_this_test_contacts");
+		spinner_video_play_this_test_encoder = (Gtk.Spinner) builder.GetObject ("spinner_video_play_this_test_encoder");
 		pulsebar_webcam = (Gtk.ProgressBar) builder.GetObject ("pulsebar_webcam");
 	}
 }

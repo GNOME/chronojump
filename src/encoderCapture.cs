@@ -848,7 +848,7 @@ public abstract class EncoderCapture
 	 * and put as eCapture variables
 	 * in order to be able to graph it while play
 	 */
-	public void LoadFromFile ()
+	public void LoadFromFile (bool cairoHorizontal)
 	{
 		int [] encData = Util.ReadFileAsInts (UtilEncoder.GetEncoderDataTempFileName ());
 
@@ -866,7 +866,7 @@ public abstract class EncoderCapture
 
 			//TODO: on inertial is different
 
-			assignEncoderCapturePoints (true); //cairoHorizontal (TODO: do it also on vertical)
+			assignEncoderCapturePoints (cairoHorizontal);
 		}
 	}
 

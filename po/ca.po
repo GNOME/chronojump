@@ -65,7 +65,7 @@ msgstr "Darrers productes"
 
 #: ../glade/app1.glade.h:9
 msgid "Exit"
-msgstr "Sortir"
+msgstr "Surt"
 
 #: ../glade/app1.glade.h:10 ../src/exportSession.cs:904
 #: ../src/treeview/multiChronopic.cs:57 ../src/treeview/multiChronopic.cs:65
@@ -3735,7 +3735,7 @@ msgstr "Mostrar les repeticions"
 
 #: ../glade/force_sensor_exercise.glade.h:28
 msgid "Show only the phase in which the force increases"
-msgstr "Mostrar només la fase en que augmenta la força"
+msgstr "Mostrar només la fase en què augmenta la força"
 
 #: ../glade/force_sensor_exercise.glade.h:29
 msgid "Show both phases"
@@ -4464,7 +4464,7 @@ msgstr "Comportament quan el senyal arribi a la dreta de la pantalla"
 
 #: ../glade/preferences_win.glade.h:102
 msgid "Scroll"
-msgstr "Desplaçament continuu"
+msgstr "Desplaçament continu"
 
 #: ../glade/preferences_win.glade.h:103
 msgid "Zoom out"
@@ -5099,7 +5099,7 @@ msgstr ""
 #: ../src/chronojumpImporter.cs:188
 #, csharp-format
 msgid "Cannot copy files from {0} to {1}"
-msgstr "No es poden copiar els arxius des de {0} a {1}."
+msgstr "No es poden copiar els arxius des de {0} a {1}"
 
 #: ../src/chronojumpImporter.cs:242
 msgid ""
@@ -5299,7 +5299,7 @@ msgid ""
 "restricting connections"
 msgstr ""
 "O potser el vostre ordinador no està connectat a Internet, o hi ha un "
-"firewall restringint les connexions"
+"tallafoc restringint les connexions"
 
 #: ../src/constants.cs:320
 msgid "Your software is updated!"
@@ -6620,14 +6620,14 @@ msgstr "Exercicis de força elàstica mesurats per un sensor de força"
 #: ../src/gui/app1/chronojump.cs:4506
 msgid "Speed/power exercises displacing weights measured by an encoder"
 msgstr ""
-"Exercicis de desplaçament de pesos en que es mesura la velocitat/potència "
+"Exercicis de desplaçament de pesos en què es mesura la velocitat/potència "
 "mitjançant un encoder"
 
 #: ../src/gui/app1/chronojump.cs:4512
 msgid ""
 "Speed/power exercises rotating an inertial machine and measured by an encoder"
 msgstr ""
-"Exercicis de rotació d'una màquina inercial en que es mesura la velocitat/"
+"Exercicis de rotació d'una màquina inercial en què es mesura la velocitat/"
 "potència mitjançant un encoder"
 
 #: ../src/gui/app1/chronojump.cs:4707
@@ -7405,7 +7405,7 @@ msgstr "Angle predeterminat per aquest exercici."
 
 #: ../src/gui/app1/runEncoder.cs:2143
 msgid "90 means go vertically up."
-msgstr "90 vol dir vertical cap amunt"
+msgstr "90 vol dir vertical cap amunt."
 
 #: ../src/gui/app1/runEncoder.cs:2144
 msgid "-90 means go vertically down."
@@ -8314,7 +8314,7 @@ msgid ""
 msgstr ""
 "Test d'isquiotibials on el taló de la persona està suspès en una cingla "
 "lligada al sensor. El pes de la cama afecta la mesura de la força transmesa "
-"al sensor però aquesta no és una força realitzada per el subjecte."
+"al sensor però aquesta no és una força realitzada pel subjecte."
 
 #: ../src/gui/forceSensorExercise.cs:477
 msgid ""
@@ -8889,7 +8889,7 @@ msgid ""
 "CMJ, ABK), then heights will be shown."
 msgstr ""
 "Però tingui en compte que si es mostren salts reactius barrejats amb "
-"d'altres salts (com el CMJ o el ABK), aleshores es mostraran les altures."
+"altres salts (com el CMJ o el ABK), aleshores es mostraran les altures."
 
 #: ../src/gui/preferences.cs:1046
 msgid "If active, repetitions will be cut from set using triggers."

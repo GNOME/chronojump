@@ -102,6 +102,14 @@ public class Micro
 		port.WriteLine (command);
 	}
 
+	/*
+	 * this does not work
+	public void WriteCancel ()
+	{
+		port.DiscardOutBuffer();
+	}
+	*/
+
 	public override string ToString ()
 	{
 		return string.Format ("portName: {0}, bauds: {1}", portName, bauds);
@@ -202,11 +210,13 @@ public abstract class MicroComms
 
 			success = waitResponse (responseExpected_l, cleanAllZeros, waitLimitMs);
 			count ++;
+			if (count >= times)
+				break;
 
 			if(! success)
 				Thread.Sleep(100);
 
-		} while(! (success || count >= times) );
+		} while (! success);
 
 		return success;
 	}
@@ -669,7 +679,7 @@ public class MicroDiscover : MicroComms
 					micro.ClosePort ();
 					micro.Bauds = 115200;
 					LogB.Information("connectAndSleep again");
-					if(connectAndSleep ())
+					if (! micro.PortName.ToLower().Contains("acm") && connectAndSleep ())
 					{
 						LogB.Information("calling discoverWichro");
 						success = discoverWichro ();
@@ -1046,6 +1056,13 @@ public class MicroDiscover : MicroComms
 
 		flush(); //empty the port for future use
 		return success;
+	}
+	*/
+
+	/* does not work
+	public void CancelWrite ()
+	{
+		micro.WriteCancel ();
 	}
 	*/
 

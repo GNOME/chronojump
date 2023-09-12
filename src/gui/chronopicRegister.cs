@@ -533,8 +533,10 @@ public class DiscoverWindow
 	public void CancelCloseFromUser ()
 	{
 		if (discoverThread != null && discoverThread.IsAlive && microDiscover != null)
+		{
 			microDiscover.Cancel = true;
-		else
+			//microDiscover.CancelWrite (); //does not work
+		} else
 			FakeButtonClose.Click ();
 	}
 

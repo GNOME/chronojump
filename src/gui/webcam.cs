@@ -269,69 +269,66 @@ public partial class ChronoJumpWindow
 			button_video_play_this_test_encoder.Sensitive = s; //TODO:jugar amb la sensitivitat de aixo quan hi ha o no signalUniqueID 
 	}
 
-	/*
-	 * in the past we pass here an string, and an option was ALL
-	 * now we use Modes an UNDEFINED will work as ALL
-	 */
-	private void button_video_play_selected_test(Constants.Modes m)
+	private void button_video_play_selected_test (Constants.Modes m)
 	{
-		if(m == Constants.Modes.JUMPSSIMPLE || m == Constants.Modes.UNDEFINED)
-			button_video_play_selected_jump.Sensitive =
+		if (m == Constants.Modes.JUMPSSIMPLE)
+			button_video_play_this_test_contacts.Sensitive =
 				(myTreeViewJumps.EventSelectedID > 0 &&
 				 File.Exists(Util.GetVideoFileName(
 						 currentSession.UniqueID,
 						 Constants.TestTypes.JUMP,
 						 myTreeViewJumps.EventSelectedID)));
 
-		if(m == Constants.Modes.JUMPSREACTIVE || m == Constants.Modes.UNDEFINED)
-			button_video_play_selected_jump_rj.Sensitive =
+		else if (m == Constants.Modes.JUMPSREACTIVE)
+			button_video_play_this_test_contacts.Sensitive =
 				(myTreeViewJumpsRj.EventSelectedID > 0
 				 && File.Exists(Util.GetVideoFileName(
 						 currentSession.UniqueID,
 						 Constants.TestTypes.JUMP_RJ,
 						 myTreeViewJumpsRj.EventSelectedID)));
 
-		if(m == Constants.Modes.RUNSSIMPLE || m == Constants.Modes.UNDEFINED)
-			button_video_play_selected_run.Sensitive =
+		else if (m == Constants.Modes.RUNSSIMPLE)
+			button_video_play_this_test_contacts.Sensitive =
 				(myTreeViewRuns.EventSelectedID > 0 &&
 				 File.Exists(Util.GetVideoFileName(
 						 currentSession.UniqueID,
 						 Constants.TestTypes.RUN,
 						 myTreeViewRuns.EventSelectedID)));
 
-		if(m == Constants.Modes.RUNSINTERVALLIC || m == Constants.Modes.UNDEFINED)
-			button_video_play_selected_run_interval.Sensitive =
+		else if (m == Constants.Modes.RUNSINTERVALLIC)
+			button_video_play_this_test_contacts.Sensitive =
 				(myTreeViewRunsInterval.EventSelectedID > 0
 				 && File.Exists(Util.GetVideoFileName(
 						 currentSession.UniqueID,
 						 Constants.TestTypes.RUN_I,
 						 myTreeViewRunsInterval.EventSelectedID)));
 
-
-		if(m == Constants.Modes.RT || m == Constants.Modes.UNDEFINED)
-			button_video_play_selected_reaction_time.Sensitive =
+		/* unused
+		else if (m == Constants.Modes.RT)
+			button_video_play_this_test_contacts.Sensitive =
 				(myTreeViewReactionTimes.EventSelectedID > 0 &&
 				 File.Exists(Util.GetVideoFileName(
 						 currentSession.UniqueID,
 						 Constants.TestTypes.RT,
 						 myTreeViewReactionTimes.EventSelectedID)));
 
-		if(m == Constants.Modes.OTHER || m == Constants.Modes.UNDEFINED)
+		else if (m == Constants.Modes.OTHER)
 		{
-			button_video_play_selected_pulse.Sensitive =
+			button_video_play_this_test_contacts.Sensitive =
 				(myTreeViewPulses.EventSelectedID > 0 &&
 				 File.Exists(Util.GetVideoFileName(
 						 currentSession.UniqueID,
 						 Constants.TestTypes.PULSE,
 						 myTreeViewPulses.EventSelectedID)));
 
-			button_video_play_selected_multi_chronopic.Sensitive =
+			button_video_play_this_test_contacts.Sensitive =
 				(myTreeViewMultiChronopic.EventSelectedID > 0
 				 && File.Exists(Util.GetVideoFileName(
 						 currentSession.UniqueID,
 						 Constants.TestTypes.MULTICHRONOPIC,
 						 myTreeViewMultiChronopic.EventSelectedID)));
 		}
+		*/
 	}
 
 	public void webcamEncoderEnd ()
@@ -854,37 +851,21 @@ public partial class ChronoJumpWindow
 
 		Constants.TestTypes type = Constants.TestTypes.JUMP;
 		int id = 0;
-		switch (currentEventType.Type) {
-			case EventType.Types.JUMP:
-				if(lastJumpIsSimple) {
-					type = Constants.TestTypes.JUMP;
-					id = currentJump.UniqueID;
-				}
-				else {
-					type = Constants.TestTypes.JUMP_RJ;
-					id = currentJumpRj.UniqueID;
-				} break;
-			case EventType.Types.RUN:
-				if(lastRunIsSimple) {
-					type = Constants.TestTypes.RUN;
-					id = currentRun.UniqueID;
-				} else {
-					type = Constants.TestTypes.RUN_I;
-					id = currentRunInterval.UniqueID;
-				}
-				break;
-			case EventType.Types.PULSE:
-				type = Constants.TestTypes.PULSE;
-				id = currentPulse.UniqueID;
-				break;
-			case EventType.Types.REACTIONTIME:
-				type = Constants.TestTypes.RT;
-				id = currentReactionTime.UniqueID;
-				break;
-			case EventType.Types.MULTICHRONOPIC:
-				type = Constants.TestTypes.MULTICHRONOPIC;
-				id = currentMultiChronopic.UniqueID;
-				break;
+		if (current_mode == Constants.Modes.JUMPSSIMPLE) {
+			type = Constants.TestTypes.JUMP;
+			id = myTreeViewJumps.EventSelectedID;
+		}
+		else if (current_mode == Constants.Modes.JUMPSREACTIVE) {
+			type = Constants.TestTypes.JUMP_RJ;
+			id = myTreeViewJumpsRj.EventSelectedID;
+		}
+		else if (current_mode == Constants.Modes.RUNSSIMPLE) {
+			type = Constants.TestTypes.RUN;
+			id = myTreeViewRuns.EventSelectedID;
+		}
+		else if (current_mode == Constants.Modes.RUNSINTERVALLIC) {
+			type = Constants.TestTypes.RUN_I;
+			id = myTreeViewRunsInterval.EventSelectedID;
 		}
 
 		playVideo(Util.GetVideoFileName(currentSession.UniqueID, type, id));

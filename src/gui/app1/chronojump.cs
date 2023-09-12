@@ -274,10 +274,8 @@ public partial class ChronoJumpWindow
 
 	//jumps
 	Gtk.Button button_edit_selected_jump;
-	Gtk.Button button_video_play_selected_jump;
 	Gtk.Button button_delete_selected_jump;
 	Gtk.Button button_edit_selected_jump_rj;
-	Gtk.Button button_video_play_selected_jump_rj;
 	Gtk.Button button_delete_selected_jump_rj;
 	Gtk.Button button_repair_selected_jump_rj;
 
@@ -287,10 +285,8 @@ public partial class ChronoJumpWindow
 
 	//runs
 	Gtk.Button button_edit_selected_run;
-	Gtk.Button button_video_play_selected_run;
 	Gtk.Button button_delete_selected_run;
 	Gtk.Button button_edit_selected_run_interval;
-	Gtk.Button button_video_play_selected_run_interval;
 	Gtk.Button button_delete_selected_run_interval;
 	Gtk.Button button_repair_selected_run_interval;
 
@@ -298,7 +294,6 @@ public partial class ChronoJumpWindow
 	//other
 	//reaction time
 	Gtk.Button button_edit_selected_reaction_time;
-	Gtk.Button button_video_play_selected_reaction_time;
 	Gtk.Button button_delete_selected_reaction_time;
 	Gtk.SpinButton spinbutton_animation_lights_speed;
 	Gtk.SpinButton spinbutton_flicker_lights_speed;
@@ -311,7 +306,6 @@ public partial class ChronoJumpWindow
 
 	//pulse
 	Gtk.Button button_edit_selected_pulse;
-	Gtk.Button button_video_play_selected_pulse;
 	Gtk.Button button_delete_selected_pulse;
 	Gtk.Button button_repair_selected_pulse;
 
@@ -347,7 +341,6 @@ public partial class ChronoJumpWindow
 
 	//multiChronopic	
 	Gtk.Button button_edit_selected_multi_chronopic;
-	Gtk.Button button_video_play_selected_multi_chronopic;
 	Gtk.Button button_delete_selected_multi_chronopic;
 //	Gtk.Box hbox_multi_chronopic_buttons;
 //	Gtk.Button button_multi_chronopic_start;
@@ -5149,7 +5142,6 @@ public partial class ChronoJumpWindow
 			return;
 		}
 
-
 		LogB.Information("finish clicked one");
 
 		event_execute_ButtonFinish.Clicked -= new EventHandler(on_finish_clicked);
@@ -9921,7 +9913,7 @@ LogB.Debug("mc finished 5");
 			
 		} 
 
-		button_video_play_selected_test(current_mode);
+		button_video_play_selected_test (current_mode);
 		//LogB.Information("recordedVideo = " + recordedVideo.ToString());
 	}
 	
@@ -10182,10 +10174,8 @@ LogB.Debug("mc finished 5");
 
 		//jumps
 		button_edit_selected_jump = (Gtk.Button) builder.GetObject ("button_edit_selected_jump");
-		button_video_play_selected_jump = (Gtk.Button) builder.GetObject ("button_video_play_selected_jump");
 		button_delete_selected_jump = (Gtk.Button) builder.GetObject ("button_delete_selected_jump");
 		button_edit_selected_jump_rj = (Gtk.Button) builder.GetObject ("button_edit_selected_jump_rj");
-		button_video_play_selected_jump_rj = (Gtk.Button) builder.GetObject ("button_video_play_selected_jump_rj");
 		button_delete_selected_jump_rj = (Gtk.Button) builder.GetObject ("button_delete_selected_jump_rj");
 		button_repair_selected_jump_rj = (Gtk.Button) builder.GetObject ("button_repair_selected_jump_rj");
 
@@ -10195,10 +10185,8 @@ LogB.Debug("mc finished 5");
 
 		//runs
 		button_edit_selected_run = (Gtk.Button) builder.GetObject ("button_edit_selected_run");
-		button_video_play_selected_run = (Gtk.Button) builder.GetObject ("button_video_play_selected_run");
 		button_delete_selected_run = (Gtk.Button) builder.GetObject ("button_delete_selected_run");
 		button_edit_selected_run_interval = (Gtk.Button) builder.GetObject ("button_edit_selected_run_interval");
-		button_video_play_selected_run_interval = (Gtk.Button) builder.GetObject ("button_video_play_selected_run_interval");
 		button_delete_selected_run_interval = (Gtk.Button) builder.GetObject ("button_delete_selected_run_interval");
 		button_repair_selected_run_interval = (Gtk.Button) builder.GetObject ("button_repair_selected_run_interval");
 
@@ -10206,7 +10194,6 @@ LogB.Debug("mc finished 5");
 		//other
 		//reaction time
 		button_edit_selected_reaction_time = (Gtk.Button) builder.GetObject ("button_edit_selected_reaction_time");
-		button_video_play_selected_reaction_time = (Gtk.Button) builder.GetObject ("button_video_play_selected_reaction_time");
 		button_delete_selected_reaction_time = (Gtk.Button) builder.GetObject ("button_delete_selected_reaction_time");
 		spinbutton_animation_lights_speed = (Gtk.SpinButton) builder.GetObject ("spinbutton_animation_lights_speed");
 		spinbutton_flicker_lights_speed = (Gtk.SpinButton) builder.GetObject ("spinbutton_flicker_lights_speed");
@@ -10219,7 +10206,6 @@ LogB.Debug("mc finished 5");
 
 		//pulse
 		button_edit_selected_pulse = (Gtk.Button) builder.GetObject ("button_edit_selected_pulse");
-		button_video_play_selected_pulse = (Gtk.Button) builder.GetObject ("button_video_play_selected_pulse");
 		button_delete_selected_pulse = (Gtk.Button) builder.GetObject ("button_delete_selected_pulse");
 		button_repair_selected_pulse = (Gtk.Button) builder.GetObject ("button_repair_selected_pulse");
 
@@ -10255,7 +10241,6 @@ LogB.Debug("mc finished 5");
 
 		//multiChronopic	
 		button_edit_selected_multi_chronopic = (Gtk.Button) builder.GetObject ("button_edit_selected_multi_chronopic");
-		button_video_play_selected_multi_chronopic = (Gtk.Button) builder.GetObject ("button_video_play_selected_multi_chronopic");
 		button_delete_selected_multi_chronopic = (Gtk.Button) builder.GetObject ("button_delete_selected_multi_chronopic");
 		//	hbox_multi_chronopic_buttons = (Gtk.Box) builder.GetObject ("hbox_multi_chronopic_buttons");
 		//	button_multi_chronopic_start = (Gtk.Button) builder.GetObject ("button_multi_chronopic_start");

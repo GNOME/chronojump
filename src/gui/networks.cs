@@ -560,27 +560,24 @@ public partial class ChronoJumpWindow
 		button_delete_last_test.Visible = ! guest;
 
 		button_contacts_bells.Visible = ! guest;
+		button_video_play_this_test_contacts.Visible = ! guest;
 
 		//simple jumps
 		button_edit_selected_jump.Visible = ! guest;
-		button_video_play_selected_jump.Visible = ! guest;
 		button_delete_selected_jump.Visible = ! guest;
 
 		//multiple jumps
 		button_edit_selected_jump_rj.Visible = ! guest;
 		button_repair_selected_jump_rj.Visible = ! guest;
-		button_video_play_selected_jump_rj.Visible = ! guest;
 		button_delete_selected_jump_rj.Visible = ! guest;
 
 		//simple races
 		button_edit_selected_run.Visible = ! guest;
-		button_video_play_selected_run.Visible = ! guest;
 		button_delete_selected_run.Visible = ! guest;
 
 		//intervallic races
 		button_edit_selected_run_interval.Visible = ! guest;
 		button_repair_selected_run_interval.Visible = ! guest;
-		button_video_play_selected_run_interval.Visible = ! guest;
 		button_delete_selected_run_interval.Visible = ! guest;
 	}
 	private void configNetworksEncoderAsGuest(bool guest)
@@ -596,6 +593,8 @@ public partial class ChronoJumpWindow
 		button_encoder_delete_signal.Visible = ! guest;
 
 		button_encoder_bells.Visible = ! guest;
+		button_video_play_this_test_encoder.Visible = ! guest;
+
 		if(guest)
 		{
 			preferences.encoderCaptureMainVariable = Constants.EncoderVariablesCapture.MeanSpeed;

@@ -1921,18 +1921,6 @@ public partial class ChronoJumpWindow
 		Menu myMenu = new Menu ();
 		Gtk.MenuItem myItem;
 
-		/*
-		myItem = new MenuItem ( Catalog.GetString("Play Video") + " " + 
-				myJump.Type + " (" + myJump.PersonName + ")");
-		if(File.Exists(Util.GetVideoFileName(currentSession.UniqueID, 
-				Constants.TestTypes.JUMP, myTreeViewJumps.EventSelectedID))) {
-			myItem.Activated += on_video_play_selected_jump_clicked;
-			myItem.Sensitive = true;
-		} else 
-			myItem.Sensitive = false;
-		myMenu.Attach( myItem, 0, 1, 0, 1 );
-		*/
-
 		myItem = new MenuItem ( Catalog.GetString("Edit selected") + " " + myJump.Type + " (" + myJump.PersonName + ")");
 		myItem.Activated += on_edit_selected_jump_clicked;
 		myMenu.Attach( myItem, 0, 1, 0, 1 );
@@ -2036,18 +2024,6 @@ public partial class ChronoJumpWindow
 		Menu myMenu = new Menu ();
 		Gtk.MenuItem myItem;
 
-		/*
-		myItem = new MenuItem ( Catalog.GetString("Play Video") + " " + 
-				myJump.Type + " (" + myJump.PersonName + ")");
-		if(File.Exists(Util.GetVideoFileName(currentSession.UniqueID, 
-				Constants.TestTypes.JUMP_RJ, myTreeViewJumpsRj.EventSelectedID))) {
-			myItem.Activated += on_video_play_selected_jump_rj_clicked;
-			myItem.Sensitive = true;
-		} else 
-			myItem.Sensitive = false;
-		myMenu.Attach( myItem, 0, 1, 0, 1 );
-		*/
-		
 		myItem = new MenuItem ( Catalog.GetString("Edit selected") + " " + myJump.Type + " (" + myJump.PersonName + ")");
 		myItem.Activated += on_edit_selected_jump_rj_clicked;
 		myMenu.Attach( myItem, 0, 1, 0, 1 );
@@ -2138,18 +2114,6 @@ public partial class ChronoJumpWindow
 	private void treeviewRunsContextMenu(Run myRun) {
 		Menu myMenu = new Menu ();
 		Gtk.MenuItem myItem;
-
-		/*
-		myItem = new MenuItem ( Catalog.GetString("Play Video") + " " + 
-				myRun.Type + " (" + myRun.PersonName + ")");
-		if(File.Exists(Util.GetVideoFileName(currentSession.UniqueID, 
-				Constants.TestTypes.RUN, myTreeViewRuns.EventSelectedID))) {
-			myItem.Activated += on_video_play_selected_run_clicked;
-			myItem.Sensitive = true;
-		} else 
-			myItem.Sensitive = false;
-		myMenu.Attach( myItem, 0, 1, 0, 1 );
-		*/
 
 		myItem = new MenuItem ( Catalog.GetString("Edit selected") + " " + myRun.Type + " (" + myRun.PersonName + ")");
 		myItem.Activated += on_edit_selected_run_clicked;
@@ -2266,18 +2230,6 @@ public partial class ChronoJumpWindow
 		Menu myMenu = new Menu ();
 		Gtk.MenuItem myItem;
 
-		/*
-		myItem = new MenuItem ( Catalog.GetString("Play Video") + " " + 
-				myRun.Type + " (" + myRun.PersonName + ")");
-		if(File.Exists(Util.GetVideoFileName(currentSession.UniqueID, 
-				Constants.TestTypes.RUN_I, myTreeViewRunsInterval.EventSelectedID))) {
-			myItem.Activated += on_video_play_selected_run_interval_clicked;
-			myItem.Sensitive = true;
-		} else 
-			myItem.Sensitive = false;
-		myMenu.Attach( myItem, 0, 1, 0, 1 );
-		*/
-
 		myItem = new MenuItem ( Catalog.GetString("Edit selected") + " " + myRun.Type + " (" + myRun.PersonName + ")");
 		myItem.Activated += on_edit_selected_run_interval_clicked;
 		myMenu.Attach( myItem, 0, 1, 0, 1 );
@@ -2361,18 +2313,6 @@ public partial class ChronoJumpWindow
 		Menu myMenu = new Menu ();
 		Gtk.MenuItem myItem;
 
-		/*
-		myItem = new MenuItem ( Catalog.GetString("Play Video") + " " + 
-				myRt.Type + " (" + myRt.PersonName + ")");
-		if(File.Exists(Util.GetVideoFileName(currentSession.UniqueID, 
-				Constants.TestTypes.RT, myTreeViewReactionTimes.EventSelectedID))) {
-			myItem.Activated += on_video_play_selected_reaction_time_clicked;
-			myItem.Sensitive = true;
-		} else 
-			myItem.Sensitive = false;
-		myMenu.Attach( myItem, 0, 1, 0, 1 );
-		*/
-
 		myItem = new MenuItem ( Catalog.GetString("Edit selected") + " " + myRt.Type + " (" + myRt.PersonName + ")");
 		myItem.Activated += on_edit_selected_reaction_time_clicked;
 		myMenu.Attach( myItem, 0, 1, 0, 1 );
@@ -2455,18 +2395,6 @@ public partial class ChronoJumpWindow
 	private void treeviewPulsesContextMenu(Pulse myPulse) {
 		Menu myMenu = new Menu ();
 		Gtk.MenuItem myItem;
-
-		/*
-		myItem = new MenuItem ( Catalog.GetString("Play Video") + " " + 
-				myPulse.Type + " (" + myPulse.PersonName + ")");
-		if(File.Exists(Util.GetVideoFileName(currentSession.UniqueID, 
-				Constants.TestTypes.PULSE, myTreeViewPulses.EventSelectedID))) {
-			myItem.Activated += on_video_play_selected_pulse_clicked;
-			myItem.Sensitive = true;
-		} else 
-			myItem.Sensitive = false;
-		myMenu.Attach( myItem, 0, 1, 0, 1 );
-		*/
 
 		myItem = new MenuItem ( Catalog.GetString("Edit selected") + " " + myPulse.Type + " (" + myPulse.PersonName + ")");
 		myItem.Activated += on_edit_selected_pulse_clicked;
@@ -2565,18 +2493,6 @@ public partial class ChronoJumpWindow
 	private void treeviewMultiChronopicContextMenu(MultiChronopic mc) {
 		Menu myMenu = new Menu ();
 		Gtk.MenuItem myItem;
-
-		/*
-		myItem = new MenuItem ( Catalog.GetString("Play Video") + " " + 
-				mc.Type + " (" + mc.PersonName + ")");
-		if(File.Exists(Util.GetVideoFileName(currentSession.UniqueID, 
-				Constants.TestTypes.MULTICHRONOPIC, myTreeViewMultiChronopic.EventSelectedID))) {
-			myItem.Activated += on_video_play_selected_multi_chronopic_clicked;
-			myItem.Sensitive = true;
-		} else 
-			myItem.Sensitive = false;
-		myMenu.Attach( myItem, 0, 1, 0, 1 );
-		*/
 
 		myItem = new MenuItem ( Catalog.GetString("Edit selected") + " " + mc.Type + " (" + mc.PersonName + ")");
 		myItem.Activated += on_edit_selected_multi_chronopic_clicked;

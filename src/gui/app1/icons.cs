@@ -259,13 +259,6 @@ public partial class ChronoJumpWindow
 	//video play icons
 	Gtk.Image image_video_play_this_test_contacts;
 	Gtk.Image image_video_play_this_test_encoder;
-	Gtk.Image image_video_play_selected_jump;
-	Gtk.Image image_video_play_selected_jump_rj;
-	Gtk.Image image_video_play_selected_run;
-	Gtk.Image image_video_play_selected_run_interval;
-	Gtk.Image image_video_play_selected_pulse;
-	Gtk.Image image_video_play_selected_reaction_time;
-	Gtk.Image image_video_play_selected_multi_chronopic;
 	Gtk.Image image_video_contacts_preview;
 	Gtk.Image image_video_encoder_preview;
 
@@ -854,13 +847,6 @@ public partial class ChronoJumpWindow
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "video_play.png");
 		image_video_play_this_test_contacts.Pixbuf = pixbuf;
 		image_video_play_this_test_encoder.Pixbuf = pixbuf;
-		image_video_play_selected_jump.Pixbuf = pixbuf;
-		image_video_play_selected_jump_rj.Pixbuf = pixbuf;
-		image_video_play_selected_run.Pixbuf = pixbuf;
-		image_video_play_selected_run_interval.Pixbuf = pixbuf;
-		image_video_play_selected_pulse.Pixbuf = pixbuf;
-		image_video_play_selected_reaction_time.Pixbuf = pixbuf;
-		image_video_play_selected_multi_chronopic.Pixbuf = pixbuf;
 
 		//white background in chronopic viewports
 		UtilGtk.DeviceColors(viewport_chronopics, true);
@@ -1355,13 +1341,6 @@ public partial class ChronoJumpWindow
 		//video play icons
 		image_video_play_this_test_contacts = (Gtk.Image) builder.GetObject ("image_video_play_this_test_contacts");
 		image_video_play_this_test_encoder = (Gtk.Image) builder.GetObject ("image_video_play_this_test_encoder");
-		image_video_play_selected_jump = (Gtk.Image) builder.GetObject ("image_video_play_selected_jump");
-		image_video_play_selected_jump_rj = (Gtk.Image) builder.GetObject ("image_video_play_selected_jump_rj");
-		image_video_play_selected_run = (Gtk.Image) builder.GetObject ("image_video_play_selected_run");
-		image_video_play_selected_run_interval = (Gtk.Image) builder.GetObject ("image_video_play_selected_run_interval");
-		image_video_play_selected_pulse = (Gtk.Image) builder.GetObject ("image_video_play_selected_pulse");
-		image_video_play_selected_reaction_time = (Gtk.Image) builder.GetObject ("image_video_play_selected_reaction_time");
-		image_video_play_selected_multi_chronopic = (Gtk.Image) builder.GetObject ("image_video_play_selected_multi_chronopic");
 		image_video_contacts_preview = (Gtk.Image) builder.GetObject ("image_video_contacts_preview");
 		image_video_encoder_preview = (Gtk.Image) builder.GetObject ("image_video_encoder_preview");
 

@@ -868,7 +868,8 @@ public partial class ChronoJumpWindow
 			id = myTreeViewRunsInterval.EventSelectedID;
 		}
 
-		playVideo(Util.GetVideoFileName(currentSession.UniqueID, type, id));
+		if (currentSession != null && currentSession.UniqueID >= 0 && id > 0)
+			playVideo (Util.GetVideoFileName (currentSession.UniqueID, type, id));
 	}
 
 	private void on_button_video_play_this_test_encoder_clicked (object o, EventArgs args)
@@ -1023,56 +1024,6 @@ public partial class ChronoJumpWindow
 		Thread.Sleep (10);
 		LogB.Debug(webcamPlayThread.ThreadState.ToString());
 		return true;
-	}
-
-
-	private void on_video_play_selected_jump_clicked (object o, EventArgs args) {
-		if (myTreeViewJumps.EventSelectedID > 0)
-			playVideo(Util.GetVideoFileName(currentSession.UniqueID,
-						Constants.TestTypes.JUMP,
-						myTreeViewJumps.EventSelectedID));
-	}
-
-	private void on_video_play_selected_jump_rj_clicked (object o, EventArgs args) {
-		if (myTreeViewJumpsRj.EventSelectedID > 0)
-			playVideo(Util.GetVideoFileName(currentSession.UniqueID,
-						Constants.TestTypes.JUMP_RJ,
-						myTreeViewJumpsRj.EventSelectedID));
-	}
-
-	private void on_video_play_selected_run_clicked (object o, EventArgs args) {
-		if (myTreeViewRuns.EventSelectedID > 0)
-			playVideo(Util.GetVideoFileName(currentSession.UniqueID,
-						Constants.TestTypes.RUN,
-						myTreeViewRuns.EventSelectedID));
-	}
-
-	private void on_video_play_selected_run_interval_clicked (object o, EventArgs args) {
-		if (myTreeViewRunsInterval.EventSelectedID > 0)
-			playVideo(Util.GetVideoFileName(currentSession.UniqueID,
-						Constants.TestTypes.RUN_I,
-						myTreeViewRunsInterval.EventSelectedID));
-	}
-
-	private void on_video_play_selected_reaction_time_clicked (object o, EventArgs args) {
-		if (myTreeViewReactionTimes.EventSelectedID > 0)
-			playVideo(Util.GetVideoFileName(currentSession.UniqueID,
-						Constants.TestTypes.RT,
-						myTreeViewReactionTimes.EventSelectedID));
-	}
-
-	private void on_video_play_selected_pulse_clicked (object o, EventArgs args) {
-		if (myTreeViewPulses.EventSelectedID > 0)
-			playVideo(Util.GetVideoFileName(currentSession.UniqueID,
-						Constants.TestTypes.PULSE,
-						myTreeViewPulses.EventSelectedID));
-	}
-
-	private void on_video_play_selected_multi_chronopic_clicked (object o, EventArgs args) {
-		if (myTreeViewMultiChronopic.EventSelectedID > 0)
-			playVideo(Util.GetVideoFileName(currentSession.UniqueID,
-						Constants.TestTypes.MULTICHRONOPIC,
-						myTreeViewMultiChronopic.EventSelectedID));
 	}
 
 	private void connectWidgetsWebcam (Gtk.Builder builder)

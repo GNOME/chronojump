@@ -9225,7 +9225,7 @@
                                                             <object class="GtkVBox" id="vbox67">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
-                                                            <property name="spacing">2</property>
+                                                            <property name="spacing">6</property>
                                                             <child>
                                                             <object class="GtkButton" id="button_edit_selected_jump_rj">
                                                             <property name="visible">True</property>
@@ -9387,6 +9387,7 @@
                                                             <object class="GtkVBox" id="vbox92">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
+                                                            <property name="spacing">6</property>
                                                             <child>
                                                             <object class="GtkButton" id="button_edit_selected_run">
                                                             <property name="visible">True</property>
@@ -9525,6 +9526,7 @@
                                                             <object class="GtkVBox" id="vbox87">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
+                                                            <property name="spacing">6</property>
                                                             <child>
                                                             <object class="GtkButton" id="button_edit_selected_run_interval">
                                                             <property name="visible">True</property>

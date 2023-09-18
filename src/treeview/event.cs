@@ -15,13 +15,14 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Copyright (C) 2004-2022   Xavier de Blas <xaviblas@gmail.com>
+ *  Copyright (C) 2004-2023   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
 using System.Data;
 using Gtk;
 using System.Collections; //ArrayList
+using System.Collections.Generic; //List
 using Mono.Unix;
 
 
@@ -38,9 +39,11 @@ public class TreeViewEvent
 	protected int dataLineTypePosition; //position of type in the data to be printed
 	protected string allEventsName; //Constants.AllJumpsName or Constants.AllRunsName orConstants.AllPulsesName
 	protected int eventIDColumn; //column where the uniqueID of event will be (and will be hidden)
+	protected string videoName = Catalog.GetString("Video");
 	protected string descriptionName = Catalog.GetString("Description");
 	
 	protected bool weightPercentPreferred;
+	protected List<string> videos_l;
 
 	protected string [] columnsString;
 
@@ -164,8 +167,10 @@ public class TreeViewEvent
 		return nothing;
 	}
 
-	public virtual void Fill(string [] myEvents, string filter)
+	public virtual void Fill(string [] myEvents, string filter, List<string> videos_l)
 	{
+		this.videos_l = videos_l;
+
 		TreeIter iter = new TreeIter();
 		TreeIter iterDeep = new TreeIter(); //only used by two levels treeviews
 		string tempPerson = ":"; //one value that's not possible
@@ -299,14 +304,19 @@ public class TreeViewEvent
 		}
 	}
 
-	public void Add (string personName, System.Object newEvent)
+	//TODO: with video here
+	public void Add (string personName, System.Object newEvent, string videoStr)
 	{
-		
 		TreeIter iter = new TreeIter();
 		TreeIter iterDeep = new TreeIter(); //only used by two levels treeviews
 		bool modelNotEmpty = treeview.Model.GetIterFirst ( out iter ) ;
 		string iterPersonString;
 		bool found = false;
+
+		//on Add blank videos_l and if video the just add this one
+		videos_l = new List<string> ();
+		if (videoStr != "")
+			videos_l.Add (videoStr);
 	
 		if(modelNotEmpty) {
 			do {

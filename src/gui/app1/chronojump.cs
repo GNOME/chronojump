@@ -1879,7 +1879,8 @@ public partial class ChronoJumpWindow
 		string [] myJumps = SqliteJump.SelectJumpsSA (dbconOpened, currentSession.UniqueID, -1, "", "",
 				Sqlite.Orders_by.DEFAULT, 0);
 
-		myTreeViewJumps.Fill(myJumps, filter);
+		myTreeViewJumps.Fill (myJumps, filter,
+				Util.GetVideosOfSessionAndMode (currentSession.UniqueID, Constants.TestTypes.JUMP));
 
 		expandOrMinimizeTreeView((TreeViewEvent) myTreeViewJumps, treeview_jumps);
 	}
@@ -1965,7 +1966,8 @@ public partial class ChronoJumpWindow
 		}
 
 		string [] myJumps = SqliteJumpRj.SelectJumpsSA (dbconOpened, currentSession.UniqueID, -1, "", "");
-		myTreeViewJumpsRj.Fill(myJumps, filter);
+		myTreeViewJumpsRj.Fill (myJumps, filter,
+				Util.GetVideosOfSessionAndMode (currentSession.UniqueID, Constants.TestTypes.JUMP_RJ));
 
 		expandOrMinimizeTreeView((TreeViewEvent) myTreeViewJumpsRj, treeview_jumps_rj);
 
@@ -2075,7 +2077,8 @@ public partial class ChronoJumpWindow
 		string [] myRuns = SqliteRun.SelectRunsSA (dbconOpened, currentSession.UniqueID, -1, "",
 				Sqlite.Orders_by.DEFAULT, 0);
 
-		myTreeViewRuns.Fill(myRuns, filter);
+		myTreeViewRuns.Fill(myRuns, filter,
+				Util.GetVideosOfSessionAndMode (currentSession.UniqueID, Constants.TestTypes.RUN));
 
 		expandOrMinimizeTreeView((TreeViewEvent) myTreeViewRuns, treeview_runs);
 	}
@@ -2160,7 +2163,8 @@ public partial class ChronoJumpWindow
 		}
 
 		string [] myRuns = SqliteRunInterval.SelectRunsSA (dbconOpened, currentSession.UniqueID, -1, "");
-		myTreeViewRunsInterval.Fill(myRuns, filter);
+		myTreeViewRunsInterval.Fill(myRuns, filter,
+				Util.GetVideosOfSessionAndMode (currentSession.UniqueID, Constants.TestTypes.RUN_I));
 		expandOrMinimizeTreeView((TreeViewEvent) myTreeViewRunsInterval, treeview_runs_interval);
 	}
 	
@@ -2274,7 +2278,7 @@ public partial class ChronoJumpWindow
 		string [] myRTs = SqliteReactionTime.SelectReactionTimes(dbconOpened, currentSession.UniqueID, -1, "", 
 				Sqlite.Orders_by.DEFAULT, -1);
 
-		myTreeViewReactionTimes.Fill(myRTs, filter);
+		myTreeViewReactionTimes.Fill(myRTs, filter, new List<string> ());
 		expandOrMinimizeTreeView((TreeViewEvent) myTreeViewReactionTimes, treeview_reaction_times);
 	}
 	
@@ -2351,7 +2355,7 @@ public partial class ChronoJumpWindow
 			return;
 
 		string [] myPulses = SqlitePulse.SelectPulses(dbconOpened, currentSession.UniqueID, -1);
-		myTreeViewPulses.Fill(myPulses, filter);
+		myTreeViewPulses.Fill(myPulses, filter, new List<string> ());
 		expandOrMinimizeTreeView((TreeViewEvent) myTreeViewPulses, treeview_pulses);
 	}
 	
@@ -2443,7 +2447,7 @@ public partial class ChronoJumpWindow
 			return;
 
 		string [] mcs = SqliteMultiChronopic.SelectTests(dbconOpened, currentSession.UniqueID, -1);
-		myTreeViewMultiChronopic.Fill(mcs, "");
+		myTreeViewMultiChronopic.Fill(mcs, "", new List<string> ());
 		expandOrMinimizeTreeView((TreeViewEvent) myTreeViewMultiChronopic, treeview_multi_chronopic);
 	}
 	
@@ -5918,9 +5922,6 @@ public partial class ChronoJumpWindow
 						currentJump.UniqueID, currentJump.Description);
 			}
 
-			myTreeViewJumps.PersonWeight = currentPersonSession.Weight;
-			myTreeViewJumps.Add(currentPerson.Name, currentJump);
-			
 			if(createdStatsWin) {
 				showUpdateStatsAndHideData(true);
 			}
@@ -5944,15 +5945,18 @@ public partial class ChronoJumpWindow
 			sensitiveGuiAutoExecuteOrWait (false);
 		}
 
+		string savedVideoStr = "";
+		if (webcamStatusEnum == WebcamStatusEnum.STOPPED)
+			savedVideoStr = EventEndedSaveVideoFile (Constants.TestTypes.JUMP, currentJump.UniqueID);
+
+		if ( ! currentEventExecute.Cancel ) {
+			myTreeViewJumps.PersonWeight = currentPersonSession.Weight;
+			myTreeViewJumps.Add (currentPerson.Name, currentJump, savedVideoStr);
+		}
+
 		//2.2.1 Cairo graph is not updated if window is not resized, so force update
 		//since 2.2.2 graph is not updated at test end by write. is updated here to not have to readers on separated threads
 		updateGraphJumpsSimple();
-
-		if (webcamStatusEnum == WebcamStatusEnum.STOPPED)
-		{
-			bool saved = webcamEndingSaveFile (Constants.TestTypes.JUMP, currentJump.UniqueID);
-			webcamRestoreGui (saved);
-		}
 
 		//since 0.7.4.1 when test is done, treeview select it. action event button have to be shown
 		//this has to be after webcamRecordEnd in order to see if video is created
@@ -6250,8 +6254,6 @@ public partial class ChronoJumpWindow
 				}
 			}
 
-			myTreeViewJumpsRj.PersonWeight = currentPersonSession.Weight;
-			myTreeViewJumpsRj.Add(currentPerson.Name, currentJumpRj);
 			
 			if(createdStatsWin) {
 				showUpdateStatsAndHideData(true);
@@ -6273,14 +6275,17 @@ public partial class ChronoJumpWindow
 		//delete the temp tables if exists
 		Sqlite.DeleteTempEvents("tempJumpRj");
 
+		string savedVideoStr = "";
+		if (webcamStatusEnum == WebcamStatusEnum.STOPPED)
+			savedVideoStr = EventEndedSaveVideoFile (Constants.TestTypes.JUMP_RJ, currentJumpRj.UniqueID);
+
+		if ( ! currentEventExecute.Cancel ) {
+			myTreeViewJumpsRj.PersonWeight = currentPersonSession.Weight;
+			myTreeViewJumpsRj.Add (currentPerson.Name, currentJumpRj, savedVideoStr);
+		}
+
 		//Cairo graph is not updated if window is not resized, so force update
 		updateGraphJumpsReactive();
-
-		if (webcamStatusEnum == WebcamStatusEnum.STOPPED)
-		{
-			bool saved = webcamEndingSaveFile (Constants.TestTypes.JUMP_RJ, currentJumpRj.UniqueID);
-			webcamRestoreGui (saved);
-		}
 
 		//since 0.7.4.1 when test is done, treeview select it. action event button have to be shown
 		//this has to be after webcamRecordEnd in order to see if video is created
@@ -6397,12 +6402,18 @@ public partial class ChronoJumpWindow
 		sensitiveLastTestButtons(! currentEventExecute.Cancel);
 		button_inspect_last_test_run_simple.Sensitive = ! currentEventExecute.Cancel;
 
-		if ( ! currentEventExecute.Cancel ) {
+		if ( ! currentEventExecute.Cancel )
 			currentRun = (Run) currentEventExecute.EventDone;
-			
+
+		string savedVideoStr = "";
+		if (webcamStatusEnum == WebcamStatusEnum.STOPPED)
+			savedVideoStr = EventEndedSaveVideoFile (Constants.TestTypes.RUN, currentRun.UniqueID);
+
+		if ( ! currentEventExecute.Cancel )
+		{
 			currentRun.MetersSecondsPreferred = preferences.metersSecondsPreferred;
 
-			myTreeViewRuns.Add(currentPerson.Name, currentRun);
+			myTreeViewRuns.Add (currentPerson.Name, currentRun, savedVideoStr);
 
 			//since 0.7.4.1 when test is done, treeview select it. action event button have to be shown 
 			//this has to be after webcamRecordEnd in order to see if video is created
@@ -6562,8 +6573,14 @@ public partial class ChronoJumpWindow
 		button_inspect_last_test_run_intervallic.Sensitive = ! currentEventExecute.Cancel;
 
 		if ( ! currentEventExecute.Cancel )
-		{
 			currentRunInterval = (RunInterval) currentEventExecute.EventDone;
+
+		string savedVideoStr = "";
+		if (webcamStatusEnum == WebcamStatusEnum.STOPPED)
+			savedVideoStr = EventEndedSaveVideoFile (Constants.TestTypes.RUN_I, currentRunInterval.UniqueID);
+
+		if ( ! currentEventExecute.Cancel )
+		{
 			selectedRunInterval = currentRunInterval;
 			selectedRunIntervalType = currentRunIntervalType;
 
@@ -6583,7 +6600,8 @@ public partial class ChronoJumpWindow
 							currentRunInterval.IntervalTimesString) + "T";
 				}
 			}
-			myTreeViewRunsInterval.Add(currentPerson.Name, currentRunInterval);
+
+			myTreeViewRunsInterval.Add (currentPerson.Name, currentRunInterval, savedVideoStr);
 
 			//since 0.7.4.1 when test is done, treeview select it. action event button have to be shown 
 			//this has to be after webcamRecordEnd in order to see if video is created
@@ -6846,7 +6864,7 @@ public partial class ChronoJumpWindow
 
 			currentReactionTime = (ReactionTime) currentEventExecute.EventDone;
 			
-			myTreeViewReactionTimes.Add(currentPerson.Name, currentReactionTime);
+			myTreeViewReactionTimes.Add (currentPerson.Name, currentReactionTime, "");
 
 			//since 0.7.4.1 when test is done, treeview select it. action event button have to be shown 
 			//this has to be after webcamRecordEnd in order to see if video is created
@@ -6966,7 +6984,7 @@ public partial class ChronoJumpWindow
 			
 			currentPulse = (Pulse) currentEventExecute.EventDone;
 			
-			myTreeViewPulses.Add(currentPerson.Name, currentPulse);
+			myTreeViewPulses.Add (currentPerson.Name, currentPulse, "");
 
 			//since 0.7.4.1 when test is done, treeview select it. action event button have to be shown 
 			//this has to be after webcamRecordEnd in order to see if video is created
@@ -7280,7 +7298,7 @@ LogB.Debug("mc finished 4");
 				treeview_multi_chronopic_storeReset(false);
 				fillTreeView_multi_chronopic();
 			} else
-				myTreeViewMultiChronopic.Add(currentPerson.Name, currentMultiChronopic);
+				myTreeViewMultiChronopic.Add (currentPerson.Name, currentMultiChronopic, "");
 LogB.Debug("mc finished 5");
 
 			//since 0.7.4.1 when test is done, treeview select it. action event button have to be shown 

@@ -45,7 +45,7 @@ public class TreeViewRuns : TreeViewEvent
 		dataLineNamePosition = 0; //position of name in the data to be printed
 		dataLineTypePosition = 4; //position of type in the data to be printed
 		allEventsName = Constants.AllRunsNameStr();
-		eventIDColumn = 6; //column where the uniqueID of event will be (and will be hidden)
+		eventIDColumn = 7; //column where the uniqueID of event will be (and will be hidden)
 	
 		string runnerName = Catalog.GetString("Runner");
 		string speedName = Catalog.GetString("Speed");
@@ -57,7 +57,7 @@ public class TreeViewRuns : TreeViewEvent
 		string distanceName = Catalog.GetString("Distance") + "\n(m)";
 		string timeName = Catalog.GetString("Time") + "\n(s)";
 
-		columnsString = new string[]{ runnerName, speedName, distanceName, timeName, datetimeName, descriptionName };
+		columnsString = new string[]{ runnerName, speedName, distanceName, timeName, datetimeName, videoName, descriptionName };
 		store = getStore(columnsString.Length +1); //+1 because, eventID is not show in last col
 		treeview.Model = store;
 		prepareHeaders(columnsString);
@@ -107,6 +107,12 @@ public class TreeViewRuns : TreeViewEvent
 
 		myData[count++] = Util.TrimDecimals(newRun.Time.ToString(), pDN);
 		myData[count++] = UtilDate.GetDatetimePrint(UtilDate.FromFile(newRun.Datetime));
+
+		if (Util.StartsWithInListString (videos_l, string.Format ("{0}-{1}", Constants.TestTypes.RUN, newRun.UniqueID)))
+			myData[count++] = Catalog.GetString ("Yes");
+		else
+			myData[count++] = Catalog.GetString ("No");
+
 		myData[count++] = newRun.Description;
 		myData[count++] = newRun.UniqueID.ToString();
 		return myData;
@@ -140,9 +146,9 @@ public class TreeViewRunsInterval : TreeViewRuns
 		dataLineNamePosition = 0; //position of name in the data to be printed
 		dataLineTypePosition = 4; //position of type in the data to be printed
 		allEventsName = Constants.AllRunsNameStr();
-		eventIDColumn = 6; //column where the uniqueID of event will be (and will be hidden)
+		eventIDColumn = 7; //column where the uniqueID of event will be (and will be hidden)
 		
-		columnsString = new string[]{runnerName, speedName, lapTimeName, splitTimeName, datetimeName, descriptionName};
+		columnsString = new string[]{runnerName, speedName, lapTimeName, splitTimeName, datetimeName, videoName, descriptionName};
 		store = getStore(columnsString.Length +1); //+1 because, eventID is not show in last col
 		treeview.Model = store;
 		prepareHeaders(columnsString);
@@ -185,6 +191,12 @@ public class TreeViewRunsInterval : TreeViewRuns
 		myData[count++] = "";		//lapTime 
 		myData[count++] = "";		//splitTime
 		myData[count++] = UtilDate.GetDatetimePrint(UtilDate.FromFile(newRunI.Datetime));
+
+		if (Util.StartsWithInListString (videos_l, string.Format ("{0}-{1}", Constants.TestTypes.RUN_I, newRunI.UniqueID)))
+			myData[count++] = Catalog.GetString ("Yes");
+		else
+			myData[count++] = Catalog.GetString ("No");
+
 		myData[count++] = newRunI.Description;
 		myData[count++] = newRunI.UniqueID.ToString();
 		return myData;

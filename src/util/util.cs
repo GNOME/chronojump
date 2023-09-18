@@ -1121,7 +1121,6 @@ public class Util
 				Path.DirectorySeparatorChar + "videos");
 	}
 	
-
 	//to store user videos and photos
 	public static void CreateMultimediaDirsIfNeeded () {
 		string [] dirs = { GetMultimediaDir(), GetPhotosDir(false), GetPhotosDir(true), GetVideosDir() }; 
@@ -1217,7 +1216,7 @@ public class Util
 	 */
 
 
-	//videos ar organized by sessions. Photos no.	
+	//videos are organized by sessions. Photos no.
 	public static string GetVideoSessionDir (int sessionID) {
 		return GetVideosDir() + Path.DirectorySeparatorChar + sessionID.ToString();
 	}
@@ -1229,6 +1228,25 @@ public class Util
 			LogB.Information ("created dir:", sessionDir);
 		}
 	}
+
+	public static List<string> GetVideosOfSessionAndMode (int sessionID, Constants.TestTypes testType)
+	{
+		List<string> l = new List<string> ();
+
+		string sessionDir = GetVideoSessionDir (sessionID);
+		if (! Directory.Exists (sessionDir))
+			return l;
+
+		foreach (string s in Directory.GetFiles (sessionDir))
+		{
+			string s2 = GetLastPartOfPath (s);
+			if (s2.StartsWith (testType.ToString() + "-"))
+				l.Add (s2);
+		}
+
+		return l;
+	}
+
 
 //TODO: now using mp4, ensure old avi can be also retrieved
 
@@ -2228,6 +2246,14 @@ public class Util
 	{
 		foreach (string l2 in l)
 			if(l2 == s)
+				return true;
+
+		return false;
+	}
+	public static bool StartsWithInListString (List<string> l, string s)
+	{
+		foreach (string l2 in l)
+			if(l2.StartsWith (s))
 				return true;
 
 		return false;

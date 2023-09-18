@@ -428,6 +428,17 @@ public partial class ChronoJumpWindow
 			return WebcamManage.GuiContactsEncoder.CONTACTS;
 	}
 
+	public string EventEndedSaveVideoFile (Constants.TestTypes testType, int uniqueID)
+	{
+		bool savedVideo = webcamEndingSaveFile (testType, uniqueID);
+		webcamRestoreGui (savedVideo);
+
+		if (savedVideo)
+			return string.Format ("{0}-{1}", testType, uniqueID); //no need the extension here
+		else
+			return "";
+	}
+
 	public bool webcamEndingSaveFile (Constants.TestTypes testType, int uniqueID)
 	{
 		webcamEndParams = new WebcamEndParams (1, currentSession.UniqueID, testType, uniqueID, getGuiContactsEncoder ());

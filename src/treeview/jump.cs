@@ -108,7 +108,7 @@ public class TreeViewJumps : TreeViewEvent
 	protected string [] obtainColumnsString(string [] columnsStringPre) 
 	{
 		//check long of new array
-		int i = columnsStringPre.Length + 2; //columnsStringPre + dateTime + description
+		int i = columnsStringPre.Length + 3; //columnsStringPre + dateTime + video + description
 		
 		if (preferences.showPower)  
 			i ++;
@@ -153,6 +153,7 @@ public class TreeViewJumps : TreeViewEvent
 			columnsString[i++] = djIndexName;
 			
 		columnsString[i++] = datetimeName;
+		columnsString[i++] = videoName;
 		columnsString[i++] = descriptionName;
 
 		return columnsString;
@@ -242,8 +243,16 @@ public class TreeViewJumps : TreeViewEvent
 			myData[count++] = Util.TrimDecimals(Util.GetDjIndex(newJump.Tv, newJump.Tc).ToString(), pDN);
 		
 		myData[count++] = UtilDate.GetDatetimePrint(UtilDate.FromFile(newJump.Datetime));
-		myData[count++] = newJump.Description;
 
+		if (Util.StartsWithInListString (videos_l, string.Format ("{0}-{1}", Constants.TestTypes.JUMP, newJump.UniqueID)))
+			myData[count++] = Catalog.GetString ("Yes");
+		else
+			myData[count++] = Catalog.GetString ("No");
+		LogB.Information ("find video: " + string.Format ("{0}-{1}", Constants.TestTypes.JUMP, newJump.UniqueID));
+		LogB.Information ("on list:");
+		LogB.Information (Util.ListStringToString (videos_l));
+
+		myData[count++] = newJump.Description;
 		myData[count++] = newJump.UniqueID.ToString();
 		return myData;
 	}
@@ -352,6 +361,12 @@ public class TreeViewJumpsRj : TreeViewJumps
 			myData[count++] = "";
 		
 		myData[count++] = UtilDate.GetDatetimePrint(UtilDate.FromFile(newJumpRj.Datetime));
+
+		if (Util.StartsWithInListString (videos_l, string.Format ("{0}-{1}", Constants.TestTypes.JUMP_RJ, newJumpRj.UniqueID)))
+			myData[count++] = Catalog.GetString ("Yes");
+		else
+			myData[count++] = Catalog.GetString ("No");
+
 		myData[count++] = newJumpRj.Description;
 		myData[count++] = newJumpRj.UniqueID.ToString();
 		return myData;
@@ -436,6 +451,7 @@ public class TreeViewJumpsRj : TreeViewJumps
 		
 		
 		myData[count++] = ""; 	//datetime
+		myData[count++] = "";	//video
 		myData[count++] = ""; 	//description
 	
 		myData[count++] = "-1"; //mark to non select here, select first line 
@@ -467,6 +483,7 @@ public class TreeViewJumpsRj : TreeViewJumps
 			myData[count++] = ""; 
 
 		myData[count++] = ""; 	//datetime
+		myData[count++] = "";	//video
 		myData[count++] = ""; 	//description
 
 		myData[count++] = "-1"; //mark to non select here, select first line 
@@ -576,6 +593,7 @@ public class TreeViewJumpsRj : TreeViewJumps
 					Util.GetDjIndex(tvAVGDouble,tcAVGDouble).ToString(), pDN);
 
 		myData[count++] = ""; 	//datetime
+		myData[count++] = "";	//video
 		myData[count++] = ""; 	//description
 		
 		myData[count++] = "-1"; //mark to non select here, select first line 
@@ -629,6 +647,7 @@ public class TreeViewJumpsRj : TreeViewJumps
 			myData[count++] = "";
 
 		myData[count++] = ""; 	//datetime
+		myData[count++] = "";	//video
 		myData[count++] = ""; 	//description
 		
 		myData[count++] = "-1"; //mark to non select here, select first line 

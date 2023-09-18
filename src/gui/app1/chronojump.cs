@@ -1902,6 +1902,19 @@ public partial class ChronoJumpWindow
 		myTreeViewJumps = new TreeViewJumps(treeview_jumps, preferences, myTreeViewJumps.ExpandState);
 	}
 
+	// works for jumps/runs (to update some buttons like play video sensitivity)
+	private void on_treeview_mode_cursor_changed ()
+	{
+		if (current_mode == Constants.Modes.JUMPSSIMPLE && myTreeViewJumps != null)
+			on_treeview_jumps_cursor_changed (new object (), new EventArgs ());
+		else if (current_mode == Constants.Modes.JUMPSREACTIVE && myTreeViewJumpsRj != null)
+			on_treeview_jumps_rj_cursor_changed (new object (), new EventArgs ());
+		else if (current_mode == Constants.Modes.RUNSSIMPLE && myTreeViewRuns != null)
+			on_treeview_runs_cursor_changed (new object (), new EventArgs ());
+		else if (current_mode == Constants.Modes.RUNSINTERVALLIC && myTreeViewRunsInterval != null)
+			on_treeview_runs_interval_cursor_changed (new object (), new EventArgs ());
+	}
+
 	private void on_treeview_jumps_cursor_changed (object o, EventArgs args)
 	{
 		LogB.Information("Cursor changed");
@@ -4488,6 +4501,8 @@ public partial class ChronoJumpWindow
 			label_contacts_exercise_selected_options_visible (true);
 			image_top_laterality_contacts.Visible = false;
 		}
+
+		on_treeview_mode_cursor_changed ();
 
 		//show feedback icon
 		Pixbuf pixbufBellActive = new Pixbuf (null, Util.GetImagePath(false) + "stock_bell_active.png");

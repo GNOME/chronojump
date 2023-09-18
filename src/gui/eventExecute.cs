@@ -400,23 +400,25 @@ public partial class ChronoJumpWindow
 		{
 			myTreeViewJumps.ZoomToTestsIfNeeded ();
 			myTreeViewJumps.SelectEvent (id, true); //scroll
+			on_treeview_jumps_cursor_changed (new object (), new EventArgs ()); //in order to update the play video button
 		}
 		else if (current_mode == Constants.Modes.JUMPSREACTIVE && myTreeViewJumpsRj != null)
 		{
 			myTreeViewJumpsRj.ZoomToTestsIfNeeded ();
 			myTreeViewJumpsRj.SelectEvent (id, true); //scroll
-			on_treeview_jumps_rj_cursor_changed (new object (), new EventArgs ()); //in order to update top graph
+			on_treeview_jumps_rj_cursor_changed (new object (), new EventArgs ()); //in order to update top graph and play video button
 		}
 		else if (current_mode == Constants.Modes.RUNSSIMPLE && myTreeViewRuns != null)
 		{
 			myTreeViewRuns.ZoomToTestsIfNeeded ();
 			myTreeViewRuns.SelectEvent (id, true); //scroll
+			on_treeview_runs_cursor_changed (new object (), new EventArgs ()); //in order to update the play video button
 		}
 		else if (current_mode == Constants.Modes.RUNSINTERVALLIC && myTreeViewRunsInterval != null)
 		{
 			myTreeViewRunsInterval.ZoomToTestsIfNeeded ();
 			myTreeViewRunsInterval.SelectEvent (id, true); //scroll
-			on_treeview_runs_interval_cursor_changed (new object (), new EventArgs ()); //in order to update top graph
+			on_treeview_runs_interval_cursor_changed (new object (), new EventArgs ()); //in order to update top graph and play video button
 		}
 	}
 

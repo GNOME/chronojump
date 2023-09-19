@@ -1032,7 +1032,7 @@ msgstr "Chiudere"
 
 #: ../glade/app1.glade.h:199
 msgid "Close and capture"
-msgstr "Chiudi e acquisisi"
+msgstr "Chiudi e acquisisci"
 
 #: ../glade/app1.glade.h:200
 msgid "Recalculate set with changed parameters"

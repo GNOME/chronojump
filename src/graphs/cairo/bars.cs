@@ -1061,22 +1061,22 @@ public abstract class CairoBars : CairoGeneric
 	}
 
 	//return the bar num from 0 (left bar) to the last bar
-	public int FindBarInPixel (double pixel)
+	public int FindBarInPixel (double px, double py)
 	{
 		LogB.Information("cairo bars FindBarInPixel 0");
 		if(mouseLimits == null)
 			return -1;
 
 		LogB.Information("cairo bars FindBarInPixel 1");
-		return mouseLimits.FindBarInPixel(pixel);
+		return mouseLimits.FindBarInPixel (px, py);
 	}
 
 	//return the id (uniqueID)
-	public int FindBarIdInPixel (double pixel)
+	public int FindBarIdInPixel (double px, double py)
 	{
 		LogB.Information("cairo bars FindBarIdInPixel 0");
 
-		int bar = FindBarInPixel (pixel);
+		int bar = FindBarInPixel (px, py);
 		if(bar == -1)
 			return -1;
 
@@ -1300,7 +1300,7 @@ public class CairoBars1Series : CairoBars
 					Util.FoundInListInt (best_l, i),
 					Util.FoundInListInt (worst_l, i));
 			resultOnBars_l.Add(new Point3F(x + barWidth/2, y, p.Y));
-			mouseLimits.AddInPos (i, x, x+barWidth);
+			mouseLimits.AddInPos (i, x, y, x+barWidth, graphHeight -bottomMargin);
 
 			/*
 			if (inBarNums_l.Count > 0 && inBarNums_l.Count > i && inBarNums_l[i] >= 0) //not show the non-Wichro -1s
@@ -1682,9 +1682,10 @@ public class CairoBarsNHSeries : CairoBars
 			for(int j = 0; j < barSecondary_ll.Count; j ++)
 			{
 				PointF pS = barSecondary_ll[j][i];
+				double y = 0;
 				if(pS.Y > 0)
 				{
-					double y = calculatePaintY(pS.Y);
+					y = calculatePaintY(pS.Y);
 
 					Cairo.Color barColor = colorSerieA;
 
@@ -1721,10 +1722,10 @@ public class CairoBarsNHSeries : CairoBars
 
 				//mouse limits stuff
 				if(pS.Y > 0)
-					mouseLimits.AddInPos (mouseLimitsPos1stBar, x+adjustX, x+adjustX+barWidth);
+					mouseLimits.AddInPos (mouseLimitsPos1stBar, x+adjustX, y, x+adjustX+barWidth, graphHeight -bottomMargin);
 				else {
 					//add it 0 width, to respect order when DJs are mixed with CMJs, but not be able to be selected
-					mouseLimits.AddInPos (mouseLimitsPos1stBar, x+adjustX, x+adjustX);
+					mouseLimits.AddInPos (mouseLimitsPos1stBar, x+adjustX, y, x+adjustX, graphHeight -bottomMargin);
 				}
 				mouseLimitsPos1stBar += 2;
 
@@ -1749,7 +1750,7 @@ public class CairoBarsNHSeries : CairoBars
 						Util.FoundInListInt (worst_l, i));
 				resultOnBarsThisIteration_l.Add(new Point3F(x + adjustX + barWidth/2, y, pB.Y));
 				//add for the secondary and for the main bar, no problem both will work
-				mouseLimits.AddInPos (mouseLimitsPos2ndBar, x+adjustX, x+adjustX+barWidth);
+				mouseLimits.AddInPos (mouseLimitsPos2ndBar, x+adjustX, y, x+adjustX+barWidth, graphHeight -bottomMargin);
 				mouseLimitsPos2ndBar += 2;
 
 				//to print line variable if needed

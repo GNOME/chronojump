@@ -390,7 +390,7 @@ public partial class ChronoJumpWindow
 
 		//int bar = cairoPaintBarsPre.FindBarInPixel(args.Event.X);
 		//LogB.Information("Bar: " + bar.ToString());
-		int id = cairoPaintBarsPre.FindBarIdInPixel(args.Event.X);
+		int id = cairoPaintBarsPre.FindBarIdInPixel (args.Event.X, args.Event.Y);
 		LogB.Information("id: " + id.ToString());
 
 		if(id < 0)
@@ -1443,21 +1443,21 @@ public abstract class CairoPaintBarsPre
 		return str;
 	}
 
-	public int FindBarInPixel (double pixel)
+	public int FindBarInPixel (double px, double py)
 	{
-		LogB.Information(string.Format("FindBarInPixel cb == null: {0}, pixel: {1}", (cb == null), pixel));
+		LogB.Information(string.Format("FindBarInPixel cb == null: {0}, px: {1}, py: {2}", (cb == null), px, py));
 		if(cb == null)
 			return -1;
 
-		return cb.FindBarInPixel(pixel);
+		return cb.FindBarInPixel (px, py);
 	}
-	public int FindBarIdInPixel (double pixel)
+	public int FindBarIdInPixel (double px, double py)
 	{
-		LogB.Information(string.Format("FindBarIdInPixel cb == null: {0}, pixel: {1}", (cb == null), pixel));
+		LogB.Information(string.Format("FindBarIdInPixel cb == null: {0}, px: {1}, py: {2}", (cb == null), px, py));
 		if(cb == null)
 			return -1;
 
-		return cb.FindBarIdInPixel(pixel);
+		return cb.FindBarIdInPixel (px, py);
 	}
 }
 

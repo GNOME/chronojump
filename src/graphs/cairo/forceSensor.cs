@@ -1257,7 +1257,8 @@ public class CairoGraphForceSensorAI : CairoGraphForceSensor
 							xgStart, xgEnd, rep.sampleStart > 0, true);
 
 					//store x,y to select the repetition clicking
-					repMouseLimits.Add (xgStart, xgEnd);
+					//here it only matters the x. For this reason both y's == -1
+					repMouseLimits.Add (xgStart, -1, xgEnd, -1);
 					repMouseLimits.AddSamples (rep.sampleStart, rep.sampleEnd);
 
 					iAll ++;

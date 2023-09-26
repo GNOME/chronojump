@@ -982,7 +982,7 @@ public abstract class CairoBars : CairoGeneric
 
 		// 2) texts
 		printText(0, y -titleTextHeight, 0, titleTextHeight,
-				"Person's historical best:" + maxIntersessionEcconCriteria.ToString(),
+				string.Format ("Person's historical best {0} saved repetition", maxIntersessionEcconCriteria),
 				g, alignTypes.LEFT);
 
 		if(maxIntersessionValueStr != "")

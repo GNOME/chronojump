@@ -617,54 +617,61 @@ public class MovingStartButton
 	}
 }
 
-//to store the xStart and xEnd of every encoder or forceSensor capture reptition
+//to store the rectangle size of every encoder or forceSensor capture repetition
 //in order to be saved or not on clicking screen
 //note every rep will be c or ec
 public class RepetitionMouseLimits
 {
 //	TODO: make all the sample stuff inherited
 
-	protected List<PointStartEnd> list;
+	protected List<PointInRectangle> list;
 	protected int current;
 
 	public RepetitionMouseLimits()
 	{
-		list = new List<PointStartEnd>();
+		list = new List<PointInRectangle>();
 		current = 0;
 	}
 
-	public void Add (double start, double end)
+	public void Add (double startX, double startY, double endX, double endY)
 	{
-		PointStartEnd p = new PointStartEnd(current ++, start, end);
+		PointInRectangle p = new PointInRectangle (current ++, startX, startY, endX, endY);
 		list.Add(p);
 		//LogB.Information("Mouse added: " + p.ToString());
 	}
 
 	//used on CairoBars because bars go from right to left, so we force the pos here
-	public void AddInPos (int pos, double start, double end)
+	public void AddInPos (int pos, double startX, double startY, double endX, double endY)
 	{
-		PointStartEnd p = new PointStartEnd(pos, start, end);
+		PointInRectangle p = new PointInRectangle (pos, startX, startY, endX, endY);
 		list.Add(p);
 		//LogB.Information("Mouse added: " + p.ToString());
 	}
 
-	public int FindBarInPixel (double pixel)
+	public int FindBarInPixel (double px, double py)
 	{
-		foreach(PointStartEnd p in list)
-			if(pixel >= p.Start && pixel <= p.End)
-				return p.Id;
+		foreach (PointInRectangle pir in list)
+			if (px >= pir.StartX && px <= pir.EndX)
+			{
+				if (pir.StartY < 0 && pir.EndY < 0) //forceSensor does not have Y, so both are -1, only check X
+					return pir.Id;
+				else if (py >= pir.StartY && py <= pir.EndY) //encoder has Y, need to check it
+					return pir.Id;
+			}
 
 		return -1;
 	}
 
+	/*
 	public double GetStartOfARep(int rep)
 	{
-		return ((PointStartEnd) list[rep]).Start;
+		return ((PointInRectangle) list[rep]).Start;
 	}
 	public double GetEndOfARep(int rep)
 	{
-		return ((PointStartEnd) list[rep]).End;
+		return ((PointInRectangle) list[rep]).End;
 	}
+	*/
 
 	//to debug
 	public int Count ()
@@ -680,7 +687,7 @@ public class RepetitionMouseLimitsWithSamples : RepetitionMouseLimits
 
 	public RepetitionMouseLimitsWithSamples ()
 	{
-		list = new List<PointStartEnd>();
+		list = new List<PointInRectangle>();
 		current = 0;
 
 		sampleStart_l = new List<int>();

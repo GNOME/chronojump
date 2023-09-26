@@ -376,32 +376,42 @@ public class TwoListsOfDoubles
 }
 
 //like Point but for having an xStart and xEnd
-public class PointStartEnd
+public class PointInRectangle
 {
 	private int id;
-	private double start;
-	private double end;
+	private double startX;
+	private double startY;
+	private double endX;
+	private double endY;
 
-	public PointStartEnd (int id, double start, double end)
+	public PointInRectangle (int id, double startX, double startY, double endX, double endY)
 	{
 		this.id = id;
-		this.start = start;
-		this.end = end;
+		this.startX = startX;
+		this.startY = startY;
+		this.endX = endX;
+		this.endY = endY;
 	}
 
 	public int Id {
 		get { return id; }
 	}
-	public double Start {
-		get { return start; }
+	public double StartX {
+		get { return startX; }
 	}
-	public double End {
-		get { return end; }
+	public double StartY {
+		get { return startY; }
+	}
+	public double EndX {
+		get { return endX; }
+	}
+	public double EndY {
+		get { return endY; }
 	}
 
 	public override string ToString()
 	{
-		return string.Format("Id:{0}; Start:{1}; End:{2}", id, start, end);
+		return string.Format("Id:{0}; StartX:{1}; StartY:{2}, EndX:{3}, EndY:{4}", id, startX, startY, endX, endY);
 	}
 
 }

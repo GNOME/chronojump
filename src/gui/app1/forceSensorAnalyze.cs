@@ -1102,7 +1102,7 @@ public partial class ChronoJumpWindow
 		if (fsAIRepetitionMouseLimitsCairo == null)
 			return;
 
-		int repetition = fsAIFindBarInPixelCairo (args.Event.X);
+		int repetition = fsAIFindBarInPixelCairo (args.Event.X, args.Event.Y);
 		LogB.Information("Repetition: " + repetition.ToString());
 		if(repetition < 0)
 			return;
@@ -1122,19 +1122,19 @@ public partial class ChronoJumpWindow
 	{
 	}
 
-	private int fsAIFindBarInPixel (double pixel)
+	private int fsAIFindBarInPixel (double px, double py)
 	{
 		if(fsAIRepetitionMouseLimits == null)
 			return -1;
 
-		return fsAIRepetitionMouseLimits.FindBarInPixel(pixel);
+		return fsAIRepetitionMouseLimits.FindBarInPixel (px, py);
 	}
-	private int fsAIFindBarInPixelCairo (double pixel)
+	private int fsAIFindBarInPixelCairo (double px, double py)
 	{
 		if(fsAIRepetitionMouseLimitsCairo == null)
 			return -1;
 
-		return fsAIRepetitionMouseLimitsCairo.FindBarInPixel (pixel);
+		return fsAIRepetitionMouseLimitsCairo.FindBarInPixel (px, py);
 	}
 
 

@@ -6190,7 +6190,7 @@ public partial class ChronoJumpWindow
 			return;
 
 		LogB.Information("on_encoder_capture_curves_bars_drawingarea_cairo_button_press_event 1");
-		int repetition = cairoPaintBarsPre.FindBarInPixel(args.Event.X);
+		int repetition = cairoPaintBarsPre.FindBarInPixel (args.Event.X, args.Event.Y);
 		//LogB.Information("Repetition: " + repetition.ToString());
 		if(repetition >= 0)
 		{

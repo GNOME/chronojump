@@ -848,6 +848,14 @@ public class ChronoJump
 		return returnString;
 	}
 
+	/*
+	 * note this is created relatively late
+	 * so it can happen that two Chronojump instances are run almost at the same time
+	 * 2nd instance will check chronojumpIsExecutingNTimes only if checkIfChronojumpExitAbnormally is true
+	 * checkIfChronojumpExitAbnormally is true eg when chronojump_running exists
+	 * so maybe chronojump_running still does not exists because createRunningFileName is called a bit late.
+	 * So if there is a service to autostart chronojump (eg. in networks), do not make that service start very fast
+	 */
 	private void createRunningFileName(string runningFileName) {
 		TextWriter writer = File.CreateText(runningFileName);
 		writer.WriteLine(Process.GetCurrentProcess().Id);

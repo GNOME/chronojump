@@ -22889,6 +22889,9 @@ Concentric</property>
                                                             <child>
                                                             <placeholder/>
                                                             </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
                                                             </object>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -33620,6 +33623,7 @@ Concentric</property>
                                                             <object class="GtkHBox" id="hbox532">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
+                                                            <property name="spacing">2</property>
                                                             <child>
                                                             <object class="GtkDrawingArea" id="encoder_capture_curves_bars_drawingarea_cairo">
                                                             <property name="visible">True</property>

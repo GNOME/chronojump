@@ -2514,6 +2514,7 @@ public class CairoPaintBarplotPreEncoder : CairoPaintBarsPre
 	//used on encoder when !relativeToSet
 	private double maxAbsoluteForCalc;
 	private double maxThisSetForCalc;
+	private double maxThisSetSaved; //cb.MaxIntersession will be the greatest of pegbe.maxPowerSpeedForceIntersession and best saved repetition in this set
 
 	private string units;
 	private string titleStr;
@@ -2669,6 +2670,7 @@ public class CairoPaintBarplotPreEncoder : CairoPaintBarsPre
 		//Get max min avg values of this set
 		double maxThisSetForGraph = -100000;
 		maxThisSetForCalc = -100000;
+		maxThisSetSaved = -100000;
 		double minThisSet = 100000;
 		/*
 		 * if ! Preferences.EncoderPhasesEnum.BOTH, eg: ECC, we can graph max CON (that maybe is the highest value) , but for calculations we want only the max ECC value, so:
@@ -2919,6 +2921,9 @@ public class CairoPaintBarplotPreEncoder : CairoPaintBarsPre
 				{
 					sumSaved += mainVariableValue;
 					countSaved ++;
+
+					if (mainVariableValue > maxThisSetSaved)
+						maxThisSetSaved = mainVariableValue;
 				}
 
 				if(pegbe.eccon == "c")
@@ -3059,10 +3064,17 @@ public class CairoPaintBarplotPreEncoder : CairoPaintBarsPre
 
 		if(! pegbe.relativeToSet)
 		{
-			cb.MaxIntersession = pegbe.maxPowerSpeedForceIntersession;
+			if (maxThisSetSaved >= pegbe.maxPowerSpeedForceIntersession)
+			{
+				cb.MaxIntersession = maxThisSetSaved;
+				cb.MaxIntersessionValueStr = "";//Util.TrimDecimals (maxThisSetSaved, decs) + " " + units;
+				cb.MaxIntersessionDate = "";
+			} else {
+				cb.MaxIntersession = pegbe.maxPowerSpeedForceIntersession;
+				cb.MaxIntersessionValueStr = Util.TrimDecimals(pegbe.maxPowerSpeedForceIntersession, decs) + " " + units;
+				cb.MaxIntersessionDate = pegbe.maxPowerSpeedForceIntersessionDate;
+			}
 			cb.MaxIntersessionEcconCriteria = preferences.GetEncoderRepetitionCriteria (pegbe.hasInertia);
-			cb.MaxIntersessionValueStr = Util.TrimDecimals(pegbe.maxPowerSpeedForceIntersession, decs) + " " + units;
-			cb.MaxIntersessionDate = pegbe.maxPowerSpeedForceIntersessionDate;
 		}
 
 		//this should be passed before PassData1Serie && PassData2Series

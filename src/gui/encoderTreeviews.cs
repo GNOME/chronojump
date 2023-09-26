@@ -353,6 +353,9 @@ public partial class ChronoJumpWindow
 			encoderCaptureListStore.EmitRowChanged(path,iter);
 
 			saveOrDeleteCurveFromCaptureTreeView(false, rowNum, curve, ! val);
+
+			//maybe changed repetition updates the max, so check it:
+			findMaxPowerSpeedForceIntersession();
 			
 			/* temporarily removed message
 			 *

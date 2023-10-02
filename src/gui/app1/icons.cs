@@ -120,6 +120,7 @@ public partial class ChronoJumpWindow
 	Gtk.Image image_help_yellow;
 	Gtk.Image image_button_help_close;
 
+	Gtk.Image image_contacts_edit_selected;
 	Gtk.Image image_edit_selected_jump;
 	Gtk.Image image_edit_selected_jump_rj;
 	Gtk.Image image_edit_selected_run;
@@ -127,6 +128,8 @@ public partial class ChronoJumpWindow
 	Gtk.Image image_edit_selected_pulse;
 	Gtk.Image image_edit_selected_reaction_time;
 	Gtk.Image image_edit_selected_multi_chronopic;
+
+	Gtk.Image image_contacts_delete_selected;
 
 	Gtk.Image image_button_contacts_capture_save_image_chart;
 	Gtk.Image image_button_contacts_capture_save_image_disk;
@@ -570,6 +573,7 @@ public partial class ChronoJumpWindow
 		image_edit_current_person_h.Pixbuf = pixbuf;
 		image_session_edit2.Pixbuf = pixbuf;
 		app1s_image_edit.Pixbuf = pixbuf;
+		image_contacts_edit_selected.Pixbuf = pixbuf;
 		image_edit_selected_jump.Pixbuf = pixbuf;
 		image_edit_selected_jump_rj.Pixbuf = pixbuf;
 		image_edit_selected_run.Pixbuf = pixbuf;
@@ -796,6 +800,7 @@ public partial class ChronoJumpWindow
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "stock_delete.png");
 		image_person_delete_h.Pixbuf = pixbuf;
 		image_delete_last_test.Pixbuf = pixbuf;
+		image_contacts_delete_selected.Pixbuf = pixbuf;
 		image_jump_delete.Pixbuf = pixbuf;
 		image_jump_reactive_delete.Pixbuf = pixbuf;
 		image_run_delete.Pixbuf = pixbuf;
@@ -1202,6 +1207,7 @@ public partial class ChronoJumpWindow
 		image_help_yellow = (Gtk.Image) builder.GetObject ("image_help_yellow");
 		image_button_help_close = (Gtk.Image) builder.GetObject ("image_button_help_close");
 
+		image_contacts_edit_selected = (Gtk.Image) builder.GetObject ("image_contacts_edit_selected");
 		image_edit_selected_jump = (Gtk.Image) builder.GetObject ("image_edit_selected_jump");
 		image_edit_selected_jump_rj = (Gtk.Image) builder.GetObject ("image_edit_selected_jump_rj");
 		image_edit_selected_run = (Gtk.Image) builder.GetObject ("image_edit_selected_run");
@@ -1209,6 +1215,8 @@ public partial class ChronoJumpWindow
 		image_edit_selected_pulse = (Gtk.Image) builder.GetObject ("image_edit_selected_pulse");
 		image_edit_selected_reaction_time = (Gtk.Image) builder.GetObject ("image_edit_selected_reaction_time");
 		image_edit_selected_multi_chronopic = (Gtk.Image) builder.GetObject ("image_edit_selected_multi_chronopic");
+
+		image_contacts_delete_selected = (Gtk.Image) builder.GetObject ("image_contacts_delete_selected");
 
 		image_button_contacts_capture_save_image_chart = (Gtk.Image) builder.GetObject ("image_button_contacts_capture_save_image_chart");
 		image_button_contacts_capture_save_image_disk = (Gtk.Image) builder.GetObject ("image_button_contacts_capture_save_image_disk");

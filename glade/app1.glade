@@ -7857,7 +7857,7 @@
                                                             <object class="GtkLabel" id="label558">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
-                                                            <property name="label" translatable="yes">Test:</property>
+                                                            <property name="label" translatable="yes">Exercise:</property>
                                                             </object>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -8117,6 +8117,67 @@
                                                             </packing>
                                                             </child>
                                                             <child>
+                                                            <object class="GtkBox">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="spacing">6</property>
+                                                            <child>
+                                                            <object class="GtkLabel">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="label" translatable="yes">Test:</property>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkButton" id="button_contacts_edit_selected">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">True</property>
+                                                            <property name="receives-default">True</property>
+                                                            <property name="tooltip-text" translatable="yes">Edit</property>
+                                                            <signal name="clicked" handler="on_button_contacts_edit_selected_clicked" swapped="no"/>
+                                                            <child>
+                                                            <object class="GtkImage" id="image_contacts_edit_selected">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="stock">gtk-edit</property>
+                                                            <property name="icon_size">1</property>
+                                                            </object>
+                                                            </child>
+                                                            <accelerator key="e" signal="clicked"/>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkButton" id="button_contacts_delete_selected">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">True</property>
+                                                            <property name="receives-default">True</property>
+                                                            <property name="tooltip-text" translatable="yes">Delete</property>
+                                                            <signal name="clicked" handler="on_button_contacts_delete_selected_clicked" swapped="no"/>
+                                                            <child>
+                                                            <object class="GtkImage" id="image_contacts_delete_selected">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            </object>
+                                                            </child>
+                                                            <accelerator key="d" signal="activate"/>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">2</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
                                                             <object class="GtkButton" id="button_inspect_last_test_run_simple">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">True</property>
@@ -8130,6 +8191,13 @@
                                                             <property name="can-focus">False</property>
                                                             <property name="stock">gtk-missing-image</property>
                                                             </object>
+                                                            </child>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">3</property>
+                                                            </packing>
                                                             </child>
                                                             </object>
                                                             <packing>

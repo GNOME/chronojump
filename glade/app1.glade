@@ -22565,6 +22565,9 @@ Concentric</property>
                                                             <child>
                                                             <placeholder/>
                                                             </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
                                                             </object>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -31396,19 +31399,11 @@ Concentric</property>
                                                             <property name="label-yalign">0</property>
                                                             <property name="shadow-type">in</property>
                                                             <child>
-                                                            <object class="GtkAlignment" id="alignment23">
+                                                            <object class="GtkBox">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
-                                                            <property name="top-padding">6</property>
-                                                            <property name="bottom-padding">6</property>
-                                                            <property name="left-padding">6</property>
-                                                            <property name="right-padding">6</property>
-                                                            <child>
-                                                            <object class="GtkHBox" id="hbox80">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="border-width">2</property>
-                                                            <property name="spacing">10</property>
+                                                            <property name="border-width">6</property>
+                                                            <property name="spacing">12</property>
                                                             <child>
                                                             <object class="GtkVBox" id="vbox13">
                                                             <property name="visible">True</property>
@@ -31475,15 +31470,17 @@ Concentric</property>
                                                             </object>
                                                             <packing>
                                                             <property name="expand">False</property>
-                                                            <property name="fill">False</property>
+                                                            <property name="fill">True</property>
                                                             <property name="position">0</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <object class="GtkVBox" id="vbox5">
+                                                            <!-- n-columns=2 n-rows=2 -->
+                                                            <object class="GtkGrid">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
-                                                            <property name="spacing">8</property>
+                                                            <property name="row-spacing">12</property>
+                                                            <property name="column-spacing">12</property>
                                                             <child>
                                                             <object class="GtkHBox" id="hbox144">
                                                             <property name="visible">True</property>
@@ -31541,9 +31538,8 @@ Concentric</property>
                                                             </child>
                                                             </object>
                                                             <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="position">0</property>
+                                                            <property name="left-attach">0</property>
+                                                            <property name="top-attach">0</property>
                                                             </packing>
                                                             </child>
                                                             <child>
@@ -31592,7 +31588,7 @@ Concentric</property>
                                                             <child>
                                                             <object class="GtkNotebook" id="notebook_encoder_top">
                                                             <property name="visible">True</property>
-                                                            <property name="can-focus">True</property>
+                                                            <property name="can-focus">False</property>
                                                             <property name="show-tabs">False</property>
                                                             <property name="show-border">False</property>
                                                             <child>
@@ -31604,6 +31600,7 @@ Concentric</property>
                                                             <object class="GtkHBox" id="hbox75">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
+                                                            <property name="spacing">2</property>
                                                             <child>
                                                             <object class="GtkImage" id="image_top_extra_mass">
                                                             <property name="width-request">28</property>
@@ -31632,13 +31629,14 @@ Concentric</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <object class="GtkButton" id="fake_button_encoder_exercise_weight_plus">
+                                                            <object class="GtkButton" id="fake_button_encoder_exercise_weight_minus">
+                                                            <property name="label">-1</property>
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="receives-default">True</property>
-                                                            <property name="relief">none</property>
-                                                            <signal name="clicked" handler="on_fake_button_encoder_exercise_weight_plus_clicked" swapped="no"/>
-                                                            <accelerator key="plus" signal="clicked"/>
+                                                            <property name="relief">half</property>
+                                                            <signal name="clicked" handler="on_fake_button_encoder_exercise_weight_minus_clicked" swapped="no"/>
+                                                            <accelerator key="minus" signal="clicked"/>
                                                             </object>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -31647,13 +31645,14 @@ Concentric</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <object class="GtkButton" id="fake_button_encoder_exercise_weight_minus">
+                                                            <object class="GtkButton" id="fake_button_encoder_exercise_weight_plus">
+                                                            <property name="label">+1</property>
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="receives-default">True</property>
-                                                            <property name="relief">none</property>
-                                                            <signal name="clicked" handler="on_fake_button_encoder_exercise_weight_minus_clicked" swapped="no"/>
-                                                            <accelerator key="minus" signal="clicked"/>
+                                                            <property name="relief">half</property>
+                                                            <signal name="clicked" handler="on_fake_button_encoder_exercise_weight_plus_clicked" swapped="no"/>
+                                                            <accelerator key="plus" signal="clicked"/>
                                                             </object>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -31679,7 +31678,6 @@ Concentric</property>
                                                             <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">False</property>
-                                                            <property name="pack-type">end</property>
                                                             <property name="position">1</property>
                                                             </packing>
                                                             </child>
@@ -31704,6 +31702,7 @@ Concentric</property>
                                                             <object class="GtkHBox" id="hbox112">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
+                                                            <property name="spacing">2</property>
                                                             <child>
                                                             <object class="GtkImage" id="image_encoder_inertial_top_weights">
                                                             <property name="visible">True</property>
@@ -31730,13 +31729,14 @@ Concentric</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <object class="GtkButton" id="fake_button_encoder_exercise_im_weights_n_plus">
+                                                            <object class="GtkButton" id="fake_button_encoder_exercise_im_weights_n_minus">
+                                                            <property name="label">-1</property>
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="receives-default">True</property>
-                                                            <property name="relief">none</property>
-                                                            <signal name="clicked" handler="on_fake_button_encoder_exercise_im_weights_n_plus_clicked" swapped="no"/>
-                                                            <accelerator key="plus" signal="clicked"/>
+                                                            <property name="relief">half</property>
+                                                            <signal name="clicked" handler="on_fake_button_encoder_exercise_im_weights_n_minus_clicked" swapped="no"/>
+                                                            <accelerator key="minus" signal="clicked"/>
                                                             </object>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -31745,13 +31745,14 @@ Concentric</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <object class="GtkButton" id="fake_button_encoder_exercise_im_weights_n_minus">
+                                                            <object class="GtkButton" id="fake_button_encoder_exercise_im_weights_n_plus">
+                                                            <property name="label">+1</property>
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="receives-default">True</property>
-                                                            <property name="relief">none</property>
-                                                            <signal name="clicked" handler="on_fake_button_encoder_exercise_im_weights_n_minus_clicked" swapped="no"/>
-                                                            <accelerator key="minus" signal="clicked"/>
+                                                            <property name="relief">half</property>
+                                                            <signal name="clicked" handler="on_fake_button_encoder_exercise_im_weights_n_plus_clicked" swapped="no"/>
+                                                            <accelerator key="plus" signal="clicked"/>
                                                             </object>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -31804,20 +31805,22 @@ Concentric</property>
                                                             </child>
                                                             </object>
                                                             <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="pack-type">end</property>
-                                                            <property name="position">1</property>
+                                                            <property name="left-attach">0</property>
+                                                            <property name="top-attach">1</property>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             </object>
                                                             <packing>
-                                                            <property name="expand">True</property>
+                                                            <property name="expand">False</property>
                                                             <property name="fill">True</property>
                                                             <property name="position">1</property>
                                                             </packing>
-                                                            </child>
-                                                            </object>
                                                             </child>
                                                             </object>
                                                             </child>

@@ -4031,7 +4031,7 @@ public partial class ChronoJumpWindow
 
 		event_execute_label_message.Text = "";
 
-		hbox_drawingarea_realtime_capture_cairo.Visible = false;
+		align_drawingarea_realtime_capture_cairo.Visible = false;
 		vbox_event_execute_drawingarea_run_interval_realtime_capture_cairo.Visible = false;
 
 		if(chronopicRegister == null)
@@ -4107,7 +4107,7 @@ public partial class ChronoJumpWindow
 				event_graph_label_graph_test.Visible = false;
 				vbox_contacts_simple_graph_controls.Visible = true;
 
-				hbox_drawingarea_realtime_capture_cairo.Visible = true;
+				align_drawingarea_realtime_capture_cairo.Visible = true;
 
 				//align_check_vbox_contacts_graph_legend.Visible = false;
 				//vbox_contacts_graph_legend.Visible = false;
@@ -4185,7 +4185,7 @@ public partial class ChronoJumpWindow
 				event_graph_label_graph_test.Visible = false;
 				vbox_contacts_simple_graph_controls.Visible = true;
 
-				hbox_drawingarea_realtime_capture_cairo.Visible = true;
+				align_drawingarea_realtime_capture_cairo.Visible = true;
 				vbox_event_execute_drawingarea_run_interval_realtime_capture_cairo.Visible = true;
 
 				//align_check_vbox_contacts_graph_legend.Visible = false;

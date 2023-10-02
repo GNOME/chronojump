@@ -273,18 +273,12 @@ public partial class ChronoJumpWindow
 	Gtk.HBox hbox_contacts_device_adjust_threshold;
 
 	Gtk.Button button_contacts_edit_selected;
+	Gtk.Button button_contacts_repair_selected;
 	Gtk.Button button_contacts_delete_selected;
-
-	//jumps
-	Gtk.Button button_repair_selected_jump_rj;
 
 	Gtk.Image extra_windows_jumps_image_dj_fall_calculate;
 	Gtk.Image extra_windows_jumps_image_dj_fall_predefined;
 	Gtk.HBox hbox_extra_window_jumps_fall_height;
-
-	//runs
-	Gtk.Button button_repair_selected_run_interval;
-
 
 	//other
 	//reaction time
@@ -374,10 +368,7 @@ public partial class ChronoJumpWindow
 	//non standard icons	
 	//Gtk.Image image_jump_reactive_bell;
 	//Gtk.Image image_run_interval_bell;
-	Gtk.Image image_jump_reactive_repair;
-	Gtk.Image image_run_interval_repair;
-	Gtk.Image image_multi_chronopic_repair;
-	Gtk.Image image_pulse_repair;
+	Gtk.Image image_contacts_repair_selected;
 	Gtk.Image image_jump_type_delete_simple;
 	Gtk.Image image_jump_type_delete_reactive;
 	Gtk.Image image_run_type_delete_simple;
@@ -3972,6 +3963,9 @@ public partial class ChronoJumpWindow
 		}
 		button_contacts_edit_selected.Sensitive = false;
 		button_contacts_delete_selected.Sensitive = false;
+
+		button_contacts_repair_selected.Visible = (m == Constants.Modes.JUMPSREACTIVE || m == Constants.Modes.RUNSINTERVALLIC);
+		button_contacts_repair_selected.Sensitive = false;
 
 		//show capture graph and/or table
 		if (! Constants.ModeIsENCODER (m))
@@ -8120,6 +8114,14 @@ LogB.Debug("mc finished 5");
 	 *  --------------------------------------------------------
 	 */
 	
+	private void on_button_contacts_repair_selected_clicked (object o, EventArgs args)
+	{
+		if (current_mode == Constants.Modes.JUMPSREACTIVE)
+			on_repair_selected_jump_rj_clicked (o, args);
+		else if (current_mode == Constants.Modes.RUNSINTERVALLIC)
+			on_repair_selected_run_interval_clicked (o, args);
+	}
+
 	private void on_repair_selected_jump_rj_clicked (object o, EventArgs args) {
 		//notebooks_change(1); see "notebooks_change sqlite problem"
 		LogB.Information("Repair selected subjump");
@@ -9775,14 +9777,11 @@ LogB.Debug("mc finished 5");
 		//bool success = false;
 		//bool recordedVideo = false;
 
-		if (current_mode == Constants.Modes.JUMPSREACTIVE)
-			button_repair_selected_jump_rj.Sensitive = show;
-		if (current_mode == Constants.Modes.RUNSINTERVALLIC)
-			button_repair_selected_run_interval.Sensitive = show;
-		//if (type == "ALL" || type == "Pulse")
-		//	button_repair_selected_pulse.Sensitive = show;
-
 		button_contacts_edit_selected.Sensitive = show;
+
+		if (current_mode == Constants.Modes.JUMPSREACTIVE || current_mode == Constants.Modes.RUNSINTERVALLIC)
+			button_contacts_repair_selected.Sensitive = show;
+
 		button_contacts_delete_selected.Sensitive = show;
 		button_video_play_selected_test (current_mode);
 		//LogB.Information("recordedVideo = " + recordedVideo.ToString());
@@ -10044,18 +10043,13 @@ LogB.Debug("mc finished 5");
 		hbox_contacts_device_adjust_threshold = (Gtk.HBox) builder.GetObject ("hbox_contacts_device_adjust_threshold");
 
 		button_contacts_edit_selected = (Gtk.Button) builder.GetObject ("button_contacts_edit_selected");
+		button_contacts_repair_selected = (Gtk.Button) builder.GetObject ("button_contacts_repair_selected");
 		button_contacts_delete_selected = (Gtk.Button) builder.GetObject ("button_contacts_delete_selected");
 
 		//jumps
-		button_repair_selected_jump_rj = (Gtk.Button) builder.GetObject ("button_repair_selected_jump_rj");
-
 		extra_windows_jumps_image_dj_fall_calculate = (Gtk.Image) builder.GetObject ("extra_windows_jumps_image_dj_fall_calculate");
 		extra_windows_jumps_image_dj_fall_predefined = (Gtk.Image) builder.GetObject ("extra_windows_jumps_image_dj_fall_predefined");
 		hbox_extra_window_jumps_fall_height = (Gtk.HBox) builder.GetObject ("hbox_extra_window_jumps_fall_height");
-
-		//runs
-		button_repair_selected_run_interval = (Gtk.Button) builder.GetObject ("button_repair_selected_run_interval");
-
 
 		//other
 		//reaction time
@@ -10145,10 +10139,7 @@ LogB.Debug("mc finished 5");
 		//non standard icons	
 		//image_jump_reactive_bell = (Gtk.Image) builder.GetObject ("image_jump_reactive_bell");
 		//image_run_interval_bell = (Gtk.Image) builder.GetObject ("image_run_interval_bell");
-		image_jump_reactive_repair = (Gtk.Image) builder.GetObject ("image_jump_reactive_repair");
-		image_run_interval_repair = (Gtk.Image) builder.GetObject ("image_run_interval_repair");
-		image_multi_chronopic_repair = (Gtk.Image) builder.GetObject ("image_multi_chronopic_repair");
-		image_pulse_repair = (Gtk.Image) builder.GetObject ("image_pulse_repair");
+		image_contacts_repair_selected = (Gtk.Image) builder.GetObject ("image_contacts_repair_selected");
 		image_jump_type_delete_simple = (Gtk.Image) builder.GetObject ("image_jump_type_delete_simple");
 		image_jump_type_delete_reactive = (Gtk.Image) builder.GetObject ("image_jump_type_delete_reactive");
 		image_run_type_delete_simple = (Gtk.Image) builder.GetObject ("image_run_type_delete_simple");

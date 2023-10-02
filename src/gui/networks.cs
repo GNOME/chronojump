@@ -561,9 +561,7 @@ public partial class ChronoJumpWindow
 
 		button_contacts_bells.Visible = ! guest;
 		button_video_play_this_test_contacts.Visible = ! guest;
-
-		button_repair_selected_jump_rj.Visible = ! guest;
-		button_repair_selected_run_interval.Visible = ! guest;
+		button_contacts_repair_selected.Visible = ! guest;
 	}
 	private void configNetworksEncoderAsGuest(bool guest)
 	{

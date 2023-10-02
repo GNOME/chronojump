@@ -6257,43 +6257,6 @@
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <object class="GtkVBox" id="vbox151">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="spacing">8</property>
-                                                            <child>
-                                                            <object class="GtkButton" id="button_contacts_bells">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">True</property>
-                                                            <property name="receives-default">True</property>
-                                                            <property name="has-tooltip">True</property>
-                                                            <property name="tooltip-text" translatable="yes">Feedback</property>
-                                                            <signal name="clicked" handler="on_button_contacts_bells_clicked" swapped="no"/>
-                                                            <child>
-                                                            <object class="GtkImage" id="image_contacts_bell">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="stock">gtk-missing-image</property>
-                                                            </object>
-                                                            </child>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">True</property>
-                                                            <property name="fill">True</property>
-                                                            <property name="position">0</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
-                                                            <placeholder/>
-                                                            </child>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="position">2</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
                                                             <object class="GtkAlignment" id="alignment8">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
@@ -7312,6 +7275,29 @@
                                                             <property name="fill">False</property>
                                                             <property name="pack-type">end</property>
                                                             <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkButton" id="button_contacts_bells">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">True</property>
+                                                            <property name="receives-default">True</property>
+                                                            <property name="has-tooltip">True</property>
+                                                            <property name="tooltip-text" translatable="yes">Feedback</property>
+                                                            <signal name="clicked" handler="on_button_contacts_bells_clicked" swapped="no"/>
+                                                            <child>
+                                                            <object class="GtkImage" id="image_contacts_bell">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="stock">gtk-missing-image</property>
+                                                            </object>
+                                                            </child>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="pack-type">end</property>
+                                                            <property name="position">1</property>
                                                             </packing>
                                                             </child>
                                                             </object>

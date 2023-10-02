@@ -60,7 +60,7 @@ public partial class ChronoJumpWindow
 		button_contacts_exercise_close_and_recalculate.TooltipText += string.Format(" ({0}+r)", kCtrl);
 		event_execute_button_finish.TooltipText += string.Format(" ({0})", kEnter);
 		event_execute_button_cancel.TooltipText += " (Escape)";
-		button_delete_last_test.TooltipText += string.Format(" ({0}+d)", kCtrl);
+		button_contacts_delete_selected.TooltipText += string.Format(" ({0}+d)", kCtrl);
 		button_contacts_capture_session_overview.TooltipText += string.Format(" ({0}+o)", kCtrl);
 		button_contacts_capture_load.TooltipText += string.Format(" ({0}+l)", kCtrl);
 		//button_signal_analyze_load_ab.TooltipText += string.Format(" ({0}+l)", kCtrl);

@@ -547,7 +547,7 @@ public partial class ChronoJumpWindow
 		textview_contacts_signal_comment.Buffer.Text = "";
 		hbox_force_general_analysis.Sensitive = false;
 		button_ai_model.Sensitive = false;
-		button_delete_last_test.Sensitive = false;
+		button_contacts_delete_selected.Sensitive = false;
 
 		// if on RFD model graph shown, go back to signal
 		if (notebook_ai_top.CurrentPage ==
@@ -1707,7 +1707,7 @@ LogB.Information(" fs C ");
 					hbox_force_sensor_analyze_ai_sliders_and_buttons.Sensitive = true;
 
 					button_contacts_exercise_close_and_recalculate.Sensitive = true;
-					button_delete_last_test.Sensitive = true;
+					button_contacts_delete_selected.Sensitive = true;
 					button_force_sensor_image_save_signal.Sensitive = true;
 					hbox_force_general_analysis.Sensitive = true;
 					button_ai_model_options_close_and_analyze.Sensitive = true;
@@ -1757,7 +1757,7 @@ LogB.Information(" fs C ");
 				button_ai_model_save_image.Sensitive = false;
 				button_force_sensor_image_save_rfd_manual.Sensitive = false;
 				button_contacts_exercise_close_and_recalculate.Sensitive = false;
-				button_delete_last_test.Sensitive = false;
+				button_contacts_delete_selected.Sensitive = false;
 			}
 			else
 					event_execute_label_message.Text = "";

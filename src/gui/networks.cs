@@ -557,28 +557,13 @@ public partial class ChronoJumpWindow
 		button_menu_preferences1.Visible = ! guest;
 		button_contacts_capture_load.Visible = ! guest;
 		button_contacts_capture_session_overview.Visible = ! guest;
-		button_delete_last_test.Visible = ! guest;
+		button_contacts_delete_selected.Visible = ! guest;
 
 		button_contacts_bells.Visible = ! guest;
 		button_video_play_this_test_contacts.Visible = ! guest;
 
-		//simple jumps
-		button_edit_selected_jump.Visible = ! guest;
-		button_delete_selected_jump.Visible = ! guest;
-
-		//multiple jumps
-		button_edit_selected_jump_rj.Visible = ! guest;
 		button_repair_selected_jump_rj.Visible = ! guest;
-		button_delete_selected_jump_rj.Visible = ! guest;
-
-		//simple races
-		button_edit_selected_run.Visible = ! guest;
-		button_delete_selected_run.Visible = ! guest;
-
-		//intervallic races
-		button_edit_selected_run_interval.Visible = ! guest;
 		button_repair_selected_run_interval.Visible = ! guest;
-		button_delete_selected_run_interval.Visible = ! guest;
 	}
 	private void configNetworksEncoderAsGuest(bool guest)
 	{

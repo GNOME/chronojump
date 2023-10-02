@@ -481,7 +481,7 @@ public partial class ChronoJumpWindow
 		clearRaceAnalyzerTriggersFromTextView();
 
 		button_ai_model.Sensitive = false;
-		button_delete_last_test.Sensitive = false;
+		button_contacts_delete_selected.Sensitive = false;
 		button_ai_model_save_image.Sensitive = false;
 
 		if (radio_ai_export_individual_current_session.Active)
@@ -1971,7 +1971,7 @@ public partial class ChronoJumpWindow
 					button_ai_model_options_close_and_analyze.Sensitive = true;
 					button_ai_model.Sensitive = true;
 					button_ai_model_save_image.Sensitive = true;
-					button_delete_last_test.Sensitive = true;
+					button_contacts_delete_selected.Sensitive = true;
 
 					/*
 					fscPoints.InitRealWidthHeight();
@@ -2009,7 +2009,7 @@ public partial class ChronoJumpWindow
 				button_ai_model_options_close_and_analyze.Sensitive = false;
 				button_ai_model.Sensitive = false;
 				button_ai_model_save_image.Sensitive = false;
-				button_delete_last_test.Sensitive = false;
+				button_contacts_delete_selected.Sensitive = false;
 
 				if(runEncoderProcessCancel)
 					event_execute_label_message.Text = "Cancelled.";

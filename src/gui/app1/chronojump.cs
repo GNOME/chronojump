@@ -276,10 +276,6 @@ public partial class ChronoJumpWindow
 	Gtk.Button button_contacts_delete_selected;
 
 	//jumps
-	Gtk.Button button_edit_selected_jump;
-	Gtk.Button button_delete_selected_jump;
-	Gtk.Button button_edit_selected_jump_rj;
-	Gtk.Button button_delete_selected_jump_rj;
 	Gtk.Button button_repair_selected_jump_rj;
 
 	Gtk.Image extra_windows_jumps_image_dj_fall_calculate;
@@ -287,17 +283,11 @@ public partial class ChronoJumpWindow
 	Gtk.HBox hbox_extra_window_jumps_fall_height;
 
 	//runs
-	Gtk.Button button_edit_selected_run;
-	Gtk.Button button_delete_selected_run;
-	Gtk.Button button_edit_selected_run_interval;
-	Gtk.Button button_delete_selected_run_interval;
 	Gtk.Button button_repair_selected_run_interval;
 
 
 	//other
 	//reaction time
-	Gtk.Button button_edit_selected_reaction_time;
-	Gtk.Button button_delete_selected_reaction_time;
 	Gtk.SpinButton spinbutton_animation_lights_speed;
 	Gtk.SpinButton spinbutton_flicker_lights_speed;
 	Gtk.CheckButton check_reaction_time_disc_red;
@@ -308,9 +298,7 @@ public partial class ChronoJumpWindow
 	Gtk.SpinButton spinbutton_discriminative_lights_maximum;
 
 	//pulse
-	Gtk.Button button_edit_selected_pulse;
-	Gtk.Button button_delete_selected_pulse;
-	Gtk.Button button_repair_selected_pulse;
+	//Gtk.Button button_repair_selected_pulse;
 
 	Gtk.Box vbox_execute_test;
 	Gtk.Button button_execute_test;
@@ -343,8 +331,6 @@ public partial class ChronoJumpWindow
 	Gtk.VBox vbox_contacts_load_recalculate;
 
 	//multiChronopic	
-	Gtk.Button button_edit_selected_multi_chronopic;
-	Gtk.Button button_delete_selected_multi_chronopic;
 //	Gtk.Box hbox_multi_chronopic_buttons;
 //	Gtk.Button button_multi_chronopic_start;
 //	Gtk.Button button_run_analysis;
@@ -375,7 +361,6 @@ public partial class ChronoJumpWindow
 	Gtk.Image image_test_zoom;
 	Gtk.Button button_image_test_add_edit;
 	Gtk.Image image_test_add_edit;
-	Gtk.Button button_delete_last_test;
 	Gtk.Button button_inspect_last_test_run_simple;
 	Gtk.Button button_inspect_last_test_run_intervallic;
 	//Gtk.VBox vbox_last_test_buttons;
@@ -393,14 +378,6 @@ public partial class ChronoJumpWindow
 	Gtk.Image image_run_interval_repair;
 	Gtk.Image image_multi_chronopic_repair;
 	Gtk.Image image_pulse_repair;
-	Gtk.Image image_delete_last_test;
-	Gtk.Image image_jump_delete;
-	Gtk.Image image_jump_reactive_delete;
-	Gtk.Image image_run_delete;
-	Gtk.Image image_run_interval_delete;
-	Gtk.Image image_reaction_time_delete;
-	Gtk.Image image_pulse_delete;
-	Gtk.Image image_multi_chronopic_delete;
 	Gtk.Image image_jump_type_delete_simple;
 	Gtk.Image image_jump_type_delete_reactive;
 	Gtk.Image image_run_type_delete_simple;
@@ -515,11 +492,9 @@ public partial class ChronoJumpWindow
 	private static JumpType currentJumpType;
 	private static JumpType currentJumpRjType;
 	bool thisJumpIsSimple;	//needed on updating
-	bool lastJumpIsSimple;	//needed on update
 	private static RunType currentRunType;
 	private static RunType currentRunIntervalType;
 	bool thisRunIsSimple;	//needed on updating
-	bool lastRunIsSimple;	//needed on update
 	private static PulseType currentPulseType;
 	private static ReactionTimeType currentReactionTimeType;
 	private static MultiChronopicType currentMultiChronopicType;
@@ -1928,9 +1903,9 @@ public partial class ChronoJumpWindow
 		// is for not confusing with the person treeviews that controls who jumps
 		if (myTreeViewJumps.EventSelectedID == 0) {
 			myTreeViewJumps.Unselect();
-			showHideActionEventButtons(false, "Jump"); //hide
+			showHideActionEventButtons(false); //hide
 		} else {
-			showHideActionEventButtons(true, "Jump"); //show
+			showHideActionEventButtons(true); //show
 		}
 	}
 
@@ -2017,14 +1992,14 @@ public partial class ChronoJumpWindow
 		// is for not confusing with the person treeviews that controls who jumps
 		if (myTreeViewJumpsRj.EventSelectedID == 0) {
 			myTreeViewJumpsRj.Unselect();
-			showHideActionEventButtons(false, "JumpRj");
+			showHideActionEventButtons(false);
 			return;
 		}
 
 		if (myTreeViewJumpsRj.EventSelectedID == -1)
 			myTreeViewJumpsRj.SelectHeaderLine();
 
-		showHideActionEventButtons(true, "JumpRj");
+		showHideActionEventButtons(true);
 
 		//graph the jump on realtime cairo graph. Using selectedJumpRj to avoid SQL select continuously
 		if(selectedJumpRj == null || selectedJumpRj.UniqueID != myTreeViewJumpsRj.EventSelectedID)
@@ -2124,9 +2099,9 @@ public partial class ChronoJumpWindow
 		// is for not confusing with the person treeviews that controls who runs
 		if (myTreeViewRuns.EventSelectedID == 0) {
 			myTreeViewRuns.Unselect();
-			showHideActionEventButtons(false, "Run");
+			showHideActionEventButtons(false);
 		} else {
-			showHideActionEventButtons(true, "Run");
+			showHideActionEventButtons(true);
 		}
 	}
 
@@ -2213,14 +2188,14 @@ public partial class ChronoJumpWindow
 		// is for not confusing with the person treeviews that controls who runs
 		if (myTreeViewRunsInterval.EventSelectedID == 0) {
 			myTreeViewRunsInterval.Unselect();
-			showHideActionEventButtons(false, "RunInterval");
+			showHideActionEventButtons(false);
 			return;
 		}
 
 		if (myTreeViewRunsInterval.EventSelectedID == -1)
 			myTreeViewRunsInterval.SelectHeaderLine();
 
-		showHideActionEventButtons(true, "RunInterval");
+		showHideActionEventButtons(true);
 		button_inspect_last_test_run_intervallic.Sensitive = false;
 
 		//graph the run on realtime cairo graph. Using selectedRunInterval to avoid SQL select continuously
@@ -2323,9 +2298,9 @@ public partial class ChronoJumpWindow
 		// is for not confusing with the person treeviews that controls who is executing
 		if (myTreeViewReactionTimes.EventSelectedID == 0) {
 			myTreeViewReactionTimes.Unselect();
-			showHideActionEventButtons(false, "ReactionTime");
+			showHideActionEventButtons(false);
 		} else {
-			showHideActionEventButtons(true, "ReactionTime");
+			showHideActionEventButtons(true);
 		}
 	}
 
@@ -2403,12 +2378,12 @@ public partial class ChronoJumpWindow
 		// is for not confusing with the person treeviews that controls who is executing
 		if (myTreeViewPulses.EventSelectedID == 0) {
 			myTreeViewPulses.Unselect();
-			showHideActionEventButtons(false, "Pulse");
+			showHideActionEventButtons(false);
 		} else if (myTreeViewPulses.EventSelectedID == -1) {
 			myTreeViewPulses.SelectHeaderLine();
-			showHideActionEventButtons(true, "Pulse");
+			showHideActionEventButtons(true);
 		} else {
-			showHideActionEventButtons(true, "Pulse");
+			showHideActionEventButtons(true);
 		}
 	}
 
@@ -2501,12 +2476,12 @@ public partial class ChronoJumpWindow
 		// is for not confusing with the person treeviews that controls who does events
 		if (myTreeViewMultiChronopic.EventSelectedID == 0) {
 			myTreeViewMultiChronopic.Unselect();
-			showHideActionEventButtons(false, Constants.MultiChronopicName); //hide
+			showHideActionEventButtons(false); //hide
 		} else if (myTreeViewMultiChronopic.EventSelectedID == -1) {
 			myTreeViewMultiChronopic.SelectHeaderLine();
-			showHideActionEventButtons(true, Constants.MultiChronopicName);
+			showHideActionEventButtons(true);
 		} else {
-			showHideActionEventButtons(true, Constants.MultiChronopicName); //show
+			showHideActionEventButtons(true); //show
 		}
 	}
 
@@ -3985,6 +3960,19 @@ public partial class ChronoJumpWindow
 		hbox_other.Visible = false;
 		sensitiveLastTestButtons(false);
 
+		//contacts test buttons: edit, delete
+		if (m == Constants.Modes.JUMPSSIMPLE || m == Constants.Modes.JUMPSREACTIVE ||
+				m == Constants.Modes.RUNSSIMPLE || m == Constants.Modes.RUNSINTERVALLIC)
+		{
+			button_contacts_edit_selected.Visible = true;
+			button_contacts_delete_selected.Visible = true;
+		} else {
+			button_contacts_edit_selected.Visible = false;
+			button_contacts_delete_selected.Visible = true;
+		}
+		button_contacts_edit_selected.Sensitive = false;
+		button_contacts_delete_selected.Sensitive = false;
+
 		//show capture graph and/or table
 		if (! Constants.ModeIsENCODER (m))
 		{
@@ -4553,17 +4541,6 @@ public partial class ChronoJumpWindow
 					last_menuitem_mode = m;
 				}
 			}
-		}
-
-		//contacts test buttons: edit, delete
-		if (m == Constants.Modes.JUMPSSIMPLE || m == Constants.Modes.JUMPSREACTIVE ||
-				m == Constants.Modes.RUNSSIMPLE || m == Constants.Modes.RUNSINTERVALLIC)
-		{
-			button_contacts_edit_selected.Visible = true;
-			button_contacts_delete_selected.Visible = true;
-		} else {
-			button_contacts_edit_selected.Visible = false;
-			button_contacts_delete_selected.Visible = true;
 		}
 
 		//on capture, show phases, time, record if we are not on forcesensor mode
@@ -5955,8 +5932,6 @@ public partial class ChronoJumpWindow
 				showUpdateStatsAndHideData(true);
 			}
 		
-			lastJumpIsSimple = true;
-		
 			//unhide buttons for delete last jump
 			if(! execute_auto_doing)
 				sensitiveGuiYesEvent();
@@ -5989,7 +5964,7 @@ public partial class ChronoJumpWindow
 
 		//since 0.7.4.1 when test is done, treeview select it. action event button have to be shown
 		//this has to be after webcamRecordEnd in order to see if video is created
-		showHideActionEventButtons(true, "Jump"); //show
+		showHideActionEventButtons(true); //show
 	}
 
 	private void chronopicDisconnectedWhileExecuting() {
@@ -6288,8 +6263,6 @@ public partial class ChronoJumpWindow
 				showUpdateStatsAndHideData(true);
 			}
 
-			lastJumpIsSimple = false;
-
 			//unhide buttons for delete last jump
 			sensitiveGuiYesEvent();
 
@@ -6318,7 +6291,7 @@ public partial class ChronoJumpWindow
 
 		//since 0.7.4.1 when test is done, treeview select it. action event button have to be shown
 		//this has to be after webcamRecordEnd in order to see if video is created
-		showHideActionEventButtons(true, "JumpRj"); //show
+		showHideActionEventButtons(true); //show
 	}
 
 	/* ---------------------------------------------------------
@@ -6446,13 +6419,11 @@ public partial class ChronoJumpWindow
 
 			//since 0.7.4.1 when test is done, treeview select it. action event button have to be shown 
 			//this has to be after webcamRecordEnd in order to see if video is created
-			showHideActionEventButtons(true, "Run"); //show
+			showHideActionEventButtons(true); //show
 
 			if(createdStatsWin) {
 				showUpdateStatsAndHideData(true);
 			}
-
-			lastRunIsSimple = true;
 
 			//unhide buttons for delete last jump
 			sensitiveGuiYesEvent();
@@ -6634,13 +6605,11 @@ public partial class ChronoJumpWindow
 
 			//since 0.7.4.1 when test is done, treeview select it. action event button have to be shown 
 			//this has to be after webcamRecordEnd in order to see if video is created
-			showHideActionEventButtons(true, "RunInterval"); //show
+			showHideActionEventButtons(true); //show
 
 			if(createdStatsWin) {
 				showUpdateStatsAndHideData(true);
 			}
-
-			lastRunIsSimple = false;
 
 			//unhide buttons for delete last jump
 			sensitiveGuiYesEvent();
@@ -6897,7 +6866,7 @@ public partial class ChronoJumpWindow
 
 			//since 0.7.4.1 when test is done, treeview select it. action event button have to be shown 
 			//this has to be after webcamRecordEnd in order to see if video is created
-			showHideActionEventButtons(true, "ReactionTime"); //show
+			showHideActionEventButtons(true); //show
 		
 			if(createdStatsWin) {
 				showUpdateStatsAndHideData(true);
@@ -7017,7 +6986,7 @@ public partial class ChronoJumpWindow
 
 			//since 0.7.4.1 when test is done, treeview select it. action event button have to be shown 
 			//this has to be after webcamRecordEnd in order to see if video is created
-			showHideActionEventButtons(true, "Pulse"); //show
+			showHideActionEventButtons(true); //show
 			
 			if(createdStatsWin) {
 				showUpdateStatsAndHideData(true);
@@ -7332,7 +7301,7 @@ LogB.Debug("mc finished 5");
 
 			//since 0.7.4.1 when test is done, treeview select it. action event button have to be shown 
 			//this has to be after webcamRecordEnd in order to see if video is created
-			showHideActionEventButtons(true, Constants.MultiChronopicName); //show
+			showHideActionEventButtons(true); //show
 		
 			//unhide buttons for delete last test
 			sensitiveGuiYesEvent();
@@ -7625,101 +7594,6 @@ LogB.Debug("mc finished 5");
 	 * ----------------  EVENTS DELETE -------------------------
 	 *  --------------------------------------------------------
 	 */
-	
-	private void on_delete_last_test_clicked (object o, EventArgs args)
-	{
-		if (Constants.ModeIsFORCESENSOR (current_mode))
-		{
-			force_sensor_delete_current_test_pre_question();
-			return;
-		}
-		else if(current_mode == Constants.Modes.RUNSENCODER)
-		{
-			run_encoder_delete_current_test_pre_question();
-			return;
-		}
-
-		delete_last_test_chronopic_clicked (o, args);
-	}
-	private void delete_last_test_chronopic_clicked (object o, EventArgs args)
-	{
-		if(currentEventType == null) //precaution
-			return;
-
-		switch (currentEventType.Type)
-		{
-			case EventType.Types.JUMP:
-				if(lastJumpIsSimple) {
-					//maybe, after executing the test, user has selected other test on treeview
-					//delete this is called on execute
-					//we should ensure we are deleting last jump and not the selected jump
-					//force selection of last jump
-					if(currentJump.UniqueID != myTreeViewJumps.EventSelectedID)
-						myTreeViewJumps.SelectEvent(currentJump.UniqueID, false);
-					on_delete_selected_jump_clicked(o, args);
-				} else {
-					if(currentJumpRj.UniqueID != myTreeViewJumpsRj.EventSelectedID)
-						myTreeViewJumpsRj.SelectEvent(currentJumpRj.UniqueID, false);
-					on_delete_selected_jump_rj_clicked(o, args);
-				}
-				break;
-			case EventType.Types.RUN:
-				if(lastRunIsSimple) {
-					if(currentRun.UniqueID != myTreeViewRuns.EventSelectedID)
-						myTreeViewRuns.SelectEvent(currentRun.UniqueID, false);
-					on_delete_selected_run_clicked(o, args);
-				} else {
-					if(currentRunInterval.UniqueID != myTreeViewRunsInterval.EventSelectedID)
-						myTreeViewRunsInterval.SelectEvent(currentRunInterval.UniqueID, false);
-					on_delete_selected_run_interval_clicked(o, args);
-				}
-				break;
-			case EventType.Types.PULSE:
-				if(currentPulse.UniqueID != myTreeViewPulses.EventSelectedID)
-					myTreeViewPulses.SelectEvent(currentPulse.UniqueID, false);
-				on_delete_selected_pulse_clicked(o, args);
-				break;
-			case EventType.Types.REACTIONTIME:
-				if(currentReactionTime.UniqueID != myTreeViewReactionTimes.EventSelectedID)
-					myTreeViewReactionTimes.SelectEvent(currentReactionTime.UniqueID, false);
-				on_delete_selected_reaction_time_clicked(o, args);
-				break;
-			case EventType.Types.MULTICHRONOPIC:
-				if(currentMultiChronopic.UniqueID != myTreeViewMultiChronopic.EventSelectedID)
-					myTreeViewMultiChronopic.SelectEvent(currentMultiChronopic.UniqueID, false);
-				on_delete_selected_multi_chronopic_clicked(o, args);
-				break;
-		}
-	}
-
-	private void on_button_inspect_last_test_clicked (object o, EventArgs args)
-	{
-		if(currentEventExecute == null)
-			return;
-
-		//sensitivize gui
-		menus_and_mode_sensitive(false);
-		hbox_contacts_capture_top.Sensitive = false;
-		//button_inspect_last_test.Sensitive = false; //unneeded because it will be on hbox_contacts_capture_top
-		hbox_contacts_sup_capture_analyze_two_buttons.Sensitive = false;
-		hbox_top_person.Sensitive = false;
-
-		notebook_contacts_execute_or.CurrentPage = Convert.ToInt32(notebook_contacts_execute_or_pages.RACEINSPECTOR);
-		label_run_simple_double_contacts.Text = currentEventExecute.GetInspectorMessages();
-		label_run_simple_double_contacts.UseMarkup = true;
-	}
-
-	private void on_button_race_inspector_close_clicked (object o, EventArgs args)
-	{
-		//unsensitivize gui
-		menus_and_mode_sensitive(true);
-		hbox_contacts_capture_top.Sensitive = true;
-		//button_inspect_last_test.Sensitive = true; //unneeded because it will be on hbox_contacts_capture_top
-		hbox_contacts_sup_capture_analyze_two_buttons.Sensitive = true;
-		hbox_top_person.Sensitive = true;
-
-		notebook_contacts_execute_or.CurrentPage = Convert.ToInt32(notebook_contacts_execute_or_pages.EXECUTE);
-	}
 
 	private void deleted_last_test_update_widgets() {
 		sensitiveLastTestButtons(false);
@@ -7735,6 +7609,10 @@ LogB.Debug("mc finished 5");
 			on_delete_selected_run_accepted (o, args);
 		else if (current_mode == Constants.Modes.RUNSINTERVALLIC)
 			on_delete_selected_run_interval_accepted (o, args);
+		else if(current_mode == Constants.Modes.RUNSENCODER)
+			run_encoder_delete_current_test_pre_question();
+		else if (Constants.ModeIsFORCESENSOR (current_mode))
+			force_sensor_delete_current_test_pre_question();
 	}
 
 	private void on_delete_selected_jump_clicked (object o, EventArgs args) {
@@ -7778,7 +7656,7 @@ LogB.Debug("mc finished 5");
 		Sqlite.Delete(false, Constants.JumpTable, id);
 		
 		myTreeViewJumps.DelEvent(id);
-		showHideActionEventButtons(false, "Jump");
+		showHideActionEventButtons(false);
 		
 		if(createdStatsWin) {
 			stats_win_fillTreeView_stats(false, false);
@@ -7815,7 +7693,7 @@ LogB.Debug("mc finished 5");
 		
 		myTreeViewJumpsRj.DelEvent(id);
 		selectedJumpRj = null;
-		showHideActionEventButtons(false, "JumpRj");
+		showHideActionEventButtons(false);
 
 		if(createdStatsWin) {
 			stats_win_fillTreeView_stats(false, false);
@@ -7880,7 +7758,7 @@ LogB.Debug("mc finished 5");
 		myTreeViewRuns.DelEvent(id);
 		selectedRunInterval = null;
 		selectedRunIntervalType = null;
-		showHideActionEventButtons(false, "Run");
+		showHideActionEventButtons(false);
 		button_inspect_last_test_run_simple.Sensitive = false;
 		
 		if(createdStatsWin) {
@@ -7907,7 +7785,7 @@ LogB.Debug("mc finished 5");
 		
 		myTreeViewRunsInterval.DelEvent(id);
 		selectedRunInterval = null;
-		showHideActionEventButtons(false, "RunInterval");
+		showHideActionEventButtons(false);
 		button_inspect_last_test_run_intervallic.Sensitive = false;
 
 		if(createdStatsWin) {
@@ -7953,7 +7831,7 @@ LogB.Debug("mc finished 5");
 		Sqlite.Delete(false, Constants.ReactionTimeTable, id);
 		
 		myTreeViewReactionTimes.DelEvent(id);
-		showHideActionEventButtons(false, "ReactionTime");
+		showHideActionEventButtons(false);
 
 		Util.DeleteVideo(currentSession.UniqueID, Constants.TestTypes.RT, id );
 		try {
@@ -7992,7 +7870,7 @@ LogB.Debug("mc finished 5");
 		Sqlite.Delete(false, Constants.PulseTable, id);
 		
 		myTreeViewPulses.DelEvent(id);
-		showHideActionEventButtons(false, "Pulse");
+		showHideActionEventButtons(false);
 
 		Util.DeleteVideo(currentSession.UniqueID, Constants.TestTypes.PULSE, id );
 		try {
@@ -8027,7 +7905,7 @@ LogB.Debug("mc finished 5");
 		Sqlite.Delete(false, Constants.MultiChronopicTable, id);
 		
 		myTreeViewMultiChronopic.DelEvent(id);
-		showHideActionEventButtons(false, Constants.MultiChronopicName);
+		showHideActionEventButtons(false);
 		
 		Util.DeleteVideo(currentSession.UniqueID, Constants.TestTypes.MULTICHRONOPIC, id );
 		try {
@@ -8040,6 +7918,39 @@ LogB.Debug("mc finished 5");
 	}
 	
 
+	/* ---------------------------------------------------------
+	 * ----------------  EVENTS INSPECT ------------------------
+	 *  --------------------------------------------------------
+	 */
+
+	private void on_button_inspect_last_test_clicked (object o, EventArgs args)
+	{
+		if(currentEventExecute == null)
+			return;
+
+		//sensitivize gui
+		menus_and_mode_sensitive(false);
+		hbox_contacts_capture_top.Sensitive = false;
+		//button_inspect_last_test.Sensitive = false; //unneeded because it will be on hbox_contacts_capture_top
+		hbox_contacts_sup_capture_analyze_two_buttons.Sensitive = false;
+		hbox_top_person.Sensitive = false;
+
+		notebook_contacts_execute_or.CurrentPage = Convert.ToInt32(notebook_contacts_execute_or_pages.RACEINSPECTOR);
+		label_run_simple_double_contacts.Text = currentEventExecute.GetInspectorMessages();
+		label_run_simple_double_contacts.UseMarkup = true;
+	}
+
+	private void on_button_race_inspector_close_clicked (object o, EventArgs args)
+	{
+		//unsensitivize gui
+		menus_and_mode_sensitive(true);
+		hbox_contacts_capture_top.Sensitive = true;
+		//button_inspect_last_test.Sensitive = true; //unneeded because it will be on hbox_contacts_capture_top
+		hbox_contacts_sup_capture_analyze_two_buttons.Sensitive = true;
+		hbox_top_person.Sensitive = true;
+
+		notebook_contacts_execute_or.CurrentPage = Convert.ToInt32(notebook_contacts_execute_or_pages.EXECUTE);
+	}
 
 
 	/* ---------------------------------------------------------
@@ -9583,7 +9494,7 @@ LogB.Debug("mc finished 5");
 		menuPersonSelectedSensitive(true);
 	
 		//unsensitive edit, delete, repair events because no event is initially selected
-		showHideActionEventButtons(false, "ALL");
+		showHideActionEventButtons (false);
 
 		combo_select_jumps.Sensitive = true;
 		combo_select_jumps_rj.Sensitive = true;
@@ -9745,7 +9656,7 @@ LogB.Debug("mc finished 5");
 					LogB.Information("sensitiveGuiEventDone default");
 					break;
 			}
-			button_delete_last_test.Sensitive = true;
+			button_contacts_delete_selected.Sensitive = true;
 		}
 		else
 			sensitiveLastTestButtons(false);
@@ -9758,7 +9669,7 @@ LogB.Debug("mc finished 5");
 	{
 		LogB.Information("sensitiveLastTestButtons: " + sensitive.ToString());
 		//vbox_last_test_buttons.Sensitive = sensitive; TODO:
-		button_delete_last_test.Sensitive = sensitive;
+		button_contacts_delete_selected.Sensitive = sensitive;
 	}
 	/*
 	 * sensitive GUI on executeAuto methods 
@@ -9847,7 +9758,7 @@ LogB.Debug("mc finished 5");
 		//when start, put button delete_last_test as not sensitive
 		//(just for the test previous to the auto process)
 		if(start)
-			button_delete_last_test.Sensitive = false;
+			button_contacts_delete_selected.Sensitive = false;
 	}
 	
 	//true: executing a test; false: waiting a test to be executed
@@ -9859,47 +9770,20 @@ LogB.Debug("mc finished 5");
 		sensitiveLastTestButtons(! execute);
 	}
 
-	private void showHideActionEventButtons(bool show, string type)
+	private void showHideActionEventButtons (bool show)
 	{
 		//bool success = false;
 		//bool recordedVideo = false;
 
-		if(type == "ALL" || type == "Jump") {
-			button_edit_selected_jump.Sensitive = show;
-			button_delete_selected_jump.Sensitive = show;
-		} 
-		if (type == "ALL" || type == "JumpRj") {
-			button_edit_selected_jump_rj.Sensitive = show;
-			button_delete_selected_jump_rj.Sensitive = show;
+		if (current_mode == Constants.Modes.JUMPSREACTIVE)
 			button_repair_selected_jump_rj.Sensitive = show;
-		} 
-		if (type == "ALL" || type == "Run") {
-			button_edit_selected_run.Sensitive = show;
-			button_delete_selected_run.Sensitive = show;
-		} 
-		if (type == "ALL" || type == "RunInterval") {
-			button_edit_selected_run_interval.Sensitive = show;
-			button_delete_selected_run_interval.Sensitive = show;
+		if (current_mode == Constants.Modes.RUNSINTERVALLIC)
 			button_repair_selected_run_interval.Sensitive = show;
-			
-		} 
-		if (type == "ALL" || type == "ReactionTime") {
-			button_edit_selected_reaction_time.Sensitive = show;
-			button_delete_selected_reaction_time.Sensitive = show;
-		} 
-		if (type == "ALL" || type == "Pulse") {
-			// menuitem_edit_selected_pulse.Sensitive = show;
-			// menuitem_delete_selected_pulse.Sensitive = show;
-			button_edit_selected_pulse.Sensitive = show;
-			button_delete_selected_pulse.Sensitive = show;
-			button_repair_selected_pulse.Sensitive = show;
-		} 
-		if (type == "ALL" || type == Constants.MultiChronopicName) {
-			button_edit_selected_multi_chronopic.Sensitive = show;
-			button_delete_selected_multi_chronopic.Sensitive = show;
-			
-		} 
+		//if (type == "ALL" || type == "Pulse")
+		//	button_repair_selected_pulse.Sensitive = show;
 
+		button_contacts_edit_selected.Sensitive = show;
+		button_contacts_delete_selected.Sensitive = show;
 		button_video_play_selected_test (current_mode);
 		//LogB.Information("recordedVideo = " + recordedVideo.ToString());
 	}
@@ -10163,10 +10047,6 @@ LogB.Debug("mc finished 5");
 		button_contacts_delete_selected = (Gtk.Button) builder.GetObject ("button_contacts_delete_selected");
 
 		//jumps
-		button_edit_selected_jump = (Gtk.Button) builder.GetObject ("button_edit_selected_jump");
-		button_delete_selected_jump = (Gtk.Button) builder.GetObject ("button_delete_selected_jump");
-		button_edit_selected_jump_rj = (Gtk.Button) builder.GetObject ("button_edit_selected_jump_rj");
-		button_delete_selected_jump_rj = (Gtk.Button) builder.GetObject ("button_delete_selected_jump_rj");
 		button_repair_selected_jump_rj = (Gtk.Button) builder.GetObject ("button_repair_selected_jump_rj");
 
 		extra_windows_jumps_image_dj_fall_calculate = (Gtk.Image) builder.GetObject ("extra_windows_jumps_image_dj_fall_calculate");
@@ -10174,17 +10054,11 @@ LogB.Debug("mc finished 5");
 		hbox_extra_window_jumps_fall_height = (Gtk.HBox) builder.GetObject ("hbox_extra_window_jumps_fall_height");
 
 		//runs
-		button_edit_selected_run = (Gtk.Button) builder.GetObject ("button_edit_selected_run");
-		button_delete_selected_run = (Gtk.Button) builder.GetObject ("button_delete_selected_run");
-		button_edit_selected_run_interval = (Gtk.Button) builder.GetObject ("button_edit_selected_run_interval");
-		button_delete_selected_run_interval = (Gtk.Button) builder.GetObject ("button_delete_selected_run_interval");
 		button_repair_selected_run_interval = (Gtk.Button) builder.GetObject ("button_repair_selected_run_interval");
 
 
 		//other
 		//reaction time
-		button_edit_selected_reaction_time = (Gtk.Button) builder.GetObject ("button_edit_selected_reaction_time");
-		button_delete_selected_reaction_time = (Gtk.Button) builder.GetObject ("button_delete_selected_reaction_time");
 		spinbutton_animation_lights_speed = (Gtk.SpinButton) builder.GetObject ("spinbutton_animation_lights_speed");
 		spinbutton_flicker_lights_speed = (Gtk.SpinButton) builder.GetObject ("spinbutton_flicker_lights_speed");
 		check_reaction_time_disc_red = (Gtk.CheckButton) builder.GetObject ("check_reaction_time_disc_red");
@@ -10195,9 +10069,7 @@ LogB.Debug("mc finished 5");
 		spinbutton_discriminative_lights_maximum = (Gtk.SpinButton) builder.GetObject ("spinbutton_discriminative_lights_maximum");
 
 		//pulse
-		button_edit_selected_pulse = (Gtk.Button) builder.GetObject ("button_edit_selected_pulse");
-		button_delete_selected_pulse = (Gtk.Button) builder.GetObject ("button_delete_selected_pulse");
-		button_repair_selected_pulse = (Gtk.Button) builder.GetObject ("button_repair_selected_pulse");
+		//button_repair_selected_pulse = (Gtk.Button) builder.GetObject ("button_repair_selected_pulse");
 
 		vbox_execute_test = (Gtk.Box) builder.GetObject ("vbox_execute_test");
 		button_execute_test = (Gtk.Button) builder.GetObject ("button_execute_test");
@@ -10230,8 +10102,6 @@ LogB.Debug("mc finished 5");
 		vbox_contacts_load_recalculate = (Gtk.VBox) builder.GetObject ("vbox_contacts_load_recalculate");
 
 		//multiChronopic	
-		button_edit_selected_multi_chronopic = (Gtk.Button) builder.GetObject ("button_edit_selected_multi_chronopic");
-		button_delete_selected_multi_chronopic = (Gtk.Button) builder.GetObject ("button_delete_selected_multi_chronopic");
 		//	hbox_multi_chronopic_buttons = (Gtk.Box) builder.GetObject ("hbox_multi_chronopic_buttons");
 		//	button_multi_chronopic_start = (Gtk.Button) builder.GetObject ("button_multi_chronopic_start");
 		//	button_run_analysis = (Gtk.Button) builder.GetObject ("button_run_analysis");
@@ -10262,7 +10132,6 @@ LogB.Debug("mc finished 5");
 		image_test_zoom = (Gtk.Image) builder.GetObject ("image_test_zoom");
 		button_image_test_add_edit = (Gtk.Button) builder.GetObject ("button_image_test_add_edit");
 		image_test_add_edit = (Gtk.Image) builder.GetObject ("image_test_add_edit");
-		button_delete_last_test = (Gtk.Button) builder.GetObject ("button_delete_last_test");
 		button_inspect_last_test_run_simple = (Gtk.Button) builder.GetObject ("button_inspect_last_test_run_simple");
 		button_inspect_last_test_run_intervallic = (Gtk.Button) builder.GetObject ("button_inspect_last_test_run_intervallic");
 		//vbox_last_test_buttons = (Gtk.VBox) builder.GetObject ("vbox_last_test_buttons");
@@ -10280,14 +10149,6 @@ LogB.Debug("mc finished 5");
 		image_run_interval_repair = (Gtk.Image) builder.GetObject ("image_run_interval_repair");
 		image_multi_chronopic_repair = (Gtk.Image) builder.GetObject ("image_multi_chronopic_repair");
 		image_pulse_repair = (Gtk.Image) builder.GetObject ("image_pulse_repair");
-		image_delete_last_test = (Gtk.Image) builder.GetObject ("image_delete_last_test");
-		image_jump_delete = (Gtk.Image) builder.GetObject ("image_jump_delete");
-		image_jump_reactive_delete = (Gtk.Image) builder.GetObject ("image_jump_reactive_delete");
-		image_run_delete = (Gtk.Image) builder.GetObject ("image_run_delete");
-		image_run_interval_delete = (Gtk.Image) builder.GetObject ("image_run_interval_delete");
-		image_reaction_time_delete = (Gtk.Image) builder.GetObject ("image_reaction_time_delete");
-		image_pulse_delete = (Gtk.Image) builder.GetObject ("image_pulse_delete");
-		image_multi_chronopic_delete = (Gtk.Image) builder.GetObject ("image_multi_chronopic_delete");
 		image_jump_type_delete_simple = (Gtk.Image) builder.GetObject ("image_jump_type_delete_simple");
 		image_jump_type_delete_reactive = (Gtk.Image) builder.GetObject ("image_jump_type_delete_reactive");
 		image_run_type_delete_simple = (Gtk.Image) builder.GetObject ("image_run_type_delete_simple");

@@ -6284,28 +6284,7 @@
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <object class="GtkButton" id="button_delete_last_test">
-                                                            <property name="visible">True</property>
-                                                            <property name="sensitive">False</property>
-                                                            <property name="can-focus">True</property>
-                                                            <property name="receives-default">True</property>
-                                                            <property name="has-tooltip">True</property>
-                                                            <property name="tooltip-text" translatable="yes">Delete last test.</property>
-                                                            <signal name="clicked" handler="on_delete_last_test_clicked" swapped="no"/>
-                                                            <child>
-                                                            <object class="GtkImage" id="image_delete_last_test">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="icon_size">1</property>
-                                                            </object>
-                                                            </child>
-                                                            <accelerator key="d" signal="clicked" modifiers="GDK_CONTROL_MASK"/>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">True</property>
-                                                            <property name="fill">True</property>
-                                                            <property name="position">1</property>
-                                                            </packing>
+                                                            <placeholder/>
                                                             </child>
                                                             </object>
                                                             <packing>
@@ -9155,65 +9134,6 @@
                                                             <property name="position">0</property>
                                                             </packing>
                                                             </child>
-                                                            <child>
-                                                            <object class="GtkVBox" id="vbox47">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="spacing">6</property>
-                                                            <child>
-                                                            <object class="GtkButton" id="button_edit_selected_jump">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">True</property>
-                                                            <property name="receives-default">True</property>
-                                                            <property name="has-tooltip">True</property>
-                                                            <property name="tooltip-text" translatable="yes">Edit selected (e)</property>
-                                                            <signal name="clicked" handler="on_edit_selected_jump_clicked" swapped="no"/>
-                                                            <child>
-                                                            <object class="GtkImage" id="image_edit_selected_jump">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="stock">gtk-edit</property>
-                                                            <property name="icon_size">1</property>
-                                                            </object>
-                                                            </child>
-                                                            <accelerator key="e" signal="clicked"/>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="position">0</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
-                                                            <object class="GtkButton" id="button_delete_selected_jump">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">True</property>
-                                                            <property name="receives-default">True</property>
-                                                            <property name="has-tooltip">True</property>
-                                                            <property name="tooltip-text" translatable="yes">Delete selected</property>
-                                                            <signal name="clicked" handler="on_delete_selected_jump_clicked" swapped="no"/>
-                                                            <child>
-                                                            <object class="GtkImage" id="image_jump_delete">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            </object>
-                                                            </child>
-                                                            <accelerator key="d" signal="activate"/>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="position">1</property>
-                                                            </packing>
-                                                            </child>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="pack-type">end</property>
-                                                            <property name="position">1</property>
-                                                            </packing>
-                                                            </child>
                                                             </object>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -9295,28 +9215,7 @@
                                                             <property name="can-focus">False</property>
                                                             <property name="spacing">6</property>
                                                             <child>
-                                                            <object class="GtkButton" id="button_edit_selected_jump_rj">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">True</property>
-                                                            <property name="receives-default">True</property>
-                                                            <property name="has-tooltip">True</property>
-                                                            <property name="tooltip-text" translatable="yes">Edit selected (e)</property>
-                                                            <signal name="clicked" handler="on_edit_selected_jump_rj_clicked" swapped="no"/>
-                                                            <child>
-                                                            <object class="GtkImage" id="image_edit_selected_jump_rj">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="stock">gtk-edit</property>
-                                                            <property name="icon_size">1</property>
-                                                            </object>
-                                                            </child>
-                                                            <accelerator key="e" signal="clicked"/>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="position">0</property>
-                                                            </packing>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <object class="GtkButton" id="button_repair_selected_jump_rj">
@@ -9342,26 +9241,7 @@
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <object class="GtkButton" id="button_delete_selected_jump_rj">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">True</property>
-                                                            <property name="receives-default">True</property>
-                                                            <property name="has-tooltip">True</property>
-                                                            <property name="tooltip-text" translatable="yes">Delete selected (d)</property>
-                                                            <signal name="clicked" handler="on_delete_selected_jump_rj_clicked" swapped="no"/>
-                                                            <child>
-                                                            <object class="GtkImage" id="image_jump_reactive_delete">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            </object>
-                                                            </child>
-                                                            <accelerator key="d" signal="clicked"/>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="position">2</property>
-                                                            </packing>
+                                                            <placeholder/>
                                                             </child>
                                                             </object>
                                                             <packing>
@@ -9451,65 +9331,6 @@
                                                             <property name="position">0</property>
                                                             </packing>
                                                             </child>
-                                                            <child>
-                                                            <object class="GtkVBox" id="vbox92">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="spacing">6</property>
-                                                            <child>
-                                                            <object class="GtkButton" id="button_edit_selected_run">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">True</property>
-                                                            <property name="receives-default">True</property>
-                                                            <property name="has-tooltip">True</property>
-                                                            <property name="tooltip-text" translatable="yes">Edit selected (e)</property>
-                                                            <signal name="clicked" handler="on_edit_selected_run_clicked" swapped="no"/>
-                                                            <child>
-                                                            <object class="GtkImage" id="image_edit_selected_run">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="stock">gtk-edit</property>
-                                                            <property name="icon_size">1</property>
-                                                            </object>
-                                                            </child>
-                                                            <accelerator key="e" signal="clicked"/>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="position">0</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
-                                                            <object class="GtkButton" id="button_delete_selected_run">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">True</property>
-                                                            <property name="receives-default">True</property>
-                                                            <property name="has-tooltip">True</property>
-                                                            <property name="tooltip-text" translatable="yes">Delete selected (d)</property>
-                                                            <signal name="clicked" handler="on_delete_selected_run_clicked" swapped="no"/>
-                                                            <child>
-                                                            <object class="GtkImage" id="image_run_delete">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            </object>
-                                                            </child>
-                                                            <accelerator key="d" signal="clicked"/>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="position">1</property>
-                                                            </packing>
-                                                            </child>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="pack-type">end</property>
-                                                            <property name="position">1</property>
-                                                            </packing>
-                                                            </child>
                                                             </object>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -9596,28 +9417,7 @@
                                                             <property name="can-focus">False</property>
                                                             <property name="spacing">6</property>
                                                             <child>
-                                                            <object class="GtkButton" id="button_edit_selected_run_interval">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">True</property>
-                                                            <property name="receives-default">True</property>
-                                                            <property name="has-tooltip">True</property>
-                                                            <property name="tooltip-text" translatable="yes">Edit selected (e)</property>
-                                                            <signal name="clicked" handler="on_edit_selected_run_interval_clicked" swapped="no"/>
-                                                            <child>
-                                                            <object class="GtkImage" id="image_edit_selected_run_interval">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="stock">gtk-edit</property>
-                                                            <property name="icon_size">1</property>
-                                                            </object>
-                                                            </child>
-                                                            <accelerator key="e" signal="clicked"/>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="position">0</property>
-                                                            </packing>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <object class="GtkButton" id="button_repair_selected_run_interval">
@@ -9642,26 +9442,7 @@
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <object class="GtkButton" id="button_delete_selected_run_interval">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">True</property>
-                                                            <property name="receives-default">True</property>
-                                                            <property name="has-tooltip">True</property>
-                                                            <property name="tooltip-text" translatable="yes">Delete selected (d)</property>
-                                                            <signal name="clicked" handler="on_delete_selected_run_interval_clicked" swapped="no"/>
-                                                            <child>
-                                                            <object class="GtkImage" id="image_run_interval_delete">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            </object>
-                                                            </child>
-                                                            <accelerator key="d" signal="clicked"/>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="position">2</property>
-                                                            </packing>
+                                                            <placeholder/>
                                                             </child>
                                                             </object>
                                                             <packing>
@@ -10402,50 +10183,10 @@
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <object class="GtkButton" id="button_edit_selected_reaction_time">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">True</property>
-                                                            <property name="receives-default">True</property>
-                                                            <property name="has-tooltip">True</property>
-                                                            <property name="tooltip-text" translatable="yes">Edit selected (e)</property>
-                                                            <signal name="clicked" handler="on_edit_selected_reaction_time_clicked" swapped="no"/>
-                                                            <child>
-                                                            <object class="GtkImage" id="image_edit_selected_reaction_time">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="stock">gtk-edit</property>
-                                                            <property name="icon_size">1</property>
-                                                            </object>
-                                                            </child>
-                                                            <accelerator key="e" signal="clicked"/>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="position">2</property>
-                                                            </packing>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
-                                                            <object class="GtkButton" id="button_delete_selected_reaction_time">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">True</property>
-                                                            <property name="receives-default">True</property>
-                                                            <property name="has-tooltip">True</property>
-                                                            <property name="tooltip-text" translatable="yes">Delete selected (d)</property>
-                                                            <signal name="clicked" handler="on_delete_selected_reaction_time_clicked" swapped="no"/>
-                                                            <child>
-                                                            <object class="GtkImage" id="image_reaction_time_delete">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            </object>
-                                                            </child>
-                                                            <accelerator key="d" signal="clicked"/>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="position">3</property>
-                                                            </packing>
+                                                            <placeholder/>
                                                             </child>
                                                             </object>
                                                             <packing>
@@ -10579,28 +10320,7 @@
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
                                                             <child>
-                                                            <object class="GtkButton" id="button_edit_selected_pulse">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">True</property>
-                                                            <property name="receives-default">True</property>
-                                                            <property name="has-tooltip">True</property>
-                                                            <property name="tooltip-text" translatable="yes">Edit selected (e)</property>
-                                                            <signal name="clicked" handler="on_edit_selected_pulse_clicked" swapped="no"/>
-                                                            <child>
-                                                            <object class="GtkImage" id="image_edit_selected_pulse">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="stock">gtk-edit</property>
-                                                            <property name="icon_size">1</property>
-                                                            </object>
-                                                            </child>
-                                                            <accelerator key="e" signal="clicked"/>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="position">0</property>
-                                                            </packing>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <object class="GtkButton" id="button_repair_selected_pulse">
@@ -10625,26 +10345,7 @@
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <object class="GtkButton" id="button_delete_selected_pulse">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">True</property>
-                                                            <property name="receives-default">True</property>
-                                                            <property name="has-tooltip">True</property>
-                                                            <property name="tooltip-text" translatable="yes">Delete selected (d)</property>
-                                                            <signal name="clicked" handler="on_delete_selected_pulse_clicked" swapped="no"/>
-                                                            <child>
-                                                            <object class="GtkImage" id="image_pulse_delete">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            </object>
-                                                            </child>
-                                                            <accelerator key="d" signal="clicked"/>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="position">2</property>
-                                                            </packing>
+                                                            <placeholder/>
                                                             </child>
                                                             </object>
                                                             <packing>
@@ -10742,28 +10443,7 @@
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <object class="GtkButton" id="button_edit_selected_multi_chronopic">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">True</property>
-                                                            <property name="receives-default">True</property>
-                                                            <property name="has-tooltip">True</property>
-                                                            <property name="tooltip-text" translatable="yes">Edit selected (e)</property>
-                                                            <signal name="clicked" handler="on_edit_selected_multi_chronopic_clicked" swapped="no"/>
-                                                            <child>
-                                                            <object class="GtkImage" id="image_edit_selected_multi_chronopic">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="stock">gtk-edit</property>
-                                                            <property name="icon_size">1</property>
-                                                            </object>
-                                                            </child>
-                                                            <accelerator key="e" signal="clicked"/>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="position">1</property>
-                                                            </packing>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <object class="GtkButton" id="button_repair_selected_multi_chronopic">
@@ -10787,26 +10467,7 @@
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <object class="GtkButton" id="button_delete_selected_multi_chronopic">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">True</property>
-                                                            <property name="receives-default">True</property>
-                                                            <property name="has-tooltip">True</property>
-                                                            <property name="tooltip-text" translatable="yes">Delete selected (d)</property>
-                                                            <signal name="clicked" handler="on_delete_selected_multi_chronopic_clicked" swapped="no"/>
-                                                            <child>
-                                                            <object class="GtkImage" id="image_multi_chronopic_delete">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            </object>
-                                                            </child>
-                                                            <accelerator key="d" signal="clicked"/>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="position">4</property>
-                                                            </packing>
+                                                            <placeholder/>
                                                             </child>
                                                             </object>
                                                             <packing>

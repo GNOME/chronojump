@@ -11186,7 +11186,7 @@
                                                             <object class="GtkLabel" id="label18">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
-                                                            <property name="label" translatable="yes">Test</property>
+                                                            <property name="label" translatable="yes">Exercise</property>
                                                             </object>
                                                             <packing>
                                                             <property name="expand">True</property>

@@ -837,6 +837,11 @@ kinematicsF <- function(displacement, repOp, smoothingOneEC, smoothingOneC, g, i
 		} else { #ecS
 			#print("WARNING ECS\n\n\n\n\n")
 		}
+
+		# concentric can be 1 sample longer than accel$y, so put it at length accel$y
+		# in order to not have concenctric force ending on a NA value and its mean will be NA
+		if (propulsiveEnd > length (accel$y))
+			propulsiveEnd = length (accel$y)
 	}
 
 	dynamics = getDynamics(repOp$econfName,
@@ -847,9 +852,20 @@ kinematicsF <- function(displacement, repOp, smoothingOneEC, smoothingOneC, g, i
 	force = dynamics$force
 	power = dynamics$power
 
+	print ("dynamics$mass")
+	print (dynamics$mass)
+	print ("dynamics$force")
+	print (dynamics$force)
+	print ("dynamics$power")
+	print (dynamics$power)
+	print ("length (dynamics$force)")
+	print (length (dynamics$force))
+
 	start <- 1
 	end <- length(speed$y)
 
+	print ("end")
+	print (end)
 
 	#on "e", "ec", start on ground
 	if(eccModesStartOnGround && ! isInertial(repOp$econfName) && 
@@ -873,6 +889,9 @@ kinematicsF <- function(displacement, repOp, smoothingOneEC, smoothingOneC, g, i
 
 	if( isPropulsive && ( repOp$eccon== "c" || repOp$eccon == "ec" ) )
 		end <- propulsiveEnd
+
+	print ("end2") #here is the bug, because propulsive phase is being aplied and should not be applied on inertial !!!!!!!!
+	print (end)
 
 	#as acceleration can oscillate, start at the eccentric part where there are not negative values
 	if(repOp$inertiaM > 0 && (repOp$eccon == "e" || repOp$eccon == "ec")) 
@@ -1035,6 +1054,8 @@ pafGenerate <- function(eccon, kinematics, massBody, massExtra, laterality, iner
 
 	print("meanForce: ")
 	print(meanForce)
+#	print ("kinematics$force:")
+#	print (kinematics$force)
 	print("displ: ")
 	print(length(kinematics$displ)/1000)
 

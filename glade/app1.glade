@@ -5571,18 +5571,13 @@
                                                             <property name="label-xalign">0</property>
                                                             <property name="shadow-type">out</property>
                                                             <child>
-                                                            <object class="GtkAlignment" id="alignment6">
+                                                            <!-- n-columns=2 n-rows=2 -->
+                                                            <object class="GtkGrid">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
-                                                            <property name="top-padding">6</property>
-                                                            <property name="bottom-padding">6</property>
-                                                            <property name="left-padding">6</property>
-                                                            <property name="right-padding">6</property>
-                                                            <child>
-                                                            <object class="GtkVBox" id="vbox66">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="spacing">6</property>
+                                                            <property name="border-width">6</property>
+                                                            <property name="row-spacing">6</property>
+                                                            <property name="column-spacing">12</property>
                                                             <child>
                                                             <object class="GtkHBox" id="hbox_combo_select_contacts_top_with_arrows">
                                                             <property name="visible">True</property>
@@ -5646,9 +5641,8 @@
                                                             </child>
                                                             </object>
                                                             <packing>
-                                                            <property name="expand">True</property>
-                                                            <property name="fill">True</property>
-                                                            <property name="position">0</property>
+                                                            <property name="left-attach">0</property>
+                                                            <property name="top-attach">0</property>
                                                             </packing>
                                                             </child>
                                                             <child>
@@ -5662,7 +5656,6 @@
                                                             <property name="can-focus">True</property>
                                                             <property name="receives-default">True</property>
                                                             <property name="tooltip-text" translatable="yes">Configure exercise</property>
-                                                            <property name="relief">half</property>
                                                             <signal name="clicked" handler="on_button_contacts_exercise_clicked" swapped="no"/>
                                                             <child>
                                                             <object class="GtkHBox" id="hbox552">
@@ -5864,12 +5857,299 @@
                                                             </child>
                                                             </object>
                                                             <packing>
+                                                            <property name="left-attach">0</property>
+                                                            <property name="top-attach">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkBox">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <child>
+                                                            <object class="GtkButton" id="button_contacts_bells">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">True</property>
+                                                            <property name="receives-default">True</property>
+                                                            <property name="has-tooltip">True</property>
+                                                            <property name="tooltip-text" translatable="yes">Feedback</property>
+                                                            <signal name="clicked" handler="on_button_contacts_bells_clicked" swapped="no"/>
+                                                            <child>
+                                                            <object class="GtkImage" id="image_contacts_bell">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="stock">gtk-missing-image</property>
+                                                            </object>
+                                                            </child>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="pack-type">end</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="left-attach">1</property>
+                                                            <property name="top-attach">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkNotebook" id="notebook_video_contacts">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="show-tabs">False</property>
+                                                            <property name="show-border">False</property>
+                                                            <child>
+                                                            <object class="GtkHBox" id="hbox_video_contacts_no_capturing">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="spacing">16</property>
+                                                            <child>
+                                                            <object class="GtkHBox" id="hbox168">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="spacing">6</property>
+                                                            <child>
+                                                            <object class="GtkCheckButton" id="checkbutton_video_contacts">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">True</property>
+                                                            <property name="receives-default">False</property>
+                                                            <property name="has-tooltip">True</property>
+                                                            <property name="tooltip-text" translatable="yes">Record video (on / off)</property>
+                                                            <property name="active">True</property>
+                                                            <property name="draw-indicator">False</property>
+                                                            <child>
+                                                            <object class="GtkHBox" id="hbox180">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="spacing">2</property>
+                                                            <child>
+                                                            <object class="GtkImage" id="image_video_contacts_yes">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="stock">gtk-missing-image</property>
+                                                            <property name="icon_size">1</property>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkImage" id="image_video_contacts_no">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="stock">gtk-missing-image</property>
+                                                            <property name="icon_size">1</property>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            </object>
+                                                            </child>
+                                                            </object>
+                                                            <packing>
                                                             <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkButton" id="button_video_contacts_preview">
+                                                            <property name="can-focus">True</property>
+                                                            <property name="receives-default">True</property>
+                                                            <property name="tooltip-text" translatable="yes">Preview video</property>
+                                                            <signal name="clicked" handler="on_button_video_contacts_preview_clicked" swapped="no"/>
+                                                            <child>
+                                                            <object class="GtkImage" id="image_video_contacts_preview">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="stock">gtk-missing-image</property>
+                                                            </object>
+                                                            </child>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="pack-type">end</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            </object>
+                                                            </child>
+                                                            <child type="tab">
+                                                            <object class="GtkLabel" id="label56">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="label">no capturing</property>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="tab-fill">False</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkHBox" id="hbox_video_contacts">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="spacing">6</property>
+                                                            <child>
+                                                            <object class="GtkHBox" id="hbox_video_contacts_capturing">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="spacing">4</property>
+                                                            <child>
+                                                            <object class="GtkImage" id="image_video_contacts_yes1">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="stock">gtk-missing-image</property>
+                                                            <property name="icon_size">1</property>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkLabel" id="label_video_contacts_feedback">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkHBox" id="hbox_contacts_camera">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="spacing">4</property>
+                                                            <child>
+                                                            <object class="GtkProgressBar" id="pulsebar_webcam">
+                                                            <property name="width-request">50</property>
+                                                            <property name="can-focus">False</property>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkLabel" id="label_video_feedback">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">2</property>
+                                                            </packing>
+                                                            </child>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkLabel" id="label_video_contacts_tests_will_be_filmed">
+                                                            <property name="can-focus">False</property>
+                                                            <property name="label" translatable="yes">Tests will be filmed</property>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child type="tab">
+                                                            <object class="GtkLabel" id="label157">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="label">capturing</property>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="position">1</property>
+                                                            <property name="tab-fill">False</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkBox">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="orientation">vertical</property>
+                                                            <property name="spacing">2</property>
+                                                            <child>
+                                                            <object class="GtkLabel" id="label_video_generating">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkProgressBar" id="progressbar_video_generating">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
                                                             <property name="fill">True</property>
                                                             <property name="position">1</property>
                                                             </packing>
                                                             </child>
                                                             </object>
+                                                            <packing>
+                                                            <property name="position">2</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child type="tab">
+                                                            <object class="GtkLabel" id="label374">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="label">progressbar end</property>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="position">2</property>
+                                                            <property name="tab-fill">False</property>
+                                                            </packing>
+                                                            </child>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="left-attach">1</property>
+                                                            <property name="top-attach">1</property>
+                                                            </packing>
                                                             </child>
                                                             </object>
                                                             </child>
@@ -5878,8 +6158,8 @@
                                                             </child>
                                                           </object>
                                                           <packing>
-                                                            <property name="expand">True</property>
-                                                            <property name="fill">True</property>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
                                                             <property name="position">0</property>
                                                           </packing>
                                                         </child>
@@ -7174,7 +7454,7 @@
                                                           <packing>
                                                             <property name="expand">True</property>
                                                             <property name="fill">False</property>
-                                                            <property name="position">1</property>
+                                                            <property name="position">2</property>
                                                           </packing>
                                                         </child>
                                                         <child>
@@ -7278,27 +7558,7 @@
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <object class="GtkButton" id="button_contacts_bells">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">True</property>
-                                                            <property name="receives-default">True</property>
-                                                            <property name="has-tooltip">True</property>
-                                                            <property name="tooltip-text" translatable="yes">Feedback</property>
-                                                            <signal name="clicked" handler="on_button_contacts_bells_clicked" swapped="no"/>
-                                                            <child>
-                                                            <object class="GtkImage" id="image_contacts_bell">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="stock">gtk-missing-image</property>
-                                                            </object>
-                                                            </child>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="pack-type">end</property>
-                                                            <property name="position">1</property>
-                                                            </packing>
+                                                            <placeholder/>
                                                             </child>
                                                             </object>
                                                             <packing>
@@ -7326,263 +7586,7 @@
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <object class="GtkNotebook" id="notebook_video_contacts">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="show-tabs">False</property>
-                                                            <property name="show-border">False</property>
-                                                            <child>
-                                                            <object class="GtkHBox" id="hbox_video_contacts_no_capturing">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="spacing">16</property>
-                                                            <child>
-                                                            <object class="GtkHBox" id="hbox168">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="spacing">6</property>
-                                                            <child>
-                                                            <object class="GtkCheckButton" id="checkbutton_video_contacts">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">True</property>
-                                                            <property name="receives-default">False</property>
-                                                            <property name="has-tooltip">True</property>
-                                                            <property name="tooltip-text" translatable="yes">Record video (on / off)</property>
-                                                            <property name="active">True</property>
-                                                            <property name="draw-indicator">False</property>
-                                                            <child>
-                                                            <object class="GtkHBox" id="hbox180">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="spacing">2</property>
-                                                            <child>
-                                                            <object class="GtkImage" id="image_video_contacts_yes">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="stock">gtk-missing-image</property>
-                                                            <property name="icon_size">1</property>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="position">0</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
-                                                            <object class="GtkImage" id="image_video_contacts_no">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="stock">gtk-missing-image</property>
-                                                            <property name="icon_size">1</property>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="position">1</property>
-                                                            </packing>
-                                                            </child>
-                                                            </object>
-                                                            </child>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">True</property>
-                                                            <property name="fill">True</property>
-                                                            <property name="position">0</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
-                                                            <object class="GtkButton" id="button_video_contacts_preview">
-                                                            <property name="can-focus">True</property>
-                                                            <property name="receives-default">True</property>
-                                                            <property name="tooltip-text" translatable="yes">Preview video</property>
-                                                            <signal name="clicked" handler="on_button_video_contacts_preview_clicked" swapped="no"/>
-                                                            <child>
-                                                            <object class="GtkImage" id="image_video_contacts_preview">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="stock">gtk-missing-image</property>
-                                                            </object>
-                                                            </child>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="position">1</property>
-                                                            </packing>
-                                                            </child>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="pack-type">end</property>
-                                                            <property name="position">0</property>
-                                                            </packing>
-                                                            </child>
-                                                            </object>
-                                                            </child>
-                                                            <child type="tab">
-                                                            <object class="GtkLabel" id="label56">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="label">no capturing</property>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="tab-fill">False</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
-                                                            <object class="GtkHBox" id="hbox_video_contacts">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="spacing">6</property>
-                                                            <child>
-                                                            <object class="GtkHBox" id="hbox_video_contacts_capturing">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="spacing">4</property>
-                                                            <child>
-                                                            <object class="GtkImage" id="image_video_contacts_yes1">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="stock">gtk-missing-image</property>
-                                                            <property name="icon_size">1</property>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="position">0</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
-                                                            <object class="GtkLabel" id="label_video_contacts_feedback">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="position">1</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
-                                                            <object class="GtkHBox" id="hbox_contacts_camera">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="spacing">4</property>
-                                                            <child>
-                                                            <object class="GtkProgressBar" id="pulsebar_webcam">
-                                                            <property name="width-request">50</property>
-                                                            <property name="can-focus">False</property>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="position">0</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
-                                                            <object class="GtkLabel" id="label_video_feedback">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="position">1</property>
-                                                            </packing>
-                                                            </child>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="position">2</property>
-                                                            </packing>
-                                                            </child>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="position">0</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
-                                                            <object class="GtkLabel" id="label_video_contacts_tests_will_be_filmed">
-                                                            <property name="can-focus">False</property>
-                                                            <property name="label" translatable="yes">Tests will be filmed</property>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="position">1</property>
-                                                            </packing>
-                                                            </child>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="position">1</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child type="tab">
-                                                            <object class="GtkLabel" id="label157">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="label">capturing</property>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="position">1</property>
-                                                            <property name="tab-fill">False</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
-                                                            <object class="GtkBox">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="orientation">vertical</property>
-                                                            <property name="spacing">2</property>
-                                                            <child>
-                                                            <object class="GtkLabel" id="label_video_generating">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">True</property>
-                                                            <property name="position">0</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
-                                                            <object class="GtkProgressBar" id="progressbar_video_generating">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">True</property>
-                                                            <property name="position">1</property>
-                                                            </packing>
-                                                            </child>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="position">2</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child type="tab">
-                                                            <object class="GtkLabel" id="label374">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="label">progressbar end</property>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="position">2</property>
-                                                            <property name="tab-fill">False</property>
-                                                            </packing>
-                                                            </child>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="pack-type">end</property>
-                                                            <property name="position">1</property>
-                                                            </packing>
+                                                            <placeholder/>
                                                             </child>
                                                             </object>
                                                             <packing>
@@ -7597,7 +7601,7 @@
                                                             <property name="expand">False</property>
                                                             <property name="fill">False</property>
                                                             <property name="pack-type">end</property>
-                                                            <property name="position">2</property>
+                                                            <property name="position">3</property>
                                                           </packing>
                                                         </child>
                                                       </object>

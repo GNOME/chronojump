@@ -79,7 +79,7 @@ public partial class ChronoJumpWindow
 
 	Gtk.Notebook notebook_results_data;
 
-	Gtk.HBox hbox_drawingarea_realtime_capture_cairo;
+	Gtk.Alignment align_drawingarea_realtime_capture_cairo;
 	Gtk.DrawingArea event_execute_drawingarea_realtime_capture_cairo;
 	Gtk.DrawingArea event_execute_drawingarea_cairo;
 	Gtk.VBox vbox_event_execute_drawingarea_run_interval_realtime_capture_cairo;
@@ -1033,7 +1033,7 @@ public partial class ChronoJumpWindow
 
 		notebook_results_data = (Gtk.Notebook) builder.GetObject ("notebook_results_data");
 
-		hbox_drawingarea_realtime_capture_cairo = (Gtk.HBox) builder.GetObject ("hbox_drawingarea_realtime_capture_cairo");
+		align_drawingarea_realtime_capture_cairo = (Gtk.Alignment) builder.GetObject ("align_drawingarea_realtime_capture_cairo");
 		event_execute_drawingarea_realtime_capture_cairo = (Gtk.DrawingArea) builder.GetObject ("event_execute_drawingarea_realtime_capture_cairo");
 		event_execute_drawingarea_cairo = (Gtk.DrawingArea) builder.GetObject ("event_execute_drawingarea_cairo");
 		vbox_event_execute_drawingarea_run_interval_realtime_capture_cairo = (Gtk.VBox) builder.GetObject ("vbox_event_execute_drawingarea_run_interval_realtime_capture_cairo");

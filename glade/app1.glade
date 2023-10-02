@@ -8133,6 +8133,29 @@
                                                             </packing>
                                                             </child>
                                                             <child>
+                                                            <object class="GtkButton" id="button_contacts_repair_selected">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">True</property>
+                                                            <property name="receives-default">True</property>
+                                                            <property name="has-tooltip">True</property>
+                                                            <property name="tooltip-text" translatable="yes">Repair selected (r)</property>
+                                                            <signal name="clicked" handler="on_button_contacts_repair_selected_clicked" swapped="no"/>
+                                                            <child>
+                                                            <object class="GtkImage" id="image_contacts_repair_selected">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="icon_size">1</property>
+                                                            </object>
+                                                            </child>
+                                                            <accelerator key="r" signal="clicked"/>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">3</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
                                                             <object class="GtkButton" id="button_contacts_delete_selected">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">True</property>
@@ -8150,7 +8173,7 @@
                                                             <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">False</property>
-                                                            <property name="position">3</property>
+                                                            <property name="position">4</property>
                                                             </packing>
                                                             </child>
                                                             <child>
@@ -8172,7 +8195,7 @@
                                                             <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">False</property>
-                                                            <property name="position">4</property>
+                                                            <property name="position">5</property>
                                                             </packing>
                                                             </child>
                                                             </object>
@@ -9206,48 +9229,6 @@
                                                             <property name="position">0</property>
                                                             </packing>
                                                             </child>
-                                                            <child>
-                                                            <object class="GtkVBox" id="vbox67">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="spacing">6</property>
-                                                            <child>
-                                                            <placeholder/>
-                                                            </child>
-                                                            <child>
-                                                            <object class="GtkButton" id="button_repair_selected_jump_rj">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">True</property>
-                                                            <property name="receives-default">True</property>
-                                                            <property name="has-tooltip">True</property>
-                                                            <property name="tooltip-text" translatable="yes">Repair selected (r)</property>
-                                                            <signal name="clicked" handler="on_repair_selected_jump_rj_clicked" swapped="no"/>
-                                                            <child>
-                                                            <object class="GtkImage" id="image_jump_reactive_repair">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="icon_size">1</property>
-                                                            </object>
-                                                            </child>
-                                                            <accelerator key="r" signal="clicked"/>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="position">1</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
-                                                            <placeholder/>
-                                                            </child>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="pack-type">end</property>
-                                                            <property name="position">1</property>
-                                                            </packing>
-                                                            </child>
                                                             </object>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -9406,47 +9387,6 @@
                                                             <property name="expand">False</property>
                                                             <property name="fill">False</property>
                                                             <property name="position">0</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
-                                                            <object class="GtkVBox" id="vbox87">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="spacing">6</property>
-                                                            <child>
-                                                            <placeholder/>
-                                                            </child>
-                                                            <child>
-                                                            <object class="GtkButton" id="button_repair_selected_run_interval">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">True</property>
-                                                            <property name="receives-default">True</property>
-                                                            <property name="has-tooltip">True</property>
-                                                            <property name="tooltip-text" translatable="yes">Repair selected (r)</property>
-                                                            <signal name="clicked" handler="on_repair_selected_run_interval_clicked" swapped="no"/>
-                                                            <child>
-                                                            <object class="GtkImage" id="image_run_interval_repair">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            </object>
-                                                            </child>
-                                                            <accelerator key="r" signal="clicked"/>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="position">1</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
-                                                            <placeholder/>
-                                                            </child>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="pack-type">end</property>
-                                                            <property name="position">1</property>
                                                             </packing>
                                                             </child>
                                                             </object>

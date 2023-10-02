@@ -272,6 +272,9 @@ public partial class ChronoJumpWindow
 	Gtk.Notebook notebook_jumps_automatic;
 	Gtk.HBox hbox_contacts_device_adjust_threshold;
 
+	Gtk.Button button_contacts_edit_selected;
+	Gtk.Button button_contacts_delete_selected;
+
 	//jumps
 	Gtk.Button button_edit_selected_jump;
 	Gtk.Button button_delete_selected_jump;
@@ -4552,6 +4555,17 @@ public partial class ChronoJumpWindow
 			}
 		}
 
+		//contacts test buttons: edit, delete
+		if (m == Constants.Modes.JUMPSSIMPLE || m == Constants.Modes.JUMPSREACTIVE ||
+				m == Constants.Modes.RUNSSIMPLE || m == Constants.Modes.RUNSINTERVALLIC)
+		{
+			button_contacts_edit_selected.Visible = true;
+			button_contacts_delete_selected.Visible = true;
+		} else {
+			button_contacts_edit_selected.Visible = false;
+			button_contacts_delete_selected.Visible = true;
+		}
+
 		//on capture, show phases, time, record if we are not on forcesensor mode
 		showHideCaptureSpecificControls (m);
 
@@ -7342,6 +7356,18 @@ LogB.Debug("mc finished 5");
 
 	int eventOldPerson;
 
+	private void on_button_contacts_edit_selected_clicked (object o, EventArgs args)
+	{
+		if (current_mode == Constants.Modes.JUMPSSIMPLE)
+			on_edit_selected_jump_clicked (o, args);
+		else if (current_mode == Constants.Modes.JUMPSREACTIVE)
+			on_edit_selected_jump_rj_clicked (o, args);
+		else if (current_mode == Constants.Modes.RUNSSIMPLE)
+			on_edit_selected_run_accepted (o, args);
+		else if (current_mode == Constants.Modes.RUNSINTERVALLIC)
+			on_edit_selected_run_interval_accepted (o, args);
+	}
+
 	private void on_edit_selected_jump_clicked (object o, EventArgs args) {
 		//notebooks_change(0); see "notebooks_change sqlite problem"
 		LogB.Information("Edit selected jump (simple)");
@@ -7698,7 +7724,19 @@ LogB.Debug("mc finished 5");
 	private void deleted_last_test_update_widgets() {
 		sensitiveLastTestButtons(false);
 	}
-	
+
+	private void on_button_contacts_delete_selected_clicked (object o, EventArgs args)
+	{
+		if (current_mode == Constants.Modes.JUMPSSIMPLE)
+			on_delete_selected_jump_clicked (o, args);
+		else if (current_mode == Constants.Modes.JUMPSREACTIVE)
+			on_delete_selected_jump_rj_clicked (o, args);
+		else if (current_mode == Constants.Modes.RUNSSIMPLE)
+			on_delete_selected_run_accepted (o, args);
+		else if (current_mode == Constants.Modes.RUNSINTERVALLIC)
+			on_delete_selected_run_interval_accepted (o, args);
+	}
+
 	private void on_delete_selected_jump_clicked (object o, EventArgs args) {
 		//notebooks_change(0); see "notebooks_change sqlite problem"
 		LogB.Information("delete this jump (simple)");
@@ -10120,6 +10158,9 @@ LogB.Debug("mc finished 5");
 		frame_jumps_automatic = (Gtk.Frame) builder.GetObject ("frame_jumps_automatic");
 		notebook_jumps_automatic = (Gtk.Notebook) builder.GetObject ("notebook_jumps_automatic");
 		hbox_contacts_device_adjust_threshold = (Gtk.HBox) builder.GetObject ("hbox_contacts_device_adjust_threshold");
+
+		button_contacts_edit_selected = (Gtk.Button) builder.GetObject ("button_contacts_edit_selected");
+		button_contacts_delete_selected = (Gtk.Button) builder.GetObject ("button_contacts_delete_selected");
 
 		//jumps
 		button_edit_selected_jump = (Gtk.Button) builder.GetObject ("button_edit_selected_jump");

@@ -4440,6 +4440,7 @@ public partial class ChronoJumpWindow
 			hbox_combo_select_contacts_top_with_arrows.Visible = true; //this will be unneded
 
 			signalAnalyzeButtonsVisibility ();
+			button_video_play_this_test_contacts.Sensitive = (currentRunEncoder != null && currentRunEncoder.VideoURL != "");
 
 			//forceSensor and runEncoder
 			check_run_encoder_export_instantaneous.Visible = true;

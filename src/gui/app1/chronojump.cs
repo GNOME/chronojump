@@ -4110,6 +4110,7 @@ public partial class ChronoJumpWindow
 			createComboSelectContactsTop ();
 			label_contacts_exercise_selected_name.Visible = false;
 			hbox_combo_select_contacts_top_with_arrows.Visible = true; //this will be unneded
+			on_radio_contacts_graph_test_toggled (new object (), new EventArgs ()); //to ensure data is updated
 
 			box_contacts_export_data_jumps.Visible = true;
 			check_contacts_export_jumps_simple.Active = (current_mode == Constants.Modes.JUMPSSIMPLE);
@@ -4202,6 +4203,7 @@ public partial class ChronoJumpWindow
 			createComboSelectContactsTop ();
 			label_contacts_exercise_selected_name.Visible = false;
 			hbox_combo_select_contacts_top_with_arrows.Visible = true; //this will be unneded
+			on_radio_contacts_graph_test_toggled (new object (), new EventArgs ()); //to ensure data is updated
 		}
 		else if (Constants.ModeIsENCODER (m))
 		{

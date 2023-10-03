@@ -858,59 +858,31 @@ public partial class ChronoJumpWindow
 
 	private void on_button_video_play_this_test_contacts_clicked (object o, EventArgs args)
 	{
-		if(Constants.ModeIsFORCESENSOR (current_mode))
+		if (webcamPlay != null && webcamPlayThread != null && webcamPlayThread.IsAlive)
+			return;
+
+		if (Constants.ModeIsFORCESENSOR (current_mode) &&
+				(currentForceSensor == null || currentForceSensor.UniqueID == -1))
 		{
-			if(currentForceSensor == null || currentForceSensor.UniqueID == -1)
-				new DialogMessage(Constants.MessageTypes.WARNING, "Sorry, file not found");
-			else
-			{
-				if (webcamPlay != null && webcamPlayThread != null && webcamPlayThread.IsAlive)
-					return;
-
-				// widgets changes
-				checkbutton_video_contacts.Visible = false;
-				button_video_play_this_test_contacts.Visible = false;
-				spinner_video_play_this_test_contacts.Visible = true;
-				spinner_video_play_this_test_contacts.Start ();
-
-				webcamPlayThread = new Thread (new ThreadStart (webcamPlayThreadDo));
-				GLib.Idle.Add (new GLib.IdleHandler (pulseWebcamPlayGTK));
-				webcamPlayThread.Start();
-			}
-
+			new DialogMessage(Constants.MessageTypes.WARNING, "Sorry, file not found");
 			return;
 		}
-		else if(current_mode == Constants.Modes.RUNSENCODER)
+		else if (current_mode == Constants.Modes.RUNSENCODER &&
+				(currentRunEncoder == null || currentRunEncoder.UniqueID == -1))
 		{
-			if(currentRunEncoder == null || currentRunEncoder.UniqueID == -1)
-				new DialogMessage(Constants.MessageTypes.WARNING, "Sorry, file not found");
-			else
-				playVideo(Util.GetVideoFileName(currentSession.UniqueID, Constants.TestTypes.RACEANALYZER, currentRunEncoder.UniqueID));
-
+			new DialogMessage(Constants.MessageTypes.WARNING, "Sorry, file not found");
 			return;
 		}
 
-		Constants.TestTypes type = Constants.TestTypes.JUMP;
-		int id = 0;
-		if (current_mode == Constants.Modes.JUMPSSIMPLE) {
-			type = Constants.TestTypes.JUMP;
-			id = myTreeViewJumps.EventSelectedID;
-		}
-		else if (current_mode == Constants.Modes.JUMPSREACTIVE) {
-			type = Constants.TestTypes.JUMP_RJ;
-			id = myTreeViewJumpsRj.EventSelectedID;
-		}
-		else if (current_mode == Constants.Modes.RUNSSIMPLE) {
-			type = Constants.TestTypes.RUN;
-			id = myTreeViewRuns.EventSelectedID;
-		}
-		else if (current_mode == Constants.Modes.RUNSINTERVALLIC) {
-			type = Constants.TestTypes.RUN_I;
-			id = myTreeViewRunsInterval.EventSelectedID;
-		}
+		// widgets changes
+		checkbutton_video_contacts.Visible = false;
+		button_video_play_this_test_contacts.Visible = false;
+		spinner_video_play_this_test_contacts.Visible = true;
+		spinner_video_play_this_test_contacts.Start ();
 
-		if (currentSession != null && currentSession.UniqueID >= 0 && id > 0)
-			playVideo (Util.GetVideoFileName (currentSession.UniqueID, type, id));
+		webcamPlayThread = new Thread (new ThreadStart (webcamPlayThreadDo));
+		GLib.Idle.Add (new GLib.IdleHandler (pulseWebcamPlayGTK));
+		webcamPlayThread.Start();
 	}
 
 	private void on_button_video_play_this_test_encoder_clicked (object o, EventArgs args)
@@ -973,6 +945,30 @@ public partial class ChronoJumpWindow
 			testType = Constants.TestTypes.ENCODER;
 			id = Convert.ToInt32 (encoderSignalUniqueID);
 		}
+		else if(current_mode == Constants.Modes.RUNSENCODER)
+		{
+			testType = Constants.TestTypes.RACEANALYZER;
+			id = currentRunEncoder.UniqueID;
+		}
+		else if (current_mode == Constants.Modes.JUMPSSIMPLE) {
+			testType = Constants.TestTypes.JUMP;
+			id = myTreeViewJumps.EventSelectedID;
+		}
+		else if (current_mode == Constants.Modes.JUMPSREACTIVE) {
+			testType = Constants.TestTypes.JUMP_RJ;
+			id = myTreeViewJumpsRj.EventSelectedID;
+		}
+		else if (current_mode == Constants.Modes.RUNSSIMPLE) {
+			testType = Constants.TestTypes.RUN;
+			id = myTreeViewRuns.EventSelectedID;
+		}
+		else if (current_mode == Constants.Modes.RUNSINTERVALLIC) {
+			testType = Constants.TestTypes.RUN_I;
+			id = myTreeViewRunsInterval.EventSelectedID;
+		}
+
+		if (id < 0)
+			return;
 
 		webcamPlay = new WebcamFfmpeg (Webcam.Action.PLAYFILE, UtilAll.GetOSEnum(), "", "", "", "");
 		double videoDuration = webcamPlay.FindVideoDuration (Util.GetVideoFileName (sessionID, testType, id));
@@ -1007,6 +1003,7 @@ public partial class ChronoJumpWindow
 		double signalTotalTime = 0;
 		if (Constants.ModeIsFORCESENSOR (current_mode))
 		{
+			//TODO: take care with zoom here!
 			if (fsAI_AB != null)
 				signalTotalTime = UtilAll.DivideSafe (PointF.Last (fsAI_AB.P_l).X, 1000000);
 		}
@@ -1014,7 +1011,15 @@ public partial class ChronoJumpWindow
 		{
 			signalTotalTime = UtilAll.DivideSafe (cairoGraphEncoderSignalPoints_l.Count, 1000); // 1 KHz
 		}
+		else if(current_mode == Constants.Modes.RUNSENCODER)
+		{
+			//TODO: take care with zoom here!
+			if (raAI_AB != null)
+				signalTotalTime = UtilAll.DivideSafe (PointF.Last (raAI_AB.P_l).X, 1000000);
+			//TODO: or use cairoGraphRaceAnalyzerPoints_st_l
+		}
 
+		//LogB.Information ("signalTotalTime", signalTotalTime);
 		return signalTotalTime;
 	}
 

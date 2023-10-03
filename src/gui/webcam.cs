@@ -47,6 +47,8 @@ public partial class ChronoJumpWindow
 	Gtk.Label label_video_encoder_feedback;
 	Gtk.Button button_video_contacts_preview;
 	Gtk.Button button_video_encoder_preview;
+	Gtk.Alignment align_video_contacts_preview;
+	Gtk.Alignment align_video_encoder_preview;
 	//Gtk.Label label_video;
 	Gtk.Image image_video_contacts_yes;
 	Gtk.Image image_video_contacts_yes1;
@@ -60,6 +62,8 @@ public partial class ChronoJumpWindow
 	Gtk.Button button_video_play_this_test_encoder;
 	Gtk.Spinner spinner_video_play_this_test_contacts;
 	Gtk.Spinner spinner_video_play_this_test_encoder;
+	Gtk.Spinner spinner_video_preview_this_test_contacts;
+	Gtk.Spinner spinner_video_preview_this_test_encoder;
 	Gtk.ProgressBar pulsebar_webcam;
 	// <---- at glade
 
@@ -663,7 +667,10 @@ public partial class ChronoJumpWindow
 		image_video_encoder_yes.Visible = myVideo;
 		image_video_encoder_no.Visible = ! myVideo;
 
+		align_video_contacts_preview.Visible = myVideo;
 		button_video_contacts_preview.Visible = myVideo;
+
+		align_video_encoder_preview.Visible = myVideo;
 		button_video_encoder_preview.Visible = myVideo;
 	}
 
@@ -760,11 +767,34 @@ public partial class ChronoJumpWindow
 
 	private void on_button_video_contacts_preview_clicked (object o, EventArgs args)
 	{
-		playPreview();
+		if (webcamPlay != null && webcamPlayThread != null && webcamPlayThread.IsAlive)
+			return;
+
+		//widgets changes
+		button_video_contacts_preview.Visible = false;
+		spinner_video_preview_this_test_contacts.Visible = true;
+		spinner_video_preview_this_test_contacts.Start ();
+
+		webcamPlayThread = new Thread (new ThreadStart (playPreview));
+		GLib.Idle.Add (new GLib.IdleHandler (pulseWebcamPreviewGTK));
+		webcamPlayThread.Start();
+		//playPreview();
 	}
+
 	private void on_button_video_encoder_preview_clicked (object o, EventArgs args)
 	{
-		playPreview();
+		if (webcamPlay != null && webcamPlayThread != null && webcamPlayThread.IsAlive)
+			return;
+
+		//widgets changes
+		button_video_encoder_preview.Visible = false;
+		spinner_video_preview_this_test_encoder.Visible = true;
+		spinner_video_preview_this_test_encoder.Start ();
+
+		webcamPlayThread = new Thread (new ThreadStart (playPreview));
+		GLib.Idle.Add (new GLib.IdleHandler (pulseWebcamPreviewGTK));
+		webcamPlayThread.Start();
+		//playPreview();
 	}
 	private void playPreview ()
 	{
@@ -988,7 +1018,29 @@ public partial class ChronoJumpWindow
 		return signalTotalTime;
 	}
 
-	//TODO: use contacts or encoder widgets
+	private bool pulseWebcamPreviewGTK ()
+	{
+		if (! webcamPlayThread.IsAlive)
+		{
+			//widgets changes
+			if (Constants.ModeIsENCODER (current_mode)) {
+				button_video_encoder_preview.Visible = true;
+				spinner_video_preview_this_test_encoder.Stop ();
+				spinner_video_preview_this_test_encoder.Visible = false;
+			} else {
+				button_video_contacts_preview.Visible = true;
+				spinner_video_preview_this_test_contacts.Stop ();
+				spinner_video_preview_this_test_contacts.Visible = false;
+			}
+
+			return false;
+		}
+
+		Thread.Sleep (10);
+		//LogB.Debug(webcamPlayThread.ThreadState.ToString());
+		return true;
+	}
+
 	private bool pulseWebcamPlayGTK ()
 	{
 		if (! webcamPlayThread.IsAlive)
@@ -999,11 +1051,11 @@ public partial class ChronoJumpWindow
 				spinner_video_play_this_test_encoder.Stop ();
 				spinner_video_play_this_test_encoder.Visible = false;
 			} else {
-			}
 				checkbutton_video_contacts.Visible = true;
 				button_video_play_this_test_contacts.Visible = true;
 				spinner_video_play_this_test_contacts.Stop ();
 				spinner_video_play_this_test_contacts.Visible = false;
+			}
 
 			return false;
 		}
@@ -1033,7 +1085,7 @@ public partial class ChronoJumpWindow
 		}
 
 		Thread.Sleep (10);
-		LogB.Debug(webcamPlayThread.ThreadState.ToString());
+		//LogB.Debug(webcamPlayThread.ThreadState.ToString());
 		return true;
 	}
 
@@ -1056,6 +1108,8 @@ public partial class ChronoJumpWindow
 		label_video_encoder_feedback = (Gtk.Label) builder.GetObject ("label_video_encoder_feedback");
 		button_video_contacts_preview = (Gtk.Button) builder.GetObject ("button_video_contacts_preview");
 		button_video_encoder_preview = (Gtk.Button) builder.GetObject ("button_video_encoder_preview");
+		align_video_contacts_preview = (Gtk.Alignment) builder.GetObject ("align_video_contacts_preview");
+		align_video_encoder_preview = (Gtk.Alignment) builder.GetObject ("align_video_encoder_preview");
 		//label_video = (Gtk.Label) builder.GetObject ("label_video");
 		image_video_contacts_yes = (Gtk.Image) builder.GetObject ("image_video_contacts_yes");
 		image_video_contacts_yes1 = (Gtk.Image) builder.GetObject ("image_video_contacts_yes1");
@@ -1069,6 +1123,8 @@ public partial class ChronoJumpWindow
 		button_video_play_this_test_encoder = (Gtk.Button) builder.GetObject ("button_video_play_this_test_encoder");
 		spinner_video_play_this_test_contacts = (Gtk.Spinner) builder.GetObject ("spinner_video_play_this_test_contacts");
 		spinner_video_play_this_test_encoder = (Gtk.Spinner) builder.GetObject ("spinner_video_play_this_test_encoder");
+		spinner_video_preview_this_test_contacts = (Gtk.Spinner) builder.GetObject ("spinner_video_preview_this_test_contacts");
+		spinner_video_preview_this_test_encoder = (Gtk.Spinner) builder.GetObject ("spinner_video_preview_this_test_encoder");
 		pulsebar_webcam = (Gtk.ProgressBar) builder.GetObject ("pulsebar_webcam");
 	}
 }

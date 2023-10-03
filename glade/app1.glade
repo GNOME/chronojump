@@ -5909,7 +5909,6 @@
                                                             <object class="GtkHBox" id="hbox168">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
-                                                            <property name="spacing">6</property>
                                                             <child>
                                                             <object class="GtkCheckButton" id="checkbutton_video_contacts">
                                                             <property name="visible">True</property>
@@ -5960,6 +5959,14 @@
                                                             </packing>
                                                             </child>
                                                             <child>
+                                                            <object class="GtkAlignment" id="align_video_contacts_preview">
+                                                            <property name="can-focus">False</property>
+                                                            <property name="left-padding">6</property>
+                                                            <child>
+                                                            <object class="GtkBox">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <child>
                                                             <object class="GtkButton" id="button_video_contacts_preview">
                                                             <property name="can-focus">True</property>
                                                             <property name="receives-default">True</property>
@@ -5970,6 +5977,25 @@
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
                                                             <property name="stock">gtk-missing-image</property>
+                                                            </object>
+                                                            </child>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkSpinner" id="spinner_video_preview_this_test_contacts">
+                                                            <property name="can-focus">False</property>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
                                                             </object>
                                                             </child>
                                                             </object>
@@ -22568,6 +22594,9 @@ Concentric</property>
                                                             <child>
                                                             <placeholder/>
                                                             </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
                                                             </object>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -31866,7 +31895,6 @@ Concentric</property>
                                                             <object class="GtkHBox" id="hbox_video_encoder_no_capturing">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
-                                                            <property name="spacing">6</property>
                                                             <child>
                                                             <object class="GtkCheckButton" id="checkbutton_video_encoder">
                                                             <property name="visible">True</property>
@@ -31918,6 +31946,14 @@ Concentric</property>
                                                             </packing>
                                                             </child>
                                                             <child>
+                                                            <object class="GtkAlignment" id="align_video_encoder_preview">
+                                                            <property name="can-focus">False</property>
+                                                            <property name="left-padding">6</property>
+                                                            <child>
+                                                            <object class="GtkBox">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <child>
                                                             <object class="GtkButton" id="button_video_encoder_preview">
                                                             <property name="can-focus">True</property>
                                                             <property name="receives-default">True</property>
@@ -31928,6 +31964,25 @@ Concentric</property>
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
                                                             <property name="stock">gtk-missing-image</property>
+                                                            </object>
+                                                            </child>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkSpinner" id="spinner_video_preview_this_test_encoder">
+                                                            <property name="can-focus">False</property>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
                                                             </object>
                                                             </child>
                                                             </object>

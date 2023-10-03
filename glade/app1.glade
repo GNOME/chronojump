@@ -6339,6 +6339,7 @@
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
                                                             <property name="spacing">8</property>
+                                                            <property name="homogeneous">True</property>
                                                             <child>
                                                             <object class="GtkButton" id="button_contacts_detect_small">
                                                             <property name="visible">True</property>
@@ -32209,6 +32210,7 @@ Concentric</property>
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
                                                             <property name="spacing">8</property>
+                                                            <property name="homogeneous">True</property>
                                                             <child>
                                                             <object class="GtkButton" id="button_encoder_detect_small">
                                                             <property name="visible">True</property>
@@ -32251,12 +32253,23 @@ Concentric</property>
                                                             </object>
                                                             <packing>
                                                             <property name="expand">False</property>
-                                                            <property name="fill">False</property>
+                                                            <property name="fill">True</property>
                                                             <property name="position">0</property>
                                                             </packing>
                                                             </child>
                                                             <child>
+                                                            <object class="GtkBox">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <child>
                                                             <placeholder/>
+                                                            </child>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
                                                             </child>
                                                             </object>
                                                             <packing>

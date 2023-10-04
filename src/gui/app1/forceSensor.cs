@@ -2863,9 +2863,11 @@ LogB.Information(" fs R ");
 			//TODO: calculate an average of previous samples
 			//maybe is better not have this +0.010, +0.020 because if video is paused we want current time,
 			//so what we have done is  have pulseWebcamPlayGTK sleep just 10 ms instead of 25
+			//LogB.Information (string.Format ("forceSensor time: {0}, webcamPlay.PlayVideoGetSecond: {1}, -diffVideoVsSignal: {2}",
+			//			time, webcamPlay.PlayVideoGetSecond, diffVideoVsSignal));
 
-			LogB.Information ("videoFrames", videoFrames);
-			LogB.Information ("spCairoFECopy.Force_l.Count", spCairoFECopy.Force_l.Count);
+			//LogB.Information ("videoFrames", videoFrames);
+			//LogB.Information ("spCairoFECopy.Force_l.Count", spCairoFECopy.Force_l.Count);
 		}
 
 		//LogB.Information ("updateForceSensorCaptureSignalCairo 4");

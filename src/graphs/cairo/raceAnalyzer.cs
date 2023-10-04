@@ -99,6 +99,7 @@ public class CairoGraphRaceAnalyzer : CairoXY
 			List<PointF> pointsCD_l,
 			List<string> subtitleWithSetsInfo_l,
 			bool forceRedraw,
+			double videoPlayTimeInSeconds,
 			PlotTypes plotType, bool blackLine, int smoothLineWindow,
 			TriggerList triggerList, int timeAtEnoughAccelOrTrigger0,
 			int timeAtEnoughAccelMark, double minAccel,
@@ -107,7 +108,7 @@ public class CairoGraphRaceAnalyzer : CairoXY
 
 	{
 		if (doSendingList (font, points_l, pointsCD_l, subtitleWithSetsInfo_l,
-					forceRedraw, plotType, blackLine, smoothLineWindow,
+					forceRedraw, videoPlayTimeInSeconds, plotType, blackLine, smoothLineWindow,
 					triggerList, timeAtEnoughAccelOrTrigger0, timeAtEnoughAccelMark, minAccel,
 					hscaleSampleA, hscaleSampleB,
 					hscaleSampleC, hscaleSampleD))
@@ -121,6 +122,7 @@ public class CairoGraphRaceAnalyzer : CairoXY
 			List<PointF> pointsCD_l,
 			List<string> subtitleWithSetsInfo_l,
 			bool forceRedraw,
+			double videoPlayTimeInSeconds,
 			PlotTypes plotType, bool blackLine, int smoothLineWindow,
 			TriggerList triggerList, int timeAtEnoughAccelOrTrigger0,
 			int timeAtEnoughAccelMark, double minAccel, //timeAtEnoughAccelMark: only for capture (just to display mark), minAccel is the value at preferences
@@ -480,6 +482,15 @@ public class CairoGraphRaceAnalyzer : CairoXY
 
 				paintVerticalTriggerLine (g, triggerModified, timeUnits.SECONDS, "", textHeight -3);
 			}
+		}
+
+		if (videoPlayTimeInSeconds > 0)
+		{
+			//printText (graphWidth - rightMargin/2, topMargin,
+			//		0, textHeight +4, Util.TrimDecimals (videoPlayTimeInSeconds, 2), g, alignTypes.CENTER);
+			g.MoveTo (calculatePaintX (videoPlayTimeInSeconds), topMargin);
+			g.LineTo (calculatePaintX (videoPlayTimeInSeconds), graphHeight - bottomMargin);
+			g.Stroke ();
 		}
 
 		//doing = false;

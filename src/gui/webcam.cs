@@ -1015,11 +1015,16 @@ public partial class ChronoJumpWindow
 		{
 			//TODO: take care with zoom here!
 			if (raAI_AB != null)
-				signalTotalTime = UtilAll.DivideSafe (PointF.Last (raAI_AB.P_l).X, 1000000);
-			//TODO: or use cairoGraphRaceAnalyzerPoints_st_l
+			{
+				signalTotalTime = PointF.Last (raAI_AB.P_l).X - raAI_AB.P_l[0].X; //consider that the beginning use to be negative part (until a >= 10)
+				//LogB.Information (string.Format ("getting signalTotalTime end: {0}, start: {1}, signalTotalTime: {2}",
+				//			PointF.Last (raAI_AB.P_l).X, raAI_AB.P_l[0].X, signalTotalTime));
+				//TODO: or use cairoGraphRaceAnalyzerPoints_st_l
+				//note also the [0].X is not needed as this takes the data starting at 0
+			}
 		}
 
-		//LogB.Information ("signalTotalTime", signalTotalTime);
+		// LogB.Information ("signalTotalTime", signalTotalTime);
 		return signalTotalTime;
 	}
 
@@ -1083,6 +1088,8 @@ public partial class ChronoJumpWindow
 
 			if (Constants.ModeIsFORCESENSOR (current_mode))
 				force_capture_drawingarea_cairo.QueueDraw ();
+			else if(current_mode == Constants.Modes.RUNSENCODER)
+				drawingarea_race_analyzer_capture_speed_time.QueueDraw ();
 			else if (Constants.ModeIsENCODER (current_mode))
 				encoder_capture_signal_drawingarea_cairo.QueueDraw ();
 

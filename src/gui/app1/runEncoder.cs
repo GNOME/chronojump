@@ -2706,7 +2706,7 @@ public partial class ChronoJumpWindow
 				cairoGraphRaceAnalyzerPoints_dt_l,
 				null,
 				new List<string> (),
-				forceRedraw, CairoXY.PlotTypes.LINES, smoothGui == 0,
+				forceRedraw, 0, CairoXY.PlotTypes.LINES, smoothGui == 0,
 				smoothGui,
 				triggerListRunEncoder, timeAtEnoughAccel,
 				timeAtEnoughAccelMark, preferences.runEncoderMinAccel,
@@ -2804,11 +2804,21 @@ public partial class ChronoJumpWindow
 			if (AiVars.zoomApplied)
 				sendPoints_l = cairoGraphRaceAnalyzerPoints_st_Zoom_l;
 		}
+
+		double time = 0;
+		if (webcamPlay != null && webcamPlay.PlayVideoGetSecond > 0)
+		{
+			time = webcamPlay.PlayVideoGetSecond -diffVideoVsSignal;
+
+			//LogB.Information (string.Format ("raceAnalyzer time: {0}, webcamPlay.PlayVideoGetSecond: {1}, -diffVideoVsSignal: {2}",
+			//			time, webcamPlay.PlayVideoGetSecond, diffVideoVsSignal));
+		}
+
 		cairoGraphRaceAnalyzer_st.DoSendingList (preferences.fontType.ToString(),
 				sendPoints_l,
 				cairoGraphSend_CD,
 				subtitleWithSetsInfo_l,
-				forceRedraw, CairoXY.PlotTypes.LINES, smoothGui == 0,
+				forceRedraw, time, CairoXY.PlotTypes.LINES, smoothGui == 0,
 				smoothGui,
 				triggerListRunEncoder, timeAtEnoughAccel,
 				timeAtEnoughAccelMark, preferences.runEncoderMinAccel,
@@ -2850,7 +2860,7 @@ public partial class ChronoJumpWindow
 				cairoGraphRaceAnalyzerPoints_at_l,
 				null,
 				new List<string> (),
-				forceRedraw, CairoXY.PlotTypes.LINES, false,
+				forceRedraw, 0, CairoXY.PlotTypes.LINES, false,
 				getSmoothFrom_gui_at_race_analyzer_capture_smooth_graphs (),
 				triggerListRunEncoder, timeAtEnoughAccel,
 				timeAtEnoughAccelMark, preferences.runEncoderMinAccel,

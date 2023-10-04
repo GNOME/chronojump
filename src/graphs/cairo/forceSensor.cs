@@ -511,8 +511,8 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 			paintTriggers (points_l, triggerList);
 
 		//videoPlayTimeInSeconds
-		printText (graphWidth - rightMargin/2, topMargin,
-				0, textHeight +4, Util.TrimDecimals (videoPlayTimeInSeconds, 2), g, alignTypes.CENTER);
+		//printText (graphWidth - rightMargin/2, topMargin,
+		//		0, textHeight +4, Util.TrimDecimals (videoPlayTimeInSeconds, 2), g, alignTypes.CENTER);
 		g.MoveTo (calculatePaintX (videoPlayTimeInSeconds * 1000000), topMargin);
 		g.LineTo (calculatePaintX (videoPlayTimeInSeconds * 1000000), graphHeight - bottomMargin);
 		g.Stroke ();

@@ -484,7 +484,8 @@ public class CairoGraphRaceAnalyzer : CairoXY
 			}
 		}
 
-		if (videoPlayTimeInSeconds > 0)
+		//show the play time mark if it fits the graph. Note that because of the stopAfter 2s, we do the <= abolsuteMaxX check
+		if (videoPlayTimeInSeconds > 0 && videoPlayTimeInSeconds <= absoluteMaxX)
 		{
 			//printText (graphWidth - rightMargin/2, topMargin,
 			//		0, textHeight +4, Util.TrimDecimals (videoPlayTimeInSeconds, 2), g, alignTypes.CENTER);

@@ -398,7 +398,7 @@ public class PrepareEventGraphBarplotEncoder
 	public FeedbackEncoder feedback;
 	public bool hasInertia;
 	public bool playSoundsFromFile;
-	public ArrayList data9Variables;
+	public List<EncoderBarsData> encoderBarsData_l;
 	public Gtk.ListStore encoderCaptureListStore;
 	public bool relativeToSet;
 	public double maxPowerSpeedForceIntersession; //it will be one of these 3
@@ -417,7 +417,7 @@ public class PrepareEventGraphBarplotEncoder
 			bool capturing, string eccon,
 			FeedbackEncoder feedback,
 			bool hasInertia, bool playSoundsFromFile,
-			ArrayList data9Variables, Gtk.ListStore encoderCaptureListStore,
+			List<EncoderBarsData> encoderBarsData_l, Gtk.ListStore encoderCaptureListStore,
 			bool relativeToSet,
 			double maxPowerSpeedForceIntersession, string maxPowerSpeedForceIntersessionDate,
 			int discardFirstN, int showNRepetitions, bool volumeOn, Preferences.GstreamerTypes gstreamer)
@@ -433,7 +433,7 @@ public class PrepareEventGraphBarplotEncoder
 		this.feedback = feedback;
 		this.hasInertia = hasInertia;
 		this.playSoundsFromFile = playSoundsFromFile;
-		this.data9Variables = data9Variables;
+		this.encoderBarsData_l = encoderBarsData_l;
 		this.encoderCaptureListStore = encoderCaptureListStore;
 		this.relativeToSet = relativeToSet;
 		this.maxPowerSpeedForceIntersession = maxPowerSpeedForceIntersession;

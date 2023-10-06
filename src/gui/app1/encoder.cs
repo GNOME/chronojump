@@ -515,7 +515,7 @@ public partial class ChronoJumpWindow
 		encoderRProcCapture = new EncoderRProcCapture();
 		encoderRProcAnalyze = new EncoderRProcAnalyze();
 		
-		captureCurvesBarsData = new ArrayList(0);
+		captureCurvesBarsData_l = new List<EncoderBarsData> ();
 
 		LogB.Information("after play 0");
 		capturingCsharp = encoderCaptureProcess.STOPPED;
@@ -5929,8 +5929,8 @@ public partial class ChronoJumpWindow
 		
 		treeviewEncoderCaptureRemoveColumns();
 
-		//initialize new captureCurvesBarsData to not having the barplot updated on CONFIGURE or EXPOSE after being painted white
-		captureCurvesBarsData = new ArrayList();
+		//initialize new captureCurvesBarsData_l to not having the barplot updated on CONFIGURE or EXPOSE after being painted white
+		captureCurvesBarsData_l = new List<EncoderBarsData> ();
 
 		//erase cairo barplot
 		cairoPaintBarsPre = new CairoPaintBarplotPreEncoder (
@@ -6144,11 +6144,11 @@ public partial class ChronoJumpWindow
 
 
 	static List<string> encoderCaptureStringR;
-	static ArrayList captureCurvesBarsData;
+	static List<EncoderBarsData> captureCurvesBarsData_l;
 
 	private void callPlotCurvesGraphDoPlot()
 	{
-		if(captureCurvesBarsData.Count > 0)
+		if(captureCurvesBarsData_l.Count > 0)
 		{
 			string mainVariable = Constants.GetEncoderVariablesCapture(preferences.encoderCaptureMainVariable);
 			string secondaryVariable = Constants.GetEncoderVariablesCapture(preferences.encoderCaptureSecondaryVariable);
@@ -6166,7 +6166,7 @@ public partial class ChronoJumpWindow
 					feedbackEncoder,
 					encoderConfigurationCurrent.has_inertia,
 					configChronojump.PlaySoundsFromFile,
-					captureCurvesBarsData,
+					captureCurvesBarsData_l,
 					encoderCaptureListStore,
 					preferences.encoderCaptureMainVariableThisSetOrHistorical,
 					sendMaxPowerSpeedForceIntersession(preferences.encoderCaptureMainVariable),
@@ -6420,7 +6420,7 @@ public partial class ChronoJumpWindow
 					compujumpAutologout.StartCapturingEncoder();
 
 
-				captureCurvesBarsData = new ArrayList();
+				captureCurvesBarsData_l = new List<EncoderBarsData> ();
 
 				needToRefreshTreeviewCapture = false;
 
@@ -6832,7 +6832,7 @@ public partial class ChronoJumpWindow
 			double peakPower = Convert.ToDouble(Util.ChangeDecimalSeparator(strs[8]));
 			double workJ = Convert.ToDouble(Util.ChangeDecimalSeparator(strs[15]));
 			double impulse = Convert.ToDouble(Util.ChangeDecimalSeparator(strs[16]));
-			captureCurvesBarsData.Add(new EncoderBarsData(range, meanSpeed, maxSpeed, meanForce, maxForce, meanPower, peakPower, workJ, impulse));
+			captureCurvesBarsData_l.Add (new EncoderBarsData (range, meanSpeed, maxSpeed, meanForce, maxForce, meanPower, peakPower, workJ, impulse)); //should have 9 values: need start and duration for video
 			
 			LogB.Information("activating needToRefreshTreeviewCapture");
 
@@ -7015,8 +7015,8 @@ public partial class ChronoJumpWindow
 				if(! preferences.encoderCaptureSecondaryVariableShow)
 					secondaryVariable = "";
 				//TODO:
-				//captureCurvesBarsData.Add(new EncoderBarsData(meanSpeed, maxSpeed, meanPower, peakPower));
-				//captureCurvesBarsData.Add(new EncoderBarsData(20, 39, 10, 40));
+				//captureCurvesBarsData_l.Add(new EncoderBarsData(meanSpeed, maxSpeed, meanPower, peakPower));
+				//captureCurvesBarsData_l.Add(new EncoderBarsData(20, 39, 10, 40));
 
 				//Cairo
 				prepareEventGraphBarplotEncoder = new PrepareEventGraphBarplotEncoder (
@@ -7027,7 +7027,7 @@ public partial class ChronoJumpWindow
 						feedbackEncoder,
 						encoderConfigurationCurrent.has_inertia,
 						configChronojump.PlaySoundsFromFile,
-						captureCurvesBarsData,
+						captureCurvesBarsData_l,
 						encoderCaptureListStore,
 						preferences.encoderCaptureMainVariableThisSetOrHistorical,
 						sendMaxPowerSpeedForceIntersession(preferences.encoderCaptureMainVariable),
@@ -7594,9 +7594,9 @@ public partial class ChronoJumpWindow
 
 				if(action == encoderActions.CURVES_AC && preferences.encoderCaptureInfinite && ! captureContWithCurves)
 				{
-					//will use captureCurvesBarsData (created on capture)
-					LogB.Information("at fff with captureCurvesBarsData =");
-					LogB.Information(captureCurvesBarsData.Count.ToString());
+					//will use captureCurvesBarsData_l (created on capture)
+					LogB.Information("at fff with captureCurvesBarsData_l =");
+					LogB.Information(captureCurvesBarsData_l.Count.ToString());
 				} else {
 					List<string> contents = Util.ReadFileAsStringList(UtilEncoder.GetEncoderCurvesTempFileName());
 
@@ -7607,9 +7607,10 @@ public partial class ChronoJumpWindow
 					encoderUpdateTreeViewCapture(contents); //this updates encoderCaptureCurves
 					image_encoder_capture.Sensitive = true;
 
-					captureCurvesBarsData = new ArrayList();
+					captureCurvesBarsData_l = new List<EncoderBarsData> ();
 					foreach (EncoderCurve curve in encoderCaptureCurves)
-						captureCurvesBarsData.Add(new EncoderBarsData(
+						//TODO: add here also the Start and Duration needed for video, maybe better be an standard class in order to not have crashes for trying to access limits on an array (when start and duration is implemented)
+						captureCurvesBarsData_l.Add (new EncoderBarsData (
 									Convert.ToDouble(curve.Height),
 									Convert.ToDouble(curve.MeanSpeed),
 									Convert.ToDouble(curve.MaxSpeed),
@@ -7634,7 +7635,7 @@ public partial class ChronoJumpWindow
 						feedbackEncoder,
 						encoderConfigurationCurrent.has_inertia,
 						configChronojump.PlaySoundsFromFile,
-						captureCurvesBarsData,
+						captureCurvesBarsData_l,
 						encoderCaptureListStore,
 						preferences.encoderCaptureMainVariableThisSetOrHistorical,
 						sendMaxPowerSpeedForceIntersession(preferences.encoderCaptureMainVariable),

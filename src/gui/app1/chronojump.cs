@@ -8961,7 +8961,7 @@ LogB.Debug("mc finished 5");
 				findAndMarkSavedCurves(false, false); //SQL closed; don't update curve SQL records (like future1: meanPower)
 
 				//also update the bars plot (to show colors depending on bells changes)
-				if(captureCurvesBarsData.Count > 0) {
+				if(captureCurvesBarsData_l.Count > 0) {
 					double mainVariableHigher = feedbackWin.GetMainVariableHigher(mainVariableStr);
 					double mainVariableLower = feedbackWin.GetMainVariableLower(mainVariableStr);
 					//plotCurvesGraphDoPlot(mainVariableStr, mainVariableHigher, mainVariableLower,
@@ -8976,7 +8976,7 @@ LogB.Debug("mc finished 5");
 							feedbackEncoder,
 							encoderConfigurationCurrent.has_inertia,
 							configChronojump.PlaySoundsFromFile,
-							captureCurvesBarsData,
+							captureCurvesBarsData_l,
 							encoderCaptureListStore,
 							preferences.encoderCaptureMainVariableThisSetOrHistorical,
 							sendMaxPowerSpeedForceIntersession(preferences.encoderCaptureMainVariable),

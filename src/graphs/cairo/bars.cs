@@ -99,6 +99,7 @@ public abstract class CairoBars : CairoGeneric
 	protected List<int> edgeBarNums_l; //used on Wichro to identify photocells
 	protected bool spaceBetweenBars;
 	protected double videoPlayTimeInSeconds;
+	protected List<double> videoPlayTimes_l; //for runInterval (because passed speeds and need times for video)
 
 	//used when there are two series (for legend)
 	protected string variableSerieA = "";
@@ -1129,6 +1130,10 @@ public abstract class CairoBars : CairoGeneric
 		set { videoPlayTimeInSeconds = value; }
 	}
 
+	public List<double> VideoPlayTimes_l {
+		set { videoPlayTimes_l = value; }
+	}
+
 	//for CairoBarsNHSeries (legend)
 	public string VariableSerieA {
 		set { variableSerieA = value; }
@@ -1286,6 +1291,10 @@ public class CairoBars1Series : CairoBars
 			LogB.Information(edgeBarNums_l[j].ToString());
 			*/
 
+		//for video
+		double timesSubtestPrevious = 0;
+		double timesSubtestThis = 0;
+
 		for(int i = 0; i < barMain_l.Count; i ++)
 		{
 			PointF p = barMain_l[i];
@@ -1307,6 +1316,20 @@ public class CairoBars1Series : CairoBars
 			resultOnBars_l.Add(new Point3F(x + barWidth/2, y, p.Y));
 			mouseLimits.AddInPos (i, x, y, x+barWidth, graphHeight -bottomMargin);
 
+			if (videoPlayTimes_l != null && videoPlayTimes_l.Count > i)
+				timesSubtestThis += videoPlayTimes_l[i];
+
+			//videoPlayTimeInSeconds
+			string videoPlayingStr = "";
+			if (videoPlayTimeInSeconds > 0)
+			{
+				if (videoPlayTimeInSeconds >= timesSubtestPrevious &&
+						videoPlayTimeInSeconds <= timesSubtestThis)
+					videoPlayingStr = " playing";
+
+				timesSubtestPrevious = timesSubtestThis;
+			}
+
 			/*
 			if (inBarNums_l.Count > 0 && inBarNums_l.Count > i && inBarNums_l[i] >= 0) //not show the non-Wichro -1s
 				printTextInBar(x +barWidth/2, graphHeight -bottomMargin -10,
@@ -1319,7 +1342,7 @@ public class CairoBars1Series : CairoBars
 			printTextMultiline (x + barWidth/2,
 					graphHeight - fontHeightForBottomNames * 2/3,
 					0, fontHeightForBottomNames,
-					names_l[i], g, alignTypes.CENTER,
+					names_l[i] + videoPlayingStr, g, alignTypes.CENTER,
 					Util.FoundInListInt(saved_l, i));
 			//LogB.Information("names_l[i]: " + names_l[i]);
 
@@ -1798,7 +1821,6 @@ public class CairoBarsNHSeries : CairoBars
 			}
 
 			//videoPlayTimeInSeconds
-			//TODO: note this only works if bars are times (not heights as dj, or speeds as runs)
 			string videoPlayingStr = "";
 			if (videoPlayTimeInSeconds > 0)
 			{

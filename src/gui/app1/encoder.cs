@@ -6266,14 +6266,14 @@ public partial class ChronoJumpWindow
 		if (preferences.encoderFeedbackAsteroidsActive)
 			cairoGraphEncoderSignal.PassAsteroids = asteroids;
 
-		double time = 0;
+		double videoTime = 0;
 		if (webcamPlay != null && webcamPlay.PlayVideoGetSecond > 0)
 		{
-			time = webcamPlay.PlayVideoGetSecond -diffVideoVsSignal;
+			videoTime = webcamPlay.PlayVideoGetSecond -diffVideoVsSignal;
 		}
 
 		cairoGraphEncoderSignal.DoSendingList (preferences.fontType.ToString(), inertial,
-				cairoGraphEncoderSignalPoints_l, cairoGraphEncoderSignalInertialPoints_l, time,
+				cairoGraphEncoderSignalPoints_l, cairoGraphEncoderSignalInertialPoints_l, videoTime,
 				forceRedraw, CairoXY.PlotTypes.LINES);
 	}
 

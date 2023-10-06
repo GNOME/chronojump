@@ -2851,20 +2851,20 @@ LogB.Information(" fs R ");
 		}
 		cDebug.StopAndPrint();
 
-		double time = 0;
+		double videoTime = 0;
 		if (webcamPlay != null && webcamPlay.PlayVideoGetSecond > 0)
 		{
-			time = webcamPlay.PlayVideoGetSecond -diffVideoVsSignal;
+			videoTime = webcamPlay.PlayVideoGetSecond -diffVideoVsSignal;
 				/*
 				+ 0.010 //creating the graph is 10ms aprox
 				+ 0.020; //20 more for getting the sterrHandler from ffplay and processing it
 				*/
 
 			//TODO: calculate an average of previous samples
-			//maybe is better not have this +0.010, +0.020 because if video is paused we want current time,
+			//maybe is better not have this +0.010, +0.020 because if video is paused we want current videoTime,
 			//so what we have done is  have pulseWebcamPlayGTK sleep just 10 ms instead of 25
-			//LogB.Information (string.Format ("forceSensor time: {0}, webcamPlay.PlayVideoGetSecond: {1}, -diffVideoVsSignal: {2}",
-			//			time, webcamPlay.PlayVideoGetSecond, diffVideoVsSignal));
+			//LogB.Information (string.Format ("forceSensor videoTime: {0}, webcamPlay.PlayVideoGetSecond: {1}, -diffVideoVsSignal: {2}",
+			//			videoTime, webcamPlay.PlayVideoGetSecond, diffVideoVsSignal));
 
 			//LogB.Information ("videoFrames", videoFrames);
 			//LogB.Information ("spCairoFECopy.Force_l.Count", spCairoFECopy.Force_l.Count);
@@ -2880,7 +2880,7 @@ LogB.Information(" fs R ");
 				check_force_sensor_capture_show_speed.Active,
 				check_force_sensor_capture_show_power.Active,
 				paintPointsInterpolateCairo_l_copy, preferences.forceSensorFeedbackPathMin, preferences.forceSensorFeedbackPathMax,
-				capturing, time,
+				capturing, videoTime,
 				cairoGraphForceSensorSignalPointsShowAccuracy,
 				showLastSeconds,
 				minY, maxY,

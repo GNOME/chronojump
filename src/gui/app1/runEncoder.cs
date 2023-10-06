@@ -2805,20 +2805,20 @@ public partial class ChronoJumpWindow
 				sendPoints_l = cairoGraphRaceAnalyzerPoints_st_Zoom_l;
 		}
 
-		double time = 0;
+		double videoTime = 0;
 		if (webcamPlay != null && webcamPlay.PlayVideoGetSecond > 0)
 		{
-			time = webcamPlay.PlayVideoGetSecond -diffVideoVsSignal;
+			videoTime = webcamPlay.PlayVideoGetSecond -diffVideoVsSignal;
 
-			//LogB.Information (string.Format ("raceAnalyzer time: {0}, webcamPlay.PlayVideoGetSecond: {1}, -diffVideoVsSignal: {2}",
-			//			time, webcamPlay.PlayVideoGetSecond, diffVideoVsSignal));
+			//LogB.Information (string.Format ("raceAnalyzer videoTime: {0}, webcamPlay.PlayVideoGetSecond: {1}, -diffVideoVsSignal: {2}",
+			//			videoTime, webcamPlay.PlayVideoGetSecond, diffVideoVsSignal));
 		}
 
 		cairoGraphRaceAnalyzer_st.DoSendingList (preferences.fontType.ToString(),
 				sendPoints_l,
 				cairoGraphSend_CD,
 				subtitleWithSetsInfo_l,
-				forceRedraw, time, CairoXY.PlotTypes.LINES, smoothGui == 0,
+				forceRedraw, videoTime, CairoXY.PlotTypes.LINES, smoothGui == 0,
 				smoothGui,
 				triggerListRunEncoder, timeAtEnoughAccel,
 				timeAtEnoughAccelMark, preferences.runEncoderMinAccel,

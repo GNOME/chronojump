@@ -98,6 +98,7 @@ public abstract class CairoBars : CairoGeneric
 	//protected List<int> inBarNums_l; //currently unused
 	protected List<int> edgeBarNums_l; //used on Wichro to identify photocells
 	protected bool spaceBetweenBars;
+	protected double videoPlayTimeInSeconds;
 
 	//used when there are two series (for legend)
 	protected string variableSerieA = "";
@@ -1124,6 +1125,10 @@ public abstract class CairoBars : CairoGeneric
 		set { spaceBetweenBars = value; }
 	}
 
+	public double VideoPlayTimeInSeconds {
+		set { videoPlayTimeInSeconds = value; }
+	}
+
 	//for CairoBarsNHSeries (legend)
 	public string VariableSerieA {
 		set { variableSerieA = value; }
@@ -1652,6 +1657,10 @@ public class CairoBarsNHSeries : CairoBars
 		for(int j=0; j < saved_l.Count; j ++)
 			LogB.Information(saved_l[j].ToString());
 
+		//for video
+		double timesSubtestPrevious = 0;
+		double timesSubtestThis = 0;
+
 		for(int i = 0; i < barMain_l.Count; i ++)
 		{
 			/*
@@ -1718,6 +1727,7 @@ public class CairoBarsNHSeries : CairoBars
 					}
 
 					secondaryHasData = true;
+					timesSubtestThis += pS.Y;
 				}
 
 				//mouse limits stuff
@@ -1776,6 +1786,8 @@ public class CairoBarsNHSeries : CairoBars
 				//to show text centered at bottom correctly
 				if(! secondaryHasData)
 					adjustX = barWidth;
+
+				timesSubtestThis += pB.Y;
 			}
 
 			//sort result on bars correctly (this could be useful if mainAtLeft changes)
@@ -1785,14 +1797,28 @@ public class CairoBarsNHSeries : CairoBars
 				barsXCenter_l.Add(resultOnBarsThisIteration_l[j].X);
 			}
 
+			//videoPlayTimeInSeconds
+			//TODO: note this only works if bars are times (not heights as dj, or speeds as runs)
+			string videoPlayingStr = "";
+			if (videoPlayTimeInSeconds > 0)
+			{
+				if (videoPlayTimeInSeconds >= timesSubtestPrevious &&
+						videoPlayTimeInSeconds <= timesSubtestThis)
+					videoPlayingStr = " playing";
+
+				timesSubtestPrevious = timesSubtestThis;
+			}
+
 			//print text at bottom
 			printTextMultiline(
 					x+adjustX,
 					graphHeight -fontHeightForBottomNames * 2/3,
 					0, fontHeightForBottomNames,
-					names_l[i], g, alignTypes.CENTER,
+					names_l[i] + videoPlayingStr, g, alignTypes.CENTER,
 					Util.FoundInListInt(saved_l, i));
 		}
+
+
 	}
 
 	//done here and not in the constructor because most of this variables are known after construction

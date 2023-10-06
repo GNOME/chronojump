@@ -535,11 +535,15 @@ public partial class ChronoJumpWindow
 				currentJumpRj.UniqueID == selectedJumpRj.UniqueID) //selected == last captured
 			isLastCaptured = true;
 
+		double videoTime = 0;
+		if (webcamPlay != null && webcamPlay.PlayVideoGetSecond > 0)
+			videoTime = webcamPlay.PlayVideoGetSecond -diffVideoVsSignal;
+
 		cairoPaintBarsPreRealTime = new CairoPaintBarsPreJumpReactiveRealtimeCapture(
 				event_execute_drawingarea_realtime_capture_cairo, preferences.fontType.ToString(), current_mode,
 				personName, type, preferences.digitsNumber,// preferences.heightPreferred,
 				//lastTv, lastTc,
-				tvString, tcString, isLastCaptured, feedbackJumpsRj);
+				tvString, tcString, isLastCaptured, feedbackJumpsRj, videoTime);
 
 		// B) Paint cairo graph
 		//cairoPaintBarsPreRealTime.UseHeights = useHeights;
@@ -2008,6 +2012,7 @@ public class CairoPaintBarsPreJumpReactiveRealtimeCapture : CairoPaintBarsPre
 	private List<Cairo.Color> colorMain_l;
 	private List<Cairo.Color> colorSecondary_l;
 	private FeedbackJumpsRj feedbackJumpsRj;
+	private double videoTime;
 
 	// these are lists because on Runs best speed and best time can be sent,
 	// and in the future maybe there are other criterias eg. for encoder
@@ -2026,10 +2031,11 @@ public class CairoPaintBarsPreJumpReactiveRealtimeCapture : CairoPaintBarsPre
 			Constants.Modes mode, string personName, string testName, int pDN,// bool heightPreferred,
 			//double lastTv, double lastTc,
 			string tvString, string tcString, bool isLastCaptured,
-			FeedbackJumpsRj feedbackJumpsRj)
+			FeedbackJumpsRj feedbackJumpsRj, double videoTime)
 	{
 		initialize (darea, fontStr, mode, personName, testName, pDN);
 		this.feedbackJumpsRj = feedbackJumpsRj;
+		this.videoTime = videoTime;
 
 		if(isLastCaptured)
 			this.title = Catalog.GetString("Last test:") + " " + generateTitle();
@@ -2172,6 +2178,10 @@ public class CairoPaintBarsPreJumpReactiveRealtimeCapture : CairoPaintBarsPre
 				colorMain_l, colorSecondary_l, names_l,
 				"", false,
 				-1, 14, 8, title, best_l, worst_l);
+
+		if (videoTime > 0)
+			cb.VideoPlayTimeInSeconds = videoTime;
+
 		cb.GraphDo();
 	}
 }

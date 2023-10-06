@@ -1447,6 +1447,8 @@ public class EncoderCaptureCurveArray
 
 public class EncoderBarsData
 {
+	public double Start;
+	public double Duration;
 	public double Range;
 	public double MeanSpeed;
 	public double MaxSpeed;
@@ -1457,9 +1459,12 @@ public class EncoderBarsData
 	public double WorkJ;
 	public double Impulse;
 	
-	public EncoderBarsData(double range, double meanSpeed, double maxSpeed, double meanForce, double maxForce,
+	public EncoderBarsData (double start, double duration, double range,
+			double meanSpeed, double maxSpeed, double meanForce, double maxForce,
 			double meanPower, double peakPower, double workJ, double impulse)
 	{
+		this.Start = start;
+		this.Duration = duration;
 		this.Range = range;
 		this.MeanSpeed = meanSpeed;
 		this.MaxSpeed  = maxSpeed;
@@ -1473,9 +1478,13 @@ public class EncoderBarsData
 
 	public double GetValue (string option)
 	{
+		if(option == Constants.Start)
+			return Start;
+		if(option == Constants.Duration)
+			return Duration;
 		//if(option == Constants.Range)
 		//	return Range;
-		if(option == Constants.RangeAbsolute)
+		else if(option == Constants.RangeAbsolute)
 			return Math.Abs(Range);
 		else if(option == Constants.MeanSpeed)
 			return MeanSpeed;

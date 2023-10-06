@@ -1317,6 +1317,8 @@ public class Constants
 		LINEAR, ROTARYFRICTION, ROTARYAXIS
 	}	
 
+	public const string Start = "Start";
+	public const string Duration = "Duration";
 	public const string Range = "Range";
 	public const string RangeAbsolute = "RangeAbsolute";
 	public const string MeanSpeed = "Mean speed";

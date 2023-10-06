@@ -6823,6 +6823,8 @@ public partial class ChronoJumpWindow
 			//LogB.Debug("encoderCaptureStringR");
 			//LogB.Debug(encoderCaptureStringR);
 
+			double start = Convert.ToDouble(Util.ChangeDecimalSeparator(strs[1]));
+			double duration = Convert.ToDouble(Util.ChangeDecimalSeparator(strs[2]));
 			double range = Convert.ToDouble(Util.ChangeDecimalSeparator(strs[3]));
 			double meanSpeed = Convert.ToDouble(Util.ChangeDecimalSeparator(strs[4]));
 			double maxSpeed = Convert.ToDouble(Util.ChangeDecimalSeparator(strs[5]));
@@ -6832,8 +6834,10 @@ public partial class ChronoJumpWindow
 			double peakPower = Convert.ToDouble(Util.ChangeDecimalSeparator(strs[8]));
 			double workJ = Convert.ToDouble(Util.ChangeDecimalSeparator(strs[15]));
 			double impulse = Convert.ToDouble(Util.ChangeDecimalSeparator(strs[16]));
-			captureCurvesBarsData_l.Add (new EncoderBarsData (range, meanSpeed, maxSpeed, meanForce, maxForce, meanPower, peakPower, workJ, impulse)); //should have 9 values: need start and duration for video
-			
+			captureCurvesBarsData_l.Add (new EncoderBarsData (
+						start, duration, range, meanSpeed, maxSpeed,
+						meanForce, maxForce, meanPower, peakPower, workJ, impulse));
+
 			LogB.Information("activating needToRefreshTreeviewCapture");
 
 			//executed on GTK thread pulse method
@@ -7611,6 +7615,8 @@ public partial class ChronoJumpWindow
 					foreach (EncoderCurve curve in encoderCaptureCurves)
 						//TODO: add here also the Start and Duration needed for video, maybe better be an standard class in order to not have crashes for trying to access limits on an array (when start and duration is implemented)
 						captureCurvesBarsData_l.Add (new EncoderBarsData (
+									Convert.ToDouble(curve.Start),
+									Convert.ToDouble(curve.Duration),
 									Convert.ToDouble(curve.Height),
 									Convert.ToDouble(curve.MeanSpeed),
 									Convert.ToDouble(curve.MaxSpeed),

@@ -670,12 +670,16 @@ public partial class ChronoJumpWindow
 				currentRunInterval.UniqueID == selectedRunInterval.UniqueID) //selected == last captured
 			isLastCaptured = true;
 
+		double videoTime = 0;
+		if (webcamPlay != null && webcamPlay.PlayVideoGetSecond > 0)
+			videoTime = webcamPlay.PlayVideoGetSecond -diffVideoVsSignal;
+
 		cairoPaintBarsPreRealTime = new CairoPaintBarsPreRunIntervalRealtimeCapture(
 				event_execute_drawingarea_realtime_capture_cairo, preferences.fontType.ToString(), current_mode,
 				personName, type, preferences.digitsNumber,// preferences.heightPreferred,
 				check_runI_realtime_rel_abs.Active,
 				timesString, distanceInterval, distancesString,
-				photocell_l, isLastCaptured, feedbackRunsI);
+				photocell_l, isLastCaptured, feedbackRunsI, videoTime);
 
 		// B) Paint cairo graph
 		//cairoPaintBarsPreRealTime.UseHeights = useHeights;
@@ -2199,6 +2203,7 @@ public class CairoPaintBarsPreRunIntervalRealtimeCapture : CairoPaintBarsPre
 	private List<int> photocell_l;
 	private List<Cairo.Color> colorMain_l;
 	private FeedbackRunsInterval feedbackRunsI;
+	private double videoTime;
 
 	// these are lists because on Runs best speed and best time can be sent,
 	// and in the future maybe there are other criterias eg. for encoder
@@ -2217,10 +2222,11 @@ public class CairoPaintBarsPreRunIntervalRealtimeCapture : CairoPaintBarsPre
 			string timesString,
 			double distanceInterval, //know each track distance according to this or distancesString
 			string distancesString,
-			List<int> photocell_l, bool isLastCaptured, FeedbackRunsInterval feedbackRunsI)
+			List<int> photocell_l, bool isLastCaptured, FeedbackRunsInterval feedbackRunsI, double videoTime)
 	{
 		initialize (darea, fontStr, mode, personName, testName, pDN);
 		this.feedbackRunsI = feedbackRunsI;
+		this.videoTime = videoTime;
 
 		if(isLastCaptured)
 			this.title = Catalog.GetString("Last test:") + " " + generateTitle();
@@ -2407,6 +2413,14 @@ public class CairoPaintBarsPreRunIntervalRealtimeCapture : CairoPaintBarsPre
 				colorMain_l, names_l,
 				-1, 14, 22, title, //22 because there are two rows
 				best_l, worst_l);
+
+		if (videoTime > 0)
+		{
+			cb.VideoPlayTimeInSeconds = videoTime;
+			//TODO: need to pass times for video, here or above.
+			cb.VideoPlayTimes_l = time_l;
+		}
+
 		cb.GraphDo();
 	}
 }

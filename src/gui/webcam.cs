@@ -1023,10 +1023,10 @@ public partial class ChronoJumpWindow
 				//note also the [0].X is not needed as this takes the data starting at 0
 			}
 		}
-		else if (current_mode == Constants.Modes.JUMPSREACTIVE) {
-			if (selectedJumpRj != null)
-				signalTotalTime = selectedJumpRj.TvSum + selectedJumpRj.TcSumCaringForStartIn;
-		}
+		else if (current_mode == Constants.Modes.JUMPSREACTIVE && selectedJumpRj != null)
+			signalTotalTime = selectedJumpRj.TvSum + selectedJumpRj.TcSumCaringForStartIn;
+		else if (current_mode == Constants.Modes.RUNSINTERVALLIC && selectedRunInterval != null)
+			signalTotalTime = selectedRunInterval.TimeTotal;
 
 		// LogB.Information ("signalTotalTime", signalTotalTime);
 		return signalTotalTime;
@@ -1096,7 +1096,8 @@ public partial class ChronoJumpWindow
 				drawingarea_race_analyzer_capture_speed_time.QueueDraw ();
 			else if (Constants.ModeIsENCODER (current_mode))
 				encoder_capture_signal_drawingarea_cairo.QueueDraw ();
-			else if (current_mode == Constants.Modes.JUMPSREACTIVE)
+			else if (current_mode == Constants.Modes.JUMPSREACTIVE ||
+					current_mode == Constants.Modes.RUNSINTERVALLIC)
 				event_execute_drawingarea_realtime_capture_cairo.QueueDraw ();
 
 			spinner_video_play_this_test_contacts.Visible = true;

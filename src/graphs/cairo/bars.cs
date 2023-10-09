@@ -1318,7 +1318,10 @@ public class CairoBars1Series : CairoBars
 
 			//videoPlayTimeInSeconds
 			if (videoPlayTimes_l != null && videoPlayTimes_l.Count > i)
+			{
+				//as bars data is not time for this mode, use supplied videoPlayTimes_l
 				timesSubtestThis = videoPlayTimes_l[i];
+			}
 
 			string videoPlayingStr = "";
 			if (videoPlayTimeInSeconds > 0)
@@ -1828,7 +1831,10 @@ public class CairoBarsNHSeries : CairoBars
 
 			//videoPlayTimeInSeconds
 			if (videoPlayTimes_l != null && videoPlayTimes_l.Count > i)
+			{
+				//as bars data is not time for this mode, use supplied videoPlayTimes_l
 				timesSubtestThis = videoPlayTimes_l[i];
+			}
 
 			string videoPlayingStr = "";
 			if (videoPlayTimeInSeconds > 0)

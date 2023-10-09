@@ -339,7 +339,10 @@ public class EncoderRProcAnalyze : EncoderRProc
 		}
 		
 		//on Windows we need the \"str\" to call without problems in path with spaces
-		pinfo.Arguments = "\"" + getEncoderScriptCallGraph() + "\" " + optionsFile;
+		//pinfo.Arguments = "\"" + getEncoderScriptCallGraph() + "\" " + optionsFile;
+		//on Windows also if user folder is: C:\Users\name surname, we need the quotes because R will try to open C:\Users\name
+		pinfo.Arguments = "\"" + getEncoderScriptCallGraph() + "\" " +
+			"\"" + optionsFile + "\"";
 	
 		LogB.Information("Arguments:", pinfo.Arguments);
 		LogB.Information("--- 1 --- " + optionsFile.ToString() + " ---");

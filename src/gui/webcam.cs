@@ -1095,7 +1095,10 @@ public partial class ChronoJumpWindow
 			else if(current_mode == Constants.Modes.RUNSENCODER)
 				drawingarea_race_analyzer_capture_speed_time.QueueDraw ();
 			else if (Constants.ModeIsENCODER (current_mode))
+			{
+				encoder_capture_curves_bars_drawingarea_cairo.QueueDraw ();
 				encoder_capture_signal_drawingarea_cairo.QueueDraw ();
+			}
 			else if (current_mode == Constants.Modes.JUMPSREACTIVE ||
 					current_mode == Constants.Modes.RUNSINTERVALLIC)
 				event_execute_drawingarea_realtime_capture_cairo.QueueDraw ();

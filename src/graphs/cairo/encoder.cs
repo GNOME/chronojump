@@ -238,8 +238,8 @@ public class CairoGraphEncoderSignal : CairoXY
 
 		if (videoPlayTimeInSeconds > 0)
 		{
-			//LogB.Information ("videoPlayTimeInSeconds", videoPlayTimeInSeconds);
-			//LogB.Information ("last points_l.X", PointF.Last (points_l).X);
+			//LogB.Information ("signal videoPlayTimeInSeconds", videoPlayTimeInSeconds);
+			LogB.Information ("last points_l.X", PointF.Last (points_l).X);
 			if (horizontal)
 			{
 				g.MoveTo (calculatePaintX (videoPlayTimeInSeconds * 1000), topMargin);

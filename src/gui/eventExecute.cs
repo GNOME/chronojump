@@ -1089,6 +1089,7 @@ public abstract class CairoPaintBarsPre
 	protected string title;
 	protected int pDN; //preferences.digitsNumber
 	//protected string messageNoStoreCreated;
+	protected double videoTime;
 
 	protected void initialize (DrawingArea darea, string fontStr, Constants.Modes mode,
 			string personName, string testName, int pDN)
@@ -2016,7 +2017,6 @@ public class CairoPaintBarsPreJumpReactiveRealtimeCapture : CairoPaintBarsPre
 	private List<Cairo.Color> colorMain_l;
 	private List<Cairo.Color> colorSecondary_l;
 	private FeedbackJumpsRj feedbackJumpsRj;
-	private double videoTime;
 
 	// these are lists because on Runs best speed and best time can be sent,
 	// and in the future maybe there are other criterias eg. for encoder
@@ -2203,7 +2203,6 @@ public class CairoPaintBarsPreRunIntervalRealtimeCapture : CairoPaintBarsPre
 	private List<int> photocell_l;
 	private List<Cairo.Color> colorMain_l;
 	private FeedbackRunsInterval feedbackRunsI;
-	private double videoTime;
 
 	// these are lists because on Runs best speed and best time can be sent,
 	// and in the future maybe there are other criterias eg. for encoder
@@ -2417,7 +2416,9 @@ public class CairoPaintBarsPreRunIntervalRealtimeCapture : CairoPaintBarsPre
 		if (videoTime > 0)
 		{
 			cb.VideoPlayTimeInSeconds = videoTime;
-			cb.VideoPlayTimes_l = time_l;
+
+			//cb.VideoPlayTimes_l = time_l; //VideoPlayTimes is accumulative)
+			cb.VideoPlayTimes_l = Util.ListDoubleToAccumulative (time_l);
 		}
 
 		cb.GraphDo();
@@ -2509,8 +2510,8 @@ public class CairoPaintBarplotPreEncoder : CairoPaintBarsPre
 	//copied from gui/encoderGraphObjects (using ArrayList)
 	private ArrayList data; //data is related to mainVariable (barplot)
 	private List<double> lineData_l; //related to secondary variable (by default range)
-	private List<double> dataStart_l; //used on video
-	private List<double> dataDuration_l; //used on video
+	private List<double> dataStart_l; //used on video (in seconds)
+	private List<double> dataDuration_l; //used on video (in seconds)
 	private ArrayList dataRangeOfMovement; //ROM, need it to discard last rep for loss. Is not the same as lineData_l because maybe user selected another variable as secondary. only checks con.
 	private ArrayList dataWorkJ;
 	private ArrayList dataImpulse;
@@ -2557,9 +2558,11 @@ public class CairoPaintBarplotPreEncoder : CairoPaintBarsPre
 
 	public CairoPaintBarplotPreEncoder (Preferences preferences, DrawingArea darea, string fontStr,
 			string personName, string testName, int pDN,
-			PrepareEventGraphBarplotEncoder pegbe)
+			PrepareEventGraphBarplotEncoder pegbe, double videoTime)
 	{
 		this.pegbe = pegbe;
+		this.videoTime = videoTime;
+
 		NewPreferences (preferences);
 		//messageNoStoreCreated = " no criteria ";
 
@@ -2627,8 +2630,8 @@ public class CairoPaintBarplotPreEncoder : CairoPaintBarsPre
 				data.Add(ebd.GetValue(pegbe.mainVariable));
 				if(pegbe.secondaryVariable != "")
 					lineData_l.Add(ebd.GetValue(pegbe.secondaryVariable));
-				dataStart_l.Add (ebd.GetValue( Constants.Start));
-				dataDuration_l.Add (ebd.GetValue( Constants.Duration));
+				dataStart_l.Add (UtilAll.DivideSafe (ebd.GetValue (Constants.Start), 1000));
+				dataDuration_l.Add (UtilAll.DivideSafe (ebd.GetValue (Constants.Duration), 1000));
 				dataRangeOfMovement.Add(ebd.GetValue(Constants.RangeAbsolute));
 				dataWorkJ.Add(ebd.GetValue(Constants.WorkJ));
 				dataImpulse.Add(ebd.GetValue(Constants.Impulse));
@@ -2640,8 +2643,8 @@ public class CairoPaintBarplotPreEncoder : CairoPaintBarsPre
 					data.Add(ebd.GetValue(pegbe.mainVariable));
 					if(pegbe.secondaryVariable != "")
 						lineData_l.Add(ebd.GetValue(pegbe.secondaryVariable));
-					dataStart_l.Add (ebd.GetValue( Constants.Start));
-					dataDuration_l.Add (ebd.GetValue( Constants.Duration));
+					dataStart_l.Add (UtilAll.DivideSafe (ebd.GetValue (Constants.Start), 1000));
+					dataDuration_l.Add (UtilAll.DivideSafe (ebd.GetValue (Constants.Duration), 1000));
 					dataRangeOfMovement.Add(ebd.GetValue(Constants.RangeAbsolute));
 					dataWorkJ.Add(ebd.GetValue(Constants.WorkJ));
 					dataImpulse.Add(ebd.GetValue(Constants.Impulse));
@@ -2656,8 +2659,8 @@ public class CairoPaintBarplotPreEncoder : CairoPaintBarsPre
 						data.Add(ebd.GetValue(pegbe.mainVariable));
 						if(pegbe.secondaryVariable != "")
 							lineData_l.Add(ebd.GetValue(pegbe.secondaryVariable));
-						dataStart_l.Add (ebd.GetValue( Constants.Start));
-						dataDuration_l.Add (ebd.GetValue( Constants.Duration));
+						dataStart_l.Add (UtilAll.DivideSafe (ebd.GetValue (Constants.Start), 1000));
+						dataDuration_l.Add (UtilAll.DivideSafe (ebd.GetValue (Constants.Duration), 1000));
 						dataRangeOfMovement.Add(ebd.GetValue(Constants.RangeAbsolute));
 						dataWorkJ.Add(ebd.GetValue(Constants.WorkJ));
 						dataImpulse.Add(ebd.GetValue(Constants.Impulse));
@@ -2668,8 +2671,8 @@ public class CairoPaintBarplotPreEncoder : CairoPaintBarsPre
 							data.Add(ebd.GetValue(pegbe.mainVariable));
 							if(pegbe.secondaryVariable != "")
 								lineData_l.Add(ebd.GetValue(pegbe.secondaryVariable));
-							dataStart_l.Add (ebd.GetValue( Constants.Start));
-							dataDuration_l.Add (ebd.GetValue( Constants.Duration));
+							dataStart_l.Add (UtilAll.DivideSafe (ebd.GetValue (Constants.Start), 1000));
+							dataDuration_l.Add (UtilAll.DivideSafe (ebd.GetValue (Constants.Duration), 1000));
 							dataRangeOfMovement.Add(ebd.GetValue(Constants.RangeAbsolute));
 							dataWorkJ.Add(ebd.GetValue(Constants.WorkJ));
 							dataImpulse.Add(ebd.GetValue(Constants.Impulse));
@@ -3132,17 +3135,13 @@ public class CairoPaintBarplotPreEncoder : CairoPaintBarsPre
 					new List<int> (), new List<int> ());
 		}
 
-		/*
-		 * TODO:
-		 *
 		if (videoTime > 0)
 		{
 			cb.VideoPlayTimeInSeconds = videoTime;
-			cb.VideoPlayTimes_l = time_l;
+			cb.VideoPlayTimes_l = dataStart_l;
 
-			TODO: used dataStart_l and dataDuration_l
+			//TODO: used dataStart_l and dataDuration_l
 		}
-		*/
 
 		cb.GraphDo();
 	}

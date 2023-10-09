@@ -6232,11 +6232,18 @@ public partial class ChronoJumpWindow
 		if (notebook_start.CurrentPage == Convert.ToInt32 (notebook_start_pages.FULLSCREENCAPTURE))
 			da = fullscreen_capture_drawingarea_cairo;
 
+
 		if(cairoPaintBarsPre == null || calculateAll)
+		{
+			double videoTime = 0;
+			if (webcamPlay != null && webcamPlay.PlayVideoGetSecond > 0)
+				videoTime = webcamPlay.PlayVideoGetSecond -diffVideoVsSignal;
+
 			cairoPaintBarsPre = new CairoPaintBarplotPreEncoder (
 					preferences, da, preferences.fontType.ToString(),
 					currentPerson.Name, "", 3,
-					prepareEventGraphBarplotEncoder);
+					prepareEventGraphBarplotEncoder, videoTime);
+		}
 
 		cairoPaintBarsPre.Paint();
 	}

@@ -149,6 +149,20 @@ public class Util
 		return str;
 	}
 
+	//to pass a list like: (.5, .7, .2) to: (.5, 1.2, 1.4)
+	public static List<double> ListDoubleToAccumulative (List<double> original_l)
+	{
+		List<double> accu_l = new List<double> ();
+		double previous = 0;
+		foreach (double d in original_l)
+		{
+			accu_l.Add (d + previous);
+			previous = d + previous;
+		}
+
+		return accu_l;
+	}
+
 	//when we do a query to the server, it returns avg as "0,54" because it's latin localized
 	//if client is on english machine, need to convert this to "0.54"
 	public static string ConvertToPointIfNeeded (string myString)

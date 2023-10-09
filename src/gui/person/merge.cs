@@ -234,7 +234,7 @@ public class PersonMergeWindow
 			return;
 
 		label_persons_identify.Text = string.Format (Catalog.GetString ("Merge persons '{0}' with '{1}' in all sessions."), currentPerson.Name, strFull[1]);
-		label_persons_tests.Text = string.Format (Catalog.GetString ("All tests of person '{0}' will be assigned to person '{1}'."), strFull[1], currentPerson.Name);
+		label_persons_tests.Text = string.Format (Catalog.GetString ("All tests of person '{0}' will be permanently assigned to person '{1}'."), strFull[1], currentPerson.Name);
 		//label_persons_confirm.Text = Catalog.GetString ("Are you sure?");
 	}
 

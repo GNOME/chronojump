@@ -161,7 +161,9 @@ public class EncoderRProcCapture : EncoderRProc
 
 		//on Windows we need the \"str\" to call without problems in path with spaces
 		//pinfo.Arguments = "\"" + "passToR.R" + "\" " + optionsFile;
-		pinfo.Arguments = "\"" + UtilEncoder.GetEncoderScriptCallCaptureNoRdotNet() + "\" " + optionsFile;
+		//on Windows also if user folder is: C:\Users\name surname, we need the quotes because R will try to open C:\Users\name
+		pinfo.Arguments = "\"" + UtilEncoder.GetEncoderScriptCallCaptureNoRdotNet() + "\" " +
+			"\"" + optionsFile + "\"";
 
 		LogB.Information("Arguments:", pinfo.Arguments);
 		LogB.Information("--- 1 --- " + optionsFile.ToString() + " ---");

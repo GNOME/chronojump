@@ -1316,13 +1316,19 @@ public class CairoBars1Series : CairoBars
 			resultOnBars_l.Add(new Point3F(x + barWidth/2, y, p.Y));
 			mouseLimits.AddInPos (i, x, y, x+barWidth, graphHeight -bottomMargin);
 
-			if (videoPlayTimes_l != null && videoPlayTimes_l.Count > i)
-				timesSubtestThis += videoPlayTimes_l[i];
-
 			//videoPlayTimeInSeconds
+			if (videoPlayTimes_l != null && videoPlayTimes_l.Count > i)
+				timesSubtestThis = videoPlayTimes_l[i];
+
 			string videoPlayingStr = "";
 			if (videoPlayTimeInSeconds > 0)
 			{
+				/*
+				LogB.Information ("OOOOOO1");
+				LogB.Information ("videoPlayTimeInSeconds", videoPlayTimeInSeconds);
+				LogB.Information ("timesSubtestPrevious", timesSubtestPrevious);
+				LogB.Information ("timesSubtestThis", timesSubtestThis);
+				*/
 				if (videoPlayTimeInSeconds >= timesSubtestPrevious &&
 						videoPlayTimeInSeconds <= timesSubtestThis)
 					videoPlayingStr = " playing";
@@ -1821,9 +1827,18 @@ public class CairoBarsNHSeries : CairoBars
 			}
 
 			//videoPlayTimeInSeconds
+			if (videoPlayTimes_l != null && videoPlayTimes_l.Count > i)
+				timesSubtestThis = videoPlayTimes_l[i];
+
 			string videoPlayingStr = "";
 			if (videoPlayTimeInSeconds > 0)
 			{
+				/*
+				LogB.Information ("OOOOOO2");
+				LogB.Information ("videoPlayTimeInSeconds", videoPlayTimeInSeconds);
+				LogB.Information ("timesSubtestPrevious", timesSubtestPrevious);
+				LogB.Information ("timesSubtestThis", timesSubtestThis);
+				*/
 				if (videoPlayTimeInSeconds >= timesSubtestPrevious &&
 						videoPlayTimeInSeconds <= timesSubtestThis)
 					videoPlayingStr = " playing";

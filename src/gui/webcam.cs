@@ -1013,15 +1013,10 @@ public partial class ChronoJumpWindow
 		}
 		else if(current_mode == Constants.Modes.RUNSENCODER)
 		{
-			//TODO: take care with zoom here!
-			if (raAI_AB != null)
-			{
-				signalTotalTime = PointF.Last (raAI_AB.P_l).X - raAI_AB.P_l[0].X; //consider that the beginning use to be negative part (until a >= 10)
-				//LogB.Information (string.Format ("getting signalTotalTime end: {0}, start: {1}, signalTotalTime: {2}",
-				//			PointF.Last (raAI_AB.P_l).X, raAI_AB.P_l[0].X, signalTotalTime));
-				//TODO: or use cairoGraphRaceAnalyzerPoints_st_l
-				//note also the [0].X is not needed as this takes the data starting at 0
-			}
+			//using cairoGraphRaceAnalyzerPoints_st_l instead of raAI_AB.P_l to avoid problems with zoom
+			if (cairoGraphRaceAnalyzerPoints_st_l != null && cairoGraphRaceAnalyzerPoints_st_l.Count > 0)
+				signalTotalTime = PointF.Last (cairoGraphRaceAnalyzerPoints_st_l).X
+					- cairoGraphRaceAnalyzerPoints_st_l[0].X; //consider that the beginning use to be negative part (until a >= 10)
 		}
 		else if (current_mode == Constants.Modes.JUMPSREACTIVE && selectedJumpRj != null)
 			signalTotalTime = selectedJumpRj.TvSum + selectedJumpRj.TcSumCaringForStartIn;

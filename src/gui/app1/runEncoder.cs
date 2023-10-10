@@ -1154,13 +1154,16 @@ public partial class ChronoJumpWindow
 		int personID = currentPerson.UniqueID;
 		int sessionID = currentSession.UniqueID;
 
-		if (genericWin.UseGridPersonSession)
+		if (genericWin != null)
 		{
-			personID = genericWin.GetPersonIDFromGui ();
-			sessionID = genericWin.GetSessionIDFromGui ();
-		}
+			if (genericWin.UseGridPersonSession)
+			{
+				personID = genericWin.GetPersonIDFromGui ();
+				sessionID = genericWin.GetSessionIDFromGui ();
+			}
 
-		genericWin.HideAndNull();
+			genericWin.HideAndNull();
+		}
 
 		RunEncoder re = (RunEncoder) SqliteRunEncoder.Select (false, uniqueID, personID, sessionID)[0];
 

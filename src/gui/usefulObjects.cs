@@ -78,6 +78,7 @@ public class PrepareEventGraphJumpSimple
 	public double tc;
 	public string type; //jumpType (useful to know if "all jumps" (type == "")
 	public bool djShowHeights; //if djShowHeights and is a dj, graph falling height and jump height
+	public int selectedID; //-1 if none selected. If >= 0 then is the selected on treeview.
 
 	public PrepareEventGraphJumpSimple() {
 	}
@@ -87,7 +88,7 @@ public class PrepareEventGraphJumpSimple
 	//type can be "" for all jumps, then write it under bar
 	public PrepareEventGraphJumpSimple(double tv, double tc, int sessionID,
 			int personID, bool allPersons, int limit,
-			string table, string type, bool djShowHeights)
+			string table, string type, bool djShowHeights, int selectedID)
 	{
 		int personIDTemp = personID;
 		if(allPersons)
@@ -140,6 +141,7 @@ public class PrepareEventGraphJumpSimple
 		this.tc = tc;
 		this.type = type;
 		this.djShowHeights = djShowHeights;
+		this.selectedID = selectedID;
 		
 		Sqlite.Close();
 	}

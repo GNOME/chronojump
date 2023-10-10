@@ -1605,6 +1605,9 @@ public class CairoPaintBarsPreJumpSimple : CairoPaintBarsPre
 			id_l.Add(jump.UniqueID);
 			if(showBarA && showBarB) //there are jumps like Dja, Djna
 				id_l.Add(jump.UniqueID);
+
+			if (eventGraphJumpsStored.selectedID == jump.UniqueID)
+				cb.SelectedPos = eventGraphJumpsStored.jumpsAtSQL.Count -countToDraw -1;
 		}
 
 		cb.Id_l = id_l;

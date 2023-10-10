@@ -122,7 +122,11 @@ If any problem:
 
 If problem is big or better not apply that cherry:
 
-    git cherry-pick abort
+    git cherry-pick --abort
+
+If all ok:
+
+    git push
 
 ### Cherry branches and new versions
 

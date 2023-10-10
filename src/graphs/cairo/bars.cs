@@ -81,6 +81,7 @@ public abstract class CairoBars : CairoGeneric
 
 	protected RepetitionMouseLimits mouseLimits;
 	protected List<int> id_l; //to pass the uniqueID of some test, eg: RunInterval executions and then find it using mouseLimits
+	protected int selectedPos;
 	protected List<double> lineData_l; //related to secondary variable (by default range)
 	protected List<CairoBarsArrow> eccOverload_l;
 	protected bool eccOverloadWriteValue;
@@ -120,6 +121,7 @@ public abstract class CairoBars : CairoGeneric
 		//inBarNums_l = new List<int>();
 		edgeBarNums_l = new List<int>();
 		encoderTitle = false;
+		selectedPos = -1;
 	}
 
 	public void PassGuidesData (CairoBarsGuideManage cairoBarsGuideManage)
@@ -839,11 +841,16 @@ public abstract class CairoBars : CairoGeneric
 	{
 		//result on bar painted here (after bars) to not have text overlapped by bars
 		double pAyStart = -1;
+		int count = 0;
 		foreach(Point3F p in resultOnBars_l)
-			pAyStart = plotResultOnBarDo (p.X, p.Y, graphHeight -bottomMargin, p.Z, pAyStart);
+		{
+			pAyStart = plotResultOnBarDo (p.X, p.Y, graphHeight -bottomMargin,
+					p.Z, pAyStart, count == selectedPos);
+			count ++;
+		}
 	}
 	protected double plotResultOnBarDo (double x, double y, double alto,
-			double result, double yStartPointA)
+			double result, double yStartPointA, bool isSelected)
 	{
 		g.SetFontSize(resultFontHeight);
 
@@ -901,8 +908,18 @@ public abstract class CairoBars : CairoGeneric
 			g.Fill();
 		}
 
-		//write text
 		g.SetSourceColor(black);
+		if (isSelected)
+		{
+			g.Save ();
+			g.LineWidth = 2;
+			g.SetDash (new double[]{2, 2}, 0);
+			g.Rectangle (x - te.Width/2 -2, yStart -2, te.Width +4, te.Height +6); //+6 (from -2 to +4) to accomodate the comma
+			g.Stroke ();
+			g.Restore ();
+		}
+
+		//write text
 		printText(x, yStart+te.Height/2, 0, resultFontHeight,
 			Util.TrimDecimals(result, decs), g, alignTypes.CENTER);
 
@@ -1144,6 +1161,10 @@ public abstract class CairoBars : CairoGeneric
 
 	public List<int> Id_l {
 		set { id_l = value; }
+	}
+
+	public int SelectedPos {
+		set { selectedPos = value; }
 	}
 
 	//related to secondary variable (by default range)

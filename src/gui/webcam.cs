@@ -1003,9 +1003,9 @@ public partial class ChronoJumpWindow
 		double signalTotalTime = 0;
 		if (Constants.ModeIsFORCESENSOR (current_mode))
 		{
-			//TODO: take care with zoom here!
-			if (fsAI_AB != null)
-				signalTotalTime = UtilAll.DivideSafe (PointF.Last (fsAI_AB.P_l).X, 1000000);
+			//using spCairoFE instead of fsAI_AB to avoid problems with zoom
+			if (spCairoFE != null && spCairoFE.Force_l != null && spCairoFE.Force_l.Count > 0)
+				signalTotalTime = UtilAll.DivideSafe (PointF.Last (spCairoFE.Force_l).X, 1000000);
 		}
 		else if (Constants.ModeIsENCODER (current_mode))
 		{

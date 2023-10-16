@@ -2206,6 +2206,8 @@ public partial class ChronoJumpWindow
 			*/
 		}
 
+		updateGraphRunsInterval (); //to show the selected bar
+
 		blankRunIntervalRealtimeCaptureGraph ();
 		PrepareRunIntervalRealtimeCaptureGraph (
 				selectedRunInterval.IntervalTimesString,

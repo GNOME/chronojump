@@ -1994,6 +1994,9 @@ public class CairoPaintBarsPreRunInterval : CairoPaintBarsPre
 						longestWord.Length, maxRowsForText));
 
 			id_l.Add(runI.UniqueID);
+
+			if (eventGraphRunsIntervalStored.selectedID == runI.UniqueID)
+				cb.SelectedPos = eventGraphRunsIntervalStored.runsAtSQL.Count -countToDraw -1;
 		}
 
 		cb.Id_l = id_l;

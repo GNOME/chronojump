@@ -97,7 +97,7 @@ public partial class ChronoJumpWindow
 	Gtk.Image image_change_modes_encoder_inertial;
 
 	Gtk.Alignment alignment_contacts_show_graph_table;
-	Gtk.HBox hbox_contacts_capture_show_need_one;
+	Gtk.Box box_contacts_capture_show_need_one;
 	Gtk.Label label_contacts_capture_show_need_one;
 	Gtk.CheckButton check_contacts_capture_graph;
 	Gtk.CheckButton check_contacts_capture_table;
@@ -4591,12 +4591,12 @@ public partial class ChronoJumpWindow
 			hpaned_contacts_graph_table.Position = Convert.ToInt32(frame_contacts_graph_table.Allocation.Width / 2.0);
 
 		if (check_contacts_capture_graph.Active || check_contacts_capture_table.Active)
-			hbox_contacts_capture_show_need_one.Visible = false;
+			box_contacts_capture_show_need_one.Visible = false;
 		else
 		{
 			label_contacts_capture_show_need_one.Text = "<b>" + Catalog.GetString("Select at least one") + "</b>";
 			label_contacts_capture_show_need_one.UseMarkup = true;
-			hbox_contacts_capture_show_need_one.Visible = true;
+			box_contacts_capture_show_need_one.Visible = true;
 		}
 
 		/*
@@ -9878,7 +9878,7 @@ LogB.Debug("mc finished 5");
 		image_change_modes_encoder_inertial = (Gtk.Image) builder.GetObject ("image_change_modes_encoder_inertial");
 
 		alignment_contacts_show_graph_table = (Gtk.Alignment) builder.GetObject ("alignment_contacts_show_graph_table");
-		hbox_contacts_capture_show_need_one = (Gtk.HBox) builder.GetObject ("hbox_contacts_capture_show_need_one");
+		box_contacts_capture_show_need_one = (Gtk.Box) builder.GetObject ("box_contacts_capture_show_need_one");
 		label_contacts_capture_show_need_one = (Gtk.Label) builder.GetObject ("label_contacts_capture_show_need_one");
 		check_contacts_capture_graph = (Gtk.CheckButton) builder.GetObject ("check_contacts_capture_graph");
 		check_contacts_capture_table = (Gtk.CheckButton) builder.GetObject ("check_contacts_capture_table");

@@ -37,7 +37,7 @@ public abstract class CairoBars : CairoGeneric
 	protected int marginForBottomNames;
 	protected bool clickable;
 	protected bool paintAxis;
-	protected bool paintGrid; //if paint grid, then paint a rectangle below resultOnBar (on encoder: false)
+	protected bool paintGrid; //if paint grid, then paint a rectangle below barResult (on encoder: false)
 
 	protected string titleStr;
 	protected List<int> best_l;
@@ -60,7 +60,7 @@ public abstract class CairoBars : CairoGeneric
 	protected Cairo.Context g;
 	protected int lineWidthDefault = 1; //was 2;
 	protected List<double> barsXCenter_l; //store center of the bars to draw range pointline and lossArrow on encoder
-	protected List<Point3F> resultOnBars_l;
+	protected List<BarResult> barResult_l;
 	protected int resultFontHeight;
 	protected double barWidth;
 
@@ -117,7 +117,7 @@ public abstract class CairoBars : CairoGeneric
 		decs = 2;
 		initGraph(font, 1); //.8 if writeTextAtRight
 		barsXCenter_l = new List<double>();
-		resultOnBars_l = new List<Point3F>();
+		barResult_l = new List<BarResult> ();
 		//inBarNums_l = new List<int>();
 		edgeBarNums_l = new List<int>();
 		encoderTitle = false;
@@ -841,14 +841,11 @@ public abstract class CairoBars : CairoGeneric
 	{
 		//result on bar painted here (after bars) to not have text overlapped by bars
 		double pAyStart = -1;
-		int count = 0;
-		foreach(Point3F p in resultOnBars_l)
-		{
-			pAyStart = plotResultOnBarDo (p.X, p.Y, graphHeight -bottomMargin,
-					p.Z, pAyStart, count == selectedPos);
-			count ++;
-		}
+		foreach(BarResult barResult in barResult_l)
+			pAyStart = plotResultOnBarDo (barResult.p.X, barResult.p.Y, graphHeight -bottomMargin,
+					barResult.p.Z, pAyStart, barResult.selected);
 	}
+
 	protected double plotResultOnBarDo (double x, double y, double alto,
 			double result, double yStartPointA, bool isSelected)
 	{
@@ -1334,7 +1331,7 @@ public class CairoBars1Series : CairoBars
 			drawRoundedRectangle (true, x, y, barWidth, graphHeight -y -bottomMargin, 4, g, barColor,
 					Util.FoundInListInt (best_l, i),
 					Util.FoundInListInt (worst_l, i));
-			resultOnBars_l.Add(new Point3F(x + barWidth/2, y, p.Y));
+			barResult_l.Add (new BarResult (new Point3F(x + barWidth/2, y, p.Y), i == selectedPos));
 			mouseLimits.AddInPos (i, x, y, x+barWidth, graphHeight -bottomMargin);
 
 			//videoPlayTimeInSeconds
@@ -1846,7 +1843,7 @@ public class CairoBarsNHSeries : CairoBars
 			//sort result on bars correctly (this could be useful if mainAtLeft changes)
 			for(int j = 0 ; j < resultOnBarsThisIteration_l.Count; j ++)
 			{
-				resultOnBars_l.Add(resultOnBarsThisIteration_l[j]);
+				barResult_l.Add (new BarResult (resultOnBarsThisIteration_l[j], i == selectedPos));
 				barsXCenter_l.Add(resultOnBarsThisIteration_l[j].X);
 			}
 
@@ -1966,6 +1963,17 @@ public class CairoBarsNHSeries : CairoBars
 }
 
 // ----------------------------------------------------------------
+
+public class BarResult
+{
+	public Point3F p;
+	public bool selected;
+	public BarResult (Point3F p, bool selected)
+	{
+		this.p = p;
+		this.selected = selected;
+	}
+}
 
 public class CairoBarsGuide
 {

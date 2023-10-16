@@ -409,11 +409,15 @@ public partial class ChronoJumpWindow
 		if(radio_contacts_graph_allTests.Active)
 			typeTemp = "";
 
+		int selectedID = -1;
+		if (myTreeViewJumpsRj != null && myTreeViewJumpsRj.EventSelectedID > 0)
+			selectedID = myTreeViewJumpsRj.EventSelectedID;
+
 		PrepareEventGraphJumpReactive eventGraph = new PrepareEventGraphJumpReactive(
 				currentSession.UniqueID, currentPerson.UniqueID,
 				radio_contacts_graph_allPersons.Active,
 				-1 * Convert.ToInt32 (spin_contacts_graph_last_limit.Value), //negative: end limit
-				typeTemp);
+				typeTemp, selectedID);
 
 		string personStr = "";
 		if(! radio_contacts_graph_allPersons.Active)

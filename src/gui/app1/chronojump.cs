@@ -1997,6 +1997,8 @@ public partial class ChronoJumpWindow
 		if(selectedJumpRj == null || selectedJumpRj.UniqueID != myTreeViewJumpsRj.EventSelectedID)
 			selectedJumpRj = SqliteJumpRj.SelectJumpData("jumpRj", myTreeViewJumpsRj.EventSelectedID, true, false); //true: personNameInComment
 
+		updateGraphJumpsReactive (); //to show the selected bar
+
 		blankJumpReactiveRealtimeCaptureGraph ();
 		PrepareJumpReactiveRealtimeCaptureGraph (selectedJumpRj.tvLast, selectedJumpRj.tcLast,
 				selectedJumpRj.TvString, selectedJumpRj.TcString,

@@ -7873,7 +7873,7 @@
                                                             <object class="GtkLabel" id="label111">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
-                                                            <property name="label" translatable="yes">Person:</property>
+                                                            <property name="label" translatable="yes">Person</property>
                                                             </object>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -8002,7 +8002,7 @@
                                                             <object class="GtkLabel" id="label558">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
-                                                            <property name="label" translatable="yes">Exercise:</property>
+                                                            <property name="label" translatable="yes">Exercise</property>
                                                             </object>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -8075,7 +8075,7 @@
                                                             <object class="GtkLabel" id="label8">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
-                                                            <property name="label" translatable="yes">Show:</property>
+                                                            <property name="label" translatable="yes">Show</property>
                                                             </object>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -8216,7 +8216,7 @@
                                                             <object class="GtkLabel" id="label113">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
-                                                            <property name="label" translatable="yes">View:</property>
+                                                            <property name="label" translatable="yes">View</property>
                                                             </object>
                                                             <packing>
                                                             <property name="left-attach">0</property>
@@ -8335,7 +8335,7 @@
                                                             <object class="GtkLabel">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
-                                                            <property name="label" translatable="yes">Test:</property>
+                                                            <property name="label" translatable="yes">Test</property>
                                                             </object>
                                                             <packing>
                                                             <property name="expand">False</property>

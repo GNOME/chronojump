@@ -322,7 +322,7 @@ public partial class ChronoJumpWindow
 
 	//force sensor
 	Gtk.HBox hbox_capture_phases_time;
-	Gtk.VBox vbox_contacts_load_recalculate;
+	Gtk.Box box_contacts_load_recalculate;
 
 	//multiChronopic	
 //	Gtk.Box hbox_multi_chronopic_buttons;
@@ -4021,7 +4021,7 @@ public partial class ChronoJumpWindow
 		button_inspect_last_test_run_intervallic.Visible = false;
 		button_force_sensor_adjust.Visible = false;
 		button_force_sensor_sync.Visible = false;
-		vbox_contacts_load_recalculate.Visible = false;
+		box_contacts_load_recalculate.Visible = false;
 		button_contacts_exercise_close_and_recalculate.Visible = false;
 		vbox_contacts_signal_comment.Visible = false;
 		frame_jumps_automatic.Visible = false;
@@ -4357,7 +4357,7 @@ public partial class ChronoJumpWindow
 			//combos should show exercises (isometric or elastic)
 			updateForceExerciseCombo ();
 
-			vbox_contacts_load_recalculate.Visible = true;
+			box_contacts_load_recalculate.Visible = true;
 			button_contacts_exercise_close_and_recalculate.Visible = true;
 
 			vbox_contacts_signal_comment.Visible = true;
@@ -4412,7 +4412,7 @@ public partial class ChronoJumpWindow
 			notebook_sup.CurrentPage = Convert.ToInt32(notebook_sup_pages.CONTACTS);
 			notebooks_change(m);
 
-			vbox_contacts_load_recalculate.Visible = true;
+			box_contacts_load_recalculate.Visible = true;
 			button_contacts_exercise_close_and_recalculate.Visible = true;
 
 			vbox_contacts_signal_comment.Visible = true;
@@ -10102,7 +10102,7 @@ LogB.Debug("mc finished 5");
 
 		//force sensor
 		hbox_capture_phases_time = (Gtk.HBox) builder.GetObject ("hbox_capture_phases_time");
-		vbox_contacts_load_recalculate = (Gtk.VBox) builder.GetObject ("vbox_contacts_load_recalculate");
+		box_contacts_load_recalculate = (Gtk.Box) builder.GetObject ("box_contacts_load_recalculate");
 
 		//multiChronopic	
 		//	hbox_multi_chronopic_buttons = (Gtk.Box) builder.GetObject ("hbox_multi_chronopic_buttons");

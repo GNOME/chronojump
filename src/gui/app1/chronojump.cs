@@ -60,7 +60,7 @@ public partial class ChronoJumpWindow
 	Gtk.Notebook notebook_start; 		//start window or program
 	Gtk.Notebook notebook_sup;
 	Gtk.HBox hbox_other;
-	Gtk.HBox hbox_contacts_capture_top;
+	Gtk.Box box_contacts_capture_top;
 	Gtk.Notebook notebook_capture_analyze; //not encoder
 	Gtk.Notebook notebook_contacts_execute_or;
 	Gtk.Notebook notebook_analyze; //not encoder
@@ -7933,8 +7933,8 @@ LogB.Debug("mc finished 5");
 
 		//sensitivize gui
 		menus_and_mode_sensitive(false);
-		hbox_contacts_capture_top.Sensitive = false;
-		//button_inspect_last_test.Sensitive = false; //unneeded because it will be on hbox_contacts_capture_top
+		box_contacts_capture_top.Sensitive = false;
+		//button_inspect_last_test.Sensitive = false; //unneeded because it will be on box_contacts_capture_top
 		hbox_contacts_sup_capture_analyze_two_buttons.Sensitive = false;
 		hbox_top_person.Sensitive = false;
 
@@ -7947,8 +7947,8 @@ LogB.Debug("mc finished 5");
 	{
 		//unsensitivize gui
 		menus_and_mode_sensitive(true);
-		hbox_contacts_capture_top.Sensitive = true;
-		//button_inspect_last_test.Sensitive = true; //unneeded because it will be on hbox_contacts_capture_top
+		box_contacts_capture_top.Sensitive = true;
+		//button_inspect_last_test.Sensitive = true; //unneeded because it will be on box_contacts_capture_top
 		hbox_contacts_sup_capture_analyze_two_buttons.Sensitive = true;
 		hbox_top_person.Sensitive = true;
 
@@ -9841,7 +9841,7 @@ LogB.Debug("mc finished 5");
 		notebook_start = (Gtk.Notebook) builder.GetObject ("notebook_start"); 		//start window or program
 		notebook_sup = (Gtk.Notebook) builder.GetObject ("notebook_sup");
 		hbox_other = (Gtk.HBox) builder.GetObject ("hbox_other");
-		hbox_contacts_capture_top = (Gtk.HBox) builder.GetObject ("hbox_contacts_capture_top");
+		box_contacts_capture_top = (Gtk.Box) builder.GetObject ("box_contacts_capture_top");
 		notebook_capture_analyze = (Gtk.Notebook) builder.GetObject ("notebook_capture_analyze"); //not encoder
 		notebook_contacts_execute_or = (Gtk.Notebook) builder.GetObject ("notebook_contacts_execute_or");
 		notebook_analyze = (Gtk.Notebook) builder.GetObject ("notebook_analyze"); //not encoder

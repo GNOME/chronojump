@@ -429,7 +429,7 @@ public partial class ChronoJumpWindow
 		}
 		else if (o == (object) button_stiffness_detect)
 		{
-			hbox_contacts_capture_top.Sensitive = false;
+			box_contacts_capture_top.Sensitive = false;
 			forceSensorButtonsSensitive(false);
 			forceSensorOtherMode = forceSensorOtherModeEnum.STIFFNESS_DETECT;
 			forceOtherThread = new Thread(new ThreadStart(forceSensorDetectStiffness));
@@ -662,7 +662,7 @@ public partial class ChronoJumpWindow
 			else if(forceSensorOtherMode == forceSensorOtherModeEnum.STIFFNESS_DETECT)
 			{
 				forceSensorButtonsSensitive(true);
-				hbox_contacts_capture_top.Sensitive = true;
+				box_contacts_capture_top.Sensitive = true;
 				event_execute_label_message.Text = forceSensorOtherMessage;
 			}
 			else if(forceSensorOtherMode == forceSensorOtherModeEnum.CHECK_VERSION)

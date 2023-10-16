@@ -5560,12 +5560,16 @@
                                                     <property name="border-width">2</property>
                                                     <property name="spacing">6</property>
                                                     <child>
-                                                      <object class="GtkHBox" id="hbox_contacts_capture_top">
+                                                      <object class="GtkBox" id="box_contacts_capture_top">
                                                         <property name="visible">True</property>
                                                         <property name="can-focus">False</property>
-                                                        <property name="spacing">16</property>
                                                         <child>
-                                                          <object class="GtkBox">
+                                                          <object class="GtkHBox" id="hbox_contacts_capture_top">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="spacing">16</property>
+                                                            <child>
+                                                            <object class="GtkBox">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
                                                             <property name="spacing">4</property>
@@ -6209,15 +6213,15 @@
                                                             <property name="position">1</property>
                                                             </packing>
                                                             </child>
-                                                          </object>
-                                                          <packing>
+                                                            </object>
+                                                            <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">False</property>
                                                             <property name="position">0</property>
-                                                          </packing>
-                                                        </child>
-                                                        <child>
-                                                          <object class="GtkNotebook" id="notebook_contacts_capture_doing_wait">
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkNotebook" id="notebook_contacts_capture_doing_wait">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="show-tabs">False</property>
@@ -7448,15 +7452,15 @@
                                                             <property name="tab-fill">False</property>
                                                             </packing>
                                                             </child>
-                                                          </object>
-                                                          <packing>
+                                                            </object>
+                                                            <packing>
                                                             <property name="expand">True</property>
                                                             <property name="fill">False</property>
                                                             <property name="position">1</property>
-                                                          </packing>
-                                                        </child>
-                                                        <child>
-                                                          <object class="GtkBox" id="box_contacts_load_recalculate">
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkBox" id="box_contacts_load_recalculate">
                                                             <property name="can-focus">False</property>
                                                             <property name="spacing">4</property>
                                                             <child>
@@ -7531,11 +7535,19 @@
                                                             <property name="position">1</property>
                                                             </packing>
                                                             </child>
-                                                          </object>
-                                                          <packing>
+                                                            </object>
+                                                            <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">False</property>
-                                                            <property name="position">3</property>
+                                                            <property name="pack-type">end</property>
+                                                            <property name="position">2</property>
+                                                            </packing>
+                                                            </child>
+                                                          </object>
+                                                          <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">0</property>
                                                           </packing>
                                                         </child>
                                                         <child>
@@ -7573,6 +7585,7 @@
                                                             <object class="GtkViewport" id="viewport_chronopics">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
+                                                            <property name="margin-left">16</property>
                                                             <property name="shadow-type">none</property>
                                                             <child>
                                                             <object class="GtkButton" id="button_contacts_devices_networks">
@@ -7580,7 +7593,6 @@
                                                             <property name="can-default">True</property>
                                                             <property name="receives-default">True</property>
                                                             <property name="has-tooltip">True</property>
-                                                            <property name="relief">half</property>
                                                             <signal name="clicked" handler="on_chronopic_contacts_clicked" swapped="no"/>
                                                             <child>
                                                             <object class="GtkHBox" id="hbox375">
@@ -7638,9 +7650,6 @@
                                                             <property name="position">0</property>
                                                             </packing>
                                                             </child>
-                                                            <child>
-                                                            <placeholder/>
-                                                            </child>
                                                             </object>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -7648,32 +7657,18 @@
                                                             <property name="position">0</property>
                                                             </packing>
                                                             </child>
-                                                            <child>
-                                                            <object class="GtkHBox" id="hbox64">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
                                                             <child>
                                                             <object class="GtkCheckButton" id="check_contacts_networks_upload">
                                                             <property name="label" translatable="yes">Upload next capture</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="receives-default">False</property>
+                                                            <property name="margin-left">16</property>
                                                             <property name="active">True</property>
                                                             <property name="draw-indicator">True</property>
                                                             </object>
                                                             <packing>
-                                                            <property name="expand">False</property>
+                                                            <property name="expand">True</property>
                                                             <property name="fill">False</property>
-                                                            <property name="position">0</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
-                                                            <placeholder/>
-                                                            </child>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">True</property>
-                                                            <property name="pack-type">end</property>
                                                             <property name="position">1</property>
                                                             </packing>
                                                             </child>
@@ -7682,7 +7677,7 @@
                                                             <property name="expand">False</property>
                                                             <property name="fill">False</property>
                                                             <property name="pack-type">end</property>
-                                                            <property name="position">4</property>
+                                                            <property name="position">1</property>
                                                           </packing>
                                                         </child>
                                                       </object>

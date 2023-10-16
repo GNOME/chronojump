@@ -251,13 +251,14 @@ public class PrepareEventGraphRunSimple {
 	public double time;
 	public double speed;
 	public string type; //jumpType (useful to know if "all jumps" (type == "")
+	public int selectedID; //-1 if none selected. If >= 0 then is the selected on treeview.
 
 	public PrepareEventGraphRunSimple() {
 	}
 
 	public PrepareEventGraphRunSimple(double time, double speed, int sessionID,
 			int personID, bool allPersons, int limit,
-			string table, string type)
+			string table, string type, int selectedID)
 	{
 		Sqlite.Open();
 		
@@ -295,6 +296,7 @@ public class PrepareEventGraphRunSimple {
 		this.time = time;
 		this.speed = speed;
 		this.type = type;
+		this.selectedID = selectedID;
 		
 		Sqlite.Close();
 	}

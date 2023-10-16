@@ -1758,6 +1758,9 @@ public class CairoPaintBarsPreJumpReactive : CairoPaintBarsPre
 			//add uniqueID two times, one for the each serie
 			id_l.Add(jump.UniqueID);
 			id_l.Add(jump.UniqueID);
+
+			if (eventGraphJumpsRjStored.selectedID == jump.UniqueID)
+				cb.SelectedPos = eventGraphJumpsRjStored.jumpsAtSQL.Count -countToDraw -1;
 		}
 
 		cb.Id_l = id_l;

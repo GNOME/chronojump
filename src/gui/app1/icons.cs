@@ -595,11 +595,11 @@ public partial class ChronoJumpWindow
 		//image_persons_new_plus_2.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_person_outline.png");
 		image_persons_open_1.Pixbuf = pixbuf;
-		image_radio_contacts_graph_currentPerson.Pixbuf = pixbuf;
+		image_radio_contacts_results_personCurrent.Pixbuf = pixbuf;
 		//dimage_persons_open_2.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_group_outline.png");
 		image_persons_open_plus.Pixbuf = pixbuf;
-		image_radio_contacts_graph_allPersons.Pixbuf = pixbuf;
+		image_radio_contacts_results_personAll.Pixbuf = pixbuf;
 		//image_persons_open_plus_2.Pixbuf = pixbuf;
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_rest.png");

@@ -46,10 +46,10 @@ public partial class ChronoJumpWindow
 	Gtk.VBox vbox_contacts_simple_graph_controls;
 	Gtk.RadioButton radio_contacts_graph_currentTest;
 	Gtk.RadioButton radio_contacts_graph_allTests;
-	//Gtk.RadioButton radio_contacts_graph_currentPerson;
-	Gtk.RadioButton radio_contacts_graph_allPersons;
-	Gtk.Image image_radio_contacts_graph_currentPerson;
-	Gtk.Image image_radio_contacts_graph_allPersons;
+	//Gtk.RadioButton radio_contacts_results_personCurrent;
+	Gtk.RadioButton radio_contacts_results_personAll;
+	Gtk.Image image_radio_contacts_results_personCurrent;
+	Gtk.Image image_radio_contacts_results_personAll;
 	Gtk.CheckButton check_run_show_time;
 	
 	Gtk.ProgressBar event_execute_progressbar_event;
@@ -443,7 +443,7 @@ public partial class ChronoJumpWindow
 			useHeights = false;
 
 		// B) Paint cairo graph
-		cairoPaintBarsPre.ShowPersonNames = radio_contacts_graph_allPersons.Active;
+		cairoPaintBarsPre.ShowPersonNames = radio_contacts_results_personAll.Active;
 		cairoPaintBarsPre.UseHeights = useHeights;
 
 		cairoPaintBarsPre.Paint();
@@ -495,7 +495,7 @@ public partial class ChronoJumpWindow
 	public void PrepareJumpReactiveGraph (PrepareEventGraphJumpReactive eventGraph, bool animate)
 	{
 		// Paint cairo graph
-		cairoPaintBarsPre.ShowPersonNames = radio_contacts_graph_allPersons.Active;
+		cairoPaintBarsPre.ShowPersonNames = radio_contacts_results_personAll.Active;
 		//cairoPaintBarsPre.UseHeights = useHeights;
 
 		cairoPaintBarsPre.Paint();
@@ -602,7 +602,7 @@ public partial class ChronoJumpWindow
 		LogB.Information("cairoPaintBarsPre == null: ", (cairoPaintBarsPre == null).ToString());
 
 		// Paint cairo graph
-		cairoPaintBarsPre.ShowPersonNames = radio_contacts_graph_allPersons.Active;
+		cairoPaintBarsPre.ShowPersonNames = radio_contacts_results_personAll.Active;
 		cairoPaintBarsPre.RunsShowTime = check_run_show_time.Active;
 		cairoPaintBarsPre.Paint();
 	}
@@ -644,7 +644,7 @@ public partial class ChronoJumpWindow
 	public void PrepareRunIntervalGraph(PrepareEventGraphRunInterval eventGraph, bool animate)
 	{
 		// Paint cairo graph
-		cairoPaintBarsPre.ShowPersonNames = radio_contacts_graph_allPersons.Active;
+		cairoPaintBarsPre.ShowPersonNames = radio_contacts_results_personAll.Active;
 		cairoPaintBarsPre.RunsShowTime = check_run_show_time.Active;
 		cairoPaintBarsPre.Paint();
 	}
@@ -862,7 +862,7 @@ public partial class ChronoJumpWindow
 		}
 	}
 
-	private void on_radio_contacts_graph_person_toggled (object o, EventArgs args)
+	private void on_radio_contacts_results_person_toggled (object o, EventArgs args)
 	{
 		if(current_mode == Constants.Modes.JUMPSSIMPLE)
 			updateGraphJumpsSimple ();
@@ -1009,10 +1009,10 @@ public partial class ChronoJumpWindow
 		vbox_contacts_simple_graph_controls = (Gtk.VBox) builder.GetObject ("vbox_contacts_simple_graph_controls");
 		radio_contacts_graph_currentTest = (Gtk.RadioButton) builder.GetObject ("radio_contacts_graph_currentTest");
 		radio_contacts_graph_allTests = (Gtk.RadioButton) builder.GetObject ("radio_contacts_graph_allTests");
-		//radio_contacts_graph_currentPerson = (Gtk.RadioButton) builder.GetObject ("radio_contacts_graph_currentPerson");
-		radio_contacts_graph_allPersons = (Gtk.RadioButton) builder.GetObject ("radio_contacts_graph_allPersons");
-		image_radio_contacts_graph_currentPerson = (Gtk.Image) builder.GetObject ("image_radio_contacts_graph_currentPerson");
-		image_radio_contacts_graph_allPersons = (Gtk.Image) builder.GetObject ("image_radio_contacts_graph_allPersons");
+		//radio_contacts_results_personCurrent = (Gtk.RadioButton) builder.GetObject ("radio_contacts_results_personCurrent");
+		radio_contacts_results_personAll = (Gtk.RadioButton) builder.GetObject ("radio_contacts_results_personAll");
+		image_radio_contacts_results_personCurrent = (Gtk.Image) builder.GetObject ("image_radio_contacts_results_personCurrent");
+		image_radio_contacts_results_personAll = (Gtk.Image) builder.GetObject ("image_radio_contacts_results_personAll");
 		check_run_show_time = (Gtk.CheckButton) builder.GetObject ("check_run_show_time");
 
 		event_execute_progressbar_event = (Gtk.ProgressBar) builder.GetObject ("event_execute_progressbar_event");

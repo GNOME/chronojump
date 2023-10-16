@@ -368,7 +368,7 @@ public partial class ChronoJumpWindow
 
 		PrepareEventGraphJumpSimple eventGraph = new PrepareEventGraphJumpSimple(
 				tv, tc, currentSession.UniqueID,
-				currentPerson.UniqueID, radio_contacts_graph_allPersons.Active,
+				currentPerson.UniqueID, radio_contacts_results_personAll.Active,
 				-1 * Convert.ToInt32 (spin_contacts_graph_last_limit.Value), //negative: end limit
 				Constants.JumpTable, typeTemp, preferences.heightPreferred, selectedID);
 		
@@ -376,7 +376,7 @@ public partial class ChronoJumpWindow
 		//	PrepareJumpSimpleGraph(eventGraph, false); //don't animate
 
 		string personStr = "";
-		if(! radio_contacts_graph_allPersons.Active)
+		if(! radio_contacts_results_personAll.Active)
 			personStr = currentPerson.Name;
 
 		cairoPaintBarsPre = new CairoPaintBarsPreJumpSimple (
@@ -415,12 +415,12 @@ public partial class ChronoJumpWindow
 
 		PrepareEventGraphJumpReactive eventGraph = new PrepareEventGraphJumpReactive(
 				currentSession.UniqueID, currentPerson.UniqueID,
-				radio_contacts_graph_allPersons.Active,
+				radio_contacts_results_personAll.Active,
 				-1 * Convert.ToInt32 (spin_contacts_graph_last_limit.Value), //negative: end limit
 				typeTemp, selectedID);
 
 		string personStr = "";
-		if(! radio_contacts_graph_allPersons.Active)
+		if(! radio_contacts_results_personAll.Active)
 			personStr = currentPerson.Name;
 
 		cairoPaintBarsPre = new CairoPaintBarsPreJumpReactive (

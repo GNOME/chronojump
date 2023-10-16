@@ -7846,6 +7846,7 @@
                                                             <object class="GtkVBox" id="vbox20">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
+                                                            <property name="spacing">2</property>
                                                             <child>
                                                             <object class="GtkHBox" id="hbox4">
                                                             <property name="visible">True</property>
@@ -7867,7 +7868,7 @@
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
                                                             <property name="orientation">vertical</property>
-                                                            <property name="spacing">6</property>
+                                                            <property name="spacing">2</property>
                                                             <child>
                                                             <object class="GtkLabel" id="label111">
                                                             <property name="visible">True</property>
@@ -7996,7 +7997,7 @@
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
                                                             <property name="orientation">vertical</property>
-                                                            <property name="spacing">6</property>
+                                                            <property name="spacing">2</property>
                                                             <child>
                                                             <object class="GtkLabel" id="label558">
                                                             <property name="visible">True</property>
@@ -8069,7 +8070,7 @@
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
                                                             <property name="orientation">vertical</property>
-                                                            <property name="spacing">6</property>
+                                                            <property name="spacing">2</property>
                                                             <child>
                                                             <object class="GtkLabel" id="label8">
                                                             <property name="visible">True</property>
@@ -8209,7 +8210,7 @@
                                                             <!-- n-columns=2 n-rows=2 -->
                                                             <object class="GtkGrid" id="grid_race_analyzer_capture_tab_result_views">
                                                             <property name="can-focus">False</property>
-                                                            <property name="row-spacing">6</property>
+                                                            <property name="row-spacing">2</property>
                                                             <property name="column-spacing">30</property>
                                                             <child>
                                                             <object class="GtkLabel" id="label113">
@@ -8329,7 +8330,7 @@
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
                                                             <property name="orientation">vertical</property>
-                                                            <property name="spacing">6</property>
+                                                            <property name="spacing">2</property>
                                                             <child>
                                                             <object class="GtkLabel">
                                                             <property name="visible">True</property>

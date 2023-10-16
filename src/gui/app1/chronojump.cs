@@ -4016,7 +4016,7 @@ public partial class ChronoJumpWindow
 		radio_mode_contacts_jumps_rj_fatigue.Visible = false;
 		radio_mode_contacts_runs_evolution.Visible = false;
 		radio_mode_contacts_sprint.Visible = false;
-		hbox_race_analyzer_capture_tab_result_views.Visible = false;
+		grid_race_analyzer_capture_tab_result_views.Visible = false;
 		notebook_analyze.CurrentPage = Convert.ToInt32(notebook_analyze_pages.STATISTICS);
 		button_inspect_last_test_run_intervallic.Visible = false;
 		button_force_sensor_adjust.Visible = false;
@@ -4427,7 +4427,7 @@ public partial class ChronoJumpWindow
 			button_threshold.Visible = false;
 			//notebook_capture_analyze.GetNthPage(2).Hide(); //hide jumpsProfile on other tests
 
-			hbox_race_analyzer_capture_tab_result_views.Visible = true;
+			grid_race_analyzer_capture_tab_result_views.Visible = true;
 			hbox_change_modes_runs.Visible = true;
 
 			//align_check_vbox_contacts_graph_legend.Visible = false;

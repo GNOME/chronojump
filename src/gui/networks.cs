@@ -262,6 +262,13 @@ public partial class ChronoJumpWindow
 
 			if(configChronojump.CompujumpAdminEmail != "")
 				button_encoder_analyze_image_compujump_send_email.Visible = true;
+
+			viewport_chronopics.Visible = true;
+			viewport_chronopic_encoder.Visible = true;
+		}
+		else {
+			viewport_chronopics.Visible = false;
+			viewport_chronopic_encoder.Visible = false;
 		}
 
 		if (configChronojump.Compujump) {

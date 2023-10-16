@@ -318,6 +318,7 @@ public class PrepareEventGraphRunInterval
 
 	public double personMINAtSQL;
 	public double sessionMINAtSQL;
+	public int selectedID; //-1 if none selected. If >= 0 then is the selected on treeview.
 
 	public PrepareEventGraphRunInterval () {
 	}
@@ -326,10 +327,11 @@ public class PrepareEventGraphRunInterval
 	//personID we need to the personsMAX/AVG sql calls
 	//type can be "" for all jumps, then write it under bar
 	public PrepareEventGraphRunInterval (
-			int sessionID, int personID, bool allPersons, int limit, string type)
+			int sessionID, int personID, bool allPersons, int limit, string type, int selectedID)
 	{
 		// 1) assign variables
 		this.type = type;
+		this.selectedID = selectedID;
 
 		Sqlite.Open(); // ----------------->
 

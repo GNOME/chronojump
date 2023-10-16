@@ -2096,6 +2096,7 @@ public partial class ChronoJumpWindow
 			showHideActionEventButtons(false);
 		} else {
 			showHideActionEventButtons(true);
+			updateGraphRunsSimple (); //to show the selected bar
 		}
 	}
 

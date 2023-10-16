@@ -1873,6 +1873,9 @@ public class CairoPaintBarsPreRunSimple : CairoPaintBarsPre
 						longestWord.Length, maxRowsForText));
 
 			id_l.Add(run.UniqueID);
+
+			if (eventGraphRunsStored.selectedID == run.UniqueID)
+				cb.SelectedPos = eventGraphRunsStored.runsAtSQL.Count -countToDraw -1;
 		}
 
 		cb.Id_l = id_l;

@@ -1541,7 +1541,8 @@ public class CairoPaintBarsPreJumpSimple : CairoPaintBarsPre
 			}
 		}
 
-		cb.GraphInit(fontStr, ! ShowPersonNames, true); //usePersonGuides, useGroupGuides
+		//cb.GraphInit(fontStr, ! ShowPersonNames, true); //usePersonGuides, useGroupGuides
+		cb.GraphInit(fontStr, true, true); //usePersonGuides, useGroupGuides
 
 		List<Event> events = Jump.JumpListToEventList(eventGraphJumpsStored.jumpsAtSQL);
 
@@ -1613,7 +1614,8 @@ public class CairoPaintBarsPreJumpSimple : CairoPaintBarsPre
 		cb.Id_l = id_l;
 
 		cb.PassGuidesData (new CairoBarsGuideManage(
-					! ShowPersonNames, true, //usePersonGuides, useGroupGuides
+					//! ShowPersonNames, true, //usePersonGuides, useGroupGuides
+					true, true, //usePersonGuides, useGroupGuides
 					eventGraphJumpsStored.sessionMAXAtSQL,
 					eventGraphJumpsStored.sessionAVGAtSQL,
 					eventGraphJumpsStored.sessionMINAtSQL,
@@ -1679,7 +1681,8 @@ public class CairoPaintBarsPreJumpReactive : CairoPaintBarsPre
 		cb.VariableSerieA = Catalog.GetString("Contact time") + " (" + Catalog.GetString("AVG") + ") ";
 		cb.VariableSerieB = Catalog.GetString("Flight time") + " (" + Catalog.GetString("AVG") + ") ";
 
-		cb.GraphInit(fontStr, ! ShowPersonNames, true); //usePersonGuides, useGroupGuides
+		//cb.GraphInit(fontStr, ! ShowPersonNames, true); //usePersonGuides, useGroupGuides
+		cb.GraphInit(fontStr, true, true); //usePersonGuides, useGroupGuides
 
 		List<Event> events = JumpRj.JumpListToEventList(eventGraphJumpsRjStored.jumpsAtSQL);
 
@@ -1766,7 +1769,8 @@ public class CairoPaintBarsPreJumpReactive : CairoPaintBarsPre
 		cb.Id_l = id_l;
 
 		cb.PassGuidesData (new CairoBarsGuideManage(
-					! ShowPersonNames, true, //usePersonGuides, useGroupGuides
+					//! ShowPersonNames, true, //usePersonGuides, useGroupGuides
+					true, true, //usePersonGuides, useGroupGuides
 					eventGraphJumpsRjStored.sessionMAXAtSQL,
 					eventGraphJumpsRjStored.sessionAVGAtSQL,
 					eventGraphJumpsRjStored.sessionMINAtSQL,
@@ -1818,7 +1822,8 @@ public class CairoPaintBarsPreRunSimple : CairoPaintBarsPre
 		cb.YVariable = Catalog.GetString("Speed");
 		cb.YUnits = "m/s";
 
-		cb.GraphInit(fontStr, ! ShowPersonNames, true); //usePersonGuides, useGroupGuides
+		//cb.GraphInit(fontStr, ! ShowPersonNames, true); //usePersonGuides, useGroupGuides
+		cb.GraphInit(fontStr, true, true); //usePersonGuides, useGroupGuides
 
 		List<Event> events = Run.RunListToEventList(eventGraphRunsStored.runsAtSQL);
 
@@ -1881,7 +1886,8 @@ public class CairoPaintBarsPreRunSimple : CairoPaintBarsPre
 		cb.Id_l = id_l;
 
 		cb.PassGuidesData (new CairoBarsGuideManage(
-					! ShowPersonNames, true, //usePersonGuides, useGroupGuides
+					//! ShowPersonNames, true, //usePersonGuides, useGroupGuides
+					true, true, //usePersonGuides, useGroupGuides
 					eventGraphRunsStored.sessionMAXAtSQL,
 					eventGraphRunsStored.sessionAVGAtSQL,
 					eventGraphRunsStored.sessionMINAtSQL,
@@ -1928,7 +1934,8 @@ public class CairoPaintBarsPreRunInterval : CairoPaintBarsPre
 		cb.YVariable = Catalog.GetString("Speed");
 		cb.YUnits = "m/s";
 
-		cb.GraphInit(fontStr, ! ShowPersonNames, true); //usePersonGuides, useGroupGuides
+		//cb.GraphInit(fontStr, ! ShowPersonNames, true); //usePersonGuides, useGroupGuides
+		cb.GraphInit(fontStr, true, true); //usePersonGuides, useGroupGuides
 
 		List<Event> events = RunInterval.RunIntervalListToEventList (eventGraphRunsIntervalStored.runsAtSQL);
 
@@ -2002,7 +2009,8 @@ public class CairoPaintBarsPreRunInterval : CairoPaintBarsPre
 		cb.Id_l = id_l;
 
 		cb.PassGuidesData (new CairoBarsGuideManage(
-					! ShowPersonNames, true, //usePersonGuides, useGroupGuides
+					//! ShowPersonNames, true, //usePersonGuides, useGroupGuides
+					true, true, //usePersonGuides, useGroupGuides
 					eventGraphRunsIntervalStored.sessionMAXAtSQL,
 					eventGraphRunsIntervalStored.sessionAVGAtSQL,
 					eventGraphRunsIntervalStored.sessionMINAtSQL,

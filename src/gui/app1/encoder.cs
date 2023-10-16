@@ -2413,7 +2413,7 @@ public partial class ChronoJumpWindow
 				checkFileOp == Constants.CheckFileOp.RUNS_INTERVALLIC_CAPTURE_SAVE_IMAGE)
 		{
 			//if showing all persons, do not person name on filename
-			if(radio_contacts_graph_allPersons.Active)
+			if(radio_contacts_results_personAll.Active)
 				nameString = currentSession.DateShortAsSQL;
 
 			string testType = "";

@@ -211,7 +211,7 @@ public partial class ChronoJumpWindow
 		PrepareEventGraphRunSimple eventGraph = new PrepareEventGraphRunSimple(
 				1, 1, //both unused
 				currentSession.UniqueID,
-				currentPerson.UniqueID, radio_contacts_graph_allPersons.Active,
+				currentPerson.UniqueID, radio_contacts_results_personAll.Active,
 				-1 * Convert.ToInt32 (spin_contacts_graph_last_limit.Value), //negative: end limit
 				Constants.RunTable, typeTemp, selectedID);
 		
@@ -219,7 +219,7 @@ public partial class ChronoJumpWindow
 		//	PrepareRunSimpleGraph(eventGraph, false); //don't animate
 
 		string personStr = "";
-		if(! radio_contacts_graph_allPersons.Active)
+		if(! radio_contacts_results_personAll.Active)
 			personStr = currentPerson.Name;
 
 		LogB.Information("event_execute_drawingarea_cairo == null: ",
@@ -262,12 +262,12 @@ public partial class ChronoJumpWindow
 
 		PrepareEventGraphRunInterval eventGraph = new PrepareEventGraphRunInterval(
 				currentSession.UniqueID, currentPerson.UniqueID,
-				radio_contacts_graph_allPersons.Active,
+				radio_contacts_results_personAll.Active,
 				-1 * Convert.ToInt32 (spin_contacts_graph_last_limit.Value), //negative: end limit
 				typeTemp, selectedID);
 
 		string personStr = "";
-		if(! radio_contacts_graph_allPersons.Active)
+		if(! radio_contacts_results_personAll.Active)
 			personStr = currentPerson.Name;
 
 		cairoPaintBarsPre = new CairoPaintBarsPreRunInterval (

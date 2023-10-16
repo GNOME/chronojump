@@ -5866,7 +5866,7 @@ public partial class ChronoJumpWindow
 				//preferences.heightPreferred,
 				preferences.metersSecondsPreferred,
 				Convert.ToInt32(spin_contacts_graph_last_limit.Value),
-				radio_contacts_graph_allTests.Active, radio_contacts_graph_allPersons.Active,
+				radio_contacts_graph_allTests.Active, radio_contacts_results_personAll.Active,
 				image_jump_execute_air, image_jump_execute_land,
 				(configChronojump.Compujump && check_contacts_networks_upload.Active),
 				configChronojump.CompujumpStationID, configChronojump.CompujumpDjango,
@@ -6373,7 +6373,7 @@ public partial class ChronoJumpWindow
 				image_run_execute_photocell_icon,
 				label_run_execute_photocell_code,
 				Convert.ToInt32(spin_contacts_graph_last_limit.Value),
-				radio_contacts_graph_allTests.Active, radio_contacts_graph_allPersons.Active,
+				radio_contacts_graph_allTests.Active, radio_contacts_results_personAll.Active,
 				webcamStatusEnumSetStart ());
 
 		if (! canCaptureC && ! wireless)

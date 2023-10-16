@@ -51,7 +51,7 @@ public partial class ChronoJumpWindow
 	Gtk.TreeView treeview_raceAnalyzer;
 	Gtk.Button button_raceAnalyzer_table_save;
 	//Gtk.Label label_race_analyzer_capture_speed;
-	Gtk.HBox hbox_race_analyzer_capture_tab_result_views;
+	Gtk.Grid grid_race_analyzer_capture_tab_result_views;
 	Gtk.RadioButton radio_race_analyzer_capture_view_simple;
 	Gtk.RadioButton radio_race_analyzer_capture_view_complete;
 	//Gtk.Alignment alignment_drawingarea_race_analyzer_capture_velocimeter_topleft;
@@ -2957,7 +2957,7 @@ public partial class ChronoJumpWindow
 		treeview_raceAnalyzer = (Gtk.TreeView) builder.GetObject ("treeview_raceAnalyzer");
 		button_raceAnalyzer_table_save = (Gtk.Button) builder.GetObject ("button_raceAnalyzer_table_save");
 		//label_race_analyzer_capture_speed = (Gtk.Label) builder.GetObject ("label_race_analyzer_capture_speed");
-		hbox_race_analyzer_capture_tab_result_views = (Gtk.HBox) builder.GetObject ("hbox_race_analyzer_capture_tab_result_views");
+		grid_race_analyzer_capture_tab_result_views = (Gtk.Grid) builder.GetObject ("grid_race_analyzer_capture_tab_result_views");
 		radio_race_analyzer_capture_view_simple = (Gtk.RadioButton) builder.GetObject ("radio_race_analyzer_capture_view_simple");
 		radio_race_analyzer_capture_view_complete = (Gtk.RadioButton) builder.GetObject ("radio_race_analyzer_capture_view_complete");
 		//alignment_drawingarea_race_analyzer_capture_velocimeter_topleft = (Gtk.Alignment) builder.GetObject ("alignment_drawingarea_race_analyzer_capture_velocimeter_topleft");

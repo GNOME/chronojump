@@ -1722,6 +1722,7 @@ public partial class ChronoJumpWindow
 		}
 		else if(current_mode == Constants.Modes.RUNSINTERVALLIC)
 		{
+			pre_fillTreeView_runs_interval (false);
 			myTreeViewRunsInterval.SelectPerson(currentPerson.Name);
 			selectedRunInterval = null;
 
@@ -2173,9 +2174,17 @@ public partial class ChronoJumpWindow
 			return;
 		}
 
-		string [] myRuns = SqliteRunInterval.SelectRunsSA (dbconOpened, currentSession.UniqueID, -1, "");
+		string [] myRuns = SqliteRunInterval.SelectRunsSA (dbconOpened,
+				currentSession.UniqueID, currentPersonOrAll (), "");
 		myTreeViewRunsInterval.Fill(myRuns, filter,
 				Util.GetVideosOfSessionAndMode (currentSession.UniqueID, Constants.TestTypes.RUN_I));
+
+		//if show just one person, have it expanded (optimal)
+		if (! radio_contacts_results_personAll.Active && currentPerson != null)
+		{
+			treeview_runs_interval.CollapseAll ();
+			((TreeViewEvent) myTreeViewRunsInterval).ExpandOptimal();
+		} else
 		expandOrMinimizeTreeView((TreeViewEvent) myTreeViewRunsInterval, treeview_runs_interval);
 	}
 	

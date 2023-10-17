@@ -880,6 +880,10 @@ public partial class ChronoJumpWindow
 				tvS.PassRow1or2Elastic (isLeft, position, speed, accel, power);
 		} else { //if (current_mode == Constants.Modes.RUNSENCODER)
 			tvS.PassSpeed1or2 (isLeft, sAI.GetSpeedAtCount (count));
+
+			//GetRaceAnalyzer* functions will know which is minor (count or countRelated)
+			tvS.PassSpeedAvg (sAI.GetRaceAnalyzerAvg (count, countRelated));
+			tvS.PassSpeedMax (sAI.GetRaceAnalyzerMax (count, countRelated));
 		}
 
 		//LogB.Information (string.Format ("on_hscale_ai_value_changed {0} 3", hscaleToDebug));
@@ -1489,6 +1493,12 @@ public abstract class TreeviewS2Abstract : TreeviewSAbstract
 	 * raceAnalyzer specific
 	 */
 	public virtual void PassSpeed1or2 (bool isLeft, double speed)
+	{
+	}
+	public virtual void PassSpeedAvg (double speed)
+	{
+	}
+	public virtual void PassSpeedMax (double speed)
 	{
 	}
 

@@ -527,6 +527,16 @@ public class TreeviewRAAnalyze : TreeviewS2Abstract
 			this.speedEnd = speed;
 	}
 
+	public override void PassSpeedAvg (double speed)
+	{
+		this.speedAvg = Util.TrimDecimals (speed, 3);
+	}
+
+	public override void PassSpeedMax (double speed)
+	{
+		this.speedMax = Util.TrimDecimals (speed, 3);
+	}
+
 	protected override string [] getTreeviewStr ()
 	{
 		return new String [3];

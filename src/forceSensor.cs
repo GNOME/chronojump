@@ -1636,6 +1636,16 @@ public abstract class AnalyzeInstant
 		return 0;
 	}
 
+	public virtual double GetRaceAnalyzerAvg (int countA, int countB)
+	{
+		return 0;
+	}
+
+	public virtual double GetRaceAnalyzerMax (int countA, int countB)
+	{
+		return 0;
+	}
+
 	/*
 	 * accessors
 	 */
@@ -1668,6 +1678,18 @@ public class RaceAnalyzerAnalyzeInstant : AnalyzeInstant
 	public override double GetSpeedAtCount (int count)
 	{
 		return p_l[count].Y;
+	}
+
+	public override double GetRaceAnalyzerAvg (int countA, int countB)
+	{
+		//GetSubList will know which is minor (countA, countB)
+		return PointF.GetAvgY (PointF.GetSubList (p_l, countA, countB));
+	}
+
+	public override double GetRaceAnalyzerMax (int countA, int countB)
+	{
+		//GetSubList will know which is minor (countA, countB)
+		return PointF.GetMaxY (PointF.GetSubList (p_l, countA, countB));
 	}
 }
 

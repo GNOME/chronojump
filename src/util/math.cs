@@ -177,6 +177,19 @@ public class PointF
 		return minY;
 	}
 
+	//if want to use sublist just call also below method GetSubList ()
+	public static double GetAvgY (List<PointF> p_l)
+	{
+		if (p_l == null || p_l.Count == 0)
+			return 0;
+
+		double sum = 0;
+		for (int i = 0; i < p_l.Count ; i ++)
+			sum += p_l[i].Y;
+
+		return UtilAll.DivideSafe (sum, p_l.Count);
+	}
+
 	//just to debug
 	public static string PrintList (string title, List<PointF> p_l, string sep)
 	{

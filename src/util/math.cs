@@ -150,6 +150,7 @@ public class PointF
 			return sample + 1;
 	}
 
+	//if want to use sublist just call also below method GetSubList ()
 	public static double GetMaxY (List<PointF> p_l)
 	{
 		double maxY = 0;
@@ -214,6 +215,14 @@ public class PointF
 		// if passed -1, return orig_l
 		if (start < 0 && end < 0)
 			return orig_l;
+
+		// if end is before start then change them
+		if (end < start)
+		{
+			int temp = end;
+			end = start;
+			start = temp;
+		}
 
 		// if start || end are beyond list, return orig_l
 		if (start >= orig_l.Count || end >= orig_l.Count)

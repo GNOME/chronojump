@@ -7355,9 +7355,9 @@ LogB.Debug("mc finished 5");
 		else if (current_mode == Constants.Modes.JUMPSREACTIVE)
 			on_edit_selected_jump_rj_clicked (o, args);
 		else if (current_mode == Constants.Modes.RUNSSIMPLE)
-			on_edit_selected_run_accepted (o, args);
+			on_edit_selected_run_clicked (o, args);
 		else if (current_mode == Constants.Modes.RUNSINTERVALLIC)
-			on_edit_selected_run_interval_accepted (o, args);
+			on_edit_selected_run_interval_clicked (o, args);
 	}
 
 	private void on_edit_selected_jump_clicked (object o, EventArgs args) {

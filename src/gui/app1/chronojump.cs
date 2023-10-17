@@ -1694,6 +1694,7 @@ public partial class ChronoJumpWindow
 		}
 		else if(current_mode == Constants.Modes.JUMPSREACTIVE)
 		{
+			pre_fillTreeView_jumps_rj (false);
 			myTreeViewJumpsRj.SelectPerson(currentPerson.Name);
 			selectedJumpRj = null;
 
@@ -1961,12 +1962,18 @@ public partial class ChronoJumpWindow
 			return;
 		}
 
-		string [] myJumps = SqliteJumpRj.SelectJumpsSA (dbconOpened, currentSession.UniqueID, -1, "", "");
+		string [] myJumps = SqliteJumpRj.SelectJumpsSA (dbconOpened,
+				currentSession.UniqueID, currentPersonOrAll (), "", "");
 		myTreeViewJumpsRj.Fill (myJumps, filter,
 				Util.GetVideosOfSessionAndMode (currentSession.UniqueID, Constants.TestTypes.JUMP_RJ));
 
-		expandOrMinimizeTreeView((TreeViewEvent) myTreeViewJumpsRj, treeview_jumps_rj);
-
+		//if show just one person, have it expanded (optimal)
+		if (! radio_contacts_results_personAll.Active && currentPerson != null)
+		{
+			treeview_jumps_rj.CollapseAll ();
+			((TreeViewEvent) myTreeViewJumpsRj).ExpandOptimal();
+		} else
+			expandOrMinimizeTreeView((TreeViewEvent) myTreeViewJumpsRj, treeview_jumps_rj);
 	}
 
 	private void on_button_jumps_rj_zoom_clicked (object o, EventArgs args) {

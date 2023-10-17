@@ -865,7 +865,10 @@ public partial class ChronoJumpWindow
 	private void on_radio_contacts_results_person_toggled (object o, EventArgs args)
 	{
 		if(current_mode == Constants.Modes.JUMPSSIMPLE)
+		{
 			updateGraphJumpsSimple ();
+			pre_fillTreeView_jumps (false);
+		}
 		else if(current_mode == Constants.Modes.JUMPSREACTIVE)
 			updateGraphJumpsReactive ();
 		else if(current_mode == Constants.Modes.RUNSSIMPLE)

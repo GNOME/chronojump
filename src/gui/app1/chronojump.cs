@@ -1709,6 +1709,7 @@ public partial class ChronoJumpWindow
 		}
 		else if(current_mode == Constants.Modes.RUNSSIMPLE)
 		{
+			pre_fillTreeView_runs (false);
 			myTreeViewRuns.SelectPerson(currentPerson.Name);
 
 			updateGraphRunsSimple();
@@ -2079,13 +2080,17 @@ public partial class ChronoJumpWindow
 			return;
 		}
 
-		string [] myRuns = SqliteRun.SelectRunsSA (dbconOpened, currentSession.UniqueID, -1, "",
-				Sqlite.Orders_by.DEFAULT, 0);
+		string [] myRuns = SqliteRun.SelectRunsSA (dbconOpened,
+				currentSession.UniqueID, currentPersonOrAll (), "", Sqlite.Orders_by.DEFAULT, 0);
 
 		myTreeViewRuns.Fill(myRuns, filter,
 				Util.GetVideosOfSessionAndMode (currentSession.UniqueID, Constants.TestTypes.RUN));
 
-		expandOrMinimizeTreeView((TreeViewEvent) myTreeViewRuns, treeview_runs);
+		//if show just one person, have it expanded
+		if (! radio_contacts_results_personAll.Active && currentPerson != null)
+			treeview_runs.ExpandAll();
+		else
+			expandOrMinimizeTreeView((TreeViewEvent) myTreeViewRuns, treeview_runs);
 	}
 	
 	private void on_button_runs_zoom_clicked (object o, EventArgs args) {

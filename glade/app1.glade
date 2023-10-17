@@ -4310,7 +4310,7 @@
                                                             <object class="GtkLabel" id="label_start_selector_races3">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
-                                                            <property name="label" translatable="yes">Measured by Encoder</property>
+                                                            <property name="label" translatable="yes">Measured by Race Analyzer</property>
                                                             </object>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -9348,6 +9348,9 @@
                                                             <property name="rules-hint">True</property>
                                                             <property name="enable-search">False</property>
                                                             <signal name="button-release-event" handler="on_treeview_button_release_event" swapped="no"/>
+                                                            <child internal-child="selection">
+                                                            <object class="GtkTreeSelection"/>
+                                                            </child>
                                                             </object>
                                                             </child>
                                                             </object>
@@ -9421,6 +9424,9 @@
                                                             <property name="can-focus">True</property>
                                                             <property name="rules-hint">True</property>
                                                             <signal name="button-release-event" handler="on_treeview_button_release_event" swapped="no"/>
+                                                            <child internal-child="selection">
+                                                            <object class="GtkTreeSelection"/>
+                                                            </child>
                                                             </object>
                                                             </child>
                                                             </object>
@@ -9499,6 +9505,9 @@
                                                             <property name="rules-hint">True</property>
                                                             <property name="enable-search">False</property>
                                                             <signal name="button-release-event" handler="on_treeview_button_release_event" swapped="no"/>
+                                                            <child internal-child="selection">
+                                                            <object class="GtkTreeSelection"/>
+                                                            </child>
                                                             </object>
                                                             </child>
                                                             </object>
@@ -9577,6 +9586,9 @@
                                                             <property name="rules-hint">True</property>
                                                             <property name="enable-search">False</property>
                                                             <signal name="button-release-event" handler="on_treeview_button_release_event" swapped="no"/>
+                                                            <child internal-child="selection">
+                                                            <object class="GtkTreeSelection"/>
+                                                            </child>
                                                             </object>
                                                             </child>
                                                             </object>
@@ -10383,6 +10395,9 @@
                                                             <property name="rules-hint">True</property>
                                                             <property name="enable-search">False</property>
                                                             <signal name="button-release-event" handler="on_treeview_button_release_event" swapped="no"/>
+                                                            <child internal-child="selection">
+                                                            <object class="GtkTreeSelection"/>
+                                                            </child>
                                                             </object>
                                                             </child>
                                                             </object>
@@ -10433,6 +10448,9 @@
                                                             <property name="rules-hint">True</property>
                                                             <property name="enable-search">False</property>
                                                             <signal name="button-release-event" handler="on_treeview_button_release_event" swapped="no"/>
+                                                            <child internal-child="selection">
+                                                            <object class="GtkTreeSelection"/>
+                                                            </child>
                                                             </object>
                                                             </child>
                                                             </object>
@@ -10672,6 +10690,9 @@
                                                             <property name="rules-hint">True</property>
                                                             <property name="enable-search">False</property>
                                                             <signal name="button-release-event" handler="on_treeview_button_release_event" swapped="no"/>
+                                                            <child internal-child="selection">
+                                                            <object class="GtkTreeSelection"/>
+                                                            </child>
                                                             </object>
                                                             </child>
                                                             </object>
@@ -22441,6 +22462,9 @@ Concentric</property>
                                                             <property name="left-attach">3</property>
                                                             <property name="right-attach">4</property>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>

@@ -870,7 +870,10 @@ public partial class ChronoJumpWindow
 			pre_fillTreeView_jumps (false);
 		}
 		else if(current_mode == Constants.Modes.JUMPSREACTIVE)
+		{
 			updateGraphJumpsReactive ();
+			pre_fillTreeView_jumps_rj (false);
+		}
 		else if(current_mode == Constants.Modes.RUNSSIMPLE)
 			updateGraphRunsSimple ();
 		else if(current_mode == Constants.Modes.RUNSINTERVALLIC)

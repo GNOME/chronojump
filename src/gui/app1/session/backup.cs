@@ -333,9 +333,18 @@ public partial class ChronoJumpWindow
 
 		if (app1s_copyRecursiveSuccess)
 		{
+			int minutesNeeded = Convert.ToInt32 (Math.Ceiling (
+						UtilAll.DivideSafe (
+							12 * UtilAll.DivideSafe (app1s_copyRecursiveElapsedMs, 1000),
+							60)
+						));
+
 			app1s_label_backup_progress.Text = Catalog.GetString("Compressing …") + "\n" +
-				string.Format (Catalog.GetString ("Please, wait approximately {0} s."),
-						Convert.ToInt32 (12 * UtilAll.DivideSafe (app1s_copyRecursiveElapsedMs, 1000)));
+				string.Format (Catalog.GetPluralString (
+							"Please, wait approximately 1 minute.",
+							"Please, wait approximately {0} minutes.",
+							minutesNeeded), minutesNeeded);
+
 			app1s_hbox_backup_doing.Visible = false;
 		}
 

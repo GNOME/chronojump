@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2017   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2004-2023   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -77,6 +77,26 @@ class SqliteChronopicRegister : Sqlite
 		closeIfNeeded(dbconOpened);
 
 		return l;
+	}
+
+	public static bool Exists (bool dbconOpened, string serialNumber)
+	{
+		openIfNeeded(dbconOpened);
+
+		dbcmd.CommandText = "SELECT * FROM " + table + " WHERE serialNumber = \"" + serialNumber + "\"";
+		LogB.SQL(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+
+		SqliteDataReader reader = dbcmd.ExecuteReader();
+
+		bool found = false;
+		if (reader.Read ())
+			found = true;
+
+		reader.Close();
+		closeIfNeeded(dbconOpened);
+
+		return found;
 	}
 
 	public static void Insert(bool dbconOpened, ChronopicRegisterPort crp)

@@ -290,6 +290,7 @@ public class DiscoverWindow
 			b.Sensitive = discoverMatchCurrentMode (crp.Type);
 			button_microAlreadyDiscovered_l.Add (b);
 			portAlreadyDiscovered_l.Add (crp);
+			b.Clicked -= new EventHandler (on_discover_use_this_clicked); //needed. if not: called multiple times
 			b.Clicked += new EventHandler (on_discover_use_this_clicked);
 		} else {
 			b.Sensitive = false;
@@ -335,9 +336,23 @@ public class DiscoverWindow
 
 			if (i < microDiscover.Discovered_l.Count && discoverMatchCurrentMode (microDiscover.Discovered_l[i]))
 			{
-				(progressbar_microNotDiscovered_l[i]).Text = ChronopicRegisterPort.TypePrint(microDiscover.Discovered_l[i]);
-				button_microNotDiscovered_l[i].Sensitive = true;
-				button_microNotDiscovered_l[i].Clicked += new EventHandler(on_discover_use_this_clicked);
+				if (discoverMatchCurrentMode (microDiscover.Discovered_l[i]))
+				{
+					(progressbar_microNotDiscovered_l[i]).Text = ChronopicRegisterPort.TypePrint(microDiscover.Discovered_l[i]);
+					button_microNotDiscovered_l[i].Sensitive = true;
+					button_microNotDiscovered_l[i].Label = "Use this!";
+					button_microNotDiscovered_l[i].Clicked -= new EventHandler(on_discover_use_this_clicked); //needed. if not: called multiple times
+					button_microNotDiscovered_l[i].Clicked += new EventHandler(on_discover_use_this_clicked);
+					button_microNotDiscovered_l[i].Visible = true;
+//					label_microNotDiscovered_l[i].Visible = false;
+				} else {
+					//button_microNotDiscovered_l[i].Label = Catalog.GetString ("NC");
+					button_microNotDiscovered_l[i].Visible = false;
+//					label_microNotDiscovered_l[i].Text = Catalog.GetString ("NC");
+//					label_microNotDiscovered_l[i].Visible = true;
+
+//					box_micro_discover_nc.Visible = true;
+				}
 			}
 		}
 
@@ -414,10 +429,18 @@ public class DiscoverWindow
 		for (int i = 0 ; i < button_microNotDiscovered_l.Count; i ++)
 			if (button_microNotDiscovered_l[i] == bPress)
 			{
-				SqliteChronopicRegister.Update(false,
-						microDiscover.ToDiscover_l[i], microDiscover.Discovered_l[i]);
+				// update the list
 				chronopicRegister.SetType (microDiscover.ToDiscover_l[i].SerialNumber,
 						microDiscover.Discovered_l[i]);
+
+				// update the SQL (since 20 oct 2023 it will only INSERT)
+				if (SqliteChronopicRegister.Exists (false, microDiscover.ToDiscover_l[i].SerialNumber))
+					SqliteChronopicRegister.Update (false,
+							microDiscover.ToDiscover_l[i], microDiscover.Discovered_l[i]);
+				else
+					SqliteChronopicRegister.Insert (false,
+							microDiscover.ToDiscover_l[i]);
+
 				portSelected = microDiscover.ToDiscover_l[i];
 
 				/* instead of connect, just do changes on gui in order to be used

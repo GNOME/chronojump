@@ -2830,6 +2830,7 @@ public class UtilCopy
 	private int sessionID;
 	private bool copyLogs;
 	private bool copyConfig;
+	private bool copyOtherExistingDBs;
 
 	//to go faster on CopyFilesRecursively
 	static string backupDirOld = Util.GetBackupDirOld();
@@ -2837,7 +2838,8 @@ public class UtilCopy
 	//-1 is the default on a backup, means all sessions (regular backup)
 	//4 will only copy files related to session 4 (for export session)
 	//on export do not copy logs, on backup user can select
-	public UtilCopy(int sessionID, bool copyLogs, bool copyConfig)
+	//copyOtherExistingDBs is true in backup but false on export
+	public UtilCopy(int sessionID, bool copyLogs, bool copyConfig, bool copyOtherExistingDBs)
 	{
 		BackupMainDirsCount = 0;
 		BackupSecondDirsCount = 0;
@@ -2848,6 +2850,7 @@ public class UtilCopy
 		this.sessionID = sessionID;
 		this.copyLogs = copyLogs;
 		this.copyConfig = copyConfig;
+		this.copyOtherExistingDBs = copyOtherExistingDBs;
 	}
 
 	//http://stackoverflow.com/a/58779
@@ -2914,6 +2917,10 @@ public class UtilCopy
 				if (! copyConfig && file.Name.StartsWith ("chronojump_config"))
 					continue;
 
+				if (! copyOtherExistingDBs &&
+						file.Name.StartsWith ("chronojump") && file.Name.EndsWith (".db") &&
+						file.Name != "chronojump.db")
+					continue;
 
 				file.CopyTo(Path.Combine(target.FullName, file.Name));
 			}

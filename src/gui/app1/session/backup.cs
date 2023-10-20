@@ -283,7 +283,8 @@ public partial class ChronoJumpWindow
 				//if(check_backup_multimedia_and_encoder.Active) {
 				app1s_uc = new UtilCopy (-1,   //allSessions
 						app1s_check_backup_include_logs.Active,
-						app1s_check_backup_include_config.Active);
+						app1s_check_backup_include_config.Active,
+						true);
 
 				app1s_threadBackup = new Thread(new ThreadStart(app1s_copyRecursive));
 				GLib.Idle.Add (new GLib.IdleHandler (app1s_BackupPulseGTK));
@@ -417,7 +418,8 @@ public partial class ChronoJumpWindow
 				Directory.Delete(app1s_fileCopy, true);
 				app1s_uc = new UtilCopy (-1,   //allSessions
 						app1s_check_backup_include_logs.Active,
-						app1s_check_backup_include_config.Active);
+						app1s_check_backup_include_config.Active,
+						true);
 
 				app1s_threadBackup = new Thread(new ThreadStart(app1s_copyRecursive));
 				GLib.Idle.Add (new GLib.IdleHandler (app1s_BackupPulseGTK));
@@ -665,7 +667,7 @@ public partial class ChronoJumpWindow
 		copyToCloudButtonLabel = app1s_button_copyToCloud.Label;
 
 		try {
-			app1s_uc = new UtilCopy (-1, false, false); //all sessions, no logs, no config
+			app1s_uc = new UtilCopy (-1, false, false, false); //all sessions, no logs, no config, no other DBs
 
 			app1s_button_copyToCloud.Label = "Copying …";
 			app1s_button_copyToCloud.Sensitive = false;
@@ -765,7 +767,7 @@ public partial class ChronoJumpWindow
 		LogB.Information ("Copy from Cloud, Going to copy to: " + Util.GetCloudReadTempDir ());
 
 		try {
-			app1s_uc = new UtilCopy (-1, false, false); //all sessions, no logs, no config
+			app1s_uc = new UtilCopy (-1, false, false, false); //all sessions, no logs, no config, no other DBs
 
 			app1s_progressbar_copyFromCloud_dirs.Fraction = 0;
 			app1s_progressbar_copyFromCloud_subDirs.Fraction = 0;

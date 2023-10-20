@@ -116,7 +116,7 @@ public partial class ChronoJumpWindow
 			} else {
 				//note this is the same than: app1s_export_on_overwrite_file_accepted
 				app1s_pulsebarExportActivity.Visible = true;
-				app1s_uc = new UtilCopy (currentSession.UniqueID, false, false); //1 session, do not include logs, do not include config
+				app1s_uc = new UtilCopy (currentSession.UniqueID, false, false, false); //1 session, do not include logs, do not include config, no other DBs
 
 				cancelExport = false;
 				needToCloseSessionToCompress = false;
@@ -219,7 +219,7 @@ public partial class ChronoJumpWindow
 
 			//note this is the same than: on_app1s_button_export_start_clicked
 			app1s_pulsebarExportActivity.Visible = true;
-			app1s_uc = new UtilCopy(currentSession.UniqueID, false, false);
+			app1s_uc = new UtilCopy(currentSession.UniqueID, false, false, false);
 
 			cancelExport = false;
 			needToCloseSessionToCompress = false;

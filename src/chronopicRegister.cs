@@ -264,8 +264,13 @@ public abstract class ChronopicRegister
 		}
 
 		if (! crpl.Exists (crp))
-			crpl.Add (crp, true);
-		else if(crpl.PortChanged (crp))
+		{
+			//if is unknown just add to the viewing list. Else add also to the sql
+			if (crp.Type == ChronopicRegisterPort.Types.UNKNOWN)
+				crpl.Add (crp, false);
+			else
+				crpl.Add (crp, true);
+		} else if(crpl.PortChanged (crp))
 			crpl.UpdatePort (crp, crp.Port);
 	}
 
@@ -460,6 +465,9 @@ public abstract class ChronopicRegister
 			return null;
 	}
 
+	/*
+	 * unused
+	 *
 	public bool UnknownFound()
 	{
 		if(NumConnectedOfType(ChronopicRegisterPort.Types.UNKNOWN) > 0)
@@ -467,6 +475,7 @@ public abstract class ChronopicRegister
 
 		return false;
 	}
+	*/
 
 	public string GetRfidPortName()
 	{

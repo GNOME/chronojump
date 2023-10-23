@@ -49,6 +49,7 @@ SOURCES = \
 	gui/app1/session/loadAndImport.cs\
 	gui/app1/session/main.cs\
 	gui/app1/session/tagSessionSelect.cs\
+	gui/app1/session/importCSV.cs\
 	gui/app1/jump.cs\
 	gui/app1/menu.cs\
 	gui/app1/menu_tiny.cs\

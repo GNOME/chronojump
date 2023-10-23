@@ -214,6 +214,10 @@ public partial class ChronoJumpWindow
 	Gtk.Label app1s_label_view_data_folder_specific_no_data;
 	Gtk.EventBox app1s_eventbox_button_view_data_folder_close;
 	Gtk.Image image_app1s_button_view_data_folder_close;
+
+	//notebook tab 10 (import_from_csv)
+	Gtk.TextView app1s_textview_import_from_csv_format;
+
 	// <---- at glade
 
 	Gtk.ComboBoxText app1sae_combo_sports;
@@ -230,6 +234,7 @@ public partial class ChronoJumpWindow
 	const int app1s_PAGE_BACKUP = 7;
 	const int app1s_PAGE_EXPORT = 8;
 	const int app1s_PAGE_VIEW_DATA_FOLDER = 9;
+	const int app1s_PAGE_IMPORT_FROM_CSV = 10;
 
 	private int app1s_notebook_sup_entered_from; //to store from which page we entered (to return at it)
 
@@ -568,5 +573,9 @@ public partial class ChronoJumpWindow
 		app1s_label_view_data_folder_specific_no_data = (Gtk.Label) builder.GetObject ("app1s_label_view_data_folder_specific_no_data");
 		app1s_eventbox_button_view_data_folder_close = (Gtk.EventBox) builder.GetObject ("app1s_eventbox_button_view_data_folder_close");
 		image_app1s_button_view_data_folder_close = (Gtk.Image) builder.GetObject ("image_app1s_button_view_data_folder_close");
+
+		//notebook tab 10 (import from csv)
+		app1s_textview_import_from_csv_format = (Gtk.TextView) builder.GetObject ("app1s_textview_import_from_csv_format");
+		image_app1s_button_view_data_folder_close = (Gtk.Image) builder.GetObject ("image_app1s_button_import_from_csv_close");
 	}
 }

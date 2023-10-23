@@ -735,6 +735,7 @@ public partial class ChronoJumpWindow
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameImport);
 		image_session_import.Pixbuf = pixbuf;
+		image_session_import1.Pixbuf = pixbuf;
 		image_session_import1_blue.Pixbuf = pixbuf;
 		app1s_image_import.Pixbuf = pixbuf;
 		app1s_image_import1.Pixbuf = pixbuf;
@@ -809,6 +810,7 @@ public partial class ChronoJumpWindow
 		image_app1s_button_export_cancel.Pixbuf = pixbuf;
 		image_app1s_button_export_close.Pixbuf = pixbuf;
 		image_app1s_button_backup_cancel_close.Pixbuf = pixbuf;
+		image_app1s_button_view_data_folder_close.Pixbuf = pixbuf;
 		image_app1s_button_view_data_folder_close.Pixbuf = pixbuf;
 		image_app1s_button_cancel1.Pixbuf = pixbuf;
 		image_button_help_close.Pixbuf = pixbuf;

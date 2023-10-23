@@ -222,6 +222,8 @@ public partial class ChronoJumpWindow
 	Gtk.RadioButton app1s_import_runs_intervallic;
 	Gtk.TextView app1s_textview_import_from_csv_format;
 	Gtk.Button app1s_button_import_csv_select_and_import;
+	Gtk.Label app1s_label_import_csv_result;
+	Gtk.Image image_app1s_button_import_from_csv_close;
 
 	// <---- at glade
 
@@ -586,6 +588,7 @@ public partial class ChronoJumpWindow
 		app1s_import_runs_intervallic = (Gtk.RadioButton) builder.GetObject ("app1s_import_runs_intervallic");
 		app1s_textview_import_from_csv_format = (Gtk.TextView) builder.GetObject ("app1s_textview_import_from_csv_format");
 		app1s_button_import_csv_select_and_import = (Gtk.Button) builder.GetObject ("app1s_button_import_csv_select_and_import");
-		image_app1s_button_view_data_folder_close = (Gtk.Image) builder.GetObject ("image_app1s_button_import_from_csv_close");
+		app1s_label_import_csv_result = (Gtk.Label) builder.GetObject ("app1s_label_import_csv_result");
+		image_app1s_button_import_from_csv_close = (Gtk.Image) builder.GetObject ("image_app1s_button_import_from_csv_close");
 	}
 }

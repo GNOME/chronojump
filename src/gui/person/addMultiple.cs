@@ -419,7 +419,7 @@ public class PersonAddMultipleWindow
 				LogB.Warning("Catched, maybe is used by another program");
 				new DialogMessage(Constants.MessageTypes.WARNING, 
 						Constants.FileCannotSaveStr() + "\n\n" +
-						Catalog.GetString("Maybe this file is opened by an SpreadSheet software like Excel. Please, close that program.")
+						Constants.FileCannotOpenedMaybeSpreadsheetOpened ()
 						);
 				fc.Destroy();
 				return;

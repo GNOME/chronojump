@@ -919,6 +919,10 @@ public class Constants
 	{
 		return string.Format(Catalog.GetString("Sorry, this graph cannot be done with test {0}."), test);
 	}
+	public static string FileCannotOpenedMaybeSpreadsheetOpened  ()
+	{
+		return Catalog.GetString ("Maybe this file is opened by an SpreadSheet software like Excel. Please, close that program.");
+	}
 
 	public static string ChronopicDefaultPortWindows = "COM?";
 	public static string ChronopicDefaultPortLinux = "/dev/ttyUSB?";

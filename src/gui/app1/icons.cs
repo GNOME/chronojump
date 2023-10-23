@@ -575,6 +575,7 @@ public partial class ChronoJumpWindow
 		app1s_image_button_close.Pixbuf = pixbuf;
 		image_news_close.Pixbuf = pixbuf;
 		image_button_person_close.Pixbuf = pixbuf;
+		image_app1s_button_import_from_csv_close.Pixbuf = pixbuf;
 
 
 		/*

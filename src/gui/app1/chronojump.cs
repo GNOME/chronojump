@@ -238,6 +238,7 @@ public partial class ChronoJumpWindow
 	Gtk.Box box_session_import_confirm;
 	Gtk.Box box_session_backup;
 	Gtk.Box box_session_data_folder;
+	Gtk.Box box_session_import_from_csv;
 	Gtk.Box box_help;
 	Gtk.VBox vbox_news2;
 	Gtk.Frame frame_news_downloading;
@@ -1154,6 +1155,10 @@ public partial class ChronoJumpWindow
 			//session (data_folder)
 			UtilGtk.WidgetColor (box_session_data_folder, Config.ColorBackgroundShifted);
 			UtilGtk.ContrastLabelsBox (Config.ColorBackgroundShiftedIsDark, box_session_data_folder);
+
+			//session (import_from_csv)
+			UtilGtk.WidgetColor (box_session_import_from_csv, Config.ColorBackgroundShifted);
+			UtilGtk.ContrastLabelsBox (Config.ColorBackgroundShiftedIsDark, box_session_import_from_csv);
 
 			//help
 			UtilGtk.WidgetColor (box_help, Config.ColorBackgroundShifted);
@@ -10051,6 +10056,7 @@ LogB.Debug("mc finished 5");
 		box_session_import_confirm = (Gtk.Box) builder.GetObject ("box_session_import_confirm");
 		box_session_backup = (Gtk.Box) builder.GetObject ("box_session_backup");
 		box_session_data_folder = (Gtk.Box) builder.GetObject ("box_session_data_folder");
+		box_session_import_from_csv = (Gtk.Box) builder.GetObject ("box_session_import_from_csv");
 		box_help = (Gtk.Box) builder.GetObject ("box_help");
 		vbox_news2 = (Gtk.VBox) builder.GetObject ("vbox_news2");
 		frame_news_downloading = (Gtk.Frame) builder.GetObject ("frame_news_downloading");

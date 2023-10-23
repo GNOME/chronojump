@@ -94,7 +94,6 @@ public partial class ChronoJumpWindow
 
 		List<string> error_l = new List<string> ();
 		List<Jump> jumpToImport_l = new List<Jump> ();
-		char columnDelimiter = preferences.CSVColumnDelimiter;
 
 		if (fc.Run () == (int)ResponseType.Accept)
 		{
@@ -110,80 +109,15 @@ public partial class ChronoJumpWindow
 				return;
 			}
 
-			List<string> columns = new List<string>();
-			using (var reader = new CsvFileReader(fc.Filename))
-			{
-				reader.ChangeDelimiter(columnDelimiter);
-				int row = 0;
-				while (reader.ReadRow (columns))
-				{
-					int col = 0;
-					bool rowErrors = false;
-					string personName = "";
-					string jType = "";
-					string jTv = "";
-					//TODO: also for tc, fall, weight
-
-					foreach (string str in columns)
-					{
-						if (row == 0) //discard first row
-							continue;
-
-						LogB.Information (string.Format ("row: {0}, col: {1}, content: {2}", row, col, str));
-
-						if (col == 0)
-						{
-						 	if (! importCSVPersonExistsInSession (person_l, str)) {
-								error_l.Add (string.Format ("Error: at row {0}: person {1} does not exists in session", row, str));
-								rowErrors = true;
-							} else
-								personName = str;
-						}
-						else if (col == 1)
-						{
-							if (! importCSVTestExists (testType_l, str)) {
-								error_l.Add (string.Format ("Error at row {0}: jump simple {1} does not exists", row, str));
-								rowErrors = true;
-							} else
-								jType = str;
-						}
-						else if (col == 2)
-						{
-							if (str == "") {
-								error_l.Add (string.Format ("Error at row {0}: there is no data", row));
-								rowErrors = true;
-							} else if (! Util.IsNumber (Util.ChangeDecimalSeparator (str), true)) {
-								error_l.Add (string.Format ("Error at row {0}: 'str' is not a number", row, str));
-								rowErrors = true;
-							} else
-								jTv = str;
-						} //TODO: think on columns for: tc, fall, weight
-
-						col ++;
-					}
-
-					if (! rowErrors)
-					{
-						int personID = importCSVPersonFindID (person_l, personName);
-						if (personID >= 0)
-							jumpToImport_l.Add (new Jump (-1, personID, currentSession.UniqueID, jType,
-										Convert.ToDouble (Util.ChangeDecimalSeparator (jTv)),
-										0, 0, 0, "", -1,
-										Util.BoolToNegativeInt (false), UtilDate.ToFile (System.DateTime.Now)));
-					}
-
-					row ++;
-				}
-			}
+			jumpToImport_l = importCSVReadFile (fc.Filename, person_l, testType_l, ref error_l);
 			file.Close();
 		}
 		fc.Destroy ();
 
 		if (error_l.Count > 0)
 		{
-			LogB.Information ("errors found:");
-			LogB.Information (Util.ListStringToString (error_l));
 			app1s_label_import_csv_result.Text = "Errors found, check log.";
+			LogB.Information ("Errors at import from CSV:\n" + Util.ListStringToString (error_l));
 		} else {
 			int importedCount = 0;
 			if (jumpToImport_l.Count > 0)
@@ -200,6 +134,79 @@ public partial class ChronoJumpWindow
 			pre_fillTreeView_jumps (false);
 			app1s_label_import_csv_result.Text = string.Format ("Imported {0} records", importedCount);
 		}
+	}
+
+	private List<Jump> importCSVReadFile (string filename, List<Person> person_l, List<object> testType_l, ref List<string> error_l)
+	{
+		List<Jump> jumpToImport_l = new List<Jump> ();
+
+		List<string> columns = new List<string>();
+		using (var reader = new CsvFileReader (filename))
+		{
+			reader.ChangeDelimiter (preferences.CSVColumnDelimiter);
+			int row = 0;
+			while (reader.ReadRow (columns))
+			{
+				int col = 0;
+				bool rowErrors = false;
+				string personName = "";
+				string jType = "";
+				string jTv = "";
+				//TODO: also for tc, fall, weight
+
+				foreach (string str in columns)
+				{
+					if (row == 0) //discard first row
+						continue;
+
+					LogB.Information (string.Format ("row: {0}, col: {1}, content: {2}", row, col, str));
+
+					if (col == 0)
+					{
+						if (! importCSVPersonExistsInSession (person_l, str)) {
+							error_l.Add (string.Format ("Error: at row {0}: person {1} does not exists in session", row, str));
+							rowErrors = true;
+						} else
+							personName = str;
+					}
+					else if (col == 1)
+					{
+						if (! importCSVTestExists (testType_l, str)) {
+							error_l.Add (string.Format ("Error at row {0}: jump simple {1} does not exists", row, str));
+							rowErrors = true;
+						} else
+							jType = str;
+					}
+					else if (col == 2)
+					{
+						if (str == "") {
+							error_l.Add (string.Format ("Error at row {0}: there is no data", row));
+							rowErrors = true;
+						} else if (! Util.IsNumber (Util.ChangeDecimalSeparator (str), true)) {
+							error_l.Add (string.Format ("Error at row {0}: 'str' is not a number", row, str));
+							rowErrors = true;
+						} else
+							jTv = str;
+					} //TODO: think on columns for: tc, fall, weight
+
+					col ++;
+				}
+
+				if (! rowErrors)
+				{
+					int personID = importCSVPersonFindID (person_l, personName);
+					if (personID >= 0)
+						jumpToImport_l.Add (new Jump (-1, personID, currentSession.UniqueID, jType,
+									Convert.ToDouble (Util.ChangeDecimalSeparator (jTv)),
+									0, 0, 0, "", -1,
+									Util.BoolToNegativeInt (false), UtilDate.ToFile (System.DateTime.Now)));
+				}
+
+				row ++;
+			}
+		}
+
+		return jumpToImport_l;
 	}
 
 	private bool importCSVPersonExistsInSession (List<Person> person_l, string personName)

@@ -41,8 +41,8 @@ public partial class ChronoJumpWindow
 	{
 		TextBuffer tb1 = new TextBuffer (new TextTagTable());
 
-		string str = string.Format ("Column separator has to be '{0}'", preferences.CSVColumnDelimiter);
-		str += string.Format ("\tDecimal character has to be '{0}'", preferences.CSVExportDecimalSeparatorChar);
+		string str = string.Format ("Column separator should be '{0}'", preferences.CSVColumnDelimiter);
+		str += string.Format ("\tDecimal character should be '{0}'", preferences.CSVExportDecimalSeparatorChar);
 		str += "\nYou can change both in preferences/language.";
 
 		str += "\n\n Data should be:";
@@ -93,7 +93,9 @@ public partial class ChronoJumpWindow
 		fc.Filter.AddPattern ("*.CSV");
 
 		List<string> error_l = new List<string> ();
+		List<Jump> jumpToImport_l = new List<Jump> ();
 		char columnDelimiter = preferences.CSVColumnDelimiter;
+
 		if (fc.Run () == (int)ResponseType.Accept)
 		{
 			System.IO.FileStream file;
@@ -116,29 +118,58 @@ public partial class ChronoJumpWindow
 				while (reader.ReadRow (columns))
 				{
 					int col = 0;
+					bool rowErrors = false;
+					string personName = "";
+					string jType = "";
+					string jTv = "";
+					//TODO: also for tc, fall, weight
+
 					foreach (string str in columns)
 					{
 						if (row == 0) //discard first row
 							continue;
 
-						LogB.Information (string.Format (
-									"row: {0}, col: {1}, content: {2}",
-									row, col, str));
+						LogB.Information (string.Format ("row: {0}, col: {1}, content: {2}", row, col, str));
 
-						if (col == 0 && ! importCSVPersonExistsInSession (person_l, str))
+						if (col == 0)
 						{
-							error_l.Add (string.Format ("Error: at row {0}: person {1} does not exists in session", row, str));
+						 	if (! importCSVPersonExistsInSession (person_l, str)) {
+								error_l.Add (string.Format ("Error: at row {0}: person {1} does not exists in session", row, str));
+								rowErrors = true;
+							} else
+								personName = str;
 						}
-						else if (col == 1 && ! importCSVTestExists (testType_l, str))
+						else if (col == 1)
 						{
-							error_l.Add (string.Format ("Error at row {0}: jump simple {1} does not exists", row, str));
+							if (! importCSVTestExists (testType_l, str)) {
+								error_l.Add (string.Format ("Error at row {0}: jump simple {1} does not exists", row, str));
+								rowErrors = true;
+							} else
+								jType = str;
 						}
-						else if (col == 2 && str == "")
+						else if (col == 2)
 						{
-							error_l.Add (string.Format ("Error at row {0}: there is no data", row));
-						}
+							if (str == "") {
+								error_l.Add (string.Format ("Error at row {0}: there is no data", row));
+								rowErrors = true;
+							} else if (! Util.IsNumber (Util.ChangeDecimalSeparator (str), true)) {
+								error_l.Add (string.Format ("Error at row {0}: 'str' is not a number", row, str));
+								rowErrors = true;
+							} else
+								jTv = str;
+						} //TODO: think on columns for: tc, fall, weight
 
 						col ++;
+					}
+
+					if (! rowErrors)
+					{
+						int personID = importCSVPersonFindID (person_l, personName);
+						if (personID >= 0)
+							jumpToImport_l.Add (new Jump (-1, personID, currentSession.UniqueID, jType,
+										Convert.ToDouble (Util.ChangeDecimalSeparator (jTv)),
+										0, 0, 0, "", -1,
+										Util.BoolToNegativeInt (false), UtilDate.ToFile (System.DateTime.Now)));
 					}
 
 					row ++;
@@ -153,8 +184,22 @@ public partial class ChronoJumpWindow
 			LogB.Information ("errors found:");
 			LogB.Information (Util.ListStringToString (error_l));
 			app1s_label_import_csv_result.Text = "Errors found, check log.";
-		} else
-			app1s_label_import_csv_result.Text = "No errors found";
+		} else {
+			int importedCount = 0;
+			if (jumpToImport_l.Count > 0)
+			{
+				Sqlite.Open (); // ---->
+				foreach (Jump j in jumpToImport_l)
+				{
+					j.InsertAtDB (true, Constants.JumpTable);
+					importedCount ++;
+				}
+
+				Sqlite.Close (); // <----
+			}
+			pre_fillTreeView_jumps (false);
+			app1s_label_import_csv_result.Text = string.Format ("Imported {0} records", importedCount);
+		}
 	}
 
 	private bool importCSVPersonExistsInSession (List<Person> person_l, string personName)
@@ -165,6 +210,16 @@ public partial class ChronoJumpWindow
 
 		return false;
 	}
+
+	private int importCSVPersonFindID (List<Person> person_l, string personName)
+	{
+		foreach (Person p in person_l)
+			if (p.Name == personName)
+				return p.UniqueID;
+
+		return -1;
+	}
+
 	private bool importCSVTestExists (List<object> testType_l, string jumpSimpleTypeName)
 	{
 		if (app1s_import_jumps_simple.Active)

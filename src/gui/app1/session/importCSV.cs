@@ -22,7 +22,6 @@ using System;
 using Gtk;
 using GLib; //for Value
 using System.Collections.Generic; //List<T>
-using Mono.Unix;
 
 //here using app1sae_ , "sae" means session add edit
 //this file has been moved from his old window to be part of app1 on Chronojump 2.0

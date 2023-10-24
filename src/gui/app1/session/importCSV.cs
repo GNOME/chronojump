@@ -55,6 +55,9 @@ public partial class ChronoJumpWindow
 		{
 			str += "\n- 2nd COLUMN: jump simple type in English (should exist in Chronojump).";
 			str += "\n- 3rd COLUMN: jump flight time in seconds.";
+			str += "\n- 4th COLUMN (optional): jump contact time in seconds.";
+			str += "\n- 5th COLUMN (optional): jump falling height in cm.";
+			str += "\n- 6th COLUMN (optional): jump weight in percentage (without the '%' sign).";
 		} else if (app1s_import_jumps_multiple.Active) {
 			str += "\n\nSorry, Not available yet!";
 		} else if (app1s_import_runs_simple.Active) {
@@ -158,8 +161,10 @@ public partial class ChronoJumpWindow
 				bool rowErrors = false;
 				string personName = "";
 				string jType = "";
-				string jTv = "";
-				//TODO: also for tc, fall, weight
+				double jTv = 0;
+				double jTc = 0;
+				double jFall = 0;
+				double jWeightPercent = 0;
 
 				foreach (string str in columns)
 				{
@@ -193,8 +198,32 @@ public partial class ChronoJumpWindow
 							error_l.Add (string.Format ("Row {0}: flight time '{1}' is not a number or decimal character is not correct.", row, str));
 							rowErrors = true;
 						} else
-							jTv = str;
-					} //TODO: think on columns for: tc, fall, weight
+							jTv = Convert.ToDouble (str);
+					}
+					else if (col == 3)
+					{
+						if (str != "" && ! Util.IsNumber (str, true)) {
+							error_l.Add (string.Format ("Row {0}: contact time '{1}' is not a number or decimal character is not correct.", row, str));
+							rowErrors = true;
+						} else
+							jTc = Convert.ToDouble (str);
+					}
+					else if (col == 4)
+					{
+						if (str != "" && ! Util.IsNumber (str, true)) {
+							error_l.Add (string.Format ("Row {0}: fall '{1}' is not a number or decimal character is not correct.", row, str));
+							rowErrors = true;
+						} else
+							jFall = Convert.ToDouble (str);
+					}
+					else if (col == 5)
+					{
+						if (str != "" && ! Util.IsNumber (str, true)) {
+							error_l.Add (string.Format ("Row {0}: weight '{1}' is not a number or decimal character is not correct.", row, str));
+							rowErrors = true;
+						} else
+							jWeightPercent = Convert.ToDouble (str);
+					}
 
 					col ++;
 				}
@@ -204,8 +233,7 @@ public partial class ChronoJumpWindow
 					int personID = importCSVPersonFindID (person_l, personName);
 					if (personID >= 0)
 						jumpToImport_l.Add (new Jump (-1, personID, currentSession.UniqueID, jType,
-									Convert.ToDouble (Util.ChangeDecimalSeparator (jTv)),
-									0, 0, 0, "", -1,
+									jTv, jTc, jFall, jWeightPercent, "", -1,
 									Util.BoolToNegativeInt (false), UtilDate.ToFile (System.DateTime.Now)));
 				}
 

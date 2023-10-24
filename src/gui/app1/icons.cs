@@ -441,6 +441,7 @@ public partial class ChronoJumpWindow
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "arrow_back.png");
 		image_button_force_sensor_analyze_back_to_signal.Pixbuf = pixbuf;
 		image_app1s_button_back.Pixbuf = pixbuf;
+		image_app1s_button_import_from_csv_errors_back.Pixbuf = pixbuf;
 
 		//pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_person_pin.png");
 		if(Config.ColorBackgroundIsDark)

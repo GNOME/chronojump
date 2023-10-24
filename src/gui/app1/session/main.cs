@@ -216,6 +216,7 @@ public partial class ChronoJumpWindow
 	Gtk.Image image_app1s_button_view_data_folder_close;
 
 	//notebook tab 10 (import_from_csv)
+	Gtk.Notebook notebook_session_import_from_csv;
 	Gtk.RadioButton app1s_import_jumps_simple;
 	Gtk.RadioButton app1s_import_jumps_multiple;
 	Gtk.RadioButton app1s_import_runs_simple;
@@ -223,7 +224,11 @@ public partial class ChronoJumpWindow
 	Gtk.TextView app1s_textview_import_from_csv_format;
 	Gtk.Button app1s_button_import_csv_select_and_import;
 	Gtk.Label app1s_label_import_csv_result;
+	Gtk.Button app1s_button_import_from_csv_view_errors;
+	Gtk.TextView app1s_textview_import_from_csv_errors;
 	Gtk.Image image_app1s_button_import_from_csv_close;
+	Gtk.Image image_app1s_button_import_from_csv_errors_back;
+	Gtk.Button app1s_button_import_from_csv_close;
 
 	// <---- at glade
 
@@ -582,6 +587,7 @@ public partial class ChronoJumpWindow
 		image_app1s_button_view_data_folder_close = (Gtk.Image) builder.GetObject ("image_app1s_button_view_data_folder_close");
 
 		//notebook tab 10 (import from csv)
+		notebook_session_import_from_csv = (Gtk.Notebook) builder.GetObject ("notebook_session_import_from_csv");
 		app1s_import_jumps_simple = (Gtk.RadioButton) builder.GetObject ("app1s_import_jumps_simple");
 		app1s_import_jumps_multiple = (Gtk.RadioButton) builder.GetObject ("app1s_import_jumps_multiple");
 		app1s_import_runs_simple = (Gtk.RadioButton) builder.GetObject ("app1s_import_runs_simple");
@@ -589,6 +595,10 @@ public partial class ChronoJumpWindow
 		app1s_textview_import_from_csv_format = (Gtk.TextView) builder.GetObject ("app1s_textview_import_from_csv_format");
 		app1s_button_import_csv_select_and_import = (Gtk.Button) builder.GetObject ("app1s_button_import_csv_select_and_import");
 		app1s_label_import_csv_result = (Gtk.Label) builder.GetObject ("app1s_label_import_csv_result");
+		app1s_button_import_from_csv_view_errors = (Gtk.Button) builder.GetObject ("app1s_button_import_from_csv_view_errors");
+		app1s_textview_import_from_csv_errors = (Gtk.TextView) builder.GetObject ("app1s_textview_import_from_csv_errors");
 		image_app1s_button_import_from_csv_close = (Gtk.Image) builder.GetObject ("image_app1s_button_import_from_csv_close");
+		image_app1s_button_import_from_csv_errors_back = (Gtk.Image) builder.GetObject ("image_app1s_button_import_from_csv_errors_back");
+		app1s_button_import_from_csv_close = (Gtk.Button) builder.GetObject ("app1s_button_import_from_csv_close");
 	}
 }

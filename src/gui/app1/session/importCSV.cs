@@ -34,7 +34,10 @@ public partial class ChronoJumpWindow
 		app1s_notebook.CurrentPage = app1s_PAGE_IMPORT_FROM_CSV;
 
 		app1s_label_import_csv_result.Text = "";
-		on_app1s_import_data_type_toggled (o, args);
+		app1s_button_import_from_csv_view_errors.Visible = false;
+		notebook_session_import_from_csv.Page = 0;
+
+		on_app1s_import_data_type_toggled (o, args); //to fill format treeview
 	}
 
 	private void on_app1s_import_data_type_toggled (object o, EventArgs args)
@@ -114,9 +117,14 @@ public partial class ChronoJumpWindow
 
 			if (error_l.Count > 0)
 			{
-				app1s_label_import_csv_result.Text = string.Format ("{0} errors found, check log.", error_l.Count);
-				LogB.Information ("Errors at import from CSV:\n" + Util.ListStringToString (error_l));
+				app1s_button_import_from_csv_view_errors.Visible = true;
+				app1s_label_import_csv_result.Text = string.Format ("{0} errors found.", error_l.Count);
+
+				TextBuffer tb2 = new TextBuffer (new TextTagTable());
+		                tb2.Text = Util.ListStringToString (error_l);
+				app1s_textview_import_from_csv_errors.Buffer = tb2;
 			} else {
+				app1s_button_import_from_csv_view_errors.Visible = false;
 				int importedCount = 0;
 				if (jumpToImport_l.Count > 0)
 				{
@@ -159,12 +167,12 @@ public partial class ChronoJumpWindow
 					if (row == 0) //discard first row
 						continue;
 
-					LogB.Information (string.Format ("row: {0}, col: {1}, content: {2}", row, col, str));
+					//LogB.Information (string.Format ("row: {0}, col: {1}, content: {2}", row, col, str));
 
 					if (col == 0)
 					{
 						if (! importCSVPersonExistsInSession (person_l, str)) {
-							error_l.Add (string.Format ("Error: at row {0}: person {1} does not exists in session", row, str));
+							error_l.Add (string.Format ("Row {0}: person '{1}' does not exists in session.", row, str));
 							rowErrors = true;
 						} else
 							personName = str;
@@ -172,7 +180,7 @@ public partial class ChronoJumpWindow
 					else if (col == 1)
 					{
 						if (! importCSVTestExists (testType_l, str)) {
-							error_l.Add (string.Format ("Error at row {0}: jump simple {1} does not exists", row, str));
+							error_l.Add (string.Format ("Row {0}: jump simple '{1}' does not exists.", row, str));
 							rowErrors = true;
 						} else
 							jType = str;
@@ -180,10 +188,10 @@ public partial class ChronoJumpWindow
 					else if (col == 2)
 					{
 						if (str == "") {
-							error_l.Add (string.Format ("Error at row {0}: there is no data", row));
+							error_l.Add (string.Format ("Row {0}: there is no flight time.", row));
 							rowErrors = true;
 						} else if (! Util.IsNumber (str, true)) {
-							error_l.Add (string.Format ("Error at row {0}: 'str' is not a number or decimal character is not correct", row, str));
+							error_l.Add (string.Format ("Row {0}: flight time '{1}' is not a number or decimal character is not correct.", row, str));
 							rowErrors = true;
 						} else
 							jTv = str;
@@ -240,7 +248,18 @@ public partial class ChronoJumpWindow
 		return false;
 	}
 
-	private void on_app1s_button_import_from_csv_close_clicked (object o,EventArgs args)
+	private void on_app1s_button_import_from_csv_view_errors_clicked (object o, EventArgs args)
+	{
+		notebook_session_import_from_csv.Page = 1;
+		app1s_button_import_from_csv_close.Sensitive = false;
+	}
+	private void on_app1s_button_import_from_csv_errors_back_clicked (object o, EventArgs args)
+	{
+		notebook_session_import_from_csv.Page = 0;
+		app1s_button_import_from_csv_close.Sensitive = true;
+	}
+
+	private void on_app1s_button_import_from_csv_close_clicked (object o, EventArgs args)
 	{
 		app1s_notebook.CurrentPage = app1s_PAGE_MODES;
 	}

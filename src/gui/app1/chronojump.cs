@@ -730,6 +730,9 @@ public partial class ChronoJumpWindow
 		initForceSensor ();
 		initRunEncoder ();
 
+		radio_contacts_graph_allTests.Active = true;
+		radio_contacts_results_personAll.Active = true;
+
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_person_close,
 				UtilGtk.Colors.YELLOW, UtilGtk.Colors.YELLOW_LIGHT);
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_show_modes_contacts,

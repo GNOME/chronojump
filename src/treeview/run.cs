@@ -241,6 +241,7 @@ public class TreeViewRunsInterval : TreeViewRuns
 		
 		myData[count++] = Util.TrimDecimals( getSplitTime(newRunI.IntervalTimesString, lineCount), pDN ); //splitTime
 		myData[count++] = ""; 	//datetime
+		myData[count++] = "";	//video
 		myData[count++] = "";	//description
 		
 		myData[count++] = "-1"; //mark to non select here, select first line 
@@ -278,6 +279,7 @@ public class TreeViewRunsInterval : TreeViewRuns
 		myData[count++] = Util.TrimDecimals( newRunI.TimeTotal.ToString(), pDN ); //lapTime
 		myData[count++] = "";							//splitTime
 		myData[count++] = "";							//datetime
+		myData[count++] = "";							//video
 		myData[count++] = "";							//description
 		
 		myData[count++] = "-1"; //mark to non select here, select first line 
@@ -302,6 +304,7 @@ public class TreeViewRunsInterval : TreeViewRuns
 							, pDN );
 		myData[count++] = "";							//splitTime
 		myData[count++] = "";							//datetime
+		myData[count++] = "";							//video
 		myData[count++] = "";							//description
 
 		myData[count++] = "-1"; //mark to non select here, select first line 
@@ -324,6 +327,7 @@ public class TreeViewRunsInterval : TreeViewRuns
 				pDN);
 		myData[count++] = "";							//splitTime
 		myData[count++] = "";							//datetime
+		myData[count++] = "";							//video
 		myData[count++] = "";							//description
 		
 		myData[count++] = "-1"; //mark to non select here, select first line 

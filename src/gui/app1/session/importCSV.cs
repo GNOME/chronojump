@@ -52,7 +52,7 @@ public partial class ChronoJumpWindow
 		if (app1s_import_jumps_simple.Active)
 		{
 			str += "\n- 2nd COLUMN: jump simple type in English (should exist in Chronojump).";
-			str += "\n- 3rd COLUMN: jump height in seconds.";
+			str += "\n- 3rd COLUMN: jump flight time in seconds.";
 		} else if (app1s_import_jumps_multiple.Active) {
 			str += "\n\nSorry, Not available yet!";
 		} else if (app1s_import_runs_simple.Active) {
@@ -111,29 +111,29 @@ public partial class ChronoJumpWindow
 
 			jumpToImport_l = importCSVReadFile (fc.Filename, person_l, testType_l, ref error_l);
 			file.Close();
+
+			if (error_l.Count > 0)
+			{
+				app1s_label_import_csv_result.Text = string.Format ("{0} errors found, check log.", error_l.Count);
+				LogB.Information ("Errors at import from CSV:\n" + Util.ListStringToString (error_l));
+			} else {
+				int importedCount = 0;
+				if (jumpToImport_l.Count > 0)
+				{
+					Sqlite.Open (); // ---->
+					foreach (Jump j in jumpToImport_l)
+					{
+						j.InsertAtDB (true, Constants.JumpTable);
+						importedCount ++;
+					}
+
+					Sqlite.Close (); // <----
+				}
+				pre_fillTreeView_jumps (false);
+				app1s_label_import_csv_result.Text = string.Format ("Imported {0} records", importedCount);
+			}
 		}
 		fc.Destroy ();
-
-		if (error_l.Count > 0)
-		{
-			app1s_label_import_csv_result.Text = "Errors found, check log.";
-			LogB.Information ("Errors at import from CSV:\n" + Util.ListStringToString (error_l));
-		} else {
-			int importedCount = 0;
-			if (jumpToImport_l.Count > 0)
-			{
-				Sqlite.Open (); // ---->
-				foreach (Jump j in jumpToImport_l)
-				{
-					j.InsertAtDB (true, Constants.JumpTable);
-					importedCount ++;
-				}
-
-				Sqlite.Close (); // <----
-			}
-			pre_fillTreeView_jumps (false);
-			app1s_label_import_csv_result.Text = string.Format ("Imported {0} records", importedCount);
-		}
 	}
 
 	private List<Jump> importCSVReadFile (string filename, List<Person> person_l, List<object> testType_l, ref List<string> error_l)
@@ -182,8 +182,8 @@ public partial class ChronoJumpWindow
 						if (str == "") {
 							error_l.Add (string.Format ("Error at row {0}: there is no data", row));
 							rowErrors = true;
-						} else if (! Util.IsNumber (Util.ChangeDecimalSeparator (str), true)) {
-							error_l.Add (string.Format ("Error at row {0}: 'str' is not a number", row, str));
+						} else if (! Util.IsNumber (str, true)) {
+							error_l.Add (string.Format ("Error at row {0}: 'str' is not a number or decimal character is not correct", row, str));
 							rowErrors = true;
 						} else
 							jTv = str;

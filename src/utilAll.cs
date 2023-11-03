@@ -50,7 +50,15 @@ public class UtilAll
 	//it should be something like IsDotNet()
 	public static bool IsWindows() {
 		string os = GetOS();
-		if(os.ToUpper().StartsWith("WIN"))
+
+		/*
+		 * on Turkisk upper i is not always I
+		 * "i".uppercased(with: Locale(identifier: "tr_TR")) // returns "İ"
+		 * "i".uppercased(with: Locale(identifier: "en_US")) // returns "I"
+		 * "ı".uppercased(with: Locale(identifier: "tr_TR")) // returns "I"
+		 * so not only check "WIN" Upper, also "win" Lower
+		 */
+		if(os.ToUpper().StartsWith("WIN") || os.ToLower().StartsWith("win"))
 			return true;
 		else 
 			return false;

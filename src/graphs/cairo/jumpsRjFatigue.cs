@@ -249,7 +249,7 @@ public class JumpsRjFatigueGraph : CairoXY
 	}
 
 	//this method puts a jump on a part or another depending on if tv start is before or after the parts cut
-	public List<List<PointF>> splitListByTime (List<double> tc_l, List<double> tv_l, List<PointF> p_l, int parts)
+	private List<List<PointF>> splitListByTime (List<double> tc_l, List<double> tv_l, List<PointF> p_l, int parts)
 	{
 		//LogB.Information ("splitListByTime start");
 		//LogB.Information (string.Format ("tc_l.Count: {0}, tv_l.Count: {1}, p_l.Count: {2}, parts: {3}",
@@ -313,7 +313,7 @@ public class JumpsRjFatigueGraph : CairoXY
 	}
 
 	//https://stackoverflow.com/a/11463800
-	public List<List<PointF>> splitListByJumps (List<PointF> p_l, int nSize)
+	private List<List<PointF>> splitListByJumps (List<PointF> p_l, int nSize)
 	{
 		var l_l = new List<List<PointF>>();
 

@@ -1523,7 +1523,9 @@ public partial class ChronoJumpWindow
 					notValidCommandCount ++;
 
 					if (notValidCommandCount > 10 ||
-							(! Config.SimulatedCapture && ! forceSensorSendCommand("end_capture:", Catalog.GetString ("Ending capture …"), "Catched ending capture")))
+							//workaround for 2.3.0cherry where Config.SimulatedCapture does not exists (and is not easy to cherry-pick)
+							//(! Config.SimulatedCapture && ! forceSensorSendCommand("end_capture:", Catalog.GetString ("Ending capture …"), "Catched ending capture")))
+							(! forceSensorSendCommand("end_capture:", Catalog.GetString ("Ending capture …"), "Catched ending capture")))
 					{
 						forceProcessError = true; LogB.Information("fs Error 3b");
 						capturingForce = arduinoCaptureStatus.STOP;

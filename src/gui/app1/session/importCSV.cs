@@ -84,8 +84,9 @@ public partial class ChronoJumpWindow
 		// 1) get persons on this session
 		List<Person> person_l = SqlitePersonSession.SelectCurrentSessionPersonsAsList (false, currentSession.UniqueID);
 
-		List<object> testType_l = new List<object> ();
 		// 2) get tests of this type on DB
+		List<object> testType_l = new List<object> ();
+		ImportCSV importCSV;
 		if (app1s_import_jumps_simple.Active)
 			testType_l = SqliteJumpType.SelectJumpTypesNew (false, "", "", true) ;
 		else if (app1s_import_runs_intervallic.Active)
@@ -103,9 +104,8 @@ public partial class ChronoJumpWindow
 		fc.Filter.AddPattern ("*.csv");
 		fc.Filter.AddPattern ("*.CSV");
 
+		List<Event> eventToImport_l = new List<Event> ();
 		List<string> error_l = new List<string> ();
-		List<Jump> jumpSimpleToImport_l = new List<Jump> ();
-		List<RunInterval> runIToImport_l = new List<RunInterval> ();
 
 		if (fc.Run () == (int)ResponseType.Accept)
 		{
@@ -122,9 +122,15 @@ public partial class ChronoJumpWindow
 			}
 
 			if (app1s_import_jumps_simple.Active)
-				jumpSimpleToImport_l = importCSVReadFileJumpSimple (fc.Filename, person_l, testType_l, ref error_l);
-			else if (app1s_import_runs_intervallic.Active)
-				runIToImport_l = importCSVReadFileRunInterval (fc.Filename, person_l, testType_l, ref error_l);
+			{
+				importCSV = new ImportCSVJumpsSimple (fc.Filename, person_l, testType_l, currentSession.UniqueID, preferences);
+				eventToImport_l = importCSV.ToImport_l;
+				error_l = importCSV.Error_l;
+			} else if (app1s_import_runs_intervallic.Active) {
+				importCSV = new ImportCSVRunsInterval (fc.Filename, person_l, testType_l, currentSession.UniqueID, preferences);
+				eventToImport_l = importCSV.ToImport_l;
+				error_l = importCSV.Error_l;
+			}
 
 			file.Close();
 
@@ -142,18 +148,18 @@ public partial class ChronoJumpWindow
 
 				Sqlite.Open (); // ---->
 
-				if (app1s_import_jumps_simple.Active && jumpSimpleToImport_l.Count > 0)
+				if (app1s_import_jumps_simple.Active && eventToImport_l.Count > 0)
 				{
-					foreach (Jump j in jumpSimpleToImport_l)
+					foreach (Jump j in eventToImport_l)
 					{
 						j.InsertAtDB (true, Constants.JumpTable);
 						importedCount ++;
 					}
 					pre_fillTreeView_jumps (true);
 				}
-				else if (app1s_import_runs_intervallic.Active && runIToImport_l.Count > 0)
+				else if (app1s_import_runs_intervallic.Active && eventToImport_l.Count > 0)
 				{
-					foreach (RunInterval ri in runIToImport_l)
+					foreach (RunInterval ri in eventToImport_l)
 					{
 						ri.InsertAtDB (true, Constants.RunIntervalTable);
 						importedCount ++;
@@ -169,10 +175,89 @@ public partial class ChronoJumpWindow
 		fc.Destroy ();
 	}
 
-	private List<Jump> importCSVReadFileJumpSimple (string filename, List<Person> person_l, List<object> testType_l, ref List<string> error_l)
+	private void on_app1s_button_import_from_csv_view_errors_clicked (object o, EventArgs args)
 	{
-		List<Jump> jumpSimpleToImport_l = new List<Jump> ();
+		notebook_session_import_from_csv.Page = 1;
+		app1s_button_import_from_csv_close.Sensitive = false;
+	}
+	private void on_app1s_button_import_from_csv_errors_back_clicked (object o, EventArgs args)
+	{
+		notebook_session_import_from_csv.Page = 0;
+		app1s_button_import_from_csv_close.Sensitive = true;
+	}
 
+	private void on_app1s_button_import_from_csv_close_clicked (object o, EventArgs args)
+	{
+		app1s_notebook.CurrentPage = app1s_PAGE_MODES;
+	}
+}
+
+public abstract class ImportCSV
+{
+	// passed parameters
+	protected string filename;
+	protected List<Person> person_l;
+	protected List<object> testType_l;
+	protected int currentSessionID;
+	protected Preferences preferences;
+
+	protected List<Event> toImport_l;
+	protected List<string> error_l;
+
+	protected void initialize (string filename, List<Person> person_l, List<object> testType_l,
+			int currentSessionID, Preferences preferences)
+	{
+		this.filename = filename;
+		this.person_l = person_l;
+		this.testType_l = testType_l;
+		this.currentSessionID = currentSessionID;
+		this.preferences = preferences;
+
+		toImport_l = new List<Event> ();
+		error_l = new List<string> ();
+	}
+
+	protected bool importCSVPersonExistsInSession (List<Person> person_l, string personName)
+	{
+		foreach (Person p in person_l)
+			if (p.Name == personName)
+				return true;
+
+		return false;
+	}
+
+	protected int importCSVPersonFindID (List<Person> person_l, string personName)
+	{
+		foreach (Person p in person_l)
+			if (p.Name == personName)
+				return p.UniqueID;
+
+		return -1;
+	}
+
+	protected abstract bool importCSVTestExists (string typeName);
+
+	//accessors
+	public List<Event> ToImport_l {
+		get { return toImport_l; }
+	}
+
+	public List<string> Error_l {
+		get { return error_l; }
+	}
+}
+
+public class ImportCSVJumpsSimple : ImportCSV
+{
+	public ImportCSVJumpsSimple (string filename, List<Person> person_l, List<object> testType_l,
+			int currentSessionID, Preferences preferences)
+	{
+		initialize (filename, person_l, testType_l, currentSessionID, preferences);
+		import ();
+	}
+
+	private void import ()
+	{
 		List<string> columns = new List<string>();
 		using (var reader = new CsvFileReader (filename))
 		{
@@ -206,7 +291,7 @@ public partial class ChronoJumpWindow
 					}
 					else if (col == 1)
 					{
-						if (! importCSVTestExists (testType_l, str)) {
+						if (! importCSVTestExists (str)) {
 							error_l.Add (string.Format ("Row {0}: jump simple '{1}' does not exists.", row, str));
 							rowErrors = true;
 						} else
@@ -255,7 +340,7 @@ public partial class ChronoJumpWindow
 				{
 					int personID = importCSVPersonFindID (person_l, personName);
 					if (personID >= 0)
-						jumpSimpleToImport_l.Add (new Jump (-1, personID, currentSession.UniqueID, jType,
+						toImport_l.Add (new Jump (-1, personID, currentSessionID, jType,
 									jTv, jTc, jFall, jWeightPercent, "", -1,
 									Util.BoolToNegativeInt (false), UtilDate.ToFile (System.DateTime.Now)));
 				}
@@ -263,14 +348,30 @@ public partial class ChronoJumpWindow
 				row ++;
 			}
 		}
-
-		return jumpSimpleToImport_l;
 	}
 
-	private List<RunInterval> importCSVReadFileRunInterval (string filename, List<Person> person_l, List<object> testType_l, ref List<string> error_l)
+	protected override bool importCSVTestExists (string typeName)
 	{
-		List<RunInterval> runIToImport_l = new List<RunInterval> ();
+		foreach (SelectJumpTypes s in testType_l)
+			if (s.NameEnglish == typeName)
+				return true;
 
+		return false;
+	}
+}
+
+
+public class ImportCSVRunsInterval : ImportCSV
+{
+	public ImportCSVRunsInterval (string filename, List<Person> person_l, List<object> testType_l,
+			int currentSessionID, Preferences preferences)
+	{
+		initialize (filename, person_l, testType_l, currentSessionID, preferences);
+		import ();
+	}
+
+	private void import ()
+	{
 		List<string> columns = new List<string>();
 		using (var reader = new CsvFileReader (filename))
 		{
@@ -305,7 +406,7 @@ public partial class ChronoJumpWindow
 					}
 					else if (col == 1)
 					{
-						if (! importCSVTestExists (testType_l, str)) {
+						if (! importCSVTestExists (str)) {
 							error_l.Add (string.Format ("Row {0}: run intervallic '{1}' does not exists.", row, str));
 							rowErrors = true;
 						} else
@@ -356,7 +457,7 @@ public partial class ChronoJumpWindow
 				{
 					int personID = importCSVPersonFindID (person_l, personName);
 					if (personID >= 0)
-						runIToImport_l.Add (new RunInterval (-1, personID, currentSession.UniqueID, riType,
+						toImport_l.Add (new RunInterval (-1, personID, currentSessionID, riType,
 									riDistanceTotal, timeTotal,
 									UtilAll.DivideSafe (riDistanceTotal, riTracks), //distanceInterval
 									Util.ListStringToString (times_l, "="), 	//intervalTimesString
@@ -371,62 +472,14 @@ public partial class ChronoJumpWindow
 				row ++;
 			}
 		}
-
-		return runIToImport_l;
 	}
 
-	private bool importCSVPersonExistsInSession (List<Person> person_l, string personName)
+	protected override bool importCSVTestExists (string typeName)
 	{
-		foreach (Person p in person_l)
-			if (p.Name == personName)
+		foreach (SelectRunITypes s in testType_l)
+			if (s.NameEnglish == typeName)
 				return true;
 
 		return false;
 	}
-
-	private int importCSVPersonFindID (List<Person> person_l, string personName)
-	{
-		foreach (Person p in person_l)
-			if (p.Name == personName)
-				return p.UniqueID;
-
-		return -1;
-	}
-
-	private bool importCSVTestExists (List<object> testType_l, string typeName)
-	{
-		if (app1s_import_jumps_simple.Active)
-		{
-			foreach (SelectJumpTypes s in testType_l)
-				if (s.NameEnglish == typeName)
-					return true;
-		}
-		else if (app1s_import_runs_intervallic.Active)
-		{
-			foreach (SelectRunITypes s in testType_l)
-				if (s.NameEnglish == typeName)
-					return true;
-		}
-		// else TODO:
-
-		return false;
-	}
-
-	private void on_app1s_button_import_from_csv_view_errors_clicked (object o, EventArgs args)
-	{
-		notebook_session_import_from_csv.Page = 1;
-		app1s_button_import_from_csv_close.Sensitive = false;
-	}
-	private void on_app1s_button_import_from_csv_errors_back_clicked (object o, EventArgs args)
-	{
-		notebook_session_import_from_csv.Page = 0;
-		app1s_button_import_from_csv_close.Sensitive = true;
-	}
-
-	private void on_app1s_button_import_from_csv_close_clicked (object o, EventArgs args)
-	{
-		app1s_notebook.CurrentPage = app1s_PAGE_MODES;
-	}
 }
-
-

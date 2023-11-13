@@ -9,6 +9,7 @@ import json
 import os
 import shutil
 import re
+import unicodedata
 
 logging.basicConfig(level=logging.INFO)
 
@@ -40,7 +41,7 @@ g_destinationBaseDirectory = ""
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
  * Copyright (C) 2016-2017 Carles Pina i Estany <carles@pina.cat>
- * Copyright (C) 2019-2021 Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2019-2023 Xavier de Blas <xaviblas@gmail.com>
  */
 """
 
@@ -923,6 +924,8 @@ class ImportSession:
             name = name.replace("ñ", "ñ")
         elif "ñ" in name:
             name = name.replace("ñ", "ñ")
+
+        name = unicodedata.normalize('NFD', name) #https://gitlab.gnome.org/GNOME/chronojump/-/issues/892
 
         return name
 

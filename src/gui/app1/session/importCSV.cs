@@ -47,36 +47,36 @@ public partial class ChronoJumpWindow
 		str += string.Format ("\tDecimal character should be '{0}'", preferences.CSVExportDecimalSeparatorChar);
 		str += "\nYou can change both in preferences/language.";
 
-		str += "\n\n Data should be:";
-		str += "\n- 1st ROW: headers (will be discarded).";
-		str += "\n- 1st COLUMN: person names like in Chronojump. All should exist in session.";
+		str += "\n\n1st ROW: headers (will be discarded).";
+		str += "\nCOLUMNS:";// person names like in Chronojump. All should exist in session.";
+		str += "\n- 1st: person names like in Chronojump. All should exist in session.";
 
 		if (app1s_import_jumps_simple.Active)
 		{
-			str += "\n- 2nd COLUMN: jump simple type in English (should exist in Chronojump).";
-			str += "\n- 3rd COLUMN: jump flight time in seconds.";
-			str += "\n- 4th COLUMN (optional): jump contact time in seconds."; //TODO: test if 5 or 6th exists and not 4th, to see if we need a 0 or whatever
-			str += "\n- 5th COLUMN (optional): jump falling height in cm.";
-			str += "\n- 6th COLUMN (optional): jump weight in percentage (without the '%' sign).";
+			str += "\n- 2nd: jump simple type in English (should exist in Chronojump).";
+			str += "\n- 3rd: jump flight time in seconds.";
+			str += "\n- 4th (optional): jump contact time in seconds."; //TODO: test if 5 or 6th exists and not 4th, to see if we need a 0 or whatever
+			str += "\n- 5th (optional): jump falling height in cm.";
+			str += "\n- 6th (optional): jump weight in percentage (without the '%' sign).";
 		} else if (app1s_import_jumps_multiple.Active) {
-			str += "\n- 2nd COLUMN: jump multiple type in English (should exist in Chronojump).";
-			str += "\n- 3th COLUMN: jump falling height in cm.";
-			str += "\n- 4th COLUMN: jump weight in percentage (without the '%' sign).";
+			str += "\n- 2nd: jump multiple type in English (should exist in Chronojump).";
+			str += "\n- 3th: jump falling height in cm.";
+			str += "\n- 4th: jump weight in percentage (without the '%' sign).";
 			//limited will be the number of jumps
-			str += "\n- 5th, 7th, 9th, ... COLUMNS: each of the contact times (in seconds).";
+			str += "\n- 5th, 7th, 9th, ...: each of the contact times (in seconds).";
 			str += "\n  Note: If the jump type starts inside then first contact time must be -1";
-			str += "\n- 6th, 8th, 10th, ... COLUMNS: each of the flight times (in seconds).";
+			str += "\n- 6th, 8th, 10th, ...: each of the flight times (in seconds).";
 		} else if (app1s_import_runs_simple.Active) {
-			str += "\n- 2nd COLUMN: run simple type in English (should exist in Chronojump).";
-			str += "\n- 3rd COLUMN: starts in contact with the photocell? T/F or t/f.";
-			str += "\n- 4th COLUMN: distance in meters.";
-			str += "\n- 5th COLUMN: time in seconds.";
+			str += "\n- 2nd: run simple type in English (should exist in Chronojump).";
+			str += "\n- 3rd: starts in contact with the photocell? T/F or t/f.";
+			str += "\n- 4th: distance in meters.";
+			str += "\n- 5th: time in seconds.";
 		} else if (app1s_import_runs_intervallic.Active) {
-			str += "\n- 2nd COLUMN: run interval type in English (should exist in Chronojump).";
-			str += "\n- 3rd COLUMN: starts in contact with the photocell? T/F or t/f.";
-			str += "\n- 4th COLUMN: total distance in meters.";
-			str += "\n- 5th COLUMN: number of tracks (all the tracks need to have same distance).";
-			str += "\n- 6th, 7th, ... COLUMNS: time in seconds of each of the tracks.";
+			str += "\n- 2nd: run interval type in English (should exist in Chronojump).";
+			str += "\n- 3rd: starts in contact with the photocell? T/F or t/f.";
+			str += "\n- 4th: total distance in meters.";
+			str += "\n- 5th: number of tracks (all the tracks need to have same distance).";
+			str += "\n- 6th, 7th, ...: time in seconds of each of the tracks.";
 		}
 
                 tb1.Text = str;

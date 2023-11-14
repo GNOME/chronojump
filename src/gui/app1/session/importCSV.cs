@@ -55,11 +55,17 @@ public partial class ChronoJumpWindow
 		{
 			str += "\n- 2nd COLUMN: jump simple type in English (should exist in Chronojump).";
 			str += "\n- 3rd COLUMN: jump flight time in seconds.";
-			str += "\n- 4th COLUMN (optional): jump contact time in seconds.";
+			str += "\n- 4th COLUMN (optional): jump contact time in seconds."; //TODO: test if 5 or 6th exists and not 4th, to see if we need a 0 or whatever
 			str += "\n- 5th COLUMN (optional): jump falling height in cm.";
 			str += "\n- 6th COLUMN (optional): jump weight in percentage (without the '%' sign).";
 		} else if (app1s_import_jumps_multiple.Active) {
-			str = "\nSorry, Not available yet!";
+			str += "\n- 2nd COLUMN: jump multiple type in English (should exist in Chronojump).";
+			str += "\n- 3th COLUMN: jump falling height in cm.";
+			str += "\n- 4th COLUMN: jump weight in percentage (without the '%' sign).";
+			//limited will be the number of jumps
+			str += "\n- 5th, 7th, 9th, ... COLUMNS: each of the contact times (in seconds).";
+			str += "\n  Note: If the jump type starts inside then first contact time must be -1";
+			str += "\n- 6th, 8th, 10th, ... COLUMNS: each of the flight times (in seconds).";
 		} else if (app1s_import_runs_simple.Active) {
 			str = "\nSorry, Not available yet!";
 		} else if (app1s_import_runs_intervallic.Active) {
@@ -73,7 +79,8 @@ public partial class ChronoJumpWindow
                 tb1.Text = str;
 		app1s_textview_import_from_csv_format.Buffer = tb1;
 
-		app1s_button_import_csv_select_and_import.Sensitive = (app1s_import_jumps_simple.Active || app1s_import_runs_intervallic.Active);
+		app1s_button_import_csv_select_and_import.Sensitive =
+			(app1s_import_jumps_simple.Active || app1s_import_jumps_multiple.Active || app1s_import_runs_intervallic.Active);
 	}
 
 	private void on_app1s_button_import_csv_select_and_import_clicked (object o, EventArgs args)
@@ -88,9 +95,11 @@ public partial class ChronoJumpWindow
 		List<object> testType_l = new List<object> ();
 		ImportCSV importCSV;
 		if (app1s_import_jumps_simple.Active)
-			testType_l = SqliteJumpType.SelectJumpTypesNew (false, "", "", true) ;
+			testType_l = SqliteJumpType.SelectJumpTypesNew (false, "", "", true);
+		else if (app1s_import_jumps_multiple.Active)
+			testType_l = SqliteJumpType.SelectJumpRjTypesNew ("", false); //not onlyName because we need startIn & HasWeight
 		else if (app1s_import_runs_intervallic.Active)
-			testType_l = SqliteRunIntervalType.SelectRunIntervalTypesNew ("", true) ;
+			testType_l = SqliteRunIntervalType.SelectRunIntervalTypesNew ("", true);
 		//else TODO
 
 		// 3) do the import
@@ -126,6 +135,12 @@ public partial class ChronoJumpWindow
 				importCSV = new ImportCSVJumpsSimple (fc.Filename, person_l, testType_l, currentSession.UniqueID, preferences);
 				eventToImport_l = importCSV.ToImport_l;
 				error_l = importCSV.Error_l;
+			}
+			else if (app1s_import_jumps_multiple.Active)
+			{
+				importCSV = new ImportCSVJumpsMultiple (fc.Filename, person_l, testType_l, currentSession.UniqueID, preferences);
+				eventToImport_l = importCSV.ToImport_l;
+				error_l = importCSV.Error_l;
 			} else if (app1s_import_runs_intervallic.Active) {
 				importCSV = new ImportCSVRunsInterval (fc.Filename, person_l, testType_l, currentSession.UniqueID, preferences);
 				eventToImport_l = importCSV.ToImport_l;
@@ -156,6 +171,15 @@ public partial class ChronoJumpWindow
 						importedCount ++;
 					}
 					pre_fillTreeView_jumps (true);
+				}
+				else if (app1s_import_jumps_multiple.Active && eventToImport_l.Count > 0)
+				{
+					foreach (JumpRj jr in eventToImport_l)
+					{
+						jr.InsertAtDB (true, Constants.JumpRjTable);
+						importedCount ++;
+					}
+					pre_fillTreeView_jumps_rj (true);
 				}
 				else if (app1s_import_runs_intervallic.Active && eventToImport_l.Count > 0)
 				{
@@ -360,6 +384,168 @@ public class ImportCSVJumpsSimple : ImportCSV
 	}
 }
 
+public class ImportCSVJumpsMultiple : ImportCSV
+{
+	public ImportCSVJumpsMultiple (string filename, List<Person> person_l, List<object> testType_l,
+			int currentSessionID, Preferences preferences)
+	{
+		initialize (filename, person_l, testType_l, currentSessionID, preferences);
+		import ();
+	}
+
+	private void import ()
+	{
+		List<string> columns = new List<string>();
+		using (var reader = new CsvFileReader (filename))
+		{
+			reader.ChangeDelimiter (preferences.CSVColumnDelimiter);
+			int row = 0;
+			while (reader.ReadRow (columns))
+			{
+				int col = 0;
+				bool rowErrors = false;
+				string personName = "";
+				string jType = "";
+				double jFall = 0;
+				double jWeightPercent = 0;
+				List<double> tc_l = new List<double> ();
+				List<double> tf_l = new List<double> ();
+
+				foreach (string str in columns)
+				{
+					if (row == 0) //discard first row
+						continue;
+
+					//LogB.Information (string.Format ("row: {0}, col: {1}, content: {2}", row, col, str));
+
+					if (col == 0)
+					{
+						if (! importCSVPersonExistsInSession (person_l, str)) {
+							error_l.Add (string.Format ("Row {0}: person '{1}' does not exists in session.", row, str));
+							rowErrors = true;
+						} else
+							personName = str;
+					}
+					else if (col == 1)
+					{
+						if (! importCSVTestExists (str)) {
+							error_l.Add (string.Format ("Row {0}: Jump multiple '{1}' does not exists.", row, str));
+							rowErrors = true;
+						} else
+							jType = str;
+					}
+					else if (col == 2 && str != "")
+					{
+						if (! Util.IsNumber (str, true)) {
+							error_l.Add (string.Format ("Row {0}: fall '{1}' is not a number or decimal character is not correct.", row, str));
+							rowErrors = true;
+						} else
+							jFall = Convert.ToDouble (str);
+					}
+					else if (col == 3 && str != "")
+					{
+						if (! Util.IsNumber (str, true)) {
+							error_l.Add (string.Format ("Row {0}: weight '{1}' is not a number or decimal character is not correct.", row, str));
+							rowErrors = true;
+						} else
+							jWeightPercent = Convert.ToDouble (str);
+					}
+					else if (col > 3 && str != "")
+					{
+						if (! Util.IsNumber (str, true)) {
+							error_l.Add (string.Format ("Row {0} col {1}: Time '{2}' is not a number or decimal character is not correct.", row, col, str));
+							rowErrors = true;
+						} else {
+							if (! Util.IsEven (col))
+								tc_l.Add (Convert.ToDouble (str));
+							else
+								tf_l.Add (Convert.ToDouble (str));
+						}
+					}
+
+					col ++;
+				}
+
+				//check tc_l same count as tf_l
+				if (tc_l.Count != tf_l.Count)
+				{
+					error_l.Add (string.Format ("Row {0} has {1} contact times and {2} flight times, should be the same.", row, tc_l.Count, tf_l.Count));
+					rowErrors = true;
+				}
+
+				//check if start in first tc is -1
+				if (tc_l.Count > 0)
+				{
+					bool startIn = importCSVTestStartIn (jType);
+					if (startIn && tc_l[0] != -1)
+					{
+						error_l.Add (string.Format ("Row {0} with jump type {1} should start inside, so the first contact time should be -1.", row, jType));
+						rowErrors = true;
+					}
+					else if (! startIn && tc_l[0] == -1)
+					{
+						error_l.Add (string.Format ("Row {0} with jump type {1} should start outside, so the first contact time cannot be -1.", row, jType));
+						rowErrors = true;
+					}
+				}
+
+				//check if ! hasWeight the cell must be 0
+				if (jWeightPercent > 0 && ! importCSVTestHasWeight (jType))
+				{
+					error_l.Add (string.Format ("Row {0} with jump type {1} should have 0 as weightPercent.", row, jType));
+					rowErrors = true;
+				}
+
+				if (! rowErrors)
+				{
+					int personID = importCSVPersonFindID (person_l, personName);
+					if (personID >= 0)
+					{
+						string tcString = Util.ListDoubleToString (tf_l, 5, "=");
+						string tfString = Util.ListDoubleToString (tc_l, 5, "=");
+						toImport_l.Add (new JumpRj (-1, personID, currentSessionID, jType,
+									tfString, tcString,
+									jFall, jWeightPercent,
+									"", tf_l.Count,
+									Util.GetTotalTime (tcString, tfString),
+									string.Format ("{0}J", tf_l.Count),
+									"", 0, UtilDate.ToFile (System.DateTime.Now)
+									));
+					}
+				}
+
+				row ++;
+			}
+		}
+	}
+
+	protected override bool importCSVTestExists (string typeName)
+	{
+		foreach (SelectJumpRjTypes s in testType_l)
+			if (s.NameEnglish == typeName)
+				return true;
+
+		return false;
+	}
+
+	private bool importCSVTestStartIn (string typeName)
+	{
+		foreach (SelectJumpRjTypes s in testType_l)
+			if (s.NameEnglish == typeName)
+				return s.StartIn;
+
+		return false;
+	}
+
+	private bool importCSVTestHasWeight (string typeName)
+	{
+		foreach (SelectJumpRjTypes s in testType_l)
+			if (s.NameEnglish == typeName)
+				return s.HasWeight;
+
+		return false;
+	}
+}
 
 public class ImportCSVRunsInterval : ImportCSV
 {

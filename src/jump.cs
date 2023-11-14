@@ -223,7 +223,7 @@ public class JumpRj : Jump
 	string tcString;
 	int jumps; //total number of jumps
 	double time; //time elapsed
-	string limited; //the teorically values, eleven jumps: "11=J" (time recorded in "time"), 10 seconds: "10=T" (jumps recorded in jumps)
+	string limited; //the teorically values, eleven jumps: "11J" (time recorded in "time"), 10 seconds: "10T" (jumps recorded in jumps)
 	private string angleString;
 
 	bool calculatedStats;
@@ -536,6 +536,7 @@ public class JumpRj : Jump
 	}
 	*/
 	//tc + tv, used on jumpsRjFatigue
+	// this method has an static version on Util.GetTotalTime ()
 	public List<double> TcPlusTvAccumulatedList
 	{
 		get {

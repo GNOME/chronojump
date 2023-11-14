@@ -67,7 +67,10 @@ public partial class ChronoJumpWindow
 			str += "\n  Note: If the jump type starts inside then first contact time must be -1";
 			str += "\n- 6th, 8th, 10th, ... COLUMNS: each of the flight times (in seconds).";
 		} else if (app1s_import_runs_simple.Active) {
-			str = "\nSorry, Not available yet!";
+			str += "\n- 2nd COLUMN: run simple type in English (should exist in Chronojump).";
+			str += "\n- 3rd COLUMN: starts in contact with the photocell? T/F or t/f.";
+			str += "\n- 4th COLUMN: distance in meters.";
+			str += "\n- 5th COLUMN: time in seconds.";
 		} else if (app1s_import_runs_intervallic.Active) {
 			str += "\n- 2nd COLUMN: run interval type in English (should exist in Chronojump).";
 			str += "\n- 3rd COLUMN: starts in contact with the photocell? T/F or t/f.";
@@ -78,9 +81,6 @@ public partial class ChronoJumpWindow
 
                 tb1.Text = str;
 		app1s_textview_import_from_csv_format.Buffer = tb1;
-
-		app1s_button_import_csv_select_and_import.Sensitive =
-			(app1s_import_jumps_simple.Active || app1s_import_jumps_multiple.Active || app1s_import_runs_intervallic.Active);
 	}
 
 	private void on_app1s_button_import_csv_select_and_import_clicked (object o, EventArgs args)
@@ -98,9 +98,10 @@ public partial class ChronoJumpWindow
 			testType_l = SqliteJumpType.SelectJumpTypesNew (false, "", "", true);
 		else if (app1s_import_jumps_multiple.Active)
 			testType_l = SqliteJumpType.SelectJumpRjTypesNew ("", false); //not onlyName because we need startIn & HasWeight
+		else if (app1s_import_runs_simple.Active)
+			testType_l = SqliteRunType.SelectRunTypesNew ("", true);
 		else if (app1s_import_runs_intervallic.Active)
 			testType_l = SqliteRunIntervalType.SelectRunIntervalTypesNew ("", true);
-		//else TODO
 
 		// 3) do the import
 		//TODO: try it with Gtk.FileChooserWidget, then we do not need to pass app1 (parent)
@@ -139,6 +140,10 @@ public partial class ChronoJumpWindow
 			else if (app1s_import_jumps_multiple.Active)
 			{
 				importCSV = new ImportCSVJumpsMultiple (fc.Filename, person_l, testType_l, currentSession.UniqueID, preferences);
+				eventToImport_l = importCSV.ToImport_l;
+				error_l = importCSV.Error_l;
+			} else if (app1s_import_runs_simple.Active) {
+				importCSV = new ImportCSVRunsSimple (fc.Filename, person_l, testType_l, currentSession.UniqueID, preferences);
 				eventToImport_l = importCSV.ToImport_l;
 				error_l = importCSV.Error_l;
 			} else if (app1s_import_runs_intervallic.Active) {
@@ -180,6 +185,15 @@ public partial class ChronoJumpWindow
 						importedCount ++;
 					}
 					pre_fillTreeView_jumps_rj (true);
+				}
+				else if (app1s_import_runs_simple.Active && eventToImport_l.Count > 0)
+				{
+					foreach (Run r in eventToImport_l)
+					{
+						r.InsertAtDB (true, Constants.RunTable);
+						importedCount ++;
+					}
+					pre_fillTreeView_runs (true);
 				}
 				else if (app1s_import_runs_intervallic.Active && eventToImport_l.Count > 0)
 				{
@@ -542,6 +556,116 @@ public class ImportCSVJumpsMultiple : ImportCSV
 		foreach (SelectJumpRjTypes s in testType_l)
 			if (s.NameEnglish == typeName)
 				return s.HasWeight;
+
+		return false;
+	}
+}
+
+public class ImportCSVRunsSimple : ImportCSV
+{
+	public ImportCSVRunsSimple (string filename, List<Person> person_l, List<object> testType_l,
+			int currentSessionID, Preferences preferences)
+	{
+		initialize (filename, person_l, testType_l, currentSessionID, preferences);
+		import ();
+	}
+
+	private void import ()
+	{
+		List<string> columns = new List<string>();
+		using (var reader = new CsvFileReader (filename))
+		{
+			reader.ChangeDelimiter (preferences.CSVColumnDelimiter);
+			int row = 0;
+			while (reader.ReadRow (columns))
+			{
+				int col = 0;
+				bool rowErrors = false;
+				string personName = "";
+				string rType = "";
+				bool rStartIn = false;
+				double rDistance = 0;
+				double rTime = 0;
+
+				foreach (string str in columns)
+				{
+					if (row == 0) //discard first row
+						continue;
+
+					//LogB.Information (string.Format ("row: {0}, col: {1}, content: {2}", row, col, str));
+
+					if (col == 0)
+					{
+						if (! importCSVPersonExistsInSession (person_l, str)) {
+							error_l.Add (string.Format ("Row {0}: person '{1}' does not exists in session.", row, str));
+							rowErrors = true;
+						} else
+							personName = str;
+					}
+					else if (col == 1)
+					{
+						if (! importCSVTestExists (str)) {
+							error_l.Add (string.Format ("Row {0}: run intervallic '{1}' does not exists.", row, str));
+							rowErrors = true;
+						} else
+							rType = str;
+					}
+					else if (col == 2)
+					{
+						if (str.ToUpper () != "T" && str.ToUpper () != "F") {
+							error_l.Add (string.Format ("Row {0}: startIn found is '{1}' must be 'T', 't', 'F' or 'f'.", row, str));
+							rowErrors = true;
+						} else
+							rStartIn = (str.ToUpper () == "T");
+					}
+					else if (col == 3)
+					{
+						if (str == "") {
+							error_l.Add (string.Format ("Row {0}: there is no distance.", row));
+							rowErrors = true;
+						} else if (! Util.IsNumber (str, true)) {
+							error_l.Add (string.Format ("Row {0}: distance '{1}' is not a number or decimal character is not correct.", row, str));
+							rowErrors = true;
+						} else
+							rDistance = Convert.ToDouble (str);
+					}
+					else if (col == 4)
+					{
+						if (str == "") {
+							error_l.Add (string.Format ("Row {0}: there is no time.", row));
+							rowErrors = true;
+						} else if (! Util.IsNumber (str, true)) {
+							error_l.Add (string.Format ("Row {0}: time '{1}' is not a number or decimal character is not correct.", row, str));
+							rowErrors = true;
+						} else
+							rTime = Convert.ToDouble (str);
+					}
+
+					col ++;
+				}
+
+				if (! rowErrors)
+				{
+					int personID = importCSVPersonFindID (person_l, personName);
+					if (personID >= 0)
+						toImport_l.Add (new Run (-1, personID, currentSessionID, rType,
+									rDistance, rTime,
+									"",  			//description
+									Util.BoolToNegativeInt (false), ! rStartIn, 	//simulated, initialSpeed
+									UtilDate.ToFile (System.DateTime.Now)		//datetime
+									));
+				}
+
+				row ++;
+			}
+		}
+	}
+
+	protected override bool importCSVTestExists (string typeName)
+	{
+		foreach (SelectRunTypes s in testType_l)
+			if (s.NameEnglish == typeName)
+				return true;
 
 		return false;
 	}

@@ -291,12 +291,7 @@ findDistanceAbsoluteEC <- function(position)
 
 	return ( (maxA - minB) + (maxC - minB) )
 }
-	
-#unused since 1.6.0 because first and last displacement values make change too much the initial and end curve
-#getSpeedOld <- function(displacement, smoothing) {
-#	#no change affected by encoderConfiguration
-#	return (smooth.spline( 1:length(displacement), displacement, spar=smoothing))
-#}
+
 getSpeed <- function(displacement, smoothing)
 {
 	#x vector should contain at least 4 different values (at positionSpline)
@@ -314,11 +309,7 @@ getSpeed <- function(displacement, smoothing)
 		spar <- cvParCall(1:length(position), position)
 
 	positionSpline <- smooth.spline( 1:length(position), position, spar=spar)
-	
-	#get speed converting from position to displacement, but repeat first value because it's missing on the diff process
-	#do not hijack spline like this because this works for speed, but then acceleration has big error
-	#speedSpline = positionSpline
-	#speedSpline$y = c(diff(positionSpline$y)[1],diff(positionSpline$y))
+
 
 	speed = c(diff(positionSpline$y)[1],diff(positionSpline$y))
 	speedSpline <- smooth.spline( 1:length(speed), speed, spar=0) #don't do smoothing, just convert speed to an spline
@@ -339,7 +330,7 @@ getPositionSmoothed <- function(displacement, smoothing) {
 		spar <- cvParCall(1:length(displacement), displacement)
 
 	positionSpline <- smooth.spline( 1:length(position), position, spar=spar)
-	
+
 	return (positionSpline$y)
 }
 
@@ -369,6 +360,19 @@ smoothSplineSafe <- function(a,b)
 			)
 	return (out)
 }
+smoothSplineWeightedSafe <- function(a, b, weights)
+{
+	out <- tryCatch(
+			{
+				smooth.spline(a, b, w=weights)
+			},
+			error=function(cond) {
+				message(cond)
+				return(NULL)
+			}
+			)
+	return (out)
+}
 
 #gearedDown is positive, normally 2
 #this is not used on inertial machines
@@ -383,107 +387,327 @@ getMass <- function(mass, gearedDown, angle) {
 	return ( ( mass / gearedDown ) * sin( angle * pi / 180 ) )
 }
 
+# 2023 getStableConcentricStart && reduceCurveByPredictStartEnd
+#
+# The initial / final zeros affect a lot to the power. reduceCurveBySpeed depends on this initial zeros, and some parts of the program like analysis set and analysis session sometimes have different number of zeros affecting the result.
+# This functions deletes initial zeros (as we do not know if movement started)
+# And calculates where the initial zero should be from a regression from right to left
+# And reconstruct the displacement
+# Check tests/fixEccConCutOnNotSingleFile/getCurveStartEnd.R
+# Check tests/fixEccConCutOnNotSingleFile/fixEccConCutOnNotSingleFile.R
 
-#used in alls eccons
-reduceCurveBySpeed <- function(eccon, startT, startH, displacement, smoothingOneC) 
+#######################################
+#  getStableConcentricStart ----> #####
+#######################################
+
+# i is the position we are searching if has n zeros at left
+hasNZerosAtLeft <- function (displacement, i, n)
 {
-	#In 1.4.0 and before, we use smoothingOneEC on "ec", "ce"
-	#but the problem is findSmoothingsEC has problems knowing the smoothingEC when users stays stand up lot of time before jump.
-        #is better to reduceCurveBySpeed first in order to remove the not-moving phase
-	#and then do findSmoothingsEC
-	#for this reason, following code is commented, and it's only used smoothingOneC	
+	if (i <= n)
+		return (FALSE)
 
-	#smoothing = smoothingOneEC
-	#if(eccon == "c" || eccon == "ecS" || eccon == "ceS")
-	#	smoothing = smoothingOneC
-		
-	smoothing = smoothingOneC
+	for (j in seq(i-1, i-n))
+		if (displacement[j] != 0)
+			return (FALSE)
 
-	speed <- getSpeed(displacement, smoothing)
-	
-	speed.ext=extrema(speed$y)
-	print(speed.ext)
-
-	#in order to reduce curve by speed, we search the cross of speed (in 0m/s)
-        #before and after the peak value, but in "ec" and "ce" there are two peak values:
-	#
-	#speeds:
-	#
-	#ec         2
-	#\         / \
-	# \       /   \
-	#-----------------
-	#   \   /       \
-	#    \ /         \
-	#     1     
-	#
-	#ce   1
-	#    / \         /
-	#   /   \       /
-	#-----------------
-	# /       \   /
-	#/         \ /
-	#           2
-	#
-	#then we need two times: time1, time2 to search cross speed 0 before and after them
-
-	time1 = 0
-	time2 = 0
-	if(eccon=="ec") {
-		time1 = min(which(speed$y == min(speed$y)))
-		time2 = max(which(speed$y == max(speed$y)))
-	} else if(eccon=="ce") {
-		time1 = min(which(speed$y == max(speed$y)))
-		time2 = max(which(speed$y == min(speed$y)))
-	} else { #c, ecS, ceS
-		speed$y=abs(speed$y)
-		time1 = min(which(speed$y == max(speed$y)))
-		time2 = max(which(speed$y == max(speed$y)))
-	}
-	
-	#write("time1, time2",stderr())
-	#write(c(time1,time2),stderr())
-
-	#now that times are defined we can work in ABS for all the curves
-	speed$y=abs(speed$y)
-
-	#left adjust
-	#find the speed.ext$cross at left of max speed
-	x.ini = 0 #good to declare here
-	ext.cross.len = length(speed.ext$cross[,2])
-	if(ext.cross.len == 0)
-		x.ini = 0
-	else if(ext.cross.len == 1) {
-		if(speed.ext$cross[,2] < time1) 
-			x.ini = speed.ext$cross[,2]
-	} else { 
-		for(i in speed.ext$cross[,2]) 
-			if(i < time1) 
-				x.ini = i
-	}
-
-	#right adjust
-	#find the speed.ext$cross at right of max speed
-	x.end = length(displacement) #good to declare here
-	#ext.cross.len = length(speed.ext$cross[,2])
-	if(ext.cross.len == 0)
-		x.end = length(displacement)
-	else if(ext.cross.len == 1) {
-		if(speed.ext$cross[,2] > time2) 
-			x.end = speed.ext$cross[,2]
-	} else { 
-		for(i in rev(speed.ext$cross[,2])) 
-			if(i > time2) 
-				x.end = i
-	}
-
-	#to know the new startH
-	#calculate displacement from original start to the new: x.ini
-	startH.old = startH
-	startH = startH + sum(displacement[1:x.ini])
-
-	return(c(startT + x.ini, startT + x.end, startH))
+	return (TRUE)
 }
+
+zerosAtLeft <- function (displacement, i)
+{
+	zeros <- 0
+	if (i == 1)
+		return (0)
+
+	for (j in seq(i-1, 1))
+	{
+		if (displacement [j] == 0)
+			zeros <- zeros +1
+		else
+			return (zeros)
+	}
+
+	return (zeros)
+}
+
+# line ___ it is 1 mm below the line ------
+#                            con
+#                              /
+#                             t
+#                            /
+#                        ---s
+#                  -----s
+#      -----------S
+#-----s
+# this function finds s that has at least 30 ms of stability at left
+# t is the minHeight needed for being a repetition
+# Considers also that from s,S to top has to be >= minHeight
+# in the graph s,S have 30 zeros or more at left
+# S is the point below t that has more zeros at left
+#
+# for an exemple of this working do:
+# d <- scan("curve1.txt", sep=",")
+# d <- d[!is.na(d)]
+# plot (cumsum (d), type="l")
+# abline (v = getStableConcentricStart(d, 20))
+# abline (v = reduceCurveByPredictStartEnd (d, "c", 20)$startPos, col="red")
+getStableConcentricStart <- function (displacement, minHeight)
+{
+	#displacementDebug <<- displacement #TODO just to debug, comment this
+	position <- cumsum (displacement)
+
+	if (max (position) < minHeight)
+		return (1)
+
+	t <- min (which (position >= minHeight))
+
+	nZerosAtLeft <- 30
+	if (t - nZerosAtLeft <= 1)
+		return (1)
+
+	storedSample <- -1
+	for (j in seq (t, nZerosAtLeft))
+		if (position[j] < position[t] &&
+		    hasNZerosAtLeft (displacement, j, nZerosAtLeft) &&
+		    max(position) - position[j] >= minHeight)
+		{
+			if (storedSample < 0)
+			{
+				storedSample <- j
+				#storedHeight <- position[j]
+				storedNZerosAtLeft <- zerosAtLeft (displacement, j)
+			} else
+			{
+				zerosAtLeft = zerosAtLeft (displacement, j)
+				if (zerosAtLeft > storedNZerosAtLeft)
+				{
+					storedSample <- j
+					#storedHeight <- position[j]
+					storedNZerosAtLeft <- zerosAtLeft
+				}
+			}
+		}
+
+	if (storedSample > 0)
+		return (storedSample)
+
+	return (1)
+}
+
+# reverse vertically and getStableConcentricStart
+# to find A, convert, find B, A == B
+# FROM 0,0,0,-1,-1,-2, ...  TO: 0,0,0,1,1,2, ...
+#    FROM                TO
+#                         ----
+#                        /
+#                       /
+# 0 -A-\            -B-/
+#       \
+#        \
+#         ----
+getStableEccentricStart <- function (displacement, minHeight)
+{
+	return (getStableConcentricStart (-1 * displacement, minHeight))
+}
+
+# reverse horizontally, getStableConcentricStart, and then horizontally reverse the value again
+# and vertically to have the - as +
+# to find A, convert, find B, A = length - B
+# FROM 0,0,0,-1,-1,-2, ...  TO: 0,0,0,1,1,2, ...
+#    FROM                TO
+#                         --
+#                        /
+#                       /
+# 0 --\            -B--/
+#      \
+#       \
+#        -A--
+getStableEccentricEnd <- function (displacement, minHeight)
+{
+	return (length (displacement) - getStableConcentricStart (-1 * rev (displacement), minHeight))
+}
+
+# reverse horizontally, getStableConcentricStart
+# to find A, convert (simply reverse horizontally) , find B, A = length - B
+#    FROM                 TO
+#          -A-             ----
+#         /               /
+#        /               /
+# 0 ----/            -B-/
+getStableConcentricEnd <- function (displacement, minHeight)
+{
+	return (length (displacement) - getStableConcentricStart (rev (displacement), minHeight))
+}
+
+#######################################
+#  <---- getStableConcentricStart #####
+#######################################
+
+
+#########################################
+# reduceCurveByPredictStartEnd ----> ####
+#########################################
+
+getParabole <- function(x, y)
+{
+	fit = lm(y ~ x + I(x^2))
+
+        coef.a <- fit$coefficient[3] #the quadratic component
+        coef.b <- fit$coefficient[2]
+        coef.c <- fit$coefficient[1]
+
+	#print (c("coefs a,b,c", coef.a, coef.b, coef.c))
+	return (list (
+		      a = as.numeric (coef.a),
+		      b = as.numeric (coef.b),
+		      c = as.numeric (coef.c)
+		      ))
+}
+getXatY <- function (x, y, yDesired)
+{
+	coefs_l <- getParabole (x,y)
+	a <- coefs_l$a
+	b <- coefs_l$b
+	c <- coefs_l$c
+
+	# generic
+	# y = ax2 + bx + c
+	# x <- (-b +- sqrt(b2 -4ac)) / 2a
+	# 
+	# yDesired = ax2 + bx + c
+	# 0 = ax2 + bx + c - yDesired
+	# C = c - yDesired
+	# x <- (-b +- sqrt(b2 -4aC)) / 2a
+
+	C <- c - yDesired
+
+	#return ( (-b + sqrt (b^2 - 4 * a * C)) / (2 * a) ) #this will be at right (we do not want it)
+	return ( (-b - sqrt (b^2 - 4 * a * C)) / (2 * a) )
+}
+
+predictNeededZerosAtLeft <- function (displacement)
+{
+	# 1 find the first 3 values
+	firstThreeNonZeroPos <- head (which (displacement [2:length(displacement)] != 0), n = 3)
+
+	# if there are less than 3 values, just return the number of initial zeros (the same will be used)
+	if (length (firstThreeNonZeroPos) < 3)
+		return (firstThreeNonZeroPos[1])
+
+	position <- cumsum (displacement)
+
+	# 2 try to find the x at min (position) -1
+	xAtDesiredY <- getXatY (firstThreeNonZeroPos, cumsum(position)[firstThreeNonZeroPos], min(position) -1)
+
+	# if is.nan, the parabole does not pass by the point, we can increase the number of values or just return the num of initial zeros
+	if (is.nan (xAtDesiredY) || xAtDesiredY < 0)
+		return (firstThreeNonZeroPos[1])
+
+	# 3 detected num of initial zeros
+	return (round (xAtDesiredY, 0))
+}
+
+
+# This should work for all eccons, check tests/fixEccConCutOnNotSingleFile/getCurveStartEnd.R
+# and the example on getStableConcentricStart
+reduceCurveByPredictStartEnd <- function (displacement, eccon, minHeight)
+{
+	print ("reduceCurveByPredictStartEnd start")
+	displacementLengthStored <- length (displacement)
+
+	# 1 cut by getStableConcentricStart, getStableEccentricStart
+	startByStability <- 1
+	endByStability <- length (displacement)
+
+	if (eccon == "c")
+	{
+		startByStability <- getStableConcentricStart (displacement, minHeight)
+		endByStability <- getStableConcentricEnd (displacement, minHeight)
+	}
+	else if (eccon == "e")
+	{
+		startByStability <- getStableEccentricStart (displacement, minHeight)
+		endByStability <- getStableEccentricEnd (displacement, minHeight)
+	}
+	else if (eccon == "ec")
+	{
+		startByStability <- getStableEccentricStart (displacement, minHeight)
+		endByStability <- getStableConcentricEnd (displacement, minHeight)
+	}
+
+	displacement <- displacement [startByStability:endByStability]
+
+	# 2 delete initial/final zeros
+	firstInitialNonZero <- min(which(displacement != 0))
+	lastFinalNonZero <- max(which(displacement != 0))
+
+	if (is.infinite (firstInitialNonZero))
+		firstInitialNonZero <- 1
+	if (is.infinite (lastFinalNonZero))
+		lastFinalNonZero <- length(displacement)
+
+	if (firstInitialNonZero >= lastFinalNonZero)
+		return (list (
+			      curve = displacement,
+			      startPos = 1,
+			      endPos = length (displacement)
+			      ))
+
+	displacement <- displacement[firstInitialNonZero:lastFinalNonZero]
+
+	zerosAtLeft <- 0
+	zerosAtRight <- 0
+
+	if (eccon == "c")
+	{
+		zerosAtLeft <- predictNeededZerosAtLeft (displacement)
+		zerosAtRight <- predictNeededZerosAtLeft (rev (displacement))
+	}
+	else if (eccon == "e")
+	{
+		zerosAtLeft <- predictNeededZerosAtLeft (-1 * displacement)
+		zerosAtRight <- predictNeededZerosAtLeft (rev (-1 * displacement))
+	}
+	else if (eccon == "ec")
+	{
+		zerosAtLeft <- predictNeededZerosAtLeft (-1 * displacement)
+		zerosAtRight <- predictNeededZerosAtLeft (rev (displacement))
+	}
+
+	print (c("zerosAtLeft, zerosAtRight", zerosAtLeft, zerosAtRight))
+
+	startPos <- startByStability + firstInitialNonZero-1 - zerosAtLeft
+	endPos <- startByStability + firstInitialNonZero-1 + lastFinalNonZero + zerosAtRight
+
+	#if the displacement is all 0s then startPos is na. For this reason there are is.na checks
+	if (is.na (startPos) || is.na (endPos))
+		return (list (
+			      curve = displacement,
+			      startPos = 1,
+			      endPos = length (displacement)
+			      ))
+
+	if (startPos < 1)
+		startPos <- 1
+
+	if (endPos < 1)
+		endPos <- 1
+	if (endPos > displacementLengthStored)
+		endPos <- displacementLengthStored
+
+	print ("reduceCurveByPredictStartEnd end")
+	# 4 return the reconstructed curve
+	#print (paste ("start moved to: ", startByStability + (firstInitialNonZero -1) - zerosAtLeft))
+	return (list (
+		      curve = c(rep(0, zerosAtLeft), displacement, rep(0, zerosAtRight)),
+		      startPos = startPos,
+		      endPos = endPos
+		    ))
+}
+
+#########################################
+# <---- reduceCurveByPredictStartEnd ####
+#########################################
 
 
 #for graph.R, if single file all repetitions have Roptions, but if not, each one has different values
@@ -543,7 +767,7 @@ assignRepOptions <- function(
 #eccModesStartOnGround is default mode for calculations on e, ec starting when person lands,
 #	but on single analysis instant array, disable it in order to see the full repetition
 #	also think what to do on export CSV
-kinematicsF <- function(displacement, repOp, smoothingOneEC, smoothingOneC, g, isPropulsive, eccModesStartOnGround)
+kinematicsF <- function(displacement, repOp, smoothingOneEC, smoothingOneC, g, isPropulsive, eccModesStartOnGround, minHeight)
 {
 	print("at kinematicsF")
 
@@ -569,7 +793,8 @@ kinematicsF <- function(displacement, repOp, smoothingOneEC, smoothingOneC, g, i
 
 	#search propulsiveEnd
 	if(isPropulsive) {
-		if(repOp$eccon=="c") {
+		if(repOp$eccon=="c")
+		{
 			concentric=1:length(displacement)
 			
 			maxSpeedT <- min(which(speed$y == max(speed$y)))
@@ -578,11 +803,15 @@ kinematicsF <- function(displacement, repOp, smoothingOneEC, smoothingOneC, g, i
 			propulsiveEnd = findPropulsiveEnd(accel$y, concentric, maxSpeedTInConcentric,
 							  repOp$econfName, repOp$anglePush, repOp$angleWeight, 
 							  repOp$massBody, repOp$massExtra, repOp$exPercentBodyWeight)
-		} else if(repOp$eccon=="ec") {
-			phases=findECPhases(displacement,speed$y)
-			eccentric = phases$eccentric
-			isometric = phases$isometric
-			concentric = phases$concentric
+			print ("propulsiveEnd");
+			print (propulsiveEnd);
+		}
+		else if(repOp$eccon=="ec")
+		{
+			phases_l <- findECPhases (displacement, minHeight)
+			eccentric <- phases_l$eccentric
+			isometric <- phases_l$isometric
+			concentric <- phases_l$concentric
 	
 			#temporary fix problem of found MinSpeedEnd at right
 
@@ -606,6 +835,11 @@ kinematicsF <- function(displacement, repOp, smoothingOneEC, smoothingOneC, g, i
 		} else { #ecS
 			#print("WARNING ECS\n\n\n\n\n")
 		}
+
+		# concentric can be 1 sample longer than accel$y, so put it at length accel$y
+		# in order to not have concenctric force ending on a NA value and its mean will be NA
+		if (propulsiveEnd > length (accel$y))
+			propulsiveEnd = length (accel$y)
 	}
 
 	dynamics = getDynamics(repOp$econfName,
@@ -616,9 +850,20 @@ kinematicsF <- function(displacement, repOp, smoothingOneEC, smoothingOneC, g, i
 	force = dynamics$force
 	power = dynamics$power
 
+	print ("dynamics$mass")
+	print (dynamics$mass)
+	#print ("dynamics$force")
+	#print (dynamics$force)
+	#print ("dynamics$power")
+	#print (dynamics$power)
+	print ("length (dynamics$force)")
+	print (length (dynamics$force))
+
 	start <- 1
 	end <- length(speed$y)
 
+	print ("end")
+	print (end)
 
 	#on "e", "ec", start on ground
 	if(eccModesStartOnGround && ! isInertial(repOp$econfName) && 
@@ -628,8 +873,8 @@ kinematicsF <- function(displacement, repOp, smoothingOneEC, smoothingOneC, g, i
 			if(repOp$eccon == "e")
 				eccentric = 1:length(displacement)
 			else {  #(repOp$eccon=="ec")
-				phases=findECPhases(displacement,speed$y)
-				eccentric = phases$eccentric
+				phases_l <- findECPhases (displacement, minHeight)
+				eccentric <- phases_l$eccentric
 			}
 		}
 		
@@ -642,6 +887,9 @@ kinematicsF <- function(displacement, repOp, smoothingOneEC, smoothingOneC, g, i
 
 	if( isPropulsive && ( repOp$eccon== "c" || repOp$eccon == "ec" ) )
 		end <- propulsiveEnd
+
+	print ("end2") #here is the bug, because propulsive phase is being aplied and should not be applied on inertial !!!!!!!!
+	print (end)
 
 	#as acceleration can oscillate, start at the eccentric part where there are not negative values
 	if(repOp$inertiaM > 0 && (repOp$eccon == "e" || repOp$eccon == "ec")) 
@@ -683,54 +931,31 @@ kinematicsF <- function(displacement, repOp, smoothingOneEC, smoothingOneC, g, i
 		    ))
 }
 
-findECPhases <- function(displacement,speed)
+# 2023 code using reduceCurveByPredictStartEnd
+# returning values eccentric[1] and concentric[length(concentric)] can be uses to know start and end of full ec
+findECPhases <- function (displacement, minHeight)
 {
-	if(length(speed) == 1)
-		return(list(
-			    eccentric=0,
-			    isometric=0,
-			    concentric=0))
+	eccentric <- 0
+	isometric <- 0
+	concentric <- 0
 
-	speed.ext=extrema(speed)
-	
-	#In all the extrema minindex values, search which range (row) has the min values,
-	#and in this range search last value
-	searchMinSpeedEnd = max(which(speed == min(speed)))
-	
-	#In all the extrema maxindex values, search which range (row) has the max values,
-	#and in this range search first value
-	searchMaxSpeedIni = min(which(speed == max(speed)))
-	
-	#find the cross between both
-	crossMinRow=which(speed.ext$cross[,1] > searchMinSpeedEnd & speed.ext$cross[,1] < searchMaxSpeedIni)
-	
-	eccentric = 0
-	isometric = 0
-	concentric = 0
+	position <- cumsum (displacement)
+	changeEccCon <- mean (which (position == min (position)))
 
-	#temporary fix problem of found MinSpeedEnd at right
-	if(searchMinSpeedEnd > searchMaxSpeedIni)
-		return(list(
-			    eccentric=0,
-			    isometric=0,
-			    concentric=0))
+	ecc_l <- reduceCurveByPredictStartEnd (displacement[1:changeEccCon],
+					       "e", minHeight)
+	con_l <- reduceCurveByPredictStartEnd (displacement[changeEccCon:length(displacement)],
+					       "c", minHeight)
 
+	eccentric <- ecc_l$startPos:ecc_l$endPos
+	concentric <- (changeEccCon + con_l$startPos -1):(changeEccCon + con_l$endPos -1)
+	if (ecc_l$endPos < changeEccCon || con_l$startPos > changeEccCon)
+		isometric <- ecc_l$endPos:(changeEccCon + con_l$startPos -1)
 
-	isometricUse = TRUE
-
-	if(isometricUse) {
-		eccentric=1:min(speed.ext$cross[crossMinRow,1])
-		isometric=min(speed.ext$cross[crossMinRow,1]+1):max(speed.ext$cross[crossMinRow,2])
-		concentric=max(speed.ext$cross[crossMinRow,2]+1):length(displacement)
-	} else {
-		eccentric=1:mean(speed.ext$cross[crossMinRow,1])
-		#isometric=mean(speed.ext$cross[crossMinRow,1]+1):mean(speed.ext$cross[crossMinRow,2])
-		concentric=mean(speed.ext$cross[crossMinRow,2]+1):length(displacement)
-	}
-	return(list(
-		eccentric=eccentric,
-		isometric=isometric,
-		concentric=concentric))
+	return (list (
+		eccentric = eccentric,
+		isometric = isometric,
+		concentric = concentric))
 }
 
 findPropulsiveEnd <- function(accel, concentric, maxSpeedTInConcentric,
@@ -827,6 +1052,8 @@ pafGenerate <- function(eccon, kinematics, massBody, massExtra, laterality, iner
 
 	print("meanForce: ")
 	print(meanForce)
+#	print ("kinematics$force:")
+#	print (kinematics$force)
 	print("displ: ")
 	print(length(kinematics$displ)/1000)
 
@@ -1426,6 +1653,19 @@ cvPar <- function(x, y, parRange, cvProp = 0.8) {
 }
 
 #----------- end spar with crossvalidation -------------
+
+last <- function (vect)
+{
+	return (vect[length (vect)])
+}
+
+printLHT <- function (vect, name)
+{
+	print (paste(name, "length, head & tail:"))
+	print (length(vect))
+	print (head(vect))
+	print (tail(vect))
+}
 
 #----------- Begin debug file output -------------
 #http://stackoverflow.com/a/34996874

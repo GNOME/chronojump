@@ -65,6 +65,33 @@
 #
 
 debugOld = FALSE #this will be deprecated and DEBUG will be used
+displacementDebug <<- NULL # just to debug
+curvesDebug <<- NULL
+ecconDebug <<- NULL
+singleFileDebug <<- NULL
+
+displacementCurvesDebug <- function (plot)
+{
+	filename = paste (DebugFileName, "-singleFile", singleFileDebug, "-", ecconDebug, sep="")
+	if (plot)
+	{
+		plot (cumsum(displacementDebug), type="l")
+		abline (v=curvesDebug[,1], col="red")
+		abline (v=curvesDebug[,2], col="blue")
+	}
+
+	if (file.exists (filename))
+		file.remove (filename)
+
+        write (paste("Eccon", ecconDebug), filename, append=TRUE)
+	write ("\ndisplacement", filename, append=TRUE)
+	write (displacementDebug, filename, ncolumns=20, append=TRUE, sep=",")
+	for (i in 1:length (curvesDebug[,1]))
+	{
+		write (paste("\ncurve:",rownames(curvesDebug[i,])), filename, append=TRUE)
+		write (displacementDebug[curvesDebug[i,1]:curvesDebug[i,2]], filename, ncolumns=20, append=TRUE, sep=",")
+	}
+}
 
 #concentric, eccentric-concentric, repetitions of eccentric-concentric
 #currently only used "c" and "ec". no need of ec-rep because c and ec are repetitive
@@ -462,7 +489,7 @@ startCurvesPlot <- function(position, title)
 kinematicRanges <- function(singleFile, displacement, curves,
                             massBody, massExtra, exercisePercentBodyWeight,
                             encoderConfigurationName,diameter,diameterExt,anglePush,angleWeight,inertiaMomentum,gearedDown,
-                            smoothingsEC, smoothingOneC, g, eccon, isPropulsive) {
+                            smoothingsEC, smoothingOneC, g, eccon, isPropulsive, minHeight) {
         
         n=length(curves[,1])
         maxSpeedy=0; maxAccely=0; maxForce=0; maxPower=0
@@ -476,8 +503,9 @@ kinematicRanges <- function(singleFile, displacement, curves,
                         "") #laterality 
                 
                 kn <- kinematicsF(displacement[curves[i,1]:curves[i,2]],
-                                  repOp, smoothingsEC[i], smoothingOneC, g, isPropulsive, TRUE)
-                
+                                  repOp, smoothingsEC[i], smoothingOneC, g, isPropulsive, TRUE,
+				  minHeight)
+
                 if(max(abs(kn$speedy)) > maxSpeedy)
                         maxSpeedy = max(abs(kn$speedy))
                 if(max(abs(kn$accely)) > maxAccely)
@@ -504,13 +532,13 @@ canJump <- function(encoderConfigurationName)
 }
 
 paint <- function(displacement, eccon, xmin, xmax, xrange, yrange, knRanges, paintMode, nrep, highlight,
-                  startX, startH, smoothingOneEC, smoothingOneC, massBody, massExtra, 
+                  startX, startH, smoothingOneEC, smoothingOneC, massBody, massExtra, minHeight,
                   encoderConfigurationName,diameter,diameterExt,anglePush,angleWeight,inertiaMomentum,gearedDown,laterality, #encoderConfiguration stuff
                   title, subtitle, draw, width, showLabels, marShrink, showAxes, legend,
                   Analysis, isPropulsive, inertialType, exercisePercentBodyWeight,
                   showPosition, showSpeed, showAccel, showForce, showPower,
 		  triggersOnList #will be empty if cutByTriggers
-) {
+		  ) {
         
         meanSpeedE = 0
         meanSpeedC = 0
@@ -531,7 +559,12 @@ paint <- function(displacement, eccon, xmin, xmax, xrange, yrange, knRanges, pai
         
         print(c("xmin,xmax",xmin,xmax))
         
-        displacement=displacement[xmin:xmax]
+	displacement=displacement[xmin:xmax]
+	if(eccon=="c")
+		displacement <- reduceCurveByPredictStartEnd (displacement, "c", minHeight)$curve
+	else
+		displacement <- reduceCurveByPredictStartEnd (displacement, "ec", minHeight)$curve
+
         position=cumsum(displacement)
         position=position+startH
         
@@ -603,7 +636,7 @@ paint <- function(displacement, eccon, xmin, xmax, xrange, yrange, knRanges, pai
 			#                if(superpose)
 			#                        colNormal="gray30"
 			yValues = position[startX:length(position)]-min(position[startX:length(position)])
-			#                if(highlight==FALSE) {
+			#                if(highlight==FALSE)
 			plot(startX:length(position),yValues,type="l",xlim=xlim,ylim=ylim,
 			     xlab="",ylab="",col=colPosition,lty=ltyPosition,lwd=2,axes=F)
 
@@ -622,10 +655,7 @@ paint <- function(displacement, eccon, xmin, xmax, xrange, yrange, knRanges, pai
         print(c("smoothing at paint=",smoothing))
         #speed
         speed <- getSpeed(displacement, smoothing)
-        
-        #show extrema values in speed
-        speed.ext=extrema(speed$y)
-        
+
         #accel (calculated here to use it on fixing inertialECstart and before plot speed
         accel <- getAcceleration(speed)
         #speed comes in mm/ms when derivate to accel its mm/ms^2 to convert it to m/s^2 need to *1000 because it's quadratic
@@ -633,62 +663,26 @@ paint <- function(displacement, eccon, xmin, xmax, xrange, yrange, knRanges, pai
         
 	xlim=xrange
         if(xlim[1]=="undefined") { xlim=c(1,length(displacement)) }
-        
-        #if(draw & !superpose) 
-        #	segments(x0=speed.ext$maxindex,y0=0,x1=speed.ext$maxindex,y1=speed$y[speed.ext$maxindex],col=cols[1])
-        
+
         #declare variables:
         eccentric=NULL
         isometric=NULL
         concentric=NULL
         
         if(eccon=="c") {
-                concentric=1:length(displacement)
-        } else {	#"ec", "ce". Eccons "ecS" and "ceS" are not painted
-                print("EXTREMA")
-                #abline(v=speed.ext$maxindex,lty=3,col="yellow");
-                #abline(v=speed.ext$minindex,lty=3,col="magenta")
-                print(speed.ext)
-                
-                time1 = 0
-                time2 = 0
-                if(eccon=="ec") {
-                        time1 = max(which(speed$y == min(speed$y)))
-                        time2 = min(which(speed$y == max(speed$y)))
-                        labelsXeXc = c("Xe","Xc")
-                } else { #(eccon=="ce")
-                        time1 = max(which(speed$y == max(speed$y)))
-                        time2 = min(which(speed$y == min(speed$y)))
-                        labelsXeXc = c("Xc","Xe")
-                }
+		concentric <- reduceCurveByPredictStartEnd (displacement, "c", minHeight)$curve
+                concentric = 1:length(concentric)
+		printLHT (concentric, "concentric after reduce")
+        } else
+	{	#"ec", "ce". Eccons "ecS" and "ceS" are not painted
+		labelsXeXc = c("Xe","Xc") # on unused eccon == ce: labelsXeXc = c("Xc","Xe")
                 
                 print(c("eccon",eccon))
-                print(c("time1",time1))
-                print(c("time2",time2))
-                crossMinRow=which(speed.ext$cross[,1] > time1 & speed.ext$cross[,1] < time2)
-                
-                isometricUse = TRUE
-                #TODO: con-ecc is opposite
-                
-                print("at paint")
-                
-                if(isometricUse) {
-                        print("at isometricUse")
-                        print("speed.ext$cross")
-                        print(speed.ext$cross)
-                        print("crossMinRow")
-                        print(crossMinRow)
-                        print("speed.ext$cross[crossMinRow,1]")
-                        print(speed.ext$cross[crossMinRow,1])
-                        eccentric=1:min(speed.ext$cross[crossMinRow,1])
-                        isometric=min(speed.ext$cross[crossMinRow,1]+1):max(speed.ext$cross[crossMinRow,2])
-                        concentric=max(speed.ext$cross[crossMinRow,2]+1):length(displacement)
-                } else {
-                        eccentric=1:mean(speed.ext$cross[crossMinRow,1])
-                        #isometric=mean(speed.ext$cross[crossMinRow,1]+1);mean(speed.ext$cross[crossMinRow,2])
-                        concentric=mean(speed.ext$cross[crossMinRow,2]+1):length(displacement)
-                }
-                
+		phases_l <- findECPhases (displacement, minHeight)
+		eccentric <- phases_l$eccentric
+		isometric <- phases_l$isometric
+		concentric <- phases_l$concentric
+
                 if(draw && paintMode != "superpose")
 		{
                         abline(v=max(eccentric),col=cols[1])
@@ -2848,7 +2842,7 @@ doProcess <- function(options)
                 inputMultiData=read.csv(file=op$File,sep=",",stringsAsFactors=F)
                 
                 displacement = NULL
-                count = 1
+                count = 0 #count of the readed values (each ms there is a value)
                 start = NULL; end = NULL; startH = NULL
                 status = NULL; id = NULL; exerciseName = NULL; massBody = NULL; massExtra = NULL
                 dateTime = NULL; myEccon = NULL
@@ -2868,8 +2862,13 @@ doProcess <- function(options)
                 #but meanwhile we can check like this:
                 if(length(inputMultiData[,1]) == 0) {
                         plot(0,0,type="n",axes=F,xlab="",ylab="")
-                        text(x=0,y=0,translateToPrint("Not enough data."),
-                             cex=1.5)
+
+			if(op$Analysis == "neuromuscularProfile")
+				text(x=0,y=0,paste(translateToPrint("Not enough data."), "\n",
+							translateToPrint("Need at least three eccentric-concentric jumps")), cex=1.5)
+			else
+				text(x=0,y=0,translateToPrint("Not enough data."), cex=1.5)
+
                         dev.off()
                         write("", op$OutputData1)
                         quit()
@@ -2909,30 +2908,71 @@ doProcess <- function(options)
                         
                         dataTempPhase=dataTempFile
                         processTimes = 1
-                        changePos = 0
-                        #if this curve is ecc-con and we want separated, divide the curve in two
-                        if(as.vector(inputMultiData$eccon[i]) != "c" & (op$Eccon=="ecS" || op$Eccon=="ceS") ) {
-                                changePos = mean(which(cumsum(dataTempFile) == min(cumsum(dataTempFile))))
-                                processTimes = 2
+			ecS_ecc_l = NULL
+			ecS_con_l = NULL
+			c_con_l = NULL
+			startPos = 0
+			endPos = 0
+
+			if (as.vector(inputMultiData$eccon[i]) == "c")
+			{
+				c_con_l <- reduceCurveByPredictStartEnd (dataTempFile, "c", op$MinHeight)
+
+				startPos <- c_con_l$startPos
+				endPos <- c_con_l$endPos
+			}
+			else {
+				#note if the row on inputMultiData is !c, the criteria of ec or ecS is in Roptions.txt
+				if (op$Eccon == "ec")
+				{
+					reducedCurve_l <- reduceCurveByPredictStartEnd (dataTempFile,
+											op$Eccon, op$MinHeight)
+					startPos <- reducedCurve_l$startPos
+					endPos <- reducedCurve_l$endPos
+				}
+				else #(op$Eccon=="ecS" || op$Eccon=="ceS") )
+				{
+					#if this curve is ecc-con and we want separated, divide the curve in two
+					processTimes = 2
+
+					#2023 May 4. Set the end of ecc and start of con at center of depression, and let reduce fix them
+					endEcc = mean(which(cumsum(dataTempFile) == min(cumsum(dataTempFile))))
+					startCon = mean(which(cumsum(dataTempFile) == min(cumsum(dataTempFile))))
+
+					ecS_ecc_l <- reduceCurveByPredictStartEnd (dataTempFile[1:endEcc],
+										   "e", op$MinHeight)
+					ecS_con_l <- reduceCurveByPredictStartEnd (dataTempFile[startCon:length(dataTempFile)],
+										   "c", op$MinHeight)
+				}
                         }
-                        for(j in 1:processTimes) {
-                                if(processTimes == 2) {
+
+			for(j in 1:processTimes)
+			{
+				if(processTimes == 2)
+				{
                                         if(j == 1) {
-                                                dataTempPhase=dataTempFile[1:changePos]
+						startPos <- ecS_ecc_l$startPos
+						endPos <- ecS_ecc_l$endPos
+						dataTempPhase <- dataTempFile[1:endEcc]
                                         } else {
-                                                #IMP: 
-                                                #note that following line without the parentheses on changePos+1
-                                                #gives different data.
-                                                #never forget parentheses to operate inside the brackets
-                                                dataTempPhase=dataTempFile[(changePos+1):length(dataTempFile)]
+						startPos <- ecS_con_l$startPos
+						endPos <- ecS_con_l$endPos
+						dataTempPhase <- dataTempFile[startCon:length(dataTempFile)]
+
                                                 newLines=newLines+1
                                         }
                                 }
                                 displacement = c(displacement, dataTempPhase)
                                 id[(i+newLines)] = countLines
-                                start[(i+newLines)] = count
-                                end[(i+newLines)] = length(dataTempPhase) + count -1
-                                startH[(i+newLines)] = 0
+
+				start[(i+newLines)] = count + startPos
+				end[(i+newLines)] = count + endPos
+				startH[(i+newLines)] = 0; #TODO check this on e
+
+				#print ("assigned startPos and endPos")
+				#print ("count, startPos, endPos, start[(i+newLines)], end[(i+newLines)]")
+				#print (c(count, startPos, endPos, start[(i+newLines)], end[(i+newLines)]))
+
                                 exerciseName[(i+newLines)] = as.vector(inputMultiData$exerciseName[i])
                                 
                                 #mass[(i+newLines)] = inputMultiData$mass[i]
@@ -2972,7 +3012,7 @@ doProcess <- function(options)
                                         }
                                         countLines = countLines + 1
                                 }
-                                
+
                                 seriesName[(i+newLines)] = as.vector(inputMultiData$seriesName[i])
                                 
                                 laterality[(i+newLines)] = as.vector(inputMultiData$laterality[i])
@@ -2980,7 +3020,7 @@ doProcess <- function(options)
                                 count = count + length(dataTempPhase)
                         }
                         write(paste("***",i,"***",sep=""), stderr())
-                }		
+                }
                 
                 #position=cumsum(displacement)
                 
@@ -3022,12 +3062,15 @@ doProcess <- function(options)
                         singleCurveNum <- -1
                         if(op$Analysis == "single" && op$Jump > 0)
                                 singleCurveNum <- op$Jump
-                        SmoothingsEC <- findSmoothingsEC(singleFile, displacement, curves, singleCurveNum, op$Eccon, op$SmoothingOneC,
+                        SmoothingsEC <- findSmoothingsEC(singleFile, displacement, curves, singleCurveNum, op$Eccon, op$SmoothingOneC, op$MinHeight,
                                                          NULL, NULL, NULL, NULL) #this row is only needed for singleFile (signal)
                 }
                 
                 print(c("SmoothingsEC:",SmoothingsEC))
-        } else {	#singleFile == TRUE reads a signal file
+        }
+	else
+	{	#singleFile == TRUE reads a signal file
+
                 displacement <- scan(file=op$File,sep=",")
                 #if data file ends with comma. Last character will be an NA. remove it
                 #this removes all NAs
@@ -3088,7 +3131,7 @@ doProcess <- function(options)
                 n=length(curves[,1])
                 quitIfNoData(curvesPlot, n, curves, op$OutputData1, op$MinHeight)
                 
-                print("curves before reduceCurveBySpeed")
+                print("curves before reducing")
                 print(curves)
                 
                 #reduceCurveBySpeed, don't do in inertial because it doesn't do a good right adjust on changing phase
@@ -3097,24 +3140,54 @@ doProcess <- function(options)
                 
                 for(i in 1:n)
                 {
+			reducedCurve_l = NULL
+
 			#reduceCurveBySpeed only when ! cutBytriggers
 			if(! cutByTriggers(op))
                         {
-                                reduceTemp = reduceCurveBySpeed(op$Eccon,
-                                                                curves[i,1], curves[i,3], #startT, startH
-                                                                displacement[curves[i,1]:curves[i,2]], #displacement
-                                                                op$SmoothingOneC
-                                )
-                                
-                                #reduceCurveBySpeed, on inertial doesn't do a good right adjust on changing phase,
-                                #it adds a value at right, and this value is a descending value that can produce a high acceleration there
-                                #delete that value
-                                if( isInertial(op$EncoderConfigurationName))
-                                        reduceTemp[2] = reduceTemp[2] -1
-                                
-                                curves[i,1] = reduceTemp[1]
-                                curves[i,2] = reduceTemp[2]
-                                curves[i,3] = reduceTemp[3]
+				displacementTemp = displacement[curves[i,1]:curves[i,2]]
+				if (op$Eccon == "c" || op$Eccon == "e")
+				{
+					reducedCurve_l <- reduceCurveByPredictStartEnd (displacementTemp,
+											op$Eccon, op$MinHeight)
+
+					#1st assign end because start will also change
+					curves[i,2] <- curves[i,1] + (reducedCurve_l$endPos -1)
+					curves[i,1] <- curves[i,1] + (reducedCurve_l$startPos -1)
+
+					#curves[i,3] <- position[reducedCurve_l$startPos] - position [curves[i,1]]
+					#TODO: fix above line
+					curves[i,3] <- 0
+				}
+				else if (op$Eccon == "ecS")
+				{
+					reducedCurve_l <- NULL
+					if (position[curves[i,1]] < position[curves[i,2]])
+						reducedCurve_l <- reduceCurveByPredictStartEnd (displacementTemp,
+												"c", op$MinHeight)
+					else
+						reducedCurve_l <- reduceCurveByPredictStartEnd (displacementTemp,
+												"e", op$MinHeight)
+
+					#1st assign end because start will also change
+					curves[i,2] <- curves[i,1] + (reducedCurve_l$endPos -1)
+					curves[i,1] <- curves[i,1] + (reducedCurve_l$startPos -1)
+
+					#curves[i,3] <- position[reducedCurve_l$startPos] - position [curves[i,1]]
+					#TODO: fix above line
+					curves[i,3] <- 0
+				}
+				else if (op$Eccon == "ec")
+				{
+					reducedCurve_l <- reduceCurveByPredictStartEnd (displacementTemp,
+											op$Eccon, op$MinHeight)
+
+					curves[i,2] <- curves[i,1] + (reducedCurve_l$endPos -1)
+					curves[i,1] <- curves[i,1] + (reducedCurve_l$startPos -1)
+					#curves[i,3] <- position (curves[i,3] - ecc_l$startPos)
+					#TODO: fix above line
+					curves[i,3] <- 0
+				}
                         }
                         
                         myPosition = cumsum(displacement[curves[i,1]:curves[i,2]])
@@ -3137,7 +3210,7 @@ doProcess <- function(options)
 			if(op$Analysis == "single" && op$Jump > 0)
 				singleCurveNum <- op$Jump
 			SmoothingsEC <- findSmoothingsEC(
-				singleFile, displacement, curves, singleCurveNum, op$Eccon, op$SmoothingOneC,
+				singleFile, displacement, curves, singleCurveNum, op$Eccon, op$SmoothingOneC, op$MinHeight,
 				op$EncoderConfigurationName, op$diameter, op$inertiaMomentum, op$gearedDown
 			) #second row is needed for singleFile (signal)
 		#}
@@ -3208,9 +3281,14 @@ doProcess <- function(options)
         
         print("Creating (op$FeedbackFileBase)5.txt with touch method...")
         file.create(paste(op$FeedbackFileBase,"5.txt",sep=""))
-        #print(curves)
-        
-        
+        print(curves)
+
+	#set debug global optionw
+	displacementDebug <<- displacement
+	curvesDebug <<- curves
+	ecconDebug <<- op$Eccon
+	singleFileDebug <<- singleFile
+
         if(op$Analysis == "single" || op$Analysis == "singleAllSet")
         {
                 showPosition <- (op$AnalysisVariables[1] == "Position")
@@ -3252,7 +3330,7 @@ doProcess <- function(options)
 				triggersOnList = op$TriggersOnList;
 
                         paint(displacement, repOp$eccon, myStart, myEnd, "undefined","undefined","undefined",op$Analysis,1,FALSE,
-                              1,curves[op$Jump,3],SmoothingsEC[smoothingPos],op$SmoothingOneC,repOp$massBody,repOp$massExtra,
+                              1,curves[op$Jump,3],SmoothingsEC[smoothingPos],op$SmoothingOneC,repOp$massBody,repOp$massExtra, op$MinHeight,
                               repOp$econfName,repOp$diameter,repOp$diameterExt,repOp$anglePush,repOp$angleWeight,repOp$inertiaM,repOp$gearedDown,"", #laterality
                               paste(op$Title, " ", op$Analysis, " ", repOp$eccon, ". ", myCurveStr, sep=""),
                               "", #subtitle
@@ -3275,7 +3353,8 @@ doProcess <- function(options)
                                           #SmoothingsEC[smoothingPos], op$SmoothingOneC, g, isPropulsive)
                                           SmoothingsEC[smoothingPos], op$SmoothingOneC, g, 
                                           FALSE,	#create array of data with all curve and not only propulsive phase
-                                          FALSE		#show all the repetition, not only ground phase on ecc
+                                          FALSE,		#show all the repetition, not only ground phase on ecc
+					  op$MinHeight
                         ) 
                         
                         #smoothing for displacement
@@ -3503,7 +3582,8 @@ doProcess <- function(options)
                 write("done!", stderr())
         }
         
-        if(op$Analysis=="side" || op$Analysis=="sideShareX") {
+        if(op$Analysis=="side" || op$Analysis=="sideShareX")
+	{
                 #comparar 6 salts, falta que xlim i ylim sigui el mateix
                 par(mfrow=find.mfrow(n))
                 
@@ -3520,7 +3600,7 @@ doProcess <- function(options)
                                          op$EncoderConfigurationName,op$diameter,op$diameterExt,
                                          op$anglePush,op$angleWeight,op$inertiaMomentum,op$gearedDown,
                                          SmoothingsEC, op$SmoothingOneC, 
-                                         g, op$Eccon, isPropulsive)
+                                         g, op$Eccon, isPropulsive, op$MinHeight)
                 
                 for(i in 1:n) {
                         repOp <- assignRepOptions(
@@ -3541,7 +3621,7 @@ doProcess <- function(options)
 				triggersOnList = op$TriggersOnList;
 
                         paint(displacement, repOp$eccon, curves[i,1],curves[i,2],xrange,yrange,knRanges,op$Analysis,i,FALSE,
-                              1,curves[i,3],SmoothingsEC[i],op$SmoothingOneC,repOp$massBody,repOp$massExtra,
+                              1,curves[i,3],SmoothingsEC[i],op$SmoothingOneC,repOp$massBody,repOp$massExtra, op$MinHeight,
                               repOp$econfName,repOp$diameter,repOp$diameterExt,repOp$anglePush,repOp$angleWeight,repOp$inertiaM,repOp$gearedDown,"", #laterality
                               myTitle,mySubtitle,
                               TRUE,	#draw
@@ -3562,7 +3642,8 @@ doProcess <- function(options)
                 par(mfrow=c(1,1))
         }
 
-	if(op$Analysis=="superpose") {	#TODO: fix on ec startH
+	if(op$Analysis=="superpose")
+	{	#TODO: fix on ec startH
         #		#falta fer un graf amb les 6 curves sobreposades i les curves de potencia (per exemple) sobrepossades
         #		#fer que acabin al mateix punt encara que no iniciin en el mateix
         #		#arreglar que els eixos de l'esq han de seguir un ylim,
@@ -3609,7 +3690,7 @@ doProcess <- function(options)
 					 op$EncoderConfigurationName,op$diameter,op$diameterExt,
 					 op$anglePush,op$angleWeight,op$inertiaMomentum,op$gearedDown,
 					 SmoothingsEC, op$SmoothingOneC,
-					 g, op$Eccon, isPropulsive)
+					 g, op$Eccon, isPropulsive, op$MinHeight)
 
 		#check if there are different values of laterality
 		lateralityDifferent = checkLateralityDifferent(curves)
@@ -3638,7 +3719,7 @@ doProcess <- function(options)
 			#TODO: highlight can ve used asking user if want to highlight any repetition, and this will be lwd=2 or 3
 
 			paint(displacement, repOp$eccon, curves[i,1],curves[i,2],xrange,yrange,knRanges, op$Analysis, rownames(curves)[i], FALSE,
-			      1,curves[i,3],SmoothingsEC[i],op$SmoothingOneC,repOp$massBody,repOp$massExtra,
+			      1,curves[i,3],SmoothingsEC[i],op$SmoothingOneC,repOp$massBody,repOp$massExtra, op$MinHeight,
 			      repOp$econfName,repOp$diameter,repOp$diameterExt,repOp$anglePush,repOp$angleWeight,repOp$inertiaM,repOp$gearedDown,repOp$laterality,
 			      myTitle, "", #title, subtitle
 			      TRUE,	#draw
@@ -3729,7 +3810,7 @@ doProcess <- function(options)
                                 else
                                         repOpSeparated$eccon = "e"
                         }
-                        
+
                         paf = rbind(paf,(pafGenerate(
                                 repOpSeparated$eccon,
                                 kinematicsF(displacement[curves[i,1]:curves[i,2]], 
@@ -3738,7 +3819,7 @@ doProcess <- function(options)
                                             #myInertiaMomentum,myGearedDown,
                                             repOpSeparated,
                                             SmoothingsEC[i],op$SmoothingOneC, 
-                                            g, isPropulsive, TRUE),
+                                            g, isPropulsive, TRUE, op$MinHeight),
                                 repOp$massBody, repOp$massExtra, repOp$laterality, repOp$inertiaM, repOp$diameter, repOp$gearedDown
                         )))
                 }
@@ -4120,7 +4201,8 @@ doProcess <- function(options)
                         
                         kn <- kinematicsF(displacement[curves[i,1]:curves[i,2]],
                                           repOp, SmoothingsEC[i], op$SmoothingOneC, g, isPropulsive,
-                                          FALSE		#show all the repetition, not only ground phase on ecc
+                                          FALSE,		#show all the repetition, not only ground phase on ecc
+					  op$MinHeight
                         )
                         
                         #fill with NAs in order to have the same length

@@ -80,7 +80,7 @@ calcule <- function(displacement, op, curveNum, startInSet)
 						 op$EncoderConfigurationName, op$diameter, op$diameterExt, 
 						 op$anglePush, op$angleWeight, op$inertiaMomentum, op$gearedDown,
 						 ""), #laterality 
-				SmoothingsEC, op$SmoothingOneC, g, isPropulsive, TRUE)
+				SmoothingsEC, op$SmoothingOneC, g, isPropulsive, TRUE, op$MinHeight)
 
 	paf = data.frame()
 	myLaterality = "" #TODO
@@ -221,7 +221,7 @@ doProcess <- function(options)
 			displacement = getDisplacement(TRUE, op$EncoderConfigurationName, displacement, op$diameter, op$diameterExt, op$gearedDown)
 		}
 		
-		#cut curve by reduceCurveBySpeed ---->
+		#cut curve by reduceCurveByPredictStartEnd ---->
 
 		start = NULL
 		end = NULL
@@ -230,13 +230,17 @@ doProcess <- function(options)
 			start = 1
 			end = length(displacement)
 		} else {
-			reduceTemp = reduceCurveBySpeed(op$Eccon,
-							1, 0, #startT, startH
-							displacement, #displacement
-							op$SmoothingOneC #SmoothingOneC
-							)
-			start = reduceTemp[1]
-			end = reduceTemp[2]
+			reducedCurve_l <- reduceCurveByPredictStartEnd (displacement,
+									op$Eccon, op$MinHeight) #works on c, e, ec
+			#if (op$Eccon == "ec")
+			#{
+				#phases_l <- findECPhases (displacement, op$MinHeight)
+				#start <- phases_l$eccentric[1]
+				#end <- last(phases_l$concentric)
+			#}
+
+			start <- reducedCurve_l$startPos
+			end <- reducedCurve_l$endPos
 		}
 
 		#reduceCurveBySpeed reduces the curve. Then startInSet has to change:

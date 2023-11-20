@@ -559,7 +559,12 @@ paint <- function(displacement, eccon, xmin, xmax, xrange, yrange, knRanges, pai
         
         print(c("xmin,xmax",xmin,xmax))
         
-        displacement=displacement[xmin:xmax]
+	displacement=displacement[xmin:xmax]
+	if(eccon=="c")
+		displacement <- reduceCurveByPredictStartEnd (displacement, "c", minHeight)$curve
+	else
+		displacement <- reduceCurveByPredictStartEnd (displacement, "ec", minHeight)$curve
+
         position=cumsum(displacement)
         position=position+startH
         
@@ -665,9 +670,9 @@ paint <- function(displacement, eccon, xmin, xmax, xrange, yrange, knRanges, pai
         concentric=NULL
         
         if(eccon=="c") {
-                concentric=1:length(displacement)
-		con_l <- reduceCurveByPredictStartEnd (concentric, "c", minHeight)
-		concentric <- con_l$curve
+		concentric <- reduceCurveByPredictStartEnd (displacement, "c", minHeight)$curve
+                concentric = 1:length(concentric)
+		printLHT (concentric, "concentric after reduce")
         } else
 	{	#"ec", "ce". Eccons "ecS" and "ceS" are not painted
 		labelsXeXc = c("Xe","Xc") # on unused eccon == ce: labelsXeXc = c("Xc","Xe")

@@ -655,8 +655,6 @@ reduceCurveByPredictStartEnd <- function (displacement, eccon, minHeight)
 
 	displacement <- displacement[firstInitialNonZero:lastFinalNonZero]
 
-	position <- cumsum (displacement)
-
 	zerosAtLeft <- 0
 	zerosAtRight <- 0
 
@@ -854,10 +852,10 @@ kinematicsF <- function(displacement, repOp, smoothingOneEC, smoothingOneC, g, i
 
 	print ("dynamics$mass")
 	print (dynamics$mass)
-	print ("dynamics$force")
-	print (dynamics$force)
-	print ("dynamics$power")
-	print (dynamics$power)
+	#print ("dynamics$force")
+	#print (dynamics$force)
+	#print ("dynamics$power")
+	#print (dynamics$power)
 	print ("length (dynamics$force)")
 	print (length (dynamics$force))
 
@@ -1659,6 +1657,14 @@ cvPar <- function(x, y, parRange, cvProp = 0.8) {
 last <- function (vect)
 {
 	return (vect[length (vect)])
+}
+
+printLHT <- function (vect, name)
+{
+	print (paste(name, "length, head & tail:"))
+	print (length(vect))
+	print (head(vect))
+	print (tail(vect))
 }
 
 #----------- Begin debug file output -------------

@@ -1219,7 +1219,7 @@ public partial class ChronoJumpWindow
 	{
 		EncoderCurve curve = (EncoderCurve) model.GetValue (iter, 0);
 
-		string str = String.Format(UtilGtk.TVNumPrint(curve.Diameter.ToString(),1,0),Convert.ToDouble(curve.Diameter));
+		string str = String.Format(UtilGtk.TVNumPrint(curve.Diameter.ToString(),4,2),Convert.ToDouble(curve.Diameter));
 
 		renderBoldIfNeeded(cell, curve, str);
 	}

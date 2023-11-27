@@ -3970,6 +3970,17 @@ doProcess <- function(options)
 				}
 				writeCurves = FALSE
 
+				if (length (npj_l) == 0)
+				{
+					plot(0,0,type="n",axes=F,xlab="",ylab="")
+					text(x=0,y=0,paste(translateToPrint("Not enough data."), "\n",
+							   translateToPrint("Need at least three jumps of same person")),
+					     cex=1.5)
+					dev.off()
+					write("", op$OutputData1)
+					quit()
+				}
+
 				np.bar.load <- neuromuscularProfile3NAvg (npj_l, "LOAD")
 				np.bar.explode <- neuromuscularProfile3NAvg (npj_l, "EXPLODE")
 				np.bar.drive <- neuromuscularProfile3NAvg (npj_l, "DRIVE")

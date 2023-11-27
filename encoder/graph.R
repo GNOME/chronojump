@@ -3947,58 +3947,75 @@ doProcess <- function(options)
                 else if(op$Analysis == "1RMBadilloSquat") {
                         paint1RMBadilloExercise("SQUAT", paf, op$Title, op$OutputData1)
                 } 
-                else if(op$Analysis == "neuromuscularProfile") {
+                else if(op$Analysis == "neuromuscularProfile")
+		{
                         #only signal, it's a jump, use mass of the body (100%) + mass Extra if any
-                        
-                        npj <- neuromuscularProfileGetData(singleFile, displacement, curves, (op$MassBody + op$MassExtra), op$SmoothingOneC)
-                        
-                        if(is.double(npj) && npj == -1) {
-                                plot(0,0,type="n",axes=F,xlab="",ylab="")
-                                text(x=0,y=0,paste(translateToPrint("Not enough data."), "\n",
-                                                   translateToPrint("Need at least three jumps")),
-                                     cex=1.5)
-                                dev.off()
-                                write("", op$OutputData1)
-                                quit()
-                        }
-                        
-                        np.bar.load <- mean(c(
-                                npj[[1]]$e1$rfd.avg,
-                                npj[[2]]$e1$rfd.avg,
-                                npj[[3]]$e1$rfd.avg
-                        ))
-                        np.bar.explode <- mean(c(
-                                npj[[1]]$c$cl.rfd.avg,
-                                npj[[2]]$c$cl.rfd.avg,
-                                npj[[3]]$c$cl.rfd.avg
-                        ))
-                        np.bar.drive <- mean(c(
-                                npj[[1]]$c$cl.i,
-                                npj[[2]]$c$cl.i,
-                                npj[[3]]$c$cl.i
-                        ))
-                        
-                        par(mar=c(3,4,2,4))
-                        par(mfrow=c(2,1))
-                        neuromuscularProfilePlotBars(op$Title, np.bar.load, np.bar.explode, np.bar.drive)
-                        
-                        par(mar=c(4,4,1,4))
-                        
-                        neuromuscularProfilePlotOther(
-                                displacement, #curves,
-                                list(npj[[1]]$l.context, npj[[2]]$l.context, npj[[3]]$l.context),
-                                list(npj[[1]]$mass, npj[[2]]$mass, npj[[3]]$mass),
-                                op$SmoothingOneC)
-                        
-                        #TODO: calcular un SmothingOneECE i passar-lo a PlotOther enlloc del SmoothingOneC
-                        par(mfrow=c(1,1))
-                        
-                        
-                        #don't write the curves, write npj
-                        writeCurves = FALSE
-                        
-                        neuromuscularProfileWriteData(npj, op$OutputData1)
-                }
+
+			#TODO: need to also split by massExtra. but then each set instead to have best repetition save all, as the criteria of best or three, but best is not the same because it takes account e & c (powers) and neuromuscular chooses best by jump height... yes! best seems to be the best by concentric power
+			#TODO: fix when a person has just 2 jumps (eg. Alvaro Perez Campo). This is also related to previous (comprovar on passa el error)
+			#on groupal_current_session, seriesName is different:
+			if (length(unique(curves$seriesName)) > 1)
+			{
+				curves_l = split (curves, curves$seriesName)
+				npj_l <- list() #list of lists
+				names_c <- NULL
+				for (curves_li in 1:length (curves_l))
+				{
+					npj <- neuromuscularProfileGetData (FALSE, displacement, curves_l[[curves_li]], (op$MassBody + op$MassExtra), op$SmoothingOneC)
+					if(is.double(npj) && npj == -1)
+						next;
+
+					npj_l[[curves_li]] <- npj
+					names_c <- c(names_c, curves_l[[curves_li]][1,]$seriesName)
+				}
+				writeCurves = FALSE
+
+				np.bar.load <- neuromuscularProfile3NAvg (npj_l, "LOAD")
+				np.bar.explode <- neuromuscularProfile3NAvg (npj_l, "EXPLODE")
+				np.bar.drive <- neuromuscularProfile3NAvg (npj_l, "DRIVE")
+
+				par(mar=c(3,4,2,4))
+				neuromuscularProfilePlotBars(op$Title, np.bar.load, np.bar.explode, np.bar.drive)
+
+				neuromuscularProfileWriteDataNPersons (npj_l, names_c, op$OutputData1)
+			} else {
+				npj <- neuromuscularProfileGetData(singleFile, displacement, curves, (op$MassBody + op$MassExtra), op$SmoothingOneC)
+
+				if(is.double(npj) && npj == -1) {
+					plot(0,0,type="n",axes=F,xlab="",ylab="")
+					text(x=0,y=0,paste(translateToPrint("Not enough data."), "\n",
+							   translateToPrint("Need at least three jumps")),
+					     cex=1.5)
+					dev.off()
+					write("", op$OutputData1)
+					quit()
+				}
+
+				np.bar.load <- neuromuscularProfile3JLoadAvg (npj)
+				np.bar.explode <- neuromuscularProfile3JExplodeAvg (npj)
+				np.bar.drive <- neuromuscularProfile3JDriveAvg (npj)
+
+				par(mar=c(3,4,2,4))
+				par(mfrow=c(2,1))
+				neuromuscularProfilePlotBars(op$Title, np.bar.load, np.bar.explode, np.bar.drive)
+				par(mar=c(4,4,1,4))
+
+				neuromuscularProfilePlotOther(
+							      displacement, #curves,
+							      list(npj[[1]]$l.context, npj[[2]]$l.context, npj[[3]]$l.context),
+							      list(npj[[1]]$mass, npj[[2]]$mass, npj[[3]]$mass),
+							      op$SmoothingOneC)
+
+				#TODO: calcular un SmothingOneECE i passar-lo a PlotOther enlloc del SmoothingOneC
+				par(mfrow=c(1,1))
+
+
+				#don't write the curves, write npj
+				writeCurves = FALSE
+
+				neuromuscularProfileWriteData1Person (npj, op$OutputData1)
+			}
+		}
 
                 if(op$Analysis == "curves" || op$Analysis == "curvesAC" || op$Analysis == "curvesProcessMultiDB" || writeCurves)
 		{

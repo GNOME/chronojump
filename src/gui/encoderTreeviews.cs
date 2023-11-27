@@ -883,7 +883,9 @@ public partial class ChronoJumpWindow
 	}
 
 	string [] treeviewEncoderAnalyzeNeuromuscularHeaders = {
-		"n" + "\n",
+		Catalog.GetString ("Person") + "\n",
+		Catalog.GetString ("Jump") + "\n",
+		Catalog.GetString("Extra weight") + "\n(Kg)",
 		"e1 range" + "\n (mm)",
 		"e1 t" + "\n (ms)",
 		"e1 fmax" + "\n (N)",
@@ -948,55 +950,64 @@ public partial class ChronoJumpWindow
 			//crt1.Background = "blue";
 		
 			switch(i){	
+//				case 0:
+//					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (Render_code));
+//					break;
 				case 0:
-					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (Render_jump_num));
+					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (Render_person));
 					break;
 				case 1:
-					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (Render_e1_range));
+					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (Render_jump_num));
 					break;
 				case 2:
-					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (Render_e1_t));
+					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderNeuromuscularExtraWeight));
 					break;
 				case 3:
-					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (Render_e1_fmax));
+					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (Render_e1_range));
 					break;
 				case 4:
-					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (Render_e1_rfd_avg));
+					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (Render_e1_t));
 					break;
 				case 5:
-					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (Render_e1_i));
+					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (Render_e1_fmax));
 					break;
 				case 6:
-					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (Render_ca_range));
+					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (Render_e1_rfd_avg));
 					break;
 				case 7:
-					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (Render_cl_t));
+					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (Render_e1_i));
 					break;
 				case 8:
-					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (Render_cl_rfd_avg));
+					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (Render_ca_range));
 					break;
 				case 9:
-					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (Render_cl_i));
+					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (Render_cl_t));
 					break;
 				case 10:
-					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (Render_cl_f_avg));
+					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (Render_cl_rfd_avg));
 					break;
 				case 11:
-					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (Render_cl_vf));
+					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (Render_cl_i));
 					break;
 				case 12:
-					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (Render_cl_f_max));
+					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (Render_cl_f_avg));
 					break;
 				case 13:
-					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (Render_cl_s_avg));
+					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (Render_cl_vf));
 					break;
 				case 14:
-					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (Render_cl_s_max));
+					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (Render_cl_f_max));
 					break;
 				case 15:
-					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (Render_cl_p_avg));
+					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (Render_cl_s_avg));
 					break;
 				case 16:
+					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (Render_cl_s_max));
+					break;
+				case 17:
+					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (Render_cl_p_avg));
+					break;
+				case 18:
 					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (Render_cl_p_max));
 					break;
 			}
@@ -1533,11 +1544,30 @@ public partial class ChronoJumpWindow
 
 	/* start rendering neuromuscular cols */
 
+	private void Render_code (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.ITreeModel model, Gtk.TreeIter iter)
+	{
+		EncoderNeuromuscularData nm = (EncoderNeuromuscularData) model.GetValue (iter, 0);
+		(cell as Gtk.CellRendererText).Text = nm.code.ToString();
+	}
+
+	private void Render_person (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.ITreeModel model, Gtk.TreeIter iter)
+	{
+		EncoderNeuromuscularData nm = (EncoderNeuromuscularData) model.GetValue (iter, 0);
+		(cell as Gtk.CellRendererText).Text = nm.person.ToString();
+	}
+
 	private void Render_jump_num (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.ITreeModel model, Gtk.TreeIter iter)
 	{
 		EncoderNeuromuscularData nm = (EncoderNeuromuscularData) model.GetValue (iter, 0);
-		(cell as Gtk.CellRendererText).Text = nm.n.ToString();
+		(cell as Gtk.CellRendererText).Text = nm.jump_num.ToString();
 	}
+
+	private void RenderNeuromuscularExtraWeight (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.ITreeModel model, Gtk.TreeIter iter)
+	{
+		EncoderNeuromuscularData nm = (EncoderNeuromuscularData) model.GetValue (iter, 0);
+		(cell as Gtk.CellRendererText).Text = nm.extraWeight.ToString();
+	}
+
 
 	private void Render_e1_range (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.ITreeModel model, Gtk.TreeIter iter)
 	{

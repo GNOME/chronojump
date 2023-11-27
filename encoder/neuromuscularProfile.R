@@ -401,21 +401,119 @@ neuromuscularProfilePlotOther <- function(displacement, l.context, l.mass, smoot
 	       )
 }
 
-neuromuscularProfileWriteData <- function(npj, outputData1)
+# --------- 1 person ------------------>
+neuromuscularProfile3JLoadAvg <- function (npj)
+{
+	return (mean(c(npj[[1]]$e1$rfd.avg, npj[[2]]$e1$rfd.avg, npj[[3]]$e1$rfd.avg)))
+}
+
+neuromuscularProfile3JExplodeAvg <- function (npj)
+{
+	return (mean(c( npj[[1]]$c$cl.rfd.avg, npj[[2]]$c$cl.rfd.avg, npj[[3]]$c$cl.rfd.avg)))
+}
+
+neuromuscularProfile3JDriveAvg <- function (npj)
+{
+	return (mean(c( npj[[1]]$c$cl.i, npj[[2]]$c$cl.i, npj[[3]]$c$cl.i)))
+}
+
+neuromuscularProfile3JAvg <- function (jump1, jump2, jump3)
+{
+	jumpAvg <- NULL
+	for (i in 1:length(jump1))
+		jumpAvg <- c(jumpAvg, mean (c(jump1[i], jump2[i], jump3[i])))
+
+	return (jumpAvg)
+}
+
+neuromuscularProfileWriteData1Person <- function(npj, outputData1)
 {	
 	#values of first, 2nd and 3d jumps
 	jump1 <- as.numeric(c(npj[[1]]$e1, npj[[1]]$c))
 	jump2 <- as.numeric(c(npj[[2]]$e1, npj[[2]]$c))
 	jump3 <- as.numeric(c(npj[[3]]$e1, npj[[3]]$c))
 
-	df <- data.frame(rbind(jump1,jump2,jump3))
-	colnames(df) <- c(paste("e1.",names(npj[[1]]$e1),sep=""), names(npj[[1]]$c))
-	rownames(df) <- c(
-			  paste(translateToPrint("jump"),npj[[1]]$l.context$numJump), 
-			  paste(translateToPrint("jump"),npj[[2]]$l.context$numJump),
-			  paste(translateToPrint("jump"),npj[[3]]$l.context$numJump))
+	df <- data.frame(rbind(jump1,jump2,jump3,
+			       neuromuscularProfile3JAvg (jump1, jump2, jump3)))
+
+	df <- cbind ("",
+		     c(npj[[1]]$l.context$numJump, npj[[2]]$l.context$numJump, npj[[3]]$l.context$numJump, "AVG"),
+		     77, #TODO: put weight here
+		     df)
+
+	#colnames(df) <- c(paste("e1.",names(npj[[1]]$e1),sep=""), names(npj[[1]]$c))
+	colnames(df) <- c("person", "jump.n", "mass.extra", paste("e1.",names(npj[[1]]$e1),sep=""), names(npj[[1]]$c))
+	#rownames(df) <- c(
+	#		  paste(translateToPrint("jump"),npj[[1]]$l.context$numJump), 
+	#		  paste(translateToPrint("jump"),npj[[2]]$l.context$numJump),
+	#		  paste(translateToPrint("jump"),npj[[3]]$l.context$numJump),
+	#		  "AVG")
+	rownames(df) <- 1:4
 	print(df)
 
 	write.csv(df, outputData1, quote=FALSE)
 }
+# <--------- 1 person ------------------
 
+
+# --------- n persons ------------------>
+neuromuscularProfile3NAvg <- function (npj_l, type)
+{
+	sum <- 0
+	n <- length (npj_l) *3
+
+	for (i in 1:length (npj_l))
+	{
+		npj <- npj_l[[i]]
+		if (type == "LOAD")
+			sum = sum + npj[[1]]$e1$rfd.avg + npj[[2]]$e1$rfd.avg + npj[[3]]$e1$rfd.avg
+		else if (type == "EXPLODE")
+			sum = sum + npj[[1]]$c$cl.rfd.avg + npj[[2]]$c$cl.rfd.avg + npj[[3]]$c$cl.rfd.avg
+		else if (type == "DRIVE")
+			sum = sum + npj[[1]]$c$cl.i + npj[[2]]$c$cl.i + npj[[3]]$c$cl.i
+	}
+
+	if (! is.numeric (sum) || ! is.numeric (n))
+		return (0)
+	else if (sum == 0 || n == 0)
+		return (0)
+	else
+		return (sum/n)
+}
+
+neuromuscularProfileWriteDataNPersons <- function(npj_l, names_c, outputData1)
+{
+	dfBig <- data.frame()
+	rowname <- 1
+	for (i in 1:length (npj_l))
+	{
+		npj <- npj_l[[i]]
+
+		#values of first, 2nd and 3d jumps
+		jump1 <- c(as.numeric(c(npj[[1]]$e1, npj[[1]]$c)))
+		jump2 <- c(as.numeric(c(npj[[2]]$e1, npj[[2]]$c)))
+		jump3 <- c(as.numeric(c(npj[[3]]$e1, npj[[3]]$c)))
+
+		df <- data.frame(rbind(jump1,jump2,jump3, neuromuscularProfile3JAvg (jump1, jump2, jump3)))
+
+		df <- cbind (names_c[i],
+		       c(npj[[1]]$l.context$numJump, npj[[2]]$l.context$numJump, npj[[3]]$l.context$numJump, "AVG"),
+		       77, #TODO: put weight here
+		       df)
+
+		print ("df")
+		print (df)
+		print ("colnames:")
+		print (c("person", "jump.n", "mass.extra", paste("e1.",names(npj[[1]]$e1),sep=""), names(npj[[1]]$c)))
+
+		colnames(df) <- c("person", "jump.n", "mass.extra", paste("e1.",names(npj[[1]]$e1),sep=""), names(npj[[1]]$c))
+#		rownames(df) <- c(names_c[i], names_c[i], names_c[i], names_c[i])
+		rownames(df) <- c(rowname, rowname +1, rowname +2, rowname +3)
+		rowname = rowname +4
+
+		dfBig <- rbind (dfBig, df)
+	}
+	write.csv(dfBig, outputData1, quote=FALSE)
+}
+
+# <--------- n persons ------------------

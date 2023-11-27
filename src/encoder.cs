@@ -830,15 +830,18 @@ public class EncoderSignalCurve
 //used on TreeView
 public class EncoderNeuromuscularData
 {
-	public string n; 
-	public int e1_range;
-	public int e1_t;
+	public string code;
+	public string person;
+	public string jump_num;  //can be "AVG"
+	public double extraWeight;
+	public double e1_range; //double on AVG row
+	public double e1_t; 	//double on AVG row
 	public double e1_fmax;
 	public double e1_rfd_avg;
 	public double e1_i;
 
-	public int ca_range;
-	public int cl_t;
+	public double ca_range; //double on AVG row
+	public double cl_t;     //double on AVG row
 	public double cl_rfd_avg;
 	public double cl_i;
 
@@ -856,14 +859,17 @@ public class EncoderNeuromuscularData
 
 	//used on TreeView analyze
 	public EncoderNeuromuscularData (
-			string n, 
-			int e1_range, int e1_t, double e1_fmax, double e1_rfd_avg, double e1_i,
-			int ca_range, int cl_t, double cl_rfd_avg, double cl_i, 
+			string code, string person, string jump_num, double extraWeight,
+			double e1_range, double e1_t, double e1_fmax, double e1_rfd_avg, double e1_i,
+			double ca_range, double cl_t, double cl_rfd_avg, double cl_i,
 			double cl_f_avg, double cl_vf, double cl_f_max, 
 			double cl_s_avg, double cl_s_max, double cl_p_avg, double cl_p_max
 			)
 	{
-		this.n = n;
+		this.code = code;
+		this.person = person;
+		this.jump_num = jump_num;
+		this.extraWeight = extraWeight;
 		this.e1_range = e1_range; 
 		this.e1_t = e1_t;
 		this.e1_fmax = e1_fmax;
@@ -885,36 +891,40 @@ public class EncoderNeuromuscularData
 	//reading contents file from graph.R
 	public EncoderNeuromuscularData (string [] cells)
 	{
-		//cell[0] is not converted because is string
-		for(int i = 1 ; i < cells.Length ;  i ++)
+		//cells [0-2] are not converted because are strings
+		for(int i = 3 ; i < cells.Length ;  i ++)
 			cells[i] = Util.TrimDecimals(Convert.ToDouble(Util.ChangeDecimalSeparator(cells[i])),3);
 	
-		this.n 		= cells[0];
-		this.e1_range 	= Convert.ToInt32(cells[1]); 
-		this.e1_t 	= Convert.ToInt32(cells[2]);
-		this.e1_fmax 	= Convert.ToDouble(cells[3]);
-		this.e1_rfd_avg	= Convert.ToDouble(cells[4]);
-		this.e1_i	= Convert.ToDouble(cells[5]);
-		this.ca_range	= Convert.ToInt32(cells[6]);
-		this.cl_t 	= Convert.ToInt32(cells[7]);
-		this.cl_rfd_avg = Convert.ToDouble(cells[8]);
-		this.cl_i 	= Convert.ToDouble(cells[9]);
-		this.cl_f_avg 	= Convert.ToDouble(cells[10]);
-		this.cl_vf 	= Convert.ToDouble(cells[11]);
-		this.cl_f_max 	= Convert.ToDouble(cells[12]);
-		this.cl_s_avg 	= Convert.ToDouble(cells[13]);
-		this.cl_s_max 	= Convert.ToDouble(cells[14]);
-		this.cl_p_avg 	= Convert.ToDouble(cells[15]);
-		this.cl_p_max 	= Convert.ToDouble(cells[16]);
+		this.code 	= cells[0];
+		this.person 	= cells[1];
+		this.jump_num 	= cells[2];
+		this.extraWeight = Convert.ToDouble(cells[3]);
+		this.e1_range 	= Convert.ToDouble(cells[4]);
+		this.e1_t 	= Convert.ToDouble(cells[5]);
+		this.e1_fmax 	= Convert.ToDouble(cells[6]);
+		this.e1_rfd_avg	= Convert.ToDouble(cells[7]);
+		this.e1_i	= Convert.ToDouble(cells[8]);
+		this.ca_range	= Convert.ToDouble(cells[9]);
+		this.cl_t 	= Convert.ToDouble(cells[10]);
+		this.cl_rfd_avg = Convert.ToDouble(cells[11]);
+		this.cl_i 	= Convert.ToDouble(cells[12]);
+		this.cl_f_avg 	= Convert.ToDouble(cells[13]);
+		this.cl_vf 	= Convert.ToDouble(cells[14]);
+		this.cl_f_max 	= Convert.ToDouble(cells[15]);
+		this.cl_s_avg 	= Convert.ToDouble(cells[16]);
+		this.cl_s_max 	= Convert.ToDouble(cells[17]);
+		this.cl_p_avg 	= Convert.ToDouble(cells[18]);
+		this.cl_p_max 	= Convert.ToDouble(cells[19]);
 	}
 
-	public string ToCSV(string decimalSeparator) {
+	public string ToCSV (string decimalSeparator) {
 		//latin:	2,3 ; 2,5
 		//non-latin:	2.3 , 2.5
 
 		string sep = ":::";
 		string str = 
-			n + sep + e1_range.ToString() + sep + 
+			person + sep + jump_num + sep + extraWeight.ToString () + sep +
+			e1_range.ToString() + sep +
 			e1_t.ToString() + sep + e1_fmax.ToString() + sep + 
 			e1_rfd_avg.ToString() + sep + e1_i.ToString() + sep + 
 			ca_range.ToString() + sep + cl_t.ToString() + sep + 

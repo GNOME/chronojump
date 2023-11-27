@@ -4017,7 +4017,12 @@ public partial class ChronoJumpWindow
 			titleStr = Util.ChangeSpaceAndMinusForUnderscore(currentPerson.Name);
 
 		if(encoderSelectedAnalysis == "neuromuscularProfile")
-			titleStr = "Neuromuscular Profile" + "-" + titleStr;
+		{
+			if (radio_encoder_analyze_groupal_current_session.Active)
+				titleStr = "Neuromuscular Profile";
+			else
+				titleStr = "Neuromuscular Profile" + "-" + titleStr;
+		}
 		else {
 			//on signal show encoder exercise, but not in curves because every curve can be of a different exercise
 			if(radio_encoder_analyze_individual_current_set.Active) //current set
@@ -4218,7 +4223,7 @@ public partial class ChronoJumpWindow
 		button_encoder_analyze_data_select_curves.Visible = currentPerson != null;
 		
 		hbox_combo_encoder_exercise_analyze.Visible = true;
-		
+
 		//active cross. The only available for comparing	
 		radiobutton_encoder_analyze_cross.Active = true;
 		hbox_encoder_analyze_intersession.Visible = false;
@@ -4232,7 +4237,7 @@ public partial class ChronoJumpWindow
 		radiobutton_encoder_analyze_single.Visible = false;
 		radiobutton_encoder_analyze_side.Visible = false;
 		radiobutton_encoder_analyze_superpose.Visible = false;
-		radiobutton_encoder_analyze_neuromuscular_profile.Visible = false;
+		radiobutton_encoder_analyze_neuromuscular_profile.Visible = (currentEncoderGI == Constants.EncoderGI.GRAVITATORY);
 
 		button_encoder_monthly_change_current_session.Visible = false;
 

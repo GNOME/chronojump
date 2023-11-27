@@ -4314,8 +4314,13 @@ public partial class ChronoJumpWindow
 					radiobutton_encoder_analyze_1RM.Visible = true;
 					if(radiobutton_encoder_analyze_1RM.Active)
 						hbox_combo_encoder_analyze_1RM.Visible=true;
-					radiobutton_encoder_analyze_neuromuscular_profile.Visible = true;
 				}
+
+				if(radio_encoder_analyze_individual_current_set.Active ||
+						radio_encoder_analyze_individual_current_session.Active ||
+						radio_encoder_analyze_groupal_current_session.Active)
+					radiobutton_encoder_analyze_neuromuscular_profile.Visible = true;
+
 				//hbox_encoder_capture_1_or_cont.Visible = true;
 				vbox_angle_now.Visible = false;
 				label_gravitatory_vpf_propulsive.Visible = preferences.encoderPropulsive;

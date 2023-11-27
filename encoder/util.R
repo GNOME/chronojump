@@ -1079,7 +1079,7 @@ pafGenerate <- function(eccon, kinematics, massBody, massExtra, laterality, iner
 calculateEquivalentMass <- function(inertiaMomentum, gearedDown, diameter)
 {
 	if(inertiaMomentum > 0 && gearedDown > 0 && diameter > 0)
-		return (10000 * inertiaMomentum * 1/gearedDown / 4 / (diameter^2))
+		return (10000 * inertiaMomentum * (1/gearedDown) / (( diameter / 2 )^2) )
 	else
 		return (0)
 }

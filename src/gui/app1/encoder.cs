@@ -1102,7 +1102,12 @@ public partial class ChronoJumpWindow
 		}
 	}
 	
-	void on_combo_encoder_exercise_analyze_changed (object o, EventArgs args) {
+	private bool comboEncoderNoFollow;
+	void on_combo_encoder_exercise_analyze_changed (object o, EventArgs args)
+	{
+		if (comboEncoderNoFollow)
+			return;
+
 		prepareAnalyzeRepetitions ();
 	}
 
@@ -3033,7 +3038,7 @@ public partial class ChronoJumpWindow
 		encoderSignalUniqueID = "-1";
 		image_encoder_capture.Sensitive = false;
 		treeviewEncoderCaptureRemoveColumns();
-		updateEncoderAnalyzeExercisesPre();
+		updateEncoderAnalyzeExercisesPre ();
 		cairoPaintBarsPre = new CairoPaintBarplotPreEncoder (
 				encoder_capture_curves_bars_drawingarea_cairo,
 				preferences.fontType.ToString());
@@ -3055,22 +3060,25 @@ public partial class ChronoJumpWindow
 	 * on change player
 	 * on change session
 	 */
-	private void updateEncoderAnalyzeExercisesPre()
+	private void updateEncoderAnalyzeExercisesPre ()
 	{
 		string selected = UtilGtk.ComboGetActive(combo_encoder_exercise_analyze);
 
 		createEncoderComboExerciseAndAnalyze();
 
+		Sqlite.Open (); // ---->
+
 		if(radio_encoder_analyze_individual_current_session.Active)
-			updateEncoderAnalyzeExercises(false, currentPerson.UniqueID, currentSession.UniqueID, selected);
+			updateEncoderAnalyzeExercises (true, currentPerson.UniqueID, currentSession.UniqueID, selected);
 		else if(radio_encoder_analyze_individual_all_sessions.Active)
-			updateEncoderAnalyzeExercises(false, currentPerson.UniqueID, -1, selected);
+			updateEncoderAnalyzeExercises (true, currentPerson.UniqueID, -1, selected);
 		else if(radio_encoder_analyze_groupal_current_session.Active)
-			updateEncoderAnalyzeExercises(false, -1, currentSession.UniqueID, selected);
+			updateEncoderAnalyzeExercises (true, -1, currentSession.UniqueID, selected);
+
+		Sqlite.Close (); // <----
 	}
-	private void updateEncoderAnalyzeExercises(bool dbconOpened, int personID, int sessionID, string selectedPreviously)
+	private void updateEncoderAnalyzeExercises (bool dbconOpened, int personID, int sessionID, string selectedPreviously)
 	{
-		LogB.Information("updateEncoderAnalyzeExercises()");
 		List<int> listFound = SqliteEncoder.SelectAnalyzeExercisesInCurves (dbconOpened, personID, sessionID, getEncoderGIByMenuitemMode());
 		foreach(int i in listFound)
 			LogB.Information(i.ToString());
@@ -4124,7 +4132,7 @@ public partial class ChronoJumpWindow
 
 	private void on_radio_encoder_analyze_individual_current_session (object o, EventArgs args)
 	{
-		updateEncoderAnalyzeExercisesPre();
+		updateEncoderAnalyzeExercisesPre ();
 		hbox_combo_encoder_laterality_analyze.Visible = true;
 		prepareAnalyzeRepetitions();
 
@@ -4177,7 +4185,7 @@ public partial class ChronoJumpWindow
 
 	private void on_radio_encoder_analyze_individual_all_sessions (object o, EventArgs args)
 	{
-		updateEncoderAnalyzeExercisesPre();
+		updateEncoderAnalyzeExercisesPre ();
 		hbox_combo_encoder_laterality_analyze.Visible = true;
 		prepareAnalyzeRepetitions();
 	
@@ -4212,7 +4220,8 @@ public partial class ChronoJumpWindow
 
 	private void on_radio_encoder_analyze_groupal_current_session (object o, EventArgs args)
 	{
-		updateEncoderAnalyzeExercisesPre();
+		updateEncoderAnalyzeExercisesPre ();
+
 		hbox_combo_encoder_laterality_analyze.Visible = true;
 		prepareAnalyzeRepetitions();
 
@@ -4935,8 +4944,18 @@ public partial class ChronoJumpWindow
 
 		// 5) update combo_encoder_exercise_analyze and set active
 		exerciseNamesToCombo = addAllExercisesToComboExerciseAnalyze(exerciseNamesToCombo);
-		
+
+		/*
+		 * combo update mark as NoFollow to not call his _changed method at any changes.
+		 * This change speeds analyze click on groupal from 21s to 1s on sessions like blq 2023 matins
+		 * Long time is caused by exerciseNamesToCombo (encoder exercises on DB)
+		 */
+		//LogB.Information ("exerciseNamesToCombo: " + Util.StringArrayToString (exerciseNamesToCombo, ";"));
+		comboEncoderNoFollow = true;
 		UtilGtk.ComboUpdate(combo_encoder_exercise_analyze, exerciseNamesToCombo, "");
+		comboEncoderNoFollow = false;
+		on_combo_encoder_exercise_analyze_changed (new object (), new EventArgs ());
+
 		combo_encoder_exercise_analyze.Active = 0; //first one active "All exercises"
 	}
 	private string [] addAllExercisesToComboExerciseAnalyze(string [] exerciseNamesToCombo) {
@@ -5912,7 +5931,7 @@ public partial class ChronoJumpWindow
 		encoder_change_displaced_weight_and_1RM ();
 	
 		blankEncoderInterface();
-		updateEncoderAnalyzeExercisesPre();
+		updateEncoderAnalyzeExercisesPre ();
 	}
 	
 	/* called on:
@@ -7592,7 +7611,7 @@ public partial class ChronoJumpWindow
 			{
 				encoder_pulsebar_capture_label.Text = Catalog.GetString("Finished");
 				fullscreen_label_message.Text = Catalog.GetString("Finished");
-				updateEncoderAnalyzeExercisesPre();
+				updateEncoderAnalyzeExercisesPre ();
 			} 
 			else if(action == encoderActions.CURVES || action == encoderActions.CURVES_AC || action == encoderActions.LOAD) 
 			{

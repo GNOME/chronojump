@@ -188,6 +188,7 @@ class Sqlite
 	}
 	public static void Close()
 	{
+		LogB.Information("SQL going to close, status: " + dbcon.State.ToString());
 		if(NeverCloseDB)
 			return;
 

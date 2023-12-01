@@ -9653,7 +9653,7 @@ LogB.Debug("mc finished 5");
 			button_encoder_inertial_recalibrate.Visible = true;
 		}
 
-		if(encoderCaptureCurves != null && encoderCaptureCurves.Count > 0)
+		if(encoderCaptureCurves != null && encoderCaptureCurves.Count > 0 && encoderProcessCancel == false)
 			encoderButtonsSensitive(encoderSensEnum.DONEYESSIGNAL);
 		else
 			encoderButtonsSensitive(encoderSensEnum.DONENOSIGNAL);

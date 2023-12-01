@@ -6010,7 +6010,7 @@ public partial class ChronoJumpWindow
 		int [] yesPerson = 		{1, 0, 1, 0, 0, 1, 1, 0, 0};
 		int [] processingCapture = 	{0, 0, 0, 0, 0, 0, 1, 1, 1};
 		int [] processingR = 		{0, 0, 0, 0, 0, 0, 1, 0, 0};
-		int [] doneNoSignal = 		{1, 1, 1, 0, 0, 1, 1, 0, 0};
+		int [] doneNoSignal = 		{1, 0, 1, 0, 0, 1, 1, 0, 0};
 		int [] doneYesSignal = 		{1, 1, 1, 1, 0, 1, 1, 0, 0};
 		int [] table = new int[7];
 

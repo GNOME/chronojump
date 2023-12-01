@@ -4024,7 +4024,8 @@ doProcess <- function(options)
 				#don't write the curves, write npj
 				writeCurves = FALSE
 
-				neuromuscularProfileWriteData1Person (npj, op$OutputData1)
+				names_c <- curves$seriesName
+				neuromuscularProfileWriteData1Person (npj, names_c, op$OutputData1)
 			}
 		}
 

@@ -1035,9 +1035,18 @@ public class EncoderSQL
 	//for new code on other parts, use static method: UtilDate.GetDatetimePrint (DateTime dt)
 	public string GetDatetimeStr (bool pretty)
 	{
+		//LogB.Information ("GetDatetimeStr filename: " + filename);
 		int pointPos = filename.LastIndexOf('.');
 		int dateLength = 19; //YYYY-MM-DD_hh-mm-ss
-		string date = filename.Substring(pointPos - dateLength, dateLength);
+		string date = "";
+
+		//if file has been stored incorrectly (without datetime), just avoid crashing here
+		try {
+			date = filename.Substring(pointPos - dateLength, dateLength);
+		} catch {
+			date = UtilDate.ToFile (DateTime.Now);
+		}
+
 		if(pretty) {
 			string [] dateParts = date.Split(new char[] {'_'});
 			date = dateParts[0] + " " + dateParts[1].Replace('-',':');

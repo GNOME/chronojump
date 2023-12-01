@@ -426,7 +426,7 @@ neuromuscularProfile3JAvg <- function (jump1, jump2, jump3)
 	return (jumpAvg)
 }
 
-neuromuscularProfileWriteData1Person <- function(npj, outputData1)
+neuromuscularProfileWriteData1Person <- function(npj, names_c, outputData1)
 {	
 	#values of first, 2nd and 3d jumps
 	jump1 <- as.numeric(c(npj[[1]]$e1, npj[[1]]$c))
@@ -436,7 +436,7 @@ neuromuscularProfileWriteData1Person <- function(npj, outputData1)
 	df <- data.frame(rbind(jump1,jump2,jump3,
 			       neuromuscularProfile3JAvg (jump1, jump2, jump3)))
 
-	df <- cbind ("",
+	df <- cbind (rep(names_c[1], 4),
 		     c(npj[[1]]$l.context$numJump, npj[[2]]$l.context$numJump, npj[[3]]$l.context$numJump, "AVG"),
 		     77, #TODO: put weight here
 		     df)

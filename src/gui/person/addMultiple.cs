@@ -243,17 +243,17 @@ public class PersonAddMultipleWindow
 	{
 		Pixbuf pixbuf;
 		
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameCSVHeadersIcon);
+		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + Constants.FileNameCSVHeadersIcon);
 		image_csv_headers.Pixbuf = pixbuf;
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameCSVNoHeadersIcon);
+		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + Constants.FileNameCSVNoHeadersIcon);
 		image_csv_noheaders.Pixbuf = pixbuf;
 		
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameCSVName1Icon);
+		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + Constants.FileNameCSVName1Icon);
 		image_name1.Pixbuf = pixbuf;
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameCSVName2Icon);
+		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + Constants.FileNameCSVName2Icon);
 		image_name2.Pixbuf = pixbuf;
 
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "folder_open.png");
+		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "folder_open.png");
 		image_load.Pixbuf = pixbuf;
 
 		label_csv.Text = Catalog.GetString("CSV file has headers");

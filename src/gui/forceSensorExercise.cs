@@ -319,10 +319,10 @@ public class ForceSensorExerciseWindow
 		// done below textview_other_explanation.Buffer.Text = getTopExplanations(Pages.OTHER);
 
 		// 3. icons
-		image_cancel.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_cancel.png");
-		image_next.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "arrow_forward.png");
-		image_back.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "arrow_back.png");
-		image_force_exerted_help.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_info.png");
+		image_cancel.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_cancel.png");
+		image_next.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "arrow_forward.png");
+		image_back.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "arrow_back.png");
+		image_force_exerted_help.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_info.png");
 	}
 
 	private void initializeGuiAtShow ()

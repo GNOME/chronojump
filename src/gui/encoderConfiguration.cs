@@ -174,31 +174,31 @@ public class EncoderConfigurationWindow
 		builder.Autoconnect (this);
 		
 		//three encoder types	
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameEncoderTypeLinear);
+		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + Constants.FileNameEncoderTypeLinear);
 		image_encoder_linear.Pixbuf = pixbuf;
 
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameEncoderTypeRotaryFriction);
+		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + Constants.FileNameEncoderTypeRotaryFriction);
 		image_encoder_rotary_friction.Pixbuf = pixbuf;
 
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameEncoderTypeRotaryAxis);
+		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + Constants.FileNameEncoderTypeRotaryAxis);
 		image_encoder_rotary_axis.Pixbuf = pixbuf;
 		
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameEncoderCalculeIM);
+		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + Constants.FileNameEncoderCalculeIM);
 		image_encoder_calcule_im.Pixbuf = pixbuf;
 
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_cancel.png");
+		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_cancel.png");
 		image_capture_cancel.Pixbuf = pixbuf;
 		image_cancel.Pixbuf = pixbuf;
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_done_blue.png");
+		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_done_blue.png");
 		image_accept.Pixbuf = pixbuf;
 
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_edit.png");
+		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_edit.png");
 		image_edit.Pixbuf = pixbuf;
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_add.png");
+		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_add.png");
 		image_add.Pixbuf = pixbuf;
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_duplicate.png");
+		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_duplicate.png");
 		image_duplicate.Pixbuf = pixbuf;
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "stock_delete.png");
+		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "stock_delete.png");
 		image_delete.Pixbuf = pixbuf;
 
 		label_side_action.Text = "";
@@ -355,7 +355,7 @@ public class EncoderConfigurationWindow
 	private void selectedModeChanged() {
 		EncoderConfiguration ec = (EncoderConfiguration) list[listCurrent];
 		
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + ec.image);
+		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + ec.image);
 		image_encoder_configuration.Pixbuf = pixbuf;
 			
 		TextBuffer tb1 = new TextBuffer (new TextTagTable());
@@ -666,9 +666,9 @@ public class EncoderConfigurationWindow
 		treeview_select.Model = store;
 
 		Pixbuf pixbuf;
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameImport);
+		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + Constants.FileNameImport);
 		image_import.Pixbuf = pixbuf;
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameExport);
+		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + Constants.FileNameExport);
 		image_export.Pixbuf = pixbuf;
 	}
 

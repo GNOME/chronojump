@@ -3507,11 +3507,11 @@ LogB.Information(" fs R ");
 	{
 		Pixbuf pixbuf;
 		if(radio_force_sensor_laterality_r.Active)
-			pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "laterality-right.png");
+			pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "laterality-right.png");
 		else if(radio_force_sensor_laterality_l.Active)
-			pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "laterality-left.png");
+			pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "laterality-left.png");
 		else
-			pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "laterality-both.png");
+			pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "laterality-both.png");
 
 		image_top_laterality_contacts.Pixbuf = pixbuf;
 	}

@@ -93,19 +93,19 @@ public class ForceSensorElasticBandsWindow
 		builder.Autoconnect (this);
 
 		Pixbuf pixbuf;
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_add.png");
+		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_add.png");
 		image_add.Pixbuf = pixbuf;
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_edit.png");
+		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_edit.png");
 		image_edit.Pixbuf = pixbuf;
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "stock_delete.png");
+		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "stock_delete.png");
 		image_delete.Pixbuf = pixbuf;
 		image_delete_confirm.Pixbuf = pixbuf;
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "save.png");
+		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "save.png");
 		image_save.Pixbuf = pixbuf;
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_cancel.png");
+		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_cancel.png");
 		image_cancel.Pixbuf = pixbuf;
 		image_cancel_delete.Pixbuf = pixbuf;
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_close_blue.png");
+		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_close_blue.png");
 		image_close.Pixbuf = pixbuf;
 
 		//HideOnAccept = true;

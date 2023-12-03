@@ -194,11 +194,11 @@ public class GenericWindow
 		foreach(ArrayList widgetArray in array)
 			GenericWindowBox.showWidgetsPowerful(widgetArray);
 
-		Pixbuf pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "video_play.png");
+		Pixbuf pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "video_play.png");
 		GenericWindowBox.image_treeviewload_row_play.Pixbuf = pixbuf;
 
-		GenericWindowBox.image_button_cancel.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_cancel.png");
-		GenericWindowBox.image_button_accept.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_done_blue.png");
+		GenericWindowBox.image_button_cancel.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_cancel.png");
+		GenericWindowBox.image_button_accept.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_done_blue.png");
 
 		if(showNow)
 			GenericWindowBox.generic_window.Show ();
@@ -220,8 +220,8 @@ public class GenericWindow
 
 		GenericWindowBox.hideWidgets();
 
-		GenericWindowBox.image_button_cancel.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_cancel.png");
-		GenericWindowBox.image_button_accept.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_done_blue.png");
+		GenericWindowBox.image_button_cancel.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_cancel.png");
+		GenericWindowBox.image_button_accept.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_done_blue.png");
 
 		GenericWindowBox.showWidget(stuff, sensitive);
 		GenericWindowBox.generic_window.Show ();

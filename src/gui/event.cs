@@ -192,7 +192,7 @@ public class EditEventWindow
 	{
 		fillWindowTitleAndLabelHeader();
 
-		image_video_watch.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "video_play.png");
+		image_video_watch.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "video_play.png");
 
 		string id = myEvent.UniqueID.ToString();
 		if(myEvent.Simulated == Constants.Simulated) 
@@ -735,7 +735,7 @@ public class EventMoreWindow
 		button_delete_type.Visible = ! testOrDelete;
 		button_close.Visible = ! testOrDelete;
 
-		Pixbuf pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "stock_delete.png");
+		Pixbuf pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "stock_delete.png");
 		image_delete.Pixbuf = pixbuf;
 		image_delete1.Pixbuf = pixbuf;
 

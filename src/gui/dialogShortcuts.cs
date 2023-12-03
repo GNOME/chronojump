@@ -103,48 +103,48 @@ public class DialogShortcuts
 	{
 		Pixbuf pixbuf;
 
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_cancel.png");
+		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_cancel.png");
 		image_button_close.Pixbuf = pixbuf;
 
 		//capture tab
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_weight.png"); //encoder gravitatory
+		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_weight.png"); //encoder gravitatory
 		image_enc_grav_1.Pixbuf = pixbuf;
 		image_enc_grav_2.Pixbuf = pixbuf;
 		image_enc_grav_3.Pixbuf = pixbuf;
 		image_enc_grav_4.Pixbuf = pixbuf;
 		image_enc_grav_5.Pixbuf = pixbuf;
 
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_inertia.png");
+		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_inertia.png");
 		image_enc_inert_1.Pixbuf = pixbuf;
 		image_enc_inert_2.Pixbuf = pixbuf;
 		image_enc_inert_3.Pixbuf = pixbuf;
 		image_enc_inert_4.Pixbuf = pixbuf;
 		image_enc_inert_5.Pixbuf = pixbuf;
 
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "force_sensor_icon.png");
+		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "force_sensor_icon.png");
 		image_fs_1.Pixbuf = pixbuf;
 		image_fs_2.Pixbuf = pixbuf;
 		image_fs_3.Pixbuf = pixbuf;
 
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "race_encoder_icon.png");
+		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "race_encoder_icon.png");
 		image_ra_1.Pixbuf = pixbuf;
 		image_ra_2.Pixbuf = pixbuf;
 		image_ra_3.Pixbuf = pixbuf;
 
 		//analyze tab
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_jump.png");
+		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_jump.png");
 		image_jump_1.Pixbuf = pixbuf;
 		image_jump_2.Pixbuf = pixbuf;
 		image_jump_3.Pixbuf = pixbuf;
 		image_jump_4.Pixbuf = pixbuf;
 
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_run.png");
+		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_run.png");
 		image_run_1.Pixbuf = pixbuf;
 		image_run_2.Pixbuf = pixbuf;
 		image_run_3.Pixbuf = pixbuf;
 		image_run_4.Pixbuf = pixbuf;
 
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "force_sensor_icon.png");
+		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "force_sensor_icon.png");
 		image_fs_4.Pixbuf = pixbuf;
 	}
 

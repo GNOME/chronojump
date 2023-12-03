@@ -370,7 +370,7 @@ public partial class ChronoJumpWindow
 		notebook_sup.CurrentPage = app1s_notebook_sup_entered_from;
 
 		//put default news store icon because window has been opened (and hopefully seen)
-		Pixbuf pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_store_blue.png");
+		Pixbuf pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_store_blue.png");
 		image_menu_news.Pixbuf = pixbuf;
 		image_menu_news1.Pixbuf = pixbuf;
 	}

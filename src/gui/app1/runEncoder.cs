@@ -532,9 +532,9 @@ public partial class ChronoJumpWindow
 	{
 		Pixbuf pixbuf; //main image
 		if(UtilGtk.ComboGetActive(combo_race_analyzer_device) == RunEncoder.DevicesStringMANUAL)
-			pixbuf = new Pixbuf (null, Util.GetImagePath(true) + "run-encoder-manual.png");
+			pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(true) + "run-encoder-manual.png");
 		else
-			pixbuf = new Pixbuf (null, Util.GetImagePath(true) + "run-encoder-resisted.png");
+			pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(true) + "run-encoder-resisted.png");
 
 		image_test.Pixbuf = pixbuf;
 	}

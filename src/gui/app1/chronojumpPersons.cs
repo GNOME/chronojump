@@ -68,13 +68,13 @@ public partial class ChronoJumpWindow
 		string filenameMini = Util.UserPhotoURL(true, currentPerson.UniqueID);
 		if(filenameMini != "" && Util.FileExists(filenameMini))
 		{
-			Pixbuf pixbuf = new Pixbuf (filenameMini);
+			Pixbuf pixbuf = Chronojump.MyPixbuf.Get(filenameMini);
 			image_current_person.Pixbuf = pixbuf;
 		} else {
 			//image_current_person.Pixbuf = null;
-			Pixbuf pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_no_photo.png");
+			Pixbuf pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_no_photo.png");
 			if(Config.ColorBackgroundIsDark)
-				pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_no_photo_yellow.png");
+				pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_no_photo_yellow.png");
 			image_current_person.Pixbuf = pixbuf;
 		}
 	}

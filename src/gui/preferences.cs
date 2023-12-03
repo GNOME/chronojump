@@ -395,11 +395,11 @@ public class PreferencesWindow
 		Pixbuf pixbuf;
 
 
-		PreferencesWindowBox.image_button_close.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_close.png");
+		PreferencesWindowBox.image_button_close.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_close.png");
 
 		//appearance tab
 
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_rest.png");
+		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_rest.png");
 		PreferencesWindowBox.image_rest.Pixbuf = pixbuf;
 
 		//to avoid changing the sqlite and gui undecorated mode when activating maximized
@@ -515,11 +515,11 @@ public class PreferencesWindow
 
 		PreferencesWindowBox.notebook_multimedia_video.CurrentPage = 0; //show only check_devices button
 
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "audio.png");
+		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "audio.png");
 		PreferencesWindowBox.image_multimedia_audio.Pixbuf = pixbuf;
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "videocamera_on.png");
+		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "videocamera_on.png");
 		PreferencesWindowBox.image_multimedia_video.Pixbuf = pixbuf;
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_photo_preview.png");
+		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_photo_preview.png");
 		PreferencesWindowBox.image_video_preview.Pixbuf = pixbuf;
 
 		PreferencesWindowBox.spin_camera_stop_after.Value = preferences.videoStopAfter;
@@ -606,12 +606,12 @@ public class PreferencesWindow
 
 		//start of double contacts stuff ----
 
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_run_simple.png");
+		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_run_simple.png");
 		PreferencesWindowBox.image_races_simple.Pixbuf = pixbuf;
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_run_multiple.png");
+		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_run_multiple.png");
 		PreferencesWindowBox.image_races_intervallic.Pixbuf = pixbuf;
 
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_info.png");
+		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_info.png");
 		PreferencesWindowBox.image_jumps_power_help.Pixbuf = pixbuf;
 		PreferencesWindowBox.image_jumps_stiffness_help.Pixbuf = pixbuf;
 		PreferencesWindowBox.image_button_jumps_dj_heights_times_help.Pixbuf = pixbuf;
@@ -665,12 +665,12 @@ public class PreferencesWindow
 		}
 
 
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_weight.png");
+		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_weight.png");
 		PreferencesWindowBox.image_encoder_gravitatory.Pixbuf = pixbuf;
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_inertia.png");
+		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_inertia.png");
 		PreferencesWindowBox.image_encoder_inertial.Pixbuf = pixbuf;
 		PreferencesWindowBox.image_encoder_inertial2.Pixbuf = pixbuf;
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_encoder_triggers_no.png");
+		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_encoder_triggers_no.png");
 		PreferencesWindowBox.image_encoder_triggers.Pixbuf = pixbuf;
 
 		if(preferences.encoderCaptureInertialDiscardFirstN > 0) {
@@ -710,7 +710,7 @@ public class PreferencesWindow
 		else
 			PreferencesWindowBox.check_encoder_capture_infinite.Active = false;
 
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "cont.png");
+		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "cont.png");
 		PreferencesWindowBox.image_encoder_capture_infinite.Pixbuf = pixbuf;
 
 		if(preferences.encoderRepetitionCriteriaGravitatory == Preferences.EncoderRepetitionCriteria.ECC_CON)
@@ -850,14 +850,14 @@ public class PreferencesWindow
 
 
 		//tabs selection widgets
-		PreferencesWindowBox.image_view_more_tabs_close.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_close.png");
+		PreferencesWindowBox.image_view_more_tabs_close.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_close.png");
 		PreferencesWindowBox.label_mandatory_tabs.Text = "<b>" + PreferencesWindowBox.label_mandatory_tabs.Text + "</b>";
 		PreferencesWindowBox.label_mandatory_tabs.UseMarkup = true;
 		PreferencesWindowBox.label_selectable_tabs.Text = "<b>" + PreferencesWindowBox.label_selectable_tabs.Text + "</b>";
 		PreferencesWindowBox.label_selectable_tabs.UseMarkup = true;
 
 		//help
-		PreferencesWindowBox.image_help_close.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_close.png");
+		PreferencesWindowBox.image_help_close.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_close.png");
 
 		PreferencesWindowBox.preferences_win.Show ();
 		return PreferencesWindowBox;
@@ -998,11 +998,11 @@ public class PreferencesWindow
 		if(check_rest_time.Active)
 		{
 			hbox_rest_time_values.Visible = true;
-			pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_rest.png");
+			pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_rest.png");
 		} else
 		{
 			hbox_rest_time_values.Visible = false;
-			pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_rest_inactive.png");
+			pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_rest_inactive.png");
 		}
 		PreferencesWindowBox.image_rest.Pixbuf = pixbuf;
 
@@ -1490,11 +1490,11 @@ public class PreferencesWindow
 		if(radio_encoder_triggers_no.Active)
 		{
 			vbox_encoder_triggers_yes.Visible = false;
-			pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_encoder_triggers_no.png");
+			pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_encoder_triggers_no.png");
 		PreferencesWindowBox.image_encoder_triggers.Pixbuf = pixbuf;
 		} else {
 			vbox_encoder_triggers_yes.Visible = true;
-			pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_encoder_triggers.png");
+			pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_encoder_triggers.png");
 		}
 		image_encoder_triggers.Pixbuf = pixbuf;
 

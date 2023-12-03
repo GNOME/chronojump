@@ -211,21 +211,21 @@ public class PersonAddModifyWindow
 		createComboCountries();
 		
 		Pixbuf pixbuf;
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "calendar.png"); //from asssembly
+		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "calendar.png"); //from asssembly
 		image_calendar.Pixbuf = pixbuf;
 
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "portrait_zoom.png");
+		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "portrait_zoom.png");
 		image_zoom.Pixbuf = pixbuf;
 
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_person_outline.png");
+		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_person_outline.png");
 		image_load_person.Pixbuf = pixbuf;
 
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "stock_delete.png");
+		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "stock_delete.png");
 		image_photo_delete.Pixbuf = pixbuf;
 
-		image_photo_from_file.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_attachment.png");
-		image_photo_preview.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_photo_preview.png");
-		image_photo_do.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_photo_do.png");
+		image_photo_from_file.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_attachment.png");
+		image_photo_preview.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_photo_preview.png");
+		image_photo_do.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_photo_do.png");
 
 		//delete a -1.png or -1.jpg added before on a new user where "accept" button was not pressed and window was closed
 		deleteOldPhotosIfAny(-1);
@@ -233,21 +233,21 @@ public class PersonAddModifyWindow
 		string photoFile = Util.UserPhotoURL(true, currentPerson.UniqueID);
 		if(photoFile != "") {
 			try {
-				pixbuf = new Pixbuf (photoFile); //from a file
+				pixbuf = Chronojump.MyPixbuf.Get(photoFile); //from a file
 				image_photo_mini.Pixbuf = pixbuf;
 			} catch {
 				//on windows there are problem using the fileNames that are not on temp
 				string tempFileName = Path.Combine(Path.GetTempPath(), Constants.PhotoSmallTemp +
 						Util.GetMultimediaExtension(Constants.MultimediaItems.PHOTO));
 				File.Copy(photoFile, tempFileName, true);
-				pixbuf = new Pixbuf (tempFileName);
+				pixbuf = Chronojump.MyPixbuf.Get(tempFileName);
 				image_photo_mini.Pixbuf = pixbuf;
 			}
 
 			button_delete_photo_file.Sensitive = true;
 		}
 		else {
-			pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_no_photo.png");
+			pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_no_photo.png");
 			image_photo_mini.Pixbuf = pixbuf;
 			button_delete_photo_file.Sensitive = false;
 		}
@@ -427,7 +427,7 @@ public class PersonAddModifyWindow
 
 	private void showMiniPhoto(string filenameMini)
 	{
-		Pixbuf pixbuf = new Pixbuf (filenameMini);
+		Pixbuf pixbuf = Chronojump.MyPixbuf.Get(filenameMini);
 		image_photo_mini.Pixbuf = pixbuf;
 		//button_add_photo_file.Label = Catalog.GetString("Change photo");
 		button_zoom.Sensitive = true;
@@ -490,7 +490,7 @@ public class PersonAddModifyWindow
 
 		button_delete_photo_file.Sensitive = false;
 
-		Pixbuf pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_no_photo.png");
+		Pixbuf pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_no_photo.png");
 		image_photo_mini.Pixbuf = pixbuf;
 		button_zoom.Sensitive = false;
 	}

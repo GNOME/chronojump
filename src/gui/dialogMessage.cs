@@ -115,7 +115,7 @@ public class DialogMessage
 				image_help.Show();
 			break;
 			case Constants.MessageTypes.INSPECT:
-				Pixbuf pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_test_inspect.png");
+				Pixbuf pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_test_inspect.png");
 				image_inspect.Pixbuf = pixbuf;
 				image_inspect.Show();
 			break;

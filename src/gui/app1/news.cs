@@ -289,7 +289,7 @@ public partial class ChronoJumpWindow
 		if(File.Exists(filename))
 		{
 			LogB.Information("exists");
-			//Pixbuf pixbuf = new Pixbuf (filename);
+			//Pixbuf pixbuf = Chronojump.MyPixbuf.Get(filename);
 			//image_news.Pixbuf = pixbuf;
 			image_news.Pixbuf = UtilGtk.OpenPixbufSafe(filename, image_news.Pixbuf);
 			LogB.Information("opened");

@@ -112,7 +112,7 @@ public class UtilMultimedia
 
 	public static ImageSurface LoadJpegToCairoImageSurface(string jpegFilename)
 	{
-		Gdk.Pixbuf pixbuf = new Pixbuf (jpegFilename); //from a file
+		Gdk.Pixbuf pixbuf = Chronojump.MyPixbuf.Get(jpegFilename); //from a file
 		return pixbufToCairoImageSurface(pixbuf);
 	}
 

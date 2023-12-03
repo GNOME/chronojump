@@ -87,17 +87,17 @@ public class DialogPersonPopup
 		label_name.UseMarkup = true;
 		label_rfid.Text = rfid;
 
-		Pixbuf pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_close.png");
+		Pixbuf pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_close.png");
 		image_close.Pixbuf = pixbuf;
 
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_person_logout.png");
+		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_person_logout.png");
 		image_person_logout.Pixbuf = pixbuf;
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "new.png");
+		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "new.png");
 		image_new_tasks_other_stations.Pixbuf = pixbuf;
 
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "gtk-apply.png");
+		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "gtk-apply.png");
 		image_server_connected_yes.Pixbuf = pixbuf;
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "gtk-cancel.png");
+		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "gtk-cancel.png");
 		image_server_connected_no.Pixbuf = pixbuf;
 
 		label_network_devices.Text = networkDevices;
@@ -117,7 +117,7 @@ public class DialogPersonPopup
 		if(File.Exists(photoFile))
 		{
 			try {
-				pixbuf = new Pixbuf (photoFile); //from a file
+				pixbuf = Chronojump.MyPixbuf.Get(photoFile); //from a file
 				image_person.Pixbuf = pixbuf;
 			} catch {
 				string extension = Util.GetMultimediaExtension(photoFile);
@@ -125,7 +125,7 @@ public class DialogPersonPopup
 				string tempFileName = Path.Combine(Path.GetTempPath(),
 						Constants.PhotoSmallTemp + extension);
 				File.Copy(photoFile, tempFileName, true);
-				pixbuf = new Pixbuf (tempFileName);
+				pixbuf = Chronojump.MyPixbuf.Get(tempFileName);
 				image_person.Pixbuf = pixbuf;
 			}
 		}
@@ -144,7 +144,7 @@ public class DialogPersonPopup
 		checkbutton_autologout.Active = Autologout;
 
 		bool task_parametrized_exist = false;
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_capture_big.png");
+		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_capture_big.png");
 
 		Gtk.HBox hboxRow;
 		foreach(Task tAbstract in tasks)

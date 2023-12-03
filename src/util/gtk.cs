@@ -1069,13 +1069,13 @@ public class UtilGtk
 		} else {
 			Pixbuf pixbuf;
 			if(customArrow == ArrowEnum.FORWARD)
-				pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameArrowForward);
+				pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + Constants.FileNameArrowForward);
 			else if(customArrow == ArrowEnum.BACKWARD)
-				pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameArrowBackward);
+				pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + Constants.FileNameArrowBackward);
 			else if(customArrow == ArrowEnum.FORWARD_EMPHASIS)
-				pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameArrowForwardEmphasis);
+				pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + Constants.FileNameArrowForwardEmphasis);
 			else
-				pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameArrowForward); //default
+				pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + Constants.FileNameArrowForward); //default
 
 			Gtk.Image image = new Gtk.Image();
 			image.Pixbuf = pixbuf;
@@ -1153,7 +1153,7 @@ public class UtilGtk
 		do {
 			readedOk = true;
 			try {
-				Pixbuf pixbuf = new Pixbuf (filename); //from a file
+				Pixbuf pixbuf = Chronojump.MyPixbuf.Get(filename); //from a file
 				image.Pixbuf = pixbuf;
 			} catch {
 				LogB.Warning("File is still not ready. Wait a bit");
@@ -1180,7 +1180,7 @@ public class UtilGtk
 		do {
 			readedOk = true;
 			try {
-				pixbuf = new Pixbuf (filename); //from a file
+				pixbuf = Chronojump.MyPixbuf.Get(filename); //from a file
 			} catch {
 				LogB.Warning("File is still not ready. Wait a bit");
 				System.Threading.Thread.Sleep(50);

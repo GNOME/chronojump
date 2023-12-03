@@ -1061,14 +1061,14 @@ public partial class ChronoJumpWindow
 
 			Pixbuf pixbuf;
 
-			pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "cloud_blue.png");
+			pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "cloud_blue.png");
 			if(Config.ColorBackgroundIsDark)
-				pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "cloud_yellow.png");
+				pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "cloud_yellow.png");
 			image_cloud.Pixbuf = pixbuf;
 
-			pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_no_photo.png");
+			pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_no_photo.png");
 			if(Config.ColorBackgroundIsDark)
-				pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_no_photo_yellow.png");
+				pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_no_photo_yellow.png");
 			image_current_person.Pixbuf = pixbuf;
 		}
 
@@ -1188,10 +1188,10 @@ public partial class ChronoJumpWindow
 
 			if(Config.ColorBackgroundIsDark)
 				image_chronopic_connect_encoder2.Pixbuf =
-					new Pixbuf (null, Util.GetImagePath(false) + "image_chronopic_connect_yellow.png");
+					Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_chronopic_connect_yellow.png");
 			else
 				image_chronopic_connect_encoder2.Pixbuf =
-					new Pixbuf (null, Util.GetImagePath(false) + "image_chronopic_connect.png");
+					Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_chronopic_connect.png");
 		}
 
 		LogB.Information(string.Format("UseSystemColor: {0}, ColorBackgroundIsDark: {1}", Config.UseSystemColor, Config.ColorBackgroundIsDark));
@@ -1882,10 +1882,10 @@ public partial class ChronoJumpWindow
 		myTreeViewJumps.ExpandState = myTreeViewJumps.ZoomChange(myTreeViewJumps.ExpandState);
 		if(myTreeViewJumps.ExpandState == TreeViewEvent.ExpandStates.MINIMIZED) {
 			treeview_jumps.CollapseAll();
-			image_jumps_zoom.Pixbuf = new Pixbuf(null, Util.GetImagePath(false) + "zoom_in.png");
+			image_jumps_zoom.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "zoom_in.png");
 		} else {
 			treeview_jumps.ExpandAll();
-			image_jumps_zoom.Pixbuf = new Pixbuf(null, Util.GetImagePath(false) + "zoom_out.png");
+			image_jumps_zoom.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "zoom_out.png");
 		}
 	}
 	
@@ -1990,14 +1990,14 @@ public partial class ChronoJumpWindow
 		myTreeViewJumpsRj.ExpandState = myTreeViewJumpsRj.ZoomChange(myTreeViewJumpsRj.ExpandState);
 		if(myTreeViewJumpsRj.ExpandState == TreeViewEvent.ExpandStates.MINIMIZED) {
 			treeview_jumps_rj.CollapseAll();
-			image_jumps_rj_zoom.Pixbuf = new Pixbuf(null, Util.GetImagePath(false) + "zoom_in.png");
+			image_jumps_rj_zoom.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "zoom_in.png");
 		} else if(myTreeViewJumpsRj.ExpandState == TreeViewEvent.ExpandStates.OPTIMAL) {
 			treeview_jumps_rj.CollapseAll();
 			myTreeViewJumpsRj.ExpandOptimal();
-			image_jumps_rj_zoom.Pixbuf = new Pixbuf(null, Util.GetImagePath(false) + "zoom_in.png");
+			image_jumps_rj_zoom.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "zoom_in.png");
 		} else {
 			treeview_jumps_rj.ExpandAll();
-			image_jumps_rj_zoom.Pixbuf = new Pixbuf(null, Util.GetImagePath(false) + "zoom_out.png");
+			image_jumps_rj_zoom.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "zoom_out.png");
 		}
 	}
 
@@ -2106,10 +2106,10 @@ public partial class ChronoJumpWindow
 		myTreeViewRuns.ExpandState = myTreeViewRuns.ZoomChange(myTreeViewRuns.ExpandState);
 		if(myTreeViewRuns.ExpandState == TreeViewEvent.ExpandStates.MINIMIZED) {
 			treeview_runs.CollapseAll();
-			image_runs_zoom.Pixbuf = new Pixbuf(null, Util.GetImagePath(false) + "zoom_in.png");
+			image_runs_zoom.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "zoom_in.png");
 		} else {
 			treeview_runs.ExpandAll();
-			image_runs_zoom.Pixbuf = new Pixbuf(null, Util.GetImagePath(false) + "zoom_out.png");
+			image_runs_zoom.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "zoom_out.png");
 		}
 	}
 	
@@ -2200,14 +2200,14 @@ public partial class ChronoJumpWindow
 		myTreeViewRunsInterval.ExpandState = myTreeViewRunsInterval.ZoomChange(myTreeViewRunsInterval.ExpandState);
 		if(myTreeViewRunsInterval.ExpandState == TreeViewEvent.ExpandStates.MINIMIZED) {
 			treeview_runs_interval.CollapseAll();
-			image_runs_interval_zoom.Pixbuf = new Pixbuf(null, Util.GetImagePath(false) + "zoom_in.png");
+			image_runs_interval_zoom.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "zoom_in.png");
 		} else if(myTreeViewRunsInterval.ExpandState == TreeViewEvent.ExpandStates.OPTIMAL) {
 			treeview_runs_interval.CollapseAll();
 			myTreeViewRunsInterval.ExpandOptimal();
-			image_runs_interval_zoom.Pixbuf = new Pixbuf(null, Util.GetImagePath(false) + "zoom_in.png");
+			image_runs_interval_zoom.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "zoom_in.png");
 		} else {
 			treeview_runs_interval.ExpandAll();
-			image_runs_interval_zoom.Pixbuf = new Pixbuf(null, Util.GetImagePath(false) + "zoom_out.png");
+			image_runs_interval_zoom.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "zoom_out.png");
 		}
 	}
 
@@ -2317,10 +2317,10 @@ public partial class ChronoJumpWindow
 				myTreeViewReactionTimes.ExpandState);
 		if(myTreeViewReactionTimes.ExpandState == TreeViewEvent.ExpandStates.MINIMIZED) {
 			treeview_reaction_times.CollapseAll();
-			image_reaction_times_zoom.Pixbuf = new Pixbuf(null, Util.GetImagePath(false) + "zoom_in.png");
+			image_reaction_times_zoom.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "zoom_in.png");
 		} else {
 			treeview_reaction_times.ExpandAll();
-			image_reaction_times_zoom.Pixbuf = new Pixbuf(null, Util.GetImagePath(false) + "zoom_out.png");
+			image_reaction_times_zoom.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "zoom_out.png");
 		}
 	}
 	
@@ -2393,14 +2393,14 @@ public partial class ChronoJumpWindow
 		myTreeViewPulses.ExpandState = myTreeViewPulses.ZoomChange(myTreeViewPulses.ExpandState);
 		if(myTreeViewPulses.ExpandState == TreeViewEvent.ExpandStates.MINIMIZED) {
 			treeview_pulses.CollapseAll();
-			image_pulses_zoom.Pixbuf = new Pixbuf(null, Util.GetImagePath(false) + "zoom_in.png");
+			image_pulses_zoom.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "zoom_in.png");
 		} else if(myTreeViewPulses.ExpandState == TreeViewEvent.ExpandStates.OPTIMAL) {
 			treeview_pulses.CollapseAll();
 			myTreeViewPulses.ExpandOptimal();
-			image_pulses_zoom.Pixbuf = new Pixbuf(null, Util.GetImagePath(false) + "zoom_in.png");
+			image_pulses_zoom.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "zoom_in.png");
 		} else {
 			treeview_pulses.ExpandAll();
-			image_pulses_zoom.Pixbuf = new Pixbuf(null, Util.GetImagePath(false) + "zoom_out.png");
+			image_pulses_zoom.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "zoom_out.png");
 		}
 	}
 
@@ -2485,14 +2485,14 @@ public partial class ChronoJumpWindow
 		myTreeViewMultiChronopic.ExpandState = myTreeViewMultiChronopic.ZoomChange(myTreeViewMultiChronopic.ExpandState);
 		if(myTreeViewMultiChronopic.ExpandState == TreeViewEvent.ExpandStates.MINIMIZED) {
 			treeview_multi_chronopic.CollapseAll();
-			image_multi_chronopic_zoom.Pixbuf = new Pixbuf(null, Util.GetImagePath(false) + "zoom_in.png");
+			image_multi_chronopic_zoom.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "zoom_in.png");
 		} else if(myTreeViewMultiChronopic.ExpandState == TreeViewEvent.ExpandStates.OPTIMAL) {
 			treeview_multi_chronopic.CollapseAll();
 			myTreeViewMultiChronopic.ExpandOptimal();
-			image_multi_chronopic_zoom.Pixbuf = new Pixbuf(null, Util.GetImagePath(false) + "zoom_in.png");
+			image_multi_chronopic_zoom.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "zoom_in.png");
 		} else {
 			treeview_multi_chronopic.ExpandAll();
-			image_multi_chronopic_zoom.Pixbuf = new Pixbuf(null, Util.GetImagePath(false) + "zoom_out.png");
+			image_multi_chronopic_zoom.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "zoom_out.png");
 		}
 	}
 	
@@ -4326,7 +4326,7 @@ public partial class ChronoJumpWindow
 				label_gravitatory_vpf_propulsive.Visible = preferences.encoderPropulsive;
 
 				notebook_encoder_top.Page = 0;
-				image_encoder_exercise.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_weight.png");
+				image_encoder_exercise.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_weight.png");
 			}
 			else //(m == Constants.Modes.POWERINERTIAL)
 			{
@@ -4363,7 +4363,7 @@ public partial class ChronoJumpWindow
 				label_gravitatory_vpf_propulsive.Visible = false;
 
 				notebook_encoder_top.Page = 1;
-				image_encoder_exercise.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_inertia.png");
+				image_encoder_exercise.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_inertia.png");
 			}
 
 			feedbackWin.View(Constants.BellModes.ENCODERGRAVITATORY, preferences, encoderRhythm, false); //not viewWindow
@@ -4546,8 +4546,8 @@ public partial class ChronoJumpWindow
 		on_treeview_mode_cursor_changed ();
 
 		//show feedback icon
-		Pixbuf pixbufBellActive = new Pixbuf (null, Util.GetImagePath(false) + "stock_bell_active.png");
-		Pixbuf pixbufBellInactive = new Pixbuf (null, Util.GetImagePath(false) + "stock_bell_none.png");
+		Pixbuf pixbufBellActive = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "stock_bell_active.png");
+		Pixbuf pixbufBellInactive = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "stock_bell_none.png");
 		if(
 				( (m == Constants.Modes.JUMPSSIMPLE || m == Constants.Modes.JUMPSREACTIVE) &&
 				  feedbackWin.FeedbackActive(Constants.BellModes.JUMPS)) ||
@@ -4710,11 +4710,11 @@ public partial class ChronoJumpWindow
 	{
 		Pixbuf pixbuf;
 		if(encoderConfigurationCurrent.type == Constants.EncoderType.LINEAR)
-			pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "encoder-l-blue.png");
+			pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "encoder-l-blue.png");
 		else if(encoderConfigurationCurrent.type == Constants.EncoderType.ROTARYFRICTION)
-			pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "encoder-rf-blue.png");
+			pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "encoder-rf-blue.png");
 		else // if(encoderConfigurationCurrent.type == Constants.EncoderType.ROTARYAXIS)
-			pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "encoder-ra-blue.png");
+			pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "encoder-ra-blue.png");
 
 		image_encoder_top_selected_type.Pixbuf = pixbuf;
 		image_encoder_selected_type.Pixbuf = pixbuf;
@@ -5743,27 +5743,27 @@ public partial class ChronoJumpWindow
 
 		switch (fileNameString) {
 			case "LOGO":
-				pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameLogo);
+				pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + Constants.FileNameLogo);
 				button_image_test_zoom.Hide();
 			break;
 			case "RUNSENCODER":
-				//pixbuf = new Pixbuf (null, Util.GetImagePath(true) + Constants.FileNameRunEncoder);
-				pixbuf = new Pixbuf (null, Util.GetImagePath(true) + "no_image.png");
+				//pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(true) + Constants.FileNameRunEncoder);
+				pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(true) + "no_image.png");
 				button_image_test_zoom.Hide();
 			break;
 			case "":
-				pixbuf = new Pixbuf (null, Util.GetImagePath(true) + "no_image.png");
+				pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(true) + "no_image.png");
 				button_image_test_zoom.Hide();
 			break;
 			default:
-				pixbuf = new Pixbuf (null, Util.GetImagePath(true) + fileNameString);
+				pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(true) + fileNameString);
 
 				//button image test zoom will have a different image depending on if there's text
 				//future: change tooltip also
 				if(eventTypeString != "" && eventName != "" && eventTypeHasLongDescription (eventTypeString, eventName))
-					pixbufZoom = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameZoomInWithTextIcon);
+					pixbufZoom = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + Constants.FileNameZoomInWithTextIcon);
 				else 
-					pixbufZoom = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameZoomInIcon);
+					pixbufZoom = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + Constants.FileNameZoomInIcon);
 
 				image_test_zoom.Pixbuf = pixbufZoom;
 				button_image_test_zoom.Show();
@@ -5777,13 +5777,13 @@ public partial class ChronoJumpWindow
 		ExerciseImage ei = new ExerciseImage (current_mode, exerciseID);
 		if (ei.GetUrlIfExists (true) == "")
 		{
-			image_test.Pixbuf = new Pixbuf (null, Util.GetImagePath(true) + "no_image.png");
+			image_test.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(true) + "no_image.png");
 			button_image_test_zoom.Hide ();
 		} else
 		{
 			image_test.Pixbuf = UtilGtk.OpenPixbufSafe (ei.GetUrlIfExists (true), image_test.Pixbuf);
 
-			image_test_zoom.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameZoomInIcon);
+			image_test_zoom.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + Constants.FileNameZoomInIcon);
 			button_image_test_zoom.Show ();
 		}
 	}
@@ -8558,7 +8558,7 @@ LogB.Debug("mc finished 5");
 					preferences.serverNewsDatetime != "" &&
 					preferences.serverNewsDatetime != preferences.clientNewsDatetime)
 			{
-				Pixbuf pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_store_has_new_products.png");
+				Pixbuf pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_store_has_new_products.png");
 				image_menu_news.Pixbuf = pixbuf;
 				image_menu_news1.Pixbuf = pixbuf;
 			}
@@ -8776,9 +8776,9 @@ LogB.Debug("mc finished 5");
 		{
 			// Update bell
 			if(feedbackWin.FeedbackActive(bellMode))
-				pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "stock_bell_active.png");
+				pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "stock_bell_active.png");
 			else
-				pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "stock_bell_none.png");
+				pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "stock_bell_none.png");
 
 			image_contacts_bell.Pixbuf = pixbuf;
 
@@ -8934,9 +8934,9 @@ LogB.Debug("mc finished 5");
 		{
 			// 1) Update bell
 			if(feedbackWin.FeedbackActive(bellMode))
-				pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "stock_bell_active.png");
+				pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "stock_bell_active.png");
 			else
-				pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "stock_bell_none.png");
+				pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "stock_bell_none.png");
 
 			image_encoder_bell.Pixbuf = pixbuf;
 
@@ -9080,9 +9080,9 @@ LogB.Debug("mc finished 5");
 		{
 			// 1) Update bell
 			if(feedbackWin.FeedbackActive(bellMode))
-				pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "stock_bell_active.png");
+				pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "stock_bell_active.png");
 			else
-				pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "stock_bell_none.png");
+				pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "stock_bell_none.png");
 
 			image_contacts_bell.Pixbuf = pixbuf;
 

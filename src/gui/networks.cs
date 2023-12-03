@@ -1493,12 +1493,12 @@ public partial class ChronoJumpWindow
 			feedbackWin.EncoderMeanSpeedHigher = true;
 			feedbackWin.Encoder_show_manual_feedback = true;
 			feedbackWin.Notebook_encoder_conditions_page = 1; //speed
-			pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "stock_bell_active.png");
+			pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "stock_bell_active.png");
 		} else {
 			feedbackWin.EncoderMeanSpeedHigher = false;
 			feedbackWin.EncoderMeanSpeedLower = false;
 			feedbackWin.Encoder_show_manual_feedback = false;
-			pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "stock_bell_none.png");
+			pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "stock_bell_none.png");
 		}
 		image_encoder_bell.Pixbuf = pixbuf;
 

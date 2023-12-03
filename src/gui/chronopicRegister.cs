@@ -185,7 +185,7 @@ public class DiscoverWindow
 			}
 
 		image_button_micro_discover_cancel_close.Pixbuf =
-				new Pixbuf (null, Util.GetImagePath(false) + "image_cancel.png");
+				Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_cancel.png");
 		label_button_micro_discover_cancel_close.Text = Catalog.GetString("Cancel");
 
 		if (alreadyDiscovered_l.Count > 0 || notDiscovered_l.Count > 0)
@@ -419,7 +419,7 @@ public class DiscoverWindow
 			}
 
 			image_button_micro_discover_cancel_close.Pixbuf =
-				new Pixbuf (null, Util.GetImagePath(false) + "image_close.png");
+				Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_close.png");
 			label_button_micro_discover_cancel_close.Text = Catalog.GetString("Close");
 
 			if (discoverCloseAfterCancel)
@@ -761,7 +761,7 @@ public class ChronopicRegisterWindow
 		//create top hbox
 		Gtk.HBox hbox = new Gtk.HBox(false, 12);
 
-		Pixbuf pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_chronopic_connect_big.png");
+		Pixbuf pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_chronopic_connect_big.png");
 		//hbox image
 		Gtk.Image image = new Gtk.Image();
 		image.Pixbuf = pixbuf;
@@ -917,10 +917,10 @@ public class ChronopicRegisterWindow
 		right.Sensitive = (type != TypePixList.l[TypePixList.l.Count -1].Type);
 		//LogB.Information("count + tplcount " + count + "," + TypePixList.l.Count);
 
-		Pixbuf pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameArrowForward);
+		Pixbuf pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + Constants.FileNameArrowForward);
 		//show red image on button right if UNKNOWN
 		if(type == TypePixList.l[0].Type)
-			pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameArrowForwardEmphasis);
+			pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + Constants.FileNameArrowForwardEmphasis);
 
 		Gtk.Image image = (Gtk.Image) right.Child;
 		image.Pixbuf = pixbuf;

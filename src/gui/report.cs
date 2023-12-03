@@ -157,11 +157,11 @@ public class ReportWindow
 
 	private void putNonStandardIcons() {
 		Pixbuf pixbuf;
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "gpm-statistics.png");
+		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "gpm-statistics.png");
 		image_report_win_graph.Pixbuf = pixbuf;
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "report_view.png");
+		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "report_view.png");
 		image_report_win_report.Pixbuf = pixbuf;
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "stock_delete.png");
+		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "stock_delete.png");
 		image_report_delete.Pixbuf = pixbuf;
 	}
 	

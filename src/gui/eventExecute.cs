@@ -515,9 +515,9 @@ public partial class ChronoJumpWindow
 	{
 		// 1) change icon
 		if(check_runI_realtime_rel_abs.Active)
-			image_check_runI_realtime_rel_abs.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "bar_relative.png");
+			image_check_runI_realtime_rel_abs.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "bar_relative.png");
 		else
-			image_check_runI_realtime_rel_abs.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "bar_absolute.png");
+			image_check_runI_realtime_rel_abs.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "bar_absolute.png");
 
 		// 2) redo graph
 		on_event_execute_drawingarea_realtime_capture_cairo_draw (new object(), new Gtk.DrawnArgs());

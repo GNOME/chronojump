@@ -58,7 +58,7 @@ public class DialogImageTest
 
 		if(myEventType.ImageFileName != null && myEventType.ImageFileName != "")
 		{
-			Pixbuf pixbuf = new Pixbuf (null, Util.GetImagePath(false) + myEventType.ImageFileName);
+			Pixbuf pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + myEventType.ImageFileName);
 			image_test.Pixbuf = pixbuf;
 		}
 
@@ -106,9 +106,9 @@ public class DialogImageTest
 
 		Pixbuf pixbuf;
 		if(archiveType == ArchiveType.FILE)
-			pixbuf = new Pixbuf (imagePath);
+			pixbuf = Chronojump.MyPixbuf.Get(imagePath);
 		else //ASSEMBLY
-			pixbuf = new Pixbuf (null, imagePath);
+			pixbuf = Chronojump.MyPixbuf.Get(null, imagePath);
 
 		image_test.Pixbuf = pixbuf;
 

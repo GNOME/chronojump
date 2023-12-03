@@ -71,7 +71,7 @@ public class SplashWindow
 
         //put logo image
         Pixbuf pixbuf;
-        pixbuf = new Pixbuf(null, Util.GetImagePath(false) + Constants.FileNameLogo320);
+        pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + Constants.FileNameLogo320);
         image_logo.Pixbuf = pixbuf;
     }
 

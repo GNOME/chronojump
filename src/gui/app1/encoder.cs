@@ -5104,9 +5104,9 @@ public partial class ChronoJumpWindow
 	{
 		Pixbuf pixbuf;
 		if(radio_encoder_eccon_concentric.Active)
-			pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "muscle-concentric.png");
+			pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "muscle-concentric.png");
 		else
-			pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "muscle-excentric-concentric.png");
+			pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "muscle-excentric-concentric.png");
 
 		image_top_eccon.Pixbuf = pixbuf;
 	}
@@ -5120,11 +5120,11 @@ public partial class ChronoJumpWindow
 	{
 		Pixbuf pixbuf;
 		if(radio_encoder_laterality_r.Active)
-			pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "laterality-right.png");
+			pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "laterality-right.png");
 		else if(radio_encoder_laterality_l.Active)
-			pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "laterality-left.png");
+			pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "laterality-left.png");
 		else
-			pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "laterality-both.png");
+			pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "laterality-both.png");
 
 		image_top_laterality.Pixbuf = pixbuf;
 	}

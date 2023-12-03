@@ -74,7 +74,20 @@ namespace Chronojump
 
             if (libraries.TryGetValue(libraryName, out Library library))
             {
-                var path = Path.Combine(libDir, library.ToString());
+                //Determin dll path according to architecture [By Joeries]
+                string path = string.Empty;
+                if (UtilAll.IsWindows())
+                {
+                    path = Path.Combine(libDir, Environment.Is64BitProcess ? "x64" : "x86", library.ToString());
+                    if (!File.Exists(path))
+                    {
+                        path = Path.Combine(libDir, library.ToString());
+                    }
+                }
+                else
+                {
+                    path = Path.Combine(libDir, library.ToString());
+                }
                 if (!File.Exists(path))
                 {
                     throw new Exception($"Library not found at the expected location: {path}");

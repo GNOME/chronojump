@@ -151,27 +151,27 @@ public class PersonSelectWindow
 		FakeButtonDone = new Gtk.Button();
 
 		Pixbuf pixbuf;
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_person_pin.png");
+		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_person_pin.png");
 		image_manage_persons.Pixbuf = pixbuf;
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_person_add.png");
+		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_person_add.png");
 		image_person_new.Pixbuf = pixbuf;
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_group_add.png");
+		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_group_add.png");
 		image_persons_new_plus.Pixbuf = pixbuf;
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_person_outline.png");
+		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_person_outline.png");
 		image_person_load.Pixbuf = pixbuf;
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_group_outline.png");
+		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_group_outline.png");
 		image_persons_open_plus.Pixbuf = pixbuf;
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_edit.png");
+		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_edit.png");
 		image_person_edit.Pixbuf = pixbuf;
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_visibility.png");
+		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_visibility.png");
 		image_all_persons_events.Pixbuf = pixbuf;
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "merge.png");
+		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "merge.png");
 		image_merge.Pixbuf = pixbuf;
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "stock_delete.png");
+		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "stock_delete.png");
 		image_person_delete.Pixbuf = pixbuf;
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_cancel.png");
+		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_cancel.png");
 		image_manage_persons_cancel.Pixbuf = pixbuf;
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_close.png");
+		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_close.png");
 		image_close.Pixbuf = pixbuf;
 	}
 	
@@ -716,9 +716,9 @@ public class PersonPhotoButton
 		Pixbuf pixbuf;
 		try {
 			if(fromFile)
-				pixbuf = new Pixbuf (photoFile); //from a file
+				pixbuf = Chronojump.MyPixbuf.Get(photoFile); //from a file
 			else
-				pixbuf = new Pixbuf (null, photoFile); //from assemblies
+				pixbuf = Chronojump.MyPixbuf.Get(null, photoFile); //from assemblies
 
 			image.Pixbuf = pixbuf;
 		}

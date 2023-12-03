@@ -1459,10 +1459,13 @@ public class Util
 						Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName),
 						".."));
 
-		string baseDirectory = System.IO.Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, "..");
+		//Modify baseDirectory to application root path [By Joeries]
+		string baseDirectory = System.AppDomain.CurrentDomain.BaseDirectory;
+		/* string baseDirectory = System.IO.Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, "..");
 		if (! Directory.Exists(Path.Combine(baseDirectory, "lib" + Path.DirectorySeparatorChar + "chronojump"))) {
 			baseDirectory = System.IO.Path.Combine(baseDirectory, "..");
 		}
+		*/
 		return baseDirectory;
 	}
 

@@ -83,3 +83,8 @@ package/macos/Chronojump.app/Contents/Info.plist
 
 #MacOS files
 .DS_Store
+/src/.vs
+/src/obj
+/src/bin
+/configure~
+/src/Properties/PublishProfiles/*.user

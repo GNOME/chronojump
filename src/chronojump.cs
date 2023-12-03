@@ -68,7 +68,15 @@ public class ChronoJump
 		operatingSystem = UtilAll.GetOSEnum();
 		Util.operatingSystem = operatingSystem;
 
-		NativeLibraryResolver.Init("/opt/homebrew/lib/");
+		        //Determine library directory according to certain OS. [By Joeries]
+		if (UtilAll.IsWindows())
+		{
+			NativeLibraryResolver.Init(AppDomain.CurrentDomain.BaseDirectory);
+		}
+		else
+		{
+			NativeLibraryResolver.Init("/opt/homebrew/lib/");
+		}
 
 		//show version on console and exit before the starting logs
 		//note version, version2 args are available since: 2.2.0-112-ga4eaadcbc

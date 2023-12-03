@@ -146,21 +146,21 @@ public class EvaluatorWindow
 	private void putNonStandardIcons() {
 		Pixbuf pixbuf;
 		
-		pixbuf = new Pixbuf (null, Util.GetImagePath(true) + Constants.FileNameChronopic1);
+		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(true) + Constants.FileNameChronopic1);
 		image_cp1.Pixbuf = pixbuf;
-		pixbuf = new Pixbuf (null, Util.GetImagePath(true) + Constants.FileNameChronopic2);
+		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(true) + Constants.FileNameChronopic2);
 		image_cp2.Pixbuf = pixbuf;
-		pixbuf = new Pixbuf (null, Util.GetImagePath(true) + Constants.FileNameChronopic3);
+		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(true) + Constants.FileNameChronopic3);
 		image_cp3.Pixbuf = pixbuf;
 					
-		pixbuf = new Pixbuf (null, Util.GetImagePath(true) + Constants.FileNameContactPlatformSteel);
+		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(true) + Constants.FileNameContactPlatformSteel);
 		image_contact_steel.Pixbuf = pixbuf;
-		pixbuf = new Pixbuf (null, Util.GetImagePath(true) + Constants.FileNameContactPlatformModular);
+		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(true) + Constants.FileNameContactPlatformModular);
 		image_contact_modular.Pixbuf = pixbuf;
-		pixbuf = new Pixbuf (null, Util.GetImagePath(true) + Constants.FileNameInfrared);
+		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(true) + Constants.FileNameInfrared);
 		image_infrared.Pixbuf = pixbuf;
 					
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameZoomInIcon);
+		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + Constants.FileNameZoomInIcon);
 		image_zoom_cp1.Pixbuf = pixbuf;
 		image_zoom_cp2.Pixbuf = pixbuf;
 		image_zoom_cp3.Pixbuf = pixbuf;

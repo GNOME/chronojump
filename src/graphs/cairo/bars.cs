@@ -230,7 +230,7 @@ public abstract class CairoBars : CairoGeneric
 	protected void drawGuidesDo (int xStart, string imageStr, textTickPos ttp, Cairo.Color color,
 			double top, double avg, double bottom, double topG, double avgG, double bottomG)
 	{
-		Pixbuf pixbuf = new Pixbuf (null, Util.GetImagePath(false) + imageStr);
+		Pixbuf pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + imageStr);
 		Gdk.CairoHelper.SetSourcePixbuf (g, pixbuf, graphWidth -rightMargin +xStart, topMargin -24);
 		g.Paint();
 

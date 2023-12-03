@@ -89,3 +89,8 @@ package/macos/Chronojump.app/Contents/Info.plist
 /configure~
 /src/Properties/PublishProfiles/*.user
 /src/*.user
+/butterworth/.vs
+/butterworth/Kinovea.Filtering/obj
+/butterworth/Kinovea.Filtering/bin
+/butterworth/Sample/obj
+/butterworth/Sample/bin

@@ -88,3 +88,4 @@ package/macos/Chronojump.app/Contents/Info.plist
 /src/bin
 /configure~
 /src/Properties/PublishProfiles/*.user
+/src/*.user

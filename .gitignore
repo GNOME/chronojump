@@ -94,3 +94,5 @@ package/macos/Chronojump.app/Contents/Info.plist
 /butterworth/Kinovea.Filtering/bin
 /butterworth/Sample/obj
 /butterworth/Sample/bin
+/win32/Chronojump-win-x86-1.0.exe
+/win32/Chronojump-win-x64-1.0.exe

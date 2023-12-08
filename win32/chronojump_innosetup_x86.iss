@@ -72,6 +72,7 @@ Source: "./installers/dotnet-runtime-7.0.14-win-x86.exe"; DestDir: "{app}\instal
 Source: "./installers/python-3.12.0.exe"; DestDir: "{app}\installers\"
 Source: "./installers/R-4.3.2-win.exe"; DestDir: "{app}\installers\"     
 Source: "./gtk3/*"; DestDir: "{app}\"; Flags: recursesubdirs createallsubdirs
+Source: "../build/data/locale/*"; DestDir: "{app}\share\locale\"; Flags: recursesubdirs createallsubdirs
 
 [Icons]                                                                        
 Name: "{group}\Install Chronopic driver"; Filename: "{app}\drivers\CDM212364_Setup.exe"; WorkingDir: "{app}\drivers"

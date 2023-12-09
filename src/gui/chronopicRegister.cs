@@ -47,14 +47,14 @@ public static class TypePixList
 	{
 		l = new List<TypePix>();
 
-		l.Add(new TypePix(ChronopicRegisterPort.Types.UNKNOWN, new Pixbuf (null, Util.GetImagePath(false) + "board-unknown.png")));
-		l.Add(new TypePix(ChronopicRegisterPort.Types.CONTACTS, new Pixbuf (null, Util.GetImagePath(false) + "board-jump-run.png")));
-		l.Add(new TypePix(ChronopicRegisterPort.Types.ARDUINO_RUN_ENCODER, new Pixbuf (null, Util.GetImagePath(false) + "board-arduino-run-encoder.png")));
-		l.Add(new TypePix(ChronopicRegisterPort.Types.ARDUINO_FORCE, new Pixbuf (null, Util.GetImagePath(false) + "board-arduino-force.png")));
-		l.Add(new TypePix(ChronopicRegisterPort.Types.ENCODER, new Pixbuf (null, Util.GetImagePath(false) + "board-encoder.png")));
-		l.Add(new TypePix(ChronopicRegisterPort.Types.ARDUINO_RFID, new Pixbuf (null, Util.GetImagePath(false) + "board-arduino-rfid.png")));
-		//l.Add(new TypePix(ChronopicRegisterPort.Types.ACCELEROMETER, new Pixbuf (null, Util.GetImagePath(false) + "board-accelerometer.png")));
-		l.Add(new TypePix(ChronopicRegisterPort.Types.RUN_WIRELESS, new Pixbuf (null, Util.GetImagePath(false) + "board-run-wireless.png")));
+		l.Add(new TypePix(ChronopicRegisterPort.Types.UNKNOWN, Chronojump.MyPixbuf.Get (null, Util.GetImagePath(false) + "board-unknown.png")));
+		l.Add(new TypePix(ChronopicRegisterPort.Types.CONTACTS, Chronojump.MyPixbuf.Get (null, Util.GetImagePath(false) + "board-jump-run.png")));
+		l.Add(new TypePix(ChronopicRegisterPort.Types.ARDUINO_RUN_ENCODER, Chronojump.MyPixbuf.Get (null, Util.GetImagePath(false) + "board-arduino-run-encoder.png")));
+		l.Add(new TypePix(ChronopicRegisterPort.Types.ARDUINO_FORCE, Chronojump.MyPixbuf.Get (null, Util.GetImagePath(false) + "board-arduino-force.png")));
+		l.Add(new TypePix(ChronopicRegisterPort.Types.ENCODER, Chronojump.MyPixbuf.Get (null, Util.GetImagePath(false) + "board-encoder.png")));
+		l.Add(new TypePix(ChronopicRegisterPort.Types.ARDUINO_RFID, Chronojump.MyPixbuf.Get (null, Util.GetImagePath(false) + "board-arduino-rfid.png")));
+		//l.Add(new TypePix(ChronopicRegisterPort.Types.ACCELEROMETER, Chronojump.MyPixbuf.Get (null, Util.GetImagePath(false) + "board-accelerometer.png")));
+		l.Add(new TypePix(ChronopicRegisterPort.Types.RUN_WIRELESS, Chronojump.MyPixbuf.Get (null, Util.GetImagePath(false) + "board-run-wireless.png")));
 	}
 
 	//used to hide new unfinished devices on chronojump release
@@ -164,7 +164,7 @@ public class DiscoverWindow
 
 		FakeButtonClose = new Gtk.Button();
 		portSelected = new ChronopicRegisterPort ("");
-		image_discover_mode = new Gtk.Image (new Pixbuf (null, Util.GetImagePath(false) + iconModeStr));
+		image_discover_mode = new Gtk.Image (Chronojump.MyPixbuf.Get (null, Util.GetImagePath(false) + iconModeStr));
 
 		//ChronoDebug cDebug = new ChronoDebug("Discover " + current_mode.ToString());
 		//cDebug.Start();
@@ -206,7 +206,7 @@ public class DiscoverWindow
 			label_micro_discover_not_found.Visible = true;
 
 			image_button_micro_discover_cancel_close.Pixbuf =
-				new Pixbuf (null, Util.GetImagePath (false) + "image_close.png");
+				Chronojump.MyPixbuf.Get (null, Util.GetImagePath (false) + "image_close.png");
 			label_button_micro_discover_cancel_close.Text = Catalog.GetString("Close");
 		}
 

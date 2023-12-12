@@ -8,6 +8,7 @@
 		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
 		<StartupObject>ChronoJump</StartupObject>
 		<ApplicationIcon>chronojump_icon.ico</ApplicationIcon>
+		<RunPostBuildEvent>OnOutputUpdated</RunPostBuildEvent>
 	</PropertyGroup>
 	<ItemGroup>
 		<PackageReference Include="GtkSharp" Version="3.24.24.95" />
@@ -268,4 +269,7 @@
 	  </Content>
 	  <Content Include="chronojump_icon.ico" />
 	</ItemGroup>
+	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
+	  <Exec Command="call post-build.bat &quot;$(OutDir)&quot;" />
+	</Target>
 </Project>

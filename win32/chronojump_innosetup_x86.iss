@@ -58,7 +58,7 @@ Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{
 Source: "../butterworth/Data/*"; DestDir: "{app}\butterworth\Data\"; Flags: recursesubdirs createallsubdirs         
 Source: "../encoder/*"; DestDir: "{app}\encoder\"; Flags: recursesubdirs createallsubdirs      
 Source: "./dist.chronojump-x86/*"; Excludes: ".gitignore"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs    
-Source: "./dist.butterworth/*"; Excludes: ".gitignore"; DestDir: "{app}\butterworth\"; Flags: recursesubdirs createallsubdirs
+Source: "../butterworth/Sample/bin/Release/*"; Excludes: ".gitignore"; DestDir: "{app}\butterworth\"; Flags: recursesubdirs createallsubdirs
 Source: "../glade/*"; DestDir: "{app}\glade\"; Flags: recursesubdirs createallsubdirs
 Source: "../images/*"; DestDir: "{app}\images\"; Flags: recursesubdirs createallsubdirs   
 Source: "../po/*"; Excludes: "*.in"; DestDir: "{app}\po\"; Flags: recursesubdirs createallsubdirs

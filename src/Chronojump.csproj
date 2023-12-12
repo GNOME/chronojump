@@ -270,6 +270,6 @@
 	  <Content Include="chronojump_icon.ico" />
 	</ItemGroup>
 	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
-	  <Exec Command="call post-build.bat &quot;$(OutDir)&quot;" />
+	  <Exec Command="call post-build.bat &quot;$(OutDir)&quot; $(Configuration)" />
 	</Target>
 </Project>

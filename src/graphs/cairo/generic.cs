@@ -481,7 +481,7 @@ public abstract class CairoGeneric
 	//double mousesFromRight is how many mouses width should be at right of the graph
 	protected void addClickableMark (Cairo.Context g, double mousesFromRight)
 	{
-		Gdk.Pixbuf pixbuf = new Gdk.Pixbuf (null, Util.GetImagePath(false) + "mouse.png"); //18px
+		Gdk.Pixbuf pixbuf = Chronojump.MyPixbuf.Get (null, Util.GetImagePath(false) + "mouse.png"); //18px
 		Gdk.CairoHelper.SetSourcePixbuf (g, pixbuf,
 				graphWidth -rightMargin -mousesFromRight*18,// -4,
 				graphHeight - bottomMargin -18 -4);

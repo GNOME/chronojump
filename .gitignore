@@ -98,3 +98,5 @@ package/macos/Chronojump.app/Contents/Info.plist
 /win32/Chronojump-win-x64-1.0.exe
 /po/POTFILES
 /po/POTFILES
+/obj
+/bin

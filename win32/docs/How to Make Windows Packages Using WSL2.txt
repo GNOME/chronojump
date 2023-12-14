@@ -1,0 +1,36 @@
+1. Install WSL2 Debian
+
+2. Open WSL2 Debian terminal
+
+3. Commands:
+
+sudo dpkg --add-architecture i386
+sudo apt-get update
+cd "/mnt/d/JuSha/chronojump"
+sudo apt-get install dos2unix
+dos2unix *.sh
+dos2unix *.ac
+dos2unix *.am
+dos2unix *.in
+cd src/Mini
+dos2unix *.am
+dos2unix *.in
+cd ../../
+cd build
+dos2unix *
+cd ../
+sudo apt-get install autoconf
+sudo apt-get install git
+sudo apt-get install libtool
+sudo apt-get install intltool
+sudo apt-get install pkg-config
+sudo apt install build-essential
+sudo apt-get install python3
+sudo apt install libglib2.0-dev
+sudo apt install gtk-sharp3
+sudo apt install wine32:i386
+sh autogen.sh --prefix /mnt/d/JuSha/chronojump/win32/deps
+make
+make install
+cd win32
+make installer

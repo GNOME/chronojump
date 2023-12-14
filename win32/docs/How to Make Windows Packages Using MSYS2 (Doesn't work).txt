@@ -1,0 +1,26 @@
+1. Install MSYS2
+
+https://github.com/msys2/msys2-installer/releases/download/2023-10-26/msys2-x86_64-20231026.exe
+
+2. Open "MSYS2 UCRT64" shell
+
+3. Execute command: pacman -Syu
+
+4. Install autotools: pacman -S autoconf automake libtool base-devel
+
+5. Install git and pkg-config: pacman -S git pkg-config
+
+6. Install intltoolize: pacman -S intltool
+
+7. Install GCC: pacman -S mingw-w64-ucrt-x86_64-gcc
+
+8. Install Python, glib and gtk3: pacman -S python3 mingw-w64-ucrt-x86_64-glib2 mingw-w64-ucrt-x86_64-gettext mingw-w64-x86_64-gtk3
+
+9. Execute the following commands one by one:
+
+cd "D:/JuSha/chronojump"
+sh autogen.sh --prefix D:/JuSha/chronojump/win32/dist
+make
+make install
+cd win32
+make installer

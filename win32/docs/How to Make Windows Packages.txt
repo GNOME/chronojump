@@ -1,0 +1,54 @@
+1. Download and install InnnoSetup: https://jrsoftware.org/download.php/is.exe.
+
+2. Open package-x64.bat/package-x86.bat and modify InnoSetup’s path.
+
+3. Enable CPU Virtualization Technology from BIOS.
+
+4. Install "Windows Subsystem for Linux" and "Debian" from Microsoft Store.
+
+5. Open WSL2 Debian terminal and initialize Debian.
+
+6. Execute the following commands (Only the first time. Please replace "d/JuSha" with the real path of chronojump and d is drive letter. ) :
+
+sudo dpkg --add-architecture i386
+sudo apt-get update
+cd "/mnt/d/JuSha/chronojump"
+sudo apt-get install dos2unix
+dos2unix *.sh
+dos2unix *.ac
+dos2unix *.am
+dos2unix *.in
+cd src/Mini
+dos2unix *.am
+dos2unix *.in
+cd ../../
+cd build
+dos2unix *
+cd ../
+sudo apt-get install autoconf
+sudo apt-get install git
+sudo apt-get install libtool
+sudo apt-get install intltool
+sudo apt-get install pkg-config
+sudo apt install build-essential
+sudo apt-get install python3
+sudo apt install libglib2.0-dev
+sudo apt install gtk-sharp3
+sudo apt install wine32:i386
+
+7. Execute the following commands (Only when autotools files changed. Please replace "d/JuSha" with the real path of chronojump and d is drive letter. ) :
+
+cd "/mnt/d/JuSha/chronojump"
+sh autogen.sh --prefix /mnt/d/JuSha/chronojump/win32/deps
+make
+make install
+cd win32
+make installer
+
+8. Execute "win32/package-x64.bat" (Only when a package required).
+
+9. When no tags, please modify "src/AssemblyInfo.cs" to add version number like 1.0.0:
+
+[assembly: AssemblyVersion("1.0.0")]
+
+10. To update installers: Download the latest installers and put them into folder "win32/installers"; Modify iss.in scripts to replace the old ones.

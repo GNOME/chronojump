@@ -59,10 +59,10 @@ fi
 IT_PROG_INTLTOOL([0.40.0])
 AM_GLIB_GNU_GETTEXT
 
-dnl Mono and C# compiler
-dnl Check first for a 4.0 compiler
-AC_PATH_PROG(MONO, mono, yes)
-AC_PATH_PROG(MCS, mcs, yes)
+#dnl Mono and C# compiler
+#dnl Check first for a 4.0 compiler
+#AC_PATH_PROG(MONO, mono, yes)
+#AC_PATH_PROG(MCS, mcs, yes)
 
 dnl Check for gettext utils
 AC_PATH_PROG(MSGFMT, msgfmt, no)
@@ -79,7 +79,7 @@ case "$host" in
   *-*-mingw*|*-*-cygwin*)
     ostype=Windows
     AC_DEFINE(OSTYPE_WINDOWS)
-    GMCS_FLAGS="$GMCS_FLAGS -define:OSTYPE_WINDOWS"
+#    GMCS_FLAGS="$GMCS_FLAGS -define:OSTYPE_WINDOWS"
     ;;
   *-*-darwin*)
     AC_DEFINE(OSTYPE_OS_X)
@@ -93,7 +93,7 @@ esac
 AM_CONDITIONAL(OSTYPE_WINDOWS, test x$ostype = xWindows)
 AM_CONDITIONAL(OSTYPE_OS_X, test x$ostype = xOS_X)
 AM_CONDITIONAL(OSTYPE_LINUX, test x$ostype = xLinux)
-AC_SUBST(GMCS_FLAGS, ["$GMCS_FLAGS"])
+#AC_SUBST(GMCS_FLAGS, ["$GMCS_FLAGS"])
 AC_MSG_RESULT($ostype)
 
 
@@ -145,7 +145,8 @@ src/buildInfo.cs
 src/chronojump
 src/chronojump.desktop
 src/Mini/chronojump_mini
-win32/chronojump_innosetup.iss
+win32/chronojump_innosetup_x86.iss
+win32/chronojump_innosetup_x64.iss
 win32/Makefile
 ])
 

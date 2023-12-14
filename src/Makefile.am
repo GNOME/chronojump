@@ -1,10 +1,10 @@
 SUBDIRS = Mini chronojump-importer
 
-ASSEMBLY = Chronojump
-TARGET = exe
+#ASSEMBLY = Chronojump
+#TARGET = exe
 LINK = $(REF_DEP_CHRONOJUMP)
 
-SOURCES = \
+#SOURCES = \
 	graphs/graphs.cs\
 	graphs/jumpsAsymmetry.cs\
 	graphs/jumpsProfile.cs\
@@ -306,7 +306,7 @@ SOURCES = \
 	../butterworth/Kinovea.Filtering/TimeSeriesCollection.cs\
 	../butterworth/Kinovea.Filtering/TimeSeriesPadder.cs
 
-RESOURCES = \
+#RESOURCES = \
 	../glade/app1.glade \
 	../glade/confirm_window.glade \
 	../glade/convert_weight.glade \
@@ -750,16 +750,16 @@ RESOURCES = \
 	../images/ok.wav,ok.wav \
 	../images/bad.wav,sound_bad.wav
 
-IMAGES = $(top_srcdir)/images/chronojump-logo-2013.png \
+#IMAGES = $(top_srcdir)/images/chronojump-logo-2013.png \
          $(top_srcdir)/images/chronojump-logo-2013_320.png \
          $(top_srcdir)/images/start.wav \
          $(top_srcdir)/images/ok.wav \
          $(top_srcdir)/images/bad.wav \
          $(top_srcdir)/images/report_web_style.css
 
-LOGO = $(top_srcdir)/images/svg/chronojump_icon.svg
+#LOGO = $(top_srcdir)/images/svg/chronojump_icon.svg
 
-bin_SCRIPTS = chronojump
+#bin_SCRIPTS = chronojump
 
 DESKTOP_FILE = chronojump.desktop.in
 

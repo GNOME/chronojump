@@ -6,3 +6,4 @@ cd ../src
 dotnet publish -p:PublishProfile=Properties\PublishProfiles\win-x86.pubxml
 cd ../win32
 "D:\Program Files (x86)\Inno Setup 6\ISCC.exe" chronojump_innosetup_x86.iss
+pause

@@ -2,14 +2,14 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define ProductName "Chronojump"
-#define ProductVersion "1.0"
+#define ProductVersion "@VERSION@"
 #define Arch "x86"
 
 [Setup]
 ; NOTE: The value of AppId uniquely identifies this application.
 ; Do not use the same AppId value in installers for other applications.
 ; (To generate a new GUID, click Tools | Generate GUID inside the IDE.)
-AppId={{69EC15A7-5D66-4D24-A15B-1C23C0F621E1}
+AppId={{69EC15A7-5D66-4D24-A15B-1C23C0F621E0}
 AppName={#ProductName}
 AppVerName={#ProductName} {#ProductVersion}  
 AppPublisher=Chronojump
@@ -55,15 +55,15 @@ Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{
 ; Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
 
 [Files]
-Source: "../butterworth/Data/*"; DestDir: "{app}\butterworth\Data\"; Flags: recursesubdirs createallsubdirs         
-Source: "../encoder/*"; DestDir: "{app}\encoder\"; Flags: recursesubdirs createallsubdirs      
-Source: "./dist.chronojump-x86/*"; Excludes: ".gitignore"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs    
-Source: "../butterworth/Sample/bin/Release/*"; Excludes: ".gitignore"; DestDir: "{app}\butterworth\"; Flags: recursesubdirs createallsubdirs
-Source: "../glade/*"; DestDir: "{app}\glade\"; Flags: recursesubdirs createallsubdirs
-Source: "../images/*"; DestDir: "{app}\images\"; Flags: recursesubdirs createallsubdirs   
-Source: "../po/*"; Excludes: "*.in"; DestDir: "{app}\po\"; Flags: recursesubdirs createallsubdirs
+Source: "../butterworth/Data/*"; DestDir: "{app}\butterworth\Data\"; Flags: recursesubdirs createallsubdirs   
+Source: "../src/angle/*"; DestDir: "{app}\bin\angle\"; Flags: recursesubdirs createallsubdirs    
+Source: "../src/chronojump-importer/*"; DestDir: "{app}\bin\chronojump-importer\"; Flags: recursesubdirs createallsubdirs           
+Source: "../encoder/*"; DestDir: "{app}\bin\encoder\"; Flags: recursesubdirs createallsubdirs      
+Source: "../src/bin/Release/net7.0/publish/win-x86/*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs    
+Source: "../butterworth/Sample/bin/Release/*"; DestDir: "{app}\butterworth\"; Flags: recursesubdirs createallsubdirs
+Source: "../po/*.po"; DestDir: "{app}\po\"; Flags: recursesubdirs createallsubdirs
+Source: "../po/*.gmo"; DestDir: "{app}\po\"; Flags: recursesubdirs createallsubdirs
 Source: "./chronojump_icon.ico"; DestDir: "{app}\share\chronojump\images\"
-Source: "./logchronojump.bat"; DestDir: "{app}"
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 Source: "./deps/*"; Excludes: ".gitignore"; DestDir: "{app}"; Flags: recursesubdirs createallsubdirs
 Source: "./xbuild_files/*"; DestDir: "{app}\xbuild_files\"; Flags: recursesubdirs createallsubdirs
@@ -72,17 +72,16 @@ Source: "./installers/dotnet-runtime-7.0.14-win-x86.exe"; DestDir: "{app}\instal
 Source: "./installers/python-3.12.0.exe"; DestDir: "{app}\installers\"
 Source: "./installers/R-4.3.2-win.exe"; DestDir: "{app}\installers\"     
 Source: "./gtk3/*"; DestDir: "{app}\"; Flags: recursesubdirs createallsubdirs
-Source: "../build/data/locale/*"; DestDir: "{app}\share\locale\"; Flags: recursesubdirs createallsubdirs
 
 [Icons]                                                                        
 Name: "{group}\Install Chronopic driver"; Filename: "{app}\drivers\CDM212364_Setup.exe"; WorkingDir: "{app}\drivers"
 Name: "{group}\Chronojump"; Filename: "{app}\Chronojump.exe"; WorkingDir: "{app}"
-Name: "{group}\Chronojump debug"; Filename: "{app}\logchronojump.bat"; WorkingDir: "{app}"     
+Name: "{group}\Chronojump debug"; Filename: "{app}\bin\logchronojump.bat"; WorkingDir: "{app}"     
 Name: "{group}\{cm:UninstallProgram,Chronojump}"; Filename: "{uninstallexe}"
 ; Name: "{group}\Chronojump mini"; Filename: "{app}\rxvt.exe"; Parameters:"-e ./Chronojump_mini.exe" ; WorkingDir: "{app}" ; IconFileName: "{app}\share\chronojump\images\chronojump_icon.ico"
 ; Name: "{group}\Chronopic Firmware Recorder "; Filename: "{app}\bin\chronopic-firmwarecord-dir\chronopic-firmwarecord.exe"; WorkingDir: "{app}\bin\chronopic-firmwarecord-dir"
 Name: "{commondesktop}\Chronojump"; Filename: "{app}\Chronojump.exe"; WorkingDir: "{app}"; Tasks: desktopicon
-Name: "{commondesktop}\Chronojump debug"; Filename: "{app}\logchronojump.bat"; WorkingDir: "{app}"; Tasks: desktopicon
+Name: "{commondesktop}\Chronojump debug"; Filename: "{app}\bin\logchronojump.bat"; WorkingDir: "{app}"; Tasks: desktopicon
 
 [Run]
 Filename: "{app}\installers\dotnet-runtime-7.0.14-win-x86.exe"; StatusMsg: "Install .NET Runtime 7.0.14"; Tasks: install_dotnet7; Flags: skipifsilent

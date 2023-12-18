@@ -8233,16 +8233,29 @@ LogB.Debug("mc finished 5");
 		}
 	}
 	
-	private void on_repair_selected_run_interval_accepted (object o, EventArgs args) {
+	private void on_repair_selected_run_interval_accepted (object o, EventArgs args)
+	{
 		LogB.Information("repair selected run interval accepted");
-		
+
+		int tempSelected = -1;
+		if (myTreeViewRunsInterval.EventSelectedID > 0)
+			tempSelected = myTreeViewRunsInterval.EventSelectedID;
+
+		selectedRunInterval = null; // after the repair need to check again run from SQL and draw at top correctly
+
 		treeview_runs_interval_storeReset();
 		fillTreeView_runs_interval(UtilGtk.ComboGetActive(combo_select_runs_interval));
 		createTreeView_runs_interval_sprint (treeview_runs_interval_sprint);
 		
-		if(createdStatsWin) {
+		if(createdStatsWin)
 			stats_win_fillTreeView_stats(false, false);
-		}
+
+		if (tempSelected > 0)
+			selectRunIntervallic (tempSelected);
+
+		//update both graphs
+		event_execute_drawingarea_cairo.QueueDraw ();
+		event_execute_drawingarea_realtime_capture_cairo.QueueDraw ();
 	}
 
 	private void on_repair_selected_pulse_clicked (object o, EventArgs args) {

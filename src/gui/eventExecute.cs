@@ -397,29 +397,39 @@ public partial class ChronoJumpWindow
 			return;
 
 		if (current_mode == Constants.Modes.JUMPSSIMPLE && myTreeViewJumps != null)
-		{
-			myTreeViewJumps.ZoomToTestsIfNeeded ();
-			myTreeViewJumps.SelectEvent (id, true); //scroll
-			on_treeview_jumps_cursor_changed (new object (), new EventArgs ()); //in order to update the play video button
-		}
+			selectJumpSimple (id);
 		else if (current_mode == Constants.Modes.JUMPSREACTIVE && myTreeViewJumpsRj != null)
-		{
-			myTreeViewJumpsRj.ZoomToTestsIfNeeded ();
-			myTreeViewJumpsRj.SelectEvent (id, true); //scroll
-			on_treeview_jumps_rj_cursor_changed (new object (), new EventArgs ()); //in order to update top graph and play video button
-		}
+			selectJumpReactive (id);
 		else if (current_mode == Constants.Modes.RUNSSIMPLE && myTreeViewRuns != null)
-		{
-			myTreeViewRuns.ZoomToTestsIfNeeded ();
-			myTreeViewRuns.SelectEvent (id, true); //scroll
-			on_treeview_runs_cursor_changed (new object (), new EventArgs ()); //in order to update the play video button
-		}
+			selectRunSimple (id);
 		else if (current_mode == Constants.Modes.RUNSINTERVALLIC && myTreeViewRunsInterval != null)
-		{
-			myTreeViewRunsInterval.ZoomToTestsIfNeeded ();
-			myTreeViewRunsInterval.SelectEvent (id, true); //scroll
-			on_treeview_runs_interval_cursor_changed (new object (), new EventArgs ()); //in order to update top graph and play video button
-		}
+			selectRunIntervallic (id);
+	}
+
+	private void selectJumpSimple (int id)
+	{
+		myTreeViewJumps.ZoomToTestsIfNeeded ();
+		myTreeViewJumps.SelectEvent (id, true); //scroll
+		on_treeview_jumps_cursor_changed (new object (), new EventArgs ()); //in order to update the play video button
+	}
+
+	private void selectJumpReactive (int id)
+	{
+		myTreeViewJumpsRj.ZoomToTestsIfNeeded ();
+		myTreeViewJumpsRj.SelectEvent (id, true); //scroll
+		on_treeview_jumps_rj_cursor_changed (new object (), new EventArgs ()); //in order to update top graph and play video button
+	}
+	private void selectRunSimple (int id)
+	{
+		myTreeViewRuns.ZoomToTestsIfNeeded ();
+		myTreeViewRuns.SelectEvent (id, true); //scroll
+		on_treeview_runs_cursor_changed (new object (), new EventArgs ()); //in order to update the play video button
+	}
+	private void selectRunIntervallic (int id)
+	{
+		myTreeViewRunsInterval.ZoomToTestsIfNeeded ();
+		myTreeViewRunsInterval.SelectEvent (id, true); //scroll
+		on_treeview_runs_interval_cursor_changed (new object (), new EventArgs ()); //in order to update top graph and play video button
 	}
 
 	// simple and DJ jump	

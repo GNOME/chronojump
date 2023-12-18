@@ -8193,15 +8193,28 @@ LogB.Debug("mc finished 5");
 		}
 	}
 	
-	private void on_repair_selected_jump_rj_accepted (object o, EventArgs args) {
+	private void on_repair_selected_jump_rj_accepted (object o, EventArgs args)
+	{
 		LogB.Information("Repair selected reactive jump accepted");
-		
+
+		int tempSelected = -1;
+		if (myTreeViewJumpsRj.EventSelectedID > 0)
+			tempSelected = myTreeViewJumpsRj.EventSelectedID;
+
+		selectedJumpRj = null; // after the repair need to check again jump from SQL and draw at top correctly
+
 		treeview_jumps_rj_storeReset();
 		fillTreeView_jumps_rj(UtilGtk.ComboGetActive(combo_select_jumps_rj));
 		
-		if(createdStatsWin) {
+		if(createdStatsWin)
 			stats_win_fillTreeView_stats(false, false);
-		}
+
+		if (tempSelected > 0)
+			selectJumpReactive (tempSelected);
+
+		//update both graphs
+		event_execute_drawingarea_cairo.QueueDraw ();
+		event_execute_drawingarea_realtime_capture_cairo.QueueDraw ();
 	}
 	
 	private void on_repair_selected_run_interval_clicked (object o, EventArgs args) {

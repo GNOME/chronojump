@@ -287,14 +287,15 @@ public class ChronoJump
 #if OSTYPE_WINDOWS
 				g_setenv ("LANGUAGE", language, true);
 #endif
-			}
-		}
-		catch {
-			LogB.Warning("Problem reading language on start");
-		}
-	}
+                }
+            }
+            catch
+            {
+                LogB.Warning("Problem reading language on start");
+            }
+        }
 
-	Catalog.Init("chronojump",System.IO.Path.Combine(Util.GetPrefixDir(),"share/locale"));
+        Catalog.Init("chronojump", System.IO.Path.Combine(Util.GetPrefixDir(), "share", "locale"));//To use the specific path separator on certain OS [By Joeries]
 
 	new ChronoJump(args);
 	}

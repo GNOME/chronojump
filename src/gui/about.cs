@@ -21,6 +21,7 @@
 using System;
 using Gtk;
 using Gdk;
+using Mono.Unix;
 
 public class About
 {
@@ -61,7 +62,7 @@ public class About
 
 		//put an icon to window
 		UtilGtk.IconWindow(dialog_about);
-
+	 
 		//images:
 		Pixbuf pixbuf;
 		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + Constants.FileNameLogo);
@@ -123,7 +124,9 @@ public class About
 	private void connectWidgets (Gtk.Builder builder)
 	{
 		dialog_about = (Gtk.Dialog) builder.GetObject ("dialog_about");
-		image_logo = (Gtk.Image) builder.GetObject ("image_logo");
+		dialog_about.Title = Catalog.GetString(dialog_about.Title);//To translate manually [By Joeries]
+
+        image_logo = (Gtk.Image) builder.GetObject ("image_logo");
 		dialog_about_label_chronojump = (Gtk.Label) builder.GetObject ("dialog_about_label_chronojump");
 		dialog_about_label_version = (Gtk.Label) builder.GetObject ("dialog_about_label_version");
 		notebook = (Gtk.Notebook) builder.GetObject ("notebook");

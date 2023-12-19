@@ -46,6 +46,14 @@ namespace Mono.Unix
         [DllImport("libintl-8.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "libintl_bindtextdomain")]
         static extern IntPtr bindtextdomain(string domainname, string dirname);
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="domainname"></param>
+        /// <returns></returns>
+        [DllImport("libintl-8.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "textdomain")]
+        static extern IntPtr textdomain(string domainname);
+
 
         [DllImport("libintl-8.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "libintl_bind_textdomain_codeset")]
         static extern IntPtr bind_textdomain_codeset(string domainname,
@@ -58,6 +66,8 @@ namespace Mono.Unix
             if (bindtextdomain(package, localedir) == IntPtr.Zero)
                 throw new Exception();
             if (bind_textdomain_codeset(package, "UTF-8") == IntPtr.Zero)
+                throw new Exception();
+            if (textdomain(package) == IntPtr.Zero)
                 throw new Exception();
         }
 

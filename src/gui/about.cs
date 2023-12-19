@@ -124,8 +124,6 @@ public class About
 	private void connectWidgets (Gtk.Builder builder)
 	{
 		dialog_about = (Gtk.Dialog) builder.GetObject ("dialog_about");
-		dialog_about.Title = Catalog.GetString(dialog_about.Title);//To translate manually [By Joeries]
-
         image_logo = (Gtk.Image) builder.GetObject ("image_logo");
 		dialog_about_label_chronojump = (Gtk.Label) builder.GetObject ("dialog_about_label_chronojump");
 		dialog_about_label_version = (Gtk.Label) builder.GetObject ("dialog_about_label_version");

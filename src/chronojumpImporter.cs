@@ -378,6 +378,7 @@ LogB.Information("import L ");
 	{
 		string importer_executable;
 
+		/*
 		if (UtilAll.IsWindows()) {
 			// On Windows we execute the .exe file (it's the Python with py2exe)
 			// right now default to python2
@@ -386,16 +387,23 @@ LogB.Information("import L ");
 			else
 				importer_executable = System.IO.Path.Combine (Util.GetPrefixDir (), "bin\\chronojump-importer-python3\\chronojump_importer.exe");
 		} else {
+		*/
 			// On Linux and OSX we execute Python and we pass the path to the script as a first argument
 
 			importer_executable = Preferences.GetPythonExecutable(pythonVersion);
 
+//hardcoded until find a way that it is recognised on installation or there is a way from preferences to put this path
+if (UtilAll.IsWindows())
+	importer_executable = @"C:\Users\xavi\AppData\Local\Programs\Python\Python312\python.exe";
+
 			LogB.Information("importer_executable: " + importer_executable);
 			string importer_script_path = System.IO.Path.Combine (Util.GetPrefixDir (), "bin/chronojump_importer.py");
+			if (UtilAll.IsWindows())
+				importer_script_path = System.IO.Path.Combine (Util.GetPrefixDir (), @"bin\chronojump_importer.py");
 
 			// first argument of the Python: the path to the script
 			parameters.Insert (0, importer_script_path);
-		}
+		//}
 
 		ExecuteProcess.Result execute_result = ExecuteProcess.run (importer_executable, parameters, true, true);
 

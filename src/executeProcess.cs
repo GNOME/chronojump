@@ -92,6 +92,11 @@ class ExecuteProcess
 		foreach (string parameter in parameters)
 		{
 			parameters_string += CommandLineEncoder.EncodeArgText (parameter) + " ";
+
+			//done also on runAtBackground
+			//comandLineEncoder converts \net to [SlashN]et
+			if (UtilAll.IsWindows () && parameters_string.Contains (@"[SlashN]et"))
+				parameters_string = parameters_string.Replace (@"[SlashN]et", @"\net");
 		}
 
 		processStartInfo.Arguments = parameters_string;
@@ -168,6 +173,11 @@ class ExecuteProcess
 		foreach (string parameter in parameters)
 		{
 			parameters_string += CommandLineEncoder.EncodeArgText (parameter) + " ";
+
+			//done also on runDo
+			//comandLineEncoder converts \net to [SlashN]et
+			if (UtilAll.IsWindows () && parameters_string.Contains (@"[SlashN]et"))
+				parameters_string = parameters_string.Replace (@"[SlashN]et", @"\net");
 		}
 
 		processStartInfo.Arguments = parameters_string;

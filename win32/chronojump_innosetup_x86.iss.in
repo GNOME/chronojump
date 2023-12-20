@@ -48,8 +48,6 @@ Name: "spanish"; MessagesFile: "compiler:Languages\Spanish.isl"
 
 [Tasks]                                                                                                       
 Name: "install_dotnet7"; Description: "Install .NET Runtime 7.0.14"; GroupDescription: "Install .NET Runtime 7.0.14";
-Name: "install_python3"; Description: "Install Python 3.12.0"; GroupDescription: "Install Python 3.12.0";    
-Name: "install_R4"; Description: "Install R 4.3.2"; GroupDescription: "Install R 4.3.2";
 Name: "install_driver"; Description: "Install Chronopic driver"; GroupDescription: "Install Chronopic driver";
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}";
 ; Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
@@ -69,9 +67,6 @@ Source: "./deps/*"; Excludes: ".gitignore"; DestDir: "{app}"; Flags: recursesubd
 Source: "./xbuild_files/*"; DestDir: "{app}\xbuild_files\"; Flags: recursesubdirs createallsubdirs
 Source: "../manual/*.pdf"; DestDir: "{app}\share\doc\chronojump\"    
 Source: "./installers/dotnet-runtime-7.0.14-win-x86.exe"; DestDir: "{app}\installers\"
-Source: "./installers/python-3.12.0.exe"; DestDir: "{app}\installers\"
-Source: "./installers/R-4.3.2-win.exe"; DestDir: "{app}\installers\"     
-Source: "./gtk3/*"; DestDir: "{app}\"; Flags: recursesubdirs createallsubdirs
 
 [Icons]                                                                        
 Name: "{group}\Install Chronopic driver"; Filename: "{app}\drivers\CDM212364_Setup.exe"; WorkingDir: "{app}\drivers"
@@ -85,8 +80,6 @@ Name: "{commondesktop}\Chronojump debug"; Filename: "{app}\bin\logchronojump.bat
 
 [Run]
 Filename: "{app}\installers\dotnet-runtime-7.0.14-win-x86.exe"; StatusMsg: "Install .NET Runtime 7.0.14"; Tasks: install_dotnet7; Flags: skipifsilent
-Filename: "{app}\installers\python-3.12.0.exe"; StatusMsg: "Install Python 3.12.0"; Tasks: install_python3; Flags: skipifsilent
-Filename: "{app}\installers\R-4.3.2-win.exe"; StatusMsg: "Install R 4.3.2"; Tasks: install_R4; Flags: skipifsilent
 Filename: "{app}\drivers\CDM212364_Setup.exe"; StatusMsg: "Installing Chronopic driver"; Tasks: install_driver; Flags: skipifsilent
 Filename: "{app}\Chronojump.exe"; Description: "{cm:LaunchProgram,ChronoJump}"; Flags: nowait postinstall skipifsilent
 ; Filename: "{app}\bin\logchronojump.bat"; Description: "{cm:LaunchProgram,ChronoJump}"; Flags: nowait postinstall skipifsilent

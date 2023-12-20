@@ -15,9 +15,11 @@ sudo apt-get update
 cd "/mnt/d/JuSha/chronojump"
 sudo apt-get -y install dos2unix
 dos2unix autogen.sh
+dos2unix configure.ac
 cd build
 dos2unix icon-theme-installer
-cd ../
+dos2unix private-icon-theme-installer
+cd ..
 sudo apt-get -y install autoconf
 sudo apt-get -y install git
 sudo apt-get -y install libtool

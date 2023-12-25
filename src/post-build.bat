@@ -10,5 +10,5 @@ echo F | xcopy /s /e /y /d "..\win32\chronojump_icon.ico" "%1share\chronojump\im
 xcopy /s /e /y /d "..\win32\deps\" "%1" /exclude:post-build-exclude.txt
 xcopy /s /e /y /d "..\win32\xbuild_files\" "%1xbuild_files\" 
 xcopy /s /e /y /d "..\manual\" "%1share\doc\chronojump\" /exclude:post-build-exclude.txt
-echo F | xcopy /s /e /y /d "..\win32\gtk3\libglib-2.0-0.dll" "%1libglib-2.0-0.dll" 
-echo F | xcopy /s /e /y /d "..\win32\gtk3\libintl-8.dll" "%1libintl-8.dll" 
+echo F | xcopy /s /e /y /d "..\win32\gtk3-x64\libglib-2.0-0.dll" "%1libglib-2.0-0.dll" 
+echo F | xcopy /s /e /y /d "..\win32\gtk3-x64\libintl-8.dll" "%1libintl-8.dll" 

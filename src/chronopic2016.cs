@@ -106,7 +106,14 @@ public class Chronopic2016
 		if(cpDoing == 1)
 		{
 			LogB.Information("connectContactsRealDo() 1");
+			if (sp != null && sp.IsOpen)
+			{
+				LogB.Information("connectContactsRealDo() closing the serial port"); //.NET needed this to a 2nd test (1st jump worked, 2nd not)
+				sp.Close ();
+			}
+
 			sp = new SerialPort(crp.Port);
+
 			chronopicInit = new ChronopicInit();
 			connected = chronopicInit.Do(1, out cp, out sp,
 					platformState, crp.Port, out message, out success);

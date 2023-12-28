@@ -350,7 +350,7 @@ class Database:
 
     @staticmethod
     def increment_suffix(value):
-        suffix = re.match("(.*) \(([0-9]+)\)", value)
+        suffix = re.match("(.*) \\(([0-9]+)\\)", value)
 
         if suffix is None:
             return u"{} (1)".format(value)
@@ -866,7 +866,7 @@ class ImportSession:
     def _forceSensor_filename(person_id, original_filename):
         """ original_filename is like 19_some person_2019-05-26_15-09-25.csv. It only replaces the person_id (1 in this case)"""
         """ but as we originally do not have database for forceSensor and runEncoder, we just have written the name, in this case: add the id before"""
-        pattern = '\A\d+_' #\A for the beginning of the file, then digits and then the _
+        pattern = '\\A\\d+_' #\A for the beginning of the file, then digits and then the _
         result = re.match(pattern, original_filename)
         if result:
             filename = original_filename.split("_", 1)

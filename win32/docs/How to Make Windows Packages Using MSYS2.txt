@@ -16,15 +16,9 @@ https://github.com/msys2/msys2-installer/releases/download/2023-10-26/msys2-x86_
 
 8. Install Python and glib: pacman -S python3 mingw-w64-ucrt-x86_64-glib2 mingw-w64-ucrt-x86_64-gettext
 
-9. Install gtk-sharp
+9. Install Perl XML::Parse module, mono and gtk-sharp
 
-brew install mono
-git clone -b main https://github.com/mono/gtk-sharp.git
-//Open gtk-sharp/gtk/gui-thread-check/profiler/gui-thread-check.c and comment LINE 98-100.
-cd gtk-sharp
-sh autogen.sh --prefix=`pkg-config --variable=prefix mono`
-make
-make install
+There are problems to install Perl XML::Parse module, mono and gtk-sharp
 
 9. Execute the following commands one by one:
 
@@ -34,5 +28,3 @@ make
 make install
 cd win32
 make installer
-
-10. There are problems to install Perl XML:Parse module.

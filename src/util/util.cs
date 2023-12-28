@@ -1799,8 +1799,10 @@ public class Util
 			//also if do not work, check about relative paths here: https://stackoverflow.com/questions/52599105/c-sharp-under-linux-process-start-exception-of-no-such-file-or-directory
 			if(operatingSystem == UtilAll.OperatingSystems.LINUX)
 				System.Diagnostics.Process.Start("xdg-open", url);
-			else
+			else if (operatingSystem == UtilAll.OperatingSystems.MACOSX)
 				System.Diagnostics.Process.Start(url);
+			else
+				System.Diagnostics.Process.Start("explorer.exe" , url);
 
 			return true;
 		} catch {

@@ -2,7 +2,7 @@ MKFILE_PATH := $(abspath $(lastword $(MAKEFILE_LIST)))
 CUR_DIR := $(dir $(MKFILE_PATH))
 BASE_DIR = "$(CUR_DIR)/../../"
 SOURCES_DIR = "$(CUR_DIR)/../../src"
-TOOLS_DIR = "$(CUR_DIR)/../../tools"
+#TOOLS_DIR = "$(CUR_DIR)/../../tools"
 PACKAGE_DIR = "$(CUR_DIR)/../../package/macos"
 APP_DIR = "$(PACKAGE_DIR)/app/Chronojump.app/Contents/"
 RESOURCES_DIR = "$(PACKAGE_DIR)/resources"
@@ -10,13 +10,13 @@ SIGNING = "$(PACKAGE_DIR)/../signing"
 USER = $(shell whoami)
 PACKAGE_VERSION = $(shell git describe --abbrev=1)
 PACKAGE_NAME = "chronojump-$(PACKAGE_VERSION)-x86_64"
-BUILD_DIR = "$(SOURCES_DIR)/build"
-MONO_DIR = "/Library/Frameworks/Mono.framework/Versions/Current/"
-MONO_PKG_CONFIG = "$(MONO_DIR)/lib/pkgconfig"
-MONO_VERSION = 6.10.0
+#BUILD_DIR = "$(SOURCES_DIR)/build"
+#MONO_DIR = "/Library/Frameworks/Mono.framework/Versions/Current/"
+#MONO_PKG_CONFIG = "$(MONO_DIR)/lib/pkgconfig"
+#MONO_VERSION = 6.10.0
 PATH := $(PATH):/usr/local/Cellar/gettext/0.20.1/bin
 
-all: configure chronojump install_chronojump install_mono bundle package
+all: bundle package
 
 
 configure:

@@ -2731,8 +2731,6 @@ checkLateralityDifferent <- function(curves)
 loadLibraries <- function(os) {
         #library("EMD")
         #library("sfsmisc")
-        if(os=="Windows")
-                library("Cairo")
 }
 
 doProcess <- function(options) 
@@ -2796,12 +2794,9 @@ doProcess <- function(options)
         #	This is not calculated yet.
         
         
-        if(op$Analysis != "exportCSV") {
-                if(op$OperatingSystem=="Windows")
-                        Cairo(op$Width, op$Height, file = op$OutputGraph, type="png", bg="white")
-                else
-                        png(op$OutputGraph, width=op$Width, height=op$Height)
-                
+        if(op$Analysis != "exportCSV")
+        {
+                png(op$OutputGraph, width=op$Width, height=op$Height)
                 op$Title=gsub('_',' ',op$Title)
                 op$Title=gsub('-','    ',op$Title)
         }

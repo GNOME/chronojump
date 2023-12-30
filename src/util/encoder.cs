@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Copyright (C) 2004-2017   Xavier de Blas <xaviblas@gmail.com> 
+ *  Copyright (C) 2004-2023   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -408,24 +408,6 @@ public class UtilEncoder
 				analysisMode, inertialGraphX
 				);
 	}
-
-	public static string RProcessBinURL()
-	{
-		string pBin="Rscript";
-		if (UtilAll.IsWindows())
-		{
-			//on Windows we need the \"str\" to call without problems in path with spaces
-			pBin = "\"" + System.IO.Path.Combine(Util.GetPrefixDir(), "bin" + Path.DirectorySeparatorChar + "Rscript.exe") + "\"";
-		}
-		else if(UtilAll.GetOSEnum() == UtilAll.OperatingSystems.MACOSX)
-		{
-			pBin = Constants.RScriptOSX;
-		}
-
-		LogB.Information("pBin:", pBin);
-		return pBin;
-	}
-
 
 	//Inertia Momentum
 	//TODO: make this work with encoderRProc

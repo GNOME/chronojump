@@ -170,6 +170,7 @@ public class ChronoJump
 
 		//we need to set Util.operatingSytem before GetPrefixDir()
 		baseDirectory = Util.GetPrefixDir();
+		string baseDirectoryR = System.IO.Path.Combine(baseDirectory, "R");
 
 		/*
 		 * location of gtkrc file
@@ -187,7 +188,7 @@ public class ChronoJump
 			string x64 = "bin" + System.IO.Path.DirectorySeparatorChar + "x64";
 			string i386 = "bin" + System.IO.Path.DirectorySeparatorChar + "i386";
 			var rPath = System.Environment.Is64BitProcess ? 
-				System.IO.Path.Combine(baseDirectory, x64) : System.IO.Path.Combine(baseDirectory, i386);
+				System.IO.Path.Combine(baseDirectoryR, x64) : System.IO.Path.Combine(baseDirectoryR, i386);
 
 			if (Directory.Exists(rPath) == false) {
 				LogB.Error("Could not found the specified path to the directory containing R.dll: ", rPath);
@@ -202,8 +203,8 @@ public class ChronoJump
 			
 			//use this because we don't want to look at the registry
 			//we don't want to force user to install R
-			Environment.SetEnvironmentVariable ("R_HOME", baseDirectory);
-			LogB.Information("R_HOME:", baseDirectory);
+			Environment.SetEnvironmentVariable ("R_HOME", baseDirectoryR);
+			LogB.Information("R_HOME:", baseDirectoryR);
 		} else {
 			switch (operatingSystem) {
 				case UtilAll.OperatingSystems.MACOSX:

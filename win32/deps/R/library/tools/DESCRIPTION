@@ -1,0 +1,13 @@
+Package: tools
+Version: 4.3.2
+Priority: base
+Title: Tools for Package Development
+Author: R Core Team
+Maintainer: R Core Team <do-use-Contact-address@r-project.org>
+Contact: R-help mailing list <r-help@r-project.org>
+Description: Tools for package development, administration and documentation.
+License: Part of R 4.3.2
+Suggests: codetools, methods, xml2, curl, commonmark, knitr, xfun,
+        mathjaxr, V8
+NeedsCompilation: yes
+Built: R 4.3.2; x86_64-w64-mingw32; 2023-10-31 13:56:28 UTC; windows

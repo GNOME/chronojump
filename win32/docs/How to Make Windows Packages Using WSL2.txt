@@ -20,8 +20,6 @@ Install .NET 7 SDK x64 from https://dotnet.microsoft.com/es-es/download/dotnet/t
 sudo apt-get update
 cd "/mnt/d/JuSha/chronojump"
 sudo apt-get -y install dos2unix
-dos2unix autogen.sh
-dos2unix configure.ac
 cd build
 dos2unix icon-theme-installer
 dos2unix private-icon-theme-installer
@@ -42,11 +40,13 @@ Note that wine is used to call Windows exe from Linux but InnoSetup is not compa
 7. Execute the following commands (Only when the first time, when autotools files changed or when git tag created. Please replace "d/JuSha" with the real path of chronojump and d is drive letter)
 
 cd "/mnt/d/JuSha/chronojump"
+dos2unix autogen.sh
+dos2unix configure.ac
 sh autogen.sh --prefix /mnt/d/JuSha/chronojump/win32/deps
 make
-make install
+make install #note errors on install of Mini
 cd win32
-make installer
+make installer #does not work
 
 8. Execute "win32/package-x64.bat" (Only when a package required)
 

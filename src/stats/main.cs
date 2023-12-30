@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2020   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2004-2023   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -1417,9 +1417,9 @@ public class Stat
 			//there will be always a png with chronojump_logo
 			fileName = directoryName+"/"+pngs.Length.ToString() + ".png";
 			*/
-			fileName = directoryName+"/"+(graphNum+1).ToString() + ".png";
+			fileName = System.IO.Path.Combine (directoryName, (graphNum+1).ToString() + ".png");
 		} else
-			fileName = Path.GetTempPath()+"/"+fileName;
+			fileName = System.IO.Path.Combine (Path.GetTempPath(), fileName);
 		//On win32 R understands backlash as an escape character and 
 		//a file path uses Unix-like path separator '/'		
 		fileName = fileName.Replace("\\","/");
@@ -1428,13 +1428,7 @@ public class Stat
 		if(gRO.Type == Constants.GraphTypeBarplot || gRO.Type == Constants.GraphTypeLines) 
 			cexAxisString = ", cex.axis=" + Util.ConvertToPoint(gRO.XAxisFontSize);
 		
-		string rString = "";
-		if(UtilAll.IsWindows()) 
-			rString = "library(\"Cairo\")\n" + 
-				"Cairo(" + gRO.Width + ", " + gRO.Height + 
-				", file = '" + fileName + "', type=\"png\", bg=\"white\")\n";
-		else
-			rString = "png(filename = '" + fileName + "'\n" + 
+		string rString = "png(filename = '" + fileName + "'\n" + 
 				" , width = " + gRO.Width + ", height = " + gRO.Height + ", units = 'px'\n" +
 				" , pointsize = 12, bg = 'white', res = NA)\n";
 
@@ -1507,7 +1501,7 @@ public class Stat
 		writer.Close();
 		((IDisposable)writer).Dispose();
 		
-		Util.RunRScript(rScript);
+		Util.RunR (rScript);
 
 		if(show) {
 			if(! File.Exists(fileName) || File.GetLastWriteTime(fileName) < File.GetLastWriteTime(rScript))

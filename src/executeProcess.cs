@@ -16,7 +16,7 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
  * Copyright (C) 2016-2017   Carles Pina i Estany <carles@pina.cat>
- * Copyright (C) 2017   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2017-2023   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System.Collections.Generic;
@@ -452,7 +452,7 @@ class ExecuteProcess
 
 	public static bool CallR(string script)
 	{
-		string executable = UtilEncoder.RProcessBinURL();
+		string executable = Util.GetRscriptBin();
 		List<string> parameters = new List<string>();
 
 		//A) fix script name

@@ -631,7 +631,7 @@ public abstract class EncoderCapture
 			}
 		} while ( (cont || i < (recordingTime -1)) && ! cancel && ! finish);
 		
-		LogB.Debug("runEncoderCaptureCsharp main bucle end");
+		LogB.Debug("EncoderCaptureCsharp main bucle end");
 
 		//leave some time to capture.R be able to paint data, and to create two Roptions.txt file correctly
 		if(simulated)

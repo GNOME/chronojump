@@ -39,6 +39,7 @@ using System.Collections; //ArrayList
 using System.Collections.Generic; //List
 using System.Threading;
 using System.Diagnostics;
+using System.Management;
 
 public partial class ChronoJumpWindow 
 {
@@ -5185,9 +5186,61 @@ public partial class ChronoJumpWindow
 		}
 	}
 
+
+	private void printSearchedDevice (ManagementObjectSearcher searcher, string searchString)
+	{
+		foreach (ManagementObject queryObj in searcher.Get())
+		{
+			LogB.Information("USB device searching:" + searchString);
+			foreach (System.Management.PropertyData Data in queryObj.Properties)
+				if (Data.Value != null)
+					LogB.Information(string.Format("{0}:{1}", Data.Name, Data.Value));
+		}
+
+		/* My encoder returns (when "Win32_PnPEntity")
+		USB device searching:Win32_PnPEntity
+		Caption:USB Serial Port (COM5)
+		ClassGuid:{4d36e978-e325-11ce-bfc1-08002be10318}
+		ConfigManagerErrorCode:0
+		ConfigManagerUserConfig:False
+		CreationClassName:Win32_PnPEntity
+		Description:USB Serial Port
+		DeviceID:FTDIBUS\VID_0403+PID_6001+AC01TXY0A\0000
+		HardwareID:System.String[]
+		Manufacturer:FTDI
+		PNPClass:Ports
+		PNPDeviceID:FTDIBUS\VID_0403+PID_6001+AC01TXY0A\0000
+		Present:True
+		Service:FTSER2K
+		Status:OK
+		SystemCreationClassName:Win32_ComputerSystem
+		SystemName:DESKTOP-JE8KCA5
+		*/
+	}
+
 	DiscoverWindow discoverWin;
 	private void on_button_detect_clicked (object o, EventArgs args)
 	{
+		if(UtilAll.IsWindows())// && chronopicRegister != null)
+		{
+			//ChronopicRegister.GetManagementData (); //move here
+
+			/*
+			ManagementObjectSearcher searcher = new ManagementObjectSearcher("SELECT * From Win32_USBHub"); //aixo no identifica el COM pero no cal. troba el FTDI
+			printSearchedDevice (searcher, "Win32_USBHub");
+
+			searcher = new ManagementObjectSearcher("SELECT * From Win32_SerialPort"); //no troba el COM5 que es el meu
+			printSearchedDevice (searcher, "Win32_SerialPort");
+
+			//searcher = new ManagementObjectSearcher("root\\WMI", "SELECT * FROM MSSerial_PortName"); //crash access denied
+			//searcher = new ManagementObjectSearcher("SELECT * FROM MSSerial_PortName"); //crash invalid class
+			*/
+
+			searcher = new ManagementObjectSearcher("SELECT * FROM Win32_PnPEntity"); //Object reference not set to an instance of an object
+			printSearchedDevice (searcher, "Win32_PnPEntity");
+			//searcher = new ManagementObjectSearcher("root\\CimV2", "SELECT * FROM Win32_PnPEntity"); //Object reference not set to an instance of an object
+		}
+
 		app1s_notebook_sup_entered_from = notebook_sup.CurrentPage; //CONTACTS or ENCODER
 		notebook_sup.CurrentPage = Convert.ToInt32 (notebook_sup_pages.MICRODISCOVER);
 		event_execute_label_message.Text = "";

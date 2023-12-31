@@ -21,6 +21,7 @@
 		<PackageReference Include="System.Data.SQLite" Version="1.0.117" />
 		<PackageReference Include="System.IO.Ports" Version="7.0.0" />
 		<PackageReference Include="System.Json" Version="4.7.1" />
+		<PackageReference Include="System.Management" Version="5.0.0" />
 	</ItemGroup>
 	<ItemGroup>
 		<Compile Remove="gui\old\chronojumpServerOld.cs" />

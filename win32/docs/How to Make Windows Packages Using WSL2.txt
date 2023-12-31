@@ -16,7 +16,6 @@ Install .NET 7 SDK x64 from https://dotnet.microsoft.com/es-es/download/dotnet/t
 
 6. Execute the following commands (Only when the first time. Please replace "d/JuSha" with the real path of chronojump and d is drive letter)
 
-#sudo dpkg --add-architecture i386
 sudo apt-get update
 cd "/mnt/d/JuSha/chronojump"
 sudo apt-get -y install dos2unix
@@ -33,9 +32,6 @@ sudo apt -y install build-essential
 sudo apt-get -y install python3
 sudo apt -y install libglib2.0-dev
 sudo apt -y install gtk-sharp3
-#sudo apt -y install wine32:i386
-
-Note that wine is used to call Windows exe from Linux but InnoSetup is not compatible, so releated commands are commented.
 
 7. Execute the following commands (Only when the first time, when autotools files changed or when git tag created. Please replace "d/JuSha" with the real path of chronojump and d is drive letter)
 
@@ -44,17 +40,15 @@ dos2unix autogen.sh
 dos2unix configure.ac
 sh autogen.sh --prefix /mnt/d/JuSha/chronojump/win32/deps
 make
-make install #note errors on install of Mini
-cd win32
-make installer #does not work
+make install
 
-8. Execute "win32/package-x64.bat" (Only when a package required)
-
-It has to be executed outside of Debian (eg. on Visual Studio Code terminal, on git bash, etc.)
-
-9. When no git tags, please modify "src/AssemblyInfo.cs" to add version number like 1.0.0.0
+8. When no git tags, please modify "src/AssemblyInfo.cs" to add version number like 1.0.0.0
 
 [assembly: AssemblyVersion("1.0.0.0")]
+
+9. Execute "win32/package-x64.bat" (Only when a package required)
+
+It has to be executed outside of Debian (eg. on Visual Studio Code terminal, on git bash, etc.)
 
 10. Software can be run without creating package with
 

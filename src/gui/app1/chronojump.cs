@@ -5225,8 +5225,10 @@ public partial class ChronoJumpWindow
 		{
 			//ChronopicRegister.GetManagementData (); //move here
 
-			/*
-			ManagementObjectSearcher searcher = new ManagementObjectSearcher("SELECT * From Win32_USBHub"); //aixo no identifica el COM pero no cal. troba el FTDI
+			ManagementObjectSearcher searcher = null;
+
+            /*
+			searcher = new ManagementObjectSearcher("SELECT * From Win32_USBHub"); //aixo no identifica el COM pero no cal. troba el FTDI
 			printSearchedDevice (searcher, "Win32_USBHub");
 
 			searcher = new ManagementObjectSearcher("SELECT * From Win32_SerialPort"); //no troba el COM5 que es el meu
@@ -5236,7 +5238,7 @@ public partial class ChronoJumpWindow
 			//searcher = new ManagementObjectSearcher("SELECT * FROM MSSerial_PortName"); //crash invalid class
 			*/
 
-			searcher = new ManagementObjectSearcher("SELECT * FROM Win32_PnPEntity"); //Object reference not set to an instance of an object
+            searcher = new ManagementObjectSearcher("SELECT * FROM Win32_PnPEntity"); //Object reference not set to an instance of an object
 			printSearchedDevice (searcher, "Win32_PnPEntity");
 			//searcher = new ManagementObjectSearcher("root\\CimV2", "SELECT * FROM Win32_PnPEntity"); //Object reference not set to an instance of an object
 		}

@@ -21,7 +21,7 @@
 using System;
 //using System.Data;
 using System.Collections.Generic; //List<T>
-using System.Data.Sqlite;
+using System.Data.SQLite;
 
 class SqliteChronopicRegister : Sqlite
 {

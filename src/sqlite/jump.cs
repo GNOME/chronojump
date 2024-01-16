@@ -23,7 +23,7 @@ using System.Data;
 using System.IO;
 using System.Collections; //ArrayList
 using System.Collections.Generic; //List<T>
-using System.Data.Sqlite;
+using System.Data.SQLite;
 
 
 class SqliteJump : Sqlite

@@ -35,6 +35,20 @@
 		<Compile Remove="platform.cs" />
 	</ItemGroup>
 	<ItemGroup>
+		<Compile Include="../butterworth/Kinovea.Filtering/Butterworth.cs" />
+		<Compile Include="../butterworth/Kinovea.Filtering/Extensions.cs" />
+		<Compile Include="../butterworth/Kinovea.Filtering/FilteredTrajectory.cs" />
+		<Compile Include="../butterworth/Kinovea.Filtering/FilteringResult.cs" />
+		<Compile Include="../butterworth/Kinovea.Filtering/Kinematics.cs" />
+		<Compile Include="../butterworth/Kinovea.Filtering/LinearKinematics.cs" />
+		<Compile Include="../butterworth/Kinovea.Filtering/MathHelper.cs" />
+		<Compile Include="../butterworth/Kinovea.Filtering/MovingAverage.cs" />
+		<Compile Include="../butterworth/Kinovea.Filtering/StatsHelper.cs" />
+		<Compile Include="../butterworth/Kinovea.Filtering/TimedPoint.cs" />
+		<Compile Include="../butterworth/Kinovea.Filtering/TimeSeriesCollection.cs" />
+		<Compile Include="../butterworth/Kinovea.Filtering/TimeSeriesPadder.cs" />
+	</ItemGroup>
+	<ItemGroup>
 		<EmbeddedResource Include="..\glade\*.glade">
 			<Link>glade\%(Filename)%(Extension)</Link>
 			<LogicalName>%(Filename)%(Extension)</LogicalName>

@@ -284,7 +284,7 @@ class SqliteSession : Sqlite
 		dbcmd.CommandText = "SELECT * FROM " + Constants.SessionTable + orderByStr;
 		return selectDo(dbconOpened, dbcmd);
 	}
-	private static List<Session> selectDo(bool dbconOpened, SqliteCommand mydbcmd)
+	private static List<Session> selectDo(bool dbconOpened, SQLiteCommand mydbcmd)
 	{
 		if( ! dbconOpened)
 		{
@@ -382,7 +382,7 @@ class SqliteSession : Sqlite
 	}
 
 	// It's used by chronojump-importer and receives a specific database
-	public static List<SessionTestsCount> SelectAllSessionsTestsCount (string filterName, SqliteConnection dbcon)
+	public static List<SessionTestsCount> SelectAllSessionsTestsCount (string filterName, SQLiteConnection dbcon)
 	{
 		return selectAllSessionsTestsCountDo (filterName, -1, dbcon); //-1 for allTests, contrary to person show all events use
 	}
@@ -428,7 +428,7 @@ class SqliteSession : Sqlite
 		return stc_l;
 	}
 
-	private static List<SessionTestsCount> selectAllSessionsTestsCountDo (string filterName, int personID, SqliteConnection dbcon)
+	private static List<SessionTestsCount> selectAllSessionsTestsCountDo (string filterName, int personID, SQLiteConnection dbcon)
 	{
 		// This method should NOT use Sqlite.open() / Sqlite.close(): it should only use dbcon
 		// to connect to the database. This method is used by the importer after opening an arbitrary

@@ -23,7 +23,7 @@ using System.Data;
 using System.IO; //"File" things. TextWriter
 using System.Collections; //ArrayList
 using System.Collections.Generic; //List
-using System.Data.Sqlite;
+using System.Data.SQLite;
 using System.Diagnostics; 	//for launching other process
 using System.Text.RegularExpressions; //Match
 

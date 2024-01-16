@@ -301,7 +301,7 @@ class SqliteSession : Sqlite
 		LogB.SQL(mydbcmd.CommandText.ToString());
 
 		
-		SqliteDataReader reader;
+		SQLiteDataReader reader;
 		reader = mydbcmd.ExecuteReader();
 		List<Session> session_l = new List<Session>();
 	
@@ -348,7 +348,7 @@ class SqliteSession : Sqlite
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
-		SqliteDataReader reader;
+		SQLiteDataReader reader;
 		reader = dbcmd.ExecuteReader();
 		ArrayList myArray = new ArrayList(2);
 
@@ -465,7 +465,7 @@ class SqliteSession : Sqlite
 		dbcmd.ExecuteNonQuery();
 		testsProgress = 1;
 
-		SqliteDataReader reader;
+		SQLiteDataReader reader;
 		reader = dbcmd.ExecuteReader();
 		List<SessionParams> sessionParams_l = new List<SessionParams> ();
 
@@ -516,7 +516,7 @@ class SqliteSession : Sqlite
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
-		SqliteDataReader reader_persons;
+		SQLiteDataReader reader_persons;
 		reader_persons = dbcmd.ExecuteReader();
 		ArrayList myArray_persons = new ArrayList(2);
 
@@ -533,7 +533,7 @@ class SqliteSession : Sqlite
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
-		SqliteDataReader reader_jumps;
+		SQLiteDataReader reader_jumps;
 		reader_jumps = dbcmd.ExecuteReader();
 		ArrayList myArray_jumps = new ArrayList(2);
 
@@ -550,7 +550,7 @@ class SqliteSession : Sqlite
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
-		SqliteDataReader reader_jumpsRj;
+		SQLiteDataReader reader_jumpsRj;
 		reader_jumpsRj = dbcmd.ExecuteReader();
 		ArrayList myArray_jumpsRj = new ArrayList(2);
 
@@ -567,7 +567,7 @@ class SqliteSession : Sqlite
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
-		SqliteDataReader reader_runs;
+		SQLiteDataReader reader_runs;
 		reader_runs = dbcmd.ExecuteReader();
 		ArrayList myArray_runs = new ArrayList(2);
 
@@ -584,7 +584,7 @@ class SqliteSession : Sqlite
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
-		SqliteDataReader reader_runs_interval;
+		SQLiteDataReader reader_runs_interval;
 		reader_runs_interval = dbcmd.ExecuteReader();
 		ArrayList myArray_runs_interval = new ArrayList(2);
 
@@ -601,7 +601,7 @@ class SqliteSession : Sqlite
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
-		SqliteDataReader reader_rt;
+		SQLiteDataReader reader_rt;
 		reader_rt = dbcmd.ExecuteReader();
 		ArrayList myArray_rt = new ArrayList(2);
 
@@ -618,7 +618,7 @@ class SqliteSession : Sqlite
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
-		SqliteDataReader reader_pulses;
+		SQLiteDataReader reader_pulses;
 		reader_pulses = dbcmd.ExecuteReader();
 		ArrayList myArray_pulses = new ArrayList(2);
 
@@ -635,7 +635,7 @@ class SqliteSession : Sqlite
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
-		SqliteDataReader reader_mcs;
+		SQLiteDataReader reader_mcs;
 		reader_mcs = dbcmd.ExecuteReader();
 		ArrayList myArray_mcs = new ArrayList(2);
 
@@ -651,7 +651,7 @@ class SqliteSession : Sqlite
 			wherePersonStr + " ORDER BY sessionID";
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
-		SqliteDataReader reader_enc = dbcmd.ExecuteReader();
+		SQLiteDataReader reader_enc = dbcmd.ExecuteReader();
 		int testsProgressSubCount = 0;
 		if (reader_enc.Read())
 			testsProgressSubCount = Convert.ToInt32 (reader_enc[0].ToString());
@@ -733,7 +733,7 @@ class SqliteSession : Sqlite
 			LogB.SQL(dbcmd.CommandText.ToString());
 			dbcmd.ExecuteNonQuery();
 
-			SqliteDataReader reader_fs_isometric;
+			SQLiteDataReader reader_fs_isometric;
 			reader_fs_isometric = dbcmd.ExecuteReader();
 
 			while(reader_fs_isometric.Read()) {
@@ -756,7 +756,7 @@ class SqliteSession : Sqlite
 			LogB.SQL(dbcmd.CommandText.ToString());
 			dbcmd.ExecuteNonQuery();
 
-			SqliteDataReader reader_fs_elastic;
+			SQLiteDataReader reader_fs_elastic;
 			reader_fs_elastic = dbcmd.ExecuteReader();
 
 			while(reader_fs_elastic.Read()) {
@@ -778,7 +778,7 @@ class SqliteSession : Sqlite
 			LogB.SQL(dbcmd.CommandText.ToString());
 			dbcmd.ExecuteNonQuery();
 
-			SqliteDataReader reader_re;
+			SQLiteDataReader reader_re;
 			reader_re = dbcmd.ExecuteReader();
 
 			while(reader_re.Read()) {

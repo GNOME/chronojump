@@ -504,16 +504,16 @@ public partial class ChronoJumpWindow
 
 		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_build_24.png");
 		image_contacts_repair_selected.Pixbuf = pixbuf;
-		image_jump_reactive_repair.Pixbuf = pixbuf;
-		image_run_interval_repair.Pixbuf = pixbuf;
-		image_pulse_repair.Pixbuf = pixbuf;
-		image_multi_chronopic_repair.Pixbuf = pixbuf;
+		//image_jump_reactive_repair.Pixbuf = pixbuf;
+		//image_run_interval_repair.Pixbuf = pixbuf;
+		//image_pulse_repair.Pixbuf = pixbuf;
+		//image_multi_chronopic_repair.Pixbuf = pixbuf;
 		image_encoder_configuration.Pixbuf = pixbuf;
 		image_force_sensor_capture_adjust.Pixbuf = pixbuf;
 		image_force_sensor_capture_adjust1.Pixbuf = pixbuf;
 		image_force_sensor_analyze_options.Pixbuf = pixbuf;
 		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_build_16.png");
-		image_force_sensor_analyze_options1.Pixbuf = pixbuf;
+		//image_force_sensor_analyze_options1.Pixbuf = pixbuf;
 		image_encoder_analyze_mode_options.Pixbuf = pixbuf;
 
 		//assign here to have gui ok and not having chronojump logo at top right outside the screen
@@ -1075,8 +1075,8 @@ public partial class ChronoJumpWindow
 
 		app1s_image_search.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "search.png");
 		
-		image_force_sensor_ai_chained_link.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "link.png"); 
-		image_force_sensor_ai_chained_link_off.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "link_off.png"); 
+		//image_force_sensor_ai_chained_link.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "link.png"); 
+		//image_force_sensor_ai_chained_link_off.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "link_off.png"); 
 
 		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "zoom_in.png");
 		image_force_sensor_ai_zoom.Pixbuf = pixbuf;

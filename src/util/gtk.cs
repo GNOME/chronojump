@@ -1190,7 +1190,7 @@ public class UtilGtk
 		} while( ! readedOk && countTimes < 25);
 
 		if (countTimes >= 25)
-			return new Pixbuf (null, Util.GetImagePath(false) + "image.png"); //an icon representing an image
+			return Chronojump.MyPixbuf.Get (null, Util.GetImagePath(false) + "image.png"); //an icon representing an image
 
 		return pixbuf;
 	}

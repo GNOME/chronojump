@@ -38,9 +38,9 @@ sudo apt -y install gtk-sharp3
 cd "/mnt/d/JuSha/chronojump"
 dos2unix autogen.sh
 dos2unix configure.ac
-sh autogen.sh --prefix /mnt/d/JuSha/chronojump/win32/deps
-make
-make install
+sh autogen.sh --prefix /mnt/d/JuSha/chronojump/win32/deps    (I think this creates the BuildInfo needed by dotnet run)
+#make #This does not work, is not used
+#make install #This does not work, is not used
 
 8. When no git tags, please modify "src/AssemblyInfo.cs" to add version number like 1.0.0.0
 

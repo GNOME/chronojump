@@ -56,7 +56,7 @@ namespace FTD2XX_NET
                     // Try the same directory that this FTD2XX_NET DLL is in
                     Console.WriteLine("Attempting to load FTD2XX.DLL from:\n" + Path.GetDirectoryName(GetType().Assembly.Location));
 #if DEBUG
-                    MessageBox.Show("Attempting to load FTD2XX.DLL from:\n" + Path.GetDirectoryName(GetType().Assembly.Location));
+                    //MessageBox.Show("Attempting to load FTD2XX.DLL from:\n" + Path.GetDirectoryName(GetType().Assembly.Location));
 #endif
                     hFTD2XXDLL = LoadLibrary(@Path.GetDirectoryName(GetType().Assembly.Location) + "\\FTD2XX.DLL");
                 }
@@ -72,7 +72,7 @@ namespace FTD2XX_NET
                 // Failed to load our DLL - alert the user
                 Console.WriteLine("Failed to load FTD2XX.DLL.  Are the FTDI drivers installed?");
 #if DEBUG
-                MessageBox.Show("Failed to load FTD2XX.DLL.  Are the FTDI drivers installed?");
+                //MessageBox.Show("Failed to load FTD2XX.DLL.  Are the FTDI drivers installed?");
 #endif
             }
         }
@@ -96,7 +96,7 @@ namespace FTD2XX_NET
                     // Give up :(
                     Console.WriteLine("Attempting to load FTD2XX.DLL from:\n" + Path.GetDirectoryName(GetType().Assembly.Location));
 #if DEBUG
-                    MessageBox.Show("Attempting to load FTD2XX.DLL from:\n" + Path.GetDirectoryName(GetType().Assembly.Location));
+                    //MessageBox.Show("Attempting to load FTD2XX.DLL from:\n" + Path.GetDirectoryName(GetType().Assembly.Location));
 #endif
                 }
             }
@@ -110,7 +110,7 @@ namespace FTD2XX_NET
             {
                 Console.WriteLine("Failed to load FTD2XX.DLL.  Are the FTDI drivers installed?");
 #if DEBUG
-                MessageBox.Show("Failed to load FTD2XX.DLL.  Are the FTDI drivers installed?");
+                //MessageBox.Show("Failed to load FTD2XX.DLL.  Are the FTDI drivers installed?");
 #endif
             }
         }
@@ -2154,7 +2154,7 @@ namespace FTD2XX_NET
             {
                 Console.WriteLine("Failed to load function FT_CreateDeviceInfoList.");
 #if DEBUG
-                MessageBox.Show("Failed to load function FT_CreateDeviceInfoList.");
+                //MessageBox.Show("Failed to load function FT_CreateDeviceInfoList.");
 #endif
             }
             return ftStatus;
@@ -2235,14 +2235,14 @@ namespace FTD2XX_NET
                 {
                     Console.WriteLine("Failed to load function FT_CreateDeviceInfoList.");
 #if DEBUG
-                    MessageBox.Show("Failed to load function FT_CreateDeviceInfoList.");
+                    //MessageBox.Show("Failed to load function FT_CreateDeviceInfoList.");
 #endif
                 }
                 if (pFT_GetDeviceInfoDetail == IntPtr.Zero)
                 {
                     Console.WriteLine("Failed to load function FT_GetDeviceInfoListDetail.");
 #if DEBUG
-                    MessageBox.Show("Failed to load function FT_GetDeviceInfoListDetail.");
+                    //MessageBox.Show("Failed to load function FT_GetDeviceInfoListDetail.");
 #endif
                 }
             }
@@ -2308,28 +2308,28 @@ namespace FTD2XX_NET
                 {
                     Console.WriteLine("Failed to load function FT_Open.");
 #if DEBUG
-                    MessageBox.Show("Failed to load function FT_Open.");
+                    //MessageBox.Show("Failed to load function FT_Open.");
 #endif
                 }
                 if (pFT_SetDataCharacteristics == IntPtr.Zero)
                 {
                     Console.WriteLine("Failed to load function FT_SetDataCharacteristics.");
 #if DEBUG
-                    MessageBox.Show("Failed to load function FT_SetDataCharacteristics.");
+                    //MessageBox.Show("Failed to load function FT_SetDataCharacteristics.");
 #endif
                 }
                 if (pFT_SetFlowControl == IntPtr.Zero)
                 {
                     Console.WriteLine("Failed to load function FT_SetFlowControl.");
 #if DEBUG
-                    MessageBox.Show("Failed to load function FT_SetFlowControl.");
+                    //MessageBox.Show("Failed to load function FT_SetFlowControl.");
 #endif
                 }
                 if (pFT_SetBaudRate == IntPtr.Zero)
                 {
                     Console.WriteLine("Failed to load function FT_SetBaudRate.");
 #if DEBUG
-                    MessageBox.Show("Failed to load function FT_SetBaudRate.");
+                    //MessageBox.Show("Failed to load function FT_SetBaudRate.");
 #endif
                 }
             }
@@ -2394,28 +2394,28 @@ namespace FTD2XX_NET
                 {
                     Console.WriteLine("Failed to load function FT_OpenEx.");
 #if DEBUG
-                    MessageBox.Show("Failed to load function FT_OpenEx.");
+                    //MessageBox.Show("Failed to load function FT_OpenEx.");
 #endif
                 }
                 if (pFT_SetDataCharacteristics == IntPtr.Zero)
                 {
                     Console.WriteLine("Failed to load function FT_SetDataCharacteristics.");
 #if DEBUG
-                    MessageBox.Show("Failed to load function FT_SetDataCharacteristics.");
+                    //MessageBox.Show("Failed to load function FT_SetDataCharacteristics.");
 #endif
                 }
                 if (pFT_SetFlowControl == IntPtr.Zero)
                 {
                     Console.WriteLine("Failed to load function FT_SetFlowControl.");
 #if DEBUG
-                    MessageBox.Show("Failed to load function FT_SetFlowControl.");
+                    //MessageBox.Show("Failed to load function FT_SetFlowControl.");
 #endif
                 }
                 if (pFT_SetBaudRate == IntPtr.Zero)
                 {
                     Console.WriteLine("Failed to load function FT_SetBaudRate.");
 #if DEBUG
-                    MessageBox.Show("Failed to load function FT_SetBaudRate.");
+                    //MessageBox.Show("Failed to load function FT_SetBaudRate.");
 #endif
                 }
             }
@@ -2480,28 +2480,28 @@ namespace FTD2XX_NET
                 {
                     Console.WriteLine("Failed to load function FT_OpenEx.");
 #if DEBUG
-                    MessageBox.Show("Failed to load function FT_OpenEx.");
+                    //MessageBox.Show("Failed to load function FT_OpenEx.");
 #endif
                 }
                 if (pFT_SetDataCharacteristics == IntPtr.Zero)
                 {
                     Console.WriteLine("Failed to load function FT_SetDataCharacteristics.");
 #if DEBUG
-                    MessageBox.Show("Failed to load function FT_SetDataCharacteristics.");
+                    //MessageBox.Show("Failed to load function FT_SetDataCharacteristics.");
 #endif
                 }
                 if (pFT_SetFlowControl == IntPtr.Zero)
                 {
                     Console.WriteLine("Failed to load function FT_SetFlowControl.");
 #if DEBUG
-                    MessageBox.Show("Failed to load function FT_SetFlowControl.");
+                    //MessageBox.Show("Failed to load function FT_SetFlowControl.");
 #endif
                 }
                 if (pFT_SetBaudRate == IntPtr.Zero)
                 {
                     Console.WriteLine("Failed to load function FT_SetBaudRate.");
 #if DEBUG
-                    MessageBox.Show("Failed to load function FT_SetBaudRate.");
+                    //MessageBox.Show("Failed to load function FT_SetBaudRate.");
 #endif
                 }
             }
@@ -2566,28 +2566,28 @@ namespace FTD2XX_NET
                 {
                     Console.WriteLine("Failed to load function FT_OpenEx.");
 #if DEBUG
-                    MessageBox.Show("Failed to load function FT_OpenEx.");
+                    //MessageBox.Show("Failed to load function FT_OpenEx.");
 #endif
                 }
                 if (pFT_SetDataCharacteristics == IntPtr.Zero)
                 {
                     Console.WriteLine("Failed to load function FT_SetDataCharacteristics.");
 #if DEBUG
-                    MessageBox.Show("Failed to load function FT_SetDataCharacteristics.");
+                    //MessageBox.Show("Failed to load function FT_SetDataCharacteristics.");
 #endif
                 }
                 if (pFT_SetFlowControl == IntPtr.Zero)
                 {
                     Console.WriteLine("Failed to load function FT_SetFlowControl.");
 #if DEBUG
-                    MessageBox.Show("Failed to load function FT_SetFlowControl.");
+                    //MessageBox.Show("Failed to load function FT_SetFlowControl.");
 #endif
                 }
                 if (pFT_SetBaudRate == IntPtr.Zero)
                 {
                     Console.WriteLine("Failed to load function FT_SetBaudRate.");
 #if DEBUG
-                    MessageBox.Show("Failed to load function FT_SetBaudRate.");
+                    //MessageBox.Show("Failed to load function FT_SetBaudRate.");
 #endif
                 }
             }
@@ -2631,7 +2631,7 @@ namespace FTD2XX_NET
                 {
                     Console.WriteLine("Failed to load function FT_Close.");
 #if DEBUG
-                    MessageBox.Show("Failed to load function FT_Close.");
+                    //MessageBox.Show("Failed to load function FT_Close.");
 #endif
                 }
             }
@@ -2683,7 +2683,7 @@ namespace FTD2XX_NET
                 {
                     Console.WriteLine("Failed to load function FT_Read.");
 #if DEBUG
-                    MessageBox.Show("Failed to load function FT_Read.");
+                    //MessageBox.Show("Failed to load function FT_Read.");
 #endif
                 }
             }
@@ -2734,7 +2734,7 @@ namespace FTD2XX_NET
                 {
                     Console.WriteLine("Failed to load function FT_Read.");
 #if DEBUG
-                    MessageBox.Show("Failed to load function FT_Read.");
+                    //MessageBox.Show("Failed to load function FT_Read.");
 #endif
                 }
             }
@@ -2778,7 +2778,7 @@ namespace FTD2XX_NET
                 {
                     Console.WriteLine("Failed to load function FT_Write.");
 #if DEBUG
-                    MessageBox.Show("Failed to load function FT_Write.");
+                    //MessageBox.Show("Failed to load function FT_Write.");
 #endif
                 }
             }
@@ -2819,7 +2819,7 @@ namespace FTD2XX_NET
                 {
                     Console.WriteLine("Failed to load function FT_Write.");
 #if DEBUG
-                    MessageBox.Show("Failed to load function FT_Write.");
+                    //MessageBox.Show("Failed to load function FT_Write.");
 #endif
                 }
             }
@@ -2863,7 +2863,7 @@ namespace FTD2XX_NET
                 {
                     Console.WriteLine("Failed to load function FT_Write.");
 #if DEBUG
-                    MessageBox.Show("Failed to load function FT_Write.");
+                    //MessageBox.Show("Failed to load function FT_Write.");
 #endif
                 }
             }
@@ -2907,7 +2907,7 @@ namespace FTD2XX_NET
                 {
                     Console.WriteLine("Failed to load function FT_Write.");
 #if DEBUG
-                    MessageBox.Show("Failed to load function FT_Write.");
+                    //MessageBox.Show("Failed to load function FT_Write.");
 #endif
                 }
             }
@@ -2948,7 +2948,7 @@ namespace FTD2XX_NET
                 {
                     Console.WriteLine("Failed to load function FT_ResetDevice.");
 #if DEBUG
-                    MessageBox.Show("Failed to load function FT_ResetDevice.");
+                    //MessageBox.Show("Failed to load function FT_ResetDevice.");
 #endif
                 }
             }
@@ -2990,7 +2990,7 @@ namespace FTD2XX_NET
                 {
                     Console.WriteLine("Failed to load function FT_Purge.");
 #if DEBUG
-                    MessageBox.Show("Failed to load function FT_Purge.");
+                    //MessageBox.Show("Failed to load function FT_Purge.");
 #endif
                 }
             }
@@ -3034,7 +3034,7 @@ namespace FTD2XX_NET
                 {
                     Console.WriteLine("Failed to load function FT_SetEventNotification.");
 #if DEBUG
-                    MessageBox.Show("Failed to load function FT_SetEventNotification.");
+                    //MessageBox.Show("Failed to load function FT_SetEventNotification.");
 #endif
                 }
             }
@@ -3075,7 +3075,7 @@ namespace FTD2XX_NET
                 {
                     Console.WriteLine("Failed to load function FT_StopInTask.");
 #if DEBUG
-                    MessageBox.Show("Failed to load function FT_StopInTask.");
+                    //MessageBox.Show("Failed to load function FT_StopInTask.");
 #endif
                 }
             }
@@ -3116,7 +3116,7 @@ namespace FTD2XX_NET
                 {
                     Console.WriteLine("Failed to load function FT_RestartInTask.");
 #if DEBUG
-                    MessageBox.Show("Failed to load function FT_RestartInTask.");
+                    //MessageBox.Show("Failed to load function FT_RestartInTask.");
 #endif
                 }
             }
@@ -3157,7 +3157,7 @@ namespace FTD2XX_NET
                 {
                     Console.WriteLine("Failed to load function FT_ResetPort.");
 #if DEBUG
-                    MessageBox.Show("Failed to load function FT_ResetPort.");
+                    //MessageBox.Show("Failed to load function FT_ResetPort.");
 #endif
                 }
             }
@@ -3209,14 +3209,14 @@ namespace FTD2XX_NET
                 {
                     Console.WriteLine("Failed to load function FT_CyclePort.");
 #if DEBUG
-                    MessageBox.Show("Failed to load function FT_CyclePort.");
+                    //MessageBox.Show("Failed to load function FT_CyclePort.");
 #endif
                 }
                 if (pFT_Close == IntPtr.Zero)
                 {
                     Console.WriteLine("Failed to load function FT_Close.");
 #if DEBUG
-                    MessageBox.Show("Failed to load function FT_Close.");
+                    //MessageBox.Show("Failed to load function FT_Close.");
 #endif
                 }
             }
@@ -3254,7 +3254,7 @@ namespace FTD2XX_NET
                 {
                     Console.WriteLine("Failed to load function FT_Rescan.");
 #if DEBUG
-                    MessageBox.Show("Failed to load function FT_Rescan.");
+                    //MessageBox.Show("Failed to load function FT_Rescan.");
 #endif
                 }
             }
@@ -3295,7 +3295,7 @@ namespace FTD2XX_NET
                 {
                     Console.WriteLine("Failed to load function FT_Reload.");
 #if DEBUG
-                    MessageBox.Show("Failed to load function FT_Reload.");
+                    //MessageBox.Show("Failed to load function FT_Reload.");
 #endif
                 }
             }
@@ -3453,7 +3453,7 @@ namespace FTD2XX_NET
                 {
                     Console.WriteLine("Failed to load function FT_SetBitMode.");
 #if DEBUG
-                    MessageBox.Show("Failed to load function FT_SetBitMode.");
+                    //MessageBox.Show("Failed to load function FT_SetBitMode.");
 #endif
                 }
             }
@@ -3495,7 +3495,7 @@ namespace FTD2XX_NET
                 {
                     Console.WriteLine("Failed to load function FT_GetBitMode.");
 #if DEBUG
-                    MessageBox.Show("Failed to load function FT_GetBitMode.");
+                    //MessageBox.Show("Failed to load function FT_GetBitMode.");
 #endif
                 }
             }
@@ -3538,7 +3538,7 @@ namespace FTD2XX_NET
                 {
                     Console.WriteLine("Failed to load function FT_ReadEE.");
 #if DEBUG
-                    MessageBox.Show("Failed to load function FT_ReadEE.");
+                    //MessageBox.Show("Failed to load function FT_ReadEE.");
 #endif
                 }
             }
@@ -3581,7 +3581,7 @@ namespace FTD2XX_NET
                 {
                     Console.WriteLine("Failed to load function FT_WriteEE.");
 #if DEBUG
-                    MessageBox.Show("Failed to load function FT_WriteEE.");
+                    //MessageBox.Show("Failed to load function FT_WriteEE.");
 #endif
                 }
             }
@@ -3634,7 +3634,7 @@ namespace FTD2XX_NET
                 {
                     Console.WriteLine("Failed to load function FT_EraseEE.");
 #if DEBUG
-                    MessageBox.Show("Failed to load function FT_EraseEE.");
+                    //MessageBox.Show("Failed to load function FT_EraseEE.");
 #endif
                 }
             }
@@ -3726,7 +3726,7 @@ namespace FTD2XX_NET
                 {
                     Console.WriteLine("Failed to load function FT_EE_Read.");
 #if DEBUG
-                    MessageBox.Show("Failed to load function FT_EE_Read.");
+                    //MessageBox.Show("Failed to load function FT_EE_Read.");
 #endif
                 }
             }
@@ -3828,7 +3828,7 @@ namespace FTD2XX_NET
                 {
                     Console.WriteLine("Failed to load function FT_EE_Read.");
 #if DEBUG
-                    MessageBox.Show("Failed to load function FT_EE_Read.");
+                    //MessageBox.Show("Failed to load function FT_EE_Read.");
 #endif
                 }
             }
@@ -3935,7 +3935,7 @@ namespace FTD2XX_NET
                 {
                     Console.WriteLine("Failed to load function FT_EE_Read.");
 #if DEBUG
-                    MessageBox.Show("Failed to load function FT_EE_Read.");
+                    //MessageBox.Show("Failed to load function FT_EE_Read.");
 #endif
                 }
             }
@@ -4046,7 +4046,7 @@ namespace FTD2XX_NET
                 {
                     Console.WriteLine("Failed to load function FT_EE_Read.");
 #if DEBUG
-                    MessageBox.Show("Failed to load function FT_EE_Read.");
+                    //MessageBox.Show("Failed to load function FT_EE_Read.");
 #endif
                 }
             }
@@ -4156,7 +4156,7 @@ namespace FTD2XX_NET
                 {
                     Console.WriteLine("Failed to load function FT_EE_Read.");
 #if DEBUG
-                    MessageBox.Show("Failed to load function FT_EE_Read.");
+                    //MessageBox.Show("Failed to load function FT_EE_Read.");
 #endif
                 }
             }
@@ -4273,7 +4273,7 @@ namespace FTD2XX_NET
                 {
                     Console.WriteLine("Failed to load function FT_EE_Read.");
 #if DEBUG
-                    MessageBox.Show("Failed to load function FT_EE_Read.");
+                    //MessageBox.Show("Failed to load function FT_EE_Read.");
 #endif
                 }
             }
@@ -4409,7 +4409,7 @@ namespace FTD2XX_NET
                 {
                     Console.WriteLine("Failed to load function FT_EE_Read.");
 #if DEBUG
-                    MessageBox.Show("Failed to load function FT_EE_Read.");
+                    //MessageBox.Show("Failed to load function FT_EE_Read.");
 #endif
                 }
             }
@@ -4521,7 +4521,7 @@ namespace FTD2XX_NET
                 {
                     Console.WriteLine("Failed to load function FT_EE_Program.");
 #if DEBUG
-                    MessageBox.Show("Failed to load function FT_EE_Program.");
+                    //MessageBox.Show("Failed to load function FT_EE_Program.");
 #endif
                 }
             }
@@ -4644,7 +4644,7 @@ namespace FTD2XX_NET
                 {
                     Console.WriteLine("Failed to load function FT_EE_Program.");
 #if DEBUG
-                    MessageBox.Show("Failed to load function FT_EE_Program.");
+                    //MessageBox.Show("Failed to load function FT_EE_Program.");
 #endif
                 }
             }
@@ -4775,7 +4775,7 @@ namespace FTD2XX_NET
                 {
                     Console.WriteLine("Failed to load function FT_EE_Program.");
 #if DEBUG
-                    MessageBox.Show("Failed to load function FT_EE_Program.");
+                    //MessageBox.Show("Failed to load function FT_EE_Program.");
 #endif
                 }
             }
@@ -4906,7 +4906,7 @@ namespace FTD2XX_NET
                 {
                     Console.WriteLine("Failed to load function FT_EE_Program.");
 #if DEBUG
-                    MessageBox.Show("Failed to load function FT_EE_Program.");
+                    //MessageBox.Show("Failed to load function FT_EE_Program.");
 #endif
                 }
             }
@@ -5036,7 +5036,7 @@ namespace FTD2XX_NET
                 {
                     Console.WriteLine("Failed to load function FT_EE_Program.");
 #if DEBUG
-                    MessageBox.Show("Failed to load function FT_EE_Program.");
+                    //MessageBox.Show("Failed to load function FT_EE_Program.");
 #endif
                 }
             }
@@ -5171,7 +5171,7 @@ namespace FTD2XX_NET
                 {
                     Console.WriteLine("Failed to load function FT_EE_Program.");
 #if DEBUG
-                    MessageBox.Show("Failed to load function FT_EE_Program.");
+                    //MessageBox.Show("Failed to load function FT_EE_Program.");
 #endif
                 }
             }
@@ -5365,14 +5365,14 @@ namespace FTD2XX_NET
                 {
                     Console.WriteLine("Failed to load function FT_EE_UASize.");
 #if DEBUG
-                    MessageBox.Show("Failed to load function FT_EE_UASize.");
+                    //MessageBox.Show("Failed to load function FT_EE_UASize.");
 #endif
                 }
                 if (pFT_EE_UARead == IntPtr.Zero)
                 {
                     Console.WriteLine("Failed to load function FT_EE_UARead.");
 #if DEBUG
-                    MessageBox.Show("Failed to load function FT_EE_UARead.");
+                    //MessageBox.Show("Failed to load function FT_EE_UARead.");
 #endif
                 }
             }
@@ -5424,14 +5424,14 @@ namespace FTD2XX_NET
                 {
                     Console.WriteLine("Failed to load function FT_EE_UASize.");
 #if DEBUG
-                    MessageBox.Show("Failed to load function FT_EE_UASize.");
+                    //MessageBox.Show("Failed to load function FT_EE_UASize.");
 #endif
                 }
                 if (pFT_EE_UAWrite == IntPtr.Zero)
                 {
                     Console.WriteLine("Failed to load function FT_EE_UAWrite.");
 #if DEBUG
-                    MessageBox.Show("Failed to load function FT_EE_UAWrite.");
+                    //MessageBox.Show("Failed to load function FT_EE_UAWrite.");
 #endif
                 }
             }
@@ -5479,7 +5479,7 @@ namespace FTD2XX_NET
                 {
                     Console.WriteLine("Failed to load function FT_GetDeviceInfo.");
 #if DEBUG
-                    MessageBox.Show("Failed to load function FT_GetDeviceInfo.");
+                    //MessageBox.Show("Failed to load function FT_GetDeviceInfo.");
 #endif
                 }
             }
@@ -5525,7 +5525,7 @@ namespace FTD2XX_NET
                 {
                     Console.WriteLine("Failed to load function FT_GetDeviceInfo.");
 #if DEBUG
-                    MessageBox.Show("Failed to load function FT_GetDeviceInfo.");
+                    //MessageBox.Show("Failed to load function FT_GetDeviceInfo.");
 #endif
                 }
             }
@@ -5577,7 +5577,7 @@ namespace FTD2XX_NET
                 {
                     Console.WriteLine("Failed to load function FT_GetDeviceInfo.");
 #if DEBUG
-                    MessageBox.Show("Failed to load function FT_GetDeviceInfo.");
+                    //MessageBox.Show("Failed to load function FT_GetDeviceInfo.");
 #endif
                 }
             }
@@ -5629,7 +5629,7 @@ namespace FTD2XX_NET
                 {
                     Console.WriteLine("Failed to load function FT_GetDeviceInfo.");
 #if DEBUG
-                    MessageBox.Show("Failed to load function FT_GetDeviceInfo.");
+                    //MessageBox.Show("Failed to load function FT_GetDeviceInfo.");
 #endif
                 }
             }
@@ -5671,7 +5671,7 @@ namespace FTD2XX_NET
                 {
                     Console.WriteLine("Failed to load function FT_GetQueueStatus.");
 #if DEBUG
-                    MessageBox.Show("Failed to load function FT_GetQueueStatus.");
+                    //MessageBox.Show("Failed to load function FT_GetQueueStatus.");
 #endif
                 }
             }
@@ -5716,7 +5716,7 @@ namespace FTD2XX_NET
                 {
                     Console.WriteLine("Failed to load function FT_GetStatus.");
 #if DEBUG
-                    MessageBox.Show("Failed to load function FT_GetStatus.");
+                    //MessageBox.Show("Failed to load function FT_GetStatus.");
 #endif
                 }
             }
@@ -5761,7 +5761,7 @@ namespace FTD2XX_NET
                 {
                     Console.WriteLine("Failed to load function FT_GetStatus.");
 #if DEBUG
-                    MessageBox.Show("Failed to load function FT_GetStatus.");
+                    //MessageBox.Show("Failed to load function FT_GetStatus.");
 #endif
                 }
             }
@@ -5807,7 +5807,7 @@ namespace FTD2XX_NET
                 {
                     Console.WriteLine("Failed to load function FT_GetModemStatus.");
 #if DEBUG
-                    MessageBox.Show("Failed to load function FT_GetModemStatus.");
+                    //MessageBox.Show("Failed to load function FT_GetModemStatus.");
 #endif
                 }
             }
@@ -5852,7 +5852,7 @@ namespace FTD2XX_NET
                 {
                     Console.WriteLine("Failed to load function FT_GetModemStatus.");
 #if DEBUG
-                    MessageBox.Show("Failed to load function FT_GetModemStatus.");
+                    //MessageBox.Show("Failed to load function FT_GetModemStatus.");
 #endif
                 }
             }
@@ -5894,7 +5894,7 @@ namespace FTD2XX_NET
                 {
                     Console.WriteLine("Failed to load function FT_SetBaudRate.");
 #if DEBUG
-                    MessageBox.Show("Failed to load function FT_SetBaudRate.");
+                    //MessageBox.Show("Failed to load function FT_SetBaudRate.");
 #endif
                 }
             }
@@ -5938,7 +5938,7 @@ namespace FTD2XX_NET
                 {
                     Console.WriteLine("Failed to load function FT_SetDataCharacteristics.");
 #if DEBUG
-                    MessageBox.Show("Failed to load function FT_SetDataCharacteristics.");
+                    //MessageBox.Show("Failed to load function FT_SetDataCharacteristics.");
 #endif
                 }
             }
@@ -5982,7 +5982,7 @@ namespace FTD2XX_NET
                 {
                     Console.WriteLine("Failed to load function FT_SetFlowControl.");
 #if DEBUG
-                    MessageBox.Show("Failed to load function FT_SetFlowControl.");
+                    //MessageBox.Show("Failed to load function FT_SetFlowControl.");
 #endif
                 }
             }
@@ -6033,14 +6033,14 @@ namespace FTD2XX_NET
                 {
                     Console.WriteLine("Failed to load function FT_SetRts.");
 #if DEBUG
-                    MessageBox.Show("Failed to load function FT_SetRts.");
+                    //MessageBox.Show("Failed to load function FT_SetRts.");
 #endif
                 }
                 if (pFT_ClrRts == IntPtr.Zero)
                 {
                     Console.WriteLine("Failed to load function FT_ClrRts.");
 #if DEBUG
-                    MessageBox.Show("Failed to load function FT_ClrRts.");
+                    //MessageBox.Show("Failed to load function FT_ClrRts.");
 #endif
                 }
             }
@@ -6091,14 +6091,14 @@ namespace FTD2XX_NET
                 {
                     Console.WriteLine("Failed to load function FT_SetDtr.");
 #if DEBUG
-                    MessageBox.Show("Failed to load function FT_SetDtr.");
+                    //MessageBox.Show("Failed to load function FT_SetDtr.");
 #endif
                 }
                 if (pFT_ClrDtr == IntPtr.Zero)
                 {
                     Console.WriteLine("Failed to load function FT_ClrDtr.");
 #if DEBUG
-                    MessageBox.Show("Failed to load function FT_ClrDtr.");
+                    //MessageBox.Show("Failed to load function FT_ClrDtr.");
 #endif
                 }
             }
@@ -6141,7 +6141,7 @@ namespace FTD2XX_NET
                 {
                     Console.WriteLine("Failed to load function FT_SetTimeouts.");
 #if DEBUG
-                    MessageBox.Show("Failed to load function FT_SetTimeouts.");
+                    //MessageBox.Show("Failed to load function FT_SetTimeouts.");
 #endif
                 }
             }
@@ -6192,14 +6192,14 @@ namespace FTD2XX_NET
                 {
                     Console.WriteLine("Failed to load function FT_SetBreakOn.");
 #if DEBUG
-                    MessageBox.Show("Failed to load function FT_SetBreakOn.");
+                    //MessageBox.Show("Failed to load function FT_SetBreakOn.");
 #endif
                 }
                 if (pFT_SetBreakOff == IntPtr.Zero)
                 {
                     Console.WriteLine("Failed to load function FT_SetBreakOff.");
 #if DEBUG
-                    MessageBox.Show("Failed to load function FT_SetBreakOff.");
+                    //MessageBox.Show("Failed to load function FT_SetBreakOff.");
 #endif
                 }
             }
@@ -6242,7 +6242,7 @@ namespace FTD2XX_NET
                 {
                     Console.WriteLine("Failed to load function FT_SetResetPipeRetryCount.");
 #if DEBUG
-                    MessageBox.Show("Failed to load function FT_SetResetPipeRetryCount.");
+                    //MessageBox.Show("Failed to load function FT_SetResetPipeRetryCount.");
 #endif
                 }
             }
@@ -6284,7 +6284,7 @@ namespace FTD2XX_NET
                 {
                     Console.WriteLine("Failed to load function FT_GetDriverVersion.");
 #if DEBUG
-                    MessageBox.Show("Failed to load function FT_GetDriverVersion.");
+                    //MessageBox.Show("Failed to load function FT_GetDriverVersion.");
 #endif
                 }
             }
@@ -6323,7 +6323,7 @@ namespace FTD2XX_NET
                 {
                     Console.WriteLine("Failed to load function FT_GetLibraryVersion.");
 #if DEBUG
-                    MessageBox.Show("Failed to load function FT_GetLibraryVersion.");
+                    //MessageBox.Show("Failed to load function FT_GetLibraryVersion.");
 #endif
                 }
             }
@@ -6365,7 +6365,7 @@ namespace FTD2XX_NET
                 {
                     Console.WriteLine("Failed to load function FT_SetDeadmanTimeout.");
 #if DEBUG
-                    MessageBox.Show("Failed to load function FT_SetDeadmanTimeout.");
+                    //MessageBox.Show("Failed to load function FT_SetDeadmanTimeout.");
 #endif
                 }
             }
@@ -6420,7 +6420,7 @@ namespace FTD2XX_NET
                 {
                     Console.WriteLine("Failed to load function FT_SetLatencyTimer.");
 #if DEBUG
-                    MessageBox.Show("Failed to load function FT_SetLatencyTimer.");
+                    //MessageBox.Show("Failed to load function FT_SetLatencyTimer.");
 #endif
                 }
             }
@@ -6462,7 +6462,7 @@ namespace FTD2XX_NET
                 {
                     Console.WriteLine("Failed to load function FT_GetLatencyTimer.");
 #if DEBUG
-                    MessageBox.Show("Failed to load function FT_GetLatencyTimer.");
+                    //MessageBox.Show("Failed to load function FT_GetLatencyTimer.");
 #endif
                 }
             }
@@ -6508,7 +6508,7 @@ namespace FTD2XX_NET
                 {
                     Console.WriteLine("Failed to load function FT_SetUSBParameters.");
 #if DEBUG
-                    MessageBox.Show("Failed to load function FT_SetUSBParameters.");
+                    //MessageBox.Show("Failed to load function FT_SetUSBParameters.");
 #endif
                 }
             }
@@ -6553,7 +6553,7 @@ namespace FTD2XX_NET
                 {
                     Console.WriteLine("Failed to load function FT_SetChars.");
 #if DEBUG
-                    MessageBox.Show("Failed to load function FT_SetChars.");
+                    //MessageBox.Show("Failed to load function FT_SetChars.");
 #endif
                 }
             }
@@ -6594,7 +6594,7 @@ namespace FTD2XX_NET
                 {
                     Console.WriteLine("Failed to load function FT_EE_UASize.");
 #if DEBUG
-                    MessageBox.Show("Failed to load function FT_EE_UASize.");
+                    //MessageBox.Show("Failed to load function FT_EE_UASize.");
 #endif
                 }
             }
@@ -6652,7 +6652,7 @@ namespace FTD2XX_NET
                 {
                     Console.WriteLine("Failed to load function FT_GetComPortNumber.");
 #if DEBUG
-                    MessageBox.Show("Failed to load function FT_GetComPortNumber.");
+                    //MessageBox.Show("Failed to load function FT_GetComPortNumber.");
 #endif
                 }
             }
@@ -6694,7 +6694,7 @@ namespace FTD2XX_NET
                 {
                     Console.WriteLine("Failed to load function FT_VendorCmdGet.");
 #if DEBUG
-                    MessageBox.Show("Failed to load function FT_VendorCmdGet.");
+                    //MessageBox.Show("Failed to load function FT_VendorCmdGet.");
 #endif
                 }
             }
@@ -6735,7 +6735,7 @@ namespace FTD2XX_NET
                 {
                     Console.WriteLine("Failed to load function FT_VendorCmdSet.");
 #if DEBUG
-                    MessageBox.Show("Failed to load function FT_VendorCmdSet.");
+                    //MessageBox.Show("Failed to load function FT_VendorCmdSet.");
 #endif
                 }
             }

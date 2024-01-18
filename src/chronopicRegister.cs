@@ -26,7 +26,6 @@ using System.Collections.Generic; //List<T>
 using System.Diagnostics; 	//for detect OS and for Process
 using System.Text.RegularExpressions; //Regex
 using System.IO.Ports;
-using FTD2XX_NET;
 using Mono.Unix;
 using System.Management;
 

@@ -37,6 +37,7 @@ using Mono.Unix;
 using System.IO; //"File" things
 using System.Collections; //ArrayList
 using System.Collections.Generic; //List
+using System.Text.RegularExpressions; //Regex
 using System.Threading;
 using System.Diagnostics;
 using System.Management;
@@ -5218,6 +5219,37 @@ public partial class ChronoJumpWindow
 		*/
 	}
 
+	private bool searchDeviceAccept (ManagementObject queryObj)
+	{
+		bool ftdi = false;
+		bool com = false;
+		bool deviceID = false;
+		foreach (System.Management.PropertyData Data in queryObj.Properties)
+			if (Data.Value != null)
+			{
+				if (Data.Name == "Manufacturer" && Data.Value.ToString().Contains ("FTDI"))
+					ftdi = true;
+				if (Data.Name == "Caption")
+				{
+					MatchCollection matches = Regex.Matches(Data.Value.ToString(), @"(COM\d+)");
+					if (matches.Count == 1)
+						com = true;
+				}
+				if (Data.Name == "DeviceID")
+				{
+					MatchCollection matches = Regex.Matches(Data.Value.ToString(), @".*\+.*\+(.*)A\\0000");
+					if (matches.Count == 1)
+					{
+						//LogB.Information ("DeviceID match: " + Data.Value);
+						deviceID = true;
+					}
+				}
+			}
+
+		//LogB.Information (string.Format ("at searchDeviceAccent ftdi: {0}, com: {1}, deviceID: {2}" ,ftdi, com, deviceID));
+		return (ftdi && com && deviceID);
+	}
+
 	DiscoverWindow discoverWin;
 	private void on_button_detect_clicked (object o, EventArgs args)
 	{
@@ -5227,7 +5259,7 @@ public partial class ChronoJumpWindow
 
 			ManagementObjectSearcher searcher = null;
 
-            /*
+			/*
 			searcher = new ManagementObjectSearcher("SELECT * From Win32_USBHub"); //aixo no identifica el COM pero no cal. troba el FTDI
 			printSearchedDevice (searcher, "Win32_USBHub");
 
@@ -5238,9 +5270,25 @@ public partial class ChronoJumpWindow
 			//searcher = new ManagementObjectSearcher("SELECT * FROM MSSerial_PortName"); //crash invalid class
 			*/
 
-            searcher = new ManagementObjectSearcher("SELECT * FROM Win32_PnPEntity"); //Object reference not set to an instance of an object
-			printSearchedDevice (searcher, "Win32_PnPEntity");
+			searcher = new ManagementObjectSearcher("SELECT * FROM Win32_PnPEntity"); //Object reference not set to an instance of an object
+			//LogB.Information("PRINT ALL DEVICES");
+			//printSearchedDevice (searcher, "Win32_PnPEntity");
 			//searcher = new ManagementObjectSearcher("root\\CimV2", "SELECT * FROM Win32_PnPEntity"); //Object reference not set to an instance of an object
+
+			List<ManagementObject> devices_l = new List<ManagementObject> ();
+			foreach (ManagementObject queryObj in searcher.Get())
+				if (searchDeviceAccept (queryObj))
+					devices_l.Add (queryObj);
+
+			LogB.Information("PRINT ACCEPTED DEVICES");
+			int count = 0;
+			foreach (ManagementObject device in devices_l)
+			{
+				LogB.Information ("Device: " + (++count).ToString ());
+				foreach (System.Management.PropertyData Data in device.Properties)
+					if (Data.Value != null)
+						LogB.Information(string.Format("{0}:{1}", Data.Name, Data.Value));
+			}
 		}
 
 		app1s_notebook_sup_entered_from = notebook_sup.CurrentPage; //CONTACTS or ENCODER

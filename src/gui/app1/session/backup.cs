@@ -75,7 +75,7 @@ public partial class ChronoJumpWindow
 		app1s_button_delete_old_incomplete.Visible = false;
 		app1s_button_backup_cancel_close.Sensitive = true;
 		image_app1s_button_backup_cancel_close.Pixbuf =
-				new Gdk.Pixbuf (null, Util.GetImagePath(false) + "image_cancel.png");
+				Chronojump.MyPixbuf.Get (null, Util.GetImagePath(false) + "image_cancel.png");
 		app1s_label_backup_cancel_close.Text = Catalog.GetString("Cancel");
 
 		app1s_notebook.CurrentPage = app1s_PAGE_BACKUP;
@@ -190,7 +190,7 @@ public partial class ChronoJumpWindow
 
 		backup_cancel_close_show_more_notebook = false; //clicking on close should not show session more
 		image_app1s_button_backup_cancel_close.Pixbuf =
-				new Gdk.Pixbuf (null, Util.GetImagePath(false) + "image_close.png");
+				Chronojump.MyPixbuf.Get (null, Util.GetImagePath(false) + "image_close.png");
 		app1s_label_backup_cancel_close.Text = Catalog.GetString("Close");
 		app1s_button_backup_cancel_close.Visible = true;
 	}
@@ -414,7 +414,7 @@ public partial class ChronoJumpWindow
 		} else {
 			app1s_button_backup_cancel_close.Sensitive = true;
 			image_app1s_button_backup_cancel_close.Pixbuf =
-				new Gdk.Pixbuf (null, Util.GetImagePath(false) + "image_close.png");
+				Chronojump.MyPixbuf.Get (null, Util.GetImagePath(false) + "image_close.png");
 			app1s_label_backup_cancel_close.Text = Catalog.GetString("Close");
 		}
 	}
@@ -455,7 +455,7 @@ public partial class ChronoJumpWindow
 	{
 		label_backup_why.Visible = false; //do not show again label_backup_why
 		image_app1s_button_backup_cancel_close.Pixbuf =
-				new Gdk.Pixbuf (null, Util.GetImagePath(false) + "image_cancel.png");
+				Chronojump.MyPixbuf.Get (null, Util.GetImagePath(false) + "image_cancel.png");
 		app1s_label_backup_cancel_close.Text = Catalog.GetString("Cancel");
 
 		notebook_session_backup.Page = Convert.ToInt32(notebook_session_backup_pages.DELETE_OLD);
@@ -467,7 +467,7 @@ public partial class ChronoJumpWindow
 		app1s_button_old_backups_delete_do.Sensitive = false;
 		app1s_label_old_backups_delete_done.Visible = true;
 		image_app1s_button_backup_cancel_close.Pixbuf =
-				new Gdk.Pixbuf (null, Util.GetImagePath(false) + "image_close.png");
+				Chronojump.MyPixbuf.Get (null, Util.GetImagePath(false) + "image_close.png");
 		app1s_label_backup_cancel_close.Text = Catalog.GetString("Close");
 	}
 

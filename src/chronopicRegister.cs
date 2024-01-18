@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016-2023  Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2016-2024  Xavier de Blas <xaviblas@gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -24,9 +24,11 @@
 using System;
 using System.Collections.Generic; //List<T>
 using System.Diagnostics; 	//for detect OS and for Process
+using System.Text.RegularExpressions; //Regex
 using System.IO.Ports;
 using FTD2XX_NET;
 using Mono.Unix;
+using System.Management;
 
 
 public class ChronopicRegisterPort
@@ -582,8 +584,6 @@ public class ChronopicRegisterMac : ChronopicRegister
 
 public class ChronopicRegisterWindows : ChronopicRegister
 {
-	FTDI ftdiDeviceWin;
-
 	public ChronopicRegisterWindows (bool compujump, bool showRunWireless)
 	{
 		process(compujump, showRunWireless);
@@ -591,87 +591,111 @@ public class ChronopicRegisterWindows : ChronopicRegister
 
 	protected override void createList()
 	{
-		// Create new instance of the FTDI device class
-		//TODO: check that is created only once?
-		ftdiDeviceWin = new FTDI();
+		/*
+		ManagementObjectSearcher searcher = new ManagementObjectSearcher("SELECT * From Win32_USBHub"); //aixo no identifica el COM pero no cal. troba el FTDI
+		printSearchedDevice (searcher, "Win32_USBHub");
 
-		uint numDevices = getFTDIdevicesWindows();
-		if(numDevices > 0)
-			createListDo(numDevices);
+		searcher = new ManagementObjectSearcher("SELECT * From Win32_SerialPort"); //no troba el COM5 que es el meu
+		printSearchedDevice (searcher, "Win32_SerialPort");
+
+		//searcher = new ManagementObjectSearcher("root\\WMI", "SELECT * FROM MSSerial_PortName"); //crash access denied
+		//searcher = new ManagementObjectSearcher("SELECT * FROM MSSerial_PortName"); //crash invalid class
+		*/
+
+		ManagementObjectSearcher searcher = new ManagementObjectSearcher ("SELECT * FROM Win32_PnPEntity");
+		createListDo (searcher);
 	}
 
-	private uint getFTDIdevicesWindows()
+	private void createListDo (ManagementObjectSearcher searcher)
 	{
-		//based on: http://www.ftdichip.com/Support/SoftwareExamples/CodeExamples/CSharp/EEPROM.zip
-
-		//UInt32 ftdiDeviceCount = 0;
-		uint ftdiDeviceCount = 0;
-		FTDI.FT_STATUS ftStatus = FTDI.FT_STATUS.FT_OK;
-
-		// Determine the number of FTDI devices connected to the machine
-		ftStatus = ftdiDeviceWin.GetNumberOfDevices(ref ftdiDeviceCount);
-		// Check status
-		if (ftStatus != FTDI.FT_STATUS.FT_OK) {
-			LogB.Error("FTDI GetNumberOfDevices failed");
-			return 0;
-		}
-		if (ftdiDeviceCount == 0) {
-			LogB.Information("FTDI GetNumberOfDevices 0");
-			return 0;
-		}
-
-		return ftdiDeviceCount;
-	}
-
-	private void createListDo(uint ftdiDeviceCount)
-	{
-		FTDI.FT_STATUS ftStatus = FTDI.FT_STATUS.FT_OK;
-
-		// Allocate storage for device info list
-		FTDI.FT_DEVICE_INFO_NODE[] ftdiDeviceList = new FTDI.FT_DEVICE_INFO_NODE[ftdiDeviceCount];
-
-		// Populate our device list
-		ftStatus = ftdiDeviceWin.GetDeviceList(ftdiDeviceList);
-
-		if (ftStatus == FTDI.FT_STATUS.FT_OK)
-		{
-			for (uint i = 0; i < ftdiDeviceCount; i++)
+		foreach (ManagementObject queryObj in searcher.Get())
+			if (searchDeviceAccept (queryObj))
 			{
-				LogB.Information(String.Format("Device Index: " + i.ToString()));
-				LogB.Information(String.Format("Flags: " + String.Format("{0:x}", ftdiDeviceList[i].Flags)));
-				LogB.Information(String.Format("Type: " + ftdiDeviceList[i].Type.ToString()));
-				LogB.Information(String.Format("ID: " + String.Format("{0:x}", ftdiDeviceList[i].ID)));
-				LogB.Information(String.Format("Location ID: " + String.Format("{0:x}", ftdiDeviceList[i].LocId)));
-				LogB.Information(String.Format("Serial Number: " + ftdiDeviceList[i].SerialNumber.ToString()));
-				LogB.Information(String.Format("Description: " + ftdiDeviceList[i].Description.ToString()));
-
-				string port = getComPort(ftdiDeviceList[i]);
-				ChronopicRegisterPort crp = new ChronopicRegisterPort(port);
+				ChronopicRegisterPort crp = new ChronopicRegisterPort (getPort (queryObj));
 				crp.FTDI = true;
-				crp.SerialNumber = ftdiDeviceList[i].SerialNumber.ToString();
+				crp.SerialNumber = getSerialNumber (queryObj);
 				crp.Type = ChronopicRegisterPort.Types.UNKNOWN;
 				
 				LogB.Information(string.Format("crp: " + crp.ToString()));
 
 				registerAddOrUpdate(crp);
 			}
-		}
 	}
 
-	private string getComPort(FTDI.FT_DEVICE_INFO_NODE node)
+	private string getPort (ManagementObject queryObj)
 	{
-		string comport = "";
-		//http://stackoverflow.com/questions/2279646/finding-usb-serial-ports-from-a-net-application-under-windows-7
-		if (ftdiDeviceWin.OpenByLocation(node.LocId) == FTDI.FT_STATUS.FT_OK)
-		{
-			try {
-				ftdiDeviceWin.GetCOMPort(out comport);
+		foreach (System.Management.PropertyData Data in queryObj.Properties)
+			if (Data.Value != null && Data.Name == "Caption")
+			{
+				MatchCollection matches = Regex.Matches(Data.Value.ToString(), @"(COM\d+)");
+				if (matches.Count == 1)
+					return matches[0].ToString ();
 			}
-			finally {
-				ftdiDeviceWin.Close();
-			}
-		}
 
-		return comport;
+		return "";
 	}
+
+	private string getSerialNumber (ManagementObject queryObj)
+	{
+		foreach (System.Management.PropertyData Data in queryObj.Properties)
+			if (Data.Value != null && Data.Name == "DeviceID")
+			{
+				MatchCollection matches = Regex.Matches(Data.Value.ToString(), @".*\+.*\+(.*)A\\0000");
+				if (matches.Count == 1)
+					return matches[0].Groups[1].Value.ToString ();
+			}
+
+		return "";
+	}
+
+	private bool searchDeviceAccept (ManagementObject queryObj)
+	{
+		bool ftdi = false;
+		bool com = false;
+		bool deviceID = false;
+		foreach (System.Management.PropertyData Data in queryObj.Properties)
+			if (Data.Value != null)
+			{
+				if (Data.Name == "Manufacturer" && Data.Value.ToString().Contains ("FTDI"))
+					ftdi = true;
+				if (Data.Name == "Caption")
+				{
+					MatchCollection matches = Regex.Matches(Data.Value.ToString(), @"(COM\d+)");
+					if (matches.Count == 1)
+						com = true;
+				}
+				if (Data.Name == "DeviceID")
+				{
+					MatchCollection matches = Regex.Matches(Data.Value.ToString(), @".*\+.*\+(.*)A\\0000");
+					if (matches.Count == 1)
+					{
+						//LogB.Information ("DeviceID match: " + Data.Value);
+						deviceID = true;
+					}
+				}
+			}
+
+		//LogB.Information (string.Format ("at searchDeviceAccent ftdi: {0}, com: {1}, deviceID: {2}" ,ftdi, com, deviceID));
+		return (ftdi && com && deviceID);
+	}
+
+		/* My encoder returns (when "Win32_PnPEntity")
+		USB device searching:Win32_PnPEntity
+		Caption:USB Serial Port (COM5)
+		ClassGuid:{4d36e978-e325-11ce-bfc1-08002be10318}
+		ConfigManagerErrorCode:0
+		ConfigManagerUserConfig:False
+		CreationClassName:Win32_PnPEntity
+		Description:USB Serial Port
+		DeviceID:FTDIBUS\VID_0403+PID_6001+AC01TXY0A\0000
+		HardwareID:System.String[]
+		Manufacturer:FTDI
+		PNPClass:Ports
+		PNPDeviceID:FTDIBUS\VID_0403+PID_6001+AC01TXY0A\0000
+		Present:True
+		Service:FTSER2K
+		Status:OK
+		SystemCreationClassName:Win32_ComputerSystem
+		SystemName:DESKTOP-JE8KCA5
+		*/
 }

@@ -24,7 +24,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2023   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2004-2024   Xavier de Blas <xaviblas@gmail.com>
  */
 
 
@@ -37,10 +37,8 @@ using Mono.Unix;
 using System.IO; //"File" things
 using System.Collections; //ArrayList
 using System.Collections.Generic; //List
-using System.Text.RegularExpressions; //Regex
 using System.Threading;
 using System.Diagnostics;
-using System.Management;
 
 public partial class ChronoJumpWindow 
 {
@@ -5187,110 +5185,9 @@ public partial class ChronoJumpWindow
 		}
 	}
 
-
-	private void printSearchedDevice (ManagementObjectSearcher searcher, string searchString)
-	{
-		foreach (ManagementObject queryObj in searcher.Get())
-		{
-			LogB.Information("USB device searching:" + searchString);
-			foreach (System.Management.PropertyData Data in queryObj.Properties)
-				if (Data.Value != null)
-					LogB.Information(string.Format("{0}:{1}", Data.Name, Data.Value));
-		}
-
-		/* My encoder returns (when "Win32_PnPEntity")
-		USB device searching:Win32_PnPEntity
-		Caption:USB Serial Port (COM5)
-		ClassGuid:{4d36e978-e325-11ce-bfc1-08002be10318}
-		ConfigManagerErrorCode:0
-		ConfigManagerUserConfig:False
-		CreationClassName:Win32_PnPEntity
-		Description:USB Serial Port
-		DeviceID:FTDIBUS\VID_0403+PID_6001+AC01TXY0A\0000
-		HardwareID:System.String[]
-		Manufacturer:FTDI
-		PNPClass:Ports
-		PNPDeviceID:FTDIBUS\VID_0403+PID_6001+AC01TXY0A\0000
-		Present:True
-		Service:FTSER2K
-		Status:OK
-		SystemCreationClassName:Win32_ComputerSystem
-		SystemName:DESKTOP-JE8KCA5
-		*/
-	}
-
-	private bool searchDeviceAccept (ManagementObject queryObj)
-	{
-		bool ftdi = false;
-		bool com = false;
-		bool deviceID = false;
-		foreach (System.Management.PropertyData Data in queryObj.Properties)
-			if (Data.Value != null)
-			{
-				if (Data.Name == "Manufacturer" && Data.Value.ToString().Contains ("FTDI"))
-					ftdi = true;
-				if (Data.Name == "Caption")
-				{
-					MatchCollection matches = Regex.Matches(Data.Value.ToString(), @"(COM\d+)");
-					if (matches.Count == 1)
-						com = true;
-				}
-				if (Data.Name == "DeviceID")
-				{
-					MatchCollection matches = Regex.Matches(Data.Value.ToString(), @".*\+.*\+(.*)A\\0000");
-					if (matches.Count == 1)
-					{
-						//LogB.Information ("DeviceID match: " + Data.Value);
-						deviceID = true;
-					}
-				}
-			}
-
-		//LogB.Information (string.Format ("at searchDeviceAccent ftdi: {0}, com: {1}, deviceID: {2}" ,ftdi, com, deviceID));
-		return (ftdi && com && deviceID);
-	}
-
 	DiscoverWindow discoverWin;
 	private void on_button_detect_clicked (object o, EventArgs args)
 	{
-		if(UtilAll.IsWindows())// && chronopicRegister != null)
-		{
-			//ChronopicRegister.GetManagementData (); //move here
-
-			ManagementObjectSearcher searcher = null;
-
-			/*
-			searcher = new ManagementObjectSearcher("SELECT * From Win32_USBHub"); //aixo no identifica el COM pero no cal. troba el FTDI
-			printSearchedDevice (searcher, "Win32_USBHub");
-
-			searcher = new ManagementObjectSearcher("SELECT * From Win32_SerialPort"); //no troba el COM5 que es el meu
-			printSearchedDevice (searcher, "Win32_SerialPort");
-
-			//searcher = new ManagementObjectSearcher("root\\WMI", "SELECT * FROM MSSerial_PortName"); //crash access denied
-			//searcher = new ManagementObjectSearcher("SELECT * FROM MSSerial_PortName"); //crash invalid class
-			*/
-
-			searcher = new ManagementObjectSearcher("SELECT * FROM Win32_PnPEntity"); //Object reference not set to an instance of an object
-			//LogB.Information("PRINT ALL DEVICES");
-			//printSearchedDevice (searcher, "Win32_PnPEntity");
-			//searcher = new ManagementObjectSearcher("root\\CimV2", "SELECT * FROM Win32_PnPEntity"); //Object reference not set to an instance of an object
-
-			List<ManagementObject> devices_l = new List<ManagementObject> ();
-			foreach (ManagementObject queryObj in searcher.Get())
-				if (searchDeviceAccept (queryObj))
-					devices_l.Add (queryObj);
-
-			LogB.Information("PRINT ACCEPTED DEVICES");
-			int count = 0;
-			foreach (ManagementObject device in devices_l)
-			{
-				LogB.Information ("Device: " + (++count).ToString ());
-				foreach (System.Management.PropertyData Data in device.Properties)
-					if (Data.Value != null)
-						LogB.Information(string.Format("{0}:{1}", Data.Name, Data.Value));
-			}
-		}
-
 		app1s_notebook_sup_entered_from = notebook_sup.CurrentPage; //CONTACTS or ENCODER
 		notebook_sup.CurrentPage = Convert.ToInt32 (notebook_sup_pages.MICRODISCOVER);
 		event_execute_label_message.Text = "";

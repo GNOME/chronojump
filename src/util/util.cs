@@ -1797,7 +1797,7 @@ public class Util
 		LogB.Information ("rBin: " + rBin);
 
 		if (UtilAll.IsWindows())
-			rBin=System.IO.Path.Combine(GetPrefixDir(), "bin/R.exe");
+			rBin = GetRBin ();
 		else if(operatingSystem == UtilAll.OperatingSystems.MACOSX)
 			rBin = Constants.ROSX;
 

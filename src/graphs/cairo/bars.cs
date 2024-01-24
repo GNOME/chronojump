@@ -479,7 +479,7 @@ public abstract class CairoBars : CairoGeneric
 				moveToLeft = te.Width;
 		}
 
-		g.MoveTo(x - moveToLeft, y + textH/2);
+		g.MoveTo(x - moveToLeft, Convert.ToInt32 (y + textH/2)); //y as int on dotnetgtk3 because on windows top row of text is sometimes not shown if double
 		g.ShowText(text);
 
 		//restore text size

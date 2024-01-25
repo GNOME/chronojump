@@ -78,6 +78,7 @@ interpolateXAtY <- function(X, Y, desiredY, debug = FALSE)
         }
         
         previousSample = nextSample - 1
+	#previousSample == 0 fails on RAW %FMAX=0, for this reason now 1 is the minimum value using that options
         
         print(paste("sample1:", previousSample, "X:", X[previousSample], "Y:", Y[previousSample]))
         print(paste("sample2:", nextSample, "X:", X[nextSample], "Y:", Y[nextSample]))

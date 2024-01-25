@@ -464,6 +464,10 @@ drawDynamicsFromLoadCell <- function(title, exercise, datetime,
         if(RFDoptions$type == "AVERAGE" & (RFDoptions$start == RFDoptions$end)){
             RFDoptions$type = "INSTANTANEOUS"
         }
+
+	RFDNum = paste ("RFD ", n)
+	RFDNumColon = paste ("RFD ", n, ": ")
+
         if(RFDoptions$rfdFunction == "-1")        
         {
             next
@@ -501,7 +505,7 @@ drawDynamicsFromLoadCell <- function(title, exercise, datetime,
                     #Y coordinate of a point of the line
                     force1 = dynamics$fmax.fitted * (1 - exp(-dynamics$k.fitted * RFDoptions$start))
                     
-                    legendText = c(legendText, paste("RFD", RFDoptions$start*1000, " = ", round(RFD, digits = 1), " N/s", sep = ""))
+                    legendText = c(legendText, paste(RFDNumColon, RFDoptions$start*1000, " = ", round(RFD, digits = 1), " N/s", sep = ""))
                     legendColor = c(legendColor, "blue")
                     
                 } else if(RFDoptions$rfdFunction == "RAW")
@@ -512,7 +516,7 @@ drawDynamicsFromLoadCell <- function(title, exercise, datetime,
                     #Y coordinate of a point of the line
                     force1 = interpolateXAtY(dynamics$f.raw, dynamics$time, RFDoptions$start)
                     
-                    legendText = c(legendText, paste("RFD", RFDoptions$start*1000, " = ", round(RFD, digits = 1), " N/s", sep = ""))
+                    legendText = c(legendText, paste(RFDNumColon, RFDoptions$start*1000, " = ", round(RFD, digits = 1), " N/s", sep = ""))
                     legendColor = c(legendColor, "black")
                 }
             } else if(RFDoptions$type == "AVERAGE")
@@ -533,7 +537,7 @@ drawDynamicsFromLoadCell <- function(title, exercise, datetime,
                     #Slope of the line
                     RFD = (force2 - force1) / (time2 - time1)
                     
-                    legendText = c(legendText, paste("RFD", RFDoptions$start*1000, "-", RFDoptions$end*1000, " = ", round(RFD, digits = 1), " N/s", sep = ""))
+                    legendText = c(legendText, paste(RFDNumColon, RFDoptions$start*1000, "-", RFDoptions$end*1000, " = ", round(RFD, digits = 1), " N/s", sep = ""))
                     legendColor = c(legendColor, "blue")
                     
                 } else if(RFDoptions$rfdFunction == "RAW")
@@ -544,7 +548,7 @@ drawDynamicsFromLoadCell <- function(title, exercise, datetime,
                     #Slope of the line
                     RFD = (force2 - force1) / (time2 - time1)
                     
-                    legendText = c(legendText, paste("RFD", RFDoptions$start*1000, "-", RFDoptions$end*1000, " = ", round(RFD, digits = 1), " N/s", sep = ""))
+                    legendText = c(legendText, paste(RFDNumColon, RFDoptions$start*1000, "-", RFDoptions$end*1000, " = ", round(RFD, digits = 1), " N/s", sep = ""))
                     legendColor = c(legendColor, "black")
                 }
                 
@@ -563,7 +567,7 @@ drawDynamicsFromLoadCell <- function(title, exercise, datetime,
                     
                     force1 = dynamics$fmax.fitted * (1 - exp(-dynamics$k.fitted * time1))
                     
-                    legendText = c(legendText, paste("RFD", percent, "%Fmax", " = ", round(RFD, digits = 1), " N/s", sep = ""))
+                    legendText = c(legendText, paste(RFDNumColon, percent, "%Fmax", " = ", round(RFD, digits = 1), " N/s", sep = ""))
                     legendColor = c(legendColor, "blue")
                     valuesCol = "blue"
                     
@@ -577,7 +581,7 @@ drawDynamicsFromLoadCell <- function(title, exercise, datetime,
                     #Y coordinate of a point of the line
                     force1 = interpolateXAtY(dynamics$f.raw, dynamics$time, time1)
                     
-                    legendText = c(legendText, paste("RFD", percent, "%", "Fmax", " = ", round(RFD, digits = 1), " N/s", sep = ""))
+                    legendText = c(legendText, paste(RFDNumColon, percent, "%", "Fmax", " = ", round(RFD, digits = 1), " N/s", sep = ""))
                     legendColor = c(legendColor, "black")
                     valuesCol = "black"
                     
@@ -606,7 +610,7 @@ drawDynamicsFromLoadCell <- function(title, exercise, datetime,
                     
                     force1 = 0
                     
-                    legendText = c(legendText, paste("RFDMax", " = ", round(RFD, digits = 1), " N/s", sep = ""))
+                    legendText = c(legendText, paste(RFDNumColon, "max = ", round(RFD, digits = 1), " N/s", sep = ""))
                     legendColor = c(legendColor, "blue")
                     
                 } else if(RFDoptions$rfdFunction == "RAW")
@@ -625,7 +629,7 @@ drawDynamicsFromLoadCell <- function(title, exercise, datetime,
                     #Y coordinate of a point of the line
                     force1 = dynamics$f.raw[sample1]
                     
-                    legendText = c(legendText, paste("RFDmax = ", round(RFD, digits = 1), " N/s", sep = ""))
+                    legendText = c(legendText, paste(RFDNumColon, "max = ", round(RFD, digits = 1), " N/s", sep = ""))
                     legendColor = c(legendColor, "black")
                     
                 }
@@ -644,7 +648,7 @@ drawDynamicsFromLoadCell <- function(title, exercise, datetime,
                     force1 = 0
                     force2 = dynamics$fmax.fitted*(1 - exp(-dynamics$k.fitted*window))
                     RFD = force2 / window
-                    legendText = c(legendText, paste("RFD max avg in ", RFDoptions$start, "ms = ", round(RFD, digits = 1), " N/s", sep = ""))
+                    legendText = c(legendText, paste(RFDNumColon, "max avg in ", RFDoptions$start, "ms = ", round(RFD, digits = 1), " N/s", sep = ""))
                     legendColor = c(legendColor, "blue")
                 } else if(RFDoptions$rfdFunction == "RAW")
                 {
@@ -657,7 +661,7 @@ drawDynamicsFromLoadCell <- function(title, exercise, datetime,
                     force2 = maxAvgRFD$force2
                     RFD = maxAvgRFD$RFD
                     legendColor = c(legendColor, "black")
-                    legendText = c(legendText, paste("RFD max avg in  ", RFDoptions$start, "ms = ", round(RFD, digits = 1), " N/s", sep = ""))
+                    legendText = c(legendText, paste(RFDNumColon, "max avg in  ", RFDoptions$start, "ms = ", round(RFD, digits = 1), " N/s", sep = ""))
                 }
 	        }
 
@@ -670,7 +674,7 @@ drawDynamicsFromLoadCell <- function(title, exercise, datetime,
             
             #Drawing the line
             text(x = (yHeight - 5 - intercept)/RFD, y = yHeight - 5,
-                 label = paste(round(RFD, digits=0), "N/s"),
+                 label = RFDNum,
                  srt=atan(windowSlope)*180/pi, pos = 2, col = color)
             #Drawing the points where the line touch the function
             points(x = c(time1, time2), y = c(force1, force2), col = color)

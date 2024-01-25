@@ -1063,46 +1063,66 @@ class SqliteForceSensorRFD : Sqlite
 	 * create and initialize tables
 	 */
 
-    protected internal static new void createTable()
-    {
-        dbcmd.CommandText =
-            "CREATE TABLE " + table + " ( " +
-            "code TEXT, " +     //RFD1...4, I (Impulse)
-            "active INT, " +    //bool
-            "function TEXT, " +
-            "type TEXT, " +
-            "num1 INT, " +
-            "num2 INT )";
-        dbcmd.ExecuteNonQuery();
-    }
+	protected internal static new void createTable()
+	{
+		dbcmd.CommandText = 
+			"CREATE TABLE " + table + " ( " +
+			"code TEXT, " + 	//RFD1...10, I (Impulse)
+			"active INT, " + 	//bool
+			"function TEXT, " +
+			"type TEXT, " +
+			"num1 INT, " +
+			"num2 INT )";
+		dbcmd.ExecuteNonQuery();
+	}
 
-    public static void InsertDefaultValues(bool dbconOpened)
-    {
-        openIfNeeded(dbconOpened);
+	public static void InsertDefaultValues(bool dbconOpened)
+	{
+		openIfNeeded(dbconOpened);
 
-        Insert(true, new ForceSensorRFD("RFD1", true,
-                    ForceSensorRFD.Functions.FITTED, ForceSensorRFD.Types.INSTANTANEOUS, 0, -1));
-        Insert(true, new ForceSensorRFD("RFD2", true,
-                    ForceSensorRFD.Functions.RAW, ForceSensorRFD.Types.AVERAGE, 0, 100));
-        Insert(true, new ForceSensorRFD("RFD3", false,
-                    ForceSensorRFD.Functions.FITTED, ForceSensorRFD.Types.PERCENT_F_MAX, 50, -1));
-        Insert(true, new ForceSensorRFD("RFD4", false,
-                    ForceSensorRFD.Functions.RAW, ForceSensorRFD.Types.RFD_MAX, -1, -1));
+		Insert(true, new ForceSensorRFD("RFD1", true,
+					ForceSensorRFD.Functions.FITTED, ForceSensorRFD.Types.INSTANTANEOUS, 0, -1));
+		Insert(true, new ForceSensorRFD("RFD2", true,
+					ForceSensorRFD.Functions.RAW, ForceSensorRFD.Types.AVERAGE, 0, 100));
+		Insert(true, new ForceSensorRFD("RFD3", false,
+					ForceSensorRFD.Functions.FITTED, ForceSensorRFD.Types.PERCENT_F_MAX, 50, -1));
+		Insert(true, new ForceSensorRFD("RFD4", false,
+					ForceSensorRFD.Functions.RAW, ForceSensorRFD.Types.RFD_MAX, -1, -1));
+		UpdateTo2_47 ();
 
-        InsertDefaultValueImpulse(true);
+		InsertDefaultValueImpulse(true);
 
-        closeIfNeeded(dbconOpened);
-    }
+		closeIfNeeded(dbconOpened);
+	}
 
-    public static void InsertDefaultValueImpulse(bool dbconOpened)
-    {
-        openIfNeeded(dbconOpened);
+	// adds RFDs 5-10
+	protected internal static void UpdateTo2_47 ()
+	{
+		Insert(true, new ForceSensorRFD("RFD5", false,
+					ForceSensorRFD.Functions.RAW, ForceSensorRFD.Types.BEST_AVG_RFD_IN_X_MS, 50, -1));
+		Insert(true, new ForceSensorRFD("RFD6", false,
+					ForceSensorRFD.Functions.RAW, ForceSensorRFD.Types.RFD_MAX, -1, -1));
+		Insert(true, new ForceSensorRFD("RFD7", false,
+					ForceSensorRFD.Functions.RAW, ForceSensorRFD.Types.RFD_MAX, -1, -1));
+		Insert(true, new ForceSensorRFD("RFD8", false,
+					ForceSensorRFD.Functions.RAW, ForceSensorRFD.Types.RFD_MAX, -1, -1));
+		Insert(true, new ForceSensorRFD("RFD9", false,
+					ForceSensorRFD.Functions.RAW, ForceSensorRFD.Types.RFD_MAX, -1, -1));
+		Insert(true, new ForceSensorRFD("RFD10", false,
+					ForceSensorRFD.Functions.RAW, ForceSensorRFD.Types.RFD_MAX, -1, -1));
+	}
 
-        Insert(true, new ForceSensorImpulse(true,
-                    ForceSensorImpulse.Functions.RAW, ForceSensorImpulse.Types.IMP_RANGE, 0, 500));
+	public static void InsertDefaultValueImpulse(bool dbconOpened)
+	{
+		openIfNeeded(dbconOpened);
 
-        closeIfNeeded(dbconOpened);
-    }
+		Insert(true, new ForceSensorImpulse(true,
+					ForceSensorImpulse.Functions.RAW, ForceSensorImpulse.Types.IMP_RANGE, 0, 500));
+
+	        InsertDefaultValueImpulse(true);
+
+        	closeIfNeeded(dbconOpened);
+	}
 
     public static void Insert(bool dbconOpened, ForceSensorRFD rfd)
     {

@@ -25,11 +25,17 @@
 #Read each non commented line of the Roptions file
 assignOptions <- function(options)
 {
-    drawRfdOptions = rep(NA, 4)
+    drawRfdOptions = rep(NA, 10)
     drawRfdOptions[1]      = options[12]
     drawRfdOptions[2]      = options[13]
     drawRfdOptions[3]      = options[14]
     drawRfdOptions[4]      = options[15]
+    drawRfdOptions[5]      = options[16]
+    drawRfdOptions[6]      = options[17]
+    drawRfdOptions[7]      = options[18]
+    drawRfdOptions[8]      = options[19]
+    drawRfdOptions[9]      = options[20]
+    drawRfdOptions[10]      = options[21]
     
     return(list(
         os 			= options[1],
@@ -44,23 +50,23 @@ assignOptions <- function(options)
         hline50fmax.raw 	= options[10],
         hline50fmax.fitted 	= options[11],
         drawRfdOptions          = drawRfdOptions,
-        drawImpulseOptions      = options[16],
-        testLength 		= as.numeric(options[17]),
-        captureOptions 		= options[18],
-        title 	 		= options[19],
-        exercise 	 	= options[20],
-        date	 	 	= options[21],
-        time 	 		= options[22],
-        scriptsPath 		= options[23],
-        triggersOnList  	= as.numeric(unlist(strsplit(options[24], "\\;"))),
-        triggersOffList  	= as.numeric(unlist(strsplit(options[25], "\\;"))),
-        startSample 	= as.numeric(options[26]),
-        endSample 	= as.numeric(options[27]),
-        startEndOptimized 	= options[28], 	#bool
-	singleOrMultiple 	= options[29],   	#bool (true is single)
-	decimalCharAtExport	= options[30],
-        maxAvgWindowSeconds 	= as.numeric(options[31]),
-	includeImagesOnExport 	= options[32]   	#bool (true is single)
+        drawImpulseOptions      = options[22],
+        testLength 		= as.numeric(options[23]),
+        captureOptions 		= options[24],
+        title 	 		= options[25],
+        exercise 	 	= options[26],
+        date	 	 	= options[27],
+        time 	 		= options[28],
+        scriptsPath 		= options[29],
+        triggersOnList  	= as.numeric(unlist(strsplit(options[30], "\\;"))),
+        triggersOffList  	= as.numeric(unlist(strsplit(options[31], "\\;"))),
+        startSample 	= as.numeric(options[32]),
+        endSample 	= as.numeric(options[33]),
+        startEndOptimized 	= options[34], 	#bool
+	singleOrMultiple 	= options[35],   	#bool (true is single)
+	decimalCharAtExport	= options[36],
+        maxAvgWindowSeconds 	= as.numeric(options[37]),
+	includeImagesOnExport 	= options[38]   	#bool (true is single)
     ))
 }
 

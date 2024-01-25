@@ -61,58 +61,136 @@ public partial class ChronoJumpWindow
 	Gtk.HBox hbox_ai_export_top_modes;
 //	Gtk.HBox hbox_force_sensor_analyze_automatic_options;
 //	Gtk.Notebook notebook_force_analyze_automatic;
+	/*
+	Gtk.HBox hbox_force_show_1;
+	Gtk.HBox hbox_force_show_2;
+	Gtk.HBox hbox_force_show_3;
+	Gtk.HBox hbox_force_show_4;
+	Gtk.HBox hbox_force_show_5;
+	Gtk.HBox hbox_force_show_6;
+	Gtk.HBox hbox_force_show_7;
+	Gtk.HBox hbox_force_show_8;
+	Gtk.HBox hbox_force_show_9;
+	Gtk.HBox hbox_force_show_10;
+	*/
 	Gtk.VBox vbox_force_rfd_duration_end;
 	Gtk.HBox hbox_force_1;
 	Gtk.HBox hbox_force_2;
 	Gtk.HBox hbox_force_3;
 	Gtk.HBox hbox_force_4;
+	Gtk.HBox hbox_force_5;
+	Gtk.HBox hbox_force_6;
+	Gtk.HBox hbox_force_7;
+	Gtk.HBox hbox_force_8;
+	Gtk.HBox hbox_force_9;
+	Gtk.HBox hbox_force_10;
 	Gtk.HBox hbox_force_impulse;
 	Gtk.CheckButton check_force_1;
 	Gtk.CheckButton check_force_2;
 	Gtk.CheckButton check_force_3;
 	Gtk.CheckButton check_force_4;
+	Gtk.CheckButton check_force_5;
+	Gtk.CheckButton check_force_6;
+	Gtk.CheckButton check_force_7;
+	Gtk.CheckButton check_force_8;
+	Gtk.CheckButton check_force_9;
+	Gtk.CheckButton check_force_10;
 	Gtk.CheckButton check_force_impulse;
 	Gtk.HBox hbox_force_1_at_ms;
 	Gtk.HBox hbox_force_2_at_ms;
 	Gtk.HBox hbox_force_3_at_ms;
 	Gtk.HBox hbox_force_4_at_ms;
+	Gtk.HBox hbox_force_5_at_ms;
+	Gtk.HBox hbox_force_6_at_ms;
+	Gtk.HBox hbox_force_7_at_ms;
+	Gtk.HBox hbox_force_8_at_ms;
+	Gtk.HBox hbox_force_9_at_ms;
+	Gtk.HBox hbox_force_10_at_ms;
 	Gtk.HBox hbox_force_1_at_percent;
 	Gtk.HBox hbox_force_2_at_percent;
 	Gtk.HBox hbox_force_3_at_percent;
 	Gtk.HBox hbox_force_4_at_percent;
+	Gtk.HBox hbox_force_5_at_percent;
+	Gtk.HBox hbox_force_6_at_percent;
+	Gtk.HBox hbox_force_7_at_percent;
+	Gtk.HBox hbox_force_8_at_percent;
+	Gtk.HBox hbox_force_9_at_percent;
+	Gtk.HBox hbox_force_10_at_percent;
 	Gtk.HBox hbox_force_impulse_until_percent;
 	Gtk.HBox hbox_force_1_from_to;
 	Gtk.HBox hbox_force_2_from_to;
 	Gtk.HBox hbox_force_3_from_to;
 	Gtk.HBox hbox_force_4_from_to;
+	Gtk.HBox hbox_force_5_from_to;
+	Gtk.HBox hbox_force_6_from_to;
+	Gtk.HBox hbox_force_7_from_to;
+	Gtk.HBox hbox_force_8_from_to;
+	Gtk.HBox hbox_force_9_from_to;
+	Gtk.HBox hbox_force_10_from_to;
 	Gtk.HBox hbox_force_1_in_x_ms;
 	Gtk.HBox hbox_force_2_in_x_ms;
 	Gtk.HBox hbox_force_3_in_x_ms;
 	Gtk.HBox hbox_force_4_in_x_ms;
+	Gtk.HBox hbox_force_5_in_x_ms;
+	Gtk.HBox hbox_force_6_in_x_ms;
+	Gtk.HBox hbox_force_7_in_x_ms;
+	Gtk.HBox hbox_force_8_in_x_ms;
+	Gtk.HBox hbox_force_9_in_x_ms;
+	Gtk.HBox hbox_force_10_in_x_ms;
 	Gtk.SpinButton spinbutton_force_1_at_ms;
 	Gtk.SpinButton spinbutton_force_2_at_ms;
 	Gtk.SpinButton spinbutton_force_3_at_ms;
 	Gtk.SpinButton spinbutton_force_4_at_ms;
+	Gtk.SpinButton spinbutton_force_5_at_ms;
+	Gtk.SpinButton spinbutton_force_6_at_ms;
+	Gtk.SpinButton spinbutton_force_7_at_ms;
+	Gtk.SpinButton spinbutton_force_8_at_ms;
+	Gtk.SpinButton spinbutton_force_9_at_ms;
+	Gtk.SpinButton spinbutton_force_10_at_ms;
 	Gtk.HBox hbox_force_impulse_from_to;
 	Gtk.SpinButton spinbutton_force_1_at_percent;
 	Gtk.SpinButton spinbutton_force_2_at_percent;
 	Gtk.SpinButton spinbutton_force_3_at_percent;
 	Gtk.SpinButton spinbutton_force_4_at_percent;
+	Gtk.SpinButton spinbutton_force_5_at_percent;
+	Gtk.SpinButton spinbutton_force_6_at_percent;
+	Gtk.SpinButton spinbutton_force_7_at_percent;
+	Gtk.SpinButton spinbutton_force_8_at_percent;
+	Gtk.SpinButton spinbutton_force_9_at_percent;
+	Gtk.SpinButton spinbutton_force_10_at_percent;
 	Gtk.SpinButton spinbutton_force_impulse_until_percent;
 	Gtk.SpinButton spinbutton_force_1_from;
 	Gtk.SpinButton spinbutton_force_2_from;
 	Gtk.SpinButton spinbutton_force_3_from;
 	Gtk.SpinButton spinbutton_force_4_from;
+	Gtk.SpinButton spinbutton_force_5_from;
+	Gtk.SpinButton spinbutton_force_6_from;
+	Gtk.SpinButton spinbutton_force_7_from;
+	Gtk.SpinButton spinbutton_force_8_from;
+	Gtk.SpinButton spinbutton_force_9_from;
+	Gtk.SpinButton spinbutton_force_10_from;
 	Gtk.SpinButton spinbutton_force_impulse_from;
 	Gtk.SpinButton spinbutton_force_1_to;
 	Gtk.SpinButton spinbutton_force_2_to;
 	Gtk.SpinButton spinbutton_force_3_to;
 	Gtk.SpinButton spinbutton_force_4_to;
+	Gtk.SpinButton spinbutton_force_5_to;
+	Gtk.SpinButton spinbutton_force_6_to;
+	Gtk.SpinButton spinbutton_force_7_to;
+	Gtk.SpinButton spinbutton_force_8_to;
+	Gtk.SpinButton spinbutton_force_9_to;
+	Gtk.SpinButton spinbutton_force_10_to;
 	Gtk.SpinButton spinbutton_force_impulse_to;
 	Gtk.SpinButton spinbutton_force_1_in_x_ms;
 	Gtk.SpinButton spinbutton_force_2_in_x_ms;
 	Gtk.SpinButton spinbutton_force_3_in_x_ms;
 	Gtk.SpinButton spinbutton_force_4_in_x_ms;
+	Gtk.SpinButton spinbutton_force_5_in_x_ms;
+	Gtk.SpinButton spinbutton_force_6_in_x_ms;
+	Gtk.SpinButton spinbutton_force_7_in_x_ms;
+	Gtk.SpinButton spinbutton_force_8_in_x_ms;
+	Gtk.SpinButton spinbutton_force_9_in_x_ms;
+	Gtk.SpinButton spinbutton_force_10_in_x_ms;
 
 	Gtk.HBox hbox_force_sensor_analyze_ai_sliders_and_buttons;
 	Gtk.Box box_force_sensor_analyze_magnitudes;
@@ -136,11 +214,23 @@ public partial class ChronoJumpWindow
 	Gtk.ComboBoxText combo_force_2_function;
 	Gtk.ComboBoxText combo_force_3_function;
 	Gtk.ComboBoxText combo_force_4_function;
+	Gtk.ComboBoxText combo_force_5_function;
+	Gtk.ComboBoxText combo_force_6_function;
+	Gtk.ComboBoxText combo_force_7_function;
+	Gtk.ComboBoxText combo_force_8_function;
+	Gtk.ComboBoxText combo_force_9_function;
+	Gtk.ComboBoxText combo_force_10_function;
 	Gtk.ComboBoxText combo_force_impulse_function;
 	Gtk.ComboBoxText combo_force_1_type;
 	Gtk.ComboBoxText combo_force_2_type;
 	Gtk.ComboBoxText combo_force_3_type;
 	Gtk.ComboBoxText combo_force_4_type;
+	Gtk.ComboBoxText combo_force_5_type;
+	Gtk.ComboBoxText combo_force_6_type;
+	Gtk.ComboBoxText combo_force_7_type;
+	Gtk.ComboBoxText combo_force_8_type;
+	Gtk.ComboBoxText combo_force_9_type;
+	Gtk.ComboBoxText combo_force_10_type;
 	Gtk.ComboBoxText combo_force_impulse_type;
 	// <---- at glade
 
@@ -278,6 +368,12 @@ public partial class ChronoJumpWindow
 		hbox_force_2.Visible = (check_force_2.Active);
 		hbox_force_3.Visible = (check_force_3.Active);
 		hbox_force_4.Visible = (check_force_4.Active);
+		hbox_force_5.Visible = (check_force_5.Active);
+		hbox_force_6.Visible = (check_force_6.Active);
+		hbox_force_7.Visible = (check_force_7.Active);
+		hbox_force_8.Visible = (check_force_8.Active);
+		hbox_force_9.Visible = (check_force_9.Active);
+		hbox_force_10.Visible = (check_force_10.Active);
 		hbox_force_impulse.Visible = (check_force_impulse.Active);
 	}
 
@@ -300,12 +396,24 @@ public partial class ChronoJumpWindow
 		UtilGtk.ComboUpdate(combo_force_2_function, ForceSensorRFD.FunctionsArray(true), "");
 		UtilGtk.ComboUpdate(combo_force_3_function, ForceSensorRFD.FunctionsArray(true), "");
 		UtilGtk.ComboUpdate(combo_force_4_function, ForceSensorRFD.FunctionsArray(true), "");
+		UtilGtk.ComboUpdate(combo_force_5_function, ForceSensorRFD.FunctionsArray(true), "");
+		UtilGtk.ComboUpdate(combo_force_6_function, ForceSensorRFD.FunctionsArray(true), "");
+		UtilGtk.ComboUpdate(combo_force_7_function, ForceSensorRFD.FunctionsArray(true), "");
+		UtilGtk.ComboUpdate(combo_force_8_function, ForceSensorRFD.FunctionsArray(true), "");
+		UtilGtk.ComboUpdate(combo_force_9_function, ForceSensorRFD.FunctionsArray(true), "");
+		UtilGtk.ComboUpdate(combo_force_10_function, ForceSensorRFD.FunctionsArray(true), "");
 		UtilGtk.ComboUpdate(combo_force_impulse_function, ForceSensorImpulse.FunctionsArray(true), "");
 
 		UtilGtk.ComboUpdate(combo_force_1_type, ForceSensorRFD.TypesArray(true), "");
 		UtilGtk.ComboUpdate(combo_force_2_type, ForceSensorRFD.TypesArray(true), "");
 		UtilGtk.ComboUpdate(combo_force_3_type, ForceSensorRFD.TypesArray(true), "");
 		UtilGtk.ComboUpdate(combo_force_4_type, ForceSensorRFD.TypesArray(true), "");
+		UtilGtk.ComboUpdate(combo_force_5_type, ForceSensorRFD.TypesArray(true), "");
+		UtilGtk.ComboUpdate(combo_force_6_type, ForceSensorRFD.TypesArray(true), "");
+		UtilGtk.ComboUpdate(combo_force_7_type, ForceSensorRFD.TypesArray(true), "");
+		UtilGtk.ComboUpdate(combo_force_8_type, ForceSensorRFD.TypesArray(true), "");
+		UtilGtk.ComboUpdate(combo_force_9_type, ForceSensorRFD.TypesArray(true), "");
+		UtilGtk.ComboUpdate(combo_force_10_type, ForceSensorRFD.TypesArray(true), "");
 		UtilGtk.ComboUpdate(combo_force_impulse_type, ForceSensorImpulse.TypesArrayImpulse(true), "");
 	}
 
@@ -318,31 +426,43 @@ public partial class ChronoJumpWindow
 		if(combo == combo_force_1_type)
 			combo_force_visibility(
 					UtilGtk.ComboGetActive(combo_force_1_type),
-					hbox_force_1_at_ms,
-					hbox_force_1_at_percent,
-					hbox_force_1_from_to,
-					hbox_force_1_in_x_ms);
+					hbox_force_1_at_ms, hbox_force_1_at_percent, hbox_force_1_from_to, hbox_force_1_in_x_ms);
 		else if(combo == combo_force_2_type)
 			combo_force_visibility(
 					UtilGtk.ComboGetActive(combo_force_2_type),
-					hbox_force_2_at_ms,
-					hbox_force_2_at_percent,
-					hbox_force_2_from_to,
-					hbox_force_2_in_x_ms);
+					hbox_force_2_at_ms, hbox_force_2_at_percent, hbox_force_2_from_to, hbox_force_2_in_x_ms);
 		else if(combo == combo_force_3_type)
 			combo_force_visibility(
 					UtilGtk.ComboGetActive(combo_force_3_type),
-					hbox_force_3_at_ms,
-					hbox_force_3_at_percent,
-					hbox_force_3_from_to,
-					hbox_force_3_in_x_ms);
+					hbox_force_3_at_ms, hbox_force_3_at_percent, hbox_force_3_from_to, hbox_force_3_in_x_ms);
 		else if(combo == combo_force_4_type)
 			combo_force_visibility(
 					UtilGtk.ComboGetActive(combo_force_4_type),
-					hbox_force_4_at_ms,
-					hbox_force_4_at_percent,
-					hbox_force_4_from_to,
-					hbox_force_4_in_x_ms);
+					hbox_force_4_at_ms, hbox_force_4_at_percent, hbox_force_4_from_to, hbox_force_4_in_x_ms);
+		else if(combo == combo_force_5_type)
+			combo_force_visibility(
+					UtilGtk.ComboGetActive(combo_force_5_type),
+					hbox_force_5_at_ms, hbox_force_5_at_percent, hbox_force_5_from_to, hbox_force_5_in_x_ms);
+		else if(combo == combo_force_6_type)
+			combo_force_visibility(
+					UtilGtk.ComboGetActive(combo_force_6_type),
+					hbox_force_6_at_ms, hbox_force_6_at_percent, hbox_force_6_from_to, hbox_force_6_in_x_ms);
+		else if(combo == combo_force_7_type)
+			combo_force_visibility(
+					UtilGtk.ComboGetActive(combo_force_7_type),
+					hbox_force_7_at_ms, hbox_force_7_at_percent, hbox_force_7_from_to, hbox_force_7_in_x_ms);
+		else if(combo == combo_force_8_type)
+			combo_force_visibility(
+					UtilGtk.ComboGetActive(combo_force_8_type),
+					hbox_force_8_at_ms, hbox_force_8_at_percent, hbox_force_8_from_to, hbox_force_8_in_x_ms);
+		else if(combo == combo_force_9_type)
+			combo_force_visibility(
+					UtilGtk.ComboGetActive(combo_force_9_type),
+					hbox_force_9_at_ms, hbox_force_9_at_percent, hbox_force_9_from_to, hbox_force_9_in_x_ms);
+		else if(combo == combo_force_10_type)
+			combo_force_visibility(
+					UtilGtk.ComboGetActive(combo_force_10_type),
+					hbox_force_10_at_ms, hbox_force_10_at_percent, hbox_force_10_from_to, hbox_force_10_in_x_ms);
 		else if(combo == combo_force_impulse_type)
 			combo_force_impulse_visibility(
 					UtilGtk.ComboGetActive(combo_force_impulse_type),
@@ -426,6 +546,42 @@ public partial class ChronoJumpWindow
 				hbox_force_4_at_percent, spinbutton_force_4_at_percent,
 				hbox_force_4_from_to, spinbutton_force_4_from, spinbutton_force_4_to,
 				hbox_force_4_in_x_ms, spinbutton_force_4_in_x_ms);
+
+		setRFDValue (rfdList[4], check_force_5, combo_force_5_function, combo_force_5_type,
+				hbox_force_5_at_ms, spinbutton_force_5_at_ms,
+				hbox_force_5_at_percent, spinbutton_force_5_at_percent,
+				hbox_force_5_from_to, spinbutton_force_5_from, spinbutton_force_5_to,
+				hbox_force_5_in_x_ms, spinbutton_force_5_in_x_ms);
+
+		setRFDValue (rfdList[5], check_force_6, combo_force_6_function, combo_force_6_type,
+				hbox_force_6_at_ms, spinbutton_force_6_at_ms,
+				hbox_force_6_at_percent, spinbutton_force_6_at_percent,
+				hbox_force_6_from_to, spinbutton_force_6_from, spinbutton_force_6_to,
+				hbox_force_6_in_x_ms, spinbutton_force_6_in_x_ms);
+
+		setRFDValue (rfdList[6], check_force_7, combo_force_7_function, combo_force_7_type,
+				hbox_force_7_at_ms, spinbutton_force_7_at_ms,
+				hbox_force_7_at_percent, spinbutton_force_7_at_percent,
+				hbox_force_7_from_to, spinbutton_force_7_from, spinbutton_force_7_to,
+				hbox_force_7_in_x_ms, spinbutton_force_7_in_x_ms);
+
+		setRFDValue (rfdList[7], check_force_8, combo_force_8_function, combo_force_8_type,
+				hbox_force_8_at_ms, spinbutton_force_8_at_ms,
+				hbox_force_8_at_percent, spinbutton_force_8_at_percent,
+				hbox_force_8_from_to, spinbutton_force_8_from, spinbutton_force_8_to,
+				hbox_force_8_in_x_ms, spinbutton_force_8_in_x_ms);
+
+		setRFDValue (rfdList[8], check_force_9, combo_force_9_function, combo_force_9_type,
+				hbox_force_9_at_ms, spinbutton_force_9_at_ms,
+				hbox_force_9_at_percent, spinbutton_force_9_at_percent,
+				hbox_force_9_from_to, spinbutton_force_9_from, spinbutton_force_9_to,
+				hbox_force_9_in_x_ms, spinbutton_force_9_in_x_ms);
+
+		setRFDValue (rfdList[9], check_force_10, combo_force_10_function, combo_force_10_type,
+				hbox_force_10_at_ms, spinbutton_force_10_at_ms,
+				hbox_force_10_at_percent, spinbutton_force_10_at_percent,
+				hbox_force_10_from_to, spinbutton_force_10_from, spinbutton_force_10_to,
+				hbox_force_10_in_x_ms, spinbutton_force_10_in_x_ms);
 	}
 
 	private void setRFDValue (ForceSensorRFD rfd, Gtk.CheckButton check, Gtk.ComboBoxText combo_force_function, Gtk.ComboBoxText combo_force_type,
@@ -486,6 +642,30 @@ public partial class ChronoJumpWindow
 					spinbutton_force_4_at_ms, spinbutton_force_4_at_percent,
 					spinbutton_force_4_from, spinbutton_force_4_to,
 					spinbutton_force_4_in_x_ms));
+		l.Add(getRFDValue("RFD5", check_force_5, combo_force_5_function, combo_force_5_type,
+					spinbutton_force_5_at_ms, spinbutton_force_5_at_percent,
+					spinbutton_force_5_from, spinbutton_force_5_to,
+					spinbutton_force_5_in_x_ms));
+		l.Add(getRFDValue("RFD6", check_force_6, combo_force_6_function, combo_force_6_type,
+					spinbutton_force_6_at_ms, spinbutton_force_6_at_percent,
+					spinbutton_force_6_from, spinbutton_force_6_to,
+					spinbutton_force_6_in_x_ms));
+		l.Add(getRFDValue("RFD7", check_force_7, combo_force_7_function, combo_force_7_type,
+					spinbutton_force_7_at_ms, spinbutton_force_7_at_percent,
+					spinbutton_force_7_from, spinbutton_force_7_to,
+					spinbutton_force_7_in_x_ms));
+		l.Add(getRFDValue("RFD8", check_force_8, combo_force_8_function, combo_force_8_type,
+					spinbutton_force_8_at_ms, spinbutton_force_8_at_percent,
+					spinbutton_force_8_from, spinbutton_force_8_to,
+					spinbutton_force_8_in_x_ms));
+		l.Add(getRFDValue("RFD9", check_force_9, combo_force_9_function, combo_force_9_type,
+					spinbutton_force_9_at_ms, spinbutton_force_9_at_percent,
+					spinbutton_force_9_from, spinbutton_force_9_to,
+					spinbutton_force_9_in_x_ms));
+		l.Add(getRFDValue("RFD10", check_force_10, combo_force_10_function, combo_force_10_type,
+					spinbutton_force_10_at_ms, spinbutton_force_10_at_percent,
+					spinbutton_force_10_from, spinbutton_force_10_to,
+					spinbutton_force_10_in_x_ms));
 		return l;
 	}
 	private ForceSensorRFD getRFDValue (string code, Gtk.CheckButton check, Gtk.ComboBoxText combo_force_function, Gtk.ComboBoxText combo_force_type,
@@ -1482,58 +1662,136 @@ public partial class ChronoJumpWindow
 		hbox_ai_export_top_modes = (Gtk.HBox) builder.GetObject ("hbox_ai_export_top_modes");
 		//	hbox_force_sensor_analyze_automatic_options = (Gtk.HBox) builder.GetObject ("hbox_force_sensor_analyze_automatic_options");
 		//	notebook_force_analyze_automatic = (Gtk.Notebook) builder.GetObject ("notebook_force_analyze_automatic");
+		/*
+		hbox_force_show_1 = (Gtk.HBox) builder.GetObject ("hbox_force_show_1");
+		hbox_force_show_2 = (Gtk.HBox) builder.GetObject ("hbox_force_show_2");
+		hbox_force_show_3 = (Gtk.HBox) builder.GetObject ("hbox_force_show_3");
+		hbox_force_show_4 = (Gtk.HBox) builder.GetObject ("hbox_force_show_4");
+		hbox_force_show_5 = (Gtk.HBox) builder.GetObject ("hbox_force_show_5");
+		hbox_force_show_6 = (Gtk.HBox) builder.GetObject ("hbox_force_show_6");
+		hbox_force_show_7 = (Gtk.HBox) builder.GetObject ("hbox_force_show_7");
+		hbox_force_show_8 = (Gtk.HBox) builder.GetObject ("hbox_force_show_8");
+		hbox_force_show_9 = (Gtk.HBox) builder.GetObject ("hbox_force_show_9");
+		hbox_force_show_10 = (Gtk.HBox) builder.GetObject ("hbox_force_show_10");
+		*/
 		vbox_force_rfd_duration_end = (Gtk.VBox) builder.GetObject ("vbox_force_rfd_duration_end");
 		hbox_force_1 = (Gtk.HBox) builder.GetObject ("hbox_force_1");
 		hbox_force_2 = (Gtk.HBox) builder.GetObject ("hbox_force_2");
 		hbox_force_3 = (Gtk.HBox) builder.GetObject ("hbox_force_3");
 		hbox_force_4 = (Gtk.HBox) builder.GetObject ("hbox_force_4");
+		hbox_force_5 = (Gtk.HBox) builder.GetObject ("hbox_force_5");
+		hbox_force_6 = (Gtk.HBox) builder.GetObject ("hbox_force_6");
+		hbox_force_7 = (Gtk.HBox) builder.GetObject ("hbox_force_7");
+		hbox_force_8 = (Gtk.HBox) builder.GetObject ("hbox_force_8");
+		hbox_force_9 = (Gtk.HBox) builder.GetObject ("hbox_force_9");
+		hbox_force_10 = (Gtk.HBox) builder.GetObject ("hbox_force_10");
 		hbox_force_impulse = (Gtk.HBox) builder.GetObject ("hbox_force_impulse");
 		check_force_1 = (Gtk.CheckButton) builder.GetObject ("check_force_1");
 		check_force_2 = (Gtk.CheckButton) builder.GetObject ("check_force_2");
 		check_force_3 = (Gtk.CheckButton) builder.GetObject ("check_force_3");
 		check_force_4 = (Gtk.CheckButton) builder.GetObject ("check_force_4");
+		check_force_5 = (Gtk.CheckButton) builder.GetObject ("check_force_5");
+		check_force_6 = (Gtk.CheckButton) builder.GetObject ("check_force_6");
+		check_force_7 = (Gtk.CheckButton) builder.GetObject ("check_force_7");
+		check_force_8 = (Gtk.CheckButton) builder.GetObject ("check_force_8");
+		check_force_9 = (Gtk.CheckButton) builder.GetObject ("check_force_9");
+		check_force_10 = (Gtk.CheckButton) builder.GetObject ("check_force_10");
 		check_force_impulse = (Gtk.CheckButton) builder.GetObject ("check_force_impulse");
 		hbox_force_1_at_ms = (Gtk.HBox) builder.GetObject ("hbox_force_1_at_ms");
 		hbox_force_2_at_ms = (Gtk.HBox) builder.GetObject ("hbox_force_2_at_ms");
 		hbox_force_3_at_ms = (Gtk.HBox) builder.GetObject ("hbox_force_3_at_ms");
 		hbox_force_4_at_ms = (Gtk.HBox) builder.GetObject ("hbox_force_4_at_ms");
+		hbox_force_5_at_ms = (Gtk.HBox) builder.GetObject ("hbox_force_5_at_ms");
+		hbox_force_6_at_ms = (Gtk.HBox) builder.GetObject ("hbox_force_6_at_ms");
+		hbox_force_7_at_ms = (Gtk.HBox) builder.GetObject ("hbox_force_7_at_ms");
+		hbox_force_8_at_ms = (Gtk.HBox) builder.GetObject ("hbox_force_8_at_ms");
+		hbox_force_9_at_ms = (Gtk.HBox) builder.GetObject ("hbox_force_9_at_ms");
+		hbox_force_10_at_ms = (Gtk.HBox) builder.GetObject ("hbox_force_10_at_ms");
 		hbox_force_1_at_percent = (Gtk.HBox) builder.GetObject ("hbox_force_1_at_percent");
 		hbox_force_2_at_percent = (Gtk.HBox) builder.GetObject ("hbox_force_2_at_percent");
 		hbox_force_3_at_percent = (Gtk.HBox) builder.GetObject ("hbox_force_3_at_percent");
 		hbox_force_4_at_percent = (Gtk.HBox) builder.GetObject ("hbox_force_4_at_percent");
+		hbox_force_5_at_percent = (Gtk.HBox) builder.GetObject ("hbox_force_5_at_percent");
+		hbox_force_6_at_percent = (Gtk.HBox) builder.GetObject ("hbox_force_6_at_percent");
+		hbox_force_7_at_percent = (Gtk.HBox) builder.GetObject ("hbox_force_7_at_percent");
+		hbox_force_8_at_percent = (Gtk.HBox) builder.GetObject ("hbox_force_8_at_percent");
+		hbox_force_9_at_percent = (Gtk.HBox) builder.GetObject ("hbox_force_9_at_percent");
+		hbox_force_10_at_percent = (Gtk.HBox) builder.GetObject ("hbox_force_10_at_percent");
 		hbox_force_impulse_until_percent = (Gtk.HBox) builder.GetObject ("hbox_force_impulse_until_percent");
 		hbox_force_1_from_to = (Gtk.HBox) builder.GetObject ("hbox_force_1_from_to");
 		hbox_force_2_from_to = (Gtk.HBox) builder.GetObject ("hbox_force_2_from_to");
 		hbox_force_3_from_to = (Gtk.HBox) builder.GetObject ("hbox_force_3_from_to");
 		hbox_force_4_from_to = (Gtk.HBox) builder.GetObject ("hbox_force_4_from_to");
+		hbox_force_5_from_to = (Gtk.HBox) builder.GetObject ("hbox_force_5_from_to");
+		hbox_force_6_from_to = (Gtk.HBox) builder.GetObject ("hbox_force_6_from_to");
+		hbox_force_7_from_to = (Gtk.HBox) builder.GetObject ("hbox_force_7_from_to");
+		hbox_force_8_from_to = (Gtk.HBox) builder.GetObject ("hbox_force_8_from_to");
+		hbox_force_9_from_to = (Gtk.HBox) builder.GetObject ("hbox_force_9_from_to");
+		hbox_force_10_from_to = (Gtk.HBox) builder.GetObject ("hbox_force_10_from_to");
 		hbox_force_1_in_x_ms = (Gtk.HBox) builder.GetObject ("hbox_force_1_in_x_ms");
 		hbox_force_2_in_x_ms = (Gtk.HBox) builder.GetObject ("hbox_force_2_in_x_ms");
 		hbox_force_3_in_x_ms = (Gtk.HBox) builder.GetObject ("hbox_force_3_in_x_ms");
 		hbox_force_4_in_x_ms = (Gtk.HBox) builder.GetObject ("hbox_force_4_in_x_ms");
+		hbox_force_5_in_x_ms = (Gtk.HBox) builder.GetObject ("hbox_force_5_in_x_ms");
+		hbox_force_6_in_x_ms = (Gtk.HBox) builder.GetObject ("hbox_force_6_in_x_ms");
+		hbox_force_7_in_x_ms = (Gtk.HBox) builder.GetObject ("hbox_force_7_in_x_ms");
+		hbox_force_8_in_x_ms = (Gtk.HBox) builder.GetObject ("hbox_force_8_in_x_ms");
+		hbox_force_9_in_x_ms = (Gtk.HBox) builder.GetObject ("hbox_force_9_in_x_ms");
+		hbox_force_10_in_x_ms = (Gtk.HBox) builder.GetObject ("hbox_force_10_in_x_ms");
 		spinbutton_force_1_at_ms = (Gtk.SpinButton) builder.GetObject ("spinbutton_force_1_at_ms");
 		spinbutton_force_2_at_ms = (Gtk.SpinButton) builder.GetObject ("spinbutton_force_2_at_ms");
 		spinbutton_force_3_at_ms = (Gtk.SpinButton) builder.GetObject ("spinbutton_force_3_at_ms");
 		spinbutton_force_4_at_ms = (Gtk.SpinButton) builder.GetObject ("spinbutton_force_4_at_ms");
+		spinbutton_force_5_at_ms = (Gtk.SpinButton) builder.GetObject ("spinbutton_force_5_at_ms");
+		spinbutton_force_6_at_ms = (Gtk.SpinButton) builder.GetObject ("spinbutton_force_6_at_ms");
+		spinbutton_force_7_at_ms = (Gtk.SpinButton) builder.GetObject ("spinbutton_force_7_at_ms");
+		spinbutton_force_8_at_ms = (Gtk.SpinButton) builder.GetObject ("spinbutton_force_8_at_ms");
+		spinbutton_force_9_at_ms = (Gtk.SpinButton) builder.GetObject ("spinbutton_force_9_at_ms");
+		spinbutton_force_10_at_ms = (Gtk.SpinButton) builder.GetObject ("spinbutton_force_10_at_ms");
 		hbox_force_impulse_from_to = (Gtk.HBox) builder.GetObject ("hbox_force_impulse_from_to");
 		spinbutton_force_1_at_percent = (Gtk.SpinButton) builder.GetObject ("spinbutton_force_1_at_percent");
 		spinbutton_force_2_at_percent = (Gtk.SpinButton) builder.GetObject ("spinbutton_force_2_at_percent");
 		spinbutton_force_3_at_percent = (Gtk.SpinButton) builder.GetObject ("spinbutton_force_3_at_percent");
 		spinbutton_force_4_at_percent = (Gtk.SpinButton) builder.GetObject ("spinbutton_force_4_at_percent");
+		spinbutton_force_5_at_percent = (Gtk.SpinButton) builder.GetObject ("spinbutton_force_5_at_percent");
+		spinbutton_force_6_at_percent = (Gtk.SpinButton) builder.GetObject ("spinbutton_force_6_at_percent");
+		spinbutton_force_7_at_percent = (Gtk.SpinButton) builder.GetObject ("spinbutton_force_7_at_percent");
+		spinbutton_force_8_at_percent = (Gtk.SpinButton) builder.GetObject ("spinbutton_force_8_at_percent");
+		spinbutton_force_9_at_percent = (Gtk.SpinButton) builder.GetObject ("spinbutton_force_9_at_percent");
+		spinbutton_force_10_at_percent = (Gtk.SpinButton) builder.GetObject ("spinbutton_force_10_at_percent");
 		spinbutton_force_impulse_until_percent = (Gtk.SpinButton) builder.GetObject ("spinbutton_force_impulse_until_percent");
 		spinbutton_force_1_from = (Gtk.SpinButton) builder.GetObject ("spinbutton_force_1_from");
 		spinbutton_force_2_from = (Gtk.SpinButton) builder.GetObject ("spinbutton_force_2_from");
 		spinbutton_force_3_from = (Gtk.SpinButton) builder.GetObject ("spinbutton_force_3_from");
 		spinbutton_force_4_from = (Gtk.SpinButton) builder.GetObject ("spinbutton_force_4_from");
+		spinbutton_force_5_from = (Gtk.SpinButton) builder.GetObject ("spinbutton_force_5_from");
+		spinbutton_force_6_from = (Gtk.SpinButton) builder.GetObject ("spinbutton_force_6_from");
+		spinbutton_force_7_from = (Gtk.SpinButton) builder.GetObject ("spinbutton_force_7_from");
+		spinbutton_force_8_from = (Gtk.SpinButton) builder.GetObject ("spinbutton_force_8_from");
+		spinbutton_force_9_from = (Gtk.SpinButton) builder.GetObject ("spinbutton_force_9_from");
+		spinbutton_force_10_from = (Gtk.SpinButton) builder.GetObject ("spinbutton_force_10_from");
 		spinbutton_force_impulse_from = (Gtk.SpinButton) builder.GetObject ("spinbutton_force_impulse_from");
 		spinbutton_force_1_to = (Gtk.SpinButton) builder.GetObject ("spinbutton_force_1_to");
 		spinbutton_force_2_to = (Gtk.SpinButton) builder.GetObject ("spinbutton_force_2_to");
 		spinbutton_force_3_to = (Gtk.SpinButton) builder.GetObject ("spinbutton_force_3_to");
 		spinbutton_force_4_to = (Gtk.SpinButton) builder.GetObject ("spinbutton_force_4_to");
+		spinbutton_force_5_to = (Gtk.SpinButton) builder.GetObject ("spinbutton_force_5_to");
+		spinbutton_force_6_to = (Gtk.SpinButton) builder.GetObject ("spinbutton_force_6_to");
+		spinbutton_force_7_to = (Gtk.SpinButton) builder.GetObject ("spinbutton_force_7_to");
+		spinbutton_force_8_to = (Gtk.SpinButton) builder.GetObject ("spinbutton_force_8_to");
+		spinbutton_force_9_to = (Gtk.SpinButton) builder.GetObject ("spinbutton_force_9_to");
+		spinbutton_force_10_to = (Gtk.SpinButton) builder.GetObject ("spinbutton_force_10_to");
 		spinbutton_force_impulse_to = (Gtk.SpinButton) builder.GetObject ("spinbutton_force_impulse_to");
 		spinbutton_force_1_in_x_ms = (Gtk.SpinButton) builder.GetObject ("spinbutton_force_1_in_x_ms");
 		spinbutton_force_2_in_x_ms = (Gtk.SpinButton) builder.GetObject ("spinbutton_force_2_in_x_ms");
 		spinbutton_force_3_in_x_ms = (Gtk.SpinButton) builder.GetObject ("spinbutton_force_3_in_x_ms");
 		spinbutton_force_4_in_x_ms = (Gtk.SpinButton) builder.GetObject ("spinbutton_force_4_in_x_ms");
+		spinbutton_force_5_in_x_ms = (Gtk.SpinButton) builder.GetObject ("spinbutton_force_5_in_x_ms");
+		spinbutton_force_6_in_x_ms = (Gtk.SpinButton) builder.GetObject ("spinbutton_force_6_in_x_ms");
+		spinbutton_force_7_in_x_ms = (Gtk.SpinButton) builder.GetObject ("spinbutton_force_7_in_x_ms");
+		spinbutton_force_8_in_x_ms = (Gtk.SpinButton) builder.GetObject ("spinbutton_force_8_in_x_ms");
+		spinbutton_force_9_in_x_ms = (Gtk.SpinButton) builder.GetObject ("spinbutton_force_9_in_x_ms");
+		spinbutton_force_10_in_x_ms = (Gtk.SpinButton) builder.GetObject ("spinbutton_force_10_in_x_ms");
 
 		hbox_force_sensor_analyze_ai_sliders_and_buttons = (Gtk.HBox) builder.GetObject ("hbox_force_sensor_analyze_ai_sliders_and_buttons");
 		ai_drawingarea_cairo = (Gtk.DrawingArea) builder.GetObject ("ai_drawingarea_cairo");
@@ -1557,11 +1815,23 @@ public partial class ChronoJumpWindow
 		combo_force_2_function = (Gtk.ComboBoxText) builder.GetObject ("combo_force_2_function");
 		combo_force_3_function = (Gtk.ComboBoxText) builder.GetObject ("combo_force_3_function");
 		combo_force_4_function = (Gtk.ComboBoxText) builder.GetObject ("combo_force_4_function");
+		combo_force_5_function = (Gtk.ComboBoxText) builder.GetObject ("combo_force_5_function");
+		combo_force_6_function = (Gtk.ComboBoxText) builder.GetObject ("combo_force_6_function");
+		combo_force_7_function = (Gtk.ComboBoxText) builder.GetObject ("combo_force_7_function");
+		combo_force_8_function = (Gtk.ComboBoxText) builder.GetObject ("combo_force_8_function");
+		combo_force_9_function = (Gtk.ComboBoxText) builder.GetObject ("combo_force_9_function");
+		combo_force_10_function = (Gtk.ComboBoxText) builder.GetObject ("combo_force_10_function");
 		combo_force_impulse_function = (Gtk.ComboBoxText) builder.GetObject ("combo_force_impulse_function");
 		combo_force_1_type = (Gtk.ComboBoxText) builder.GetObject ("combo_force_1_type");
 		combo_force_2_type = (Gtk.ComboBoxText) builder.GetObject ("combo_force_2_type");
 		combo_force_3_type = (Gtk.ComboBoxText) builder.GetObject ("combo_force_3_type");
 		combo_force_4_type = (Gtk.ComboBoxText) builder.GetObject ("combo_force_4_type");
+		combo_force_5_type = (Gtk.ComboBoxText) builder.GetObject ("combo_force_5_type");
+		combo_force_6_type = (Gtk.ComboBoxText) builder.GetObject ("combo_force_6_type");
+		combo_force_7_type = (Gtk.ComboBoxText) builder.GetObject ("combo_force_7_type");
+		combo_force_8_type = (Gtk.ComboBoxText) builder.GetObject ("combo_force_8_type");
+		combo_force_9_type = (Gtk.ComboBoxText) builder.GetObject ("combo_force_9_type");
+		combo_force_10_type = (Gtk.ComboBoxText) builder.GetObject ("combo_force_10_type");
 		combo_force_impulse_type = (Gtk.ComboBoxText) builder.GetObject ("combo_force_impulse_type");
 	}
 }

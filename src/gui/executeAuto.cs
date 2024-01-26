@@ -256,8 +256,8 @@ public class ExecuteAutoWindow
 			myItem.Activated += on_delete_selected_row_clicked;
 			myMenu.Attach( myItem, 0, 1, 0, 1 );
 
-			myMenu.Popup();
 			myMenu.ShowAll();
+			myMenu.Popup();
 		}
 	}
 	

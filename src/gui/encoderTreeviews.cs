@@ -1185,7 +1185,7 @@ public partial class ChronoJumpWindow
 	{
 		EncoderCurve curve = (EncoderCurve) model.GetValue (iter, 0);
 
-		string str = String.Format(UtilGtk.TVNumPrint(curve.ExtraWeight.ToString(),3,0),Convert.ToInt32(curve.ExtraWeight));
+		string str = String.Format(UtilGtk.TVNumPrint(curve.ExtraWeight.ToString(),3,2),Convert.ToDouble(curve.ExtraWeight));
 
 		renderBoldIfNeeded(cell, curve, str);
 	}
@@ -1201,7 +1201,7 @@ public partial class ChronoJumpWindow
 		if(curve.DisplacedWeight == -1)	
 			str = "";
 		else
-		       	str = String.Format(UtilGtk.TVNumPrint(curve.DisplacedWeight.ToString(),3,0),Convert.ToInt32(curve.DisplacedWeight));
+			str = String.Format(UtilGtk.TVNumPrint(curve.DisplacedWeight.ToString(),3,2),Convert.ToDouble(curve.DisplacedWeight));
 		
 		renderBoldIfNeeded(cell, curve, str);
 	}

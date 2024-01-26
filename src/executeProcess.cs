@@ -457,23 +457,27 @@ class ExecuteProcess
 
 		//A) fix script name
 		if(UtilAll.IsWindows())
+		{
 			script = script.Replace("\\","/");
-
-		parameters.Insert(0, "\"" + script + "\"");
+			parameters.Insert (0, @script);
+		} else
+			parameters.Insert (0, "\"" + script + "\"");
 
 		//B) tempPath
 		string tempPath = Path.GetTempPath();
 		if(UtilAll.IsWindows())
+		{
 			tempPath = tempPath.Replace("\\","/");
-
-		parameters.Insert(1, "\"" + tempPath + "\"");
+			parameters.Insert (1, @tempPath);
+		} else
+			parameters.Insert(1, "\"" + tempPath + "\"");
 
 		LogB.Information("\nCalling R file ----->");
 
 		//C) call process
 		//ExecuteProcess.run (executable, parameters);
 		Result execute_result = run (executable, parameters, true, true);
-		//LogB.Information("Result = " + execute_result.stdout);
+		LogB.Information("Result = " + execute_result.stdout);
 
 		LogB.Information("\n<------ Done calling R file.");
 		return execute_result.success;

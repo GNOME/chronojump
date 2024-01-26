@@ -9445,6 +9445,7 @@ LogB.Debug("mc finished 5");
 	private void menuSessionSensitive(bool option)
 	{
 		frame_session_more_this_session.Sensitive = option;
+		button_menu_session_export.Sensitive = option;
 	}
 	
 	private void menuPersonSelectedSensitive(bool option)

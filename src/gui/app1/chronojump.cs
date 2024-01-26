@@ -1781,8 +1781,8 @@ public partial class ChronoJumpWindow
 		myItem.Activated += on_delete_current_person_from_session_clicked;
 		myMenu.Attach( myItem, 0, 1, 3, 4 );
 
-		myMenu.Popup();
 		myMenu.ShowAll();
+		myMenu.Popup();
 	}
 		
 
@@ -1940,8 +1940,8 @@ public partial class ChronoJumpWindow
 		myItem.Activated += on_delete_selected_jump_clicked;
 		myMenu.Attach( myItem, 0, 1, 2, 3 );
 
-		myMenu.Popup();
 		myMenu.ShowAll();
+		myMenu.Popup();
 	}
 
 	/* ---------------------------------------------------------
@@ -2056,8 +2056,8 @@ public partial class ChronoJumpWindow
 		myItem.Activated += on_delete_selected_jump_rj_clicked;
 		myMenu.Attach( myItem, 0, 1, 3, 4 );
 
-		myMenu.Popup();
 		myMenu.ShowAll();
+		myMenu.Popup();
 	}
 
 	/* ---------------------------------------------------------
@@ -2149,8 +2149,8 @@ public partial class ChronoJumpWindow
 		myItem.Activated += on_delete_selected_run_clicked;
 		myMenu.Attach( myItem, 0, 1, 2, 3 );
 
-		myMenu.Popup();
 		myMenu.ShowAll();
+		myMenu.Popup();
 	}
 
 	/* ---------------------------------------------------------
@@ -2279,8 +2279,8 @@ public partial class ChronoJumpWindow
 		myItem.Activated += on_delete_selected_run_interval_clicked;
 		myMenu.Attach( myItem, 0, 1, 3, 4 );
 
-		myMenu.Popup();
 		myMenu.ShowAll();
+		myMenu.Popup();
 	}
 
 	/* ---------------------------------------------------------
@@ -2358,8 +2358,8 @@ public partial class ChronoJumpWindow
 		myItem.Activated += on_delete_selected_reaction_time_clicked;
 		myMenu.Attach( myItem, 0, 1, 2, 3 );
 
-		myMenu.Popup();
 		myMenu.ShowAll();
+		myMenu.Popup();
 	}
 
 	/* ---------------------------------------------------------
@@ -2445,8 +2445,8 @@ public partial class ChronoJumpWindow
 		myItem.Activated += on_delete_selected_pulse_clicked;
 		myMenu.Attach( myItem, 0, 1, 3, 4 );
 
-		myMenu.Popup();
 		myMenu.ShowAll();
+		myMenu.Popup();
 	}
 
 	/* ---------------------------------------------------------
@@ -2545,8 +2545,8 @@ public partial class ChronoJumpWindow
 		myItem.Activated += on_delete_selected_multi_chronopic_clicked;
 		myMenu.Attach( myItem, 0, 1, 2, 3 );
 
-		myMenu.Popup();
 		myMenu.ShowAll();
+		myMenu.Popup();
 	}
 
 

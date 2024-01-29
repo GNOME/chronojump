@@ -34,9 +34,10 @@
             <property name="label-yalign">1</property>
             <property name="shadow-type">in</property>
             <child>
-              <object class="GtkVBox" id="vbox_general">
+              <object class="GtkBox" id="vbox_general">
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
+                <property name="orientation">vertical</property>
                 <property name="border-width">4</property>
                 <child>
                   <object class="GtkLabel" id="label175">
@@ -327,9 +328,10 @@
             <property name="label-yalign">1</property>
             <property name="shadow-type">in</property>
             <child>
-              <object class="GtkHBox" id="hbox_statistics">
+              <object class="GtkBox" id="hbox_statistics">
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
+                <property name="orientation">horizontal</property>
                 <property name="border-width">4</property>
                 <property name="spacing">4</property>
                 <child>

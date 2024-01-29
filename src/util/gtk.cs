@@ -852,6 +852,7 @@ public class UtilGtk
 	{
 		contrastLabelsContainer (bgDark, (Gtk.Container) box);
 	}
+	/*
 	public static void ContrastLabelsHBox (bool bgDark, Gtk.HBox hbox)
 	{
 		contrastLabelsContainer (bgDark, (Gtk.Container) hbox);
@@ -860,6 +861,7 @@ public class UtilGtk
 	{
 		contrastLabelsContainer (bgDark, (Gtk.Container) vbox);
 	}
+	*/
 	public static void ContrastLabelsTable (bool bgDark, Gtk.Table table)
 	{
 		contrastLabelsContainer (bgDark, (Gtk.Container) table);
@@ -880,8 +882,6 @@ public class UtilGtk
 				UtilGtk.ContrastLabelsLabel (Config.ColorBackgroundShiftedIsDark, (Gtk.Label) w);
 			else if (w.GetType() == typeof(Gtk.Box))
 				UtilGtk.ContrastLabelsBox (Config.ColorBackgroundShiftedIsDark, (Gtk.Box) w);
-			else if (w.GetType() == typeof(Gtk.HBox))
-				UtilGtk.ContrastLabelsHBox (Config.ColorBackgroundShiftedIsDark, (Gtk.HBox) w);
 		}
 	}
 	/*

@@ -689,7 +689,7 @@ public class EditRunIntervalWindow : EditRunWindow
 public class RepairRunIntervalWindow 
 {
 	Gtk.Window repair_sub_event;
-	Gtk.HBox hbox_notes_and_totaltime;
+	Gtk.Box hbox_notes_and_totaltime;
 	Gtk.Label label_header;
 	Gtk.Label label_totaltime_value;
 	Gtk.TreeView treeview_subevents;
@@ -761,7 +761,7 @@ public class RepairRunIntervalWindow
 		{
 			UtilGtk.WindowColor(RepairRunIntervalWindowBox.repair_sub_event, Config.ColorBackground);
 			UtilGtk.ContrastLabelsLabel(Config.ColorBackgroundIsDark, RepairRunIntervalWindowBox.label_header);
-			UtilGtk.ContrastLabelsHBox(Config.ColorBackgroundIsDark, RepairRunIntervalWindowBox.hbox_notes_and_totaltime);
+			UtilGtk.ContrastLabelsBox(Config.ColorBackgroundIsDark, RepairRunIntervalWindowBox.hbox_notes_and_totaltime);
 		}
 
 		RepairRunIntervalWindowBox.repair_sub_event.Show ();
@@ -1029,7 +1029,7 @@ public class RepairRunIntervalWindow
 	private void connectWidgets (Gtk.Builder builder)
 	{
 		repair_sub_event = (Gtk.Window) builder.GetObject ("repair_sub_event");
-		hbox_notes_and_totaltime = (Gtk.HBox) builder.GetObject ("hbox_notes_and_totaltime");
+		hbox_notes_and_totaltime = (Gtk.Box) builder.GetObject ("hbox_notes_and_totaltime");
 		label_header = (Gtk.Label) builder.GetObject ("label_header");
 		label_totaltime_value = (Gtk.Label) builder.GetObject ("label_totaltime_value");
 		treeview_subevents = (Gtk.TreeView) builder.GetObject ("treeview_subevents");

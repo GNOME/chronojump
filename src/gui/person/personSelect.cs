@@ -52,7 +52,7 @@ public class PersonSelectWindow
 	Gtk.Image image_merge;
 	Gtk.Image image_person_delete;
 	Gtk.Image image_manage_persons_cancel;
-	Gtk.VBox vbox_corner_controls;
+	Gtk.Box vbox_corner_controls;
 	Gtk.Image image_close;
 	Gtk.Label label_manage_persons;
 	Gtk.Label label_delete_person;
@@ -119,7 +119,7 @@ public class PersonSelectWindow
 			//UtilGtk.ContrastLabelsLabel(Config.ColorBackgroundIsDark, label_confirm);
 			UtilGtk.ContrastLabelsLabel(Config.ColorBackgroundIsDark, label_manage_persons);
 			UtilGtk.ContrastLabelsLabel(Config.ColorBackgroundIsDark, label_delete_person);
-			UtilGtk.ContrastLabelsVBox(Config.ColorBackgroundIsDark, vbox_corner_controls);
+			UtilGtk.ContrastLabelsBox(Config.ColorBackgroundIsDark, vbox_corner_controls);
 
 			UtilGtk.WidgetColor (frame_main, Config.ColorBackgroundShifted);
 			UtilGtk.ContrastLabelsFrame (Config.ColorBackgroundShiftedIsDark, frame_main);
@@ -543,7 +543,7 @@ public class PersonSelectWindow
 		image_merge = (Gtk.Image) builder.GetObject ("image_merge");
 		image_person_delete = (Gtk.Image) builder.GetObject ("image_person_delete");
 		image_manage_persons_cancel = (Gtk.Image) builder.GetObject ("image_manage_persons_cancel");
-		vbox_corner_controls = (Gtk.VBox) builder.GetObject ("vbox_corner_controls");
+		vbox_corner_controls = (Gtk.Box) builder.GetObject ("box_corner_controls");
 		image_close = (Gtk.Image) builder.GetObject ("image_close");
 		label_manage_persons = (Gtk.Label) builder.GetObject ("label_manage_persons");
 		label_delete_person = (Gtk.Label) builder.GetObject ("label_delete_person");
@@ -633,7 +633,7 @@ public class PersonPhotoButton
 
 	private void createButton (bool showImage)
 	{
-		Gtk.VBox vbox = new Gtk.VBox();
+		Gtk.Box vbox = new Gtk.Box(Gtk.Orientation.Vertical, 0);
 
 		// need to create image even on no images to manage correctly the getButtonBoxElements ()
 		Gtk.Image image = new Gtk.Image();
@@ -685,7 +685,7 @@ public class PersonPhotoButton
 	private Array getButtonBoxElements (Gtk.Button button)
 	{
 		//access the vbox
-		Gtk.VBox box = (Gtk.VBox) button.Child;
+		Gtk.Box box = (Gtk.Box) button.Child;
 
 		/*
 		LogB.Information("printing children");

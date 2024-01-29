@@ -953,9 +953,10 @@
               </packing>
             </child>
             <child>
-              <object class="GtkVBox" id="vbox_corner_controls">
+              <object class="GtkBox" id="vbox_corner_controls">
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
+                <property name="orientation">vertical</property>
                 <property name="spacing">12</property>
                 <child>
                   <object class="GtkCheckButton" id="check_show_images">

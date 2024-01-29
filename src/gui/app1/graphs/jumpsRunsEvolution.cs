@@ -34,7 +34,7 @@ public partial class ChronoJumpWindow
 	Gtk.DrawingArea drawingarea_jumps_evolution;
 	Gtk.Image image_tab_jumps_evolution;
 	Gtk.Image image_jumps_evolution_save;
-	Gtk.HBox hbox_combo_select_jumps_evolution;
+	Gtk.Box hbox_combo_select_jumps_evolution;
 	Gtk.Button button_jumps_evolution_save_image;
 	Gtk.CheckButton check_jumps_evolution_only_best_in_session;
 
@@ -42,7 +42,7 @@ public partial class ChronoJumpWindow
 	Gtk.Image image_tab_runs_evolution;
 	Gtk.Image image_runs_evolution_save;
 	Gtk.Image image_runs_evolution_analyze_image_save;
-	Gtk.HBox hbox_combo_select_runs_evolution;
+	Gtk.Box hbox_combo_select_runs_evolution;
 	Gtk.HBox hbox_combo_select_runs_evolution_distance;
 	Gtk.Button button_runs_evolution_save_image;
 	Gtk.CheckButton check_runs_evolution_only_best_in_session;
@@ -429,7 +429,7 @@ public partial class ChronoJumpWindow
 		drawingarea_jumps_evolution = (Gtk.DrawingArea) builder.GetObject ("drawingarea_jumps_evolution");
 		image_tab_jumps_evolution = (Gtk.Image) builder.GetObject ("image_tab_jumps_evolution");
 		image_jumps_evolution_save = (Gtk.Image) builder.GetObject ("image_jumps_evolution_save");
-		hbox_combo_select_jumps_evolution = (Gtk.HBox) builder.GetObject ("hbox_combo_select_jumps_evolution");
+		hbox_combo_select_jumps_evolution = (Gtk.Box) builder.GetObject ("hbox_combo_select_jumps_evolution");
 		button_jumps_evolution_save_image = (Gtk.Button) builder.GetObject ("button_jumps_evolution_save_image");
 		check_jumps_evolution_only_best_in_session = (Gtk.CheckButton) builder.GetObject ("check_jumps_evolution_only_best_in_session");
 
@@ -437,7 +437,7 @@ public partial class ChronoJumpWindow
 		image_tab_runs_evolution = (Gtk.Image) builder.GetObject ("image_tab_runs_evolution");
 		image_runs_evolution_save = (Gtk.Image) builder.GetObject ("image_runs_evolution_save");
 		image_runs_evolution_analyze_image_save = (Gtk.Image) builder.GetObject ("image_runs_evolution_analyze_image_save");
-		hbox_combo_select_runs_evolution = (Gtk.HBox) builder.GetObject ("hbox_combo_select_runs_evolution");
+		hbox_combo_select_runs_evolution = (Gtk.Box) builder.GetObject ("hbox_combo_select_runs_evolution");
 		hbox_combo_select_runs_evolution_distance = (Gtk.HBox) builder.GetObject ("hbox_combo_select_runs_evolution_distance");
 		button_runs_evolution_save_image = (Gtk.Button) builder.GetObject ("button_runs_evolution_save_image");
 		check_runs_evolution_only_best_in_session = (Gtk.CheckButton) builder.GetObject ("check_runs_evolution_only_best_in_session");

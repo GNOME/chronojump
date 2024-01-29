@@ -35,7 +35,7 @@ public class DialogPersonPopup
 	Gtk.CheckButton checkbutton_autologout;
 	Gtk.Image image_close;
 	Gtk.Label label_rfid;
-	Gtk.VBox vbox_tasks_parametrized;
+	Gtk.Box vbox_tasks_parametrized;
 
 	Gtk.Label label_network_devices;
 	Gtk.Label label_server_connected;
@@ -47,7 +47,7 @@ public class DialogPersonPopup
 	private List<Gtk.Button> list_buttons_start;
 	private List<Gtk.Button> list_buttons_done;
 	private List<int> list_buttons_done_id; //this has right id to mark task (also R,L) done
-	private List<Gtk.HBox> list_hboxs_row; //to unsensitive when done!
+	private List<Gtk.Box> list_hboxs_row; //to unsensitive when done!
 
 	private Task taskActive;
 	public Button Fake_button_start_task;
@@ -132,7 +132,7 @@ public class DialogPersonPopup
 
 		//2) Show tasks stuff
 		list_tasks_fixed = new List<Task>();
-		list_hboxs_row = new List<Gtk.HBox>();
+		list_hboxs_row = new List<Gtk.Box>();
 		list_buttons_start = new List<Gtk.Button>();
 		list_buttons_done = new List<Gtk.Button>();
 		list_buttons_done_id = new List<int>();
@@ -146,23 +146,23 @@ public class DialogPersonPopup
 		bool task_parametrized_exist = false;
 		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_capture_big.png");
 
-		Gtk.HBox hboxRow;
+		Gtk.Box hboxRow;
 		foreach(Task tAbstract in tasks)
 		{
 			//TODO: cast depending on type, not all them encoder ;)
 			//if POWERGRAVITATORY || POWERINERTIAL
 			TaskEncoder t = (TaskEncoder) tAbstract;
 
-			hboxRow = new Gtk.HBox(false, 10);
+			hboxRow = new Gtk.Box(Gtk.Orientation.Horizontal, 10);
 
 			if(t.Laterality == "R,L")
 			{
-				Gtk.VBox vboxRL = new Gtk.VBox(false, 4);
+				Gtk.Box vboxRL = new Gtk.Box(Gtk.Orientation.Vertical, 4);
 
 				TaskEncoder taskCopy = new TaskEncoder (t.Id, t.PersonId, t.ExerciseId, t.ExerciseName,
 					t.Sets, t.Nreps, t.Load, t.Speed, t.PercentMaxSpeed,
 					"R", t.Comment);
-				Gtk.HBox hboxStartAndLabel = createHBoxStartAndLabel(taskCopy, pixbuf);
+				Gtk.Box hboxStartAndLabel = createHBoxStartAndLabel(taskCopy, pixbuf);
 				vboxRL.PackStart(hboxStartAndLabel, false, false, 0);
 
 				taskCopy = new TaskEncoder (t.Id, t.PersonId, t.ExerciseId, t.ExerciseName,
@@ -171,11 +171,11 @@ public class DialogPersonPopup
 				hboxStartAndLabel = createHBoxStartAndLabel(taskCopy, pixbuf);
 				vboxRL.PackStart(hboxStartAndLabel, false, false, 0);
 
-				Gtk.VSeparator vsep = new Gtk.VSeparator();
+				Gtk.Separator vsep = new Gtk.Separator(Gtk.Orientation.Vertical);
 				hboxRow.PackStart(vsep, false, false, 0);
 				hboxRow.PackStart(vboxRL, false, false, 0);
 			} else {
-				Gtk.HBox hboxStartAndLabel = createHBoxStartAndLabel(t, pixbuf);
+				Gtk.Box hboxStartAndLabel = createHBoxStartAndLabel(t, pixbuf);
 				hboxRow.PackStart(hboxStartAndLabel, false, false, 0);
 			}
 
@@ -224,10 +224,10 @@ public class DialogPersonPopup
 		dialog_person_popup.Show();
 	}
 
-	private Gtk.HBox createHBoxStartAndLabel(Task t, Pixbuf pixbuf)
+	private Gtk.Box createHBoxStartAndLabel(Task t, Pixbuf pixbuf)
 	{
 		Gtk.Label l = new Gtk.Label(t.ToString());
-		HBox hbox = new Gtk.HBox(false, 10);
+		Box hbox = new Gtk.Box(Gtk.Orientation.Horizontal, 10);
 		Button button_start;
 
 		Gtk.Image image = new Gtk.Image();
@@ -345,7 +345,7 @@ public class DialogPersonPopup
 		checkbutton_autologout = (Gtk.CheckButton) builder.GetObject ("checkbutton_autologout");
 		image_close = (Gtk.Image) builder.GetObject ("image_close");
 		label_rfid = (Gtk.Label) builder.GetObject ("label_rfid");
-		vbox_tasks_parametrized = (Gtk.VBox) builder.GetObject ("vbox_tasks_parametrized");
+		vbox_tasks_parametrized = (Gtk.Box) builder.GetObject ("vbox_tasks_parametrized");
 		label_network_devices = (Gtk.Label) builder.GetObject ("label_network_devices");
 		label_server_connected = (Gtk.Label) builder.GetObject ("label_server_connected");
 		image_server_connected_yes = (Gtk.Image) builder.GetObject ("image_server_connected_yes");

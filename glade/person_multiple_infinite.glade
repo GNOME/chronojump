@@ -371,8 +371,9 @@
                                 <property name="can-focus">False</property>
                                 <property name="spacing">20</property>
                                 <child>
-                                  <object class="GtkHBox" id="hbox_h1_h2_help">
+                                  <object class="GtkBox" id="hbox_h1_h2_help">
                                     <property name="can-focus">False</property>
+                                    <property name="orientation">horizontal</property>
                                     <property name="spacing">20</property>
                                     <child>
                                       <object class="GtkLabel" id="label_h1_legsLength">

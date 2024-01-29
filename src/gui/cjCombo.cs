@@ -106,7 +106,7 @@ public partial class ChronoJumpWindow
 public class CjCombo
 {
 	protected Gtk.ComboBoxText combo;
-	protected Gtk.HBox hbox;
+	protected Gtk.Box box;
 
 	protected List<object> l_types;
 
@@ -155,8 +155,8 @@ public class CjCombo
 	
 	protected void package() 
 	{
-		hbox.PackStart(combo, true, true, 0);
-		hbox.ShowAll();
+		box.PackStart(combo, true, true, 0);
+		box.ShowAll();
 		combo.Sensitive = false;
 	}
 
@@ -244,10 +244,10 @@ public class CjComboSelectJumps : CjCombo
 {
 	private bool onlyFallingJumps;
 
-	public CjComboSelectJumps(Gtk.ComboBoxText combo_select_jumps, Gtk.HBox hbox_combo_select_jumps, bool onlyFallingJumps)
+	public CjComboSelectJumps(Gtk.ComboBoxText combo_select_jumps, Gtk.Box box_combo_select_jumps, bool onlyFallingJumps)
 	{
 		this.combo = combo_select_jumps;
-		this.hbox = hbox_combo_select_jumps;
+		this.box = box_combo_select_jumps;
 		this.onlyFallingJumps = onlyFallingJumps;
 
 		create();
@@ -266,10 +266,10 @@ public class CjComboSelectJumps : CjCombo
 
 public class CjComboSelectJumpsRj : CjCombo
 {
-	public CjComboSelectJumpsRj(Gtk.ComboBoxText combo_select_jumps_rj, Gtk.HBox hbox_combo_select_jumps_rj)
+	public CjComboSelectJumpsRj(Gtk.ComboBoxText combo_select_jumps_rj, Gtk.Box box_combo_select_jumps_rj)
 	{
 		this.combo = combo_select_jumps_rj;
-		this.hbox = hbox_combo_select_jumps_rj;
+		this.box = box_combo_select_jumps_rj;
 
 		create();
 		Fill();
@@ -286,10 +286,10 @@ public class CjComboSelectJumpsRj : CjCombo
 
 public class CjComboSelectRuns : CjCombo
 {
-	public CjComboSelectRuns(Gtk.ComboBoxText combo_select_runs, Gtk.HBox hbox_combo_select_runs) 
+	public CjComboSelectRuns(Gtk.ComboBoxText combo_select_runs, Gtk.Box box_combo_select_runs) 
 	{
 		this.combo = combo_select_runs;
-		this.hbox = hbox_combo_select_runs;
+		this.box = box_combo_select_runs;
 
 		create();
 		Fill();
@@ -304,10 +304,10 @@ public class CjComboSelectRuns : CjCombo
 
 public class CjComboSelectRunsI : CjCombo
 {
-	public CjComboSelectRunsI(Gtk.ComboBoxText combo_select_runs_interval, Gtk.HBox hbox_combo_select_runs_interval)
+	public CjComboSelectRunsI(Gtk.ComboBoxText combo_select_runs_interval, Gtk.Box box_combo_select_runs_interval)
 	{
 		this.combo = combo_select_runs_interval;
-		this.hbox = hbox_combo_select_runs_interval;
+		this.box = box_combo_select_runs_interval;
 
 		create();
 		Fill();
@@ -322,10 +322,10 @@ public class CjComboSelectRunsI : CjCombo
 
 public class CjComboForceSensorPorts : CjCombo
 {
-	public CjComboForceSensorPorts(Gtk.ComboBoxText combo_force_sensor_ports, Gtk.HBox hbox_combo_force_sensor_ports)
+	public CjComboForceSensorPorts(Gtk.ComboBoxText combo_force_sensor_ports, Gtk.Box box_combo_force_sensor_ports)
 	{
 		this.combo = combo_force_sensor_ports;
-		this.hbox = hbox_combo_force_sensor_ports;
+		this.box = box_combo_force_sensor_ports;
 
 		create();
 		FillNoTranslate();
@@ -344,10 +344,10 @@ public class CjComboForceSensorPorts : CjCombo
 /*
 public class CjComboSessionSelectTags : CjCombo
 {
-	public CjComboSessionSelectTags (Gtk.ComboBoxText combo, Gtk.HBox hbox_combo)
+	public CjComboSessionSelectTags (Gtk.ComboBoxText combo, Gtk.Box box_combo)
 	{
 		this.combo = combo;
-		this.hbox = hbox_combo;
+		this.box = box_combo;
 
 		create();
 		FillNoTranslate();
@@ -360,10 +360,10 @@ public class CjComboSessionSelectTags : CjCombo
 
 public class CjComboGeneric : CjCombo
 {
-	public CjComboGeneric (Gtk.ComboBoxText combo, Gtk.HBox hbox_combo)
+	public CjComboGeneric (Gtk.ComboBoxText combo, Gtk.Box box_combo)
 	{
 		this.combo = combo;
-		this.hbox = hbox_combo;
+		this.box = box_combo;
 
 		create();
 		Fill();
@@ -371,10 +371,10 @@ public class CjComboGeneric : CjCombo
 	}
 
 	//unused, for this use maybe better use UtilGtk.CreateComboBoxText ()
-	public CjComboGeneric (Gtk.ComboBoxText combo, Gtk.HBox hbox_combo, List<object> l_types)
+	public CjComboGeneric (Gtk.ComboBoxText combo, Gtk.Box box_combo, List<object> l_types)
 	{
 		this.combo = combo;
-		this.hbox = hbox_combo;
+		this.box = box_combo;
 		this.l_types = l_types;
 
 		create();

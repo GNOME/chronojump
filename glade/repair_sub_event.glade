@@ -202,9 +202,10 @@
               </packing>
             </child>
             <child>
-              <object class="GtkHBox" id="hbox_notes_and_totaltime">
+              <object class="GtkBox" id="hbox_notes_and_totaltime">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
+                <property name="orientation">horizontal</property>
                 <child>
                   <object class="GtkLabel" id="label178">
                     <property name="visible">True</property>

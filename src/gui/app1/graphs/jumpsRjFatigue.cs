@@ -34,8 +34,8 @@ public partial class ChronoJumpWindow
 	Gtk.Image image_jumps_rj_fatigue_save;
 	Gtk.Image image_jumps_rj_fatigue_image_save;
 
-	Gtk.HBox hbox_combo_select_jumps_rj_fatigue;
-	Gtk.HBox hbox_combo_select_jumps_rj_fatigue_num;
+	Gtk.Box hbox_combo_select_jumps_rj_fatigue;
+	Gtk.Box hbox_combo_select_jumps_rj_fatigue_num;
 	Gtk.Box box_combo_jumps_rj_fatigue_divide_in;
 
 	Gtk.RadioButton radio_jumps_rj_fatigue_heights;
@@ -301,8 +301,8 @@ public partial class ChronoJumpWindow
 		image_jumps_rj_fatigue_save = (Gtk.Image) builder.GetObject ("image_jumps_rj_fatigue_save");
 		image_jumps_rj_fatigue_image_save = (Gtk.Image) builder.GetObject ("image_jumps_rj_fatigue_image_save");
 
-		hbox_combo_select_jumps_rj_fatigue = (Gtk.HBox) builder.GetObject ("hbox_combo_select_jumps_rj_fatigue");
-		hbox_combo_select_jumps_rj_fatigue_num = (Gtk.HBox) builder.GetObject ("hbox_combo_select_jumps_rj_fatigue_num");
+		hbox_combo_select_jumps_rj_fatigue = (Gtk.Box) builder.GetObject ("hbox_combo_select_jumps_rj_fatigue");
+		hbox_combo_select_jumps_rj_fatigue_num = (Gtk.Box) builder.GetObject ("hbox_combo_select_jumps_rj_fatigue_num");
 		box_combo_jumps_rj_fatigue_divide_in = (Gtk.Box) builder.GetObject ("box_combo_jumps_rj_fatigue_divide_in");
 
 		radio_jumps_rj_fatigue_heights = (Gtk.RadioButton) builder.GetObject ("radio_jumps_rj_fatigue_heights");

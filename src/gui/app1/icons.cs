@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2017-2023   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2017-2024   Xavier de Blas <xaviblas@gmail.com>
  */
 
 
@@ -762,22 +762,14 @@ public partial class ChronoJumpWindow
 		//UtilGtk.ColorsTestLabel(viewport_chronopics, label_extra_window_radio_reaction_time_animation_lights);
 		//UtilGtk.ColorsTestLabel(viewport_chronopics, label_extra_window_radio_reaction_time_flicker);
 		//UtilGtk.ColorsTestLabel(viewport_chronopics, label_extra_window_radio_reaction_time_discriminative);
-		UtilGtk.ColorsRadio(viewport_chronopics, extra_window_radio_reaction_time);
-		UtilGtk.ColorsRadio(viewport_chronopics, extra_window_radio_reaction_time_animation_lights);
-		UtilGtk.ColorsRadio(viewport_chronopics, extra_window_radio_reaction_time_flicker);
-		UtilGtk.ColorsRadio(viewport_chronopics, extra_window_radio_reaction_time_discriminative);
 
 		//pulses changes
 		//UtilGtk.ColorsTestLabel(viewport_chronopics, label_extra_window_radio_pulses_free);
 		//UtilGtk.ColorsTestLabel(viewport_chronopics, label_extra_window_radio_pulses_custom);
-		UtilGtk.ColorsRadio(viewport_chronopics, extra_window_radio_pulses_free);
-		UtilGtk.ColorsRadio(viewport_chronopics, extra_window_radio_pulses_custom);
 
 		//multichronopic changes
 		//UtilGtk.ColorsTestLabel(viewport_chronopics, label_extra_window_radio_multichronopic_start);
 		//UtilGtk.ColorsTestLabel(viewport_chronopics, label_extra_window_radio_multichronopic_run_analysis);
-		UtilGtk.ColorsRadio(viewport_chronopics, extra_window_radio_multichronopic_start);
-		UtilGtk.ColorsRadio(viewport_chronopics, extra_window_radio_multichronopic_run_analysis);
 
 		//open buttons (this is shown better in windows than the default open icon)
 		//pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + Constants.FileNameOpen);
@@ -850,20 +842,6 @@ public partial class ChronoJumpWindow
 		image_raceAnalyzer_table_save_grid.Pixbuf = pixbuf;
 
 		//encoder
-		UtilGtk.ColorsRadio(viewport_chronopics, radiobutton_encoder_analyze_powerbars);
-		UtilGtk.ColorsRadio(viewport_chronopics, radiobutton_encoder_analyze_cross);
-		UtilGtk.ColorsRadio(viewport_chronopics, radiobutton_encoder_analyze_instantaneous);
-		UtilGtk.ColorsRadio(viewport_chronopics, radiobutton_encoder_analyze_neuromuscular_profile);
-		
-		UtilGtk.ColorsCheckbox(viewport_chronopics, check_encoder_analyze_show_position);
-		UtilGtk.ColorsCheckbox(viewport_chronopics, check_encoder_analyze_show_speed);
-		UtilGtk.ColorsCheckbox(viewport_chronopics, check_encoder_analyze_show_accel);
-		UtilGtk.ColorsCheckbox(viewport_chronopics, check_encoder_analyze_show_force);
-		UtilGtk.ColorsCheckbox(viewport_chronopics, check_encoder_analyze_show_power);
-		
-		UtilGtk.ColorsCheckbox(viewport_chronopics, check_encoder_analyze_show_range);
-		UtilGtk.ColorsCheckbox(viewport_chronopics, check_encoder_analyze_show_time_to_peak_power);
-
 		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_analyze.png");
 		image_button_contacts_capture_save_image_chart.Pixbuf = pixbuf;
 		image_encoder_analyze_stats.Pixbuf = pixbuf;
@@ -1090,6 +1068,8 @@ public partial class ChronoJumpWindow
 		image_force_sensor_ai_zoom_out.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "zoom_out.png");
 
 		image_test_add_edit.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_attachment.png");
+
+		UtilGtk.ApplyCSS ();
 	}
 
 

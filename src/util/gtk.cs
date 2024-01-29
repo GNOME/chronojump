@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Copyright (C) 2004-2023   Xavier de Blas <xaviblas@gmail.com>
+ *  Copyright (C) 2004-2024   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -599,8 +599,9 @@ public class UtilGtk
 	public static string ColorGray = "gray";
 
 	public enum Colors {
-		BLACK, BLUE_CHRONOJUMP, BLUE_LIGHT, BLUE_PLOTS, GREEN_PLOTS, GREEN_LIGHT, GREEN_DARK,
-		GRAY, RED_PLOTS, RED_DARK, YELLOW, YELLOW_LIGHT, WHITE }
+		BLACK, BLUE_CHRONOJUMP, BLUE_LIGHT, BLUE_PLOTS,
+		GRAY, GRAY_LIGHT, GREEN_PLOTS, GREEN_LIGHT, GREEN_DARK,
+		RED_PLOTS, RED_DARK, YELLOW, YELLOW_LIGHT, WHITE }
 
 	public static RGBA GetRGBA (Colors colname)
 	{
@@ -614,14 +615,16 @@ public class UtilGtk
 			color.Parse ("#004bee");
 		else if (colname == Colors.BLUE_PLOTS)
 			color.Parse ("#0000c8");
+		else if (colname == Colors.GRAY)
+			color.Parse ("#666666");
+		else if (colname == Colors.GRAY_LIGHT)
+			color.Parse ("#999999");
 		else if (colname == Colors.GREEN_PLOTS)
 			color.Parse ("#00c800");
 		else if (colname == Colors.GREEN_LIGHT)
 			color.Parse ("#00ee00");
 		else if (colname == Colors.GREEN_DARK)
 			color.Parse ("#008c00");
-		else if (colname == Colors.GRAY)
-			color.Parse ("#666666");
 		else if (colname == Colors.RED_PLOTS)
 			color.Parse ("#c80000");
 		else if (colname == Colors.RED_DARK)
@@ -713,28 +716,28 @@ public class UtilGtk
 		l.OverrideColor (StateFlags.Active, v.StyleContext.GetColor (StateFlags.Selected));
 		l.OverrideColor (StateFlags.Prelight, v.StyleContext.GetColor (StateFlags.Selected));
 	}
-	
-	public static void ColorsRadio (Gtk.Viewport v, Gtk.RadioButton r)
-	{
-		r.OverrideColor (StateFlags.Active, v.StyleContext.GetColor (StateFlags.Selected));
-		r.OverrideColor (StateFlags.Prelight, v.StyleContext.GetColor (StateFlags.Selected));
-	}
 
-	public static void ColorsCheckbox (Gtk.Viewport v, Gtk.CheckButton c)
+	public static void ApplyCSS ()
 	{
-		c.OverrideColor (StateFlags.Active, v.StyleContext.GetColor (StateFlags.Selected));
-		c.OverrideColor (StateFlags.Prelight, v.StyleContext.GetColor (StateFlags.Selected));
-	}
-	
-	
-	public static void ColorsCheckOnlyPrelight (Gtk.CheckButton c)
-	{
-		//c.ModifyBg(StateType.Normal, WHITE);
-		//c.ModifyBg(StateType.Active, WHITE);
-		//c.ModifyBg(StateType.Prelight, BLUE_CLEAR);
-		
-		//c.ModifyBg(StateType.Active, c.Style.Background(StateType.Selected));
-		//c.ModifyBg(StateType.Prelight, c.Style.Background(StateType.Selected));
+		CssProvider css = new CssProvider ();
+		var data =
+			"radio {" +
+				"color: " + Colors.WHITE.ToString () + "; background: " + Config.ColorBackgroundShifted.ToString () + ";" + //this makes it emtpy
+				//"color: " + Colors.BLACK.ToString () + "; background: " + GetRGBA (Colors.WHITE).ToString () + ";" +
+			"}" +
+			"radio:checked {" +
+				"color: " + Colors.YELLOW.ToString () + "; background: " + Config.ColorBackgroundShifted.ToString () + ";" +
+			"}" +
+			"checkbutton:checked {" +
+				"color: " + Colors.YELLOW.ToString () + "; background: " + Config.ColorBackgroundShifted.ToString () + ";" +
+				//"color: " + Colors.YELLOW.ToString () + "; background-color: " + Config.ColorBackgroundShifted.ToString () + ";" +
+			"}" +
+			"button:checked {" +
+				"background: " + GetRGBA (Colors.YELLOW_LIGHT).ToString () + ";" + //TODO: try a YELLOW_MID
+			"}";
+		css.LoadFromData(data);
+
+		Gtk.StyleContext.AddProviderForScreen(Gdk.Screen.Default, css, 800); //needed
 	}
 
 	public static void ColorsTreeView(Gtk.Viewport v, Gtk.TreeView tv)

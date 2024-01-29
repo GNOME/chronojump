@@ -963,6 +963,7 @@ public class UtilGtk
 	 *
 	 */
 
+	/*
 	public static void ResizeIfNeeded(Gtk.Window win) {
 		int winX, winY;
 		win.GetSize(out winX, out winY);
@@ -983,6 +984,7 @@ public class UtilGtk
 		//libmono-cairo2.0-cil
 		return Gdk.Display.Default.GetScreen(0).Height;
 	}
+	*/
 	
 	public static int WidgetWidth(Gtk.Widget w) {
 		return w.Allocation.Width;

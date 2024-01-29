@@ -1382,9 +1382,6 @@ public partial class ChronoJumpWindow
 
 		//---- video ----
 
-		UtilGtk.ColorsCheckOnlyPrelight(checkbutton_video_contacts);
-		UtilGtk.ColorsCheckOnlyPrelight(checkbutton_video_encoder);
-		
 		//don't raise the signal	
 		checkbutton_video_contacts.Clicked -= new EventHandler(on_checkbutton_video_contacts_clicked);
 		checkbutton_video_contacts.Active = preferences.videoOn;

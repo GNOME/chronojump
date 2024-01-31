@@ -16,7 +16,7 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
  * Copyright (C) 2016-2017   Carles Pina i Estany <carles@pina.cat>
- * Copyright (C) 2017-2023   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2017-2024   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System.Collections.Generic;
@@ -232,6 +232,68 @@ class ExecuteProcess
 		return true;
 	}
 	*/
+
+	private static List<string> runAsync_l;
+	public enum RunAsyncOutput { STDOUT, STDERR }; //ffmpeg prints its result on stderr
+
+	//used on ffmpeg windows since ffmpeg 6.1.1
+	public static List<string> RunAsync (string executable, string argumentsStr, RunAsyncOutput outputType)
+	{
+		runAsync_l = new List<string> ();
+
+		Process process = new Process();
+		process.EnableRaisingEvents = true;
+
+		if (outputType == RunAsyncOutput.STDOUT)
+		{
+			process.OutputDataReceived += new System.Diagnostics.DataReceivedEventHandler (processAsyncOutputDataReceived);
+			process.ErrorDataReceived += new System.Diagnostics.DataReceivedEventHandler (processAsyncErrorDataReceived);
+		} else {
+			process.OutputDataReceived += new System.Diagnostics.DataReceivedEventHandler (processAsyncErrorDataReceived);
+			process.ErrorDataReceived += new System.Diagnostics.DataReceivedEventHandler (processAsyncOutputDataReceived);
+		}
+
+		process.Exited += new System.EventHandler (processAsyncExited);
+
+		process.StartInfo.FileName = executable;
+		process.StartInfo.Arguments = argumentsStr;
+		process.StartInfo.UseShellExecute = false;
+		process.StartInfo.CreateNoWindow = true;
+		process.StartInfo.RedirectStandardError = true;
+		process.StartInfo.RedirectStandardOutput = true;
+
+		LogB.Information ("process RunAsync");
+		LogB.Debug ("ExecuteProcess.RunAsync FileName: " + process.StartInfo.FileName);
+		LogB.Debug ("ExecuteProcess.RunAsync Arguments: " + process.StartInfo.Arguments);
+
+		process.Start();
+		process.BeginErrorReadLine();
+		process.BeginOutputReadLine();
+
+		process.WaitForExit();
+		LogB.Information ("process RunAsync end");
+
+		return runAsync_l;
+	}
+
+	static void processAsyncExited(object sender, EventArgs e)
+	{
+		//LogB.Information(string.Format("process exited with code {0}\n", process.ExitCode.ToString()));
+		LogB.Information(string.Format("process exited"));
+	}
+
+	static void processAsyncErrorDataReceived(object sender, DataReceivedEventArgs e)
+	{
+		LogB.Information("AsyncError: " + e.Data + "\n");
+		runAsync_l.Add (e.Data);
+	}
+
+	static void processAsyncOutputDataReceived(object sender, DataReceivedEventArgs e)
+	{
+		LogB.Information("AsyncOutput: " + e.Data + "\n");
+		runAsync_l.Add (e.Data);
+	}
+
 
 	/*
 	 * This is the best method because it does not need the process,

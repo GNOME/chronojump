@@ -3103,15 +3103,24 @@ public partial class ChronoJumpWindow
 		if(currentEventExecute != null && currentEventExecute.IsThreadRunning())
 		{
 			LogB.Information("Closing contacts capture thread...");
+
+			//this will mark the test as cancelled
 			currentEventExecute.Cancel = true;
-			LogB.Information("Done!");
+
+			//this will actually cancel Read_cambio and then Read_event in order to really cancel
+			Chronopic.CancelDo();
+			System.Threading.Thread.Sleep (500); //need to wait a bit to allow other thread to be closed
+
+			if (currentEventExecute.IsThreadRunning())
+			{
+				LogB.Information("currentEventExecute still running, waiting 1s more");
+				System.Threading.Thread.Sleep (1000);
+			}
+			LogB.Information ("currentEventExecute still running? " + currentEventExecute.IsThreadRunning().ToString ());
 
 			LogB.Information("Closing camera if opened...");
 			ExecuteProcess.KillExternalProcess (WebcamFfmpeg.GetExecutableCapture(operatingSystem));
 			LogB.Information("Done!");
-
-			//do not need this, above cancelling is enough
-			//currentEventExecute.ThreadAbort();
 		}
 
 		if(threadRFID != null && threadRFID.IsAlive)

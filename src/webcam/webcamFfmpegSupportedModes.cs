@@ -15,17 +15,20 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2020   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2004-2024   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
 using System.Collections.Generic; //List<T>
 using System.Text.RegularExpressions; //Regex
+using System.Diagnostics;
+using System.Threading; //for Task.Run
 
 
 public abstract class WebcamFfmpegSupportedModes
 {
 	protected List<WebcamSupportedModesList> wsmListOfLists;
+	protected List<string> modesStr_l;
 	protected string modesStr;
 	protected string errorStr;
 	protected string cameraCode;
@@ -37,6 +40,7 @@ public abstract class WebcamFfmpegSupportedModes
 	protected void initialize ()
 	{
 		wsmListOfLists = new List<WebcamSupportedModesList>();
+		modesStr_l = new List<string> ();
 		modesStr = "";
 		errorStr = "";
 	}
@@ -375,15 +379,6 @@ public class WebcamFfmpegSupportedModesWindows : WebcamFfmpegSupportedModes
 			executable = System.IO.Path.Combine(Util.GetPrefixDir(), "bin/ffmpeg.exe");
 		//else
 		//	executable = System.IO.Path.Combine(Util.GetPrefixDir(), "bin/i386/ffmpeg.exe");
-		//ffmpeg -f dshow -list_options true -i video="USB 2.0 WebCamera"
-		List<string> parameters = new List<string>();
-		parameters.Add("-f");
-		parameters.Add("dshow");
-		parameters.Add("-list_options");
-		parameters.Add("true");
-		parameters.Add("-i");
-		parameters.Add("video=" + cameraCode);
-		ExecuteProcess.Result execute_result = ExecuteProcess.run (executable, parameters, true, true);
 
 		//TODO: check if ffmpeg installed, but take care because right now this always gets error, so we need to not return
 		/*
@@ -394,25 +389,23 @@ public class WebcamFfmpegSupportedModesWindows : WebcamFfmpegSupportedModes
 		   }
 		   */
 
-		//modesStr = execute_result.stdout;
-		//modesStr = execute_result.allOutput;
-		modesStr = parseSupportedModes(execute_result.allOutput);
+		//only for ffmpeg 6.1.1 dotnet win //TODO: change Integrated Camera
+		modesStr_l = ExecuteProcess.RunAsync (
+				executable,
+				"-f dshow -list_options true -i video=\"" + cameraCode + "\"",
+				ExecuteProcess.RunAsyncOutput.STDERR);//)
+
+		modesStr = parseSupportedModes(""); //only for ffmpeg win
 	}
 
-	protected override string parseSupportedModes(string allOutput)
+	protected override string parseSupportedModes (string allOutput) //unused allOutput
 	{
-		/*
-		 * break the big string in \n strings
-		 * https://stackoverflow.com/a/1547483
-		 */
 		string currentPixelFormat = "";
-		string[] lines = allOutput.Split(
-				new[] { Environment.NewLine },
-				StringSplitOptions.None
-				);
-
-		foreach(string l in lines)
+		foreach(string l in modesStr_l)
 		{
+			if (l == null || l == "")
+				continue;
+
 			LogB.Information("line: " + l);
 			if(l.Contains("pixel_format="))
 			{

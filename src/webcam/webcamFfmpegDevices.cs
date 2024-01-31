@@ -15,7 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Copyright (C) 2019-2020   Xavier de Blas <xaviblas@gmail.com> 
+ *  Copyright (C) 2019-2024   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System.Collections.Generic; //List
@@ -182,6 +182,7 @@ public abstract class WebcamFfmpegGetDevicesWinMac : WebcamFfmpegGetDevices
 {
 	protected string executable;
 	protected string videoDevString;
+	protected string videoDevString2;
 	protected string audioDevString;
 
 	//windows specific
@@ -194,15 +195,14 @@ public abstract class WebcamFfmpegGetDevicesWinMac : WebcamFfmpegGetDevices
 	{
 		List<string> parameters = createParameters();
 
-		ExecuteProcess.Result execute_result = ExecuteProcess.run (executable, parameters, true, true);
-
-		LogB.Information("---- stdout: ----");
-		LogB.Information(execute_result.stdout);
-		LogB.Information("---- stderr: ----");
-		LogB.Information(execute_result.stderr);
-		LogB.Information("-----------------");
+		List<string> resultStr_l = ExecuteProcess.RunAsync (
+			executable,
+			Util.ListStringToString (parameters, " "),
+			ExecuteProcess.RunAsyncOutput.STDERR);
+		string resultStr = Util.ListStringToString (resultStr_l);
 
 		LogB.Information("pre");
+		/*
 		if(! execute_result.success)
 		{
 			LogB.Information("no success");
@@ -212,57 +212,74 @@ public abstract class WebcamFfmpegGetDevicesWinMac : WebcamFfmpegGetDevices
 				wd_list.Error = Constants.FfmpegNotInstalledStr();
 				return wd_list;
 			}
+			*/
 
 			/*
 			 * on Windows the -i dummy produces an error, so stderr exists and success is false
+				https://stackoverflow.com/questions/70064040/ffmpeg-unexpected-exit-code-1-for-list-devices-and-list-options
 			 * on Mac the -i "" produces an error, so stderr exists and success is false
 			 * stdout has the list of devices and stderr also
 			 * check if in stdout there's the: videoDevString and if not exists, really we have an error
 			 */
-			if(execute_result.stdout != null && execute_result.stdout != "" &&
-					execute_result.stdout.Contains(videoDevString))
+			 /*
+			if (execute_result.stdout != null && execute_result.stdout != "" &&
+					execute_result.stdout.Contains (videoDevString) &&
+					execute_result.stdout.Contains (videoDevString2)
+					)
 			{
 				LogB.Information("Calling parse with stdout");
 				parse(execute_result.stdout);
 				return wd_list;
 			}
 
-			if(execute_result.stderr != null && execute_result.stderr != "" &&
-					execute_result.stderr.Contains(videoDevString))
+			if (execute_result.stderr != null && execute_result.stderr != "" &&
+					execute_result.stderr.Contains (videoDevString) &&
+					execute_result.stderr.Contains (videoDevString2)
+					)
 			{
 				LogB.Information("Calling parse with stderr");
 				parse(execute_result.stderr);
 				return wd_list;
 			}
+			*/
+			if (resultStr != null && resultStr != "" &&
+					resultStr.Contains (videoDevString) &&
+					resultStr.Contains (videoDevString2)
+					)
+			{
+				LogB.Information("Calling parse");
+				parse (resultStr_l);
+				LogB.Information ("wd_list A count:" + wd_list.Count());
+				return wd_list;
+			}
+
 
 			wd_list.Error = Constants.CameraNotFoundStr();
-		}
+		/*}
 		else
 			parse(execute_result.stdout);
+			*/
 
 		return wd_list;
 	}
 
-	protected void parse(string devicesOutput)
+	protected void parse (List<string> devicesOutput_l)
 	{
 		LogB.Information("Called parse");
+		LogB.Information("devicesOutput");
+		LogB.Information(Util.ListStringToString (devicesOutput_l));
 
-		/*
-		 * break the big string in \n strings
-		 * https://stackoverflow.com/a/1547483
-		 */
-		string[] lines = devicesOutput.Split(
-				new[] { Environment.NewLine },
-				StringSplitOptions.None
-				);
-
-		bool started = false;
+		//bool started = false;
 		doingName = true;
-		foreach(string l in lines)
+		foreach (string l in devicesOutput_l)
 		{
+			if (l == null || l == "")
+				continue;
+
 			LogB.Information("line: " + l);
 
-			//devices start after the videoDevString line
+			//devices start after the videoDevString line TODO: (this was ok on past version on Windows, on current version not. Check in mac what happens)
+			/*
 			if(! started)
 			{
 				if(l.Contains(videoDevString))
@@ -270,6 +287,7 @@ public abstract class WebcamFfmpegGetDevicesWinMac : WebcamFfmpegGetDevices
 
 				continue;
 			}
+			*/
 
 			parseMatch(l);
 
@@ -297,7 +315,9 @@ public class WebcamFfmpegGetDevicesWindows : WebcamFfmpegGetDevicesWinMac
 			executable = System.IO.Path.Combine(Util.GetPrefixDir(), "bin/ffmpeg.exe");
 		//else
 		//	executable = System.IO.Path.Combine(Util.GetPrefixDir(), "bin/i386/ffmpeg.exe");
-		videoDevString = "DirectShow video devices";
+		//videoDevString = "DirectShow video devices";
+		videoDevString = "dshow";
+		videoDevString2 = "(video)";
 		audioDevString = "DirectShow audio devices";
 	}
 
@@ -346,6 +366,8 @@ public class WebcamFfmpegGetDevicesMac : WebcamFfmpegGetDevicesWinMac
 		initialize();
 		executable = System.IO.Path.Combine(Util.GetPrefixDir(), "bin/ffmpeg");
 		videoDevString = "AVFoundation video devices";
+		//videoDevString2 = "(video)";
+		videoDevString2 = "AVFoundation video devices"; //TODO: check if (video) or just this
 		audioDevString = "AVFoundation audio devices";
 	}
 

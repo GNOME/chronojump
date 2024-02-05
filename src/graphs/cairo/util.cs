@@ -171,17 +171,6 @@ public static class CairoUtil
 		return Math.Sqrt (Math.Pow (x1 - x2, 2) + Math.Pow (y1 - y2, 2));
 	}
 
-	public static void Blank (
-		Gtk.DrawingArea darea)
-	{
-		using (Cairo.Context g = Gdk.CairoHelper.Create (darea.Window))
-		{
-			g.SetSourceRGBA(1, 1, 1, 1);
-			g.Paint();
-			g.Stroke();
-			g.GetTarget ().Dispose ();
-		}
-	}
 
 	/*
 	 * private methods

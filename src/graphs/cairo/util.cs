@@ -44,6 +44,20 @@ public static class CairoUtil
 		dst_surface.WriteToPng (destination);
 	}
 
+	public static void GetScreenshotFromDrawingArea (Gtk.DrawingArea darea, Cairo.Context context, string destination)
+	{
+		var src_context = context;
+		var src_surface = src_context.GetTarget ();
+		var dst_surface = new Cairo.ImageSurface (Cairo.Format.ARGB32, darea.Allocation.Width, darea.Allocation.Height);
+		var dst_context = new Cairo.Context (dst_surface);
+		dst_context.SetSourceSurface (src_surface, 0, 0);
+		dst_context.Paint ();
+		dst_surface.WriteToPng (destination);
+
+		dst_context.GetTarget().Dispose();
+		dst_context.Dispose();
+	}
+
 	public static void GetScreenshotFromVBox (Gtk.VBox vbox, string destination)
 	{
 		var src_context = Gdk.CairoHelper.Create (vbox.Window);

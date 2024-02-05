@@ -1112,6 +1112,7 @@ public abstract class CairoPaintBarsPre
 	protected int pDN; //preferences.digitsNumber
 	//protected string messageNoStoreCreated;
 	protected double videoTime;
+	protected string screenshotURL;
 
 	protected void initialize (DrawingArea darea, string fontStr, Constants.Modes mode,
 			string personName, string testName, int pDN)
@@ -1122,6 +1123,7 @@ public abstract class CairoPaintBarsPre
 		this.personName = personName;
 		this.testName = testName;
 		this.pDN = pDN;
+		this.screenshotURL = "";
 	}
 
 	// to debug
@@ -1207,6 +1209,12 @@ public abstract class CairoPaintBarsPre
 
 		paintSpecific ();
 		//darea.QueueDraw (); this makes the memory increase a lot! Just call queue when it is needed!
+	}
+
+	protected void passDataForScreenshotIfNeeded ()
+	{
+		if (cb != null && screenshotURL != null && screenshotURL != "")
+			cb.ScreenshotURL = screenshotURL;
 	}
 
 	protected virtual string testsNotFound ()
@@ -1490,6 +1498,11 @@ public abstract class CairoPaintBarsPre
 
 		return cb.FindBarIdInPixel (px, py);
 	}
+
+	public string ScreenshotURL
+	{
+		set { screenshotURL = value; }
+	}
 }
 
 public class CairoPaintBarsPreJumpSimple : CairoPaintBarsPre
@@ -1667,6 +1680,8 @@ public class CairoPaintBarsPreJumpSimple : CairoPaintBarsPre
 					-1, fontHeightForBottomNames, bottomMargin, title,
 					new List<int> (), new List<int> ());
 
+		passDataForScreenshotIfNeeded ();
+
 		cb.GraphDo();
 	}
 }
@@ -1810,6 +1825,9 @@ public class CairoPaintBarsPreJumpReactive : CairoPaintBarsPre
 				"", false,
 				-1, fontHeightForBottomNames, bottomMargin, title,
 				new List<int> (), new List<int> ());
+
+		passDataForScreenshotIfNeeded ();
+
 		cb.GraphDo();
 	}
 }
@@ -1922,6 +1940,9 @@ public class CairoPaintBarsPreRunSimple : CairoPaintBarsPre
 				new List<Cairo.Color>(), names_l,
 				-1, fontHeightForBottomNames, bottomMargin, title,
 				new List<int> (), new List<int> ());
+
+		passDataForScreenshotIfNeeded ();
+
 		cb.GraphDo();
 	}
 }
@@ -2045,6 +2066,9 @@ public class CairoPaintBarsPreRunInterval : CairoPaintBarsPre
 				new List<Cairo.Color>(), names_l,
 				-1, fontHeightForBottomNames, bottomMargin, title,
 				new List<int> (), new List<int> ());
+
+		passDataForScreenshotIfNeeded ();
+
 		cb.GraphDo();
 	}
 }
@@ -2227,6 +2251,8 @@ public class CairoPaintBarsPreJumpReactiveRealtimeCapture : CairoPaintBarsPre
 
 		if (videoTime > 0)
 			cb.VideoPlayTimeInSeconds = videoTime;
+
+		passDataForScreenshotIfNeeded ();
 
 		cb.GraphDo();
 	}
@@ -2462,6 +2488,8 @@ public class CairoPaintBarsPreRunIntervalRealtimeCapture : CairoPaintBarsPre
 			//cb.VideoPlayTimes_l = time_l; //VideoPlayTimes is accumulative)
 			cb.VideoPlayTimes_l = Util.ListDoubleToAccumulative (time_l);
 		}
+
+		passDataForScreenshotIfNeeded ();
 
 		cb.GraphDo();
 	}
@@ -3184,6 +3212,8 @@ public class CairoPaintBarplotPreEncoder : CairoPaintBarsPre
 
 			//TODO: used dataStart_l and dataDuration_l
 		}
+
+		passDataForScreenshotIfNeeded ();
 
 		cb.GraphDo();
 	}

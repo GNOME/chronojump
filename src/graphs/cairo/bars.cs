@@ -101,6 +101,7 @@ public abstract class CairoBars : CairoGeneric
 	protected bool spaceBetweenBars;
 	protected double videoPlayTimeInSeconds;
 	protected List<double> videoPlayTimes_l; //for runInterval (because passed speeds and need times for video)
+	protected string screenshotURL;
 
 	//used when there are two series (for legend)
 	protected string variableSerieA = "";
@@ -122,6 +123,7 @@ public abstract class CairoBars : CairoGeneric
 		edgeBarNums_l = new List<int>();
 		encoderTitle = false;
 		selectedPos = -1;
+		screenshotURL = "";
 	}
 
 	public void PassGuidesData (CairoBarsGuideManage cairoBarsGuideManage)
@@ -1196,6 +1198,11 @@ public abstract class CairoBars : CairoGeneric
 	public int Decs {
 		set { decs = value; }
 	}
+
+	public string ScreenshotURL
+	{
+		set { screenshotURL = value; }
+	}
 }
 
 public class CairoBars1Series : CairoBars
@@ -1443,6 +1450,9 @@ public class CairoBars1Series : CairoBars
 			else
 				addClickableMark (g, 1); //default
 		}
+
+		if (screenshotURL != "")
+			CairoUtil.GetScreenshotFromDrawingArea (area, g, screenshotURL);
 
 		endGraphDisposing(g, surface, area.Window);
 	}
@@ -1957,6 +1967,9 @@ public class CairoBarsNHSeries : CairoBars
 			else
 				addClickableMark (g, 1); //default
 		}
+
+		if (screenshotURL != "")
+			CairoUtil.GetScreenshotFromDrawingArea (area, g, screenshotURL);
 
 		endGraphDisposing(g, surface, area.Window);
 	}

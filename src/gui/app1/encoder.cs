@@ -7556,7 +7556,7 @@ public partial class ChronoJumpWindow
 
 		if(eai != null)
 			CairoUtil.PaintVerticalLinesAndRectangleOnSurface (
-					(DrawingArea) o,
+					(DrawingArea) o, args,
 					eai.GetVerticalLinePosition(Convert.ToInt32(hscale_encoder_analyze_a.Value)),
 					eai.GetVerticalLinePosition(Convert.ToInt32(hscale_encoder_analyze_b.Value)),
 					checkbutton_encoder_analyze_b.Active,

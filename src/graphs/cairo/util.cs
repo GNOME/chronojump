@@ -141,22 +141,11 @@ public static class CairoUtil
 		paintVerticalLinesAndRectangleDo (g, graphHeight, letterStart, xposA, letterEnd, xposB, posBuse, topRect, bottomRect, colorLine, colorArea);
 	}
 
-	public static void PaintVerticalLinesAndRectangle (
-			Gtk.DrawingArea darea, double xposA, double xposB, bool posBuse, int topRect, int bottomRect)
-	{
-		using (Cairo.Context g = Gdk.CairoHelper.Create (darea.Window)) 
-		{
-			Cairo.Color colorLine_yellow = new Cairo.Color (0.906, 0.745, 0.098, 1); //Chronojump yellow
-			Cairo.Color colorArea_yellowTransp = new Cairo.Color (0.9, 0.9, 0.01, .15);
-			paintVerticalLinesAndRectangleDo (g, darea.Allocation.Height, "A", xposA, "B", xposB, posBuse, topRect, bottomRect, colorLine_yellow, colorArea_yellowTransp);
-			g.Stroke();
-			g.GetTarget ().Dispose ();
-		}
-	}
 	public static void PaintVerticalLinesAndRectangleOnSurface (
-			Gtk.DrawingArea darea, int xposA, int xposB, bool posBuse, int topRect, int bottomRect, Pixbuf pixbuf)
+			Gtk.DrawingArea darea, Gtk.DrawnArgs args, int xposA, int xposB, bool posBuse, int topRect, int bottomRect, Pixbuf pixbuf)
 	{
-		using (Cairo.Context g = Gdk.CairoHelper.Create (darea.Window)) 
+		//using (Cairo.Context g = Gdk.CairoHelper.Create (darea.Window))  //CairoHelper.Create deprecated
+		using (Cairo.Context g = args.Cr)
 		{
 			//add image
 			Gdk.CairoHelper.SetSourcePixbuf (g, pixbuf, 0, 0);

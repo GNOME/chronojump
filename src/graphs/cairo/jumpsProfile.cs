@@ -55,14 +55,15 @@ public static class JumpsProfileGraph
 
 	public static void Do (List<JumpsProfile.YesNo> jumpsDone,
 			string errorSJl,
-			List<JumpsProfileIndex> l_jpi, DrawingArea area,
+			List<JumpsProfileIndex> l_jpi, DrawingArea area, DrawnArgs args,
 			string title, string date, string font)
 	{
 		//LogB.Information(string.Format("is area null: {0}", (area == null)));
 		//LogB.Information(string.Format("is area.Window null: {0}", (area.Window == null)));
 
 		//1 create context (TODO: future do it converting to a surface like xy, generic, ...)
-		Cairo.Context g = Gdk.CairoHelper.Create (area.Window);
+		//Cairo.Context g = Gdk.CairoHelper.Create (area.Window); //deprecated
+		Cairo.Context g = args.Cr;
 		
 		//2 clear DrawingArea (white)
 		g.SetSourceRGB(1,1,1);

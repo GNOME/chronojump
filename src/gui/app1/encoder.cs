@@ -5259,6 +5259,10 @@ public partial class ChronoJumpWindow
 	{
 		checkFile(Constants.CheckFileOp.ENCODER_CAPTURE_SAVE_IMAGE);
 	}
+
+	private string screenshotURL = "";
+	private bool screenshotPending;
+
 	void on_button_encoder_capture_save_image_file_selected (string destination)
 	{
 		try {
@@ -5266,7 +5270,16 @@ public partial class ChronoJumpWindow
 				return;
 
 			LogB.Information("Saving");
-			CairoUtil.GetScreenshotFromDrawingArea (encoder_capture_curves_bars_drawingarea_cairo, destination);
+			//screenshot will be done on _draw (gtk3 way)
+			//CairoUtil.GetScreenshotFromDrawingArea (encoder_capture_curves_bars_drawingarea_cairo, destination);
+
+			screenshotURL = destination;
+			screenshotPending = true;
+			if (notebook_start.CurrentPage == Convert.ToInt32 (notebook_start_pages.FULLSCREENCAPTURE))
+				fullscreen_capture_drawingarea_cairo.QueueDraw ();
+			else
+				encoder_capture_curves_bars_drawingarea_cairo.QueueDraw ();
+
 		} catch {
 			string myString = string.Format(
 					Catalog.GetString("Cannot save file {0} "), destination);
@@ -6267,6 +6280,13 @@ public partial class ChronoJumpWindow
 					preferences, da, preferences.fontType.ToString(),
 					currentPerson.Name, "", 3,
 					prepareEventGraphBarplotEncoder, videoTime);
+		}
+
+		if (screenshotPending)
+		{
+			cairoPaintBarsPre.ScreenshotURL = screenshotURL;
+			screenshotPending = false;
+			screenshotURL = "";
 		}
 
 		cairoPaintBarsPre.Paint();

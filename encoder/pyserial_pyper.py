@@ -16,12 +16,31 @@
 #    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 # 
 #   Copyright (C) 2004-2014   Teng Wei Hua <wadedang@gmail.com>, Xavier de Blas <xaviblas@gmail.com> 
+#   Copyright (C) 2024 Xavier de Blas <xaviblas@gmail.com> Adapted to python3 and other improvements
 # 
 # encoding=utf-8
 #
 # This program is for reading data from Chronopic.
 
+
+#RUNNING
+#with python3 can be run with:
+#python3 pyserial_pyper.py graphtitle output.txt 20 30 FALSE 20 0.7 c "" -1 -1 -1 -1 -1 -1 500 100 -1 -1 "Mean Power" FALSE /dev/ttyUSB0
+#the "" after c is the analysis options, better like this, becasue "p" for propulsive can lead to some errors if propulsive is not found correctly
+
+
+#PYTHON PACKAGES
+#needed python packages (pip3 install ...)
+#pyserial
+#pyper
+#pygame
+#
+#R PACKAGES (install.packages("")
+#EMD
+
+
 import serial
+#from serial import Serial
 import sys
 from datetime import datetime
 from struct import unpack
@@ -103,17 +122,20 @@ BITSIZE = -16  # unsigned 16 bit
 CHANNELS = 1   # 1 == mono, 2 == stereo
 BUFFER = 1024  # audio buffer size in no. of samples
 FRAMERATE = 30 # how often to check if playback has finished
+
+#disabled clock calls to go faster
+#more info on playsound here https://pythonprogramming.net/adding-sounds-music-pygame/
 def playsound(soundfile):
     sound = pygame.mixer.Sound(soundfile)
-    clock = pygame.time.Clock()
+    #clock = pygame.time.Clock()
     sound.play()
-    while pygame.mixer.get_busy():
-        clock.tick(FRAMERATE)
+    #while pygame.mixer.get_busy():
+    #    clock.tick(FRAMERATE)
 
-soundFileStart = "/home/xavier/informatica/progs_meus/chronojump/chronojump/encoder/Question.wav"
-soundFileGood = "/home/xavier/informatica/progs_meus/chronojump/chronojump/encoder/Asterisk.wav"
-#soundFileBad = "/home/xavier/informatica/progs_meus/chronojump/chronojump/encoder/Beep.wav"
-soundFileBad = "/home/xavier/informatica/progs_meus/chronojump/chronojump/encoder/Hand.wav"
+soundFileStart = "/home/xavier/informatica/progs_meus/chronojump/encoder/Question.wav"
+soundFileGood = "/home/xavier/informatica/progs_meus/chronojump/encoder/Asterisk.wav"
+#soundFileBad = "/home/xavier/informatica/progs_meus/chronojump/encoder/Beep.wav"
+soundFileBad = "/home/xavier/informatica/progs_meus/chronojump/encoder/Hand.wav"
 
 
 BLACK = 30
@@ -184,19 +206,23 @@ def calculate_all_in_r(temp, top_values, bottom_values, direction_now,
 			maxSpeedT = myR.get('maxSpeedT')
 			bcrossLen = myR.get('length(b$cross[,2])')
 			bcross = myR.get('b$cross[,2]')
+			ncross = myR.get('b$ncross')
 			
 			#debug
-			b = myR.get('b')
-			print("printing bbbbbbbbbbbb")
-			print(b)
-			print("printing bbbbbbbbbbbb cross")
-			print(bcross)
-			print("printing bbbbbbbbbbbb maxSpeedT")
-			print(maxSpeedT)
+			#print ("cumsum a")
+			#cumsumR = myR.get('cumsum(a)')
+			#print (cumsumR)
+			#b = myR.get('b')
+			#print("printing bbbbbbbbbbbb")
+			#print(b)
+			#print("printing bbbbbbbbbbbb cross")
+			#print(bcross)
+			#print("printing bbbbbbbbbbbb maxSpeedT")
+			#print(maxSpeedT)
 
-			if bcrossLen == 0:
+			if ncross == 0 or bcrossLen == 0:
 				x_ini = 0
-			if bcrossLen == 1:
+			elif bcrossLen == 1:
 				if bcross < maxSpeedT:
 					x_ini = bcross	#if bcross has only one item, then this fails: 'bcross[0]'. Just do 'bcross'
 			else:
@@ -288,7 +314,7 @@ def calculate_all_in_r(temp, top_values, bottom_values, direction_now,
 		meanPower = myR.get('meanPower')
 		peakPower = myR.get('peakPower')
 		peakPowerT = myR.get('peakPowerT/1000') #ms -> s
-		pp_ppt = peakPower / peakPowerT
+		#pp_ppt = peakPower / peakPowerT #avoid crashes
 
 		meanSpeedCol = "%10.2f," % meanSpeed
 
@@ -325,7 +351,7 @@ def calculate_all_in_r(temp, top_values, bottom_values, direction_now,
 		if eccon == "ec" or direction_now == -1:
 			if height >= minRange:
 				#print phaseCol + colorize(heightF,colorHeight,colorHeight!=BLACK) + colorize(meanSpeedF,colorMeanSpeed,colorMeanSpeed!=BLACK) + colorize(maxSpeedF,colorMaxSpeed,colorMaxSpeed!=BLACK) + colorize(meanPowerF,colorMeanPower,colorMeanPower!=BLACK) + colorize(peakPowerF,colorPeakPower,colorPeakPower!=BLACK) + "%10.2f" % peakPowerT  + "%10.2f" % pp_ppt 
-				print phaseCol + colorize(heightF,colorHeight,colorHeight!=BLACK) + colorize(meanSpeedF,colorMeanSpeed,colorMeanSpeed!=BLACK) + colorize(maxSpeedF,colorMaxSpeed,colorMaxSpeed!=BLACK) + colorize(meanPowerF,colorMeanPower,colorMeanPower!=BLACK) + colorize(peakPowerF,colorPeakPower,colorPeakPower!=BLACK) + "%10.2f" % peakPowerT
+				print (phaseCol + colorize(heightF,colorHeight,colorHeight!=BLACK) + colorize(meanSpeedF,colorMeanSpeed,colorMeanSpeed!=BLACK) + colorize(maxSpeedF,colorMaxSpeed,colorMaxSpeed!=BLACK) + colorize(meanPowerF,colorMeanPower,colorMeanPower!=BLACK) + colorize(peakPowerF,colorPeakPower,colorPeakPower!=BLACK) + "%10.2f" % peakPowerT)
 				if play:
 					playsound(soundFile)
 
@@ -367,7 +393,7 @@ def calculate_all_in_r(temp, top_values, bottom_values, direction_now,
 							graphsWidth, 440, (222,222,222), 4, 156, False)
 
 			else:
-				print chr(27) + "[0;47m" + phase + "%6i," % height + " " + "Discarded" + chr(27)+"[0m"
+				print (chr(27) + "[0;47m" + phase + "%6i," % height + " " + "Discarded" + chr(27)+"[0m")
 
 
 
@@ -440,7 +466,12 @@ def update_graph(paramName, paramList, lowCondition, highCondition, hasRightMarg
 			
 		left = left_margin + width*count
 		param_width = width - sep
-		pygame.draw.rect(s, colorNow, (left, my_surface_height, param_width, -param_height), 0) #0: filled
+		pygame.draw.rect(s, colorNow, (left, my_surface_height -param_height, param_width, param_height), 0) #0: filled
+		#pygame.draw.rect(s, colorNow, pygame.Rect(left, my_surface_height, param_width, -param_height))
+		#pygame.draw.rect(s, colorNow, pygame.Rect(left, 30, 60, 60))
+
+		#colorX = (255, 0, 0)
+		#pygame.draw.rect(s, colorX, pygame.Rect(left, my_surface_height -param_height, param_width, param_height))
 
 		if hasDecimals:
 			string = "%.2f" % param
@@ -449,11 +480,11 @@ def update_graph(paramName, paramList, lowCondition, highCondition, hasRightMarg
 
 		text = FontBig.render(string,1,color, ColorBackground)
 		if len(paramList) > 20:
-			text = FontSmall.render(string,1,color, ColorBackground)
+				text = FontSmall.render(string,1,color, ColorBackground)
 
 		textpos = text.get_rect(centerx=left+(param_width/2), centery=my_surface_height-param_height-vert_margin/2)
-	       	s.blit(text,textpos)
-		
+		s.blit(text,textpos)
+
 		count = count +1
 	
 	string = "%s" % paramName
@@ -462,7 +493,7 @@ def update_graph(paramName, paramList, lowCondition, highCondition, hasRightMarg
 	s.blit(text,textpos)
 
 	s_rect=s.get_rect() #get the rectangle bounds for the surface
-        screen.blit(s,(horizPosToCopy,vertPosToCopy)) #render the surface into the rectangle
+	screen.blit(s,(horizPosToCopy,vertPosToCopy)) #render the surface into the rectangle
 	pygame.display.flip() #update the screen
 
 #option can be "start", "end",
@@ -489,7 +520,7 @@ def printHeader(option):
 	textpos = text.get_rect(right=792-10,centery=14)
 	s.blit(text,textpos)
 
-        screen.blit(s,(4,4)) #render the surface into the rectangle
+	screen.blit(s,(4,4)) #render the surface into the rectangle
 	pygame.display.flip() #update the screen
 
 
@@ -505,12 +536,15 @@ if __name__ == '__main__':
 	# change the global constants accordingly
 	try:
 		pygame.mixer.init(FREQ, BITSIZE, CHANNELS, BUFFER)
-	except pygame.error, exc:
+	except pygame.error:
+		print >>sys.stderr, "Could not initialize sound system: %s" % exc
+	except exc:
 		print >>sys.stderr, "Could not initialize sound system: %s" % exc
 	
 	#print "connecting with R"
 	myR = R()
-	myR.run('library("EMD")') #needed on reducing curve by speed (extrema)
+	#myR.run('library("EMD")') #needed on reducing curve by speed (extrema)
+	myR.run('source("util.R")') #needed on reducing curve by speed (extrema)
 	myR.assign('mass',mass)
 	myR.run('weight=mass*9.81')
 	myR.assign('k',2)
@@ -540,9 +574,9 @@ if __name__ == '__main__':
 	temp_cumsum = list()	#cumulative sums of raw values
 	temp_cumsum.append(0)
 	w_time = datetime.now().second
-	print "start read data"
+	print ("start read data")
 	# Detecting if serial port is available and Recording the data from Chronopic.
-	for i in xrange(delete_initial_time):
+	for i in range(delete_initial_time):
 		#if ser.readable(): #commented because don't work on linux
 		ser.read()
 	
@@ -555,13 +589,13 @@ if __name__ == '__main__':
 	msCount = 0
 
 	userStops = FALSE
-	for i in xrange(record_time):
+	for i in range(record_time):
 		for event in pygame.event.get():
 			if event.type == pygame.QUIT or (event.type == KEYUP and event.key == K_ESCAPE):
 				userStops = TRUE
 		
 		if userStops:
-			print "USER BREAKS"
+			print ("USER BREAKS")
 			break
 
 		#if ser.readable(): #commented because don't work on linux
@@ -581,7 +615,7 @@ if __name__ == '__main__':
 		msCount = msCount +1
 		if msCount == 1000 :
 			secondsLeft = secondsLeft -1
-			printHeader(`secondsLeft` + " s")
+			printHeader(str(secondsLeft) + " s")
 			msCount = 1
 
 		# Judging if direction has changed
@@ -607,21 +641,21 @@ if __name__ == '__main__':
 					#Then, do not pass this to frames_push_bottom, pass the next new_frame_change
 					
 					new_frame_change = previous_frame_change+k.index(min(k))
-					print("NFC 1 1 (start zeros on the bottom) %i" % new_frame_change) 
+					#print("NFC 1 1 (start zeros on the bottom) %i" % new_frame_change) 
 					
 					frames_push_bottom1.append(new_frame_change)
 
 					new_frame_change = previous_frame_change+len(k)-1-k[::-1].index(min(k))
-					print("NFC 1 2 (end zeros on the bottom) %i" % new_frame_change) 
+					#print("NFC 1 2 (end zeros on the bottom) %i" % new_frame_change) 
 					
 				else:
 					new_frame_change = previous_frame_change+k.index(max(k))
-					print("NFC 2 1 (start zeros on the top) %i" % new_frame_change) 
+					#print("NFC 2 1 (start zeros on the top) %i" % new_frame_change) 
 					
 					frames_pull_top1.append(new_frame_change)
 					
 					new_frame_change = previous_frame_change+len(k)-1-k[::-1].index(max(k))
-					print("NFC 2 2 (end zeros on the top) %i" % new_frame_change) 
+					#print("NFC 2 2 (end zeros on the top) %i" % new_frame_change) 
 					
 
 				if len(frames_pull_top1)>0 and len(frames_push_bottom1)>0:
@@ -631,12 +665,12 @@ if __name__ == '__main__':
 				file.write(''+','.join([str(i) for i in temp[
 					previous_frame_change:new_frame_change
 					]])+'')
-	            		file.write("\n")
-	               	        file.flush()
+				file.write("\n")
+				file.flush()
 				
 				previous_frame_change = new_frame_change
 				direction_change_count = 0
-	                        direction_completed = direction_now
+				direction_completed = direction_now
                         
 	w_time = datetime.now().second - w_time
 	ser.close()
@@ -686,7 +720,7 @@ if __name__ == '__main__':
 #				update_graph(0,record_time)
 
 
-	print "\nDone! Please, close this window."
+	print ("\nDone! Please, close this window.")
 	printHeader("end")
 	
 	

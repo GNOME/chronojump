@@ -150,31 +150,38 @@ soundFileBad = "/home/xavier/informatica/progs_meus/chronojump/encoder/Hand.wav"
 #    else:
 #        return BLACK
 
-def update_graph(position, my_surface_width, my_surface_height, color, horizPosToCopy, vertPosToCopy, hasDecimals):
-    s=pygame.Surface((my_surface_width,my_surface_height))
+def update_graph(posL, posR, my_s_width, my_s_height, color, horizPosToCopy, vertPosToCopy, hasDecimals):
+    s=pygame.Surface((my_s_width,my_s_height))
     
     s.fill(ColorBackground) #color the surface
 
-    left_margin = 10
-    #right_margin = 0
-    #if hasRightMargin:
-    #    right_margin = 40
-    right_margin = 10
-
+    left_margin = 20
+    right_margin = 20
     vert_margin = 40
-    #sep=20		#between bars
+    sep=20		#between bars
             
     #barMax = max(paramList)
-    barMax = 500
-    bar_height = ( my_surface_height - vert_margin ) * position / barMax 
-    width = (my_surface_width - left_margin - right_margin) / 2 #do not fill all the screen with only one bar
-    #print ("position: " + str(position) + "; bar_height: " + str(bar_height))
+    barMax = 1000
+    #if posL > barMax:
+    #    barMax = posL * 1.2
+    #if posR > barMax:
+    #    barMax = posR * 1.2
+
+    bar_heightL = (my_s_height -vert_margin) * posL / barMax 
+    bar_heightR = (my_s_height -vert_margin) * posR / barMax 
+    bar_width = (my_s_width -left_margin -right_margin -sep) / 3 #each bar 1/3 of screen
 
     colorNow = color
 
-    left = left_margin + width#
-    bar_width = width# - sep
-    pygame.draw.rect(s, colorNow, (left, my_surface_height -bar_height, bar_width, bar_height), 0) #0: filled
+    left = left_margin + bar_width
+    pygame.draw.rect(s, colorNow,
+            (left_margin, my_s_height -bar_heightL,
+                bar_width, bar_heightR)
+            , 0) #0: filled
+    pygame.draw.rect(s, (0, 100, 0),
+            (my_s_width - right_margin -bar_width, my_s_height -bar_heightR,
+                bar_width, bar_heightR),
+            0) #0: filled
     
     s_rect=s.get_rect() #get the rectangle bounds for the surface
     screen.blit(s,(horizPosToCopy,vertPosToCopy)) #render the surface into the rectangle
@@ -279,7 +286,10 @@ if __name__ == '__main__':
                 
         countDisplayUpdate += 1
         if countDisplayUpdate >= updateGraphAtMs:
-            update_graph(enc_l[0]['temp_cumsum'], graphsWidth, 440, (222,0,0),
+            update_graph(
+                    enc_l[0]['temp_cumsum'],
+                    enc_l[0]['temp_cumsum'] + 20,
+                    graphsWidth, 440, (222,0,0),
                     4, 156, False)
             countDisplayUpdate = 0
 

@@ -218,6 +218,59 @@ def printHeader(option):
     screen.blit(s,(4,4)) #render the surface into the rectangle
     pygame.display.flip() #update the screen
 
+
+def manageDirection (byte_data, e):
+    # conver HEX to INT value
+    signedChar_data = unpack('b' * len(byte_data), byte_data)[0]
+    e['temp'].append(signedChar_data)
+
+    previous = 0
+    if (len (e['temp_cumsum']) > 0):
+        previous = e['temp_cumsum'][-1]
+    e['temp_cumsum'].append (previous + signedChar_data)
+    #TODO: same for R
+
+    # Judging if direction has changed
+    if signedChar_data != 0:
+        e['dir_now'] = signedChar_data / abs(signedChar_data) #1 (pull) or -1 (push)
+    if e['dir_now'] != e['dir_last_ms']:
+        e['dir_last_ms'] = e['dir_now']
+        e['dir_change_count'] = 0
+    elif e['dir_now'] != e['dir_completed']:
+        #we cannot add signedChar_data because then is difficult to come back n frames to know the max point
+        #direction_change_count = direction_change_count + signedChar_data
+        e['dir_change_count'] = e['dir_change_count'] + 1
+        if e['dir_change_count'] >= dir_change_period:
+
+            k = list(e['temp_cumsum'][e['previous_frame_change']:t-dir_change_period])
+            #print ("k")
+            #print (k)
+
+            if e['dir_now'] == 1:
+                #we are going up, we passed the direction_change_count
+                #then we can record the bottom moment
+                #and print speed on going down (Not done anymore)
+
+                #this has (maybe) 0,-1,0,0,0,0,0, .... (and -1 can be selected (min(k)).
+                #Then, do not pass this to frames_push_bottom, pass the next new_frame_change
+
+                new_frame_change = e['previous_frame_change']+k.index(min(k))
+                e['frames_push_bottom1'].append(new_frame_change)
+                new_frame_change = e['previous_frame_change']+len(k)-1-k[::-1].index(min(k))
+            else:
+                new_frame_change = e['previous_frame_change']+k.index(max(k))
+                e['frames_pull_top1'].append(new_frame_change)
+                new_frame_change = e['previous_frame_change']+len(k)-1-k[::-1].index(max(k))
+
+            if len(e['frames_pull_top1'])>0 and len(e['frames_push_bottom1'])>0:
+                if e['dir_now'] == -1:
+                    print ("send concentric:" + str(k))
+                    #print ("send concentric")
+
+            e['previous_frame_change'] = new_frame_change
+            e['dir_change_count'] = 0
+            e['dir_completed'] = e['dir_now']
+
 # ================
 # = Main         =
 # ================
@@ -282,58 +335,12 @@ if __name__ == '__main__':
             print ("USER BREAKS")
             break
 
-        byte_data = serL.read()
-        # conver HEX to INT value
-        signedChar_data = unpack('b' * len(byte_data), byte_data)[0]
-        enc_l[0]['temp'].append(signedChar_data)
+        byte_dataL = serL.read()
+        #byte_dataR = serR.read()
 
-        previous = 0
-        if (len (enc_l[0]['temp_cumsum']) > 0):
-            previous = enc_l[0]['temp_cumsum'][-1]
-        enc_l[0]['temp_cumsum'].append (previous + signedChar_data)
-        #TODO: same for R
+        manageDirection (byte_dataL, enc_l[0])
+        #manageDirection (byte_dataR, enc_l[1])
 
-        # Judging if direction has changed
-        if signedChar_data != 0:
-            enc_l[0]['dir_now'] = signedChar_data / abs(signedChar_data) #1 (pull) or -1 (push)
-        if enc_l[0]['dir_now'] != enc_l[0]['dir_last_ms']:
-            enc_l[0]['dir_last_ms'] = enc_l[0]['dir_now']
-            enc_l[0]['dir_change_count'] = 0
-        elif enc_l[0]['dir_now'] != enc_l[0]['dir_completed']:
-            #we cannot addd signedChar_data because then is difficult to come back n frames to know the max point
-            #direction_change_count = direction_change_count + signedChar_data
-            enc_l[0]['dir_change_count'] = enc_l[0]['dir_change_count'] + 1
-            if enc_l[0]['dir_change_count'] >= dir_change_period:
-
-                k = list(enc_l[0]['temp_cumsum'][enc_l[0]['previous_frame_change']:t-dir_change_period])
-                #print ("k")
-                #print (k)
-
-                if enc_l[0]['dir_now'] == 1:
-                    #we are going up, we passed the direction_change_count
-                    #then we can record the bottom moment
-                    #and print speed on going down (Not done anymore)
-
-                    #this has (maybe) 0,-1,0,0,0,0,0, .... (and -1 can be selected (min(k)).
-                    #Then, do not pass this to frames_push_bottom, pass the next new_frame_change
-
-                    new_frame_change = enc_l[0]['previous_frame_change']+k.index(min(k))
-                    enc_l[0]['frames_push_bottom1'].append(new_frame_change)
-                    new_frame_change = enc_l[0]['previous_frame_change']+len(k)-1-k[::-1].index(min(k))
-                else:
-                    new_frame_change = enc_l[0]['previous_frame_change']+k.index(max(k))
-                    enc_l[0]['frames_pull_top1'].append(new_frame_change)
-                    new_frame_change = enc_l[0]['previous_frame_change']+len(k)-1-k[::-1].index(max(k))
-
-                if len(enc_l[0]['frames_pull_top1'])>0 and len(enc_l[0]['frames_push_bottom1'])>0:
-                    if enc_l[0]['dir_now'] == -1:
-                        print ("send concentric:" + str(k))
-                        #print ("send concentric")
-
-                enc_l[0]['previous_frame_change'] = new_frame_change
-                enc_l[0]['dir_change_count'] = 0
-                enc_l[0]['dir_completed'] = enc_l[0]['dir_now']
-                
         countDisplayUpdate += 1
         if countDisplayUpdate >= updateGraphAtMs:
             update_graph(

@@ -56,7 +56,9 @@ enc_l = [ #encoder list
             'frames_push_bottom1':list(),
             'previous_frame_change':0,
             'temp':list (),
-            'temp_cumsum':0,
+            'temp_cumsum':list(),       # current bar position (used also to check speed)
+            'last':0,                   # last bar final position
+            'last2':0,                  # penultimate bar final position
             'w_time':0
 #            },
 #        {
@@ -73,7 +75,9 @@ enc_l = [ #encoder list
 #            'frames_push_bottom1':list(),
 #            'previous_frame_change':0,
 #            'temp':list (),
-#            'temp_cumsum':0,
+#            'temp_cumsum':list(),       # current bar position (used also to check speed)
+#            'last':0,                   # last bar final position
+#            'last2':0,                  # penultimate bar final position
 #            'w_time':0
             }
         ]
@@ -250,7 +254,8 @@ if __name__ == '__main__':
     #serR = serial.Serial (enc_l[1]['port'], w_baudrate)
 
     for i in range (0, len(enc_l)):
-        enc_l[i]['temp_cumsum'] = 0
+        #enc_l[i]['temp_cumsum'].append (0)
+        enc_l[i]['temp_cumsum'] = list ()
         enc_l[i]['w_time'] = datetime.now().second
         print ("start read data on " + enc_l[i]['name'] + " at " + enc_l[i]['port'])
     
@@ -281,14 +286,59 @@ if __name__ == '__main__':
         # conver HEX to INT value
         signedChar_data = unpack('b' * len(byte_data), byte_data)[0]
         enc_l[0]['temp'].append(signedChar_data)
-        enc_l[0]['temp_cumsum'] += signedChar_data
+
+        previous = 0
+        if (len (enc_l[0]['temp_cumsum']) > 0):
+            previous = enc_l[0]['temp_cumsum'][-1]
+        enc_l[0]['temp_cumsum'].append (previous + signedChar_data)
         #TODO: same for R
+
+        # Judging if direction has changed
+        if signedChar_data != 0:
+            enc_l[0]['dir_now'] = signedChar_data / abs(signedChar_data) #1 (pull) or -1 (push)
+        if enc_l[0]['dir_now'] != enc_l[0]['dir_last_ms']:
+            enc_l[0]['dir_last_ms'] = enc_l[0]['dir_now']
+            enc_l[0]['dir_change_count'] = 0
+        elif enc_l[0]['dir_now'] != enc_l[0]['dir_completed']:
+            #we cannot addd signedChar_data because then is difficult to come back n frames to know the max point
+            #direction_change_count = direction_change_count + signedChar_data
+            enc_l[0]['dir_change_count'] = enc_l[0]['dir_change_count'] + 1
+            if enc_l[0]['dir_change_count'] >= dir_change_period:
+
+                k = list(enc_l[0]['temp_cumsum'][enc_l[0]['previous_frame_change']:t-dir_change_period])
+                #print ("k")
+                #print (k)
+
+                if enc_l[0]['dir_now'] == 1:
+                    #we are going up, we passed the direction_change_count
+                    #then we can record the bottom moment
+                    #and print speed on going down (Not done anymore)
+
+                    #this has (maybe) 0,-1,0,0,0,0,0, .... (and -1 can be selected (min(k)).
+                    #Then, do not pass this to frames_push_bottom, pass the next new_frame_change
+
+                    new_frame_change = enc_l[0]['previous_frame_change']+k.index(min(k))
+                    enc_l[0]['frames_push_bottom1'].append(new_frame_change)
+                    new_frame_change = enc_l[0]['previous_frame_change']+len(k)-1-k[::-1].index(min(k))
+                else:
+                    new_frame_change = enc_l[0]['previous_frame_change']+k.index(max(k))
+                    enc_l[0]['frames_pull_top1'].append(new_frame_change)
+                    new_frame_change = enc_l[0]['previous_frame_change']+len(k)-1-k[::-1].index(max(k))
+
+                if len(enc_l[0]['frames_pull_top1'])>0 and len(enc_l[0]['frames_push_bottom1'])>0:
+                    if enc_l[0]['dir_now'] == -1:
+                        print ("send concentric:" + str(k))
+                        #print ("send concentric")
+
+                enc_l[0]['previous_frame_change'] = new_frame_change
+                enc_l[0]['dir_change_count'] = 0
+                enc_l[0]['dir_completed'] = enc_l[0]['dir_now']
                 
         countDisplayUpdate += 1
         if countDisplayUpdate >= updateGraphAtMs:
             update_graph(
-                    enc_l[0]['temp_cumsum'],
-                    enc_l[0]['temp_cumsum'] + 20,
+                    enc_l[0]['temp_cumsum'][-1],
+                    enc_l[0]['temp_cumsum'][-1] + 20,
                     graphsWidth, 440, (222,0,0),
                     4, 156, False)
             countDisplayUpdate = 0

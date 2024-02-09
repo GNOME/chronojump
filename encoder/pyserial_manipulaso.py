@@ -24,7 +24,7 @@
 #pygame
 
 #RUNNING
-#python3 pyserial_manipulaso.py title 10 10 /dev/ttyUSB0 hola
+#python3 pyserial_manipulaso.py ManipulaSo 10 10 /dev/ttyUSB0 hola
 
 import serial
 #from serial import Serial
@@ -57,8 +57,9 @@ enc_l = [ #encoder list
             'previous_frame_change':0,
             'temp':list (),
             'temp_cumsum':list(),       # current bar position (used also to check speed)
-            'last':0,                   # last bar final position
-            'last2':0,                  # penultimate bar final position
+            'last_cumsum':0,            # last bar final position
+            'last2_cumsum':0,           # penultimate bar final position
+            'last_stored':0,
             'w_time':0
 #            },
 #        {
@@ -76,8 +77,9 @@ enc_l = [ #encoder list
 #            'previous_frame_change':0,
 #            'temp':list (),
 #            'temp_cumsum':list(),       # current bar position (used also to check speed)
-#            'last':0,                   # last bar final position
-#            'last2':0,                  # penultimate bar final position
+#            'last_cumsum':0,            # last bar final position
+#            'last2_cumsum':0,           # penultimate bar final position
+#            'last_stored':0,
 #            'w_time':0
             }
         ]
@@ -100,7 +102,8 @@ serL = 0
 serR = 0
 
 mode = "graph"
-graphsWidth = 792 #800-4-4
+graphsWidth = 1360 #1368-4-4
+graphsHeight = 760 #768-4-4
 updateGraphAtMs = 25
 
 
@@ -154,8 +157,18 @@ soundFileBad = "/home/xavier/informatica/progs_meus/chronojump/encoder/Hand.wav"
 #    else:
 #        return BLACK
 
-def update_graph(posL, posR, my_s_width, my_s_height, color, horizPosToCopy, vertPosToCopy, hasDecimals):
-    s=pygame.Surface((my_s_width,my_s_height))
+def colorDarker (color):
+    return (pygame.Color(
+        int(.5 * color[0]),
+        int(.5 * color[1]),
+        int(.5 * color[2]),
+        255))
+
+#posL_l and posR_l are lists of pos for L and R, 1st element of each one is current, 3rd the penultimate
+def update_graph(posL_l, posR_l,
+        my_s_width, my_s_height, color, horizPosToCopy, vertPosToCopy, hasDecimals):
+    #s = pygame.Surface((my_s_width,my_s_height), pygame.SRCALPHA)
+    s = pygame.Surface((my_s_width,my_s_height))
     
     s.fill(ColorBackground) #color the surface
 
@@ -170,22 +183,60 @@ def update_graph(posL, posR, my_s_width, my_s_height, color, horizPosToCopy, ver
     #    barMax = posL * 1.2
     #if posR > barMax:
     #    barMax = posR * 1.2
+    barL_height = [0, 0, 0]
+    barR_height = [0, 0, 0]
 
-    bar_heightL = (my_s_height -vert_margin) * posL / barMax 
-    bar_heightR = (my_s_height -vert_margin) * posR / barMax 
-    bar_width = (my_s_width -left_margin -right_margin -sep) / 3 #each bar 1/3 of screen
+    for i in range (0, 3):
+        barL_height[i] = (my_s_height -vert_margin) * posL_l[i] / barMax
+        barR_height[i] = (my_s_height -vert_margin) * posR_l[i] / barMax
+
+    #bar_width = (my_s_width -left_margin -right_margin -sep) / 9 #each bar 1/3 of screen
+    #width of last2, last will be double, current quadriple
+    #1 + 2 + 4 + 2 (free space) = 9 #18 because have to be space for left and for right
+    min_bar_width = (my_s_width -left_margin -right_margin) / 18
+    #print ("min_bar_width {}".format(min_bar_width))
 
     colorNow = color
 
-    left = left_margin + bar_width
-    pygame.draw.rect(s, colorNow,
-            (left_margin, my_s_height -bar_heightL,
-                bar_width, bar_heightR)
-            , 0) #0: filled
-    pygame.draw.rect(s, (0, 100, 0),
-            (my_s_width - right_margin -bar_width, my_s_height -bar_heightR,
-                bar_width, bar_heightR),
-            0) #0: filled
+    barL_left = my_s_width /2 - 4 * min_bar_width -min_bar_width #left part of left bar
+    barR_left = my_s_width /2 +min_bar_width           #left part of right bar
+    bar_width = 4 * min_bar_width
+    for i in range (0, 3):
+        #colorNow[3] = int(.66 * colorNow[3]) # no luck with transparency
+        colorNow = colorDarker (colorNow)
+        #print ("i {}, left {}, bar_width {}".format(i, left, bar_width))
+        pygame.draw.rect(s, colorNow,
+                (barL_left,
+                    my_s_height -barL_height[i],
+                    bar_width,
+                    barL_height[i])
+                )
+        #outline:
+        pygame.draw.rect(s, (255, 255, 255),
+                (barL_left,
+                    my_s_height -barL_height[i],
+                    bar_width,
+                    barL_height[i])
+                , width=4)
+
+        pygame.draw.rect(s, (0, 100, 0),
+                (barR_left,
+                    my_s_height -barR_height[i],
+                    bar_width,
+                    barR_height[i])
+                ) #0: filled
+
+        #outline
+        pygame.draw.rect(s, (255, 255, 255),
+                (barR_left,
+                    my_s_height -barR_height[i],
+                    bar_width,
+                    barR_height[i])
+                , width=4)
+
+        barR_left += bar_width
+        bar_width /= 2
+        barL_left -= bar_width
     
     s_rect=s.get_rect() #get the rectangle bounds for the surface
     screen.blit(s,(horizPosToCopy,vertPosToCopy)) #render the surface into the rectangle
@@ -194,7 +245,7 @@ def update_graph(posL, posR, my_s_width, my_s_height, color, horizPosToCopy, ver
 #option can be "start", "end",
 #or time left: "5 s", "4 s", ..
 def printHeader(option):
-    s=pygame.Surface((792,32))
+    s=pygame.Surface((graphsWidth,32))
     s.fill(ColorBackground) #color the surface
 
     string = "%s" % title
@@ -212,7 +263,7 @@ def printHeader(option):
         string = option
         text = FontBig.render(string,1, (255,91,0))
 
-    textpos = text.get_rect(right=792-10,centery=14)
+    textpos = text.get_rect(right=graphsWidth-10,centery=14)
     s.blit(text,textpos)
 
     screen.blit(s,(4,4)) #render the surface into the rectangle
@@ -236,6 +287,8 @@ def manageDirection (byte_data, e):
     if e['dir_now'] != e['dir_last_ms']:
         e['dir_last_ms'] = e['dir_now']
         e['dir_change_count'] = 0
+        if e['dir_now'] == -1:
+            e['last_stored'] = e['temp_cumsum'][-1]
     elif e['dir_now'] != e['dir_completed']:
         #we cannot add signedChar_data because then is difficult to come back n frames to know the max point
         #direction_change_count = direction_change_count + signedChar_data
@@ -264,8 +317,10 @@ def manageDirection (byte_data, e):
 
             if len(e['frames_pull_top1'])>0 and len(e['frames_push_bottom1'])>0:
                 if e['dir_now'] == -1:
-                    print ("send concentric:" + str(k))
-                    #print ("send concentric")
+                    #print ("send concentric:" + str(k))
+                    print ("send concentric")
+                    e['last2_cumsum'] = e['last_cumsum']
+                    e['last_cumsum'] = e['last_stored']
 
             e['previous_frame_change'] = new_frame_change
             e['dir_change_count'] = 0
@@ -293,7 +348,8 @@ if __name__ == '__main__':
 
     pygame.font.init
     pygame.init()
-    screen = pygame.display.set_mode((800,600)) #make window
+    #screen = pygame.display.set_mode((800,600)) #make window
+    screen = pygame.display.set_mode((graphsWidth,graphsHeight)) #make window
     pygame.display.set_caption("Chronojump encoder")
 
     FontBig = pygame.font.Font(None, 22)
@@ -343,11 +399,13 @@ if __name__ == '__main__':
 
         countDisplayUpdate += 1
         if countDisplayUpdate >= updateGraphAtMs:
-            update_graph(
-                    enc_l[0]['temp_cumsum'][-1],
-                    enc_l[0]['temp_cumsum'][-1] + 20,
-                    graphsWidth, 440, (222,0,0),
-                    4, 156, False)
+            for i in range (0, len(enc_l)):
+                e = enc_l[i]
+                update_graph(
+                        [e['temp_cumsum'][-1], e['last_cumsum'], e['last2_cumsum']],
+                        [e['temp_cumsum'][-1] +20, e['last_cumsum'] +20, e['last2_cumsum'] + 20],
+                        graphsWidth, graphsHeight -156, pygame.Color(222,0,0,255),
+                        4, 156, False)
             countDisplayUpdate = 0
 
     for i in range (0, len(enc_l)):
@@ -357,12 +415,12 @@ if __name__ == '__main__':
     print ("\nDone! Please, close this window.")
     printHeader("end")
 
-    while 1:
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT or (event.type == KEYUP and event.key == K_ESCAPE):
-                sys.exit()
-
-        pygame.time.delay(30)
-        pygame.display.flip() #update the screen
-        #TODO: http://stackoverflow.com/questions/10466590/hiding-pygame-display
+#    while 1:
+#        for event in pygame.event.get():
+#            if event.type == pygame.QUIT or (event.type == KEYUP and event.key == K_ESCAPE):
+#                sys.exit()
+#
+#        pygame.time.delay(30)
+#        pygame.display.flip() #update the screen
+#        #TODO: http://stackoverflow.com/questions/10466590/hiding-pygame-display
 

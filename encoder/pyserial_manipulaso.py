@@ -24,7 +24,7 @@
 #pygame
 
 #RUNNING
-#python3 pyserial_manipulaso.py ManipulaSo 10 10 /dev/ttyUSB0 hola
+#python3 pyserial_manipulaso.py 100 /dev/ttyUSB0 secondPort pyserial_manipulaso_sounds.txt
 
 import serial
 #from serial import Serial
@@ -84,19 +84,34 @@ enc_l = [ #encoder list
             }
         ]
 
+class sounds:
+    def __init__(self, left, right):
+        self.left = left
+        self.right = right
+
+    def left (self):
+        return self.left
+    def right (self):
+        return self.right
+    def printBoth (self):
+        print ("left: " + self.left + "; right: " + self.right)
+
+sounds_l =[ ]
+sounds_l_count = 0
+
 # ============
 # = Variable =
 # ============
-title = sys.argv[1]
-record_time = int(sys.argv[2])*1000		#from s to ms
-minRange = int(sys.argv[3])
-enc_l[0]['port'] = sys.argv[4] #left encoder
-#enc_l[1]['port'] = sys.argv[5] #right encoder
+record_time = int(sys.argv[1])*1000		#from s to ms
+enc_l[0]['port'] = sys.argv[2] #left encoder
+#enc_l[1]['port'] = sys.argv[3] #right encoder
+soundsListCfg = sys.argv[4]
 
 delete_initial_time = 20			#delete first records because there's encoder bug
 #w_baudrate = 9600                           # Setting the baudrate of Chronopic(9600)
 w_baudrate = 115200                           # Setting the baudrate of Chronopic(115200)
 dir_change_period = 25                # how long to recognize as change direction.
+minRange = 10
 
 serL = 0
 serR = 0
@@ -119,8 +134,8 @@ BUFFER = 1024  # audio buffer size in no. of samples
 FRAMERATE = 30 # how often to check if playback has finished
 
 #disabled clock calls to go faster
-#more info on playsound here https://pythonprogramming.net/adding-sounds-music-pygame/
-def playsound(soundfile):
+#more info on playSound here https://pythonprogramming.net/adding-sounds-music-pygame/
+def playSound(soundfile):
     sound = pygame.mixer.Sound(soundfile)
     #clock = pygame.time.Clock()
     sound.play()
@@ -131,6 +146,21 @@ soundFileStart = "/home/xavier/informatica/progs_meus/chronojump/encoder/Questio
 soundFileGood = "/home/xavier/informatica/progs_meus/chronojump/encoder/Asterisk.wav"
 #soundFileBad = "/home/xavier/informatica/progs_meus/chronojump/encoder/Beep.wav"
 soundFileBad = "/home/xavier/informatica/progs_meus/chronojump/encoder/Hand.wav"
+
+def readSoundsListConfig (soundsListCfg):
+    file = open(soundsListCfg, "r")
+    soundPath = ""
+    soundLines = file.read().splitlines()
+    for soundLine in soundLines:
+        if soundLine.startswith ('#'):
+            continue
+
+        (name, value) = soundLine.split (':', 1) #split in two (1 split): 1st name, 2nd value/s
+        if name == "PATH":
+            soundPath = value
+        elif name == "SoundLR":
+            (l, r) = value.split (':')
+            sounds_l.append (sounds (soundPath + l, soundPath + r))
 
 #BLACK = 30
 #RED = 31
@@ -248,7 +278,7 @@ def printHeader(option):
     s=pygame.Surface((graphsWidth,32))
     s.fill(ColorBackground) #color the surface
 
-    string = "%s" % title
+    string = "ManipulaSo"
     text = FontBig.render(string,1, (255,255,255))
     textpos = text.get_rect(left=10,centery=14)
     s.blit(text,textpos)
@@ -271,6 +301,8 @@ def printHeader(option):
 
 
 def manageDirection (byte_data, e):
+    playSound = False
+
     # conver HEX to INT value
     signedChar_data = unpack('b' * len(byte_data), byte_data)[0]
     e['temp'].append(signedChar_data)
@@ -319,12 +351,16 @@ def manageDirection (byte_data, e):
                 if e['dir_now'] == -1:
                     #print ("send concentric:" + str(k))
                     print ("send concentric")
+                    playSound = True
+
                     e['last2_cumsum'] = e['last_cumsum']
                     e['last_cumsum'] = e['last_stored']
 
             e['previous_frame_change'] = new_frame_change
             e['dir_change_count'] = 0
             e['dir_completed'] = e['dir_now']
+
+    return playSound
 
 # ================
 # = Main         =
@@ -342,9 +378,18 @@ if __name__ == '__main__':
         print >>sys.stderr, "Could not initialize sound system: %s" % exc
     except exc:
         print >>sys.stderr, "Could not initialize sound system: %s" % exc
-    
+
+
+    #read sounds file
+    readSoundsListConfig (soundsListCfg)
+
+    #debug
+    #print ("sounds:")
+    #for sound in sounds_l:
+    #    sound.printBoth ()
+
     print("START!\n")
-    playsound(soundFileStart)
+    playSound(soundFileStart)
 
     pygame.font.init
     pygame.init()
@@ -373,8 +418,8 @@ if __name__ == '__main__':
         #serR.read()
 
     #print title
-    title = title.replace('_',' ')
-    title = title.replace('-',' ')
+    #title = title.replace('_',' ')
+    #title = title.replace('-',' ')
     printHeader("start")
 
     secondsLeft = int(record_time / 1000)
@@ -394,8 +439,14 @@ if __name__ == '__main__':
         byte_dataL = serL.read()
         #byte_dataR = serR.read()
 
-        manageDirection (byte_dataL, enc_l[0])
-        #manageDirection (byte_dataR, enc_l[1])
+        if manageDirection (byte_dataL, enc_l[0]):
+            playSound (sounds_l[sounds_l_count].left)
+            sounds_l_count += 1
+            if sounds_l_count >= len (sounds_l):
+                sounds_l_count = 0
+
+        #if manageDirection (byte_dataR, enc_l[0]):
+        #    playSound (sounds_l[sounds_l_count].right)
 
         countDisplayUpdate += 1
         if countDisplayUpdate >= updateGraphAtMs:

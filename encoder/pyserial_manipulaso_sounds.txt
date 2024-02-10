@@ -1,0 +1,24 @@
+PATH:/home/xavier/Documents/personal/malabars/usb-universal-serial-body/sounds/parelles/
+#SoundLR:2pil-mills-mess-wave-mar/
+#potser hi podria haver algun text després de SoundLR i que es mostri en pantalla per saber per on anem, o es podria posar el propi nom del dir
+SoundLR:3-pil-agut/17312__bitbeast__skrape.wav:3-pil-agut/17313__bitbeast__wuffle.wav
+SoundLR:5pil-cascada-acabat/341867__edsward__halleluja.wav:5pil-cascada-acabat/341909__sgtpepperarc360__05-extend.wav
+#SoundLR:5-rebot-preparar/393614__11linda__are-you-crazy-questioning.wav:5-rebot-preparar/
+SoundLR:alien/18868__zippi1__sound-alien5.wav:alien/316102__littlerobotsoundfactory__alien-funny-01.wav
+SoundLR:bass/103015__zgump__el-bass-01.wav:bass/103016__zgump__el-bass-02.wav
+SoundLR:bass-efecte/288881__gellski__electrobass13.wav:bass-efecte/361596__pearcel__bass-old4.mp3
+SoundLR:bass-efecte2/161841__antistatikk__balloon-bass-03.wav:bass-efecte/195396__goup-1__boom-kick.wav
+SoundLR:bass-efecte3/107848__awfulthesample__bass1.wav:bass-efecte/83248__zgump__bass-0204.wav
+SoundLR:bass-llargs/31673__junggle__bass-loop-09.wav:bass-llargs/45963__torn-rugged-audio-35__pressure-drop-skipstep-r.wav
+SoundLR:bido/178569__bitbeast__hi-flitter-snare.wav:bido/178570__bitbeast__vatsnare.wav
+SoundLR:corda/321802__lloydevans09__pvc-pipe-hit-4.wav:corda/321805__lloydevans09__pvc-pipe-hit-1.wav
+SoundLR:explosion/328833__dinodilopho__small-explosion.wav:explosion/347168__davidsraba__explosion-sound.wav
+SoundLR:explosion2/317752__jalastram__sfx-explosion-07.wav:explosion2/369529__johandeecke__medium-explosion.wav
+SoundLR:inici/127167__daphne-in-wonderland__tibetan-ball.wav:inici/7400__room__bass-ai-spring.wav
+SoundLR:name-motherfucker/184480__kathid__what-s-your-name.wav:name-motherfucker/72950__ishkurable__bam-motherfucker.wav
+SoundLR:pipe-ball/13290__schademans__pipe9.wav:pipe-ball/37154__volivieri__soccer-ball-hit-ground-01.wav
+SoundLR:tatata-tititi/274511__bitbeast__brittle-dark-hi-hat-loop.wav:tatata-tititi/274512__bitbeast__chug-hi-hat-loop.wav
+SoundLR:tum-wibble/17186__bitbeast__brum.wav:tum-wibble/17200__bitbeast__wibble.wav
+SoundLR:we-will-rock-you/we_will_rock_you_pam.wav:we-will-rock-you/we_will_rock_you_pum.wav
+#SoundLR:what-if/84879__tim-kahn__what-if.wav:?
+#falten 4 no assignats i el mills mess, mar

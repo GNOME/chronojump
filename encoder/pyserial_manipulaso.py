@@ -470,6 +470,18 @@ def manageDirection (byte_data, e):
 
     return playSound
 
+def getSpeed (con_l):
+    if len (con_l) == 0:
+        return 0
+
+    dist = con_l[-1] - con_l[0]
+    print ("dist: " + str(dist))
+
+    if dist <= 0:
+        return 0
+    else:
+        return dist / len (con_l)
+
 # ================
 # = Main         =
 # ================

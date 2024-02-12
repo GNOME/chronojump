@@ -7,6 +7,9 @@ PATH:/home/xavier/Documents/personal/malabars/usb-universal-serial-body/sounds/p
 #SoundLR::2pil-mills-mess-wave-mar/
 #potser hi podria haver algun text després de SoundLR i que es mostri en pantalla per saber per on anem, o es podria posar el propi nom del dir
 SoundLR:3 agut:3-pil-agut/17312__bitbeast__skrape.wav:3-pil-agut/17313__bitbeast__wuffle.wav
+SoundLR:Silence::
+SoundLR:SilenceL::bass/103016__zgump__el-bass-02.wav
+SoundLR:SilenceR:bass/103015__zgump__el-bass-01.wav:
 SoundLR:5 casc:5pil-cascada-acabat/341867__edsward__halleluja.wav:5pil-cascada-acabat/341909__sgtpepperarc360__05-extend.wav
 #SoundLR::5-rebot-preparar/393614__11linda__are-you-crazy-questioning.wav:5-rebot-preparar/
 SoundLR:alien:alien/18868__zippi1__sound-alien5.wav:alien/316102__littlerobotsoundfactory__alien-funny-01.wav
@@ -27,7 +30,6 @@ SoundLR:wum-wibble:tum-wibble/17186__bitbeast__brum.wav:tum-wibble/17200__bitbea
 SoundLR:We will:we-will-rock-you/we_will_rock_you_pum.wav:we-will-rock-you/we_will_rock_you_pam.wav
 SoundLR:Mu:vaca/58277__benboncan__cow.wav:vaca/243343__goombaguy__moo.wav
 #SoundLR::what-if/84879__tim-kahn__what-if.wav:?
-#SoundLR::/:/
 #SoundLR::/:/
 #SoundLR::/:/
 #SoundLR::/:/

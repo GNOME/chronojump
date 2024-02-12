@@ -29,7 +29,8 @@
 import serial
 #from serial import Serial
 import sys
-from datetime import datetime
+#from datetime import datetime
+import os
 from struct import unpack
 import pygame
 from pygame.locals import * #mouse and key definitions
@@ -122,6 +123,12 @@ class soundManage:
         if self.count < 0:
             self.count = 0
 
+    def soundLeftIsEmpty (self): #silece
+        return len (sounds_l[self.count].left) == 0
+
+    def soundRightIsEmpty (self): #silece
+        return len (sounds_l[self.count].right) == 0
+
     def soundsPlayLeft (self):
         playSound (sounds_l[self.count].left)
 
@@ -168,7 +175,28 @@ def readSoundsListConfig (soundsListCfg):
             soundPath = value
         elif name == "SoundLR":
             (title, l, r) = value.split (':')
-            sounds_l.append (soundsLR (title, soundPath + l, soundPath + r))
+            #add soundPath to l, r if they are not empty. To allow silence.
+            if len (l) > 0 and len (r) > 0:
+                sounds_l.append (soundsLR (title, soundPath + l, soundPath + r))
+            elif len (l) > 0:
+                sounds_l.append (soundsLR (title, soundPath + l, r))
+            elif len (r) > 0:
+                sounds_l.append (soundsLR (title, l, soundPath + r))
+            else:
+                sounds_l.append (soundsLR (title, l, r))
+
+#note a sound can be empty just to be able to move hands
+def checkSoundsListMissing ():
+    for sound in sounds_l:
+        sound.printAll ()
+        if len (sound.left) > 0 and not os.path.isfile (sound.left):
+            print ("Left sound does not exists: " + sound.left)
+            return False
+        if len (sound.right) > 0 and not os.path.isfile (sound.right):
+            print ("Right sound does not exists: " + sound.right)
+            return False
+    return True
+
 
 # ===================
 # = Graphical stuff =
@@ -428,6 +456,8 @@ if __name__ == '__main__':
 
     #read sounds file
     readSoundsListConfig (soundsListCfg)
+    if not checkSoundsListMissing ():
+        sys.exit()
 
     sm = soundManage ()
 
@@ -490,7 +520,7 @@ if __name__ == '__main__':
             if isTriggerOn (byte_dataL):
                 sm.soundsPre ()
                 printHeader (sm.getTitle ())
-        else:
+        elif not sm.soundLeftIsEmpty ():
             if manageDirection (byte_dataL, enc_l[0]):
                 sm.soundsPlayLeft ()
 
@@ -500,7 +530,7 @@ if __name__ == '__main__':
             if isTriggerOn (byte_dataR):
                 sm.soundsNext ()
                 printHeader (sm.getTitle ())
-        else:
+        elif not sm.soundRightIsEmpty ():
             if manageDirection (byte_dataR, enc_l[1]):
                 sm.soundsPlayRight ()
 

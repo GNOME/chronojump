@@ -24,13 +24,16 @@ SoundLR:3p-tum-wibble:tum-wibble/17186__bitbeast__brum.wav:tum-wibble/17200__bit
 SoundLR:3p-corda:corda/321802__lloydevans09__pvc-pipe-hit-4.wav:corda/321805__lloydevans09__pvc-pipe-hit-1.wav:
 SoundLR:3p-agut:3-pil-agut/17312__bitbeast__skrape.wav:3-pil-agut/17313__bitbeast__wuffle.wav:
 SoundLR:4p-We will:we-will-rock-you/we_will_rock_you_pum.wav:we-will-rock-you/we_will_rock_you_pam.wav:we-will-rock-you/Queen-We-Will-Rock-You-Official-Video.m4a
+#vaca però sense reproduir els ramones
+SoundLR:Mu:vaca/58277__benboncan__cow.wav:vaca/243343__goombaguy__moo.wav:vaca/Ramones-Somebody-Put-Something-In-My-Drink-Official-Audio.m4a
 SoundLR:4p-Whats your name?:name-motherfucker/184480__kathid__what-s-your-name.wav:name-motherfucker/72950__ishkurable__bam-motherfucker.wav:
 SoundLR:4p-explosio:explosion/328833__dinodilopho__small-explosion.wav:explosion/347168__davidsraba__explosion-sound.wav:
 SoundLR:4p-explosio2:explosion2/317752__jalastram__sfx-explosion-07.wav:explosion2/369529__johandeecke__medium-explosion.wav:
 #SoundLR::what-if/84879__tim-kahn__what-if.wav:?:
-SoundLR:Mu:vaca/58277__benboncan__cow.wav:vaca/243343__goombaguy__moo.wav:
 SoundLR:5p-bass efecte:bass-efecte/288881__gellski__electrobass13.wav:bass-efecte/361596__pearcel__bass-old4.mp3:
 SoundLR:5p-casc:5pil-cascada-acabat/341909__sgtpepperarc360__05-extend.wav:5pil-cascada-acabat/341909__sgtpepperarc360__05-extend.wav:
+SoundLR:Mu:vaca/58277__benboncan__cow.wav:vaca/243343__goombaguy__moo.wav:vaca/Ramones-Somebody-Put-Something-In-My-Drink-Official-Audio.m4a
+#3 maces, i potser karateka
 #
 #
 #

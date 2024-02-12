@@ -84,7 +84,9 @@ enc_l = [ #encoder list
             }
         ]
 
-class sounds:
+sounds_l =[ ]
+
+class soundsLR:
     def __init__(self, left, right):
         self.left = left
         self.right = right
@@ -96,8 +98,25 @@ class sounds:
     def printBoth (self):
         print ("left: " + self.left + "; right: " + self.right)
 
-sounds_l =[ ]
-sounds_l_count = 0
+class soundManage:
+    def __init__(self):
+        self.count = 0
+
+    def soundsNext (self):
+        self.count += 1
+        if self.count >= len (sounds_l):
+            self.count = 0
+
+    def soundsPre (self):
+        self.count -= 1
+        if self.count < 0:
+            self.count = 0
+
+    def soundsPlayLeft (self):
+        playSound (sounds_l[self.count].left)
+
+    def soundsPlayRight (self):
+         playSound (sounds_l[self.count].right)
 
 # ============
 # = Variable =
@@ -112,6 +131,9 @@ delete_initial_time = 20			#delete first records because there's encoder bug
 w_baudrate = 115200                           # Setting the baudrate of Chronopic(115200)
 dir_change_period = 25                # how long to recognize as change direction.
 minRange = 10
+TRIGGER_ON = 84; #'T' from TRIGGER_ON on encoder firmware
+TRIGGER_OFF = 116; #'t' from TRIGGER_OFF on encoder firmware
+
 
 serL = 0
 serR = 0
@@ -160,7 +182,7 @@ def readSoundsListConfig (soundsListCfg):
             soundPath = value
         elif name == "SoundLR":
             (l, r) = value.split (':')
-            sounds_l.append (sounds (soundPath + l, soundPath + r))
+            sounds_l.append (soundsLR (soundPath + l, soundPath + r))
 
 #BLACK = 30
 #RED = 31
@@ -305,6 +327,7 @@ def manageDirection (byte_data, e):
 
     # conver HEX to INT value
     signedChar_data = unpack('b' * len(byte_data), byte_data)[0]
+    #print ("sc:" + str(signedChar_data))
     e['temp'].append(signedChar_data)
 
     previous = 0
@@ -381,6 +404,8 @@ if __name__ == '__main__':
     #read sounds file
     readSoundsListConfig (soundsListCfg)
 
+    sm = soundManage ()
+
     #debug
     #print ("sounds:")
     #for sound in sounds_l:
@@ -435,16 +460,20 @@ if __name__ == '__main__':
             break
 
         byte_dataL = serL.read()
+        if unpack('b' * len(byte_dataL), byte_dataL)[0] == TRIGGER_ON:
+            #print ("trigger left: sounds pre")
+            sm.soundsPre ()
+        else:
+            if manageDirection (byte_dataL, enc_l[0]):
+                sm.soundsPlayLeft ()
+
         byte_dataR = serR.read()
-
-        if manageDirection (byte_dataL, enc_l[0]):
-            playSound (sounds_l[sounds_l_count].left)
-            sounds_l_count += 1
-            if sounds_l_count >= len (sounds_l):
-                sounds_l_count = 0
-
-        if manageDirection (byte_dataR, enc_l[1]):
-            playSound (sounds_l[sounds_l_count].right)
+        if unpack('b' * len(byte_dataR), byte_dataR)[0] == TRIGGER_ON:
+            #print ("trigger right: sounds next")
+            sm.soundsNext ()
+        else:
+            if manageDirection (byte_dataR, enc_l[1]):
+                sm.soundsPlayRight ()
 
         countDisplayUpdate += 1
         if countDisplayUpdate >= updateGraphAtMs:

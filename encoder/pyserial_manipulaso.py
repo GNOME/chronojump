@@ -35,8 +35,6 @@ import pygame
 from pygame.locals import * #mouse and key definitions
 
 
-print(sys.argv)
-
 FALSE = 0
 TRUE = 1
 
@@ -84,6 +82,11 @@ enc_l = [ #encoder list
             }
         ]
 
+
+# ================
+# = Sounds stuff =
+# ================
+
 sounds_l =[ ]
 
 class soundsLR:
@@ -128,33 +131,6 @@ class soundManage:
     def getTitle (self):
          return (sounds_l[self.count].title)
 
-# ============
-# = Variable =
-# ============
-record_time = int(sys.argv[1])*1000		#from s to ms
-enc_l[0]['port'] = sys.argv[2] #left encoder
-enc_l[1]['port'] = sys.argv[3] #right encoder
-soundsListCfg = sys.argv[4]
-
-delete_initial_time = 20			#delete first records because there's encoder bug
-#w_baudrate = 9600                           # Setting the baudrate of Chronopic(9600)
-w_baudrate = 115200                           # Setting the baudrate of Chronopic(115200)
-dir_change_period = 25                # how long to recognize as change direction.
-minRange = 10
-TRIGGER_ON = 84; #'T' from TRIGGER_ON on encoder firmware
-TRIGGER_OFF = 116; #'t' from TRIGGER_OFF on encoder firmware
-
-
-serL = 0
-serR = 0
-
-mode = "graph"
-graphsWidth = 1360 #1368-4-4
-graphsHeight = 760 #768-4-4
-updateGraphAtMs = 25
-
-
-#sound stuff
 #http://code.activestate.com/recipes/521884-play-sound-files-with-pygame-in-a-cross-platform-m/
 # global constants
 #FREQ = 44100   # same as audio CD
@@ -194,6 +170,10 @@ def readSoundsListConfig (soundsListCfg):
             (title, l, r) = value.split (':')
             sounds_l.append (soundsLR (title, soundPath + l, soundPath + r))
 
+# ===================
+# = Graphical stuff =
+# ===================
+
 #BLACK = 30
 #RED = 31
 #GREEN = 32
@@ -218,6 +198,10 @@ def readSoundsListConfig (soundsListCfg):
 #        return RED
 #    else:
 #        return BLACK
+
+graphsWidth = 1360 #1368-4-4
+graphsHeight = 760 #768-4-4
+updateGraphAtMs = 25
 
 def colorDarker (color):
     return (pygame.Color(
@@ -331,6 +315,22 @@ def printHeader(option):
     screen.blit(s,(4,4)) #render the surface into the rectangle
     pygame.display.flip() #update the screen
 
+
+# =================
+# = Encoder stuff =
+# =================
+
+delete_initial_time = 20			#delete first records because there's encoder bug
+#w_baudrate = 9600                           # Setting the baudrate of Chronopic(9600)
+w_baudrate = 115200                           # Setting the baudrate of Chronopic(115200)
+dir_change_period = 25                # how long to recognize as change direction.
+minRange = 10
+TRIGGER_ON = 84; #'T' from TRIGGER_ON on encoder firmware
+TRIGGER_OFF = 116; #'t' from TRIGGER_OFF on encoder firmware
+
+serL = 0
+serR = 0
+
 def isTrigger (byte_data):
     return isTriggerOn (byte_data) or isTriggerOff (byte_data)
 
@@ -339,7 +339,6 @@ def isTriggerOn (byte_data):
 
 def isTriggerOff (byte_data):
     return unpack('b' * len(byte_data), byte_data)[0] == TRIGGER_OFF
-
 
 def manageDirection (byte_data, e):
     playSound = False
@@ -419,6 +418,12 @@ if __name__ == '__main__':
     except exc:
         print >>sys.stderr, "Could not initialize sound system: %s" % exc
 
+    #argv parameters
+    print(sys.argv)
+    record_time = int(sys.argv[1])*1000		#from s to ms
+    enc_l[0]['port'] = sys.argv[2] #left encoder
+    enc_l[1]['port'] = sys.argv[3] #right encoder
+    soundsListCfg = sys.argv[4]
 
     #read sounds file
     readSoundsListConfig (soundsListCfg)

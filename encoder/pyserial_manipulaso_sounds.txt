@@ -7,8 +7,8 @@ SoundLR:5pil-cascada-acabat/341867__edsward__halleluja.wav:5pil-cascada-acabat/3
 SoundLR:alien/18868__zippi1__sound-alien5.wav:alien/316102__littlerobotsoundfactory__alien-funny-01.wav
 SoundLR:bass/103015__zgump__el-bass-01.wav:bass/103016__zgump__el-bass-02.wav
 SoundLR:bass-efecte/288881__gellski__electrobass13.wav:bass-efecte/361596__pearcel__bass-old4.mp3
-SoundLR:bass-efecte2/161841__antistatikk__balloon-bass-03.wav:bass-efecte/195396__goup-1__boom-kick.wav
-SoundLR:bass-efecte3/107848__awfulthesample__bass1.wav:bass-efecte/83248__zgump__bass-0204.wav
+SoundLR:bass-efecte2/161841__antistatikk__balloon-bass-03.wav:bass-efecte2/195396__goup-1__boom-kick.wav
+SoundLR:bass-efecte3/107848__awfulthesample__bass1.wav:bass-efecte3/83248__zgump__bass-0204.wav
 SoundLR:bass-llargs/31673__junggle__bass-loop-09.wav:bass-llargs/45963__torn-rugged-audio-35__pressure-drop-skipstep-r.wav
 SoundLR:bido/178569__bitbeast__hi-flitter-snare.wav:bido/178570__bitbeast__vatsnare.wav
 SoundLR:corda/321802__lloydevans09__pvc-pipe-hit-4.wav:corda/321805__lloydevans09__pvc-pipe-hit-1.wav

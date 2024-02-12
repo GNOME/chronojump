@@ -324,7 +324,8 @@ delete_initial_time = 20			#delete first records because there's encoder bug
 #w_baudrate = 9600                           # Setting the baudrate of Chronopic(9600)
 w_baudrate = 115200                           # Setting the baudrate of Chronopic(115200)
 dir_change_period = 25                # how long to recognize as change direction.
-minRange = 10
+minRangeMm = 150
+#minRangeMm = 300
 TRIGGER_ON = 84; #'T' from TRIGGER_ON on encoder firmware
 TRIGGER_OFF = 116; #'t' from TRIGGER_OFF on encoder firmware
 
@@ -388,7 +389,7 @@ def manageDirection (byte_data, e):
                 new_frame_change = e['previous_frame_change']+len(k)-1-k[::-1].index(max(k))
 
             if len(e['frames_pull_top1'])>0 and len(e['frames_push_bottom1'])>0:
-                if e['dir_now'] == -1:
+                if e['dir_now'] == -1 and len(k) > 2 and k[-1] -k[0] > minRangeMm:
                     #print ("send concentric:" + str(k))
                     playSound = True
 

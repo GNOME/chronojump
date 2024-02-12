@@ -25,5 +25,10 @@ SoundLR:pipe-ball:pipe-ball/13290__schademans__pipe9.wav:pipe-ball/37154__volivi
 SoundLR:tatata:tatata-tititi/274511__bitbeast__brittle-dark-hi-hat-loop.wav:tatata-tititi/274512__bitbeast__chug-hi-hat-loop.wav
 SoundLR:wum-wibble:tum-wibble/17186__bitbeast__brum.wav:tum-wibble/17200__bitbeast__wibble.wav
 SoundLR:We will:we-will-rock-you/we_will_rock_you_pum.wav:we-will-rock-you/we_will_rock_you_pam.wav
+SoundLR:Mu:vaca/58277__benboncan__cow.wav:vaca/243343__goombaguy__moo.wav
 #SoundLR::what-if/84879__tim-kahn__what-if.wav:?
-#falten 4 no assignats i el mills mess, mar
+#SoundLR::/:/
+#SoundLR::/:/
+#SoundLR::/:/
+#SoundLR::/:/
+#falten 3 no assignats i el mills mess, mar

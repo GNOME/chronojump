@@ -24,7 +24,7 @@
 #pygame
 
 #RUNNING
-#python3 pyserial_manipulaso.py 100 /dev/ttyUSB0 secondPort pyserial_manipulaso_sounds.txt
+#python3 pyserial_manipulaso.py 100 /dev/ttyUSB0 /dev/ttyUSB1 pyserial_manipulaso_sounds.txt
 
 import serial
 #from serial import Serial
@@ -60,27 +60,27 @@ enc_l = [ #encoder list
             'last_cumsum':0,            # last bar final position
             'last2_cumsum':0,           # penultimate bar final position
             'last_stored':0,
-            'w_time':0
-#            },
-#        {
-#            'name':'right',
-#            'port':'',
-##            'ser':0, #cannot put this in dictionary
-#            'dir_change_count':0,
-#            'dir_pull_to_push':'pull_to_push',     # if people change the motion for pull to push, record this value.
-#            'dir_push_to_pull':'push_to_pull',     # if people change the motion for push to pull, record this value.
-#            'dir_now':1,			# 1 or -1
-#            'dir_last_ms':1,			# 1 or -1
-#            'dir_completed':-1,		# 1 or -1
-#            'frames_pull_top1':list(),
-#            'frames_push_bottom1':list(),
-#            'previous_frame_change':0,
-#            'temp':list (),
-#            'temp_cumsum':list(),       # current bar position (used also to check speed)
-#            'last_cumsum':0,            # last bar final position
-#            'last2_cumsum':0,           # penultimate bar final position
-#            'last_stored':0,
-#            'w_time':0
+            #'w_time':0
+            },
+        {
+            'name':'right',
+            'port':'',
+#            'ser':0, #cannot put this in dictionary
+            'dir_change_count':0,
+            'dir_pull_to_push':'pull_to_push',     # if people change the motion for pull to push, record this value.
+            'dir_push_to_pull':'push_to_pull',     # if people change the motion for push to pull, record this value.
+            'dir_now':1,			# 1 or -1
+            'dir_last_ms':1,			# 1 or -1
+            'dir_completed':-1,		# 1 or -1
+            'frames_pull_top1':list(),
+            'frames_push_bottom1':list(),
+            'previous_frame_change':0,
+            'temp':list (),
+            'temp_cumsum':list(),       # current bar position (used also to check speed)
+            'last_cumsum':0,            # last bar final position
+            'last2_cumsum':0,           # penultimate bar final position
+            'last_stored':0,
+            #'w_time':0
             }
         ]
 
@@ -104,7 +104,7 @@ sounds_l_count = 0
 # ============
 record_time = int(sys.argv[1])*1000		#from s to ms
 enc_l[0]['port'] = sys.argv[2] #left encoder
-#enc_l[1]['port'] = sys.argv[3] #right encoder
+enc_l[1]['port'] = sys.argv[3] #right encoder
 soundsListCfg = sys.argv[4]
 
 delete_initial_time = 20			#delete first records because there's encoder bug
@@ -311,7 +311,6 @@ def manageDirection (byte_data, e):
     if (len (e['temp_cumsum']) > 0):
         previous = e['temp_cumsum'][-1]
     e['temp_cumsum'].append (previous + signedChar_data)
-    #TODO: same for R
 
     # Judging if direction has changed
     if signedChar_data != 0:
@@ -350,7 +349,6 @@ def manageDirection (byte_data, e):
             if len(e['frames_pull_top1'])>0 and len(e['frames_push_bottom1'])>0:
                 if e['dir_now'] == -1:
                     #print ("send concentric:" + str(k))
-                    print ("send concentric")
                     playSound = True
 
                     e['last2_cumsum'] = e['last_cumsum']
@@ -405,17 +403,17 @@ if __name__ == '__main__':
     ColorGood = (0,255,0)
 
     serL = serial.Serial (enc_l[0]['port'], w_baudrate)
-    #serR = serial.Serial (enc_l[1]['port'], w_baudrate)
+    serR = serial.Serial (enc_l[1]['port'], w_baudrate)
 
     for i in range (0, len(enc_l)):
         #enc_l[i]['temp_cumsum'].append (0)
         enc_l[i]['temp_cumsum'] = list ()
-        enc_l[i]['w_time'] = datetime.now().second
+        #enc_l[i]['w_time'] = datetime.now().second
         print ("start read data on " + enc_l[i]['name'] + " at " + enc_l[i]['port'])
     
     for j in range(delete_initial_time):
         serL.read()
-        #serR.read()
+        serR.read()
 
     #print title
     #title = title.replace('_',' ')
@@ -437,7 +435,7 @@ if __name__ == '__main__':
             break
 
         byte_dataL = serL.read()
-        #byte_dataR = serR.read()
+        byte_dataR = serR.read()
 
         if manageDirection (byte_dataL, enc_l[0]):
             playSound (sounds_l[sounds_l_count].left)
@@ -445,22 +443,22 @@ if __name__ == '__main__':
             if sounds_l_count >= len (sounds_l):
                 sounds_l_count = 0
 
-        #if manageDirection (byte_dataR, enc_l[0]):
-        #    playSound (sounds_l[sounds_l_count].right)
+        if manageDirection (byte_dataR, enc_l[1]):
+            playSound (sounds_l[sounds_l_count].right)
 
         countDisplayUpdate += 1
         if countDisplayUpdate >= updateGraphAtMs:
-            for i in range (0, len(enc_l)):
-                e = enc_l[i]
-                update_graph(
-                        [e['temp_cumsum'][-1], e['last_cumsum'], e['last2_cumsum']],
-                        [e['temp_cumsum'][-1] +20, e['last_cumsum'] +20, e['last2_cumsum'] + 20],
-                        graphsWidth, graphsHeight -156, pygame.Color(222,0,0,255),
-                        4, 156, False)
+            update_graph(
+                    [enc_l[0]['temp_cumsum'][-1], enc_l[0]['last_cumsum'],
+                        enc_l[0]['last2_cumsum']],
+                    [enc_l[1]['temp_cumsum'][-1], enc_l[1]['last_cumsum'],
+                        enc_l[1]['last2_cumsum']],
+                    graphsWidth, graphsHeight -156, pygame.Color(222,0,0,255),
+                    4, 156, False)
             countDisplayUpdate = 0
 
     for i in range (0, len(enc_l)):
-        enc_l[i]['w_time'] = datetime.now().second - enc_l[i]['w_time']
+        #enc_l[i]['w_time'] = datetime.now().second - enc_l[i]['w_time']
         serL.close ()
     
     print ("\nDone! Please, close this window.")

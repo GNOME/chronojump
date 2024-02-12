@@ -331,6 +331,15 @@ def printHeader(option):
     screen.blit(s,(4,4)) #render the surface into the rectangle
     pygame.display.flip() #update the screen
 
+def isTrigger (byte_data):
+    return isTriggerOn (byte_data) or isTriggerOff (byte_data)
+
+def isTriggerOn (byte_data):
+    return unpack('b' * len(byte_data), byte_data)[0] == TRIGGER_ON
+
+def isTriggerOff (byte_data):
+    return unpack('b' * len(byte_data), byte_data)[0] == TRIGGER_OFF
+
 
 def manageDirection (byte_data, e):
     playSound = False
@@ -471,19 +480,21 @@ if __name__ == '__main__':
 
         # read for left encoder
         byte_dataL = serL.read()
-        if unpack('b' * len(byte_dataL), byte_dataL)[0] == TRIGGER_ON:
-            sm.soundsPre ()
-            printHeader (sm.getTitle ())
-        elif not unpack('b' * len(byte_dataL), byte_dataL)[0] == TRIGGER_OFF:
+        if isTrigger (byte_dataL):
+            if isTriggerOn (byte_dataL):
+                sm.soundsPre ()
+                printHeader (sm.getTitle ())
+        else:
             if manageDirection (byte_dataL, enc_l[0]):
                 sm.soundsPlayLeft ()
 
         # read for right encoder
         byte_dataR = serR.read()
-        if unpack('b' * len(byte_dataR), byte_dataR)[0] == TRIGGER_ON:
-            sm.soundsNext ()
-            printHeader (sm.getTitle ())
-        elif not unpack('b' * len(byte_dataR), byte_dataR)[0] == TRIGGER_OFF:
+        if isTrigger (byte_dataR):
+            if isTriggerOn (byte_dataR):
+                sm.soundsNext ()
+                printHeader (sm.getTitle ())
+        else:
             if manageDirection (byte_dataR, enc_l[1]):
                 sm.soundsPlayRight ()
 

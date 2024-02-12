@@ -23,6 +23,9 @@
 #pyserial
 #pygame
 
+#Have installed on commandline
+#mplayer
+
 #RUNNING
 #python3 pyserial_manipulaso.py 100 /dev/ttyUSB0 /dev/ttyUSB1 pyserial_manipulaso_sounds.txt
 
@@ -34,6 +37,9 @@ import os
 from struct import unpack
 import pygame
 from pygame.locals import * #mouse and key definitions
+from subprocess import Popen, PIPE #to call mplayer to play m4a
+#from mplayer import Player
+
 
 
 FALSE = 0
@@ -91,10 +97,11 @@ enc_l = [ #encoder list
 sounds_l =[ ]
 
 class soundsLR:
-    def __init__(self, title, left, right):
+    def __init__(self, title, left, right, music):
         self.title = title
         self.left = left
         self.right = right
+        self.music = music
 
     def left (title):
         return self.title
@@ -105,8 +112,12 @@ class soundsLR:
     def right (self):
         return self.right
 
+    def music (self):
+        return self.music
+
     def printAll (self):
-        print("'{}': L: {}, R: {}".format(self.title, self.left, self.right))
+        print("'{}': L: {}, R: {}, music: {}".format(self.title, self.left,
+            self.right, self.music))
 
 
 class soundManage:
@@ -123,20 +134,41 @@ class soundManage:
         if self.count < 0:
             self.count = 0
 
-    def soundLeftIsEmpty (self): #silece
+    def soundLeftIsEmpty (self): #silence
         return len (sounds_l[self.count].left) == 0
 
-    def soundRightIsEmpty (self): #silece
+    def soundRightIsEmpty (self): #silence
         return len (sounds_l[self.count].right) == 0
+
+    def soundMusicIsEmpty (self): #silence
+        return len (sounds_l[self.count].music) == 0
 
     def soundsPlayLeft (self):
         playSound (sounds_l[self.count].left)
 
     def soundsPlayRight (self):
-         playSound (sounds_l[self.count].right)
+        playSound (sounds_l[self.count].right)
+
+    #finally use mplayer and in the main loop is what works best and we do not need
+    #to care on encoder loop or pygame loop
+
+    #def soundsPlayMusic (self):
+         #playSound (sounds_l[self.count].music)
+         #this plays .m4a
+         #pipes = dict(stdin=PIPE, stdout=PIPE, stderr=PIPE)
+         #mplayer = Popen(["mplayer", sounds_l[self.count].music], **pipes)
+     #    pygame.mixer.music.load (sounds_l[self.count].music)
+     #    pygame.mixer.music.play (-1)
+
+    #def soundsStopMusic (self):
+        #mplayer.kill ()
+        #pygame.mixer.music.stop ()
 
     def getTitle (self):
          return (sounds_l[self.count].title)
+
+    def getMusic (self):
+         return (sounds_l[self.count].music)
 
 #http://code.activestate.com/recipes/521884-play-sound-files-with-pygame-in-a-cross-platform-m/
 # global constants
@@ -147,6 +179,7 @@ BITSIZE = -16  # unsigned 16 bit
 CHANNELS = 1   # 1 == mono, 2 == stereo
 BUFFER = 1024  # audio buffer size in no. of samples
 FRAMERATE = 30 # how often to check if playback has finished
+#clock = pygame.time.Clock()
 
 #disabled clock calls to go faster
 #more info on playSound here https://pythonprogramming.net/adding-sounds-music-pygame/
@@ -174,16 +207,20 @@ def readSoundsListConfig (soundsListCfg):
         if name == "PATH":
             soundPath = value
         elif name == "SoundLR":
-            (title, l, r) = value.split (':')
+            (title, l, r, music) = value.split (':')
+
             #add soundPath to l, r if they are not empty. To allow silence.
-            if len (l) > 0 and len (r) > 0:
-                sounds_l.append (soundsLR (title, soundPath + l, soundPath + r))
-            elif len (l) > 0:
-                sounds_l.append (soundsLR (title, soundPath + l, r))
-            elif len (r) > 0:
-                sounds_l.append (soundsLR (title, l, soundPath + r))
-            else:
-                sounds_l.append (soundsLR (title, l, r))
+            if len(l) > 0:
+                l = soundPath + l
+            if len(r) > 0:
+                r = soundPath + r
+            if len(music) > 0:
+                print ("soundPath is: " + soundPath)
+                print ("A music is: " + music)
+                music = soundPath + music
+                print ("B music is: " + music)
+
+            sounds_l.append (soundsLR (title, l, r, music))
 
 #note a sound can be empty just to be able to move hands
 def checkSoundsListMissing ():
@@ -194,6 +231,9 @@ def checkSoundsListMissing ():
             return False
         if len (sound.right) > 0 and not os.path.isfile (sound.right):
             print ("Right sound does not exists: " + sound.right)
+            return False
+        if len (sound.music) > 0 and not os.path.isfile (sound.music):
+            print ("Music sound does not exists: " + sound.music)
             return False
     return True
 
@@ -461,16 +501,13 @@ if __name__ == '__main__':
 
     sm = soundManage ()
 
-    #debug
-    #print ("sounds:")
-    #for sound in sounds_l:
-    #    sound.printAll ()
-
     print("START!\n")
-    playSound(soundFileStart)
+    #playSound(soundFileStart)
 
     pygame.font.init
     pygame.init()
+    pygame.mixer.init()
+
     #screen = pygame.display.set_mode((800,600)) #make window
     screen = pygame.display.set_mode((graphsWidth,graphsHeight)) #make window
     pygame.display.set_caption("Chronojump encoder")
@@ -505,10 +542,21 @@ if __name__ == '__main__':
     countDisplayUpdate = 0
 
     userStops = FALSE
+    pipes = dict(stdin=PIPE, stdout=PIPE, stderr=PIPE)
     for t in range(record_time):
         for event in pygame.event.get():
             if event.type == pygame.QUIT or (event.type == KEYUP and event.key == K_ESCAPE):
                 userStops = TRUE
+            elif (event.type == KEYUP and event.key == K_s) and not sm.soundMusicIsEmpty ():
+                print ("s pressed")
+                mplayer = Popen(["mplayer", sm.getMusic ()], **pipes)
+
+            elif (event.type == KEYUP and event.key == K_e) and not sm.soundMusicIsEmpty ():
+                print ("e pressed")
+                try:
+                    mplayer.kill ()
+                except:
+                    print("could not mplayer kill")
 
         if userStops:
             print ("USER BREAKS")

@@ -87,16 +87,23 @@ enc_l = [ #encoder list
 sounds_l =[ ]
 
 class soundsLR:
-    def __init__(self, left, right):
+    def __init__(self, title, left, right):
+        self.title = title
         self.left = left
         self.right = right
 
+    def left (title):
+        return self.title
+
     def left (self):
         return self.left
+
     def right (self):
         return self.right
-    def printBoth (self):
-        print ("left: " + self.left + "; right: " + self.right)
+
+    def printAll (self):
+        print("'{}': L: {}, R: {}".format(self.title, self.left, self.right))
+
 
 class soundManage:
     def __init__(self):
@@ -117,6 +124,9 @@ class soundManage:
 
     def soundsPlayRight (self):
          playSound (sounds_l[self.count].right)
+
+    def getTitle (self):
+         return (sounds_l[self.count].title)
 
 # ============
 # = Variable =
@@ -181,8 +191,8 @@ def readSoundsListConfig (soundsListCfg):
         if name == "PATH":
             soundPath = value
         elif name == "SoundLR":
-            (l, r) = value.split (':')
-            sounds_l.append (soundsLR (soundPath + l, soundPath + r))
+            (title, l, r) = value.split (':')
+            sounds_l.append (soundsLR (title, soundPath + l, soundPath + r))
 
 #BLACK = 30
 #RED = 31
@@ -217,7 +227,7 @@ def colorDarker (color):
         255))
 
 #posL_l and posR_l are lists of pos for L and R, 1st element of each one is current, 3rd the penultimate
-def update_graph(posL_l, posR_l,
+def update_graph (title, posL_l, posR_l,
         my_s_width, my_s_height, color, horizPosToCopy, vertPosToCopy, hasDecimals):
     #s = pygame.Surface((my_s_width,my_s_height), pygame.SRCALPHA)
     s = pygame.Surface((my_s_width,my_s_height))
@@ -409,7 +419,7 @@ if __name__ == '__main__':
     #debug
     #print ("sounds:")
     #for sound in sounds_l:
-    #    sound.printBoth ()
+    #    sound.printAll ()
 
     print("START!\n")
     playSound(soundFileStart)
@@ -443,7 +453,7 @@ if __name__ == '__main__':
     #print title
     #title = title.replace('_',' ')
     #title = title.replace('-',' ')
-    printHeader("start")
+    printHeader (sm.getTitle ())
 
     secondsLeft = int(record_time / 1000)
     msCount = 0
@@ -459,25 +469,29 @@ if __name__ == '__main__':
             print ("USER BREAKS")
             break
 
+        # read for left encoder
         byte_dataL = serL.read()
         if unpack('b' * len(byte_dataL), byte_dataL)[0] == TRIGGER_ON:
-            #print ("trigger left: sounds pre")
             sm.soundsPre ()
-        else:
+            printHeader (sm.getTitle ())
+        elif not unpack('b' * len(byte_dataL), byte_dataL)[0] == TRIGGER_OFF:
             if manageDirection (byte_dataL, enc_l[0]):
                 sm.soundsPlayLeft ()
 
+        # read for right encoder
         byte_dataR = serR.read()
         if unpack('b' * len(byte_dataR), byte_dataR)[0] == TRIGGER_ON:
-            #print ("trigger right: sounds next")
             sm.soundsNext ()
-        else:
+            printHeader (sm.getTitle ())
+        elif not unpack('b' * len(byte_dataR), byte_dataR)[0] == TRIGGER_OFF:
             if manageDirection (byte_dataR, enc_l[1]):
                 sm.soundsPlayRight ()
 
+        # update screen
         countDisplayUpdate += 1
         if countDisplayUpdate >= updateGraphAtMs:
             update_graph(
+                    sm.getTitle,
                     [enc_l[0]['temp_cumsum'][-1], enc_l[0]['last_cumsum'],
                         enc_l[0]['last2_cumsum']],
                     [enc_l[1]['temp_cumsum'][-1], enc_l[1]['last_cumsum'],

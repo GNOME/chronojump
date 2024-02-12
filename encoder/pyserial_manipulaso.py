@@ -19,14 +19,17 @@
 # 
 # based on pyserial_pyper.py
 
-#PYTHON PACKAGES (pip3 install ...)
+# PYTHON PACKAGES (pip3 install ...)
 #pyserial
 #pygame
 
-#Have installed on commandline
+# Have installed on commandline
 #mplayer
 
-#RUNNING
+# RUNNING
+#no time end (need to press escape)
+#python3 pyserial_manipulaso.py -1 /dev/ttyUSB0 /dev/ttyUSB1 pyserial_manipulaso_sounds.txt
+#end at 100 seconds
 #python3 pyserial_manipulaso.py 100 /dev/ttyUSB0 /dev/ttyUSB1 pyserial_manipulaso_sounds.txt
 
 import serial
@@ -409,7 +412,7 @@ def isTriggerOn (byte_data):
 def isTriggerOff (byte_data):
     return unpack('b' * len(byte_data), byte_data)[0] == TRIGGER_OFF
 
-def manageDirection (byte_data, e):
+def manageDirection (byte_data, e, msCount):
     playSound = False
 
     # conver HEX to INT value
@@ -436,7 +439,7 @@ def manageDirection (byte_data, e):
         e['dir_change_count'] = e['dir_change_count'] + 1
         if e['dir_change_count'] >= dir_change_period:
 
-            k = list(e['temp_cumsum'][e['previous_frame_change']:t-dir_change_period])
+            k = list(e['temp_cumsum'][e['previous_frame_change']:msCount-dir_change_period])
             #print ("k")
             #print (k)
 
@@ -501,7 +504,11 @@ if __name__ == '__main__':
 
     #argv parameters
     print(sys.argv)
-    record_time = int(sys.argv[1])*1000		#from s to ms
+
+    record_time = int(sys.argv[1])
+    if record_time > 0: #-1 is forever
+        record_time = int(sys.argv[1])*1000		#from s to ms
+
     enc_l[0]['port'] = sys.argv[2] #left encoder
     enc_l[1]['port'] = sys.argv[3] #right encoder
     soundsListCfg = sys.argv[4]
@@ -550,13 +557,14 @@ if __name__ == '__main__':
     printHeader (sm.getTitle ())
 
     secondsLeft = int(record_time / 1000)
-    msCount = 0
     countDisplayUpdate = 0
 
+    msCount = 0
     userStops = FALSE
     pipes = dict(stdin=PIPE, stdout=PIPE, stderr=PIPE)
     playingMusic = False
-    for t in range(record_time):
+
+    while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT or (event.type == KEYUP and event.key == K_ESCAPE):
                 userStops = TRUE
@@ -576,6 +584,10 @@ if __name__ == '__main__':
             print ("USER BREAKS")
             break
 
+        if record_time > 0 and msCount > record_time:
+            print ("BREAK BY TIME END")
+            break
+
         soundChanged = False
         # read for left encoder
         byte_dataL = serL.read()
@@ -584,7 +596,7 @@ if __name__ == '__main__':
                 sm.soundsPre ()
                 soundChanged = True
         elif not sm.soundLeftIsEmpty ():
-            if manageDirection (byte_dataL, enc_l[0]):
+            if manageDirection (byte_dataL, enc_l[0], msCount):
                 sm.soundsPlayLeft ()
 
         # read for right encoder
@@ -594,13 +606,15 @@ if __name__ == '__main__':
                 sm.soundsNext ()
                 soundChanged = True
         elif not sm.soundRightIsEmpty ():
-            if manageDirection (byte_dataR, enc_l[1]):
+            if manageDirection (byte_dataR, enc_l[1], msCount):
                 sm.soundsPlayRight ()
 
         if soundChanged:
             printHeader (sm.getTitle ())
             if playingMusic:
                 mplayer.kill ()
+        else:
+            msCount += 1
 
         # update screen
         countDisplayUpdate += 1

@@ -19,6 +19,6 @@ SoundLR:name-motherfucker/184480__kathid__what-s-your-name.wav:name-motherfucker
 SoundLR:pipe-ball/13290__schademans__pipe9.wav:pipe-ball/37154__volivieri__soccer-ball-hit-ground-01.wav
 SoundLR:tatata-tititi/274511__bitbeast__brittle-dark-hi-hat-loop.wav:tatata-tititi/274512__bitbeast__chug-hi-hat-loop.wav
 SoundLR:tum-wibble/17186__bitbeast__brum.wav:tum-wibble/17200__bitbeast__wibble.wav
-SoundLR:we-will-rock-you/we_will_rock_you_pam.wav:we-will-rock-you/we_will_rock_you_pum.wav
+SoundLR:we-will-rock-you/we_will_rock_you_pum.wav:we-will-rock-you/we_will_rock_you_pam.wav
 #SoundLR:what-if/84879__tim-kahn__what-if.wav:?
 #falten 4 no assignats i el mills mess, mar

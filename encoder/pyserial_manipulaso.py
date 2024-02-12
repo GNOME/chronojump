@@ -543,6 +543,7 @@ if __name__ == '__main__':
 
     userStops = FALSE
     pipes = dict(stdin=PIPE, stdout=PIPE, stderr=PIPE)
+    playingMusic = False
     for t in range(record_time):
         for event in pygame.event.get():
             if event.type == pygame.QUIT or (event.type == KEYUP and event.key == K_ESCAPE):
@@ -550,6 +551,7 @@ if __name__ == '__main__':
             elif (event.type == KEYUP and event.key == K_s) and not sm.soundMusicIsEmpty ():
                 print ("s pressed")
                 mplayer = Popen(["mplayer", sm.getMusic ()], **pipes)
+                playingMusic = True
 
             elif (event.type == KEYUP and event.key == K_e) and not sm.soundMusicIsEmpty ():
                 print ("e pressed")
@@ -562,12 +564,13 @@ if __name__ == '__main__':
             print ("USER BREAKS")
             break
 
+        soundChanged = False
         # read for left encoder
         byte_dataL = serL.read()
         if isTrigger (byte_dataL):
             if isTriggerOn (byte_dataL):
                 sm.soundsPre ()
-                printHeader (sm.getTitle ())
+                soundChanged = True
         elif not sm.soundLeftIsEmpty ():
             if manageDirection (byte_dataL, enc_l[0]):
                 sm.soundsPlayLeft ()
@@ -577,10 +580,15 @@ if __name__ == '__main__':
         if isTrigger (byte_dataR):
             if isTriggerOn (byte_dataR):
                 sm.soundsNext ()
-                printHeader (sm.getTitle ())
+                soundChanged = True
         elif not sm.soundRightIsEmpty ():
             if manageDirection (byte_dataR, enc_l[1]):
                 sm.soundsPlayRight ()
+
+        if soundChanged:
+            printHeader (sm.getTitle ())
+            if playingMusic:
+                mplayer.kill ()
 
         # update screen
         countDisplayUpdate += 1

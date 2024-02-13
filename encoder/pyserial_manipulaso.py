@@ -101,11 +101,15 @@ enc_l = [ #encoder list
 sounds_l =[ ]
 
 class soundsLR:
-    def __init__(self, title, left, right, music):
+    def __init__(self, title, left, right, musicUrlName):
         self.title = title
         self.left = left
         self.right = right
-        self.music = music
+        if ";" in musicUrlName:
+            (self.musicUrl, self.musicName) = musicUrlName.split (';') #split in two (1 split): 1st name, 2nd value/s
+        else:
+            self.musicUrl = musicUrlName
+            self.musicName = ""
 
     def left (title):
         return self.title
@@ -116,12 +120,15 @@ class soundsLR:
     def right (self):
         return self.right
 
-    def music (self):
-        return self.music
+    def musicUrl (self):
+        return self.musicUrl
+
+    def musicName (self):
+        return self.musicName
 
     def printAll (self):
-        print("'{}': L: {}, R: {}, music: {}".format(self.title, self.left,
-            self.right, self.music))
+        print("'{}': L: {}, R: {}, music: {}, music:Name: {}".format(self.title, self.left,
+            self.right, self.musicUrl, self.musicName))
 
 
 class soundManage:
@@ -145,7 +152,7 @@ class soundManage:
         return len (sounds_l[self.count].right) == 0
 
     def soundMusicIsEmpty (self): #silence
-        return len (sounds_l[self.count].music) == 0
+        return len (sounds_l[self.count].musicUrl) == 0
 
     def soundsPlayLeft (self):
         playSound (sounds_l[self.count].left)
@@ -164,15 +171,18 @@ class soundManage:
      #    pygame.mixer.music.load (sounds_l[self.count].music)
      #    pygame.mixer.music.play (-1)
 
-    #def soundsStopMusic (self):
+   #def soundsStopMusic (self):
         #mplayer.kill ()
         #pygame.mixer.music.stop ()
 
     def getTitle (self):
          return (sounds_l[self.count].title)
 
-    def getMusic (self):
-         return (sounds_l[self.count].music)
+    def getMusicUrl (self):
+         return (sounds_l[self.count].musicUrl)
+
+    def getMusicName (self):
+         return (sounds_l[self.count].musicName)
 
 #http://code.activestate.com/recipes/521884-play-sound-files-with-pygame-in-a-cross-platform-m/
 # global constants
@@ -211,20 +221,18 @@ def readSoundsListConfig (soundsListCfg):
         if name == "PATH":
             soundPath = value
         elif name == "SoundLR":
-            (title, l, r, music) = value.split (':')
+            (title, l, r, musicUrlName) = value.split (':')
 
             #add soundPath to l, r if they are not empty. To allow silence.
             if len(l) > 0:
                 l = soundPath + l
             if len(r) > 0:
                 r = soundPath + r
-            if len(music) > 0:
-                print ("soundPath is: " + soundPath)
-                print ("A music is: " + music)
-                music = soundPath + music
-                print ("B music is: " + music)
+            if len(musicUrlName) > 0:
+                #print ("soundPath is: " + soundPath)
+                musicUrlName = soundPath + musicUrlName
 
-            sounds_l.append (soundsLR (title, l, r, music))
+            sounds_l.append (soundsLR (title, l, r, musicUrlName))
 
 #note a sound can be empty just to be able to move hands
 def checkSoundsListMissing ():
@@ -236,8 +244,8 @@ def checkSoundsListMissing ():
         if len (sound.right) > 0 and not os.path.isfile (sound.right):
             print ("Right sound does not exists: " + sound.right)
             return False
-        if len (sound.music) > 0 and not os.path.isfile (sound.music):
-            print ("Music sound does not exists: " + sound.music)
+        if len (sound.musicUrl) > 0 and not os.path.isfile (sound.musicUrl):
+            print ("Music sound does not exists: " + sound.musicUrl)
             return False
     return True
 
@@ -392,9 +400,22 @@ def printHeader(option):
     textpos = text.get_rect(right=graphsWidth-10,centery=14)
     s.blit(text,textpos)
 
-    screen.blit(s,(4,4)) #render the surface into the rectangle
+    #screen.blit(s,(4,4)) #render the surface into the rectangle
+    screen.blit(s,(0,4)) #render the surface into the rectangle
     pygame.display.flip() #update the screen
 
+def printMusic(musicName):
+    s=pygame.Surface((graphsWidth,123))
+    s.fill(ColorBackground) #color the surface
+
+    text = FontMusic.render(musicName,1, (255,255,255))
+    textpos = text.get_rect(left=10,centery=14)
+    textpos.center = (graphsWidth/2, 123/2)
+    #textpos = text.get_rect(right=graphsWidth-10,centery=14)
+    s.blit(text,textpos)
+
+    screen.blit(s,(0,33)) #render the surface into the rectangle
+    pygame.display.flip() #update the screen
 
 # =================
 # = Encoder stuff =
@@ -540,6 +561,7 @@ if __name__ == '__main__':
     screen = pygame.display.set_mode((graphsWidth,graphsHeight)) #make window
     pygame.display.set_caption("Chronojump encoder")
 
+    FontMusic = pygame.font.Font(None, 60)
     FontBig = pygame.font.Font(None, 22)
     FontSmall = pygame.font.Font(None, 18)
 
@@ -578,6 +600,7 @@ if __name__ == '__main__':
     #title = title.replace('_',' ')
     #title = title.replace('-',' ')
     printHeader (sm.getTitle ())
+    printMusic ("")
 
     secondsLeft = int(record_time / 1000)
     countDisplayUpdate = 0
@@ -588,14 +611,18 @@ if __name__ == '__main__':
     playingMusic = False
     barsColor = colorRandomBright ()
 
+    printMusic ("hola")
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT or (event.type == KEYUP and event.key == K_ESCAPE):
                 userStops = TRUE
             elif (event.type == KEYUP and event.key == K_s) and not sm.soundMusicIsEmpty ():
                 print ("s pressed")
-                mplayer = Popen(["mplayer", sm.getMusic ()], **pipes)
-                playingMusic = True
+                if not playingMusic:
+                    mplayer = Popen(["mplayer", sm.getMusicUrl ()], **pipes)
+                    playingMusic = True
+                    if sm.getMusicName () != "":
+                        printMusic (sm.getMusicName ())
 
             elif (event.type == KEYUP and event.key == K_e) and not sm.soundMusicIsEmpty ():
                 print ("e pressed")
@@ -667,7 +694,8 @@ if __name__ == '__main__':
                     #getSpeed
                     #(list(enc_l[1]['temp_cumsum'][enc_l[1]['previous_frame_change']:enc_l[1]['temp_cumsum'][-1]])),
                     graphsWidth, graphsHeight -156,
-                    barsColor, 4, 156, False)
+                    #barsColor, 4, 156, False)
+                    barsColor, 0, 156, False)
             countDisplayUpdate = 0
 
     for i in range (0, len(enc_l)):

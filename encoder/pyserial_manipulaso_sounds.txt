@@ -14,16 +14,16 @@ PATH:/home/xavier/Documents/personal/malabars/usb-universal-serial-body/sounds/p
 SoundLR:wonderland:inici/127167__daphne-in-wonderland__tibetan-ball.wav:inici/7400__room__bass-ai-spring.wav:
 SoundLR:2p-tatata:tatata-tititi/274511__bitbeast__brittle-dark-hi-hat-loop.wav:tatata-tititi/274512__bitbeast__chug-hi-hat-loop.wav:
 SoundLR:2p-alien:alien/18868__zippi1__sound-alien5.wav:alien/316102__littlerobotsoundfactory__alien-funny-01.wav:
-SoundLR:2p-mills:2pil-mills-mess-wave-mar/203159__musita182__bcn-wave-01.wav:2pil-mills-mess-wave-mar/203159__musita182__bcn-wave-01.wav:2pil-mills-mess-wave-mar/Surfin-U-S-A-Stereo.m4a
+SoundLR:2p-mills:2pil-mills-mess-wave-mar/203159__musita182__bcn-wave-01.wav:2pil-mills-mess-wave-mar/203159__musita182__bcn-wave-01.wav:2pil-mills-mess-wave-mar/Surfin-U-S-A-Stereo.m4a;The Beach Boys - Surfing USA (1963)
 SoundLR:2p-pipe-ball:pipe-ball/13290__schademans__pipe9.wav:pipe-ball/37154__volivieri__soccer-ball-hit-ground-01.wav:
 SoundLR:2p-bass_efecte3:bass-efecte3/107848__awfulthesample__bass1.wav:bass-efecte3/83248__zgump__bass-0204.wav:
 SoundLR:2p-bass efecte2:bass-efecte2/161841__antistatikk__balloon-bass-03.wav:bass-efecte2/195396__goup-1__boom-kick.wav:
 SoundLR:3p-bass-llargs:bass-llargs/31673__junggle__bass-loop-09.wav:bass-llargs/45963__torn-rugged-audio-35__pressure-drop-skipstep-r.wav:
-SoundLR:bass:bass/103015__zgump__el-bass-01.wav:bass/103016__zgump__el-bass-02.wav:bass/CAN-Vitamin-C-Official-Audio.m4a
+SoundLR:bass:bass/103015__zgump__el-bass-01.wav:bass/103016__zgump__el-bass-02.wav:bass/CAN-Vitamin-C-Official-Audio.m4a;Can - Vitamine C (1972)
 SoundLR:3p-tum-wibble:tum-wibble/17186__bitbeast__brum.wav:tum-wibble/17200__bitbeast__wibble.wav:
 SoundLR:3p-corda:corda/321802__lloydevans09__pvc-pipe-hit-4.wav:corda/321805__lloydevans09__pvc-pipe-hit-1.wav:
 SoundLR:3p-agut:3-pil-agut/17312__bitbeast__skrape.wav:3-pil-agut/17313__bitbeast__wuffle.wav:
-SoundLR:4p-We will:we-will-rock-you/we_will_rock_you_pum.wav:we-will-rock-you/we_will_rock_you_pam.wav:we-will-rock-you/Queen-We-Will-Rock-You-Official-Video.m4a
+SoundLR:4p-We will:we-will-rock-you/we_will_rock_you_pum.wav:we-will-rock-you/we_will_rock_you_pam.wav:we-will-rock-you/Queen-We-Will-Rock-You-Official-Video.m4a;Queen - We Will Rock You (1977)
 #vaca però sense reproduir els ramones
 SoundLR:Mu:vaca/58277__benboncan__cow.wav:vaca/243343__goombaguy__moo.wav:vaca/Ramones-Somebody-Put-Something-In-My-Drink-Official-Audio.m4a
 SoundLR:4p-Whats your name?:name-motherfucker/184480__kathid__what-s-your-name.wav:name-motherfucker/72950__ishkurable__bam-motherfucker.wav:
@@ -32,7 +32,7 @@ SoundLR:4p-explosio2:explosion2/317752__jalastram__sfx-explosion-07.wav:explosio
 #SoundLR::what-if/84879__tim-kahn__what-if.wav:?:
 SoundLR:5p-bass efecte:bass-efecte/288881__gellski__electrobass13.wav:bass-efecte/361596__pearcel__bass-old4.mp3:
 SoundLR:5p-casc:5pil-cascada-acabat/341909__sgtpepperarc360__05-extend.wav:5pil-cascada-acabat/341909__sgtpepperarc360__05-extend.wav:
-SoundLR:Mu:vaca/58277__benboncan__cow.wav:vaca/243343__goombaguy__moo.wav:vaca/Ramones-Somebody-Put-Something-In-My-Drink-Official-Audio.m4a
+SoundLR:Mu:vaca/58277__benboncan__cow.wav:vaca/243343__goombaguy__moo.wav:vaca/Ramones-Somebody-Put-Something-In-My-Drink-Official-Audio.m4a;The Ramones - Somebody put Something in My Drink (1986)
 #3 maces, i potser karateka
 #
 #

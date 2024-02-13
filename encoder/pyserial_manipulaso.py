@@ -237,7 +237,7 @@ def readSoundsListConfig (soundsListCfg):
 #note a sound can be empty just to be able to move hands
 def checkSoundsListMissing ():
     for sound in sounds_l:
-        sound.printAll ()
+        #sound.printAll ()
         if len (sound.left) > 0 and not os.path.isfile (sound.left):
             print ("Left sound does not exists: " + sound.left)
             return False

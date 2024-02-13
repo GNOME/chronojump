@@ -1,5 +1,6 @@
 #All the entries are readed as name:values
 #Depending on name, values can be 1 or more separated by :
+#music separate URL and text by ;
 #Do not use empty lines, if want empty lines, start them with #
 ####Note .m4a (not working on pygame) are converted previously to .ogg using m4ToOgg.sh https://iaroki.github.io/blog/convert-m4a-to-ogg-with-ffmpeg/  this way we avoid calling mplayer and creating processes
 ####Not, finally using mplayer so m4a is ok
@@ -33,6 +34,7 @@ SoundLR:4p-explosio2:explosion2/317752__jalastram__sfx-explosion-07.wav:explosio
 SoundLR:5p-bass efecte:bass-efecte/288881__gellski__electrobass13.wav:bass-efecte/361596__pearcel__bass-old4.mp3:
 SoundLR:5p-casc:5pil-cascada-acabat/341909__sgtpepperarc360__05-extend.wav:5pil-cascada-acabat/341909__sgtpepperarc360__05-extend.wav:
 SoundLR:Mu:vaca/58277__benboncan__cow.wav:vaca/243343__goombaguy__moo.wav:vaca/Ramones-Somebody-Put-Something-In-My-Drink-Official-Audio.m4a;The Ramones - Somebody put Something in My Drink (1986)
+SoundLR:Shalala:shalala/shalalalaL.mp3:shalala/shalalalaR.ogg:shalala/Ramones-Howling-at-the-Moon-Sha-La-La-Too-Tough-to-Die.m4a;The Ramones - Howling at the Moon (Sha-La-La) (1984)
 #3 maces, i potser karateka
 #
 #

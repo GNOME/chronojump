@@ -42,7 +42,8 @@ import pygame
 from pygame.locals import * #mouse and key definitions
 from subprocess import Popen, PIPE #to call mplayer to play m4a
 #from mplayer import Player
-
+import random
+import colorsys
 
 
 FALSE = 0
@@ -281,13 +282,21 @@ def colorDarker (color):
         int(.5 * color[2]),
         255))
 
+#https://stackoverflow.com/a/43437435
+def colorRandomBright ():
+    h,s,l = random.random(), 0.5 + random.random()/2.0, 0.4 + random.random()/5.0
+    r,g,b = [int(256*i) for i in colorsys.hls_to_rgb(h,l,s)]
+    return Color (r,g,b)
+
+
 #posL_l and posR_l are lists of pos for L and R, 1st element of each one is current, 3rd the penultimate
-def update_graph (title, posL_l, posR_l,
-        my_s_width, my_s_height, color, horizPosToCopy, vertPosToCopy, hasDecimals):
+def update_graph (title, posL_l, posR_l, #speedL, speedR,
+        my_s_width, my_s_height, barsColor, horizPosToCopy, vertPosToCopy, hasDecimals):
     #s = pygame.Surface((my_s_width,my_s_height), pygame.SRCALPHA)
     s = pygame.Surface((my_s_width,my_s_height))
     
     s.fill(ColorBackground) #color the surface
+    #print("speedL: {}; speedR: {}".format(speedL, speedR))
 
     left_margin = 20
     right_margin = 20
@@ -313,7 +322,7 @@ def update_graph (title, posL_l, posR_l,
     min_bar_width = (my_s_width -left_margin -right_margin) / 18
     #print ("min_bar_width {}".format(min_bar_width))
 
-    colorNow = color
+    colorNow = barsColor
 
     barL_left = my_s_width /2 - 4 * min_bar_width -min_bar_width #left part of left bar
     barR_left = my_s_width /2 +min_bar_width           #left part of right bar
@@ -336,7 +345,7 @@ def update_graph (title, posL_l, posR_l,
                     barL_height[i])
                 , width=4)
 
-        pygame.draw.rect(s, (0, 100, 0),
+        pygame.draw.rect(s, colorNow,
                 (barR_left,
                     my_s_height -barR_height[i],
                     bar_width,
@@ -563,6 +572,7 @@ if __name__ == '__main__':
     userStops = FALSE
     pipes = dict(stdin=PIPE, stdout=PIPE, stderr=PIPE)
     playingMusic = False
+    barsColor = colorRandomBright ()
 
     while True:
         for event in pygame.event.get():
@@ -611,6 +621,7 @@ if __name__ == '__main__':
 
         if soundChanged:
             printHeader (sm.getTitle ())
+            barsColor = colorRandomBright ()
             if playingMusic:
                 mplayer.kill ()
         else:
@@ -625,8 +636,12 @@ if __name__ == '__main__':
                         enc_l[0]['last2_cumsum']],
                     [enc_l[1]['temp_cumsum'][-1], enc_l[1]['last_cumsum'],
                         enc_l[1]['last2_cumsum']],
-                    graphsWidth, graphsHeight -156, pygame.Color(222,0,0,255),
-                    4, 156, False)
+                    #getSpeed
+                    #(list(enc_l[0]['temp_cumsum'][enc_l[0]['previous_frame_change']:enc_l[0]['temp_cumsum'][-1]])),
+                    #getSpeed
+                    #(list(enc_l[1]['temp_cumsum'][enc_l[1]['previous_frame_change']:enc_l[1]['temp_cumsum'][-1]])),
+                    graphsWidth, graphsHeight -156,
+                    barsColor, 4, 156, False)
             countDisplayUpdate = 0
 
     for i in range (0, len(enc_l)):

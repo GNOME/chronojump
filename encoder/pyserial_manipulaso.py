@@ -547,6 +547,14 @@ if __name__ == '__main__':
     ColorBad = (255,0,0)
     ColorGood = (0,255,0)
 
+    #timeout=1 because one time I had: evice reports readiness to read but returned no data (device disconnected or multiple access on port?
+    #https://stackoverflow.com/questions/43521818/python-reading-from-serial
+    #or if fails more try this:
+    #ihttps://stackoverflow.com/questions/28343941/python-serialexception-device-reports-readiness-to-read-but-returned-no-data-d
+    #it happens on moving encoder/chronopic, maybe a bit of cable disconnect.
+    #timout=1 does not help
+    #serL = serial.Serial (enc_l[0]['port'], w_baudrate, timeout=1)
+    #serR = serial.Serial (enc_l[1]['port'], w_baudrate, timeout=1)
     serL = serial.Serial (enc_l[0]['port'], w_baudrate)
     serR = serial.Serial (enc_l[1]['port'], w_baudrate)
 
@@ -557,8 +565,14 @@ if __name__ == '__main__':
         print ("start read data on " + enc_l[i]['name'] + " at " + enc_l[i]['port'])
     
     for j in range(delete_initial_time):
-        serL.read()
-        serR.read()
+        try:
+            serL.read()
+        except serial.serialutil.SerialException:
+            time.sleep (1)
+        try:
+            serR.read()
+        except serial.serialutil.SerialException:
+            time.sleep (1)
 
     #print title
     #title = title.replace('_',' ')
@@ -599,8 +613,14 @@ if __name__ == '__main__':
             break
 
         soundChanged = False
-        # read for left encoder
-        byte_dataL = serL.read()
+        # read for left encoder.
+        # try except works great on encoder/chronopic movement
+        try:
+            byte_dataL = serL.read()
+        except serial.serialutil.SerialException:
+            time.sleep (1)
+            continue
+
         if isTrigger (byte_dataL):
             if isTriggerOn (byte_dataL):
                 sm.soundsPre ()
@@ -610,7 +630,13 @@ if __name__ == '__main__':
                 sm.soundsPlayLeft ()
 
         # read for right encoder
-        byte_dataR = serR.read()
+        # try except works great on encoder/chronopic movement
+        try:
+            byte_dataR = serR.read()
+        except serial.serialutil.SerialException:
+            time.sleep (1)
+            continue
+
         if isTrigger (byte_dataR):
             if isTriggerOn (byte_dataR):
                 sm.soundsNext ()

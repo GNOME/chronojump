@@ -429,6 +429,7 @@ minRangeMm = 150
 #minRangeMm = 300
 TRIGGER_ON = 84; #'T' from TRIGGER_ON on encoder firmware
 TRIGGER_OFF = 116; #'t' from TRIGGER_OFF on encoder firmware
+triggerLastMs = 0 #to avoid double click on trigger
 
 serL = 0
 serR = 0
@@ -666,8 +667,10 @@ if __name__ == '__main__':
 
         if isTrigger (byte_dataR):
             if isTriggerOn (byte_dataR):
-                sm.soundsNext ()
-                soundChanged = True
+                if msCount - triggerLastMs > 300:
+                    sm.soundsNext ()
+                    soundChanged = True
+                    triggerLastMs = msCount
         elif not sm.soundRightIsEmpty ():
             if manageDirection (byte_dataR, enc_l[1], msCount):
                 sm.soundsPlayRight ()
@@ -677,6 +680,7 @@ if __name__ == '__main__':
             barsColor = colorRandomBright ()
             if playingMusic:
                 mplayer.kill ()
+            printMusic ("")
         else:
             msCount += 1
 

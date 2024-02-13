@@ -46,9 +46,6 @@ import random
 import colorsys
 
 
-FALSE = 0
-TRUE = 1
-
 # list for both encoders
 enc_l = [ #encoder list
         {
@@ -607,7 +604,7 @@ if __name__ == '__main__':
     countDisplayUpdate = 0
 
     msCount = 0
-    userStops = FALSE
+    userStops = False
     pipes = dict(stdin=PIPE, stdout=PIPE, stderr=PIPE)
     playingMusic = False
     barsColor = colorRandomBright ()
@@ -616,21 +613,7 @@ if __name__ == '__main__':
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT or (event.type == KEYUP and event.key == K_ESCAPE):
-                userStops = TRUE
-            elif (event.type == KEYUP and event.key == K_s) and not sm.soundMusicIsEmpty ():
-                print ("s pressed")
-                if not playingMusic:
-                    mplayer = Popen(["mplayer", sm.getMusicUrl ()], **pipes)
-                    playingMusic = True
-                    if sm.getMusicName () != "":
-                        printMusic (sm.getMusicName ())
-
-            elif (event.type == KEYUP and event.key == K_e) and not sm.soundMusicIsEmpty ():
-                print ("e pressed")
-                try:
-                    mplayer.kill ()
-                except:
-                    print("could not mplayer kill")
+                userStops = True
 
         if userStops:
             print ("USER BREAKS")
@@ -650,9 +633,12 @@ if __name__ == '__main__':
             continue
 
         if isTrigger (byte_dataL):
-            if isTriggerOn (byte_dataL):
-                sm.soundsPre ()
-                soundChanged = True
+            if isTriggerOn (byte_dataL) and not sm.soundMusicIsEmpty () and not playingMusic:
+                print ("music starts")
+                mplayer = Popen(["mplayer", sm.getMusicUrl ()], **pipes)
+                playingMusic = True
+                if sm.getMusicName () != "":
+                    printMusic (sm.getMusicName ())
         elif not sm.soundLeftIsEmpty ():
             if manageDirection (byte_dataL, enc_l[0], msCount):
                 sm.soundsPlayLeft ()
@@ -680,6 +666,7 @@ if __name__ == '__main__':
             barsColor = colorRandomBright ()
             if playingMusic:
                 mplayer.kill ()
+                playingMusic = False
             printMusic ("")
         else:
             msCount += 1

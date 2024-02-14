@@ -567,6 +567,7 @@ if __name__ == '__main__':
 
     #screen = pygame.display.set_mode((800,600)) #make window
     screen = pygame.display.set_mode((graphsWidth,graphsHeight)) #make window
+    #screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
     pygame.display.set_caption("Chronojump encoder")
 
     FontMusic = pygame.font.Font(None, 60)

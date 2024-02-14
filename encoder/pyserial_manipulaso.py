@@ -40,10 +40,12 @@ import os
 from struct import unpack
 import pygame
 from pygame.locals import * #mouse and key definitions
-from subprocess import Popen, PIPE #to call mplayer to play m4a
+#from subprocess import Popen, PIPE #to call mplayer to play m4a
+import subprocess
 #from mplayer import Player
 import random
 import colorsys
+import time
 
 
 # list for both encoders
@@ -66,6 +68,9 @@ enc_l = [ #encoder list
             'last_cumsum':0,            # last bar final position
             'last2_cumsum':0,           # penultimate bar final position
             'last_stored':0,
+            'speed_current':0,
+            'speed_last':0,
+            'speed_last2':0,
             #'w_time':0
             },
         {
@@ -86,6 +91,9 @@ enc_l = [ #encoder list
             'last_cumsum':0,            # last bar final position
             'last2_cumsum':0,           # penultimate bar final position
             'last_stored':0,
+            'speed_current':0,
+            'speed_last':0,
+            'speed_last2':0,
             #'w_time':0
             }
         ]
@@ -494,6 +502,8 @@ def manageDirection (byte_data, e, msCount):
 
                     e['last2_cumsum'] = e['last_cumsum']
                     e['last_cumsum'] = e['last_stored']
+                    #e['speed_last2'] = e['speed_last']
+                    #e['speed_last'] = getSpeed (k)
 
             e['previous_frame_change'] = new_frame_change
             e['dir_change_count'] = 0
@@ -605,15 +615,19 @@ if __name__ == '__main__':
 
     msCount = 0
     userStops = False
-    pipes = dict(stdin=PIPE, stdout=PIPE, stderr=PIPE)
+    #pipes = dict(stdin=PIPE, stdout=PIPE, stderr=PIPE)
     playingMusic = False
     barsColor = colorRandomBright ()
 
-    printMusic ("hola")
+    printMusic ("")
     while True:
+        soundChanged = False
         for event in pygame.event.get():
             if event.type == pygame.QUIT or (event.type == KEYUP and event.key == K_ESCAPE):
                 userStops = True
+            elif event.type == KEYUP and event.key == K_BACKSPACE:
+                sm.soundsPre ()
+                soundChanged = True
 
         if userStops:
             print ("USER BREAKS")
@@ -623,7 +637,6 @@ if __name__ == '__main__':
             print ("BREAK BY TIME END")
             break
 
-        soundChanged = False
         # read for left encoder.
         # try except works great on encoder/chronopic movement
         try:
@@ -635,7 +648,13 @@ if __name__ == '__main__':
         if isTrigger (byte_dataL):
             if isTriggerOn (byte_dataL) and not sm.soundMusicIsEmpty () and not playingMusic:
                 print ("music starts")
-                mplayer = Popen(["mplayer", sm.getMusicUrl ()], **pipes)
+
+                #mplayer = Popen(["mplayer", sm.getMusicUrl ()], **pipes)
+                #previous line stops in a while, so better use this from:
+                #https://stackoverflow.com/a/52301006
+                DEVNULL = open(os.devnull, 'wb')
+                mplayer = subprocess.Popen(["mplayer", sm.getMusicUrl ()], shell = False, stdout=DEVNULL, stderr=DEVNULL)
+
                 playingMusic = True
                 if sm.getMusicName () != "":
                     printMusic (sm.getMusicName ())
@@ -674,6 +693,7 @@ if __name__ == '__main__':
         # update screen
         countDisplayUpdate += 1
         if countDisplayUpdate >= updateGraphAtMs:
+            #print (list(enc_l[0]['temp_cumsum'][enc_l[0]['previous_frame_change']:enc_l[0]['temp_cumsum'][-1]]))
             update_graph(
                     sm.getTitle,
                     [enc_l[0]['temp_cumsum'][-1], enc_l[0]['last_cumsum'],

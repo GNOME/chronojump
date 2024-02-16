@@ -180,7 +180,15 @@ public class ChronoJump
 		//Rc.AddDefaultFile (Util.GetThemeFile());
 		//LogB.Information("gtk theme:" + Util.GetThemeFile());
 
-		if(UtilAll.IsWindows()) {
+		if(UtilAll.IsWindows())
+		{
+			//needed to avoid crash on opening FileChooserDialog, also FileChooserNative, at least on windows
+			//TODO: delete one of these two: DIRS or DIR
+			//note without these lines it works on dotnet run, but on the isntalled package these are needed
+			Environment.SetEnvironmentVariable ("XDG_DATA_DIRS", baseDirectory);
+			Environment.SetEnvironmentVariable ("XDG_DATA_DIR", baseDirectory);
+			Environment.SetEnvironmentVariable ("GSETTINGS_SCHEMA_DIR", System.IO.Path.Combine (baseDirectory, @"share\glib-2.0\schemas")); //this works !!!! but from dotnet run works also without this
+
 			//Environment.SetEnvironmentVariable ("R_HOME", RelativeToPrefix ("library"));
 			//rBinPath = RelativeToPrefix ("lib");
 			//rBinPath = RelativeToPrefix ("library");

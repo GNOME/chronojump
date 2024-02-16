@@ -71,11 +71,11 @@ public partial class ChronoJumpWindow
 			return;
 		}
 
-		app1s_fc = new Gtk.FileChooserDialog(Catalog.GetString("Export session to:"),
+		app1s_fc = new Gtk.FileChooserNative (Catalog.GetString("Export session to:"),
 				app1,
 				FileChooserAction.SelectFolder,
-				Catalog.GetString("Cancel"),ResponseType.Cancel,
-				Catalog.GetString("Export"),ResponseType.Accept
+				Catalog.GetString("Export"),
+				Catalog.GetString("Cancel")
 				);
 
 		if (app1s_fc.Run() == (int)ResponseType.Accept)

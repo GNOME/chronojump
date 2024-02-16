@@ -35,7 +35,7 @@ public partial class ChronoJumpWindow
 	string app1s_tmpCopy; //contains chronojump_datetime (full path at tmp without the .7z). copy here (tmp) and then compress on person selected folder.
 	string app1s_fullPathCopy; //contains chronojump_datetime (full path with the .7z)
 
-	Gtk.FileChooserDialog app1s_fc;
+	Gtk.FileChooserNative app1s_fc;
 	static UtilCopy app1s_uc;
 	private Thread app1s_threadBackup;
 
@@ -227,11 +227,11 @@ public partial class ChronoJumpWindow
 
 	private void on_app1s_button_backup_select_clicked (object o, EventArgs args)
 	{
-		app1s_fc = new Gtk.FileChooserDialog(Catalog.GetString("Copy database to:"),
+		app1s_fc = new Gtk.FileChooserNative (Catalog.GetString("Copy database to:"),
 				app1,
 				FileChooserAction.SelectFolder,
-				Catalog.GetString("Cancel"),ResponseType.Cancel,
-				Catalog.GetString("Select"),ResponseType.Accept
+				Catalog.GetString("Select"),
+				Catalog.GetString("Cancel")
 				);
 
 		app1s_fc.SetCurrentFolder(preferences.lastBackupDir);

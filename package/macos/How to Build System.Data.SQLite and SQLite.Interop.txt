@@ -1,22 +1,24 @@
-The official Nuget package of System.Data.SQLite doesn't support macOS arm64, so we need to build one by ourselves.
+The official Nuget package of "System.Data.SQLite" doesn't support macOS arm64, so we need to build one by ourselves.
 
 1. Download its source code from the following url:
 
 https://system.data.sqlite.org/downloads/1.0.118.0/sqlite-netFx-full-source-1.0.118.0.zip
 
-2. Unzip it and choose "System.Data.SQLite/System.Data.SQLite.NetStandard20.csproj" to build "System.Data.SQLite".
+2. Install .NET 7.0+ SDK.
+
+3. Unzip it and choose "System.Data.SQLite/System.Data.SQLite.NetStandard20.csproj" to build "System.Data.SQLite".
 
 cd System.Data.SQLite
 
 dotnet build System.Data.SQLite.NetStandard20.csproj
 
-3. Download the pre-built "SQLite.Interop.dll" from the following url:
+4. Download the pre-built "SQLite.Interop.dll" from the following url:
 
 https://github.com/rhubarb-geek-nz/SQLite.Interop/releases/tag/1.0.118.0
 
 Choose "SQLite.Interop-1.0.118.0-osx.11.zip".
 
-4. Choose one of the following ways to apply the new dll files:
+5. Choose one of the following ways to apply the new dll files:
 
 (1) Remove the Nuget reference and add direct references to the new dll files;
 

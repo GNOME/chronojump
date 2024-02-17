@@ -23,3 +23,7 @@ Choose "SQLite.Interop-1.0.118.0-osx.11.zip".
 (1) Remove the Nuget reference and add direct references to the new dll files;
 
 (2) Replace the old ones with the new ones after building.
+
+6. As macOS doesn't allow SQLite.Interop.dll which is not from Apple Store and identified developers, we should enable it in Apple Icon->"System Settings..."->"Privacy & Security"->"Security"->"Allow anyway".
+
+It would say '"SQLite.Interop.dll" was blocked from use because it is not from an identified developer.'.

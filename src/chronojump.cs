@@ -53,6 +53,8 @@ public class ChronoJump
 	string splashMessage = "";
 	bool creatingDB = false; //on creation and on update always refresh labels
 	bool updatingDB = false;
+	private static bool printAllByUser = false; //printAll chosed by user on argv params
+	private static bool printAllOnCreateDB = false; //on creation of DB force a printAll to see any problem on log
 	private static string baseDirectory;
 	private static bool debugModeAtStart;
 
@@ -160,7 +162,10 @@ public class ChronoJump
 			if (args[0] == "simulatedCapture")
 				Config.SimulatedCapture = true;
 			if (args[0] == "printAll" || (args.Length > 1 && args[1] == "printAll"))
+			{
+				printAllByUser = true;
 				LogB.PrintAllThreads = true;
+			}
 			else if (args[0] == "debug" || (args.Length > 1 && args[1] == "debug"))
 				debugModeAtStart = true;
 		}
@@ -409,7 +414,11 @@ public class ChronoJump
 		*/
 		
 		//Chech if the DB file exists
-		if (!Sqlite.CheckTables(defaultDBLocation)) {
+		if (!Sqlite.CheckTables(defaultDBLocation))
+		{
+			printAllOnCreateDB = true;
+			LogB.PrintAllThreads = true;
+
 			LogB.SQL ( Catalog.GetString ("no tables, creating …") );
 
 			creatingDB = true;
@@ -597,6 +606,11 @@ public class ChronoJump
 
 	protected void readMessageToStart()
 	{
+		//if we force to printAll thread because we were creating db
+		//and we have not runt with printAll, now put printAllThread to false again
+		if (printAllOnCreateDB && ! printAllByUser)
+			LogB.PrintAllThreads = false;
+
 		if(messageToShowOnBoot.Length > 0)
 		{
 			if(chronojumpHasToExit)

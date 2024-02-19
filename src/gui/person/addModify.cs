@@ -374,12 +374,11 @@ public class PersonAddModifyWindow
 
 	void on_button_add_photo_file_clicked (object o, EventArgs args)
 	{
-		Gtk.FileChooserDialog fc=
-			new Gtk.FileChooserDialog(Catalog.GetString("Select file"),
+		Gtk.FileChooserNative fc=
+			new Gtk.FileChooserNative(Catalog.GetString("Select file"),
 					person_win,
 					FileChooserAction.Open,
-					Catalog.GetString("Cancel"),ResponseType.Cancel,
-					Catalog.GetString("Accept"),ResponseType.Accept
+					Catalog.GetString("Accept"), Catalog.GetString("Cancel")
 					);
 
 		fc.Filter = new FileFilter();
@@ -421,7 +420,7 @@ public class PersonAddModifyWindow
 					showMiniPhoto(filenameMini);
 			}
 		}
-		//Don't forget to call Destroy() or the FileChooserDialog window won't get closed.
+		//Don't forget to call Destroy() or the FileChooserNative window won't get closed.
 		fc.Destroy();
 	}
 

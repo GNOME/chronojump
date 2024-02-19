@@ -396,12 +396,11 @@ public class PersonAddMultipleWindow
 		
 	void on_button_csv_load_clicked (object obj, EventArgs args) 
 	{
-		Gtk.FileChooserDialog fc=
-			new Gtk.FileChooserDialog(Catalog.GetString("Select CSV file"),
+		Gtk.FileChooserNative fc=
+			new Gtk.FileChooserNative(Catalog.GetString("Select CSV file"),
 					null,
 					FileChooserAction.Open,
-					Catalog.GetString("Cancel"),ResponseType.Cancel,
-					Catalog.GetString("Load"),ResponseType.Accept
+					Catalog.GetString("Load"), Catalog.GetString("Cancel")
 					);
 
 		fc.Filter = new FileFilter();
@@ -538,7 +537,7 @@ public class PersonAddMultipleWindow
 							new DialogMessage(Constants.MessageTypes.WARNING, message);
 
 							file.Close();
-							//Don't forget to call Destroy() or the FileChooserDialog window won't get closed.
+							//Don't forget to call Destroy() or the FileChooserNative window won't get closed.
 							fc.Destroy();
 
 							return;
@@ -570,7 +569,7 @@ public class PersonAddMultipleWindow
 				UtilGtk.ContrastLabelsWidget (Config.ColorBackgroundShiftedIsDark, grid_main);
 		} 
 
-		//Don't forget to call Destroy() or the FileChooserDialog window won't get closed.
+		//Don't forget to call Destroy() or the FileChooserNative window won't get closed.
 		fc.Destroy();
 	}
 

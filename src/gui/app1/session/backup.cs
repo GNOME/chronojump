@@ -250,7 +250,7 @@ public partial class ChronoJumpWindow
 
 		app1s_fc.Hide ();
 
-		//Don't forget to call Destroy() or the FileChooserDialog window won't get closed.
+		//Don't forget to call Destroy() or the FileChooserNative window won't get closed.
 		app1s_fc.Destroy();
 	}
 

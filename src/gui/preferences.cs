@@ -2767,11 +2767,10 @@ public class PreferencesWindow
 
 	 void on_button_db_restore_clicked (object o, EventArgs args)
 	 {
-		fc = new Gtk.FileChooserDialog(Catalog.GetString("Restore database from:"),
+		fc = new Gtk.FileChooserNative(Catalog.GetString("Restore database from:"),
 			preferences_win,
 			FileChooserAction.SelectFolder,
-			Catalog.GetString("Cancel"),ResponseType.Cancel,
-			Catalog.GetString("Restore"),ResponseType.Accept
+			Catalog.GetString("Restore"), Catalog.GetString("Cancel")
 		);
 
 		ConfirmWindow confirmWin = ConfirmWindow.Show(Catalog.GetString("Are you sure you want to restore?"));
@@ -2817,11 +2816,10 @@ public class PreferencesWindow
 
 	void on_button_import_configuration_clicked (object o, EventArgs args)
 	{
-		Gtk.FileChooserDialog fc = new Gtk.FileChooserDialog(Catalog.GetString("Import configuration file"),
+		Gtk.FileChooserNative fc = new Gtk.FileChooserNative(Catalog.GetString("Import configuration file"),
 				preferences_win,
 				FileChooserAction.Open,
-				Catalog.GetString("Cancel"),ResponseType.Cancel,
-				Catalog.GetString("Import"),ResponseType.Accept
+				Catalog.GetString("Import"), Catalog.GetString("Cancel")
 				);
 		
 		fc.Filter = new FileFilter();
@@ -2846,7 +2844,7 @@ public class PreferencesWindow
 						Catalog.GetString("Error importing data."));
 			}
 		}
-		//Don't forget to call Destroy() or the FileChooserDialog window won't get closed.
+		//Don't forget to call Destroy() or the FileChooserNative window won't get closed.
 		fc.Destroy();
 
 		if(success)

@@ -105,10 +105,9 @@ public partial class ChronoJumpWindow
 
 		// 3) do the import
 		//TODO: try it with Gtk.FileChooserWidget, then we do not need to pass app1 (parent)
-		Gtk.FileChooserDialog fc = new Gtk.FileChooserDialog ("Select a CSV file",
+		Gtk.FileChooserNative fc = new Gtk.FileChooserNative ("Select a CSV file",
 				app1, FileChooserAction.Open,
-				"Cancel",ResponseType.Cancel,
-				"Open",ResponseType.Accept);
+				"Open", "Cancel");
 
 		fc.Filter = new FileFilter();
 		fc.Filter.AddPattern ("*.csv");

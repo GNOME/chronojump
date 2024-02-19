@@ -768,12 +768,11 @@ public class EncoderConfigurationWindow
 
 	void on_button_import_clicked (object o, EventArgs args)
 	{
-		Gtk.FileChooserDialog fc=
-			new Gtk.FileChooserDialog(Catalog.GetString("Select file to import"),
+		Gtk.FileChooserNative fc=
+			new Gtk.FileChooserNative(Catalog.GetString("Select file to import"),
 					encoder_configuration,
 					FileChooserAction.Open,
-					Catalog.GetString("Cancel"),ResponseType.Cancel,
-					Catalog.GetString("Accept"),ResponseType.Accept
+					Catalog.GetString("Accept"), Catalog.GetString("Cancel")
 					);
 
 		fc.Filter = new FileFilter();
@@ -818,19 +817,18 @@ public class EncoderConfigurationWindow
 				new DialogMessage(Constants.MessageTypes.WARNING, Catalog.GetString("Error importing data."));
 			}
 		}
-		//Don't forget to call Destroy() or the FileChooserDialog window won't get closed.
+		//Don't forget to call Destroy() or the FileChooserNative window won't get closed.
 		fc.Destroy();
 	}
 
 	string exportFileName;
 	void on_button_export_clicked (object o, EventArgs args)
 	{
-		Gtk.FileChooserDialog fc=
-			new Gtk.FileChooserDialog(Catalog.GetString("Export to file"),
+		Gtk.FileChooserNative fc=
+			new Gtk.FileChooserNative(Catalog.GetString("Export to file"),
 					encoder_configuration,
 					FileChooserAction.Save,
-					Catalog.GetString("Cancel"),ResponseType.Cancel,
-					Catalog.GetString("Accept"),ResponseType.Accept
+					Catalog.GetString("Accept"), Catalog.GetString("Cancel")
 					);
 
 		if (fc.Run() == (int)ResponseType.Accept)
@@ -873,7 +871,7 @@ public class EncoderConfigurationWindow
 			return ;
 		}
 
-		//Don't forget to call Destroy() or the FileChooserDialog window won't get closed.
+		//Don't forget to call Destroy() or the FileChooserNative window won't get closed.
 		fc.Destroy();
 
 		return;

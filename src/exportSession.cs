@@ -77,12 +77,12 @@ public abstract class ExportSession
 		}
 
 		
-		Gtk.FileChooserDialog fc=
-			new Gtk.FileChooserDialog(exportString,
+		Gtk.FileChooserNative fc=
+			new Gtk.FileChooserNative(exportString,
 					app1,
 					FileChooserAction.Save,
-					Catalog.GetString("Cancel"),ResponseType.Cancel,
-					Catalog.GetString("Export"),ResponseType.Accept
+					Catalog.GetString("Export"),
+					Catalog.GetString("Cancel")
 					);
 	
 		//set default name
@@ -141,7 +141,7 @@ public abstract class ExportSession
 			return;
 		}
 		
-		//Don't forget to call Destroy() or the FileChooserDialog window won't get closed.
+		//Don't forget to call Destroy() or the FileChooserNative window won't get closed.
 		fc.Destroy();
 	}
 

@@ -1412,11 +1412,10 @@ public class FeedbackWindow
 
 	public void on_button_force_sensor_capture_feedback_questionnaire_load_clicked (object o, EventArgs args)
 	{
-		Gtk.FileChooserDialog fc = new Gtk.FileChooserDialog(Catalog.GetString("Load file"),
+		Gtk.FileChooserNative fc = new Gtk.FileChooserNative(Catalog.GetString("Load file"),
 				feedback,
 				FileChooserAction.Open,
-				Catalog.GetString("Cancel"),ResponseType.Cancel,
-				Catalog.GetString("Load"),ResponseType.Accept
+				Catalog.GetString("Load"), Catalog.GetString("Cancel")
 				);
 
 		fc.Filter = new FileFilter();
@@ -1432,7 +1431,7 @@ public class FeedbackWindow
 				LogB.Warning("Cannot be loaded");
 			}
 		}
-		//Don't forget to call Destroy() or the FileChooserDialog window won't get closed.
+		//Don't forget to call Destroy() or the FileChooserNative window won't get closed.
 		fc.Destroy();
 	}
 

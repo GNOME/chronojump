@@ -2505,12 +2505,12 @@ public partial class ChronoJumpWindow
 		// 3) prepare and Run the dialog
 
 
-		Gtk.FileChooserDialog fc=
-			new Gtk.FileChooserDialog(exportString,
+		Gtk.FileChooserNative fc =
+			new Gtk.FileChooserNative (exportString,
 					app1,
 					FileChooserAction.Save,
-					Catalog.GetString("Cancel"),ResponseType.Cancel,
-					Catalog.GetString("Accept"),ResponseType.Accept
+					Catalog.GetString("Accept"),
+					Catalog.GetString("Cancel")
 					);
 		fc.CurrentName = nameString;
 
@@ -2769,7 +2769,7 @@ public partial class ChronoJumpWindow
 			return false;
 		}
 		
-		//Don't forget to call Destroy() or the FileChooserDialog window won't get closed.
+		//Don't forget to call Destroy() or the FileChooserNative window won't get closed.
 		fc.Destroy();
 		
 		return true;
@@ -2819,12 +2819,12 @@ public partial class ChronoJumpWindow
 
 		// 3) prepare and Run the dialog
 
-		Gtk.FileChooserDialog fc=
-			new Gtk.FileChooserDialog(exportString,
+		Gtk.FileChooserNative fc =
+			new Gtk.FileChooserNative (exportString,
 					app1,
 					FileChooserAction.SelectFolder,
-					Catalog.GetString("Cancel"),ResponseType.Cancel,
-					Catalog.GetString("Accept"),ResponseType.Accept
+					Catalog.GetString("Accept"),
+					Catalog.GetString("Cancel")
 					);
 
 		if (fc.Run() == (int)ResponseType.Accept)
@@ -2911,7 +2911,7 @@ public partial class ChronoJumpWindow
 			return false;
 		}
 
-		//Don't forget to call Destroy() or the FileChooserDialog window won't get closed.
+		//Don't forget to call Destroy() or the FileChooserNative window won't get closed.
 		fc.Destroy();
 
 		return true;

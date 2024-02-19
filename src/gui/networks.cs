@@ -460,15 +460,14 @@ public partial class ChronoJumpWindow
 		fillAllCombos ();
 	}
 
-	Gtk.FileChooserDialog database_fc;
+	Gtk.FileChooserNative database_fc;
 	private string storedCloudDir;
 	private void on_button_database_change_clicked (object o, EventArgs args)
 	{
-		database_fc = new Gtk.FileChooserDialog("Select folder:",
+		database_fc = new Gtk.FileChooserNative("Select folder:",
 				app1,
 				FileChooserAction.SelectFolder,
-				Catalog.GetString("Cancel"),ResponseType.Cancel,
-				Catalog.GetString("Select"),ResponseType.Accept
+				Catalog.GetString("Select"), Catalog.GetString("Cancel")
 				);
 
 		if (configChronojump.ReadFromCloudMainPath != "")
@@ -498,7 +497,7 @@ public partial class ChronoJumpWindow
 					databaseCloudCopyToTemp (false); //not at boot
 
 					database_fc.Hide ();
-					//Don't forget to call Destroy() or the FileChooserDialog window won't get closed.
+					//Don't forget to call Destroy() or the FileChooserNative window won't get closed.
 					database_fc.Destroy();
 
 					return; //followin code is not going to be executed, will be called when copying thread is finished
@@ -511,7 +510,7 @@ public partial class ChronoJumpWindow
 
 		database_fc.Hide ();
 
-		//Don't forget to call Destroy() or the FileChooserDialog window won't get closed.
+		//Don't forget to call Destroy() or the FileChooserNative window won't get closed.
 		database_fc.Destroy();
 	}
 

@@ -1119,8 +1119,6 @@ class SqliteForceSensorRFD : Sqlite
 		Insert(true, new ForceSensorImpulse(true,
 					ForceSensorImpulse.Functions.RAW, ForceSensorImpulse.Types.IMP_RANGE, 0, 500));
 
-	        InsertDefaultValueImpulse(true);
-
         	closeIfNeeded(dbconOpened);
 	}
 

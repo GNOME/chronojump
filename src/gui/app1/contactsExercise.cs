@@ -162,12 +162,12 @@ public partial class ChronoJumpWindow
 
 	private void on_button_image_test_add_edit_clicked (object o, EventArgs args)
 	{
-		Gtk.FileChooserDialog fc =
-			new Gtk.FileChooserDialog(Catalog.GetString("Select an image"),
+		Gtk.FileChooserNative fc =
+			new Gtk.FileChooserNative(Catalog.GetString("Select an image"),
 					null,
 					FileChooserAction.Open,
-					Catalog.GetString("Cancel"), ResponseType.Cancel,
-					Catalog.GetString("Select"), ResponseType.Accept
+					Catalog.GetString("Select"),
+					Catalog.GetString("Cancel")
 					);
 
 		fc.Filter = new FileFilter();
@@ -199,7 +199,7 @@ public partial class ChronoJumpWindow
 			*/
 		}
 
-		//Don't forget to call Destroy() or the FileChooserDialog window won't get closed.
+		//Don't forget to call Destroy() or the FileChooserNative window won't get closed.
 		fc.Destroy();
 	}
 

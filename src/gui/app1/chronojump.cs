@@ -3177,7 +3177,16 @@ public partial class ChronoJumpWindow
 		if(app1s_threadExport != null && app1s_threadExport.IsAlive)
 		{
 			LogB.Information("Closing app1s_threadExport");
-			app1s_threadExport.Abort();
+			//app1s_threadExport.Abort(); //obsolete on dotnet
+
+			cancelExport = true;
+			System.Threading.Thread.Sleep(500);
+
+			if(app1s_threadExport != null && app1s_threadExport.IsAlive)
+			{
+				System.Threading.Thread.Sleep (1000); //need to wait a bit to allow other thread to be closed
+				LogB.Information ("app1s_threadExport still running? " + app1s_threadExport.IsAlive.ToString ());
+			}
 		}
 
 		//if capturing on the background finish it

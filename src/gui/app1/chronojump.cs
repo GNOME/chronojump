@@ -3144,7 +3144,16 @@ public partial class ChronoJumpWindow
 		if(threadImport != null && threadImport.IsAlive)
 		{
 			LogB.Information("Closing threadImport");
-			threadImport.Abort();
+			//threadImport.Abort(); //obsolete on dotnet
+
+			threadImportCancel = true;
+			System.Threading.Thread.Sleep(500);
+
+			if(threadImport != null && threadImport.IsAlive)
+			{
+				System.Threading.Thread.Sleep (1000); //need to wait a bit to allow other thread to be closed
+				LogB.Information ("threadImport still running? " + threadImport.IsAlive.ToString ());
+			}
 		}
 
 		if(app1s_threadBackup != null && app1s_threadBackup.IsAlive)

@@ -27,6 +27,7 @@ public partial class ChronoJumpWindow
 {
 	static ChronojumpImporter.Result importerResult;
 	static Thread threadImport;
+	private static bool threadImportCancel;
 	static ChronojumpImporter chronojumpImporter;
 
 	private void on_button_import_chronojump_session(object o, EventArgs args)
@@ -105,7 +106,8 @@ public partial class ChronoJumpWindow
 
 	private bool PulseGTKImport ()
 	{
-		if ( ! threadImport.IsAlive ) {
+		if ( ! threadImport.IsAlive || threadImportCancel)
+		{
 			LogB.ThreadEnding();
 			importSessionFromDatabaseEnd();
 

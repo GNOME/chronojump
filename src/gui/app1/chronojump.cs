@@ -3159,7 +3159,19 @@ public partial class ChronoJumpWindow
 		if(app1s_threadBackup != null && app1s_threadBackup.IsAlive)
 		{
 			LogB.Information("Closing app1s_threadBackup");
-			app1s_threadBackup.Abort();
+			//app1s_threadBackup.Abort(); //obsolete on dotnet
+
+			//threadBackupCancel = true;
+			if (app1s_uc != null)
+				app1s_uc.Cancel = true; //this will exit the recursively copy
+
+			System.Threading.Thread.Sleep(500);
+
+			if(app1s_threadBackup != null && app1s_threadBackup.IsAlive)
+			{
+				System.Threading.Thread.Sleep (1000); //need to wait a bit to allow other thread to be closed
+				LogB.Information ("app1s_threadBackup still running? " + app1s_threadBackup.IsAlive.ToString ());
+			}
 		}
 
 		if(app1s_threadExport != null && app1s_threadExport.IsAlive)

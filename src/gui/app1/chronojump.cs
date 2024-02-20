@@ -3129,12 +3129,15 @@ public partial class ChronoJumpWindow
 
 			rfid.Stop();
 			rfidProcessCancel = true;
+			System.Threading.Thread.Sleep(500);
 
-			System.Threading.Thread.Sleep(250);
-
-			if(threadRFID.IsAlive)
+			if(threadRFID != null && threadRFID.IsAlive)
 			{
-				threadRFID.Abort();
+				//threadRFID.Abort(); // obsolete on dotnet
+				LogB.Information("threadRFID still running");
+
+				System.Threading.Thread.Sleep (1000); //need to wait a bit to allow other thread to be closed
+				LogB.Information ("threadRFID still running? " + threadRFID.IsAlive.ToString ());
 			}
 		}
 

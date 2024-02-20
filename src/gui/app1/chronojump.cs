@@ -3240,7 +3240,10 @@ public partial class ChronoJumpWindow
 			Thread.Sleep(1500); //wait 1.5s to actually thread can be cancelled
 		}
 		if(forceOtherThread != null && forceOtherThread.IsAlive)
-			forceOtherThread.Abort();
+		{
+			//forceOtherThread.Abort(); //obsolete on dotnet
+			forceProcessCancel = true;
+		}
 		if(portFSOpened)
 			portFS.Close();
 		if(photocellWirelessCapture != null && photocellWirelessCapture.PortOpened)

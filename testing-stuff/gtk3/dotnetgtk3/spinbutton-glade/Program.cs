@@ -8,6 +8,7 @@ public class EncoderConfigurationWindow
 	// at glade ---->
 	Gtk.Window encoder_configuration;
 	Gtk.Box box_combo_d_num1;
+	Gtk.Button button_close;
 	// <----> at glade
 
     	SpinButton spinner = new SpinButton(1, 10, 1);
@@ -46,7 +47,12 @@ public class EncoderConfigurationWindow
 	void on_button_encoder_capture_inertial_cancel_clicked (object o, EventArgs args) {}
 	void on_button_encoder_capture_inertial_do_clicked (object o, EventArgs args) {}
 	void on_button_accept_clicked (object o, EventArgs args) {}
-	private void on_button_close_clicked (object o, EventArgs args) {}
+	private void on_button_close_clicked (object o, EventArgs args)
+	{
+		//managed on gui/encoder.cs
+		EncoderConfigurationWindowBox.encoder_configuration.Hide();
+	}
+
 	private void on_button_previous_clicked (object o, EventArgs args) {}
 	private void on_button_next_clicked (object o, EventArgs args) {}
 	void on_button_encoder_capture_inertial_accuracy_clicked (object o, EventArgs args) {}
@@ -70,8 +76,14 @@ public class EncoderConfigurationWindow
 	private void on_radio_encoder_type_rotary_axis_toggled (object obj, EventArgs args) {}
 	private void on_check_rotary_friction_inertia_on_axis_toggled (object obj, EventArgs args) {}
 	
+	public Button Button_close
+	{
+		get { return button_close; }
+	}
+	
 	protected void on_delete_event (object o, DeleteEventArgs args)
 	{
+		button_close.Click();
 		args.RetVal = true;
 	}
 
@@ -79,6 +91,7 @@ public class EncoderConfigurationWindow
 	{
 		encoder_configuration = (Gtk.Window) builder.GetObject ("encoder_configuration");
 		box_combo_d_num1 = (Gtk.Box) builder.GetObject ("box_combo_d_num1");
+		button_close = (Gtk.Button) builder.GetObject ("button_close");
 	}
 }
 
@@ -118,6 +131,12 @@ class MyWindow : Gtk.Window {
 	//encoder_configuration_win.Button_close.Clicked += new EventHandler(on_encoder_configuration_win_closed);
     }
 
+    void on_encoder_configuration_win_closed (object o, EventArgs args)
+    {
+	    encoder_configuration_win.Button_close.Clicked -= new EventHandler(on_encoder_configuration_win_closed);
+	    Application.Quit();
+    }
+ 
     void update(double val) {
         horiz.Value = vert.Value = spinner.Value = val;
         label.Text = nums[(int) val];

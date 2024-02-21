@@ -118,9 +118,9 @@ public class ExerciseImage
 {
 	//private Constants.Modes mode;
 	private int uniqueID;
-	private types type;
+	private Types type;
 
-	private enum types {
+	private enum Types {
 		all, jump, jumpMultiple, run, runInterval, raceAnalyzer, forceSensor, encoder
 	}
 
@@ -132,19 +132,19 @@ public class ExerciseImage
 		this.uniqueID = uniqueID;
 
 		if (mode == Constants.Modes.JUMPSSIMPLE)
-			this.type = types.jump;
+			this.type = Types.jump;
 		else if (mode == Constants.Modes.JUMPSREACTIVE)
-			this.type = types.jumpMultiple;
+			this.type = Types.jumpMultiple;
 		else if (mode == Constants.Modes.RUNSSIMPLE)
-			this.type = types.run;
+			this.type = Types.run;
 		else if (mode == Constants.Modes.RUNSINTERVALLIC)
-			this.type = types.runInterval;
+			this.type = Types.runInterval;
 		else if (mode == Constants.Modes.RUNSENCODER)
-			this.type = types.raceAnalyzer;
+			this.type = Types.raceAnalyzer;
 		else if (Constants.ModeIsFORCESENSOR (mode))
-			this.type = types.forceSensor;
+			this.type = Types.forceSensor;
 		else if (Constants.ModeIsENCODER (mode))
-			this.type = types.encoder;
+			this.type = Types.encoder;
 	}
 
 	// public methods
@@ -194,7 +194,7 @@ public class ExerciseImage
 	//TODO: remember to do this on import
 	public static void CreateDirsIfNeeded ()
 	{
-		foreach (types type in Enum.GetValues (typeof (types)))
+		foreach (Types type in Enum.GetValues (typeof (Types)))
 			foreach (bool small in new [] { false, true })
 			{
 				string dir = getDir (type, small);
@@ -207,12 +207,12 @@ public class ExerciseImage
 
 	// private methods
 
-	private static string getDir (types type, bool small)
+	private static string getDir (Types type, bool small)
 	{
 		string url = Path.Combine(
 				Util.GetLocalDataDir (false), "multimedia", "exercises");
 
-		if (type == types.all)
+		if (type == Types.all)
 			return url;
 		else {
 			if (small)

@@ -1513,7 +1513,7 @@ public static class MathUtil
 public class InterpolateSignal
 {
 	private List<PointF> point_l;
-	private enum types { COSINE, CUBIC };
+	private enum Types { COSINE, CUBIC };
 
 	public InterpolateSignal (List<PointF> point_l)
 	{
@@ -1581,19 +1581,19 @@ public class InterpolateSignal
 		InterpolateSignal fsp = new InterpolateSignal(l);
 
 		//cosine
-		fsp.testCosineCubicInterpolateDo(types.COSINE);
+		fsp.testCosineCubicInterpolateDo(Types.COSINE);
 
 		//cubic
-		fsp.testCosineCubicInterpolateDo(types.CUBIC);
-		//fsp.toFile(interpolated_l, types.CUBIC);
+		fsp.testCosineCubicInterpolateDo(Types.CUBIC);
+		//fsp.toFile(interpolated_l, Types.CUBIC);
 	}
 
 	public List<PointF> GetCubicInterpolated()
 	{
-		return testCosineCubicInterpolateDo(types.CUBIC);
+		return testCosineCubicInterpolateDo(Types.CUBIC);
 	}
 
-	private List<PointF> testCosineCubicInterpolateDo(types type)
+	private List<PointF> testCosineCubicInterpolateDo(Types type)
 	{
 		List<PointF> interpolated_l = new List<PointF>();
 
@@ -1603,7 +1603,7 @@ public class InterpolateSignal
 			//for(double j = 0.05; j < 1 ; j += .1) //10 interpolated value for each master (see timeStep on gui/app1/forceSensor.cs)
 			for(double j = 0.005; j < 1 ; j += .01) //100 interpolated value for each master (see timeStep & lastTime += 10000 on gui/app1/forceSensor.cs)
 			{
-				if (type == types.COSINE)
+				if (type == Types.COSINE)
 				{
 					int second = i+1; //the second point
 					if(i == point_l.Count -1)
@@ -1613,7 +1613,7 @@ public class InterpolateSignal
 							point_l[i].X + j*(point_l[second].X - point_l[i].X),
 							CosineInterpolate(point_l[i].Y, point_l[second].Y, j)));
 				}
-				else if(type == types.CUBIC)
+				else if(type == Types.CUBIC)
 				{
 					//for cubic we need two extra points
 					int a = i-1;
@@ -1645,7 +1645,7 @@ public class InterpolateSignal
 	}
 
 	//just to debug, unused right now
-	private void toFile(List<PointF> interpolated_l, types type)
+	private void toFile(List<PointF> interpolated_l, Types type)
 	{
 		TextWriter writer = File.CreateText(
 				Path.Combine(Path.GetTempPath(), string.Format("chronojump_testinterpolate_{0}.csv", type.ToString())));

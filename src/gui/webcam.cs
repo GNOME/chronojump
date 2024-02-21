@@ -854,7 +854,7 @@ public partial class ChronoJumpWindow
 
 	Thread webcamPlayThread;
 	private double diffVideoVsSignal;
-	private double videoFrames;
+	//private double videoFrames;
 
 	private void on_button_video_play_this_test_contacts_clicked (object o, EventArgs args)
 	{

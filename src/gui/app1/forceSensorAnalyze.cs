@@ -235,7 +235,6 @@ public partial class ChronoJumpWindow
 	// <---- at glade
 
 
-	private RepetitionMouseLimits fsAIRepetitionMouseLimits;
 	private RepetitionMouseLimitsWithSamples fsAIRepetitionMouseLimitsCairo;
 	private List<ForceSensorRepetition> rep_lZoomAppliedCairo;
 
@@ -1302,13 +1301,6 @@ public partial class ChronoJumpWindow
 	{
 	}
 
-	private int fsAIFindBarInPixel (double px, double py)
-	{
-		if(fsAIRepetitionMouseLimits == null)
-			return -1;
-
-		return fsAIRepetitionMouseLimits.FindBarInPixel (px, py);
-	}
 	private int fsAIFindBarInPixelCairo (double px, double py)
 	{
 		if(fsAIRepetitionMouseLimitsCairo == null)

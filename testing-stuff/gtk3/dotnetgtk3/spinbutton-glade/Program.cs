@@ -106,6 +106,7 @@ class MyWindow : Gtk.Window {
     Scale vert = new Scale(Vertical, 1, 10, 1);
     SpinButton spinner = new SpinButton(1, 10, 1);
     Label label = new Label("one");
+    Label label2 = new Label("css test");
     EncoderConfigurationWindow encoder_configuration_win;
 
     public MyWindow() : base("sliders") {
@@ -119,6 +120,8 @@ class MyWindow : Gtk.Window {
         row2.Add(spinner);
         spinner.ValueChanged += on_spinner_changed;
         row2.Add(label);
+        row2.Add(label2);
+	label2.Name = "someName";
 
         Box vbox = new Box(Vertical, 0);
         vbox.PackStart(row, true, true, 0);
@@ -126,9 +129,33 @@ class MyWindow : Gtk.Window {
         Add(vbox);
         vbox.Margin = 8;
 
-	encoder_configuration_win = EncoderConfigurationWindow.View ();
+	//uncomment both to show encoder_configuration_win
+	//dencoder_configuration_win = EncoderConfigurationWindow.View ();
+	//encoder_configuration_win.Button_close.Clicked += new EventHandler (on_encoder_configuration_win_closed);
 
-	//encoder_configuration_win.Button_close.Clicked += new EventHandler(on_encoder_configuration_win_closed);
+    	ApplyCSS ();
+    }
+
+    public static void ApplyCSS ()
+    {
+	    CssProvider css = new CssProvider ();
+
+	    var data =
+		    "label {" +
+		    	"color: " + "#dd00dd" + ";" +
+		    "}" +
+		    //"label #someName {" + //does not work
+		    //"#someName label {" + 	//does not work
+		    "label#someName {" +  	//works
+			    "color: " + "#0000ff" + ";" +
+		    "}" +
+		    "radio {" +
+			    "color: " + "#00ff00" + ";" +
+		    "}";
+
+	    css.LoadFromData(data);
+
+	    Gtk.StyleContext.AddProviderForScreen(Gdk.Screen.Default, css, 800); //needed
     }
 
     void on_encoder_configuration_win_closed (object o, EventArgs args)

@@ -705,24 +705,23 @@ public class UtilGtk
 	}
 	*/
 
-	public static void ColorsMenuLabel (Gtk.Viewport v, Gtk.Label l)
-	{
-		l.OverrideColor (StateFlags.Active, v.StyleContext.GetColor (StateFlags.Selected));
-		l.OverrideColor (StateFlags.Prelight, v.StyleContext.GetColor (StateFlags.Selected));
-	}
-	
-	public static void ColorsTestLabel (Gtk.Viewport v, Gtk.Label l)
-	{
-		l.OverrideColor (StateFlags.Active, v.StyleContext.GetColor (StateFlags.Selected));
-		l.OverrideColor (StateFlags.Prelight, v.StyleContext.GetColor (StateFlags.Selected));
-	}
-
 	public static void ApplyCSS ()
 	{
 		CssProvider css = new CssProvider ();
+	
 		var data =
+			"label#lightCss {" +
+				"color: " + GetRGBA (Colors.WHITE).ToString () + ";" +
+			"}" +
+			"label#darkCss {" +
+				"color: #222222;" +
+			"}" +
+			"label {" +
+				"color: #000000;" +
+			"}" +
 			"radio {" +
-				"color: " + Colors.WHITE.ToString () + "; background: " + Config.ColorBackgroundShifted.ToString () + ";" + //this makes it emtpy
+				//"color: " + Colors.WHITE.ToString () + "; background: " + Config.ColorBackgroundShifted.ToString () + ";" + //this makes it emtpy
+				"color: #ffffff; background: " + Config.ColorBackgroundShifted.ToString () + ";" + //this makes it emtpy
 				//"color: " + Colors.BLACK.ToString () + "; background: " + GetRGBA (Colors.WHITE).ToString () + ";" +
 			"}" +
 			"radio:checked {" +
@@ -739,13 +738,6 @@ public class UtilGtk
 
 		Gtk.StyleContext.AddProviderForScreen(Gdk.Screen.Default, css, 800); //needed
 	}
-
-	public static void ColorsTreeView(Gtk.Viewport v, Gtk.TreeView tv)
-	{
-		tv.OverrideColor (StateFlags.Active, v.StyleContext.GetColor (StateFlags.Selected));
-		tv.OverrideColor (StateFlags.Prelight, v.StyleContext.GetColor (StateFlags.Selected));
-	}
-	
 
 	private static RGBA chronopicViewportDefaultBg;
 	private static RGBA chronopicLabelsDefaultFg;
@@ -767,10 +759,6 @@ public class UtilGtk
 		}
 	}
 
-	public static void WindowColor (Gtk.Window w, Colors color)
-	{
-		w.OverrideBackgroundColor (StateFlags.Normal, GetRGBA (color));
-	}
 	public static void WindowColor (Gtk.Window w, RGBA color)
 	{
 		w.OverrideBackgroundColor (StateFlags.Normal, color);
@@ -815,32 +803,6 @@ public class UtilGtk
 					newColor.Red, newColor.Green, newColor.Blue)); //bad: 0,0,0
 	}
 
-	public static void ChronopicColors (Gtk.Viewport v, Gtk.Label l1, Gtk.Label l2, bool connected)
-	{
-		//if(! v.Style.Background(StateType.Normal).Equal(BLUE))
-		//if(! v.StyleContext.GetBackgroundColor (StateFlags.Normal).Equal(v.StyleContext.GetBackgroundColor (StateFlags.Selected)))
-		RGBA a = v.StyleContext.GetBackgroundColor (StateFlags.Normal);
-		RGBA b = v.StyleContext.GetBackgroundColor (StateFlags.Selected);
-		if(! a.Equals (b))
-			chronopicViewportDefaultBg = v.StyleContext.GetBackgroundColor (StateFlags.Normal);
-		
-		//if(! l1.StyleContext.GetColor (StateFlags.Normal).Equal(UtilGtk.Colors.WHITE))
-		RGBA c = l1.StyleContext.GetColor (StateFlags.Normal);
-		if(! c.Equals (GetRGBA (Colors.WHITE)))
-			chronopicLabelsDefaultFg = l1.StyleContext.GetColor (StateFlags.Normal);
-
-		if(connected) {
-			v.OverrideBackgroundColor (StateFlags.Normal, chronopicViewportDefaultBg);
-			l1.OverrideColor (StateFlags.Normal, chronopicLabelsDefaultFg);
-			l2.OverrideColor (StateFlags.Normal, chronopicLabelsDefaultFg);
-		} else {
-			//v.OverrideBackgroundColor (StateFlags.Normal, BLUE);
-			v.OverrideBackgroundColor (StateFlags.Normal, v.StyleContext.GetBackgroundColor (StateFlags.Selected));
-			l1.OverrideColor (StateFlags.Normal, GetRGBA (Colors.WHITE));
-			l2.OverrideColor (StateFlags.Normal, GetRGBA (Colors.WHITE));
-		}
-	}
-
 	//changes of colors without widgets that are in a EventBox
 	public static void EventBoxColorBackgroundActive (Gtk.EventBox e, Colors colorActive, Colors colorPrelight)
 	{
@@ -852,16 +814,6 @@ public class UtilGtk
 	{
 		contrastLabelsContainer (bgDark, (Gtk.Container) box);
 	}
-	/*
-	public static void ContrastLabelsHBox (bool bgDark, Gtk.HBox hbox)
-	{
-		contrastLabelsContainer (bgDark, (Gtk.Container) hbox);
-	}
-	public static void ContrastLabelsVBox (bool bgDark, Gtk.VBox vbox)
-	{
-		contrastLabelsContainer (bgDark, (Gtk.Container) vbox);
-	}
-	*/
 	public static void ContrastLabelsTable (bool bgDark, Gtk.Table table)
 	{
 		contrastLabelsContainer (bgDark, (Gtk.Container) table);
@@ -945,15 +897,9 @@ public class UtilGtk
 	public static void ContrastLabelsLabel (bool bgDark, Gtk.Label l)
 	{
 		if(bgDark)
-		{
-			//l.OverrideColor (StateFlags.Normal, GetRGBA (Colors.YELLOW_LIGHT));
-			//l.OverrideColor (StateFlags.Active, GetRGBA (Colors.YELLOW_LIGHT)); //needed for CheckButton and RadioButton
-			l.OverrideColor (StateFlags.Normal, GetRGBA (Colors.WHITE));
-			l.OverrideColor (StateFlags.Active, GetRGBA (Colors.WHITE)); //needed for CheckButton and RadioButton
-		} else {
-			l.OverrideColor (StateFlags.Normal, GetRGBA (Colors.BLACK));
-			//l.OverrideColor (StateFlags.Active, GetRGBA (Colors.BLACK));
-		}
+			l.Name = "lightCss";
+		else
+			l.Name = "darkCss";
 	}
 
 

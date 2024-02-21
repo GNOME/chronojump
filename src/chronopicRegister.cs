@@ -28,6 +28,7 @@ using System.Text.RegularExpressions; //Regex
 using System.IO.Ports;
 using Mono.Unix;
 using System.Management;
+using System.Runtime.Versioning; //SupportedOSPlatform
 
 
 public class ChronopicRegisterPort
@@ -588,6 +589,7 @@ public class ChronopicRegisterWindows : ChronopicRegister
 		process(compujump, showRunWireless);
 	}
 
+	[SupportedOSPlatform("windows")]
 	protected override void createList()
 	{
 		/*
@@ -605,6 +607,7 @@ public class ChronopicRegisterWindows : ChronopicRegister
 		createListDo (searcher);
 	}
 
+	[SupportedOSPlatform("windows")]
 	private void createListDo (ManagementObjectSearcher searcher)
 	{
 		foreach (ManagementObject queryObj in searcher.Get())
@@ -621,6 +624,7 @@ public class ChronopicRegisterWindows : ChronopicRegister
 			}
 	}
 
+	[SupportedOSPlatform("windows")]
 	private string getPort (ManagementObject queryObj)
 	{
 		foreach (System.Management.PropertyData Data in queryObj.Properties)
@@ -634,6 +638,7 @@ public class ChronopicRegisterWindows : ChronopicRegister
 		return "";
 	}
 
+	[SupportedOSPlatform("windows")]
 	private string getSerialNumber (ManagementObject queryObj)
 	{
 		foreach (System.Management.PropertyData Data in queryObj.Properties)
@@ -647,6 +652,7 @@ public class ChronopicRegisterWindows : ChronopicRegister
 		return "";
 	}
 
+	[SupportedOSPlatform("windows")]
 	private bool searchDeviceAccept (ManagementObject queryObj)
 	{
 		bool ftdi = false;

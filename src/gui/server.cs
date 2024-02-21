@@ -296,6 +296,7 @@ public class SessionUploadWindow
 	
 	private void connectWidgets (Gtk.Builder builder)
 	{
+		session_upload = (Gtk.Window) builder.GetObject ("session_upload");
 		treeview_persons = (Gtk.TreeView) builder.GetObject ("treeview_persons");
 		treeview_jumps = (Gtk.TreeView) builder.GetObject ("treeview_jumps");
 		treeview_jumps_rj = (Gtk.TreeView) builder.GetObject ("treeview_jumps_rj");

@@ -3129,31 +3129,64 @@ public partial class ChronoJumpWindow
 
 			rfid.Stop();
 			rfidProcessCancel = true;
+			System.Threading.Thread.Sleep(500);
 
-			System.Threading.Thread.Sleep(250);
-
-			if(threadRFID.IsAlive)
+			if(threadRFID != null && threadRFID.IsAlive)
 			{
-				threadRFID.Abort();
+				//threadRFID.Abort(); // obsolete on dotnet
+				LogB.Information("threadRFID still running");
+
+				System.Threading.Thread.Sleep (1000); //need to wait a bit to allow other thread to be closed
+				LogB.Information ("threadRFID still running? " + threadRFID.IsAlive.ToString ());
 			}
 		}
 
 		if(threadImport != null && threadImport.IsAlive)
 		{
 			LogB.Information("Closing threadImport");
-			threadImport.Abort();
+			//threadImport.Abort(); //obsolete on dotnet
+
+			threadImportCancel = true;
+			System.Threading.Thread.Sleep(500);
+
+			if(threadImport != null && threadImport.IsAlive)
+			{
+				System.Threading.Thread.Sleep (1000); //need to wait a bit to allow other thread to be closed
+				LogB.Information ("threadImport still running? " + threadImport.IsAlive.ToString ());
+			}
 		}
 
 		if(app1s_threadBackup != null && app1s_threadBackup.IsAlive)
 		{
 			LogB.Information("Closing app1s_threadBackup");
-			app1s_threadBackup.Abort();
+			//app1s_threadBackup.Abort(); //obsolete on dotnet
+
+			//threadBackupCancel = true;
+			if (app1s_uc != null)
+				app1s_uc.Cancel = true; //this will exit the recursively copy
+
+			System.Threading.Thread.Sleep(500);
+
+			if(app1s_threadBackup != null && app1s_threadBackup.IsAlive)
+			{
+				System.Threading.Thread.Sleep (1000); //need to wait a bit to allow other thread to be closed
+				LogB.Information ("app1s_threadBackup still running? " + app1s_threadBackup.IsAlive.ToString ());
+			}
 		}
 
 		if(app1s_threadExport != null && app1s_threadExport.IsAlive)
 		{
 			LogB.Information("Closing app1s_threadExport");
-			app1s_threadExport.Abort();
+			//app1s_threadExport.Abort(); //obsolete on dotnet
+
+			cancelExport = true;
+			System.Threading.Thread.Sleep(500);
+
+			if(app1s_threadExport != null && app1s_threadExport.IsAlive)
+			{
+				System.Threading.Thread.Sleep (1000); //need to wait a bit to allow other thread to be closed
+				LogB.Information ("app1s_threadExport still running? " + app1s_threadExport.IsAlive.ToString ());
+			}
 		}
 
 		//if capturing on the background finish it
@@ -3207,7 +3240,10 @@ public partial class ChronoJumpWindow
 			Thread.Sleep(1500); //wait 1.5s to actually thread can be cancelled
 		}
 		if(forceOtherThread != null && forceOtherThread.IsAlive)
-			forceOtherThread.Abort();
+		{
+			//forceOtherThread.Abort(); //obsolete on dotnet
+			forceProcessCancel = true;
+		}
 		if(portFSOpened)
 			portFS.Close();
 		if(photocellWirelessCapture != null && photocellWirelessCapture.PortOpened)

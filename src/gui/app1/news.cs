@@ -144,7 +144,10 @@ public partial class ChronoJumpWindow
 		newsDownloadCancel = true;
 
 		if(pingThread.IsAlive)
-			pingThread.Abort();
+		{
+			//pingThread.Abort();
+			jsPing.PingAbort();
+		}
 	}
 
 	private void newsDisplay()

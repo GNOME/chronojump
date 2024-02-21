@@ -38,6 +38,7 @@ public partial class ChronoJumpWindow
 	Gtk.FileChooserNative app1s_fc;
 	static UtilCopy app1s_uc;
 	private Thread app1s_threadBackup;
+	//private static bool threadBackupCancel;
 
 	private enum notebook_session_backup_pages { BACKUP_DO, SCHEDULED_QUESTIONS, SCHEDULED_FEEDBACK, DELETE_OLD }
 
@@ -309,7 +310,7 @@ public partial class ChronoJumpWindow
 
 	private bool app1s_BackupPulseGTK ()
 	{
-		if ( ! app1s_threadBackup.IsAlive ) {
+		if ( ! app1s_threadBackup.IsAlive ) {//|| threadBackupCancel) {
 			LogB.ThreadEnding();
 			app1s_BackupPulseEnd();
 
@@ -410,7 +411,7 @@ public partial class ChronoJumpWindow
 		app1s_check_backup_include_config.Sensitive = ! start;
 
 		if(start) {
-			app1s_button_backup_cancel_close.Sensitive = false; //or make cancel sensitive while process?
+			app1s_button_backup_cancel_close.Sensitive = false; //or make cancel sensitive while process? at the moment can only cancel if program exists on_quit2_activate
 		} else {
 			app1s_button_backup_cancel_close.Sensitive = true;
 			image_app1s_button_backup_cancel_close.Pixbuf =

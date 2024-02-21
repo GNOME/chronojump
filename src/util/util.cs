@@ -2866,6 +2866,7 @@ public class UtilCopy
 	public int BackupSecondDirsLength;
 	public string LastMainDir;
 	public string LastSecondDir;
+	public bool Cancel;
 	private int sessionID;
 	private bool copyLogs;
 	private bool copyConfig;
@@ -2885,6 +2886,7 @@ public class UtilCopy
 		BackupSecondDirsLength = 0;
 		LastMainDir = "";
 		LastSecondDir = "";
+		Cancel = false;
 
 		this.sessionID = sessionID;
 		this.copyLogs = copyLogs;
@@ -2895,6 +2897,12 @@ public class UtilCopy
 	//http://stackoverflow.com/a/58779
 	public bool CopyFilesRecursively(DirectoryInfo source, DirectoryInfo target, uint level)
 	{
+		if (Cancel)
+		{
+			LogB.Information ("CopyFilesRecursively cancelled");
+			return false;
+		}
+
 		DirectoryInfo [] diArray = source.GetDirectories();
 		foreach (DirectoryInfo dir in diArray)
 			if(dir.ToString() != backupDirOld) //do not copy backup files

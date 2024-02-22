@@ -710,33 +710,132 @@ public class UtilGtk
 		CssProvider css = new CssProvider ();
 	
 		var data =
+			//labels
+			//labels lightCss in light color
 			"label#lightCss {" +
 				"color: " + GetRGBA (Colors.WHITE).ToString () + ";" +
 			"}" +
+			//labels darkCss in light color
 			"label#darkCss {" +
 				"color: #222222;" +
 			"}" +
+			//label used on version hidden
+			"label#bgCss {" +
+				"color: " + Config.ColorBackground.ToString () + ";" +
+			"}" +
+			//rest of labels
 			"label {" +
 				"color: #000000;" +
 			"}" +
+
+			//radios
+			//radio normal
 			"radio {" +
-				//"color: " + Colors.WHITE.ToString () + "; background: " + Config.ColorBackgroundShifted.ToString () + ";" + //this makes it emtpy
-				"color: #ffffff; background: " + Config.ColorBackgroundShifted.ToString () + ";" + //this makes it emtpy
-				//"color: " + Colors.BLACK.ToString () + "; background: " + GetRGBA (Colors.WHITE).ToString () + ";" +
+				"color: #ffffff;" +// background: " + Config.ColorBackgroundShifted.ToString () + ";" + //this makes it emtpy ig bg is shifted
 			"}" +
+			//radio checked
 			"radio:checked {" +
-				"color: " + Colors.YELLOW.ToString () + "; background: " + Config.ColorBackgroundShifted.ToString () + ";" +
+				"color: " + Colors.YELLOW.ToString () + ";" + // background: " + Config.ColorBackgroundShifted.ToString () + ";" +
 			"}" +
+
+			//checkbutton checked
 			"checkbutton:checked {" +
-				"color: " + Colors.YELLOW.ToString () + "; background: " + Config.ColorBackgroundShifted.ToString () + ";" +
-				//"color: " + Colors.YELLOW.ToString () + "; background-color: " + Config.ColorBackgroundShifted.ToString () + ";" +
+				"color: " + Colors.YELLOW.ToString () + ";" + // background: " + Config.ColorBackgroundShifted.ToString () + ";" +
 			"}" +
+			//button checked
 			"button:checked {" +
 				"background: " + GetRGBA (Colors.YELLOW_LIGHT).ToString () + ";" + //TODO: try a YELLOW_MID
+			"}" +
+
+			//any widget bgCss
+			"*#bgCss {" +
+				"background: " + Config.ColorBackground.ToString () + ";" +
+			"}" +
+			//any widget shiftedCss
+			"*#shiftedCss {" +
+				"background: " + Config.ColorBackgroundShifted.ToString () + ";" +
+			"}" +
+
+			//notebooks stuff (.Name = bgCss)
+			//header
+			"notebook#bgCss header {" +
+				"background-color: " + Config.ColorBackground.ToString () + ";" +
+			"}" +
+			//label of the tab
+			"notebook#bgCss tab label {" +
+				"color: #ffffff;" +
+			"}" +
+			//label of the tab (checked)
+			"notebook#bgCss tab:checked label {" +
+				"color: " + GetRGBA (Colors.YELLOW).ToString () + ";" + //TODO: try a YELLOW_MID
+			"}" +
+			//bg of the tab (hover)
+			"notebook#bgCss tab:hover {" +
+				"background-color: " + Config.ColorBackground.ToString () + ";" +
+			"}" +
+			//color of the label of the tab (hover)
+			"notebook#bgCss tab:hover label {" +
+				"color: " + GetRGBA (Colors.YELLOW).ToString () + ";" + //TODO: try a YELLOW_MID
+			"}" +
+			//content of the notebook option 1 white
+			/*
+			"notebook#bgCss stack {" +
+				"background-color: #ffffff;" +
+			"}" +
+			*/
+			//content of the notebook option 2 shifted, then need to:
+			//UtilGtk.ContrastLabelsNotebook (Config.ColorBackgroundShiftedIsDark, notebook)
+			"notebook#bgCss stack {" +
+				"background-color: " + Config.ColorBackgroundShifted.ToString () + ";" +
+			"}" +
+
+			//notebooks stuff (.Name = shiftedCss) (used in notebooks inside other notebooks, like on preferences)
+			//header
+			"notebook#shiftedCss header {" +
+				"background-color: " + Config.ColorBackgroundShifted.ToString () + ";" +
+			"}" +
+			//label of the tab
+			"notebook#shiftedCss tab label {" +
+				"color: #ffffff;" +
+			"}" +
+			//label of the tab (checked)
+			"notebook#shiftedCss tab:checked label {" +
+				"color: " + GetRGBA (Colors.YELLOW).ToString () + ";" + //TODO: try a YELLOW_MID
+			"}" +
+			//bg of the tab (hover)
+			"notebook#shiftedCss tab:hover {" +
+				"background-color: " + Config.ColorBackgroundShifted.ToString () + ";" +
+			"}" +
+			//color of the label of the tab (hover)
+			"notebook#shiftedCss tab:hover label {" +
+				"color: " + GetRGBA (Colors.YELLOW).ToString () + ";" + //TODO: try a YELLOW_MID
+			"}" +
+			//content of the notebook option 1 white
+			/*
+			"notebook#shiftedCss stack {" +
+				"background-color: #ffffff;" +
+			"}" +
+			*/
+			//content of the notebook option 2 shifted, then need to:
+			//UtilGtk.ContrastLabelsNotebook (Config.ColorBackgroundShiftedIsDark, notebook)
+			"notebook#shiftedCss stack {" +
+				"background-color: " + Config.ColorBackgroundShifted.ToString () + ";" +
+			"}" +
+
+			//tooltips
+			"tooltip {" +
+				"background-color: " + GetRGBA (Colors.BLUE_CHRONOJUMP).ToString () + ";" +
+				//"border-width: 1px;" +
+				"border-style: dotted;" + //or dotted, solid, ... see ttps://docs.gtk.org/gtk3/css-properties.html
+				"border-color: #ffffff;" +
+			"}" +
+			"tooltip label {" +
+				"color: #ffffff;" +
 			"}";
 		css.LoadFromData(data);
 
-		Gtk.StyleContext.AddProviderForScreen(Gdk.Screen.Default, css, 800); //needed
+		Gtk.StyleContext.RemoveProviderForScreen (Gdk.Screen.Default, css); //needed
+		Gtk.StyleContext.AddProviderForScreen (Gdk.Screen.Default, css, 800); //needed
 	}
 
 	private static RGBA chronopicViewportDefaultBg;
@@ -761,26 +860,26 @@ public class UtilGtk
 
 	public static void WindowColor (Gtk.Window w, RGBA color)
 	{
-		w.OverrideBackgroundColor (StateFlags.Normal, color);
+		w.Name = "bgCss";
 	}
 
 	public static void DialogColor (Gtk.Dialog d, RGBA color)
 	{
-		d.OverrideBackgroundColor (StateFlags.Normal, color);
+		d.Name = "bgCss";
 	}
 
 	public static void ViewportColor (Gtk.Viewport v, Colors color)
 	{
-		v.OverrideBackgroundColor (StateFlags.Normal, GetRGBA (color));
+//		v.OverrideBackgroundColor (StateFlags.Normal, GetRGBA (color));
 	}
 	public static void ViewportColor (Gtk.Viewport v, RGBA color)
 	{
-		v.OverrideBackgroundColor (StateFlags.Normal, color);
+//		v.OverrideBackgroundColor (StateFlags.Normal, color);
 	}
 
 	public static void WidgetColor (Gtk.Widget w, RGBA color)
 	{
-		w.OverrideBackgroundColor (StateFlags.Normal, color);
+		w.Name = "shiftedCss";
 	}
 
 	//does not work in gtk3

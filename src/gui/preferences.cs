@@ -2172,31 +2172,31 @@ public class PreferencesWindow
 		UtilGtk.WindowColor (preferences_win, color);
 
 		//notebook_top
-		UtilGtk.WidgetColor (notebook_top, Config.ColorBackgroundShifted);
+		notebook_top.Name = "bgCss";
 		UtilGtk.ContrastLabelsNotebook (Config.ColorBackgroundShiftedIsDark, notebook_top);
 
 		//notebook
-		UtilGtk.WidgetColor (notebook, Config.ColorBackgroundShifted);
+		notebook.Name = "bgCss";
 		UtilGtk.ContrastLabelsNotebook (Config.ColorBackgroundShiftedIsDark, notebook);
 
 		//notebook_races
-		UtilGtk.WidgetColor (notebook_races, Config.ColorBackgroundShifted);
+		notebook_races.Name = "shiftedCss";
 		UtilGtk.ContrastLabelsNotebook (Config.ColorBackgroundShiftedIsDark, notebook_races);
 
 		//notebook_races_double_contacts
-		UtilGtk.WidgetColor (notebook_races_double_contacts, Config.ColorBackgroundShifted);
+		notebook_races_double_contacts.Name = "shiftedCss";
 		UtilGtk.ContrastLabelsNotebook (Config.ColorBackgroundShiftedIsDark, notebook_races_double_contacts);
 
 		//notebook_force_sensor
-		UtilGtk.WidgetColor (notebook_force_sensor, Config.ColorBackgroundShifted);
+		notebook_force_sensor.Name = "shiftedCss";
 		UtilGtk.ContrastLabelsNotebook (Config.ColorBackgroundShiftedIsDark, notebook_force_sensor);
 
 		//notebook_encoder
-		UtilGtk.WidgetColor (notebook_encoder, Config.ColorBackgroundShifted);
+		notebook_encoder.Name = "shiftedCss";
 		UtilGtk.ContrastLabelsNotebook (Config.ColorBackgroundShiftedIsDark, notebook_encoder);
 
 		//notebook_multimedia
-		UtilGtk.WidgetColor (notebook_multimedia, Config.ColorBackgroundShifted);
+		notebook_multimedia.Name = "shiftedCss";
 		UtilGtk.ContrastLabelsNotebook (Config.ColorBackgroundShiftedIsDark, notebook_multimedia);
 	}
 

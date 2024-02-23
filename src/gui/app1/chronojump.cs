@@ -3747,6 +3747,7 @@ public partial class ChronoJumpWindow
 		preferencesWin.FakeButtonConfigurationImported.Clicked += new EventHandler(on_preferences_import_configuration);
 		preferencesWin.FakeButtonConfigurationImported.Clicked += new EventHandler(on_preferences_import_configuration);
 		preferencesWin.FakeButtonDebugModeStart.Clicked += new EventHandler(on_preferences_debug_mode_start);
+		preferencesWin.FakeButtonColorsChanged.Clicked += new EventHandler(on_preferences_colors_changed);
 		preferencesWin.Button_close.Clicked += new EventHandler(on_preferences_closed);
 	}
 
@@ -3775,6 +3776,11 @@ public partial class ChronoJumpWindow
 		configInit();
 		LogB.Information("Initialized configuration");
 		*/
+	}
+
+	private void on_preferences_colors_changed (object o, EventArgs args)
+	{
+		UtilGtk.ApplyCSS ();
 	}
 
 	private void on_preferences_closed (object o, EventArgs args)

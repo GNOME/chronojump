@@ -294,6 +294,7 @@ public class PreferencesWindow
 	public Gtk.Button FakeButtonMaximizeChanges;
 	public Gtk.Button FakeButtonPersonWin;
 	public Gtk.Button FakeButtonConfigurationImported;
+	public Gtk.Button FakeButtonColorsChanged;
 	public Gtk.Button FakeButtonDebugModeStart;
 	
 	static PreferencesWindow PreferencesWindowBox;
@@ -343,6 +344,7 @@ public class PreferencesWindow
 		FakeButtonMaximizeChanges = new Gtk.Button ();
 		FakeButtonPersonWin = new Gtk.Button ();
 		FakeButtonConfigurationImported = new Gtk.Button();
+		FakeButtonColorsChanged = new Gtk.Button ();
 		FakeButtonDebugModeStart = new Gtk.Button();
 	}
 
@@ -2198,6 +2200,9 @@ public class PreferencesWindow
 		//notebook_multimedia
 		notebook_multimedia.Name = "shiftedCss";
 		UtilGtk.ContrastLabelsNotebook (Config.ColorBackgroundShiftedIsDark, notebook_multimedia);
+
+		//send signal to ApplyCSS
+		FakeButtonColorsChanged.Click ();
 	}
 
 	private void on_drawingarea_background_color_draw (object o, Gtk.DrawnArgs args)

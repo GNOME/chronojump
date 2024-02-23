@@ -710,25 +710,26 @@ public class UtilGtk
 		CssProvider css = new CssProvider ();
 	
 		var data =
-			//labels
+			//LABELS
 			//labels lightCss in light color
 			"label#lightCss {" +
 				"color: " + GetRGBA (Colors.WHITE).ToString () + ";" +
 			"}" +
-			//labels darkCss in light color
+			//labels darkCss in dark color
 			"label#darkCss {" +
 				"color: #222222;" +
 			"}" +
 			//label used on version hidden
-			"label#bgCss {" +
-				"color: " + Config.ColorBackground.ToString () + ";" +
+			"label#blueChronojumpHideCss {" +
+				"color: " + GetRGBA (Colors.BLUE_CHRONOJUMP).ToString () + ";" +
+				"background-color: " + GetRGBA (Colors.BLUE_CHRONOJUMP).ToString () + ";" +
 			"}" +
 			//rest of labels
 			"label {" +
 				"color: #000000;" +
 			"}" +
 
-			//radios
+			//RADIOS, CHECKBUTTONS & BUTTONS
 			//radio normal
 			"radio {" +
 				"color: #ffffff;" +// background: " + Config.ColorBackgroundShifted.ToString () + ";" + //this makes it emtpy ig bg is shifted
@@ -756,7 +757,7 @@ public class UtilGtk
 				"background: " + Config.ColorBackgroundShifted.ToString () + ";" +
 			"}" +
 
-			//notebooks stuff (.Name = bgCss)
+			//NOTEBOOKS bgCss
 			//header
 			"notebook#bgCss header {" +
 				"background-color: " + Config.ColorBackground.ToString () + ";" +
@@ -789,7 +790,8 @@ public class UtilGtk
 				"background-color: " + Config.ColorBackgroundShifted.ToString () + ";" +
 			"}" +
 
-			//notebooks stuff (.Name = shiftedCss) (used in notebooks inside other notebooks, like on preferences)
+			//NOTEBOOKS shiftedCss
+			//(used in notebooks inside other notebooks, like on preferences)
 			//header
 			"notebook#shiftedCss header {" +
 				"background-color: " + Config.ColorBackgroundShifted.ToString () + ";" +
@@ -822,7 +824,7 @@ public class UtilGtk
 				"background-color: " + Config.ColorBackgroundShifted.ToString () + ";" +
 			"}" +
 
-			//tooltips
+			//TOOLTIPS
 			"tooltip {" +
 				"background-color: " + GetRGBA (Colors.BLUE_CHRONOJUMP).ToString () + ";" +
 				//"border-width: 1px;" +

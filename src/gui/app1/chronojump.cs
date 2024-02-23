@@ -650,7 +650,7 @@ public partial class ChronoJumpWindow
 		label_version.Text = buildVersion;
 		label_version_hidden.Text = buildVersion;
 		label_version.Name = "lightCss";
-		label_version_hidden.Name = "bgCss";
+		label_version_hidden.Name = "blueChronojumpHideCss";
 
 		//manage app1 will not be hiding other windows at start
 		app1Shown = false;

@@ -708,6 +708,9 @@ public class UtilGtk
 	public static void ApplyCSS ()
 	{
 		CssProvider css = new CssProvider ();
+
+		string colBgS = Config.ColorBackground.ToString ();
+		string colShiftedS = Config.ColorBackgroundShifted.ToString ();
 	
 		var data =
 			//LABELS
@@ -750,17 +753,17 @@ public class UtilGtk
 
 			//any widget bgCss
 			"*#bgCss {" +
-				"background: " + Config.ColorBackground.ToString () + ";" +
+				"background: " + colBgS + ";" +
 			"}" +
 			//any widget shiftedCss
 			"*#shiftedCss {" +
-				"background: " + Config.ColorBackgroundShifted.ToString () + ";" +
+				"background: " + colShiftedS + ";" +
 			"}" +
 
 			//NOTEBOOKS bgCss
 			//header
 			"notebook#bgCss header {" +
-				"background-color: " + Config.ColorBackground.ToString () + ";" +
+				"background-color: " + colBgS + ";" +
 			"}" +
 			//label of the tab
 			"notebook#bgCss tab label {" +
@@ -772,7 +775,7 @@ public class UtilGtk
 			"}" +
 			//bg of the tab (hover)
 			"notebook#bgCss tab:hover {" +
-				"background-color: " + Config.ColorBackground.ToString () + ";" +
+				"background-color: " + colBgS + ";" +
 			"}" +
 			//color of the label of the tab (hover)
 			"notebook#bgCss tab:hover label {" +
@@ -787,14 +790,14 @@ public class UtilGtk
 			//content of the notebook option 2 shifted, then need to:
 			//UtilGtk.ContrastLabelsNotebook (Config.ColorBackgroundShiftedIsDark, notebook)
 			"notebook#bgCss stack {" +
-				"background-color: " + Config.ColorBackgroundShifted.ToString () + ";" +
+				"background-color: " + colShiftedS + ";" +
 			"}" +
 
 			//NOTEBOOKS shiftedCss
 			//(used in notebooks inside other notebooks, like on preferences)
 			//header
 			"notebook#shiftedCss header {" +
-				"background-color: " + Config.ColorBackgroundShifted.ToString () + ";" +
+				"background-color: " + colShiftedS + ";" +
 			"}" +
 			//label of the tab
 			"notebook#shiftedCss tab label {" +
@@ -806,7 +809,7 @@ public class UtilGtk
 			"}" +
 			//bg of the tab (hover)
 			"notebook#shiftedCss tab:hover {" +
-				"background-color: " + Config.ColorBackgroundShifted.ToString () + ";" +
+				"background-color: " + colShiftedS + ";" +
 			"}" +
 			//color of the label of the tab (hover)
 			"notebook#shiftedCss tab:hover label {" +
@@ -821,7 +824,7 @@ public class UtilGtk
 			//content of the notebook option 2 shifted, then need to:
 			//UtilGtk.ContrastLabelsNotebook (Config.ColorBackgroundShiftedIsDark, notebook)
 			"notebook#shiftedCss stack {" +
-				"background-color: " + Config.ColorBackgroundShifted.ToString () + ";" +
+				"background-color: " + colShiftedS + ";" +
 			"}" +
 
 			//TOOLTIPS

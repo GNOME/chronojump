@@ -2219,9 +2219,9 @@ public class PreferencesWindow
 
 		/*
 		LogB.Information ("going to paint in BLUE_CHRONOJUMP");
-		LogB.Information (UtilGtk.GetRGBA (UtilGtk.Colors.BLUE_CHRONOJUMP).Red.ToString());
-		LogB.Information (UtilGtk.GetRGBA (UtilGtk.Colors.BLUE_CHRONOJUMP).Green.ToString());
-		LogB.Information (UtilGtk.GetRGBA (UtilGtk.Colors.BLUE_CHRONOJUMP).Blue.ToString());
+		LogB.Information (UtilGtk.GetRGBAs (UtilGtk.Colors.BLUE_CHRONOJUMP).Red);
+		LogB.Information (UtilGtk.GetRGBAs (UtilGtk.Colors.BLUE_CHRONOJUMP).Green);
+		LogB.Information (UtilGtk.GetRGBAs (UtilGtk.Colors.BLUE_CHRONOJUMP).Blue);
 		*/
 		CairoUtil.PaintDrawingArea (da, cr, UtilGtk.GetRGBA (UtilGtk.Colors.BLUE_CHRONOJUMP));
 	}

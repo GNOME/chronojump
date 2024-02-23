@@ -639,6 +639,11 @@ public class UtilGtk
 		return color;
 	}
 
+	public static string GetRGBAs (Colors colname)
+	{
+		return GetRGBA (colname).ToString ();
+	}
+
 	public static bool ColorIsDark (RGBA color)
 	{
 		//LogB.Information(string.Format("color red: {0}, green: {1}, blue: {2}", color.Red, color.Green, color.Blue));
@@ -714,26 +719,26 @@ public class UtilGtk
 
 		//NOTEBOOK bgCss header
 		string colLabelNotebookBgCss = "#ffffff";
-		string colLabelCheckedNotebookBgCss = GetRGBA (Colors.YELLOW).ToString (); //also used on hover
+		string colLabelCheckedNotebookBgCss = GetRGBAs (Colors.YELLOW); //also used on hover
 		if (! Config.ColorBackgroundIsDark)
 		{
 			colLabelNotebookBgCss = "#000000";
-			colLabelCheckedNotebookBgCss = GetRGBA (Colors.BLUE_CHRONOJUMP).ToString ();
+			colLabelCheckedNotebookBgCss = GetRGBAs (Colors.BLUE_CHRONOJUMP);
 		}
 		//NOTEBOOK shiftedCss header
 		string colLabelNotebookShiftedCss = "#ffffff";
-		string colLabelCheckedNotebookShiftedCss = GetRGBA (Colors.YELLOW).ToString (); //also used on hover
+		string colLabelCheckedNotebookShiftedCss = GetRGBAs (Colors.YELLOW); //also used on hover
 		if (! Config.ColorBackgroundShiftedIsDark)
 		{
 			colLabelNotebookShiftedCss = "#000000";
-			colLabelCheckedNotebookShiftedCss = GetRGBA (Colors.BLUE_CHRONOJUMP).ToString ();
+			colLabelCheckedNotebookShiftedCss = GetRGBAs (Colors.BLUE_CHRONOJUMP);
 		}
 	
 		var data =
 			//LABELS
 			//labels lightCss in light color
 			"label#lightCss {" +
-				"color: " + GetRGBA (Colors.WHITE).ToString () + ";" +
+				"color: " + GetRGBAs (Colors.WHITE) + ";" +
 			"}" +
 			//labels darkCss in dark color
 			"label#darkCss {" +
@@ -741,8 +746,8 @@ public class UtilGtk
 			"}" +
 			//label used on version hidden
 			"label#blueChronojumpHideCss {" +
-				"color: " + GetRGBA (Colors.BLUE_CHRONOJUMP).ToString () + ";" +
-				"background-color: " + GetRGBA (Colors.BLUE_CHRONOJUMP).ToString () + ";" +
+				"color: " + GetRGBAs (Colors.BLUE_CHRONOJUMP) + ";" +
+				"background-color: " + GetRGBAs (Colors.BLUE_CHRONOJUMP) + ";" +
 			"}" +
 			//rest of labels
 			"label {" +
@@ -765,7 +770,7 @@ public class UtilGtk
 			"}" +
 			//button checked
 			"button:checked {" +
-				"background: " + GetRGBA (Colors.YELLOW_LIGHT).ToString () + ";" + //TODO: try a YELLOW_MID
+				"background: " + GetRGBAs (Colors.YELLOW_LIGHT) + ";" + //TODO: try a YELLOW_MID
 			"}" +
 
 			//any widget bgCss
@@ -846,7 +851,7 @@ public class UtilGtk
 
 			//TOOLTIPS
 			"tooltip {" +
-				"background-color: " + GetRGBA (Colors.BLUE_CHRONOJUMP).ToString () + ";" +
+				"background-color: " + GetRGBAs (Colors.BLUE_CHRONOJUMP) + ";" +
 				//"border-width: 1px;" +
 				"border-style: dotted;" + //or dotted, solid, ... see ttps://docs.gtk.org/gtk3/css-properties.html
 				"border-color: #ffffff;" +

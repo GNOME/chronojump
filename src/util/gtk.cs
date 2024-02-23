@@ -711,6 +711,23 @@ public class UtilGtk
 
 		string colBgS = Config.ColorBackground.ToString ();
 		string colShiftedS = Config.ColorBackgroundShifted.ToString ();
+
+		//NOTEBOOK bgCss header
+		string colLabelNotebookBgCss = "#ffffff";
+		string colLabelCheckedNotebookBgCss = GetRGBA (Colors.YELLOW).ToString (); //also used on hover
+		if (! Config.ColorBackgroundIsDark)
+		{
+			colLabelNotebookBgCss = "#000000";
+			colLabelCheckedNotebookBgCss = GetRGBA (Colors.BLUE_CHRONOJUMP).ToString ();
+		}
+		//NOTEBOOK shiftedCss header
+		string colLabelNotebookShiftedCss = "#ffffff";
+		string colLabelCheckedNotebookShiftedCss = GetRGBA (Colors.YELLOW).ToString (); //also used on hover
+		if (! Config.ColorBackgroundShiftedIsDark)
+		{
+			colLabelNotebookShiftedCss = "#000000";
+			colLabelCheckedNotebookShiftedCss = GetRGBA (Colors.BLUE_CHRONOJUMP).ToString ();
+		}
 	
 		var data =
 			//LABELS
@@ -767,11 +784,11 @@ public class UtilGtk
 			"}" +
 			//label of the tab
 			"notebook#bgCss tab label {" +
-				"color: #ffffff;" +
+				"color: " + colLabelNotebookBgCss + ";" +
 			"}" +
 			//label of the tab (checked)
 			"notebook#bgCss tab:checked label {" +
-				"color: " + GetRGBA (Colors.YELLOW).ToString () + ";" + //TODO: try a YELLOW_MID
+				"color: " + colLabelCheckedNotebookBgCss + ";" + //TODO: try a YELLOW_MID
 			"}" +
 			//bg of the tab (hover)
 			"notebook#bgCss tab:hover {" +
@@ -779,7 +796,7 @@ public class UtilGtk
 			"}" +
 			//color of the label of the tab (hover)
 			"notebook#bgCss tab:hover label {" +
-				"color: " + GetRGBA (Colors.YELLOW).ToString () + ";" + //TODO: try a YELLOW_MID
+				"color: " + colLabelCheckedNotebookBgCss + ";" + //TODO: try a YELLOW_MID
 			"}" +
 			//content of the notebook option 1 white
 			/*
@@ -801,11 +818,11 @@ public class UtilGtk
 			"}" +
 			//label of the tab
 			"notebook#shiftedCss tab label {" +
-				"color: #ffffff;" +
+				"color: " + colLabelNotebookShiftedCss + ";" +
 			"}" +
 			//label of the tab (checked)
 			"notebook#shiftedCss tab:checked label {" +
-				"color: " + GetRGBA (Colors.YELLOW).ToString () + ";" + //TODO: try a YELLOW_MID
+				"color: " + colLabelCheckedNotebookShiftedCss + ";" + //TODO: try a YELLOW_MID
 			"}" +
 			//bg of the tab (hover)
 			"notebook#shiftedCss tab:hover {" +
@@ -813,7 +830,7 @@ public class UtilGtk
 			"}" +
 			//color of the label of the tab (hover)
 			"notebook#shiftedCss tab:hover label {" +
-				"color: " + GetRGBA (Colors.YELLOW).ToString () + ";" + //TODO: try a YELLOW_MID
+				"color: " + colLabelCheckedNotebookShiftedCss + ";" + //TODO: try a YELLOW_MID
 			"}" +
 			//content of the notebook option 1 white
 			/*

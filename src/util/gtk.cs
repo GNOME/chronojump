@@ -702,6 +702,19 @@ public class UtilGtk
 		return (color.Red * 256 > 200 && color.Green * 256 > 200 && color.Blue * 256 < 50);
 	}
 
+	//method withoud the need of HSV
+	//Myindex comment on https://stackoverflow.com/a/9733452
+	private static double colorsContrast (RGBA color1, RGBA color2)
+	{
+		return Math.Abs (colorBrightness (color1) - colorBrightness (color2));
+	}
+	//method withoud the need of HSV
+	//Myindex comment on https://stackoverflow.com/a/9733452
+	private static double colorBrightness (RGBA color)
+	{
+		return .2126*color.Red + .7152*color.Green + .0722*color.Blue;
+	}
+
 	/*
 	public static Gdk.Color GetBackgroundColorSelected() {
 		Gtk.Style regularLabel = Gtk.Rc.GetStyle (new Gtk.Label());
@@ -719,20 +732,24 @@ public class UtilGtk
 
 		//NOTEBOOK bgCss header
 		string colLabelNotebookBgCss = "#ffffff";
-		string colLabelCheckedNotebookBgCss = GetRGBAs (Colors.YELLOW); //also used on hover
 		if (! Config.ColorBackgroundIsDark)
-		{
 			colLabelNotebookBgCss = "#000000";
+
+		string colLabelCheckedNotebookBgCss = GetRGBAs (Colors.YELLOW); //also used on hover
+		if (colorsContrast (GetRGBA (Colors.YELLOW), Config.ColorBackground) <
+				colorsContrast (GetRGBA (Colors.BLUE_CHRONOJUMP), Config.ColorBackground))
 			colLabelCheckedNotebookBgCss = GetRGBAs (Colors.BLUE_CHRONOJUMP);
-		}
+
+
 		//NOTEBOOK shiftedCss header
 		string colLabelNotebookShiftedCss = "#ffffff";
-		string colLabelCheckedNotebookShiftedCss = GetRGBAs (Colors.YELLOW); //also used on hover
 		if (! Config.ColorBackgroundShiftedIsDark)
-		{
 			colLabelNotebookShiftedCss = "#000000";
+
+		string colLabelCheckedNotebookShiftedCss = GetRGBAs (Colors.YELLOW); //also used on hover
+		if (colorsContrast (GetRGBA (Colors.YELLOW), Config.ColorBackgroundShifted) <
+				colorsContrast (GetRGBA (Colors.BLUE_CHRONOJUMP), Config.ColorBackgroundShifted))
 			colLabelCheckedNotebookShiftedCss = GetRGBAs (Colors.BLUE_CHRONOJUMP);
-		}
 	
 		var data =
 			//LABELS

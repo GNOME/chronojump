@@ -9021,6 +9021,12 @@ LogB.Debug("mc finished 5");
 			if(! secondaryVariableShow)
 				secondaryVariableStr = "";
 
+			/* these 3 are not stored on DB yet */
+			preferences.encoderCaptureSecondaryVariableYAxisCustom = feedbackWin.GetSecondaryVariableYAxisCustom;
+			preferences.encoderCaptureSecondaryVariableYAxisCustomMax = feedbackWin.GetSecondaryVariableYAxisCustomMax;
+			preferences.encoderCaptureSecondaryVariableYAxisCustomMin = feedbackWin.GetSecondaryVariableYAxisCustomMin;
+
+
 			if(preferences.encoderCaptureFeedbackEccon != feedbackWin.GetEncoderCaptureFeedbackEccon) {
 				SqlitePreferences.Update(SqlitePreferences.EncoderCaptureFeedbackEccon,
 						feedbackWin.GetEncoderCaptureFeedbackEccon.ToString(), true);

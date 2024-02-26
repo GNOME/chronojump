@@ -123,6 +123,13 @@ public class FeedbackWindow
 	Gtk.SpinButton spinbutton_encoder_power_lower;
 	Gtk.SpinButton spinbutton_encoder_peakpower_lower;
 
+	Gtk.Box box_encoder_secondary_variable_y_axis;
+	Gtk.RadioButton radio_encoder_height_auto;
+	Gtk.RadioButton radio_encoder_height_custom;
+	Gtk.Grid grid_encoder_height_custom_values;
+	Gtk.SpinButton spin_encoder_height_custom_max;
+	Gtk.SpinButton spin_encoder_height_custom_min;
+
 	Gtk.CheckButton check_encoder_show_asteroids;
 
 	Gtk.Button button_test_good;
@@ -714,7 +721,7 @@ public class FeedbackWindow
 		hbox_combo_encoder_secondary_variable.PackStart(combo_encoder_secondary_variable, false, false, 0);
 		hbox_combo_encoder_secondary_variable.ShowAll();
 		combo_encoder_secondary_variable.Sensitive = true;
-		//combo_encoder_secondary_variable.Changed += new EventHandler (on_combo_encoder_secondary_variable_changed);
+		combo_encoder_secondary_variable.Changed += new EventHandler (on_combo_encoder_secondary_variable_changed);
 	}
 	private void comboEncoderVariableFill(Gtk.ComboBoxText combo)
 	{
@@ -737,6 +744,22 @@ public class FeedbackWindow
 	private void on_check_encoder_show_secondary_variable_toggled (object o, EventArgs args)
 	{
 		hbox_combo_encoder_secondary_variable.Visible = check_encoder_show_secondary_variable.Active;
+
+		box_encoder_secondary_variable_y_axis.Visible = check_encoder_show_secondary_variable.Active &&
+			UtilGtk.ComboGetActive (combo_encoder_secondary_variable) == Constants.RangeAbsolute;
+	}
+
+	private void on_radio_encoder_height_auto_custom_toggled (object o, EventArgs args)
+	{
+		if (radio_encoder_height_auto.Active)
+			grid_encoder_height_custom_values.Visible = false;
+		if (radio_encoder_height_custom.Active && UtilGtk.ComboGetActive (combo_encoder_secondary_variable) == Constants.RangeAbsolute)
+			grid_encoder_height_custom_values.Visible = true;
+	}
+
+	private void on_combo_encoder_secondary_variable_changed (object o, EventArgs args)
+	{
+		box_encoder_secondary_variable_y_axis.Visible = UtilGtk.ComboGetActive (combo_encoder_secondary_variable) == Constants.RangeAbsolute;
 	}
 
 	private void on_check_encoder_inertial_ecc_overload_toggled (object o, EventArgs args)
@@ -1621,6 +1644,15 @@ public class FeedbackWindow
 	public bool GetSecondaryVariableShow {
 		get { return check_encoder_show_secondary_variable.Active; }
 	}
+	public bool GetSecondaryVariableYAxisCustom {
+		get { return radio_encoder_height_custom.Active; }
+	}
+	public int GetSecondaryVariableYAxisCustomMax {
+		get { return Convert.ToInt32 (spin_encoder_height_custom_max.Value); }
+	}
+	public int GetSecondaryVariableYAxisCustomMin {
+		get { return Convert.ToInt32 (spin_encoder_height_custom_min.Value); }
+	}
 
 	public Preferences.EncoderPhasesEnum GetEncoderCaptureFeedbackEccon {
 		get {
@@ -1945,6 +1977,13 @@ public class FeedbackWindow
 		image_encoder_power_lower = (Gtk.Image) builder.GetObject ("image_encoder_power_lower");
 		image_encoder_peakpower_lower = (Gtk.Image) builder.GetObject ("image_encoder_peakpower_lower");
 		image_repetitive_test_bad = (Gtk.Image) builder.GetObject ("image_repetitive_test_bad");
+
+		box_encoder_secondary_variable_y_axis = (Gtk.Box) builder.GetObject ("box_encoder_secondary_variable_y_axis");
+		radio_encoder_height_auto = (Gtk.RadioButton) builder.GetObject ("radio_encoder_height_auto");
+		radio_encoder_height_custom = (Gtk.RadioButton) builder.GetObject ("radio_encoder_height_custom");
+		grid_encoder_height_custom_values = (Gtk.Grid) builder.GetObject ("grid_encoder_height_custom_values");
+		spin_encoder_height_custom_max = (Gtk.SpinButton) builder.GetObject ("spin_encoder_height_custom_max");
+		spin_encoder_height_custom_min = (Gtk.SpinButton) builder.GetObject ("spin_encoder_height_custom_min");
 
 		//encoder rhythm
 		label_rhythm_tab = (Gtk.Label) builder.GetObject ("label_rhythm_tab");

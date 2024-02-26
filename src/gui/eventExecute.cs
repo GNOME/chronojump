@@ -3157,9 +3157,20 @@ public class CairoPaintBarplotPreEncoder : CairoPaintBarsPre
 			cb.PassArrowData (cairoBarsArrow);
 
 		if(lineData_l.Count > 0)
-			cb.Cbsld = new CairoBarsSecondaryLineData (
-					lineData_l, -1, -1, pegbe.secondaryVariable);
-					//lineData_l, 70, 40, pegbe.secondaryVariable);
+		{
+			if (! preferences.encoderCaptureSecondaryVariableYAxisCustom)
+				cb.Cbsld = new CairoBarsSecondaryLineData (
+						lineData_l,
+						-1,
+						-1,
+						pegbe.secondaryVariable);
+			else
+				cb.Cbsld = new CairoBarsSecondaryLineData (
+						lineData_l,
+						preferences.encoderCaptureSecondaryVariableYAxisCustomMax,
+						preferences.encoderCaptureSecondaryVariableYAxisCustomMin,
+						pegbe.secondaryVariable);
+		}
 
 		if(eccOverload_l != null && eccOverload_l.Count > 0)
 		{

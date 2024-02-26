@@ -679,8 +679,8 @@ public abstract class CairoBars : CairoGeneric
 		if(barsXCenter_l.Count != sld.data_l.Count)
 			return;
 
-		g.SetSourceColor (yellow); //to have contrast with the bar
-		//g.SetSourceColor (yellowDark); //to have contrast with the bar (yellowDark reads text better than yellow if bg is white)
+		//g.SetSourceColor (yellow); //to have contrast with the bar
+		g.SetSourceColor (caramel);
 
 		if (sld.yMin < 0 && sld.yMax < 0) //means detect y range automatically
 		{
@@ -692,7 +692,7 @@ public abstract class CairoBars : CairoGeneric
 		bool firstDone = false;
 		for (int i = 0 ; i < barsXCenter_l.Count; i ++)
 		{
-			double y = calculatePaintY (sld.data_l[i], sld.yMax, sld.yMin, 1);
+			double y = calculatePaintY (sld.data_l[i], sld.yMax, sld.yMin, 1.1);
 
 			if(! firstDone)
 			{
@@ -704,19 +704,22 @@ public abstract class CairoBars : CairoGeneric
 		g.Stroke();
 
 		// 2) points
-		int pointsRadius = 4;
+		int pointsRadius = 5;
 		for (int i = 0 ; i < barsXCenter_l.Count; i ++)
 		{
-			double y = calculatePaintY (sld.data_l[i], sld.yMax, sld.yMin, 1);
+			double y = calculatePaintY (sld.data_l[i], sld.yMax, sld.yMin, 1.1);
 
+			g.SetSourceColor (brown);
 			g.Arc(barsXCenter_l[i], y, pointsRadius, 0.0, 2.0 * Math.PI); //full circle
 			g.FillPreserve();
+			g.SetSourceColor (white);
 			g.Stroke();
 		}
+		g.SetSourceColor (caramel);
 
 		// 3) axis
-		double yMaxPaint = calculatePaintY (sld.yMax, sld.yMax, sld.yMin, 1);
-		double yMinPaint = calculatePaintY (sld.yMin, sld.yMax, sld.yMin, 1);
+		double yMaxPaint = calculatePaintY (sld.yMax, sld.yMax, sld.yMin, 1.1);
+		double yMinPaint = calculatePaintY (sld.yMin, sld.yMax, sld.yMin, 1.1);
 
 		g.MoveTo (leftMargin +4, yMinPaint);
 		g.LineTo (leftMargin, yMinPaint);
@@ -2229,8 +2232,19 @@ public class CairoBarsSecondaryLineData
 			List<double> data_l, double yMax, double yMin, string magnitude)
 	{
 		this.data_l = data_l;
-		this.yMax = yMax;
-		this.yMin = yMin;
+
+		//manage problems if both values are the same of min > max
+		if (yMax == yMin) {
+			this.yMax = -1;
+			this.yMin = -1;
+		} else if (yMax > yMin) {
+			this.yMax = yMax;
+			this.yMin = yMin;
+		} else {
+			this.yMin = yMax;
+			this.yMax = yMin;
+		}
+
 		this.magnitude = magnitude;
 
 		if (magnitude == Constants.MeanSpeed || magnitude == Constants.MaxSpeed)

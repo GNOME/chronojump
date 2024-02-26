@@ -798,6 +798,10 @@ public class UtilGtk
 			"*#shiftedCss {" +
 				"background: " + colShiftedS + ";" +
 			"}" +
+			//any widget whiteBgCss
+			"*#whiteBgCss {" +
+				"background: #ffffff;" +
+			"}" +
 
 			//NOTEBOOKS bgCss
 			//header

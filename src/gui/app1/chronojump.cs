@@ -659,8 +659,7 @@ public partial class ChronoJumpWindow
 		//show chronojump logo on down-left area
 		changeTestImage("", "", "LOGO");
 	
-		//white bg
-		eventbox_image_test.OverrideBackgroundColor (StateFlags.Normal, UtilGtk.GetRGBA (UtilGtk.Colors.WHITE));
+		eventbox_image_test.Name = "whiteBgCss"; //white bg
 	
 		//new DialogMessage(Constants.MessageTypes.INFO, UtilGtk.ScreenHeightFitted(false).ToString() );
 		//UtilGtk.ResizeIfNeeded(stats_window);

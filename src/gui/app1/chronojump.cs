@@ -734,6 +734,7 @@ public partial class ChronoJumpWindow
 		radio_contacts_graph_allTests.Active = true;
 		radio_contacts_results_personAll.Active = true;
 
+		/*
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_person_close,
 				UtilGtk.Colors.YELLOW, UtilGtk.Colors.YELLOW_LIGHT);
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_show_modes_contacts,
@@ -794,6 +795,7 @@ public partial class ChronoJumpWindow
 				UtilGtk.Colors.YELLOW, UtilGtk.Colors.YELLOW_LIGHT);
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_radio_menu_2_2_2_inertial,
 				UtilGtk.Colors.YELLOW, UtilGtk.Colors.YELLOW_LIGHT);
+		*/
 
 		app1s_eventboxes_paint();
 

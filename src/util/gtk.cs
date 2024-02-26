@@ -950,12 +950,14 @@ public class UtilGtk
 					newColor.Red, newColor.Green, newColor.Blue)); //bad: 0,0,0
 	}
 
+	/* disabled on gtk3 until find a way to do it (if needed)
 	//changes of colors without widgets that are in a EventBox
 	public static void EventBoxColorBackgroundActive (Gtk.EventBox e, Colors colorActive, Colors colorPrelight)
 	{
 		e.OverrideColor (StateFlags.Active, GetRGBA (colorActive));
 		e.OverrideColor (StateFlags.Prelight, GetRGBA (colorPrelight));
 	}
+	*/
 
 	public static void ContrastLabelsBox (bool bgDark, Gtk.Box box)
 	{

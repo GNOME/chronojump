@@ -286,17 +286,8 @@ public partial class ChronoJumpWindow
 	{
 		Pixbuf pixbuf;
 
-		viewport_chronojump_logo.OverrideBackgroundColor (StateFlags.Normal,
-				UtilGtk.GetRGBA (UtilGtk.Colors.BLUE_CHRONOJUMP));
 		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + Constants.FileNameLogoTransparent);
 		image_chronojump_logo.Pixbuf = pixbuf;
-
-		//hide label_version_hidden
-		label_version_hidden.OverrideColor (StateFlags.Normal,
-				UtilGtk.GetRGBA (UtilGtk.Colors.BLUE_CHRONOJUMP));
-		//show label_version on white
-		label_version.OverrideColor (StateFlags.Normal,
-				UtilGtk.GetRGBA (UtilGtk.Colors.WHITE));
 
 		//change colors of tests mode
 

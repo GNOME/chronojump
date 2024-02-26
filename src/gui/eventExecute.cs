@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2023   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2004-2024   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -2579,7 +2579,7 @@ public class CairoPaintBarplotPreEncoder : CairoPaintBarsPre
 
 	//copied from gui/encoderGraphObjects (using ArrayList)
 	private ArrayList data; //data is related to mainVariable (barplot)
-	private List<double> lineData_l; //related to secondary variable (by default range)
+	private List<double> lineData_l; //related to secondary variable (by default range (mm))
 	private List<double> dataStart_l; //used on video (in seconds)
 	private List<double> dataDuration_l; //used on video (in seconds)
 	private ArrayList dataRangeOfMovement; //ROM, need it to discard last rep for loss. Is not the same as lineData_l because maybe user selected another variable as secondary. only checks con.
@@ -3157,7 +3157,9 @@ public class CairoPaintBarplotPreEncoder : CairoPaintBarsPre
 			cb.PassArrowData (cairoBarsArrow);
 
 		if(lineData_l.Count > 0)
-			cb.LineData_l = lineData_l; //range
+			cb.Cbsld = new CairoBarsSecondaryLineData (
+					lineData_l, -1, -1, pegbe.secondaryVariable);
+					//lineData_l, 70, 40, pegbe.secondaryVariable);
 
 		if(eccOverload_l != null && eccOverload_l.Count > 0)
 		{

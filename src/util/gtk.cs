@@ -891,6 +891,8 @@ public class UtilGtk
 
 	public static void DeviceColors (Gtk.Viewport v, bool connected)
 	{
+		/* disabled un gtk3 until find way to do it with css (if needed)
+
 		//if(! (v.StyleContext.GetBackgroundColor (StateFlags.Normal)).Equal(v.StyleContext.GetBackgroundColor (StateFlags.Selected)))
 		RGBA a = v.StyleContext.GetBackgroundColor (StateFlags.Normal);
 		RGBA b = v.StyleContext.GetBackgroundColor (StateFlags.Selected);
@@ -904,6 +906,7 @@ public class UtilGtk
 			//v.ModifyBg(StateType.Normal, BLUE);
 			v.OverrideBackgroundColor (StateFlags.Normal, v.StyleContext.GetBackgroundColor (StateFlags.Selected));
 		}
+		*/
 	}
 
 	public static void WindowColor (Gtk.Window w, RGBA color)

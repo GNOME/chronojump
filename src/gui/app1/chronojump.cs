@@ -176,8 +176,10 @@ public partial class ChronoJumpWindow
 	//contact tests execute buttons
 	Gtk.Image image_button_finish;
 	Gtk.Image image_button_finish1;
+	Gtk.Image image_button_finish2;
 	Gtk.Image image_button_cancel; //needed this specially because theme cancel sometimes seems "record"
 	Gtk.Image image_button_cancel1;
+	Gtk.Image image_button_cancel2;
 	//encoder tests execute buttons
 	//Gtk.Image image_encoder_capture_execute;
 	
@@ -10095,8 +10097,10 @@ LogB.Debug("mc finished 5");
 		//contact tests execute buttons
 		image_button_finish = (Gtk.Image) builder.GetObject ("image_button_finish");
 		image_button_finish1 = (Gtk.Image) builder.GetObject ("image_button_finish1");
+		image_button_finish2 = (Gtk.Image) builder.GetObject ("image_button_finish2");
 		image_button_cancel = (Gtk.Image) builder.GetObject ("image_button_cancel"); //needed this specially because theme cancel sometimes seems "record"
 		image_button_cancel1 = (Gtk.Image) builder.GetObject ("image_button_cancel1");
+		image_button_cancel2 = (Gtk.Image) builder.GetObject ("image_button_cancel2");
 		//encoder tests execute buttons
 		//image_encoder_capture_execute = (Gtk.Image) builder.GetObject ("image_encoder_capture_execute");
 		fullscreen_capture_box_buttons_finish_cancel = (Gtk.Box) builder.GetObject ("fullscreen_capture_box_buttons_finish_cancel");

@@ -935,16 +935,14 @@ public class PreferencesWindow
 	bool colorChoosedLastDefined;
 	private void on_button_color_choose_clicked(object o, EventArgs args)
 	{
-		using (ColorSelectionDialog colorSelectionDialog = new ColorSelectionDialog (Catalog.GetString("Select color")))
+		using (ColorChooserDialog colorChooserDialog = new ColorChooserDialog (Catalog.GetString("Select color"), preferences_win))
 		{
-			colorSelectionDialog.TransientFor = preferences_win;
-			colorSelectionDialog.ColorSelection.CurrentRgba = colorBackground;
-			colorSelectionDialog.ColorSelection.HasPalette = true;
+			colorChooserDialog.Rgba = colorBackground;
 
-			if (colorSelectionDialog.Run () == (int) ResponseType.Ok)
+			if (colorChooserDialog.Run () == (int) ResponseType.Ok)
 			{
 				// A) changes on preferences gui
-				colorBackground = colorSelectionDialog.ColorSelection.CurrentRgba;
+				colorBackground = colorChooserDialog.Rgba;
 
 				// B) changes on preferences object and SqlitePreferences
 				preferences.colorBackgroundString = Preferences.PreferencesChange(
@@ -964,7 +962,7 @@ public class PreferencesWindow
 				paintBg (colorBackground);
 			}
 
-			colorSelectionDialog.Hide ();
+			colorChooserDialog.Hide ();
 		}
 	}
 

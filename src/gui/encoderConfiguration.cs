@@ -45,6 +45,8 @@ public class EncoderConfigurationWindow
 	
 	Gtk.Button button_previous;
 	Gtk.Button button_next;
+	Gtk.Image image_previous;
+	Gtk.Image image_next;
 
 	//to colorize
 	Gtk.Label label_radio_linear;
@@ -200,6 +202,10 @@ public class EncoderConfigurationWindow
 		image_duplicate.Pixbuf = pixbuf;
 		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "stock_delete.png");
 		image_delete.Pixbuf = pixbuf;
+		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "left.png");
+		image_previous.Pixbuf = pixbuf;
+		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "right.png");
+		image_next.Pixbuf = pixbuf;
 
 		label_side_action.Text = "";
 
@@ -1237,6 +1243,8 @@ public class EncoderConfigurationWindow
 
 		button_previous = (Gtk.Button) builder.GetObject ("button_previous");
 		button_next = (Gtk.Button) builder.GetObject ("button_next");
+		image_previous = (Gtk.Image) builder.GetObject ("image_previous");
+		image_next = (Gtk.Image) builder.GetObject ("image_next");
 
 		//to colorize
 		label_radio_linear = (Gtk.Label) builder.GetObject ("label_radio_linear");

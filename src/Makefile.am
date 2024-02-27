@@ -528,7 +528,7 @@ LINK = $(REF_DEP_CHRONOJUMP)
 	../images/md/photo_camera_blue_2x.png,image_no_photo.png \
 	../images/md/photo_camera_yellow_2x.png,image_no_photo_yellow.png \
 	../images/md/select_blue_3x.png,image_selected.png \
-	../images/md/cached_blue_1x.png,image_recalculate.png \
+	../images/md/cached_green_1x.png,image_recalculate.png \
 	../images/md/delete_blue_1x.png,stock_delete.png \
 	../images/md/create_new_folder_blue_2x.png,folder_new_big.png \
 	../images/md/create_new_folder_blue_1x.png,folder_new.png \

@@ -363,6 +363,7 @@ public class PersonSelectWindow
 		else {
 			UtilGtk.ViewportColor(viewport_person_name, UtilGtk.Colors.YELLOW);
 			viewport_person_name.Visible = true;
+			UtilGtk.ViewportColorActive (viewport_person_name);
 		}
 	}
 
@@ -605,9 +606,13 @@ public class PersonPhotoButton
 		Gtk.Viewport viewport = (Gtk.Viewport) box_elements.GetValue(2); //the name
 
 		if(select)
-			UtilGtk.ViewportColor(viewport, UtilGtk.Colors.YELLOW);
-		else
-			UtilGtk.ViewportColorDefault(viewport);
+		{
+			//UtilGtk.ViewportColor(viewport, UtilGtk.Colors.YELLOW);
+			UtilGtk.ViewportColorActive (viewport);
+		} else {
+			//UtilGtk.ViewportColorDefault(viewport);
+			UtilGtk.ViewportColorWhite (viewport);
+		}
 
 		Selected = select;
 	}

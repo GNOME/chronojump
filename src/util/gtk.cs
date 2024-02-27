@@ -790,6 +790,7 @@ public class UtilGtk
 				"background: " + GetRGBAs (Colors.YELLOW_LIGHT) + ";" + //TODO: try a YELLOW_MID
 			"}" +
 
+			//ANY WIDGET
 			//any widget bgCss
 			"*#bgCss {" +
 				"background: " + colBgS + ";" +
@@ -800,6 +801,16 @@ public class UtilGtk
 			"}" +
 			//any widget whiteBgCss
 			"*#whiteBgCss {" +
+				"background: #ffffff;" +
+			"}" +
+
+			//VIEWPORT
+			"viewport#yellowCss {" +
+				//"background-image: none;" +
+				"background: " + GetRGBAs (Colors.YELLOW_LIGHT) + ";" + //TODO: try a YELLOW_MID
+			"}" +
+			"viewport#whiteCss {" +
+				//"background-image: none;" +
 				"background: #ffffff;" +
 			"}" +
 
@@ -921,11 +932,20 @@ public class UtilGtk
 
 	public static void ViewportColor (Gtk.Viewport v, Colors color)
 	{
-//		v.OverrideBackgroundColor (StateFlags.Normal, GetRGBA (color));
+		//v.OverrideBackgroundColor (StateFlags.Normal, GetRGBA (color));
 	}
 	public static void ViewportColor (Gtk.Viewport v, RGBA color)
 	{
-//		v.OverrideBackgroundColor (StateFlags.Normal, color);
+		//v.OverrideBackgroundColor (StateFlags.Normal, color);
+	}
+
+	public static void ViewportColorActive (Gtk.Viewport v)
+	{
+		v.Name = "yellowCss";
+	}
+	public static void ViewportColorWhite (Gtk.Viewport v)
+	{
+		v.Name = "whiteCss";
 	}
 
 	public static void WidgetColor (Gtk.Widget w, RGBA color)

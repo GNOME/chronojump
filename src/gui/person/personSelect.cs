@@ -543,7 +543,7 @@ public class PersonSelectWindow
 		image_merge = (Gtk.Image) builder.GetObject ("image_merge");
 		image_person_delete = (Gtk.Image) builder.GetObject ("image_person_delete");
 		image_manage_persons_cancel = (Gtk.Image) builder.GetObject ("image_manage_persons_cancel");
-		vbox_corner_controls = (Gtk.Box) builder.GetObject ("box_corner_controls");
+		vbox_corner_controls = (Gtk.Box) builder.GetObject ("vbox_corner_controls");
 		image_close = (Gtk.Image) builder.GetObject ("image_close");
 		label_manage_persons = (Gtk.Label) builder.GetObject ("label_manage_persons");
 		label_delete_person = (Gtk.Label) builder.GetObject ("label_delete_person");

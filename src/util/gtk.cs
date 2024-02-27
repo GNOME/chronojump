@@ -897,8 +897,8 @@ public class UtilGtk
 		Gtk.StyleContext.AddProviderForScreen (Gdk.Screen.Default, css, 800); //needed
 	}
 
-	private static RGBA chronopicViewportDefaultBg;
-	private static RGBA chronopicLabelsDefaultFg;
+	//private static RGBA chronopicViewportDefaultBg;
+	//private static RGBA chronopicLabelsDefaultFg;
 
 	public static void DeviceColors (Gtk.Viewport v, bool connected)
 	{
@@ -953,25 +953,29 @@ public class UtilGtk
 		w.Name = "shiftedCss";
 	}
 
-	//does not work in gtk3
+	//does not work in gtk3 //just use ViewportColorWhite
+	/*
 	public static void ViewportColorDefault (Gtk.Viewport v)
 	{
 		//v.ModifyBg(StateType.Normal); //resets to the default color
 
 		//create a new viewport and get the color
 		Gtk.Viewport vTemp = new Gtk.Viewport();
+		*/
 		/*
 		Gdk.Color colorViewportDefault = vTemp.StyleContext.GetBackgroundColor (StateFlags.Normal);
 
 		//assign the color to our requested viewport
 		v.ModifyBg(StateType.Normal, colorViewportDefault); //resets to the default color
 		*/
+		/*
 		v.OverrideBackgroundColor (StateFlags.Normal, vTemp.StyleContext.GetBackgroundColor (StateFlags.Normal));
 
 		RGBA newColor = vTemp.StyleContext.GetBackgroundColor (StateFlags.Normal);
 		LogB.Information(string.Format("newColor end: red {0}, green {1}, blue {2}",
 					newColor.Red, newColor.Green, newColor.Blue)); //bad: 0,0,0
 	}
+	*/
 
 	/* disabled on gtk3 until find a way to do it (if needed)
 	//changes of colors without widgets that are in a EventBox

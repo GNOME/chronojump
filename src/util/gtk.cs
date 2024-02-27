@@ -762,9 +762,15 @@ public class UtilGtk
 				"color: #222222;" +
 			"}" +
 			//label used on version hidden
+			/*
 			"label#blueChronojumpHideCss {" +
 				"color: " + GetRGBAs (Colors.BLUE_CHRONOJUMP) + ";" +
 				"background-color: " + GetRGBAs (Colors.BLUE_CHRONOJUMP) + ";" +
+			"}" +
+			*/
+			"label#ChronojumpHideCss {" +
+				"color: " + Config.ColorBackground.ToString () + ";" +
+				"background-color: " + Config.ColorBackground.ToString () + ";" +
 			"}" +
 			//rest of labels
 			"label {" +

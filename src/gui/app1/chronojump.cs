@@ -9300,11 +9300,17 @@ LogB.Debug("mc finished 5");
 				{
 					box_encoder_capture_signal_horizontal.Visible = false;
 					box_encoder_capture_signal_vertical.Visible = true;
-					alignment_encoder_capture_signal.Reparent (box_encoder_capture_signal_vertical);
+
+					//alignment_encoder_capture_signal.Reparent (box_encoder_capture_signal_vertical); //deprecated on gtk3
+					box_encoder_capture_signal_horizontal.Remove (alignment_encoder_capture_signal);
+					box_encoder_capture_signal_vertical.Add (alignment_encoder_capture_signal);
 				} else {
 					box_encoder_capture_signal_horizontal.Visible = true;
 					box_encoder_capture_signal_vertical.Visible = false;
-					alignment_encoder_capture_signal.Reparent (box_encoder_capture_signal_horizontal);
+
+					//alignment_encoder_capture_signal.Reparent (box_encoder_capture_signal_horizontal); //deprecated on gtk3
+					box_encoder_capture_signal_vertical.Remove (alignment_encoder_capture_signal);
+					box_encoder_capture_signal_horizontal.Add (alignment_encoder_capture_signal);
 				}
 
 				fixEncoderCaptureWidgetsGeometry ();

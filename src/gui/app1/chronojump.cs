@@ -9113,6 +9113,7 @@ LogB.Debug("mc finished 5");
 							secondaryVariableStr, preferences.encoderCaptureShowLoss,
 							false, //not capturing
 							findEccon(true),
+							findMass(Constants.MassType.DISPLACED),
 							feedbackEncoder,
 							encoderConfigurationCurrent.has_inertia,
 							configChronojump.PlaySoundsFromFile,

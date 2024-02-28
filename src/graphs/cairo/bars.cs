@@ -1068,6 +1068,13 @@ public abstract class CairoBars : CairoGeneric
 
 	protected void writeMessageAtCenter(string message)
 	{
+		if (message.Contains ('\n'))
+		{
+			printTextMultiline (graphWidth/2, graphHeight/2, 0, textHeight + 2,
+					message, g, alignTypes.CENTER, false); //do not show with yellow rectangle ass its difficoult to align
+			return;
+		}
+
 		Cairo.TextExtents te;
 		int messageTextHeight = textHeight +2;
 
@@ -1079,11 +1086,14 @@ public abstract class CairoBars : CairoGeneric
 		} while (te.Width >= .9 * graphWidth && messageTextHeight >= 1);
 
 		g.SetSourceColor(yellow); //to have contrast with the bar
+
 		g.Rectangle(graphWidth/2 -te.Width/2 -1, graphHeight/2 -messageTextHeight -1,
 				te.Width +2, te.Height+4);
+
 		g.Fill();
 
 		g.SetSourceColor(black);
+
 		printText (graphWidth/2, graphHeight/2 -messageTextHeight/2,
 				0, messageTextHeight,
 				message, g, alignTypes.CENTER);

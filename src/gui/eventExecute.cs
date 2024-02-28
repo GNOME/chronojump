@@ -2618,6 +2618,8 @@ public class CairoPaintBarplotPreEncoder : CairoPaintBarsPre
 	private string workStr;
 	private string impulseStr;
 
+	private bool noMassAndNeeded;
+
 	//just blank the screen
 	public CairoPaintBarplotPreEncoder (DrawingArea darea, string fontStr)
 	{
@@ -2638,11 +2640,27 @@ public class CairoPaintBarplotPreEncoder : CairoPaintBarsPre
 
 		initialize (darea, fontStr, mode, personName, testName, pDN);
 
+		if (noMassAndNeededCheck ())
+		{
+			noMassAndNeeded = true;
+			return;
+		}
+
 		//calcule all graph stuff
 		fillArraysDiscardingReps ();
 		fillVariableListsForGraph ();
 		prepareTitle ();
 		prepareLossArrow ();
+	}
+
+	private bool noMassAndNeededCheck ()
+	{
+		if (pegbe.massDisplaced < 0.00001 &&
+				(pegbe.mainVariable != Constants.Range && pegbe.mainVariable != Constants.RangeAbsolute &&
+				 pegbe.mainVariable != Constants.MeanSpeed && pegbe.mainVariable != Constants.MaxSpeed) )
+				 return true;
+
+		return false;
 	}
 
 	public override void ShowMessage (DrawingArea darea, string fontTypeStr, string message)
@@ -2666,7 +2684,12 @@ public class CairoPaintBarplotPreEncoder : CairoPaintBarsPre
 
 	protected override void paintSpecific()
 	{
-		paintSpecificDo ();
+		if (noMassAndNeeded)
+			ShowMessage (darea, preferences.fontType.ToString(),
+					Catalog.GetString("Main variable:") + " " + Catalog.GetString(pegbe.mainVariable) + "\n\n" +
+					Catalog.GetString("The bars are not shown because the displaced mass is 0."));
+		else
+			paintSpecificDo ();
 	}
 
 	//preferences can change
@@ -2850,21 +2873,6 @@ public class CairoPaintBarplotPreEncoder : CairoPaintBarsPre
 			}
 
 			count ++;
-		}
-		if(maxThisSetForCalc <= 0)
-		{
-			if(countValid > 0 &&
-					(pegbe.mainVariable != Constants.Range && pegbe.mainVariable != Constants.RangeAbsolute &&
-					 pegbe.mainVariable != Constants.MeanSpeed && pegbe.mainVariable != Constants.MaxSpeed) )
-				//TODO:
-				/*
-				ShowMessage(
-						Catalog.GetString("Main variable:") + " " + Catalog.GetString(pegbe.mainVariable) + "\n\n" +
-						Catalog.GetString("Bars are not shown because the displaced mass is 0."),
-						false, false);
-						*/
-
-			return;
 		}
 
 		maxAbsoluteForCalc = maxThisSetForCalc;

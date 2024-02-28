@@ -6200,6 +6200,7 @@ public partial class ChronoJumpWindow
 					secondaryVariable, preferences.encoderCaptureShowLoss,
 					false, //not capturing
 					findEccon(true),
+					findMass(Constants.MassType.DISPLACED),
 					feedbackEncoder,
 					encoderConfigurationCurrent.has_inertia,
 					configChronojump.PlaySoundsFromFile,
@@ -7079,6 +7080,7 @@ public partial class ChronoJumpWindow
 						secondaryVariable, preferences.encoderCaptureShowLoss,
 						true, //capturing
 						findEccon(true),
+						findMass(Constants.MassType.DISPLACED),
 						feedbackEncoder,
 						encoderConfigurationCurrent.has_inertia,
 						configChronojump.PlaySoundsFromFile,
@@ -7689,6 +7691,7 @@ public partial class ChronoJumpWindow
 						secondaryVariable, preferences.encoderCaptureShowLoss,
 						false, //not capturing
 						findEccon(true),
+						findMass(Constants.MassType.DISPLACED),
 						feedbackEncoder,
 						encoderConfigurationCurrent.has_inertia,
 						configChronojump.PlaySoundsFromFile,

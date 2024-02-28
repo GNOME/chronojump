@@ -8431,11 +8431,9 @@ LogB.Debug("mc finished 5");
 	//changed by chronojump when it's needed
 	private void notebooks_change(Constants.Modes mode)
 	{
-		LogB.Information("notebooks_change");
 		//LogB.Debug(new StackFrame(1).GetMethod().Name);
 
-		//LogB.Information("currentPage" + notebook_execute.CurrentPage.ToString());
-		//LogB.Information("desiredPage" + desiredPage.ToString());
+		LogB.Information ("notebooks_change start, currentPage: " + notebook_execute.CurrentPage.ToString());
 
 		if(mode == Constants.Modes.JUMPSSIMPLE)
 		{
@@ -8539,6 +8537,8 @@ LogB.Debug("mc finished 5");
 			button_execute_test.Sensitive = myTreeViewPersons.IsThereAnyRecord();
 			button_auto_start.Sensitive = myTreeViewPersons.IsThereAnyRecord();
 		}
+
+		LogB.Information ("notebooks_change almost end, currentPage: " + notebook_execute.CurrentPage.ToString());
 
 		//Attention: "notebooks_change sqlite problem"
 		//This will call stats_win_change_test_type

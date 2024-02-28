@@ -1,4 +1,4 @@
-1. Install Homebrew
+1. Install Homebrew (Only when the first time.)
 
 /bin/bash -c "$(curl -fsSL https://raw.githubcontent.com/Homebrew/install/HEAD/install.sh)"
 brew update

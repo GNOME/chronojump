@@ -26,11 +26,11 @@ sh autogen.sh --prefix=`pkg-config --variable=prefix mono`
 make
 make install
 
-cd ../package/macos
-sh gtk-osx-setup.sh
-export PATH="$PATH:~/.new_local/bin"
-jhbuild bootstrap-gtk-osx
-jhbuild build meta-gtk-osx-bootstrap meta-gtk-osx-gtk3
+#cd ../package/macos
+#sh gtk-osx-setup.sh
+#export PATH="$PATH:~/.new_local/bin"
+#jhbuild bootstrap-gtk-osx
+#jhbuild build meta-gtk-osx-bootstrap meta-gtk-osx-gtk3
 
 3. Execute the following commands (Only when the first time, when autotools files changed or when git tag created. Please replace "~/Desktop" with the real path of chronojump.)
 

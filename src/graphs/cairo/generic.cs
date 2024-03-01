@@ -278,7 +278,7 @@ public abstract class CairoGeneric
 			for(double i = Math.Floor(minY); i <= Math.Ceiling(maxY) ; i += by)
 			{
 				int ytemp = Convert.ToInt32(calculatePaintY(i));
-				if(ytemp <= topMargin || ytemp >= graphHeight -bottomMargin)
+				if(ytemp < topMargin || ytemp > graphHeight -bottomMargin)
 					continue;
 
 				paintHorizontalGridLine (g, ytemp, Util.TrimDecimals(i, 2), fontH,

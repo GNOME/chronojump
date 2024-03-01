@@ -361,8 +361,8 @@ public class PersonSelectWindow
 		if(SelectedPerson == null)
 			viewport_person_name.Visible = false;
 		else {
-			UtilGtk.ViewportColor(viewport_person_name, UtilGtk.Colors.YELLOW);
 			viewport_person_name.Visible = true;
+			UtilGtk.ViewportColorActive (viewport_person_name);
 		}
 	}
 
@@ -543,7 +543,7 @@ public class PersonSelectWindow
 		image_merge = (Gtk.Image) builder.GetObject ("image_merge");
 		image_person_delete = (Gtk.Image) builder.GetObject ("image_person_delete");
 		image_manage_persons_cancel = (Gtk.Image) builder.GetObject ("image_manage_persons_cancel");
-		vbox_corner_controls = (Gtk.Box) builder.GetObject ("box_corner_controls");
+		vbox_corner_controls = (Gtk.Box) builder.GetObject ("vbox_corner_controls");
 		image_close = (Gtk.Image) builder.GetObject ("image_close");
 		label_manage_persons = (Gtk.Label) builder.GetObject ("label_manage_persons");
 		label_delete_person = (Gtk.Label) builder.GetObject ("label_delete_person");
@@ -605,9 +605,9 @@ public class PersonPhotoButton
 		Gtk.Viewport viewport = (Gtk.Viewport) box_elements.GetValue(2); //the name
 
 		if(select)
-			UtilGtk.ViewportColor(viewport, UtilGtk.Colors.YELLOW);
+			UtilGtk.ViewportColorActive (viewport);
 		else
-			UtilGtk.ViewportColorDefault(viewport);
+			UtilGtk.ViewportColorWhite (viewport);
 
 		Selected = select;
 	}
@@ -649,7 +649,7 @@ public class PersonPhotoButton
 		label_id.Visible = false; //hide this to the user
 
 		Gtk.Viewport viewport = new Gtk.Viewport();
-		UtilGtk.ViewportColorDefault(viewport);
+		UtilGtk.ViewportColorWhite (viewport);
 		Gtk.Label label_name = new Gtk.Label(personName);
 		label_name.LineWrap = true;
 

@@ -84,7 +84,7 @@ public class About
 			UtilGtk.ContrastLabelsLabel(Config.ColorBackgroundIsDark, dialog_about_label_chronojump);
 			UtilGtk.ContrastLabelsLabel(Config.ColorBackgroundIsDark, dialog_about_label_version);
 
-			UtilGtk.WidgetColor (notebook, Config.ColorBackgroundShifted);
+			notebook.Name = "bgCss";
 			UtilGtk.ContrastLabelsNotebook (Config.ColorBackgroundShiftedIsDark, notebook);
 		}
 		

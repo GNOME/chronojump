@@ -304,6 +304,9 @@ public class Preferences
 	public Constants.EncoderVariablesCapture encoderCaptureMainVariable;
 	public Constants.EncoderVariablesCapture encoderCaptureSecondaryVariable;
 	public bool encoderCaptureSecondaryVariableShow;
+	public bool encoderCaptureSecondaryVariableYAxisCustom; //by default: false
+	public int encoderCaptureSecondaryVariableYAxisCustomMax;
+	public int encoderCaptureSecondaryVariableYAxisCustomMin;
 	public enum encoderCaptureEccOverloadModes { NOT_SHOW, SHOW_LINE, SHOW_LINE_AND_PERCENT };
 	public encoderCaptureEccOverloadModes encoderCaptureInertialEccOverloadMode; //maybe on the future there is one not inertial
 	public bool encoderCaptureMainVariableThisSetOrHistorical;

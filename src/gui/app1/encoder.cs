@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2023   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2004-2024   Xavier de Blas <xaviblas@gmail.com>
  */
 using System;
 using System.IO; 
@@ -4794,7 +4794,7 @@ public partial class ChronoJumpWindow
 
 
 		//pack combos
-		button_combo_encoder_exercise_capture_left = UtilGtk.CreateArrowButton(ArrowType.Left, ShadowType.In, 40, 40, UtilGtk.ArrowEnum.NONE);
+		button_combo_encoder_exercise_capture_left = UtilGtk.CreateArrowButton (40, 40, UtilGtk.ArrowEnum.LEFT);
 		button_combo_encoder_exercise_capture_left.Sensitive = false;
 		button_combo_encoder_exercise_capture_left.Clicked += on_button_encoder_exercise_capture_left_clicked;
 		hbox_combo_encoder_exercise_capture.PackStart(button_combo_encoder_exercise_capture_left, true, true, 0);
@@ -4807,7 +4807,7 @@ public partial class ChronoJumpWindow
 		spin_encoder_capture_curves_best_n.Value = preferences.encoderAutoSaveCurveBestNValue;
 		manageVisibilityOf_spin_encoder_capture_curves_best_n ();
 
-		button_combo_encoder_exercise_capture_right = UtilGtk.CreateArrowButton(ArrowType.Right, ShadowType.In, 40, 40, UtilGtk.ArrowEnum.NONE);
+		button_combo_encoder_exercise_capture_right = UtilGtk.CreateArrowButton (40, 40, UtilGtk.ArrowEnum.RIGHT);
 		button_combo_encoder_exercise_capture_right.Sensitive = true;
 		button_combo_encoder_exercise_capture_right.Clicked += on_button_encoder_exercise_capture_right_clicked;
 		hbox_combo_encoder_exercise_capture.PackStart(button_combo_encoder_exercise_capture_right, true, true, 0);
@@ -6200,6 +6200,7 @@ public partial class ChronoJumpWindow
 					secondaryVariable, preferences.encoderCaptureShowLoss,
 					false, //not capturing
 					findEccon(true),
+					findMass(Constants.MassType.DISPLACED),
 					feedbackEncoder,
 					encoderConfigurationCurrent.has_inertia,
 					configChronojump.PlaySoundsFromFile,
@@ -7079,6 +7080,7 @@ public partial class ChronoJumpWindow
 						secondaryVariable, preferences.encoderCaptureShowLoss,
 						true, //capturing
 						findEccon(true),
+						findMass(Constants.MassType.DISPLACED),
 						feedbackEncoder,
 						encoderConfigurationCurrent.has_inertia,
 						configChronojump.PlaySoundsFromFile,
@@ -7689,6 +7691,7 @@ public partial class ChronoJumpWindow
 						secondaryVariable, preferences.encoderCaptureShowLoss,
 						false, //not capturing
 						findEccon(true),
+						findMass(Constants.MassType.DISPLACED),
 						feedbackEncoder,
 						encoderConfigurationCurrent.has_inertia,
 						configChronojump.PlaySoundsFromFile,

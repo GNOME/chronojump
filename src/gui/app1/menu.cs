@@ -268,6 +268,7 @@ public partial class ChronoJumpWindow
 			UtilGtk.ContrastLabelsWidget (Config.ColorBackgroundShiftedIsDark, hbox_social_network_poll);
 		}
 
+		/*
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_check_menu_session,
 				UtilGtk.Colors.YELLOW, UtilGtk.Colors.YELLOW_LIGHT);
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_menu_session_new,
@@ -290,6 +291,7 @@ public partial class ChronoJumpWindow
 				UtilGtk.Colors.YELLOW, UtilGtk.Colors.YELLOW_LIGHT);
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_persons_down,
 				UtilGtk.Colors.YELLOW, UtilGtk.Colors.YELLOW_LIGHT);
+		*/
 	}
 
 	private void menuShowVerticalArrow (bool selected, Gtk.Arrow a_up, Gtk.Arrow a_down)

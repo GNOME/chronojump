@@ -264,6 +264,7 @@ public partial class ChronoJumpWindow
 
 	private void app1s_eventboxes_paint()
 	{
+		/*
 		UtilGtk.EventBoxColorBackgroundActive (app1s_eventbox_button_close0,
 				UtilGtk.Colors.YELLOW, UtilGtk.Colors.YELLOW_LIGHT);
 		UtilGtk.EventBoxColorBackgroundActive (app1s_eventbox_button_cancel1,
@@ -298,6 +299,7 @@ public partial class ChronoJumpWindow
 				UtilGtk.Colors.YELLOW, UtilGtk.Colors.YELLOW_LIGHT);
 		UtilGtk.EventBoxColorBackgroundActive (app1s_eventbox_button_view_data_folder_close,
 				UtilGtk.Colors.YELLOW, UtilGtk.Colors.YELLOW_LIGHT);
+		*/
 	}
 
 	private void app1s_label_session_set_name()

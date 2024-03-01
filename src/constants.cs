@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Copyright (C) 2004-2023   Xavier de Blas <xaviblas@gmail.com>
+ *  Copyright (C) 2004-2024   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -1157,6 +1157,8 @@ public class Constants
 	public static string Invert = "Invert";
 	public static string Selected = "Selected";
 
+	public static string FileNameLeft = "left.png";
+	public static string FileNameRight = "right.png";
 	public static string FileNameArrowForward = "arrow_forward.png";
 	public static string FileNameArrowBackward = "arrow_backward.png";
 	public static string FileNameArrowForwardEmphasis = "arrow_forward_emphasis.png";

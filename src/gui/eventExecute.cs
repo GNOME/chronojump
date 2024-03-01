@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2023   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2004-2024   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -2579,7 +2579,7 @@ public class CairoPaintBarplotPreEncoder : CairoPaintBarsPre
 
 	//copied from gui/encoderGraphObjects (using ArrayList)
 	private ArrayList data; //data is related to mainVariable (barplot)
-	private List<double> lineData_l; //related to secondary variable (by default range)
+	private List<double> lineData_l; //related to secondary variable (by default range (mm))
 	private List<double> dataStart_l; //used on video (in seconds)
 	private List<double> dataDuration_l; //used on video (in seconds)
 	private ArrayList dataRangeOfMovement; //ROM, need it to discard last rep for loss. Is not the same as lineData_l because maybe user selected another variable as secondary. only checks con.
@@ -2618,6 +2618,8 @@ public class CairoPaintBarplotPreEncoder : CairoPaintBarsPre
 	private string workStr;
 	private string impulseStr;
 
+	private bool noMassAndNeeded;
+
 	//just blank the screen
 	public CairoPaintBarplotPreEncoder (DrawingArea darea, string fontStr)
 	{
@@ -2638,11 +2640,27 @@ public class CairoPaintBarplotPreEncoder : CairoPaintBarsPre
 
 		initialize (darea, fontStr, mode, personName, testName, pDN);
 
+		if (noMassAndNeededCheck ())
+		{
+			noMassAndNeeded = true;
+			return;
+		}
+
 		//calcule all graph stuff
 		fillArraysDiscardingReps ();
 		fillVariableListsForGraph ();
 		prepareTitle ();
 		prepareLossArrow ();
+	}
+
+	private bool noMassAndNeededCheck ()
+	{
+		if (pegbe.massDisplaced < 0.00001 &&
+				(pegbe.mainVariable != Constants.Range && pegbe.mainVariable != Constants.RangeAbsolute &&
+				 pegbe.mainVariable != Constants.MeanSpeed && pegbe.mainVariable != Constants.MaxSpeed) )
+				 return true;
+
+		return false;
 	}
 
 	public override void ShowMessage (DrawingArea darea, string fontTypeStr, string message)
@@ -2666,7 +2684,12 @@ public class CairoPaintBarplotPreEncoder : CairoPaintBarsPre
 
 	protected override void paintSpecific()
 	{
-		paintSpecificDo ();
+		if (noMassAndNeeded)
+			ShowMessage (darea, preferences.fontType.ToString(),
+					Catalog.GetString("Main variable:") + " " + Catalog.GetString(pegbe.mainVariable) + "\n\n" +
+					Catalog.GetString("The bars are not shown because the displaced mass is 0."));
+		else
+			paintSpecificDo ();
 	}
 
 	//preferences can change
@@ -2850,21 +2873,6 @@ public class CairoPaintBarplotPreEncoder : CairoPaintBarsPre
 			}
 
 			count ++;
-		}
-		if(maxThisSetForCalc <= 0)
-		{
-			if(countValid > 0 &&
-					(pegbe.mainVariable != Constants.Range && pegbe.mainVariable != Constants.RangeAbsolute &&
-					 pegbe.mainVariable != Constants.MeanSpeed && pegbe.mainVariable != Constants.MaxSpeed) )
-				//TODO:
-				/*
-				ShowMessage(
-						Catalog.GetString("Main variable:") + " " + Catalog.GetString(pegbe.mainVariable) + "\n\n" +
-						Catalog.GetString("Bars are not shown because the displaced mass is 0."),
-						false, false);
-						*/
-
-			return;
 		}
 
 		maxAbsoluteForCalc = maxThisSetForCalc;
@@ -3157,7 +3165,20 @@ public class CairoPaintBarplotPreEncoder : CairoPaintBarsPre
 			cb.PassArrowData (cairoBarsArrow);
 
 		if(lineData_l.Count > 0)
-			cb.LineData_l = lineData_l; //range
+		{
+			if (! preferences.encoderCaptureSecondaryVariableYAxisCustom)
+				cb.Cbsld = new CairoBarsSecondaryLineData (
+						lineData_l,
+						-1,
+						-1,
+						pegbe.secondaryVariable);
+			else
+				cb.Cbsld = new CairoBarsSecondaryLineData (
+						lineData_l,
+						preferences.encoderCaptureSecondaryVariableYAxisCustomMax,
+						preferences.encoderCaptureSecondaryVariableYAxisCustomMin,
+						pegbe.secondaryVariable);
+		}
 
 		if(eccOverload_l != null && eccOverload_l.Count > 0)
 		{

@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Copyright (C) 2016-2023   Xavier de Blas <xaviblas@gmail.com>
+ *  Copyright (C) 2016-2024   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -693,7 +693,7 @@ public class ChronopicRegisterWindow
 			label_device.Show();
 
 			Gtk.Box hbox_type = new Gtk.Box(Gtk.Orientation.Horizontal, 6);
-			Button button_left = UtilGtk.CreateArrowButton(ArrowType.Left, ShadowType.In, 50, -1, UtilGtk.ArrowEnum.BACKWARD);
+			Button button_left = UtilGtk.CreateArrowButton (50, -1, UtilGtk.ArrowEnum.BACKWARD);
 			button_left.Sensitive = (listConnected[count-1].Type != TypePixList.l[0].Type);
 			button_left.CanFocus = false;
 			button_left.IsFocus = false;
@@ -712,7 +712,7 @@ public class ChronopicRegisterWindow
 			if(ChronopicRegisterPort.TypePrint(listConnected[count-1].Type) == ChronopicRegisterPort.TypePrint(ChronopicRegisterPort.Types.UNKNOWN))
 				arrowEnum = UtilGtk.ArrowEnum.FORWARD_EMPHASIS;
 
-			Button button_right = UtilGtk.CreateArrowButton(ArrowType.Right, ShadowType.In, 50, -1, arrowEnum);
+			Button button_right = UtilGtk.CreateArrowButton (50, -1, arrowEnum);
 
 			button_right.CanFocus = false;
 			button_right.IsFocus = false;

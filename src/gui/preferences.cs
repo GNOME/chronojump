@@ -294,6 +294,7 @@ public class PreferencesWindow
 	public Gtk.Button FakeButtonMaximizeChanges;
 	public Gtk.Button FakeButtonPersonWin;
 	public Gtk.Button FakeButtonConfigurationImported;
+	public Gtk.Button FakeButtonColorsChanged;
 	public Gtk.Button FakeButtonDebugModeStart;
 	
 	static PreferencesWindow PreferencesWindowBox;
@@ -343,6 +344,7 @@ public class PreferencesWindow
 		FakeButtonMaximizeChanges = new Gtk.Button ();
 		FakeButtonPersonWin = new Gtk.Button ();
 		FakeButtonConfigurationImported = new Gtk.Button();
+		FakeButtonColorsChanged = new Gtk.Button ();
 		FakeButtonDebugModeStart = new Gtk.Button();
 	}
 
@@ -933,16 +935,14 @@ public class PreferencesWindow
 	bool colorChoosedLastDefined;
 	private void on_button_color_choose_clicked(object o, EventArgs args)
 	{
-		using (ColorSelectionDialog colorSelectionDialog = new ColorSelectionDialog (Catalog.GetString("Select color")))
+		using (ColorChooserDialog colorChooserDialog = new ColorChooserDialog (Catalog.GetString("Select color"), preferences_win))
 		{
-			colorSelectionDialog.TransientFor = preferences_win;
-			colorSelectionDialog.ColorSelection.CurrentRgba = colorBackground;
-			colorSelectionDialog.ColorSelection.HasPalette = true;
+			colorChooserDialog.Rgba = colorBackground;
 
-			if (colorSelectionDialog.Run () == (int) ResponseType.Ok)
+			if (colorChooserDialog.Run () == (int) ResponseType.Ok)
 			{
 				// A) changes on preferences gui
-				colorBackground = colorSelectionDialog.ColorSelection.CurrentRgba;
+				colorBackground = colorChooserDialog.Rgba;
 
 				// B) changes on preferences object and SqlitePreferences
 				preferences.colorBackgroundString = Preferences.PreferencesChange(
@@ -962,7 +962,7 @@ public class PreferencesWindow
 				paintBg (colorBackground);
 			}
 
-			colorSelectionDialog.Hide ();
+			colorChooserDialog.Hide ();
 		}
 	}
 
@@ -2172,32 +2172,35 @@ public class PreferencesWindow
 		UtilGtk.WindowColor (preferences_win, color);
 
 		//notebook_top
-		UtilGtk.WidgetColor (notebook_top, Config.ColorBackgroundShifted);
+		notebook_top.Name = "bgCss";
 		UtilGtk.ContrastLabelsNotebook (Config.ColorBackgroundShiftedIsDark, notebook_top);
 
 		//notebook
-		UtilGtk.WidgetColor (notebook, Config.ColorBackgroundShifted);
+		notebook.Name = "bgCss";
 		UtilGtk.ContrastLabelsNotebook (Config.ColorBackgroundShiftedIsDark, notebook);
 
 		//notebook_races
-		UtilGtk.WidgetColor (notebook_races, Config.ColorBackgroundShifted);
+		notebook_races.Name = "shiftedCss";
 		UtilGtk.ContrastLabelsNotebook (Config.ColorBackgroundShiftedIsDark, notebook_races);
 
 		//notebook_races_double_contacts
-		UtilGtk.WidgetColor (notebook_races_double_contacts, Config.ColorBackgroundShifted);
+		notebook_races_double_contacts.Name = "shiftedCss";
 		UtilGtk.ContrastLabelsNotebook (Config.ColorBackgroundShiftedIsDark, notebook_races_double_contacts);
 
 		//notebook_force_sensor
-		UtilGtk.WidgetColor (notebook_force_sensor, Config.ColorBackgroundShifted);
+		notebook_force_sensor.Name = "shiftedCss";
 		UtilGtk.ContrastLabelsNotebook (Config.ColorBackgroundShiftedIsDark, notebook_force_sensor);
 
 		//notebook_encoder
-		UtilGtk.WidgetColor (notebook_encoder, Config.ColorBackgroundShifted);
+		notebook_encoder.Name = "shiftedCss";
 		UtilGtk.ContrastLabelsNotebook (Config.ColorBackgroundShiftedIsDark, notebook_encoder);
 
 		//notebook_multimedia
-		UtilGtk.WidgetColor (notebook_multimedia, Config.ColorBackgroundShifted);
+		notebook_multimedia.Name = "shiftedCss";
 		UtilGtk.ContrastLabelsNotebook (Config.ColorBackgroundShiftedIsDark, notebook_multimedia);
+
+		//send signal to ApplyCSS
+		FakeButtonColorsChanged.Click ();
 	}
 
 	private void on_drawingarea_background_color_draw (object o, Gtk.DrawnArgs args)
@@ -2219,9 +2222,9 @@ public class PreferencesWindow
 
 		/*
 		LogB.Information ("going to paint in BLUE_CHRONOJUMP");
-		LogB.Information (UtilGtk.GetRGBA (UtilGtk.Colors.BLUE_CHRONOJUMP).Red.ToString());
-		LogB.Information (UtilGtk.GetRGBA (UtilGtk.Colors.BLUE_CHRONOJUMP).Green.ToString());
-		LogB.Information (UtilGtk.GetRGBA (UtilGtk.Colors.BLUE_CHRONOJUMP).Blue.ToString());
+		LogB.Information (UtilGtk.GetRGBAs (UtilGtk.Colors.BLUE_CHRONOJUMP).Red);
+		LogB.Information (UtilGtk.GetRGBAs (UtilGtk.Colors.BLUE_CHRONOJUMP).Green);
+		LogB.Information (UtilGtk.GetRGBAs (UtilGtk.Colors.BLUE_CHRONOJUMP).Blue);
 		*/
 		CairoUtil.PaintDrawingArea (da, cr, UtilGtk.GetRGBA (UtilGtk.Colors.BLUE_CHRONOJUMP));
 	}

@@ -153,6 +153,7 @@ public partial class ChronoJumpWindow
 
 		UtilGtk.ViewportColor (viewport_image_logo_icon, UtilGtk.Colors.BLUE_CHRONOJUMP);
 
+		/*
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_menu_database,
 				UtilGtk.Colors.YELLOW, UtilGtk.Colors.YELLOW_LIGHT);
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_check_menu_session1,
@@ -181,6 +182,7 @@ public partial class ChronoJumpWindow
 				UtilGtk.Colors.YELLOW, UtilGtk.Colors.YELLOW_LIGHT);
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_networks_encoder_guest,
 				UtilGtk.Colors.YELLOW, UtilGtk.Colors.YELLOW_LIGHT);
+		*/
 	}
 
 

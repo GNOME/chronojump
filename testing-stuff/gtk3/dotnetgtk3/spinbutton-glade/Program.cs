@@ -8,6 +8,7 @@ public class EncoderConfigurationWindow
 	// at glade ---->
 	Gtk.Window encoder_configuration;
 	Gtk.Box box_combo_d_num1;
+	Gtk.Button button_close;
 	// <----> at glade
 
     	SpinButton spinner = new SpinButton(1, 10, 1);
@@ -46,7 +47,12 @@ public class EncoderConfigurationWindow
 	void on_button_encoder_capture_inertial_cancel_clicked (object o, EventArgs args) {}
 	void on_button_encoder_capture_inertial_do_clicked (object o, EventArgs args) {}
 	void on_button_accept_clicked (object o, EventArgs args) {}
-	private void on_button_close_clicked (object o, EventArgs args) {}
+	private void on_button_close_clicked (object o, EventArgs args)
+	{
+		//managed on gui/encoder.cs
+		EncoderConfigurationWindowBox.encoder_configuration.Hide();
+	}
+
 	private void on_button_previous_clicked (object o, EventArgs args) {}
 	private void on_button_next_clicked (object o, EventArgs args) {}
 	void on_button_encoder_capture_inertial_accuracy_clicked (object o, EventArgs args) {}
@@ -70,8 +76,14 @@ public class EncoderConfigurationWindow
 	private void on_radio_encoder_type_rotary_axis_toggled (object obj, EventArgs args) {}
 	private void on_check_rotary_friction_inertia_on_axis_toggled (object obj, EventArgs args) {}
 	
+	public Button Button_close
+	{
+		get { return button_close; }
+	}
+	
 	protected void on_delete_event (object o, DeleteEventArgs args)
 	{
+		button_close.Click();
 		args.RetVal = true;
 	}
 
@@ -79,6 +91,7 @@ public class EncoderConfigurationWindow
 	{
 		encoder_configuration = (Gtk.Window) builder.GetObject ("encoder_configuration");
 		box_combo_d_num1 = (Gtk.Box) builder.GetObject ("box_combo_d_num1");
+		button_close = (Gtk.Button) builder.GetObject ("button_close");
 	}
 }
 
@@ -93,6 +106,7 @@ class MyWindow : Gtk.Window {
     Scale vert = new Scale(Vertical, 1, 10, 1);
     SpinButton spinner = new SpinButton(1, 10, 1);
     Label label = new Label("one");
+    Label label2 = new Label("css test");
     EncoderConfigurationWindow encoder_configuration_win;
 
     public MyWindow() : base("sliders") {
@@ -106,6 +120,8 @@ class MyWindow : Gtk.Window {
         row2.Add(spinner);
         spinner.ValueChanged += on_spinner_changed;
         row2.Add(label);
+        row2.Add(label2);
+	label2.Name = "someName";
 
         Box vbox = new Box(Vertical, 0);
         vbox.PackStart(row, true, true, 0);
@@ -113,11 +129,41 @@ class MyWindow : Gtk.Window {
         Add(vbox);
         vbox.Margin = 8;
 
-	encoder_configuration_win = EncoderConfigurationWindow.View ();
+	//uncomment both to show encoder_configuration_win
+	//dencoder_configuration_win = EncoderConfigurationWindow.View ();
+	//encoder_configuration_win.Button_close.Clicked += new EventHandler (on_encoder_configuration_win_closed);
 
-	//encoder_configuration_win.Button_close.Clicked += new EventHandler(on_encoder_configuration_win_closed);
+    	ApplyCSS ();
     }
 
+    public static void ApplyCSS ()
+    {
+	    CssProvider css = new CssProvider ();
+
+	    var data =
+		    "label {" +
+		    	"color: " + "#dd00dd" + ";" +
+		    "}" +
+		    //"label #someName {" + //does not work
+		    //"#someName label {" + 	//does not work
+		    "label#someName {" +  	//works
+			    "color: " + "#0000ff" + ";" +
+		    "}" +
+		    "radio {" +
+			    "color: " + "#00ff00" + ";" +
+		    "}";
+
+	    css.LoadFromData(data);
+
+	    Gtk.StyleContext.AddProviderForScreen(Gdk.Screen.Default, css, 800); //needed
+    }
+
+    void on_encoder_configuration_win_closed (object o, EventArgs args)
+    {
+	    encoder_configuration_win.Button_close.Clicked -= new EventHandler(on_encoder_configuration_win_closed);
+	    Application.Quit();
+    }
+ 
     void update(double val) {
         horiz.Value = vert.Value = spinner.Value = val;
         label.Text = nums[(int) val];

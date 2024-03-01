@@ -329,9 +329,22 @@ public class Json
 		return news_l;
 	}
 
+
+	//thanks to https://stackoverflow.com/a/72205828
+	//private async Task saveFile (string fileUrl, string pathToSave)
+	private async void saveFile (string fileUrl, string pathToSave)
+	{
+		var httpClient = new HttpClient ();
+		var httpResult = await httpClient.GetAsync (fileUrl);
+		using var resultStream = await httpResult.Content.ReadAsStreamAsync ();
+		using var fileStream = File.Create (pathToSave);
+		resultStream.CopyTo (fileStream);
+	}
+
 	private bool downloadNewsImage(string linkServerImage, string copyTo)
 	{
 		try {
+			/* deprecated on .NET 6
 			using (WebClient client = new WebClient())
 			{
 				LogB.Information (string.Format("News DownloadImage from: {0} to: {1}",
@@ -339,6 +352,8 @@ public class Json
 
 				client.DownloadFile(new Uri(linkServerImage), copyTo); //if exists, it overwrites
 			}
+			*/
+			saveFile (linkServerImage, copyTo);
 		} catch {
 			LogB.Warning("News DownloadImage catched");
 			return false;

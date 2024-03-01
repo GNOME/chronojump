@@ -176,8 +176,10 @@ public partial class ChronoJumpWindow
 	//contact tests execute buttons
 	Gtk.Image image_button_finish;
 	Gtk.Image image_button_finish1;
+	Gtk.Image image_button_finish2;
 	Gtk.Image image_button_cancel; //needed this specially because theme cancel sometimes seems "record"
 	Gtk.Image image_button_cancel1;
+	Gtk.Image image_button_cancel2;
 	//encoder tests execute buttons
 	//Gtk.Image image_encoder_capture_execute;
 	
@@ -649,6 +651,9 @@ public partial class ChronoJumpWindow
 
 		label_version.Text = buildVersion;
 		label_version_hidden.Text = buildVersion;
+		label_version.Name = "lightCss";
+		//label_version_hidden.Name = "blueChronojumpHideCss";
+		label_version_hidden.Name = "ChronojumpHideCss";
 
 		//manage app1 will not be hiding other windows at start
 		app1Shown = false;
@@ -657,8 +662,7 @@ public partial class ChronoJumpWindow
 		//show chronojump logo on down-left area
 		changeTestImage("", "", "LOGO");
 	
-		//white bg
-		eventbox_image_test.OverrideBackgroundColor (StateFlags.Normal, UtilGtk.GetRGBA (UtilGtk.Colors.WHITE));
+		eventbox_image_test.Name = "whiteBgCss"; //white bg
 	
 		//new DialogMessage(Constants.MessageTypes.INFO, UtilGtk.ScreenHeightFitted(false).ToString() );
 		//UtilGtk.ResizeIfNeeded(stats_window);
@@ -733,6 +737,7 @@ public partial class ChronoJumpWindow
 		radio_contacts_graph_allTests.Active = true;
 		radio_contacts_results_personAll.Active = true;
 
+		/*
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_person_close,
 				UtilGtk.Colors.YELLOW, UtilGtk.Colors.YELLOW_LIGHT);
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_show_modes_contacts,
@@ -793,6 +798,7 @@ public partial class ChronoJumpWindow
 				UtilGtk.Colors.YELLOW, UtilGtk.Colors.YELLOW_LIGHT);
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_radio_menu_2_2_2_inertial,
 				UtilGtk.Colors.YELLOW, UtilGtk.Colors.YELLOW_LIGHT);
+		*/
 
 		app1s_eventboxes_paint();
 
@@ -3745,6 +3751,7 @@ public partial class ChronoJumpWindow
 		preferencesWin.FakeButtonConfigurationImported.Clicked += new EventHandler(on_preferences_import_configuration);
 		preferencesWin.FakeButtonConfigurationImported.Clicked += new EventHandler(on_preferences_import_configuration);
 		preferencesWin.FakeButtonDebugModeStart.Clicked += new EventHandler(on_preferences_debug_mode_start);
+		preferencesWin.FakeButtonColorsChanged.Clicked += new EventHandler(on_preferences_colors_changed);
 		preferencesWin.Button_close.Clicked += new EventHandler(on_preferences_closed);
 	}
 
@@ -3773,6 +3780,11 @@ public partial class ChronoJumpWindow
 		configInit();
 		LogB.Information("Initialized configuration");
 		*/
+	}
+
+	private void on_preferences_colors_changed (object o, EventArgs args)
+	{
+		UtilGtk.ApplyCSS ();
 	}
 
 	private void on_preferences_closed (object o, EventArgs args)
@@ -3858,6 +3870,7 @@ public partial class ChronoJumpWindow
 		//TODO: only if color changed or personWinHide
 		Config.UseSystemColor = preferences.colorBackgroundOsColor;
 		doLabelsContrast(configChronojump.PersonWinHide);
+		UtilGtk.ApplyCSS ();
 
 
 		if(myTreeViewPersons != null)
@@ -8418,11 +8431,9 @@ LogB.Debug("mc finished 5");
 	//changed by chronojump when it's needed
 	private void notebooks_change(Constants.Modes mode)
 	{
-		LogB.Information("notebooks_change");
 		//LogB.Debug(new StackFrame(1).GetMethod().Name);
 
-		//LogB.Information("currentPage" + notebook_execute.CurrentPage.ToString());
-		//LogB.Information("desiredPage" + desiredPage.ToString());
+		LogB.Information ("notebooks_change start, currentPage: " + notebook_execute.CurrentPage.ToString());
 
 		if(mode == Constants.Modes.JUMPSSIMPLE)
 		{
@@ -8526,6 +8537,8 @@ LogB.Debug("mc finished 5");
 			button_execute_test.Sensitive = myTreeViewPersons.IsThereAnyRecord();
 			button_auto_start.Sensitive = myTreeViewPersons.IsThereAnyRecord();
 		}
+
+		LogB.Information ("notebooks_change almost end, currentPage: " + notebook_execute.CurrentPage.ToString());
 
 		//Attention: "notebooks_change sqlite problem"
 		//This will call stats_win_change_test_type
@@ -9012,6 +9025,12 @@ LogB.Debug("mc finished 5");
 			if(! secondaryVariableShow)
 				secondaryVariableStr = "";
 
+			/* these 3 are not stored on DB yet */
+			preferences.encoderCaptureSecondaryVariableYAxisCustom = feedbackWin.GetSecondaryVariableYAxisCustom;
+			preferences.encoderCaptureSecondaryVariableYAxisCustomMax = feedbackWin.GetSecondaryVariableYAxisCustomMax;
+			preferences.encoderCaptureSecondaryVariableYAxisCustomMin = feedbackWin.GetSecondaryVariableYAxisCustomMin;
+
+
 			if(preferences.encoderCaptureFeedbackEccon != feedbackWin.GetEncoderCaptureFeedbackEccon) {
 				SqlitePreferences.Update(SqlitePreferences.EncoderCaptureFeedbackEccon,
 						feedbackWin.GetEncoderCaptureFeedbackEccon.ToString(), true);
@@ -9094,6 +9113,7 @@ LogB.Debug("mc finished 5");
 							secondaryVariableStr, preferences.encoderCaptureShowLoss,
 							false, //not capturing
 							findEccon(true),
+							findMass(Constants.MassType.DISPLACED),
 							feedbackEncoder,
 							encoderConfigurationCurrent.has_inertia,
 							configChronojump.PlaySoundsFromFile,
@@ -9284,11 +9304,17 @@ LogB.Debug("mc finished 5");
 				{
 					box_encoder_capture_signal_horizontal.Visible = false;
 					box_encoder_capture_signal_vertical.Visible = true;
-					alignment_encoder_capture_signal.Reparent (box_encoder_capture_signal_vertical);
+
+					//alignment_encoder_capture_signal.Reparent (box_encoder_capture_signal_vertical); //deprecated on gtk3
+					box_encoder_capture_signal_horizontal.Remove (alignment_encoder_capture_signal);
+					box_encoder_capture_signal_vertical.Add (alignment_encoder_capture_signal);
 				} else {
 					box_encoder_capture_signal_horizontal.Visible = true;
 					box_encoder_capture_signal_vertical.Visible = false;
-					alignment_encoder_capture_signal.Reparent (box_encoder_capture_signal_horizontal);
+
+					//alignment_encoder_capture_signal.Reparent (box_encoder_capture_signal_horizontal); //deprecated on gtk3
+					box_encoder_capture_signal_vertical.Remove (alignment_encoder_capture_signal);
+					box_encoder_capture_signal_horizontal.Add (alignment_encoder_capture_signal);
 				}
 
 				fixEncoderCaptureWidgetsGeometry ();
@@ -10073,8 +10099,10 @@ LogB.Debug("mc finished 5");
 		//contact tests execute buttons
 		image_button_finish = (Gtk.Image) builder.GetObject ("image_button_finish");
 		image_button_finish1 = (Gtk.Image) builder.GetObject ("image_button_finish1");
+		image_button_finish2 = (Gtk.Image) builder.GetObject ("image_button_finish2");
 		image_button_cancel = (Gtk.Image) builder.GetObject ("image_button_cancel"); //needed this specially because theme cancel sometimes seems "record"
 		image_button_cancel1 = (Gtk.Image) builder.GetObject ("image_button_cancel1");
+		image_button_cancel2 = (Gtk.Image) builder.GetObject ("image_button_cancel2");
 		//encoder tests execute buttons
 		//image_encoder_capture_execute = (Gtk.Image) builder.GetObject ("image_encoder_capture_execute");
 		fullscreen_capture_box_buttons_finish_cancel = (Gtk.Box) builder.GetObject ("fullscreen_capture_box_buttons_finish_cancel");

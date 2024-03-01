@@ -6165,15 +6165,21 @@ public partial class ChronoJumpWindow
 		{
 			//TODO: check this < instead of <= does not fail on capture
 			//this applies to both
-			for(int j=0, i = eCapture.PointsPainted +1 ; i < eCapture.PointsCaptured ; i ++, j++)
+			for (int i = eCapture.PointsPainted +1 ; i < eCapture.PointsCaptured ; i ++)
 			{
-				cairoGraphEncoderSignalPoints_l.Add(eCapture.EncoderCapturePointsCairo[i]);
+				cairoGraphEncoderSignalPoints_l.Add (new PointF (
+							eCapture.EncoderCapturePointsCairo[i].X,
+							UtilAll.DivideSafe (eCapture.EncoderCapturePointsCairo[i].Y, 10.0) //cm
+							));
 			}
 
 			//TODO: check this < instead of <= does not fail on capture
-			if(mode == UpdateEncoderPaintModes.INERTIAL)
-				for(int j=0, i = eCapture.PointsPainted +1 ; i < eCapture.PointsCaptured ; i ++, j ++)
-					cairoGraphEncoderSignalInertialPoints_l.Add(eCapture.EncoderCapturePointsInertialDiscCairo[i]);
+			if (mode == UpdateEncoderPaintModes.INERTIAL)
+				for (int i = eCapture.PointsPainted +1 ; i < eCapture.PointsCaptured ; i ++)
+					cairoGraphEncoderSignalInertialPoints_l.Add (new PointF (
+								eCapture.EncoderCapturePointsInertialDiscCairo[i].X,
+								UtilAll.DivideSafe (eCapture.EncoderCapturePointsInertialDiscCairo[i].Y, 10.0) //cm
+								));
 
 			eCapture.PointsPainted = eCapture.PointsCaptured;
 		}

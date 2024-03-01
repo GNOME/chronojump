@@ -12,6 +12,15 @@
 	</PropertyGroup>
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
 	  <DefineConstants>$(DefineConstants);OSTYPE_WINDOWS</DefineConstants>
+	  <CustomCommands>
+	    <CustomCommands>
+	      <Command>
+	        <type>AfterBuild</type>
+	        <command>post-build-mac.sh ${TargetDir}</command>
+	        <workingdir></workingdir>
+	      </Command>
+	    </CustomCommands>
+	  </CustomCommands>
 	</PropertyGroup>
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
 	  <DefineConstants>$(DefineConstants);OSTYPE_WINDOWS</DefineConstants>

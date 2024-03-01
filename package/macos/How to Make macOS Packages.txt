@@ -17,6 +17,7 @@ brew install python3
 brew install dotnet-sdk
 brew install gtk+3
 
+#Use Mono to compile and build gtk-sharp which is required by autotools as autotools checks whether it exists. But it's not used while running Chronojump.
 brew install mono
 cd "~/Desktop/chronojump"
 git clone -b main https://github.com/mono/gtk-sharp.git
@@ -26,6 +27,7 @@ sh autogen.sh --prefix=`pkg-config --variable=prefix mono`
 make
 make install
 
+#Don't need to use jhbuild any more.
 #cd ../package/macos
 #sh gtk-osx-setup.sh
 #export PATH="$PATH:~/.new_local/bin"
@@ -43,7 +45,17 @@ make install
 
 [assembly: AssemblyVersion("1.0.0.0")]
 
-5. Make a package (Only when a package required)
+5. Make post-build-mac.sh executable (Every time when it's changed)
+
+cd "~/Desktop/chronojump/src"
+chmod +x post-build-mac.sh
+
+6. Make a package (Only when a package required)
 
 cd "~/Desktop/chronojump/package/macos"
 make
+
+7. Software can be run without creating package with
+
+cd src
+dotnet run --project Chronojump-mac.csproj --property WarningLevel=0

@@ -132,6 +132,13 @@ public class FeedbackWindow
 
 	Gtk.CheckButton check_encoder_show_asteroids;
 
+	Gtk.Box box_signal_encoder_y_axis;
+	Gtk.RadioButton radio_signal_encoder_y_axis_auto;
+	Gtk.RadioButton radio_signal_encoder_y_axis_custom;
+	Gtk.Grid grid_signal_encoder_y_axis_custom_values;
+	Gtk.SpinButton spin_signal_encoder_displ_custom_max;
+	Gtk.SpinButton spin_signal_encoder_displ_custom_min;
+
 	Gtk.Button button_test_good;
 	//Gtk.Button button_test_bad;
 	Gtk.Label label_test_sound_result;
@@ -591,6 +598,7 @@ public class FeedbackWindow
 			notebook_capture_feedback.Page = 2; //asteroids
 			label_feedback_asteroids_min_units.Text = "cm";
 			label_feedback_asteroids_max_units.Text = "cm";
+			box_signal_encoder_y_axis.Visible = true;
 
 			notebook_main.GetNthPage(ENCODERAUTOPAGE).Show();
 			notebook_main.GetNthPage(ENCODERMANUALPAGE).Show();
@@ -692,6 +700,7 @@ public class FeedbackWindow
 
 			box_forceSensor_feedback.Visible = true;
 			check_encoder_show_asteroids.Visible = false;
+			box_signal_encoder_y_axis.Visible = false;
 
 			notebook_main.GetNthPage(SIGNALPAGE).Show();
 		}
@@ -741,6 +750,7 @@ public class FeedbackWindow
 			radio_encoder_relative_to_set.Active = true;
 	}
 
+	// feedback automatic secondary variable ---->
 	private void on_check_encoder_show_secondary_variable_toggled (object o, EventArgs args)
 	{
 		hbox_combo_encoder_secondary_variable.Visible = check_encoder_show_secondary_variable.Active;
@@ -761,6 +771,19 @@ public class FeedbackWindow
 	{
 		box_encoder_secondary_variable_y_axis.Visible = UtilGtk.ComboGetActive (combo_encoder_secondary_variable) == Constants.RangeAbsolute;
 	}
+	// <---- feedback automatic secondary variable
+	
+	// feedback signal ---->
+
+	private void on_radio_signal_encoder_y_axis_auto_custom_toggled (object o, EventArgs args)
+	{
+		if (radio_signal_encoder_y_axis_auto.Active)
+			grid_signal_encoder_y_axis_custom_values.Visible = false;
+		if (radio_signal_encoder_y_axis_custom.Active)
+			grid_signal_encoder_y_axis_custom_values.Visible = true;
+	}
+
+	// <---- feedback signal
 
 	private void on_check_encoder_inertial_ecc_overload_toggled (object o, EventArgs args)
 	{
@@ -1654,6 +1677,16 @@ public class FeedbackWindow
 		get { return Convert.ToInt32 (spin_encoder_height_custom_min.Value); }
 	}
 
+	public bool GetEncoderSignalDisplAxisCustom {
+		get { return radio_signal_encoder_y_axis_custom.Active; }
+	}
+	public int GetEncoderSignalDisplAxisCustomMax {
+		get { return Convert.ToInt32 (spin_signal_encoder_displ_custom_max.Value); }
+	}
+	public int GetEncoderSignalDisplAxisCustomMin {
+		get { return Convert.ToInt32 (spin_signal_encoder_displ_custom_min.Value); }
+	}
+
 	public Preferences.EncoderPhasesEnum GetEncoderCaptureFeedbackEccon {
 		get {
 			if(radio_encoder_eccon_ecc.Active)
@@ -1933,6 +1966,13 @@ public class FeedbackWindow
 		spinbutton_encoder_peakpower_lower = (Gtk.SpinButton) builder.GetObject ("spinbutton_encoder_peakpower_lower");
 
 		check_encoder_show_asteroids = (Gtk.CheckButton) builder.GetObject ("check_encoder_show_asteroids");
+
+		box_signal_encoder_y_axis = (Gtk.Box) builder.GetObject ("box_signal_encoder_y_axis");
+		radio_signal_encoder_y_axis_auto = (Gtk.RadioButton) builder.GetObject ("radio_signal_encoder_y_axis_auto");
+		radio_signal_encoder_y_axis_custom = (Gtk.RadioButton) builder.GetObject ("radio_signal_encoder_y_axis_custom");
+		grid_signal_encoder_y_axis_custom_values = (Gtk.Grid) builder.GetObject ("grid_signal_encoder_y_axis_custom_values");
+		spin_signal_encoder_displ_custom_max = (Gtk.SpinButton) builder.GetObject ("spin_signal_encoder_displ_custom_max");
+		spin_signal_encoder_displ_custom_min = (Gtk.SpinButton) builder.GetObject ("spin_signal_encoder_displ_custom_min");
 
 		button_test_good = (Gtk.Button) builder.GetObject ("button_test_good");
 		//button_test_bad = (Gtk.Button) builder.GetObject ("button_test_bad");

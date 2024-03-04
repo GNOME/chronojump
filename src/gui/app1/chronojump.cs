@@ -9025,10 +9025,13 @@ LogB.Debug("mc finished 5");
 			if(! secondaryVariableShow)
 				secondaryVariableStr = "";
 
-			/* these 3 are not stored on DB yet */
+			/* these 6 are not stored on DB yet */
 			preferences.encoderCaptureSecondaryVariableYAxisCustom = feedbackWin.GetSecondaryVariableYAxisCustom;
 			preferences.encoderCaptureSecondaryVariableYAxisCustomMax = feedbackWin.GetSecondaryVariableYAxisCustomMax;
 			preferences.encoderCaptureSecondaryVariableYAxisCustomMin = feedbackWin.GetSecondaryVariableYAxisCustomMin;
+			preferences.encoderSignalDisplAxisCustom = feedbackWin.GetEncoderSignalDisplAxisCustom;
+			preferences.encoderSignalDisplAxisCustomMax = feedbackWin.GetEncoderSignalDisplAxisCustomMax;
+			preferences.encoderSignalDisplAxisCustomMin = feedbackWin.GetEncoderSignalDisplAxisCustomMin;
 
 
 			if(preferences.encoderCaptureFeedbackEccon != feedbackWin.GetEncoderCaptureFeedbackEccon) {

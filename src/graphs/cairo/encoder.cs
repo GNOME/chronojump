@@ -36,7 +36,9 @@ public class CairoGraphEncoderSignal : CairoXY
 	private int points_l_painted;
 	private int points_l_inertial_painted;
 	//private bool doing;
-	private bool customY;
+	private bool customAxisDispl;
+	private int customAxisDisplMax;
+	private int customAxisDisplMin;
 
 	// to inherit
 	public CairoGraphEncoderSignal ()
@@ -44,9 +46,13 @@ public class CairoGraphEncoderSignal : CairoXY
 	}
 
 	// regular constructor
-	public CairoGraphEncoderSignal (DrawingArea area, string title, bool horizontal)
+	public CairoGraphEncoderSignal (DrawingArea area, string title,
+		bool customAxisDispl, int customAxisDisplMax, int customAxisDisplMin, bool horizontal)
 	{
-		customY = false;
+		this.customAxisDispl = customAxisDispl;
+		this.customAxisDisplMax = customAxisDisplMax;
+		this.customAxisDisplMin = customAxisDisplMin;
+
 		initEncoder (area, title, horizontal);
 	}
 
@@ -140,10 +146,16 @@ public class CairoGraphEncoderSignal : CairoXY
 				}
 			}
 
-			if (asteroids == null && customY)
+			if (asteroids == null && customAxisDispl)
 			{
-				minY = -300;
-				absoluteMaxY = 300;
+				if (horizontal)
+				{
+					minY = customAxisDisplMin;
+					absoluteMaxY = customAxisDisplMax;
+				} else {
+					minX = customAxisDisplMin;
+					absoluteMaxX = customAxisDisplMax;
+				}
 			}
 		}
 
@@ -203,15 +215,17 @@ public class CairoGraphEncoderSignal : CairoXY
 			marginAfterInSeconds = Convert.ToInt32 (.66 * sWidth);
 			if (horizontal)
 				startAt = configureTimeWindowHorizontal (points_l, sWidth, marginAfterInSeconds, 1000);
-			else if (! customY)
+			else //if (! customAxisDispl)
 				startAt = configureTimeWindowVertical (points_l, sWidth, marginAfterInSeconds, 1000);
 		}
 
 		if(maxValuesChanged || forceRedraw || points_l.Count != points_l_painted)
 		{
 			int divBy = 5;
-			if (absoluteMaxY - minY > divBy)
+			if (horizontal && absoluteMaxY - minY > divBy)
 				paintGridInt (g, minX, absoluteMaxX, minY, absoluteMaxY, Convert.ToInt32 ((absoluteMaxY - minY)/divBy), gridTypes.HORIZONTALLINES, 0, textHeight);
+			if (! horizontal && absoluteMaxX - minX > divBy)
+				paintGridInt (g, minX, absoluteMaxX, minY, absoluteMaxY, Convert.ToInt32 ((absoluteMaxX - minX)/divBy), gridTypes.VERTICALLINES, 0, textHeight);
 
 			plotSpecific ();
 

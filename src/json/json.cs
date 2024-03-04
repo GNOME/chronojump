@@ -334,6 +334,7 @@ public class Json
 	//private async Task saveFile (string fileUrl, string pathToSave)
 	private async void saveFile (string fileUrl, string pathToSave)
 	{
+		LogB.Information (string.Format ("at saveFile. fileUrl: {0}, pathToSave: {1}", fileUrl, pathToSave));
 		var httpClient = new HttpClient ();
 		var httpResult = await httpClient.GetAsync (fileUrl);
 		using var resultStream = await httpResult.Content.ReadAsStreamAsync ();
@@ -354,6 +355,14 @@ public class Json
 			}
 			*/
 			saveFile (linkServerImage, copyTo);
+
+			//check to wait file been downloaded (usefuls sometimes on mac)
+			for (int i = 100; i < 2000; i += 100)
+			{
+				if (Util.FileExists (copyTo) && Util.FileReadable (copyTo))
+					return true;;
+			}
+			return false; //not been copied in two seconds
 		} catch {
 			LogB.Warning("News DownloadImage catched");
 			return false;

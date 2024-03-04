@@ -38,6 +38,12 @@ make install
 
 cd "~/Desktop/chronojump"
 sh autogen.sh --prefix ~/Desktop/chronojump/package/macos/app/Chronojump.app/Contents
+
+#if does not work with error: builld/m4/intltool.m4 not found, copy it from homebrew on (not a ln -s, copy the file):
+/opt/Homebrew/Cellar/Intltool/0.51.0_2/share/aclocal/intltool.m4
+or:
+/usr/local/Cellar/Intltool/0.51.0_2/share/aclocal/intltool.m4
+
 make
 make install
 
@@ -59,3 +65,9 @@ make
 
 cd src
 dotnet run --project Chronojump-mac.csproj --property WarningLevel=0
+
+#note on my system I had homebrew on /usr/local instead of /opt/homebrew
+I needed to do:
+cd /opt/homebrew
+sudo ln -s /usr/local/Cellar Cellar
+sudo ln -s /usr/local/lib lib

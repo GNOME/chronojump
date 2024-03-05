@@ -307,6 +307,10 @@ public class Preferences
 	public bool encoderCaptureSecondaryVariableYAxisCustom; //by default: false
 	public int encoderCaptureSecondaryVariableYAxisCustomMax;
 	public int encoderCaptureSecondaryVariableYAxisCustomMin;
+	public bool encoderSignalDisplAxisCustom;
+	public int encoderSignalDisplAxisCustomMax;
+	public int encoderSignalDisplAxisCustomMin;
+
 	public enum encoderCaptureEccOverloadModes { NOT_SHOW, SHOW_LINE, SHOW_LINE_AND_PERCENT };
 	public encoderCaptureEccOverloadModes encoderCaptureInertialEccOverloadMode; //maybe on the future there is one not inertial
 	public bool encoderCaptureMainVariableThisSetOrHistorical;

@@ -36,6 +36,9 @@ public class CairoGraphEncoderSignal : CairoXY
 	private int points_l_painted;
 	private int points_l_inertial_painted;
 	//private bool doing;
+	private bool customAxisDispl;
+	private int customAxisDisplMax;
+	private int customAxisDisplMin;
 
 	// to inherit
 	public CairoGraphEncoderSignal ()
@@ -43,8 +46,13 @@ public class CairoGraphEncoderSignal : CairoXY
 	}
 
 	// regular constructor
-	public CairoGraphEncoderSignal (DrawingArea area, string title, bool horizontal)
+	public CairoGraphEncoderSignal (DrawingArea area, string title,
+		bool customAxisDispl, int customAxisDisplMax, int customAxisDisplMin, bool horizontal)
 	{
+		this.customAxisDispl = customAxisDispl;
+		this.customAxisDisplMax = customAxisDisplMax;
+		this.customAxisDisplMin = customAxisDisplMin;
+
 		initEncoder (area, title, horizontal);
 	}
 
@@ -75,7 +83,7 @@ public class CairoGraphEncoderSignal : CairoXY
 		//need to be small because graphHeight could be 100,
 		//if margins are big then calculatePaintY could give us reverse results
 		bottomMargin = 10;
-		leftMargin = 10;
+		leftMargin = 40;
 		topMargin = 10;
 		rightMargin = 10;
 		innerMargin = 0;
@@ -137,6 +145,18 @@ public class CairoGraphEncoderSignal : CairoXY
 						absoluteMaxX = asteroids.MaxY;
 				}
 			}
+
+			if (asteroids == null && customAxisDispl)
+			{
+				if (horizontal)
+				{
+					minY = customAxisDisplMin;
+					absoluteMaxY = customAxisDisplMax;
+				} else {
+					minX = customAxisDisplMin;
+					absoluteMaxX = customAxisDisplMax;
+				}
+			}
 		}
 
 		bool graphInited = false;
@@ -155,10 +175,6 @@ public class CairoGraphEncoderSignal : CairoXY
 			points_l_painted = 0;
 			points_l_inertial_painted = 0;
 		}
-
-		//do not draw axis at the moment (and it is not in 0Y right now)
-		//if(maxValuesChanged || forceRedraw)
-		//	paintAxis();
 
 		if( points_l == null || points_l.Count == 0 ||
 				(isInertial && (points_l_inertial == null || points_l_inertial.Count == 0)) )
@@ -199,12 +215,18 @@ public class CairoGraphEncoderSignal : CairoXY
 			marginAfterInSeconds = Convert.ToInt32 (.66 * sWidth);
 			if (horizontal)
 				startAt = configureTimeWindowHorizontal (points_l, sWidth, marginAfterInSeconds, 1000);
-			else
+			else //if (! customAxisDispl)
 				startAt = configureTimeWindowVertical (points_l, sWidth, marginAfterInSeconds, 1000);
 		}
 
 		if(maxValuesChanged || forceRedraw || points_l.Count != points_l_painted)
 		{
+			int divBy = 5;
+			if (horizontal && absoluteMaxY - minY > divBy)
+				paintGridInt (g, minX, absoluteMaxX, minY, absoluteMaxY, Convert.ToInt32 ((absoluteMaxY - minY)/divBy), gridTypes.HORIZONTALLINES, 0, textHeight);
+			if (! horizontal && absoluteMaxX - minX > divBy)
+				paintGridInt (g, minX, absoluteMaxX, minY, absoluteMaxY, Convert.ToInt32 ((absoluteMaxX - minX)/divBy), gridTypes.VERTICALLINES, 0, textHeight);
+
 			plotSpecific ();
 
 			//on inertial draw person on 3 px, disk on 1

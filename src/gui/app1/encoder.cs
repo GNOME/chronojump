@@ -6165,15 +6165,35 @@ public partial class ChronoJumpWindow
 		{
 			//TODO: check this < instead of <= does not fail on capture
 			//this applies to both
-			for(int j=0, i = eCapture.PointsPainted +1 ; i < eCapture.PointsCaptured ; i ++, j++)
+			for (int i = eCapture.PointsPainted +1 ; i < eCapture.PointsCaptured ; i ++)
 			{
-				cairoGraphEncoderSignalPoints_l.Add(eCapture.EncoderCapturePointsCairo[i]);
+				if (preferences.signalDirectionHorizontal)
+					cairoGraphEncoderSignalPoints_l.Add (new PointF (
+								eCapture.EncoderCapturePointsCairo[i].X,
+								UtilAll.DivideSafe (eCapture.EncoderCapturePointsCairo[i].Y, 10.0) //cm
+								));
+				else
+					cairoGraphEncoderSignalPoints_l.Add (new PointF (
+								UtilAll.DivideSafe (eCapture.EncoderCapturePointsCairo[i].X, 10.0), //cm
+								eCapture.EncoderCapturePointsCairo[i].Y
+								));
 			}
 
 			//TODO: check this < instead of <= does not fail on capture
-			if(mode == UpdateEncoderPaintModes.INERTIAL)
-				for(int j=0, i = eCapture.PointsPainted +1 ; i < eCapture.PointsCaptured ; i ++, j ++)
-					cairoGraphEncoderSignalInertialPoints_l.Add(eCapture.EncoderCapturePointsInertialDiscCairo[i]);
+			if (mode == UpdateEncoderPaintModes.INERTIAL)
+				for (int i = eCapture.PointsPainted +1 ; i < eCapture.PointsCaptured ; i ++)
+				{
+					if (preferences.signalDirectionHorizontal)
+						cairoGraphEncoderSignalInertialPoints_l.Add (new PointF (
+									eCapture.EncoderCapturePointsInertialDiscCairo[i].X,
+									UtilAll.DivideSafe (eCapture.EncoderCapturePointsInertialDiscCairo[i].Y, 10.0) //cm
+									));
+					else
+						cairoGraphEncoderSignalInertialPoints_l.Add (new PointF (
+									UtilAll.DivideSafe (eCapture.EncoderCapturePointsInertialDiscCairo[i].X, 10.0), //cm
+									eCapture.EncoderCapturePointsInertialDiscCairo[i].Y
+									));
+				}
 
 			eCapture.PointsPainted = eCapture.PointsCaptured;
 		}
@@ -6312,6 +6332,9 @@ public partial class ChronoJumpWindow
 			else
 				cairoGraphEncoderSignal = new CairoGraphEncoderSignal (
 						encoder_capture_signal_drawingarea_cairo, "title",
+						preferences.encoderSignalDisplAxisCustom,
+						preferences.encoderSignalDisplAxisCustomMax,
+						preferences.encoderSignalDisplAxisCustomMin,
 						preferences.signalDirectionHorizontal);
 		}
 

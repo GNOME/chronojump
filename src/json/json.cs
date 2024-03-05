@@ -331,14 +331,15 @@ public class Json
 
 
 	//thanks to https://stackoverflow.com/a/72205828
-	//private async Task saveFile (string fileUrl, string pathToSave)
-	private async void saveFile (string fileUrl, string pathToSave)
+	private static async Task<int> saveFile (string fileUrl, string pathToSave)
 	{
+		LogB.Information (string.Format ("at saveFile. fileUrl: {0}, pathToSave: {1}", fileUrl, pathToSave));
 		var httpClient = new HttpClient ();
 		var httpResult = await httpClient.GetAsync (fileUrl);
 		using var resultStream = await httpResult.Content.ReadAsStreamAsync ();
 		using var fileStream = File.Create (pathToSave);
 		resultStream.CopyTo (fileStream);
+		return 0;
 	}
 
 	private bool downloadNewsImage(string linkServerImage, string copyTo)
@@ -353,7 +354,19 @@ public class Json
 				client.DownloadFile(new Uri(linkServerImage), copyTo); //if exists, it overwrites
 			}
 			*/
+
 			saveFile (linkServerImage, copyTo);
+
+			//wait a maximum of 2s for image
+			for (int i = 0; i < 20; i ++)
+			{
+				LogB.Information ("Checking if this exists: " + copyTo);
+				if (Util.FileExists (copyTo) && Util.FileReadable (copyTo))
+					return true;
+
+				System.Threading.Thread.Sleep (100);
+			}
+			return false; //not been copied in two seconds
 		} catch {
 			LogB.Warning("News DownloadImage catched");
 			return false;

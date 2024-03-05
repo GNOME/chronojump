@@ -6,15 +6,15 @@ SOURCES_DIR = "$(CUR_DIR)/../../src"
 PACKAGE_DIR = "$(CUR_DIR)/../../package/macos"
 APP_DIR = "$(PACKAGE_DIR)/app/Chronojump.app/Contents/"
 RESOURCES_DIR = "$(PACKAGE_DIR)/resources"
-SIGNING = "$(PACKAGE_DIR)/../signing"
+#SIGNING = "$(PACKAGE_DIR)/../signing"
 USER = $(shell whoami)
 PACKAGE_VERSION = $(shell git describe --abbrev=1)
-PACKAGE_NAME = "chronojump-$(PACKAGE_VERSION)-x86_64"
+PACKAGE_NAME = "chronojump-$(PACKAGE_VERSION)"
 #BUILD_DIR = "$(SOURCES_DIR)/build"
 #MONO_DIR = "/Library/Frameworks/Mono.framework/Versions/Current/"
 #MONO_PKG_CONFIG = "$(MONO_DIR)/lib/pkgconfig"
 #MONO_VERSION = 6.10.0
-PATH := $(PATH):/usr/local/Cellar/gettext/0.20.1/bin
+#PATH := $(PATH):/opt/homebrew/Cellar/gettext/0.20.1/bin
 
 all: bundle package
 
@@ -41,21 +41,22 @@ bundle:
 	sed -e s/{version}/$(PACKAGE_VERSION)/ $(PACKAGE_DIR)/resources/Info.plist > $(APP_DIR)/Info.plist
 	# The mono binary is signed, we need to remove the signature to add the rpath's
 	# otherwise modifying the binary invalidates the signature
-	cp $(MONO_DIR)/bin/mono $(PACKAGE_DIR)
-	codesign --remove-signature $(PACKAGE_DIR)/mono
-	install_name_tool -add_rpath @executable_path/.. -add_rpath @loader_path $(PACKAGE_DIR)/mono
-	mkbundle \
-		$(APP_DIR)/Home/lib/chronojump/Chronojump.exe \
-		-o $(PACKAGE_DIR)/Chronojump \
-		-L $(MONO_DIR)/lib/mono/4.5/ \
-		-L $(MONO_DIR)/lib/mono/4.5/Facades \
-		-L $(MONO_DIR)/lib/mono/gtk-sharp-2.0 \
-		--runtime $(PACKAGE_DIR)/mono \
-		--config $(RESOURCES_DIR)/config \
-	    --simple \
-		--deps
-	cp $(PACKAGE_DIR)/Chronojump $(APP_DIR)/Home/bin/
+	#cp $(MONO_DIR)/bin/mono $(PACKAGE_DIR)
+	#codesign --remove-signature $(PACKAGE_DIR)/mono
+	#install_name_tool -add_rpath @executable_path/.. -add_rpath @loader_path $(PACKAGE_DIR)/mono
+	#mkbundle \
+	#	$(APP_DIR)/Home/lib/chronojump/Chronojump.exe \
+	#	-o $(PACKAGE_DIR)/Chronojump \
+	#	-L $(MONO_DIR)/lib/mono/4.5/ \
+	#	-L $(MONO_DIR)/lib/mono/4.5/Facades \
+	#	-L $(MONO_DIR)/lib/mono/gtk-sharp-2.0 \
+	#	--runtime $(PACKAGE_DIR)/mono \
+	#	--config $(RESOURCES_DIR)/config \
+	#    --simple \
+	#	--deps
+	#cp $(PACKAGE_DIR)/Chronojump $(APP_DIR)/Home/bin/
+	#python3 ./bundler.py $(APP_DIR)/Home/lib/ opt/homebrew/lib
 
-
-package:
-	hdiutil create -volname Chronojump -srcfolder app -ov -format UDZO Chronojump-$(PACKAGE_VERSION).dmg
+package:	
+	sh ./build_installer.sh $(PACKAGE_NAME)
+	#hdiutil create -volname Chronojump -srcfolder app -ov -format UDZO $(PACKAGE_NAME).dmg

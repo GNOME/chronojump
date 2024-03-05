@@ -77,8 +77,12 @@ public class ChronoJump
 		}
 		else
 		{
-			NativeLibraryResolver.Init("/opt/homebrew/lib/");
-		}
+#if DEBUG
+            NativeLibraryResolver.Init("/opt/homebrew/lib");
+#else
+			NativeLibraryResolver.Init(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "lib"));
+#endif
+        }
 
 		//show version on console and exit before the starting logs
 		//note version, version2 args are available since: 2.2.0-112-ga4eaadcbc

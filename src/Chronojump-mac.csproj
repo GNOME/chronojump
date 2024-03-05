@@ -9,9 +9,13 @@
 		<StartupObject>ChronoJump</StartupObject>
 		<ApplicationIcon>chronojump_icon.ico</ApplicationIcon>
 		<RunPostBuildEvent>OnOutputUpdated</RunPostBuildEvent>
+		<RootNamespace>Chronojump</RootNamespace>
+		<RuntimeIdentifiers>osx-x64</RuntimeIdentifiers>
+		<UseAppHost>true</UseAppHost>
 	</PropertyGroup>
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-	  <DefineConstants>$(DefineConstants);OSTYPE_WINDOWS</DefineConstants>
+	  <DefineConstants>$(DefineConstants);OSTYPE_OSX</DefineConstants>
+	  <WarningLevel>4</WarningLevel>
 	  <CustomCommands>
 	    <CustomCommands>
 	      <Command>
@@ -21,9 +25,10 @@
 	      </Command>
 	    </CustomCommands>
 	  </CustomCommands>
+	  <AssemblyName>Chronojump</AssemblyName>
 	</PropertyGroup>
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-	  <DefineConstants>$(DefineConstants);OSTYPE_WINDOWS</DefineConstants>
+	  <DefineConstants>$(DefineConstants);OSTYPE_OSX</DefineConstants>
 	</PropertyGroup>
 	<ItemGroup>
 		<PackageReference Include="GtkSharp" Version="3.24.24.95" />

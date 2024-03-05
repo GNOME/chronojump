@@ -34,10 +34,22 @@ make install
 #jhbuild bootstrap-gtk-osx
 #jhbuild build meta-gtk-osx-bootstrap meta-gtk-osx-gtk3
 
+On macOS 10, please execute the following commands because new version installs softwares at opt/homebrew by default, but the old version installs at usr/local.
+
+sudo install -d -o $(whoami) -g admin /opt/homebrew
+sudo brew rebase
+
+Or use ln command:
+
+mkdir -p /opt/homebrew
+cd /opt/homebrew
+ln -s /usr/local/Cellar Cellar
+ln -s /usr/local/lib lib
+
 3. Execute the following commands (Only when the first time, when autotools files changed or when git tag created. Please replace "~/Desktop" with the real path of chronojump.)
 
 cd "~/Desktop/chronojump"
-sh autogen.sh --prefix ~/Desktop/chronojump/package/macos/app/Chronojump.app/Contents
+sh autogen.sh --prefix ~/Desktop/chronojump/package/macos/app/Chronojump.app/Contents/Home/bin
 make
 make install
 

@@ -49,7 +49,7 @@ ln -s /usr/local/lib lib
 3. Execute the following commands (Only when the first time, when autotools files changed or when git tag created. Please replace "~/Desktop" with the real path of chronojump.)
 
 cd "~/Desktop/chronojump"
-sh autogen.sh --prefix ~/Desktop/chronojump/package/macos/app/Chronojump.app/Contents/Home/bin
+sh autogen.sh --prefix ~/Desktop/chronojump/package/macos/deps
 make
 make install
 

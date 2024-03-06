@@ -539,8 +539,8 @@ LINK = $(REF_DEP_CHRONOJUMP)
 	../images/md/folder_open_blue_1x.png,folder_open.png \
 	../images/md/folder_open_yellow_1x.png,folder_open_yellow.png \
 	../images/md/folder_open_set_blue_1x.png,folder_open_set.png \
-	../images/md/folder_open_set1_blue_1x.png,folder_open_set1.png \
-	../images/md/folder_open_set2_blue_1x.png,folder_open_set2.png \
+	../images/md/folder_open_set_ab_blue_1x.png,folder_open_set_ab.png \
+	../images/md/folder_open_set_cd_blue_1x.png,folder_open_set_cd.png \
 	../images/md/visibility_blue_1x.png,image_visibility.png \
 	../images/md/p_pin_blue_1x.png,image_person_pin.png \
 	../images/md/face_blue_1x.png,image_face.png \

@@ -2089,7 +2089,10 @@ LogB.Information(" fs R ");
 		LogB.Information("lastForceSensorFullPath: " + lastForceSensorFullPath);
 
 		if (radio_ai_2sets.Active)
+		{
+			button_signal_analyze_load_cd.Sensitive = true;
 			radio_ai_cd.Sensitive = true;
+		}
 
 		combo_force_sensor_exercise.Active = UtilGtk.ComboMakeActive(combo_force_sensor_exercise, fs.ExerciseName);
 		setForceSensorCaptureOptions(fs.CaptureOption);

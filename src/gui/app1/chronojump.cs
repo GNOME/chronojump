@@ -5710,6 +5710,15 @@ public partial class ChronoJumpWindow
 			return;
 		}
 
+		if (Constants.ModeIsFORCESENSOR (current_mode) || current_mode == Constants.Modes.RUNSENCODER)
+		{
+			//immediately change the radios
+			if (b == button_signal_analyze_load_ab && ! radio_ai_ab.Active)
+				radio_ai_ab.Click ();
+			if (b == button_signal_analyze_load_cd && ! radio_ai_cd.Active)
+				radio_ai_cd.Click ();
+		}
+
 		if (Constants.ModeIsFORCESENSOR (current_mode))
 			force_sensor_load (b == button_signal_analyze_load_cd); //allows to choose person and session
 		else if(current_mode == Constants.Modes.RUNSENCODER)

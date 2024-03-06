@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2023   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2023-2024   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -221,11 +221,6 @@ public partial class ChronoJumpWindow
 	private void button_ai_move_cd_pre_set_sensitivity ()
 	{
 		if (! radio_ai_2sets.Active)
-		{
-			button_ai_move_cd_pre.Sensitive = false;
-			return;
-		}
-		if (! radio_ai_cd.Active)
 		{
 			button_ai_move_cd_pre.Sensitive = false;
 			return;
@@ -1145,17 +1140,18 @@ public partial class ChronoJumpWindow
 		{
 			notebook_ai_load.Page = 1;
 
-			button_signal_analyze_load_ab.Sensitive = radio_ai_ab.Active;
-			button_signal_analyze_load_cd.Sensitive = radio_ai_cd.Active;
+			button_signal_analyze_load_ab.Sensitive = true;
 			button_ai_move_cd_pre_set_sensitivity ();
 
 			//do not allow to click on cd if two sets (when there is no ab loaded)
-			radio_ai_cd.Sensitive =	(
+			bool cd_sensitive =	(
 					(Constants.ModeIsFORCESENSOR (current_mode) &&
 					 currentForceSensor != null && currentForceSensor.UniqueID >= 0) ||
 					(current_mode == Constants.Modes.RUNSENCODER &&
 					 currentRunEncoder != null && currentRunEncoder.UniqueID >= 0)
 					);
+			radio_ai_cd.Sensitive = cd_sensitive;
+			button_signal_analyze_load_cd.Sensitive = cd_sensitive;
 		}
 		signalPrepareGraphAI ();
 		ai_drawingarea_cairo.QueueDraw(); //will fire ExposeEvent
@@ -1185,8 +1181,8 @@ public partial class ChronoJumpWindow
 			UtilGtk.ViewportColorGreenLight (viewport_ai_hscales);
 		}
 
-		button_signal_analyze_load_ab.Sensitive = (radio_ai_2sets.Active && radio_ai_ab.Active);
-		button_signal_analyze_load_cd.Sensitive = (radio_ai_2sets.Active && radio_ai_cd.Active);
+		button_signal_analyze_load_ab.Sensitive = radio_ai_2sets.Active;
+		button_signal_analyze_load_cd.Sensitive = radio_ai_2sets.Active;
 		button_ai_move_cd_pre_set_sensitivity ();
 
 		aiButtonsHscaleZoomSensitiveness();

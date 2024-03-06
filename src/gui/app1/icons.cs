@@ -538,9 +538,9 @@ public partial class ChronoJumpWindow
 		image_encoder_capture_open1.Pixbuf = pixbuf;
 		image_contacts_capture_load.Pixbuf = pixbuf;
 		image_force_sensor_analyze_load_abcd.Pixbuf = pixbuf;
-		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "folder_open_set1.png");
+		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "folder_open_set_ab.png");
 		image_force_sensor_analyze_load_ab.Pixbuf = pixbuf;
-		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "folder_open_set2.png");
+		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "folder_open_set_cd.png");
 		image_force_sensor_analyze_load_cd.Pixbuf = pixbuf;
 
 		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "zero.png");

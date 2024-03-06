@@ -811,9 +811,13 @@ public class UtilGtk
 			"}" +
 
 			//VIEWPORT
-			"viewport#yellowCss {" +
+			"viewport#yellowLightCss {" +
 				//"background-image: none;" +
-				"background: " + GetRGBAs (Colors.YELLOW_LIGHT) + ";" + //TODO: try a YELLOW_MID
+				"background: " + GetRGBAs (Colors.YELLOW_LIGHT) + ";" +
+			"}" +
+			"viewport#greenLightCss {" +
+				//"background-image: none;" +
+				"background: " + GetRGBAs (Colors.GREEN_LIGHT) + ";" +
 			"}" +
 			"viewport#whiteCss {" +
 				//"background-image: none;" +
@@ -947,7 +951,15 @@ public class UtilGtk
 
 	public static void ViewportColorActive (Gtk.Viewport v)
 	{
-		v.Name = "yellowCss";
+		ViewportColorYellowLight (v);
+	}
+	public static void ViewportColorYellowLight (Gtk.Viewport v)
+	{
+		v.Name = "yellowLightCss";
+	}
+	public static void ViewportColorGreenLight (Gtk.Viewport v)
+	{
+		v.Name = "greenLightCss";
 	}
 	public static void ViewportColorWhite (Gtk.Viewport v)
 	{

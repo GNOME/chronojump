@@ -1173,7 +1173,7 @@ public partial class ChronoJumpWindow
 			box_force_sensor_ai_c.Visible = false;
 			box_force_sensor_ai_d.Visible = false;
 			label_force_sensor_ai_zoom_abcd.Text = "[A-B]";
-			UtilGtk.ViewportColor (viewport_ai_hscales, UtilGtk.Colors.YELLOW_LIGHT);
+			UtilGtk.ViewportColorYellowLight (viewport_ai_hscales);
 		}
 		else if ((Gtk.RadioButton) o == radio_ai_cd)
 		{
@@ -1182,7 +1182,7 @@ public partial class ChronoJumpWindow
 			box_force_sensor_ai_c.Visible = true;
 			box_force_sensor_ai_d.Visible = true;
 			label_force_sensor_ai_zoom_abcd.Text = "[C-D]";
-			UtilGtk.ViewportColor (viewport_ai_hscales, UtilGtk.Colors.GREEN_LIGHT);
+			UtilGtk.ViewportColorGreenLight (viewport_ai_hscales);
 		}
 
 		button_signal_analyze_load_ab.Sensitive = (radio_ai_2sets.Active && radio_ai_ab.Active);

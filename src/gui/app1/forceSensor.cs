@@ -157,9 +157,9 @@ public partial class ChronoJumpWindow
 
 		createComboForceSensorCaptureOptions();
 		createForceExerciseCombo();
-		UtilGtk.ViewportColor (viewport_radio_ai_ab, UtilGtk.Colors.YELLOW_LIGHT);
-		UtilGtk.ViewportColor (viewport_radio_ai_cd, UtilGtk.Colors.GREEN_LIGHT);
-		UtilGtk.ViewportColor (viewport_ai_hscales, UtilGtk.Colors.YELLOW_LIGHT);
+		UtilGtk.ViewportColorYellowLight (viewport_radio_ai_ab);
+		UtilGtk.ViewportColorGreenLight (viewport_radio_ai_cd);
+		UtilGtk.ViewportColorYellowLight (viewport_ai_hscales);
 		createForceAnalyzeCombos();
 		setForceDurationRadios();
 		setRFDValues();

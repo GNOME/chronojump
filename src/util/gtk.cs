@@ -823,6 +823,12 @@ public class UtilGtk
 				//"background-image: none;" +
 				"background: #ffffff;" +
 			"}" +
+			//using border as app1s_viewport_checkbutton_show_data_jumps ... are very thin
+			"viewport#bgCss {" +
+				//"background-image: none;" +
+				"background: " + Config.ColorBackground.ToString () + ";" +
+				"border: " + Config.ColorBackground.ToString () + ";" +
+			"}" +
 
 			//NOTEBOOKS bgCss
 			//header
@@ -949,9 +955,9 @@ public class UtilGtk
 		//v.OverrideBackgroundColor (StateFlags.Normal, color);
 	}
 
-	public static void ViewportColorActive (Gtk.Viewport v)
+	public static void ViewportColorBg (Gtk.Viewport v)
 	{
-		ViewportColorYellowLight (v);
+		v.Name = "bgCss"; //bg color (has contrast with shifted)
 	}
 	public static void ViewportColorYellowLight (Gtk.Viewport v)
 	{

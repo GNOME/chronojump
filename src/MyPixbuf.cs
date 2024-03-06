@@ -250,6 +250,8 @@ namespace Chronojump
 			new ResourceFix ("folder_open_blue_1x.png" , "folder_open.png"),
 			new ResourceFix ("folder_open_yellow_1x.png" , "folder_open_yellow.png"),
 			new ResourceFix ("folder_open_set_blue_1x.png" , "folder_open_set.png"),
+			new ResourceFix ("folder_open_set1_blue_1x.png" , "folder_open_set1.png"),
+			new ResourceFix ("folder_open_set2_blue_1x.png" , "folder_open_set2.png"),
 			new ResourceFix ("visibility_blue_1x.png" , "image_visibility.png"),
 			new ResourceFix ("p_pin_blue_1x.png" , "image_person_pin.png"),
 			new ResourceFix ("face_blue_1x.png" , "image_face.png"),

@@ -1039,8 +1039,8 @@ public partial class ChronoJumpWindow
 		image_hscale_force_sensor_ai_a_last.Pixbuf = pixbuf;
 		image_hscale_force_sensor_ai_b_last.Pixbuf = pixbuf;
 
-		image_force_sensor_analyze_load_abcd_north_west.Pixbuf = Chronojump.MyPixbuf.Get (null, Util.GetImagePath (false) + "north_west.png");
-		image_force_sensor_analyze_load_abcd_north_east.Pixbuf = Chronojump.MyPixbuf.Get (null, Util.GetImagePath (false) + "north_east.png");
+		//image_force_sensor_analyze_load_abcd_north_west.Pixbuf = Chronojump.MyPixbuf.Get (null, Util.GetImagePath (false) + "north_west.png");
+		//image_force_sensor_analyze_load_abcd_north_east.Pixbuf = Chronojump.MyPixbuf.Get (null, Util.GetImagePath (false) + "north_east.png");
 		image_ai_move_cd_pre.Pixbuf = Chronojump.MyPixbuf.Get (null, Util.GetImagePath (false) + "move_sides.png");
 		image_ai_move_cd_align_left.Pixbuf = Chronojump.MyPixbuf.Get (null, Util.GetImagePath (false) + "align_horiz_left.png");
 		image_ai_move_cd_align_center.Pixbuf = Chronojump.MyPixbuf.Get (null, Util.GetImagePath (false) + "align_horiz_center.png");

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Generated with glade 3.38.2 -->
+<!-- Generated with glade 3.40.0 -->
 <interface>
   <requires lib="gtk+" version="3.0"/>
   <object class="GtkAdjustment" id="adjustment1">
@@ -2899,7 +2899,6 @@
                                                       <object class="GtkBox" id="hbox_persons_bottom_photo">
                                                         <property name="visible">True</property>
                                                         <property name="can-focus">False</property>
-                                                        <property name="orientation">horizontal</property>
                                                         <property name="spacing">3</property>
                                                         <child>
                                                           <object class="GtkImage" id="image_current_person">
@@ -3556,7 +3555,6 @@
                                                     <child>
                                                       <object class="GtkBox" id="hbox_start_window_sub">
                                                         <property name="visible">True</property>
-                                                        <property name="orientation">horizontal</property>
                                                         <property name="can-focus">False</property>
                                                         <child>
                                                           <object class="GtkVBox" id="vbox271">
@@ -3579,7 +3577,6 @@
                                                             <child>
                                                             <object class="GtkBox" id="hbox_message_permissions_at_boot">
                                                             <property name="can-focus">False</property>
-                                                            <property name="orientation">horizontal</property>
                                                             <property name="spacing">12</property>
                                                             <child>
                                                             <object class="GtkLabel" id="label_message_permissions_at_boot">
@@ -3614,7 +3611,6 @@
                                                             <child>
                                                             <object class="GtkBox" id="hbox_message_camera_at_boot">
                                                             <property name="can-focus">False</property>
-                                                            <property name="orientation">horizontal</property>
                                                             <property name="spacing">8</property>
                                                             <child>
                                                             <object class="GtkLabel" id="label405">
@@ -4855,7 +4851,6 @@
                                                   <object class="GtkBox" id="hbox_change_modes_contacts">
                                                     <property name="visible">True</property>
                                                     <property name="can-focus">False</property>
-                                                    <property name="orientation">horizontal</property>
                                                     <property name="spacing">6</property>
                                                     <child>
                                                       <object class="GtkButton" id="button_show_modes_contacts">
@@ -4890,7 +4885,6 @@
                                                         <child>
                                                           <object class="GtkBox" id="hbox_change_modes_jumps">
                                                             <property name="can-focus">False</property>
-                                                            <property name="orientation">horizontal</property>
                                                             <property name="spacing">6</property>
                                                             <child>
                                                             <object class="GtkRadioButton" id="radio_change_modes_contacts_jumps_simple">
@@ -4961,7 +4955,6 @@
                                                         <child>
                                                           <object class="GtkBox" id="hbox_change_modes_runs">
                                                             <property name="can-focus">False</property>
-                                                            <property name="orientation">horizontal</property>
                                                             <property name="spacing">6</property>
                                                             <child>
                                                             <object class="GtkRadioButton" id="radio_change_modes_contacts_runs_simple">
@@ -5062,7 +5055,6 @@
                                                           <object class="GtkBox" id="hbox_change_modes_force_sensor">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
-                                                            <property name="orientation">horizontal</property>
                                                             <property name="spacing">6</property>
                                                             <child>
                                                             <object class="GtkRadioButton" id="radio_change_modes_contacts_isometric">
@@ -5148,7 +5140,6 @@
                                                   <object class="GtkBox" id="hbox_contacts_sup_capture_analyze_two_buttons">
                                                     <property name="visible">True</property>
                                                     <property name="can-focus">False</property>
-                                                    <property name="orientation">horizontal</property>
                                                     <property name="spacing">6</property>
                                                     <child>
                                                       <object class="GtkRadioButton" id="radio_mode_contacts_capture">
@@ -5267,7 +5258,6 @@
                                                 <child>
                                                   <object class="GtkBox" id="hbox_other">
                                                     <property name="can-focus">False</property>
-                                                    <property name="orientation">horizontal</property>
                                                     <property name="spacing">6</property>
                                                     <child>
                                                       <object class="GtkRadioButton" id="radio_mode_pulses_small">
@@ -5793,7 +5783,6 @@
                                                             <object class="GtkBox" id="hbox_combo_select_contacts_top_with_arrows">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
-                                                            <property name="orientation">horizontal</property>
                                                             <property name="spacing">6</property>
                                                             <child>
                                                             <object class="GtkButton" id="button_combo_select_contacts_top_left">
@@ -5821,7 +5810,6 @@
                                                             <object class="GtkBox" id="hbox_combo_select_contacts_top">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
-                                                            <property name="orientation">horizontal</property>
                                                             <child>
                                                             <placeholder/>
                                                             </child>
@@ -6505,7 +6493,6 @@
                                                             <object class="GtkBox" id="hbox_contacts_detect_and_execute">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
-                                                            <property name="orientation">horizontal</property>
                                                             <property name="spacing">8</property>
                                                             <child>
                                                             <object class="GtkButton" id="button_execute_test">
@@ -7185,7 +7172,6 @@
                                                             <object class="GtkBox" id="hbox_capture_phases_time">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
-                                                            /<property name="orientation">horizontal</property>
                                                             <property name="spacing">10</property>
                                                             <child>
                                                             <object class="GtkVBox" id="vbox28">
@@ -7756,7 +7742,6 @@
                                                             <object class="GtkBox" id="hbox_contacts_device_adjust_threshold">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
-                                                            <property name="orientation">horizontal</property>
                                                             <child>
                                                             <object class="GtkButton" id="button_force_sensor_sync">
                                                             <property name="label">2FSsync</property>
@@ -7774,7 +7759,6 @@
                                                             <object class="GtkBox" id="hbox_chronopics_and_more">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
-                                                            <property name="orientation">horizontal</property>
                                                             <child>
                                                             <object class="GtkViewport" id="viewport_chronopics">
                                                             <property name="visible">True</property>
@@ -11992,7 +11976,6 @@
                                                             <object class="GtkBox" id="hbox_runs_interval_all">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
-                                                            <property name="orientation">horizontal</property>
                                                             <child>
                                                             <object class="GtkBox" id="vbox_runs_interval">
                                                             <property name="visible">True</property>
@@ -12045,7 +12028,6 @@
                                                             <object class="GtkBox" id="hbox_combo_select_runs_interval">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
-                                                            <property name="orientation">horizontal</property>
                                                             <child>
                                                             <placeholder/>
                                                             </child>
@@ -13591,7 +13573,6 @@
                                                             <child>
                                                             <object class="GtkBox" id="hbox_extra_window_jumps_fall_height">
                                                             <property name="can-focus">False</property>
-                                                            <property name="orientation">horizontal</property>
                                                             <property name="spacing">6</property>
                                                             <child>
                                                             <object class="GtkHBox" id="hbox567">
@@ -18550,12 +18531,10 @@
                                                       <object class="GtkBox" id="hbox_radio_mode_contacts_analyze_buttons">
                                                         <property name="visible">True</property>
                                                         <property name="can-focus">False</property>
-                                                        <property name="orientation">horizontal</property>
                                                         <property name="spacing">16</property>
                                                         <child>
                                                           <object class="GtkBox" id="hbox_radio_mode_contacts_analyze_jump_simple_buttons">
                                                             <property name="can-focus">False</property>
-                                                            <property name="orientation">horizontal</property>
                                                             <property name="spacing">16</property>
                                                             <child>
                                                             <object class="GtkRadioButton" id="radio_mode_contacts_jumps_profile">
@@ -23045,6 +23024,9 @@ Concentric</property>
                                                             <child>
                                                             <placeholder/>
                                                             </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
                                                             </object>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -23238,7 +23220,6 @@ Concentric</property>
                                                             <child>
                                                             <object class="GtkBox" id="hbox_combo_select_jumps_evolution">
                                                             <property name="visible">True</property>
-                                                            <property name="orientation">horizontal</property>
                                                             <property name="can-focus">False</property>
                                                             <child>
                                                             <placeholder/>
@@ -23412,7 +23393,6 @@ Concentric</property>
                                                             <object class="GtkBox" id="hbox_combo_select_jumps_rj_fatigue">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
-                                                            <property name="orientation">horizontal</property>
                                                             <child>
                                                             <placeholder/>
                                                             </child>
@@ -23440,7 +23420,6 @@ Concentric</property>
                                                             <object class="GtkBox" id="hbox_combo_select_jumps_rj_fatigue_num">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
-                                                            <property name="orientation">horizontal</property>
                                                             <child>
                                                             <placeholder/>
                                                             </child>
@@ -23811,7 +23790,6 @@ Concentric</property>
                                                             <object class="GtkBox" id="hbox_combo_select_runs_evolution">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
-                                                            <property name="orientation">horizontal</property>
                                                             <child>
                                                             <placeholder/>
                                                             </child>
@@ -26087,7 +26065,6 @@ Concentric</property>
                                                             <property name="can-focus">False</property>
                                                             <child>
                                                             <object class="GtkImage" id="image_force_sensor_analyze_load_abcd_north_west">
-                                                            <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
                                                             <property name="yalign">0.20000000298023224</property>
                                                             <property name="stock">gtk-missing-image</property>
@@ -26103,25 +26080,65 @@ Concentric</property>
                                                             <object class="GtkButton" id="button_signal_analyze_load_abcd">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">True</property>
+                                                            <property name="can-default">True</property>
                                                             <property name="receives-default">True</property>
+                                                            <property name="has-tooltip">True</property>
+                                                            <property name="tooltip-text" translatable="yes">Load set</property>
+                                                            <property name="use-underline">True</property>
                                                             <signal name="clicked" handler="on_button_contacts_capture_load_clicked" swapped="no"/>
+                                                            <child>
+                                                            <object class="GtkHBox" id="hbox397">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="spacing">6</property>
                                                             <child>
                                                             <object class="GtkImage" id="image_force_sensor_analyze_load_abcd">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
                                                             <property name="stock">gtk-missing-image</property>
-                                                            </object>
-                                                            </child>
+                                                            <property name="icon_size">2</property>
                                                             </object>
                                                             <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">False</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkHBox" id="hbox408">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <child>
+                                                            <object class="GtkLabel" id="label_encoder_load_signal_at_analyze1">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="label" translatable="yes">Load another set</property>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            </object>
+                                                            </child>
+                                                            <accelerator key="l" signal="clicked" modifiers="GDK_CONTROL_MASK"/>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
                                                             <property name="position">1</property>
                                                             </packing>
                                                             </child>
                                                             <child>
                                                             <object class="GtkImage" id="image_force_sensor_analyze_load_abcd_north_east">
-                                                            <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
                                                             <property name="yalign">0.20000000298023224</property>
                                                             <property name="stock">gtk-missing-image</property>
@@ -33393,7 +33410,6 @@ Concentric</property>
                                                           <object class="GtkBox" id="hbox_change_modes_encoder">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
-                                                            <property name="orientation">horizontal</property>
                                                             <property name="spacing">6</property>
                                                             <child>
                                                             <object class="GtkButton" id="button_show_modes_encoder">
@@ -34759,7 +34775,6 @@ Concentric</property>
                                                             <object class="GtkBox" id="hbox_encoder_detect_and_execute">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
-                                                            <property name="orientation">horizontal</property>
                                                             <property name="spacing">8</property>
                                                             <child>
                                                             <object class="GtkButton" id="button_encoder_capture">
@@ -51232,7 +51247,6 @@ Since Chronojump 2.1.3, backups contain the complete data.</property>
                                                             <object class="GtkBox" id="hbox_frame_persons_top">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
-                                                            <property name="orientation">horizontal</property>
                                                             <child>
                                                             <object class="GtkVBox" id="vbox83">
                                                             <property name="visible">True</property>

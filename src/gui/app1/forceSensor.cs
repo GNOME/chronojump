@@ -1959,7 +1959,7 @@ LogB.Information(" fs R ");
 		if (canChoosePersonAndSession)
 		{
 			ArrayList a3 = new ArrayList ();
-			a3.Add (Constants.GenericWindowShow.GRIDPERSONSESSION); a3.Add (true); a3.Add ("");
+			a3.Add (Constants.GenericWindowShow.GRIDSESSIONPERSON); a3.Add (true); a3.Add ("");
 			bigArray.Add (a3);
 
 			title = Catalog.GetString ("Select set to compare");
@@ -1969,7 +1969,7 @@ LogB.Information(" fs R ");
 
 		if (canChoosePersonAndSession)
 		{
-			genericWin.SetGridPersonSession (currentPerson, currentSession);
+			genericWin.SetGridSessionPerson (currentPerson, currentSession, current_mode);
 
 			//do not allow to edit when can change person/session
 			genericWin.SetTreeview (colStr, false, dataPrint, new ArrayList(), GenericWindow.EditActions.NONE, true);
@@ -2029,7 +2029,7 @@ LogB.Information(" fs R ");
 
 		int personID = currentPerson.UniqueID;
 		int sessionID = currentSession.UniqueID;
-		if (genericWin.UseGridPersonSession)
+		if (genericWin.UseGridSessionPerson)
 		{
 			personID = genericWin.GetPersonIDFromGui ();
 			sessionID = genericWin.GetSessionIDFromGui ();

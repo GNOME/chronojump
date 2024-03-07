@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Generated with glade 3.38.2 -->
+<!-- Generated with glade 3.40.0 -->
 <interface>
   <requires lib="gtk+" version="3.0"/>
   <object class="GtkAdjustment" id="adjustment1">
@@ -574,14 +574,14 @@
                 </child>
                 <child>
                   <!-- n-columns=2 n-rows=2 -->
-                  <object class="GtkGrid" id="grid_person_session">
+                  <object class="GtkGrid" id="grid_session_person">
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
                     <property name="border-width">6</property>
                     <property name="row-spacing">10</property>
                     <property name="column-spacing">8</property>
                     <child>
-                      <object class="GtkBox" id="box_combo_person_select">
+                      <object class="GtkBox" id="box_combo_session_select">
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
                         <child>
@@ -594,7 +594,7 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkBox" id="box_combo_session_select">
+                      <object class="GtkBox" id="box_combo_person_select">
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
                         <child>
@@ -610,7 +610,7 @@
                       <object class="GtkLabel">
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
-                        <property name="label" translatable="yes">Person</property>
+                        <property name="label" translatable="yes">session</property>
                       </object>
                       <packing>
                         <property name="left-attach">0</property>
@@ -621,7 +621,7 @@
                       <object class="GtkLabel">
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
-                        <property name="label" translatable="yes">Session</property>
+                        <property name="label" translatable="yes">Person</property>
                       </object>
                       <packing>
                         <property name="left-attach">0</property>

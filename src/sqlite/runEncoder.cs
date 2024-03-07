@@ -250,7 +250,7 @@ class SqliteRunEncoder : Sqlite
 				reader[2].ToString(), 	//person sex
 				reader[3].ToString(), 	//exercise name
 				reader[4].ToString()	//sets count
-			};
+			}; //note this is used on gui/genericWindow
 			array.Add (s);
 		}
 

@@ -487,8 +487,7 @@ public partial class ChronoJumpWindow
 		//read from SQL
 		EncoderConfigurationSQLObject econfSO = SqliteEncoderConfiguration.SelectActive(Constants.EncoderGI.GRAVITATORY);
 		encoderConfigurationCurrent = econfSO.encoderConfiguration;
-		label_encoder_selected.Text = econfSO.name;
-		label_encoder_top_selected.Text = econfSO.name;
+		setEncoderConfigurationLabels (econfSO.name.ToString (), encoderConfigurationCurrent.code);
 		setEncoderTypePixbuf();
 		
 		encoderCaptureListStore = new Gtk.ListStore (typeof (EncoderCurve));
@@ -572,8 +571,6 @@ public partial class ChronoJumpWindow
 		encoder_configuration_win.Button_close.Clicked -= new EventHandler(on_encoder_configuration_win_closed);
 		
 		EncoderConfiguration eConfNew = encoder_configuration_win.GetAcceptedValues();
-		label_encoder_selected.Text = encoder_configuration_win.Entry_save_name;
-		label_encoder_top_selected.Text = encoder_configuration_win.Entry_save_name;
 
 		if(encoderConfigurationCurrent == eConfNew)
 			return;
@@ -581,6 +578,15 @@ public partial class ChronoJumpWindow
 		bool combo_encoder_anchorage_should_update = (encoderConfigurationCurrent.list_d != eConfNew.list_d);
 		
 		encoderConfigurationCurrent = eConfNew;
+
+		EncoderConfigurationSQLObject econfSO;
+		if (current_mode == Constants.Modes.POWERGRAVITATORY)
+			econfSO = SqliteEncoderConfiguration.SelectActive (Constants.EncoderGI.GRAVITATORY);
+		else
+			econfSO = SqliteEncoderConfiguration.SelectActive (Constants.EncoderGI.INERTIAL);
+
+		setEncoderConfigurationLabels (econfSO.name.ToString (), encoderConfigurationCurrent.code);
+
 		LogB.Information("EncoderConfigurationCurrent = " + encoderConfigurationCurrent.ToStringOutput(EncoderConfiguration.Outputs.SQL));
 		setEncoderTypePixbuf();
 	
@@ -1994,8 +2000,7 @@ public partial class ChronoJumpWindow
 				}
 
 				encoderConfigurationGUIUpdate();
-				label_encoder_selected.Text = econfSO.name;
-				label_encoder_top_selected.Text = econfSO.name;
+				setEncoderConfigurationLabels (econfSO.name.ToString (), encoderConfigurationCurrent.code);
 
 				//triggers
 				triggerListEncoder = new TriggerList(
@@ -2137,7 +2142,6 @@ public partial class ChronoJumpWindow
 		if(current_mode == Constants.Modes.POWERINERTIAL)
 		{
 			notebook_encoder_top.Page = 1;
-			//label_button_encoder_select.Text = Catalog.GetString("Configure inertial encoder");
 			label_encoder_exercise_mass.Visible = false;
 			hbox_encoder_exercise_mass.Visible = false;
 			label_encoder_exercise_inertia.Visible = true;
@@ -2166,7 +2170,6 @@ public partial class ChronoJumpWindow
 		}
 		else { //(current_mode == Constants.Modes.POWERGRAVITATORY)
 			notebook_encoder_top.Page = 0;
-			//label_button_encoder_select.Text = Catalog.GetString("Configure gravitatory encoder");
 			label_encoder_exercise_mass.Visible = true;
 			hbox_encoder_exercise_mass.Visible = true;
 			label_encoder_exercise_inertia.Visible = false;
@@ -2175,6 +2178,12 @@ public partial class ChronoJumpWindow
 			hbox_encoder_exercise_inertial_min_mov.Visible = false;
 			spin_encoder_capture_min_height_gravitatory.Value = preferences.EncoderCaptureMinHeight(false);
 		}
+	}
+
+	private void setEncoderConfigurationLabels (string savedName, string code)
+	{
+		label_encoder_selected.Text = string.Format ("{0} ({1})", savedName, code);
+		label_encoder_top_selected.Text = savedName;
 	}
 
 	void encoderSignalDelete (string signalURL, int signalID) 

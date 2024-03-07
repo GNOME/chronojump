@@ -4343,20 +4343,18 @@ public partial class ChronoJumpWindow
 				{
 					EncoderConfigurationSQLObject econfSO = SqliteEncoderConfiguration.SelectActive(Constants.EncoderGI.GRAVITATORY);
 					encoderConfigurationCurrent = econfSO.encoderConfiguration;
-					label_encoder_selected.Text = econfSO.name;
-					label_encoder_top_selected.Text = econfSO.name;
+					setEncoderConfigurationLabels (econfSO.name.ToString (), encoderConfigurationCurrent.code);
 					setEncoderTypePixbuf();
 
 					changed = true;
 				}
-				
+
 				currentEncoderGI = Constants.EncoderGI.GRAVITATORY;
 				encoder_change_displaced_weight_and_1RM ();
 				hbox_capture_1RM.Visible = true;
 
 				//notebook_encoder_capture_extra_mass.CurrentPage = 0;
-				//TODO: show also info on the top
-				label_button_encoder_select.Text = Catalog.GetString("Configure gravitatory encoder");
+				label_button_encoder_select.Text = Catalog.GetString("Configure");
 				label_encoder_exercise_mass.Visible = true;
 				hbox_encoder_exercise_mass.Visible = true;
 				label_encoder_exercise_inertia.Visible = false;
@@ -4390,8 +4388,7 @@ public partial class ChronoJumpWindow
 				{
 					EncoderConfigurationSQLObject econfSO = SqliteEncoderConfiguration.SelectActive(Constants.EncoderGI.INERTIAL);
 					encoderConfigurationCurrent = econfSO.encoderConfiguration;
-					label_encoder_selected.Text = econfSO.name;
-					label_encoder_top_selected.Text = econfSO.name;
+					setEncoderConfigurationLabels (econfSO.name.ToString (), encoderConfigurationCurrent.code);
 					setEncoderTypePixbuf();
 
 					changed = true;
@@ -4401,8 +4398,7 @@ public partial class ChronoJumpWindow
 				hbox_capture_1RM.Visible = false;
 
 				//notebook_encoder_capture_extra_mass.CurrentPage = 1;
-				//TODO: show also info on the top
-				label_button_encoder_select.Text = Catalog.GetString("Configure inertial encoder");
+				label_button_encoder_select.Text = Catalog.GetString("Configure");
 				label_encoder_exercise_mass.Visible = false;
 				hbox_encoder_exercise_mass.Visible = false;
 				label_encoder_exercise_inertia.Visible = true;

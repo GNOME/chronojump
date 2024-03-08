@@ -198,9 +198,19 @@ public class ChronopicRegisterSelectOS
 public abstract class ChronopicRegister
 {
 	protected ChronopicRegisterPortList crpl;
-	public static string SerialNumberNotUnique = "A50285BI"; //A FTDI sadly not unique
 
 	private bool compujump;
+
+	/*
+		"A50285BI": A FTDI sadly not unique
+		on mac now devices are detected with a '-'
+		so A50285BI can be also -A50282BI. And who knows in the future.
+		Use this to find if is this number.
+	*/
+	public bool SerialNumberIsNotUnique (string serialNum)
+	{
+		return serialNum.Contains ("A50285BI"); //
+	}
 
 	protected void process (bool compujump, bool showRunWireless)
 	{
@@ -259,9 +269,9 @@ public abstract class ChronopicRegister
 		   but the rest of the devices (right now: contact platform, photocells or encoder) all Chronopic (ftdi ok).
 		   Also special case for devices without SerialNumber, eg on Chromebook udevadm does not return the Serial id, so is returned as ""
 		   */
-		if ( (crp.SerialNumber == SerialNumberNotUnique || crp.SerialNumber == "") && ! compujump)
+		if ( (SerialNumberIsNotUnique (crp.SerialNumber) || crp.SerialNumber == "") && ! compujump)
 		{
-			crpl.Add (crp, false); //only add to the current list
+			crpl.Add (crp, false); //only add to the current list //in fact it stores on SQL but everytimetries to discover again
 			return;
 		}
 

@@ -178,7 +178,7 @@ public class DiscoverWindow
                         if (crp.Port != "")
 			{
 				if (crp.Type != ChronopicRegisterPort.Types.UNKNOWN &&
-						crp.SerialNumber != ChronopicRegister.SerialNumberNotUnique)
+						! chronopicRegister.SerialNumberIsNotUnique (crp.SerialNumber))
 					alreadyDiscovered_l.Add (crp);
 				else
 					notDiscovered_l.Add (crp);

@@ -7404,114 +7404,75 @@ version:</property>
                                     <property name="border-width">8</property>
                                     <property name="spacing">12</property>
                                     <child>
-                                      <object class="GtkHBox" id="hbox1">
+                                      <!-- n-columns=2 n-rows=4 -->
+                                      <object class="GtkGrid">
                                         <property name="visible">True</property>
                                         <property name="can-focus">False</property>
-                                        <property name="spacing">20</property>
+                                        <property name="halign">center</property>
+                                        <property name="row-spacing">16</property>
+                                        <property name="column-spacing">40</property>
+                                        <property name="column-homogeneous">True</property>
                                         <child>
-                                          <object class="GtkVButtonBox" id="vbuttonbox3">
+                                          <object class="GtkButton" id="button_logs_folder_open">
+                                            <property name="label" translatable="yes">Open logs folder</property>
+                                            <property name="visible">True</property>
+                                            <property name="can-focus">True</property>
+                                            <property name="receives-default">False</property>
+                                            <property name="use-underline">True</property>
+                                            <signal name="clicked" handler="on_button_logs_folder_open_clicked" swapped="no"/>
+                                          </object>
+                                          <packing>
+                                            <property name="left-attach">0</property>
+                                            <property name="top-attach">0</property>
+                                          </packing>
+                                        </child>
+                                        <child>
+                                          <object class="GtkButton" id="button_tmp_folder_open">
+                                            <property name="label" translatable="yes">Open temp folder</property>
+                                            <property name="visible">True</property>
+                                            <property name="can-focus">True</property>
+                                            <property name="receives-default">False</property>
+                                            <property name="use-underline">True</property>
+                                            <signal name="clicked" handler="on_button_tmp_folder_open_clicked" swapped="no"/>
+                                          </object>
+                                          <packing>
+                                            <property name="left-attach">0</property>
+                                            <property name="top-attach">1</property>
+                                          </packing>
+                                        </child>
+                                        <child>
+                                          <object class="GtkButton" id="button_debug_mode">
+                                            <property name="label" translatable="yes">Enter debug mode</property>
+                                            <property name="visible">True</property>
+                                            <property name="can-focus">True</property>
+                                            <property name="receives-default">True</property>
+                                            <signal name="clicked" handler="on_debug_mode_clicked" swapped="no"/>
+                                          </object>
+                                          <packing>
+                                            <property name="left-attach">0</property>
+                                            <property name="top-attach">2</property>
+                                          </packing>
+                                        </child>
+                                        <child>
+                                          <object class="GtkBox">
                                             <property name="visible">True</property>
                                             <property name="can-focus">False</property>
-                                            <property name="spacing">8</property>
+                                            <property name="spacing">4</property>
                                             <child>
-                                              <object class="GtkButton" id="button_logs_folder_open">
-                                                <property name="label" translatable="yes">Open logs folder</property>
+                                              <object class="GtkLabel">
                                                 <property name="visible">True</property>
-                                                <property name="can-focus">True</property>
-                                                <property name="receives-default">False</property>
-                                                <property name="use-underline">True</property>
-                                                <signal name="clicked" handler="on_button_logs_folder_open_clicked" swapped="no"/>
+                                                <property name="can-focus">False</property>
+                                                <property name="label" translatable="yes">SQL tests</property>
                                               </object>
                                               <packing>
-                                                <property name="expand">True</property>
-                                                <property name="fill">False</property>
+                                                <property name="expand">False</property>
+                                                <property name="fill">True</property>
                                                 <property name="position">0</property>
                                               </packing>
                                             </child>
                                             <child>
-                                              <object class="GtkButton" id="button_tmp_folder_open">
-                                                <property name="label" translatable="yes">Open temp folder</property>
-                                                <property name="visible">True</property>
-                                                <property name="can-focus">True</property>
-                                                <property name="receives-default">False</property>
-                                                <property name="use-underline">True</property>
-                                                <signal name="clicked" handler="on_button_tmp_folder_open_clicked" swapped="no"/>
-                                              </object>
-                                              <packing>
-                                                <property name="expand">True</property>
-                                                <property name="fill">False</property>
-                                                <property name="position">1</property>
-                                              </packing>
-                                            </child>
-                                            <child>
-                                              <object class="GtkButton" id="button_debug_mode">
-                                                <property name="label" translatable="yes">Enter debug mode</property>
-                                                <property name="visible">True</property>
-                                                <property name="can-focus">True</property>
-                                                <property name="receives-default">True</property>
-                                                <signal name="clicked" handler="on_debug_mode_clicked" swapped="no"/>
-                                              </object>
-                                              <packing>
-                                                <property name="expand">False</property>
-                                                <property name="fill">False</property>
-                                                <property name="position">2</property>
-                                              </packing>
-                                            </child>
-                                            <child>
-                                              <object class="GtkHBox" id="hbox22">
-                                                <property name="can-focus">False</property>
-                                                <child>
-                                                  <object class="GtkToggleButton" id="toggle_gc_collect_on_close">
-                                                    <property name="label">GCCollect</property>
-                                                    <property name="visible">True</property>
-                                                    <property name="can-focus">True</property>
-                                                    <property name="receives-default">True</property>
-                                                    <signal name="toggled" handler="on_toggle_gc_collect_on_close_toggled" swapped="no"/>
-                                                  </object>
-                                                  <packing>
-                                                    <property name="expand">True</property>
-                                                    <property name="fill">True</property>
-                                                    <property name="position">0</property>
-                                                  </packing>
-                                                </child>
-                                                <child>
-                                                  <object class="GtkToggleButton" id="toggle_never_close">
-                                                    <property name="label"> Disco After</property>
-                                                    <property name="visible">True</property>
-                                                    <property name="can-focus">True</property>
-                                                    <property name="receives-default">True</property>
-                                                    <property name="tooltip-text">Never close</property>
-                                                    <signal name="toggled" handler="on_toggle_never_close_toggled" swapped="no"/>
-                                                  </object>
-                                                  <packing>
-                                                    <property name="expand">True</property>
-                                                    <property name="fill">True</property>
-                                                    <property name="position">1</property>
-                                                  </packing>
-                                                </child>
-                                              </object>
-                                              <packing>
-                                                <property name="expand">False</property>
-                                                <property name="fill">False</property>
-                                                <property name="position">3</property>
-                                              </packing>
-                                            </child>
-                                          </object>
-                                          <packing>
-                                            <property name="expand">True</property>
-                                            <property name="fill">False</property>
-                                            <property name="position">0</property>
-                                          </packing>
-                                        </child>
-                                        <child>
-                                          <object class="GtkVButtonBox" id="vbuttonbox4">
-                                            <property name="visible">True</property>
-                                            <property name="can-focus">False</property>
-                                            <property name="spacing">8</property>
-                                            <property name="layout-style">spread</property>
-                                            <child>
                                               <object class="GtkButton" id="button1">
-                                                <property name="label" translatable="yes">SQL short test</property>
+                                                <property name="label" translatable="yes">Short</property>
                                                 <property name="visible">True</property>
                                                 <property name="can-focus">True</property>
                                                 <property name="receives-default">True</property>
@@ -7519,13 +7480,13 @@ version:</property>
                                               </object>
                                               <packing>
                                                 <property name="expand">False</property>
-                                                <property name="fill">False</property>
-                                                <property name="position">0</property>
+                                                <property name="fill">True</property>
+                                                <property name="position">1</property>
                                               </packing>
                                             </child>
                                             <child>
                                               <object class="GtkButton" id="button2">
-                                                <property name="label" translatable="yes">SQL long test</property>
+                                                <property name="label" translatable="yes">Long</property>
                                                 <property name="visible">True</property>
                                                 <property name="can-focus">True</property>
                                                 <property name="receives-default">True</property>
@@ -7534,31 +7495,64 @@ version:</property>
                                               <packing>
                                                 <property name="expand">False</property>
                                                 <property name="fill">False</property>
-                                                <property name="position">1</property>
-                                              </packing>
-                                            </child>
-                                            <child>
-                                              <object class="GtkButton" id="button_test_bluetooth">
-                                                <property name="label">Bluetooth test</property>
-                                                <property name="visible">True</property>
-                                                <property name="can-focus">True</property>
-                                                <property name="receives-default">True</property>
-                                                <signal name="clicked" handler="on_button_test_bluetooth_clicked" swapped="no"/>
-                                              </object>
-                                              <packing>
-                                                <property name="expand">False</property>
-                                                <property name="fill">False</property>
                                                 <property name="position">2</property>
                                               </packing>
                                             </child>
-                                            <child>
-                                              <placeholder/>
-                                            </child>
                                           </object>
                                           <packing>
-                                            <property name="expand">True</property>
-                                            <property name="fill">False</property>
-                                            <property name="position">1</property>
+                                            <property name="left-attach">1</property>
+                                            <property name="top-attach">2</property>
+                                          </packing>
+                                        </child>
+                                        <child>
+                                          <object class="GtkButton" id="button_test_bluetooth">
+                                            <property name="label">Bluetooth test</property>
+                                            <property name="visible">True</property>
+                                            <property name="can-focus">True</property>
+                                            <property name="receives-default">True</property>
+                                            <signal name="clicked" handler="on_button_test_bluetooth_clicked" swapped="no"/>
+                                          </object>
+                                          <packing>
+                                            <property name="left-attach">1</property>
+                                            <property name="top-attach">1</property>
+                                          </packing>
+                                        </child>
+                                        <child>
+                                          <object class="GtkButton" id="button_delete_devices">
+                                            <property name="label" translatable="yes">Delete stored devices</property>
+                                            <property name="visible">True</property>
+                                            <property name="can-focus">True</property>
+                                            <property name="receives-default">True</property>
+                                            <signal name="clicked" handler="on_button_delete_devices_clicked" swapped="no"/>
+                                          </object>
+                                          <packing>
+                                            <property name="left-attach">1</property>
+                                            <property name="top-attach">0</property>
+                                          </packing>
+                                        </child>
+                                        <child>
+                                          <object class="GtkToggleButton" id="toggle_never_close">
+                                            <property name="label"> Disco After</property>
+                                            <property name="can-focus">True</property>
+                                            <property name="receives-default">True</property>
+                                            <property name="tooltip-text">Never close</property>
+                                            <signal name="toggled" handler="on_toggle_never_close_toggled" swapped="no"/>
+                                          </object>
+                                          <packing>
+                                            <property name="left-attach">1</property>
+                                            <property name="top-attach">3</property>
+                                          </packing>
+                                        </child>
+                                        <child>
+                                          <object class="GtkToggleButton" id="toggle_gc_collect_on_close">
+                                            <property name="label">GCCollect</property>
+                                            <property name="can-focus">True</property>
+                                            <property name="receives-default">True</property>
+                                            <signal name="toggled" handler="on_toggle_gc_collect_on_close_toggled" swapped="no"/>
+                                          </object>
+                                          <packing>
+                                            <property name="left-attach">0</property>
+                                            <property name="top-attach">3</property>
                                           </packing>
                                         </child>
                                       </object>

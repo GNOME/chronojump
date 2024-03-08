@@ -296,6 +296,7 @@ public class PreferencesWindow
 	public Gtk.Button FakeButtonConfigurationImported;
 	public Gtk.Button FakeButtonColorsChanged;
 	public Gtk.Button FakeButtonDebugModeStart;
+	public Gtk.Button FakeButtonDeleteDevices;
 	
 	static PreferencesWindow PreferencesWindowBox;
 
@@ -346,6 +347,7 @@ public class PreferencesWindow
 		FakeButtonConfigurationImported = new Gtk.Button();
 		FakeButtonColorsChanged = new Gtk.Button ();
 		FakeButtonDebugModeStart = new Gtk.Button();
+		FakeButtonDeleteDevices = new Gtk.Button ();
 	}
 
 	static public PreferencesWindow Show (
@@ -2954,6 +2956,13 @@ public class PreferencesWindow
 			Sqlite.NeverCloseDB = false;
 			new DialogMessage(Constants.MessageTypes.INFO, "Never close: UNACTIVE! (default)");
 		}
+	}
+
+	private void on_button_delete_devices_clicked (object o, EventArgs args)
+	{
+		SqliteChronopicRegister.DeleteAll (false);
+		label_advanced_feedback.Text = Catalog.GetString ("Deleted stored devices.");
+		FakeButtonDeleteDevices.Click ();
 	}
 
 	private void on_button_test_bluetooth_clicked (object o, EventArgs args)

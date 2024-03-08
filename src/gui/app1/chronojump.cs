@@ -3751,6 +3751,7 @@ public partial class ChronoJumpWindow
 		preferencesWin.FakeButtonConfigurationImported.Clicked += new EventHandler(on_preferences_import_configuration);
 		preferencesWin.FakeButtonConfigurationImported.Clicked += new EventHandler(on_preferences_import_configuration);
 		preferencesWin.FakeButtonDebugModeStart.Clicked += new EventHandler(on_preferences_debug_mode_start);
+		preferencesWin.FakeButtonDeleteDevices.Clicked += new EventHandler(on_preferences_delete_devices);
 		preferencesWin.FakeButtonColorsChanged.Clicked += new EventHandler(on_preferences_colors_changed);
 		preferencesWin.Button_close.Clicked += new EventHandler(on_preferences_closed);
 	}
@@ -8703,6 +8704,12 @@ LogB.Debug("mc finished 5");
 			setApp1Title("", current_mode);
 		else
 			setApp1Title(currentSession.Name, current_mode);
+	}
+
+	private void on_preferences_delete_devices (object o, EventArgs args)
+	{
+		chronopicRegisterUpdate (false);
+		button_detect_show_hide (true);
 	}
 
 	//use chronojumpConfig

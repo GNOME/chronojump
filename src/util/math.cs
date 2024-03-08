@@ -177,6 +177,40 @@ public class PointF
 		return minY;
 	}
 
+	public static PointF GetMaxYAndItsX (List<PointF> p_l)
+	{
+		double maxY = 0;
+		double xAtMaxY = 0;
+		if (p_l == null || p_l.Count == 0)
+			return new PointF (xAtMaxY, maxY);
+
+		for (int i = 0; i < p_l.Count ; i ++)
+			if (i == 0 || p_l[i].Y > maxY)
+			{
+				xAtMaxY = p_l[i].X;
+				maxY = p_l[i].Y;
+			}
+
+		return new PointF (xAtMaxY, maxY);
+	}
+
+	public static PointF GetMinYAndItsX (List<PointF> p_l)
+	{
+		double minY = 0;
+		double xAtMinY = 0;
+		if (p_l == null || p_l.Count == 0)
+			return new PointF (xAtMinY, minY);
+
+		for (int i = 0; i < p_l.Count ; i ++)
+			if (i == 0 || p_l[i].Y < minY)
+			{
+				xAtMinY = p_l[i].X;
+				minY = p_l[i].Y;
+			}
+
+		return new PointF (xAtMinY, minY);
+	}
+
 	//if want to use sublist just call also below method GetSubList ()
 	public static double GetAvgY (List<PointF> p_l)
 	{

@@ -1284,10 +1284,21 @@ public class CairoGraphForceSensorAI : CairoGraphForceSensor
 
 			// paint max, min circles
 			if (points_l.Count > 0 && calculatePaintX (xAtMaxY) > leftMargin)
-				drawCircle (calculatePaintX (xAtMaxY), calculatePaintY (yAtMaxY), 8, red, false);
+				drawCircle (calculatePaintX (xAtMaxY), calculatePaintY (yAtMaxY), 8, yellow, false);
 
 			if (points_l.Count > 0 && calculatePaintX (xAtMinY) > leftMargin)
-				drawCircle (calculatePaintX (xAtMinY), calculatePaintY (yAtMinY), 8, red, false);
+				drawCircle (calculatePaintX (xAtMinY), calculatePaintY (yAtMinY), 8, yellow, false);
+
+			if (twoSets && pointsCD_l.Count > 0)
+			{
+				PointF maxCD = PointF.GetMaxYAndItsX (pointsCD_l);
+				PointF minCD = PointF.GetMinYAndItsX (pointsCD_l);
+
+				if (calculatePaintX (maxCD.X) > leftMargin)
+					drawCircle (calculatePaintX (maxCD.X), calculatePaintY (maxCD.Y), 8, green, false);
+				if (calculatePaintX (minCD.X) > leftMargin)
+					drawCircle (calculatePaintX (minCD.X), calculatePaintY (minCD.Y), 8, green, false);
+			}
 
 			points_l_painted = points_l.Count;
 		}

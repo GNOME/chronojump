@@ -226,7 +226,7 @@ public partial class ChronoJumpWindow
 			return;
 		}
 		if (Constants.ModeIsFORCESENSOR (current_mode))
-			button_ai_move_cd_pre.Sensitive = lastForceSensorFullPath_CD != null && lastForceSensorFullPath_CD != "";
+			button_ai_move_cd_pre.Sensitive = lastForceSensorFullPath_2SetsCD != null && lastForceSensorFullPath_2SetsCD != "";
 		else //if (current_mode == Constants.Modes.RUNSENCODER)
 			button_ai_move_cd_pre.Sensitive = currentRunEncoder_CD != null;
 	}

@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2017-2023   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2017-2024   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -97,7 +97,6 @@ public partial class ChronoJumpWindow
 	static DateTime forceSensorTimeStart;
 	static string lastForceSensorFile = "";
 	static string lastForceSensorFullPath = "";
-	static string lastForceSensorFullPath_CD = "";
 
 	int usbDisconnectedCount;
 	int usbDisconnectedLastTime;
@@ -105,7 +104,7 @@ public partial class ChronoJumpWindow
 	private ForceSensor currentForceSensor;
 	private ForceSensor currentForceSensor_CD; //only for analyze cd (when 2 sets), only for know laterality, and datetime
 	private ForceSensorExercise currentForceSensorExercise;
-	private ForceSensorExercise currentForceSensorExercise_CD; //only for analyze cd (when 2sets)
+
 	DateTime forceSensorTimeStartCapture;
 	private string forceSensorFirmwareVersion;
 
@@ -541,7 +540,7 @@ public partial class ChronoJumpWindow
 		fsAI_AB = null;
 		fsAI_CD = null;
 		lastForceSensorFullPath = null;
-		lastForceSensorFullPath_CD = null;
+		lastForceSensorFullPath_2SetsCD = null;
 
 		button_contacts_exercise_close_and_recalculate.Sensitive = false;
 		textview_contacts_signal_comment.Buffer.Text = "";
@@ -1934,8 +1933,10 @@ LogB.Information(" fs R ");
 
 	//this is called when user clicks on load signal
 	//very based on: on_encoder_load_signal_clicked () future have some inheritance
-	private void force_sensor_load (bool canChoosePersonAndSession)
+	private void force_sensor_load (bool TwoSetsCD)
 	{
+		bool canChoosePersonAndSession = TwoSetsCD;
+
 		string [] colStr = getForceSensorLoadColumnsString ();
 		ArrayList dataPrint = getForceSensorLoadSetsDataPrint (currentPerson.UniqueID, currentSession.UniqueID);
 
@@ -2005,7 +2006,11 @@ LogB.Information(" fs R ");
 		genericWin.SetButtonAcceptLabel(Catalog.GetString("Load"));
 		genericWin.SetButtonCancelLabel(Catalog.GetString("Close"));
 		genericWin.SetButtonAcceptSensitive(false);
-		genericWin.Button_accept.Clicked += new EventHandler(on_force_sensor_load_signal_accepted);
+
+		if (! TwoSetsCD)
+			genericWin.Button_accept.Clicked += new EventHandler (on_force_sensor_load_signal_accepted_current_set);
+		else
+			genericWin.Button_accept.Clicked += new EventHandler (on_force_sensor_load_signal_accepted_cd);
 
 		if (! canChoosePersonAndSession)
 		{
@@ -2018,10 +2023,20 @@ LogB.Information(" fs R ");
 		genericWin.ShowNow();
 	}
 
-	private void on_force_sensor_load_signal_accepted (object o, EventArgs args)
+	private void on_force_sensor_load_signal_accepted_current_set (object o, EventArgs args)
 	{
-		LogB.Information("on force sensor load signal accepted");
-		genericWin.Button_accept.Clicked -= new EventHandler(on_force_sensor_load_signal_accepted);
+		genericWin.Button_accept.Clicked -= new EventHandler (on_force_sensor_load_signal_accepted_current_set);
+		on_force_sensor_load_signal_accepted (false);
+	}
+	private void on_force_sensor_load_signal_accepted_cd (object o, EventArgs args)
+	{
+		genericWin.Button_accept.Clicked -= new EventHandler (on_force_sensor_load_signal_accepted_cd);
+		on_force_sensor_load_signal_accepted (true);
+	}
+
+	private void on_force_sensor_load_signal_accepted (bool TwoSetsCD)
+	{
+		LogB.Information("on force sensor load signal accepted, TwoSetsCD: " + TwoSetsCD.ToString ());
 
 		int uniqueID = genericWin.TreeviewSelectedRowID();
 
@@ -2057,29 +2072,35 @@ LogB.Information(" fs R ");
 		}
 
 		// trying on _cd to only update the graph
-		if (radio_ai_2sets.Active && radio_ai_cd.Active)
+		//if (radio_ai_2sets.Active && radio_ai_cd.Active)
+		if (TwoSetsCD)
 		{
-			lastForceSensorFullPath_CD = fs.FullURL;
-			LogB.Information ("lastForceSensorFullPath_CD is: " + lastForceSensorFullPath_CD);
+			LogB.Information ("lastForceSensorFullPath_2SetsCD is: " + lastForceSensorFullPath_2SetsCD);
+
+			//store variables we need to do analyze CD graph
+			lastForceSensorFullPath_2SetsCD = fs.FullURL;
+			signalSuperpose_2SetsCDPersonName = "";
+			personSessionForceSensor_2SetsCD = SqlitePersonSession.Select (personID, sessionID);
+			forceSensorCaptureOption_2SetsCD = fs.CaptureOption;
+			forceSensorStiffness_2SetsCD = fs.Stiffness;
+			if (personID != currentPerson.UniqueID)
+				signalSuperpose_2SetsCDPersonName = SqlitePerson.SelectAttribute (personID, "name");
 
 			currentForceSensor_CD = fs;
-			currentForceSensorExercise_CD = (ForceSensorExercise) SqliteForceSensorExercise.Select (
+			currentForceSensorExercise_2SetsCD = (ForceSensorExercise) SqliteForceSensorExercise.Select (
                                 false, fs.ExerciseID, -1, false, "")[0];
 
 			//TODO: maybe need to wait to ensure is copied
-			File.Copy (lastForceSensorFullPath_CD, UtilEncoder.GetmifCSVFileName_CD (), true); //can be overwritten
+			File.Copy (lastForceSensorFullPath_2SetsCD, UtilEncoder.GetmifCSVFileName_CD (), true); //can be overwritten
 			forceSensorDoSignalGraphReadFile (false, fs.CaptureOption); //cd
 
-			signalSuperpose2SetsCDPersonName = "";
-			if (personID != currentPerson.UniqueID)
-				signalSuperpose2SetsCDPersonName = SqlitePerson.SelectAttribute (personID, "name");
 
 			forceSensorPrepareGraphAI ();
 			updateForceSensorAICairo (true);
 
 			button_ai_move_cd_pre_set_sensitivity ();
 
-			return;
+			return; // ------------------------
 		}
 
 		currentForceSensor = fs;
@@ -2577,7 +2598,7 @@ LogB.Information(" fs R ");
 		if (ab)
 			fsex = currentForceSensorExercise;
 		else
-			fsex = currentForceSensorExercise_CD;
+			fsex = currentForceSensorExercise_2SetsCD;
 
 		if (fsex.ComputeAsElastic)
 			fsd = new ForceSensorDynamicsElastic (

@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2018-2023   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2018-2024   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -240,7 +240,15 @@ public partial class ChronoJumpWindow
 
 	private enum notebook_ai_top_pages { CURRENTSETSIGNAL, CURRENTSETMODEL, CURRENTSESSION, AUTOMATICOPTIONS }
 
-	private string signalSuperpose2SetsCDPersonName = "";
+
+	//on analyze CD we load a set but it does not change the currentPerson and curretnForceSensor...
+	//so we need to store these variables on load to be able to calculate correctly the CD graph
+	private static string lastForceSensorFullPath_2SetsCD = "";
+	private ForceSensorExercise currentForceSensorExercise_2SetsCD; //only for analyze cd (when 2sets)
+	private PersonSession personSessionForceSensor_2SetsCD;
+	private ForceSensor.CaptureOptions forceSensorCaptureOption_2SetsCD;
+	private double forceSensorStiffness_2SetsCD;
+	private string signalSuperpose_2SetsCDPersonName = "";
 
 	/*
 	 * analyze options -------------------------->
@@ -1068,27 +1076,28 @@ public partial class ChronoJumpWindow
 				eccMinDispl, conMinDispl
 				);
 
-		string fullPath_cd = lastForceSensorFullPath;
-		ForceSensorExercise exercise_cd = currentForceSensorExercise;
 		if (radio_ai_2sets.Active &&
-				lastForceSensorFullPath_CD != null &&
-				lastForceSensorFullPath_CD != "")
-		{
-			fullPath_cd = lastForceSensorFullPath_CD;
-			exercise_cd = currentForceSensorExercise_CD;
-			//TODO: CaptureOptions, Stiffness, also personSession.Weight if compare between persons
-		}
+				lastForceSensorFullPath_2SetsCD != null &&
+				lastForceSensorFullPath_2SetsCD != "")
+			fsAI_CD = new ForceSensorAnalyzeInstant(
+					"CD",
+					lastForceSensorFullPath_2SetsCD,
+					zoomFrameA, zoomFrameB,
+					currentForceSensorExercise_2SetsCD, personSessionForceSensor_2SetsCD.Weight,
+					forceSensorCaptureOption_2SetsCD, forceSensorStiffness_2SetsCD,
+					eccMinDispl, conMinDispl
+					);
+		else
+			fsAI_CD = new ForceSensorAnalyzeInstant(
+					"CD",
+					lastForceSensorFullPath,
+					zoomFrameA, zoomFrameB,
+					currentForceSensorExercise, currentPersonSession.Weight,
+					getForceSensorCaptureOptions (), currentForceSensor.Stiffness,
+					eccMinDispl, conMinDispl
+					);
 
 
-		//LogB.Information ("fullPath_cd", fullPath_cd);
-		fsAI_CD = new ForceSensorAnalyzeInstant(
-				"CD",
-				fullPath_cd,
-				zoomFrameA, zoomFrameB,
-				exercise_cd, currentPersonSession.Weight,
-				getForceSensorCaptureOptions(), currentForceSensor.Stiffness,
-				eccMinDispl, conMinDispl
-				);
 		//LogB.Information("created fsAI");
 		//LogB.Information(string.Format("fsAI.GetLength: {0}", fsAI.GetLength()));
 
@@ -1222,14 +1231,14 @@ public partial class ChronoJumpWindow
 				spCairoFESend_CD = spCairoFEZoom_CD;
 
 			if (currentForceSensor != null && currentForceSensorExercise != null &&
-					currentForceSensor_CD != null && currentForceSensorExercise_CD != null)
+					currentForceSensor_CD != null && currentForceSensorExercise_2SetsCD != null)
 			{
 				string abPersonName = "";
 				string cdPersonName = "";
-				if (signalSuperpose2SetsCDPersonName != "")
+				if (signalSuperpose_2SetsCDPersonName != "")
 				{
 					abPersonName = currentPerson.Name + ", ";
-					cdPersonName = signalSuperpose2SetsCDPersonName + ", ";
+					cdPersonName = signalSuperpose_2SetsCDPersonName + ", ";
 				}
 
 				subtitleWithSetsInfo_l.Add (string.Format ("AB: {0}{1}, {2}, {3}",
@@ -1240,7 +1249,7 @@ public partial class ChronoJumpWindow
 
 				subtitleWithSetsInfo_l.Add (string.Format ("CD: {0}{1}, {2}, {3}",
 							cdPersonName,
-							currentForceSensorExercise_CD.Name,
+							currentForceSensorExercise_2SetsCD.Name,
 							currentForceSensor_CD.Laterality,
 							currentForceSensor_CD.DateTimePublic));
 			}

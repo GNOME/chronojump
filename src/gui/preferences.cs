@@ -268,6 +268,7 @@ public class PreferencesWindow
 	Gtk.RadioButton radio_export_latin;
 	Gtk.RadioButton radio_export_non_latin;
 	Gtk.Label label_advanced_feedback;
+	Gtk.Button button_delete_devices;
 	Gtk.ToggleButton toggle_gc_collect_on_close;
 	Gtk.ToggleButton toggle_never_close;
 	Gtk.VBox vbox_version;
@@ -370,6 +371,7 @@ public class PreferencesWindow
 			PreferencesWindowBox.label_progVersion.Text = "<b>" + progVersion + "</b>";
 			PreferencesWindowBox.label_progVersion.UseMarkup = true;
 			PreferencesWindowBox.check_networks_devices.Active = preferences.networksAllowChangeDevices;
+			PreferencesWindowBox.button_delete_devices.Sensitive = false;
 		}
 		PreferencesWindowBox.frame_networks.Visible = compujump;
 
@@ -3225,6 +3227,7 @@ public class PreferencesWindow
 		radio_export_latin = (Gtk.RadioButton) builder.GetObject ("radio_export_latin");
 		radio_export_non_latin = (Gtk.RadioButton) builder.GetObject ("radio_export_non_latin");
 		label_advanced_feedback = (Gtk.Label) builder.GetObject ("label_advanced_feedback");
+		button_delete_devices = (Gtk.Button) builder.GetObject ("button_delete_devices");
 		toggle_gc_collect_on_close = (Gtk.ToggleButton) builder.GetObject ("toggle_gc_collect_on_close");
 		toggle_never_close = (Gtk.ToggleButton) builder.GetObject ("toggle_never_close");
 		vbox_version = (Gtk.VBox) builder.GetObject ("vbox_version");

@@ -2796,43 +2796,6 @@ LogB.Information(" fs R ");
 			maxY = 0;
 		}
 
-		GetMaxAvgInWindow gmiw = new GetMaxAvgInWindow (spCairoFECopy.Force_l,
-				0, spCairoFECopy.Force_l.Count -1, 1); //1s
-		if (spCairoFECopy.Force_l.Count > 0 && gmiw.Error == "")
-		{
-			label_force_sensor_value_best_second.Text = string.Format("{0:0.##}", gmiw.Max);
-			if (forceSensorValues != null)
-				forceSensorValues.BestSecond = gmiw.Max;
-		}
-
-		GetBestRFDInWindow briw = new GetBestRFDInWindow (spCairoFECopy.Force_l,
-				0, spCairoFECopy.Force_l.Count -1, 0.05); //50 ms
-		if (spCairoFECopy.Force_l.Count > 0 && briw.Error == "")
-		{
-			label_force_sensor_value_rfd.Text = string.Format("{0:0.##}", briw.Max);
-			if (forceSensorValues != null)
-				forceSensorValues.BestRFD = briw.Max;
-		}
-
-		if (capturing && preferences.forceSensorCaptureFeedbackActive == Preferences.ForceSensorCaptureFeedbackActiveEnum.ASTEROIDS)
-			cairoGraphForceSensorSignal.PassAsteroids = asteroids;
-		else if (capturing && preferences.forceSensorCaptureFeedbackActive == Preferences.ForceSensorCaptureFeedbackActiveEnum.QUESTIONNAIRE)
-		{
-			cairoGraphForceSensorSignal.PassQuestionnaire = questionnaire;
-			cairoGraphForceSensorSignal.QuestionnaireMinY = preferences.forceSensorFeedbackQuestionnaireMin;
-			cairoGraphForceSensorSignal.QuestionnaireMaxY = preferences.forceSensorFeedbackQuestionnaireMax;
-		}
-
-		if (fullScreenChange != fullScreenChangeEnum.DONOTHING)
-		{
-			if (fullScreenChange == fullScreenChangeEnum.CHANGETOFULL)
-				cairoGraphForceSensorSignal.ChangeDrawingArea (fullscreen_capture_drawingarea_cairo);
-			else //if (fullScreenChange == fullScreenChangeEnum.CHANGETONORMAL)
-				cairoGraphForceSensorSignal.ChangeDrawingArea (force_capture_drawingarea_cairo);
-
-			fullScreenChange = fullScreenChangeEnum.DONOTHING;
-		}
-
 		//butterworth (see comments on butterworth/Sample/Program.cs
 		ChronoDebug cDebug = new ChronoDebug ("Butterworth time:");
 		cDebug.Start();
@@ -2841,6 +2804,8 @@ LogB.Information(" fs R ");
 		List<PointF> butterTrajA_l = new List<PointF> ();
 		//double trajAutomaticXCutoff = 0;
 		double trajACutoff = preferences.forceSensorButterworth;
+
+		List<PointF> spCairoForceCalculations_l = spCairoFECopy.Force_l;
 
 		if (spCairoFECopy.Force_l.Count > 0 &&
 				preferences.forceSensorButterworth >= 0 //&&
@@ -2878,8 +2843,53 @@ LogB.Information(" fs R ");
 					butterTrajA_l.Add (new PointF (trajA.Xs[i], trajA.Times[i]));
 				}
 			}
+			if (butterTrajA_l != null && butterTrajA_l.Count > 0)
+			{
+				spCairoForceCalculations_l = butterTrajA_l;
+
+				forceSensorValues.Max = PointF.GetMaxY (spCairoForceCalculations_l);
+				forceSensorValues.Min = PointF.GetMinY (spCairoForceCalculations_l);
+				forceSensorValues.ValueLast = PointF.Last (spCairoForceCalculations_l).Y;
+			}
 		}
 		cDebug.StopAndPrint();
+
+		GetMaxAvgInWindow gmiw = new GetMaxAvgInWindow (spCairoForceCalculations_l,
+				0, spCairoForceCalculations_l.Count -1, 1); //1s
+		if (spCairoForceCalculations_l.Count > 0 && gmiw.Error == "")
+		{
+			label_force_sensor_value_best_second.Text = string.Format("{0:0.##}", gmiw.Max);
+			if (forceSensorValues != null)
+				forceSensorValues.BestSecond = gmiw.Max;
+		}
+
+		GetBestRFDInWindow briw = new GetBestRFDInWindow (spCairoForceCalculations_l,
+				0, spCairoForceCalculations_l.Count -1, 0.05); //50 ms
+		if (spCairoForceCalculations_l.Count > 0 && briw.Error == "")
+		{
+			label_force_sensor_value_rfd.Text = string.Format("{0:0.##}", briw.Max);
+			if (forceSensorValues != null)
+				forceSensorValues.BestRFD = briw.Max;
+		}
+
+		if (capturing && preferences.forceSensorCaptureFeedbackActive == Preferences.ForceSensorCaptureFeedbackActiveEnum.ASTEROIDS)
+			cairoGraphForceSensorSignal.PassAsteroids = asteroids;
+		else if (capturing && preferences.forceSensorCaptureFeedbackActive == Preferences.ForceSensorCaptureFeedbackActiveEnum.QUESTIONNAIRE)
+		{
+			cairoGraphForceSensorSignal.PassQuestionnaire = questionnaire;
+			cairoGraphForceSensorSignal.QuestionnaireMinY = preferences.forceSensorFeedbackQuestionnaireMin;
+			cairoGraphForceSensorSignal.QuestionnaireMaxY = preferences.forceSensorFeedbackQuestionnaireMax;
+		}
+
+		if (fullScreenChange != fullScreenChangeEnum.DONOTHING)
+		{
+			if (fullScreenChange == fullScreenChangeEnum.CHANGETOFULL)
+				cairoGraphForceSensorSignal.ChangeDrawingArea (fullscreen_capture_drawingarea_cairo);
+			else //if (fullScreenChange == fullScreenChangeEnum.CHANGETONORMAL)
+				cairoGraphForceSensorSignal.ChangeDrawingArea (force_capture_drawingarea_cairo);
+
+			fullScreenChange = fullScreenChangeEnum.DONOTHING;
+		}
 
 		double videoTime = 0;
 		if (webcamPlay != null && webcamPlay.PlayVideoGetSecond > 0)
@@ -2903,9 +2913,8 @@ LogB.Information(" fs R ");
 		//LogB.Information ("updateForceSensorCaptureSignalCairo 4");
 		cairoGraphForceSensorSignal.DoSendingList (
 				preferences.fontType.ToString(),
-				spCairoFECopy,
-				//butterTrajAutomatic_l, trajAutomaticXCutoff,
-				butterTrajA_l, //trajACutoff,
+				spCairoFECopy, 		//raw
+				butterTrajA_l, 		//butterworth
 				check_force_sensor_capture_show_distance.Active,
 				check_force_sensor_capture_show_speed.Active,
 				check_force_sensor_capture_show_power.Active,

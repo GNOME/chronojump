@@ -227,7 +227,7 @@ class SqlitePerson : Sqlite
 		if(inSession == -1) {
 			string nameLike = "";
 			if(searchFilterName != "")
-				nameLike = " WHERE LOWER(" + tp + ".name) LIKE LOWER (\"%" + searchFilterName + "%\") ";
+				nameLike = " WHERE LOWER(" + tp + ".name) LIKE LOWER ('%" + searchFilterName + "%') ";
 
 			dbcmd.CommandText = 
 				"SELECT * FROM " + tp + 

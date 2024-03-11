@@ -93,7 +93,7 @@ class SqliteOldConvert : Sqlite
         //	"WHERE videoURL LIKE '/home/user/.local/share/Chronojump/%'";
 
         dbcmd.CommandText = "UPDATE " + table + " SET " + column + " = replace( " + column + ", \"" + parentDir + "\", \"\" ) " +
-            "WHERE " + column + " LIKE \"" + parentDir + "%\"";
+            "WHERE " + column + " LIKE '" + parentDir + "%'";
 
         LogB.SQL(dbcmd.CommandText.ToString());
         dbcmd.ExecuteNonQuery();
@@ -113,11 +113,11 @@ class SqliteOldConvert : Sqlite
 
 
         //changes on jump table
-        dbcmd.CommandText = "UPDATE " + Constants.JumpTable + " SET type = \"slCMJleft\" WHERE description LIKE \"%Left%\"";
+        dbcmd.CommandText = "UPDATE " + Constants.JumpTable + " SET type = \"slCMJleft\" WHERE description LIKE '%Left%'";
         LogB.SQL(dbcmd.CommandText.ToString());
         dbcmd.ExecuteNonQuery();
 
-        dbcmd.CommandText = "UPDATE " + Constants.JumpTable + " SET type = \"slCMJright\" WHERE description LIKE \"%Right%\"";
+        dbcmd.CommandText = "UPDATE " + Constants.JumpTable + " SET type = \"slCMJright\" WHERE description LIKE '%Right%'";
         LogB.SQL(dbcmd.CommandText.ToString());
         dbcmd.ExecuteNonQuery();
 

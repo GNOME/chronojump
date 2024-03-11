@@ -324,7 +324,7 @@ class SqliteEncoderConfiguration : Sqlite
 
 		dbcmd.CommandText = "SELECT * FROM " + Constants.EncoderConfigurationTable + 
 			" WHERE encoderGI = \"" + encoderGI.ToString() + "\"" +
-		        " AND encoderConfiguration LIKE \"" + econf.ToStringOutput(EncoderConfiguration.Outputs.SQLECWINCOMPARE) + "\"";
+		        " AND encoderConfiguration LIKE '" + econf.ToStringOutput(EncoderConfiguration.Outputs.SQLECWINCOMPARE) + "'";
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 

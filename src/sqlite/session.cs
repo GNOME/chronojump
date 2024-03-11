@@ -488,7 +488,7 @@ class SqliteSession : Sqlite
 
 		string filterNameString = "";
 		if(filterName != "")
-			filterNameString = " AND LOWER(session.name) LIKE LOWER (\"%" + filterName  + "%\") ";
+			filterNameString = " AND LOWER(session.name) LIKE LOWER ('%" + filterName  + "%') ";
 
 		if (personID < 0)
 			dbcmd.CommandText =

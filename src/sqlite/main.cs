@@ -1669,7 +1669,7 @@ class Sqlite
 				Sqlite.Open();
 				
 				dbcmd.CommandText = "DELETE FROM " + Constants.EncoderTable + 
-					" WHERE encoderConfiguration LIKE \"%INERTIAL%\" AND " +
+					" WHERE encoderConfiguration LIKE '%INERTIAL%' AND " +
 					" signalOrCurve == \"curve\"";
 				LogB.SQL(dbcmd.CommandText.ToString());
 				dbcmd.ExecuteNonQuery();
@@ -3834,7 +3834,7 @@ class Sqlite
 			executeSQL("PRAGMA case_sensitive_like=ON;");
 
 		dbcmd.CommandText = "SELECT * FROM sqlite_master WHERE type = \"table\" AND name = \"" +
-			tableName + "\" AND sql LIKE \"%" + columnName + "%\"";
+			tableName + "\" AND sql LIKE '%" + columnName + "%'";
 
 		LogB.SQL(dbcmd.CommandText.ToString());
 
@@ -3923,7 +3923,7 @@ class Sqlite
 			// 2.a) for each duplicate, find distinct names that start similar to it
 			//      to not use them on rename namesConflicting as "name (1)","name (2)" ...
 			dbcmd.CommandText = "SELECT DISTINCT name FROM " + table +
-			" WHERE name LIKE \"" + nameConflict + "%\"";
+			" WHERE name LIKE '" + nameConflict + "%'";
 			LogB.SQL(dbcmd.CommandText.ToString());
 
 			reader = dbcmd.ExecuteReader();

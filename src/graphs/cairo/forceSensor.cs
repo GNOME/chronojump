@@ -578,6 +578,10 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 						0, textHeight +4, Util.TrimDecimals (butterTrajAutomaticCutoff, 2), g, alignTypes.RIGHT);
 			}
 			*/
+			LogB.Information ("butterTrajA_l == null? " + (butterTrajA_l == null).ToString ());
+			if (! (butterTrajA_l == null))
+				LogB.Information ("count: " + butterTrajA_l.Count.ToString ());
+
 			if (butterTrajA_l != null && butterTrajA_l.Count > 0)
 			{
 				plotRealPoints(plotType, butterTrajA_l, startAt, false); //fast (but the difference is very low)

@@ -2836,11 +2836,13 @@ LogB.Information(" fs R ");
 		//List<PointF> butterTrajAutomatic_l = new List<PointF> ();
 		List<PointF> butterTrajA_l = new List<PointF> ();
 		//double trajAutomaticXCutoff = 0;
-		double trajACutoff = 15;
+		double trajACutoff = preferences.forceSensorButterworth;
 
 		if (spCairoFECopy.Force_l.Count > 0 &&
-				preferences.forceSensorCaptureFeedbackActive ==
-				Preferences.ForceSensorCaptureFeedbackActiveEnum.NO) //right now only calculate butterworth on NO feedback
+				preferences.forceSensorButterworth >= 0 //&&
+				//preferences.forceSensorCaptureFeedbackActive ==
+				//Preferences.ForceSensorCaptureFeedbackActiveEnum.NO //right now only calculate butterworth on NO feedback
+				)
 		{
 			List<PointF> pForButter_l = spCairoFECopy.Force_l;
 			if (! cairoDrawHorizontal)
@@ -2857,7 +2859,7 @@ LogB.Information(" fs R ");
 			//trajAutomaticXCutoff = trajAutomatic.XCutoff;
 			trajA.Initialize(samples, fps, trajACutoff);
 			//LogB.Information (string.Format ("butterworth: samples: {0}, fps: {1}, cutoff: {2}",
-			//			pForButter_l.Count, fps, traj.XCutoffIndex));
+			//			pForButter_l.Count, fps, trajA.XCutoffIndex));
 
 			//for (int i = 0; i < trajAutomatic.Times.Length; i ++)
 			for (int i = 0; i < trajA.Times.Length; i ++)

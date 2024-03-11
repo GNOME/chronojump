@@ -664,7 +664,7 @@ public class GenericWindow
 		if (Constants.ModeIsFORCESENSOR (currentMode))
 			sessionTests = SqliteSession.SelectAllSessionsTestsForceSensor (currentMode, "");
 		else //if (currentMode == Constants.Modes.RUNSENCODER)
-			sessionTests = SqliteSession.SelectAllSessionsTestsForceSensor (currentMode, "");
+			sessionTests = SqliteSession.SelectAllSessionsTestsRunEncoder ("");
 
 		Sqlite.Close (); // <--------
 

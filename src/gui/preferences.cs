@@ -766,12 +766,15 @@ public class PreferencesWindow
 		PreferencesWindowBox.label_encoder_con.Text = (0.7).ToString();
 
 		//forceSensor -->
+		PreferencesWindowBox.signalsNoFollow = true;
+
 		PreferencesWindowBox.check_force_sensor_butterworth.Active = preferences.forceSensorButterworth >= 0;
 		PreferencesWindowBox.box_force_sensor_butterworth_values.Sensitive = preferences.forceSensorButterworth >= 0;
 		if (preferences.forceSensorButterworth < 0)
 			PreferencesWindowBox.spin_force_sensor_butterworth.Value = 15;
 		else
 			PreferencesWindowBox.spin_force_sensor_butterworth.Value = preferences.forceSensorButterworth;
+		PreferencesWindowBox.signalsNoFollow = false;
 
 		PreferencesWindowBox.spin_force_sensor_capture_width_graph_seconds.Value = preferences.forceSensorCaptureWidthSeconds;
 
@@ -1624,6 +1627,9 @@ public class PreferencesWindow
 
 	private void on_check_force_sensor_butterworth_clicked (object o, EventArgs args)
 	{
+		if (signalsNoFollow)
+			return;
+
 		// A) changes on preferences gui
 		box_force_sensor_butterworth_values.Sensitive = check_force_sensor_butterworth.Active;
 
@@ -1642,6 +1648,9 @@ public class PreferencesWindow
 
 	private void on_spin_force_sensor_butterworth_value_changed (object o, EventArgs args)
 	{
+		if (signalsNoFollow)
+			return;
+
 		// B) changes on preferences object and SqlitePreferences
 		preferences.forceSensorButterworth = Preferences.PreferencesChange(
 				false,

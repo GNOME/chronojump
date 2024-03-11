@@ -708,9 +708,9 @@ public class GenericWindow
 		// 3) select which persons of this session have tests tests of currentMode
 		ArrayList personsTests = new ArrayList ();
 		if (Constants.ModeIsFORCESENSOR (currentMode))
-			personsTests = SqliteForceSensor.SelectSessionOverviewSets (false, sessionID, currentMode);
+			personsTests = SqliteForceSensor.SelectSessionOverviewSets (false, sessionID, false, currentMode);
 		else //if (currentMode == Constants.Modes.RUNSENCODER)
-			personsTests = SqliteRunEncoder.SelectSessionOverviewSets (false, sessionID);
+			personsTests = SqliteRunEncoder.SelectSessionOverviewSets (false, sessionID, false);
 
 		// 4) mix 2 with 3 to have person name of persons with related tests
 		foreach (string[] pt in personsTests)

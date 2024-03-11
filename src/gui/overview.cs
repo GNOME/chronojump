@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Copyright (C) 2016-2023   Xavier de Blas <xaviblas@gmail.com>
+ *  Copyright (C) 2016-2024   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -407,7 +407,7 @@ public class ForceSensorOverviewWindow : OverviewWindow
 
 	protected override ArrayList selectData(treeviewType type)
 	{
-		return SqliteForceSensor.SelectSessionOverviewSets(false, sessionID, chronojumpMode);
+		return SqliteForceSensor.SelectSessionOverviewSets(false, sessionID, true, chronojumpMode);
 	}
 
 	protected override void on_button_close_clicked (object o, EventArgs args)
@@ -477,7 +477,7 @@ public class RunEncoderOverviewWindow : OverviewWindow
 
 	protected override ArrayList selectData(treeviewType type)
 	{
-		return SqliteRunEncoder.SelectSessionOverviewSets(false, sessionID);
+		return SqliteRunEncoder.SelectSessionOverviewSets(false, sessionID, true);
 	}
 
 	protected override void on_button_close_clicked (object o, EventArgs args)

@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2017-2022   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2017-2024   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -248,7 +248,7 @@ class SqliteForceSensor : Sqlite
         return array;
     }
 
-    public static ArrayList SelectSessionOverviewSets(bool dbconOpened, int sessionID, Constants.Modes chronojumpMode)
+    public static ArrayList SelectSessionOverviewSets (bool dbconOpened, int sessionID, bool byExercises, Constants.Modes chronojumpMode)
     {
         if (!dbconOpened)
             Sqlite.Open();
@@ -259,11 +259,15 @@ class SqliteForceSensor : Sqlite
         else if (chronojumpMode == Constants.Modes.FORCESENSORELASTIC)
             elasticStr = " AND " + Constants.ForceSensorExerciseTable + ".elastic != 0"; //1 or -1 (both)
 
+	string byExercisesStr = "";
+	if (byExercises)
+		byExercisesStr = ", exerciseID";
+
         dbcmd.CommandText =
             "SELECT person77.uniqueID, person77.name, person77.sex, forceSensorExercise.name, COUNT(*)" +
             " FROM person77, personSession77, forceSensorExercise, forceSensor" +
             " WHERE person77.uniqueID == forceSensor.personID AND personSession77.personID == forceSensor.personID AND personSession77.sessionID == forceSensor.sessionID AND forceSensorExercise.uniqueID==forceSensor.exerciseID AND forceSensor.sessionID == " + sessionID + elasticStr +
-            " GROUP BY forceSensor.personID, exerciseID" +
+            " GROUP BY forceSensor.personID" + byExercisesStr +
             " ORDER BY person77.name";
 
         LogB.SQL(dbcmd.CommandText.ToString());

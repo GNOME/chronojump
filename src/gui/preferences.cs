@@ -182,6 +182,9 @@ public class PreferencesWindow
 	Gtk.RadioButton radio_encoder_1RM_weighted3;
 
 	//forceSensor tab
+	Gtk.CheckButton check_force_sensor_butterworth;
+	Gtk.Box box_force_sensor_butterworth_values;
+	Gtk.SpinButton spin_force_sensor_butterworth;
 	Gtk.Notebook notebook_force_sensor;
 	Gtk.SpinButton spin_force_sensor_capture_width_graph_seconds;
 	Gtk.RadioButton radio_force_sensor_capture_zoom_out;
@@ -763,6 +766,12 @@ public class PreferencesWindow
 		PreferencesWindowBox.label_encoder_con.Text = (0.7).ToString();
 
 		//forceSensor -->
+		PreferencesWindowBox.check_force_sensor_butterworth.Active = preferences.forceSensorButterworth >= 0;
+		PreferencesWindowBox.box_force_sensor_butterworth_values.Sensitive = preferences.forceSensorButterworth >= 0;
+		if (preferences.forceSensorButterworth < 0)
+			PreferencesWindowBox.spin_force_sensor_butterworth.Value = 15;
+		else
+			PreferencesWindowBox.spin_force_sensor_butterworth.Value = preferences.forceSensorButterworth;
 
 		PreferencesWindowBox.spin_force_sensor_capture_width_graph_seconds.Value = preferences.forceSensorCaptureWidthSeconds;
 
@@ -1612,6 +1621,34 @@ public class PreferencesWindow
 
 
 	/* callbacks SQL change at any change for tab: forceSensor */
+
+	private void on_check_force_sensor_butterworth_clicked (object o, EventArgs args)
+	{
+		// A) changes on preferences gui
+		box_force_sensor_butterworth_values.Sensitive = check_force_sensor_butterworth.Active;
+
+		// B) changes on preferences object and SqlitePreferences
+		changeForceSensorButterworthOnPreferencesAndDB ();
+	}
+	private void changeForceSensorButterworthOnPreferencesAndDB ()
+	{
+		if(! PreferencesWindowBox.check_force_sensor_butterworth.Active)
+		{
+			SqlitePreferences.Update(SqlitePreferences.ForceSensorButterworth, "-1", false);
+			preferences.forceSensorButterworth = -1;
+		} else
+			on_spin_force_sensor_butterworth_value_changed (new object (), new EventArgs ());
+	}
+
+	private void on_spin_force_sensor_butterworth_value_changed (object o, EventArgs args)
+	{
+		// B) changes on preferences object and SqlitePreferences
+		preferences.forceSensorButterworth = Preferences.PreferencesChange(
+				false,
+				SqlitePreferences.ForceSensorButterworth,
+				preferences.forceSensorButterworth,
+				Convert.ToDouble(spin_force_sensor_butterworth.Value));
+	}
 
 	private void on_spin_force_sensor_capture_width_graph_seconds_value_changed (object o, EventArgs args)
 	{
@@ -3141,6 +3178,9 @@ public class PreferencesWindow
 		radio_encoder_1RM_weighted3 = (Gtk.RadioButton) builder.GetObject ("radio_encoder_1RM_weighted3");
 
 		//forceSensor tab
+		check_force_sensor_butterworth = (Gtk.CheckButton) builder.GetObject ("check_force_sensor_butterworth");
+		box_force_sensor_butterworth_values = (Gtk.Box) builder.GetObject ("box_force_sensor_butterworth_values");
+		spin_force_sensor_butterworth = (Gtk.SpinButton) builder.GetObject ("spin_force_sensor_butterworth");
 		notebook_force_sensor = (Gtk.Notebook) builder.GetObject ("notebook_force_sensor");
 		spin_force_sensor_capture_width_graph_seconds = (Gtk.SpinButton) builder.GetObject ("spin_force_sensor_capture_width_graph_seconds");
 		radio_force_sensor_capture_zoom_out = (Gtk.RadioButton) builder.GetObject ("radio_force_sensor_capture_zoom_out");

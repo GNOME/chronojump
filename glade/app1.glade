@@ -10004,6 +10004,10 @@
                                                             </packing>
                                                             </child>
                                                             <child>
+                                                            <object class="GtkBox">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <child>
                                                             <!-- n-columns=5 n-rows=2 -->
                                                             <object class="GtkGrid" id="force_capture_grid">
                                                             <property name="visible">True</property>
@@ -10470,6 +10474,114 @@
                                                             <packing>
                                                             <property name="left-attach">4</property>
                                                             <property name="top-attach">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <!-- n-columns=2 n-rows=2 -->
+                                                            <object class="GtkGrid" id="force_capture_grid_colors">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="row-spacing">6</property>
+                                                            <property name="column-spacing">12</property>
+                                                            <child>
+                                                            <object class="GtkSeparator" id="separator_force_capture_unfiltered">
+                                                            <property name="width-request">20</property>
+                                                            <property name="height-request">3</property>
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="halign">center</property>
+                                                            <property name="valign">center</property>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="left-attach">0</property>
+                                                            <property name="top-attach">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkSeparator" id="separator_force_capture_butterworth">
+                                                            <property name="width-request">20</property>
+                                                            <property name="height-request">3</property>
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="halign">center</property>
+                                                            <property name="valign">center</property>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="left-attach">0</property>
+                                                            <property name="top-attach">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkLabel">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="label" translatable="yes">Unfiltered signal</property>
+                                                            <property name="xalign">0</property>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="left-attach">1</property>
+                                                            <property name="top-attach">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkBox">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="spacing">6</property>
+                                                            <child>
+                                                            <object class="GtkLabel">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="label" translatable="yes">Butterworth low-pass</property>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkLabel" id="label_force_capture_grid_colors_butterworth_value">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkLabel">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="label">Hz</property>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">2</property>
+                                                            </packing>
+                                                            </child>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="left-attach">1</property>
+                                                            <property name="top-attach">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="pack-type">end</property>
+                                                            <property name="position">1</property>
                                                             </packing>
                                                             </child>
                                                             </object>
@@ -22645,6 +22757,9 @@ Concentric</property>
                                                             <property name="left-attach">3</property>
                                                             <property name="right-attach">4</property>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>

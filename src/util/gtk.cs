@@ -830,6 +830,19 @@ public class UtilGtk
 				"border: " + Config.ColorBackground.ToString () + ";" +
 			"}" +
 
+			//SEPARATOR
+			"separator#brownCss {" +
+				//"background-image: none;" +
+				"background: #964b00;" +
+				"border-width: 1px;" +
+				"border: #ffffff;" +
+			"}" +
+			"separator#blackCss {" +
+				"background: #000000;" +
+				"border-width: 1px;" +
+				"border: #ffffff;" +
+			"}" +
+
 			//NOTEBOOKS bgCss
 			//header
 			"notebook#bgCss header {" +

@@ -3888,7 +3888,10 @@ public partial class ChronoJumpWindow
 
 		// update force_capture_drawingarea
 		if (Constants.ModeIsFORCESENSOR (current_mode))// && radiobutton_force_sensor_analyze_manual.Active)
+		{
+			forceSensorGridColors ();
 			forceSensorPrepareGraphAI ();
+		}
 
 		// <---------- end of force sensor changes --------------
 	}
@@ -4505,6 +4508,8 @@ public partial class ChronoJumpWindow
 				(Convert.ToInt32 (notebook_ai_model_graph_table_triggers_pages.TABLE)).Hide();
 			notebook_ai_model_graph_table_triggers.ShowTabs = false;
 			notebook_ai_model_graph_table_triggers.ShowBorder = false;
+
+			forceSensorGridColors ();
 		}
 		else if(m == Constants.Modes.RUNSENCODER)
 		{

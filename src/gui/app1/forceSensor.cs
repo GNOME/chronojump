@@ -57,6 +57,10 @@ public partial class ChronoJumpWindow
 	Gtk.Label label_force_sensor_value_min;
 	Gtk.Label label_force_sensor_value_best_second;
 	Gtk.Label label_force_sensor_value_rfd;
+	Gtk.Grid force_capture_grid_colors;
+	Gtk.Separator separator_force_capture_unfiltered;
+	Gtk.Separator separator_force_capture_butterworth;
+	Gtk.Label label_force_capture_grid_colors_butterworth_value;
 	//Gtk.VScale vscale_force_sensor;
 	Gtk.SpinButton spin_force_sensor_calibration_kg_value;
 	Gtk.Box box_force_sensor_capture_magnitudes;
@@ -2934,6 +2938,17 @@ LogB.Information(" fs R ");
 		}
 	}
 
+	private void forceSensorGridColors ()
+	{
+		force_capture_grid_colors.Visible = preferences.forceSensorButterworth >= 0;
+		if (preferences.forceSensorButterworth >= 0)
+		{
+			separator_force_capture_unfiltered.Name = "brownCss";
+			separator_force_capture_butterworth.Name = "blackCss";
+			label_force_capture_grid_colors_butterworth_value.Text = Util.TrimDecimals (preferences.forceSensorButterworth, 1);
+		}
+	}
+
 	private void forceSensorDoSignalGraphPlot ()
 	{
 		force_capture_drawingarea_cairo.QueueDraw ();
@@ -3609,6 +3624,10 @@ LogB.Information(" fs R ");
 		label_force_sensor_value_min = (Gtk.Label) builder.GetObject ("label_force_sensor_value_min");
 		label_force_sensor_value_best_second = (Gtk.Label) builder.GetObject ("label_force_sensor_value_best_second");
 		label_force_sensor_value_rfd = (Gtk.Label) builder.GetObject ("label_force_sensor_value_rfd");
+		force_capture_grid_colors = (Gtk.Grid) builder.GetObject ("force_capture_grid_colors");
+		separator_force_capture_unfiltered = (Gtk.Separator) builder.GetObject ("separator_force_capture_unfiltered");
+		separator_force_capture_butterworth = (Gtk.Separator) builder.GetObject ("separator_force_capture_butterworth");
+		label_force_capture_grid_colors_butterworth_value = (Gtk.Label) builder.GetObject ("label_force_capture_grid_colors_butterworth_value");
 		//vscale_force_sensor = (Gtk.VScale) builder.GetObject ("vscale_force_sensor");
 		spin_force_sensor_calibration_kg_value = (Gtk.SpinButton) builder.GetObject ("spin_force_sensor_calibration_kg_value");
 		box_force_sensor_capture_magnitudes = (Gtk.Box) builder.GetObject ("box_force_sensor_capture_magnitudes");

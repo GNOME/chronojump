@@ -130,7 +130,7 @@ class MyWindow : Gtk.Window {
         vbox.Margin = 8;
 
 	//uncomment both to show encoder_configuration_win
-	//dencoder_configuration_win = EncoderConfigurationWindow.View ();
+	//encoder_configuration_win = EncoderConfigurationWindow.View ();
 	//encoder_configuration_win.Button_close.Clicked += new EventHandler (on_encoder_configuration_win_closed);
 
     	ApplyCSS ();

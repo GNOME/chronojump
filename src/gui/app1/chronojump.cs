@@ -3889,7 +3889,7 @@ public partial class ChronoJumpWindow
 		// update force_capture_drawingarea
 		if (Constants.ModeIsFORCESENSOR (current_mode))// && radiobutton_force_sensor_analyze_manual.Active)
 		{
-			forceSensorGridColors ();
+			force_sensor_recalculate ();
 			forceSensorPrepareGraphAI ();
 		}
 
@@ -4509,7 +4509,7 @@ public partial class ChronoJumpWindow
 			notebook_ai_model_graph_table_triggers.ShowTabs = false;
 			notebook_ai_model_graph_table_triggers.ShowBorder = false;
 
-			forceSensorGridColors ();
+			//force_sensor_recalculate ();
 		}
 		else if(m == Constants.Modes.RUNSENCODER)
 		{

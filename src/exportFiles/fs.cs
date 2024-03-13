@@ -38,6 +38,7 @@ public class ForceSensorExport : ExportFiles
 	private int forceSensorNotElasticConMinForce;
 	private bool forceSensorStartEndOptimized;
 	private double forceSensorAnalyzeMaxAVGInWindowSeconds;
+	private double butterworthFreq;
 
 	private List<ForceSensor> fs_l;
 	private ArrayList fsEx_l;
@@ -59,7 +60,8 @@ public class ForceSensorExport : ExportFiles
 			int forceSensorNotElasticConMinForce,
 			bool forceSensorStartEndOptimized,
 			char exportDecimalSeparator,
-			double forceSensorAnalyzeMaxAVGInWindowSeconds)
+			double forceSensorAnalyzeMaxAVGInWindowSeconds,
+			double butterworthFreq)
 
 	{
 		Button_done = new Gtk.Button();
@@ -78,6 +80,7 @@ public class ForceSensorExport : ExportFiles
 		this.forceSensorNotElasticConMinForce = forceSensorNotElasticConMinForce;
 		this.forceSensorStartEndOptimized = forceSensorStartEndOptimized;
 		this.forceSensorAnalyzeMaxAVGInWindowSeconds = forceSensorAnalyzeMaxAVGInWindowSeconds;
+		this.butterworthFreq = butterworthFreq;
 	}
 
 	private string getTempGraphsDir() {
@@ -194,6 +197,7 @@ public class ForceSensorExport : ExportFiles
 			ForceSensorAnalyzeInstant fsAI = new ForceSensorAnalyzeInstant(
 					"",
 					fs.FullURL,
+					butterworthFreq,
 					-1, -1,
 					fsEx, ps.Weight,
 					fs.CaptureOption, fs.Stiffness,

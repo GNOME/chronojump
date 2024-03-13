@@ -324,8 +324,8 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 
 	//separated in two methods to ensure endGraphDisposing on any return of the other method
 	public void DoSendingList (string font,
-			SignalPointsCairoForceElastic spCairoFE,	//raw
-			List<PointF> butterTrajA_l,	 		//butterworth
+			SignalPointsCairoForceElastic spCairoFE_raw,	//raw (only used if butterworth)
+			SignalPointsCairoForceElastic spCairoFE,	//spCairoFE to plot
 			bool showDistance, bool showSpeed, bool showPower,
 			List<PointF> points_l_interpolated_path, int interpolatedMin, int interpolatedMax,
 			bool capturing, double videoPlayTimeInSeconds, bool showAccuracy, int showLastSeconds,
@@ -336,10 +336,10 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 			TriggerList triggerList,
 			bool forceRedraw, PlotTypes plotType)
 	{
-		if (butterTrajA_l != null && butterTrajA_l.Count > 0)
+		if (spCairoFE_raw != null)
 		{
-			this.points_l = butterTrajA_l;
-			this.raw_l = spCairoFE.Force_l;
+			this.points_l = spCairoFE.Force_l;
+			this.raw_l = spCairoFE_raw.Force_l;
 		} else {
 			this.points_l = spCairoFE.Force_l;
 			this.raw_l = new List <PointF> ();

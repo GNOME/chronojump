@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Copyright (C) 2017-2023   Xavier de Blas <xaviblas@gmail.com>
+ *  Copyright (C) 2017-2024   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -1718,6 +1718,7 @@ public class ForceSensorAnalyzeInstant : AnalyzeInstant
 	public ForceSensorAnalyzeInstant(
 			string idStr,
 			string file,
+			double butterworthFreq, // <0 means raw
 			int startSample, int endSample,
 			ForceSensorExercise fse, double personWeight, ForceSensor.CaptureOptions fsco, double stiffness,
 			double eccMinDisplacement, double conMinDisplacement)
@@ -1725,10 +1726,10 @@ public class ForceSensorAnalyzeInstant : AnalyzeInstant
 		this.idStr = idStr;
 		this.fse = fse;
 
-		readFile(file, startSample, endSample, personWeight, fsco, stiffness, eccMinDisplacement, conMinDisplacement);
+		readFile (file, butterworthFreq, startSample, endSample, personWeight, fsco, stiffness, eccMinDisplacement, conMinDisplacement);
 	}
 
-	private void readFile(string file, int startSample, int endSample,
+	private void readFile(string file, double butterworthFreq, int startSample, int endSample,
 			double personWeight, ForceSensor.CaptureOptions fsco, double stiffness,
 			double eccMinDisplacement, double conMinDisplacement)
 	{
@@ -1753,9 +1754,11 @@ public class ForceSensorAnalyzeInstant : AnalyzeInstant
 
 		List<int> times = new List<int>();
 		List<double> forces = new List<double>();
+		int i;
 
 		// 1 read all file
 
+		Butterworth bw = new Butterworth (butterworthFreq);
 		foreach(string str in contents)
 		{
 			if(headersRow)
@@ -1789,8 +1792,18 @@ public class ForceSensorAnalyzeInstant : AnalyzeInstant
 
 					times.Add(Convert.ToInt32(timeD));
 					forces.Add(Convert.ToDouble(Util.ChangeDecimalSeparator(strFull[1])));
+
+					if (butterworthFreq > 0)
+						bw.AddSample (timeD, Convert.ToDouble(Util.ChangeDecimalSeparator(strFull[1])));
 				}
 			}
+		}
+
+		if (butterworthFreq > 0)
+		{
+			bw.Calculate ();
+			times = bw.Times_l;
+			forces = bw.Forces_l;
 		}
 
 		// 2 calcule dynamics for all file
@@ -1858,7 +1871,7 @@ public class ForceSensorAnalyzeInstant : AnalyzeInstant
 		LogB.Information(string.Format(
 					"readFile, printing forces, times.Count: {0}, forces.Count: {1}",
 					times.Count, forces.Count));
-		int i = 0;
+		i = 0;
 		foreach(int time in times)
 		{
 			p_l.Add (new PointF (time, forces[i]));
@@ -2179,7 +2192,7 @@ public class SignalPointsCairoForceElastic : SignalPointsCairo
 	public List<PointF> ForcePaintHoriz_l;
 
 	//acts like a Clone
-	public SignalPointsCairoForceElastic (SignalPointsCairoForceElastic spfe, int a, int b, bool horizontal)
+	public SignalPointsCairoForceElastic (SignalPointsCairoForceElastic spfe, bool copyAll, int a, int b, bool horizontal)
 	{
 		Force_l = new List<PointF> ();
 		Displ_l = new List<PointF> ();
@@ -2196,14 +2209,17 @@ public class SignalPointsCairoForceElastic : SignalPointsCairo
 					break;
 
 				Force_l.Add (spfe.Force_l[i]);
-				if (spfe.Displ_l != null && spfe.Displ_l.Count > 0)
-					Displ_l.Add (spfe.Displ_l[i]);
-				if (spfe.Speed_l != null && spfe.Speed_l.Count > 0)
-					Speed_l.Add (spfe.Speed_l[i]);
-				if (spfe.Accel_l != null && spfe.Accel_l.Count > 0)
-					Accel_l.Add (spfe.Accel_l[i]);
-				if (spfe.Power_l != null && spfe.Power_l.Count > 0)
-					Power_l.Add (spfe.Power_l[i]);
+				if (copyAll)
+				{
+					if (spfe.Displ_l != null && spfe.Displ_l.Count > 0)
+						Displ_l.Add (spfe.Displ_l[i]);
+					if (spfe.Speed_l != null && spfe.Speed_l.Count > 0)
+						Speed_l.Add (spfe.Speed_l[i]);
+					if (spfe.Accel_l != null && spfe.Accel_l.Count > 0)
+						Accel_l.Add (spfe.Accel_l[i]);
+					if (spfe.Power_l != null && spfe.Power_l.Count > 0)
+						Power_l.Add (spfe.Power_l[i]);
+				}
 			}
 		} else {
 			ForcePaintHoriz_l = new List<PointF> ();
@@ -2215,14 +2231,17 @@ public class SignalPointsCairoForceElastic : SignalPointsCairo
 
 				ForcePaintHoriz_l.Add (spfe.Force_l[i]);
 				Force_l.Add (spfe.Force_l[i].Transpose ());
-				if (spfe.Displ_l != null && spfe.Displ_l.Count > 0)
-					Displ_l.Add (spfe.Displ_l[i].Transpose ());
-				if (spfe.Speed_l != null && spfe.Speed_l.Count > 0)
-					Speed_l.Add (spfe.Speed_l[i].Transpose ());
-				if (spfe.Accel_l != null && spfe.Accel_l.Count > 0)
-					Accel_l.Add (spfe.Accel_l[i].Transpose ());
-				if (spfe.Power_l != null && spfe.Power_l.Count > 0)
-					Power_l.Add (spfe.Power_l[i].Transpose ());
+				if (copyAll)
+				{
+					if (spfe.Displ_l != null && spfe.Displ_l.Count > 0)
+						Displ_l.Add (spfe.Displ_l[i].Transpose ());
+					if (spfe.Speed_l != null && spfe.Speed_l.Count > 0)
+						Speed_l.Add (spfe.Speed_l[i].Transpose ());
+					if (spfe.Accel_l != null && spfe.Accel_l.Count > 0)
+						Accel_l.Add (spfe.Accel_l[i].Transpose ());
+					if (spfe.Power_l != null && spfe.Power_l.Count > 0)
+						Power_l.Add (spfe.Power_l[i].Transpose ());
+				}
 			}
 		}
 	}

@@ -30,7 +30,6 @@ using System.Collections;
 using System.Collections.Generic; //List<T>
 using System.Text.RegularExpressions; //Regex
 using Mono.Unix;
-using Kinovea.Filtering;
 
 
 public partial class ChronoJumpWindow 
@@ -2554,11 +2553,6 @@ LogB.Information(" fs R ");
 	}
 	void forceSensorDoSignalGraphReadFile (bool ab, ForceSensor.CaptureOptions fsco)
 	{
-		if (ab)
-			spCairoFE = new SignalPointsCairoForceElastic ();
-		else
-			spCairoFE_CD = new SignalPointsCairoForceElastic ();
-
 		//LogB.Information("at forceSensorDoSignalGraphReadFile(), filename: " + UtilEncoder.GetmifCSVFileName());
 		List<string> contents;
 		if (ab)
@@ -2571,8 +2565,15 @@ LogB.Information(" fs R ");
 		//initialize
 		forceSensorValues = new ForceSensorValues();
 
-		List<int> times = new List<int>();
-		List<double> forces = new List<double>();
+		//to display on capture tab, or use it if no filter is being used
+		List<int> timesUnfiltered_l = new List<int>();
+		List<double> forcesUnfiltered_l = new List<double>();
+
+		//really used data
+		List<int> times_l = new List<int>();
+		List<double> forces_l = new List<double>();
+
+		Butterworth bw = new Butterworth (preferences.forceSensorButterworth);
 
 		foreach(string str in contents)
 		{
@@ -2588,82 +2589,108 @@ LogB.Information(" fs R ");
 
 				if(Util.IsNumber(strFull[0], false) && Util.IsNumber(Util.ChangeDecimalSeparator(strFull[1]), true))
 				{
-					times.Add(Convert.ToInt32(strFull[0]));
-					forces.Add(Convert.ToDouble(Util.ChangeDecimalSeparator(strFull[1])));
+					timesUnfiltered_l.Add (Convert.ToInt32(strFull[0]));
+					forcesUnfiltered_l.Add (Convert.ToDouble(Util.ChangeDecimalSeparator(strFull[1])));
+
+					if (preferences.forceSensorButterworth >= 0)
+						bw.AddSample (
+								Convert.ToDouble(Util.ChangeDecimalSeparator(strFull[0])),
+								Convert.ToDouble(Util.ChangeDecimalSeparator(strFull[1])));
 				}
 			}
 		}
-		ForceSensorDynamics fsd;
 
-		//LogB.Information(string.Format("size of times: {0}", times.Count));
-		//LogB.Information(string.Format("size of forces: {0}", forces.Count));
+		if (preferences.forceSensorButterworth >= 0)
+		{
+			bw.Calculate ();
+			times_l = bw.Times_l;
+			forces_l = bw.Forces_l;
+		} else {
+			times_l = timesUnfiltered_l;
+			forces_l = forcesUnfiltered_l;
+		}
 
-		ForceSensorExercise fsex;
+		forceSensorGridColors ();
+
 		if (ab)
-			fsex = currentForceSensorExercise;
+		{
+			spCairoFE = forceSensorDoSignalGraphReadFileGetSPFE (
+					times_l, forces_l,
+					currentForceSensorExercise, fsco, true);
+			spCairoFE_Unfiltered = forceSensorDoSignalGraphReadFileGetSPFE (
+					timesUnfiltered_l, forcesUnfiltered_l,
+					currentForceSensorExercise, fsco, false);
+		}
 		else
-			fsex = currentForceSensorExercise_2SetsCD;
+			spCairoFE_CD = forceSensorDoSignalGraphReadFileGetSPFE (
+					times_l, forces_l,
+					currentForceSensorExercise_2SetsCD, fsco, false);
+	}
 
+	private SignalPointsCairoForceElastic forceSensorDoSignalGraphReadFileGetSPFE (
+			List<int> times_l, List<double> forces_l,
+			ForceSensorExercise fsex, ForceSensor.CaptureOptions fsco, bool updateForceSensorValues)
+	{
+		SignalPointsCairoForceElastic spCairoFETemp = new SignalPointsCairoForceElastic ();
+
+		ForceSensorDynamics fsd;
 		if (fsex.ComputeAsElastic)
 			fsd = new ForceSensorDynamicsElastic (
-					times, forces, fsco, fsex, currentPersonSession.Weight, currentForceSensor.Stiffness,
+					times_l, forces_l, fsco, fsex, currentPersonSession.Weight, currentForceSensor.Stiffness,
 					preferences.forceSensorElasticEccMinDispl, preferences.forceSensorElasticConMinDispl, false);
 		else
 			fsd = new ForceSensorDynamicsNotElastic (
-					times, forces, fsco, fsex, currentPersonSession.Weight, currentForceSensor.Stiffness,
+					times_l, forces_l, fsco, fsex, currentPersonSession.Weight, currentForceSensor.Stiffness,
 					preferences.forceSensorNotElasticEccMinForce, preferences.forceSensorNotElasticConMinForce);
 
-		forces = fsd.GetForces();
-		times.RemoveAt(0); //always (not-elastic and elastic) 1st has to be removed, because time is not ok there.
+		forces_l = fsd.GetForces();
+		times_l.RemoveAt(0); //always (not-elastic and elastic) 1st has to be removed, because time is not ok there.
 		List<double> position_l = new List<double> ();
 		List<double> speed_l = new List<double> ();
 		List<double> accel_l = new List<double> ();
 		List<double> power_l = new List<double> ();
 		if(fsd.CalculedElasticPSAP)
 		{
-			times = times.GetRange(fsd.RemoveNValues +1, times.Count -2*fsd.RemoveNValues);
+			times_l = times_l.GetRange(fsd.RemoveNValues +1, times_l.Count -2*fsd.RemoveNValues);
 			position_l = fsd.GetPositions();
 			speed_l = fsd.GetSpeeds();
 			accel_l = fsd.GetAccels();
 			power_l = fsd.GetPowers();
 		}
 		int i = 0;
-		foreach(int time in times)
+		foreach(int time in times_l)
 		{
-			if (ab)
+			spCairoFETemp.Force_l.Add (new PointF (time, forces_l[i]));
+			if(fsd.CalculedElasticPSAP)
 			{
-				spCairoFE.Force_l.Add (new PointF (time, forces[i]));
-				if(fsd.CalculedElasticPSAP)
-				{
-					spCairoFE.Displ_l.Add (new PointF (time, position_l[i]));
-					spCairoFE.Speed_l.Add (new PointF (time, speed_l[i]));
-					spCairoFE.Accel_l.Add (new PointF (time, accel_l[i]));
-					spCairoFE.Power_l.Add (new PointF (time, power_l[i]));
-				}
-			} else {
-				spCairoFE_CD.Force_l.Add (new PointF (time, forces[i]));
-				if(fsd.CalculedElasticPSAP)
-				{
-					spCairoFE_CD.Displ_l.Add (new PointF (time, position_l[i]));
-					spCairoFE_CD.Speed_l.Add (new PointF (time, speed_l[i]));
-					spCairoFE_CD.Accel_l.Add (new PointF (time, accel_l[i]));
-					spCairoFE_CD.Power_l.Add (new PointF (time, power_l[i]));
-				}
+				spCairoFETemp.Displ_l.Add (new PointF (time, position_l[i]));
+				spCairoFETemp.Speed_l.Add (new PointF (time, speed_l[i]));
+				spCairoFETemp.Accel_l.Add (new PointF (time, accel_l[i]));
+				spCairoFETemp.Power_l.Add (new PointF (time, power_l[i]));
 			}
 
-			forceSensorValues.TimeLast = time;
-			forceSensorValues.ValueLast = forces[i];
-			forceSensorValues.SetMaxMinIfNeeded(forces[i], time);
+			if (updateForceSensorValues)
+			{
+				forceSensorValues.TimeLast = time;
+				forceSensorValues.ValueLast = forces_l[i];
+				forceSensorValues.SetMaxMinIfNeeded(forces_l[i], time);
+			}
 
 			i ++;
 		}
 
-		forceSensorValues.BestSecond = getMaxAvgForce1s ();
-		//forceSensorValues.BestRFD = getBestAvgRFD ();
+		if (updateForceSensorValues)
+		{
+			forceSensorValues.BestSecond = getMaxAvgForce1s ();
+			//forceSensorValues.BestRFD = getBestAvgRFD ();
+		}
+
+		return spCairoFETemp;
 	}
 
 	CairoGraphForceSensorSignal cairoGraphForceSensorSignal;
 	SignalPointsCairoForceElastic spCairoFE;
+	SignalPointsCairoForceElastic spCairoFE_Unfiltered; //for capture tab
 	SignalPointsCairoForceElastic spCairoFEZoom;
 	SignalPointsCairoForceElastic spCairoFE_CD;
 	SignalPointsCairoForceElastic spCairoFEZoom_CD;
@@ -2772,7 +2799,15 @@ LogB.Information(" fs R ");
 		//create a copy
 		int pointsToCopy = spCairoFE.Force_l.Count;
 		SignalPointsCairoForceElastic spCairoFECopy = new SignalPointsCairoForceElastic (
-				spCairoFE, 0, pointsToCopy -1, cairoDrawHorizontal);
+				spCairoFE, true, //we may plot all variables (not only force)
+				0, pointsToCopy -1, cairoDrawHorizontal);
+
+		//unfiltered is only used if butterworth is active
+		SignalPointsCairoForceElastic spCairoFECopy_Unfiltered = null;
+		if (preferences.forceSensorButterworth >= 0)
+			spCairoFECopy_Unfiltered = new SignalPointsCairoForceElastic (
+					spCairoFE_Unfiltered, false, //we only want to plot the force
+					0, pointsToCopy -1, cairoDrawHorizontal);
 
 		//create inerpolate_l_copy for path, but not on load
 		if (interpolate_l != null && preferences.forceSensorCaptureFeedbackActive == Preferences.ForceSensorCaptureFeedbackActiveEnum.PATH)
@@ -2796,6 +2831,10 @@ LogB.Information(" fs R ");
 			maxY = 0;
 		}
 
+
+		//TODO: on capture need to do this but while capture, not here, in order to not calcule n times the same. also for gmiw, briw, ..
+
+		/*
 		//butterworth (see comments on butterworth/Sample/Program.cs
 		ChronoDebug cDebug = new ChronoDebug ("Butterworth time:");
 		cDebug.Start();
@@ -2804,9 +2843,11 @@ LogB.Information(" fs R ");
 		List<PointF> butterTrajA_l = new List<PointF> ();
 		//double trajAutomaticXCutoff = 0;
 		double trajACutoff = preferences.forceSensorButterworth;
+		*/
 
-		List<PointF> spCairoForceCalculations_l = spCairoFECopy.Force_l;
+		//List<PointF> spCairoForceCalculations_l = spCairoFECopy.Force_l;
 
+		/*
 		if (spCairoFECopy.Force_l.Count > 0 &&
 				preferences.forceSensorButterworth >= 0 //&&
 				//preferences.forceSensorCaptureFeedbackActive ==
@@ -2853,19 +2894,20 @@ LogB.Information(" fs R ");
 			}
 		}
 		cDebug.StopAndPrint();
+		*/
 
-		GetMaxAvgInWindow gmiw = new GetMaxAvgInWindow (spCairoForceCalculations_l,
-				0, spCairoForceCalculations_l.Count -1, 1); //1s
-		if (spCairoForceCalculations_l.Count > 0 && gmiw.Error == "")
+		GetMaxAvgInWindow gmiw = new GetMaxAvgInWindow (spCairoFECopy.Force_l,
+				0, spCairoFECopy.Force_l.Count -1, 1); //1s
+		if (spCairoFECopy.Force_l.Count > 0 && gmiw.Error == "")
 		{
 			label_force_sensor_value_best_second.Text = string.Format("{0:0.##}", gmiw.Max);
 			if (forceSensorValues != null)
 				forceSensorValues.BestSecond = gmiw.Max;
 		}
 
-		GetBestRFDInWindow briw = new GetBestRFDInWindow (spCairoForceCalculations_l,
-				0, spCairoForceCalculations_l.Count -1, 0.05); //50 ms
-		if (spCairoForceCalculations_l.Count > 0 && briw.Error == "")
+		GetBestRFDInWindow briw = new GetBestRFDInWindow (spCairoFECopy.Force_l,
+				0, spCairoFECopy.Force_l.Count -1, 0.05); //50 ms
+		if (spCairoFECopy.Force_l.Count > 0 && briw.Error == "")
 		{
 			label_force_sensor_value_rfd.Text = string.Format("{0:0.##}", briw.Max);
 			if (forceSensorValues != null)
@@ -2913,8 +2955,8 @@ LogB.Information(" fs R ");
 		//LogB.Information ("updateForceSensorCaptureSignalCairo 4");
 		cairoGraphForceSensorSignal.DoSendingList (
 				preferences.fontType.ToString(),
-				spCairoFECopy, 		//raw
-				butterTrajA_l, 		//butterworth
+				spCairoFECopy_Unfiltered, 	//raw (only used to plot Y if butterworth is active)
+				spCairoFECopy, 			//it has also Displ, Speed
 				check_force_sensor_capture_show_distance.Active,
 				check_force_sensor_capture_show_speed.Active,
 				check_force_sensor_capture_show_power.Active,

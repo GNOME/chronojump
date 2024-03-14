@@ -177,7 +177,6 @@ void end_capture()
 {
   capturing = false;
   Serial.print("Capture ended:");
-  Serial.println(scale.get_offset());
 }
 void get_version()
 {

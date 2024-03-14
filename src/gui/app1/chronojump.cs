@@ -3889,7 +3889,9 @@ public partial class ChronoJumpWindow
 		// update force_capture_drawingarea
 		if (Constants.ModeIsFORCESENSOR (current_mode))// && radiobutton_force_sensor_analyze_manual.Active)
 		{
-			force_sensor_recalculate ();
+			if (Util.FileExists(lastForceSensorFullPath))
+				force_sensor_recalculate ();
+
 			forceSensorPrepareGraphAI ();
 		}
 

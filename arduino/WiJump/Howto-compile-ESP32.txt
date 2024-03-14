@@ -1,0 +1,7 @@
+sudo apt install python-is-python3 
+sudo apt install python3-pip
+pip3 install pyserial
+
+In Arduino IDE add the this line in File -> Preferences -> Additional boards
+https://raw.githubusercontent.com/espressif/arduino-esp32/gh-pages/package_esp32_index.json
+Download the ESP32 boards

@@ -2934,9 +2934,11 @@ LogB.Information(" fs R ");
 		}
 
 		double videoTime = 0;
+		bool videoShow = false;
 		if (webcamPlay != null && webcamPlay.PlayVideoGetSecond > 0)
 		{
 			videoTime = webcamPlay.PlayVideoGetSecond -diffVideoVsSignal;
+			videoShow = true;
 				/*
 				+ 0.010 //creating the graph is 10ms aprox
 				+ 0.020; //20 more for getting the sterrHandler from ffplay and processing it
@@ -2961,7 +2963,7 @@ LogB.Information(" fs R ");
 				check_force_sensor_capture_show_speed.Active,
 				check_force_sensor_capture_show_power.Active,
 				paintPointsInterpolateCairo_l_copy, preferences.forceSensorFeedbackPathMin, preferences.forceSensorFeedbackPathMax,
-				capturing, videoTime,
+				capturing, videoShow, videoTime,
 				cairoGraphForceSensorSignalPointsShowAccuracy,
 				showLastSeconds,
 				minY, maxY,

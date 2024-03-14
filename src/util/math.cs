@@ -1756,6 +1756,7 @@ public class Butterworth
 
 	private List<int> times_l;
 	private List<double> forces_l;
+	FilteredTrajectory traj;
 
 	public Butterworth (double freq)
 	{
@@ -1774,12 +1775,21 @@ public class Butterworth
 		samples_l.Add (new TimedPoint((float) y, 0, (long) time));
 	}
 
+	public void AddFromList (List<PointF> p_l)
+	{
+		foreach (PointF p in p_l)
+		{
+			pForButter_l.Add (p);
+			samples_l.Add (new TimedPoint((float) p.Y, 0, (long) p.X));
+		}
+	}
+
 	public void Calculate ()
 	{
 		double fps = UtilAll.DivideSafe (pForButter_l.Count,
 				PointF.Last (pForButter_l).X/1000000 - pForButter_l[0].X/1000000);
 
-		FilteredTrajectory traj = new FilteredTrajectory();
+		traj = new FilteredTrajectory();
 		traj.Initialize (samples_l, fps, freq);
 
 		for (int i = 0; i < traj.Times.Length; i ++)
@@ -1789,6 +1799,19 @@ public class Butterworth
 		}
 	}
 
+	//this is used on capture
+	public List<PointF> PointF_l
+	{
+		get {
+			List<PointF> p_l = new List<PointF> ();
+			for (int i = 0; i < traj.Times.Length; i ++)
+				p_l.Add (new PointF (traj.Times[i], traj.Xs[i]));
+
+			return p_l;
+		}
+	}
+
+	//Times_L and Forces_l is used on load
 	public List<int> Times_l {
 		get { return times_l; }
 	}

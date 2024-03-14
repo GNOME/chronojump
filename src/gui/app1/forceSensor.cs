@@ -131,6 +131,14 @@ public partial class ChronoJumpWindow
 	static double forceTooBigValue;
 	static ForceSensorValues forceSensorValues;
 
+	CairoGraphForceSensorSignal cairoGraphForceSensorSignal;
+	SignalPointsCairoForceElastic spCairoFE;
+	SignalPointsCairoForceElastic spCairoFE_Unfiltered; //for capture tab
+	SignalPointsCairoForceElastic spCairoFEZoom;
+	SignalPointsCairoForceElastic spCairoFE_CD;
+	SignalPointsCairoForceElastic spCairoFEZoom_CD;
+	bool cairoGraphForceSensorSignalPointsShowAccuracy;
+
 	SerialPort portFS; //Attention!! Don't reopen port because arduino makes reset and tare, calibration... is lost
 	bool portFSOpened;
 	bool forceSensorBinaryCapture;
@@ -1113,8 +1121,10 @@ public partial class ChronoJumpWindow
 
 		//blank Cairo scatterplot graphs
 		cairoGraphForceSensorSignal = null;
+		spCairoFE_Unfiltered = new SignalPointsCairoForceElastic ();
 		spCairoFE = new SignalPointsCairoForceElastic ();
 		paintPointsInterpolateCairo_l = new List<PointF>();
+		forceSensorGridColors ();
 
 		event_execute_ButtonFinish.Clicked -= new EventHandler(on_finish_clicked);
 		event_execute_ButtonFinish.Clicked += new EventHandler(on_finish_clicked);
@@ -1443,14 +1453,9 @@ public partial class ChronoJumpWindow
 			//force decimal is . since 2.0.3 Before was culture specific.
 			writer.WriteLine(time.ToString() + ";" + Util.ConvertToPoint(force)); //on file force is stored without flags
 
-			forceSensorValues.TimeLast = time;
-			forceSensorValues.ValueLast = forceCalculated;
-
-			forceSensorValues.SetMaxMinIfNeeded(forceCalculated, time);
-
 			//done in two phases in order to avoid having last element empty
 			PointF pNow =  new PointF (time, forceCalculated);
-			spCairoFE.Force_l.Add (pNow);
+			spCairoFE_Unfiltered.Force_l.Add (pNow);
 
 
 			//LogB.Information (string.Format ("paintPointsInterpolateCairo_l null: {0}, interpolate_l null: {1}",
@@ -1478,6 +1483,16 @@ public partial class ChronoJumpWindow
 
 			//changeSlideIfNeeded(time, force);
 		}
+
+		if (preferences.forceSensorButterworth >= 0)
+		{
+			Butterworth bw = new Butterworth (preferences.forceSensorButterworth);
+			bw.AddFromList (spCairoFE_Unfiltered.Force_l);
+			bw.Calculate ();
+
+			spCairoFE.Force_l = bw.PointF_l;
+		} else
+			spCairoFE.Force_l = spCairoFE_Unfiltered.Force_l;
 
 		if(forceProcessKill)
 			LogB.Information("User killed the software");
@@ -2688,14 +2703,6 @@ LogB.Information(" fs R ");
 		return spCairoFETemp;
 	}
 
-	CairoGraphForceSensorSignal cairoGraphForceSensorSignal;
-	SignalPointsCairoForceElastic spCairoFE;
-	SignalPointsCairoForceElastic spCairoFE_Unfiltered; //for capture tab
-	SignalPointsCairoForceElastic spCairoFEZoom;
-	SignalPointsCairoForceElastic spCairoFE_CD;
-	SignalPointsCairoForceElastic spCairoFEZoom_CD;
-	bool cairoGraphForceSensorSignalPointsShowAccuracy;
-
 	bool fsMagnitudesSignalsNoFollow;
 	private void on_check_force_sensor_capture_show_magnitudes (object o, EventArgs args)
 	{
@@ -2788,6 +2795,8 @@ LogB.Information(" fs R ");
 		*/
 		if (spCairoFE == null)
 			spCairoFE = new SignalPointsCairoForceElastic ();
+		if (spCairoFE_Unfiltered == null)
+			spCairoFE_Unfiltered = new SignalPointsCairoForceElastic ();
 		if (paintPointsInterpolateCairo_l == null)
 			paintPointsInterpolateCairo_l = new List<PointF> ();
 
@@ -2796,18 +2805,36 @@ LogB.Information(" fs R ");
 
 		//TODO: think if is better to decide de startAt here and not in Cairo to not be able to copy a growing list that is not used at all
 
-		//create a copy
-		int pointsToCopy = spCairoFE.Force_l.Count;
-		SignalPointsCairoForceElastic spCairoFECopy = new SignalPointsCairoForceElastic (
-				spCairoFE, true, //we may plot all variables (not only force)
+		//unfiltered is only used if butterworth is active
+
+		//create a copies
+		int pointsToCopy = spCairoFE_Unfiltered.Force_l.Count;
+
+		//TODO: think if this has to be global to use it and do faster, and do not redo bw at all the screen rewrites
+		SignalPointsCairoForceElastic spCairoFECopyToDraw_Unfiltered;
+		SignalPointsCairoForceElastic spCairoFECopyToDraw;
+
+		spCairoFECopyToDraw_Unfiltered = new SignalPointsCairoForceElastic (
+				spCairoFE_Unfiltered, false, //we only want to plot the force
 				0, pointsToCopy -1, cairoDrawHorizontal);
 
-		//unfiltered is only used if butterworth is active
-		SignalPointsCairoForceElastic spCairoFECopy_Unfiltered = null;
-		if (preferences.forceSensorButterworth >= 0)
-			spCairoFECopy_Unfiltered = new SignalPointsCairoForceElastic (
-					spCairoFE_Unfiltered, false, //we only want to plot the force
-					0, pointsToCopy -1, cairoDrawHorizontal);
+		spCairoFECopyToDraw = new SignalPointsCairoForceElastic ();
+		if (spCairoFECopyToDraw_Unfiltered.Force_l.Count > 0)
+		{
+			if (preferences.forceSensorButterworth >= 0 && spCairoFECopyToDraw_Unfiltered.Force_l.Count > spCairoFECopyToDraw.Force_l.Count) 
+			{
+				Butterworth bw = new Butterworth (preferences.forceSensorButterworth);
+				bw.AddFromList (spCairoFECopyToDraw_Unfiltered.Force_l);
+				bw.Calculate ();
+
+				//spCairoFECopyToDraw = new SignalPointsCairoForceElastic ();
+				spCairoFECopyToDraw.Force_l = bw.PointF_l;
+			} else {
+				spCairoFECopyToDraw = new SignalPointsCairoForceElastic (
+						spCairoFE_Unfiltered, true, //we may plot all variables (not only force)
+						0, pointsToCopy -1, cairoDrawHorizontal);
+			}
+		}
 
 		//create inerpolate_l_copy for path, but not on load
 		if (interpolate_l != null && preferences.forceSensorCaptureFeedbackActive == Preferences.ForceSensorCaptureFeedbackActiveEnum.PATH)
@@ -2825,89 +2852,31 @@ LogB.Information(" fs R ");
 		//minimum Y display from 0 to +25
 		int minY = 0;
 		int maxY = +25;
-		if (spCairoFECopy.Displ_l != null && spCairoFECopy.Displ_l.Count > 0)
+		if (spCairoFECopyToDraw.Displ_l != null && spCairoFECopyToDraw.Displ_l.Count > 0)
 		{
 			minY = 0;
 			maxY = 0;
 		}
 
-
-		//TODO: on capture need to do this but while capture, not here, in order to not calcule n times the same. also for gmiw, briw, ..
-
-		/*
-		//butterworth (see comments on butterworth/Sample/Program.cs
-		ChronoDebug cDebug = new ChronoDebug ("Butterworth time:");
-		cDebug.Start();
-
-		//List<PointF> butterTrajAutomatic_l = new List<PointF> ();
-		List<PointF> butterTrajA_l = new List<PointF> ();
-		//double trajAutomaticXCutoff = 0;
-		double trajACutoff = preferences.forceSensorButterworth;
-		*/
-
-		//List<PointF> spCairoForceCalculations_l = spCairoFECopy.Force_l;
-
-		/*
-		if (spCairoFECopy.Force_l.Count > 0 &&
-				preferences.forceSensorButterworth >= 0 //&&
-				//preferences.forceSensorCaptureFeedbackActive ==
-				//Preferences.ForceSensorCaptureFeedbackActiveEnum.NO //right now only calculate butterworth on NO feedback
-				)
+		if (spCairoFECopyToDraw.Force_l.Count > 0)
 		{
-			List<PointF> pForButter_l = spCairoFECopy.Force_l;
-			if (! cairoDrawHorizontal)
-				pForButter_l = spCairoFECopy.ForcePaintHoriz_l;
-
-			List<TimedPoint> samples = new List<TimedPoint>();
-			foreach (PointF point in pForButter_l)
-				samples.Add (new TimedPoint((float) point.Y, 0, (long) point.X));
-
-			double fps = UtilAll.DivideSafe (pForButter_l.Count, PointF.Last (pForButter_l).X/1000000 - pForButter_l[0].X/1000000);
-			//FilteredTrajectory trajAutomatic = new FilteredTrajectory();
-			FilteredTrajectory trajA = new FilteredTrajectory();
-			//trajAutomatic.Initialize(samples, fps, -1);
-			//trajAutomaticXCutoff = trajAutomatic.XCutoff;
-			trajA.Initialize(samples, fps, trajACutoff);
-			//LogB.Information (string.Format ("butterworth: samples: {0}, fps: {1}, cutoff: {2}",
-			//			pForButter_l.Count, fps, trajA.XCutoffIndex));
-
-			//for (int i = 0; i < trajAutomatic.Times.Length; i ++)
-			for (int i = 0; i < trajA.Times.Length; i ++)
-			{
-				//the -10, +5 , +10 are to be able to see the diff now as fast debug on screen
-				if (cairoDrawHorizontal)
-				{
-					//butterTrajAutomatic_l.Add (new PointF (trajAutomatic.Times[i], trajAutomatic.Xs[i] - 10));
-					butterTrajA_l.Add (new PointF (trajA.Times[i], trajA.Xs[i]));
-				} else {
-					//butterTrajAutomatic_l.Add (new PointF (trajAutomatic.Xs[i] - 10, trajAutomatic.Times[i]));
-					butterTrajA_l.Add (new PointF (trajA.Xs[i], trajA.Times[i]));
-				}
-			}
-			if (butterTrajA_l != null && butterTrajA_l.Count > 0)
-			{
-				spCairoForceCalculations_l = butterTrajA_l;
-
-				forceSensorValues.Max = PointF.GetMaxY (spCairoForceCalculations_l);
-				forceSensorValues.Min = PointF.GetMinY (spCairoForceCalculations_l);
-				forceSensorValues.ValueLast = PointF.Last (spCairoForceCalculations_l).Y;
-			}
+			forceSensorValues.Max = PointF.GetMaxY (spCairoFECopyToDraw.Force_l);
+			forceSensorValues.Min = PointF.GetMinY (spCairoFECopyToDraw.Force_l);
+			forceSensorValues.ValueLast = PointF.Last (spCairoFECopyToDraw.Force_l).Y;
 		}
-		cDebug.StopAndPrint();
-		*/
 
-		GetMaxAvgInWindow gmiw = new GetMaxAvgInWindow (spCairoFECopy.Force_l,
-				0, spCairoFECopy.Force_l.Count -1, 1); //1s
-		if (spCairoFECopy.Force_l.Count > 0 && gmiw.Error == "")
+		GetMaxAvgInWindow gmiw = new GetMaxAvgInWindow (spCairoFECopyToDraw.Force_l,
+				0, spCairoFECopyToDraw.Force_l.Count -1, 1); //1s
+		if (spCairoFECopyToDraw.Force_l.Count > 0 && gmiw.Error == "")
 		{
 			label_force_sensor_value_best_second.Text = string.Format("{0:0.##}", gmiw.Max);
 			if (forceSensorValues != null)
 				forceSensorValues.BestSecond = gmiw.Max;
 		}
 
-		GetBestRFDInWindow briw = new GetBestRFDInWindow (spCairoFECopy.Force_l,
-				0, spCairoFECopy.Force_l.Count -1, 0.05); //50 ms
-		if (spCairoFECopy.Force_l.Count > 0 && briw.Error == "")
+		GetBestRFDInWindow briw = new GetBestRFDInWindow (spCairoFECopyToDraw.Force_l,
+				0, spCairoFECopyToDraw.Force_l.Count -1, 0.05); //50 ms
+		if (spCairoFECopyToDraw.Force_l.Count > 0 && briw.Error == "")
 		{
 			label_force_sensor_value_rfd.Text = string.Format("{0:0.##}", briw.Max);
 			if (forceSensorValues != null)
@@ -2951,14 +2920,14 @@ LogB.Information(" fs R ");
 			//			videoTime, webcamPlay.PlayVideoGetSecond, diffVideoVsSignal));
 
 			//LogB.Information ("videoFrames", videoFrames);
-			//LogB.Information ("spCairoFECopy.Force_l.Count", spCairoFECopy.Force_l.Count);
+			//LogB.Information ("spCairoFECopyToDraw.Force_l.Count", spCairoFECopyToDraw.Force_l.Count);
 		}
 
 		//LogB.Information ("updateForceSensorCaptureSignalCairo 4");
 		cairoGraphForceSensorSignal.DoSendingList (
 				preferences.fontType.ToString(),
-				spCairoFECopy_Unfiltered, 	//raw (only used to plot Y if butterworth is active)
-				spCairoFECopy, 			//it has also Displ, Speed
+				spCairoFECopyToDraw_Unfiltered, 	//raw (only used to plot Y if butterworth is active)
+				spCairoFECopyToDraw, 			//it has also Displ, Speed
 				check_force_sensor_capture_show_distance.Active,
 				check_force_sensor_capture_show_speed.Active,
 				check_force_sensor_capture_show_power.Active,

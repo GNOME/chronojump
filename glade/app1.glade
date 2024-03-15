@@ -7689,7 +7689,7 @@
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="receives-default">True</property>
-                                                            <property name="tooltip-text" translatable="yes">Load</property>
+                                                            <property name="tooltip-text" translatable="yes">Load set</property>
                                                             <signal name="clicked" handler="on_button_contacts_capture_load_clicked" swapped="no"/>
                                                             <child>
                                                             <object class="GtkImage" id="image_contacts_capture_load">

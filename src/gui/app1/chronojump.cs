@@ -5271,6 +5271,9 @@ public partial class ChronoJumpWindow
 			System.Threading.Thread.Sleep (1000);
 		}
 
+		if (Constants.ModeIsFORCESENSOR (current_mode) && portFSOpened)
+			forceSensorDisconnect ();
+
 		chronopicRegisterUpdate (false);
 
 		label_micro_discover_title.Text = string.Format (Catalog.GetString (

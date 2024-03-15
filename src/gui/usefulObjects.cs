@@ -719,3 +719,37 @@ public class RepetitionMouseLimitsWithSamples : RepetitionMouseLimits
 		return (sampleEnd_l[rep]);
 	}
 }
+
+public class Blink
+{
+	private DateTime timeStart;
+
+	public enum StatusEnum { NOTSTARTED, RUNNING, ENDED };
+	public StatusEnum Status;
+
+	//constructor
+	public Blink ()
+	{
+		Status = StatusEnum.NOTSTARTED;
+	}
+
+	public void Start ()
+	{
+		timeStart = DateTime.Now;
+		Status = StatusEnum.RUNNING;
+	}
+
+	public void End ()
+	{
+		Status = StatusEnum.ENDED;
+	}
+
+	//to show somthing like the red icon of capturing (blinking)
+	public bool IsOn
+	{
+		get {
+			TimeSpan ts = DateTime.Now.Subtract (timeStart);
+			return (Util.IsEven (Convert.ToInt32 (ts.TotalSeconds)));
+		}
+	}
+}

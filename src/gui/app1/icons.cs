@@ -810,6 +810,11 @@ public partial class ChronoJumpWindow
 		image_button_help_close.Pixbuf = pixbuf;
 		image_button_micro_discover_cancel_close.Pixbuf = pixbuf;
 
+		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_capturing.png");
+		image_capturing.Pixbuf = pixbuf;
+		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_empty.png");
+		image_no_capturing.Pixbuf = pixbuf;
+
 		//accept
 		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_done_blue.png");
 		image_app1sae_button_accept.Pixbuf = pixbuf;

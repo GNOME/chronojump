@@ -1180,6 +1180,7 @@ public partial class ChronoJumpWindow
 			fullscreen_button_fullscreen_contacts.Click ();
 
 		cairoGraphForceSensorSignalPointsShowAccuracy = true;
+		blinkCapture = new Blink ();
 
 		forceCaptureThread = new Thread(new ThreadStart(forceSensorCaptureDo));
 		GLib.Idle.Add (new GLib.IdleHandler (pulseGTKForceSensorCapture));
@@ -1686,6 +1687,9 @@ LogB.Information(" fs C ");
 						"forceProcessCancel: {2}, forceProcessError: {3}",
 						! forceCaptureThread.IsAlive, forceProcessFinish, forceProcessCancel, forceProcessError));
 
+			showHideCaptureIcon (false);
+			blinkCapture.End ();
+
 			button_video_play_this_test_contacts.Sensitive = false;
 			if(forceProcessFinish)
 			{
@@ -1860,7 +1864,7 @@ LogB.Information(" fs E ");
 
 		if (forceCaptureStartMark)
 		{
-			string str = "Capturing" + " (" + Util.TrimDecimals(DateTime.Now.Subtract(forceSensorTimeStart).TotalSeconds, 0) + " s)";
+			string str = "<b>Capturing</b>" + " (" + Util.TrimDecimals(DateTime.Now.Subtract(forceSensorTimeStart).TotalSeconds, 0) + " s)";
 			if (notebook_start.CurrentPage == Convert.ToInt32 (notebook_start_pages.FULLSCREENCAPTURE))
 			{
 				fullscreen_label_message.Text = str;
@@ -1868,8 +1872,12 @@ LogB.Information(" fs E ");
 			} else {
 				event_execute_label_message.Text = str;
 				event_execute_label_message.UseMarkup = true;
+
+				if (blinkCapture.Status == Blink.StatusEnum.NOTSTARTED)
+					blinkCapture.Start ();
 			}
 		}
+		showHideCaptureIcon (true);
 
 LogB.Information(" fs F ");
 

@@ -587,6 +587,7 @@ public partial class ChronoJumpWindow
 		*/
 	private bool crashedBefore; //unused
 	private bool firstCapture;
+	private Blink blinkCapture;
 
 	public ChronoJumpWindow(string progVersion, string progName, string runningFileName, SplashWindow splashWin,
 			bool showSendLog, string sendLogMessage, bool crashedBefore, string topMessage, bool showCameraStop, bool debugModeAtStart)
@@ -5599,6 +5600,20 @@ public partial class ChronoJumpWindow
 		}
 
 	        UtilGtk.DeviceColors(viewport_chronopics, true);
+	}
+
+	private void showHideCaptureIcon (bool show)
+	{
+		//if show, do it only each half of second, so we need a start time or a flashing class for manage this things
+		if (blinkCapture != null && blinkCapture.Status == Blink.StatusEnum.RUNNING &&
+				blinkCapture.IsOn)
+		{
+			image_capturing.Visible = true;
+			image_no_capturing.Visible = false;
+		} else {
+			image_capturing.Visible = false;
+			image_no_capturing.Visible = true;
+		}
 	}
 
 	// camera stuff if needed

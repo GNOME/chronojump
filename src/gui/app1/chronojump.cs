@@ -5273,6 +5273,8 @@ public partial class ChronoJumpWindow
 
 		if (Constants.ModeIsFORCESENSOR (current_mode) && portFSOpened)
 			forceSensorDisconnect ();
+		else if (current_mode == Constants.Modes.RUNSENCODER && portREOpened)
+			runEncoderDisconnect ();
 
 		chronopicRegisterUpdate (false);
 

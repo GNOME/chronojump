@@ -1691,6 +1691,7 @@ LogB.Information(" fs C ");
 			blinkCapture.End ();
 
 			button_video_play_this_test_contacts.Sensitive = false;
+
 			if(forceProcessFinish)
 			{
 				if (webcamStatusEnum == WebcamStatusEnum.RECORDING)

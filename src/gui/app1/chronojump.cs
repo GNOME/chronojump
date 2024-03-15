@@ -5121,6 +5121,10 @@ public partial class ChronoJumpWindow
 
 		event_execute_ButtonCancel.Clicked -= new EventHandler(on_cancel_clicked);
 
+		showHideCaptureIcon (false);
+		if (blinkCapture != null)
+			blinkCapture.End ();
+
 		if(capturingForce == arduinoCaptureStatus.STARTING || capturingForce == arduinoCaptureStatus.CAPTURING)
 		{
 			LogB.Information("cancel clicked on force");

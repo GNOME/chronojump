@@ -220,6 +220,16 @@ public partial class ChronoJumpWindow
 
 		Thread.Sleep(3000); //sleep to let arduino start reading serial event
 
+
+		//if crashedBefore forceSensor could be still capturing, send end_capture, do it n times
+		//if (crashedBefore)
+		if (firstCapture)
+		{
+			//sendEndCaptureForceSensorCrashedBefore ();
+			sendEndCaptureForceSensorFirstCapture ();
+			firstCapture = false;
+		}
+
 		LogB.Information(" FS connect 6: get version");
 
 		forceSensorFirmwareVersion = forceSensorCheckVersionDo();
@@ -259,6 +269,7 @@ public partial class ChronoJumpWindow
 		portFSOpened = true;
 		forceSensorOtherMessage = "Connected!";
 		LogB.Information(" FS connect 7: connected and adjusted!");
+
 		return true;
 	}
 	private bool forceSensorConnect_Port_B()
@@ -277,6 +288,39 @@ public partial class ChronoJumpWindow
 
 		portFSOpened_B = true;
 		return true;
+	}
+
+	//TODO: unify 3 codes of end_capture. note here we print on screen: Cleaning device
+	private void sendEndCaptureForceSensorFirstCapture ()
+	{
+		LogB.Information(" FS connect 5.5: sending end_capture to solve previous crash of Chronojump and forceSensor maybe still capturing");
+		//if (portFS.BytesToRead > 0)
+		//	LogB.Information("empty buffer: " + portFS.ReadExisting());
+
+		LogB.Information("Calling end_capture");
+		if (! forceSensorSendCommand("end_capture:", Catalog.GetString ("Cleaning device …"), "Catched ending capture"))
+			return;
+
+		LogB.Information("Waiting end_capture");
+		int notValidCommandCount = 0;
+		string str = "";
+		do {
+			Thread.Sleep(10);
+			try {
+				str = portFS.ReadLine();
+			} catch {
+				LogB.Information("Catched waiting end_capture feedback");
+			}
+			LogB.Information("waiting \"Capture ended\" string: " + str);
+			if (str.Contains ("Not a valid command"))
+			{
+				LogB.Information ("Not a valid commmand");
+				notValidCommandCount ++;
+
+				if (notValidCommandCount > 10 || ! forceSensorSendCommand("end_capture:", Catalog.GetString ("Cleaning device …"), "Catched ending capture"))
+					LogB.Information ("Not a valid command 10 times!");
+			}
+		} while(! str.Contains("Capture ended"));
 	}
 
 	//this is called on change mode

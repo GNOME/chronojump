@@ -580,14 +580,25 @@ public partial class ChronoJumpWindow
 	private SplashWindow splashWin;
 	private bool showSendLog;
 
+	/*
+		note sometimes sensor is still capturing and chronojump closes nicely (then chronojump_running is being deleted),
+		so crashedBefore is not useful to identify if forceSensor is still capturing.
+		Better use firstCapture, and do it everytime Chronojump is opened
+		*/
+	private bool crashedBefore; //unused
+	private bool firstCapture;
+
 	public ChronoJumpWindow(string progVersion, string progName, string runningFileName, SplashWindow splashWin,
-			bool showSendLog, string sendLogMessage, string topMessage, bool showCameraStop, bool debugModeAtStart)
+			bool showSendLog, string sendLogMessage, bool crashedBefore, string topMessage, bool showCameraStop, bool debugModeAtStart)
 	{
 		this.progVersion = progVersion;
 		this.progName = progName;
 		this.runningFileName = runningFileName;
 		this.splashWin = splashWin;
 		this.showSendLog = showSendLog;
+		this.crashedBefore = crashedBefore;
+
+		firstCapture = true;
 
 		//record GetOsEnum on variables to not call it all the time
 		operatingSystem = UtilAll.GetOSEnum();

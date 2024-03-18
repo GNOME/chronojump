@@ -206,10 +206,10 @@ public class ForceSensorExport : ExportFiles
 
 			// 5) call R
 			string title = p.Name;
-			string exercise = fsEx.Name;
+			string exerciseStr = fsEx.Name;
 			if (isWindows) {
 				title = Util.ConvertToUnicode(title);
-				exercise = Util.ConvertToUnicode(exercise);
+				exerciseStr = Util.ConvertToUnicode(exerciseStr);
 			}
 			if (title == null || title == "")
 				title = "unnamed";
@@ -271,7 +271,9 @@ public class ForceSensorExport : ExportFiles
 								fs.CaptureOption,
 								repConcentricSampleStart, 	//start of concentric rep
 								rep.sampleEnd,			//end of eccentric rep
-								title, exercise, fs.DatePublic, fs.TimePublic, new TriggerList()
+								title, exerciseStr,
+								fsEx.PercentBodyWeight, fsEx.AngleDefault, ps.Weight,
+								fs.DatePublic, fs.TimePublic, new TriggerList()
 								));
 
 					lastIsCon = false;
@@ -330,7 +332,9 @@ public class ForceSensorExport : ExportFiles
 							fs.CaptureOption,
 							sampleA,
 							sampleB,
-							title, exercise, fs.DatePublic, fs.TimePublic, new TriggerList()
+							title, exerciseStr,
+							fsEx.PercentBodyWeight, fsEx.AngleDefault, ps.Weight,
+							fs.DatePublic, fs.TimePublic, new TriggerList()
 							));
 			}
 		}
@@ -338,7 +342,7 @@ public class ForceSensorExport : ExportFiles
 		if(fsgABe_l.Count > 0)
 		{
 			totalRepsToExport = fsgABe_l.Count;
-			ForceSensorGraph fsg = new ForceSensorGraph(
+			ForceSensorGraphR fsg = new ForceSensorGraphR (
 					rfdList, impulse,
 					duration, durationPercent,
 					forceSensorStartEndOptimized,

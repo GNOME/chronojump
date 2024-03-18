@@ -2566,16 +2566,19 @@ LogB.Information(" fs R ");
 		 * read this file to see which is the decimal point
 		 */
 
-		ForceSensorGraph fsg = new ForceSensorGraph(
+		ForceSensorGraphR fsg = new ForceSensorGraphR (
 				rfdList, impulse,
 				duration, Convert.ToInt32(spin_force_rfd_duration_percent.Value),
 				preferences.forceSensorStartEndOptimized,
 				Util.CSVDecimalColumnIsPoint(UtilEncoder.GetmifCSVFileName(), 1), 	//decimalIsPointAtFile (read)
 				preferences.CSVExportDecimalSeparatorChar, 				//decimalIsPointAtExport (write)
-				new ForceSensorGraphAB(
+				new ForceSensorGraphAB (
 					getForceSensorCaptureOptions(),
 					sampleA, sampleB,
 					title, exercise,
+					currentForceSensorExercise.PercentBodyWeight,
+					currentForceSensorExercise.AngleDefault,
+					currentPersonSession.Weight,
 					currentForceSensor.DatePublic,
 					currentForceSensor.TimePublic,
 					triggerListForceSensor)

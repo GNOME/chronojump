@@ -1,11 +1,14 @@
 #!/bin/sh
 cd $(dirname "$0")
+mkdir "$1/bin/"
 cp -r "./angle/" "$1/bin/angle/"
 cp -r "./chronojump-importer/" "$1/bin/chronojump-importer/"
 cp -r "../encoder/" "$1/bin/encoder/"
 cp -r "../po/" "$1/po/"
+mkdir -p "$1/share/chronojump/images/"
 cp -r "../win32/chronojump_icon.ico" "$1/share/chronojump/images/chronojump_icon.ico"
 cp -r "../package/linux/deps/" "$1/"
+mkdir -p "$1/share/doc/chronojump/"
 cp -r "../manual/" "$1/share/doc/chronojump/"
 rm -rf "$1/bin/chronojump-importer/Makefile.in"
 rm -rf "$1/bin/chronojump-importer/Makefile.am"

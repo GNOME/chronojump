@@ -5612,11 +5612,23 @@ public partial class ChronoJumpWindow
 		if (blinkCapture != null && blinkCapture.Status == Blink.StatusEnum.RUNNING &&
 				blinkCapture.IsOn)
 		{
-			image_capturing.Visible = true;
-			image_no_capturing.Visible = false;
+			if (Constants.ModeIsENCODER (current_mode))
+			{
+				image_capturing_encoder.Visible = true;
+				image_no_capturing_encoder.Visible = false;
+			} else {
+				image_capturing.Visible = true;
+				image_no_capturing.Visible = false;
+			}
 		} else {
-			image_capturing.Visible = false;
-			image_no_capturing.Visible = true;
+			if (Constants.ModeIsENCODER (current_mode))
+			{
+				image_capturing_encoder.Visible = false;
+				image_no_capturing_encoder.Visible = true;
+			} else {
+				image_capturing.Visible = false;
+				image_no_capturing.Visible = true;
+			}
 		}
 	}
 

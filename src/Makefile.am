@@ -513,6 +513,8 @@ LINK = $(REF_DEP_CHRONOJUMP)
 	../images/gtk-floppy.png,floppy.png \
 	../images/md/arrow_back_blue.png,arrow_back.png \
 	../images/md/cancel_red_1x.png,image_cancel.png \
+	../images/md/empty.png,image_empty.png \
+	../images/md/capturing_red_1x.png,image_capturing.png \
 	../images/md/done_blue.png,image_done_blue.png \
 	../images/md/insert_chart_blue_1x.png,image_analyze.png \
 	../images/md/assignment_blue_1x.png,image_analyze_general.png \

@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Copyright (C) 2017-2023   Xavier de Blas <xaviblas@gmail.com>
+ *  Copyright (C) 2017-2024   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -1224,19 +1224,27 @@ public class ForceSensorGraphAB
 	public int startSample;
 	public int endSample;
 	public string title;
-	public string exercise;
+	public string exerciseStr;
+	public int ex_percentBodyWeight;
+	public int ex_angle;
+	public double personMass;
 	public string date;
 	public string time;
 	public TriggerList triggerList;
 
-	protected void assignParams(ForceSensor.CaptureOptions fsco, int startSample, int endSample,
-			string title, string exercise, string date, string time, TriggerList triggerList)
+	protected void assignParams (
+			ForceSensor.CaptureOptions fsco, int startSample, int endSample,
+			string title, string exerciseStr, int ex_percentBodyWeight, int ex_angle, double personMass,
+			string date, string time, TriggerList triggerList)
 	{
 		this.fsco = fsco;
 		this.startSample = startSample;
 		this.endSample = endSample;
 		this.title = title;
-		this.exercise = exercise;
+		this.exerciseStr = exerciseStr;
+		this.ex_percentBodyWeight = ex_percentBodyWeight;
+		this.ex_angle = ex_angle;
+		this.personMass = personMass;
 		this.date = date;
 		this.time = time;
 		this.triggerList = triggerList;
@@ -1250,9 +1258,12 @@ public class ForceSensorGraphAB
 	//constructor for graph on analyze
 	public ForceSensorGraphAB (
 			ForceSensor.CaptureOptions fsco, int startSample, int endSample,
-			string title, string exercise, string date, string time, TriggerList triggerList)
+			string title, string exerciseStr, int ex_percentBodyWeight, int ex_angle, double personMass,
+			string date, string time, TriggerList triggerList)
 	{
-		assignParams(fsco, startSample, endSample, title, exercise, date, time, triggerList);
+		assignParams (fsco, startSample, endSample,
+				title, exerciseStr, ex_percentBodyWeight, ex_angle, personMass,
+				date, time, triggerList);
 	}
 
 
@@ -1280,9 +1291,12 @@ public class ForceSensorGraphABExport: ForceSensorGraphAB
 			double maxAvgForceInWindowSampleStart, double maxAvgForceInWindowSampleEnd,
 			string laterality, int setCount, int repCount, string commentOfSet,
 			ForceSensor.CaptureOptions fsco, int startSample, int endSample,
-			string title, string exercise, string date, string time, TriggerList triggerList)
+			string title, string exerciseStr, int ex_percentBodyWeight, int ex_angle, double personMass,
+			string date, string time, TriggerList triggerList)
 	{
-		assignParams(fsco, startSample, endSample, title, exercise, date, time, triggerList);
+		assignParams(fsco, startSample, endSample,
+				title, exerciseStr, ex_percentBodyWeight, ex_angle, personMass,
+				date, time, triggerList);
 
 		this.isWindows = isWindows;
 		this.fullURL = fullURL;
@@ -1321,7 +1335,10 @@ public class ForceSensorGraphABExport: ForceSensorGraphAB
 			maxAvgForceInWindowSampleEnd + ";" +
 			fsco.ToString() + ";" +
 			title + ";" +
-			exercise + ";" +
+			exerciseStr + ";" +
+			ex_percentBodyWeight.ToString () + ";" +
+			ex_angle.ToString () + ";" +
+			Util.ConvertToPoint(personMass) + ";" +
 			date + ";" +
 			time + ";" +
 			laterality + ";" +
@@ -1337,14 +1354,14 @@ public class ForceSensorGraphABExport: ForceSensorGraphAB
 	{
 		return "fullURL;decimalChar;maxForceRaw;" +
 			"maxAvgForceInWindow;maxAvgForceInWindowSampleStart;maxAvgForceInWindowSampleEnd;" +
-			"captureOptions;title;exercise;date;time;laterality;set;rep;" +
+			"captureOptions;title;exercise;ex_percentBodyWeight;ex_angle;personMass;date;time;laterality;set;rep;" +
 			"triggersON;triggersOFF;" + //unused on export
 			"startSample;endSample;comments";
 	}
 }
 
 
-public class ForceSensorGraph
+public class ForceSensorGraphR
 {
 	ForceSensor.CaptureOptions fsco;
 	List<ForceSensorRFD> rfdList;
@@ -1358,7 +1375,10 @@ public class ForceSensorGraph
 	bool hline50fmax_fitted;
 	double testLength;
 	string title;
-	string exercise;
+	string exerciseStr;
+	int ex_percentBodyWeight;
+	int ex_angle;
+	double personMass;
 	string date;
 	string time;
 	private TriggerList triggerList;
@@ -1398,7 +1418,7 @@ public class ForceSensorGraph
 	}
 
 	//constructor for analyze one graph of a set from startSample to endSample. singleOrMultiple = true
-	public ForceSensorGraph(
+	public ForceSensorGraphR (
 			List<ForceSensorRFD> rfdList,
 			ForceSensorImpulse impulse, double testLength, int percentChange,
 			bool startEndOptimized,
@@ -1415,14 +1435,17 @@ public class ForceSensorGraph
 		this.startSample = fsgAB.startSample;
 		this.endSample = fsgAB.endSample;
 		this.title = fsgAB.title;
-		this.exercise = fsgAB.exercise;
+		this.exerciseStr = fsgAB.exerciseStr;
+		this.ex_percentBodyWeight = fsgAB.ex_percentBodyWeight;
+		this.ex_angle = fsgAB.ex_angle;
+		this.personMass = fsgAB.personMass;
 		this.date = fsgAB.date;
 		this.time = fsgAB.time;
 		this.triggerList = fsgAB.triggerList;
 	}
 
 	//constructor for export. singleOrMultiple = false
-	public ForceSensorGraph(
+	public ForceSensorGraphR (
 			List<ForceSensorRFD> rfdList,
 			ForceSensorImpulse impulse, double testLength, int percentChange,
 			bool startEndOptimized,
@@ -1500,6 +1523,9 @@ public class ForceSensorGraph
 		string triggersOffStr = TriggerList.TriggersNotFoundString;
 		string forceSensorAnalyzeMaxAVGInWindowSecondsStr =
 			Util.ConvertToPoint(forceSensorAnalyzeMaxAVGInWindowSeconds);
+		string ex_percentBodyWeightStr = ex_percentBodyWeight.ToString ();
+		string ex_angleStr = ex_angle.ToString ();
+		string personMassStr = Util.ConvertToPoint (personMass);
 
 		if(singleOrMultiple)
 		{
@@ -1510,7 +1536,10 @@ public class ForceSensorGraph
 		} else {
 			captureOptionsStr = "-1";
 			title = "-1";
-			exercise = "-1";
+			exerciseStr = "-1";
+			ex_percentBodyWeightStr = "-1";
+			ex_angleStr = "-1";
+			personMassStr = "-1";
 			date = "-1";
 			time = "-1";
 		}
@@ -1519,7 +1548,10 @@ public class ForceSensorGraph
 			"\n#testLength\n" + 		Util.ConvertToPoint(testLength) + "\n" +
 			"#captureOptions\n" + 		captureOptionsStr + "\n" + 	//unused on multiple
 			"#title\n" + 			title + "\n" + 			//unused on multiple
-			"#exercise\n" + 		exercise + "\n" +		//unused on multiple
+			"#exercise\n" + 		exerciseStr + "\n" +		//unused on multiple
+			"#ex_percentBodyWeight\n" + 	ex_percentBodyWeightStr + "\n" +//unused on multiple
+			"#ex_angle\n" +		 	ex_angle + "\n" +		//unused on multiple
+			"#personMass\n" + 	 	personMassStr + "\n" +		//unused on multiple
 			"#date\n" + 			date + "\n" +			//unused on multiple
 			"#time\n" + 			time + "\n" +			//unused on multiple
 			"#scriptsPath\n" + 		UtilEncoder.GetScriptsPath() + "\n" +
@@ -1718,6 +1750,7 @@ public class ForceSensorAnalyzeInstant : AnalyzeInstant
 	public ForceSensorAnalyzeInstant(
 			string idStr,
 			string file,
+			double butterworthFreq, // <0 means raw
 			int startSample, int endSample,
 			ForceSensorExercise fse, double personWeight, ForceSensor.CaptureOptions fsco, double stiffness,
 			double eccMinDisplacement, double conMinDisplacement)
@@ -1725,10 +1758,10 @@ public class ForceSensorAnalyzeInstant : AnalyzeInstant
 		this.idStr = idStr;
 		this.fse = fse;
 
-		readFile(file, startSample, endSample, personWeight, fsco, stiffness, eccMinDisplacement, conMinDisplacement);
+		readFile (file, butterworthFreq, startSample, endSample, personWeight, fsco, stiffness, eccMinDisplacement, conMinDisplacement);
 	}
 
-	private void readFile(string file, int startSample, int endSample,
+	private void readFile(string file, double butterworthFreq, int startSample, int endSample,
 			double personWeight, ForceSensor.CaptureOptions fsco, double stiffness,
 			double eccMinDisplacement, double conMinDisplacement)
 	{
@@ -1753,9 +1786,11 @@ public class ForceSensorAnalyzeInstant : AnalyzeInstant
 
 		List<int> times = new List<int>();
 		List<double> forces = new List<double>();
+		int i;
 
 		// 1 read all file
 
+		Butterworth bw = new Butterworth (butterworthFreq);
 		foreach(string str in contents)
 		{
 			if(headersRow)
@@ -1789,8 +1824,18 @@ public class ForceSensorAnalyzeInstant : AnalyzeInstant
 
 					times.Add(Convert.ToInt32(timeD));
 					forces.Add(Convert.ToDouble(Util.ChangeDecimalSeparator(strFull[1])));
+
+					if (butterworthFreq > 0)
+						bw.AddSample (timeD, Convert.ToDouble(Util.ChangeDecimalSeparator(strFull[1])));
 				}
 			}
+		}
+
+		if (butterworthFreq > 0)
+		{
+			bw.Calculate ();
+			times = bw.Times_l;
+			forces = bw.Forces_l;
 		}
 
 		// 2 calcule dynamics for all file
@@ -1858,7 +1903,7 @@ public class ForceSensorAnalyzeInstant : AnalyzeInstant
 		LogB.Information(string.Format(
 					"readFile, printing forces, times.Count: {0}, forces.Count: {1}",
 					times.Count, forces.Count));
-		int i = 0;
+		i = 0;
 		foreach(int time in times)
 		{
 			p_l.Add (new PointF (time, forces[i]));
@@ -2179,7 +2224,7 @@ public class SignalPointsCairoForceElastic : SignalPointsCairo
 	public List<PointF> ForcePaintHoriz_l;
 
 	//acts like a Clone
-	public SignalPointsCairoForceElastic (SignalPointsCairoForceElastic spfe, int a, int b, bool horizontal)
+	public SignalPointsCairoForceElastic (SignalPointsCairoForceElastic spfe, bool copyAll, int a, int b, bool horizontal)
 	{
 		Force_l = new List<PointF> ();
 		Displ_l = new List<PointF> ();
@@ -2196,14 +2241,17 @@ public class SignalPointsCairoForceElastic : SignalPointsCairo
 					break;
 
 				Force_l.Add (spfe.Force_l[i]);
-				if (spfe.Displ_l != null && spfe.Displ_l.Count > 0)
-					Displ_l.Add (spfe.Displ_l[i]);
-				if (spfe.Speed_l != null && spfe.Speed_l.Count > 0)
-					Speed_l.Add (spfe.Speed_l[i]);
-				if (spfe.Accel_l != null && spfe.Accel_l.Count > 0)
-					Accel_l.Add (spfe.Accel_l[i]);
-				if (spfe.Power_l != null && spfe.Power_l.Count > 0)
-					Power_l.Add (spfe.Power_l[i]);
+				if (copyAll)
+				{
+					if (spfe.Displ_l != null && spfe.Displ_l.Count > 0)
+						Displ_l.Add (spfe.Displ_l[i]);
+					if (spfe.Speed_l != null && spfe.Speed_l.Count > 0)
+						Speed_l.Add (spfe.Speed_l[i]);
+					if (spfe.Accel_l != null && spfe.Accel_l.Count > 0)
+						Accel_l.Add (spfe.Accel_l[i]);
+					if (spfe.Power_l != null && spfe.Power_l.Count > 0)
+						Power_l.Add (spfe.Power_l[i]);
+				}
 			}
 		} else {
 			ForcePaintHoriz_l = new List<PointF> ();
@@ -2215,14 +2263,17 @@ public class SignalPointsCairoForceElastic : SignalPointsCairo
 
 				ForcePaintHoriz_l.Add (spfe.Force_l[i]);
 				Force_l.Add (spfe.Force_l[i].Transpose ());
-				if (spfe.Displ_l != null && spfe.Displ_l.Count > 0)
-					Displ_l.Add (spfe.Displ_l[i].Transpose ());
-				if (spfe.Speed_l != null && spfe.Speed_l.Count > 0)
-					Speed_l.Add (spfe.Speed_l[i].Transpose ());
-				if (spfe.Accel_l != null && spfe.Accel_l.Count > 0)
-					Accel_l.Add (spfe.Accel_l[i].Transpose ());
-				if (spfe.Power_l != null && spfe.Power_l.Count > 0)
-					Power_l.Add (spfe.Power_l[i].Transpose ());
+				if (copyAll)
+				{
+					if (spfe.Displ_l != null && spfe.Displ_l.Count > 0)
+						Displ_l.Add (spfe.Displ_l[i].Transpose ());
+					if (spfe.Speed_l != null && spfe.Speed_l.Count > 0)
+						Speed_l.Add (spfe.Speed_l[i].Transpose ());
+					if (spfe.Accel_l != null && spfe.Accel_l.Count > 0)
+						Accel_l.Add (spfe.Accel_l[i].Transpose ());
+					if (spfe.Power_l != null && spfe.Power_l.Count > 0)
+						Power_l.Add (spfe.Power_l[i].Transpose ());
+				}
 			}
 		}
 	}

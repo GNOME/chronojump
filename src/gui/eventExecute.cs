@@ -40,6 +40,10 @@ public partial class ChronoJumpWindow
 {
 	Gtk.Label event_execute_label_phases_name;
 	Gtk.Label event_execute_label_message;
+	Gtk.Image image_no_capturing;
+	Gtk.Image image_capturing;
+	Gtk.Image image_no_capturing_encoder;
+	Gtk.Image image_capturing_encoder;
 	Gtk.Label event_graph_label_graph_test;
 
 	Gtk.SpinButton spin_contacts_graph_last_limit;
@@ -1025,6 +1029,10 @@ public partial class ChronoJumpWindow
 	{
 		event_execute_label_phases_name = (Gtk.Label) builder.GetObject ("event_execute_label_phases_name");
 		event_execute_label_message = (Gtk.Label) builder.GetObject ("event_execute_label_message");
+		image_no_capturing = (Gtk.Image) builder.GetObject ("image_no_capturing");
+		image_capturing = (Gtk.Image) builder.GetObject ("image_capturing");
+		image_no_capturing_encoder = (Gtk.Image) builder.GetObject ("image_no_capturing_encoder");
+		image_capturing_encoder = (Gtk.Image) builder.GetObject ("image_capturing_encoder");
 		event_graph_label_graph_test = (Gtk.Label) builder.GetObject ("event_graph_label_graph_test");
 
 		spin_contacts_graph_last_limit = (Gtk.SpinButton) builder.GetObject ("spin_contacts_graph_last_limit");

@@ -16,12 +16,13 @@
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
  *  Copyright (C) 2016, 2019   Xavier Padullés <x.padulles@gmail.com>
- *  Copyright (C) 2016-2017, 2019-2023   Xavier de Blas <xaviblas@gmail.com>
+ *  Copyright (C) 2016-2017, 2019-2024   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
 using System.IO; 		//for detect OS //TextWriter
 using System.Collections.Generic; //List<T>
+using Kinovea.Filtering;
 
 //note this has doubles. For ints can use Gdk.Point
 public class PointF
@@ -1745,4 +1746,76 @@ public class InterpolateSignal
 	}
 	*/
 
+}
+
+public class Butterworth
+{
+	private double freq;
+	private List<PointF> pForButter_l;
+	private List<TimedPoint> samples_l;
+
+	private List<int> times_l;
+	private List<double> forces_l;
+	FilteredTrajectory traj;
+
+	public Butterworth (double freq)
+	{
+		this.freq = freq;
+
+		pForButter_l = new List<PointF> ();
+		samples_l = new List<TimedPoint>();
+
+		times_l = new List<int>();
+		forces_l = new List<double>();
+	}
+
+	public void AddSample (double time, double y)
+	{
+		pForButter_l.Add (new PointF (time, y));
+		samples_l.Add (new TimedPoint((float) y, 0, (long) time));
+	}
+
+	public void AddFromList (List<PointF> p_l)
+	{
+		foreach (PointF p in p_l)
+		{
+			pForButter_l.Add (p);
+			samples_l.Add (new TimedPoint((float) p.Y, 0, (long) p.X));
+		}
+	}
+
+	public void Calculate ()
+	{
+		double fps = UtilAll.DivideSafe (pForButter_l.Count,
+				PointF.Last (pForButter_l).X/1000000 - pForButter_l[0].X/1000000);
+
+		traj = new FilteredTrajectory();
+		traj.Initialize (samples_l, fps, freq);
+
+		for (int i = 0; i < traj.Times.Length; i ++)
+		{
+			times_l.Add (Convert.ToInt32 (traj.Times[i]));
+			forces_l.Add (Convert.ToDouble (traj.Xs[i]));
+		}
+	}
+
+	//this is used on capture
+	public List<PointF> PointF_l
+	{
+		get {
+			List<PointF> p_l = new List<PointF> ();
+			for (int i = 0; i < traj.Times.Length; i ++)
+				p_l.Add (new PointF (traj.Times[i], traj.Xs[i]));
+
+			return p_l;
+		}
+	}
+
+	//Times_L and Forces_l is used on load
+	public List<int> Times_l {
+		get { return times_l; }
+	}
+	public List<double> Forces_l {
+		get { return forces_l; }
+	}
 }

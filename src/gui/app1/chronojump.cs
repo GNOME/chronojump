@@ -580,14 +580,26 @@ public partial class ChronoJumpWindow
 	private SplashWindow splashWin;
 	private bool showSendLog;
 
+	/*
+		note sometimes sensor is still capturing and chronojump closes nicely (then chronojump_running is being deleted),
+		so crashedBefore is not useful to identify if forceSensor is still capturing.
+		Better use firstCapture, and do it everytime Chronojump is opened
+		*/
+	private bool crashedBefore; //unused
+	private bool firstCapture;
+	private Blink blinkCapture;
+
 	public ChronoJumpWindow(string progVersion, string progName, string runningFileName, SplashWindow splashWin,
-			bool showSendLog, string sendLogMessage, string topMessage, bool showCameraStop, bool debugModeAtStart)
+			bool showSendLog, string sendLogMessage, bool crashedBefore, string topMessage, bool showCameraStop, bool debugModeAtStart)
 	{
 		this.progVersion = progVersion;
 		this.progName = progName;
 		this.runningFileName = runningFileName;
 		this.splashWin = splashWin;
 		this.showSendLog = showSendLog;
+		this.crashedBefore = crashedBefore;
+
+		firstCapture = true;
 
 		//record GetOsEnum on variables to not call it all the time
 		operatingSystem = UtilAll.GetOSEnum();
@@ -3889,7 +3901,9 @@ public partial class ChronoJumpWindow
 		// update force_capture_drawingarea
 		if (Constants.ModeIsFORCESENSOR (current_mode))// && radiobutton_force_sensor_analyze_manual.Active)
 		{
-			forceSensorGridColors ();
+			if (Util.FileExists(lastForceSensorFullPath))
+				force_sensor_recalculate ();
+
 			forceSensorPrepareGraphAI ();
 		}
 
@@ -4509,7 +4523,7 @@ public partial class ChronoJumpWindow
 			notebook_ai_model_graph_table_triggers.ShowTabs = false;
 			notebook_ai_model_graph_table_triggers.ShowBorder = false;
 
-			forceSensorGridColors ();
+			//force_sensor_recalculate ();
 		}
 		else if(m == Constants.Modes.RUNSENCODER)
 		{
@@ -5107,6 +5121,10 @@ public partial class ChronoJumpWindow
 
 		event_execute_ButtonCancel.Clicked -= new EventHandler(on_cancel_clicked);
 
+		showHideCaptureIcon (false);
+		if (blinkCapture != null)
+			blinkCapture.End ();
+
 		if(capturingForce == arduinoCaptureStatus.STARTING || capturingForce == arduinoCaptureStatus.CAPTURING)
 		{
 			LogB.Information("cancel clicked on force");
@@ -5257,6 +5275,11 @@ public partial class ChronoJumpWindow
 			//to have time on Windows to really have sp port closed and be able to read on chronopicRegister and/or discoverWin
 			System.Threading.Thread.Sleep (1000);
 		}
+
+		if (Constants.ModeIsFORCESENSOR (current_mode) && portFSOpened)
+			forceSensorDisconnect ();
+		else if (current_mode == Constants.Modes.RUNSENCODER && portREOpened)
+			runEncoderDisconnect ();
 
 		chronopicRegisterUpdate (false);
 
@@ -5581,6 +5604,32 @@ public partial class ChronoJumpWindow
 		}
 
 	        UtilGtk.DeviceColors(viewport_chronopics, true);
+	}
+
+	private void showHideCaptureIcon (bool show)
+	{
+		//if show, do it only each half of second, so we need a start time or a flashing class for manage this things
+		if (blinkCapture != null && blinkCapture.Status == Blink.StatusEnum.RUNNING &&
+				blinkCapture.IsOn)
+		{
+			if (Constants.ModeIsENCODER (current_mode))
+			{
+				image_capturing_encoder.Visible = true;
+				image_no_capturing_encoder.Visible = false;
+			} else {
+				image_capturing.Visible = true;
+				image_no_capturing.Visible = false;
+			}
+		} else {
+			if (Constants.ModeIsENCODER (current_mode))
+			{
+				image_capturing_encoder.Visible = false;
+				image_no_capturing_encoder.Visible = true;
+			} else {
+				image_capturing.Visible = false;
+				image_no_capturing.Visible = true;
+			}
+		}
 	}
 
 	// camera stuff if needed

@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Copyright (C) 2004-2023   Xavier de Blas <xaviblas@gmail.com>
+ *  Copyright (C) 2004-2024   Xavier de Blas <xaviblas@gmail.com>
  */
 
 
@@ -354,6 +354,7 @@ public class ChronoJump
 
 	//used when Chronojump is being running two or more times (quadriple-click on start)
 	bool quitNowCjTwoTimes = false;
+	private bool badExit;
 
 	protected void sqliteThings ()
 	{
@@ -361,7 +362,7 @@ public class ChronoJump
 		configChronojump.Read ();
 		configChronojump.PrintDefined ();
 
-		bool badExit = checkIfChronojumpExitAbnormally();
+		badExit = checkIfChronojumpExitAbnormally();
 		if(badExit) {
 			if(chronojumpIsExecutingNTimes())
 			{
@@ -698,7 +699,9 @@ public class ChronoJump
 		bool showCameraStop = (ExecuteProcess.IsRunning3 (-1, WebcamFfmpeg.GetExecutableCapture(operatingSystem)));
 
 		new ChronoJumpWindow(progVersion, progName, runningFileName, splashWin,
-				sendLog, messageToShowOnBoot, topMessage, showCameraStop, debugModeAtStart);
+				sendLog, messageToShowOnBoot,
+				badExit, //unused
+				topMessage, showCameraStop, debugModeAtStart);
 	}
 
 	private bool linuxUserHasPermissions ()

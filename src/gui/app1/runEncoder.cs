@@ -610,6 +610,7 @@ public partial class ChronoJumpWindow
 				Convert.ToInt32(race_analyzer_spinbutton_angle.Value));
 		runEncoderShouldShowCaptureGraphsWithData = true;
 
+		blinkCapture = new Blink ();
 		runEncoderCaptureThread = new Thread(new ThreadStart(runEncoderCaptureDo));
 		GLib.Idle.Add (new GLib.IdleHandler (pulseGTKRunEncoderCapture));
 
@@ -1890,7 +1891,11 @@ public partial class ChronoJumpWindow
 		if(! runEncoderCaptureThread.IsAlive || runEncoderProcessFinish || runEncoderProcessCancel || runEncoderProcessError) //capture ends
 		{
 			LogB.Information(" re C ");
+			showHideCaptureIcon (false);
+			blinkCapture.End ();
+
 			button_video_play_this_test_contacts.Sensitive = false;
+
 			if(runEncoderProcessFinish)
 			{
 				if (webcamStatusEnum == WebcamStatusEnum.RECORDING)
@@ -2117,6 +2122,9 @@ public partial class ChronoJumpWindow
 		{
 			LogB.Information(" re G ");
 
+			if (blinkCapture.Status == Blink.StatusEnum.NOTSTARTED)
+				blinkCapture.Start ();
+			showHideCaptureIcon (true);
 
 			LogB.Information(" re H2 ");
 			/*

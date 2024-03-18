@@ -245,6 +245,8 @@ namespace Chronojump
 			new ResourceFix ("gtk-floppy.png" , "floppy.png"),
 			new ResourceFix ("arrow_back_blue.png" , "arrow_back.png"),
 			new ResourceFix ("cancel_red_1x.png" , "image_cancel.png"),
+			new ResourceFix ("empty.png" , "image_empty.png"),
+			new ResourceFix ("capturing_red_1x.png" , "image_capturing.png"),
 			new ResourceFix ("done_blue.png" , "image_done_blue.png"),
 			new ResourceFix ("insert_chart_blue_1x.png" , "image_analyze.png"),
 			new ResourceFix ("assignment_blue_1x.png" , "image_analyze_general.png"),

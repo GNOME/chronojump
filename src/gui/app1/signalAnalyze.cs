@@ -424,7 +424,8 @@ public partial class ChronoJumpWindow
 				if (radio_ai_ab.Active)
 				{
 					// 1) ab data is the hscales data
-					spCairoFEZoom = new SignalPointsCairoForceElastic (spCairoFE, AiVars.a_beforeZoom, AiVars.b_beforeZoom, true);
+					spCairoFEZoom = new SignalPointsCairoForceElastic (spCairoFE,
+							true, AiVars.a_beforeZoom, AiVars.b_beforeZoom, true);
 
 					// 2) cd data are samples close in time to ab data
 					// 1st check if it overlaps, if it does not overlap and we include it, it would show a bigger graph with empty data
@@ -436,11 +437,12 @@ public partial class ChronoJumpWindow
 						sampleR = PointF.FindSampleCloseToTime (
 								spCairoFE_CD.Force_l, spCairoFE.Force_l[AiVars.b_beforeZoom].X);
 						spCairoFEZoom_CD = new SignalPointsCairoForceElastic (spCairoFE_CD,
-								sampleL, sampleR, true);
+								true, sampleL, sampleR, true);
 					}
 				} else {
 					// 1) cd data is the hscales data
-					spCairoFEZoom_CD = new SignalPointsCairoForceElastic (spCairoFE_CD, AiVars.c_beforeZoom, AiVars.d_beforeZoom, true);
+					spCairoFEZoom_CD = new SignalPointsCairoForceElastic (spCairoFE_CD,
+							true, AiVars.c_beforeZoom, AiVars.d_beforeZoom, true);
 
 					// 2) ab data are samples close in time to cd data
 					// 1st check if it overlaps, if it does not overlap and we include it, it would show a bigger graph with empty data
@@ -452,7 +454,7 @@ public partial class ChronoJumpWindow
 						sampleR = PointF.FindSampleCloseToTime (
 								spCairoFE.Force_l, spCairoFE_CD.Force_l[AiVars.d_beforeZoom].X);
 						spCairoFEZoom = new SignalPointsCairoForceElastic (spCairoFE,
-								sampleL, sampleR, true);
+								true, sampleL, sampleR, true);
 					}
 				}
 			}
@@ -520,7 +522,7 @@ public partial class ChronoJumpWindow
 			}
 
 			if (Constants.ModeIsFORCESENSOR (current_mode))
-				spCairoFEZoom = new SignalPointsCairoForceElastic (spCairoFE, sampleL, sampleR, true);
+				spCairoFEZoom = new SignalPointsCairoForceElastic (spCairoFE, true, sampleL, sampleR, true);
 			else //if (current_mode == Constants.Modes.RUNSENCODER)
 				cairoGraphRaceAnalyzerPoints_st_Zoom_l = PointF.GetSubList (
 						cairoGraphRaceAnalyzerPoints_st_l, sampleL, sampleR);

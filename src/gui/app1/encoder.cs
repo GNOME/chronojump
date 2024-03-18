@@ -1352,6 +1352,10 @@ public partial class ChronoJumpWindow
 
 		fullscreenLastCapture = (buttonClicked == fullscreen_capture_button_cancel);
 
+		if (blinkCapture != null)
+			blinkCapture.End ();
+		showHideCaptureIcon (false);
+
 		eCapture.Cancel();
 	}
 
@@ -6607,6 +6611,7 @@ public partial class ChronoJumpWindow
 					fullscreen_button_fullscreen_encoder.Click ();
 
 				button_video_play_this_test_encoder.Sensitive = false;
+				blinkCapture = new Blink ();
 
 				encoderThread = new Thread(new ThreadStart(encoderDoCaptureCsharp));
 				GLib.Idle.Add (new GLib.IdleHandler (pulseGTKEncoderCaptureAndCurves));
@@ -7035,6 +7040,11 @@ public partial class ChronoJumpWindow
 		if(! encoderThread.IsAlive || encoderProcessCancel)
 		{
 			LogB.Information("End from capture"); 
+
+			if (blinkCapture != null)
+				blinkCapture.End ();
+			showHideCaptureIcon (false);
+
 			LogB.ThreadEnding();
 
 			if(eCaptureInertialBG != null)
@@ -7056,6 +7066,7 @@ public partial class ChronoJumpWindow
 			LogB.ThreadEnded(); 
 			return false;
 		}
+
 		if(capturingCsharp == encoderCaptureProcess.CAPTURING) 
 		{
 			updatePulsebar(encoderActions.CAPTURE); //activity on pulsebar
@@ -7071,6 +7082,10 @@ public partial class ChronoJumpWindow
 				//updateEncoderCaptureSignalCairo (false, false);
 			}
 			encoder_capture_signal_drawingarea_cairo.QueueDraw ();
+
+			if (blinkCapture.Status == Blink.StatusEnum.NOTSTARTED)
+				blinkCapture.Start ();
+			showHideCaptureIcon (true);
 
 			if(needToRefreshTreeviewCapture) 
 			{
@@ -7095,7 +7110,7 @@ public partial class ChronoJumpWindow
 				treeviewEncoderCaptureRemoveColumns();
 				eCapture.Ecca.curvesAccepted = createTreeViewEncoderCapture(encoderCaptureStringR);
 
-				//if(plotCurvesBars) {
+				//if(plotCurvesBars) {}
 				string mainVariable = Constants.GetEncoderVariablesCapture(preferences.encoderCaptureMainVariable);
 				double mainVariableHigher = feedbackWin.GetMainVariableHigher(mainVariable);
 				double mainVariableLower = feedbackWin.GetMainVariableLower(mainVariable);
@@ -7147,7 +7162,13 @@ public partial class ChronoJumpWindow
 			//changed trying to fix crash of nuell 27/may/2016
 			//LogB.Debug(" Cap:", encoderThread.ThreadState.ToString());
 			//LogB.Information(" Cap:" + encoderThread.ThreadState.ToString());
-		} else if(capturingCsharp == encoderCaptureProcess.STOPPING) {
+		}
+		else if(capturingCsharp == encoderCaptureProcess.STOPPING)
+		{
+			if (blinkCapture != null)
+				blinkCapture.End ();
+			showHideCaptureIcon (false);
+
 			//stop video		
 			webcamEncoderEnd (); //this will end but file will be copied later (when we have encoderSignalUniqueID)
 

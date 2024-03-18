@@ -270,14 +270,14 @@ drawDynamicsFromLoadCell <- function(title, exercise, datetime,
         sustainedForce = T
         yHeight = max(dynamics$fmax.raw, dynamics$fmax.fitted) * 1.1
     }
-    
+
     par(mar=c(4,4,3,1))
     #Plotting raw data from startTime to endTime (Only the analysed data)
     if (!is.na(xlimits[1])){
         xWidth = xlimits[2] - xlimits[1]
         plot(dynamics$time[dynamics$startSample:dynamics$endSample], dynamics$f.raw[dynamics$startSample:dynamics$endSample],
              type="l", xlab="Time[s]", ylab="Force[N]",
-             xlim = xlimits, ylim=c(0, yHeight),
+             xlim = xlimits, ylim=c(dynamics$f0.raw * .9, yHeight),
              #main = dynamics$nameOfFile,
              main = paste(parse(text = paste0("'", titleFull, "'"))), #process unicode, needed paste because its an expression. See graph.R
              yaxs= "i", xaxs = "i")
@@ -292,7 +292,7 @@ drawDynamicsFromLoadCell <- function(title, exercise, datetime,
         plot(dynamics$time[dynamics$startSample:dynamics$endSample], dynamics$f.raw[dynamics$startSample:dynamics$endSample],
              type="l", xlab="Time[s]", ylab="Force[N]",
              xlim = c(xmin, xmax),
-             ylim=c(0, yHeight),
+             ylim=c(dynamics$f0.raw * .9, yHeight),
              #main = dynamics$nameOfFile,
              main = paste(parse(text = paste0("'", titleFull, "'"))), #process unicode, needed paste because its an expression. See graph.R
              yaxs= "i", xaxs = "i")
@@ -731,7 +731,7 @@ drawDynamicsFromLoadCell <- function(title, exercise, datetime,
     #legendText = c(legendText, paste("RFD0-50 error = ", round((rawRFD - modelRFD)*100/rawRFD, 2), "%"))
     #legendColor = c(legendColor, "grey20")
 
-    legend(x = xmax, y = dynamics$fmax.fitted/2, legend = legendText, xjust = 1, yjust = 0.1, text.col = legendColor)
+    legend(x = xmax, y = dynamics$f0.raw, legend = legendText, xjust = 1, yjust = 0, text.col = legendColor)
 
     if(op$singleOrMultiple == "FALSE")
     {

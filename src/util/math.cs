@@ -1818,4 +1818,41 @@ public class Butterworth
 	public List<double> Forces_l {
 		get { return forces_l; }
 	}
+
+	public static void ForceSensorFileToButterworth (List<string> contents, double butterworthFreq, string toFile)
+	{
+		bool headersRow = true;
+		Butterworth bw = new Butterworth (butterworthFreq);
+		foreach (string str in contents)
+		{
+			if(headersRow)
+			{
+				headersRow = false;
+				continue;
+			}
+
+			string [] strFull = str.Split(new char[] {';'});
+			if(strFull.Length != 2)
+				continue;
+
+			if(Util.IsNumber(strFull[0], false) && Util.IsNumber(Util.ChangeDecimalSeparator(strFull[1]), true))
+				bw.AddSample (
+						Convert.ToDouble (strFull[0]),
+						Convert.ToDouble (Util.ChangeDecimalSeparator(strFull[1]))
+					     );
+		}
+		bw.Calculate ();
+
+		TextWriter writer = File.CreateText (toFile);
+		writer.WriteLine ("Time (micros);Force(N)");
+
+		for (int i = 0; i < bw.Times_l.Count; i ++)
+			writer.WriteLine (Util.ConvertToPoint (bw.Times_l[i]) + ";" +
+					Util.ConvertToPoint (bw.Forces_l[i]));
+
+		writer.Flush();
+		writer.Close();
+		((IDisposable)writer).Dispose();
+	}
 }
+

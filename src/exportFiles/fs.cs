@@ -218,9 +218,13 @@ public class ForceSensorExport : ExportFiles
 			string destination = UtilEncoder.GetmifCSVInputMulti();
 			Util.FileDelete(destination);
 
-			//copy file to tmp to be readed by R
 			string fsFullURLMoved = Path.Combine(getTempSourceFilesDir(), count.ToString() + ".csv");
-			File.Copy(fs.FullURL, fsFullURLMoved, true); //can be overwritten
+			if (butterworthFreq < 0)
+			{
+				//copy file to tmp to be readed by R
+				File.Copy(fs.FullURL, fsFullURLMoved, true); //can be overwritten
+			} else
+				Butterworth.ForceSensorFileToButterworth (contents, butterworthFreq, fsFullURLMoved);
 
 			//delete result file
 			Util.FileDelete(getTempCSVFileName());

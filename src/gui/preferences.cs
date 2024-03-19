@@ -320,8 +320,8 @@ public class PreferencesWindow
 
 	const int JUMPSPAGE = 2;
 	const int RUNSPAGE = 3;
-	const int WEIGHTSINERTIALPAGE = 4;
-	const int ISOMETRICELASTICPAGE = 5;
+	const int ISOMETRICELASTICPAGE = 4;
+	const int WEIGHTSINERTIALPAGE = 5;
 
 	static private WebcamDeviceList wd_list;
 	private WebcamFfmpegSupportedModes wfsm;

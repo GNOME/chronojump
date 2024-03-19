@@ -3,7 +3,7 @@ cd $(dirname "$0")
 cp -r "../package/linux/deps/bin/" "$1/"
 cp -r "../package/linux/deps/lib/" "$1/"
 cp -r "../package/linux/deps/share/" "$1/"
-tar -xf ../package/linux/deps/x86_64-linux-gnu.tar.xz -C $1/
+#tar -xf ../package/linux/deps/x86_64-linux-gnu.tar.xz -C $1/
 cp -r "./angle/" "$1/bin/angle/"
 cp -r "./chronojump-importer/" "$1/bin/chronojump-importer/"
 cp -r "../encoder/" "$1/bin/encoder/"

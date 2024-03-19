@@ -956,6 +956,7 @@
                   <object class="GtkVBox" id="vbox2">
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
+                    <property name="border-width">16</property>
                     <property name="spacing">20</property>
                     <child>
                       <object class="GtkScrolledWindow" id="scrolledwindow2">
@@ -2538,7 +2539,7 @@ It starts before and arrives there with some speed.</property>
                   <object class="GtkVBox" id="vbox18">
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
-                    <property name="border-width">8</property>
+                    <property name="border-width">16</property>
                     <property name="spacing">20</property>
                     <child>
                       <object class="GtkNotebook" id="notebook_force_sensor">
@@ -6935,7 +6936,7 @@ It starts before and arrives there with some speed.</property>
                   <object class="GtkVBox" id="vbox15">
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
-                    <property name="border-width">8</property>
+                    <property name="border-width">16</property>
                     <property name="spacing">20</property>
                     <child>
                       <object class="GtkHBox" id="hbox15">
@@ -7345,7 +7346,7 @@ It starts before and arrives there with some speed.</property>
                   <object class="GtkVBox" id="vbox19">
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
-                    <property name="border-width">8</property>
+                    <property name="border-width">16</property>
                     <property name="spacing">20</property>
                     <child>
                       <object class="GtkFrame" id="frame_networks">

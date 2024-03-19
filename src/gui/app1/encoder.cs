@@ -2820,9 +2820,9 @@ public partial class ChronoJumpWindow
 				checkFileOp == Constants.CheckFileOp.FORCESENSOR_EXPORT_GROUPAL_CURRENT_SESSION_YES_IMAGES)
 		{
 			if (current_mode == Constants.Modes.FORCESENSORISOMETRIC)
-				nameString += "_isometric_export.csv";
+				nameString += "_isometric_export";
 			else if (current_mode == Constants.Modes.FORCESENSORELASTIC)
-				nameString += "_elastic_export.csv";
+				nameString += "_elastic_export";
 		}
 		else if(
 				checkFileOp == Constants.CheckFileOp.RUNENCODER_EXPORT_INDIVIDUAL_CURRENT_SESSION_YES_IMAGES ||

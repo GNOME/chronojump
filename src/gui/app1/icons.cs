@@ -298,6 +298,8 @@ public partial class ChronoJumpWindow
 		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_settings.png");//[By Joeries]
 		image_menu_preferences.Pixbuf = pixbuf;
 		image_menu_preferences1.Pixbuf = pixbuf;
+
+		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_settings_down.png");
 		image_contacts_exercise_settings.Pixbuf = pixbuf;
 		image_encoder_exercise_settings.Pixbuf = pixbuf;
 

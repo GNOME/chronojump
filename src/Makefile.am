@@ -497,6 +497,7 @@ LINK = $(REF_DEP_CHRONOJUMP)
 	../images/md/import_yellow_1x.png,import_yellow.png \
 	../images/md/export_1x.png,export.png \
 	../images/md/settings_blue_1x.png,image_settings.png \
+	../images/md/settings_down_blue_1x.png,image_settings_down.png \
 	../images/md/close_blue_1x.png,image_close_blue.png \
 	../images/md/close_red_1x.png,image_close.png \
 	../images/md/close_blue_2x.png,image_close_big.png \

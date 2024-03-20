@@ -280,6 +280,7 @@ void getVersion()
 }
 
 //In startSleepMode IR is activated only in long intervals to check if there is presence
+//TODO: deactivate other parts of the ESP32 to reduce the current consumption
 void startSleepMode() {
   setIRPower(0);
   digitalWrite(INDICATOR_PIN, LOW);

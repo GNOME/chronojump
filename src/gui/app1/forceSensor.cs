@@ -2559,6 +2559,12 @@ LogB.Information(" fs R ");
 			}
 		}
 
+		if (preferences.forceSensorButterworth >= 0)
+		{
+			List<string> contents = Util.ReadFileAsStringList (lastForceSensorFullPath);
+			Butterworth.ForceSensorFileToButterworth (
+					contents, preferences.forceSensorButterworth, UtilEncoder.GetmifCSVFileName ());
+		}
 
 		/*
 		 * (*) check if decimal is point

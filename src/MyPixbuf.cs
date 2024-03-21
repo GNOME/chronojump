@@ -229,6 +229,7 @@ namespace Chronojump
 			new ResourceFix ("import_yellow_1x.png" , "import_yellow.png"),
 			new ResourceFix ("export_1x.png" , "export.png"),
 			new ResourceFix ("settings_blue_1x.png" , "image_settings.png"),
+			new ResourceFix ("settings_down_blue_1x.png" , "image_settings_down.png"),
 			new ResourceFix ("close_blue_1x.png" , "image_close_blue.png"),
 			new ResourceFix ("close_red_1x.png" , "image_close.png"),
 			new ResourceFix ("close_blue_2x.png" , "image_close_big.png"),

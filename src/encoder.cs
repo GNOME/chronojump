@@ -208,7 +208,7 @@ public class EncoderGraphROptions
 			"#encoderTempPath\n" + 	encoderTempPath + "\n" + 
 			ep.ToStringROptions() + "\n" + 
 			"#title\n" + 		title + "\n" + 
-			"#operatingsystem\n" + 	operatingSystem + "\n" +
+			"#operatingSystem\n" + 	operatingSystem + "\n" +
 			"#englishWords\n" + 	englishWords + "\n" +
 			"#translatedWords\n" + 	translatedWords + "\n" +
 			"#debug\n" +		Util.BoolToRBool(debug) + "\n" +

@@ -4,7 +4,7 @@ xcopy /s /e /y /d "..\butterworth\Data\" "%1butterworth\Data\"
 xcopy /s /e /y /d "..\butterworth\Sample\bin\%2\" "%1butterworth\"
 xcopy /s /e /y /d ".\angle\" "%1bin\angle\"   
 xcopy /s /e /y /d ".\chronojump-importer\" "%1bin\chronojump-importer\"    
-xcopy /s /e /y /d "..\encoder\" "%1bin\encoder\"    
+xcopy /s /e /y /d "..\encoder\" "%1share\chronojump\encoder\"    
 xcopy /s /e /y /d "..\po\" "%1po\" /exclude:post-build-exclude.txt
 echo F | xcopy /s /e /y /d "..\win32\chronojump_icon.ico" "%1share\chronojump\images\chronojump_icon.ico"
 xcopy /s /e /y /d "..\win32\deps\" "%1" /exclude:post-build-exclude.txt

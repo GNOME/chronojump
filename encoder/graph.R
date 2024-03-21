@@ -2796,7 +2796,13 @@ doProcess <- function(options)
         
         if(op$Analysis != "exportCSV")
         {
-                png(op$OutputGraph, width=op$Width, height=op$Height)
+		if (op$OperatingSystem == "Windows")
+		{
+			library("Cairo")
+			Cairo (op$OutputGraph, bg="white", width=op$Width, height=op$Height)
+		} else
+			png(op$OutputGraph, width=op$Width, height=op$Height)
+
                 op$Title=gsub('_',' ',op$Title)
                 op$Title=gsub('-','    ',op$Title)
         }

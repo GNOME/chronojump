@@ -1428,9 +1428,12 @@ public class Stat
 		if(gRO.Type == Constants.GraphTypeBarplot || gRO.Type == Constants.GraphTypeLines) 
 			cexAxisString = ", cex.axis=" + Util.ConvertToPoint(gRO.XAxisFontSize);
 		
-		string rString = "png(filename = '" + fileName + "'\n" + 
-				" , width = " + gRO.Width + ", height = " + gRO.Height + ", units = 'px'\n" +
-				" , pointsize = 12, bg = 'white', res = NA)\n";
+		string rString = "png(filename = '" + fileName + "'\n";
+		if(UtilAll.IsWindows())
+			rString = "library ('Cairo')\nCairo ('" + fileName + "'\n";
+
+		rString += " , width = " + gRO.Width + ", height = " + gRO.Height + ", units = 'px'\n" +
+			" , pointsize = 12, bg = 'white', res = NA)\n";
 
 		rString += "par(mar=c(" + gRO.MarginBottom + "," + gRO.MarginLeft + "," + 
 			gRO.MarginTop + "," + gRO.MarginRight + ")" + cexAxisString + ")\n";

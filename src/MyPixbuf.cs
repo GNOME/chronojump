@@ -399,6 +399,8 @@ namespace Chronojump
 			new ResourceFix ("right_cut.png" , "right_cut.png"),
 			new ResourceFix ("link.png" , "link.png"),
 			new ResourceFix ("link_off.png" , "link_off.png"),
+			new ResourceFix ("filter_on.png" , "filter_on.png"),
+			new ResourceFix ("filter_off.png" , "filter_off.png"),
 			new ResourceFix ("calendar.png" , "calendar.png"),
 			new ResourceFix ("chronojump-logo-transparent.png" , "chronojump-logo-transparent.png"),
 			new ResourceFix ("chronojump-logo-transparent-40h.png" , "chronojump-logo-transparent-40h.png"),

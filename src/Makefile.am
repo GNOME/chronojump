@@ -677,6 +677,8 @@ LINK = $(REF_DEP_CHRONOJUMP)
 	../images/md/align_horiz_left.png,align_horiz_left.png \
 	../images/md/align_horiz_center.png,align_horiz_center.png \
 	../images/md/align_horiz_right.png,align_horiz_right.png \
+	../images/md/filter_on.png,filter_on.png \
+	../images/md/filter_off.png,filter_off.png \
 	../images/calendar.png,calendar.png \
 	../images/chronojump-logo-transparent.png,chronojump-logo-transparent.png \
 	../images/chronojump-logo-transparent-40h.png,chronojump-logo-transparent-40h.png \

@@ -40,6 +40,8 @@ public partial class ChronoJumpWindow
 	Gtk.Button button_combo_force_sensor_exercise_capture_right;
 	Gtk.HBox hbox_force_capture_buttons;
 	Gtk.Entry force_sensor_exercise_filter;
+	Gtk.Image force_sensor_exercise_filter_image;
+	Gtk.Image force_sensor_exercise_filter_top_image;
 	Gtk.HBox hbox_combo_force_sensor_exercise;
 	Gtk.Frame frame_force_sensor_elastic;
 	Gtk.Button button_stiffness_detect;
@@ -3231,6 +3233,15 @@ LogB.Information(" fs R ");
 	private void on_force_sensor_exercise_filter_changed (object o, EventArgs args)
 	{
 		updateForceExerciseCombo ();
+
+		Pixbuf pixbuf;
+		if (force_sensor_exercise_filter.Text.ToString () != "")
+			pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "filter_on.png");
+		else
+			pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "filter_off.png");
+
+		force_sensor_exercise_filter_image.Pixbuf = pixbuf;
+		force_sensor_exercise_filter_top_image.Pixbuf = pixbuf;
 	}
 
 	//called on initForceSensor (just one time)
@@ -3692,6 +3703,8 @@ LogB.Information(" fs R ");
 		button_combo_force_sensor_exercise_capture_right = (Gtk.Button) builder.GetObject ("button_combo_force_sensor_exercise_capture_right");
 		hbox_force_capture_buttons = (Gtk.HBox) builder.GetObject ("hbox_force_capture_buttons");
 		force_sensor_exercise_filter = (Gtk.Entry) builder.GetObject ("force_sensor_exercise_filter");
+		force_sensor_exercise_filter_image = (Gtk.Image) builder.GetObject ("force_sensor_exercise_filter_image");
+		force_sensor_exercise_filter_top_image = (Gtk.Image) builder.GetObject ("force_sensor_exercise_filter_top_image");
 		hbox_combo_force_sensor_exercise = (Gtk.HBox) builder.GetObject ("hbox_combo_force_sensor_exercise");
 		frame_force_sensor_elastic = (Gtk.Frame) builder.GetObject ("frame_force_sensor_elastic");
 		button_stiffness_detect = (Gtk.Button) builder.GetObject ("button_stiffness_detect");

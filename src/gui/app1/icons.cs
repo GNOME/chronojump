@@ -641,6 +641,11 @@ public partial class ChronoJumpWindow
 		image_video_contacts_preview.Pixbuf = pixbuf;
 		image_video_encoder_preview.Pixbuf = pixbuf;
 
+		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "filter_off.png");
+		force_sensor_exercise_filter_image.Pixbuf = pixbuf;
+		force_sensor_exercise_filter_top_image.Pixbuf = pixbuf;
+
+
 		/*
 		 * <------ end of material design icons
 		 */

@@ -18682,6 +18682,7 @@
                                                   <object class="GtkVBox" id="vbox19_analyze">
                                                     <property name="visible">True</property>
                                                     <property name="can-focus">False</property>
+                                                    <property name="spacing">4</property>
                                                     <child>
                                                       <object class="GtkBox" id="hbox_radio_mode_contacts_analyze_buttons">
                                                         <property name="visible">True</property>
@@ -19190,7 +19191,6 @@
                                                           <object class="GtkAlignment" id="alignment_statistics">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
-                                                            <property name="top-padding">6</property>
                                                             <child>
                                                             <object class="GtkNotebook" id="notebook_stats_sup">
                                                             <property name="visible">True</property>
@@ -39261,6 +39261,7 @@ then click this button.</property>
                                                       <object class="GtkHBox" id="hbox56">
                                                         <property name="visible">True</property>
                                                         <property name="can-focus">False</property>
+                                                        <property name="margin-left">2</property>
                                                         <property name="spacing">12</property>
                                                         <child>
                                                           <object class="GtkFrame" id="frame2">
@@ -39522,6 +39523,7 @@ then click this button.</property>
                                                       <object class="GtkGrid" id="grid_encoder_analyze_options">
                                                         <property name="visible">True</property>
                                                         <property name="can-focus">False</property>
+                                                        <property name="margin-left">2</property>
                                                         <property name="row-spacing">8</property>
                                                         <property name="column-spacing">12</property>
                                                         <child>
@@ -40935,6 +40937,7 @@ then click this button.</property>
                                                     <child>
                                                       <object class="GtkFrame" id="frame_encoder_analyze_options">
                                                         <property name="can-focus">False</property>
+                                                        <property name="margin-left">2</property>
                                                         <property name="label-xalign">0.5</property>
                                                         <property name="shadow-type">in</property>
                                                         <child>
@@ -41567,6 +41570,7 @@ then click this button.</property>
                                                       <object class="GtkVBox" id="vbox_analyze_results">
                                                         <property name="visible">True</property>
                                                         <property name="can-focus">False</property>
+                                                        <property name="margin-left">2</property>
                                                         <child>
                                                           <object class="GtkNotebook" id="notebook_analyze_results">
                                                             <property name="visible">True</property>

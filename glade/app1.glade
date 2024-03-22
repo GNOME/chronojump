@@ -3403,6 +3403,7 @@
                                   <object class="GtkNotebook" id="notebook_sup">
                                     <property name="visible">True</property>
                                     <property name="can-focus">False</property>
+                                    <property name="margin-left">1</property>
                                     <property name="show-tabs">False</property>
                                     <property name="show-border">False</property>
                                     <signal name="switch-page" handler="on_notebook_sup_switch_page" swapped="no"/>

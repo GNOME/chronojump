@@ -334,8 +334,7 @@ public partial class ChronoJumpWindow
 		vbuttonbox_menu_session.Visible = check_menu_session.Active;
 
 		//hide the person photo if anything is unfolded
-		if(preferences.personPhoto)
-			vbox_persons_bottom.Visible = ! check_menu_session.Active;
+		vbox_persons_bottom.Visible = preferences.personPhoto && ! check_menu_session.Active;
 
 		//scroll it, but wait a bit before to be all the things at place
 		if(myTreeViewPersons != null)

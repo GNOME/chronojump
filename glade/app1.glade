@@ -1449,7 +1449,7 @@
                                   <object class="GtkVBox" id="vbox61">
                                     <property name="visible">True</property>
                                     <property name="can-focus">False</property>
-                                    <property name="spacing">10</property>
+                                    <property name="spacing">12</property>
                                     <child>
                                       <object class="GtkBox">
                                         <property name="visible">True</property>
@@ -1618,15 +1618,17 @@
                                             <property name="left-padding">2</property>
                                             <property name="right-padding">2</property>
                                             <child>
-                                              <object class="GtkVBox" id="vbox173">
+                                              <object class="GtkVBox" id="vbox_frame_session_border">
                                                 <property name="visible">True</property>
                                                 <property name="can-focus">False</property>
                                                 <child>
                                                   <object class="GtkTable" id="table_menu_session">
                                                     <property name="visible">True</property>
                                                     <property name="can-focus">False</property>
+                                                    <property name="border-width">4</property>
                                                     <property name="n-rows">2</property>
                                                     <property name="n-columns">2</property>
+                                                    <property name="column-spacing">6</property>
                                                     <child>
                                                       <placeholder/>
                                                     </child>
@@ -1918,6 +1920,8 @@
                                           <object class="GtkHBox" id="hbox_above_frame_session">
                                             <property name="visible">True</property>
                                             <property name="can-focus">False</property>
+                                            <property name="margin-left">2</property>
+                                            <property name="spacing">12</property>
                                             <child>
                                               <object class="GtkLabel" id="label_session_at_frame_session">
                                                 <property name="visible">True</property>
@@ -1956,20 +1960,27 @@
                                             <property name="left-padding">2</property>
                                             <property name="right-padding">2</property>
                                             <child>
-                                              <object class="GtkVBox" id="vbox_persons">
+                                              <object class="GtkBox" id="vbox_persons">
                                                 <property name="visible">True</property>
                                                 <property name="can-focus">False</property>
+                                                <property name="orientation">vertical</property>
                                                 <child>
-                                                  <object class="GtkHBox" id="hbox105">
+                                                  <object class="GtkVBox" id="vbox_persons_just_for_border">
                                                     <property name="visible">True</property>
                                                     <property name="can-focus">False</property>
+                                                    <property name="border-width">4</property>
+                                                    <property name="spacing">4</property>
                                                     <child>
-                                                      <object class="GtkHBox" id="hbox573">
+                                                      <object class="GtkHBox" id="hbox105">
                                                         <property name="visible">True</property>
                                                         <property name="can-focus">False</property>
-                                                        <property name="spacing">25</property>
                                                         <child>
-                                                          <object class="GtkHBox" id="hbox583">
+                                                          <object class="GtkHBox" id="hbox573">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="spacing">25</property>
+                                                            <child>
+                                                            <object class="GtkHBox" id="hbox583">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
                                                             <property name="spacing">4</property>
@@ -2035,15 +2046,15 @@
                                                             <property name="position">1</property>
                                                             </packing>
                                                             </child>
-                                                          </object>
-                                                          <packing>
+                                                            </object>
+                                                            <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">False</property>
                                                             <property name="position">0</property>
-                                                          </packing>
-                                                        </child>
-                                                        <child>
-                                                          <object class="GtkCheckButton" id="check_manage_persons">
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkCheckButton" id="check_manage_persons">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="receives-default">False</property>
@@ -2107,11 +2118,18 @@
                                                             </child>
                                                             </object>
                                                             </child>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
                                                           </object>
                                                           <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">False</property>
-                                                            <property name="position">1</property>
+                                                            <property name="position">0</property>
                                                           </packing>
                                                         </child>
                                                       </object>
@@ -2121,27 +2139,20 @@
                                                         <property name="position">0</property>
                                                       </packing>
                                                     </child>
-                                                  </object>
-                                                  <packing>
-                                                    <property name="expand">False</property>
-                                                    <property name="fill">False</property>
-                                                    <property name="position">0</property>
-                                                  </packing>
-                                                </child>
-                                                <child>
-                                                  <object class="GtkFrame" id="frame_exhibition">
-                                                    <property name="can-focus">False</property>
-                                                    <property name="label-xalign">0</property>
-                                                    <property name="label-yalign">1</property>
-                                                    <property name="shadow-type">none</property>
                                                     <child>
-                                                      <object class="GtkAlignment" id="alignment83">
-                                                        <property name="visible">True</property>
+                                                      <object class="GtkFrame" id="frame_exhibition">
                                                         <property name="can-focus">False</property>
-                                                        <property name="top-padding">4</property>
-                                                        <property name="bottom-padding">4</property>
+                                                        <property name="label-xalign">0</property>
+                                                        <property name="label-yalign">1</property>
+                                                        <property name="shadow-type">none</property>
                                                         <child>
-                                                          <object class="GtkVBox" id="vbox81">
+                                                          <object class="GtkAlignment" id="alignment83">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="top-padding">4</property>
+                                                            <property name="bottom-padding">4</property>
+                                                            <child>
+                                                            <object class="GtkVBox" id="vbox81">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
                                                             <property name="border-width">4</property>
@@ -2850,63 +2861,65 @@
                                                             <property name="position">3</property>
                                                             </packing>
                                                             </child>
+                                                            </object>
+                                                            </child>
+                                                          </object>
+                                                        </child>
+                                                        <child type="label_item">
+                                                          <placeholder/>
+                                                        </child>
+                                                      </object>
+                                                      <packing>
+                                                        <property name="expand">False</property>
+                                                        <property name="fill">False</property>
+                                                        <property name="position">1</property>
+                                                      </packing>
+                                                    </child>
+                                                    <child>
+                                                      <object class="GtkScrolledWindow" id="scrolledwindow24">
+                                                        <property name="visible">True</property>
+                                                        <property name="can-focus">True</property>
+                                                        <property name="shadow-type">in</property>
+                                                        <child>
+                                                          <object class="GtkTreeView" id="treeview_persons">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">True</property>
+                                                            <property name="enable-search">False</property>
+                                                            <property name="show-expanders">False</property>
+                                                            <signal name="button-release-event" handler="on_treeview_button_release_event" swapped="no"/>
                                                           </object>
                                                         </child>
                                                       </object>
+                                                      <packing>
+                                                        <property name="expand">True</property>
+                                                        <property name="fill">True</property>
+                                                        <property name="padding">2</property>
+                                                        <property name="position">2</property>
+                                                      </packing>
                                                     </child>
-                                                    <child type="label_item">
-                                                      <placeholder/>
-                                                    </child>
-                                                  </object>
-                                                  <packing>
-                                                    <property name="expand">False</property>
-                                                    <property name="fill">False</property>
-                                                    <property name="position">1</property>
-                                                  </packing>
-                                                </child>
-                                                <child>
-                                                  <object class="GtkScrolledWindow" id="scrolledwindow24">
-                                                    <property name="visible">True</property>
-                                                    <property name="can-focus">True</property>
-                                                    <property name="shadow-type">in</property>
                                                     <child>
-                                                      <object class="GtkTreeView" id="treeview_persons">
-                                                        <property name="visible">True</property>
-                                                        <property name="can-focus">True</property>
-                                                        <property name="enable-search">False</property>
-                                                        <property name="show-expanders">False</property>
-                                                        <signal name="button-release-event" handler="on_treeview_button_release_event" swapped="no"/>
-                                                        <child internal-child="selection">
-                                                          <object class="GtkTreeSelection"/>
-                                                        </child>
-                                                      </object>
-                                                    </child>
-                                                  </object>
-                                                  <packing>
-                                                    <property name="expand">True</property>
-                                                    <property name="fill">True</property>
-                                                    <property name="padding">2</property>
-                                                    <property name="position">2</property>
-                                                  </packing>
-                                                </child>
-                                                <child>
-                                                  <object class="GtkBox" id="vbox_persons_bottom">
-                                                    <property name="visible">True</property>
-                                                    <property name="can-focus">False</property>
-                                                    <property name="orientation">vertical</property>
-                                                    <property name="spacing">6</property>
-                                                    <child>
-                                                      <object class="GtkBox" id="hbox_persons_bottom_photo">
-                                                        <property name="visible">True</property>
+                                                      <object class="GtkBox" id="vbox_persons_bottom">
                                                         <property name="can-focus">False</property>
-                                                        <property name="spacing">3</property>
+                                                        <property name="orientation">vertical</property>
+                                                        <property name="spacing">6</property>
                                                         <child>
-                                                          <object class="GtkImage" id="image_current_person">
+                                                          <object class="GtkBox" id="hbox_persons_bottom_photo">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="spacing">3</property>
+                                                            <child>
+                                                            <object class="GtkImage" id="image_current_person">
                                                             <property name="width-request">150</property>
-                                                            <property name="height-request">150</property>
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
                                                             <property name="stock">gtk-missing-image</property>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
                                                           </object>
                                                           <packing>
                                                             <property name="expand">False</property>
@@ -2918,26 +2931,19 @@
                                                       <packing>
                                                         <property name="expand">False</property>
                                                         <property name="fill">False</property>
-                                                        <property name="position">0</property>
+                                                        <property name="position">3</property>
                                                       </packing>
                                                     </child>
-                                                  </object>
-                                                  <packing>
-                                                    <property name="expand">False</property>
-                                                    <property name="fill">False</property>
-                                                    <property name="position">3</property>
-                                                  </packing>
-                                                </child>
-                                                <child>
-                                                  <object class="GtkHBox" id="hbox_persons_raspberry">
-                                                    <property name="can-focus">False</property>
                                                     <child>
-                                                      <object class="GtkHBox" id="hbox129">
-                                                        <property name="visible">True</property>
+                                                      <object class="GtkHBox" id="hbox_persons_raspberry">
                                                         <property name="can-focus">False</property>
-                                                        <property name="spacing">6</property>
                                                         <child>
-                                                          <object class="GtkButton" id="button_persons_raspberry_left">
+                                                          <object class="GtkHBox" id="hbox129">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="spacing">6</property>
+                                                            <child>
+                                                            <object class="GtkButton" id="button_persons_raspberry_left">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="receives-default">True</property>
@@ -2949,15 +2955,15 @@
                                                             <property name="arrow-type">left</property>
                                                             </object>
                                                             </child>
-                                                          </object>
-                                                          <packing>
+                                                            </object>
+                                                            <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">False</property>
                                                             <property name="position">0</property>
-                                                          </packing>
-                                                        </child>
-                                                        <child>
-                                                          <object class="GtkButton" id="button_persons_raspberry_right">
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkButton" id="button_persons_raspberry_right">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="receives-default">True</property>
@@ -2968,11 +2974,19 @@
                                                             <property name="can-focus">False</property>
                                                             </object>
                                                             </child>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
                                                           </object>
                                                           <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">False</property>
-                                                            <property name="position">1</property>
+                                                            <property name="pack-type">end</property>
+                                                            <property name="position">0</property>
                                                           </packing>
                                                         </child>
                                                       </object>
@@ -2980,15 +2994,14 @@
                                                         <property name="expand">False</property>
                                                         <property name="fill">False</property>
                                                         <property name="pack-type">end</property>
-                                                        <property name="position">0</property>
+                                                        <property name="position">4</property>
                                                       </packing>
                                                     </child>
                                                   </object>
                                                   <packing>
-                                                    <property name="expand">False</property>
-                                                    <property name="fill">False</property>
-                                                    <property name="pack-type">end</property>
-                                                    <property name="position">4</property>
+                                                    <property name="expand">True</property>
+                                                    <property name="fill">True</property>
+                                                    <property name="position">0</property>
                                                   </packing>
                                                 </child>
                                               </object>
@@ -2999,6 +3012,7 @@
                                           <object class="GtkHBox" id="hbox364">
                                             <property name="visible">True</property>
                                             <property name="can-focus">False</property>
+                                            <property name="margin-left">2</property>
                                             <property name="spacing">4</property>
                                             <child>
                                               <object class="GtkLabel" id="label_persons_at_frame_persons">
@@ -3043,6 +3057,8 @@
                                       <object class="GtkHBox" id="box_prefs_help_news_exit">
                                         <property name="visible">True</property>
                                         <property name="can-focus">False</property>
+                                        <property name="margin-left">2</property>
+                                        <property name="margin-right">2</property>
                                         <child>
                                           <object class="GtkBox">
                                             <property name="visible">True</property>
@@ -3120,7 +3136,7 @@
                                               <object class="GtkHBox" id="hbox533">
                                                 <property name="visible">True</property>
                                                 <property name="can-focus">False</property>
-                                                <property name="spacing">8</property>
+                                                <property name="spacing">6</property>
                                                 <child>
                                                   <object class="GtkButton" id="button_menu_preferences">
                                                     <property name="visible">True</property>
@@ -22784,6 +22800,9 @@ Concentric</property>
                                                             <property name="left-attach">3</property>
                                                             <property name="right-attach">4</property>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>

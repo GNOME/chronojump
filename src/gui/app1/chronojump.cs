@@ -231,6 +231,8 @@ public partial class ChronoJumpWindow
 	Gtk.Image image_line_person_max_all_sessions;
 
 	//to GTK3 colorize
+	Gtk.Frame frame_session;
+	Gtk.Box vbox_frame_session_border;
 	Gtk.Box box_session_more;
 	Gtk.Box box_session_load_or_import;
 	Gtk.Box box_session_delete;
@@ -257,7 +259,8 @@ public partial class ChronoJumpWindow
 	Gtk.Box hbox_other_pulses;
 	
 	//menu person
-	//Gtk.VBox vbox_persons;
+	Gtk.Box vbox_persons;
+	Gtk.Box hbox_frame_persons_top;
 	//Gtk.Alignment alignment44;
 	Gtk.Button button_persons_up;
 	Gtk.Button button_persons_down;
@@ -419,10 +422,6 @@ public partial class ChronoJumpWindow
 	Gtk.Label label_selector_menu_2_2_2_title;
 	Gtk.Label label_selector_menu_2_2_2_desc;
 	Gtk.Alignment align_label_selector_menu_2_2_2_desc;
-
-//	Gtk.Viewport viewport29;
-	//Gtk.VBox vbox_manage_persons;
-	Gtk.Box hbox_frame_persons_top;
 	// <---- at glade
 
 	Random rand;
@@ -970,6 +969,7 @@ public partial class ChronoJumpWindow
 				check_menu_session.Click(); //have sesion menu opened
 
 		initialize_menu_or_menu_tiny();
+		vbox_persons_bottom.Visible = preferences.personPhoto && ! check_menu_session.Active;
 
 		presentationPrepare ();
 
@@ -1084,10 +1084,7 @@ public partial class ChronoJumpWindow
 				pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "cloud_yellow.png");
 			image_cloud.Pixbuf = pixbuf;
 
-			pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_no_photo.png");
-			if(Config.ColorBackgroundIsDark)
-				pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_no_photo_yellow.png");
-			image_current_person.Pixbuf = pixbuf;
+			personsPhotoShowIfNeeded ();
 		}
 
 		if(! Config.UseSystemColor)
@@ -1139,10 +1136,12 @@ public partial class ChronoJumpWindow
 
 			//persons (main)
 			UtilGtk.WidgetColor (hbox_frame_persons_top, Config.ColorBackgroundShifted);
+			UtilGtk.WidgetColor (vbox_persons, Config.ColorBackgroundShifted);
 			UtilGtk.ContrastLabelsBox (Config.ColorBackgroundShiftedIsDark, hbox_frame_persons_top);
 
 			//session (more)
 			UtilGtk.WidgetColor (box_session_more, Config.ColorBackgroundShifted);
+			UtilGtk.WidgetColor (vbox_frame_session_border, Config.ColorBackgroundShifted);
 			UtilGtk.ContrastLabelsBox (Config.ColorBackgroundShiftedIsDark, box_session_more);
 
 			//session (load_or_import)
@@ -3883,6 +3882,8 @@ public partial class ChronoJumpWindow
 		//TODO: only if color changed or personWinHide
 		Config.UseSystemColor = preferences.colorBackgroundOsColor;
 		doLabelsContrast(configChronojump.PersonWinHide);
+		vbox_persons_bottom.Visible = preferences.personPhoto && ! check_menu_session.Active;
+
 		UtilGtk.ApplyCSS ();
 
 
@@ -10221,6 +10222,8 @@ LogB.Debug("mc finished 5");
 		image_line_person_max = (Gtk.Image) builder.GetObject ("image_line_person_max");
 		image_line_person_max_all_sessions = (Gtk.Image) builder.GetObject ("image_line_person_max_all_sessions");
 
+		frame_session = (Gtk.Frame) builder.GetObject ("frame_session");
+		vbox_frame_session_border = (Gtk.Box) builder.GetObject ("vbox_frame_session_border");
 		box_session_more = (Gtk.Box) builder.GetObject ("box_session_more");
 		box_session_load_or_import = (Gtk.Box) builder.GetObject ("box_session_load_or_import");
 		box_session_delete = (Gtk.Box) builder.GetObject ("box_session_delete");
@@ -10247,7 +10250,8 @@ LogB.Debug("mc finished 5");
 		hbox_other_pulses = (Gtk.Box) builder.GetObject ("hbox_other_pulses");
 
 		//menu person
-		//vbox_persons = (Gtk.VBox) builder.GetObject ("vbox_persons");
+		vbox_persons = (Gtk.Box) builder.GetObject ("vbox_persons");
+		hbox_frame_persons_top = (Gtk.Box) builder.GetObject ("hbox_frame_persons_top");
 		//alignment44 = (Gtk.Alignment) builder.GetObject ("alignment44");
 		button_persons_up = (Gtk.Button) builder.GetObject ("button_persons_up");
 		button_persons_down = (Gtk.Button) builder.GetObject ("button_persons_down");
@@ -10410,10 +10414,6 @@ LogB.Debug("mc finished 5");
 		label_selector_menu_2_2_2_title = (Gtk.Label) builder.GetObject ("label_selector_menu_2_2_2_title");
 		label_selector_menu_2_2_2_desc = (Gtk.Label) builder.GetObject ("label_selector_menu_2_2_2_desc");
 		align_label_selector_menu_2_2_2_desc = (Gtk.Alignment) builder.GetObject ("align_label_selector_menu_2_2_2_desc");
-
-		//viewport29 = (Gtk.Viewport) builder.GetObject ("viewport29");
-		//vbox_manage_persons = (Gtk.VBox) builder.GetObject ("vbox_manage_persons");
-		hbox_frame_persons_top = (Gtk.Box) builder.GetObject ("hbox_frame_persons_top");
 	}
 
 }

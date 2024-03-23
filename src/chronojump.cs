@@ -108,7 +108,7 @@ public class ChronoJump
 #if DEBUG
             NativeLibraryResolver.Init("/opt/homebrew/lib");
 #else
-			NativeLibraryResolver.Init(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "lib"));
+			NativeLibraryResolver.Init(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "../../Frameworks/gtk/lib"));
 #endif
         }
 

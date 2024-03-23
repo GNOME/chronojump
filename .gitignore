@@ -100,3 +100,6 @@ package/macos/Chronojump.app/Contents/Info.plist
 /obj
 /bin
 package/macos/app/Chronojump.app/Contents/Info.plist
+config.guess~
+config.sub~
+install-sh~

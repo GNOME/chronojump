@@ -63,7 +63,9 @@ bundle:
 	cp -r ../../win32/deps/FTD2XX_NET_v1.2.0/ deps/FTD2XX_NET_v1.2.0/
 	cp -r ../../win32/deps/library/ deps/library/
 	cp -r ../../win32/deps/modules/ deps/modules/
+	rm -rf deps/bin/x64/Python/
 	cp -r /Library/Frameworks/Python.framework/ deps/bin/x64/Python/
+	rm -rf deps/R/
 	cp -r /Library/Frameworks/R.framework/ deps/R/
 
 package:	

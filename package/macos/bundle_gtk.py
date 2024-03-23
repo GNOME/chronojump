@@ -28,7 +28,7 @@ def run_install_name_tool(lib, deps, lib_install_dir):
     # dependencies.
     for dep_path in deps:
         dep_lib_name = os.path.basename(os.path.realpath(dep_path))
-        dep_lib = "@executable_path/../Frameworks/lib/" + dep_lib_name
+        dep_lib = "@executable_path/../Frameworks/gtk3/lib/" + dep_lib_name
         cmd = ['install_name_tool', '-change', dep_path, dep_lib, lib]
         subprocess.check_output(cmd)
 
@@ -93,7 +93,7 @@ def install_plugin_cache(cache_path, resource_dir):
     with open(src_cache, 'r') as src_f:
         contents = src_f.read()
         contents = re.sub(r"/.*/(lib|share)/",
-                          r"@executable_path/../Frameworks/lib/\1/", contents)
+                          r"@executable_path/../Frameworks/gtk3/lib/\1/", contents)
 
         with open(dest_cache, 'w') as dest_f:
             dest_f.write(contents)

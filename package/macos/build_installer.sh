@@ -19,6 +19,7 @@ rm -rf ${MAC_APP_FRAMEWORK_DIR}
 mkdir -p ${MAC_APP_BIN_DIR} ${MAC_APP_RESOURCE_DIR} ${MAC_APP_FRAMEWORK_DIR}
 #mkdir -p ${MAC_APP_SHARE_DIR}
 
+rm -rf ${MAC_APP_BIN_DIR}
 dotnet publish ../../src/Chronojump-mac.sln -p:BuildTranslations=true --configuration Release -r osx-x64 --self-contained true -o ${MAC_APP_BIN_DIR}
 cd ../../src/
 sh post-build-mac.sh ../package/macos/app/Chronojump.app/Contents/Home/bin/
@@ -39,9 +40,9 @@ rm ${MAC_APP_BIN_DIR}/*.pdb
 # Install the GTK dependencies.
 echo "Bundling GTK..."
 chmod +x bundle_gtk.py
-./bundle_gtk.py --resource_dir ${MAC_APP_FRAMEWORK_DIR}
+./bundle_gtk.py --resource_dir ${MAC_APP_FRAMEWORK_DIR}/gtk3
 # Add the GTK lib dir to the library search path (for dlopen()), as an alternative to $DYLD_LIBRARY_PATH.
-install_name_tool -add_rpath "@executable_path/../Frameworks/lib" ${MAC_APP_BIN_DIR}/Chronojump
+install_name_tool -add_rpath "@executable_path/../Frameworks/gtk3/lib" ${MAC_APP_BIN_DIR}/Chronojump
 
 touch ${MAC_APP_DIR}
 

@@ -56,6 +56,8 @@ bundle:
 	#	--deps
 	#cp $(PACKAGE_DIR)/Chronojump $(APP_DIR)/Home/bin/
 	#python3 ./bundler.py $(APP_DIR)/Home/lib/ opt/homebrew/lib
+	mkdir -p deps/bin/x64/Python
+	mkdir -p deps/R
 	cp -r ../../win32/deps/bin/chronojump-importer-python3/ deps/bin/chronojump-importer-python3/
 	cp -r ../../win32/deps/bin/FTD2XX_NET_v1.0.14/ deps/bin/FTD2XX_NET_v1.0.14/
 	cp -r ../../win32/deps/etc/ deps/etc/

@@ -31,6 +31,7 @@ using System.Collections; //ArrayList
 
 using System.Runtime.InteropServices;
 using Chronojump;
+using System.Data.SQLite;
 
 public class ChronoJump 
 {
@@ -85,6 +86,25 @@ public class ChronoJump
         }
         else
 		{
+            //To prevent sqlite3_prepare_interop aborting
+            try
+            {
+                var dbPath = Path.Combine(Util.GetDatabaseDir(), "chronojump-test.db");
+                string connectionString = $"Data Source={dbPath}";
+                using (var connection = new SQLiteConnection(connectionString))
+                {
+                    connection.Open();
+                    var sql = "SELECT 1";
+                    using (var command = new SQLiteCommand(sql, connection))
+                    {
+                        command.ExecuteNonQuery();
+                    }
+                    connection.Close();
+                }
+                File.Delete(dbPath);
+            }
+            catch { }
+
 #if DEBUG
             NativeLibraryResolver.Init("/opt/homebrew/lib");
 #else

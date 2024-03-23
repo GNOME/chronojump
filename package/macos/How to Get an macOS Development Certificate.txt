@@ -1,0 +1,23 @@
+
+1. Get an Apple ID if no
+
+https://appleid.apple.com/account?appId=632&returnUrl=https%3A%2F%2Fdeveloper.apple.com%2Faccount%2F
+
+2. Sign into Apple Developer with the Apple ID
+
+https://idmsa.apple.com/IDMSWebAuth/signin?appIdKey=891bd3417a7776362562d2197f89480a8547b108fd934911bcbea0110d07f757&path=%2Faccount%2F&rv=1
+
+3. Go to Apple Developer Account
+
+https://developer.apple.com/account
+
+4. Join Apple Developer Program
+
+https://developer.apple.com/enroll/
+
+Do as the site says. Open "Apple Developer App"/"Account" on iPhone/iPad/Mac to continue, before doing this please sign in iCloud with the Apple ID on local device.
+
+5. Click "Account"/"Certificates, IDs & Profiles" on https://developer.apple.com/
+
+6. Google "how to get an Apple development certificate", as I have no Apple Developer ID to see its settings.
+

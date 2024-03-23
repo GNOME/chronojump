@@ -227,8 +227,7 @@ public partial class ChronoJumpWindow
 				//-hbox_above_frame_session.SizeRequest().Height);
 				- UtilGtk.WidgetHeight (hbox_above_frame_session));
 
-		alignment_session_persons.TopPadding = alignTop;
-		alignment_vbox_session_load_or_import_select.TopPadding = alignTop;
+		alignment_session_persons.TopPadding = alignTop -4 +2; //for the vbox_frame_session_border & the border of the notebook
 
 		return false;
 	}
@@ -334,8 +333,7 @@ public partial class ChronoJumpWindow
 		vbuttonbox_menu_session.Visible = check_menu_session.Active;
 
 		//hide the person photo if anything is unfolded
-		if(preferences.personPhoto)
-			vbox_persons_bottom.Visible = ! check_menu_session.Active;
+		vbox_persons_bottom.Visible = preferences.personPhoto && ! check_menu_session.Active;
 
 		//scroll it, but wait a bit before to be all the things at place
 		if(myTreeViewPersons != null)

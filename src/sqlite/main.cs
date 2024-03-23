@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2023   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2004-2024   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -144,7 +144,7 @@ class Sqlite
 	/*
 	 * Important, change this if there's any update to database
 	 */
-	static string lastChronojumpDatabaseVersion = "2.47";
+	static string lastChronojumpDatabaseVersion = "2.48";
 
 	public Sqlite()
 	{
@@ -1669,7 +1669,7 @@ class Sqlite
 				Sqlite.Open();
 				
 				dbcmd.CommandText = "DELETE FROM " + Constants.EncoderTable + 
-					" WHERE encoderConfiguration LIKE \"%INERTIAL%\" AND " +
+					" WHERE encoderConfiguration LIKE '%INERTIAL%' AND " +
 					" signalOrCurve == \"curve\"";
 				LogB.SQL(dbcmd.CommandText.ToString());
 				dbcmd.ExecuteNonQuery();
@@ -3363,6 +3363,12 @@ class Sqlite
 				SqliteForceSensorRFD.UpdateTo2_47 ();
 				currentVersion = updateVersion("2.47");
 			}
+			if(currentVersion == "2.47")
+			{
+				LogB.SQL("Inserted into preferences forceSensorButterworth");
+				SqlitePreferences.Insert (SqlitePreferences.ForceSensorButterworth, "15");
+				currentVersion = updateVersion("2.48");
+			}
 
 			/*
 			if(currentVersion == "1.79")
@@ -3584,6 +3590,7 @@ class Sqlite
 		//changes [from - to - desc]
 //just testing: 1.79 - 1.80 Converted DB to 1.80 Created table ForceSensorElasticBandGlue and moved stiffnessString records there
 
+		//2.47 - 2.48 Converted DB to 2.48 Inserted into preferences forceSensorButterworth
 		//2.46 - 2.47 Converted DB to 2.47 Added RFDs 5-10
 		//2.45 - 2.46 Converted DB to 2.46 Added two missing RunsI feedback variables: RunsIFeedbackShowBestSpeed, RunsIFeedbackShowWorstSpeed
 		//2.44 - 2.45 Converted DB to 2.45 Added JumpsRj, RunsI feedback variables
@@ -3827,7 +3834,7 @@ class Sqlite
 			executeSQL("PRAGMA case_sensitive_like=ON;");
 
 		dbcmd.CommandText = "SELECT * FROM sqlite_master WHERE type = \"table\" AND name = \"" +
-			tableName + "\" AND sql LIKE \"%" + columnName + "%\"";
+			tableName + "\" AND sql LIKE '%" + columnName + "%'";
 
 		LogB.SQL(dbcmd.CommandText.ToString());
 
@@ -3916,7 +3923,7 @@ class Sqlite
 			// 2.a) for each duplicate, find distinct names that start similar to it
 			//      to not use them on rename namesConflicting as "name (1)","name (2)" ...
 			dbcmd.CommandText = "SELECT DISTINCT name FROM " + table +
-			" WHERE name LIKE \"" + nameConflict + "%\"";
+			" WHERE name LIKE '" + nameConflict + "%'";
 			LogB.SQL(dbcmd.CommandText.ToString());
 
 			reader = dbcmd.ExecuteReader();

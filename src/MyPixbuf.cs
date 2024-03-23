@@ -1,4 +1,24 @@
-﻿using Gdk;
+﻿/*
+ * This file is part of ChronoJump
+ *
+ * Chronojump is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *   the Free Software Foundation; either version 2 of the License, or   
+ *    (at your option) any later version.
+ *    
+ * Chronojump is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the 
+ *    GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *
+ *  Copyright (C) 2024   Yang Dejiu <joeries.young@gmail.com>
+ */
+
+using Gdk;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -209,6 +229,7 @@ namespace Chronojump
 			new ResourceFix ("import_yellow_1x.png" , "import_yellow.png"),
 			new ResourceFix ("export_1x.png" , "export.png"),
 			new ResourceFix ("settings_blue_1x.png" , "image_settings.png"),
+			new ResourceFix ("settings_down_blue_1x.png" , "image_settings_down.png"),
 			new ResourceFix ("close_blue_1x.png" , "image_close_blue.png"),
 			new ResourceFix ("close_red_1x.png" , "image_close.png"),
 			new ResourceFix ("close_blue_2x.png" , "image_close_big.png"),
@@ -225,6 +246,8 @@ namespace Chronojump
 			new ResourceFix ("gtk-floppy.png" , "floppy.png"),
 			new ResourceFix ("arrow_back_blue.png" , "arrow_back.png"),
 			new ResourceFix ("cancel_red_1x.png" , "image_cancel.png"),
+			new ResourceFix ("empty.png" , "image_empty.png"),
+			new ResourceFix ("capturing_red_1x.png" , "image_capturing.png"),
 			new ResourceFix ("done_blue.png" , "image_done_blue.png"),
 			new ResourceFix ("insert_chart_blue_1x.png" , "image_analyze.png"),
 			new ResourceFix ("assignment_blue_1x.png" , "image_analyze_general.png"),
@@ -250,6 +273,8 @@ namespace Chronojump
 			new ResourceFix ("folder_open_blue_1x.png" , "folder_open.png"),
 			new ResourceFix ("folder_open_yellow_1x.png" , "folder_open_yellow.png"),
 			new ResourceFix ("folder_open_set_blue_1x.png" , "folder_open_set.png"),
+			new ResourceFix ("folder_open_set_ab_blue_1x.png" , "folder_open_set_ab.png"),
+			new ResourceFix ("folder_open_set_cd_blue_1x.png" , "folder_open_set_cd.png"),
 			new ResourceFix ("visibility_blue_1x.png" , "image_visibility.png"),
 			new ResourceFix ("p_pin_blue_1x.png" , "image_person_pin.png"),
 			new ResourceFix ("face_blue_1x.png" , "image_face.png"),
@@ -374,6 +399,8 @@ namespace Chronojump
 			new ResourceFix ("right_cut.png" , "right_cut.png"),
 			new ResourceFix ("link.png" , "link.png"),
 			new ResourceFix ("link_off.png" , "link_off.png"),
+			new ResourceFix ("filter_on.png" , "filter_on.png"),
+			new ResourceFix ("filter_off.png" , "filter_off.png"),
 			new ResourceFix ("calendar.png" , "calendar.png"),
 			new ResourceFix ("chronojump-logo-transparent.png" , "chronojump-logo-transparent.png"),
 			new ResourceFix ("chronojump-logo-transparent-40h.png" , "chronojump-logo-transparent-40h.png"),

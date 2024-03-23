@@ -91,12 +91,18 @@ class ExecuteProcess
 		string parameters_string = "";
 		foreach (string parameter in parameters)
 		{
-			parameters_string += CommandLineEncoder.EncodeArgText (parameter) + " ";
+			if (UtilAll.IsWindows ())
+				parameters_string += CommandLineEncoder.EncodeArgText (parameter) + " ";
+			else
+				parameters_string += parameter + " "; //on Linux, CommandLineEncoder makes maximumIsometricForce.R not found
 
 			//done also on runAtBackground
 			//comandLineEncoder converts \net to [SlashN]et
 			if (UtilAll.IsWindows () && parameters_string.Contains (@"[SlashN]et"))
 				parameters_string = parameters_string.Replace (@"[SlashN]et", @"\net");
+
+			//LogB.Information (string.Format ("file: {0}, exists? {1}",
+			//			parameter, Util.FileExists (parameter) ));
 		}
 
 		processStartInfo.Arguments = parameters_string;

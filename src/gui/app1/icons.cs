@@ -298,6 +298,8 @@ public partial class ChronoJumpWindow
 		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_settings.png");//[By Joeries]
 		image_menu_preferences.Pixbuf = pixbuf;
 		image_menu_preferences1.Pixbuf = pixbuf;
+
+		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_settings_down.png");
 		image_contacts_exercise_settings.Pixbuf = pixbuf;
 		image_encoder_exercise_settings.Pixbuf = pixbuf;
 
@@ -538,7 +540,9 @@ public partial class ChronoJumpWindow
 		image_encoder_capture_open1.Pixbuf = pixbuf;
 		image_contacts_capture_load.Pixbuf = pixbuf;
 		image_force_sensor_analyze_load_abcd.Pixbuf = pixbuf;
+		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "folder_open_set_ab.png");
 		image_force_sensor_analyze_load_ab.Pixbuf = pixbuf;
+		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "folder_open_set_cd.png");
 		image_force_sensor_analyze_load_cd.Pixbuf = pixbuf;
 
 		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "zero.png");
@@ -636,6 +640,11 @@ public partial class ChronoJumpWindow
 		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_photo_preview.png");
 		image_video_contacts_preview.Pixbuf = pixbuf;
 		image_video_encoder_preview.Pixbuf = pixbuf;
+
+		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "filter_off.png");
+		force_sensor_exercise_filter_image.Pixbuf = pixbuf;
+		force_sensor_exercise_filter_top_image.Pixbuf = pixbuf;
+
 
 		/*
 		 * <------ end of material design icons
@@ -807,6 +816,13 @@ public partial class ChronoJumpWindow
 		image_app1s_button_cancel1.Pixbuf = pixbuf;
 		image_button_help_close.Pixbuf = pixbuf;
 		image_button_micro_discover_cancel_close.Pixbuf = pixbuf;
+
+		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_capturing.png");
+		image_capturing.Pixbuf = pixbuf;
+		image_capturing_encoder.Pixbuf = pixbuf;
+		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_empty.png");
+		image_no_capturing.Pixbuf = pixbuf;
+		image_no_capturing_encoder.Pixbuf = pixbuf;
 
 		//accept
 		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_done_blue.png");
@@ -1037,8 +1053,8 @@ public partial class ChronoJumpWindow
 		image_hscale_force_sensor_ai_a_last.Pixbuf = pixbuf;
 		image_hscale_force_sensor_ai_b_last.Pixbuf = pixbuf;
 
-		image_force_sensor_analyze_load_abcd_north_west.Pixbuf = Chronojump.MyPixbuf.Get (null, Util.GetImagePath (false) + "north_west.png");
-		image_force_sensor_analyze_load_abcd_north_east.Pixbuf = Chronojump.MyPixbuf.Get (null, Util.GetImagePath (false) + "north_east.png");
+		//image_force_sensor_analyze_load_abcd_north_west.Pixbuf = Chronojump.MyPixbuf.Get (null, Util.GetImagePath (false) + "north_west.png");
+		//image_force_sensor_analyze_load_abcd_north_east.Pixbuf = Chronojump.MyPixbuf.Get (null, Util.GetImagePath (false) + "north_east.png");
 		image_ai_move_cd_pre.Pixbuf = Chronojump.MyPixbuf.Get (null, Util.GetImagePath (false) + "move_sides.png");
 		image_ai_move_cd_align_left.Pixbuf = Chronojump.MyPixbuf.Get (null, Util.GetImagePath (false) + "align_horiz_left.png");
 		image_ai_move_cd_align_center.Pixbuf = Chronojump.MyPixbuf.Get (null, Util.GetImagePath (false) + "align_horiz_center.png");

@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2022-2023   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2022-2024   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -224,16 +224,20 @@ class SqliteRunEncoder : Sqlite
 		return array;
 	}
 
-	public static ArrayList SelectSessionOverviewSets (bool dbconOpened, int sessionID)
+	public static ArrayList SelectSessionOverviewSets (bool dbconOpened, int sessionID, bool byExercises)
 	{
 		if(! dbconOpened)
 			Sqlite.Open();
+
+		string byExercisesStr = "";
+		if (byExercises)
+			byExercisesStr = ", exerciseID";
 
 		dbcmd.CommandText =
 			"SELECT person77.uniqueID, person77.name, person77.sex, runEncoderExercise.name, COUNT(*)" +
 			" FROM person77, personSession77, runEncoderExercise, runEncoder" +
 			" WHERE person77.uniqueID == runEncoder.personID AND personSession77.personID == runEncoder.personID AND personSession77.sessionID == runEncoder.sessionID AND runEncoderExercise.uniqueID==runEncoder.exerciseID AND runEncoder.sessionID == " + sessionID +
-			" GROUP BY runEncoder.personID, exerciseID" +
+			" GROUP BY runEncoder.personID" + byExercisesStr +
 			" ORDER BY person77.name";
 
 		LogB.SQL(dbcmd.CommandText.ToString());
@@ -250,7 +254,7 @@ class SqliteRunEncoder : Sqlite
 				reader[2].ToString(), 	//person sex
 				reader[3].ToString(), 	//exercise name
 				reader[4].ToString()	//sets count
-			};
+			}; //note this is used on gui/genericWindow
 			array.Add (s);
 		}
 

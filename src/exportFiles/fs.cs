@@ -38,6 +38,7 @@ public class ForceSensorExport : ExportFiles
 	private int forceSensorNotElasticConMinForce;
 	private bool forceSensorStartEndOptimized;
 	private double forceSensorAnalyzeMaxAVGInWindowSeconds;
+	private double butterworthFreq;
 
 	private List<ForceSensor> fs_l;
 	private ArrayList fsEx_l;
@@ -59,7 +60,8 @@ public class ForceSensorExport : ExportFiles
 			int forceSensorNotElasticConMinForce,
 			bool forceSensorStartEndOptimized,
 			char exportDecimalSeparator,
-			double forceSensorAnalyzeMaxAVGInWindowSeconds)
+			double forceSensorAnalyzeMaxAVGInWindowSeconds,
+			double butterworthFreq)
 
 	{
 		Button_done = new Gtk.Button();
@@ -78,6 +80,7 @@ public class ForceSensorExport : ExportFiles
 		this.forceSensorNotElasticConMinForce = forceSensorNotElasticConMinForce;
 		this.forceSensorStartEndOptimized = forceSensorStartEndOptimized;
 		this.forceSensorAnalyzeMaxAVGInWindowSeconds = forceSensorAnalyzeMaxAVGInWindowSeconds;
+		this.butterworthFreq = butterworthFreq;
 	}
 
 	private string getTempGraphsDir() {
@@ -194,6 +197,7 @@ public class ForceSensorExport : ExportFiles
 			ForceSensorAnalyzeInstant fsAI = new ForceSensorAnalyzeInstant(
 					"",
 					fs.FullURL,
+					butterworthFreq,
 					-1, -1,
 					fsEx, ps.Weight,
 					fs.CaptureOption, fs.Stiffness,
@@ -202,10 +206,10 @@ public class ForceSensorExport : ExportFiles
 
 			// 5) call R
 			string title = p.Name;
-			string exercise = fsEx.Name;
+			string exerciseStr = fsEx.Name;
 			if (isWindows) {
 				title = Util.ConvertToUnicode(title);
-				exercise = Util.ConvertToUnicode(exercise);
+				exerciseStr = Util.ConvertToUnicode(exerciseStr);
 			}
 			if (title == null || title == "")
 				title = "unnamed";
@@ -214,9 +218,13 @@ public class ForceSensorExport : ExportFiles
 			string destination = UtilEncoder.GetmifCSVInputMulti();
 			Util.FileDelete(destination);
 
-			//copy file to tmp to be readed by R
 			string fsFullURLMoved = Path.Combine(getTempSourceFilesDir(), count.ToString() + ".csv");
-			File.Copy(fs.FullURL, fsFullURLMoved, true); //can be overwritten
+			if (butterworthFreq < 0)
+			{
+				//copy file to tmp to be readed by R
+				File.Copy(fs.FullURL, fsFullURLMoved, true); //can be overwritten
+			} else
+				Butterworth.ForceSensorFileToButterworth (contents, butterworthFreq, fsFullURLMoved);
 
 			//delete result file
 			Util.FileDelete(getTempCSVFileName());
@@ -267,7 +275,9 @@ public class ForceSensorExport : ExportFiles
 								fs.CaptureOption,
 								repConcentricSampleStart, 	//start of concentric rep
 								rep.sampleEnd,			//end of eccentric rep
-								title, exercise, fs.DatePublic, fs.TimePublic, new TriggerList()
+								title, exerciseStr,
+								fsEx.PercentBodyWeight, fsEx.AngleDefault, ps.Weight,
+								fs.DatePublic, fs.TimePublic, new TriggerList()
 								));
 
 					lastIsCon = false;
@@ -326,7 +336,9 @@ public class ForceSensorExport : ExportFiles
 							fs.CaptureOption,
 							sampleA,
 							sampleB,
-							title, exercise, fs.DatePublic, fs.TimePublic, new TriggerList()
+							title, exerciseStr,
+							fsEx.PercentBodyWeight, fsEx.AngleDefault, ps.Weight,
+							fs.DatePublic, fs.TimePublic, new TriggerList()
 							));
 			}
 		}
@@ -334,7 +346,7 @@ public class ForceSensorExport : ExportFiles
 		if(fsgABe_l.Count > 0)
 		{
 			totalRepsToExport = fsgABe_l.Count;
-			ForceSensorGraph fsg = new ForceSensorGraph(
+			ForceSensorGraphR fsg = new ForceSensorGraphR (
 					rfdList, impulse,
 					duration, durationPercent,
 					forceSensorStartEndOptimized,

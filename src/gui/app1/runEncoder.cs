@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2018-2023   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2018-2024   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -610,6 +610,7 @@ public partial class ChronoJumpWindow
 				Convert.ToInt32(race_analyzer_spinbutton_angle.Value));
 		runEncoderShouldShowCaptureGraphsWithData = true;
 
+		blinkCapture = new Blink ();
 		runEncoderCaptureThread = new Thread(new ThreadStart(runEncoderCaptureDo));
 		GLib.Idle.Add (new GLib.IdleHandler (pulseGTKRunEncoderCapture));
 
@@ -1065,7 +1066,7 @@ public partial class ChronoJumpWindow
 		if (canChoosePersonAndSession)
 		{
 			ArrayList a3 = new ArrayList ();
-			a3.Add (Constants.GenericWindowShow.GRIDPERSONSESSION); a3.Add (true); a3.Add ("");
+			a3.Add (Constants.GenericWindowShow.GRIDSESSIONPERSON); a3.Add (true); a3.Add ("");
 			bigArray.Add (a3);
 
 			title = Catalog.GetString ("Select set to compare");
@@ -1075,7 +1076,7 @@ public partial class ChronoJumpWindow
 
 		if (canChoosePersonAndSession)
 		{
-			genericWin.SetGridPersonSession (currentPerson, currentSession);
+			genericWin.SetGridSessionPerson (currentPerson, currentSession, current_mode);
 
 			//do not allow to edit when can change person/session
 			genericWin.SetTreeview (colStr, false, dataPrint, new ArrayList(), GenericWindow.EditActions.NONE, true);
@@ -1156,7 +1157,7 @@ public partial class ChronoJumpWindow
 
 		if (genericWin != null)
 		{
-			if (genericWin.UseGridPersonSession)
+			if (genericWin.UseGridSessionPerson)
 			{
 				personID = genericWin.GetPersonIDFromGui ();
 				sessionID = genericWin.GetSessionIDFromGui ();
@@ -1195,7 +1196,7 @@ public partial class ChronoJumpWindow
 			return "";
 		}
 
-		signalSuperpose2SetsCDPersonName = "";
+		signalSuperpose_2SetsCDPersonName = "";
 		// trying on _cd to only update the graph
 		if (radio_ai_2sets.Active && radio_ai_cd.Active)
 		{
@@ -1212,7 +1213,7 @@ public partial class ChronoJumpWindow
 					re.Angle);
 
 			if (personID != currentPerson.UniqueID)
-				signalSuperpose2SetsCDPersonName = SqlitePerson.SelectAttribute (personID, "name");
+				signalSuperpose_2SetsCDPersonName = SqlitePerson.SelectAttribute (personID, "name");
 
 			if (reCGSD_CD.RunEncoderCaptureSpeedMax > 0)
 				drawingarea_race_analyzer_capture_speed_time.QueueDraw ();
@@ -1890,7 +1891,11 @@ public partial class ChronoJumpWindow
 		if(! runEncoderCaptureThread.IsAlive || runEncoderProcessFinish || runEncoderProcessCancel || runEncoderProcessError) //capture ends
 		{
 			LogB.Information(" re C ");
+			showHideCaptureIcon (false);
+			blinkCapture.End ();
+
 			button_video_play_this_test_contacts.Sensitive = false;
+
 			if(runEncoderProcessFinish)
 			{
 				if (webcamStatusEnum == WebcamStatusEnum.RECORDING)
@@ -2117,6 +2122,9 @@ public partial class ChronoJumpWindow
 		{
 			LogB.Information(" re G ");
 
+			if (blinkCapture.Status == Blink.StatusEnum.NOTSTARTED)
+				blinkCapture.Start ();
+			showHideCaptureIcon (true);
 
 			LogB.Information(" re H2 ");
 			/*
@@ -2756,10 +2764,10 @@ public partial class ChronoJumpWindow
 			{
 				string abPersonName = "";
 				string cdPersonName = "";
-				if (signalSuperpose2SetsCDPersonName != "")
+				if (signalSuperpose_2SetsCDPersonName != "")
 				{
 					abPersonName = currentPerson.Name + ", ";
-					cdPersonName = signalSuperpose2SetsCDPersonName + ", ";
+					cdPersonName = signalSuperpose_2SetsCDPersonName + ", ";
 				}
 
 				subtitleWithSetsInfo_l.Add (string.Format ("AB: {0}{1}, {2}",

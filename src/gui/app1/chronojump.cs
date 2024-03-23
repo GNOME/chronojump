@@ -231,6 +231,8 @@ public partial class ChronoJumpWindow
 	Gtk.Image image_line_person_max_all_sessions;
 
 	//to GTK3 colorize
+	Gtk.Frame frame_session;
+	Gtk.Box vbox_frame_session_border;
 	Gtk.Box box_session_more;
 	Gtk.Box box_session_load_or_import;
 	Gtk.Box box_session_delete;
@@ -257,7 +259,8 @@ public partial class ChronoJumpWindow
 	Gtk.Box hbox_other_pulses;
 	
 	//menu person
-	//Gtk.VBox vbox_persons;
+	Gtk.Box vbox_persons;
+	Gtk.Box hbox_frame_persons_top;
 	//Gtk.Alignment alignment44;
 	Gtk.Button button_persons_up;
 	Gtk.Button button_persons_down;
@@ -419,10 +422,6 @@ public partial class ChronoJumpWindow
 	Gtk.Label label_selector_menu_2_2_2_title;
 	Gtk.Label label_selector_menu_2_2_2_desc;
 	Gtk.Alignment align_label_selector_menu_2_2_2_desc;
-
-//	Gtk.Viewport viewport29;
-	//Gtk.VBox vbox_manage_persons;
-	Gtk.Box hbox_frame_persons_top;
 	// <---- at glade
 
 	Random rand;
@@ -580,14 +579,26 @@ public partial class ChronoJumpWindow
 	private SplashWindow splashWin;
 	private bool showSendLog;
 
+	/*
+		note sometimes sensor is still capturing and chronojump closes nicely (then chronojump_running is being deleted),
+		so crashedBefore is not useful to identify if forceSensor is still capturing.
+		Better use firstCapture, and do it everytime Chronojump is opened
+		*/
+	private bool crashedBefore; //unused
+	private bool firstCapture;
+	private Blink blinkCapture;
+
 	public ChronoJumpWindow(string progVersion, string progName, string runningFileName, SplashWindow splashWin,
-			bool showSendLog, string sendLogMessage, string topMessage, bool showCameraStop, bool debugModeAtStart)
+			bool showSendLog, string sendLogMessage, bool crashedBefore, string topMessage, bool showCameraStop, bool debugModeAtStart)
 	{
 		this.progVersion = progVersion;
 		this.progName = progName;
 		this.runningFileName = runningFileName;
 		this.splashWin = splashWin;
 		this.showSendLog = showSendLog;
+		this.crashedBefore = crashedBefore;
+
+		firstCapture = true;
 
 		//record GetOsEnum on variables to not call it all the time
 		operatingSystem = UtilAll.GetOSEnum();
@@ -958,6 +969,7 @@ public partial class ChronoJumpWindow
 				check_menu_session.Click(); //have sesion menu opened
 
 		initialize_menu_or_menu_tiny();
+		vbox_persons_bottom.Visible = preferences.personPhoto && ! check_menu_session.Active;
 
 		presentationPrepare ();
 
@@ -1072,10 +1084,7 @@ public partial class ChronoJumpWindow
 				pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "cloud_yellow.png");
 			image_cloud.Pixbuf = pixbuf;
 
-			pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_no_photo.png");
-			if(Config.ColorBackgroundIsDark)
-				pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_no_photo_yellow.png");
-			image_current_person.Pixbuf = pixbuf;
+			personsPhotoShowIfNeeded ();
 		}
 
 		if(! Config.UseSystemColor)
@@ -1127,10 +1136,12 @@ public partial class ChronoJumpWindow
 
 			//persons (main)
 			UtilGtk.WidgetColor (hbox_frame_persons_top, Config.ColorBackgroundShifted);
+			UtilGtk.WidgetColor (vbox_persons, Config.ColorBackgroundShifted);
 			UtilGtk.ContrastLabelsBox (Config.ColorBackgroundShiftedIsDark, hbox_frame_persons_top);
 
 			//session (more)
 			UtilGtk.WidgetColor (box_session_more, Config.ColorBackgroundShifted);
+			UtilGtk.WidgetColor (vbox_frame_session_border, Config.ColorBackgroundShifted);
 			UtilGtk.ContrastLabelsBox (Config.ColorBackgroundShiftedIsDark, box_session_more);
 
 			//session (load_or_import)
@@ -3751,6 +3762,7 @@ public partial class ChronoJumpWindow
 		preferencesWin.FakeButtonConfigurationImported.Clicked += new EventHandler(on_preferences_import_configuration);
 		preferencesWin.FakeButtonConfigurationImported.Clicked += new EventHandler(on_preferences_import_configuration);
 		preferencesWin.FakeButtonDebugModeStart.Clicked += new EventHandler(on_preferences_debug_mode_start);
+		preferencesWin.FakeButtonDeleteDevices.Clicked += new EventHandler(on_preferences_delete_devices);
 		preferencesWin.FakeButtonColorsChanged.Clicked += new EventHandler(on_preferences_colors_changed);
 		preferencesWin.Button_close.Clicked += new EventHandler(on_preferences_closed);
 	}
@@ -3870,6 +3882,8 @@ public partial class ChronoJumpWindow
 		//TODO: only if color changed or personWinHide
 		Config.UseSystemColor = preferences.colorBackgroundOsColor;
 		doLabelsContrast(configChronojump.PersonWinHide);
+		vbox_persons_bottom.Visible = preferences.personPhoto && ! check_menu_session.Active;
+
 		UtilGtk.ApplyCSS ();
 
 
@@ -3887,7 +3901,12 @@ public partial class ChronoJumpWindow
 
 		// update force_capture_drawingarea
 		if (Constants.ModeIsFORCESENSOR (current_mode))// && radiobutton_force_sensor_analyze_manual.Active)
+		{
+			if (Util.FileExists(lastForceSensorFullPath))
+				force_sensor_recalculate ();
+
 			forceSensorPrepareGraphAI ();
+		}
 
 		// <---------- end of force sensor changes --------------
 	}
@@ -4343,20 +4362,18 @@ public partial class ChronoJumpWindow
 				{
 					EncoderConfigurationSQLObject econfSO = SqliteEncoderConfiguration.SelectActive(Constants.EncoderGI.GRAVITATORY);
 					encoderConfigurationCurrent = econfSO.encoderConfiguration;
-					label_encoder_selected.Text = econfSO.name;
-					label_encoder_top_selected.Text = econfSO.name;
+					setEncoderConfigurationLabels (econfSO.name.ToString (), encoderConfigurationCurrent.code);
 					setEncoderTypePixbuf();
 
 					changed = true;
 				}
-				
+
 				currentEncoderGI = Constants.EncoderGI.GRAVITATORY;
 				encoder_change_displaced_weight_and_1RM ();
 				hbox_capture_1RM.Visible = true;
 
 				//notebook_encoder_capture_extra_mass.CurrentPage = 0;
-				//TODO: show also info on the top
-				label_button_encoder_select.Text = Catalog.GetString("Configure gravitatory encoder");
+				label_button_encoder_select.Text = Catalog.GetString("Configure");
 				label_encoder_exercise_mass.Visible = true;
 				hbox_encoder_exercise_mass.Visible = true;
 				label_encoder_exercise_inertia.Visible = false;
@@ -4390,8 +4407,7 @@ public partial class ChronoJumpWindow
 				{
 					EncoderConfigurationSQLObject econfSO = SqliteEncoderConfiguration.SelectActive(Constants.EncoderGI.INERTIAL);
 					encoderConfigurationCurrent = econfSO.encoderConfiguration;
-					label_encoder_selected.Text = econfSO.name;
-					label_encoder_top_selected.Text = econfSO.name;
+					setEncoderConfigurationLabels (econfSO.name.ToString (), encoderConfigurationCurrent.code);
 					setEncoderTypePixbuf();
 
 					changed = true;
@@ -4401,8 +4417,7 @@ public partial class ChronoJumpWindow
 				hbox_capture_1RM.Visible = false;
 
 				//notebook_encoder_capture_extra_mass.CurrentPage = 1;
-				//TODO: show also info on the top
-				label_button_encoder_select.Text = Catalog.GetString("Configure inertial encoder");
+				label_button_encoder_select.Text = Catalog.GetString("Configure");
 				label_encoder_exercise_mass.Visible = false;
 				hbox_encoder_exercise_mass.Visible = false;
 				label_encoder_exercise_inertia.Visible = true;
@@ -4508,6 +4523,8 @@ public partial class ChronoJumpWindow
 				(Convert.ToInt32 (notebook_ai_model_graph_table_triggers_pages.TABLE)).Hide();
 			notebook_ai_model_graph_table_triggers.ShowTabs = false;
 			notebook_ai_model_graph_table_triggers.ShowBorder = false;
+
+			//force_sensor_recalculate ();
 		}
 		else if(m == Constants.Modes.RUNSENCODER)
 		{
@@ -5105,6 +5122,10 @@ public partial class ChronoJumpWindow
 
 		event_execute_ButtonCancel.Clicked -= new EventHandler(on_cancel_clicked);
 
+		showHideCaptureIcon (false);
+		if (blinkCapture != null)
+			blinkCapture.End ();
+
 		if(capturingForce == arduinoCaptureStatus.STARTING || capturingForce == arduinoCaptureStatus.CAPTURING)
 		{
 			LogB.Information("cancel clicked on force");
@@ -5255,6 +5276,11 @@ public partial class ChronoJumpWindow
 			//to have time on Windows to really have sp port closed and be able to read on chronopicRegister and/or discoverWin
 			System.Threading.Thread.Sleep (1000);
 		}
+
+		if (Constants.ModeIsFORCESENSOR (current_mode) && portFSOpened)
+			forceSensorDisconnect ();
+		else if (current_mode == Constants.Modes.RUNSENCODER && portREOpened)
+			runEncoderDisconnect ();
 
 		chronopicRegisterUpdate (false);
 
@@ -5581,6 +5607,32 @@ public partial class ChronoJumpWindow
 	        UtilGtk.DeviceColors(viewport_chronopics, true);
 	}
 
+	private void showHideCaptureIcon (bool show)
+	{
+		//if show, do it only each half of second, so we need a start time or a flashing class for manage this things
+		if (blinkCapture != null && blinkCapture.Status == Blink.StatusEnum.RUNNING &&
+				blinkCapture.IsOn)
+		{
+			if (Constants.ModeIsENCODER (current_mode))
+			{
+				image_capturing_encoder.Visible = true;
+				image_no_capturing_encoder.Visible = false;
+			} else {
+				image_capturing.Visible = true;
+				image_no_capturing.Visible = false;
+			}
+		} else {
+			if (Constants.ModeIsENCODER (current_mode))
+			{
+				image_capturing_encoder.Visible = false;
+				image_no_capturing_encoder.Visible = true;
+			} else {
+				image_capturing.Visible = false;
+				image_no_capturing.Visible = true;
+			}
+		}
+	}
+
 	// camera stuff if needed
 	// true is chronopic
 	// false is arduino like force sensor or run encoder
@@ -5708,6 +5760,15 @@ public partial class ChronoJumpWindow
 		if (o == null) {
 			LogB.Information("o is null");
 			return;
+		}
+
+		if (Constants.ModeIsFORCESENSOR (current_mode) || current_mode == Constants.Modes.RUNSENCODER)
+		{
+			//immediately change the radios
+			if (b == button_signal_analyze_load_ab && ! radio_ai_ab.Active)
+				radio_ai_ab.Click ();
+			if (b == button_signal_analyze_load_cd && ! radio_ai_cd.Active)
+				radio_ai_cd.Click ();
 		}
 
 		if (Constants.ModeIsFORCESENSOR (current_mode))
@@ -8700,6 +8761,12 @@ LogB.Debug("mc finished 5");
 			setApp1Title(currentSession.Name, current_mode);
 	}
 
+	private void on_preferences_delete_devices (object o, EventArgs args)
+	{
+		chronopicRegisterUpdate (false);
+		button_detect_show_hide (true);
+	}
+
 	//use chronojumpConfig
 	private void on_button_gui_tests_clicked (object o, EventArgs args)
 	{
@@ -10155,6 +10222,8 @@ LogB.Debug("mc finished 5");
 		image_line_person_max = (Gtk.Image) builder.GetObject ("image_line_person_max");
 		image_line_person_max_all_sessions = (Gtk.Image) builder.GetObject ("image_line_person_max_all_sessions");
 
+		frame_session = (Gtk.Frame) builder.GetObject ("frame_session");
+		vbox_frame_session_border = (Gtk.Box) builder.GetObject ("vbox_frame_session_border");
 		box_session_more = (Gtk.Box) builder.GetObject ("box_session_more");
 		box_session_load_or_import = (Gtk.Box) builder.GetObject ("box_session_load_or_import");
 		box_session_delete = (Gtk.Box) builder.GetObject ("box_session_delete");
@@ -10181,7 +10250,8 @@ LogB.Debug("mc finished 5");
 		hbox_other_pulses = (Gtk.Box) builder.GetObject ("hbox_other_pulses");
 
 		//menu person
-		//vbox_persons = (Gtk.VBox) builder.GetObject ("vbox_persons");
+		vbox_persons = (Gtk.Box) builder.GetObject ("vbox_persons");
+		hbox_frame_persons_top = (Gtk.Box) builder.GetObject ("hbox_frame_persons_top");
 		//alignment44 = (Gtk.Alignment) builder.GetObject ("alignment44");
 		button_persons_up = (Gtk.Button) builder.GetObject ("button_persons_up");
 		button_persons_down = (Gtk.Button) builder.GetObject ("button_persons_down");
@@ -10344,10 +10414,6 @@ LogB.Debug("mc finished 5");
 		label_selector_menu_2_2_2_title = (Gtk.Label) builder.GetObject ("label_selector_menu_2_2_2_title");
 		label_selector_menu_2_2_2_desc = (Gtk.Label) builder.GetObject ("label_selector_menu_2_2_2_desc");
 		align_label_selector_menu_2_2_2_desc = (Gtk.Alignment) builder.GetObject ("align_label_selector_menu_2_2_2_desc");
-
-		//viewport29 = (Gtk.Viewport) builder.GetObject ("viewport29");
-		//vbox_manage_persons = (Gtk.VBox) builder.GetObject ("vbox_manage_persons");
-		hbox_frame_persons_top = (Gtk.Box) builder.GetObject ("hbox_frame_persons_top");
 	}
 
 }

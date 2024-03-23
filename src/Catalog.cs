@@ -43,7 +43,11 @@ namespace Mono.Unix
     {
         static string CurrentDomain;
 
+#if OSTYPE_LINUX
+        [DllImport("preloadable_libintl.so", CallingConvention = CallingConvention.Cdecl, EntryPoint = "libintl_bindtextdomain")]
+#else
         [DllImport("libintl-8.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "libintl_bindtextdomain")]
+#endif        
         static extern IntPtr bindtextdomain(string domainname, string dirname);
 
         /// <summary>
@@ -51,11 +55,18 @@ namespace Mono.Unix
         /// </summary>
         /// <param name="domainname"></param>
         /// <returns></returns>
+#if OSTYPE_LINUX
+        [DllImport("preloadable_libintl.so", CallingConvention = CallingConvention.Cdecl, EntryPoint = "textdomain")]
+#else
         [DllImport("libintl-8.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "textdomain")]
+#endif  
         static extern IntPtr textdomain(string domainname);
 
-
+#if OSTYPE_LINUX
+        [DllImport("preloadable_libintl.so", CallingConvention = CallingConvention.Cdecl, EntryPoint = "libintl_bind_textdomain_codeset")]
+#else
         [DllImport("libintl-8.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "libintl_bind_textdomain_codeset")]
+#endif  
         static extern IntPtr bind_textdomain_codeset(string domainname,
                                                       string codeset);
 

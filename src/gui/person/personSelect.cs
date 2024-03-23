@@ -362,7 +362,7 @@ public class PersonSelectWindow
 			viewport_person_name.Visible = false;
 		else {
 			viewport_person_name.Visible = true;
-			UtilGtk.ViewportColorActive (viewport_person_name);
+			UtilGtk.ViewportColorYellowLight (viewport_person_name);
 		}
 	}
 
@@ -605,7 +605,7 @@ public class PersonPhotoButton
 		Gtk.Viewport viewport = (Gtk.Viewport) box_elements.GetValue(2); //the name
 
 		if(select)
-			UtilGtk.ViewportColorActive (viewport);
+			UtilGtk.ViewportColorYellowLight (viewport);
 		else
 			UtilGtk.ViewportColorWhite (viewport);
 

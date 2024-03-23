@@ -80,8 +80,10 @@ public partial class ChronoJumpWindow
 
 	private void app1s_initializeGui()
 	{
+		alignment_vbox_session_load_or_import_select.TopPadding = (uint)
+			(frame_session.Allocation.Y - 7); //related to icons on top of load/import session
 		/*
-		 * need these two lines for macOS because there are strange glitches if we do not put them here
+		 * need these two lines for macOS =use there are strange glitches if we do not put them here
 		 * eg. if we start Chronojump and try to import without having done this first:
 		 * app1s_notebook.CurrentPage = app1s_PAGE_SELECT_SESSION;
 		 * then import buttons do not work.
@@ -98,8 +100,9 @@ public partial class ChronoJumpWindow
 			app1s_file_path_import.Visible = false;
 			app1s_notebook_load_button_animation.Visible = true;
 			app1s_hbuttonbox_page2_import.Visible = false;
-			app1s_label_load.Text = "<b>" + Catalog.GetString ("Load session") + "</b>";
-			app1s_label_load.UseMarkup = true;
+			//app1s_label_load.Text = "<b>" + Catalog.GetString ("Load session") + "</b>";
+			//app1s_label_load.UseMarkup = true;
+			app1s_label_load.Text = Catalog.GetString ("Load session");
 			app1s_hbox_frame_load.Visible = true;
 			app1s_hbox_frame_import.Visible = false;
 			app1s_notebook.CurrentPage = app1s_PAGE_SELECT_SESSION;
@@ -110,8 +113,9 @@ public partial class ChronoJumpWindow
 			app1s_file_path_import.Visible = true;
 			app1s_notebook_load_button_animation.Visible = false;
 			app1s_hbuttonbox_page2_import.Visible = true;
-			app1s_label_import.Text = "<b>" + Catalog.GetString ("Import session") + "</b>";
-			app1s_label_import.UseMarkup = true;
+			//app1s_label_import.Text = "<b>" + Catalog.GetString ("Import session") + "</b>";
+			//app1s_label_import.UseMarkup = true;
+			app1s_label_import.Text = Catalog.GetString ("Import session");
 			app1s_hbox_frame_load.Visible = false;
 			app1s_hbox_frame_import.Visible = true;
 			app1s_button_select_file_import_same_database.Visible = false; //is shown when user want to import a second session
@@ -141,12 +145,12 @@ public partial class ChronoJumpWindow
 		app1s_checkbutton_show_data_weights.Active = (current_mode == Constants.Modes.POWERGRAVITATORY);
 		app1s_checkbutton_show_data_inertial.Active = (current_mode == Constants.Modes.POWERINERTIAL);
 
-		UtilGtk.ViewportColor (app1s_viewport_checkbutton_show_data_jumps, UtilGtk.Colors.YELLOW);
-		UtilGtk.ViewportColor (app1s_viewport_checkbutton_show_data_runs, UtilGtk.Colors.YELLOW);
-		UtilGtk.ViewportColor (app1s_viewport_checkbutton_show_data_isometric, UtilGtk.Colors.YELLOW);
-		UtilGtk.ViewportColor (app1s_viewport_checkbutton_show_data_elastic, UtilGtk.Colors.YELLOW);
-		UtilGtk.ViewportColor (app1s_viewport_checkbutton_show_data_weights, UtilGtk.Colors.YELLOW);
-		UtilGtk.ViewportColor (app1s_viewport_checkbutton_show_data_inertial, UtilGtk.Colors.YELLOW);
+		UtilGtk.ViewportColorBg (app1s_viewport_checkbutton_show_data_jumps);
+		UtilGtk.ViewportColorBg (app1s_viewport_checkbutton_show_data_runs);
+		UtilGtk.ViewportColorBg (app1s_viewport_checkbutton_show_data_isometric);
+		UtilGtk.ViewportColorBg (app1s_viewport_checkbutton_show_data_elastic);
+		UtilGtk.ViewportColorBg (app1s_viewport_checkbutton_show_data_weights);
+		UtilGtk.ViewportColorBg (app1s_viewport_checkbutton_show_data_inertial);
 
 		sessionLoadWinSignals = true;
 

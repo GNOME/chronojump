@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2023   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2023-2024   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -225,13 +225,8 @@ public partial class ChronoJumpWindow
 			button_ai_move_cd_pre.Sensitive = false;
 			return;
 		}
-		if (! radio_ai_cd.Active)
-		{
-			button_ai_move_cd_pre.Sensitive = false;
-			return;
-		}
 		if (Constants.ModeIsFORCESENSOR (current_mode))
-			button_ai_move_cd_pre.Sensitive = lastForceSensorFullPath_CD != null && lastForceSensorFullPath_CD != "";
+			button_ai_move_cd_pre.Sensitive = lastForceSensorFullPath_2SetsCD != null && lastForceSensorFullPath_2SetsCD != "";
 		else //if (current_mode == Constants.Modes.RUNSENCODER)
 			button_ai_move_cd_pre.Sensitive = currentRunEncoder_CD != null;
 	}
@@ -429,7 +424,8 @@ public partial class ChronoJumpWindow
 				if (radio_ai_ab.Active)
 				{
 					// 1) ab data is the hscales data
-					spCairoFEZoom = new SignalPointsCairoForceElastic (spCairoFE, AiVars.a_beforeZoom, AiVars.b_beforeZoom, true);
+					spCairoFEZoom = new SignalPointsCairoForceElastic (spCairoFE,
+							true, AiVars.a_beforeZoom, AiVars.b_beforeZoom, true);
 
 					// 2) cd data are samples close in time to ab data
 					// 1st check if it overlaps, if it does not overlap and we include it, it would show a bigger graph with empty data
@@ -441,11 +437,12 @@ public partial class ChronoJumpWindow
 						sampleR = PointF.FindSampleCloseToTime (
 								spCairoFE_CD.Force_l, spCairoFE.Force_l[AiVars.b_beforeZoom].X);
 						spCairoFEZoom_CD = new SignalPointsCairoForceElastic (spCairoFE_CD,
-								sampleL, sampleR, true);
+								true, sampleL, sampleR, true);
 					}
 				} else {
 					// 1) cd data is the hscales data
-					spCairoFEZoom_CD = new SignalPointsCairoForceElastic (spCairoFE_CD, AiVars.c_beforeZoom, AiVars.d_beforeZoom, true);
+					spCairoFEZoom_CD = new SignalPointsCairoForceElastic (spCairoFE_CD,
+							true, AiVars.c_beforeZoom, AiVars.d_beforeZoom, true);
 
 					// 2) ab data are samples close in time to cd data
 					// 1st check if it overlaps, if it does not overlap and we include it, it would show a bigger graph with empty data
@@ -457,7 +454,7 @@ public partial class ChronoJumpWindow
 						sampleR = PointF.FindSampleCloseToTime (
 								spCairoFE.Force_l, spCairoFE_CD.Force_l[AiVars.d_beforeZoom].X);
 						spCairoFEZoom = new SignalPointsCairoForceElastic (spCairoFE,
-								sampleL, sampleR, true);
+								true, sampleL, sampleR, true);
 					}
 				}
 			}
@@ -525,7 +522,7 @@ public partial class ChronoJumpWindow
 			}
 
 			if (Constants.ModeIsFORCESENSOR (current_mode))
-				spCairoFEZoom = new SignalPointsCairoForceElastic (spCairoFE, sampleL, sampleR, true);
+				spCairoFEZoom = new SignalPointsCairoForceElastic (spCairoFE, true, sampleL, sampleR, true);
 			else //if (current_mode == Constants.Modes.RUNSENCODER)
 				cairoGraphRaceAnalyzerPoints_st_Zoom_l = PointF.GetSubList (
 						cairoGraphRaceAnalyzerPoints_st_l, sampleL, sampleR);
@@ -1145,17 +1142,18 @@ public partial class ChronoJumpWindow
 		{
 			notebook_ai_load.Page = 1;
 
-			button_signal_analyze_load_ab.Sensitive = radio_ai_ab.Active;
-			button_signal_analyze_load_cd.Sensitive = radio_ai_cd.Active;
+			button_signal_analyze_load_ab.Sensitive = true;
 			button_ai_move_cd_pre_set_sensitivity ();
 
 			//do not allow to click on cd if two sets (when there is no ab loaded)
-			radio_ai_cd.Sensitive =	(
+			bool cd_sensitive =	(
 					(Constants.ModeIsFORCESENSOR (current_mode) &&
 					 currentForceSensor != null && currentForceSensor.UniqueID >= 0) ||
 					(current_mode == Constants.Modes.RUNSENCODER &&
 					 currentRunEncoder != null && currentRunEncoder.UniqueID >= 0)
 					);
+			radio_ai_cd.Sensitive = cd_sensitive;
+			button_signal_analyze_load_cd.Sensitive = cd_sensitive;
 		}
 		signalPrepareGraphAI ();
 		ai_drawingarea_cairo.QueueDraw(); //will fire ExposeEvent
@@ -1173,7 +1171,7 @@ public partial class ChronoJumpWindow
 			box_force_sensor_ai_c.Visible = false;
 			box_force_sensor_ai_d.Visible = false;
 			label_force_sensor_ai_zoom_abcd.Text = "[A-B]";
-			UtilGtk.ViewportColor (viewport_ai_hscales, UtilGtk.Colors.YELLOW_LIGHT);
+			UtilGtk.ViewportColorYellowLight (viewport_ai_hscales);
 		}
 		else if ((Gtk.RadioButton) o == radio_ai_cd)
 		{
@@ -1182,11 +1180,11 @@ public partial class ChronoJumpWindow
 			box_force_sensor_ai_c.Visible = true;
 			box_force_sensor_ai_d.Visible = true;
 			label_force_sensor_ai_zoom_abcd.Text = "[C-D]";
-			UtilGtk.ViewportColor (viewport_ai_hscales, UtilGtk.Colors.GREEN_LIGHT);
+			UtilGtk.ViewportColorGreenLight (viewport_ai_hscales);
 		}
 
-		button_signal_analyze_load_ab.Sensitive = (radio_ai_2sets.Active && radio_ai_ab.Active);
-		button_signal_analyze_load_cd.Sensitive = (radio_ai_2sets.Active && radio_ai_cd.Active);
+		button_signal_analyze_load_ab.Sensitive = radio_ai_2sets.Active;
+		button_signal_analyze_load_cd.Sensitive = radio_ai_2sets.Active;
 		button_ai_move_cd_pre_set_sensitivity ();
 
 		aiButtonsHscaleZoomSensitiveness();

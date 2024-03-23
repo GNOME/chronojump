@@ -168,7 +168,13 @@ getMeanValue <- function(X, Y, startX, endX, debug = FALSE)
 
 prepareGraph <- function(os, pngFile, width, height)
 {
-        png(pngFile, width=width, height=height)
+	if (os == "Windows")
+	{
+		library ("Cairo")
+		Cairo (pngFile, bg="white", width=width, height=height)
+	} else
+	        png(pngFile, width=width, height=height)
+
         #pdf(file = "/tmp/maxIsomForce.pdf", width=width, height=height)
 }
 

@@ -723,6 +723,7 @@ public class UtilGtk
 	}
 	*/
 
+	//TODO: have all the css names as enums in order to fail in compile if names like darkCss have any typo
 	public static void ApplyCSS ()
 	{
 		CssProvider css = new CssProvider ();
@@ -730,26 +731,26 @@ public class UtilGtk
 		string colBgS = Config.ColorBackground.ToString ();
 		string colShiftedS = Config.ColorBackgroundShifted.ToString ();
 
-		//NOTEBOOK bgCss header
+		//NOTEBOOK bgCss header, and any label with big contrast with bg
 		string colLabelNotebookBgCss = "#ffffff";
 		if (! Config.ColorBackgroundIsDark)
 			colLabelNotebookBgCss = "#000000";
 
-		string colLabelCheckedNotebookBgCss = GetRGBAs (Colors.YELLOW); //also used on hover
+		string colLabelContrastBgCss = GetRGBAs (Colors.YELLOW); //also used on hover
 		if (colorsContrast (GetRGBA (Colors.YELLOW), Config.ColorBackground) <
 				colorsContrast (GetRGBA (Colors.BLUE_CHRONOJUMP), Config.ColorBackground))
-			colLabelCheckedNotebookBgCss = GetRGBAs (Colors.BLUE_CHRONOJUMP);
+			colLabelContrastBgCss = GetRGBAs (Colors.BLUE_CHRONOJUMP);
 
 
-		//NOTEBOOK shiftedCss header
+		//NOTEBOOK shiftedCss header, and any label with big contrast with bg
 		string colLabelNotebookShiftedCss = "#ffffff";
 		if (! Config.ColorBackgroundShiftedIsDark)
 			colLabelNotebookShiftedCss = "#000000";
 
-		string colLabelCheckedNotebookShiftedCss = GetRGBAs (Colors.YELLOW); //also used on hover
+		string colLabelContrastShiftedCss = GetRGBAs (Colors.YELLOW); //also used on hover
 		if (colorsContrast (GetRGBA (Colors.YELLOW), Config.ColorBackgroundShifted) <
 				colorsContrast (GetRGBA (Colors.BLUE_CHRONOJUMP), Config.ColorBackgroundShifted))
-			colLabelCheckedNotebookShiftedCss = GetRGBAs (Colors.BLUE_CHRONOJUMP);
+			colLabelContrastShiftedCss = GetRGBAs (Colors.BLUE_CHRONOJUMP);
 	
 		var data =
 			//LABELS
@@ -771,6 +772,12 @@ public class UtilGtk
 			"label#ChronojumpHideCss {" +
 				"color: " + Config.ColorBackground.ToString () + ";" +
 				"background-color: " + Config.ColorBackground.ToString () + ";" +
+			"}" +
+			"label#ContrastBgCss {" +
+				"color: " + colLabelContrastBgCss + ";" +
+			"}" +
+			"label#ContrastShiftedCss {" +
+				"color: " + colLabelContrastShiftedCss + ";" +
 			"}" +
 			//rest of labels
 			"label {" +
@@ -811,13 +818,36 @@ public class UtilGtk
 			"}" +
 
 			//VIEWPORT
-			"viewport#yellowCss {" +
+			"viewport#yellowLightCss {" +
 				//"background-image: none;" +
-				"background: " + GetRGBAs (Colors.YELLOW_LIGHT) + ";" + //TODO: try a YELLOW_MID
+				"background: " + GetRGBAs (Colors.YELLOW_LIGHT) + ";" +
+			"}" +
+			"viewport#greenLightCss {" +
+				//"background-image: none;" +
+				"background: " + GetRGBAs (Colors.GREEN_LIGHT) + ";" +
 			"}" +
 			"viewport#whiteCss {" +
 				//"background-image: none;" +
 				"background: #ffffff;" +
+			"}" +
+			//using border as app1s_viewport_checkbutton_show_data_jumps ... are very thin
+			"viewport#bgCss {" +
+				//"background-image: none;" +
+				"background: " + Config.ColorBackground.ToString () + ";" +
+				"border: " + Config.ColorBackground.ToString () + ";" +
+			"}" +
+
+			//SEPARATOR
+			"separator#brownCss {" +
+				//"background-image: none;" +
+				"background: #964b00;" +
+				"border-width: 1px;" +
+				"border: #ffffff;" +
+			"}" +
+			"separator#blackCss {" +
+				"background: #000000;" +
+				"border-width: 1px;" +
+				"border: #ffffff;" +
 			"}" +
 
 			//NOTEBOOKS bgCss
@@ -831,7 +861,7 @@ public class UtilGtk
 			"}" +
 			//label of the tab (checked)
 			"notebook#bgCss tab:checked label {" +
-				"color: " + colLabelCheckedNotebookBgCss + ";" + //TODO: try a YELLOW_MID
+				"color: " + colLabelContrastBgCss + ";" + //TODO: try a YELLOW_MID
 			"}" +
 			//bg of the tab (hover)
 			"notebook#bgCss tab:hover {" +
@@ -839,7 +869,7 @@ public class UtilGtk
 			"}" +
 			//color of the label of the tab (hover)
 			"notebook#bgCss tab:hover label {" +
-				"color: " + colLabelCheckedNotebookBgCss + ";" + //TODO: try a YELLOW_MID
+				"color: " + colLabelContrastBgCss + ";" + //TODO: try a YELLOW_MID
 			"}" +
 			//content of the notebook option 1 white
 			/*
@@ -865,7 +895,7 @@ public class UtilGtk
 			"}" +
 			//label of the tab (checked)
 			"notebook#shiftedCss tab:checked label {" +
-				"color: " + colLabelCheckedNotebookShiftedCss + ";" + //TODO: try a YELLOW_MID
+				"color: " + colLabelContrastShiftedCss + ";" + //TODO: try a YELLOW_MID
 			"}" +
 			//bg of the tab (hover)
 			"notebook#shiftedCss tab:hover {" +
@@ -873,7 +903,7 @@ public class UtilGtk
 			"}" +
 			//color of the label of the tab (hover)
 			"notebook#shiftedCss tab:hover label {" +
-				"color: " + colLabelCheckedNotebookShiftedCss + ";" + //TODO: try a YELLOW_MID
+				"color: " + colLabelContrastShiftedCss + ";" + //TODO: try a YELLOW_MID
 			"}" +
 			//content of the notebook option 1 white
 			/*
@@ -945,9 +975,17 @@ public class UtilGtk
 		//v.OverrideBackgroundColor (StateFlags.Normal, color);
 	}
 
-	public static void ViewportColorActive (Gtk.Viewport v)
+	public static void ViewportColorBg (Gtk.Viewport v)
 	{
-		v.Name = "yellowCss";
+		v.Name = "bgCss"; //bg color (has contrast with shifted)
+	}
+	public static void ViewportColorYellowLight (Gtk.Viewport v)
+	{
+		v.Name = "yellowLightCss";
+	}
+	public static void ViewportColorGreenLight (Gtk.Viewport v)
+	{
+		v.Name = "greenLightCss";
 	}
 	public static void ViewportColorWhite (Gtk.Viewport v)
 	{

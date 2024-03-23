@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2022   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2004-2024   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -428,6 +428,55 @@ class SqliteSession : Sqlite
 		return stc_l;
 	}
 
+	//separating selectAllSessionTestsCountDo in parts
+	//for clarity and for being able to be called from another method
+	public static ArrayList SelectAllSessionsTestsForceSensor (Constants.Modes mode, string personStr)
+	{
+		string stiffStr = ".stiffness < 0"; //isometric has stiffness > 0
+		if (mode != Constants.Modes.FORCESENSORISOMETRIC)
+			stiffStr = ".stiffness > 0"; //elastic has stiffness > 0
+
+		ArrayList array = new ArrayList(2);
+
+		dbcmd.CommandText = "SELECT sessionID, count(*) FROM " + Constants.ForceSensorTable +
+			" WHERE " + Constants.ForceSensorTable + stiffStr +
+			personStr +
+			" GROUP BY sessionID ORDER BY sessionID";
+		LogB.SQL(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+
+		SQLiteDataReader reader;
+		reader = dbcmd.ExecuteReader();
+
+		while(reader.Read())
+			array.Add (reader[0].ToString() + ":" + reader[1].ToString() + ":" );
+
+		reader.Close();
+		return array;
+	}
+
+	//separating selectAllSessionTestsCountDo in parts
+	//for clarity and for being able to be called from another method
+	public static ArrayList SelectAllSessionsTestsRunEncoder (string personStr)
+	{
+		ArrayList array = new ArrayList(2);
+
+		dbcmd.CommandText = "SELECT sessionID, count(*) FROM " + Constants.RunEncoderTable +
+			personStr +
+			" GROUP BY sessionID ORDER BY sessionID";
+		LogB.SQL(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+
+		SQLiteDataReader reader;
+		reader = dbcmd.ExecuteReader();
+
+		while(reader.Read())
+			array.Add (reader[0].ToString() + ":" + reader[1].ToString() + ":" );
+
+		reader.Close();
+		return array;
+	}
+
 	private static List<SessionTestsCount> selectAllSessionsTestsCountDo (string filterName, int personID, SQLiteConnection dbcon)
 	{
 		// This method should NOT use Sqlite.open() / Sqlite.close(): it should only use dbcon
@@ -439,7 +488,7 @@ class SqliteSession : Sqlite
 
 		string filterNameString = "";
 		if(filterName != "")
-			filterNameString = " AND LOWER(session.name) LIKE LOWER (\"%" + filterName  + "%\") ";
+			filterNameString = " AND LOWER(session.name) LIKE LOWER ('%" + filterName  + "%') ";
 
 		if (personID < 0)
 			dbcmd.CommandText =
@@ -725,22 +774,9 @@ class SqliteSession : Sqlite
 
 		//if we are importing from a session who was not the forceSensor table (db version < 1.68)
 		if(tableExists(true, Constants.ForceSensorTable))
-		{
-			dbcmd.CommandText = "SELECT sessionID, count(*) FROM " + Constants.ForceSensorTable +
-				" WHERE " + Constants.ForceSensorTable + ".stiffness < 0" + //isometric has stiffness -1.0
-				andPersonStr +
-				" GROUP BY sessionID ORDER BY sessionID";
-			LogB.SQL(dbcmd.CommandText.ToString());
-			dbcmd.ExecuteNonQuery();
+			myArray_fs_isometric = SelectAllSessionsTestsForceSensor (
+					Constants.Modes.FORCESENSORISOMETRIC, andPersonStr);
 
-			SQLiteDataReader reader_fs_isometric;
-			reader_fs_isometric = dbcmd.ExecuteReader();
-
-			while(reader_fs_isometric.Read()) {
-				myArray_fs_isometric.Add (reader_fs_isometric[0].ToString() + ":" + reader_fs_isometric[1].ToString() + ":" );
-			}
-			reader_fs_isometric.Close();
-		}
 		testsProgress = 12;
 
 		//select force sensor elastic of each session
@@ -748,22 +784,9 @@ class SqliteSession : Sqlite
 
 		//if we are importing from a session who was not the forceSensor table (db version < 1.68)
 		if(tableExists(true, Constants.ForceSensorTable))
-		{
-			dbcmd.CommandText = "SELECT sessionID, count(*) FROM " + Constants.ForceSensorTable +
-				" WHERE " + Constants.ForceSensorTable + ".stiffness > 0" + //elastic has stiffness > 0
-				andPersonStr +
-				" GROUP BY sessionID ORDER BY sessionID";
-			LogB.SQL(dbcmd.CommandText.ToString());
-			dbcmd.ExecuteNonQuery();
+			myArray_fs_elastic = SelectAllSessionsTestsForceSensor (
+					Constants.Modes.FORCESENSORELASTIC, andPersonStr);
 
-			SQLiteDataReader reader_fs_elastic;
-			reader_fs_elastic = dbcmd.ExecuteReader();
-
-			while(reader_fs_elastic.Read()) {
-				myArray_fs_elastic.Add (reader_fs_elastic[0].ToString() + ":" + reader_fs_elastic[1].ToString() + ":" );
-			}
-			reader_fs_elastic.Close();
-		}
 		testsProgress = 13;
 
 		//select run encoder of each session
@@ -771,21 +794,8 @@ class SqliteSession : Sqlite
 
 		//if we are importing from a session who was not the forceSensor table (db version < 1.70)
 		if(tableExists(true, Constants.RunEncoderTable))
-		{
-			dbcmd.CommandText = "SELECT sessionID, count(*) FROM " + Constants.RunEncoderTable +
-				wherePersonStr +
-				" GROUP BY sessionID ORDER BY sessionID";
-			LogB.SQL(dbcmd.CommandText.ToString());
-			dbcmd.ExecuteNonQuery();
+			myArray_re = SelectAllSessionsTestsRunEncoder (wherePersonStr);
 
-			SQLiteDataReader reader_re;
-			reader_re = dbcmd.ExecuteReader();
-
-			while(reader_re.Read()) {
-				myArray_re.Add (reader_re[0].ToString() + ":" + reader_re[1].ToString() + ":" );
-			}
-			reader_re.Close();
-		}
 		testsProgress = 14;
 
 		//mix all arrayLists

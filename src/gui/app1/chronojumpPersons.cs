@@ -65,6 +65,14 @@ public partial class ChronoJumpWindow
 		label_top_encoder_person_name.Text = "<b>" + currentPerson.Name + "</b>";
 		label_top_encoder_person_name.UseMarkup = true;
 
+		personsPhotoShowIfNeeded ();
+	}
+
+	private void personsPhotoShowIfNeeded ()
+	{
+		if (currentPerson == null)
+			return;
+
 		string filenameMini = Util.UserPhotoURL(true, currentPerson.UniqueID);
 		if(filenameMini != "" && Util.FileExists(filenameMini))
 		{

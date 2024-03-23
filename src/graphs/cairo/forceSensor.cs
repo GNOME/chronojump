@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Copyright (C) 2023   Xavier de Blas <xaviblas@gmail.com>
+ *  Copyright (C) 2023-2024   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -283,7 +283,9 @@ public abstract class CairoGraphForceSensor : CairoXY
 
 public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 {
-	protected List<PointF> points_l;
+	private List<PointF> raw_l;
+	protected List<PointF> points_l; //if butterworth, this will be it
+
 	protected int startAt;
 	protected int marginAfterInSeconds;
 	protected bool capturing;
@@ -293,10 +295,6 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 	protected int questionnaireMinY;
 	protected int questionnaireMaxY;
 
-	//private List<PointF> butterTrajAutomatic_l;
-	//private double butterTrajAutomaticCutoff;
-	private List<PointF> butterTrajA_l;
-	//private double butterTrajACutoff;
 	private bool showAccuracy;
 	private int accuracySamplesGood;
 	private int accuracySamplesBad;
@@ -326,12 +324,12 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 
 	//separated in two methods to ensure endGraphDisposing on any return of the other method
 	public void DoSendingList (string font,
-			SignalPointsCairoForceElastic spCairoFE,
-			//List<PointF> butterTrajAutomatic_l, double butterTrajAutomaticCutoff,
-			List<PointF> butterTrajA_l, //double butterTrajACutoff,
+			SignalPointsCairoForceElastic spCairoFE_raw,	//raw (only used if butterworth)
+			SignalPointsCairoForceElastic spCairoFE,	//spCairoFE to plot
 			bool showDistance, bool showSpeed, bool showPower,
 			List<PointF> points_l_interpolated_path, int interpolatedMin, int interpolatedMax,
-			bool capturing, double videoPlayTimeInSeconds, bool showAccuracy, int showLastSeconds,
+			bool capturing, bool videoShow, double videoPlayTimeInSeconds,
+			bool showAccuracy, int showLastSeconds,
 			int minDisplayFNegative, int minDisplayFPositive,
 			int rectangleN, int rectangleRange,
 			GetMaxAvgInWindow miw,
@@ -339,11 +337,15 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 			TriggerList triggerList,
 			bool forceRedraw, PlotTypes plotType)
 	{
-		this.points_l = spCairoFE.Force_l;
-		//this.butterTrajAutomatic_l = butterTrajAutomatic_l;
-		//this.butterTrajAutomaticCutoff = butterTrajAutomaticCutoff;
-		this.butterTrajA_l = butterTrajA_l;
-		//this.butterTrajACutoff = butterTrajACutoff;
+		if (spCairoFE_raw != null)
+		{
+			this.points_l = spCairoFE.Force_l;
+			this.raw_l = spCairoFE_raw.Force_l;
+		} else {
+			this.points_l = spCairoFE.Force_l;
+			this.raw_l = new List <PointF> ();
+		}
+
 		this.capturing = capturing;
 		this.showAccuracy = showAccuracy;
 		this.minDisplayFNegative = minDisplayFNegative;
@@ -368,7 +370,7 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 				Util.BoolToInt (showSpeed) * 50 +
 				Util.BoolToInt (showPower) * 50;
 
-		if (doSendingList (font, videoPlayTimeInSeconds, showLastSeconds, triggerList, forceRedraw, plotType))
+		if (doSendingList (font, videoShow, videoPlayTimeInSeconds, showLastSeconds, triggerList, forceRedraw, plotType))
 		{
 			int atX = 0;
 			bool atTop = true;
@@ -399,7 +401,7 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 
 	//similar to encoder method but calling configureTimeWindow and using minDisplayF(Negative/Positive)
 	//return true if graph is inited (to dispose it)
-	private bool doSendingList (string font, double videoPlayTimeInSeconds, int showLastSeconds,
+	private bool doSendingList (string font, bool videoShow, double videoPlayTimeInSeconds, int showLastSeconds,
 			TriggerList triggerList, bool forceRedraw, PlotTypes plotType)
 	{
 		bool maxValuesChanged = false;
@@ -510,12 +512,16 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 		if (points_l != null && points_l.Count > 3 && graphInited && triggerList != null && triggerList.Count() > 0)
 			paintTriggers (points_l, triggerList);
 
-		//videoPlayTimeInSeconds
-		//printText (graphWidth - rightMargin/2, topMargin,
-		//		0, textHeight +4, Util.TrimDecimals (videoPlayTimeInSeconds, 2), g, alignTypes.CENTER);
-		g.MoveTo (calculatePaintX (videoPlayTimeInSeconds * 1000000), topMargin);
-		g.LineTo (calculatePaintX (videoPlayTimeInSeconds * 1000000), graphHeight - bottomMargin);
-		g.Stroke ();
+
+		if (videoShow)
+		{
+			//videoPlayTimeInSeconds
+			//printText (graphWidth - rightMargin/2, topMargin,
+			//		0, textHeight +4, Util.TrimDecimals (videoPlayTimeInSeconds, 2), g, alignTypes.CENTER);
+			g.MoveTo (calculatePaintX (videoPlayTimeInSeconds * 1000000), topMargin);
+			g.LineTo (calculatePaintX (videoPlayTimeInSeconds * 1000000), graphHeight - bottomMargin);
+			g.Stroke ();
+		}
 
 		return true;
 	}
@@ -561,7 +567,9 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 				briwPlot (points_l);
 
 			g.SetSourceColor (brown);
-			plotRealPoints(plotType, points_l, startAt, false); //fast (but the difference is very low)
+
+			if (raw_l.Count > 0)
+				plotRealPoints(plotType, raw_l, startAt, false); //fast (but the difference is very low)
 
 			if(calculatePaintX (xAtMaxY) > leftMargin)
 				drawCircle (calculatePaintX (xAtMaxY), calculatePaintY (yAtMaxY), 8, red, false);
@@ -570,20 +578,7 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 				drawCircle (calculatePaintX (xAtMinY), calculatePaintY (yAtMinY), 8, red, false);
 
 			g.SetSourceColor (black);
-			/*
-			if (butterTrajAutomatic_l != null && butterTrajAutomatic_l.Count > 0)
-			{
-				plotRealPoints(plotType, butterTrajAutomatic_l, startAt, false); //fast (but the difference is very low)
-				printText (graphWidth - rightMargin/2, calculatePaintY (PointF.Last (butterTrajAutomatic_l).Y),
-						0, textHeight +4, Util.TrimDecimals (butterTrajAutomaticCutoff, 2), g, alignTypes.RIGHT);
-			}
-			*/
-			if (butterTrajA_l != null && butterTrajA_l.Count > 0)
-			{
-				plotRealPoints(plotType, butterTrajA_l, startAt, false); //fast (but the difference is very low)
-				//printText (graphWidth - rightMargin/2, calculatePaintY (PointF.Last (butterTrajA_l).Y),
-				//		0, textHeight +4, Util.TrimDecimals (butterTrajACutoff, 2), g, alignTypes.RIGHT);
-			}
+			plotRealPoints(plotType, points_l, startAt, false); //fast (but the difference is very low)
 		}
 
 		points_l_painted = points_l.Count;
@@ -1284,10 +1279,21 @@ public class CairoGraphForceSensorAI : CairoGraphForceSensor
 
 			// paint max, min circles
 			if (points_l.Count > 0 && calculatePaintX (xAtMaxY) > leftMargin)
-				drawCircle (calculatePaintX (xAtMaxY), calculatePaintY (yAtMaxY), 8, red, false);
+				drawCircle (calculatePaintX (xAtMaxY), calculatePaintY (yAtMaxY), 8, yellow, false);
 
 			if (points_l.Count > 0 && calculatePaintX (xAtMinY) > leftMargin)
-				drawCircle (calculatePaintX (xAtMinY), calculatePaintY (yAtMinY), 8, red, false);
+				drawCircle (calculatePaintX (xAtMinY), calculatePaintY (yAtMinY), 8, yellow, false);
+
+			if (twoSets && pointsCD_l.Count > 0)
+			{
+				PointF maxCD = PointF.GetMaxYAndItsX (pointsCD_l);
+				PointF minCD = PointF.GetMinYAndItsX (pointsCD_l);
+
+				if (calculatePaintX (maxCD.X) > leftMargin)
+					drawCircle (calculatePaintX (maxCD.X), calculatePaintY (maxCD.Y), 8, green, false);
+				if (calculatePaintX (minCD.X) > leftMargin)
+					drawCircle (calculatePaintX (minCD.X), calculatePaintY (minCD.Y), 8, green, false);
+			}
 
 			points_l_painted = points_l.Count;
 		}

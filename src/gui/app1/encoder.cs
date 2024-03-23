@@ -487,8 +487,7 @@ public partial class ChronoJumpWindow
 		//read from SQL
 		EncoderConfigurationSQLObject econfSO = SqliteEncoderConfiguration.SelectActive(Constants.EncoderGI.GRAVITATORY);
 		encoderConfigurationCurrent = econfSO.encoderConfiguration;
-		label_encoder_selected.Text = econfSO.name;
-		label_encoder_top_selected.Text = econfSO.name;
+		setEncoderConfigurationLabels (econfSO.name.ToString (), encoderConfigurationCurrent.code);
 		setEncoderTypePixbuf();
 		
 		encoderCaptureListStore = new Gtk.ListStore (typeof (EncoderCurve));
@@ -572,8 +571,6 @@ public partial class ChronoJumpWindow
 		encoder_configuration_win.Button_close.Clicked -= new EventHandler(on_encoder_configuration_win_closed);
 		
 		EncoderConfiguration eConfNew = encoder_configuration_win.GetAcceptedValues();
-		label_encoder_selected.Text = encoder_configuration_win.Entry_save_name;
-		label_encoder_top_selected.Text = encoder_configuration_win.Entry_save_name;
 
 		if(encoderConfigurationCurrent == eConfNew)
 			return;
@@ -581,6 +578,15 @@ public partial class ChronoJumpWindow
 		bool combo_encoder_anchorage_should_update = (encoderConfigurationCurrent.list_d != eConfNew.list_d);
 		
 		encoderConfigurationCurrent = eConfNew;
+
+		EncoderConfigurationSQLObject econfSO;
+		if (current_mode == Constants.Modes.POWERGRAVITATORY)
+			econfSO = SqliteEncoderConfiguration.SelectActive (Constants.EncoderGI.GRAVITATORY);
+		else
+			econfSO = SqliteEncoderConfiguration.SelectActive (Constants.EncoderGI.INERTIAL);
+
+		setEncoderConfigurationLabels (econfSO.name.ToString (), encoderConfigurationCurrent.code);
+
 		LogB.Information("EncoderConfigurationCurrent = " + encoderConfigurationCurrent.ToStringOutput(EncoderConfiguration.Outputs.SQL));
 		setEncoderTypePixbuf();
 	
@@ -1346,6 +1352,10 @@ public partial class ChronoJumpWindow
 
 		fullscreenLastCapture = (buttonClicked == fullscreen_capture_button_cancel);
 
+		if (blinkCapture != null)
+			blinkCapture.End ();
+		showHideCaptureIcon (false);
+
 		eCapture.Cancel();
 	}
 
@@ -1994,8 +2004,7 @@ public partial class ChronoJumpWindow
 				}
 
 				encoderConfigurationGUIUpdate();
-				label_encoder_selected.Text = econfSO.name;
-				label_encoder_top_selected.Text = econfSO.name;
+				setEncoderConfigurationLabels (econfSO.name.ToString (), encoderConfigurationCurrent.code);
 
 				//triggers
 				triggerListEncoder = new TriggerList(
@@ -2137,7 +2146,6 @@ public partial class ChronoJumpWindow
 		if(current_mode == Constants.Modes.POWERINERTIAL)
 		{
 			notebook_encoder_top.Page = 1;
-			//label_button_encoder_select.Text = Catalog.GetString("Configure inertial encoder");
 			label_encoder_exercise_mass.Visible = false;
 			hbox_encoder_exercise_mass.Visible = false;
 			label_encoder_exercise_inertia.Visible = true;
@@ -2166,7 +2174,6 @@ public partial class ChronoJumpWindow
 		}
 		else { //(current_mode == Constants.Modes.POWERGRAVITATORY)
 			notebook_encoder_top.Page = 0;
-			//label_button_encoder_select.Text = Catalog.GetString("Configure gravitatory encoder");
 			label_encoder_exercise_mass.Visible = true;
 			hbox_encoder_exercise_mass.Visible = true;
 			label_encoder_exercise_inertia.Visible = false;
@@ -2175,6 +2182,12 @@ public partial class ChronoJumpWindow
 			hbox_encoder_exercise_inertial_min_mov.Visible = false;
 			spin_encoder_capture_min_height_gravitatory.Value = preferences.EncoderCaptureMinHeight(false);
 		}
+	}
+
+	private void setEncoderConfigurationLabels (string savedName, string code)
+	{
+		label_encoder_selected.Text = string.Format ("{0} ({1})", savedName, code);
+		label_encoder_top_selected.Text = savedName;
 	}
 
 	void encoderSignalDelete (string signalURL, int signalID) 
@@ -2807,9 +2820,9 @@ public partial class ChronoJumpWindow
 				checkFileOp == Constants.CheckFileOp.FORCESENSOR_EXPORT_GROUPAL_CURRENT_SESSION_YES_IMAGES)
 		{
 			if (current_mode == Constants.Modes.FORCESENSORISOMETRIC)
-				nameString += "_isometric_export.csv";
+				nameString += "_isometric_export";
 			else if (current_mode == Constants.Modes.FORCESENSORELASTIC)
-				nameString += "_elastic_export.csv";
+				nameString += "_elastic_export";
 		}
 		else if(
 				checkFileOp == Constants.CheckFileOp.RUNENCODER_EXPORT_INDIVIDUAL_CURRENT_SESSION_YES_IMAGES ||
@@ -6598,6 +6611,7 @@ public partial class ChronoJumpWindow
 					fullscreen_button_fullscreen_encoder.Click ();
 
 				button_video_play_this_test_encoder.Sensitive = false;
+				blinkCapture = new Blink ();
 
 				encoderThread = new Thread(new ThreadStart(encoderDoCaptureCsharp));
 				GLib.Idle.Add (new GLib.IdleHandler (pulseGTKEncoderCaptureAndCurves));
@@ -7026,6 +7040,11 @@ public partial class ChronoJumpWindow
 		if(! encoderThread.IsAlive || encoderProcessCancel)
 		{
 			LogB.Information("End from capture"); 
+
+			if (blinkCapture != null)
+				blinkCapture.End ();
+			showHideCaptureIcon (false);
+
 			LogB.ThreadEnding();
 
 			if(eCaptureInertialBG != null)
@@ -7047,6 +7066,7 @@ public partial class ChronoJumpWindow
 			LogB.ThreadEnded(); 
 			return false;
 		}
+
 		if(capturingCsharp == encoderCaptureProcess.CAPTURING) 
 		{
 			updatePulsebar(encoderActions.CAPTURE); //activity on pulsebar
@@ -7062,6 +7082,10 @@ public partial class ChronoJumpWindow
 				//updateEncoderCaptureSignalCairo (false, false);
 			}
 			encoder_capture_signal_drawingarea_cairo.QueueDraw ();
+
+			if (blinkCapture.Status == Blink.StatusEnum.NOTSTARTED)
+				blinkCapture.Start ();
+			showHideCaptureIcon (true);
 
 			if(needToRefreshTreeviewCapture) 
 			{
@@ -7086,7 +7110,7 @@ public partial class ChronoJumpWindow
 				treeviewEncoderCaptureRemoveColumns();
 				eCapture.Ecca.curvesAccepted = createTreeViewEncoderCapture(encoderCaptureStringR);
 
-				//if(plotCurvesBars) {
+				//if(plotCurvesBars) {}
 				string mainVariable = Constants.GetEncoderVariablesCapture(preferences.encoderCaptureMainVariable);
 				double mainVariableHigher = feedbackWin.GetMainVariableHigher(mainVariable);
 				double mainVariableLower = feedbackWin.GetMainVariableLower(mainVariable);
@@ -7138,7 +7162,13 @@ public partial class ChronoJumpWindow
 			//changed trying to fix crash of nuell 27/may/2016
 			//LogB.Debug(" Cap:", encoderThread.ThreadState.ToString());
 			//LogB.Information(" Cap:" + encoderThread.ThreadState.ToString());
-		} else if(capturingCsharp == encoderCaptureProcess.STOPPING) {
+		}
+		else if(capturingCsharp == encoderCaptureProcess.STOPPING)
+		{
+			if (blinkCapture != null)
+				blinkCapture.End ();
+			showHideCaptureIcon (false);
+
 			//stop video		
 			webcamEncoderEnd (); //this will end but file will be copied later (when we have encoderSignalUniqueID)
 

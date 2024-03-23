@@ -22,7 +22,7 @@ mkdir -p ${MAC_APP_BIN_DIR} ${MAC_APP_RESOURCE_DIR} ${MAC_APP_FRAMEWORK_DIR}
 rm -rf ${MAC_APP_BIN_DIR}
 dotnet publish ../../src/Chronojump-mac.sln -p:BuildTranslations=true --configuration Release -r osx-x64 --self-contained true -o ${MAC_APP_BIN_DIR}
 cd ../../src/
-sh post-build-mac.sh ../package/macos/app/Chronojump.app/Contents/Home/bin/
+sh post-build-mac.sh ../package/macos/app/Chronojump.app/Contents/Home/bin
 cd ../package/macos
 mv ${MAC_APP_BIN_DIR}Chronojump-mac ${MAC_APP_BIN_DIR}Chronojump
 

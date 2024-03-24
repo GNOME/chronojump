@@ -81,7 +81,8 @@ public class ChronoJump
 #if DEBUG
             NativeLibraryResolver.Init("/usr/lib/x86_64-linux-gnu");
 #else
-            NativeLibraryResolver.Init(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "x86_64-linux-gnu"));
+            NativeLibraryResolver.Init("/usr/lib/x86_64-linux-gnu");
+            //NativeLibraryResolver.Init(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "x86_64-linux-gnu"));
 #endif
         }
         else

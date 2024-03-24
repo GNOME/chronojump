@@ -1,8 +1,10 @@
 Please download and install Python and R from their official website in order to copy them from local drive while making packages. As a result, we don't need to put them in Git.
 
-Python: https://www.python.org/downloads/macos/
+Python: https://www.python.org/ftp/python/3.12.2/python-3.12.2-macos11.pkg
 
-R: https://cran.r-project.org
+R: 
+https://cran.r-project.org/bin/macosx/big-sur-x86_64/base/R-4.3.3-x86_64.pkg
+https://cran.r-project.org/bin/macosx/big-sur-arm64/base/R-4.3.3-arm64.pkg
 
 1. Install Homebrew (Only when the first time.)
 
@@ -72,6 +74,8 @@ chmod +x post-build-mac.sh
 
 cd "~/Desktop/chronojump/package/macos"
 make
+
+#if it prompts that "librsvg" doesn't exist, please execute "brew install librsvg".
 
 7. Software can be run without creating package with
 

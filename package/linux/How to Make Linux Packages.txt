@@ -16,6 +16,7 @@ sudo apt -y install build-essential
 sudo apt-get -y install python3
 sudo apt -y install libglib2.0-dev
 sudo apt -y install gtk-sharp3
+sudo apt -y install checkinstall
 
 #To check how to install .NET 7 on Linux: https://learn.microsoft.com/en-us/dotnet/core/install/linux?WT.mc_id=dotnet-35129-website
 sudo apt-get install -y dotnet-sdk-7.0

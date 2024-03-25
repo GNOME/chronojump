@@ -28,6 +28,14 @@
 	</PropertyGroup>
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
 	  <DefineConstants>$(DefineConstants);OSTYPE_LINUX</DefineConstants>
+	  <CustomCommands>
+	    <CustomCommands>
+	      <Command>
+	        <type>AfterBuild</type>
+	        <command>post-build-linux.sh ${TargetDir}</command>
+	      </Command>
+	    </CustomCommands>
+	  </CustomCommands>
 	</PropertyGroup>
 	<ItemGroup>
 		<PackageReference Include="GtkSharp" Version="3.24.24.95" />
@@ -311,7 +319,4 @@
 	  </Content>
 	  <Content Include="chronojump_icon.ico" />
 	</ItemGroup>
-	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
-	  <Exec Command="sh post-build-linux.sh &quot;${TargetDir}&quot;" />
-	</Target>
 </Project>

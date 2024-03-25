@@ -12,4 +12,4 @@ xcopy /s /e /y /d "..\win32\xbuild_files\" "%1xbuild_files\"
 xcopy /s /e /y /d "..\manual\" "%1share\doc\chronojump\" /exclude:post-build-exclude.txt
 echo F | xcopy /s /e /y /d "..\win32\gtk3-x64\libglib-2.0-0.dll" "%1libglib-2.0-0.dll" 
 echo F | xcopy /s /e /y /d "..\win32\gtk3-x64\libintl-8.dll" "%1libintl-8.dll"
-xcopy /s /e /y /d "..\win32\gtk3-x64\icons\ "%1icons\"
+xcopy /s /e /y /d "..\win32\gtk3-x64\icons\" "%1icons\"

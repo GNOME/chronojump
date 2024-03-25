@@ -2663,7 +2663,7 @@ public class CairoPaintBarplotPreEncoder : CairoPaintBarsPre
 
 	private bool noMassAndNeededCheck ()
 	{
-		if (pegbe.massDisplaced < 0.00001 &&
+		if (! pegbe.hasInertia && pegbe.massDisplaced < 0.00001 &&
 				(pegbe.mainVariable != Constants.Range && pegbe.mainVariable != Constants.RangeAbsolute &&
 				 pegbe.mainVariable != Constants.MeanSpeed && pegbe.mainVariable != Constants.MaxSpeed) )
 				 return true;

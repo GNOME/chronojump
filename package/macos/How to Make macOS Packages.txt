@@ -73,9 +73,12 @@ chmod +x post-build-mac.sh
 6. Make a package (Only when a package required)
 
 cd "~/Desktop/chronojump/package/macos"
-make
 
-#if it prompts that "librsvg" doesn't exist, please execute "brew install librsvg".
+make x64 #Execute this command on x64
+make arm64 #Execute this command on arm64
+
+#Python bundle executable: bin/x64/Python/Versions/Current/bin/python3
+#R bundle executable: R/Resources/R R/Resources/Rscript
 
 7. Software can be run without creating package with
 

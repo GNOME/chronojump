@@ -109,13 +109,13 @@ public class ChronoJump
 #if DEBUG
             NativeLibraryResolver.Init("/opt/homebrew/lib");
 #else
-			NativeLibraryResolver.Init(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "../lib"));
+			NativeLibraryResolver.Init(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "../../Frameworks/gtk/lib"));
 #endif
         }
 
-		//show version on console and exit before the starting logs
-		//note version, version2 args are available since: 2.2.0-112-ga4eaadcbc
-		if(args.Length > 0 && args[0] != "simulatedCapture" && args[0] != "printAll" && args[0] != "debug")
+        //show version on console and exit before the starting logs
+        //note version, version2 args are available since: 2.2.0-112-ga4eaadcbc
+        if (args.Length > 0 && args[0] != "simulatedCapture" && args[0] != "printAll" && args[0] != "debug")
 		{
 			string helpMessage = "Execute 'chronojump' or 'chronojump option'" +
 				"\nOptions:" +

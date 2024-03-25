@@ -178,6 +178,7 @@ public class Preferences
 	public double runsIFeedbackSpeedLower; 		//implemented
 
 	//forceSensor
+	public double forceSensorButterworth; //-1 means do not use
 	public int forceSensorCaptureWidthSeconds;
 	public bool forceSensorCaptureScroll;
 	public double forceSensorElasticEccMinDispl;

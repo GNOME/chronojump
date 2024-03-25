@@ -144,7 +144,7 @@ class Sqlite
 	/*
 	 * Important, change this if there's any update to database
 	 */
-	static string lastChronojumpDatabaseVersion = "2.46";
+	static string lastChronojumpDatabaseVersion = "2.48";
 
 	public Sqlite()
 	{
@@ -3356,6 +3356,20 @@ class Sqlite
 
 				currentVersion = updateVersion("2.46");
 			}
+			if(currentVersion == "2.46")
+			{
+				LogB.SQL("Added RFDs 5-10");
+				SqliteForceSensorRFD.UpdateTo2_47 ();
+				currentVersion = updateVersion("2.47");
+			}				
+			if(currentVersion == "2.47")
+			{
+				LogB.SQL("Inserted into preferences forceSensorButterworth");
+				SqlitePreferences.Insert (SqlitePreferences.ForceSensorButterworth, "15");
+				currentVersion = updateVersion("2.48");
+			}
+
+			
 
 			/*
 			if(currentVersion == "1.79")

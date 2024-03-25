@@ -2,12 +2,13 @@
 set -e
 
 MAC_APP_ROOT_DIR=app
-MAC_APP_DIR=app/Chronojump.app
+MAC_APP_DIR="${MAC_APP_ROOT_DIR}/Chronojump.app"
 MAC_APP_BIN_DIR="${MAC_APP_DIR}/Contents/Home/bin/"
 MAC_APP_RESOURCE_DIR="${MAC_APP_DIR}/Contents/Resources/"
 MAC_APP_FRAMEWORK_DIR="${MAC_APP_DIR}/Contents/Frameworks/"
 #MAC_APP_SHARE_DIR="${MAC_APP_RESOURCE_DIR}/share/"
 MAC_DMG_FILE_NAME="$1.dmg"
+ARCH="$2"
 
 run_codesign()
 {
@@ -23,6 +24,7 @@ rm -rf ${MAC_APP_BIN_DIR}
 dotnet publish ../../src/Chronojump-mac.sln -p:BuildTranslations=true --configuration Release -r osx-x64 --self-contained true -o ${MAC_APP_BIN_DIR}
 cd ../../src/
 sh post-build-mac.sh ../package/macos/app/Chronojump.app/Contents/Home/bin
+cp ../package/macos/app/Chronojump.app/Contents/Home/bin/runtimes/osx-${ARCH}/native/SQLite.Interop.dll ../package/macos/app/Chronojump.app/Contents/Home/bin/SQLite.Interop.dll
 cd ../package/macos
 mv ${MAC_APP_BIN_DIR}Chronojump-mac ${MAC_APP_BIN_DIR}Chronojump
 

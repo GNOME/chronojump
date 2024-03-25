@@ -4,7 +4,8 @@ BASE_DIR = "$(CUR_DIR)/../../"
 SOURCES_DIR = "$(CUR_DIR)/../../src"
 #TOOLS_DIR = "$(CUR_DIR)/../../tools"
 PACKAGE_DIR = "$(CUR_DIR)/../../package/macos"
-APP_DIR = "$(PACKAGE_DIR)/app/Chronojump.app/Contents/"
+APP_DIR = "$(PACKAGE_DIR)/app/Chronojump.app/Contents"
+APP_BIN_DIR = "$(APP_DIR)Home/bin/"
 RESOURCES_DIR = "$(PACKAGE_DIR)/resources"
 #SIGNING = "$(PACKAGE_DIR)/../signing"
 USER = $(shell whoami)
@@ -16,8 +17,9 @@ PACKAGE_NAME = "chronojump-$(PACKAGE_VERSION)"
 #MONO_VERSION = 6.10.0
 #PATH := $(PATH):/opt/homebrew/Cellar/gettext/0.20.1/bin
 
-all: bundle package
-
+#all: bundle package
+x64: bundle package-x64
+arm64: bundle package-arm64
 
 configure:
 	cd $(BASE_DIR) && PKG_CONFIG_PATH=/Library/Frameworks/Mono.framework/Versions/Current/lib/pkgconfig sh autogen.sh --prefix=$(APP_DIR)/Home/
@@ -73,3 +75,9 @@ bundle:
 package:	
 	sh ./build_installer.sh $(PACKAGE_NAME)
 	#hdiutil create -volname Chronojump -srcfolder app -ov -format UDZO $(PACKAGE_NAME).dmg
+
+package-x64:	
+	sh ./build_installer.sh $(PACKAGE_NAME) x64
+
+package-arm64:	
+	sh ./build_installer.sh $(PACKAGE_NAME) arm64

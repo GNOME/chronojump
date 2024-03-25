@@ -11,9 +11,9 @@ APP_DIR = "$(PACKAGE_DIR)/$(PACKAGE_NAME)"
 all: package
 
 install:
-	#dotnet publish ../../src/Chronojump-linux.sln -p:BuildTranslations=true --configuration Release -r linux-x64 --self-contained true -o $(APP_DIR)
-	#mv $(APP_DIR)/Chronojump-linux $(APP_DIR)/Chronojump
-	sh ../../src/post-build-mac.sh $(APP_DIR)
+	dotnet publish ../../src/Chronojump-linux.sln -p:BuildTranslations=true --configuration Release -r linux-x64 --self-contained true -o $(APP_DIR)
+	mv $(APP_DIR)/Chronojump-linux $(APP_DIR)/Chronojump
+	sh ../../src/post-build-linux.sh $(APP_DIR)
 
 package:
 	rm -rf deps/

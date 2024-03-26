@@ -1,7 +1,7 @@
 cd %~dp0
 %~d0
-xcopy /s /e /y /d "..\butterworth\Data\" "%1butterworth\Data\"          
-xcopy /s /e /y /d "..\butterworth\Sample\bin\%2\" "%1butterworth\"
+REM xcopy /s /e /y /d "..\butterworth\Data\" "%1butterworth\Data\"          
+REM xcopy /s /e /y /d "..\butterworth\Sample\bin\%2\" "%1butterworth\"
 xcopy /s /e /y /d ".\angle\" "%1bin\angle\"   
 xcopy /s /e /y /d ".\chronojump-importer\" "%1bin\chronojump-importer\"    
 xcopy /s /e /y /d "..\encoder\" "%1share\chronojump\encoder\"    

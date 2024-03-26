@@ -875,6 +875,7 @@
                                         <property name="visible">True</property>
                                         <property name="can-focus">True</property>
                                         <property name="invisible-char">●</property>
+                                        <property name="width-chars">8</property>
                                         <property name="primary-icon-activatable">False</property>
                                         <property name="secondary-icon-activatable">False</property>
                                         <property name="adjustment">adjustment1</property>
@@ -937,6 +938,7 @@
                                         <property name="visible">True</property>
                                         <property name="can-focus">True</property>
                                         <property name="invisible-char">●</property>
+                                        <property name="width-chars">8</property>
                                         <property name="primary-icon-activatable">False</property>
                                         <property name="secondary-icon-activatable">False</property>
                                         <property name="adjustment">adjustment2</property>
@@ -1079,6 +1081,7 @@
                                       <object class="GtkSpinButton" id="spinbutton_tf_tc_greater">
                                         <property name="can-focus">True</property>
                                         <property name="invisible-char">●</property>
+                                        <property name="width-chars">8</property>
                                         <property name="primary-icon-activatable">False</property>
                                         <property name="secondary-icon-activatable">False</property>
                                         <property name="adjustment">adjustment3</property>
@@ -1180,6 +1183,7 @@
                                       <object class="GtkSpinButton" id="spinbutton_height_greater">
                                         <property name="can-focus">True</property>
                                         <property name="invisible-char">●</property>
+                                        <property name="width-chars">8</property>
                                         <property name="primary-icon-activatable">False</property>
                                         <property name="secondary-icon-activatable">False</property>
                                         <property name="adjustment">adjustment4</property>
@@ -1373,6 +1377,7 @@
                                         <property name="visible">True</property>
                                         <property name="can-focus">True</property>
                                         <property name="invisible-char">●</property>
+                                        <property name="width-chars">8</property>
                                         <property name="primary-icon-activatable">False</property>
                                         <property name="secondary-icon-activatable">False</property>
                                         <property name="adjustment">adjustment5</property>
@@ -1435,6 +1440,7 @@
                                         <property name="visible">True</property>
                                         <property name="can-focus">True</property>
                                         <property name="invisible-char">●</property>
+                                        <property name="width-chars">8</property>
                                         <property name="primary-icon-activatable">False</property>
                                         <property name="secondary-icon-activatable">False</property>
                                         <property name="adjustment">adjustment6</property>
@@ -1576,6 +1582,7 @@
                                       <object class="GtkSpinButton" id="spinbutton_tf_tc_lower">
                                         <property name="can-focus">True</property>
                                         <property name="invisible-char">●</property>
+                                        <property name="width-chars">8</property>
                                         <property name="primary-icon-activatable">False</property>
                                         <property name="secondary-icon-activatable">False</property>
                                         <property name="adjustment">adjustment7</property>
@@ -1677,6 +1684,7 @@
                                       <object class="GtkSpinButton" id="spinbutton_height_lower">
                                         <property name="can-focus">True</property>
                                         <property name="invisible-char">●</property>
+                                        <property name="width-chars">8</property>
                                         <property name="primary-icon-activatable">False</property>
                                         <property name="secondary-icon-activatable">False</property>
                                         <property name="adjustment">adjustment8</property>
@@ -1812,6 +1820,7 @@
                                         <property name="visible">True</property>
                                         <property name="can-focus">True</property>
                                         <property name="invisible-char">●</property>
+                                        <property name="width-chars">8</property>
                                         <property name="text" translatable="yes">11,0</property>
                                         <property name="primary-icon-activatable">False</property>
                                         <property name="secondary-icon-activatable">False</property>
@@ -1948,6 +1957,7 @@
                                         <property name="visible">True</property>
                                         <property name="can-focus">True</property>
                                         <property name="invisible-char">●</property>
+                                        <property name="width-chars">8</property>
                                         <property name="text" translatable="yes">39,0</property>
                                         <property name="primary-icon-activatable">False</property>
                                         <property name="secondary-icon-activatable">False</property>
@@ -2073,6 +2083,7 @@
                                         <property name="visible">True</property>
                                         <property name="can-focus">True</property>
                                         <property name="invisible-char">●</property>
+                                        <property name="width-chars">8</property>
                                         <property name="primary-icon-activatable">False</property>
                                         <property name="secondary-icon-activatable">False</property>
                                         <property name="adjustment">adjustment9</property>
@@ -2207,6 +2218,7 @@
                                         <property name="visible">True</property>
                                         <property name="can-focus">True</property>
                                         <property name="invisible-char">●</property>
+                                        <property name="width-chars">8</property>
                                         <property name="primary-icon-activatable">False</property>
                                         <property name="secondary-icon-activatable">False</property>
                                         <property name="adjustment">adjustment10</property>
@@ -4837,7 +4849,7 @@
                                                 <property name="visible">True</property>
                                                 <property name="can-focus">True</property>
                                                 <property name="invisible-char">●</property>
-                                                <property name="width-chars">6</property>
+                                                <property name="width-chars">7</property>
                                                 <property name="primary-icon-activatable">False</property>
                                                 <property name="secondary-icon-activatable">False</property>
                                                 <property name="adjustment">adjustment27</property>
@@ -4857,7 +4869,7 @@
                                                 <property name="visible">True</property>
                                                 <property name="can-focus">True</property>
                                                 <property name="invisible-char">●</property>
-                                                <property name="width-chars">6</property>
+                                                <property name="width-chars">7</property>
                                                 <property name="primary-icon-activatable">False</property>
                                                 <property name="secondary-icon-activatable">False</property>
                                                 <property name="adjustment">adjustment28</property>
@@ -4969,7 +4981,7 @@
                                                     <property name="visible">True</property>
                                                     <property name="can-focus">True</property>
                                                     <property name="invisible-char">●</property>
-                                                    <property name="width-chars">6</property>
+                                                    <property name="width-chars">7</property>
                                                     <property name="primary-icon-activatable">False</property>
                                                     <property name="secondary-icon-activatable">False</property>
                                                     <property name="adjustment">adjustment29</property>
@@ -5089,7 +5101,7 @@
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="invisible-char">●</property>
-                                                            <property name="width-chars">6</property>
+                                                            <property name="width-chars">7</property>
                                                             <property name="primary-icon-activatable">False</property>
                                                             <property name="secondary-icon-activatable">False</property>
                                                             <property name="adjustment">adjustment30</property>
@@ -5221,7 +5233,7 @@
                                                 <property name="visible">True</property>
                                                 <property name="can-focus">True</property>
                                                 <property name="invisible-char">•</property>
-                                                <property name="width-chars">2</property>
+                                                <property name="width-chars">5</property>
                                                 <property name="progress-pulse-step">1</property>
                                                 <property name="primary-icon-activatable">False</property>
                                                 <property name="secondary-icon-activatable">False</property>
@@ -5264,6 +5276,7 @@
                                                 <property name="visible">True</property>
                                                 <property name="can-focus">True</property>
                                                 <property name="invisible-char">•</property>
+                                                <property name="width-chars">7</property>
                                                 <property name="primary-icon-activatable">False</property>
                                                 <property name="secondary-icon-activatable">False</property>
                                                 <property name="adjustment">adjustment32</property>

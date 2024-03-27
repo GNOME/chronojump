@@ -558,7 +558,7 @@ public partial class ChronoJumpWindow
 
 	ChronopicRegister chronopicRegister;
 	Chronopic2016 cp2016;
-	private PhotocellWirelessCapture photocellWirelessCapture;
+	private WichroCapture wichroCapture;
 	private Threshold threshold;
 
 	RestTime restTime;
@@ -3263,8 +3263,8 @@ public partial class ChronoJumpWindow
 		}
 		if(portFSOpened)
 			portFS.Close();
-		if(photocellWirelessCapture != null && photocellWirelessCapture.PortOpened)
-			photocellWirelessCapture.Disconnect();
+		if(wichroCapture != null && wichroCapture.PortOpened)
+			wichroCapture.Disconnect();
 
 		//cancel runEncoder capture process
 		if(capturingRunEncoder == arduinoCaptureStatus.STARTING || capturingRunEncoder == arduinoCaptureStatus.CAPTURING)
@@ -4064,8 +4064,8 @@ public partial class ChronoJumpWindow
 		if(portREOpened)
 			runEncoderDisconnect();
 
-		if(photocellWirelessCapture != null && photocellWirelessCapture.PortOpened)
-			photocellWirelessCapture.Disconnect();
+		if(wichroCapture != null && wichroCapture.PortOpened)
+			wichroCapture.Disconnect();
 
 		//run simple will be the only one with its drawing are
 		button_inspect_last_test_run_simple.Visible = false;
@@ -6518,13 +6518,13 @@ public partial class ChronoJumpWindow
 		event_execute_ButtonFinish.Clicked += new EventHandler(on_finish_clicked);
 
 
-		if(photocellWirelessCapture == null)
-			photocellWirelessCapture = new PhotocellWirelessCapture(wirelessPort);
+		if(wichroCapture == null)
+			wichroCapture = new WichroCapture(wirelessPort);
 
 		currentEventExecute = new RunExecute(
 				currentPerson.UniqueID, currentSession.UniqueID, 
 				currentRunType.Name, myDistance, 
-				cp2016.CP, photocellWirelessCapture, wirelessPort, wirelessBauds,
+				cp2016.CP, wichroCapture, wirelessPort, wirelessBauds,
 				preferences.digitsNumber, preferences.metersSecondsPreferred,
 				preferences.volumeOn, preferences.gstreamer,
 				progressbarLimit, egd,
@@ -6685,13 +6685,13 @@ public partial class ChronoJumpWindow
 		event_execute_ButtonCancel.Clicked += new EventHandler(on_cancel_clicked);
 		event_execute_ButtonFinish.Clicked += new EventHandler(on_finish_clicked);
 
-		if(photocellWirelessCapture == null)
-			photocellWirelessCapture = new PhotocellWirelessCapture(wirelessPort);
+		if(wichroCapture == null)
+			wichroCapture = new WichroCapture(wirelessPort);
 
 		currentEventExecute = new RunIntervalExecute(
 				currentPerson.UniqueID, currentSession.UniqueID, currentRunIntervalType.Name, 
 				distanceInterval, progressbarLimit, currentRunIntervalType.TracksLimited, 
-				cp2016.CP, photocellWirelessCapture, wirelessPort, wirelessBauds,
+				cp2016.CP, wichroCapture, wirelessPort, wirelessBauds,
 				preferences.digitsNumber, preferences.metersSecondsPreferred,
 				preferences.volumeOn, preferences.gstreamer,
 				feedbackRunsI,
@@ -7232,8 +7232,8 @@ public partial class ChronoJumpWindow
 		*/
 
 		// 2) close ports. Close Arduino capture before calling to device
-		if(photocellWirelessCapture != null && photocellWirelessCapture.PortOpened)
-			photocellWirelessCapture.Disconnect();
+		if(wichroCapture != null && wichroCapture.PortOpened)
+			wichroCapture.Disconnect();
 
 		// 3) show window
 		chronopicRegisterUpdate(true);
@@ -7248,8 +7248,8 @@ public partial class ChronoJumpWindow
 		*/
 
 		// 2) close ports. Close Arduino capture before calling to device
-		if(photocellWirelessCapture != null && photocellWirelessCapture.PortOpened)
-			photocellWirelessCapture.Disconnect();
+		if(wichroCapture != null && wichroCapture.PortOpened)
+			wichroCapture.Disconnect();
 
 		// 3) show window
 		chronopicRegisterUpdate(true);

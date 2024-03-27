@@ -22,12 +22,12 @@ using System.Diagnostics;  //Stopwatch
 using System.IO.Ports;
 using System.Threading;
 
-public class PhotocellWirelessCapture: ArduinoCapture
+public class WichroCapture: ArduinoCapture
 {
-	private List<PhotocellWirelessEvent> list = new List<PhotocellWirelessEvent>();
+	private List<WichroEvent> list = new List<WichroEvent>();
 
 	//constructor
-	public PhotocellWirelessCapture (string portName)
+	public WichroCapture (string portName)
 	{
 		cancel = false;
 		micro = new Micro (portName, 115200);
@@ -102,12 +102,12 @@ public class PhotocellWirelessCapture: ArduinoCapture
 		}
 
 		//LogB.Information("bucle capture call process line");
-		PhotocellWirelessEvent pwe = new PhotocellWirelessEvent();
-		if(! processLine (str, out pwe))
+		WichroEvent we = new WichroEvent();
+		if(! processLine (str, out we))
 			return true;
 
-		list.Add(pwe);
-		LogB.Information("bucle capture list added: " + pwe.ToString());
+		list.Add(we);
+		LogB.Information("bucle capture list added: " + we.ToString());
 		return true;
 	}
 
@@ -140,12 +140,12 @@ public class PhotocellWirelessCapture: ArduinoCapture
 		return (list.Count > readedPos);
 	}
 
-	public override List<PhotocellWirelessEvent> PhotocellWirelessCaptureGetList()
+	public override List<WichroEvent> WichroCaptureGetList()
 	{
 		return list;
 	}
 
-	public override PhotocellWirelessEvent PhotocellWirelessCaptureReadNext()
+	public override WichroEvent WichroCaptureReadNext()
 	{
 		return list[readedPos++];
 	}
@@ -154,7 +154,7 @@ public class PhotocellWirelessCapture: ArduinoCapture
 
 	protected override void emptyList()
 	{
-		list = new List<PhotocellWirelessEvent>();
+		list = new List<WichroEvent>();
 	}
 
 	// private stuff ---->
@@ -164,10 +164,10 @@ public class PhotocellWirelessCapture: ArduinoCapture
 	 * this event means: At photocell 5, 2015 ms, status is Off
 	 * could be O or I
 	 */
-	private bool processLine (string str, out PhotocellWirelessEvent pwe)
+	private bool processLine (string str, out WichroEvent we)
 	{
 		//LogB.Information(string.Format("at processLine, str: |{0}|", str));
-		pwe = new PhotocellWirelessEvent();
+		we = new WichroEvent();
 
 		if(str == "")
 			return false;
@@ -192,7 +192,7 @@ public class PhotocellWirelessCapture: ArduinoCapture
 		  )
 			return false;
 
-		pwe = new PhotocellWirelessEvent(Convert.ToInt32(strFull[0]),
+		we = new WichroEvent(Convert.ToInt32(strFull[0]),
 				Convert.ToInt32(strFull[1]), strFull[2]);
 
 		return true;
@@ -200,20 +200,20 @@ public class PhotocellWirelessCapture: ArduinoCapture
 
 }
 
-public class PhotocellWirelessEvent
+public class WichroEvent
 {
 	public int photocell;
 	public int timeMs;
 	public Chronopic.Plataforma status; // like run with chronopic
 
-	public PhotocellWirelessEvent()
+	public WichroEvent()
 	{
 		this.photocell = -1;
 		this.timeMs = 0;
 		this.status = Chronopic.Plataforma.UNKNOW;
 	}
 
-	public PhotocellWirelessEvent(int photocell, int timeMs, string status)
+	public WichroEvent(int photocell, int timeMs, string status)
 	{
 		this.photocell = photocell;
 		this.timeMs = timeMs;

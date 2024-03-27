@@ -34,8 +34,8 @@ public abstract class ArduinoCapture : MicroComms
 	public abstract bool CanRead();
 
 	//have methods for get objects on each of the derived classes
-	public abstract List<PhotocellWirelessEvent> PhotocellWirelessCaptureGetList();
-	public abstract PhotocellWirelessEvent PhotocellWirelessCaptureReadNext();
+	public abstract List<WichroEvent> WichroCaptureGetList();
+	public abstract WichroEvent WichroCaptureReadNext();
 
 	public int ReadedPos
 	{

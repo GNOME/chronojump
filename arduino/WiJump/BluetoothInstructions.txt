@@ -1,8 +1,0 @@
-Programming the Bluetooth LE stuff:
-https://wiki.seeedstudio.com/xiao_esp32s3_bluetooth/#ble-serverclient
-
-Checking in a linux client:
-https://www.jaredwolff.com/get-started-with-bluetooth-low-energy/
-
-Checking in android client:
-Use the app nRF Connect

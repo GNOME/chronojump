@@ -71,47 +71,55 @@ public class ChronoJump
 		operatingSystem = UtilAll.GetOSEnum();
 		Util.operatingSystem = operatingSystem;
 
-		        //Determine library directory according to certain OS. [By Joeries]
+		//Determine library directory according to certain OS. [By Joeries]
 		if (UtilAll.IsWindows())
 		{
 			NativeLibraryResolver.Init(AppDomain.CurrentDomain.BaseDirectory);
 		}
 		else if (Util.operatingSystem == UtilAll.OperatingSystems.LINUX)
-        {
+		{
 #if DEBUG
             NativeLibraryResolver.Init("/usr/lib/x86_64-linux-gnu");
 #else
-            NativeLibraryResolver.Init("/usr/lib/x86_64-linux-gnu");
-            //NativeLibraryResolver.Init(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "x86_64-linux-gnu"));
+			NativeLibraryResolver.Init("/usr/lib/x86_64-linux-gnu");
+			//NativeLibraryResolver.Init(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "x86_64-linux-gnu"));
 #endif
-        }
-        else
+		}
+		else
 		{
-            //To prevent sqlite3_prepare_interop aborting
-            try
-            {
-                var dbPath = Path.Combine(Util.GetDatabaseDir(), "chronojump-test.db");
-                string connectionString = $"Data Source={dbPath}";
-                using (var connection = new SQLiteConnection(connectionString))
-                {
-                    connection.Open();
-                    var sql = "SELECT 1";
-                    using (var command = new SQLiteCommand(sql, connection))
-                    {
-                        command.ExecuteNonQuery();
-                    }
-                    connection.Close();
-                }
-                File.Delete(dbPath);
-            }
-            catch { }
+			//To prevent sqlite3_prepare_interop aborting
+			try
+			{
+				var dbPath = Path.Combine(Util.GetDatabaseDir(), "chronojump-test.db");
+				string connectionString = $"Data Source={dbPath}";
+				using (var connection = new SQLiteConnection(connectionString))
+				{
+					connection.Open();
+					var sql = "SELECT 1";
+					using (var command = new SQLiteCommand(sql, connection))
+					{
+						command.ExecuteNonQuery();
+					}
+					connection.Close();
+				}
+				File.Delete(dbPath);
+			}
+			catch { }
 
 #if DEBUG
             NativeLibraryResolver.Init("/opt/homebrew/lib");
 #else
-			NativeLibraryResolver.Init(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "../../Frameworks/gtk/lib"));
+            var gtk3Path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "../../Frameworks/gtk3");
+            var gtk3SharePath = Path.Combine(gtk3Path, "share");
+			var gtk3LibPath = Path.Combine(gtk3Path, "lib");
+			var gtk3PixbufPath = Path.Combine(gtk3LibPath, "gdk-pixbuf-2.0/2.10.0/loaders.cache");
+			Environment.SetEnvironmentVariable("XDG_DATA_DIRS", gtk3SharePath);
+			Environment.SetEnvironmentVariable("GDK_PIXBUF_MODULE_FILE", gtk3PixbufPath);
+			Environment.SetEnvironmentVariable("GTK_PATH", gtk3LibPath);
+			Environment.SetEnvironmentVariable("LD_LIBRARY_PATH", "$GTK_PATH:$LD_LIBRARY_PATH");
+			NativeLibraryResolver.Init(gtk3LibPath);
 #endif
-        }
+		}
 
         //show version on console and exit before the starting logs
         //note version, version2 args are available since: 2.2.0-112-ga4eaadcbc

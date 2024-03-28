@@ -19,7 +19,6 @@ GLIB_SCHEMAS = "share/glib-2.0/schemas"
 
 OTOOL_LIB_REGEX = re.compile("(/opt/homebrew/.*\.dylib)") # Ignore system libraries.
 
-
 def run_install_name_tool(lib, deps, lib_install_dir):
     # Make writable by user.
     os.chmod(lib, S_IREAD | S_IRGRP | S_IROTH | S_IWUSR)

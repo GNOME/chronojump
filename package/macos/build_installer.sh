@@ -6,7 +6,6 @@ MAC_APP_DIR="${MAC_APP_ROOT_DIR}/Chronojump.app"
 MAC_APP_BIN_DIR="${MAC_APP_DIR}/Contents/Home/bin/"
 MAC_APP_RESOURCE_DIR="${MAC_APP_DIR}/Contents/Resources/"
 MAC_APP_FRAMEWORK_DIR="${MAC_APP_DIR}/Contents/Frameworks/"
-#MAC_APP_SHARE_DIR="${MAC_APP_RESOURCE_DIR}/share/"
 MAC_DMG_FILE_NAME="$1.dmg"
 ARCH="$2"
 
@@ -16,28 +15,19 @@ run_codesign()
     echo ${file}
     #codesign --deep --force --timestamp --options runtime --sign "Developer ID Application: Cameron White (D5G6C56TBH)" --entitlements entitlements.plist ${file}
 }
-rm -rf ${MAC_APP_FRAMEWORK_DIR}
-mkdir -p ${MAC_APP_BIN_DIR} ${MAC_APP_RESOURCE_DIR} ${MAC_APP_FRAMEWORK_DIR}
-#mkdir -p ${MAC_APP_SHARE_DIR}
 
 rm -rf ${MAC_APP_BIN_DIR}
-dotnet publish ../../src/Chronojump-mac.sln -p:BuildTranslations=true --configuration Release -r osx-x64 --self-contained true -o ${MAC_APP_BIN_DIR}
+rm -rf ${MAC_APP_FRAMEWORK_DIR}
+mkdir -p ${MAC_APP_BIN_DIR} ${MAC_APP_FRAMEWORK_DIR}
+
+dotnet publish ../../src/Chronojump-mac.sln -p:BuildTranslations=true --configuration Release -r osx-${ARCH} --self-contained true -o ${MAC_APP_BIN_DIR}
 cd ../../src/
 sh post-build-mac.sh ../package/macos/app/Chronojump.app/Contents/Home/bin
 cp ../package/macos/app/Chronojump.app/Contents/Home/bin/runtimes/osx-${ARCH}/native/SQLite.Interop.dll ../package/macos/app/Chronojump.app/Contents/Home/bin/SQLite.Interop.dll
 cd ../package/macos
-mv ${MAC_APP_BIN_DIR}Chronojump-mac ${MAC_APP_BIN_DIR}Chronojump
 
 # Remove stuff we don't need.
 rm ${MAC_APP_BIN_DIR}/*.pdb
-
-# Move resources files out of the MacOS folder (needed for code signing).
-# TODO - this could be done in the .csproj publish rule instead?
-#mv ${MAC_APP_BIN_DIR}/locale ${MAC_APP_SHARE_DIR}/locale
-#mv ${MAC_APP_BIN_DIR}/icons ${MAC_APP_SHARE_DIR}/icons
-
-#cp Info.plist ${MAC_APP_DIR}/Contents
-#cp pinta.icns ${MAC_APP_DIR}/Contents/Resources
 
 # Install the GTK dependencies.
 echo "Bundling GTK..."

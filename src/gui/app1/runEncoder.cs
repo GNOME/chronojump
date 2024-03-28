@@ -642,8 +642,8 @@ public partial class ChronoJumpWindow
 	 * runEncoderAsLinearEncoder start ------------>
 	 */
 
-	//private bool runEncoderAsLinearEncoder = false;
-	private bool runEncoderAsLinearEncoder = true;
+	private bool runEncoderAsLinearEncoder = false;
+	//private bool runEncoderAsLinearEncoder = true;
 
 	private void runEncoderAsLinearEncoderCaptureDo()
 	{

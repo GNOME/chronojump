@@ -51,7 +51,7 @@ public class WichroCapture: ArduinoCapture
 
 			if(! portConnect (true))
 				return false;
-			if(! getVersion ("local:get_version;", responseExpected_l, false, 2000))
+			if(! getVersion ("local:get_version;", responseExpected_l, false, 2000, true))
 				return false;
 		}
 
@@ -84,7 +84,7 @@ public class WichroCapture: ArduinoCapture
 	}
 
 	//if true: continue capturing; if false: error, end
-	public override bool CaptureLine ()
+	public override bool CaptureSample ()
 	{
 		string str = "";
 
@@ -135,17 +135,17 @@ public class WichroCapture: ArduinoCapture
 		return true;
 	}
 
-	public override bool CanRead()
+	public override bool CanReadFromList()
 	{
 		return (list.Count > readedPos);
 	}
 
-	public override List<WichroEvent> WichroCaptureGetList()
+	public List<WichroEvent> WichroCaptureGetList()
 	{
 		return list;
 	}
 
-	public override WichroEvent WichroCaptureReadNext()
+	public WichroEvent WichroCaptureReadNext()
 	{
 		return list[readedPos++];
 	}

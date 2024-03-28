@@ -75,6 +75,11 @@ public class Micro
 		return (port.BytesToRead > 0);
 	}
 
+	public bool BytesToReadAtLeast (int n)
+	{
+		return (port.BytesToRead >= n);
+	}
+
 	//used on Chronopic
 	public int ReadByte ()
 	{
@@ -184,14 +189,16 @@ public abstract class MicroComms
 		return true;
 	}
 
-	//false could mean a error on sending command or not received the expected response
+	//returning false could mean a error on sending command or not received the expected response
+	//waitResponseReadExisting is the the default method, but on encoderPTL we need to ReadLine
 	protected bool getVersion (string getVersionStr, List<string> responseExpected_l,
-			bool cleanAllZeros, int waitResponseTime)
+			bool cleanAllZeros, int waitResponseTime, bool waitResponseReadExisting
+			)
 	{
 		if(! sendCommand (getVersionStr, "error getting version")) //note this is for Wichro
 			return false;
 
-		return waitResponse (responseExpected_l, cleanAllZeros, waitResponseTime);
+		return waitResponse (responseExpected_l, cleanAllZeros, waitResponseTime, waitResponseReadExisting);
 	}
 
 	/*
@@ -208,7 +215,7 @@ public abstract class MicroComms
 			if(! sendCommand (getVersionStr, "error getting version")) //note this is for Wichro
 				return false;
 
-			success = waitResponse (responseExpected_l, cleanAllZeros, waitLimitMs);
+			success = waitResponse (responseExpected_l, cleanAllZeros, waitLimitMs, true);
 			count ++;
 			if (count >= times)
 				break;
@@ -241,7 +248,16 @@ public abstract class MicroComms
 	}
 
 	//cleanAllZeros is used for encoder
-	protected bool waitResponse (List<string> responseExpected_l, bool cleanAllZeros, int waitResponseMs)
+	//this call when there is only one expected string
+	protected bool waitResponse (string responseExpected, bool cleanAllZeros, int waitResponseMs, bool waitResponseReadExisting)
+	{
+		List<string> responseExpected_l = new List<string> ();
+		responseExpected_l.Add (responseExpected);
+	
+		return waitResponse (responseExpected_l, cleanAllZeros, waitResponseMs, waitResponseReadExisting);
+	}
+
+	protected bool waitResponse (List<string> responseExpected_l, bool cleanAllZeros, int waitResponseMs, bool waitResponseReadExisting)
 	{
 		string str = "";
 		bool success = false;
@@ -254,7 +270,12 @@ public abstract class MicroComms
 			{
 				try {
 					//use this because if 9600 call an old Wichro that has no comm at this speed, will answer things and maybe never a line
-					string received = micro.ReadExisting();
+					string received = "";
+					if (waitResponseReadExisting)
+						received = micro.ReadExisting();
+					else
+						received = micro.ReadLine();
+
 					if (cleanAllZeros)
 						received = Util.RemoveChar (received, '0', false);
 
@@ -289,7 +310,7 @@ public abstract class MicroComms
 
 	protected bool flush ()
 	{
-		LogB.Information ("micro not opened on flush");
+		LogB.Information ("checking if micro opened on flush");
 		if (! micro.Opened)
 			return false;
 

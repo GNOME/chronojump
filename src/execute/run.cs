@@ -355,14 +355,14 @@ public class RunExecute : EventExecute
 		do {
 			if (wireless)
 			{
-				if(! wichroCapture.CaptureLine())
+				if(! wichroCapture.CaptureSample())
 				{
 					chronopicDisconnected = true;
 					cancel = true; //problem reading line (capturing)
 				}
 
 				ok = false;
-				if(wichroCapture.CanRead())
+				if(wichroCapture.CanReadFromList ())
 				{
 					LogB.Information("waitEvent 3");
 					WichroEvent we = wichroCapture.WichroCaptureReadNext();

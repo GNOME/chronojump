@@ -29,17 +29,19 @@ public abstract class ArduinoCapture : MicroComms
 	// public stuff ---->
 
 	public abstract bool CaptureStart();
-	public abstract bool CaptureLine();
+	public abstract bool CaptureSample();
 	public abstract bool Stop();
-	public abstract bool CanRead();
-
-	//have methods for get objects on each of the derived classes
-	public abstract List<WichroEvent> WichroCaptureGetList();
-	public abstract WichroEvent WichroCaptureReadNext();
+	public abstract bool CanReadFromList();
 
 	public int ReadedPos
 	{
 		get { return readedPos; }
+	}
+
+	//if want to know how many (to read when have complete samples) use micro.BytesToReadAtLeast (int n)
+	public bool BytesToRead ()
+	{
+		return micro.BytesToRead ();
 	}
 
 	// protected stuff ---->
@@ -60,6 +62,23 @@ public abstract class ArduinoCapture : MicroComms
 			{
 				str = micro.ReadLine();
 				LogB.Information(string.Format("at readLine BytesToRead>0, readed:|{0}|", str));
+			}
+		} catch (System.IO.IOException)
+		{
+			LogB.Information("Catched reading!");
+			return false;
+		}
+		return true;
+	}
+
+	protected bool readByte (out int b)
+	{
+		b = 0;
+		try {
+			if (micro.BytesToRead ())
+			{
+				b = micro.ReadByte ();
+				//LogB.Information(string.Format("at readLine BytesToRead>0, readed:|{0}|", str));
 			}
 		} catch (System.IO.IOException)
 		{

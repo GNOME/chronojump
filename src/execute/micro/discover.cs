@@ -280,7 +280,7 @@ public class MicroDiscover : MicroComms
 		if(cancel)
 			return false;
 
-		if(getVersion ("get_version:", responseExpected_l, false, 2000))
+		if(getVersion ("get_version:", responseExpected_l, false, 2000, true))
 		{
 			LogB.Information("Discover found this ForceSensor device: " + micro.Response);
 			if(micro.Response.Contains(forceSensorStr))
@@ -304,7 +304,7 @@ public class MicroDiscover : MicroComms
 		if(cancel)
 			return false;
 
-		if(getVersion ("get_version:", responseExpected_l, false, 2000))
+		if(getVersion ("get_version:", responseExpected_l, false, 2000, true))
 		{
 			LogB.Information("Discover found this RaceAnalyzer device: " + micro.Response);
 			if(micro.Response.Contains(raceAnalyzerStr))
@@ -351,7 +351,7 @@ public class MicroDiscover : MicroComms
 		if(cancel)
 			return false;
 
-		if(getVersion ("J", responseExpected_l, true, 2000))
+		if(getVersion ("J", responseExpected_l, true, 2000, true))
 		{
 			LogB.Information("Discover found this Encoder device: " + micro.Response);
 			if(micro.Response.Contains(encoderStr))

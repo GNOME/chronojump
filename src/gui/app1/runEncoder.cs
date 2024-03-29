@@ -642,18 +642,18 @@ public partial class ChronoJumpWindow
 	 * runEncoderAsLinearEncoder start ------------>
 	 */
 
-	private bool runEncoderAsLinearEncoder = false;
-	//private bool runEncoderAsLinearEncoder = true;
+	private bool runEncoderAsLinearEncoder = true;
+	private EncoderPTCaptureManage eptcm;
 
 	private void runEncoderAsLinearEncoderCaptureDo()
 	{
 		runEncoderPulseMessage = "Capture as linear encoder... please wait";
 		LogB.Information("eptcm start");
-		EncoderPTCaptureManage eptcm = new EncoderPTCaptureManage (
+		eptcm = new EncoderPTCaptureManage (
 				new EncoderPTCapture (
 					chronopicRegister.GetSelectedForMode (current_mode).Port,
-					preferences.runEncoderPPS
-					)
+					preferences.runEncoderPPS),
+				ref cairoGraphRaceAnalyzerPoints_dt_l
 				);
 		LogB.Information("eptcm start do");
 		if (eptcm.Init ())
@@ -664,10 +664,13 @@ public partial class ChronoJumpWindow
 
 			LogB.Information("eptcm end");
 			runEncoderPulseMessage = "Done! check log";
-			capturingRunEncoder = arduinoCaptureStatus.STOP;
+
+			runEncoderProcessCancel = true;
+			//capturingRunEncoder = arduinoCaptureStatus.STOP;
 		}
 	}
 
+	//most of this code comes from pulseGTKRunEncoderCapture ()
 	private bool pulseGTKRunEncoderAsLinearEncoderCapture ()
 	{
 		if(runEncoderCaptureThread == null)
@@ -682,15 +685,24 @@ public partial class ChronoJumpWindow
 			showHideCaptureIcon (false);
 			blinkCapture.End ();
 
-			sensitiveLastTestButtons(true);
+			sensitiveLastTestButtons(false);
 			contactsShowCaptureDoingButtons(false);
+			button_ai_model_options_close_and_analyze.Sensitive = false;
+			button_ai_model.Sensitive = false;
+			button_ai_model_save_image.Sensitive = false;
+			button_contacts_delete_selected.Sensitive = false;
 
 			LogB.ThreadEnding();
 			LogB.Mute = preferences.muteLogs;
 			if(! preferences.muteLogs)
 				LogB.Information("muteLogs INactive. Logs active active again");
 			LogB.ThreadEnded();
+
+			runEncoderButtonsSensitive(true);
+			radio_signal_analyze_current_set.Active = true;
 			hideButtons();
+
+			drawingarea_race_analyzer_capture_position_time.QueueDraw ();
 
 			return false;
 		} else {
@@ -699,6 +711,8 @@ public partial class ChronoJumpWindow
 				if (blinkCapture.Status == Blink.StatusEnum.NOTSTARTED)
 					blinkCapture.Start (); //TODO: but note here is still connecting
 				showHideCaptureIcon (true);
+
+				drawingarea_race_analyzer_capture_position_time.QueueDraw ();
 			}
 		}
 

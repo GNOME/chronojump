@@ -282,8 +282,8 @@ public class EncoderPTCapture: ArduinoCapture
 
 public class EncoderPTEvent
 {
-	public int pulse;
-	public int time;
+	public int Distance;
+	public int Time;
 
 	/*
 	public EncoderPTEvent()
@@ -293,12 +293,12 @@ public class EncoderPTEvent
 
 	public EncoderPTEvent (List<int> dataRow)
 	{
-		this.pulse = dataRow[0];
-		this.time = dataRow[1];
+		this.Distance = dataRow[0];
+		this.Time = dataRow[1];
 	}
 
 	public override string ToString()
 	{
-		return (string.Format("{0};{1}", pulse, time));
+		return (string.Format("{0};{1}", Distance, Time));
 	}
 }

@@ -32,9 +32,14 @@ public class EncoderPTCaptureManage
 	private bool cancel;
 	private bool error;
 
-	public EncoderPTCaptureManage (EncoderPTCapture encoderPTCapture)
+	private double distance; //units?
+	private List<PointF> points_l;
+
+	public EncoderPTCaptureManage (EncoderPTCapture encoderPTCapture,
+			ref List<PointF> points_l)
 	{
 		this.encoderPTCapture = encoderPTCapture;
+		this.points_l = points_l;
 
 		finish = false;
 		cancel = false;
@@ -66,6 +71,14 @@ public class EncoderPTCaptureManage
 			{
 				EncoderPTEvent epte = encoderPTCapture.EncoderPTCaptureReadNext();
 				LogB.Information("wait_event epte: " + epte.ToString());
+
+				double distanceAtThisSample = UtilAll.DivideSafe (epte.Distance, 6.9);
+				distance += distanceAtThisSample;
+
+				points_l.Add (new PointF (
+							UtilAll.DivideSafe(epte.Time, 1000000),
+							distance));
+
 				count ++;
 				if (count >= 2000)
 					finish = true;
@@ -78,6 +91,10 @@ public class EncoderPTCaptureManage
 			LogB.Information("finished");
 		if (cancel)
 			LogB.Information("cancelled");
+	}
+
+	public double Distance {
+		get { return distance; }
 	}
 }
 

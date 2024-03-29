@@ -33,13 +33,19 @@ public class EncoderPTCaptureManage
 	private bool error;
 
 	private double distance; //units?
-	private List<PointF> points_l;
+	private List<PointF> points_dt_l;
+	private List<PointF> points_st_l;
+	private List<PointF> points_at_l;
 
 	public EncoderPTCaptureManage (EncoderPTCapture encoderPTCapture,
-			ref List<PointF> points_l)
+			ref List<PointF> points_dt_l,
+			ref List<PointF> points_st_l,
+			ref List<PointF> points_at_l)
 	{
 		this.encoderPTCapture = encoderPTCapture;
-		this.points_l = points_l;
+		this.points_dt_l = points_dt_l;
+		this.points_st_l = points_st_l;
+		this.points_at_l = points_at_l;
 
 		finish = false;
 		cancel = false;
@@ -57,7 +63,12 @@ public class EncoderPTCaptureManage
 
 	public void Capture ()
 	{
-		int count = 0;
+		int count = -1;
+		double timePre = -1;
+		double speedPre = -1;
+		bool timePreSet = false;
+		bool speedPreSet = false;
+
 		while (! finish && ! cancel && ! error)
 		{
 			if(! encoderPTCapture.BytesToReadEnoughForASample ())
@@ -70,16 +81,46 @@ public class EncoderPTCaptureManage
 			if (encoderPTCapture.CanReadFromList ())
 			{
 				EncoderPTEvent epte = encoderPTCapture.EncoderPTCaptureReadNext();
-				LogB.Information("wait_event epte: " + epte.ToString());
+				LogB.Information("epte: " + epte.ToString());
+
+				count ++;
+
+				if (! timePreSet)
+				{
+					timePre = epte.Time;
+					timePreSet = true;
+					continue;
+				}
 
 				double distanceAtThisSample = UtilAll.DivideSafe (epte.Distance, 6.9);
 				distance += distanceAtThisSample;
 
-				points_l.Add (new PointF (
+				double speed = UtilAll.DivideSafe (
+						distanceAtThisSample, (epte.Time - timePre)) * 1000000;
+
+				if (! speedPreSet)
+				{
+					speedPre = speed;
+					speedPreSet = true;
+					continue;
+				}
+
+				double accel = UtilAll.DivideSafe(
+					(speed - speedPre), (epte.Time/1000000.0 - timePre/1000000.0) );
+
+				timePre = epte.Time;
+				speedPre = speed;
+
+				points_dt_l.Add (new PointF (
 							UtilAll.DivideSafe(epte.Time, 1000000),
 							distance));
+				points_st_l.Add (new PointF (
+							UtilAll.DivideSafe(epte.Time, 1000000),
+							speed));
+				points_at_l.Add (new PointF (
+							UtilAll.DivideSafe(epte.Time, 1000000),
+							accel));
 
-				count ++;
 				if (count >= 2000)
 					finish = true;
 			}

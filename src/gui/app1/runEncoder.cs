@@ -653,7 +653,9 @@ public partial class ChronoJumpWindow
 				new EncoderPTCapture (
 					chronopicRegister.GetSelectedForMode (current_mode).Port,
 					preferences.runEncoderPPS),
-				ref cairoGraphRaceAnalyzerPoints_dt_l
+				ref cairoGraphRaceAnalyzerPoints_dt_l,
+				ref cairoGraphRaceAnalyzerPoints_st_l,
+				ref cairoGraphRaceAnalyzerPoints_at_l
 				);
 		LogB.Information("eptcm start do");
 		if (eptcm.Init ())
@@ -703,6 +705,8 @@ public partial class ChronoJumpWindow
 			hideButtons();
 
 			drawingarea_race_analyzer_capture_position_time.QueueDraw ();
+			drawingarea_race_analyzer_capture_speed_time.QueueDraw ();
+			drawingarea_race_analyzer_capture_accel_time.QueueDraw ();
 
 			return false;
 		} else {
@@ -713,6 +717,8 @@ public partial class ChronoJumpWindow
 				showHideCaptureIcon (true);
 
 				drawingarea_race_analyzer_capture_position_time.QueueDraw ();
+				drawingarea_race_analyzer_capture_speed_time.QueueDraw ();
+				drawingarea_race_analyzer_capture_accel_time.QueueDraw ();
 			}
 		}
 

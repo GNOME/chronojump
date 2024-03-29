@@ -28,6 +28,7 @@ public class EncoderPTCapture: ArduinoCapture
 {
 	private List<EncoderPTEvent> list = new List<EncoderPTEvent>();
 	private double runEncoderPPS;
+	private int bauds = 115200;
 
 	//constructor
 	public EncoderPTCapture (string portName, double runEncoderPPS)
@@ -35,7 +36,10 @@ public class EncoderPTCapture: ArduinoCapture
 		this.runEncoderPPS = runEncoderPPS;
 
 		cancel = false;
-		micro = new Micro (portName, 115200);
+
+		if (micro == null || micro.PortName != portName || micro.Bauds != bauds)
+			micro = new Micro (portName, bauds);
+
 		Reset ();
 	}
 
@@ -47,7 +51,7 @@ public class EncoderPTCapture: ArduinoCapture
 
 	public override bool CaptureStart()
 	{
-		LogB.Information("portOpened: " + micro.Opened);
+		LogB.Information("CaptureStart, micro.Opened: " + micro.Opened);
 		// 0 connect if needed
 		List<string> responseExpected_l = new List<string>();
 		if(! micro.Opened)
@@ -169,14 +173,15 @@ public class EncoderPTCapture: ArduinoCapture
 		if (! sendCommand("end_capture:", "Catched at end_capture:"))
 			return false;
 
-		waitResponse ("Capture ended", false, 2000, false);
+		if (waitResponse ("Capture ended", false, 4000, false))
+			LogB.Information("AT Capture: STOPPED");
+		else
+		{
+			LogB.Information("AT Capture: cannot stop, going to Disconnect");
+			Disconnect ();
+		}
 
-		LogB.Information("AT Capture: STOPPED");
-
-		/*
-		Disconnect ();
-		micro.PortOpened = false;
-		*/
+		LogB.Information("Stop, micro.Opened: " + micro.Opened);
 
 		return true;
 	}

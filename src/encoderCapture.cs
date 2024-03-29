@@ -37,21 +37,22 @@ public class EncoderPTCaptureManage
 	private List<PointF> points_st_l;
 	private List<PointF> points_at_l;
 
-	public EncoderPTCaptureManage (EncoderPTCapture encoderPTCapture, ref List<PointF> points_dt_l, 
-			ref List<PointF> points_st_l, ref List<PointF> points_at_l)
+	public EncoderPTCaptureManage (
+			EncoderPTCapture encoderPTCapture,
+			ref List<PointF> points_dt_l, ref List<PointF> points_st_l, ref List<PointF> points_at_l)
 	{
 		this.encoderPTCapture = encoderPTCapture;
 		this.points_dt_l = points_dt_l;
 		this.points_st_l = points_st_l;
 		this.points_at_l = points_at_l;
-
-		finish = false;
-		cancel = false;
-		error = false;
 	}
 
 	public bool Init ()
 	{
+		finish = false;
+		cancel = false;
+		error = false;
+
 		encoderPTCapture.Reset ();
 		if (! encoderPTCapture.CaptureStart ())
 			return false;

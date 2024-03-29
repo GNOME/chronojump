@@ -130,6 +130,7 @@ public class Micro
 	}
 
 	public int Bauds {
+		get { return bauds; }
 		set { bauds = value; }
 	}
 

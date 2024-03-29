@@ -646,19 +646,28 @@ public partial class ChronoJumpWindow
 	 */
 
 	EncoderPTCaptureManage eptcm;
+	EncoderPTCapture eptc;
 
 	private void runEncoderAsLinearEncoderCaptureDo()
 	{
 		runEncoderPulseMessage = "Capture as linear encoder... please wait";
 		LogB.Information("eptcm start");
-		eptcm = new EncoderPTCaptureManage (
-				new EncoderPTCapture (
+
+		if (eptc == null)
+			eptc = new EncoderPTCapture (
 					chronopicRegister.GetSelectedForMode (current_mode).Port,
-					preferences.runEncoderPPS),
+					preferences.runEncoderPPS);
+		//TODO: need a way to update Port and PPS if changed
+
+		//need to pass the ref every capture because every capture we do:
+		//cairo...Points_xx_l = new List<PointF> ()
+		eptcm = new EncoderPTCaptureManage (
+				eptc,
 				ref cairoGraphRaceAnalyzerPoints_dt_l,
 				ref cairoGraphRaceAnalyzerPoints_st_l,
 				ref cairoGraphRaceAnalyzerPoints_at_l
 				);
+
 		LogB.Information("eptcm start do");
 		if (eptcm.Init ())
 		{
@@ -733,7 +742,7 @@ public partial class ChronoJumpWindow
 		}
 
 		Thread.Sleep (50);
-		//LogB.Information(" RunEncoderAsLinearEncoder:"+ runEncoderCaptureThread.ThreadState.ToString());
+		//LogB.Information("RunEncoderAsLinearEncoder:"+ runEncoderCaptureThread.ThreadState.ToString());
 		return true;
 	}
 

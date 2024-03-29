@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Copyright (C) 2004-2023   Xavier de Blas <xaviblas@gmail.com>
+ *  Copyright (C) 2004-2024   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -23,6 +23,64 @@ using System.IO;
 using System.IO.Ports;
 using System.Collections.Generic; //List<T>
 using Gtk;
+
+//using EncoderPTCapture : ArduinoCapture
+public class EncoderPTCaptureManage
+{
+	private EncoderPTCapture encoderPTCapture;
+	private bool finish;
+	private bool cancel;
+	private bool error;
+
+	public EncoderPTCaptureManage (EncoderPTCapture encoderPTCapture)
+	{
+		this.encoderPTCapture = encoderPTCapture;
+
+		finish = false;
+		cancel = false;
+		error = false;
+	}
+
+	public bool Init ()
+	{
+		encoderPTCapture.Reset ();
+		if (! encoderPTCapture.CaptureStart ())
+			return false;
+
+		return true;
+	}
+
+	public void Capture ()
+	{
+		int count = 0;
+		while (! finish && ! cancel && ! error)
+		{
+			if(! encoderPTCapture.BytesToReadEnoughForASample ())
+				continue;
+
+			//LogB.Information ("YESREAD");
+			if(! encoderPTCapture.CaptureSample ())
+				cancel = true; //problem reading line (capturing)
+
+			if (encoderPTCapture.CanReadFromList ())
+			{
+				EncoderPTEvent epte = encoderPTCapture.EncoderPTCaptureReadNext();
+				LogB.Information("wait_event epte: " + epte.ToString());
+				count ++;
+				if (count >= 2000)
+					finish = true;
+			}
+
+		}
+		encoderPTCapture.Stop ();
+
+		if (finish)
+			LogB.Information("finished");
+		if (cancel)
+			LogB.Information("cancelled");
+	}
+}
+
 
 public abstract class EncoderCapture
 {

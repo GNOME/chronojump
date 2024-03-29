@@ -611,8 +611,15 @@ public partial class ChronoJumpWindow
 		runEncoderShouldShowCaptureGraphsWithData = true;
 
 		blinkCapture = new Blink ();
-		runEncoderCaptureThread = new Thread(new ThreadStart(runEncoderCaptureDo));
-		GLib.Idle.Add (new GLib.IdleHandler (pulseGTKRunEncoderCapture));
+
+		if (runEncoderAsLinearEncoder)
+		{
+			runEncoderCaptureThread = new Thread(new ThreadStart(runEncoderAsLinearEncoderCaptureDo));
+			GLib.Idle.Add (new GLib.IdleHandler (pulseGTKRunEncoderAsLinearEncoderCapture));
+		} else {
+			runEncoderCaptureThread = new Thread(new ThreadStart(runEncoderCaptureDo));
+			GLib.Idle.Add (new GLib.IdleHandler (pulseGTKRunEncoderCapture));
+		}
 
 		if(preferences.debugMode)
 			LogB.Information("Debug mode active. Logs active while race analyzer capture");
@@ -630,6 +637,81 @@ public partial class ChronoJumpWindow
 	string capturingMessage = "Capturing ...";
 	static RunEncoderCaptureGetSpeedAndDisplacement reCGSD;
 	static RunEncoderCaptureGetSpeedAndDisplacement reCGSD_CD;
+
+	/*
+	 * runEncoderAsLinearEncoder start ------------>
+	 */
+
+	private bool runEncoderAsLinearEncoder = false;
+	//private bool runEncoderAsLinearEncoder = true;
+
+	private void runEncoderAsLinearEncoderCaptureDo()
+	{
+		runEncoderPulseMessage = "Capture as linear encoder... please wait";
+		LogB.Information("eptcm start");
+		EncoderPTCaptureManage eptcm = new EncoderPTCaptureManage (
+				new EncoderPTCapture (
+					chronopicRegister.GetSelectedForMode (current_mode).Port,
+					preferences.runEncoderPPS
+					)
+				);
+		LogB.Information("eptcm start do");
+		if (eptcm.Init ())
+		{
+			capturingRunEncoder = arduinoCaptureStatus.CAPTURING;
+			runEncoderPulseMessage = capturingMessage;
+			eptcm.Capture ();
+
+			LogB.Information("eptcm end");
+			runEncoderPulseMessage = "Done! check log";
+			capturingRunEncoder = arduinoCaptureStatus.STOP;
+		}
+	}
+
+	private bool pulseGTKRunEncoderAsLinearEncoderCapture ()
+	{
+		if(runEncoderCaptureThread == null)
+		{
+			Thread.Sleep (25);
+			return true;
+		}
+
+		event_execute_label_message.Text = runEncoderPulseMessage;
+		if(! runEncoderCaptureThread.IsAlive || runEncoderProcessFinish || runEncoderProcessCancel || runEncoderProcessError) //capture ends
+		{
+			showHideCaptureIcon (false);
+			blinkCapture.End ();
+
+			sensitiveLastTestButtons(true);
+			contactsShowCaptureDoingButtons(false);
+
+			LogB.ThreadEnding();
+			LogB.Mute = preferences.muteLogs;
+			if(! preferences.muteLogs)
+				LogB.Information("muteLogs INactive. Logs active active again");
+			LogB.ThreadEnded();
+			hideButtons();
+
+			return false;
+		} else {
+			if (capturingRunEncoder == arduinoCaptureStatus.CAPTURING)
+			{
+				if (blinkCapture.Status == Blink.StatusEnum.NOTSTARTED)
+					blinkCapture.Start (); //TODO: but note here is still connecting
+				showHideCaptureIcon (true);
+			}
+		}
+
+		Thread.Sleep (50);
+		//LogB.Information(" RunEncoderAsLinearEncoder:"+ runEncoderCaptureThread.ThreadState.ToString());
+		return true;
+	}
+
+	/*
+	 * <---------- runEncoderAsLinearEncoder end
+	 */
+
+
 
 	//non GTK on this method
 	private void runEncoderCaptureDo()

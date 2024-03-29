@@ -13397,6 +13397,7 @@
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="invisible-char">●</property>
+                                                            <property name="width-chars">7</property>
                                                             <property name="text" translatable="yes">100,00</property>
                                                             <property name="primary-icon-activatable">False</property>
                                                             <property name="secondary-icon-activatable">False</property>
@@ -13793,6 +13794,7 @@
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="invisible-char">●</property>
+                                                            <property name="width-chars">8</property>
                                                             <property name="primary-icon-activatable">False</property>
                                                             <property name="secondary-icon-activatable">False</property>
                                                             <property name="adjustment">adjustment10</property>
@@ -14384,6 +14386,7 @@
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="invisible-char">●</property>
+                                                            <property name="width-chars">8</property>
                                                             <property name="text" translatable="yes">1,0</property>
                                                             <property name="primary-icon-activatable">False</property>
                                                             <property name="secondary-icon-activatable">False</property>
@@ -14611,6 +14614,7 @@
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="invisible-char">●</property>
+                                                            <property name="width-chars">7</property>
                                                             <property name="primary-icon-activatable">False</property>
                                                             <property name="secondary-icon-activatable">False</property>
                                                             <property name="adjustment">adjustment13</property>
@@ -38015,7 +38019,7 @@ then click this button.</property>
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="invisible-char">●</property>
-                                                            <property name="width-chars">6</property>
+                                                            <property name="width-chars">8</property>
                                                             <property name="primary-icon-activatable">False</property>
                                                             <property name="secondary-icon-activatable">False</property>
                                                             <property name="adjustment">adjustment114</property>
@@ -38585,7 +38589,7 @@ then click this button.</property>
                                                             <property name="has-tooltip">True</property>
                                                             <property name="tooltip-text" translatable="yes">Minimal height</property>
                                                             <property name="invisible-char">●</property>
-                                                            <property name="width-chars">3</property>
+                                                            <property name="width-chars">5</property>
                                                             <property name="primary-icon-activatable">False</property>
                                                             <property name="secondary-icon-activatable">False</property>
                                                             <property name="adjustment">adjustment116</property>
@@ -38655,7 +38659,7 @@ then click this button.</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="has-tooltip">True</property>
                                                             <property name="invisible-char">●</property>
-                                                            <property name="width-chars">3</property>
+                                                            <property name="width-chars">5</property>
                                                             <property name="primary-icon-activatable">False</property>
                                                             <property name="secondary-icon-activatable">False</property>
                                                             <property name="adjustment">adjustment117</property>
@@ -38884,7 +38888,7 @@ then click this button.</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="max-length">3</property>
                                                             <property name="invisible-char">•</property>
-                                                            <property name="width-chars">5</property>
+                                                            <property name="width-chars">8</property>
                                                             <property name="xalign">1</property>
                                                             <property name="primary-icon-activatable">False</property>
                                                             <property name="secondary-icon-activatable">False</property>
@@ -38940,7 +38944,7 @@ then click this button.</property>
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="invisible-char">•</property>
-                                                            <property name="width-chars">6</property>
+                                                            <property name="width-chars">8</property>
                                                             <property name="primary-icon-activatable">False</property>
                                                             <property name="secondary-icon-activatable">False</property>
                                                             <property name="adjustment">adjustment119</property>

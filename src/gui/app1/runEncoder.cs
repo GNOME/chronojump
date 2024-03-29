@@ -645,12 +645,13 @@ public partial class ChronoJumpWindow
 	 * runEncoderAsLinearEncoder start ------------>
 	 */
 
+	EncoderPTCaptureManage eptcm;
 
 	private void runEncoderAsLinearEncoderCaptureDo()
 	{
 		runEncoderPulseMessage = "Capture as linear encoder... please wait";
 		LogB.Information("eptcm start");
-		EncoderPTCaptureManage eptcm = new EncoderPTCaptureManage (
+		eptcm = new EncoderPTCaptureManage (
 				new EncoderPTCapture (
 					chronopicRegister.GetSelectedForMode (current_mode).Port,
 					preferences.runEncoderPPS),
@@ -665,11 +666,13 @@ public partial class ChronoJumpWindow
 			runEncoderPulseMessage = capturingMessage;
 			eptcm.Capture ();
 
+			/*
 			LogB.Information("eptcm end");
 			runEncoderPulseMessage = "Done! check log";
 
 			runEncoderProcessCancel = true;
 			//capturingRunEncoder = arduinoCaptureStatus.STOP;
+			*/
 		}
 	}
 
@@ -685,6 +688,12 @@ public partial class ChronoJumpWindow
 		event_execute_label_message.Text = runEncoderPulseMessage;
 		if(! runEncoderCaptureThread.IsAlive || runEncoderProcessFinish || runEncoderProcessCancel || runEncoderProcessError) //capture ends
 		{
+			if (runEncoderProcessCancel && eptcm != null)
+			{
+				event_execute_label_message.Text = "Cancelled.";
+				eptcm.Cancel = true;
+			}
+
 			blinkCapture.End ();
 			showHideCaptureIcon (false);
 

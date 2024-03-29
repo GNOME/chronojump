@@ -37,10 +37,8 @@ public class EncoderPTCaptureManage
 	private List<PointF> points_st_l;
 	private List<PointF> points_at_l;
 
-	public EncoderPTCaptureManage (EncoderPTCapture encoderPTCapture,
-			ref List<PointF> points_dt_l,
-			ref List<PointF> points_st_l,
-			ref List<PointF> points_at_l)
+	public EncoderPTCaptureManage (EncoderPTCapture encoderPTCapture, ref List<PointF> points_dt_l, 
+			ref List<PointF> points_st_l, ref List<PointF> points_at_l)
 	{
 		this.encoderPTCapture = encoderPTCapture;
 		this.points_dt_l = points_dt_l;
@@ -63,7 +61,6 @@ public class EncoderPTCaptureManage
 
 	public void Capture ()
 	{
-		int count = -1;
 		double timePre = -1;
 		double speedPre = -1;
 		bool timePreSet = false;
@@ -82,8 +79,6 @@ public class EncoderPTCaptureManage
 			{
 				EncoderPTEvent epte = encoderPTCapture.EncoderPTCaptureReadNext();
 				LogB.Information("epte: " + epte.ToString());
-
-				count ++;
 
 				if (! timePreSet)
 				{
@@ -120,9 +115,6 @@ public class EncoderPTCaptureManage
 				points_at_l.Add (new PointF (
 							UtilAll.DivideSafe(epte.Time, 1000000),
 							accel));
-
-				if (count >= 2000)
-					finish = true;
 			}
 
 		}
@@ -134,8 +126,8 @@ public class EncoderPTCaptureManage
 			LogB.Information("cancelled");
 	}
 
-	public double Distance {
-		get { return distance; }
+	public bool Cancel {
+		set { cancel = value; }
 	}
 }
 

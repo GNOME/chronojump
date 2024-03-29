@@ -614,6 +614,9 @@ public partial class ChronoJumpWindow
 
 		if (runEncoderAsLinearEncoder)
 		{
+			//do not need to show velocimeter
+			drawingarea_race_analyzer_capture_velocimeter_bottom.Visible = false;
+
 			runEncoderCaptureThread = new Thread(new ThreadStart(runEncoderAsLinearEncoderCaptureDo));
 			GLib.Idle.Add (new GLib.IdleHandler (pulseGTKRunEncoderAsLinearEncoderCapture));
 		} else {

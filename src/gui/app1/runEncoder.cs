@@ -687,8 +687,8 @@ public partial class ChronoJumpWindow
 		event_execute_label_message.Text = runEncoderPulseMessage;
 		if(! runEncoderCaptureThread.IsAlive || runEncoderProcessFinish || runEncoderProcessCancel || runEncoderProcessError) //capture ends
 		{
-			showHideCaptureIcon (false);
 			blinkCapture.End ();
+			showHideCaptureIcon (false);
 
 			sensitiveLastTestButtons(false);
 			contactsShowCaptureDoingButtons(false);
@@ -1996,8 +1996,8 @@ public partial class ChronoJumpWindow
 		if(! runEncoderCaptureThread.IsAlive || runEncoderProcessFinish || runEncoderProcessCancel || runEncoderProcessError) //capture ends
 		{
 			LogB.Information(" re C ");
-			showHideCaptureIcon (false);
 			blinkCapture.End ();
+			showHideCaptureIcon (false);
 
 			button_video_play_this_test_contacts.Sensitive = false;
 

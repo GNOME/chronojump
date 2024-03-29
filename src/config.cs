@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2023   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2004-2024   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -65,7 +65,7 @@ public class Config
 		CopyToCloudFullPath, CopyToCloudOnExit, ReadFromCloudMainPath, //cloud
 		CanOpenExternalDB, ExternalDBDefaultPath, //externalDB
 		LastDBFullPath, //cloud & externalDB
-		SessionMode, FTDIalways, Raspberry, LowHeight, LowCPU, GuiTest, //other
+		SessionMode, FTDIalways, Raspberry, LowHeight, LowCPU, EncoderPT, GuiTest, //other
 		Exhibition, ExhibitionStationType, PlaySoundsFromFile //outdated or not working
 	};
 
@@ -154,6 +154,9 @@ public class Config
 	}
 	public bool LowCPU {
 		get { return configList.GetBool (OpEnum.LowCPU); }
+	}
+	public bool EncoderPT {
+		get { return configList.GetBool (OpEnum.EncoderPT); }
 	}
 	public bool GuiTest {
 		get { return configList.GetBool (OpEnum.GuiTest); }
@@ -461,6 +464,9 @@ public class ConfigList
 			str += "\n" + co.ToString ();
 		}
 		str += "\n\nNote to define need to write option=theOption (without spaces) (paths without quotes (at least on Linux)) at chronojump_config.txt";
+		str += "\n\nExamples:";
+	        str += "\nCanOpenExternalDB=TRUE";
+	        str += "\nSessionMode=POWERGRAVITATORY";
 		str += "\n\nCanOpenExternalDB and ReadFromCloudMainPath only one can be active (if both are, cloud will be used). Because they do the same: show the database button, but on reading from cloud it will do a copy to tmp and operate with this copy.";
 		str += "\n\nThis options are here and not in Sqlite DB because here are more easily changed on configure networks devices (just change a .txt),\n" +
 			"also there is more convenient when related to some machines: eg. a LowHeight will display the gui in a way, but on change to its DB from other machine, we would not to see in LowHeight.";
@@ -552,6 +558,8 @@ public class ConfigList
 					"Devices with less than 500 px vertical, like Odroid Go Super"));
 		list.Add (new ConfigOptionBool (Config.OpEnum.LowCPU,
 					"Workaround to not show realtime graph on force sensor capture (until its optimized)"));
+		list.Add (new ConfigOptionBool (Config.OpEnum.EncoderPT,
+					"Encoder as Pulse,Time, managed by runEncoder mode"));
 		list.Add (new ConfigOptionBool (Config.OpEnum.GuiTest,
 					"To perform tests with the GUI (untested with current code)."));
 

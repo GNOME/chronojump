@@ -612,7 +612,7 @@ public partial class ChronoJumpWindow
 
 		blinkCapture = new Blink ();
 
-		if (runEncoderAsLinearEncoder)
+		if (configChronojump.EncoderPT)
 		{
 			//do not need to show velocimeter
 			drawingarea_race_analyzer_capture_velocimeter_bottom.Visible = false;
@@ -645,14 +645,12 @@ public partial class ChronoJumpWindow
 	 * runEncoderAsLinearEncoder start ------------>
 	 */
 
-	private bool runEncoderAsLinearEncoder = true;
-	private EncoderPTCaptureManage eptcm;
 
 	private void runEncoderAsLinearEncoderCaptureDo()
 	{
 		runEncoderPulseMessage = "Capture as linear encoder... please wait";
 		LogB.Information("eptcm start");
-		eptcm = new EncoderPTCaptureManage (
+		EncoderPTCaptureManage eptcm = new EncoderPTCaptureManage (
 				new EncoderPTCapture (
 					chronopicRegister.GetSelectedForMode (current_mode).Port,
 					preferences.runEncoderPPS),

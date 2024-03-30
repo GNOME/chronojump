@@ -6,8 +6,8 @@ MAC_APP_DIR="${MAC_APP_ROOT_DIR}/Chronojump.app"
 MAC_APP_BIN_DIR="${MAC_APP_DIR}/Contents/Home/bin/"
 MAC_APP_RESOURCE_DIR="${MAC_APP_DIR}/Contents/Resources/"
 MAC_APP_FRAMEWORK_DIR="${MAC_APP_DIR}/Contents/Frameworks/"
-MAC_DMG_FILE_NAME="$1.dmg"
 ARCH="$2"
+MAC_DMG_FILE_NAME="$1-${ARCH}.dmg"
 
 run_codesign()
 {
@@ -32,7 +32,16 @@ rm ${MAC_APP_BIN_DIR}/*.pdb
 # Install the GTK dependencies.
 echo "Bundling GTK..."
 chmod +x bundle_gtk.py
-./bundle_gtk.py --resource_dir ${MAC_APP_FRAMEWORK_DIR}/gtk3
+
+# Get OS Version
+os_version=$(sw_vers -productVersion)    
+# Check whether 10.x
+if echo "$os_version" | grep -q '10\.[0-9]\+\..*'; then
+    ./bundle_gtk_osx10.py --resource_dir ${MAC_APP_FRAMEWORK_DIR}/gtk3
+else
+    ./bundle_gtk.py --resource_dir ${MAC_APP_FRAMEWORK_DIR}/gtk3
+fi
+
 # Add the GTK lib dir to the library search path (for dlopen()), as an alternative to $DYLD_LIBRARY_PATH.
 install_name_tool -add_rpath "@executable_path/../Frameworks/gtk3/lib" ${MAC_APP_BIN_DIR}/Chronojump
 

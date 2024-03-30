@@ -31,14 +31,15 @@ rm ${MAC_APP_BIN_DIR}/*.pdb
 
 # Install the GTK dependencies.
 echo "Bundling GTK..."
-chmod +x bundle_gtk.py
 
 # Get OS Version
 os_version=$(sw_vers -productVersion)    
 # Check whether 10.x
 if echo "$os_version" | grep -q '10\.[0-9]\+\..*'; then
+    chmod +x bundle_gtk_osx10.py
     ./bundle_gtk_osx10.py --resource_dir ${MAC_APP_FRAMEWORK_DIR}/gtk3
 else
+    chmod +x bundle_gtk.py
     ./bundle_gtk.py --resource_dir ${MAC_APP_FRAMEWORK_DIR}/gtk3
 fi
 

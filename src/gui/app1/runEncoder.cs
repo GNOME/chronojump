@@ -612,8 +612,11 @@ public partial class ChronoJumpWindow
 
 		blinkCapture = new Blink ();
 
-		if (runEncoderAsLinearEncoder)
+		if (configChronojump.EncoderPT)
 		{
+			//do not need to show velocimeter
+			drawingarea_race_analyzer_capture_velocimeter_bottom.Visible = false;
+
 			runEncoderCaptureThread = new Thread(new ThreadStart(runEncoderAsLinearEncoderCaptureDo));
 			GLib.Idle.Add (new GLib.IdleHandler (pulseGTKRunEncoderAsLinearEncoderCapture));
 		} else {
@@ -642,19 +645,29 @@ public partial class ChronoJumpWindow
 	 * runEncoderAsLinearEncoder start ------------>
 	 */
 
-	private bool runEncoderAsLinearEncoder = false;
-	//private bool runEncoderAsLinearEncoder = true;
+	EncoderPTCaptureManage eptcm;
+	EncoderPTCapture eptc;
 
 	private void runEncoderAsLinearEncoderCaptureDo()
 	{
 		runEncoderPulseMessage = "Capture as linear encoder... please wait";
 		LogB.Information("eptcm start");
-		EncoderPTCaptureManage eptcm = new EncoderPTCaptureManage (
-				new EncoderPTCapture (
+
+		if (eptc == null)
+			eptc = new EncoderPTCapture (
 					chronopicRegister.GetSelectedForMode (current_mode).Port,
-					preferences.runEncoderPPS
-					)
+					preferences.runEncoderPPS);
+		//TODO: need a way to update Port and PPS if changed
+
+		//need to pass the ref every capture because every capture we do:
+		//cairo...Points_xx_l = new List<PointF> ()
+		eptcm = new EncoderPTCaptureManage (
+				eptc,
+				ref cairoGraphRaceAnalyzerPoints_dt_l,
+				ref cairoGraphRaceAnalyzerPoints_st_l,
+				ref cairoGraphRaceAnalyzerPoints_at_l
 				);
+
 		LogB.Information("eptcm start do");
 		if (eptcm.Init ())
 		{
@@ -662,12 +675,17 @@ public partial class ChronoJumpWindow
 			runEncoderPulseMessage = capturingMessage;
 			eptcm.Capture ();
 
+			/*
 			LogB.Information("eptcm end");
 			runEncoderPulseMessage = "Done! check log";
-			capturingRunEncoder = arduinoCaptureStatus.STOP;
+
+			runEncoderProcessCancel = true;
+			//capturingRunEncoder = arduinoCaptureStatus.STOP;
+			*/
 		}
 	}
 
+	//most of this code comes from pulseGTKRunEncoderCapture ()
 	private bool pulseGTKRunEncoderAsLinearEncoderCapture ()
 	{
 		if(runEncoderCaptureThread == null)
@@ -679,18 +697,35 @@ public partial class ChronoJumpWindow
 		event_execute_label_message.Text = runEncoderPulseMessage;
 		if(! runEncoderCaptureThread.IsAlive || runEncoderProcessFinish || runEncoderProcessCancel || runEncoderProcessError) //capture ends
 		{
-			showHideCaptureIcon (false);
-			blinkCapture.End ();
+			if (runEncoderProcessCancel && eptcm != null)
+			{
+				event_execute_label_message.Text = "Cancelled.";
+				eptcm.Cancel = true;
+			}
 
-			sensitiveLastTestButtons(true);
+			blinkCapture.End ();
+			showHideCaptureIcon (false);
+
+			sensitiveLastTestButtons(false);
 			contactsShowCaptureDoingButtons(false);
+			button_ai_model_options_close_and_analyze.Sensitive = false;
+			button_ai_model.Sensitive = false;
+			button_ai_model_save_image.Sensitive = false;
+			button_contacts_delete_selected.Sensitive = false;
 
 			LogB.ThreadEnding();
 			LogB.Mute = preferences.muteLogs;
 			if(! preferences.muteLogs)
 				LogB.Information("muteLogs INactive. Logs active active again");
 			LogB.ThreadEnded();
+
+			runEncoderButtonsSensitive(true);
+			radio_signal_analyze_current_set.Active = true;
 			hideButtons();
+
+			drawingarea_race_analyzer_capture_position_time.QueueDraw ();
+			drawingarea_race_analyzer_capture_speed_time.QueueDraw ();
+			drawingarea_race_analyzer_capture_accel_time.QueueDraw ();
 
 			return false;
 		} else {
@@ -699,11 +734,15 @@ public partial class ChronoJumpWindow
 				if (blinkCapture.Status == Blink.StatusEnum.NOTSTARTED)
 					blinkCapture.Start (); //TODO: but note here is still connecting
 				showHideCaptureIcon (true);
+
+				drawingarea_race_analyzer_capture_position_time.QueueDraw ();
+				drawingarea_race_analyzer_capture_speed_time.QueueDraw ();
+				drawingarea_race_analyzer_capture_accel_time.QueueDraw ();
 			}
 		}
 
 		Thread.Sleep (50);
-		//LogB.Information(" RunEncoderAsLinearEncoder:"+ runEncoderCaptureThread.ThreadState.ToString());
+		//LogB.Information("RunEncoderAsLinearEncoder:"+ runEncoderCaptureThread.ThreadState.ToString());
 		return true;
 	}
 
@@ -1973,8 +2012,8 @@ public partial class ChronoJumpWindow
 		if(! runEncoderCaptureThread.IsAlive || runEncoderProcessFinish || runEncoderProcessCancel || runEncoderProcessError) //capture ends
 		{
 			LogB.Information(" re C ");
-			showHideCaptureIcon (false);
 			blinkCapture.End ();
+			showHideCaptureIcon (false);
 
 			button_video_play_this_test_contacts.Sensitive = false;
 

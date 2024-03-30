@@ -32,17 +32,27 @@ public class EncoderPTCaptureManage
 	private bool cancel;
 	private bool error;
 
-	public EncoderPTCaptureManage (EncoderPTCapture encoderPTCapture)
+	private double distance; //units?
+	private List<PointF> points_dt_l;
+	private List<PointF> points_st_l;
+	private List<PointF> points_at_l;
+
+	public EncoderPTCaptureManage (
+			EncoderPTCapture encoderPTCapture,
+			ref List<PointF> points_dt_l, ref List<PointF> points_st_l, ref List<PointF> points_at_l)
 	{
 		this.encoderPTCapture = encoderPTCapture;
-
-		finish = false;
-		cancel = false;
-		error = false;
+		this.points_dt_l = points_dt_l;
+		this.points_st_l = points_st_l;
+		this.points_at_l = points_at_l;
 	}
 
 	public bool Init ()
 	{
+		finish = false;
+		cancel = false;
+		error = false;
+
 		encoderPTCapture.Reset ();
 		if (! encoderPTCapture.CaptureStart ())
 			return false;
@@ -52,7 +62,11 @@ public class EncoderPTCaptureManage
 
 	public void Capture ()
 	{
-		int count = 0;
+		double timePre = -1;
+		double speedPre = -1;
+		bool timePreSet = false;
+		bool speedPreSet = false;
+
 		while (! finish && ! cancel && ! error)
 		{
 			if(! encoderPTCapture.BytesToReadEnoughForASample ())
@@ -65,10 +79,43 @@ public class EncoderPTCaptureManage
 			if (encoderPTCapture.CanReadFromList ())
 			{
 				EncoderPTEvent epte = encoderPTCapture.EncoderPTCaptureReadNext();
-				LogB.Information("wait_event epte: " + epte.ToString());
-				count ++;
-				if (count >= 2000)
-					finish = true;
+				LogB.Information("epte: " + epte.ToString());
+
+				if (! timePreSet)
+				{
+					timePre = epte.Time;
+					timePreSet = true;
+					continue;
+				}
+
+				double distanceAtThisSample = UtilAll.DivideSafe (epte.Distance, 6.9);
+				distance += distanceAtThisSample;
+
+				double speed = UtilAll.DivideSafe (
+						distanceAtThisSample, (epte.Time - timePre)) * 1000000;
+
+				if (! speedPreSet)
+				{
+					speedPre = speed;
+					speedPreSet = true;
+					continue;
+				}
+
+				double accel = UtilAll.DivideSafe(
+					(speed - speedPre), (epte.Time/1000000.0 - timePre/1000000.0) );
+
+				timePre = epte.Time;
+				speedPre = speed;
+
+				points_dt_l.Add (new PointF (
+							UtilAll.DivideSafe(epte.Time, 1000000),
+							distance));
+				points_st_l.Add (new PointF (
+							UtilAll.DivideSafe(epte.Time, 1000000),
+							speed));
+				points_at_l.Add (new PointF (
+							UtilAll.DivideSafe(epte.Time, 1000000),
+							accel));
 			}
 
 		}
@@ -78,6 +125,10 @@ public class EncoderPTCaptureManage
 			LogB.Information("finished");
 		if (cancel)
 			LogB.Information("cancelled");
+	}
+
+	public bool Cancel {
+		set { cancel = value; }
 	}
 }
 

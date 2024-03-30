@@ -17,7 +17,7 @@ PIXBUF_LOADERS = "lib/gdk-pixbuf-2.0/2.10.0"
 IM_MODULES = "lib/gtk-3.0/3.0.0/immodules"
 GLIB_SCHEMAS = "share/glib-2.0/schemas"
 
-OTOOL_LIB_REGEX = re.compile("(/opt/homebrew/.*\.dylib)") # Ignore system libraries.
+OTOOL_LIB_REGEX = re.compile("(/opt/homebrew/.*/.dylib)") # Ignore system libraries.
 
 def run_install_name_tool(lib, deps, lib_install_dir):
     # Make writable by user.

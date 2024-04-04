@@ -50,7 +50,6 @@ public partial class ChronoJumpWindow
 	Gtk.Label label_encoder_1RM_percent;
 	Gtk.Label label_encoder_im_total;
 	Gtk.SpinButton spin_encoder_im_weights_n;
-	Gtk.Entry entry_encoder_im_weights_n;
 	Gtk.HBox hbox_combo_encoder_anchorage;
 
 	Gtk.Label label_encoder_selected;	
@@ -618,12 +617,6 @@ public partial class ChronoJumpWindow
 
 
 	// ---- start of spin_encoder_im_weights_n ---->
-	/*
-	 * when spin is seen the others (-1, entry, +1) are not seen
-	 * -1, 1 change the entry
-	 * entry changes de spin
-	 * spin does not change anything
-	 */
 	
 	//add-remove weights on encoder inertial using '+', '-'
 	private void on_fake_button_encoder_exercise_im_weights_n_plus_clicked(object o, EventArgs args)
@@ -631,47 +624,24 @@ public partial class ChronoJumpWindow
 		if(textview_encoder_signal_comment.IsFocus)
 			textview_encoder_signal_comment.Buffer.Text += '+';
 		else
-			on_button_encoder_im_weights_n_plus_clicked (new object (), new EventArgs ());
+			spin_encoder_im_weights_n.Value += 1;
 	}
 	private void on_fake_button_encoder_exercise_im_weights_n_minus_clicked(object o, EventArgs args)
 	{
 		if(textview_encoder_signal_comment.IsFocus)
 			textview_encoder_signal_comment.Buffer.Text += '-';
 		else
-			on_button_encoder_im_weights_n_minus_clicked (new object (), new EventArgs ());
+			spin_encoder_im_weights_n.Value -= 1;
 	}
 
-	void on_button_encoder_im_weights_n_minus_clicked (object o, EventArgs args) {
-		changeImWeights(-1);
-	}
-	void on_button_encoder_im_weights_n_plus_clicked (object o, EventArgs args) {
-		changeImWeights(+1);
-	}
-	private void changeImWeights(int change) {
-		int newValue = Convert.ToInt32(entry_encoder_im_weights_n.Text) + change;
-
-		double min, max;
-		spin_encoder_im_weights_n.GetRange(out min, out max);
-		if(newValue >= Convert.ToDouble(min) && newValue <= Convert.ToDouble(max))
-			entry_encoder_im_weights_n.Text = newValue.ToString();
-	}
-
-	void on_spin_encoder_im_weights_n_value_changed (object o, EventArgs args) {
+	void on_spin_encoder_im_weights_n_value_changed (object o, EventArgs args)
+	{
 		encoderConfigurationCurrent.extraWeightN = (int) spin_encoder_im_weights_n.Value; 
 		encoderConfigurationCurrent.inertiaTotal = UtilEncoder.CalculeInertiaTotal(encoderConfigurationCurrent);
 		label_encoder_im_total.Text = encoderConfigurationCurrent.inertiaTotal.ToString();
 		label_encoder_top_im.Text = Catalog.GetString("Inertia M.") + ": " + label_encoder_im_total.Text;
-	}
-	void on_entry_encoder_im_weights_n_changed (object o, EventArgs args) 
-	{
-		if(entry_encoder_im_weights_n.Text == "" || entry_encoder_im_weights_n.Text == "00")
-			entry_encoder_im_weights_n.Text = "0";
-		else if(Util.IsNumber(entry_encoder_im_weights_n.Text, false)) //cannot be decimal
-			spin_encoder_im_weights_n.Value = Convert.ToInt32(entry_encoder_im_weights_n.Text);
-		else
-			entry_encoder_im_weights_n.Text = spin_encoder_im_weights_n.Value.ToString();
 
-		label_encoder_top_weights.Text = entry_encoder_im_weights_n.Text;
+		label_encoder_top_weights.Text = spin_encoder_im_weights_n.Value.ToString ();
 	}
 
 	// <---- end of spin_encoder_im_weights_n ----
@@ -2162,9 +2132,6 @@ public partial class ChronoJumpWindow
 						);
 			}
 
-			//this will update also spin_encoder_im_weights_n ...
-			entry_encoder_im_weights_n.Text = encoderConfigurationCurrent.extraWeightN.ToString();
-			// ... but we found not updated on some computers, so we force update it
 			spin_encoder_im_weights_n.Value = encoderConfigurationCurrent.extraWeightN;
 
 			label_encoder_im_total.Text = encoderConfigurationCurrent.inertiaTotal.ToString();
@@ -4863,7 +4830,7 @@ public partial class ChronoJumpWindow
 		else
 			label_encoder_top_1RM_percent.Text = label_encoder_1RM_percent.Text + " %1RM";
 
-		label_encoder_top_weights.Text = entry_encoder_im_weights_n.Text;
+		label_encoder_top_weights.Text = spin_encoder_im_weights_n.Value.ToString ();
 		label_encoder_top_im.Text = Catalog.GetString("Inertia M.") + ": " + label_encoder_im_total.Text;
 
 
@@ -8266,7 +8233,6 @@ public partial class ChronoJumpWindow
 		label_encoder_1RM_percent = (Gtk.Label) builder.GetObject ("label_encoder_1RM_percent");
 		label_encoder_im_total = (Gtk.Label) builder.GetObject ("label_encoder_im_total");
 		spin_encoder_im_weights_n = (Gtk.SpinButton) builder.GetObject ("spin_encoder_im_weights_n");
-		entry_encoder_im_weights_n = (Gtk.Entry) builder.GetObject ("entry_encoder_im_weights_n");
 		hbox_combo_encoder_anchorage = (Gtk.HBox) builder.GetObject ("hbox_combo_encoder_anchorage");
 
 		label_encoder_selected = (Gtk.Label) builder.GetObject ("label_encoder_selected");	

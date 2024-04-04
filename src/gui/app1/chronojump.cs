@@ -232,6 +232,7 @@ public partial class ChronoJumpWindow
 
 	//to GTK3 colorize
 	Gtk.Frame frame_session;
+	Gtk.Box vbox_frame_database_border;
 	Gtk.Box vbox_frame_session_border;
 	Gtk.Box box_session_more;
 	Gtk.Box box_session_load_or_import;
@@ -1140,7 +1141,7 @@ public partial class ChronoJumpWindow
 			UtilGtk.ContrastLabelsBox (Config.ColorBackgroundShiftedIsDark, hbox_frame_persons_top);
 
 			//session databse
-			//
+			UtilGtk.WidgetColor (vbox_frame_database_border, Config.ColorBackgroundShifted);
 
 			//session
 			UtilGtk.WidgetColor (vbox_frame_session_border, Config.ColorBackgroundShifted);
@@ -10228,6 +10229,7 @@ LogB.Debug("mc finished 5");
 		image_line_person_max_all_sessions = (Gtk.Image) builder.GetObject ("image_line_person_max_all_sessions");
 
 		frame_session = (Gtk.Frame) builder.GetObject ("frame_session");
+		vbox_frame_database_border = (Gtk.Box) builder.GetObject ("vbox_frame_database_border");
 		vbox_frame_session_border = (Gtk.Box) builder.GetObject ("vbox_frame_session_border");
 		box_session_more = (Gtk.Box) builder.GetObject ("box_session_more");
 		box_session_load_or_import = (Gtk.Box) builder.GetObject ("box_session_load_or_import");

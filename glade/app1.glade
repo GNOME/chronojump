@@ -1495,7 +1495,7 @@
                                             <property name="can-focus">False</property>
                                             <property name="label-xalign">0</property>
                                             <property name="label-yalign">1</property>
-                                            <property name="shadow-type">out</property>
+                                            <property name="shadow-type">none</property>
                                             <child>
                                               <object class="GtkAlignment" id="alignment1">
                                                 <property name="visible">True</property>
@@ -1505,57 +1505,22 @@
                                                 <property name="left-padding">2</property>
                                                 <property name="right-padding">2</property>
                                                 <child>
-                                                  <object class="GtkVBox" id="vbox77">
+                                                  <object class="GtkBox" id="vbox_frame_database_border">
                                                     <property name="visible">True</property>
                                                     <property name="can-focus">False</property>
-                                                    <property name="spacing">4</property>
+                                                    <property name="orientation">vertical</property>
                                                     <child>
-                                                      <object class="GtkLabel" id="label_current_database">
+                                                      <object class="GtkVBox" id="vbox_">
                                                         <property name="visible">True</property>
                                                         <property name="can-focus">False</property>
-                                                        <property name="ellipsize">end</property>
-                                                        <property name="xalign">0</property>
-                                                      </object>
-                                                      <packing>
-                                                        <property name="expand">False</property>
-                                                        <property name="fill">False</property>
-                                                        <property name="position">0</property>
-                                                      </packing>
-                                                    </child>
-                                                    <child>
-                                                      <object class="GtkHBox" id="hbox224">
-                                                        <property name="visible">True</property>
-                                                        <property name="can-focus">False</property>
+                                                        <property name="border-width">4</property>
+                                                        <property name="spacing">4</property>
                                                         <child>
-                                                          <object class="GtkButton" id="button_database_change">
-                                                            <property name="label" translatable="yes">Change</property>
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">True</property>
-                                                            <property name="receives-default">True</property>
-                                                            <signal name="clicked" handler="on_button_database_change_clicked" swapped="no"/>
-                                                          </object>
-                                                          <packing>
-                                                            <property name="expand">True</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="position">0</property>
-                                                          </packing>
-                                                        </child>
-                                                      </object>
-                                                      <packing>
-                                                        <property name="expand">False</property>
-                                                        <property name="fill">False</property>
-                                                        <property name="position">1</property>
-                                                      </packing>
-                                                    </child>
-                                                    <child>
-                                                      <object class="GtkBox" id="box_copy_from_cloud_progressbars">
-                                                        <property name="can-focus">False</property>
-                                                        <property name="orientation">vertical</property>
-                                                        <property name="spacing">2</property>
-                                                        <child>
-                                                          <object class="GtkProgressBar" id="app1s_progressbar_copyFromCloud_dirs">
+                                                          <object class="GtkLabel" id="label_current_database">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
+                                                            <property name="ellipsize">end</property>
+                                                            <property name="xalign">0</property>
                                                           </object>
                                                           <packing>
                                                             <property name="expand">False</property>
@@ -1564,9 +1529,23 @@
                                                           </packing>
                                                         </child>
                                                         <child>
-                                                          <object class="GtkProgressBar" id="app1s_progressbar_copyFromCloud_subDirs">
+                                                          <object class="GtkHBox" id="hbox224">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
+                                                            <child>
+                                                            <object class="GtkButton" id="button_database_change">
+                                                            <property name="label" translatable="yes">Change</property>
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">True</property>
+                                                            <property name="receives-default">True</property>
+                                                            <signal name="clicked" handler="on_button_database_change_clicked" swapped="no"/>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
                                                           </object>
                                                           <packing>
                                                             <property name="expand">False</property>
@@ -1574,11 +1553,45 @@
                                                             <property name="position">1</property>
                                                           </packing>
                                                         </child>
+                                                        <child>
+                                                          <object class="GtkBox" id="box_copy_from_cloud_progressbars">
+                                                            <property name="can-focus">False</property>
+                                                            <property name="orientation">vertical</property>
+                                                            <property name="spacing">2</property>
+                                                            <child>
+                                                            <object class="GtkProgressBar" id="app1s_progressbar_copyFromCloud_dirs">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkProgressBar" id="app1s_progressbar_copyFromCloud_subDirs">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                          </object>
+                                                          <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">2</property>
+                                                          </packing>
+                                                        </child>
                                                       </object>
                                                       <packing>
                                                         <property name="expand">False</property>
                                                         <property name="fill">True</property>
-                                                        <property name="position">2</property>
+                                                        <property name="position">0</property>
                                                       </packing>
                                                     </child>
                                                   </object>

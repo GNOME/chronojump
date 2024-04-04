@@ -459,15 +459,21 @@ drawDynamicsFromLoadCell <- function(title, exercise, datetime,
     #triggers
     abline(v=triggersOn, col="green")
     abline(v=triggersOff, col="red")
-    
+
+    kLine = ""
+    if (op$os == "Windows")
+	    kLine = bquote("K =" ~ .(round(dynamics$k.fitted, digits = 2)) ~ s^-1)
+    else
+	    kLine = paste("K = ", round(dynamics$k.fitted, digits = 2),"s\u207B\u00B9")
+
     legendText = c(
         paste("Fmax =", round(dynamics$fmax.fitted, digits = 2), "N"),
 
 	#superscript - is not working on Cairo Windows
 	#paste("K = ", round(dynamics$k.fitted, digits = 2),"s\u207B\u00B9"),
 	#paste("K = ", round(dynamics$k.fitted, digits = 2),"s⁻¹"),
-	bquote("K =" ~ .(round(dynamics$k.fitted, digits = 2)) ~ s^-1),
-
+	#bquote("K =" ~ .(round(dynamics$k.fitted, digits = 2)) ~ s^-1),
+	kLine,
         paste("\u03C4 = ", round(dynamics$tau.fitted, digits = 2),"s")
     )
     legendColor = c("blue", "blue", "blue")

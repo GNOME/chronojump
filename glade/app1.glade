@@ -1452,6 +1452,7 @@
                                     <property name="spacing">12</property>
                                     <child>
                                       <object class="GtkBox">
+                                        <property name="visible">True</property>
                                         <property name="can-focus">False</property>
                                         <property name="orientation">vertical</property>
                                         <child>

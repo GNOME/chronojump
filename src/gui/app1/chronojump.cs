@@ -1139,9 +1139,14 @@ public partial class ChronoJumpWindow
 			UtilGtk.WidgetColor (vbox_persons, Config.ColorBackgroundShifted);
 			UtilGtk.ContrastLabelsBox (Config.ColorBackgroundShiftedIsDark, hbox_frame_persons_top);
 
+			//session databse
+			//
+
+			//session
+			UtilGtk.WidgetColor (vbox_frame_session_border, Config.ColorBackgroundShifted);
+
 			//session (more)
 			UtilGtk.WidgetColor (box_session_more, Config.ColorBackgroundShifted);
-			UtilGtk.WidgetColor (vbox_frame_session_border, Config.ColorBackgroundShifted);
 			UtilGtk.ContrastLabelsBox (Config.ColorBackgroundShiftedIsDark, box_session_more);
 
 			//session (load_or_import)

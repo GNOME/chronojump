@@ -466,7 +466,7 @@ drawDynamicsFromLoadCell <- function(title, exercise, datetime,
 	#superscript - is not working on Cairo Windows
 	#paste("K = ", round(dynamics$k.fitted, digits = 2),"s\u207B\u00B9"),
 	#paste("K = ", round(dynamics$k.fitted, digits = 2),"s⁻¹"),
-	bquote("K =" ~ .(round(dynamics$fmax.fitted, digits = 2)) ~ s^-1),
+	bquote("K =" ~ .(round(dynamics$k.fitted, digits = 2)) ~ s^-1),
 
         paste("\u03C4 = ", round(dynamics$tau.fitted, digits = 2),"s")
     )

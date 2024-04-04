@@ -82,7 +82,7 @@ public partial class ChronoJumpWindow
 	{
 		if (! configChronojump.CanOpenExternalDB)
 			alignment_vbox_session_load_or_import_select.TopPadding = (uint)
-				(frame_session.Allocation.Y - 7); //related to icons on top of load/import session
+				(frame_session.Allocation.Y - 3); //related to icons on top of load/import session
 		/*
 		 * need these two lines for macOS =use there are strange glitches if we do not put them here
 		 * eg. if we start Chronojump and try to import without having done this first:

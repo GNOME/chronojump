@@ -8744,7 +8744,8 @@ LogB.Debug("mc finished 5");
 			preferences.serverNewsDatetime = jsPing.ResultMessage;
 	}
 
-	private void on_preferences_debug_mode_start (object o, EventArgs args) {
+	private void on_preferences_debug_mode_start (object o, EventArgs args)
+	{
 		//first delete debug file
 		Util.FileDelete(System.IO.Path.GetTempPath() + "chronojump-debug.txt");
 
@@ -8752,6 +8753,8 @@ LogB.Debug("mc finished 5");
 		encoderRProcAnalyze.Debug = true;
 		preferences.debugMode = true; //be used by force sensor, importer (can be used easily for all software)
 		LogB.PrintAllThreads = true;
+
+		LogB.Information ("\n\n***\nDEBUG active\n***\n");
 
 		//hbox_gui_tests.Visible = true;
 		//button_carles.Visible = true;

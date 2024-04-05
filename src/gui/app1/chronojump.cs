@@ -4674,6 +4674,8 @@ public partial class ChronoJumpWindow
 		//on capture, show phases, time, record if we are not on forcesensor mode
 		showHideCaptureSpecificControls (m);
 
+		forceSensorShowFilterIfNeeded ();
+
 		last_menuitem_mode_defined = true;
 
 		SqlitePreferences.Update(SqlitePreferences.LastMode, m.ToString(), false);

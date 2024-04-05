@@ -30,10 +30,12 @@ public class EncoderPTCapture: ArduinoCapture
 	private double runEncoderPPS;
 	private int bauds = 115200;
 	private string firmwareVersion;
+	private string portName;
 
 	//constructor
 	public EncoderPTCapture (string portName, double runEncoderPPS)
 	{
+		this.portName = portName;
 		this.runEncoderPPS = runEncoderPPS;
 
 		cancel = false;
@@ -281,6 +283,10 @@ public class EncoderPTCapture: ArduinoCapture
 
 		//LogB.Information("encoderPTCapture readed all binary data");
                 return true;
+	}
+
+	public string PortName {
+		get { return portName; }
 	}
 
 	public double RunEncoderPPS {

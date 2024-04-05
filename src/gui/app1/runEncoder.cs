@@ -657,7 +657,10 @@ public partial class ChronoJumpWindow
 			eptc = new EncoderPTCapture (
 					chronopicRegister.GetSelectedForMode (current_mode).Port,
 					preferences.runEncoderPPS);
-		//TODO: need a way to update Port and PPS if changed
+		else if (eptc.RunEncoderPPS != preferences.runEncoderPPS)
+			eptc.RunEncoderPPS = preferences.runEncoderPPS;
+
+		//TODO: need a way to update Port if changed
 
 		//need to pass the ref every capture because every capture we do:
 		//cairo...Points_xx_l = new List<PointF> ()

@@ -29,6 +29,7 @@ public class EncoderPTCapture: ArduinoCapture
 	private List<EncoderPTEvent> list = new List<EncoderPTEvent>();
 	private double runEncoderPPS;
 	private int bauds = 115200;
+	private string firmwareVersion;
 
 	//constructor
 	public EncoderPTCapture (string portName, double runEncoderPPS)
@@ -67,39 +68,37 @@ public class EncoderPTCapture: ArduinoCapture
 				return false;
 
 			LogB.Information ("response: |" + micro.Response + "|");
-			string version = micro.Response;
+			firmwareVersion = micro.Response;
 
-			Match match = Regex.Match(version, @"Race_Analyzer-(\d+\.\d+)");
+			Match match = Regex.Match (firmwareVersion, @"Race_Analyzer-(\d+\.\d+)");
 			if(match.Groups.Count == 2)
-				version = match.Groups[1].ToString();
+				firmwareVersion = match.Groups[1].ToString();
 			else
-				version = "0.3"; //if there is a problem default to 0.3. 0.2 was the first that will be distributed and will be on binary. 0.3 has the byte of encoderOrRCA
-			
-			LogB.Information ("version: |" + version + "|");
-
-			double versionDouble = Convert.ToDouble(Util.ChangeDecimalSeparator(version));
-			if(versionDouble >= Convert.ToDouble(Util.ChangeDecimalSeparator("0.3")))
-			{
-				if(! sendCommand(string.Format("set_pps:{0};", runEncoderPPS), "Catched at set_pps"))
-				{
-					//runEncoderProcessError = true;
-					LogB.Information ("Error at set_pps");
-					return false;
-				}
-
-				//read confirmation data
-				if(! waitResponse ("pps set to", false, 2000, false))
-				{
-					//runEncoderProcessError = true;
-					LogB.Information ("Error at receive pps set to");
-					return false;
-				}
-					
-				LogB.Information ("pps set to |" + micro.Response + "|");
-			}
+				firmwareVersion = "0.3"; //if there is a problem default to 0.3. 0.2 was the first that will be distributed and will be on binary. 0.3 has the byte of encoderOrRCA
 		}
-
 		micro.Opened = true;
+
+		LogB.Information ("version: |" + firmwareVersion + "|");
+		double versionDouble = Convert.ToDouble(Util.ChangeDecimalSeparator(firmwareVersion));
+		if(versionDouble >= Convert.ToDouble(Util.ChangeDecimalSeparator("0.3")))
+		{
+			if(! sendCommand(string.Format("set_pps:{0};", runEncoderPPS), "Catched at set_pps"))
+			{
+				//runEncoderProcessError = true;
+				LogB.Information ("Error at set_pps");
+				return false;
+			}
+
+			//read confirmation data
+			if(! waitResponse ("pps set to", false, 2000, false))
+			{
+				//runEncoderProcessError = true;
+				LogB.Information ("Error at receive pps set to");
+				return false;
+			}
+
+			LogB.Information ("pps set to |" + micro.Response + "|");
+		}
 
 		//LogB.Information(string.Format("arduinoCapture portName: {0}, bauds: {1}", portName, bauds));
 
@@ -282,6 +281,11 @@ public class EncoderPTCapture: ArduinoCapture
 
 		//LogB.Information("encoderPTCapture readed all binary data");
                 return true;
+	}
+
+	public double RunEncoderPPS {
+		get { return runEncoderPPS; }
+		set { runEncoderPPS = value; }
 	}
 }
 

@@ -653,11 +653,12 @@ public partial class ChronoJumpWindow
 		runEncoderPulseMessage = "Capture as linear encoder... please wait";
 		LogB.Information("eptcm start");
 
-		if (eptc == null)
+		if (eptc == null || eptc.PortName != chronopicRegister.GetSelectedForMode (current_mode).Port)
 			eptc = new EncoderPTCapture (
 					chronopicRegister.GetSelectedForMode (current_mode).Port,
 					preferences.runEncoderPPS);
-		//TODO: need a way to update Port and PPS if changed
+		else if (eptc.RunEncoderPPS != preferences.runEncoderPPS)
+			eptc.RunEncoderPPS = preferences.runEncoderPPS;
 
 		//need to pass the ref every capture because every capture we do:
 		//cairo...Points_xx_l = new List<PointF> ()

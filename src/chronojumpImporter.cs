@@ -260,7 +260,7 @@ LogB.Information("import J ");
 		// is where the importer can find the
 		// encoder files
 		parameters.Add ("--source_base_directory");
-		parameters.Add (Path.Combine(Path.GetDirectoryName(sourceFile), "..")); 
+		parameters.Add ("\"" + Path.Combine(Path.GetDirectoryName(sourceFile), "..") + "\"");
 		parameters.Add ("--source_temp_directory");
 		parameters.Add (Util.GetDatabaseTempImportDir());
 		parameters.Add ("--destination");

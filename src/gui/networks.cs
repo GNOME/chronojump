@@ -53,7 +53,6 @@ public partial class ChronoJumpWindow
 	Gtk.HBox hbox_persons_raspberry;
 	Gtk.Box hbox_encoder_capture_extra_mass_no_raspberry;
 	Gtk.Box hbox_encoder_capture_extra_mass_raspberry;
-	Gtk.HBox hbox_encoder_im_weights_n;
 	
 	//config.EncoderNameAndCapture
 	Gtk.HBox hbox_top_person;
@@ -649,10 +648,6 @@ public partial class ChronoJumpWindow
 			button_encoder_select.HeightRequest = 40;
 			//this will make all encoder capture controls taller	
 			button_encoder_capture.SetSizeRequest(125,60);
-
-			spin_encoder_im_weights_n.Visible = false;
-			hbox_encoder_im_weights_n.Visible = true;
-			
 			//---- analyze tab ----
 
 			hbox_encoder_analyze_signal_or_curves.HeightRequest = 40;
@@ -660,7 +655,7 @@ public partial class ChronoJumpWindow
 		}
 		//restriction for configured Compujump clients
 		//if(configChronojump.Compujump)
-		//	hbox_encoder_im_weights_n.Sensitive = false;
+		//	spin_encoder_im_weights_n.Sensitive = false;
 		
 		//show only power
 		if(configChronojump.OnlyEncoderGravitatory)
@@ -1775,7 +1770,6 @@ public partial class ChronoJumpWindow
 		hbox_persons_raspberry = (Gtk.HBox) builder.GetObject ("hbox_persons_raspberry");
 		hbox_encoder_capture_extra_mass_no_raspberry = (Gtk.Box) builder.GetObject ("hbox_encoder_capture_extra_mass_no_raspberry");
 		hbox_encoder_capture_extra_mass_raspberry = (Gtk.Box) builder.GetObject ("hbox_encoder_capture_extra_mass_raspberry");
-		hbox_encoder_im_weights_n = (Gtk.HBox) builder.GetObject ("hbox_encoder_im_weights_n");
 
 		//config.EncoderNameAndCapture
 		hbox_top_person = (Gtk.HBox) builder.GetObject ("hbox_top_person");

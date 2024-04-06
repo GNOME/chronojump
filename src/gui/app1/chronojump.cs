@@ -232,6 +232,7 @@ public partial class ChronoJumpWindow
 
 	//to GTK3 colorize
 	Gtk.Frame frame_session;
+	Gtk.Box vbox_frame_database_border;
 	Gtk.Box vbox_frame_session_border;
 	Gtk.Box box_session_more;
 	Gtk.Box box_session_load_or_import;
@@ -1139,9 +1140,14 @@ public partial class ChronoJumpWindow
 			UtilGtk.WidgetColor (vbox_persons, Config.ColorBackgroundShifted);
 			UtilGtk.ContrastLabelsBox (Config.ColorBackgroundShiftedIsDark, hbox_frame_persons_top);
 
+			//session databse
+			UtilGtk.WidgetColor (vbox_frame_database_border, Config.ColorBackgroundShifted);
+
+			//session
+			UtilGtk.WidgetColor (vbox_frame_session_border, Config.ColorBackgroundShifted);
+
 			//session (more)
 			UtilGtk.WidgetColor (box_session_more, Config.ColorBackgroundShifted);
-			UtilGtk.WidgetColor (vbox_frame_session_border, Config.ColorBackgroundShifted);
 			UtilGtk.ContrastLabelsBox (Config.ColorBackgroundShiftedIsDark, box_session_more);
 
 			//session (load_or_import)
@@ -4667,6 +4673,8 @@ public partial class ChronoJumpWindow
 
 		//on capture, show phases, time, record if we are not on forcesensor mode
 		showHideCaptureSpecificControls (m);
+
+		forceSensorShowFilterIfNeeded ();
 
 		last_menuitem_mode_defined = true;
 
@@ -8738,7 +8746,8 @@ LogB.Debug("mc finished 5");
 			preferences.serverNewsDatetime = jsPing.ResultMessage;
 	}
 
-	private void on_preferences_debug_mode_start (object o, EventArgs args) {
+	private void on_preferences_debug_mode_start (object o, EventArgs args)
+	{
 		//first delete debug file
 		Util.FileDelete(System.IO.Path.GetTempPath() + "chronojump-debug.txt");
 
@@ -8746,6 +8755,8 @@ LogB.Debug("mc finished 5");
 		encoderRProcAnalyze.Debug = true;
 		preferences.debugMode = true; //be used by force sensor, importer (can be used easily for all software)
 		LogB.PrintAllThreads = true;
+
+		LogB.Information ("\n\n***\nDEBUG active\n***\n");
 
 		//hbox_gui_tests.Visible = true;
 		//button_carles.Visible = true;
@@ -10223,6 +10234,7 @@ LogB.Debug("mc finished 5");
 		image_line_person_max_all_sessions = (Gtk.Image) builder.GetObject ("image_line_person_max_all_sessions");
 
 		frame_session = (Gtk.Frame) builder.GetObject ("frame_session");
+		vbox_frame_database_border = (Gtk.Box) builder.GetObject ("vbox_frame_database_border");
 		vbox_frame_session_border = (Gtk.Box) builder.GetObject ("vbox_frame_session_border");
 		box_session_more = (Gtk.Box) builder.GetObject ("box_session_more");
 		box_session_load_or_import = (Gtk.Box) builder.GetObject ("box_session_load_or_import");

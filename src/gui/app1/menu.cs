@@ -218,7 +218,8 @@ public partial class ChronoJumpWindow
 //			radio_show_menu_and_persons_adjust_height(false);
 		}
 
-		GLib.Timeout.Add(200, new GLib.TimeoutHandler(menuTopAlign));
+		if (! configChronojump.CanOpenExternalDB)
+			GLib.Timeout.Add (200, new GLib.TimeoutHandler (menuTopAlign));
 	}
 
 	private bool menuTopAlign()
@@ -227,7 +228,9 @@ public partial class ChronoJumpWindow
 				//-hbox_above_frame_session.SizeRequest().Height);
 				- UtilGtk.WidgetHeight (hbox_above_frame_session));
 
-		alignment_session_persons.TopPadding = alignTop -4 +2; //for the vbox_frame_session_border & the border of the notebook
+		//for the vbox_frame_session_border & the border of the notebook
+		//12 is the space between externalDB and session
+		alignment_session_persons.TopPadding = alignTop -4 +2 -12;
 
 		return false;
 	}

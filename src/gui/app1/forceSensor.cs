@@ -3233,9 +3233,21 @@ LogB.Information(" fs R ");
 	private void on_force_sensor_exercise_filter_changed (object o, EventArgs args)
 	{
 		updateForceExerciseCombo ();
+		forceSensorShowFilterIfNeeded ();
+	}
+
+	private void forceSensorShowFilterIfNeeded ()
+	{
+		if (! Constants.ModeIsFORCESENSOR (current_mode))
+		{
+			force_sensor_exercise_filter_top_image.Visible = false;
+			return;
+		}
+
+		force_sensor_exercise_filter_top_image.Visible = true;
 
 		Pixbuf pixbuf;
-		if (force_sensor_exercise_filter.Text.ToString () != "")
+		if (Constants.ModeIsFORCESENSOR (current_mode) && force_sensor_exercise_filter.Text.ToString () != "")
 			pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "filter_on.png");
 		else
 			pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "filter_off.png");

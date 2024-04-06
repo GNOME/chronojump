@@ -234,7 +234,7 @@ getDynamicsFromLoadCellFile <- function(captureOptions, ex_percentBodyWeight, ex
     ))
 }
 
-drawDynamicsFromLoadCell <- function(title, exercise, datetime,
+drawDynamicsFromLoadCell <- function(title, exercise, ex_percentBodyWeight, personMass, datetime,
     dynamics, captureOptions, vlineT0=T, vline50fmax.raw=F, vline50fmax.fitted=F,
     hline50fmax.raw=F, hline50fmax.fitted=F,
     rfdDrawingOptions, triggersOn = "", triggersOff = "", xlimits = NA, forceLines = TRUE, timeLines = TRUE)
@@ -402,22 +402,25 @@ drawDynamicsFromLoadCell <- function(title, exercise, datetime,
     #Plotting RFD
     #lines(dynamics$time, dynamics$rfd/100, col = "red")
     
-    #Plotting tau
-    abline(v = dynamics$tau.fitted, col = "green4", lty = 3)
-    abline(h = dynamics$fmax.fitted*0.6321206, col = "green4", lty = 3)
-    points(dynamics$tau.fitted, dynamics$fmax.fitted*0.6321206, col = "green4")
-    arrows(x0 = 0, y0 = dynamics$f0.raw,
-           x1 = dynamics$tau.fitted, y1 = dynamics$f0.raw)
-    text(x = (dynamics$tau.fitted / 2), y = dynamics$f0.raw,
-         labels = paste(round(dynamics$tau.fitted, digits = 2), "s"), pos = 3, cex = 1.5, col = "blue")
-    # text(x = (dynamics$tau.fitted / 2), y = -20,
-    #      labels = paste(round(dynamics$tau.fitted, digits = 2), "s"), pos = 3, cex = 1.5, xpd = TRUE)
+    #Plotting tau but only if ! forceResultant
+    if (! (ex_percentBodyWeight > 0 && personMass > 0))
+    {
+	    abline(v = dynamics$tau.fitted, col = "green4", lty = 3)
+	    abline(h = dynamics$fmax.fitted*0.6321206, col = "green4", lty = 3)
+	    points(dynamics$tau.fitted, dynamics$fmax.fitted*0.6321206, col = "green4")
+	    arrows(x0 = 0, y0 = dynamics$f0.raw,
+		   x1 = dynamics$tau.fitted, y1 = dynamics$f0.raw)
+	    text(x = (dynamics$tau.fitted / 2), y = dynamics$f0.raw,
+		 labels = paste(round(dynamics$tau.fitted, digits = 2), "s"), pos = 3, cex = 1.5, col = "blue")
+	    # text(x = (dynamics$tau.fitted / 2), y = -20,
+	    #      labels = paste(round(dynamics$tau.fitted, digits = 2), "s"), pos = 3, cex = 1.5, xpd = TRUE)
     
-    arrows(x0 = 0, y0 = 0,
-           x1 = 0, y1 = dynamics$fmax.fitted*0.6321206)
-    
-    text(x = 0, y = dynamics$fmax.fitted*0.6321206 / 2,
-         labels = "63% of fmax", pos = 2, cex = 1.5, srt = 90, col = "blue")
+	    arrows(x0 = 0, y0 = 0,
+		   x1 = 0, y1 = dynamics$fmax.fitted*0.6321206)
+
+	    text(x = 0, y = dynamics$fmax.fitted*0.6321206 / 2,
+		 labels = "63% of fmax", pos = 2, cex = 1.5, srt = 90, col = "blue")
+    }
     
     #Plotting fmax.raw
     text( x = dynamics$tfmax.raw, y = dynamics$fmax.raw,
@@ -459,15 +462,20 @@ drawDynamicsFromLoadCell <- function(title, exercise, datetime,
     #triggers
     abline(v=triggersOn, col="green")
     abline(v=triggersOff, col="red")
-    
+
+    #superscript - is not working on Cairo Windows
+    #paste("K = ", round(dynamics$k.fitted, digits = 2),"s\u207B\u00B9"),
+    #paste("K = ", round(dynamics$k.fitted, digits = 2),"s⁻¹"),
+    #bquote("K =" ~ .(round(dynamics$k.fitted, digits = 2)) ~ s^-1),
+    kLine = ""
+    if (op$os == "Windows")
+	    kLine = bquote("K =" ~ .(round(dynamics$k.fitted, digits = 2)) ~ s^-1)
+    else
+	    kLine = paste("K = ", round(dynamics$k.fitted, digits = 2),"s\u207B\u00B9")
+
     legendText = c(
         paste("Fmax =", round(dynamics$fmax.fitted, digits = 2), "N"),
-
-	#superscript - is not working on Cairo Windows
-	#paste("K = ", round(dynamics$k.fitted, digits = 2),"s\u207B\u00B9"),
-	#paste("K = ", round(dynamics$k.fitted, digits = 2),"s⁻¹"),
-	bquote("K =" ~ .(round(dynamics$fmax.fitted, digits = 2)) ~ s^-1),
-
+	kLine,
         paste("\u03C4 = ", round(dynamics$tau.fitted, digits = 2),"s")
     )
     legendColor = c("blue", "blue", "blue")
@@ -1194,7 +1202,8 @@ doProcess <- function(pngFile, dataFile, decimalChar, title, exercise, ex_percen
 			op$averageLength, op$percentChange, testLength = op$testLength, startSample, endSample)
 
 	print("Going to draw")
-	exportedValues = drawDynamicsFromLoadCell(title, exercise, datetime, dynamics, captureOptions,
+	exportedValues = drawDynamicsFromLoadCell(
+			title, exercise, ex_percentBodyWeight, personMass, datetime, dynamics, captureOptions,
 			op$vlineT0, op$vline50fmax.raw, op$vline50fmax.fitted, op$hline50fmax.raw, op$hline50fmax.fitted,
 			op$drawRfdOptions, triggersOn = op$triggersOnList, triggersOff = op$triggersOffList)
 #                       op$drawRfdOptions, xlimits = c(0.5, 1.5))

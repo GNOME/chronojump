@@ -390,9 +390,9 @@ LogB.Information("import L ");
 		}
 
 		LogB.Information("importer_executable: " + importer_executable);
-		string importer_script_path = System.IO.Path.Combine (Util.GetPrefixDir (), "bin/chronojump_importer.py");
+		string importer_script_path = System.IO.Path.Combine (Util.GetPrefixDir (), "bin/chronojump-importer/chronojump_importer.py");
 		if (UtilAll.IsWindows())
-			importer_script_path = System.IO.Path.Combine (Util.GetPrefixDir (), @"bin\chronojump_importer.py");
+			importer_script_path = System.IO.Path.Combine (Util.GetPrefixDir (), @"bin\chronojump-importer\chronojump_importer.py");
 
 		// first argument of the Python: the path to the script
 		parameters.Insert (0, importer_script_path);

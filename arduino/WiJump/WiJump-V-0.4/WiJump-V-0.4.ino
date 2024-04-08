@@ -51,7 +51,7 @@ String version = "IRPlatform-0.4-XIAO";
 #define RED_PIN     D8                  //Dual led for on/off indicator
 #define GREEN_PIN     D7                //Dual led for battery indicator
 #define BATT_LEV_PIN  13
-elapsedMillis totalTime = 0;
+elapsedMicros totalTime = 0;
 elapsedMillis burstingTime = 0;
 
 int lastEvent = 0;                      // Negative numbers means leaving the sensor (Beam not detected -> Beam detected).
@@ -314,11 +314,9 @@ void setInputPin(unsigned int pin) {
 
 void sync() {
   setIRPower(0);
-  printLog( "Power set to 0" );
   totalTime=0;
-  delay(30000);
+  delay(10000);
   setIRPower(duty);
-  printLog( "Power set to " + String(duty));
 }
 
 //Set the BLE Name with the parameter
@@ -377,6 +375,8 @@ void processCommand(String inputString) {
   if (commandString == "setIRPower") {
     duty = argumentString.toInt();
     setIRPower( duty );
+  } else if (commandString == "getIRPower") {
+    Serial.println(String(duty) + "%");
   } else if (commandString == "get_version") {
     getVersion();
   } else if (commandString == "setOrMode") {

@@ -403,7 +403,7 @@ public partial class ChronoJumpWindow
 				parameters.Add ("x"); //we need the parent folder
 				parameters.Add ("-aoa"); //Overwrite All existing files without prompt.
 				parameters.Add ("-o" + tempImportExtractDir);
-				parameters.Add (filechooser.Filename);
+				parameters.Add ("\"" + filechooser.Filename + "\""); // \" to fix spaces problems at least on Linux
 
 				string executable = ExecuteProcess.Get7zExecutable (operatingSystem);
 				ExecuteProcess.run (executable, parameters, false, false);

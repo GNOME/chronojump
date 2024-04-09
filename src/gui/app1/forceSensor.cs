@@ -2668,7 +2668,10 @@ LogB.Information(" fs R ");
 
 				if(Util.IsNumber(strFull[0], false) && Util.IsNumber(Util.ChangeDecimalSeparator(strFull[1]), true))
 				{
+					times_l.Add (Convert.ToInt32(strFull[0]));
 					timesUnfiltered_l.Add (Convert.ToInt32(strFull[0]));
+
+					forces_l.Add (Convert.ToDouble(Util.ChangeDecimalSeparator(strFull[1])));
 					forcesUnfiltered_l.Add (Convert.ToDouble(Util.ChangeDecimalSeparator(strFull[1])));
 
 					if (preferences.forceSensorButterworth >= 0)
@@ -2684,9 +2687,6 @@ LogB.Information(" fs R ");
 			bw.Calculate ();
 			times_l = bw.Times_l;
 			forces_l = bw.Forces_l;
-		} else {
-			times_l = timesUnfiltered_l;
-			forces_l = forcesUnfiltered_l;
 		}
 
 		forceSensorGridColors ();

@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2022   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2022-2024   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -240,6 +240,7 @@ public partial class ChronoJumpWindow
 	private static bool needToCloseSessionToCompress;
 	static string app1s_exportText;
 	static long app1s_exportElapsedMs;
+
 	//No GTK here!
 	private void app1s_export()
 	{
@@ -304,10 +305,10 @@ public partial class ChronoJumpWindow
 			List<string> parameters = new List<string>();
 			parameters.Add ("a");
 
-			parameters.Add (app1s_fileCopy + ".7z");
+			parameters.Add ("\"" + app1s_fileCopy + ".7z\"");
 
 			// option 1 add the folder with the files (better to have a dir that can be uncompressed in order to be opened from importer)
-			parameters.Add (app1s_fileCopy);
+			parameters.Add ("\"" + app1s_fileCopy + "\"");
 			// option 2 without the parent folder (cleaner, but do not found how to import)
 			//parameters.Add (app1s_fileCopy + Path.DirectorySeparatorChar + "*");
 

@@ -49,9 +49,12 @@ namespace Chronojump
                 else
                     pixbuf = new Pixbuf(assembly, resource);
             }
-            catch
+            catch (Exception ex)
             {
-            }
+		    LogB.Information (string.Format (
+					    "catched at MyPixbuf.Get (assembly, resource). assembly: {0}, resource: {1}, exception: {2}",
+					    assembly, resource, ex));
+	    }
             return pixbuf;
         }
 
@@ -67,9 +70,12 @@ namespace Chronojump
             {
                 pixbuf = new Pixbuf(filename);
             }
-            catch
+            catch (Exception ex)
             {
-            }
+		    LogB.Information (string.Format (
+					    "catched at MyPixbuf.Get (filename). filename: {0}, exception: {1}",
+					    filename, ex));
+	    }
             return pixbuf;
         }
 

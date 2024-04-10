@@ -254,7 +254,6 @@ public partial class ChronoJumpWindow
 		if (exportImportCompressed)
 			exportDir = app1s_fileCopyPre;
 
-		//TODO: copy only needed multimedia (photos), videos are discarded by sessions
 		app1s_uc.CopyFilesRecursively (new DirectoryInfo(Util.GetLocalDataDir (false)), new DirectoryInfo (exportDir), 0);
 
 		//TODO: check that db exists and manage sessionSwitcher to go back
@@ -266,6 +265,8 @@ public partial class ChronoJumpWindow
 			//TODO: some error message
 			return;
 		}
+
+		deletePhotosNotInThisSession (exportDir);
 
 		SqliteSessionSwitcher sessionSwitcher = new SqliteSessionSwitcher
 			(SqliteSessionSwitcher.DatabaseType.EXPORT, exportedDB);
@@ -326,6 +327,43 @@ public partial class ChronoJumpWindow
 		sw.Stop();
 		app1s_exportElapsedMs = sw.ElapsedMilliseconds;
 		LogB.Information("ended app1s_export()");
+	}
+
+	private void deletePhotosNotInThisSession (string exportDir)
+	{
+		//find wich persons we have to delete unwanted multimedia/photos
+		List<Person> person_l = SqlitePersonSession.SelectCurrentSessionPersonsAsList (false, currentSession.UniqueID);
+
+		string photosDir = Path.Combine (exportDir, "multimedia", "photos");
+		foreach (string s in Directory.GetFiles (photosDir))
+		{
+			string filename = Path.GetFileName (s);
+
+			string [] str = filename.Split(new char[] {'.'});
+			if (str.Length != 2)
+				continue;
+
+			if (! Util.IsJpeg (str[1]) && ! Util.IsPng (str[1]))
+				continue;
+
+			if (! Util.IsNumber (str[0], false))
+				continue;
+
+			bool found = false;
+			foreach (Person p in person_l)
+				if (p.UniqueID.ToString () == str[0])
+				{
+					found = true;
+					break;
+				}
+
+			//if this photo is not of a person on exported session, delete photo and the small version
+			if (! found)
+			{
+				Util.FileDelete (s);
+				Util.FileDelete (Path.Combine (photosDir, "small", filename));
+			}
+		}
 	}
 
 	private void on_app1s_button_export_cancel_clicked (object o, EventArgs args)

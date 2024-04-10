@@ -2165,7 +2165,8 @@ LogB.Information(" fs R ");
 
 			//TODO: maybe need to wait to ensure is copied
 			File.Copy (lastForceSensorFullPath_2SetsCD, UtilEncoder.GetmifCSVFileName_CD (), true); //can be overwritten
-			forceSensorDoSignalGraphReadFile (false, fs.CaptureOption); //cd
+			forceSensorDoSignalGraphReadFile (false, fs.CaptureOption,
+					personSessionForceSensor_2SetsCD.Weight, forceSensorStiffness_2SetsCD); //cd
 
 
 			forceSensorPrepareGraphAI ();
@@ -2627,10 +2628,10 @@ LogB.Information(" fs R ");
 
 	void forceSensorDoSignalGraph ()
 	{
-		forceSensorDoSignalGraphReadFile (true, getForceSensorCaptureOptions());
+		forceSensorDoSignalGraphReadFile (true, getForceSensorCaptureOptions(), currentPersonSession.Weight, currentForceSensor.Stiffness);
 		forceSensorDoSignalGraphPlot ();
 	}
-	void forceSensorDoSignalGraphReadFile (bool ab, ForceSensor.CaptureOptions fsco)
+	void forceSensorDoSignalGraphReadFile (bool ab, ForceSensor.CaptureOptions fsco, double personWeight, double stiffness)
 	{
 		//LogB.Information("at forceSensorDoSignalGraphReadFile(), filename: " + UtilEncoder.GetmifCSVFileName());
 		List<string> contents;
@@ -2695,31 +2696,32 @@ LogB.Information(" fs R ");
 		{
 			spCairoFE = forceSensorDoSignalGraphReadFileGetSPFE (
 					times_l, forces_l,
-					currentForceSensorExercise, fsco, true);
+					currentForceSensorExercise, fsco, personWeight, stiffness, true);
 			spCairoFE_Unfiltered = forceSensorDoSignalGraphReadFileGetSPFE (
 					timesUnfiltered_l, forcesUnfiltered_l,
-					currentForceSensorExercise, fsco, false);
+					currentForceSensorExercise, fsco, personWeight, stiffness, false);
 		}
 		else
 			spCairoFE_CD = forceSensorDoSignalGraphReadFileGetSPFE (
 					times_l, forces_l,
-					currentForceSensorExercise_2SetsCD, fsco, false);
+					currentForceSensorExercise_2SetsCD, fsco, personWeight, stiffness, false);
 	}
 
 	private SignalPointsCairoForceElastic forceSensorDoSignalGraphReadFileGetSPFE (
 			List<int> times_l, List<double> forces_l,
-			ForceSensorExercise fsex, ForceSensor.CaptureOptions fsco, bool updateForceSensorValues)
+			ForceSensorExercise fsex, ForceSensor.CaptureOptions fsco,
+			double personWeight, double stiffness, bool updateForceSensorValues)
 	{
 		SignalPointsCairoForceElastic spCairoFETemp = new SignalPointsCairoForceElastic ();
 
 		ForceSensorDynamics fsd;
 		if (fsex.ComputeAsElastic)
 			fsd = new ForceSensorDynamicsElastic (
-					times_l, forces_l, fsco, fsex, currentPersonSession.Weight, currentForceSensor.Stiffness,
+					times_l, forces_l, fsco, fsex, personWeight, stiffness,
 					preferences.forceSensorElasticEccMinDispl, preferences.forceSensorElasticConMinDispl, false);
 		else
 			fsd = new ForceSensorDynamicsNotElastic (
-					times_l, forces_l, fsco, fsex, currentPersonSession.Weight, currentForceSensor.Stiffness,
+					times_l, forces_l, fsco, fsex, personWeight, stiffness,
 					preferences.forceSensorNotElasticEccMinForce, preferences.forceSensorNotElasticConMinForce);
 
 		forces_l = fsd.GetForces();

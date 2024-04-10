@@ -2458,6 +2458,10 @@ LogB.Information(" fs R ");
 			List<ForceSensorElasticBand> list_fseb = SqliteForceSensorElasticBand.SelectAll(false, true); //not opened, onlyActive
 			if(ForceSensorElasticBand.GetStiffnessOfActiveBands(list_fseb) == 0 || image_button_force_sensor_stiffness_problem.Visible)
 			{
+				//if preferences butterworth changed, the graph will be updated
+				//need to also update the grid before the return
+				forceSensorGridColors ();
+
 				new DialogMessage(Constants.MessageTypes.WARNING, Catalog.GetString("Need to configure fixture to know stiffness of this elastic exercise."));
 				return;
 			}

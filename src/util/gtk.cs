@@ -1319,9 +1319,18 @@ public class UtilGtk
 			readedOk = true;
 			try {
 				Pixbuf pixbuf = Chronojump.MyPixbuf.Get(filename); //from a file
-				image.Pixbuf = pixbuf;
+
+				//since dotnetgtk3 returns null if not ok
+				if (pixbuf == null)
+				{
+					LogB.Warning("File is still not ready (null). Wait a bit");
+					System.Threading.Thread.Sleep(50);
+					readedOk = false;
+				}
+				else
+					image.Pixbuf = pixbuf;
 			} catch {
-				LogB.Warning("File is still not ready. Wait a bit");
+				LogB.Warning("File is still not ready (catched). Wait a bit");
 				System.Threading.Thread.Sleep(50);
 				readedOk = false;
 			}
@@ -1346,8 +1355,17 @@ public class UtilGtk
 			readedOk = true;
 			try {
 				pixbuf = Chronojump.MyPixbuf.Get(filename); //from a file
+
+				//since dotnetgtk3 returns null if not ok
+				if (pixbuf == null)
+				{
+					LogB.Warning("File is still not ready (null). Wait a bit");
+					System.Threading.Thread.Sleep(50);
+					readedOk = false;
+					countTimes ++;
+				}
 			} catch {
-				LogB.Warning("File is still not ready. Wait a bit");
+				LogB.Warning("File is still not ready (catched). Wait a bit");
 				System.Threading.Thread.Sleep(50);
 				readedOk = false;
 				countTimes ++;

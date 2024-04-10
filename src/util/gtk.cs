@@ -1296,7 +1296,7 @@ public class UtilGtk
 	 * this is used when one process takes an image from another process and maybe is not finished
 	 * Now we use imageFileWaitUntilCreated()
 	 */
-	private static void imageFileWaitUntilCreated(string filename) 
+	private static void imageFileWaitUntilCreated (string filename)
 	{
 		while( ! File.Exists(filename) );
 
@@ -1310,36 +1310,7 @@ public class UtilGtk
 		} while( ! hasSize );
 	}
 
-	public static Gtk.Image OpenImageSafe(string filename, Gtk.Image image) 
-	{
-		imageFileWaitUntilCreated(filename);
-		
-		bool readedOk;
-		do {
-			readedOk = true;
-			try {
-				Pixbuf pixbuf = Chronojump.MyPixbuf.Get(filename); //from a file
-
-				//since dotnetgtk3 returns null if not ok
-				if (pixbuf == null)
-				{
-					LogB.Warning("File is still not ready (null). Wait a bit");
-					System.Threading.Thread.Sleep(50);
-					readedOk = false;
-				}
-				else
-					image.Pixbuf = pixbuf;
-			} catch {
-				LogB.Warning("File is still not ready (catched). Wait a bit");
-				System.Threading.Thread.Sleep(50);
-				readedOk = false;
-			}
-		} while( ! readedOk );
-
-		return image;
-	}
-
-	public static Gdk.Pixbuf OpenPixbufSafe(string filename, Gdk.Pixbuf pixbuf) 
+	private static Gdk.Pixbuf openPixbufSafe (string filename, Gdk.Pixbuf pixbuf)
 	{
 		imageFileWaitUntilCreated(filename);
 		
@@ -1376,6 +1347,22 @@ public class UtilGtk
 			return Chronojump.MyPixbuf.Get (null, Util.GetImagePath(false) + "image.png"); //an icon representing an image
 
 		return pixbuf;
+	}
+
+	public static Gdk.Pixbuf OpenPixbufSafe (string filename, Gdk.Pixbuf pixbuf)
+	{
+		return openPixbufSafe (filename, pixbuf);
+	}
+
+	public static Gtk.Image OpenImageSafe (string filename, Gtk.Image image)
+	{
+		Pixbuf pixbuf = Chronojump.MyPixbuf.Get (null, Util.GetImagePath(false) + "image.png");
+		pixbuf = openPixbufSafe (filename, pixbuf);
+
+		if (pixbuf != null)
+			image.Pixbuf = pixbuf;
+
+		return image;
 	}
 
 	/*

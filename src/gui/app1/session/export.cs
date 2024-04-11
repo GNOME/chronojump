@@ -267,6 +267,7 @@ public partial class ChronoJumpWindow
 		}
 
 		deletePhotosNotInThisSession (exportDir);
+		deleteExercisesNotInThisSession (exportDir);
 
 		SqliteSessionSwitcher sessionSwitcher = new SqliteSessionSwitcher
 			(SqliteSessionSwitcher.DatabaseType.EXPORT, exportedDB);
@@ -339,6 +340,22 @@ public partial class ChronoJumpWindow
 
 		//if any photo is not of a person on exported session, delete photo and the small version
 		deleteImagesNotFoundInIds (Path.Combine (exportDir, "multimedia", "photos"), id_l);
+	}
+
+	private void deleteExercisesNotInThisSession (string exportDir)
+	{
+		//right now only forceSensor //TODO: implement on rest of exercises
+		deleteExercisesForceSensorNotInThisSession (exportDir);
+	}
+	private void deleteExercisesForceSensorNotInThisSession (string exportDir)
+	{
+		//find wich persons we have to delete unwanted multimedia/photos
+		List<ForceSensor> fs_l = SqliteForceSensor.Select (false, -1, -1, currentSession.UniqueID, -1);
+		List<int> id_l = new List <int>();
+		foreach (ForceSensor f in fs_l)
+			id_l.Add (f.ExerciseID);
+
+		deleteImagesNotFoundInIds (Path.Combine (exportDir, "multimedia", "exercises", "forceSensor"), id_l);
 	}
 
 	private void deleteImagesNotFoundInIds (string imagesDir, List<int> id_l)

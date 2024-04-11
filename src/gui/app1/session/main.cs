@@ -33,7 +33,7 @@ public partial class ChronoJumpWindow
 	Gtk.Notebook app1s_notebook;
 
 	//notebook tab 0
-	Gtk.Frame frame_session_more_this_session;
+	Gtk.Box box_session_more_this_session;
 	Gtk.Label label_session_more_session_name;
 	Gtk.Button button_menu_session_export;
 	Gtk.EventBox app1s_eventbox_button_close0;
@@ -407,7 +407,7 @@ public partial class ChronoJumpWindow
 		app1s_notebook = (Gtk.Notebook) builder.GetObject ("app1s_notebook");
 
 		//notebook tab 0
-		frame_session_more_this_session = (Gtk.Frame) builder.GetObject ("frame_session_more_this_session");
+		box_session_more_this_session = (Gtk.Box) builder.GetObject ("box_session_more_this_session");
 		label_session_more_session_name = (Gtk.Label) builder.GetObject ("label_session_more_session_name");
 		button_menu_session_export = (Gtk.Button) builder.GetObject ("button_menu_session_export");
 		app1s_eventbox_button_close0 = (Gtk.EventBox) builder.GetObject ("app1s_eventbox_button_close0");

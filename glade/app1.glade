@@ -42905,31 +42905,47 @@ then click this button.</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <object class="GtkFrame" id="frame_session_more_this_session">
+                                                            <object class="GtkBox" id="box_session_more_this_session">
                                                             <property name="visible">True</property>
-                                                            <property name="sensitive">False</property>
                                                             <property name="can-focus">False</property>
-                                                            <property name="label-xalign">0</property>
-                                                            <property name="label-yalign">1</property>
-                                                            <property name="shadow-type">none</property>
+                                                            <property name="spacing">12</property>
                                                             <child>
-                                                            <object class="GtkAlignment" id="alignment36">
+                                                            <object class="GtkBox">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
-                                                            <property name="top-padding">12</property>
-                                                            <property name="bottom-padding">12</property>
-                                                            <property name="left-padding">12</property>
-                                                            <property name="right-padding">12</property>
+                                                            <property name="spacing">4</property>
                                                             <child>
-                                                            <object class="GtkVBox" id="vbox192">
+                                                            <object class="GtkLabel">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
-                                                            <property name="spacing">6</property>
+                                                            <property name="label" translatable="yes">This session:</property>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
                                                             <child>
-                                                            <object class="GtkHBox" id="hbox420">
+                                                            <object class="GtkLabel" id="label_session_more_session_name">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
-                                                            <property name="spacing">25</property>
+                                                            <property name="wrap">True</property>
+                                                            <property name="wrap-mode">word-char</property>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
                                                             <child>
                                                             <object class="GtkButton" id="button_session_edit">
                                                             <property name="visible">True</property>
@@ -42981,7 +42997,7 @@ then click this button.</property>
                                                             <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">False</property>
-                                                            <property name="position">0</property>
+                                                            <property name="position">1</property>
                                                             </packing>
                                                             </child>
                                                             <child>
@@ -43035,56 +43051,13 @@ then click this button.</property>
                                                             <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">False</property>
-                                                            <property name="position">1</property>
+                                                            <property name="position">2</property>
                                                             </packing>
                                                             </child>
                                                             </object>
                                                             <packing>
                                                             <property name="expand">True</property>
                                                             <property name="fill">True</property>
-                                                            <property name="position">0</property>
-                                                            </packing>
-                                                            </child>
-                                                            </object>
-                                                            </child>
-                                                            </object>
-                                                            </child>
-                                                            <child type="label">
-                                                            <object class="GtkHBox" id="hbox419">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="spacing">6</property>
-                                                            <child>
-                                                            <object class="GtkLabel">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="label" translatable="yes">This session:</property>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">True</property>
-                                                            <property name="fill">True</property>
-                                                            <property name="position">0</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
-                                                            <object class="GtkLabel" id="label_session_more_session_name">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="wrap">True</property>
-                                                            <property name="wrap-mode">word-char</property>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">True</property>
-                                                            <property name="fill">True</property>
-                                                            <property name="position">1</property>
-                                                            </packing>
-                                                            </child>
-                                                            </object>
-                                                            </child>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
                                                             <property name="position">1</property>
                                                             </packing>
                                                             </child>
@@ -43309,7 +43282,7 @@ then click this button.</property>
                                                             <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">False</property>
-                                                            <property name="position">2</property>
+                                                            <property name="position">3</property>
                                                             </packing>
                                                             </child>
                                                             <child>
@@ -43441,7 +43414,7 @@ then click this button.</property>
                                                             <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">False</property>
-                                                            <property name="position">3</property>
+                                                            <property name="position">4</property>
                                                             </packing>
                                                             </child>
                                                             </object>

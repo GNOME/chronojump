@@ -333,9 +333,17 @@ public partial class ChronoJumpWindow
 	{
 		//find wich persons we have to delete unwanted multimedia/photos
 		List<Person> person_l = SqlitePersonSession.SelectCurrentSessionPersonsAsList (false, currentSession.UniqueID);
+		List<int> id_l = new List <int>();
+		foreach (Person p in person_l)
+			id_l.Add (p.UniqueID);
 
-		string photosDir = Path.Combine (exportDir, "multimedia", "photos");
-		foreach (string s in Directory.GetFiles (photosDir))
+		//if any photo is not of a person on exported session, delete photo and the small version
+		deleteImagesNotFoundInIds (Path.Combine (exportDir, "multimedia", "photos"), id_l);
+	}
+
+	private void deleteImagesNotFoundInIds (string imagesDir, List<int> id_l)
+	{
+		foreach (string s in Directory.GetFiles (imagesDir))
 		{
 			string filename = Path.GetFileName (s);
 
@@ -349,20 +357,11 @@ public partial class ChronoJumpWindow
 			if (! Util.IsNumber (str[0], false))
 				continue;
 
-			bool found = false;
-			foreach (Person p in person_l)
-				if (p.UniqueID.ToString () == str[0])
-				{
-					found = true;
-					break;
-				}
+			if (Util.FoundInListInt (id_l, Convert.ToInt32 (str[0])))
+				continue;
 
-			//if this photo is not of a person on exported session, delete photo and the small version
-			if (! found)
-			{
-				Util.FileDelete (s);
-				Util.FileDelete (Path.Combine (photosDir, "small", filename));
-			}
+			Util.FileDelete (s);
+			Util.FileDelete (Path.Combine (imagesDir, "small", filename));
 		}
 	}
 

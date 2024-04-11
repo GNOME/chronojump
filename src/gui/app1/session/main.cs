@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2023   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2004-2024   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -39,6 +39,11 @@ public partial class ChronoJumpWindow
 	Gtk.EventBox app1s_eventbox_button_close0;
 	Gtk.Image image_session_more_window_blue;
 	Gtk.Image image_session_more_window_yellow;
+	Gtk.CheckButton sessions_manage_advanced_checkbutton;
+	Gtk.Label sessions_manage_advanced_label;
+	Gtk.Image sessions_manage_advanced_image_show;
+	Gtk.Image sessions_manage_advanced_image_hide;
+	Gtk.Box sessions_manage_advanced_box;
 
 	//notebook tab 1
 	Gtk.RadioButton app1s_radio_import_new_session;
@@ -402,6 +407,23 @@ public partial class ChronoJumpWindow
 		app1s_notebook.CurrentPage = app1s_PAGE_MODES;
 	}
 
+	private void on_sessions_manage_advanced_checkbutton_clicked (object o, EventArgs args)
+	{
+		if (sessions_manage_advanced_checkbutton.Active)
+		{
+			sessions_manage_advanced_label.Text = Catalog.GetString ("Hide advanced controls");
+			sessions_manage_advanced_image_show.Visible = false;
+			sessions_manage_advanced_image_hide.Visible = true;
+			sessions_manage_advanced_box.Visible = true;
+		} else
+		{
+			sessions_manage_advanced_label.Text = Catalog.GetString ("Show advanced controls");
+			sessions_manage_advanced_image_show.Visible = true;
+			sessions_manage_advanced_image_hide.Visible = false;
+			sessions_manage_advanced_box.Visible = false;
+		}
+	}
+
 	private void connectWidgetsSessionMain (Gtk.Builder builder)
 	{
 		app1s_notebook = (Gtk.Notebook) builder.GetObject ("app1s_notebook");
@@ -413,6 +435,11 @@ public partial class ChronoJumpWindow
 		app1s_eventbox_button_close0 = (Gtk.EventBox) builder.GetObject ("app1s_eventbox_button_close0");
 		image_session_more_window_blue = (Gtk.Image) builder.GetObject ("image_session_more_window_blue");
 		image_session_more_window_yellow = (Gtk.Image) builder.GetObject ("image_session_more_window_yellow");
+		sessions_manage_advanced_checkbutton = (Gtk.CheckButton) builder.GetObject ("sessions_manage_advanced_checkbutton");
+		sessions_manage_advanced_label = (Gtk.Label) builder.GetObject ("sessions_manage_advanced_label");
+		sessions_manage_advanced_image_show = (Gtk.Image) builder.GetObject ("sessions_manage_advanced_image_show");
+		sessions_manage_advanced_image_hide = (Gtk.Image) builder.GetObject ("sessions_manage_advanced_image_hide");
+		sessions_manage_advanced_box = (Gtk.Box) builder.GetObject ("sessions_manage_advanced_box");
 
 		//notebook tab 1
 		app1s_radio_import_new_session = (Gtk.RadioButton) builder.GetObject ("app1s_radio_import_new_session");

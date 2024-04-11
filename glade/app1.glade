@@ -42780,13 +42780,13 @@ then click this button.</property>
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
                                                             <property name="border-width">0</property>
-                                                            <property name="spacing">12</property>
+                                                            <property name="spacing">16</property>
                                                             <child>
                                                             <object class="GtkButtonBox">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
                                                             <property name="margin-top">10</property>
-                                                            <property name="margin-bottom">30</property>
+                                                            <property name="margin-bottom">25</property>
                                                             <property name="spacing">60</property>
                                                             <property name="homogeneous">True</property>
                                                             <property name="layout-style">center</property>
@@ -43062,6 +43062,91 @@ then click this button.</property>
                                                             </packing>
                                                             </child>
                                                             <child>
+                                                            <object class="GtkBox">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="spacing">6</property>
+                                                            <child>
+                                                            <object class="GtkCheckButton" id="sessions_manage_advanced_checkbutton">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">True</property>
+                                                            <property name="receives-default">False</property>
+                                                            <property name="draw-indicator">True</property>
+                                                            <signal name="clicked" handler="on_sessions_manage_advanced_checkbutton_clicked" swapped="no"/>
+                                                            <child>
+                                                            <object class="GtkBox">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <child>
+                                                            <object class="GtkImage" id="sessions_manage_advanced_image_show">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="stock">gtk-missing-image</property>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkImage" id="sessions_manage_advanced_image_hide">
+                                                            <property name="can-focus">False</property>
+                                                            <property name="stock">gtk-missing-image</property>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkLabel" id="sessions_manage_advanced_label">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="label" translatable="yes">Show advanced controls</property>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">2</property>
+                                                            </packing>
+                                                            </child>
+                                                            </object>
+                                                            </child>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkSeparator">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="valign">center</property>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">2</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkBox" id="sessions_manage_advanced_box">
+                                                            <property name="can-focus">False</property>
+                                                            <property name="margin-top">12</property>
+                                                            <property name="orientation">vertical</property>
+                                                            <property name="spacing">12</property>
+                                                            <child>
                                                             <object class="GtkFrame" id="frame_session_export">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
@@ -43281,8 +43366,8 @@ then click this button.</property>
                                                             </object>
                                                             <packing>
                                                             <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="position">3</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">0</property>
                                                             </packing>
                                                             </child>
                                                             <child>
@@ -43311,7 +43396,6 @@ then click this button.</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="receives-default">False</property>
                                                             <property name="tooltip-text" translatable="yes">Make a copy of all the data</property>
-                                                            <property name="relief">half</property>
                                                             <property name="use-underline">True</property>
                                                             <signal name="clicked" handler="on_button_db_backup_pre_clicked" swapped="no"/>
                                                             <child>
@@ -43357,7 +43441,6 @@ then click this button.</property>
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="receives-default">False</property>
-                                                            <property name="relief">half</property>
                                                             <property name="use-underline">True</property>
                                                             <signal name="clicked" handler="on_button_view_data_folder_clicked" swapped="no"/>
                                                             <child>
@@ -43414,7 +43497,14 @@ then click this button.</property>
                                                             <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">False</property>
-                                                            <property name="position">4</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">3</property>
                                                             </packing>
                                                             </child>
                                                             </object>

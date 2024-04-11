@@ -23241,6 +23241,9 @@ Concentric</property>
                                                             <child>
                                                             <placeholder/>
                                                             </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
                                                             </object>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -42766,11 +42769,141 @@ then click this button.</property>
                                                             <property name="can-focus">False</property>
                                                             <property name="orientation">vertical</property>
                                                             <child>
-                                                            <object class="GtkVBox" id="vbox191">
+                                                            <object class="GtkBox">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
                                                             <property name="border-width">20</property>
+                                                            <property name="orientation">vertical</property>
+                                                            <property name="spacing">30</property>
+                                                            <child>
+                                                            <object class="GtkVBox" id="vbox191">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="border-width">0</property>
                                                             <property name="spacing">12</property>
+                                                            <child>
+                                                            <object class="GtkButtonBox">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="margin-top">10</property>
+                                                            <property name="margin-bottom">30</property>
+                                                            <property name="spacing">60</property>
+                                                            <property name="homogeneous">True</property>
+                                                            <property name="layout-style">center</property>
+                                                            <child>
+                                                            <object class="GtkButton" id="button_menu_session_new2">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">True</property>
+                                                            <property name="can-default">True</property>
+                                                            <property name="receives-default">True</property>
+                                                            <property name="has-tooltip">True</property>
+                                                            <property name="tooltip-text" translatable="yes">New session</property>
+                                                            <child>
+                                                            <object class="GtkEventBox" id="eventbox_button_menu_session_new2">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="border-width">6</property>
+                                                            <child>
+                                                            <object class="GtkBox">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="orientation">vertical</property>
+                                                            <property name="spacing">6</property>
+                                                            <child>
+                                                            <object class="GtkImage" id="image_session_new2">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="stock">gtk-missing-image</property>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkLabel" id="label_session_new1">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="label" translatable="yes">Create new session</property>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            </object>
+                                                            </child>
+                                                            </object>
+                                                            </child>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkButton" id="button_menu_session_load2">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">True</property>
+                                                            <property name="can-default">True</property>
+                                                            <property name="receives-default">True</property>
+                                                            <property name="has-tooltip">True</property>
+                                                            <property name="tooltip-text" translatable="yes">Load session</property>
+                                                            <child>
+                                                            <object class="GtkEventBox" id="eventbox_button_menu_session_load2">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="border-width">6</property>
+                                                            <child>
+                                                            <object class="GtkBox">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="orientation">vertical</property>
+                                                            <child>
+                                                            <object class="GtkImage" id="image_session_load3">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="stock">gtk-missing-image</property>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkLabel" id="label_session_load1">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="label" translatable="yes">Load session</property>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            </object>
+                                                            </child>
+                                                            </object>
+                                                            </child>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
                                                             <child>
                                                             <object class="GtkFrame" id="frame_session_more_this_session">
                                                             <property name="visible">True</property>
@@ -42805,7 +42938,6 @@ then click this button.</property>
                                                             <property name="receives-default">True</property>
                                                             <property name="has-tooltip">True</property>
                                                             <property name="tooltip-text" translatable="yes">Edit session</property>
-                                                            <property name="relief">half</property>
                                                             <signal name="clicked" handler="on_edit_session_activate" swapped="no"/>
                                                             <child>
                                                             <object class="GtkEventBox" id="eventbox_button_menu_session_edit2">
@@ -42833,6 +42965,7 @@ then click this button.</property>
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
                                                             <property name="label" translatable="yes">Edit</property>
+                                                            <property name="xalign">0</property>
                                                             </object>
                                                             <packing>
                                                             <property name="expand">True</property>
@@ -42847,7 +42980,7 @@ then click this button.</property>
                                                             </object>
                                                             <packing>
                                                             <property name="expand">False</property>
-                                                            <property name="fill">True</property>
+                                                            <property name="fill">False</property>
                                                             <property name="position">0</property>
                                                             </packing>
                                                             </child>
@@ -42886,6 +43019,7 @@ then click this button.</property>
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
                                                             <property name="label" translatable="yes">Delete</property>
+                                                            <property name="xalign">0</property>
                                                             </object>
                                                             <packing>
                                                             <property name="expand">True</property>
@@ -42900,7 +43034,7 @@ then click this button.</property>
                                                             </object>
                                                             <packing>
                                                             <property name="expand">False</property>
-                                                            <property name="fill">True</property>
+                                                            <property name="fill">False</property>
                                                             <property name="position">1</property>
                                                             </packing>
                                                             </child>
@@ -42921,15 +43055,14 @@ then click this button.</property>
                                                             <property name="can-focus">False</property>
                                                             <property name="spacing">6</property>
                                                             <child>
-                                                            <object class="GtkLabel" id="label372">
+                                                            <object class="GtkLabel">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
                                                             <property name="label" translatable="yes">This session:</property>
-                                                            <property name="use-markup">True</property>
                                                             </object>
                                                             <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
                                                             <property name="position">0</property>
                                                             </packing>
                                                             </child>
@@ -42952,7 +43085,7 @@ then click this button.</property>
                                                             <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">False</property>
-                                                            <property name="position">0</property>
+                                                            <property name="position">1</property>
                                                             </packing>
                                                             </child>
                                                             <child>
@@ -42976,10 +43109,14 @@ then click this button.</property>
                                                             <property name="can-focus">False</property>
                                                             <property name="spacing">6</property>
                                                             <child>
-                                                            <object class="GtkHBox" id="hbox393">
+                                                            <!-- n-columns=2 n-rows=2 -->
+                                                            <object class="GtkGrid">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
-                                                            <property name="spacing">25</property>
+                                                            <property name="row-spacing">12</property>
+                                                            <property name="column-spacing">12</property>
+                                                            <property name="row-homogeneous">True</property>
+                                                            <property name="column-homogeneous">True</property>
                                                             <child>
                                                             <object class="GtkButton" id="button_menu_session_export">
                                                             <property name="visible">True</property>
@@ -43005,8 +43142,8 @@ then click this button.</property>
                                                             <property name="stock">gtk-open</property>
                                                             </object>
                                                             <packing>
-                                                            <property name="expand">True</property>
-                                                            <property name="fill">True</property>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
                                                             <property name="position">0</property>
                                                             </packing>
                                                             </child>
@@ -43017,85 +43154,21 @@ then click this button.</property>
                                                             <property name="label" translatable="yes">Export to another Chronojump</property>
                                                             </object>
                                                             <packing>
-                                                            <property name="expand">True</property>
-                                                            <property name="fill">True</property>
-                                                            <property name="position">1</property>
-                                                            </packing>
-                                                            </child>
-                                                            </object>
-                                                            </child>
-                                                            </object>
-                                                            </child>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="position">0</property>
-                                                            </packing>
-                                                            </child>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">True</property>
-                                                            <property name="fill">True</property>
-                                                            <property name="position">0</property>
-                                                            </packing>
-                                                            </child>
-                                                            </object>
-                                                            </child>
-                                                            </object>
-                                                            </child>
-                                                            <child type="label">
-                                                            <object class="GtkHBox" id="hbox410">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="spacing">6</property>
-                                                            <child>
-                                                            <object class="GtkLabel" id="label699">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="label" translatable="yes">Export session</property>
-                                                            <property name="use-markup">True</property>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="position">0</property>
-                                                            </packing>
-                                                            </child>
-                                                            </object>
-                                                            </child>
-                                                            </object>
-                                                            <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">False</property>
                                                             <property name="position">1</property>
                                                             </packing>
                                                             </child>
-                                                            <child>
-                                                            <object class="GtkFrame" id="frame_session_import">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="label-xalign">0</property>
-                                                            <property name="label-yalign">1</property>
-                                                            <property name="shadow-type">none</property>
-                                                            <child>
-                                                            <object class="GtkAlignment" id="alignment11">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="top-padding">12</property>
-                                                            <property name="bottom-padding">12</property>
-                                                            <property name="left-padding">12</property>
-                                                            <property name="right-padding">12</property>
-                                                            <child>
-                                                            <object class="GtkVBox" id="vbox78">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="spacing">6</property>
-                                                            <child>
-                                                            <object class="GtkBox">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="spacing">25</property>
+                                                            </object>
+                                                            </child>
+                                                            </object>
+                                                            </child>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="left-attach">0</property>
+                                                            <property name="top-attach">0</property>
+                                                            </packing>
+                                                            </child>
                                                             <child>
                                                             <object class="GtkButton" id="button_menu_session_import">
                                                             <property name="visible">True</property>
@@ -43132,8 +43205,8 @@ then click this button.</property>
                                                             <property name="label" translatable="yes">Import from another Chronojump</property>
                                                             </object>
                                                             <packing>
-                                                            <property name="expand">True</property>
-                                                            <property name="fill">True</property>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
                                                             <property name="position">1</property>
                                                             </packing>
                                                             </child>
@@ -43143,9 +43216,8 @@ then click this button.</property>
                                                             </child>
                                                             </object>
                                                             <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="position">0</property>
+                                                            <property name="left-attach">0</property>
+                                                            <property name="top-attach">1</property>
                                                             </packing>
                                                             </child>
                                                             <child>
@@ -43184,25 +43256,27 @@ then click this button.</property>
                                                             <property name="label" translatable="yes">Import jumps or runs from CSV</property>
                                                             </object>
                                                             <packing>
-                                                            <property name="expand">True</property>
-                                                            <property name="fill">True</property>
-                                                            <property name="position">1</property>
-                                                            </packing>
-                                                            </child>
-                                                            </object>
-                                                            </child>
-                                                            </object>
-                                                            </child>
-                                                            </object>
-                                                            <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">False</property>
                                                             <property name="position">1</property>
                                                             </packing>
                                                             </child>
                                                             </object>
+                                                            </child>
+                                                            </object>
+                                                            </child>
+                                                            </object>
                                                             <packing>
-                                                            <property name="expand">False</property>
+                                                            <property name="left-attach">1</property>
+                                                            <property name="top-attach">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">True</property>
                                                             <property name="fill">True</property>
                                                             <property name="position">0</property>
                                                             </packing>
@@ -43212,15 +43286,15 @@ then click this button.</property>
                                                             </object>
                                                             </child>
                                                             <child type="label">
-                                                            <object class="GtkHBox" id="hbox463">
+                                                            <object class="GtkHBox" id="hbox410">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
                                                             <property name="spacing">6</property>
                                                             <child>
-                                                            <object class="GtkLabel" id="label700">
+                                                            <object class="GtkLabel" id="label699">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
-                                                            <property name="label" translatable="yes">Import session</property>
+                                                            <property name="label" translatable="yes">Export/Import session</property>
                                                             <property name="use-markup">True</property>
                                                             </object>
                                                             <packing>
@@ -43378,6 +43452,13 @@ then click this button.</property>
                                                             </packing>
                                                             </child>
                                                             </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            </object>
                                                             </child>
                                                             <child type="label">
                                                             <object class="GtkHBox" id="hbox_session_more">
@@ -43412,39 +43493,13 @@ then click this button.</property>
                                                             <object class="GtkLabel" id="label458">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
-                                                            <property name="label" translatable="yes">Session</property>
+                                                            <property name="label" translatable="yes">Manage sessions</property>
                                                             <property name="use-markup">True</property>
                                                             </object>
                                                             <packing>
                                                             <property name="expand">True</property>
                                                             <property name="fill">True</property>
                                                             <property name="position">2</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
-                                                            <object class="GtkLabel" id="label466">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="label">/</property>
-                                                            <property name="use-markup">True</property>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">True</property>
-                                                            <property name="fill">True</property>
-                                                            <property name="position">3</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
-                                                            <object class="GtkLabel" id="label467">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="label" translatable="yes">More</property>
-                                                            <property name="use-markup">True</property>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">True</property>
-                                                            <property name="fill">True</property>
-                                                            <property name="position">4</property>
                                                             </packing>
                                                             </child>
                                                             </object>

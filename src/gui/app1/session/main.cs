@@ -134,6 +134,7 @@ public partial class ChronoJumpWindow
 	Gtk.Label app1sae_label_date;
 	Gtk.Image image_session_new_blue;
 	Gtk.Image image_session_new_yellow;
+	Gtk.Image image_session_new2;
 	Gtk.Image image_sport_undefined;
 	Gtk.Image image_speciallity_undefined;
 	Gtk.Image image_level_undefined;
@@ -507,6 +508,7 @@ public partial class ChronoJumpWindow
 		app1sae_label_date = (Gtk.Label) builder.GetObject ("app1sae_label_date");
 		image_session_new_blue = (Gtk.Image) builder.GetObject ("image_session_new_blue");
 		image_session_new_yellow = (Gtk.Image) builder.GetObject ("image_session_new_yellow");
+		image_session_new2 = (Gtk.Image) builder.GetObject ("image_session_new2");
 		image_sport_undefined = (Gtk.Image) builder.GetObject ("image_sport_undefined");
 		image_speciallity_undefined = (Gtk.Image) builder.GetObject ("image_speciallity_undefined");
 		image_level_undefined = (Gtk.Image) builder.GetObject ("image_level_undefined");

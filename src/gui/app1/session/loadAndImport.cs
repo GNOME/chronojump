@@ -36,6 +36,7 @@ public partial class ChronoJumpWindow
 	// at glade ---->
 	Gtk.HBox app1s_hbox_frame_load;
 	Gtk.HBox app1s_hbox_frame_import;
+	Gtk.Image image_session_load3;
 	Gtk.Image image_session_load3_blue;
 	Gtk.Image image_session_import1_blue;
 	Gtk.Image image_session_load3_yellow;
@@ -1088,6 +1089,7 @@ public partial class ChronoJumpWindow
 	{
 		app1s_hbox_frame_load = (Gtk.HBox) builder.GetObject ("app1s_hbox_frame_load");
 		app1s_hbox_frame_import = (Gtk.HBox) builder.GetObject ("app1s_hbox_frame_import");
+		image_session_load3 = (Gtk.Image) builder.GetObject ("image_session_load3");
 		image_session_load3_blue = (Gtk.Image) builder.GetObject ("image_session_load3_blue");
 		image_session_import1_blue = (Gtk.Image) builder.GetObject ("image_session_import1_blue");
 		image_session_load3_yellow = (Gtk.Image) builder.GetObject ("image_session_load3_yellow");

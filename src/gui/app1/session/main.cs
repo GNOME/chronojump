@@ -41,8 +41,6 @@ public partial class ChronoJumpWindow
 	Gtk.Image image_session_more_window_yellow;
 	Gtk.CheckButton sessions_manage_advanced_checkbutton;
 	Gtk.Label sessions_manage_advanced_label;
-	Gtk.Image sessions_manage_advanced_image_show;
-	Gtk.Image sessions_manage_advanced_image_hide;
 	Gtk.Box sessions_manage_advanced_box;
 
 	//notebook tab 1
@@ -410,19 +408,7 @@ public partial class ChronoJumpWindow
 
 	private void on_sessions_manage_advanced_checkbutton_clicked (object o, EventArgs args)
 	{
-		if (sessions_manage_advanced_checkbutton.Active)
-		{
-			sessions_manage_advanced_label.Text = Catalog.GetString ("Hide advanced controls");
-			sessions_manage_advanced_image_show.Visible = false;
-			sessions_manage_advanced_image_hide.Visible = true;
-			sessions_manage_advanced_box.Visible = true;
-		} else
-		{
-			sessions_manage_advanced_label.Text = Catalog.GetString ("Show advanced controls");
-			sessions_manage_advanced_image_show.Visible = true;
-			sessions_manage_advanced_image_hide.Visible = false;
-			sessions_manage_advanced_box.Visible = false;
-		}
+		sessions_manage_advanced_box.Visible = sessions_manage_advanced_checkbutton.Active;
 	}
 
 	private void connectWidgetsSessionMain (Gtk.Builder builder)
@@ -438,8 +424,6 @@ public partial class ChronoJumpWindow
 		image_session_more_window_yellow = (Gtk.Image) builder.GetObject ("image_session_more_window_yellow");
 		sessions_manage_advanced_checkbutton = (Gtk.CheckButton) builder.GetObject ("sessions_manage_advanced_checkbutton");
 		sessions_manage_advanced_label = (Gtk.Label) builder.GetObject ("sessions_manage_advanced_label");
-		sessions_manage_advanced_image_show = (Gtk.Image) builder.GetObject ("sessions_manage_advanced_image_show");
-		sessions_manage_advanced_image_hide = (Gtk.Image) builder.GetObject ("sessions_manage_advanced_image_hide");
 		sessions_manage_advanced_box = (Gtk.Box) builder.GetObject ("sessions_manage_advanced_box");
 
 		//notebook tab 1

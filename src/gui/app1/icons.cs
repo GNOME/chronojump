@@ -339,9 +339,6 @@ public partial class ChronoJumpWindow
 		image_session_more_window_blue.Pixbuf = pixbuf;
 		image_session_more_window_yellow.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_folders_yellow.png");
 
-		sessions_manage_advanced_image_show.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_down.png");
-		sessions_manage_advanced_image_hide.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_up.png");
-
 		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_db_backup.png");
 		image_db_backup.Pixbuf = pixbuf;
 		app1s_image_button_backup_start.Pixbuf = pixbuf;

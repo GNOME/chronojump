@@ -1842,11 +1842,20 @@ public class ForceSensorAnalyzeInstant : AnalyzeInstant
 
 		ForceSensorDynamics forceSensorDynamics;
 		if(fse.ComputeAsElastic)
+		{
 			forceSensorDynamics = new ForceSensorDynamicsElastic(
 					times, forces, fsco, fse, personWeight, stiffness, eccMinDisplacement, conMinDisplacement,
-					(startSample >= 0 && endSample >= 0) //zoomed
+					(startSample >= 0 && endSample >= 0), //zoomed
+					butterworthFreq
 					);
-		else
+
+			/*
+			LogB.Information (string.Format (
+						"fsco: {0}, fse: {1}, personWeight: {2}, stiffness: {3}, preferences.forceSensorElasticEccMinDispl: {4}, preferences.forceSensorElasticConMinDispl: {5}, zoomed?: {6}", 
+						fsco, fse, personWeight, stiffness,
+						eccMinDisplacement, conMinDisplacement, (startSample >= 0 && endSample >= 0) ));
+			*/
+		} else
 			forceSensorDynamics = new ForceSensorDynamicsNotElastic(
 					times, forces, fsco, fse, personWeight, stiffness, eccMinDisplacement, conMinDisplacement);
 

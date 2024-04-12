@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2018-2023   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2018-2024   Xavier de Blas <xaviblas@gmail.com> 
  */
 
 //this file has methods of ChronoJumpWindow related to manage menu_tiny
@@ -29,15 +29,12 @@ using Gtk;
 public partial class ChronoJumpWindow
 {
 	Gtk.Alignment alignment_menu_tiny;
-	Gtk.Arrow arrow_menu_show_session_up1;
-	Gtk.Arrow arrow_menu_show_session_down1;
+	Gtk.Arrow arrow_menu_show_session_left1;
+	Gtk.Arrow arrow_menu_show_session_right1;
 	Gtk.VBox vbox_menu_tiny;
 	Gtk.VBox vbox_menu_tiny_menu; //really the menu (without the logos at the bottom)
 	Gtk.EventBox eventbox_button_menu_database;
 	Gtk.EventBox eventbox_check_menu_session1;
-	Gtk.EventBox eventbox_button_menu_session_more1;
-	Gtk.EventBox eventbox_button_menu_session_new1;
-	Gtk.EventBox eventbox_button_menu_session_load1;
 	Gtk.EventBox eventbox_button_menu_preferences1;
 	Gtk.EventBox eventbox_button_menu_help1;
 	Gtk.EventBox eventbox_button_menu_news1;
@@ -49,13 +46,8 @@ public partial class ChronoJumpWindow
 	Gtk.CheckButton check_menu_session1;
 	Gtk.Button button_menu_preferences1;
 	Gtk.Button button_menu_news1;
-	Gtk.VBox vbox_menu_session1;
-	Gtk.Alignment alignment_menu_session_options1;
 
 	Gtk.Image image_menu_folders1;
-	Gtk.Image image_session_new1;
-	Gtk.Image image_session_load1;
-	Gtk.Image image_session_more1;
 	Gtk.Image image_menu_preferences1;
 	Gtk.Image image_menu_help1;
 	Gtk.Image image_menu_news1;
@@ -167,13 +159,6 @@ public partial class ChronoJumpWindow
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_menu_exit1,
 				UtilGtk.Colors.YELLOW, UtilGtk.Colors.YELLOW_LIGHT);
 
-		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_menu_session_new1,
-				UtilGtk.Colors.YELLOW, UtilGtk.Colors.YELLOW_LIGHT);
-		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_menu_session_load1,
-				UtilGtk.Colors.YELLOW, UtilGtk.Colors.YELLOW_LIGHT);
-		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_menu_session_more1,
-				UtilGtk.Colors.YELLOW, UtilGtk.Colors.YELLOW_LIGHT);
-
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_contacts_person_change,
 				UtilGtk.Colors.YELLOW, UtilGtk.Colors.YELLOW_LIGHT);
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_encoder_person_change,
@@ -188,27 +173,21 @@ public partial class ChronoJumpWindow
 
 	private void on_check_menu_session1_clicked (object o, EventArgs args)
 	{
-		menuShowVerticalArrow (check_menu_session1.Active, arrow_menu_show_session_up1, arrow_menu_show_session_down1);
+		menuShowHorizontalArrow (check_menu_session1.Active, arrow_menu_show_session_left1, arrow_menu_show_session_right1);
+
 		if(check_menu_session1.Active)
-		{
-			alignment_menu_session_options1.Visible = true;
-			alignment_menu_session_options1.Show();
-		} else
-			alignment_menu_session_options1.Visible = false;
+			on_session_manage_clicked (o, args);
 	}
 
 	private void connectWidgetsMenuTiny (Gtk.Builder builder)
 	{
 		alignment_menu_tiny = (Gtk.Alignment) builder.GetObject ("alignment_menu_tiny");
-		arrow_menu_show_session_up1 = (Gtk.Arrow) builder.GetObject ("arrow_menu_show_session_up1");
-		arrow_menu_show_session_down1 = (Gtk.Arrow) builder.GetObject ("arrow_menu_show_session_down1");
+		arrow_menu_show_session_left1 = (Gtk.Arrow) builder.GetObject ("arrow_menu_show_session_left1");
+		arrow_menu_show_session_right1 = (Gtk.Arrow) builder.GetObject ("arrow_menu_show_session_right");
 		vbox_menu_tiny = (Gtk.VBox) builder.GetObject ("vbox_menu_tiny");
 		vbox_menu_tiny_menu = (Gtk.VBox) builder.GetObject ("vbox_menu_tiny_menu"); //really the menu (without the logos at the bottom)
 		eventbox_button_menu_database = (Gtk.EventBox) builder.GetObject ("eventbox_button_menu_database");
 		eventbox_check_menu_session1 = (Gtk.EventBox) builder.GetObject ("eventbox_check_menu_session1");
-		eventbox_button_menu_session_more1 = (Gtk.EventBox) builder.GetObject ("eventbox_button_menu_session_more1");
-		eventbox_button_menu_session_new1 = (Gtk.EventBox) builder.GetObject ("eventbox_button_menu_session_new1");
-		eventbox_button_menu_session_load1 = (Gtk.EventBox) builder.GetObject ("eventbox_button_menu_session_load1");
 		eventbox_button_menu_preferences1 = (Gtk.EventBox) builder.GetObject ("eventbox_button_menu_preferences1");
 		eventbox_button_menu_help1 = (Gtk.EventBox) builder.GetObject ("eventbox_button_menu_help1");
 		eventbox_button_menu_news1 = (Gtk.EventBox) builder.GetObject ("eventbox_button_menu_news1");
@@ -220,13 +199,8 @@ public partial class ChronoJumpWindow
 		check_menu_session1 = (Gtk.CheckButton) builder.GetObject ("check_menu_session1");
 		button_menu_preferences1 = (Gtk.Button) builder.GetObject ("button_menu_preferences1");
 		button_menu_news1 = (Gtk.Button) builder.GetObject ("button_menu_news1");
-		vbox_menu_session1 = (Gtk.VBox) builder.GetObject ("vbox_menu_session1");
-		alignment_menu_session_options1 = (Gtk.Alignment) builder.GetObject ("alignment_menu_session_options1");
 
 		image_menu_folders1 = (Gtk.Image) builder.GetObject ("image_menu_folders1");
-		image_session_new1 = (Gtk.Image) builder.GetObject ("image_session_new1");
-		image_session_load1 = (Gtk.Image) builder.GetObject ("image_session_load1");
-		image_session_more1 = (Gtk.Image) builder.GetObject ("image_session_more1");
 		image_menu_preferences1 = (Gtk.Image) builder.GetObject ("image_menu_preferences1");
 		image_menu_help1 = (Gtk.Image) builder.GetObject ("image_menu_help1");
 		image_menu_news1 = (Gtk.Image) builder.GetObject ("image_menu_news1");

@@ -345,9 +345,8 @@ public partial class ChronoJumpWindow
 		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_db_backup.png");
 		image_db_backup.Pixbuf = pixbuf;
 		app1s_image_button_backup_start.Pixbuf = pixbuf;
-		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_more_horiz.png");
-		image_session_more.Pixbuf = pixbuf;
-		image_session_more1.Pixbuf = pixbuf;
+		//pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_more_horiz.png");
+		//image_session_more.Pixbuf = pixbuf;
 
 		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_help_blue.png");
 		image_menu_help.Pixbuf = pixbuf;
@@ -519,17 +518,13 @@ public partial class ChronoJumpWindow
 
 
 		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "folder_new.png");
-		image_session_new1.Pixbuf = pixbuf;
 		image_session_new2.Pixbuf = pixbuf;
-		image_session_new3.Pixbuf = pixbuf;
 		image_session_new_blue.Pixbuf = pixbuf;
 
 		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "folder_new_yellow.png");
 		image_session_new_yellow.Pixbuf = pixbuf;
 
 		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "folder_open.png");
-		image_session_load1.Pixbuf = pixbuf;
-		image_session_load2.Pixbuf = pixbuf;
 		image_session_load3.Pixbuf = pixbuf;
 		image_session_load3_blue.Pixbuf = pixbuf;
 		app1s_image_load.Pixbuf = pixbuf;

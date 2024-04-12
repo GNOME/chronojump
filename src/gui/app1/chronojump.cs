@@ -3322,13 +3322,9 @@ public partial class ChronoJumpWindow
 	 *  --------------------------------------------------------
 	 */
 
-	private void on_new_activate (object o, EventArgs args)
+	private void on_new_session_activate (object o, EventArgs args)
 	{
 		LogB.Information("new session");
-
-		menus_and_mode_sensitive (false);
-		app1s_notebook_sup_entered_from = notebook_sup.CurrentPage;
-		notebook_sup.CurrentPage = Convert.ToInt32(notebook_sup_pages.SESSION);
 		sessionAddEditShow (App1saeModes.ADDSESSION);
 	}
 
@@ -3412,9 +3408,6 @@ public partial class ChronoJumpWindow
 		string feedbackLoadUsers = Catalog.GetString ("Session created, now add or load persons.");
 		new DialogMessage(Constants.MessageTypes.INFO, feedbackLoadUsers);
 
-		//fold menu session
-		check_menu_session.Click();
-
 		SqlitePreferences.Update(SqlitePreferences.LastSessionID, currentSession.UniqueID.ToString(), false);
 	}
 	
@@ -3447,17 +3440,10 @@ public partial class ChronoJumpWindow
 		}
 	}
 
-	private void on_open_activate (object o, EventArgs args) 
+	private void on_open_session_activate (object o, EventArgs args)
 	{
 		LogB.Information("open session");
-
-		//store which page we are on notebook_sup, except if we clicked on "more" from the session tab
-		if(notebook_sup.CurrentPage != Convert.ToInt32(notebook_sup_pages.SESSION))
-			app1s_notebook_sup_entered_from = notebook_sup.CurrentPage;
-
-		menus_and_mode_sensitive(false);
 		sessionLoadWindowShow(app1s_windowType.LOAD_SESSION);
-		notebook_sup.CurrentPage = Convert.ToInt32(notebook_sup_pages.SESSION);
 	}
 
 	//called from open session OR from gui/networks configInit when config.SessionMode == Config.SessionModeEnum.UNIQUE
@@ -3486,10 +3472,6 @@ public partial class ChronoJumpWindow
 		sensitiveGuiYesSession();
 
 		definedSession = true;
-
-		//fold menu session
-		if(check_menu_session.Active)
-			check_menu_session.Click();
 
 		hbox_persons_bottom_photo.Sensitive = false;
 		vbox_persons_bottom_no_photo.Sensitive = false;

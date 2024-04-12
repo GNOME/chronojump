@@ -943,8 +943,9 @@ public partial class ChronoJumpWindow
 
 	void app1s_on_button_cancel2_clicked (object o, EventArgs args)
 	{
-		menus_and_mode_sensitive(true);
-		notebook_supSetOldPage();
+		//menus_and_mode_sensitive(true);
+		//notebook_supSetOldPage();
+		app1s_notebook.CurrentPage = app1s_PAGE_MODES;
 	}
 
 	void app1s_on_row_double_clicked (object o, Gtk.RowActivatedArgs args)
@@ -979,8 +980,9 @@ public partial class ChronoJumpWindow
 	{
 		currentSession = SqliteSession.Select (app1s_selected);
 		on_load_session_accepted();
-		notebook_supSetOldPage();
+		//notebook_supSetOldPage();
 		app1s_notebook_load_button_animation.CurrentPage = 0;
+		app1s_on_button_close0_clicked (new object (), new EventArgs ());
 
 		return false; //do not call this again
 	}

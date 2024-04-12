@@ -1051,32 +1051,44 @@
                                       </packing>
                                     </child>
                                     <child>
-                                      <object class="GtkVBox" id="vbox_menu_session1">
+                                      <object class="GtkCheckButton" id="check_menu_session1">
                                         <property name="visible">True</property>
-                                        <property name="can-focus">False</property>
+                                        <property name="can-focus">True</property>
+                                        <property name="receives-default">False</property>
+                                        <property name="tooltip-text" translatable="yes">Session</property>
+                                        <property name="active">True</property>
+                                        <property name="draw-indicator">False</property>
+                                        <signal name="clicked" handler="on_check_menu_session1_clicked" swapped="no"/>
                                         <child>
-                                          <object class="GtkCheckButton" id="check_menu_session1">
+                                          <object class="GtkEventBox" id="eventbox_check_menu_session1">
                                             <property name="visible">True</property>
-                                            <property name="can-focus">True</property>
-                                            <property name="receives-default">False</property>
-                                            <property name="tooltip-text" translatable="yes">Session</property>
-                                            <property name="active">True</property>
-                                            <property name="draw-indicator">False</property>
-                                            <signal name="clicked" handler="on_check_menu_session1_clicked" swapped="no"/>
+                                            <property name="can-focus">False</property>
                                             <child>
-                                              <object class="GtkEventBox" id="eventbox_check_menu_session1">
+                                              <object class="GtkHBox" id="hbox382">
                                                 <property name="visible">True</property>
                                                 <property name="can-focus">False</property>
+                                                <property name="spacing">4</property>
                                                 <child>
-                                                  <object class="GtkHBox" id="hbox382">
+                                                  <object class="GtkImage" id="image_menu_folders1">
                                                     <property name="visible">True</property>
                                                     <property name="can-focus">False</property>
-                                                    <property name="spacing">4</property>
+                                                    <property name="stock">gtk-missing-image</property>
+                                                  </object>
+                                                  <packing>
+                                                    <property name="expand">False</property>
+                                                    <property name="fill">False</property>
+                                                    <property name="position">0</property>
+                                                  </packing>
+                                                </child>
+                                                <child>
+                                                  <object class="GtkHBox" id="hbox383">
+                                                    <property name="visible">True</property>
+                                                    <property name="can-focus">False</property>
                                                     <child>
-                                                      <object class="GtkImage" id="image_menu_folders1">
+                                                      <object class="GtkArrow" id="arrow_menu_show_session_left1">
                                                         <property name="visible">True</property>
                                                         <property name="can-focus">False</property>
-                                                        <property name="stock">gtk-missing-image</property>
+                                                        <property name="arrow-type">left</property>
                                                       </object>
                                                       <packing>
                                                         <property name="expand">False</property>
@@ -1085,32 +1097,8 @@
                                                       </packing>
                                                     </child>
                                                     <child>
-                                                      <object class="GtkHBox" id="hbox383">
-                                                        <property name="visible">True</property>
+                                                      <object class="GtkArrow" id="arrow_menu_show_session_right1">
                                                         <property name="can-focus">False</property>
-                                                        <child>
-                                                          <object class="GtkArrow" id="arrow_menu_show_session_up1">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="arrow-type">up</property>
-                                                          </object>
-                                                          <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="position">0</property>
-                                                          </packing>
-                                                        </child>
-                                                        <child>
-                                                          <object class="GtkArrow" id="arrow_menu_show_session_down1">
-                                                            <property name="can-focus">False</property>
-                                                            <property name="arrow-type">down</property>
-                                                          </object>
-                                                          <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="position">1</property>
-                                                          </packing>
-                                                        </child>
                                                       </object>
                                                       <packing>
                                                         <property name="expand">False</property>
@@ -1119,125 +1107,15 @@
                                                       </packing>
                                                     </child>
                                                   </object>
-                                                </child>
-                                              </object>
-                                            </child>
-                                          </object>
-                                          <packing>
-                                            <property name="expand">True</property>
-                                            <property name="fill">True</property>
-                                            <property name="position">0</property>
-                                          </packing>
-                                        </child>
-                                        <child>
-                                          <object class="GtkAlignment" id="alignment_menu_session_options1">
-                                            <property name="visible">True</property>
-                                            <property name="can-focus">False</property>
-                                            <property name="top-padding">6</property>
-                                            <property name="left-padding">8</property>
-                                            <property name="right-padding">8</property>
-                                            <child>
-                                              <object class="GtkVBox" id="vbox_manage_sessions1">
-                                                <property name="visible">True</property>
-                                                <property name="can-focus">False</property>
-                                                <property name="spacing">6</property>
-                                                <child>
-                                                  <object class="GtkButton" id="button_menu_session_new1">
-                                                    <property name="visible">True</property>
-                                                    <property name="can-focus">True</property>
-                                                    <property name="can-default">True</property>
-                                                    <property name="receives-default">True</property>
-                                                    <property name="has-tooltip">True</property>
-                                                    <property name="tooltip-text" translatable="yes">New session</property>
-                                                    <property name="relief">half</property>
-                                                    <signal name="clicked" handler="on_new_activate" swapped="no"/>
-                                                    <child>
-                                                      <object class="GtkEventBox" id="eventbox_button_menu_session_new1">
-                                                        <property name="visible">True</property>
-                                                        <property name="can-focus">False</property>
-                                                        <child>
-                                                          <object class="GtkImage" id="image_session_new1">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="stock">gtk-missing-image</property>
-                                                          </object>
-                                                        </child>
-                                                      </object>
-                                                    </child>
-                                                  </object>
                                                   <packing>
-                                                    <property name="expand">True</property>
-                                                    <property name="fill">True</property>
-                                                    <property name="position">0</property>
-                                                  </packing>
-                                                </child>
-                                                <child>
-                                                  <object class="GtkButton" id="button_menu_session_load1">
-                                                    <property name="visible">True</property>
-                                                    <property name="can-focus">True</property>
-                                                    <property name="can-default">True</property>
-                                                    <property name="receives-default">True</property>
-                                                    <property name="has-tooltip">True</property>
-                                                    <property name="tooltip-text" translatable="yes">Load session</property>
-                                                    <property name="relief">half</property>
-                                                    <signal name="clicked" handler="on_open_activate" swapped="no"/>
-                                                    <child>
-                                                      <object class="GtkEventBox" id="eventbox_button_menu_session_load1">
-                                                        <property name="visible">True</property>
-                                                        <property name="can-focus">False</property>
-                                                        <child>
-                                                          <object class="GtkImage" id="image_session_load1">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="stock">gtk-missing-image</property>
-                                                          </object>
-                                                        </child>
-                                                      </object>
-                                                    </child>
-                                                  </object>
-                                                  <packing>
-                                                    <property name="expand">True</property>
-                                                    <property name="fill">True</property>
+                                                    <property name="expand">False</property>
+                                                    <property name="fill">False</property>
                                                     <property name="position">1</property>
                                                   </packing>
                                                 </child>
-                                                <child>
-                                                  <object class="GtkButton" id="button_menu_session_more1">
-                                                    <property name="visible">True</property>
-                                                    <property name="can-focus">True</property>
-                                                    <property name="can-default">True</property>
-                                                    <property name="receives-default">True</property>
-                                                    <property name="has-tooltip">True</property>
-                                                    <property name="relief">half</property>
-                                                    <signal name="clicked" handler="on_button_menu_session_more_clicked" swapped="no"/>
-                                                    <child>
-                                                      <object class="GtkEventBox" id="eventbox_button_menu_session_more1">
-                                                        <property name="visible">True</property>
-                                                        <property name="can-focus">False</property>
-                                                        <child>
-                                                          <object class="GtkImage" id="image_session_more1">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="stock">gtk-missing-image</property>
-                                                          </object>
-                                                        </child>
-                                                      </object>
-                                                    </child>
-                                                  </object>
-                                                  <packing>
-                                                    <property name="expand">True</property>
-                                                    <property name="fill">True</property>
-                                                    <property name="position">2</property>
-                                                  </packing>
-                                                </child>
                                               </object>
                                             </child>
                                           </object>
-                                          <packing>
-                                            <property name="expand">False</property>
-                                            <property name="fill">True</property>
-                                            <property name="position">1</property>
-                                          </packing>
                                         </child>
                                       </object>
                                       <packing>
@@ -1635,15 +1513,24 @@
                                                 <property name="visible">True</property>
                                                 <property name="can-focus">False</property>
                                                 <child>
-                                                  <object class="GtkTable" id="table_menu_session">
+                                                  <object class="GtkBox" id="box_menu_session">
                                                     <property name="visible">True</property>
                                                     <property name="can-focus">False</property>
                                                     <property name="border-width">4</property>
-                                                    <property name="n-rows">2</property>
-                                                    <property name="n-columns">2</property>
-                                                    <property name="column-spacing">6</property>
+                                                    <property name="spacing">6</property>
                                                     <child>
-                                                      <placeholder/>
+                                                      <object class="GtkLabel" id="label_current_session">
+                                                        <property name="visible">True</property>
+                                                        <property name="can-focus">False</property>
+                                                        <property name="ellipsize">end</property>
+                                                        <property name="width-chars">18</property>
+                                                        <property name="xalign">0</property>
+                                                      </object>
+                                                      <packing>
+                                                        <property name="expand">False</property>
+                                                        <property name="fill">True</property>
+                                                        <property name="position">0</property>
+                                                      </packing>
                                                     </child>
                                                     <child>
                                                       <object class="GtkCheckButton" id="check_menu_session">
@@ -1679,9 +1566,9 @@
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
                                                             <child>
-                                                            <object class="GtkArrow" id="arrow_menu_show_session_up">
+                                                            <object class="GtkArrow" id="arrow_menu_show_session_left">
                                                             <property name="can-focus">False</property>
-                                                            <property name="arrow-type">up</property>
+                                                            <property name="arrow-type">left</property>
                                                             </object>
                                                             <packing>
                                                             <property name="expand">True</property>
@@ -1690,10 +1577,9 @@
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <object class="GtkArrow" id="arrow_menu_show_session_down">
+                                                            <object class="GtkArrow" id="arrow_menu_show_session_right">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
-                                                            <property name="arrow-type">down</property>
                                                             </object>
                                                             <packing>
                                                             <property name="expand">True</property>
@@ -1714,195 +1600,9 @@
                                                         </child>
                                                       </object>
                                                       <packing>
-                                                        <property name="left-attach">1</property>
-                                                        <property name="right-attach">2</property>
-                                                        <property name="x-options"/>
-                                                        <property name="y-options"/>
-                                                      </packing>
-                                                    </child>
-                                                    <child>
-                                                      <object class="GtkLabel" id="label_current_session">
-                                                        <property name="visible">True</property>
-                                                        <property name="can-focus">False</property>
-                                                        <property name="ellipsize">end</property>
-                                                        <property name="width-chars">18</property>
-                                                        <property name="xalign">0</property>
-                                                      </object>
-                                                      <packing>
-                                                        <property name="x-options"/>
-                                                        <property name="y-options"/>
-                                                      </packing>
-                                                    </child>
-                                                    <child>
-                                                      <object class="GtkVButtonBox" id="vbuttonbox_menu_session">
-                                                        <property name="can-focus">False</property>
-                                                        <property name="spacing">8</property>
-                                                        <child>
-                                                          <object class="GtkButton" id="button_menu_session_new">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">True</property>
-                                                            <property name="can-default">True</property>
-                                                            <property name="receives-default">True</property>
-                                                            <property name="has-tooltip">True</property>
-                                                            <property name="tooltip-text" translatable="yes">New session</property>
-                                                            <property name="relief">half</property>
-                                                            <signal name="clicked" handler="on_new_activate" swapped="no"/>
-                                                            <child>
-                                                            <object class="GtkEventBox" id="eventbox_button_menu_session_new">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <child>
-                                                            <object class="GtkHBox" id="hbox372">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="spacing">4</property>
-                                                            <child>
-                                                            <object class="GtkImage" id="image_session_new3">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="stock">gtk-missing-image</property>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="position">0</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
-                                                            <object class="GtkLabel" id="label_session_new">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="label" translatable="yes">New</property>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">True</property>
-                                                            <property name="fill">True</property>
-                                                            <property name="position">1</property>
-                                                            </packing>
-                                                            </child>
-                                                            </object>
-                                                            </child>
-                                                            </object>
-                                                            </child>
-                                                          </object>
-                                                          <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="position">0</property>
-                                                          </packing>
-                                                        </child>
-                                                        <child>
-                                                          <object class="GtkButton" id="button_menu_session_load">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">True</property>
-                                                            <property name="can-default">True</property>
-                                                            <property name="receives-default">True</property>
-                                                            <property name="has-tooltip">True</property>
-                                                            <property name="tooltip-text" translatable="yes">Load session</property>
-                                                            <property name="relief">half</property>
-                                                            <signal name="clicked" handler="on_open_activate" swapped="no"/>
-                                                            <child>
-                                                            <object class="GtkEventBox" id="eventbox_button_menu_session_load">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <child>
-                                                            <object class="GtkHBox" id="hbox534">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="spacing">4</property>
-                                                            <child>
-                                                            <object class="GtkImage" id="image_session_load2">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="stock">gtk-missing-image</property>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="position">0</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
-                                                            <object class="GtkLabel" id="label_session_load">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="label" translatable="yes">Load</property>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">True</property>
-                                                            <property name="fill">True</property>
-                                                            <property name="position">1</property>
-                                                            </packing>
-                                                            </child>
-                                                            </object>
-                                                            </child>
-                                                            </object>
-                                                            </child>
-                                                          </object>
-                                                          <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="position">1</property>
-                                                          </packing>
-                                                        </child>
-                                                        <child>
-                                                          <object class="GtkButton" id="button_menu_session_more">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">True</property>
-                                                            <property name="can-default">True</property>
-                                                            <property name="receives-default">True</property>
-                                                            <property name="has-tooltip">True</property>
-                                                            <property name="relief">half</property>
-                                                            <signal name="clicked" handler="on_button_menu_session_more_clicked" swapped="no"/>
-                                                            <child>
-                                                            <object class="GtkEventBox" id="eventbox_button_menu_session_more">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <child>
-                                                            <object class="GtkHBox" id="hbox539">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="spacing">4</property>
-                                                            <child>
-                                                            <object class="GtkImage" id="image_session_more">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="stock">gtk-missing-image</property>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="position">0</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
-                                                            <object class="GtkLabel" id="label22">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="label" translatable="yes">More</property>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">True</property>
-                                                            <property name="fill">True</property>
-                                                            <property name="position">1</property>
-                                                            </packing>
-                                                            </child>
-                                                            </object>
-                                                            </child>
-                                                            </object>
-                                                            </child>
-                                                          </object>
-                                                          <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="position">2</property>
-                                                          </packing>
-                                                        </child>
-                                                      </object>
-                                                      <packing>
-                                                        <property name="top-attach">1</property>
-                                                        <property name="bottom-attach">2</property>
-                                                        <property name="x-options"/>
+                                                        <property name="expand">False</property>
+                                                        <property name="fill">True</property>
+                                                        <property name="position">1</property>
                                                       </packing>
                                                     </child>
                                                   </object>
@@ -40069,7 +39769,7 @@ then click this button.</property>
                                                             <property name="label" translatable="yes">Change current session</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="receives-default">True</property>
-                                                            <signal name="clicked" handler="on_open_activate" swapped="no"/>
+                                                            <signal name="clicked" handler="on_open_session_activate" swapped="no"/>
                                                             </object>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -42742,7 +42442,7 @@ then click this button.</property>
                                             <property name="show-tabs">False</property>
                                             <property name="show-border">False</property>
                                             <child>
-                                              <object class="GtkHBox" id="hbox21_session_more">
+                                              <object class="GtkHBox" id="hbox21_session_manage">
                                                 <property name="visible">True</property>
                                                 <property name="can-focus">False</property>
                                                 <property name="spacing">16</property>
@@ -42791,13 +42491,14 @@ then click this button.</property>
                                                             <property name="homogeneous">True</property>
                                                             <property name="layout-style">center</property>
                                                             <child>
-                                                            <object class="GtkButton" id="button_menu_session_new2">
+                                                            <object class="GtkButton" id="button_session_new">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="can-default">True</property>
                                                             <property name="receives-default">True</property>
                                                             <property name="has-tooltip">True</property>
                                                             <property name="tooltip-text" translatable="yes">New session</property>
+                                                            <signal name="clicked" handler="on_new_session_activate" swapped="no"/>
                                                             <child>
                                                             <object class="GtkEventBox" id="eventbox_button_menu_session_new2">
                                                             <property name="visible">True</property>
@@ -42845,13 +42546,14 @@ then click this button.</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <object class="GtkButton" id="button_menu_session_load2">
+                                                            <object class="GtkButton" id="button_session_load">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="can-default">True</property>
                                                             <property name="receives-default">True</property>
                                                             <property name="has-tooltip">True</property>
                                                             <property name="tooltip-text" translatable="yes">Load session</property>
+                                                            <signal name="clicked" handler="on_open_session_activate" swapped="no"/>
                                                             <child>
                                                             <object class="GtkEventBox" id="eventbox_button_menu_session_load2">
                                                             <property name="visible">True</property>

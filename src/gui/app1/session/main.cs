@@ -260,6 +260,7 @@ public partial class ChronoJumpWindow
 	void app1s_on_button_close0_clicked (object o, EventArgs args)
 	{
 		menus_sensitive_import_not_danger(true);
+		check_menu_session.Click ();
 		notebook_supSetOldPage();
 	}
 

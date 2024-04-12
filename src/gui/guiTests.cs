@@ -487,7 +487,7 @@ public partial class ChronoJumpWindow
 	{
 		LogB.TestStart("chronojumpWindowTestsLoadSession");
 
-		on_open_activate(new Object(), new EventArgs());
+		on_open_session_activate(new Object(), new EventArgs());
 		bool exists = app1s_SelectRowByID(sID); //0 is the first
 		if(! exists) {
 			testsActive = false;
@@ -504,7 +504,7 @@ public partial class ChronoJumpWindow
 	{
 		LogB.TestStart("chronojumpWindowTestsLoadSessionByName");
 
-		on_open_activate(new Object(), new EventArgs());
+		on_open_session_activate(new Object(), new EventArgs());
 		bool exists = app1s_SelectRowByName (name);
 		if(! exists) {
 			testsActive = false;

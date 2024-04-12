@@ -1755,7 +1755,7 @@ public class Butterworth
 	private List<TimedPoint> samples_l;
 
 	private List<int> times_l;
-	private List<double> forces_l;
+	private List<double> y_l;
 	FilteredTrajectory traj;
 
 	public Butterworth (double freq)
@@ -1766,7 +1766,7 @@ public class Butterworth
 		samples_l = new List<TimedPoint>();
 
 		times_l = new List<int>();
-		forces_l = new List<double>();
+		y_l = new List<double>();
 	}
 
 	public void AddSample (double time, double y)
@@ -1791,15 +1791,17 @@ public class Butterworth
 
 		traj = new FilteredTrajectory();
 		traj.Initialize (samples_l, fps, freq);
+		//traj.Initialize (samples_l, fps, -1); //automatic
+		LogB.Information ("cutoff: " + traj.XCutoff.ToString ());
 
 		for (int i = 0; i < traj.Times.Length; i ++)
 		{
 			times_l.Add (Convert.ToInt32 (traj.Times[i]));
-			forces_l.Add (Convert.ToDouble (traj.Xs[i]));
+			y_l.Add (Convert.ToDouble (traj.Xs[i]));
 		}
 	}
 
-	//this is used on capture
+	//this is used on capture and on ForceSensorDynamicsElastic
 	public List<PointF> PointF_l
 	{
 		get {
@@ -1815,8 +1817,8 @@ public class Butterworth
 	public List<int> Times_l {
 		get { return times_l; }
 	}
-	public List<double> Forces_l {
-		get { return forces_l; }
+	public List<double> Y_l {
+		get { return y_l; }
 	}
 
 	public static void ForceSensorFileToButterworth (List<string> contents, double butterworthFreq, string toFile)
@@ -1848,7 +1850,7 @@ public class Butterworth
 
 		for (int i = 0; i < bw.Times_l.Count; i ++)
 			writer.WriteLine (Util.ConvertToPoint (bw.Times_l[i]) + ";" +
-					Util.ConvertToPoint (bw.Forces_l[i]));
+					Util.ConvertToPoint (bw.Y_l[i]));
 
 		writer.Flush();
 		writer.Close();

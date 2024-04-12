@@ -2691,7 +2691,7 @@ LogB.Information(" fs R ");
 		{
 			bw.Calculate ();
 			times_l = bw.Times_l;
-			forces_l = bw.Forces_l;
+			forces_l = bw.Y_l;
 		}
 
 		forceSensorGridColors ();

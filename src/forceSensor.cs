@@ -1835,7 +1835,7 @@ public class ForceSensorAnalyzeInstant : AnalyzeInstant
 		{
 			bw.Calculate ();
 			times = bw.Times_l;
-			forces = bw.Forces_l;
+			forces = bw.Y_l;
 		}
 
 		// 2 calcule dynamics for all file

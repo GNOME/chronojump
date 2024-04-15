@@ -557,7 +557,8 @@ public class ForceSensorDynamicsElastic : ForceSensorDynamics
 		{
 			bw.Calculate ();
 			position_l = bw.Y_l;
-		}
+		} else
+			position_l = position_not_smoothed_l;
 	}
 
 	private void calculeSpeeds()

@@ -37,6 +37,13 @@ public class UtilGtk
 		return (System.Threading.Thread.CurrentThread.ManagedThreadId.ToString() == "1");
 	}
 
+	// to debug
+	// eg call with: UtilGtk. WidgetIsSensitive (alignment_session_persons, "alignment_session_persons", "0");
+	public static void WidgetIsSensitive (Gtk.Widget w, string wName, string whereInCode)
+	{
+		LogB.Information (string.Format ("Widget {0} is sensitive? {1} at {2}", wName, w.Sensitive, whereInCode));
+	}
+
 	/*
 	 *
 	 * COMBO

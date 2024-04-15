@@ -943,6 +943,7 @@ public partial class ChronoJumpWindow
 		} else
 			LogB.Information("Ping discarded (Compujump)");
 
+
 		if(preferences.loadLastSessionAtStart && preferences.lastSessionID > 0 && ! configChronojump.Compujump)
 		{
 			// 1) to avoid impossibility to start Chronojump if there's any problem with this session, first put this to false
@@ -965,9 +966,7 @@ public partial class ChronoJumpWindow
 			} else
 				if(! check_menu_session.Active)
 					check_menu_session.Click(); //have session menu opened
-		} else
-			if(! check_menu_session.Active)
-				check_menu_session.Click(); //have sesion menu opened
+		}
 
 		initialize_menu_or_menu_tiny();
 		vbox_persons_bottom.Visible = preferences.personPhoto && ! check_menu_session.Active;

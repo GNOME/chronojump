@@ -2460,10 +2460,16 @@ LogB.Information(" fs R ");
 			{
 				//if preferences butterworth changed, the graph will be updated
 				//need to also update the grid before the return
-				forceSensorGridColors ();
+				//forceSensorGridColors ();
 
 				new DialogMessage(Constants.MessageTypes.WARNING, Catalog.GetString("Need to configure fixture to know stiffness of this elastic exercise."));
+
+
+				/*
+				 * before 2024 Apr 16 we returned here, now we continue to be able to show correctly graphs after preferences butterworth change
+				 * check this does not produces any crash
 				return;
+				*/
 			}
 		}
 		box_force_sensor_capture_magnitudes.Visible = currentForceSensorExercise.ComputeAsElastic;

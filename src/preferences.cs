@@ -177,7 +177,16 @@ public class Preferences
 	public double runsIFeedbackSpeedLower; 		//implemented
 
 	//forceSensor
-	public double forceSensorButterworth; //-1 means do not use
+	public double forceSensorIsometricButterworth; //-1 means do not use
+	public double forceSensorElasticButterworth; //-1 means do not use
+	public double forceSensorButterworth (Constants.Modes mode)
+	{
+		if (mode == Constants.Modes.FORCESENSORISOMETRIC)
+			return forceSensorIsometricButterworth;
+		else //if (mode == Constants.Modes.FORCESENSORELASTIC)
+			return forceSensorElasticButterworth;
+	}
+
 	public int forceSensorCaptureWidthSeconds;
 	public bool forceSensorCaptureScroll;
 	public double forceSensorElasticEccMinDispl;

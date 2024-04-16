@@ -969,7 +969,7 @@ public partial class ChronoJumpWindow
 				preferences.forceSensorStartEndOptimized,
 				preferences.CSVExportDecimalSeparatorChar, 	//decimalIsPointAtExport (write)
 				preferences.forceSensorAnalyzeMaxAVGInWindow,
-				preferences.forceSensorButterworth
+				preferences.forceSensorButterworth (current_mode)
 				);
 
 		forceSensorExport.Button_done.Clicked -= new EventHandler(force_sensor_export_done);
@@ -1071,7 +1071,7 @@ public partial class ChronoJumpWindow
 		fsAI_AB = new ForceSensorAnalyzeInstant(
 				"AB",
 				lastForceSensorFullPath,
-				preferences.forceSensorButterworth,
+				preferences.forceSensorButterworth (current_mode),
 				zoomFrameA, zoomFrameB,
 				currentForceSensorExercise, currentPersonSession.Weight,
 				getForceSensorCaptureOptions(), currentForceSensor.Stiffness,
@@ -1084,7 +1084,7 @@ public partial class ChronoJumpWindow
 			fsAI_CD = new ForceSensorAnalyzeInstant(
 					"CD",
 					lastForceSensorFullPath_2SetsCD,
-					preferences.forceSensorButterworth,
+					preferences.forceSensorButterworth (current_mode),
 					zoomFrameA, zoomFrameB,
 					currentForceSensorExercise_2SetsCD, personSessionForceSensor_2SetsCD.Weight,
 					forceSensorCaptureOption_2SetsCD, forceSensorStiffness_2SetsCD,
@@ -1094,7 +1094,7 @@ public partial class ChronoJumpWindow
 			fsAI_CD = new ForceSensorAnalyzeInstant(
 					"CD",
 					lastForceSensorFullPath,
-					preferences.forceSensorButterworth,
+					preferences.forceSensorButterworth (current_mode),
 					zoomFrameA, zoomFrameB,
 					currentForceSensorExercise, currentPersonSession.Weight,
 					getForceSensorCaptureOptions (), currentForceSensor.Stiffness,

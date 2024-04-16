@@ -182,9 +182,12 @@ public class PreferencesWindow
 	Gtk.RadioButton radio_encoder_1RM_weighted3;
 
 	//forceSensor tab
-	Gtk.CheckButton check_force_sensor_butterworth;
-	Gtk.Box box_force_sensor_butterworth_values;
-	Gtk.SpinButton spin_force_sensor_butterworth;
+	Gtk.CheckButton check_force_sensor_isometric_butterworth;
+	Gtk.CheckButton check_force_sensor_elastic_butterworth;
+	Gtk.Box box_force_sensor_isometric_butterworth_values;
+	Gtk.Box box_force_sensor_elastic_butterworth_values;
+	Gtk.SpinButton spin_force_sensor_isometric_butterworth;
+	Gtk.SpinButton spin_force_sensor_elastic_butterworth;
 	Gtk.Notebook notebook_force_sensor;
 	Gtk.SpinButton spin_force_sensor_capture_width_graph_seconds;
 	Gtk.RadioButton radio_force_sensor_capture_zoom_out;
@@ -768,13 +771,24 @@ public class PreferencesWindow
 		//forceSensor -->
 		PreferencesWindowBox.signalsNoFollow = true;
 
-		PreferencesWindowBox.check_force_sensor_butterworth.Active = preferences.forceSensorButterworth >= 0;
-		PreferencesWindowBox.box_force_sensor_butterworth_values.Sensitive = preferences.forceSensorButterworth >= 0;
-		if (preferences.forceSensorButterworth < 0)
-			PreferencesWindowBox.spin_force_sensor_butterworth.Value = 15;
+		//	butterworth isometric
+		PreferencesWindowBox.check_force_sensor_isometric_butterworth.Active = preferences.forceSensorIsometricButterworth >= 0;
+		PreferencesWindowBox.box_force_sensor_isometric_butterworth_values.Sensitive = preferences.forceSensorIsometricButterworth >= 0;
+		if (preferences.forceSensorIsometricButterworth < 0)
+			PreferencesWindowBox.spin_force_sensor_isometric_butterworth.Value = 15;
 		else
-			PreferencesWindowBox.spin_force_sensor_butterworth.Value = preferences.forceSensorButterworth;
+			PreferencesWindowBox.spin_force_sensor_isometric_butterworth.Value = preferences.forceSensorIsometricButterworth;
+
+		//	butterworth elastic
+		PreferencesWindowBox.check_force_sensor_elastic_butterworth.Active = preferences.forceSensorElasticButterworth >= 0;
+		PreferencesWindowBox.box_force_sensor_elastic_butterworth_values.Sensitive = preferences.forceSensorElasticButterworth >= 0;
+		if (preferences.forceSensorElasticButterworth < 0)
+			PreferencesWindowBox.spin_force_sensor_elastic_butterworth.Value = 15;
+		else
+			PreferencesWindowBox.spin_force_sensor_elastic_butterworth.Value = preferences.forceSensorElasticButterworth;
+
 		PreferencesWindowBox.signalsNoFollow = false;
+
 
 		PreferencesWindowBox.spin_force_sensor_capture_width_graph_seconds.Value = preferences.forceSensorCaptureWidthSeconds;
 
@@ -1625,39 +1639,76 @@ public class PreferencesWindow
 
 	/* callbacks SQL change at any change for tab: forceSensor */
 
-	private void on_check_force_sensor_butterworth_clicked (object o, EventArgs args)
+	//butterworth - isometric mode
+	private void on_check_force_sensor_isometric_butterworth_clicked (object o, EventArgs args)
 	{
 		if (signalsNoFollow)
 			return;
 
 		// A) changes on preferences gui
-		box_force_sensor_butterworth_values.Sensitive = check_force_sensor_butterworth.Active;
+		box_force_sensor_isometric_butterworth_values.Sensitive = check_force_sensor_isometric_butterworth.Active;
 
 		// B) changes on preferences object and SqlitePreferences
-		changeForceSensorButterworthOnPreferencesAndDB ();
+		changeForceSensorIsometricButterworthOnPreferencesAndDB ();
 	}
-	private void changeForceSensorButterworthOnPreferencesAndDB ()
+	private void changeForceSensorIsometricButterworthOnPreferencesAndDB ()
 	{
-		if(! PreferencesWindowBox.check_force_sensor_butterworth.Active)
+		if(! PreferencesWindowBox.check_force_sensor_isometric_butterworth.Active)
 		{
-			SqlitePreferences.Update(SqlitePreferences.ForceSensorButterworth, "-1", false);
-			preferences.forceSensorButterworth = -1;
+			SqlitePreferences.Update(SqlitePreferences.ForceSensorIsometricButterworth, "-1", false);
+			preferences.forceSensorIsometricButterworth = -1;
 		} else
-			on_spin_force_sensor_butterworth_value_changed (new object (), new EventArgs ());
+			on_spin_force_sensor_isometric_butterworth_value_changed (new object (), new EventArgs ());
 	}
 
-	private void on_spin_force_sensor_butterworth_value_changed (object o, EventArgs args)
+	private void on_spin_force_sensor_isometric_butterworth_value_changed (object o, EventArgs args)
 	{
 		if (signalsNoFollow)
 			return;
 
 		// B) changes on preferences object and SqlitePreferences
-		preferences.forceSensorButterworth = Preferences.PreferencesChange(
+		preferences.forceSensorIsometricButterworth = Preferences.PreferencesChange(
 				false,
-				SqlitePreferences.ForceSensorButterworth,
-				preferences.forceSensorButterworth,
-				Convert.ToDouble(spin_force_sensor_butterworth.Value));
+				SqlitePreferences.ForceSensorIsometricButterworth,
+				preferences.forceSensorIsometricButterworth,
+				Convert.ToDouble(spin_force_sensor_isometric_butterworth.Value));
 	}
+
+	//butterworth - elastic mode
+	private void on_check_force_sensor_elastic_butterworth_clicked (object o, EventArgs args)
+	{
+		if (signalsNoFollow)
+			return;
+
+		// A) changes on preferences gui
+		box_force_sensor_elastic_butterworth_values.Sensitive = check_force_sensor_elastic_butterworth.Active;
+
+		// B) changes on preferences object and SqlitePreferences
+		changeForceSensorElasticButterworthOnPreferencesAndDB ();
+	}
+	private void changeForceSensorElasticButterworthOnPreferencesAndDB ()
+	{
+		if(! PreferencesWindowBox.check_force_sensor_elastic_butterworth.Active)
+		{
+			SqlitePreferences.Update(SqlitePreferences.ForceSensorElasticButterworth, "-1", false);
+			preferences.forceSensorElasticButterworth = -1;
+		} else
+			on_spin_force_sensor_elastic_butterworth_value_changed (new object (), new EventArgs ());
+	}
+
+	private void on_spin_force_sensor_elastic_butterworth_value_changed (object o, EventArgs args)
+	{
+		if (signalsNoFollow)
+			return;
+
+		// B) changes on preferences object and SqlitePreferences
+		preferences.forceSensorElasticButterworth = Preferences.PreferencesChange(
+				false,
+				SqlitePreferences.ForceSensorElasticButterworth,
+				preferences.forceSensorElasticButterworth,
+				Convert.ToDouble(spin_force_sensor_elastic_butterworth.Value));
+	}
+
 
 	private void on_spin_force_sensor_capture_width_graph_seconds_value_changed (object o, EventArgs args)
 	{
@@ -3187,9 +3238,12 @@ public class PreferencesWindow
 		radio_encoder_1RM_weighted3 = (Gtk.RadioButton) builder.GetObject ("radio_encoder_1RM_weighted3");
 
 		//forceSensor tab
-		check_force_sensor_butterworth = (Gtk.CheckButton) builder.GetObject ("check_force_sensor_butterworth");
-		box_force_sensor_butterworth_values = (Gtk.Box) builder.GetObject ("box_force_sensor_butterworth_values");
-		spin_force_sensor_butterworth = (Gtk.SpinButton) builder.GetObject ("spin_force_sensor_butterworth");
+		check_force_sensor_isometric_butterworth = (Gtk.CheckButton) builder.GetObject ("check_force_sensor_isometric_butterworth");
+		box_force_sensor_isometric_butterworth_values = (Gtk.Box) builder.GetObject ("box_force_sensor_isometric_butterworth_values");
+		spin_force_sensor_isometric_butterworth = (Gtk.SpinButton) builder.GetObject ("spin_force_sensor_isometric_butterworth");
+		check_force_sensor_elastic_butterworth = (Gtk.CheckButton) builder.GetObject ("check_force_sensor_elastic_butterworth");
+		box_force_sensor_elastic_butterworth_values = (Gtk.Box) builder.GetObject ("box_force_sensor_elastic_butterworth_values");
+		spin_force_sensor_elastic_butterworth = (Gtk.SpinButton) builder.GetObject ("spin_force_sensor_elastic_butterworth");
 		notebook_force_sensor = (Gtk.Notebook) builder.GetObject ("notebook_force_sensor");
 		spin_force_sensor_capture_width_graph_seconds = (Gtk.SpinButton) builder.GetObject ("spin_force_sensor_capture_width_graph_seconds");
 		radio_force_sensor_capture_zoom_out = (Gtk.RadioButton) builder.GetObject ("radio_force_sensor_capture_zoom_out");

@@ -131,7 +131,8 @@ class SqlitePreferences : Sqlite
 	public const string EncoderRepetitionCriteriaInertialStr = "encoderRepetitionCriteriaInertial";
 
 	//forceSensor
-	public const string ForceSensorButterworth = "forceSensorButterworth";
+	public const string ForceSensorIsometricButterworth = "forceSensorButterworth"; //is not named forceSensorIsometricButterworth because on the beginning this was used for both modes
+	public const string ForceSensorElasticButterworth = "forceSensorElasticButterworth";
 	public const string ForceSensorCaptureWidthSeconds = "forceSensorCaptureWidthSeconds";
 	public const string ForceSensorCaptureScroll = "forceSensorCaptureScroll";
 	public const string ForceSensorElasticEccMinDispl = "forceSensorElasticEccMinDispl";
@@ -365,7 +366,8 @@ class SqlitePreferences : Sqlite
 				Insert (EncoderRhythmRestClustersSecondsStr, Util.ConvertToPoint(er.RestClustersSeconds), dbcmdTr);
 
 				//forceSensor
-				Insert (ForceSensorButterworth, "15", dbcmdTr);
+				Insert (ForceSensorIsometricButterworth, "15", dbcmdTr);
+				Insert (ForceSensorElasticButterworth, "3", dbcmdTr);
 				Insert (ForceSensorCaptureWidthSeconds, "10", dbcmdTr);
 				Insert (ForceSensorCaptureScroll, "True", dbcmdTr); //scroll. not zoom out
 				Insert (ForceSensorElasticEccMinDispl, ".1", dbcmdTr);
@@ -938,8 +940,11 @@ class SqlitePreferences : Sqlite
 				preferences.thresholdOther = Convert.ToInt32(reader[1].ToString());
 
 			//force sensor capture
-			else if(reader[0].ToString() == ForceSensorButterworth)
-				preferences.forceSensorButterworth = Convert.ToDouble(
+			else if(reader[0].ToString() == ForceSensorIsometricButterworth)
+				preferences.forceSensorIsometricButterworth = Convert.ToDouble(
+						Util.ChangeDecimalSeparator(reader[1].ToString()));
+			else if(reader[0].ToString() == ForceSensorElasticButterworth)
+				preferences.forceSensorElasticButterworth = Convert.ToDouble(
 						Util.ChangeDecimalSeparator(reader[1].ToString()));
 			else if(reader[0].ToString() == ForceSensorCaptureWidthSeconds)
 				preferences.forceSensorCaptureWidthSeconds = Convert.ToInt32(reader[1].ToString());

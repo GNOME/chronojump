@@ -1531,9 +1531,9 @@ public partial class ChronoJumpWindow
 			//changeSlideIfNeeded(time, force);
 		}
 
-		if (preferences.forceSensorButterworth >= 0)
+		if (preferences.forceSensorButterworth (current_mode) >= 0)
 		{
-			Butterworth bw = new Butterworth (preferences.forceSensorButterworth);
+			Butterworth bw = new Butterworth (preferences.forceSensorButterworth (current_mode));
 			bw.AddFromList (spCairoFE_Unfiltered.Force_l);
 			bw.Calculate ();
 
@@ -2566,11 +2566,11 @@ LogB.Information(" fs R ");
 			}
 		}
 
-		if (preferences.forceSensorButterworth >= 0)
+		if (preferences.forceSensorButterworth (current_mode) >= 0)
 		{
 			List<string> contents = Util.ReadFileAsStringList (lastForceSensorFullPath);
 			Butterworth.ForceSensorFileToButterworth (
-					contents, preferences.forceSensorButterworth, UtilEncoder.GetmifCSVFileName ());
+					contents, preferences.forceSensorButterworth (current_mode), UtilEncoder.GetmifCSVFileName ());
 		}
 
 		/*
@@ -2657,7 +2657,7 @@ LogB.Information(" fs R ");
 		List<int> times_l = new List<int>();
 		List<double> forces_l = new List<double>();
 
-		Butterworth bw = new Butterworth (preferences.forceSensorButterworth);
+		Butterworth bw = new Butterworth (preferences.forceSensorButterworth (current_mode));
 
 		foreach(string str in contents)
 		{
@@ -2679,7 +2679,7 @@ LogB.Information(" fs R ");
 					forces_l.Add (Convert.ToDouble(Util.ChangeDecimalSeparator(strFull[1])));
 					forcesUnfiltered_l.Add (Convert.ToDouble(Util.ChangeDecimalSeparator(strFull[1])));
 
-					if (preferences.forceSensorButterworth >= 0)
+					if (preferences.forceSensorButterworth (current_mode) >= 0)
 						bw.AddSample (
 								Convert.ToDouble(Util.ChangeDecimalSeparator(strFull[0])),
 								Convert.ToDouble(Util.ChangeDecimalSeparator(strFull[1])));
@@ -2687,7 +2687,8 @@ LogB.Information(" fs R ");
 			}
 		}
 
-		if (preferences.forceSensorButterworth >= 0)
+		LogB.Information ("preferences.forceSensorButterworth: " + preferences.forceSensorButterworth (current_mode).ToString ());
+		if (preferences.forceSensorButterworth (current_mode) >= 0)
 		{
 			bw.Calculate ();
 			times_l = bw.Times_l;
@@ -2701,7 +2702,7 @@ LogB.Information(" fs R ");
 			spCairoFE = forceSensorDoSignalGraphReadFileGetSPFE (
 					times_l, forces_l,
 					currentForceSensorExercise, fsco, personWeight, stiffness,
-					preferences.forceSensorButterworth, true, false);
+					preferences.forceSensorButterworth (current_mode), true, false);
 			spCairoFE_Unfiltered = forceSensorDoSignalGraphReadFileGetSPFE (
 					timesUnfiltered_l, forcesUnfiltered_l,
 					currentForceSensorExercise, fsco, personWeight, stiffness,
@@ -2711,7 +2712,7 @@ LogB.Information(" fs R ");
 			spCairoFE_CD = forceSensorDoSignalGraphReadFileGetSPFE (
 					times_l, forces_l,
 					currentForceSensorExercise_2SetsCD, fsco, personWeight, stiffness,
-					preferences.forceSensorButterworth, false, false);
+					preferences.forceSensorButterworth (current_mode), false, false);
 	}
 
 	private SignalPointsCairoForceElastic forceSensorDoSignalGraphReadFileGetSPFE (
@@ -2903,9 +2904,9 @@ LogB.Information(" fs R ");
 		spCairoFECopyToDraw = new SignalPointsCairoForceElastic ();
 		if (spCairoFECopyToDraw_Unfiltered.Force_l.Count > 0)
 		{
-			if (preferences.forceSensorButterworth >= 0 && spCairoFECopyToDraw_Unfiltered.Force_l.Count > spCairoFECopyToDraw.Force_l.Count) 
+			if (preferences.forceSensorButterworth (current_mode) >= 0 && spCairoFECopyToDraw_Unfiltered.Force_l.Count > spCairoFECopyToDraw.Force_l.Count) 
 			{
-				Butterworth bw = new Butterworth (preferences.forceSensorButterworth);
+				Butterworth bw = new Butterworth (preferences.forceSensorButterworth (current_mode));
 				bw.AddFromList (spCairoFECopyToDraw_Unfiltered.Force_l);
 				bw.Calculate ();
 
@@ -3044,12 +3045,13 @@ LogB.Information(" fs R ");
 
 	private void forceSensorGridColors ()
 	{
-		force_capture_grid_colors.Visible = preferences.forceSensorButterworth >= 0;
-		if (preferences.forceSensorButterworth >= 0)
+		force_capture_grid_colors.Visible = preferences.forceSensorButterworth (current_mode) >= 0;
+		if (preferences.forceSensorButterworth (current_mode) >= 0)
 		{
 			separator_force_capture_unfiltered.Name = "brownCss";
 			separator_force_capture_butterworth.Name = "blackCss";
-			label_force_capture_grid_colors_butterworth_value.Text = Util.TrimDecimals (preferences.forceSensorButterworth, 1);
+			label_force_capture_grid_colors_butterworth_value.Text =
+				Util.TrimDecimals (preferences.forceSensorButterworth (current_mode), 1);
 		}
 	}
 

@@ -2700,21 +2700,24 @@ LogB.Information(" fs R ");
 		{
 			spCairoFE = forceSensorDoSignalGraphReadFileGetSPFE (
 					times_l, forces_l,
-					currentForceSensorExercise, fsco, personWeight, stiffness, true);
+					currentForceSensorExercise, fsco, personWeight, stiffness,
+					preferences.forceSensorButterworth, true, false);
 			spCairoFE_Unfiltered = forceSensorDoSignalGraphReadFileGetSPFE (
 					timesUnfiltered_l, forcesUnfiltered_l,
-					currentForceSensorExercise, fsco, personWeight, stiffness, false);
+					currentForceSensorExercise, fsco, personWeight, stiffness,
+					-1, false, false);
 		}
 		else
 			spCairoFE_CD = forceSensorDoSignalGraphReadFileGetSPFE (
 					times_l, forces_l,
-					currentForceSensorExercise_2SetsCD, fsco, personWeight, stiffness, false);
+					currentForceSensorExercise_2SetsCD, fsco, personWeight, stiffness,
+					preferences.forceSensorButterworth, false, false);
 	}
 
 	private SignalPointsCairoForceElastic forceSensorDoSignalGraphReadFileGetSPFE (
 			List<int> times_l, List<double> forces_l,
-			ForceSensorExercise fsex, ForceSensor.CaptureOptions fsco,
-			double personWeight, double stiffness, bool updateForceSensorValues)
+			ForceSensorExercise fsex, ForceSensor.CaptureOptions fsco, double personWeight, double stiffness,
+			double butterworth, bool updateForceSensorValues, bool debug)
 	{
 		SignalPointsCairoForceElastic spCairoFETemp = new SignalPointsCairoForceElastic ();
 
@@ -2723,13 +2726,21 @@ LogB.Information(" fs R ");
 			fsd = new ForceSensorDynamicsElastic (
 					times_l, forces_l, fsco, fsex, personWeight, stiffness,
 					preferences.forceSensorElasticEccMinDispl, preferences.forceSensorElasticConMinDispl,
-					false, preferences.forceSensorButterworth);
+					false, butterworth, debug);
 		else
 			fsd = new ForceSensorDynamicsNotElastic (
 					times_l, forces_l, fsco, fsex, personWeight, stiffness,
 					preferences.forceSensorNotElasticEccMinForce, preferences.forceSensorNotElasticConMinForce);
 
 		forces_l = fsd.GetForces();
+
+		if (debug && forces_l.Count >= 9)
+		{
+			LogB.Information ("RRRRRR after fsd.GetForces 10 forces");
+			for (int k = 0; k <= 9; k ++)
+				LogB.Information (forces_l[k].ToString ());
+		}
+
 		times_l.RemoveAt(0); //always (not-elastic and elastic) 1st has to be removed, because time is not ok there.
 		List<double> position_l = new List<double> ();
 		List<double> speed_l = new List<double> ();

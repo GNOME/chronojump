@@ -450,12 +450,13 @@ public class ForceSensorDynamicsElastic : ForceSensorDynamics
 	List<double> power_l;
 	private bool zoomed;
 	private double butterworthFreq;
+	private bool debug;
 
 	public ForceSensorDynamicsElastic (List<int> time_micros_l, List<double> force_l, 
 			ForceSensor.CaptureOptions fsco, ForceSensorExercise fse,
 			double personMass, double stiffness,
 			double eccMinDisplacement, double conMinDisplacement,
-			bool zoomed, double butterworthFreq)
+			bool zoomed, double butterworthFreq, bool debug)
 	{
 		RemoveNValues = 10;
 		initialize(true, time_micros_l, force_l, fsco, fse, personMass, stiffness, eccMinDisplacement, conMinDisplacement);
@@ -463,6 +464,7 @@ public class ForceSensorDynamicsElastic : ForceSensorDynamics
 		removeFirstValue();
 		this.zoomed = zoomed;
 		this.butterworthFreq = butterworthFreq;
+		this.debug = debug;
 
 		if(! fse.ForceResultant)
 		{
@@ -548,6 +550,8 @@ public class ForceSensorDynamicsElastic : ForceSensorDynamics
 		for (int i = 0 ; i < force_l.Count; i ++)
 		{
 			position_not_smoothed_l.Add(force_l[i] / stiffness);
+			position_l.Add(force_l[i] / stiffness);
+
 			if (butterworthFreq > 0)
 				bw.AddSample (time_micros_l[i], force_l[i] / stiffness);
 		}
@@ -557,8 +561,7 @@ public class ForceSensorDynamicsElastic : ForceSensorDynamics
 		{
 			bw.Calculate ();
 			position_l = bw.Y_l;
-		} else
-			position_l = position_not_smoothed_l;
+		}
 	}
 
 	private void calculeSpeeds()
@@ -633,10 +636,12 @@ public class ForceSensorDynamicsElastic : ForceSensorDynamics
 	//forces are updated, so do not Add to the list
 	private void calculeForces()
 	{
-		LogB.Information("elastic calculeForces: " + fsco.ToString());
+		if (debug)
+			LogB.Information("elastic calculeForces: " + fsco.ToString());
 		for (int i = 0 ; i < force_l.Count; i ++)
 		{
-			LogB.Information(string.Format("i pre: {0}, force_l[i]: {1}, accel_l[i]: {2}", i, force_l[i], accel_l[i]));
+			if (debug)
+				LogB.Information(string.Format("i pre: {0}, force_l[i]: {1}, speed_l[i]: {2}, accel_l[i]: {3}", i, force_l[i], speed_l[i], accel_l[i]));
 			//LogB.Information(string.Format("i: {0}, force_l[i]: {1}, force_l.Count: {2}", i, force_l[i], force_l.Count));
 			/*
 			double force = Math.Sqrt(
@@ -647,13 +652,15 @@ public class ForceSensorDynamicsElastic : ForceSensorDynamics
 
 			double force = force_l[i]  +  totalMass*(accel_l[i] + 9.81 * Math.Sin(fse.AngleDefault * Math.PI / 180.0));
 
-			LogB.Information(string.Format("post force (but before applying captureoptions): {0}", force));
+			if (debug)
+				LogB.Information(string.Format("post force (but before applying captureoptions): {0}", force));
 
 			//force_l[i] = calculeForceWithCaptureOptions(force); //
 			//2.2.1 this is applied now at constructor
 			force_l[i] = force;
 
-			LogB.Information(string.Format("post force (after applying captureoptions): {0}", force_l[i]));
+			if (debug)
+				LogB.Information(string.Format("post force (after applying captureoptions): {0}\n", force_l[i]));
 		}
 	}
 	

@@ -1846,7 +1846,7 @@ public class ForceSensorAnalyzeInstant : AnalyzeInstant
 			forceSensorDynamics = new ForceSensorDynamicsElastic(
 					times, forces, fsco, fse, personWeight, stiffness, eccMinDisplacement, conMinDisplacement,
 					(startSample >= 0 && endSample >= 0), //zoomed
-					butterworthFreq
+					butterworthFreq, false
 					);
 
 			/*

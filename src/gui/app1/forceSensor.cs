@@ -2912,9 +2912,18 @@ LogB.Information(" fs R ");
 		{
 			if (preferences.forceSensorButterworth (current_mode) >= 0)
 			{
-				spCairoFECopyToDraw = new SignalPointsCairoForceElastic (
-						spCairoFE, true, //we may plot all variables (not only force)
-						0, pointsToCopy -1, cairoDrawHorizontal);
+				if (capturing && spCairoFECopyToDraw_Unfiltered.Force_l.Count > spCairoFECopyToDraw.Force_l.Count)
+				{
+					Butterworth bw = new Butterworth (preferences.forceSensorButterworth (current_mode));
+					bw.AddFromList (spCairoFECopyToDraw_Unfiltered.Force_l);
+					bw.Calculate ();
+
+					//spCairoFECopyToDraw = new SignalPointsCairoForceElastic ();
+					spCairoFECopyToDraw.Force_l = bw.PointF_l;
+				} else
+					spCairoFECopyToDraw = new SignalPointsCairoForceElastic (
+							spCairoFE, true, //we may plot all variables (not only force)
+							0, pointsToCopy -1, cairoDrawHorizontal);
 			} else {
 				spCairoFECopyToDraw = new SignalPointsCairoForceElastic (
 						spCairoFE_Unfiltered, true, //we may plot all variables (not only force)

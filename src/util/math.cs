@@ -178,6 +178,23 @@ public class PointF
 		return l;
 	}
 
+	//faster method (not need to loop 2 times)
+	public static void GetMaxMinY (List<PointF> p_l, out double minY, out double maxY)
+	{
+		minY = 0;
+		maxY = 0;
+		if (p_l == null || p_l.Count == 0)
+			return;
+
+		for (int i = 0; i < p_l.Count ; i ++)
+		{
+			if (i == 0 || p_l[i].Y < minY)
+				minY = p_l[i].Y;
+			if (i == 0 || p_l[i].Y > maxY)
+				maxY = p_l[i].Y;
+		}
+	}
+
 	//if want to use sublist just call also below method GetSubList ()
 	public static double GetMaxY (List<PointF> p_l)
 	{

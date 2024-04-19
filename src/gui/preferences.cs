@@ -783,7 +783,7 @@ public class PreferencesWindow
 		PreferencesWindowBox.check_force_sensor_elastic_butterworth.Active = preferences.forceSensorElasticButterworth >= 0;
 		PreferencesWindowBox.box_force_sensor_elastic_butterworth_values.Sensitive = preferences.forceSensorElasticButterworth >= 0;
 		if (preferences.forceSensorElasticButterworth < 0)
-			PreferencesWindowBox.spin_force_sensor_elastic_butterworth.Value = 15;
+			PreferencesWindowBox.spin_force_sensor_elastic_butterworth.Value = 3;
 		else
 			PreferencesWindowBox.spin_force_sensor_elastic_butterworth.Value = preferences.forceSensorElasticButterworth;
 

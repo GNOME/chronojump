@@ -565,20 +565,22 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 
 		if (questionnaire == null && asteroids == null)
 		{
+			//raw
+			g.SetSourceColor (caramel);
+			if (raw_l.Count > 0)
+				plotRealPoints(plotType, raw_l, startAt, false); //fast (but the difference is very low)
+
+			//unfiltered
+			g.SetSourceColor (brown);
+			if (unfiltered_l.Count > 0)
+				plotRealPoints(plotType, unfiltered_l, startAt, false); //fast (but the difference is very low)
+
+			//points_l
 			if (miw.Error == "")
 				paintMaxAvgInWindow (miw.MaxSampleStart, miw.MaxSampleEnd, miw.Max, points_l);
 
 			if (briw.Error == "")
 				briwPlot (points_l);
-
-			g.SetSourceColor (brown);
-
-			if (unfiltered_l.Count > 0)
-				plotRealPoints(plotType, unfiltered_l, startAt, false); //fast (but the difference is very low)
-
-			g.SetSourceColor (caramel);
-			if (raw_l.Count > 0)
-				plotRealPoints(plotType, raw_l, startAt, false); //fast (but the difference is very low)
 
 			if(calculatePaintX (xAtMaxY) > leftMargin)
 				drawCircle (calculatePaintX (xAtMaxY), calculatePaintY (yAtMaxY), 8, red, false);

@@ -58,10 +58,12 @@ public partial class ChronoJumpWindow
 	Gtk.Label label_force_sensor_value_min;
 	Gtk.Label label_force_sensor_value_best_second;
 	Gtk.Label label_force_sensor_value_rfd;
-	Gtk.Grid force_capture_grid_colors;
+	Gtk.Grid force_capture_grid_legend;
+	Gtk.Separator separator_force_capture_raw;
 	Gtk.Separator separator_force_capture_unfiltered;
 	Gtk.Separator separator_force_capture_butterworth;
-	Gtk.Label label_force_capture_grid_colors_butterworth_value;
+	Gtk.Box box_force_capture_grid_legend_butterworth;
+	Gtk.Label label_force_capture_grid_legend_butterworth_value;
 	//Gtk.VScale vscale_force_sensor;
 	Gtk.SpinButton spin_force_sensor_calibration_kg_value;
 	Gtk.Box box_force_sensor_capture_magnitudes;
@@ -659,6 +661,7 @@ public partial class ChronoJumpWindow
 		event_execute_label_message.Text = "";
 		box_force_sensor_capture_magnitudes.Visible = false;
 		box_force_sensor_analyze_magnitudes.Visible = false;
+		forceSensorGridLegendColors ();
 	}
 
 	private bool pulseGTKForceSensorOther ()
@@ -1172,7 +1175,7 @@ public partial class ChronoJumpWindow
 		spCairoFE_Raw = new SignalPointsCairoForceElastic ();
 		spCairoFE = new SignalPointsCairoForceElastic ();
 		paintPointsInterpolateCairo_l = new List<PointF>();
-		forceSensorGridColors ();
+		forceSensorGridLegendColors ();
 
 		event_execute_ButtonFinish.Clicked -= new EventHandler(on_finish_clicked);
 		event_execute_ButtonFinish.Clicked += new EventHandler(on_finish_clicked);
@@ -2486,7 +2489,7 @@ LogB.Information(" fs R ");
 			{
 				//if preferences butterworth changed, the graph will be updated
 				//need to also update the grid before the return
-				//forceSensorGridColors ();
+				//forceSensorGridLegendColors ();
 
 				new DialogMessage(Constants.MessageTypes.WARNING, Catalog.GetString("Need to configure fixture to know stiffness of this elastic exercise."));
 
@@ -2733,7 +2736,7 @@ LogB.Information(" fs R ");
 			forces_l = bw.Y_l;
 		}
 
-		forceSensorGridColors ();
+		forceSensorGridLegendColors ();
 
 		if (ab)
 		{
@@ -2843,6 +2846,15 @@ LogB.Information(" fs R ");
 			check_force_sensor_analyze_show_power.Active = check_force_sensor_capture_show_power.Active;
 
 		fsMagnitudesSignalsNoFollow = false;
+	}
+
+	public void on_button_force_capture_grid_legend_info_clicked (object o, EventArgs args)
+	{
+		new DialogMessage (Constants.MessageTypes.INFO,
+				"Explanation of forces shown:\n" +
+				"\n- <b>Raw</b>: Raw data (once tared and calibrated), absolute or inverted values are also applied if necessary." +
+				"\n- <b>Unfiltered</b>: Raw data + projection of exerted force if applicable + effect of rubber band if applicable." +
+				"\n- <b>Butterworth</b>: Apply Butterworth filtering to previous value.");
 	}
 
 	public void on_force_capture_drawingarea_cairo_draw (object o, Gtk.DrawnArgs args)
@@ -3095,15 +3107,18 @@ LogB.Information(" fs R ");
 		}
 	}
 
-	private void forceSensorGridColors ()
+	private void forceSensorGridLegendColors ()
 	{
-		force_capture_grid_colors.Visible = preferences.forceSensorButterworth (current_mode) >= 0;
+		box_force_capture_grid_legend_butterworth.Visible = preferences.forceSensorButterworth (current_mode) >= 0;
 		if (preferences.forceSensorButterworth (current_mode) >= 0)
 		{
+			separator_force_capture_raw.Name = "caramelCss";
 			separator_force_capture_unfiltered.Name = "brownCss";
 			separator_force_capture_butterworth.Name = "blackCss";
-			label_force_capture_grid_colors_butterworth_value.Text =
+			label_force_capture_grid_legend_butterworth_value.Text =
 				Util.TrimDecimals (preferences.forceSensorButterworth (current_mode), 1);
+		} else {
+			separator_force_capture_unfiltered.Name = "blackCss";
 		}
 	}
 
@@ -3805,10 +3820,12 @@ LogB.Information(" fs R ");
 		label_force_sensor_value_min = (Gtk.Label) builder.GetObject ("label_force_sensor_value_min");
 		label_force_sensor_value_best_second = (Gtk.Label) builder.GetObject ("label_force_sensor_value_best_second");
 		label_force_sensor_value_rfd = (Gtk.Label) builder.GetObject ("label_force_sensor_value_rfd");
-		force_capture_grid_colors = (Gtk.Grid) builder.GetObject ("force_capture_grid_colors");
+		force_capture_grid_legend = (Gtk.Grid) builder.GetObject ("force_capture_grid_legend");
+		separator_force_capture_raw = (Gtk.Separator) builder.GetObject ("separator_force_capture_raw");
 		separator_force_capture_unfiltered = (Gtk.Separator) builder.GetObject ("separator_force_capture_unfiltered");
 		separator_force_capture_butterworth = (Gtk.Separator) builder.GetObject ("separator_force_capture_butterworth");
-		label_force_capture_grid_colors_butterworth_value = (Gtk.Label) builder.GetObject ("label_force_capture_grid_colors_butterworth_value");
+		box_force_capture_grid_legend_butterworth = (Gtk.Box) builder.GetObject ("box_force_capture_grid_legend_butterworth");
+		label_force_capture_grid_legend_butterworth_value = (Gtk.Label) builder.GetObject ("label_force_capture_grid_legend_butterworth_value");
 		//vscale_force_sensor = (Gtk.VScale) builder.GetObject ("vscale_force_sensor");
 		spin_force_sensor_calibration_kg_value = (Gtk.SpinButton) builder.GetObject ("spin_force_sensor_calibration_kg_value");
 		box_force_sensor_capture_magnitudes = (Gtk.Box) builder.GetObject ("box_force_sensor_capture_magnitudes");

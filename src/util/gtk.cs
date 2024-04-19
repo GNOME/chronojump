@@ -845,6 +845,12 @@ public class UtilGtk
 			"}" +
 
 			//SEPARATOR
+			"separator#caramelCss {" +
+				//"background-image: none;" +
+				"background: #cf7d00;" +
+				"border-width: 1px;" +
+				"border: #ffffff;" +
+			"}" +
 			"separator#brownCss {" +
 				//"background-image: none;" +
 				"background: #964b00;" +

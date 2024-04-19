@@ -203,6 +203,7 @@ public partial class ChronoJumpWindow
 	Gtk.Image image_force_sensor_capture_adjust;
 	Gtk.Image image_force_sensor_capture_adjust1;
 	Gtk.Image image_force_sensor_capture_adjust_close;
+	Gtk.Image image_force_capture_grid_legend_info;
 	Gtk.Image image_force_sensor_analyze_options;
 	Gtk.Image image_signal_analyze_move_cd_close;
 	Gtk.Image image_force_sensor_analyze_options_close;
@@ -462,6 +463,7 @@ public partial class ChronoJumpWindow
 		image_info_sessions_info.Pixbuf = pixbuf;
 		image_encoder_1RM_info.Pixbuf = pixbuf;
 		image_force_sensor_adjust_help.Pixbuf = pixbuf;
+		image_force_capture_grid_legend_info.Pixbuf = pixbuf;
 
 		//pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_add_test.png");
 		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_add.png");
@@ -1259,6 +1261,7 @@ public partial class ChronoJumpWindow
 		image_force_sensor_capture_adjust = (Gtk.Image) builder.GetObject ("image_force_sensor_capture_adjust");
 		image_force_sensor_capture_adjust1 = (Gtk.Image) builder.GetObject ("image_force_sensor_capture_adjust1");
 		image_force_sensor_capture_adjust_close = (Gtk.Image) builder.GetObject ("image_force_sensor_capture_adjust_close");
+		image_force_capture_grid_legend_info = (Gtk.Image) builder.GetObject ("image_force_capture_grid_legend_info");
 		image_force_sensor_analyze_options = (Gtk.Image) builder.GetObject ("image_force_sensor_analyze_options");
 		image_signal_analyze_move_cd_close = (Gtk.Image) builder.GetObject ("image_signal_analyze_move_cd_close");
 		image_force_sensor_analyze_options_close = (Gtk.Image) builder.GetObject ("image_force_sensor_analyze_options_close");

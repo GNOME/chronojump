@@ -136,6 +136,7 @@ public partial class ChronoJumpWindow
 	CairoGraphForceSensorSignal cairoGraphForceSensorSignal;
 	SignalPointsCairoForceElastic spCairoFE;
 	SignalPointsCairoForceElastic spCairoFE_Unfiltered; //for capture tab
+	SignalPointsCairoForceElastic spCairoFE_Raw; //RAW but with fsco
 	SignalPointsCairoForceElastic spCairoFEZoom;
 	SignalPointsCairoForceElastic spCairoFE_CD;
 	SignalPointsCairoForceElastic spCairoFEZoom_CD;
@@ -1168,6 +1169,7 @@ public partial class ChronoJumpWindow
 		//blank Cairo scatterplot graphs
 		cairoGraphForceSensorSignal = null;
 		spCairoFE_Unfiltered = new SignalPointsCairoForceElastic ();
+		spCairoFE_Raw = new SignalPointsCairoForceElastic ();
 		spCairoFE = new SignalPointsCairoForceElastic ();
 		paintPointsInterpolateCairo_l = new List<PointF>();
 		forceSensorGridColors ();
@@ -1336,6 +1338,10 @@ public partial class ChronoJumpWindow
 			//LogB.Information("> 0.5" + (versionDouble >= Convert.ToDouble(Util.ChangeDecimalSeparator("0.5"))).ToString());
 		}
 
+		double stiffness;
+		string stiffnessString;
+		getStiffnessAndStiffnessStringFromSQL(out stiffness, out stiffnessString);
+
 		/*
 		   tare+capture does a tare here in the software
 		   to not call tare function on Arduino and store the tare value there
@@ -1487,12 +1493,32 @@ public partial class ChronoJumpWindow
 				continue;
 			}
 
+			//list of raw points
+			spCairoFE_Raw.Force_l.Add (new PointF (
+						time,
+						ForceSensor.CalculeForceWithCaptureOptions(force, forceSensorCaptureOption)
+						));
+
 			LogB.Information("at bucle6");
 			//LogB.Information(string.Format("time: {0}, force: {1}", time, force));
 			//forceCalculated have abs or inverted
 			//this has to be after readTriggers, because if this "sample" is a trigger we do not have force
-			double forceCalculated = ForceSensor.CalculeForceResultantIfNeeded (force, forceSensorCaptureOption,
+			double forceCalculated = 0;
+			if(currentForceSensorExercise.ComputeAsElastic)
+			{
+				ForceSensorDynamics fsdTemp = new ForceSensorDynamicsElastic(
+						PointF.Xint_l (spCairoFE_Raw.Force_l), PointF.Y_l (spCairoFE_Raw.Force_l),
+						forceSensorCaptureOption, currentForceSensorExercise, currentPersonSession.Weight,
+						stiffness, preferences.forceSensorElasticEccMinDispl, preferences.forceSensorElasticConMinDispl,
+						false, //zoomed
+						-1, false
+						);
+				forceCalculated = Util.GetLast (fsdTemp.GetForces ());
+			} else {
+				//TODO: implement also code based on ForceSensorDynamics here, and then this IfNeeded function can disappear
+				forceCalculated = ForceSensor.CalculeForceResultantIfNeeded (force, forceSensorCaptureOption,
 					currentForceSensorExercise, currentPersonSession.Weight);
+			}
 
 			//if(forceSensorCaptureOption != ForceSensor.CaptureOptions.NORMAL)
 			//	LogB.Information(string.Format("with abs or inverted flag: time: {0}, force: {1}", time, forceCalculated));
@@ -2684,6 +2710,12 @@ LogB.Information(" fs R ");
 
 					forces_l.Add (Convert.ToDouble(Util.ChangeDecimalSeparator(strFull[1])));
 					forcesUnfiltered_l.Add (Convert.ToDouble(Util.ChangeDecimalSeparator(strFull[1])));
+					spCairoFE_Raw.Force_l.Add (new PointF (
+								Convert.ToInt32 (strFull[0]),
+								ForceSensor.CalculeForceWithCaptureOptions(
+									Convert.ToDouble(Util.ChangeDecimalSeparator(strFull[1])),
+									fsco)
+								));
 
 					if (preferences.forceSensorButterworth (current_mode) >= 0)
 						bw.AddSample (
@@ -2886,6 +2918,8 @@ LogB.Information(" fs R ");
 			spCairoFE = new SignalPointsCairoForceElastic ();
 		if (spCairoFE_Unfiltered == null)
 			spCairoFE_Unfiltered = new SignalPointsCairoForceElastic ();
+		if (spCairoFE_Raw == null)
+			spCairoFE_Raw = new SignalPointsCairoForceElastic ();
 		if (paintPointsInterpolateCairo_l == null)
 			paintPointsInterpolateCairo_l = new List<PointF> ();
 
@@ -2901,10 +2935,15 @@ LogB.Information(" fs R ");
 
 		//TODO: think if this has to be global to use it and do faster, and do not redo bw at all the screen rewrites
 		SignalPointsCairoForceElastic spCairoFECopyToDraw_Unfiltered;
+		SignalPointsCairoForceElastic spCairoFECopyToDraw_Raw;
 		SignalPointsCairoForceElastic spCairoFECopyToDraw;
 
 		spCairoFECopyToDraw_Unfiltered = new SignalPointsCairoForceElastic (
 				spCairoFE_Unfiltered, false, //we only want to plot the force
+				0, pointsToCopy -1, cairoDrawHorizontal);
+
+		spCairoFECopyToDraw_Raw = new SignalPointsCairoForceElastic (
+				spCairoFE_Raw, false, //we only want to plot the force
 				0, pointsToCopy -1, cairoDrawHorizontal);
 
 		spCairoFECopyToDraw = new SignalPointsCairoForceElastic ();
@@ -3021,6 +3060,7 @@ LogB.Information(" fs R ");
 		//LogB.Information ("updateForceSensorCaptureSignalCairo 4");
 		cairoGraphForceSensorSignal.DoSendingList (
 				preferences.fontType.ToString(),
+				spCairoFECopyToDraw_Raw, 		//raw (only used to plot Y if butterworth is active)
 				spCairoFECopyToDraw_Unfiltered, 	//raw (only used to plot Y if butterworth is active)
 				spCairoFECopyToDraw, 			//it has also Displ, Speed
 				check_force_sensor_capture_show_distance.Active,

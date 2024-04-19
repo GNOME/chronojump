@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Copyright (C) 2019-2020   Xavier de Blas <xaviblas@gmail.com>
+ *  Copyright (C) 2019-2024   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -509,6 +509,10 @@ public class ForceSensorDynamicsElastic : ForceSensorDynamics
 		accel_l = new List<double>();
 		power_l = new List<double>();
 
+		LogB.Information ("force_l length: " + force_l.Count ());
+		if (force_l.Count () <= RemoveNValues *2)
+			return;
+
 		calculePositions();
 		calculeSpeeds();
 		calculeAccels();
@@ -728,7 +732,10 @@ public class ForceSensorDynamicsElastic : ForceSensorDynamics
 			return l;
 		} else {
 			LogB.Information(string.Format("removeN: {0}, l.Count: {1}", RemoveNValues, l.Count));
-			return l.GetRange(RemoveNValues +1, l.Count - 2*RemoveNValues);
+			if (l.Count > 2 * RemoveNValues)
+				return l.GetRange (RemoveNValues +1, l.Count - 2*RemoveNValues);
+			else
+				return l;
 		}
 	}
 

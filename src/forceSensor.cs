@@ -209,7 +209,7 @@ public class ForceSensor
 	public static double CalculeForceResultantIfNeeded (double forceRaw, CaptureOptions fsco, ForceSensorExercise fse, double personMass)//, double stiffness)
 	{
 		if(! fse.ForceResultant)
-			return calculeForceWithCaptureOptions(forceRaw, fsco);
+			return CalculeForceWithCaptureOptions(forceRaw, fsco);
 
 		//forceResultant --->
 
@@ -259,7 +259,7 @@ public class ForceSensor
 		//on 2.2.1 ABS or inverted is not done on forceResultant,
 		//is done on force coming from the sensor
 		if(fsco != CaptureOptions.NORMAL)
-			forceRaw = calculeForceWithCaptureOptions(forceRaw, fsco);
+			forceRaw = CalculeForceWithCaptureOptions(forceRaw, fsco);
 
 	        double forceResultant = forceRaw  +  totalMass*(accel + 9.81 * Math.Sin(fse.AngleDefault * Math.PI / 180.0));
 
@@ -268,7 +268,7 @@ public class ForceSensor
 
 		return forceResultant;
 	}
-	private static double calculeForceWithCaptureOptions(double force, CaptureOptions fsco)
+	public static double CalculeForceWithCaptureOptions(double force, CaptureOptions fsco)
 	{
 		if(fsco == CaptureOptions.ABS)
 			return Math.Abs(force);

@@ -283,6 +283,7 @@ public abstract class CairoGraphForceSensor : CairoXY
 
 public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 {
+	private List<PointF> raw_l;
 	private List<PointF> unfiltered_l;
 	protected List<PointF> points_l; //if butterworth, this will be it
 
@@ -324,6 +325,7 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 
 	//separated in two methods to ensure endGraphDisposing on any return of the other method
 	public void DoSendingList (string font,
+			SignalPointsCairoForceElastic spCairoFE_raw,
 			SignalPointsCairoForceElastic spCairoFE_unfiltered,	//only used if butterworth
 			SignalPointsCairoForceElastic spCairoFE,	//spCairoFE to plot
 			bool showDistance, bool showSpeed, bool showPower,
@@ -345,6 +347,9 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 			this.points_l = spCairoFE.Force_l;
 			this.unfiltered_l = new List <PointF> ();
 		}
+
+		if (spCairoFE_raw != null)
+			this.raw_l = spCairoFE_raw.Force_l;
 
 		this.capturing = capturing;
 		this.showAccuracy = showAccuracy;
@@ -570,6 +575,10 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 
 			if (unfiltered_l.Count > 0)
 				plotRealPoints(plotType, unfiltered_l, startAt, false); //fast (but the difference is very low)
+
+			g.SetSourceColor (caramel);
+			if (raw_l.Count > 0)
+				plotRealPoints(plotType, raw_l, startAt, false); //fast (but the difference is very low)
 
 			if(calculatePaintX (xAtMaxY) > leftMargin)
 				drawCircle (calculatePaintX (xAtMaxY), calculatePaintY (yAtMaxY), 8, red, false);

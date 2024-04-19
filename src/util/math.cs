@@ -151,6 +151,33 @@ public class PointF
 			return sample + 1;
 	}
 
+	public static List<double> X_l (List<PointF> p_l)
+	{
+		List<double> l = new List<double> ();
+		for (int i = 0; i < p_l.Count ; i ++)
+			l.Add (p_l[i].X);
+
+		return l;
+	}
+	public static List<int> Xint_l (List<PointF> p_l)
+	{
+		List<int> l = new List<int> ();
+		for (int i = 0; i < p_l.Count ; i ++)
+			l.Add (Convert.ToInt32 (p_l[i].X));
+
+		return l;
+	}
+
+
+	public static List<double> Y_l (List<PointF> p_l)
+	{
+		List<double> l = new List<double> ();
+		for (int i = 0; i < p_l.Count ; i ++)
+			l.Add (p_l[i].Y);
+
+		return l;
+	}
+
 	//if want to use sublist just call also below method GetSubList ()
 	public static double GetMaxY (List<PointF> p_l)
 	{

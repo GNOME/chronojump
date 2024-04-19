@@ -286,7 +286,15 @@ public class Util
 			
 		return lastSubEvent; 
 	}
-	
+
+	public static double GetLast (List<double> d_l)
+	{
+		if (d_l.Count == 0)
+			return 0;
+
+		return d_l[d_l.Count -1];
+	}
+
 	public static int GetPosMax (string values)
 	{
 		string [] myStringFull = values.Split(new char[] {'='});

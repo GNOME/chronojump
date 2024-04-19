@@ -418,6 +418,17 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 
 			fixMaximums ();
 
+			//also for unfiltered
+			if (unfiltered_l.Count > 0)
+			{
+				double unfilteredMinY, unfilteredMaxY;
+				PointF.GetMaxMinY (unfiltered_l, out unfilteredMinY, out unfilteredMaxY);
+				if (unfilteredMinY < minY)
+					minY = unfilteredMinY;
+				if (unfilteredMaxY > absoluteMaxY)
+					absoluteMaxY = unfilteredMaxY;
+			}
+
 			// if vertical do have X in the center (at least at start)
 			if (! horizontal)
 			{

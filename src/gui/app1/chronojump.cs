@@ -576,7 +576,7 @@ public partial class ChronoJumpWindow
 
 	bool app1Shown = false;
 	bool needToShowChronopicRegisterWindow;
-	private bool showSocialNetworkPoll;
+	//private bool showSocialNetworkPoll;
 	private SplashWindow splashWin;
 	private bool showSendLog;
 
@@ -706,18 +706,20 @@ public partial class ChronoJumpWindow
 			hbox_message_permissions_at_boot.Visible = true;
 		}
 
-		showSocialNetworkPoll = (preferences.socialNetworkDatetime == "");
+		//showSocialNetworkPoll = (preferences.socialNetworkDatetime == "");
 		//show send log if needed or other messages
 		if (showSendLog)
 		{
 			show_send_log(sendLogMessage, preferences.crashLogLanguage);
 			notebook_start.CurrentPage = Convert.ToInt32(notebook_start_pages.SENDLOG);
 		}
+		/*
 		else if (showSocialNetworkPoll)
 		{
 			notebook_start.CurrentPage = Convert.ToInt32(notebook_start_pages.SOCIALNETWORKPOLL);
 			socialNetworkPollInit();
 		}
+		*/
 		else
 			notebook_sup.CurrentPage = Convert.ToInt32(notebook_sup_pages.START);
 
@@ -985,7 +987,8 @@ public partial class ChronoJumpWindow
 		//in networks starting mode is always the defined on chronojump_config CompujumpStationMode
 		if (! configChronojump.Compujump)
 		{
-			if(! showSendLog && ! showSocialNetworkPoll && preferences.loadLastModeAtStart &&
+			if(! showSendLog && //! showSocialNetworkPoll &&
+					preferences.loadLastModeAtStart &&
 					preferences.lastMode != Constants.Modes.UNDEFINED)
 			{
 				// 0) note this code is repeated on gui/sendLog.cs on_button_open_chronojump_clicked()
@@ -1011,7 +1014,7 @@ public partial class ChronoJumpWindow
 			chronopicRegisterWin.Show();
 		}
 
-		if(! showSendLog && ! showSocialNetworkPoll)
+		if(! showSendLog)// && ! showSocialNetworkPoll)
 		{
 			if (shouldAskBackupScheduled ())
 				backupScheduledAsk ();
@@ -8692,6 +8695,7 @@ LogB.Debug("mc finished 5");
 		{
 			getNewsDatetime();
 
+			/*
 			//also manage pending poll
 			if(preferences.socialNetworkDatetime == "-1")
 			{
@@ -8703,6 +8707,7 @@ LogB.Debug("mc finished 5");
 							UtilDate.ToFile(DateTime.Now), false);
 				}
 			}
+			*/
 		}
 	}
 

@@ -906,7 +906,7 @@ public partial class ChronoJumpWindow
 		addShortcutsToTooltips(operatingSystem == UtilAll.OperatingSystems.MACOSX);
 
 		LogB.Information("Calling configInitRead from gui / ChronojumpWindow");
-		configInitRead();
+		configInitReadAtBoot ();
 
 		if (debugModeAtStart)
 			on_preferences_debug_mode_start (new object (), new EventArgs ());
@@ -965,9 +965,12 @@ public partial class ChronoJumpWindow
 
 				// 3) put preference to true again
 				SqlitePreferences.Update(SqlitePreferences.LoadLastSessionAtStart, true, false);
-			} else
+			}
+			/* commented, as this will be done after mode change
+			else
 				if(! check_menu_session.Active)
 					check_menu_session.Click(); //have session menu opened
+			*/
 		}
 
 		initialize_menu_or_menu_tiny();
@@ -1005,6 +1008,10 @@ public partial class ChronoJumpWindow
 				current_mode = preferences.lastMode; //needed for show_start_page () below
 		}
 
+		if (currentSession == null)
+			if(! check_menu_session.Active)
+				check_menu_session.Click(); //have session menu opened
+
 		//done after app1.Show in order to be able to gather the colors
 		doLabelsContrast(configChronojump.PersonWinHide);
 
@@ -1014,7 +1021,8 @@ public partial class ChronoJumpWindow
 			chronopicRegisterWin.Show();
 		}
 
-		if(! showSendLog)// && ! showSocialNetworkPoll)
+		if(! showSendLog && //! showSocialNetworkPoll)
+			configChronojump.ReadFromCloudMainPath == "")
 		{
 			if (shouldAskBackupScheduled ())
 				backupScheduledAsk ();

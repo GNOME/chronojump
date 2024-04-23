@@ -108,13 +108,13 @@ public class Config
 	}
 
 	// cloud
-	public string CopyToCloudFullPath {
+	public string CopyToCloudFullPath { 		//for capturing machine
 		get { return configList.GetString (OpEnum.CopyToCloudFullPath); }
 	}
-	public bool CopyToCloudOnExit {
+	public bool CopyToCloudOnExit {			//for capturing machine
 		get { return configList.GetBool (OpEnum.CopyToCloudOnExit); }
 	}
-	public string ReadFromCloudMainPath {
+	public string ReadFromCloudMainPath { 		//for reading machine
 		get { return configList.GetString (OpEnum.ReadFromCloudMainPath); }
 	}
 
@@ -530,11 +530,11 @@ public class ConfigList
 
 		// cloud
 		list.Add (new ConfigOptionString (Config.OpEnum.CopyToCloudFullPath,
-					"The path where all the data will be copied (uncompressed) to be synced with the cloud service."));
+					"Used on station that is capturing and will send to cloud. This is the path where all the data will be copied (uncompressed) to be synced with the cloud service."));
 		list.Add (new ConfigOptionBool (Config.OpEnum.CopyToCloudOnExit,
-					"If CopyToCloudFullPath is defined, then on Chronojump exit the copy will be done automatically."));
+					"Used on station that is capturing and will send to cloud. If CopyToCloudFullPath is defined, then on Chronojump exit the copy will be done automatically."));
 		list.Add (new ConfigOptionString (Config.OpEnum.ReadFromCloudMainPath,
-					"The path to open cloud DBs (each one will be copied to temp on open). If this active, CanOpenExternalDB will be discarded."));
+					"Used on station that will read from cloud. The path to open cloud DBs (each one will be copied to temp on open, so local DB if exists will not change). If this (ReadFromCloudMainPath) is active, CanOpenExternalDB will be discarded."));
 
 		// externalDB
 		list.Add (new ConfigOptionBool (Config.OpEnum.CanOpenExternalDB,

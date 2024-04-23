@@ -127,7 +127,7 @@ public partial class ChronoJumpWindow
 	Config configChronojump;
 	bool maximizeWindowAtStartDone = false;
 
-	private void configInitRead()
+	private void configInitReadAtBoot ()
 	{
 		configChronojump.Read ();
 		LogB.Information("readed config: " + configChronojump.PrintDefined ());

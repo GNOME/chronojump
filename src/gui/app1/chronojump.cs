@@ -1008,9 +1008,12 @@ public partial class ChronoJumpWindow
 				current_mode = preferences.lastMode; //needed for show_start_page () below
 		}
 
-		if (currentSession == null)
-			if(! check_menu_session.Active)
-				check_menu_session.Click(); //have session menu opened
+		//1 if no session, show new/load session "win"
+		//2 but do not show session "win" if cloud and still have not loaded the database
+		if (currentSession == null && 	// 1
+				! (configChronojump.ReadFromCloudMainPath != "" && configChronojump.LastDBFullPath == "") && // 2
+				! check_menu_session.Active)
+			check_menu_session.Click(); //have session "win" opened
 
 		//done after app1.Show in order to be able to gather the colors
 		doLabelsContrast(configChronojump.PersonWinHide);

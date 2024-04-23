@@ -55,6 +55,7 @@ public partial class ChronoJumpWindow
 	Gtk.Frame frame_database;
 	Gtk.Label label_database_at_frame_database;
 	Gtk.Button button_menu_database;
+	Gtk.Image image_database_reload;
 
 	Gtk.CheckButton check_menu_session;
 	Gtk.CheckButton check_manage_persons;
@@ -420,6 +421,7 @@ public partial class ChronoJumpWindow
 		frame_database = (Gtk.Frame) builder.GetObject ("frame_database");
 		label_database_at_frame_database = (Gtk.Label) builder.GetObject ("label_database_at_frame_database");
 		button_menu_database = (Gtk.Button) builder.GetObject ("button_menu_database");
+		image_database_reload = (Gtk.Image) builder.GetObject ("image_database_reload");
 
 		check_menu_session = (Gtk.CheckButton) builder.GetObject ("check_menu_session");
 		check_manage_persons = (Gtk.CheckButton) builder.GetObject ("check_manage_persons");

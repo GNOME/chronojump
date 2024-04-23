@@ -269,6 +269,7 @@ namespace Chronojump
 			new ResourceFix ("photo_camera_blue_2x.png" , "image_no_photo.png"),
 			new ResourceFix ("photo_camera_yellow_2x.png" , "image_no_photo_yellow.png"),
 			new ResourceFix ("select_blue_3x.png" , "image_selected.png"),
+			new ResourceFix ("cached_blue_1x.png" , "image_reload.png"),
 			new ResourceFix ("cached_green_1x.png" , "image_recalculate.png"),
 			new ResourceFix ("delete_blue_1x.png" , "stock_delete.png"),
 			new ResourceFix ("create_new_folder_blue_2x.png" , "folder_new_big.png"),

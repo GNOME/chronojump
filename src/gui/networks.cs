@@ -459,6 +459,13 @@ public partial class ChronoJumpWindow
 		fillAllCombos ();
 	}
 
+	private void on_button_database_reload_clicked (object o, EventArgs args)
+	{
+		//new DialogMessage (Constants.MessageTypes.INFO, "Haremos reload!!!");
+		databaseCloudCopyToTemp (false); //not at boot
+		databaseChange ();
+	}
+
 	Gtk.FileChooserNative database_fc;
 	private string storedCloudDir;
 	private void on_button_database_change_clicked (object o, EventArgs args)

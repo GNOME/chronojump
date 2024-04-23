@@ -545,7 +545,7 @@ class SqlitePreferences : Sqlite
 			Sqlite.Open();
 
 		dbcmd.CommandText = "SELECT value FROM " + Constants.PreferencesTable + 
-			" WHERE name == \"" + myName + "\"" ;
+			" WHERE name = '" + myName + "'" ;
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		

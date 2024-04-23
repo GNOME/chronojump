@@ -3322,7 +3322,20 @@ public partial class ChronoJumpWindow
 		//maybe better kill ffmpeg before opening other instance
 		//and at end check if it is running that process and kill the last one ffmpeg instance
 		//LogB.Information("Bye4!");
-		
+
+		//on cloud read, copy the the db in order to use preferences table on next chronojump open
+		if (configChronojump.ReadFromCloudMainPath != "" && configChronojump.LastDBFullPath != "")
+		{
+			LogB.Information (string.Format ("Copy cloud DB - ReadFromCloudMainPath: {0}, LastDBFullPath: {1}",
+						configChronojump.ReadFromCloudMainPath, configChronojump.LastDBFullPath));
+			Util.FileCopySafe (
+					System.IO.Path.Combine (configChronojump.LastDBFullPath,
+						"database", "chronojump.db"),
+					System.IO.Path.Combine (UtilAll.GetDefaultLocalDataDir (false),
+						"database", "chronojumpCloudRead.db"),
+					true);
+		}
+
 		Log.End();
 
 		Application.Quit();

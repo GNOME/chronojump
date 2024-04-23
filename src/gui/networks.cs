@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2023   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2004-2024   Xavier de Blas <xaviblas@gmail.com>
  */
 
 
@@ -127,9 +127,8 @@ public partial class ChronoJumpWindow
 	Config configChronojump;
 	bool maximizeWindowAtStartDone = false;
 
-	private void configInitReadAtBoot ()
+	private void configInitDoAtBoot ()
 	{
-		configChronojump.Read ();
 		LogB.Information("readed config: " + configChronojump.PrintDefined ());
 
 		if(configChronojump.CompujumpStationMode != Constants.Modes.UNDEFINED)
@@ -607,9 +606,6 @@ public partial class ChronoJumpWindow
 	private void configInitFromPreferences()
 	{
 		LogB.Information ("at configInitFromPreferences, configChronojump null? " + (configChronojump == null).ToString ());
-		if(configChronojump == null)
-			configChronojump = new Config();
-
 		configChronojump.Maximized = preferences.maximized;
 		configChronojump.PersonWinHide = preferences.personWinHide;
 		configChronojump.EncoderCaptureShowOnlyBars = preferences.encoderCaptureShowOnlyBars;

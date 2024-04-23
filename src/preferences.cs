@@ -399,8 +399,23 @@ public class Preferences
 	public Preferences() {
 	}
 	
-	public static Preferences LoadAllFromSqlite() {
-		return SqlitePreferences.SelectAll();
+	public static Preferences LoadAllFromSqlite()
+	{
+		return SqlitePreferences.SelectAll ();
+	}
+
+	public static Preferences LoadAllFromSqliteCloudRead (string databaseCloudRead)
+	{
+		//Sqlite.DisConnect ();
+		//Sqlite.SetHome ();
+		bool ok = true;
+		Preferences p = SqlitePreferences.SelectAllFromCloud (databaseCloudRead, out ok);
+
+		//if there is any problem with cloud database, return the preferences from default database
+		if (ok)
+			return p;
+		else
+			return LoadAllFromSqlite();
 	}
 	
 	public int EncoderCaptureMinHeight(bool inertial) {

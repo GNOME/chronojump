@@ -695,6 +695,11 @@ public partial class ChronoJumpWindow
 		
 		//preferencesLoaded is a fix to a gtk#-net-windows-bug where radiobuttons raise signals
 		//at initialization of chronojump and gives problems if this signals are raised while preferences are loading
+		//it will open preferences on default db or on chronojumpCloudRead.db if reading from cloud
+		if(configChronojump == null)
+			configChronojump = new Config();
+		configChronojump.Read ();
+
 		loadPreferencesAtStart ();
 
 		Config.UseSystemColor = preferences.colorBackgroundOsColor;
@@ -906,7 +911,7 @@ public partial class ChronoJumpWindow
 		addShortcutsToTooltips(operatingSystem == UtilAll.OperatingSystems.MACOSX);
 
 		LogB.Information("Calling configInitRead from gui / ChronojumpWindow");
-		configInitReadAtBoot ();
+		configInitDoAtBoot ();
 
 		if (debugModeAtStart)
 			on_preferences_debug_mode_start (new object (), new EventArgs ());
@@ -1385,7 +1390,16 @@ public partial class ChronoJumpWindow
 	//different than on_preferences_activate (opening preferences window)
 	private void loadPreferencesAtStart ()
 	{
-		preferences = Preferences.LoadAllFromSqlite();
+		if (configChronojump.ReadFromCloudMainPath != "" && configChronojump.LastDBFullPath != ""
+				&& Util.FileExists (System.IO.Path.Combine (UtilAll.GetDefaultLocalDataDir (false),
+						"database", "chronojumpCloudRead.db")))
+		{
+			preferences = Preferences.LoadAllFromSqliteCloudRead (
+					System.IO.Path.Combine (UtilAll.GetDefaultLocalDataDir (false),
+						"database", "chronojumpCloudRead.db"));
+		} else
+			preferences = Preferences.LoadAllFromSqlite();
+
 		LogB.Mute = preferences.muteLogs;
 
 		LogB.Information (string.Format(Catalog.GetString("Chronojump database version file: {0}"), 

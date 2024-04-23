@@ -571,6 +571,47 @@ class SqlitePreferences : Sqlite
 	public static Preferences SelectAll () 
 	{
 		Sqlite.Open();
+		Preferences p = selectAllDo (dbcmd);
+		Sqlite.Close();
+
+		return p;
+	}
+
+	public static Preferences SelectAllFromCloud (string databaseCloudRead, out bool ok)
+	{
+		Preferences p = new Preferences ();
+
+		string connectionString = "version = 3; Data source = " + databaseCloudRead;
+		SQLiteConnection dbconCloud = new SQLiteConnection ();
+		dbconCloud.ConnectionString = connectionString;
+
+		SQLiteCommand dbcmdCloud = dbconCloud.CreateCommand();
+
+		if(dbconCloud.State == System.Data.ConnectionState.Closed)
+		{
+			try {
+				dbconCloud.Open();
+			} catch {
+				LogB.SQL("-- catched --");
+				ok = false;
+				return p;
+			}
+		}
+
+		p = selectAllDo (dbcmdCloud);
+
+		if(dbconCloud.State == System.Data.ConnectionState.Closed)
+		{
+			dbcmdCloud.Dispose(); //this seems critical in multiple open/close SQL
+			dbconCloud.Close();
+		}
+
+		ok = true;
+		return p;
+	}
+
+	private static Preferences selectAllDo (SQLiteCommand dbcmd)
+	{
 		dbcmd.CommandText = "SELECT * FROM " + Constants.PreferencesTable; 
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
@@ -1110,7 +1151,6 @@ class SqlitePreferences : Sqlite
 		}
 
 		reader.Close();
-		Sqlite.Close();
 
 		return preferences;
 	}

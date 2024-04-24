@@ -269,6 +269,7 @@ public class PreferencesWindow
 	Gtk.VBox vbox_need_restart;
 		
 	//advanced tab
+	Gtk.Notebook notebook_advanced;
 	Gtk.CheckButton checkbutton_ask_deletion;
 	Gtk.Box box_combo_decimals;
 	Gtk.CheckButton checkbutton_mute_logs;
@@ -2309,6 +2310,10 @@ public class PreferencesWindow
 		notebook_multimedia.Name = "shiftedCss";
 		UtilGtk.ContrastLabelsNotebook (Config.ColorBackgroundShiftedIsDark, notebook_multimedia);
 
+		//notebook_advanced
+		notebook_advanced.Name = "shiftedCss";
+		UtilGtk.ContrastLabelsNotebook (Config.ColorBackgroundShiftedIsDark, notebook_advanced);
+
 		//send signal to ApplyCSS
 		FakeButtonColorsChanged.Click ();
 	}
@@ -3334,6 +3339,7 @@ public class PreferencesWindow
 		vbox_need_restart = (Gtk.VBox) builder.GetObject ("vbox_need_restart");
 
 		//advanced tab
+		notebook_advanced = (Gtk.Notebook) builder.GetObject ("notebook_advanced");
 		checkbutton_ask_deletion = (Gtk.CheckButton) builder.GetObject ("checkbutton_ask_deletion");
 		box_combo_decimals = (Gtk.Box) builder.GetObject ("box_combo_decimals");
 		checkbutton_mute_logs = (Gtk.CheckButton) builder.GetObject ("checkbutton_mute_logs");

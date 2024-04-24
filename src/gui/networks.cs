@@ -335,6 +335,7 @@ public partial class ChronoJumpWindow
 			{
 				if (configChronojump.ReadFromCloudMainPath != "")
 				{
+					storedDBFilename = configChronojump.LastDBFullPath;
 					databaseCloudCopyToTemp (true); //at boot
 					return; //following code is not going to be executed, will be called when copying thread is finished
 				}
@@ -459,13 +460,14 @@ public partial class ChronoJumpWindow
 
 	private void on_button_database_reload_clicked (object o, EventArgs args)
 	{
-		//new DialogMessage (Constants.MessageTypes.INFO, "Haremos reload!!!");
-		databaseCloudCopyToTemp (false); //not at boot
-		databaseChange ();
+		if (storedDBFilename != "")
+			databaseChangeOrReload ();
 	}
 
 	Gtk.FileChooserNative database_fc;
 	private string storedCloudDir;
+	private string storedDBFilename = ""; //used reload/change database from know where to copy to tmp
+
 	private void on_button_database_change_clicked (object o, EventArgs args)
 	{
 		database_fc = new Gtk.FileChooserNative("Select folder:",
@@ -481,41 +483,43 @@ public partial class ChronoJumpWindow
 
 		if (database_fc.Run() == (int)ResponseType.Accept)
 		{
-			// 1) check that there is a database/chronojump.db inside
-			if ( ! File.Exists( System.IO.Path.Combine (database_fc.Filename, "database", "chronojump.db")) )
-			{
-				new DialogMessage (Constants.MessageTypes.WARNING,
-						"Error: Need to select a folder that has a \"database\" folder inside an a \"chronojump.db\" file inside.");
-			} else {
-				// 2) update config file (taking care of being default config file)
-				configChronojump.UpdateFieldEnsuringDefaultConfigFile ("LastDBFullPath", database_fc.Filename);
-
-				// 3) reassign configChronojump.LastDBFullPath
-				configChronojump.LastDBFullPath = database_fc.Filename;
-				storedCloudDir = "";
-
-				// 4) if on cloud, copy to tmp, LastDBFullPath will be at temp (needed for Chronojump)
-				if (configChronojump.ReadFromCloudMainPath != "")
-				{
-					storedCloudDir = database_fc.Filename;
-					databaseCloudCopyToTemp (false); //not at boot
-
-					database_fc.Hide ();
-					//Don't forget to call Destroy() or the FileChooserNative window won't get closed.
-					database_fc.Destroy();
-
-					return; //followin code is not going to be executed, will be called when copying thread is finished
-				}
-
-				// 5) change database
-				databaseChange ();
-			}
+			storedDBFilename = database_fc.Filename;
+			databaseChangeOrReload ();
 		}
 
 		database_fc.Hide ();
 
 		//Don't forget to call Destroy() or the FileChooserNative window won't get closed.
 		database_fc.Destroy();
+	}
+
+	private void databaseChangeOrReload ()
+	{
+		// 1) check that there is a database/chronojump.db inside
+		if ( ! File.Exists( System.IO.Path.Combine (storedDBFilename, "database", "chronojump.db")) )
+		{
+			new DialogMessage (Constants.MessageTypes.WARNING,
+					"Error: Need to select a folder that has a \"database\" folder inside an a \"chronojump.db\" file inside.");
+		} else {
+			// 2) update config file (taking care of being default config file)
+			configChronojump.UpdateFieldEnsuringDefaultConfigFile ("LastDBFullPath", storedDBFilename);
+
+			// 3) reassign configChronojump.LastDBFullPath
+			configChronojump.LastDBFullPath = storedDBFilename;
+			storedCloudDir = "";
+
+			// 4) if on cloud, copy to tmp, LastDBFullPath will be at temp (needed for Chronojump)
+			if (configChronojump.ReadFromCloudMainPath != "")
+			{
+				storedCloudDir = storedDBFilename;
+				databaseCloudCopyToTemp (false); //not at boot
+
+				return; //following code is not going to be executed, will be called when copying thread is finished
+			}
+
+			// 5) change database
+			databaseChange ();
+		}
 	}
 
 	private void on_button_networks_guest_clicked (object sender, EventArgs e)

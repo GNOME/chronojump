@@ -51767,13 +51767,10 @@ Since Chronojump 2.1.3, backups contain the complete data.</property>
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
                                                             <child>
-                                                            <object class="GtkLabel" id="label_current_person">
+                                                            <object class="GtkLabel">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
-                                                            <property name="wrap">True</property>
-                                                            <property name="wrap-mode">word-char</property>
-                                                            <property name="ellipsize">end</property>
-                                                            <property name="xalign">0</property>
+                                                            <property name="label" translatable="yes">This person:</property>
                                                             </object>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -51782,10 +51779,13 @@ Since Chronojump 2.1.3, backups contain the complete data.</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <object class="GtkLabel">
+                                                            <object class="GtkLabel" id="label_current_person">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
-                                                            <property name="label" translatable="yes">This person:</property>
+                                                            <property name="wrap">True</property>
+                                                            <property name="wrap-mode">word-char</property>
+                                                            <property name="ellipsize">end</property>
+                                                            <property name="xalign">0</property>
                                                             </object>
                                                             <packing>
                                                             <property name="expand">False</property>

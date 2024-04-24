@@ -42,6 +42,10 @@ public partial class ChronoJumpWindow
 
 	private void showPersonsOnTop (bool onTop)
 	{
+		//do not allow on top when using other dbs
+		if (configChronojump.CanOpenExternalDB || configChronojump.ReadFromCloudMainPath != "")
+			onTop = false;
+
 		hbox_top_person.Visible = onTop;
 		hbox_top_person_encoder.Visible = onTop;
 
